@@ -362,6 +362,7 @@ append_real_subtrees( _Tt_string_list_ptr realtrees, _Tt_string path )
 /*
  * basename() - Return the last component of a pathname.
  */
+#if !defined(linux)
 char *basename( char *pathname ) {
 	char *the_basename;
 	
@@ -373,6 +374,7 @@ char *basename( char *pathname ) {
 	}
 	return the_basename;
 }
+#endif
 
 /*
  * dirname() - Return the pathname minus the basename, or "." if the
