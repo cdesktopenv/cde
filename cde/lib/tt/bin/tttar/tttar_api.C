@@ -33,7 +33,7 @@
  */
 
 #include <errno.h>
-#if defined(__osf__)
+#if defined(__osf__) || defined(linux)
 #include <unistd.h>
 #else
 #ifndef USL

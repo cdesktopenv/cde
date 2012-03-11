@@ -32,7 +32,7 @@
  *
  */
 
-#if defined(__osf__)
+#if defined(__osf__) || defined(linux)
 #include <unistd.h>
 #else
 #if defined (USL) || defined(__uxp__)
