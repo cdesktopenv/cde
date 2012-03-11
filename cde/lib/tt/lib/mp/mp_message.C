@@ -118,9 +118,15 @@ base_constructor()
 
 _Tt_message::
 _Tt_message()
+#if defined(linux)
+: _pattern_id(), _object(), _file(), _op(),
+  _otype(), _sender_ptype(), _handler_ptype(),
+  _api_id(), _status_string()
+#else
 : _pattern_id(NULL), _object(NULL), _file(NULL), _op(NULL),
   _otype(NULL), _sender_ptype(NULL), _handler_ptype(NULL),
   _api_id(NULL), _status_string(NULL)
+#endif
 {
 	base_constructor();
 }
