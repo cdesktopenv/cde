@@ -215,7 +215,11 @@ _DtCm_process_updates()
 		rpc_bits = svc_fdset;
 
 		/* convert to pollfd structure */
+#if defined(linux)
+		inbits = rpc_bits.__fds_bits;
+#else
 		inbits = rpc_bits.fds_bits;
+#endif
 		p = pfd;
 		for (i = 0; i < FD_SETSIZE; i += NFDBITS) {
 			fmask = *inbits;
@@ -249,7 +253,11 @@ _DtCm_process_updates()
 		for (p = pfd; i-- > 0; p++) {
 			j = p->fd / NFDBITS;
 			if (j != last) {
+#if defined(linux)
+				inbits = &rpc_bits.__fds_bits[j];
+#else
 				inbits = &rpc_bits.fds_bits[j];
+#endif
 				last = j;
 			}
 			if (p->revents & POLLIN) {
