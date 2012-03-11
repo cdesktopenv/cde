@@ -313,6 +313,11 @@ int             DtSearchInit (
 	aa_argv0 = argv0;
     if (err_file)
 	aa_stderr = err_file;
+#if defined(linux)
+    else
+	aa_stderr = stderr;
+#endif
+
     sprintbuf = austext_malloc (SPRINTBUFSZ, PROGNAME "135", NULL);
 
     /* Open msgs and help text catalogs. */
