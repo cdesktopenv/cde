@@ -49,7 +49,9 @@
 #define SVR4
 #endif
 
+#if !defined(linux)
 extern char * strdup(const char *);
+#endif
 
 extern char *
 _DtCmGetPrefix(char *str, char sep)
