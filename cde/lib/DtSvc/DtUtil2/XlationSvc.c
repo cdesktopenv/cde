@@ -2250,8 +2250,13 @@ int _DtXlateGetXlateEnv(
 #error OSMAJORVERSION and/or OSMINORVERSION not defined
 #endif
 
+#if defined(linux)
+      sprintf(buf,"%s%s%s", STR(OSMAJORVERSION), 
+                     nl_langinfo('.'), STR(OSMINORVERSION));
+#else
       sprintf(buf,"%s%s%s", STR(OSMAJORVERSION), 
                      nl_langinfo(RADIXCHAR), STR(OSMINORVERSION));
+#endif
 
       *ret_XlateCompiledForOSVersion = (int) (100.0 * atof(buf));
       compver = *ret_XlateCompiledForOSVersion;
