@@ -48,7 +48,7 @@ extern "C" in_addr_t inet_addr(const char *);
 #ifdef __osf__
 #include <unistd.h>
 #else
-#if !defined(USL) && !defined(__uxp__)
+#if !defined(USL) && !defined(__uxp__) && !defined(linux)
 #include <osfcn.h>
 #endif
 #endif /* __osf */
