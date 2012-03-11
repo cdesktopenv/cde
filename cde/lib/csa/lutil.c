@@ -41,7 +41,13 @@
 #endif
 #define X_INCLUDE_PWD_H
 #define XOS_USE_XT_LOCKING
+#if defined(linux)
+#undef SVR4
+#endif
 #include <X11/Xos_r.h>
+#if defined(linux)
+#define SVR4
+#endif
 
 extern char * strdup(const char *);
 
