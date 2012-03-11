@@ -449,7 +449,7 @@ _Tt_string _tt_entrypt_to_string(_Tt_entry_pt fun)
 		return "tt_feature_enabled";
         case TT_FEATURE_REQUIRED :
 		return "tt_feature_required";
-#ifdef __osf__
+#if defined(__osf__) || defined(linux)
 	case TT_API_CALL_LAST: return (char *) NULL; 
 #else
 	case TT_API_CALL_LAST: return NULL; 
