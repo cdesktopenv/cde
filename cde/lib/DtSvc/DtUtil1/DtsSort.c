@@ -58,8 +58,9 @@
 #include "Dt/DtsDb.h"
 #include "Dt/Dts.h"
 
+#if !defined(linux)
 extern	char	*strdup(const char *);
-
+#endif
 
 static char *
 get_value(DtDtsDbRecord *ce_entry, char *value)

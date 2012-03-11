@@ -73,7 +73,9 @@
 #include <Dt/Dts.h>
 #include "DtSvcLock.h"
 
+#if !defined(linux)
 extern char	*strdup(const char *);
+#endif
 
 static int      cur_dc_count = 0;
 static int      cur_da_count = 0;
