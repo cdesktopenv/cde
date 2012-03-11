@@ -139,7 +139,11 @@ _DtCvRunInterp(
      * write the data to file.
      */
     result = -1;
+#if defined(linux)
+    myFd   = open(fileName, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU | S_IRWXG | S_IRWXO);
+#else
     myFd   = open(fileName, O_WRONLY | O_CREAT | O_TRUNC);
+#endif
     if (myFd != -1)
       {
 	/*
