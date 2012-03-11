@@ -54,6 +54,9 @@
 #endif
 #include <stdlib.h>
 #include <ctype.h>
+#if defined(linux)
+#include <wctype.h>
+#endif
 #include "util/tt_string.h"
 #include "util/tt_assert.h"
 #include "util/tt_xdr_utils.h"
