@@ -32,7 +32,11 @@
 #ifndef _CSTRING_H_
 #define _CSTRING_H_
 
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 #include <string.h>
 
 class CString {

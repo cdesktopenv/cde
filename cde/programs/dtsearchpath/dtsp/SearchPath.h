@@ -34,7 +34,11 @@
 
 #include "Environ.h"
 #include "cstring.h"
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 #include <stdio.h>
 
 class SearchPath {
