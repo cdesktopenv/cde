@@ -347,8 +347,10 @@ Tcl_ErrnoId()
 #ifdef ENOTSOCK
 	case ENOTSOCK: return "ENOTSOCK";
 #endif
+#if !defined(linux)
 #ifdef ENOTSUP
 	case ENOTSUP: return "ENOTSUP";
+#endif
 #endif
 #ifdef ENOTTY
 	case ENOTTY: return "ENOTTY";
@@ -794,8 +796,10 @@ Tcl_ErrnoMsg(err)
 #ifdef ENOTSOCK
 	case ENOTSOCK: return "socket operation on non-socket";
 #endif
+#if !defined(linux)
 #ifdef ENOTSUP
 	case ENOTSUP: return "operation not supported";
+#endif
 #endif
 #ifdef ENOTTY
 	case ENOTTY: return "inappropriate device for ioctl";
