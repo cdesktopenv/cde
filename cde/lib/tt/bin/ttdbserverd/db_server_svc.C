@@ -174,7 +174,7 @@ isamfatalerror(char *msg)
 void
 print_usage_and_exit()
 {
-	static usage_printed = 0;
+	static int usage_printed = 0;
 
 	if (!usage_printed) {
 
