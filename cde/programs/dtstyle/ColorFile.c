@@ -413,7 +413,11 @@ WriteOutPalette(
    strcat(filename, PALETTE_SUFFIX);
 
    /* open the file for writing */
+#if defined(linux)
+   if( (fd = open( filename, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
+#else
    if( (fd = open( filename, O_RDWR | O_CREAT)) == -1)
+#endif
    {
        tmpStr = (char *)XtMalloc(strlen(ERR4) + strlen(filename) + 1);
        sprintf (tmpStr, ERR4, filename);
@@ -1087,7 +1091,11 @@ CheckFileType( void )
    strcat(tmpfile1, DT_PAL_DIR);
    strcat(tmpfile1, filename1);
 
+#if defined(linux)
+   if( (fd = open( tmpfile1, O_CREAT, S_IRUSR | S_IWUSR)) == -1)
+#else
    if( (fd = open( tmpfile1, O_CREAT)) == -1)
+#endif
    {
         style. longfilename = False;
         XtFree(tmpfile1);
@@ -1103,7 +1111,11 @@ CheckFileType( void )
    strcat(tmpfile2, DT_PAL_DIR);
    strcat(tmpfile2, filename2);
 
+#if defined(linux)
+   if( (fd1 = open(tmpfile2, O_CREAT | O_EXCL, S_IRUSR | S_IWUSR)) == -1)
+#else
    if( (fd1 = open(tmpfile2, O_CREAT | O_EXCL)) == -1)
+#endif
    {
        style.longfilename = False; 
    }
