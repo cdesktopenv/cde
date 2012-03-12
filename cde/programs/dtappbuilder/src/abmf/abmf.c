@@ -63,6 +63,11 @@
 #include "abmfP.h"
 #include "abmf.h"
 
+/* glibc considers CLK_TCK obsolete */
+#if defined(linux)
+#define CLK_TCK CLOCKS_PER_SEC
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
