@@ -43,7 +43,7 @@
 #include <strings.h>		/* need to get bzero defined */
 #endif /* _AIX */
 
-const BUFFER_SIZE = 512;
+const int BUFFER_SIZE = 512;
 
 Invoke::Invoke(const char *command,   // Command to Run
                char **out_ptr,        // ptr to output buffer ptr 
