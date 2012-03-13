@@ -72,7 +72,11 @@ class CString {
   int       isNull() const;
   void      replace (const CString &, const CString &);
 
+#if defined(linux)
+  friend std::ostream & operator<< (std::ostream &, const CString &);
+#else
   friend ostream & operator<< (ostream &, const CString &);
+#endif
 
  protected:
   char *        contents;

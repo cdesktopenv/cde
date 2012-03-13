@@ -95,15 +95,32 @@ TTFile & TTFile::operator=
     return *this;
 }
 
+#if defined(linux)
+std::ostream & operator<<
+	(
+	std::ostream & os,
+	TTFile &  file
+	)
+#else
 ostream & operator<<
 	(
 	ostream & os,
 	TTFile &  file
 	)
+#endif
 {
     if (file.ttFileOpFailed())
+#if defined(linux)
+	return os << "Error in filename mapping; status = " 
+		  << file.getStatus() << std::endl;
+#else
 	return os << "Error in filename mapping; status = " 
 		  << file.getStatus() << endl;
+#endif
     else
+#if defined(linux)
+	return os << file.data() << std::endl;
+#else
 	return os << file.data() << endl;
+#endif
 }
