@@ -31,7 +31,11 @@
 
 #include "Options.h"
 #include <stdlib.h>
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 #include <stdio.h>
 #include <pwd.h>
 
