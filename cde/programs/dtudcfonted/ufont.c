@@ -134,6 +134,7 @@ extern void PopupSelectXLFD();
 extern void UpdateMessage();
 extern void DispMngErrorMessage();
 extern void DispCpyErrorMessage();
+static int setRealDelArea();
 
 /****************************************************************
  * parameters   						*
