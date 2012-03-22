@@ -43,8 +43,10 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-svr4.c /main/1 1996/04/21 1
 #include "TermPrimDebug.h"
 #include "TermHeader.h"
 #include <stropts.h>
+#if !defined(linux)
 #include <sys/conf.h>
 #include <sys/stream.h>
+#endif
 #include <sys/termios.h>
 #ifdef	USE_STREAMS_BUFMOD
 #include <sys/bufmod.h>
