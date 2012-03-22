@@ -247,7 +247,13 @@ void cat_open ()
         sprintf(line,"/usr/bin/gencat ./.dt_pfile.cat %s",pfile);
 #endif
         if ( system(line) != 0 )
+	{
+	/* Utter Linux HACK, it seems the return value of GNU gencat is != 0
+	   even on success */
+#if !defined(linux)
            fatal("primary .tmsg file would not gencat\n",0,9);
+#endif
+	}
     }
 
     catfile[0] =  catopen("./.dt_pfile.cat",0);
@@ -260,7 +266,14 @@ void cat_open ()
         sprintf(line,"/usr/bin/gencat ./.dt_dfile.cat %s",dfile);
 #endif
         if ( system(line) != 0 )
+	{
+	/* Utter Linux HACK, it seems the return value of GNU gencat is != 0
+	   even on success */
+#if !defined(linux)
            fatal("default .tmsg file would not gencat\n",0,9);
+#endif
+	}
+
     }
 
     catfile[1] = catopen("./.dt_dfile.cat",0);
