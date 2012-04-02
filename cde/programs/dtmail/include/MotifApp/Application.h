@@ -77,6 +77,7 @@
 #include "UIComponent.h"
 #include <sys/types.h>
 #include <unistd.h>
+#include "MainWindow.h"
 
 class Application : public UIComponent {
     
