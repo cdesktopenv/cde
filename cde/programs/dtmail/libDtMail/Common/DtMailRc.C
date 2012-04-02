@@ -1807,7 +1807,7 @@ int DtMail::MailRc::hash_index(char *key)
 {
     register unsigned h;
     register char *s;
-    register c;
+    register int c;
     
     s = key;
     h = 0;
