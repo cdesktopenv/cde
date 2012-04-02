@@ -671,7 +671,11 @@ DmxPrintOptions::isValidMarginSpec(PropUiItem* pui, void* data)
     char	*marginSpec = NULL;
     XtEnum	parseError;
     Widget	text;
+#if defined(linux)
+    _DtPrintMarginEnum which = *((_DtPrintMarginEnum *) data);
+#else
     _DtPrintMarginEnum which = (_DtPrintMarginEnum) data;
+#endif
 
     text = pui->getWidget();
     if (text)
