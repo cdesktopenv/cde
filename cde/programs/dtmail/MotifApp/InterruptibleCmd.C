@@ -68,7 +68,11 @@
 #include <Xm/Xm.h>
 #include <Xm/MessageB.h>
 #include <assert.h>
+
+#if !defined(linux)
 extern forceUpdate( Widget );
+#endif
+
 InterruptibleCmd::InterruptibleCmd ( char *name, char *label, int active ) :
                         NoUndoCmd ( name, label, active )
 {
