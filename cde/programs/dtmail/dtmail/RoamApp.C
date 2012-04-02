@@ -1649,7 +1649,7 @@ RoamApp::setBusyState(
 		DtMailBusyState	busy_state,
 		void		*client_data)
 {
-    static const		MAXBUSYSTATES=20;
+    static const int		MAXBUSYSTATES=20;
     static int			busyStateStackTop = 0;
     static DtMailBusyState	busyStateStack[MAXBUSYSTATES] =
 						{DtMailBusyState_NotBusy};
