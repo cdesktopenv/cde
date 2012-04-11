@@ -81,6 +81,9 @@ static char sccsid[] = "@(#)dayglance.c 1.76 95/04/24 Copyr 1991 Sun Microsystem
 
 #define XOS_USE_XT_LOCKING
 #define X_INCLUDE_TIME_H
+#if defined(linux)
+#undef SVR4
+#endif
 #include <X11/Xos_r.h>
 
 extern int debug;

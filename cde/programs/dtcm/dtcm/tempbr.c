@@ -89,7 +89,11 @@ static  char sccsid[] = "@(#)tempbr.c 1.48 95/03/28 Copyr 1991 Sun Microsystems,
 static void tb_cancel_cb();
 static void tb_close_cb();
 static void tempbr_show_cb(Widget w, XtPointer data, XtPointer cbs);
+#if defined(linux)
+#include <string.h>
+#else
 extern char *strdup(const char *);
+#endif
 
 #ifdef FNS_DEMO
 /* This stuff is currently broken */

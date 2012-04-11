@@ -131,6 +131,9 @@ static  char sccsid[] = "@(#)calendarA.c 1.196 95/04/12 Copyr 1991 Sun Microsyst
 #include "cmtt.h"
 #endif
 
+#if defined(linux)
+#undef SVR4
+#endif
 #include <X11/Xos.h>
 #include <errno.h>
 #ifdef X_NOT_STDC_ENV

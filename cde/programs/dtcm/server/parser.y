@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if defined(sun) && defined(_XOPEN_SOURCE)
+#if (defined(sun) && defined(_XOPEN_SOURCE)) || defined(linux)
 #include <time.h>
 #endif
 #include "csa.h"
