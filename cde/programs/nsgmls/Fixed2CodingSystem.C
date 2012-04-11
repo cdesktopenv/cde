@@ -34,7 +34,11 @@
 #include "Fixed2CodingSystem.h"
 #include "macros.h"
 
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 
 #ifdef SP_NAMESPACE
 namespace SP_NAMESPACE {

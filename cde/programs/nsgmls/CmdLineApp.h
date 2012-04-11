@@ -43,7 +43,12 @@
 #include <stddef.h>
 #endif
 
+#if defined(linux)
+#include <fstream>
+using namespace std;
+#else
 class filebuf;
+#endif
 
 #ifdef SP_NAMESPACE
 namespace SP_NAMESPACE {

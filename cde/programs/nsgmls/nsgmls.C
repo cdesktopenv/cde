@@ -38,8 +38,13 @@
 #include "sptchar.h"
 #include "macros.h"
 
+#if defined(linux)
+#include <iostream>
+#include <fstream>
+#else
 #include <iostream.h>
 #include <fstream.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -79,13 +84,21 @@ public:
 		    const AppChar *filename,
 		    const StringC &filenameStr,
 		    const OutputCodingSystem *,
+#if defined(linux)
+		    ::Messenger *messenger);
+#else
 		    Messenger *messenger);
+#endif
   ~XRastEventHandler();
   void message(MessageEvent *);
   void truncateOutput();
   void allLinkTypesActivated();
 private:
+#if defined(linux)
+  ::Messenger *messenger_;
+#else
   Messenger *messenger_;
+#endif
   // file_ must come before os_ so it gets inited first
   filebuf file_;
   IosOutputCharStream os_;
@@ -235,7 +248,11 @@ XRastEventHandler::XRastEventHandler(SgmlParser *parser,
 				     const AppChar *filename,
 				     const StringC &filenameStr,
 				     const OutputCodingSystem *codingSystem,
-				     Messenger *messenger)
+#if defined(linux)
+				     ::Messenger *messenger)
+#else
+				     ::Messenger *messenger)
+#endif
 : RastEventHandler(parser, messenger),
   messenger_(messenger),
   filename_(filename),
