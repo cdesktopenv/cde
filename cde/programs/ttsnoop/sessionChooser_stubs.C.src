@@ -41,8 +41,15 @@
  ***/
 
 #include <Xm/TextF.h>
+
+#if defined(linux)
+#include <fstream>
+#include <strstream>
+#else
 #include <fstream.h>
 #include <strstream.h>
+#endif
+
 #include "DtTt.h"
 
 extern ofstream snoopStream;
@@ -111,7 +118,7 @@ snoopSessionMsg(
 )
 {
 	DtTtCreated( DTTT_MESSAGE, msg );
-	snoopIt( "Ttdt_contract_cb", snoopSessionMsg, msg );
+	snoopIt( "Ttdt_contract_cb", (void *) snoopSessionMsg, msg );
 	if (   (tt_message_class( msg ) == TT_REQUEST)
 	    && (tt_message_state( msg ) == TT_SENT))
 	{
@@ -203,7 +210,7 @@ sessionOK(
     }
     XtPointer val;
     XtVaGetValues( instance->sessionOkButton, XmNuserData, &val, 0 );
-    _DtSessionChooserAction choice = (_DtSessionChooserAction)val;
+    _DtSessionChooserAction choice = (_DtSessionChooserAction) (long) val;
     XtVaGetValues( instance->sessionCancelButton, XmNuserData, &val, 0 );
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {
@@ -261,7 +268,7 @@ sessionHelp(
 	    (DtbSessionChooserSessionChooserInfo)clientData;
     XtPointer val;
     XtVaGetValues( instance->sessionOkButton, XmNuserData, &val, 0 );
-    _DtSessionChooserAction choice = (_DtSessionChooserAction)val;
+    _DtSessionChooserAction choice = (_DtSessionChooserAction) (long) val;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {
 	case _DtSessionChoosePattern:

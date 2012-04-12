@@ -33,7 +33,13 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+#if defined(linux)
+#include <strstream>
+#else
 #include <strstream.h>
+#endif
+
 #include <Xm/TextF.h>
 #include <Dt/SpinBox.h>
 #include <Dt/HelpDialog.h>
@@ -54,7 +60,7 @@ static unsigned int	dtTtDtSessionsCount	= 0;
 static Tt_pattern **	dtTtDtFiles		= 0;
 static unsigned int	dtTtDtFilesCount	= 0;
 
-int		_DtTtPatsNameKey	= (int)DtTtNth;
+int		_DtTtPatsNameKey	= (int) (long) DtTtNth;
 extern Tt_pattern	snoopPat;
 
 int
