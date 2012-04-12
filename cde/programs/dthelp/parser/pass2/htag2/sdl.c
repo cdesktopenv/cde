@@ -35,6 +35,10 @@
 #endif /* __osf__ */
 #include <errno.h>
 
+#if defined(linux)
+#include <getopt.h>
+#endif
+
 #include "userinc.h"
 #include "globdec.h"
 
