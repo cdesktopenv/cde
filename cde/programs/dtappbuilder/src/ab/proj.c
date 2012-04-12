@@ -228,7 +228,9 @@ static XtTranslations proj_transtbl = NULL;
 static XRectangle       *rband_rect = NULL;
 static Boolean          mselect_adjust = False;
 
+#if !defined(linux)
 extern char             *sys_errlist[];
+#endif
 char			Buf[MAXPATHLEN];	/* Work buffer */
 
 /*************************************************************************
@@ -338,7 +340,7 @@ popdown_proj_window(
     XtPointer   call_data
 )
 {
-    ui_win_show(widget, False, NULL);
+    ui_win_show(widget, False, XtGrabNone);
 }
 
 static void

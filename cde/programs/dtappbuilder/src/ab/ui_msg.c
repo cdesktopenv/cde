@@ -547,7 +547,7 @@ prompt_ok_modal_dlgCB(
          * answerp, because that will cause ui_popup_modal_prompt() to
          * return to the routine which is calling it. 
          */
-	ui_win_show(widget, False, NULL);
+	ui_win_show(widget, False, XtGrabNone);
 	*answerp = UI_ANSWER_OK;
     }
 }
@@ -570,7 +570,7 @@ prompt_cancel_modal_dlgCB(
      * answerp, because that will cause ui_popup_modal_prompt() to
      * return to the routine which is calling it.
      */
-    ui_win_show(widget, False, NULL);
+    ui_win_show(widget, False, XtGrabNone);
     *answerp = UI_ANSWER_CANCEL;
 }
 

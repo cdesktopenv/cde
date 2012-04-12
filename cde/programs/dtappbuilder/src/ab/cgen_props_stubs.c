@@ -459,7 +459,7 @@ cgenP_ok_propsCB(
     
     /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
     cgenP_apply_propsCB(widget, clientData, callData);
-    ui_win_show(dtb_cgen_props_cgen_props_dlg.cgen_props_dlg_shellform,False,NULL);
+    ui_win_show(dtb_cgen_props_cgen_props_dlg.cgen_props_dlg_shellform,False,XtGrabNone);
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }
 

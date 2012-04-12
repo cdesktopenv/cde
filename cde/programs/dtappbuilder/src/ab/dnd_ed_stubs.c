@@ -1024,12 +1024,12 @@ dnd_prevent_closeCB(
     {
 	answer = do_auto_apply(widget, dds->curObj, dds->curObj);
 	if (answer == DTB_ANSWER_ACTION1) 
-	    ui_win_show(AB_dnd_dialog, False, NULL);
+	    ui_win_show(AB_dnd_dialog, False, XtGrabNone);
     }
     else 
     {
 	/* Nope, no pending changes, so just dismiss the Dnd Editor */
-	ui_win_show(AB_dnd_dialog, False, NULL); 
+	ui_win_show(AB_dnd_dialog, False, XtGrabNone); 
     }
 }
 
@@ -1195,7 +1195,7 @@ dnd_okCB(
     
     /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
     dnd_applyCB(widget, clientData, callData);
-    ui_win_show(dtb_dnd_ed_dialog.dialog, False, NULL);
+    ui_win_show(dtb_dnd_ed_dialog.dialog, False, XtGrabNone);
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }
 
@@ -1247,7 +1247,7 @@ dnd_cancelCB(
     
     /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
     dnd_resetCB(widget, clientData, callData);
-    ui_win_show(dtb_dnd_ed_dialog.dialog, False, NULL);
+    ui_win_show(dtb_dnd_ed_dialog.dialog, False, XtGrabNone);
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }
 
