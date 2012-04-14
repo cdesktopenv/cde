@@ -134,12 +134,24 @@ static char  locale[] = "C.ISO-8859-1";
 char        *newLocale;
 int          execVer;
 int          compVer;
+int          ret;
 
-if ((_DtLcxOpenAllDbs(&myDb) != 0) ||
-    (_DtXlateGetXlateEnv(myDb,myPlatform,&execVer,&compVer) != 0)) {
+if ((_DtLcxOpenAllDbs(&myDb) != 0)) {
     fprintf(stderr,
-            "Warning: could not open locale translation database.\n");
+            "Warning: could not open databases.\n");
     exit(1);
+}
+
+ret = _DtXlateGetXlateEnv(myDb,myPlatform,&execVer,&compVer);
+if (ret != 0) {
+    fprintf(stderr,
+            "Warning: could not open locale translation database. %d\n", ret);
+
+/* HACK For some reason on linux this function fails, but isn't completely fatal */
+#if !defined(linux)
+    exit(1);
+#endif
+
 }
 
 if (_DtLcxXlateStdToOp(myDb,
