@@ -135,6 +135,10 @@
 #include <sys/sysinfo.h>
 #endif
 
+#if defined(linux)
+#    include <shadow.h>
+#endif
+
 #ifdef __hpux
 /***************************************************************************
  *
@@ -2414,6 +2418,18 @@ Authenticate( struct display *d, char *name, char *passwd, char **msg )
 
     p = getpwnam(name);
     
+#if defined(linux)
+    /*
+     * Use the Linux Shadow Password system to get the crypt()ed password
+     */
+    if(p) {
+        struct spwd *s = getspnam(name);
+	if(s) {
+            p->pw_passwd = s->sp_pwdp;
+        }
+    }
+#endif
+
     if (!p || strlen(name) == 0 ||
         strcmp (crypt (passwd, p->pw_passwd), p->pw_passwd)) {
 
