@@ -147,8 +147,8 @@ void _Tt_isam_record::setBytes (int start, const _Tt_string &value)
   if (bavail <= 0)
     return;
 
-  if (bavail > length)
-    bcp = length;
+  if (bavail > value.len())
+    bcp = value.len();
   else
     bcp = bavail;
 
