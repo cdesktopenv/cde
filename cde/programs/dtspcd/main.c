@@ -151,7 +151,7 @@ XeChar HomeDir[MAXPATHLEN + 6];
 XeChar ShellDir[MAXPATHLEN + 7];
 XeString *default_environment;
 
-int client_validated=NULL;
+int client_validated=0;
 int SPCD_Abort_Okay = FALSE;
 
 SPC_Connection_Ptr client_connection;
@@ -185,7 +185,7 @@ static int exit_timeout = SPCD_DEFAULT_TIMEOUT;
 static int request_pending = SPCD_NO_REQUEST_PENDING;
 
 /*----------------------------------------------------------------------+*/
-int main(unsigned int argc, XeString *argv)
+int main(int argc, XeString *argv)
 /*----------------------------------------------------------------------+*/
 {
   /* Parse the command line and set globals accordingly. */
@@ -647,15 +647,30 @@ int Client_Register(protocol_request_ptr prot)
   /* file in the temp directory?		        */
 
   if(lstat(tmpfile, &buf)==ERROR) {
+    int terrno = errno;
     SPC_Write_Protocol_Request(client_connection, NULL, LOGFILE_REPLY,
 			       FAILED_FILE_NAME, NULL, NULL);
-    SPC_Format_Log("+++> FAILURE: stat authentication file '%s'.", tmpfile);
+    SPC_Format_Log("+++> FAILURE: lstat authentication file '%s'.", tmpfile);
+    SPC_Format_Log("+++> FAILURE: lstat() returned error '%s'\n", 
+                   strerror(terrno));
     if (free_netfile)
       tt_free(netfile);
     XeFree(tmpfile);
     SPC_Error(SPC_Bad_Authentication);
     return(SPC_ERROR);
   }
+
+  if (S_ISLNK(buf.st_mode))
+    {				/* somebody is jerkin us around */
+      SPC_Write_Protocol_Request(client_connection, NULL, LOGFILE_REPLY,
+                                 FAILED_FILE_NAME, NULL, NULL);
+      SPC_Format_Log("+++> FAILURE: lstat authentication file '%s' is a symlink! Possible compromise attempt.", tmpfile);
+      if (free_netfile)
+        tt_free(netfile);
+      XeFree(tmpfile);
+      SPC_Error(SPC_Bad_Authentication);
+      return(SPC_ERROR);
+    }
 
   /*
    * If the file does not have the setuid bit set then return failure.
