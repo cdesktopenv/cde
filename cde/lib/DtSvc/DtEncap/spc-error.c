@@ -771,6 +771,15 @@ SPCError *SPC_Lookup_Error(int errornum)
     spc_error_struct.use_errno = FALSE;
     break;
 
+    /* JET - buffer overflow attempt */
+    /* VU#172583 */
+  case SPC_Buffer_Overflow:
+    spc_error_struct.format    = (XeString) "><Attempted Buffer Overflow from host %s.\nConnection dropped.";
+    spc_error_struct.severity  = XeError;
+    spc_error_struct.use_errno = FALSE;
+    break;
+
+
   default:
     spc_error_struct.format    = (XeString) "><Unknown error code";
     spc_error_struct.severity  = XeError;

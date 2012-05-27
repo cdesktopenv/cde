@@ -461,6 +461,24 @@ protocol_request_ptr SPC_Read_Protocol(SPC_Connection_Ptr connection)
 	      &channel_id, &prot->request_type, &dptr->len, &prot->seqno);
   prot->channel=SPC_Lookup_Channel(channel_id, connection);
   
+
+  /* JET - 11/12/2001 - correct an exploitable buffer overrun where the user */
+  /* can supply a data len that is larger than the available buffer */
+  /* MAXREQLEN */
+  /* CERT - VU#172583 */
+
+  if (dptr->len >= MAXREQLEN)
+    {				/* we have a problem.  Initiate DefCon 1 */
+				/* and launch our missiles. */
+      XeString connection_hostname = CONNECTION_HOSTNAME(connection);
+
+      SPC_Error(SPC_Buffer_Overflow, connection_hostname);
+      XeFree(connection_hostname);
+      SPC_Close_Connection(connection);
+      SPC_Free_Protocol_Ptr(prot);
+      return(SPC_ERROR);
+    }
+
   /* read header */
   
   len=SPC_Read_Chars(connection, dptr->len, dptr->data+REQUEST_HEADER_LENGTH);
