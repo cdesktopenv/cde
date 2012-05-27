@@ -159,5 +159,18 @@ void _Tt_isam_record::setBytes (int               start,
 				int               length,
 				const _Tt_string &value)
 {
-  (void)memcpy((char *)buffer+start, (char *)value, length);
+  // JET - CERT vulnerability: VU#387387 - value is user supplied.
+  // Geez.
+  int bavail = (maxLength - start);
+  int bcp = 0;
+
+  if (bavail <= 0)
+    return;
+
+  if (bavail > length)
+    bcp = length;
+  else
+    bcp = bavail;
+
+  (void)memcpy((char *)buffer+start, (char *)value, bcp);
 }
