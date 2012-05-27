@@ -453,8 +453,9 @@ char * _DtHelpFileLocate (
        /*** this is monstrously inefficient--but it shouldn't get called often ***/
 
        /* get user's current working directory */
-       if (getcwd(tmpPath, MAXPATHLEN) == NULL) return NULL; /* RETURN: error */
-
+       /* JET - CERT VU#575804 */
+       if (getcwd(tmpPath, MAXPATHLEN - 1) == NULL) return NULL; /* RETURN: error */
+       
        /* make path end in a slash */
        eos = tmpPath + strlen(tmpPath);
        _DtHelpCeStrrchr(tmpPath,DirSlashStr,MB_CUR_MAX,&slash);
@@ -530,7 +531,9 @@ char * _DtHelpFileLocate (
 	      *ptr = EOS;
 
           /* compress that path */
-          strcpy(tmpPath,curPath);
+          /* JET - CERT VU#575804 */
+          strncpy(tmpPath, curPath, MAXPATHLEN);
+
           _DtHelpCeCompressPathname(tmpPath);
 
           /* test all suffixes */
