@@ -2215,6 +2215,7 @@ InitializeSpecificSession (
 {
 	char		*session_dir = (char *) XtMalloc(MAXPATHLEN);
 	char		*alt_dir = (char *) XtMalloc(MAXPATHLEN);
+        int             len;
 	struct stat 	buf;
 
 	if (!InternSessionDir (session_option, disp))
@@ -2283,6 +2284,16 @@ InitializeSpecificSession (
 
 			if ((home = getenv ("HOME")) == 0)
 				home = "";
+
+                        /* JET - VU#497553 */
+			len = strlen(home) + 
+			  strlen(DtPERSONAL_CONFIG_DIRECTORY) +
+			  strlen(DtSM_SESSION_DIRECTORY) +
+			  strlen(SM_HOME_DIRECTORY);
+
+			if (len > MAXPATHLEN)
+			  alt_dir = XtRealloc(alt_dir, len + 1);
+
 			(void) sprintf (alt_dir, "%s/%s/%s/%s",
 					home,
 					DtPERSONAL_CONFIG_DIRECTORY,
@@ -2325,6 +2336,16 @@ InitializeSpecificSession (
 				 */
 				if ((home = getenv ("HOME")) == 0)
 					home = "";
+
+                                /* JET - VU#497553 */
+				len = strlen(home) + 
+				  strlen(DtPERSONAL_CONFIG_DIRECTORY) +
+				  strlen(DtSM_SESSION_DIRECTORY) +
+				  strlen(SM_HOME_DIRECTORY);
+
+				if (len > MAXPATHLEN)
+				  alt_dir = XtRealloc(alt_dir, len + 1);
+
 				(void) sprintf (alt_dir, "%s/%s/%s/%s",
 						home,
 						DtPERSONAL_CONFIG_DIRECTORY,
