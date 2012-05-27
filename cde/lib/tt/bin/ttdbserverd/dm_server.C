@@ -1514,6 +1514,24 @@ _tt_transaction_1(_Tt_transaction_args* args, SVCXPRT * /* transp */)
 		if (access(_tt_log_file, F_OK) == 0) {
 			_tt_process_transaction();
 		}
+
+		// JET - 06/24/2002 VU#975403/VU#299816 - CERT TT
+		// vulnerability.  check for the presence of a
+		// symlink.  Abort (nicely) if there.
+
+		if(lstat(_tt_log_file, &buf) != -1)
+		  {		// present
+		    if (S_ISLNK(buf.st_mode))
+		      {		// it's a symlink.  Oops.
+			_tt_syslog(errstr, LOG_ERR, 
+				   "%s: _tt_log_file is a symlink.  Aborting.",
+				   here );
+			res.result = -1;
+			res.iserrno = DM_ACCESS_DENIED;
+			return(&res);
+		      }
+		  }
+
 		if ((fd = open(_tt_log_file, O_RDWR | O_CREAT, S_IREAD + S_IWRITE))
 		    == -1) {
 			res.iserrno = DM_WRITE_FAILED;
