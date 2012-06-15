@@ -1,0 +1,189 @@
+<!-- $XConsortium: RendTaA.sgm /main/8 1996/09/08 20:57:11 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN354.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmRenderTable</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><StructName Role="typedef">XmRenderTable</StructName></RefName>
+<RefPurpose>Data type for a render table
+<IndexTerm>
+<Primary>XmRenderTable</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- HISTORY-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/Xm.h>
+XmRenderTable
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><StructName Role="typedef">XmRenderTable</StructName> is the data type for a render table, which
+contains a table of renditions (<StructName Role="typedef">XmRendition</StructName>s). Each rendition
+consists of a set of attributes for rendering text, including a font
+or fontset, colors, tabs, and lines.
+Each rendition is identified with a tag.
+</Para>
+<Para>When a compound string is displayed, for each segment in the string,
+the rendition used to render that string is formed as follows. If the
+segment has at least one rendition begin tag or if the list of tags
+formed by accumulating from previous segments the rendition begin tags
+and removing the rendition end tags is not empty, these tags are
+matched with renditions in the render table. The effective rendition
+used to render the segment is formed by successively merging each
+rendition found into the current rendition with non-<SystemItem Class="Constant">XmAS_IS</SystemItem>
+(<SystemItem Class="Constant">XmUNSPECIFIED_PIXEL</SystemItem> for color resources) values for resources
+in the rendition to be merged, thus replacing the corresponding values of
+the resources in the current rendition. Finally, if the resulting
+rendition still has resources with unspecified values and the segment
+has a locale or charset tag (these are optional and mutually
+exclusive) this tag is matched with a rendition in the render table,
+and the missing rendition values are filled in from that entry.
+</Para>
+<Para>If no matching rendition is found for a particular tag, then the
+<SystemItem Class="Resource">XmNnoRenditionCallback</SystemItem> of the <Classname>XmDisplay</Classname> object is called
+and the render table is searched again for that tag.
+</Para>
+<Para>If the resulting rendition does not specify a font or fontset, then
+for segments whose text type is <SystemItem Class="Constant">XmCHARSET_TEXT</SystemItem>, the render table
+will be searched for a rendition tagged with
+<SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>, and if a matching rendition is found, it
+will be merged into the current rendition. If the resulting rendition
+contains no font or fontset, the <SystemItem Class="Resource">XmNnoFontCallback</SystemItem> will be
+called with the default rendition and "" as the font name. If no
+rendition matches or no font was found after the callback, then the
+first rendition in the render table will be merged into the current
+rendition. If this rendition still has no font, then the segment will
+not be rendered and a warning will be emitted.
+</Para>
+<Para>For segments whose text type is <SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem> or
+<SystemItem Class="Constant">XmWIDECHAR_TEXT</SystemItem>, the
+render table will be searched for a rendition tagged with
+<SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem>, and, if a matching rendition is found, it will be
+merged into the current rendition. If the resulting rendition contains no
+font, the <SystemItem Class="Resource">XmNnoFontCallback</SystemItem> will be called with the
+default rendition and "" as the font name.
+An application can have this callback attempt
+to remedy this problem by calling <Function>XmRenditionUpdate</Function> on the input
+rendition to provide a font for the widget to use. This may be done by
+either providing an alternative font name to be loaded using the
+<SystemItem Class="Resource">XmNfontName</SystemItem> and <SystemItem Class="Resource">XmNfontType</SystemItem> resources or with an already
+loaded font using the <SystemItem Class="Resource">XmNfont</SystemItem> resource.
+If no rendition matches or no font was found after the
+callback, then the segment will not be rendered
+and a warning will be issued.
+</Para>
+<Para>Render tables are specified in resource files with the following
+syntax:
+</Para>
+<Synopsis><Symbol Role="Variable">resource_spec</Symbol>: [ <Emphasis>tag</Emphasis> [, <Emphasis>tag</Emphasis> ]* ]
+</Synopsis>
+<Para>where <Emphasis>tag</Emphasis> is some string suitable for the <SystemItem Class="Resource">XmNtag</SystemItem> resource
+of a rendition.
+</Para>
+<Para>If no tags are specified, then a render table will be created that is
+either empty or contains only a rendition with a tag of
+<SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem>.
+</Para>
+<Para>Specific values for specific rendition resources are specified using
+the following syntax:
+</Para>
+<Synopsis><Symbol Role="Variable">resource_spec</Symbol> [*|.] <Symbol Role="Variable">rendition</Symbol>[*|.] <Symbol Role="Variable">resource_name</Symbol>: <Symbol Role="Variable">value</Symbol>
+</Synopsis>
+<Para>where:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">resource_spec</Symbol></Term>
+<ListItem>
+<Para>Specifies the render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">rendition</Symbol></Term>
+<ListItem>
+<Para>Is either the class Rendition or a tag.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">resource_name</Symbol></Term>
+<ListItem>
+<Para>Is either
+the class or name of a particular resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value</Symbol></Term>
+<ListItem>
+<Para>Is the
+specification of the value to be set.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Any resource line that consists of just a resource name or class
+component with no rendition component or loose binding will be
+assumed to specify resource values for a rendition with a tag of
+<SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem>. In effect, this creates a default
+rendition in much the same way that specifying no fontlist tag for a
+fontlist resource causes the fontlist created to contain an entry
+tagged with <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>:
+</Para>
+<Synopsis><Symbol Role="Variable">resource_spec</Symbol>.<Symbol Role="Variable">resource_name</Symbol>: <Symbol Role="Variable">value</Symbol>
+</Synopsis>
+<Para>For example, the following would set the <SystemItem Class="Resource">XmNrenderTable</SystemItem> resource
+of <Literal>label1</Literal> to a render
+table consisting of three renditions tagged with
+<SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem>, <Symbol Role="Variable">bold</Symbol>, and <Symbol Role="Variable">oblique</Symbol>, with values
+for resources set as described in the resource specifications.
+</Para>
+<InformalExample>
+<ProgramListing>*label1.renderTable: bold, oblique
+*label1.renderTable.bold.renditionForeground: Green
+*label1.renderTable.bold.fontName: *-*-*-bold-*-iso8859-1
+*label1.renderTable.bold.fontType: FONT_IS_FONT
+*label1.renderTable.oblique.renditionBackground: Red
+*label1.renderTable.oblique.fontName: *-*-*-italic-*-iso8859-1
+*label1.renderTable.oblique.fontType: FONT_IS_FONT
+*label1.renderTable.oblique.underlineType: AS_IS
+*label1.renderTable.fontName: fixed
+*label1.renderTable.fontType: FONT_IS_FONT
+*label1.renderTable.renditionForegound: black
+*label1.renderTable*tabList: 1in, +1.5in, +3in
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmRenderTableAddRenditions;,
+&cdeman.XmRenderTableCopy;,
+&cdeman.XmRenderTableCvtFromProp;,
+&cdeman.XmRenderTableCvtToProp;,
+&cdeman.XmRenderTableFree;,
+&cdeman.XmRenderTableGetRendition;,
+&cdeman.XmRenderTableGetRenditions;,
+&cdeman.XmRenderTableGetTags;,
+&cdeman.XmRenderTableRemoveRenditions;,
+&cdeman.XmRendition;, and
+&cdeman.XmString;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

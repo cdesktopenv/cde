@@ -1,0 +1,132 @@
+<!-- $XConsortium: GetSec.sgm /main/8 1996/09/08 20:46:40 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN256.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmGetSecondaryResourceData</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmGetSecondaryResourceData</Function></RefName>
+<RefPurpose>A function that provides access to secondary widget resource data
+<IndexTerm>
+<Primary>XmGetSecondaryResourceData</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>Cardinal <Function>XmGetSecondaryResourceData</Function></FuncDef>
+<!--<ParamDef><Replaceable>widget_class, secondary_data_return</Replaceable></ParamDef>-->
+<ParamDef>WidgetClass <Parameter>widget_class</Parameter></ParamDef>
+<ParamDef>XmSecondaryResourceData **<Parameter>secondary_data_return</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>Some Motif widget classes (such as Gadget, Text, and VendorShell) have
+resources that are not accessible through the functions
+<Function>XtGetResourceList</Function> and <Function>XtGetConstraintResourceList</Function>.
+In order to retrieve the descriptions of these resources, an application
+must use <Function>XmGetSecondaryResourceData</Function>.
+</Para>
+<Para>When a widget class has such resources, this function provides
+descriptions of the resources in one or more data structures.
+<Function>XmGetSecondaryResourceData</Function> takes a widget class argument and
+returns the number of these data structures associated with the widget
+class.
+If the return value is greater than 0 (zero), the function allocates and fills
+an array of pointers to the corresponding data structures.
+It returns this array at the address that is the value of the
+<Symbol Role="Variable">secondary_data_return</Symbol> argument.
+</Para>
+<Para>The type <StructName Role="typedef">XmSecondaryResourceData</StructName> is a pointer to a structure with
+two members that are useful to an application: <Symbol Role="Variable">resources</Symbol>, of type
+<Symbol>XtResourceList</Symbol>, and <Literal>num_resources</Literal>, of type <StructName Role="typedef">Cardinal</StructName>.
+The <Symbol Role="Variable">resources</Symbol> member is a list of the widget resources that are
+not accessible using Xt functions.
+The <Literal>num_resources</Literal> member is the length of the <Symbol Role="Variable">resources</Symbol>
+list.
+</Para>
+<Para>If the return value is greater than 0 (zero), <Function>XmGetSecondaryResourceData</Function>
+allocates memory that the application must free.
+Use <Function>XtFree</Function> to free the resource list in each structure (the value
+of the <Symbol Role="Variable">resources</Symbol> member), the structures themselves, and the array
+of pointers to the structures (the array whose address is
+<Symbol Role="Variable">secondary_data_return</Symbol>).
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget_class</Symbol></Term>
+<ListItem>
+<Para>Specifies the widget class for which secondary resource data is to be
+retrieved.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">secondary_data_return</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to an array of <StructName Role="typedef">XmSecondaryResourceData</StructName>
+pointers to be returned by this function.
+If the widget class has no secondary resource data, for example, if the value
+returned by the function is 0 (zero), the function returns no meaningful value
+for this argument.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns the number of secondary resource data structures associated with
+this widget class.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLE</Title>
+<Para>The following example uses <Function>XmGetSecondaryResourceData</Function> to print the
+names of the secondary resources of the Motif Text widget and then frees
+the data allocated by the function:
+</Para>
+<InformalExample>
+<ProgramListing>XmSecondaryResourceData * block_array;
+Cardinal num_blocks, i, j;
+if (num_blocks = XmGetSecondaryResourceData (xmTextWidgetClass,
+                                             &amp;block_array)) {
+  for (i = 0; i &lt; num_blocks; i++) {
+    for (j = 0; j &lt; block_array[i]->num_resources; j++) {
+      printf("%s&bsol;n", block_array[i]->resources[j].resource_name);
+    }
+    XtFree((char*)block_array[i]->resources);
+    XtFree((char*)block_array[i]);
+  }
+  XtFree((char*)block_array);
+}
+</ProgramListing>
+</InformalExample>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

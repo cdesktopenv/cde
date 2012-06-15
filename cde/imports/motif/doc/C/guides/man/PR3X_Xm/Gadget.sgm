@@ -1,0 +1,769 @@
+<!-- $XConsortium: Gadget.sgm /main/13 1996/09/08 20:45:20 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN245.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmGadget</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmGadget</Classname></RefName>
+<RefPurpose>The Gadget widget class
+<IndexTerm>
+<Primary>XmGadget</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>Gadget</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/Xm.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>Gadget is a widget class used as
+a supporting superclass for other
+gadget classes. It handles shadow-border drawing and highlighting, traversal
+activation and deactivation, and various callback lists needed by
+gadgets.
+</Para>
+<Para>The color and pixmap resources defined by <Classname>XmManager</Classname> are directly used by
+gadgets. If <Function>XtSetValues</Function> is used
+to change one of the resources for a manager
+widget, all of the gadget children within the manager also change.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>Gadget inherits behavior and resources from <Classname>Object</Classname> and
+<Classname>RectObj</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmGadgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmGadget</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a .Xdefaults file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a .Xdefaults file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmGadget Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightOnEnter</Entry>
+<Entry>XmCHighlightOnEnter</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightThickness</Entry>
+<Entry>XmCHighlightThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmNCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmNONE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbackground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the background color for the gadget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbackgroundPixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies a pixmap for tiling the background. The first tile is
+placed at the upper left corner of the widget's window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbottomShadowColor</SystemItem></Term>
+<ListItem>
+<Para>Contains the color to use to draw the bottom and right sides of the
+border shadow.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbottomShadowPixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies the pixmap to use to draw the bottom and right sides of the
+border shadow.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNforeground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the foreground drawing color used by Primitive widgets.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhelpCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called when the help key sequence
+is pressed. The reason sent by the callback is <SystemItem Class="Constant">XmCR_HELP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhighlightColor</SystemItem></Term>
+<ListItem>
+<Para>Contains the color of the highlighting rectangle.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhighlightOnEnter</SystemItem></Term>
+<ListItem>
+<Para>Specifies if the highlighting rectangle is drawn when the cursor moves
+into the widget.
+If the shell's focus policy is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, this resource is
+ignored, and the widget is highlighted when it has the focus.
+If the shell's focus policy is <SystemItem Class="Constant">XmPOINTER</SystemItem> and if this resource is
+True, the highlighting rectangle is drawn when the the cursor moves into
+the widget.
+If the shell's focus policy is <SystemItem Class="Constant">XmPOINTER</SystemItem> and if this resource is
+False, the highlighting rectangle is not drawn when the the cursor moves
+into the widget.
+The default is False.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhighlightPixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies the pixmap used to draw the highlighting rectangle.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhighlightThickness</SystemItem></Term>
+<ListItem>
+<Para>Specifies the thickness of the highlighting rectangle.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlayoutDirection</SystemItem></Term>
+<ListItem>
+<Para>Specifies the direction in which components of the manager (including
+strings) are laid out. The values are of type <StructName Role="typedef">XmDirection</StructName>. If
+the widget's parent is a manager or shell, the value is inherited from
+the widget's parent. Otherwise, it is inherited from the closest
+ancestor vendor or menu shell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnavigationType</SystemItem></Term>
+<ListItem>
+<Para>Determines whether the widget is a tab group.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmNONE</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the widget is not a tab group.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTAB_GROUP</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the widget is a tab group, unless
+the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of another widget in the hierarchy is
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSTICKY_TAB_GROUP</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the widget is a tab group, even if the <SystemItem Class="Resource">XmNnavigationType</SystemItem>
+of another widget in the hierarchy is
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the widget is a tab group and
+that widgets in the hierarchy whose <SystemItem Class="Resource">XmNnavigationType</SystemItem> is
+<SystemItem Class="Constant">XmTAB_GROUP</SystemItem> are not tab groups.
+</Para>
+<Para>When a parent widget has an <SystemItem Class="Resource">XmNnavigationType</SystemItem> of
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, traversal of non-tab-group widgets within
+the group is based on the order of those widgets in their parent's
+<SystemItem Class="Resource">XmNchildren</SystemItem> list.
+</Para>
+<Para>When the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of any widget in a hierarchy is
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>,
+traversal of tab groups in the hierarchy
+proceeds to widgets in the order in which their <SystemItem Class="Resource">XmNnavigationType</SystemItem>
+resources were specified as <SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem> or
+<SystemItem Class="Constant">XmSTICKY_TAB_GROUP</SystemItem>, whether by creating the widgets with that value,
+by calling <Function>XtSetValues</Function>, or by calling <Function>XmAddTabGroup</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNshadowThickness</SystemItem></Term>
+<ListItem>
+<Para>Specifies the size of the drawn border shadow.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtopShadowColor</SystemItem></Term>
+<ListItem>
+<Para>Contains the color to use to draw the top and left sides of the border
+shadow.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtopShadowPixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies the pixmap to use to draw the top and left sides of the border
+shadow.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtraversalOn</SystemItem></Term>
+<ListItem>
+<Para>Specifies traversal activation for this gadget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNunitType</SystemItem></Term>
+<ListItem>
+<Para>Provides the basic support for resolution independence.
+It defines the type of units a widget uses with sizing and
+positioning resources.
+If the widget's parent is a subclass of <Classname>XmManager</Classname> and if the
+<SystemItem Class="Resource">XmNunitType</SystemItem> resource is not explicitly set, it defaults to the
+unit type of the parent widget.
+If the widget's parent is not a subclass of <Classname>XmManager</Classname>, the
+resource has a default unit type of <SystemItem Class="Constant">XmPIXELS</SystemItem>.
+</Para>
+<Para>The unit type can also be specified in resource files, with the
+following format:
+</Para>
+<InformalExample>
+<ProgramListing><Symbol Role="Variable">&lt;floating value>&lt;unit></Symbol>
+</ProgramListing>
+</InformalExample>
+<Para>where:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">unit</Symbol></Term>
+<ListItem>
+<Para>is &lt;" ", pixels, inches, centimeters, millimeters, points, font units>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>pixels</Emphasis></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">pix</Symbol>, <Symbol Role="Variable">pixel</Symbol>, <Emphasis>pixels</Emphasis>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">inches</Symbol></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">in</Symbol>, <Symbol Role="Variable">inch</Symbol>, <Symbol Role="Variable">inches</Symbol>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">centimeter</Symbol></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">cm</Symbol>, <Symbol Role="Variable">centimeter</Symbol>, <Symbol Role="Variable">centimeters</Symbol>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">millimeters</Symbol></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">mm</Symbol>, <Symbol Role="Variable">millimeter</Symbol>, <Symbol Role="Variable">millimeters</Symbol>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>points</Literal></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">pt</Symbol>, <Symbol Role="Variable">point</Symbol>, <Symbol Role="Variable">points</Symbol>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>font units</Literal></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">fu</Symbol>, <Literal>font_unit</Literal>, <Literal>font_units</Literal>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">float</Symbol></Term>
+<ListItem>
+<Para>is {"+"|"-"}{{&lt;"0"-"9">*}.}&lt;"0"-"9">*
+</Para>
+<Para>Note that the type Dimension must always be positive.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>For example,
+</Para>
+<InformalExample>
+<ProgramListing>xmfonts*XmMainWindow.height: 10.4cm
+*PostIn.width: 3inches
+</ProgramListing>
+</InformalExample>
+<Para><SystemItem Class="Resource">XmNunitType</SystemItem> can have the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPIXELS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal
+pixel values.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMILLIMETERS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal millimeter
+values.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Xm100TH_MILLIMETERS</Symbol></Term>
+<ListItem>
+<Para>All values provided to the widget are treated
+as 1/100 of a millimeter.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCENTIMETERS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal centimeter
+values.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmINCHES</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal inch
+values.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Xm1000TH_INCHES</Symbol></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as
+1/1000 of an inch.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPOINTS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal point
+values. A point is a unit used in text processing
+applications and is defined as 1/72 of an inch.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Xm100TH_POINTS</Symbol></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as
+1/100 of a point. A point is a unit used in text processing
+applications and is defined as 1/72 inch.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmFONT_UNITS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal font
+units. A font unit has horizontal and vertical components.
+These are the values of the XmScreen resources <SystemItem Class="Resource">XmNhorizontalFontUnit</SystemItem>
+and <SystemItem Class="Resource">XmNverticalFontUnit</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Xm100TH_FONT_UNITS</Symbol></Term>
+<ListItem>
+<Para>All values provided to the widget are
+treated as 1/100 of a font unit.
+A font unit has horizontal and vertical components.
+These are the values of the XmScreen resources <SystemItem Class="Resource">XmNhorizontalFontUnit</SystemItem>
+and <SystemItem Class="Resource">XmNverticalFontUnit</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNuserData</SystemItem></Term>
+<ListItem>
+<Para>Allows the application to attach any necessary specific data to the gadget.
+This is an internally unused resource.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>Gadget inherits resources from the
+superclass described in the following table.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>RectObj Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Object Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to each callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">* event</Symbol>;
+} XmAnyCallbackStruct;</Synopsis>
+<!--no-op:  .fi-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+For this callback, <Symbol Role="Variable">reason</Symbol> is set to <SystemItem Class="Constant">XmCR_HELP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmGadget -->
+</RefSect2>
+<RefSect2>
+<Title>Behavior</Title>
+<Para>Gadgets cannot have translations associated with them.
+Because of this, a Gadget's behavior is determined by the Manager
+widget into which the Gadget is placed. If focus is on a Gadget,
+events are passed to the Gadget by its Manager.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Object;,
+&cdeman.RectObj;,
+&cdeman.XmManager;, and
+&cdeman.XmScreen;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

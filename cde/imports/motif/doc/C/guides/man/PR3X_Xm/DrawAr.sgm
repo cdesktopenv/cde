@@ -1,0 +1,1178 @@
+<!-- $XConsortium: DrawAr.sgm /main/11 1996/09/08 20:40:20 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN209.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmDrawingArea</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmDrawingArea</Classname></RefName>
+<RefPurpose>The DrawingArea widget class
+<IndexTerm>
+<Primary>XmDrawingArea</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>DrawingArea</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/DrawingA.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>DrawingArea is an empty widget that is easily adaptable
+to a variety of purposes.
+It does no drawing and defines no behavior except for invoking
+callbacks.
+Callbacks notify the application when graphics need to be drawn
+(exposure events or widget resize) and when the widget receives input from
+the keyboard or mouse.
+</Para>
+<Para>Applications are responsible for defining appearance and behavior as needed
+in response to DrawingArea callbacks.
+</Para>
+<Para>DrawingArea is also a composite widget and subclass of
+<Classname>XmManager</Classname> that supports
+minimal geometry management for multiple widget or gadget children.
+</Para>
+<Para>DrawingArea uses the <SystemItem Class="Resource">XmNinitialFocus</SystemItem> resource of <Classname>XmManager</Classname>
+to define whether or not DrawingArea will receive focus when it is
+traversed to, even if it has traversable children. If
+<SystemItem Class="Resource">XmNinitialFocus</SystemItem> is NULL, DrawingArea receives focus only if it
+does not have any traversable children. If <SystemItem Class="Resource">XmNinitialFocus</SystemItem> is
+not NULL, then DrawingArea receives focus when traversed to. In the latter
+case, the application first needs to be able to realize that the DrawingArea
+will receive focus, then, as appropriate, needs to either call the
+<Function>XmProcessTraversal</Function> function for the desired child, or to navigate
+across the private DrawingArea graphics objects.
+</Para>
+<Para>The following resources are not currently used by the DrawingArea
+widget: <SystemItem Class="Resource">XmNshadowThickness</SystemItem>, <SystemItem Class="Resource">XmNtopShadowPixmap</SystemItem>,
+<SystemItem Class="Resource">XmNbottomShadowPixmap</SystemItem>, <SystemItem Class="Resource">XmNtopShadowColor</SystemItem>, and
+<SystemItem Class="Resource">XmNbottomShadowColor</SystemItem>
+</Para>
+<RefSect2>
+<Title>Data Transfer Behavior</Title>
+<Para>DrawingArea has no widget class conversion or destination procedure.
+Subclasses and the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures are responsible
+for any conversion of selections.
+Subclasses and the <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures are
+responsible for any data transfers to the widget.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>DrawingArea inherits behavior and resources from the <Classname>Core</Classname>,
+<Classname>Composite</Classname>, <Classname>Constraint</Classname>, and <Classname>XmManager</Classname> classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmDrawingAreaWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmDrawingArea</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmDrawingArea Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNconvertCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdestinationCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNexposeCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNinputCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizeCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNresizePolicy</Entry>
+<Entry>XmCResizePolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmRESIZE_ANY</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNconvertCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks called when the DrawingArea is asked to
+convert a selection.
+The type of the structure whose address is passed to these callbacks is
+<StructName Role="typedef">XmConvertCallbackStruct</StructName>.
+The reason is <SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdestinationCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks called when the DrawingArea is the
+destination of a transfer operation.
+The type of the structure whose address is passed to these callbacks is
+<StructName Role="typedef">XmDestinationCallbackStruct</StructName>.
+The reason is <SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNexposeCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is
+called when DrawingArea receives an exposure event.
+The callback reason is <SystemItem Class="Constant">XmCR_EXPOSE</SystemItem>.
+The callback structure also includes the exposure event.
+</Para>
+<Para>The default bit gravity for Manager windows is <SystemItem Class="Constant">NorthWestGravity</SystemItem>.
+This may cause the <SystemItem Class="Resource">XmNexposeCallback</SystemItem> procedures not to be invoked
+when the DrawingArea window is made smaller.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNinputCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is
+called when the DrawingArea receives a keyboard
+or mouse event (key or button, up or down).
+The callback reason is <SystemItem Class="Constant">XmCR_INPUT</SystemItem>.
+The callback structure also includes the input event.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the minimum spacing in pixels between the top or bottom edge
+of DrawingArea and any child widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the minimum spacing in pixels between the left or right edge
+of DrawingArea and any child widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNresizeCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is
+called when the DrawingArea is resized.
+The callback reason is <SystemItem Class="Constant">XmCR_RESIZE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNresizePolicy</SystemItem></Term>
+<ListItem>
+<Para>Controls the policy for resizing DrawingArea widgets.
+Possible values include <SystemItem Class="Constant">XmRESIZE_NONE</SystemItem> (fixed size),
+<SystemItem Class="Constant">XmRESIZE_ANY</SystemItem> (shrink or grow as needed), and
+<SystemItem Class="Constant">XmRESIZE_GROW</SystemItem> (grow only).
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>DrawingArea inherits behavior and resources from the following
+superclasses. For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to the
+<SystemItem Class="Resource">XmNexposeCallback</SystemItem>, <SystemItem Class="Resource">XmNinputCallback</SystemItem>, and
+<SystemItem Class="Resource">XmNresizeCallback</SystemItem> procedures:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">* event</Symbol>;
+        Window <Symbol Role="Variable">window</Symbol>;
+} XmDrawingAreaCallbackStruct;</Synopsis>
+<!--no-op:  .fi-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+This is NULL for the <SystemItem Class="Resource">XmNresizeCallback</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">window</Symbol></Term>
+<ListItem>
+<Para>Is set to the widget window.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to the
+<SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Atom <Symbol Role="Variable">selection</Symbol>;
+        Atom <Symbol Role="Variable">target</Symbol>;
+        XtPointer <Symbol Role="Variable">source_data</Symbol>;
+        XtPointer <Symbol Role="Variable">location_data</Symbol>;
+        int <Symbol Role="Variable">flags</Symbol>;
+        XtPointer <Symbol Role="Variable">parm</Symbol>;
+        int <Symbol Role="Variable">parm_format</Symbol>;
+        unsigned long <Symbol Role="Variable">parm_length</Symbol>;
+        int <Symbol Role="Variable">status</Symbol>;
+        XtPointer <Symbol Role="Variable">value</Symbol>;
+        Atom <Symbol Role="Variable">type</Symbol>;
+        int <Symbol Role="Variable">format</Symbol>;
+        unsigned long <Symbol Role="Variable">length</Symbol>;
+} XmConvertCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+It can be NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selection</Symbol></Term>
+<ListItem>
+<Para>Indicates the selection for which conversion is being requested.
+Possible values are <Symbol Role="Define">CLIPBOARD</Symbol>, <Symbol Role="Define">PRIMARY</Symbol>, <Symbol Role="Define">SECONDARY</Symbol>,
+and <Property>_MOTIF_DROP</Property>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">target</Symbol></Term>
+<ListItem>
+<Para>Indicates the conversion target.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">source_data</Symbol></Term>
+<ListItem>
+<Para>Contains information about the selection source.
+When the selection is <Property>_MOTIF_DROP</Property>, <Symbol Role="Variable">source_data</Symbol> is the
+DragContext.
+Otherwise, it is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>location_data</Literal></Term>
+<ListItem>
+<Para>Contains information about the location of data to be converted.
+If the value is NULL, the data to be transferred consists of the
+widget's current selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">flags</Symbol></Term>
+<ListItem>
+<Para>Indicates the status of the conversion. Following are the possible
+values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_NONE</SystemItem></Term>
+<ListItem>
+<Para>This flag is currently unused.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_PARTIAL</SystemItem></Term>
+<ListItem>
+<Para>The target widget was able to be converted, but some data was lost.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_SAME</SystemItem></Term>
+<ListItem>
+<Para>The conversion target is the source of the data to be transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_TRANSACT</SystemItem></Term>
+<ListItem>
+<Para>This flag is currently unused.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parm</Symbol></Term>
+<ListItem>
+<Para>Contains parameter data for this target.
+If no parameter data exists, the value is NULL.
+</Para>
+<Para>When <Symbol Role="Variable">selection</Symbol> is <Symbol Role="Define">CLIPBOARD</Symbol> and <Symbol Role="Variable">target</Symbol> is
+<Property>_MOTIF_CLIPBOARD_TARGETS</Property> or
+<Property>_MOTIF_DEFERRED_CLIPBOARD_TARGETS</Property>, the value is the requested
+operation (<SystemItem Class="Constant">XmCOPY</SystemItem>, <SystemItem Class="Constant">XmMOVE</SystemItem>, or <SystemItem Class="Constant">XmLINK</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parm_format</Symbol></Term>
+<ListItem>
+<Para>Specifies whether the data in <Symbol Role="Variable">parm</Symbol> should be viewed
+as a list of <Symbol Role="Variable">char</Symbol>, <Symbol Role="Variable">short</Symbol>, or <Symbol Role="Variable">long</Symbol> quantities.
+Possible values are 0 (when <Symbol Role="Variable">parm</Symbol> is NULL),
+8 (when the data in <Symbol Role="Variable">parm</Symbol> should be viewed as a list of <Symbol Role="Variable">char</Symbol>s),
+16 (when the data in <Symbol Role="Variable">parm</Symbol> should be viewed as a list of <Symbol Role="Variable">short</Symbol>s),
+or 32 (when the data in <Symbol Role="Variable">parm</Symbol> should be viewed as a list of <Symbol Role="Variable">long</Symbol>s).
+Note that <Symbol Role="Variable">parm_format</Symbol> symbolizes a data type, not the number of bits
+in each list element.
+For example, on some machines, a <Symbol Role="Variable">parm_format</Symbol> of 32 means that
+the data in <Symbol Role="Variable">parm</Symbol> should be viewed as a list of 64-bit quantities,
+not 32-bit quantities.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parm_length</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of elements of data in <Symbol Role="Variable">parm</Symbol>, where each
+element has the size specified by <Symbol Role="Variable">parm_format</Symbol>.
+When <Symbol Role="Variable">parm</Symbol> is NULL, the value is 0.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">status</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT member that specifies the status of the conversion.
+The initial value is <SystemItem Class="Constant">XmCONVERT_DEFAULT</SystemItem>.
+The callback procedure can set this member to one of the following
+values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERT_DEFAULT</SystemItem></Term>
+<ListItem>
+<Para>This value means that the widget class conversion procedure, if any, is
+called after the callback procedures return.
+If the widget class conversion procedure produces any data, it
+overwrites the data provided by the callback procedures in the <Symbol Role="Variable">value</Symbol>
+member.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERT_MERGE</SystemItem></Term>
+<ListItem>
+<Para>This value means that the widget class conversion procedure, if any, is
+called after the callback procedures return.
+If the widget class conversion procedure produces any data, it appends
+its data to the data provided by the callback procedures in the
+<Symbol Role="Variable">value</Symbol> member.
+This value is intended for use with targets that result in lists of
+data, such as <Symbol Role="Define">TARGETS</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERT_DONE</SystemItem></Term>
+<ListItem>
+<Para>This value means that the callback procedure has successfully finished
+the conversion.
+The widget class conversion procedure, if any, is not called after the
+callback procedures return.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERT_REFUSE</SystemItem></Term>
+<ListItem>
+<Para>This value means that the callback procedure has terminated the
+conversion process without completing the requested conversion.
+The widget class conversion procedure, if any, is not called after the
+callback procedures return.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT parameter that contains any data that the callback procedure
+produces as a result of the conversion.
+The initial value is NULL.
+If the callback procedure sets this member, it must ensure that the
+<Symbol Role="Variable">type</Symbol>, <Symbol Role="Variable">format</Symbol>, and <Symbol Role="Variable">length</Symbol> members correspond
+to the data in <Symbol Role="Variable">value</Symbol>.
+The callback procedure is responsible for allocating, but not for
+freeing, memory when it sets this member.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">type</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT parameter that indicates the type of the data in the
+<Symbol Role="Variable">value</Symbol> member.
+The initial value is <Symbol Role="Define">INTEGER</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">format</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT parameter that specifies whether the data in <Symbol Role="Variable">value</Symbol> should
+be viewed as a list of <Symbol Role="Variable">char</Symbol>, <Symbol Role="Variable">short</Symbol>, or <Symbol Role="Variable">long</Symbol> quantities.
+The initial value is 8.
+The callback procedure can set this member to 8 (for a list of <Symbol Role="Variable">char</Symbol>),
+16 (for a list of <Symbol Role="Variable">short</Symbol>), or 32 (for a list of <Symbol Role="Variable">long</Symbol>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">length</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT member that specifies the number of elements of data in
+<Symbol Role="Variable">value</Symbol>, where each element has the size symbolized by <Symbol Role="Variable">format</Symbol>.
+The initial value is 0.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following callback structure is passed to the
+<SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Atom <Symbol Role="Variable">selection</Symbol>;
+        XtEnum <Symbol Role="Variable">operation</Symbol>;
+        int <Symbol Role="Variable">flags</Symbol>;
+        XtPointer <Symbol Role="Variable">transfer_id</Symbol>;
+        XtPointer <Symbol Role="Variable">destination_data</Symbol>;
+        XtPointer <Symbol Role="Variable">location_data</Symbol>;
+        Time <Symbol Role="Variable">time</Symbol>;
+} XmDestinationCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+It can be NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selection</Symbol></Term>
+<ListItem>
+<Para>Indicates the selection for which data transfer is being requested.
+Possible values are <Symbol Role="Define">CLIPBOARD</Symbol>, <Symbol Role="Define">PRIMARY</Symbol>, <Symbol Role="Define">SECONDARY</Symbol>, and
+<Property>_MOTIF_DROP</Property>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operation</Symbol></Term>
+<ListItem>
+<Para>Indicates the type of transfer operation requested.
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>When the selection is <Symbol Role="Define">PRIMARY</Symbol>, possible values are <SystemItem Class="Constant">XmMOVE</SystemItem>,
+<SystemItem Class="Constant">XmCOPY</SystemItem>, and <SystemItem Class="Constant">XmLINK</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>When the selection is <Symbol Role="Define">SECONDARY</Symbol> or <Symbol Role="Define">CLIPBOARD</Symbol>, possible
+values are <SystemItem Class="Constant">XmCOPY</SystemItem> and <SystemItem Class="Constant">XmLINK</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>When the selection is <Property>_MOTIF_DROP</Property>, possible values are
+<SystemItem Class="Constant">XmMOVE</SystemItem>, <SystemItem Class="Constant">XmCOPY</SystemItem>, <SystemItem Class="Constant">XmLINK</SystemItem>, and <SystemItem Class="Constant">XmOTHER</SystemItem>.
+A value of <SystemItem Class="Constant">XmOTHER</SystemItem> means that the callback procedure must get
+further information from the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> in the
+<Symbol Role="Variable">destination_data</Symbol> member.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">flags</Symbol></Term>
+<ListItem>
+<Para>Indicates whether or not the destination widget is also the source of
+the data to be transferred.
+Following are the possible values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_NONE</SystemItem></Term>
+<ListItem>
+<Para>The destination widget is not the source of the data to be transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_SAME</SystemItem></Term>
+<ListItem>
+<Para>The destination widget is the source of the data to be transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>transfer_id</Literal></Term>
+<ListItem>
+<Para>Serves as a unique ID to identify the transfer transaction.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">destination_data</Symbol></Term>
+<ListItem>
+<Para>Contains information about the destination.
+When the selection is <Property>_MOTIF_DROP</Property>, the callback procedures are
+called by the drop site's <SystemItem Class="Resource">XmNdropProc</SystemItem>, and <Symbol Role="Variable">destination_data</Symbol>
+is a pointer to the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> passed to the
+<SystemItem Class="Resource">XmNdropProc</SystemItem> procedure.
+When the selection is <Symbol Role="Define">SECONDARY</Symbol>, <Symbol Role="Variable">destination_data</Symbol> is an Atom
+representing a target recommmended by the selection owner for use in
+converting the selection.
+Otherwise, <Symbol Role="Variable">destination_data</Symbol> is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>location_data</Literal></Term>
+<ListItem>
+<Para>Contains information about the location where data is to be transferred.
+The value is always NULL when the selection is <Symbol Role="Define">SECONDARY</Symbol> or
+<Symbol Role="Define">CLIPBOARD</Symbol>.
+If the value is NULL, the data is to be inserted at the widget's cursor
+position. <Literal>location_data</Literal> is only valid for the duration of a
+transfer. Once <Symbol>XmTransferDone</Symbol> procedures start to be called,
+<Literal>location_data</Literal> will no longer be stable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">time</Symbol></Term>
+<ListItem>
+<Para>Indicates the time when the transfer operation began.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmDrawingArea -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para>XmDrawingArea inherits translations from XmManager.
+Before calling the XmManager actions, all events in the inherited
+translations except <KeySym>BtnMotion</KeySym>, <KeySym>EnterWindow</KeySym>,
+<KeySym>LeaveWindow</KeySym>, <KeySym>FocusIn</KeySym>, and <KeySym>FocusOut</KeySym> also call the
+<Action>DrawingAreaInput()</Action> action.
+</Para>
+<Para>XmDrawingArea has the following additional translations.
+The following key names are listed in the
+X standard key event translation table syntax.
+This format is the one used by Motif to
+specify the widget actions corresponding to a given key.
+A brief overview of the format is provided under
+&cdeman.VirtualBindings;.
+For a complete description of the format, please refer to the
+X Toolkit Instrinsics Documentation.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>BtnDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>DrawingAreaInput()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>BtnUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>DrawingAreaInput()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>KeyDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>DrawingAreaInput()
+ManagerGadgetKeyInput()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>KeyUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>DrawingAreaInput()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--These translations may not directly correspond to a
+translation table.
+.VL 2i 0 1
+.LI "&bsol;*LMAny BAny Press:"&bsol;*O
+&bsol;*LDrawingAreaInput()&bsol;*O
+.LI "&bsol;*LMAny BAny Release:&bsol;*O"
+&bsol;*LDrawingAreaInput()&bsol;*O
+.sp .5
+.LI "&bsol;*LMAny KAny Press:&bsol;*O"
+&bsol;*LDrawingAreaInput()&bsol;*O
+.nL
+&bsol;*LManagerGadgetKeyInput()&bsol;*O
+.LI "&bsol;*LMAny KAny Release:&bsol;*O"
+&bsol;*LDrawingAreaInput()&bsol;*O
+.LE
+-->
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The <Classname>XmDrawingArea</Classname> action routines are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>DrawingAreaInput()</Action>:</Term>
+<ListItem>
+<Para>Unless the event takes place in a gadget, calls the callbacks for
+<SystemItem Class="Resource">XmNinputCallback</SystemItem>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ManagerGadgetKeyInput()</Action>:</Term>
+<ListItem>
+<Para>Causes the current gadget to process a keyboard event
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>The XmDrawingArea widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Expose</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNexposeCallback</SystemItem>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Widget&ensp;Resize</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNresizeCallback</SystemItem>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;, &cdeman.Constraint;, &cdeman.Core;,
+&cdeman.XmCreateDrawingArea;,
+and &cdeman.XmManager;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

@@ -1,0 +1,1471 @@
+<!-- $XConsortium: SpinBox.sgm /main/15 1996/09/08 21:02:25 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<refentry id="CDEMMA.MAN401.rsml.1">
+<refmeta><refentrytitle>XmSpinBox</refentrytitle><manvolnum>library call</manvolnum>
+</refmeta>
+<refnamediv><refname><classname>XmSpinBox</classname></refname><refpurpose>
+The SpinBox widget class <indexterm><primary>XmSpinBox</primary></indexterm><indexterm>
+<primary>widget class</primary><secondary>SpinBox</secondary></indexterm></refpurpose>
+</refnamediv>
+<refsynopsisdiv>
+<synopsis>#include &lt;Xm/SpinB.h></synopsis>
+</refsynopsisdiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>SpinBox allows the user to select a value from a ring of related but
+mutually exclusive choices which are displayed in sequence. The SpinBox always
+has an increment arrow, a decrement arrow, and one or more other children.
+The choices are displayed, one at a time, in a traversable text child ( <classname>XmText</classname> or <classname>XmTextField</classname>. The user clicks <keysym>Btn1</keysym> on an arrow to display the next (or previous) item in the ring
+of choices. By pressing and holding <keysym>Btn1</keysym> on an arrow, the
+user continuously cycles through the choices.</para>
+<para>The traversable children in a SpinBox can be of type <systemitem class="Constant">XmNUMERIC</systemitem> or <systemitem class="Constant">XmSTRING</systemitem>,
+as defined by the <systemitem class="Resource">XmNspinBoxChildType</systemitem>
+constraint resource. The ring of choices for numeric children is defined
+by minimum, maximum, incremental, and decimal point values. The ring of choices
+for string children is defined in an array of compound strings.</para>
+<para>The application programmer can include multiple traversable children
+in the SpinBox. For example, a SpinBox might consist of a pair of arrows
+and month, day, and year text fields. The arrows only spin the child that
+currently has focus.</para>
+<para>Arrow size is specified by the SpinBox resource <systemitem class="Resource">XmNarrowSize</systemitem>. This value sets both width and height of each
+arrow in pixels.</para>
+<para>The programmer can display SpinBox arrows in one of several layouts,
+as specified by the <systemitem class="Resource">XmNarrowLayout</systemitem>
+resource:</para>
+<variablelist>
+<varlistentry><term><systemitem class="Constant">XmARROWS_BEGINNING</systemitem></term>
+<listitem>
+<para>Places a pair of left and right arrows before the children.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_END</systemitem></term>
+<listitem>
+<para>Places a pair of left and right arrows after the children.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_SPLIT</systemitem></term>
+<listitem>
+<para>Places one arrow on each side of the children.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_FLAT_BEGINNING</systemitem></term>
+<listitem>
+<para>Places a pair of arrows side by side before the <Symbol>XmSpinBox</Symbol>
+children.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_FLAT_BEGINNING</systemitem></term>
+<listitem>
+<para>Places a pair of arrows side by side after the <Symbol>XmSpinBox</Symbol>
+children.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>Positions for <systemitem class="Constant">XmARROWS_BEGINNING</systemitem>
+and <systemitem class="Constant">XmARROWS_END</systemitem> are dependent on
+the <classname>VendorShell</classname> resource <systemitem class="Resource">XmNlayoutDirection</systemitem>. When layout direction is left-to-right, beginning
+arrows are positioned to the left of the children. When layout direction
+is right-to-left, beginning arrows are positioned to the right.</para>
+<para>The actions of the arrows are determined by the <classname>VendorShell</classname> resource <systemitem class="Resource">XmNlayoutDirection</systemitem>.
+For left-to-right layouts, the right arrow is the increment arrow and the
+left arrow is the decrement arrow. For right-to-left layouts, the right
+arrow is the decrement arrow and the left arrow is the increment arrow.</para>
+<para>For a numeric type child, the increment arrow increases the displayed
+value by the incremental value up to the maximum. The decrement arrow decreases
+the displayed value by the given incremental value down to the minimum.</para>
+<para>The increment arrow for a string type child moves toward the last entry
+of the array of compound strings (by increasing the SpinBox constraint resource
+<systemitem class="Resource">XmNposition</systemitem>). The decrement arrow
+moves toward the first entry of the compound string array.</para>
+<para>The programmer can also control the sensitivity of each arrow in the
+SpinBox. Sensitive arrows spin choices; insensitive arrows do not spin choices.
+Arrow sensitivity is set for the SpinBox widget by using the <systemitem class="Resource">XmNdefaultArrowSensitivity</systemitem> resource, but it
+can be modified on a per child basis by using the <systemitem class="Resource">XmNarrowSensitivity</systemitem> constraint resource.</para>
+<para>SpinBox provides two callbacks to application programmers. (In addition,
+the callbacks of the SpinBox's children may be invoked.) Each of these callbacks
+receives a pointer to <structname role="typedef">XmSpinBoxCallbackStruct</structname>.
+The <systemitem class="Resource">XmNmodifyVerifyCallback</systemitem> procedures
+are called <symbol role="Variable">before</symbol> a new choice is displayed.
+The <systemitem class="Resource">XmNvalueChangedCallback</systemitem> procedures
+are called <symbol role="Variable">after</symbol> a new choice is displayed.
+</para>
+<para><systemitem class="Resource">XmNmodifyVerifyCallback</systemitem> tells
+the application what the new position will be in the ring of choices. This
+callback can be used to make the SpinBox stop at the upper and lower limits
+or go to a different, nonconsecutive choice. The application allows the
+change in position by leaving the <symbol role="Variable">doit</symbol> member
+set to True. The application can spin to a position other than the next
+consecutive position by leaving <symbol role="Variable">doit</symbol> set
+to True and by changing the <symbol role="Variable">position</symbol> member
+to the desired position. When <symbol role="Variable">doit</symbol> is set
+to False by an application, there is no change in the choice displayed.
+</para>
+<para>After a new choice is displayed, the <systemitem class="Resource">XmNvalueChangedCallback</systemitem> procedure is called. The application
+can use this procedure to perform tasks when specific values are reached
+or when boundaries are crossed. For example, if the user spins from January
+back to December, the application could change to the previous year. If
+the user spins from December to January, the application could change to
+the next year.</para>
+<para>SpinBox dimensions can be set using the Core resources <systemitem class="Resource">XmNheight</systemitem> and <systemitem class="Resource">XmNwidth</systemitem>. If dimensions are not specified, the SpinBox size
+is determined by the sizes of its arrows and children. The SpinBox will
+attempt to grow so that the arrows and all children are visible.</para>
+<para>SpinBox uses the <symbol role="Globalvar">XmQTaccessTextual</symbol>
+trait and holds the <symbol role="Globalvar">XmQTnavigator</symbol> trait.
+</para>
+<refsect2>
+<title>Classes</title>
+<para>SpinBox inherits behavior, resources, and traits from the <classname>Core</classname>, <classname>Composite</classname>, <classname>Constraint</classname>, and <classname>XmManager</classname> classes.</para>
+<para>The class pointer is <symbol role="Globalvar">xmSpinBoxWidgetClass</symbol>.
+</para>
+<para>The class name is <classname>XmSpinBox</classname>.</para>
+</refsect2>
+<refsect2>
+<title>New Resources</title>
+<para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a resource
+by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <systemitem class="Constant">XmN</systemitem> or <systemitem class="Constant">XmC</systemitem>
+prefix and use the remaining letters. To specify one of the defined values
+for a resource in a <Filename>.Xdefaults</Filename> file, remove the <systemitem class="Constant">Xm</systemitem> prefix and use the remaining letters (in
+either lowercase or uppercase, but include any underscores between words).
+The codes in the access column indicate whether the given resource can be
+set at creation time (C), set by using <function>XtSetValues</function> (S),
+retrieved by using <function>XtGetValues</function> (G), or is not applicable
+(N/A).</para>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<colspec align="Left" colname="col1" colwidth="1.35in">
+<colspec align="Left" colwidth="1.48in">
+<colspec align="Left" colname="col3" colwidth="1.18in">
+<colspec align="Left" colwidth="1.39in">
+<colspec align="Left" colwidth="1.00in">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>XmSpinBox Resource
+Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top">XmNarrowLayout</entry>
+<entry align="left" valign="top">XmCArrowLayout</entry>
+<entry align="left" valign="top">unsigned char</entry>
+<entry align="left" valign="top">XmARROWS_BEGINNING</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNarrowOrientation</entry>
+<entry align="left" valign="top">XmCArrowOrientation</entry>
+<entry align="left" valign="top">unsigned char</entry>
+<entry align="left" valign="top">XmARROWS_VERTICAL</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNarrowSize</entry>
+<entry align="left" valign="top">XmCArrowSize</entry>
+<entry align="left" valign="top">Dimension</entry>
+<entry align="left" valign="top">16</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNdefaultArrowSensitivity</entry>
+<entry align="left" valign="top">XmCDefaultArrowSensitivity</entry>
+<entry align="left" valign="top">unsigned char</entry>
+<entry align="left" valign="top">XmARROWS_SENSITIVE</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNdetailShadowThickness</entry>
+<entry align="left" valign="top">XmCDetailShadowThickness</entry>
+<entry align="left" valign="top">Dimension</entry>
+<entry align="left" valign="top">2</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNinitialDelay</entry>
+<entry align="left" valign="top">XmCInitialDelay</entry>
+<entry align="left" valign="top">unsigned int</entry>
+<entry align="left" valign="top">250 ms</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNmarginHeight</entry>
+<entry align="left" valign="top">XmCMarginHeight</entry>
+<entry align="left" valign="top">Dimension</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNmarginWidth</entry>
+<entry align="left" valign="top">XmCMarginWidth</entry>
+<entry align="left" valign="top">Dimension</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNmodifyVerifyCallback</entry>
+<entry align="left" valign="top">XmCCallback</entry>
+<entry align="left" valign="top">XtCallbackList</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top">XmNrepeatDelay</entry>
+<entry align="left" valign="top">XmCRepeatDelay</entry>
+<entry align="left" valign="top">unsigned int</entry>
+<entry align="left" valign="top">200 ms</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNspacing</entry>
+<entry align="left" valign="top">XmCSpacing</entry>
+<entry align="left" valign="top">Dimension</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNvalueChangedCallback</entry>
+<entry align="left" valign="top">XmCCallback</entry>
+<entry align="left" valign="top">XtCallbackList</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><systemitem class="Resource">XmNarrowLayout</systemitem></term>
+<listitem>
+<para>Specifies placement of the two arrows in the widget. Possible layouts
+are as follows:</para>
+<variablelist>
+<varlistentry><term><systemitem class="Constant">XmARROWS_BEGINNING</systemitem></term>
+<listitem>
+<para>Places left and right arrows beside each other, before the child(ren).
+Positioning for this layout is dependent on the VendorShell resource <literal>XmNlayoutDirection.</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_END</systemitem></term>
+<listitem>
+<para>Places left and right arrows beside each other, after the child(ren).
+Positioning for this layout is dependent on the VendorShell resource <systemitem class="Resource">XmNlayoutDirection</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_FLAT_BEGINNING</systemitem></term>
+<listitem>
+<para>Places a pair of arrows side by side before the <Symbol>XmSpinBox</Symbol>
+children. Positioning for this layout is dependent on the VendorShell resource <literal>XmNlayoutDirection.</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_FLAT_END</systemitem></term>
+<listitem>
+<para>Places a pair of arrows side by side after the <Symbol>XmSpinBox</Symbol>
+children. Positioning for this layout is dependent on the VendorShell resource <literal>XmNlayoutDirection.</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_SPLIT</systemitem></term>
+<listitem>
+<para>Places a left arrow on the left side and a right arrow on the right
+side of the child(ren).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNarrowSize</systemitem></term>
+<listitem>
+<para>Specifies both the width and height of the arrow in pixels.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNdefaultArrowSensitivity</systemitem></term>
+<listitem>
+<para>Specifies the default sensitivity of the arrows in the widget. Insensitive
+arrows change color, cannot be depressed, and perform no action. (This resource
+may be overridden by the constraint resource <systemitem class="Resource">XmNarrowSensitivity</systemitem> for individual traversable text children
+of the SpinBox.) Possible default sensitivity values are as follows:</para>
+<variablelist>
+<varlistentry><term><systemitem class="Constant">XmARROWS_SENSITIVE</systemitem></term>
+<listitem>
+<para>Both arrows are sensitive.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_DECREMENT_SENSITIVE</systemitem></term>
+<listitem>
+<para>Only the decrement arrow (as determined by <systemitem class="Resource">XmNlayoutDirection</systemitem>) is sensitive. The increment arrow is insensitive.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_INCREMENT_SENSITIVE</systemitem></term>
+<listitem>
+<para>Only the increment arrow (as determined by <systemitem class="Resource">XmNlayoutDirection</systemitem>) is sensitive. The decrement arrow is insensitive.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_INSENSITIVE</systemitem></term>
+<listitem>
+<para>Both arrows are insensitive.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNdetailShadowThickness</systemitem></term>
+<listitem>
+<para>Specifies the thickness of the inside arrow shadows. The default thickness
+is 2 pixels.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNinitialDelay</systemitem></term>
+<listitem>
+<para>Specifies how long, in milliseconds, the mouse button must be held
+down before automatic spinning begins. In other words, when the user selects
+the increment or decrement arrow and keeps it depressed, this delay occurs
+before the choices start spinning. If <systemitem class="Resource">XmNinitialDelay</systemitem> is 0, then <systemitem class="Resource">XmNrepeatDelay</systemitem>
+is used as the initial delay.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNmarginHeight</systemitem></term>
+<listitem>
+<para>Specifies the amount of blank space between the top edge of the SpinBox
+widget and the first item in each column, and the bottom edge of the SpinBox
+widget and the last item in each column.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNmarginWidth</systemitem></term>
+<listitem>
+<para>Specifies the amount of blank space between the left edge of the SpinBox
+widget and the first item in each row, and the right edge of the SpinBox widget
+and the last item in each row.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNmodifyVerifyCallback</systemitem></term>
+<listitem>
+<para>This callback is called before the SpinBox position changes (see the
+Constraint resource <systemitem class="Resource">XmNposition</systemitem>).
+The application can use this callback to set the next position, change SpinBox
+resources, or cancel the impending action. For example, this callback can
+be used to stop the spinning just before wrapping at the upper and lower
+position boundaries. If the <symbol role="Variable">doit</symbol> member
+is set to False, nothing happens. Otherwise the position changes. Reasons
+sent by the callback are <systemitem class="Constant">XmCR_SPIN_NEXT</systemitem>,
+<systemitem class="Constant">XmCR_SPIN_PRIOR</systemitem>, <systemitem class="Constant">XmCR_SPIN_FIRST</systemitem>, or <systemitem class="Constant">XmCR_SPIN_LAST</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNrepeatDelay</systemitem></term>
+<listitem>
+<para>When the user selects and keeps an arrow button depressed by pressing
+and holding <keysym>Btn1</keysym>, spinning begins. After the time specified
+in <systemitem class="Resource">XmNinitialDelay</systemitem> elapses, the
+SpinBox position changes automatically until the arrow button is released.
+The <systemitem class="Resource">XmNrepeatDelay</systemitem> resource specifies
+the delay in milliseconds between each automatic change. If <systemitem class="Resource">XmNrepeatDelay</systemitem> is set to 0 (zero), automatic
+spinning is turned off and <systemitem class="Resource">XmNinitialDelay</systemitem>
+is ignored.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNspacing</systemitem></term>
+<listitem>
+<para>Specifies the horizontal and vertical spacing between items contained
+within the SpinBox widget.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNvalueChangedCallback</systemitem></term>
+<listitem>
+<para>This is called <symbol role="Variable">n</symbol>+1 times for
+<symbol role="Variable">n</symbol> SpinBox position changes (see the Constraint resource
+<systemitem class="Resource">XmNposition</systemitem>). Reasons sent by the
+callback are <systemitem class="Constant">XmCR_OK</systemitem>, <systemitem class="Constant">XmCR_SPIN_NEXT</systemitem>, <systemitem class="Constant">XmCR_SPIN_PRIOR</systemitem>, <systemitem class="Constant">XmCR_SPIN_FIRST</systemitem>, or <systemitem class="Constant">XmCR_SPIN_LAST</systemitem>.
+Other members are detailed in the callback structure description.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<colspec align="Left" colname="col1" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<colspec align="Left" colname="col3" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>XmSpinBox Constraint
+Resource Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top">XmNarrowSensitivity</entry>
+<entry align="left" valign="top">XmCArrowSensitivity</entry>
+<entry align="left" valign="top">unsigned char</entry>
+<entry align="left" valign="top">XmARROWS_DEFAULT_SENSITIVITY</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNdecimalPoints</entry>
+<entry align="left" valign="top">XmCDecimalPoints</entry>
+<entry align="left" valign="top">short</entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNincrementValue</entry>
+<entry align="left" valign="top">XmCIncrementValue</entry>
+<entry align="left" valign="top">int</entry>
+<entry align="left" valign="top">1</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNmaximumValue</entry>
+<entry align="left" valign="top">XmCMaximumValue</entry>
+<entry align="left" valign="top">int</entry>
+<entry align="left" valign="top">10</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNminimumValue</entry>
+<entry align="left" valign="top">XmCMinimumValue</entry>
+<entry align="left" valign="top">int</entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNnumValues</entry>
+<entry align="left" valign="top">XmCNumValues</entry>
+<entry align="left" valign="top">int</entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNposition</entry>
+<entry align="left" valign="top">XmCPosition</entry>
+<entry align="left" valign="top">int</entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNpositionType</entry>
+<entry align="left" valign="top">XmCPositionType</entry>
+<entry align="left" valign="top">char</entry>
+<entry align="left" valign="top">XmPOSITION_VALUE</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top">XmNspinBoxChildType</entry>
+<entry align="left" valign="top">XmSpinBoxChildType</entry>
+<entry align="left" valign="top">unsigned char</entry>
+<entry align="left" valign="top">XmSTRING</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top">XmNvalues</entry>
+<entry align="left" valign="top">XmCValues</entry>
+<entry align="left" valign="top">XmStringTable</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup></informaltable>
+<variablelist>
+<varlistentry><term><systemitem class="Resource">XmNarrowSensitivity</systemitem></term>
+<listitem>
+<para>Specifies the sensitivity of the arrows for a SpinBox child. By using
+this resource in the definition of a SpinBox child, the application programmer
+can override the default SpinBox sensitivity (set by <systemitem class="Resource">XmNdefaultArrowSensitivity</systemitem>) for a particular child. This allows
+each traversable child to have a different arrow sensitivity. The arrow
+sensitivity values are as follows:</para>
+<variablelist>
+<varlistentry><term><systemitem class="Constant">XmARROWS_SENSITIVE</systemitem></term>
+<listitem>
+<para>Both arrows are sensitive.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_DECREMENT_SENSITIVE</systemitem></term>
+<listitem>
+<para>Only the decrement arrow (as determined by <systemitem class="Resource">XmNlayoutDirection</systemitem>) is sensitive.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_INCREMENT_SENSITIVE</systemitem></term>
+<listitem>
+<para>Only the increment arrow (as determined by <systemitem class="Resource">XmNlayoutDirection</systemitem>) is sensitive.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_INSENSITIVE</systemitem></term>
+<listitem>
+<para>Both arrows are insensitive.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmARROWS_DEFAULT_SENSITIVITY</systemitem></term>
+<listitem>
+<para>Use the sensitivity specified in the <systemitem class="Resource">XmNdefaultArrowSensitivity</systemitem> resource.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNdecimalPoints</systemitem></term>
+<listitem>
+<para>Specifies the number of decimal places used when displaying the value
+of a SpinBox numeric type child. If the number of decimal places specified
+is greater than the number of digits in a displayed value, the value is padded
+with 0 (zeros). For example, when <Symbol>XmNinitialValue</Symbol> is 1
+and <systemitem class="Resource">XmNmaximumValue</systemitem> is 1000 and <systemitem class="Resource">XmNdecimalPoints</systemitem> is 3, the range of values displayed
+in the SpinBox is 0.001 to 1.000. This is used only when <systemitem class="Resource">XmNspinBoxChildType</systemitem> is <systemitem class="Constant">XmNUMERIC</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNincrementValue</systemitem></term>
+<listitem>
+<para>Specifies the amount by which to increment or decrement a SpinBox numeric
+type child. This is used only when <systemitem class="Resource">XmNspinBoxChildType</systemitem> is <systemitem class="Constant">XmNUMERIC</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNmaximumValue</systemitem></term>
+<listitem>
+<para>Specifies the highest possible value for a numeric SpinBox. This is
+used only when <systemitem class="Resource">XmNspinBoxChildType</systemitem>
+is <systemitem class="Constant">XmNUMERIC</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNminimumValue</systemitem></term>
+<listitem>
+<para>Specifies the lowest possible value for a numeric SpinBox. This is
+used only when <systemitem class="Resource">XmNspinBoxChildType</systemitem>
+is <systemitem class="Constant">XmNUMERIC</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNnumValues</systemitem></term>
+<listitem>
+<para>Specifies the number of strings in <systemitem class="Resource">XmNvalues</systemitem>. The application must change this value when strings are added
+or removed from <systemitem class="Resource">XmNvalues</systemitem>. This
+is used only when <systemitem class="Resource">XmNspinBoxChildType</systemitem>
+is <systemitem class="Constant">XmSTRING</systemitem>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNposition</systemitem></term>
+<listitem>
+<para>Specifies the position of the currently displayed item. The interpritation
+of <Symbol>XmNposition</Symbol> is dependent upon the value of the <Symbol>XmNpositionType</Symbol> resource.</para>
+<para>When <Symbol>XmNpositionType</Symbol> is <Symbol>XmPOSITION_INDEX</Symbol> the <Symbol>XmNposition</Symbol> value is interpreted as follows:
+For <Symbol>XmSpinBox</Symbol> children of type <Symbol>XmNUMERIC</Symbol>,
+the <Symbol>XmNposition</Symbol> resource is interpreted as an index into
+an array of items. The minimum allowable value for <Symbol>XmNposition</Symbol> is 0. The maximum allowable value for <Symbol>XmNposition</Symbol>
+is <literal>(XmNmaximumValue-XmNminimumValue)/XmNincrementValue</literal>.
+The value display by the <Symbol>XmSpinBox</Symbol> child is <literal>XmNminimumValue+(XmNposition*XmNincrementValue)</literal>. For <Symbol>XmSpinBox</Symbol> children of type <Symbol>XmSTRING</Symbol>, the <Symbol>XmNposition</Symbol> resource is interpreted as an index into an array of <Symbol>XmNnumValues</Symbol> items. The minimum allowable value for <Symbol>XmNposition</Symbol> is 0. The maximum allowable value for <Symbol>XmNposition</Symbol>
+is <literal>XmNnumValues - 1</literal>. The value displayed by the <Symbol>XmSpinBox</Symbol> is the <Symbol>XmNposition</Symbol>'th value in the <Symbol>XmNvalues</Symbol> array.</para>
+<para>When <Symbol>XmNpositionType</Symbol> is <Symbol>XmPOSITION_VALUE</Symbol> the <Symbol>XmNposition</Symbol> value is interpreted as follows:
+</para>
+<para>For <Symbol>XmSpinBox</Symbol> children of type <Symbol>XmNUMERIC</Symbol>, the <Symbol>XmNposition</Symbol> resource is interpreted as
+the actual value to be displayed. The minimum allowable value for <Symbol>XmNposition</Symbol> is <Symbol>XmNminimumValue</Symbol>. The maximum allowable
+value for <Symbol>XmNposition</Symbol> is <Symbol>XmNmaximumValue</Symbol>.
+The value displayed by the <Symbol>XmSpinBox</Symbol> child is <Symbol>XmNposition</Symbol>. For <Symbol>XmSpinBox</Symbol> children of type <Symbol>XmSTRING</Symbol>, the interpretation is the same for <Symbol>XmPOSITION_VALUE</Symbol> as for <Symbol>XmPOSITION_INDEX</Symbol>.</para>
+<para>Position values falling outside the specified range are invalid. When
+an application assigns a value to <Symbol>XmNposition</Symbol> which is
+less than the minimum, <Symbol>XmNposition</Symbol> is set to the minimum
+and an error message is displayed. When an application assigns a value
+to <Symbol>XmNposition</Symbol> which is greater than the maximum, <Symbol>XmNposition</Symbol> is set to the maximum and an error message is displayed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNpositionType</systemitem></term>
+<listitem>
+<para>Specifies how values the <Symbol>XmNposition</Symbol> resource are
+to be interpreted. Valid values include <Symbol>XmPOSITION_INDEX</Symbol>
+and <Symbol>XmPOSITION_VALUE</Symbol>.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNspinBoxChildType</systemitem></term>
+<listitem>
+<para>Specifies the type of data displayed in the child:</para>
+<variablelist>
+<varlistentry><term><systemitem class="Constant">XmNUMERIC</systemitem></term>
+<listitem>
+<para>The SpinBox choice range is defined by numeric minimum, maximum, and
+incremental values.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmSTRING</systemitem></term>
+<listitem>
+<para>The SpinBox choices are alphanumeric.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Resource">XmNvalues</systemitem></term>
+<listitem>
+<para>Specifies the array of <structname role="typedef">XmString</structname>s
+to be displayed in a SpinBox string type child. The application must change <systemitem class="Resource">XmNnumValues</systemitem> when strings are added to or removed
+from <systemitem class="Resource">XmNvalues</systemitem>. This is used only
+when <systemitem class="Resource">XmNspinBoxChildType</systemitem> is <systemitem class="Constant">XmSTRING</systemitem>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Inherited Resources</title>
+<para>SpinBox inherits behavior and resources from the superclasses described
+in the following tables. For a complete description of each resource, refer
+to the reference page for that superclass.</para>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<colspec align="Left" colname="col1" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<colspec align="Left" colname="col3" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>XmManager Resource
+Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top">XmNbottomShadowColor</entry>
+<entry align="left" valign="top">XmCBottomShadowColor</entry>
+<entry align="left" valign="top">Pixel</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNbottomShadowPixmap</entry>
+<entry align="left" valign="top">XmCBottomShadowPixmap</entry>
+<entry align="left" valign="top">Pixmap</entry>
+<entry align="left" valign="top">XmUNSPECIFIED_PIXMAP</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNforeground</entry>
+<entry align="left" valign="top">XmCForeground</entry>
+<entry align="left" valign="top">Pixel</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNhelpCallback</entry>
+<entry align="left" valign="top">XmCCallback</entry>
+<entry align="left" valign="top">XtCallbackList</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top">XmNhighlightColor</entry>
+<entry align="left" valign="top">XmCHighlightColor</entry>
+<entry align="left" valign="top">Pixel</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNhighlightPixmap</entry>
+<entry align="left" valign="top">XmCHighlightPixmap</entry>
+<entry align="left" valign="top">Pixmap</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNinitialFocus</entry>
+<entry align="left" valign="top">XmCInitialFocus</entry>
+<entry align="left" valign="top">Widget</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNlayoutDirection</entry>
+<entry align="left" valign="top">XmCLayoutDirection</entry>
+<entry align="left" valign="top">XmDirection</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top">XmNnavigationType</entry>
+<entry align="left" valign="top">XmCNavigationType</entry>
+<entry align="left" valign="top">XmNavigationType</entry>
+<entry align="left" valign="top">XmTAB_GROUP</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNpopupHandlerCallback</entry>
+<entry align="left" valign="top">XmCCallback</entry>
+<entry align="left" valign="top">XtCallbackList</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top">XmNshadowThickness</entry>
+<entry align="left" valign="top">XmCShadowThickness</entry>
+<entry align="left" valign="top">Dimension</entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNstringDirection</entry>
+<entry align="left" valign="top">XmCStringDirection</entry>
+<entry align="left" valign="top">XmStringDirection</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top">XmNtopShadowColor</entry>
+<entry align="left" valign="top">XmCTopShadowColor</entry>
+<entry align="left" valign="top">Pixel</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNtopShadowPixmap</entry>
+<entry align="left" valign="top">XmCTopShadowPixmap</entry>
+<entry align="left" valign="top">Pixmap</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNtraversalOn</entry>
+<entry align="left" valign="top">XmCTraversalOn</entry>
+<entry align="left" valign="top">Boolean</entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNunitType</entry>
+<entry align="left" valign="top">XmCUnitType</entry>
+<entry align="left" valign="top">unsigned char</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNuserData</entry>
+<entry align="left" valign="top">XmCUserData</entry>
+<entry align="left" valign="top">XtPointer</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup></informaltable>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<colspec align="Left" colname="col1" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<colspec align="Left" colname="col3" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>Composite Resource
+Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top">XmNchildren</entry>
+<entry align="left" valign="top">XmCReadOnly</entry>
+<entry align="left" valign="top">WidgetList</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top">XmNinsertPosition</entry>
+<entry align="left" valign="top">XmCInsertPosition</entry>
+<entry align="left" valign="top">XtOrderProc</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNnumChildren</entry>
+<entry align="left" valign="top">XmCReadOnly</entry>
+<entry align="left" valign="top">Cardinal</entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">G</entry></row></tbody></tgroup></informaltable>
+<informaltable>
+<tgroup cols="5" colsep="0" rowsep="0">
+<colspec align="Left" colname="col1" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<colspec align="Left" colname="col3" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<colspec align="Left" colwidth="1.18in">
+<spanspec nameend="col3" namest="col1" spanname="1to3">
+<tbody>
+<row>
+<entry align="left" spanname="1to3" valign="top"><literal>Core Resource Set</literal></entry></row>
+<row>
+<entry align="left" valign="top"><literal>Name</literal></entry>
+<entry align="left" valign="top"><literal>Class</literal></entry>
+<entry align="left" valign="top"><literal>Type</literal></entry>
+<entry align="left" valign="top"><literal>Default</literal></entry>
+<entry align="left" valign="top"><literal>Access</literal></entry></row>
+<row>
+<entry align="left" valign="top">XmNaccelerators</entry>
+<entry align="left" valign="top">XmCAccelerators</entry>
+<entry align="left" valign="top">XtAccelerators</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNancestorSensitive</entry>
+<entry align="left" valign="top">XmCSensitive</entry>
+<entry align="left" valign="top">Boolean</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">G</entry></row>
+<row>
+<entry align="left" valign="top">XmNbackground</entry>
+<entry align="left" valign="top">XmCBackground</entry>
+<entry align="left" valign="top">Pixel</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNbackgroundPixmap</entry>
+<entry align="left" valign="top">XmCPixmap</entry>
+<entry align="left" valign="top">Pixmap</entry>
+<entry align="left" valign="top">XmUNSPECIFIED_PIXMAP</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNborderColor</entry>
+<entry align="left" valign="top">XmCBorderColor</entry>
+<entry align="left" valign="top">Pixel</entry>
+<entry align="left" valign="top">XtDefaultForeground</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNborderPixmap</entry>
+<entry align="left" valign="top">XmCPixmap</entry>
+<entry align="left" valign="top">Pixmap</entry>
+<entry align="left" valign="top">XmUNSPECIFIED_PIXMAP</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNborderWidth</entry>
+<entry align="left" valign="top">XmCBorderWidth</entry>
+<entry align="left" valign="top">Dimension</entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNcolormap</entry>
+<entry align="left" valign="top">XmCColormap</entry>
+<entry align="left" valign="top">Colormap</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top">XmNdepth</entry>
+<entry align="left" valign="top">XmCDepth</entry>
+<entry align="left" valign="top">int</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top">XmNdestroyCallback</entry>
+<entry align="left" valign="top">XmCCallback</entry>
+<entry align="left" valign="top">XtCallbackList</entry>
+<entry align="left" valign="top">NULL</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top">XmNheight</entry>
+<entry align="left" valign="top">XmCHeight</entry>
+<entry align="left" valign="top">Dimension</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNinitialResourcesPersistent</entry>
+<entry align="left" valign="top">XmCInitialResourcesPersistent</entry>
+<entry align="left" valign="top">Boolean</entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">C</entry></row>
+<row>
+<entry align="left" valign="top">XmNmappedWhenManaged</entry>
+<entry align="left" valign="top">XmCMappedWhenManaged</entry>
+<entry align="left" valign="top">Boolean</entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNscreen</entry>
+<entry align="left" valign="top">XmCScreen</entry>
+<entry align="left" valign="top">Screen *</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CG</entry></row>
+<row>
+<entry align="left" valign="top">XmNsensitive</entry>
+<entry align="left" valign="top">XmCSensitive</entry>
+<entry align="left" valign="top">Boolean</entry>
+<entry align="left" valign="top">True</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNtranslations</entry>
+<entry align="left" valign="top">XmCTranslations</entry>
+<entry align="left" valign="top">XtTranslations</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNwidth</entry>
+<entry align="left" valign="top">XmCWidth</entry>
+<entry align="left" valign="top">Dimension</entry>
+<entry align="left" valign="top">dynamic</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNx</entry>
+<entry align="left" valign="top">XmCPosition</entry>
+<entry align="left" valign="top">Position</entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row>
+<row>
+<entry align="left" valign="top">XmNy</entry>
+<entry align="left" valign="top">XmCPosition</entry>
+<entry align="left" valign="top">Position</entry>
+<entry align="left" valign="top">0</entry>
+<entry align="left" valign="top">CSG</entry></row></tbody></tgroup></informaltable>
+</refsect2>
+<refsect2>
+<title>Callback</title>
+<para>A pointer to the following structure is passed to each callback:
+</para>
+<synopsis>typedef struct
+{
+        int <symbol role="Variable">reason</symbol>;
+        XEvent <symbol role="Variable">* event</symbol>;
+        Widget <symbol role="Variable">widget</symbol>;
+        Boolean <symbol role="Variable">doit</symbol>;
+        int <symbol role="Variable">position</symbol>;
+        XmString <symbol role="Variable">value</symbol>;
+        Boolean <symbol role="Variable">crossed_boundary</symbol>;
+} XmSpinBoxCallbackStruct;</synopsis>
+<variablelist>
+<varlistentry><term><symbol role="Variable">reason</symbol></term>
+<listitem>
+<para>Indicates why the callback was invoked. Reasons may be the following:
+</para>
+<variablelist>
+<varlistentry><term><systemitem class="Constant">XmCR_OK</systemitem></term>
+<listitem>
+<para>Spinning has stopped because the SpinBox arrow has been disarmed. <systemitem class="Constant">XmCR_OK</systemitem> is either the last or only call.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmCR_SPIN_NEXT</systemitem></term>
+<listitem>
+<para>The increment arrow has been armed and position is increasing. Further
+callbacks will come. For a numeric type child, the values displayed are
+approaching the maximum. For a string SpinBox, the values displayed are
+approaching the last entry in the array of <structname role="typedef">XmString</structname> s.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmCR_SPIN_PRIOR</systemitem></term>
+<listitem>
+<para>The decrement arrow has been armed and position is decreasing. Further
+callbacks will come. For a numeric type child, the values displayed are
+approaching the minimum. For a string type child, the values displayed
+are approaching the first entry in the array of <structname role="typedef">XmString</structname>s.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmCR_SPIN_FIRST</systemitem></term>
+<listitem>
+<para>The begin data (<keysym>osfBeginData</keysym>) key sequence has been
+pressed. The SpinBox is at its first position, displaying the lowest value
+or the first entry in the array of <structname role="typedef">XmString</structname>s.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><systemitem class="Constant">XmCR_SPIN_LAST</systemitem></term>
+<listitem>
+<para>The end data (<keysym>osfEndData</keysym>) key sequence has been pressed.
+The SpinBox is at its last position, displaying the highest value or the
+last entry in the array of <structname role="typedef">XmString</structname>s.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">event</symbol></term>
+<listitem>
+<para>Points to the <Symbol>XEvent</Symbol> that triggered this callback.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">widget</symbol></term>
+<listitem>
+<para>Specifies the child widget affected by this callback.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">doit</symbol></term>
+<listitem>
+<para>When the callback is <systemitem class="Resource">XmNmodifyVerifyCallback</systemitem>, <symbol role="Variable">doit</symbol> indicates whether or
+not an action will be performed before the SpinBox position changes. If
+the callback leaves <symbol role="Variable">doit</symbol> set to True (the
+default), the spinning action is performed. If the callback sets
+<symbol role="Variable">doit</symbol> to False, the spinning action is not performed.
+When the callback is <systemitem class="Resource">XmNvalueChangedCallback</systemitem>, <symbol role="Variable">doit</symbol> is ignored.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">position</symbol></term>
+<listitem>
+<para>Specifies the next value of the SpinBox position (same as <systemitem class="Resource">XmNposition</systemitem>). This is an output field for
+the <systemitem class="Resource">XmNmodifyVerifyCallback</systemitem>, which
+may change the next position as dictated by the needs of an application.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">value</symbol></term>
+<listitem>
+<para>Specifies the new <structname role="typedef">XmString</structname> value
+in the text child widget. The user program must copy this string if it
+is to be used outside the callback routine.</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><symbol role="Variable">crossed_boundary</symbol></term>
+<listitem>
+<para>Specifies whether or not the SpinBox has crossed the upper or lower
+boundary (the last or first compound string, or the maximum or minimum value).
+The <symbol role="Variable">crossed_boundary</symbol> value is True if the
+SpinBox has just crossed a boundary, and False if it has not.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Translations</title>
+<para>The <classname>XmSpinBox</classname> translations are as follows:
+</para>
+<para>The following key names are listed in the X standard key event translation
+table syntax. This format is the one used by Motif to specify the widget actions
+corresponding to a given key. A brief overview of the format is provided under &cdeman.VirtualBindings;. For a complete description
+of the format, please refer to the X Toolkit Instrinsics Documentation.</para>
+<variablelist>
+<varlistentry><term><keysym>Btn1Down</keysym>:</term>
+<listitem>
+<para><action>SpinBArm()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>Btn1Up</keysym>:</term>
+<listitem>
+<para><action>SpinBDisarm()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>:</literal><keysym>Key</keysym><keysym>osfUp</keysym> :</term>
+<listitem>
+<para><action>SpinBPrior()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>:</literal><keysym>Key</keysym><keysym>osfDown</keysym> :</term>
+<listitem>
+<para><action>SpinBNext()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>:</literal><keysym>Key</keysym><keysym>osfLeft</keysym> :</term>
+<listitem>
+<para><action>SpinBLeft()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>:</literal><keysym>Key</keysym><keysym>osfRight</keysym> :</term>
+<listitem>
+<para><action>SpinBRight()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>:</literal><keysym>Key</keysym><keysym>osfBeginData</keysym> :</term>
+<listitem>
+<para><action>SpinBFirst()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><literal>:</literal><keysym>Key</keysym><keysym>osfEndData</keysym> :</term>
+<listitem>
+<para><action>SpinBLast()</action></para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Accelerators</title>
+<para>The <systemitem class="Resource">XmNaccelerators</systemitem> resource
+of a SpinBox are added to each traversable text child. The default <systemitem class="Resource">XmNaccelerators</systemitem> are defined in the following
+list. The bindings for <keysym>Key</keysym><keysym>osfUp</keysym> and <keysym>Key</keysym><keysym>osfDown</keysym> cannot be changed.</para>
+<variablelist>
+<varlistentry><term><keysym>Key</keysym> <keysym>osfUp</keysym>:</term>
+<listitem>
+<para><action>SpinBPrior()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>Key</keysym> <keysym>osfDown</keysym>:</term>
+<listitem>
+<para><action>SpinBNext()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>KeyUp</keysym> <keysym>osfUp</keysym>:</term>
+<listitem>
+<para><action>SpinBDisarm()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>KeyUp</keysym> <keysym>osfDown</keysym>:</term>
+<listitem>
+<para><action>SpinBDisarm()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>Key</keysym> <keysym>osfLeft</keysym>:</term>
+<listitem>
+<para><action>SpinBLeft()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>Key</keysym> <keysym>osfRight</keysym>:</term>
+<listitem>
+<para><action>SpinBRight()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>KeyUp</keysym> <keysym>osfLeft</keysym>:</term>
+<listitem>
+<para><action>SpinBDisarm()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>KeyUp</keysym> <keysym>osfRight</keysym>:</term>
+<listitem>
+<para><action>SpinBDisarm()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>Key</keysym> <keysym>osfBeginData</keysym>:</term>
+<listitem>
+<para><action>SpinBFirst()</action></para>
+</listitem>
+</varlistentry>
+<varlistentry><term><keysym>Key</keysym> <keysym>osfEndData</keysym>:</term>
+<listitem>
+<para><action>SpinBLast()</action></para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Action Routines</title>
+<para>The <classname>XmSpinBox</classname> action routines are as follows:
+</para>
+<variablelist>
+<varlistentry><term><action>SpinBArm()</action>:</term>
+<listitem>
+<para>Visually arms the SpinBox by drawing the armed arrow so that it appears
+to be depressed. This action is initiated when the user presses <keysym>Btn1</keysym> while the pointer is within the boundaries of either the increment
+or decrement arrow. The arrow remains visually armed as long as <keysym>Btn1</keysym> remains depressed.</para>
+<para>If the time period specified by <systemitem class="Resource">XmNrepeatDelay</systemitem> is not greater than zero milliseconds, nothing else happens
+while <keysym>Btn1</keysym> remains depressed.</para>
+<para>If the time period specified by <systemitem class="Resource">XmNrepeatDelay</systemitem> is greater than zero milliseconds, and the arrow is disarmed
+before the time period specified by <systemitem class="Resource">XmNinitialDelay</systemitem> has elapsed, nothing else happens in this action.</para>
+<para>If the time period specified by <systemitem class="Resource">XmNrepeatDelay</systemitem> is greater than zero milliseconds, and the arrow is still
+armed after the time period specified by <systemitem class="Resource">XmNinitialDelay</systemitem> has elapsed, the following occurs:</para>
+<itemizedlist>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure, <structname role="typedef">XmSpinBoxCallbackStruct</structname>, is set to <systemitem class="Constant">XmCR_SPIN_NEXT</systemitem>
+if the increment arrow is armed, or to <systemitem class="Constant">XmCR_SPIN_PRIOR</systemitem> if the decrement arrow is armed.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the next position.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">doit</symbol> member is set to
+True.</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNmodifyVerifyCallback</systemitem>,
+if it exists, is invoked. The application may change the value of
+<symbol role="Variable">position</symbol> and <symbol role="Variable">doit</symbol>.
+If the application sets <symbol role="Variable">doit</symbol> to False,
+nothing else happens until the <systemitem class="Resource">XmNrepeatDelay</systemitem> period has elapsed, or until <keysym>Btn1</keysym> is released.
+</para>
+</listitem>
+</itemizedlist>
+<para>If <symbol role="Variable">doit</symbol> remains set to True, the following
+occurs:</para>
+<itemizedlist>
+<listitem><para>The value of <systemitem class="Resource">XmNposition</systemitem>
+is changed to the value of <symbol role="Variable">position</symbol> in the
+SpinBox callback structure.</para>
+</listitem>
+<listitem><para>The text corresponding to the new position is displayed in
+the traversable text child that currently has focus.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_SPIN_NEXT</systemitem> if the increment arrow is armed, or <systemitem class="Constant">XmCR_SPIN_PRIOR</systemitem> if the decrement arrow is armed.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) value of <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNvalueChangedCallback</systemitem>,
+if it exists, is called. SpinBox ignores any changes to <symbol role="Variable">position</symbol> or <symbol role="Variable">doit</symbol> members made by <systemitem class="Resource">XmNvalueChangedCallback</systemitem>.</para>
+</listitem>
+</itemizedlist>
+<para>These events are repeated each time the <systemitem class="Resource">XmNrepeatDelay</systemitem> period elapses and the arrow remains armed.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><action>SpinBDisarm()</action>:</term>
+<listitem>
+<para>Visually disarms the SpinBox by drawing the previously armed arrow
+so that it no longer appears to be depressed.</para>
+<para>If the time period specified by <systemitem class="Resource">XmNrepeatDelay</systemitem> is not greater than zero milliseconds, or the time period specified
+by <systemitem class="Resource">XmNinitialDelay</systemitem> has not elapsed,
+the following then occurs:</para>
+<itemizedlist>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure, <structname role="typedef">XmSpinBoxCallbackStruct</structname>, is set to <systemitem class="Constant">XmCR_SPIN_NEXT</systemitem>
+if the increment arrow is armed, or to <systemitem class="Constant">XmCR_SPIN_PRIOR</systemitem> if the decrement arrow is armed.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the next position.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">doit</symbol> member is set to
+True.</para>
+</listitem>
+<listitem><para>The <systemitem class="Resource">XmNmodifyVerifyCallback</systemitem>,
+if there is one, is invoked. The application may change the value of
+<symbol role="Variable">position</symbol> and <symbol role="Variable">doit</symbol>.
+If the application sets <symbol role="Variable">doit</symbol> to False, nothing
+else happens until the <systemitem class="Resource">XmNrepeatDelay</systemitem>
+period has elapsed, or until <keysym>Btn1</keysym> is released.</para>
+</listitem>
+</itemizedlist>
+<para>If <symbol role="Variable">doit</symbol> remains set to True, the following
+occurs:</para>
+<itemizedlist>
+<listitem><para>The value of <systemitem class="Resource">XmNposition</systemitem>
+is changed to the value of <symbol role="Variable">position</symbol> in the
+SpinBox callback structure.</para>
+</listitem>
+<listitem><para>The text corresponding to the new position is displayed in
+the traversable text child that currently has focus.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_SPIN_NEXT</systemitem> if the increment arrow is armed, or <systemitem class="Constant">XmCR_SPIN_PRIOR</systemitem> if the decrement arrow is armed.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) value of <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNvalueChangedCallback</systemitem>,
+if it exists, is called. SpinBox ignores any changes to <symbol role="Variable">position</symbol> or <symbol role="Variable">doit</symbol> members made by
+an <systemitem class="Resource">XmNvalueChangedCallback</systemitem>.</para>
+</listitem>
+</itemizedlist>
+<para>If an <systemitem class="Resource">XmNvalueChangedCallback</systemitem>
+procedure is issued after the button has been armed, regardless of the value
+of <systemitem class="Resource">XmNrepeatDelay</systemitem> or whether the <systemitem class="Resource">XmNinitialDelay</systemitem> has expired:</para>
+<itemizedlist>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_OK</systemitem>.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current value of <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNvalueChangedCallback</systemitem>,
+if it exists, is called.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</varlistentry>
+<varlistentry><term><action>SpinBFirst()</action>:</term>
+<listitem>
+<para>The following occurs:</para>
+<itemizedlist>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure, <structname role="typedef">XmSpinBoxCallbackStruct</structname>, is set to <systemitem class="Constant">XmCR_SPIN_FIRST</systemitem>.
+</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the first (0) position.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">doit</symbol> member is set to
+True.</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNmodifyVerifyCallback</systemitem>,
+if it exists, is invoked. The application may change the value of
+<symbol role="Variable">position</symbol> and <symbol role="Variable">doit</symbol>.
+If the application sets <symbol role="Variable">doit</symbol> to False, nothing
+else happens until the <systemitem class="Resource">XmNrepeatDelay</systemitem>
+period has elapsed, or until <keysym>Btn1</keysym> is released.</para>
+</listitem>
+</itemizedlist>
+<para>If <symbol role="Variable">doit</symbol> remains set to True, the following
+occurs:</para>
+<itemizedlist>
+<listitem><para>The value of <systemitem class="Resource">XmNposition</systemitem>
+is changed to the value of <symbol role="Variable">position</symbol> in the
+SpinBox callback structure.</para>
+</listitem>
+<listitem><para>The text corresponding to the new position is displayed in
+the traversable text child that currently has focus.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_SPIN_FIRST</systemitem>.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) value of <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNvalueChangedCallback</systemitem>,
+if it exists, is called.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_OK</systemitem>.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) <systemitem class="Resource">XmNposition</systemitem>
+value.</para>
+</listitem>
+<listitem><para>The <systemitem class="Resource">XmNvalueChangedCallback</systemitem>
+is called again. SpinBox ignores any changes to <symbol role="Variable">position</symbol> or <symbol role="Variable">doit</symbol> members made by <systemitem class="Resource">XmNvalueChangedCallback</systemitem>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</varlistentry>
+<varlistentry><term><action>SpinBLast()</action>:</term>
+<listitem>
+<para>The following occurs:</para>
+<itemizedlist>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure, <structname role="typedef">XmSpinBoxCallbackStruct</structname>, is set to <systemitem class="Constant">XmCR_SPIN_LAST</systemitem>.
+</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the last position.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">doit</symbol> member is set to
+True.</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNmodifyVerifyCallback</systemitem>,
+if it exists, is invoked. The application may change the value of
+<symbol role="Variable">position</symbol> and <symbol role="Variable">doit</symbol>.
+If the application sets <symbol role="Variable">doit</symbol> to False, nothing
+else happens until the <systemitem class="Resource">XmNrepeatDelay</systemitem>
+period has elapsed, or until <keysym>Btn1</keysym> is released.</para>
+</listitem>
+</itemizedlist>
+<para>If <symbol role="Variable">doit</symbol> remains set to True, the following
+occurs:</para>
+<itemizedlist>
+<listitem><para>The value of <systemitem class="Resource">XmNposition</systemitem>
+is changed to the value of <symbol role="Variable">position</symbol> in the
+SpinBox callback structure.</para>
+</listitem>
+<listitem><para>The text corresponding to the new position is displayed in
+the traversable text child that currently has focus.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_SPIN_LAST</systemitem>.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) value <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNvalueChangedCallback</systemitem>,
+if it exists, is called.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_OK</systemitem>.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) of <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNvalueChangedCallback</systemitem>
+is called again. SpinBox ignores any changes to the <symbol role="Variable">position</symbol> or <symbol role="Variable">doit</symbol> members made by
+<systemitem class="Resource">XmNvalueChangedCallback</systemitem>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</varlistentry>
+<varlistentry><term><action>SpinBLeft()</action>:</term>
+<listitem>
+<para>If the VendorShell resource <systemitem class="Resource">XmNlayoutDirection</systemitem> is left-to-right, the <literal>SpinBPrior</literal> action is
+invoked. Otherwise, the <literal>SpinBNext</literal> action is invoked.
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term><action>SpinBNext()</action>:</term>
+<listitem>
+<para>Visually arms the SpinBox by drawing the increment arrow so that it
+appears to be depressed. The following occurs:</para>
+<itemizedlist>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure, <structname role="typedef">XmSpinBoxCallbackStruct</structname>, is set to <systemitem class="Constant">XmCR_SPIN_NEXT</systemitem>.
+</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the next position.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">doit</symbol> member is set to
+True.</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNmodifyVerifyCallback</systemitem>,
+if it exists, is invoked. The application may change the value of
+<symbol role="Variable">position</symbol> and <symbol role="Variable">doit</symbol>.
+If the application sets <symbol role="Variable">doit</symbol> to False, nothing
+else happens until the <systemitem class="Resource">XmNrepeatDelay</systemitem>
+period has elapsed, or until <keysym>Btn1</keysym> is released.</para>
+</listitem>
+</itemizedlist>
+<para>If <symbol role="Variable">doit</symbol> remains set to True, the following
+occurs:</para>
+<itemizedlist>
+<listitem><para>The value of <systemitem class="Resource">XmNposition</systemitem>
+is changed to the value of <symbol role="Variable">position</symbol> in the
+SpinBox callback structure.</para>
+</listitem>
+<listitem><para>The text corresponding to the new position is displayed in
+the traversable text child that currently has focus.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_SPIN_NEXT</systemitem>.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) value of <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNvalueChangedCallback</systemitem>,
+if it exists, is called.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_OK</systemitem>.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para>The <systemitem class="Resource">XmNvalueChangedCallback</systemitem>
+is called again. SpinBox ignores any changes to <symbol role="Variable">position</symbol> or <symbol role="Variable">doit</symbol> members made by <systemitem class="Resource">XmNvalueChangedCallback</systemitem>.</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</varlistentry>
+<varlistentry><term><action>SpinBPrior()</action>:</term>
+<listitem>
+<para>Visually arms the SpinBox by drawing the decrement arrow so that it
+appears to be depressed. The following occurs:</para>
+<itemizedlist>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure, <structname role="typedef">XmSpinBoxCallbackStruct</structname>, is set to <systemitem class="Constant">XmCR_SPIN_PRIOR</systemitem>.
+</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the next position.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">doit</symbol> member is set to
+True.</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNmodifyVerifyCallback</systemitem>,
+if it exists, is invoked. The application may change the value of
+<symbol role="Variable">position</symbol> and <symbol role="Variable">doit</symbol>.
+If the application sets <symbol role="Variable">doit</symbol> to False, nothing
+else happens until the <systemitem class="Resource">XmNrepeatDelay</systemitem>
+period has elapsed, or until <keysym>Btn1</keysym> is released.</para>
+</listitem>
+</itemizedlist>
+<para>If <symbol role="Variable">doit</symbol> remains set to True, the following
+occurs:</para>
+<itemizedlist>
+<listitem><para>The value of <systemitem class="Resource">XmNposition</systemitem>
+is changed to the value of <symbol role="Variable">position</symbol> in the
+SpinBox callback structure.</para>
+</listitem>
+<listitem><para>The text corresponding to the new position is displayed in
+the traversable text child that currently has focus.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_SPIN_PRIOR</systemitem>.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) value of <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNvalueChangedCallback</systemitem>,
+if it exists, is called.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">reason</symbol> member of the
+SpinBox callback structure is set to <systemitem class="Constant">XmCR_OK</systemitem>.</para>
+</listitem>
+<listitem><para>The <symbol role="Variable">position</symbol> member is set
+to the current (new) value of <systemitem class="Resource">XmNposition</systemitem>.
+</para>
+</listitem>
+<listitem><para><systemitem class="Resource">XmNvalueChangedCallback</systemitem>
+is called again. SpinBox ignores any changes to <symbol role="Variable">position</symbol> <?Pub Caret>or <symbol role="Variable">doit</symbol> members
+made by <systemitem class="Resource">XmNvalueChangedCallback</systemitem>.
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</varlistentry>
+<varlistentry><term><action>SpinBRight()</action>:</term>
+<listitem>
+<para>If the VendorShell resource <systemitem class="Resource">XmNlayoutDirection</systemitem> is left-to-right, the <literal>SpinBNext</literal> action is
+invoked. Otherwise, the <literal>SpinBPrior</literal> action is invoked.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>RELATED</title>
+<para>&cdeman.Composite;, &cdeman.Constraint;, &cdeman.Core;,
+&cdeman.XmCreateSpinBox;,
+&cdeman.XmManager;, and
+&cdeman.XmString;.</para>
+</refsect1>
+</refentry>

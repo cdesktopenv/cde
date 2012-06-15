@@ -1,0 +1,378 @@
+<!-- $XConsortium: GetPixA.sgm /main/10 1996/10/29 16:10:26 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN253.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmGetPixmap</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmGetPixmap</Function></RefName>
+<RefPurpose>A pixmap caching function that generates a pixmap, stores it in a pixmap cache, and returns the pixmap
+<IndexTerm>
+<Primary>XmGetPixmap</Primary>
+</IndexTerm><IndexTerm>
+<Primary>pixmaps</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>Pixmap <Function>XmGetPixmap</Function></FuncDef>
+<!--<ParamDef><Replaceable>screen, image_name, foreground, background</Replaceable></ParamDef>-->
+<ParamDef>Screen *<Parameter>screen</Parameter></ParamDef>
+<ParamDef>char *<Parameter>image_name</Parameter></ParamDef>
+<ParamDef>Pixel <Parameter>foreground</Parameter></ParamDef>
+<ParamDef>Pixel <Parameter>background</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmGetPixmap</Function>
+uses the parameter data to perform a lookup in the
+pixmap cache to see if a pixmap has already been generated that
+matches the data. If one is found, a reference count is incremented
+and the pixmap is returned. Applications should use <Function>XmDestroyPixmap</Function>
+when the pixmap is no longer needed.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">screen</Symbol></Term>
+<ListItem>
+<Para>Specifies the display screen on which the pixmap is to
+be drawn.
+The depth of the pixmap is the default depth for this screen.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">image_name</Symbol></Term>
+<ListItem>
+<Para>Specifies the name of the image to be used to
+generate the pixmap
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">foreground</Symbol></Term>
+<ListItem>
+<Para>Combines the image with the <Symbol Role="Variable">foreground</Symbol> color to create the pixmap
+if the image referenced is a bit-per-pixel image
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">background</Symbol></Term>
+<ListItem>
+<Para>Combines the image with the <Symbol Role="Variable">background</Symbol> color to create the pixmap
+if the image referenced is a bit-per-pixel image
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>If a pixmap is not found, <Symbol Role="Variable">image_name</Symbol> is used to perform a lookup in
+the image cache. If an image is found, it is used to generate the pixmap,
+which is then cached and returned.
+</Para>
+<Para>If an image is not found, the
+<Symbol Role="Variable">image_name</Symbol> is used as a filename, and a search is made for
+an <Literal>X10</Literal> or <Literal>X11</Literal> bitmap file. If it is found, the file is
+read, converted into an image, and cached in the image cache. The image
+is then used to generate a pixmap, which is cached and returned.
+</Para>
+<Para>If <Symbol Role="Variable">image_name</Symbol> has a leading slash (<Filename>/</Filename>), it specifies a full
+pathname, and <Function>XmGetPixmap</Function> opens the file as specified.
+Otherwise, <Symbol Role="Variable">image_name</Symbol> specifies a filename.
+In this case, <Function>XmGetPixmap</Function> looks for the file along a search path
+specified by the <SystemItem Class="EnvironVar">XBMLANGPATH</SystemItem> environment variable or by a default
+search path, which varies depending on whether or not the
+<SystemItem Class="EnvironVar">XAPPLRESDIR</SystemItem> environment variable is set.
+The default search path contains a lot of directories.
+Therefore, <Function>XmGetPixmap</Function> will need a relatively
+long time to search through all these directories for pixmaps
+and bitmaps. Applications that use a lot of pixmaps and bitmaps
+will probably run more quickly if
+<SystemItem Class="EnvironVar">XBMLANGPATH</SystemItem> is set to a short list of directories.
+In addition to X bitmap files (XBM), Motif also supports XPM (X
+Pixmap) file formats. The <SystemItem Class="EnvironVar">XBMLANGPATH</SystemItem> specifies the path for
+both XBM and XPM files. Refer to the <Function>XmGetPixmapByDepth</Function> reference
+page for further details.
+</Para>
+<Para>The <SystemItem Class="EnvironVar">XBMLANGPATH</SystemItem> environment variable specifies a search path
+for X bitmap files.
+It can contain the substitution field <Literal>%B</Literal>, where the <Symbol Role="Variable">image_name</Symbol>
+argument to <Function>XmGetPixmap</Function> is substituted for <Literal>%B</Literal>.
+It can also contain the substitution fields accepted by
+<Function>XtResolvePathname</Function>.
+The substitution field <Literal>%T</Literal> is always mapped to <Symbol Role="Variable">bitmaps</Symbol>, and <Literal>%S</Literal> is
+always mapped to NULL.
+</Para>
+<Para>If <SystemItem Class="EnvironVar">XBMLANGPATH</SystemItem> is not set but the environment variable
+<SystemItem Class="EnvironVar">XAPPLRESDIR</SystemItem> is set, the following pathnames are searched:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><Filename>%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$XAPPLRESDIR/%L/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$XAPPLRESDIR/%l_%t/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$XAPPLRESDIR/%l/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$XAPPLRESDIR/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$XAPPLRESDIR/%L/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$XAPPLRESDIR/%l_%t/bitmaps/%B</Filename>
+</Para>
+</listitem>
+<ListItem>
+<Para><Filename>$XAPPLRESDIR/%l/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$XAPPLRESDIR/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%L/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l_%t/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%L/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l_%t/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/include/X11/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>If neither <SystemItem Class="EnvironVar">XBMLANGPATH</SystemItem> nor <SystemItem Class="EnvironVar">XAPPLRESDIR</SystemItem> is set, the
+following pathnames are searched:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><Filename>%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%L/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%l_%t/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+
+<ListItem>
+<Para><Filename>$HOME/%l/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%L/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%l_%t/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+
+<ListItem>
+<Para><Filename>$HOME/%l/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%L/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l_%t/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/bitmaps/%N/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%L/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l_%t/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/include/X11/bitmaps/%B</Filename>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>These paths are defaults that vendors may change.
+For example, a vendor may use different directories for
+<Filename>/usr/lib/X11</Filename> and <Filename>/usr/include/X11</Filename>.
+</Para>
+<Para>The following substitutions are used in these paths:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>%B</Literal></Term>
+<ListItem>
+<Para>The image name, from the <Symbol Role="Variable">image_name</Symbol> argument
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%N</Literal></Term>
+<ListItem>
+<Para>The class name of the application
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%L</Literal></Term>
+<ListItem>
+<Para>The display's language string.
+This string is influenced by <Function>XtSetLanguageProc</Function>.
+The default string is determined by
+calling <Action>setlocale(<Symbol Role="Define">LC_ALL, NULL</Symbol>)</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%l_%t</Literal></Term>
+<ListItem>
+<Para>The language and territory component of the display's language string
+</Para>
+</ListItem>
+</VarListEntry>
+
+
+<VarListEntry>
+<Term><Literal>%l</Literal></Term>
+<ListItem>
+<Para>The language component of the display's language string
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The contents of the file must conform to the rules for
+X11 bitmap files. In other words, Motif can read any X11
+conformant bitmap file.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns a pixmap when successful; returns <SystemItem Class="Constant">XmUNSPECIFIED_PIXMAP</SystemItem>
+if the image corresponding to <Symbol Role="Variable">image_name</Symbol> cannot be found.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmDestroyPixmap;,
+&cdeman.XmGetPixmapByDepth;,
+&cdeman.XmInstallImage;, and
+&cdeman.XmUninstallImage;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

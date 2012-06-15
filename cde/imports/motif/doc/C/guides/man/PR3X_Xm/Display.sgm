@@ -1,0 +1,890 @@
+<!-- $XConsortium: Display.sgm /main/17 1996/09/08 20:39:22 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN204.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmDisplay</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmDisplay</Classname></RefName>
+<RefPurpose>The Display widget class
+<IndexTerm>
+<Primary>XmDisplay</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>XmDisplay</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>#include &lt;Xm/Display.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The XmDisplay object is used by the Motif widgets to store information
+that is specific to a display. It also allows the toolkit to access
+certain information on widget hierarchies that would otherwise be
+unavailable. Each client has one XmDisplay object for each display
+it accesses.
+</Para>
+<Para>An XmDisplay object is automatically created when the application
+creates the first shell on a display (usually accomplished by a call to
+<Function>XtAppInitialize</Function> or <Function>XtAppCreateShell</Function>).
+It is not necessary to create an XmDisplay object by any other means.
+An application can use the function <Function>XmGetXmDisplay</Function> to obtain the
+widget ID of the XmDisplay object for a given display.
+</Para>
+<Para>An application cannot supply initial values for XmDisplay resources as
+arguments to a call to any function that creates widgets.
+The application or user can supply initial values in a resource file.
+After creating the first shell on the display, the application can use
+<Function>XmGetXmDisplay</Function> to obtain the widget ID of the XmDisplay object and
+then call <Function>XtSetValues</Function> to set the XmDisplay resources.
+</Para>
+<Para>XmDisplay resources specify the drag protocol style for a client
+participating in drag and drop transactions. The two basic
+protocol types are preregister and dynamic. When a preregister protocol
+is used, the toolkit handles any communication between the initiator
+and receiver clients and displays the appropriate drag-over and
+drag-under visual effects. A client registers its drop sites in
+advance and this information is stored in a property for each
+top-level window. When the drag pointer enters a top-level window,
+the drop site information is read by the initiator. A dynamic
+protocol allows the source and destination clients to dynamically
+communicate drag and drop state information between each other, and
+to update their respective visuals accordingly. The toolkit provides
+drop site information as the pointer passes over any given drop site.
+In this mode, a receiver can supply a procedure to generate its
+own drag-under effects.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>Display inherits behavior and resources from <Classname>Core</Classname>, <Classname>Composite</Classname>,
+<Classname>Shell</Classname>, <Classname>WMShell</Classname>, <Classname>VendorShell</Classname>, <Classname>TopLevelShell</Classname>, and
+<Classname>ApplicationShell</Classname> classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmDisplayClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmDisplay</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the
+programmer to specify data. The programmer can also set the resource
+values for the inherited classes to set attributes for this widget.
+To reference a resource by name or by class in a <Filename>.Xdefaults</Filename> file,
+remove the <SystemItem Class="Constant">XmN</SystemItem> or <SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters.
+To specify one of the defined values for a resource in a <Filename>.Xdefaults</Filename>
+file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use the remaining letters (in
+either lowercase or uppercase, but include any underscores between
+words). The codes in the access column indicate if the given resource
+can be set at creation time (C), set by using XtSetValues
+(S), retrieved by using XtGetValues (G), or is not
+applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmDisplay Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultButtonEmphasis</Entry>
+<Entry>XmCDefaultButtonEmphasis</Entry>
+<Entry>XtEnum</Entry>
+<Entry>XmEXTERNAL_HIGHLIGHT</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultVirtualBindings</Entry>
+<Entry>XmCDefaultVirtualBindings</Entry>
+<Entry>String</Entry>
+<Entry>dynamic</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdragInitiatorProtocolStyle</Entry>
+<Entry>XmCDragInitiatorProtocolStyle</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmDRAG_PREFER_RECEIVER</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdragReceiverProtocolStyle</Entry>
+<Entry>XmCDragReceiverProtocolStyle</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmDRAG_PREFER_DYNAMIC</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdragStartCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNenableBtn1Transfer</Entry>
+<Entry>XmCEnableBtn1Transfer</Entry>
+<Entry>XtEnum</Entry>
+<Entry>XmOFF</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNenableButtonTab</Entry>
+<Entry>XmCEnableButtonTab</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNenableDragIcon</Entry>
+<Entry>XmCEnableDragIcon</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNenableEtchedInMenu</Entry>
+<Entry>XmCEnableEtchedInMenu</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNenableToggleColor</Entry>
+<Entry>XmCEnableToggleColor</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNenableToggleVisual</Entry>
+<Entry>XmCEnableToggleVisual</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNenableUnselectableDrag</Entry>
+<Entry>XmCEnableUnselectableDrag</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNenableWarp</Entry>
+<Entry>XmCEnableWarp</Entry>
+<Entry>XtEnum</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmotifVersion</Entry>
+<Entry>XmCMotifVersion</Entry>
+<Entry>int</Entry>
+<Entry>XmVERSION</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoFontCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNnoRenditionCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultButtonEmphasis</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether to change the look of the PushButton widget and
+gadget that have the <SystemItem Class="Resource">XmNshowAsDefault</SystemItem> resource set. When the
+PushButton is the default, it has an etched out button which is
+enclosed with another etched in border. The
+<SystemItem Class="Resource">XmNdefaultButtonEmphasis</SystemItem> has the follow possible values, which
+affect the location cursor:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmINTERNAL_HIGHLIGHT</SystemItem></Term>
+<ListItem>
+<Para>Causes the location cursor to appear in between the two etched borders
+to minimize the space required.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmEXTERNAL_HIGHLIGHT</SystemItem></Term>
+<ListItem>
+<Para>Causes the PushButton to draw the location cursor outside the second border.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultVirtualBindings</SystemItem></Term>
+<ListItem>
+<Para>Specifies the default virtual bindings for the display.
+Following is an example of a specification for the
+<Literal>defaultVirtualBindings</Literal> resource in a resource file:
+</Para>
+<InformalExample>
+<ProgramListing>*defaultVirtualBindings: &bsol;
+        osfBackSpace:       &lt;Key>BackSpace       &bsol;n&bsol;
+        osfInsert:       &lt;Key>InsertChar      &bsol;n&bsol;
+        osfDelete:       &lt;Key>DeleteChar      &bsol;n&bsol;
+        ...
+        osfLeft:       &lt;Key>left, Ctrl&lt;Key>H
+</ProgramListing>
+</InformalExample>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdragInitiatorProtocolStyle</SystemItem></Term>
+<ListItem>
+<Para>Specifies the drag and drop protocol requirements or preference when
+the client is an initiator. The possible values are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_PREREGISTER</SystemItem></Term>
+<ListItem>
+<Para>As an initiator, this client does not use the dynamic protocol and
+can only arrange visual effects with receivers who provide
+preregistered information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_DYNAMIC</SystemItem></Term>
+<ListItem>
+<Para>As an initiator, this client does not make use of any preregistered
+drop site information made available by other clients, and can only
+arrange visual effects with receivers who use the dynamic protocol.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_NONE</SystemItem></Term>
+<ListItem>
+<Para>Specifies that drag and drop is disabled for this client.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_DROP_ONLY</SystemItem></Term>
+<ListItem>
+<Para>As an initiator, this client does not use either the preregistered
+drop site information or the dynamic protocol. It supports dragging,
+and any time the cursor is over a client that supports drag and
+drop, valid feedback is provided. There are no other visual effects.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_PREFER_DYNAMIC</SystemItem></Term>
+<ListItem>
+<Para>As an initiator, this client can support both the preregister and
+dynamic protocols, but prefers to use dynamic protocols whenever
+possible in order to provide high-quality drag-under feedback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_PREFER_PREREGISTER</SystemItem></Term>
+<ListItem>
+<Para>As an initiator, this client can support both the preregister and
+dynamic protocols, but prefers to use the preregister protocol
+whenever possible in order to accommodate performance needs or to
+provide consistent drag-over feedback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_PREFER_RECEIVER</SystemItem></Term>
+<ListItem>
+<Para>Indicates that this client can support both preregister and dynamic
+protocols, but will defer to the preference of the receiver client.
+This value is valid only for the <SystemItem Class="Resource">XmNdragInitiatorProtocolStyle</SystemItem>
+resource, and is its default value.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdragReceiverProtocolStyle</SystemItem></Term>
+<ListItem>
+<Para>Specifies the drag and drop protocol requirements or preference
+when this client is a receiver. The values are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_PREREGISTER</SystemItem></Term>
+<ListItem>
+<Para>As a receiver, this client preregisters drop site information and
+does not use the dynamic protocol. It can only arrange visual
+effects with initiators who make use of the preregistered information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_DYNAMIC</SystemItem></Term>
+<ListItem>
+<Para>As a receiver, this client uses the dynamic protocol and does
+not preregister drop site information. It can only arrange visual
+effects with initiators who use the dynamic protocol.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_NONE</SystemItem></Term>
+<ListItem>
+<Para>Specifies that drag and drop is disabled for this client.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_DROP_ONLY</SystemItem></Term>
+<ListItem>
+<Para>As a receiver, this client neither uses the dynamic protocol
+nor preregisters drop site information. It supports
+dropping, and when dragging over this client, valid feedback
+is always provided, but there are no other visual effects.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_PREFER_DYNAMIC</SystemItem></Term>
+<ListItem>
+<Para>As a receiver, this client can support both the preregister and
+dynamic protocols, but prefers to use the dynamic protocol whenever
+possible in order to provide high-quality drag-under feedback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDRAG_PREFER_PREREGISTER</SystemItem></Term>
+<ListItem>
+<Para>As a receiver, this client can support both the preregister and
+dynamic protocols, but prefers to use the preregister protocol
+whenever possible in order to accommodate performance
+needs.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The default value of this resource is dependent on the capabilities of
+the display. If the display supports the shape extension, allowing the
+dynamic protocol to use arbitrarily sized drag cursors, the default of
+this resource is <SystemItem Class="Constant">XmDRAG_PREFER_DYNAMIC</SystemItem>, otherwise the default is
+<SystemItem Class="Constant">XmDRAG_PREFER_PREREGISTER</SystemItem>.
+</Para>
+<Para>The actual protocol used between an initiator and a receiver
+is based on the protocol style of the receiver and initiator. The
+decision matrix is described in the following table.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="6">
+<ColSpec Colsep="1" Align="Right" Colname="1">
+<ColSpec Colsep="1" Align="Left" Colname="2">
+<ColSpec Colsep="1" Align="Left" Colname="3">
+<ColSpec Colsep="1" Align="Left" Colname="4">
+<ColSpec Align="Left" Colname="5">
+<ColSpec Colname="6">
+<TBody>
+<Row>
+<Entry Rowsep="1" Align="Center" Morerows="1"><Literal>Drag Initiator
+Protocol Style</Literal></Entry>
+<Entry Rowsep="1" Colsep="0" Align="Center" Nameend="5" Namest="2"><Literal>Drag Receiver Protocol Style</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"></Entry>
+<Entry Rowsep="1"><Literal>Preregister</Literal></Entry>
+<Entry Rowsep="1"><Literal>Prefer Preregister</Literal></Entry>
+<Entry Rowsep="1"><Literal>Prefer Dynamic</Literal></Entry>
+<Entry Rowsep="1"><Literal>Dynamic</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Preregister</Literal></Entry>
+<Entry Rowsep="1">Preregister</Entry>
+<Entry Rowsep="1">Preregister</Entry>
+<Entry Rowsep="1">Preregister</Entry>
+<Entry Rowsep="1">Drop Only</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Prefer Preregister</Literal></Entry>
+<Entry Rowsep="1">Preregister</Entry>
+<Entry Rowsep="1">Preregister</Entry>
+<Entry Rowsep="1">Preregister</Entry>
+<Entry Rowsep="1">Dynamic</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Prefer Receiver</Literal></Entry>
+<Entry Rowsep="1">Preregister</Entry>
+<Entry Rowsep="1">Preregister</Entry>
+<Entry Rowsep="1">Dynamic</Entry>
+<Entry Rowsep="1">Dynamic</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Prefer Dynamic</Literal></Entry>
+<Entry Rowsep="1">Preregister</Entry>
+<Entry Rowsep="1">Dynamic</Entry>
+<Entry Rowsep="1">Dynamic</Entry>
+<Entry Rowsep="1">Dynamic</Entry>
+</Row>
+<Row>
+<Entry><Literal>Dynamic</Literal></Entry>
+<Entry>Drop Only</Entry>
+<Entry>Dynamic</Entry>
+<Entry>Dynamic</Entry>
+<Entry>Dynamic</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The value <SystemItem Class="Constant">XmDRAG_NONE</SystemItem> does not appear in the
+matrix. When specified for either the initiator or receiver side,
+<SystemItem Class="Constant">XmDRAG_NONE</SystemItem> implies that drag and drop transactions are not
+supported. A value of <SystemItem Class="Constant">XmDRAG_DROP_ONLY</SystemItem> (Drop Only) results
+when an initiator and receiver cannot compromise protocol styles,
+that is, one client requires dynamic mode while the other
+can only support preregister mode, or if either explicitly has
+specified <SystemItem Class="Constant">XmDRAG_DROP_ONLY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdragStartCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are invoked when the
+<Function>XmDragStart</Function> function is called. The type of structure whose
+address is passed to this callback is <StructName Role="typedef">XmDragStartCallbackStruct</StructName>.
+The callback reason
+is <SystemItem Class="Constant">XmCR_DRAG_START</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNenableBtn1Transfer</SystemItem></Term>
+<ListItem>
+<Para>Specifies if selection and transfer actions are integrated on Btn1
+and extend actions are activated on Btn2. This resource
+can take the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOFF</SystemItem></Term>
+<ListItem>
+<Para>Disables integration and selection activation on Btn1.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmBUTTON2_TRANSFER</Symbol></Term>
+<ListItem>
+<Para>Enables integration and selection activation on Btn1 and transfer on Btn2.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmBUTTON2_ADJUST</Symbol></Term>
+<ListItem>
+<Para>Enables integration and selection activation on Btn1 and adjust on Btn2.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>This
+resource affects the actions of Text, TextField, List, and Container.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNenableButtonTab</SystemItem></Term>
+<ListItem>
+<Para>Specifies if the action for the
+<KeyCap>Tab</KeyCap> key (<Literal>KNextField</Literal> and <Literal>KPrevField</Literal> actions) is to be modified.
+A value of True modifies the key to move as an arrow key until the
+boundary of a tab group is reached. Then, at the boundary of the
+tab group, <Literal>KNextField</Literal> and <Literal>KPrevField</Literal> will move to the next
+or previous tab group, respectively. A value of False does not cause
+modification.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNenableDragIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies which set of icons are to be used for system default cursors
+during drag and drop operations. A value of False specifies that
+earlier versions of Motif release icons are used, a value of True
+specifies that
+alternate icons are used. This resource affects both the 16x16 and
+the 32x32 icons that the system defaults for each of the Screen
+objects associated with this display.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNenableEtchedInMenu</SystemItem></Term>
+<ListItem>
+<Para>Specifies the shadowing of the button widgets and gadgets in menus
+when the control is activated. A value of True causes the selected
+menu to be drawn with the shadow etched in; this shadow style is
+consistent with the selected appearance of other button widgets
+outside of menus. A value of False causes
+the selected menu to be draw with the shadow etched out. This
+resource affects the actions of PushButton, ToggleButton, and
+CascadeButton widgets and gadgets when they are children of Menu.
+</para>
+<para>When this resource is set, the background of a button in a menu
+uses the <systemitem class="resource">XmNselectColor</systemitem>
+(derived from the <systemitem class="resource">XmNselectPixel</systemitem>) when armed
+as a default. A <classname>PushButton</classname>
+uses the <systemitem class="resource">XmNarmColor</systemitem>
+if it is defined. A <classname>ToggleButton</classname>
+uses the <systemitem class="resource">XmNselectColor</systemitem>
+if <systemitem class="resource">XmNindicatorOn</systemitem>
+is <literal>False</literal> and <systemitem class="resource">XmNfillOnSelect</systemitem>
+is <literal>True</literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNenableToggleColor</SystemItem></Term>
+<ListItem>
+<Para>Specifies how to determine the default value of the
+<SystemItem Class="Resource">XmNselectColor</SystemItem> resource of ToggleButton and ToggleButtonGadget.
+A value of True causes the default value of <SystemItem Class="Resource">XmNselectColor</SystemItem>
+to be set to the value of <SystemItem Class="Resource">XmNhighlightColor</SystemItem>.
+A value of False causes the default value of <SystemItem Class="Resource">XmNselectColor</SystemItem>
+to be set to the value of <SystemItem Class="Resource">XmNbackground</SystemItem>.
+This resource only affects the appearance of ToggleButton
+widgets and gadgets that are in <SystemItem Class="Constant">XmONE_OF_MANY</SystemItem> or
+<SystemItem Class="Constant">XmONE_OF_MANY_ROUND</SystemItem> mode. In addition, <SystemItem Class="Resource">XmNenableToggleColor</SystemItem>
+only influences the default value of <SystemItem Class="Resource">XmNselectColor</SystemItem>. That is,
+if the user or application sets a value for <SystemItem Class="Resource">XmNselectColor</SystemItem>,
+then <SystemItem Class="Resource">XmNenableToggleColor</SystemItem> is ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNenableToggleVisual</SystemItem></Term>
+<ListItem>
+<Para>Specifies the visual appearance of the ToggleButton widget and/or
+gadget. This resource affects the default value of the ToggleButton[Gadget]
+<SystemItem Class="Resource">XmNindicatorType</SystemItem> and <SystemItem Class="Resource">XmNindicatorOn</SystemItem> resources. When the
+ToggleButton is in a RadioBox, a value of True causes the
+<SystemItem Class="Constant">XmONE_OF_MANY_ROUND</SystemItem> (a shadowed circle) to be the default.
+Otherwise, when this resource is True, the ToggleButton
+<SystemItem Class="Resource">XmNindicatorOn</SystemItem> resource causes a default of <SystemItem Class="Constant">XmN_OF_MANY</SystemItem>,
+which will be a shadowed square with a check mark (check box).
+</Para>
+<Para>A value of False causes the following:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmONE_OF_MANY</SystemItem></Term>
+<ListItem>
+<Para>Is a shadowed diamond.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmN_OF_MANY</SystemItem></Term>
+<ListItem>
+<Para>Is a shadowed square.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNenableUnselectableDrag</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether or not it is possible to drag from Label and Scale.
+A value of True enables the drag; a value of False disables it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNenableWarp</SystemItem></Term>
+<ListItem>
+<Para>Specifies if an application is allowed to warp the pointer
+from the user. A value of True enables warping, a value of False does not.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmotifVersion</SystemItem></Term>
+<ListItem>
+<Para>Specifies the current version of Motif that the current implementation
+is supposed to
+behave like. By default, this resource gets its value from release
+values in <Filename>Xm.h</Filename>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnoFontCallback</SystemItem></Term>
+<ListItem>
+<Para>This callback is called whenever a rendition attempts to load a font
+or fontset and fails. This can happen on creation if the font is
+specified as <SystemItem Class="Constant">XmLOAD_IMMEDIATE</SystemItem> or when an attempt is made to
+render an <StructName Role="typedef">XmString</StructName> using a font specified as
+<SystemItem Class="Constant">XmLOAD_DEFERRED</SystemItem>. An application can have this callback attempt
+to remedy this problem by calling <Function>XmRenditionUpdate</Function> on the input
+rendition to provide a font for the widget to use. This may be done by
+either providing an an alternative font name to be loaded using the
+<SystemItem Class="Resource">XmNfontName</SystemItem> and <SystemItem Class="Resource">XmNfontType</SystemItem> resources or with an already
+loaded font using the <SystemItem Class="Resource">XmNfont</SystemItem> resource. The callback reason is
+<SystemItem Class="Constant">XmCR_NO_FONT</SystemItem>. This callback uses the
+<StructName Role="typedef">XmDisplayCallbackStruct</StructName> structure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnoRenditionCallback</SystemItem></Term>
+<ListItem>
+<Para>This callback is called whenever an attempt is made to render a
+segment with a <Symbol Role="Define">RENDITION</Symbol> tag which does not match any renditions
+in a given render table. The callback reason is
+<SystemItem Class="Constant">XmCR_NO_RENDITION</SystemItem>. This callback uses the
+<StructName Role="typedef">XmDisplayCallbackStruct</StructName> structure.
+</Para>
+<Para>An application can have this callback attempt to remedy this problem
+by creating a new
+rendition with the given tag and adding it to <Literal>render_table</Literal>.
+</Para>
+<Para>The <SystemItem Class="Resource">XmNnoRenditionCallback</SystemItem> should deallocate the render table passed in
+in the <Literal>render_table</Literal> field of the callback structure. Note that
+the table
+will automatically be deallocated if the
+<Function>XmRenderTableAddRenditions</Function> function is
+called on it. The callback should NOT deallocate the modified render
+table that is passed back to Motif in the <Literal>render_table</Literal>
+field. If the
+application wishes to manipulate this render table further, it should
+make a copy with the <Function>XmRenderTableCopy</Function> function before returning
+from the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNuserData</SystemItem></Term>
+<ListItem>
+<Para>Specifies a client data pointer for applications. An internally
+unused resource.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>All of the superclass resources inherited by XmDisplay are
+designated N/A (not applicable).
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to the
+<SystemItem Class="Resource">XmNdragStartCallback</SystemItem> callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent  *<Symbol Role="Variable">event</Symbol>;
+        Widget <Symbol Role="Variable">timeStamp</Symbol>;
+        Boolean <Symbol Role="Variable">doit</Symbol>;
+}XmDragStartCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Indicates the ID of the widget from which the drag was initiated.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">doit</Symbol></Term>
+<ListItem>
+<Para>Is an IN/OUT member that allows the callback to determine whether to
+continue with the drag or cancel. Setting <Symbol Role="Variable">doit</Symbol> to
+False will cancel the drag. The default value is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to the
+<SystemItem Class="Resource">XmNnoFontCallback</SystemItem> and <SystemItem Class="Resource">XmNnoRenditionCallback</SystemItem> callbacks:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        XmRendition <Symbol Role="Variable">rendition</Symbol>;
+        char *<Symbol Role="Variable">font_name</Symbol>;
+        XmRenderTable <Symbol Role="Variable">render_table</Symbol>;
+        XmStringTag <Emphasis>tag</Emphasis>;
+}XmDisplayCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback. It can be NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">rendition</Symbol></Term>
+<ListItem>
+<Para>Specifies the rendition with the missing font.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">font_name</Symbol></Term>
+<ListItem>
+<Para>Specifies the name of the font or font set which could not be loaded.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>render_table</Literal></Term>
+<ListItem>
+<Para>Specifies the render table with the missing rendition.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>tag</Emphasis></Term>
+<ListItem>
+<Para>Specifies the tag of the missing rendition.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The following table describes the reasons for which the individual
+callback structure fields are valid.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry Rowsep="1"><Literal>Reason</Literal></Entry>
+<Entry Rowsep="1"><Literal>Valid Fields</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmCR_NO_FONT</Entry>
+<Entry><Emphasis>rendition, font_name</Emphasis></Entry>
+</Row>
+<Row>
+<Entry>XmCR_NO_RENDITION</Entry>
+<Entry><Emphasis>render_table, tag</Emphasis></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.ApplicationShell;,
+&cdeman.Composite;,
+&cdeman.Core;,
+&cdeman.TopLevelShell;,
+&cdeman.VendorShell;,
+&cdeman.WMShell;,
+&cdeman.XmGetXmDisplay;, and
+&cdeman.XmScreen;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

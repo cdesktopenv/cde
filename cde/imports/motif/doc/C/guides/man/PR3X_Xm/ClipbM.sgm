@@ -1,0 +1,252 @@
+<!-- $XConsortium: ClipbM.sgm /main/10 1996/09/25 10:25:05 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN98.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmClipboardStartCopy</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmClipboardStartCopy</Function></RefName>
+<RefPurpose>A clipboard function that sets up a storage and data structure
+<IndexTerm>
+<Primary>XmClipboardStartCopy</Primary>
+</IndexTerm><IndexTerm>
+<Primary>clipboard functions</Primary>
+<Secondary>XmClipboardStartCopy</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1988 by Massachusetts Institute of Technology-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/CutPaste.h>
+int XmClipboardStartCopy (<Replaceable>display, window, clip_label,
+        timestamp, widget, callback, item_id</Replaceable>)
+        Display <Replaceable>* display</Replaceable>;
+        Window  <Replaceable>window</Replaceable>;
+        XmString        <Replaceable>clip_label</Replaceable>;
+        Time    <Replaceable>timestamp</Replaceable>;
+        Widget  <Replaceable>widget</Replaceable>;
+        XmCutPasteProc  <Replaceable>callback</Replaceable>;
+        long    <Replaceable>* item_id</Replaceable>;
+</FuncSynopsisInfo>
+<FuncDef></FuncDef>
+<void>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmClipboardStartCopy</Function>
+sets up storage and data structures to receive clipboard data.
+An application calls this function during a cut or copy operation.
+The data item that these structures receive then becomes
+the next data item in the clipboard.
+</Para>
+<Para>Copying a large piece of data to the clipboard can take a long time.
+It is possible that, once the data is copied, no application will ever
+request that data. The Motif Toolkit provides a mechanism so that an
+application does not need to actually pass data to the clipboard until
+the data has been requested by some application.
+</Para>
+<Para>Instead, the application passes format and length information in
+<Function>XmClipboardCopy</Function> to the clipboard functions, along with a widget
+ID and a callback function address that is passed in
+<Function>XmClipboardStartCopy</Function>. The widget ID is necessary for
+communications between the clipboard functions in the application that
+owns the data and the clipboard functions in the application that
+requests the data.
+</Para>
+<Para>The callback functions are responsible for copying the actual data to
+the clipboard through <Function>XmClipboardCopyByName</Function>. The callback
+function is also called if the data item is removed from the clipboard
+and the actual data is no longer needed.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">display</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the <StructName Role="typedef">Display</StructName> structure that was returned in a
+previous call to <Function>XOpenDisplay</Function> or <Function>XtDisplay</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">window</Symbol></Term>
+<ListItem>
+<Para>Specifies the window ID of a widget that relates the application window to the
+clipboard. The widget's window ID can be obtained through
+<Function>XtWindow</Function>.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">clip_label</Symbol></Term>
+<ListItem>
+<Para>Specifies the label to be associated with the data item.
+This argument
+is used to identify the data item, as in a clipboard viewer.
+An example of a label is the name of the application that places the
+data in the clipboard.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">timestamp</Symbol></Term>
+<ListItem>
+<Para>Specifies the time of the event that triggered the copy.
+A valid timestamp must be supplied; it is not sufficient to use
+<SystemItem Class="Constant">CurrentTime</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the widget that receives messages requesting data
+previously passed by name. This argument must be present in order to
+pass data by name. Any valid widget ID in your application can be
+used for this purpose and all the message handling is taken care of by
+the cut and paste functions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">callback</Symbol></Term>
+<ListItem>
+<Para>Specifies the address of the callback function that is called when the
+clipboard needs data that was originally passed by name. This is also
+the callback to receive the <Symbol Role="Variable">delete</Symbol> message for items that were
+originally passed by name. This argument must be present in order to
+pass data by name.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">item_id</Symbol></Term>
+<ListItem>
+<Para>Specifies the number assigned to this data item.
+The application uses this number in calls to
+<Function>XmClipboardCopy</Function>, <Function>XmClipboardEndCopy</Function>, and
+<Function>XmClipboardCancelCopy</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>For more information on passing data by name, see
+&cdeman.XmClipboardCopy; and &cdeman.XmClipboardCopyByName;.
+</Para>
+<Para>The <Symbol Role="Variable">widget</Symbol> and <Symbol Role="Variable">callback</Symbol> arguments must be present in order to
+pass data by name. The callback format is as follows:
+</Para>
+<FuncSynopsis>
+<FuncSynopsisInfo>void (*<Replaceable>callback)</Replaceable> (<Replaceable>widget, data_id, private, reason</Replaceable>)
+        Widget  <Replaceable>widget</Replaceable>;
+        long    *<Replaceable>data_id</Replaceable>;
+        long    *<Replaceable>private</Replaceable>;
+        int     *<Replaceable>reason</Replaceable>;
+</FuncSynopsisInfo>
+<FuncDef></FuncDef>
+<void>
+</FuncSynopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the widget passed to this function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">data_id</Symbol></Term>
+<ListItem>
+<Para>Specifies the identifying number returned by
+<Function>XmClipboardCopy</Function>, which identifies the pass-by-name data.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">private</Symbol></Term>
+<ListItem>
+<Para>Specifies the private information passed to
+<Function>XmClipboardCopy</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Specifies the reason. <SystemItem Class="Constant">XmCR_CLIPBOARD_DATA_DELETE</SystemItem>
+or <SystemItem Class="Constant">XmCR_CLIPBOARD_DATA_REQUEST</SystemItem>
+are the possible values.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<VariableList>
+<VarListEntry>
+<Term><Symbol>XmClipboardSuccess</Symbol></Term>
+<ListItem>
+<Para>The function was successful.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmClipboardLocked</Symbol></Term>
+<ListItem>
+<Para>The function failed because the clipboard was locked by another
+application. The application can continue to call the function again with
+the same parameters until the lock goes away. This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmClipboardCancelCopy;, &cdeman.XmClipboardCopy;,
+&cdeman.XmClipboardCopyByName;,
+&cdeman.XmClipboardEndCopy;, &cdeman.XmClipboardEndRetrieve;,
+&cdeman.XmClipboardInquireCount;, &cdeman.XmClipboardInquireFormat;,
+&cdeman.XmClipboardInquireLength;, &cdeman.XmClipboardInquirePendingItems;,
+&cdeman.XmClipboardLock;, &cdeman.XmClipboardRegisterFormat;,
+&cdeman.XmClipboardRetrieve;,
+&cdeman.XmClipboardStartRetrieve;, &cdeman.XmClipboardUndoCopy;,
+&cdeman.XmClipboardUnlock;, and &cdeman.XmClipboardWithdrawFormat;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

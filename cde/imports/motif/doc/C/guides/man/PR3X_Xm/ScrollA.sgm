@@ -1,0 +1,1186 @@
+<!-- $XConsortium: ScrollA.sgm /main/11 1996/09/08 21:00:23 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN389.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmScrolledWindow</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmScrolledWindow</Classname></RefName>
+<RefPurpose>The ScrolledWindow widget class
+<IndexTerm>
+<Primary>XmScrolledWindow</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>ScrolledWindow</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/ScrolledW.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The ScrolledWindow widget combines one or two ScrollBar widgets and a
+viewing area to implement a visible window onto some other (usually larger)
+data display. The visible part of the window can be scrolled through the
+larger display by the use of ScrollBars.
+</Para>
+<Para>To use ScrolledWindow, an application first creates a ScrolledWindow
+widget, any needed ScrollBar widgets, and a widget capable of displaying
+any desired data as the work area of ScrolledWindow. ScrolledWindow
+positions the work area widget and displays the ScrollBars if so
+requested. When the user performs some action on the ScrollBar, the
+application is notified through the normal ScrollBar callback
+interface.
+</Para>
+<Para>ScrolledWindow can be configured to operate automatically so
+that it performs all scrolling and display actions with no need for application
+program involvement. It can also be configured to provide a minimal support
+framework in which the application is responsible for processing all user input
+and making all visual changes to the displayed data in response to that input.
+</Para>
+<Para>When ScrolledWindow is performing automatic scrolling it creates a
+clipping window and automatically creates the scroll bars.
+Conceptually, this window becomes the viewport through which
+the user examines the larger underlying data area. The application simply
+creates the desired data, then makes that data the work area of the
+ScrolledWindow.
+When the user moves the slider to change the displayed data, the
+workspace is moved under the viewing area so that a new portion of the data
+becomes visible.
+</Para>
+<Para>Sometimes it is impractical for an application to create a
+large data space and simply display it through a small clipping window. For
+example, in a text editor, creating a single data area that consisted of a
+large file would involve an undesirable amount of overhead.
+The application needs to use a ScrolledWindow
+(a small viewport onto some larger data), but needs to be notified
+when the user scrolls the viewport so it can bring in more data from
+storage and update the display area. For these cases, the ScrolledWindow can be
+configured so that it provides only visual layout support. No clipping window
+is created, and the application must maintain the data displayed in the
+work area, as well as respond to user input on the ScrollBars.
+</Para>
+<Para>The user can specify resources in a resource file for the automatically
+created widgets that contain the horizontal and vertical scrollbars
+and the clipping area of
+the ScrolledWindow widget. The names of these widgets are
+<Literal>HorScrollBar</Literal>, <Literal>VertScrollBar</Literal>, and <Literal>ClipWindow</Literal> respectively,
+and remain consistent whether created by
+<Function>XmCreateScrolledList</Function>, <Function>XmCreateScrolledText</Function> or
+<Function>XmCreateScrolledWindow</Function>.
+</Para>
+<Para>ScrolledWindow uses the <Symbol Role="Globalvar">XmQTnavigator</Symbol> trait, and
+holds the <Symbol Role="Globalvar">XmQTscrollFrame</Symbol> trait.
+</Para>
+<RefSect2>
+<Title>Descendants</Title>
+<Para>ScrolledWindow automatically creates the descendants shown in the
+following table.
+An application can use <Function>XtNameToWidget</Function> to gain access
+to the named descendant. In addition, a user or an application
+can use the named descendant when specifying resource values.
+</Para>
+<InformalTable Frame="All" Orient="Port">
+<TGroup Cols="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Align="Left" Colname="3">
+<TBody>
+<Row>
+<Entry><Literal>Named Descendant</Literal></Entry>
+<Entry><Literal>Class</Literal></Entry>
+<Entry><Literal>Identity</Literal></Entry>
+</Row>
+<Row>
+<Entry>=</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>VertScrollBar</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmScrollBar</Classname></Entry>
+<Entry Rowsep="1">vertical scroll bar</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>HorScrollBar</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmScrollBar</Classname></Entry>
+<Entry Rowsep="1">horizontal scroll bar</Entry>
+</Row>
+<Row>
+<Entry><Literal>ClipWindow</Literal></Entry>
+<Entry><Classname>XmClipWindow</Classname></Entry>
+<Entry>clip window</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>ScrolledWindow inherits behavior,
+resources, and traits from <Classname>Core</Classname>, <Classname>Composite</Classname>,
+<Classname>Constraint</Classname>, and <Classname>XmManager</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmScrolledWindowWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmScrolledWindow</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmScrolledWindow Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNautoDragModel</Entry>
+<Entry>XmCAutoDragModel</Entry>
+<Entry>XtEnum</Entry>
+<Entry>XmAUTO_DRAG_ENABLED</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNclipWindow</Entry>
+<Entry>XmCClipWindow</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNhorizontalScrollBar</Entry>
+<Entry>XmCHorizontalScrollBar</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscrollBarDisplayPolicy</Entry>
+<Entry>XmCScrollBarDisplayPolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscrollBarPlacement</Entry>
+<Entry>XmCScrollBarPlacement</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmBOTTOM_RIGHT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscrolledWindowMarginHeight</Entry>
+<Entry>XmCScrolledWindowMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscrolledWindowMarginWidth</Entry>
+<Entry>XmCScrolledWindowMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscrollingPolicy</Entry>
+<Entry>XmCScrollingPolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmAPPLICATION_DEFINED</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNspacing</Entry>
+<Entry>XmCSpacing</Entry>
+<Entry>Dimension</Entry>
+<Entry>4</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraverseObscuredCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNverticalScrollBar</Entry>
+<Entry>XmCVerticalScrollBar</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNvisualPolicy</Entry>
+<Entry>XmCVisualPolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNworkWindow</Entry>
+<Entry>XmCWorkWindow</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNautoDragModel</SystemItem></Term>
+<ListItem>
+<Para>Indicates whether automatic drag is enabled (<SystemItem Class="Constant">XmAUTO_DRAG_ENABLED</SystemItem>
+or disabled (<SystemItem Class="Constant">XmAUTO_DRAG_DISABLED</SystemItem>). By default it is enabled.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNclipWindow</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID of the clipping area. This
+is automatically created by
+ScrolledWindow when the <SystemItem Class="Resource">XmNvisualPolicy</SystemItem> resource is set to
+<SystemItem Class="Constant">XmCONSTANT</SystemItem> and
+can only be read by the application. Any attempt to set this resource to a
+new value causes a warning message to be printed by the scrolled
+window. If the <SystemItem Class="Resource">XmNvisualPolicy</SystemItem> resource is set to <SystemItem Class="Constant">XmVARIABLE</SystemItem>, this
+resource is set to NULL, and no clipping window is created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhorizontalScrollBar</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID of the horizontal ScrollBar.
+This is automatically created by ScrolledWindow when the
+<SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is initialized to <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>; otherwise,
+the default is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscrollBarDisplayPolicy</SystemItem></Term>
+<ListItem>
+<Para>Controls the automatic placement of the ScrollBars. If
+it is set to <SystemItem Class="Constant">XmAS_NEEDED</SystemItem> and if <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is
+set to <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>, ScrollBars are displayed only if the
+workspace exceeds the clip area in one or both dimensions. A resource value
+of <SystemItem Class="Constant">XmSTATIC</SystemItem> causes the ScrolledWindow
+to display the ScrollBars whenever
+they are managed, regardless of the relationship between the clip window
+and the work area. This resource must be <SystemItem Class="Constant">XmSTATIC</SystemItem> when
+<SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAPPLICATION_DEFINED</SystemItem>.
+The default is <SystemItem Class="Constant">XmAS_NEEDED</SystemItem> when <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is
+<SystemItem Class="Constant">XmAUTOMATIC</SystemItem>, and <SystemItem Class="Constant">XmSTATIC</SystemItem> otherwise.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscrollBarPlacement</SystemItem></Term>
+<ListItem>
+<Para>Specifies the positioning of the ScrollBars
+in relation to the work window. The
+values are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTOP_LEFT</SystemItem></Term>
+<ListItem>
+<Para>The horizontal ScrollBar is placed above the
+work window; the vertical ScrollBar to
+is placed the left.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBOTTOM_LEFT</SystemItem></Term>
+<ListItem>
+<Para>The horizontal ScrollBar is placed below the
+work window; the vertical ScrollBar to
+is placed the left.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTOP_RIGHT</SystemItem></Term>
+<ListItem>
+<Para>The horizontal ScrollBar is placed above the
+work window; the vertical ScrollBar to
+is placed the right.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBOTTOM_RIGHT</SystemItem></Term>
+<ListItem>
+<Para>The horizontal ScrollBar is placed below the
+work window; the vertical ScrollBar to
+is placed the right.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The default value
+depends on the value of the
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource of the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscrolledWindowMarginHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the margin height on the top and bottom of the
+ScrolledWindow.
+In order to use the autoscroll drag feature of the Motif drag and
+drop facility, a user must be able to hold a drag icon over the margin
+of a scrolled window. Though drag and drop will work with the default
+margin size of zero, a user may find it difficult to position the icon
+precisely enough to use the feature easily. The application programmer
+should ensure that the window margins are set to an adequate size, if the
+use of the autoscroll drag feature is desired.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscrolledWindowMarginWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the margin width on the right and left sides of the
+ScrolledWindow.
+Please refer to the warning concerning the default margin size for the
+<SystemItem Class="Resource">XmNscrolledWindowMarginHeight</SystemItem> resource, above.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscrollingPolicy</SystemItem></Term>
+<ListItem>
+<Para>Performs automatic scrolling of the
+work area with no application interaction. If the value of this resource
+is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>, ScrolledWindow automatically creates the
+ScrollBars; attaches callbacks to the
+ScrollBars; sets the visual policy to <SystemItem Class="Constant">XmCONSTANT</SystemItem>;
+and automatically moves the
+work area through the clip window in response to any user interaction with
+the ScrollBars. An application can also add its own callbacks to the
+ScrollBars. This allows the application to be notified of a scroll event
+without having to perform any layout procedures.
+</Para>
+<Para><Symbol Role="Define">NOTE</Symbol>: Since the
+ScrolledWindow adds callbacks to the ScrollBars, an application should not
+perform an <Function>XtRemoveAllCallbacks</Function> on any of the ScrollBar widgets.
+</Para>
+<Para>When <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is set to
+<SystemItem Class="Constant">XmAPPLICATION_DEFINED</SystemItem>, the application
+is responsible for all aspects of scrolling. The ScrollBars must be created
+by the application, and it is responsible for performing any visual changes
+in the work area in response to user input.
+</Para>
+<Para>This resource must be set to the desired policy at the time the
+ScrolledWindow is created. It cannot be changed through <Literal>SetValues</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNspacing</SystemItem></Term>
+<ListItem>
+<Para>Specifies the distance that separates the ScrollBars from the
+work window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks that is called when traversing to
+a widget or gadget that is obscured due to its position in the
+work area relative to the location of the ScrolledWindow viewport.
+This resource is valid only when <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is
+<SystemItem Class="Constant">XmAUTOMATIC</SystemItem>. If this resource is NULL, an obscured widget
+cannot be traversed to. The callback reason is
+<SystemItem Class="Constant">XmCR_OBSCURED_TRAVERSAL</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNverticalScrollBar</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID of the vertical ScrollBar.
+This is automatically created by ScrolledWindow when the
+<SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is initialized to <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>; otherwise,
+the default is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNvisualPolicy</SystemItem></Term>
+<ListItem>
+<Para>Enlarges the ScrolledWindow to match the size of the work area. It can
+also be used as a static viewport onto
+a larger data space. If the visual policy
+is <SystemItem Class="Constant">XmVARIABLE</SystemItem>, the ScrolledWindow forces the ScrollBar display
+policy to <SystemItem Class="Constant">XmSTATIC</SystemItem> and
+allows the work area to grow or shrink
+at any time and adjusts its layout to accommodate the new size. When
+the policy is <SystemItem Class="Constant">XmCONSTANT</SystemItem>, the work area grows or shrinks
+as requested, but a clipping window forces the size of the visible
+portion to remain constant. The only time the viewing area can grow is
+in response
+to a resize from the ScrolledWindow's parent.
+The default is <SystemItem Class="Constant">XmCONSTANT</SystemItem> when <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is
+<SystemItem Class="Constant">XmAUTOMATIC</SystemItem>, and <SystemItem Class="Constant">XmVARIABLE</SystemItem> otherwise.
+</Para>
+<Para><Symbol Role="Define">NOTE</Symbol>: This resource must be set to the desired policy at the time the
+ScrolledWindow is created. It cannot be changed through <Literal>SetValues</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNworkWindow</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID of the viewing area.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmScrolledWindow Constraint Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNscrolledWindowChildType</Entry>
+<Entry>XmCScrolledWindowChildType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>RESOURCE_DEFAULT</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscrolledWindowChildType</SystemItem></Term>
+<ListItem>
+<Para>Specifies what the child is. ScrolledWindow supports a number of child
+types. The possible values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmWORK_AREA</SystemItem></Term>
+<ListItem>
+<Para>Indicates a work area child. This specifies that both ScrollBars are
+limited to moving the child inside the clipping window. If the
+scrolling policy is
+<SystemItem Class="Constant">XmAUTOMATIC</SystemItem>, the work area child can move in both directions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmHOR_SCROLLBAR</SystemItem></Term>
+<ListItem>
+<Para>Indicates a horizontal child widget; the child must have the
+<Symbol Role="Globalvar">XmQTnavigator</Symbol> trait installed.
+For example, the <Classname>XmScrollBar</Classname> widget has the
+<Symbol Role="Globalvar">XmQTnavigator</Symbol> trait installed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmVERT_SCROLLBAR</SystemItem></Term>
+<ListItem>
+<Para>Indicates a vertical child widget; the child must have the
+<Symbol Role="Globalvar">XmQTnavigator</Symbol> trait installed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSCROLL_HOR</SystemItem></Term>
+<ListItem>
+<Para>Indicates that only the horizontal ScrollBar moves the child. This
+value is only meaningful if the scrolling policy is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSCROLL_VERT</SystemItem></Term>
+<ListItem>
+<Para>Indicates that only the vertical ScrollBar moves the child. This
+value is only meaningful if the scrolling policy is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmNO_SCROLL</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the child does not move with the ScrollBars. This
+value is only meaningful if the scrolling policy is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>ScrolledWindow inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>The application must use the ScrollBar callbacks to be notified of user
+input.
+</Para>
+<Para>ScrolledWindow defines a callback structure
+for use with <SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem> callbacks. The
+<SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem> resource provides a mechanism
+for traversal to obscured widgets (or gadgets) due to their
+position in the work area of a ScrolledWindow. The
+<SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem> routine has responsibility
+for adjusting the position of the work area such that the
+specified traversal destination widget is positioned within
+the viewport of the ScrolledWindow. A NULL <SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem>
+resource causes obscured widgets within the ScrolledWindow
+to be nontraversable.
+</Para>
+<Para>Traversal to an obscured widget or gadget requires these
+conditions to be met: the widget or gadget can be obscured
+only due to its position in the work area of a ScrolledWindow
+relative to the viewport; the viewport of the associated ScrolledWindow is
+fully visible, or can be made so by virtue of ancestral
+<SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem> routines; and the
+<SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem> resource must be non-NULL.
+</Para>
+<Para>When ScrolledWindow widgets are nested, the
+<SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem> routine for each ScrolledWindow
+that obscures the traversal destination is called in ascending order
+within the given hierarchy.
+</Para>
+<Para>A pointer to the following structure is passed to callbacks
+for <SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem>.
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>:
+        Widget <Symbol Role="Variable">traversal_destination</Symbol>;
+        XmTraversalDirection <Emphasis>direction</Emphasis>;
+} XmTraverseObscuredCallbackStruct;</Synopsis>
+<!--no-op:  .fi-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">traversal_destination</Symbol></Term>
+<ListItem>
+<Para>Specifies the widget or gadget to traverse to, which will
+be a descendant of the work window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>direction</Emphasis></Term>
+<ListItem>
+<Para>Specifies the direction of traversal. See
+the description of the <Emphasis>direction</Emphasis> parameter in
+the <Function>XmProcessTraversal</Function> reference page for an explanation
+of the valid values.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmScrolledWindow -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para><Classname>XmScrolledWindow</Classname> includes the translations from <Classname>XmManager</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>This widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfPageUp</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>,
+scrolls the window up the height of the viewport.
+The distance scrolled may be reduced to provide some overlap.
+The actual distance scrolled depends on the
+<SystemItem Class="Resource">XmNpageIncrement</SystemItem> resource of the vertical ScrollBar.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfPageDown</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>,
+scrolls the window down the height of the viewport.
+The distance scrolled may be reduced to provide some overlap.
+The actual distance scrolled depends on the
+<SystemItem Class="Resource">XmNpageIncrement</SystemItem> resource of the vertical ScrollBar.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfPageLeft</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>,
+scrolls the window left the width of the viewport.
+The distance scrolled may be reduced to provide some overlap.
+The actual distance scrolled depends on the
+<SystemItem Class="Resource">XmNpageIncrement</SystemItem> resource of the horizontal ScrollBar.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfPageRight</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>,
+scrolls the window right the width of the viewport.
+The distance scrolled may be reduced to provide some overlap.
+The actual distance scrolled depends on the
+<SystemItem Class="Resource">XmNpageIncrement</SystemItem> resource of the horizontal ScrollBar.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfBeginLine</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>,
+scrolls the window horizontally to the edge corresponding to the
+horizontal ScrollBar's minimum value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfEndLine</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>,
+scrolls the window horizontally to the edge corresponding to the
+horizontal ScrollBar's maximum value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfBeginData</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>,
+scrolls the window vertically to the edge corresponding to the
+vertical ScrollBar's minimum value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfEndData</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem>,
+scrolls the window vertically to the edge corresponding to the
+vertical ScrollBar's maximum value.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Certain applications will want to replace the page bindings with
+ones that are specific to the content of the scrolled area.
+<!--.SS "Geometry Management"
+ScrolledWindow makes extensive use of the &bsol;*LXtQueryGeometry&bsol;*O
+functionality to facilitate geometry communication between
+application levels.  In the &bsol;*LXmAPPLICATION_DEFINED&bsol;*O scrolling
+policy, the WorkWindow's query procedure is called by the
+ScrolledWindow whenever the ScrolledWindow is going to change
+its size.  The widget calculates the largest possible
+workspace area and passes this size to the WorkWindow widget's
+query procedure.  The query procedure can then examine this new
+size and determine if any changes, such as
+managing or unmanaging a ScrollBar, are necessary.  The query procedure
+performs whatever actions it needs and then returns to the
+ScrolledWindow.  The ScrolledWindow then examines the
+ScrollBars to see which (if any) are managed, allocates a
+portion of the visible space for them, and resizes the
+WorkWindow to fit in the rest of the space.
+.PP
+When the scrolling policy is &bsol;*LXmCONSTANT&bsol;*O, the ScrolledWindow can
+be queried to return the optimal size for a given dimension.
+The optimal size is defined to be the size that just
+encloses the WorkWindow.  By using this mechanism, an application
+can size the ScrolledWindow so that it needs to display a
+ScrollBar only for one dimension.  When the ScrolledWindow's query
+procedure is called via &bsol;*LXtQueryGeometry&bsol;*O, the request is examined
+to see if the width or height has been specified.  If so, the
+routine uses the given dimension as the basis for its
+calculations.  It determines the minimum value for the other
+dimension that just encloses the WorkWindow, fills in the
+appropriate elements in the reply structure, and returns to the
+calling program.  Occasionally, using the specified width or
+height and the other minimum dimension results in neither
+ScrollBar appearing.  When this happens, the query procedure
+sets both the width and height fields, indicating that in
+this situation the ideal size causes a change in both
+dimensions.  If the calling application sets both the width and
+height fields, the ScrolledWindow determines the minimum
+size for both dimensions and return those values in the reply
+structure.
+--></Para>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;,
+&cdeman.Constraint;,
+&cdeman.Core;,
+&cdeman.XmCreateScrolledWindow;,
+&cdeman.XmManager;,
+&cdeman.XmProcessTraversal;,
+&cdeman.XmScrollBar;,
+&cdeman.XmScrollVisible;, and
+&cdeman.XmScrolledWindowSetAreas;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

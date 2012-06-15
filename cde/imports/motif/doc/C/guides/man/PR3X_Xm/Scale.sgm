@@ -1,0 +1,1746 @@
+<!-- $XConsortium: Scale.sgm /main/13 1996/09/30 13:14:06 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN380.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmScale</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmScale</Classname></RefName>
+<RefPurpose>The Scale widget class
+<IndexTerm>
+<Primary>XmScale</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>Scale</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/Scale.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>Scale is used by an application to indicate a
+value from within a range of values, and it allows the user to input or modify
+a value from the same range.
+</Para>
+<Para>A Scale has an elongated rectangular region similar to a
+ScrollBar. A slider inside this region
+indicates the current value along the Scale. The user can also
+modify the Scale's value by moving the slider within the
+rectangular region of the Scale. A Scale can also include a label set
+located outside the Scale region.
+These can indicate the relative value at various positions
+along the scale.
+The placement of this label depends on the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem>
+resource of the widget.
+</Para>
+<Para>A Scale can be either input/output or output only. An input/output
+Scale's value can be set by the application and also
+modified by the user with the slider. An output-only Scale
+is used strictly as an indicator of the current value of something
+and cannot be modified interactively by the user.
+The <Classname>XmScale</Classname> resource <SystemItem Class="Resource">XmNeditable</SystemItem> specifies whether the user can
+interactively modify the Scale's value.
+</Para>
+<Para>The user can specify resources in a resource file for the automatically
+created gadget that contains the title of the Scale widget. The name of the
+gadget is <Literal>Title</Literal>.
+The placement of the title depends on the
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem>
+resource of the widget. The direction of the title is based on
+the widget's layout direction.
+</Para>
+<Para>Scale uses the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait, and
+holds the <Symbol Role="Globalvar">XmQTtransfer</Symbol> trait.
+</Para>
+<RefSect2>
+<Title>Data Transfer Behavior</Title>
+<Para>Scale supports dragging of the representation of the Scale value from
+the Scale when the value is displayed
+and when the value of the <SystemItem Class="Resource">XmNenableUnselectableDrag</SystemItem> resource
+of <Classname>XmDisplay</Classname> is set to True.
+</Para>
+<Para>As a source of data, Scale supports the following targets and associated
+conversions of data to these targets:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Define">COMPOUND_TEXT</Symbol></Term>
+<ListItem>
+<Para>The widget transfers a string representation of <SystemItem Class="Resource">XmNvalue</SystemItem> as type
+<Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">STRING</Symbol></Term>
+<ListItem>
+<Para>The widget transfers a string representation of <SystemItem Class="Resource">XmNvalue</SystemItem> as type
+<Symbol Role="Define">STRING</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_CLIPBOARD_TARGETS</Property></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets it
+supports for the <Symbol Role="Define">CLIPBOARD</Symbol> selection.
+These include <Symbol Role="Define">STRING</Symbol> and <Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_EXPORT_TARGETS</Property></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets to be
+used as the value of the DragContext's <SystemItem Class="Resource">XmNexportTargets</SystemItem> in a
+drag-and-drop transfer.
+These include <Symbol Role="Define">STRING</Symbol> and <Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>As a source of data, Scale also supports the following standard Motif
+targets:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Define">BACKGROUND</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNbackground</SystemItem> as type <Symbol Role="Define">PIXEL</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">CLASS</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy that has a
+<Property>WM_CLASS</Property> property and transfers the contents as text in the
+current locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">CLIENT_WINDOW</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy and transfers
+its window as type <Symbol Role="Define">WINDOW</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">COLORMAP</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNcolormap</SystemItem> as type <Symbol Role="Define">COLORMAP</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">FOREGROUND</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNforeground</SystemItem> as type <Symbol Role="Define">PIXEL</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">NAME</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy that has a
+<Property>WM_NAME</Property> property and transfers the contents as text in the current
+locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TARGETS</Symbol></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets it
+supports.
+These include the standard targets in this list.
+These also include <Symbol Role="Define">STRING</Symbol> and <Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TIMESTAMP</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the timestamp used to acquire the selection as type
+<Symbol Role="Define">INTEGER</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_RENDER_TABLE</Property></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNrenderTable</SystemItem> if it exists, or else the
+default text render table, as type <Symbol Role="Define">STRING</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_ENCODING_REGISTRY</Property></Term>
+<ListItem>
+<Para>The widget transfers its encoding registry as type <Symbol Role="Define">STRING</Symbol>.
+The value is a list of NULL separated items in the
+form of tag encoding pairs.
+This target symbolizes the transfer target for the
+Motif Segment Encoding Registry.
+Widgets and applications can use this Registry to register
+text encoding formats for specified render table tags.
+Applications access this Registry by calling
+<Function>XmRegisterSegmentEncoding</Function> and <Function>XmMapSegmentEncoding</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Descendants</Title>
+<Para>Scale automatically creates the descendants shown in the
+following table.
+An application can use <Function>XtNameToWidget</Function> to gain access
+to the named descendant. In addition, a user or an application
+can use the named descendant when specifying resource values.
+</Para>
+<InformalTable Frame="All" Orient="Port">
+<TGroup Cols="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Align="Left" Colname="3">
+<TBody>
+<Row>
+<Entry><Literal>Named Descendant</Literal></Entry>
+<Entry><Literal>Class</Literal></Entry>
+<Entry><Literal>Identity</Literal></Entry>
+</Row>
+<Row>
+<Entry>=</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Scrollbar</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmScrollBar</Classname></Entry>
+<Entry Rowsep="1">scroll bar</Entry>
+</Row>
+<Row>
+<Entry><Literal>Title</Literal></Entry>
+<Entry><Classname>XmLabelGadget</Classname></Entry>
+<Entry>title of scale</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>Scale inherits behavior, resources, and traits from
+<Classname>Core</Classname>, <Classname>Composite</Classname>, <Classname>Constraint</Classname>, and <Classname>XmManager</Classname>
+classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmScaleWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmScale</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmScale Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNconvertCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdecimalPoints</Entry>
+<Entry>XmCDecimalPoints</Entry>
+<Entry>short</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdragCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNeditable</Entry>
+<Entry>XmCEditable</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfontList</Entry>
+<Entry>XmCFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightOnEnter</Entry>
+<Entry>XmCHighlightOnEnter</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightThickness</Entry>
+<Entry>XmCHighlightThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaximum</Entry>
+<Entry>XmCMaximum</Entry>
+<Entry>int</Entry>
+<Entry>100</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminimum</Entry>
+<Entry>XmCMinimum</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNorientation</Entry>
+<Entry>XmCOrientation</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmVERTICAL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNprocessingDirection</Entry>
+<Entry>XmCProcessingDirection</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscaleHeight</Entry>
+<Entry>XmCScaleHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscaleMultiple</Entry>
+<Entry>XmCScaleMultiple</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscaleWidth</Entry>
+<Entry>XmCScaleWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrenderTable</Entry>
+<Entry>XmCRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshowArrows</Entry>
+<Entry>XmCShowArrows</Entry>
+<Entry>XtEnum</Entry>
+<Entry>XmNONE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshowValue</Entry>
+<Entry>XmCShowValue</Entry>
+<Entry>XtEnum</Entry>
+<Entry>XmNONE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsliderMark</Entry>
+<Entry>XmCSliderMark</Entry>
+<Entry>XtEnum</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsliderVisual</Entry>
+<Entry>XmCSliderVisual</Entry>
+<Entry>XtEnum</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNslidingMode</Entry>
+<Entry>XmCSlidingMode</Entry>
+<Entry>XtEnum</Entry>
+<Entry>XmSLIDER</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtitleString</Entry>
+<Entry>XmCTitleString</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNvalue</Entry>
+<Entry>XmCValue</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNvalueChangedCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNconvertCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks called when the Scale is asked to convert
+a selection.
+The type of the structure whose address is passed to these callbacks is
+<StructName Role="typedef">XmConvertCallbackStruct</StructName>.
+The reason is <SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdecimalPoints</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of decimal points to shift the slider value when
+displaying it. For example, a slider value of 2,350
+and an <Literal>XmdecimalPoints</Literal>
+value of 2 results in a display value of 23.50.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdragCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called
+when the slider position changes as the slider is being
+dragged. The reason sent by the callback is <SystemItem Class="Constant">XmCR_DRAG</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNeditable</SystemItem></Term>
+<ListItem>
+<Para>Specifies how the Scale scrollbar will react to user input. This
+resource can be True or False values, as follows:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">True</SystemItem></Term>
+<ListItem>
+<Para>Allows the scrollbar to be sensitive to user input. This is the
+default value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">False</SystemItem></Term>
+<ListItem>
+<Para>Makes the Scale scrollbar insensitive to user input. The visual is not
+greyed out. This value would mostly be used in <SystemItem Class="Constant">XmTHERMOMETER</SystemItem>
+mode.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<para>
+When <SystemItem Class="Resource">XmNeditable</SystemItem> is used on a widget
+it sets the dropsite to <SystemItem Class="Constant">XmDROP_SITE_ACTIVE</SystemItem>.
+</PARA>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list to use for the title text string specified by
+<SystemItem Class="Resource">XmNtitleString</SystemItem>, and the label displayed when <SystemItem Class="Resource">XmNshowValue</SystemItem>
+is True. The font list is an obsolete structure, and is retained only
+for compatibility with earlier releases of Motif. See the
+<SystemItem Class="Resource">XmNrenderTable</SystemItem> resource.
+<!--If the value of the
+&bsol;*LXmNfontList&bsol;*O is NULL at initialization, the parent hierarchy is
+searched for an ancestor that holds the &bsol;*LXmQTspecifyRenderTable&bsol;*O
+trait.  If such an ancestor is found, the font list is initialized to
+the &bsol;*LXmLABEL_RENDER_TABLE&bsol;*O value of the ancestor widget.  If no
+such ancestor is found, the default is implementation dependent. If a
+font list and a render table (&bsol;*LXmNrenderTable&bsol;*O) are both
+specified, the render table will take precedence. Refer to
+&bsol;*LXmFontList(3X)&bsol;*O for more information on the creation and
+structure of a font list.
+--></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhighlightOnEnter</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether the highlighting rectangle is drawn when the cursor moves
+into the widget.
+If the shell's focus policy is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, this resource is
+ignored, and the widget is highlighted when it has the focus.
+If the shell's focus policy
+is <SystemItem Class="Constant">XmPOINTER</SystemItem> and if this resource is
+True, the highlighting rectangle is drawn when the the cursor moves into
+the widget.
+If the shell's focus
+policy is <SystemItem Class="Constant">XmPOINTER</SystemItem> and if this resource is
+False, the highlighting rectangle is not drawn when the the cursor moves
+into the widget.
+The default is False.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhighlightThickness</SystemItem></Term>
+<ListItem>
+<Para>Specifies the size of the
+slider's border drawing rectangle used for enter window and
+traversal highlight drawing.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmaximum</SystemItem></Term>
+<ListItem>
+<Para>Specifies the slider's maximum value.
+<SystemItem Class="Resource">XmNmaximum</SystemItem> must be greater than <SystemItem Class="Resource">XmNminimum</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNminimum</SystemItem></Term>
+<ListItem>
+<Para>Specifies the slider's minimum value.
+<SystemItem Class="Resource">XmNmaximum</SystemItem> must be greater than <SystemItem Class="Resource">XmNminimum</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNorientation</SystemItem></Term>
+<ListItem>
+<Para>Displays Scale vertically or horizontally.
+This resource can have values of <SystemItem Class="Constant">XmVERTICAL</SystemItem> and <SystemItem Class="Constant">XmHORIZONTAL</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNprocessingDirection</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether the value for <SystemItem Class="Resource">XmNmaximum</SystemItem> is on the right or
+left side of <SystemItem Class="Resource">XmNminimum</SystemItem> for horizontal Scales
+or above or below <SystemItem Class="Resource">XmNminimum</SystemItem> for vertical Scales.
+This resource can have values of <Literal>XmMAX_ON_TOP, XmMAX_ON_BOTTOM,
+XmMAX_ON_LEFT</Literal>, and <SystemItem Class="Constant">XmMAX_ON_RIGHT</SystemItem>.
+If the Scale is oriented vertically, the default value is
+<SystemItem Class="Constant">XmMAX_ON_TOP</SystemItem>.
+If the XmScale is oriented horizontally, the default value
+depends on the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource of the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table to use for the title text string specified
+by <SystemItem Class="Resource">XmNtitleString</SystemItem>, and the label displayed when
+<SystemItem Class="Resource">XmNshowValue</SystemItem> is True. If this value is NULL at initialization,
+the parent hierarchy is searched for an ancestor that holds the
+<Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait. If such an ancestor is found, the
+render table is initialized to the <SystemItem Class="Constant">XmLABEL_RENDER_TABLE</SystemItem> value of
+the ancestor widget. If no such ancestor is found, the default is
+implementation dependent. If a font list (<SystemItem Class="Resource">XmNfontList</SystemItem>) and a
+render table are both specified, the render table will take
+precedence. Refer to &cdeman.XmRenderTable; for more information on
+the creation and structure of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscaleHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the height of the slider area.
+The value should be in the specified unit type (the default is pixels).
+If no value is specified a default height is computed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscaleMultiple</SystemItem></Term>
+<ListItem>
+<Para>Specifies the amount to move the slider when the user takes an action
+that moves the slider by a multiple increment.
+The default is (<SystemItem Class="Resource">XmNmaximum</SystemItem> &minus; <SystemItem Class="Resource">XmNminimum</SystemItem>) divided by 10,
+with a minimum of 1.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscaleWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the width of the slider area.
+The value should be in the specified unit type (the default is pixels).
+If no value is specified a default width is computed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNshowArrows</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether the arrows are displayed
+and how they are to be displayed. This resource can take the
+following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmEACH_SIDE</SystemItem></Term>
+<ListItem>
+<Para>Indicates that one arrow is displayed on each end of the ScrollBar slider.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMAX_SIDE</SystemItem></Term>
+<ListItem>
+<Para>Indicates that one arrow is displayed on the <SystemItem Class="Resource">XmNmaximum</SystemItem> side of
+the ScrollBar slider.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMIN_SIDE</SystemItem></Term>
+<ListItem>
+<Para>Indicates that one arrow is displayed on the <SystemItem Class="Resource">XmNminimum</SystemItem> side of
+the ScrollBar slider.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmNONE</SystemItem></Term>
+<ListItem>
+<Para>Indicates that no arrows are displayed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para><SystemItem Class="Constant">XmNONE</SystemItem> is the default value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNshowValue</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether a label for the current slider
+value should be displayed next to the slider. If the value is
+<SystemItem Class="Constant">XmNEAR_SLIDER</SystemItem>, the current slider value is displayed. If the
+value is <SystemItem Class="Constant">XmNONE</SystemItem>, no slider value is displayed.
+If the value is <SystemItem Class="Constant">XmNEAR_BORDER</SystemItem>, the current slider value is
+displayed near the border.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsliderMark</SystemItem></Term>
+<ListItem>
+<Para>Specifies the shape the slider is to be displayed in. This resource
+can take the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmETCHED_LINE</SystemItem></Term>
+<ListItem>
+<Para>Specifies the slider as an etched line. This is the default when
+<SystemItem Class="Resource">XmNslidingMode</SystemItem> is <SystemItem Class="Constant">XmSLIDER</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmNONE</SystemItem></Term>
+<ListItem>
+<Para>Specifies the slider as a foregrounded rectangle. This is the default when
+<SystemItem Class="Resource">XmNslidingMode</SystemItem> is <SystemItem Class="Constant">XmTHERMOMETER</SystemItem> and the Scale scrollbar is
+insensitive to user input (<SystemItem Class="Resource">XmNeditable</SystemItem> is <SystemItem Class="Constant">False</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmROUND_MARK</SystemItem></Term>
+<ListItem>
+<Para>Specifies the slider as a shadowed circle. This is the default when
+<SystemItem Class="Resource">XmNslidingMode</SystemItem> is <SystemItem Class="Constant">XmTHERMOMETER</SystemItem> and the Scale scrollbar is
+sensitive to user input (<SystemItem Class="Resource">XmNeditable</SystemItem> is <SystemItem Class="Constant">True</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTHUMB_MARK</SystemItem></Term>
+<ListItem>
+<Para>Specifies the slider as a series of three etched lines centered in the
+middle of the slider.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNslidingMode</SystemItem></Term>
+<ListItem>
+<Para>Specifies the mode the slider works in. There are two possible modes:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSLIDER</SystemItem></Term>
+<ListItem>
+<Para>Allows the slider to move freely between the minimum and maximum ends
+of the scale. This is the default value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTHERMOMETER</SystemItem></Term>
+<ListItem>
+<Para>Forces the slider to be anchored to one side of the trough area.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsliderVisual</SystemItem></Term>
+<ListItem>
+<Para>Specifies the color of the slider visual.
+This resource can take
+the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBACKGROUND_COLOR</SystemItem></Term>
+<ListItem>
+<Para>Specifies that the slider visual is in the background color.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmFOREGROUND_COLOR</SystemItem></Term>
+<ListItem>
+<Para>Specifies that the slider visual is in the foreground color.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSHADOWED_BACKGROUND</SystemItem></Term>
+<ListItem>
+<Para>Specifies that the slider visual is in the background color, with a shadow.
+This is the
+default when the <Symbol>XmNslidingModel</Symbol> resource is <SystemItem Class="Constant">XmSLIDER</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTROUGH_COLOR</SystemItem></Term>
+<ListItem>
+<Para>Specifies that the slider visual is in the trough color. This is the
+default when the <Symbol>XmNslidingModel</Symbol> resource is <SystemItem Class="Constant">XmTHERMOMETER</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtitleString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the title text string to appear in the Scale widget window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNvalue</SystemItem></Term>
+<ListItem>
+<Para>Specifies the slider's current position along the scale,
+between <SystemItem Class="Resource">XmNminimum</SystemItem> and <SystemItem Class="Resource">XmNmaximum</SystemItem>.
+The value is constrained to be within these inclusive bounds.
+The initial value of this resource is the larger of 0 (zero)
+and <SystemItem Class="Resource">XmNminimum</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called
+when the value of the slider has changed. The reason
+sent by the callback is <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>Scale inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to the
+<SystemItem Class="Resource">XmNdragCallback</SystemItem> and <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> procedures:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">* event</Symbol>;
+        int <Symbol Role="Variable">value</Symbol>;
+} XmScaleCallbackStruct;</Synopsis>
+<!--no-op:  .fi-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value</Symbol></Term>
+<ListItem>
+<Para>Is the new slider value
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to the
+<SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Atom <Symbol Role="Variable">selection</Symbol>;
+        Atom <Symbol Role="Variable">target</Symbol>;
+        XtPointer <Symbol Role="Variable">source_data</Symbol>;
+        XtPointer <Symbol Role="Variable">location_data</Symbol>;
+        int <Symbol Role="Variable">flags</Symbol>;
+        XtPointer <Symbol Role="Variable">parm</Symbol>;
+        int <Symbol Role="Variable">parm_format</Symbol>;
+        unsigned long <Symbol Role="Variable">parm_length</Symbol>;
+        int <Symbol Role="Variable">status</Symbol>;
+        XtPointer <Symbol Role="Variable">value</Symbol>;
+        Atom <Symbol Role="Variable">type</Symbol>;
+        int <Symbol Role="Variable">format</Symbol>;
+        unsigned long <Symbol Role="Variable">length</Symbol>;
+} XmConvertCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+It can be NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selection</Symbol></Term>
+<ListItem>
+<Para>Indicates the selection for which conversion is being requested.
+Possible values are <Symbol Role="Define">CLIPBOARD</Symbol>, <Symbol Role="Define">PRIMARY</Symbol>, <Symbol Role="Define">SECONDARY</Symbol>,
+and <Property>_MOTIF_DROP</Property>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">target</Symbol></Term>
+<ListItem>
+<Para>Indicates the conversion target.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">source_data</Symbol></Term>
+<ListItem>
+<Para>Contains information about the selection source.
+When the selection is <Property>_MOTIF_DROP</Property>, <Symbol Role="Variable">source_data</Symbol> is the
+DragContext.
+Otherwise, it is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>location_data</Literal></Term>
+<ListItem>
+<Para>Contains information about the location of data to be converted.
+If the value is NULL, the data to be transferred consists of the
+widget's current selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">flags</Symbol></Term>
+<ListItem>
+<Para>Indicates the status of the conversion. Following are the possible
+values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_NONE</SystemItem></Term>
+<ListItem>
+<Para>This flag is currently unused.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_PARTIAL</SystemItem></Term>
+<ListItem>
+<Para>The target widget was able to be converted, but some data was lost.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_SAME</SystemItem></Term>
+<ListItem>
+<Para>The conversion target is the source of the data to be transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_TRANSACT</SystemItem></Term>
+<ListItem>
+<Para>This flag is currently unused.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parm</Symbol></Term>
+<ListItem>
+<Para>Contains parameter data for this target.
+If no parameter data exists, the value is NULL.
+</Para>
+<Para>When <Symbol Role="Variable">selection</Symbol> is <Symbol Role="Define">CLIPBOARD</Symbol> and <Symbol Role="Variable">target</Symbol> is
+<Property>_MOTIF_CLIPBOARD_TARGETS</Property> or
+<Property>_MOTIF_DEFERRED_CLIPBOARD_TARGETS</Property>, the value is the requested
+operation (<SystemItem Class="Constant">XmCOPY</SystemItem>, <SystemItem Class="Constant">XmMOVE</SystemItem>, or <SystemItem Class="Constant">XmLINK</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parm_format</Symbol></Term>
+<ListItem>
+<Para>Specifies whether the data in <Symbol Role="Variable">parm</Symbol> should be viewed
+as a list of <Symbol Role="Variable">char</Symbol>, <Symbol Role="Variable">short</Symbol>, or <Symbol Role="Variable">long</Symbol> quantities.
+Possible values are 0 (when <Symbol Role="Variable">parm</Symbol> is NULL),
+8 (when the data in <Symbol Role="Variable">parm</Symbol> should be viewed as a list of <Symbol Role="Variable">char</Symbol>s),
+16 (when the data in <Symbol Role="Variable">parm</Symbol> should be viewed as a list of <Symbol Role="Variable">short</Symbol>s),
+or 32 (when the data in <Symbol Role="Variable">parm</Symbol> should be viewed as a list of <Symbol Role="Variable">long</Symbol>s).
+Note that <Symbol Role="Variable">parm_format</Symbol> symbolizes a data type, not the number of bits
+in each list element.
+For example, on some machines, a <Symbol Role="Variable">parm_format</Symbol> of 32 means that
+the data in <Symbol Role="Variable">parm</Symbol> should be viewed as a list of 64-bit quantities,
+not 32-bit quantities.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parm_length</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of elements of data in <Symbol Role="Variable">parm</Symbol>, where each
+element has the size specified by <Symbol Role="Variable">parm_format</Symbol>.
+When <Symbol Role="Variable">parm</Symbol> is NULL, the value is 0.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">status</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT member that specifies the status of the conversion.
+The initial value is <SystemItem Class="Constant">XmCONVERT_DEFAULT</SystemItem>.
+The callback procedure can set this member to one of the following
+values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERT_DEFAULT</SystemItem></Term>
+<ListItem>
+<Para>This value means that the widget class conversion procedure, if any, is
+called after the callback procedures return.
+If the widget class conversion procedure produces any data, it
+overwrites the data provided by the callback procedures in the <Symbol Role="Variable">value</Symbol>
+member.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERT_MERGE</SystemItem></Term>
+<ListItem>
+<Para>This value means that the widget class conversion procedure, if any, is
+called after the callback procedures return.
+If the widget class conversion procedure produces any data, it appends
+its data to the data provided by the callback procedures in the
+<Symbol Role="Variable">value</Symbol> member.
+This value is intended for use with targets that result in lists of
+data, such as <Symbol Role="Define">TARGETS</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERT_DONE</SystemItem></Term>
+<ListItem>
+<Para>This value means that the callback procedure has successfully finished
+the conversion.
+The widget class conversion procedure, if any, is not called after the
+callback procedures return.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERT_REFUSE</SystemItem></Term>
+<ListItem>
+<Para>This value means that the callback procedure has terminated the
+conversion process without completing the requested conversion.
+The widget class conversion procedure, if any, is not called after the
+callback procedures return.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT parameter that contains any data that the callback procedure
+produces as a result of the conversion.
+The initial value is NULL.
+If the callback procedure sets this member, it must ensure that the
+<Symbol Role="Variable">type</Symbol>, <Symbol Role="Variable">format</Symbol>, and <Symbol Role="Variable">length</Symbol> members correspond
+to the data in <Symbol Role="Variable">value</Symbol>.
+The callback procedure is responsible for allocating, but not for
+freeing, memory when it sets this member.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">type</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT parameter that indicates the type of the data in the
+<Symbol Role="Variable">value</Symbol> member.
+The initial value is <Symbol Role="Define">INTEGER</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">format</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT parameter that specifies whether the data in <Symbol Role="Variable">value</Symbol> should
+be viewed as a list of <Symbol Role="Variable">char</Symbol>, <Symbol Role="Variable">short</Symbol>, or <Symbol Role="Variable">long</Symbol> quantities.
+The initial value is 8.
+The callback procedure can set this member to 8 (for a list of <Symbol Role="Variable">char</Symbol>),
+16 (for a list of <Symbol Role="Variable">short</Symbol>), or 32 (for a list of <Symbol Role="Variable">long</Symbol>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">length</Symbol></Term>
+<ListItem>
+<Para>An IN/OUT member that specifies the number of elements of data in
+<Symbol Role="Variable">value</Symbol>, where each element has the size symbolized by <Symbol Role="Variable">format</Symbol>.
+The initial value is 0.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmScale -->
+</RefSect2>
+<RefSect2>
+<Title>Behavior</Title>
+<Para>XmScale has the following behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Btn1Down</KeySym>&ensp;or&ensp;<KeySym>Btn2Down</KeySym>:</Term>
+<ListItem>
+<Para><Literal>In the region between an end of the Scale and the slider</Literal>:
+Moves the slider by one multiple increment in
+the direction of the end of the
+Scale and calls the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_RIGHT</SystemItem> or
+<SystemItem Class="Constant">XmMAX_ON_BOTTOM</SystemItem>, movement toward
+the right or
+bottom increments the Scale value,
+and movement toward the left or top decrements the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_LEFT</SystemItem> or
+<SystemItem Class="Constant">XmMAX_ON_TOP</SystemItem>, movement toward the right or
+bottom decrements the Scale value,
+and movement toward the left or top increments the Scale value.
+If the button is held down longer than a delay period, the slider is
+moved again by the same increment and the same callbacks are called.
+</Para>
+<Para><Literal>In slider:</Literal>
+Activates the interactive dragging of the slider.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym>&ensp;in&ensp;value&ensp;label:</Term>
+<ListItem>
+<Para>Drags the contents of the label showing the current slider value.
+This action sets the <SystemItem Class="Resource">XmNconvertProc</SystemItem> of the DragContext to a
+function that calls the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures, possibly
+multiple times, for the <Property>_MOTIF_DROP</Property> selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn1Motion</KeySym>&ensp;or&ensp;<KeySym>Btn2Motion</KeySym>:</Term>
+<ListItem>
+<Para>If the button press occurs within the slider, the subsequent motion
+events move the slider to the position of the pointer and call the
+callbacks for <SystemItem Class="Resource">XmNdragCallback</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn1Up</KeySym>&ensp;or&ensp;<KeySym>Btn2Up</KeySym>:</Term>
+<ListItem>
+<Para>If the button press occurs within the slider and the slider position
+is changed, the callbacks for <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> are called.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Ctrl</KeySym><KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Literal>In the region between an end of the Scale and the slider</Literal>:
+Moves the slider to that end of the Scale and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_RIGHT</SystemItem> or
+<SystemItem Class="Constant">XmMAX_ON_BOTTOM</SystemItem>,
+movement toward the right or bottom increments the Scale value,
+and movement toward
+the left or top
+decrements
+the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_LEFT</SystemItem> or
+<SystemItem Class="Constant">XmMAX_ON_TOP</SystemItem>, movement toward the right or
+bottom decrements the Scale value,
+and movement toward the left or top increments the Scale value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para>For vertical Scales,
+moves the slider up one increment and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_TOP</SystemItem>, movement toward
+the top increments the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_BOTTOM</SystemItem>, movement toward
+the top decrements the Scale value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para>For vertical Scales,
+moves the slider down one increment and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_BOTTOM</SystemItem>, movement toward
+the bottom increments the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_TOP</SystemItem>, movement toward
+the bottom decrements the Scale value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para>For horizontal Scales,
+moves the slider one increment to the left and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_LEFT</SystemItem>, movement toward
+the left increments the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_RIGHT</SystemItem>, movement toward
+the left decrements the Scale value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para>For horizontal Scales,
+moves the slider one increment to the right and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_RIGHT</SystemItem>, movement toward
+the right increments the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_LEFT</SystemItem>, movement toward
+the right decrements the Scale value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Ctrl</KeySym><KeySym>Key</KeySym><KeySym>osfUp</KeySym>&ensp;or&ensp;<KeySym>Key</KeySym><KeySym>osfPageUp</KeySym>:</Term>
+<ListItem>
+<Para>For vertical Scales,
+moves the slider up one multiple increment and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_TOP</SystemItem>, movement toward
+the top increments the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_BOTTOM</SystemItem>, movement toward
+the top decrements the Scale value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Ctrl</KeySym><KeySym>Key</KeySym><KeySym>osfDown</KeySym>&ensp;or&ensp;<KeySym>Key</KeySym><KeySym>osfPageDown</KeySym>:</Term>
+<ListItem>
+<Para>For vertical Scales,
+moves the slider down one multiple increment and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_BOTTOM</SystemItem>, movement toward
+the bottom increments the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_TOP</SystemItem>, movement toward
+the bottom decrements the Scale value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Ctrl</KeySym><KeySym>Key</KeySym><KeySym>osfLeft</KeySym>&ensp;or&ensp;<KeySym>Key</KeySym><KeySym>osfPageLeft</KeySym>:</Term>
+<ListItem>
+<Para>For horizontal Scales,
+moves the slider one multiple increment to the left and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_LEFT</SystemItem>, movement toward
+the left increments the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_RIGHT</SystemItem>, movement toward
+the left decrements the Scale value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Ctrl</KeySym><KeySym>Key</KeySym><KeySym>osfRight</KeySym>&ensp;or&ensp;<KeySym>Key</KeySym><KeySym>osfPageRight</KeySym>:</Term>
+<ListItem>
+<Para>For horizontal Scales,
+moves the slider one multiple increment to the right and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_RIGHT</SystemItem>, movement toward
+the right increments the Scale value.
+If <SystemItem Class="Resource">XmNprocessingDirection</SystemItem> is <SystemItem Class="Constant">XmMAX_ON_LEFT</SystemItem>, movement toward
+the right decrements the Scale value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfBeginLine</KeySym>&ensp;or&ensp;<KeySym>Key</KeySym><KeySym>osfBeginData</KeySym>:</Term>
+<ListItem>
+<Para>Moves the slider to the minimum value and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfEndLine</KeySym>&ensp;or&ensp;<KeySym>Key</KeySym><KeySym>osfEndData</KeySym>:</Term>
+<ListItem>
+<Para>Moves the slider to the maximum value and calls the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfNextField</KeySym>:</Term>
+<ListItem>
+<Para>Traverses to the first item in the next tab group. If
+the current tab group is the last entry in the tab group list, it
+wraps to the beginning of the tab group list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfPrevField</KeySym>:</Term>
+<ListItem>
+<Para>Traverses to the first item in the previous tab group.
+If the beginning of the tab group list is reached, it wraps to the end
+of the tab group list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNhelpCallback</SystemItem> if any exist.
+If there are no help
+callbacks for this widget, this action calls the help callbacks
+for the nearest ancestor that has them.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;, &cdeman.Constraint;, &cdeman.Core;,
+&cdeman.XmCreateScale;,
+&cdeman.XmManager;,
+&cdeman.XmScaleGetValue;, and
+&cdeman.XmScaleSetValue;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

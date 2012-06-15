@@ -1,0 +1,171 @@
+<!-- $XConsortium: StrPar.sgm /main/8 1996/09/08 21:06:36 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN439.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmStringParseText</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmStringParseText</Function></RefName>
+<RefPurpose>A function that converts a character string to a compound string
+<IndexTerm>
+<Primary>XmStringParseText</Primary>
+</IndexTerm><IndexTerm>
+<Primary>compound string functions</Primary>
+<Secondary>XmStringParseText</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- HISTORY-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>XmString <Function>XmStringParseText</Function></FuncDef>
+<!--<ParamDef><Replaceable>text, text_end, tag, type, parse_table, parse_count, call_data</Replaceable></ParamDef>-->
+<ParamDef>XtPointer <Parameter>text</Parameter></ParamDef>
+<ParamDef>XtPointer *<Parameter>text_end</Parameter></ParamDef>
+<ParamDef>XmStringTag <Parameter>tag</Parameter></ParamDef>
+<ParamDef>XmTextType <Parameter>type</Parameter></ParamDef>
+<ParamDef>XmParseTable <Parameter>parse_table</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>parse_count</Parameter></ParamDef>
+<ParamDef>XtPointer <Parameter>call_data</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmStringParseText</Function> converts characters specified in <Emphasis>text</Emphasis> to
+corresponding components in the returned compound string. The
+resulting compound string consists of at least one locale or charset
+tag component and a series of <StructName Role="typedef">XmString</StructName> text components and other
+components. The conversion proceeds according to the parse information
+contained in <Symbol Role="Variable">parse_table</Symbol>. See the &MotifProgGd; for more information
+about parsing and parse tables.
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>If <Symbol Role="Variable">type</Symbol> is <SystemItem Class="Constant">XmCHARSET_TEXT</SystemItem>, the associated <Emphasis>tag</Emphasis> is
+interpreted as a charset name.
+If <Emphasis>tag</Emphasis> has a value of NULL, a charset component whose value
+is the result of mapping
+<SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>
+is created.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If <Symbol Role="Variable">type</Symbol> is <SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem> or <SystemItem Class="Constant">XmWIDECHAR_TEXT</SystemItem>, the
+associated <Emphasis>tag</Emphasis> is interpreted as a language environment name.
+If <Emphasis>tag</Emphasis> has a value of NULL, a locale component with a value of
+<SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem> is created.
+If <Symbol Role="Variable">type</Symbol> is <SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem> or <SystemItem Class="Constant">XmWIDECHAR_TEXT</SystemItem>,
+<Emphasis>tag</Emphasis> must be NULL or <SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem>.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para><Function>XmStringParseText</Function> also scans the string for characters that have
+matches in <Symbol Role="Variable">parse_table</Symbol>.
+Whenever a match is found, the text up to that point is concatenated
+with the mapped component.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Emphasis>text</Emphasis></Term>
+<ListItem>
+<Para>Specifies the NULL-terminated string containing characters of a type
+determined by <Symbol Role="Variable">type</Symbol>.
+This is updated to point to after the last character scanned.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">text_end</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer into <Emphasis>text</Emphasis>. If a NULL is supplied to the
+<Symbol Role="Variable">text_end</Symbol> parameter, then <Function>XmStringParseText</Function> parses
+<Emphasis>text</Emphasis> until NULL is encountered, or until it reaches a point in
+<Emphasis>text</Emphasis>
+where it is directed to stop
+(for example, by a <Literal>parse_proc</Literal>). Otherwise, the value supplied
+to the <Symbol Role="Variable">text_end</Symbol> parameter is the pointer into <Emphasis>text</Emphasis> where
+parsing is to stop, and the returned character is the one where
+parsing did stop.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>tag</Emphasis></Term>
+<ListItem>
+<Para>Specifies the tag to be used in creating the result.
+The type of string tag created (charset or locale) depends on the text
+type and the passed in <Emphasis>tag</Emphasis> value.
+If the <Emphasis>tag</Emphasis> value is NULL and if <Symbol Role="Variable">type</Symbol> indicates that a
+charset string tag should be created, the string tag has the value
+that is the result of mapping
+<SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>.
+If <Symbol Role="Variable">type</Symbol> indicates a locale string tag, the string tag has the
+value <SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">type</Symbol></Term>
+<ListItem>
+<Para>Specifies the type of text and the tag type.
+If a locale tag should be created, <Symbol Role="Variable">type</Symbol> has a value of either
+<SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem> or <SystemItem Class="Constant">XmWIDECHAR_TEXT</SystemItem>.
+If <Symbol Role="Variable">type</Symbol> has value of
+<SystemItem Class="Constant">XmCHARSET_TEXT</SystemItem>, a charset tag will be created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parse_table</Symbol></Term>
+<ListItem>
+<Para>Specifies the parse table to be used in scanning for characters to be
+converted to other compound string components.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parse_count</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of entries in <Symbol Role="Variable">parse_table</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">call_data</Symbol></Term>
+<ListItem>
+<Para>Specifies data to be passed to the parse procedures.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns a new compound string.
+The function allocates space to hold the returned compound string.
+When the application no longer needs the returned compound string,
+the application should call <Function>XmStringFree</Function>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmString;,
+&cdeman.XmStringFree;, &cdeman.XmParseTable;, &cdeman.XmParseMapping;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

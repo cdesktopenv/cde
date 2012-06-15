@@ -1,0 +1,144 @@
+<!-- $XConsortium: PrtPopup.sgm /main/9 1996/08/31 15:27:41 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<RefEntry Id="CDEMOT.XmPrintPopupPDM">
+<RefMeta>
+<RefEntryTitle>XmPrintPopupPDM</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><StructName Role="typedef">XmPrintPopupPDM</StructName></RefName>
+<RefPurpose>Send a notification for the PDM to be popped up
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Funcsynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Xm/Print.h>
+</FuncSynopsisInfo>
+<FuncDef>XtEnum <function>XmPrintPopupPDM</function></funcDef>
+<paramDef>Widget<parameter>print_shell</parameter></paramdef>
+<paramDef>Widget<parameter>video_transient_for</parameter></paramdef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<para>A convenience function that sends a notification to start a
+Print Dialog Manager on behalf of the application,
+<function>XmPrintPopupPDM</function>
+hides the details of the X selection
+mechanism used to notify the PDM that a new dialog must be popped up for this application.
+</para>
+<para><function>XmPrintPopupPDM</function> sends a selection request
+to either the print display of the
+print shell, or the video display of the
+transient_for video widget (depending on
+the environment variable <Symbol>XPDMDISPLAY</Symbol>,
+which can only takes the value "print" or "video"),
+asking for the PDM windows to be popped up on behalf
+of the app.
+</para>
+<para>Return right away with status of
+<Symbol>XmPDM_NOTIFY_FAIL</Symbol>
+(e.g. if the function couldn't malloc
+memory for the selection value, or if
+<Symbol>XPDMDISPLAY</Symbol>
+is not "print" or "video") or with
+<Symbol>XmPDM_NOTIFY_SUCCESS</Symbol>
+, which only means a "message" was sent out to the
+PDM specified by
+<Symbol>XPDMSELECTION</Symbol>
+, not that it's already up on the screen yet.
+</para>
+<para>In order to know if the PDM is up, or not running,
+the application must register a
+<function>XmNpdmNotificationCallback</function>
+with the Print Shell.
+</para>
+<para><function>XmPrintPopupPDM</function> puts up an <literal>InputOnly</literal>
+window on top of the dialog, so that
+the end user doesn't use the print setup dialog while the PDM is trying to
+come up. This window is automatically removed when the shell is
+about to call the callback for the first time.
+</para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">print_shell</symbol></Term>
+<ListItem>
+<Para>The Print Shell used for this print job and context.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">video_transient_for</symbol></Term>
+<ListItem>
+<Para>The video widget dealing with application print setup.
+</Para>
+</ListItem>
+</VarListEntry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<para>Returns
+<Symbol>XmPDM_NOTIFY_SUCCESS</Symbol> if the function
+was able to send the notification out to the PDM process,
+<Symbol>XmPDM_NOTIFY_FAIL</Symbol> otherwise.
+</para>
+</refsect1>
+<refsect1>
+<title>ERRORS/WARNINGS</title>
+<para>Not applicable.
+</para>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>Example of callback from a Print set up dialog box "Setup..." button:
+</para>
+<programlisting>
+PrintSetupCallback(print_dialog...)
+/*-------------*/
+{
+    if (XmPrintPopupPDM (pshell, XtParent(print_dialog)) !=
+                                    XmPDM_NOTIFY_SUCCESS) {
+        /* some error dialog */
+    }
+}
+</programlisting>
+<para>Example of <function>XmNpdmNotificationCallback</function> from a Print Shell:
+</para>
+<programlisting>
+pdmNotifyCB(print_shell...)
+{
+    XmPrintShellCallBackStruct * pr_cb = ...
+
+    switch (pr_cb->reason) {
+       case XmCR_PDM_NONE:
+           /* no PDM available */
+           PostErrorDialog(...);
+           break;
+       case XmCR_PDM_VXAUTH:
+           /* PDM is not authorized ... */
+           PostErrorDialog(...);
+           break;
+       case XmCR_PDM_UP: the PDM is up and running
+           /* everything is fine */
+           break;
+               default: /* other cases */
+   }
+}
+</programlisting>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.XmPrintSetup;,
+&cdeman.XmPrintShell;,
+&cdeman.XmRedisplayWidget;,
+&cdeman.XmPrintToFile;
+</para>
+</refsect1>
+</refentry>

@@ -1,0 +1,191 @@
+<!-- $XConsortium: RegisteB.sgm /main/8 1996/09/08 21:26:15 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN20.rsml.1">
+<RefMeta>
+<RefEntryTitle>MrmRegisterNames</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>MrmRegisterNames</Function></RefName>
+<RefPurpose>Registers the values associated with the names referenced in UIL (for example, UIL callback function names or UIL identifier names)
+<IndexTerm>
+<Primary>MrmRegisterNames</Primary>
+</IndexTerm><IndexTerm>
+<Primary>uil functions</Primary>
+<Secondary>MrmRegisterNames</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Mrm/MrmPublic.h>
+</FuncSynopsisInfo>
+<FuncDef>Cardinal <Function>MrmRegisterNames</Function></FuncDef>
+<!--<ParamDef><Replaceable>register_list, register_count</Replaceable></ParamDef>-->
+<ParamDef>MrmRegisterArglist <Parameter>register_list</Parameter></ParamDef>
+<ParamDef>MrmCount <Parameter>register_count</Parameter></ParamDef>
+</FuncSynopsis><IndexTerm>
+<Primary>MRM function</Primary>
+<Secondary>MrmRegisterNames</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>MrmRegisterNames</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>MrmRegisterNames</Function>
+function<IndexTerm>
+<Primary>MrmRegisterNames</Primary>
+<Secondary>description</Secondary>
+</IndexTerm>
+registers a vector of names and associated values
+for access in MRM.
+The values can be callback functions, pointers
+to user-defined data, or any other values.
+The information provided is used to resolve symbolic references
+occurring in UID files to their run-time values.
+For callbacks, this information provides the procedure address required
+by the Motif Toolkit.
+For names used as identifiers in UIL, this information
+provides any
+run-time mapping the application needs.
+</Para>
+<Para>This function is similar to
+<Function>MrmRegisterNamesInHierarchy</Function>,
+except that the scope of the names registered by
+<Function>MrmRegisterNamesInHierarchy</Function>
+is limited to the hierarchy specified in the call to that function,
+whereas the names registered by
+<Function>MrmRegisterNames</Function>
+have global scope.
+When MRM looks up a name, it first tries to find the name among those
+registered for the given hierarchy.
+If that lookup fails, it tries to find the name among those registered
+globally.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">register_list</Symbol></Term>
+<ListItem>
+<Para>Specifies a list of name/value pairs for the names to be registered.
+Each name is a case-sensitive, NULL-terminated ASCII string.
+Each value is a 32-bit quantity, interpreted as a procedure address if
+the name is a callback function, and uninterpreted otherwise.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">register_count</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of entries in
+<Symbol Role="Variable">register_list</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The names in the list are case-sensitive.
+The list can be either ordered or unordered.
+</Para>
+<Para>Callback functions registered through
+<Function>MrmRegisterNames</Function>
+can be either
+regular or creation callbacks.
+Regular callbacks have declarations determined by Motif Toolkit and user
+requirements.
+Creation callbacks have the same format as any other callback:
+</Para>
+<FuncSynopsis>
+<FuncDef>void <Function>CallBackProc</Function></FuncDef>
+<!--<ParamDef><Replaceable>widget_id, tag, callback_data</Replaceable></ParamDef>-->
+<ParamDef>Widget *<Parameter>widget_id</Parameter></ParamDef>
+<ParamDef>Opaque <Parameter>tag</Parameter></ParamDef>
+<ParamDef>XmAnyCallbackStruct *<Parameter>callback_data</Parameter></ParamDef>
+</FuncSynopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget_id</Symbol></Term>
+<ListItem>
+<Para>Specifies the widget ID associated with the widget performing the
+callback (as in any callback function).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>tag</Emphasis></Term>
+<ListItem>
+<Para>Specifies the tag value (as in any callback function).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">callback_data</Symbol></Term>
+<ListItem>
+<Para>Specifies a widget-specific data structure.
+This data structure has a minimum of two members: event and reason.
+The reason member is always set to
+<SystemItem Class="Constant">MrmCR_CREATE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Note that the widget name and parent are available from the widget
+record accessible through
+<Symbol Role="Variable">widget_id</Symbol>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<IndexTerm>
+<Primary>MrmSUCCESS</Primary>
+</IndexTerm><IndexTerm>
+<Primary>MrmFAILURE</Primary>
+</IndexTerm>
+<Para>This function returns one of the following status return constants:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmSUCCESS</SystemItem></Term>
+<ListItem>
+<Para>The function executed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmFAILURE</SystemItem></Term>
+<ListItem>
+<Para>The function failed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

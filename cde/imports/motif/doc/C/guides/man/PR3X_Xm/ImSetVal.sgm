@@ -1,0 +1,172 @@
+<!-- $XConsortium: ImSetVal.sgm /main/13 1996/09/08 20:48:16 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMMA.MAN270.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmImSetValues</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmImSetValues</Function></RefName>
+<RefPurpose>An input manager function that updates attributes of
+an input context
+<IndexTerm>
+<Primary>XmImSetValues</Primary>
+</IndexTerm><IndexTerm>
+<Primary>input manager functions</Primary>
+<Secondary>XmImSetValues</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/XmIm.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>XmImSetValues</Function></FuncDef>
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>ArgList <Parameter>arglist</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>argcount</Parameter></ParamDef>
+<ParamDef></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmImSetValues</Function> updates attributes of the input context associated with
+the specified widget. The <Symbol Role="Variable">arglist</Symbol> argument is a list of
+attribute/value pairs for the input context. This function passes the
+attributes and values to <Symbol>XICSetValues</Symbol>. The initial call to
+this routine should pass in all of the input context attributes.
+Thereafter, the application programmer calls <Function>XmImSetValues</Function>, for
+an XIC,
+only if a value has changed.
+</Para>
+<Para>If the previous parameters for the widget's XIC do not allow
+the previously registered XIC to be reused, that XIC will be
+unregistered, and a new one will be created and registered with the
+widget. Note that sharing of data is preserved.
+</Para>
+<Para>Note that the Text and TextField widgets call the
+<Function>XmImSetValues</Function> function when they receive focus. Therefore,
+further calls to the <Function>XmImSetValues</Function> function for these
+widgets are unnecessary.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the widget registered with the input manager
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">arglist</Symbol></Term>
+<ListItem>
+<Para>Specifies the list of attribute/value pairs to be passed to <Symbol>XICSetValues</Symbol>;
+the following attributes are accepted:
+<Symbol>XmNpreeditStartCallback</Symbol>
+<Symbol>XmNpreeditDoneCallback</Symbol>
+<Symbol>XmNpreeditDrawCallback</Symbol>
+and
+<Symbol>XmNpreeditCaretCallback</Symbol>. These attributes accept an accompanying
+value of type pointer
+to structure of type <Symbol>XIMCallback</Symbol>.
+</Para>
+<Para>These callbacks are used only when the <Symbol>XmNpreeditType</Symbol>
+resource of the relevant <Symbol>VendorShell</Symbol> has the "onthespot" value,
+and that the XIM supports <Symbol>XIMPreeditCallbacks</Symbol> input style. These
+values are ignored if the condition is not met.
+</Para>
+<Para>For each of these callbacks, if the callback value is not set by this
+function, no action will be taken when the Input Method tries to call this callback.
+Refer to the "Xlib - C Language X Interface, X Version 11, Release 6,"
+Chapter 13 for the detail of these callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">argcount</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of attribute/values pairs in the argument
+list (<Symbol Role="Variable">arglist)</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Resources that can be set for the input context include:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbackground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the pixel value for the background color.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbackgroundPixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies a pixmap for tiling the background.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used by the widget. The input method
+uses the first occurrence of a font set tagged with
+<SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>. If no such instance is
+found, the first font set in the font list is used. If
+the font list does not contain a font set, a value is not
+passed to <Symbol>XICSetValues</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNforeground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the pixel value for the foreground color.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlineSpace</SystemItem></Term>
+<ListItem>
+<Para>Specifies the line spacing used in the pre-edit window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table used by the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNspotLocation</SystemItem></Term>
+<ListItem>
+<Para>Specifies the <Emphasis>x</Emphasis> and <Emphasis>y</Emphasis> coordinates of the position
+where text will be inserted in the widget handling
+input, whose input method style is <Literal>"OverTheSpot"</Literal>. The <Emphasis>y</Emphasis>
+coordinate is the position of the baseline used by the current text line.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The caller may also pass any other vendor-defined resources to this
+function. For additional information on the internationalization
+interface, see the Xlib documentation.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmImSetFocusValues;,
+&cdeman.XmImVaSetFocusValues;, and
+&cdeman.XmImVaSetValues;.
+</Para>
+</RefSect1>
+</RefEntry>

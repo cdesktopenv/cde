@@ -1,0 +1,3336 @@
+<!-- $XConsortium: TxtFieAA.sgm /main/15 1996/09/25 15:57:20 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMMA.MAN474.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmTextField</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmTextField</Classname></RefName>
+<RefPurpose>The TextField class
+</RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>#include &lt;Xm/Xm.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The TextField widget provides a single line text editor for customizing
+both user and programmatic interfaces. It is used for single-line
+string entry, and forms entry with verification procedures.
+It provides an application with a consistent editing system for
+textual data.
+</Para>
+<Para>TextField provides separate callback lists to verify
+movement of the insert cursor, modification of the text, and
+changes in input focus. Each of
+these callbacks provides the verification function with the
+widget instance, the event that caused the callback, and a
+data structure specific to the verification type. From this
+information, the function can verify if the application considers
+this to be a legitimate state change and can signal the widget
+whether to continue with the action.
+</Para>
+<Para>The user interface tailors a new set of actions.
+The key bindings have been added for insert cursor movement, deletion,
+insertion, and selection of text.
+</Para>
+<Para>TextField allows the user to select regions of text.
+Selection is based on the model specified in the <Emphasis>Inter-Client
+Communication Conventions Manual</Emphasis> (ICCCM).
+TextField supports primary and secondary selection.
+</Para>
+<Para>TextField uses the <Symbol Role="Globalvar">XmQTnavigator</Symbol>, <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol>, and
+<Symbol Role="Globalvar">XmQTscrollFrame</Symbol> traits,
+and holds the <Symbol Role="Globalvar">XmQTaccessTextual</Symbol>
+<Symbol Role="Globalvar">XmQTtransfer</Symbol> traits.
+</Para>
+<Para>If an application or widget calls the <Literal>setValue</Literal> trait method
+of <Symbol Role="Globalvar">XmQTaccessTextual</Symbol>, then <Classname>XmTextField</Classname> will call
+<Function>XmTextFieldSetString</Function> to set the string value.
+</Para>
+<RefSect2>
+<Title>Data Transfer Behavior</Title>
+<Para>TextField supports transfer of the primary, secondary, and clipboard
+selections and dragging of selected text from the widget.
+TextField can also be the destination for the primary, secondary, and
+clipboard selections, and it supports dropping of data being dragged
+onto the widget.
+</Para>
+<Para>When the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures are called, the
+<Literal>location_data</Literal> member of the <StructName Role="typedef">XmConvertCallbackStruct</StructName> member
+is NULL if the selected text is being transferred.
+If the entire text, not the selected text, is being transferred, the
+value of this member is the widget ID of the TextField widget.
+</Para>
+<Para>As a source of data, TextField supports the following targets and
+associated conversions of data to these targets:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">locale</Symbol></Term>
+<ListItem>
+<Para>If the <Symbol Role="Variable">locale</Symbol> target matches the widget's locale, the widget
+transfers the selected text in the encoding of the locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">COMPOUND_TEXT</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the selected text as type <Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">STRING</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the selected text as type <Symbol Role="Define">STRING</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TEXT</Symbol></Term>
+<ListItem>
+<Para>If the selected text is fully convertible to the encoding of the locale,
+the widget transfers the selected text in the encoding of the locale.
+Otherwise, the widget transfers the selected text as type
+<Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">DELETE</Symbol></Term>
+<ListItem>
+<Para>The widget deletes the selected text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_CLIPBOARD_TARGETS</Property></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets to which
+the widget can convert data to be placed on the clipboard immediately.
+These include the following targets:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><Symbol Role="Define">COMPOUND_TEXT</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para>The encoding of the locale, if the selected text is fully convertible to
+the encoding of the locale
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Define">STRING</Symbol>, if the selected text is fully convertible to <Symbol Role="Define">STRING</Symbol>
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_EXPORT_TARGETS</Property></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets to be
+used as the value of the DragContext's <SystemItem Class="Resource">XmNexportTargets</SystemItem> in a
+drag-and-drop transfer.
+These include <Symbol Role="Define">COMPOUND_TEXT</Symbol>, the encoding of the locale,
+<Symbol Role="Define">STRING</Symbol>, <Symbol Role="Define">TEXT</Symbol>, <Symbol Role="Define">BACKGROUND</Symbol>, and <Symbol Role="Define">FOREGROUND</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_LOSE_SELECTION</Property></Term>
+<ListItem>
+<Para>The widget takes the following actions:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>When losing the <Symbol Role="Define">PRIMARY</Symbol> selection, it unhighlights the selected
+text and calls the <SystemItem Class="Resource">XmNlosePrimaryCallback</SystemItem> procedures.
+</Para>
+</ListItem>
+<ListItem>
+<Para>When losing the <Symbol Role="Define">SECONDARY</Symbol> selection, it removes the secondary
+selection highlight.
+</Para>
+</ListItem>
+<ListItem>
+<Para>When losing the <Property>_MOTIF_DESTINATION</Property> selection, if the widget does
+not have focus it changes the cursor to indicate that the widget is no
+longer the destination.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>As a source of data, TextField also supports the following standard
+Motif targets:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Define">BACKGROUND</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNbackground</SystemItem> as type <Symbol Role="Define">PIXEL</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">CLASS</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy that has a
+<Property>WM_CLASS</Property> property and transfers the contents as text in the
+current locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">CLIENT_WINDOW</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy and transfers
+its window as type <Symbol Role="Define">WINDOW</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">COLORMAP</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNcolormap</SystemItem> as type <Symbol Role="Define">COLORMAP</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">FOREGROUND</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNforeground</SystemItem> as type <Symbol Role="Define">PIXEL</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">NAME</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy that has a
+<Property>WM_NAME</Property> property and transfers the contents as text in the current
+locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TARGETS</Symbol></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets it
+supports.
+These include the standard targets in this list.
+These also include <Symbol Role="Define">COMPOUND_TEXT</Symbol>, the encoding of the locale,
+<Symbol Role="Define">STRING</Symbol>, and <Symbol Role="Define">TEXT</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TIMESTAMP</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the timestamp used to acquire the selection as type
+<Symbol Role="Define">INTEGER</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_RENDER_TABLE</Property></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNrenderTable</SystemItem> if it exists, or else the
+default text render table, as type <Symbol Role="Define">STRING</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_ENCODING_REGISTRY</Property></Term>
+<ListItem>
+<Para>The widget transfers its encoding registry as type <Symbol Role="Define">STRING</Symbol>.
+The value is a list of NULL separated items in the
+form of tag encoding pairs.
+This target symbolizes the transfer target for the
+Motif Segment Encoding Registry.
+Widgets and applications can use this Registry to register
+text encoding formats for specified render table tags.
+Applications access this Registry by calling
+<Function>XmRegisterSegmentEncoding</Function> and <Function>XmMapSegmentEncoding</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>As a destination for data, TextField chooses a target and requests
+conversion of the selection to that target.
+If the encoding of the locale is present in the list of available
+targets, TextField chooses a requested target from the available targets
+in the following order of preference:
+</Para>
+<OrderedList>
+<ListItem>
+<Para><Symbol Role="Define">TEXT</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Define">COMPOUND_TEXT</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para>The encoding of the locale
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Define">STRING</Symbol>
+</Para>
+</ListItem>
+</OrderedList>
+<Para>If the encoding of the locale is not present in the list of available
+targets, TextField chooses a requested target from the available targets
+in the following order of preference:
+</Para>
+<OrderedList>
+<ListItem>
+<Para><Symbol Role="Define">COMPOUND_TEXT</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Define">STRING</Symbol>
+</Para>
+</ListItem>
+</OrderedList>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>TextField widget inherits behavior, resources, and traits from <Classname>Core</Classname>
+and <Emphasis>Primitive</Emphasis>.
+<!--no-op:  .rS--></Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmTextFieldWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmTextField</Classname>.
+<!--no-op:  .rE--></Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lower case or upper case, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G),
+or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmTextFieldResource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNactivateCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNblinkRate</Entry>
+<Entry>XmCBlinkRate</Entry>
+<Entry>int</Entry>
+<Entry>500</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolumns</Entry>
+<Entry>XmCColumns</Entry>
+<Entry>short</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcursorPosition</Entry>
+<Entry>XmCCursorPosition</Entry>
+<Entry>XmTextPosition</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcursorPositionVisible</Entry>
+<Entry>XmCCursorPositionVisible</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestinationCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNeditable</Entry>
+<Entry>XmCEditable</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfocusCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNfontList</Entry>
+<Entry>XmCFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNgainPrimaryCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNlosePrimaryCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNlosingFocusCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>5</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>5</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaxLength</Entry>
+<Entry>XmCMaxLength</Entry>
+<Entry>int</Entry>
+<Entry>largest integer</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmodifyVerifyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmodifyVerifyCallbackWcs</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmotionVerifyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNpendingDelete</Entry>
+<Entry>XmCPendingDelete</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrenderTable</Entry>
+<Entry>XmCRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizeWidth</Entry>
+<Entry>XmCResizeWidth</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectionArray</Entry>
+<Entry>XmCSelectionArray</Entry>
+<Entry>XtPointer</Entry>
+<Entry>default array</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectionArrayCount</Entry>
+<Entry>XmCSelectionArrayCount</Entry>
+<Entry>int</Entry>
+<Entry>3</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectThreshold</Entry>
+<Entry>XmCSelectThreshold</Entry>
+<Entry>int</Entry>
+<Entry>5</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNvalue</Entry>
+<Entry>XmCValue</Entry>
+<Entry>String</Entry>
+<Entry>""</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNvalueChangedCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNvalueWcs</Entry>
+<Entry>XmCValueWcs</Entry>
+<Entry>wchar_t *</Entry>
+<Entry>(wchar_t *)""</Entry>
+<Entry>CSG<Superscript>1</Superscript></Entry>
+</Row>
+<Row>
+<Entry>XmNverifyBell</Entry>
+<Entry>XmCVerifyBell</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><Superscript>1</Superscript> This resource cannot be specified in a resource file.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNactivateCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called when the user invokes an
+event that calls the
+<Action>activate()</Action> action.
+The type of the structure whose address is passed to this callback is
+<StructName Role="typedef">XmAnyCallbackStruct</StructName>.
+The reason sent by the callback is <SystemItem Class="Constant">XmCR_ACTIVATE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNblinkRate</SystemItem></Term>
+<ListItem>
+<Para>Specifies the blink rate of the text cursor in milliseconds.
+The time indicated in the blink rate relates to the
+length of time the cursor is visible and the time the
+cursor is invisible (that is, the time it will take to blink
+the insertion cursor on and off will be two times the blink
+rate). The cursor will not blink when the blink rate
+is set to 0 (zero).
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcolumns</SystemItem></Term>
+<ListItem>
+<Para>Specifies the initial width of the text window as an integer number of
+characters. The width equals the number of characters specified by
+this resource multiplied by the width as derived from the specified
+font. If the em-space
+value is available,
+it is used. If not, the width of the numeral "0" is used. If this is
+not available, the maximum width is used.
+For proportionate fonts, the actual number of characters that fit
+on a given line may be greater than the value specified.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcursorPosition</SystemItem></Term>
+<ListItem>
+<Para>Indicates the position in the text where the current insert cursor is to
+be located. Position is determined by the number of characters from
+the beginning of the text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcursorPositionVisible</SystemItem></Term>
+<ListItem>
+<Para>If the text widget has an <function>XmPrintShell</function> as one of its ancestors
+(that is, the widget was created on a print server connection)
+then the default value is
+<literal>False</literal>; otherwise, it is <literal>True</literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdestinationCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks called when the widget is the destination
+of a transfer operation.
+The type of the structure whose address is passed to these callbacks is
+<StructName Role="typedef">XmDestinationCallbackStruct</StructName>.
+The reason is <SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNeditable</SystemItem></Term>
+<ListItem>
+<Para>When set to True, indicates that the user can edit the text string.
+A false value will prohibit the user from editing the text.
+</Para>
+<para>
+When <SystemItem Class="Resource">XmNeditable</SystemItem> is used on a widget
+it sets the dropsite to <SystemItem Class="Constant">XmDROP_SITE_ACTIVE</SystemItem>.
+</PARA>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfocusCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks called when TextField accepts
+input focus. The type of the structure whose address is passed to this
+callback is <StructName Role="typedef">XmAnyCallbackStruct</StructName>. The reason sent by the
+callback is <SystemItem Class="Constant">XmCR_FOCUS</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list to be used for TextField. The font list is an
+obsolete structure, and is retained only for compatibility with
+earlier releases of Motif. Use the render table (<SystemItem Class="Resource">XmNrenderTable</SystemItem>)
+instead of font lists wherever possible. If both are specified, the
+render table will take precedence. If this value is NULL at
+initialization, the parent hierarchy of the widget is searched for an
+ancestor that holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait. If such
+an ancestor is found, the font list is initialized to the
+<SystemItem Class="Constant">XmTEXT_RENDER_TABLE</SystemItem> value of the ancestor widget. If no such
+ancestor is found, the default is implementation dependent.
+</Para>
+<Para>TextField searches the font list for the first occurrence of a font
+set that has an <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>. If a default element is
+not found, the first font set in the font list is used. If the list
+contains no font sets, the first font in the font list will be used.
+Refer to &cdeman.XmFontList; for more information on a font list
+structure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are called when the user invokes
+an event that causes the text widget to gain ownership of the primary
+selection. The callback reason for this callback is <SystemItem Class="Constant">XmCR_GAIN_PRIMARY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlosePrimaryCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are called when the user invokes
+an event that cause the text widget to lose ownership of the primary
+selection. The callback reason for this callback is <SystemItem Class="Constant">XmCR_LOSE_PRIMARY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlosingFocusCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are called
+before TextField widget loses input focus.
+The type of the structure whose address is passed to this callback is
+<StructName Role="typedef">XmTextVerifyCallbackStruct</StructName>.
+The reason sent by the callback is <SystemItem Class="Constant">XmCR_LOSING_FOCUS</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the distance between the top edge of the widget
+window and the text, and the bottom edge of the widget
+window and the text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the distance between the left edge of the widget
+window and the text, and the right edge of the widget
+window and the text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmaxLength</SystemItem></Term>
+<ListItem>
+<Para>Specifies the maximum length of the text string that can be entered into
+text from the keyboard.
+This value must be nonnegative.
+Strings that are entered using the <SystemItem Class="Resource">XmNvalue</SystemItem> resource or the
+<Function>XmTextFieldSetString</Function> function ignore this resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called
+before text is deleted from or inserted into
+TextField.
+The type of the structure whose address is passed to this callback is
+<StructName Role="typedef">XmTextVerifyCallbackStruct</StructName>.
+The reason sent by the callback is <SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>.
+When multiple TextField widgets share the same
+source, only the widget that initiates the source change will
+generate the <SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem>.
+</Para>
+<Para>If both <SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> and <SystemItem Class="Resource">XmNmodifyVerifyCallbackWcs</SystemItem>
+are registered callback lists, the procedure(s) in the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> list is always executed first; and the
+resulting data, which may have been modified, is passed to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallbackWcs</SystemItem> callback routines.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmodifyVerifyCallbackWcs</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks called before text is deleted from
+or inserted into Text. The type of the structure whose address is
+passed to this callback is <StructName Role="typedef">XmTextVerifyCallbackStructWcs</StructName>. The
+reason sent by the callback is <SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>.
+When multiple TextField widgets share the same
+source, only the widget that initiates the source change will
+generate the <SystemItem Class="Resource">XmNmodifyVerifyCallbackWcs</SystemItem>.
+</Para>
+<Para>If both <SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> and <SystemItem Class="Resource">XmNmodifyVerifyCallbackWcs</SystemItem>
+are registered callback lists, the procedure(s) in the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> list is always executed first; and the
+resulting data, which may have been modified, is passed to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallbackWcs</SystemItem> callback routines.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called
+before the insert cursor is moved to a new position.
+The type of the structure whose address is passed to this callback is
+<StructName Role="typedef">XmTextVerifyCallbackStruct</StructName>.
+The reason sent by the callback is <SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+It is possible for more than one <SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem>s to be
+generated from a single action.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpendingDelete</SystemItem></Term>
+<ListItem>
+<Para>Indicates that pending delete mode is on when the Boolean is True.
+Pending deletion is defined as deletion
+of the selected text when an insertion is made.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table to be used in deriving a font set or font
+for displaying text. If both a render table and a font list are
+specified, the render table will take precedence. If the value of
+<SystemItem Class="Resource">XmNrenderTable</SystemItem> is NULL at initialization, the parent hierarchy
+of the widget is searched for an ancestor that holds the
+<Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait. If such an ancestor is found, the
+font list is initialized to the <SystemItem Class="Constant">XmTEXT_RENDER_TABLE</SystemItem> value of the
+ancestor widget. If no such ancestor is found, the default is
+implementation dependent.
+</Para>
+<Para>TextField searches the render table for the first occurrence of a
+rendition that has the tag <SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem>. If a default
+element is not found, the first rendition in the table is used. Refer
+to &cdeman.XmRenderTable; for more information on the render table
+structure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNresizeWidth</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the TextField widget will attempt to resize its
+width to accommodate all
+the text contained in the widget when Boolean is True.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectionArray</SystemItem></Term>
+<ListItem>
+<Para>Defines the actions for multiple mouse clicks. Each mouse click
+performed within some time of the previous mouse click will increment
+the index into this array and perform the defined action for that
+index. (This "multi-click" time is specified by the operating
+environment, and varies among different systems. In general, it is
+usually set to some fraction of a second.)
+The possible actions are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSELECT_POSITION</SystemItem></Term>
+<ListItem>
+<Para>Resets the insert cursor position
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSELECT_WORD</SystemItem></Term>
+<ListItem>
+<Para>Selects a word
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSELECT_LINE</SystemItem></Term>
+<ListItem>
+<Para>Selects a line of text
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectionArrayCount</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of actions that are defined in the
+<SystemItem Class="Resource">XmNselectionArray</SystemItem> resource.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectThreshold</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of pixels of motion that is required to select the
+next character when selection is performed using the click-drag
+mode of selection.
+The value must not be negative.
+This resource also specifies whether a drag should be started and the
+number of pixels to start a drag when
+<Literal>Btn2Down</Literal> and <Literal>Btn1Down</Literal> are integrated.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNvalue</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string value of the TextField widget as a <Literal>char*</Literal>
+data value.
+Moves the cursor to position 0 unless a value of
+<SystemItem Class="Resource">XmNcursorPosition</SystemItem> was explicitly supplied in the argument list.
+If <SystemItem Class="Resource">XmNvalue</SystemItem> and <SystemItem Class="Resource">XmNvalueWcs</SystemItem> are both
+defined, the value of <SystemItem Class="Resource">XmNvalueWcs</SystemItem> supersedes that of
+<SystemItem Class="Resource">XmNvalue</SystemItem>. <Function>XtGetValues</Function> returns a copy of the value of
+the internal buffer and <Function>XtSetValues</Function> copies the string values
+into the internal buffer.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called
+after text is deleted from or inserted into
+TextField.
+The type of the structure whose address is passed to this callback is
+<StructName Role="typedef">XmAnyCallbackStruct</StructName>.
+The reason sent by the callback is <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>.
+The <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> should occur only in pairs
+with a <SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem>, assuming that the <Symbol Role="Variable">doit</Symbol>
+flag in the callback structure of the <SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> is
+not set to False.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNvalueWcs</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string value of the TextField widget as a <Literal>wchar_t*</Literal> data
+value.
+Moves the cursor to position 0 unless a value of
+<SystemItem Class="Resource">XmNcursorPosition</SystemItem> was explicitly supplied in the argument list.
+</Para>
+<Para>This resource cannot be specified in a resource file.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNvalue</SystemItem> and <SystemItem Class="Resource">XmNvalueWcs</SystemItem> are both defined,
+the value of <SystemItem Class="Resource">XmNvalueWcs</SystemItem> supersedes that of <SystemItem Class="Resource">XmNvalue</SystemItem>.
+<Function>XtGetValues</Function> returns a copy of the value of the internal buffer
+encoded as a wide character string. <Function>XtSetValues</Function> copies the
+value of the wide character string into the internal buffer.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNverifyBell</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether a bell will sound when an action is reversed
+during a verification callback.
+The default depends on the value of the ancestor VendorShell's
+<SystemItem Class="Resource">XmNaudibleWarning</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>TextField widget inherits behavior and resources from the
+superclasses in the following tables.
+For a complete description of these resources, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmPrimitive Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNconvertCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightOnEnter</Entry>
+<Entry>XmCHighlightOnEnter</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightThickness</Entry>
+<Entry>XmCHighlightThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<!--no-op:  .tH-->
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to each callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">* event</Symbol>;
+} XmAnyCallbackStruct;</Synopsis>
+<!--no-op:  .fi-->
+<!--no-op:  .rS-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--no-op:  .rE-->
+<Para>The TextField widget defines a new callback structure
+for use with verification callbacks. Note that
+not all of the fields are relevant for every
+callback reason. The application must first
+look at the <Symbol Role="Variable">reason</Symbol> field and use only the structure
+members that are valid for the particular reason.
+The values <Symbol Role="Variable">startPos</Symbol>, <Symbol Role="Variable">endPos</Symbol>, and <Emphasis>text</Emphasis> in the
+callback structure <StructName Role="typedef">XmTextVerifyCallbackStruct</StructName> may be modified upon
+receiving the callback, and these changes will be reflected as the
+change made to the source of the TextField widget. (For example, all
+keystrokes can be converted to spaces or NULL characters when a
+password is entered into a TextField widget.) The application
+programmer should not overwrite the <Emphasis>text</Emphasis> field, but should
+attach data to that pointer.
+</Para>
+<Para>A pointer to the following structure is passed to the
+callbacks for <SystemItem Class="Resource">XmNlosingFocusCallback</SystemItem>, <SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem>,
+and <SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem>.
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Boolean <Symbol Role="Variable">doit</Symbol>;
+        XmTextPosition <Symbol Role="Variable">currInsert, newInsert</Symbol>;
+        XmTextPosition <Symbol Role="Variable">startPos, endPos</Symbol>;
+        XmTextBlock <Emphasis>text</Emphasis>;
+} XmTextVerifyCallbackStruct, *XmTextVerifyPtr;</Synopsis>
+<!--no-op:  .fi-->
+<!--no-op:  .rS-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> the triggered the callback.
+It can be NULL. For example, changes made to the Text widget
+programmatically do not have an event that can be
+passed to the associated callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">doit</Symbol></Term>
+<ListItem>
+<Para>Indicates whether the action that invoked the callback will be performed.
+Setting <Symbol Role="Variable">doit</Symbol> to False negates the action.
+Note that not all actions may be negated. For example,
+<SystemItem Class="Constant">XmCR_LOSING_FOCUS</SystemItem> callbacks may be beyond the control of the
+widget if they are produced by mouse clicks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">currInsert</Symbol></Term>
+<ListItem>
+<Para>Indicates the current position of the insert cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">newInsert</Symbol></Term>
+<ListItem>
+<Para>Indicates the position at which the user attempts to position the insert
+cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">startPos</Symbol></Term>
+<ListItem>
+<Para>Indicates the starting position of the text to modify. If the callback is
+not a modify verification callback, this value is the same as <Symbol Role="Variable">currInsert</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">endPos</Symbol></Term>
+<ListItem>
+<Para>Indicates the ending position of the text to modify. If no text is replaced or
+deleted, then the value is the same as <Symbol Role="Variable">startPos</Symbol>. If the callback is not
+a modify verification callback, this value is the same as <Symbol Role="Variable">currInsert</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>text</Emphasis></Term>
+<ListItem>
+<Para>Points to the following structure of type
+<StructName Role="typedef">XmTextBlockRec</StructName>. This structure holds
+the textual information to be inserted.
+</Para>
+<Synopsis>typedef struct
+{
+        char *<Symbol Role="Variable">ptr</Symbol>;
+        int <Symbol Role="Variable">length</Symbol>;
+        XmTextFormat <Symbol Role="Variable">format</Symbol>
+} XmTextBlockRec, *XmTextBlock;</Synopsis>
+<!--no-op:  .fi-->
+<!--no-op:  .rS-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">ptr</Symbol></Term>
+<ListItem>
+<Para>The text to be inserted. <Symbol Role="Variable">ptr</Symbol> points to a temporary
+storage space that is reused after the callback is finished. Therefore,
+if an application needs to save the text to be inserted, it should copy
+the text into its own data space.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">length</Symbol></Term>
+<ListItem>
+<Para>Specifies the length of the text to be inserted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">format</Symbol></Term>
+<ListItem>
+<Para>Specifies the format of the text,
+either <SystemItem Class="Constant">XmFMT_8_BIT</SystemItem> or <SystemItem Class="Constant">XmFMT_16_BIT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to callbacks
+for <SystemItem Class="Resource">XmNmodifyVerifyCallbackWcs</SystemItem>.
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Boolean <Symbol Role="Variable">doit</Symbol>;
+        XmTextPosition <Symbol Role="Variable">currInsert, newInsert</Symbol>;
+        XmTextPosition <Symbol Role="Variable">startPos, endPos</Symbol>;
+        XmWcsTextBlock <Emphasis>text</Emphasis>;
+} XmTextVerifyCallbackStructWcs, *XmTextVerifyPtrWcs;</Synopsis>
+<!--no-op:  .fi-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+It can be NULL. For example, changes made to the Text widget
+programmatically do not have an event that can be
+passed to the associated callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">doit</Symbol></Term>
+<ListItem>
+<Para>Indicates whether the action that invoked the callback is performed.
+Setting <Symbol Role="Variable">doit</Symbol> to False negates the action.
+Note that not all actions may be negated. For example,
+<SystemItem Class="Constant">XmCR_LOSING_FOCUS</SystemItem> callbacks may be beyond the control of the
+widget if they are produced by mouse clicks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">currInsert</Symbol></Term>
+<ListItem>
+<Para>Indicates the current position of the insert cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">newInsert</Symbol></Term>
+<ListItem>
+<Para>Indicates the position at which the user attempts to position the insert
+cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">startPos</Symbol></Term>
+<ListItem>
+<Para>Indicates the starting position of the text to modify. If the callback is
+not a modify verification callback, this value is the same
+as <Symbol Role="Variable">currInsert</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">endPos</Symbol></Term>
+<ListItem>
+<Para>Indicates the ending position of the text to modify. If no text is
+replaced or
+deleted, the value is the same as <Symbol Role="Variable">startPos</Symbol>. If the callback is not
+a modify verification callback, this value is the same as <Symbol Role="Variable">currInsert</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>text</Emphasis></Term>
+<ListItem>
+<Para>Points to the following structure of type <StructName Role="typedef">XmTextBlockRecWcs</StructName>.
+This structure holds
+the textual information to be inserted.
+</Para>
+<Synopsis>typedef struct
+{
+        wchar_t *<Symbol Role="Variable">wcsptr</Symbol>;
+        int <Symbol Role="Variable">length</Symbol>;
+} XmTextBlockRecWcs, *XmTextBlockWcs;</Synopsis>
+<!--no-op:  .fi-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">wcsptr</Symbol></Term>
+<ListItem>
+<Para>Points to the wide character text to be inserted
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">length</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of characters to be inserted
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The following table describes the reasons for which the individual
+verification callback structure fields are valid. Note that the
+<Symbol Role="Variable">event</Symbol> field will never be valid for <SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry Rowsep="1"><Literal>Reason</Literal></Entry>
+<Entry Rowsep="1"><Literal>Valid Fields</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmCR_LOSING_FOCUS</Entry>
+<Entry><Emphasis>reason, event, doit</Emphasis></Entry>
+</Row>
+<Row>
+<Entry>XmCR_MODIFYING_TEXT_VALUE</Entry>
+<Entry><Emphasis>reason, event, doit, currInsert, newInsert, startPos, endPos, text</Emphasis></Entry>
+</Row>
+<Row>
+<Entry>XmCR_MOVING_INSERT_CURSOR</Entry>
+<Entry><Emphasis>reason, doit, currInsert, newInsert</Emphasis></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>A pointer to the following callback structure is passed to the
+<SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Atom <Symbol Role="Variable">selection</Symbol>;
+        XtEnum <Symbol Role="Variable">operation</Symbol>;
+        int <Symbol Role="Variable">flags</Symbol>;
+        XtPointer <Symbol Role="Variable">transfer_id</Symbol>;
+        XtPointer <Symbol Role="Variable">destination_data</Symbol>;
+        XtPointer <Symbol Role="Variable">location_data</Symbol>;
+        Time <Symbol Role="Variable">time</Symbol>;
+} XmDestinationCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+It can be NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selection</Symbol></Term>
+<ListItem>
+<Para>Indicates the selection for which data transfer is being requested.
+Possible values are <Symbol Role="Define">CLIPBOARD</Symbol>, <Symbol Role="Define">PRIMARY</Symbol>, <Symbol Role="Define">SECONDARY</Symbol>, and
+<Property>_MOTIF_DROP</Property>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operation</Symbol></Term>
+<ListItem>
+<Para>Indicates the type of transfer operation requested.
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>When the selection is <Symbol Role="Define">PRIMARY</Symbol> or <Symbol Role="Define">SECONDARY</Symbol>, possible
+values are <SystemItem Class="Constant">XmMOVE</SystemItem>,
+<SystemItem Class="Constant">XmCOPY</SystemItem>, and <SystemItem Class="Constant">XmLINK</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>When the selection is <Symbol Role="Define">CLIPBOARD</Symbol>, possible
+values are <SystemItem Class="Constant">XmCOPY</SystemItem> and <SystemItem Class="Constant">XmLINK</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>When the selection is <Property>_MOTIF_DROP</Property>, possible values are
+<SystemItem Class="Constant">XmMOVE</SystemItem>, <SystemItem Class="Constant">XmCOPY</SystemItem>, <SystemItem Class="Constant">XmLINK</SystemItem>, and <SystemItem Class="Constant">XmOTHER</SystemItem>.
+A value of <SystemItem Class="Constant">XmOTHER</SystemItem> means that the callback procedure must get
+further information from the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> in the
+<Symbol Role="Variable">destination_data</Symbol> member.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">flags</Symbol></Term>
+<ListItem>
+<Para>Indicates whether or not the destination widget is also the source of
+the data to be transferred.
+Following are the possible values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_NONE</SystemItem></Term>
+<ListItem>
+<Para>The destination widget is not the source of the data to be transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_SAME</SystemItem></Term>
+<ListItem>
+<Para>The destination widget is the source of the data to be transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>transfer_id</Literal></Term>
+<ListItem>
+<Para>Serves as a unique ID to identify the transfer transaction.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">destination_data</Symbol></Term>
+<ListItem>
+<Para>Contains information about the destination.
+When the selection is <Property>_MOTIF_DROP</Property>, the callback procedures are
+called by the drop site's <SystemItem Class="Resource">XmNdropProc</SystemItem>, and <Symbol Role="Variable">destination_data</Symbol>
+is a pointer to the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> passed to the
+<SystemItem Class="Resource">XmNdropProc</SystemItem> procedure.
+When the selection is <Symbol Role="Define">SECONDARY</Symbol>,
+<Symbol Role="Variable">destination_data</Symbol>
+is an Atom
+representing a target recommmended by the selection owner for use in
+converting the selection.
+Otherwise, <Symbol Role="Variable">destination_data</Symbol> is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>location_data</Literal></Term>
+<ListItem>
+<Para>Contains information about the location where data is to be transferred.
+The value is always NULL when the selection is <Symbol Role="Define">CLIPBOARD</Symbol>.
+If the value is NULL, the data is to be inserted at the widget's cursor
+position.
+Otherwise, the value is a pointer to an <Symbol>XPoint</Symbol> structure
+containing the x and y coordinates at the location where the data is to
+be transferred. Once <Symbol>XmTransferDone</Symbol> procedures start to be called,
+<Literal>location_data</Literal> will no longer be stable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">time</Symbol></Term>
+<ListItem>
+<Para>Indicates the time when the transfer operation began.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmTextField -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para>The <Classname>XmTextField</Classname> translations are described in the following list.
+<!-- These translations may not directly correspond to a--><!-- translation table.-->The actions represent the effective behavior of the associated events,
+and they may differ in a right-to-left language environment.
+</Para>
+<Para>The following key names are listed in the
+X standard key event translation table syntax.
+This format is the one used by Motif to
+specify the widget actions corresponding to a given key.
+A brief overview of the format is provided under
+&cdeman.VirtualBindings;.
+For a complete description of the format, please refer to the
+X Toolkit Instrinsics Documentation.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>&ap;c s &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>extend-start()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>move-destination()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>grab-focus()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c &ap;m &ap;a</Literal> <KeySym>Btn1Motion</KeySym>:</Term>
+<ListItem>
+<Para><Action>extend-adjust()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c &ap;m &ap;a</Literal> <KeySym>Btn1Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>extend-end()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>process-bdrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>m &ap;a</Literal> <KeySym>Btn2Motion</KeySym>:</Term>
+<ListItem>
+<Para><Action>secondary-adjust()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;m a</Literal> <KeySym>Btn2Motion</KeySym>:</Term>
+<ListItem>
+<Para><Action>secondary-adjust()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s c &lt;Btn2Up></Literal>:</Term>
+<ListItem>
+<Para><Action>link-to()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s</Literal> <KeySym>Btn2Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>copy-to()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c</Literal> <KeySym>Btn2Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>move-to()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:m</Literal> <KeySym>Key</KeySym><KeySym>osfPrimaryPaste</KeySym>:</Term>
+<ListItem>
+<Para><Action>cut-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:a</Literal> <KeySym>Key</KeySym><KeySym>osfPrimaryPaste</KeySym>:</Term>
+<ListItem>
+<Para><Action>cut-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfPrimaryPaste</KeySym>:</Term>
+<ListItem>
+<Para><Action>copy-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:m</Literal> <KeySym>Key</KeySym><KeySym>osfCut</KeySym>:</Term>
+<ListItem>
+<Para><Action>cut-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:a</Literal> <KeySym>Key</KeySym><KeySym>osfCut</KeySym>:</Term>
+<ListItem>
+<Para><Action>cut-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfCut</KeySym>:</Term>
+<ListItem>
+<Para><Action>cut-clipboard()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfPaste</KeySym>:</Term>
+<ListItem>
+<Para><Action>paste-clipboard()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:m</Literal> <KeySym>Key</KeySym><KeySym>osfCopy</KeySym>:</Term>
+<ListItem>
+<Para><Action>copy-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:a</Literal> <KeySym>Key</KeySym><KeySym>osfCopy</KeySym>:</Term>
+<ListItem>
+<Para><Action>copy-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfCopy</KeySym>:</Term>
+<ListItem>
+<Para><Action>copy-clipboard()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfBeginLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>beginning-of-line(<Symbol Role="Define">extend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfBeginLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>beginning-of-line()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfEndLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>end-of-line(<Symbol Role="Define">extend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfEndLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>end-of-line()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfPageLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>page-left(<Symbol Role="Define">extend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfPageLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>page-left()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s c</Literal><KeySym>Key</KeySym><KeySym>osfPageUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>page-left(<Symbol Role="Define">extend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfPageUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>page-left()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfPageRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>page-right(<Symbol Role="Define">extend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfPageRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>page-right()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s c</Literal> <KeySym>Key</KeySym><KeySym>osfPageDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>page-right(<Symbol Role="Define">extend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfPageDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>page-right()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfClear</KeySym>:</Term>
+<ListItem>
+<Para><Action>clear-selection()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfBackSpace</KeySym>:</Term>
+<ListItem>
+<Para><Action>delete-previous-character()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s m</Literal> <KeySym>Key</KeySym><KeySym>osfDelete</KeySym>:</Term>
+<ListItem>
+<Para><Action>cut-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s a</Literal> <KeySym>Key</KeySym><KeySym>osfDelete</KeySym>:</Term>
+<ListItem>
+<Para><Action>cut-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfDelete</KeySym>:</Term>
+<ListItem>
+<Para><Action>cut-clipboard()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfDelete</KeySym>:</Term>
+<ListItem>
+<Para><Action>delete-to-end-of-line()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfDelete</KeySym>:</Term>
+<ListItem>
+<Para><Action>delete-next-character()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c m</Literal> <KeySym>Key</KeySym><KeySym>osfInsert</KeySym>:</Term>
+<ListItem>
+<Para><Action>copy-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c a</Literal> <KeySym>Key</KeySym><KeySym>osfInsert</KeySym>:</Term>
+<ListItem>
+<Para><Action>copy-primary()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfInsert</KeySym>:</Term>
+<ListItem>
+<Para><Action>paste-clipboard()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfInsert</KeySym>:</Term>
+<ListItem>
+<Para><Action>copy-clipboard()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfInsert</KeySym>:</Term>
+<ListItem>
+<Para><Action>toggle-overstrike()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfSelect</KeySym>:</Term>
+<ListItem>
+<Para><Action>key-select()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfSelect</KeySym>:</Term>
+<ListItem>
+<Para><Action>set-anchor()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfSelectAll</KeySym>:</Term>
+<ListItem>
+<Para><Action>select-all()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfDeselectAll</KeySym>:</Term>
+<ListItem>
+<Para><Action>deselect-all()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para><Action>activate()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfAddMode</KeySym>:</Term>
+<ListItem>
+<Para><Action>toggle-add-mode()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para><Action>Help()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para><Action>process-cancel()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s c</Literal> <KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>backward-word(<Symbol Role="Define">extend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>backward-word()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>key-select(<Symbol Role="Define">left</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>backward-character()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s c</Literal> <KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>forward-word(<Symbol Role="Define">extend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>forward-word()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>key-select(<Symbol Role="Define">right</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>forward-character()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>traverse-prev()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>traverse-next()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>slash</Literal>:</Term>
+<ListItem>
+<Para><Action>select-all()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>backslash</Literal>:</Term>
+<ListItem>
+<Para><Action>deselect-all()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>Tab</Literal>:</Term>
+<ListItem>
+<Para><Action>prev-tab-group()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>Tab</Literal>:</Term>
+<ListItem>
+<Para><Action>next-tab-group()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>Return</Literal>:</Term>
+<ListItem>
+<Para><Action>activate()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c &ap;s &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>set-anchor()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c s &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>key-select()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;c &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>self-insert()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym>:</Term>
+<ListItem>
+<Para><Action>self-insert()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--.VL 2.5i 0 1
+.LI "&bsol;*LBSelect Press:&bsol;*O"
+&bsol;*Lgrab-focus()&bsol;*O
+.LI "&bsol;*LBSelect Motion:&bsol;*O"
+&bsol;*Lextend-adjust()&bsol;*O
+.LI "&bsol;*LBSelect Release:&bsol;*O"
+&bsol;*Lextend-end()&bsol;*O
+.LI "&bsol;*LBExtend Press:&bsol;*O"
+&bsol;*Lextend-start()&bsol;*O
+.LI "&bsol;*LBExtend Motion:&bsol;*O"
+&bsol;*Lextend-adjust()&bsol;*O
+.LI "&bsol;*LBExtend Release:&bsol;*O"
+&bsol;*Lextend-end()&bsol;*O
+.LI "&bsol;*LBToggle Press:&bsol;*O"
+&bsol;*Lmove-destination()&bsol;*O
+.zA "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LMAny BTransfer Press:&bsol;*O"
+&bsol;*Lprocess-bdrag()&bsol;*O
+.zZ "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LBTransfer Release:&bsol;*O"
+&bsol;*Lcopy-to()&bsol;*O
+.LI "&bsol;*LMCtrl BTransfer Release:&bsol;*O"
+&bsol;*Lcopy-to()&bsol;*O
+.LI "&bsol;*LMShift BTransfer Release:&bsol;*O"
+&bsol;*Lmove-to()&bsol;*O
+.zA "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LMCtrl MShift BTransfer Release:&bsol;*O"
+&bsol;*Llink-to()&bsol;*O
+.zZ "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LMAlt BTransfer Motion:&bsol;*O"
+&bsol;*Lsecondary-adjust()&bsol;*O
+.LI "&bsol;*LMAlt BTransfer Release:&bsol;*O"
+&bsol;*Lcopy-to()&bsol;*O
+.zA "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LMAlt MCtrl BTransfer Motion:&bsol;*O"
+&bsol;*Lsecondary-adjust()&bsol;*O
+.zZ "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LMAlt MCtrl BTransfer Release:&bsol;*O"
+&bsol;*Lcopy-to()&bsol;*O
+.zA "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LMAlt MShift BTransfer Motion:&bsol;*O"
+&bsol;*Lsecondary-adjust()&bsol;*O
+.zZ "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LMAlt MShift BTransfer Release:&bsol;*O"
+&bsol;*Lmove-to()&bsol;*O
+.zA "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LMAlt MCtrl MShift BTransfer Motion:&bsol;*O"
+&bsol;*Lsecondary-adjust()&bsol;*O
+.LI "&bsol;*LMAlt MCtrl MShift BTransfer Release:&bsol;*O"
+&bsol;*Llink-to()&bsol;*O
+.zZ "feature, 5750, R2.0, Document uniform transfer"
+.LI "&bsol;*LKUp:&bsol;*O"
+&bsol;*Ltraverse-prev()&bsol;*O
+.LI "&bsol;*LKDown:&bsol;*O"
+&bsol;*Ltraverse-next()&bsol;*O
+.LI "&bsol;*LKLeft:&bsol;*O"
+&bsol;*Lbackward-character()&bsol;*O
+.LI "&bsol;*LMShift KLeft:&bsol;*O"
+&bsol;*Lkey-select(left)&bsol;*O
+.LI "&bsol;*LMCtrl KLeft:&bsol;*O"
+&bsol;*Lbackward-word()&bsol;*O
+.LI "&bsol;*LMShift MCtrl KLeft:&bsol;*O"
+&bsol;*Lbackward-word(extend)&bsol;*O
+.LI "&bsol;*LKRight:&bsol;*O"
+&bsol;*Lforward-character()&bsol;*O
+.LI "&bsol;*LMShift KRight:&bsol;*O"
+&bsol;*Lkey-select(right)&bsol;*O
+.LI "&bsol;*LMCtrl KRight:&bsol;*O"
+&bsol;*Lforward-word()&bsol;*O
+.LI "&bsol;*LMShift MCtrl KRight:&bsol;*O"
+&bsol;*Lforward-word(extend)&bsol;*O
+.LI "&bsol;*LKPageLeft:&bsol;*O"
+&bsol;*Lpage-left()&bsol;*O
+.LI "&bsol;*LKPageRight:&bsol;*O"
+&bsol;*Lpage-right()&bsol;*O
+.LI "&bsol;*LKBeginLine:&bsol;*O"
+&bsol;*Lbeginning-of-line()&bsol;*O
+.LI "&bsol;*LMShift KBeginLine:&bsol;*O"
+&bsol;*Lbeginning-of-line(extend)&bsol;*O
+.LI "&bsol;*LKEndLine:&bsol;*O"
+&bsol;*Lend-of-line()&bsol;*O
+.LI "&bsol;*LMShift KEndLine:&bsol;*O"
+&bsol;*Lend-of-line(extend)&bsol;*O
+.LI "&bsol;*LKNextField:&bsol;*O"
+&bsol;*Lnext-tab-group()&bsol;*O
+.LI "&bsol;*LKPrevField:&bsol;*O"
+&bsol;*Lprev-tab-group()&bsol;*O
+.LI "&bsol;*LKActivate:&bsol;*O"
+&bsol;*Lactivate()&bsol;*O
+.LI "&bsol;*LKDelete:&bsol;*O"
+&bsol;*Ldelete-next-character()&bsol;*O
+.LI "&bsol;*LKBackSpace:&bsol;*O"
+&bsol;*Ldelete-previous-character()&bsol;*O
+.LI "&bsol;*LKAddMode:&bsol;*O"
+&bsol;*Ltoggle-add-mode()&bsol;*O
+.LI "&bsol;*LKSpace:&bsol;*O"
+&bsol;*Lself-insert()&bsol;*O
+.LI "&bsol;*LMShift KSpace:&bsol;*O"
+&bsol;*Lself-insert()&bsol;*O
+.LI "&bsol;*LKSelect:&bsol;*O"
+&bsol;*Lset-anchor()&bsol;*O
+.LI "&bsol;*LKExtend:&bsol;*O"
+&bsol;*Lkey-select()&bsol;*O
+.LI "&bsol;*LMAny KCancel:&bsol;*O"
+&bsol;*Lprocess-cancel()&bsol;*O
+.LI "&bsol;*LKClear:&bsol;*O"
+&bsol;*Lclear-selection()&bsol;*O
+.LI "&bsol;*LKSelectAll:&bsol;*O"
+&bsol;*Lselect-all()&bsol;*O
+.LI "&bsol;*LKDeselectAll:&bsol;*O"
+&bsol;*Ldeselect-all()&bsol;*O
+.LI "&bsol;*LKCut:&bsol;*O"
+&bsol;*Lcut-clipboard()&bsol;*O
+.LI "&bsol;*LKCopy:&bsol;*O"
+&bsol;*Lcopy-clipboard()&bsol;*O
+.LI "&bsol;*LKPaste:&bsol;*O"
+&bsol;*Lpaste-clipboard()&bsol;*O
+.LI "&bsol;*LKPrimaryCut:&bsol;*O"
+&bsol;*Lcut-primary()&bsol;*O
+.LI "&bsol;*LKPrimaryCopy:&bsol;*O"
+&bsol;*Lcopy-primary()&bsol;*O
+.LI "&bsol;*LKPrimaryPaste:&bsol;*O"
+&bsol;*Lcopy-primary()&bsol;*O
+.LI "&bsol;*LKHelp:&bsol;*O"
+&bsol;*LHelp()&bsol;*O
+.LI "&bsol;*LKAny:&bsol;*O"
+&bsol;*Lself-insert()&bsol;*O
+.LE
+-->
+<Para>The TextField button event translations are modified when Display's
+<SystemItem Class="Resource">XmNenableBtn1Transfer</SystemItem> resource does not have a value of
+<SystemItem Class="Constant">XmOFF</SystemItem> (in other words, it is either <Literal>XmBUTTON2_TRANSFER</Literal> or
+<Literal>XmBUTTON2_ADJUST</Literal>). This
+option allows the
+actions for selection and transfer to be integrated on <KeySym>Btn1</KeySym>.
+The actions for <KeySym>Btn1</KeySym> that are defined above
+still apply when the <KeySym>Btn1</KeySym> event occurs over text that is not
+selected. The following actions apply when the <KeySym>Btn1</KeySym> event
+occurs over text that is selected:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>process-bdrag()</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Shift</KeySym><KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>process-bdrag()</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn1Down</KeySym><KeySym>Shift</KeySym><KeySym>Btn1Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>grab-focus()</Action>, <Literal>extend-end</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Shift</KeySym><KeySym>Btn1Down</KeySym><KeySym>Shift</KeySym><KeySym>Btn1Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>extend-start()</Action>, <Action>extend-end()</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Ctrl</KeySym><KeySym>Btn1Down</KeySym><KeySym>Shift</KeySym><KeySym>Btn1Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>move-destination()</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Ctrl</KeySym><KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>process-bdrag()</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>When Display's <SystemItem Class="Resource">XmNenableBtn1Transfer</SystemItem> resource has a value of
+<Literal>XmBUTTON2_ADJUST</Literal>, the following actions apply:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>extend-start()</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Motion</KeySym>:</Term>
+<ListItem>
+<Para><Action>extend-adjust()</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>extend-end()</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The <Classname>XmTextField</Classname> action routines are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>activate()</Action>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNactivateCallback</SystemItem>.
+If the parent is a manager, passes the event to the parent.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>backward-character(<Symbol Role="Define">extend</Symbol>)</Action>:</Term>
+<ListItem>
+<Para>Moves the insertion cursor one character to the left.
+<!--For other effects, see the description of navigation operations in--><!--\*LKeyboard Selection\*O in \*LXmText(3X)\*O.-->This action may have different behavior in a right-to-left language
+environment.
+</Para>
+<Para>If called with an argument of <Symbol Role="Variable">extend</Symbol>, moves the insertion cursor as
+in the case of no argument and extends the current selection.
+</Para>
+<Para>The <Action>backward-character()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+If called with the <Symbol Role="Variable">extend</Symbol> argument, the
+<Action>backward-character()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>backward-word(<Symbol Role="Define">extend</Symbol>)</Action>:</Term>
+<ListItem>
+<Para>If this action is called with no argument,
+moves the insertion cursor to the first non-whitespace character after the
+first whitespace character to the left or after the beginning of the line.
+If the insertion cursor is already at the beginning of a word,
+moves the insertion cursor to the beginning of the previous word.
+<!--For other effects, see the description of navigation operations in--><!--\*LKeyboard Selection\*O in \*LXmText(3X)\*O.-->This action may have different behavior in a locale other than the C locale.
+</Para>
+<Para>If called with an argument of <Symbol Role="Variable">extend</Symbol>, moves the insertion cursor as
+in the case of no argument and extends the current selection.
+<!--For other effects, see the description of shifted navigation operations--><!--in \*LKeyboard Selection\*O in \*LXmText(3X)\*O.--></Para>
+<Para>The <Action>backward-word()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+If called with the <Symbol Role="Variable">extend</Symbol> argument, the
+<Action>backward-word()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>beginning-of-line(<Symbol Role="Define">extend</Symbol>)</Action>:</Term>
+<ListItem>
+<Para>If this action is called with no argument,
+moves the insertion cursor to the beginning of the line.
+<!--For other effects, see the description of navigation operations in--><!--\*LKeyboard Selection\*O in \*LXmText(3X)\*O.--></Para>
+<Para>If called with an argument of <Symbol Role="Variable">extend</Symbol>, moves the insertion cursor as
+in the case of no argument and extends the current selection.
+<!--For other effects, see the description of shifted navigation operations--><!--in \*LKeyboard Selection\*O in \*LXmText(3X)\*O.--></Para>
+<Para>The <Action>beginning-of-line()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+If called with the <Symbol Role="Variable">extend</Symbol> argument, the
+<Action>beginning-of-line()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>clear-selection()</Action>:</Term>
+<ListItem>
+<Para>Clears the current selection by replacing each character except
+<KeySym>Return</KeySym> with a <KeySym>space</KeySym> character.
+</Para>
+<Para>The <Action>clear-selection()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem> and the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>copy-clipboard()</Action>:</Term>
+<ListItem>
+<Para>If this widget owns the primary selection, this action copies the
+selection to the clipboard.
+This action calls the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures, possibly
+multiple times, for the <Symbol Role="Define">CLIPBOARD</Symbol> selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>copy-primary()</Action>:</Term>
+<ListItem>
+<Para>Copies the primary selection to just before the insertion cursor.
+This action calls the <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures for the
+<Symbol Role="Define">PRIMARY</Symbol> selection and the <SystemItem Class="Constant">XmCOPY</SystemItem> operation.
+It calls the selection owner's <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures,
+possibly multiple times, for the <Symbol Role="Define">PRIMARY</Symbol> selection.
+</Para>
+<Para>In addition, the <Action>copy-primary()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>, and the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+The <Action>copy-primary()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>copy-to()</Action>:</Term>
+<ListItem>
+<Para>If a secondary selection exists, this action copies the secondary
+selection to the insertion position of the destination component.
+If the primary selection is in the destination widget, it will
+be deselected. Otherwise, there is no effect on the primary selection.
+</Para>
+<Para>This action calls the destination's <SystemItem Class="Resource">XmNdestinationCallback</SystemItem>
+procedures for the <Symbol Role="Define">SECONDARY</Symbol> selection and the
+<SystemItem Class="Constant">XmCOPY</SystemItem> operation.
+The destination's <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures or the
+destination component itself invokes the selection owner's
+<SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures, possibly multiple times, for the
+<Symbol Role="Define">SECONDARY</Symbol> selection.
+</Para>
+<Para>If no secondary selection exists, this action copies the primary
+selection to the pointer position.
+This action calls the <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures for the
+<Symbol Role="Define">PRIMARY</Symbol> selection and the <SystemItem Class="Constant">XmCOPY</SystemItem> operation.
+It calls the selection owner's <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures,
+possibly multiple times, for the <Symbol Role="Define">PRIMARY</Symbol> selection.
+</Para>
+<Para>In addition, the <Action>copy-to()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>, and the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+If there is no secondary selection, the
+<Action>copy-to()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>cut-clipboard()</Action>:</Term>
+<ListItem>
+<Para>If this widget owns the primary selection, this action cuts the
+selection to the clipboard.
+This action calls the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures, possibly
+multiple times, for the <Symbol Role="Define">CLIPBOARD</Symbol> selection.
+If the transfer is successful, this action then calls the
+<SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures for the <Symbol Role="Define">CLIPBOARD</Symbol> selection
+and the <Symbol Role="Define">DELETE</Symbol> target.
+</Para>
+<Para>In addition, the <Action>cut-clipboard()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, and the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>cut-primary()</Action>:</Term>
+<ListItem>
+<Para>Cuts the primary selection and pastes it just before the insertion cursor.
+This action calls the <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures for the
+<Symbol Role="Define">PRIMARY</Symbol> selection and the <SystemItem Class="Constant">XmMOVE</SystemItem> operation.
+It calls the selection owner's <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures,
+possibly multiple times, for the <Symbol Role="Define">PRIMARY</Symbol> selection.
+If the transfer is successful, this action then calls the selection
+owner's <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures for the <Symbol Role="Define">PRIMARY</Symbol>
+selection and the <Symbol Role="Define">DELETE</Symbol> target.
+</Para>
+<Para>In addition, the <Action>cut-primary()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>, the <SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, and the
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>delete-next-character()</Action>:</Term>
+<ListItem>
+<Para>In normal mode, if there is a nonnull selection, deletes the selection;
+otherwise,
+deletes the character following the insertion cursor.
+In add mode, if there is a nonnull selection, the cursor is not disjoint
+from the selection and <SystemItem Class="Resource">XmNpendingDelete</SystemItem> is set to True,
+deletes the selection;
+otherwise,
+deletes the character following the insertion cursor.
+This may impact the selection.
+</Para>
+<Para>The <Action>delete-next-character()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, and the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>delete-next-word()</Action>:</Term>
+<ListItem>
+<Para>In normal mode, if there is a nonnull selection, deletes the selection; otherwise,
+deletes the characters following the insertion cursor to the next space, tab
+or end-of-line character.
+In add mode, if there is a nonnull selection, the cursor is not disjoint
+from the selection and <SystemItem Class="Resource">XmNpendingDelete</SystemItem> is set to True,
+deletes the selection; otherwise,
+deletes the characters following the insertion cursor to the next space, tab
+or end-of-line character.
+This may impact the selection.
+This action may have different behavior in a locale other than the C locale.
+</Para>
+<Para>The <Action>delete-next-word()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, and the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>delete-previous-character()</Action>:</Term>
+<ListItem>
+<Para>In normal mode, if there is a nonnull selection, deletes the selection; otherwise,
+deletes the character of text immediately preceding the insertion cursor.
+In add mode, if there is a nonnull selection, the cursor is not disjoint
+from the selection and <SystemItem Class="Resource">XmNpendingDelete</SystemItem> is set to True,
+deletes the selection; otherwise,
+deletes the character of text immediately preceding the insertion cursor.
+This may impact the selection.
+</Para>
+<Para>The <Action>delete-previous-character()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>, and the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>delete-previous-word()</Action>:</Term>
+<ListItem>
+<Para>In normal mode, if there is a nonnull selection, deletes the selection; otherwise,
+deletes the characters preceding the insertion cursor
+to the next
+space, tab or beginning-of-line character.
+In add mode, if there is a nonnull selection, the cursor is not disjoint
+from the selection and <SystemItem Class="Resource">XmNpendingDelete</SystemItem> is set to True,
+deletes the selection; otherwise,
+deletes the characters preceding the insertion cursor to the next space,
+tab or beginning-of-line character.
+This may impact the selection.
+This action may have different behavior in a locale other than the C locale.
+</Para>
+<Para>The <Action>delete-previous-word()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>, and the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>delete-selection()</Action>:</Term>
+<ListItem>
+<Para>Deletes the current selection.
+</Para>
+<Para>The <Action>delete-selection()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>, and the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>delete-to-end-of-line()</Action>:</Term>
+<ListItem>
+<Para>In normal mode, if there is a nonnull selection, deletes the selection; otherwise,
+deletes the characters following the insertion cursor to the next end of
+line character.
+In add mode, if there is a nonnull selection, the cursor is not disjoint
+from the selection and <SystemItem Class="Resource">XmNpendingDelete</SystemItem> is set to True,
+deletes the selection; otherwise,
+deletes the characters following the insertion cursor to the next end
+of line character.
+This may impact the selection.
+</Para>
+<Para>The <Action>delete-to-end-of-line()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, and the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>delete-to-start-of-line()</Action>:</Term>
+<ListItem>
+<Para>In normal mode, if there is a nonnull selection, deletes the selection; otherwise,
+deletes the characters preceding the insertion cursor to the previous
+beginning-of-line character.
+In add mode, if there is a nonnull selection, the cursor is not disjoint
+from the selection and <SystemItem Class="Resource">XmNpendingDelete</SystemItem> is set to True,
+deletes the selection; otherwise,
+deletes the characters preceding the insertion cursor
+to the previous beginning-of-line character.
+This may impact the selection.
+</Para>
+<Para>The <Action>delete-to-start-of-line()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>, and the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>deselect-all()</Action>:</Term>
+<ListItem>
+<Para>Deselects the current selection.
+</Para>
+<Para>The <Action>deselect-all()</Action> action produces no callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>end-of-line(<Symbol Role="Define">extend</Symbol>)</Action>:</Term>
+<ListItem>
+<Para>If this action is called with no argument,
+moves the insertion cursor to the end of the line.
+<!--For other effects, see the description of navigation operations in--><!--\*LKeyboard Selection\*O in \*LXmText(3X)\*O.-->If called with an argument of <Symbol Role="Variable">extend</Symbol>, moves the insertion cursor as
+in the case of no argument and extends the current selection.
+<!--For other effects, see the description of shifted navigation operations--><!--in \*LKeyboard Selection\*O in \*LXmText(3X)\*O.--></Para>
+<Para>The <Action>end-of-line()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+If called with the <Symbol Role="Variable">extend</Symbol> argument, the
+<Action>end-of-line()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>extend-adjust()</Action>:</Term>
+<ListItem>
+<Para>Selects text from the anchor to the pointer position and deselects text
+outside that range.
+</Para>
+<Para>The <Action>extend-adjust()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+The <Action>extend-adjust()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>extend-end()</Action>:</Term>
+<ListItem>
+<Para>Moves the insertion cursor to the position of the pointer.
+The <Action>extend-end()</Action> action is used to commit the selection. After
+this action has been done, <Action>process-cancel()</Action> will no longer
+cancel the selection.
+</Para>
+<Para>The <Action>extend-end()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+The <Action>extend-end()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>extend-start()</Action>:</Term>
+<ListItem>
+<Para>Adjusts the anchor using the balance-beam method.
+Selects text from the anchor to the pointer position and deselects text
+outside that range.
+</Para>
+<Para>The <Action>extend-start()</Action> action can produce no callbacks,
+however, it may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> and <SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>forward-character(<Symbol Role="Define">extend</Symbol>)</Action>:</Term>
+<ListItem>
+<Para>Moves the insertion cursor one character to the right.
+<!--For other effects, see the description of navigation operations in the--><!--\*LKeyboard Selection\*O in \*LXmText(3X)\*O.-->This action may have different behavior in a right-to-left language
+environment.
+</Para>
+<Para>If called with an argument of <Symbol Role="Variable">extend</Symbol>, moves the insertion cursor as
+in the case of no argument and extends the current selection.
+</Para>
+<Para>The <Action>forward-character()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+If called with the <Symbol Role="Variable">extend</Symbol> argument, the
+<Action>forward-character()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>forward-word(<Symbol Role="Define">extend</Symbol>)</Action>:</Term>
+<ListItem>
+<Para>If this action is called with no argument, moves the insertion cursor to
+the first whitespace character or end-of-line following the next
+non-whitespace character.
+If the insertion cursor is already at the end of a word,
+moves the insertion cursor to the end of the next word.
+<!--For other effects, see the description of navigation operations in the--><!--\*LKeyboard Selection\*O in \*LXmText(3X)\*O.-->This action may have different behavior in a locale other than the C locale.
+</Para>
+<Para>If called with an argument of <Symbol Role="Variable">extend</Symbol>, moves the insertion cursor as
+in the case of no argument and extends the current selection.
+<!--For other effects, see the description of shifted navigation operations--><!--in \*LKeyboard Selection\*O in \*LXmText(3X)\*O.--></Para>
+<Para>The <Action>forward-word()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+If called with the <Symbol Role="Variable">extend</Symbol> argument, the
+<Action>forward-word()</Action> action may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>grab-focus()</Action>:</Term>
+<ListItem>
+<Para>This key binding performs the action defined in the
+<SystemItem Class="Resource">XmNselectionArray</SystemItem>, depending on the number of multiple mouse
+clicks.
+The default selection array ordering is one click to move the
+insertion cursor to the pointer position, two clicks to select a word,
+and three
+clicks to select a line of text.
+A single click also deselects any selected text and sets the anchor at
+the pointer position.
+This action may have different behavior in a locale other than the C locale.
+</Para>
+<Para>The <Action>grab-focus()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>Help()</Action>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNhelpCallback</SystemItem> if any exist.
+If there are no help
+callbacks for this widget, this action calls the help callbacks
+for the nearest ancestor that has them.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>key-select(<Symbol Role="Define">right|left</Symbol>)</Action>:</Term>
+<ListItem>
+<Para>If called with an argument of <Symbol Role="Variable">right</Symbol>, moves the insertion cursor
+one character to the right and extends the current selection.
+If called with an argument of <Symbol Role="Variable">left</Symbol>, moves the insertion cursor
+one character to the left and extends the current selection.
+If called with no argument, extends the current selection.
+<!--For other effects, see the description of shifted navigation operations--><!--and \*LKExtend\*O in \*LKeyboard Selection\*O in \*LXmText(3X)\*O.--></Para>
+<Para>Note that after a <Literal>key-select</Literal> action, the selection will still
+begin at the original anchor, and will extend to the position
+indicated in the action call. If this new position is on the opposite
+side of the selection anchor from the previous selection boundary, the
+original selection will be deselected.
+</Para>
+<Para>The <Action>key-select()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+The <Action>key-select()</Action> action may also produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>link-primary()</Action>:</Term>
+<ListItem>
+<Para>Places a link to the primary selection just before the insertion cursor.
+This action calls the <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures for the
+<Symbol Role="Define">PRIMARY</Symbol> selection and the <SystemItem Class="Constant">XmLINK</SystemItem> operation.
+The TextField widget itself performs no transfers; the
+<SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures are responsible for inserting
+the link to the primary selection and for taking any related actions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>link-to()</Action>:</Term>
+<ListItem>
+<Para>If a secondary selection exists, this action places a link to the
+secondary selection at the insertion position of the destination
+component.
+This action calls the destination's <SystemItem Class="Resource">XmNdestinationCallback</SystemItem>
+procedures for the <Symbol Role="Define">SECONDARY</Symbol> selection and the
+<SystemItem Class="Constant">XmLINK</SystemItem> operation.
+</Para>
+<Para>If no secondary selection exists, this action places a link to the
+primary selection at the pointer position.
+This action calls the <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures for the
+<Symbol Role="Define">PRIMARY</Symbol> selection and the <SystemItem Class="Constant">XmLINK</SystemItem> operation.
+</Para>
+<Para>The TextField widget itself performs no transfers; the
+<SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures are responsible for inserting
+the link to the primary or secondary selection and for taking any
+related actions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>move-destination()</Action>:</Term>
+<ListItem>
+<Para>Moves the insertion cursor to the pointer position without changing any
+existing current selection.
+If there is
+a
+current selection, sets the widget as the destination widget.
+This also moves the widget focus to match the insertion cursor.
+</Para>
+<Para>The <Action>move-destination()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>move-to()</Action>:</Term>
+<ListItem>
+<Para>If a secondary selection exists, this action moves the secondary
+selection to the insertion position of the destination component.
+If the secondary selection is in the destination widget, and the
+secondary selection and the primary selection overlap, the result
+is undefined.
+This action calls the destination's <SystemItem Class="Resource">XmNdestinationCallback</SystemItem>
+procedures for the <Symbol Role="Define">SECONDARY</Symbol> selection and the
+<SystemItem Class="Constant">XmCOPY</SystemItem> operation.
+The destination's <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures or the
+destination component itself invokes the selection owner's
+<SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures, possibly multiple times, for the
+<Symbol Role="Define">SECONDARY</Symbol> selection.
+If the transfer is successful, this action then calls the selection
+owner's <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures for the <Symbol Role="Define">SECONDARY</Symbol>
+selection and the <Symbol Role="Define">DELETE</Symbol> target.
+</Para>
+<Para>If no secondary selection exists, this action moves the primary
+selection to the pointer position.
+This action calls the <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures for the
+<Symbol Role="Define">PRIMARY</Symbol> selection and the <SystemItem Class="Constant">XmMOVE</SystemItem> operation.
+It calls the selection owner's <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures,
+possibly multiple times, for the <Symbol Role="Define">PRIMARY</Symbol> selection.
+If the transfer is successful, this action then calls the selection
+owner's <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures for the <Symbol Role="Define">PRIMARY</Symbol>
+selection and the <Symbol Role="Define">DELETE</Symbol> target.
+</Para>
+<Para>In addition, the <Action>move-to()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>, and the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>. This action may also produce calls
+to the <SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> procedures.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>next-tab-group()</Action>:</Term>
+<ListItem>
+<Para>Traverses to the next tab group.
+</Para>
+<Para>The <Action>next-tab-group()</Action> action produces no callbacks, unless it
+results in the widget losing focus, in which case, the
+<SystemItem Class="Resource">XmNlosingFocusCallback</SystemItem> procedures are called with reason value
+<SystemItem Class="Constant">XmCR_LOSING_FOCUS</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>page-left()</Action>:</Term>
+<ListItem>
+<Para>Scrolls the viewing window left one page of text.
+</Para>
+<Para>The <Action>page-left()</Action> action produces no callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>page-right()</Action>:</Term>
+<ListItem>
+<Para>Scrolls the viewing window right one page of text.
+</Para>
+<Para>The <Action>page-right()</Action> action produces no callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>paste-clipboard()</Action>:</Term>
+<ListItem>
+<Para>Pastes the contents of the clipboard before the insertion cursor.
+This action calls the <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures for the
+<Symbol Role="Define">CLIPBOARD</Symbol> selection and the <SystemItem Class="Constant">XmCOPY</SystemItem> operation.
+</Para>
+<Para>The <Action>paste-clipboard()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>, and the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>prev-tab-group()</Action>:</Term>
+<ListItem>
+<Para>Traverses to the previous tab group.
+</Para>
+<Para>The <Action>prev-tab-group()</Action> action produces no callbacks, unless it
+results in the widget losing focus, in which case, the
+<SystemItem Class="Resource">XmNlosingFocusCallback</SystemItem> procedures are called with reason value
+<SystemItem Class="Constant">XmCR_LOSING_FOCUS</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>process-bdrag()</Action></Term>
+<ListItem>
+<Para>If the pointer is within the selection, this action starts a drag
+operation for the selection.
+This action sets the <SystemItem Class="Resource">XmNconvertProc</SystemItem> of the DragContext to a
+function that calls the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures, possibly
+multiple times, for the <Property>_MOTIF_DROP</Property> selection.
+</Para>
+<Para>If no selection exists or the pointer is outside the selection, this
+action prepares to start a secondary selection at the pointer position.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>process-cancel()</Action>:</Term>
+<ListItem>
+<Para>Cancels the current <Action>extend-adjust()</Action>, <Action>secondary-adjust()</Action>
+or <Action>process-bdrag()</Action>
+operation and leaves the selection state as it was before the operation;
+otherwise, and
+if
+the parent is a manager, it passes the event to the parent.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>secondary-adjust()</Action>:</Term>
+<ListItem>
+<Para>Extends the secondary selection to the pointer position.
+</Para>
+<Para>The <Action>secondary-adjust()</Action> action produces no callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>secondary-start()</Action>:</Term>
+<ListItem>
+<Para>Marks the beginning of a secondary selection.
+</Para>
+<Para>The <Action>secondary-start()</Action> action produces no callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>select-all()</Action>:</Term>
+<ListItem>
+<Para>Selects all text.
+</Para>
+<Para>The <Action>select-all()</Action> action can produce no callbacks,
+however, it may produce calls to the
+<SystemItem Class="Resource">XmNgainPrimaryCallback</SystemItem> and <SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures.
+See callback description for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>self-insert()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNpendingDelete</SystemItem> is True and the cursor is not disjoint from the
+current selection, deletes the entire selection.
+Inserts the character associated with the key pressed
+before the insertion cursor.
+</Para>
+<Para>The <Action>self-insert()</Action> action produces calls to the
+<SystemItem Class="Resource">XmNmodifyVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MODIFYING_TEXT_VALUE</SystemItem>, the <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+procedures with reason value <SystemItem Class="Constant">XmCR_VALUE_CHANGED</SystemItem>, and the
+<SystemItem Class="Resource">XmNmotionVerifyCallback</SystemItem> procedures with reason value
+<SystemItem Class="Constant">XmCR_MOVING_INSERT_CURSOR</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>set-anchor()</Action>:</Term>
+<ListItem>
+<Para>Resets the anchor point for extended selections.
+Resets the destination of secondary selection actions.
+</Para>
+<Para>The <Action>set-anchor()</Action> action produces no callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>toggle-add-mode()</Action>:</Term>
+<ListItem>
+<Para>Toggles the state of Add Mode.
+</Para>
+<Para>The <Action>toggle-add-mode()</Action> action produces no callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>toggle-overstrike()</Action>:</Term>
+<ListItem>
+<Para>Toggles the state of the text insertion mode. By default,
+characters typed into the TextField widget are inserted before
+the position of the insertion cursor. In overstrike
+mode, characters entered into the TextField widget replace
+the characters that directly follow the insertion cursor.
+In overstrike mode, when the end of a line is reached,
+characters are appended to the end of the line.
+</Para>
+<Para>The following traversal actions generate no callbacks unless they
+result in the loss of focus by the widget in question, as when
+<SystemItem Class="Resource">XmNnavigationType</SystemItem> is <SystemItem Class="Constant">XmNONE</SystemItem>. In this case,
+they produce calls to the <SystemItem Class="Resource">XmNlosingFocusCallback</SystemItem> procedures,
+with reason value <SystemItem Class="Constant">XmCR_FOCUS_MOVED</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>traverse-home()</Action>:</Term>
+<ListItem>
+<Para>Traverses to the first widget in the tab group.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>traverse-next()</Action>:</Term>
+<ListItem>
+<Para>Traverses to the next widget in the tab group.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>traverse-prev()</Action>:</Term>
+<ListItem>
+<Para>Traverses to the previous widget in the tab group.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>This widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>FocusIn</KeySym>:</Term>
+<ListItem>
+<Para>Draws the insertion cursor as solid and starts blinking the cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>FocusOut</KeySym>:</Term>
+<ListItem>
+<Para>Displays the insertion cursor as a stippled I-beam unless it is the destination
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+<!--The following table lists the TextField-specific bindings of virtual
+keys to actual key event descriptions in Motif.
+.PP
+.TS
+center, allbox, tab(@);
+cb s
+lb | lb.
+Virtual Key Bindings
+Virtual Key@Actual Key Events
+KExtend@T{
+Ctrl Shift&lt;Key>space
+.nL
+Shift&lt;Key>osfSelect
+T}
+KSelect@T{
+Ctrl&lt;Key>space
+.nL
+&lt;Key>osfSelect
+T}
+.TE
+.P
+-->For information about bindings for virtual buttons and keys,
+see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Core;,
+&cdeman.XmCreateTextField;,
+&cdeman.XmFontList;,
+&cdeman.XmFontListAppendEntry;,
+&cdeman.XmPrimitive;,
+&cdeman.XmTextFieldClearSelection;,
+&cdeman.XmTextFieldCopy;,
+&cdeman.XmTextFieldCopyLink;,
+&cdeman.XmTextFieldCut;,
+&cdeman.XmTextFieldGetBaseline;,
+&cdeman.XmTextFieldGetEditable;,
+&cdeman.XmTextFieldGetInsertionPosition;,
+&cdeman.XmTextFieldGetLastPosition;,
+&cdeman.XmTextFieldGetMaxLength;,
+&cdeman.XmTextFieldGetSelection;,
+&cdeman.XmTextFieldGetSelectionPosition;,
+&cdeman.XmTextFieldGetSelectionWcs;,
+&cdeman.XmTextFieldGetString;,
+&cdeman.XmTextFieldGetStringWcs;,
+&cdeman.XmTextFieldGetSubstring;,
+&cdeman.XmTextFieldGetSubstringWcs;,
+&cdeman.XmTextFieldInsert;,
+&cdeman.XmTextFieldInsertWcs;,
+&cdeman.XmTextFieldPaste;,
+&cdeman.XmTextFieldPasteLink;,
+&cdeman.XmTextFieldPosToXY;,
+&cdeman.XmTextFieldRemove;,
+&cdeman.XmTextFieldReplace;,
+&cdeman.XmTextFieldReplaceWcs;,
+&cdeman.XmTextFieldSetAddMode;,
+&cdeman.XmTextFieldSetEditable;,
+&cdeman.XmTextFieldSetHighlight;,
+&cdeman.XmTextFieldSetInsertionPosition;,
+&cdeman.XmTextFieldSetMaxLength;,
+&cdeman.XmTextFieldSetSelection;,
+&cdeman.XmTextFieldSetString;,
+&cdeman.XmTextFieldSetStringWcs;,
+&cdeman.XmTextFieldShowPosition;, and
+&cdeman.XmTextFieldXYToPos;.
+</Para>
+</RefSect1>
+</RefEntry>

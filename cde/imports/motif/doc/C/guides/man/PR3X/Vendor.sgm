@@ -1,0 +1,1424 @@
+<!-- $XConsortium: Vendor.sgm /main/16 1996/10/29 11:40:55 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN30.rsml.1">
+<RefMeta>
+<RefEntryTitle>VendorShell</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>VendorShell</Classname></RefName>
+<RefPurpose>The VendorShell widget class
+<IndexTerm>
+<Primary>VendorShell</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>VendorShell</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Synopsis>#include &lt;Xm/Xm.h>
+#include &lt;X11/Shell.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>VendorShell is a Motif widget class used as a supporting superclass for
+all shell classes that are visible to the window manager and that are
+not override redirect.
+It contains resources that describe the MWM-specific look and feel.
+It also manages the MWM-specific communication needed by all VendorShell
+subclasses.
+See the <Command>mwm</Command> reference page for more information.
+</Para>
+<Para>If an application uses the <SystemItem Class="Resource">XmNmwmDecorations</SystemItem>,
+<SystemItem Class="Resource">XmNmwmFunctions</SystemItem>, or <SystemItem Class="Resource">XmNmwmInputMode</SystemItem> resource, it should
+include the file <Filename>Xm/MwmUtil.h</Filename>.
+</Para>
+<Para>Setting <SystemItem Class="Resource">XmNheight</SystemItem>, <SystemItem Class="Resource">XmNwidth</SystemItem>, or <SystemItem Class="Resource">XmNborderWidth</SystemItem> for
+either a VendorShell or its managed child usually sets that resource to the
+same value in both the parent and the child. When an off-the-spot input
+method exists, the height and width of the shell may be greater than
+those of the managed child in order to accommodate the input method.
+In this case, setting <SystemItem Class="Resource">XmNheight</SystemItem> or <SystemItem Class="Resource">XmNwidth</SystemItem> for the
+shell does not necessarily set that resource to the same value in
+the managed child, and setting <SystemItem Class="Resource">XmNheight</SystemItem> or <SystemItem Class="Resource">XmNwidth</SystemItem>
+for the child does not necessarily set that resource to the same
+value in the shell.
+</Para>
+<Para>For the managed child of a VendorShell, regardless of the value
+of the shell's <SystemItem Class="Resource">XmNallowShellResize</SystemItem>, setting <SystemItem Class="Resource">XmNx</SystemItem> or
+<SystemItem Class="Resource">XmNy</SystemItem> sets the corresponding resource of the parent but does
+not change the child's position relative to the parent.
+<Function>XtGetValues</Function> for the child's <SystemItem Class="Resource">XmNx</SystemItem> or <SystemItem Class="Resource">XmNy</SystemItem> yields the
+value of the corresponding resource in the parent.
+The x and y-coordinates of the child's upper left outside
+corner relative to the parent's upper left inside corner are both 0 (zero)
+minus the value of <SystemItem Class="Resource">XmNborderWidth</SystemItem>.
+</Para>
+<Para>Note that the <Emphasis>Inter-Client Communication Conventions Manual</Emphasis> (ICCCM)
+allows a window manager to change or control the border width of a reparented
+top-level window.
+</Para>
+<Para>VendorShell holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>VendorShell inherits behavior, resources, and traits from the <Classname>Core</Classname>,
+<Classname>Composite</Classname>, <Classname>Shell</Classname>, and
+<Classname>WMShell</Classname> classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">vendorShellWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>VendorShell</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+subresource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a subresource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given subresource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>VendorShell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaudibleWarning</Entry>
+<Entry>XmCAudibleWarning</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmBELL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonFontList</Entry>
+<Entry>XmCButtonFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonRenderTable</Entry>
+<Entry>XmCButtonRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultFontList</Entry>
+<Entry>XmCDefaultFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdeleteResponse</Entry>
+<Entry>XmCDeleteResponse</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmDESTROY</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinputMethod</Entry>
+<Entry>XmCInputMethod</Entry>
+<Entry>string</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinputPolicy</Entry>
+<Entry>XmCInputPolicy</Entry>
+<Entry>XmInputPolicy</Entry>
+<Entry>XmPER_SHELL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNkeyboardFocusPolicy</Entry>
+<Entry>XmCKeyboardFocusPolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmEXPLICIT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelFontList</Entry>
+<Entry>XmCLabelFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelRenderTable</Entry>
+<Entry>XmCLabelRenderTabel</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>XmLEFT_TO_RIGHT</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNmwmDecorations</Entry>
+<Entry>XmCMwmDecorations</Entry>
+<Entry>int</Entry>
+<Entry>-1</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNmwmFunctions</Entry>
+<Entry>XmCMwmFunctions</Entry>
+<Entry>int</Entry>
+<Entry>-1</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNmwmInputMode</Entry>
+<Entry>XmCMwmInputMode</Entry>
+<Entry>int</Entry>
+<Entry>-1</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNmwmMenu</Entry>
+<Entry>XmCMwmMenu</Entry>
+<Entry>String</Entry>
+<Entry>NULL</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNpreeditType</Entry>
+<Entry>XmCPreeditType</Entry>
+<Entry>String</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNverifyPreedit</Entry>
+<Entry>XmCVerifyPreedit</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshellUnitType</Entry>
+<Entry>XmCShellUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmPIXELS</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextFontList</Entry>
+<Entry>XmCTextFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextRenderTable</Entry>
+<Entry>XmCTextRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmPIXELS</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuseAsyncGeometry</Entry>
+<Entry>XmCUseAsyncGeometry</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNaudibleWarning</SystemItem></Term>
+<ListItem>
+<Para>Determines whether an action activates its associated audible cue.
+The possible values are <SystemItem Class="Constant">XmBELL</SystemItem> and <SystemItem Class="Constant">XmNONE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used for button descendants. See the
+<SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table used for VendorShell's button descendants.
+If this value is NULL at initialization and if the value of
+<SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is not NULL, <SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem>
+is initialized to the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem>. If
+the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is NULL,
+the parent hierarchy of the widget is searched for
+an ancestor that holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such an ancestor is found,
+<SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem> is initialized to the
+<SystemItem Class="Constant">XmBUTTON_RENDER_TABLE</SystemItem> value
+of the ancestor widget. If no such ancestor is found, the default
+is implementation dependent. Refer to
+&cdeman.XmRenderTable; for more information on the creation and structure
+of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies a default font list for VendorShell's descendants.
+This resource is obsolete and exists for compatibility with
+earlier releases. It has been replaced by <SystemItem Class="Resource">XmNbuttonFontList</SystemItem>,
+<SystemItem Class="Resource">XmNlabelFontList</SystemItem>, and <SystemItem Class="Resource">XmNtextFontList</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdeleteResponse</SystemItem></Term>
+<ListItem>
+<Para>Determines what action the shell takes in response to a
+<Property>WM_DELETE_WINDOW</Property> message.
+The setting can be one of three values: <SystemItem Class="Constant">XmDESTROY</SystemItem>, <SystemItem Class="Constant">XmUNMAP</SystemItem>,
+and <SystemItem Class="Constant">XmDO_NOTHING</SystemItem>.
+The resource is scanned, and the appropriate action is taken after the
+<Property>WM_DELETE_WINDOW</Property> callback list (if any) that is registered with
+the Protocol manager has been called.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNinputMethod</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string that sets the locale modifier for the input
+method.
+When <Function>XtGetValues</Function> is called on this resource, the returned value
+is a pointer to the actual resource value and
+should not be freed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNinputPolicy</SystemItem></Term>
+<ListItem>
+<Para>Specifies the policy to follow for creating an
+Input Context (IC) for this shell. This resource can have the
+following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPER_SHELL</SystemItem></Term>
+<ListItem>
+<Para>Specifies that only one XIC is created per shell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPER_WIDGET</SystemItem></Term>
+<ListItem>
+<Para>Specifies that one XIC is created for each widget.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNkeyboardFocusPolicy</SystemItem></Term>
+<ListItem>
+<Para>Determines allocation of keyboard focus within the widget hierarchy rooted
+at this shell. The X keyboard focus must be directed to somewhere in the
+hierarchy for this client-side focus management to take effect.
+Possible values are <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, specifying a click-to-type policy,
+and <SystemItem Class="Constant">XmPOINTER</SystemItem>, specifying a pointer-driven policy.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used for label descendants. See the
+<SystemItem Class="Resource">XmNlabelRenderTable</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelRenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used for VendorShell's label descendants
+(Labels and LabelGadgets). If this value is NULL at initialization
+and if the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is not NULL,
+<SystemItem Class="Resource">XmNlabelFontList</SystemItem> is initialized to the value of
+<SystemItem Class="Resource">XmNdefaultFontList</SystemItem>. If the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is
+NULL, the parent hierarchy of the widget is searched
+for an ancestor that holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such
+an ancestor is found, <SystemItem Class="Resource">XmNlabelRenderTable</SystemItem> is initialized to the
+<SystemItem Class="Constant">XmLABEL_RENDER_TABLE</SystemItem> of the ancestor widget. If no such ancestor
+is found, the default is implementation dependent. Refer to
+&cdeman.XmRenderTable; for more information on the creation and structure
+of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlayoutDirection</SystemItem></Term>
+<ListItem>
+<Para>Specifies the direction in which the subwidgets, children of a
+widget, or other visual components are to be laid out. This policy
+will apply as the default layout policy for all descendants of this
+VendorShell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmwmDecorations</SystemItem></Term>
+<ListItem>
+<Para>Specifies the decoration flags (specific decorations to add or remove
+from the window manager frame) for the <Property>_MOTIF_WM_HINTS</Property> property.
+If any decoration flags are specified by the <Property>_MOTIF_WM_HINTS</Property>
+property, only decorations indicated by both that property and the MWM
+<Literal>clientDecoration</Literal> and <Literal>transientDecoration</Literal> resources are displayed.
+If no decoration flags are specified by the <Property>_MOTIF_WM_HINTS</Property> property,
+decorations indicated by the MWM <Literal>clientDecoration</Literal> and
+<Literal>transientDecoration</Literal> resources are displayed.
+The default for the <SystemItem Class="Resource">XmNmwmDecorations</SystemItem> resource
+is not to specify any decoration flags for the <Property>_MOTIF_WM_HINTS</Property> property.
+</Para>
+<Para>The value of this resource is the bitwise inclusive OR of one or more
+flag bits.
+The possible flag bit constants, defined in the include
+file <Filename>Xm/MwmUtil.h</Filename>, are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_DECOR_ALL</SystemItem></Term>
+<ListItem>
+<Para>All decorations <Emphasis>except</Emphasis> those specified by
+other flag bits that are set
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_DECOR_BORDER</SystemItem></Term>
+<ListItem>
+<Para>Client window border
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_DECOR_RESIZEH</SystemItem></Term>
+<ListItem>
+<Para>Resize frame handles
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_DECOR_TITLE</SystemItem></Term>
+<ListItem>
+<Para>Title bar
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_DECOR_MENU</SystemItem></Term>
+<ListItem>
+<Para>Window menu button
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_DECOR_MINIMIZE</SystemItem></Term>
+<ListItem>
+<Para>Minimize window button
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_DECOR_MAXIMIZE</SystemItem></Term>
+<ListItem>
+<Para>Maximize window button
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmwmFunctions</SystemItem></Term>
+<ListItem>
+<Para>Specifies the function flags (specific window manager functions to
+apply or not apply to the client window) for the <Property>_MOTIF_WM_HINTS</Property>
+property.
+If any function flags are specified by the <Property>_MOTIF_WM_HINTS</Property>
+property, only functions indicated by both that property and the MWM
+<Literal>clientFunctions</Literal> and <Literal>transientFunctions</Literal> resources are
+applied.
+If no function flags are specified by the <Property>_MOTIF_WM_HINTS</Property>
+property, functions indicated by the MWM <Literal>clientFunctions</Literal> and
+<Literal>transientFunctions</Literal> resources are applied.
+The default for the <SystemItem Class="Resource">XmNmwmFunctions</SystemItem> resource is not to specify any
+function flags for the <Property>_MOTIF_WM_HINTS</Property> property.
+</Para>
+<Para>The value of this resource is the bitwise inclusive OR of one or more
+flag bits.
+The possible flag bit constants, defined in the include
+file <Filename>Xm/MwmUtil.h</Filename>, are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_FUNC_ALL</SystemItem></Term>
+<ListItem>
+<Para>All functions <Emphasis>except</Emphasis> those specified by
+other flag bits that are set
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_FUNC_RESIZE</SystemItem></Term>
+<ListItem>
+<Para><Function>f.resize</Function>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_FUNC_MOVE</SystemItem></Term>
+<ListItem>
+<Para><Function>f.move</Function>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_FUNC_MINIMIZE</SystemItem></Term>
+<ListItem>
+<Para><Function>f.minimize</Function>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_FUNC_MAXIMIZE</SystemItem></Term>
+<ListItem>
+<Para><Function>f.maximize</Function>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_FUNC_CLOSE</SystemItem></Term>
+<ListItem>
+<Para><Function>f.kill</Function>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmwmInputMode</SystemItem></Term>
+<ListItem>
+<Para>Specifies the input mode flag (application modal or system modal input
+constraints) for the <Property>_MOTIF_WM_HINTS</Property> property.
+If no input mode flag is specified by the <Property>_MOTIF_WM_HINTS</Property>
+property, no input constraints are applied, and input goes to any
+window.
+The default for the <SystemItem Class="Resource">XmNmwmInputMode</SystemItem> resource is not to specify any
+input mode flag for the <Property>_MOTIF_WM_HINTS</Property> property.
+</Para>
+<Para>An application that sets input constraints on a dialog usually uses the
+BulletinBoard's <SystemItem Class="Resource">XmNdialogStyle</SystemItem> resource rather than the parent
+DialogShell's <SystemItem Class="Resource">XmNmwmInputMode</SystemItem> resource.
+</Para>
+<Para>The possible values for this resource, defined in the
+include file <Filename>Xm/MwmUtil.h</Filename>, are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_INPUT_MODELESS</SystemItem></Term>
+<ListItem>
+<Para>Input goes to any window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_INPUT_PRIMARY_APPLICATION_MODAL</SystemItem></Term>
+<ListItem>
+<Para>Input does not
+go to ancestors of this window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_INPUT_SYSTEM_MODAL</SystemItem></Term>
+<ListItem>
+<Para>Input goes only to this window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MWM_INPUT_FULL_APPLICATION_MODAL</SystemItem></Term>
+<ListItem>
+<Para>Input does not go to other
+windows in this application.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmwmMenu</SystemItem></Term>
+<ListItem>
+<Para>Specifies the menu items that the Motif window manager should add to the end
+of the window menu. The string contains a list of items separated
+by <Literal>\n</Literal> with the following format:
+</Para>
+<Synopsis><Symbol Role="Variable">label [mnemonic] [accelerator] function</Symbol>
+</Synopsis>
+<Para>If more than one item is specified, the items should be separated by a
+newline character.
+</Para>
+<Para>When <Function>XtGetValues</Function> is called on this resource, the returned value
+is a pointer to the actual resource value and
+should not be freed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpreeditType</SystemItem></Term>
+<ListItem>
+<Para>Specifies the input method style or styles available to the input
+manager. The resource can be a comma-separated list of the following
+values:
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="2" Namest="1"><Literal>Preedit Values</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Preedit Value</Literal></Entry>
+<Entry Rowsep="1"><Literal>XIM Style</Literal></Entry>
+</Row>
+<Row>
+<Entry>OffTheSpot</Entry>
+<Entry>XIMPreeditArea</Entry>
+</Row>
+<Row>
+<Entry>Root</Entry>
+<Entry>XIMPreeditNothing</Entry>
+</Row>
+<Row>
+<Entry>None</Entry>
+<Entry>XIMPreeditNone</Entry>
+</Row>
+<Row>
+<Entry>OverTheSpot</Entry>
+<Entry>XIMPreeditPosition</Entry>
+</Row>
+<Row>
+<Entry>OnTheSpot</Entry>
+<Entry>XIMPreeditCallbacks</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>When <Function>XtGetValues</Function> is called on this resource, the returned value
+is a pointer to the actual resource value and
+should not be freed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNshellUnitType</SystemItem></Term>
+<ListItem>
+<Para>This resource is obsolete, and is included only for compatibility with
+earlier releases of Motif. Use the <SystemItem Class="Resource">XmNunitType</SystemItem> resource
+instead.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtextFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used for text descendants. See the
+<SystemItem Class="Resource">XmNtextRenderTable</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtextRenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table used for VendorShell's Text and List
+descendants. If this value is NULL at initialization
+and if the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is not NULL,
+<SystemItem Class="Resource">XmNtextRenderTable</SystemItem> is initialized to the value of
+<SystemItem Class="Resource">XmNdefaultFontList</SystemItem>. If the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is
+NULL, the parent hierarchy of the widget is searched
+for an ancestor that holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such
+an ancestor is found, <SystemItem Class="Resource">XmNtextRenderTable</SystemItem> is initialized to the
+<SystemItem Class="Constant">XmTEXT_RENDER_TABLE</SystemItem> value of the ancestor widget. If no such ancestor
+is found, the default is implementation dependent.
+Refer to
+&cdeman.XmRenderTable; for more information on the creation and structure
+of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNunitType</SystemItem></Term>
+<ListItem>
+<Para>Provides the basic support for resolution independence. It defines
+the type of units a widget uses with sizing and positioning resources.
+The resource has a default unit type of <SystemItem Class="Constant">XmPIXELS</SystemItem>.
+</Para>
+<Para>The unit type can also be specified in resource files, with the
+following format:
+</Para>
+<InformalExample>
+<ProgramListing><Symbol Role="Variable">&lt;floating value>&lt;unit></Symbol>
+</ProgramListing>
+</InformalExample>
+<Para>where:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">unit</Symbol></Term>
+<ListItem>
+<Para>is &lt;" ", pixels, inches, centimeters, millimeters, points, font units>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>pixels</Emphasis></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">pix</Symbol>, <Symbol Role="Variable">pixel</Symbol>, <Emphasis>pixels</Emphasis>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">inches</Symbol></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">in</Symbol>, <Symbol Role="Variable">inch</Symbol>, <Symbol Role="Variable">inches</Symbol>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">centimeter</Symbol></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">cm</Symbol>, <Symbol Role="Variable">centimeter</Symbol>, <Symbol Role="Variable">centimeters</Symbol>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">millimeters</Symbol></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">mm</Symbol>, <Symbol Role="Variable">millimeter</Symbol>, <Symbol Role="Variable">millimeters</Symbol>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>points</Literal></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">pt</Symbol>, <Symbol Role="Variable">point</Symbol>, <Symbol Role="Variable">points</Symbol>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>font units</Literal></Term>
+<ListItem>
+<Para>is &lt;<Symbol Role="Variable">fu</Symbol>, <Literal>font_unit</Literal>, <Literal>font_units</Literal>>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">float</Symbol></Term>
+<ListItem>
+<Para>is {"+"|"-"}{{&lt;"0"-"9">*}.}&lt;"0"-"9">*
+</Para>
+<Para>Note that the type Dimension must always be positive.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>For example,
+</Para>
+<InformalExample>
+<ProgramListing>xmfonts*XmMainWindow.height: 10.4cm
+*PostIn.width: 3inches
+</ProgramListing>
+</InformalExample>
+<Para><SystemItem Class="Resource">XmNunitType</SystemItem> can have the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPIXELS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal
+pixel values.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMILLIMETERS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal millimeter
+values.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Xm100TH_MILLIMETERS</Symbol></Term>
+<ListItem>
+<Para>All values provided to the widget are treated
+as 1/100 of a millimeter.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCENTIMETERS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal centimeter
+values.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmINCHES</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal inch
+values.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Xm1000TH_INCHES</Symbol></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as
+1/1000 of an inch.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPOINTS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal point
+values. A point is a unit used in text processing
+applications and is defined as 1/72 of an inch.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Xm100TH_POINTS</Symbol></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as
+1/100 of a point. A point is a unit used in text processing
+applications and is defined as 1/72 of an inch.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmFONT_UNITS</SystemItem></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as normal font
+units. A font unit has horizontal and vertical components.
+These are the values of the XmScreen resources <SystemItem Class="Resource">XmNhorizontalFontUnit</SystemItem>
+and <SystemItem Class="Resource">XmNverticalFontUnit</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Xm100TH_FONT_UNITS</Symbol></Term>
+<ListItem>
+<Para>All values provided to the widget are treated as 1/100 of a font unit.
+A font unit has horizontal and vertical components. These are the
+values of the <Classname>XmScreen</Classname> resources <SystemItem Class="Resource">XmNhorizontalFontUnit</SystemItem> and
+<SystemItem Class="Resource">XmNverticalFontUnit</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>For more information about units, refer to the <Function>XmConvertUnits</Function>
+reference page.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNuseAsyncGeometry</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether the geometry manager should wait for confirmation of a
+geometry request to the window manager.
+When the value of this resource is True, the geometry manager forces
+<SystemItem Class="Resource">XmNwaitForWm</SystemItem> to False and <SystemItem Class="Resource">XmNwmTimeout</SystemItem> to 0, and it relies
+on asynchronous notification.
+When the value of this resource is False, <SystemItem Class="Resource">XmNwaitForWm</SystemItem> and
+<SystemItem Class="Resource">XmNwmTimeout</SystemItem> are unaffected.
+The default is False.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>VendorShell inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>WMShell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbaseHeight</Entry>
+<Entry>XmCBaseHeight</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbaseWidth</Entry>
+<Entry>XmCBaseWidth</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNheightInc</Entry>
+<Entry>XmCHeightInc</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconMask</Entry>
+<Entry>XmCIconMask</Entry>
+<Entry>Pixmap</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconPixmap</Entry>
+<Entry>XmCIconPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconWindow</Entry>
+<Entry>XmCIconWindow</Entry>
+<Entry>Window</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconX</Entry>
+<Entry>XmCIconX</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconY</Entry>
+<Entry>XmCIconY</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialState</Entry>
+<Entry>XmCInitialState</Entry>
+<Entry>int</Entry>
+<Entry>NormalState</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinput</Entry>
+<Entry>XmCInput</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaxAspectX</Entry>
+<Entry>XmCMaxAspectX</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaxAspectY</Entry>
+<Entry>XmCMaxAspectY</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaxHeight</Entry>
+<Entry>XmCMaxHeight</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaxWidth</Entry>
+<Entry>XmCMaxWidth</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminAspectX</Entry>
+<Entry>XmCMinAspectX</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminAspectY</Entry>
+<Entry>XmCMinAspectY</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminHeight</Entry>
+<Entry>XmCMinHeight</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminWidth</Entry>
+<Entry>XmCMinWidth</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtitle</Entry>
+<Entry>XmCTitle</Entry>
+<Entry>String</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtitleEncoding</Entry>
+<Entry>XmCTitleEncoding</Entry>
+<Entry>Atom</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtransient</Entry>
+<Entry>XmCTransient</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwaitForWm</Entry>
+<Entry>XmCWaitForWm</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidthInc</Entry>
+<Entry>XmCWidthInc</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwindowGroup</Entry>
+<Entry>XmCWindowGroup</Entry>
+<Entry>Window</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>mNwinGravity</Entry>
+<Entry>XmCWinGravity</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwmTimeout</Entry>
+<Entry>XmCWmTimeout</Entry>
+<Entry>int</Entry>
+<Entry>5000 ms</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Shell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNallowShellResize</Entry>
+<Entry>XmCAllowShellResize</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNcreatePopupChildProc</Entry>
+<Entry>XmCCreatePopupChildProc</Entry>
+<Entry>XtCreatePopupChildProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNgeometry</Entry>
+<Entry>XmCGeometry</Entry>
+<Entry>String</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNoverrideRedirect</Entry>
+<Entry>XmCOverrideRedirect</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopdownCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNsaveUnder</Entry>
+<Entry>XmCSaveUnder</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNvisual</Entry>
+<Entry>XmCVisual</Entry>
+<Entry>Visual *</Entry>
+<Entry>CopyFromParent</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para>There are no translations for VendorShell.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;,
+&cdeman.Core;,
+&cdeman.mwm;,
+&cdeman.Shell;,
+&cdeman.WMShell;,
+&cdeman.XmActivateProtocol;,
+&cdeman.XmActivateWMProtocol;,
+&cdeman.XmAddProtocolCallback;,
+&cdeman.XmAddWMProtocolCallback;,
+&cdeman.XmAddProtocols;,
+&cdeman.XmAddWMProtocols;,
+&cdeman.XmDeactivateProtocol;,
+&cdeman.XmDeactivateWMProtocol;,
+&cdeman.XmGetAtomName;,
+&cdeman.XmInternAtom;,
+&cdeman.XmIsMotifWMRunning;,
+&cdeman.XmRemoveProtocolCallback;,
+&cdeman.XmRemoveWMProtocolCallback;,
+&cdeman.XmRemoveProtocols;,
+&cdeman.XmRemoveWMProtocols;,
+&cdeman.XmScreen;,
+&cdeman.XmSetProtocolHooks;,
+and &cdeman.XmSetWMProtocolHooks;.
+</Para>
+</RefSect1>
+</RefEntry>

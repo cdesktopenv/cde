@@ -1,0 +1,1202 @@
+<!-- $XConsortium: MsgBA.sgm /main/11 1996/09/26 14:54:34 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN328.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmMessageBox</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmMessageBox</Classname></RefName>
+<RefPurpose>The MessageBox widget class
+<IndexTerm>
+<Primary>XmMessageBox</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>MessageBox</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/MessageB.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>MessageBox is a dialog class used for creating simple message dialogs.
+Convenience dialogs based on MessageBox are provided for several common
+interaction tasks, which include giving information, asking questions, and
+reporting errors.
+</Para>
+<Para>A MessageBox dialog is typically transient in nature, displayed for the
+duration of a single interaction.
+MessageBox is a subclass of BulletinBoard and
+depends on it for much of its general dialog behavior.
+</Para>
+<Para>The default value for <SystemItem Class="Resource">XmNinitialFocus</SystemItem>
+is the value of <SystemItem Class="Resource">XmNdefaultButton</SystemItem>.
+</Para>
+<Para>A typical MessageBox contains a message symbol, a message, and up to
+three standard default PushButtons: <Literal>OK, Cancel</Literal>, and <Literal>Help</Literal>.
+It is laid out with the symbol and message on top and the
+PushButtons on the bottom. The <Literal>Help</Literal> button is positioned to the side
+of the other push buttons.
+You can localize the default symbols and button labels for MessageBox
+convenience dialogs.
+<!--.zA "feature, 5750, R2.0, Added for layout"
+The positioning of the symbol's pixmap relative to the message text,
+and the ordering of the pushbuttons, depends on the
+&bsol;*LXmNlayoutDirection&bsol;*O resource of the widget.
+.zZ "feature, 5750, R2.0, Added for layout"
+--></Para>
+<Para>The user can specify resources in a resource file for the gadgets
+created automatically that contain the MessageBox symbol pixmap
+and separator. The gadget names are <Literal>Symbol</Literal> and <Literal>Separator</Literal>.
+</Para>
+<Para>A MessageBox can also be customized by creating and managing new
+children that are added to the MessageBox children created
+automatically by the convenience dialogs.
+In the case of
+TemplateDialog, only the separator child is created by default.
+If the callback, string, or pixmap symbol resources are specified,
+the appropriate child will be created.
+</Para>
+<Para>Additional children are laid out in the following manner:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The first MenuBar child is placed at the top of the window.
+The <Symbol Role="Globalvar">XmQTmenuSystem</Symbol> trait is used to check that it is the first
+MenuBar child.
+</Para>
+</ListItem>
+<ListItem>
+<Para>All widgets or gadgets
+are placed after the <Symbol Role="Define">OK</Symbol> button in the order of their creation
+(this order is checked using the <Symbol Role="Globalvar">XmQTactivatable</Symbol> trait).
+</Para>
+</ListItem>
+<ListItem>
+<Para>A child that is not in the above categories is placed above
+the row of buttons. If a message label exists, the child is placed below
+the label. If a message pixmap exists, but a message label is absent, the
+child is placed on the same row as the pixmap. The child behaves as a
+work area and grows or shrinks to fill the space above the
+row of buttons. The layout of multiple work area children is
+undefined.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>At initialization, MessageBox looks for the following bitmap files:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><Literal>xm_error</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>xm_information</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>xm_question</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>xm_working</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>xm_warning</Literal>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>See &cdeman.XmGetPixmap; for a list of the paths that are searched for
+these files.
+</Para>
+<Para>MessageBox uses the <Symbol Role="Globalvar">XmQTactivatable</Symbol> and <Symbol Role="Globalvar">XmQTmenuSystem</Symbol> traits.
+</Para>
+<RefSect2>
+<Title>Descendants</Title>
+<Para>MessageBox automatically creates the descendants shown in the
+following table.
+An application can use <Function>XtNameToWidget</Function> to gain access
+to the named descendant. In addition, a user or an application
+can use the named descendant when specifying resource values.
+</Para>
+<InformalTable Frame="All" Orient="Port">
+<TGroup Cols="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Align="Left" Colname="3">
+<TBody>
+<Row>
+<Entry><Literal>Named Descendant</Literal></Entry>
+<Entry><Literal>Class</Literal></Entry>
+<Entry><Literal>Identity</Literal></Entry>
+</Row>
+<Row>
+<Entry>=</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Cancel</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">Cancel button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Help</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">Help button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Message</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmLabelGadget</Classname></Entry>
+<Entry Rowsep="1">displayed message</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Symbol Role="Define">OK</Symbol></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">OK button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Separator</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmSeparatorGadget</Classname></Entry>
+<Entry Rowsep="1">dividing line between message and buttons</Entry>
+</Row>
+<Row>
+<Entry><Literal>Symbol</Literal></Entry>
+<Entry><Classname>XmLabelGadget</Classname></Entry>
+<Entry>icon symbolizing message type</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>MessageBox inherits behavior, resources, and traits from <Classname>Core</Classname>,
+<Classname>Composite</Classname>, <Classname>Constraint</Classname>,
+<Classname>XmManager</Classname>, and <Classname>XmBulletinBoard</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmMessageBoxWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmMessageBox</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmMessageBox Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNcancelCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelLabelString</Entry>
+<Entry>XmCCancelLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultButtonType</Entry>
+<Entry>XmCDefaultButtonType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmDIALOG_OK_BUTTON</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogType</Entry>
+<Entry>XmCDialogType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmDIALOG_MESSAGE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpLabelString</Entry>
+<Entry>XmCHelpLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmessageAlignment</Entry>
+<Entry>XmCAlignment</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmALIGNMENT_BEGINNING</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmessageString</Entry>
+<Entry>XmCMessageString</Entry>
+<Entry>XmString</Entry>
+<Entry>""</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminimizeButtons</Entry>
+<Entry>XmCMinimizeButtons</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNokCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNokLabelString</Entry>
+<Entry>XmCOkLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsymbolPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcancelCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called when
+the user clicks on the cancel button.
+The reason sent by the callback is <SystemItem Class="Constant">XmCR_CANCEL</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcancelLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the cancel button.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Cancel</Literal>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultButtonType</SystemItem></Term>
+<ListItem>
+<Para>Specifies the default PushButton.
+A value of <SystemItem Class="Constant">XmDIALOG_NONE</SystemItem> means that there should be no default
+PushButton.
+The following types are valid:
+<!--no-op:  .rS--></Para>
+<ItemizedList>
+<ListItem>
+<Para><SystemItem Class="Constant">XmDIALOG_CANCEL_BUTTON</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmDIALOG_OK_BUTTON</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmDIALOG_HELP_BUTTON</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmDIALOG_NONE</SystemItem>
+</Para>
+</ListItem>
+</ItemizedList>
+<!--no-op:  .rE-->
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdialogType</SystemItem></Term>
+<ListItem>
+<Para>Specifies the type of MessageBox dialog, which determines
+the default message symbol.
+The following are the possible values for this resource:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_ERROR</SystemItem></Term>
+<ListItem>
+<Para>Indicates an ErrorDialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_INFORMATION</SystemItem></Term>
+<ListItem>
+<Para>Indicates an InformationDialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_MESSAGE</SystemItem></Term>
+<ListItem>
+<Para>Indicates a MessageDialog.
+This is the default MessageBox dialog type.
+It does not have an associated message symbol.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_QUESTION</SystemItem></Term>
+<ListItem>
+<Para>Indicates a QuestionDialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_TEMPLATE</SystemItem></Term>
+<ListItem>
+<Para>Indicates a TemplateDialog.
+The TemplateDialog contains only a separator child. It does not
+have an associated message symbol.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_WARNING</SystemItem></Term>
+<ListItem>
+<Para>Indicates a WarningDialog.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_WORKING</SystemItem></Term>
+<ListItem>
+<Para>Indicates a WorkingDialog.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>If this resource is changed with <Function>XtSetValues</Function>, the symbol bitmap is
+modified to the new <SystemItem Class="Resource">XmNdialogType</SystemItem> bitmap unless
+<SystemItem Class="Resource">XmNsymbolPixmap</SystemItem> is also being set in the call to
+<Function>XtSetValues</Function>.
+If the dialog type does not have an associated message symbol, then no
+bitmap will be displayed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhelpLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the help button.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Help</Literal>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmessageAlignment</SystemItem></Term>
+<ListItem>
+<Para>Controls the alignment of the message Label.
+Possible values include the following:
+<!--no-op:  .rS--></Para>
+<ItemizedList>
+<ListItem>
+<Para><SystemItem Class="Constant">XmALIGNMENT_BEGINNING</SystemItem> (default)
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmALIGNMENT_CENTER</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmALIGNMENT_END</SystemItem>
+</Para>
+</ListItem>
+</ItemizedList>
+<!--no-op:  .rE-->
+<Para>See the description of <SystemItem Class="Resource">XmNalignment</SystemItem> in the <Classname>XmLabel</Classname>
+reference page for an explanation of these values.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmessageString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string to be used as the message.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNminimizeButtons</SystemItem></Term>
+<ListItem>
+<Para>Sets the buttons to the width of the widest button and height of the
+tallest button if False. If this resource is True,
+button width and height are
+set to the preferred size of each button.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNokCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called when
+the user clicks on the OK button.
+The reason sent by the callback is <SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNokLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the OK button.
+The default for this resource depends on the locale.
+In the C locale the default is <Symbol Role="Define">OK</Symbol>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsymbolPixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies the pixmap label to be used as the message symbol.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>MessageBox inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmBulletinBoard Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNallowOverlap</Entry>
+<Entry>XmCAllowOverlap</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNautoUnmanage</Entry>
+<Entry>XmCAutoUnmanage</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonFontList</Entry>
+<Entry>XmCButtonFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonRenderTable</Entry>
+<Entry>XmCButtonRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>Cancel button</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultPosition</Entry>
+<Entry>XmCDefaultPosition</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogStyle</Entry>
+<Entry>XmCDialogStyle</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogTitle</Entry>
+<Entry>XmCDialogTitle</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfocusCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelFontList</Entry>
+<Entry>XmCLabelFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelRenderTable</Entry>
+<Entry>XmCLabelRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoResize</Entry>
+<Entry>XmCNoResize</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizePolicy</Entry>
+<Entry>XmCResizePolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmRESIZE_ANY</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowType</Entry>
+<Entry>XmCShadowType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmSHADOW_OUT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextFontList</Entry>
+<Entry>XmCTextFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextRenderTable</Entry>
+<Entry>XmCTextRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextTranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNunmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to each callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+} XmAnyCallbackStruct;</Synopsis>
+<!--no-op:  .fi-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmMessageBox -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para><Classname>XmMessageBox</Classname> includes the translations from <Classname>XmManager</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>The <Classname>XmMessageBox</Classname> widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para>Calls the activate callbacks for the cancel button if it is sensitive.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para>Calls the activate callbacks for the button with the keyboard focus.
+If no button has the keyboard focus, calls the activate callbacks
+for the default button if it is sensitive.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Ok&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNokCallback</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Cancel&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNcancelCallback</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Help&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNhelpCallback</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>FocusIn</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNfocusCallback</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Map</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNmapCallback</SystemItem> if the parent is a
+DialogShell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Unmap</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNunmapCallback</SystemItem> if the parent is a
+DialogShell.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;,
+&cdeman.Constraint;,
+&cdeman.Core;,
+&cdeman.XmBulletinBoard;,
+&cdeman.XmCreateErrorDialog;,
+&cdeman.XmCreateInformationDialog;,
+&cdeman.XmCreateMessageBox;,
+&cdeman.XmCreateMessageDialog;,
+&cdeman.XmCreateQuestionDialog;,
+&cdeman.XmCreateTemplateDialog;,
+&cdeman.XmCreateWarningDialog;,
+&cdeman.XmCreateWorkingDialog;,
+&cdeman.XmManager;, and
+&cdeman.XmMessageBoxGetChild;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

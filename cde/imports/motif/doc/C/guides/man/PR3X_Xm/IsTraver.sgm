@@ -1,0 +1,120 @@
+<!-- $XConsortium: IsTraver.sgm /main/8 1996/09/08 20:49:25 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN279.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmIsTraversable</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmIsTraversable</Function></RefName>
+<RefPurpose>A function that identifies whether a widget can
+be traversed
+<IndexTerm>
+<Primary>XmIsTraversable</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>Boolean <Function>XmIsTraversable</Function></FuncDef>
+<!--<ParamDef><Replaceable>widget</Replaceable></ParamDef>-->
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmIsTraversable</Function> determines whether the specified widget is
+eligible to receive focus through keyboard traversal.
+In general, a widget is eligible to receive focus when all of the
+following conditions are true:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The widget and its ancestors are not being destroyed, are sensitive, and
+have a value of True for <SystemItem Class="Resource">XmNtraversalOn</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The widget and its ancestors are realized, managed, and (except for
+gadgets) mapped.
+If an application unmaps a <Symbol Role="Variable">widget</Symbol> that has its
+<SystemItem Class="Resource">XmNmappedWhenManaged</SystemItem> resource set to True, the return value
+is undefined.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Some part of the widget's rectangular area is unobscured by the widget's
+ancestors, or some part of the widget's rectangular area is inside the
+work window (but possibly outside the clip window) of a ScrolledWindow
+whose <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is <SystemItem Class="Constant">XmAUTOMATIC</SystemItem> and whose
+<SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem> is not NULL.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Some widgets may not be eligible to receive focus even if they meet all
+these conditions.
+For example, most managers cannot receive focus through keyboard traversal.
+Some widgets may be eligible to receive focus under particular
+conditions.
+For example, a DrawingArea is eligible to receive focus if it meets the
+conditions above and has no child whose <SystemItem Class="Resource">XmNtraversalOn</SystemItem> resource is
+True.
+</Para>
+<Para>Note that when all widgets in a shell hierarchy have been made
+untraversable, they are considered to have lost focus. When a
+widget in this hierarchy is made traversable again, it regains focus.
+</Para>
+<Para><Function>XmIsTraversable</Function> may return unexpected results when <Symbol Role="Variable">widget</Symbol>
+or its ancestors are overlapped by their siblings.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the widget
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns True if the widget is eligible to receive focus through keyboard
+traversal; otherwise, returns False.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmGetVisibility; and &cdeman.XmProcessTraversal;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

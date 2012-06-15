@@ -1,0 +1,165 @@
+<!-- $XConsortium: CvtTxtPr.sgm /main/9 1996/09/08 20:37:52 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN192.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmCvtTextPropertyToXmStringTable</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmCvtTextPropertyToXmStringTable</Function></RefName>
+<RefPurpose>A function that converts from a TextProperty Structure to a StringTable
+<IndexTerm>
+<Primary>XmCvtTextPropertyToXmStringTable</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- -->
+<!-- HISTORY-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+int XmCvtTextPropertyToXmStringTable (<Replaceable>display, text_prop, string_table_return, count_return</Replaceable>)
+        Display *<Replaceable>display</Replaceable>;
+        XTextProperty   *<Replaceable>text_prop</Replaceable>;
+        XmStringTable   *<Replaceable>string_table_return</Replaceable>;
+        int     *<Replaceable>count_return</Replaceable>;
+</FuncSynopsisInfo>
+<FuncDef></FuncDef>
+<void>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmCvtTextPropertyToXmStringTable</Function> converts the specified
+<Symbol>XTextProperty</Symbol> structure into an <StructName Role="typedef">XmStringTable</StructName>, as follows:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>If the encoding member of <Symbol Role="Variable">text_prop</Symbol> is the Atom <Symbol Role="Define">STRING</Symbol>, each
+returned <StructName Role="typedef">XmString</StructName>
+has a tag of "ISO8859-1" and a text type of <SystemItem Class="Constant">XmCHARSET_TEXT</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If
+the encoding member of <Symbol Role="Variable">text_prop</Symbol> is the encoding of the current locale,
+and if that encoding is not <Symbol Role="Define">STRING</Symbol>, each returned <StructName Role="typedef">XmString</StructName> has a
+tag of <SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem> and a text type of
+<SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If
+the encoding member of <Symbol Role="Variable">text_prop</Symbol> is other than <Symbol Role="Define">STRING</Symbol> or
+the encoding of the current locale,
+the contents of the returned compound strings are
+implementation dependent.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>If conversion depends on the
+locale and the current locale is not supported, the function returns
+<SystemItem Class="Constant">XLocaleNotSupported</SystemItem>. If conversion to the encoding of the current
+locale is required and if the locale is supported but no converter is
+available for the encoding specified in <Symbol Role="Variable">text_prop</Symbol>, the function
+returns <SystemItem Class="Constant">XConverterNotFound</SystemItem>. For supported locales, existence of
+a converter
+from <Symbol Role="Define">COMPOUND_TEXT</Symbol>, <Symbol Role="Define">STRING</Symbol>, or the encoding of the current
+locale is
+guaranteed if <Function>XSupportsLocale</Function> returns True for the current locale (but
+the actual text may contain unconvertible characters). Conversion of
+other encodings to the encoding of the current locale is implementation
+dependent. In all of these error cases, the function does not set any
+return values.
+</Para>
+<Para>If an element of the value member of <Symbol Role="Variable">text_prop</Symbol> is not
+convertible to <StructName Role="typedef">XmString</StructName>, the corresponding entry in the returned
+<StructName Role="typedef">XmStringTable</StructName> will be NULL, and
+<Function>XmCvtTextPropertyToXmStringTable</Function> returns Success.
+</Para>
+<Para>To free the storage for the <StructName Role="typedef">XmStringTable</StructName> and its
+<Symbol Role="Variable">count_return</Symbol> compound strings returned by this function, first
+free each <StructName Role="typedef">XmString</StructName> in the table using <Function>XmStringFree</Function>, and
+then free the <StructName Role="typedef">XmStringTable</StructName> itself using <Function>XtFree</Function>.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">display</Symbol></Term>
+<ListItem>
+<Para>Specifies the connection to the X server.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">text_prop</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the <Symbol>XTextProperty</Symbol>.
+The format member of <Symbol Role="Variable">text_prop</Symbol> must be 8.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">string_table_return</Symbol></Term>
+<ListItem>
+<Para>Specifies the <StructName Role="typedef">XmStringTable</StructName> array into which the converted compound
+strings are placed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">count_return</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of <StructName Role="typedef">XmString</StructName>s returned by this function.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUES</Title>
+<Para>Upon success, this function returns the set of <StructName Role="typedef">XmString</StructName>s in
+<Symbol Role="Variable">string_table_return</Symbol>, and it returns the number of <StructName Role="typedef">XmString</StructName>s in
+<Symbol Role="Variable">count_return</Symbol>, and returns Success. Otherwise, it returns the
+following:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XLocaleNotSupported</SystemItem></Term>
+<ListItem>
+<Para>Returned if conversion depends on the
+locale and the current locale is not supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XConverterNotFound</SystemItem></Term>
+<ListItem>
+<Para>Returned if conversion to the encoding of the current
+locale is required and if the locale is supported but no converter is
+available for the encoding specified in <Symbol Role="Variable">text_prop</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED INFORMATION</Title>
+<Para>&cdeman.XmCvtXmStringTableToTextProperty;,
+&cdeman.XmText;, and
+&cdeman.XmTextGetString;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

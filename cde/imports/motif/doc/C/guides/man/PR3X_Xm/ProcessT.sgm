@@ -1,0 +1,430 @@
+<!-- $XConsortium: ProcessT.sgm /main/8 1996/09/08 20:55:42 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN344.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmProcessTraversal</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmProcessTraversal</Function></RefName>
+<RefPurpose>A function that determines which component receives keyboard events when a widget has the focus
+<IndexTerm>
+<Primary>XmProcessTraversal</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>Boolean <Function>XmProcessTraversal</Function></FuncDef>
+<!--<ParamDef><Replaceable>widget, direction</Replaceable></ParamDef>-->
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>XmTraversalDirection <Parameter>direction</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmProcessTraversal</Function> determines which component of a hierarchy
+receives keyboard events when the hierarchy that contains the given
+widget has keyboard focus.
+</Para>
+<Para><Function>XmProcessTraversal</Function> changes focus only when the keyboard focus
+policy of the widget hierarchy is explicit.
+If the <SystemItem Class="Resource">XmNkeyboardFocusPolicy</SystemItem> of the nearest shell ancestor of the
+given widget is not <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, <Function>XmProcessTraversal</Function>
+returns False without making any focus changes.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Specifies the widget ID of the widget whose hierarchy is to be
+traversed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>direction</Emphasis></Term>
+<ListItem>
+<Para>Specifies the direction of traversal
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<RefSect2>
+<Title>DEFINITIONS</Title>
+<Para>In order to be eligible to receive keyboard focus when the shell's
+<SystemItem Class="Resource">XmNkeyboardFocusPolicy</SystemItem> is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, a widget or gadget
+must meet the following conditions:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The widget and its ancestors are not in the process of being destroyed.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The widget and its ancestors are <Symbol Role="Variable">sensitive</Symbol>.
+A widget is sensitive when its <SystemItem Class="Resource">XmNsensitive</SystemItem> and
+<SystemItem Class="Resource">XmNancestorSensitive</SystemItem> resources are both True.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The <SystemItem Class="Resource">XmNtraversalOn</SystemItem> resource for the widget and its ancestors is
+True.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The widget is viewable.
+This means that the widget and its ancestors are managed, realized, and
+(except for gadgets) mapped.
+Furthermore, in general, some part of the widget's rectangular area must
+be unobscured by the widget's ancestors. If an application unmaps a
+widget that has its <SystemItem Class="Resource">XmNmappedWhenManaged</SystemItem> resource set to True, the
+result is undefined.
+</Para>
+<Para>In a ScrolledWindow with an <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> of
+<SystemItem Class="Constant">XmAUTOMATIC</SystemItem>, a widget that is obscured because it is not within
+the clip window may be able to receive focus if some part of the widget
+is within the work area and if an <SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem>
+routine can make the widget at least partially visible by scrolling the
+window.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>In general only primitives, gadgets, and Drawing Area are eligible to
+receive focus.
+Most managers cannot receive focus even if they meet all these
+conditions.
+</Para>
+<Para>The <Emphasis>direction</Emphasis> argument identifies the kind of traversal action to
+take.
+The descriptions of these actions below refer to traversable
+non-tab-group widgets and traversable tab groups.
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>A traversable non-tab-group widget is a widget that is not a tab group
+and that meets all the conditions for receiving focus described above.
+</Para>
+</ListItem>
+<ListItem>
+<Para>A traversable tab group widget is a tab group widget that meets the same
+conditions, except that a manager that is a tab group and meets the
+other conditions is also eligible for traversal as long as it contains a
+descendant that can receive focus.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>A tab group is a widget whose <SystemItem Class="Resource">XmNnavigationType</SystemItem> is:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTAB_GROUP</SystemItem> or <SystemItem Class="Constant">XmSTICKY_TAB_GROUP</SystemItem>, if the hierarchy (up to
+the nearest shell ancestor) that contains the widget has no widget whose
+<SystemItem Class="Resource">XmNnavigationType</SystemItem> is <SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem> or <SystemItem Class="Constant">XmSTICKY_TAB_GROUP</SystemItem>, if the
+hierarchy (up to the nearest shell ancestor) that contains the widget
+has any widget whose <SystemItem Class="Resource">XmNnavigationType</SystemItem> is
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>
+</Para>
+</ListItem>
+</ItemizedList>
+</RefSect2>
+<RefSect2>
+<Title>TRAVERSAL ACTIONS</Title>
+<Para>The hierarchy to be traversed is that containing the <Symbol Role="Variable">widget</Symbol>
+argument.
+This hierarchy is traversed only up to the nearest shell;
+<Function>XmProcessTraversal</Function> does not move focus from one shell to another.
+If the shell containing <Symbol Role="Variable">widget</Symbol> does not currently have the focus,
+any change that <Function>XmProcessTraversal</Function> makes to the element with focus
+within that shell does not take effect until the next time the shell
+receives focus.
+</Para>
+<Para><Function>XmProcessTraversal</Function> begins the traversal action from the widget in
+the hierarchy that currently has keyboard focus or that last had focus
+when the user traversed away from the shell hierarchy.
+</Para>
+<Para>The value of the <Emphasis>direction</Emphasis> argument determines which of three
+kinds of traversal action to take:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Traversal to a non-tab-group widget.
+This kind of traversal is possible only when the widget that currently
+has focus is not a tab group; otherwise, <Function>XmProcessTraversal</Function>
+returns False for these actions.
+</Para>
+<Para>These actions do not move focus from one tab group to another.
+The actions first determine the containing tab group.
+This is the tab group containing the widget that currently has focus.
+The actions traverse only to a non-tab-group widget within the
+containing tab group.
+</Para>
+<Para>A non-tab-group widget is eligible for this kind of traversal if the
+widget is traversable and has no tab group ancestors up to the
+containing tab group.
+If the tab group contains no traversable non-tab-group widgets,
+<Function>XmProcessTraversal</Function> returns False.
+</Para>
+<Para>Following are the possible values of the <Emphasis>direction</Emphasis> argument.
+Note that when actions wrap, wrapping occurs in the traversal
+direction. The following describes what happens in a left
+to right environment:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_RIGHT</SystemItem>&mdash;If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the
+containing tab group is not <SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to
+the next traversable non-tab-group widget to the right of the widget
+that currently has focus.
+In a left to right environment, at the right side of the tab group
+this action wraps to the
+non-tab-group widget at the left side and next toward the bottom.
+At the rightmost widget in the bottom row of the tab group this action
+wraps to the
+non-tab-group widget at the leftmost widget in the upper row.
+</Para>
+<Para>In a right to left environment, at the right side of the tab group,
+this action wraps to the non-tab-group widget at the left side and
+next toward the top. At the rightmost widget in the upper row of the
+tab group this action wraps to the non-tab-group widget at the
+leftmost widget in the bottom row.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the containing tab group is
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to the next traversable
+non-tab-group widget in the tab group, proceeding in the order in which
+the widgets appear in their parents' <SystemItem Class="Resource">XmNchildren</SystemItem> lists.
+After the last widget in the tab group, this action wraps to the first
+non-tab-group widget.
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_LEFT</SystemItem>&mdash;If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the
+containing tab group is not <SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to
+the next traversable non-tab-group widget to the left of the widget that
+currently has focus.
+In a left to right environment, at the left side of the tab group this
+action wraps to the non-tab-group
+widget at the right side and next toward the top.
+At the leftmost widget in the upper row of the tab group this action
+wraps to the non-tab-group widget at the rightmost widget in the
+bottom row.
+</Para>
+<Para>In a right to left environment, at the left side of the tab group this
+action wraps to the non-tab-group widget at the right side and next
+toward the bottom. At the leftmost widget in the bottom row of the
+tab group this
+action wraps to the non-tab-group widget at the rightmost widget in
+the upper row.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the containing tab group is
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to the previous traversable
+non-tab-group widget in the tab group, proceeding in the reverse order
+in which the widgets appear in their parents' <SystemItem Class="Resource">XmNchildren</SystemItem> lists.
+After the first widget in the tab group, this action wraps to the last
+non-tab-group widget.
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_DOWN</SystemItem>&mdash;If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the
+containing tab group is not <SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to
+the next traversable non-tab-group widget below the widget that
+currently has focus.
+In a left to right environment, at the bottom of the tab group this
+action wraps to the non-tab-group
+widget at the top and next toward the right.
+At the bottom widget in the rightmost column of the tab group this action
+wraps to the
+non-tab-group widget at the top widget in the leftmost column.
+</Para>
+<Para>In a right to left environment, at the bottom of the tab group this
+action wraps to the non-tab-group widget at the top and next toward
+the left. At the bottom widget of the leftmost widget of the tab
+group this action wraps
+to the non-tab-group widget at the top widget of the rightmost column.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the containing tab group is
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to the next traversable
+non-tab-group widget in the tab group, proceeding in the order in which
+the widgets appear in their parents' <SystemItem Class="Resource">XmNchildren</SystemItem> lists.
+After the last widget in the tab group, this action wraps to the first
+non-tab-group widget.
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_UP</SystemItem>&mdash;If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the containing
+tab group is not <SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to the next
+traversable non-tab-group widget above the widget that currently has
+focus.
+In a left to right environment, at the top of the tab group this
+action wraps to the non-tab-group
+widget at the bottom and next toward the left.
+At the top widget of the leftmost column of the tab group this action
+wraps to the
+non-tab-group widget at the bottom widget of the rightmost column.
+</Para>
+<Para>In a right to left environment, at the top of the tab group this
+action wraps to the non-tab-group widget at the bottom and next toward
+the right. At the top widget of the right most column of the tab
+group this action
+wraps to the non-tab-group widget at the bottom widget of the leftmost
+column.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the containing tab group is
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to the previous traversable
+non-tab-group widget in the tab group, proceeding in the reverse order
+in which the widgets appear in their parents' <SystemItem Class="Resource">XmNchildren</SystemItem> lists.
+After the first widget in the tab group, this action wraps to the last
+non-tab-group widget.
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_NEXT</SystemItem>&mdash;Focus moves to the next traversable
+non-tab-group widget in the tab group, proceeding in the order in which
+the widgets appear in their parents' <SystemItem Class="Resource">XmNchildren</SystemItem> lists.
+After the last widget in the tab group, this action wraps to the first
+non-tab-group widget.
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_PREV</SystemItem>&mdash;Focus moves to the previous traversable
+non-tab-group widget in the tab group, proceeding in the reverse order
+in which the widgets appear in their parents' <SystemItem Class="Resource">XmNchildren</SystemItem> lists.
+After the first widget in the tab group, this action wraps to the last
+non-tab-group widget.
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_HOME</SystemItem>&mdash;If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the containing
+tab group is not <SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to the first
+traversable non-tab-group widget at the initial focus of the tab
+group.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNnavigationType</SystemItem> of the containing tab group is
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, focus moves to the first traversable
+non-tab-group widget in the tab group, according to the order in which
+the widgets appear in their parents' <SystemItem Class="Resource">XmNchildren</SystemItem> lists.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Traversal to a tab group.
+These actions first determine the current widget hierarchy and the
+containing tab group.
+The current widget hierarchy is the widget hierarchy whose root is the
+nearest shell ancestor of the widget that currently has focus.
+The containing tab group is is the tab group containing the widget that
+currently has focus.
+If the current widget hierarchy contains no traversable tab groups,
+<Function>XmProcessTraversal</Function> returns False.
+</Para>
+<Para>Following are the possible values of the <Emphasis>direction</Emphasis> argument. If
+any tab group in the current widget hierarchy has an
+<SystemItem Class="Resource">XmNnavigationType</SystemItem> of <SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, traversal of
+tab groups in the hierarchy proceeds to widgets in the order in which
+their <SystemItem Class="Resource">XmNnavigationType</SystemItem> resources were specified as
+<SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem> or <SystemItem Class="Constant">XmSTICKY_TAB_GROUP</SystemItem>.:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_NEXT_TAB_GROUP</SystemItem>&mdash;Finds the hierarchy that contains
+<Symbol Role="Variable">widget</Symbol>,
+finds the active tab group (if any), and makes the next tab group the
+active tab group in the hierarchy.
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_PREV_TAB_GROUP</SystemItem>&mdash;Finds the hierarchy that contains
+<Symbol Role="Variable">widget</Symbol>,
+finds the active tab group (if any), and makes the previous tab group the
+active tab group in the hierarchy.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+<ListItem>
+<Para>Traversal to any widget.
+In this case the <Symbol Role="Variable">widget</Symbol> argument is the widget to which
+<Function>XmProcessTraversal</Function> tries to give focus.
+If the widget is not traversable, <Function>XmProcessTraversal</Function> returns
+False.
+</Para>
+<Para>Following are the possible values of the <Emphasis>direction</Emphasis> argument:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><SystemItem Class="Constant">XmTRAVERSE_CURRENT</SystemItem>&mdash;Finds the hierarchy and the tab group that
+contain <Symbol Role="Variable">widget</Symbol>.
+If this tab group is not the active tab group, this action
+makes it the active tab group.
+If <Symbol Role="Variable">widget</Symbol> is an item in the active tab group, this action
+makes it the active item.
+If <Symbol Role="Variable">widget</Symbol> is the active tab group, this action
+makes the first traversable
+item in the tab group the active item.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</ItemizedList>
+</RefSect2>
+<RefSect2>
+<Title>CAUTIONS</Title>
+<Para>Using <Function>XmProcessTraversal</Function> to traverse to MenuBars,
+Pulldown menu panes, or Popup menu panes is not supported.
+</Para>
+<Para><Function>XmProcessTraversal</Function> cannot be called recursively.
+In particular, an application cannot call this routine from an
+<SystemItem Class="Resource">XmNfocusCallback</SystemItem> or <SystemItem Class="Resource">XmNlosingFocusCallback</SystemItem> procedure.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns True if the traversal action succeeded.
+Returns False if the <SystemItem Class="Resource">XmNkeyboardFocusPolicy</SystemItem> of the nearest shell
+ancestor of <Symbol Role="Variable">widget</Symbol> is not <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, if the traversal
+action finds no traversable widget to receive focus, or if the call to
+the routine has invalid arguments.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmGetVisibility; and
+&cdeman.XmIsTraversable;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

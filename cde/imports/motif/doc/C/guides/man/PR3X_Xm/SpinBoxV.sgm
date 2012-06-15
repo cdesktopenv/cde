@@ -1,0 +1,202 @@
+<!-- $XConsortium: SpinBoxV.sgm /main/7 1996/09/08 21:02:39 rws $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<RefEntry Id="CDEMOT.XmSpinBoxValidatePosition">
+<RefMeta>
+<RefEntryTitle>XmSpinBoxValidatePosition</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmSpinBoxValidatePosition</Function></RefName>
+<RefPurpose>
+translate the current value of the specified XmSpinBox child
+into a valid position
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Xm/SpinBox.h>
+</FuncSynopsisInfo>
+<FuncDef>int <Function>XmSpinBoxValidatePosition</Function></FuncDef>
+<ParamDef>Widget <Parameter>textfield</parameter></paramdef>
+<ParamDef>int <Parameter>*position</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>XmSpinBoxValidatePosition</Function> function
+is a utility that can be used by applications wanting to
+implement a policy for tracking user modifications to editable
+<classname>XmSpinBox</classname> children of type
+<Symbol>XmNUMERIC</Symbol>. The specifics of when and how the user's
+modifications take effect is left up to the application.
+</Para>
+<VariableList>
+<VarListEntry><term><Symbol Role="Variable">text_field</Symbol></term>
+<ListItem>
+<para>The <Symbol Role="Variable">text_field</Symbol> argument specifies the
+widget ID of the child of the <Classname>XmSpinBox</Classname> that is
+being modified. The requirement on <Symbol Role="Variable">text_field</Symbol>
+is that it holds the
+<Literal>accessTextual</Literal> trait (already a requirement for
+children of <Classname>XmSpinBox</Classname>). This way,
+<Classname>XmSpinBox</Classname> can extract the string out of the
+<Symbol Role="Variable">text_field</Symbol> widget (even if it is not an
+<Symbol>XmTextField</Symbol>).
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><term><Symbol Role="Variable">position</Symbol></term>
+<ListItem>
+<para>The location pointed to by the position argument is assigned the result
+of the translation done by <Function>XmSpinBoxValidatePosition</Function>.
+<Function>XmSpinBoxValidatePosition</Function> first checks to make sure this is an
+<Symbol>XmNUMERIC</Symbol> <Classname>XmSpinBox</Classname> child. If it is not,
+<Function>XSmpinBoxValidatePosition</Function> sets position to the current
+position and returns <Symbol>XmCURRENT_VALUE</Symbol>.
+</para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para><Function>XmSpinBoxValidatePosition</Function>
+attempts to translate the input string to a floating point number. If
+this translation fails,
+<Function>XmSpinBoxValidatePosition</Function> sets position to the current position and
+returns <Symbol>XmCURRENT_VALUE</Symbol>.
+</Para>
+<Para><Function>XmSpinBoxValidatePosition</Function> converts the floating point number to an integer using the
+<Symbol>XmNdecimalPoints</Symbol> resource. Extra decimal places are truncated. The resulting integer is range
+checked to make sure it falls within the valid range defined by <Symbol>XmNminimumValue</Symbol> and
+<Symbol>XmNmaximumValue</Symbol> inclusive. If the input falls outside this range,
+<Function>XmSpinBoxValidatePosition</Function> sets position to the nearest limit and returns either
+<Symbol>XmMINIMUM_VALUE</Symbol> or <Symbol>XmMAXIMUM_VALUE</Symbol>.
+</Para>
+<Para>Finally, <Function>XmSpinBoxValidatePosition</Function> checks the integer to make sure it belongs to the series
+defined by <Literal>XmNminimumValue ... XmNminumumValue + ((n - 1) * XmNincrementlValue)</Literal>. If
+the integer does not belong to this series, <Function>XmSpinBoxValidatePosition</Function> sets position to the
+nearest element which is less than or equal to the integer and returns
+<Symbol>XmINCREMENT_VALUE</Symbol>.
+</Para>
+<Para>Otherwise, <Function>XmSpinBoxValidatePosition</Function> assigns the integer to position and returns
+<Symbol>XmVALID_VALUE</Symbol>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN VALUE</Title>
+<Para>The
+<Function>XmSpinBoxValidatePosition</Function> function returns the status of the validation.
+The set of possible values returned is as follows:
+</Para>
+<VariableList>
+<VarListEntry><term><Symbol>XmCURRENT_VALUE</Symbol></term>
+<ListItem>
+<Para>Cannot convert, returning current position_value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><term><Symbol>XmMINIMUM_VALUE</Symbol></term>
+<ListItem>
+<Para>Less than min.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><term><Symbol>XmMAXIMUM_VALUE</Symbol></term>
+<ListItem>
+<Para>More than max.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><term><Symbol>XmINCREMENT_VALUE</Symbol></term>
+<ListItem>
+<Para>Not on increment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><term><Symbol>XmVALID_VALUE</Symbol></term>
+<ListItem>
+<Para>Okay.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>EXAMPLES</Title>
+<Para>This first example demonstrates how the <function>XmSpinBoxValidatePosition</function>
+function could be used from inside an
+<function>XmNmodifyVerifyCallback</function> callback installed on the
+<classname>XmSpinBox</classname> or the
+<classname>XmSimpleSpinBox</classname>:
+</Para>
+<programlisting>/*
+ * Install a callback on a spin box arrow press.
+ */
+  XtAddCallback(sb, XmNmodifyVerifyCallback, ModifyVerifyCB, NULL);
+  XtAddCallback(simple_sb, XmNmodifyVerifyCallback, ModifyVerifyCB, NULL);
+</programlisting>
+<Para>with the callback doing:
+</Para>
+<programlisting>
+void ModifyVerifyCB(widget, call_data, client_data) {
+    XmSpinBoxCallbackStruct *cbs = (XmSpinBoxCallbackStruct*) call_data;
+    int position;
+    Widget textual = NULL;
+    if (XtIsSubclass(w, xmSimpleSpinBoxWidgetClass))
+    {
+        Arg args[1];
+        XtSetArg(args[0], XmNtextField, &amp;textual);
+        XtGetValues(w, args, 1);
+    }
+    else if (XtIsSubclass(w, xmSpinBoxWidgetClass))
+      textual = cbs->widget;
+    else
+      textual = (Widget) NULL;
+
+    ...
+
+    if (XmSpinBoxValidatePosition(textual, &amp;position) == XmCURRENT_VALUE)
+      XBell(XtDisplay(w), 0);
+    else
+      cbs->position = position;
+}
+</programlisting>
+<para>This second example demonstrates how the <function>XmSpinBoxValidatePosition</function>
+function could be used from inside an
+<function>XmNactivateCallback</function> callback installed on
+the <literal>TextField</literal> child of the <classname>XmSpinBox</classname>:
+</Para>
+<programlisting>/*
+ * Install a callback on a spin box arrow press.
+ */
+XtAddCallback(tf, XmNactivateCallback, ModifyVerifyChildCB, NULL);
+</programlisting>
+<para>with the callback doing:
+</para>
+<programlisting>void ModifyVerifyChildCB(widget, call_data, client_data) {
+    int     position;
+    Widget  textual = widget;
+    Arg     args[1];
+
+    if (XmSpinBoxValidatePosition (textual, &amp;position) == XmCURRENT_VALUE)
+      XBell(XtDisplay(widget), 0);
+
+    /* Set the position constraint resource of the textfield */
+
+    XtSetArg(args[0], XmNposition, position);
+    XtSetValues(textual, args, 1);
+}
+</programlisting>
+</RefSect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.XmSpinBox;,
+&cdeman.XmCreateSpinBox;
+</para>
+</refsect1>
+</refentry>

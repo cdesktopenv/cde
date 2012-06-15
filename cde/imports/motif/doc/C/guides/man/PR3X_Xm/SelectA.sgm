@@ -1,0 +1,1555 @@
+<!-- $XConsortium: SelectA.sgm /main/12 1996/09/26 14:54:17 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN391.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmSelectionBox</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmSelectionBox</Classname></RefName>
+<RefPurpose>The SelectionBox widget class
+<IndexTerm>
+<Primary>XmSelectionBox</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>SelectionBox</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/SelectioB.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>SelectionBox is a general dialog widget that allows the user to
+select one item from a list.
+By default, a SelectionBox includes the following:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>A scrolling list of alternatives
+</Para>
+</ListItem>
+<ListItem>
+<Para>An editable text field for the selected alternative
+</Para>
+</ListItem>
+<ListItem>
+<Para>Labels for the list and text field
+</Para>
+</ListItem>
+<ListItem>
+<Para>Three or four buttons
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>The default button labels are <Symbol Role="Define">OK</Symbol>, <Literal>Cancel</Literal>, and <Literal>Help</Literal>.
+By default an <Literal>Apply</Literal> button is also created; if the parent of the
+SelectionBox is a DialogShell, it is managed; otherwise it is unmanaged.
+Additional children may be added to the SelectionBox after
+creation.
+The first child is used as a work area. The value of
+<SystemItem Class="Resource">XmNchildPlacement</SystemItem> determines if the work area is placed above
+or below the Text area, or above or below the List area. Additional
+children are laid out in the following manner:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>Menubar</Term>
+<ListItem>
+<Para>The first menu bar child is placed at the top of the window.
+The <Symbol Role="Globalvar">XmQTmenuSystem</Symbol> trait is used to check that it is the first
+MenuBar child.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Buttons</Term>
+<ListItem>
+<Para>All <Classname>XmPushButton</Classname>
+widgets or gadgets, and their subclasses are
+placed after the <Symbol Role="Define">OK</Symbol> button in the order of their
+creation (this order is checked using the <Symbol Role="Globalvar">XmQTactivatable</Symbol> trait).
+The layout direction of the buttons depends on the
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The layout of additional children that are not in the above categories
+is undefined.
+</Para>
+<Para>The user can select an item in two ways:
+by scrolling through the list and selecting the desired
+item or by entering the item name directly into the text edit area.
+Selecting an item from
+the list causes that item name to appear in the selection text edit
+area.
+</Para>
+<Para>The user may select a new item
+as many times as desired. The item is not actually selected until
+the user presses the <Symbol Role="Define">OK</Symbol> PushButton.
+</Para>
+<Para>The default value for the <Classname>XmBulletinBoard</Classname> resource
+<SystemItem Class="Resource">XmNcancelButton</SystemItem> is the Cancel button, unless <SystemItem Class="Resource">XmNdialogType</SystemItem> is
+<SystemItem Class="Constant">XmDIALOG_COMMAND</SystemItem>, when the default is NULL.
+The default value for the <Classname>XmBulletinBoard</Classname>
+<SystemItem Class="Resource">XmNdefaultButton</SystemItem> resource is the OK button, unless <SystemItem Class="Resource">XmNdialogType</SystemItem> is
+<SystemItem Class="Constant">XmDIALOG_COMMAND</SystemItem>, when the default is NULL.
+</Para>
+<Para>For SelectionBox and its subclasses, the default value for
+<SystemItem Class="Resource">XmNinitialFocus</SystemItem> is the text edit area.
+</Para>
+<Para>The user can specify resources in a resource file for the automatically
+created widgets and gadgets of SelectionBox. The following list
+identifies the names of these widgets (or gadgets) and the associated
+SelectionBox areas:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>List Items Label</Term>
+<ListItem>
+<Para><Literal>Items</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>List Items</Term>
+<ListItem>
+<Para><Literal>ItemsList</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Selection Label</Term>
+<ListItem>
+<Para><Literal>Selection</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Selection Text</Term>
+<ListItem>
+<Para><Literal>Text</Literal> or <Literal>TextField</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Selection Separator</Term>
+<ListItem>
+<Para><Literal>Separator</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>SelectionBox uses the <Symbol Role="Globalvar">XmQTaccessTextual</Symbol>, <Symbol Role="Globalvar">XmQTactivatable</Symbol>,
+and <Symbol Role="Globalvar">XmQTmenuSystem</Symbol> traits.
+</Para>
+<RefSect2>
+<Title>Descendants</Title>
+<Para>SelectionBox automatically creates the descendants shown in the
+following table.
+An application can use <Function>XtNameToWidget</Function> to gain access
+to the named descendant. In addition, a user or an application
+can use the named descendant when specifying resource values.
+</Para>
+<InformalTable Frame="All" Orient="Port">
+<TGroup Cols="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Align="Left" Colname="3">
+<TBody>
+<Row>
+<Entry><Literal>Named Descendant</Literal></Entry>
+<Entry><Literal>Class</Literal></Entry>
+<Entry><Literal>Identity</Literal></Entry>
+</Row>
+<Row>
+<Entry>=</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Apply</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">Apply button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Cancel</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">Cancel button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Help</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">Help button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Items</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmLabelGadget</Classname></Entry>
+<Entry Rowsep="1">title above the list of items</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>ItemsList</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmList</Classname></Entry>
+<Entry Rowsep="1">list of items from which the user will select</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>ItemsListSW</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmScrolledWindow</Classname></Entry>
+<Entry Rowsep="1">ScrolledWindow parent of <Literal>ItemsList</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Symbol Role="Define">OK</Symbol></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">OK button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Selection</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmLabelGadget</Classname></Entry>
+<Entry Rowsep="1">title above the selection box</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Separator</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmSeparatorGadget</Classname></Entry>
+<Entry Rowsep="1">dividing line between selection box and buttons</Entry>
+</Row>
+<Row>
+<Entry><Literal>Text</Literal></Entry>
+<Entry><Classname>XmTextField</Classname></Entry>
+<Entry>selection box containing text of selected item</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>SelectionBox inherits behavior, resources, and traits from <Classname>Core</Classname>,
+<Classname>Composite</Classname>, <Classname>Constraint</Classname>, <Classname>XmManager</Classname>,
+and <Classname>XmBulletinBoard</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmSelectionBoxWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmSelectionBox</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmSelectionBox Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNapplyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNapplyLabelString</Entry>
+<Entry>XmCApplyLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelLabelString</Entry>
+<Entry>XmCCancelLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNchildPlacement</Entry>
+<Entry>XmCChildPlacement</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmPLACE_ABOVE_SELECTION</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogType</Entry>
+<Entry>XmCDialogType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpLabelString</Entry>
+<Entry>XmCHelpLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistItemCount</Entry>
+<Entry>XmCItemCount</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistItems</Entry>
+<Entry>XmCItems</Entry>
+<Entry>XmStringTable</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistLabelString</Entry>
+<Entry>XmCListLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistVisibleItemCount</Entry>
+<Entry>XmCVisibleItemCount</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminimizeButtons</Entry>
+<Entry>XmCMinimizeButtons</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmustMatch</Entry>
+<Entry>XmCMustMatch</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoMatchCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNokCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNokLabelString</Entry>
+<Entry>XmCOkLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectionLabelString</Entry>
+<Entry>XmCSelectionLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextAccelerators</Entry>
+<Entry>XmCTextAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>default</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNtextColumns</Entry>
+<Entry>XmCColumns</Entry>
+<Entry>short</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextString</Entry>
+<Entry>XmCTextString</Entry>
+<Entry>XmString</Entry>
+<Entry>""</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNapplyCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks called
+when the user activates the <Literal>Apply</Literal>
+button. The callback reason is <SystemItem Class="Constant">XmCR_APPLY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNapplyLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the <Literal>Apply</Literal> button.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Apply</Literal>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcancelCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks called
+when the user activates
+the <Literal>Cancel</Literal> button. The callback reason is <SystemItem Class="Constant">XmCR_CANCEL</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcancelLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the <Literal>Cancel</Literal> button.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Cancel</Literal>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNchildPlacement</SystemItem></Term>
+<ListItem>
+<Para>Specifies the placement of the work area child. The
+possible values are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPLACE_ABOVE_SELECTION</SystemItem></Term>
+<ListItem>
+<Para>Places the work area child above the Text area
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPLACE_BELOW_SELECTION</SystemItem></Term>
+<ListItem>
+<Para>Places the work area child below the Text area
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPLACE_TOP</SystemItem></Term>
+<ListItem>
+<Para>Places the work area child above the List area,
+and below a MenuBar, if one is present
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdialogType</SystemItem></Term>
+<ListItem>
+<Para>Determines the set of SelectionBox children widgets that are created
+and managed at initialization. The possible values are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_PROMPT</SystemItem></Term>
+<ListItem>
+<Para>All standard children except the list and
+list label are created, and all except the <Literal>Apply</Literal> button are
+managed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_COMMAND</SystemItem></Term>
+<ListItem>
+<Para>Only the list, the selection label, and the
+text field are created and managed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_SELECTION</SystemItem></Term>
+<ListItem>
+<Para>All standard children are created and
+managed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_FILE_SELECTION</SystemItem></Term>
+<ListItem>
+<Para>All standard children are created and
+managed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_WORK_AREA</SystemItem></Term>
+<ListItem>
+<Para>All standard children are created, and all
+except the <Literal>Apply</Literal> button are managed
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>If the parent of the SelectionBox is a DialogShell, the default is
+<SystemItem Class="Constant">XmDIALOG_SELECTION</SystemItem>; otherwise, the default is <SystemItem Class="Constant">XmDIALOG_WORK_AREA</SystemItem>.
+<Function>XmCreatePromptDialog</Function> and <Function>XmCreateSelectionDialog</Function> set and append
+this resource to the creation <Symbol Role="Variable">arglist</Symbol> supplied by the application.
+This resource cannot be modified after creation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhelpLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the <Literal>Help</Literal> button.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Help</Literal>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlistItems</SystemItem></Term>
+<ListItem>
+<Para>Specifies the items in the SelectionBox list.
+<Function>XtGetValues</Function> for this resource returns the list items themselves,
+not a copy of the list items.
+The application must not free the returned items.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlistItemCount</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of items in the SelectionBox
+list.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlistLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label to appear above the SelectionBox list
+containing the selection items.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Items</Literal>
+unless <SystemItem Class="Resource">XmNdialogType</SystemItem> is
+<SystemItem Class="Constant">XmDIALOG_PROMPT</SystemItem>; in this case the default is NULL.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlistVisibleItemCount</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of items displayed in the SelectionBox
+list.
+The value must be greater than 0 (zero) unless <SystemItem Class="Resource">XmNdialogType</SystemItem> is
+<SystemItem Class="Constant">XmDIALOG_PROMPT</SystemItem>; in this case, the value is always 0.
+The default is dynamic based on the height of the list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNminimizeButtons</SystemItem></Term>
+<ListItem>
+<Para>Sets the buttons to the width of the widest button and height of the
+tallest button if False. If True, button width and height are not
+modified.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmustMatch</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether the selection widget should check if the
+user's selection in the text edit field has an exact match in
+the SelectionBox list when the <Symbol Role="Define">OK</Symbol> button is activated.
+If the selection does not have an exact match, and
+<SystemItem Class="Resource">XmNmustMatch</SystemItem> is True, the <SystemItem Class="Resource">XmNnoMatchCallback</SystemItem> callbacks are
+called.
+If the selection does have an exact match or if <SystemItem Class="Resource">XmNmustMatch</SystemItem> is
+False, <SystemItem Class="Resource">XmNokCallback</SystemItem> callbacks are called.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnoMatchCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks called
+when the user makes a selection
+from the text edit field that does not have an exact match with
+any of the items in the list box.
+The callback reason is <SystemItem Class="Constant">XmCR_NO_MATCH</SystemItem>.
+Callbacks in this list are called only if <SystemItem Class="Resource">XmNmustMatch</SystemItem>
+is true.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNokCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks called
+when the user activates the <Symbol Role="Define">OK</Symbol> button.
+The callback reason is <SystemItem Class="Constant">XmCR_OK</SystemItem>.
+If the selection text does not match a list item, and
+<SystemItem Class="Resource">XmNmustMatch</SystemItem> is True, the <SystemItem Class="Resource">XmNnoMatchCallback</SystemItem> callbacks are
+called instead.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNokLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the <Symbol Role="Define">OK</Symbol> button.
+The default for this resource depends on the locale.
+In the C locale the default is <Symbol Role="Define">OK</Symbol>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectionLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the string label for the selection text edit field.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Selection</Literal>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtextAccelerators</SystemItem></Term>
+<ListItem>
+<Para>Specifies translations added to the Text widget child of the
+SelectionBox.
+The default includes bindings for the up and down keys
+for auto selection of list items.
+This resource is ignored if <SystemItem Class="Resource">XmNaccelerators</SystemItem> is initialized to a
+nondefault value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtextColumns</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of columns in the Text widget.
+The value must be greater than 0 (zero).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtextString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the text in the text edit selection field.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>SelectionBox inherits behavior and resources from the
+superclasses in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmBulletinBoard Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNallowOverlap</Entry>
+<Entry>XmCAllowOverlap</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNautoUnmanage</Entry>
+<Entry>XmCAutoUnmanage</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonFontList</Entry>
+<Entry>XmCButtonFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonRenderTable</Entry>
+<Entry>XmCButtonRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultPosition</Entry>
+<Entry>XmCDefaultPosition</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogStyle</Entry>
+<Entry>XmCDialogStyle</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogTitle</Entry>
+<Entry>XmCDialogTitle</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfocusCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelFontList</Entry>
+<Entry>XmCLabelFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelRenderTable</Entry>
+<Entry>XmCLabelRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoResize</Entry>
+<Entry>XmCNoResize</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizePolicy</Entry>
+<Entry>XmCResizePolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmRESIZE_ANY</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowType</Entry>
+<Entry>XmCShadowType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmSHADOW_OUT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextFontList</Entry>
+<Entry>XmCTextFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextRenderTable</Entry>
+<Entry>XmCTextRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextTranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNunmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to each callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">* event</Symbol>;
+        XmString <Symbol Role="Variable">value</Symbol>;
+        int <Symbol Role="Variable">length</Symbol>;
+} XmSelectionBoxCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value</Symbol></Term>
+<ListItem>
+<Para>Indicates the <StructName Role="typedef">XmString</StructName> value selected by the user from the
+SelectionBox list or entered into the SelectionBox text field
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">length</Symbol></Term>
+<ListItem>
+<Para>Indicates the size in bytes of the <StructName Role="typedef">XmString</StructName> value
+This member is obsolete and exists for compatibility with
+earlier releases.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmSelectionBox -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para><Classname>XmSelectionBox</Classname> inherits translations from <Classname>XmBulletinBoard</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Accelerators</Title>
+<Para>The <SystemItem Class="Resource">XmNtextAccelerators</SystemItem> are added to the Text descendant of
+<Classname>XmSelectionBox</Classname>.
+The default accelerators are described in the following list.
+</Para>
+<Para>The following key names are listed in the
+X standard key event translation table syntax.
+This format is the one used by Motif to
+specify the widget actions corresponding to a given key.
+A brief overview of the format is provided under
+&cdeman.VirtualBindings;.
+For a complete description of the format, please refer to the
+X Toolkit Instrinsics Documentation.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>SelectionBoxUpOrDown(<Symbol Role="Define">Previous</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>SelectionBoxUpOrDown(<Symbol Role="Define">Next</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfBeginLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>SelectionBoxUpOrDown(<Symbol Role="Define">First</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfEndLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>SelectionBoxUpOrDown(<Symbol Role="Define">Last</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfRestore</KeySym>:</Term>
+<ListItem>
+<Para><Action>SelectionBoxRestore()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s c &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>SelectionBoxRestore()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--These accelerators may not directly correspond to a
+translation table.
+.VL 2i 0 1
+.zA "enhancement, 6334, R2.0, Changed numeric arguments"
+.LI "&bsol;*LKUp:&bsol;*O"
+&bsol;*LSelectionBoxUpOrDown(Previous)&bsol;*O
+.LI "&bsol;*LKDown:&bsol;*O"
+&bsol;*LSelectionBoxUpOrDown(Next)&bsol;*O
+.LI "&bsol;*LKBeginData:&bsol;*O"
+&bsol;*LSelectionBoxUpOrDown(First)&bsol;*O
+.LI "&bsol;*LKEndData:&bsol;*O"
+&bsol;*LSelectionBoxUpOrDown(Last)&bsol;*O
+.zZ "enhancement, 6334, R2.0, Changed numeric arguments"
+.LI "&bsol;*LKRestore:&bsol;*O"
+&bsol;*LSelectionBoxRestore()&bsol;*O
+.LE
+-->
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The XmSelectionBox action routines are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>SelectionBoxUpOrDown(<Symbol Role="Define">Previous|Next|First|Last</Symbol>)</Action>:</Term>
+<ListItem>
+<Para>When called with an argument of <Literal>Previous</Literal>, or 0 (zero) for
+compatibility, selects the previous
+item in the
+list and replaces the text with that item.
+</Para>
+<Para>When called with an argument of <Literal>Next</Literal>, or 1 for
+compatibility, selects the next item in the
+list and replaces the text with that item.
+</Para>
+<Para>When called with an argument of <Literal>First</Literal>, or 2 for
+compatibility, selects the first item in the
+list and replaces the text with that item.
+</Para>
+<Para>When called with an argument of <Literal>Last</Literal>, or 3 for
+compatibility, selects the last item in the
+list and replaces the text with that item.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>SelectionBoxRestore()</Action>:</Term>
+<ListItem>
+<Para>Replaces the text value with the list selection.
+If no item in the list is selected, clears the text.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>The SelectionBox widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para>Calls the activate callbacks for the cancel button if it is sensitive.
+If no cancel button exists and the parent of the SelectionBox is a manager,
+passes the event to the parent.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para>Calls the activate callbacks for the button with the keyboard focus.
+If no button has the keyboard focus, calls the activate callbacks
+for the default button if it is sensitive.
+In a List widget or single-line Text widget,
+the List or Text action associated with <KeySym>Key</KeySym><KeySym>osfActivate</KeySym>
+is called before the SelectionBox actions associated with
+<KeySym>Key</KeySym><KeySym>osfActivate</KeySym>.
+In a multiline Text widget, any <KeySym>Key</KeySym><KeySym>osfActivate</KeySym>
+event except <KeySym>Key</KeySym><KeySym>osfEnter</KeySym> calls
+the Text action associated with <KeySym>Key</KeySym><KeySym>osfActivate</KeySym>,
+then the SelectionBox actions associated with <KeySym>Key</KeySym><KeySym>osfActivate</KeySym>.
+If no button has the focus, no default button exists, and the parent
+of the SelectionBox is a manager, passes the event to the parent.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>OK&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNmustMatch</SystemItem> is True and the text does not match an item in the
+file list, calls the <SystemItem Class="Resource">XmNnoMatchCallback</SystemItem> callbacks with reason
+<SystemItem Class="Constant">XmCR_NO_MATCH</SystemItem>.
+Otherwise, calls the <SystemItem Class="Resource">XmNokCallback</SystemItem> callbacks with reason
+<SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Apply&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>Calls the <SystemItem Class="Resource">XmNapplyCallback</SystemItem> callbacks with reason <SystemItem Class="Constant">XmCR_APPLY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Cancel&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>Calls the <SystemItem Class="Resource">XmNcancelCallback</SystemItem> callbacks with reason
+<SystemItem Class="Constant">XmCR_CANCEL</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Help&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>Calls the <SystemItem Class="Resource">XmNhelpCallback</SystemItem> callbacks with reason <SystemItem Class="Constant">XmCR_HELP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>MapWindow</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNmapCallback</SystemItem> if the SelectionBox
+is a child of a Dialog shell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>UnmapWindow</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNunmapCallback</SystemItem> if the SelectionBox is
+the child of a DialogShell.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;,
+&cdeman.Constraint;,
+&cdeman.Core;,
+&cdeman.XmBulletinBoard;,
+&cdeman.XmCreateSelectionBox;,
+&cdeman.XmCreateSelectionDialog;,
+&cdeman.XmCreatePromptDialog;,
+&cdeman.XmManager;, and
+&cdeman.XmSelectionBoxGetChild;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

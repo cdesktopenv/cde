@@ -1,0 +1,163 @@
+<!-- $XConsortium: InstIm.sgm /main/9 1996/09/08 20:49:08 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN276.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmInstallImage</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmInstallImage</Function></RefName>
+<RefPurpose>A pixmap caching function that adds an image to the image cache
+<IndexTerm>
+<Primary>XmInstallImage</Primary>
+</IndexTerm><IndexTerm>
+<Primary>pixmaps</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>Boolean <Function>XmInstallImage</Function></FuncDef>
+<!--<ParamDef><Replaceable>image, image_name</Replaceable></ParamDef>-->
+<ParamDef>XImage <Parameter>* image</Parameter></ParamDef>
+<ParamDef>char <Parameter>* image_name</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmInstallImage</Function> stores an image in an image cache
+that can later be used to generate a pixmap.
+Part of the installation process is to extend the
+resource converter used to reference these images. The resource converter
+is given the image name so that the image can be
+referenced in a <Filename>.Xdefaults</Filename> file.
+Since an image can be referenced by a widget
+through its pixmap resources, it is up to the application to ensure that the
+image is installed before the widget is created.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">image</Symbol></Term>
+<ListItem>
+<Para>Points to the image structure to be installed.
+The installation process does not make a local copy of the image. Therefore,
+the application should not destroy the image until it is uninstalled from
+the caching functions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">image_name</Symbol></Term>
+<ListItem>
+<Para>Specifies a string that the application uses to name the image. After
+installation, this name can be used in <Filename>.Xdefaults</Filename> for referencing
+the image. A local copy of the name is created by the image caching
+functions.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The image caching functions provide a set of eight preinstalled images.
+These names can be used within a <Filename>.Xdefaults</Filename> file for generating pixmaps
+for the resource for which they are provided.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry Rowsep="1"><Literal>Image Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Description</Literal></Entry>
+</Row>
+<Row>
+<Entry>background</Entry>
+<Entry>A tile of solid background</Entry>
+</Row>
+<Row>
+<Entry>25_foreground</Entry>
+<Entry>A tile of 25% foreground, 75% background</Entry>
+</Row>
+<Row>
+<Entry>50_foreground</Entry>
+<Entry>A tile of 50% foreground, 50% background</Entry>
+</Row>
+<Row>
+<Entry>75_foreground</Entry>
+<Entry>A tile of 75% foreground, 25% background</Entry>
+</Row>
+<Row>
+<Entry>horizontal</Entry>
+<Entry>A tile of horizontal lines of the two colors</Entry>
+</Row>
+<Row>
+<Entry>vertical</Entry>
+<Entry>A tile of vertical lines of the two colors</Entry>
+</Row>
+<Row>
+<Entry>slant_right</Entry>
+<Entry>A tile of slanting lines of the two colors</Entry>
+</Row>
+<Row>
+<Entry>slant_left</Entry>
+<Entry>A tile of slanting lines of the two colors</Entry>
+</Row>
+<Row>
+<Entry>menu_cascade</Entry>
+<Entry>A tile of an arrow of the foreground color</Entry>
+</Row>
+<Row>
+<Entry>menu_checkmark</Entry>
+<Entry>A tile of a checkmark of the foreground color</Entry>
+</Row>
+<Row>
+<Entry>menu_dash</Entry>
+<Entry>A tile of one horizontal line of the foreground color</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns True when successful; returns False if NULL <Symbol Role="Variable">image</Symbol>, NULL
+<Symbol Role="Variable">image_name</Symbol>, or duplicate <Symbol Role="Variable">image_name</Symbol> is used as a parameter
+value.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmUninstallImage;, &cdeman.XmGetPixmap;, and
+&cdeman.XmDestroyPixmap;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

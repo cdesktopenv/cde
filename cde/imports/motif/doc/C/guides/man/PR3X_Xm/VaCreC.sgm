@@ -1,0 +1,302 @@
+<!-- $XConsortium: VaCreC.sgm /main/9 1996/09/08 21:21:17 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN566.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmVaCreateSimpleOptionMenu</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmVaCreateSimpleOptionMenu</Function></RefName>
+<RefPurpose>A RowColumn widget convenience creation function
+<IndexTerm>
+<Primary>XmVaCreateSimpleOption\\%Menu</Primary>
+</IndexTerm><IndexTerm>
+<Primary>creation functions</Primary>
+<Secondary>XmVaCreateSimpleOption\\%Menu</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/RowColumn.h>
+</FuncSynopsisInfo>
+<FuncDef>Widget <Function>XmVaCreateSimpleOptionMenu</Function></FuncDef>
+<!--<ParamDef><Replaceable>parent, name, option_label,
+option_mnemonic, button_set, callback, arg...</Replaceable></ParamDef>-->
+<ParamDef>Widget <Parameter>parent</Parameter></ParamDef>
+<ParamDef>String <Parameter>name</Parameter></ParamDef>
+<ParamDef>XmString <Parameter>option_label</Parameter></ParamDef>
+<ParamDef>KeySym <Parameter>option_mnemonic</Parameter></ParamDef>
+<ParamDef>int <Parameter>button_set</Parameter></ParamDef>
+<ParamDef>XtCallbackProc <Parameter>callback</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmVaCreateSimpleOptionMenu</Function> creates an instance of a RowColumn widget
+of type <SystemItem Class="Constant">XmMENU_OPTION</SystemItem> and returns the associated widget ID.
+This routine uses the ANSI C variable-length argument list (<Symbol Role="Variable">varargs</Symbol>)
+calling convention.
+</Para>
+<Para>This routine creates an OptionMenu and its Pulldown submenu containing
+PushButtonGadget or CascadeButtonGadget children.
+The name of each button is <Literal>button_</Literal><Symbol Role="Variable">n</Symbol>, where <Symbol Role="Variable">n</Symbol> is an integer
+from 0 (zero) to the number of buttons in the menu minus 1.
+The name of each separator is <Literal>separator_</Literal><Symbol Role="Variable">n</Symbol>, where <Symbol Role="Variable">n</Symbol> is an
+integer from 0 (zero) to the number of separators in the menu minus 1.
+Buttons and separators are named and created in the order in which they
+are specified in the variable portion of the argument list.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">parent</Symbol></Term>
+<ListItem>
+<Para>Specifies the parent widget ID
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">name</Symbol></Term>
+<ListItem>
+<Para>Specifies the name of the created widget
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">option_label</Symbol></Term>
+<ListItem>
+<Para>Specifies the label string to be used on the left side of the
+OptionMenu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">option_mnemonic</Symbol></Term>
+<ListItem>
+<Para>Specifies a keysym for a key that, when pressed by the user, posts
+the associated Pulldown menu pane.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">button_set</Symbol></Term>
+<ListItem>
+<Para>Specifies which PushButtonGadget is initially set.
+The value is the integer <Symbol Role="Variable">n</Symbol> that corresponds to the <Symbol Role="Variable">n</Symbol>th
+PushButtonGadget specified in the variable portion of the argument list.
+Only a PushButtonGadget can be set, and only PushButtonGadgets are
+counted in determining the integer <Symbol Role="Variable">n</Symbol>.
+The first PushButtonGadget is number 0 (zero).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">callback</Symbol></Term>
+<ListItem>
+<Para>Specifies a callback procedure to be called when a button is activated.
+This callback function is added to each button after creation as the
+button's <SystemItem Class="Resource">XmNactivateCallback</SystemItem>.
+The callback function is called when a button is activated, and the
+button number is returned in the <Symbol Role="Variable">client_data</Symbol> field.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The variable portion of the argument list consists of groups of
+arguments.
+The first argument in each group is a constant or a string and
+determines which arguments follow in that group.
+The last argument in the list must be NULL.
+Following are the possible first arguments in each group of <Symbol Role="Variable">varargs</Symbol>:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmVaPUSHBUTTON</SystemItem></Term>
+<ListItem>
+<Para>This is followed by four additional arguments. The set specifies one
+button in the OptionMenu's Pulldown submenu and some of its resource
+values. The button created is a PushButtonGadget. Following are the
+additional four arguments, in order:
+<!--no-op:  .rS .75i--></Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">label</Symbol></Term>
+<ListItem>
+<Para>The label string, of type <StructName Role="typedef">XmString</StructName>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">mnemonic</Symbol></Term>
+<ListItem>
+<Para>The mnemonic, of type <Literal>KeySym</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">accelerator</Symbol></Term>
+<ListItem>
+<Para>The accelerator, of type <StructName Role="typedef">String</StructName>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">accelerator_text</Symbol></Term>
+<ListItem>
+<Para>The accelerator text, of type <StructName Role="typedef">XmString</StructName>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--no-op:  .rE-->
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmVaSEPARATOR</SystemItem></Term>
+<ListItem>
+<Para>This is followed by no additional arguments. It specifies one separator
+in the OptionMenu's Pulldown submenu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmVaDOUBLE_SEPARATOR</SystemItem></Term>
+<ListItem>
+<Para>This is followed by no additional arguments. It specifies one separator
+in the OptionMenu's Pulldown submenu. The separator type is
+<SystemItem Class="Constant">XmDOUBLE_LINE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">resource_name</Symbol></Term>
+<ListItem>
+<Para>This is followed by one additional argument, the value of the resource,
+of type <Symbol>XtArgVal</Symbol>. The pair specifies a resource and its value for the
+Pulldown submenu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XtVaTypedArg</SystemItem></Term>
+<ListItem>
+<Para>This is followed by four additional arguments. The set specifies a
+resource and its value for the Pulldown submenu. A resource type
+conversion is performed if necessary. Following are the additional four
+arguments, in order:
+<!--no-op:  .rS .75i--></Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">name</Symbol></Term>
+<ListItem>
+<Para>The resource name, of type <StructName Role="typedef">String</StructName>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">type</Symbol></Term>
+<ListItem>
+<Para>The type of the resource value supplied, of type <StructName Role="typedef">String</StructName>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value</Symbol></Term>
+<ListItem>
+<Para>The resource value (or a pointer to the resource value, depending on the
+type and size of the value), of type <Symbol>XtArgVal</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">size</Symbol></Term>
+<ListItem>
+<Para>The size of the resource value in bytes, of type <Symbol Role="Variable">int</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--no-op:  .rE-->
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XtVaNestedList</SystemItem></Term>
+<ListItem>
+<Para>This is followed by one additional argument of type <Symbol>XtVarArgsList</Symbol>.
+This argument is a nested list of <Symbol Role="Variable">varargs</Symbol> returned by
+<Function>XtVaCreateArgsList</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The user can specify resources in a resource file for the automatically
+created widgets and gadgets of an OptionMenu. The following list
+identifies the names of these widgets (or gadgets) and the associated
+OptionMenu areas:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>Option Menu Label Gadget</Term>
+<ListItem>
+<Para><Literal>OptionLabel</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Option Menu Cascade Button</Term>
+<ListItem>
+<Para><Literal>OptionButton</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>For more information on variable-length argument lists, see the X
+Toolkit Intrinsics documentation.
+</Para>
+<Para>A number of resources exist specifically for use with this and
+other simple menu creation routines.
+For a complete definition of RowColumn and its associated resources, see
+&cdeman.XmRowColumn;.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns the RowColumn widget ID.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmCreateOptionMenu;,
+&cdeman.XmCreateRowColumn;,
+&cdeman.XmCreateSimpleOptionMenu;, and
+&cdeman.XmRowColumn;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

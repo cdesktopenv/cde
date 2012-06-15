@@ -1,0 +1,105 @@
+<!-- $XConsortium: TabLstIn.sgm /main/8 1996/09/08 21:09:20 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN461.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmTabListInsertTabs</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmTabListInsertTabs</Function></RefName>
+<RefPurpose>A convenience function that inserts tabs into a tab list
+<IndexTerm>
+<Primary>XmTabListInsertTabs</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- HISTORY-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>XmTabList <Function>XmTabListInsertTabs</Function></FuncDef>
+<!--<ParamDef><Replaceable>oldlist, tabs, tab_count, position</Replaceable></ParamDef>-->
+<ParamDef>XmTabList <Parameter>oldlist</Parameter></ParamDef>
+<ParamDef>XmTab <Parameter>*tabs</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>tab_count</Parameter></ParamDef>
+<ParamDef>int <Parameter>position</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmTabListInsertTabs</Function> creates a new tab list that includes the
+tabs in <Symbol Role="Variable">oldlist</Symbol>. This function copies specified tabs to the
+tab list at the given position. The first <Symbol Role="Variable">tab_count</Symbol> tabs of the
+<Symbol Role="Variable">tabs</Symbol> array are added to the tab list. If <Symbol Role="Variable">oldlist</Symbol> is NULL,
+<Function>XmTabListInsertTabs</Function> creates a new tab list containing only the
+tabs specified.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">oldlist</Symbol></Term>
+<ListItem>
+<Para>Specifies the tab list to add the tabs to.
+The function deallocates <Symbol Role="Variable">oldlist</Symbol> after extracting the required information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">tabs</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the tabs to be added to the tab list.
+It is the caller's responsibility to free the
+tabs in <Symbol Role="Variable">tabs</Symbol> by using <Function>XmTabFree</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">tab_count</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of tabs in <Symbol Role="Variable">tabs</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">position</Symbol></Term>
+<ListItem>
+<Para>Specifies the position of the first new tab in the tab list. A value
+of 0 (zero) makes the first new tab the first tab in the tab list, a
+value of 1 makes it the second tab, and so on. If <Symbol Role="Variable">position</Symbol> is
+greater than the number of tabs in <Symbol Role="Variable">oldlist</Symbol>, then the tabs will
+be inserted at the end. If <Symbol Role="Variable">position</Symbol> is negative, the count will
+be backwards from the end. A value of -1 makes the first new tab
+the last tab, and so on.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>If <Symbol Role="Variable">tabs</Symbol> is NULL or <Symbol Role="Variable">tab_count</Symbol> is 0 (zero), this function returns
+<Symbol Role="Variable">oldlist</Symbol>. Otherwise, it returns a new tab list.
+The function allocates space to hold the returned tab list.
+The application is responsible for managing the allocated space.
+The application can recover the allocated space by calling <Function>XmTabListFree</Function>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmTabList; and
+&cdeman.XmTabListFree;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

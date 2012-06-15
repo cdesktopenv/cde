@@ -1,0 +1,202 @@
+<!-- $XConsortium: CreOpt.sgm /main/9 1996/09/08 20:34:08 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN154.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmCreateOptionMenu</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmCreateOptionMenu</Function></RefName>
+<RefPurpose>A RowColumn widget convenience creation function
+<IndexTerm>
+<Primary>XmCreateOptionMenu</Primary>
+</IndexTerm><IndexTerm>
+<Primary>creation functions</Primary>
+<Secondary>XmCreateOptionMenu</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/RowColumn.h>
+</FuncSynopsisInfo>
+<FuncDef>Widget <Function>XmCreateOptionMenu</Function></FuncDef>
+<!--<ParamDef><Replaceable>parent, name, arglist, argcount</Replaceable></ParamDef>-->
+<ParamDef>Widget <Parameter>parent</Parameter></ParamDef>
+<ParamDef>String <Parameter>name</Parameter></ParamDef>
+<ParamDef>ArgList <Parameter>arglist</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>argcount</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmCreateOptionMenu</Function> creates an instance of a
+RowColumn widget of type <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>
+and returns the associated widget ID.
+</Para>
+<Para>It is provided as a convenience function for creating a RowColumn
+widget configured to operate as an OptionMenu and is not implemented as a
+separate widget class.
+</Para>
+<Para>The OptionMenu widget is a specialized RowColumn manager composed of a
+label, a selection area, and a
+single Pulldown menu pane. When an application creates
+an OptionMenu widget, it supplies the label string and the Pulldown menu pane.
+In order for the operation to be successful,
+there must be a valid <SystemItem Class="Resource">XmNsubMenuId</SystemItem> resource set
+when this function is called.
+The LabelGadget and the selection area (a CascadeButtonGadget) are created
+by the OptionMenu.
+</Para>
+<Para>The OptionMenu's Pulldown menu pane must not contain any ToggleButtons or
+ToggleButtonGadgets.
+The results of including CascadeButtons or CascadeButtonGadgets in the
+OptionMenu's Pulldown menu pane are undefined.
+</Para>
+<Para>An OptionMenu is laid out with the label displayed on one side of
+the widget and the selection area on the other side when
+<SystemItem Class="Resource">XmNorientation</SystemItem> is <Symbol>XmHORIZONTAL</Symbol>.
+The layout of the label with respect to the selection area depends on
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource in the horizontal orientation.
+If the value is <SystemItem Class="Constant">XmVERTICAL</SystemItem>,
+the label is above the selection area.
+The selection area has a dual purpose; it displays the label of the last
+item selected from the associated Pulldown menu pane, and it provides
+the means for posting the Pulldown menu pane.
+</Para>
+<Para>The OptionMenu typically does not display any 3-D visuals around
+itself or the internal LabelGadget. By default, the internal
+CascadeButtonGadget has a visible 3-D shadow.
+The application may change this
+by getting the CascadeButtonGadget ID using <Function>XmOptionButtonGadget</Function>, and then
+calling <Function>XtSetValues</Function> using the standard visual-related resources.
+</Para>
+<Para>The Pulldown menu pane is posted when the mouse pointer is moved over the
+selection area and a mouse button that is defined by OptionMenu's
+RowColumn parent is pressed.
+The Pulldown menu pane is posted
+and positioned so that the last selected item is directly over
+the selection area. The mouse is then used to arm the desired menu
+item. When the mouse button is released, the armed menu item is selected
+and the label within the selection area is changed to match that of
+the selected item. By default, <Literal>BSelect</Literal> is used to interact with an
+OptionMenu.
+The default can be changed with the RowColumn resource
+<SystemItem Class="Resource">XmNmenuPost</SystemItem>.
+</Para>
+<Para>The OptionMenu also operates with the keyboard interface mechanism.
+If the application has established a mnemonic with the OptionMenu,
+pressing
+<KeyCap>Alt</KeyCap> with the mnemonic causes the Pulldown menu pane to be posted with
+traversal enabled.
+The standard traversal keys can then be used to
+move within the menu pane. Pressing
+<KeyCap>Return</KeyCap> or typing a mnemonic or accelerator for one of the
+menu items selects that item.
+</Para>
+<Para>An application may use the <SystemItem Class="Resource">XmNmenuHistory</SystemItem> resource to
+indicate which item in the Pulldown menu pane should be treated as the current
+choice and have its label displayed in the selection area. By default,
+the first selectable item in the Pulldown menu pane is used.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">parent</Symbol></Term>
+<ListItem>
+<Para>Specifies the parent widget ID
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">name</Symbol></Term>
+<ListItem>
+<Para>Specifies the name of the created widget
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">arglist</Symbol></Term>
+<ListItem>
+<Para>Specifies the argument list
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">argcount</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of attribute/value pairs in the argument list
+(<Symbol Role="Variable">arglist</Symbol>)
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The user can specify resources in a resource file for the automatically
+created widgets and gadgets of an OptionMenu.
+These widgets (or gadgets) and the associated
+OptionMenu areas are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>Option Menu Label Gadget</Term>
+<ListItem>
+<Para><Literal>OptionLabel</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Option Menu Cascade Button</Term>
+<ListItem>
+<Para><Literal>OptionButton</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>For a complete definition of RowColumn and its associated resources, see
+&cdeman.XmRowColumn;.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns the RowColumn widget ID.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmCascadeButtonGadget;,
+&cdeman.XmCreatePulldownMenu;,
+&cdeman.XmCreateSimpleOptionMenu;,
+&cdeman.XmLabelGadget;,
+&cdeman.XmOptionButtonGadget;,
+&cdeman.XmOptionLabelGadget;,
+&cdeman.XmRowColumn;, and
+&cdeman.XmVaCreateSimpleOptionMenu;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

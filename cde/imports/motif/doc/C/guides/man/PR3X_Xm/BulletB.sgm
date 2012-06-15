@@ -1,0 +1,1121 @@
+<!-- $XConsortium: BulletB.sgm /main/11 1996/09/08 20:25:26 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN43.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmBulletinBoard</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmBulletinBoard</Classname></RefName>
+<RefPurpose>The BulletinBoard widget class
+<IndexTerm>
+<Primary>XmBulletinBoard</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>BulletinBoard</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/BulletinB.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>BulletinBoard is a composite widget that provides simple geometry
+management for child widgets.
+It does not force positioning on its children, but can be set to reject
+geometry requests that result in overlapping children.
+BulletinBoard is the base widget for most dialog widgets and is also used
+as a general container widget.
+</Para>
+<Para>Modal and modeless dialogs are implemented as collections of widgets that
+include a DialogShell, a BulletinBoard (or subclass) child of the shell,
+and various dialog components (buttons, labels, and so on) that are children
+of BulletinBoard.
+BulletinBoard defines callbacks useful for dialogs (focus, map, unmap),
+which are available for application use.
+If its parent is a DialogShell, BulletinBoard passes title and input mode
+(based on dialog style)
+information to the parent, which is responsible for appropriate communication
+with the window manager.
+</Para>
+<Para>The default value for <SystemItem Class="Resource">XmNinitialFocus</SystemItem> is the value of
+<SystemItem Class="Resource">XmNdefaultButton</SystemItem>.
+</Para>
+<Para>BulletinBoard uses the <Symbol Role="Globalvar">XmQTtakesDefault</Symbol> trait, and
+holds the <Symbol Role="Globalvar">XmQTdialogShellSavvy</Symbol> and <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol>
+traits.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>BulletinBoard inherits behavior, resources, and traits
+from the <Classname>Core</Classname>, <Classname>Composite</Classname>, <Classname>Constraint</Classname>,
+and <Classname>XmManager</Classname> classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmBulletinBoardWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmBulletinBoard</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmBulletinBoard Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNallowOverlap</Entry>
+<Entry>XmCAllowOverlap</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNautoUnmanage</Entry>
+<Entry>XmCAutoUnmanage</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonFontList</Entry>
+<Entry>XmCButtonFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonRenderTable</Entry>
+<Entry>XmCButtonRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultPosition</Entry>
+<Entry>XmCDefaultPosition</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogStyle</Entry>
+<Entry>XmCDialogStyle</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogTitle</Entry>
+<Entry>XmCDialogTitle</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfocusCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelFontList</Entry>
+<Entry>XmCLabelFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelRenderTable</Entry>
+<Entry>XmCLabelRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoResize</Entry>
+<Entry>XmCNoResize</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizePolicy</Entry>
+<Entry>XmCResizePolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmRESIZE_ANY</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowType</Entry>
+<Entry>XmCShadowType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmSHADOW_OUT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextFontList</Entry>
+<Entry>XmCTextFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextRenderTable</Entry>
+<Entry>XmCTextRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextTranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNunmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNallowOverlap</SystemItem></Term>
+<ListItem>
+<Para>Controls the policy for overlapping child widgets.
+If this resource is True, BulletinBoard allows geometry requests that result
+in overlapping children.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNautoUnmanage</SystemItem></Term>
+<ListItem>
+<Para>Controls whether or not BulletinBoard is automatically unmanaged after a
+button is activated.
+If this resource is True on initialization and if the BulletinBoard's
+parent is a DialogShell, BulletinBoard adds a callback to button
+children (PushButtons, PushButtonGadgets, and DrawnButtons) that
+unmanages the BulletinBoard when a button is activated.
+If this resource is False on initialization or if the BulletinBoard's
+parent is not a DialogShell, the
+BulletinBoard is not automatically unmanaged.
+For BulletinBoard subclasses with Apply or Help buttons, activating
+those buttons does not automatically unmanage the BulletinBoard.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used for button descendants. See the
+<SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table used for BulletinBoard's button descendants.
+If this value is NULL at initialization, the parent hierarchy of the widget
+is searched for an ancestor that
+holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such an ancestor is found, the render table is initialized to the
+<SystemItem Class="Constant">XmBUTTON_RENDER_TABLE</SystemItem> value of the ancestor widget. If no such
+ancestor is
+found, the default is implementation dependent. Refer to
+&cdeman.XmRenderTable; for more information on the creation and structure
+of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcancelButton</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID of the <Literal>Cancel</Literal> button. BulletinBoard's
+subclasses, which define a <Literal>Cancel</Literal> button,
+set this resource. BulletinBoard does not directly provide any behavior for
+that button.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultButton</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID of the default button.
+Some BulletinBoard subclasses, which define a default button,
+set this resource. BulletinBoard defines translations and installs
+accelerators that activate that button when <Literal>KActivate</Literal> is pressed
+and the keyboard focus is not in another button.
+Controls the positioning of a DialogShell managing a BulletinBoard.
+If the BulletinBoard is not being managed by a DialogShell, then
+this resource has no effect. If <SystemItem Class="Resource">XmNdefaultPosition</SystemItem> is True,
+the DialogShell will center itself at the center of its own parent.
+For example, if the parent of the DialogShell is an ApplicationShell,
+then the center of the DialogShell will be at the same coordinates
+as the center of the ApplicationShell.
+If the DialogShell becomes unmapped (but stays managed) and then remapped,
+this resource has no influence on the DialogShell's position.
+If this resource is False, the DialogShell does not automatically
+center itself.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdialogStyle</SystemItem></Term>
+<ListItem>
+<Para>Indicates the dialog style associated with the BulletinBoard.
+If the parent of the BulletinBoard is a DialogShell, the parent's
+<SystemItem Class="Resource">XmNmwmInputMode</SystemItem> is set according to the value of this resource.
+This resource can be set only if the BulletinBoard is unmanaged.
+Possible values for this resource include the following:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_SYSTEM_MODAL</SystemItem></Term>
+<ListItem>
+<Para>Used for dialogs that
+must be responded to before
+any other interaction in any application.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_PRIMARY_APPLICATION_MODAL</SystemItem></Term>
+<ListItem>
+<Para>Used for dialogs that must
+be responded to before some other interactions in
+ancestors of the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_APPLICATION_MODAL</SystemItem></Term>
+<ListItem>
+<Para>Used for dialogs that must be
+responded to before some other interactions in
+ancestors of the widget. This value is the same as
+<SystemItem Class="Constant">XmDIALOG_PRIMARY_APPLICATION_MODAL</SystemItem>, and remains for compatibility.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_FULL_APPLICATION_MODAL</SystemItem></Term>
+<ListItem>
+<Para>Used for dialogs that must be
+responded to before some other interactions in
+the same application.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_MODELESS</SystemItem></Term>
+<ListItem>
+<Para>Used for dialogs that do not interrupt interaction
+of any application.
+This is the default when the parent of the BulletinBoard is a DialogShell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDIALOG_WORK_AREA</SystemItem></Term>
+<ListItem>
+<Para>Used for BulletinBoard widgets whose
+parents are not DialogShells.
+<SystemItem Class="Resource">XmNdialogStyle</SystemItem> is forced to have this value when the parent of the
+BulletinBoard is not a DialogShell.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Posting a modal dialog in response to a button down or key down event
+(via translation actions or callbacks) can cause the corresponding
+button up or key up event to be lost. For example, posting a modal
+dialog from an <SystemItem Class="Resource">XmNincrementCallback</SystemItem> of <Classname>XmScrollBar</Classname> will cause
+the loss of the button up event, causing the <Classname>XmScrollBar</Classname> to
+auto-increment indefinitely.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdialogTitle</SystemItem></Term>
+<ListItem>
+<Para>Specifies the dialog title. If this resource is not NULL, and the parent
+of the BulletinBoard is a subclass of WMShell, BulletinBoard sets the
+<SystemItem Class="Resource">XmNtitle</SystemItem> and <SystemItem Class="Resource">XmNtitleEncoding</SystemItem> of its parent.
+If the only character set in <SystemItem Class="Resource">XmNdialogTitle</SystemItem> is ISO8859-1,
+<SystemItem Class="Resource">XmNtitle</SystemItem> is set to the string of the title, and
+<SystemItem Class="Resource">XmNtitleEncoding</SystemItem> is set to <Symbol Role="Define">STRING</Symbol>.
+If <SystemItem Class="Resource">XmNdialogTitle</SystemItem> contains character sets other than ISO8859-1,
+<SystemItem Class="Resource">XmNtitle</SystemItem> is set to the string of the title converted to a compound
+text string, and <SystemItem Class="Resource">XmNtitleEncoding</SystemItem> is set to <Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+The direction of the title is based on the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource
+of the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfocusCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called
+when the BulletinBoard widget or one of its
+descendants accepts the input focus.
+The callback reason is <SystemItem Class="Constant">XmCR_FOCUS</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used for label descendants. See the
+<SystemItem Class="Resource">XmNlabelRenderTable</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelRenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table used for BulletinBoard's label descendants.
+If this value is NULL at initialization, the parent hierarchy of the widget
+is searched for an ancestor that
+holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such an ancestor is found, the render table is initialized to the
+<SystemItem Class="Constant">XmLABEL_RENDER_TABLE</SystemItem> value of the ancestor widget. If no such
+ancestor is
+found, the default is implementation dependent. Refer to
+&cdeman.XmRenderTable; for more information on the creation and structure
+of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmapCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called
+only when the parent of the BulletinBoard is a DialogShell. In this case,
+this callback list is invoked when the BulletinBoard widget is mapped.
+The callback reason is <SystemItem Class="Constant">XmCR_MAP</SystemItem>.
+DialogShells are usually mapped when the DialogShell is managed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the minimum spacing in pixels between the top or bottom edge
+of BulletinBoard and any child widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the minimum spacing in pixels between the left or right edge
+of BulletinBoard and any child widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnoResize</SystemItem></Term>
+<ListItem>
+<Para>Controls whether or not resize controls are included in the window
+manager frame around the BulletinBoard's parent.
+If this resource is
+set to True, <Command>mwm</Command> does not include resize controls in the
+window manager frame containing the parent of the BulletinBoard if the
+parent is a subclass of VendorShell.
+If this resource is set to False,
+the window manager frame does include resize controls.
+Other controls provided by <Command>mwm</Command> can be included or excluded through
+the <Command>mwm</Command> resources provided by VendorShell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNresizePolicy</SystemItem></Term>
+<ListItem>
+<Para>Controls the policy for resizing BulletinBoard widgets.
+Possible values include
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmRESIZE_NONE</SystemItem></Term>
+<ListItem>
+<Para>Fixed size
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmRESIZE_ANY</SystemItem></Term>
+<ListItem>
+<Para>Shrink or grow as needed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmRESIZE_GROW</SystemItem></Term>
+<ListItem>
+<Para>Grow only
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNshadowType</SystemItem></Term>
+<ListItem>
+<Para>Describes the shadow
+drawing style for BulletinBoard. This resource can have the
+following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSHADOW_IN</SystemItem></Term>
+<ListItem>
+<Para>Draws the BulletinBoard shadow
+so that it appears inset.
+This means that the bottom shadow visuals and top shadow visuals
+are reversed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSHADOW_OUT</SystemItem></Term>
+<ListItem>
+<Para>Draws the BulletinBoard shadow
+so that it appears outset.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSHADOW_ETCHED_IN</SystemItem></Term>
+<ListItem>
+<Para>Draws the BulletinBoard shadow
+using a double line giving the
+effect of a line etched into the window, similar to the Separator widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSHADOW_ETCHED_OUT</SystemItem></Term>
+<ListItem>
+<Para>Draws the BulletinBoard shadow using a double
+line giving the
+effect of a line coming out of the window, similar to the Separator widget.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtextFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used for text descendants. See the
+<SystemItem Class="Resource">XmNtextRenderTable</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtextRenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table used for BulletinBoard's text descendants.
+If this value is NULL at initialization, the parent hierarchy of the widget
+is searched for an ancestor that
+holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such an ancestor is found, the render table is initialized to the
+<SystemItem Class="Constant">XmTEXT_RENDER_TABLE</SystemItem> value of the ancestor widget. If no such
+ancestor is
+found, the default is implementation dependent. Refer to
+&cdeman.XmRenderTable; for more information on the creation and structure
+of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtextTranslations</SystemItem></Term>
+<ListItem>
+<Para>It adds translations to any Text widget or Text widget subclass that
+is added as a child of BulletinBoard.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNunmapCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called only when the parent of
+the BulletinBoard is a DialogShell.
+In this case, this callback list is invoked when the BulletinBoard
+widget is unmapped.
+The callback reason is <SystemItem Class="Constant">XmCR_UNMAP</SystemItem>.
+DialogShells are usually unmapped when the DialogShell is unmanaged.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>BulletinBoard inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to each callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">* event</Symbol>;
+} XmAnyCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmBulletinBoard -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para><Classname>XmBulletinBoard</Classname> includes the translations from <Classname>XmManager</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>The <Classname>XmBulletinBoard</Classname> widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para>Calls the activate callbacks for the cancel button if it is sensitive.
+If no cancel button exists and if the parent of the BulletinBoard is
+a manager, passes the event to the parent.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para>Calls the activate callbacks for the button with the keyboard focus.
+If no button has the keyboard focus, calls the activate callbacks
+for the default button if it is sensitive.
+In a List widget or single-line Text widget,
+the List or Text action associated with <KeySym>Key</KeySym><KeySym>osfActivate</KeySym>
+is called before the BulletinBoard actions associated with
+<KeySym>Key</KeySym><KeySym>osfActivate</KeySym>.
+</Para>
+<Para>In a multiline Text widget, any <KeySym>Key</KeySym><KeySym>osfActivate</KeySym>
+event except <KeySym>Key</KeySym><KeySym>Enter</KeySym> calls
+the Text action associated with <KeySym>Key</KeySym><KeySym>osfActivate</KeySym>,
+then the BulletinBoard actions associated with <KeySym>Key</KeySym><KeySym>osfActivate</KeySym>.
+If no button has the focus, no default button exists, and the parent of the
+BulletinBoard is a manager, passes the event to the parent.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>FocusIn</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNfocusCallback</SystemItem>.
+When the focus policy is <SystemItem Class="Constant">XmPOINTER</SystemItem>, the callbacks are
+called when the pointer
+enters the window.
+When the focus policy is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, the callbacks are called
+when the user traverses to the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Map</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNmapCallback</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Unmap</KeySym>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNunmapCallback</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;, &cdeman.Constraint;,
+&cdeman.Core;, &cdeman.XmCreateBulletinBoard;,
+&cdeman.XmCreateBulletinBoardDialog;,
+&cdeman.XmDialogShell;, and &cdeman.XmManager;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

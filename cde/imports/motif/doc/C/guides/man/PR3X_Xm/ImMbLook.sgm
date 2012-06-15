@@ -1,0 +1,186 @@
+<!-- $XConsortium: ImMbLook.sgm /main/8 1996/09/08 20:47:50 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN267.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmImMbLookupString</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmImMbLookupString</Function></RefName>
+<RefPurpose>An input manager function that retrieves a composed string from an input method
+<IndexTerm>
+<Primary>XmImMbLookupString</Primary>
+</IndexTerm><IndexTerm>
+<Primary>input manager functions</Primary>
+<Secondary>XmImMbLookupString</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!---->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!---->
+<!-- HISTORY-->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/XmIm.h>
+</FuncSynopsisInfo>
+<FuncDef>int <Function>XmImMbLookupString</Function></FuncDef>
+<!--<ParamDef><Replaceable>widget, event, buffer_return, bytes_buffer, keysym_return, status_return</Replaceable></ParamDef>-->
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+<ParamDef>XKeyPressedEvent *<Parameter>event</Parameter></ParamDef>
+<ParamDef>char *<Parameter>buffer_return</Parameter></ParamDef>
+<ParamDef>int <Parameter>bytes_buffer</Parameter></ParamDef>
+<ParamDef>KeySym *<Parameter>keysym_return</Parameter></ParamDef>
+<ParamDef>int *<Parameter>status_return</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmImMbLookupString</Function> returns a string composed in the
+locale associated with the widget's input method and a
+KeySym that is currently mapped to the keycode in a KeyPress
+event. The KeySym is obtained by using the standard
+interpretation of Shift, Lock and Group modifiers as
+defined in the X Protocol specification.
+</Para>
+<Para>An XIM will be created, but an XIC will not be created. One of the functions,
+<Function>XmImSetValues</Function>, <Function>XmImVaSetValues</Function>, or <Function>XmImGetXIC</Function>,
+needs to be called to create an XIC.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the widget registered with the input manager
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Specifies the key press event
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">buffer_return</Symbol></Term>
+<ListItem>
+<Para>Specifies the buffer in which the string is returned
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">bytes_buffer</Symbol></Term>
+<ListItem>
+<Para>Specifies the size of the buffer in bytes
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">keysym_return</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the KeySym returned if one exists
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">status_return</Symbol></Term>
+<ListItem>
+<Para>Specifies the status values returned by the function. These status
+values are the same as those for the <Function>XmbLookupString</Function> function. The
+possible status values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XBufferOverflow</SystemItem></Term>
+<ListItem>
+<Para>The size of the buffer was insufficient to handle
+the returned string. The contents of <Symbol Role="Variable">buffer_return</Symbol>
+and <Symbol Role="Variable">keysym_return</Symbol> are not modified. The required
+buffer size is returned as a value of the function. The
+client should repeat the call with a larger buffer size to
+receive the string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XLookupNone</SystemItem></Term>
+<ListItem>
+<Para>No consistent input was composed. The contents of
+<Symbol Role="Variable">buffer_return</Symbol> and <Symbol Role="Variable">keysym_return</Symbol> are not modified
+and the function returns a value of 0.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XLookupChars</SystemItem></Term>
+<ListItem>
+<Para>Some input characters were composed and returned in
+<Symbol Role="Variable">buffer_return</Symbol>. The content of <Symbol Role="Variable">keysym_return</Symbol>
+is not modified. The function returns the length of
+the string in bytes.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Function>XLookupKeysym</Function></Term>
+<ListItem>
+<Para>A keysym value was returned instead of a string. The content of
+<Symbol Role="Variable">buffer_return</Symbol> is not modified and the function returns
+a value of 0.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XLookupBoth</SystemItem></Term>
+<ListItem>
+<Para>A keysym value and a string were returned. The keysym value may
+not necessarily correspond to the string returned. The function
+returns the length of the string in bytes.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Return values depend on the status returned by the function. Refer
+to the description of status values above.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmImGetXIM;,
+&cdeman.XmImGetXIC;,
+&cdeman.XmImRegister;,
+&cdeman.XmImSetValues;,
+and
+&cdeman.XmImUnregister;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

@@ -1,0 +1,127 @@
+<!-- $XConsortium: StrGeA.sgm /main/8 1996/09/08 21:04:59 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN426.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmStringGenerate</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmStringGenerate</Function></RefName>
+<RefPurpose>A convenience function that generates a compound string
+<IndexTerm>
+<Primary>XmStringGenerate</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>XmString <Function>XmStringGenerate</Function></FuncDef>
+<!--<ParamDef><Replaceable>text, tag, type, rendition</Replaceable></ParamDef>-->
+<ParamDef>XtPointer <Parameter>text</Parameter></ParamDef>
+<ParamDef>XmStringTag <Parameter>tag</Parameter></ParamDef>
+<ParamDef>XmTextType <Parameter>type</Parameter></ParamDef>
+<ParamDef>XmStringTag <Parameter>rendition</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmStringGenerate</Function> calls the <Function>XmStringParseText</Function>
+function with a default parse table of entries
+consisting of '\n', which maps to
+Separator,
+and '\t', which maps to Tab.
+Matching <Symbol Role="Define">RENDITION_BEGIN</Symbol> and
+<Symbol Role="Define">RENDITION_END</Symbol> components containing <Symbol Role="Variable">rendition</Symbol> are placed
+around the resulting <StructName Role="typedef">XmString</StructName>.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Emphasis>text</Emphasis></Term>
+<ListItem>
+<Para>Specifies a NULL-terminated string containing characters of a type
+determined by <Symbol Role="Variable">type</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>tag</Emphasis></Term>
+<ListItem>
+<Para>Specifies the tag to be used in creating the result. The type of tag
+created (charset or locale) depends on the text type and the
+value given. If specified value is NULL, and <Symbol Role="Variable">type</Symbol> indicates
+that a charset tag should be created, then the tag will have the
+value of
+<SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>.
+If <Emphasis>tag</Emphasis> is NULL, and <Symbol Role="Variable">type</Symbol> indicates a
+locale tag, then the tag will have the value of <SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">type</Symbol></Term>
+<ListItem>
+<Para>Specifies the type of text to be passed in, and the tag type.
+If a locale tag should be created, then <Symbol Role="Variable">type</Symbol> has a value of
+either <SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem> or <SystemItem Class="Constant">XmWIDECHAR_TEXT</SystemItem>. If a
+charset should be created, <Symbol Role="Variable">type</Symbol> has a value of
+<SystemItem Class="Constant">XmCHARSET_TEXT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">rendition</Symbol></Term>
+<ListItem>
+<Para>Specifies the rendition tag to be used in an
+<SystemItem Class="Constant">XmSTRING_COMPONENT_RENDITION_BEGIN</SystemItem> component which will begin
+the returned string and in an <SystemItem Class="Constant">XmSTRING_COMPONENT_RENDITION_END</SystemItem>
+component which will end it.
+If <Symbol Role="Variable">rendition</Symbol> is NULL, no rendition tag is placed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns a new compound string.
+The function will allocate space to hold the returned compound string.
+When the application no longer needs the returned compound string, the
+application should call <Function>XmStringFree</Function>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmString; and
+&cdeman.XmStringFree;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

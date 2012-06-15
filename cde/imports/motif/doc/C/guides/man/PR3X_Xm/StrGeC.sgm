@@ -1,0 +1,200 @@
+<!-- $XConsortium: StrGeC.sgm /main/9 1996/09/08 21:05:15 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN428.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmStringGetNextComponent</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmStringGetNextComponent</Function></RefName>
+<RefPurpose>A compound string function that returns the type and value of the next component in a compound string
+<IndexTerm>
+<Primary>XmStringGetNextComponent</Primary>
+</IndexTerm><IndexTerm>
+<Primary>compound string functions</Primary>
+<Secondary>XmStringGetNextComponent</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>XmStringComponentType <Function>XmStringGetNextComponent</Function></FuncDef>
+<!--<ParamDef><Replaceable>context, text, tag, direction,
+unknown_tag, unknown_length, unknown_value</Replaceable></ParamDef>-->
+<ParamDef>XmStringContext <Parameter>context</Parameter></ParamDef>
+<ParamDef>char **<Parameter>text</Parameter></ParamDef>
+<ParamDef>XmStringTag *<Parameter>tag</Parameter></ParamDef>
+<ParamDef>XmStringDirection *<Parameter>direction</Parameter></ParamDef>
+<ParamDef>XmStringComponentType *<Parameter>unknown_tag</Parameter></ParamDef>
+<ParamDef>unsigned short *<Parameter>unknown_length</Parameter></ParamDef>
+<ParamDef>unsigned char **<Parameter>unknown_value</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>This function is obsolete and exists for compatibility with previous
+releases. It is replaced by <Function>XmStringGetNextTriple</Function>.
+<Function>XmStringGetNextComponent</Function>
+returns the type and value of the next component in
+the compound string identified by <Symbol Role="Variable">context</Symbol>.
+Components are returned one at a time. On return, only
+some output parameters will be valid; which ones can be determined by
+examining the returned component type.
+The following table describes the valid returns for each component
+type.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colwidth="2.0i" Colname="1">
+<ColSpec Rowsep="1" Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry><Literal>Valid Fields</Literal></Entry>
+<Entry><Literal>Component Type</Literal></Entry>
+</Row>
+<Row>
+<Entry><Emphasis>tag</Emphasis></Entry>
+<Entry><Symbol>XmSTRING_COMPONENT_LOCALE, XmSTRING_COMPONENT_TAG</Symbol></Entry>
+</Row>
+<Row>
+<Entry><Emphasis>text</Emphasis></Entry>
+<Entry><Symbol>XmSTRING_COMPONENT_LOCALE_TEXT, XmSTRING_COMPONENT_TEXT,
+XmSTRING_COMPONENT_WIDECHAR_TEXT</Symbol></Entry>
+</Row>
+<Row>
+<Entry><Emphasis>direction</Emphasis></Entry>
+<Entry><SystemItem Class="Constant">XmSTRING_COMPONENT_DIRECTION</SystemItem></Entry>
+</Row>
+<Row>
+<Entry><Emphasis>unknown_tag, unknown_length, unknown_value</Emphasis></Entry>
+<Entry><Symbol>XmSTRING_COMPONENT_LAYOUT_POP, XmSTRING_COMPONENT_LAYOUT_PUSH,
+XmSTRING_COMPONENT_TAB, XmSTRING_COMPONENT_RENDITION_BEGIN,
+XmSTRING_COMPONENT_RENDITION_END</Symbol></Entry>
+</Row>
+<Row>
+<Entry><Emphasis>no valid field</Emphasis></Entry>
+<Entry><Symbol>XmSTRING_COMPONENT_SEPARATOR, XmSTRING_COMPONENT_END,
+XmSTRING_COMPONENT_UNKNOWN</Symbol></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Note that several components produce a return value of
+<SystemItem Class="Constant">XmSTRING_COMPONENT_UNKNOWN</SystemItem>. The data returned by these
+components is returned in the <Symbol Role="Variable">unknown_tag</Symbol>, <Symbol Role="Variable">unknown_length</Symbol>,
+and <Symbol Role="Variable">unknown_value</Symbol> fields. This apparent inconsistency is
+designed to accomodate older applications that may not be equipped to
+handle the newer component types of Motif version 2.0 and beyond.
+Consequently, the use of this procedure is not recommended. Instead,
+use the <Function>XmStringGetNextTriple</Function> procedure, which provides all the
+functionality of <Function>XmStringGetNextComponent</Function>, and is fully
+compatible with the newer component types.
+</Para>
+<Para>If the function return value is <SystemItem Class="Constant">XmSTRING_COMPONENT_LOCALE_TEXT</SystemItem> or
+<SystemItem Class="Constant">XmSTRING_COMPONENT_TEXT</SystemItem>, the the function allocates space to hold
+the returned <Emphasis>text</Emphasis>.
+If the function return value is <SystemItem Class="Constant">XmSTRING_COMPONENT_FONTLIST_ELEMENT_TAG</SystemItem>,
+or <SystemItem Class="Constant">XmSTRING_COMPONENT_TAG</SystemItem>, then the function allocates space to hold
+the returned <Emphasis>tag</Emphasis>.
+The application is responsible for managing the allocated space.
+The application can recover the allocated space by calling <Function>XtFree</Function>.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">context</Symbol></Term>
+<ListItem>
+<Para>Specifies the string context structure that was allocated by the
+<Function>XmStringInitContext</Function> function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>text</Emphasis></Term>
+<ListItem>
+<Para>Specifies a pointer to a NULL terminated string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>tag</Emphasis></Term>
+<ListItem>
+<Para>Specifies a pointer to the tag component associated with the
+text. The value <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem> identifies a locale
+text segment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>direction</Emphasis></Term>
+<ListItem>
+<Para>Specifies a pointer to the direction of the text.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">unknown_tag</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the tag of an unknown component.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">unknown_length</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the length of an unknown component.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">unknown_value</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the value of an unknown component.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns the type of component found.
+Refer to the
+&cdeman.XmStringComponentType; reference page for a list of component types.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmStringComponentType;,
+&cdeman.XmStringCreate;,
+and &cdeman.XmStringInitContext;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

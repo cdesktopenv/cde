@@ -1,0 +1,126 @@
+<!-- $XConsortium: GetVisi.sgm /main/8 1996/09/08 20:46:48 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN259.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmGetVisibility</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmGetVisibility</Function></RefName>
+<RefPurpose>A function that determines if a widget is
+visible
+<IndexTerm>
+<Primary>XmGetVisibility</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>XmVisibility <Function>XmGetVisibility</Function></FuncDef>
+<!--<ParamDef><Replaceable>widget</Replaceable></ParamDef>-->
+<ParamDef>Widget <Parameter>widget</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmGetVisibility</Function> returns the visibility state of the specified
+widget.
+It checks to see if some part of the widget's rectangular
+area is unobscured
+by the widget's ancestors, or some part of the widget's rectangular
+area is inside the work window (but possibly outside the clip window)
+of a ScrolledWindow whose <SystemItem Class="Resource">XmNscrollingPolicy</SystemItem> is
+<SystemItem Class="Constant">XmAUTOMATIC</SystemItem> and whose <SystemItem Class="Resource">XmNtraverseObscuredCallback</SystemItem> is not
+NULL.
+</Para>
+<Para><Function>XmGetVisibility</Function> does not check to see if <Symbol Role="Variable">widget</Symbol> is obscured by
+its siblings or by siblings of its ancestors. Consequently, <Function>XmGetVisibility</Function>
+returns <SystemItem Class="Constant">XmVISIBILITY_UNOBSCURED</SystemItem> for widgets which are completely or partially
+covered by one or more siblings of <Symbol Role="Variable">widget</Symbol> by one or more siblings of ancestors
+of <Symbol Role="Variable">widget</Symbol>.
+</Para>
+<Para>When a widget which is unrealized is being queried, it is indicated
+that the widget is fully obscured.
+If an application unmaps a <Symbol Role="Variable">widget</Symbol> that has its
+<SystemItem Class="Resource">XmNmappedWhenManaged</SystemItem> resource set to True, the return value
+is undefined.
+When a widget which is unmanaged is being queried, it is
+indicated that the widget is fully obscured.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the widget
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmVISIBILITY_UNOBSCURED</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the widget is mapped, not obscured, and is completely
+visible on the screen.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmVISIBILITY_PARTIALLY_OBSCURED</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the widget is mapped, and is not completely
+visible on the screen (partially obscured).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmVISIBILITY_FULLY_OBSCURED</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the widget is not at all visible on the screen.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmIsTraversable;,
+&cdeman.XmManager;,
+and &cdeman.XmProcessTraversal;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

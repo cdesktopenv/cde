@@ -1,0 +1,1165 @@
+<!-- $XConsortium: CascBA.sgm /main/11 1996/09/08 20:25:42 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN81.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmCascadeButton</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmCascadeButton</Classname></RefName>
+<RefPurpose>The CascadeButton widget class
+<IndexTerm>
+<Primary>XmCascadeButton</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>CascadeButton</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/CascadeB.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>CascadeButton links two menu panes or a MenuBar to a menu pane.
+</Para>
+<Para>It is used in menu systems and must have a RowColumn parent
+with its <SystemItem Class="Resource">XmNrowColumnType</SystemItem> resource set to <SystemItem Class="Constant">XmMENU_BAR</SystemItem>,
+<SystemItem Class="Constant">XmMENU_POPUP</SystemItem> or <SystemItem Class="Constant">XmMENU_PULLDOWN</SystemItem>.
+</Para>
+<Para>It is the only widget that can have a Pulldown menu pane attached to it as
+a submenu. The submenu is displayed when this widget is activated within
+a MenuBar, a PopupMenu, or a PulldownMenu. Its visuals can
+include a label or pixmap and a cascading indicator when it is in a
+Popup or Pulldown menu pane; or it can include only a label or a pixmap
+when it is in a MenuBar.
+The positioning of the PulldownMenu with respect to the CascadeButton
+depends on the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource of the MenuShell.
+</Para>
+<Para>The default behavior associated with a CascadeButton depends on the type
+of menu system in which it resides.
+By default, <Literal>BSelect</Literal> controls the behavior of the CascadeButton.
+In addition, <Literal>BMenu</Literal> controls the behavior of the CascadeButton if
+it resides in a PopupMenu system.
+The actual mouse button used is determined by its RowColumn parent.
+<Literal>BMenu</Literal> also performs the <Literal>BSelect</Literal> actions in all
+types of menu systems.
+</Para>
+<Para>A CascadeButton's visuals differ from most other button gadgets. When the
+button
+becomes armed, its visuals change from a 2-D to a 3-D look, and it displays
+the submenu that has been attached
+to it. If no submenu is attached, it simply changes its visuals.
+</Para>
+<Para>When a CascadeButton within a Pulldown or Popup menu pane
+is armed as the result of the user
+moving the mouse pointer into the widget, it does not immediately display its
+submenu. Instead, it waits a short amount of time to see if the arming
+was temporary (that is, the user was simply passing through the widget), or
+whether the user really wanted the submenu posted. This time delay is
+configurable using <SystemItem Class="Resource">XmNmappingDelay</SystemItem>.
+</Para>
+<Para>CascadeButton provides a single mechanism for
+activating the widget from the keyboard. This mechanism is referred to as
+a keyboard mnemonic.
+If a mnemonic has been
+specified for the widget, the user may activate the CascadeButton
+by simply typing the mnemonic while the CascadeButton is visible.
+If the CascadeButton is in a MenuBar and the MenuBar does not have the
+focus, the <Literal>MAlt</Literal> modifier must be
+pressed with the mnemonic.
+Mnemonics are typically used to interact with a menu
+using the keyboard interface.
+</Para>
+<Para>If the Cascadebutton is in a Pulldown or Popup menu pane and
+there is a submenu attached, the
+<SystemItem Class="Resource">XmNmarginBottom</SystemItem>, <SystemItem Class="Resource">XmNmarginLeft</SystemItem>, <SystemItem Class="Resource">XmNmarginRight</SystemItem>, and
+<SystemItem Class="Resource">XmNmarginTop</SystemItem> resources may
+enlarge to accommodate <SystemItem Class="Resource">XmNcascadePixmap</SystemItem>.
+<SystemItem Class="Resource">XmNmarginWidth</SystemItem> defaults
+to 6 if this
+resource is in a MenuBar; otherwise, it takes Label's default, which
+is 2.
+</Para>
+<Para>CascadeButton uses the <Symbol Role="Globalvar">XmQTmenuSystem</Symbol> and
+<Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> traits.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>CascadeButton inherits behavior, resources, and traits from <Classname>Core</Classname>,
+<Classname>XmPrimitive</Classname>, and <Classname>XmLabel</Classname> classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmCascadeButtonWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmCascadeButton</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file,
+remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file,
+remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmCascadeButton Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNactivateCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNcascadePixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcascadingCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappingDelay</Entry>
+<Entry>XmCMappingDelay</Entry>
+<Entry>int</Entry>
+<Entry>180 ms</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsubMenuId</Entry>
+<Entry>XmCMenuWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNactivateCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called
+when the user activates the CascadeButton widget
+and there is no submenu attached to pop up. The activation occurs
+when a mouse button is released
+or when the mnemonic associated with the widget is typed. The specific mouse
+button depends on information in the RowColumn parent. The reason
+sent by the callback is <SystemItem Class="Constant">XmCR_ACTIVATE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcascadePixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies the cascade pixmap displayed on one end of the widget when
+a CascadeButton is used within a Popup or Pulldown menu pane and a submenu
+is attached.
+The Label class resources <SystemItem Class="Resource">XmNmarginBottom</SystemItem>, <SystemItem Class="Resource">XmNmarginLeft</SystemItem>,
+<SystemItem Class="Resource">XmNmarginRight</SystemItem>, and <SystemItem Class="Resource">XmNmarginTop</SystemItem> may be modified to ensure
+that room is left for the cascade pixmap.
+The default cascade pixmap is an arrow pointing to the side of the menu
+where the submenu will appear.
+The positioning of the cascade pixmap
+to either the left of right of the widget, and the direction of the
+arrow, depend on the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource of the MenuShell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcascadingCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that is called
+just prior to the mapping of the submenu associated with
+CascadeButton. The reason sent by the callback is <SystemItem Class="Constant">XmCR_CASCADING</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmappingDelay</SystemItem></Term>
+<ListItem>
+<Para>Specifies the amount of time, in milliseconds, between when a CascadeButton
+becomes armed and when it maps its submenu. This delay is used only when
+the widget is within a Popup or Pulldown menu pane.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsubMenuId</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID for the Pulldown menu pane to be associated with
+this CascadeButton. The specified menu pane is displayed
+when the CascadeButton becomes armed. The menu pane must have been created
+with the appropriate parentage depending on the type of menu used. See
+&cdeman.XmCreateMenuBar;, &cdeman.XmCreatePulldownMenu;, and
+&cdeman.XmCreatePopupMenu; for more information on the menu systems.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>CascadeButton inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in 0--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmLabel Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerator</Entry>
+<Entry>XmCAccelerator</Entry>
+<Entry>String</Entry>
+<Entry>NULL</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry>XmNacceleratorText</Entry>
+<Entry>XmCAcceleratorText</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry>XmNalignment</Entry>
+<Entry>XmCAlignment</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfontList</Entry>
+<Entry>XmCFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelInsensitivePixmap</Entry>
+<Entry>XmCLabelInsensitivePixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelPixmap</Entry>
+<Entry>XmCLabelPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelString</Entry>
+<Entry>XmCXmString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelType</Entry>
+<Entry>XmCLabelType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmSTRING</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginBottom</Entry>
+<Entry>XmCMarginBottom</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginLeft</Entry>
+<Entry>XmCMarginLeft</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginRight</Entry>
+<Entry>XmCMarginRight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginTop</Entry>
+<Entry>XmCMarginTop</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmnemonic</Entry>
+<Entry>XmCMnemonic</Entry>
+<Entry>KeySym</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmnemonicCharSet</Entry>
+<Entry>XmCMnemonicCharSet</Entry>
+<Entry>String</Entry>
+<Entry>XmFONTLIST_DEFAULT_TAG</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrecomputeSize</Entry>
+<Entry>XmCRecomputeSize</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrenderTable</Entry>
+<Entry>XmCRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmPrimitive Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNconvertCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightOnEnter</Entry>
+<Entry>XmCHighlightOnEnter</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightThickness</Entry>
+<Entry>XmCHighlightThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<!--no-op:  .tH-->
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmNONE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to each callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">* event</Symbol>;
+} XmAnyCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback or is NULL
+if this callback was not triggered due to an <Symbol>XEvent</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmCascadeButton -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para><Classname>XmCascadeButton</Classname> includes translations from <Classname>XmPrimitive</Classname>.
+<Classname>XmCascadeButton</Classname> includes the menu traversal translations from <Classname>XmLabel</Classname>.
+<!--These translations may not directly correspond to a
+translation table.
+--></Para>
+<Para>Note that altering translations in <Literal>#override</Literal>
+or <Literal>#augment</Literal> mode is undefined.
+</Para>
+<Para>The following list describes the translations for a
+CascadeButton in a MenuBar.
+The following key names are listed in the
+X standard key event translation table syntax.
+This format is the one used by Motif to
+specify the widget actions corresponding to a given key.
+A brief overview of the format is provided under
+&cdeman.VirtualBindings;.
+For a complete description of the format, please refer to the
+X Toolkit Instrinsics Documentation.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>EnterWindow</KeySym><Literal>Normal</Literal>:</Term>
+<ListItem>
+<Para><Action>MenuBarEnter()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>LeaveWindow</KeySym><Literal>Normal</Literal>:</Term>
+<ListItem>
+<Para><Action>MenuBarLeave()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>ProcessDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c&lt;BtnDown></Literal>:</Term>
+<ListItem>
+<Para><Action>MenuButtonTakeFocusUp()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c&lt;BtnUp></Literal>:</Term>
+<ListItem>
+<Para><Action>MenuButtonTakeFocusUp()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c</Literal><KeySym>BtnDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuBarSelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c</Literal><KeySym>BtnUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>DoSelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfSelect</KeySym>:</Term>
+<ListItem>
+<Para><Action>KeySelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para><Action>KeySelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para><Action>Help()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para><Action>CleanupMenuBar()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s</Literal><KeySym>Key</KeySym><Literal>Return</Literal>:</Term>
+<ListItem>
+<Para><Action>KeySelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s</Literal><KeySym>Key</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>KeySelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--These translations may not directly correspond to a
+translation table.
+.VL 1.5i
+.LI "&bsol;*LBSelect Press:&bsol;*O"
+&bsol;*LMenuBarSelect()&bsol;*O
+.LI "&bsol;*LBSelect Release:&bsol;*O"
+&bsol;*LDoSelect()&bsol;*O
+.LI "&bsol;*LKActivate:&bsol;*O"
+&bsol;*LKeySelect()&bsol;*O
+.LI "&bsol;*LKSelect:&bsol;*O"
+&bsol;*LKeySelect()&bsol;*O
+.LI "&bsol;*LKHelp:&bsol;*O"
+&bsol;*LHelp()&bsol;*O
+.LI "&bsol;*LMAny KCancel:&bsol;*O"
+&bsol;*LCleanupMenuBar()&bsol;*O
+.LE
+-->
+<Para>The following list describes the translations for a
+CascadeButton in a PullDown or Popup MenuPane.
+In a Popup menu system, <KeySym>Btn3</KeySym> also performs the
+<KeySym>Btn1</KeySym> actions.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>EnterWindow</KeySym>:</Term>
+<ListItem>
+<Para><Action>DelayedArm()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>LeaveWindow</KeySym>:</Term>
+<ListItem>
+<Para><Action>CheckDisarm()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>ProcessDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c&lt;BtnDown></Literal>:</Term>
+<ListItem>
+<Para><Action>MenuButtonTakeFocus()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c&lt;BtnUp></Literal>:</Term>
+<ListItem>
+<Para><Action>MenuButtonTakeFocusUp()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c</Literal><KeySym>BtnDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>StartDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c</Literal><KeySym>BtnUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>DoSelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfSelect</KeySym>:</Term>
+<ListItem>
+<Para><Action>KeySelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para><Action>KeySelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para><Action>Help()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para><Action>CleanupMenuBar()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s</Literal><KeySym>Key</KeySym><Literal>Return</Literal>:</Term>
+<ListItem>
+<Para><Action>KeySelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s</Literal><KeySym>Key</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>KeySelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--In a Popup menu system, &bsol;*LBMenu&bsol;*O also performs the &bsol;*LBSelect&bsol;*O
+actions.
+These translations may not directly correspond to a
+translation table.
+.VL 1.5i
+.LI "&bsol;*LBSelect Press:&bsol;*O"
+&bsol;*LStartDrag()&bsol;*O
+.LI "&bsol;*LBSelect Release:&bsol;*O"
+&bsol;*LDoSelect()&bsol;*O
+.LI "&bsol;*LKActivate:&bsol;*O"
+&bsol;*LKeySelect()&bsol;*O
+.LI "&bsol;*LKSelect:&bsol;*O"
+&bsol;*LKeySelect()&bsol;*O
+.nL
+.ne 4
+.LI "&bsol;*LKHelp:&bsol;*O"
+&bsol;*LHelp()&bsol;*O
+.LI "&bsol;*LMAny KCancel:&bsol;*O"
+&bsol;*LCleanupMenuBar()&bsol;*O
+.LE
+-->
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The XmCascadeButton action routines are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>CleanupMenuBar()</Action>:</Term>
+<ListItem>
+<Para>In a MenuBar, disarms the CascadeButton and the menu and,
+when the shell's keyboard focus policy is
+<SystemItem Class="Constant">XmEXPLICIT</SystemItem>,
+restores
+keyboard focus to the widget that had the focus before the menu was
+entered.
+</Para>
+<Para>In a toplevel Pulldown MenuPane from a MenuBar, unposts the menu,
+disarms the MenuBar CascadeButton and the MenuBar, and,
+when the shell's keyboard focus policy is
+<SystemItem Class="Constant">XmEXPLICIT</SystemItem>,
+restores keyboard
+focus to the widget that had the focus before the MenuBar was
+entered.
+In other Pulldown MenuPanes, unposts the menu.
+</Para>
+<Para>In a Popup MenuPane, unposts the menu and,
+when the shell's keyboard focus policy is
+<SystemItem Class="Constant">XmEXPLICIT</SystemItem>,
+restores keyboard focus to the
+widget from which the menu was posted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>DoSelect()</Action>:</Term>
+<ListItem>
+<Para>Calls the callbacks in <SystemItem Class="Resource">XmNcascadingCallback</SystemItem>,
+posts the submenu attached to the CascadeButton and
+enables keyboard traversal within the menu.
+If the CascadeButton does not have a submenu attached,
+this action calls the callbacks in <SystemItem Class="Resource">XmNactivateCallback</SystemItem>,
+activates the CascadeButton, and unposts all posted menus in the cascade.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>Help()</Action>:</Term>
+<ListItem>
+<Para>Unposts all menus in the menu hierarchy and,
+when the shell's keyboard focus policy is
+<SystemItem Class="Constant">XmEXPLICIT</SystemItem>,
+restores keyboard focus to
+the widget that had the focus before the menu system was entered.
+Calls the callbacks for <SystemItem Class="Resource">XmNhelpCallback</SystemItem> if any exist.
+If there are no help callbacks for this widget, this action calls the
+help callbacks for the nearest ancestor that has them.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>KeySelect()</Action>:</Term>
+<ListItem>
+<Para>Calls the callbacks in <SystemItem Class="Resource">XmNcascadingCallback</SystemItem>,
+and posts the submenu attached to the CascadeButton if keyboard
+traversal is enabled in the menu.
+If the CascadeButton does not have a submenu attached,
+this action calls the callbacks in <SystemItem Class="Resource">XmNactivateCallback</SystemItem>,
+activates the CascadeButton, and unposts all posted menus in the cascade.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuBarSelect()</Action>:</Term>
+<ListItem>
+<Para>Unposts any menus posted by the parent menu.
+Arms both the CascadeButton and the MenuBar,
+posts the associated submenu, and enables mouse traversal.
+If the menu is already active, this event
+disables keyboard traversal for the menu and returns
+the menu to mouse traversal mode.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>StartDrag()</Action>:</Term>
+<ListItem>
+<Para>Arms the CascadeButton, posts the associated submenu, and enables mouse
+traversal.
+If the menu is already active, this event
+disables keyboard traversal for the menu and returns
+the menu to mouse traversal mode.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>Posting a submenu calls the <SystemItem Class="Resource">XmNcascadingCallback</SystemItem> callbacks.
+This widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>EnterWindow</KeySym>:</Term>
+<ListItem>
+<Para>If keyboard traversal is enabled, does nothing.
+Otherwise, in a MenuBar that is armed,
+unposts any MenuPanes associated with another MenuBar entry,
+arms the CascadeButton, and posts the associated submenu.
+In other menus,
+arms the CascadeButton and posts the associated submenu after
+the delay specified by <SystemItem Class="Resource">XmNmappingDelay</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>LeaveWindow</KeySym>:</Term>
+<ListItem>
+<Para>If keyboard traversal is enabled does nothing.
+Otherwise, in a MenuBar that is armed,
+disarms the CascadeButton
+if the submenu associated with the CascadeButton is not currently
+posted or if there is no submenu associated with the CascadeButton.
+</Para>
+<Para>In other menus,
+if the pointer moves anywhere except into a submenu associated with the
+CascadeButton, the CascadeButton is disarmed and its submenu is unposted.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Core;, &cdeman.XmCascadeButtonHighlight;,
+&cdeman.XmCreateCascadeButton;,
+&cdeman.XmCreateMenuBar;, &cdeman.XmCreatePulldownMenu;,
+&cdeman.XmCreatePopupMenu;,
+&cdeman.XmLabel;, &cdeman.XmPrimitive;, and &cdeman.XmRowColumn;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

@@ -1,0 +1,202 @@
+<!-- $XConsortium: FetchWiA.sgm /main/9 1996/09/08 21:25:23 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN13.rsml.1">
+<RefMeta>
+<RefEntryTitle>MrmFetchWidget</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>MrmFetchWidget</Function></RefName>
+<RefPurpose>Fetches and creates an indexed (UIL named) application widget and its children
+<IndexTerm>
+<Primary>MrmFetchWidget</Primary>
+</IndexTerm><IndexTerm>
+<Primary>uil functions</Primary>
+<Secondary>MrmFetchWidget</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Mrm/MrmPublic.h>
+</FuncSynopsisInfo>
+<FuncDef>Cardinal <Function>MrmFetchWidget</Function></FuncDef>
+<!--<ParamDef><Replaceable>hierarchy_id, index, parent_widget, widget, class</Replaceable></ParamDef>-->
+<ParamDef>MrmHierarchy <Parameter>hierarchy_id</Parameter></ParamDef>
+<ParamDef>String <Parameter>index</Parameter></ParamDef>
+<ParamDef>Widget <Parameter>parent_widget</Parameter></ParamDef>
+<ParamDef>Widget *<Parameter>widget</Parameter></ParamDef>
+<ParamDef>MrmType *<Parameter>class</Parameter></ParamDef>
+</FuncSynopsis><IndexTerm>
+<Primary>MRM function</Primary>
+<Secondary>MrmFetchWidget</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>MrmFetchWidget</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>MrmFetchWidget</Function>
+function<IndexTerm>
+<Primary>MrmFetchWidget</Primary>
+<Secondary>description</Secondary>
+</IndexTerm>
+fetches and creates an
+indexed application widget and its children.
+The indexed application widget is any widget that is named in UIL.
+In
+fetch operations, the fetched widget's subtree is also
+fetched and created.
+This widget must not appear as the child of a widget within its own
+subtree. <Function>MrmFetchWidget</Function> does not execute <Function>XtManageChild</Function>
+for the newly created widget.
+</Para>
+<Para>All widgets fetched by a call to <Function>MrmFetchWidget</Function> are not managed
+at the time of their creation callbacks.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">hierarchy_id</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the <Symbol Role="Define">UID</Symbol> hierarchy that contains the
+interface definition.
+The value of <Symbol Role="Variable">hierarchy_id</Symbol> was returned in a previous call to
+<Function>MrmOpenHierarchyPerDisplay</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">index</Symbol></Term>
+<ListItem>
+<Para>Specifies the UIL name of the widget to fetch.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parent_widget</Symbol></Term>
+<ListItem>
+<Para>Specifies the parent widget ID.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Returns the widget ID of the created widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">class</Symbol></Term>
+<ListItem>
+<Para>This argument must be set to an actual pointer; it
+cannot be a NULL pointer. <Function>MrmFetchWidget</Function> sets this argument to
+an implementation dependent value.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>An application can fetch
+any named widget in the <Symbol Role="Define">UID</Symbol> hierarchy using
+<Function>MrmFetchWidget</Function>.
+<Function>MrmFetchWidget</Function>
+can be called at any time to fetch a widget that was not fetched at
+application startup.
+<Function>MrmFetchWidget</Function>
+can be used to defer fetching pop-up
+widgets until they are first
+referenced (presumably in a callback), and then used to fetch them
+once.
+</Para>
+<Para><Function>MrmFetchWidget</Function>
+can also create multiple instances of a widget (and its subtree).
+In this case, the <Symbol Role="Define">UID</Symbol> definition functions as a template;
+a widget definition can be fetched any number of times.
+An application can use
+this template to make multiple instances of a widget, for example, in a
+dialog box box or menu.
+</Para>
+<Para>The index (UIL name) that identifies the widget must be
+known to the application.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<IndexTerm>
+<Primary>MrmSUCCESS</Primary>
+</IndexTerm><IndexTerm>
+<Primary>MrmBAD_HIERARCHY</Primary>
+</IndexTerm><IndexTerm>
+<Primary>MrmNOT_FOUND</Primary>
+</IndexTerm><IndexTerm>
+<Primary>MrmFAILURE</Primary>
+</IndexTerm>
+<Para>This function returns one of the following status return constants:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmSUCCESS</SystemItem></Term>
+<ListItem>
+<Para>The function executed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmBAD_HIERARCHY</SystemItem></Term>
+<ListItem>
+<Para>The hierarchy ID was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmNOT_FOUND</SystemItem></Term>
+<ListItem>
+<Para>The widget was not found in UID hierarchy.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmFAILURE</SystemItem></Term>
+<ListItem>
+<Para>The function failed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.MrmOpenHierarchyPerDisplay;,
+&cdeman.MrmFetchWidgetOverride;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

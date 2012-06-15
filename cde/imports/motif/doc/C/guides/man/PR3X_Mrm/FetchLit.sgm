@@ -1,0 +1,202 @@
+<!-- $XConsortium: FetchLit.sgm /main/11 1996/09/24 15:58:02 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN11.rsml.1">
+<RefMeta>
+<RefEntryTitle>MrmFetchLiteral</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>MrmFetchLiteral</Function></RefName>
+<RefPurpose>Fetches a literal from a UID file
+<IndexTerm>
+<Primary>MrmFetchLiteral</Primary>
+</IndexTerm><IndexTerm>
+<Primary>uil functions</Primary>
+<Secondary>MrmFetchLiteral</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Mrm/MrmPublic.h>
+</FuncSynopsisInfo>
+<FuncDef>Cardinal <Function>MrmFetchLiteral</Function></FuncDef>
+<!--<ParamDef><Replaceable>hierarchy_id, index, display, value, type</Replaceable></ParamDef>-->
+<ParamDef>MrmHierarchy <Parameter>hierarchy_id</Parameter></ParamDef>
+<ParamDef>String <Parameter>index</Parameter></ParamDef>
+<ParamDef>Display *<Parameter>display</Parameter></ParamDef>
+<ParamDef>XtPointer *<Parameter>value</Parameter></ParamDef>
+<ParamDef>MrmCode *<Parameter>type</Parameter></ParamDef>
+</FuncSynopsis><IndexTerm>
+<Primary>MRM function</Primary>
+<Secondary>MrmFetchLiteral</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>MrmFetchLiteral</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The
+<Function>MrmFetchLiteral</Function>
+function<IndexTerm>
+<Primary>MrmFetchLiteral</Primary>
+<Secondary>description</Secondary>
+</IndexTerm>
+reads and returns the value and type of a literal (named value)
+that is stored as
+a public resource in a single UID file.
+This function returns a pointer to the value of the literal.
+For example, an integer is always returned as a pointer to an integer,
+and a string is always returned as a pointer to a string.
+</Para>
+<Para>Applications should not use
+<Function>MrmFetchLiteral</Function>
+for fetching icon or color literals.
+If this is attempted,
+<Function>MrmFetchLiteral</Function>
+returns an error.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">hierarchy_id</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the UID hierarchy that contains the
+specified literal.
+The value of <Symbol Role="Variable">hierarchy_id</Symbol> was returned in a previous call to
+<Function>MrmOpenHierarchyPerDisplay</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">index</Symbol></Term>
+<ListItem>
+<Para>Specifies the UIL name of the literal (pixmap) to fetch.
+You must define this name in UIL as an exported value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">display</Symbol></Term>
+<ListItem>
+<Para>Specifies the display used for the pixmap.
+The
+<Symbol Role="Variable">display</Symbol>
+argument specifies the connection to the X server.
+For more information on the
+<StructName Role="typedef">Display</StructName> structure, see the Xlib function
+<Function>XOpenDisplay</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value</Symbol></Term>
+<ListItem>
+<Para>Returns the ID of the named literal's value.
+The function allocates space for the returned value.
+The application is responsible for managing the allocated space
+by calling the appropriate deallocation function. For example,
+if the returned ID symbolizes a pixmap, then the application can
+recover the allocated space by calling <Function>XmDestroyPixmap</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">type</Symbol></Term>
+<ListItem>
+<Para>Returns the named literal's data type.
+Types are defined in the include file <Filename>Mrm/MrmPublic.h</Filename>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<IndexTerm>
+<Primary>MrmSUCCESS</Primary>
+</IndexTerm><IndexTerm>
+<Primary>MrmBAD_HIERARCHY</Primary>
+</IndexTerm><IndexTerm>
+<Primary>MrmNOT_FOUND</Primary>
+</IndexTerm><IndexTerm>
+<Primary>MrmFAILURE</Primary>
+</IndexTerm>
+<Para>This function returns one of the following status return constants:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmSUCCESS</SystemItem></Term>
+<ListItem>
+<Para>The function executed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmBAD_HIERARCHY</SystemItem></Term>
+<ListItem>
+<Para>The hierarchy ID was invalid.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmNOT_FOUND</SystemItem></Term>
+<ListItem>
+<Para>The literal was not found in the UIL file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmWRONG_TYPE</SystemItem></Term>
+<ListItem>
+<Para>The caller tried to fetch a literal of a type not supported by this
+function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmFAILURE</SystemItem></Term>
+<ListItem>
+<Para>The function failed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.MrmFetchBitmapLiteral;,
+&cdeman.MrmOpenHierarchyPerDisplay;,
+&cdeman.MrmFetchIconLiteral;,
+&cdeman.MrmFetchColorLiteral;, and
+<Filename MoreInfo="RefEntry">XOpenDisplay</Filename>(3).
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->
