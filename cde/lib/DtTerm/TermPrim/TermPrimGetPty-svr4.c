@@ -42,15 +42,21 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-svr4.c /main/1 1996/04/21 1
 #include "TermPrimOSDepI.h"
 #include "TermPrimDebug.h"
 #include "TermHeader.h"
-#include <stropts.h>
 #if !defined(linux)
+#include <stropts.h>
 #include <sys/conf.h>
 #include <sys/stream.h>
 #endif
 #include <sys/termios.h>
+
+#if defined(linux)
+#undef USE_STREAMS_BUFMOD
+#endif
+
 #ifdef	USE_STREAMS_BUFMOD
 #include <sys/bufmod.h>
 #endif	/* USE_STREAMS_BUFMOD */
+
 #include <errno.h>
 
 /* last ditch fallback.  If the clone device is other than /dev/ptmx,
@@ -235,6 +241,7 @@ _DtTermPrimSetupPty(char *ptySlave, int ptyFd)
      * they don't seem to stick after the file is closed on
      * SVR4.2.  Not sure where else this applies.
      */
+#if !defined(linux)
     if (ioctl(ptyFd, I_PUSH, "ptem") == -1) {
 	    (void) perror("Error pushing ptem");
 	    /* exit the subprocess */
@@ -254,6 +261,8 @@ _DtTermPrimSetupPty(char *ptySlave, int ptyFd)
 	    return(1);
     }
 #endif	/* USE_STREAMS_TTCOMPAT */
+
+#endif /* linux */
 
     /* success... */
     return(0);
