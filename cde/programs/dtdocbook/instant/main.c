@@ -320,11 +320,13 @@ static char *UnEscapeI18NChars(
 )
 {
     unsigned char c;
-    char *buf, *to, *from;
+    char *buf;
+    unsigned char *to, *from;
 
     if (MB_CUR_MAX != 1) {
-	from = source;
-	to = buf = malloc(strlen(source)+1);
+	from = (unsigned char*)source;
+	buf = malloc(strlen(source)+1);
+        to = (unsigned char *)buf;
 	while (c = *from++) {
 	    if (c == I18N_TRIGGER) {
 		c = *from++;
@@ -449,7 +451,7 @@ static int CompareI18NStrings(ClientData clientData,
     while (*cp) {
 	if ((len = mblen(cp, MB_CUR_MAX)) == 1) {
 	    if (isalpha(*cp)) {
-		*cp = _toupper(*cp);
+		*cp = toupper(*cp);
 	    }
 	    cp++;
 	} else {
@@ -460,7 +462,7 @@ static int CompareI18NStrings(ClientData clientData,
     while (*cp) {
 	if ((len = mblen(cp, MB_CUR_MAX)) == 1) {
 	    if (isalpha(*cp)) {
-		*cp = _toupper(*cp);
+		*cp = toupper(*cp);
 	    }
 	    cp++;
 	} else {
@@ -853,15 +855,17 @@ EscapeI18NChars(
     char 	*source
 )
 {
-    char *retval, *from, *to;
+    char *retval;
+    unsigned char *from, *to;
     int len;
 
     if (MB_CUR_MAX == 1) {
 	return source;
     } else {
 	/* worst case, the string will expand by a factor of 3 */
-	from = source;
-	to = retval = malloc(3 * strlen(source) + 1);
+	from = (unsigned char *)source;
+	retval = malloc(3 * strlen(source) + 1);
+	to = (unsigned char *)retval;
 	while (*from) {
 	    if ((len = mblen(from, MB_CUR_MAX)) < 0) {
 		fprintf(stderr,
