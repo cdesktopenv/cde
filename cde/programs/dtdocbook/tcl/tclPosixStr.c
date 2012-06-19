@@ -347,10 +347,8 @@ Tcl_ErrnoId()
 #ifdef ENOTSOCK
 	case ENOTSOCK: return "ENOTSOCK";
 #endif
-#if !defined(linux)
 #ifdef ENOTSUP
 	case ENOTSUP: return "ENOTSUP";
-#endif
 #endif
 #ifdef ENOTTY
 	case ENOTTY: return "ENOTTY";
@@ -361,7 +359,7 @@ Tcl_ErrnoId()
 #ifdef ENXIO
 	case ENXIO: return "ENXIO";
 #endif
-#ifdef EOPNOTSUPP
+#if defined(EOPNOTSUPP) && (!defined(ENOTSUP) || (EOPNOTSUPP != ENOTSUP))
 	case EOPNOTSUPP: return "EOPNOTSUPP";
 #endif
 #ifdef EPERM
@@ -796,10 +794,8 @@ Tcl_ErrnoMsg(err)
 #ifdef ENOTSOCK
 	case ENOTSOCK: return "socket operation on non-socket";
 #endif
-#if !defined(linux)
 #ifdef ENOTSUP
 	case ENOTSUP: return "operation not supported";
-#endif
 #endif
 #ifdef ENOTTY
 	case ENOTTY: return "inappropriate device for ioctl";
@@ -810,7 +806,7 @@ Tcl_ErrnoMsg(err)
 #ifdef ENXIO
 	case ENXIO: return "no such device or address";
 #endif
-#ifdef EOPNOTSUPP
+#if defined(EOPNOTSUPP) && (!defined(ENOTSUP) || (EOPNOTSUPP != ENOTSUP))
 	case EOPNOTSUPP: return "operation not supported on socket";
 #endif
 #ifdef EPERM
