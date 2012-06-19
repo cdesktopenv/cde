@@ -35,7 +35,7 @@
 #include <signal.h>
 #include <rpc/rpc.h>
 #if !defined(linux) && !defined(CSRG_BASED)
-# include <sys/poll.h>
+# include <poll.h>
 #endif
 #if defined(SunOS) || defined(USL) || defined(__uxp__)
 #include <netconfig.h>
