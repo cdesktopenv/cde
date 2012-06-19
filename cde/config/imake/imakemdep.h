@@ -300,9 +300,30 @@ char *cpp_argv[ARGUMENTS] = {
 #ifdef unix
 	"-Uunix",	/* remove unix symbol so that filename unix.c okay */
 #endif
-#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH)
+#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH) || defined(USL) || defined(sco) || defined(ISC) || defined(__bsdi__) || defined(linux) || defined(__hpux__) || defined(__vxworks)
 # ifdef __i386__
 	"-D__i386__",
+# endif
+# ifdef __i486__
+        "-D__i486__",
+# endif
+# ifdef __i586__
+        "-D__i586__",
+# endif
+# ifdef __i686__
+        "-D__i686__",
+# endif
+# ifdef __k6__
+        "-D__k6__",
+# endif
+# ifdef __ia64__
+        "-D__ia64__",
+# endif
+# ifdef __amd64__
+        "-D__amd64__",
+# endif
+# ifdef __x86_64__
+        "-D__amd64__",
 # endif
 # ifdef __GNUC__
 	"-traditional",
@@ -822,6 +843,80 @@ struct symtab	predefs[] = {
 #endif
 #ifdef __EMX__
 	{"__EMX__", "1"},
+#endif
+# ifdef ia64
+        {"ia64", "1"},
+# endif
+# ifdef __ia64__
+        {"__ia64__", "1"},
+# endif
+# if defined (amd64) || defined (x86_64)
+        {"amd64", "1"},
+        {"x86_64", "1"},
+# endif
+# if defined (__amd64__) || defined (__x86_64__)
+        {"__amd64__", "1"},
+        {"__x86_64__", "1"},
+# endif
+# ifdef __i386
+        {"__i386", "1"},
+# endif
+# ifdef __i386__
+        {"__i386__", "1"},
+# endif
+# ifdef __i486__
+        {"__i486__", "1"},
+# endif
+# ifdef __i586__
+        {"__i586__", "1"},
+# endif
+# ifdef __i686__
+        {"__i686__", "1"},
+# endif
+# ifdef __k6__
+        {"__k6__", "1"},
+# endif
+# ifdef i386
+        {"i386", "1"},
+# endif
+# ifdef i486
+        {"i486", "1"},
+# endif
+# ifdef i586
+        {"i586", "1"},
+# endif
+# ifdef i686
+        { "i686", "1"},
+# endif
+# ifdef k6
+        {"k6", "1"},
+# endif
+# ifdef sparc
+        {"sparc", "1"},
+# endif
+# ifdef __sparc__
+        {"__sparc__", "1"},
+# endif
+#if defined(__ppc__)
+        {"__ppc__", "1"},
+#endif
+#if defined(__ppc64__)
+        {"__ppc64__", "1"},
+#endif
+# ifdef __powerpc__
+        {"__powerpc__", "1"},
+# endif
+# ifdef __powerpc64__
+        {"__powerpc64__", "1"},
+# endif
+#if defined(__BIG_ENDIAN__)
+      {"__BIG_ENDIAN__", "1"},
+#endif
+#if defined(__LITTLE_ENDIAN__)
+      {"__LITTLE_ENDIAN__", "1"},
+#endif
+#if defined(__vxworks)
+      {"vxworks", "1"},
 #endif
 	/* add any additional symbols before this line */
 	{NULL, NULL}
