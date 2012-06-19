@@ -45,12 +45,13 @@ XCOMM ##########################################################################
 #define HASH #
 #define STAR *
 
+LOGFILE="installCDE.$$.log"
 
 REVISION="$(echo "$Revision: /main/20 $" | awk '{print $2}')"
 
 Log()
 {
-  echo "$1" | tee -a installCDE.log
+  echo "$1" | tee -a $LOGFILE
 }
 
 MakeTarball()
@@ -154,11 +155,11 @@ DoFilesetScript()
     then
 	Log "Executing $PLATFORM specific $FilesetName customize script"
 	$POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName -e 2>&1 | \
-				tee -a /tmp/installCDE.log
+				tee -a $LOGFILE
     elif [ -x $POST_INSTALL_DIR/$ScriptName ]
     then
 	Log "Executing $FilesetName customize script" 
-	$POST_INSTALL_DIR/$ScriptName -e 2>&1 | tee -a /tmp/installCDE.log
+	$POST_INSTALL_DIR/$ScriptName -e 2>&1 | tee -a $LOGFILE
     fi
   fi
 }
@@ -204,7 +205,7 @@ CleanDaemons()
       lssrc -s inetd >/dev/null 2>&1
       if [ $? = "0" ]
       then
-        stopsrc -s inetd >>/tmp/installCDE.log 2>&1
+        stopsrc -s inetd >>$LOGFILE 2>&1
       fi
     else    
       ps -ef | grep $i | grep -v grep >/tmp/tmppsout
@@ -229,7 +230,7 @@ RestartInetd()
     /usr/sbin/inetd -s
   elif [ "$PLATFORM" = "aix" ]
   then
-    startsrc -s inetd >>/tmp/installCDE.log 2>&1
+    startsrc -s inetd >>$LOGFILE 2>&1
   elif [ "$PLATFORM" = "dec" ]
   then
     /usr/sbin/inetd
@@ -475,11 +476,16 @@ LoadFileSet()
     num="$1."
   fi
 
+XCOMM don't bother if the fileset doesn't exist
+  if [ ! -e $DATABASE_DIR/${2}.udb ]
+  then
+        return
+  fi
+
   Log "  $num installing database $2"
   Log "      - creating ${2}.lst file"
   $TOOL_DIR/udbToAny.ksh  -toLst -ReleaseStream $PLATFORM \
             $DATABASE_DIR/${2}.udb >  /tmp/${2}.lst
-
   Log "      - installing ... \c"
   $TOOL_DIR/mkProd -D / -S $BUILD_TREE /tmp/${2}.lst \
             2>/tmp/${2}.err 1>/tmp/${2}.good
@@ -492,7 +498,7 @@ LoadFileSet()
   if [ -s /tmp/${2}.missing ]
   then
     Log "      - missing files:"
-    cat /tmp/${2}.missing | tee -a /tmp/installCDE.log
+    cat /tmp/${2}.missing | tee -a $LOGFILE
   fi
 }
 
@@ -527,6 +533,10 @@ XCOMM
   then
     PLATFORM=dec
     PLATFORM_SCRIPT_DIR=dec
+  elif [ $BUILDSYSTEM = "Linux" ];
+  then
+    PLATFORM="linux"
+    PLATFORM_SCRIPT_DIR=""
   else			# Build system = HP
     PLATFORM=hp-ux
     PLATFORM_SCRIPT_DIR=hp
@@ -544,9 +554,8 @@ XCOMM
 
   if [ "$USER" != "root" ];
   then
-    USAGE
     echo ""
-    echo "You must be root to run this script.  Continuing anyway."
+    echo "You should be root to run this script.  Continuing anyway."
     echo ""
   fi
 
@@ -586,7 +595,7 @@ XCOMM
   theLang=""
   CONFIGURE_ONLY="no"
 
-  rm -f /tmp/installCDE.log
+  rm -f $LOGFILE
 
   Log "Options specified..."
   while [ $# -ne 0 ]; do
@@ -959,5 +968,5 @@ XCOMM
 
   echo "Done."
   echo ""
-  echo "See /tmp/installCDE.log for a log of this install session."
+  echo "See $LOGFILE for a log of this install session."
   echo ""
