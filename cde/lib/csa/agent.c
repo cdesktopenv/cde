@@ -34,10 +34,8 @@
 #include <unistd.h>
 #include <signal.h>
 #include <rpc/rpc.h>
-#if defined(linux)
+#if !defined(linux) && !defined(CSRG_BASED)
 # include <sys/poll.h>
-#else
-# include <poll.h>
 #endif
 #if defined(SunOS) || defined(USL) || defined(__uxp__)
 #include <netconfig.h>
@@ -203,6 +201,30 @@ _DtCm_destroy_agent()
 extern void
 _DtCm_process_updates()
 {
+#if defined(CSRG_BASED) || defined(linux) 
+        int     i, nfd;
+        fd_set  rpc_bits;
+
+        while (B_TRUE) {
+          rpc_bits = svc_fdset;
+
+          nfd = select(FD_SETSIZE, &rpc_bits, NULL, NULL, NULL);
+
+          if (nfd <= 0)
+            /* done */
+            return;
+
+          
+          for (i = 0; i < FD_SETSIZE; i++) {
+            if (FD_ISSET(i, &rpc_bits)) {
+              svc_getreqset(&rpc_bits);
+              break;
+            }
+          }
+        }
+
+#else
+
 	int	i, j, nfd;
 	fd_set	rpc_bits;
 	fd_mask	fmask, *inbits;
@@ -215,11 +237,7 @@ _DtCm_process_updates()
 		rpc_bits = svc_fdset;
 
 		/* convert to pollfd structure */
-#if defined(linux)
-		inbits = rpc_bits.__fds_bits;
-#else
 		inbits = rpc_bits.fds_bits;
-#endif
 		p = pfd;
 		for (i = 0; i < FD_SETSIZE; i += NFDBITS) {
 			fmask = *inbits;
@@ -253,11 +271,7 @@ _DtCm_process_updates()
 		for (p = pfd; i-- > 0; p++) {
 			j = p->fd / NFDBITS;
 			if (j != last) {
-#if defined(linux)
-				inbits = &rpc_bits.__fds_bits[j];
-#else
 				inbits = &rpc_bits.fds_bits[j];
-#endif
 				last = j;
 			}
 			if (p->revents & POLLIN) {
@@ -269,6 +283,7 @@ _DtCm_process_updates()
 		if (do_rpc)
 			svc_getreqset(&rpc_bits);
 	}
+#endif /* CSRG_BASED || linux */
 }
 
 /*
@@ -397,7 +412,8 @@ gettransient (u_long version)
 static u_long
 gettransient (int proto, u_long vers, int *sockp)
 {
-	int s, len, socktype;
+        unsigned int len;
+	int s, socktype;
 	struct sockaddr_in addr;
 
 	switch (proto) {
