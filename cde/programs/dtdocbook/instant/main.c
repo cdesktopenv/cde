@@ -455,7 +455,10 @@ static int CompareI18NStrings(ClientData clientData,
 	    }
 	    cp++;
 	} else {
+	  if (len > 0)
 	    cp += len;
+	  else
+	    break; /* JET - we should be done here... */
 	}
     }
     cp = argv[2];
@@ -466,7 +469,10 @@ static int CompareI18NStrings(ClientData clientData,
 	    }
 	    cp++;
 	} else {
+	  if (len > 0)
 	    cp += len;
+	  else
+	    break; /* JET - we should be done here... */
 	}
     }
 
