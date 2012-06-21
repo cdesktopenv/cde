@@ -36,6 +36,8 @@
   pexec=$(LC_TIME=C ps -p $PPID | awk 'NR==2 {print $5}')
 #elif defined(USL) && (OSMAJORVERSION > 1)
   pexec=$(LC_TIME=C ps -p $PPID | awk 'NR==2 {print $6}')
+#elif defined(linux) || defined(CSRG_BASED)
+  pexec=$(LC_TIME=C /bin/ps -p $PPID 2>/dev/null | awk 'NR==2 {print $4}')
 #else
   pexec=$(LC_TIME=C /usr/bin/ps -p $PPID | awk 'NR==2 {print $4}')
 #endif
@@ -467,3 +469,27 @@ SetKeyboardMap()
   fi
 #endif
 #endif
+
+#if defined(CSRG_BASED) || defined(linux)
+#ifdef cpp_Xsetup
+    if [ "$DTXSERVERLOCATION" != "remote" ]; then
+      fontpath=
+      FONTLIB=/usr/share/fonts/X11
+      for i in misc 75dpi 100dpi Speedo Type1 PJE
+      do
+	 if [ -f $FONTLIB/$i/fonts.dir ];  then
+	     if [ ! -z "$fontpath" ]; then
+		fontpath=$fontpath,$FONTLIB/$i/
+	     else
+		fontpath=$FONTLIB/$i/
+	     fi
+	 fi
+      done
+
+      if [ ! -z "$fontpath" ]; then
+        $XDIR/xset fp+ $fontpath
+      fi
+    fi
+#endif
+#endif
+
