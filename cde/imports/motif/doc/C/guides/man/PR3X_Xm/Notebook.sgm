@@ -1,0 +1,1562 @@
+<!-- $XConsortium: Notebook.sgm /main/11 1996/09/08 20:54:37 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN330.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmNotebook</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmNotebook</Classname></RefName>
+<RefPurpose>The Notebook widget class
+<IndexTerm>
+<Primary>XmNotebook</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>Notebook</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- **-->
+<!-- **  (c) Copyright 1993 by International Business Machines Corporation-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/Notebook.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>Notebook is a manager widget that
+organizes its children into pages, tabs, status areas, and page scrollers to
+simulate a real notebook. It stacks its page children so that all page
+children occupy the same area like real book pages.
+Notebook displays visuals that look like the binding of a book and the
+edges of other pages around the page that is shown.
+Tab children simulate
+notebook tabs. Major tabs divide Notebook into several sections,
+and minor tabs subdivide these sections. Status area children provide additional
+information about pages such as page numbers. The page scroller child allows
+the user to move from page to page. Notebook also provides tab scrollers
+for scrolling major and minor tabs if it cannot display all tabs within its
+edges.
+</Para>
+<Para>The application creates pages, tabs, status areas, and page scroller
+as children of the Notebook widget. Notebook creates tab scrollers
+when the Notebook is created.
+</Para>
+<Para>The <SystemItem Class="Resource">XmNnotebookChildType</SystemItem> constraint resource
+of Notebook determines whether a child widget is a page, tab, status area,
+or page scroller. Any Motif widget can be a page of the Notebook.
+When the application creates a child of the Notebook widget without setting
+the child type constraint, the child becomes a page by default, unless it has
+the <Symbol Role="Globalvar">XmQTactivatable</Symbol>,
+<Symbol Role="Globalvar">XmQTaccessTextual</Symbol>, or <Symbol Role="Globalvar">XmQTnavigator</Symbol> trait.
+Children with the <Symbol Role="Globalvar">XmQTactivatable</Symbol>,
+<Symbol Role="Globalvar">XmQTaccessTextual</Symbol>, or <Symbol Role="Globalvar">XmQTnavigator</Symbol> trait become
+major tabs, status areas, and page scrollers, respectively.
+</Para>
+<Para>Notebook uses the <Symbol Role="Globalvar">XmQTaccessTextual</Symbol>, <Symbol Role="Globalvar">XmQTactivatable</Symbol>,
+<Symbol Role="Globalvar">XmQTjoinSide</Symbol>, and
+<Symbol Role="Globalvar">XmQTnavigator</Symbol> traits, and installs the <Symbol Role="Globalvar">XmQTscrollFrame</Symbol> trait.
+</Para>
+<Para>The application attaches a tab to a page by creating a tab child of the
+Notebook and setting the <SystemItem Class="Resource">XmNpageNumber</SystemItem> constraint to the page number of
+the targeted page. By the same method, a status area widget can be attached to
+a page. The page scroller child, on the other hand, is associated with the
+Notebook, not with a specific page. Therefore, there is only one valid page
+scroller for each Notebook.
+</Para>
+<RefSect2>
+<Title>Pages</Title>
+<Para>Only one child of type <SystemItem Class="Constant">XmPAGE</SystemItem> is displayed at a time by Notebook.
+Other page children are hidden off-screen. When Notebook displays a particular
+page, it positions the previously-displayed page off-screen and puts the new
+page in its place. The page is resized to fit into the dimensions that
+Notebook has allocated to display pages.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Page Numbers</Title>
+<Para>Notebook uses the <SystemItem Class="Resource">XmNcurrentPageNumber</SystemItem>, <SystemItem Class="Resource">XmNfirstPageNumber</SystemItem>,
+and <SystemItem Class="Resource">XmNlastPageNumber</SystemItem> resources to determine the current page and
+available page number range. Only those pages whose page numbers are within
+the range can be displayed. Other pages cannot be displayed until the range
+between <SystemItem Class="Resource">XmNfirstPageNumber</SystemItem> and <SystemItem Class="Resource">XmNlastPageNumber</SystemItem> is
+changed to include them or their page numbers are changed to a number within
+the range.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNfirstPageNumber</SystemItem> and <SystemItem Class="Resource">XmNlastPageNumber</SystemItem> are not set explicitly
+by the application, they are set to 1 by default; Notebook
+sets <SystemItem Class="Resource">XmNlastPageNumber</SystemItem>
+to the largest page number assigned by the application thereafter by
+default. However, once <SystemItem Class="Resource">XmNlastPageNumber</SystemItem> is set by the application,
+Notebook no longer changes it
+even when a page with a higher page number is managed.
+</Para>
+<Para>The <SystemItem Class="Resource">XmNpageNumber</SystemItem> constraint resource is used for specifying the page
+number of a page widget. It can be set to any integer. For tab and status area
+children, the resource is used for linking the child widget to a page.
+For the page scroller child, the resource has no meaning and is ignored by
+the Notebook.
+</Para>
+<Para>When a page without a page number is managed, Notebook assigns it
+the smallest unallocated page number that is not less than
+the first page number and greater than the last allocated page number. When
+a tab or a status area without a page number is managed, the newly managed
+widget is assigned
+the page number of the most recently managed page, unless the page already has
+the same type of child. If the page does have the same type of child,
+Notebook assigns the newly managed widget
+a page number one greater than the most recently managed page;
+this new page number is now occupied.
+Notebook may generate a
+default page number greater than <SystemItem Class="Resource">XmNlastPageNumber</SystemItem>, making
+those pages inaccessible to the user.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Duplicate and Empty Pages</Title>
+<Para>Since an application can create or change page numbers, it is possible
+to have duplicate page numbers and empty pages. When two pages with the
+same page number are managed, only the more recently managed page can be
+displayed. Inserting a page with an existing page number
+does not cause a warning. The old page widget cannot be displayed
+until the new page widget is removed from the Notebook or until the page number
+of the old page widget is changed to some other number.
+</Para>
+<Para>An empty page is a page
+slot where no page is inserted. Empty pages occur when a tab or status area
+is associated with a page number that has no matching page widget.
+Empty pages display the blank Notebook
+background unless the application provides visual information to this
+empty area while processing <SystemItem Class="Resource">XmNpageChangedCallback</SystemItem>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Notebook Visuals</Title>
+<Para>Notebook draws lines around two sides of the top page
+to simulate the edges of other pages that are behind the top page.
+The <SystemItem Class="Resource">XmNbackPagePlacement</SystemItem> and <SystemItem Class="Resource">XmNorientation</SystemItem> resources determine
+which two sides have the lines drawn around them. By default, they are drawn
+on the bottom and right sides of the top page. The application can set
+resources to control how many lines are drawn and how wide the area that they
+are drawn in is. Applications can also choose from three styles of binding
+visual that simulates the binding of a Notebook. Solid or spiral bindings
+can be drawn by Notebook, or the application can supply a pixmap that is
+tiled into the binding.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Tabs</Title>
+<Para>A major or minor tab is a Motif widget with the <Symbol Role="Globalvar">XmQTactivatable</Symbol> trait.
+If a widget without the trait is created
+for a tab, Notebook does not provide the page activation callback.
+As a result, even though the tab is displayed, it cannot automatically move the
+associated page to the top.
+</Para>
+<Para>Major tabs divide the Notebook pages into sections. Minor tabs
+subdivide these sections.
+Only minor tabs associated with the current
+section are displayed, where a section consists of the group of pages
+between the current major tab and the next major tab, including the
+current major tab but not including the page containing the next major tab.
+The exception to this is when there is no preceding major tab, in
+which case the section starts from the <SystemItem Class="Resource">XmNfirstPageNumber</SystemItem> value.
+A user in one major tab section does not see
+the minor tabs in other sections.
+However, all tabs are used in computing
+the size of the Notebook.
+</Para>
+<Para>Unlike regular notebook tabs, tabs in the
+Notebook are not attached to a physical page (a widget). They are, instead,
+attached to a logical page (a page number). Therefore, it is possible to have
+a tab with an empty page. When a page with a tab is removed from the Notebook,
+the tab is not removed because it is still bound to a logical page.
+Destroying or unmanaging
+a page widget only erases the page and leaves an empty page.
+It does not tear the page out of the Notebook. To remove the tab, the
+application must explicitly destroy or unmanage it.
+</Para>
+<Para>Notebook supports the <Symbol Role="Globalvar">XmQTjoinSide</Symbol> trait. A widget that has the
+<Symbol Role="Globalvar">XmQTjoinSide</Symbol> trait can be added to the Notebook as a Major or Minor
+tab and will appear to be attached to its associated page with no margins or
+shadows between them.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Status Areas</Title>
+<Para>A status area is any widget that is used for describing
+the associated page. For example, the Label widget as a status area child
+can hold a simple string or a pixmap that describes a page. A status area
+widget is also attached to a page by the page number constraint resource.
+Therefore, it is possible to have multiple status area widgets for one page.
+Only the most recently managed status area widget for that page can be
+displayed. All others for that page are not unmanaged, but their sizes are
+used for computing the size of the Notebook. If no status area widget
+is provided, the Notebook displays its blank background in the status area's
+reserved space. Notebook does not create any default status area widget.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Page Scrollers</Title>
+<Para>The page scroller of the Notebook is any widget that the application
+creates for scrolling pages. If the application does not create one when
+the Notebook is realized, Notebook creates a SpinBox widget as the
+default page scroller.
+If the application creates a new page scroller, the default page scroller is
+destroyed. If the application creates multiple page scrollers, only the
+most recently managed one can be displayed and used. All others are
+unmanaged.
+</Para>
+<Para>The default SpinBox page scroller grays out one of the arrow visuals
+if the current page is a boundary page.
+If the current page is the first page, the previous arrow of the SpinBox
+is grayed. If the current page is the last page, the next arrow of the
+SpinBox is grayed.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Tab Scrollers</Title>
+<Para>Tab scrollers are created by the Notebook for scrolling major tabs and minor
+tabs. When Notebook is initialized, it creates four ArrowButtonGadgets
+for scrolling to the next major tab, the previous major tab, the next
+minor tab, and the previous minor tab.
+The application cannot replace these tab scrollers.
+The application can change all resources
+of these widgets except the position and the arrow direction. Tab scrollers
+are only visible and enabled when there is not enough space to display all the
+major or minor tabs appropriate to the page. Tab scrollers are also
+grayed out when scrolling is inappropriate. The following lists the
+tab scrollers that are created:
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Align="Left" Colname="3">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="3" Namest="1"><Literal>Child Widgets that XmNotebook Creates</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Child</Literal></Entry>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Widget Class</Literal></Entry>
+</Row>
+<Row>
+<Entry>Page Scroller</Entry>
+<Entry>PageScroller</Entry>
+<Entry>XmSpinBox</Entry>
+</Row>
+<Row>
+<Entry>Next Major Tab Scroller</Entry>
+<Entry>MajorTabScrollerNext</Entry>
+<Entry>XmArrowButtonGadget</Entry>
+</Row>
+<Row>
+<Entry>Previous Major Tab Scroller</Entry>
+<Entry>MajorTabScrollerPrevious</Entry>
+<Entry>XmArrowButtonGadget</Entry>
+</Row>
+<Row>
+<Entry>Next Minor Tab Scroller</Entry>
+<Entry>MinorTabScrollerNext</Entry>
+<Entry>XmArrowButtonGadget</Entry>
+</Row>
+<Row>
+<Entry>Previous Minor Tab Scroller</Entry>
+<Entry>MinorTabScrollerPrevious</Entry>
+<Entry>XmArrowButtonGadget</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>When the user selects the page scroller, a major tab, or a minor tab, the value
+of <SystemItem Class="Resource">XmNcurrentPageNumber</SystemItem> is changed to the selected page number and
+<SystemItem Class="Resource">XmNpageChangedCallback</SystemItem> is invoked. After the application returns from
+the callback, the Notebook displays the last page child whose page number is
+equal to the current page number. It also displays the last matched status
+area child. All other pages and status areas are automatically hidden. Major
+tabs and minor tabs that can fit into the Notebook's edges are displayed and
+positioned appropriately. All other tabs are also hidden. The application
+can also cause a page change by calling <Function>XtSetValues</Function> on
+<SystemItem Class="Resource">XmNcurrentPageNumber</SystemItem> and then calling <Function>XtCallCallbacks</Function> on
+<SystemItem Class="Resource">XmNpageChangedCallback</SystemItem>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Orientation</Title>
+<Para>The Notebook has eight different visual configurations, depending on
+the value of <SystemItem Class="Resource">XmNbackPagePlacement</SystemItem> and <SystemItem Class="Resource">XmNorientation</SystemItem>. These two
+resources determine the placement of back pages, the binding, major tabs,
+minor tabs, the status area, and the page scroller. The location of the binding
+is determined by <SystemItem Class="Resource">XmNorientation</SystemItem>.
+Major tabs are always placed on the back page side opposite to the binding;
+Minor tabs are placed on the
+back page display area that is visually connected to the binding.
+Both Major and Minor tabs are ordered so that the page numbers they access
+increase as they get closer to the corner where the back pages meet.
+The status area and the page scroller are always located on the bottom
+of the Notebook, inside the frame. The page scroller is always placed adjacent
+to a back page side. The following table shows the possible configurations
+and the locations of each Notebook component within the configuration.
+The default back page value
+and the default orientation
+are based upon <SystemItem Class="Resource">XmNlayoutDirection</SystemItem>.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Notebook Configurations</Literal></Entry>
+</Row>
+<Row>
+<Entry><SystemItem Class="Resource">XmNbackPagePlacement</SystemItem></Entry>
+<Entry><SystemItem Class="Resource">XmNorientation</SystemItem></Entry>
+<Entry><Literal>Major Tabs</Literal></Entry>
+<Entry><Literal>Status Area</Literal></Entry>
+<Entry><Literal>Binding</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"></Entry>
+<Entry Rowsep="1"></Entry>
+<Entry Rowsep="1"><Literal>Minor Tabs</Literal></Entry>
+<Entry Rowsep="1"><Literal>Page Scroller</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmBOTTOM_RIGHT</Entry>
+<Entry>XmHORIZONTAL</Entry>
+<Entry>RIGHT</Entry>
+<Entry>BOTTOM LEFT</Entry>
+<Entry>LEFT</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry>BOTTOM</Entry>
+<Entry>BOTTOM RIGHT</Entry>
+</Row>
+<Row>
+<Entry>XmBOTTOM_RIGHT</Entry>
+<Entry>XmVERTICAL</Entry>
+<Entry>BOTTOM</Entry>
+<Entry>BOTTOM LEFT</Entry>
+<Entry>TOP</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry>RIGHT</Entry>
+<Entry>BOTTOM RIGHT</Entry>
+</Row>
+<Row>
+<Entry>XmBOTTOM_LEFT</Entry>
+<Entry>XmHORIZONTAL</Entry>
+<Entry>LEFT</Entry>
+<Entry>BOTTOM RIGHT</Entry>
+<Entry>RIGHT</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry>BOTTOM</Entry>
+<Entry>BOTTOM LEFT</Entry>
+</Row>
+<Row>
+<Entry>XmBOTTOM_LEFT</Entry>
+<Entry>XmVERTICAL</Entry>
+<Entry>BOTTOM</Entry>
+<Entry>BOTTOM RIGHT</Entry>
+<Entry>TOP</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry>LEFT</Entry>
+<Entry>BOTTOM LEFT</Entry>
+</Row>
+<Row>
+<Entry>XmTOP_RIGHT</Entry>
+<Entry>XmHORIZONTAL</Entry>
+<Entry>RIGHT</Entry>
+<Entry>BOTTOM LEFT</Entry>
+<Entry>LEFT</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry>TOP</Entry>
+<Entry>BOTTOM RIGHT</Entry>
+</Row>
+<Row>
+<Entry>XmTOP_RIGHT</Entry>
+<Entry>XmVERTICAL</Entry>
+<Entry>TOP</Entry>
+<Entry>BOTTOM LEFT</Entry>
+<Entry>BOTTOM</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry>RIGHT</Entry>
+<Entry>BOTTOM RIGHT</Entry>
+</Row>
+<Row>
+<Entry>XmTOP_LEFT</Entry>
+<Entry>XmHORIZONTAL</Entry>
+<Entry>LEFT</Entry>
+<Entry>BOTTOM RIGHT</Entry>
+<Entry>RIGHT</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry>TOP</Entry>
+<Entry>BOTTOM LEFT</Entry>
+</Row>
+<Row>
+<Entry>XmTOP_LEFT</Entry>
+<Entry>XmVERTICAL</Entry>
+<Entry>TOP</Entry>
+<Entry>BOTTOM RIGHT</Entry>
+<Entry>BOTTOM</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry></Entry>
+<Entry>LEFT</Entry>
+<Entry>BOTTOM LEFT</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>There are three tab groups for tab group traversal
+inside the Notebook: major tabs, minor tabs,
+and the page scroller.
+The application can also create additional types of tab groups
+within the Notebook; for example, each page added by the application is
+treated as a separate tab group by the traversal actions.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>Notebook inherits behavior, resources, and traits from <Classname>Core</Classname>,
+<Classname>Composite</Classname>, <Classname>Constraint</Classname>, and <Classname>XmManager</Classname> classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmNotebookWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmNotebook</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the
+programmer to specify data. The programmer can also set the resource
+values for the inherited classes to set attributes for this widget.
+To reference a resource by name or by class in a <Filename>.Xdefaults</Filename> file,
+remove the <SystemItem Class="Constant">XmN</SystemItem> or <SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters.
+To specify one of the defined values for a resource in a <Filename>.Xdefaults</Filename>
+file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use the remaining letters (in
+either lowercase or uppercase, but include any underscores between
+words). The codes in the access column indicate if the given resource
+can be set at creation time (C), set by using <Function>XtSetValues</Function>
+(S), retrieved by using <Function>XtGetValues</Function> (G), or is not
+applicable (N/A).
+</Para>
+<Para><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmNotebook Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbackPageBackground</Entry>
+<Entry>XmCBackPageBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackPageForeground</Entry>
+<Entry>XmCBackPageForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackPageNumber</Entry>
+<Entry>XmCBackPageNumber</Entry>
+<Entry>Cardinal</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackPagePlacement</Entry>
+<Entry>XmCBackPagePlacement</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackPageSize</Entry>
+<Entry>XmCBackPageSize</Entry>
+<Entry>Dimension</Entry>
+<Entry>8</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbindingPixmap</Entry>
+<Entry>XmCBindingPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbindingType</Entry>
+<Entry>XmCBindingType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmSPIRAL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbindingWidth</Entry>
+<Entry>XmCBindingWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>25</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcurrentPageNumber</Entry>
+<Entry>XmCCurrentPageNumber</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfirstPageNumber</Entry>
+<Entry>XmCFirstPageNumber</Entry>
+<Entry>int</Entry>
+<Entry>1</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNframeBackground</Entry>
+<Entry>XmCFrameBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNframeShadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinnerMarginHeight</Entry>
+<Entry>XmCInnerMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinnerMarginWidth</Entry>
+<Entry>XmCInnerMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlastPageNumber</Entry>
+<Entry>XmCLastPageNumber</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminorTabSpacing</Entry>
+<Entry>XmCMinorTabSpacing</Entry>
+<Entry>Dimension</Entry>
+<Entry>3</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmajorTabSpacing</Entry>
+<Entry>XmCMajorTabSpacing</Entry>
+<Entry>Dimension</Entry>
+<Entry>3</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNorientation</Entry>
+<Entry>XmCOrientation</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmHORIZONTAL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpageChangedCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbackPageBackground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the background color for drawing back pages.
+The default is a lower-intensity version of <SystemItem Class="Resource">XmNframeBackground</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbackPageForeground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the forground color for drawing back pages. The default is
+taken from the application's default foreground color.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbackPageNumber</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of lines to draw for back pages. The minimum value is
+1, and the maximum value is (<SystemItem Class="Resource">XmNbackPageSize</SystemItem> / 2).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbackPagePlacement</SystemItem></Term>
+<ListItem>
+<Para>Specifies where to place the back pages.
+The default is dependent on the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource
+of the Notebook's instance parents.
+It can have one of the following
+values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBOTTOM_RIGHT</SystemItem></Term>
+<ListItem>
+<Para>Displays back pages on the Notebook's bottom and
+right sides.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBOTTOM_LEFT</SystemItem></Term>
+<ListItem>
+<Para>Displays back pages on the Notebook's bottom and
+left sides.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTOP_RIGHT</SystemItem></Term>
+<ListItem>
+<Para>Displays back pages on the Notebook's top and right
+sides.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTOP_LEFT</SystemItem></Term>
+<ListItem>
+<Para>Displays back pages on the Notebook's top and left sides.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbackPageSize</SystemItem></Term>
+<ListItem>
+<Para>Specifies the thickness of the back page rendering.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbindingPixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies the pixmap or bitmap for stippling or tiling the binding when
+<SystemItem Class="Resource">XmNbindingType</SystemItem> is <SystemItem Class="Constant">XmPIXMAP</SystemItem> or <SystemItem Class="Constant">XmPIXMAP_OVERLAP_ONLY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbindingType</SystemItem></Term>
+<ListItem>
+<Para>Specifies the binding type. It can have one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmNONE</SystemItem></Term>
+<ListItem>
+<Para>Displays no binding.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSOLID</SystemItem></Term>
+<ListItem>
+<Para>Displays a solid binding in the foreground color of the
+Notebook within the binding area specified by <SystemItem Class="Resource">XmNbindingWidth</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSPIRAL</SystemItem></Term>
+<ListItem>
+<Para>Displays a spiral binding in the foreground color of the
+Notebook within the area specified by <SystemItem Class="Resource">XmNbindingWidth</SystemItem>
+and within the area outside of the frame equal to
+the area specified by <SystemItem Class="Resource">XmNbindingWidth</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPIXMAP</SystemItem></Term>
+<ListItem>
+<Para>Displays the binding with the pixmap or bitmap specified by
+<SystemItem Class="Resource">XmNbindingPixmap</SystemItem> as a stipple or tile. It uses the foreground color of
+the Notebook for stippling. The binding width is decided by the larger value
+of <SystemItem Class="Resource">XmNbindingWidth</SystemItem> and the width of the pixmap or bitmap.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPIXMAP_OVERLAP_ONLY</SystemItem></Term>
+<ListItem>
+<Para>Displays the binding with the pixmap or bitmap
+specified by <SystemItem Class="Resource">XmNbindingPixmap</SystemItem> as a stipple or tile. It uses the
+foreground color of the Notebook for stippling. The binding is displayed only
+within the binding area specified by <SystemItem Class="Resource">XmNbindingWidth</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbindingWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the width of the Notebook binding. If <SystemItem Class="Resource">XmNbindingType</SystemItem> is
+<SystemItem Class="Constant">XmPIXMAP</SystemItem> and the width of the pixmap specified in
+<SystemItem Class="Resource">XmNbindingPixmap</SystemItem> is greater than <SystemItem Class="Resource">XmNbindingWidth</SystemItem>, then this
+resource is ignored and the
+width of the pixmap is used as the width of the Notebook binding
+instead.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcurrentPageNumber</SystemItem></Term>
+<ListItem>
+<Para>Specifies the page number of the currently displayed page. Initially, it is set
+to <SystemItem Class="Resource">XmNfirstPageNumber</SystemItem>. If it is set to less than
+<SystemItem Class="Resource">XmNfirstPageNumber</SystemItem>,
+then it is set to <SystemItem Class="Resource">XmNfirstPageNumber</SystemItem>.
+If it is set to <SystemItem Class="Resource">XmNlastPageNumber</SystemItem>,
+then it is set to <SystemItem Class="Resource">XmNlastPageNumber</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfirstPageNumber</SystemItem></Term>
+<ListItem>
+<Para>Specifies the page number for the first page of the Notebook.
+The Notebook does not scroll to any page numbers below this value.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNframeBackground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the background color for drawing the Notebook's frame.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNframeShadowThickness</SystemItem></Term>
+<ListItem>
+<Para>Specifies the shadow thickness around the Notebook's frame.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNinnerMarginHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the margin on the top and bottom sides of the page, status
+area, and page scroller widgets.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNinnerMarginWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the margin on the left and right sides of the page, status
+area, and page scroller widgets.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlastPageNumber</SystemItem></Term>
+<ListItem>
+<Para>Specifies the page number for the last page of the Notebook.
+The Notebook does not scroll to any page numbers above this value.
+The default page number is the largest page number of managed page,
+major tab, or minor tab widgets.
+If this is set to a value that is less than <SystemItem Class="Resource">XmNfirstPageNumber</SystemItem>, the
+behavior of the Notebook is undefined.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmajorTabSpacing</SystemItem></Term>
+<ListItem>
+<Para>Specifies the spacing distance between major tabs.
+If <SystemItem Class="Resource">XmNframeShadowThickness</SystemItem> is greater than <SystemItem Class="Resource">XmNmajorTabSpacing</SystemItem>, then
+this resource is ignored and the size of <SystemItem Class="Resource">XmNframeShadowThickness</SystemItem> is
+used as the spacing distance between major tabs.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNminorTabSpacing</SystemItem></Term>
+<ListItem>
+<Para>Specifies the spacing distance between minor tabs. If
+<SystemItem Class="Resource">XmNframeShadowThickness</SystemItem> is greater than <SystemItem Class="Resource">XmNminorTabSpacing</SystemItem>, then
+this resource is ignored and the size of <SystemItem Class="Resource">XmNframeShadowThickness</SystemItem> is
+used as the spacing distance between minor tabs.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNorientation</SystemItem></Term>
+<ListItem>
+<Para>Specifies the orientation of the Notebook. It can have one of the following
+values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmHORIZONTAL</SystemItem></Term>
+<ListItem>
+<Para>Places the binding beside the pages, in the left or
+right side of the frame.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmVERTICAL</SystemItem></Term>
+<ListItem>
+<Para>Places the binding above or below the pages, in the top
+or the bottom of the frame.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpageChangedCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks to call whenever the
+<SystemItem Class="Resource">XmNcurrentPageNumber</SystemItem>, representing the current page number, is
+changed. This includes the point when the widget is realized and the
+page number is initialized.
+The callback structure is <StructName Role="typedef">XmNotebookCallbackStruct</StructName>.
+The reason is <SystemItem Class="Constant">XmCR_MAJOR_TAB</SystemItem>, <SystemItem Class="Constant">XmCR_MINOR_TAB</SystemItem>,
+<SystemItem Class="Constant">XmCR_PAGE_SCROLLER_INCREMENT</SystemItem>,
+<SystemItem Class="Constant">XmCR_PAGE_SCROLLER_DECREMENT</SystemItem>, or <SystemItem Class="Constant">XmCR_NONE</SystemItem>, depending
+upon what action caused the Notebook to display a new page.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmNotebook Constraint Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNnotebookChildType</Entry>
+<Entry>XmCNotebookChildType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNpageNumber</Entry>
+<Entry>XmCPageNumber</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizable</Entry>
+<Entry>XmCResizable</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnotebookChildType</SystemItem></Term>
+<ListItem>
+<Para>Specifies the child type of the Notebook. It can be one of the following types:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPAGE</SystemItem></Term>
+<ListItem>
+<Para>The child is a page of the Notebook. This is the default
+when the child does not have
+the <Symbol Role="Globalvar">XmQTactivatable</Symbol>,
+<Symbol Role="Globalvar">XmQTaccessTextual</Symbol>, or <Symbol Role="Globalvar">XmQTnavigator</Symbol> trait.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMAJOR_TAB</SystemItem></Term>
+<ListItem>
+<Para>The child is a major tab. This is the default when
+the child has the <Symbol Role="Globalvar">XmQTactivatable</Symbol> trait.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMINOR_TAB</SystemItem></Term>
+<ListItem>
+<Para>The child is a minor tab.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSTATUS_AREA</SystemItem></Term>
+<ListItem>
+<Para>The child is a status area. This is the default when
+the child has the <Symbol Role="Globalvar">XmQTaccessTextual</Symbol> trait and does not have
+the <Symbol Role="Globalvar">XmQTactivatable</Symbol> trait.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPAGE_SCROLLER</SystemItem></Term>
+<ListItem>
+<Para>The child is the page scroller. The default page
+scroller is destroyed, if it exists. Any previously created page
+scrollers are unmanaged. This is the default when the child
+has the <Symbol Role="Globalvar">XmQTnavigator</Symbol> trait and does have the
+<Symbol Role="Globalvar">XmQTactivatable</Symbol> trait or the <Symbol Role="Globalvar">XmQTaccessTextual</Symbol> trait.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpageNumber</SystemItem></Term>
+<ListItem>
+<Para>Specifies the page number associated with the widget.
+If the widget is a page, the number specifies the page number of the widget.
+If the widget is not a page, the number specifies the page number of the
+associated page. If none is supplied by the application, Notebook
+generates the smallest unallocated page number when the child is managed.
+This resource is ignored for the page scroller.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNresizable</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether this child can request a resize.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>Notebook inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+<!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback</Title>
+<Para>A pointer to the following structure is passed to callbacks for
+<SystemItem Class="Resource">XmNpageChangedCallback</SystemItem>.
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">*event</Symbol>;
+        int <Symbol Role="Variable">page_number</Symbol>;
+        Widget <Symbol Role="Variable">page_widget</Symbol>;
+        int <Symbol Role="Variable">prev_page_number</Symbol>;
+        Widget <Symbol Role="Variable">prev_page_widget</Symbol>;
+} XmNotebookCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Specifies the reason for the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback. It can be NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">page_number</Symbol></Term>
+<ListItem>
+<Para>Indicates the page number to be displayed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">page_widget</Symbol></Term>
+<ListItem>
+<Para>Indicates the page widget that has the new page number.
+It is NULL if no page widget with the page number is found.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">prev_page_number</Symbol></Term>
+<ListItem>
+<Para>Indicates the page number of the currently displayed page. If the
+callback procedure is being called at widget initialization, this page
+number will be returned as <SystemItem Class="Constant">XmUNSPECIFIED_PAGE_NUMBER</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">prev_page_widget</Symbol></Term>
+<ListItem>
+<Para>Indicates the currently displayed page widget. If the callback
+procedure is being called at widget initialization, NULL will be
+returned.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- Action Table for XmNotebook -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para>Notebook inherits translations from Manager.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Accelerators</Title>
+<Para>Notebook accelerators are added to all major tab and minor tab
+children of XmNotebook.
+Notebook accelerators are listed below.
+These accelerators might not directly correspond to a
+translation table.
+</Para>
+<VariableList Remap="tight">
+<VarListEntry>
+<Term><KeySym>osfBeginLine</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>TraverseTab(<Symbol Role="Define">Home</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>osfEndLine</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>TraverseTab(<Symbol Role="Define">End</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>osfLeft</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>TraverseTab(<Symbol Role="Define">Previous</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>osfRight</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>TraverseTab(<Symbol Role="Define">Next</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>osfUp</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>TraverseTab(<Symbol Role="Define">Previous</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>osfDown</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>TraverseTab(<Symbol Role="Define">Next</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>Notebook action routines are described below:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>TraverseTab(<Symbol Role="Define">Home|End|Next|Previous</Symbol>)</Action></Term>
+<ListItem>
+<Para>Moves the focus on major or minor tabs.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>The Notebook widget has the additional behavior described below:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Tab</KeySym></Term>
+<ListItem>
+<Para>Notebook intercepts tab group traversal when traversal is entering or
+leaving major or minor tabs. It does this to support major tabs and minor
+tabs as two separate tab groups when they are actually treated as one
+by traversal. If a minor tab has keyboard focus and a user or program
+action specifies <SystemItem Class="Constant">XmTRAVERSE_PREV_TAB_GROUP</SystemItem>, keyboard focus will
+go to a major tab. If a major tab has keyboard focus and a user or program
+action specifies <SystemItem Class="Constant">XmTRAVERSE_NEXT_TAB_GROUP</SystemItem>, keyboard focus will
+go to a minor tab.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see
+&cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;,
+&cdeman.Constraint;,
+&cdeman.Core;,
+&cdeman.XmCreateNotebook;,
+&cdeman.XmManager;, and
+&cdeman.XmNotebookGetPageInfo;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

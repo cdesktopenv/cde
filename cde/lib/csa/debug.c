@@ -32,7 +32,14 @@
 
 #define X_INCLUDE_TIME_H
 #define XOS_USE_NO_LOCKING
+
+#if defined(linux)
+#undef SVR4
+#endif
 #include <X11/Xos_r.h>
+#if defined(linux)
+#define SVR4
+#endif
 
 #include <syslog.h>
 

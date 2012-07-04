@@ -564,11 +564,19 @@ char * q  = 0;
     }
 }
 
+#if defined(linux)
+std::ostream & operator<<
+	(
+	std::ostream &       os,
+	const CString & s
+	)
+#else
 ostream & operator<<
 	(
 	ostream &       os,
 	const CString & s
 	)
+#endif
 {
     if (s.isNull())
 	return os << "(null)";

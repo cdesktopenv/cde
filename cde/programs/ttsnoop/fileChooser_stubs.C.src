@@ -38,8 +38,15 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <Xm/TextF.h>
+
+#if defined(linux)
+#include <fstream>
+#include <strstream>
+#else
 #include <fstream.h>
 #include <strstream.h>
+#endif
+
 #include "DtTt.h"
 #include "ttsnoop_ui.h"
 
@@ -155,7 +162,7 @@ snoopFileMsg(
 {
 	tt_free( pathname );
 	DtTtCreated( DTTT_MESSAGE, msg );
-	snoopIt( "Ttdt_file_cb", snoopFileMsg, msg );
+	snoopIt( "Ttdt_file_cb", (void *) snoopFileMsg, msg );
 	if (   (tt_message_class( msg ) == TT_REQUEST)
 	    && (tt_message_state( msg ) == TT_SENT))
 	{

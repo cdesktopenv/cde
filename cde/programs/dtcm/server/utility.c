@@ -41,7 +41,9 @@
 #include "utility.h"
 #include "lutil.h"
 
+#if !defined(linux)
 extern char * strdup(const char *);
+#endif
 
 /*
  * calendar_name@host[.domain] -> calendar_name

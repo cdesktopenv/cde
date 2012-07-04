@@ -30,7 +30,11 @@
 
 #include "UTF8CodingSystem.h"
 #include "constant.h"
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 
 #ifdef SP_NAMESPACE
 namespace SP_NAMESPACE {

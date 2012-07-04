@@ -1,0 +1,147 @@
+<!-- $XConsortium: ClipbF.sgm /main/11 1996/09/25 10:24:13 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN91.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmClipboardInquireCount</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmClipboardInquireCount</Function></RefName>
+<RefPurpose>A clipboard function that returns the number of data item formats
+<IndexTerm>
+<Primary>XmClipboardInquireCount</Primary>
+</IndexTerm><IndexTerm>
+<Primary>clipboard functions</Primary>
+<Secondary>XmClipboardInquireCount</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1988 by Massachusetts Institute of Technology-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/CutPaste.h>
+int XmClipboardInquireCount (<Replaceable>display, window, count,
+        max_format_name_length</Replaceable>)
+        Display <Replaceable>* display</Replaceable>;
+        Window  <Replaceable>window</Replaceable>;
+        int     <Replaceable>* count</Replaceable>;
+        unsigned long   <Replaceable>* max_format_name_length</Replaceable>;
+</FuncSynopsisInfo>
+<FuncDef></FuncDef>
+<void>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmClipboardInquireCount</Function> returns the number of data item formats available
+for the data item in the clipboard. This function also returns the
+maximum name-length for all formats in which the data item is
+stored.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">display</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the <StructName Role="typedef">Display</StructName> structure that was returned in a
+previous call to <Function>XOpenDisplay</Function> or <Function>XtDisplay</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">window</Symbol></Term>
+<ListItem>
+<Para>Specifies the window ID of a widget that relates the application window to the
+clipboard. The widget's window ID can be obtained through
+<Function>XtWindow</Function>.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">count</Symbol></Term>
+<ListItem>
+<Para>Returns the number of data item formats available for the data item in
+the clipboard. If no formats are available, this argument equals 0
+(zero). The count includes the formats that were passed by name.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">max_format_name_length</Symbol></Term>
+<ListItem>
+<Para>Specifies the maximum length of all format names for the data item in
+the clipboard.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<VariableList>
+<VarListEntry>
+<Term><Symbol>XmClipboardSuccess</Symbol></Term>
+<ListItem>
+<Para>The function was successful.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmClipboardLocked</Symbol></Term>
+<ListItem>
+<Para>The function failed because the clipboard was locked by another
+application. The application can continue to call the function again with
+the same parameters until the lock goes away. This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmClipboardNoData</Symbol></Term>
+<ListItem>
+<Para>The function could not find data on the clipboard corresponding to the
+format requested. This could occur because the clipboard is empty;
+there is data on the clipboard, but not in the requested format; or
+the data in the requested format was passed by name and is no longer
+available.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmClipboardStartCopy;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

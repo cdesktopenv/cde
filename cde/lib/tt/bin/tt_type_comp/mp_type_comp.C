@@ -39,6 +39,9 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
+#if defined(linux)
+#include <unistd.h>
+#endif
 #if defined(sgi)
 #include <getopt.h>
 #endif

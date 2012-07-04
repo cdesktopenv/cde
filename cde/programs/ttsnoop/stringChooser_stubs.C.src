@@ -41,7 +41,13 @@
  ***/
 
 #include <Xm/TextF.h>
+
+#if defined(linux)
+#include <fstream>
+#else
 #include <fstream.h>
+#endif
+
 #include "DtTt.h"
 
 extern ofstream snoopStream;
@@ -237,7 +243,7 @@ stringOkayed(
     }
     XtPointer val;
     XtVaGetValues( instance->stringOkButton, XmNuserData, &val, 0 );
-    _DtStringChooserAction choice = (_DtStringChooserAction)val;
+    _DtStringChooserAction choice = (_DtStringChooserAction) (long) val;
     XtVaGetValues( instance->stringCancelButton, XmNuserData, &val, 0 );
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {
@@ -322,7 +328,7 @@ stringHelp(
 	    (DtbStringChooserStringChooserInfo)clientData;
     XtPointer val;
     XtVaGetValues( instance->stringOkButton, XmNuserData, &val, 0 );
-    _DtStringChooserAction choice = (_DtStringChooserAction)val;
+    _DtStringChooserAction choice = (_DtStringChooserAction) (long) val;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {
 	case _DtStringChoosePatternOp:

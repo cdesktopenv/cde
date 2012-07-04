@@ -65,11 +65,13 @@
 #define BRWS_DASH_WIDTH		3
 #define BRWS_NUM_DASHES		3
 
+#if !defined(linux)
 /*
  * Somehow the compiler is not picking up strdup()
  * from string.h properly...
  */
 extern char		*strdup();
+#endif
 
 /*
  * Misc functions used only in this file

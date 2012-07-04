@@ -45,7 +45,15 @@
 /* Included after "util/tt_string.h" to avoid index/strchr conflicts. */
 #define X_INCLUDE_STRING_H
 #define XOS_USE_NO_LOCKING
+#if defined(linux)
+#define index
+#define rindex
+#endif
 #include <X11/Xos_r.h>
+#if defined(linux)
+#undef index
+#undef rindex
+#endif
 
 _Tt_string_map::
 _Tt_string_map (_Tt_object_table_keyfn key_function)

@@ -709,14 +709,14 @@ appfw_editor_prevent_closeCB(
 	     * Do Apply and pop down dialog
 	     */
             appfw_editor_apply(proj_get_project());
-            ui_win_show(AB_appfw_dialog, False, NULL);
+            ui_win_show(AB_appfw_dialog, False, XtGrabNone);
 	}
     }
     else
 	/*
 	 * Pop down dialog if no edits pending
 	 */
-        ui_win_show(AB_appfw_dialog, False, NULL);
+        ui_win_show(AB_appfw_dialog, False, XtGrabNone);
 }
 
 /*** DTB_USER_CODE_END
@@ -1010,7 +1010,7 @@ appfw_applyCB(
 
     XtVaGetValues(widget, XmNuserData, &dismiss, NULL);
     if (dismiss)
-	ui_win_show(widget, False, NULL);
+	ui_win_show(widget, False, XtGrabNone);
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     
@@ -1038,7 +1038,7 @@ appfw_resetCB(
 
     XtVaGetValues(widget, XmNuserData, &dismiss, NULL);
     if (dismiss)
-	ui_win_show(widget, False, NULL);
+	ui_win_show(widget, False, XtGrabNone);
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     

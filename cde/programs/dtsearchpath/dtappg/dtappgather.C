@@ -75,7 +75,11 @@
 #include "dtappgather.h"
 #include "DirIterator.h"
 #include <stdlib.h>
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 
 Options * options;
 

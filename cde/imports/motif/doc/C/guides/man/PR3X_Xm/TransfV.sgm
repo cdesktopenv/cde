@@ -1,0 +1,251 @@
+<!-- $XConsortium: TransfV.sgm /main/11 1996/08/31 18:08:44 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN560.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmTransferValue</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmTransferValue</Function></RefName>
+<RefPurpose>A toolkit function that transfers data to a destination
+<IndexTerm>
+<Primary>XmTransferValue</Primary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit functions</Primary>
+<Secondary>XmTransferValue</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- -->
+<!-- HISTORY-->
+<!-- @OSF_COPYRIGHT@-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="not-ANSI">
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+<?sml-space \n(PDu></FuncSynopsisInfo>
+<FuncDef>void <Function>XmTransferValue</Function></FuncDef>
+<!--<ParamDef><Replaceable>transfer_id, target, proc, client_data, time</Replaceable></ParamDef>-->
+<ParamDef>XtPointer <Parameter>transfer_id</Parameter></ParamDef>
+<ParamDef>Atom <Parameter>target</Parameter></ParamDef>
+<ParamDef>XtCallbackProc <Parameter>proc</Parameter></ParamDef>
+<ParamDef>XtPointer <Parameter>client_data</Parameter></ParamDef>
+<ParamDef>Time <Parameter>time</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmTransferValue</Function> converts a selection, transferring any data from
+the selection owner, in the context of an already-initiated data
+transfer operation.
+An application can call this routine from an
+<SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedure or any function called as a
+result.
+</Para>
+<Para>The caller of <Function>XmTransferValue</Function> supplies the target to which the
+selection is converted.
+The caller also supplies a callback procedure to handle the data that
+results from the conversion.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>transfer_id</Literal></Term>
+<ListItem>
+<Para>Specifies a unique indentifier for the data transfer operation.
+The value must be the same as the value of the <Literal>transfer_id</Literal> member
+of the <StructName Role="typedef">XmDestinationCallbackStruct</StructName> passed to the
+<SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">target</Symbol></Term>
+<ListItem>
+<Para>Specifies the target to which the selection is to be converted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">proc</Symbol></Term>
+<ListItem>
+<Para>Specifies a callback procedure to be invoked when the selection has been
+converted and the data, if any, is available.
+This procedure is responsible for inserting or otherwise handling any
+data transferred.
+The procedure can also terminate the data transfer by calling
+<Function>XmTransferDone</Function>.
+The <Symbol Role="Variable">proc</Symbol> receives three arguments:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The widget that requested the conversion
+</Para>
+</ListItem>
+<ListItem>
+<Para>The value of the <Symbol Role="Variable">client_data</Symbol> argument
+</Para>
+</ListItem>
+<ListItem>
+<Para>A pointer to an <StructName Role="typedef">XmSelectionCallbackStruct</StructName>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>This procedure can be called before or after <Function>XmTransferValue</Function>
+returns.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">client_data</Symbol></Term>
+<ListItem>
+<Para>Specifies data to be passed to the callback procedure (the value of the
+<Symbol Role="Variable">proc</Symbol> argument) when the selection has been converted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">time</Symbol></Term>
+<ListItem>
+<Para>Specifies the time of the <Symbol>XEvent</Symbol> that triggered the data transfer.
+You should typically set this field to <Function>XtLastTimestampProcessed</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The callback procedure (the value of the <Symbol Role="Variable">proc</Symbol> argument) receives a
+pointer to an <StructName Role="typedef">XmSelectionCallbackStruct</StructName>, which has the following
+definition:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Atom <Symbol Role="Variable">selection</Symbol>;
+        Atom <Symbol Role="Variable">target</Symbol>;
+        Atom <Symbol Role="Variable">type</Symbol>;
+        XtPointer <Symbol Role="Variable">transfer_id</Symbol>;
+        int <Symbol Role="Variable">flags</Symbol>;
+        int <Symbol Role="Variable">remaining</Symbol>;
+        XtPointer <Symbol Role="Variable">value</Symbol>;
+        unsigned long <Symbol Role="Variable">length</Symbol>;
+        int <Symbol Role="Variable">format</Symbol>;
+} XmSelectionCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+It can be NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selection</Symbol></Term>
+<ListItem>
+<Para>Specifies the selection that has been converted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">target</Symbol></Term>
+<ListItem>
+<Para>Specifies the target to which <Function>XmTransferValue</Function> requested
+conversion.
+The value is the same as the value of the <Symbol Role="Variable">target</Symbol> argument to
+<Function>XmTransferValue</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">type</Symbol></Term>
+<ListItem>
+<Para>Specifies the type of the selection value.
+This is not the target, but the type used to represent the target.
+The value <Symbol Role="Define">XT_CONVERT_FAIL</Symbol> means that the selection owner did not
+respond to the conversion request within the Intrinsics selection
+timeout interval.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>transfer_id</Literal></Term>
+<ListItem>
+<Para>Specifies a unique indentifier for the data transfer operation.
+The value is the same as the value of the <Literal>transfer_id</Literal> argument to
+<Function>XmTransferValue</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">flags</Symbol></Term>
+<ListItem>
+<Para>This member is currently unused.
+The value is always <SystemItem Class="Constant">XmSELECTION_DEFAULT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">remaining</Symbol></Term>
+<ListItem>
+<Para>Indicates the number of transfers remaining for the operation specified
+by <Literal>transfer_id</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value</Symbol></Term>
+<ListItem>
+<Para>Represents the data transferred by this request.
+The application is responsible for freeing the value by calling
+<Function>XtFree</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">length</Symbol></Term>
+<ListItem>
+<Para>Indicates the number of elements of data in
+<Symbol Role="Variable">value</Symbol>, where each element has the size symbolized by <Symbol Role="Variable">format</Symbol>.
+If <Symbol Role="Variable">value</Symbol> is NULL, <Symbol Role="Variable">length</Symbol> is 0.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">format</Symbol></Term>
+<ListItem>
+<Para>Indicates whether the data in <Symbol Role="Variable">value</Symbol> should be viewed as a list of
+<Symbol Role="Variable">char</Symbol>, <Symbol Role="Variable">short</Symbol>, or <Symbol Role="Variable">long</Symbol> quantities.
+Possible values are 8 (for a list of <Symbol Role="Variable">char</Symbol>),
+16 (for a list of <Symbol Role="Variable">short</Symbol>), or 32 (for a list of <Symbol Role="Variable">long</Symbol>).
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmTransferSetParameters;,
+&cdeman.XmTransferSendRequest;,
+and
+&cdeman.XmTransferStartRequest;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

@@ -93,7 +93,9 @@ static void     mult_module_selected(
 **                                                                      **
 **************************************************************************/
 
+#if !defined(linux)
 extern char	*sys_errlist[];
+#endif
 char		Buf[MAXPATHLEN];	/* Work buffer */
 
 /*************************************************************************

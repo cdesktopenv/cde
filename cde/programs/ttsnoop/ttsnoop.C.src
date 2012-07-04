@@ -62,9 +62,17 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <time.h>
+
+#if defined(linux)
+#include <iostream>
+#include <strstream>
+#include <fstream>
+#else
 #include <iostream.h>
 #include <strstream.h>
 #include <fstream.h>
+#endif
+
 #include <Dt/Term.h>
 #include <Tt/tt_c.h>
 #include <Tt/tttk.h>
@@ -188,7 +196,7 @@ signalHandler(
 	}
 }
 
-#if defined(SVR4) || defined(aix) || defined(hpux) || defined(__osf__)
+#if defined(SVR4) || defined(aix) || defined(hpux) || defined(__osf__) || defined(linux)
 #if !defined(SIG_PF)
 typedef void (*sig_pf_t)(int);
 #define SIG_PF sig_pf_t
@@ -200,7 +208,7 @@ _tt_sigset(
 	int     sig,
 	SIG_PF  handler )
 {
-#if defined(hpux)
+#if defined(hpux) || defined(linux)
 	struct sigaction act;
 	act.sa_handler = handler;
 	sigemptyset(&act.sa_mask);
@@ -266,7 +274,7 @@ justSnoopIt(
 )
 {
 	DtTtCreated( DTTT_MESSAGE, msg ); // XXX bad idea?
-	snoopIt( "Tt_callback_action", justSnoopIt, msg, pat, True );
+	snoopIt( "Tt_callback_action", (void *) justSnoopIt, msg, pat, True );
 	return TT_CALLBACK_PROCESSED;
 }
 
@@ -285,7 +293,7 @@ _DtTtMediaLoadPatCb(
 	tt_free( (caddr_t)contents );
 	tt_free( file );
 	tt_free( docname );
-	snoopIt( "Ttmedia_load_pat_cb", _DtTtMediaLoadPatCb, msg );
+	snoopIt( "Ttmedia_load_pat_cb", (void *) _DtTtMediaLoadPatCb, msg );
 	return 0;
 }
 
@@ -727,7 +735,7 @@ main(int argc, char **argv)
 		    for (int i = 0; i < opsCount; i++) {
 			    tt_pattern_op_add( pat, ops[i] );
 		    }
-		    for (i = 0; i < sendersCount; i++) {
+		    for (int i = 0; i < sendersCount; i++) {
 			    tt_pattern_sender_add( pat, senders[i] );
 		    }
 		    if (vtype != 0) {

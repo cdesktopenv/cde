@@ -42,13 +42,21 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-svr4.c /main/1 1996/04/21 1
 #include "TermPrimOSDepI.h"
 #include "TermPrimDebug.h"
 #include "TermHeader.h"
+#if !defined(linux)
 #include <stropts.h>
 #include <sys/conf.h>
 #include <sys/stream.h>
+#endif
 #include <sys/termios.h>
+
+#if defined(linux)
+#undef USE_STREAMS_BUFMOD
+#endif
+
 #ifdef	USE_STREAMS_BUFMOD
 #include <sys/bufmod.h>
 #endif	/* USE_STREAMS_BUFMOD */
+
 #include <errno.h>
 
 /* last ditch fallback.  If the clone device is other than /dev/ptmx,
@@ -59,7 +67,7 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-svr4.c /main/1 1996/04/21 1
 #endif	/* PTY_CLONE_DEVICE */
 
 
-int _DtTermPrimGetPty(char **ptySlave, char **ptyMaster)
+static int GetPty(char **ptySlave, char **ptyMaster)
 {
     char *c;
     int ptyFd;
@@ -225,14 +233,33 @@ ok:
     return(-1);
 }
 
+/* this is a public wrapper around the previous function that runs the          
+ * previous function setuid root...                                             
+ */
 int
-_DtTermPrimSetupPty(char *ptySlave, int ptyFd)
+_DtTermPrimGetPty(char **ptySlave, char **ptyMaster)
+{
+  int retValue;
+
+  /* this function needs to be suid root... */
+  (void) _DtTermPrimToggleSuidRoot(True);
+  retValue = GetPty(ptySlave, ptyMaster);
+  /* we now need to turn off setuid root... */
+  (void) _DtTermPrimToggleSuidRoot(False);
+
+  return(retValue);
+}
+
+
+static int
+SetupPty(char *ptySlave, int ptyFd)
 {
     /*
      * The following "pushes" were done at GetPty time, but
      * they don't seem to stick after the file is closed on
      * SVR4.2.  Not sure where else this applies.
      */
+#if !defined(linux)
     if (ioctl(ptyFd, I_PUSH, "ptem") == -1) {
 	    (void) perror("Error pushing ptem");
 	    /* exit the subprocess */
@@ -253,8 +280,28 @@ _DtTermPrimSetupPty(char *ptySlave, int ptyFd)
     }
 #endif	/* USE_STREAMS_TTCOMPAT */
 
+#else /* linux */
+
+    chown(ptySlave, getuid(), getgid());
+    chmod(ptySlave, 0622);
+#endif /* linux */
+
     /* success... */
     return(0);
+}
+
+int
+_DtTermPrimSetupPty(char *ptySlave, int ptyFd)
+{
+  int retValue;
+
+  /* this function needs to be suid root... */
+  (void) _DtTermPrimToggleSuidRoot(True);
+  retValue = SetupPty(ptySlave, ptyFd);
+  /* we now need to turn off setuid root... */
+  (void) _DtTermPrimToggleSuidRoot(False);
+
+  return(retValue);
 }
 
 void

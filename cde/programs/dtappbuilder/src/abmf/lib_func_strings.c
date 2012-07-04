@@ -2123,7 +2123,7 @@ static LibFuncRec abmfP_lrc_modal_dlgCB =
     ")\n"
     "{\n"
     "    DTB_MODAL_ANSWER     op = (DTB_MODAL_ANSWER) client_data;\n"
-    "    DTB_MODAL_ANSWER     *answerp = (DTB_MODAL_ANSWER) NULL;\n"
+    "    DTB_MODAL_ANSWER     *answerp = NULL;\n"
     " \n"
     "    XtVaGetValues(widget, XmNuserData, &answerp, NULL);\n"
     " \n"

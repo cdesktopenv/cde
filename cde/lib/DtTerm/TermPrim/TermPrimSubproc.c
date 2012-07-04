@@ -38,7 +38,7 @@ static char rcs_id[] = "$TOG: TermPrimSubproc.c /main/11 1998/04/20 12:45:57 mgr
 
 #include "TermHeader.h"
 #include <fcntl.h>
-#ifdef  ALPHA_ARCHITECTURE
+#if defined(ALPHA_ARCHITECTURE) || defined(CSRG_ARCHITECTURE) || defined(LINUX_ARCHITECTURE)
 /* For TIOCSTTY definitions */
 #include <sys/ioctl.h>
 #endif /* ALPHA_ARCHITECTURE */
@@ -461,13 +461,18 @@ _DtTermPrimSubprocExec(Widget		  w,
 	/* child...
 	 */
         _DtTermProcessUnlock();
-#ifdef  ALPHA_ARCHITECTURE
+#if defined(ALPHA_ARCHITECTURE) || defined(CSRG_ARCHITECTURE) || defined(LINUX_ARCHITECTURE)
         /* establish a new session for child */
         setsid();
 #else
 	/* do a setpgrp() so that we can... */
 	(void) setpgrp();
 #endif /* ALPHA_ARCHITECTURE */
+
+#if defined(LINUX_ARCHITECTURE)
+	/* set the ownership and mode of the pty... */
+	(void) _DtTermPrimSetupPty(ptyName, pty);
+#endif
 
 	/* open the pty slave as our controlling terminal... */
 	pty = open(ptyName, O_RDWR, 0);
@@ -477,7 +482,7 @@ _DtTermPrimSubprocExec(Widget		  w,
 	    (void) _exit(1);
 	}
 
-#ifdef  ALPHA_ARCHITECTURE
+#if defined(ALPHA_ARCHITECTURE) || defined(CSRG_ARCHITECTURE) || defined(LINUX_ARCHITECTURE)
         /* BSD needs to do this to acquire pty as controlling terminal */
         if (ioctl(pty, TIOCSCTTY, (char *)NULL) < 0) {
 	    (void) close(pty);
@@ -490,8 +495,10 @@ _DtTermPrimSubprocExec(Widget		  w,
         _DtTermPrimPtyGetDefaultModes();
 #endif /* ALPHA_ARCHITECTURE */
 
+#if !defined(LINUX_ARCHITECTURE)
 	/* set the ownership and mode of the pty... */
 	(void) _DtTermPrimSetupPty(ptyName, pty);
+#endif /* LINUX_ARCHITECTURE */
 
 	/* apply the ttyModes... */
 	_DtTermPrimPtyInit(pty, tw->term.ttyModes, tw->term.csWidth);

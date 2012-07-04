@@ -1,0 +1,684 @@
+<!-- $XConsortium: MenuSh.sgm /main/9 1996/09/08 20:54:09 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN327.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmMenuShell</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmMenuShell</Classname></RefName>
+<RefPurpose>The MenuShell widget class
+<IndexTerm>
+<Primary>XmMenuShell</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>MenuShell</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/MenuShell.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The MenuShell widget is a custom OverrideShell widget. An OverrideShell
+widget bypasses <Command>mwm</Command> when displaying itself. It is designed
+specifically to contain Popup or Pulldown menu panes.
+</Para>
+<Para>Most application writers never encounter this widget if they use the
+menu-system convenience functions,
+<Function>XmCreatePopupMenu</Function> or <Literal>XmCreatePulldown Menu</Literal>,
+to create a Popup or Pulldown menu pane.
+The convenience functions automatically create a MenuShell widget as the
+parent of the menu pane. However, if the convenience functions are
+not used, the application programmer must create
+the required MenuShell. In this case, it is important to note that the
+parent of the MenuShell depends on the type of menu system
+being built.
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>If the MenuShell is for the top-level Popup menu pane, the MenuShell's
+parent must be the widget from which the Popup menu pane is popped up.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the MenuShell is for a menu pane that is pulled down from a Popup or
+another Pulldown menu pane, the MenuShell's parent must be the Popup or
+Pulldown menu pane.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the MenuShell is for a menu pane that is pulled down from a MenuBar,
+the MenuShell's parent must be the MenuBar.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the MenuShell is for a Pulldown menu pane in an OptionMenu, the
+MenuShell's parent must be the OptionMenu's parent.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Setting <SystemItem Class="Resource">XmNheight</SystemItem>, <SystemItem Class="Resource">XmNwidth</SystemItem>, or <SystemItem Class="Resource">XmNborderWidth</SystemItem> for
+either a MenuShell or its child sets that resource to the same value
+in both the parent and the child.
+An application should always specify these resources for the child, not
+the parent.
+</Para>
+<Para>For the managed child of a MenuShell, regardless of the value of
+the shell's <SystemItem Class="Resource">XmNallowShellResize</SystemItem>, setting <SystemItem Class="Resource">XmNx</SystemItem> or <SystemItem Class="Resource">XmNy</SystemItem>
+sets the corresponding resource of the parent but does not change the
+child's position relative to the parent.
+<Function>XtGetValues</Function> for the child's <SystemItem Class="Resource">XmNx</SystemItem> or <SystemItem Class="Resource">XmNy</SystemItem> yields the
+value of the corresponding resource in the parent.
+The x and y-coordinates of the child's upper left outside
+corner relative to the parent's upper left inside corner are both 0 (zero)
+minus the value of <SystemItem Class="Resource">XmNborderWidth</SystemItem>.
+</Para>
+<Para>MenuShell uses the <Symbol Role="Globalvar">XmQTmenuSystem</Symbol> trait and holds the
+<Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>MenuShell inherits behavior, resources, and traits from <Classname>Core</Classname>,
+<Classname>Composite</Classname>, <Classname>Shell</Classname>, and
+<Classname>OverrideShell</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmMenuShellWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmMenuShell</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>MenuShell overrides the <SystemItem Class="Resource">XmNallowShellResize</SystemItem> resource in Shell.
+The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmMenuShell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonFontList</Entry>
+<Entry>XmCButtonFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonRenderTable</Entry>
+<Entry>XmCButtonRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultFontList</Entry>
+<Entry>XmCDefaultFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelFontList</Entry>
+<Entry>XmCLabelFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelRenderTable</Entry>
+<Entry>XmCLabelRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>XmLEFT_TO_RIGHT</Entry>
+<Entry>CG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used for button descendants. See the
+<SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table used for MenuShell's button descendants.
+If this value is NULL at initialization and if the value of
+<SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is not NULL, <SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem>
+is initialized to the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem>. If
+the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is NULL, <SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem>
+is initialized by looking up the parent hierarchy of the widget for
+an ancestor that holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such an ancestor is found,
+<SystemItem Class="Resource">XmNbuttonRenderTable</SystemItem> is initialized to the
+<SystemItem Class="Constant">XmBUTTON_RENDER_TABLE</SystemItem> value
+of the ancestor widget. If no such ancestor is found, the default
+is implementation dependent.
+Refer to
+&cdeman.XmRenderTable; for more information on the creation and structure
+of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies a default font list for MenuShell's descendants.
+This resource is obsolete and exists for compatibility with
+earlier releases. It has been replaced by <SystemItem Class="Resource">XmNbuttonFontList</SystemItem>
+and <SystemItem Class="Resource">XmNlabelFontList</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelFontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list used for label descendants. See the
+<SystemItem Class="Resource">XmNlabelRenderTable</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelRenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table used for MenuShell's label descendants
+(Labels and LabelGadgets). If this value is NULL at initialization
+and if the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is not NULL,
+<SystemItem Class="Resource">XmNlabelRenderTable</SystemItem> is initialized to the value of
+<SystemItem Class="Resource">XmNdefaultFontList</SystemItem>. If the value of <SystemItem Class="Resource">XmNdefaultFontList</SystemItem> is
+NULL, the parent hierarchy of the widget is searched
+for an ancestor that holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such
+an ancestor is found, <SystemItem Class="Resource">XmNlabelRenderTable</SystemItem> is initialized to the
+<SystemItem Class="Constant">XmLABEL_RENDER_TABLE</SystemItem> value of the ancestor widget. If no such ancestor
+is found, the default is implementation dependent. Refer to
+&cdeman.XmRenderTable; for more information on the creation and structure
+of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlayoutDirection</SystemItem></Term>
+<ListItem>
+<Para>Specifies the direction in which the subwidgets, children of a
+widget, or other visual components are to be laid out. This policy
+will apply as the default layout policy for all descendants of this
+MenuShell.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>MenuShell inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+The programmer can set the resource values for these
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G),
+or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Shell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNallowShellResize</Entry>
+<Entry>XmCAllowShellResize</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNcreatePopupChildProc</Entry>
+<Entry>XmCCreatePopupChildProc</Entry>
+<Entry>XtCreatePopupChildProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNgeometry</Entry>
+<Entry>XmCGeometry</Entry>
+<Entry>String</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNoverrideRedirect</Entry>
+<Entry>XmCOverrideRedirect</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopdownCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNsaveUnder</Entry>
+<Entry>XmCSaveUnder</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNvisual</Entry>
+<Entry>XmCVisual</Entry>
+<Entry>Visual *</Entry>
+<Entry>CopyFromParent</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmMenuShell -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para>The XmMenuShell translations are described in the following list.
+</Para>
+<Para>The following key names are listed in the
+X standard key event translation table syntax.
+This format is the one used by Motif to
+specify the widget actions corresponding to a given key.
+A brief overview of the format is provided under
+&cdeman.VirtualBindings;.
+For a complete description of the format, please refer to the
+X Toolkit Instrinsics Documentation.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>BtnDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>ClearTraversal()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>BtnUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuShellPopdownDone()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--These translations may not directly correspond to a
+translation table.
+.VL 2i 0 1
+.LI "&bsol;*LBSelect Press:&bsol;*O"
+&bsol;*LClearTraversal()&bsol;*O
+.LI "&bsol;*LBSelect Release:&bsol;*O"
+&bsol;*LMenuShellPopdownDone()&bsol;*O
+.LE
+-->
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The <Classname>XmMenuShell</Classname> action routines are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>ClearTraversal()</Action>:</Term>
+<ListItem>
+<Para>Disables keyboard traversal for the menu, enables mouse traversal, and
+unposts any menus posted by this menu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuShellPopdownDone()</Action>:</Term>
+<ListItem>
+<Para>Unposts the menu hierarchy and, when the shell's keyboard focus policy is
+<SystemItem Class="Constant">XmEXPLICIT</SystemItem>,
+restores focus to the widget that had
+the focus before the menu system was entered.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuShellPopdownOne()</Action>:</Term>
+<ListItem>
+<Para>In a top-level Pulldown MenuPane from a MenuBar, this action unposts the menu,
+disarms the MenuBar CascadeButton and the MenuBar, and,
+when the shell's keyboard focus policy is
+<SystemItem Class="Constant">XmEXPLICIT</SystemItem>,
+restores keyboard
+focus to the widget that had the focus before the MenuBar was
+entered.
+In other Pulldown MenuPanes, this action unposts the menu.
+</Para>
+<Para>In a Popup MenuPane, this action unposts the menu, and,
+when the shell's keyboard focus policy is
+<SystemItem Class="Constant">XmEXPLICIT</SystemItem>,
+restores keyboard focus to the
+widget from which the menu was posted.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;, &cdeman.Core;, &cdeman.OverrideShell;, &cdeman.Shell;,
+&cdeman.XmCreateMenuShell;,
+&cdeman.XmCreatePopupMenu;, &cdeman.XmCreatePulldownMenu;, and
+&cdeman.XmRowColumn;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

@@ -57,7 +57,11 @@
 # include	<time.h>
 # include	<utime.h>
 # include	<pwd.h>
+#if defined(linux)
+# include	<stdarg.h>
+#else
 # include	<varargs.h>
+#endif
 
 #if defined (SYSV) || defined (SVR4)
 #ifndef F_TLOCK

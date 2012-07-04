@@ -36,7 +36,7 @@
  */
 #include <stdlib.h>
 #if defined(linux)
-# include <g++/minmax.h>
+/*# include <g++/minmax.h>*/
 #else
 # include <macros.h>
 #endif
@@ -748,12 +748,18 @@ xdr_version_required() const
 {
 	int version = TT_TYPESDB_DEFAULT_XDR_VERSION;
 	if (_contexts->count() > 0) {
-		version = max(version, TT_CONTEXTS_XDR_VERSION);
+		if(TT_CONTEXTS_XDR_VERSION > version) {
+			version = TT_CONTEXTS_XDR_VERSION;
+		}
+//		version = max(version, TT_CONTEXTS_XDR_VERSION);
 	}
 	switch (_pattern_category) {
 	    case TT_HANDLE_PUSH:
 	    case TT_HANDLE_ROTATE:
-		version = max(version, TT_PUSH_ROTATE_XDR_VERSION);
+		if(TT_PUSH_ROTATE_XDR_VERSION > version) {
+			version = TT_PUSH_ROTATE_XDR_VERSION;
+		}
+//		version = max(version, TT_PUSH_ROTATE_XDR_VERSION);
 		break;
 	}
 	return version;
@@ -765,7 +771,10 @@ xdr_version_required_(const _Tt_signature_list_ptr &sigs)
 	int version = TT_TYPESDB_DEFAULT_XDR_VERSION;
 	_Tt_signature_list_cursor	sigC( sigs );
 	while (sigC.next()) {
-		version = max(version, sigC->xdr_version_required());
+		if(sigC->xdr_version_required() > version) {
+			version = sigC->xdr_version_required();
+		}
+//		version = max(version, sigC->xdr_version_required());
 	}
 	return version;
 }

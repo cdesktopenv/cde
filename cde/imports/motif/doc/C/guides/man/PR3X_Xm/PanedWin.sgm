@@ -1,0 +1,1107 @@
+<!-- $XConsortium: PanedWin.sgm /main/9 1996/09/08 20:55:13 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN335.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmPanedWindow</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmPanedWindow</Classname></RefName>
+<RefPurpose>The PanedWindow widget class
+<IndexTerm>
+<Primary>XmPanedWindow</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>PanedWindow</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1988 by Massachusetts Institute of Technology-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/PanedW.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>PanedWindow is a composite widget that lays out children in a
+vertically tiled format. Children appear in top-to-bottom fashion, with
+the first child inserted appearing at the top of the PanedWindow and the
+last child inserted appearing at the bottom. The
+PanedWindow grows to match the width of its widest child and all
+other children are forced to this width. The height of the PanedWindow
+is equal to the sum of the heights of all its children, the spacing
+between them, and the size of the top and bottom margins.
+</Para>
+<Para>The user can also adjust the size of the panes. To
+facilitate this adjustment, a pane control sash is created for most
+children. The sash appears as a square box positioned on the bottom of
+the pane that it controls. The user can adjust the size of
+a pane by using the mouse or keyboard.
+</Para>
+<Para>The PanedWindow is also a constraint widget, which means that it
+creates and manages a set of constraints for each child. You can
+specify a minimum and maximum size for each pane. The PanedWindow
+does not allow a pane to be resized below its minimum size or beyond its
+maximum size. Also, when the minimum size of a pane is equal to its maximum
+size, no control sash is presented for that pane or
+for the lowest pane.
+</Para>
+<Para>The default <SystemItem Class="Resource">XmNinsertPosition</SystemItem> procedure for PanedWindow causes
+all panes to appear first in the <SystemItem Class="Resource">XmNchildren</SystemItem> list and
+all sashes to appear after the panes. For a pane child, it returns the
+value of <SystemItem Class="Resource">XmNpositionIndex</SystemItem> if one has been specified for the
+child. Otherwise, it returns the number of <Emphasis>panes</Emphasis> in the
+PanedWindow's <SystemItem Class="Resource">XmNchildren</SystemItem> list. Other than the fact that all
+sashes appear after all panes, the insertion order of sashes is unspecified.
+This procedure also causes
+nonsash widgets to be inserted after other nonsash children but before
+any sashes.
+The behavior of PanedWindow is undefined if <SystemItem Class="Resource">XmNinsertPosition</SystemItem> is set
+to a procedure other than the default.
+</Para>
+<Para>All panes and sashes in a PanedWindow must be tab groups. When a pane is
+inserted as a child of the PanedWindow, if the pane's
+<SystemItem Class="Resource">XmNnavigationType</SystemItem> is not <SystemItem Class="Constant">XmEXCLUSIVE_TAB_GROUP</SystemItem>, PanedWindow
+sets it to <SystemItem Class="Constant">XmSTICKY_TAB_GROUP</SystemItem>.
+</Para>
+<RefSect2>
+<Title>Descendants</Title>
+<Para>PanedWindow automatically creates for each paned window the
+descendants shown in the
+following table.
+An application can use <Function>XtName</Function> and the child list information to
+gain access to the named descendant.
+In addition, a user or an application
+can use the named descendant when specifying resource values.
+</Para>
+<InformalTable Frame="All" Orient="Port">
+<TGroup Cols="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Align="Left" Colname="3">
+<TBody>
+<Row>
+<Entry><Literal>Named Descendant</Literal></Entry>
+<Entry><Literal>Class</Literal></Entry>
+<Entry><Literal>Identity</Literal></Entry>
+</Row>
+<Row>
+<Entry>=</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Sash</Literal></Entry>
+<Entry Rowsep="1"><Literal>subclass of</Literal> <Classname>XmPrimitive</Classname></Entry>
+<Entry Rowsep="1">sash</Entry>
+</Row>
+<Row>
+<Entry><Literal>Separator</Literal></Entry>
+<Entry><Classname>XmSeparatorGadget</Classname></Entry>
+<Entry>dividing line between window panes</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>PanedWindow inherits behavior and resources from the
+<Classname>Core</Classname>, <Classname>Composite</Classname>, <Classname>Constraint</Classname>, and <Classname>XmManager</Classname> classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmPanedWindowWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmPanedWindow</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmPanedWindow Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>3</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>3</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNorientation</Entry>
+<Entry>XmCOrientation</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmVERTICAL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrefigureMode</Entry>
+<Entry>XmCBoolean</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsashHeight</Entry>
+<Entry>XmCSashHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsashIndent</Entry>
+<Entry>XmCSashIndent</Entry>
+<Entry>Position</Entry>
+<Entry>-10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsashShadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsashWidth</Entry>
+<Entry>XmCSashWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNseparatorOn</Entry>
+<Entry>XmCSeparatorOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNspacing</Entry>
+<Entry>XmCSpacing</Entry>
+<Entry>Dimension</Entry>
+<Entry>8</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the distance between the top and bottom edges of the PanedWindow
+and its children.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the distance between the left and right edges of the PanedWindow
+and its children.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNorientation</SystemItem></Term>
+<ListItem>
+<Para>Specifies the layout as either vertical (with the <SystemItem Class="Constant">XmVERTICAL</SystemItem>
+value) or horizontal (with the <SystemItem Class="Constant">XmHORIZONTAL</SystemItem> value). In the
+vertical layout, the children are laid out in a vertically tiled
+format. In the horizontal layout, the children are laid out in a
+horizontal layout, with the sash moveable along the horizontal axis.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrefigureMode</SystemItem></Term>
+<ListItem>
+<Para>Determines whether the panes' positions are recomputed and repositioned
+when programmatic changes are being made to the PanedWindow.
+Setting this resource to True resets the children to their appropriate
+positions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsashHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the height of the sash.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsashIndent</SystemItem></Term>
+<ListItem>
+<Para>Specifies the horizontal placement of the sash along each pane. A positive
+value causes the sash to be offset from the near (left) side of the PanedWindow,
+and a negative value causes the sash to be offset from the far (right)
+side of the PanedWindow. If the offset is greater than the width of the
+PanedWindow minus the width of the sash, the sash is placed flush
+against the near side of the PanedWindow.
+</Para>
+<Para>Whether the placement actually corresponds to the left or right side of
+the PanedWindow
+depends on the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem>
+resource of the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsashShadowThickness</SystemItem></Term>
+<ListItem>
+<Para>Specifies the thickness of the shadows of the sashes.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsashWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the width of the sash.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNseparatorOn</SystemItem></Term>
+<ListItem>
+<Para>Determines whether a separator is created between each of the panes.
+Setting this resource to True creates a Separator at the
+midpoint between each of the panes.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNspacing</SystemItem></Term>
+<ListItem>
+<Para>Specifies the distance between each child pane.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmPanedWindow Constraint Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNallowResize</Entry>
+<Entry>XmCBoolean</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpaneMaximum</Entry>
+<Entry>XmCPaneMaximum</Entry>
+<Entry>Dimension</Entry>
+<Entry>1000</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpaneMinimum</Entry>
+<Entry>XmCPaneMinimum</Entry>
+<Entry>Dimension</Entry>
+<Entry>1</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpositionIndex</Entry>
+<Entry>XmCPositionIndex</Entry>
+<Entry>short</Entry>
+<Entry>XmLAST_POSITION</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNskipAdjust</Entry>
+<Entry>XmCBoolean</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNallowResize</SystemItem></Term>
+<ListItem>
+<Para>Allows an application to specify whether the PanedWindow
+should allow a pane to request to be resized. This flag has an
+effect only after the PanedWindow and its children have been realized.
+If this flag is set to True, the PanedWindow tries to honor requests
+to alter the height of the pane. If False, it always denies pane
+requests to resize.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpaneMaximum</SystemItem></Term>
+<ListItem>
+<Para>Allows an application to specify the maximum size to which a pane
+may be resized. This value must be greater than the specified minimum.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpaneMinimum</SystemItem></Term>
+<ListItem>
+<Para>Allows an application to specify the minimum size to which a pane
+may be resized. This value must be greater than 0 (zero).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpositionIndex</SystemItem></Term>
+<ListItem>
+<Para>Specifies the position of the widget in its parent's list of
+children (the list of pane children, not including sashes). The value
+is an integer that is no less than 0 (zero) and no greater than
+the number of children in the list at the time the value is
+specified. A value of 0 means that the child is placed at the
+beginning of the list. The value can also be specified as
+<SystemItem Class="Constant">XmLAST_POSITION</SystemItem> (the default), which means that the child
+is placed at the end of the list. Any other value is ignored.
+<Function>XtGetValues</Function> returns the position of the widget in its parent's
+child list at the time of the call to <Function>XtGetValues</Function>.
+</Para>
+<Para>When a widget is inserted into its parent's child list, the positions
+of any existing children that are greater than or equal to the
+specified widget's <SystemItem Class="Resource">XmNpositionIndex</SystemItem> are increased by 1.
+The effect of a call to <Function>XtSetValues</Function> for <SystemItem Class="Resource">XmNpositionIndex</SystemItem>
+is to remove the specified widget from its parent's child list, decrease
+by one the positions of any existing children that are greater than
+the specified widget's former position in the list, and then insert
+the specified widget into its parent's child list as described in the
+preceding sentence.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNskipAdjust</SystemItem></Term>
+<ListItem>
+<Para>When set to True, this Boolean resource allows an application to specify
+that the PanedWindow should not automatically resize this pane.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>PanedWindow inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>default procedure</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmPanedWindow -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para><Classname>XmPanedWindow</Classname> inherits translations from <Classname>XmManager</Classname>.
+</Para>
+<Para>The translations for sashes within the PanedWindow are
+described in the following table.
+</Para>
+<Para>The following key names are listed in the
+X standard key event translation table syntax.
+This format is the one used by Motif to
+specify the widget actions corresponding to a given key.
+A brief overview of the format is provided under
+&cdeman.VirtualBindings;.
+For a complete description of the format, please refer to the
+X Toolkit Instrinsics Documentation.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>&ap;c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Start</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn1Motion</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Move</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn1Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Commit</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn2Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Start</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn2Motion</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Move</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn2Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Commit</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para><Action>PrimitiveParentActivate()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para><Action>PrimitiveParentCancel()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para><Action>Help()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Key,LargeIncr,Up</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Key,DefaultIncr,Up</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Key,LargeIncr,Right</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Key,DefaultIncr,Right</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Key,LargeIncr,Down</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Key,DefaultIncr,Down</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Key,LargeIncr,Left</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>SashAction(<Symbol Role="Define">Key,DefaultIncr,Left</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>Return</Literal>:</Term>
+<ListItem>
+<Para><Action>PrimitiveParentActivate()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>Tab</Literal>:</Term>
+<ListItem>
+<Para><Action>PrevTabGroup()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>Tab</Literal>:</Term>
+<ListItem>
+<Para><Action>NextTabGroup()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--These translations may not directly correspond to a
+translation table.
+.VL 2i 0 1
+.LI "&bsol;*LBSelect Press:&bsol;*O"
+&bsol;*LSashAction(Start)&bsol;*O
+.LI "&bsol;*LBSelect Motion:&bsol;*O"
+&bsol;*LSashAction(Move)&bsol;*O
+.LI "&bsol;*LBSelect Release:&bsol;*O"
+&bsol;*LSashAction(Commit)&bsol;*O
+.LI "&bsol;*LBTransfer Press:&bsol;*O"
+&bsol;*LSashAction(Start)&bsol;*O
+.LI "&bsol;*LBTransfer Motion:&bsol;*O"
+&bsol;*LSashAction(Move)&bsol;*O
+.LI "&bsol;*LBTransfer Release:&bsol;*O"
+&bsol;*LSashAction(Commit)&bsol;*O
+.LI "&bsol;*LKUp:&bsol;*O"
+&bsol;*LSashAction(Key,DefaultIncr,Up)&bsol;*O
+.LI "&bsol;*LMCtrl KUp:&bsol;*O"
+&bsol;*LSashAction(Key,LargeIncr,Up)&bsol;*O
+.LI "&bsol;*LKDown:&bsol;*O"
+&bsol;*LSashAction(Key,DefaultIncr,Down)&bsol;*O
+.LI "&bsol;*LMCtrl KDown:&bsol;*O"
+&bsol;*LSashAction(Key,LargeIncr,Down)&bsol;*O
+.zA "feature, 5750, R2.0, Added new actions"
+.LI "&bsol;*LKLeft:&bsol;*O
+&bsol;*LSashAction(Key,DefaultIncr,Left)&bsol;*O
+.LI "&bsol;*LMctrl KLeft:&bsol;*O
+&bsol;*LSashAction(Key,LargeIncr,Left)&bsol;*O
+.LI "&bsol;*LKRight:&bsol;*O"
+&bsol;*LSashAction(Key,DefaultIncr,Right)&bsol;*O
+.LI "&bsol;*LMCtrl KRight:&bsol;*O"
+&bsol;*LSashAction(Key,LargeIncr,Right)&bsol;*O
+.zZ "feature, 5750, R2.0, Added new actions"
+.LI "&bsol;*LKNextField:&bsol;*O"
+&bsol;*LNextTabGroup()&bsol;*O
+.LI "&bsol;*LKPrevField:&bsol;*O"
+&bsol;*LPrevTabGroup()&bsol;*O
+.LI "&bsol;*LKHelp:&bsol;*O"
+&bsol;*LHelp()&bsol;*O
+.LE
+-->
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The <Classname>XmPanedWindow</Classname> action routines are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>Help()</Action>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNhelpCallback</SystemItem> if any exist. If there are no help
+callbacks for this widget, this action calls the help callbacks
+for the nearest ancestor that has them.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>NextTabGroup()</Action>:</Term>
+<ListItem>
+<Para>Moves the keyboard focus to the next tab group.
+By default, each pane and sash is a tab group.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>PrevTabGroup()</Action>:</Term>
+<ListItem>
+<Para>Moves the keyboard focus to the previous tab group.
+By default, each pane and sash is a tab group.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>SashAction(</Action><Symbol Role="Variable">action</Symbol><Literal>)</Literal>&ensp;or&ensp;<Action>SashAction(<Symbol Role="Define">Key,&npzwc;</Symbol></Action><Symbol Role="Variable">increment</Symbol><Literal>,&npzwc;</Literal><Emphasis>direction</Emphasis><Literal>)</Literal>:</Term>
+<ListItem>
+<Para>The <Literal>Start</Literal> action activates the interactive placement of the pane's borders.
+The <Literal>Move</Literal> action causes the sash to track the position of the pointer.
+If one of the panes reaches its minimum or maximum size, adjustment
+continues with the next adjustable pane.
+The <Literal>Commit</Literal> action ends sash motion.
+</Para>
+<Para>When sash action is caused by a keyboard event, the sash with the keyboard
+focus is moved according to the <Symbol Role="Variable">increment</Symbol> and <Emphasis>direction</Emphasis>
+specified. <Literal>DefaultIncr</Literal> adjusts the sash by one line.
+<Literal>LargeIncr</Literal> adjusts the sash by one view region. The <Emphasis>direction</Emphasis>
+is specified as either
+<Literal>Up</Literal>, <Literal>Down</Literal>, <Literal>Left</Literal>, or <Literal>Right</Literal>.
+</Para>
+<Para>Note that the SashAction action routine is not a direct action routine
+of the <Literal>XmPanedWindow,</Literal> but rather an action of the Sash control created
+by the <Classname>XmPanedWindow</Classname>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>This widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>FocusIn</KeySym>:</Term>
+<ListItem>
+<Para>Moves the keyboard focus to the sash and highlights it
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>FocusOut</KeySym>:</Term>
+<ListItem>
+<Para>Unsets the keyboard focus in the sash and unhighlights it
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;, &cdeman.Constraint;,
+&cdeman.Core;, &cdeman.XmCreatePanedWindow;, and &cdeman.XmManager;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

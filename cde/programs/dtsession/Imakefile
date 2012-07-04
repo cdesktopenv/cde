@@ -39,7 +39,7 @@ EXTRA_OBJS = $(ALTDIRECTORY)SmMigResources.o
 #endif
 #endif
 
-#if defined(SCOArchitecture) || defined(LinuxArchitecture)
+#if defined(SCOArchitecture)
 SYS_LIBRARIES = -lcrypt -lm
 #endif
 
@@ -65,6 +65,16 @@ DEFINES = -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
  * reference whether used or not.
  */
 SYS_LIBRARIES = -lelf -lm -ldl -lgen
+#endif
+
+#if defined(LinuxArchitecture)
+EXTRA_DEFINES = -D${PROGRAMS} $(XINOPT)
+SYS_LIBRARIES = $(XPLIB) $(XINLIB) -ldl -lcrypt -lm
+#endif
+
+#if defined(FreeBSDArchitecture)
+EXTRA_DEFINES = -D${PROGRAMS} $(XINOPT)
+SYS_LIBRARIES = $(XPLIB) -lcrypt -lm
 #endif
 
 PROGRAMS=dtsession

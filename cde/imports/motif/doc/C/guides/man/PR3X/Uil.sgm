@@ -1,0 +1,419 @@
+<!-- $XConsortium: Uil.sgm /main/11 1996/09/08 21:42:50 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN28.rsml.1">
+<RefMeta>
+<RefEntryTitle>Uil</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>Uil</Function></RefName>
+<RefPurpose>Invokes the UIL compiler from within an application
+<IndexTerm>
+<Primary>Uil</Primary>
+</IndexTerm><IndexTerm>
+<Primary>uil functions</Primary>
+<Secondary>Uil</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>uil compiler</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="not-ANSI">
+<FuncSynopsisInfo>#include &lt;uil/UilDef.h>
+<?sml-space \n(PDu></FuncSynopsisInfo>
+<FuncDef>Uil_status_type <Function>Uil</Function></FuncDef>
+<!--<ParamDef><Replaceable>command_desc, compile_desc, message_cb, message_data,
+status_cb, status_data</Replaceable></ParamDef>-->
+<ParamDef>Uil_command_type *<Parameter>command_desc</Parameter></ParamDef>
+<ParamDef>Uil_compile_desc_type *<Parameter>*compile_desc</Parameter></ParamDef>
+<ParamDef>Uil_continue_type (*<Parameter>message_cb</Parameter>) ()</ParamDef>
+<ParamDef>char *<Parameter>message_data</Parameter></ParamDef>
+<ParamDef>Uil_continue_type (*<Parameter>status_cb</Parameter>) ()</ParamDef>
+<ParamDef>char *<Parameter>status_data</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The <Function>Uil</Function> function provides a callable entry point for the UIL
+compiler. The
+<Function>Uil</Function> callable interface can be used to process
+a UIL source file and to
+generate UID files, as well as return a detailed description of the
+UIL source module in the form of a symbol table (parse tree).
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">command_desc</Symbol></Term>
+<ListItem>
+<Para>Specifies the <Command>uil</Command> command line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">compile_desc</Symbol></Term>
+<ListItem>
+<Para>Returns the results of the compilation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">message_cb</Symbol></Term>
+<ListItem>
+<Para>Specifies a callback function that is called when the compiler
+encounters errors in the UIL source.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">message_data</Symbol></Term>
+<ListItem>
+<Para>Specifies user data that is passed to the message callback function
+(<Symbol Role="Variable">message_cb)</Symbol>. Note that this argument is not interpreted by UIL, and is
+used exclusively by the calling application.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">status_cb</Symbol></Term>
+<ListItem>
+<Para>Specifies a callback function that is called to allow X applications to service
+X events such as updating the screen. This function is called
+at various check points, which have been hard coded into the UIL compiler.
+The <Symbol Role="Variable">status_update_delay</Symbol> argument in <Symbol Role="Variable">command_desc</Symbol>
+specifies the number of
+check points to be passed before the <Symbol Role="Variable">status_cb</Symbol> function is invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">status_data</Symbol></Term>
+<ListItem>
+<Para>Specifies user data that is passed to the status callback function
+(<Symbol Role="Variable">status_cb).</Symbol>
+Note that this argument is not interpreted by the UIL compiler
+and is used exclusively by the calling application.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Following are the data structures <Symbol>Uil_command_type</Symbol> and
+<Symbol>Uil_compile_desc_type</Symbol>:
+</Para>
+<InformalExample>
+<ProgramListing>typedef struct Uil_command_type {
+char *source_file;
+    /* single source to compile */
+char *resource_file; /* name of output file */
+char *listing_file; /* name of listing file */
+unsigned int *include_dir_count;
+    /* number of dirs. in include_dir */
+char *((*include_dir) []);
+    /* dir. to search for include files */
+unsigned listing_file_flag: 1;
+    /* produce a listing */
+unsigned resource_file_flag: 1;
+    /* generate UID output */
+unsigned machine_code_flag: 1;
+    /* generate machine code */
+unsigned report_info_msg_flag: 1;
+    /* report info messages */
+unsigned report_warn_msg_flag: 1;
+    /* report warnings */
+unsigned parse_tree_flag: 1;
+    /* generate parse tree */
+unsigned int status_update_delay;
+    /* number of times a status point is */
+    /* passed before calling status_cb */
+    /* function 0 means called every time */
+char *database;
+    /* name of database file */
+unsigned database_flag: 1;
+    /* read a new database file */
+unsigned use_setlocale_flag: 1;
+    /* enable calls to setlocale */
+};
+typedef struct Uil_compile_desc_type {
+unsigned int compiler_version;
+    /* version number of compiler */
+unsigned int data_version;
+    /* version number of structures */
+char *parse_tree_root; /* parse tree output */
+unsigned int message_count [Uil_k_max_status+1];
+/* array of severity counts */
+};
+</ProgramListing>
+</InformalExample>
+<Para>Following is a description of the message callback function specified by
+<Symbol Role="Variable">message_cb</Symbol>:
+</Para>
+<Synopsis>Uil_continue_type (<Symbol Role="Variable">*message_cb</Symbol>) (<Symbol Role="Variable">message_data, message_number, severity, msg_buffer,
+src_buffer, ptr_buffer, loc_buffer, message_count</Symbol>)
+        char <Symbol Role="Variable">*message_data</Symbol>;
+        int <Symbol Role="Variable">message_number</Symbol>;
+        int <Symbol Role="Variable">severity</Symbol>;
+        char <Symbol Role="Variable">*msg_buffer</Symbol>, <Symbol Role="Variable">*src_buffer</Symbol>;
+        char <Symbol Role="Variable">*ptr_buffer</Symbol>, <Symbol Role="Variable">*loc_buffer</Symbol>;
+        int <Symbol Role="Variable">message_count</Symbol>[];</Synopsis>
+<Para>This function specifies a callback function that UIL
+invokes instead of printing an
+error message when the compiler encounters an error in the UIL source.
+The callback should return one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol>Uil_k_terminate</Symbol></Term>
+<ListItem>
+<Para>Terminate processing of the source file
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Uil_k_continue</Symbol></Term>
+<ListItem>
+<Para>Continue processing the source file
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The arguments are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">message_data</Symbol></Term>
+<ListItem>
+<Para>Data supplied by the application as the <Symbol Role="Variable">message_data</Symbol> argument to
+the <Function>Uil</Function> function.
+UIL does not interpret this data in any way; it just passes it to the
+callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">message_number</Symbol></Term>
+<ListItem>
+<Para>An index into a table of error messages and severities for internal use
+by UIL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">severity</Symbol></Term>
+<ListItem>
+<Para>An integer that indicates the severity of the error.
+The possible values are the status constants returned by the <Function>Uil</Function>
+function.
+See <Literal>Return Value</Literal> for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">msg_buffer</Symbol></Term>
+<ListItem>
+<Para>A string that describes the error.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">src_buffer</Symbol></Term>
+<ListItem>
+<Para>A string consisting of the source line where the error occurred.
+This string is not always available. In this case, the argument is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">ptr_buffer</Symbol></Term>
+<ListItem>
+<Para>A string consisting of whitespace and a printing character in the
+character position corresponding to the column of the source line where
+the error occurred.
+This string may be printed beneath the source line to provide a visual
+indication of the column where the error occurred.
+This string is not always available. In this case, the argument is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">loc_buffer</Symbol></Term>
+<ListItem>
+<Para>A string identifying the line number and file of the source line where
+the error occurred.
+This is not always available; the argument is then NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">message_count</Symbol></Term>
+<ListItem>
+<Para>An array of integers containing the number of diagnostic messages issued
+thus far for each severity level.
+To find the number of messages issued for the current severity level,
+use the <Symbol Role="Variable">severity</Symbol> argument as the index into this array.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Following is a description of the status callback function specified by
+<Symbol Role="Variable">status_cb</Symbol>:
+</Para>
+<Synopsis>Uil_continue_type (<Symbol Role="Variable">*status_cb</Symbol>) (<Replaceable>status_data, percent_complete,
+        lines_processed, current_file, message_count</Replaceable>)
+        char <Symbol Role="Variable">*status_data</Symbol>;
+        int <Symbol Role="Variable">percent_complete</Symbol>;
+        int <Symbol Role="Variable">lines_processed</Symbol>;
+        char <Symbol Role="Variable">*current_file</Symbol>;
+        int <Symbol Role="Variable">message_count</Symbol>[];</Synopsis>
+<Para>This function specifies a callback function that is
+invoked to allow X applications to
+service X events such as updating the screen.
+The callback should return one of the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol>Uil_k_terminate</Symbol></Term>
+<ListItem>
+<Para>Terminate processing of the source file
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Uil_k_continue</Symbol></Term>
+<ListItem>
+<Para>Continue processing the source file
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The arguments are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">status_data</Symbol></Term>
+<ListItem>
+<Para>Data supplied by the application as the <Symbol Role="Variable">status_data</Symbol> argument to
+the <Function>Uil</Function> function.
+UIL does not interpret this data in any way; it just passes it to the
+callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">percent_complete</Symbol></Term>
+<ListItem>
+<Para>An integer indicating what percentage of the current source file has
+been processed so far.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">lines_processed</Symbol></Term>
+<ListItem>
+<Para>An integer indicating how many lines of the current source file have
+been read so far.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">current_file</Symbol></Term>
+<ListItem>
+<Para>A string containing the pathname of the current source file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">message_count</Symbol></Term>
+<ListItem>
+<Para>An array of integers containing the number of diagnostic messages issued
+thus far for each severity level.
+To find the number of messages issued for a given severity level, use
+the severity level as the index into this array.
+The possible severity levels
+are the status constants returned by the
+<Function>Uil</Function> function.
+See <Literal>Return Value</Literal> for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>This function returns one of the following
+status return constants:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol>Uil_k_success_status</Symbol></Term>
+<ListItem>
+<Para>The operation succeeded.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Uil_k_info_status</Symbol></Term>
+<ListItem>
+<Para>The operation succeeded. An informational
+message is returned.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Uil_k_warning_status</Symbol></Term>
+<ListItem>
+<Para>The operation succeeded. A warning
+message is returned.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Uil_k_error_status</Symbol></Term>
+<ListItem>
+<Para>The operation failed due to an error.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>Uil_k_severe_status</Symbol></Term>
+<ListItem>
+<Para>The operation failed due to an error.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.UilDumpSymbolTable; and
+&cdeman.uil;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->
+

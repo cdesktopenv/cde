@@ -1,0 +1,145 @@
+<!-- $XConsortium: RepTypRe.sgm /main/8 1996/09/08 20:58:50 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN375.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmRepTypeRegister</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmRepTypeRegister</Function></RefName>
+<RefPurpose>A representation type manager function
+that registers a representation type resource
+<IndexTerm>
+<Primary>XmRepTypeRegister</Primary>
+</IndexTerm><IndexTerm>
+<Primary>representation type manager functions</Primary>
+<Secondary>XmRepTypeRegister</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/RepType.h>
+</FuncSynopsisInfo>
+<FuncDef>XmRepTypeId <Function>XmRepTypeRegister</Function></FuncDef>
+<!--<ParamDef><Replaceable>rep_type, value_names, values, num_values</Replaceable></ParamDef>-->
+<ParamDef>String <Parameter>rep_type</Parameter></ParamDef>
+<ParamDef>String *<Parameter>value_names</Parameter></ParamDef>
+<ParamDef>unsigned char *<Parameter>values</Parameter></ParamDef>
+<ParamDef>unsigned char <Parameter>num_values</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmRepTypeRegister</Function> registers a representation
+type resource with the representation type manager. All
+features of the representation type management facility become
+available for the specified representation type. The function
+installs a forward type converter to convert string values to
+numerical representation type values.
+</Para>
+<Para>When the <Symbol Role="Variable">values</Symbol> argument is NULL, consecutive numerical
+values are assumed. The order of the strings in the <Symbol Role="Variable">value_names</Symbol>
+array determines the numerical values for the resource. For example,
+the first value name is 0 (zero); the second value name is 1; and so on.
+</Para>
+<Para>If it is non-NULL, the <Symbol Role="Variable">values</Symbol> argument can be used to assign values
+to representation types that have nonconsecutive values or have
+duplicate names for the same value. Representation types registered
+in this manner will consume additional storage and will be slightly
+slower than representation types with consecutive values.
+</Para>
+<Para>A representation type can only be registered once; if the
+same representation type name is registered more than once, the
+behavior is undefined.
+</Para>
+<Para>The function <Function>XmRepTypeAddReverse</Function> installs a reverse converter
+for a registered representation type. The reverse converter takes
+a representation type numerical value and returns the corresponding
+string value. If the list of numerical values for a representation
+type contains duplicate values, the reverse converter uses the first
+name in the <Symbol Role="Variable">value_names</Symbol> list that matches the specified numeric
+value. For example, if a <Symbol Role="Variable">value_names</Symbol> array has <Symbol Role="Variable">cancel</Symbol>,
+<Symbol Role="Variable">proceed</Symbol>, and <Symbol Role="Variable">abort</Symbol>, and the corresponding <Symbol Role="Variable">values</Symbol> array
+contains 0, 1, and 0, the reverse converter will return <Symbol Role="Variable">cancel</Symbol>
+instead of <Symbol Role="Variable">abort</Symbol> for an input value of 0.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">rep_type</Symbol></Term>
+<ListItem>
+<Para>Specifies the representation type name.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value_names</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to an array of value names associated with the
+representation type. A value name is specified in lowercase characters
+without an <SystemItem Class="Constant">Xm</SystemItem> prefix. Words within a name are separated with
+underscores.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">values</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to an array of values associated with the
+representation type. A value in this array is associated with
+the value name in the corresponding position of the <Symbol Role="Variable">value_names</Symbol>
+array.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">num_values</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of entries in the <Symbol Role="Variable">value_names</Symbol> and
+<Symbol Role="Variable">values</Symbol> arrays.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns the identification number for the specified representation
+type.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmRepTypeAddReverse;,
+&cdeman.XmRepTypeGetId;,
+&cdeman.XmRepTypeGetNameList;,
+&cdeman.XmRepTypeGetRecord;,
+&cdeman.XmRepTypeGetRegistered;, and
+&cdeman.XmRepTypeValidValue;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

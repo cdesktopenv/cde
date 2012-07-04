@@ -112,8 +112,13 @@
 #define SPC_Bad_Permission     164
 #define SPC_Cannot_Create_Netfilename	165
 #define SPC_Protocol_Version_Error 	166
+
+/* JET - a special error code for goobers trying to overflow our buffers. */
+/* VU#172583 */
+#define SPC_Buffer_Overflow    167
+
 /* Keep this up to date with the last error number declared above */
-#define SPC_Max_Error          167
+#define SPC_Max_Error          168
 
 /* The definition of the SPC Error structure has been moved to spc.h
    (to make it public) */

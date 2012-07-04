@@ -37,6 +37,9 @@
 
 #define XOS_USE_NO_LOCKING
 #define X_INCLUDE_TIME_H
+#if defined(linux)
+#undef SVR4
+#endif
 #include <X11/Xos_r.h>
 
 extern int monthdays[12];

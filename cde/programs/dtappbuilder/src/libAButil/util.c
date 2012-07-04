@@ -223,7 +223,7 @@ util_vfork()
 #ifdef __cplusplus
 extern "C" {
 #endif
-#if defined(__uxp__) || defined(__hpux) || (defined(sun) && OSMAJORVERSION >= 5 && OSMINORVERSION >= 4) || defined(linux)
+#if defined(__uxp__) || defined(__hpux) || (defined(sun) && OSMAJORVERSION >= 5 && OSMINORVERSION >= 4)
     extern int putenv(const char *string);
 #elif !(defined(__osf__) || defined(__aix))
     extern int putenv(char *string);

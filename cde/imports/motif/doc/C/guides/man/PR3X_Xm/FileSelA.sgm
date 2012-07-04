@@ -1,0 +1,2192 @@
+<!-- $XConsortium: FileSelA.sgm /main/12 1996/09/26 14:54:48 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN224.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmFileSelectionBox</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmFileSelectionBox</Classname></RefName>
+<RefPurpose>The FileSelectionBox widget class
+<IndexTerm>
+<Primary>XmFileSelectionBox</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>FileSelectionBox</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/FileSB.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>FileSelectionBox traverses
+through directories, views the files and subdirectories in them,
+and then selects files.
+</Para>
+<Para>A FileSelectionBox has five main areas:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>A text input field for displaying and editing a directory mask used to
+select the files to be displayed
+</Para>
+</ListItem>
+<ListItem>
+<Para>An optional text input field for displaying and editing a filter mask
+used to select the files to be displayed.
+</Para>
+</ListItem>
+<ListItem>
+<Para>A scrollable list of filenames
+</Para>
+</ListItem>
+<ListItem>
+<Para>A scrollable list of subdirectories
+</Para>
+</ListItem>
+<ListItem>
+<Para>A text input field for displaying and editing a filename
+</Para>
+</ListItem>
+<ListItem>
+<Para>A group of PushButtons,
+labeled <Symbol Role="Define">OK</Symbol>, <Literal>Filter</Literal>, <Literal>Cancel</Literal>, and <Literal>Help</Literal>.
+The layout direction of the buttons depends on the
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>####Additional children may be added to the FileSelectionBox after
+creation.
+FileSelectionBox inherits the layout functionality provided
+by SelectionBox for any additional children.
+To remove the list of filenames, the list of subdirectories, or both
+from the FileSelectionBox after creation, unmanage the
+appropriate widgets and their labels.
+The list and label widgets are obtained through a call to the
+<Function>XmFileSelectionBoxGetChild</Function> function.
+To remove either the directory list or the file list, unmanage the
+parent of the appropriate list widget and unmanage the corresponding
+label.
+</Para>
+<Para>The user can specify resources in a resource file for the automatically
+created widgets and gadgets of FileSelectionBox. The following list
+identifies the names of these widgets (or gadgets) and the associated
+FileSelectionBox areas:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>FilterLabel</Term>
+<ListItem>
+<Para><Literal>FilterText</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Filter Text</Term>
+<ListItem>
+<Para><Literal>TextField</Literal></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Directory List</Term>
+<ListItem>
+<Para><Literal>DirList</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Directory List Label</Term>
+<ListItem>
+<Para><Literal>Dir</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DirL</Term>
+<ListItem>
+<Para><Literal>Label</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>DirText</Term>
+<ListItem>
+<Para><Literal>TextField</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The directory mask is a string specifying the base directory to be
+examined and a search pattern.
+Ordinarily, the directory list displays the subdirectories of the base
+directory, as well as the base directory itself and its parent
+directory.
+The file list ordinarily displays all files and/or subdirectories in the
+base directory that match the search pattern.
+</Para>
+<Para>Optionally, the search pattern mask and the base directory can be
+displayed in two separate text fields. This option is controlled by
+the <SystemItem Class="Resource">XmNpathMode</SystemItem> resource. Using this alternate
+display does not change the meaning of resources that control the
+content of these fields: <SystemItem Class="Resource">XmNdirectory</SystemItem>, <SystemItem Class="Resource">XmNdirMask</SystemItem>,
+<SystemItem Class="Resource">XmNpattern</SystemItem>.
+</Para>
+<Para>A procedure specified by the <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> resource
+extracts the base directory and search pattern from the directory mask.
+If the directory specification is empty, the current working directory
+is used.
+If the search pattern is empty, a pattern that matches all files is
+used.
+</Para>
+<Para>An application can supply its own <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> as well
+as its own procedures to search for subdirectories and files.
+The default <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> works as follows:
+The directory mask is a pathname that can contain zero or more
+<Symbol Role="Variable">wildcard</Symbol> characters in its directory portion, its file portion, or
+both.
+The directory components of the directory mask &mdash; up to, but not
+including, the first component with a wildcard character &mdash; specify the
+directory to be searched, relative to the current working directory.
+The remaining components specify the search pattern.
+If the directory mask is empty or if its first component contains a
+wildcard character, the current working directory is searched.
+If no component of the directory mask contains a wildcard character, the
+entire directory mask is the directory specification, and all files in
+that directory are matched.
+</Para>
+<Para>The user can select a new directory to examine by scrolling through the
+list of directories and selecting the desired directory or by editing
+the directory mask.
+Selecting a new directory from the directory list does not change the
+search pattern.
+A user can select a new search pattern by editing the directory mask
+or, when the FileSelectionBox has the optional <Literal>XmNpathMode
+XmPATH_MODE_RELATIVE</Literal> display, the filter text field.
+Double clicking or pressing <Literal>KActivate</Literal> on a directory in the
+directory list initiates a search for files and subdirectories in the
+new directory, using the current search pattern.
+</Para>
+<Para>The user can select a file by scrolling through the list of filenames
+and selecting the desired file or by entering the filename directly into
+the text edit area.
+Selecting a file from the list causes that filename to appear in the
+file selection text edit area.
+</Para>
+<Para>The user may select a new file as many times as desired.
+The application is not notified until the user takes one of the
+following actions:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Selects the <Symbol Role="Define">OK</Symbol> PushButton
+</Para>
+</ListItem>
+<ListItem>
+<Para>Presses <Literal>KActivate</Literal> while the selection text edit area has the
+keyboard focus
+</Para>
+</ListItem>
+<ListItem>
+<Para>Double clicks or presses <Literal>KActivate</Literal> on an item in the file list
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>FileSelectionBox initiates a directory and file search when any of the
+following occurs:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The FileSelectionBox is initialized
+</Para>
+</ListItem>
+<ListItem>
+<Para>The function <Function>XtSetValues</Function> is used to change <SystemItem Class="Resource">XmNdirMask</SystemItem>,
+<SystemItem Class="Resource">XmNdirectory</SystemItem>, <SystemItem Class="Resource">XmNpattern</SystemItem>, or <SystemItem Class="Resource">XmNfileTypeMask</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para>The user activates the <Literal>Filter</Literal> PushButton
+</Para>
+</ListItem>
+<ListItem>
+<Para>The user double clicks or presses <Literal>KActivate</Literal> on an item in the
+directory list
+</Para>
+</ListItem>
+<ListItem>
+<Para>The application calls <Function>XmFileSelectionDoSearch</Function>
+</Para>
+</ListItem>
+<ListItem>
+<Para>The user presses <Literal>KActivate</Literal> while the directory mask text edit area
+has the keyboard focus
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>When a file search is initiated, the FileSelectionBox takes the
+following actions:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Constructs an <StructName Role="typedef">XmFileSelectionBoxCallbackStruct</StructName> structure with
+values appropriate for the action that initiated the search
+</Para>
+</ListItem>
+<ListItem>
+<Para>Calls the <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> with the callback structure as
+the data input argument
+</Para>
+</ListItem>
+<ListItem>
+<Para>Sets <SystemItem Class="Resource">XmNdirectoryValid</SystemItem> and <SystemItem Class="Resource">XmNlistUpdated</SystemItem> to False
+</Para>
+</ListItem>
+<ListItem>
+<Para>Calls the <SystemItem Class="Resource">XmNdirSearchProc</SystemItem> with the qualified data returned by the
+<SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>If <SystemItem Class="Resource">XmNdirectoryValid</SystemItem> is True, the FileSelectionBox takes the
+following additional actions:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Sets <SystemItem Class="Resource">XmNlistUpdated</SystemItem> to False
+</Para>
+</ListItem>
+<ListItem>
+<Para>Calls the <SystemItem Class="Resource">XmNfileSearchProc</SystemItem> with the qualified data returned by
+the <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> (and possibly modified by the
+<SystemItem Class="Resource">XmNdirSearchProc</SystemItem>)
+</Para>
+</ListItem>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNlistUpdated</SystemItem> is True and the file list is empty, displays the
+<SystemItem Class="Resource">XmNnoMatchString</SystemItem> in the file list and clears the selection text
+and <SystemItem Class="Resource">XmNdirSpec</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNlistUpdated</SystemItem> is True and the file list is not empty, sets the
+selection text and <SystemItem Class="Resource">XmNdirSpec</SystemItem> to the qualified <Symbol Role="Variable">dir</Symbol> returned
+by the <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> (and possibly modified by the
+<SystemItem Class="Resource">XmNdirSearchProc</SystemItem>)
+</Para>
+</ListItem>
+<ListItem>
+<Para>Sets the directory mask text and <SystemItem Class="Resource">XmNdirMask</SystemItem> to the qualified
+<Symbol Role="Variable">mask</Symbol> returned by the <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> (and possibly
+modified by the <SystemItem Class="Resource">XmNdirSearchProc</SystemItem>)
+</Para>
+</ListItem>
+<ListItem>
+<Para>Sets <SystemItem Class="Resource">XmNdirectory</SystemItem> to the qualified <Symbol Role="Variable">dir</Symbol> returned by the
+<SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> (and possibly modified by the
+<SystemItem Class="Resource">XmNdirSearchProc</SystemItem>)
+</Para>
+</ListItem>
+<ListItem>
+<Para>Sets <SystemItem Class="Resource">XmNpattern</SystemItem> to the qualified <Symbol Role="Variable">pattern</Symbol> returned by the
+<SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> (and possibly modified by the
+<SystemItem Class="Resource">XmNdirSearchProc</SystemItem>)
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>FileSelectionBox uses the <Symbol Role="Globalvar">XmQTactivatable</Symbol> trait.
+</Para>
+<RefSect2>
+<Title>Data Transfer Behavior</Title>
+<Para>Child widgets of a FileSelectionBox support the data transfer operations
+and targets associated with their widget classes.
+</Para>
+<Para>In addition, if the source of a data transfer is the directory list and
+if <SystemItem Class="Resource">XmNdirSearchProc</SystemItem> has its default value, the directory list
+supports the <Symbol Role="Define">FILE</Symbol> and <Symbol Role="Define">FILE_NAME</Symbol> targets.
+</Para>
+<Para>If the source of a data transfer is the file list and if
+<SystemItem Class="Resource">XmNfileSearchProc</SystemItem> has its default value, the file list supports
+the <Symbol Role="Define">FILE</Symbol> and <Symbol Role="Define">FILE_NAME</Symbol> targets.
+</Para>
+<Para>In either case, FileSelectionBox adds an <SystemItem Class="Resource">XmNconvertCallback</SystemItem>
+procedure to the appropriate list.
+This procedure adds <Symbol Role="Define">FILE</Symbol> and <Symbol Role="Define">FILE_NAME</Symbol> to the <Symbol Role="Define">TARGETS</Symbol>
+returned by the list.
+It treats requests for conversion of a selection to <Symbol Role="Define">FILE</Symbol> and
+<Symbol Role="Define">FILE_NAME</Symbol> exactly like requests for conversion to <Symbol Role="Define">TEXT</Symbol>.
+</Para>
+<Para>If an application changes <SystemItem Class="Resource">XmNdirSearchProc</SystemItem> or
+<SystemItem Class="Resource">XmNfileSearchProc</SystemItem> and wants to support the <Symbol Role="Define">FILE</Symbol> and
+<Symbol Role="Define">FILE_NAME</Symbol> targets on the corresponding list, it must provide
+support itself by adding a procedure to the list's
+<SystemItem Class="Resource">XmNconvertCallback</SystemItem> list.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Descendants</Title>
+<Para>FileSelectionBox automatically creates the descendants shown in the
+following table.
+An application can use <Function>XtNameToWidget</Function> to gain access
+to the named descendant. In addition, a user or an application
+can use the named descendant when specifying resource values.
+</Para>
+<InformalTable Frame="All" Orient="Port">
+<TGroup Cols="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Align="Left" Colname="3">
+<TBody>
+<Row>
+<Entry><Literal>Named Descendant</Literal></Entry>
+<Entry><Literal>Class</Literal></Entry>
+<Entry><Literal>Identity</Literal></Entry>
+</Row>
+<Row>
+<Entry>=</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Apply</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">Apply button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Cancel</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">Cancel button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Dir</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmLabelGadget</Classname></Entry>
+<Entry Rowsep="1">title above list of directories</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>DirList</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmList</Classname></Entry>
+<Entry Rowsep="1">list of directories</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>DirListSW</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmScrolledWindow</Classname></Entry>
+<Entry Rowsep="1">ScrolledWindow parent of <Literal>DirList</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>FilterLabel</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmLabelGadget</Classname></Entry>
+<Entry Rowsep="1">title above filter box</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>FilterText</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmText</Classname> or <Classname>XmTextField</Classname></Entry>
+<Entry Rowsep="1">text within filter box</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Help</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">Help button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Items</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmLabelGadget</Classname></Entry>
+<Entry Rowsep="1">title above list of filenames</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>ItemsList</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmList</Classname></Entry>
+<Entry Rowsep="1">list of filenames</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>ItemsListSW</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmScrolledWindow</Classname></Entry>
+<Entry Rowsep="1">ScrolledWindow parent of <Literal>ItemsList</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Symbol Role="Define">OK</Symbol></Entry>
+<Entry Rowsep="1"><Classname>XmPushButtonGadget</Classname></Entry>
+<Entry Rowsep="1">OK button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Selection</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmLabelGadget</Classname></Entry>
+<Entry Rowsep="1">title above selection box</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Separator</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmSeparatorGadget</Classname></Entry>
+<Entry Rowsep="1">optional dividing line</Entry>
+</Row>
+<Row>
+<Entry><Literal>Text</Literal></Entry>
+<Entry><Classname>XmText</Classname> or <Classname>XmTextField</Classname></Entry>
+<Entry>text within selection box</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>FileSelectionBox inherits behavior,
+resources, and traits from <Classname>Core</Classname>, <Classname>Composite</Classname>,
+<Classname>Constraint</Classname>, <Classname>XmManager</Classname>,
+<Classname>XmBulletinBoard</Classname>, and <Classname>XmSelectionBox</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmFileSelectionBoxWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmFileSelectionBox</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file,
+remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmFileSelectionBox Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNdirectory</Entry>
+<Entry>XmCDirectory</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdirectoryValid</Entry>
+<Entry>XmCDirectoryValid</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdirListItems</Entry>
+<Entry>XmCDirListItems</Entry>
+<Entry>XmStringTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdirListItemCount</Entry>
+<Entry>XmCDirListItemCount</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdirListLabelString</Entry>
+<Entry>XmCDirListLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdirMask</Entry>
+<Entry>XmCDirMask</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdirSearchProc</Entry>
+<Entry>XmCDirSearchProc</Entry>
+<Entry>XmSearchProc</Entry>
+<Entry>default procedure</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdirSpec</Entry>
+<Entry>XmCDirSpec</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdirTextLabelString</Entry>
+<Entry>XmCDirTextLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNfileFilterStyle</Entry>
+<Entry>XmCFileFilterStyle</Entry>
+<Entry>XtEnum</Entry>
+<Entry>XmFILTER_NONE</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNfileListItems</Entry>
+<Entry>XmCItems</Entry>
+<Entry>XmStringTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNfileListItemCount</Entry>
+<Entry>XmCItemCount</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNfileListLabelString</Entry>
+<Entry>XmCFileListLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfileSearchProc</Entry>
+<Entry>XmCFileSearchProc</Entry>
+<Entry>XmSearchProc</Entry>
+<Entry>default procedure</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfileTypeMask</Entry>
+<Entry>XmCFileTypeMask</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmFILE_REGULAR</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfilterLabelString</Entry>
+<Entry>XmCFilterLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistUpdated</Entry>
+<Entry>XmCListUpdated</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoMatchString</Entry>
+<Entry>XmCNoMatchString</Entry>
+<Entry>XmString</Entry>
+<Entry>"&numsp;[&numsp;&numsp;&numsp;&numsp;]&numsp;"</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpathMode</Entry>
+<Entry>XmCPathMode</Entry>
+<Entry>XtEnum</Entry>
+<Entry>XmPATH_MODE_FULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNpattern</Entry>
+<Entry>XmCPattern</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNqualifySearchDataProc</Entry>
+<Entry>XmCQualifySearchDataProc</Entry>
+<Entry>XmQualifyProc</Entry>
+<Entry>default procedure</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdirectory</SystemItem></Term>
+<ListItem>
+<Para>Specifies the base directory used in combination with <SystemItem Class="Resource">XmNpattern</SystemItem>
+in determining the files and directories to be displayed.
+The default value is determined by the <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem>
+and depends on the initial values of <SystemItem Class="Resource">XmNdirMask</SystemItem>,
+<SystemItem Class="Resource">XmNdirectory</SystemItem>, and <SystemItem Class="Resource">XmNpattern</SystemItem>.
+If the default is NULL or empty, the current working directory is used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdirectoryValid</SystemItem></Term>
+<ListItem>
+<Para>Specifies an attribute that is set only by the directory search
+procedure.
+The value is set to True if the directory passed to the directory search
+procedure can actually be searched.
+If this value is False the file search procedure is not called, and
+<SystemItem Class="Resource">XmNdirMask</SystemItem>, <SystemItem Class="Resource">XmNdirectory</SystemItem>, and <SystemItem Class="Resource">XmNpattern</SystemItem> are not
+changed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdirListItems</SystemItem></Term>
+<ListItem>
+<Para>Specifies the items in the directory list.
+<Function>XtGetValues</Function> for this resource returns the list items themselves,
+not a copy of the list items.
+The application must not free the returned items.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdirListItemCount</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of items in the directory list.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdirListLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label string of the directory list.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Directories</Literal>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdirMask</SystemItem></Term>
+<ListItem>
+<Para>Specifies the directory mask used
+in determining the files and directories to be displayed.
+The default value is determined by the
+<SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem>
+and depends on the initial values of <SystemItem Class="Resource">XmNdirMask</SystemItem>,
+<SystemItem Class="Resource">XmNdirectory</SystemItem>, and <SystemItem Class="Resource">XmNpattern</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdirSearchProc</SystemItem></Term>
+<ListItem>
+<Para>Specifies a directory search procedure to replace the default
+directory search procedure.
+FileSelectionBox's default directory search procedure fulfills the needs
+of most applications.
+Because it is impossible to cover the requirements of all applications,
+you can replace the default search procedure.
+</Para>
+<Para>The directory search procedure is called with two arguments:
+the FileSelectionBox widget and a pointer to an
+<StructName Role="typedef">XmFileSelectionBoxCallbackStruct</StructName> structure.
+The callback structure is generated by the
+<SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> and contains all information required to
+conduct a directory search, including the directory mask and a qualified
+base directory and search pattern.
+Once called, it is up to the search routine to generate a new list of
+directories and update the FileSelectionBox widget by using
+<Function>XtSetValues</Function>.
+</Para>
+<Para>The search procedure must set <SystemItem Class="Resource">XmNdirectoryValid</SystemItem> and
+<SystemItem Class="Resource">XmNlistUpdated</SystemItem>.
+If it generates a new list of directories, it must also set
+<SystemItem Class="Resource">XmNdirListItems</SystemItem> and <SystemItem Class="Resource">XmNdirListItemCount</SystemItem>.
+</Para>
+<Para>If the search procedure cannot search the specified directory, it must
+warn the user and set <SystemItem Class="Resource">XmNdirectoryValid</SystemItem> and <SystemItem Class="Resource">XmNlistUpdated</SystemItem>
+to False, unless it prompts and subsequently obtains a valid directory.
+If the directory is valid but is the same as the current
+<SystemItem Class="Resource">XmNdirectory</SystemItem>, the search procedure must set
+<SystemItem Class="Resource">XmNdirectoryValid</SystemItem> to True, but it may elect not to generate a new
+list of directories.
+In this case, it must set <SystemItem Class="Resource">XmNlistUpdated</SystemItem> to False.
+</Para>
+<Para>If the search procedure generates a new list of directories, it must set
+<SystemItem Class="Resource">XmNdirListItems</SystemItem> to the new list of directories and
+<SystemItem Class="Resource">XmNdirListItemCount</SystemItem> to the number of items in the list.
+If there are no directories, it sets <SystemItem Class="Resource">XmNdirListItems</SystemItem> to NULL and
+<SystemItem Class="Resource">XmNdirListItemCount</SystemItem> to 0 (zero).
+In either case, it must set <SystemItem Class="Resource">XmNdirectoryValid</SystemItem> and
+<SystemItem Class="Resource">XmNlistUpdated</SystemItem> to True.
+</Para>
+<Para>The search procedure ordinarily should not change the callback structure.
+But if the original directory is not valid, the search procedure may
+obtain a new directory from the user.
+In this case, it should set the <Symbol Role="Variable">dir</Symbol> member of the callback structure
+to the new directory,
+call the <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> with the
+callback struct as the input argument, and copy the qualified data
+returned by the <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> into the callback struct.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdirSpec</SystemItem></Term>
+<ListItem>
+<Para>Specifies the full file path specification.
+This is the <SystemItem Class="Resource">XmNtextString</SystemItem> resource in SelectionBox, renamed for
+FileSelectionBox.
+The default value is determined by the FileSelectionBox after conducting
+the initial directory and file search.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdirTextLabelString</SystemItem></Term>
+<ListItem>
+<Para>Uses the specified <StructName Role="typedef">XmString</StructName> as the label above the TextField
+directory. The resource takes effect when the <SystemItem Class="Resource">XmNpathMode</SystemItem>
+resource has a value of <SystemItem Class="Constant">XmPATH_MODE_RELATIVE</SystemItem>. It is ignored
+when the <SystemItem Class="Resource">XmNpathMode</SystemItem> resource has a value of <SystemItem Class="Constant">XmPATH_MODE_FULL</SystemItem>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfileFilterStyle</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether or not the "hidden" files (those whose names begin
+with &period; (period) in POSIX systems) will be listed in the file and
+directory
+scrolling lists (where the default directory search procedure is used).
+The possible values are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmFILTER_NONE</SystemItem></Term>
+<ListItem>
+<Para>Does not filter hidden files.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmFILTER_HIDDEN_FILES</SystemItem></Term>
+<ListItem>
+<Para>Restricts the list of possible file names, such as those beginning
+with &period; (period).
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfileListItems</SystemItem></Term>
+<ListItem>
+<Para>Specifies the items in the file list.
+This is the <SystemItem Class="Resource">XmNlistItems</SystemItem> resource in SelectionBox, renamed for
+FileSelectionBox.
+<Function>XtGetValues</Function> for this resource returns the list items themselves,
+not a copy of the list items.
+The application must not free the returned items.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfileListItemCount</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of items in the file list.
+This is the <SystemItem Class="Resource">XmNlistItemCount</SystemItem> resource in SelectionBox, renamed for
+FileSelectionBox.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfileListLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label string of the file list.
+This is the <SystemItem Class="Resource">XmNlistLabelString</SystemItem> resource in SelectionBox, renamed
+for FileSelectionBox.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Files</Literal>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfileSearchProc</SystemItem></Term>
+<ListItem>
+<Para>Specifies a file search procedure to replace the default file search
+procedure.
+FileSelectionBox's default file search procedure fulfills the needs of
+most applications.
+Because it is impossible to cover the requirements of all applications,
+you can replace the default search procedure.
+</Para>
+<Para>The file search procedure is called with two arguments:
+the FileSelectionBox widget and a pointer to an
+<StructName Role="typedef">XmFileSelectionBoxCallbackStruct</StructName> structure.
+The callback structure is generated by the
+<SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> (and possibly modified by the
+<SystemItem Class="Resource">XmNdirSearchProc</SystemItem>).
+It contains all information required to conduct a file search, including
+the directory mask and a qualified base directory and search pattern.
+Once this procedure is called,
+it is up to the search routine to generate a new list of
+files and update the FileSelectionBox widget by using <Function>XtSetValues</Function>.
+</Para>
+<Para>The search procedure must set <SystemItem Class="Resource">XmNlistUpdated</SystemItem>.
+If it generates a new list of files, it must also set
+<SystemItem Class="Resource">XmNfileListItems</SystemItem> and <SystemItem Class="Resource">XmNfileListItemCount</SystemItem>.
+</Para>
+<Para>It is recommended that the search procedure always generate a new list of
+files.
+If the <Symbol Role="Variable">mask</Symbol> member of the callback structure is the same as the
+<Symbol Role="Variable">mask</Symbol> member of the callback struct in the preceding call to the
+search procedure, the procedure may elect not to generate a new list of
+files.
+In this case it must set <SystemItem Class="Resource">XmNlistUpdated</SystemItem> to False.
+</Para>
+<Para>If the search procedure generates a new list of files, it must set
+<SystemItem Class="Resource">XmNfileListItems</SystemItem> to the new list of files and
+<SystemItem Class="Resource">XmNfileListItemCount</SystemItem> to the number of items in the list.
+If there are no files, it sets <SystemItem Class="Resource">XmNfileListItems</SystemItem> to NULL and
+<SystemItem Class="Resource">XmNfileListItemCount</SystemItem> to 0 (zero).
+In either case it must set <SystemItem Class="Resource">XmNlistUpdated</SystemItem> to True.
+</Para>
+<Para>In constructing the list of files, the search procedure should include
+only files of the types specified by the widget's <SystemItem Class="Resource">XmNfileTypeMask</SystemItem>.
+</Para>
+<Para>Setting <SystemItem Class="Resource">XmNdirSpec</SystemItem> is optional, but recommended.
+Set this attribute to the full file specification of the directory
+searched.
+The directory specification is displayed below the directory and file
+lists.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfileTypeMask</SystemItem></Term>
+<ListItem>
+<Para>Specifies the type of files listed in the file list.
+The possible values are
+<!--no-op:  .rS--></Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmFILE_REGULAR</SystemItem></Term>
+<ListItem>
+<Para>Restricts the file list to contain only regular
+files.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmFILE_DIRECTORY</SystemItem></Term>
+<ListItem>
+<Para>Restricts the file list to contain only
+directories.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmFILE_ANY_TYPE</SystemItem></Term>
+<ListItem>
+<Para>Allows the list to contain all file types
+including directories.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfilterLabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label string for the text entry field for the directory
+mask.
+The default for this resource depends on the locale.
+In the C locale the default is <Literal>Filter</Literal>.
+</Para>
+<para>
+Now that some default localized label strings are provided through
+message catalogs for the children of composite widgets, the
+<systemitem class="resource">labelString</systemitem> resources
+cannot be set on the child through default resource files.
+Instead, the resource provided at the parent level must be used.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlistUpdated</SystemItem></Term>
+<ListItem>
+<Para>Specifies an attribute that is set only by the directory and file search
+procedures.
+This resource is set to True if the
+search procedure updated the directory or file list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnoMatchString</SystemItem></Term>
+<ListItem>
+<Para>Specifies a string to be displayed in the file list if the list of files
+is empty.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpattern</SystemItem></Term>
+<ListItem>
+<Para>Specifies the search pattern used in combination with <SystemItem Class="Resource">XmNdirectory</SystemItem>
+in determining the files and directories to be displayed.
+The default value is determined by <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem>
+and depends on the initial values of <SystemItem Class="Resource">XmNdirMask</SystemItem>,
+<SystemItem Class="Resource">XmNdirectory</SystemItem>, and <SystemItem Class="Resource">XmNpattern</SystemItem>.
+If the default is NULL or empty, a pattern that matches all files is
+used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpathMode</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether or not an additional text field will be used to
+display and edit the filter. The possible values are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPATH_MODE_FULL</SystemItem></Term>
+<ListItem>
+<Para>Specifies that no additional text field will be used to display
+the filter. There will just be a single text field to display
+<SystemItem Class="Resource">XmNdirMask</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPATH_MODE_RELATIVE</SystemItem></Term>
+<ListItem>
+<Para>Specifies that there will be two text field displays, one to display
+the <SystemItem Class="Resource">XmNdirectory</SystemItem> and one to display the <SystemItem Class="Resource">XmNpattern</SystemItem>. In
+this instance, the <SystemItem Class="Resource">XmNfilterLabelString</SystemItem> resource applies to the
+text field for
+<SystemItem Class="Resource">XmNpattern</SystemItem> and <SystemItem Class="Resource">XmNdirTextLabelString</SystemItem> applies to the text
+field for <SystemItem Class="Resource">XmNdirectory</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem></Term>
+<ListItem>
+<Para>Specifies a search data qualification procedure to replace the default
+data qualification procedure.
+FileSelectionBox's default data qualification procedure fulfills the
+needs of most applications.
+Because it is impossible to cover the requirements of all applications,
+you can replace the default procedure.
+</Para>
+<Para>The data qualification procedure is called to generate a qualified
+directory mask, base directory, and search pattern for use by the
+directory and file search procedures.
+It is called with three arguments:
+the FileSelectionBox widget and pointers to two
+<StructName Role="typedef">XmFileSelectionBoxCallbackStruct</StructName> structures.
+The first callback structure contains the input data.
+The second callback structure contains the output data, to be filled in by
+the data qualification procedure.
+</Para>
+<Para>If the input <Symbol Role="Variable">dir</Symbol> and <Symbol Role="Variable">pattern</Symbol> members are not NULL, the
+procedure must copy them to the corresponding members of the output
+callback structure.
+</Para>
+<Para>If the input <Symbol Role="Variable">dir</Symbol> is NULL, the procedure constructs the
+output <Symbol Role="Variable">dir</Symbol> as follows:
+If the input <Symbol Role="Variable">mask</Symbol> member is NULL, the procedure uses the
+widget's <SystemItem Class="Resource">XmNdirectory</SystemItem> as the output <Symbol Role="Variable">dir</Symbol>; otherwise, it
+extracts the output <Symbol Role="Variable">dir</Symbol> from the input <Symbol Role="Variable">mask</Symbol>.
+If the resulting output <Symbol Role="Variable">dir</Symbol> is empty, the procedure uses
+the current working directory instead.
+</Para>
+<Para>If the input <Symbol Role="Variable">pattern</Symbol> is NULL, the procedure constructs
+the output <Symbol Role="Variable">pattern</Symbol> as follows:
+If the input <Symbol Role="Variable">mask</Symbol> member is NULL, the procedure uses the
+widget's <SystemItem Class="Resource">XmNpattern</SystemItem> as the output <Symbol Role="Variable">pattern</Symbol>; otherwise, it
+extracts the output <Symbol Role="Variable">pattern</Symbol> from the input <Symbol Role="Variable">mask</Symbol>.
+If the resulting output <Symbol Role="Variable">pattern</Symbol> is empty, the procedure
+uses a pattern that matches all files instead.
+</Para>
+<Para>The data qualification procedure constructs the output <Symbol Role="Variable">mask</Symbol> from
+the output <Symbol Role="Variable">dir</Symbol> and <Symbol Role="Variable">pattern</Symbol>.
+The procedure must ensure that the output <Symbol Role="Variable">dir</Symbol>, <Symbol Role="Variable">pattern</Symbol>, and
+<Symbol Role="Variable">mask</Symbol> are fully qualified.
+</Para>
+<Para>If the input <Symbol Role="Variable">value</Symbol> member is not NULL, the procedure must copy it
+to the output <Symbol Role="Variable">value</Symbol> member; otherwise, the procedure must copy the
+widget's <SystemItem Class="Resource">XmNdirSpec</SystemItem> to the output <Symbol Role="Variable">value</Symbol>.
+</Para>
+<Para>The data qualification procedure must calculate the lengths of the
+output <Symbol Role="Variable">value</Symbol>, <Symbol Role="Variable">mask</Symbol>, <Symbol Role="Variable">dir</Symbol>, and <Symbol Role="Variable">pattern</Symbol> members and
+must fill in the corresponding length members of the output callback
+struct.
+</Para>
+<Para>The data qualification procedure must copy the input <Symbol Role="Variable">reason</Symbol> and
+<Symbol Role="Variable">event</Symbol> members to the corresponding output members.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The values of the <SystemItem Class="Resource">XmNdirSearchProc</SystemItem> and <SystemItem Class="Resource">XmNfileSearchProc</SystemItem>
+are procedure pointers of type <StructName Role="typedef">XmSearchProc</StructName>, defined as
+follows:
+</Para>
+<Synopsis>void (* XmSearchProc) (<Symbol Role="Variable">w, search_data</Symbol>)
+        Widget <Symbol Role="Variable">w</Symbol>;
+        XtPointer <Symbol Role="Variable">search_data</Symbol>;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">w</Symbol></Term>
+<ListItem>
+<Para>The FileSelectionBox widget
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">search_data</Symbol></Term>
+<ListItem>
+<Para>Pointer to an <StructName Role="typedef">XmFileSelectionBoxCallbackStruct</StructName> containing
+information for conducting a search
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The value of the <SystemItem Class="Resource">XmNqualifySearchDataProc</SystemItem> resource
+is a procedure pointer of type <StructName Role="typedef">XmQualifyProc</StructName>, defined
+as follows:
+</Para>
+<Synopsis>void (* XmQualifyProc) (<Symbol Role="Variable">w, input_data, output_data</Symbol>)
+        Widget <Symbol Role="Variable">w</Symbol>;
+        XtPointer <Symbol Role="Variable">input_data</Symbol>;
+        XtPointer <Symbol Role="Variable">output_data</Symbol>;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">w</Symbol></Term>
+<ListItem>
+<Para>The FileSelectionBox widget
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">input_data</Symbol></Term>
+<ListItem>
+<Para>Pointer to an <StructName Role="typedef">XmFileSelectionBoxCallbackStruct</StructName> containing
+input data to be qualified
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">output_data</Symbol></Term>
+<ListItem>
+<Para>Pointer to an <StructName Role="typedef">XmFileSelectionBoxCallbackStruct</StructName> containing
+output data to be filled in by the qualification procedure
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>FileSelectionBox inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmSelectionBox Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNapplyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNapplyLabelString</Entry>
+<Entry>XmCApplyLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelLabelString</Entry>
+<Entry>XmCCancelLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNchildPlacement</Entry>
+<Entry>XmCChildPlacement</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmPLACE_ABOVE_SELECTION</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogType</Entry>
+<Entry>XmCDialogType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmDIALOG_FILE_SELECTION</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpLabelString</Entry>
+<Entry>XmCHelpLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistItemCount</Entry>
+<Entry>XmCItemCount</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistItems</Entry>
+<Entry>XmCItems</Entry>
+<Entry>XmStringTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistLabelString</Entry>
+<Entry>XmCListLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistVisibleItemCount</Entry>
+<Entry>XmCVisibleItemCount</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminimizeButtons</Entry>
+<Entry>XmCMinimizeButtons</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmustMatch</Entry>
+<Entry>XmCMustMatch</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoMatchCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNokCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNokLabelString</Entry>
+<Entry>XmCOkLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectionLabelString</Entry>
+<Entry>XmCSelectionLabelString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextAccelerators</Entry>
+<Entry>XmCTextAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>default</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNtextColumns</Entry>
+<Entry>XmCColumns</Entry>
+<Entry>short</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextString</Entry>
+<Entry>XmCTextString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmBulletinBoard Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNallowOverlap</Entry>
+<Entry>XmCAllowOverlap</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNautoUnmanage</Entry>
+<Entry>XmCAutoUnmanage</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonFontList</Entry>
+<Entry>XmCButtonFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonRenderTable</Entry>
+<Entry>XmCButtonRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>Cancel button</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>OK button</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultPosition</Entry>
+<Entry>XmCDefaultPosition</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogStyle</Entry>
+<Entry>XmCDialogStyle</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogTitle</Entry>
+<Entry>XmCDialogTitle</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfocusCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelFontList</Entry>
+<Entry>XmCLabelFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelRenderTable</Entry>
+<Entry>XmCLabelRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>10</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoResize</Entry>
+<Entry>XmCNoResize</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizePolicy</Entry>
+<Entry>XmCResizePolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmRESIZE_ANY</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowType</Entry>
+<Entry>XmCShadowType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmSHADOW_OUT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextFontList</Entry>
+<Entry>XmCTextFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextRenderTable</Entry>
+<Entry>XmCTextRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextTranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNunmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to each callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">* event</Symbol>;
+        XmString <Symbol Role="Variable">value</Symbol>;
+        int <Symbol Role="Variable">length</Symbol>;
+        XmString <Symbol Role="Variable">mask</Symbol>;
+        int <Symbol Role="Variable">mask_length</Symbol>;
+        XmString <Symbol Role="Variable">dir</Symbol>;
+        int <Symbol Role="Variable">dir_length</Symbol>;
+        XmString <Symbol Role="Variable">pattern</Symbol>;
+        int <Symbol Role="Variable">pattern_length</Symbol>;
+} XmFileSelectionBoxCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value</Symbol></Term>
+<ListItem>
+<Para>Specifies the current value of <SystemItem Class="Resource">XmNdirSpec</SystemItem>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">length</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of bytes in <Symbol Role="Variable">value</Symbol>
+This member is obsolete and exists for compatibility with
+earlier releases.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">mask</Symbol></Term>
+<ListItem>
+<Para>Specifies the current value of <SystemItem Class="Resource">XmNdirMask</SystemItem>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">mask_length</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of bytes in <Symbol Role="Variable">mask</Symbol>
+This member is obsolete and exists for compatibility with
+earlier releases.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">dir</Symbol></Term>
+<ListItem>
+<Para>Specifies the current base directory
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">dir_length</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of bytes in <Symbol Role="Variable">dir</Symbol>
+This member is obsolete and exists for compatibility with
+earlier releases.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">pattern</Symbol></Term>
+<ListItem>
+<Para>Specifies the current search pattern
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">pattern_length</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of bytes in <Symbol Role="Variable">pattern</Symbol>
+This member is obsolete and exists for compatibility with
+earlier releases.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmFileSelectionBox -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para>XmFileSelectionBox inherits translations from XmSelectionBox.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Accelerators</Title>
+<Para>The <SystemItem Class="Resource">XmNtextAccelerators</SystemItem> from XmSelectionBox are added to the
+selection and directory mask (filter) Text descendants of
+XmFileSelectionBox.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The XmFileSelectionBox action routines are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>SelectionBoxUpOrDown(<Symbol Role="Define">Previous|Next|First|Last</Symbol>)</Action>:</Term>
+<ListItem>
+<Para>If neither the selection text nor the directory mask (filter) text has
+the focus, this action does nothing.
+</Para>
+<Para>If the selection text has the focus, the term <Symbol Role="Variable">list</Symbol> in the
+following description refers to the file list, and the term <Emphasis>text</Emphasis>
+refers to the selection text.
+If the directory mask text has the focus, <Symbol Role="Variable">list</Symbol> refers to the
+directory list, and <Emphasis>text</Emphasis> refers to the directory mask text.
+</Para>
+<Para>When called with an argument of <Literal>Previous</Literal>, or 0 (zero) for
+compatibility, this action
+selects the previous item in the
+list and replaces the text with that item.
+</Para>
+<Para>When called with an argument of <Literal>Next</Literal>, or 1 for
+compatibility, this action
+selects the next item in the
+list and replaces the text with that item.
+</Para>
+<Para>When called with an argument of <Literal>First</Literal>, or 2 for
+compatibility, this action
+selects the first item in the
+list and replaces the text with that item.
+</Para>
+<Para>When called with an argument of <Literal>Last</Literal>, or 3 for
+compatibility, this action
+selects the last item in the
+list and replaces the text with that item.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>SelectionBoxRestore()</Action>:</Term>
+<ListItem>
+<Para>If neither the selection text nor the directory mask (filter) text has
+the focus, this action does nothing.
+</Para>
+<Para>If the selection text has the focus, this action
+replaces the selection text with
+the selected item in the file list.
+If no item in the file list is selected, it clears the selection text.
+</Para>
+<Para>If the directory mask text has the focus, this action
+replaces the directory mask
+text with a new directory mask constructed from the <SystemItem Class="Resource">XmNdirectory</SystemItem>
+and <SystemItem Class="Resource">XmNpattern</SystemItem> resources.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>The FileSelectionBox widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para>Calls the activate callbacks for the cancel button if it is sensitive.
+If no cancel button exists and the parent of the FileSelectionBox is a manager,
+it passes the event to the parent.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>&ensp;in&ensp;Selection&ensp;Text:</Term>
+<ListItem>
+<Para>Calls the selection text widget's <SystemItem Class="Resource">XmNactivateCallback</SystemItem> callbacks.
+If <SystemItem Class="Resource">XmNmustMatch</SystemItem> is True and the selection text does not match an
+item in the file list, it calls the <SystemItem Class="Resource">XmNnoMatchCallback</SystemItem>
+callbacks with
+reason <SystemItem Class="Constant">XmCR_NO_MATCH</SystemItem>.
+Otherwise, it calls the <SystemItem Class="Resource">XmNokCallback</SystemItem> callbacks with reason
+<SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>&ensp;in&ensp;Directory&ensp;Mask&ensp;Text:</Term>
+<ListItem>
+<Para>Calls the directory mask text widget's <SystemItem Class="Resource">XmNactivateCallback</SystemItem>
+callbacks,
+initiates a directory and file search, and
+calls the <SystemItem Class="Resource">XmNapplyCallback</SystemItem> callbacks with reason <SystemItem Class="Constant">XmCR_APPLY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn1Down</KeySym><Literal>(2+)</Literal>&ensp;or&ensp;<KeySym>Key</KeySym><KeySym>osfActivate</KeySym>&ensp;in&ensp;Directory&ensp;List:</Term>
+<ListItem>
+<Para>Calls the directory list widget's <SystemItem Class="Resource">XmNdefaultActionCallback</SystemItem>
+callbacks,
+initiates a directory and file search,
+and calls the <SystemItem Class="Resource">XmNapplyCallback</SystemItem> callbacks with reason <SystemItem Class="Constant">XmCR_APPLY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn1Down</KeySym><Literal>(2+)</Literal>&ensp;or&ensp;<KeySym>Key</KeySym><KeySym>osfActivate</KeySym>&ensp;in&ensp;File&ensp;List:</Term>
+<ListItem>
+<Para>Calls the file list widget's <SystemItem Class="Resource">XmNdefaultActionCallback</SystemItem>
+callbacks and
+calls the <SystemItem Class="Resource">XmNokCallback</SystemItem> callbacks with reason <SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfSelect</KeySym>&ensp;in&ensp;Directory&ensp;List:</Term>
+<ListItem>
+<Para>Generates a new directory mask, using the selected list item as the
+directory and the pattern extracted from the current directory mask text
+as the search pattern.
+If the search pattern is empty, it uses a pattern that matches all files in
+the directory.
+Replaces the directory mask text with the new directory mask.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfSelect</KeySym>&ensp;in&ensp;File&ensp;List:</Term>
+<ListItem>
+<Para>Replaces the selection text with the selected list item.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym> in File List:</Term>
+<ListItem>
+<Para>Drags the content of one or more selected list items using the drag
+and drop facility. If <Literal>&lt;Btn2Down</Literal> is pressed on an unselected item,
+drags only that item, excluding any other selected items.
+</Para>
+<Para>This action sets the <SystemItem Class="Resource">XmNconvertProc</SystemItem> of the DragContext to a
+function that calls the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures of the file
+list, possibly multiple times, for the <Property>_MOTIF_DROP</Property> selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym> in Directory List:</Term>
+<ListItem>
+<Para>Drags the content of one or more selected list items using the drag
+and drop facility. If <Literal>&lt;Btn2Down</Literal> is pressed on an unselected item,
+it drags only that item, excluding any other selected items.
+</Para>
+<Para>This action sets the <SystemItem Class="Resource">XmNconvertProc</SystemItem> of the DragContext to a
+function that calls the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures of the
+directory list, possibly multiple times, for the <Property>_MOTIF_DROP</Property>
+selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Apply&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>Initiates a directory and file search.
+Calls the <SystemItem Class="Resource">XmNapplyCallback</SystemItem> callbacks with reason <SystemItem Class="Constant">XmCR_APPLY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>OK&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNmustMatch</SystemItem> is True and the selection text does not match an
+item in the file list, calls the <SystemItem Class="Resource">XmNnoMatchCallback</SystemItem> callbacks with
+reason <SystemItem Class="Constant">XmCR_NO_MATCH</SystemItem>.
+Otherwise, calls the <SystemItem Class="Resource">XmNokCallback</SystemItem> callbacks with reason
+<SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Cancel&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>Calls the <SystemItem Class="Resource">XmNcancelCallback</SystemItem> callbacks with reason
+<SystemItem Class="Constant">XmCR_CANCEL</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Help&ensp;Button&ensp;Activated</KeySym>:</Term>
+<ListItem>
+<Para>Calls the <SystemItem Class="Resource">XmNhelpCallback</SystemItem> callbacks with reason <SystemItem Class="Constant">XmCR_HELP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para>If no button, list widget, or text widget has the keyboard focus,
+if <SystemItem Class="Resource">XmNmustMatch</SystemItem> is True and the selection text does not match an
+item in the file list, it calls the <SystemItem Class="Resource">XmNnoMatchCallback</SystemItem> callbacks with
+reason <SystemItem Class="Constant">XmCR_NO_MATCH</SystemItem>.
+Otherwise, it calls the <SystemItem Class="Resource">XmNokCallback</SystemItem> callbacks with reason
+<SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;,
+&cdeman.Constraint;,
+&cdeman.Core;,
+&cdeman.XmBulletinBoard;,
+&cdeman.XmCreateFileSelectionBox;,
+&cdeman.XmCreateFileSelectionDialog;,
+&cdeman.XmFileSelectionBoxGetChild;,
+&cdeman.XmFileSelectionDoSearch;,
+&cdeman.XmManager;, and
+&cdeman.XmSelectionBox;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

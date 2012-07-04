@@ -28,7 +28,11 @@
 #include "OutputCharStream.h"
 #include "CodingSystem.h"
 #include "macros.h"
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 #include <stdio.h>
 
 #ifdef SP_NAMESPACE
@@ -144,7 +148,11 @@ void IosOutputCharStream::flush()
     encoder_->output(buf_, ptr_ - buf_, byteStream_);
     ptr_ = buf_;
   }
+#if defined(linux)
+  byteStream_->pubsync();
+#else
   byteStream_->sync();
+#endif
 }
 
 void IosOutputCharStream::flushBuf(Char c)

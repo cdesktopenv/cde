@@ -45,12 +45,13 @@ XCOMM ##########################################################################
 #define HASH #
 #define STAR *
 
+LOGFILE="installCDE.$$.log"
 
 REVISION="$(echo "$Revision: /main/20 $" | awk '{print $2}')"
 
 Log()
 {
-  echo "$1" | tee -a /tmp/installCDE.log
+  echo "$1" | tee -a $LOGFILE
 }
 
 MakeTarball()
@@ -154,11 +155,11 @@ DoFilesetScript()
     then
 	Log "Executing $PLATFORM specific $FilesetName customize script"
 	$POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName -e 2>&1 | \
-				tee -a /tmp/installCDE.log
+				tee -a $LOGFILE
     elif [ -x $POST_INSTALL_DIR/$ScriptName ]
     then
 	Log "Executing $FilesetName customize script" 
-	$POST_INSTALL_DIR/$ScriptName -e 2>&1 | tee -a /tmp/installCDE.log
+	$POST_INSTALL_DIR/$ScriptName -e 2>&1 | tee -a $LOGFILE
     fi
   fi
 }
@@ -204,7 +205,7 @@ CleanDaemons()
       lssrc -s inetd >/dev/null 2>&1
       if [ $? = "0" ]
       then
-        stopsrc -s inetd >>/tmp/installCDE.log 2>&1
+        stopsrc -s inetd >>$LOGFILE 2>&1
       fi
     else    
       ps -ef | grep $i | grep -v grep >/tmp/tmppsout
@@ -229,7 +230,7 @@ RestartInetd()
     /usr/sbin/inetd -s
   elif [ "$PLATFORM" = "aix" ]
   then
-    startsrc -s inetd >>/tmp/installCDE.log 2>&1
+    startsrc -s inetd >>$LOGFILE 2>&1
   elif [ "$PLATFORM" = "dec" ]
   then
     /usr/sbin/inetd
@@ -410,56 +411,56 @@ XCOMM
 
 USAGE()
 {
-echo "Usage: $(basename $0) {-s <source>|-z <package>} [options]"
-echo ""
-echo "\t-s <source>\t\t\tthe top of the build tree"
-echo "\t-z <package>\t\tthe desktop install package"
-echo ""
-echo "\tOptions:"
-echo ""
-echo "\t[-t <package_destination>]\tif specified create an"
-echo "\t\t\t\t\tinstall package and store it in the"
-echo "\t\t\t\t\tdestination."
-echo "\t[-pI <actual install location>]\twhere" CDE_INSTALLATION_TOP "will be linked to."
-echo "\t[-pC <actual config location>]\twhere" CDE_CONFIGURATION_TOP "will be linked to."
-echo "\t[-pV <actual var location>]\twhere" CDE_LOGFILES_TOP "will be linked to."
-echo ""
-echo "\t[-a <udb directory>]\t\talternate place to get the"
-echo "\t\t\t\t\tudb files from."
-echo "\t[-f <filesets>]\t\t\tspecify filesets to be loaded."
-echo "\t\t\t\t\tThe list should be double-quoted,"
-echo "\t\t\t\t\tspace-separated, with no .udb"
-echo "\t\t\t\t\textensions."
-echo ""
-echo "\t[-clean]\t\t\tremove the temporary, configuration, and"
-echo "\t\t\t\t\tinstallation directory"
-echo "\t[-cleanTwo]\t\t\tremove the temporary and installation "
-echo "\t\t\t\t\tdirectory, but NOT the configuration directory"
-echo "\t[-cleanEtc]\t\t\tremove the configuration directory, but "
-echo "\t\t\t\t\NOT the temporary and installation directories"
-echo "\t[-prog]\t\t\t\tload only the development environment"
-echo "\t[-runtime]\t\t\tload only the runtime environment"
-echo "\t[-relative]\t\t\trun the relative-located config scripts"
-echo "\t[-pack]\t\t\t\tcreate a packing list"
-echo "\t[-pseudo]\t\t\tdo not configure desktop when installing"
-echo "\t[-nocompress]\t\t\tdo not compress tarball when creating package"
-echo "\t[-lang LANG]\t\t\tspecify LANG to load appropriate localized"
-echo "\t\t\t\t\tfilesets"
-echo "\t[-LeaveLinks]\t\t\t\tdo not delete the links after cleaning"
-echo ""
-echo "\t[-LinkStepOnly]\t\t\tset up the -pI, -pC, and -pV links"
-echo "\t\t\t\t\tthen exit"
-echo "\t[-DontRunScripts]\t\tstop after installation"
-echo "\t[-RunScriptsOnly]\t\tonly execute the scripts"
-echo "\t[-configureOnly]\t\tonly configure the desktop"
-echo ""
-echo "\tExamples:"
-echo ""
-echo "\tinstallCDE -s /x/cde_hp700_90"
-echo "\tinstallCDE -s /x/cde_aix_32 -f \"CDE_MIN CDE-SHLIBS\""
-echo "\tinstallCDE -s /x/cde_sun_52 -pI /bigdisk/opt/dt -clean"
-echo "\tinstallCDE -s /x/cde_sun_52 -pI /dtinstall -clean\\"
-echo "\t\t-pseudo -t /dtpackages -nocompress"
+echo -e "Usage: $(basename $0) {-s <source>|-z <package>} [options]"
+echo -e ""
+echo -e "\t-s <source>\t\t\tthe top of the build tree"
+echo -e "\t-z <package>\t\tthe desktop install package"
+echo -e ""
+echo -e "\tOptions:"
+echo -e ""
+echo -e "\t[-t <package_destination>]\tif specified create an"
+echo -e "\t\t\t\t\tinstall package and store it in the"
+echo -e "\t\t\t\t\tdestination."
+echo -e "\t[-pI <actual install location>]\twhere" CDE_INSTALLATION_TOP "will be linked to."
+echo -e "\t[-pC <actual config location>]\twhere" CDE_CONFIGURATION_TOP "will be linked to."
+echo -e "\t[-pV <actual var location>]\twhere" CDE_LOGFILES_TOP "will be linked to."
+echo -e ""
+echo -e "\t[-a <udb directory>]\t\talternate place to get the"
+echo -e "\t\t\t\t\tudb files from."
+echo -e "\t[-f <filesets>]\t\t\tspecify filesets to be loaded."
+echo -e "\t\t\t\t\tThe list should be double-quoted,"
+echo -e "\t\t\t\t\tspace-separated, with no .udb"
+echo -e "\t\t\t\t\textensions."
+echo -e ""
+echo -e "\t[-clean]\t\t\tremove the temporary, configuration, and"
+echo -e "\t\t\t\t\tinstallation directory"
+echo -e "\t[-cleanTwo]\t\t\tremove the temporary and installation "
+echo -e "\t\t\t\t\tdirectory, but NOT the configuration directory"
+echo -e "\t[-cleanEtc]\t\t\tremove the configuration directory, but "
+echo -e "\t\t\t\t\NOT the temporary and installation directories"
+echo -e "\t[-prog]\t\t\t\tload only the development environment"
+echo -e "\t[-runtime]\t\t\tload only the runtime environment"
+echo -e "\t[-relative]\t\t\trun the relative-located config scripts"
+echo -e "\t[-pack]\t\t\t\tcreate a packing list"
+echo -e "\t[-pseudo]\t\t\tdo not configure desktop when installing"
+echo -e "\t[-nocompress]\t\t\tdo not compress tarball when creating package"
+echo -e "\t[-lang LANG]\t\t\tspecify LANG to load appropriate localized"
+echo -e "\t\t\t\t\tfilesets"
+echo -e "\t[-LeaveLinks]\t\t\t\tdo not delete the links after cleaning"
+echo -e ""
+echo -e "\t[-LinkStepOnly]\t\t\tset up the -pI, -pC, and -pV links"
+echo -e "\t\t\t\t\tthen exit"
+echo -e "\t[-DontRunScripts]\t\tstop after installation"
+echo -e "\t[-RunScriptsOnly]\t\tonly execute the scripts"
+echo -e "\t[-configureOnly]\t\tonly configure the desktop"
+echo -e ""
+echo -e "\tExamples:"
+echo -e ""
+echo -e "\tinstallCDE -s /x/cde_hp700_90"
+echo -e "\tinstallCDE -s /x/cde_aix_32 -f \"CDE_MIN CDE-SHLIBS\""
+echo -e "\tinstallCDE -s /x/cde_sun_52 -pI /bigdisk/opt/dt -clean"
+echo -e "\tinstallCDE -s /x/cde_sun_52 -pI /dtinstall -clean\\"
+echo -e "\t\t-pseudo -t /dtpackages -nocompress"
 }
 
 XCOMM
@@ -475,11 +476,16 @@ LoadFileSet()
     num="$1."
   fi
 
+XCOMM don't bother if the fileset doesn't exist
+  if [ ! -e $DATABASE_DIR/${2}.udb ]
+  then
+        return
+  fi
+
   Log "  $num installing database $2"
   Log "      - creating ${2}.lst file"
   $TOOL_DIR/udbToAny.ksh  -toLst -ReleaseStream $PLATFORM \
             $DATABASE_DIR/${2}.udb >  /tmp/${2}.lst
-
   Log "      - installing ... \c"
   $TOOL_DIR/mkProd -D / -S $BUILD_TREE /tmp/${2}.lst \
             2>/tmp/${2}.err 1>/tmp/${2}.good
@@ -492,7 +498,7 @@ LoadFileSet()
   if [ -s /tmp/${2}.missing ]
   then
     Log "      - missing files:"
-    cat /tmp/${2}.missing | tee -a /tmp/installCDE.log
+    cat /tmp/${2}.missing | tee -a $LOGFILE
   fi
 }
 
@@ -527,6 +533,10 @@ XCOMM
   then
     PLATFORM=dec
     PLATFORM_SCRIPT_DIR=dec
+  elif [ $BUILDSYSTEM = "Linux" ];
+  then
+    PLATFORM="linux"
+    PLATFORM_SCRIPT_DIR=""
   else			# Build system = HP
     PLATFORM=hp-ux
     PLATFORM_SCRIPT_DIR=hp
@@ -544,11 +554,9 @@ XCOMM
 
   if [ "$USER" != "root" ];
   then
-    USAGE
     echo ""
-    echo "You must be root to run this script"
+    echo "You should be root to run this script.  Continuing anyway."
     echo ""
-    exit 1
   fi
 
   if [ "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ]
@@ -587,7 +595,7 @@ XCOMM
   theLang=""
   CONFIGURE_ONLY="no"
 
-  rm -f /tmp/installCDE.log
+  rm -f $LOGFILE
 
   Log "Options specified..."
   while [ $# -ne 0 ]; do
@@ -960,5 +968,5 @@ XCOMM
 
   echo "Done."
   echo ""
-  echo "See /tmp/installCDE.log for a log of this install session."
+  echo "See $LOGFILE for a log of this install session."
   echo ""

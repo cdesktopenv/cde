@@ -33,7 +33,12 @@
 #include "Owner.h"
 #include "CodingSystem.h"
 
+#if defined(linux)
+#include <streambuf>
+using namespace std;
+#else
 class streambuf;
+#endif
 
 #ifdef SP_NAMESPACE
 namespace SP_NAMESPACE {

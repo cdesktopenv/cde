@@ -7,22 +7,35 @@ NSGMLSDIR = nsgmls
 #endif
 EXTRADIRS = util types localized tttypes $(NSGMLSDIR)
 
+XCOMM some of these cannot be built on linux yet.
+XCOMM dtksh dtinfo
+#if defined(LinuxArchitecture)
+DTKSHDIR = 
+DTINFODIR = 
+DTAPPBDIR = 
+#else
+DTKSHDIR = dtksh
+DTINFODIR = dtinfo
+DTAPPBDIR = dtappbuilder
+#endif
+
+
 SUBDIRS = dthelp dtmail dsdm dtpad dtfile dtwm dtlogin \
 	dtsession dthello dtstyle dtexec dtdbcache dticon dtterm \
 	dtcalc dtaction dtspcd \
-	dtscreen dtksh dtcm dtsearchpath \
-        dtappbuilder dtappintegrate dtprintegrate dtconfig \
+	dtscreen $(DTKSHDIR) dtcm dtsearchpath \
+        $(DTAPPBDIR) dtappintegrate dtprintegrate dtconfig \
         dtcreate dtprintinfo fontaliases dtdspmsg ttsnoop \
 	dtudcfonted dtudcexch dtimsstart dtdocbook dtpdm dtsr \
-	dtpdmd dtinfo $(EXTRADIRS)
+	dtpdmd $(DTINFODIR) $(EXTRADIRS)
 
 LINTSUBDIRS = dthelp dtmail dsdm dtpad dtfile dtlogin dtwm \
 	dtsession dthello dtstyle dtexec dtdbcache dticon dtterm \
 	dtcalc dtaction dtcreate \
-	dtscreen dtksh dtcm dtsearchpath \
-        dtappbuilder dtappintegrate dtprintegrate dtprintinfo dtdspmsg \
+	dtscreen $(DTKSHDIR) dtcm dtsearchpath \
+        $(DTAPPBDIR) dtappintegrate dtprintegrate dtprintinfo dtdspmsg \
 	dtudcfonted dtudcexch dtimsstart dtdocbook dtpdm dtsr \
-	dtpdmd dtinfo $(EXTRADIRS)
+	dtpdmd $(DTINFODIR) $(EXTRADIRS)
 
 
 MakeSubdirs($(SUBDIRS))

@@ -36,8 +36,10 @@
 #ifndef __DYNARRAY_H_
 #define __DYNARRAY_H_
 
+#if !defined(linux)
 #include <generic.h>
-#if defined(USL) || defined(__uxp__) || defined(__osf__) || defined(sun)
+#endif
+#if defined(USL) || defined(__uxp__) || defined(__osf__) || defined(sun) || defined(linux)
 #define _DELETE_ARRAY(sz) delete[]
 #else
 #define _DELETE_ARRAY(sz) delete[(sz)]

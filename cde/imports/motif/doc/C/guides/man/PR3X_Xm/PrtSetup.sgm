@@ -1,0 +1,155 @@
+<!-- $XConsortium: PrtSetup.sgm /main/9 1996/10/02 11:48:23 cdedoc $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<RefEntry Id="CDEMOT.XmPrintSetup">
+<RefMeta>
+<RefEntryTitle>XmPrintSetup</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><StructName Role="typedef">XmPrintSetup</StructName></RefName>
+<RefPurpose>
+setup and create a Print Shell widget
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Funcsynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Xm/Print.h>
+</FuncSynopsisInfo>
+<FuncDef>Widget <function>XmPrintSetup</function></funcDef>
+<paramDef>Widget <parameter>video_widget</parameter></paramdef>
+<paramDef>Screen <parameter>*print_screen</parameter></paramdef>
+<paramDef>String <parameter>print_shell_name</parameter></paramdef>
+<paramDef>ArgList <parameter>args</parameter></paramdef>
+<paramDef>Cardinal <parameter>num_args</parameter></paramdef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>A function that does the appropriate setting and creates a realized 
+<Symbol>XmPrintShell</Symbol> that it returns to the caller. This
+function hides the details of the <literal>Xt</literal> to set up a valid print shell
+heirarchy for the application. It is also meant
+to encourage consistency in the way applications root their print widget
+hierarchy.
+</para>
+<para>
+<symbol role="variable">print_screen</symbol> must belong to a Display connection that
+has already been initialized with <literal>Xt</literal>. 
+</para>
+<para>The <symbol role="variable">video_widget</symbol>
+is used to get at the application context, application name
+and class, and <literal>argc/argv</literal> stored on the
+<literal>applicationShell</literal> that roots this widget. If
+no <literal>applicationShell</literal> is found, <literal>NULL argv/argc</literal> are used.
+</para>
+<para><function>XmPrintSetup</function> then creates an unrealized <literal>ApplicationShell</literal>
+with the same name and class as the one given by the video
+display, on the print display and on the print screen specified.
+</para>
+<para>An <Symbol>XmPrintShell</Symbol>
+is then created as a child of this toplevel shell, using
+<function>XtCreatePopupShell</function>, with the name
+<symbol role="variable">print_shell_name</symbol>, and using the
+<symbol role="variable">args</symbol>
+provided. It then realizes and maps the print shell, using
+<Symbol>XtPopup</Symbol> with <Symbol>XtGrabNone</Symbol>.
+</para>
+<para>This way, application resource files and users can specify
+print specific attributes using the following syntax
+(if <literal>print_shell_name</literal> is "Print"):
+</para>
+<programlisting>
+Dtpad.Print*textFontList: somefont
+*Print*background:white
+*Print*highlightThickness:0
+</programlisting>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">video_widget</symbol></Term>
+<ListItem>
+<Para>A video widget to fetch app video data from.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">print_screen</symbol></Term>
+<ListItem>
+<Para>A print screen on the print display - specifies the screen onto which the new
+shell is created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">print_shell_name</symbol></Term>
+<ListItem>
+<Para>Specifies the name of the XmPrintShell created on the X Print server.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">args</symbol></Term>
+<ListItem>
+<Para>Specifies the argument list from which to get the resources for the XmPrintShell.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">num_args</symbol></Term>
+<ListItem>
+<Para>Specifies the number of arguments in the argument list.
+</Para>
+</ListItem>
+</VarListEntry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<para>The id the <Symbol>XmPrintShell</Symbol> widget created on the
+X Print Server connection, or NULL if an error has occured.
+</para>
+</refsect1>
+<refsect1>
+<title>ERRORS/WARNINGS</title>
+<para>None.
+</para>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<para>From the <Literal>OK</Literal> callback and the
+<literal>SetUp</literal> callback of the primary print dialog widget:
+</para>
+<programlisting>
+static void
+printOKCB(Widget, XtPointer call_data, XtPointer client_data)
+{
+  AppPrint *p = (AppPrint *) client_data;
+  DtPrintSetupCallbackStruct *pbs =
+                         (XmPrintCallbackStruct *) call_data;
+
+  /* connect if not already done.
+     the print dialog callback always provides valid
+             printer name, print display and screen
+             already initialized: XpInitContext called */
+ */
+  p->print_shell = XmPrintSetup (widget, pbs->print_screen,
+                                              "Print", NULL, 0);
+
+  ...
+}
+</programlisting>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.XmPrintShell;,
+&cdeman.XmRedisplayWidget;,
+&cdeman.XmPrintToFile;,
+&cdeman.XmPrintPopupPDM;
+</para>
+</refsect1>
+</refentry>

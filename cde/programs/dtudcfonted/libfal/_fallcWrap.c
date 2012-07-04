@@ -81,7 +81,11 @@ from the X Consortium.
 
 #include "_fallibint.h"
 #include "_fallcint.h"
+#if defined(linux)
+#include <locale.h>
+#else
 #include <X11/Xlocale.h>
+#endif
 #include <X11/Xos.h>
 #ifdef WIN32
 #undef close

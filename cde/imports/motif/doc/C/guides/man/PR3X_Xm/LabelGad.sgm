@@ -1,0 +1,1265 @@
+<!-- $XConsortium: LabelGad.sgm /main/9 1996/09/08 20:49:44 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN281.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmLabelGadget</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmLabelGadget</Classname></RefName>
+<RefPurpose>The LabelGadget widget class
+<IndexTerm>
+<Primary>XmLabelGadget</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>LabelGadget</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/LabelG.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>LabelGadget is an instantiable widget and is also used as a superclass for
+other button gadgets, such as PushButtonGadget and ToggleButtonGadget.
+</Para>
+<Para>LabelGadget can contain either text or a pixmap. LabelGadget text is a
+compound string.
+Refer to the <Emphasis>Motif Programmer's</Emphasis>
+Guide for more information on compound strings.
+The text can be multilingual,
+multiline, and/or multifont. When a LabelGadget is insensitive, its text is
+stippled, or the user-supplied insensitive pixmap is displayed.
+</Para>
+<Para>LabelGadget supports both accelerators and mnemonics primarily for use in
+LabelGadget subclass widgets that are contained in
+menus. Mnemonics are available in
+a menu system when the button is visible. Accelerators in a
+menu system are accessible even when the button is not visible.
+The LabelGadget displays the mnemonic by underlining the first matching
+character in the text string. The accelerator is displayed
+as a text string adjacent to the label text or pixmap, depending on
+the layout direction.
+</Para>
+<Para>LabelGadget consists of many margin fields surrounding the text or
+pixmap.
+These margin fields are resources that may
+be set by the user, but LabelGadget subclasses and Manager parents also
+modify some of these fields. They tend to modify the
+<SystemItem Class="Resource">XmNmarginLeft</SystemItem>, <SystemItem Class="Resource">XmNmarginRight</SystemItem>, <SystemItem Class="Resource">XmNmarginTop</SystemItem>, and
+<SystemItem Class="Resource">XmNmarginBottom</SystemItem> resources and leave the <SystemItem Class="Resource">XmNmarginWidth</SystemItem> and
+<SystemItem Class="Resource">XmNmarginHeight</SystemItem> resources as set by the application.
+</Para>
+<Para>LabelGadget takes into account <SystemItem Class="Resource">XmNshadowThickness</SystemItem> in determining
+its layout but does not draw the shadow.
+That is, if <SystemItem Class="Resource">XmNshadowThickness</SystemItem> is greater than 0 (zero), LabelGadget
+leaves space for the shadow, but the shadow does not appear.
+</Para>
+<Para>In a LabelGadget, <SystemItem Class="Resource">XmNtraversalOn</SystemItem> and <SystemItem Class="Resource">XmNhighlightOnEnter</SystemItem> are
+forced to False inside Popup menu panes, Pulldown menu panes, and
+OptionMenus.
+Otherwise these resources default to False.
+</Para>
+<Para>LabelGadget uses the
+<Symbol Role="Globalvar">XmQTmenuSystem</Symbol> and <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> traits, and
+holds the <Symbol Role="Globalvar">XmQTaccessTextual</Symbol>, <Symbol Role="Globalvar">XmQTcareParentVisual</Symbol>,
+<Symbol Role="Globalvar">XmQTmenuSavvy</Symbol>, and <Symbol Role="Globalvar">XmQTtransfer</Symbol> traits.
+</Para>
+<RefSect2>
+<Title>Data Transfer Behavior</Title>
+<Para>LabelGadget and it subclasses, except when used in a menu system,
+support dragging of the label contents from the LabelGadget.
+However, the label contents are draggable only if
+the <SystemItem Class="Resource">XmNenableUnselectableDrag</SystemItem> resource of <Classname>XmDisplay</Classname>
+is set to True.
+</Para>
+<Para>As a source of data, LabelGadget and its subclasses support the
+following targets and associated conversions of data to these targets:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">locale</Symbol></Term>
+<ListItem>
+<Para>If the <Symbol Role="Variable">locale</Symbol> target matches the widget's locale, the widget
+transfers <SystemItem Class="Resource">XmNlabelString</SystemItem> in the encoding of the locale.
+This target is supported only when <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmSTRING</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">COMPOUND_TEXT</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNlabelString</SystemItem> as type <Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+This target is supported only when <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmSTRING</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">PIXMAP</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNlabelPixmap</SystemItem> as type <Symbol Role="Define">DRAWABLE</Symbol>.
+This target is supported only when <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmPIXMAP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">STRING</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNlabelString</SystemItem> as type <Symbol Role="Define">STRING</Symbol>.
+This target is supported only when <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmSTRING</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TEXT</Symbol></Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNlabelString</SystemItem> is fully convertible to the encoding of the
+locale, the widget transfers <SystemItem Class="Resource">XmNlabelString</SystemItem> in the encoding of
+the locale.
+Otherwise, the widget transfers <SystemItem Class="Resource">XmNlabelString</SystemItem> as type
+<Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+This target is supported only when <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmSTRING</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_CLIPBOARD_TARGETS</Property></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets it
+supports for the <Symbol Role="Define">CLIPBOARD</Symbol> selection.
+When <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmSTRING</SystemItem>, these include the following
+targets:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><Property>_MOTIF_COMPOUND_STRING</Property>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Define">COMPOUND_TEXT</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para>The encoding of the locale, if <SystemItem Class="Resource">XmNlabelString</SystemItem> is fully convertible
+to the encoding of the locale
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Define">STRING</Symbol>, if <SystemItem Class="Resource">XmNlabelString</SystemItem> is fully convertible to
+<Symbol Role="Define">STRING</Symbol>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>When <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmPIXMAP</SystemItem>, the targets include
+<Symbol Role="Define">PIXMAP</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_COMPOUND_STRING</Property></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNlabelString</SystemItem> as a compound string in Byte
+Stream format.
+This target is supported only when <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmSTRING</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_EXPORT_TARGETS</Property></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets to be
+used as the value of the DragContext's <SystemItem Class="Resource">XmNexportTargets</SystemItem> in a
+drag-and-drop transfer.
+When <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmSTRING</SystemItem>, these include
+<Property>_MOTIF_COMPOUND_STRING</Property>, <Symbol Role="Define">COMPOUND_TEXT</Symbol>, the encoding of the
+locale, <Symbol Role="Define">STRING</Symbol>, <Symbol Role="Define">TEXT</Symbol>, <Symbol Role="Define">BACKGROUND</Symbol>, and
+<Symbol Role="Define">FOREGROUND</Symbol>.
+When <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmPIXMAP</SystemItem>, these include <Symbol Role="Define">PIXMAP</Symbol>,
+<Symbol Role="Define">BACKGROUND</Symbol>, and <Symbol Role="Define">FOREGROUND</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>As a source of data, LabelGadget also supports the following standard
+Motif targets:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Define">BACKGROUND</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the parent's <SystemItem Class="Resource">XmNbackground</SystemItem> as type
+<Symbol Role="Define">PIXEL</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">CLASS</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy that has a
+<Property>WM_CLASS</Property> property and transfers the contents as text in the
+current locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">CLIENT_WINDOW</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy and transfers
+its window as type <Symbol Role="Define">WINDOW</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">COLORMAP</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the parent's <SystemItem Class="Resource">XmNcolormap</SystemItem> as type
+<Symbol Role="Define">COLORMAP</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">FOREGROUND</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the parent's <SystemItem Class="Resource">XmNforeground</SystemItem> as type
+<Symbol Role="Define">PIXEL</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">NAME</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy that has a
+<Property>WM_NAME</Property> property and transfers the contents as text in the current
+locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TARGETS</Symbol></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets it
+supports.
+These include the standard targets in this list.
+When <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmSTRING</SystemItem>, these also include
+<Property>_MOTIF_COMPOUND_STRING</Property>, <Symbol Role="Define">COMPOUND_TEXT</Symbol>, the encoding of the
+locale, <Symbol Role="Define">STRING</Symbol>, and <Symbol Role="Define">TEXT</Symbol>.
+When <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmPIXMAP</SystemItem>, these also include
+<Symbol Role="Define">PIXMAP</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TIMESTAMP</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the timestamp used to acquire the selection as type
+<Symbol Role="Define">INTEGER</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_RENDER_TABLE</Property></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNrenderTable</SystemItem> if it exists, or else the
+default text render table, as type <Symbol Role="Define">STRING</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_ENCODING_REGISTRY</Property></Term>
+<ListItem>
+<Para>The widget transfers its encoding registry as type <Symbol Role="Define">STRING</Symbol>.
+The value is a list of NULL separated items in the
+form of tag encoding pairs.
+This target symbolizes the transfer target for the
+Motif Segment Encoding Registry.
+Widgets and applications can use this Registry to register
+text encoding formats for specified render table tags.
+Applications access this Registry by calling
+<Function>XmRegisterSegmentEncoding</Function> and <Function>XmMapSegmentEncoding</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>LabelGadget inherits behavior,
+resources, and traits from <Classname>Object</Classname>, <Classname>RectObj</Classname> and <Classname>XmGadget</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmLabelGadgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmLabelGadget</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file,
+remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in 0--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmLabelGadget Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerator</Entry>
+<Entry>XmCAccelerator</Entry>
+<Entry>String</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNacceleratorText</Entry>
+<Entry>XmCAcceleratorText</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNalignment</Entry>
+<Entry>XmCAlignment</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfontList</Entry>
+<Entry>XmCFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelInsensitivePixmap</Entry>
+<Entry>XmCLabelInsensitivePixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelPixmap</Entry>
+<Entry>XmCLabelPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelString</Entry>
+<Entry>XmCXmString</Entry>
+<Entry>XmString</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelType</Entry>
+<Entry>XmCLabelType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmSTRING</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginBottom</Entry>
+<Entry>XmCMarginBottom</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginLeft</Entry>
+<Entry>XmCMarginLeft</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginRight</Entry>
+<Entry>XmCMarginRight</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginTop</Entry>
+<Entry>XmCMarginTop</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmnemonic</Entry>
+<Entry>XmCMnemonic</Entry>
+<Entry>KeySym</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmnemonicCharSet</Entry>
+<Entry>XmCMnemonicCharSet</Entry>
+<Entry>String</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrecomputeSize</Entry>
+<Entry>XmCRecomputeSize</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrenderTable</Entry>
+<Entry>XmCRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNaccelerator</SystemItem></Term>
+<ListItem>
+<Para>Sets the accelerator on a button widget in a menu, which
+activates a visible or invisible, but managed, button from the keyboard.
+This resource is a string that describes a set of modifiers
+and the key that may be used to select the button.
+The format of this string
+is identical to that used by the translations manager, with the exception
+that only a single event may be specified and only <SystemItem Class="Constant">KeyPress</SystemItem> events are
+allowed.
+</Para>
+<Para>Accelerators for buttons are supported only for
+PushButtonGadgets and ToggleButtonGadgets in Pulldown and Popup menus.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNacceleratorText</SystemItem></Term>
+<ListItem>
+<Para>Specifies the text displayed
+for the accelerator.
+The text is displayed
+adjacent to the label string or pixmap. The direction of its layout depends on
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource of the widget.
+Accelerator text for buttons is displayed only for
+PushButtonGadgets and ToggleButtonGadgets in Pulldown and Popup Menus.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNalignment</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label alignment for text or pixmap.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmALIGNMENT_BEGINNING</SystemItem> (left alignment)</Term>
+<ListItem>
+<Para>Causes the left sides of
+the lines of text to be vertically aligned with the
+left edge of the gadget. For a pixmap, its left side is vertically
+aligned with the left edge of the gadget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmALIGNMENT_CENTER</SystemItem> (center alignment)</Term>
+<ListItem>
+<Para>Causes the centers of the
+lines of text to be vertically aligned in the center
+of the gadget. For a pixmap, its center is vertically aligned with the
+center of the gadget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmALIGNMENT_END</SystemItem> (right alignment)</Term>
+<ListItem>
+<Para>Causes the right sides of the
+lines of text to be vertically aligned with the
+right edge of the gadget. For a pixmap, its right side is
+vertically aligned with the right edge of the gadget.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The preceding descriptions for text are correct when
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem> is <SystemItem Class="Constant">XmLEFT_TO_RIGHT</SystemItem>. When that resource
+is <SystemItem Class="Constant">XmRIGHT_TO_LEFT</SystemItem>, the descriptions for
+<SystemItem Class="Constant">XmALIGNMENT_BEGINNING</SystemItem> and <SystemItem Class="Constant">XmALIGNMENT_END</SystemItem> are switched.
+</Para>
+<Para>If the parent is a RowColumn whose <SystemItem Class="Resource">XmNisAligned</SystemItem> resource is True,
+<SystemItem Class="Resource">XmNalignment</SystemItem> is forced to the same value as the RowColumn's
+<SystemItem Class="Resource">XmNentryAlignment</SystemItem> if the RowColumn's <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is
+<SystemItem Class="Constant">XmWORK_AREA</SystemItem> or if the gadget is a subclass of <Classname>XmLabelGadget</Classname>.
+Otherwise, the default is <SystemItem Class="Constant">XmALIGNMENT_CENTER</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font of the text used in the gadget. <SystemItem Class="Resource">XmNfontList</SystemItem>
+is obsolete and exists for compatibility with previous releases. You
+should now use <SystemItem Class="Resource">XmNrenderTable</SystemItem> instead of <SystemItem Class="Resource">XmNfontList</SystemItem>. If
+both are specified, the render table will take precedence. If
+<SystemItem Class="Resource">XmNfontList</SystemItem> is NULL at initialization, the parent hierarchy of
+the widget is searched for an ancestor that is a subclass of the
+<Classname>XmBulletinBoard</Classname>, <Classname>VendorShell</Classname>, or <Classname>XmMenuShell</Classname> widget
+class. If such an ancestor is found, the font list is initialized to
+the <SystemItem Class="Resource">XmNbuttonFontList</SystemItem> (for button gadget subclasses) or
+<SystemItem Class="Resource">XmNlabelFontList</SystemItem> of the ancestor widget. If no such ancestor is
+found, the default is implementation dependent. Refer to
+&cdeman.XmFontList; for more information on the creation and
+structure of a font list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelInsensitivePixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies a pixmap used as the button face if <SystemItem Class="Resource">XmNlabelType</SystemItem> is
+<SystemItem Class="Constant">XmPIXMAP</SystemItem> and the button is insensitive.
+The default value, <SystemItem Class="Constant">XmUNSPECIFIED_PIXMAP</SystemItem>, displays an empty label.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelPixmap</SystemItem></Term>
+<ListItem>
+<Para>Specifies the pixmap when <SystemItem Class="Resource">XmNlabelType</SystemItem> is
+<SystemItem Class="Constant">XmPIXMAP</SystemItem>.
+The default value, <SystemItem Class="Constant">XmUNSPECIFIED_PIXMAP</SystemItem>, displays an empty label.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelString</SystemItem></Term>
+<ListItem>
+<Para>Specifies the compound string when <SystemItem Class="Resource">XmNlabelType</SystemItem> is <SystemItem Class="Constant">XmSTRING</SystemItem>.
+If the value of this resource is NULL, it is initialized to name of the
+gadget converted to a compound string.
+Refer to &cdeman.XmString;
+for more information on the
+creation and the structure of compound strings.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelType</SystemItem></Term>
+<ListItem>
+<Para>Specifies the label type.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSTRING</SystemItem></Term>
+<ListItem>
+<Para>Text displays <SystemItem Class="Resource">XmNlabelString</SystemItem>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPIXMAP</SystemItem></Term>
+<ListItem>
+<Para>Icon data in pixmap displays <SystemItem Class="Resource">XmNlabelPixmap</SystemItem> or
+<SystemItem Class="Resource">XmNlabelInsensitivePixmap</SystemItem>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginBottom</SystemItem></Term>
+<ListItem>
+<Para>Specifies the amount of spacing between the bottom of the label text
+and the top of the bottom margin specified by <SystemItem Class="Resource">XmNmarginHeight</SystemItem>.
+This may be modified by LabelGadget's subclasses.
+For example, CascadeButtonGadget may increase this field to make room
+for the cascade pixmap.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies an equal amount of spacing above the margin
+defined by <SystemItem Class="Resource">XmNmarginTop</SystemItem> and below the margin defined by
+<SystemItem Class="Resource">XmNmarginBottom</SystemItem>. <SystemItem Class="Resource">XmNmarginHeight</SystemItem> specifies the amount
+of spacing between the top edge of the margin set by <SystemItem Class="Resource">XmNmarginTop</SystemItem>
+and the bottom edge of the top shadow, and the amount of spacing between
+the bottom edge of the margin specified by <SystemItem Class="Resource">XmNmarginBottom</SystemItem> and the
+top edge of the bottom shadow.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginLeft</SystemItem></Term>
+<ListItem>
+<Para>Specifies the amount of spacing
+between the left edge of the label text and the right side of the left
+margin (specified by <SystemItem Class="Resource">XmNmarginWidth</SystemItem>).
+This may be modified by LabelGadget's subclasses.
+For example, ToggleButtonGadget may increase this field to make room for
+the toggle indicator and for spacing between the indicator and label.
+Whether this actually applies to the left or right side of the label
+depends on the value of
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginRight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the amount of spacing
+between the right edge of the label text and the left side of the right
+margin (specified by <SystemItem Class="Resource">XmNmarginWidth</SystemItem>).
+This may be modified by LabelGadget's subclasses.
+For example, CascadeButtonGadget may increase this field to make room
+for the cascade pixmap.
+Whether this actually applies to the left or right side of the label
+depends on the value of
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginTop</SystemItem></Term>
+<ListItem>
+<Para>Specifies the amount of spacing between the top of the label text and
+the bottom of the top margin specified by <SystemItem Class="Resource">XmNmarginHeight</SystemItem>.
+This may be modified by LabelGadget's subclasses.
+For example, CascadeButtonGadget may increase this field to make room
+for the cascade pixmap.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies an equal amount of spacing to the left of the margin defined
+by <SystemItem Class="Resource">XmNmarginLeft</SystemItem> and to the right of the margin defined by
+<SystemItem Class="Resource">XmNmarginRight</SystemItem>. <SystemItem Class="Resource">XmNmarginWidth</SystemItem> specifies the amount
+of spacing between the left edge of the margin set by <SystemItem Class="Resource">XmNmarginLeft</SystemItem>
+and the right edge of the left shadow, and the amount of spacing between
+the right edge of the margin specified by <SystemItem Class="Resource">XmNmarginRight</SystemItem> and the
+left edge of the right shadow.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmnemonic</SystemItem></Term>
+<ListItem>
+<Para>Provides the user with an alternate means of activating a button.
+A button in a MenuBar, a Popup menu pane, or a Pulldown
+menu pane can have a mnemonic.
+</Para>
+<Para>This resource contains a keysym as listed in the X11 keysym table.
+The first character in the label string that exactly matches
+the mnemonic in the character set specified in
+<SystemItem Class="Resource">XmNmnemonicCharSet</SystemItem>
+is underlined when the button is displayed.
+</Para>
+<Para>When a mnemonic has been specified, the user activates the button by
+pressing the mnemonic key while the button is visible.
+If the button is a CascadeButtonGadget in a MenuBar and the MenuBar does
+not have the focus, the user must use the <Literal>MAlt</Literal> modifier while
+pressing the mnemonic.
+The user can activate the button by pressing either the shifted or the
+unshifted mnemonic key.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmnemonicCharSet</SystemItem></Term>
+<ListItem>
+<Para>Specifies the character set of the mnemonic for the label.
+The default is <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrecomputeSize</SystemItem></Term>
+<ListItem>
+<Para>Specifies a Boolean value that indicates whether the gadget
+shrinks or expands to accommodate its contents (label string or
+pixmap) as a result of an <Function>XtSetValues</Function> resource value that
+would change the size of the gadget. If True, the gadget shrinks
+or expands to exactly fit the label string or pixmap.
+If False, the gadget never attempts to change size on its own.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table associated with the <Literal>labelString</Literal>. If
+this value is NULL at initialization, Label searches its parent
+hierarchy for an ancestor that holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such an ancestor is
+found, Label initializes <SystemItem Class="Resource">XmNrenderTable</SystemItem> to the
+<SystemItem Class="Constant">XmLABEL_RENDER_TABLE</SystemItem> value of the ancestor widget. Similarly, button
+subclasses of Label initialize <SystemItem Class="Resource">XmNrenderTable</SystemItem> to the
+<SystemItem Class="Constant">XmBUTTON_RENDER_TABLE</SystemItem> value of the ancestor widget. (Note that all
+current subclasses of Label are button subclasses.) If no such
+ancestor is found, the default is implementation dependent. If a font
+list and a render table are both specified, the render table will take
+precedence. Refer to &cdeman.XmRenderTable; for more information on
+the creation and structure of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNstringDirection</SystemItem></Term>
+<ListItem>
+<Para>Is a synthetic resource for setting <SystemItem Class="Resource">XmNlayoutDirection</SystemItem>.
+The values for this resource are <SystemItem Class="Constant">XmSTRING_DIRECTION_L_TO_R</SystemItem> and
+<SystemItem Class="Constant">XmSTRING_DIRECTION_R_TO_L</SystemItem>. Refer to the
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource description. The
+<SystemItem Class="Resource">XmNstringDirection</SystemItem> resource is obsoleted by
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem>, but is kept here for backward compatibility.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>LabelGadget inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmGadget Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightOnEnter</Entry>
+<Entry>XmCHighlightOnEnter</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightThickness</Entry>
+<Entry>XmCHighlightThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmNCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmNONE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>RectObj Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Object Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmLabelGadget -->
+</RefSect2>
+<RefSect2>
+<Title>Behavior</Title>
+<Para>XmLabelGadget includes behavior from XmGadget.
+Additional XmLabelGadget behavior is described in the following list:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym>:</Term>
+<ListItem>
+<Para>Drags the contents of a LabelGadget, identified when <Literal>BTransfer</Literal> is
+pressed.
+This action is undefined for LabelGadgets used in a menu system.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para>In a Popup or Pulldown MenuPane, unposts all menus in the menu hierarchy
+and, when the shell's keyboard focus policy is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>,
+restores keyboard focus to the widget that had the focus before the
+menu system was entered.
+Calls the callbacks for <SystemItem Class="Resource">XmNhelpCallback</SystemItem> if any exist.
+If there are no help
+callbacks for this widget, this action calls the help callbacks
+for the nearest ancestor that has them.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para>In a MenuBar, disarms the CascadeButton and the menu and, when the
+shell's keyboard focus policy is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, restores keyboard
+focus to the widget that had the focus before the menu was entered.
+</Para>
+<Para>In a toplevel Pulldown MenuPane from a MenuBar, unposts the menu,
+disarms the MenuBar CascadeButton and the MenuBar, and, when the shell's
+keyboard focus policy is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, restores keyboard focus to
+the widget that had the focus before the MenuBar was entered.
+In other Pulldown MenuPanes, unposts the menu.
+</Para>
+<Para>In a Popup MenuPane, unposts the menu and, when the shell's keyboard
+focus policy is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, restores keyboard focus to the widget
+from which the menu was posted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para>If the current menu item has a submenu and is in a MenuBar, then this
+action posts the submenu, disarms the current menu item, and arms
+the submenu's first traversable menu item.
+</Para>
+<Para>If the current menu item is in a MenuPane, then this action disarms the
+current menu item and arms the item below it. This action wraps within the
+MenuPane. The direction of the wrapping depends on the
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para>When the current menu item is in a MenuBar, then this action disarms the
+current item and arms the MenuBar item to the left.
+This action wraps within the MenuBar.
+</Para>
+<Para>In MenuPanes, if the current menu item is not at the left edge of a MenuPane,
+this action disarms the current item and arms the item to its left.
+If the current menu item is at the left edge of a submenu attached to a
+MenuBar item, then this action unposts the submenu and traverses to the
+MenuBar item to the left, wrapping if necessary. If that MenuBar item
+has a submenu, it posts the submenu and arms the first traversable
+item in the submenu.
+If the current menu item is at the left edge of a submenu not directly
+attached to a MenuBar item, then this action unposts the current submenu only.
+</Para>
+<Para>In Popup or Torn-off MenuPanes, when the current menu item is at the
+left edge, this action wraps within the MenuPane. If the current menu
+item is at the left edge of the MenuPane and not in the top row, this
+action wraps to the rightmost menu item in the row above. If the current
+menu item is in the upper, leftmost corner, this action wraps
+to the tear-off control, if present, or else it wraps to the bottom,
+rightmost menu item in the MenuPane.
+The preceding description applies when the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> horizontal
+direction is <SystemItem Class="Constant">XmLEFT_TO_RIGHT</SystemItem>. If the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> horizontal
+direction is <SystemItem Class="Constant">XmRIGHT_TO_LEFT</SystemItem>, then the following applies.
+</Para>
+<Para>If the current menu item is in a MenuBar, then this action disarms the
+current item and arms the MenuBar item to the left.
+This action wraps within the MenuBar.
+</Para>
+<Para>In MenuPanes, if the current menu item is a CascadeButton, then this
+action posts its associated submenu.
+If the current menu item is not a CascadeButton and is not at the left
+edge of a MenuPane, this action disarms the current item and arms the
+item to its left, wrapping if necessary.
+If the current menu item is not a CascadeButton and is at the left edge of a
+submenu that is a descendent of a MenuBar, then this action unposts all
+submenus and traverses to the MenuBar item to the left.
+If that MenuBar item has a submenu, it posts the submenu and arms
+the submenu's first traversable item.
+</Para>
+<Para>In Popup or Torn-off menus, if the current menu item is not a
+CascadeButton and is at the left edge of a row (except the
+bottom row), this action wraps to the rightmost menu item in the
+row below. If the current menu item is not a CascadeButton and
+is in the bottom, leftmost corner of a Popup or Pulldown MenuPane, this
+action wraps to the tear-off control, if present, or else it wraps to
+the top, rightmost menu item of the MenuPane.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para>If the current menu item is in a MenuBar, then this action disarms the
+current item and arms the MenuBar item to the right.
+This action wraps within the MenuBar.
+</Para>
+<Para>In MenuPanes, if the current menu item is a CascadeButton, then this
+action posts its associated submenu.
+If the current menu item is not a CascadeButton and is not at the right
+edge of a MenuPane, this action disarms the current item and arms the
+item to its right, wrapping if necessary.
+If the current menu item is not a CascadeButton and is at the right edge of a
+submenu that is a descendent of a MenuBar, then this action unposts all
+submenus and traverses to the MenuBar item to the right.
+If that MenuBar item has a submenu, it posts the submenu and arms
+the submenu's first traversable item.
+</Para>
+<Para>In Popup or Torn-off menus, if the current menu item is not a
+CascadeButton and is at the right edge of a row (except the
+bottom row), this action wraps to the leftmost menu item in the
+row below. If the current menu item is not a CascadeButton and
+is in the bottom, rightmost corner of a Popup or Pulldown MenuPane, this
+action wraps to the tear-off control, if present, or else it wraps to
+the top, leftmost menu item of the MenuPane.
+The preceding description applies when the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> horizontal
+direction is <SystemItem Class="Constant">XmLEFT_TO_RIGHT</SystemItem>. If the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> horizontal
+direction is <SystemItem Class="Constant">XmRIGHT_TO_LEFT</SystemItem>, then the following applies.
+</Para>
+<Para>When the current menu item is in a MenuBar, then this action disarms the
+current item and arms the MenuBar item to the right.
+This action wraps within the MenuBar.
+</Para>
+<Para>In MenuPanes, if the current menu item is not at the right edge of a MenuPane,
+this action disarms the current item and arms the item to its right.
+If the current menu item is at the right edge of a submenu attached to a
+MenuBar item, then this action unposts the submenu and traverses to the
+MenuBar item to the right, wrapping if necessary. If that MenuBar item
+has a submenu, it posts the submenu and arms the first traversable
+item in the submenu.
+If the current menu item is at the right edge of a submenu not directly
+attached to a MenuBar item, then this action unposts the current submenu only.
+</Para>
+<Para>In Popup or Torn-off MenuPanes, when the current menu item is at the
+right edge, this action wraps within the MenuPane. If the current menu
+item is at the right edge of the MenuPane and not in the top row, this
+action wraps to the leftmost menu item in the row above. If the current
+menu item is in the upper, rightmost corner, this action wraps
+to the tear-off control, if present, or else it wraps to the bottom,
+leftmost menu item in the MenuPane.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para>When the current menu item is in a MenuPane, then
+this action disarms the current menu item and arms the item above it.
+This action wraps within the MenuPane. The direction of the wrapping
+depends on the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Object;, &cdeman.RectObj;,
+&cdeman.XmCreateLabelGadget;,
+&cdeman.XmFontListCreate;,
+&cdeman.XmStringCreate;,
+&cdeman.XmStringCreateLtoR;,
+and &cdeman.XmGadget;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

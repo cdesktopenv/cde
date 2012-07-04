@@ -421,7 +421,7 @@ ab_show_window(
 		    /* Window is iconified, unmap it so we can change its
 		     * initial state and remap it as Opened
 		     */
-		    ui_win_show(widget, False, NULL);
+		    ui_win_show(widget, False, XtGrabNone);
             	}
 		else /* Window is already Open */
 		{
@@ -551,7 +551,7 @@ popdown_winCB(
     XtPointer   call_data
 )
 {
-    ui_win_show(shell, False, NULL);
+    ui_win_show(shell, False, XtGrabNone);
 }
 
 static void
@@ -1324,7 +1324,7 @@ exit_mboxCB(
 )
 {
     DTB_MODAL_ANSWER     op = (DTB_MODAL_ANSWER) client_data;
-    DTB_MODAL_ANSWER     *answerp = (DTB_MODAL_ANSWER) NULL;
+    DTB_MODAL_ANSWER     *answerp = NULL;
 
     XtVaGetValues(widget, XmNuserData, &answerp, NULL);
 

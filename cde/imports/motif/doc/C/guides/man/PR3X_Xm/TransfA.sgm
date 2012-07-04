@@ -1,0 +1,171 @@
+<!-- $XConsortium: TransfA.sgm /main/8 1996/08/30 16:20:20 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN556.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmTransferDone</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmTransferDone</Function></RefName>
+<RefPurpose>A toolkit function that completes a data transfer
+<IndexTerm>
+<Primary>XmTransferDone</Primary>
+</IndexTerm><IndexTerm>
+<Primary>toolkit functions</Primary>
+<Secondary>XmTransferDone</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="not-ANSI">
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+<?sml-space \n(PDu></FuncSynopsisInfo>
+<FuncDef>void <Function>XmTransferDone</Function></FuncDef>
+<!--<ParamDef><Replaceable>transfer_id, status</Replaceable></ParamDef>-->
+<ParamDef>XtPointer <Parameter>transfer_id</Parameter></ParamDef>
+<ParamDef>XmTransferStatus <Parameter>status</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmTransferDone</Function> completes an already-initiated data transfer
+operation.
+An application can call this routine from an
+<SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedure or any function called as a
+result, including the selection procedures called as a result of calls
+to <Function>XmTransferValue</Function>.
+</Para>
+<Para>The caller of <Function>XmTransferDone</Function> supplies an identifier for the
+transfer operation and an indication of the completion status.
+<Function>XmTransferDone</Function> causes any remaining transfers for the operation to
+be discarded.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>transfer_id</Literal></Term>
+<ListItem>
+<Para>Specifies a unique indentifier for the data transfer operation.
+The value must be the same as the value of the <Literal>transfer_id</Literal> member
+of the <StructName Role="typedef">XmDestinationCallbackStruct</StructName> passed to the
+<SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">status</Symbol></Term>
+<ListItem>
+<Para>Specifies the completion status of the data transfer.
+Following are the possible values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTRANSFER_DONE_SUCCEED</SystemItem></Term>
+<ListItem>
+<Para>The transfer was completed successfully.
+This status has the following additional effects:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>For a move operation, the selection owner receives a request to convert
+the selection to the <Symbol Role="Define">DELETE</Symbol> target.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If a <Symbol Role="Define">TRANSACT</Symbol> operation is in progress, the owner receives a
+request to commit the transaction.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If a <Symbol Role="Define">PERSIST</Symbol> or <Property>_MOTIF_SNAPSHOT</Property> operation is in progress,
+the owner receives a notification that the operation is finished.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The widget class destination procedure is not called.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTRANSFER_DONE_FAIL</SystemItem></Term>
+<ListItem>
+<Para>The transfer was completed unsuccessfully.
+This status has the following additional effects:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>For a move operation, the selection owner does not receive a request to
+convert the selection to the <Symbol Role="Define">DELETE</Symbol> target.
+</Para>
+</ListItem>
+<ListItem>
+<Para>For a drag and drop operation, the DropTransfer's
+<SystemItem Class="Resource">XmNtransferStatus</SystemItem> is set to <SystemItem Class="Constant">XmTRANSFER_FAILURE</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If a <Symbol Role="Define">TRANSACT</Symbol> operation is in progress, the owner receives a
+request to abort the transaction.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If a <Symbol Role="Define">PERSIST</Symbol> or <Property>_MOTIF_SNAPSHOT</Property> operation is in
+progress, the owner receives a notification that the operation
+is finished.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The widget class destination procedure is not called.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTRANSFER_DONE_CONTINUE</SystemItem></Term>
+<ListItem>
+<Para>This status has the same effect as <SystemItem Class="Constant">XmTRANSFER_DONE_SUCCEED</SystemItem>, except
+that if a <Symbol Role="Define">PERSIST</Symbol> or <Property>_MOTIF_SNAPSHOT</Property> operation is
+in progress, the
+owner does not receive a notification that the operation is finished.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTRANSFER_DONE_DEFAULT</SystemItem></Term>
+<ListItem>
+<Para>The widget class destination procedure is called.
+Further effects depend on the actions of that procedure.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmTransferSendRequest;,
+&cdeman.XmTransferStartRequest;,
+&cdeman.XmTransferStartRequest;,
+and
+&cdeman.XmTransferValue;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

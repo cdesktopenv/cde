@@ -1,0 +1,817 @@
+<!-- $XConsortium: VirtBind.sgm /main/12 1996/09/08 21:43:15 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN31.rsml.1">
+<RefMeta>
+<RefEntryTitle>VirtualBindings</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>VirtualBindings</Function></RefName>
+<RefPurpose>Bindings for virtual mouse and key events
+<IndexTerm>
+<Primary>VirtualBindings</Primary>
+</IndexTerm><IndexTerm>
+<Primary>default bindings</Primary>
+<Secondary>VirtualBindings</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The Motif reference pages describe key translations in terms of
+<Symbol Role="Variable">virtual bindings</Symbol>, based on those described in the &MotifStyleGd;.
+<!--Mouse events are described in terms of &bsol;*Vvirtual buttons&bsol;*O, and key
+events are described in terms of &bsol;*Vvirtual keys&bsol;*O.
+The term &bsol;*Vvirtual&bsol;*O implies that the events as described do not
+necessarily correspond to a fixed set of X Window System events.
+Instead, virtual buttons and keys are linked to actual events by means
+of virtual bindings.
+.SS "Virtual Modifiers"
+Both virtual buttons and virtual keys may contain &bsol;*Vvirtual
+modifiers&bsol;*O.
+Each virtual modifier corresponds to one or more actual modifiers.
+The following table lists the bindings of virtual modifiers to actual
+modifiers in Motif.
+.PP
+.TS
+center, allbox, tab(@);
+cb s
+lb lb.
+Virtual Modifier Bindings
+Virtual Modifier@Actual Modifiers
+_
+MAlt@&lt;Mod1>
+MCopy@&lt;Ctrl>
+MCtrl@&lt;Ctrl>
+MLink@&lt;Ctrl> &lt;Shift>
+MMove@&lt;Shift>
+MShift@&lt;Shift>
+.TE
+.PP
+&bsol;*LMod1&bsol;*O refers to the first modifier key.
+Motif requires that it correspond to either
+.kY Alt
+or
+.K, Meta &period;
+.PP
+The virtual modifier &bsol;*LMAny&bsol;*O indicates that any modifier can be used.
+If &bsol;*LMAny&bsol;*O is not specified and the user presses an actual modifier
+that is not explicitly included in a translation, that modifier may
+prevent the translation from being matched.
+.SS "Virtual Buttons"
+Each virtual button corresponds to one or more actual button event
+descriptions.
+Each button event description contains a button name and possibly
+modifiers.
+These button event descriptions, appropriately ordered and possibly
+further modified, are used in translation tables.
+The following table lists the bindings of virtual buttons to actual
+button event descriptions in Motif:
+.PP
+.TS
+center, allbox, tab(@);
+cb s
+lb lb.
+Virtual Button Bindings
+Virtual Button@Actual Button Events
+_
+BCustom@Btn3
+BTransfer@Btn2
+BExtend@&lt;Shift>Btn1
+BMenu@Btn3
+BSelect@Btn1
+BToggle@&lt;Ctrl>Btn1
+.TE
+.SS "Virtual Keys"
+.zA "feature, 5750, R2.0, Added multiple binding"
+Each virtual key corresponds to one or more actual key event
+descriptions, and may have multiple physical keys bound to it.
+.zZ "feature, 5750, R2.0, Added multiple binding"
+Each key event description contains a keysym name and possibly
+modifiers.
+These key event descriptions, appropriately ordered and possibly further
+modified,
+.ne 15
+are used in translation tables.
+The following table lists the bindings of virtual keys to
+actual key event descriptions in Motif.
+.PP
+.ne 40
+.TS
+center, allbox, tab(@);
+cb s
+lb | lb.
+Virtual Key Bindings
+Virtual Key@Actual Key Events
+_
+KActivate@T{
+&lt;Key>&lt;Return>
+.nL
+&lt;Ctrl>&lt;Key>&lt;Return>
+.nL
+&lt;Key>osfActivate
+T}
+KAddMode@&lt;Key>osfAddMode
+KBackSpace@&lt;Key>osfBackSpace
+KBackTab@&lt;Shift>&lt;Key>&lt;Tab>
+KBeginData@&lt;Ctrl>&lt;Key>osfBeginLine
+KBeginLine@&lt;Key>osfBeginLine
+KCancel@&lt;Key>osfCancel
+KClear@&lt;Key>osfClear
+KCopy@T{
+&lt;Key>osfCopy
+.nL
+&lt;Ctrl>&lt;Key>osfInsert
+T}
+KCut@T{
+&lt;Key>osfCut
+.nL
+&lt;Shift>&lt;Key>osfDelete
+T}
+KDelete@&lt;Key>osfDelete
+KDeselectAll@&lt;Ctrl>&lt;Key>backslash
+KDown@&lt;Key>osfDown
+KEndData@&lt;Ctrl>&lt;Key>osfEndLine
+KEndLine@&lt;Key>osfEndLine
+KEnter@&lt;Key>&lt;Return>
+KEscape@&lt;Key>&lt;Escape>
+KExtend@T{
+&lt;Ctrl> &lt;Shift>&lt;Key>space
+.nL
+&lt;Shift>&lt;Key>osfSelect
+T}
+KHelp@&lt;Key>osfHelp
+KInsert@&lt;Key>osfInsert
+KLeft@&lt;Key>osfLeft
+.TE
+.ne 40
+.TS
+center, allbox, tab(@);
+cb s
+lb | lb.
+Virtual Key Bindings
+Virtual Key@Actual Key Events
+_
+KMenu@&lt;Key>osfMenu
+KMenuBar@&lt;Key>osfMenuBar
+KNextField@T{
+&lt;Key>&lt;Tab>
+.nL
+&lt;Ctrl>&lt;Key>&lt;Tab>
+T}
+KNextMenu@T{
+&lt;Ctrl>&lt;Key>osfDown
+.nL
+&lt;Ctrl>&lt;Key>osfRight
+T}
+KPageDown@&lt;Key>osfPageDown
+KPageLeft@T{
+&lt;Ctrl>&lt;Key>osfPageUp
+.nL
+&lt;Key>osfPageLeft
+T}
+KPageRight@T{
+&lt;Ctrl>&lt;Key>osfPageDown
+.nL
+&lt;Key>osfPageRight
+T}
+KPageUp@&lt;Key>osfPageUp
+KPaste@T{
+&lt;Key>osfPaste
+.nL
+&lt;Shift>&lt;Key>osfInsert
+T}
+KPrevField@T{
+&lt;Shift>&lt;Key>&lt;Tab>
+.nL
+&lt;Ctrl> &lt;Shift>&lt;Key>&lt;Tab>
+T}
+KPrevMenu@T{
+&lt;Ctrl>&lt;Key>osfUp
+.nL
+&lt;Ctrl>&lt;Key>osfLeft
+T}
+KPrimaryCopy@T{
+&lt;Ctrl>&lt;Key>osfPrimaryPaste
+.nl
+Mod1&lt;Key>osfCopy
+.nL
+Mod1 &lt;Ctrl>&lt;Key>osfInsert
+T}
+KPrimaryCut@T{
+Mod1&lt;Key>osfPrimaryPaste
+.nL
+Mod1&lt;Key>osfCut
+.nL
+Mod1 &lt;Shift>&lt;Key>osfDelete
+T}
+KPrimaryPaste@&lt;Key>osfPrimaryPaste
+KQuickCopy@&lt;Ctrl>&lt;Key>osfQuickPaste
+KQuickCut@Mod1&lt;Key>osfQuickPaste
+KQuickExtend@&lt;Shift>&lt;Key>osfQuickPaste
+KQuickPaste@&lt;Key>osfQuickPaste
+KReselect@&lt;Ctrl> &lt;Shift>&lt;Key>osfSelect
+KRestore@&lt;Ctrl> &lt;Shift>&lt;Key>osfInsert
+KRight@&lt;Key>osfRight
+KSelect@T{
+&lt;Key>space
+.nL
+&lt;Ctrl>&lt;Key>space
+.nL
+&lt;Key>osfSelect
+T}
+KSelectAll@&lt;Ctrl>&lt;Key>slash
+KSpace@&lt;Key>space
+KTab@&lt;Key>&lt;Tab>
+KUndo@T{
+&lt;Key>osfUndo
+.nL
+Mod1&lt;Key>osfBackSpace
+T}
+KUp@&lt;Key>osfUp
+KAny@&lt;Key>
+.TE
+--></Para>
+<RefSect2>
+<Title>Bindings for osf Keysyms</Title>
+<Para>Keysym strings that begin with <KeySym>osf</KeySym> are not part of the X server's
+keyboard mapping.
+Instead, these keysyms are produced on the client side at run time.
+They are interpreted by the routine <Function>XmTranslateKey</Function>, and
+are used by the translation manager when the server delivers an actual
+key event.
+For each application, a mapping is maintained between <KeySym>osf</KeySym> keysyms and
+keysyms that correspond to actual keys.
+This mapping is based on information obtained at application startup
+from one of the following sources, listed in order of precedence:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The <SystemItem Class="Resource">XmNdefaultVirtualBindings</SystemItem> resource from Display.
+</Para>
+</ListItem>
+<ListItem>
+<Para>A property on the root window, which can be set by <Command>mwm</Command> on startup,
+or by the <Command>xmbind</Command> client, or on prior startup of a Motif
+application.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The file <filename>.motifbind</filename> in the user's home directory.
+</Para>
+</ListItem>
+<ListItem>
+<Para>A set of bindings based on the vendor string and optionally the vendor
+release of the X server.
+Motif searches for these bindings in the following steps:
+</Para>
+<OrderedList>
+<ListItem>
+<Para>If the file <filename>xmbind.alias</filename> exists in the user's home directory,
+Motif searches this file for a pathname associated with the vendor
+string or with the vendor string and vendor release.
+If it finds such a pathname and if that file exists, Motif loads the
+bindings contained in that file.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If it has found no bindings, Motif next looks for the file
+<filename>xmbind.alias</filename> in the directory specified by the environment
+variable <SystemItem Class="Constant">XMBINDDIR</SystemItem>, if <SystemItem Class="Constant">XMBINDDIR</SystemItem> is set, or in the directory
+<Filename>/usr/lib/Xm/bindings</Filename> if <SystemItem Class="Constant">XMBINDDIR</SystemItem> is not set.
+If this file exists Motif searches it for a pathname associated with the
+vendor string or with the vendor string and vendor release.
+If it finds such a pathname and if that file exists, Motif loads the
+bindings contained in that file.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If it still has found no bindings, Motif loads a set of hard-coded
+fallback bindings.
+</Para>
+</ListItem>
+</OrderedList>
+</ListItem>
+</ItemizedList>
+<Para>The <filename>xmbind.alias</filename> file contains zero or more lines of the following form:
+</Para>
+<ProgramListing>"<Symbol Role="Variable">vendor_string</Symbol>[ <Symbol Role="Variable">vendor_release</Symbol>]"    <Symbol Role="Variable">bindings_file</Symbol>
+</ProgramListing>
+<Para>where <Symbol Role="Variable">vendor_string</Symbol> is the X server vendor name as returned by the
+X client <Command>xdpyinfo</Command> or the Xlib function <Function>XServerVendor</Function>, and
+must appear in double quotes.
+If <Symbol Role="Variable">vendor_release</Symbol> is included, it is the X server vendor release
+number as returned by the X client <Command>xdpyinfo</Command> or the Xlib function
+<Function>XVendorRelease</Function>, and must also be contained within the double
+quotes separated by one space from <Symbol Role="Variable">vendor_string</Symbol>.
+The <Symbol Role="Variable">vendor_release</Symbol> argument is provided to allow support
+of changes in keyboard
+hardware from a vendor, assuming that the vendor increments the release
+number to flag such changes.
+Alternatively, the vendor may simply use a unique vendor string for each
+different keyboard.
+</Para>
+<Para>The <Symbol Role="Variable">bindings_file</Symbol> argument is the pathname of
+the file containing the bindings
+themselves.
+It can be a relative or absolute pathname.
+If it it is a relative pathname, it is relative to the location of the
+<filename>xmbind.alias</filename> file.
+</Para>
+<Para>Comment lines in the <filename>xmbind.alias</filename> file begin with ! (exclamation
+point).
+</Para>
+<Para>The bindings found in either the <filename>.motifbind</filename> file or the vendor
+mapping are placed in a property on the root window.
+This property is used to determine the bindings for subsequent Motif
+applications.
+</Para>
+<Para>On startup <Command>mwm</Command> attempts to load the file <filename>.motifbind</filename> in the
+user's home directory.
+If this is unsuccessful, it loads the vendor bindings as described
+previously.
+It places the bindings it loads in a property on the root window for use
+by subsequent Motif applications.
+</Para>
+<Para>The <Command>xmbind</Command> function loads bindings
+from a file if that file is specified on the
+command line.
+If no file is specified on the command line, it attempts to load the
+file <filename>.motifbind</filename> in the user's home directory.
+If this fails, it loads the vendor bindings as described previously.
+It places the bindings it loads in a property on the root window for use
+by subsequent Motif applications.
+</Para>
+<Para>The format of the specification for mapping <KeySym>osf</KeySym> keysyms to
+actual keysyms is similar to that of a specification for an event
+translation. (See below) The syntax is specified (and below) here in
+EBNF notation using the following conventions:
+</Para>
+<ProgramListing>[<Symbol Role="Variable">a</Symbol>]    Means either nothing or <Symbol Role="Variable">a</Symbol>
+{<Symbol Role="Variable">a</Symbol>}    Means zero or more occurrences of <Symbol Role="Variable">a</Symbol>
+(<Symbol Role="Variable">a</Symbol>|<Symbol Role="Variable">b</Symbol>)    Means either <Symbol Role="Variable">a</Symbol> or <Symbol Role="Variable">b</Symbol>.
+</ProgramListing>
+<Para>Terminals are enclosed in double quotation marks.
+</Para>
+<Para>The syntax of an <KeySym>osf</KeySym> keysym binding specification is as follows:
+</Para>
+<ProgramListing>binding_spec    =       {line "&bsol;n"} [line]
+line            =       virtual_keysym ":" list_of_key_event
+list_of_key_event=      key_event { "," key_event}
+key_event       =       {modifier_name} "&lt;Key>" actual_keysym
+virtual_keysym  =       keysym
+actual_keysym   =       keysym
+keysym          =       A valid X11 keysym name that is
+                        mapped by <Function>XStringToKeysym</Function>
+</ProgramListing>
+<Para>As with event translations, more specific event descriptions must
+precede less specific descriptions.
+For example, an event description for a key with a modifier must precede
+a description for the same key without the same modifier.
+</Para>
+<Para>Following is an example of a specification for the
+<Literal>defaultVirtualBindings</Literal> resource in a resource file:
+<!--no-op:  .in +3n--></Para>
+<InformalExample>
+<ProgramListing>*defaultVirtualBindings: &bsol;
+        osfBackSpace:       &lt;Key>BackSpace       &bsol;n&bsol;
+        osfInsert:       &lt;Key>InsertChar      &bsol;n&bsol;
+        osfDelete:       &lt;Key>DeleteChar      &bsol;n&bsol;
+&npzwc;...
+        osfLeft:       &lt;Key>left, Ctrl&lt;Key>H
+</ProgramListing>
+</InformalExample>
+<!--no-op:  .in-->
+<Para>The format of a <filename>.motifbind</filename> file or of a file containing vendor
+bindings is the same, except that the binding specification for each
+keysym is placed on a separate line.
+The previous example specification appears as follows in a
+<filename>.motifbind</filename> or vendor bindings file:
+<!--no-op:  .in +3n--></Para>
+<InformalExample>
+<ProgramListing>osfBackSpace:       &lt;Key>BackSpace
+osfInsert:       &lt;Key>InsertChar
+osfDelete:       &lt;Key>DeleteChar
+&npzwc;...
+osfLeft:       &lt;Key>left, Ctrl&lt;Key>H
+</ProgramListing>
+</InformalExample>
+<!--no-op:  .in-->
+<Para>The following table lists the fixed fallback default bindings for
+<KeySym>osf</KeySym> keysyms.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="2" Namest="1"><Literal>Fallback Default Bindings for osf Keysyms</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><KeySym>osf Keysym</KeySym></Entry>
+<Entry Rowsep="1"><Literal>Fallback Default Binding</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfActivate</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym>KP_Enter
+<KeySym>Key</KeySym><Literal>Execute</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfAddMode</KeySym><Literal>:</Literal></Entry>
+<Entry><Literal>Shift&lt;Key>F8</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfBackSpace</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>BackSpace</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfBeginLine</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym>Home
+<KeySym>Key</KeySym><Literal>Begin</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfCancel</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym>Escape
+<KeySym>Key</KeySym><Literal>Cancel</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfClear</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Clear</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfCopy</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfCut</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfDelete</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Delete</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfDeselectAll</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfDown</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Down</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfEndLine</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>End</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfHelp</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym>F1
+<KeySym>Key</KeySym><Literal>Help</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfInsert</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Insert</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfLeft</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Left</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfLeftLine</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfMenu</KeySym><Literal>:</Literal></Entry>
+<Entry><Literal>Shift</Literal><KeySym>Key</KeySym>F10
+<KeySym>Key</KeySym><Literal>Menu</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfMenuBar</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym>F10
+Shift<KeySym>Key</KeySym><Literal>Menu</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfNextMinor</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfPageDown</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Next</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfPageLeft</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfPageRight</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfPageUp</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Prior</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfPaste</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfPrimaryPaste</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfPriorMinor</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfReselect</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfRestore</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfRight</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Right</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfRightLine</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfSelect</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Select</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfSelectAll</KeySym><Literal>:</Literal></Entry>
+<Entry><Symbol Role="Variable">unbound</Symbol></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfSwitchDirection</KeySym><Literal>:</Literal></Entry>
+<Entry><Literal>Alt</Literal><KeySym>Key</KeySym>Return
+Alt<KeySym>Key</KeySym><Literal>KP_Enter</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfUndo</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Undo</Literal></Entry>
+</Row>
+<Row>
+<Entry><KeySym>osfUp</KeySym><Literal>:</Literal></Entry>
+<Entry><KeySym>Key</KeySym><Literal>Up</Literal></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<!--.ne 40
+.TS
+center, allbox, tab(@);
+cb s
+lb lb.
+Fallback Default Bindings for osf Keysyms
+osf Keysym@Fallback Default Binding
+_
+osfActivate@&lt;unbound>
+osfAddMode@&lt;Shift> F8
+osfBackSpace@Backspace
+osfBeginLine@Home
+osfClear@Clear
+osfCopy@unbound
+osfCut@unbound
+osfDelete@Delete
+osfDown@Down
+osfEndLine@End
+osfCancel@&lt;Escape>
+osfHelp@F1
+osfInsert@Insert
+osfLeft@Left
+osfMenu@F4
+osfMenuBar@F10
+osfPageDown@Next
+osfPageLeft@unbound
+osfPageRight@unbound
+osfPageUp@Prior
+osfPaste@unbound
+osfPrimaryPaste@unbound
+osfQuickPaste@unbound
+osfRight@Right
+osfSelect@Select
+osfUndo@Undo
+osfUp@Up
+.TE
+-->
+</RefSect2>
+<RefSect2>
+<Title>Changes in the Handling of Shifted Keys</Title>
+<Para>In conjunction with MIT X11R5 Patch 24, this version of Motif
+introduces a change in the way that keys involving the &lt;Shift>
+modifier are processed. This change allows the numeric keypad to be
+used to generate numbers using the standard X mechanisms. Since the
+default behavior is now to honor the xmodmap keymap bindings,
+translations and virtual key bindings that use &lt;Shift> may behave
+differently. A common symptom is that unshifted keypad and function
+keys (with or without other modifiers) produce the expected results,
+but shifted ones do not.
+</Para>
+<Para>To obtain the old behavior you can remove the shifted interpretation
+from problematic keys using the <Command>xmodmap</Command> utility. Each entry in
+a <Command>xmodmap</Command> keymap table contains up to four keysym bindings. The
+second and fourth keysyms are for shifted keys. If an expression
+contains only two keysyms, simply remove the second keysym. If
+an entry contains three or more keysyms, replace the second keysym
+with <SystemItem Class="Constant">NoSymbol</SystemItem> and remove the fourth keysym.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Action Translations</Title>
+<Para>The translation table syntax used by Motif is completely specified
+in the X11R5 Toolkit Intrinsics Documentation. For the complete syntax
+description, and for general instructions about writing or modifying a
+translation table, please refer to this document. A brief summary of the
+translation table format, however, is included below.
+</Para>
+<Para>The syntax is defined as in the binding syntax specification above.
+Informal descriptions are contained in angle brackets (&lt;>).
+<LiteralLayout>TranslationTable=       [ directive ] { production }
+directive       =       ( "#replace" | "#override" | "#augment") "&bsol;n"
+production      =       lhs ":" rhs "&bsol;n"
+lhs             =       ( event | keyseq) {"," ( event | keyseq) }
+keyseq          =       """ keychar { keychar } """
+keychar         =       ( "&caret;" | "$" | "&bsol;&bsol;") &lt;ISO Latin 1 character>
+event           =       [ modifier_list ] "&lt;" event_type ">" [ count ] {detail}
+modifier_list   =       ( ["!"][":"] { modifier } | "None")
+modifier        =       [ "~" ] ( "@" &lt;keysym> | &lt;name from table below>)
+count           =       "(" &lt;positive integer> [ "+" ] ")"
+rhs             =       { action_name "(" [params] ")" }
+params          =       string { "," string }
+</LiteralLayout>
+The <Symbol Role="Variable">string</Symbol> field need not be quoted unless it includes a space
+or tab character, or any comma, newline, or parenthesis. The entire
+list of string values making up the <Symbol Role="Variable">params</Symbol> field will ba passed
+to the named action routine.
+</Para>
+<Para>The <Symbol Role="Variable">details</Symbol> field may be used to specify a keysym that will
+identify a particular key event. For example, <KeySym>Key</KeySym> is the name
+of a type of event, but it must be modified by the <Symbol Role="Variable">details</Symbol> field
+to name a specific event, such as <KeySym>Key</KeySym><Literal>A</Literal>.
+</Para>
+<Para><Literal>Modifier Names</Literal>
+The modifier list, which may be empty, consists of a list of modifier
+keys that must be pressed with the key sequence. The modifier keys
+may abbreviated with single letters, as in the following list of the
+familiar modifiers:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>s</Term>
+<ListItem>
+<Para>Shift
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>c&ensp;or&ensp;&caret;</Term>
+<ListItem>
+<Para>Ctrl (Control)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>m&ensp;or&ensp;$</Term>
+<ListItem>
+<Para>Meta
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>a</Term>
+<ListItem>
+<Para>Alt
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Other modifiers are available, such as "Mod5" and "Button2." These
+have no abbreviation (although the "Button" modifiers may be
+abbreviated in combination with events, as outlined below). If a
+modifier list has no entries, and is not "None", it means the position
+of the modifier keys is irrelevant. If modifiers are listed, the
+designated keys must be in the specified position, but the unlisted
+modifier keys are irrelevant. If the list begins with an exclamation
+point (!), however, the unlisted modifiers may not be asserted. In
+addition, if a modifier name is preceded by a tilde (~), the
+corresponding key must <Emphasis>not</Emphasis> be pressed.
+</Para>
+<Para>If a modifier list begins with a colon (:), X tries to use the
+standard modifiers (Shift and Lock), if present, to map the key event
+code into a recognized keysym.
+</Para>
+<Para>Event Types
+These are a few of the recognized event types.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>Key or KeyDown</Term>
+<ListItem>
+<Para>A keyboard key was pressed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>KeyUp</Term>
+<ListItem>
+<Para>A keyboard key was released.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>BtnDown</Term>
+<ListItem>
+<Para>A mouse button was pressed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>BtnUp</Term>
+<ListItem>
+<Para>A mouse button was released.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Motion</Term>
+<ListItem>
+<Para>The mouse pointer moved.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Enter</Term>
+<ListItem>
+<Para>The pointer entered the widget's window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Leave</Term>
+<ListItem>
+<Para>The pointer left the widget's window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>FocusIn</Term>
+<ListItem>
+<Para>The widget has received focus.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>FocusOut</Term>
+<ListItem>
+<Para>The widget has lost focus.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>There are some event abbreviations available. For example,
+<KeySym>Btn1Motion</KeySym> is actually a "Motion" event, modified with the
+"Button1" modifier (<Literal>Button1&lt;Motion></Literal>). Similarly, <KeySym>Btn3Up</KeySym>
+is actually a "BtnUp" event with the "Button3" modifier. These
+abbreviations are used extensively in the Motif translation
+tables.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.xmbind;
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

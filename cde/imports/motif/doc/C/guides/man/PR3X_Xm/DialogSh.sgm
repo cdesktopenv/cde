@@ -1,0 +1,865 @@
+<!-- $XConsortium: DialogSh.sgm /main/10 1996/09/25 15:29:11 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN199.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmDialogShell</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmDialogShell</Classname></RefName>
+<RefPurpose>The DialogShell widget class
+<IndexTerm>
+<Primary>XmDialogShell</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>DialogShell</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/DialogS.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>Modal and modeless dialogs use DialogShell as the Shell parent.
+DialogShell widgets cannot
+be iconified. Instead, all secondary DialogShell widgets
+associated with an ApplicationShell widget are iconified and
+de-iconified as a group with the primary widget.
+</Para>
+<Para>The client indirectly manipulates DialogShell through the convenience
+interfaces during creation, and it can directly manipulate its
+BulletinBoard-derived child.
+Much of the functionality of DialogShell assumes
+that its child is a BulletinBoard subclass, although it
+can potentially stand alone.
+</Para>
+<Para>Setting <SystemItem Class="Resource">XmNheight</SystemItem>, <SystemItem Class="Resource">XmNwidth</SystemItem>,
+or <SystemItem Class="Resource">XmNborderWidth</SystemItem> for
+either a DialogShell or its managed child usually sets that resource to the
+same value in both the parent and the child. When an off-the-spot input
+method exists, the height and width of the shell may be greater than
+those of the managed child in order to accommodate the input method.
+In this case, setting <SystemItem Class="Resource">XmNheight</SystemItem>
+or <SystemItem Class="Resource">XmNwidth</SystemItem> for the
+shell does not necessarily set that resource to the same value in
+the managed child, and setting <SystemItem Class="Resource">XmNheight</SystemItem>
+or <SystemItem Class="Resource">XmNwidth</SystemItem>
+for the child does not necessarily set that resource to the same
+value in the shell.
+</Para>
+<Para>For the managed child of a DialogShell, regardless of the value of
+the shell's <SystemItem Class="Resource">XmNallowShellResize</SystemItem> resource,
+setting <SystemItem Class="Resource">XmNx</SystemItem> or <SystemItem Class="Resource">XmNy</SystemItem>
+sets the corresponding resource of the parent but does not change the
+child's position relative to the parent.
+The <Function>XtGetValues</Function> resource for the child's
+<SystemItem Class="Resource">XmNx</SystemItem> or <SystemItem Class="Resource">XmNy</SystemItem> yields the
+value of the corresponding resource in the parent.
+The x and y-coordinates of the child's upper left outside
+corner relative to the parent's upper left inside corner are both 0 (zero)
+minus the value of <SystemItem Class="Resource">XmNborderWidth</SystemItem>.
+</Para>
+<Para>Note that the <Emphasis>Inter-Client Communication Conventions Manual</Emphasis> (ICCCM)
+allows a window manager to change or control the border width of a reparented
+top-level window.
+</Para>
+<Para>DialogShell uses the <Symbol Role="Globalvar">XmQTdialogShellSavvy</Symbol> trait.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>DialogShell inherits behavior, resources, and traits from the <Classname>Core</Classname>,
+<Classname>Composite</Classname>, <Classname>Shell</Classname>,
+<Classname>WMShell</Classname>, <Classname>VendorShell</Classname>, and <Classname>TransientShell</Classname> classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmDialogShellWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmDialogShell</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>DialogShell defines no new resources but overrides the <SystemItem Class="Resource">XmNdeleteResponse</SystemItem>
+resource in the <Classname>VendorShell</Classname> class.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>DialogShell inherits behavior and resources from the
+superclasses described in the following tables,
+which define sets of widget resources used by the programmer
+to specify data.
+</Para>
+<Para>For a complete description of each resource, refer to the
+reference page for that superclass.
+The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the
+<SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file,
+remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable
+(N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>TransientShell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNtransientFor</Entry>
+<Entry>XmCTransientFor</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!----></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>VendorShell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaudibleWarning</Entry>
+<Entry>XmCAudibleWarning</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmBELL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonFontList</Entry>
+<Entry>XmCButtonFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonRenderTable</Entry>
+<Entry>XmCButtonRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultFontList</Entry>
+<Entry>XmCDefaultFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdeleteResponse</Entry>
+<Entry>XmCDeleteResponse</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmUNMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinputMethod</Entry>
+<Entry>XmCInputMethod</Entry>
+<Entry>String</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinputPolicy</Entry>
+<Entry>XmCInputPolicy</Entry>
+<Entry>XmInputPolicy</Entry>
+<Entry>XmPER_SHELL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNkeyboardFocusPolicy</Entry>
+<Entry>XmCKeyboardFocusPolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmEXPLICIT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelFontList</Entry>
+<Entry>XmCLabelFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelRenderTable</Entry>
+<Entry>XmCLabelRenderTabel</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>XmLEFT_TO_RIGHT</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNmwmDecorations</Entry>
+<Entry>XmCMwmDecorations</Entry>
+<Entry>int</Entry>
+<Entry>-1</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNmwmFunctions</Entry>
+<Entry>XmCMwmFunctions</Entry>
+<Entry>int</Entry>
+<Entry>-1</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNmwmInputMode</Entry>
+<Entry>XmCMwmInputMode</Entry>
+<Entry>int</Entry>
+<Entry>-1</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNmwmMenu</Entry>
+<Entry>XmCMwmMenu</Entry>
+<Entry>String</Entry>
+<Entry>NULL</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNpreeditType</Entry>
+<Entry>XmCPreeditType</Entry>
+<Entry>String</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshellUnitType</Entry>
+<Entry>XmCShellUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmPIXELS</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextFontList</Entry>
+<Entry>XmCTextFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextRenderTable</Entry>
+<Entry>XmCTextRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmPIXELS</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuseAsyncGeometry</Entry>
+<Entry>XmCUseAsyncGeometry</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>WMShell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbaseHeight</Entry>
+<Entry>XmCBaseHeight</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbaseWidth</Entry>
+<Entry>XmCBaseWidth</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNheightInc</Entry>
+<Entry>XmCHeightInc</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconMask</Entry>
+<Entry>XmCIconMask</Entry>
+<Entry>Pixmap</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconPixmap</Entry>
+<Entry>XmCIconPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconWindow</Entry>
+<Entry>XmCIconWindow</Entry>
+<Entry>Window</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconX</Entry>
+<Entry>XmCIconX</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNiconY</Entry>
+<Entry>XmCIconY</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialState</Entry>
+<Entry>XmCInitialState</Entry>
+<Entry>int</Entry>
+<Entry>NormalState</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinput</Entry>
+<Entry>XmCInput</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaxAspectX</Entry>
+<Entry>XmCMaxAspectX</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaxAspectY</Entry>
+<Entry>XmCMaxAspectY</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaxHeight</Entry>
+<Entry>XmCMaxHeight</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmaxWidth</Entry>
+<Entry>XmCMaxWidth</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminAspectX</Entry>
+<Entry>XmCMinAspectX</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminAspectY</Entry>
+<Entry>XmCMinAspectY</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminHeight</Entry>
+<Entry>XmCMinHeight</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNminWidth</Entry>
+<Entry>XmCMinWidth</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtitle</Entry>
+<Entry>XmCTitle</Entry>
+<Entry>String</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtitleEncoding</Entry>
+<Entry>XmCTitleEncoding</Entry>
+<Entry>Atom</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtransient</Entry>
+<Entry>XmCTransient</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwaitForWm</Entry>
+<Entry>XmCWaitForWm</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidthInc</Entry>
+<Entry>XmCWidthInc</Entry>
+<Entry>int</Entry>
+<Entry>XtUnspecifiedShellInt</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwindowGroup</Entry>
+<Entry>XmCWindowGroup</Entry>
+<Entry>Window</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwinGravity</Entry>
+<Entry>XmCWinGravity</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwmTimeout</Entry>
+<Entry>XmCWmTimeout</Entry>
+<Entry>int</Entry>
+<Entry>5000 ms</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+
+<note>
+<para>
+If values for <systemitem class="resource">XmNminWidth</systemitem> and <systemitem class="resource">XmNminHeight
+</systemitem> are present,
+and values for <systemitem class="resource">XmNbaseWidth</systemitem> and
+<systemitem class="resource">XmNbaseHeight</systemitem> are absent,
+<systemitem class="resource">XmNminWidth</systemitem> and
+<systemitem class="resource">XmNminHeight</systemitem> will be used as
+default values for <systemitem class="resource">XmNbaseWidth</systemitem>
+and <systemitem class="resource">XmNbaseHeight</systemitem>,
+and these values will be added to the shell size specified by the user.
+To work around this, add arguments during widget
+creation to explicitly set <systemitem class="resource">XmNbaseWidth</systemitem> and
+<systemitem class="resource">XmNbaseHeight</systemitem> to zero.  
+</para>
+</note>
+
+
+<Para><!-- -->
+<!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+
+
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Shell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNallowShellResize</Entry>
+<Entry>XmCAllowShellResize</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNcreatePopupChildProc</Entry>
+<Entry>XmCCreatePopupChildProc</Entry>
+<Entry>XtCreatePopupChildProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNgeometry</Entry>
+<Entry>XmCGeometry</Entry>
+<Entry>String</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNoverrideRedirect</Entry>
+<Entry>XmCOverrideRedirect</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopdownCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNsaveUnder</Entry>
+<Entry>XmCSaveUnder</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNvisual</Entry>
+<Entry>XmCVisual</Entry>
+<Entry>Visual *</Entry>
+<Entry>CopyFromParent</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmDialogShell -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para>There are no translations for XmDialogShell.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;, &cdeman.Core;, &cdeman.Shell;,
+&cdeman.TransientShell;, &cdeman.WMShell;, &cdeman.VendorShell;,
+and &cdeman.XmCreateDialogShell;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

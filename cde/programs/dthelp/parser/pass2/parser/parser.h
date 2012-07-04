@@ -437,8 +437,13 @@ M_PAREXTERN int m_argc ;
 M_PAREXTERN char **m_argv ;
 
 /* PARSER output file */
+#if defined(linux)
+M_PAREXTERN FILE *m_outfile;
+M_PAREXTERN FILE *m_errfile;
+#else
 M_PAREXTERN FILE *m_outfile M_PARINIT(stdout) ;
 M_PAREXTERN FILE *m_errfile M_PARINIT(stderr) ;
+#endif
 
 /* Save processing instruction */
 M_PAREXTERN M_WCHAR m_pi[M_PILEN + 1] ;

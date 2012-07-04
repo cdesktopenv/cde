@@ -28,6 +28,10 @@
  *  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
  */
 
+#if defined(linux)
+#define _POSIX_C_SOURCE 2
+#endif
+
 #include <EUSCompat.h>
 #include <stdio.h>
 #include <errno.h>

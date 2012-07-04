@@ -39,7 +39,11 @@ static char sccsid[] = "@(#)iscntl.c	1.8 94/11/17";
  *	Generic control function
  */
 
+#if defined(linux)
+#include <stdarg.h>
+#else
 #include <varargs.h>
+#endif
 #include "isam_impl.h"
 
 
@@ -75,17 +79,26 @@ static char sccsid[] = "@(#)iscntl.c	1.8 94/11/17";
 
 typedef int (* intfunc)();
 
+#if defined(linux)
+int 
+iscntl(int isfd, int func, ...)
+#else
 int 
 iscntl(isfd, func, va_alist)
     int			isfd;
     int			func;
     va_dcl
+#endif
 {
     extern int		(*_isfatal_error_set_func())();
     va_list		pvar;
     int			ret;
 
+#if defined(linux)
+    va_start(pvar, func);
+#else
     va_start(pvar);
+#endif
     switch (func) {
 
 	  case ISCNTL_MASKSIGNALS:

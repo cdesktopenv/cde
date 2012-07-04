@@ -55,6 +55,11 @@ void main(argc, argv)
                      sizeof(literal) + M_LITLEN - 2)] ;
 #endif
 
+#if defined(linux)
+    m_outfile = stdout;
+    m_errfile = stderr;
+#endif
+
     m_argc = argc ;
     m_argv = argv ;
 

@@ -182,7 +182,21 @@ CONTROL Applications
   HELP_VOLUME		FPanel
 }
 
-
+#ifdef NO_DTINFO
+CONTROL Help
+{
+  TYPE                  icon
+  CONTAINER_NAME        Top
+  CONTAINER_TYPE        BOX
+  POSITION_HINTS        12
+  ICON                  Fphelp
+  LABEL                 %|nls-18009-#Help Manager#|
+  PUSH_ACTION           Dthelpview
+  DROP_ACTION           Dthelpview
+  HELP_TOPIC            FPOnItemHelpMgr
+  HELP_VOLUME           FPanel
+}
+#else
 CONTROL InfoManager
 {
   TYPE			icon
@@ -196,7 +210,7 @@ CONTROL InfoManager
   HELP_TOPIC		FPOnItemInfoMgr
   HELP_VOLUME		FPanel
 }
-
+#endif
 
 CONTROL Trash
 {
@@ -335,16 +349,28 @@ CONTROL PrintManager
   HELP_VOLUME		Printmgr
 }
 
+#ifndef NO_DTINFO
 SUBPANEL InfoManagerSubpanel
 {
   CONTAINER_NAME	InfoManager
   TITLE			%|nls-18032-#Information#|
 }
+#else
+SUBPANEL HelpSubpanel
+{
+  CONTAINER_NAME        Help
+  TITLE                 %|nls-18019-#Help#|
+}
+#endif
 
 CONTROL HelpOverview
 {
   TYPE			icon
+#ifndef NO_DTINFO
   CONTAINER_NAME	InfoManagerSubpanel
+#else
+  CONTAINER_NAME        HelpSubpanel
+#endif
   CONTAINER_TYPE	SUBPANEL
   POSITION_HINTS	1
   ICON			Dthover
@@ -357,7 +383,11 @@ CONTROL HelpOverview
 CONTROL FPHelp
 {
   TYPE			icon
+#ifndef NO_DTINFO
   CONTAINER_NAME	InfoManagerSubpanel
+#else
+  CONTAINER_NAME	HelpSubpanel
+#endif
   CONTAINER_TYPE	SUBPANEL
   POSITION_HINTS	2
   ICON			Fpfphlp
@@ -367,6 +397,7 @@ CONTROL FPHelp
   HELP_VOLUME		FPanel
 }
 
+#ifndef NO_DTINFO
 CONTROL HelpMgr
 {
   TYPE                  icon
@@ -379,7 +410,7 @@ CONTROL HelpMgr
   HELP_TOPIC            FPOnItemHelpMgr
   HELP_VOLUME           FPanel
 }
-
+#endif
 
 XCOMM 
 XCOMM  OnItem help uses a pseudo push action FPOnItemHelp.  Dtwm is looking for

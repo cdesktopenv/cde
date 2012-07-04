@@ -1083,12 +1083,12 @@ verify_closeCB(
     {
 	answer = do_auto_apply(widget, HelpObj, HelpObj);
 	if (answer == DTB_ANSWER_ACTION1) 
-	    ui_win_show(AB_help_dialog, False, NULL);
+	    ui_win_show(AB_help_dialog, False, XtGrabNone);
     }
     else 
     {
 	 /* Nope, no pending changes, so just dismiss the Help Editor */
-	 ui_win_show(AB_help_dialog, False, NULL);
+	 ui_win_show(AB_help_dialog, False, XtGrabNone);
     }
 }
 
@@ -1266,7 +1266,7 @@ help_okCB(
     prop_changebars_cleared(hes->prop_sheet);
 
     /* Dismiss the dialog */
-    ui_win_show(AB_help_dialog, False, NULL);
+    ui_win_show(AB_help_dialog, False, XtGrabNone);
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     
@@ -1292,7 +1292,7 @@ help_cancelCB(
     clear_editor_fields();
 
     /* Dismiss the dialog */
-    ui_win_show(AB_help_dialog, False, NULL);
+    ui_win_show(AB_help_dialog, False, XtGrabNone);
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     

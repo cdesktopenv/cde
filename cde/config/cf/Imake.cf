@@ -113,6 +113,10 @@ XCOMM $TOG: Imake.cf /main/30 1998/04/28 13:55:25 barstow $
 #  undef sparc
 # define SparcArchitecture
 # endif
+# ifdef __sparcv9
+#  undef __sparcv9
+# define SparcV9Architecture
+# endif
 # ifdef mc68000
 #  undef mc68000
 # define Sun3Architecture
@@ -120,6 +124,11 @@ XCOMM $TOG: Imake.cf /main/30 1998/04/28 13:55:25 barstow $
 # ifdef i386
 #  undef i386
 #  define i386Architecture
+# endif
+# if defined(__amd64__) || defined (__x86_64__)
+#  undef __amd64__
+#  undef __x86_64__
+#  define AMD64Architecture
 # endif
 # undef sun
 # define SunArchitecture
@@ -405,8 +414,11 @@ XCOMM $TOG: Imake.cf /main/30 1998/04/28 13:55:25 barstow $
 # undef linux
 # define LinuxArchitecture
 # ifdef i386
+#  undef pentium
+#  undef pentiumpro
 #  define i386Architecture
 #  undef i386
+# endif
 # ifdef __i386__
 #  ifndef i386Architecture
 #   define i386Architecture
@@ -417,7 +429,28 @@ XCOMM $TOG: Imake.cf /main/30 1998/04/28 13:55:25 barstow $
 #  define AlphaArchitecture
 #  undef __alpha
 # endif /* __alpha */
-#endif
+# ifdef powerpc
+#  define PpcArchitecture
+#  undef powerpc
+# endif
+# ifdef __powerpc__
+#  ifndef PpcArchitecture
+#   define PpcArchitecture
+#  endif
+#  undef __powerpc__
+# endif
+# if defined(__amd64__) || defined (__x86_64__)
+#  undef __amd64__
+#  undef __x86_64__
+#  define AMD64Architecture
+# endif
+# if defined(amd64__) || defined (x86_64__)
+#  undef amd64__
+#  undef x86_64__
+#  ifndef AMD64Architecture
+#   define AMD64Architecture
+#  endif
+# endif
 #endif /* linux */
 
 #ifdef __uxp__

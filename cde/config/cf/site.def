@@ -66,7 +66,12 @@ XCOMM site:  $TOG: site.def /main/23 1998/03/19 18:43:26 mgreess $
 
 #ifdef AfterVendorCF
 
-# define X11ProjectRoot	/X11
+# if defined(LinuxArchitecture) || defined(FreeBSDArchitecture)
+#  define X11ProjectRoot	/usr
+# else
+#  define X11ProjectRoot	/X11
+# endif
+
 # define ProjectRoot	/usr/dt
 
 #ifdef SunArchitecture
@@ -75,6 +80,11 @@ XCOMM site:  $TOG: site.def /main/23 1998/03/19 18:43:26 mgreess $
 
 #ifdef UXPArchitecture
 # define DtLocalesToBuild ja_JP.dt-eucJP
+#endif
+
+XCOMM No locales other than C will build at this time.
+#ifdef LinuxArchitecture
+# define DtLocalesToBuild 
 #endif
 
 #ifdef SunArchitecture

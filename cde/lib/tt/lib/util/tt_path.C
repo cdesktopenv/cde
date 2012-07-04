@@ -49,7 +49,15 @@
 /* Included after "util/tt_string.h" to avoid index/strchr conflicts. */
 #define X_INCLUDE_DIRENT_H
 #define XOS_USE_NO_LOCKING
+#if defined(linux)
+#define index
+#define rindex
+#endif
 #include <X11/Xos_r.h>
+#if defined(linux)
+#undef index
+#undef rindex
+#endif
 
 #if defined(OPT_BUG_USL) || defined(OPT_BUG_UXP)
 #define S_ISLNK(mode)   ((mode & 0xF000) == S_IFLNK)

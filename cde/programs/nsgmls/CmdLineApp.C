@@ -58,8 +58,14 @@
 
 #include "ConsoleOutput.h"
 
+#if defined(linux)
+#include <iostream>
+#include <fstream>
+using namespace std;
+#else
 #include <iostream.h>
 #include <fstream.h>
+#endif
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
@@ -286,7 +292,11 @@ Boolean CmdLineApp::openFilebufWrite(filebuf &file,
     return 0;
   return file.attach(fd) != 0;
 #else
+#if defined(linux)
+  return file.open(filename, ios::out|ios::trunc) != 0;
+#else
   return file.open(filename, ios::out|ios::trunc|IOS_BINARY) != 0;
+  #endif
 #endif
 }
 

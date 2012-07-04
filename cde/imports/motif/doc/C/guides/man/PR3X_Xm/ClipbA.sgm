@@ -1,0 +1,145 @@
+<!-- $XConsortium: ClipbA.sgm /main/10 1996/09/25 10:23:34 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN86.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmClipboardCancelCopy</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmClipboardCancelCopy</Function></RefName>
+<RefPurpose>A clipboard function that cancels a copy to the clipboard
+<IndexTerm>
+<Primary>XmClipboardCancelCopy</Primary>
+</IndexTerm><IndexTerm>
+<Primary>clipboard functions</Primary>
+<Secondary>XmClipboardCancelCopy</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1988 by Massachusetts Institute of Technology-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/CutPaste.h>
+int XmClipboardCancelCopy (<Replaceable>display, window, item_id</Replaceable>)
+        Display <Replaceable>* display</Replaceable>;
+        Window  <Replaceable>window</Replaceable>;
+        long    <Replaceable>item_id</Replaceable>;
+</FuncSynopsisInfo>
+<FuncDef></FuncDef>
+<void>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmClipboardCancelCopy</Function>
+cancels the copy to clipboard that is in progress and
+frees up temporary storage.
+When a copy is to be performed, <Function>XmClipboardStartCopy</Function> allocates
+temporary storage for the clipboard data. <Function>XmClipboardCopy</Function> copies
+the appropriate data into the the temporary storage. <Function>XmClipboardEndCopy</Function>
+copies the data to the clipboard structure and frees up the temporary
+storage structures.
+If <Function>XmClipboardCancelCopy</Function> is called, the
+<Function>XmClipboardEndCopy</Function> function does not have to be called. A call to
+<Function>XmClipboardCancelCopy</Function>
+is valid only after a call to
+<Function>XmClipboardStartCopy</Function>.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">display</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the <StructName Role="typedef">Display</StructName> structure that was returned in a
+previous call to <Function>XOpenDisplay</Function> or <Function>XtDisplay</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">window</Symbol></Term>
+<ListItem>
+<Para>Specifies a widget's window ID that
+relates the application window to the clipboard.
+The widget's window ID can be obtained through <Function>XtWindow</Function>.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">item_id</Symbol></Term>
+<ListItem>
+<Para>Specifies the number assigned to this data item. This number was returned
+by a previous call to <Function>XmClipboardStartCopy</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+
+
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<VariableList>
+<VarListEntry>
+<Term><Symbol>XmClipboardSuccess</Symbol></Term>
+<ListItem>
+<Para>The function was successful.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmClipboardLocked</Symbol></Term>
+<ListItem>
+<Para>The function failed because the clipboard was locked by another
+application. The application can continue to call the function again with
+the same parameters until the lock goes away. This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmClipboardFail</Symbol></Term>
+<ListItem>
+<Para>The function failed because <Function>XmClipboardStartCopy</Function> was not called or
+because the data item contains too many formats.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmClipboardCopy;,
+&cdeman.XmClipboardEndCopy;, and &cdeman.XmClipboardStartCopy;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

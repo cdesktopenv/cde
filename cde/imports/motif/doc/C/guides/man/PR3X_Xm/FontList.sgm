@@ -1,0 +1,166 @@
+<!-- $XConsortium: FontList.sgm /main/8 1996/09/08 20:43:12 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN227.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmFontList</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><StructName Role="typedef">XmFontList</StructName></RefName>
+<RefPurpose>Data type for a font list
+<IndexTerm>
+<Primary>XmFontList</Primary>
+</IndexTerm><IndexTerm>
+<Primary>data types</Primary>
+<Secondary>XmFontList</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/Xm.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><StructName Role="typedef">XmFontList</StructName> is the data type for a font list. A font list
+consists of font list entries. Each entry contains a font or a
+font set (a group of fonts) and is identified with a tag,
+which is optional. If this tag is
+NULL, the tag
+is set to <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>.
+</Para>
+<Para>The value of
+<SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem> is <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG_STRING</SystemItem>.
+</Para>
+<Para>When a compound string is displayed, the font list element tag of the
+compound string segment is matched with a font list entry tag in
+the font list and the matching font list entry is used to display
+the compound string. A font list entry is chosen as follows:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The first font list entry whose tag matches the tag of the compound
+string segment is used.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If no match has been found and if the tag of the compound string
+segment is <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>, the first font list
+entry whose tag matches the tag that would result from creating
+an entry with <SystemItem Class="Constant">XmSTRING_DEFAULT_CHARSET</SystemItem> is used.
+For example, if creating an entry with <SystemItem Class="Constant">XmSTRING_DEFAULT_CHARSET</SystemItem>
+would result in the tag <Literal>ISO8859-1</Literal>, the compound string segment
+tag <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem> matches the font list entry tag
+<Literal>ISO8859-1</Literal>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If no match has been found and if the tag of the compound string
+segment matches the tag that would result from creating a segment
+with <SystemItem Class="Constant">XmSTRING_DEFAULT_CHARSET</SystemItem>, the first font list entry
+whose tag is <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem> is used.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If no match has been found, the first entry in the font list is
+used.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>The font list interface consists of the routines listed
+in <Literal>Related Information</Literal>.
+</Para>
+<Para>Font lists are specified in resource files with the following syntax:
+</Para>
+<Synopsis><Symbol Role="Variable">resource_spec</Symbol><Literal>:</Literal>  <Symbol Role="Variable">font_entry</Symbol> [, <Symbol Role="Variable">font_entry</Symbol> ]+
+</Synopsis>
+<Para>The resource value string consists of one or more font list entries
+separated by commas. Each <Symbol Role="Variable">font_entry</Symbol> identifies a font or
+font set and an optional font list entry tag. A tag specified for a
+single font follows the font name and is separated
+by = (equals sign); otherwise,
+in a font set the tag is separated by a colon. The colon is required
+whether a tag is specified or not. A font entry uses the following
+syntax to specify a single font:
+</Para>
+<Synopsis><Symbol Role="Variable">font_name</Symbol> [ '=' <Emphasis>tag</Emphasis> ]
+</Synopsis>
+<Para>For example, the following entry specifies a 10 point Times Italic font
+without a font list entry tag;
+</Para>
+<InformalExample>
+<ProgramListing>*fontList:  -Adobe-Times-Medium-I-Normal--10*
+</ProgramListing>
+</InformalExample>
+<Para>A font entry containing a font set is similar, except a semicolon
+separates multiple font names and the specification ends with
+a colon followed by an optional tag:
+</Para>
+<Synopsis><Symbol Role="Variable">font_name</Symbol> [ ';' <Symbol Role="Variable">font_name</Symbol> ]+ ':' [ <Emphasis>tag</Emphasis> ]
+</Synopsis>
+<Para>A <Symbol Role="Variable">font_name</Symbol> is an X Logical Font Description (XLFD) string
+and <Emphasis>tag</Emphasis> is any set of characters from ISO646IRV except
+space, comma, colon, equal sign and semicolon. Following is an example of a font
+set entry. It consists of three fonts (except for charsets),
+and an explicit font list entry tag.
+</Para>
+<InformalExample>
+<ProgramListing>*fontList: -Adobe-Courier-Bold-R-Normal--25-180-100-100-M-150;\
+-JIS-Fixed-Medium-R-Normal--26-180-100-100-C-240;\
+-JIS-Fixed-Medium-R-Normal--26-180-100-100-C-120:MY_TAG
+</ProgramListing>
+</InformalExample>
+<Para>Note that the <StructName Role="typedef">XmRenderTable</StructName> is another data type that can be
+used for font lists. Refer to the &cdeman.XmRenderTable; for details.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmFontListAdd;,
+&cdeman.XmFontListAppendEntry;,
+&cdeman.XmFontListCopy;,
+&cdeman.XmFontListCreate;,
+&cdeman.XmFontListEntryCreate;,
+&cdeman.XmFontListEntryFree;,
+&cdeman.XmFontListEntryGetFont;,
+&cdeman.XmFontListEntryGetTag;,
+&cdeman.XmFontListEntryLoad;,
+&cdeman.XmFontListFree;,
+&cdeman.XmFontListFreeFontContext;,
+&cdeman.XmFontListGetNextFont;,
+&cdeman.XmFontListInitFontContext;,
+&cdeman.XmFontListNextEntry;,
+&cdeman.XmFontListRemoveEntry;,
+&cdeman.XmRenderTable;,
+and
+&cdeman.XmString;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

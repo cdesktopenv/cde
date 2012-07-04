@@ -40,8 +40,14 @@
  *** Add include files, types, macros, externs, and user functions here.
  ***/
 
+#if defined(linux)
+#include <fstream>
+#include <strstream>
+#else
 #include <fstream.h>
 #include <strstream.h>
+#endif
+
 #include "DtTt.h"
 
 extern ofstream snoopStream;
@@ -100,7 +106,7 @@ openIt(
 )
 {
 	DtTtCreated( DTTT_MESSAGE, msg );
-	snoopIt( "Tt_message_callback", openIt, msg, pat, True );
+	snoopIt( "Tt_message_callback", (void *) openIt, msg, pat, True );
 	Widget newWidget = DtTtMessageWidgetCreate(
 			    dtb_ttsnoop_ttsnoop_win.ttsnoopWin,
 			    msg, DtTtMessageWidgetUpdate );
@@ -669,7 +675,7 @@ callbackOkayed(
     XtPointer xtPtr = 0;
     int isMessage = 0;
     XtVaGetValues( instance->callbackAddButton, XmNuserData, &xtPtr, 0 );
-    isMessage = (int)xtPtr;
+    isMessage = (int) (long) xtPtr;
     XtVaGetValues( instance->callbackAddCancelButton, XmNuserData, &xtPtr, 0 );
     msg = (Tt_message)xtPtr;
     pat = (Tt_pattern)xtPtr;
@@ -750,7 +756,7 @@ callbackHelp(
     XtPointer xtPtr = 0;
     int isMessage = 0;
     XtVaGetValues( instance->callbackAddButton, XmNuserData, &xtPtr, 0 );
-    isMessage = (int)xtPtr;
+    isMessage = (int) (long) xtPtr;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     if (isMessage) {
 	    _DtMan( label, "tt_message_callback_add" );

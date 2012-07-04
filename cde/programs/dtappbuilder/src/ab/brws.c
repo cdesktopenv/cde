@@ -1651,7 +1651,7 @@ brws_popdown
     if (!shell)
 	return;
 
-    ui_win_show(shell, False, NULL);
+    ui_win_show(shell, False, XtGrabNone);
 }
 
 /*

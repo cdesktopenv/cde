@@ -72,7 +72,11 @@ GetPty(char **ptySlave, char **ptyMaster)
 
     if ((ptyFd = open(*ptyMaster, O_RDWR, 0))) {
         _Xttynameparams tty_buf;
+#if defined(linux)
+	if (c = _XTtyname(ptyFd)) {
+#else
 	if (c = _XTtyname(ptyFd, tty_buf)) {
+#endif
 	    *ptySlave = malloc(strlen(c) + 1);
 	    (void) strcpy(*ptySlave, c);
 	    

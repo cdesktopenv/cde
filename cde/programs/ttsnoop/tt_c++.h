@@ -29,7 +29,13 @@
 #ifndef TT_CXX_H
 #define TT_CXX_H
 
+#if defined(linux)
+#include <iostream>
+using namespace std;
+#else
 #include <iostream.h>
+#endif
+
 #include <Tt/tt_c.h>
 
 ostream &	operator<<( ostream &, Tt_status );

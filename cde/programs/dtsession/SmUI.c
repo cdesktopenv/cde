@@ -2116,6 +2116,7 @@ PostXSMPFailureDialog (
 	Dimension	width, height;
 	Position	x, y;
 	XEvent		next;
+        int             len;
 
 	pch1 = strdup ((char *) GETMESSAGE(40, 1, 
 		"A session cannot be started because of the\nfollowing error:"));
@@ -2171,13 +2172,26 @@ PostXSMPFailureDialog (
 
 	error_file = XtMalloc(MAXPATHLEN+1);
 	strcpy (error_file, "");
-	if (check_errorlog) {
-		char		*home;
 
-		if (home = getenv ("HOME"))
-			sprintf (error_file, "%s/%s/%s", home, DtPERSONAL_CONFIG_DIRECTORY,
-					 DtERRORLOG_FILE);
-	}
+        /* JET - VU#497553 */
+	if (check_errorlog) 
+	  {
+	    char		*home;
+
+	    if (home = getenv ("HOME"))
+	      {
+		len = strlen(home) +
+		  strlen(DtPERSONAL_CONFIG_DIRECTORY) +
+		  strlen(DtERRORLOG_FILE);
+
+		if (len > MAXPATHLEN)
+		  error_file = XtRealloc(error_file, len + 1);
+
+		sprintf (error_file, "%s/%s/%s", home, 
+			 DtPERSONAL_CONFIG_DIRECTORY,
+			 DtERRORLOG_FILE);
+	      }
+	  }
 
 	pch5 = XtMalloc (strlen (pch1) + strlen (pch2) + strlen (pch3) + strlen (pch4) + 
 				strlen (error_file) + 15);

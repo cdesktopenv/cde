@@ -1,0 +1,135 @@
+<!-- $XConsortium: RendTaB.sgm /main/11 1996/09/08 20:57:19 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+<RefEntry Id="CDEMMA.MAN355.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmRenderTableAddRenditions</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmRenderTableAddRenditions</Function></RefName>
+<RefPurpose>Creates a new render table
+<IndexTerm>
+<Primary>XmRenderTableAddRenditions</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>XmRenderTable <Function>XmRenderTableAddRenditions</Function></FuncDef>
+<ParamDef>XmRenderTable <Parameter>oldtable</Parameter></ParamDef>
+<ParamDef>XmRendition <Parameter>*renditions</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>rendition_count</Parameter></ParamDef>
+<ParamDef>XmMergeMode <Parameter>merge_mode</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmRenderTableAddRenditions</Function> is a function to create a new render
+table that
+includes the renditions listed in <Symbol Role="Variable">oldtable</Symbol>, if there is one. This
+function also copies
+specified renditions (<Symbol Role="Variable">renditions</Symbol>) to the new render table. The first
+<Symbol Role="Variable">rendition_count</Symbol> renditions of the <Symbol Role="Variable">renditions</Symbol> array are
+added to the new table. If a rendition is tagged with a tag
+that matches a tag already in <Symbol Role="Variable">oldtable</Symbol>, then the existing
+rendition using that tag is either modified or freed and replaced with
+the new rendition, depending on the value of <Symbol Role="Variable">merge_mode</Symbol>. If
+<Symbol Role="Variable">oldtable</Symbol> is NULL,
+<Function>XmRenderTableAddRenditions</Function> creates a new render table containing
+only the specified renditions.
+</Para>
+<Para>This function deallocates the original render table after extracting
+the required information. It is the responsibility of the caller to
+free the renditions of the <Symbol Role="Variable">renditions</Symbol> array by calling the
+<Function>XmRenditionFree</Function> function.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">oldtable</Symbol></Term>
+<ListItem>
+<Para>Specifies the render table to be added to.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">renditions</Symbol></Term>
+<ListItem>
+<Para>Specifies an array of renditions to be added.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">rendition_count</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of renditions from <Symbol Role="Variable">renditions</Symbol> to be added.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">merge_mode</Symbol></Term>
+<ListItem>
+<Para>Specifies what to do if the <SystemItem Class="Resource">XmNtag</SystemItem> of a rendition matches that
+of one that already exists in <Symbol Role="Variable">oldtable</Symbol>. The possible values
+are as follows:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMERGE_REPLACE</SystemItem></Term>
+<ListItem>
+<Para>Completely replaces the old rendition with the new one.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMERGE_OLD</SystemItem></Term>
+<ListItem>
+<Para>Replaces any unspecified values of the old rendition with the
+corresponding values from the new rendition.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMERGE_NEW</SystemItem></Term>
+<ListItem>
+<Para>Replaces the old rendition with the new rendition, replacing any
+unspecified values of the new rendition with the corresponding values
+from the old rendition.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSKIP</SystemItem></Term>
+<ListItem>
+<Para>Skips over the new rendition, leaving the old rendition intact.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>If <Symbol Role="Variable">renditions</Symbol> is NULL or <Symbol Role="Variable">rendition_count</Symbol> is 0 (zero), this
+function returns <Symbol Role="Variable">oldtable</Symbol>.
+Otherwise, the function returns a new <StructName Role="typedef">XmRenderTable</StructName>.
+The function allocates space to hold this new render table.
+The application is responsible for managing this allocated space.
+The application can recover the allocated space by calling <Function>XmRenderTableFree</Function>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmRendition; and
+&cdeman.XmRenderTableFree;.
+</Para>
+</RefSect1>
+</RefEntry>

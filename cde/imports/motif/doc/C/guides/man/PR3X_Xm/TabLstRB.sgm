@@ -1,0 +1,105 @@
+<!-- $XConsortium: TabLstRB.sgm /main/9 1996/09/08 21:09:36 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN463.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmTabListReplacePositions</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmTabListReplacePositions</Function></RefName>
+<RefPurpose>A convenience function that creates a new tab list with replacement tabs
+<IndexTerm>
+<Primary>XmTabListReplacePositions</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- HISTORY-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>XmTabList <Function>XmTabListReplacePositions</Function></FuncDef>
+<!--<ParamDef><Replaceable>oldlist, position_list, tabs, tab_count</Replaceable></ParamDef>-->
+<ParamDef>XmTabList <Parameter>oldlist</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>*position_list</Parameter></ParamDef>
+<ParamDef>XmTab <Parameter>*tabs</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>tab_count</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmTabListReplacePositions</Function> creates a new tab list that contains
+the contents of <Symbol Role="Variable">oldlist</Symbol>, but with the tabs at the positions in
+<Symbol Role="Variable">position_list</Symbol> replaced with copies of the corresponding tabs in
+<Symbol Role="Variable">tabs</Symbol>.
+A warning message is displayed if a specified position is invalid;
+for example, if the value is a number greater than the number of tabs
+in the tab list.
+</Para>
+<Para>This function deallocates the original tab list after extracting the
+required information. It is the caller's responsibility to free the
+tabs in <Symbol Role="Variable">tabs</Symbol> by using the <Function>XmTabFree</Function> function.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">oldlist</Symbol></Term>
+<ListItem>
+<Para>Specifies the tab list.
+The function deallocates the tab list after extracting the required
+information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">position_list</Symbol></Term>
+<ListItem>
+<Para>Specifies an array of positions of the tabs to be replaced. The
+position of the first tab is 0 (zero), the position of the second tab
+is 1, and so on.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">tabs</Symbol></Term>
+<ListItem>
+<Para>Specifies an array of the replacement tabs.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">tab_count</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of elements in <Symbol Role="Variable">position_list</Symbol> and <Symbol Role="Variable">tabs</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>If <Symbol Role="Variable">tabs</Symbol>, <Symbol Role="Variable">oldlist</Symbol>, or <Symbol Role="Variable">position_list</Symbol> is NULL, or
+<Symbol Role="Variable">tab_count</Symbol> is 0 (zero), returns
+<Symbol Role="Variable">oldlist</Symbol>. Otherwise, this function returns the new tab list.
+The function allocates space to hold the returned tab list.
+The application is responsible for managing the allocated space.
+The application can recover the allocated space by calling <Function>XmTabListFree</Function>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmTabList;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

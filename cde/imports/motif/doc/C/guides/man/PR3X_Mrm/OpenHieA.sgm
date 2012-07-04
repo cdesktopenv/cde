@@ -1,0 +1,391 @@
+<!-- $XConsortium: OpenHieA.sgm /main/10 1996/09/08 21:25:45 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN16.rsml.1">
+<RefMeta>
+<RefEntryTitle>MrmOpenHierarchy</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>MrmOpenHierarchy</Function></RefName>
+<RefPurpose>Allocates a hierarchy ID and opens all the UID files in
+the hierarchy
+<IndexTerm>
+<Primary>MrmOpenHierarchy</Primary>
+</IndexTerm><IndexTerm>
+<Primary>uil functions</Primary>
+<Secondary>MrmOpenHierarchy</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Mrm/MrmPublic.h>
+</FuncSynopsisInfo>
+<FuncDef>Cardinal <Function>MrmOpenHierarchy</Function></FuncDef>
+<!--<ParamDef><Replaceable>num_files, file_names_list, ancillary_structures_list,
+hierarchy_id</Replaceable></ParamDef>-->
+<ParamDef>MrmCount <Parameter>num_files</Parameter></ParamDef>
+<ParamDef>String <Parameter>file_names_list</Parameter>[]</ParamDef>
+<ParamDef>MrmOsOpenParamPtr *<Parameter>ancillary_structures_list</Parameter></ParamDef>
+<ParamDef>MrmHierarchy *<Parameter>hierarchy_id</Parameter></ParamDef>
+</FuncSynopsis><IndexTerm>
+<Primary>MRM function</Primary>
+<Secondary>MrmOpenHierarchy</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>MrmOpenHierarchy</Primary>
+<Secondary>definition</Secondary>
+</IndexTerm>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>This routine is obsolete and exists for compatibility with previous
+releases. It is replaced by <Function>MrmOpenHierarchyPerDisplay</Function>.
+<Function>MrmOpenHierarchy</Function> is identical to <Function>MrmOpenHierarchyPerDisplay</Function>
+except that <Function>MrmOpenHierarchy</Function> does not take a <Symbol Role="Variable">display</Symbol>
+argument.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">num_files</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of files in the name list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">file_names_list</Symbol></Term>
+<ListItem>
+<Para>Specifies an array of character strings that identify
+the UID files.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">ancillary_structures_list</Symbol></Term>
+<ListItem>
+<Para>A list of operating-system-dependent ancillary structures corresponding
+to items such as filenames, clobber flags, and so forth.
+This argument should be NULL for most operations.
+If you need to reference this structure,
+see the definition of
+<StructName Role="typedef">MrmOsOpenParamPtr</StructName>
+in the <Filename>MrmPublic.h</Filename> header file for more information.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">hierarchy_id</Symbol></Term>
+<ListItem>
+<Para>Returns the search hierarchy ID.
+The search hierarchy ID identifies the list of UID files that
+MRM searches (in order) when performing subsequent
+fetch calls.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Each UID file string in <Symbol Role="Variable">file_names_list</Symbol> can specify either a full
+pathname or a filename.
+If a UID file string has a leading slash (/), it specifies a full
+pathname, and MRM opens the file as specified.
+Otherwise, the UID file string specifies a filename.
+In this case, MRM looks for the file along a search path specified by the
+<SystemItem Class="EnvironVar">UIDPATH</SystemItem> environment variable or by a default search path, which
+varies depending on whether or not the <SystemItem Class="EnvironVar">XAPPLRESDIR</SystemItem> environment
+variable is set.
+</Para>
+<Para>The <SystemItem Class="EnvironVar">UIDPATH</SystemItem> environment variable specifies a search path and
+naming conventions associated with UID files.
+It can contain the substitution field <Literal>%U</Literal>, where the UID file string from
+the <Symbol Role="Variable">file_names_list</Symbol> argument to <Function>MrmOpenHierarchyPerDisplay</Function> is
+substituted for <Literal>%U</Literal>.
+It can also contain the substitution fields accepted by
+<Function>XtResolvePathname</Function>.
+The substitution field <Literal>%T</Literal> is always mapped to <Symbol Role="Variable">uid</Symbol>.
+The entire path is first searched with <Literal>%S</Literal> mapped to <Literal>&npzwc;.uid</Literal>.
+If no file is found, it is searched again with <Literal>%S</Literal> mapped to NULL.
+</Para>
+<Para>If no display is set prior to calling this function, the result of
+this function's call to <Function>XtResolvePathname</Function> is undefined.
+</Para>
+<Para>For example, the following <SystemItem Class="EnvironVar">UIDPATH</SystemItem> value and
+<Function>MrmOpenHierarchy</Function> call cause MRM to open two separate UID files:
+</Para>
+<InformalExample>
+<ProgramListing>UIDPATH=/uidlib/%L/%U.uid:/uidlib/%U/%L
+  static char *uid_files[] = {"/usr/users/me/test.uid", "test2"};
+  MrmHierarchy  *Hierarchy_id;
+  MrmOpenHierarchy((MrmCount)2,uid_files, NULL, Hierarchy_id)
+</ProgramListing>
+</InformalExample>
+<Para>MRM opens the first file, <Filename>/usr/users/me/test.uid</Filename>, as specified in
+the <Symbol Role="Variable">file_names_list</Symbol> argument to <Function>MrmOpenHierarchy</Function>, because
+the UID file string in the <Symbol Role="Variable">file_names_list</Symbol> argument specifies a
+full pathname.
+MRM looks for the second file,
+<filename>test2</filename>,
+first as
+<Filename>/uidlib/%L/test2.uid</Filename>
+and second as
+<Filename>/uidlib/test2/%L</Filename>,
+where the display's language string is substituted for <Literal>%L</Literal>.
+</Para>
+<Para>After
+<Function>MrmOpenHierarchy</Function>
+opens the UID hierarchy, you should not delete or modify the
+UID files until you close the UID hierarchy by calling
+<Function>MrmCloseHierarchy</Function>.
+</Para>
+<Para>If <SystemItem Class="EnvironVar">UIDPATH</SystemItem> is not set but the environment variable
+<SystemItem Class="EnvironVar">XAPPLRESDIR</SystemItem> is set, MRM searches the following pathnames:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><filename>%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><filename>$XAPPLRESDIR/%L/uid/%N/%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><filename>$XAPPLRESDIR/%l/uid/%N/%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><filename>$XAPPLRESDIR/uid/%N/%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><filename>$XAPPLRESDIR/%L/uid/%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><filename>$XAPPLRESDIR/%l/uid/%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><filename>$XAPPLRESDIR/uid/%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%L/uid/%N/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l/uid/%N/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/uid/%N/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%L/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/include/X11/uid/%U%S</Filename>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>If neither <SystemItem Class="EnvironVar">UIDPATH</SystemItem> nor <SystemItem Class="EnvironVar">XAPPLRESDIR</SystemItem> is set, MRM searches the
+following pathnames:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><filename>%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><filename>HOME/%L/uid/%N/%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><filename>HOME/%l/uid/%N/%U%S</filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/uid/%N/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%L/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%l/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>$HOME/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%L/uid/%N/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l/uid/%N/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/uid/%N/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%L/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/%l/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/lib/X11/uid/%U%S</Filename>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Filename>/usr/include/X11/uid/%U%S</Filename>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>These paths are defaults that vendors may change.
+For example, a vendor may use different directories for
+<Filename>/usr/lib/X11</Filename> and <Filename>/usr/include/X11</Filename>.
+</Para>
+<Para>The following substitutions are used in these paths:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>%U</Literal></Term>
+<ListItem>
+<Para>The UID file string, from the <Symbol Role="Variable">file_names_list</Symbol> argument.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%N</Literal></Term>
+<ListItem>
+<Para>The class name of the application.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%L</Literal></Term>
+<ListItem>
+<Para>The display's language string.
+This string is influenced by <Function>XtSetLanguageProc</Function>.
+The default string is determined by
+calling <Action>setlocale(<Symbol Role="Define">LC_ALL, NULL</Symbol>)</Action>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%l</Literal></Term>
+<ListItem>
+<Para>The language component of the display's language string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>%S</Literal></Term>
+<ListItem>
+<Para>The suffix to the filename.
+The entire path is first searched with a suffix of
+<filename>.uid</filename>.
+If
+no file is found, it is searched again with a NULL suffix.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>This function returns one of the following status return constants:<IndexTerm>
+<Primary>MrmSUCCESS</Primary>
+</IndexTerm><IndexTerm>
+<Primary>MrmNOT_FOUND</Primary>
+</IndexTerm><IndexTerm>
+<Primary>MrmFAILURE</Primary>
+</IndexTerm>
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmSUCCESS</SystemItem></Term>
+<ListItem>
+<Para>The function executed successfully.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmNOT_FOUND</SystemItem></Term>
+<ListItem>
+<Para>File not found.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">MrmFAILURE</SystemItem></Term>
+<ListItem>
+<Para>The function failed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.MrmOpenHierarchyPerDisplay; and
+&cdeman.MrmCloseHierarchy;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

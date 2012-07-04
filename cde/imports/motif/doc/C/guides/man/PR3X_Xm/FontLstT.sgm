@@ -1,0 +1,118 @@
+<!-- $XConsortium: FontLstT.sgm /main/8 1996/09/08 20:44:24 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN239.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmFontListGetNextFont</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmFontListGetNextFont</Function></RefName>
+<RefPurpose>A font list function that allows applications to access the fonts and character sets in a font list
+<IndexTerm>
+<Primary>XmFontListGetNextFont</Primary>
+</IndexTerm><IndexTerm>
+<Primary>font list functions</Primary>
+<Secondary>XmFontListGetNextFont</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>Boolean <Function>XmFontListGetNextFont</Function></FuncDef>
+<!--<ParamDef><Replaceable>context, charset, font</Replaceable></ParamDef>-->
+<ParamDef>XmFontContext <Parameter>context</Parameter></ParamDef>
+<ParamDef>XmStringCharSet *<Parameter>charset</Parameter></ParamDef>
+<ParamDef>XFontStruct **<Parameter>font</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmFontListGetNextFont</Function> accesses the character set and font for the
+next entry of the font list. The application first uses the
+<Function>XmFontListInitFontContext</Function> routine to create a font list context.
+The application then calls <Function>XmFontListGetNextFont</Function> repeatedly with
+the same context. Each succeeding call accesses the next element of
+the font list. When finished, the application calls
+<Function>XmFontListFreeFontContext</Function> to free the allocated font list context.
+</Para>
+<Para>This routine allocates memory for the character set string that must be
+freed by the application.
+The function allocates memory for <Symbol Role="Variable">charset</Symbol>.
+The application is responsible for managing the allocated memory.
+The application can recover the allocated memory by calling
+<Function>XtFree</Function>.
+</Para>
+<Para>This function is obsolete and exists for compatibility with previous
+releases. It is replaced by <Function>XmFontListNextEntry</Function>.
+If <Function>XmFontListGetNextFont</Function> is passed a context that contains
+a font set entry, it will return the first font of the
+font set. The next call to the function will move to the next
+entry in the font list.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">context</Symbol></Term>
+<ListItem>
+<Para>Specifies the font list context
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">charset</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to a character set string; the routine returns the
+character set for the current font list element
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">font</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to a pointer to a font structure; the routine
+returns the font for the current font list element
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns True if the returned values are valid; otherwise, returns False.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmFontList; and
+&cdeman.XmFontListNextEntry;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

@@ -1,0 +1,136 @@
+<!-- $XConsortium: UilDumpS.sgm /main/9 1996/09/08 21:42:57 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN29.rsml.1">
+<RefMeta>
+<RefEntryTitle>UilDumpSymbolTable</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>UilDumpSymbolTable</Function></RefName>
+<RefPurpose>Dumps the contents of a named UIL symbol table to standard output
+<IndexTerm>
+<Primary>UilDumpSymbolTable</Primary>
+</IndexTerm><IndexTerm>
+<Primary>uil functions</Primary>
+<Secondary>UilDumpSymbolTable</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis Remap="not-ANSI">
+<FuncSynopsisInfo>#include &lt;uil/UilDef.h>
+<?sml-space \n(PDu></FuncSynopsisInfo>
+<FuncDef>void <Function>UilDumpSymbolTable</Function></FuncDef>
+<!--<ParamDef><Replaceable>root_ptr</Replaceable></ParamDef>-->
+<ParamDef>sym_entry_type *<Parameter>root_ptr</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The <Function>UilDumpSymbolTable</Function> function dumps
+the contents of a
+UIL symbol table pointer to standard output.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">root_ptr</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the the symbol table root entry.
+This value can be taken from the <Literal>parse_tree_root</Literal> part of
+the <Literal>Uil_compile_desc_type</Literal> data structure returned by <Function>Uil</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>By following the link from the root entry,
+you can traverse the entire parse tree.
+Symbol table entries are in the following format:
+</Para>
+<Para><StructField>hex.address</StructField>
+<StructField>symbol.type</StructField>
+<StructField>symbol.data</StructField>
+<StructField>prev.source.position</StructField>
+<StructField>source.position</StructField>
+<StructField>modification.record</StructField>
+</Para>
+<Para>where:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><StructField>hex.address</StructField></Term>
+<ListItem>
+<Para>Specifies the hexadecimal address of this entry in the symbol table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructField>symbol.type</StructField></Term>
+<ListItem>
+<Para>Specifies the type of this symbol table entry. Some possible types
+are <Symbol Role="Variable">root</Symbol>, <Symbol Role="Variable">module</Symbol>, <Symbol Role="Variable">value</Symbol>, <Symbol Role="Variable">procedure</Symbol>, and <Symbol Role="Variable">widget</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructField>symbol.data</StructField></Term>
+<ListItem>
+<Para>Specifies data for the symbol table entry. The data varies with the
+type of the entry. Often it contains pointers to other symbol table entries,
+or the actual data for the data type.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructField>prev.source.position</StructField></Term>
+<ListItem>
+<Para>Specifies the end point in the source code for the previous source item.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><StructField>source.position</StructField></Term>
+<ListItem>
+<Para>Specifies the range of positions in the source code for this symbol.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The exact data structures for each symbol type are defined in the
+include file <Filename>UilSymDef.h</Filename>.
+Note that this file is automatically included when
+an application includes the file <Filename>UilDef.h</Filename>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Uil3;
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

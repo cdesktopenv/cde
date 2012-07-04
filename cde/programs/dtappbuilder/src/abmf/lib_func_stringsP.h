@@ -52,8 +52,8 @@
 typedef struct
 {
     STRING	name;		/* name */
-    STRING	proto;		/* prototype */
-    STRING	def;		/* actual code */
+    char	proto[512];	/* prototype */
+    char	def[4096];	/* actual code */
 } LibFuncRec, *LibFunc;
 
 

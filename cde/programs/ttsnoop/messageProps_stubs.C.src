@@ -40,12 +40,17 @@
  *** Add include files, types, macros, externs, and user functions here.
  ***/
 
+#if defined(linux)
+#include <strstream>
+#else
 #include <strstream.h>
+#endif
+
 #include <Xm/TextF.h>
 #include <Dt/SpinBox.h>
 #include "DtTt.h"
 
-int		DtTtMsgWidgetKey	= (int)DtTtMessageWidget;
+int		DtTtMsgWidgetKey	= (int) (long) DtTtMessageWidget;
 int		DtTtMsgUpdateCBKey	= DtTtMsgWidgetKey + 1;
 int		DtTtMsgInfoKey		= DtTtMsgWidgetKey + 2;
 
@@ -100,7 +105,7 @@ _DtTtMessageUpdating(
 	Tt_message msg
 )
 {
-	void *updating = tt_message_user( msg, (int)_DtTtMessageUpdating );
+	void *updating = tt_message_user( msg, (int) (long) _DtTtMessageUpdating );
 	if (tt_is_err( tt_ptr_error( updating ))) {
 		return False;
 	}
@@ -113,7 +118,7 @@ _DtTtMessageSetUpdating(
 	Boolean				updating
 )
 {
-	tt_message_user_set( msg, (int)_DtTtMessageUpdating,
+	tt_message_user_set( msg, (int) (long) _DtTtMessageUpdating,
 			     (void *)updating );
 }
 
@@ -603,7 +608,7 @@ DtTtMessageWidgetCreate(
 	}
 	if (notifyProc != 0) {
 		status = tt_message_user_set( msg, DtTtMsgUpdateCBKey,
-					      notifyProc );
+					      (void *) notifyProc );
 		if (tt_is_err( status )) {
 			XtDestroyWidget( widget );
 			return (Widget)tt_error_pointer( status );

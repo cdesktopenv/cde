@@ -1,0 +1,911 @@
+<!-- $XConsortium: Screen.sgm /main/11 1996/09/08 21:00:14 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN384.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmScreen</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmScreen</Classname></RefName>
+<RefPurpose>The Screen widget class
+<IndexTerm>
+<Primary>XmScreen</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>XmScreen</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/Screen.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The XmScreen object is used by Motif widgets to store information that
+is specific to a screen. It also allows the toolkit to store certain
+information on widget hierarchies that would otherwise be unavailable.
+Each client has one XmScreen object for each screen that it accesses.
+</Para>
+<Para>An XmScreen object is automatically created when the application creates
+the first shell on a screen (usually accomplished by a call to
+<Function>XtAppInitialize</Function> or <Function>XtAppCreateShell</Function>).
+It is not necessary to create an XmScreen object by any other means.
+An application can use the function <Function>XmGetXmScreen</Function> to obtain the
+widget ID of the XmScreen object for a given screen.
+</Para>
+<Para>An application cannot supply initial values for XmScreen resources as
+arguments to a call to any function that creates widgets.
+The application or user can supply initial values in a resource file.
+After creating the first shell on the screen, the application can use
+<Function>XmGetXmScreen</Function> to obtain the widget ID of the XmScreen object and
+then call <Function>XtSetValues</Function> to set the XmScreen resources.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>Screen inherits behavior and resources from <Classname>Core</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmScreenClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmScreen</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the
+programmer to specify data. The programmer can also set the resource
+values for the inherited classes to set attributes for this widget.
+To reference a resource by name or by class in an <Literal>&npzwc;.Xdefaults</Literal> file,
+remove the <SystemItem Class="Constant">XmN</SystemItem> or <SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters.
+To specify one of the defined values for a resource in an <Literal>&npzwc;.Xdefaults</Literal>
+file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use the remaining letters (in
+either lowercase or uppercase, but include any underscores between
+words). The codes in the access column indicate if the given resource
+can be set at creation time (C), set by using <Function>XtSetValues</Function>
+(S), retrieved by using <Function>XtGetValues</Function> (G), or is not
+applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmScreen Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbitmapConversionModel</Entry>
+<Entry>XmCBitmapConversionModel</Entry>
+<Entry>XtEnum</Entry>
+<Entry>XmPIXMAP</Entry>
+<Entry>CSG??</Entry>
+</Row>
+<Row>
+<Entry>XmNcolorAllocationProc</Entry>
+<Entry>XmCColorAllocationProc</Entry>
+<Entry>XtProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG??</Entry>
+</Row>
+<Row>
+<Entry>XmNcolorCalculationProc</Entry>
+<Entry>XmCColorCalculationProc</Entry>
+<Entry>XtProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG??</Entry>
+</Row>
+<Row>
+<Entry>XmNdarkThreshold</Entry>
+<Entry>XmCDarkThreshold</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultCopyCursorIcon</Entry>
+<Entry>XmCDefaultCopyCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultInvalidCursorIcon</Entry>
+<Entry>XmCDefaultInvalidCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultLinkCursorIcon</Entry>
+<Entry>XmCDefaultLinkCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultMoveCursorIcon</Entry>
+<Entry>XmCDefaultMoveCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultNoneCursorIcon</Entry>
+<Entry>XmCDefaultNoneCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultSourceCursorIcon</Entry>
+<Entry>XmCDefaultSourceCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultValidCursorIcon</Entry>
+<Entry>XmCDefaultValidCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfont</Entry>
+<Entry>XmCFont</Entry>
+<Entry>XFontStruct *</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforegroundThreshold</Entry>
+<Entry>XmCForegroundThreshold</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhorizontalFontUnit</Entry>
+<Entry>XmCHorizontalFontUnit</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinsensitiveStippleBitmap</Entry>
+<Entry>XmCinsensitiveStippleBitmap</Entry>
+<Entry>Bitmap</Entry>
+<Entry>"50_foreground"</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlightThreshold</Entry>
+<Entry>XmCLightThreshold</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmenuCursor</Entry>
+<Entry>XmCCursor</Entry>
+<Entry>Cursor</Entry>
+<Entry>arrow</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmoveOpaque</Entry>
+<Entry>XmCMoveOpaque</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunpostBehavior</Entry>
+<Entry>XmCUnpostBehavior</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmUNPOST_AND_REPLAY</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuseColorObject</Entry>
+<Entry>XmCUseColorObject</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNverticalFontUnit</Entry>
+<Entry>XmCVerticalFontUnit</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbitmapConversionModel</SystemItem></Term>
+<ListItem>
+<Para>Provides a policy for the conversion of xbm and xpm files to the <Literal>Pixmap</Literal>
+type. This resource takes the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMATCH_DEPTH</SystemItem></Term>
+<ListItem>
+<Para>From a supplied xbm or xpm file, generates a converted pixmap file having the
+same depth as the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDYNAMIC_DEPTH</SystemItem></Term>
+<ListItem>
+<Para>Converts an input xbm file to a <Literal>Pixmap</Literal> of depth 1,
+or converts an input xpm file to a <Literal>Pixmap</Literal> having the
+same depth as the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcolorAllocationProc</SystemItem></Term>
+<ListItem>
+<Para>Identifies the procedure to be used for color allocation.
+Normally, this procedure is an application-defined color allocation
+procedure. However, if no application-defined color allocation
+procedure is set, the system uses Motif's predefined color allocation
+procedure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcolorCalculationProc</SystemItem></Term>
+<ListItem>
+<Para>Identifies the procedure to be used for per-widget color calculation.
+Normally, this procedure is an application-defined color calculation
+procedure. However, if no application-defined color calculation
+procedure is set, the system uses Motif's predefined color calculation
+procedure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdarkThreshold</SystemItem></Term>
+<ListItem>
+<Para>An integer between 0 (zero) and 100, inclusive, that specifies a level
+of perceived brightness for a color. If the perceived brightness
+of the background color is below this level, Motif treats the background
+as "dark" when computing default shadow and select colors.
+If this resource is specified for a particular screen, it applies to
+widgets created on that screen; otherwise it applies to widgets
+created on all screens. The default value is implementation
+specific.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultCopyCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the DragIcon used during a drag operation when
+the operation is a copy and no other pixmap is specified by
+the application. If this resource is NULL, a system default icon is used.
+The system default icon is
+determined by the Display resource <SystemItem Class="Resource">XmNenableDragIcon</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultInvalidCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the DragIcon used to indicate that the cursor
+is over an invalid drop site during a drag operation when no
+other pixmap symbol is specified by the application. If this resource is NULL, a
+system default icon is used.
+The system default icon is determined by the Display resource
+<SystemItem Class="Resource">XmNenableDragIcon</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultLinkCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the DragIcon used during a drag operation when
+the operation is a link and no other pixmap is specified
+by the application. If this resource is NULL, a system default icon is used.
+The system default icon is determined by the Display resource
+<SystemItem Class="Resource">XmNenableDragIcon</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultMoveCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the DragIcon used during a drag operation when
+the operation is a move and no other pixmap is specified by
+the application. If this resource is NULL, a system default icon is used.
+The system default icon is determined by the Display resource
+<SystemItem Class="Resource">XmNenableDragIcon</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultNoneCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the DragIcon used to indicate that the cursor is
+not over a drop site during a drag operation when no other pixmap
+is specified by the application. If this resource is NULL, a system default icon
+is used.
+The system default icon is determined by the Display resource
+<SystemItem Class="Resource">XmNenableDragIcon</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultSourceCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the depth-1 pixmap used as a cursor when an
+<SystemItem Class="Resource">XmNsourceCursorIcon</SystemItem> is not provided by the DragContext, or
+it is not usable. If this resource is NULL, a system default icon is used.
+The system default icon is determined by the Display resource
+<SystemItem Class="Resource">XmNenableDragIcon</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultValidCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the DragIcon used to indicate that the cursor is
+over a valid drop site during a drag operation when no other pixmap
+is specified by the application. If this resource is NULL, a system default icon
+is used.
+The system default icon is determined by the Display resource
+<SystemItem Class="Resource">XmNenableDragIcon</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfont</SystemItem></Term>
+<ListItem>
+<Para>Specifies a font for use in computing values for
+<SystemItem Class="Resource">XmNhorizontalFontUnit</SystemItem> and <SystemItem Class="Resource">XmNverticalFontUnit</SystemItem>. When an
+application is initialized, this resource can be supplied in a
+resource file or through the standard command line options <Literal>&minus;fn</Literal>,
+<Literal>&minus;font</Literal>, and <Literal>&minus;xrm</Literal>. Note that this resource is used only
+for the calculation of the font unit values. To specify a font to be
+used to display text, use a widget's render table resource
+(<SystemItem Class="Resource">XmNrenderTable</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNforegroundThreshold</SystemItem></Term>
+<ListItem>
+<Para>An integer between 0 (zero) and 100, inclusive, that specifies a level of
+perceived brightness for a color. If the perceived brightness of the
+background color is equal to or below this level, Motif treats the
+background as "dark" when computing the default foreground and highlight
+colors. If the perceived brightness of the background color is above
+this level, Motif treats the background as "light" when computing the
+default foreground and highlight colors. When the background is "dark,"
+the default foreground and highlight is white; when the background is
+"light," the default foreground and highlight is black. If this
+resource is specified for a particular screen, it applies to widgets
+created on that screen; otherwise, it applies to widgets created on all
+screens. The default value is implementation specific.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhorizontalFontUnit</SystemItem></Term>
+<ListItem>
+<Para>Specifies the horizontal component of the font units used by
+<Function>XmConvertUnits</Function>, and is used to interpret the values of geometry
+resources when the <SystemItem Class="Resource">XmNshellUnitType</SystemItem> resource of VendorShell or the
+<SystemItem Class="Resource">XmNunitType</SystemItem> resource of Gadget, Manager, or Primitive has the
+value <Symbol>Xm100TH_FONT_UNITS</Symbol>.
+If no initial value is supplied for this resource, the default is
+computed from the font specified in <SystemItem Class="Resource">XmNfont</SystemItem>.
+If no initial value is supplied for this resource or for <SystemItem Class="Resource">XmNfont</SystemItem>,
+the default is 10.
+</Para>
+<Para>If a call to <Function>XtSetValues</Function> specifies a value for
+<SystemItem Class="Resource">XmNhorizontalFontUnit</SystemItem>, this resource is set to that value.
+If a call to <Function>XtSetValues</Function> specifies a value for <SystemItem Class="Resource">XmNfont</SystemItem> but
+not for <SystemItem Class="Resource">XmNhorizontalFontUnit</SystemItem>, this resource is set to a value
+computed from the new <SystemItem Class="Resource">XmNfont</SystemItem>.
+</Para>
+<Para>A horizontal font unit is derived from a font as follows:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>If the font has an <Symbol Role="Define">AVERAGE_WIDTH</Symbol> property, the horizontal font
+unit is the <Symbol Role="Define">AVERAGE_WIDTH</Symbol> property divided by 10.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the font has no <Symbol Role="Define">AVERAGE_WIDTH</Symbol> property but has a
+<Symbol Role="Define">QUAD_WIDTH</Symbol> property, the horizontal font unit is the
+<Symbol Role="Define">QUAD_WIDTH</Symbol> property.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the font has no <Symbol Role="Define">AVERAGE_WIDTH</Symbol> or <Symbol Role="Define">QUAD_WIDTH</Symbol> property, the
+horizontal font unit is the sum of the font structure's <Symbol Role="Variable">min_bounds.width</Symbol>
+and <Symbol Role="Variable">max_bounds.width</Symbol> divided by 2.3.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNinsensitiveStippleBitmap</SystemItem></Term>
+<ListItem>
+<Para>Provides widgets with the bitmap to use when generating the
+insensitive visual. This bitmap is to be used as the stipple for the
+rendering of insensitive visuals.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlightThreshold</SystemItem></Term>
+<ListItem>
+<Para>An integer between 0 (zero) and 100, inclusive, that specifies a level of
+perceived brightness for a color. If the perceived brightness of the
+background color is above this level, Motif treats the background as
+"light" when computing default shadow and select colors. If this
+resource is specified for a particular screen, it applies to widgets
+created on that screen; otherwise, it applies to widgets created on all
+screens. The default value is implementation specific.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmenuCursor</SystemItem></Term>
+<ListItem>
+<Para>Sets a variable that controls the cursor used whenever this
+application posts a menu. This resource can be specified
+only once at application
+startup time, either by placing it within a defaults file or by using the
+<Literal>&minus;xrm</Literal> command line argument. For example:
+</Para>
+<InformalExample>
+<Para><UserInput>myProg &minus;xrm "*menuCursor: arrow"
+</UserInput></Para>
+</InformalExample>
+<Para>The menu cursor can also be selected in the program through
+the function <Function>XmSetMenuCursor</Function>.
+The following list shows acceptable cursor names. If the application
+does not specify a cursor or if an invalid name is supplied, the
+default cursor (an arrow pointing up and to the right) is used.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>X_cursor</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">leftbutton</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">arrow</Symbol></Term>
+<ListItem>
+<Para><Literal>ll_angle</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>based_arrow_down</Literal></Term>
+<ListItem>
+<Para><Literal>lr_angle</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>based_arrow_up</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">man</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">boat</Symbol></Term>
+<ListItem>
+<Para><Symbol Role="Variable">middlebutton</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">bogosity</Symbol></Term>
+<ListItem>
+<Para><Symbol Role="Variable">mouse</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>bottom_left_corner</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">pencil</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>bottom_right_corner</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">pirate</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>bottom_side</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">plus</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>bottom_tee</Literal></Term>
+<ListItem>
+<Para><Literal>question_arrow</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>box_spiral</Literal></Term>
+<ListItem>
+<Para><Literal>right_ptr</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>center_ptr</Literal></Term>
+<ListItem>
+<Para><Literal>right_side</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">circle</Symbol></Term>
+<ListItem>
+<Para><Literal>right_tee</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">clock</Symbol></Term>
+<ListItem>
+<Para><Symbol Role="Variable">rightbutton</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>coffee_mug</Literal></Term>
+<ListItem>
+<Para><Literal>rtl_logo</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">cross</Symbol></Term>
+<ListItem>
+<Para><Symbol Role="Variable">sailboat</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>cross_reverse</Literal></Term>
+<ListItem>
+<Para><Literal>sb_down_arrow</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">crosshair</Symbol></Term>
+<ListItem>
+<Para><Literal>sb_h_double_arrow</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>diamond_cross</Literal></Term>
+<ListItem>
+<Para><Literal>sb_left_arrow</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">dot</Symbol></Term>
+<ListItem>
+<Para><Literal>sb_right_arrow</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">dotbox</Symbol></Term>
+<ListItem>
+<Para><Literal>sb_up_arrow</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>double_arrow</Literal></Term>
+<ListItem>
+<Para><Literal>sb_v_double_arrow</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>draft_large</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">shuttle</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>draft_small</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">sizing</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>draped_box</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">spider</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">exchange</Symbol></Term>
+<ListItem>
+<Para><Symbol Role="Variable">spraycan</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">fleur</Symbol></Term>
+<ListItem>
+<Para><Symbol Role="Variable">star</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">gobbler</Symbol></Term>
+<ListItem>
+<Para><Symbol Role="Variable">target</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">gumby</Symbol></Term>
+<ListItem>
+<Para><Symbol Role="Variable">tcross</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>hand1</Literal></Term>
+<ListItem>
+<Para><Literal>top_left_arrow</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>hand2</Literal></Term>
+<ListItem>
+<Para><Literal>top_left_corner</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">heart</Symbol></Term>
+<ListItem>
+<Para><Literal>top_right_corner</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">icon</Symbol></Term>
+<ListItem>
+<Para><Literal>top_side</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>iron_cross</Literal></Term>
+<ListItem>
+<Para><Literal>left_ptr</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>left_side</Literal></Term>
+<ListItem>
+<Para><Literal>top_tee</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>left_tee</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">trek</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ul_angle</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">umbrella</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ur_angle</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">watch</Symbol>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Command>xterm</Command></Term>
+<ListItem>
+<Para></Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmoveOpaque</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether an interactive operation that moves a window, such as
+tearing off and dragging a tear-off menu or moving a window in MWM,
+displays an outline of the window or a representation of the window
+itself during the move.
+If the value is True, the operation displays a representation of the
+window during the move.
+If the value is False, the operation displays an outline of the window.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNunpostBehavior</SystemItem></Term>
+<ListItem>
+<Para>Specifies the behavior of an active menu posted in traversal mode when
+a subsequent menu button selection is made outside the posted
+menu. When the value is <SystemItem Class="Constant">XmUNPOST_AND_REPLAY</SystemItem>, the resource
+unposts the menu hierarchy and causes the server to replay the event to the
+window in which the pointer is located. When the value is
+<SystemItem Class="Constant">XmUNPOST</SystemItem>, the resource unposts the hierarchy without replaying the
+event.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmNuseColorObject</Symbol></Term>
+<ListItem>
+<Para>Enables and disables the sharing of colors between widgets, and the
+dynamic changing of colors. A value of False disables this, and a
+value of True enables it.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNuserData</SystemItem></Term>
+<ListItem>
+<Para>Allows the application to attach
+any necessary specific data to the widget. This is an internally
+unused resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNverticalFontUnit</SystemItem></Term>
+<ListItem>
+<Para>Specifies the vertical component of the font units used by
+<Function>XmConvertUnits</Function> and used to interpret the values of geometry
+resources when the <SystemItem Class="Resource">XmNshellUnitType</SystemItem> resource of VendorShell or the
+<SystemItem Class="Resource">XmNunitType</SystemItem> resource of Gadget, Manager, or Primitive has the
+value <Symbol>Xm100TH_FONT_UNITS</Symbol>.
+If no initial value is supplied for this resource, the default is
+computed from the font specified in <SystemItem Class="Resource">XmNfont</SystemItem>.
+If no initial value is supplied for this resource or for <SystemItem Class="Resource">XmNfont</SystemItem>,
+the default is 10.
+</Para>
+<Para>If a call to <Function>XtSetValues</Function> specifies a value for
+<SystemItem Class="Resource">XmNverticalFontUnit</SystemItem>, this resource is set to that value.
+If a call to <Function>XtSetValues</Function> specifies a value for <SystemItem Class="Resource">XmNfont</SystemItem> but
+not for <SystemItem Class="Resource">XmNverticalFontUnit</SystemItem>, this resource is set to a value
+computed from the new <SystemItem Class="Resource">XmNfont</SystemItem>.
+</Para>
+<Para>A vertical font unit is derived from a font as follows:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>If the font has a <Symbol Role="Define">PIXEL_SIZE</Symbol> property, the vertical font unit is
+the <Symbol Role="Define">PIXEL_SIZE</Symbol> property divided by 1.8.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the font has no <Symbol Role="Define">PIXEL_SIZE</Symbol> property but has <Symbol Role="Define">POINT_SIZE</Symbol>
+and <Symbol Role="Define">RESOLUTION_Y</Symbol> properties, the vertical font unit is the product
+of the <Symbol Role="Define">POINT_SIZE</Symbol> and <Symbol Role="Define">RESOLUTION_Y</Symbol> properties divided by
+1400.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the font has no <Symbol Role="Define">PIXEL_SIZE</Symbol>, <Symbol Role="Define">POINT_SIZE</Symbol>, or
+<Symbol Role="Define">RESOLUTION_Y</Symbol> properties, the vertical font unit is the sum of the
+font structure's <Symbol Role="Variable">max_bounds.ascent</Symbol> and
+<Symbol Role="Variable">max_bounds.descent</Symbol> divided by 2.2.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>All of the superclass resources inherited by <Classname>XmScreen</Classname> are
+designated N/A (not applicable).
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Core;,
+&cdeman.XmDisplay;,
+&cdeman.XmGetXmScreen;, and
+&cdeman.XmSetMenuCursor;,
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

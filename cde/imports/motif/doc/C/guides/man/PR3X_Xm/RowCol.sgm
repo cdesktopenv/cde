@@ -1,0 +1,2507 @@
+<!-- $XConsortium: RowCol.sgm /main/11 1996/09/08 20:59:24 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN379.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmRowColumn</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmRowColumn</Classname></RefName>
+<RefPurpose>The RowColumn widget class
+<IndexTerm>
+<Primary>XmRowColumn</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>RowColumn</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/RowColumn.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The RowColumn widget is a general purpose RowColumn manager capable
+of containing any widget type as a child.
+In general, it requires no special
+knowledge about how its children function and provides nothing
+beyond support for several different layout styles. However, it can be
+configured as a menu, in which case, it expects only certain children, and
+it configures to a particular layout. The menus supported are MenuBar,
+Pulldown or Popup menu panes, and OptionMenu.
+RowColumn uses the <Symbol Role="Globalvar">XmQTmenuSavvy</Symbol> trait and holds the
+<Symbol Role="Globalvar">XmQTmenuSystem</Symbol> trait.
+</Para>
+<Para>The type of layout performed is controlled by how the application has set
+the various layout resources.
+It can be configured to lay out its children in either rows or
+columns. In addition, the application can specify how the children are
+laid out, as follows:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The children are packed tightly together into either rows or columns
+</Para>
+</ListItem>
+<ListItem>
+<Para>Each child is placed in an identically sized
+box (producing a symmetrical look)
+</Para>
+</ListItem>
+<ListItem>
+<Para>A specific layout (the current <Emphasis>x</Emphasis> and <Emphasis>y</Emphasis> positions of the children
+control their location)
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>In addition, the application has control over both the spacing that
+occurs between each row and column and the margin spacing
+present between the edges of the RowColumn widget and any children
+that are placed against it.
+</Para>
+<Para>The default <SystemItem Class="Resource">XmNinsertPosition</SystemItem> procedure for the RowColumn
+returns the value of <SystemItem Class="Resource">XmNpositionIndex</SystemItem> if one has been specified
+for the child. Otherwise, this procedure returns the number of
+children in the RowColumn's <SystemItem Class="Resource">XmNnumChildren</SystemItem> list.
+In a MenuBar, Pulldown menu pane, or Popup menu pane the default for the
+<SystemItem Class="Resource">XmNshadowThickness</SystemItem> resource is 2.
+In an OptionMenu or a WorkArea, (such as a RadioBox or CheckBox) this
+resource is not applicable and its use is undefined.
+If an application wishes to place a 3-D shadow around an OptionMenu or
+WorkArea, it can create the RowColumn as a child of a Frame widget.
+</Para>
+<Para>In a MenuBar, Pulldown menu pane, or Popup menu pane the
+<SystemItem Class="Resource">XmNnavigationType</SystemItem> resource is not applicable and its use is
+undefined.
+In a WorkArea, the default for <SystemItem Class="Resource">XmNnavigationType</SystemItem> is
+<SystemItem Class="Constant">XmTAB_GROUP</SystemItem>.
+In an OptionMenu the default for <SystemItem Class="Resource">XmNnavigationType</SystemItem> is
+<SystemItem Class="Constant">XmNONE</SystemItem>.
+</Para>
+<Para>In a MenuBar, Pulldown menu pane, or Popup menu pane the
+<SystemItem Class="Resource">XmNtraversalOn</SystemItem> resource is not applicable and its use is
+undefined.
+In an OptionMenu or WorkArea, the default for <SystemItem Class="Resource">XmNtraversalOn</SystemItem> is
+True.
+</Para>
+<Para>If the parent of the RowColumn is a MenuShell, the
+<SystemItem Class="Resource">XmNmappedWhenManaged</SystemItem> resource is forced to False when the widget
+is realized.
+</Para>
+<Para>The user can specify resources in a resource file for the automatically
+created widgets and gadgets of an OptionMenu. The following list
+identifies the names of these widgets (or gadgets) and the associated
+OptionMenu areas.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>Option Menu Label Gadget</Term>
+<ListItem>
+<Para><Literal>OptionLabel</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term>Option Menu Cascade Button</Term>
+<ListItem>
+<Para><Literal>OptionButton</Literal>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>For the Popup and Pulldown Menupanes, popup and pulldown menus have
+particular behaviors when the
+<KeySym>Btn1</KeySym> button is pressed outside the menus. These behaviors
+are summarized here.
+</Para>
+<Para>When there is already a popped up menu, a user can either press
+<KeySym>Btn1</KeySym> in the same area as the
+popped up menu, or can press <KeySym>Btn1</KeySym> in another area that should
+have a menu popped up. When <KeySym>Btn1</KeySym> is pressed in the same
+area as the already popped up menu, that menu is unposted.
+If <KeySym>Btn1</KeySym> is pressed in a different area,
+the associated popup menu is posted for the new area. Note, however,
+that if the
+<SystemItem Class="Resource">XmNpopupHandlerCallback</SystemItem> of either <Classname>XmManager</Classname> or
+<Classname>XmPrimitive</Classname> is available, then the callback may override these
+default behaviors.
+</Para>
+<Para>For pulldown menus, a user can press <KeySym>Btn1</KeySym> on the
+Cascade button to post the pulldown menu, then click on it again. Upon the
+second click, the pulldown menu is unposted.
+</Para>
+<Para>Popup menus are not allowed to have NULL parents.
+</Para>
+<RefSect2>
+<Title>Tear-off Menus</Title>
+<Para>Pulldown and Popup menu panes support tear-off menus, which enable the
+user to retain a menu pane on the display to facilitate subsequent
+menu selections. A menu pane that can be torn-off is identified by
+a tear-off button that spans the width of the menu pane and displays
+a dashed line. A torn-off menu pane contains a window manager system
+menu icon and a title bar. The window title displays the label of the
+cascade button that initiated the action when the label type is
+<SystemItem Class="Constant">XmSTRING</SystemItem>. If the label contains a pixmap the window title is
+empty. A tear-off menu from a Popup menu pane also displays
+an empty title.
+Tear-off menus should not be shared.
+</Para>
+<Para>The user can tear off a menu pane using the mouse or keyboard.
+Clicking <KeySym>Btn1</KeySym> or pressing <KeySym>osfActivate</KeySym> (or <KeySym>osfSelect</KeySym>)
+on the tear-off button, tears off the menu pane at the current
+position. Pressing <KeySym>Btn2</KeySym> on the tear-off button tears off the
+menu pane and allows the user to drag the torn-off menu to a new
+position designated by releasing the mouse button. Tearing off a
+menu pane unposts the current active menu. Only one tear-off copy
+for each menu pane is allowed. Subsequent tear-off actions of a
+torn menu pane unpost the existing copy first.
+</Para>
+<Para>The name of the tear-off button of a torn-off menu pane is
+<Literal>TearOffControl</Literal>. The name can be used to set resources in a resource
+file. An application can also obtain the tear-off button itself using
+<Function>XmGetTearOffControl</Function> and then set resource values by calling
+<Function>XtSetValues</Function>.
+</Para>
+<Para>The tear-off button has Separator-like behavior. Its appearance can be
+specified with the following tear-off button resources:
+<SystemItem Class="Resource">XmNbackground</SystemItem>, <SystemItem Class="Resource">XmNbackgroundPixmap</SystemItem>,
+<SystemItem Class="Resource">XmNbottomShadowColor</SystemItem>, <SystemItem Class="Resource">XmNforeground</SystemItem>, <SystemItem Class="Resource">XmNheight</SystemItem>,
+<SystemItem Class="Resource">XmNmargin</SystemItem>, <SystemItem Class="Resource">XmNseparatorType</SystemItem>, <SystemItem Class="Resource">XmNshadowThickness</SystemItem>, and
+<SystemItem Class="Resource">XmNtopShadowColor</SystemItem>. Refer to the <Classname>XmSeparator</Classname> reference
+page for a complete description of each of these resources.
+</Para>
+<Para>The <SystemItem Class="Resource">XmNtearOffModel</SystemItem>, <SystemItem Class="Resource">XmNtearOffMenuActivateCallback</SystemItem>, and
+<SystemItem Class="Resource">XmNtearOffMenuDeactivateCallback</SystemItem>
+are RowColumn resources that affect tear-off menu behavior.
+The <SystemItem Class="Resource">XmNtearOffTitle</SystemItem> resource enables the application to specify
+the tear-off menu's title if the menu is torn off.
+</Para>
+<Para>By default, menus do not tear off. Setting the
+<SystemItem Class="Resource">XmNtearOffModel</SystemItem> resource to <SystemItem Class="Constant">XmTEAR_OFF_ENABLED</SystemItem>
+enables tear-off functionality.
+There is no resource converter
+preregistered for <SystemItem Class="Resource">XmNtearOffModel</SystemItem>. To allow tear-off
+functionality to be enabled through the resource database, call the
+function <Function>XmRepTypeInstallTearOffModelConverter</Function>.
+</Para>
+<Para>Tear-off menu focus policy follows standard window
+manager policy. It is recommended that the
+<Literal>startupKeyFocus</Literal> and <Literal>autoKeyFocus</Literal>
+<Command>mwm</Command> resources be set to True.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Descendants</Title>
+<Para>RowColumn automatically creates the descendants shown in the
+following table.
+An application can use <Function>XtNameToWidget</Function> to gain access
+to the named descendant. In addition, a user or an application
+can use the named descendant when specifying resource values.
+</Para>
+<InformalTable Frame="All" Orient="Port">
+<TGroup Cols="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Align="Left" Colname="3">
+<TBody>
+<Row>
+<Entry><Literal>Named Descendant</Literal></Entry>
+<Entry><Literal>Class</Literal></Entry>
+<Entry><Literal>Identity</Literal></Entry>
+</Row>
+<Row>
+<Entry>=</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>OptionButton</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmCascadeButtonGadget</Classname></Entry>
+<Entry Rowsep="1">option menu button</Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>OptionLabel</Literal></Entry>
+<Entry Rowsep="1"><Classname>XmLabelGadget</Classname></Entry>
+<Entry Rowsep="1">option menu label</Entry>
+</Row>
+<Row>
+<Entry><Literal>TearOffControl</Literal></Entry>
+<Entry>subclass of <Classname>XmPrimitive</Classname></Entry>
+<Entry>tear-off button of torn-off menu pane</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>RowColumn inherits behavior, resources, and traits from <Classname>Core</Classname>,
+<Classname>Composite</Classname>,
+<Classname>Constraint</Classname>, and <Classname>XmManager</Classname> classes.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmRowColumnWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmRowColumn</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmRowColumn Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNadjustLast</Entry>
+<Entry>XmCAdjustLast</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNadjustMargin</Entry>
+<Entry>XmCAdjustMargin</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNentryAlignment</Entry>
+<Entry>XmCAlignment</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmALIGNMENT_BEGINNING</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNentryBorder</Entry>
+<Entry>XmCEntryBorder</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNentryCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNentryClass</Entry>
+<Entry>XmCEntryClass</Entry>
+<Entry>WidgetClass</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNentryVerticalAlignment</Entry>
+<Entry>XmCVerticalAlignment</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmALIGNMENT_CENTER</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNisAligned</Entry>
+<Entry>XmCIsAligned</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNisHomogeneous</Entry>
+<Entry>XmCIsHomogeneous</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelString</Entry>
+<Entry>XmCXmString</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmenuAccelerator</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>String</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmenuHelpWidget</Entry>
+<Entry>XmCMenuWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmenuHistory</Entry>
+<Entry>XmCMenuWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmenuPost</Entry>
+<Entry>XmCMenuPost</Entry>
+<Entry>String</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmnemonic</Entry>
+<Entry>XmCMnemonic</Entry>
+<Entry>KeySym</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmnemonicCharSet</Entry>
+<Entry>XmCMnemonicCharSet</Entry>
+<Entry>String</Entry>
+<Entry>XmFONTLIST_DEFAULT_TAG</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumColumns</Entry>
+<Entry>XmCNumColumns</Entry>
+<Entry>short</Entry>
+<Entry>1</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNorientation</Entry>
+<Entry>XmCOrientation</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpacking</Entry>
+<Entry>XmCPacking</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupEnabled</Entry>
+<Entry>XmCPopupEnabled</Entry>
+<Entry>int</Entry>
+<Entry>XmPOPUP_KEYBOARD</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNradioAlwaysOne</Entry>
+<Entry>XmCRadioAlwaysOne</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNradioBehavior</Entry>
+<Entry>XmCRadioBehavior</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizeHeight</Entry>
+<Entry>XmCResizeHeight</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizeWidth</Entry>
+<Entry>XmCResizeWidth</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrowColumnType</Entry>
+<Entry>XmCRowColumnType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmWORK_AREA</Entry>
+<Entry>CG</Entry>
+</Row>
+<!--no-op:  .tH-->
+<Row>
+<Entry>XmNspacing</Entry>
+<Entry>XmCSpacing</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsubMenuId</Entry>
+<Entry>XmCMenuWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtearOffMenuActivateCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNtearOffMenuDeactivateCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNtearOffModel</Entry>
+<Entry>XmCTearOffModel</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmTEAR_OFF_DISABLED</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtearOffTitle</Entry>
+<Entry>XmCTearOffTitle</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNwhichButton</Entry>
+<Entry>XmCWhichButton</Entry>
+<Entry>unsigned int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNadjustLast</SystemItem></Term>
+<ListItem>
+<Para>Extends the last row of children to the bottom edge of RowColumn (when
+<SystemItem Class="Resource">XmNorientation</SystemItem> is <SystemItem Class="Constant">XmHORIZONTAL</SystemItem>) or extends the last column to the
+right edge of RowColumn (when <SystemItem Class="Resource">XmNorientation</SystemItem> is <SystemItem Class="Constant">XmVERTICAL</SystemItem>).
+Setting <SystemItem Class="Resource">XmNadjustLast</SystemItem> to False disables this feature.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNadjustMargin</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether the inner minor margins of all
+items contained within the RowColumn widget are
+forced to the same value. The inner minor margin
+corresponds to the <SystemItem Class="Resource">XmNmarginLeft</SystemItem>, <SystemItem Class="Resource">XmNmarginRight</SystemItem>,
+<SystemItem Class="Resource">XmNmarginTop</SystemItem>,
+and <SystemItem Class="Resource">XmNmarginBottom</SystemItem> resources supported by <Classname>XmLabel</Classname> and
+<Classname>XmLabelGadget</Classname>.
+</Para>
+<Para>A horizontal orientation causes <SystemItem Class="Resource">XmNmarginTop</SystemItem> and
+<SystemItem Class="Resource">XmNmarginBottom</SystemItem> for all items in a particular row to be forced to the
+same value; the value is the largest margin specified
+for one of the Label items.
+</Para>
+<Para>A vertical orientation causes
+<SystemItem Class="Resource">XmNmarginLeft</SystemItem> and <SystemItem Class="Resource">XmNmarginRight</SystemItem> for all items in a particular
+column to be forced to the same value; the value is the largest
+margin specified for one of the Label items.
+</Para>
+<Para>This keeps all text within each row or column
+lined up with all other text in its row or column.
+If <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is either <SystemItem Class="Constant">XmMENU_POPUP</SystemItem> or
+<SystemItem Class="Constant">XmMENU_PULLDOWN</SystemItem> and this resource is True, only button children
+have their margins adjusted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNentryAlignment</SystemItem></Term>
+<ListItem>
+<Para>Specifies the alignment type for children that are subclasses of
+<Classname>XmLabel</Classname> or <Classname>XmLabelGadget</Classname> when <SystemItem Class="Resource">XmNisAligned</SystemItem> is enabled.
+The following are textual alignment types:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><SystemItem Class="Constant">XmALIGNMENT_BEGINNING</SystemItem> (default)
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmALIGNMENT_CENTER</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmALIGNMENT_END</SystemItem>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>See the description of <SystemItem Class="Resource">XmNalignment</SystemItem> in the &cdeman.XmLabel;
+reference page for an explanation of these actions.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNentryBorder</SystemItem></Term>
+<ListItem>
+<Para>Imposes a uniform border width upon all RowColumn's children.
+The default value is 0 (zero), which disables the feature.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNentryCallback</SystemItem></Term>
+<ListItem>
+<Para>Disables the <SystemItem Class="Resource">XmNactivateCallback</SystemItem> and <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+callbacks for all CascadeButton, DrawnButton, PushButton, and
+ToggleButton widgets and gadgets contained within the RowColumn widget.
+If the application supplies this resource, the <SystemItem Class="Resource">XmNactivateCallback</SystemItem>
+and <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem> callbacks are then revectored to the
+<SystemItem Class="Resource">XmNentryCallback</SystemItem> callbacks.
+This allows an application to supply a single callback routine for
+handling all items contained in a RowColumn widget.
+The callback reason is <SystemItem Class="Constant">XmCR_ACTIVATE</SystemItem>.
+If the application does not supply this resource, the
+<SystemItem Class="Resource">XmNactivateCallback</SystemItem> and <SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>
+callbacks for each item in the RowColumn widget work as normal.
+</Para>
+<Para>The application must supply this resource when this widget is created.
+Changing this resource using the <Function>XtSetValues</Function> is not
+supported.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNentryClass</SystemItem></Term>
+<ListItem>
+<Para>Specifies the only widget class that can be added
+to the RowColumn widget; this resource is meaningful only when the
+<SystemItem Class="Resource">XmNisHomogeneous</SystemItem> resource is set to True.
+Both widget and gadget variants of the specified class may be added to
+the widget.
+</Para>
+<Para>When <Function>XmCreateRadioBox</Function> is called or when <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is
+set to <SystemItem Class="Constant">XmWORK_AREA</SystemItem> and <SystemItem Class="Resource">XmNradioBehavior</SystemItem> is True, the default
+value of <SystemItem Class="Resource">XmNentryClass</SystemItem> is
+<Symbol Role="Globalvar">xmToggleButtonGadgetClass</Symbol>.
+When <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is set to <SystemItem Class="Constant">XmMENU_BAR</SystemItem>, the value of
+<SystemItem Class="Resource">XmNentryClass</SystemItem> is forced to <Symbol Role="Globalvar">xmCascadeButtonWidgetClass</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNentryVerticalAlignment</SystemItem></Term>
+<ListItem>
+<Para>Specifies the type of vertical alignment for children that are
+subclasses of <Classname>XmLabel</Classname>, <Literal>XmLabelGadget, and</Literal> <Classname>XmText</Classname>.
+This resource is invalid if <SystemItem Class="Resource">XmNorientation</SystemItem> is <SystemItem Class="Constant">XmVERTICAL</SystemItem>
+and <SystemItem Class="Resource">XmNpacking</SystemItem> is <SystemItem Class="Constant">XmPACK_TIGHT</SystemItem>, because this layout
+preserves variable heights among the children. The vertical alignment
+types include:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmALIGNMENT_BASELINE_BOTTOM</SystemItem></Term>
+<ListItem>
+<Para>Causes the bottom baseline of all
+children in a row to be aligned.
+This resource is applicable only when all children in a row
+contain textual data.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmALIGNMENT_BASELINE_TOP</SystemItem></Term>
+<ListItem>
+<Para>Causes the top baseline of all
+children in a row to be aligned.
+This resource is applicable only when all children in a
+row contain textual data.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmALIGNMENT_CONTENTS_BOTTOM</SystemItem></Term>
+<ListItem>
+<Para>Causes the bottom of the
+contents (text or
+pixmap) of all children in a row to be aligned.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmALIGNMENT_CENTER</SystemItem></Term>
+<ListItem>
+<Para>Causes the center of all children in a row to be
+aligned.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmALIGNMENT_CONTENTS_TOP</SystemItem></Term>
+<ListItem>
+<Para>Causes the top of the contents (text or
+pixmap) of all children in a row to be aligned.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNisAligned</SystemItem></Term>
+<ListItem>
+<Para>Specifies text alignment for each item within the RowColumn widget;
+this applies only to items that are subclasses of
+<Classname>XmLabel</Classname> or <Classname>XmLabelGadget</Classname>.
+However, if the item is a Label widget or gadget and its parent is either
+a Popup menu pane or a Pulldown menu pane, alignment is not
+performed; the Label is treated as the
+title within the
+menu pane, and the alignment
+set by the application is not overridden.
+<SystemItem Class="Resource">XmNentryAlignment</SystemItem> controls the type of textual alignment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNisHomogeneous</SystemItem></Term>
+<ListItem>
+<Para>Indicates whether the RowColumn
+widget should enforce exact homogeneity among the items
+it contains; if this resource is set to True, only the widgets that are
+of the class indicated by <SystemItem Class="Resource">XmNentryClass</SystemItem>
+are allowed as children of the RowColumn widget.
+This is most often used when creating a MenuBar.
+Attempting to insert a child that is not a member of the
+specified class generates a warning message.
+</Para>
+<Para>In a MenuBar, the value of <SystemItem Class="Resource">XmNisHomogeneous</SystemItem> is forced to True.
+In an OptionMenu, the value is forced to False.
+When <Function>XmCreateRadioBox</Function> is called the default value is True.
+Otherwise, the default value is False.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlabelString</SystemItem></Term>
+<ListItem>
+<Para>When <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is set to <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>,
+this resource points to a text string that displays the label with
+respect to the selection area. The positioning of the label relative to the
+selection area depends on the layout
+direction in the horizontal orientation.
+This resource is not meaningful for all other RowColumn types.
+If the application wishes to change the label after creation, it must get the
+LabelGadget ID (<Function>XmOptionLabelGadget</Function>) and call <Function>XtSetValues</Function> on the
+LabelGadget directly. The default value is no label.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmapCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a widget-specific callback function that is
+invoked when the window associated with the RowColumn widget
+is about to be mapped. The callback reason is <SystemItem Class="Constant">XmCR_MAP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the amount of blank space between the top
+edge of the RowColumn widget and the first item in each column,
+and the bottom edge of the RowColumn widget and the last item
+in each column.
+The default value is 0 (zero) for Pulldown and Popup menu panes, and 3
+pixels for other RowColumn types.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmarginWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the amount of blank space between the left
+edge of the RowColumn widget and the first item in each row,
+and the right edge of the RowColumn widget and the last item in
+each row.
+The default value is 0 (zero) for Pulldown and Popup menu panes, and 3
+pixels for other RowColumn types.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmenuAccelerator</SystemItem></Term>
+<ListItem>
+<Para>This resource is useful only when the RowColumn widget has been configured
+to operate as a Popup menu pane or a MenuBar.
+The format of this resource is similar to the left side specification
+of a translation string, with the limitation that it must specify a key
+event.
+For a Popup menu pane, when the accelerator is typed by the user, the Popup
+menu pane is posted.
+For a MenuBar, when the accelerator is typed by the user, the first item
+in the MenuBar is highlighted, and traversal is enabled in the
+MenuBar.
+The default for a Popup menu pane is <KeySym>osfMenu</KeySym>.
+The default for a MenuBar is <KeySym>osfMenuBar</KeySym>.
+Setting the <SystemItem Class="Resource">XmNpopupEnabled</SystemItem> resource to False disables
+the accelerator.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmenuHelpWidget</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID for the CascadeButton, which is treated as
+the Help widget if <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is set to <SystemItem Class="Constant">XmMENU_BAR</SystemItem>.
+Which corner of the MenuBar the Help widget is placed at depends on
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource of the widget.
+If the RowColumn widget is any type other than <SystemItem Class="Constant">XmMENU_BAR</SystemItem>,
+this resource is not meaningful.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmenuHistory</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID of the last menu entry to be activated. It is
+also useful for specifying the current selection for an OptionMenu. If
+<SystemItem Class="Resource">XmNrowColumnType</SystemItem> is set to <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>, the specified
+menu item is positioned under the cursor when the menu is displayed.
+</Para>
+<Para>If the RowColumn widget has the <SystemItem Class="Resource">XmNradioBehavior</SystemItem> resource set to
+True,
+the widget field associated with this resource
+contains the widget ID of the last ToggleButton or ToggleButtonGadget
+to change from unselected to selected.
+The default value is the widget ID of the first child in
+the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmenuPost</SystemItem></Term>
+<ListItem>
+<Para>Specifies an X event description indicating a button event that posts a menu
+system.
+The default for <SystemItem Class="Constant">XmMENU_POPUP</SystemItem> is <Literal>BMenu Press</Literal>.
+The default for <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>, <SystemItem Class="Constant">XmMENU_BAR</SystemItem>, and
+<SystemItem Class="Constant">XmWORK_AREA</SystemItem> is <KeySym>Btn1</KeySym> <Literal>Press</Literal>.
+The <SystemItem Class="Resource">XmNmenuPost</SystemItem> resource for pulldowns should be consistent with that of
+the top-level parent menu (although the event type is ignored).
+Setting this resource to <Literal>BTransfer Press</Literal> will conflict with drag and drop
+operations, which use <Literal>BTransfer Press</Literal> as a default button binding.
+Therefore, this resource cannot be <Literal>BTransfer Press</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmnemonic</SystemItem></Term>
+<ListItem>
+<Para>This resource is useful only when <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is
+set to <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>.
+It specifies a keysym for a key that, when pressed by the user along with
+the <Literal>MAlt</Literal> modifier, posts
+the associated Pulldown menu pane.
+The first character in the OptionMenu label string that exactly matches
+the mnemonic in the character set specified in <SystemItem Class="Resource">XmNmnemonicCharSet</SystemItem>
+is underlined.
+The user can post the menu by pressing either the shifted or the
+unshifted mnemonic key.
+The default is no mnemonic.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmnemonicCharSet</SystemItem></Term>
+<ListItem>
+<Para>Specifies the character set of the mnemonic for an OptionMenu.
+The default is <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>.
+If the RowColumn widget is any type other than <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>,
+this resource is not meaningful.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnumColumns</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of minor dimension extensions
+that are made to accommodate the entries; this
+attribute is meaningful only when <SystemItem Class="Resource">XmNpacking</SystemItem> is set to
+<SystemItem Class="Constant">XmPACK_COLUMN</SystemItem>.
+</Para>
+<Para>For vertically oriented RowColumn widgets, this attribute
+indicates how many columns are built; the number of
+entries per column is adjusted to maintain this
+number of columns, if possible.
+</Para>
+<Para>For horizontally oriented RowColumn widgets, this attribute
+indicates how many rows are built.
+</Para>
+<Para>The default value is 1.
+In an OptionMenu the value is forced to 1.
+The value must be greater than 0 (zero).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNorientation</SystemItem></Term>
+<ListItem>
+<Para>Determines whether RowColumn layouts are row-major or column-major.
+In a column-major layout, the children of the RowColumn
+are laid out in
+columns within the widget. In a row-major layout the children of
+the RowColumn are laid out in rows. The direction of the horizontal
+layout in the row-major layout (from left or right), and the wrapping in
+the column-major layout (vertical), depend on the
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource of the widget.
+The <SystemItem Class="Constant">XmVERTICAL</SystemItem> resource value
+selects a column-major layout.
+<SystemItem Class="Constant">XmHORIZONTAL</SystemItem> selects a row-major layout.
+</Para>
+<Para>When creating a MenuBar or an OptionMenu, the default is
+<SystemItem Class="Constant">XmHORIZONTAL</SystemItem>.
+Otherwise, the default value is <SystemItem Class="Constant">XmVERTICAL</SystemItem>.
+The results of specifying a value of <SystemItem Class="Constant">XmVERTICAL</SystemItem> for a MenuBar are
+undefined.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpacking</SystemItem></Term>
+<ListItem>
+<Para>Specifies how to pack the items contained within a
+RowColumn widget. This can be set to <Literal>XmPACK_TIGHT, XmPACK_COLUMN</Literal> or <SystemItem Class="Constant">XmPACK_NONE</SystemItem>. When a RowColumn widget
+packs the items it contains, it determines its major
+dimension using the value of the <SystemItem Class="Resource">XmNorientation</SystemItem> resource.
+</Para>
+<Para><SystemItem Class="Constant">XmPACK_TIGHT</SystemItem> indicates that given the current major
+dimension (for example, vertical if <SystemItem Class="Resource">XmNorientation</SystemItem> is <SystemItem Class="Constant">XmVERTICAL</SystemItem>), entries
+are placed one after the other until
+the RowColumn widget must wrap. RowColumn wraps when there is no room left
+for a complete child in that dimension.
+Wrapping occurs
+by beginning a new row or column in the next available
+space. Wrapping continues, as often as necessary, until
+all of the children are laid out.
+In the vertical dimension (columns), boxes are set to the same width; in the
+horizontal dimension (rows), boxes are set to the same depth.
+Each
+entry's position in the major dimension is left unaltered (for example,
+<SystemItem Class="Resource">XmNy</SystemItem> is left unchanged when <SystemItem Class="Resource">XmNorientation</SystemItem> is <SystemItem Class="Constant">XmVERTICAL</SystemItem>); its
+position in the minor
+dimension is set to the same value as the greatest entry
+in that particular row or column. The position in the minor
+dimension of any particular row or column is independent
+of all other rows or columns.
+</Para>
+<Para><SystemItem Class="Constant">XmPACK_COLUMN</SystemItem> indicates that all entries are placed in
+identically sized boxes. The boxes are based on the largest height
+and width values of all the children widgets.
+The value of the <SystemItem Class="Resource">XmNnumColumns</SystemItem>
+resource determines how many boxes are placed in the
+major dimension, before extending in the minor dimension.
+</Para>
+<Para><SystemItem Class="Constant">XmPACK_NONE</SystemItem> indicates that no packing is performed.
+The <Emphasis>x</Emphasis> and <Emphasis>y</Emphasis> attributes of each entry are left alone, and
+the RowColumn widget attempts to become large enough to enclose all
+entries.
+</Para>
+<Para>When <Function>XmCreateRadioBox</Function> is called or when <SystemItem Class="Resource">XmNrowColumnType</SystemItem>
+is set to <SystemItem Class="Constant">XmWORK_AREA</SystemItem> and <SystemItem Class="Resource">XmNradioBehavior</SystemItem> is True, the
+default value of <SystemItem Class="Resource">XmNpacking</SystemItem> is <SystemItem Class="Constant">XmPACK_COLUMN</SystemItem>.
+In an OptionMenu the value is initialized to <SystemItem Class="Constant">XmPACK_TIGHT</SystemItem>.
+Otherwise, the value defaults to <SystemItem Class="Constant">XmPACK_TIGHT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpopupEnabled</SystemItem></Term>
+<ListItem>
+<Para>Allows the menu system
+to enable keyboard input (accelerators and mnemonics) defined for the Popup
+menu pane and any of its submenus.
+The Popup menu pane needs to be informed whenever its accessibility to the user
+changes because posting of the Popup menu pane is controlled by the
+application.
+This resource can take four values, including:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPOPUP_KEYBOARD</SystemItem></Term>
+<ListItem>
+<Para>Specifies that the keyboard
+input&mdash;accelerators and mnemonics&mdash;defined for the Popup menu pane
+and any of its submenus is enabled. This is the default.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPOPUP_DISABLED</SystemItem></Term>
+<ListItem>
+<Para>Specifies that the keyboard input is disabled.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPOPUP_AUTOMATIC</SystemItem></Term>
+<ListItem>
+<Para>Specifies that the keyboard is enabled for automatic popup menus.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPOPUP_AUTOMATIC_RECURSIVE</SystemItem></Term>
+<ListItem>
+<Para>Specifies that the keyboard is enabled for recursive automatic popup menus.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- .IP "\*LXmNpostFromCount\*O"-->
+<!-- This resource is useful only when \*LXmNrowColumnType\*O is-->
+<!-- set to \*LXmMENU_POPUP\*O or \*LXmMENU_PULLDOWN\*O.-->
+<!-- Specifies the number of widgets in the \*LXmNpostFromList\*O resource.-->
+<!-- .IP "\*LXmNpostFromList\*O"-->
+<!-- This resource is useful only when \*LXmNrowColumnType\*O is-->
+<!-- set to \*LXmMENU_POPUP\*O or \*LXmMENU_PULLDOWN\*O.-->
+<!-- Specifies a list of the widgets from which the menu pane is to be-->
+<!-- accessible.-->
+<!-- If the menu is a Popup menu pane and this resource is NULL, the menu is-->
+<!-- accessible from its parent.-->
+<!-- If the menu is a Pulldown menu pane and this resource is NULL, the menu-->
+<!-- is accessible from the appropriate CascadeButton widget or gadget.-->
+<!-- The default is NULL.-->
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNradioAlwaysOne</SystemItem></Term>
+<ListItem>
+<Para>If True, forces the active ToggleButton or ToggleButtonGadget
+to be automatically selected after having
+been unselected (if no other toggle was activated).
+If False, the active toggle may be unselected.
+The default value is True. This resource is important only when
+<SystemItem Class="Resource">XmNradioBehavior</SystemItem> is True.
+</Para>
+<Para>The application can always add and subtract toggles from
+RowColumn regardless of the selected/unselected state of the toggle. The
+application can also manage and unmanage toggle
+children of RowColumn at any time regardless of state. Therefore,
+the application can sometimes
+create a RowColumn that has <SystemItem Class="Resource">XmNradioAlwaysOne</SystemItem> set to
+True and none
+of the toggle children selected.
+The result is undefined if the value of this resource is True and the
+application sets more than one ToggleButton at a time.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNradioBehavior</SystemItem></Term>
+<ListItem>
+<Para>Specifies a Boolean value that when True, indicates
+that the RowColumn widget should enforce a RadioBox-type behavior
+on all of its children that are ToggleButtons or
+ToggleButtonGadgets.
+</Para>
+<Para>When the value of this resource is True,
+<SystemItem Class="Resource">XmNindicatorType</SystemItem> defaults to <SystemItem Class="Constant">XmONE_OF_MANY</SystemItem>
+for ToggleButton and ToggleButtonGadget children.
+</Para>
+<Para>RadioBox
+behavior dictates that when one toggle is selected and the user selects another
+toggle, the first toggle is unselected
+automatically.
+The RowColumn usually does not enforce this behavior if the application,
+rather than the user, changes the state of a toggle.
+The RowColumn does enforce this behavior if a toggle child is selected
+with <Function>XmToggleButtonSetState</Function> or <Function>XmToggleButtonGadgetSetState</Function>
+with a <Symbol Role="Variable">notify</Symbol> argument of True.
+</Para>
+<Para>When <Function>XmCreateRadioBox</Function> is called, the default value of
+<SystemItem Class="Resource">XmNradioBehavior</SystemItem> is True.
+Otherwise, the default value is False.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNresizeHeight</SystemItem></Term>
+<ListItem>
+<Para>Requests a new height if necessary, when set to True. When this
+resource is set to
+False, the widget does not request a new height regardless of any
+changes to the widget or its children.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNresizeWidth</SystemItem></Term>
+<ListItem>
+<Para>Requests a new width if necessary, when set to True. When set to
+False, the widget does not request a new width regardless of any
+changes to the widget or its children.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrowColumnType</SystemItem></Term>
+<ListItem>
+<Para>Specifies the type of RowColumn widget
+to be created.
+It is a nonstandard resource that cannot be changed after it is set.
+If an application uses any of the
+convenience routines, except <Function>XmCreateRowColumn</Function>,
+this resource is automatically forced to the appropriate
+value by the convenience routine. If an application uses
+the Xt Intrinsics API to create its RowColumn widgets,
+it must specify this resource itself. The set
+of possible settings for this resource are
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><SystemItem Class="Constant">XmWORK_AREA</SystemItem> (default)
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmMENU_BAR</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmMENU_PULLDOWN</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmMENU_POPUP</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmMENU_OPTION</SystemItem>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>This resource cannot be changed after the RowColumn widget
+is created. Any changes attempted through <Function>XtSetValues</Function>
+are ignored.
+</Para>
+<Para>The value of this resource is used to determine the value of a number
+of other resources. The descriptions of RowColumn resources explain
+this when it is the case. The resource <SystemItem Class="Resource">XmNnavigationType</SystemItem>,
+inherited from <Classname>XmManager</Classname>, is changed to <SystemItem Class="Constant">XmNONE</SystemItem> if
+<SystemItem Class="Resource">XmNrowColumnType</SystemItem> is <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNspacing</SystemItem></Term>
+<ListItem>
+<Para>Specifies the horizontal and vertical spacing between
+items contained within the RowColumn widget.
+The default value is 3 pixels for <SystemItem Class="Constant">XmOPTION_MENU</SystemItem> and
+<SystemItem Class="Constant">XmWORK_AREA</SystemItem> and 0 (zero) for other RowColumn types.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsubMenuId</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget ID for the Pulldown menu pane to be associated with
+an OptionMenu. This resource is useful only when <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is
+set to <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>.
+The default value is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtearOffMenuActivateCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the callback list that notifies the application when
+the tear-off menu pane is about to be activated. It precedes the tear-off's
+map callback.
+</Para>
+<Para>Use this resource when your application has shared menu panes and when
+the torn-off menu can have two or
+more parents that can have opposing sensitivity states for the same
+menu item.
+This resource enables
+the application to track
+whether a menu item is sensitive or insensitive and to set the state to the
+original parent's menu item state when the torn-off menu is reposted.
+The application can use <Function>XmGetPostedFromWidget</Function> to determine from which
+parent the menu was torn. The callback reason is <SystemItem Class="Constant">XmCR_TEAR_OFF_ACTIVATE</SystemItem>.
+The default is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtearOffMenuDeactivateCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the callback list that notifies the application when
+the tear-off menu pane is about to be deactivated. It follows the tear-off's
+unmap callback.
+</Para>
+<Para>Use this resource when your application has shared menu panes and when
+the torn-off menu can have two or
+more parents that can have opposing sensitivity states for the same
+menu item.
+This resource enables
+the application to track
+whether a menu item is sensitive or insensitive and to set the state to the
+original parent's menu item state when the torn-off menu is reposted.
+The application can use <Function>XmGetPostedFromWidget</Function> to determine from which
+parent the menu was torn.
+The callback reason is <SystemItem Class="Constant">XmCR_TEAR_OFF_DEACTIVATE</SystemItem>. The default is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtearOffModel</SystemItem></Term>
+<ListItem>
+<Para>Indicates whether tear-off functionality is enabled or disabled
+when <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is set to <SystemItem Class="Constant">XmMENU_PULLDOWN</SystemItem> or
+<SystemItem Class="Constant">XmMENU_POPUP</SystemItem>. The values are <SystemItem Class="Constant">XmTEAR_OFF_ENABLED</SystemItem> or
+<SystemItem Class="Constant">XmTEAR_OFF_DISABLED</SystemItem> (default value). This resource is
+invalid for type <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>; however, it does affect
+any pulldown
+submenus within an OptionMenu.
+The function <Function>XmRepTypeInstallTearOffModelConverter</Function> installs
+a resource converter for this resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmNtearoffTitle</Symbol></Term>
+<ListItem>
+<Para>Used by the TearOff shell to set the title for the window manager to
+display.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNunmapCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks that is called
+after the window associated with the RowColumn
+widget has been unmapped. The callback reason is <SystemItem Class="Constant">XmCR_UNMAP</SystemItem>.
+The default value is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNwhichButton</SystemItem></Term>
+<ListItem>
+<Para>This resource is obsolete; it has been replaced by <SystemItem Class="Resource">XmNmenuPost</SystemItem> and
+is present for compatibility with older releases of Motif.
+This resource cannot be 2.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmRowColumn Constraint Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNpositionIndex</Entry>
+<Entry>XmCPositionIndex</Entry>
+<Entry>short</Entry>
+<Entry>XmLAST_POSITION</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpositionIndex</SystemItem></Term>
+<ListItem>
+<Para>Specifies the position of the widget in its parent's list of
+children (the value of the <SystemItem Class="Resource">XmNchildren</SystemItem> resource). The value
+is an integer that is no less than 0 (zero) and no greater than
+the number of children in the list at the time the value is
+specified. A value of 0 (zero) means that the child is placed at the
+beginning of the list. The value can also be specified as
+<SystemItem Class="Constant">XmLAST_POSITION</SystemItem> (the default), which means that the child
+is placed at the end of the list. Any other value is ignored.
+<Function>XtGetValues</Function> returns the position of the widget in its parent's
+child list at the time of the call to <Function>XtGetValues</Function>.
+</Para>
+<Para>When a widget is inserted into its parent's child list, the positions
+of any existing children that are greater than or equal to the
+specified widget's <SystemItem Class="Resource">XmNpositionIndex</SystemItem> are increased by 1.
+The effect of a call to <Function>XtSetValues</Function> for <SystemItem Class="Resource">XmNpositionIndex</SystemItem>
+is to remove the specified widget from its parent's child list, decrease
+by 1 the positions of any existing children that are greater than
+the specified widget's former position in the list, and then insert
+the specified widget into its parent's child list as described in the
+preceding sentence.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in 0--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Simple Menu Creation Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonAccelerators</Entry>
+<Entry>XmCButtonAccelerators</Entry>
+<Entry>StringTable</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonAcceleratorText</Entry>
+<Entry>XmCButtonAcceleratorText</Entry>
+<Entry>XmStringTable</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonCount</Entry>
+<Entry>XmCButtonCount</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonMnemonicCharSets</Entry>
+<Entry>XmCButtonMnemonicCharSets</Entry>
+<Entry>XmStringCharSetTable</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonMnemonics</Entry>
+<Entry>XmCButtonMnemonics</Entry>
+<Entry>XmKeySymTable</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttons</Entry>
+<Entry>XmCButtons</Entry>
+<Entry>XmStringTable</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonSet</Entry>
+<Entry>XmCButtonSet</Entry>
+<Entry>int</Entry>
+<Entry>&minus;1</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonType</Entry>
+<Entry>XmCButtonType</Entry>
+<Entry>XmButtonTypeTable</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNoptionLabel</Entry>
+<Entry>XmCOptionLabel</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNoptionMnemonic</Entry>
+<Entry>XmCOptionMnemonic</Entry>
+<Entry>KeySym</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNpostFromButton</Entry>
+<Entry>XmCPostFromButton</Entry>
+<Entry>int</Entry>
+<Entry>&minus;1</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNsimpleCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackProc</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<!--no-op:  .in-->
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonAccelerators</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies a list of accelerators for the buttons created.
+The list contains one element for each button, separator, and title
+created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonAcceleratorText</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies a list of compound strings to display for the accelerators for
+the buttons created.
+The list contains one element for each button, separator, and title
+created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonCount</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies the total number of menu buttons, separators, and titles to
+create.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonMnemonicCharSets</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies a list of character sets with which button mnemonics are to be
+displayed.
+The list contains one element for each button, separator, and title
+created.
+The default is determined dynamically depending on the locale of the
+widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonMnemonics</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies a list of mnemonics for the buttons created.
+The list contains one element for each button, separator, and title
+created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttons</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies a list of compound strings to use as labels for the buttons
+created.
+The list contains one element for each button, separator, and title
+created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonSet</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies which button of a RadioBox or OptionMenu Pulldown submenu
+is initially set.
+The value is an integer <Symbol Role="Variable">n</Symbol> indicating the <Symbol Role="Variable">n</Symbol>th
+ToggleButtonGadget specified for a RadioBox or the <Symbol Role="Variable">n</Symbol>th
+PushButtonGadget specified for an OptionMenu Pulldown submenu.
+The first button specified is number 0.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbuttonType</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies a list of button types associated with the buttons to be
+created.
+The list contains one element for each button, separator, and title
+created.
+If this resource is not specified, each button in a MenuBar is a
+CascadeButtonGadget, each button in a RadioBox or CheckBox is a
+ToggleButtonGadget, and
+each button in any other type
+of RowColumn widget is a PushButtonGadget.
+Each button type is of type <StructName Role="typedef">XmButtonType</StructName>, an enumeration with the
+following possible values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCASCADEBUTTON</SystemItem></Term>
+<ListItem>
+<Para>Specifies a CascadeButtonGadget for a MenuBar,
+Popup menu pane, or Pulldown menu pane.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCHECKBUTTON</SystemItem></Term>
+<ListItem>
+<Para>Specifies a ToggleButtonGadget for a CheckBox,
+Popup menu pane, or Pulldown menu pane.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDOUBLE_SEPARATOR</SystemItem></Term>
+<ListItem>
+<Para>Specifies a SeparatorGadget for a Popup
+menu pane, Pulldown menu pane, or OptionMenu Pulldown submenu.
+The separator type is <SystemItem Class="Constant">XmDOUBLE_LINE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmPUSHBUTTON</SystemItem></Term>
+<ListItem>
+<Para>Specifies a PushButtonGadget for a Popup menu pane,
+Pulldown menu pane, or OptionMenu Pulldown submenu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmRADIOBUTTON</SystemItem></Term>
+<ListItem>
+<Para>Specifies a ToggleButtonGadget for a RadioBox,
+Popup menu pane, or Pulldown menu pane.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSEPARATOR</SystemItem></Term>
+<ListItem>
+<Para>Specifies a SeparatorGadget for a Popup menu pane,
+Pulldown menu pane, or OptionMenu Pulldown submenu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTITLE</SystemItem></Term>
+<ListItem>
+<Para>Specifies a LabelGadget used as a title for a Popup
+menu pane or Pulldown menu pane.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNoptionLabel</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies a compound string for the label string to be used on the left
+side of an OptionMenu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNoptionMnemonic</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies a keysym for a key that, when pressed by the user along
+with the <Literal>MAlt</Literal> modifier, posts
+the associated Pulldown menu pane for an OptionMenu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpostFromButton</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+For a Pulldown menu pane, it specifies the button in the parent to which
+the submenu is attached.
+The menu is then posted from this button.
+The value is an integer <Symbol Role="Variable">n</Symbol> indicating the <Symbol Role="Variable">n</Symbol>th
+CascadeButton or CascadeButtonGadget specified for the parent of the
+Pulldown menu pane.
+The first button specified is number 0.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsimpleCallback</SystemItem></Term>
+<ListItem>
+<Para>This resource is for use with the simple menu creation routines.
+It specifies a callback procedure to be called when a button is
+activated or when its value changes.
+This callback function is added to each button after creation.
+For a CascadeButtonGadget or a PushButtonGadget, the callback is added
+as the button's <SystemItem Class="Resource">XmNactivateCallback</SystemItem>, and it is called when the
+button is activated.
+For a ToggleButtonGadget, the callback is added as the button's
+<SystemItem Class="Resource">XmNvalueChangedCallback</SystemItem>, and it is called when the button's value
+changes.
+The button number is passed in the <Symbol Role="Variable">client_data</Symbol> field.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!---->
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>RowColumn inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>default procedure</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>A pointer to the following structure is passed to each callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent <Symbol Role="Variable">* event</Symbol>;
+        Widget <Symbol Role="Variable">widget</Symbol>;
+        char <Symbol Role="Variable">* data</Symbol>;
+        char <Symbol Role="Variable">* callbackstruct</Symbol>;
+} XmRowColumnCallbackStruct;</Synopsis>
+<!--no-op:  .fi-->
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The following fields apply only when the callback reason is <SystemItem Class="Constant">XmCR_ACTIVATE</SystemItem>;
+for all other callback reasons, these fields are set to NULL.
+The <SystemItem Class="Constant">XmCR_ACTIVATE</SystemItem> callback reason is generated only when the application
+has supplied an entry callback, which overrides any activation callbacks
+registered with the individual RowColumn items.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget</Symbol></Term>
+<ListItem>
+<Para>Is set to the widget ID of the RowColumn item that has been activated
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">data</Symbol></Term>
+<ListItem>
+<Para>Contains the client-data value supplied by the
+application when the RowColumn item's activation callback was registered
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">callbackstruct</Symbol></Term>
+<ListItem>
+<Para>Points to the callback structure
+generated by the RowColumn item's activation callback
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmRowColumn -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para><Classname>XmRowColumn</Classname> translations depend on the value of
+the <SystemItem Class="Resource">XmNrowColumnType</SystemItem> resource.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is set to <SystemItem Class="Constant">XmWORK_AREA</SystemItem>,
+<Classname>XmRowColumn</Classname> inherits translations from <Classname>XmManager</Classname>.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNrowColumnType</SystemItem> is set to <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>,
+<Classname>XmRowColumn</Classname> inherits traversal, <KeySym>osfActivate</KeySym>, and <KeySym>osfCancel</KeySym>
+translations from <Classname>XmManager</Classname>
+and has the following additional translations.
+</Para>
+<Para>The following key names are listed in the
+X standard key event translation table syntax.
+This format is the one used by Motif to
+specify the widget actions corresponding to a given key.
+A brief overview of the format is provided under
+&cdeman.VirtualBindings;.
+For a complete description of the format, please refer to the
+X Toolkit Instrinsics Documentation.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuGadgetDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c&lt;Btn1Down></Literal>:</Term>
+<ListItem>
+<Para><Action>MenuGadgetTraverseCurrent()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c&lt;Btn1Up></Literal>:</Term>
+<ListItem>
+<Para><Action>MenuGadgetTraverseCurrentUp()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c</Literal><KeySym>BtnDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuBtnDown()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;c</Literal><KeySym>BtnUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuBtnUp()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuHelp()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--These translations may not directly correspond to a
+translation table.
+.VL 2i 0 1
+.LI "&bsol;*LBSelect Press:&bsol;*O"
+&bsol;*LMenuBtnDown()&bsol;*O
+.LI "&bsol;*LBSelect Release:&bsol;*O"
+&bsol;*LMenuBtnUp()&bsol;*O
+.LI "&bsol;*LKSelect:&bsol;*O"
+&bsol;*LManagerGadgetSelect()&bsol;*O
+.LI "&bsol;*LKHelp:&bsol;*O"
+&bsol;*LHelp()&bsol;*O
+.LE
+-->
+<Para>The translations for <Classname>XmRowColumn</Classname> if
+<SystemItem Class="Resource">XmNrowColumnType</SystemItem> is set to <SystemItem Class="Constant">XmMENU_BAR</SystemItem>
+<SystemItem Class="Constant">XmMENU_PULLDOWN</SystemItem>, or <SystemItem Class="Constant">XmMENU_POPUP</SystemItem>
+are described in the following list.
+In a Popup menu system, <KeySym>Btn3</KeySym> also performs the <KeySym>Btn1</KeySym>
+actions.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuHelp()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuGadgetTraverseLeft()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuGadgetTraverseRight()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuGadgetTraverseUp()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>MenuGadgetTraverseDown()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--These translations may not directly correspond to a
+translation table.
+.VL 2i 0 1
+.LI "&bsol;*LBSelect Press:&bsol;*O"
+&bsol;*LMenuBtnDown()&bsol;*O
+.LI "&bsol;*LBSelect Release:&bsol;*O"
+&bsol;*LMenuBtnUp()&bsol;*O
+.LI "&bsol;*LKActivate:&bsol;*O"
+&bsol;*LManagerGadgetSelect()&bsol;*O
+.LI "&bsol;*LKSelect:&bsol;*O"
+&bsol;*LManagerGadgetSelect()&bsol;*O
+.LI "&bsol;*LMAny KCancel:&bsol;*O"
+&bsol;*LMenuGadgetEscape()&bsol;*O
+.LI "&bsol;*LKHelp:&bsol;*O"
+&bsol;*LHelp()&bsol;*O
+.LI "&bsol;*LKLeft:&bsol;*O"
+&bsol;*LMenuGadgetTraverseLeft()&bsol;*O
+.LI "&bsol;*LKRight:&bsol;*O"
+&bsol;*LMenuGadgetTraverseRight()&bsol;*O
+.LI "&bsol;*LKUp:&bsol;*O"
+&bsol;*LMenuGadgetTraverseUp()&bsol;*O
+.LI "&bsol;*LKDown:&bsol;*O"
+&bsol;*LMenuGadgetTraverseDown()&bsol;*O
+.LE
+-->
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The <Classname>XmRowColumn</Classname> action routines are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>Help()</Action>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNhelpCallback</SystemItem> if any exist. If there are no help
+callbacks for this widget, this action calls the help callbacks
+for the nearest ancestor that has them.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ManagerGadgetSelect()</Action>:</Term>
+<ListItem>
+<Para>When a gadget child of the menu has the focus, invokes the gadget
+child's behavior associated with <KeySym>osfSelect</KeySym>.
+This generally has the effect of unposting the menu hierarchy and arming
+and activating the gadget, except that, for a CascadeButtonGadget with a
+submenu, it posts the submenu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuBtnDown()</Action>:</Term>
+<ListItem>
+<Para>When a gadget child of the menu has focus, invokes the gadget
+child's behavior associated with <KeySym>Btn1Down</KeySym>.
+This generally has the effect of unposting any menus posted by the
+parent menu, enabling mouse traversal in the menu, and arming the
+gadget.
+For a CascadeButtonGadget with a submenu, it also posts the associated
+submenu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuBtnUp()</Action>:</Term>
+<ListItem>
+<Para>When a gadget child of the menu has focus, invokes the gadget
+child's behavior associated with <KeySym>Btn1Up</KeySym>.
+This generally has the effect of unposting the menu hierarchy and
+activating the gadget,
+except that for a CascadeButtonGadget with a
+submenu, it posts the submenu and enables keyboard traversal in the
+menu.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuGadgetEscape()</Action>:</Term>
+<ListItem>
+<Para>In a top-level Pulldown MenuPane from a MenuBar, unposts the menu,
+disarms the MenuBar CascadeButton and the MenuBar, and, when the shell's
+keyboard focus policy is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, restores keyboard focus to
+the widget that had the focus before the MenuBar was entered.
+In other Pulldown MenuPanes, unposts the menu.
+</Para>
+<Para>In a Popup MenuPane, unposts the menu and, when the shell's keyboard
+focus policy is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, restores keyboard focus to the widget
+from which the menu was posted.
+In a TearOff MenuPane that has no submenus posted, dismisses the
+menu; otherwise, if one or more submenus are posted, unposts the last
+menu pane.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuGadgetTraverseDown()</Action>:</Term>
+<ListItem>
+<Para>If the current menu item has a submenu and is in a MenuBar, then this
+action posts the submenu, disarms the current menu item, and arms
+the submenu's first traversable menu item.
+</Para>
+<Para>If the current menu item is in a MenuPane, then this action disarms the
+current menu item and arms the item below it. This action wraps within the
+MenuPane. The direction of the wrapping depends on the
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuGadgetTraverseLeft()</Action>:</Term>
+<ListItem>
+<Para>When the current menu item is in a MenuBar, this action disarms the
+current item and arms the MenuBar item to the left.
+This action wraps within the MenuBar.
+</Para>
+<Para>In MenuPanes, if the current menu item is not at the left edge of a MenuPane,
+this action disarms the current item and arms the item to its left.
+If the current menu item is at the left edge of a submenu attached to a
+MenuBar item, then this action unposts the submenu and traverses to the
+MenuBar item to the left, wrapping if necessary. If that MenuBar item
+has a submenu, it posts the submenu and arms the first traversable
+item in the submenu.
+If the current menu item is at the left edge of a submenu not directly
+attached to a MenuBar item, then this action unposts the current submenu only.
+</Para>
+<Para>In Popup or Torn-off MenuPanes, when the current menu item is at the
+left edge, this action wraps within the MenuPane. If the current menu
+item is at the left edge of the MenuPane and not in the top row, this
+action wraps to the rightmost menu item in the row above. If the current
+menu item is in the upper, leftmost corner, this action wraps
+to the tear-off control, if present, or else it wraps to the bottom,
+rightmost menu item in the MenuPane.
+</Para>
+<Para>The preceding description applies when the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> horizontal
+direction is <SystemItem Class="Constant">XmLEFT_TO_RIGHT</SystemItem>. If the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> horizontal
+direction is <SystemItem Class="Constant">XmRIGHT_TO_LEFT</SystemItem>, then the following applies.
+</Para>
+<Para>If the current menu item is in a MenuBar, then this action disarms the
+current item and arms the MenuBar item to the left.
+This action wraps within the MenuBar.
+</Para>
+<Para>In MenuPanes, if the current menu item is a CascadeButton, then this
+action posts its associated submenu.
+If the current menu item is not a CascadeButton and is not at the left
+edge of a MenuPane, this action disarms the current item and arms the
+item to its left, wrapping if necessary.
+If the current menu item is not a CascadeButton and is at the left edge of a
+submenu that is a descendent of a MenuBar, then this action unposts all
+submenus and traverses to the MenuBar item to the left.
+If that MenuBar item has a submenu, it posts the submenu and arms
+the submenu's first traversable item.
+</Para>
+<Para>In Popup or Torn-off menus, if the current menu item is not a
+CascadeButton and is at the left edge of a row (except the
+bottom row), this action wraps to the rightmost menu item in the
+row below. If the current menu item is not a CascadeButton and
+is in the bottom, leftmost corner of a Popup or Pulldown MenuPane, this
+action wraps to the tear-off control, if present, or else it wraps to
+the top, rightmost menu item of the MenuPane.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuGadgetTraverseRight()</Action>:</Term>
+<ListItem>
+<Para>If the current menu item is in a MenuBar, then this action disarms the
+current item and arms the MenuBar item to the right.
+This action wraps within the MenuBar.
+</Para>
+<Para>In MenuPanes, if the current menu item is a CascadeButton, then this
+action posts its associated submenu.
+If the current menu item is not a CascadeButton and is not at the right
+edge of a MenuPane, this action disarms the current item and arms the
+item to its right, wrapping if necessary.
+If the current menu item is not a CascadeButton and is at the right edge of a
+submenu that is a descendent of a MenuBar, then this action unposts all
+submenus and traverses to the MenuBar item to the right.
+If that MenuBar item has a submenu, it posts the submenu and arms
+the submenu's first traversable item.
+</Para>
+<Para>In Popup or Torn-off menus, if the current menu item is not a
+CascadeButton and is at the right edge of a row (except the
+bottom row), this action wraps to the leftmost menu item in the
+row below. If the current menu item is not a CascadeButton and
+is in the bottom, rightmost corner of a Popup or Pulldown MenuPane, this
+action wraps to the tear-off control, if present, or else it wraps to
+the top, leftmost menu item of the MenuPane.
+</Para>
+<Para>The preceding description applies when the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> horizontal
+direction is <SystemItem Class="Constant">XmLEFT_TO_RIGHT</SystemItem>. If the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> horizontal
+direction is <SystemItem Class="Constant">XmRIGHT_TO_LEFT</SystemItem>, then the following applies.
+When the current menu item is in a MenuBar, this action disarms the
+current item and arms the MenuBar item to the left.
+This action wraps within the MenuBar.
+</Para>
+<Para>In MenuPanes, if the current menu item is not at the right edge of a MenuPane,
+this action disarms the current item and arms the item to its right.
+If the current menu item is at the right edge of a submenu attached to a
+MenuBar item, then this action unposts the submenu and traverses to the
+MenuBar item to the right, wrapping if necessary. If that MenuBar item
+has a submenu, it posts the submenu and arms the first traversable
+item in the submenu.
+If the current menu item is at the right edge of a submenu not directly
+attached to a MenuBar item, then this action unposts the current submenu only.
+</Para>
+<Para>In Popup or Torn-off MenuPanes, when the current menu item is at the
+right edge, this action wraps within the MenuPane. If the current menu
+item is at the right edge of the MenuPane and not in the top row, this
+action wraps to the leftmost menu item in the row above. If the current
+menu item is in the upper, rightmost corner, this action wraps
+to the tear-off control, if present, or else it wraps to the bottom,
+leftmost menu item in the MenuPane.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>MenuGadgetTraverseUp()</Action>:</Term>
+<ListItem>
+<Para>When the current menu item is in a MenuPane, then
+this action disarms the current menu item and arms the item above it.
+This action wraps within the MenuPane. The direction of the wrapping
+depends on the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Related Behavior</Title>
+<Para>The following menu functions are available:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>osfMenuBar</KeySym>:</Term>
+<ListItem>
+<Para>In any non-popup descendant of a MenuBar's parent, excluding the MenuBar
+itself, this action enables keyboard traversal and moves keyboard focus
+to the first item in the MenuBar.
+In the MenuBar or any menu cascaded from it, this action unposts the
+menu hierarchy and, when the shell's keyboard focus policy is
+<SystemItem Class="Constant">XmEXPLICIT</SystemItem>, restores focus to the widget that had the focus
+when the menu system was entered.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>osfMenu</KeySym>:</Term>
+<ListItem>
+<Para>Pops up the menu associated with the control that has the keyboard focus.
+Enables keyboard traversal in the menu.
+In the Popup menu system or any menu cascaded from it, this action
+unposts the menu hierarchy and, when the shell's keyboard focus policy
+is <SystemItem Class="Constant">XmEXPLICIT</SystemItem>, restores focus to the widget that had the focus
+when the menu system was entered.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;,
+&cdeman.Constraint;,
+&cdeman.Core;,
+&cdeman.XmCreateMenuBar;,
+&cdeman.XmCreateOptionMenu;,
+&cdeman.XmCreatePopupMenu;,
+&cdeman.XmCreatePulldownMenu;,
+&cdeman.XmCreateRadioBox;,
+&cdeman.XmCreateRowColumn;,
+&cdeman.XmCreateSimpleCheckBox;,
+&cdeman.XmCreateSimpleMenuBar;,
+&cdeman.XmCreateSimpleOptionMenu;,
+&cdeman.XmCreateSimplePopupMenu;,
+&cdeman.XmCreateSimplePulldownMenu;,
+&cdeman.XmCreateSimpleRadioBox;,
+&cdeman.XmCreateWorkArea;,
+&cdeman.XmGetMenuCursor;,
+&cdeman.XmGetPostedFromWidget;,
+<Function>XmGetTearOffControl</Function>,
+&cdeman.XmLabel;,
+&cdeman.XmManager;,
+&cdeman.XmMenuPosition;,
+&cdeman.XmOptionButtonGadget;,
+&cdeman.XmOptionLabelGadget;,
+<Function>XmRepTypeInstallTearOffModelConverter</Function>,
+&cdeman.XmSetMenuCursor;,
+&cdeman.XmUpdateDisplay;,
+&cdeman.XmVaCreateSimpleCheckBox;,
+&cdeman.XmVaCreateSimpleMenuBar;,
+&cdeman.XmVaCreateSimpleOptionMenu;,
+&cdeman.XmVaCreateSimplePopupMenu;,
+&cdeman.XmVaCreateSimplePulldownMenu;, and
+&cdeman.XmVaCreateSimpleRadioBox;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

@@ -77,7 +77,7 @@ STLIBCENV =
 M4 = /bin/m4
 #endif
 
-#ifdef LinuxArchitecture
+#if defined(LinuxArchitecture)
 
 /*
  * put cpp directives here rather than in CXXDEFINES because
@@ -85,15 +85,16 @@ M4 = /bin/m4
  * but they are needed there to instantiate templates
  */
 CXXOPTIONS = \
-  -DSP_VOLATILE= -DSP_CONST= \
-  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST
+  -DSP_VOLATILE=volatile -DSP_CONST=const -DSP_ANSI_CLASS_INST \
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST -fno-implicit-templates
 
 /*
  * Flags passed into compile step when doing manual template instantiation.
  */
-CXXTEMPLATEFLAGS = -ptf
+CXXTEMPLATEFLAGS = -fno-implicit-templates
 
 M4 = /usr/bin/m4
+
 #endif
 
 #if defined(RsArchitecture)

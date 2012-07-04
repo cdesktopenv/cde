@@ -1,0 +1,378 @@
+<!-- $XConsortium: ParMapA.sgm /main/10 1996/09/08 20:55:23 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN336.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmParseMapping</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><StructName Role="typedef">XmParseMapping</StructName></RefName>
+<RefPurpose>Data type for a compound string parse mapping
+<IndexTerm>
+<Primary>XmParseMapping</Primary>
+</IndexTerm><IndexTerm>
+<Primary>data types</Primary>
+<Secondary>XmParseMapping</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/Xm.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><StructName Role="typedef">XmParseMapping</StructName> is an opaque data type for a parse mapping used by
+<Function>XmStringParseText</Function> to create a compound string.
+A parse mapping contains a pattern to be matched in text being parsed to
+create a compound string.
+It also contains a compound string, or a function to be invoked to
+provide a compound string, to be included in the compound string being
+created whenever the pattern is matched.
+</Para>
+<Para>An application uses a resource-style interface to specify components for
+an <StructName Role="typedef">XmParseMapping</StructName>.
+<Function>XmParseMappingCreate</Function> creates a parse mapping, using a
+resource-style argument list.
+<Function>XmParseMappingGetValues</Function> and <Function>XmParseMappingSetValues</Function> retrieve
+and set the components of a parse mapping.
+<Function>XmParseMappingFree</Function> recovers memory used by a parse mapping.
+<StructName Role="typedef">XmParseTable</StructName> is an array of <StructName Role="typedef">XmParseMapping</StructName> objects.
+</Para>
+<Para>The <SystemItem Class="Resource">XmNinvokeParseProc</SystemItem> resource is a function of type
+<StructName Role="typedef">XmParseProc</StructName>, which is defined as follows:
+</Para>
+<Synopsis>XmIncludeStatus (*XmParseProc) (<Symbol Role="Variable">text_in_out, text_end, type, tag, entry, pattern_length,
+str_include, call_data</Symbol>)
+        XtPointer *<Symbol Role="Variable">text_in_out</Symbol>;
+        XtPointer <Symbol Role="Variable">text_end</Symbol>;
+        XmTextType <Symbol Role="Variable">type</Symbol>;
+        XmStringTag <Emphasis>tag</Emphasis>;
+        XmParseMapping <Symbol Role="Variable">entry</Symbol>;
+        int <Symbol Role="Variable">pattern_length</Symbol>;
+        XmString *<Symbol Role="Variable">str_include</Symbol>;
+        XtPointer <Symbol Role="Variable">call_data</Symbol>;</Synopsis>
+<Para>A parse procedure provides an escape mechanism for arbitrarily complex
+parsing.
+This procedure is invoked when a pattern in the input text is matched
+with a pattern in a parse mapping whose <SystemItem Class="Resource">XmNincludeStatus</SystemItem> is
+<SystemItem Class="Constant">XmINVOKE</SystemItem>.
+</Para>
+<Para>The input text is a pointer to the first byte of the pattern that was
+matched to trigger the call to the parse procedure.
+The parse procedure consumes as many bytes of the input string as it
+needs and sets the input text pointer to the following byte.
+It returns a compound string to be included in the compound string being
+constructed, and it also returns an <StructName Role="typedef">XmIncludeStatus</StructName> indicating how
+the returned compound string should be handled.
+If the parse procedure does not set the input text pointer ahead by at
+least one byte, the parsing routine continues trying to match the input
+text with the patterns in the remaining parse mappings in the parse
+table.
+Otherwise, the parsing routine begins with the new input text pointer
+and tries to match the input text with patterns in the parse mappings
+starting at the beginning of the parse table.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">text_in_out</Symbol></Term>
+<ListItem>
+<Para>Specifies the text being parsed.
+The value is a pointer to the first byte of text matching the pattern
+that triggered the call to the parse procedure.
+When the parse procedure returns, this argument is set to the position
+in the text where parsing should resume&mdash;that is, to the byte
+following the last character parsed by the parse procedure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">text_end</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the end of the <Symbol Role="Variable">text_in_out</Symbol> string.
+If <Symbol Role="Variable">text_end</Symbol> is NULL, the string is scanned until a NULL character
+is found.
+Otherwise, the string is scanned up to but not including the character
+whose address is <Symbol Role="Variable">text_end</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">type</Symbol></Term>
+<ListItem>
+<Para>Specifies the type of text and the tag type.
+If a locale tag should be created, <Symbol Role="Variable">type</Symbol> has a value of either
+<SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem> or <SystemItem Class="Constant">XmWIDECHAR_TEXT</SystemItem>.
+If a charset should be created, <Symbol Role="Variable">type</Symbol> has a value of
+<SystemItem Class="Constant">XmCHARSET_TEXT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>tag</Emphasis></Term>
+<ListItem>
+<Para>Specifies the tag to be used in creating the result.
+The type of string tag created (charset or locale) depends on the text
+type and the passed in <Emphasis>tag</Emphasis> value.
+If the <Emphasis>tag</Emphasis> value is NULL and if <Symbol Role="Variable">type</Symbol> indicates that a
+charset string tag should be created, the string tag has the value
+that is the result of mapping <SystemItem Class="Constant">XmSTRING_DEFAULT_CHARSET</SystemItem>.
+If <Symbol Role="Variable">type</Symbol> indicates a locale string tag, the string tag has the
+value <SystemItem Class="Constant">_MOTIF_DEFAULT_LOCALE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">entry</Symbol></Term>
+<ListItem>
+<Para>Specifies the parse mapping that triggered the call to the parse
+procedure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">pattern_length</Symbol></Term>
+<ListItem>
+<Para>Specifies the number of bytes in the input text, following
+<Symbol Role="Variable">text_in_out</Symbol>, that constitute the matched pattern.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">str_include</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to a compound string.
+The parse procedure creates a compound string to be included in the
+compound string being constructed.
+The parse procedure then returns the compound string in this argument.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">call_data</Symbol></Term>
+<ListItem>
+<Para>Specifies data passed by the application to the parsing routine.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The parse procedure returns an <StructName Role="typedef">XmIncludeStatus</StructName> indicating how
+<Symbol Role="Variable">str_include</Symbol> is to be included in the compound string being
+constructed.
+Following are the possible values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmINSERT</SystemItem></Term>
+<ListItem>
+<Para>Concatenate the result to the compound string being constructed and
+continue parsing.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTERMINATE</SystemItem></Term>
+<ListItem>
+<Para>Concatenate the result to the compound string being constructed and
+terminate parsing.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of resources used by the programmer
+to specify data.
+The codes in the access column indicate if the given resource can be set
+at creation time (C), set by using <Function>XmParseMappingSetValues</Function> (S),
+retrieved by using <Function>XmParseMappingGetValues</Function> (G), or is not
+applicable (N/A).
+</Para>
+<Para><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmParseMapping Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNclientData</Entry>
+<Entry></Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNincludeStatus</Entry>
+<Entry></Entry>
+<Entry>XmIncludeStatus</Entry>
+<Entry>XmINSERT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinvokeParseProc</Entry>
+<Entry></Entry>
+<Entry>XmParseProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpattern</Entry>
+<Entry></Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpatternType</Entry>
+<Entry></Entry>
+<Entry>XmTextType</Entry>
+<Entry>XmCHARSET_TEXT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsubstitute</Entry>
+<Entry></Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNclientData</SystemItem></Term>
+<ListItem>
+<Para>Specifies data to be used by the parse procedure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNincludeStatus</SystemItem></Term>
+<ListItem>
+<Para>Specifies how the result of the mapping is to be included in the
+compound string being constructed.
+Unless the value is <SystemItem Class="Constant">XmINVOKE</SystemItem>, the result of the mapping is the
+value of <SystemItem Class="Resource">XmNsubstitute</SystemItem>.
+Following are the possible values for <SystemItem Class="Resource">XmNincludeStatus</SystemItem>:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmINSERT</SystemItem></Term>
+<ListItem>
+<Para>Concatenate the result to the compound string being constructed and
+continue parsing.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmINVOKE</SystemItem></Term>
+<ListItem>
+<Para>Invoke the <SystemItem Class="Resource">XmNinvokeParseProc</SystemItem> on the text being parsed and use the
+returned compound string instead of <SystemItem Class="Resource">XmNsubstitute</SystemItem> as the result to
+be inserted into the compound string being constructed.
+The include status returned by the parse procedure (<SystemItem Class="Constant">XmINSERT</SystemItem> or
+<SystemItem Class="Constant">XmTERMINATE</SystemItem>) determines how the returned compound string is
+included.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTERMINATE</SystemItem></Term>
+<ListItem>
+<Para>Concatenate the result to the compound string being constructed and
+terminate parsing.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNinvokeParseProc</SystemItem></Term>
+<ListItem>
+<Para>Specifies the parse procedure to be invoked when <SystemItem Class="Resource">XmNincludeStatus</SystemItem>
+is <SystemItem Class="Constant">XmINVOKE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpattern</SystemItem></Term>
+<ListItem>
+<Para>Specifies a pattern to be matched in the text being parsed.
+This is a maximum of one character.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNpatternType</SystemItem></Term>
+<ListItem>
+<Para>Specifies the type of the pattern that is the value of <SystemItem Class="Resource">XmNpattern</SystemItem>.
+Following are the possible values:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><SystemItem Class="Constant">XmCHARSET_TEXT</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem>
+</Para>
+</ListItem>
+<ListItem>
+<Para><SystemItem Class="Constant">XmWIDECHAR_TEXT</SystemItem>
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsubstitute</SystemItem></Term>
+<ListItem>
+<Para>Specifies the compound string to be included in the compound string
+being constructed when <SystemItem Class="Resource">XmNincludeStatus</SystemItem> is <SystemItem Class="Constant">XmINSERT</SystemItem> or
+<SystemItem Class="Constant">XmTERMINATE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmParseMappingCreate;,
+&cdeman.XmParseMappingFree;,
+&cdeman.XmParseMappingGetValues;,
+&cdeman.XmParseMappingSetValues;,
+&cdeman.XmParseTable;, and
+&cdeman.XmString;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

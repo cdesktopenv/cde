@@ -927,15 +927,33 @@ _tt_isclose_1(int *isfd, SVCXPRT * /* transp */)
 		_tt_syslog(errstr, LOG_ERR, "%s: _tt_check_stale_isfd() == 0",
 			   here );
 	} else {
-		res.result = cached_isclose(*isfd);
-		if (res.result != -1) {
-			_tt_db_table[*isfd].db_path = 0;
-			_tt_db_table[*isfd].opener_uid = (uid_t)-1;
-		} else {
-			_tt_syslog(errstr, LOG_ERR, "%s: isclose(): %d",
-				   here, iserrno);
-		}
-		res.iserrno = iserrno;
+	  // JET - 06/12/2002
+	  // VU#975403 - CERT TT vulnerability.  By passing an invalid isfd
+	  // a local or remote attacker can zero out 4 bytes at any location,
+	  // thereby allowing other exploits (items 2 & 3 - delete or
+	  // overwrite any file on the system.)
+	  // Here, we will just check to make sure: 0 >= isfd < _TT_MAX_ISFD
+
+	  if (*isfd < 0 || *isfd >= _TT_MAX_ISFD)
+	    {			// some trickery going on?
+	      res.result = -1;
+	      res.iserrno = ERPC;
+	      _tt_syslog(errstr, LOG_ERR, "%s: _tt_isclose_1: Invalid file descriptor.  This may be an attempted exploit.",
+			 here );
+	    }
+	  else
+	    {
+	      
+	      res.result = cached_isclose(*isfd);
+	      if (res.result != -1) {
+		_tt_db_table[*isfd].db_path = 0;
+		_tt_db_table[*isfd].opener_uid = (uid_t)-1;
+	      } else {
+		_tt_syslog(errstr, LOG_ERR, "%s: isclose(): %d",
+			   here, iserrno);
+	      }
+	      res.iserrno = iserrno;
+	    }
 	}
 	return (&res);
 }
@@ -1482,6 +1500,8 @@ _tt_transaction_error(int fd)
 _Tt_isam_results *
 _tt_transaction_1(_Tt_transaction_args* args, SVCXPRT * /* transp */)
 {
+        struct stat buf; // JET - VU#975403/VU#299816
+
 	static const char *here = "_tt_transaction_1()";
 	/* check for stale NetISAM file descriptor */
 	if (!_tt_check_stale_isfd(args->isfd)) {
@@ -1514,6 +1534,24 @@ _tt_transaction_1(_Tt_transaction_args* args, SVCXPRT * /* transp */)
 		if (access(_tt_log_file, F_OK) == 0) {
 			_tt_process_transaction();
 		}
+
+		// JET - 06/24/2002 VU#975403/VU#299816 - CERT TT
+		// vulnerability.  check for the presence of a
+		// symlink.  Abort (nicely) if there.
+
+		if(lstat(_tt_log_file, &buf) != -1)
+		  {		// present
+		    if (S_ISLNK(buf.st_mode))
+		      {		// it's a symlink.  Oops.
+			_tt_syslog(errstr, LOG_ERR, 
+				   "%s: _tt_log_file is a symlink.  Aborting.",
+				   here );
+			res.result = -1;
+			res.iserrno = DM_ACCESS_DENIED;
+			return(&res);
+		      }
+		  }
+
 		if ((fd = open(_tt_log_file, O_RDWR | O_CREAT, S_IREAD + S_IWRITE))
 		    == -1) {
 			res.iserrno = DM_WRITE_FAILED;

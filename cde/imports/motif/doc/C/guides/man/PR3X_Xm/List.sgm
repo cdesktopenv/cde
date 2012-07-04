@@ -1,0 +1,3115 @@
+<!-- $XConsortium: List.sgm /main/12 1996/09/08 20:49:54 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN282.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmList</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmList</Classname></RefName>
+<RefPurpose>The List widget class
+<IndexTerm>
+<Primary>XmList</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>List</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/List.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>List allows a user to select one or more items
+from a group of choices. Items are selected from the list in a
+variety of ways, using both the pointer and the keyboard.
+List operates on an array of compound strings that are defined by the application.
+Each compound string becomes an item in the List,
+with the first compound string becoming
+the item in position 1, the second becoming the item in position 2, and so on.
+</Para>
+<Para>Specifying the number of items that are visible
+sets the size of the List.
+If the number of visible items is not specified, the height
+of the list controls the number of visible items. Each item assumes
+the height of the tallest element in the list.
+To create a list that allows the user to scroll easily through a large
+number of items, use the <Function>XmCreateScrolledList</Function> convenience
+function.
+</Para>
+<Para>To select items, move the pointer or cursor to the desired item and
+press the <KeySym>Btn1</KeySym> mouse button or the key defined as
+<KeySym>osfSelect</KeySym>. There are several styles of selection behavior, and
+they all highlight the selected item or items by displaying them in
+inverse colors. An appropriate callback is invoked to notify the
+application of the user's choice. The application then takes whatever
+action is required for the specified selection.
+When a List is insensitive, all of the list items are displayed in a
+stippled fill pattern.
+</Para>
+<Para>List uses the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol>, <Symbol Role="Globalvar">XmQTscrollFrame</Symbol>, and
+<Symbol Role="Globalvar">XmQTnavigator</Symbol> traits, and
+holds the <Symbol Role="Globalvar">XmQTtransfer</Symbol> trait.
+</Para>
+<RefSect2>
+<Title>Selection</Title>
+<Para>Each list has one of four selection models:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Single Select
+</Para>
+</ListItem>
+<ListItem>
+<Para>Browse Select
+</Para>
+</ListItem>
+<ListItem>
+<Para>Multiple Select
+</Para>
+</ListItem>
+<ListItem>
+<Para>Extended Select
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>In Single Select and Browse Select, at most one item is selected at a
+time.
+In Single Select, pressing <KeySym>Btn1</KeySym> on an item toggles its
+selection state and deselects any other selected item.
+In Browse Select, pressing <KeySym>Btn1</KeySym> on an item selects it and
+deselects any other selected item; dragging <KeySym>Btn1</KeySym> moves the
+selection as the pointer is moved. Releasing <KeySym>Btn1</KeySym> on an
+item moves the location cursor to that item.
+</Para>
+<Para>In Multiple Select, any number of items can be selected at a time.
+Pressing <KeySym>Btn1</KeySym> on an item toggles its selection state but
+does not deselect any other selected items.
+</Para>
+<Para>In Extended Select, any number of items can be selected at a time,
+and the user can easily select ranges of items.
+Pressing <KeySym>Btn1</KeySym> on an item selects it and deselects any other
+selected item.
+Dragging <KeySym>Btn1</KeySym> or pressing or dragging <KeySym>Shift</KeySym><KeySym>Btn1</KeySym> following a
+<KeySym>Btn1</KeySym> action selects all items between the item under the
+pointer and the item on which <KeySym>Btn1</KeySym> was pressed.
+This action also deselects any other selected items outside that
+range.
+</Para>
+<Para>Extended Select also allows the user to select and deselect
+discontiguous ranges of items.
+Pressing <KeySym>Ctrl</KeySym><KeySym>Btn1</KeySym> on an item toggles its selection state but
+does not deselect any other selected items.
+Dragging <KeySym>Ctrl</KeySym><KeySym>Btn1</KeySym> or pressing or dragging <KeySym>Shift</KeySym><KeySym>Btn1</KeySym> following a
+<KeySym>Ctrl</KeySym><KeySym>Btn1</KeySym> action sets the selection state of all items between
+the item under the pointer and the item on which <KeySym>Ctrl</KeySym><KeySym>Btn1</KeySym> was
+pressed to the state of the item on which <KeySym>Ctrl</KeySym><KeySym>Btn1</KeySym> was pressed.
+This action does not deselect any other selected items outside that
+range.
+</Para>
+<Para>All selection operations available from the mouse are also available
+from the keyboard.
+List has two keyboard selection modes, Normal Mode and Add Mode.
+In Normal Mode, navigation operations and <KeySym>osfSelect</KeySym> select the
+item at the location cursor and deselect any other selected
+items.
+In Add Mode, navigation operations have no effect on selection, and
+<KeySym>osfSelect</KeySym> toggles the selection state of the item at the location
+cursor without deselecting any other selected items, except in Single
+Select.
+</Para>
+<Para>Single and Multiple Select use Add Mode, and Browse Select uses Normal
+Mode.
+</Para>
+<Para>Extended Select can use either mode; the user changes modes by pressing
+<KeySym>osfAddMode</KeySym>.
+In Extended Select Normal Mode, pressing <KeySym>osfSelect</KeySym> has the same
+effect as pressing <KeySym>Btn1</KeySym>; <KeySym>osfExtend</KeySym> and shifted navigation
+have the same effect as pressing <KeySym>Shift</KeySym><KeySym>Btn1</KeySym> following a <KeySym>Btn1</KeySym>
+action.
+In Extended Select Add Mode, pressing <KeySym>osfSelect</KeySym> has the same
+effect as pressing <KeySym>Ctrl</KeySym><KeySym>Btn1</KeySym>; <KeySym>osfExtend</KeySym> and shifted navigation
+have the same effect as pressing <KeySym>Shift</KeySym><KeySym>Btn1</KeySym> following a <KeySym>Ctrl</KeySym><KeySym>Btn1</KeySym>
+action.
+</Para>
+<Para>Normal Mode is indicated by a solid location cursor, and Add Mode is
+indicated by a dashed location cursor.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Data Transfer Behavior</Title>
+<Para>List supports dragging of items from the List and transfer of items to
+the clipboard.
+When the user presses <Literal>BTransfer</Literal> on a selected item, the widget
+transfers all selected items.
+When the user presses <Literal>BTransfer</Literal> on an unselected item, the widget
+transfers only that item.
+Depending on the value of <SystemItem Class="Resource">XmNprimaryOwnership</SystemItem>, List can also
+support primary selection.
+</Para>
+<Para>When the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures are called, the
+<Literal>location_data</Literal> member of the <StructName Role="typedef">XmConvertCallbackStruct</StructName> member
+is NULL if the selected items are being transferred.
+If the selected items are not being transferred, this member has the
+following value:
+If a single item is being transferred, the value is an integer
+representing the position of the item in the List.
+A value of 1 transfers the first item in the List; a value of 2
+transfers the second item; and so on.
+If the entire contents of the List are being transferred, the value is
+&minus;1.
+</Para>
+<Para>As a source of data, List supports the following targets and associated
+conversions of data to these targets:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">locale</Symbol></Term>
+<ListItem>
+<Para>If the <Symbol Role="Variable">locale</Symbol> target matches the widget's locale, the widget
+transfers the selected list items in the encoding of the locale.
+Each item transferred except the last includes a trailing separator.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">COMPOUND_TEXT</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the selected list items as type
+<Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+Each item transferred except the last includes a trailing separator.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">STRING</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the selected list items as type <Symbol Role="Define">STRING</Symbol>.
+Each item transferred except the last includes a trailing separator.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TEXT</Symbol></Term>
+<ListItem>
+<Para>If the selected list items are fully convertible to the encoding of the
+locale, the widget transfers the selected list items in the encoding of
+the locale.
+Otherwise, the widget transfers the selected list items as type
+<Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+Each item transferred except the last includes a trailing separator.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_CLIPBOARD_TARGETS</Property></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets it
+supports for immediate transfer for the <Symbol Role="Define">CLIPBOARD</Symbol> selection.
+These include <Property>_MOTIF_COMPOUND_STRING</Property>.
+If the selected list items are fully convertible to <Symbol Role="Define">STRING</Symbol>, these
+also include <Symbol Role="Define">STRING</Symbol>; otherwise, they also include
+<Symbol Role="Define">COMPOUND_TEXT</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_COMPOUND_STRING</Property></Term>
+<ListItem>
+<Para>The widget transfers the selected list items as a compound string in
+Byte Stream format.
+Each item transferred except the last includes a trailing separator.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_DEFERRED_CLIPBOARD_TARGETS</Property></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets it
+supports for delayed transfer for the <Symbol Role="Define">CLIPBOARD</Symbol> selection.
+This widget currently supplies no targets for
+<Property>_MOTIF_DEFERRED_CLIPBOARD_TARGETS</Property>.
+<!--If the selected list items are fully convertible to &bsol;*LSTRING&bsol;*O, these
+include &bsol;*LCOMPOUND_TEXT&bsol;*O.
+If the selected list items are fully convertible to the encoding of the
+locale, these also include the encoding of the locale.
+--></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_EXPORT_TARGETS</Property></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets to be
+used as the value of the DragContext's <SystemItem Class="Resource">XmNexportTargets</SystemItem> in a
+drag-and-drop transfer.
+These include <Property>_MOTIF_COMPOUND_STRING</Property>, <Symbol Role="Define">COMPOUND_TEXT</Symbol>, the
+encoding of the locale, <Symbol Role="Define">STRING</Symbol>, <Symbol Role="Define">TEXT</Symbol>, <Symbol Role="Define">BACKGROUND</Symbol>, and
+<Symbol Role="Define">FOREGROUND</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_LOSE_SELECTION</Property></Term>
+<ListItem>
+<Para>When the widget loses the selection, it deselects all list items.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>As a source of data, List also supports the following standard Motif
+targets:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Define">BACKGROUND</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNbackground</SystemItem> as type <Symbol Role="Define">PIXEL</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">CLASS</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy that has a
+<Property>WM_CLASS</Property> property and transfers the contents as text in the
+current locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">CLIENT_WINDOW</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy and transfers
+its window as type <Symbol Role="Define">WINDOW</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">COLORMAP</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNcolormap</SystemItem> as type <Symbol Role="Define">COLORMAP</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">FOREGROUND</Symbol></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNforeground</SystemItem> as type <Symbol Role="Define">PIXEL</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">NAME</Symbol></Term>
+<ListItem>
+<Para>The widget finds the first shell in the widget hierarchy that has a
+<Property>WM_NAME</Property> property and transfers the contents as text in the current
+locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TARGETS</Symbol></Term>
+<ListItem>
+<Para>The widget transfers, as type <Symbol Role="Define">ATOM</Symbol>, a list of the targets it
+supports.
+These include the standard targets in this list.
+These also include <Property>_MOTIF_COMPOUND_STRING</Property>, <Symbol Role="Define">COMPOUND_TEXT</Symbol>,
+the encoding of the locale, <Symbol Role="Define">STRING</Symbol>, and <Symbol Role="Define">TEXT</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">TIMESTAMP</Symbol></Term>
+<ListItem>
+<Para>The widget transfers the timestamp used to acquire the selection as type
+<Symbol Role="Define">INTEGER</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_RENDER_TABLE</Property></Term>
+<ListItem>
+<Para>The widget transfers <SystemItem Class="Resource">XmNrenderTable</SystemItem> if it exists, or else the
+default text render table, as type <Symbol Role="Define">STRING</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Property>_MOTIF_ENCODING_REGISTRY</Property></Term>
+<ListItem>
+<Para>The widget transfers its encoding registry as type <Symbol Role="Define">STRING</Symbol>.
+The value is a list of NULL separated items in the
+form of tag encoding pairs.
+This target symbolizes the transfer target for the
+Motif Segment Encoding Registry.
+Widgets and applications can use this Registry to register
+text encoding formats for specified render table tags.
+Applications access this Registry by calling
+<Function>XmRegisterSegmentEncoding</Function> and <Function>XmMapSegmentEncoding</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>List has no widget class destination procedure.
+Subclasses and the <SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures are
+responsible for any data transfers to the widget.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>List inherits behavior, resources, and traits from <Classname>Core</Classname> and
+<Classname>XmPrimitive</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmListWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmList</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the programmer
+to specify data. The programmer can also set the resource values for the
+inherited classes to set attributes for this widget. To reference a
+resource by name or by class in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or
+<SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters. To specify one of the defined
+values for a resource in a <Filename>.Xdefaults</Filename> file,
+remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include any
+underscores between words).
+The codes in the access column indicate if the given resource can be
+set at creation time (C),
+set by using <Function>XtSetValues</Function> (S),
+retrieved by using <Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmList Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNautomaticSelection</Entry>
+<Entry>XmCAutomaticSelection</Entry>
+<Entry>XtEnum</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbrowseSelectionCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultActionCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdestinationCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdoubleClickInterval</Entry>
+<Entry>XmCDoubleClickInterval</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNextendedSelectionCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNfontList</Entry>
+<Entry>XmCFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNitemCount</Entry>
+<Entry>XmCItemCount</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNitems</Entry>
+<Entry>XmCItems</Entry>
+<Entry>XmStringTable</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistMarginHeight</Entry>
+<Entry>XmCListMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistMarginWidth</Entry>
+<Entry>XmCListMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistSizePolicy</Entry>
+<Entry>XmCListSizePolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmVARIABLE</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNlistSpacing</Entry>
+<Entry>XmCListSpacing</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmatchBehavior</Entry>
+<Entry>XmCMatchBehavior</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmQUICK_NAVIGATE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmultipleSelectionCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNprimaryOwnership</Entry>
+<Entry>XmCPrimaryOwnership</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmOWN_NEVER</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrenderTable</Entry>
+<Entry>XmCRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscrollBarDisplayPolicy</Entry>
+<Entry>XmCScrollBarDisplayPolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmAS_NEEDED</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectColor</Entry>
+<Entry>XmCSelectColor</Entry>
+<Entry>XmRSelectColor</Entry>
+<Entry>XmREVERSED_GROUND_COLORS</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectedItemCount</Entry>
+<Entry>XmCSelectedItemCount</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectedItems</Entry>
+<Entry>XmCSelectedItems</Entry>
+<Entry>XmStringTable</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectedPositionCount</Entry>
+<Entry>XmCSelectedPositionCount</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectedPositions</Entry>
+<Entry>XmCSelectedPositions</Entry>
+<Entry>unsigned int *</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectionMode</Entry>
+<Entry>XmCSelectionMode</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNselectionPolicy</Entry>
+<Entry>XmCSelectionPolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmBROWSE_SELECT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsingleSelectionCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopItemPosition</Entry>
+<Entry>XmCTopItemPosition</Entry>
+<Entry>int</Entry>
+<Entry>1</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNvisibleItemCount</Entry>
+<Entry>XmCVisibleItemCount</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNautomaticSelection</SystemItem></Term>
+<ListItem>
+<Para>Invokes either
+<SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> or <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> when
+<KeySym>Btn1</KeySym> is pressed and the items that are shown as selected change
+if the value is True (or <SystemItem Class="Constant">XmAUTO</SystemItem>) and the selection
+mode is either <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem> or <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem> respectively.
+If False (<SystemItem Class="Constant">XmNO_AUTO_SELECT</SystemItem>), no selection callbacks are invoked until
+the user releases the mouse button.
+See <Literal>Behavior</Literal> for
+further details on the interaction of this resource with the selection modes.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks that is called
+when an item is selected in the browse selection mode. The reason is
+<SystemItem Class="Constant">XmCR_BROWSE_SELECT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdefaultActionCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks that is called when an item is double
+clicked or <KeySym>osfActivate</KeySym> is pressed.
+The reason is <SystemItem Class="Constant">XmCR_DEFAULT_ACTION</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdestinationCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks called when the List is the destination of
+a transfer operation.
+The type of the structure whose address is passed to these callbacks is
+<StructName Role="typedef">XmDestinationCallbackStruct</StructName>.
+The reason is <SystemItem Class="Constant">XmCR_OK</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdoubleClickInterval</SystemItem></Term>
+<ListItem>
+<Para>If a button click is followed by another button click within the time
+span specified by this resource (in milliseconds), the button clicks
+are considered a double-click action, rather than two single-click
+actions.
+The value must not be negative.
+The default value is the display's multiclick time.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks that is called
+when items are selected using the extended selection mode.
+The reason is <SystemItem Class="Constant">XmCR_EXTENDED_SELECT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfontList</SystemItem></Term>
+<ListItem>
+<Para>Specifies the font list associated with the list items.
+<SystemItem Class="Resource">XmNfontList</SystemItem> is obsolete and exists only for compatibility with
+previous releases. You should now use <SystemItem Class="Resource">XmNrenderTable</SystemItem> instead of
+<SystemItem Class="Resource">XmNfontList</SystemItem>. If both are specified, the render table will take
+precedence. The font list is used in conjunction with the
+<SystemItem Class="Resource">XmNvisibleItemCount</SystemItem>
+resource to determine the height of the List widget.
+If this
+value is NULL at initialization, the parent hierarchy of the widget is
+searched for a widget that
+holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such an ancestor is found, the font list is initialized to the
+<SystemItem Class="Constant">XmTEXT_RENDER_TABLE</SystemItem> value of the ancestor widget. If no such widget
+is found, the default is implementation dependent. Refer to
+&cdeman.XmFontList; for more information on a font list structure.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNitemCount</SystemItem></Term>
+<ListItem>
+<Para>Specifies the total number of items.
+The value must be the number of items in <SystemItem Class="Resource">XmNitems</SystemItem> and must not be
+negative.
+It is automatically updated by the list whenever an item is added to or
+deleted from the list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNitems</SystemItem></Term>
+<ListItem>
+<Para>Points to an array of compound strings that are to be displayed as the list
+items.
+Refer to &cdeman.XmString; for more information on the creation and
+structure of compound strings.
+<Function>XtGetValues</Function> for this resource returns the list items themselves,
+not a copy of the list items.
+The application must not free the returned items.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlistMarginHeight</SystemItem></Term>
+<ListItem>
+<Para>Specifies the height of the margin between the list border and the items.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlistMarginWidth</SystemItem></Term>
+<ListItem>
+<Para>Specifies the width of the margin between the list border and the items.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlistSizePolicy</SystemItem></Term>
+<ListItem>
+<Para>Controls the reaction of the List when an item grows horizontally beyond
+the current size of the list work area.
+If the value is <SystemItem Class="Constant">XmCONSTANT</SystemItem>, the list viewing area does not grow,
+and a horizontal ScrollBar is added for a List whose parent is a ScrolledWindow.
+If this resource is set to <SystemItem Class="Constant">XmVARIABLE</SystemItem>, the List grows to
+match the
+size of the longest item, and no horizontal ScrollBar appears.
+</Para>
+<Para>When the value of this resource is <SystemItem Class="Constant">XmRESIZE_IF_POSSIBLE</SystemItem>, the List
+attempts to grow or shrink to match the width of the widest item.
+If it cannot grow to match the widest size, a horizontal ScrollBar is
+added for a List whose parent is a ScrolledWindow
+if the longest item is wider than the list
+viewing area.
+</Para>
+<Para>The size policy must be set at the time the List widget is created.
+It cannot be changed at a later time through <Function>XtSetValues</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNlistSpacing</SystemItem></Term>
+<ListItem>
+<Para>Specifies the spacing between list items.
+This spacing increases by the value of the <SystemItem Class="Resource">XmNhighlightThickness</SystemItem>
+resource in Primitive.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmatchBehavior</SystemItem></Term>
+<ListItem>
+<Para>Specifies the matching behavior followed by XmList.
+The current values are <SystemItem Class="Constant">XmNONE</SystemItem> and <SystemItem Class="Constant">XmQUICK_NAVIGATE</SystemItem>, as follows:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmNONE</SystemItem></Term>
+<ListItem>
+<Para>Specifies that the typed in characters are ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmQUICK_NAVIGATE</SystemItem></Term>
+<ListItem>
+<Para>Specifies that 1-character navigation shall be supported when List
+has focus. If the typed character is
+the initial character of some set of items in
+List, the first of those items following the current
+item will be navigated to (become the current
+item). If all such items precede the current item, the
+first such item becomes the current item.
+Subsequently, typing the same character will
+cyclically navigate among the items with the same first
+character.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNmultipleSelectionCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks that is called
+when an item is selected in
+multiple selection mode. The reason is <SystemItem Class="Constant">XmCR_MULTIPLE_SELECT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNprimaryOwnership</SystemItem></Term>
+<ListItem>
+<Para>Specifies whether XmContainer takes ownership of the Primary selection
+when a selection is made inside it. This resource can take the
+following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOWN_NEVER</SystemItem></Term>
+<ListItem>
+<Para>Never takes ownership.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOWN_ALWAYS</SystemItem></Term>
+<ListItem>
+<Para>Always takes ownership.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOWN_MULTIPLE</SystemItem></Term>
+<ListItem>
+<Para>Only takes ownership is more than one element has been selected.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOWN_POSSIBLE_MULTIPLE</SystemItem></Term>
+<ListItem>
+<Para>Only takes ownership if more than one element can be selected at a
+time.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrenderTable</SystemItem></Term>
+<ListItem>
+<Para>Specifies the render table associated with the list items. The render
+table is used in conjunction with the
+<SystemItem Class="Resource">XmNvisibleItemCount</SystemItem>
+resource to determine the height of the List widget. If this
+value is NULL at initialization, List searches its parent hierarchy
+for a widget that
+holds the <Symbol Role="Globalvar">XmQTspecifyRenderTable</Symbol> trait.
+If such an ancestor is found, the render table is initialized to the
+<SystemItem Class="Constant">XmTEXT_RENDER_TABLE</SystemItem> value of the ancestor widget. If no such widget
+is found, the default is implementation dependent. If a font list and
+a render table are both specified, the
+render table will take precedence. Refer to
+&cdeman.XmRenderTable; for more information on the creation and
+structure of a render table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNscrollBarDisplayPolicy</SystemItem></Term>
+<ListItem>
+<Para>Controls the display of vertical ScrollBars in a
+List whose parent is a ScrolledWindow.
+When the value of this resource is <SystemItem Class="Constant">XmAS_NEEDED</SystemItem>, a vertical
+ScrollBar is displayed only when the number of items in the List exceeds
+the number of visible items.
+When the value is <SystemItem Class="Constant">XmSTATIC</SystemItem>, a vertical ScrollBar is always
+displayed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectColor</SystemItem></Term>
+<ListItem>
+<Para>Allows the application to specify the color of the background rectangle
+that indicates selected text. It takes two values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDEFAULT_SELECT_COLOR</SystemItem></Term>
+<ListItem>
+<Para>Causes the select color to be set to a color
+between the background and the bottom shadow color.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmREVERSED_GROUND_COLORS</SystemItem></Term>
+<ListItem>
+<Para>Forces the select color to the
+foreground color and the color of any text rendered over the
+select color to be in the background color.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">HIGHLIGHT_COLOR</Symbol></Term>
+<ListItem>
+<Para>Forces the fill color to use the highlight color.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectedItemCount</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of strings in the selected items list.
+The value must be the number of items in <SystemItem Class="Resource">XmNselectedItems</SystemItem> and must
+not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectedItems</SystemItem></Term>
+<ListItem>
+<Para>Points to an array of compound strings that represents the list items that
+are currently selected, either by the user or by the application.
+<Function>XtGetValues</Function> for this resource returns the list items themselves,
+not a copy of the list items.
+The application must not free the returned items or the array.
+</Para>
+<Para>Setting <SystemItem Class="Resource">XmNselectedItems</SystemItem> selects those list items that exactly
+match items in the given <SystemItem Class="Resource">XmNselectedItems</SystemItem> list. There may be
+additional items in <SystemItem Class="Resource">XmNselectedItems</SystemItem> that do not match items in
+the list. These items remain until <SystemItem Class="Resource">XmNselectedItems</SystemItem> is updated.
+If <SystemItem Class="Resource">XmNitems</SystemItem> is changed such that the list now contains items
+matching previously unmatched items in <SystemItem Class="Resource">XmNselectedItems</SystemItem>, those
+new items will also appear selected.
+</Para>
+<Para>Any user interaction with the list that causes at least one item to be
+selected or deselected and any call to
+<Function>XmListDeleteAllItems</Function>,
+<Function>XmListDeleteItem</Function>,
+<Function>XmListDeleteItems</Function>,
+<Function>XmListDeleteItemsPos</Function>,
+<Function>XmListDeletePos</Function>,
+<Function>XmListDeletePositions</Function>,
+<Function>XmListDeselectAllItems</Function>,
+<Function>XmListDeselectItem</Function>, <Function>XmListDeselectPos</Function>,
+<Function>XmListSelectItem</Function>, <Function>XmListSelectPos</Function>, or
+<Function>XmListUpdateSelectedList</Function> cause <SystemItem Class="Resource">XmNselectedItems</SystemItem> to be
+updated immediately to exactly reflect the visual state of the list.
+Calls to any other <Classname>XmList</Classname> functions do not affect
+<SystemItem Class="Resource">XmNselectedItems</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectedPositionCount</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of positions in the selected positions list.
+The value must be the number of items in <SystemItem Class="Resource">XmNselectedPositions</SystemItem>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectedPositions</SystemItem></Term>
+<ListItem>
+<Para>Points to an array of the positions of the selected items in the List.
+<Function>XtGetValues</Function> for this resource returns the
+list items themselves, not a copy of the list
+items. The application must not free the returned
+items or the array.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectionMode</SystemItem></Term>
+<ListItem>
+<Para>Defines what effect keyboard navigations have on selection. The valid
+modes are:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmADD_MODE</SystemItem></Term>
+<ListItem>
+<Para>Allows no navigation operations to have effect on selection, and
+<KeySym>osfSelect</KeySym> toggles the selection state of the item at the location
+cursor without deselecting any other selected items, except in Single
+Select. However, the widget cannot be put into add mode if the
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> resource is an incompatible mode
+(<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> cannot be <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmNORMAL_MODE</SystemItem></Term>
+<ListItem>
+<Para>Allows navigation operations and <KeySym>osfSelect</KeySym> to select the
+item at the location cursor and deselect any other selected
+items. However, the widget cannot be put into normal mode if the
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> resource is an incompatible mode
+(<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> cannot be <SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem> or
+<SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNselectionPolicy</SystemItem></Term>
+<ListItem>
+<Para>Defines the interpretation of the selection action. This can be one of the
+following:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem></Term>
+<ListItem>
+<Para>Allows only single selections
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem></Term>
+<ListItem>
+<Para>Allows multiple selections
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem></Term>
+<ListItem>
+<Para>Allows extended selections
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem></Term>
+<ListItem>
+<Para>Allows drag-and-browse functionality
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsingleSelectionCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies a list of callbacks that is called
+when an item is selected in
+single selection mode. The reason is <SystemItem Class="Constant">XmCR_SINGLE_SELECT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNstringDirection</SystemItem></Term>
+<ListItem>
+<Para>Is a synthetic resource for setting <SystemItem Class="Resource">XmNlayoutDirection</SystemItem>.
+The values for this resource are <SystemItem Class="Constant">XmSTRING_DIRECTION_L_TO_R</SystemItem> and
+<SystemItem Class="Constant">XmSTRING_DIRECTION_R_TO_L</SystemItem>. Refer to the
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource description. The
+<SystemItem Class="Resource">XmNstringDirection</SystemItem> resource is obsoleted by
+<SystemItem Class="Resource">XmNlayoutDirection</SystemItem>, but is kept here for backward compatibility.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtopItemPosition</SystemItem></Term>
+<ListItem>
+<Para>Specifies the position of the item that is the first visible item in the
+list.
+Setting this resource is equivalent to calling the <Function>XmListSetPos</Function>
+function.
+The position of the first item in the list is 1; the position of the
+second item is 2; and so on.
+A position of 0 (zero) specifies the last item in the list.
+The value must not be negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNvisibleItemCount</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of items that can
+fit in the visible space of the list work area. The List uses this
+value to determine its height.
+The value must be greater than 0 (zero).
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>List inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmPrimitive Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNconvertCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightOnEnter</Entry>
+<Entry>XmCHighlightOnEnter</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightThickness</Entry>
+<Entry>XmCHighlightThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<!--no-op:  .tH-->
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>2</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>List defines a new callback structure. The application must first look at the
+reason field and use only the structure members that are valid for that
+particular reason, because not all fields are relevant for
+every possible reason. The callback structure is defined as follows:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        XmString <Symbol Role="Variable">item</Symbol>;
+        int <Symbol Role="Variable">item_length</Symbol>;
+        int <Symbol Role="Variable">item_position</Symbol>;
+        XmString *<Symbol Role="Variable">selected_items</Symbol>;
+        int <Symbol Role="Variable">selected_item_count</Symbol>;
+        int *<Symbol Role="Variable">selected_item_positions</Symbol>;
+        char <Symbol Role="Variable">selection_type</Symbol>;
+        unsigned char <Symbol Role="Variable">auto_selection_type</Symbol>;
+} XmListCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback. It can be NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">item</Symbol></Term>
+<ListItem>
+<Para>The last item selected at the time of the <Symbol Role="Variable">event</Symbol> that caused the
+callback.
+<Symbol Role="Variable">item</Symbol> points to a temporary storage space that is reused after the
+callback is finished.
+Therefore, if an application needs to save the item, it should copy the
+item into its own data space.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">item_length</Symbol></Term>
+<ListItem>
+<Para>The length in bytes of <Symbol Role="Variable">item</Symbol>.
+This member is obsolete and exists for compatibility with
+earlier releases.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">item_position</Symbol></Term>
+<ListItem>
+<Para>The position (plus one) of <Symbol Role="Variable">item</Symbol> in the List's <SystemItem Class="Resource">XmNitems</SystemItem> array.
+An <Symbol Role="Variable">item_position</Symbol> value of one symbolizes the first element in the
+list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selected_items</Symbol></Term>
+<ListItem>
+<Para>A list of items selected at the time of the <Symbol Role="Variable">event</Symbol> that caused
+the callback.
+<Symbol Role="Variable">selected_items</Symbol> points to a temporary storage space that is reused
+after the callback is finished.
+Therefore, if an application needs to save the selected list, it should
+copy the list into its own data space.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selected_item_count</Symbol></Term>
+<ListItem>
+<Para>The number of items in the <Symbol Role="Variable">selected_items</Symbol> list.
+This number must be non-negative.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selected_item_positions</Symbol></Term>
+<ListItem>
+<Para>An array of integers, one for each selected item, representing the
+position of each selected item in the List's <SystemItem Class="Resource">XmNitems</SystemItem> array.
+<Symbol Role="Variable">selected_item_positions</Symbol> points to a temporary storage space that
+is reused after the callback is finished.
+Therefore, if an application needs to save this array, it should copy
+the array into its own data space.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selection_type</Symbol></Term>
+<ListItem>
+<Para>Indicates that the most recent extended selection was the initial
+selection (<SystemItem Class="Constant">XmINITIAL</SystemItem>), a modification of an existing selection
+(<SystemItem Class="Constant">XmMODIFICATION</SystemItem>), or an additional noncontiguous selection
+(<SystemItem Class="Constant">XmADDITION</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>auto_selection_type</Literal></Term>
+<ListItem>
+<Para>Indicates the type of automatic selection callback. The types of
+callbacks include the following:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmAUTO_BEGIN</SystemItem></Term>
+<ListItem>
+<Para>Indicates the beginning of automatic selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmAUTO_MOTION</SystemItem></Term>
+<ListItem>
+<Para>Indicates that there is a button drag selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmAUTO_CANCEL</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the new selection is cancelled.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmAUTO_NO_CHANGE</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the currently selected item matches the initial item.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmAUTO_CHANGE</SystemItem></Term>
+<ListItem>
+<Para>Indicates that the currently selected item does not match the initial item.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The following table describes the reasons for which the individual callback
+structure fields are valid.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry Rowsep="1"><Literal>Reason</Literal></Entry>
+<Entry Rowsep="1"><Literal>Valid Fields</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmCR_SINGLE_SELECT</Entry>
+<Entry><Emphasis>reason, event, item, item_length, item_position</Emphasis></Entry>
+</Row>
+<Row>
+<Entry>XmCR_DEFAULT_ACTION</Entry>
+<Entry><Emphasis>reason, event, item, item_length, item_position, selected_items, selected_item_count, selected_item_positions</Emphasis></Entry>
+</Row>
+<Row>
+<Entry>XmCR_BROWSE_SELECT</Entry>
+<Entry><Emphasis>reason, event, item, item_length, item_position</Emphasis></Entry>
+</Row>
+<Row>
+<Entry>XmCR_MULTIPLE_SELECT</Entry>
+<Entry><Emphasis>reason, event, item, item_length, item_position, selected_items, selected_item_count, selected_item_positions</Emphasis></Entry>
+</Row>
+<Row>
+<Entry>XmCR_EXTENDED_SELECT</Entry>
+<Entry><Emphasis>reason, event, item, item_length, item_position, selected_items, selected_item_count, selected_item_positions, selection_type</Emphasis></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>A pointer to the following callback structure is passed to the
+<SystemItem Class="Resource">XmNdestinationCallback</SystemItem> procedures:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Atom <Symbol Role="Variable">selection</Symbol>;
+        XtEnum <Symbol Role="Variable">operation</Symbol>;
+        int <Symbol Role="Variable">flags</Symbol>;
+        XtPointer <Symbol Role="Variable">transfer_id</Symbol>;
+        XtPointer <Symbol Role="Variable">destination_data</Symbol>;
+        XtPointer <Symbol Role="Variable">location_data</Symbol>;
+        Time <Symbol Role="Variable">time</Symbol>;
+} XmDestinationCallbackStruct;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+It can be NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">selection</Symbol></Term>
+<ListItem>
+<Para>Indicates the selection for which data transfer is being requested.
+Possible values are <Symbol Role="Define">CLIPBOARD</Symbol>, <Symbol Role="Define">PRIMARY</Symbol>, <Symbol Role="Define">SECONDARY</Symbol>, and
+<Property>_MOTIF_DROP</Property>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operation</Symbol></Term>
+<ListItem>
+<Para>Indicates the type of transfer operation requested.
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>When the selection is <Symbol Role="Define">PRIMARY</Symbol>, possible values are <SystemItem Class="Constant">XmMOVE</SystemItem>,
+<SystemItem Class="Constant">XmCOPY</SystemItem>, and <SystemItem Class="Constant">XmLINK</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>When the selection is <Symbol Role="Define">SECONDARY</Symbol> or <Symbol Role="Define">CLIPBOARD</Symbol>, possible
+values are <SystemItem Class="Constant">XmCOPY</SystemItem> and <SystemItem Class="Constant">XmLINK</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>When the selection is <Property>_MOTIF_DROP</Property>, possible values are
+<SystemItem Class="Constant">XmMOVE</SystemItem>, <SystemItem Class="Constant">XmCOPY</SystemItem>, <SystemItem Class="Constant">XmLINK</SystemItem>, and <SystemItem Class="Constant">XmOTHER</SystemItem>.
+A value of <SystemItem Class="Constant">XmOTHER</SystemItem> means that the callback procedure must get
+further information from the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> in the
+<Symbol Role="Variable">destination_data</Symbol> member.
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">flags</Symbol></Term>
+<ListItem>
+<Para>Indicates whether or not the destination widget is also the source of
+the data to be transferred.
+Following are the possible values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_NONE</SystemItem></Term>
+<ListItem>
+<Para>The destination widget is not the source of the data to be transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmCONVERTING_SAME</SystemItem></Term>
+<ListItem>
+<Para>The destination widget is the source of the data to be transferred.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>transfer_id</Literal></Term>
+<ListItem>
+<Para>Serves as a unique ID to identify the transfer transaction.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">destination_data</Symbol></Term>
+<ListItem>
+<Para>Contains information about the destination.
+When the selection is <Property>_MOTIF_DROP</Property>, the callback procedures are
+called by the drop site's <SystemItem Class="Resource">XmNdropProc</SystemItem>, and <Symbol Role="Variable">destination_data</Symbol>
+is a pointer to the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> passed to the
+<SystemItem Class="Resource">XmNdropProc</SystemItem> procedure.
+When the selection is <Symbol Role="Define">SECONDARY</Symbol>, <Symbol Role="Variable">destination_data</Symbol> is an Atom
+representing a target recommmended by the selection owner for use in
+converting the selection.
+Otherwise, <Symbol Role="Variable">destination_data</Symbol> is NULL.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>location_data</Literal></Term>
+<ListItem>
+<Para>Contains information about the location where data is to be transferred.
+The value is always NULL when the selection is <Symbol Role="Define">SECONDARY</Symbol> or
+<Symbol Role="Define">CLIPBOARD</Symbol>.
+If the value is NULL, the data is to be inserted at the widget's cursor
+position.
+Otherwise, the value is an integer representing the position in the List
+where the items are to be transferred.
+A value of 1 makes the first new item the first item in the list; a
+value of 2 makes it the second item; and so on.
+Once <Symbol>XmTransferDone</Symbol> procedures start to be called,
+<Literal>location_data</Literal> will no longer be stable.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">time</Symbol></Term>
+<ListItem>
+<Para>Indicates the time when the transfer operation began.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmList -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para><Classname>XmList</Classname> includes translations from Primitive.
+The <Classname>XmList</Classname> translations are described in the following list.
+</Para>
+<Para>The following key names are listed in the
+X standard key event translation table syntax.
+This format is the one used by Motif to
+specify the widget actions corresponding to a given key.
+A brief overview of the format is provided under
+&cdeman.VirtualBindings;.
+For a complete description of the format, please refer to the
+X Toolkit Instrinsics Documentation.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Btn1</KeySym><KeySym>Motion</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListButtonMotion()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListBeginExtend()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;m &ap;a</Literal> <KeySym>Btn1Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListEndExtend()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListBeginToggle()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn1Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListEndToggle()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s &ap;c &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListBeginSelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&npzwc;&ap;s &ap;c &ap;m &ap;a</Literal> <KeySym>Btn1Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListEndSelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListProcessDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s c</Literal> <KeySym>Key</KeySym><KeySym>osfBeginLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListBeginDataExtend()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfBeginLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListBeginData()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfBeginLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListBeginLine()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s c</Literal> <KeySym>Key</KeySym><KeySym>osfEndLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListEndDataExtend()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfEndLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListEndData()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfEndLine</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListEndLine()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfPageLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListLeftPage()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfPageUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListLeftPage()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfPageUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListPrevPage()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfPageRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListRightPage()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfPageDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListRightPage()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfPageDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListNextPage()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s</Literal> <KeySym>KeyDown</KeySym><KeySym>osfSelect</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>ListKbdBeginExtend()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>KeyDown</KeySym><KeySym>osfSelect</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListKbdBeginSelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>KeyUp</KeySym><KeySym>osfSelect</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListKbdEndExtend()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>KeyUp</KeySym><KeySym>osfSelect</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListKbdEndSelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfSelectAll</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListKbdSelectAll()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfDeselectAll</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListKbdDeSelectAll()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListKbdActivate()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfAddMode</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListAddMode()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para><Action>PrimitiveHelp()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListKbdCancel()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListLeftPage()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListLeftChar()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListRightPage()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListRightChar()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListExtendPrevItem()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListPrevItem()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:s</Literal> <KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListExtendNextItem()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListNextItem()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:c</Literal> <KeySym>Key</KeySym><KeySym>osfInsert</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListCopyToClipboard()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfCopy</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListCopyToClipboard()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s c &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>slash</Literal>:</Term>
+<ListItem>
+<Para><Action>ListKbdSelectAll()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s c &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>backslash</Literal>:</Term>
+<ListItem>
+<Para><Action>ListKbdDeSelectAll()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>Tab</Literal>:</Term>
+<ListItem>
+<Para><Action>PrimitivePrevTabGroup()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>Tab</Literal>:</Term>
+<ListItem>
+<Para><Action>PrimitiveNextTabGroup()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s &ap;m &ap;a</Literal> <KeySym>Key</KeySym><Literal>Return</Literal>:</Term>
+<ListItem>
+<Para><Action>ListKbdActivate()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s &ap;m &ap;a</Literal> <KeySym>KeyDown</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>ListKbdBeginSelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s &ap;m &ap;a</Literal> <KeySym>KeyUp</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>ListKbdEndSelect()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;m &ap;a</Literal> <KeySym>KeyDown</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>ListKbdBeginExtend()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;m &ap;a</Literal> <KeySym>KeyUp</KeySym><Literal>space</Literal>:</Term>
+<ListItem>
+<Para><Action>ListKbdEndExtend()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym>:</Term>
+<ListItem>
+<Para><Action>ListQuickNavigate()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--These translations may not directly correspond to a
+translation table.
+.VL 2i 0 1
+.LI "&bsol;*LBSelect Press:&bsol;*O"
+&bsol;*LListBeginSelect()&bsol;*O
+.LI "&bsol;*LBSelect Motion:&bsol;*O"
+&bsol;*LListButtonMotion()&bsol;*O
+.LI "&bsol;*LBSelect Release:&bsol;*O"
+&bsol;*LListEndSelect()&bsol;*O
+.LI "&bsol;*LBExtend Press:&bsol;*O"
+&bsol;*LListBeginExtend()&bsol;*O
+.LI "&bsol;*LBExtend Motion:&bsol;*O"
+&bsol;*LListButtonMotion()&bsol;*O
+.LI "&bsol;*LBExtend Release:&bsol;*O"
+&bsol;*LListEndExtend()&bsol;*O
+.LI "&bsol;*LBToggle Press:&bsol;*O"
+&bsol;*LListBeginToggle()&bsol;*O
+.LI "&bsol;*LBToggle Motion:&bsol;*O"
+&bsol;*LListButtonMotion()&bsol;*O
+.LI "&bsol;*LBToggle Release:&bsol;*O"
+&bsol;*LListEndToggle()&bsol;*O
+.LI "&bsol;*LBTransfer Press:&bsol;*O"
+&bsol;*LListProcessDrag()&bsol;*O
+.LI "&bsol;*LKUp:&bsol;*O"
+&bsol;*LListPrevItem()&bsol;*O
+.LI "&bsol;*LMShift KUp:&bsol;*O"
+&bsol;*LListExtendPrevItem()&bsol;*O
+.LI "&bsol;*LKDown:&bsol;*O"
+&bsol;*LListNextItem()&bsol;*O
+.LI "&bsol;*LMShift KDown:&bsol;*O"
+&bsol;*LListExtendNextItem()&bsol;*O
+.LI "&bsol;*LKLeft:&bsol;*O"
+&bsol;*LListLeftChar()&bsol;*O
+.LI "&bsol;*LMCtrl KLeft:&bsol;*O"
+&bsol;*LListLeftPage()&bsol;*O
+.LI "&bsol;*LKRight:&bsol;*O"
+&bsol;*LListRightChar()&bsol;*O
+.LI "&bsol;*LMCtrl KRight:&bsol;*O"
+&bsol;*LListRightPage()&bsol;*O
+.LI "&bsol;*LKPageUp:&bsol;*O"
+&bsol;*LListPrevPage()&bsol;*O
+.LI "&bsol;*LKPageDown:&bsol;*O"
+&bsol;*LListNextPage()&bsol;*O
+.LI "&bsol;*LKPageLeft:&bsol;*O"
+&bsol;*LListLeftPage()&bsol;*O
+.LI "&bsol;*LKPageRight:&bsol;*O"
+&bsol;*LListRightPage()&bsol;*O
+.LI "&bsol;*LKBeginLine:&bsol;*O"
+&bsol;*LListBeginLine()&bsol;*O
+.LI "&bsol;*LKEndLine:&bsol;*O"
+&bsol;*LListEndLine()&bsol;*O
+.LI "&bsol;*LKBeginData:&bsol;*O"
+&bsol;*LListBeginData()&bsol;*O
+.LI "&bsol;*LMShift KBeginData:&bsol;*O"
+&bsol;*LListBeginDataExtend()&bsol;*O
+.LI "&bsol;*LKEndData:&bsol;*O"
+&bsol;*LListEndData()&bsol;*O
+.LI "&bsol;*LMShift KEndData:&bsol;*O"
+&bsol;*LListEndDataExtend()&bsol;*O
+.LI "&bsol;*LKAddMode:&bsol;*O"
+&bsol;*LListAddMode()&bsol;*O
+.LI "&bsol;*LKActivate:&bsol;*O"
+&bsol;*LListKbdActivate()&bsol;*O
+.LI "&bsol;*LKCopy Press:&bsol;*O"
+&bsol;*LListCopyToClipboard()&bsol;*O
+.LI "&bsol;*LKSelect Press:&bsol;*O"
+&bsol;*LListKbdBeginSelect()&bsol;*O
+.LI "&bsol;*LKSelect Release:&bsol;*O"
+&bsol;*LListKbdEndSelect()&bsol;*O
+.LI "&bsol;*LKExtend Press:&bsol;*O"
+&bsol;*LListKbdBeginExtend()&bsol;*O
+.LI "&bsol;*LKExtend Release:&bsol;*O"
+&bsol;*LListKbdEndExtend()&bsol;*O
+.LI "&bsol;*LMAny KCancel:&bsol;*O"
+&bsol;*LListKbdCancel()&bsol;*O
+.LI "&bsol;*LKSelectAll:&bsol;*O"
+&bsol;*LListKbdSelectAll()&bsol;*O
+.LI "&bsol;*LKDeselectAll:&bsol;*O"
+&bsol;*LListKbdDeSelectAll()&bsol;*O
+.LI "&bsol;*LKHelp:&bsol;*O"
+&bsol;*LPrimitiveHelp()&bsol;*O
+.nL
+.ne 6
+.LI "&bsol;*LKNextField&bsol;*O"
+&bsol;*LPrimitiveNextTabGroup()&bsol;*O
+.LI "&bsol;*LKPrevField&bsol;*O"
+&bsol;*LPrimitivePrevTabGroup()&bsol;*O
+.LE
+-->
+<Para>The List button event translations are modified when Display's
+<SystemItem Class="Resource">XmNenableBtn1Transfer</SystemItem> resource does not have a value of
+<SystemItem Class="Constant">XmOFF</SystemItem> (in other words, it is either <Symbol>XmBUTTON2_TRANSFER</Symbol> or
+<Symbol>XmBUTTON2_ADJUST</Symbol>). This
+option allows the
+actions for selection and transfer to be integrated on <KeySym>Btn1</KeySym>, and
+the actions for extending the selection can be bound to
+<KeySym>Btn2</KeySym>. The actions for <KeySym>Btn1</KeySym> that are defined above
+still apply when the <KeySym>Btn1</KeySym> event occurs over text that is not
+selected. The following actions apply when the <KeySym>Btn1</KeySym> event
+occurs over text that is selected:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Btn1Motion</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>ListProcessBtn1(<Symbol Role="Define">ListButtonMotion</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym></Term>
+<ListItem>
+<Para><Action>ListProcessBtn1(<Symbol Role="Define">ListBeginExtend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>s &ap;m &ap;a</Literal> <KeySym>Btn1Up</KeySym></Term>
+<ListItem>
+<Para><Action>ListProcessBtn1(<Symbol Role="Define">ListEndExtend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym></Term>
+<ListItem>
+<Para><Action>ListProcessBtn1(<Symbol Role="Define">ListBeginToggle</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>c &ap;s &ap;m &ap;a</Literal> <KeySym>Btn1Up</KeySym></Term>
+<ListItem>
+<Para><Action>ListProcessBtn1(<Symbol Role="Define">ListEndToggle</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s &ap;c &ap;m &ap;a</Literal> <KeySym>Btn1Down</KeySym></Term>
+<ListItem>
+<Para><Action>ListProcessBtn1(<Symbol Role="Define">ListBeginSelect</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&ap;s &ap;c &ap;m &ap;a</Literal> <KeySym>Btn1Up</KeySym></Term>
+<ListItem>
+<Para><Action>ListProcessBtn1(<Symbol Role="Define">ListEndSelect</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>When Display's <SystemItem Class="Resource">XmNenableBtn1Transfer</SystemItem> resource has a value of
+<Symbol>XmBUTTON2_ADJUST</Symbol>, the following actions apply:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Btn2Down</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>ListProcessBtn2(<Symbol Role="Define">ListBeginExtend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Motion</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>ListProcessBtn2(<Symbol Role="Define">ListButtonMotion</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Up</KeySym><Literal>:</Literal></Term>
+<ListItem>
+<Para><Action>ListProcessBtn2(<Symbol Role="Define">ListEndExtend</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--.VL
+.LI "&bsol;*LBSelect Press:&bsol;*O"
+&bsol;*LListProcessDrag()&bsol;*O resulting in copy.
+.LI "&bsol;*LBExtend Press:&bsol;*O"
+&bsol;*LListProcessDrag()&bsol;*O resulting in move.
+.LI "&bsol;*LBExtend Click:&bsol;*O"
+&bsol;*LListBeginExtend()&bsol;*O, &bsol;*LListEndExtend()&bsol;*O.
+.LI "&bsol;*LToggle Press:&bsol;*O"
+&bsol;*LListProcessDrag()&bsol;*O resulting in copy.
+.LI "&bsol;*LBDrag Press:&bsol;*O"
+&bsol;*LListBeginExtend()&bsol;*O.
+.LI "&bsol;*LBDrag Motion:&bsol;*O"
+&bsol;*LListBeginExtend()&bsol;*O.
+.LI "&bsol;*LBDrag Release:&bsol;*O"
+&bsol;*LListEndExtend()&bsol;*O.
+.LE
+-->
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The <Classname>XmList</Classname> action routines are described in the following list.
+The current selection is always shown with inverted colors.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Action>ListAddMode()</Action>:</Term>
+<ListItem>
+<Para>Toggles the state of Add Mode for keyboard selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListBeginData()</Action>:</Term>
+<ListItem>
+<Para>Moves the location cursor to the first item in the list.
+In Normal Mode, this also deselects any current selection,
+selects the first item in the list, and calls the appropriate selection
+callbacks (<SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> when
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set
+to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListBeginDataExtend()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem> or
+<SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action moves the location cursor to the first item in the list.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action does the following:
+If an extended selection has been made from the current anchor point,
+restores the selection state of the items in that range to their state
+before the extended selection was done;
+changes the selection state of the first item and all
+items between it and the current anchor point to the state of the
+item at the current anchor point;
+calls the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListBeginExtend()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action does the following:
+If an extended selection has been made from the current anchor point,
+restores the selection state of the items in that range to their state
+before the extended selection was done, and
+changes the selection state of the item under the pointer and all
+items between it and the current anchor point to the state of the
+item at the current anchor point.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, this action calls the
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+The <Literal>auto_selection_type</Literal> component of the callback structure will
+be set to <SystemItem Class="Constant">XmAUTO_BEGIN</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListBeginLine()</Action>:</Term>
+<ListItem>
+<Para>Moves the horizontal scroll region to the beginning of the line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListBeginSelect()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem>,
+deselects any current selection and toggles the selection state of the
+item under the pointer.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+deselects any current selection and selects the item under the pointer.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, calls the
+<SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> callbacks.
+The <Literal>auto_selection_type</Literal> component of the callback structure will
+be set to <SystemItem Class="Constant">XmAUTO_BEGIN</SystemItem>.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem>,
+toggles the selection state of the item under the pointer.
+Any previous selections remain.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action deselects any current selection,
+selects the item under the pointer, and
+sets the current anchor at that item.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True,
+this action calls the
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+The <Literal>auto_selection_type</Literal> component of the callback structure will
+be set to <SystemItem Class="Constant">XmAUTO_BEGIN</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListBeginToggle()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action moves the current anchor to the item under the pointer
+without changing the current selection.
+If the item is unselected, this action selects it; if the item is selected,
+this action unselects it.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, this action calls the
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+</Para>
+<Para>Otherwise, the list takes keyboard focus. No other action occurs.
+The <Literal>auto_selection_type</Literal> component of the callback structure will
+be set to <SystemItem Class="Constant">XmAUTO_BEGIN</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListButtonMotion()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+this action deselects any current selection and selects the item under the
+pointer.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True and the pointer has
+entered a new list item, this action calls the <SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem>
+callbacks.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action does the following:
+If an extended selection is being made and an extended selection has
+previously been made from the current anchor point,
+restores the selection state of the items in that range to their state
+before the previous extended selection was done and
+changes the selection state of the item under the pointer and all
+items
+between it and the current anchor point to the state of the
+item at the current anchor point.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True and the pointer has
+entered a new list item, calls the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem>
+callbacks.
+</Para>
+<Para>If the pointer leaves a scrolled list, this action scrolls the list in
+the direction of the pointer motion.
+The <Literal>auto_selection_type</Literal> component of the callback structure will
+be set to <SystemItem Class="Constant">XmAUTO_MOTION</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListCopyToClipboard()</Action></Term>
+<ListItem>
+<Para>Copies the content of the selected items to the clipboard as a single
+compound string with each
+item separated by a newline.
+This action calls the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures, possibly
+multiple times, for the <Symbol Role="Define">CLIPBOARD</Symbol> selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListEndData()</Action>:</Term>
+<ListItem>
+<Para>Moves the location cursor to the last item in the list.
+In Normal Mode, this also deselects any current selection,
+selects the last item in the list, and calls the appropriate selection
+callbacks (<SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> when
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set
+to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListEndDataExtend()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem> or
+<SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action moves the location cursor to the last item in the list.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action does the following:
+If an extended selection has been made from the current anchor point,
+restores the selection state of the items in that range to their state
+before the extended selection was done;
+changes the selection state of the last item and all
+items between it and the current anchor point to the state of the
+item at the current anchor point;
+calls the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListEndExtend()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action moves the location
+cursor to the last item selected or deselected
+and
+calls the
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, then the
+<Literal>auto_selection_type</Literal> field of the callback will be
+valid. If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>
+and the currently selected item position matches the position of the
+item that was selected before the browse selection began, or if
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem> and the set
+of currently selected item positions matches the set of item positions
+selected before the extended selection began, the callback will be
+called with <Literal>auto_selection_type</Literal> set to <SystemItem Class="Constant">XmAUTO_NO_CHANGE</SystemItem>.
+Otherwise, it will be set to <SystemItem Class="Constant">XmAUTO_CHANGE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListEndLine()</Action>:</Term>
+<ListItem>
+<Para>Moves the horizontal scroll region to the end of the line.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListEndSelect()</Action>:</Term>
+<ListItem>
+<Para>This action moves the location cursor to the last item selected or
+deselected and calls the appropriate selection callbacks
+(<SystemItem Class="Resource">XmNsingleSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set
+to <SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem>, <SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> when
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+<SystemItem Class="Resource">XmNmultipleSelectionCallback</SystemItem> when
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem>,
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is
+set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>).
+</Para>
+<Para>If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, then the
+<Literal>auto_selection_type</Literal> field of the callback will be valid.
+If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem> and the
+currently selected item position matches the position of the item that
+was selected before the brose selection began, or if
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem> and the set
+of currently selected item positions matches the set of item positions
+selected before the extended selection began, the callback will be
+called with <Literal>auto_selection_type</Literal> set to <SystemItem Class="Constant">XmAUTO_NO_CHANGE</SystemItem>.
+Otherwise, it will be set to <SystemItem Class="Constant">XmAUTO_CHANGE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListEndToggle()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>, moves
+the location cursor to the last item selected or deselected
+and
+calls the
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, then the
+<Literal>auto_selection_type</Literal> field of the callback will be valid. If
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem> and the
+currently selected item position matches the position of the item that
+was selected before the browse selection began, or if
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem> and the set
+of currently selected item positions matches the set of item positions
+selected before the extended selection began, the callback will be
+called with <Literal>auto_selection_type</Literal> set to <SystemItem Class="Constant">XmAUTO_NO_CHANGE</SystemItem>.
+Otherwise, it will be set to <SystemItem Class="Constant">XmAUTO_CHANGE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListExtendNextItem()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action
+does the following:
+If an extended selection has been made from the current anchor point,
+restores the selection state of the items in that range to their state
+before the extended selection was done;
+moves the location cursor to the next item and changes the selection
+state of the item and all
+items between it and the current anchor point
+to the state of the item at the current anchor point;
+calls the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListExtendPrevItem()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action does the following:
+If an extended selection has been made from the current anchor point,
+restores the selection state of the items in that range to their state
+before the extended selection was done;
+moves the location cursor to the previous item and changes the selection
+state of the item and all items between it and the current anchor point
+to the state of the item at the current anchor point;
+calls the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListScrollCursorVertically(</Action><Symbol Role="Variable">percentage</Symbol><Literal>)</Literal>:</Term>
+<ListItem>
+<Para>Scrolls the line containing the insertion cursor vertically
+to an intermediate position in the visible window based on an
+input percentage. A value of 0 (zero) indicates the top of the window;
+a value of 100, the bottom of the window. If this action is called
+with no argument, the line containing the insertion cursor is scrolled
+vertically to a new position designated by the <Emphasis>y</Emphasis> event passed
+to the routine.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListKbdActivate()</Action>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNdefaultActionCallback</SystemItem>.
+If the List's parent is a manager, this action passes the event to the
+parent.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListKbdBeginExtend()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+does the following:
+If an extended selection has been made from the current anchor point,
+restores the selection state of the items in that range to their state
+before the extended selection was done;
+changes the selection state of the item at the location cursor and all
+items between it and the current anchor point to the state of the
+item at the current anchor point.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, this action calls the
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+The <Literal>auto_selection_type</Literal> component of the callback structure will
+be set to <SystemItem Class="Constant">XmAUTO_BEGIN</SystemItem>".
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListKbdBeginSelect()</Action>:</Term>
+<ListItem>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem>,
+deselects any current selection and toggles the state of the item at the
+location cursor.
+The <Literal>auto_selection_type</Literal> component of the callback structure will
+be set to <SystemItem Class="Constant">XmAUTO_BEGIN</SystemItem>".
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+deselects any current selection and selects the item at the location
+cursor.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, calls the
+<SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> callbacks.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem>,
+toggles the selection state of the item at the location cursor.
+Any previous selections remain.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+moves the current anchor to the item at the location cursor.
+In Normal Mode, this action
+deselects any current selection and selects the item at
+the location cursor.
+In Add Mode, this action
+toggles the selection state of the item at the location
+cursor and leaves the current selection unchanged.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, this action
+calls the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+The <Literal>auto_selection_type</Literal> component of the callback structure will
+be set to <SystemItem Class="Constant">XmAUTO_BEGIN</SystemItem>".
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListKbdCancel()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>
+and an extended selection is being made from the current anchor point,
+this action
+cancels the new selection and restores the selection state of the items
+in that range to their state before the extended selection was done.
+If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, this action calls the
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks; otherwise, if the
+parent is a manager, it passes the event to the parent.
+The <Literal>auto_selection_type</Literal> component of the callback structure will
+be set to <SystemItem Class="Constant">XmAUTO_CANCEL</SystemItem>".
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListKbdDeSelectAll()</Action>:</Term>
+<ListItem>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem>,
+<SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem>, or <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem> in Add Mode,
+this action deselects all items in the list.
+If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem> in
+Normal Mode, this action deselects all items in the list (except the item at the
+location cursor if the shell's <SystemItem Class="Resource">XmNkeyboardFocusPolicy</SystemItem> is
+<SystemItem Class="Constant">XmEXPLICIT</SystemItem>).
+This action also calls the appropriate selection callbacks
+(<SystemItem Class="Resource">XmNsingleSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set
+to <SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem>, <SystemItem Class="Resource">XmNmultipleSelectionCallback</SystemItem> when
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem>,
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set
+to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListKbdEndExtend()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action calls the
+<SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, then the
+<Literal>auto_selection_type</Literal> field of the callback will be valid. If
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem> and the
+currently selected item position matches the position of the item that
+was selected before the browse selection began, or if
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem> and the set
+of currently selected item positions matches the set of item positions
+selected before the extended selection began, the callback will be
+called with <Literal>auto_selection_type</Literal> set to <SystemItem Class="Constant">XmAUTO_NO_CHANGE</SystemItem>.
+Otherwise, it will be set to <SystemItem Class="Constant">XmAUTO_CHANGE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListKbdEndSelect()</Action>:</Term>
+<ListItem>
+<Para>Calls the appropriate selection callbacks
+(<SystemItem Class="Resource">XmNsingleSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set
+to <SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem>, <SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> when
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+<SystemItem Class="Resource">XmNmultipleSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set
+to <SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem>, <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> when
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>).
+</Para>
+<Para>If <SystemItem Class="Resource">XmNautomaticSelection</SystemItem> is set to True, then the
+<Literal>auto_selection_type</Literal> field of the callback will be valid. If
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem> and the
+currently selected item position matches the position of the item that
+was selected before the browse selection began, or if
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem> and the set
+of currently selected item positions matches the set of item positions
+selected before the extended selection began, the callback will be
+called with <Literal>auto_selection_type</Literal> set to <SystemItem Class="Constant">XmAUTO_NO_CHANGE</SystemItem>.
+Otherwise, it will be set to <SystemItem Class="Constant">XmAUTO_CHANGE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListKbdSelectAll()</Action>:</Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem> or
+<SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>, this action selects the item at the location cursor.
+If <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem> or
+<SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem>,
+it selects all items in the list.
+This action also calls the appropriate selection callbacks
+(<SystemItem Class="Resource">XmNsingleSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set
+to <SystemItem Class="Constant">XmSINGLE_SELECT</SystemItem>, <SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> when
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+<SystemItem Class="Resource">XmNmultipleSelectionCallback</SystemItem> when <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set
+to <SystemItem Class="Constant">XmMULTIPLE_SELECT</SystemItem>, <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> when
+<SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListLeftChar()</Action>:</Term>
+<ListItem>
+<Para>Scrolls the list one character to the left.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListLeftPage()</Action>:</Term>
+<ListItem>
+<Para>Scrolls the list one page to the left.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListNextItem()</Action>:</Term>
+<ListItem>
+<Para>Moves the location cursor to the next item in the list.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+this action also selects the next item, deselects any current
+selection, and calls the <SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> callbacks.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action in Normal Mode also selects the next item, deselects any
+current selection, moves the current anchor to the next item, and calls
+the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+In Add Mode, this action does not affect the selection or the anchor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListNextPage()</Action>:</Term>
+<ListItem>
+<Para>Scrolls the list to the next page, moving the location cursor to a new
+item.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+this action also selects the new item, deselects any current
+selection, and calls the <SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> callbacks.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action in Normal Mode also selects the new item, deselects any
+current selection, moves the current anchor to the new item, and calls
+the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+In Add Mode, this action does not affect the selection or the anchor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListPrevItem()</Action>:</Term>
+<ListItem>
+<Para>Moves the location cursor to the previous item in the list.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+this action also selects the previous item, deselects any current
+selection, and calls the <SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> callbacks.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action in Normal Mode also selects the previous item, deselects any
+current selection, moves the current anchor to the previous item, and
+calls the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+In Add Mode, this action does not affect the selection or the anchor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListPrevPage()</Action>:</Term>
+<ListItem>
+<Para>Scrolls the list to the previous page, moving the location cursor to a
+new item.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>,
+this action also selects the new item, deselects any current
+selection, and calls the <SystemItem Class="Resource">XmNbrowseSelectionCallback</SystemItem> callbacks.
+</Para>
+<Para>If the <SystemItem Class="Resource">XmNselectionPolicy</SystemItem> is set to <SystemItem Class="Constant">XmEXTENDED_SELECT</SystemItem>,
+this action in Normal Mode also selects the new item, deselects any
+current selection, moves the current anchor to the new item, and calls
+the <SystemItem Class="Resource">XmNextendedSelectionCallback</SystemItem> callbacks.
+In Add Mode this action does not affect the selection or the anchor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListProcessBtn1(</Action><Symbol Role="Variable">string</Symbol>)</Term>
+<ListItem>
+<Para>When Display's <SystemItem Class="Resource">XmNenableBtn1Transfer</SystemItem> resource is not <SystemItem Class="Constant">XmOFF</SystemItem>,
+the
+actions for selection and transfer are integrated on <KeySym>Btn1</KeySym>.
+When the button is not performing a transfer or drag, the action that is
+performed depends on the value of <Symbol Role="Variable">string</Symbol>, which can be one of
+the following actions:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><Literal>ListButtonMotion</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>ListBeginExtend</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>ListEndExtend</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>ListBeginToggle</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>ListEndToggle</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>ListBeginSelect</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>ListEndSelect</Literal>
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ListProcessBtn2</Literal></Term>
+<ListItem>
+<Para>When Display's <SystemItem Class="Resource">XmNenableBtn1Transfer</SystemItem> resource has a value of
+<Symbol>XmBUTTON2_TRANSFER</Symbol>, the
+actions for extending selection are bound on <KeySym>Btn2</KeySym>, and a drag
+starts immediately.
+When Display's <SystemItem Class="Resource">XmNenableBtn1Transfer</SystemItem> resource has a value of
+<Symbol>XmBUTTON2_ADJUST</Symbol>, the action that is
+performed depends on the value of <Symbol Role="Variable">string</Symbol>, which can be one of
+the following actions:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><Literal>ListBeginExtend</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>ListButtonMotion</Literal>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Literal>ListEndExtend</Literal>
+</Para>
+</ListItem>
+</ItemizedList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListProcessDrag()</Action>:</Term>
+<ListItem>
+<Para>Drags the content of one or more selected list items.
+Each item is separated by a newline.
+If <Literal>BTransfer</Literal> is pressed on an unselected item, it drags only that
+item, excluding any other selected items.
+This action sets the <SystemItem Class="Resource">XmNconvertProc</SystemItem> of the DragContext to a
+function that calls the <SystemItem Class="Resource">XmNconvertCallback</SystemItem> procedures, possibly
+multiple times, for the <Property>_MOTIF_DROP</Property> selection.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ListQuickNavigate</Literal></Term>
+<ListItem>
+<Para>Navigates to an item. When List's
+<SystemItem Class="Resource">XmNmatchBehavior</SystemItem> resource is <SystemItem Class="Constant">XmQUICK_NAVIGATE</SystemItem>, this
+action uses 1-character
+navigation to navigate. Refer to the <SystemItem Class="Resource">XmNmatchBehavior</SystemItem> resource
+for a description of how this navigation works.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListRightChar()</Action>:</Term>
+<ListItem>
+<Para>Scrolls the list one character to the right.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>ListRightPage()</Action>:</Term>
+<ListItem>
+<Para>Scrolls the list one page to the right.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>PrimitiveHelp()</Action>:</Term>
+<ListItem>
+<Para>Calls the callbacks for <SystemItem Class="Resource">XmNhelpCallback</SystemItem> if any exist. If there
+are no help callbacks for this widget, this action calls the help callbacks
+for the nearest ancestor that has them.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>PrimitiveNextTabGroup()</Action>:</Term>
+<ListItem>
+<Para>Moves the focus to the first item contained within the next tab group. If
+the current tab group is the last entry in the tab group list, it
+wraps to the beginning of the tab group list.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>PrimitivePrevTabGroup()</Action>:</Term>
+<ListItem>
+<Para>Moves the focus to the first item contained within the previous tab group.
+If the beginning of the tab group list is reached, it wraps to the end
+of the tab group list.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Additional Behavior</Title>
+<Para>The List widget has the following additional behavior:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><KeySym>Double&ensp;Click</KeySym></Term>
+<ListItem>
+<Para>If a button click is followed by another button click within the time
+span specified by the display's multiclick time, the List interprets
+that as a double click and calls the callbacks for
+<SystemItem Class="Resource">XmNdefaultActionCallback</SystemItem>.
+The item's colors invert to indicate that it is selected.
+The <SystemItem Class="Resource">XmNdoubleClickInterval</SystemItem> resource can be used to specify a
+time span that overrides the display's multi-click time.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>FocusIn</KeySym>:</Term>
+<ListItem>
+<Para>If the focus policy is Explicit, this action sets the focus and draw
+the location cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>FocusOut</KeySym>:</Term>
+<ListItem>
+<Para>If the focus policy is Explicit, this action removes the focus and erase
+the location cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys, see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Core;, &cdeman.XmCreateList;,
+&cdeman.XmCreateScrolledList;,
+&cdeman.XmFontListCreate;,
+&cdeman.XmFontListAppendEntry;,
+&cdeman.XmListAddItem;,
+&cdeman.XmListAddItems;,
+&cdeman.XmListAddItemUnselected;,
+&cdeman.XmListAddItemsUnselected;,
+&cdeman.XmListDeleteAllItems;,
+&cdeman.XmListDeleteItem;,
+&cdeman.XmListDeleteItems;,
+&cdeman.XmListDeleteItemsPos;,
+&cdeman.XmListDeletePos;,
+&cdeman.XmListDeletePositions;,
+&cdeman.XmListDeselectAllItems;,
+&cdeman.XmListDeselectItem;,
+&cdeman.XmListDeselectPos;,
+<Symbol>XmListGetKbdItemPos</Symbol> &cdeman.XmListGetMatchPos;,
+&cdeman.XmListGetSelectedPos;,
+&cdeman.XmListItemExists;,
+&cdeman.XmListItemPos;,
+&cdeman.XmListPosToBounds;,
+&cdeman.XmListReplaceItems;,
+&cdeman.XmListReplaceItemsPos;,
+&cdeman.XmListReplaceItemsPos;,
+&cdeman.XmListReplaceItemsPosUnselected;,
+&cdeman.XmListReplaceItemsUnselected;,
+&cdeman.XmListSelectItem;,
+&cdeman.XmListSelectPos;,
+&cdeman.XmListSetAddMode;,
+&cdeman.XmListSetBottomItem;,
+&cdeman.XmListSetBottomPos;,
+&cdeman.XmListSetHorizPos;,
+&cdeman.XmListSetItem;,
+&cdeman.XmListSetKbdItemPos;,
+&cdeman.XmListSetPos;,
+&cdeman.XmListUpdateSelectedList;,
+&cdeman.XmListYToPos;,
+&cdeman.XmPrimitive; and
+&cdeman.XmStringCreate;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

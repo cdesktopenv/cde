@@ -1272,9 +1272,9 @@ MakeDialog( DialogType dtype )
 	    			       XmStringCreate(buffer,
 				       XmFONTLIST_DEFAULT_TAG));
 	    }	    
+	    fclose(fp);
 	}
 
-	    fclose(fp);
 	XtSetArg(argt[i], XmNmessageString,		xmstr		); i++;
 
 	w = XmCreateInformationDialog(table, "copyright_msg", argt, i);

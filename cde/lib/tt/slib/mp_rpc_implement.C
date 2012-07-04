@@ -50,7 +50,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #if defined(linux)
-# include <g++/minmax.h>
+/*# include <g++/minmax.h>*/
 #else
 # include <macros.h>
 #endif
@@ -313,7 +313,7 @@ _tt_service_rpc(svc_req *rqstp, SVCXPRT *transp)
 		        return;
 		    }
 
-		    _Tt_string	&svr_cookie =
+		    const _Tt_string	&svr_cookie =
 	            	_tt_s_mp->initial_s_session->auth_cookie();
 	            if (clnt_cookie != svr_cookie) {
 		        svcerr_auth(transp, AUTH_BADCRED);
@@ -791,8 +791,13 @@ _tt_rpc_add_pattern_with_context(SVCXPRT *transp)
 	// introduced into protocol version 2, it can be assumed that
 	// the caller is using at least xdr version 3.
 	//
-	_Tt_xdr_version	xvers( max(_tt_global->xdr_version(),
-				   TT_CONTEXTS_XDR_VERSION) );
+//	_Tt_xdr_version	xvers( max(_tt_global->xdr_version(),
+//				   TT_CONTEXTS_XDR_VERSION) );
+	if(_tt_global->xdr_version() > TT_CONTEXTS_XDR_VERSION) {
+		_Tt_xdr_version xvers(_tt_global->xdr_version() );
+	} else {
+		_Tt_xdr_version xvers(TT_CONTEXTS_XDR_VERSION);
+	}
 
 	_tt_rpc_add_pattern(transp);
 }

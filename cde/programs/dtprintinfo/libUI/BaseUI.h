@@ -240,7 +240,7 @@ typedef void (*DialogCallback) (void *);
 typedef boolean (*ValidationCallback) (void *client_data, void *call_data);
 typedef void (*ThreadCallback) (BaseUI *obj, char *output, int rc);
 
-const NO_SUBCLASS = -1;
+const int NO_SUBCLASS = -1;
 
 class BaseUI {
 

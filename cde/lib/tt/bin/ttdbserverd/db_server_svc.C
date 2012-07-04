@@ -174,7 +174,7 @@ isamfatalerror(char *msg)
 void
 print_usage_and_exit()
 {
-	static usage_printed = 0;
+	static int usage_printed = 0;
 
 	if (!usage_printed) {
 
@@ -217,8 +217,12 @@ main(int argc, char** argv, char **envp)
 #if defined(DEC) || defined(sun) || defined(HPUX)
  	int asize = sizeof(struct sockaddr);
 #else
+# if defined(linux)
+ 	socklen_t asize;
+# else
  	size_t asize = sizeof(struct sockaddr);
-#endif /* DEC or sun or HPUX */
+# endif
+#endif
 	int is_aix = 0;
 
 	int do_garbage_collect = 0;

@@ -65,7 +65,11 @@ class TTFile : public CString {
   };
 #else
   void TT_Exception (char *);
+#if defined(linux)
+  friend std::ostream & operator<< (std::ostream &, TTFile &);
+#else
   friend ostream & operator<< (ostream &, TTFile &);
+#endif
 #endif
 
   int  ttFileOpFailed () { return status != TT_OK; }

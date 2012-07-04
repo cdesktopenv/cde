@@ -1,0 +1,155 @@
+<!-- $XConsortium: PrtToFil.sgm /main/9 1996/10/02 11:49:29 cdedoc $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<RefEntry Id="CDEMOT.XmPrintToFile">
+<RefMeta>
+<RefEntryTitle>XmPrintToFile</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmPrintToFile</Function></RefName>
+<RefPurpose>
+Retrieves and saves data that
+would normally be printed by the X Print Server.
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<FuncSynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Xm/Print.h>
+</FuncSynopsisInfo>
+<FuncDef>XtEnum<Function>XmPrintToFile</Function></FuncDef>
+<ParamDef>Display<Parameter>*dpy</parameter></paramdef>
+<ParamDef>String<Parameter>filename</parameter></paramdef>
+<ParamDef>XPFinishProc<Parameter>finish_proc</parameter></paramdef>
+<ParamDef>XtPointer<Parameter>client_data</parameter></paramdef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para><function>XmPrintToFile</function>
+hides the details of X display connection and
+<function>XpGetDocumentData</function>
+to the Motif application programmer.
+</para>
+<para>This function is a convenience routine that hides
+the details of the X and Xp internals to the
+application programmer by calling the
+<function>XpGetDocumentData</function>
+function with appropriate save and finish callbacks.
+</para>
+<para>This is used in the context of X Printing when
+the user has specified the "print-to-file" option from
+a regular Print Setup Dialog box.
+</para>
+<para><function>XmPrintToFile</function>
+first tries to open the given filename for writing and returns
+<literal>False</literal>
+if it can't.
+Else, it uses
+<function>XpGetDocumentData</function>, giving it a save proc that writes the
+data received in the file and a finish proc that closes the
+file or removes it on an unsuccessful termination.
+It calls
+<function>finish_proc</function>
+at that point, passing it the argument received from the
+Xp layer (<literal>status == XPGetDocFinished</literal>
+means the file is valid and was closed, otherwise the file was removed).
+</para>
+<para><function>XmPrintToFile</function> is non-blocking; if it returns successfully, it
+just means the file was opened successfully, not
+that all the data was received.
+</para>
+<VariableList>
+<VarListEntry><term><Symbol Role="Variable">dpy</Symbol></term>
+<ListItem>
+<para>Print display connection.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><term><Symbol Role="Variable">filename</Symbol></term>
+<ListItem>
+<para>Name of the file to put the print data in.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><term><Symbol Role="Variable">finish_proc</Symbol></term>
+<ListItem>
+<para>Called when all the data has been received.
+</para>
+</ListItem>
+</VarListEntry>
+<VarListEntry><term><Symbol Role="Variable">client_data</Symbol></term>
+<ListItem>
+<para>Passed with the <Symbol Role="Variable">finish_proc</symbol>.
+</para>
+</ListItem>
+</VarListEntry>
+</variablelist>
+</refsect1>
+<refsect1><title>RETURN VALUE</title>
+<para>Returns <literal>False</literal>
+if the filename could not be created or opened for writing,
+<literal>True</literal> otherwise.
+</para>
+</refsect1>
+<refsect1><title>ERRORS/WARNINGS</title>
+<para>Not applicable
+</para>
+</refsect1>
+<refsect1><title>EXAMPLES</title>
+<para>A typical OK callback from a
+<function>DtPrintSetupBox</function>:
+</para>
+<programlisting>
+PrintOKCallback(widget...)
+/*-------------*/
+{   int save_data = XPSpool;
+
+    pshell = XmPrintSetup (widget, pbs->print_screen,
+                                   "Print", NULL, 0);
+
+    XtAddCallback(pshell, XmNstartJobCallback, startJobCB, data);
+
+    if (pbs->destination == DtPRINT_TO_FILE)
+                 save_data = XPGetData;
+
+    /* start job must precede XpGetDocumentData in XmPrintToFile */
+    XpStartJob(XtDisplay(pshell), save_data);
+    XFlush(XtDisplay(pshell));  /* maintain the sequence
+                                 between startjob and getdocument */
+
+    /* setup print to file */
+    if (pbs->destination == DtPRINT_TO_FILE)
+        XmPrintToFile(XtDisplay(pshell),
+                                 pbs->dest_info, FinishPrintToFile, NULL);
+    }
+
+}
+
+static void
+startJobCB(Widget, XtPointer call_data, XtPointer client_data)
+{
+  print(p);   /* rendering happens here */
+
+  XpEndJob(XtDisplay(p->print_shell));
+
+  /* clean up */
+  XtDestroyWidget(p->print_shell);
+          XtCloseDisplay(XtDisplay(p->print_shell));
+}
+</programlisting>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.XmPrintSetup;,
+&cdeman.XmPrintShell;,
+&cdeman.XmRedisplayWidget;,
+&cdeman.XmPrintPopupPDM;
+</para>
+</refsect1>
+</refentry>

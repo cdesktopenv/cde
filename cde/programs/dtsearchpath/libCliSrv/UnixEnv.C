@@ -37,7 +37,11 @@
 #endif
 #include <stdlib.h>
 #include <string.h>
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 #include <stdio.h>
 #include <unistd.h>
 #include <grp.h>

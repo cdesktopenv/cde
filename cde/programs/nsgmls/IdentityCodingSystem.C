@@ -26,7 +26,11 @@
 
 #include "splib.h"
 #include "IdentityCodingSystem.h"
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 #include <limits.h>
 
 #ifdef SP_NAMESPACE

@@ -44,6 +44,11 @@ void main(argc, argv)
 {
 M_WCHAR *wc_userdef;
 
+#if defined(linux)
+m_outfile = stdout;
+m_errfile = stderr;
+#endif
+
 m_argc = argc ;
 m_argv = argv ;
 

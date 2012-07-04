@@ -67,7 +67,9 @@ struct strtab_build {
 
 static void inc_it  (int * a, int * b, unsigned char * key);
 static void build_it(int a, struct strtab_build * ptr, unsigned char * key);
+#if !defined(linux)
 extern char * strdup(const char *);
+#endif
 typedef	int (*des_func)(void *);
 
 /*

@@ -1,0 +1,179 @@
+<!-- $XConsortium: StrUnp.sgm /main/8 1996/09/08 21:07:59 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN451.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmStringUnparse</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmStringUnparse</Function></RefName>
+<RefPurpose>A compound string function that unparses text
+<IndexTerm>
+<Primary>XmStringUnparse</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- HISTORY-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>XtPointer <Function>XmStringUnparse</Function></FuncDef>
+<!--<ParamDef><Replaceable>string, tag, tag_type, output_type, parse_table, parse_count, parse_model</Replaceable></ParamDef>-->
+<ParamDef>XmString <Parameter>string</Parameter></ParamDef>
+<ParamDef>XmStringTag <Parameter>tag</Parameter></ParamDef>
+<ParamDef>XmTextType <Parameter>tag_type</Parameter></ParamDef>
+<ParamDef>XmTextType <Parameter>output_type</Parameter></ParamDef>
+<ParamDef>XmParseTable <Parameter>parse_table</Parameter></ParamDef>
+<ParamDef>Cardinal <Parameter>parse_count</Parameter></ParamDef>
+<ParamDef>XmParseModel <Parameter>parse_model</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmStringUnparse</Function> looks in the input <Symbol Role="Variable">string</Symbol> for text
+segments that are
+tagged with locale or charset tags that match <Emphasis>tag</Emphasis>. The
+<Symbol Role="Variable">tag_type</Symbol>
+parameter specifies whether the tag is a locale or charset type.
+If <Emphasis>tag</Emphasis> has a value of NULL, all the segments are matched. When
+a text segment is found with a matching tag, it is added to the end of
+a resulting string. The characters in the
+resulting string are of type <Symbol Role="Variable">output_type</Symbol>.
+</Para>
+<Para><Function>XmStringUnparse</Function> also checks <Symbol Role="Variable">string</Symbol> for components that
+match components in <Symbol Role="Variable">parse_table</Symbol>, and also to see if the
+component matches the condition specified by <Symbol Role="Variable">parse_model</Symbol>. If
+the string component matches in both checks, then the associated
+character is added to the end of the resulting string.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">string</Symbol></Term>
+<ListItem>
+<Para>Specifies the <StructName Role="typedef">XmString</StructName> to be converted.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>tag</Emphasis></Term>
+<ListItem>
+<Para>Specifies the tag to be used in matching with text segments. Only text
+segments that match <Emphasis>tag</Emphasis> will be included in the resulting
+string. If <Emphasis>tag</Emphasis> has a value of NULL, all segments are considered
+as
+matches, and <Symbol Role="Variable">tag_type</Symbol> is ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">tag_type</Symbol></Term>
+<ListItem>
+<Para>Specifies the type of tag to be searched for, including
+<SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem>, <SystemItem Class="Constant">XmWIDECHAR_TEXT</SystemItem>, and
+<SystemItem Class="Constant">XmCHARSET_TEXT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">output_type</Symbol></Term>
+<ListItem>
+<Para>Specifies the type of text to be returned in the string, including
+<SystemItem Class="Constant">XmMULTIBYTE_TEXT</SystemItem>, <SystemItem Class="Constant">XmWIDECHAR_TEXT</SystemItem>, and
+<SystemItem Class="Constant">XmCHARSET_TEXT</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parse_table</Symbol></Term>
+<ListItem>
+<Para>Specifies the parse table to be used in scanning for compound string
+components to be
+converted to other characters.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parse_count</Symbol></Term>
+<ListItem>
+<Para>Specifies how many entries are in <Symbol Role="Variable">parse_table</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">parse_model</Symbol></Term>
+<ListItem>
+<Para>Specifies which non-text components to be considered in matching in
+<Symbol Role="Variable">parse_table</Symbol>. These include:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOUTPUT_ALL</SystemItem></Term>
+<ListItem>
+<Para>Puts out all matching components.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOUTPUT_BETWEEN</SystemItem></Term>
+<ListItem>
+<Para>Puts out only those matching components that are between two matching
+text components.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOUTPUT_BEGINNING</SystemItem></Term>
+<ListItem>
+<Para>Puts out only those matching components that are at the beginning of a
+matching text component.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOUTPUT_END</SystemItem></Term>
+<ListItem>
+<Para>Puts out only those matching components that are at the end of a
+matching text component.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmOUTPUT_BOTH</SystemItem></Term>
+<ListItem>
+<Para>Puts out only those matching components that are at the beginning or end
+of a matching text component.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns a newly allocated string containing characters of a type
+determined by <Symbol Role="Variable">output_type</Symbol>.
+The application is responsible for managing this allocated space.
+The application can recover this allocated space by calling <Function>XtFree</Function>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmString;, &cdeman.XmParseTable;, &cdeman.XmParseMapping;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

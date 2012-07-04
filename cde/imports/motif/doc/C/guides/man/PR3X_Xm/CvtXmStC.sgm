@@ -1,0 +1,117 @@
+<!-- $XConsortium: CvtXmStC.sgm /main/8 1996/08/31 15:21:54 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN195.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmCvtXmStringToCT</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmCvtXmStringToCT</Function></RefName>
+<RefPurpose>A compound string function that converts a compound string to compound text
+<IndexTerm>
+<Primary>XmCvtXmStringToCT</Primary>
+</IndexTerm><IndexTerm>
+<Primary>compound string functions</Primary>
+<Secondary>XmCvtXmStringToCT</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>char * <Function>XmCvtXmStringToCT</Function></FuncDef>
+<!--<ParamDef><Replaceable>string</Replaceable></ParamDef>-->
+<ParamDef>XmString <Parameter>string</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmCvtXmStringToCT</Function> converts a compound string to a (<StructName Role="typedef">char *</StructName>) string
+in compound text format.
+The application must call <Function>XtAppInitialize</Function> before calling this
+function.
+The converter uses the font list tag associated with a given compound
+string segment to select a compound text format for that segment.
+A registry defines a mapping between font list tags and compound text
+encoding formats.
+The converter uses the following algorithm for each compound string
+segment:
+</Para>
+<OrderedList>
+<ListItem>
+<Para>If the compound string segment tag is mapped to
+<SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem> in the registry, the converter passes the
+text of the compound string segment to <Function>XmbTextListToTextProperty</Function>
+with an encoding style of <SystemItem Class="Constant">XCompoundTextStyle</SystemItem> and uses the
+resulting compound text for that segment.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the compound string segment tag is mapped to an MIT registered
+charset in the registry, the converter creates the compound text for
+that segment using the charset (from the registry) and the text of the
+compound string segment as defined in the X Consortium Standard
+<Emphasis>Compound Text Encoding</Emphasis>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the compound string segment tag is mapped to a charset in the
+registry that is neither <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem> nor an MIT
+registered charset, the converter creates the compound text for that
+segment using the charset (from the registry) and the text of the
+compound string segment as an "extended segment" with a variable number
+of octets per character.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the compound string segment tag is not mapped in the registry, the
+result is implementation dependent.
+</Para>
+</ListItem>
+</OrderedList>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">string</Symbol></Term>
+<ListItem>
+<Para>Specifies a compound string to be converted to compound text.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns a (<StructName Role="typedef">char *</StructName>) string in compound text format.
+This format is described in the X Consortium Standard <Emphasis>Compound Text
+Encoding</Emphasis>.
+The function allocates space to hold the returned string.
+The application is responsible for managing the allocated space.
+The application can recover the allocated space by calling <Function>XtFree</Function>.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmCvtCTToXmString;,
+&cdeman.XmFontList;,
+&cdeman.XmMapSegmentEncoding;,
+&cdeman.XmRegisterSegmentEncoding;, and
+<StructName Role="typedef">XmString</StructName>.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

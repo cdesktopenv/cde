@@ -1,0 +1,3090 @@
+<!-- $XConsortium: UIL.sgm /main/12 1996/09/08 21:23:10 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN573.rsml.1">
+<RefMeta>
+<RefEntryTitle>UIL</RefEntryTitle>
+<ManVolNum>file formats</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Symbol>UIL</Symbol></RefName>
+<RefPurpose>The user interface language file format
+<IndexTerm>
+<Primary>user interface language</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<IndexTerm>
+<Primary>UIL</Primary>
+</IndexTerm>
+<RefSynopsisDiv>
+<Synopsis>MODULE <Symbol Role="Variable">module_name</Symbol>
+[ NAMES = CASE_INSENSITIVE | CASE_SENSITIVE ]
+[ CHARACTER_SET = character_set ]
+[ OBJECTS = { <Symbol Role="Variable">widget_name</Symbol> = GADGET | WIDGET; [...] } ]
+{ [
+[ <Symbol Role="Variable">value_section</Symbol> ] |
+[ <Symbol Role="Variable">procedure_section</Symbol> ] |
+[ <Symbol Role="Variable">list_section</Symbol> ] |
+[ <Symbol Role="Variable">object_section</Symbol> ] |
+[ <Symbol Role="Variable">identifier_section</Symbol> ]
+[ ... ]
+] }
+END MODULE;
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>The UIL language is used for describing the initial state of
+a user interface for a widget based application. UIL describes
+the widgets used in the interface, the resources of those widgets,
+and the callbacks of those widgets. The UIL file is compiled into
+a UID file using the command <Command>uil</Command> or by the callable compiler
+<Literal>Uil()</Literal>. The contents of the
+compiled UID file can then be accessed by the various Motif Resource
+Management (MRM) functions from within an application program.
+</Para>
+<Para>The UID file is independent of the platform on which the Motif
+program will eventually be run. In other words, the same UID file can
+be used on any system that can run Motif.
+</Para>
+<RefSect2>
+<Title>File</Title>
+<Para>A UIL file consists of a single complete module, described in the
+syntax description above, or, if the file is to be included in a
+larger UIL file, one complete "section," as described below. UIL uses
+five different kinds of sections: value, procedure, list, object, and
+identifier.
+</Para>
+<Para>UIL is a free-form language. This means that high-level constructs
+such as object and value declarations do not need to begin in any
+particular column and can span any number of lines. Low-level constructs
+such as keywords and punctuation characters
+can also begin in any column; however, except for string literals and comments,
+they cannot span lines.
+</Para>
+<Para>The UIL compiler accepts input lines up to 132 characters in length.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol>MODULE</Symbol> <Symbol Role="Variable">module_name</Symbol></Term>
+<ListItem>
+<Para>The name by which the UIL module is known in the UID file.
+This name is stored in the UID file for later
+use in the retrieval of resources by the MRM.
+This name is always stored in uppercase in the UID file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>NAMES</Symbol>&ensp;<Literal>=</Literal>&ensp;<Symbol>CASE_INSENSITIVE</Symbol>&ensp;|&ensp;<Symbol>CASE_SENSITIVE</Symbol></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>case sensitivity clause</Secondary>
+</IndexTerm>
+<Para>Indicates whether names should be treated as case sensitive or case
+insensitive. The default is case sensitive.
+The case-sensitivity clause should be the
+first clause in the module header, and in any case must precede any statement
+that contains a name.
+If names are case sensitive in a UIL module, UIL keywords in that module
+must be in lowercase. Each name is stored in the UIL file in the same
+case as it appears in the UIL module.
+If names are case insensitive, then keywords
+can be in uppercase, lowercase, or
+mixed case, and the uppercase equivalent of each
+name is stored in the UID file.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">CHARACTER_SET</Symbol>&ensp;<Literal>=</Literal>&ensp;<Literal>character_set</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>default character set clause</Secondary>
+</IndexTerm>
+<Para>Specifies the default character set for string
+literals in the module that do not explicitly set
+their character set.
+The default character set, in the absence of this clause
+is the codeset component of the <Symbol Role="Define">LANG</Symbol> environment variable,
+or the value of <SystemItem Class="Constant">XmFALLBACK_CHARSET</SystemItem> if <Symbol Role="Define">LANG</Symbol>
+is not set or has no codeset component.
+The value of
+<SystemItem Class="Constant">XmFALLBACK_CHARSET</SystemItem> is defined by the UIL supplier, but is
+usually ISO8859-1 (equivalent to
+ISO_LATIN1).
+Use of this clause turns off all localized string literal processing
+turned on by the compiler flag <Literal>-s</Literal> or the <Literal>Uil_command_type</Literal>
+data structure element <Literal>use_setlocale_flag</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>OBJECTS&ensp;=&ensp;{</Literal>&ensp;<Symbol Role="Variable">widget_name</Symbol> = <Symbol>GADGET</Symbol> | <Literal>WIDGET;&ensp;}</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>objects clause</Secondary>
+</IndexTerm>
+<Para>Indicates whether the widget or gadget form of
+the control specified by <Symbol Role="Variable">widget_name</Symbol> is used by default.
+By default the widget form is used, so the gadget keyword is usually the
+only one used.
+The specified control should be one that has both a widget and gadget
+version: XmCascadeButton, XmLabel, XmPushButton, XmSeparator,
+and XmToggleButton.
+The form of more than one control can be specified by delimiting them
+with semicolons.
+The gadget or widget form of an instance of a control can be specified
+with the <Symbol>GADGET</Symbol> and <Symbol>WIDGET</Symbol> keywords in a particular
+object declaration.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">value_section</Symbol></Term>
+<ListItem>
+<Para>Provides a way to name a value expression or literal.
+The value name can then be referred to by declarations that occur
+elsewhere in the UIL module in any context where a value can be used.
+Values can be forward referenced.
+Value sections
+are described in more detail later in the reference page.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">procedure_section</Symbol></Term>
+<ListItem>
+<Para>Defines the callback routines used by a widget and the creation
+routines for user-defined widgets. These definitions are used
+for error checking.
+Procedure sections
+are described in more detail later in the reference page.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">list_section</Symbol></Term>
+<ListItem>
+<Para>Provides a way to group together a set of arguments, controls (children),
+callbacks, or procedures for later use in the UIL module.
+Lists can contain other
+lists, so that you can set up a hierarchy to clearly
+show which arguments, controls, callbacks,
+and procedures are common to which widgets.
+List sections
+are described in more detail later in the reference page.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">object_section</Symbol></Term>
+<ListItem>
+<Para>Defines the objects that make up the user interface of the application.
+You can reference the object names in declarations that
+occur elsewhere in the UIL module in any context where an object name can
+be used (for example, in a controls list, as a symbolic reference
+to a widget ID, or as the <Symbol Role="Variable">tag_value</Symbol> argument for a callback procedure).
+Objects can be forward referenced.
+Object sections
+are described in more detail later in the reference page.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">identifier_section</Symbol></Term>
+<ListItem>
+<Para>Defines a run-time binding of data to names that appear in the UIL module.
+Identifier sections
+are described in more detail later in the reference page.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>The UIL file can also contain comments and include directives, which are
+described along with the main elements of the UIL file format in
+the following sections.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Comments</Title>
+<Para>Comments can take one of two forms, as follows:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The comment is introduced with the sequence <Literal>/*</Literal>
+followed by the text of the comment and terminated with the sequence <Literal>*/</Literal>.
+This form of comment can span multiple source lines.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The comment is introduced with an ! (exclamation point),
+followed by
+the text of the comment and terminated by the end of the source line.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Neither form of comment can be nested.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Value sections</Title>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>value section</Secondary>
+</IndexTerm>A value section consists of the keyword <Symbol>VALUE</Symbol> followed by a sequence of
+value declarations. It has the following syntax:
+</Para>
+<Para><Symbol>VALUE</Symbol> <Symbol Role="Variable">value_name</Symbol> <Literal>:</Literal>
+[ <Symbol>EXPORTED</Symbol> | <Symbol>PRIVATE</Symbol> ] <Symbol Role="Variable">value_expression</Symbol> |
+<Symbol>IMPORTED</Symbol> <Symbol Role="Variable">value_type</Symbol> <Literal>;</Literal>
+</Para>
+<Para>Where <Symbol Role="Variable">value_expression</Symbol> is assigned to <Symbol Role="Variable">value_name</Symbol> or a
+<Symbol Role="Variable">value_type</Symbol> is assigned to an imported value name.
+A value declaration provides a way to name a value expression or literal.
+The value name can be referred to by declarations that occur
+later in the UIL module in any context where a value can be used.
+Values can be forward referenced.<IndexTerm>
+<Primary>IMPORTED</Primary>
+</IndexTerm><IndexTerm>
+<Primary>EXPORTED</Primary>
+</IndexTerm><IndexTerm>
+<Primary>PRIVATE</Primary>
+</IndexTerm>
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol>EXPORTED</Symbol></Term>
+<ListItem>
+<Para>A value that you define as exported is stored in the
+UID file as a named resource, and therefore can be referenced by
+name in other UID files. When you define a value as exported,
+MRM looks outside the module in which the exported value
+is declared to get its value at run time.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>PRIVATE</Symbol></Term>
+<ListItem>
+<Para>A private value is a value that is not imported or exported.
+A value that you define as private is
+not stored as a distinct resource in the UID file.
+You can reference a private value only in the UIL module containing
+the value declaration. The value or object is directly incorporated into
+anything in the UIL module that references the declaration.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>IMPORTED</Symbol></Term>
+<ListItem>
+<Para>A value that you define as imported is one that is
+defined as a named resource in a UID file. MRM resolves this
+declaration with the corresponding exported declaration at
+application run time.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>By default, values and objects are private.
+The following is a list of the supported value types in UIL:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para><Symbol>ANY</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>ARGUMENT</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>BOOLEAN</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>COLOR</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>COLOR_TABLE</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Define">COMPOUND_STRING</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>FLOAT</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>FONT</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>FONT_TABLE</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>FONTSET</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>ICON</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Define">INTEGER</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>INTEGER_TABLE</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>KEYSYM</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>REASON</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>SINGLE_FLOAT</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol Role="Define">STRING</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>STRING_TABLE</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>TRANSLATION_TABLE</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>WIDE_CHARACTER</Symbol>
+</Para>
+</ListItem>
+<ListItem>
+<Para><Symbol>WIDGET</Symbol>
+</Para>
+</ListItem>
+</ItemizedList>
+</RefSect2>
+<RefSect2>
+<Title>Procedure sections</Title>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>procedure section</Secondary>
+</IndexTerm>A procedure section consists of the keyword <Symbol>PROCEDURE</Symbol> followed by a
+sequence of procedure declarations. It has the following syntax:
+</Para>
+<Synopsis>PROCEDURE
+     <Symbol Role="Variable">procedure_name</Symbol> [ ( [ <Symbol Role="Variable">value_type</Symbol> ]) ];
+</Synopsis>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>procedure declaration</Secondary>
+</IndexTerm>Use a procedure declaration to declare
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>A routine that can be used as a
+callback routine for a widget
+</Para>
+</ListItem>
+<ListItem>
+<Para>The creation function for a user-defined widget
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>You can reference a procedure name in
+declarations that occur later in the UIL module in any context
+where a procedure can be used. Procedures can be forward referenced.
+You cannot use a
+name you used in another context as a procedure name.
+</Para>
+<Para>In a procedure declaration, you have the option
+of specifying that a parameter will be
+passed to the corresponding callback routine at run time. This parameter is
+called the callback tag. You can specify the data type of the callback tag by
+putting the data type in parentheses following the procedure name. When you
+compile the module, the UIL compiler checks that the argument you specify in
+references to the procedure is of this type. Note that the data type of the
+callback tag must be one of the valid UIL data types.
+You can use a widget as a callback tag, as long as the widget is defined
+in the same widget hierarchy as the callback, that is they have a common
+ancestor that is in the same UIL hierarchy.
+</Para>
+<Para>The following list summarizes how the UIL compiler checks
+argument type and argument count, depending on the procedure declaration.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>No&ensp;parameters</Term>
+<ListItem>
+<Para>No argument type or argument count checking occurs.
+You can supply either 0 or one arguments in the procedure reference.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>(&ensp;)</Literal></Term>
+<ListItem>
+<Para>Checks that the argument count is 0 (zero).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>(ANY)</Literal></Term>
+<ListItem>
+<Para>Checks that the argument count is 1. Does
+not check the argument type. Use the <Symbol>ANY</Symbol> type to prevent type
+checking on procedure tags.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>(</Literal><Symbol Role="Variable">type</Symbol><Literal>)</Literal></Term>
+<ListItem>
+<Para>Checks for one argument of the specified type.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>(</Literal><Literal>class_name</Literal><Literal>)</Literal></Term>
+<ListItem>
+<Para>Checks for one widget argument of the specified widget class.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>While it is possible to use any UIL data type to specify the type of a tag in a
+procedure declaration, you must be able to represent that data type in the
+programming language you are using. Some data types (such as integer, Boolean,
+and string) are common data types recognized by most programming languages.
+Other UIL data types (such as string tables) are more complicated and may
+require that you set up an appropriate corresponding data structure in the
+application in order to pass a tag of that type to a callback routine.
+</Para>
+<Para>You can also use a procedure declaration to specify the creation function
+for a user-defined widget. In this case, you specify no formal parameters.
+The procedure is invoked with the standard three arguments passed to
+all widget creation functions.
+(See the Motif Toolkit documentation for more information
+about widget creation functions.)
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>List sections</Title>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>list section</Secondary>
+</IndexTerm>A list section consists of the keyword <Symbol>LIST</Symbol> followed by a
+sequence of list declarations. It has the following syntax:
+</Para>
+<Synopsis>LIST
+     <Symbol Role="Variable">list_name</Symbol>: { list_item; [...] }
+     [...]
+</Synopsis>
+<Para>You can also use list sections to group together a set of arguments, controls
+(children),
+callbacks, or procedures for later use in the UIL module. Lists can contain other
+lists, so that you can set up a hierarchy to clearly show which
+arguments, controls, callbacks, and procedures are common to which widgets.
+You cannot mix the different types of lists; a list
+of a particular type cannot contain entries of a different list type
+or reference the name of a different list type.
+A list name is always private to the UIL module in which you declare
+the list and
+cannot be stored as a named resource in a UID file.
+</Para>
+<Para>The additional list types are described in the following sections.
+</Para>
+<Para><Literal>Arguments List Structure</Literal>
+</Para>
+<Para><IndexTerm>
+<Primary>List types</Primary>
+<Secondary>argument</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>arguments list</Secondary>
+</IndexTerm>An arguments list defines which arguments are to be specified
+in the arguments list parameter when the creation routine for a particular
+object is called at run time.
+An arguments list also specifies
+the values for those arguments.
+Argument lists have the following syntax:
+</Para>
+<Synopsis>LIST
+     <Symbol Role="Variable">list_name</Symbol>: ARGUMENTS {
+          <Symbol Role="Variable">argument_name</Symbol> = <Symbol Role="Variable">value_expression</Symbol>;
+          [...] }
+[...]
+</Synopsis>
+<Para>The argument name must be either a built-in argument name or a
+user-defined argument name that is specified with the
+<Symbol>ARGUMENT</Symbol> function.
+</Para>
+<Para>If you use a built-in argument name as an arguments list entry in an object
+definition, the UIL compiler checks the argument name to be sure that it
+is supported by the type of object that you are defining. If the same argument
+name appears more than once in a given arguments list, the last entry
+that uses that argument name supersedes all previous entries
+with that name, and the compiler issues a message.
+</Para>
+<Para>Some arguments, such as <SystemItem Class="Resource">XmNitems</SystemItem> and <SystemItem Class="Resource">XmNitemCount</SystemItem>,
+are coupled by the UIL compiler.
+When you specify one of the arguments, the compiler also sets the
+other. The coupled
+argument is not available to you.<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>coupled arguments</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Arguments</Primary>
+<Secondary>coupled in UIL</Secondary>
+</IndexTerm>
+</Para>
+<Para>The Motif Toolkit and the X Toolkit (intrinsics)
+support constraint
+arguments.
+A constraint argument is one that is passed
+to children of an object, beyond those
+arguments normally available.
+For example, the Form widget grants a set of constraint arguments to its
+children.
+These arguments control the position of the children within the Form.
+</Para>
+<Para>Unlike the arguments used to define the
+attributes of a particular
+widget, constraint arguments are
+used exclusively to define additional attributes of the children of a
+particular widget.
+These attributes affect the behavior of the children
+within their parent.
+To supply constraint arguments to the children,
+you include the arguments
+in the arguments list for the
+child.
+</Para>
+<Para>See <Literal>Appendix B</Literal>
+for information about which arguments are supported by which widgets. See
+<Literal>Appendix C</Literal>
+for information about what the valid value type is for each built-in argument.
+</Para>
+<Para><Literal>Callbacks List Structure</Literal><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>callbacks list</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>List types</Primary>
+<Secondary>callback</Secondary>
+</IndexTerm>
+</Para>
+<Para>Use a callbacks list to define which callback reasons are to
+be processed by a particular widget at run time.
+Callback lists have the following syntax:
+</Para>
+<Para><Symbol>LIST</Symbol>
+<Symbol Role="Variable">list_name</Symbol> <Literal>: CALLBACKS {</Literal>
+<Symbol Role="Variable">reason_name</Symbol> <Literal>= PROCEDURE</Literal> <Symbol Role="Variable">procedure_name</Symbol> <Literal>[</Literal> <Literal>(</Literal> [ <Symbol Role="Variable">value_expression</Symbol> ] <Literal>)</Literal> ]<Literal>;</Literal> |
+<Symbol Role="Variable">reason_name</Symbol> <Literal>=</Literal> <Symbol Role="Variable">procedure_list</Symbol> <Literal>;</Literal>
+[...] <Literal>}</Literal>
+[...]
+</Para>
+<Para>For Motif Toolkit widgets, the reason name must be a built-in
+reason name. For a user-defined widget, you can use a reason name
+that you previously specified using the <Symbol>REASON</Symbol> function.
+If you use a built-in reason in an object definition,
+the UIL compiler ensures that reason is supported by the type of object
+you are defining. Appendix B shows which reasons
+each object supports.
+</Para>
+<Para>If the same reason appears more than once in a callbacks list, the last entry
+referring to that name supersedes all previous entries using the same reason,
+and the UIL compiler issues a diagnostic message.
+</Para>
+<Para>If you specify a named value for the procedure argument (callback
+tag), the data type of the value must match the type specified for the callback
+tag in the corresponding procedure declaration.
+When specifying a widget name as a procedure value expression you must also
+specify the type of the widget and a space before the name of the widget.
+</Para>
+<Para>Because the UIL compiler produces
+a UID file rather than an object module (.o), the binding of the UIL name to
+the address of the entry point to the procedure is not done by the loader, but
+is established at run time with the MRM function
+<Function>MrmRegisterNames</Function>.
+You call this function
+before fetching any objects,
+giving it both the UIL names and the procedure addresses of each callback. The
+name you register with MRM in the application program must match the name you
+specified for the procedure in the UIL module.
+</Para>
+<Para>Each callback procedure receives three arguments. The first two arguments
+have the same form for each callback. The form of the third argument varies
+from object to object.
+</Para>
+<Para>The first argument is the address of the data structure maintained by the
+Motif Toolkit
+for this object instance. This address is called the widget ID for
+this object.
+</Para>
+<Para>The second argument is the address of the value you specified in the
+callbacks list for this procedure. If you do not specify an argument,
+the address is NULL.
+Note that, in the case where the value you specified is a string or an
+<StructName Role="typedef">XmString</StructName>, the value specified in the callbacks list already
+represents an address rather than an actual value. In the case of a
+simple string, for example, the value is the address of the first
+character of that string. In these cases, UIL does not add a level of
+indirection, and the second argument to the callback procedure is
+simply the value as specified in the callbacks list.
+</Para>
+<Para>The third argument is the
+reason name you specified in the callbacks list.
+</Para>
+<Para><Literal>Controls List Structure</Literal>
+</Para>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>controls list</Secondary>
+</IndexTerm>A controls list defines which objects are children of, or controlled by,
+a particular object.
+Each entry in a controls list has the following syntax:
+</Para>
+<Synopsis>LIST
+     <Symbol Role="Variable">list_name</Symbol>: CONTROLS {
+          [<Symbol Role="Variable">child_name</Symbol>: ] [MANAGED | UNMANAGED] <Symbol Role="Variable">object_definition</Symbol>;
+          [...] }
+     [...]
+</Synopsis>
+<Para>If you specify the keyword <Symbol>MANAGED</Symbol> at run time, the object is created and
+managed; if you specify <Symbol>UNMANAGED</Symbol> at run time, the object is only created.
+Objects are managed by default.
+</Para>
+<Para>You can use <Symbol Role="Variable">child_name</Symbol> to specify resources for the automatically
+created children of a particular control. Names for automatically created
+children are formed by appending <SystemItem Class="Constant">Xm_</SystemItem> to the name of the child widget.
+This name is specified in the documentation for the parent widget.
+</Para>
+<Para>Unlike the arguments list and the callbacks list, a controls list entry that is
+identical to a previous entry does not supersede the previous
+entry. At run time,
+each controls list entry causes a child to be created when
+the parent is created. If the same
+object definition is used for multiple children, multiple instances of the
+child are created at run time.
+See <Literal>Appendix B</Literal>
+for a list of which widget types can be
+controlled by which other widget types.
+</Para>
+<Para><Literal>Procedures List Structure</Literal>
+</Para>
+<Para>You can specify multiple procedures for a callback reason
+in UIL by defining a procedures list. Just as
+with other list types, procedures lists can be defined in-line or in
+a list section and referenced by name.
+</Para>
+<Para>If you define a reason more than once (for example, when the reason is
+defined both in a referenced procedures list and in the callbacks list for the
+object), previous definitions are overridden by the latest definition.
+The syntax for a procedures list is as follows:
+</Para>
+<Synopsis>LIST
+     <Symbol Role="Variable">list_name</Symbol>: PROCEDURES {
+          <Symbol Role="Variable">procedure_name</Symbol> [ ( [ <Symbol Role="Variable">value_expression</Symbol> ]) ];
+          [...] }
+     [...]
+</Synopsis>
+<Para>When specifying a widget name as a procedure value expression you must also
+specify the type of the widget and a space before the name of the widget.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Object Sections</Title>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>object section</Secondary>
+</IndexTerm>An object section consists of the keyword <Symbol>OBJECT</Symbol> followed by a
+sequence of object declarations. It has the following syntax:
+</Para>
+<Synopsis>OBJECT <Symbol Role="Variable">object_name</Symbol>:
+     [ EXPORTED | PRIVATE | IMPORTED ] <Symbol Role="Variable">object_type</Symbol>
+          [ PROCEDURE <Symbol Role="Variable">creation_function</Symbol> ]
+          [ <Symbol Role="Variable">object_name</Symbol> [ WIDGET | GADGET ] | {<Symbol Role="Variable">list_definitions</Symbol> } ]
+</Synopsis>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>object declaration</Secondary>
+</IndexTerm>Use an object declaration to define the objects that are to be stored in the
+UID file. You can reference the object name in declarations that
+occur elsewhere in the UIL module in any context where an object name can
+be used (for example, in a controls list, as a symbolic reference
+to a widget ID, or as the <Symbol Role="Variable">tag_value</Symbol> argument for a callback procedure).
+Objects can be forward referenced; that is, you can declare an object
+name after you reference it. All references to an object name must be
+consistent with the type of the object, as specified in the object declaration.
+You can specify an object as exported, imported, or private.
+</Para>
+<Para>The object definition can contain a sequence of lists that define
+the arguments, hierarchy, and callbacks for the widget.
+You can specify only one list of each type for an object.
+When you declare a user-defined widget, you must include a reference to the
+widget creation function for the user-defined widget.
+</Para>
+<InformalExample>
+<Para>Note: Several widgets in the Motif Toolkit actually consist of two
+linked widgets. For example, <Symbol>XmScrolledText</Symbol> and
+<Symbol>XmScrolledList</Symbol> each consist of children <Classname>XmText</Classname> and
+<Classname>XmList</Classname> widgets under a <Classname>XmScrolledWindow</Classname> widget. When such
+a widget is created, its resources are available to both of the
+underlying widgets. This can occasionally cause problems, as when the
+programmer wants a <SystemItem Class="Resource">XmNdestroyCallback</SystemItem> routine named to act when
+the widget is destroyed. In this case, the callback resource will be
+available to both sub-widgets, and will cause an error when the widget
+is destroyed. To avoid these problems, the programmer should
+separately create the parent and child widgets, rather than relying on
+these linked widgets.
+</Para>
+</InformalExample>
+<Para>Use the <Symbol>GADGET</Symbol> or <Symbol>WIDGET</Symbol>
+keyword to specify the object type or to override the default variant for this
+object type.
+You can use the Motif Toolkit name of an object type that has a gadget
+variant (for example, <Classname>XmLabelGadget</Classname>) as an attribute of an object
+declaration.
+The <Symbol Role="Variable">object_type</Symbol> can be any object type, including gadgets.
+You need to specify the <Symbol>GADGET</Symbol> or <Symbol>WIDGET</Symbol> keyword only in the
+declaration of an object, not when you reference the object. You cannot
+specify the <Symbol>GADGET</Symbol> or <Symbol>WIDGET</Symbol> keyword for a
+user-defined object; user-defined objects are always widgets.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Identifier sections</Title>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>identifiers</Secondary>
+</IndexTerm>The identifier section allows you to define an identifier, a mechanism that
+achieves run-time binding of data to names that appear in a UIL module.
+The identifier section consists of
+the reserved keyword <Symbol>IDENTIFIER</Symbol>, followed by a list of names, each name followed
+by a semicolon.
+</Para>
+<Para><Symbol>IDENTIFIER</Symbol> <Symbol Role="Variable">identifier_name</Symbol><Literal>;</Literal> [...<Literal>;</Literal>]
+</Para>
+<Para>You can later use these names in the UIL module as
+either the value of an argument to a widget or the tag value to a callback
+procedure. At run time, you use the MRM functions
+<Function>MrmRegisterNames</Function> and <Function>MrmRegisterNamesInHierarchy</Function>
+to bind
+the identifier name with the data (or, in the case of callbacks, with
+the address of the data) associated with the identifier.
+</Para>
+<Para>Each UIL module has a single name space; therefore, you cannot use a
+name you used for a value, object, or procedure as an identifier name in
+the same module.
+</Para>
+<Para>The UIL compiler does not do any type checking on the use of identifiers in a
+UIL module. Unlike a UIL value, an identifier does not have a UIL type
+associated with it. Regardless of what particular type a widget argument or
+callback procedure tag is defined to be, you can use an identifier in that
+context instead of a value of the corresponding type.
+</Para>
+<Para>To reference these identifier names in a UIL module, you use the name of
+the identifier wherever you want its value to be used.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Include directives</Title>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>include directive</Secondary>
+</IndexTerm>The include directive incorporates the contents of a specified
+file into a UIL module. This mechanism allows several UIL modules to share
+common definitions. The syntax for the include directive is as follows:
+</Para>
+<Synopsis>INCLUDE FILE <Symbol Role="Variable">file_name</Symbol>;
+</Synopsis>
+<Para>The UIL
+compiler replaces the include directive with the contents of the include file
+and processes it as if these contents had appeared in the current
+UIL source file.
+</Para>
+<Para>You can nest include files; that is, an include
+file can contain include directives.
+The UIL compiler can process up to 100 references (including the file
+containing the UIL module). Therefore, you can include up to 99 files
+in a single UIL module, including nested files. Each time a file is
+opened counts as a reference, so including the same file twice counts
+as two references.
+</Para>
+<Para>The <Symbol Role="Variable">file_name</Symbol> is a simple string containing a file specification
+that identifies the file to be included. The rules for finding the
+specified file are similar to the rules for finding header, or
+<Filename>.h</Filename> files using the include directive, <Literal>#include</Literal>, with a
+quoted string in C. The UIL uses the <Option><Literal>-I</Literal></Option> option for specifying a
+search directory for include files.
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>If you do
+not supply a directory, the UIL compiler searches for the include file in the
+directory of the main source file.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the compiler does not find the include
+file there, the compiler looks in the same directory as the source
+file.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If you supply a directory, the UIL compiler searches
+only that directory for the file.
+</Para>
+</ListItem>
+</ItemizedList>
+<!--.SS "Language Syntax"-->
+</RefSect2>
+<RefSect2>
+<Title>Names and Strings</Title>
+<Para>Names can consist of any of the characters A to Z, a to z,
+0 to 9, $ (dollar sign), and &hairsp;_&hairsp; (underscore). Names cannot begin
+with a digit (0 to 9). The maximum length of a name is 31 characters.
+</Para>
+<Para>UIL gives you a choice of
+either case-sensitive or case-insensitive names through a clause
+in the <Symbol>MODULE</Symbol> header.
+For example, if names are case sensitive, the names "sample" and
+"Sample" are distinct from each other. If names are case insensitive,
+these names are treated as the same name and can be used
+interchangeably. By default, UIL assumes names are case sensitive.
+</Para>
+<Para>In <Literal>CASE-INSENSITIVE</Literal> mode, the compiler outputs all names in the
+UID file in uppercase form.
+In <Literal>CASE-SENSITIVE</Literal> mode,
+names appear in the UIL file
+exactly as they appear in the source.
+</Para>
+<Para>The following table lists the reserved keywords, which are not
+available for defining programmer defined names.<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>keywords</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>keywords</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>keywords</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Keywords</Primary>
+</IndexTerm>
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="4">
+<ColSpec Align="Left" Colname="1">
+<ColSpec Align="Left" Colname="2">
+<ColSpec Align="Left" Colname="3">
+<ColSpec Align="Left" Colname="4">
+<TBody>
+<Row>
+<Entry Rowsep="1" Align="Center" Nameend="4" Namest="1"><Literal>Reserved Keywords</Literal></Entry>
+</Row>
+<Row>
+<Entry>ARGUMENTS</Entry>
+<Entry>CALLBACKS</Entry>
+<Entry>CONTROLS</Entry>
+<Entry>END</Entry>
+</Row>
+<Row>
+<Entry>EXPORTED</Entry>
+<Entry>FALSE</Entry>
+<Entry>GADGET</Entry>
+<Entry>IDENTIFIER</Entry>
+</Row>
+<Row>
+<Entry>INCLUDE</Entry>
+<Entry>LIST</Entry>
+<Entry>MODULE</Entry>
+<Entry>OFF</Entry>
+</Row>
+<Row>
+<Entry>ON</Entry>
+<Entry>OBJECT</Entry>
+<Entry>PRIVATE</Entry>
+<Entry>PROCEDURE</Entry>
+</Row>
+<Row>
+<Entry>PROCEDURES</Entry>
+<Entry>TRUE</Entry>
+<Entry>VALUE</Entry>
+<Entry>WIDGET</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>The UIL unreserved keywords are described in the following list and table.
+These keywords can be used as programmer defined names,
+however, if you use any keyword as a name, you cannot use the UIL-supplied
+usage of that keyword.
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Built-in argument names (for example, <SystemItem Class="Resource">XmNx</SystemItem>, <SystemItem Class="Resource">XmNheight</SystemItem>)
+</Para>
+</ListItem>
+<ListItem>
+<Para>Built-in reason names (for example, <SystemItem Class="Resource">XmNactivateCallback</SystemItem>, <SystemItem Class="Resource">XmNhelpCallback</SystemItem>)
+</Para>
+</ListItem>
+<ListItem>
+<Para>Character set names (for example, <Symbol>ISO_LATIN1</Symbol>, <Symbol>ISO_HEBREW_LR</Symbol>)
+</Para>
+</ListItem>
+<ListItem>
+<Para>Constant value names (for example, <SystemItem Class="Constant">XmMENU_OPTION</SystemItem>, <SystemItem Class="Constant">XmBROWSE_SELECT</SystemItem>)
+</Para>
+</ListItem>
+<ListItem>
+<Para>Object types (for example, <Classname>XmPushButton</Classname>, <Classname>XmBulletinBoard</Classname>)
+</Para>
+</ListItem>
+</ItemizedList>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="3">
+<ColSpec Align="Left" Colname="1">
+<ColSpec Align="Left" Colname="2">
+<ColSpec Align="Left" Colname="3">
+<TBody>
+<Row>
+<Entry Rowsep="1" Align="Center" Nameend="3" Namest="1"><Literal>Unreserved Keywords</Literal></Entry>
+</Row>
+<Row>
+<Entry>ANY</Entry>
+<Entry>ARGUMENT</Entry>
+<Entry>ASCIZ_STRING_TABLE</Entry>
+</Row>
+<Row>
+<Entry>ASCIZ_TABLE</Entry>
+<Entry>BACKGROUND</Entry>
+<Entry>BOOLEAN</Entry>
+</Row>
+<Row>
+<Entry>CASE_INSENSITIVE</Entry>
+<Entry>CASE_SENSITIVE</Entry>
+<Entry>CHARACTER_SET</Entry>
+</Row>
+<Row>
+<Entry>COLOR</Entry>
+<Entry>COLOR_TABLE</Entry>
+<Entry>COMPOUND_STRING</Entry>
+</Row>
+<Row>
+<Entry>COMPOUND_STRING_COMPONENT</Entry>
+<Entry>COMPOUND_STRING_TABLE</Entry>
+<Entry>FILE</Entry>
+</Row>
+<Row>
+<Entry>FLOAT</Entry>
+<Entry>FONT</Entry>
+<Entry>FONT_TABLE</Entry>
+</Row>
+<Row>
+<Entry>FONTSET</Entry>
+<Entry>FOREGROUND</Entry>
+<Entry>ICON</Entry>
+</Row>
+<Row>
+<Entry>IMPORTED</Entry>
+<Entry>INTEGER</Entry>
+<Entry>INTEGER_TABLE</Entry>
+</Row>
+<Row>
+<Entry>KEYSYM</Entry>
+<Entry>MANAGED</Entry>
+<Entry>NAMES</Entry>
+</Row>
+<Row>
+<Entry>OBJECTS</Entry>
+<Entry>REASON</Entry>
+<Entry>RGB</Entry>
+</Row>
+<Row>
+<Entry>RIGHT_TO_LEFT</Entry>
+<Entry>SINGLE_FLOAT</Entry>
+<Entry>STRING</Entry>
+</Row>
+<Row>
+<Entry>STRING_TABLE</Entry>
+<Entry>TRANSLATION_TABLE</Entry>
+<Entry>UNMANAGED</Entry>
+</Row>
+<Row>
+<Entry>USER_DEFINED</Entry>
+<Entry>VERSION</Entry>
+<Entry>WIDE_CHARACTER</Entry>
+</Row>
+<Row>
+<Entry>WIDGET</Entry>
+<Entry>XBITMAPFILE</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>String literals can be composed of the uppercase and lowercase
+letters, digits, and punctuation characters.
+Spaces, tabs, and comments are special elements in the language. They are
+a means of delimiting other elements, such as two names. One or more of
+these elements can appear before or after any other element in the language.
+However, spaces, tabs, and comments that appear in string literals are
+treated as character sequences rather than delimiters.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Data Types</Title>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Values</Primary>
+<Secondary>literals</Secondary>
+</IndexTerm>
+<Para>UIL provides literals for
+several of the value types it supports. Some of the value types are not
+supported as literals (for example, pixmaps and string tables). You can
+specify values for these types
+by using functions described in the <Emphasis>Functions</Emphasis> section.
+UIL directly supports the following literal types:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>String literal
+</Para>
+</ListItem>
+<ListItem>
+<Para>Integer literal
+</Para>
+</ListItem>
+<ListItem>
+<Para>Boolean literal
+</Para>
+</ListItem>
+<ListItem>
+<Para>Floating-point literal
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>UIL also includes the data type <Symbol>ANY</Symbol>, which is used to turn off compile
+time checking of data types.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>String Literals</Title>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>string literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>string literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>string literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Values</Primary>
+<Secondary>string literals</Secondary>
+</IndexTerm>
+<Para>A string literal is a sequence of zero or more 8-bit or 16-bit
+characters or a combination
+delimited by <Literal>'</Literal> (single quotation marks) or <Literal>"</Literal> (double quotation marks).
+String literals can also contain multibyte characters delimited with double
+quotation marks.
+String literals can be no more than 2000 characters long.
+</Para>
+<Para>A single-quoted string literal can span multiple source lines. To continue
+a single-quoted string literal, terminate the continued line with a
+<Literal>&bsol;</Literal> (backslash). The literal continues with the first character
+on the next line.
+</Para>
+<Para>Double-quoted string literals cannot span multiple source lines.
+(Because double-quoted strings can contain escape sequences and other special
+characters, you cannot use the backslash character to designate
+continuation of the string.) To build a string value that must
+span multiple source lines, use the concatenation operator described later
+in this section.
+</Para>
+<Para>The syntax of a string literal is one of the following:
+</Para>
+<Synopsis>'[<Symbol Role="Variable">character_string</Symbol>]'
+[#<Symbol Role="Variable">char_set</Symbol>]"[<Symbol Role="Variable">character_string</Symbol>]"
+</Synopsis>
+<Para>Both string forms associate a character set with a string value.
+UIL uses the following rules to determine the character set and
+storage format for string literals:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>A string declared as <Literal>'</Literal><Symbol Role="Variable">string</Symbol><Literal>'</Literal> is equivalent to
+<Literal>#</Literal><Symbol Role="Variable">cur_charset</Symbol><Literal>"</Literal><Symbol Role="Variable">string</Symbol><Literal>"</Literal>,
+where <Symbol Role="Variable">cur_charset</Symbol> will be the codeset
+portion of the value of the <Symbol Role="Define">LANG</Symbol> environment variable if it is set
+or the value
+of <SystemItem Class="Constant">XmFALLBACK_CHARSET</SystemItem> if <Symbol Role="Define">LANG</Symbol> is not set or has no codeset
+component.
+By default, <SystemItem Class="Constant">XmFALLBACK_CHARSET</SystemItem> is <Literal>ISO8859-1</Literal> (equivalent to
+<Symbol>ISO_LATIN1</Symbol>), but vendors may define a different default.
+</Para>
+</ListItem>
+<ListItem>
+<Para>A string declared as <Literal>"</Literal><Symbol Role="Variable">string</Symbol><Literal>"</Literal> is
+equivalent to <Literal>#</Literal><Symbol Role="Variable">char_set</Symbol><Literal>"</Literal><Symbol Role="Variable">string</Symbol><Literal>"</Literal> if
+you specified <Symbol Role="Variable">char_set</Symbol> as the default character set for the module.
+If no default character set has been specified for the module, then
+if the <Literal>-s</Literal> option is provided to the <Command>uil</Command> command or the
+<Literal>use_setlocale_flag</Literal> is set for the callable compiler, <Literal>Uil()</Literal>, the
+string will be interpreted to be a string in the current locale. This means that
+the string is parsed in the locale of the user by calling <Symbol Role="Variable">setlocale</Symbol>, its
+charset is <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>, and that if the string is
+converted to a compound string, it is stored as a locale encoded text segment.
+Otherwise, <Literal>"</Literal><Symbol Role="Variable">string</Symbol><Literal>"</Literal> is equivalent
+to <Literal>#</Literal><Symbol Role="Variable">cur_charset</Symbol><Literal>"</Literal><Symbol Role="Variable">string</Symbol><Literal>"</Literal>, where
+<Symbol Role="Variable">cur_charset</Symbol> is interpreted as described for single quoted strings.
+</Para>
+</ListItem>
+<ListItem>
+<Para>A string of the form <Literal>"</Literal><Symbol Role="Variable">string</Symbol><Literal>"</Literal> or
+<Literal>#</Literal><Symbol Role="Variable">char_set</Symbol><Literal>"</Literal><Symbol Role="Variable">string</Symbol><Literal>"</Literal> is stored as a
+null-terminated string.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>If the <Symbol Role="Variable">char_set</Symbol> in a string specified in the form above is not a
+built-in charset, and is not a user-defined charset, the charset of
+the string will be set to <SystemItem Class="Resource">XmFONTLIST_DEFAULT_TAG</SystemItem>, and an
+informational message will be issued to the user to note that this
+substitution has been made.
+</Para>
+<Para>The following table lists the character sets supported by the UIL compiler for
+string literals.
+Note that several UIL names map to the same character set. In
+some cases, the UIL name influences how string literals are read. For example,
+strings identified by a UIL character set name ending in <Symbol>_LR</Symbol> are read left-to-right.
+Names that end in a different number reflect different fonts
+(for example, ISO_LATIN1 or ISO_LATIN6).
+All character sets in this table are represented by 8 bits.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Align="Left" Colname="1">
+<ColSpec Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry Rowsep="1" Align="Center" Nameend="2" Namest="1"><Literal>Supported Character Sets</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>UIL Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Description</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_LATIN1</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-1 Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_LATIN2</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-2 Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_ARABIC</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-Arabic Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_LATIN6</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-Arabic Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_GREEK</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-Greek Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_LATIN7</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-Greek Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_HEBREW</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-Hebrew Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_LATIN8</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-Hebrew Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_HEBREW_LR</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-Hebrew Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>ISO_LATIN8_LR</Symbol></Entry>
+<Entry>GL: ASCII, GR: Latin-Hebrew Supplement</Entry>
+</Row>
+<Row>
+<Entry><Symbol>JIS_KATAKANA</Symbol></Entry>
+<Entry>GL: JIS Roman, GR: JIS Katakana</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Following are the parsing rules for each
+of the character sets:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term>All&ensp;character&ensp;sets</Term>
+<ListItem>
+<Para>Character codes in the range 00...1F, 7F, and 80...9F are control characters
+including both bytes of 16-bit characters.
+The compiler flags these as illegal characters.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ISO_LATIN1&ensp;ISO_LATIN2&ensp;ISO_LATIN3&ensp;ISO_GREEK&ensp;ISO_LATIN4</Literal></Term>
+<ListItem>
+<Para>These sets are parsed from left to right.
+The escape sequences for null-terminated strings
+are also supported by these character sets.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ISO_HEBREW&ensp;ISO_ARABIC&ensp;ISO_LATIN8</Literal></Term>
+<ListItem>
+<Para>These sets are parsed from right to left. For example, the string
+<ComputerOutput>#ISO_HEBREW"012345"</ComputerOutput> will generate a primitive string of "543210"
+with character set <Symbol>ISO_HEBREW</Symbol>. The string direction for such a
+string would be right-to-left, so when rendered, the string will
+appear as "012345." The escape sequences for null-terminated strings
+are also supported by these character sets, and the characters that
+compose the escape sequences are in left-to-right order. For example,
+you would enter &bsol;n, not n&bsol;&npzwc;.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ISO_HEBREW_LR&ensp;ISO_ARABIC_LR&ensp;ISO_LATIN8_LR</Literal></Term>
+<ListItem>
+<Para>These sets are parsed from left to right. For example, the string
+<ComputerOutput>#ISO_HEBREW_LR"012345"</ComputerOutput> generates a primitive string "012345"
+with character set <Symbol>ISO_HEBREW</Symbol>. The string direction for such a
+string would still be right-to-left, however, so when rendered, it
+will appear as "543210." In other words, the characters were
+originally typed in the <Emphasis>same order</Emphasis> in which they would have been
+typed in Hebrew (although in Hebrew, the typist would have been using
+a text editor that went from right to left). The escape sequences for
+null-terminated strings are also supported by these character sets.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>JIS_KATAKANA</Symbol></Term>
+<ListItem>
+<Para>This set is parsed from left to right. The escape sequences
+for null-terminated strings are also supported by this character
+set. Note that the <Literal>&bsol;</Literal> (backslash) may be displayed as a yen symbol.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>In addition to designating parsing rules for strings, character set
+information remains an attribute of a compound string.
+If the string is included in a string consisting of
+several concatenated segments, the character set information
+is included with that string segment.
+This gives the Motif Toolkit
+the information it needs to decipher the
+compound string and choose a font to display the string.
+</Para>
+<Para>For an application interface displayed only in English,
+UIL lets you ignore the distinctions between the two uses of strings.
+The compiler recognizes by context when a
+string must be passed as a null-terminated string or as a compound string.
+</Para>
+<Para>The UIL compiler recognizes enough about the various character sets to
+correctly parse string literals.
+The compiler also issues errors if you use a compound
+string in a context that supports only null-terminated strings.
+</Para>
+<Para>Since the character set names are keywords, you must
+put them in lowercase if case-sensitive names are in force.
+If names are case insensitive, character set names can be
+uppercase, lowercase, or mixed case.
+</Para>
+<Para>In addition to the built-in character sets recognized by UIL, you can define
+your own character sets with the <Symbol Role="Define">CHARACTER_SET</Symbol> function. You can use the
+<Symbol Role="Define">CHARACTER_SET</Symbol> function anywhere a character set can be specified.
+</Para>
+<Para>String literals can contain characters with the eighth (high-order)
+bit set. You cannot type control characters (00-1F, 7F, and 80-9F)
+directly in a single-quoted string literal. However, you can represent these
+characters with escape sequences. The following list shows the
+escape sequences for special characters.
+</Para>
+<VariableList>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>escape sequences</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Escape sequences</Primary>
+</IndexTerm>
+<VarListEntry>
+<Term><Literal>&bsol;b</Literal></Term>
+<ListItem>
+<Para>Backspace
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&bsol;f</Literal></Term>
+<ListItem>
+<Para>Form-feed
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&bsol;n</Literal></Term>
+<ListItem>
+<Para>Newline
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&bsol;r</Literal></Term>
+<ListItem>
+<Para>Carriage return
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&bsol;t</Literal></Term>
+<ListItem>
+<Para>Horizontal tab
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&bsol;v</Literal></Term>
+<ListItem>
+<Para>Vertical tab
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&bsol;'</Literal></Term>
+<ListItem>
+<Para>Single quotation mark
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&bsol;""</Literal></Term>
+<ListItem>
+<Para>Double quotation mark
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&bsol;&bsol;</Literal></Term>
+<ListItem>
+<Para>Backslash
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>&bsol;</Literal><Symbol Role="Variable">integer</Symbol>&hairsp;<Literal>&bsol;</Literal></Term>
+<ListItem>
+<Para>Character whose internal representation is given by
+<Symbol Role="Variable">integer</Symbol> (in the range 0 to 255 decimal)
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Note that escape sequences are processed literally in strings that are
+parsed in the current locale (localized strings).
+</Para>
+<Para>The UIL compiler does not process newline characters in compound
+strings.
+The effect of a newline character in a compound string depends only on
+the character set of the string, and the result is not guaranteed to be
+a multiline string.
+</Para>
+<Para><Literal>Compound String Literals</Literal>
+</Para>
+<Para>A compound string consists of a string of 8-bit, 16-bit, or multibyte characters,
+a named character set, and a writing direction. Its UIL data type is
+<Literal>compound_string</Literal>.
+</Para>
+<Para>The writing direction of a compound string is implied by the
+character set specified for the string. You can explicitly set the
+writing direction for a compound string by using the <Symbol Role="Define">COMPOUND_STRING</Symbol>
+function.
+</Para>
+<Para>A compound string can consist of a sequence of concatenated compound strings,
+null-terminated strings, or a combination of both,
+each of which can have a different character set property and writing
+direction. Use the
+concatenation operator &amp; (ampersand) to create a
+sequence of compound strings.
+</Para>
+<Para>Each string in the sequence is stored, including
+the character set and writing direction information.
+</Para>
+<Para>Generally, a string literal is stored in the UID file as a compound
+string when the literal consists of concatenated strings having
+different character sets or writing directions, or when you
+use the string to specify a value for an argument that requires
+a compound string value. If you want to
+guarantee that a string literal is stored as a compound string,
+you must use the <Symbol Role="Define">COMPOUND_STRING</Symbol> function.
+</Para>
+<Para><Literal>Data Storage Consumption for String Literals</Literal>
+</Para>
+<Para>The way a string literal is stored in the UID file depends on
+how you declare and use the string. The UIL compiler
+automatically converts a null-terminated string to
+a compound string if you use the string to specify the
+value of an argument that requires a compound string.
+However, this conversion is costly in terms of storage
+consumption.
+</Para>
+<Para><Symbol>PRIVATE</Symbol>, <Symbol>EXPORTED</Symbol>, and <Symbol>IMPORTED</Symbol> string literals require
+storage for a single allocation when the literal is declared;
+thereafter, storage is required for each reference to the
+literal. Literals declared in-line require storage
+for both an allocation and a reference.
+</Para>
+<Para>The following table summarizes data storage consumption for
+string literals. The storage requirement for an
+allocation consists of a fixed portion and a variable
+portion. The fixed portion of an allocation is roughly
+the same as the storage requirement for a reference
+(a few bytes).
+The storage consumed by the variable portion
+depends on the size of the literal value (that is, the
+length of the string). To conserve storage space, avoid
+making string literal declarations that result in an
+allocation per use.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="4">
+<ColSpec Colsep="1" Align="Left" Colname="1">
+<ColSpec Colsep="1" Align="Left" Colname="2">
+<ColSpec Colsep="1" Align="Left" Colname="3">
+<ColSpec Align="Left" Colname="4">
+<TBody>
+<Row>
+<Entry Rowsep="1" Colsep="0" Align="Center" Nameend="4" Namest="1"><Literal>Data Storage Consumption for String Literals</Literal></Entry>
+</Row>
+<Row>
+<Entry Morerows="1"><Literal>Declaration</Literal></Entry>
+<Entry Morerows="1"><Literal>Data Type</Literal></Entry>
+<Entry Morerows="1"><Literal>Used As</Literal></Entry>
+<Entry><Literal>Storage Requirements</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"></Entry>
+<Entry Rowsep="1"></Entry>
+<Entry Rowsep="1"></Entry>
+<Entry Rowsep="1"><Literal>Per Use</Literal></Entry>
+</Row>
+<Row>
+<Entry>In-line</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>An allocation and a reference (within the module)</Entry>
+</Row>
+<Row>
+<Entry>Private</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>A reference (within the module)</Entry>
+</Row>
+<Row>
+<Entry>Exported</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>A reference (within the UID hierarchy)</Entry>
+</Row>
+<Row>
+<Entry>Imported</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>A reference (within the UID hierarchy)</Entry>
+</Row>
+<Row>
+<Entry>In-line</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>Compound</Entry>
+<Entry>An allocation and a reference (within the module)</Entry>
+</Row>
+<Row>
+<Entry>Private</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>Compound</Entry>
+<Entry>An allocation and a reference (within the module)</Entry>
+</Row>
+<Row>
+<Entry>Exported</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>Compound</Entry>
+<Entry>A reference (within the UID hierarchy)</Entry>
+</Row>
+<Row>
+<Entry>Imported</Entry>
+<Entry>Null-terminated</Entry>
+<Entry>Compound</Entry>
+<Entry>A reference (within the UID hierarchy)</Entry>
+</Row>
+<Row>
+<Entry>In-line</Entry>
+<Entry>Compound</Entry>
+<Entry>Compound</Entry>
+<Entry>An allocation and a reference (within the module)</Entry>
+</Row>
+<Row>
+<Entry>Private</Entry>
+<Entry>Compound</Entry>
+<Entry>Compound</Entry>
+<Entry>A reference (within the module)</Entry>
+</Row>
+<Row>
+<Entry>Exported</Entry>
+<Entry>Compound</Entry>
+<Entry>Compound</Entry>
+<Entry>A reference (within the UID hierarchy)</Entry>
+</Row>
+<Row>
+<Entry>Imported</Entry>
+<Entry>Compound</Entry>
+<Entry>Compound</Entry>
+<Entry>A reference (within the UID hierarchy)</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Integer Literals</Title>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>integer literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>integer literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>integer literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Values</Primary>
+<Secondary>integer literals</Secondary>
+</IndexTerm>
+<Para>An integer literal represents the value of a whole number.
+Integer literals have the form of
+an optional sign followed by one or more decimal digits.
+An integer literal must not contain embedded spaces or commas.
+</Para>
+<Para>Integer literals are stored in the UID file as 32-bit integers.
+Exported and imported integer literals require a single allocation
+when the literal is declared; thereafter, a few bytes of
+storage are required for each reference to the literal. Private
+integer literals and those declared in-line require allocation
+and reference storage per use. To conserve storage
+space, avoid making integer literal declarations that result
+in an allocation per use.
+</Para>
+<Para>The following table shows data storage consumption for integer
+literals.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Colsep="1" Align="Left" Colname="1">
+<ColSpec Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry Rowsep="1" Colsep="0" Align="Center" Nameend="2" Namest="1"><Literal>Data Storage Consumption for Integer Literals</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Declaration</Literal></Entry>
+<Entry Rowsep="1"><Literal>Storage Requirements Per Use</Literal></Entry>
+</Row>
+<Row>
+<Entry>In-line</Entry>
+<Entry>An allocation and a reference (within the module)</Entry>
+</Row>
+<Row>
+<Entry>Private</Entry>
+<Entry>An allocation and a reference (within the module)</Entry>
+</Row>
+<Row>
+<Entry>Exported</Entry>
+<Entry>A reference (within the UID hierarchy)</Entry>
+</Row>
+<Row>
+<Entry>Imported</Entry>
+<Entry>A reference (within the UID hierarchy)</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Boolean Literal</Title>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>Boolean literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>Boolean literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>Boolean literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Values</Primary>
+<Secondary>Boolean literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Boolean literals</Primary>
+</IndexTerm>A Boolean literal represents the value True (reserved keyword <SystemItem Class="Constant">TRUE</SystemItem>
+or <Literal>On</Literal>) or False (reserved keyword <SystemItem Class="Constant">FALSE</SystemItem> or <Literal>Off</Literal>).
+These keywords are subject to case-sensitivity rules.
+</Para>
+<Para>In a UID file, <SystemItem Class="Constant">TRUE</SystemItem> is represented by the integer value 1 and
+<SystemItem Class="Constant">FALSE</SystemItem> is represented by the integer value 0 (zero).
+</Para>
+<Para>Data storage consumption for Boolean literals is the same
+as that for integer literals.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Floating-Point Literal</Title>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>floating-point literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>floating-point literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>floating-point literals</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Values</Primary>
+<Secondary>floating-point literals</Secondary>
+</IndexTerm>
+<Para>A floating-point literal represents the value of a real (or float) number.
+Floating-point literals have the following form:
+</Para>
+<Synopsis>[+|-][<Symbol Role="Variable">integer</Symbol>].<Symbol Role="Variable">integer</Symbol>[E|e[+|-]<Symbol Role="Variable">exponent</Symbol>]
+</Synopsis>
+<Para>For maximum portability, a floating-point literal can represent values in
+the range 1.0E-37 to 1.0E+37
+with at least 6 significant digits.
+On many machines this range will be wider, with more significant digits.
+A floating-point literal must not contain embedded spaces or commas.
+</Para>
+<Para>Floating-point literals are stored in the UID file as
+double-precision, floating-point numbers.
+The following table
+gives examples of valid and invalid floating-point
+notation for the UIL compiler.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="2">
+<ColSpec Align="Left" Colname="1">
+<ColSpec Align="Left" Colname="2">
+<TBody>
+<Row>
+<Entry Rowsep="1" Align="Center" Nameend="2" Namest="1"><Literal>Floating Point Literals</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Valid Floating-Point Literals</Literal></Entry>
+<Entry Rowsep="1"><Literal>Invalid Floating-Point Literals</Literal></Entry>
+</Row>
+<Row>
+<Entry>1.0</Entry>
+<Entry>1e1 (no decimal point)</Entry>
+</Row>
+<Row>
+<Entry>3.1415E&minus;2 (equals .031415)</Entry>
+<Entry>2.87 e6 (embedded blanks)</Entry>
+</Row>
+<Row>
+<Entry>&minus;6.29e7 (equals &minus;62900000)</Entry>
+<Entry>2.0e100 (out of range)</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>Data storage consumption for floating-point literals is
+the same as that for integer literals.
+</Para>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>ANY value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>ANY value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>ANY value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Functions</Primary>
+<Secondary>ANY value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>ANY value</Primary>
+</IndexTerm>The purpose of the
+<Symbol>ANY</Symbol>
+data type is to shut off the data-type checking feature of the UIL compiler.
+You can use the
+<Symbol>ANY</Symbol>
+data type for the following:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Specifying the type of a callback procedure tag
+</Para>
+</ListItem>
+<ListItem>
+<Para>Specifying the type of a user-defined argument
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>You can use the
+<Symbol>ANY</Symbol>
+data type when you need to use a type not
+supported by the UIL compiler or when you want the data-type
+restrictions imposed by the compiler to be relaxed.
+For example, you might want to define a widget having an argument that
+can accept different types of values, depending on run-time
+circumstances.
+</Para>
+<Para>If you specify that an argument takes an
+<Symbol>ANY</Symbol>
+value, the compiler does not
+check the type of the value specified for that argument; therefore, you
+need to take care when specifying a value for an argument of type
+<Symbol>ANY</Symbol>.
+You could get unexpected results at run time if you pass a value having
+a data type that the widget does not support for that argument.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Expressions</Title>
+<Para><IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>expressions</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>expressions</Primary>
+</IndexTerm>UIL includes compile-time value expressions. These expressions
+can contain references to other UIL values, but cannot be
+forward referenced.
+</Para>
+<Para>The following table lists the set of operators in UIL that allow
+you to create integer, real, and Boolean values based on other values
+defined
+with the UIL module. In the table, a precedence of 1 is the highest.
+</Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="4">
+<ColSpec Colsep="1" Align="Center" Colname="1">
+<ColSpec Colsep="1" Align="Left" Colname="2">
+<ColSpec Colsep="1" Align="Left" Colname="3">
+<ColSpec Align="Center" Colname="4">
+<TBody>
+<Row>
+<Entry Rowsep="1" Colsep="0" Nameend="4" Namest="1"><Literal>Valid Operators</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1" Align="Left"><Literal>Operator</Literal></Entry>
+<Entry Rowsep="1"><Literal>Operand Types</Literal></Entry>
+<Entry Rowsep="1"><Literal>Meaning</Literal></Entry>
+<Entry Rowsep="1" Align="Left"><Literal>Precedence</Literal></Entry>
+</Row>
+<Row>
+<Entry>~</Entry>
+<Entry>Boolean</Entry>
+<Entry>NOT</Entry>
+<Entry>1</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer</Entry>
+<Entry>One's complement</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry>-</Entry>
+<Entry>float</Entry>
+<Entry>Negate</Entry>
+<Entry>1</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer</Entry>
+<Entry>Negate</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry>+</Entry>
+<Entry>float</Entry>
+<Entry>NOP</Entry>
+<Entry>1</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer</Entry>
+<Entry>NOP</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry>*</Entry>
+<Entry>float,float</Entry>
+<Entry>Multiply</Entry>
+<Entry>2</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer,integer</Entry>
+<Entry>Multiply</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry>/</Entry>
+<Entry>float,float</Entry>
+<Entry>Divide</Entry>
+<Entry>2</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer,integer</Entry>
+<Entry>Divide</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry>+</Entry>
+<Entry>float,float</Entry>
+<Entry>Add</Entry>
+<Entry>3</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer,integer</Entry>
+<Entry>Add</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry>&minus;</Entry>
+<Entry>float,float</Entry>
+<Entry>Subtract</Entry>
+<Entry>3</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer,integer</Entry>
+<Entry>Subtract</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry>>></Entry>
+<Entry>integer,integer</Entry>
+<Entry>Shift right</Entry>
+<Entry>4</Entry>
+</Row>
+<Row>
+<Entry>&lt;&lt;</Entry>
+<Entry>integer,integer</Entry>
+<Entry>Shift left</Entry>
+<Entry>4</Entry>
+</Row>
+<Row>
+<Entry>&amp;</Entry>
+<Entry>Boolean,Boolean</Entry>
+<Entry>AND</Entry>
+<Entry>5</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer,integer</Entry>
+<Entry>Bitwise AND</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>string,string</Entry>
+<Entry>Concatenate</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry>|</Entry>
+<Entry>Boolean,Boolean</Entry>
+<Entry>OR</Entry>
+<Entry>6</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer,integer</Entry>
+<Entry>Bitwise OR</Entry>
+<Entry></Entry>
+</Row>
+<Row>
+<Entry>&caret;</Entry>
+<Entry>Boolean,Boolean</Entry>
+<Entry>XOR</Entry>
+<Entry>6</Entry>
+</Row>
+<Row>
+<Entry></Entry>
+<Entry>integer,integer</Entry>
+<Entry>Bitwise XOR</Entry>
+<Entry></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para>A string can be either a single compound string or a sequence of
+compound strings. If the two
+concatenated strings have different properties (such as writing
+direction or character set), the result of the concatenation is a
+multisegment compound string.
+</Para>
+<Para>The string resulting from the concatenation is a null-terminated string
+unless one or more of the following conditions exists:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>One of the operands is a compound string
+</Para>
+</ListItem>
+<ListItem>
+<Para>The operands have different character set properties
+</Para>
+</ListItem>
+<ListItem>
+<Para>The operands have different writing directions
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Then the resulting string is a compound string.
+You cannot use imported or exported values as operands of the concatenation
+operator.
+</Para>
+<Para>The result of each operator has the same type as its operands.
+You cannot mix types in an expression without using conversion routines.
+</Para>
+<Para>You can use parentheses to override the normal precedence of operators.
+In a sequence of unary operators, the operations are performed in
+right-to-left
+order. For example, <Literal>&minus; + &minus;A</Literal> is equivalent to <Literal>&minus;(+(&minus;A))</Literal>.
+In a sequence of binary operators of the same precedence, the operations
+are performed in left-to-right order. For example, <Literal>A*B/C*D</Literal> is
+equivalent to <Literal>((A*B)/C)*D</Literal>.
+</Para>
+<Para>A value declaration gives a value a name. You cannot redefine the value
+of that name in a subsequent value declaration.
+You can use a value containing operators and functions anywhere you can
+use a value in a UIL module.
+You cannot use imported values as operands in expressions.<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>data type conversions</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Data type</Primary>
+<Secondary>conversions</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Conversions</Primary>
+<Secondary>data type</Secondary>
+</IndexTerm>
+</Para>
+<Para>Several of the binary operators are defined for multiple data types.
+For example, the operator for multiplication (<Literal>*</Literal>) is defined for both
+floating-point and integer operands.
+</Para>
+<Para>For the UIL compiler to perform these binary operations, both
+operands must be of the same type.
+If you supply operands of different data types, the UIL compiler
+automatically converts one of the operands to the type of the other
+according to the following conversions rules:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>If the operands are an integer and a Boolean, the Boolean is converted
+to an integer.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the operands are an integer and a floating-point, the integer is converted
+to an floating-point.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the operands are a floating-point and a Boolean, the Boolean is converted
+to a floating-point.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>You can also explicitly convert the data type of a value by using
+one of the conversion functions <Symbol Role="Define">INTEGER</Symbol>, <Symbol>FLOAT</Symbol> or
+<Symbol>SINGLE_FLOAT</Symbol>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>Functions</Title>
+<Para><IndexTerm>
+<Primary>UIL Functions</Primary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>functions</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>functions</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Functions</Primary>
+</IndexTerm>UIL provides functions to generate the following types of values:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Character sets
+</Para>
+</ListItem>
+<ListItem>
+<Para>Keysyms
+</Para>
+</ListItem>
+<ListItem>
+<Para>Colors
+</Para>
+</ListItem>
+<ListItem>
+<Para>Pixmaps
+</Para>
+</ListItem>
+<ListItem>
+<Para>Single-precision, floating-point numbers
+</Para>
+</ListItem>
+<ListItem>
+<Para>Double-precision, floating-point numbers
+</Para>
+</ListItem>
+<ListItem>
+<Para>Fonts
+</Para>
+</ListItem>
+<ListItem>
+<Para>Fontsets
+</Para>
+</ListItem>
+<ListItem>
+<Para>Font tables
+</Para>
+</ListItem>
+<ListItem>
+<Para>Compound strings
+</Para>
+</ListItem>
+<ListItem>
+<Para>Compound string tables
+</Para>
+</ListItem>
+<ListItem>
+<Para>ASCIZ (null-terminated) string tables
+</Para>
+</ListItem>
+<ListItem>
+<Para>Wide character strings
+</Para>
+</ListItem>
+<ListItem>
+<Para>Widget class names
+</Para>
+</ListItem>
+<ListItem>
+<Para>Integer tables
+</Para>
+</ListItem>
+<ListItem>
+<Para>Arguments
+</Para>
+</ListItem>
+<ListItem>
+<Para>Reasons
+</Para>
+</ListItem>
+<ListItem>
+<Para>Translation tables
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Remember that all examples in the following sections assume case-insensitive
+mode. Keywords are shown in uppercase letters to distinguish them
+from user-specified names, which are shown in lowercase letters.
+This use of uppercase letters is not required in case-insensitive
+mode. In case-sensitive mode, keywords
+must be in lowercase letters.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>CHARACTER_SET(</Literal><Symbol Role="Variable">string_expression[</Symbol>,&ensp;property[,&ensp;...]]<Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>user-defined character set</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>user-defined character set</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>user-defined character set</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>CHARACTER_SET</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>User-defined character set</Primary>
+</IndexTerm><IndexTerm>
+<Primary>Character set</Primary>
+<Secondary>user-defined</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>CHARACTER_SET function</Primary>
+</IndexTerm>
+<Para>You can define your own character sets with the <Symbol Role="Define">CHARACTER_SET</Symbol> function. You
+can use the <Symbol Role="Define">CHARACTER_SET</Symbol> function anywhere a character set can be specified.
+</Para>
+<Para>The result of the <Symbol Role="Define">CHARACTER_SET</Symbol> function is a character set with the name
+<Literal>string_expression</Literal> and the properties you specify.
+<Literal>string_expression</Literal> must be a
+null-terminated string. You can optionally include one or both of the following
+clauses to specify properties for the resulting character set:
+</Para>
+<Synopsis>RIGHT_TO_LEFT = <Symbol Role="Variable">boolean_expression</Symbol>
+SIXTEEN_BIT = <Symbol Role="Variable">boolean_expression</Symbol>
+</Synopsis>
+<Para>The <Symbol>RIGHT_TO_LEFT</Symbol> clause sets the default writing direction of the string from
+right to left if <Symbol Role="Variable">boolean_expression</Symbol> is True, and right to left otherwise.
+</Para>
+<Para>The <Symbol>SIXTEEN_BIT</Symbol> clause allows the strings associated with this character set to
+be interpreted as 16-bit characters if <Symbol Role="Variable">boolean_expression</Symbol> is True,
+and 8-bit characters otherwise.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>KEYSYM(</Literal><Symbol Role="Variable">string_literal</Symbol><Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>keysyms</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>keysyms</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>keysyms</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>KEYSYM</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Keysyms</Primary>
+<Secondary>defining in UIL</Secondary>
+</IndexTerm>
+<Para>The <Symbol>KEYSYM</Symbol> function is used to specify a keysym for a mnemonic resource.
+<Symbol Role="Variable">string_literal</Symbol> must contain a valid <Literal>KeySym</Literal> name.
+(See XStringToKeysym(3 X11) for more information.)
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>COLOR(</Literal><Literal>string_expression</Literal>[<Literal>,FOREGROUND</Literal>|<Symbol Role="Define">BACKGROUND</Symbol>]<Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>color values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>color values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>color values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>COLOR</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Color values</Primary>
+<Secondary>defining in UIL</Secondary>
+</IndexTerm>
+<Para>The <Symbol>COLOR</Symbol> function supports the definition of colors.
+Using the <Symbol>COLOR</Symbol> function, you can designate a value to specify a color
+and then use that value for arguments requiring a color value.
+The string expression
+names the color you want to define;
+the optional keywords <Symbol Role="Define">FOREGROUND</Symbol> and <Symbol Role="Define">BACKGROUND</Symbol> identify how the color is
+to be displayed on a monochrome device when the color is used in the
+definition of a color table.
+</Para>
+<Para>The UIL compiler does not
+have built-in color names. Colors are a server-dependent attribute of
+an
+object. Colors are defined on each server and may have different red-green-blue (RGB)
+values on each server. The string you specify as the
+color argument must be recognized by the server on which
+your application runs.
+</Para>
+<Para>In a UID file, UIL represents a color as a character string.
+MRM calls X translation routines
+that convert a color string to the device-specific pixel value. If you
+are running on a monochrome server, all colors translate to black or
+white.
+If you are on a color server, the color names translate to their proper
+colors if the following conditions are met:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The color is defined.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The color map is not yet full.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>If the color map is full, even valid colors translate to black or white
+(foreground or background).
+</Para>
+<Para>Interfaces do not, in general, specify colors for widgets,
+so that the selection of colors can be controlled by the
+user through the <Filename>.Xdefaults</Filename>
+file.
+</Para>
+<Para>To write an application that runs on both monochrome and color devices, you
+need to specify which colors in a color table (defined with the <Symbol>COLOR_TABLE</Symbol>
+function)
+map to the background and which colors map to the foreground.
+UIL lets you use the <Symbol>COLOR</Symbol> function to designate this mapping in the definition of the color.
+The following example
+shows how to use the <Symbol>COLOR</Symbol> function to map
+the color red to the background color on a monochrome device:
+</Para>
+<InformalExample>
+<ProgramListing>VALUE c: COLOR ( 'red',BACKGROUND );
+</ProgramListing>
+</InformalExample>
+<Para>The mapping comes into play only when the MRM is
+given a color and the
+application is to be displayed on a monochrome device. In this case,
+each color is considered to be in one of the following three categories:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The color is mapped to the background color on the monochrome device.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The color is mapped to the foreground color on the monochrome device.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Monochrome mapping is undefined for this color.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>If the color is mapped to the
+foreground or background color, MRM substitutes the
+foreground or background color, respectively. If you do not specify the
+monochrome mapping for a color, MRM passes the color string
+to the Motif Toolkit
+for mapping to the foreground or background color.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>RGB(</Literal><Symbol Role="Variable">red_integer</Symbol>,&ensp;<Symbol Role="Variable">green_integer</Symbol>, <Symbol Role="Variable">blue_integer</Symbol><Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>color values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>color values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>color values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>RGB</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Color values</Primary>
+<Secondary>defining in UIL</Secondary>
+</IndexTerm>
+<Para>The three integers define the values for the red, green, and blue
+components of the color, in that order. The values of these
+components can range from 0 to 65,535, inclusive.
+The values may be
+represented as integer expressions.
+</Para>
+<Para>In a UID file, UIL represents an <Symbol>RGB</Symbol> value as three integers.
+MRM calls X translation routines that
+convert the integers to the device-specific pixel value.
+If you are running on a monochrome server, all colors translate to
+black or white.
+If you are on a color server, <Symbol>RGB</Symbol> values translate to their proper
+colors if the colormap is not yet full.
+If the colormap is full, values translate to black or white (foreground
+or background).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>COLOR_TABLE(</Literal><Symbol Role="Variable">color_expression</Symbol><Literal>='</Literal><Symbol Role="Variable">character</Symbol><Literal>'</Literal>[,...]<Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>COLOR_TABLE Function</Primary>
+</IndexTerm>
+<Para>The color expression
+is a previously defined color, a color defined in line
+with the <Symbol>COLOR</Symbol> function, or the phrase
+<Literal>BACKGROUND COLOR</Literal> or <Literal>FOREGROUND COLOR</Literal>. The character
+can be any valid UIL character.
+</Para>
+<Para>The <Symbol>COLOR_TABLE</Symbol> function provides a device-independent way to
+specify a set of colors.
+The <Symbol>COLOR_TABLE</Symbol> function accepts either
+previously defined UIL color names or in line
+color definitions (using the <Symbol>COLOR</Symbol> function).
+A color table must be private because its
+contents must be known by the UIL compiler to construct an icon. The
+colors within a color table, however, can be imported, exported, or
+private.
+</Para>
+<Para>The single letter associated with each color is the character you
+use to represent that color when creating an icon.
+Each letter used to represent a color must be unique within the
+color table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ICON(</Literal>[<Literal>COLOR_TABLE=</Literal><Symbol Role="Variable">color_table_name</Symbol>,]&ensp;<Symbol Role="Variable">row</Symbol>[,...<Literal>)</Literal></Term>
+<ListItem>
+<Para><Symbol Role="Variable">color-table-name</Symbol> must refer to a previously defined color table,
+and <Symbol Role="Variable">row</Symbol> is a character expression giving one row of the icon.
+</Para>
+<Para>The <Symbol>ICON</Symbol> function describes a rectangular icon that is x pixels wide
+and y pixels high.
+The strings surrounded by single quotation marks describe
+the icon.
+Each string represents a row in the icon;
+each character in the string represents a pixel.
+</Para>
+<Para>The first row in an icon definition determines the width of the icon.
+All rows must have the same number of characters as the first row.
+The height of the icon is dictated by the number of rows.
+The maximum number of rows is 999.
+</Para>
+<Para>The first argument of the <Symbol>ICON</Symbol> function
+(the color table specification) is optional and identifies the colors that are
+available in this icon.
+By using the single letter associated with
+each color, you can specify the color of each pixel in the icon.
+The icon must be constructed of characters
+defined
+in the specified color table.
+</Para>
+<Para>A default color table is used if you omit the argument specifying the color
+table. To make use of the default color table, the rows of your icon
+must contain only spaces and asterisks.
+The default color table is defined as follows:
+</Para>
+<InformalExample>
+<ProgramListing>COLOR_TABLE( BACKGROUND COLOR = ' ', FOREGROUND COLOR = '*')
+</ProgramListing>
+</InformalExample>
+<Para>You can define other characters to represent the background color and
+foreground color by replacing the space and asterisk in the <Literal>BACKGROUND COLOR</Literal>
+and <Literal>FOREGROUND COLOR</Literal> clauses shown in the previous statement.
+You can specify icons as private, imported, or exported.
+Use the MRM function
+<Function>MrmFetchIconLiteral</Function>
+to retrieve an exported icon at run
+time.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>XBITMAPFILE(</Literal><Literal>string_expression</Literal><Literal>)</Literal></Term>
+<ListItem>
+<Para>The <Symbol>XBITMAPFILE</Symbol> function is similar to the <Symbol>ICON</Symbol> function in that both
+describe a rectangular icon that is x pixels wide and y pixels high.
+However, <Symbol>XBITMAPFILE</Symbol> allows you to specify an external file containing the
+definition of an X bitmap, whereas all <Symbol>ICON</Symbol> function definitions must be
+coded directly within UIL. X bitmap files can be generated by
+many different X applications.
+UIL reads these files through the <Symbol>XBITMAPFILE</Symbol> function, but does
+not support creation of these files.
+The X bitmap file specified as the argument
+to the <Symbol>XBITMAPFILE</Symbol> function is read at application run time by MRM.
+</Para>
+<Para>The <Symbol>XBITMAPFILE</Symbol> function returns a value of type
+<Symbol Role="Variable">pixmap</Symbol>
+and can be used
+anywhere a pixmap data type is expected.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>SINGLE_FLOAT(</Literal><Symbol Role="Variable">real_number_literal</Symbol><Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>floating-point values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>floating-point values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>floating-point values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>SINGLE_FLOAT</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Floating-point values</Primary>
+</IndexTerm>
+<Para>The <Symbol>SINGLE_FLOAT</Symbol> function lets you store floating-point literals in UIL
+files as single-precision, floating-point numbers.
+Single-precision floating-point numbers can often be stored using less
+memory than double-precision, floating-point numbers.
+The <Symbol Role="Variable">real_number_literal</Symbol> can be either an integer literal or a
+floating-point literal.
+<!-- A value defined using this function cannot be used in an arithmetic--><!-- expression.--></Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>FLOAT(</Literal><Symbol Role="Variable">real_number_literal</Symbol><Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>floating-point values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>floating-point values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>floating-point values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>FLOAT</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Floating-point values</Primary>
+</IndexTerm>
+<Para>The <Symbol>FLOAT</Symbol> function lets you store floating-point literals in UIL files
+as double-precision, floating-point numbers.
+The <Symbol Role="Variable">real_number_literal</Symbol> can be either an integer literal or a
+floating-point literal.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>FONT(</Literal><Literal>string_expression</Literal>[<Literal>,&ensp;CHARACTER_SET=</Literal><Symbol Role="Variable">char_set</Symbol>]<Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>font values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>font values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>font values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>FONT</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Font values</Primary>
+</IndexTerm>
+<Para>You define fonts with the <Symbol>FONT</Symbol> function.
+Using the <Symbol>FONT</Symbol> function,
+you designate a value to specify a font
+and then use that value for arguments that require a font value.
+The UIL compiler has no built-in fonts.
+</Para>
+<Para>Each font makes sense only in the context of a character set.
+The <Symbol>FONT</Symbol> function has an additional
+parameter to let you specify the character set
+for the font.
+This parameter is optional; if you omit it,
+the default character set depends on the value of the <Symbol Role="Define">LANG</Symbol> environment
+variable if it is set, or on the value of <SystemItem Class="Constant">XmFALLBACK_CHARSET</SystemItem> if <Symbol Role="Define">LANG</Symbol>
+is not set.
+</Para>
+<Para><Literal>string_expression</Literal> specifies the name of the font
+and the clause <Symbol Role="Define">CHARACTER_SET</Symbol> = <Symbol Role="Variable">char_set</Symbol>
+specifies the character set for the font.
+The string expression used in the <Symbol>FONT</Symbol> function cannot be a compound string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>FONTSET(</Literal><Literal>string_expression</Literal>[,...][<Literal>,&ensp;CHARACTER_SET=</Literal><Symbol Role="Variable">charset</Symbol>]<Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>fontset value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>fontset value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>fontset value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Functions</Primary>
+<Secondary>fontset value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>FONT_TABLE</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>fontset value</Primary>
+<Secondary>defining</Secondary>
+</IndexTerm>
+<Para>You define fontsets with the <Symbol>FONTSET</Symbol> function.
+Using the <Symbol>FONTSET</Symbol> function,
+you designate a set of values to specify fonts
+and then use those values for arguments that require a fontset.
+The UIL compiler has no built-in fonts.
+</Para>
+<Para>Each font makes sense only in the context of a character set.
+The <Symbol>FONTSET</Symbol> function has an additional
+parameter to let you specify the character set
+for the font.
+This parameter is optional; if you omit it,
+the default character set depends on the value of the <Symbol Role="Define">LANG</Symbol> environment variable if it is set, or on the value of <SystemItem Class="Constant">XmFALLBACK_CHARSET</SystemItem> if <Symbol Role="Define">LANG</Symbol>
+is not set.
+</Para>
+<Para>The string expression specifies the name of the font
+and the clause <Symbol Role="Define">CHARACTER_SET</Symbol> = <Symbol Role="Variable">char_set</Symbol>
+specifies the character set for the font.
+The string expression used in the <Symbol>FONTSET</Symbol> function cannot be a compound string.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>FONT_TABLE(</Literal><Symbol Role="Variable">font_expression</Symbol>[,...]<Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>font table value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>font table value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>font table value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Functions</Primary>
+<Secondary>font table value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>FONT_TABLE</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Font table value</Primary>
+<Secondary>defining</Secondary>
+</IndexTerm>
+<Para>A font table is a sequence of pairs of fonts and character sets. At run time,
+when an object needs to display a string, the object
+scans the font table for the character set that
+matches the character set of the string to be displayed.
+UIL
+provides the <Symbol>FONT_TABLE</Symbol> function to let you supply such an argument.
+<Symbol Role="Variable">font_expression</Symbol> is created with the <Symbol>FONT</Symbol> and <Symbol>FONTSET</Symbol> functions.
+</Para>
+<Para>If you specify a single font value to specify an argument that requires
+a font table, the UIL compiler automatically converts a font value to a font
+table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>COMPOUND_STRING(</Literal><Literal>string_expression</Literal>[,<Symbol Role="Variable">property</Symbol>[,...]]<Literal>)</Literal></Term>
+<ListItem>
+<Para>Use the <Symbol Role="Define">COMPOUND_STRING</Symbol> function to set properties of a
+null-terminated string and to convert it into a compound string. The
+properties you can set are the writing direction and separator.
+</Para>
+<Para>The result of the <Symbol Role="Define">COMPOUND_STRING</Symbol> function is a compound string
+with the string expression as its value. You can optionally include
+one or more of the following clauses to specify properties for the
+resulting compound string:
+</Para>
+<Para><Symbol>RIGHT_TO_LEFT</Symbol> = <Symbol Role="Variable">boolean_expression</Symbol>
+<Symbol>SEPARATE</Symbol> = <Symbol Role="Variable">boolean_expression</Symbol>
+</Para>
+<Para>The <Symbol>RIGHT_TO_LEFT</Symbol> clause sets the writing direction of the
+string from right to left if <Symbol Role="Variable">boolean_expression</Symbol>
+is True, and left to right otherwise.
+Specifying this argument does not cause the value
+of the string expression to change.
+If you omit the <Symbol>RIGHT_TO_LEFT</Symbol> argument, the resulting string has the same
+writing direction as <Literal>string_expression</Literal>.
+</Para>
+<Para>The <Symbol>SEPARATE</Symbol> clause appends a separator to the end of the compound string if
+<Symbol Role="Variable">boolean_expression</Symbol> is True. If you omit the <Symbol>SEPARATE</Symbol>
+clause, the resulting string does not have a separator.
+</Para>
+<Para>You cannot use imported or exported values as the operands of the
+<Symbol Role="Define">COMPOUND_STRING</Symbol> function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Define">COMPOUND_STRING_COMPONENT</Symbol>(<Symbol Role="Variable">component_type</Symbol> [, {<Symbol Role="Variable">string</Symbol> | <Symbol Role="Variable">enumval</Symbol>}])</Term>
+<ListItem>
+<Para>Use the <Symbol Role="Define">COMPOUND_STRING_COMPONENT</Symbol> function to create compound strings
+in UIL consisting of single components.
+This function is analagous to <Function>XmStringComponentCreate</Function>.
+This function lets you create simple compound strings containing
+components such as <SystemItem Class="Constant">XmSTRING_COMPONENT_TAB</SystemItem> and
+<SystemItem Class="Constant">XmSTRING_COMPONENT_RENDITION_BEGIN</SystemItem> which are not produced by
+the <Symbol Role="Define">COMPOUND_STRING</Symbol> function. These components
+can then be concatenated to other compound strings to build more
+complex compound strings.
+</Para>
+<Para>The first argument must be an <StructName Role="typedef">XmStringComponentType</StructName>
+enumerated constant.
+The type and interpretation of the second argument depends
+on the first argument.
+For example, if you specify any of the following enumerated
+constants for the first argument, then you should not specify
+a second argument:
+<SystemItem Class="Constant">XmSTRING_COMPONENT_SEPARATOR</SystemItem>,
+<SystemItem Class="Constant">XmSTRING_COMPONENT_LAYOUT_POP</SystemItem>,
+<SystemItem Class="Constant">XmSTRING_COMPONENT_TAB</SystemItem>,
+and
+<SystemItem Class="Constant">XmSTRING_COMPONENT_LOCALE</SystemItem>.
+However, if you specify an enumerated constant from the following
+group, then you must supply a <Symbol Role="Variable">string</Symbol> as the second argument:
+<SystemItem Class="Constant">XmSTRING_COMPONENT_CHARSET</SystemItem>,
+<SystemItem Class="Constant">XmSTRING_COMPONENT_TEXT</SystemItem>,
+<SystemItem Class="Constant">XmSTRING_COMPONENT_LOCALE_TEXT</SystemItem>,
+<SystemItem Class="Constant">XmSTRING_COMPONENT_WIDECHAR_TEXT</SystemItem>,
+<SystemItem Class="Constant">XmSTRING_COMPONENT_RENDITION_BEGIN</SystemItem>,
+and
+<SystemItem Class="Constant">XmSTRING_COMPONENT_RENDITION_END</SystemItem>.
+If you specify
+<SystemItem Class="Constant">XmSTRING_COMPONENT_DIRECTION</SystemItem>
+as the first argument, then you must specify an <StructName Role="typedef">XmStringDirection</StructName>
+enumerated constant as the second argument.
+Finally, if you specify
+<SystemItem Class="Constant">XmSTRING_COMPONENT_LAYOUT_PUSH</SystemItem>
+as the first argument, then you must specify an <StructName Role="typedef">XmDirection</StructName>
+enumerated constant as the second argument.
+</Para>
+<Para>The compound string components
+<SystemItem Class="Constant">XmSTRING_COMPONENT_RENDITION_BEGIN</SystemItem>, and
+<SystemItem Class="Constant">XmSTRING_COMPONENT_RENDITION_END</SystemItem> take, for their argument, the
+"tag," or name, of a rendition from the current render table. See the
+following section for more information about how to specify a render
+table.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>COMPOUND_STRING_TABLE(</Literal><Literal>string_expression</Literal>[,...]<Literal>)</Literal></Term>
+<ListItem>
+<Para>A compound string table is an array
+of compound strings. Objects requiring a list of string values, such
+as the <SystemItem Class="Resource">XmNitems</SystemItem> and <SystemItem Class="Resource">XmNselectedItems</SystemItem>
+arguments for the list widget, use string table values. The
+<Symbol>COMPOUND_STRING_TABLE</Symbol> function builds the values
+for these two arguments of the list widget. The <Symbol>COMPOUND_STRING_TABLE</Symbol>
+function generates a value of type <Symbol Role="Variable">string_table</Symbol>.
+The name <Symbol>STRING_TABLE</Symbol> is a synonym for <Symbol>COMPOUND_STRING_TABLE</Symbol>.
+</Para>
+<Para>The strings inside the string table must be simple strings, which the UIL
+compiler automatically converts to compound strings.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ASCIZ_STRING_TABLE(</Literal><Literal>string_expression</Literal>[,...]<Literal>)</Literal></Term>
+<ListItem>
+<Para>An ASCIZ string table is an array of ASCIZ (null-terminated) string
+values separated by commas. This function allows you to pass more than one
+ASCIZ string as a callback tag value. The <Symbol>ASCIZ_STRING_TABLE</Symbol> function
+generates a value
+of type
+<Literal>asciz_table</Literal>.
+The name <Symbol>ASCIZ_TABLE</Symbol> is a synonym for <Symbol>ASCIZ_STRING_TABLE</Symbol>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>WIDE_CHARACTER(</Literal><Literal>string_expression</Literal><Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>wide character strings</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>wide character strings</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>wide character strings</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>WIDE_CHARACTER</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>wide character strings</Primary>
+<Secondary>defining in UIL</Secondary>
+</IndexTerm>
+<Para>Use the <Symbol>WIDE_CHARACTER</Symbol> function to generate a wide character
+string from null-terminated string in the current locale.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>CLASS_REC_NAME(</Literal><Literal>string_expression</Literal><Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>widget class names</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>widget class names</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>widget class names</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>CLASS_REC_NAME</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>widget class names</Primary>
+<Secondary>defining in UIL</Secondary>
+</IndexTerm>
+<Para>Use the <Symbol>CLASS_REC_NAME</Symbol> function to generate a widget class name.
+For a widget class defined by the toolkit, the string argument is the
+name of the class.
+For a user-defined widget, the string argument is the name of the
+creation routine for the widget.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>INTEGER_TABLE(</Literal><Symbol Role="Variable">integer_expression</Symbol>[,...]<Literal>)</Literal></Term>
+<ListItem>
+<Para>An integer table is an array of integer values separated by commas.
+This function allows you to pass more than one integer per callback
+tag value.
+The <Symbol>INTEGER_TABLE</Symbol> function generates a value of type
+<Literal>integer_table</Literal>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>ARGUMENT(</Literal><Literal>string_expression</Literal>[,&ensp;<Symbol Role="Variable">argument_type</Symbol>]<Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>argument values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>argument values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>argument values</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>ARGUMENT</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Argument values</Primary>
+<Secondary>defining in UIL</Secondary>
+</IndexTerm>
+<Para>The <Symbol>ARGUMENT</Symbol> function defines the arguments to a user-defined widget.
+Each of the objects that can be described by UIL permits a set of arguments,
+listed in Appendix B. For example,
+<SystemItem Class="Resource">XmNheight</SystemItem>
+is an argument to most objects and has an integer data type. To specify
+height for a user-defined widget, you can use the built-in argument
+name
+<SystemItem Class="Resource">XmNheight</SystemItem>,
+and specify an integer value when you declare the user-defined widget.
+You do not use the <Symbol>ARGUMENT</Symbol> function to specify arguments that are
+built into the UIL compiler.
+</Para>
+<Para>The <Literal>string_expression</Literal> name
+is the
+name the UIL compiler uses for the argument in the UID file.
+<Symbol Role="Variable">argument_type</Symbol>
+is the type of value that can be
+associated with the argument. If you omit the second argument, the default
+type is
+<Symbol>ANY</Symbol>
+and no value type checking occurs. Use one of the following keywords
+to specify the argument type:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>ANY
+</Para>
+</ListItem>
+<ListItem>
+<Para>ASCIZ_TABLE
+</Para>
+</ListItem>
+<ListItem>
+<Para>BOOLEAN
+</Para>
+</ListItem>
+<ListItem>
+<Para>COLOR
+</Para>
+</ListItem>
+<ListItem>
+<Para>COMPOUND_STRING
+</Para>
+</ListItem>
+<ListItem>
+<Para>FLOAT
+</Para>
+</ListItem>
+<ListItem>
+<Para>FONT
+</Para>
+</ListItem>
+<ListItem>
+<Para>FONT_TABLE
+</Para>
+</ListItem>
+<ListItem>
+<Para>FONTSET
+</Para>
+</ListItem>
+<ListItem>
+<Para>ICON
+</Para>
+</ListItem>
+<ListItem>
+<Para>INTEGER
+</Para>
+</ListItem>
+<ListItem>
+<Para>INTEGER_TABLE
+</Para>
+</ListItem>
+<ListItem>
+<Para>KEYSYM
+</Para>
+</ListItem>
+<ListItem>
+<Para>PIXMAP
+</Para>
+</ListItem>
+<ListItem>
+<Para>REASON
+</Para>
+</ListItem>
+<ListItem>
+<Para>SINGLE_FLOAT
+</Para>
+</ListItem>
+<ListItem>
+<Para>STRING
+</Para>
+</ListItem>
+<ListItem>
+<Para>STRING_TABLE
+</Para>
+</ListItem>
+<ListItem>
+<Para>TRANSLATION_TABLE
+</Para>
+</ListItem>
+<ListItem>
+<Para>WIDE_CHARACTER
+</Para>
+</ListItem>
+<ListItem>
+<Para>WIDGET
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>You can use the <Symbol>ARGUMENT</Symbol> function to allow the UIL compiler to recognize
+extensions to the Motif Toolkit. For example, an existing widget
+may accept a new argument. Using the <Symbol>ARGUMENT</Symbol> function, you can make
+this new argument available to the UIL compiler before the updated
+version of the compiler is released.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>REASON(</Literal><Literal>string_expression</Literal><Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>reason value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL Functions</Primary>
+<Secondary>reason value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>reason value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>reason value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Functions</Primary>
+<Secondary>reason value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Reason value</Primary>
+</IndexTerm>
+<Para>The <Symbol>REASON</Symbol> function is useful for defining new reasons for user-defined
+widgets.
+</Para>
+<Para>Each of the objects in the
+Motif Toolkit defines a set of conditions under which it calls a
+user-defined function. These conditions are known as callback reasons.
+The user-defined functions are termed callback procedures. In a UIL
+module, you use a callbacks list to specify which user-defined
+functions are to be called for which reasons.
+</Para>
+<Para>Appendix B lists the callback reasons
+supported by the Motif Toolkit
+objects.
+</Para>
+<Para>When you declare a user-defined widget, you can define callback reasons
+for that widget using the <Symbol>REASON</Symbol> function.
+The string expression specifies the argument name stored in the UID
+file for the reason. This reason name is supplied to the widget
+creation routine at run time.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>TRANSLATION_TABLE(</Literal><Literal>string_expression</Literal>[,...]<Literal>)</Literal></Term>
+<ListItem>
+<IndexTerm>
+<Primary>UIL</Primary>
+<Secondary>translation table value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL module</Primary>
+<Secondary>translation table value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>UIL specification file</Primary>
+<Secondary>translation table value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Functions</Primary>
+<Secondary>translation table value</Secondary>
+</IndexTerm><IndexTerm>
+<Primary>Translation table value</Primary>
+</IndexTerm>
+<Para>Each of the Motif Toolkit
+widgets has a translation table that maps
+X events (for example, mouse button 1 being pressed) to a sequence
+of actions. Through widget arguments, such as the common translations argument,
+you can specify an alternate set of events or actions for a particular widget.
+The <Symbol>TRANSLATION_TABLE</Symbol> function creates a translation table that can be used as
+the value of an argument that is of the data type <Literal>translation_table</Literal>.
+</Para>
+<Para>You can use one of the following translation table directives with the
+<Symbol>TRANSLATION_TABLE</Symbol> function: <Literal>#override</Literal>, <Literal>#augment</Literal>, or <Literal>#replace</Literal>.
+The default is <Literal>#replace</Literal>.
+If you specify one of these directives, it must be the first entry in
+the translation table.
+</Para>
+<Para>The <Literal>#override</Literal> directive causes any duplicate translations to be ignored.
+For example, if a translation for &lt;<Literal>Btn1Down</Literal>> is already defined in the
+current translations for a PushButton, the translation defined by
+<Symbol Role="Variable">new_translations</Symbol> overrides the current definition.
+If the <Literal>#augment</Literal> directive is specified, the current definition takes
+precedence.
+The <Literal>#replace</Literal> directive replaces all current translations with those
+specified in the <SystemItem Class="Resource">XmNtranslations</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!-- Add section on renditions and render tables.-->
+</RefSect2>
+<RefSect2>
+<Title>Renditions and Render Tables</Title>
+<IndexTerm>
+<Primary>Renditions</Primary>
+</IndexTerm><IndexTerm>
+<Primary>Render Tables</Primary>
+</IndexTerm>
+<Para>In addition to the string direction, each compound string carries a
+great deal of information about how its text is to be rendered. Each
+compound string contains a "tag," identifying the "rendition" to be
+used to draw that string. The rendition contains such information as
+the font, the size, the color, whether the text is to be underlined or
+crossed out, and the position and style of any tab stops. Many
+renditions are combined into a "render table," which is specified to
+any widget with the <SystemItem Class="Resource">XmNrenderTable</SystemItem> resource, and in the widget's
+<Symbol Role="Variable">controls</Symbol> list.
+</Para>
+<Para>UIL implements render tables, renditions, tab lists, and tab stops as
+a special class of objects, in a form similar to the widget
+class. These objects are not themselves widgets or gadgets, but the
+format used by UIL to specify widget resources provides a convenient
+way to specify the qualities and dependencies of these objects.
+</Para>
+<Para>For example, a render table, included in some widget's <Symbol Role="Variable">controls</Symbol>
+list, must also have a <Symbol Role="Variable">controls</Symbol> list in its specification,
+containing the names of its member renditions. Each rendition, in its
+specification, will contain an <Symbol Role="Variable">arguments</Symbol> list specifying such
+qualities as the font, the color, and whether the text is to be
+underlined. Any of the renditions may also control a tablist, which
+will itself control one or more tab stops.
+</Para>
+<Para>Please refer to the &MotifProgGd; for a complete
+description of renditions and render tables, and for an example of how
+to use them in UIL.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED INFORMATION</Title>
+<Para>&cdeman.uil;, &cdeman.Uil3;
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

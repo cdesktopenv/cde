@@ -27,7 +27,7 @@
 //%%  $TOG: mp_ptype.C /main/4 1998/03/20 14:27:56 mgreess $ 			 				
 #include <stdlib.h>
 #if defined(linux)
-# include <g++/minmax.h>
+/*# include <g++/minmax.h>*/
 #else
 # include <macros.h>
 #endif
@@ -711,7 +711,12 @@ int _Tt_ptype::
 xdr_version_required() const
 {
 	int version = _Tt_signature::xdr_version_required_( _hsigs );
-	return max(version, _Tt_signature::xdr_version_required_( _osigs ));
+//	return max(version, _Tt_signature::xdr_version_required_( _osigs ));
+	if(version > _Tt_signature::xdr_version_required_( _osigs )) {
+		return version;
+	} else {
+		return _Tt_signature::xdr_version_required_( _osigs );
+	}
 }
 
 

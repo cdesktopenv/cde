@@ -36,8 +36,15 @@
 
 #define X_INCLUDE_NETDB_H
 #define XOS_USE_XT_LOCKING
+#if defined(linux)
+#define index
+#define rindex
+#endif
 #include <X11/Xos_r.h>
-
+#if defined(linux)
+#undef index
+#undef rindex
+#endif
 static int _cache_it(_Tt_hostname_cache_ptr, _Tt_string &);
 
 // This null constructor is required by the _table_of macro:

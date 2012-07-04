@@ -159,7 +159,9 @@ static void 	register_palette_info(
 **                                                                      **
 **************************************************************************/
 
+#if !defined(linux)
 extern char     *sys_errlist[];
+#endif
 
 static Widget 	HelpDialog;
 

@@ -2183,7 +2183,7 @@ msgEdP_okCB(
      * applied successfully.  Otherwise, keep it up.
      */
     if (ChangesApplied)
-	ui_win_show(AB_msgEd_dialog, False, NULL);
+	ui_win_show(AB_msgEd_dialog, False, XtGrabNone);
 
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }
@@ -2204,7 +2204,7 @@ msgEdP_cancelCB(
     msg_editor_clear();
 
     /* Dismiss the Message Editor */
-    ui_win_show(AB_msgEd_dialog, False, NULL);
+    ui_win_show(AB_msgEd_dialog, False, XtGrabNone);
 
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }
@@ -2494,14 +2494,14 @@ msgEdP_prevent_closeCB(
         answer = msgEdP_do_auto_apply(widget, mes->current_obj,
 				      mes->current_obj);
 	if (answer == DTB_ANSWER_ACTION1)
-	    ui_win_show(AB_msgEd_dialog, False, NULL);
+	    ui_win_show(AB_msgEd_dialog, False, XtGrabNone);
     }
     else
     {   
          /* No pending changes. Just dismiss the 
 	  * Message Editor. 
 	  */
-   	ui_win_show(AB_msgEd_dialog, False, NULL);
+   	ui_win_show(AB_msgEd_dialog, False, XtGrabNone);
     }
 }
 

@@ -1,0 +1,207 @@
+<!-- $XConsortium: ClipbB.sgm /main/10 1996/09/25 10:23:42 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN87.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmClipboardCopy</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmClipboardCopy</Function></RefName>
+<RefPurpose>A clipboard function that copies a data item to temporary storage for later copying to clipboard
+<IndexTerm>
+<Primary>XmClipboardCopy</Primary>
+</IndexTerm><IndexTerm>
+<Primary>clipboard functions</Primary>
+<Secondary>XmClipboardCopy</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1988 by Massachusetts Institute of Technology-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/CutPaste.h>
+int XmClipboardCopy (<Replaceable>display, window, item_id, format_name,
+        buffer, length, private_id, data_id</Replaceable>)
+        Display <Replaceable>* display</Replaceable>;
+        Window  <Replaceable>window</Replaceable>;
+        long    <Replaceable>item_id</Replaceable>;
+        char    <Replaceable>* format_name</Replaceable>;
+        XtPointer       <Replaceable>buffer</Replaceable>;
+        unsigned long   <Replaceable>length</Replaceable>;
+        long    <Replaceable>private_id</Replaceable>;
+        long    <Replaceable>* data_id</Replaceable>;
+</FuncSynopsisInfo>
+<FuncDef></FuncDef>
+<void>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmClipboardCopy</Function>
+copies a data item to temporary storage.
+The data item is moved from temporary storage
+to the clipboard data structure when a
+call to <Function>XmClipboardEndCopy</Function> is made.
+Additional calls to <Function>XmClipboardCopy</Function> before a call to
+<Function>XmClipboardEndCopy</Function> add
+additional data item formats to the same data item or
+append data to an existing format. Formats are described in the
+<Emphasis>Inter-Client Communication Conventions Manual</Emphasis> (ICCCM) as targets.
+</Para>
+<Para><Literal>NOTE:</Literal> Do not call <Function>XmClipboardCopy</Function> before a call to
+<Function>XmClipboardStartCopy</Function> has been made. The latter function allocates
+temporary storage required by <Function>XmClipboardCopy</Function>.
+</Para>
+<Para>If the <Symbol Role="Variable">buffer</Symbol> argument is NULL, the data is considered
+to be passed by name.
+When data that
+has been passed by name is later requested by another application, the
+application that owns the data receives a callback with a request for
+the data. The application that owns the data must then transfer the
+data to the clipboard with the <Function>XmClipboardCopyByName</Function> function.
+When a data item that was passed by name is deleted
+from the clipboard, the application that owns the data receives a
+callback stating that the data is no longer needed.
+</Para>
+<Para>For information on the callback function, see the callback argument
+description for <Function>XmClipboardStartCopy</Function>.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">display</Symbol></Term>
+<ListItem>
+<Para>Specifies a pointer to the <StructName Role="typedef">Display</StructName> structure that was returned in a
+previous call to <Function>XOpenDisplay</Function> or <Function>XtDisplay</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">window</Symbol></Term>
+<ListItem>
+<Para>Specifies the window ID of a widget that relates the application window to the
+clipboard. The widget's window ID can be obtained through
+<Function>XtWindow</Function>.
+The same application instance should pass the same window ID to each of the
+clipboard functions that it calls.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">item_id</Symbol></Term>
+<ListItem>
+<Para>Specifies the number assigned to this data item.
+This number was returned by a previous call to
+<Function>XmClipboardStartCopy</Function>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">format_name</Symbol></Term>
+<ListItem>
+<Para>Specifies the name of the format in which the data item
+is stored on the clipboard. The format was known as target in the ICCCM.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">buffer</Symbol></Term>
+<ListItem>
+<Para>Specifies the buffer from which the clipboard copies the data.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">length</Symbol></Term>
+<ListItem>
+<Para>Specifies the
+length, in bytes,
+of the data being copied to the clipboard.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">private_id</Symbol></Term>
+<ListItem>
+<Para>Specifies the private data that the application wants
+to store with the data item.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">data_id</Symbol></Term>
+<ListItem>
+<Para>Specifies an identifying number assigned to the data item that uniquely
+identifies the data item and the format.
+This argument is required only for data that is passed by name.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<VariableList>
+<VarListEntry>
+<Term><Symbol>XmClipboardSuccess</Symbol></Term>
+<ListItem>
+<Para>The function was successful.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmClipboardLocked</Symbol></Term>
+<ListItem>
+<Para>The function failed because the clipboard was locked by another
+application. The application can continue to call the function again with
+the same parameters until the lock goes away. This gives the application
+the opportunity to ask if the user wants to keep trying or to give up
+on the operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol>XmClipboardFail</Symbol></Term>
+<ListItem>
+<Para>The function failed because <Function>XmClipboardStartCopy</Function> was not called or
+because the data item contains too many formats.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmClipboardCopyByName;,
+&cdeman.XmClipboardEndCopy;, and
+&cdeman.XmClipboardStartCopy;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

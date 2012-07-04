@@ -40,7 +40,7 @@
 //
 #include <stdlib.h>
 #if defined(linux)
-# include <g++/minmax.h>
+/*# include <g++/minmax.h>*/
 #else
 # include <macros.h>
 #endif
@@ -2050,11 +2050,17 @@ xdr_version_required() const
 	int version = TT_TYPESDB_DEFAULT_XDR_VERSION;
 	_Tt_ptype_table_cursor 	ptypes(ptable);
 	while (ptypes.next()) {
-		version = max(version, ptypes->xdr_version_required());
+		if(ptypes->xdr_version_required() > version) {
+			version = ptypes->xdr_version_required();
+		}
+//		version = max(version, ptypes->xdr_version_required());
 	}
 	_Tt_otype_table_cursor	otypes(otable);
 	while (otypes.next()) {
-		version = max(version, otypes->xdr_version_required());
+		if(otypes->xdr_version_required() > version) {
+			version = otypes->xdr_version_required();
+		}
+//		version = max(version, otypes->xdr_version_required());
 	}
 	return version;
 }

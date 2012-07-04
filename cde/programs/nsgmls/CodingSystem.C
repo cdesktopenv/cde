@@ -33,7 +33,11 @@
 #ifdef SP_SHORT_HEADERS
 #include <strstrea.h>
 #else
+#if defined(linux)
+#include <strstream>
+#else
 #include <strstream.h>
+#endif
 #endif
 #include <string.h>
 #include <sys/param.h>
@@ -78,7 +82,11 @@ String<char> OutputCodingSystem::convertOut(const StringC &str) const
   encoder->output(copy.data(), copy.size(), &stream);
   delete encoder;
   char *s = stream.str();
+#if defined(linux)
+  String<char> result(s, stream.pcount());
+#else
   String<char> result(s, stream.out_waiting());
+#endif
   result += '\0';
   stream.freeze(0);
 #ifdef __lucid

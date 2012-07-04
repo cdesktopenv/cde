@@ -1,0 +1,240 @@
+<!-- $XConsortium: ResolveA.sgm /main/10 1996/09/25 10:05:27 cdedoc $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN377.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmResolveAllPartOffsets</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmResolveAllPartOffsets</Function></RefName>
+<RefPurpose>A function that allows writing of upward-compatible applications and widgets
+<IndexTerm>
+<Primary>XmResolveAllPartOffsets</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>void <Function>XmResolveAllPartOffsets</Function></FuncDef>
+<!--<ParamDef><Replaceable>widget_class, offset, constraint_offset</Replaceable></ParamDef>-->
+<ParamDef>WidgetClass <Parameter>widget_class</Parameter></ParamDef>
+<ParamDef>XmOffsetPtr <Parameter>* offset</Parameter></ParamDef>
+<ParamDef>XmOffsetPtr <Parameter>* constraint_offset</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Note>
+<Para><!-- dd: can't reference Xme from Xopen spec --><![ %CDE.C.CDE; [This routine is obsolete and exists for compatibility with previous
+releases. You should call <Function>XmeResolvePartOffsets</Function> instead.
+]]>
+</Para>
+</Note>
+<Para>The use of offset records requires two extra global variables per widget
+class.
+The variables consist of pointers to arrays of offsets into the
+widget record and constraint record for each part of the widget
+structure.
+The <Function>XmResolveAllPartOffsets</Function> function
+allocates the offset records needed by an application to guarantee
+upward-compatible access to widget instance and constraint records by
+applications and widgets.
+These offset records are used by the widget to access all of the
+widget's variables.
+A widget needs to take the steps described in the following paragraphs.
+</Para>
+<Para>Instead of creating a resource list, the widget creates an offset
+resource list.
+To accomplish this, use the <StructName Role="typedef">XmPartResource</StructName>
+structure and the <SystemItem Class="Constant">XmPartOffset</SystemItem> macro.
+The <StructName Role="typedef">XmPartResource</StructName> data structure looks just like a
+resource list, but instead of having
+one integer for its offset, it has two shorts.
+This structure is put into the class record as if it were a normal resource
+list. Instead of using <Function>XtOffset</Function> for the offset, the widget uses
+<SystemItem Class="Constant">XmPartOffset</SystemItem>.
+</Para>
+<Para>If the widget is a subclass of the Constraint class and it defines
+additional constraint resources, create an offset resource list for
+the constraint part as well.
+Instead of using <Function>XtOffset</Function> for the offset,
+the widget uses <SystemItem Class="Constant">XmConstraintPartOffset</SystemItem> in the constraint resource
+list.
+</Para>
+<InformalExample>
+<ProgramListing>XmPartResource resources[] = {
+        {       BarNxyz, BarCXyz, XmRBoolean, sizeof(Boolean),
+                XmPartOffset(Bar,xyz), XmRImmediate, (XtPointer)False } };
+XmPartResource constraints[] = {
+        {       BarNmaxWidth, BarNMaxWidth,
+          XmRDimension, sizeof(Dimension),
+          XmConstraintPartOffset(Bar,max_width),
+          XmRImmediate, (XtPointer)100 } };
+</ProgramListing>
+</InformalExample>
+<Para>Instead of putting the widget size in the class record, the widget puts the
+widget part size in the same field.
+If the widget is a subclass of
+the Constraint class, instead of putting the widget constraint record
+size in the class record, the widget puts the widget constraint part size
+in the same field.
+</Para>
+<Para>Instead of putting <SystemItem Class="Constant">XtVersion</SystemItem> in the class record, the widget puts
+<SystemItem Class="Constant">XtVersionDontCheck</SystemItem> in the class record.
+</Para>
+<Para>Define a variable, of type <StructName Role="typedef">XmOffsetPtr</StructName>, to point to
+the offset record.
+If the widget is a subclass of the Constraint class, define a variable
+of type <StructName Role="typedef">XmOffsetPtr</StructName> to point to the constraint offset record.
+These can be part of the widget's class record or separate global
+variables.
+</Para>
+<Para>In class initialization, the widget calls <Function>XmResolveAllPartOffsets</Function>,
+passing it pointers to the class record, the address of the offset
+record, and the address of the constraint offset record.
+If the widget not is a subclass of the Constraint class, it should pass
+NULL as the address of the constraint offset record.
+This does several things:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Adds the superclass (which, by definition, has already been initialized)
+size field to the part size field
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the widget is a subclass of the Constraint class, adds the superclass
+constraint size field to the constraint size field
+</Para>
+</ListItem>
+<ListItem>
+<Para>Allocates an array based upon the number of superclasses
+</Para>
+</ListItem>
+<ListItem>
+<Para>If the widget is a subclass of the constraint class, allocates an array
+for the constraint offset record
+</Para>
+</ListItem>
+<ListItem>
+<Para>Fills in the offsets of all the widget parts and constraint parts with
+the appropriate values, determined by examining the size fields of all
+superclass records
+</Para>
+</ListItem>
+<ListItem>
+<Para>Uses the part offset array to modify the offset entries in the resource
+list to be real offsets, in place
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>The widget defines a constant that will be the index to its part
+structure in the offsets array.
+The value should be 1 greater than
+the index of the widget's superclass.
+Constants defined for all <SystemItem Class="Constant">Xm</SystemItem>
+widgets can be found in <Filename>XmP.h</Filename>.
+</Para>
+<InformalExample>
+<ProgramListing>&npzwc;#define BarIndex (XmBulletinBIndex + 1)
+</ProgramListing>
+</InformalExample>
+<Para>Instead of accessing fields directly, the widget must always go through
+the offset table.
+The <SystemItem Class="Constant">XmField</SystemItem> and <SystemItem Class="Constant">XmConstraintField</SystemItem> macros help you access
+these fields.
+Because the <SystemItem Class="Constant">XmPartOffset</SystemItem>, <SystemItem Class="Constant">XmConstraintPartOffset</SystemItem>,
+<SystemItem Class="Constant">XmField</SystemItem>, and <SystemItem Class="Constant">XmConstraintField</SystemItem>
+macros concatenate things, you must ensure that there is no space
+after the part argument.
+For example, the following macros do not work because of the space
+after the part (Label) argument:
+</Para>
+<InformalExample>
+<ProgramListing>XmField(w, offset, Label, text, char *)
+XmPartOffset(Label, text).
+</ProgramListing>
+</InformalExample>
+<Para>Therefore, you must not have any spaces after the part (Label)
+argument, as illustrated here:
+</Para>
+<InformalExample>
+<ProgramListing>XmField(w, offset, Label, text, char *)
+</ProgramListing>
+</InformalExample>
+<Para>You can define macros for each field to make this easier.
+Assume an integer field <Symbol Role="Variable">xyz</Symbol>:
+</Para>
+<InformalExample>
+<ProgramListing>&npzwc;#define BarXyz(w) (*(int *)(((char *) w) + &bsol;
+        offset[BarIndex] + XtOffset(BarPart,xyz)))
+</ProgramListing>
+</InformalExample>
+<Para>For constraint field <Symbol Role="Variable">max_width</Symbol>:
+</Para>
+<InformalExample>
+<ProgramListing>&npzwc;#define BarMaxWidth(w) &bsol;
+        XmConstraintField(w,constraint_offsets,Bar,max_width,Dimension)
+</ProgramListing>
+</InformalExample>
+<Para>The parameters for <Function>XmResolveAllPartOffsets</Function> are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">widget_class</Symbol></Term>
+<ListItem>
+<Para>Specifies the widget class pointer for the created widget
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">offset</Symbol></Term>
+<ListItem>
+<Para>Returns the offset record
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">constraint_offset</Symbol></Term>
+<ListItem>
+<Para>Returns the constraint offset record
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RELATED INFORMATION</Title>
+<Para>&cdeman.XmResolvePartOffsets;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

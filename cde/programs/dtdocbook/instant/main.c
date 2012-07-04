@@ -134,12 +134,24 @@ static char  locale[] = "C.ISO-8859-1";
 char        *newLocale;
 int          execVer;
 int          compVer;
+int          ret;
 
-if ((_DtLcxOpenAllDbs(&myDb) != 0) ||
-    (_DtXlateGetXlateEnv(myDb,myPlatform,&execVer,&compVer) != 0)) {
+if ((_DtLcxOpenAllDbs(&myDb) != 0)) {
     fprintf(stderr,
-            "Warning: could not open locale translation database.\n");
+            "Warning: could not open databases.\n");
     exit(1);
+}
+
+ret = _DtXlateGetXlateEnv(myDb,myPlatform,&execVer,&compVer);
+if (ret != 0) {
+    fprintf(stderr,
+            "Warning: could not open locale translation database. %d\n", ret);
+
+/* HACK For some reason on linux this function fails, but isn't completely fatal */
+#if !defined(linux)
+    exit(1);
+#endif
+
 }
 
 if (_DtLcxXlateStdToOp(myDb,
@@ -308,11 +320,13 @@ static char *UnEscapeI18NChars(
 )
 {
     unsigned char c;
-    char *buf, *to, *from;
+    char *buf;
+    unsigned char *to, *from;
 
     if (MB_CUR_MAX != 1) {
-	from = source;
-	to = buf = malloc(strlen(source)+1);
+	from = (unsigned char*)source;
+	buf = malloc(strlen(source)+1);
+        to = (unsigned char *)buf;
 	while (c = *from++) {
 	    if (c == I18N_TRIGGER) {
 		c = *from++;
@@ -437,22 +451,28 @@ static int CompareI18NStrings(ClientData clientData,
     while (*cp) {
 	if ((len = mblen(cp, MB_CUR_MAX)) == 1) {
 	    if (isalpha(*cp)) {
-		*cp = _toupper(*cp);
+		*cp = toupper(*cp);
 	    }
 	    cp++;
 	} else {
+	  if (len > 0)
 	    cp += len;
+	  else
+	    break; /* JET - we should be done here... */
 	}
     }
     cp = argv[2];
     while (*cp) {
 	if ((len = mblen(cp, MB_CUR_MAX)) == 1) {
 	    if (isalpha(*cp)) {
-		*cp = _toupper(*cp);
+		*cp = toupper(*cp);
 	    }
 	    cp++;
 	} else {
+	  if (len > 0)
 	    cp += len;
+	  else
+	    break; /* JET - we should be done here... */
 	}
     }
 
@@ -841,15 +861,17 @@ EscapeI18NChars(
     char 	*source
 )
 {
-    char *retval, *from, *to;
+    char *retval;
+    unsigned char *from, *to;
     int len;
 
     if (MB_CUR_MAX == 1) {
 	return source;
     } else {
 	/* worst case, the string will expand by a factor of 3 */
-	from = source;
-	to = retval = malloc(3 * strlen(source) + 1);
+	from = (unsigned char *)source;
+	retval = malloc(3 * strlen(source) + 1);
+	to = (unsigned char *)retval;
 	while (*from) {
 	    if ((len = mblen(from, MB_CUR_MAX)) < 0) {
 		fprintf(stderr,

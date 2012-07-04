@@ -305,7 +305,7 @@ cgenP_close_cgen_winCB(
     DtbCgenWinMainwindowInfo cgen_win =
                         (DtbCgenWinMainwindowInfo)clientData;
 
-    ui_win_show(cgen_win->mainwindow, False, NULL);
+    ui_win_show(cgen_win->mainwindow, False, XtGrabNone);
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     

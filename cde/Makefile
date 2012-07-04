@@ -6,7 +6,7 @@
           MV = mv
         MAKE = make
        NMAKE = nmake
-   WORLDOPTS = -k
+   WORLDOPTS = 
 WIN32WORLDOPTS = -i
          TOP = .
  CURRENT_DIR = .

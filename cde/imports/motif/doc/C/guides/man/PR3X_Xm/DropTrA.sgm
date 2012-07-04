@@ -1,0 +1,308 @@
+<!-- $XConsortium: DropTrA.sgm /main/10 1996/09/08 20:42:28 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN221.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmDropTransfer</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmDropTransfer</Classname></RefName>
+<RefPurpose>The DropTransfer widget class
+<IndexTerm>
+<Primary>XmDropSite</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>DropTransfer</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1991, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1991 by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/DragDrop.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>DropTransfer provides a set of resources that identifies
+the procedures and associated information required by the
+toolkit in order to process and complete a drop transaction.
+Clients should not explicitly create a DropTransfer widget.
+Instead, a client initiates a transfer by calling
+<Function>XmDropTransferStart</Function>, which initializes and returns a
+DropTransfer widget. If this function is called within an
+<SystemItem Class="Resource">XmNdropProc</SystemItem> callback, the actual transfers are initiated
+after the callback returns. Even if no data needs to be transferred,
+<Function>XmDropTransferStart</Function> needs to be called (typically with
+no arguments, or just setting <SystemItem Class="Resource">XmNtransferStatus</SystemItem>) to finish
+the drag and drop transaction.
+</Para>
+<Para>The <SystemItem Class="Resource">XmNdropTransfers</SystemItem> resource specifies a transfer
+list that describes the requested target types for the source
+data. A transfer list is an array of <StructName Role="typedef">XmDropTransferEntryRec</StructName>
+structures, each of which identifies a target type. The
+transfer list is analogous to the MULTIPLE selections capability
+defined in the <Emphasis>Inter-Client Communication Conventions Manual</Emphasis>
+(ICCCM).
+</Para>
+<Para>The DropTransfer resource, <SystemItem Class="Resource">XmNtransferProc</SystemItem>, specifies a
+transfer procedure of type XtSelectionCallbackProc that
+delivers the requested selection data. This procedure operates
+in conjunction with the underlying Xt selection capabilities and
+is called for each target in the transfer list. Additional target
+types can be requested after a transfer is initiated by calling
+the <Function>XmDropTransferAdd</Function> function.
+</Para>
+<RefSect2>
+<Title>Structures</Title>
+<Para>An <StructName Role="typedef">XmDropTransferEntry</StructName> is a pointer to the following structure of
+type <StructName Role="typedef">XmDropTransferEntryRec</StructName>, which identifies a selection
+target associated with a given drop transaction:
+</Para>
+<Synopsis>typedef struct
+{
+        XtPointer       <Symbol Role="Variable">client_data</Symbol><Literal>;
+        Atom</Literal> <Symbol Role="Variable">target</Symbol><Literal>;
+} XmDropTransferEntryRec, *XmDropTransferEntry;</Literal></Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">client_data</Symbol></Term>
+<ListItem>
+<Para>Specifies any additional information required
+by this selection target
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">target</Symbol></Term>
+<ListItem>
+<Para>Specifies a selection target associated with the drop
+operation
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Classes</Title>
+<Para>DropTransfer inherits behavior and a resource from <Classname>Object</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmDropTransferObjectClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmDropTransfer</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the
+programmer to specify data. The programmer can also set the
+resource values for the inherited classes to set attributes for
+this widget. To reference a resource by name or by class in
+a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or <SystemItem Class="Constant">XmC</SystemItem> prefix and use
+the remaining letters. To specify one of the defined values for a
+resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include
+any underscores between words). The codes in the access column
+indicate if the given resource can be set at creation time (C),
+set by using <Function>XtSetValues</Function> (S), retrieved by using
+<Function>XtGetValues</Function> (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmDropTransfer Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNdropTransfers</Entry>
+<Entry>XmCDropTransfers</Entry>
+<Entry>XmDropTransferEntryRec *</Entry>
+<Entry>NULL</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNincremental</Entry>
+<Entry>XmCIncremental</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumDropTransfers</Entry>
+<Entry>XmCNumDropTransfers</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtransferProc</Entry>
+<Entry>XmCTransferProc</Entry>
+<Entry>XtSelectionCallbackProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtransferStatus</Entry>
+<Entry>XmCTransferStatus</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmTRANSFER_SUCCESS</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdropTransfers</SystemItem></Term>
+<ListItem>
+<Para>Specifies the address of an array of drop transfer entry records. The
+drop transfer is complete when all the entries in the list have been
+processed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNincremental</SystemItem></Term>
+<ListItem>
+<Para>Specifies a Boolean value that indicates whether the transfer on the
+receiver side uses the Xt incremental selection transfer mechanism
+described in <Emphasis>X Toolkit Intrinsics&mdash;C Language Interface</Emphasis>.
+If the value is True, the receiver uses incremental transfer; if the
+value is False, the receiver uses atomic transfer.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnumDropTransfers</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of entries in <SystemItem Class="Resource">XmNdropTransfers</SystemItem>. If
+this resource is set to 0 at any time, the transfer is considered
+complete. The value of <SystemItem Class="Resource">XmNtransferStatus</SystemItem> determines the
+completion handshaking process.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtransferProc</SystemItem></Term>
+<ListItem>
+<Para>Specifies a procedure of type <Symbol>XtSelectionCallbackProc</Symbol> that
+delivers the requested selection values.
+The <Symbol Role="Variable">widget</Symbol> argument passed to this procedure is the DropTransfer
+widget.
+The selection atom passed is _MOTIF_DROP.
+For additional information on selection callback procedures, see <Emphasis>X
+Toolkit Intrinsics&mdash;C Language Interface</Emphasis>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtransferStatus</SystemItem></Term>
+<ListItem>
+<Para>Specifies the current status of the drop transfer. The client
+updates this value when the transfer ends and communicates
+the value to the initiator. The possible values are
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTRANSFER_SUCCESS</SystemItem></Term>
+<ListItem>
+<Para>The transfer succeeded.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmTRANSFER_FAILURE</SystemItem></Term>
+<ListItem>
+<Para>The transfer failed.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>DropTransfer inherits behavior and a resource from <Classname>Object</Classname>.
+For a complete description of this resource, refer
+to the <Classname>Object</Classname> reference page.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Object Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED INFORMATION</Title>
+<Para>&cdeman.Object;,
+&cdeman.XmDisplay;,
+&cdeman.XmDragContext;,
+&cdeman.XmDragIcon;,
+&cdeman.XmDropSite;,
+&cdeman.XmDropTransferAdd;, and
+&cdeman.XmDropTransferStart;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

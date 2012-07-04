@@ -91,13 +91,17 @@ void
 SmXdefMerge(Display *display)
 {
   char *xdefaults;
+  char *home;
 
  /*
   * Load .Xdefaults
   */
-  if( (xdefaults = (char *)malloc(strlen(getenv("HOME"))+12)) != NULL)  
+  if ((home = getenv("HOME")) == NULL)
+    home = "";
+
+  if( (xdefaults = (char *)malloc(strlen(home)+12)) != NULL)  
   {
-    sprintf(xdefaults,"%s/%s",getenv("HOME"),".Xdefaults");
+    sprintf(xdefaults,"%s/%s",home,".Xdefaults");
     if(access(xdefaults,R_OK) == 0)
     {
       FILE *fp;

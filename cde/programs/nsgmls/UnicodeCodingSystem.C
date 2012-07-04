@@ -39,7 +39,11 @@ extern "C" {
   void *memmove(void *, const void *, size_t);
 }
 #endif
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 
 #ifdef SP_NAMESPACE
 namespace SP_NAMESPACE {

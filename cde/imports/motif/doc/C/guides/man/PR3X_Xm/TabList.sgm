@@ -1,0 +1,84 @@
+<!-- $XConsortium: TabList.sgm /main/8 1996/09/08 21:08:47 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN457.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmTabList</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><StructName Role="typedef">XmTabList</StructName></RefName>
+<RefPurpose>Data type for a tab list
+<IndexTerm>
+<Primary>XmTabList</Primary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- HISTORY-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/Xm.h>
+XmTabList
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><StructName Role="typedef">XmTabList</StructName> is the data type for a tab list. A tab list consists
+of tab stop list entries (<StructName Role="typedef">XmTab</StructName>s). Whenever a tab component is
+encountered while an <StructName Role="typedef">XmString</StructName> is being rendered, the origin of
+the next X draw depends on the next <StructName Role="typedef">XmTab</StructName>. If a tab stop would
+cause text to overlap, the x position for the segment is reset to
+follow immediately after the end of the previous segment.
+</Para>
+<Para>Tab lists are specified in resource files with the following syntax:
+</Para>
+<Synopsis><Symbol Role="Variable">resource_spec</Symbol><Literal>:</Literal> <Symbol Role="Variable">tab</Symbol> WHITESPACE [, WHITESPACE <Symbol Role="Variable">tab</Symbol> ]*
+</Synopsis>
+<Para>The resource value string consists of one or more tabs separated by
+commas. Each <Symbol Role="Variable">tab</Symbol> identifies the value of the tab, the unit
+type, and whether the offset is relative or absolute. For example:
+</Para>
+<Synopsis><Symbol Role="Variable">tab</Symbol> := <Symbol Role="Variable">float</Symbol> [ WHITESPACE <Symbol Role="Variable">units</Symbol> ]
+<Symbol Role="Variable">float</Symbol> := [ <Symbol Role="Variable">sign</Symbol> ] [[ DIGIT]*. ]DIGIT+
+<Symbol Role="Variable">sign</Symbol> := +
+</Synopsis>
+<Para>where the presence or absence of <Symbol Role="Variable">sign</Symbol> indicates, respectively, a
+relative offset or an absolute offset. Note that negative tab values
+are not allowed. <Symbol Role="Variable">units</Symbol> indicates the unitType to use as
+described in the <Function>XmConvertUnits</Function> reference page.
+</Para>
+<Para>For example, the following specifies a tab list consisting of a one
+inch absolute tab followed by a one inch relative tab:
+</Para>
+<InformalExample>
+<ProgramListing>*tabList: 1in, +1in
+</ProgramListing>
+</InformalExample>
+<Para>For resources of type, dimension, or position, you can specify units
+as described in the <SystemItem Class="Resource">XmNunitType</SystemItem> resource of the
+<Classname>XmGadget</Classname>, <Classname>XmManager</Classname>, or <Classname>XmPrimitive</Classname> reference page.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>Refer to the &MotifProgGd; for more information about tabs and tab lists.
+&cdeman.XmTabListCopy;,
+&cdeman.XmTabListFree;,
+&cdeman.XmTabListGetTab;,
+&cdeman.XmTabListInsertTabs;,
+&cdeman.XmTabListRemoveTabs;,
+&cdeman.XmTabListReplacePositions;, and
+&cdeman.XmTabListTabCount;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

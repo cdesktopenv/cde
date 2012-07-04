@@ -1,0 +1,448 @@
+<!-- $XConsortium: PrtShell.sgm /main/12 1996/10/25 10:33:08 cdedoc $ -->
+<!-- (c) Copyright 1996 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1996 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1996 International Business Machines Corp. -->
+<!-- (c) Copyright 1996 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1996 Novell, Inc. -->
+<!-- (c) Copyright 1996 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1996 Hitachi. -->
+<RefEntry Id="CDEMOT.XmPrintShell">
+<RefMeta>
+<RefEntryTitle>XmPrintShell</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><StructName Role="typedef">XmPrintShell</StructName></RefName>
+<RefPurpose>
+a shell widget class used for printing in Motif
+</RefPurpose>
+</RefNameDiv>
+<RefSynopsisDiv>
+<Funcsynopsis Remap="ANSI">
+<FuncSynopsisInfo>#include &lt;Xm/Print.h>
+</FuncSynopsisInfo>
+<FuncDef>Boolean <function>XmIsPrintShell</function></funcDef>
+<paramDef>Widget
+</paramdef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<refsect1>
+<title>DESCRIPTION</title>
+<para>The
+<function>XmPrintShell</function>
+provides the Motif application programmer
+with an Xt widget oriented API to some of the X Print
+resources and a callback to drive the pagination.
+</para>
+<para>The
+<function>XmPrintShell</function>
+provides a simple callback to handle the
+pagination logic, and a set of resources to get and set
+common printer attributes.
+</para>
+<para>If not created on an
+<function>XPrint</function>
+connection,
+<function>XmPrintShell</function>
+behaves
+as a regular applicationShell.
+</para>
+<para>The
+<function>XmPrintShell</function>
+also initializes the <literal>Xp</literal> extension event
+handling mechanism, by registering an extension selector
+that calls
+<function>XpSelectInput</function>
+and event dispatcher for print
+and attributes <literal>Xp</literal> events, so applications can use
+<function>XtInsertEventTypeHandler</function>
+to register their own handler
+with the <literal>Xp</literal> events.
+</para>
+<refsect2>
+<title>Arguments</title>
+<para>No <function>XmCreate</function> function is provided, since this is a toplevel
+shell, most likely created thru some <literal>Xt</literal>
+shell creation routine or <function>XmPrintSetup</function>.
+</para>
+</refsect2>
+<refsect2>
+<title>Classes</title>
+<para><function>XmPrintShell</function> is a subclass of
+<function>ApplicationShell</function>; it inherits
+behavior, resources and traits from all its superclasses.
+The class pointer is <symbol role="constant">XmPrintShellWidgetClass</symbol>.
+</para>
+</refsect2>
+<refsect2>
+<title>New Resources</title>
+<InformalTable>
+<TGroup Cols="5">
+<ColSpec Colname="1" Colwidth="1.3">
+<Colspec Colname="2" Colwidth="1.3">
+<Colspec Colname="3" Colwidth="1.3">
+<Colspec Colname="4" Colwidth="1.0">
+<ColSpec Colname="5" Colwidth="0.5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmPrintShell Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry><Literal>Name</Literal></Entry>
+<Entry><Literal>Class</Literal></Entry>
+<Entry><Literal>Type</Literal></Entry>
+<Entry><Literal>Default</Literal></Entry>
+<Entry><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>XmNstartJobCallback</Symbol></Entry>
+<Entry><Symbol>XmCCallback</Symbol></Entry>
+<Entry><Symbol>XtCallbackList</Symbol></Entry>
+<Entry><Symbol>NULL</Symbol></Entry>
+<Entry><Literal>CSG</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>XmNendJobCallback</Symbol></Entry>
+<Entry><Symbol>XmCCallback</Symbol></Entry>
+<Entry><Symbol>XtCallbackList</Symbol></Entry>
+<Entry><Symbol>NULL</Symbol></Entry>
+<Entry><Literal>CSG</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>XmNpageSetupCallback</Symbol></Entry>
+<Entry><Symbol>XmCCallback</Symbol></Entry>
+<Entry><Symbol>XtCallbackList</Symbol></Entry>
+<Entry><Symbol>NULL</Symbol></Entry>
+<Entry><Literal>CSG</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>XmNminX</Symbol></Entry>
+<Entry><Symbol>XmCMinX</Symbol></Entry>
+<Entry><Literal>Dimension</Literal></Entry>
+<Entry><Literal>dynamic</Literal></Entry>
+<Entry><Literal>G</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>XmNminY</Symbol></Entry>
+<Entry><Symbol>XmCMinY</Symbol></Entry>
+<Entry><Literal>Dimension</Literal></Entry>
+<Entry><Literal>dynamic</Literal></Entry>
+<Entry><Literal>G</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>XmNmaxX</Symbol></Entry>
+<Entry><Symbol>XmCMaxX</Symbol></Entry>
+<Entry><Literal>Dimension</Literal></Entry>
+<Entry><Literal>dynamic</Literal></Entry>
+<Entry><Literal>G</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>XmNmaxY</Symbol></Entry>
+<Entry><Symbol>XmCMaxY</Symbol></Entry>
+<Entry><Literal>Dimension</Literal></Entry>
+<Entry><Literal>dynamic</Literal></Entry>
+<Entry><Literal>G</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>XmNdefaultPixmapResolution</Symbol></Entry>
+<Entry><Symbol>XmCDefaultPixmapResolution</Symbol></Entry>
+<Entry><StructName Role="typedef">unsigned short</StructName></Entry>
+<Entry><Literal>100</Literal></Entry>
+<Entry><Literal>CSG</Literal></Entry>
+</Row>
+<Row>
+<Entry><Symbol>XmNpdmNotificationCallback</Symbol></Entry>
+<Entry><Symbol>XmCCallback</Symbol></Entry>
+<Entry><Symbol>XtCallbackList</Symbol></Entry>
+<Entry><Symbol>NULL</Symbol></Entry>
+<Entry><Literal>CSG</Literal></Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">XmNstartJobCallback</symbol></Term>
+<ListItem>
+<Para>Specifies the callback driving the beginning of rendering.
+It is safe for an application to start rendering after
+this callback has been activated.
+<function>XpStartJob</function>
+must be called
+to trigger this callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">XmNendJobCallback</symbol></Term>
+<ListItem>
+<Para>Specifies the callback driving the end of rendering.
+Notify the client that all rendering has been processed
+(whether on print-to-file or regular spool).
+<function>XpEndJob</function>
+is called by the print shell to trigger this callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">XmNpageSetupCallback</symbol></Term>
+<ListItem>
+<Para>Specifies the callback driving the page layout. It is safe
+for an app to start rendering from this callback even if the
+<function>XmNstartJobCallback</function>
+is not used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">XmNminX, XmNminY, XmNmaxX, XmNmaxY</symbol></Term>
+<ListItem>
+<Para>Specify the imageable area of the page in the current
+print context. <classname>XmPrintShell</classname> also maintains a proper size at all times
+by updating its own widget dimension whenever an attribute,
+such as resolution or orientation, changes. It is sized in its
+<function>Initialize</function> routine so that the application can rely on a proper size
+before the first <function>StartPage</function> call is issued.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">XmNdefaultPixmapResolution</symbol></Term>
+<ListItem>
+<Para>Indicates the resolution in dpi (dot per inch) of
+the image files read and converted by Motif for the
+widget descendants of this shell. It is used to
+determine a scaling ratio to be applied to pixmap
+created thru regular pixmap/icon conversion of the
+following Widget resources:
+</para>
+<itemizedlist>
+<listitem>
+<para><Symbol>XmLabel</Symbol>.label*Pixmap, <Symbol>XmIconG</Symbol>.*IconPixmap
+<Symbol>XmToggleB</Symbol>.selectPixmap, <Symbol>XmPushBG</Symbol>.armPixmap,
+<Symbol>XmIconG</Symbol>.*IconMask,
+<Symbol>XmMessageBox</Symbol>.symbolPixmap,
+<Symbol>XmContainer</Symbol>.*StatePixmap, ...
+</para>
+</listitem>
+<listitem>
+<para>Leaving out the pixmap resources being used for
+tiling (XmNhighlightPixmap, XmNtopShadowPixmap,
+XmNbottomShadowPixmap, XmNbackgroundPixmap, ...)
+</para>
+</listitem>
+</itemizedlist>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">XmNpdmNotificationCallback</symbol></Term>
+<ListItem>
+<Para>A callback notifying the application about the status of the PDM (see
+XmPrintPopupPDM). A
+XmPrintShellCallbackStruct
+is used, with reason:
+</para>
+<itemizedlist>
+<listitem>
+<para><Symbol>XmCR_PDM_NONE</Symbol>: no PDM available on this display for
+the named selection (provided in detail)
+</para>
+</listitem>
+<listitem>
+<para><Symbol>XmCR_PDM_START_VXAUTH</Symbol>
+: the PDM is not authorized to connect to the video display.
+</para>
+</listitem>
+<listitem>
+<para><Symbol>XmCR_PDM_START_PXAUTH</Symbol>
+: the PDM is not authorized to connect to the print display.
+</para>
+</listitem>
+<listitem>
+<para><Symbol>XmCR_PDM_UP</Symbol>
+: the PDM is up and running
+</para>
+</listitem>
+<listitem>
+<para><Symbol>XmCR_PDM_OK</Symbol>
+: the PDM has exited with OK status
+</para>
+</listitem>
+<listitem>
+<para><Symbol>XmCR_PDM_CANCEL</Symbol>
+: the PDM has exited with CANCEL
+</para>
+</listitem>
+<listitem>
+<para><Symbol>XmCR_PDM_START_ERROR</Symbol>
+: the PDM cannot start due to some error (usually logged)
+</para>
+</listitem>
+<listitem>
+<para><Symbol>XmCR_PDM_EXIT_ERROR</Symbol>
+: the PDM has exited with an error
+</Para>
+</ListItem>
+</itemizedlist>
+</listitem>
+</VarListEntry>
+</variablelist>
+</refsect2>
+<refsect2>
+<title>Callback Information</title>
+<para>The <function>XmNstartJobCallback</function>, <function>XmNendJobCallback,</function>
+<function>XmNpageSetupCallback</function> and <function>XmNpdmNotificationCallback</function>
+operate on a <Symbol>XmPrintShellCallbackStruct</Symbol>, which is defined as follow:
+</para>
+<programlisting>
+typedef struct
+{
+    int     reason;  /* XmCR_START_JOB, XmCR_END_JOB,
+                        XmCR_PAGE_SETUP, XmCR_PDM_* */
+    XEvent  *event;
+    XPContext print_context;
+    Boolean last_page; /* in_out */
+    XtPointer detail;
+} XmPrintShellCallbackStruct;
+</programlisting>
+</refsect2>
+<refsect2>
+<title>Additional Behavior</title>
+<para>The <symbol role="variable">last_page</symbol> field
+is only meaningful when the reason is
+<Symbol>XmCR_PAGE_SETUP</Symbol>.
+</para>
+<para>The page setup callback is called with
+<symbol role="variable">last_page</symbol> <literal>False</literal> to notify the application that it has
+to get its internal layout state ready for the next
+page. Typically, a widget based application will change
+the content of a <literal>Label</literal> showing the page number, or scroll
+the content of the <literal>Text</literal> widget.
+</para>
+<para>When the application has processed its last page, it
+should set the <symbol role="variable">last_page</symbol> field in the callback struct
+to <literal>True</literal>. The callback will be called a last time after
+that with <symbol role="variable">last_page</symbol>
+<literal>False</literal> to notify the application
+that it can safely clean-up its internal state (e.g.,
+destroy widgets).
+</para>
+<para>No drawing should occur from within the callback function
+in the application, this is an Exposure event-driven
+programming model where widgets render themselves from
+their expose methods.
+</para>
+<para>The print shell calls <function>XpStartPage</function> after the
+<function>pageSetupCallback</function> returns, and <function>XpEndPage</function>
+upon reception of <function>StartPageNotify</function>.
+</para>
+</refsect2>
+</refsect1>
+<refsect1>
+<title>ERRORS/WARNINGS</title>
+<para><Symbol>XmPrintShell</Symbol> can generate the following warnings:
+</para>
+<itemizedlist>
+<listitem>
+<para><literal>Not connected to a valid X Print Server: behavior undefined.</literal>
+</para>
+</listitem>
+<listitem>
+<para><literal>Attempt to set an invalid resolution on a printer: %s</literal>
+</para>
+</listitem>
+<listitem>
+<para><literal>Attempt to set an invalid orientation on a printer: %s</literal>
+</para>
+</listitem>
+</itemizedlist>
+</refsect1>
+<refsect1>
+<title>RETURN VALUE</title>
+<para>Not applicable
+</para>
+</refsect1>
+<refsect1>
+<title>EXAMPLES</title>
+<programlisting>
+PrintOnePageCB(Widget pshell, XtPointer npages,
+/*----------*/ XmPrintSetPageCBStruct psp)
+{
+    static int cur_page = 0;
+    cur_page++;
+
+    if (! psp->last_page
+        && curPage > 1) /* no need to scroll for the first page */
+    {
+
+        XmTextScroll(ptext, prows);  /* get ready for next page */
+
+    } else {    /**** I'm done */
+
+       XtDestroyWidget(pshell);
+       XtCloseDisplay(XtDisplay(pshell));
+    }
+
+    if (cur_page == (int) n_pages) psp->last_page = True;
+}
+
+PrintOKCallback(...)
+/*-------------*/
+{
+    pshell = XmPrintSetup (widget, pbs->print_screen,
+                                   "Print", NULL, 0);
+
+    XpStartJob(XtDisplay(pshell), XPSpool);
+
+    /**** here I get the size of the shell, create my widget
+          hierarchy: a bulleting board, and then a text widget,
+          that I stuff with the video text widget buffer */
+
+    /* get the total number of pages to print */
+    /* same code as previous example to get n_pages */
+
+    /****  set up my print callback */
+    XtAddCallback(pshell,  XmNpageSetUpCallback,
+                           PrintOnePageCB, n_pages);
+}
+</programlisting>
+<para>Examples of <function>XmNdefaultPixmapResolution</function> usage:
+</para>
+<itemizedlist>
+<listitem>
+<para>An application reuses the same image sources it uses for the video interface, in XBM or XPM, to layout on its printed pages. In this case, scaling is seamless.
+</para>
+<programlisting>
+    ! icon.xpm is 30x30 pixels
+    app*dialog.pushb.labelPixmap:icon.xpm
+    ! print is 400dpi
+    app.print*form.lab.labelPixmap:icon.xpm
+    ! 120x120 pixels on the paper (auto scaling)
+</programlisting>
+</listitem>
+<listitem>
+<para>An application provides a new set of image files, for a given printer resolution (say 300). It doesn't want automatic scaling by the toolkit for that resolution, it wants scaling based on these 300dpi images for higher resolution. It creates its print shell inside using the name "printHiRes" and adds the following in its resource file:
+</para>
+<programlisting>
+    app.printHiRes.defaultPixmapResolution:300
+    ! icon300.xpm is 120x120 pixels
+    app.printHiRes*form.lab.labelPixmap:icon300.xpm
+    ! 120x120 pixels on the paper (no scaling)
+</programlisting>
+</listitem>
+</itemizedlist>
+<para>This way a printer resolution of 600 will result in a scale of a
+300 dpi image by 2 (dpi=600 divided by base=300), while a printer
+resolution of 150 (using default print shell name "print") will use
+the 100 dpi icon scaled by 1.5 (dpi=150 divided by default base=100).
+</para>
+</refsect1>
+<refsect1>
+<title>SEE ALSO</title>
+<para>&cdeman.XmPrintSetup;,
+&cdeman.XmRedisplayWidget;,
+&cdeman.XmPrintToFile;,
+&cdeman.XmPrintPopupPDM;
+</para>
+</refsect1>
+</refentry>

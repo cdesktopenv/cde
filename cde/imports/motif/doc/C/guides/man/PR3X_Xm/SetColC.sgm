@@ -1,0 +1,153 @@
+<!-- $XConsortium: SetColC.sgm /main/9 1996/09/08 21:01:53 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN395.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmSetColorCalculation</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Function>XmSetColorCalculation</Function></RefName>
+<RefPurpose>A function to set the procedure used for default color calculation
+<IndexTerm>
+<Primary>XmSetColorCalculation</Primary>
+</IndexTerm><IndexTerm>
+<Primary>Color functions</Primary>
+<Secondary>XmSetColorCalculation</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<FuncSynopsis>
+<FuncSynopsisInfo>#include &lt;Xm/Xm.h>
+</FuncSynopsisInfo>
+<FuncDef>XmColorProc <Function>XmSetColorCalculation</Function></FuncDef>
+<!--<ParamDef><Replaceable>color_proc</Replaceable></ParamDef>-->
+<ParamDef>XmColorProc <Parameter>color_proc</Parameter></ParamDef>
+</FuncSynopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para><Function>XmSetColorCalculation</Function> sets the procedure to calculate
+default colors.
+This procedure is used to calculate the foreground, top shadow, bottom
+shadow, and select colors on the basis of a given background color.
+If called with an argument of NULL, it restores the default procedure
+used to calculate colors.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">color_proc</Symbol></Term>
+<ListItem>
+<Para>Specifies the procedure to use for color calculation.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>Following is a description of the <StructName Role="typedef">XmColorProc</StructName> type used by
+<Function>XmSetColorCalculation</Function>:
+</Para>
+<FuncSynopsis>
+<FuncSynopsisInfo>void (*<Replaceable>color_proc</Replaceable>) (<Replaceable>background_color, foreground_color, select_color, top_shadow_color,
+bottom_shadow_color</Replaceable>)
+        XColor  <Replaceable>*background_color</Replaceable>;
+        XColor  <Replaceable>*foreground_color</Replaceable>;
+        XColor  <Replaceable>*select_color</Replaceable>;
+        XColor  <Replaceable>*top_shadow_color</Replaceable>;
+        XColor  <Replaceable>*bottom_shadow_color</Replaceable>;
+</FuncSynopsisInfo>
+<FuncDef></FuncDef>
+<void>
+</FuncSynopsis>
+<Para>Specifies the procedure used to calculate default colors.
+The procedure is passed a pointer to an <Symbol>XColor</Symbol> structure
+representing the background color.
+The <Symbol Role="Variable">pixel</Symbol>, <Symbol Role="Variable">red</Symbol>, <Symbol Role="Variable">green</Symbol>, and <Symbol Role="Variable">blue</Symbol> members of this
+structure are filled in with values that are valid for the current
+colormap.
+</Para>
+<Para>The procedure is passed pointers to <Symbol>XColor</Symbol> structures representing
+the foreground, select, top shadow, and bottom shadow colors to be
+calculated.
+The procedure calculates and fills in the <Symbol Role="Variable">red</Symbol>, <Symbol Role="Variable">green</Symbol>, and
+<Symbol Role="Variable">blue</Symbol> members of these structures.
+The procedure should not allocate color cells for any of these colors.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">background_color</Symbol></Term>
+<ListItem>
+<Para>Specifies the background color.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">foreground_color</Symbol></Term>
+<ListItem>
+<Para>Specifies the foreground color to be calculated.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">select_color</Symbol></Term>
+<ListItem>
+<Para>Specifies the select color to be calculated.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">top_shadow_color</Symbol></Term>
+<ListItem>
+<Para>Specifies the top shadow color to be calculated.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">bottom_shadow_color</Symbol></Term>
+<ListItem>
+<Para>Specifies the bottom shadow color to be calculated.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect1>
+<RefSect1>
+<Title>RETURN</Title>
+<Para>Returns the color calculation procedure that was used at the time this
+routine was called.
+</Para>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.XmChangeColor;,
+&cdeman.XmGetColors;, and
+&cdeman.XmGetColorCalculation;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

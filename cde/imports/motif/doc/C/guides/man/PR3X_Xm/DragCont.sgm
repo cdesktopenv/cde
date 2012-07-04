@@ -1,0 +1,1880 @@
+<!-- $XConsortium: DragCont.sgm /main/12 1996/09/08 20:39:46 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN206.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmDragContext</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmDragContext</Classname></RefName>
+<RefPurpose>The DragContext widget class
+<IndexTerm>
+<Primary>XmDragContext</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>DragContext</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1991, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1991 by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/DragDrop.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>DragContexts are special widgets used in drag and drop transactions.
+A DragContext is implemented as a widget, but a client does not
+explicitly create a DragContext widget. Instead, a client initiates
+a drag and drop transaction by calling <Function>XmDragStart</Function>, and this
+routine initializes and returns a DragContext widget. There is a
+unique DragContext for each drag operation. The toolkit frees a
+DragContext when a transaction is complete; therefore, an application
+programmer should not explicitly destroy a DragContext.
+</Para>
+<Para>Initiator and receiver clients both use DragContexts to track
+the state of a transaction. When the initiator and receiver of
+a transaction are in the same client, they share the same
+DragContext instance. If they are in different clients, there
+are two separate DragContexts. In this case, the initiator calls
+<Function>XmDragStart</Function> and the toolkit provides a DragContext for the
+receiver client. The only resources pertinent to the receiver
+are <SystemItem Class="Resource">XmNexportTargets</SystemItem> and <SystemItem Class="Resource">XmNnumExportTargets</SystemItem>. These
+can both be passed as arguments to the <Function>XmDropSiteRetrieve</Function>
+function to obtain information about the current drop site.
+</Para>
+<Para>In general, in order to receive data, a drop site must share at least
+one target type and operation in common with a drag source. The
+DragContext resource, <SystemItem Class="Resource">XmNexportTargets</SystemItem>, identifies the selection
+targets for the drag source. These export targets are compared with the
+<SystemItem Class="Resource">XmNimportTargets</SystemItem> resource list specified by a drop site.
+The DragContext resource, <SystemItem Class="Resource">XmNdragOperations</SystemItem>, identifies the
+valid operations that can be applied to the source data by the
+initiator. The drop site counterpart resource is
+<SystemItem Class="Resource">XmNdropSiteOperations</SystemItem>, which indicates a drop site's supported
+operations.
+</Para>
+<Para>A client uses DragIcon widgets to define the drag-over animation
+effects associated with a given drag and drop transaction.
+An initiator specifies a set of drag icons, selects a blending
+model, and sets foreground and background cursor colors with
+DragContext resources.
+</Para>
+<Para>The type of drag-over visual used to represent a drag operation
+depends on the drag protocol style. In preregister mode, the server
+is grabbed, and either a cursor or a pixmap may be used as a drag-over
+visual. In dynamic mode, drag-over visuals must be
+implemented with the X cursor. If the resulting drag protocol style is
+Drop Only or None and the <SystemItem Class="Resource">XmNdragInitiatorProtocolStyle</SystemItem> is
+<SystemItem Class="Constant">XmDRAG_DYNAMIC</SystemItem> or <SystemItem Class="Constant">XmDRAG_PREFER_DYNAMIC</SystemItem>,
+then a dynamic visual style (cursor) is used. Otherwise, a preregister
+visual style is used.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>DragContext inherits behavior and resources from <Classname>Core</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmDragContextClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmDragContext</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the
+programmer to specify data. The programmer can also set the
+resource values for the inherited classes to set attributes for
+this widget. To reference a resource by name or by class in
+a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">XmN</SystemItem> or <SystemItem Class="Constant">XmC</SystemItem> prefix and use
+the remaining letters. To specify one of the defined values for a
+resource in a <Filename>.Xdefaults</Filename> file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use
+the remaining letters (in either lowercase or uppercase, but include
+any underscores between words). The codes in the access column
+indicate if the given resource can be set at creation time (C),
+set by using XtSetValues (S), retrieved by using
+XtGetValues (G), or is not applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmDragContext Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNblendModel</Entry>
+<Entry>XmCBlendModel</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmBLEND_ALL</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNclientData</Entry>
+<Entry>XmCClientData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNconvertProc</Entry>
+<Entry>XmCConvertProc</Entry>
+<Entry>XtConvertSelectionIncrProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcursorBackground</Entry>
+<Entry>XmCCursorBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG
+<!-- WARNING: ghost column #6: --></Entry>
+</Row>
+<Row>
+<Entry>XmNcursorForeground</Entry>
+<Entry>XmCCursorForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdragDropFinishCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdragMotionCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdragOperations</Entry>
+<Entry>XmCDragOperations</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmDROP_COPY | XmDROP_MOVE</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdropFinishCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdropSiteEnterCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdropSiteLeaveCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNdropStartCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNexportTargets</Entry>
+<Entry>XmCExportTargets</Entry>
+<Entry>Atom *</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNincremental</Entry>
+<Entry>XmCIncremental</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinvalidCursorForeground</Entry>
+<Entry>XmCCursorForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoneCursorForeground</Entry>
+<Entry>XmCCursorForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumExportTargets</Entry>
+<Entry>XmCNumExportTargets</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNoperationChangedCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNoperationCursorIcon</Entry>
+<Entry>XmCOperationCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsourceCursorIcon</Entry>
+<Entry>XmCSourceCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNsourcePixmapIcon</Entry>
+<Entry>XmCSourcePixmapIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstateCursorIcon</Entry>
+<Entry>XmCStateCursorIcon</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopLevelEnterCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNtopLevelLeaveCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNvalidCursorForeground</Entry>
+<Entry>XmCCursorForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNblendModel</SystemItem></Term>
+<ListItem>
+<Para>Specifies which combination of DragIcons are blended to produce
+a drag-over visual.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBLEND_ALL</SystemItem></Term>
+<ListItem>
+<Para>Blends all three DragIcons: the source, state and operation icons.
+The icons are layered from top to bottom with the operation icon
+on top and the source icon on the bottom.
+The hotspot is derived from the state icon.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBLEND_STATE_SOURCE</SystemItem></Term>
+<ListItem>
+<Para>Blends the state and source icons only. The hotspot is derived
+from the state icon.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBLEND_JUST_SOURCE</SystemItem></Term>
+<ListItem>
+<Para>Specifies that only the source icon is used, which the initiator
+updates as required.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmBLEND_NONE</SystemItem></Term>
+<ListItem>
+<Para>Specifies that no drag-over visual is generated. The client
+tracks the drop site status through callback routines and updates
+the drag-over visuals as necessary.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNclientData</SystemItem></Term>
+<ListItem>
+<Para>Specifies the client data to be passed to <SystemItem Class="Resource">XmNconvertProc</SystemItem>
+when it is invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNconvertProc</SystemItem></Term>
+<ListItem>
+<Para>If <SystemItem Class="Resource">XmNincremental</SystemItem> is True, specifies a procedure of type
+<Symbol>XtConvertSelectionIncrProc</Symbol> that
+converts the source data to the format(s) requested by the receiver
+client.
+The <Symbol Role="Variable">widget</Symbol> argument passed to this procedure is the DragContext
+widget.
+The selection atom passed is _MOTIF_DROP.
+If <SystemItem Class="Resource">XmNincremental</SystemItem> is False, the procedure is an
+<Symbol>XtConvertSelectionProc</Symbol>, and should ignore the
+<Symbol Role="Variable">max_length</Symbol>, <Symbol Role="Variable">client_data</Symbol>, and <Symbol Role="Variable">request_id</Symbol> arguments and
+should handle the conversion atomically.
+Data returned by <SystemItem Class="Resource">XmNconvertProc</SystemItem> must be allocated using
+<Function>XtMalloc</Function>, and will be freed automatically by the toolkit after the
+transfer.
+For additional information on selection conversion procedures, see <Emphasis>X
+Toolkit Intrinsics&mdash;C Language Interface</Emphasis>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcursorBackground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the background pixel value of the cursor.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNcursorForeground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the foreground pixel value of the cursor when the state icon
+is not blended. This resource defaults to the foreground color of the
+widget passed to the <Function>XmDragStart</Function> function.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdragDropFinishCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are called when the transaction is
+completed. The type of the structure whose address is passed to this
+callback is <StructName Role="typedef">XmDragDropFinishCallbackStruct</StructName>. The reason sent by
+the callback is <SystemItem Class="Constant">XmCR_DRAG_DROP_FINISH</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdragMotionCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are invoked when the pointer moves.
+The type of structure whose address is passed to this callback is
+<StructName Role="typedef">XmDragMotionCallbackStruct</StructName>. The reason sent by the callback
+is <SystemItem Class="Constant">XmCR_DRAG_MOTION</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdragOperations</SystemItem></Term>
+<ListItem>
+<Para>Specifies the set of valid operations associated with an initiator
+client for a drag transaction.
+This resource is a bit mask that is formed by combining one or
+more of the following values using a bitwise operation such as
+inclusive OR (|):
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, <SystemItem Class="Constant">XmDROP_LINK</SystemItem>, <SystemItem Class="Constant">XmDROP_MOVE</SystemItem>.
+The value <SystemItem Class="Constant">XmDROP_NOOP</SystemItem> for this resource indicates that no
+operations are valid.
+For Text and TextField widgets, this resource is set to
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem> | <SystemItem Class="Constant">XmDROP_MOVE</SystemItem>; for List widgets, it is set to
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdropFinishCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are invoked when the drop
+is completed. The type of the structure whose address is passed to
+this callback is <StructName Role="typedef">XmDropFinishCallbackStruct</StructName>. The reason sent
+by the callback is <SystemItem Class="Constant">XmCR_DROP_FINISH</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdropSiteEnterCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are invoked when the pointer enters
+a drop site. The type of the structure whose address is passed to this
+callback is <StructName Role="typedef">XmDropSiteEnterCallbackStruct</StructName>. The reason sent by the
+callback is <SystemItem Class="Constant">XmCR_DROP_SITE_ENTER</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdropSiteLeaveCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are invoked when the pointer leaves
+a drop site. The type of the structure whose address is passed to this
+callback is <StructName Role="typedef">XmDropSiteLeaveCallbackStruct</StructName>. The reason sent by
+the callback is <SystemItem Class="Constant">XmCR_DROP_SITE_LEAVE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNdropStartCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are invoked when a drop is
+initiated. The type of the structure whose address is passed to this
+callback is <StructName Role="typedef">XmDropStartCallbackStruct</StructName>. The reason sent by the
+callback is <SystemItem Class="Constant">XmCR_DROP_START</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNexportTargets</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of target atoms associated with this source.
+This resource identifies the selection targets this source
+can be converted to.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNincremental</SystemItem></Term>
+<ListItem>
+<Para>Specifies a Boolean value that indicates whether the transfer on the
+initiator side uses the Xt incremental selection transfer mechanism
+described in <Emphasis>X Toolkit Intrinsics&mdash;C Language Interface</Emphasis>.
+If the value is True, the initiator uses incremental transfer; if the
+value is False, the initiator uses atomic transfer.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNinvalidCursorForeground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the foreground pixel value of the cursor when the state
+is invalid. This resource defaults to the value of the
+<SystemItem Class="Resource">XmNcursorForeground</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnoneCursorForeground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the foreground pixel value of the cursor when the state
+is none. This resource defaults to the value of the
+<SystemItem Class="Resource">XmNcursorForeground</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNnumExportTargets</SystemItem></Term>
+<ListItem>
+<Para>Specifies the number of entries in the list of export targets.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNoperationChangedCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are invoked when the drag
+is started and when the user requests that a different operation
+be applied to the drop.
+The type of the structure whose address is passed to this callback
+is <StructName Role="typedef">XmOperationChangedCallbackStruct</StructName>. The reason sent by the
+callback is <SystemItem Class="Constant">XmCR_OPERATION_CHANGED</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNoperationCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the cursor icon used to designate the type of operation
+performed by the drag transaction. If NULL, <Classname>XmScreen</Classname>
+resources provide default icons for copy, link, and move
+operations.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsourceCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the cursor icon used to represent the source when
+a dynamic visual style is used. If NULL, the
+<SystemItem Class="Resource">XmNdefaultSourceCursorIcon</SystemItem> resource of <Classname>XmScreen</Classname> provides
+a default cursor icon.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNsourcePixmapIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the pixmap icon used to represent the source when
+a preregister visual style is used. The icon is used in conjunction
+with the colormap of the widget passed to <Function>XmDragStart</Function>.
+If NULL, <SystemItem Class="Resource">XmNsourceCursorIcon</SystemItem> is used.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNstateCursorIcon</SystemItem></Term>
+<ListItem>
+<Para>Specifies the cursor icon used to designate the state of a drop site.
+If NULL, <Classname>XmScreen</Classname> resources provide default icons for a valid,
+invalid, and no drop site condition.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtopLevelEnterCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are called when the pointer enters
+a top-level window or root window (due to changing screens). The type
+of the structure whose address is passed to this callback is
+<StructName Role="typedef">XmTopLevelEnterCallbackStruct</StructName>. The reason sent by the
+callback is <SystemItem Class="Constant">XmCR_TOP_LEVEL_ENTER</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtopLevelLeaveCallback</SystemItem></Term>
+<ListItem>
+<Para>Specifies the list of callbacks that are called when the pointer
+leaves a top level window or the root window (due to changing
+screens). The type of the structure whose address is
+passed to this callback is <StructName Role="typedef">XmTopLevelLeaveCallbackStruct</StructName>. The
+reason sent by the callback is <SystemItem Class="Constant">XmCR_TOP_LEVEL_LEAVE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNvalidCursorForeground</SystemItem></Term>
+<ListItem>
+<Para>Specifies the foreground pixel value of the cursor designated as a
+valid cursor icon.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>DragContext inherits behavior and resources from the superclass
+described in the following table.
+For a complete description of each resource, refer
+to the <Classname>Core</Classname> reference page.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</RefSect2>
+<RefSect2>
+<Title>Callback Information</Title>
+<Para>Each of the DragContext callbacks has an associated callback
+structure.
+</Para>
+<Para>A pointer to the following structure is passed to the
+<SystemItem Class="Resource">XmNdragDropFinishCallback</SystemItem> callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent  *<Symbol Role="Variable">event</Symbol>;
+        Time <Symbol Role="Variable">timeStamp</Symbol>;
+}XmDragDropFinishCallbackStruct, *XmDragDropFinishCallback;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>timeStamp</Literal></Term>
+<ListItem>
+<Para>Specifies the time at which either the drag or the drop was completed
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to callbacks for
+<SystemItem Class="Resource">XmNdragMotionCallback</SystemItem>:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Time <Symbol Role="Variable">timeStamp</Symbol>;
+        unsigned char <Symbol Role="Variable">operation</Symbol>;
+        unsigned char <Symbol Role="Variable">operations</Symbol>;
+        unsigned char <Symbol Role="Variable">dropSiteStatus</Symbol>;
+        Position <Emphasis>x</Emphasis>;
+        Position <Emphasis>y</Emphasis>;
+}XmDragMotionCallbackStruct, *XmDragMotionCallback;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>timeStamp</Literal></Term>
+<ListItem>
+<Para>Specifies the timestamp of the logical event.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operation</Symbol></Term>
+<ListItem>
+<Para>Identifies an operation.
+</Para>
+<Para>If the toolkit has just called a DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem>, the
+toolkit initializes <Symbol Role="Variable">operation</Symbol> to the value of the <Symbol Role="Variable">operation</Symbol>
+member of the <StructName Role="typedef">XmDragProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdragProc</SystemItem> returns.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem> and the pointer is
+within an active drop site, the toolkit initializes <Symbol Role="Variable">operation</Symbol> by
+selecting an operation from the bitwise AND of the initial value of the
+<Symbol Role="Variable">operations</Symbol> member and the value of the DropSite's
+<SystemItem Class="Resource">XmNdropSiteOperations</SystemItem> resource.
+The toolkit searches this set first for <SystemItem Class="Constant">XmDROP_MOVE</SystemItem>, then for
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, then for <SystemItem Class="Constant">XmDROP_LINK</SystemItem>, and initializes
+<Symbol Role="Variable">operation</Symbol> to the first operation it finds in the set.
+If the toolkit finds none of these operations in the set, it initializes
+<Symbol Role="Variable">operation</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem> and the pointer is
+not within an active drop site, the toolkit initializes <Symbol Role="Variable">operation</Symbol>
+by selecting an operation from the initial value of the <Symbol Role="Variable">operations</Symbol>
+member.
+The toolkit searches this set first for <SystemItem Class="Constant">XmDROP_MOVE</SystemItem>, then for
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, then for <SystemItem Class="Constant">XmDROP_LINK</SystemItem>, and initializes
+<Symbol Role="Variable">operation</Symbol> to the first operation it finds in the set.
+If the toolkit finds none of these operations in the set, it initializes
+<Symbol Role="Variable">operation</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operations</Symbol></Term>
+<ListItem>
+<Para>Indicates the set of operations supported for the source data.
+</Para>
+<Para>If the toolkit has just called a DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem>, the
+toolkit initializes <Symbol Role="Variable">operations</Symbol> to the bitwise AND of the
+DropSite's <Symbol>XmNdropOperations</Symbol> and the value of the <Symbol Role="Variable">operations</Symbol>
+member of the <StructName Role="typedef">XmDragProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdragProc</SystemItem> returns.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem> and the user does not
+select an operation (by pressing a modifier key), the toolkit
+initializes <Symbol Role="Variable">operations</Symbol> to the value of the DragContext's
+<SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem> and the user does
+select an operation, the toolkit initializes <Symbol Role="Variable">operations</Symbol> to the
+bitwise AND of the corresponding operation and the value of the
+DragContext's <SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dropSiteStatus</Literal></Term>
+<ListItem>
+<Para>Indicates whether or not a drop site is valid.
+</Para>
+<Para>If the toolkit has just called a DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem>, the
+toolkit initializes <Literal>dropSiteStatus</Literal> to the value of the
+<Literal>dropSiteStatus</Literal> member of the <StructName Role="typedef">XmDragProcCallbackStruct</StructName> at the
+time the DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem> returns.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem>, it initializes
+<Literal>dropSiteStatus</Literal> as follows:
+the toolkit initializes <Literal>dropSiteStatus</Literal> to <SystemItem Class="Constant">XmNO_DROP_SITE</SystemItem> if
+the pointer is over an inactive drop site or is not over a drop site.
+The toolkit initializes <Literal>dropSiteStatus</Literal> to <SystemItem Class="Constant">XmDROP_SITE_VALID</SystemItem>
+if all the following conditions are met:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The pointer is over an active drop site.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The DragContext's <SystemItem Class="Resource">XmNexportTargets</SystemItem> and the DropSite's
+<SystemItem Class="Resource">XmNimportTargets</SystemItem> are compatible.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The initial value of the <Symbol Role="Variable">operation</Symbol> member is not
+<SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Otherwise, the toolkit initializes <Literal>dropSiteStatus</Literal> to
+<SystemItem Class="Constant">XmDROP_SITE_INVALID</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed for the
+<SystemItem Class="Resource">XmNdropFinishCallback</SystemItem> callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Time <Symbol Role="Variable">timeStamp</Symbol>;
+        unsigned char <Symbol Role="Variable">operation</Symbol>;
+        unsigned char <Symbol Role="Variable">operations</Symbol>;
+        unsigned char <Symbol Role="Variable">dropSiteStatus</Symbol>;
+        unsigned char <Symbol Role="Variable">dropAction</Symbol>;
+        unsigned char <Symbol Role="Variable">completionStatus</Symbol>;
+}XmDropFinishCallbackStruct, *XmDropFinishCallback;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>timeStamp</Literal></Term>
+<ListItem>
+<Para>Specifies the time at which the drop was completed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operation</Symbol></Term>
+<ListItem>
+<Para>Identifies an operation.
+</Para>
+<Para>If the pointer is over an active drop site when the drop begins, the
+toolkit initializes <Symbol Role="Variable">operation</Symbol> to the value of the <Symbol Role="Variable">operation</Symbol>
+member of the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdropProc</SystemItem> returns.
+</Para>
+<Para>If the pointer is not over an active drop site when the drop begins, the
+toolkit initializes <Symbol Role="Variable">operation</Symbol> by selecting an operation from the
+initial value of the <Symbol Role="Variable">operations</Symbol> member.
+The toolkit searches this set first for <SystemItem Class="Constant">XmDROP_MOVE</SystemItem>, then for
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, then for <SystemItem Class="Constant">XmDROP_LINK</SystemItem>, and initializes
+<Symbol Role="Variable">operation</Symbol> to the first operation it finds in the set.
+If it finds none of these operations in the set, it initializes
+<Symbol Role="Variable">operation</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operations</Symbol></Term>
+<ListItem>
+<Para>Indicates the set of operations supported for the source data.
+</Para>
+<Para>If the pointer is over an active drop site when the drop begins, the
+toolkit initializes <Symbol Role="Variable">operations</Symbol> to the bitwise AND of the
+DropSite's <Symbol>XmNdropOperations</Symbol> and the value of the <Symbol Role="Variable">operations</Symbol>
+member of the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdropProc</SystemItem> returns.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+<Para>If the pointer is not over an active drop site when the drop begins and
+if the user does not select an operation (by pressing a modifier key),
+the toolkit initializes <Symbol Role="Variable">operations</Symbol> to the value of the
+DragContext's <SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+</Para>
+<Para>If the pointer is not over an active drop site when the drop begins and
+if the user does select an operation, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to the bitwise AND of the corresponding operation and
+the value of the DragContext's <SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dropSiteStatus</Literal></Term>
+<ListItem>
+<Para>Indicates whether or not a drop site is valid.
+</Para>
+<Para>If the pointer is over an active drop site when the drop begins, the
+toolkit initializes <Literal>dropSiteStatus</Literal> to the value of the
+<Literal>dropSiteStatus</Literal> member of the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> at the
+time the DropSite's <SystemItem Class="Resource">XmNdropProc</SystemItem> returns.
+</Para>
+<Para>If the pointer is not over an active drop site when the drop begins, the
+toolkit initializes <Literal>dropSiteStatus</Literal> to <SystemItem Class="Constant">XmNO_DROP_SITE</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dropAction</Literal></Term>
+<ListItem>
+<Para>Identifies the drop action. The values are <SystemItem Class="Constant">XmDROP</SystemItem>,
+<SystemItem Class="Constant">XmDROP_CANCEL</SystemItem>, <SystemItem Class="Constant">XmDROP_HELP</SystemItem>, and <SystemItem Class="Constant">XmDROP_INTERRUPT</SystemItem>.
+The <SystemItem Class="Constant">XmDROP_INTERRUPT</SystemItem> value is currently unsupported; if
+specified, it will be interpreted as an <SystemItem Class="Constant">XmDROP_CANCEL</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>completionStatus</Literal></Term>
+<ListItem>
+<Para>An IN/OUT member that indicates the status of the drop action.
+After the last callback procedure has returned, the final value of this
+member determines what visual transition effects will be applied.
+There are two values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDROP_SUCCESS</SystemItem></Term>
+<ListItem>
+<Para>The drop was successful.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmDROP_FAILURE</SystemItem></Term>
+<ListItem>
+<Para>The drop was unsuccessful.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to callbacks for
+<SystemItem Class="Resource">XmNdropSiteEnterCallback</SystemItem>:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Time <Symbol Role="Variable">timeStamp</Symbol>;
+        unsigned char <Symbol Role="Variable">operation</Symbol>;
+        unsigned char <Symbol Role="Variable">operations</Symbol>;
+        unsigned char <Symbol Role="Variable">dropSiteStatus</Symbol>;
+        Position <Emphasis>x</Emphasis>;
+        Position <Emphasis>y</Emphasis>;
+}XmDropSiteEnterCallbackStruct, *XmDropSiteEnterCallback;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>timeStamp</Literal></Term>
+<ListItem>
+<Para>Specifies the time the crossing event occurred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operation</Symbol></Term>
+<ListItem>
+<Para>Identifies an operation.
+</Para>
+<Para>If the toolkit has just called a DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem>, the
+toolkit initializes <Symbol Role="Variable">operation</Symbol> to the value of the <Symbol Role="Variable">operation</Symbol>
+member of the <StructName Role="typedef">XmDragProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdragProc</SystemItem> returns.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem>, it initializes
+<Symbol Role="Variable">operation</Symbol> by selecting an operation from the bitwise AND of the
+initial value of the <Symbol Role="Variable">operations</Symbol> member and the value of the
+DropSite's <SystemItem Class="Resource">XmNdropSiteOperations</SystemItem> resource.
+The toolkit searches this set first for <SystemItem Class="Constant">XmDROP_MOVE</SystemItem>, then for
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, then for <SystemItem Class="Constant">XmDROP_LINK</SystemItem>, and initializes
+<Symbol Role="Variable">operation</Symbol> to the first operation it finds in the set.
+If the toolkit finds none of these operations in the set, it initializes
+<Symbol Role="Variable">operation</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operations</Symbol></Term>
+<ListItem>
+<Para>Indicates the set of operations supported for the source data.
+</Para>
+<Para>If the toolkit has just called a DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem>, the
+toolkit initializes <Symbol Role="Variable">operations</Symbol> to the bitwise AND of the
+DropSite's <Symbol>XmNdropOperations</Symbol> and the value of the <Symbol Role="Variable">operations</Symbol>
+member of the <StructName Role="typedef">XmDragProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdragProc</SystemItem> returns.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem> and the user does not
+select an operation (by pressing a modifier key), the toolkit
+initializes <Symbol Role="Variable">operations</Symbol> to the value of the DragContext's
+<SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem> and the user does
+select an operation, the toolkit initializes <Symbol Role="Variable">operations</Symbol> to the
+bitwise AND of the corresponding operation and the value of the
+DragContext's <SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dropSiteStatus</Literal></Term>
+<ListItem>
+<Para>Indicates whether or not a drop site is valid.
+</Para>
+<Para>If the toolkit has just called a DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem>, the
+toolkit initializes <Literal>dropSiteStatus</Literal> to the value of the
+<Literal>dropSiteStatus</Literal> member of the <StructName Role="typedef">XmDragProcCallbackStruct</StructName> at the
+time the DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem> returns.
+</Para>
+<Para>If the toolkit has not called <SystemItem Class="Resource">XmNdragProc</SystemItem>, it initializes
+<Literal>dropSiteStatus</Literal> to <SystemItem Class="Constant">XmDROP_SITE_VALID</SystemItem>
+if the DragContext's <SystemItem Class="Resource">XmNexportTargets</SystemItem> and the DropSite's
+<SystemItem Class="Resource">XmNimportTargets</SystemItem> are compatible and if the initial value of the
+<Symbol Role="Variable">operation</Symbol> member is not <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+Otherwise, the toolkit initializes <Literal>dropSiteStatus</Literal> to
+<SystemItem Class="Constant">XmDROP_SITE_INVALID</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>x</Emphasis></Term>
+<ListItem>
+<Para>Indicates the x-coordinate of the pointer in root window coordinates.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>y</Emphasis></Term>
+<ListItem>
+<Para>Indicates the y-coordinate of the pointer in root window coordinates.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to callbacks for
+<SystemItem Class="Resource">XmNdropSiteLeaveCallback</SystemItem>:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Time <Symbol Role="Variable">timeStamp</Symbol>;
+}XmDropSiteLeaveCallbackStruct, *XmDropSiteLeaveCallback;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>timeStamp</Literal></Term>
+<ListItem>
+<Para>Specifies the timestamp of the logical event
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed for the
+<SystemItem Class="Resource">XmNdropStartCallback</SystemItem> callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Time <Symbol Role="Variable">timeStamp</Symbol>;
+        unsigned char <Symbol Role="Variable">operation</Symbol>;
+        unsigned char <Symbol Role="Variable">operations</Symbol>;
+        unsigned char <Symbol Role="Variable">dropSiteStatus</Symbol>;
+        unsigned char <Symbol Role="Variable">dropAction</Symbol>;
+        Position <Emphasis>x</Emphasis>;
+        Position <Emphasis>y</Emphasis>;
+}XmDropStartCallbackStruct, *XmDropStartCallback;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>timeStamp</Literal></Term>
+<ListItem>
+<Para>Specifies the time at which the drag was completed.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operation</Symbol></Term>
+<ListItem>
+<Para>Identifies an operation.
+</Para>
+<Para>If the pointer is over an active drop site when the drop begins, the
+toolkit initializes <Symbol Role="Variable">operation</Symbol> to the value of the <Symbol Role="Variable">operation</Symbol>
+member of the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdropProc</SystemItem> returns.
+</Para>
+<Para>If the pointer is not over an active drop site when the drop begins, the
+toolkit initializes <Symbol Role="Variable">operation</Symbol> by selecting an operation from the
+initial value of the <Symbol Role="Variable">operations</Symbol> member.
+The toolkit searches this set first for <SystemItem Class="Constant">XmDROP_MOVE</SystemItem>, then for
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, then for <SystemItem Class="Constant">XmDROP_LINK</SystemItem>, and initializes
+<Symbol Role="Variable">operation</Symbol> to the first operation it finds in the set.
+If it finds none of these operations in the set, it initializes
+<Symbol Role="Variable">operation</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operations</Symbol></Term>
+<ListItem>
+<Para>Indicates the set of operations supported for the source data.
+</Para>
+<Para>If the pointer is over an active drop site when the drop begins, the
+toolkit initializes <Symbol Role="Variable">operations</Symbol> to the bitwise AND of the
+DropSite's <Symbol>XmNdropOperations</Symbol> and the value of the <Symbol Role="Variable">operations</Symbol>
+member of the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdropProc</SystemItem> returns.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+<Para>If the pointer is not over an active drop site when the drop begins and
+if the user does not select an operation (by pressing a modifier key),
+the toolkit initializes <Symbol Role="Variable">operations</Symbol> to the value of the
+DragContext's <SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+</Para>
+<Para>If the pointer is not over an active drop site when the drop begins and
+if the user does select an operation, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to the bitwise AND of the corresponding operation and
+the value of the DragContext's <SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dropSiteStatus</Literal></Term>
+<ListItem>
+<Para>Indicates whether or not a drop site is valid.
+</Para>
+<Para>If the pointer is over an active drop site when the drop begins, the
+toolkit initializes <Literal>dropSiteStatus</Literal> to the value of the
+<Literal>dropSiteStatus</Literal> member of the <StructName Role="typedef">XmDropProcCallbackStruct</StructName> at the
+time the DropSite's <SystemItem Class="Resource">XmNdropProc</SystemItem> returns.
+</Para>
+<Para>If the pointer is not over an active drop site when the drop begins, the
+toolkit initializes <Literal>dropSiteStatus</Literal> to <SystemItem Class="Constant">XmNO_DROP_SITE</SystemItem>.
+</Para>
+<Para>This field is invalid if the <Literal>dropAction</Literal> field is set to
+<SystemItem Class="Constant">XmDROP_CANCEL</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dropAction</Literal></Term>
+<ListItem>
+<Para>An IN/OUT member that identifies the drop action.
+The values are <SystemItem Class="Constant">XmDROP</SystemItem>, <SystemItem Class="Constant">XmDROP_CANCEL</SystemItem>, <SystemItem Class="Constant">XmDROP_HELP</SystemItem>,
+and <SystemItem Class="Constant">XmDROP_INTERRUPT</SystemItem>. The value of <Literal>dropAction</Literal> can be
+modified to change the action actually initiated.
+The value <SystemItem Class="Constant">XmDROP_INTERRUPT</SystemItem> is currently unsupported; if
+specified, it will be interpreted as an <SystemItem Class="Constant">XmDROP_CANCEL</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>x</Emphasis></Term>
+<ListItem>
+<Para>Indicates the x-coordinate of the pointer in root window coordinates.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>y</Emphasis></Term>
+<ListItem>
+<Para>Indicates the y-coordinate of the pointer in root window coordinates.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to the
+<SystemItem Class="Resource">XmNoperationChangedCallback</SystemItem> callback:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent  *<Symbol Role="Variable">event</Symbol>;
+        Time <Symbol Role="Variable">timeStamp</Symbol>;
+        unsigned char <Symbol Role="Variable">operation</Symbol>;
+        unsigned char <Symbol Role="Variable">operations</Symbol>;
+        unsigned char <Symbol Role="Variable">dropSiteStatus</Symbol>;
+}XmOperationChangedCallbackStruct, *XmOperationChangedCallback;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>timeStamp</Literal></Term>
+<ListItem>
+<Para>Specifies the time at which the crossing event occurred.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operation</Symbol></Term>
+<ListItem>
+<Para>Identifies an operation.
+</Para>
+<Para>If the toolkit has just called a DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem>, the
+toolkit initializes <Symbol Role="Variable">operation</Symbol> to the value of the <Symbol Role="Variable">operation</Symbol>
+member of the <StructName Role="typedef">XmDragProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdragProc</SystemItem> returns.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem>, and the pointer is
+within an active drop site, the toolkit initializes <Symbol Role="Variable">operation</Symbol> by
+selecting an operation from the bitwise AND of the initial value of the
+<Symbol Role="Variable">operations</Symbol> member and the value of the DropSite's
+<SystemItem Class="Resource">XmNdropSiteOperations</SystemItem> resource.
+The toolkit searches this set first for <SystemItem Class="Constant">XmDROP_MOVE</SystemItem>, then for
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, then for <SystemItem Class="Constant">XmDROP_LINK</SystemItem>, and initializes
+<Symbol Role="Variable">operation</Symbol> to the first operation it finds in the set.
+If the toolkit finds none of these operations in the set, it initializes
+<Symbol Role="Variable">operation</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem>, and the pointer is
+not within an active drop site, the toolkit initializes <Symbol Role="Variable">operation</Symbol>
+by selecting an operation from the initial value of the <Symbol Role="Variable">operations</Symbol>
+member.
+The toolkit searches this set first for <SystemItem Class="Constant">XmDROP_MOVE</SystemItem>, then for
+<SystemItem Class="Constant">XmDROP_COPY</SystemItem>, then for <SystemItem Class="Constant">XmDROP_LINK</SystemItem>, and initializes
+<Symbol Role="Variable">operation</Symbol> to the first operation it finds in the set.
+If the toolkit finds none of these operations in the set, it initializes
+<Symbol Role="Variable">operation</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">operations</Symbol></Term>
+<ListItem>
+<Para>Indicates the set of operations supported for the source data.
+</Para>
+<Para>If the toolkit has just called a DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem>, the
+toolkit initializes <Symbol Role="Variable">operations</Symbol> to the bitwise AND of the
+DropSite's <Symbol>XmNdropOperations</Symbol> and the value of the <Symbol Role="Variable">operations</Symbol>
+member of the <StructName Role="typedef">XmDragProcCallbackStruct</StructName> at the time the DropSite's
+<SystemItem Class="Resource">XmNdragProc</SystemItem> returns.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem>, and the user does not
+select an operation (by pressing a modifier key), the toolkit
+initializes <Symbol Role="Variable">operations</Symbol> to the value of the DragContext's
+<SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem>, and the user does
+select an operation, the toolkit initializes <Symbol Role="Variable">operations</Symbol> to the
+bitwise AND of the corresponding operation and the value of the
+DragContext's <SystemItem Class="Resource">XmNdragOperations</SystemItem> resource.
+If the resulting set of operations is empty, the toolkit initializes
+<Symbol Role="Variable">operations</Symbol> to <SystemItem Class="Constant">XmDROP_NOOP</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dropSiteStatus</Literal></Term>
+<ListItem>
+<Para>Indicates whether or not a drop site is valid.
+</Para>
+<Para>If the toolkit has just called a DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem>, the
+toolkit initializes <Literal>dropSiteStatus</Literal> to the value of the
+<Literal>dropSiteStatus</Literal> member of the <StructName Role="typedef">XmDragProcCallbackStruct</StructName> at the
+time the DropSite's <SystemItem Class="Resource">XmNdragProc</SystemItem> returns.
+</Para>
+<Para>If the toolkit has not called an <SystemItem Class="Resource">XmNdragProc</SystemItem> it initializes
+<Literal>dropSiteStatus</Literal> to <SystemItem Class="Constant">XmNO_DROP_SITE</SystemItem> if
+the pointer is over an inactive drop site or is not over a drop site.
+The toolkit initializes <Literal>dropSiteStatus</Literal> to <SystemItem Class="Constant">XmDROP_SITE_VALID</SystemItem>
+if all the following conditions are met:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>The pointer is over an active drop site
+</Para>
+</ListItem>
+<ListItem>
+<Para>The DragContext's <SystemItem Class="Resource">XmNexportTargets</SystemItem> and the DropSite's
+<SystemItem Class="Resource">XmNimportTargets</SystemItem> are compatible
+</Para>
+</ListItem>
+<ListItem>
+<Para>The initial value of the <Symbol Role="Variable">operation</Symbol> member is not
+<SystemItem Class="Constant">XmDROP_NOOP</SystemItem>
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>Otherwise, the toolkit initializes <Literal>dropSiteStatus</Literal> to
+<SystemItem Class="Constant">XmDROP_SITE_INVALID</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to callbacks for
+<SystemItem Class="Resource">XmNtopLevelEnterCallback</SystemItem>:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent *<Symbol Role="Variable">event</Symbol>;
+        Time <Symbol Role="Variable">timeStamp</Symbol>;
+        Screen <Symbol Role="Variable">screen</Symbol>;
+        Window <Symbol Role="Variable">window</Symbol>;
+        Position <Emphasis>x</Emphasis>;
+        Position <Emphasis>y</Emphasis>;
+        unsigned char <Symbol Role="Variable">dragProtocolStyle</Symbol>;
+}XmTopLevelEnterCallbackStruct, *XmTopLevelEnterCallback;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>timeStamp</Literal></Term>
+<ListItem>
+<Para>Specifies the timestamp of the logical event.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">screen</Symbol></Term>
+<ListItem>
+<Para>Specifies the screen associated with the top-level window or root
+window being entered.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">window</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the top-level window or root window being entered.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>x</Emphasis></Term>
+<ListItem>
+<Para>Indicates the x-coordinate of the pointer in root window coordinates.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Emphasis>y</Emphasis></Term>
+<ListItem>
+<Para>Indicates the y-coordinate of the pointer in root window coordinates.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>dragProtocolStyle</Literal></Term>
+<ListItem>
+<Para>Specifies the protocol style adopted by the initiator. The values
+are <SystemItem Class="Constant">XmDRAG_DROP_ONLY</SystemItem>, <SystemItem Class="Constant">XmDRAG_DYNAMIC</SystemItem>, <SystemItem Class="Constant">XmDRAG_NONE</SystemItem>,
+and <SystemItem Class="Constant">XmDRAG_PREREGISTER</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para>A pointer to the following structure is passed to callbacks for
+<SystemItem Class="Resource">XmNtopLevelLeaveCallback</SystemItem>:
+</Para>
+<Synopsis>typedef struct
+{
+        int <Symbol Role="Variable">reason</Symbol>;
+        XEvent  *<Symbol Role="Variable">event</Symbol>;
+        Time <Symbol Role="Variable">timeStamp</Symbol>;
+        Screen <Symbol Role="Variable">screen</Symbol>;
+        Window <Symbol Role="Variable">window</Symbol>;
+}XmTopLevelLeaveCallbackStruct, *XmTopLevelLeaveCallback;</Synopsis>
+<VariableList>
+<VarListEntry>
+<Term><Symbol Role="Variable">reason</Symbol></Term>
+<ListItem>
+<Para>Indicates why the callback was invoked
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">event</Symbol></Term>
+<ListItem>
+<Para>Points to the <Symbol>XEvent</Symbol> that triggered the callback
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>timeStamp</Literal></Term>
+<ListItem>
+<Para>Specifies the timestamp of the logical event
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">screen</Symbol></Term>
+<ListItem>
+<Para>Specifies a screen associated with the top-level window or root
+window being left
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Symbol Role="Variable">window</Symbol></Term>
+<ListItem>
+<Para>Specifies the ID of the top-level window or root window being left
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!-- Action Table for XmDragContext --></Para>
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para>The XmDragContext translations are described in the following list.
+The following key names are listed in the
+X standard key event translation table syntax.
+This format is the one used by Motif to
+specify the widget actions corresponding to a given key.
+A brief overview of the format is provided under
+&cdeman.VirtualBindings;.
+For a complete description of the format, please refer to the
+X Toolkit Instrinsics Documentation.
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><Literal>Button1&lt;Enter></Literal>:</Term>
+<ListItem>
+<Para><Action>DragMotion()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Button1&lt;Leave></Literal>:</Term>
+<ListItem>
+<Para><Action>DragMotion()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Button1&lt;Motion></Literal>:</Term>
+<ListItem>
+<Para><Action>DragMotion()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Button2&lt;Enter></Literal>:</Term>
+<ListItem>
+<Para><Action>DragMotion()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Button2&lt;Leave></Literal>:</Term>
+<ListItem>
+<Para><Action>DragMotion()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>Button2&lt;Motion></Literal>:</Term>
+<ListItem>
+<Para><Action>DragMotion()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn2Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>FinishDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Btn1Up</KeySym>:</Term>
+<ListItem>
+<Para><Action>FinishDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><Literal>Return</Literal>:</Term>
+<ListItem>
+<Para><Action>FinishDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>Key</KeySym><KeySym>osfActivate</KeySym>:</Term>
+<ListItem>
+<Para><Action>FinishDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>BtnDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>IgnoreButtons()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><KeySym>BtnUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>IgnoreButtons()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfCancel</KeySym>:</Term>
+<ListItem>
+<Para><Action>CancelDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfHelp</KeySym>:</Term>
+<ListItem>
+<Para><Action>HelpDrag()</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfUp</KeySym>:</Term>
+<ListItem>
+<Para><Action>DragKey(<Symbol Role="Define">Up</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfDown</KeySym>:</Term>
+<ListItem>
+<Para><Action>DragKey(<Symbol Role="Define">Down</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfLeft</KeySym>:</Term>
+<ListItem>
+<Para><Action>DragKey(<Symbol Role="Define">Left</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:</Literal><KeySym>Key</KeySym><KeySym>osfRight</KeySym>:</Term>
+<ListItem>
+<Para><Action>DragKey(<Symbol Role="Define">Right</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:&lt;KeyUp></Literal>:</Term>
+<ListItem>
+<Para><Action>DragKey(<Symbol Role="Define">Update</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Literal>:&lt;KeyDown></Literal>:</Term>
+<ListItem>
+<Para><Action>DragKey(<Symbol Role="Define">Update</Symbol>)</Action>
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--These translations may not directly correspond to a
+translation table.
+.VL 2i
+.LI "&bsol;*LBTransfer Motion:&bsol;*O"
+&bsol;*LDragMotion()&bsol;*O
+.LI "&bsol;*LBTransfer Release:"&bsol;*O
+&bsol;*LFinishDrag()&bsol;*O
+.zA "feature, 5750, R2.0, Added new bindings"
+.LI "&bsol;*L&lt;Return>:&bsol;*O"
+&bsol;*LFinishDrag()&bsol;*O
+.LI "&bsol;*L&lt;osfActivate>:&bsol;*O"
+&bsol;*LFinishDrag()&bsol;*O
+.zZ "feature, 5750, R2.0, Added new bindings"
+.sp .5
+.LI "&bsol;*LKCancel:&bsol;*O"
+&bsol;*LCancelDrag()&bsol;*O
+.LI "&bsol;*LKHelp:"&bsol;*O
+&bsol;*LHelpDrag()&bsol;*O
+.zA "feature, 5750, R2.0, added new actions"
+.sp .5
+.LI "&bsol;*L&lt;osfUp>:&bsol;*O"
+&bsol;*LDragKey(Up)&bsol;*O
+.LI "&bsol;*L&lt;osfDown>:&bsol;*O"
+&bsol;*LDragKey(Down)&bsol;*O
+.LI "&bsol;*L&lt;osfLeft>:&bsol;*O"
+&bsol;*LDragKey(Left)&bsol;*O
+.LI "&bsol;*L&lt;osfRight>:&bsol;*O"
+&bsol;*LDragKey(Right)&bsol;*O
+.zZ "feature, 5750, R2.0, added new actions"
+.LE
+-->
+</RefSect2>
+<RefSect2>
+<Title>Action Routines</Title>
+<Para>The XmDragContext action routines are
+</Para>
+<VariableList Remap="tight">
+<VarListEntry>
+<Term><Action>CancelDrag()</Action>:</Term>
+<ListItem>
+<Para>Cancels the drag operation and frees the associated
+DragContext.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>DragKey(</Action><StructName Role="typedef">String</StructName><Literal>)</Literal></Term>
+<ListItem>
+<Para>If the value of <StructName Role="typedef">String</StructName> is <Literal>Left</Literal>, <Literal>Right</Literal>, <Literal>Up</Literal>, or
+<Literal>Down</Literal>, this action
+moves the dragged object in the corresponding location. Any other values of
+<StructName Role="typedef">String</StructName> are ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>DragMotion()</Action>:</Term>
+<ListItem>
+<Para>Drags the selected data as the pointer is moved.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>FinishDrag()</Action>:</Term>
+<ListItem>
+<Para>Finishes the drag operation and starts the drop operation.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><Action>HelpDrag()</Action>:</Term>
+<ListItem>
+<Para>Initiates a conditional drop that enables the receiver to provide
+help information to the user. The user can cancel or continue the
+drop operation in response to this information.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Virtual Bindings</Title>
+<Para>The bindings for virtual keys are vendor specific.
+For information about bindings for virtual buttons and keys,
+see &cdeman.VirtualBindings;.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED INFORMATION</Title>
+<Para>&cdeman.Core;,
+&cdeman.XmDisplay;,
+&cdeman.XmDragCancel;,
+&cdeman.XmDragIcon;,
+&cdeman.XmDragStart;,
+&cdeman.XmDropSite;,
+&cdeman.XmDropTransfer;, and
+&cdeman.XmScreen;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

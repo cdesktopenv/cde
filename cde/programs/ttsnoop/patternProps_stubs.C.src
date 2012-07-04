@@ -40,11 +40,16 @@
  *** Add include files, types, macros, externs, and user functions here.
  ***/
 
+#if defined(linux)
+#include <strstream>
+#else
 #include <strstream.h>
+#endif
+
 #include <Tt/tttk.h>
 #include "DtTt.h"
 
-int		DtTtPatWidgetKey	= (int)DtTtPatternWidget;
+int		DtTtPatWidgetKey	= (int) (long) DtTtPatternWidget;
 int		DtTtPatInfoKey		= DtTtPatWidgetKey + 1;
 
 Tt_pattern
@@ -63,7 +68,7 @@ _DtTtPatternUpdating(
 	Tt_pattern pat
 )
 {
-	void *updating = tt_pattern_user( pat, (int)_DtTtPatternUpdating );
+	void *updating = tt_pattern_user( pat, (int) (long) _DtTtPatternUpdating );
 	if (tt_is_err( tt_ptr_error( updating ))) {
 		return False;
 	}
@@ -76,7 +81,7 @@ _DtTtPatternSetUpdating(
 	Boolean				updating
 )
 {
-	tt_pattern_user_set( pat, (int)_DtTtPatternUpdating,
+	tt_pattern_user_set( pat, (int) (long) _DtTtPatternUpdating,
 			     (void *)updating );
 }
 

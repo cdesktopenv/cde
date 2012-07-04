@@ -3490,7 +3490,7 @@ attch_edP_prevent_closeCB(
      * No pending changes OR applied existing changes, so just 
      * dismiss the Attachments Editor 
      */
-    ui_win_show(AB_attch_ed_dialog, False, NULL);
+    ui_win_show(AB_attch_ed_dialog, False, XtGrabNone);
 }
 
 static DTB_MODAL_ANSWER
@@ -3950,7 +3950,7 @@ attch_ed_okCB(
     AttchEditorSettingsRec      *ats = &attch_editor_settings_rec;
 
     attch_editor_apply(ats->cur_object);
-    ui_win_show(AB_attch_ed_dialog, False, NULL);
+    ui_win_show(AB_attch_ed_dialog, False, XtGrabNone);
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     
@@ -3971,7 +3971,7 @@ attch_ed_cancelCB(
     AttchEditorSettingsRec      *ats = &attch_editor_settings_rec;
 
     attch_editor_load(ats->cur_object);
-    ui_win_show(AB_attch_ed_dialog, False, NULL); 
+    ui_win_show(AB_attch_ed_dialog, False, XtGrabNone); 
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     

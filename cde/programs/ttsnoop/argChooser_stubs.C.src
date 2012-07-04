@@ -394,12 +394,12 @@ argOkayed(
 
     XtPointer pval;
     XtVaGetValues( instance->argChooserOkButton, XmNuserData, &pval, 0 );
-    choice = (_DtArgChooserAction)pval;
+    choice = (_DtArgChooserAction) (long) pval;
     XtVaGetValues( instance->argChooserCancelButton, XmNuserData, &pval, 0 );
     msg = (Tt_message)pval;
     pat = (Tt_pattern)pval;
     XtVaGetValues( instance->argChooserHelpButton, XmNuserData, &pval, 0 );
-    nth = (int)pval;
+    nth = (int) (long) pval;
 
     char *vtype = XmTextFieldGetString( instance->vtypeText );
     if ((vtype != 0) && (vtype[0] == '\0')) {
@@ -469,7 +469,7 @@ argHelp(
 	    (DtbArgChooserArgChooserInfo)clientData;
     XtPointer val;
     XtVaGetValues( instance->argChooserOkButton, XmNuserData, &val, 0 );
-    _DtArgChooserAction choice = (_DtArgChooserAction)val;
+    _DtArgChooserAction choice = (_DtArgChooserAction) (long) val;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {
 	case _DtArgChoosePatternArgAdd:

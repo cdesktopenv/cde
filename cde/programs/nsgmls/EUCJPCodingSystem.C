@@ -29,7 +29,11 @@
 #ifdef SP_MULTI_BYTE
 
 #include "EUCJPCodingSystem.h"
+#if defined(linux)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 
 #ifdef SP_NAMESPACE
 namespace SP_NAMESPACE {

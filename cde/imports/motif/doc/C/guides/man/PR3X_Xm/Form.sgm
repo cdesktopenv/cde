@@ -1,0 +1,1588 @@
+<!-- $XConsortium: Form.sgm /main/9 1996/09/08 20:45:00 rws $ -->
+<!-- (c) Copyright 1995 Digital Equipment Corporation. -->
+<!-- (c) Copyright 1995 Hewlett-Packard Company. -->
+<!-- (c) Copyright 1995 International Business Machines Corp. -->
+<!-- (c) Copyright 1995 Sun Microsystems, Inc. -->
+<!-- (c) Copyright 1995 Novell, Inc. -->
+<!-- (c) Copyright 1995 FUJITSU LIMITED. -->
+<!-- (c) Copyright 1995 Hitachi. -->
+
+<RefEntry Id="CDEMMA.MAN243.rsml.1">
+<RefMeta>
+<RefEntryTitle>XmForm</RefEntryTitle>
+<ManVolNum>library call</ManVolNum>
+</RefMeta>
+<RefNameDiv>
+<RefName><Classname>XmForm</Classname></RefName>
+<RefPurpose>The Form widget class
+<IndexTerm>
+<Primary>XmForm</Primary>
+</IndexTerm><IndexTerm>
+<Primary>widget class</Primary>
+<Secondary>Form</Secondary>
+</IndexTerm></RefPurpose>
+</RefNameDiv>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- **-->
+<!-- **-->
+<!-- **  (c) Copyright 1989, 1990, 1992 by Open Software Foundation, Inc.-->
+<!-- **      All Rights Reserved.-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988, 1989, by Hewlett-Packard Company-->
+<!-- **-->
+<!-- **  (c) Copyright 1987, 1988 by Digital Equipment Corporation,-->
+<!-- **      Maynard, MA.  All Rights Reserved.-->
+<!-- **-->
+<!-- **-->
+<RefSynopsisDiv>
+<Synopsis>&npzwc;#include &lt;Xm/Form.h>
+</Synopsis>
+</RefSynopsisDiv>
+<RefSect1>
+<Title>DESCRIPTION</Title>
+<Para>Form is a container widget with no input semantics of its own.
+Constraints are placed on children of the Form to define attachments
+for each of the child's four sides.
+These attachments can be to the Form, to another child widget or gadget,
+to a relative position within the Form, or to the initial position of
+the child.
+The attachments determine the layout behavior of the Form when resizing
+occurs.
+</Para>
+<Para>The default value for <SystemItem Class="Resource">XmNinitialFocus</SystemItem> is the value of
+<SystemItem Class="Resource">XmNdefaultButton</SystemItem>.
+</Para>
+<Para>Following are some important considerations in using a Form:
+</Para>
+<ItemizedList>
+<ListItem>
+<Para>Every child must have an attachment on either the left or the right.
+If initialization or <Function>XtSetValues</Function> leaves a widget without
+such an attachment, the result depends upon the value of
+<SystemItem Class="Resource">XmNrubberPositioning</SystemItem>.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNrubberPositioning</SystemItem> is False, the child is given an
+<SystemItem Class="Resource">XmNleftAttachment</SystemItem> of <SystemItem Class="Constant">XmATTACH_FORM</SystemItem> and an
+<SystemItem Class="Resource">XmNleftOffset</SystemItem> equal to its current <Emphasis>x</Emphasis> value.
+</Para>
+<Para>If <SystemItem Class="Resource">XmNrubberPositioning</SystemItem> is True, the child is given an
+<SystemItem Class="Resource">XmNleftAttachment</SystemItem> of <SystemItem Class="Constant">XmATTACH_POSITION</SystemItem> and an
+<SystemItem Class="Resource">XmNleftPosition</SystemItem> proportional to the current <Emphasis>x</Emphasis> value divided
+by the width of the Form.
+</Para>
+<Para>In either case, if the child has not been previously given an <Emphasis>x</Emphasis>
+value, its <Emphasis>x</Emphasis> value is taken to be 0 (zero), which places the child at the
+left side of the Form.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If you want to create a child without any attachments, and then
+later (for example, after creating and managing it, but before realizing it)
+give it a right attachment through <Function>XtSetValues</Function>, you must set its
+<SystemItem Class="Resource">XmNleftAttachment</SystemItem> to <SystemItem Class="Constant">XmATTACH_NONE</SystemItem> at the same time.
+</Para>
+</ListItem>
+<ListItem>
+<Para>The <SystemItem Class="Resource">XmNresizable</SystemItem> resource controls only whether a geometry request
+by the child will be granted.
+It has no effect on whether the child's size can be changed because of
+changes in geometry of the Form or of other children.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Every child has a preferred width, based on geometry requests it
+makes (whether they are granted or not).
+</Para>
+</ListItem>
+<ListItem>
+<Para>If a child has attachments on both the left and the right sides,
+its size is completely controlled by the Form.
+It can be shrunk below its preferred width or enlarged above it, if
+necessary, due to other constraints.
+In addition, the child's geometry requests to change its own width may
+be refused.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If a child has attachments on only its left or right side, it will
+always be at its preferred width (if resizable, otherwise at is current
+width).
+This may cause it to be clipped by the Form or by other children.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If a child's left (or right) attachment is set to <SystemItem Class="Constant">XmATTACH_SELF</SystemItem>, its
+corresponding left (or right) offset is forced to 0 (zero).
+The attachment is then changed to <SystemItem Class="Constant">XmATTACH_POSITION</SystemItem>, with a
+position that corresponds to the <Emphasis>x</Emphasis> value of the child's left (or
+right) edge.
+To fix the position of a side at a specific <Emphasis>x</Emphasis> value, use
+<SystemItem Class="Constant">XmATTACH_FORM</SystemItem> or <SystemItem Class="Constant">XmATTACH_OPPOSITE_FORM</SystemItem> with the <Emphasis>x</Emphasis>
+value as the left (or right) offset.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Unmapping a child has no effect on the Form except that the child
+is not mapped.
+</Para>
+</ListItem>
+<ListItem>
+<Para>Unmanaging a child unmaps it.
+If no other child is attached to it, or if all children attached to it
+and all children recursively attached to them are also all unmanaged,
+all of those children are treated as if they did not exist in
+determining the size of the Form.
+</Para>
+</ListItem>
+<ListItem>
+<Para>When using <Function>XtSetValues</Function> to change the <SystemItem Class="Resource">XmNx</SystemItem> resource of a
+child, you must simultaneously set its left attachment to either
+<SystemItem Class="Constant">XmATTACH_SELF</SystemItem> or <SystemItem Class="Constant">XmATTACH_NONE</SystemItem>.
+Otherwise, the request is not granted.
+If <SystemItem Class="Resource">XmNresizable</SystemItem> is False, the request is granted only if the
+child's size can remain the same.
+</Para>
+</ListItem>
+<ListItem>
+<Para>A left (or right) attachment of <SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem>, where
+<SystemItem Class="Resource">XmNleftWidget</SystemItem> (or <SystemItem Class="Resource">XmNrightWidget</SystemItem>) is NULL, acts like an
+attachment of <SystemItem Class="Constant">XmATTACH_FORM</SystemItem>.
+</Para>
+</ListItem>
+<ListItem>
+<Para>If an attachment is made to a widget that is not a child of the
+Form, but an ancestor of the widget is a child of the Form, the
+attachment is made to the ancestor.
+</Para>
+</ListItem>
+</ItemizedList>
+<Para>All these considerations are true of top and bottom attachments as well,
+with top acting like left, bottom acting like right, <Emphasis>y</Emphasis> acting like
+<Emphasis>x</Emphasis>, and height acting like width.
+</Para>
+<RefSect2>
+<Title>Classes</Title>
+<Para>Form inherits behavior, resources, and traits from <Classname>Core</Classname>,
+<Classname>Composite</Classname>, <Classname>Constraint</Classname>,
+<Classname>XmManager</Classname>, and <Classname>XmBulletinBoard</Classname>.
+</Para>
+<Para>The class pointer is <Symbol Role="Globalvar">xmFormWidgetClass</Symbol>.
+</Para>
+<Para>The class name is <Classname>XmForm</Classname>.
+</Para>
+</RefSect2>
+<RefSect2>
+<Title>New Resources</Title>
+<Para>The following table defines a set of widget resources used by the
+programmer to specify data. The programmer can also set the resource
+values for the inherited classes to set attributes for this widget.
+To reference a resource by name or by class in a <Filename>.Xdefaults</Filename> file,
+remove the <SystemItem Class="Constant">XmN</SystemItem> or <SystemItem Class="Constant">XmC</SystemItem> prefix and use the remaining letters.
+To specify one of the defined values for a resource in a <Filename>.Xdefaults</Filename>
+file, remove the <SystemItem Class="Constant">Xm</SystemItem> prefix and use the remaining letters (in
+either lowercase or uppercase, but include any underscores between
+words). The codes in the access column indicate if the given resource
+can be set at creation time (C), set by using <Function>XtSetValues</Function>
+(S), retrieved by using <Function>XtGetValues</Function> (G), or is not
+applicable (N/A).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmForm Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNfractionBase</Entry>
+<Entry>XmCMaxValue</Entry>
+<Entry>int</Entry>
+<Entry>100</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhorizontalSpacing</Entry>
+<Entry>XmCSpacing</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrubberPositioning</Entry>
+<Entry>XmCRubberPositioning</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNverticalSpacing</Entry>
+<Entry>XmCSpacing</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNfractionBase</SystemItem></Term>
+<ListItem>
+<Para>Specifies the denominator used in calculating the relative position of
+a child widget using <SystemItem Class="Constant">XmATTACH_POSITION</SystemItem> constraints.
+The value must not be 0 (zero).
+</Para>
+<Para>If the value of a child's <SystemItem Class="Resource">XmNleftAttachment</SystemItem> (or
+<SystemItem Class="Resource">XmNrightAttachment</SystemItem>) is <SystemItem Class="Constant">XmATTACH_POSITION</SystemItem>, the position of
+the left (or right) side of the child is relative to the left
+side of the Form and is a fraction of the width of the Form.
+This fraction is the value of the child's <SystemItem Class="Resource">XmNleftPosition</SystemItem> (or
+<SystemItem Class="Resource">XmNrightPosition</SystemItem>) resource divided by the value of the Form's
+<SystemItem Class="Resource">XmNfractionBase</SystemItem>.
+</Para>
+<Para>If the value of a child's <SystemItem Class="Resource">XmNtopAttachment</SystemItem> (or
+<SystemItem Class="Resource">XmNbottomAttachment</SystemItem>) is <SystemItem Class="Constant">XmATTACH_POSITION</SystemItem>, the position of
+the top (or bottom) side of the child is relative to the top
+side
+of the Form and is a fraction of the height of the Form.
+This fraction is the value of the child's <SystemItem Class="Resource">XmNtopPosition</SystemItem> (or
+<SystemItem Class="Resource">XmNbottomPosition</SystemItem>) resource divided by the value of the Form's
+<SystemItem Class="Resource">XmNfractionBase</SystemItem>.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNhorizontalSpacing</SystemItem></Term>
+<ListItem>
+<Para>Specifies the offset for right and left attachments. This resource is
+only used if no offset resource is specified (when attaching to a
+widget), or if no margin resource is specified (when attaching
+to the Form).
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrubberPositioning</SystemItem></Term>
+<ListItem>
+<Para>Indicates the default near (left) and top attachments for a child of the
+Form.
+(Note that whether this resource actually applies to the left or
+right side of the child and its attachment
+depends on the value of
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem>.)
+</Para>
+<Para>The default left attachment is applied whenever initialization or
+<Function>XtSetValues</Function> leaves the child without either a left or right
+attachment.
+The default top attachment is applied whenever initialization or
+<Function>XtSetValues</Function> leaves the child without either a top or bottom
+attachment.
+</Para>
+<Para>If this Boolean resource is set to False, <SystemItem Class="Resource">XmNleftAttachment</SystemItem> and
+<SystemItem Class="Resource">XmNtopAttachment</SystemItem> default to <SystemItem Class="Constant">XmATTACH_FORM</SystemItem>,
+<SystemItem Class="Resource">XmNleftOffset</SystemItem> defaults to the current <Emphasis>x</Emphasis> value of the left
+side of the child,
+and <SystemItem Class="Resource">XmNtopOffset</SystemItem> defaults to the current
+<Emphasis>y</Emphasis> value of the child.
+The effect is to position the child according to its absolute distance
+from the left or top side of the Form.
+</Para>
+<Para>If this resource is set to True, <SystemItem Class="Resource">XmNleftAttachment</SystemItem> and
+<SystemItem Class="Resource">XmNtopAttachment</SystemItem> default to <SystemItem Class="Constant">XmATTACH_POSITION</SystemItem>,
+<SystemItem Class="Resource">XmNleftPosition</SystemItem> defaults to a value proportional to the current
+<Emphasis>x</Emphasis> value of the left side of the child divided by the width of the
+Form, and <SystemItem Class="Resource">XmNtopPosition</SystemItem> defaults to a value proportional to the
+current <Emphasis>y</Emphasis> value of the child divided by the height of the Form.
+The effect is to position the child relative to the left or top
+side of the Form and in proportion to the width or height of the Form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNverticalSpacing</SystemItem></Term>
+<ListItem>
+<Para>Specifies the offset for top and bottom attachments. This resource is
+only used if no offset resource is specified (when attaching to a
+widget), or if no margin resource is specified (when attaching
+to the Form).
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in 0--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmForm Constraint Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomAttachment</Entry>
+<Entry>XmCAttachment</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmATTACH_NONE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomOffset</Entry>
+<Entry>XmCOffset</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomPosition</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomWidget</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNleftAttachment</Entry>
+<Entry>XmCAttachment</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmATTACH_NONE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNleftOffset</Entry>
+<Entry>XmCOffset</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNleftPosition</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNleftWidget</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizable</Entry>
+<Entry>XmCBoolean</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrightAttachment</Entry>
+<Entry>XmCAttachment</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmATTACH_NONE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrightOffset</Entry>
+<Entry>XmCOffset</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrightPosition</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNrightWidget</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopAttachment</Entry>
+<Entry>XmCAttachment</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmATTACH_NONE</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopOffset</Entry>
+<Entry>XmCOffset</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopPosition</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>int</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopWidget</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbottomAttachment</SystemItem></Term>
+<ListItem>
+<Para>Specifies attachment of the bottom side of the child. It can have the
+following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_NONE</SystemItem></Term>
+<ListItem>
+<Para>Do not attach the bottom side of the child.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_FORM</SystemItem></Term>
+<ListItem>
+<Para>Attach the bottom side of the child to the bottom
+side of the Form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_OPPOSITE_FORM</SystemItem></Term>
+<ListItem>
+<Para>Attach the bottom side of the child to
+the top side of the Form.
+<SystemItem Class="Resource">XmNbottomOffset</SystemItem> can be used to determine the visibility of the
+child.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem></Term>
+<ListItem>
+<Para>Attach the bottom side of the child to the top
+side of the widget or
+gadget specified in the <SystemItem Class="Resource">XmNbottomWidget</SystemItem> resource.
+If <SystemItem Class="Resource">XmNbottomWidget</SystemItem> is NULL, <SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem> is replaced by
+<SystemItem Class="Constant">XmATTACH_FORM</SystemItem>, and the child is attached to the bottom side of the
+Form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_OPPOSITE_WIDGET</SystemItem></Term>
+<ListItem>
+<Para>Attach the bottom side of the child to
+the bottom side of the widget or
+gadget specified in the <SystemItem Class="Resource">XmNbottomWidget</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_POSITION</SystemItem></Term>
+<ListItem>
+<Para>Attach the bottom side of the child to a
+position that is relative to
+the top side of the Form and in proportion to the height of the Form.
+This position is determined by the <SystemItem Class="Resource">XmNbottomPosition</SystemItem> and
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> resources.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_SELF</SystemItem></Term>
+<ListItem>
+<Para>Attach the bottom side of the child to a position
+that is proportional
+to the current <Emphasis>y</Emphasis> value of the bottom of the child divided by the
+height of the Form.
+This position is determined by the <SystemItem Class="Resource">XmNbottomPosition</SystemItem> and
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> resources.
+<SystemItem Class="Resource">XmNbottomPosition</SystemItem> is set to a value proportional to the current
+<Emphasis>y</Emphasis> value of the bottom of the child divided by the height of the
+Form.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+<!--no-op:  .rE-->
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbottomOffset</SystemItem></Term>
+<ListItem>
+<Para>Specifies the constant offset between the bottom side of the
+child and the object to which it is
+attached.
+The relationship established remains, regardless of any resizing operations
+that occur.
+When this resource is explicitly set, the value of <SystemItem Class="Resource">XmNverticalSpacing</SystemItem>
+is ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbottomPosition</SystemItem></Term>
+<ListItem>
+<Para>This resource is used to determine the position of the bottom side of
+the child when the child's <SystemItem Class="Resource">XmNbottomAttachment</SystemItem> is set to
+<SystemItem Class="Constant">XmATTACH_POSITION</SystemItem>.
+In this case the position of the bottom side of the child is relative to
+the top side of the Form and is a fraction of the height of the Form.
+This fraction is the value of the child's <SystemItem Class="Resource">XmNbottomPosition</SystemItem>
+resource divided by the value of the Form's <SystemItem Class="Resource">XmNfractionBase</SystemItem>.
+For example, if the child's <SystemItem Class="Resource">XmNbottomPosition</SystemItem> is 50, the Form's
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> is 100, and the Form's height is 200, the position
+of the bottom side of the child is 100.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNbottomWidget</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget or gadget to which
+the bottom side of the child is attached.
+This resource is used if the <SystemItem Class="Resource">XmNbottomAttachment</SystemItem> resource
+is set to either <SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem>
+or <SystemItem Class="Constant">XmATTACH_OPPOSITE_WIDGET</SystemItem>.
+</Para>
+<Para>A string-to-widget resource converter is automatically installed for use
+with this resource.
+With this converter, the widget that is to be the value of the resource
+must exist at the time the widget that has the resource is created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNleftAttachment</SystemItem></Term>
+<ListItem>
+<Para>Specifies attachment of the near (left) side of the child.
+(Note that whether this resource actually applies to the left or
+right side of the child and its attachment
+depends on the value of
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.)
+It can have the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_NONE</SystemItem></Term>
+<ListItem>
+<Para>Do not attach the left side of the child.
+If <SystemItem Class="Resource">XmNrightAttachment</SystemItem> is also <SystemItem Class="Constant">XmATTACH_NONE</SystemItem>, this value is
+ignored and the child is given a default left attachment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_FORM</SystemItem></Term>
+<ListItem>
+<Para>Attach the left side of the child to the left
+side of the Form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_OPPOSITE_FORM</SystemItem></Term>
+<ListItem>
+<Para>Attach the left side of the child to the
+right side of the Form.
+<SystemItem Class="Resource">XmNleftOffset</SystemItem> can be used to determine the visibility of the
+child.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem></Term>
+<ListItem>
+<Para>Attach the left side of the child to the right
+side of the widget or
+gadget specified in the <SystemItem Class="Resource">XmNleftWidget</SystemItem> resource.
+If <SystemItem Class="Resource">XmNleftWidget</SystemItem> is NULL, <SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem> is replaced by
+<SystemItem Class="Constant">XmATTACH_FORM</SystemItem>, and the child is attached to the left side of the
+Form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_OPPOSITE_WIDGET</SystemItem></Term>
+<ListItem>
+<Para>Attach the left side of the child to
+the left side of the widget or
+gadget specified in the <SystemItem Class="Resource">XmNleftWidget</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_POSITION</SystemItem></Term>
+<ListItem>
+<Para>Attach the left side of the child to a
+position that is relative to
+the left side of the Form and in proportion to the width of the Form.
+This position is determined by the <SystemItem Class="Resource">XmNleftPosition</SystemItem> and
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> resources.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_SELF</SystemItem></Term>
+<ListItem>
+<Para>Attach the left side of the child to a position
+that is proportional to
+the current <Emphasis>x</Emphasis> value of the left side of the child divided by the
+width of the Form.
+This position is determined by the <SystemItem Class="Resource">XmNleftPosition</SystemItem> and
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> resources.
+<SystemItem Class="Resource">XmNleftPosition</SystemItem> is set to a value proportional to the current
+<Emphasis>x</Emphasis> value of the left side of the child divided by the width of the
+Form.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNleftOffset</SystemItem></Term>
+<ListItem>
+<Para>Specifies the constant offset between the near (left) side of the
+child and the object to which it is attached.
+(Note that whether this resource actually applies to the left or
+right side of the child and its attachment
+depends on the value of
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.)
+The relationship established remains, regardless of any resizing operations
+that occur.
+When this resource is explicitly set, the value of <SystemItem Class="Resource">XmNhorizontalSpacing</SystemItem>
+is ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNleftPosition</SystemItem></Term>
+<ListItem>
+<Para>This resource is used to determine the position of the near (left) side
+of the child when the child's <SystemItem Class="Resource">XmNleftAttachment</SystemItem> is set to
+<SystemItem Class="Constant">XmATTACH_POSITION</SystemItem>.
+(Note that whether this resource actually applies to the left or
+right side of the child and its attachment
+depends on the value of
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.)
+</Para>
+<Para>In this case, the position of the left side of the child is relative to
+the left side of the Form and is a fraction of the width of the Form.
+This fraction is the value of the child's <SystemItem Class="Resource">XmNleftPosition</SystemItem> resource
+divided by the value of the Form's <SystemItem Class="Resource">XmNfractionBase</SystemItem>.
+For example, if the child's <SystemItem Class="Resource">XmNleftPosition</SystemItem> is 50, the Form's
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> is 100, and the Form's width is 200, the position
+of the left side of the child is 100.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNleftWidget</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget or gadget to which the near (left) side of the
+child is attached.
+(Note that whether this resource actually applies to the left or
+right side of the child and its attachment
+depends on the value of
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.)
+The <SystemItem Class="Resource">XmNleftWidget</SystemItem> resource is used if the <SystemItem Class="Resource">XmNleftAttachment</SystemItem>
+resource is set to either <SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem>
+or <SystemItem Class="Constant">XmATTACH_OPPOSITE_WIDGET</SystemItem>.
+</Para>
+<Para>A string-to-widget resource converter is automatically installed for use
+with this resource.
+With this converter, the widget that is to be the value of the resource
+must exist at the time the widget that has the resource is created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNresizable</SystemItem></Term>
+<ListItem>
+<Para>This Boolean resource specifies whether or not a child's request for a
+new size is (conditionally) granted by the Form.
+If this resource is set to True the request is granted if possible.
+If this resource is set to False the request is always refused.
+</Para>
+<Para>If a child has both left and right attachments, its width is completely
+controlled by the Form, regardless of the value of the child's
+<SystemItem Class="Resource">XmNresizable</SystemItem> resource.
+If a child has a left or right attachment but not both, the child's
+<SystemItem Class="Resource">XmNwidth</SystemItem> is used in setting its width if the value of the child's
+<SystemItem Class="Resource">XmNresizable</SystemItem> resource is True.
+These conditions are also true for top and bottom attachments, with
+height acting like width.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrightAttachment</SystemItem></Term>
+<ListItem>
+<Para>Specifies attachment of the far (right) side of the child.
+(Note that whether this resource actually applies to the left or
+right side of the child and its attachment
+depends on the value of
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.)
+It can have the following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_NONE</SystemItem></Term>
+<ListItem>
+<Para>Do not attach the right side of the child.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_FORM</SystemItem></Term>
+<ListItem>
+<Para>Attach the right side of the child to the right
+side of the Form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_OPPOSITE_FORM</SystemItem></Term>
+<ListItem>
+<Para>Attach the right side of the child to
+the left side of the Form.
+<SystemItem Class="Resource">XmNrightOffset</SystemItem> can be used to determine the visibility of the
+child.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem></Term>
+<ListItem>
+<Para>Attach the right side of the child to the left
+side of the widget or
+gadget specified in the <SystemItem Class="Resource">XmNrightWidget</SystemItem> resource.
+If <SystemItem Class="Resource">XmNrightWidget</SystemItem> is NULL, <SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem> is replaced by
+<SystemItem Class="Constant">XmATTACH_FORM</SystemItem>, and the child is attached to the right side of the
+Form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_OPPOSITE_WIDGET</SystemItem></Term>
+<ListItem>
+<Para>Attach the right side of the child to
+the right side of the widget or
+gadget specified in the <SystemItem Class="Resource">XmNrightWidget</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_POSITION</SystemItem></Term>
+<ListItem>
+<Para>Attach the right side of the child to a
+position that is relative to
+the left side of the Form and in proportion to the width of the Form.
+This position is determined by the <SystemItem Class="Resource">XmNrightPosition</SystemItem> and
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> resources.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_SELF</SystemItem></Term>
+<ListItem>
+<Para>Attach the right side of the child to a position
+that is proportional to
+the current <Emphasis>x</Emphasis> value of the right side of the child divided by the
+width of the Form.
+This position is determined by the <SystemItem Class="Resource">XmNrightPosition</SystemItem> and
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> resources.
+<SystemItem Class="Resource">XmNrightPosition</SystemItem> is set to a value proportional to the current
+<Emphasis>x</Emphasis> value of the right side of the child divided by the width of the
+Form.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrightOffset</SystemItem></Term>
+<ListItem>
+<Para>Specifies the constant offset between the far (right) side of the
+child and the object to which it is attached.
+(Note that whether this resource actually applies to the left or
+right side of the child and its attachment
+depends on the value of
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.)
+The relationship established remains, regardless of any resizing operations
+that occur.
+When this resource is explicitly set, the value of <SystemItem Class="Resource">XmNhorizontalSpacing</SystemItem>
+is ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrightPosition</SystemItem></Term>
+<ListItem>
+<Para>This resource is used to determine the position of the far (right) side
+of the child when the child's <SystemItem Class="Resource">XmNrightAttachment</SystemItem> is set to
+<SystemItem Class="Constant">XmATTACH_POSITION</SystemItem>.
+(Note that whether this resource actually applies to the left or
+right side of the child and its attachment
+depends on the value of
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.)
+</Para>
+<Para>In this case the position of the right side of the child is relative to
+the left side of the Form and is a fraction of the width of the Form.
+This fraction is the value of the child's <SystemItem Class="Resource">XmNrightPosition</SystemItem> resource
+divided by
+the value of the Form's <SystemItem Class="Resource">XmNfractionBase</SystemItem>.
+For example, if the child's <SystemItem Class="Resource">XmNrightPosition</SystemItem> is 50, the Form's
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> is 100, and the Form's width is 200, the position
+of the right side of the child is 100.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNrightWidget</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget or gadget
+to which the far (right) side of the child is attached.
+(Note that whether this resource actually applies to the left or
+right side of the child and its attachment
+depends on the value of
+the <SystemItem Class="Resource">XmNlayoutDirection</SystemItem> resource.)
+The <SystemItem Class="Resource">XmNrightWidget</SystemItem> resource is used if the
+<SystemItem Class="Resource">XmNrightAttachment</SystemItem> resource
+is set to either <SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem>
+or <SystemItem Class="Constant">XmATTACH_OPPOSITE_WIDGET</SystemItem>.
+</Para>
+<Para>A string-to-widget resource converter is automatically installed for use
+with this resource.
+With this converter, the widget that is to be the value of the resource
+must exist at the time the widget that has the resource is created.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtopAttachment</SystemItem></Term>
+<ListItem>
+<Para>Specifies attachment of the top side of the child. It can have
+following values:
+</Para>
+<VariableList>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_NONE</SystemItem></Term>
+<ListItem>
+<Para>Do not attach the top side of the child.
+If the <SystemItem Class="Resource">XmNbottomAttachment</SystemItem> resource
+is also <SystemItem Class="Constant">XmATTACH_NONE</SystemItem>, this value is
+ignored and the child is given a default top attachment.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_FORM</SystemItem></Term>
+<ListItem>
+<Para>Attach the top side of the child to the top side
+of the Form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_OPPOSITE_FORM</SystemItem></Term>
+<ListItem>
+<Para>Attach the top side of the child to the
+bottom side of the Form.
+<SystemItem Class="Resource">XmNtopOffset</SystemItem> can be used to determine the visibility of the
+child.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem></Term>
+<ListItem>
+<Para>Attach the top side of the child to the bottom
+side of the widget or
+gadget specified in the <SystemItem Class="Resource">XmNtopWidget</SystemItem> resource.
+If <SystemItem Class="Resource">XmNtopWidget</SystemItem> is NULL, <SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem> is replaced by
+<SystemItem Class="Constant">XmATTACH_FORM</SystemItem> and the child is attached to the top side of the
+Form.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_OPPOSITE_WIDGET</SystemItem></Term>
+<ListItem>
+<Para>Attach the top side of the child to
+the top side of the widget or
+gadget specified in the <SystemItem Class="Resource">XmNtopWidget</SystemItem> resource.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_POSITION</SystemItem></Term>
+<ListItem>
+<Para>Attach the top side of the child to a
+position that is relative to
+the top side of the Form and in proportion to the height of the Form.
+This position is determined by the <SystemItem Class="Resource">XmNtopPosition</SystemItem> and
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> resources.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Constant">XmATTACH_SELF</SystemItem></Term>
+<ListItem>
+<Para>Attach the top side of the child to a position
+that is proportional to
+the current <Emphasis>y</Emphasis> value of the child divided by the height of the
+Form.
+This position is determined by the <SystemItem Class="Resource">XmNtopPosition</SystemItem> and
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> resources.
+<SystemItem Class="Resource">XmNtopPosition</SystemItem> is set to a value proportional to the current
+<Emphasis>y</Emphasis> value of the child divided by the height of the Form.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtopOffset</SystemItem></Term>
+<ListItem>
+<Para>Specifies the constant offset between the top side of the
+child and the object to which it is
+attached.
+The relationship established remains, regardless of any resizing operations
+that occur.
+When this resource is explicitly set, the value of <SystemItem Class="Resource">XmNverticalSpacing</SystemItem>
+is ignored.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtopPosition</SystemItem></Term>
+<ListItem>
+<Para>This resource is used to determine the position of the top side of
+the child when the child's <SystemItem Class="Resource">XmNtopAttachment</SystemItem> is set to
+<SystemItem Class="Constant">XmATTACH_POSITION</SystemItem>.
+In this case, the position of the top side of the child is relative to
+the top side of the Form and is a fraction of the height of the Form.
+This fraction is the value of the child's <SystemItem Class="Resource">XmNtopPosition</SystemItem>
+resource divided by the value of the Form's <SystemItem Class="Resource">XmNfractionBase</SystemItem>.
+For example, if the child's <SystemItem Class="Resource">XmNtopPosition</SystemItem> is 50, the Form's
+<SystemItem Class="Resource">XmNfractionBase</SystemItem> is 100, and the Form's height is 200, the position
+of the top side of the child is 100.
+</Para>
+</ListItem>
+</VarListEntry>
+<VarListEntry>
+<Term><SystemItem Class="Resource">XmNtopWidget</SystemItem></Term>
+<ListItem>
+<Para>Specifies the widget or gadget to which the top
+side of the child is attached.
+This resource is used if <SystemItem Class="Resource">XmNtopAttachment</SystemItem> is
+set to a value of either <SystemItem Class="Constant">XmATTACH_WIDGET</SystemItem>
+or <SystemItem Class="Constant">XmATTACH_OPPOSITE_WIDGET</SystemItem>.
+</Para>
+<Para>A string-to-widget resource converter is automatically installed for use
+with this resource.
+With this converter, the widget that is to be the value of the resource
+must exist at the time the widget that has the resource is created.
+</Para>
+</ListItem>
+</VarListEntry>
+</VariableList>
+</RefSect2>
+<RefSect2>
+<Title>Inherited Resources</Title>
+<Para>Form inherits behavior and resources from the
+superclasses described in the following tables.
+For a complete description of each resource, refer to the
+reference page for that superclass.
+</Para>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmBulletinBoard Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNallowOverlap</Entry>
+<Entry>XmCAllowOverlap</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNautoUnmanage</Entry>
+<Entry>XmCAutoUnmanage</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonFontList</Entry>
+<Entry>XmCButtonFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbuttonRenderTable</Entry>
+<Entry>XmCButtonRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcancelButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultButton</Entry>
+<Entry>XmCWidget</Entry>
+<Entry>Widget</Entry>
+<Entry>NULL</Entry>
+<Entry>SG</Entry>
+</Row>
+<Row>
+<Entry>XmNdefaultPosition</Entry>
+<Entry>XmCDefaultPosition</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogStyle</Entry>
+<Entry>XmCDialogStyle</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNdialogTitle</Entry>
+<Entry>XmCDialogTitle</Entry>
+<Entry>XmString</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNfocusCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelFontList</Entry>
+<Entry>XmCLabelFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlabelRenderTable</Entry>
+<Entry>XmCLabelRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginHeight</Entry>
+<Entry>XmCMarginHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNmarginWidth</Entry>
+<Entry>XmCMarginWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnoResize</Entry>
+<Entry>XmCNoResize</Entry>
+<Entry>Boolean</Entry>
+<Entry>False</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNresizePolicy</Entry>
+<Entry>XmCResizePolicy</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmRESIZE_ANY</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowType</Entry>
+<Entry>XmCShadowType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>XmSHADOW_OUT</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextFontList</Entry>
+<Entry>XmCTextFontList</Entry>
+<Entry>XmFontList</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextRenderTable</Entry>
+<Entry>XmCTextRenderTable</Entry>
+<Entry>XmRenderTable</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtextTranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNunmapCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>XmManager Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowColor</Entry>
+<Entry>XmCBottomShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbottomShadowPixmap</Entry>
+<Entry>XmCBottomShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNforeground</Entry>
+<Entry>XmCForeground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhelpCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightColor</Entry>
+<Entry>XmCHighlightColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNhighlightPixmap</Entry>
+<Entry>XmCHighlightPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialFocus</Entry>
+<Entry>XmCInitialFocus</Entry>
+<Entry>Widget</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNlayoutDirection</Entry>
+<Entry>XmCLayoutDirection</Entry>
+<Entry>XmDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNnavigationType</Entry>
+<Entry>XmCNavigationType</Entry>
+<Entry>XmNavigationType</Entry>
+<Entry>XmTAB_GROUP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNpopupHandlerCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNshadowThickness</Entry>
+<Entry>XmCShadowThickness</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNstringDirection</Entry>
+<Entry>XmCStringDirection</Entry>
+<Entry>XmStringDirection</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowColor</Entry>
+<Entry>XmCTopShadowColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtopShadowPixmap</Entry>
+<Entry>XmCTopShadowPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtraversalOn</Entry>
+<Entry>XmCTraversalOn</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNunitType</Entry>
+<Entry>XmCUnitType</Entry>
+<Entry>unsigned char</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNuserData</Entry>
+<Entry>XmCUserData</Entry>
+<Entry>XtPointer</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Composite Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNchildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>WidgetList</Entry>
+<Entry>NULL</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNinsertPosition</Entry>
+<Entry>XmCInsertPosition</Entry>
+<Entry>XtOrderProc</Entry>
+<Entry>NULL</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNnumChildren</Entry>
+<Entry>XmCReadOnly</Entry>
+<Entry>Cardinal</Entry>
+<Entry>0</Entry>
+<Entry>G</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<Para><!-- --><!-- @OSF_COPYRIGHT@--><!-- COPYRIGHT NOTICE--><!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.--><!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for--><!-- the full copyright text.--><!-- --><!-- HISTORY--><!-- --><!--no-op:  .in--></Para>
+<InformalTable Frame="All" Remap="center" Orient="Port">
+<TGroup Cols="5">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="1">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="2">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="3">
+<ColSpec Rowsep="1" Colsep="1" Align="Left" Colname="4">
+<ColSpec Rowsep="1" Align="Left" Colname="5">
+<TBody>
+<Row>
+<Entry Align="Center" Nameend="5" Namest="1"><Literal>Core Resource Set</Literal></Entry>
+</Row>
+<Row>
+<Entry Rowsep="1"><Literal>Name</Literal></Entry>
+<Entry Rowsep="1"><Literal>Class</Literal></Entry>
+<Entry Rowsep="1"><Literal>Type</Literal></Entry>
+<Entry Rowsep="1"><Literal>Default</Literal></Entry>
+<Entry Rowsep="1"><Literal>Access</Literal></Entry>
+</Row>
+<Row>
+<Entry>XmNaccelerators</Entry>
+<Entry>XmCAccelerators</Entry>
+<Entry>XtAccelerators</Entry>
+<Entry>dynamic</Entry>
+<Entry>N/A</Entry>
+</Row>
+<Row>
+<Entry>XmNancestorSensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>dynamic</Entry>
+<Entry>G</Entry>
+</Row>
+<Row>
+<Entry>XmNbackground</Entry>
+<Entry>XmCBackground</Entry>
+<Entry>Pixel</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNbackgroundPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderColor</Entry>
+<Entry>XmCBorderColor</Entry>
+<Entry>Pixel</Entry>
+<Entry>XtDefaultForeground</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderPixmap</Entry>
+<Entry>XmCPixmap</Entry>
+<Entry>Pixmap</Entry>
+<Entry>XmUNSPECIFIED_PIXMAP</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNborderWidth</Entry>
+<Entry>XmCBorderWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNcolormap</Entry>
+<Entry>XmCColormap</Entry>
+<Entry>Colormap</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdepth</Entry>
+<Entry>XmCDepth</Entry>
+<Entry>int</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNdestroyCallback</Entry>
+<Entry>XmCCallback</Entry>
+<Entry>XtCallbackList</Entry>
+<Entry>NULL</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNheight</Entry>
+<Entry>XmCHeight</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNinitialResourcesPersistent</Entry>
+<Entry>XmCInitialResourcesPersistent</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>C</Entry>
+</Row>
+<Row>
+<Entry>XmNmappedWhenManaged</Entry>
+<Entry>XmCMappedWhenManaged</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNscreen</Entry>
+<Entry>XmCScreen</Entry>
+<Entry>Screen *</Entry>
+<Entry>dynamic</Entry>
+<Entry>CG</Entry>
+</Row>
+<Row>
+<Entry>XmNsensitive</Entry>
+<Entry>XmCSensitive</Entry>
+<Entry>Boolean</Entry>
+<Entry>True</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNtranslations</Entry>
+<Entry>XmCTranslations</Entry>
+<Entry>XtTranslations</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNwidth</Entry>
+<Entry>XmCWidth</Entry>
+<Entry>Dimension</Entry>
+<Entry>dynamic</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNx</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+<Row>
+<Entry>XmNy</Entry>
+<Entry>XmCPosition</Entry>
+<Entry>Position</Entry>
+<Entry>0</Entry>
+<Entry>CSG</Entry>
+</Row>
+</TBody>
+</TGroup>
+</InformalTable>
+<!-- -->
+<!-- @OSF_COPYRIGHT@-->
+<!-- COPYRIGHT NOTICE-->
+<!-- Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.-->
+<!-- ALL RIGHTS RESERVED (MOTIF). See the file named COPY.MOTIF.DOC for-->
+<!-- the full copyright text.-->
+<!-- -->
+<!-- HISTORY-->
+<!-- -->
+<!-- Action Table for XmBulletinBoard -->
+</RefSect2>
+<RefSect2>
+<Title>Translations</Title>
+<Para>XmForm inherits translations from XmBulletinBoard.
+</Para>
+</RefSect2>
+</RefSect1>
+<RefSect1>
+<Title>RELATED</Title>
+<Para>&cdeman.Composite;, &cdeman.Constraint;, &cdeman.Core;,
+&cdeman.XmBulletinBoard;,
+<Function>XmCreateForm</Function>, &cdeman.XmCreateFormDialog;, and
+&cdeman.XmManager;.
+</Para>
+</RefSect1>
+</RefEntry>
+<!--fickle 1.09 7/2/95-->

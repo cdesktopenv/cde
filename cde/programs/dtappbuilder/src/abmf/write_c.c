@@ -350,7 +350,7 @@ write_func_def_params(
 	va_list	va_params
 )
 {
-#ifdef __ppc
+#if defined(__ppc) || defined(linux) 
 #define va_start_params() __va_copy(params, va_params)
 #else
 #define va_start_params() (params = va_params)
