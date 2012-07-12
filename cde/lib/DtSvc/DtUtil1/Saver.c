@@ -167,8 +167,11 @@ _DtSaverStart(
   */
   if (saver_list.serial == 0)
   {
+#if !defined(linux) && !defined(CSRG_BASED)
+    /* JET - how can this ever work anyway? */
     putenv(envdata);
     envdata[0] = '\0';
+#endif
     xa_saver_register = XInternAtom(display, "_DT_SAVER_REGISTER", False);
   }
 
@@ -210,6 +213,11 @@ _DtSaverStart(
     char *pe = envdata + strlen(envdata);
     sprintf(pe, " %lx", XtWindow(drawArea[i]));
   }
+
+#if defined(linux) || defined(CSRG_BASED)
+  putenv(envdata);
+#endif
+
   _DtSvcProcessUnlock();
 
   /*
