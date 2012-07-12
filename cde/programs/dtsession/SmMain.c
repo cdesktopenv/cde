@@ -82,7 +82,6 @@
 /*
  * Internal Functions
  */
-void main(int, char **);
 static void StopAll(int i);
 static int RegisterX11ScreenSaver(Display *display, int *ssEventType);
 
@@ -125,9 +124,8 @@ static int RegisterX11ScreenSaver(Display *display, int *ssEventType);
  *  --------
  *
  *************************************<->***********************************/
-void
-main (int argc,
-          char  **argv)
+int
+main (int argc, char **argv)
 {
     int                         n, tmp;
     Arg                         args[10];
@@ -205,21 +203,22 @@ main (int argc,
      */
     smGD.runningUID = getuid();
 
-#ifdef SECURE_SYS_PATH
-    status = stat(SECURE_SYS_PATH, &buf);
-#else
-    status = -1;
-#endif
+#ifdef linux			/* linux always needs to be setup as secure */
 
     /*
-     * Initialize LANG if it isn't defined.
+     * Save the root priviledge to be restored when trying to unlock
      */
-    if ((lang = getenv ("LANG")) == NULL)
-    {
-	lang = XtMalloc (7);
-	(void) strcpy (lang, "LANG=C");
-	(void) putenv (lang);
-    }
+    smGD.unLockUID = geteuid();
+    smGD.secureSystem = True;
+    SM_SETEUID(smGD.runningUID);
+    
+#else
+
+# ifdef SECURE_SYS_PATH
+    status = stat(SECURE_SYS_PATH, &buf);
+# else
+    status = -1;
+# endif
 
     if(status == -1)
     {
@@ -238,6 +237,18 @@ main (int argc,
         smGD.unLockUID = geteuid();
         smGD.secureSystem = True;
         SM_SETEUID(smGD.runningUID);
+    }
+
+#endif /* linux */
+
+    /*
+     * Initialize LANG if it isn't defined.
+     */
+    if ((lang = getenv ("LANG")) == NULL)
+    {
+	lang = XtMalloc (7);
+	(void) strcpy (lang, "LANG=C");
+	(void) putenv (lang);
     }
 
 #ifdef __hpux
@@ -445,7 +456,7 @@ main (int argc,
     /*
      * Restore resources for lang/resolution independence
      */
-    if((smGD.resourcePath[0] != NULL) || (smGD.compatMode == False))
+    if((smGD.resourcePath[0] != 0) || (smGD.compatMode == False))
     {
 	RestoreIndependentResources();
     }
@@ -453,7 +464,7 @@ main (int argc,
     /*
      * Now restore the rest of the clients and the settings
      */
-    if((smGD.clientPath[0] != NULL) && (smGD.compatMode == False))
+    if((smGD.clientPath[0] != 0) && (smGD.compatMode == False))
     {
 	if(RestoreState() == -1)
 	{

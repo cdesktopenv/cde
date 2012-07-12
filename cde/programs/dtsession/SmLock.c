@@ -82,6 +82,15 @@
 #  include <shadow.h>
 #endif
 #endif
+
+#if defined(linux)
+# include <shadow.h>
+#endif
+#if defined(CSRG_BASED)
+#include <sys/types.h>
+#include <pwd.h>
+#endif
+
 #include "Sm.h"
 #include "SmUI.h"
 #include "SmError.h"
@@ -140,6 +149,93 @@ static void RequirePassword( XtPointer, XtIntervalId *) ;
 static void CycleSaver( XtPointer, XtIntervalId *) ;
 static void BlinkCaret( XtPointer, XtIntervalId *) ;
 
+#if defined(linux)
+/* #define JET_AUTHDEBUG */
+
+/* Test for re-auth ability - see if we can re-authenticate via pwd,
+ * shadow, or NIS
+ */
+static Boolean CanReAuthenticate(char *name, uid_t uid, char *passwd,
+				 struct passwd **pwent, struct spwd **spent)
+{
+  Boolean fail = False;
+
+  *pwent = (name == NULL) ? getpwuid(uid) : getpwnam(name);
+  *spent = getspnam((*pwent)->pw_name);
+
+#ifdef JET_AUTHDEBUG
+  fprintf(stderr, "CanReAuthenticate(): %s %s %s\n",
+	  (*pwent) ? "PWENT" : "NULL",
+	  (*spent) ? "SPENT" : "NULL",
+	  (name) ? name : "NULL");
+#endif
+
+  /* some checking for aging stuff on RedPhat */
+
+  if (*pwent && (*pwent)->pw_passwd)
+    {
+      char *loc;
+
+      if ((loc = strchr((*pwent)->pw_passwd, ',')) != NULL)
+	*loc = '\0';
+#ifdef JET_AUTHDEBUG
+      fprintf(stderr, "CanReAuthenticate(): pw: '%s'\n",
+	      (*pwent)->pw_passwd);
+#endif
+
+    }
+
+  if (*spent && (*spent)->sp_pwdp)
+    {
+      char *loc;
+
+      if ((loc = strchr((*spent)->sp_pwdp, ',')) != NULL)
+	*loc = '\0';
+    }
+
+  if (*pwent == NULL)
+    {				/* if we can't get this, we're screwed. */
+#ifdef JET_AUTHDEBUG
+      fprintf(stderr, "CanReAuthenticate(): PWENT == NULL - FALSE\n");
+#endif
+      return False;
+    }
+
+  if ((*pwent)->pw_passwd == NULL)
+    {
+#ifdef JET_AUTHDEBUG
+      fprintf(stderr, "CanReAuthenticate(): (*pwent)->pw_passwd == NULL - FALSE\n");
+#endif
+
+      return False;
+    }
+
+  /* ok, now we have the prequisite data, look first to see if the
+   * passwd field is larger than 1 char - implying NIS, or a shadowed
+   * system.  if not look for *spent being non-NULL
+   */
+  if (*spent == NULL)
+    {				/* if it's null, lets check for the NIS case */
+      if (strlen((*pwent)->pw_passwd) <= 1)
+	{
+#ifdef JET_AUTHDEBUG
+	  fprintf(stderr, "strlen((*pwent)->pw_passwd) <= 1\n");
+#endif
+
+	  return False;		/* not NIS */
+	}
+    }
+
+				/* supposedly we have valid data */
+#ifdef JET_AUTHDEBUG
+      fprintf(stderr, "CanReAuthenticate(): TRUE\n");
+#endif
+
+  return True;
+}
+
+#endif /* linux */
+
 
 
 
@@ -184,21 +280,6 @@ LockDisplay(
     int rc;
 
     timerId = lockTimeId = lockDelayId = cycleId = flash_id = (XtIntervalId)0;
-
-    #if defined (SMGETTIMEOUTS)
-/*D*/ getTimeouts(&lockNow, NULL, NULL, NULL, NULL);
-
-    {
-      FILE *fp = fopen("/tmp/session", "a");
-      if (fp) fprintf(fp, "lockNow=%d saverTimeout=%d "
-                          "lockTimeout=%d cycleTimeout=%d"
-                          "saverList='%s'\n",
-                      lockNow, smSaverRes.saverTimeout,
-                      smSaverRes.lockTimeout, smSaverRes.cycleTimeout,
-                      smGD.saverList);
-      if (fp) fclose(fp);
-    }
-    #endif
 
    /*
     * coverScreen 
@@ -1589,6 +1670,97 @@ localAuthenticate(
       return FALSE;
 }
     
+#elif defined(linux)
+
+{
+    struct passwd *pwent = NULL;
+    char *p, *q;
+    char *crypt();
+    Boolean rc = True;
+    Boolean done = False;
+    struct spwd *sp = NULL;
+
+    if(smGD.secureSystem)
+    {	
+      SM_SETEUID(smGD.unLockUID);
+    }
+
+   /*
+    * Get password entry for 'name' or 'uid'.
+    */
+    if (CanReAuthenticate(name, uid, passwd, &pwent, &sp) == False)
+    {
+     /*
+      * Can't get entry.
+      */
+      rc = False;
+      done = True;
+    }
+
+    if(smGD.secureSystem)
+    {
+        SM_SETEUID(smGD.runningUID);
+    }
+
+    if (done == False)
+    {
+
+      if (pwent->pw_passwd == NULL || pwent->pw_passwd[0] == '*')
+      {
+				/* check sp */
+	if (sp == NULL || sp->sp_pwdp == NULL)
+	  {
+	    /*
+	     * Could not read password.
+	     */
+	    rc = False;
+	    done = True;
+	  }
+      }
+    }
+
+    if (done == False)
+    {
+      if (passwd == NULL)
+      {
+       /*
+        * Caller just checking if it is possible to access 
+        * password file (ie is dtsession suid bit set properly).
+        */
+        rc = True; 
+        done = True;
+      }
+    }
+
+    if (done == False)
+    {
+     /*
+      * Check password.
+      */
+
+      if (sp != NULL && !strcmp(sp->sp_pwdp, crypt(passwd,sp->sp_pwdp)))
+	{			/* a shadow match */
+	  rc = True;
+	  done = True;
+	}
+      else if (pwent != NULL && 
+	       !strcmp(pwent->pw_passwd, crypt(passwd, pwent->pw_passwd)))
+	{			/* passwd match */
+	  rc = True;
+          done = True;
+	}
+      else
+	{			/* failure dude! */
+	  rc = False;
+          done = True;
+	}
+    }
+
+    endpwent();
+    endspent();
+
+    return(rc);
+}
 
 #else
 
