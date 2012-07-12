@@ -1603,7 +1603,7 @@ SimpleOK(
     }
     if(dismissDialog == smDD.clientReasons)
     {
-        reasonsDialogOK == True;
+        reasonsDialogOK = True;
     }
 }
 
