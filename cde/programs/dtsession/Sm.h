@@ -336,6 +336,9 @@ typedef struct
 				    specific display, otherwise False */
     Boolean	loggingOut;	/* Is True if the current save is for
 				   a logout; False otherwise. */
+
+    Boolean ExitComplete;	/* JET - don't exit before we are ready... */
+
 } GeneralData;
 
 

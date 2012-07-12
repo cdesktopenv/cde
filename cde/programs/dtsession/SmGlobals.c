@@ -2564,12 +2564,19 @@ void
 SmExit (
 	int		exitStatus)
 {
-	if (smXSMP.saveState.saveComplete && 
-	    smXSMP.saveState.shutdown &&
-	    !smXSMP.saveState.shutdownCanceled)
-		XSMPExit ();
-
-	exit (exitStatus);
+  /* JET - needed to rework this to avoid exiting before we are
+   *  *really* ready to 
+   */
+  if (smGD.ExitComplete)
+    {
+      if (smXSMP.saveState.saveComplete && 
+	  smXSMP.saveState.shutdown &&
+	  !smXSMP.saveState.shutdownCanceled)
+	XSMPExit ();
+      exit(exitStatus);
+    }
+  else
+    return;
 }
 
 void

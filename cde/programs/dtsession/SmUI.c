@@ -1208,6 +1208,11 @@ ImmediateExit(
 
 	smGD.loggingOut = True;
 
+        /* JET - set this here so we don't exit prematurely (while
+         * handling our own SM exit callback - duh).
+         */
+	smGD.ExitComplete = False;
+
         saveTimeout = False;
 	timerId = XtAppAddTimeOut (smGD.appCon, smRes.saveYourselfTimeout, 
 				   SaveTimeout, NULL);
@@ -1221,6 +1226,13 @@ ImmediateExit(
 		XtDispatchEvent(&next);
 	}
     }
+    
+    /* JET - need this, since dtsession was exiting in the
+     * XtAppNextEvent above (receiving it's own EXIT SM message) This
+     * is checked in SmExit() so exit's will only occur after this
+     * housekeeping has been completed.
+     */
+    smGD.ExitComplete = True; 
 
     if (smXSMP.saveState.shutdownCanceled == False) {
 	/* 

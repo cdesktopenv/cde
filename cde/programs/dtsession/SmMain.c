@@ -171,6 +171,9 @@ main (int argc,
     smGD.smState = IN_PROCESS;
     smGD.programName = strdup (argv[0]);
 
+    /* JET - By default, we always want to leave when SmExit() is called. */
+    smGD.ExitComplete = True;
+
     /*
      * We report some errors before we call the DtInitialize procedure.
      * The Dt initialize procedure sets this name.  If we report
