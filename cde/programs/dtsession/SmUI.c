@@ -1157,6 +1157,8 @@ ImmediateExit(
      */
 #if !defined(SVR4) && !defined(sco)
     old = sigblock(sigmask(SIGTERM));
+    sigblock(sigmask(SIGHUP));
+    sigblock(sigmask(SIGPIPE));
 #else
     old = sighold(SIGTERM);
 #endif
