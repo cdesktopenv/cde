@@ -1680,9 +1680,9 @@ while (pThis)
 	    pId = &pThis->u.u_switch.id;
 	    break;
 	default:
-	    fprintf(stderr, errMess);
+          fprintf(stderr, "%s\n", errMess);
 	    if (m_errfile && (m_errfile != stderr))
-		fprintf(m_errfile, errMess);
+		fprintf(m_errfile, "%s\n", errMess);
 	    exit(xxx);
 	}
     if (w_strcmp(rid, *pId) == 0) return pThis;
@@ -2342,9 +2342,9 @@ while (pThis)
 	    pThis = pThis->pNext;
 	    break;
 	default:
-	    fprintf(stderr, errMess);
+	    fprintf(stderr, "%s\n", errMess);
 	    if (m_errfile && (m_errfile != stderr))
-		fprintf(m_errfile, errMess);
+		fprintf(m_errfile, "%s\n", errMess);
 	    exit(xxx);
 	}
     }
@@ -3368,9 +3368,9 @@ while (pThis)
 	    pThis = pThis->pNext;
 	    break;
 	default:
-	    fprintf(stderr, errMess);
+	    fprintf(stderr, "%s\n", errMess);
 	    if (m_errfile && (m_errfile != stderr))
-		fprintf(m_errfile, errMess);
+		fprintf(m_errfile, "%s\n", errMess);
 	    exit(xxx);
 	}
     }
@@ -4915,9 +4915,9 @@ while (pThis)
 	    DeleteElement(pThat);
 	    break;
 	default:
-	    fprintf(stderr, errMess);
+	    fprintf(stderr, "%s\n", errMess);
 	    if (m_errfile && (m_errfile != stderr))
-		fprintf(m_errfile, errMess);
+		fprintf(m_errfile, "%s\n", errMess);
 	    exit(xxx);
 	}
     }
@@ -6409,7 +6409,7 @@ static char      padString[COMPRESS_PAD_LENGTH];
 pc = padString;
 length = COMPRESS_PAD_LENGTH;
 while (--length >= 0)
-    *pc++ = 0xff;
+  *pc++ = (char)0xff;
 
 FcloseFile(outFile, compFileName, xxx);
 newZsize = Compress(compFileName, compZFileName, TRUE) + 4;

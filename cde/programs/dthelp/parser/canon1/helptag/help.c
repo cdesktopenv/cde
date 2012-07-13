@@ -1768,7 +1768,7 @@ if (!charset)
 	charset = dotPtr + 1;
     }
 if (dotPtr)
-    *dotPtr = NULL;
+    *dotPtr = 0;
 
 strcpy(stdLang, locale);
 if (charset)
@@ -2250,7 +2250,7 @@ M_WCHAR wc;
 {
 if ((wc >= 0) && (wc <= 255))
     {
-    return _toupper(wc);
+    return toupper(wc);
     }
 return wc;
 }
