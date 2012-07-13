@@ -1219,10 +1219,10 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "app"           , SdlAttrDataTypeEnum  , SdlIgnore         ,
 		 	SDL_ATTR_APP    ,
-			NULL },
+			0 },
     { "author"        , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_AUTHOR ,
-			NULL },
+			0 },
 
     { "b-margin"      , SdlAttrDataTypeNumber, SdlContainerSpecific ,
 		 	SDL_ATTR_BMARGIN,
@@ -1236,7 +1236,7 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { ButtonStr       , SdlAttrDataTypeId    , SdlIgnore         ,
 		 	SDL_ATTR_BUTTON,
-			NULL },
+			0 },
 
     { "cells"         , SdlAttrDataTypeId    , SdlElementSpecific,
 		 	SDL_ATTR_CELLS,
@@ -1268,7 +1268,7 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "descript"      , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_DESCRIPT,
-			NULL },
+			0 },
 
     { "doc-id"        , SdlAttrDataTypeCdata , SdlElementSpecific,
 		 	SDL_ATTR_DOCID  ,
@@ -1294,7 +1294,7 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "hdr"           , SdlAttrDataTypeEnum  , SdlIgnore         ,
 		 	SDL_ATTR_HDR    ,
-			NULL },
+			0 },
 
     { "headw"         , SdlAttrDataTypeNumber , SdlContainerSpecific ,
 		 	SDL_ATTR_HEADWDTH,
@@ -1317,7 +1317,7 @@ static	SDLAttribute  SDLAttributeList[] =
 			SDLAttrOffset(ElementInfoPtr,language) },
     { "length"        , SdlAttrDataTypeNumber, SdlIgnore         ,
 		 	SDL_ATTR_LENGTH ,
-			NULL },
+			0 },
 
     { "level"         , SdlAttrDataTypeNumber, SdlElementSpecific,
 		 	SDL_ATTR_LEVEL  ,
@@ -1325,10 +1325,10 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "license"       , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_LICENSE  ,
-			NULL },
+			0 },
     { "linkinfo"      , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_LINKINFO,
-			NULL },
+			0 },
 
     { "locs"          , SdlAttrDataTypeCdata , SdlElementSpecific,
 		 	SDL_ATTR_LOCS   ,
@@ -1354,10 +1354,10 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "placement"     , SdlAttrDataTypeEnum  , SdlIgnore         ,
 		 	SDL_ATTR_PLACEMENT,
-			NULL },
+			0 },
     { "phrase"        , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_PHRASE ,
-			NULL },
+			0 },
 
     { "pointsz"       , SdlAttrDataTypeNumber, SdlFontSpecific,
 		 	SDL_ATTR_POINTSZ ,
@@ -1365,16 +1365,16 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "pub-id"        , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_PUBID  ,
-			NULL },
+			0 },
     { "prodpn"        , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_PRODPN ,
-			NULL },
+			0 },
     { ProductStr      , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_PRODUCT,
-			NULL },
+			0 },
     { "prodver"       , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_PRODVER,
-			NULL },
+			0 },
 
     { "r-margin"      , SdlAttrDataTypeNumber, SdlContainerSpecific ,
 		 	SDL_ATTR_RMARGIN,
@@ -1411,10 +1411,10 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "srcdtd"        , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_SRCDTD   ,
-			NULL },
+			0 },
     { "srch-wt"       , SdlAttrDataTypeNumber, SdlIgnore         ,
 		 	SDL_ATTR_SRCHWT ,
-			NULL },
+			0 },
 
     { "ssi"           , SdlAttrDataTypeCdata , SdlElementSpecific,
 		 	SDL_ATTR_SSI    ,
@@ -1422,7 +1422,7 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "stack"         , SdlAttrDataTypeEnum  , SdlIgnore         ,
 		 	SDL_ATTR_STACK,
-			NULL },
+			0 },
 
     { "style"         , SdlAttrDataTypeFont  , SdlFontSpecific   ,
 		 	SDL_ATTR_STYLE,
@@ -1436,7 +1436,7 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { (TextStr+1)     , SdlAttrDataTypeCdata , SdlIgnore,
 		 	SDL_ATTR_TEXT     ,
-			NULL },
+			0 },
 
     { "timestmp"      , SdlAttrDataTypeCdata , SdlElementSpecific,
 		 	SDL_ATTR_TIMESTAMP,
@@ -1450,7 +1450,7 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "traversal"     , SdlAttrDataTypeEnum  , SdlIgnore         ,
 		 	SDL_ATTR_TRAVERSAL,
-			NULL },
+			0 },
 
     { "typenam"       , SdlAttrDataTypeCdata , SdlFontSpecific   ,
 		 	SDL_ATTR_TYPENAM,
@@ -1467,7 +1467,7 @@ static	SDLAttribute  SDLAttributeList[] =
 
     { "version"       , SdlAttrDataTypeCdata , SdlIgnore         ,
 		 	SDL_ATTR_VERSION,
-			NULL },
+			0 },
 
     {(TopVJustStr+4)  , SdlAttrDataTypeEnum  , SdlContainerSpecific ,
 		 	SDL_ATTR_VJUST,
@@ -1500,7 +1500,7 @@ static	SDLAttribute  SDLAttributeList[] =
     { "xlfdib"        , SdlAttrDataTypeCdata , SdlFontSpecific   ,
 		 	SDL_ATTR_XLFDIB ,
 			SDLAttrOffset(_DtHelpFontHintPtr,xlfdib) },
-    { NULL            , SdlAttrDataTypeInvalid, -1,  NULL                    },
+    { 0            , SdlAttrDataTypeInvalid, -1,  0                    },
   };
 
 /******************************************************************************
@@ -7039,7 +7039,7 @@ Cdata(
         i   = 0;
         string  = my_struct->remember;
 	myLen   = strlen(string);
-        while (string[i] != '\0')
+        while (string[i] != '\0' && i < myLen)
           {
             if (multiLen != 1)
                 curLen = mblen (&string[i], multiLen);

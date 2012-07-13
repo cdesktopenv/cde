@@ -173,7 +173,7 @@ ilBool Lastbit;
 
             if(Lastbit) {  
 
-                flip_bits((ilPtr)dstLong, sizeof(dstLong));
+                flip_bits((ilPtr)&dstLong, sizeof(dstLong));
 
                 *pdstline++ = dstLong;
                 dstLong = 1;
