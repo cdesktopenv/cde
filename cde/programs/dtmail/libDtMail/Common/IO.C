@@ -306,11 +306,7 @@ SafeWriteStrip(int fd, const void * buf, size_t bytes)
     writebuf = (char*) malloc(bytes < SWS_BUFFERSIZE ? bytes : SWS_BUFFERSIZE); 
 
     for (i = 0, j = 0; i < bytes; i++, ptr++) {
-#if defined(linux)
 	if (*ptr == '\r' && *(ptr+1) == '\n')
-#else
-	if (*ptr == '' && *(ptr+1) == '\n')
-#endif
 		continue;
 	writebuf[j++] = *ptr;
 	if (j == SWS_BUFFERSIZE || i == (bytes-1)) {
