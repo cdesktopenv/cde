@@ -145,7 +145,7 @@ if ((_DtLcxOpenAllDbs(&myDb) != 0)) {
 ret = _DtXlateGetXlateEnv(myDb,myPlatform,&execVer,&compVer);
 if (ret != 0) {
     fprintf(stderr,
-            "Warning: could not open locale translation database. %d\n", ret);
+            "Fatal: could not open locale translation database. %d\n", ret);
 
     exit(1);
 }
