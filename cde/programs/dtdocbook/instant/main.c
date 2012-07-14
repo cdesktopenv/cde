@@ -147,11 +147,7 @@ if (ret != 0) {
     fprintf(stderr,
             "Warning: could not open locale translation database. %d\n", ret);
 
-/* HACK For some reason on linux this function fails, but isn't completely fatal */
-#if !defined(linux)
     exit(1);
-#endif
-
 }
 
 if (_DtLcxXlateStdToOp(myDb,
