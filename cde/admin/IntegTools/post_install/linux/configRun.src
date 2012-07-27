@@ -157,7 +157,16 @@ doDttermTerminfo()
 	    chgrp bin /usr/share/lib/terminfo/d/dtterm
 	    chmod 644 /usr/share/lib/terminfo/d/dtterm
 	else
-	    echo "Unable to compile $DT_TOP/config/dtterm.ti"
+	    if [ -f /usr/share/terminfo/d/dtterm ]
+	    then
+		chown bin /usr/share/terminfo/d/dtterm
+		chgrp bin /usr/share/terminfo/d/dtterm
+		chmod 644 /usr/share/terminfo/d/dtterm
+	    fi
+	fi
+	if [ ! -f /usr/share/lib/terminfo/d/dtterm -a ! -f /usr/share/terminfo/d/dtterm ]
+	then
+	    echo "Unable to compile $DT_TOP/config/dtterm.ti"	    
 	fi
     else
 	echo "Unable to find $DT_TOP/config/dtterm.ti"
