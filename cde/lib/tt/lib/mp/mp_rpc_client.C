@@ -207,10 +207,34 @@ init(_Tt_host_ptr &host, int program, int version,
 
 	// Set close-on-exec bit so a libtt client which forks and execs won't
 	// be short some fd's in the child.
+
+#if defined(linux)
+        // JET - for linux, we need to do this properly - I don't know
+        // how the original code below can be correct, so we'll do it
+        // differently.
+        {
+          long flags;
+
+          if ((flags = fcntl(_socket, F_GETFD)) == -1)
+            {
+              _tt_syslog( 0, LOG_ERR, "_Tt_rpc_client::init(): "
+                          "fcntl(F_GETFD): %m");
+            }
+          else
+            {
+              if (fcntl(_socket, F_SETFD, flags | FD_CLOEXEC) == -1)
+		_tt_syslog( 0, LOG_ERR, "_Tt_rpc_client::init(): "
+			    "fcntl(F_SETFD): %m");
+            }
+        }
+#else        
+
 	if (-1==fcntl(_socket, F_SETFD, 1)) {
 		_tt_syslog( 0, LOG_ERR, "_Tt_rpc_client::init(): "
 			    "fcntl(F_SETFD): %m");
 	}		
+#endif // linux
+
 	return(1);
 }
 
