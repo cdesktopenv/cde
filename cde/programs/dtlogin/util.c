@@ -1092,6 +1092,10 @@ ScanNLSDir(char *dirname)
 	{
 	    locale = dp->d_name;
 
+            if ( (strcmp(dp->d_name, ".") == 0) ||
+                 (strcmp(dp->d_name, "..") == 0) )
+              continue;
+
 	    if (locale[0] != '.' &&
                 LANGLISTSIZE > (int) (strlen(languageList)+strlen(locale)+2));
 	    {
