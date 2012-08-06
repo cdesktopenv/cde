@@ -325,10 +325,24 @@ char *cpp_argv[ARGUMENTS] = {
 # ifdef __x86_64__
         "-D__amd64__",
 # endif
+# ifdef __ppc__
+        {"-D__powerpc__", "1"},
+# endif
+# ifdef __ppc64__
+        {"-D__powerpc64__", "1"},
+# endif
+# ifdef __powerpc__
+        {"-D__powerpc__", "1"},
+# endif
+# ifdef __powerpc64__
+        {"-D__powerpc64__", "1"},
+# endif
+
 # ifdef __GNUC__
 	"-traditional",
 # endif
 #endif
+
 #ifdef M4330
 	"-DM4330",	/* Tektronix */
 #endif
