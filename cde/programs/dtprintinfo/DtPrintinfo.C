@@ -94,13 +94,17 @@ int main(int argc, char **argv)
       dtprintinfo_cat = catopen("dtprintinfo", 0);
 #endif
 
-      if ((nl_catd) errno || dtprintinfo_cat == (nl_catd) -1)
-         dtprintinfo_cat = NULL;
+      if ((nl_catd) errno)
+         dtprintinfo_cat = (nl_catd) -1;
 #ifdef hpux
       else
          msg_strings = (char **)calloc(LAST_MSG_NO, sizeof(char *));
 #endif
     }
+
+   if (dtprintinfo_cat == NULL) {
+      dtprintinfo_cat = (nl_catd) -1;
+   }
 
    if (!STRCMP(argv[1], "-help"))
     {
