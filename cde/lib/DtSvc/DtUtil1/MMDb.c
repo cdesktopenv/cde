@@ -680,13 +680,25 @@ write_db(DtDtsMMHeader *header, void *index, int size, const char *CacheFile)
 	/* unique file name instead. */
 	char tmpnam_buf[L_tmpnam + 1];
 
+	if ((tmpfile = malloc(sizeof(_DTDTSMMTEMPDIR) +
+	    sizeof(_DTDTSMMTEMPFILE) + 7)) == NULL) {
+		_DtSimpleError(DtProgName, DtError, NULL, tmpfile, NULL);
+		return 0;
+	}
+
+	sprintf(tmpfile, "%s/%sXXXXXX", _DTDTSMMTEMPDIR, _DTDTSMMTEMPFILE);
+	fd = mkstemp(tmpfile);
+
+	/*
 	tmpfile = (char *)malloc(sizeof(_DTDTSMMTEMPDIR) +
 				 sizeof(_DTDTSMMTEMPFILE) + L_tmpnam + 3);
+
 	tmpnam(tmpnam_buf);
 	sprintf(tmpfile, "%s/%s%s", _DTDTSMMTEMPDIR, _DTDTSMMTEMPFILE,
 		basename(tmpnam_buf));
 
 	fd  = open(tmpfile, O_RDWR|O_CREAT, 0600);
+	*/
 	umask(cmask);
 
 	if(fd ==  -1)
