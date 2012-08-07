@@ -112,3 +112,9 @@ M_WCHAR *w_strstr(
   M_WCHAR *string1, M_WCHAR *string2
 #endif
   );
+
+void *m_malloc(
+#if defined(M_PROTO)
+  int size, char *msg
+#endif
+  ) ;
