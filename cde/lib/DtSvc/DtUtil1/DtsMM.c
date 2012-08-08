@@ -43,6 +43,7 @@
 #include <sys/param.h>
 #endif
 #include <string.h>
+#include <libgen.h>
 #define X_INCLUDE_DIRENT_H
 #define XOS_USE_XT_LOCKING
 #include <X11/Xos_r.h>

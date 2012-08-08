@@ -81,6 +81,7 @@ typedef struct
 #include <Dt/DtP.h>
 #include <Dt/Message.h>
 #include <Dt/WsmM.h>
+#include <Dt/EnvControlP.h>
 #endif /* WSM */
 
 /* Busy is also defined in the BMS  -> bms.h. This conflicts with

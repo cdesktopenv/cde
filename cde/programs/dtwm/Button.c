@@ -38,6 +38,7 @@ static char SCCSID[] = "OSF/Motif: @(#)Button.c	1.19 95/05/01";
 #include <X11/cursorfont.h>
 #include "ButtonP.h"
 #include <Xm/ManagerP.h>
+#include <Xm/DrawP.h>
 #include <Dt/Control.h>
 #include <Dt/MacrosP.h>
 #include <Dt/DtStrDefs.h>

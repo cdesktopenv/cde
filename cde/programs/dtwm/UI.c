@@ -59,6 +59,7 @@
 #include <Xm/SeparatoG.h>
 #include <Xm/DialogS.h>
 #include <Xm/ColorObjP.h>
+#include <Xm/TextF.h>
 
 #include <X11/Xatom.h>
 #include <X11/keysymdef.h>

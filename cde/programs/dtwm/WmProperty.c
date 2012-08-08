@@ -54,6 +54,7 @@ static char rcsid[] = "$TOG: WmProperty.c /main/7 1997/12/02 10:00:00 bill $"
 #include "WmColormap.h"
 #include "WmError.h"
 #include "WmResParse.h"
+#include "WmIconBox.h"
 
 
 

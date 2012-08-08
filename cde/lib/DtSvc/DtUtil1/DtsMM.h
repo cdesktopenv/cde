@@ -137,6 +137,10 @@ extern	int	use_in_memory_db;
 extern	DtDtsMMDatabase		*_DtDtsMMGet(const char *name);
 extern	char			**_DtDtsMMListDb(void);
 
+/* FIXME: document */
+extern int *_DtDtsMMGetDbName(DtDtsMMDatabase *db, DtShmBoson boson);
+
+
 /* Name Comparison functions:
  * These routines can be passed in to the corresponding sort function to
  * sort by name.
