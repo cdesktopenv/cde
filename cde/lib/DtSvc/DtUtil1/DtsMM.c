@@ -568,8 +568,8 @@ _DtDtsMMCacheName(int override)
 	/* unique file name instead. */
 		char tmpnam_buf[L_tmpnam + 1];
 
-		results = (char *)malloc(sizeof(_DTDTSMMTEMPDIR) +
-					 sizeof(_DTDTSMMTEMPFILE) +
+		results = (char *)malloc(strlen(_DTDTSMMTEMPDIR) +
+					 strlen(_DTDTSMMTEMPFILE) +
 					 L_tmpnam + 3);
 		tmpnam(tmpnam_buf);
 		sprintf(results, "%s/%s%s", _DTDTSMMTEMPDIR, _DTDTSMMTEMPFILE,
