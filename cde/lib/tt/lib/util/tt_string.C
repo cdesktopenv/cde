@@ -170,21 +170,13 @@ _tt_print_escaped_string(const _Tt_ostream &os, const char *s, int length,
 						// _Tt_iostream operator<<  method because
 						// wchar_t is equivalent  to a long and the
 						// compiler doesn't know which method to use.
-#ifdef OPT_BUG_HPUX
 						os.sprintf(MB_LEN_MAX, "%C", wc);
-#else
-						os.sprintf(MB_LEN_MAX, "%wc", wc);
-#endif
 					} else {
 						count += (3  + ((n == 0) ? 1 : n));
 
 						// don't print past limit, even a little.
 						if (count < max_print_width) {
-#ifdef OPT_BUG_HPUX
 							os.sprintf(10, "\\%03C", wc);
-#else
-							os.sprintf(10, "\\%03wc", wc);
-#endif
 						}
 					}
 
