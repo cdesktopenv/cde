@@ -427,9 +427,10 @@ updateFileSystemEntries ()
 	pollfd poll_fd;
 	while (mount_table_stat.st_size == 0) {
 		(void)poll (&poll_fd, 0, 100);
-		if (stat(TtMntTab, &mount_table_stat)) {
+		// Must use lstat here; mtab is often a symlink
+		if (lstat(TtMntTab, &mount_table_stat)) {
 			return;
-				}
+		}
 	}
 
 	FILE *mount_table = ttOpenMntTbl(TtMntTab, "r");
