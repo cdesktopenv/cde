@@ -223,6 +223,52 @@ char	bytes[64];
 
 # define FILE_LIMIT	1024	/* no more than this many buffers */
 
+/* for linux/csrg we use a simpler method to get 2 random longs from
+ *  the OS's random number device.
+ */
+
+#if defined(linux) || defined(CSRG_BASED)
+#define READ_LIMIT (sizeof (long) * 2)
+
+static sumFile (char *name, long sum[2])
+{
+  long    buf[2];
+  int	  fd;
+  int     ret_status = 0;
+
+  if ( (fd = open (name, 0)) < 0 )
+    {
+      LogError((unsigned char *) "Cannot open randomFile \"%s\", errno = %d\n",
+               name, errno);
+      return 0;
+    }
+
+  sum[0] = 0;
+  sum[1] = 0;
+
+  if (read(fd, (char *)buf, READ_LIMIT) != READ_LIMIT)
+    {
+      LogError((unsigned char *) "Could not read %d bytes from '%s'\n",
+               READ_LIMIT, name);
+      /* cheap fallback */
+      sum[0] = (long)time((Time_t *) 0);
+      sum[1] = sum[0];
+    }
+  else
+    {
+      sum[0] = buf[0];
+      sum[1] = buf[1];
+      ret_status = 1;
+    }
+
+  close(fd);
+  return ret_status;
+}
+
+#undef READ_LIMIT
+
+#else /* linux || CSRG_BASED */
+
 static
 sumFile (name, sum)
 char	*name;
@@ -260,7 +306,7 @@ long	sum[2];
     close (fd);
     return ret_status;
 }
-
+#endif /* linux || CSRG_BASED */
 
 GenerateAuthData (auth, len)
 char	*auth;
@@ -395,8 +441,17 @@ static int  cryptoInited = 0;
 int 
 InitCryptoKey( void )
 {
+#if defined(linux) 
+    /* non-blocking */
+    char    *key_file = "/dev/urandom";
+#elif defined(CSRG_BASED)
+    /* non-blocking */
+    char    *key_file = "/dev/random";
+#else
+# warning "Using /dev/mem for random bits."
+    /* JET - this seems like a really bad idea. */
     char    *key_file = "/dev/mem";
-    
+#endif    
     if (cryptoInited)
 	return;
 
