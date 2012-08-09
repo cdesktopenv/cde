@@ -637,6 +637,10 @@ char *cpp_argv[ARGUMENTS] = {
 # define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"
 # define DEFAULT_OS_TEENY_REV   "r %*d.%*d.%[0-9]" 
 # define DEFAULT_OS_NAME        "srm %[^\n]"
+#elif defined(__OpenBSD__)
+# define DEFAULT_OS_MAJOR_REV   "r %[0-9]"
+# define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"
+# define DEFAULT_OS_NAME        "srm %[^\n]"
 #endif
 
 #else /* else MAKEDEPEND */
