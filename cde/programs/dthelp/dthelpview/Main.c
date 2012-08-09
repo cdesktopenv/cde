@@ -181,7 +181,7 @@ static void GlobalInit()
 
   pCacheListHead   = NULL; 
   pCacheListTale   = NULL;  
-  totalCacheNodes  = NULL;
+  totalCacheNodes  = 0;
   
   helpClass = XtNewString("Dthelpview");
 
