@@ -51,8 +51,8 @@ extern "C" {
 /* CDE Version information */
 
 #define DtVERSION     		2
-#define DtREVISION    		1
-#define DtUPDATE_LEVEL    	30
+#define DtREVISION    		2
+#define DtUPDATE_LEVEL    	0
 
 #define DtVERSION_NUMBER	(DtVERSION * 10000 +  \
 				DtREVISION * 100 + \
