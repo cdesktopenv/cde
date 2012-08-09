@@ -166,7 +166,7 @@ static struct _pty_dirs {
     {PTY_null,    PTY_null,     PTY_null,   PTY_null,   PTY_null, False},
 };
 
-#ifdef ALPHA_ARCHITECTURE
+#if defined(ALPHA_ARCHITECTURE) || defined(OpenBSDArchitecture)
 /* Use openpty() to open Master/Slave pseudo-terminal pair */
 /* Current version of openpty() uses non-STREAM device. BSD name space */
 #define TTYNAMELEN      25
@@ -254,7 +254,11 @@ GetPty(char **ptySlave, char **ptyMaster)
 			     * name for the tty that everyone else will
 			     * use...
 			     */
+#if defined(XTHREADS)
 			    if (c1 = _XTtyname(ttyFd, tty_buf)) {
+#else
+			    if (c1 = _XTtyname(ttyFd)) {
+#endif
 				ttyDev = realloc(ttyDev, strlen(c1) + 1);
 				(void) strcpy(ttyDev, c1);
 			    }

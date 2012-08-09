@@ -96,6 +96,12 @@
 # define USE_TCSENDBREAK	/* use tiocbreak()		*/
 #endif /* LINUX_ARCHITECTURE */
 
+#ifdef  OPENBSD_ARCHITECTURE
+# define HAS_SETEUID             /* seteuid available            */
+# define HAS_SETREUID            /* setreuid available           */
+# define USE_TCSENDBREAK	/* use tiocbreak()		*/
+#endif /* OPENBSD_ARCHITECTURE */
+
 #ifdef	SUN_ARCHITECTURE
 # define XOR_CAPS_LOCK		/* xor caps lock and shift	*/
 # define USE_SRIOCSREDIR	/* use SRIOCSREDIR ioctl for -C	*/

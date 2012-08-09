@@ -38,7 +38,7 @@ static char rcs_id[] = "$TOG: TermPrimSubproc.c /main/11 1998/04/20 12:45:57 mgr
 
 #include "TermHeader.h"
 #include <fcntl.h>
-#if defined(ALPHA_ARCHITECTURE) || defined(CSRG_ARCHITECTURE) || defined(LINUX_ARCHITECTURE)
+#if defined(ALPHA_ARCHITECTURE) || defined(CSRG_BASED) || defined(LINUX_ARCHITECTURE)
 /* For TIOCSTTY definitions */
 #include <sys/ioctl.h>
 #endif /* ALPHA_ARCHITECTURE */
@@ -461,7 +461,7 @@ _DtTermPrimSubprocExec(Widget		  w,
 	/* child...
 	 */
         _DtTermProcessUnlock();
-#if defined(ALPHA_ARCHITECTURE) || defined(CSRG_ARCHITECTURE) || defined(LINUX_ARCHITECTURE)
+#if defined(ALPHA_ARCHITECTURE) || defined(CSRG_BASED) || defined(LINUX_ARCHITECTURE)
         /* establish a new session for child */
         setsid();
 #else
@@ -482,7 +482,7 @@ _DtTermPrimSubprocExec(Widget		  w,
 	    (void) _exit(1);
 	}
 
-#if defined(ALPHA_ARCHITECTURE) || defined(CSRG_ARCHITECTURE) || defined(LINUX_ARCHITECTURE)
+#if defined(ALPHA_ARCHITECTURE) || defined(CSRG_BASED) || defined(LINUX_ARCHITECTURE)
         /* BSD needs to do this to acquire pty as controlling terminal */
         if (ioctl(pty, TIOCSCTTY, (char *)NULL) < 0) {
 	    (void) close(pty);

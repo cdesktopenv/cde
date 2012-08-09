@@ -44,7 +44,7 @@
 #include <Xm/Xm.h>
 #include <X11/Xos.h>
 
-#if defined(linux) || defined(UXPArchitecture) || (defined(USL) && (OSMAJORVERSION > 1))
+#if defined(linux) || defined(UXPArchitecture) || (defined(USL) && (OSMAJORVERSION > 1)) || defined(CSRG_BASED)
 #define _NFILE   FOPEN_MAX
 #endif
 
