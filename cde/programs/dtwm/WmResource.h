@@ -46,6 +46,7 @@ extern void SetStdGlobalResourceValues (void);
 extern void ProcessScreenListResource (void);
 extern void ProcessAppearanceResources (WmScreenData *pSD);
 extern void ProcessGlobalScreenResources (void);
+extern void ProcessPresenceResources (WmScreenData *pSD);
 extern void ProcessScreenResources (WmScreenData *pSD, unsigned char *screenName);
 #ifdef WSM
 extern void ProcessWorkspaceList (WmScreenData *pSD);

@@ -30,6 +30,7 @@
 /*   $XConsortium: WmProperty.h /main/4 1995/11/01 11:48:54 rswiston $ */
 /*
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
+#include "WmICCC.h"
 
 extern SizeHints * GetNormalHints (ClientData *pCD);
 extern void ProcessWmProtocols (ClientData *pCD);
@@ -38,6 +39,9 @@ extern void SetMwmInfo (Window propWindow, long flags, Window wmWindow);
 #ifdef WSM
 void SetMwmSaveSessionInfo (Window wmWindow);
 #endif /* WSM */
+extern void GetDtWmRequest (WmScreenData *pSD, char **pszReq, Boolean *pmore);
+extern void GetDtSessionHints (WmScreenData *pSD, int sNum);
+
 extern PropWMState * GetWMState (Window window);
 extern void SetWMState (Window window, int state, Window icon);
 extern PropMwmHints * GetMwmHints (ClientData *pCD);

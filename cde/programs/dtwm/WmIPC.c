@@ -38,7 +38,9 @@ static char rcsid[] = ""
  * Included Files:
  */
 #include "WmGlobal.h"
+#include "WmProtocol.h"
 #include <Xm/XmAll.h>
+#include <Dt/Dt.h>
 #include <Dt/DtP.h>
 #include <Dt/Action.h>
 #include <Dt/WsmM.h>
@@ -51,6 +53,8 @@ static char rcsid[] = ""
 #include "WmFunction.h"
 #include "WmWrkspace.h"
 #include "WmIPC.h"
+#include "WmXSMP.h"
+#include "WmPanelP.h"
 #include "DataBaseLoad.h"
 
 

@@ -43,6 +43,7 @@ extern void CheckIconBoxResize (ClientData *pCD, unsigned int changedValues,
 extern Boolean CheckIconBoxSize (IconBoxData *pIBD);
 extern void DeleteIconFromBox (IconBoxData *pIBD, ClientData *pCD);
 extern void DeleteIconInfo (IconBoxData *pIBD, ClientData *pCD);
+extern void DestroyIconBox (WmWorkspaceData *pWS);
 extern Boolean ExpandVirtualSpace (IconBoxData *pIBD, int newWidth, 
 				   int newHeight);
 extern Boolean ExtendIconList (IconBoxData *pIBD, int incr);
@@ -60,6 +61,13 @@ extern void IconScrollVisibleCallback (Widget w, caddr_t client_data,
 #endif
 extern void IconActivateCallback (Widget w, caddr_t client_data, 
 				  XmAnyCallbackStruct *call_data);
+#ifdef PANELIST
+extern void IconBoxPopUp (WmWorkspaceData *pWS, Boolean up);
+extern Boolean IconBoxShowing (WmWorkspaceData *pWS);
+#else /* PANELIST */
+extern void IconBoxPopUp (WmWorkspaceData *pWS, ControlWindowStruct *pCW, Boolean up);
+extern Boolean IconBoxShowing (WmWorkspaceData *pWS, ControlWindowStruct *pCW);
+#endif /* PANELIST */
 extern Boolean IconVisible (ClientData *pCD);
 extern IconInfo *InsertIconInfo (IconBoxData *pIBD, ClientData *pCD, 
 				 Widget theWidget);

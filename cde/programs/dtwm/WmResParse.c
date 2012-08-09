@@ -7315,6 +7315,9 @@ void ProcessMotifBindings (void)
     XDeleteProperty (DISPLAY, RootWindow (DISPLAY, 0),
 		XInternAtom (DISPLAY, "_MOTIF_DEFAULT_BINDINGS", False));
 
+    /* FIXME: unexported openmotif procedures */
+    extern Boolean _XmVirtKeysLoadFileBindings(Display *dsp, String *binding);
+    extern void _XmVirtKeysLoadFallbackBindings(Display *dsp, String *binding);
     if (_XmVirtKeysLoadFileBindings (fileName, &bindings) == True) {
 	XChangeProperty (DISPLAY, RootWindow(DISPLAY, 0),
 		XInternAtom (DISPLAY, "_MOTIF_BINDINGS", False),

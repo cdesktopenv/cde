@@ -42,6 +42,7 @@
 #include <Dt/DbReader.h>            /* required for DtDbPathId type */
 #include <Dt/WsmM.h>
 #include <Dt/IconFile.h>
+#include <Dt/Dt.h>
 #include "DataBaseLoad.h"
 #include "Parse.h"
 

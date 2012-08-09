@@ -255,7 +255,7 @@ Pixmap MakeNamedIconPixmap (ClientData *pCD, String iconName)
        }
        else
        {
-	   mask = _DtGetMask (XtScreen(PSD_FOR_CLIENT(pCD)->screenTopLevelW1), 
+	   mask = XmeGetMask (XtScreen(PSD_FOR_CLIENT(pCD)->screenTopLevelW1), 
 			(sIconFileName == NULL) ? iconName : sIconFileName);
 	   if (mask == XmUNSPECIFIED_PIXMAP) 
 	   {

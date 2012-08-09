@@ -31,6 +31,8 @@
 /*
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 
+#ifndef _Dt_WmICCC_h_
+#define _Dt_WmICCC_h_
 /*
  * Included Files:
  */
@@ -143,3 +145,4 @@ typedef struct _PropWMState
 
 /* PropWMState state field value: */
 #define WithdrawnSTATE		0
+#endif /* _Dt_WmICCC_h_ */

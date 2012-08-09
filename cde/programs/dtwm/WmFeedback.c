@@ -43,7 +43,7 @@ static char rcsid[] = "$XConsortium: WmFeedback.c /main/6 1996/10/23 17:20:55 rs
 
 #define MWM_NEED_TIME16
 #include "WmBitmap.h"
-
+#include "WmError.h"
 #include <Xm/Xm.h>
 #include <X11/Shell.h>
 #include <Xm/Label.h>

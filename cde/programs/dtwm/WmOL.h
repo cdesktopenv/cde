@@ -122,6 +122,9 @@ extern Boolean HasOpenLookHints( ClientData *pCD );
 extern OLWinAttr * GetOLWinAttr( ClientData *pCD );
 extern Boolean GetOLDecorFlags(ClientData *pCD, Atom property,
 	unsigned long *pDecor);
+extern void InitOLCompat(void);
+extern void ProcessOLDecoration(ClientData *pCD);
+
 
 
 /*

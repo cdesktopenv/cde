@@ -44,7 +44,10 @@ static char rcsid[] = ""
  
 #include "WmGlobal.h"
 #include "WmError.h"
+#include "WmFunction.h"
 #include "WmHelp.h"
+#include "WmCDecor.h"
+#include "WmResParse.h"
 #ifdef PANELIST
 #include "WmPanelP.h"
 #endif /* PANELIST */

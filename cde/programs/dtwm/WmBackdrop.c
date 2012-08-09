@@ -45,6 +45,8 @@ static char rcsid[] = ""
 #define DTWM_NEED_BACKBITS
 #include "WmIBitmap.h"
 #include "WmBackdrop.h"
+#include "WmError.h"
+#include "WmProperty.h"
 #include <X11/Core.h>
 #include <X11/StringDefs.h>
 #include <X11/Intrinsic.h>
@@ -54,6 +56,7 @@ static char rcsid[] = ""
 #include <Dt/DtP.h>
 #include <Dt/WsmM.h>
 #include <Xm/Xm.h>
+#include <Xm/AtomMgr.h>
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>

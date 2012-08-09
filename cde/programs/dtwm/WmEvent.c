@@ -48,8 +48,10 @@ static char rcsid[] = "$XConsortium: WmEvent.c /main/7 1996/11/20 15:27:47 rswis
  * include extern functions
  */
 #include "WmEvent.h"
+#include "WmError.h"
 #ifdef WSM
 #include "WmBackdrop.h"
+#include "WmWrkspace.h"
 #endif /* WSM */
 #include "WmCDInfo.h"
 #include "WmCDecor.h"

@@ -58,6 +58,7 @@
 #include <Xm/Form.h>
 #include <Xm/ToggleBG.h>
 #include <Xm/AtomMgr.h>
+#include <Xm/TextF.h>
 
 #include <X11/Xatom.h>
 #include <X11/keysym.h>
