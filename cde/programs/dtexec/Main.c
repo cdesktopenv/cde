@@ -538,7 +538,7 @@ InitializeSignalHandling( void )
    sigemptyset(&svec.sa_mask);
    svec.sa_flags   = 0;
    svec.sa_handler = SigCld;
-   (void) sigaction(SIGCLD, &svec, (struct sigaction *) NULL);
+   (void) sigaction(SIGCHLD, &svec, (struct sigaction *) NULL);
 
    /*
     * "Urgent Signal" handlers
@@ -667,7 +667,7 @@ ExecuteCommand (
       svec.sa_handler = SIG_DFL;
 
       /* Normal */
-      (void) sigaction(SIGCLD, &svec, (struct sigaction *) NULL);
+      (void) sigaction(SIGCHLD, &svec, (struct sigaction *) NULL);
 
       /* Urgent */
       (void) sigaction(SIGTERM, &svec, (struct sigaction *) NULL);

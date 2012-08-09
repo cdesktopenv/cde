@@ -383,7 +383,7 @@ main( argc, argv )
     sigemptyset(&svec.sa_mask);
     svec.sa_flags   = 0;
     svec.sa_handler = handle_SIGCLD;
-    (void) sigaction(SIGCLD, &svec, (struct sigaction *) NULL);
+    (void) sigaction(SIGCHLD, &svec, (struct sigaction *) NULL);
 
     /*
      * After this point, we need to trap all X and XIO errors.

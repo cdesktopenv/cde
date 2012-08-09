@@ -7504,11 +7504,11 @@ SystemCmd (char *pchCmd)
     sa.sa_flags = 0;
     sa.sa_handler = SIG_DFL;
 
-    (void) sigaction (SIGCLD, &sa, &osa);
+    (void) sigaction (SIGCHLD, &sa, &osa);
 
     system (pchCmd);
 
-    (void) sigaction (SIGCLD, &osa, (struct sigaction *) 0);
+    (void) sigaction (SIGCHLD, &osa, (struct sigaction *) 0);
 }
 
 
