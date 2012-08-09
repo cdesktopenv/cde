@@ -23,6 +23,7 @@
 /* $XConsortium: logger.c /main/3 1995/10/31 12:04:16 rswiston $ */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <time.h>
 #include <signal.h>
@@ -165,7 +166,7 @@ serve(char *progName, int s, int logfd)
 {
     int i;
     int cc;
-    int addrlen;
+    socklen_t addrlen;
     char *c1;
     char buffer[BUFSIZ];
     struct sockaddr_in clientaddr_in;
