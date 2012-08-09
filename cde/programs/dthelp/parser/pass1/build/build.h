@@ -64,7 +64,7 @@ typedef struct andgroup ANDGROUP ;
    next, a pointer to the next item in the list; and level, which
    indicates the level of nested subexpressions within the regular expression
    when the state was added to the FSA. */
-BUILDEXTERN struct statelist {
+struct statelist {
   STATE *value ;
   STATELIST *next ;
   int level ;
@@ -157,7 +157,7 @@ BUILDEXTERN LOGICAL errexit BUILDINIT(FALSE) ;
    a final state, a pointer to a list of transitions from the state,
    and a flag that indicates whether parsed character data is possible
    from the state */
-BUILDEXTERN struct state {
+struct state {
   LOGICAL final ;
   LOGICAL datacontent ;
   LOGICAL frompcdata ;
@@ -184,7 +184,7 @@ BUILDEXTERN STATE *startstate ;
    label corresponding to one model token and those with the same label
    corresponding to more than one model token).
    */
-BUILDEXTERN struct arc {
+struct arc {
   ELTSTRUCT *label ;
   LOGICAL optional ;
   LOGICAL minim ;
@@ -198,7 +198,7 @@ BUILDEXTERN struct arc {
 content submodels in an andgroup.  Each list element contains a pointer
 to the start state of the FSA and a pointer to the next element in the
 list */
-BUILDEXTERN struct andgroup{
+struct andgroup{
   STATE *start ;
   ANDGROUP *nextptr ;
   ANDGROUP *next ;
