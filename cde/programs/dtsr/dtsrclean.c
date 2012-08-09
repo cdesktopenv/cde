@@ -1016,7 +1016,9 @@ int             main (int argc, char *argv[])
     signal (SIGKILL, signal_shutdown);	/* this cannot be trapped */
     signal (SIGALRM, signal_shutdown);
     signal (SIGTERM, signal_shutdown);
+#ifdef SIGPWR
     signal (SIGPWR, signal_shutdown);
+#endif
 #ifdef _AIX
     signal (SIGXCPU, signal_shutdown);
     signal (SIGDANGER, signal_shutdown);

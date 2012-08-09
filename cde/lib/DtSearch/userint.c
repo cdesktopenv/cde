@@ -105,7 +105,9 @@ void            init_user_interrupt (void)
     signal (SIGKILL, flag_shutdown);	/* kill -9, cannot be trapped */
     signal (SIGALRM, flag_shutdown);	/* called alarm() polling timer */
     signal (SIGTERM, flag_shutdown);	/* kill [-15], sfwr terminate */
+#ifdef SIGPWR
     signal (SIGPWR, flag_shutdown);	/* power failure imminent */
+#endif
     signal (SIGUSR1, flag_shutdown);	/* kill -30, "pings" OE */
 #ifdef _AIX
     signal (SIGXCPU, flag_shutdown);	/* cpu time limit exceeded */

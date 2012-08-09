@@ -313,7 +313,7 @@ int             DtSearchInit (
 	aa_argv0 = argv0;
     if (err_file)
 	aa_stderr = err_file;
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
     else
 	aa_stderr = stderr;
 #endif
@@ -337,7 +337,9 @@ int             DtSearchInit (
 	signal (SIGQUIT, signal_abort);	/* quit, ctrl-d */
 	signal (SIGKILL, signal_abort);	/* (kill -9, cannot be trapped) */
 	signal (SIGTERM, signal_abort);	/* kill [-15], sfwr terminate */
+#ifdef SIGPWR
 	signal (SIGPWR, signal_abort);	/* power failure imminent */
+#endif
 #ifdef _AIX
 	signal (SIGXCPU, signal_abort);	/* cpu time limit exceeded */
 	signal (SIGDANGER, signal_abort);  /* imminent paging space crash */
