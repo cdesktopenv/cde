@@ -59,7 +59,7 @@
 /************************************************************************/
 
 /* Domain/OS BSD has bzero(), bcmp(), and bcopy() defined. */
-#if !defined(apollo) || !defined(__bsd)
+#if !(defined(apollo) && defined(__bsd)) && !defined(CSRG_BASED)
 
 #if defined(__STDC__)
 #if !defined(linux) && !defined(__osf__) && !defined(_XFUNCS_H_)

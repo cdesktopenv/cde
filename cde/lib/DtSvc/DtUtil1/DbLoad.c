@@ -104,6 +104,8 @@ extern	void	_DtDtsSeqReset(void);
 extern	int	_DtDtsNextDCSeq(void);
 extern	int	_DtDtsNextDASeq(void);
 
+char **_DtsDbListDb(void);
+
 int      use_in_memory_db = False;
 
 static void

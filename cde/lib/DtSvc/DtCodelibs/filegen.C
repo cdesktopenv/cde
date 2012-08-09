@@ -272,10 +272,11 @@ _SHXbuf::filegen()
     // Find the longest match if we are doing completion:
     if (completion)
     {
+	long i;
 	// compare all entries to a copy of the first entry
 	strcpy(filebuf, &bufptr[long(vec[0])]);
 
-	for (long i = 1; i < vec.size(); i++)
+	for (i = 1; i < vec.size(); i++)
 	{
 	    register char *ref = filebuf;
 	    register char *ptr = &bufptr[long(vec[i])];

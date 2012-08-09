@@ -43,7 +43,7 @@
 #ifdef __apollo
 #include "/sys5/usr/include/sys/termio.h"
 #else
-#include <termio.h>
+#include <termios.h>
 #endif
 #include <errno.h>
 #include <unistd.h>
@@ -989,7 +989,7 @@ _DtCmdCommandInvokerExecute (
       if (commandPid == 0) 
       {
 
-#if defined(__hp_osf) || defined(__osf__)
+#if defined(__hp_osf) || defined(__osf__) || defined(CSRG_BASED)
          setsid() ;
 #else
          (void) setpgrp ();
