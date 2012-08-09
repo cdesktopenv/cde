@@ -118,7 +118,8 @@ _SHXbuf::reset(boolean g, boolean comp)
 char **
 _SHXbuf::vector()
 {
-    for (int i = 0; i < vec.size(); i++)
+    int i;
+    for (i = 0; i < vec.size(); i++)
 	vec[i] = &buf[long(vec[i])];
 
     vec[i] = NULL;

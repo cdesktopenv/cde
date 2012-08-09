@@ -289,8 +289,9 @@ char *
 ComposeFamily::valueToAddrString(DtMailValueSeq & value)
 {
     int max_len = 0;
+    int count;
 
-    for (int count = 0; count < value.length(); count++) {
+    for (count = 0; count < value.length(); count++) {
 	max_len += strlen(*(value[count]));
     }
 

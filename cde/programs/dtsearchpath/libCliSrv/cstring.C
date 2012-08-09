@@ -510,12 +510,14 @@ CTokenizedString::~CTokenizedString()
 CString CTokenizedString::next()
 {
 char * q  = 0;
+char * p;
+int i;
 
     if (cursor) {
 	if (strlen(delimiter) == 1)
 	    q = strchr(cursor,delimiter[0]);
 	else {
-	    for (int i = 0; i < strlen(cursor); i++)
+	    for (i = 0; i < strlen(cursor); i++)
 		if (strchr(delimiter,cursor[i])) {
 		    q = &cursor[i];
 		    break;
@@ -533,7 +535,7 @@ char * q  = 0;
 	// eliminate trailing white space
 
 	if (skipWhiteSpace) {
-	    for (char *p = q; isspace(*(p-1)); p--);
+	    for (p = q; isspace(*(p-1)); p--);
 	    *p = 0;
 	}
 	CString result(cursor);

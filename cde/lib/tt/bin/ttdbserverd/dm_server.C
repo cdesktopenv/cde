@@ -1079,7 +1079,8 @@ _tt_isopen_1(_Tt_isopen_args *args, SVCXPRT * /* transp */)
 
 	int l = db_path.len();
 	int tl = strlen("TT_DB");
-	for (int j = 0; j<l; j++) {
+	int j;
+	for (j = 0; j<l; j++) {
 		if (0==strncmp((char *)db_path+j,"TT_DB",tl)) {
 			break;
 		}
