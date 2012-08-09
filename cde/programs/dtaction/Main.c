@@ -898,8 +898,8 @@ GetUserPrompt( void )
    XmString cancelLabel;
    XmString okLabel;
 
-   sprintf(prompt, (GETMESSAGE(1,5, "Enter password for user %s:")), 
-           appArgs.user);
+   snprintf(prompt, BUFSIZ, (GETMESSAGE(1,5, "Enter password for user %s:")), 
+            appArgs.user);
    xmString = XmStringCreateLocalized(prompt);
    xmString2 =XmStringCreateLocalized(GETMESSAGE(1,6, "Action Invoker - Password"));
    cancelLabel = XmStringCreateLocalized(GETMESSAGE(1,7, "Cancel"));
