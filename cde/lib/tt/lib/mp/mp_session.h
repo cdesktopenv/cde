@@ -168,7 +168,7 @@ class _Tt_session : public _Tt_object {
 
 	friend class _Tt_s_mp;
 	friend class _Tt_s_session;
-	friend _Tt_mp::find_session_by_fd(int, _Tt_session_ptr &);
+	friend int _Tt_mp::find_session_by_fd(int, _Tt_session_ptr &);
 };
 
 _Tt_string _tt_session_address(_Tt_object_ptr &o);
