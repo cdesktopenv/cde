@@ -53,7 +53,8 @@
  */
 
 #include "dtscreen.h"
-#include	<math.h>
+#include <math.h>
+#include <stdlib.h>
 
 #define MAXCOLORS 64
 #define MAXWORMS 64

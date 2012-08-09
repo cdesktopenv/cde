@@ -47,6 +47,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 #include "dtscreen.h"
 
 #define SAVE 		100	/* this is a good constant to tweak */

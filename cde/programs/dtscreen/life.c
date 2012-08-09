@@ -47,6 +47,7 @@
 
 #include "dtscreen.h"
 #include "lifeicon.bit"
+#include <stdlib.h>
 
 static XImage logo = {
     0, 0,			/* width, height */
