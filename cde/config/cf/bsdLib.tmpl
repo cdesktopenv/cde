@@ -13,3 +13,23 @@ XCOMM $XConsortium: bsdLib.tmpl /main/3 1996/09/28 16:09:25 rws $
 #ifndef SharedXmuReqs
 #define SharedXmuReqs $(LDPRELIBS) $(XTOOLONLYLIB) $(XONLYLIB)
 #endif
+
+#ifndef SharedXReqs
+# define SharedXReqs $(XTOOLLIB) $(XLIB) $(LDPOSTLIBS)
+#endif
+
+#ifndef SharedXmReqs
+# define SharedXmReqs $(LDPRELIBS) SharedXReqs -lc
+#endif
+
+#ifndef SharedTtReqs
+# define SharedTtReqs $(LDPRELIBS) SharedXReqs $(CXXLIB)
+#endif
+
+#ifndef SharedDtSvcReqs
+# define SharedDtSvcReqs $(LDPRELIBS) SharedXReqs $(CXXLIB)
+#endif
+
+#ifndef SharedCsaReqs
+# define SharedCsaReqs -lXt $(LDPOSTLIBS)
+#endif
