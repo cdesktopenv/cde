@@ -57,7 +57,7 @@ public:
 	 int i = 0;
 	 _Tt_string_list_cursor values_cursor(values);
 	 while (values_cursor.next()) {
-	   if (*values_cursor != (char*)NULL) 
+	   if (*values_cursor != (const char*)NULL) 
 	        fprintf(file, "Property Value #%d: %s\n", i, (char *)*values_cursor);
            else fprintf(file, "Property Value #%d: NULL\n", i);
 	   i++;
