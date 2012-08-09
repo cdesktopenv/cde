@@ -416,7 +416,7 @@ char **argv ;
   srand48((long) time((time_t *) 0)) ;   /* Seed random number generator. */
 
   make_items() ;              /* Create server images and fir frames. */
-  if(v->display[0] == NULL)
+  if(v->display[0] == 0)
      do_clear() ;                /* Initialise and clear display. */
 
   if (v->rstate == TRUE)      /* Show the memory register window? */
@@ -941,7 +941,7 @@ init_vars()    /* Setup default values for various variables. */
   v->key_exp     = 0 ;            /* Not entering an exponent number. */
   v->pending_op  = 0 ;            /* No pending arithmetic operation. */
   v->titleline   = NULL ;         /* No User supplied title line. */
-  v->display[0]  = NULL ;         
+  v->display[0]  = 0 ;         
 
   v->x  = 0;
   v->x  = 0;
