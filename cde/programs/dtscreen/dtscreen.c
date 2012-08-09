@@ -109,6 +109,7 @@
 nl_catd  scmc_catd;   /* Cat descriptor for scmc conversion */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <string.h>
 
