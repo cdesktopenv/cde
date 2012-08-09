@@ -33,6 +33,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "ds_common.h"
 
 #define  FREE    (void) free
