@@ -146,7 +146,7 @@ logStartStop(char *progName, int logfd, int start)
     /* remove the trailing '\n'... */
     tstring[strlen(tstring) - 1] = '\0';
 
-    (void) sprintf(buffer, "%s: %s %s\n",
+    (void) snprintf(buffer, sizeof buffer, "%s: %s %s\n",
 	    (savedProgName && *savedProgName) ? savedProgName : "logger",
 	    start ? "starting" : "terminating",
 	    tstring);
