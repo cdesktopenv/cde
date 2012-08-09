@@ -115,7 +115,7 @@ _DtCmGetLocalDomain(char *hostname)
 		ptr = domain;
 		if (hostname == NULL) hostname = _DtCmGetLocalHost();
 		while (1) {
-			sprintf(buf, "%s.%s", hostname, ptr);
+			snprintf(buf, sizeof buf, "%s.%s", hostname, ptr);
 			if ((cl = clnt_create(buf, 100068, 5, "udp")) == NULL) {
 				ptr = strchr(ptr, '.');
 				if (ptr)
@@ -145,9 +145,10 @@ _DtCmGetHostAtDomain()
 
 		host = _DtCmGetLocalHost();
 		if (strchr(host, '.') == NULL)
-			sprintf(hostname, "%s.%s", host,
+			snprintf(hostname, BUFSIZ, "%s.%s", host,
 				_DtCmGetLocalDomain(host));
 		else
+			/* XXX strcpy unsafe here */
 			strcpy(hostname, host);
 	}
 

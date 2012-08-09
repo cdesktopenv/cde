@@ -44,7 +44,7 @@ set_timezone(char *tzname)
         if (tzname==NULL)
 		system("unset TZ\n");
         else {
-                sprintf(tzenv, "TZ=%s", tzname);
+                snprintf(tzenv, sizeof tzenv, "TZ=%s", tzname);
                 (void) putenv(tzenv);
                 tzset();
         }

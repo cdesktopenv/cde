@@ -144,12 +144,12 @@ _DtCm_appt4_to_attrs(
 		ptr2 = (ptr1 ? strchr(ptr1, '.') : NULL);
 
 		if (ptr1) {
-			sprintf(buf, "%d:%s%s%s", a4->appt_id.key, calname,
+			snprintf(buf, sizeof buf, "%d:%s%s%s", a4->appt_id.key, calname,
 				(ptr2 == NULL ? "." : ""),
 				(ptr2 == NULL ? _DtCmGetLocalDomain(ptr1+1) :
 				""));
 		} else {
-			sprintf(buf, "%d:%s@%s", a4->appt_id.key, calname,
+			snprintf(buf, sizeof buf, "%d:%s@%s", a4->appt_id.key, calname,
 				_DtCmGetHostAtDomain());
 		}
 		opq.size = strlen(buf);
@@ -450,43 +450,44 @@ _RepeatInfoToRule(Appt_4 *a4, cms_attribute_value **attrval)
 
 	switch (a4->period.period) {
 	case daily_4:
-		sprintf(buf, "D1 #%d ", duration);
+		snprintf(buf, sizeof buf, "D1 #%d ", duration);
 		break;
 	case weekly_4:
-		sprintf(buf, "W1 #%d ", duration);
+		snprintf(buf, sizeof buf, "W1 #%d ", duration);
 		break;
 	case biweekly_4:
-		sprintf(buf, "W2 #%d ", duration);
+		snprintf(buf, sizeof buf, "W2 #%d ", duration);
 		break;
 	case monthly_4:
-		sprintf(buf, "MD1 #%d ", duration);
+		snprintf(buf, sizeof buf, "MD1 #%d ", duration);
 		break;
 	case yearly_4:
-		sprintf(buf, "YM1 #%d ", duration);
+		snprintf(buf, sizeof buf, "YM1 #%d ", duration);
 		break;
 	case nthWeekday_4:
-		sprintf(buf, "MP1 #%d ", duration);
+		snprintf(buf, sizeof buf, "MP1 #%d ", duration);
 		break;
 	case everyNthDay_4:
-		sprintf(buf, "D%d #%d ", a4->period.nth, duration);
+		snprintf(buf, sizeof buf, "D%d #%d ", a4->period.nth, duration);
 		break;
 	case everyNthWeek_4:
-		sprintf(buf, "W%d #%d ", a4->period.nth, duration);
+		snprintf(buf, sizeof buf, "W%d #%d ", a4->period.nth, duration);
 		break;
 	case everyNthMonth_4:
-		sprintf(buf, "MD%d #%d ", a4->period.nth, duration);
+		snprintf(buf, sizeof buf, "MD%d #%d ", a4->period.nth, duration);
 		break;
 	case monThruFri_4:
-		sprintf(buf, "W1 MO TU WE TH FR #%d ", duration);
+		snprintf(buf, sizeof buf, "W1 MO TU WE TH FR #%d ", duration);
 		break;
 	case monWedFri_4:
-		sprintf(buf, "W1 MO WE FR #%d ", duration);
+		snprintf(buf, sizeof buf, "W1 MO WE FR #%d ", duration);
 		break;
 	case tueThur_4:
-		sprintf(buf, "W1 TU TH #%d ", duration);
+		snprintf(buf, sizeof buf, "W1 TU TH #%d ", duration);
 		break;
 	case daysOfWeek_4:
-		sprintf(buf, "W1 #%d ", duration);
+		snprintf(buf, sizeof buf, "W1 #%d ", duration);
+		/* XXX strcat is unsafe here */
 		if (a4->period.nth & 0x1) strcat(buf, "SU ");
 		if (a4->period.nth & 0x2) strcat(buf, "MO ");
 		if (a4->period.nth & 0x4) strcat(buf, "TU ");
