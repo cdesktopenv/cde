@@ -217,7 +217,7 @@ main(int argc, char** argv, char **envp)
 #if defined(DEC) || defined(sun) || defined(HPUX)
  	int asize = sizeof(struct sockaddr);
 #else
-# if defined(linux)
+# if defined(linux) || defined(CSRG_BASED)
  	socklen_t asize;
 # else
  	size_t asize = sizeof(struct sockaddr);
@@ -484,7 +484,7 @@ main(int argc, char** argv, char **envp)
 		if (!_tt_debug_mode) {
 			if (0!=fork()) exit(0);
 
-#ifdef __osf__
+#if defined(__osf__) || defined(CSRG_BASED)
 			setsid();
 #else
  			setpgrp();

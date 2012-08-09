@@ -355,7 +355,11 @@ gettransient(int proto, int vers, int *sockp)
 #ifndef OPT_TLI
 	int			found;
 	int			s;
+#if defined(linux) || defined(CSRG_BASED)
+	socklen_t		len;
+#else
 	int			len;
+#endif
 	int			socktype;
 	sockaddr_in		addr;
 	sockaddr_in		tport;

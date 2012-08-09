@@ -173,7 +173,11 @@ init(int init_as_source)
 		return 0;
 	}
 #else
+#if defined(linux) || defined(CSRG_BASED)
+	socklen_t	len;
+#else
 	int		len;
+#endif
 	int		optval;
 	_sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (_sock < 0) {
@@ -439,7 +443,11 @@ accept()
 {
 	if (_msgsock == -1) {
 #ifndef OPT_TLI
+#if defined(linux) || defined(CSRG_BASED)
+		socklen_t		addrlen = sizeof(sockaddr_in);
+#else
 		int			addrlen = sizeof(sockaddr_in);
+#endif
 		sockaddr_in		saddr;
 
 #if defined(_AIX) && (OSMAJORVERSION==4) && (OSMINORVERSION==2)
