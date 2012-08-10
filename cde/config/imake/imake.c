@@ -256,6 +256,7 @@ extern int	errno;
  * are there any X_NOT_STDC_ENV machines left in the world?
  */
 #include <string.h>
+#include <stdarg.h>
 #include "imakemdep.h"
 
 /*
@@ -275,14 +276,14 @@ extern int sys_nerr;
 #define	FALSE		0
 
 #ifdef FIXUP_CPP_WHITESPACE
-int	InRule = FALSE;
+static int	InRule = FALSE;
 # ifdef INLINE_SYNTAX
-int	InInline = 0;
+static int	InInline = 0;
 # endif
 #endif
 #ifdef MAGIC_MAKE_VARS
-int xvariable = 0;
-int xvariables[10];
+static int xvariable = 0;
+static int xvariables[10];
 #endif
 
 /*
@@ -291,7 +292,8 @@ int xvariables[10];
  * space instead of being deleted.  Blech.
  */
 #ifdef FIXUP_CPP_WHITESPACE
-void KludgeOutputLine(), KludgeResetRule();
+static void KludgeOutputLine(char **pline);
+static void KludgeResetRule(void);
 #else
 # define KludgeOutputLine(arg)
 # define KludgeResetRule()
@@ -313,11 +315,11 @@ typedef	unsigned char	boolean;
 # endif
 #endif
 
-char *cpp = NULL;
+static char *cpp = NULL;
 
-char	*tmpMakefile    = "/tmp/Imf.XXXXXX";
-char	*tmpImakefile    = "/tmp/IIf.XXXXXX";
-char	*make_argv[ ARGUMENTS ] = {
+static char *tmpMakefile = "/tmp/Imf.XXXXXX";
+static char	*tmpImakefile    = "/tmp/IIf.XXXXXX";
+static char	*make_argv[ ARGUMENTS ] = {
 #ifdef WIN32
     "nmake"
 #else
@@ -325,42 +327,69 @@ char	*make_argv[ ARGUMENTS ] = {
 #endif
 };
 
-int	make_argindex;
-int	cpp_argindex;
-char	*Imakefile = NULL;
-char	*Makefile = "Makefile";
-char	*Template = "Imake.tmpl";
-char	*ImakefileC = "Imakefile.c";
-boolean haveImakefileC = FALSE;
-char	*cleanedImakefile = NULL;
-char	*program;
-char	*FindImakefile();
-char	*ReadLine();
-char	*CleanCppInput();
-char	*Strdup();
-char	*Emalloc();
-void	LogFatalI(), LogFatal(), LogMsg();
+static int	make_argindex;
+static int	cpp_argindex;
+static char	*Imakefile = NULL;
+static char	*Makefile = "Makefile";
+static char	*Template = "Imake.tmpl";
+static char	*ImakefileC = "Imakefile.c";
+static boolean haveImakefileC = FALSE;
+static char	*cleanedImakefile = NULL;
+static char	*program;
+static boolean	verbose = FALSE;
+static boolean	show = TRUE;
 
-void	showit();
-void	wrapup();
-void	init();
-void	AddMakeArg();
-void	AddCppArg();
-void	SetOpts();
-void	CheckImakefileC();
-void	cppit();
-void	makeit();
-void	CleanCppOutput();
-boolean	isempty();
-void	writetmpfile();
+static char	*FindImakefile(char *);
+static char	*ReadLine(FILE *, const char *);
+static char	*CleanCppInput(char *);
+static char	*Strdup(const char *);
+static char	*Emalloc(int);
+static void	LogFatal(const char *, ...);
+static void	LogMsg(const char *, ...);
+static void	Log(const char *, va_list);
 
-boolean	verbose = FALSE;
-boolean	show = TRUE;
+static void	showit(FILE *);
+static void	wrapup(void);
+static
+#ifdef SIGNALRETURNSINT
+int
+#else
+void
+#endif
+catch(int);
+static void	init(void);
+static void	AddMakeArg(char *);
+static void	AddCppArg(char *);
+static void	SetOpts(int, char **);
+static void	showargs(char **);
+static void	CheckImakefileC(const char *);
+static boolean	optional_include(FILE *, const char *, const char *);
+static void	doit(FILE *, const char *, char **);
+#if (defined(DEFAULT_OS_NAME) || defined(DEFAULT_OS_MAJOR_REV) || \
+     defined(DEFAULT_OS_MINOR_REV) || defined(DEFAULT_OS_TEENY_REV))
+static void	parse_utsname(struct utsname *, const char *, char *, const char *);
+#endif
+#if (defined(DEFAULT_OS_MAJOR_REV) || defined(DEFAULT_OS_MINOR_REV) || defined(DEFAULT_OS_TEENY_REV))
+static const char	*trim_version(const char *);
+#endif
+#ifdef linux
+static void	get_distrib(FILE *);
+static void	get_libc_version(FILE *);
+static void	get_ld_version(FILE *);
+#endif
+#if defined(sun) && defined(__SVR4)
+static void	get_sun_compiler_versions(FILE *);
+#endif
+static void	get_gcc_incdir(FILE *);
+static boolean	define_os_defaults(FILE *);
+static void	cppit(const char *i, const char *, const char *, FILE *, const char *);
+static void	makeit(void);
+static void	CleanCppOutput(FILE *, const char *);
+static boolean	isempty(char *);
+static void	writetmpfile(FILE *, const char *, int, const char *);
 
 int
-main(argc, argv)
-	int	argc;
-	char	**argv;
+main(int argc, char *argv[])
 {
 	FILE	*tmpfd;
 	char	makeMacro[ BUFSIZ ];
@@ -376,7 +405,7 @@ main(argc, argv)
 		tmpMakefile = Makefile;
 	else {
 		tmpMakefile = Strdup(tmpMakefile);
-		(void) mktemp(tmpMakefile);
+		mkstemp(tmpMakefile);
 	}
 	AddMakeArg("-f");
 	AddMakeArg( tmpMakefile );
@@ -397,12 +426,11 @@ main(argc, argv)
 	} else
 		makeit();
 	wrapup();
-	exit(0);
+	return 0;
 }
 
-void
-showit(fd)
-	FILE	*fd;
+static void
+showit(FILE *fd)
 {
 	char	buf[ BUFSIZ ];
 	int	red;
@@ -414,8 +442,8 @@ showit(fd)
 	    LogFatal("Cannot read %s.", tmpMakefile);
 }
 
-void
-wrapup()
+static void
+wrapup(void)
 {
 	if (tmpMakefile != Makefile)
 		unlink(tmpMakefile);
@@ -425,25 +453,25 @@ wrapup()
 		unlink(ImakefileC);
 }
 
+static
 #ifdef SIGNALRETURNSINT
 int
 #else
 void
 #endif
-catch(sig)
-	int	sig;
+catch(int sig)
 {
 	errno = 0;
-	LogFatalI("Signal %d.", sig);
+	LogFatal("Signal %d.", sig);
 }
 
 /*
  * Initialize some variables.
  */
-void
-init()
+static void
+init(void)
 {
-	register char	*p;
+	char	*p;
 
 	make_argindex=0;
 	while (make_argv[ make_argindex ] != NULL)
@@ -457,10 +485,9 @@ init()
 	 * the default.  Or if cpp is not the default.  Or if the make
 	 * found by the PATH variable is not the default.
 	 */
-	if (p = getenv("IMAKEINCLUDE")) {
+	if ((p = getenv("IMAKEINCLUDE"))) {
 		if (*p != '-' || *(p+1) != 'I')
-			LogFatal("Environment var IMAKEINCLUDE %s",
-				"must begin with -I");
+			LogFatal("Environment var IMAKEINCLUDE %s must begin with -I");
 		AddCppArg(p);
 		for (; *p; p++)
 			if (*p == ' ') {
@@ -468,41 +495,37 @@ init()
 				AddCppArg(p);
 			}
 	}
-	if (p = getenv("IMAKECPP"))
+	if ((p = getenv("IMAKECPP")))
 		cpp = p;
-	if (p = getenv("IMAKEMAKE"))
+	if ((p = getenv("IMAKEMAKE")))
 		make_argv[0] = p;
 
 	if (signal(SIGINT, SIG_IGN) != SIG_IGN)
 		signal(SIGINT, catch);
 }
 
-void
-AddMakeArg(arg)
-	char	*arg;
+static void
+AddMakeArg(char *arg)
 {
 	errno = 0;
 	if (make_argindex >= ARGUMENTS-1)
-		LogFatal("Out of internal storage.", "");
+		LogFatal("Out of internal storage.");
 	make_argv[ make_argindex++ ] = arg;
 	make_argv[ make_argindex ] = NULL;
 }
 
-void
-AddCppArg(arg)
-	char	*arg;
+static void
+AddCppArg(char *arg)
 {
 	errno = 0;
 	if (cpp_argindex >= ARGUMENTS-1)
-		LogFatal("Out of internal storage.", "");
+		LogFatal("Out of internal storage.");
 	cpp_argv[ cpp_argindex++ ] = arg;
 	cpp_argv[ cpp_argindex ] = NULL;
 }
 
-void
-SetOpts(argc, argv)
-	int	argc;
-	char	**argv;
+static void
+SetOpts(int argc, char **argv)
 {
 	errno = 0;
 	/*
@@ -523,7 +546,7 @@ SetOpts(argc, argv)
 		    else {
 			argc--, argv++;
 			if (! argc)
-			    LogFatal("No description arg after -f flag", "");
+			    LogFatal("No description arg after -f flag");
 			Imakefile = argv[0];
 		    }
 		} else if (argv[0][1] == 's') {
@@ -533,7 +556,7 @@ SetOpts(argc, argv)
 		    else {
 			argc--, argv++;
 			if (!argc)
-			    LogFatal("No description arg after -s flag", "");
+			    LogFatal("No description arg after -s flag");
 			Makefile = ((argv[0][0] == '-') && !argv[0][1]) ?
 			    NULL : argv[0];
 		    }
@@ -547,7 +570,7 @@ SetOpts(argc, argv)
 		    else {
 			argc--, argv++;
 			if (! argc)
-			    LogFatal("No description arg after -T flag", "");
+			    LogFatal("No description arg after -T flag");
 			Template = argv[0];
 		    }
 		} else if (argv[0][1] == 'C') {
@@ -556,7 +579,7 @@ SetOpts(argc, argv)
 		    else {
 			argc--, argv++;
 			if (! argc)
-			    LogFatal("No imakeCfile arg after -C flag", "");
+			    LogFatal("No imakeCfile arg after -C flag");
 			ImakefileC = argv[0];
 		    }
 		} else if (argv[0][1] == 'v') {
@@ -580,9 +603,8 @@ SetOpts(argc, argv)
 	AddCppArg(ImakefileC);
 }
 
-char *
-FindImakefile(Imakefile)
-	char	*Imakefile;
+static char *
+FindImakefile(char *Imakefile)
 {
 	if (Imakefile) {
 		if (access(Imakefile, R_OK) < 0)
@@ -590,7 +612,7 @@ FindImakefile(Imakefile)
 	} else {
 		if (access("Imakefile", R_OK) < 0)
 			if (access("imakefile", R_OK) < 0)
-				LogFatal("No description file.", "");
+				LogFatal("No description file.");
 			else
 				Imakefile = "imakefile";
 		else
@@ -599,49 +621,54 @@ FindImakefile(Imakefile)
 	return(Imakefile);
 }
 
-void
-LogFatalI(s, i)
-	char *s;
-	int i;
+static void
+LogFatal(const char *s, ...)
 {
-	/*NOSTRICT*/
-	LogFatal(s, (char *)i);
+    static boolean entered = FALSE;
+    va_list args;
+
+    if (entered)
+        return;
+
+    entered = TRUE;
+
+    va_start(args, s);
+    Log(s, args);
+    va_end(args);
+
+    fprintf(stderr, "Stop.\n");
+
+    wrapup();
+
+    exit(1);
 }
 
-void
-LogFatal(x0,x1)
-	char *x0, *x1;
+static void
+LogMsg(const char *s, ...)
 {
-	static boolean	entered = FALSE;
+    va_list args;
 
-	if (entered)
-		return;
-	entered = TRUE;
-
-	LogMsg(x0, x1);
-	fprintf(stderr, "  Stop.\n");
-	wrapup();
-	exit(1);
+    va_start(args, s);
+    Log(s, args);
+    va_end(args);
 }
 
-void
-LogMsg(x0,x1)
-	char *x0, *x1;
+static void
+Log(const char *s, va_list args)
 {
-	int error_number = errno;
+    int error_number = errno;
 
-	if (error_number) {
-		fprintf(stderr, "%s: ", program);
-		fprintf(stderr, "%s\n", strerror(error_number));
-	}
-	fprintf(stderr, "%s: ", program);
-	fprintf(stderr, x0, x1);
-	fprintf(stderr, "\n");
+    if (error_number) {
+        fprintf(stderr, "%s: ", program);
+        fprintf(stderr, "%s\n", strerror(error_number));
+    }
+    fprintf(stderr, "%s: ", program);
+    vfprintf(stderr, s, args);
+    fprintf(stderr, "\n");
 }
 
-void
-showargs(argv)
-	char	**argv;
+static void
+showargs(char **argv)
 {
 	for (; *argv; argv++)
 		fprintf(stderr, "%s ", *argv);
@@ -650,9 +677,8 @@ showargs(argv)
 
 #define ImakefileCHeader "/* imake - temporary file */"
 
-void
-CheckImakefileC(masterc)
-	char *masterc;
+static void
+CheckImakefileC(const char *masterc)
 {
 	char mkcbuf[1024];
 	FILE *inFile;
@@ -678,11 +704,8 @@ CheckImakefileC(masterc)
 #define ImakeTmplSym	"IMAKE_TEMPLATE"
 #define OverrideWarning	"Warning: local file \"%s\" overrides global macros."
 
-boolean
-optional_include(inFile, defsym, fname)
-        FILE	*inFile;
-        char    *defsym;
-        char    *fname;
+static boolean
+optional_include(FILE *inFile, const char *defsym, const char *fname)
 {
 	errno = 0;
 	if (access(fname, R_OK) == 0) {
@@ -693,11 +716,8 @@ optional_include(inFile, defsym, fname)
 	return FALSE;
 }
 
-void
-doit(outfd, cmd, argv)
-	FILE	*outfd;
-	char    *cmd;
-	char	**argv;
+static void
+doit(FILE *outfd, const char *cmd, char **argv)
 {
 	int	pid;
 	waitType	status;
@@ -712,18 +732,18 @@ doit(outfd, cmd, argv)
 	if (status < 0)
 		LogFatal("Cannot spawn %s.", cmd);
 	if (status > 0)
-		LogFatalI("Exit code %d.", status);
+		LogFatal("Exit code %d.", status);
 #else
 	pid = fork();
 	if (pid < 0)
-		LogFatal("Cannot fork.", "");
+		LogFatal("Cannot fork.");
 	if (pid) {	/* parent... simply wait */
 		while (wait(&status) > 0) {
 			errno = 0;
 			if (WIFSIGNALED(status))
-				LogFatalI("Signal %d.", waitSig(status));
+				LogFatal("Signal %d.", waitSig(status));
 			if (WIFEXITED(status) && waitCode(status))
-				LogFatalI("Exit code %d.", waitCode(status));
+				LogFatal("Exit code %d.", waitCode(status));
 		}
 	}
 	else {	/* child... dup and exec cmd */
@@ -738,12 +758,11 @@ doit(outfd, cmd, argv)
 }
 
 #ifndef WIN32
+
+#if (defined(DEFAULT_OS_NAME) || defined(DEFAULT_OS_MAJOR_REV) || \
+     defined(DEFAULT_OS_MINOR_REV) || defined(DEFAULT_OS_TEENY_REV))
 static void
-parse_utsname(name, fmt, result, msg)
-     struct utsname *name;
-     char *fmt;
-     char *result;
-     char *msg;
+parse_utsname(struct utsname *name, const char *fmt, char *result, const char *msg)
 {
   char buf[SYS_NMLN * 5 + 1];
   char *ptr = buf;
@@ -800,21 +819,22 @@ parse_utsname(name, fmt, result, msg)
 
   /* Just in case... */
   if (strlen(buf) >= sizeof(buf))
-    LogFatal("Buffer overflow parsing uname.", "");
+    LogFatal("Buffer overflow parsing uname.");
 
   /* Parse the buffer.  The sscanf() return value is rarely correct. */
   *result = '\0';
   (void) sscanf(buf, fmt + arg + 1, result);
 }
+#endif
 
 /* Trim leading 0's and periods from version names.  The 0's cause
    the number to be interpreted as octal numbers.  Some version strings
    have the potential for different numbers of .'s in them.
  */
 	
-static char *
-trim_version(p)
-	char *p;
+#if (defined(DEFAULT_OS_MAJOR_REV) || defined(DEFAULT_OS_MINOR_REV) || defined(DEFAULT_OS_TEENY_REV))
+static const char *
+trim_version(const char *p)
 {
 
 	if (p != 0 && *p != '\0')
@@ -826,9 +846,11 @@ trim_version(p)
 }
 #endif
 
+#endif
+
 #ifdef linux
-static void get_distrib(inFile)
-  FILE* inFile;
+static void
+get_distrib(FILE *inFile)
 {
   struct stat sb;
 
@@ -928,8 +950,8 @@ static const char *libc_c=
 "}\n"
 ;
 
-static void get_libc_version(inFile)
-  FILE* inFile;
+static void
+get_libc_version(FILE *inFile)
 {
   static char* libcso = "/usr/lib/libc.so";
   struct stat sb;
@@ -991,8 +1013,8 @@ static void get_libc_version(inFile)
   }
 }
 
-static void get_ld_version(inFile)
-  FILE* inFile;
+static void
+get_ld_version(FILE *inFile)
 {
   FILE* ldprog = popen ("ld -v", "r");
   char c;
@@ -1016,8 +1038,8 @@ static void get_ld_version(inFile)
 #endif
 
 #if defined(sun) && defined(__SVR4)
-static void get_sun_compiler_versions (inFile)
-  FILE* inFile;
+static void
+get_sun_compiler_versions(FILE *inFile)
 {
   char buf[PATH_MAX];
   char cmd[PATH_MAX];
@@ -1069,8 +1091,8 @@ static void get_sun_compiler_versions (inFile)
 }
 #endif
 
-static void get_gcc_incdir(inFile)
-  FILE* inFile;
+static void
+get_gcc_incdir(FILE *inFile)
 {
   static char* gcc_path[] = {
 #ifdef linux
@@ -1105,19 +1127,18 @@ static void get_gcc_incdir(inFile)
     fprintf (inFile, "#define DefaultGccIncludeDir %s\n", buf);
 }
 
-boolean
-define_os_defaults(inFile)
-	FILE	*inFile;
+static boolean
+define_os_defaults(FILE *inFile)
 {
 #ifndef WIN32
 #if (defined(DEFAULT_OS_NAME) || defined(DEFAULT_OS_MAJOR_REV) || \
-     defined(DEFAULT_OS_MINOR_REV) || defined(DEFAUL_OS_TEENY_REV))
+     defined(DEFAULT_OS_MINOR_REV) || defined(DEFAULT_OS_TEENY_REV))
 	struct utsname name;
 	char buf[SYS_NMLN * 5 + 1];
 
 	/* Obtain the system information. */
 	if (uname(&name) < 0)
-		LogFatal("Cannot invoke uname", "");
+		LogFatal("Cannot invoke uname");
 
 # ifdef DEFAULT_OS_NAME
 	parse_utsname(&name, DEFAULT_OS_NAME, buf, 
@@ -1175,13 +1196,8 @@ define_os_defaults(inFile)
    return FALSE;
 }
 
-void
-cppit(imakefile, template, masterc, outfd, outfname)
-	char	*imakefile;
-	char	*template;
-	char	*masterc;
-	FILE	*outfd;
-	char	*outfname;
+static void
+cppit(const char *imakefile, const char *template, const char *masterc, FILE *outfd, const char *outfname)
 {
 	FILE	*inFile;
 
@@ -1208,15 +1224,14 @@ cppit(imakefile, template, masterc, outfd, outfname)
 	CleanCppOutput(outfd, outfname);
 }
 
-void
-makeit()
+static void
+makeit(void)
 {
 	doit(NULL, make_argv[0], make_argv);
 }
 
-char *
-CleanCppInput(imakefile)
-	char	*imakefile;
+static char *
+CleanCppInput(char *imakefile)
 {
 	FILE	*outFile = NULL;
 	FILE	*inFile;
@@ -1271,7 +1286,7 @@ CleanCppInput(imakefile)
 		    strcmp(ptoken, "undef")) {
 		    if (outFile == NULL) {
 			tmpImakefile = Strdup(tmpImakefile);
-			(void) mktemp(tmpImakefile);
+			mkstemp(tmpImakefile);
 			outFile = fopen(tmpImakefile, "w");
 			if (outFile == NULL)
 			    LogFatal("Cannot open %s for write.",
@@ -1298,15 +1313,13 @@ CleanCppInput(imakefile)
 	return(imakefile);
 }
 
-void
-CleanCppOutput(tmpfd, tmpfname)
-	FILE	*tmpfd;
-	char	*tmpfname;
+static void
+CleanCppOutput(FILE *tmpfd, const char *tmpfname)
 {
 	char	*input;
 	int	blankline = 0;
 
-	while(input = ReadLine(tmpfd, tmpfname)) {
+	while ((input = ReadLine(tmpfd, tmpfname))) {
 		if (isempty(input)) {
 			if (blankline++)
 				continue;
@@ -1334,11 +1347,10 @@ CleanCppOutput(tmpfd, tmpfname)
  * space from the end of the line.  Cpp magic cookies are also thrown away.
  * "XCOMM" token is transformed to "#".
  */
-boolean
-isempty(line)
-	register char	*line;
+static boolean
+isempty(char *line)
 {
-	register char	*pend;
+	char	*pend;
 
 	/*
 	 * Check for lines of the form
@@ -1408,14 +1420,12 @@ isempty(line)
 }
 
 /*ARGSUSED*/
-char *
-ReadLine(tmpfd, tmpfname)
-	FILE	*tmpfd;
-	char	*tmpfname;
+static char *
+ReadLine(FILE *tmpfd, const char *tmpfname)
 {
 	static boolean	initialized = FALSE;
 	static char	*buf, *pline, *end;
-	register char	*p1, *p2;
+	char	*p1, *p2;
 
 	if (! initialized) {
 #ifdef WIN32
@@ -1444,7 +1454,7 @@ ReadLine(tmpfd, tmpfname)
 			tmpfd = freopen(tmpfname, "w+", fp);
 #endif
 		if (! tmpfd)
-			LogFatal("cannot reopen %s\n", tmpfname);
+			LogFatal("cannot reopen %s.", tmpfname);
 #else	/* !SYSV */
 		ftruncate(fileno(tmpfd), (off_t) 0);
 #endif	/* !SYSV */
@@ -1481,32 +1491,26 @@ ReadLine(tmpfd, tmpfname)
 	return(p2);
 }
 
-void
-writetmpfile(fd, buf, cnt, fname)
-	FILE	*fd;
-	int	cnt;
-	char	*buf;
-	char	*fname;
+static void
+writetmpfile(FILE *fd, const char *buf, int cnt, const char *fname)
 {
 	if (fwrite(buf, sizeof(char), cnt, fd) == -1)
 		LogFatal("Cannot write to %s.", fname);
 }
 
-char *
-Emalloc(size)
-	int	size;
+static char *
+Emalloc(int size)
 {
 	char	*p;
 
 	if ((p = malloc(size)) == NULL)
-		LogFatalI("Cannot allocate %d bytes", size);
+		LogFatal("Cannot allocate %d bytes.", size);
 	return(p);
 }
 
 #ifdef FIXUP_CPP_WHITESPACE
-void
-KludgeOutputLine(pline)
-	char	**pline;
+static void
+KludgeOutputLine(char **pline)
 {
 	char	*p = *pline;
 	char	quotechar = '\0';
@@ -1588,18 +1592,17 @@ breakfor:
 	}
 }
 
-void
-KludgeResetRule()
+static void
+KludgeResetRule(void)
 {
 	InRule = FALSE;
 }
 #endif /* FIXUP_CPP_WHITESPACE */
 
-char *
-Strdup(cp)
-	register char *cp;
+static char *
+Strdup(const char *cp)
 {
-	register char *new = Emalloc(strlen(cp) + 1);
+	char *new = Emalloc(strlen(cp) + 1);
 
 	strcpy(new, cp);
 	return new;
