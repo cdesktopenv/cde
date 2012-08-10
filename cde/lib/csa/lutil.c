@@ -29,6 +29,7 @@
  *  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
  */
 
+#include <sys/param.h>
 #include <EUSCompat.h>
 #include <stdio.h>
 #include <stdlib.h>
