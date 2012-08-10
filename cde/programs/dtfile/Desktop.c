@@ -105,6 +105,7 @@
 #include <Xm/PushBG.h>
 #include <Xm/RowColumn.h>
 #include <Xm/CascadeBG.h>
+#include <Xm/LabelG.h>
 #include <Xm/SeparatoG.h>
 #include <Xm/VirtKeys.h>
 

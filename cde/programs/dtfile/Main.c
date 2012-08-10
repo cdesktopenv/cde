@@ -1020,7 +1020,7 @@ main(
     /* error handling follows, none for now */
         ;
 #else
-   (void) signal (SIGCLD, SIG_IGN);
+   (void) signal (SIGCHLD, SIG_IGN);
 #endif /* __osf__ */
    XtSetLanguageProc( NULL, NULL, NULL );
 
