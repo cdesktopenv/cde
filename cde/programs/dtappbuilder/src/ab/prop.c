@@ -86,6 +86,10 @@
 #include "dtbuilder.h"
 #include "revolv_ui.h"
 
+#if defined(CSRG_BASED)
+#define MAXINT INT_MAX
+#endif
+
 char   		*LabelForString = NULL;
 char   		*LabelForGraphic = NULL;
 char		*NoneItem = NULL;

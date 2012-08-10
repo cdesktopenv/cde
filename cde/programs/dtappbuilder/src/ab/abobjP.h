@@ -47,7 +47,9 @@
 #define _ABOBJ_P_H_
 
 
+#if !defined(CSRG_BASED)
 #include <values.h>
+#endif
 
 #include <ab_private/abobj.h>
 #include <ab_private/abobj_set.h>
