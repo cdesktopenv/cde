@@ -1008,6 +1008,7 @@ init_time()
 	_Xltimeparams localtime_buf;
 	_Xgtimeparams gmtime_buf;
 
+#ifdef SVR4
 	/* Fix for QAR 31607 */
 	tzset();
 	if (getenv("TZ") == NULL){
@@ -1017,6 +1018,7 @@ init_time()
 		putenv(tzptr);
 		tzset();
 	}
+#endif
 
 	t		= now();
 	tm		= *_XLocaltime(&t, localtime_buf);

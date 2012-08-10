@@ -36,7 +36,12 @@
 #include <string.h>
 #include <pwd.h>
 #include <time.h>
+#if defined(CSRG_BASED)
+#include <sys/limits.h>
+#define MAXINT INT_MAX
+#else
 #include <values.h>
+#endif
 #ifdef SunOS
 #include <sys/systeminfo.h>
 #endif
