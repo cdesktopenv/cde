@@ -53,7 +53,7 @@
 #include <ab_private/AB.h>	/* everybody must include this first! */
 #include <ab/util_types.h>
 
-extern struct _AB_OBJ;
+struct _AB_OBJ;
 #define ABObj struct _AB_OBJ *
 
 typedef enum
