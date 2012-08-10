@@ -72,7 +72,7 @@ main(int argc, char **argv)
     }
 
     /* init data... */
-#if defined(USL) || defined(__uxp__) || defined(linux)
+#if defined(USL) || defined(__uxp__) || defined(linux) || defined(CSRG_BASED)
     (void) memset((void *) &myaddr_in, (int) '\0', sizeof(myaddr_in));
 #else
     (void) memset(myaddr_in, '\0', sizeof(myaddr_in));

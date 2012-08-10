@@ -37,6 +37,9 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-bsd.c /main/4 1996/11/21 19
 #include "TermHeader.h"
 #include <fcntl.h>
 #include <termios.h>
+#if defined(OPENBSD_ARCHITECTURE)
+#include <util.h>
+#endif
 #include <sys/wait.h>
 #include <ctype.h>
 #include <errno.h>
@@ -166,7 +169,7 @@ static struct _pty_dirs {
     {PTY_null,    PTY_null,     PTY_null,   PTY_null,   PTY_null, False},
 };
 
-#if defined(ALPHA_ARCHITECTURE) || defined(OpenBSDArchitecture)
+#if defined(ALPHA_ARCHITECTURE) || defined(OPENBSD_ARCHITECTURE)
 /* Use openpty() to open Master/Slave pseudo-terminal pair */
 /* Current version of openpty() uses non-STREAM device. BSD name space */
 #define TTYNAMELEN      25
