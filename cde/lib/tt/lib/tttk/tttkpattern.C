@@ -161,7 +161,7 @@ _ttDtPatternCreate(
 	if (status != TT_OK) {
 		return (Tt_pattern)tt_error_pointer( status );
 	}
-	status = tt_pattern_user_set( pat, _TttkCBKey, cb );
+	status = tt_pattern_user_set( pat, _TttkCBKey, (void *)cb );
 	if (status != TT_OK) {
 		return (Tt_pattern)tt_error_pointer( status );
 	}

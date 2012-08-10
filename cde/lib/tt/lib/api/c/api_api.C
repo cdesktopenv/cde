@@ -742,8 +742,12 @@ _tt_errno_status(
 	    case EPIPE:		return TT_DESKTOP_EPIPE;
 	    case ENOMSG:	return TT_DESKTOP_ENOMSG;
 	    case EDEADLK:	return TT_DESKTOP_EDEADLK;
+#ifdef ENODATA
 	    case ENODATA:	return TT_DESKTOP_ENODATA;
+#endif
+#ifdef EPROTO
 	    case EPROTO:	return TT_DESKTOP_EPROTO;
+#endif
 #if !defined(OPT_BUG_AIX)
 // on AIX, ENOTEMPTY is the same code as EEXIST, and the switch
 // statement fails to compile with duplicate case labels..

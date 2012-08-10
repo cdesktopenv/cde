@@ -169,7 +169,7 @@ _ttDtPMessageCreate(
 		return msg;
 	}
 	_TttkItem2Free fuse( msg );
-	status = tt_message_user_set( msg, _TttkCBKey, cb );
+	status = tt_message_user_set( msg, _TttkCBKey, (void *)cb );
 	if (status != TT_OK) {
 		return (Tt_message)tt_error_pointer( status );
 	}

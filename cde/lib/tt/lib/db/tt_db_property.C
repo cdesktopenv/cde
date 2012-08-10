@@ -59,7 +59,7 @@ is_empty() const
 
  // check the list for all NULL content member tt_strings
  _Tt_string_list_cursor values_cursor(values);
- while (values_cursor.next())  if (*values_cursor != (char*)NULL) return FALSE;
+ while (values_cursor.next())  if (*values_cursor != (const char*)NULL) return FALSE;
 
  return TRUE;
 } 

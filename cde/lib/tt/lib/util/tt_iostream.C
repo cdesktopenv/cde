@@ -225,7 +225,7 @@ _Tt_ostream::operator <<(
 	return *this;
 }
 
-#if defined(__osf__) || defined(linux)
+#if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 /* This operator is being added to take care of uid_t and gid_t
  * for osf */
 const _Tt_ostream &

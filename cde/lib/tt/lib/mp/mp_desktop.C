@@ -47,7 +47,7 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/time.h>
-#if defined(__STDC__) && !defined(linux)
+#if defined(__STDC__) && !defined(linux) && !defined(CSRG_BASED)
 extern "C" {  extern int ioctl 	(int, int, ...) ; };
 #endif     
 #include "util/tt_global_env.h"

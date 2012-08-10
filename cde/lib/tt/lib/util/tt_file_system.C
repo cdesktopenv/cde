@@ -82,13 +82,16 @@
 #	define ttFsName(e) vmt2dataptr(e,VMT_OBJECT)
 #	define ttMountPt(e) vmt2dataptr(e,VMT_STUB)
 #	define ttCloseMntTbl(f)		free(tmpbuf)    
-#elif defined(__osf__)
+#elif defined(__osf__) || defined(CSRG_BASED)
 #       include <sys/types.h>
 #       include <sys/mount.h>
+# ifdef __osf__
         extern "C" int getfsstat(struct statfs *, long, int);
+# endif
 #       define MNTTYPE_NFS              "nfs"
 #       define ttOpenMntTbl(path,mode)  ((FILE *) 1)
 #       define TtMntEntry               struct statfs *
+# ifdef __osf__
 #       define ttFsType(e)              \
                                 (((e)->f_type == MOUNT_UFS) ? "ufs" \
                                 : (((e)->f_type == MOUNT_NFS3) ? "nfs" \
@@ -96,6 +99,9 @@
                                  : (((e)->f_type == MOUNT_CDFS) ? "cdfs" \
                                   : (((e)->f_type == MOUNT_PROCFS) ? "procfs" \
                                    : "unknown")))))
+# elif defined(CSRG_BASED)
+#	define ttFsType(e)		(e->f_fstypename)
+# endif
 #       define ttFsName(e)              ((char *)((e)->f_mntfromname))
 #       define ttMountPt(e)             ((char *)((e)->f_mntonname))
 #       define ttCloseMntTbl(f)         free(buf)
@@ -460,7 +466,7 @@ updateFileSystemEntries ()
 
 	for (entry = (TtMntEntry)tmpbuf; rc > 0; --rc,
 	     entry = (TtMntEntry)((char *) entry + entry->vmt_length))
-#elif defined(__osf__)
+#elif defined(__osf__) || defined(CSRG_BASED)
         int             numfs,i;
         struct statfs   *buf;
         long            bufsize;
@@ -496,7 +502,7 @@ updateFileSystemEntries ()
 #else		    
 	while (entry = getmntent(mount_table))
 #endif
-#ifndef __osf__
+#if !defined(__osf__) && !defined(CSRG_BASED)
 	{
 #endif
 		fse =  createFileSystemEntry( entry );

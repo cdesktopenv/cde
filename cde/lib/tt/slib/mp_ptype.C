@@ -26,7 +26,7 @@
 //%%  (c) Copyright 1993, 1994 Novell, Inc. 				
 //%%  $TOG: mp_ptype.C /main/4 1998/03/20 14:27:56 mgreess $ 			 				
 #include <stdlib.h>
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 /*# include <g++/minmax.h>*/
 #else
 # include <macros.h>

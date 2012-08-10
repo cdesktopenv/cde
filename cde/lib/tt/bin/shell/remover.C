@@ -35,7 +35,7 @@
 #include "tt_options.h"
 #include <errno.h>
 #include <string.h>
-#if defined(__osf__) || defined(linux)
+#if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #include <unistd.h>
 #else
 #if !defined(USL) && !defined(__uxp__)

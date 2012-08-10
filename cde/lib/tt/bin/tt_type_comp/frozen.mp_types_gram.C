@@ -91,7 +91,11 @@ typedef union
  */
 #undef MAXINT
 #endif
+#if defined(CSRG_BASED)
+#define MAXINT INT_MAX
+#else
 #include <values.h>
+#endif
 
 #ifdef __cplusplus
 

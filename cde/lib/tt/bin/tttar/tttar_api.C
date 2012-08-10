@@ -33,7 +33,7 @@
  */
 
 #include <errno.h>
-#if defined(__osf__) || defined(linux)
+#if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #include <unistd.h>
 #else
 #ifndef USL
@@ -230,7 +230,7 @@ pathlist_lstt_dearchive(
 				 (char *)our_process_name, (int)obj_kind );
 			return FALSE;
 		}
-		if (verbosity && (    (last_path != this_path)
+		if (verbosity && (    (last_path != (const char *)this_path)
 				 || (obj_kind == ARCHIVE_END)))
 		{
 			if (last_path_valid) {

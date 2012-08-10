@@ -36,12 +36,12 @@
 
 #define X_INCLUDE_NETDB_H
 #define XOS_USE_XT_LOCKING
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #define index
 #define rindex
 #endif
 #include <X11/Xos_r.h>
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #undef index
 #undef rindex
 #endif

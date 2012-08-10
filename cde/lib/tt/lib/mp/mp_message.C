@@ -118,7 +118,7 @@ base_constructor()
 
 _Tt_message::
 _Tt_message()
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 : _pattern_id(), _object(), _file(), _op(),
   _otype(), _sender_ptype(), _handler_ptype(),
   _api_id(), _status_string()

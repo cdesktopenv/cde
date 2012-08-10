@@ -474,7 +474,7 @@ extern int _isfcb_cntlpg_w();
 #define VL_RECNOTAIL	((long ) -2L)
 
 
-extern long lseek();
+/* extern long lseek(); */
 
 extern char *_ismalloc(), *_isrealloc(), *_isallocstring();
 extern void _isfree(), _isfreestring();

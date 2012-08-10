@@ -284,13 +284,13 @@ startup_ttsession(_Tt_string &start_ttcmd)
 
 	istat = signal(SIGINT, SIG_IGN);
 	qstat = signal(SIGQUIT, SIG_IGN);
-	cstat = signal(SIGCLD, SIG_DFL);
+	cstat = signal(SIGCHLD, SIG_DFL);
 
 	w = waitpid(pid, &status, 0);
 
 	(void) signal(SIGINT, istat);
 	(void) signal(SIGQUIT, qstat);
-	(void) signal(SIGCLD, cstat);
+	(void) signal(SIGCHLD, cstat);
 
 	return((w == -1)? w: status);
 	
