@@ -398,6 +398,7 @@ Sort::sortMessages(MsgScrollingList	*displayList,
 #define	Record(i)	(base + (width * (i)))
 #define	Link(i)		(*((int *) (Record(i) + offset)))
 
+int
 Sort::_msort (char	* base,
 	      int	  nel,
 	      int	  width,

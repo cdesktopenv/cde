@@ -65,7 +65,7 @@
 
 #include <X11/IntrinsicP.h> // Include for moving X location of titles
 
-extern force( Widget );
+extern int force( Widget );
 
 MsgScrollingList::MsgScrollingList(
     RoamMenuWindow *menuwindow,

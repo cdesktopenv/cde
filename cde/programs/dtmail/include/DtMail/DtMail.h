@@ -284,7 +284,7 @@ extern "C" {
     extern const char ** DtMailTransportEnumerate(DtMailSession,
 					DtMailEnv *);
 
-    extern DtMailTransportSubmit(DtMailTransport,
+    extern int DtMailTransportSubmit(DtMailTransport,
 					DtMailEnv *,
 					DtMailMessage);
 

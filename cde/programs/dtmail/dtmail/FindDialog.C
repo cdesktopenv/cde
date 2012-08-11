@@ -728,6 +728,7 @@ FindDialog::compareMessage(DtMailMessageHandle	  handle)
   return(found);
 }
 
+#if !defined(CSRG_BASED)
 //
 // See if string 'toFind' is anyware in string 'str'.
 // A case-insensitive version of strstr().
@@ -762,6 +763,7 @@ strcasestr(const char *str, const char *toFind)
   }
   return(result);
 }
+#endif
 
 Boolean
 FindDialog::compareHeader(DtMailEnv		& error,

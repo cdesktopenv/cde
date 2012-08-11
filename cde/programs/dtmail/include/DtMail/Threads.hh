@@ -120,7 +120,7 @@ class Condition : public DtCPlusPlusAllocator {
 
     int state(void);
     int operator=(int);
-    operator += (int);
+    int operator += (int);
     operator int(void);
 
     void wait(void);
