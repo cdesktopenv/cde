@@ -679,7 +679,8 @@ static int
 MatchesFileSuffix(char *filename, char *suffix)
 {
     int		retval = 0;
-#if defined(_AIX) || defined(SVR4) || defined (__osf__) || defined(linux)
+#if defined(_AIX) || defined(SVR4) || defined (__osf__) || defined(linux) || \
+	defined(CSRG_BASED)
     char	*pch;
 	     
     /*
