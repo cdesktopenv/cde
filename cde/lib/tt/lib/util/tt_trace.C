@@ -384,57 +384,64 @@ _Tt_trace::entry(
 	while (num_args--) {
 		c = *preview++;
 		switch (c) {
+                        /* For the "type" to va_arg, we must pass int!
+                         * If we try to use the real type (e.g. Tt_address, etc.)
+                         * gcc will complain loudly and cause the program to abort here.
+                         * This is because the size of enums can be less than that of int,
+                         * and in va_args anything smaller than an int is "promoted"
+                         * into an int.
+                         */
 			case ADDRESS : {
 				Tt_address s;
-				s = va_arg(ap, Tt_address);
+				s = (Tt_address) va_arg(ap, int);
 				**_pstream << _tt_enumname(s);
 			} break;
 
 			case STATE: {
 				Tt_state s;
-				s = va_arg(ap, Tt_state);
+				s = (Tt_state) va_arg(ap, int);
 				**_pstream << _tt_enumname(s);
 			} break;
 
 			case DISPOSITION: {
 				Tt_disposition s;
-				s = va_arg(ap, Tt_disposition);
+				s = (Tt_disposition) va_arg(ap, int);
 				**_pstream << _tt_enumname(s);
 			} break;
 
 			case CLASS: {
 				Tt_class s;
-				s = va_arg(ap, Tt_class);
+				s = (Tt_class) va_arg(ap, int);
 				**_pstream << _tt_enumname(s);
 			} break;
 
 			case MODE: {
 				Tt_mode s;
-				s = va_arg(ap, Tt_mode);
+				s = (Tt_mode) va_arg(ap, int);
 				**_pstream << _tt_enumname(s);
 			} break;
 
 			case CATEGORY: {
 				Tt_category s;
-				s = va_arg(ap, Tt_category);
+				s = (Tt_category) va_arg(ap, int);
 				**_pstream << _tt_enumname(s);
 			} break;
 
 			case SCOPE: {
 				Tt_scope s;
-				s = va_arg(ap, Tt_scope);
+				s = (Tt_scope) va_arg(ap, int);
 				**_pstream << _tt_enumname(s);
 			} break;
 
 		        case FEATURE: {
 				Tt_feature f;
-				f = va_arg(ap, Tt_feature);
+				f = (Tt_feature) va_arg(ap, int);
 				**_pstream << _tt_enumname(f);
 			} break;
 
 			case AUDIT_STATUS: {
 				Tt_status status;
-				status = va_arg(ap, Tt_status);
+				status = (Tt_status) va_arg(ap, int);
 				**_pstream << status;
 			} break;
 
