@@ -174,7 +174,7 @@ char *DtPrinterIcon::Description()
 
    sprintf(buf, "%s_Print", queue->Name());
    char *desc = DtActionDescription(buf);
-   return (desc ? desc : "");
+   return (desc ? desc : (char *)"");
 }
 
 void DtPrinterIcon::PrintQueueUp(boolean _flag)

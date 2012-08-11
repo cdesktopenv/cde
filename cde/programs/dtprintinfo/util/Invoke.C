@@ -38,7 +38,9 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <errno.h>
+#if !defined(CSRG_BASED)
 #include <values.h>
+#endif
 #ifdef _AIX
 #include <strings.h>		/* need to get bzero defined */
 #endif /* _AIX */

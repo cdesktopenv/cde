@@ -425,7 +425,7 @@ void mgr_launch_pdm( XpPdmServiceRec *rec )
 	sigemptyset(&svec.sa_mask);
 	svec.sa_flags   = 0;
 	svec.sa_handler = SIG_DFL;
-	(void) sigaction(SIGCLD, &svec, (struct sigaction *) NULL);
+	(void) sigaction(SIGCHLD, &svec, (struct sigaction *) NULL);
 
 	for (i=3; i < FOPEN_MAX; i++) {
 	    if ((i != rec->message_pipe[1]) && 
