@@ -345,6 +345,7 @@ static  void    activateCB_CA_FiletypesDelete( Widget UxWidget,
   int           cnt;
   Boolean       bFound;
   char          *msgPtr1, *msgPtr2, *fmtPtr, *errPtr;
+  size_t        len;
 
   /**************************************************************************/
   /* Determine the filetypes to delete and delete them.                     */
@@ -411,9 +412,9 @@ static  void    activateCB_CA_FiletypesDelete( Widget UxWidget,
      msgPtr2 = XtNewString(GETMESSAGE(5, 125,
 		  "Please select the Datatype you would like to Delete."));
      fmtPtr = "%s\n%s";
-     errPtr = XtMalloc((strlen(msgPtr1) + strlen(msgPtr2) +
-			strlen(fmtPtr) + 1) * sizeof(char));
-     sprintf(errPtr, fmtPtr, msgPtr1, msgPtr2);
+     len = (strlen(msgPtr1) + strlen(msgPtr2) + strlen(fmtPtr) + 2);
+     errPtr = XtMalloc(len);
+     snprintf(errPtr,len - 1, fmtPtr, msgPtr1, msgPtr2);
      XtFree(msgPtr2);
      XtFree(msgPtr1);
      display_error_message(CreateActionAppShell, errPtr);

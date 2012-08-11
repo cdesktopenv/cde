@@ -849,6 +849,7 @@ void activateCB_add_filetype (Widget wid, XtPointer client_data,
   char         *ptr;
   char          tmpbuf[50];
   char	       *pre, *suf, *title;
+  size_t       len;
 
   if (!CreateActionAppShellCheckFields()) {
 
@@ -893,8 +894,9 @@ void activateCB_add_filetype (Widget wid, XtPointer client_data,
 
     pre = GETMESSAGE(3, 10, "Create Action");
     suf = GETMESSAGE(7, 10, "Add Datatype");
-    title = XtMalloc(strlen(pre) + strlen(suf) + 2);
-    sprintf(title, "%s - %s", pre, suf);
+    len = strlen(pre) + strlen(suf) + 4;
+    title = XtMalloc(len);
+    snprintf(title,len - 1,"%s - %s", pre, suf);
 
     XtVaSetValues (AddFiletype,
                    RES_CONVERT (XmNdialogTitle, title ),
@@ -924,11 +926,13 @@ void activateCB_edit_filetype (Widget wid, XtPointer client_data,
   int          selecteditem;
   char         *msgPtr1, *msgPtr2, *fmtPtr, *errPtr;
   char	       *pre, *suf, *title;
+  size_t len;
 
   pre = GETMESSAGE(3, 10, "Create Action");
   suf = GETMESSAGE(7, 11, "Edit Datatype");
-  title = XtMalloc(strlen(pre) + strlen(suf) + 2);
-  sprintf(title, "%s - %s", pre, suf);
+  len = strlen(pre) + strlen(suf) + 4;
+  title = XtMalloc(len);
+  snprintf(title,len - 1, "%s - %s", pre, suf);
 
   /**************************************************************************/
   /* Determine the selected list item.                                      */
@@ -959,9 +963,10 @@ void activateCB_edit_filetype (Widget wid, XtPointer client_data,
      msgPtr2 = XtNewString(GETMESSAGE(5, 130,
 		  "Please select the Datatype you would like to Edit."));
      fmtPtr = "%s\n%s";
-     errPtr = XtMalloc((strlen(msgPtr1) + strlen(msgPtr2) +
-			strlen(fmtPtr) + 1) * sizeof(char));
-     sprintf(errPtr, fmtPtr, msgPtr1, msgPtr2);
+     len = (strlen(msgPtr1) + strlen(msgPtr2) +
+             strlen(fmtPtr) + 3);
+     errPtr = XtMalloc(len);
+     snprintf(errPtr,len - 1, fmtPtr, msgPtr1, msgPtr2);
      XtFree(msgPtr2);
      XtFree(msgPtr1);
      display_error_message(CreateActionAppShell, errPtr);

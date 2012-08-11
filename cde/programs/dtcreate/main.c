@@ -548,6 +548,9 @@ DieFromToolTalkError(Widget parent, char *errfmt, Tt_status status)
     if (! tt_is_err(status)) return;
 
     statmsg = tt_status_message(status);
+    /* Solaris dtcreate ignores this so we should too */
+    if(!strncmp("TT_ERR_PTYPE",statmsg,12))
+            return;
     errmsg = XtMalloc(strlen(errfmt) + strlen(statmsg) + 2);
     sprintf(errmsg, errfmt, statmsg);
 
