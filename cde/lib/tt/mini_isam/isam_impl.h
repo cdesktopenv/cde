@@ -371,7 +371,7 @@ typedef struct maphdr {
 /* 
  * Macro to get pointer to structure if pointer to some element is known 
  */
-#define GETBASE(p,s,e) ((struct s *) ((char *)(p) - (int)&((struct s *)0)->e))
+#define GETBASE(p,s,e) ((struct s *) ((char *)(p) - (char *)&((struct s *)0)->e))
 
 /* In memory sorting object */
 typedef struct issort {

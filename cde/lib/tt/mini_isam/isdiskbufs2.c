@@ -51,7 +51,7 @@ extern struct dlink *_isdln_next(), *_isdln_first();
 #define ISHASHHDRS	256		     /* Must be a power of two */
 #define ISHASHMASK      (ISHASHHDRS-1)
 
-#define __hashblkno(fcb,blkno) (((int)(fcb)+(blkno)) & ISHASHMASK)
+#define __hashblkno(fcb,blkno) (((size_t)(fcb)+(blkno)) & ISHASHMASK)
 
 
 #define base ((char *)0)

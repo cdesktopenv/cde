@@ -42,6 +42,7 @@ static char sccsid[] = "@(#)isstart.c 1.9 89/07/17 Copyr 1988 Sun Micro";
 
 #include "isam_impl.h"
 #include <sys/time.h>
+#include <stdlib.h>
 
 static int _amstart();
 
@@ -591,7 +592,7 @@ _amstart(isfhandle, record, reclen, readmode,
 
     /* Clean-up work. */
     if (newcrp != NULL)
-	free((char *)newcrp);
+	free(newcrp);
 
     _isdisk_commit();			     /* This will only check
 					      * that we unfixed all fixed
