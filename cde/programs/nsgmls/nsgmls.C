@@ -38,7 +38,7 @@
 #include "sptchar.h"
 #include "macros.h"
 
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #include <iostream>
 #include <fstream>
 #else
@@ -84,7 +84,7 @@ public:
 		    const AppChar *filename,
 		    const StringC &filenameStr,
 		    const OutputCodingSystem *,
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 		    ::Messenger *messenger);
 #else
 		    Messenger *messenger);
@@ -94,7 +94,7 @@ public:
   void truncateOutput();
   void allLinkTypesActivated();
 private:
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
   ::Messenger *messenger_;
 #else
   Messenger *messenger_;
@@ -248,7 +248,7 @@ XRastEventHandler::XRastEventHandler(SgmlParser *parser,
 				     const AppChar *filename,
 				     const StringC &filenameStr,
 				     const OutputCodingSystem *codingSystem,
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 				     ::Messenger *messenger)
 #else
 				     ::Messenger *messenger)

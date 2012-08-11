@@ -32,7 +32,7 @@
 
 #ifdef __GNUG__
 // It's not missing, but it pulls in libg++
-#if !defined(linux)
+#if !defined(linux) && !defined(CSRG_BASED)
 #define SP_NEW_H_MISSING
 // set_new_handler() has to be declared extern "C"
 #define SP_SET_NEW_HANDLER_EXTERN_C
