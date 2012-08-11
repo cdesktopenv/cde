@@ -78,7 +78,9 @@ static char *RCSid =
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/file.h>
+#if !defined(CSRG_BASED)
 #include <values.h>
+#endif
 
 #include "general.h"
 

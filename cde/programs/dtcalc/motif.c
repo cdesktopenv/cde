@@ -80,6 +80,7 @@
 #include <Xm/MwmUtil.h>
 #include <Xm/Protocols.h>
 #include <Xm/VendorSEP.h>
+#include <Xm/SeparatoG.h>
 /* Copied from BaseClassI.h */
 extern XmWidgetExtData _XmGetWidgetExtData(
                         Widget widget,
@@ -265,6 +266,12 @@ extern Vars v ;                 /* Calctool variables and options. */
 
 char translations_return[] = "<Key>Return:ManagerGadgetSelect()";
 static Boolean NoDisplay=False;
+
+extern XtPointer _XmStringUngenerate (
+                                XmString string,
+                                XmStringTag tag,
+                                XmTextType tag_type,
+                                XmTextType output_type);
 
 int
 main(argc, argv)

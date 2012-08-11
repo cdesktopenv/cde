@@ -44,7 +44,7 @@
 #endif
 #include <ctype.h>
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #include <unistd.h>
 #include <locale.h>
 #include <fcntl.h>
@@ -179,7 +179,7 @@ EXTERN char dirsep
 #if defined(MSDOS)
 INIT('\\')
 #else
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 INIT('/')
 #else
 ****define directory separator here****
@@ -187,7 +187,7 @@ INIT('/')
 #endif
   ;
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)|| defined(__osf__) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)|| defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #define CSEP '/'
 #define SSEP "/"
 #else

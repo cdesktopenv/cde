@@ -355,7 +355,7 @@ char *qualname;
 char *unqualname;
 #endif
 {
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 FILE *f;
 #endif
 char fn[FNAMELEN];
@@ -379,7 +379,7 @@ else
 
 fnp = fn;
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 qualname[0] = '\0';
 gp = qualname + strlen(qualname);
 roomleft = roomleft - strlen(qualname);
@@ -493,7 +493,7 @@ do  {
 while (1);
 *strrchr(qualname, CSEP) = '\0';
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #else
 strupr ( qualname );
 #endif
