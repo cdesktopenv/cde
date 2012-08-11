@@ -851,7 +851,7 @@ int  done=FALSE, argfound=FALSE,promptfound=FALSE;
                                              covers the complete string
                                              between %'s
                                             */
-                      if(argbuf) free(argbuf);
+                      if(argbuf) { free(argbuf); argbuf = NULL; }
                       if(s2)
                       {
                          argbuf = (char *)calloc(1,(s2-s1)+2);
@@ -877,7 +877,7 @@ int  done=FALSE, argfound=FALSE,promptfound=FALSE;
                 else if (s1 && *s1)
                 {
                      strcat(exec_args[0],s1);
-                     if(argbuf)   free(argbuf);
+                     if(argbuf)   { free(argbuf); argbuf = NULL; }
                      done = TRUE;
                      continue;
                 }
@@ -934,7 +934,7 @@ int  done=FALSE, argfound=FALSE,promptfound=FALSE;
                 argfound = FALSE;
                 s1=s2;
          }
-         if(argbuf) free(argbuf);
+         if(argbuf) { free(argbuf); argbuf = NULL; }
    return exec_args;
 }
 
