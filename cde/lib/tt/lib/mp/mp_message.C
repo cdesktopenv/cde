@@ -47,7 +47,7 @@
 #include <mp/mp_procid.h>
 #include <mp/mp_session.h>
 #include <util/tt_enumname.h>
-
+#include <util/tt_port.h>
 	
 //
 // Base constructor for a message.  ::xdr() relies on this
@@ -302,33 +302,44 @@ xdr(XDR *xdrs)
 	// Even though in Solaris 2.x uid_t and gid_t are typedef'd as
 	// u_long, the compiler complains if they are not explicitly
 	// coerced.
+
+	/*
+	 * Obviously there is no xdr_u_uid_t, so we have to hack around this.
+	 * At least by using sizeof checks, we aren't manually specifying
+	 * the size of uid_t depending on the platform (which broke terribly
+	 * when we tried to port to 64-bit linux at first).
+	 * 
+	 * A side-effect of testing this way is that we have to spell out the pointer
+	 * casts, since one of them is actually wrong for any given platform (but
+	 * is also a dead code branch)
+	 */
 	if (_ptr_guards&_TT_MSK_UID) {
 		if (xdrs->x_op == XDR_DECODE) {
 			_uid = 0;
 		}
-#ifdef __osf__
-		if (! xdr_u_int(xdrs, &_uid)) {
-			return(0);
+		if (sizeof (int) == sizeof(uid_t)) {
+			if (! xdr_u_int(xdrs,(u_int *) &_uid)) return 0;
+		} else if (sizeof (long) == sizeof(uid_t)) {
+			if (! xdr_u_long(xdrs,(u_long *) &_gid)) return 0;
+		} else {
+			_tt_syslog( 0, LOG_ERR, "_Tt_message::xdr(XDR*): uid_t size is not equal to int or long; TOOLTALK RPC WILL NOT WORK!" );
 		}
-#else
-		if (! xdr_u_long(xdrs,(u_long *) &_uid)) {
-			return(0);
-		}
-#endif
 	}
 	if (_ptr_guards&_TT_MSK_GID) {
 		if (xdrs->x_op == XDR_DECODE) {
 			_gid = 0;
 		}
-#ifdef __osf__
-		if (! xdr_u_int(xdrs, &_gid)) {
-			return(0);
+		if (sizeof (int) == sizeof(gid_t)) {
+			if (! xdr_u_int(xdrs,(u_int *) &_gid)) {
+				return(0);
+			}
+		} else if (sizeof (long) == sizeof(gid_t)) {
+			if (! xdr_u_long(xdrs,(u_long *) &_gid)) {
+				return(0);
+			}
+		} else {
+			_tt_syslog( 0, LOG_ERR, "_Tt_message::xdr(XDR*): gid_t size is not equal to int or long; TOOLTALK RPC WILL NOT WORK!" );
 		}
-#else
-		if (! xdr_u_long(xdrs,(u_long *) &_gid)) {
-			return(0);
-		}
-#endif
 	}
 
  	if (_ptr_guards&_TT_MSK_SESSION) {
