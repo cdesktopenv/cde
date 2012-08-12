@@ -51,6 +51,7 @@
 
 /* Set Database User Identifier
 */
+int
 d_dbuserid(id TASK_PARM)
 CONST char FAR *id;
 TASK_DECL

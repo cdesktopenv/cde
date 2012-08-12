@@ -49,6 +49,7 @@
 
 /* Set current member to current record
 */
+int
 d_setmr(set TASK_PARM DBN_PARM)
 int set;   /* set table entry number */
 TASK_DECL

@@ -70,6 +70,7 @@ static int struct_key_chk = 1;
 
 /* Check a field for permission to change it
 */
+int
 r_chkfld(field, fld_ptr, rec, data )
 INT field;  /* field_table entry number */
 FIELD_ENTRY FAR *fld_ptr; /* corresponds to field */
@@ -138,6 +139,7 @@ CONST char FAR *data; /* pointer to data area containing field contents */
 
 /* Delete the current record
 */
+int
 r_delrec( rt, db_addr )
 INT rt;
 DB_ADDR db_addr;
@@ -197,6 +199,7 @@ DB_ADDR db_addr;
 
 /* Get data field from record
 */
+int
 r_gfld(fld_ptr, rec, data )
 FIELD_ENTRY FAR *fld_ptr;
 char FAR *rec;  /* pointer to record */
@@ -250,6 +253,7 @@ char FAR *data; /* pointer to data area to contain field contents */
 
 /* Get member pointer from record
 */
+int
 r_gmem(set, rec, mem_addr )
 int set;    /* set table entry number */
 char FAR *rec;  /* pointer to record */
@@ -281,6 +285,7 @@ char FAR *mem_addr; /* pointer to member pointer */
 
 /* Get set pointer from record
 */
+int
 r_gset(set, rec, setptr )
 int set;      /* set table entry number */
 char FAR *rec;    /* pointer to record */
@@ -308,6 +313,7 @@ char FAR *setptr; /* pointer to set pointer */
 
 /* Put data field into record
 */
+int
 r_pfld(field, fld_ptr, rec, data, db_addr )
 INT field;  /* field_table entry number */
 FIELD_ENTRY FAR *fld_ptr; /* corresponds to field */
@@ -431,6 +437,7 @@ DB_ADDR FAR *db_addr;
 
 /* Put member pointer into record
 */
+int
 r_pmem(set, rec, mem_addr )
 int set;    /* set table entry number */
 char FAR *rec;  /* pointer to record */
@@ -462,6 +469,7 @@ char FAR *mem_addr; /* pointer to member pointer */
 
 /* Put set pointer into record
 */
+int
 r_pset(set, rec, setptr )
 int set;       /* set table entry number */
 char FAR *rec;     /* pointer to record */
@@ -491,6 +499,7 @@ char FAR *setptr;  /* pointer to set pointer */
 
 /* Set the current set member from record
 */
+int
 r_smem( db_addr, set )
 DB_ADDR FAR *db_addr;
 INT set;
@@ -528,6 +537,7 @@ INT set;
 }
 
 /* Set the optional key field "stored" bit */
+int
 r_setopt( fld_ptr, rec )
 FIELD_ENTRY FAR *fld_ptr; /* field table entry of optional key */
 char FAR *rec;	/* Pointer to record */
@@ -555,6 +565,7 @@ char FAR *rec;	/* Pointer to record */
 }
 
 /* Clear the optional key field "stored" bit */
+int
 r_clropt( fld_ptr, rec )
 FIELD_ENTRY FAR *fld_ptr;	/* Field table entry of optional key */
 char FAR *rec;	/* Pointer to record */
@@ -582,6 +593,7 @@ char FAR *rec;	/* Pointer to record */
 }
 
 /* Test the optional key field "stored" bit */
+int
 r_tstopt( fld_ptr, rec )
 FIELD_ENTRY FAR *fld_ptr;	/* Field table entry of optional key */
 char FAR *rec;	/* Pointer to record */

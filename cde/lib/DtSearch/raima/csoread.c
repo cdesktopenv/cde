@@ -50,6 +50,7 @@
 
 /* Read data from field  of current set owner
 */
+int
 d_csoread(set, field, data TASK_PARM DBN_PARM)
 int set;    /* Set constant */
 long field; /* Field constant */

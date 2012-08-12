@@ -54,6 +54,7 @@
 /* Warning: this function will destroy the entire contents
    of the database
 */
+int
 d_destroy(dbname TASK_PARM)
 CONST char FAR *dbname;
 TASK_DECL

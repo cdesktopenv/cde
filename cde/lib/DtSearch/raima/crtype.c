@@ -49,6 +49,7 @@
 
 /* Get current record type
 */
+int
 d_crtype(crtype TASK_PARM DBN_PARM)
 int FAR *crtype;
 TASK_DECL

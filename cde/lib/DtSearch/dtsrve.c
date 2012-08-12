@@ -75,6 +75,7 @@
  */
 #include "SearchE.h"
 #include <string.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
 #include "vista.h"
@@ -92,6 +93,8 @@
 extern time_t   hctree_id;	/**** hardcoded only temporarily ******/
 static int      max_abstrbufsz = 0;
 static int      max_ormisc_size;
+
+char    *strupr(char *);
 
 /************************************************/
 /*						*/
@@ -669,7 +672,7 @@ static void     store_next_misc (
      * terminate the abstract string in case there are no more misc recs.
      * (but should not occur).
      */
-    if (store_state = STORE_ABSTR)
+    if ((store_state = STORE_ABSTR))
 	*targ = 0;
     return;
 }  /* store_next_misc() */

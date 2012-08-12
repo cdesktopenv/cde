@@ -110,6 +110,7 @@
 #include <signal.h>
 #include <locale.h>
 #include <string.h>
+#include <stdlib.h>
 #include <fcntl.h>
 
 #define PROGNAME	"DTSRAPI"
@@ -120,7 +121,7 @@
 /*------------------- PRIVATE GLOBALS ---------------------*/
 /* Usrblk should not be visible to user interface code,
  * but must be visible to real engine... */
-USRBLK          usrblk = { 0 };
+USRBLK          usrblk = { { 0 } };
 static int      save_search_type = '$';
 static char    *sprintbuf = NULL;
 
@@ -321,7 +322,7 @@ int             DtSearchInit (
     sprintbuf = austext_malloc (SPRINTBUFSZ, PROGNAME "135", NULL);
 
     /* Open msgs and help text catalogs. */
-    if (switches & DtSrInNOLOCALE == 0) {
+    if (switches & (DtSrInNOLOCALE == 0)) {
 	setlocale (LC_ALL, "");
 	dtsearch_catd = catopen (FNAME_DTSRCAT, 0);
     }

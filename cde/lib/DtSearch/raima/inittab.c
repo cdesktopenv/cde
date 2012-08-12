@@ -94,6 +94,7 @@ static int initcurr(P0);
 
 /* Initialize database tables
 */
+int
 inittab()
 {
    register int dbt_lc;			/* loop control */

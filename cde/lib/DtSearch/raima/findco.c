@@ -49,6 +49,7 @@
 
 /* Find owner of current record
 */
+int
 d_findco(nset TASK_PARM DBN_PARM)
 int nset;
 TASK_DECL

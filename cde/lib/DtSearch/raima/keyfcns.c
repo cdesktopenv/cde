@@ -149,6 +149,7 @@ static int unique;
 
 /* Open B-tree key field index processing
 */
+int
 key_open()
 {
    register int fd_lc;			/* loop control */
@@ -234,6 +235,7 @@ void key_close()
 
 /* Initialize key function operation
 */
+int
 key_init(field )
 int field;  /* field number to be processed */
 {
@@ -267,6 +269,7 @@ int field;  /* field number to be processed */
 
 /* Reset key_info last status to reposition keys on file "fno" 
 */
+int
 key_reset(fno )
 FILE_NO fno;
 {
@@ -285,6 +288,7 @@ FILE_NO fno;
 
 /* Locate proper key position on B-tree
 */
+int
 key_locpos(key_val, dba)
 CONST char FAR *key_val; /* key search value */
 DB_ADDR FAR *dba;        /* database address of located key */
@@ -454,6 +458,7 @@ DB_ADDR FAR *dba;     /* database address included in comparison if not null */
 
 /* Scan thru key field
 */
+int
 key_scan(fcn, dba )
 int fcn;       /* next or prev */
 DB_ADDR *dba;  /* db address of scanned record */
@@ -571,6 +576,7 @@ DB_ADDR *dba;
 
 /* Find key boundary
 */
+int
 key_boundary(fcn, dba )
 int  fcn;     /* KEYFRST or KEYLAST */
 DB_ADDR *dba; /* to get dba of first or last key */
@@ -660,6 +666,7 @@ DB_ADDR *dba; /* to get dba of first or last key */
 
 /* Insert key field into B-tree
 */
+int
 key_insert(fld, key_val, dba )
 int fld;      /* key field number */
 CONST char FAR *key_val; /* key value */
@@ -850,6 +857,7 @@ NODE FAR *node;
 
 /* Delete key from B-tree
 */
+int
 key_delete(fld, key_val, dba )
 int fld;
 char CONST FAR *key_val;
@@ -1140,6 +1148,7 @@ int n;
 
 /* Read value of last key scanned
 */
+int
 d_keyread(key_val TASK_PARM)
 char FAR *key_val;
 TASK_DECL
@@ -1214,6 +1223,7 @@ TASK_DECL
 
 /* Build compound key value from record
 */
+int
 key_bldcom(fld, rec, key, cflag )
 int   fld; /* compound key field number */
 char FAR *rec; /* ptr to record data */

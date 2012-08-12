@@ -50,6 +50,7 @@
 
 /* Get number of members of the current set owner
 */
+int
 d_members(set, tot TASK_PARM DBN_PARM)
 int set;     /* Set table entry */
 LONG FAR *tot;   /* total members of set */

@@ -275,6 +275,7 @@ TASK_DECL
 
 /* Open db_VISTA database
 */
+int
 d_open(dbnames, opentype TASK_PARM)
 CONST char FAR *dbnames;
 CONST char FAR *opentype;
@@ -441,6 +442,7 @@ TASK FAR *tsk;
 
 /* Initialize multiple database table entries
 */
+int
 initdbt(dbnames )
 CONST char FAR *dbnames;
 {
@@ -901,6 +903,7 @@ static int bld_lock_tables()
 /****************************************/
 /* Close database
 */
+int
 d_close(TASK_ONLY)
 TASK_DECL
 {

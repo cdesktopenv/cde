@@ -49,6 +49,7 @@
 
 /* Set current member to current owner
 */
+int
 d_setmo(setm, seto TASK_PARM DBN_PARM)
 int setm;   /* set table entry number of member */
 int seto;   /* set table entry number of owner */

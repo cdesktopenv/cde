@@ -51,6 +51,7 @@
 
 /* Find next record thru key field
 */
+int
 d_keynext(field TASK_PARM DBN_PARM)
 long field;  /* field constant */
 TASK_DECL

@@ -395,4 +395,5 @@ typedef struct {
 #ifdef MULTI_TASK
 #include "task.h"
 #endif
+
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC vista.h */

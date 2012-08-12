@@ -50,6 +50,7 @@
 
 /* Disconnect from all sets (owner and member) and delete record
 */
+int
 d_disdel(TASK_DBN_ONLY)
 TASK_DECL
 DBN_DECL

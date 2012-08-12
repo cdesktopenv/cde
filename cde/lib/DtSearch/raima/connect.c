@@ -73,6 +73,7 @@ typedef struct {
 
 /* Connect the current record as member of set
 */
+int
 d_connect(set TASK_PARM DBN_PARM)
 int set; /* Set constant */
 TASK_DECL
@@ -357,8 +358,8 @@ char FAR *mem2; /* member record 2 */
       /* compare the two fields */
       /* computation is pointer to next sort field in member record */
       fld_ptr = &field_table[srt1_ptr->se_fld];
-      if (cmp = fldcmp(fld_ptr, mem1 + fld_ptr->fd_ptr,
-		       mem2 + field_table[srt2_ptr->se_fld].fd_ptr))
+      if ((cmp = fldcmp(fld_ptr, mem1 + fld_ptr->fd_ptr,
+		       mem2 + field_table[srt2_ptr->se_fld].fd_ptr)))
 	 return (cmp);  /* return at first unequal fields */
    }
    /* fields match */

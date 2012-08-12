@@ -49,6 +49,7 @@
 
 /* Set Database Dictionary Path
 */
+int
 d_dbdpath(path TASK_PARM)
 CONST char FAR *path;
 TASK_DECL

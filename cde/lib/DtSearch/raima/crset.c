@@ -49,6 +49,7 @@
 
 /* Set current record
 */
+int
 d_crset(dba TASK_PARM DBN_PARM)
 DB_ADDR FAR *dba; /* db address of record to become current */
 TASK_DECL

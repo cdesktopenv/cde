@@ -54,6 +54,7 @@
 
 /* Create and fill a new record
 */
+int
 d_fillnew( nrec, recval TASK_PARM DBN_PARM )
 int nrec;       /* record number */
 CONST char FAR *recval; /* record value */

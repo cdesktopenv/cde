@@ -87,6 +87,7 @@ extern int max_open_files;		/* see dio.c */
 
 /* Database initialization function
 */
+int
 d_initialize(TASK_DBN_ONLY)
 TASK_DECL
 DBN_DECL
@@ -111,6 +112,7 @@ DBN_DECL
 
 /* Initialize database file
 */
+int
 d_initfile(fno TASK_PARM DBN_PARM)
 FILE_NO fno; /* file table entry of file to be initialized */
 TASK_DECL

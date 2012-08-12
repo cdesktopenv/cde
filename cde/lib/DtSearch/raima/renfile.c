@@ -46,6 +46,7 @@
 
 /* Rename database file
 */
+int
 d_renfile(dbn, fno, fnm TASK_PARM)
 CONST char FAR *dbn;  /* database containing file to be renamed */
 FILE_NO fno;  /* file id number for file to be renamed */
@@ -86,6 +87,7 @@ TASK_DECL
 
 /* Process renamed file table
 */
+int
 renfiles()
 {
    register int dbt_lc;			/* loop control */

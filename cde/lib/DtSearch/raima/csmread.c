@@ -50,6 +50,7 @@
 
 /* Read data from field of current set member
 */
+int
 d_csmread(set, field, data TASK_PARM DBN_PARM)
 int set;    /* Set constant */
 long field; /* Field constant */

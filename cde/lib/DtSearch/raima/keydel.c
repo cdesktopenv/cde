@@ -53,6 +53,7 @@
 
 /* Delete optional key value
 */
+int
 d_keydel(field TASK_PARM DBN_PARM)
 long field; /* key field constant */
 TASK_DECL

@@ -50,6 +50,7 @@
  * Freeze DtSearch 0.1, AusText 2.1.8
  */
 #include "SearchP.h"
+#include <stdlib.h>
 #define PROGNAME	"MSGS"
 
 /****************************************/

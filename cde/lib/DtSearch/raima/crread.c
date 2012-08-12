@@ -50,6 +50,7 @@
 
 /* Read data from field  of current record
 */
+int
 d_crread(field, data TASK_PARM DBN_PARM)
 long field; /* Field constant */
 char FAR *data; /* Data area to contain field contents */

@@ -49,6 +49,7 @@
 
 /* Find next member of set
 */
+int
 d_findnm(nset TASK_PARM DBN_PARM)
 int nset;
 TASK_DECL

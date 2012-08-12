@@ -50,6 +50,7 @@
 
 /* Get current owner type
 */
+int
 d_cotype(set, cotype TASK_PARM DBN_PARM)
 int set;
 int FAR *cotype;

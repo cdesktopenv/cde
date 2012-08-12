@@ -59,6 +59,7 @@
  * Initial revision
  */
 #include "SearchP.h"
+#include <stdlib.h>
 #include <string.h>
 
 #define PROGNAME	"READCHAR"

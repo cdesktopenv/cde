@@ -51,6 +51,7 @@
 
 /* Get current member type
 */
+int
 d_cmtype(set, cmtype TASK_PARM DBN_PARM)
 int set;
 int FAR *cmtype;

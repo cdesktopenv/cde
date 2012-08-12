@@ -50,6 +50,7 @@
 
 /* Check to see if current record is a connected member of SET
 */
+int
 d_ismember(set TASK_PARM DBN_PARM)
 int set;  /* set table entry */
 TASK_DECL

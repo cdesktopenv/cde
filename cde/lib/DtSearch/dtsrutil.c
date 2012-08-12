@@ -66,6 +66,7 @@
  */
 #include "SearchE.h"
 #include <string.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #define MS_misc		1
 

@@ -49,6 +49,7 @@
 
 /* Set current owner to current record
 */
+int
 d_setor(nset TASK_PARM DBN_PARM)
 int nset;  /* set number */
 TASK_DECL

@@ -83,6 +83,7 @@
  * Initial revision
  */
 #include "SearchE.h"
+#include <stdlib.h>
 #include <string.h>
 #include "boolpars.h"
 #include "boolyac.h"
@@ -223,7 +224,7 @@ static TRUTHTAB	*creatett (int stemno, int pmsz, unsigned char *permutes)
 /* Destructor of passed truth table.
  * Unlinks it from ttlist and frees it.
  */
-static void	*freett (TRUTHTAB *argtt)
+static void	freett (TRUTHTAB *argtt)
 {
     TRUTHTAB	*tt;
     TRUTHTAB	**lastlink = &ttlist;
@@ -809,7 +810,7 @@ GET_ANOTHER_TOKEN:
 	    }
 
 	    /* Load stem into stems arrays and return it's truth table. */
-	    if (yylval.truthtab = get_stem_truthtab (stembufp, yytext)) {
+	    if ((yylval.truthtab = get_stem_truthtab (stembufp, yytext))) {
 		retn_token =		WORD_TOKEN;
 		last_token_was_boolop =	FALSE;
 	    }

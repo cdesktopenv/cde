@@ -66,6 +66,7 @@
 #include "SearchE.h"
 #include <string.h>
 #include <sys/stat.h>
+#include <stdlib.h>
 
 #define XOS_USE_NO_LOCKING
 #define X_INCLUDE_TIME_H
