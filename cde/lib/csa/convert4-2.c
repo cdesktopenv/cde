@@ -29,7 +29,6 @@
  */
 
 #include <EUSCompat.h>
-#include <malloc.h>
 #include <string.h>
 #include <stdlib.h>
 #include "rtable2.h"

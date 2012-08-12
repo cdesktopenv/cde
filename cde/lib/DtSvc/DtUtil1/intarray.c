@@ -26,7 +26,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #include "DtHash.h"
 #include "DtShmDb.h"

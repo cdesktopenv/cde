@@ -58,7 +58,7 @@ extern "C" {  extern int ioctl 	(int, int, ...) ; };
 #include "mp/mp_desktop.h"
 #include "mp/mp_mp.h"
 #include <unistd.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "util/tt_gettext.h"
 
 static int parse_Xdisplay_string(_Tt_string display,

@@ -82,7 +82,6 @@ typedef union
 # define TT_STRING 290
 # define TT_NUMBER 291
 
-#include <malloc.h>
 #include <memory.h>
 
 #if defined (__hpux)

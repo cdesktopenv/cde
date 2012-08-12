@@ -60,7 +60,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <malloc.h>
 #include <string.h>
 #include <pwd.h>
 #include <sys/socket.h>
@@ -90,7 +89,6 @@
 #if defined(USL) && (OSMAJORVERSION == 2)
 extern "C" {
 #endif
-#include <malloc.h>
 #if defined(USL) && (OSMAJORVERSION == 2)
 };
 #endif

@@ -29,7 +29,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 /* Buildult.c contains the main supporting utilities for program BUILD */
 
-#include <malloc.h>
+#include <stdlib.h>
 #include "context.h"
 #include "build.h"
 #include "delim.h"

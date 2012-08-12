@@ -30,7 +30,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Tree.c has procedures used by BUILD to construct the tree representation
    of a content model */
 
-#include <malloc.h>
+#include <stdlib.h>
 #include "build.h"
 #include "context.h"
 

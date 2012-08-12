@@ -31,7 +31,7 @@
 
 #include	"shell.h" 
 #include <signal.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include <nl_types.h>
 #include <X11/X.h>

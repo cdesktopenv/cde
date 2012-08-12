@@ -30,7 +30,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Scan.c is the scanner for program PARSER */
 
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <stdio.h>
 #if defined(MSDOS)
 #include <process.h>

@@ -32,7 +32,6 @@
 #include <sys/types.h>
 
 #include <unistd.h>
-#include <malloc.h>
 #include <sys/utsname.h>
 #include <stdlib.h>
 

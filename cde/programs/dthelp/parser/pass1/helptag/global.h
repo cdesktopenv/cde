@@ -33,12 +33,11 @@
 #define INIT(a)
 #endif
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #if defined(MSDOS)
 #include <io.h>
-#include <stdlib.h>
 #include <process.h>
 #include <direct.h>
 #endif

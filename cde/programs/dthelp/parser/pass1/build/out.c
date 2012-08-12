@@ -30,7 +30,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Out.c contains the procedures used by program BUILD to output results */
 
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #if defined(MSDOS)
 #include <process.h>
 #endif

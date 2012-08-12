@@ -26,7 +26,7 @@
 /* Interfaces to free and malloc with optional debugging traces */
 
 /**/
-#include <malloc.h>
+#include <stdlib.h>
 #include <stdio.h>
 #if defined(MSDOS)
 #include <process.h>

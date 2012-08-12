@@ -67,7 +67,7 @@
 /* include files */
 #include <stdio.h>
 #include <stdarg.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <assert.h>

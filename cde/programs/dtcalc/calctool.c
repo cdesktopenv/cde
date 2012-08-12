@@ -37,7 +37,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <malloc.h>
 #include <sys/types.h>
 #include <sys/file.h>
 #include <sys/param.h>

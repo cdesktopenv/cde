@@ -33,7 +33,7 @@
  */
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "api/c/tt_c.h"
 #include "ttdnd.h"
 

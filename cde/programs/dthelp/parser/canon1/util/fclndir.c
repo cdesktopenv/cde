@@ -35,7 +35,7 @@ with an error code of 0 if the files are the same, 1 if they differ, and
 */
 
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #if defined(MSDOS)
 #include <process.h>

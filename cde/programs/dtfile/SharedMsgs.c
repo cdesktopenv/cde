@@ -51,7 +51,6 @@
 #include <signal.h>
 #include <errno.h>
 #include <pwd.h>
-#include <malloc.h>
 #include <time.h>
 #ifndef sun /* don't need the nl_types.h file */
 #include <nl_types.h>

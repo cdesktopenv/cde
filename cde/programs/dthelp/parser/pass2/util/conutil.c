@@ -30,7 +30,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Conutil has utility procedures for program CONTEXT. */
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #if defined(MSDOS)
 #include <process.h>
 #endif

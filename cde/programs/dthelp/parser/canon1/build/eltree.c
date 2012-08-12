@@ -30,7 +30,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Eltree.c contains procedures that manipulate element names */
 
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "build.h"
 
 /* Enters an element name into the element name tree */

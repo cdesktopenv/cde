@@ -72,7 +72,7 @@ static 	char sccsid[] = "@(#)dtfns.c 1.3 94/11/07 Copyr 1993 Sun Microsystems, I
 #include <rpcsvc/nislib.h>
 #include <rpcsvc/ypclnt.h>
 #include <dlfcn.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <fns/fns.h>

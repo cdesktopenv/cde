@@ -10,7 +10,6 @@ extern "C" {
 #include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
 }
 
 #ifdef EXC_DEBUG

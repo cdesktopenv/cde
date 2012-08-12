@@ -69,7 +69,6 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
-#include <malloc.h>
 #include <assert.h>
 #include <ab_private/util.h>
 #include <ab_private/abio.h>

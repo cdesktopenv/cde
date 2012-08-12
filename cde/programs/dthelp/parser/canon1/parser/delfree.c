@@ -26,7 +26,7 @@
 /* Versions of m_free and m_malloc for debugging. */
 
 /**/
-#include <malloc.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "basic.h"
 #include "trie.h"

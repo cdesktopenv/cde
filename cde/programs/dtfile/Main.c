@@ -121,7 +121,7 @@
 
 #include <errno.h>
 #include <pwd.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <ctype.h>
 
 #ifndef sun /* don't need the nl_types.h file */

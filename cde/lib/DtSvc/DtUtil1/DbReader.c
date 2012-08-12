@@ -34,7 +34,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <limits.h>
 #include <string.h>
 #include <X11/X.h>

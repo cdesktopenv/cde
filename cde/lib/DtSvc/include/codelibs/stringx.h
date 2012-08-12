@@ -125,7 +125,7 @@ extern size_t     nl_strlen();		/* __OBSOLETE */
 #if defined(__cplusplus)
 }
 
-#if defined(apollo) || defined(__aix) || defined(USL) || defined(__uxp__) || defined(__osf__)
+#if defined(apollo) || defined(__aix) || defined(USL) || defined(__uxp__) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #include <stdlib.h>
 #else
 #include <malloc.h>

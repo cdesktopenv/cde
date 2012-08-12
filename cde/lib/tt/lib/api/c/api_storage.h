@@ -37,7 +37,6 @@
 #define _API_STORAGE_H
 
 #include <stdlib.h>
-#include <malloc.h>
 #include "util/tt_object.h"
 #include "util/tt_list.h"
 
