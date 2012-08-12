@@ -21,8 +21,13 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define HasBSD44Sockets		YES
 #define HasZlib			YES
 
+#if OSMajorVersion >= 5
+#define CppCmd			/usr/bin/cpp -traditional
+#define PreProcessCmd		/usr/bin/cpp -traditional
+#else
 #define CppCmd			/usr/libexec/cpp -traditional
 #define PreProcessCmd		/usr/libexec/cpp -traditional
+#endif
 #undef  InstallCmd
 #define InstallCmd		/usr/bin/install
 
@@ -58,6 +63,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define HasMakefileSafeInclude	YES
 #define IncludeMakefile(file)	@@# dependencies are in .depend
 #define DependFileName		.depend
+#if OSMajorVersion < 3
 #if OSMinorVersion < 2
 #ifndef ExtraLibraries
 #define ExtraLibraries		-lgnumalloc
@@ -65,6 +71,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #else
 #if OSTeenyVersion == 2
 #define HasSetUserContext	YES
+#endif
 #endif
 #ifndef ExtraLoadFlags
 /* 

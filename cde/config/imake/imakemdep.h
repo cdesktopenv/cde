@@ -188,6 +188,17 @@ in this Software without prior written authorization from The Open Group.
 #define imake_ccflags "-DNOSTDHDRS"
 #endif
 
+#ifdef  __FreeBSD__
+#include <sys/param.h>
+#if defined(__FreeBSD_version)
+#if __FreeBSD_version < 500000
+#define imake_ccflags "-DCPP_IN_LIBEXEC"
+#endif
+#else
+#define imake_ccflags "-DCPP_IN_LIBEXEC"
+#endif
+#endif
+
 /* this is for OS/2 under EMX. This won't work with DOS */
 #if defined(__EMX__)
 #define imake_ccflags "-DBSD43"
@@ -247,7 +258,7 @@ in this Software without prior written authorization from The Open Group.
 #if defined(sun) && (defined(SVR4) || defined(__svr4__) || defined(__SVR4) || defined(__sol__))
 #define DEFAULT_CPP "/usr/ccs/lib/cpp"
 #endif
-#ifdef __bsdi__
+#if defined(__bsdi__) || (defined(__FreeBSD__) && !defined(CPP_IN_LIBEXEC))
 #define DEFAULT_CPP "/usr/bin/cpp"
 #endif
 #ifdef __uxp__
@@ -259,7 +270,8 @@ in this Software without prior written authorization from The Open Group.
 #ifdef _CRAY
 #define DEFAULT_CPP "/lib/pcpp"
 #endif
-#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__)
+#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) \
+	|| (defined(__FreeBSD__) && defined(CPP_IN_LIBEXEC))
 #define DEFAULT_CPP "/usr/libexec/cpp"
 #endif
 #if defined(__sgi) && defined(__ANSI_CPP__)
