@@ -214,6 +214,19 @@ XCOMM        exists    the link is correct    /usr/dt/link
 	EOF
 }
 
+
+PrintUsage()
+{
+  echo "Usage:" $0 "[OPERATION]"
+  echo ""
+  echo "Operations:"
+  echo "    -e        configure"
+  echo "    -d        deconfigure"
+  echo "    -v        verify"
+  echo "    -s        size"
+  echo "    -h        help"
+}
+
 #include "../option.func"
 
 XCOMM ##########################################################################
@@ -238,6 +251,12 @@ PRINTERS=""
 DEFAULT_PRINTER="DtPrint"
 
   HandleOption $*
+
+  if [ "$OPERATION" = "usage" ]
+  then
+    PrintUsage
+    exit 0
+  fi
 
   if [ "$OPERATION" = "configure" ]
   then
@@ -324,7 +343,7 @@ DEFAULT_PRINTER="DtPrint"
     then
 	awk '{print "kill -1 " $2}' /tmp/tmppsout | /bin/csh
     else
-	/usr/sbin/inetd -s
+	[ -x /usr/sbin/inetd ] && /usr/sbin/inetd -s 2>/dev/null
     fi
   fi
 
