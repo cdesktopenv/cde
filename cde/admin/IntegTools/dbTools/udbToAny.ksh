@@ -142,7 +142,7 @@ ConvertRoutine()
 	;;
     esac
 
-   cat > /tmp/awk$$ <<EOF
+   cat > $TMPFILE <<EOF
 #
 # The function name "PRTREC" is used by the parsing routines
 # to do the output. By providing a custom output function you
@@ -166,8 +166,8 @@ EOF
    # Create a single awk file for use with the "-f" parameter.
    # IBM's awk only allows one "-f"
    #
-    cat "$UDB_PARSE_LIB" >> /tmp/awk$$
-    [ -z "$CUSTOM_PRINT" ]  || cat "$CUSTOM_PRINT_LIB" >> /tmp/awk$$
+    cat "$UDB_PARSE_LIB" >> $TMPFILE
+    [ -z "$CUSTOM_PRINT" ]  || cat "$CUSTOM_PRINT_LIB" >> $TMPFILE
 
     $AWK -v mailTo="$Administrator" \
 	 -v action="$DoAction" \
@@ -176,7 +176,7 @@ EOF
 	 -v UseDefaultBlocks="$UseDefaultBlocks" \
 	 -v DeBugFile="$DEBUGFILE" \
 	 -v DeBug="$DEBUGLEVEL" \
-	 -f /tmp/awk$$ $*
+	 -f $TMPFILE $*
 
 
 #
@@ -185,7 +185,7 @@ EOF
 #	 -f "$UDB_PARSE_LIB" \
 #
 
-     rm /tmp/awk$$
+     rm $TMPFILE
 }
 
 #
@@ -246,6 +246,7 @@ typeset UDB_PARSE_LIB="$DBTOOLSRC/udbParseLib.awk"
 typeset CUSTOM_PRINT_LIB=""
 typeset DEBUGFILE="/dev/tty"
 typeset DEBUGLEVEL=0
+typeset TMPFILE=`mktemp /tmp/awkXXXXXXXXXXXXXXXXXXXXX`
 
 if [ $# -gt 2 ]; then 
     while [ $# -gt 0 ]
