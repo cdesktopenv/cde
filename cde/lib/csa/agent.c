@@ -296,7 +296,7 @@ _DtCm_process_updates()
  */
  
 Update_Status *
-_DtCm_update_callback_1(Table_Res_4 *t, void *dummy)
+_DtCm_update_callback_1(Table_Res_4 *t, _DtCm_Connection *conn)
 {
 	static Update_Status status = update_succeeded;
 	_CallbackInfo *cbi;
