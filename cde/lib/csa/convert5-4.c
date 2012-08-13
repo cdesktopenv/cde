@@ -92,11 +92,11 @@ _DtCm_cmsattrs_to_apptdata(uint size, cms_attribute *attrs, Appt_4 *appt)
 	{
 		strncpy(buf, (char *)aptr->value->item.opaque_data_value->data,
 			aptr->value->item.opaque_data_value->size);
-		buf[aptr->value->item.opaque_data_value->size] = NULL;
+		buf[aptr->value->item.opaque_data_value->size] = '\0';
 
 		ptr = strchr(buf, ':');
 		if (ptr != NULL)
-			*ptr = NULL;
+			*ptr = '\0';
 
 		appt->appt_id.key = atol(buf);
 
@@ -819,7 +819,7 @@ _DtCm_add_reminder(char *rem, CSA_reminder * val, Appt_4 *appt)
 		}
 		memcpy(newattr->clientdata, val->reminder_data.data,
 			val->reminder_data.size);
-		newattr->clientdata[val->reminder_data.size] = NULL;
+		newattr->clientdata[val->reminder_data.size] = '\0';
 
 	} else if ((newattr->clientdata = calloc(1,1)) == NULL) {
 		_DtCm_free_attr4(newattr);

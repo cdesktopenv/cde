@@ -164,7 +164,7 @@ _DtCmGrowAttrArray(uint *num_attrs, cms_attribute **attrs, cms_attribute *attr)
 		return (CSA_E_INSUFFICIENT_MEMORY);
 	else {
 		*attrs = newptr;
-		memset((void *)&(*attrs)[*num_attrs+1], NULL,
+		memset((void *)&(*attrs)[*num_attrs+1], 0,
 			sizeof(cms_attribute) * (index - *num_attrs));
 	}
 

@@ -997,7 +997,7 @@ csa_list_entry_sequence(
 		rtype = &entry->e->attrs[CSA_ENTRY_ATTR_RECURRENCE_RULE_I];
 		if (rtype->value == NULL ||
 		    rtype->value->item.string_value == NULL ||
-		    *(rtype->value->item.string_value) == NULL) {
+		    *(rtype->value->item.string_value) == '\0' ) {
 			return (CSA_E_INVALID_PARAMETER);
 		}
 	}

@@ -435,12 +435,12 @@ occurrence	: FIRSTWEEK endMarker
 
 endDate	: /* empty */
 		    {
-			$$ = NULL;
+			$$ = '\0';
 		    }
 	| DATE
 		    {
 			if (_csa_iso8601_to_tick($1, &$$) == -1)
-				$$ = NULL;
+				$$ = '\0';
 		    }
 		;
 

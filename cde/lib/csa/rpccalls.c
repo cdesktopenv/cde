@@ -226,7 +226,7 @@ _DtCm_rpc_create_calendar(
 		/* check to make sure user is not creating a calendar
 		 * using another user's name
 		 */
-		if (ptr = strchr(cal->name, '@')) *ptr = NULL;
+		if (ptr = strchr(cal->name, '@')) *ptr = '\0';
 		if (_DtCmIsUserName(cal->name) == B_TRUE) {
 
 			if ((owner = _DtCmGetUserName()) == NULL)
@@ -1412,7 +1412,7 @@ _GetV4UserAccess(Calendar *cal, cms_access_entry *alist)
 	boolean_t isowner = B_FALSE;
 
 	/* first check if user is owner */
-	if (ptr = strchr(cal->name, '@')) *ptr = NULL;
+	if (ptr = strchr(cal->name, '@')) *ptr = '\0';
 
 	if (_DtCmIsUserName(cal->name) == B_TRUE) {
 		if (strcmp(user, cal->name) == 0) {

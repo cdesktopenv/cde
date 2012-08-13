@@ -90,7 +90,7 @@ _DtCm_new_Calendar(const char *calendar)
 	if ((cal = (Calendar *)malloc(sizeof(Calendar))) == NULL)
 		return(NULL);
 
-	memset((void *)cal, NULL, sizeof(Calendar));
+	memset((void *)cal, 0, sizeof(Calendar));
 
 	if ((cal->name = strdup(calendar)) == NULL) {
 		free(cal);
@@ -305,7 +305,7 @@ _DtCm_list_old_cal_attr_names(
 	for (i = 1, j = 0; i <= _DtCM_DEFINED_CAL_ATTR_SIZE; i++) {
 		if (_CSA_cal_attr_info[i].fst_vers > 0 &&
 		    _CSA_cal_attr_info[i].fst_vers <= cal->file_version) {
-			if (i == CSA_CAL_ATTR_CALENDAR_OWNER_I && *buf == NULL)
+			if (i == CSA_CAL_ATTR_CALENDAR_OWNER_I && *buf == '\0')
 				continue;
 
 			if ((names[j] =
@@ -527,7 +527,7 @@ _get_owner_from_old_cal(Calendar *cal, char *owner)
 	if (_DtCmIsUserName(calname) == B_TRUE)
 		strcpy(owner, calname);
 	else
-		*owner = NULL;
+		*owner = '\0';
 
 	free(calname);
 	return (CSA_SUCCESS);
@@ -555,7 +555,7 @@ _get_calendar_owner(
 	} else {
 		if ((stat = _get_owner_from_old_cal(cal, buf)) != CSA_SUCCESS)
 			return (stat);
-		else if (*buf == NULL)
+		else if (*buf == '\0')
 			return (CSA_SUCCESS);
 		else
 			owner = buf;

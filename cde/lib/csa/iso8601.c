@@ -318,7 +318,7 @@ _csa_iso8601_to_duration(char *buf, time_t *sec)
    numptr = ptr;
    while (*ptr >= '0' && *ptr <= '9') ptr++;
 
-   if (numptr == ptr || !(*ptr && *ptr++ == 'S' && *ptr == NULL))
+   if (numptr == ptr || !(*ptr && *ptr++ == 'S' && *ptr == '\0'))
 	return (-1);
    else {
 	num = atoi(numptr);
