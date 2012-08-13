@@ -129,7 +129,7 @@ static Widget	exec_code_dialog = NULL;
 static Widget	exec_code_textpane = NULL;
 
 static Widget	ConnP_view_source_obj = NULL; /* View:'s "Source Object" PushButton */
-static int	ConnP_view_filter = -1;
+static long	ConnP_view_filter = -1;
 
 static STRING	CodeFragBuf = NULL;
 static STRING	action_type_labels[ACTION_TYPE_NUM_VALUES];		
@@ -496,7 +496,7 @@ populate_view_menu(
     XtPointer	call_data
 )
 {
-    int		i;
+    long	i;
     Widget	w;
 
 
@@ -526,7 +526,7 @@ setup_source(
     ABObj		source
 )
 {
-    int	i = connP_get_obj_type_index(source_type, source_subtype);
+    long	i = connP_get_obj_type_index(source_type, source_subtype);
 
     if (i < 0) return;
 
@@ -544,7 +544,7 @@ setup_target(
     ABObj		target
 )
 {
-    int	i = connP_get_obj_type_index(target_type, target_subtype);
+    long	i = connP_get_obj_type_index(target_type, target_subtype);
 
     if (i < 0) return;
 
@@ -949,9 +949,9 @@ set_view_filter(
     XtPointer	call_data
 )
 {
-    if (ConnP_view_filter != (int)client_data)
+    if (ConnP_view_filter != (long)client_data)
     {
-	ConnP_view_filter = (int)client_data;
+	ConnP_view_filter = (long)client_data;
 	populate_connection_list(NULL);
     }
 }
@@ -1551,7 +1551,7 @@ set_standard_action_type(
 )
 {
     XmString	xm_label_str;
-    int		i = 0;
+    long		i = 0;
     BOOL	found = FALSE;
 
     connP_set_action_type(AB_FUNC_BUILTIN);
@@ -3832,7 +3832,7 @@ update_conn_ed_controls(void)
     int			source_subtype = -1;
     AB_OBJECT_TYPE      target_type = AB_TYPE_UNDEF; 
     int			target_subtype = -1;
-    int 		i = -1, j = -1;
+    long 		i = -1, j = -1;
 
     source_type = connP_get_source_type();
     source_subtype = connP_get_source_subtype();

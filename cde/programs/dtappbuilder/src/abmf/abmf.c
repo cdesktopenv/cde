@@ -174,6 +174,7 @@ nl_catd Dtb_project_catd;
 
 
 /* ARGSUSED */
+int
 main(int argc, STRING *argv)
 {
     int			exitValue = 0;
@@ -939,7 +940,7 @@ mark_modules_to_load_and_write(
 	{
 	    fileName = strlist_get_str(fileNames, i, &wasFoundVoidPtr);
 	    assert(fileName != NULL);
-	    wasFound = (BOOL)(unsigned)wasFoundVoidPtr;
+	    wasFound = (BOOL)(unsigned long)wasFoundVoidPtr;
 	    if (!wasFound)
 	    {
 		util_printf_err("module not found in project: %s\n", fileName);

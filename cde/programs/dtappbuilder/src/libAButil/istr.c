@@ -85,7 +85,7 @@ typedef struct BUCKET
  */
 STRING	Istr_null_string= "(nil)";
 STRN 	*int_array= NULL;	/* unique number array  */
-int	num_count  = 1;      /* unique number counter */
+long	num_count  = 1;         /* unique number counter */
 
 static BucketRec	hashtable[NUMBUCKETS];
 
@@ -94,10 +94,10 @@ STRN *debug_istr= NULL;		/* debugging shortcut for clients (see */
 				/* comment at top of this file) */
 #endif /* DEBUG */
 
-static int *freelist;           /* freelist for unused numbers */
+static long *freelist;           /* freelist for unused numbers */
 
-static int freecount  = 0;      /* freelist count */
-static int hash_count = 0;      /* total number that has been inserted */
+static long freecount  = 0;      /* freelist count */
+static long hash_count = 0;      /* total number that has been inserted */
 
 static unsigned	hashing(
 		    char *p
@@ -125,7 +125,7 @@ static int	istrP_errmsg_noexist(int istr_value);
 #define int_array_set(ptr)	(int_array = (ptr))
 #endif
 #define istrP_int_to_client(intVal)	((ISTRING)(intVal))
-#define istrP_client_to_int(istrVal)	((int)(istrVal))
+#define istrP_client_to_int(istrVal)	((long)(istrVal))
 #define return_istr(x)			return istrP_int_to_client(x)
 
 /*****************************************************************************/
@@ -142,7 +142,7 @@ istr_create (
 )
 {
     int hashval;
-    int str_exists;
+    long str_exists;
     Bucket	new_bucket;
     int i;
     Bucket	entry;
@@ -310,7 +310,7 @@ istrP_create_alloced_impl(
 )
 {
     int hashval;
-    int str_exists;
+    long str_exists;
     Bucket	new_bucket;
     int i;
     Bucket	entry;
@@ -487,7 +487,7 @@ istr_create_const(
 )
 {
     int hashval;
-    int str_exists;
+    long str_exists;
     Bucket	new_bucket;
     int i;
     Bucket	entry;
@@ -668,7 +668,7 @@ istr_dup_existing(
 )
 {
     int hashval;
-    int str_exists;
+    long str_exists;
 
     if (string == NULL)
     {
@@ -696,7 +696,7 @@ istrP_destroy_impl(
     ISTRING *istringClientPtr
 )
 {
-    int istring = (int)(*istringClientPtr);
+    long istring = (long)(*istringClientPtr);
     int val;                 /* hashing value */
     int i;
     Bucket	entry;
@@ -712,7 +712,7 @@ istrP_destroy_impl(
         (int_array[istring].read_const == 0)))
     {
 	istrP_errmsg_noexist(istring);
-        return NULL;
+        return 0;
     }
     if (int_array[istring].read_const == 1)  /* const entry */
     {
@@ -752,13 +752,13 @@ istrP_destroy_impl(
 /* put unused int_array location of the freelist */
         if(free_num == 0)
         {
-            freelist = (int *)malloc(ARRAYSIZE * sizeof(int));
+            freelist = (long *)malloc(ARRAYSIZE * sizeof(long));
             if (freelist == NULL)
             {
                 fprintf(stderr,
 		    catgets(UTIL_MESSAGE_CATD, UTIL_MESSAGE_SET, 3,
 		    "ISTR: error in allocating memory\n") );
-                return NULL ;
+                return 0 ;
             }  
             free_num = 1;
         }
@@ -771,15 +771,15 @@ istrP_destroy_impl(
         else  /* need more freelist space */
         { 
             free_num++;
-            freelist = (int *)realloc(freelist,
-                (ARRAYSIZE * free_num) * sizeof(int));
+            freelist = (long *)realloc(freelist,
+                (ARRAYSIZE * free_num) * sizeof(long));
 	    assert(freelist != NULL);
             if (freelist == NULL)
             {
                 fprintf(stderr,
 		    catgets(UTIL_MESSAGE_CATD, UTIL_MESSAGE_SET, 3,
 		    "ISTR: error in allocating memory\n") );
-                return NULL ;
+                return 0 ;
             }  
             freelist[freecount] = istring;
             freecount++;
@@ -789,7 +789,7 @@ istrP_destroy_impl(
     /*
      * Set the client's variable to NULL
      */
-    istring = NULL;
+    istring = 0;
     (*istringClientPtr) = istrP_int_to_client(istring);
     return 1;
 }
@@ -804,7 +804,7 @@ istr_dup(
     ISTRING istringClientVal
 )
 {
-    int		istring= istrP_client_to_int(istringClientVal);
+    long	istring= istrP_client_to_int(istringClientVal);
 
     if(istring == 0) 
     {
@@ -831,7 +831,7 @@ istrP_get_string_verify(
     ISTRING istringClientVal
 )
 {
-    int		istring = istrP_client_to_int(istringClientVal);
+    long	istring = istrP_client_to_int(istringClientVal);
 
     if(istring == 0) 
     {
@@ -932,13 +932,13 @@ insert_array(
 
     if(hash_count == 0)
     {
-        int_array_set((STRN *)malloc(ARRAYSIZE * sizeof(STRN)));
+        int_array_set((STRN *)calloc(ARRAYSIZE, sizeof(STRN)));
         if (int_array == NULL)
         {
             fprintf(stderr,
 		catgets(UTIL_MESSAGE_CATD, UTIL_MESSAGE_SET, 3,
 		"ISTR: error in allocating memory\n") );
-            return NULL ;
+            return 0 ;
         }  
         array_num = 1;
     }
@@ -973,7 +973,7 @@ insert_array(
             fprintf(stderr,
 		catgets(UTIL_MESSAGE_CATD, UTIL_MESSAGE_SET, 3,
 		"ISTR: error in allocating memory\n") );
-            return NULL ;
+            return 0 ;
         }  
         int_array[val].refcount =1;
         if (flag == 1)

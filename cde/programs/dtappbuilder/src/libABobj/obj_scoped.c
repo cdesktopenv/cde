@@ -115,7 +115,7 @@ obj_scoped_find_by_name(ABObj searchFirstObj, STRING objName)
 	moduleNameEndChar = *moduleNameEndPtr;
 	*moduleNameEndPtr = 0;
     }
-    while (((*objNamePtr) != NULL) && (isspace(*objNamePtr)))
+    while (((*objNamePtr) != 0) && (isspace(*objNamePtr)))
     {
 	++objNamePtr;
     }

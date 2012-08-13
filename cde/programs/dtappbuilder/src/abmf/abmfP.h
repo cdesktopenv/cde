@@ -162,7 +162,7 @@ typedef CGenAnyData	CGenData;
 
 #define mfobj_set_proj_data(_obj,_data) \
 	( mfobj_set_flags(_obj, CGenFlagDataIsProj), \
-	  ((int)(mfobj_data(_obj)->info.proj = (_data))) \
+	  ((long)(mfobj_data(_obj)->info.proj = (_data))) \
 	)
 
 #define mfobj_get_proj_data(obj) \

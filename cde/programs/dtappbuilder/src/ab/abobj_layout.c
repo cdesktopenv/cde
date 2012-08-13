@@ -110,7 +110,7 @@ abobj_calculate_new_layout(
     Position    x, y;
     Dimension   width, height;
     Dimension   p_width, p_height;
-    int		gridpos;
+    long	gridpos;
 
     if ((attachments = obj->attachments) == NULL)
         return -1;

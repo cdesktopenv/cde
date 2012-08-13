@@ -258,7 +258,7 @@ static void	set_attach_values(
 		    PropOptionsSetting		objlist_setting,
 		    int				offset_value,
 		    int				position_value,
-		    int				objlist_value
+		    XtPointer			objlist_value
 		);
 
 static void	change_attach_type(
@@ -2642,7 +2642,7 @@ set_attach_values(
     PropOptionsSetting		objlist_setting,
     int				offset_value,
     int				position_value,
-    int				objlist_value
+    XtPointer			objlist_value
 )
 {
     switch (attach_type)
@@ -2945,7 +2945,7 @@ convert_offset_position(
     /*
     set_attach_values(attach_type, 
 		offset_setting, position_setting, objlist_setting, 
-		offset_value, position_value, (int)sibling_obj);
+		offset_value, position_value, (XtPointer)sibling_obj);
     */
     
     *ret_offset = offset_value;
@@ -3068,7 +3068,7 @@ change_attach_type(
      */
     set_attach_values(attach_type, 
 		offset_setting, position_setting, objlist_setting, 
-		offset, position, (int)attach_obj);
+		offset, position, (XtPointer)attach_obj);
 }
 
 
@@ -3263,7 +3263,7 @@ change_opp_attach_type(
          */
         set_attach_values(opp_attach_type, 
 		opp_offset_setting, opp_position_setting, opp_objlist_setting, 
-		offset, position, (int)attach_obj);
+		offset, position, (XtPointer)attach_obj);
     }
 }
 
@@ -3335,7 +3335,7 @@ attach_obj_changed(
             		&offset, &position);
         set_attach_values(attach_type, 
 		offset_setting, position_setting, objlist_setting, 
-		offset, position, (int)attach_obj);
+		offset, position, (XtPointer)attach_obj);
     }
 }
 

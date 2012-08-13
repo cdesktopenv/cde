@@ -2417,7 +2417,7 @@ bilP_load_attachment_value(BIL_TOKEN valueToken)
 {
     ABObj               target = NULL;
     STRING              name = NULL;
-    int                 value = 0;
+    long                value = 0;
     AB_COMPASS_POINT    cp = AB_CP_UNDEF;
 
     util_dprintf(3, "bilP_load_attachment_value: %d/%s\n\t%d/%s\n",

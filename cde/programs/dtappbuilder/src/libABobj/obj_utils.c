@@ -196,7 +196,7 @@ ab_ident_is_ok(STRING ident)
     {
 	return FALSE;
     }
-    for (cp = ident; *cp != NULL; ++cp)
+    for (cp = ident; *cp != 0; ++cp)
     {
 	if (isspace(*cp))
 	{
@@ -789,7 +789,7 @@ obj_scoped_name_split(
 	moduleNameEndChar = *module_name_end_ptr;
 	*module_name_end_ptr = 0;
     }
-    while (((*obj_name_ptr) != NULL) && (isspace(*obj_name_ptr)))
+    while (((*obj_name_ptr) != 0) && (isspace(*obj_name_ptr)))
     {
 	++obj_name_ptr;
     }
@@ -1146,7 +1146,7 @@ obj_verify(ABObj obj)
 		obj_name, (_fieldName)))
 
 #define check_str(obj, _field) \
-    ( ((int)(last_field = #_field)), \
+    ( ((long)(last_field = #_field)), \
       (istr_verify(obj->_field) >= 0)? \
 	(0) \
     : \

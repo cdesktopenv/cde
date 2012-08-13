@@ -176,7 +176,7 @@ objP_tree_add_to_names_list(ABObj tree)
     }
     if (names == NULL)
     {
-	return NULL;
+	return 0;
     }
 
     for (trav_open(&trav, tree, AB_TRAV_ALL);
@@ -207,7 +207,7 @@ objP_tree_remove_from_names_list(ABObj tree)
     }
     if (names == NULL)
     {
-	return NULL;
+	return 0;
     }
 
     for (trav_open(&trav, tree, AB_TRAV_ALL);

@@ -74,7 +74,7 @@ static int objlistP_build_user_data_array(
     ((((_list)->user_datas == NULL) && ((_data) != NULL))? \
         objlistP_build_user_data_array(_list, _index, _data) \
     : \
-        ((int)((_list)->user_datas[(_index)] = (_data))) \
+        ((long)((_list)->user_datas[(_index)] = (_data))) \
     )
 */
 	
@@ -85,7 +85,7 @@ static int objlistP_build_user_data_array(
 	: \
             objlistP_build_user_data_array(_list, _index, _data)) \
     : \
-        ((int)((_list)->user_datas[(_index)] = (_data))) \
+        ((long)((_list)->user_datas[(_index)] = (_data))) \
     )
 	
 #define objlistP_get_user_data(_list,_index) \
@@ -260,7 +260,7 @@ objlist_add_obj(ABObjList list, ABObj obj, void *clientData)
      */
     if (list->unique)
     {
-	int index = objlist_get_obj_index(list, obj);
+	long index = objlist_get_obj_index(list, obj);
 	if (index >= 0)
 	{
 	    objlistP_add_user_data(list, index, clientData);

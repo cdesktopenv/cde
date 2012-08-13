@@ -108,7 +108,7 @@ extern char **		connP_get_when_labels(
 extern char **		connP_get_act_labels(
 			    int	*num_labels
 			);
-extern int		connP_get_obj_type_index(
+extern long		connP_get_obj_type_index(
 			    AB_OBJECT_TYPE	ab_type,
 			    int			ab_subtype
 			);
@@ -181,7 +181,7 @@ extern int		connP_objtype_needs_subtype(
 			    AB_OBJECT_TYPE	obj_type,
 			    int			obj_subtype
 			);
-extern int		connP_obj_enabled(
+extern long		connP_obj_enabled(
 			    AB_OBJECT_TYPE	obj_type,
 			    int			obj_subtype
 			);

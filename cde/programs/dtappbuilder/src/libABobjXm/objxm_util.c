@@ -142,7 +142,7 @@ objxm_color_exists(
     String	colorname
 )
 {
-    static Colormap     colormap = NULL;
+    static Colormap     colormap = 0;
     static Display	*display = NULL;
     XColor              color;
     XColor              exact_color;
@@ -194,7 +194,7 @@ objxm_filebase_to_pixmap(
     if (util_strempty(filebase))
         return ERR_BAD_PARAM2;
 
-    *pixmap_p = NULL;
+    *pixmap_p = 0;
 
     /* Use Pixmap conversion callback if it exists */
     if (ObjxmP_filename_to_pixmap_cb != NULL)
@@ -308,7 +308,7 @@ convert_file_to_pixmap(
     Pixel       fgPixel = 0;
     Pixel       bgPixel = 0; 
 
-    *pixmap_p = NULL;
+    *pixmap_p = 0;
 
     /*
      * Get default values
@@ -329,7 +329,7 @@ convert_file_to_pixmap(
      * In CDE, XmGetPixmap handles .xpm files, as well.
      */
     *pixmap_p = XmGetPixmap(screen, filename, fgPixel, bgPixel);
-    if ((*pixmap_p == NULL) || (*pixmap_p == XmUNSPECIFIED_PIXMAP))
+    if ((*pixmap_p == 0) || (*pixmap_p == XmUNSPECIFIED_PIXMAP))
     {
 	return -1;
     }

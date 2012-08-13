@@ -116,7 +116,7 @@ gilP_load_object2(FILE * inFile, ABObj obj, ABObj parent)
 
             attr = gilP_string_to_att(istr_string(keyword));
             if ((rc = gilP_load_attribute_value(
-                                        inFile, obj, attr, parent)) != NULL)
+                                        inFile, obj, attr, parent)) != 0)
             {
                 return_value = rc;
                 goto epilogue;

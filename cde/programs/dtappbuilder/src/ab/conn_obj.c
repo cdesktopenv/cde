@@ -926,7 +926,7 @@ connP_make_conn_string(
 )
 {
     register int	i;
-    int			si;
+    long		si;
     static char		conn_string[BUFSIZ];
     char		buf[BUFSIZ];
     AB_ACTION_INFO	*action_info;
@@ -1041,13 +1041,13 @@ connP_make_conn_string(
     return(conn_string);
 }
 
-extern int
+extern long
 connP_get_obj_type_index(
     AB_OBJECT_TYPE	ab_type,
     int			ab_subtype
 )
 {
-    register int	i;
+    register long	i;
 
     if (connP_objtype_needs_subtype(ab_type, ab_subtype))
     {
@@ -1093,8 +1093,8 @@ connP_guess_when_action(
     AB_BUILTIN_ACTION	*act_ret
 )
 {
-    int     i = connP_get_obj_type_index(source_type, source_subtype);
-    int     j = connP_get_obj_type_index(target_type, target_subtype);
+    long     i = connP_get_obj_type_index(source_type, source_subtype);
+    long     j = connP_get_obj_type_index(target_type, target_subtype);
 
     if (ConnP_conn_objs[i].when_list != NULL)
 	*when_ret = ConnP_conn_objs[i].default_when;
@@ -1197,7 +1197,7 @@ assign_when_list(
     int			source_subtype
 )
 {
-    int		i;
+    long	i;
     int		n;
     ConnObj	*src_conn_obj;
     
@@ -1232,7 +1232,7 @@ assign_action_list(
     int			target_subtype
 )
 {
-    int		i;
+    long	i;
     int		n;
     ConnObj	*trg_conn_obj;
     
@@ -1286,7 +1286,7 @@ connP_objtype_needs_subtype(
     return(0);
 }
 
-extern int
+extern long
 connP_obj_enabled(
     AB_OBJECT_TYPE	obj_type,
     int			obj_subtype

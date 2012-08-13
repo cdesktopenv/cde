@@ -2443,7 +2443,7 @@ obj_set_to(ABObj obj, ABObj to)
     if (!obj_is_action(obj))
     {
 	member_error(obj, "to");
-	return NULL;
+	return 0;
     }
     obj->info.action.to = to;
     return 0;
@@ -2468,7 +2468,7 @@ obj_set_from(ABObj obj, ABObj from)
     if (!obj_is_action(obj))
     {
 	member_error(obj, "from");
-	return NULL;
+	return 0;
     }
     obj->info.action.from = from;
     return 0;
@@ -2686,7 +2686,7 @@ obj_set_when(ABObj obj, AB_WHEN when)
     if (obj->type != AB_TYPE_ACTION)
     {
 	member_error(obj, "when");
-	return NULL;
+	return 0;
     }
     obj->info.action.when = when;
     return 0;
@@ -2978,7 +2978,7 @@ obj_get_attach_offset(
     default:
 	if (util_get_verbosity() > 0)
 	    fprintf(stderr, "obj_get_attach_offset: invalid direction\n");
-	return NULL;
+	return 0;
 
     }
 }
@@ -3879,6 +3879,8 @@ obj_set_help_button(ABObj obj, BOOL has_button)
     obj->info.message.help_button = has_button;
     return 0;
 }
+
+int
 obj_set_tooltalk_level(ABObj obj, AB_TOOLTALK_LEVEL tt_level)
 {
     verify_for_write(obj);
