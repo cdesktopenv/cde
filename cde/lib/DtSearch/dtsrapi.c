@@ -314,10 +314,8 @@ int             DtSearchInit (
 	aa_argv0 = argv0;
     if (err_file)
 	aa_stderr = err_file;
-#if defined(linux) || defined(CSRG_BASED)
     else
 	aa_stderr = stderr;
-#endif
 
     sprintbuf = austext_malloc (SPRINTBUFSZ, PROGNAME "135", NULL);
 

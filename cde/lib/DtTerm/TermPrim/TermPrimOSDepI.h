@@ -96,11 +96,11 @@
 # define USE_TCSENDBREAK	/* use tiocbreak()		*/
 #endif /* LINUX_ARCHITECTURE */
 
-#ifdef  OPENBSD_ARCHITECTURE
+#ifdef  CSRG_BASED
 # define HAS_SETEUID             /* seteuid available            */
 # define HAS_SETREUID            /* setreuid available           */
 # define USE_TCSENDBREAK	/* use tiocbreak()		*/
-#endif /* OPENBSD_ARCHITECTURE */
+#endif /* CSRG_BASED */
 
 #ifdef	SUN_ARCHITECTURE
 # define XOR_CAPS_LOCK		/* xor caps lock and shift	*/

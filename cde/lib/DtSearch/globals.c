@@ -60,11 +60,7 @@
 #include <stdio.h>
 #include <nl_types.h>
 
-#if defined(linux)
 FILE	*aa_stderr =		NULL;
-#else
-FILE	*aa_stderr =		stderr;
-#endif
 char	*aa_argv0 =		"<argv0>";
 nl_catd	dtsearch_catd =		(nl_catd) -1;
 nl_catd	austools_catd =		(nl_catd) -1;

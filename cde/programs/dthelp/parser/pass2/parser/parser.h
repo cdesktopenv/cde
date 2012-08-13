@@ -437,7 +437,7 @@ M_PAREXTERN int m_argc ;
 M_PAREXTERN char **m_argv ;
 
 /* PARSER output file */
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 M_PAREXTERN FILE *m_outfile;
 M_PAREXTERN FILE *m_errfile;
 #else
