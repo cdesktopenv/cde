@@ -101,7 +101,7 @@ typedef union
 # define _TT_TRACE_LINETERM 280
 # define _TT_TRACE_PARSE_EOF 281
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include <values.h>
 

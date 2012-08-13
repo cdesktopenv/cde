@@ -85,7 +85,6 @@ static char rcs_id[]="$XConsortium: Graphics.c /main/23 1996/12/06 11:12:54 cde-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <malloc.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <X11/Xlib.h>

@@ -261,6 +261,7 @@ static Widget   _Uxbuild_AddFiletype(void)
 	char		     *pre, *suf, *title;
 
 	XmString	      emptyString;
+    size_t len;
 
 #define TIGHTNESS             20
 #define ICON_MIN_HEIGHT       83
@@ -276,8 +277,9 @@ static Widget   _Uxbuild_AddFiletype(void)
 
         pre = GETMESSAGE(3, 10, "Create Action");
         suf = GETMESSAGE(7, 10, "Add Datatype");
-        title = XtMalloc(strlen(pre) + strlen(suf) + 2);
-        sprintf(title, "%s - %s", pre, suf);
+        len = strlen(pre) + strlen(suf) + 4;
+        title = XtMalloc(len);
+        snprintf(title,len - 1, "%s - %s", pre, suf);
 
         _UxParent = XtVaCreatePopupShell( "AddFiletype_shell",
                         xmDialogShellWidgetClass, _UxParent,

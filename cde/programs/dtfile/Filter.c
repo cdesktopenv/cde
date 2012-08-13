@@ -106,6 +106,7 @@
 #include "Filter.h"
 #include "Help.h"
 
+char **DtDtsDataTypeNames(void);
 
 static char * FILE_FILTER = "FileFilter";
 

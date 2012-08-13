@@ -86,7 +86,7 @@ class _Tt_ostream : public virtual _Tt_allocated {
 	const _Tt_ostream      &operator <<(
 					int               n
 				) const;
-#if defined(__osf__) || defined(linux)
+#if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 	const _Tt_ostream      &operator <<(
 					unsigned int      n
 				) const;

@@ -51,6 +51,7 @@
 
 /* Write contents to current record
 */
+int
 d_recwrite(rec TASK_PARM DBN_PARM)
 CONST char FAR *rec; /* ptr to record area */
 TASK_DECL

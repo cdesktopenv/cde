@@ -63,6 +63,7 @@
  */
 #include "SearchE.h"
 #include <ctype.h>
+#include <stdlib.h>
 #include "vista.h"
 
 #define PROGNAME	"VEDELETE"

@@ -33,7 +33,7 @@
 #include "Owner.h"
 #include "CodingSystem.h"
 
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #include <streambuf>
 using namespace std;
 #else

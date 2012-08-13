@@ -50,6 +50,7 @@
 
 /* Write data to a field  in the current record
 */
+int
 d_crwrite(field, data TASK_PARM DBN_PARM)
 long field; /* field constant */
 char FAR *data; /* data area to contain field contents */

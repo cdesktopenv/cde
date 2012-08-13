@@ -381,7 +381,7 @@ ttmedia_Deposit_pat(
 {
 	Tt_pattern pat = _ttDtPatternCreate( category, TT_SESSION,
 					     register_it, 0, TTME_DEPOSIT,
-					     _ttMediaLoadMsgCB, clientcb,
+					     _ttMediaLoadMsgCB, (void *)clientcb,
 					     clientdata, 0 );
 	Tt_status status = tt_ptr_error( pat );
 	if (status != TT_OK) {
@@ -418,7 +418,7 @@ ttmedia_load(
 )
 {
 	Tt_message msg = _ttDtPMessageCreate( context, TT_REQUEST, TT_SESSION,
-				0, op, _ttMediaLoadMsgCB, cb, clientData );
+				0, op, _ttMediaLoadMsgCB, (void *)cb, clientData );
 	Tt_status status = tt_ptr_error( msg );
 	if (status != TT_OK) {
 		return msg;

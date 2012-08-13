@@ -5,9 +5,9 @@
 	then
 	  if [ -f ${tokens[0]} ]
 	  then
-	    echo "exists  \c"
+	    printf "exists  "
 	  else
-	    echo "MISSING or REMOVED               \c"
+	    printf "MISSING or REMOVED               "
 	    echo "${tokens[0]}"
 	    continue
 	  fi
@@ -15,9 +15,9 @@
 	then
 	  if [ -L ${tokens[0]} ]
 	  then
-	    echo "exists  \c"
+	    printf "exists  "
 	  else
-	    echo "MISSING or REMOVED               \c"
+	    printf "MISSING or REMOVED               "
 	    echo "${tokens[0]}"
 	    continue
 	  fi
@@ -32,36 +32,36 @@
 
 	  if [ "$tmpperms" = "$realperms" ]
 	  then
-	    echo "correct \c"
+	    printf "correct "
 	  else
-	    echo " WRONG  \c"
+	    printf " WRONG  "
 	  fi
 
 	  owner=`ls -l ${tokens[0]} | awk '{print $3}'`
 
 	  if [ "$owner" = "${tokens[4]}" ]
 	  then
-	    echo "correct \c"
+	    printf "correct "
 	  else
-	    echo " WRONG  \c"
+	    printf " WRONG  "
 	  fi
 
 	  group=`ls -l ${tokens[0]} | awk '{print $4}'`
 
 	  if [ "$group" = "${tokens[5]}" ]
 	  then
-	    echo "correct  \c"
+	    printf "correct  "
 	  else
-	    echo " WRONG   \c"
+	    printf " WRONG   "
 	  fi
 	elif [ "${tokens[3]}" = "sym_link" ]
 	then
 	  linkto=`ls -l ${tokens[0]} | awk '{print $11}'`
 	  if [ "${tokens[2]}" = "$linkto" ]
 	  then
-	    echo "  the link is correct    \c"
+	    printf "  the link is correct    "
 	  else
-	    echo "  the link is WRONG      \c"
+	    printf "  the link is WRONG      "
 	  fi
 	fi
 	echo "${tokens[0]}"

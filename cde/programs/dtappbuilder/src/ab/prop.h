@@ -47,7 +47,9 @@
 #define _PROPS_H_
 
 #include <X11/Intrinsic.h>
+#if !defined(CSRG_BASED)
 #include <values.h>
+#endif
 #include <limits.h>
 #include <ab_private/obj.h>
 #include <ab_private/pal.h>

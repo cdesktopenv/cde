@@ -24,7 +24,7 @@
 /* This is the module containing common definitions for all modules of */
 /* the CGM Pixmap generator */
 #include <stdio.h>		/* standard I/O package */
-#include <malloc.h>
+#include <stdlib.h>
 #include <X11/Xlib.h>     /* XLib stuff */
 #include <X11/Intrinsic.h>     /* Xt toolkit */
 #include "GraphicsP.h"

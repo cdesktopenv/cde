@@ -442,12 +442,17 @@ TOP_MOTIF_INCLUDES = -I$(MINCLUDESRC)
 /* MTOOLKITSRC  should be removed */
     MTOOLKITSRC = $(TOOLKITSRC)
 #if ImportMotif || UseInstalledMotif
-    MINCLUDESRC = $(MTOP)/include
         MDOCSRC = $(MTOP)/doc
         MLOCSRC = $(MTOP)/localized
 #else
-    MINCLUDESRC = $(MTOP)/exports/include
         MLOCSRC = $(MTOP)/exports/localized
+#endif
+#if defined(TopMotifInclude)
+    MINCLUDESRC = TopMotifInclude
+#elif ImportMotif || UseInstalledMotif
+    MINCLUDESRC = $(MTOP)/include
+#else
+    MINCLUDESRC = $(MTOP)/exports/include
 #endif
         MLIBSRC = $(MTOP)/lib
      MCLIENTSRC = $(MTOP)/clients

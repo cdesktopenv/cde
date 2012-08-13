@@ -38,6 +38,7 @@
  * 31-Aug-90: Adapted from xswarm by Jeff Butterworth. (butterwo@ncsc.org)
  */
 
+#include <stdlib.h>
 #include "dtscreen.h"
 
 #define TIMES	4		/* number of time positions recorded */

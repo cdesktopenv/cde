@@ -49,7 +49,9 @@
  ***********************************************************************
  */
 #include <stdio.h>
+#if !defined(CSRG_BASED)
 #include <values.h>
+#endif
 #include <Xm/Xm.h>
 #include <Xm/List.h>
 #include <Dt/SpinBox.h>

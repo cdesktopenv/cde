@@ -54,7 +54,9 @@ static  char sccsid[] = "@(#)graphics.c 1.23 94/11/29 Copyr 1994 Sun Microsystem
 #include <EUSCompat.h>
 #include <stdio.h>
 #include <sys/stat.h>
+#if !defined(CSRG_BASED)
 #include <sys/sysmacros.h>
+#endif
 #include <sys/param.h> /* MAXPATHLEN defined here */
 #ifdef SVR4
 #include <sys/utsname.h> /* SYS_NMLN */

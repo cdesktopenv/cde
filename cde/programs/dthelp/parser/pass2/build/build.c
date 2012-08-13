@@ -30,7 +30,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Build.c contains the main procedure for program BUILD */
 
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #if defined(MSDOS)
 #include <process.h>
 #endif

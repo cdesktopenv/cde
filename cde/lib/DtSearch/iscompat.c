@@ -51,6 +51,7 @@
  * Name changes for DtSearch.
  */
 #include "SearchP.h"
+#include <stdlib.h>
 
 #define X_INCLUDE_STRING_H
 #define XOS_USE_NO_LOCKING

@@ -156,6 +156,8 @@ typedef struct prule_t {
     char    is_last_rule;	/* '$' terminate or '>' continue algorithm */
     }	PRULE;
 
+char *ensure_end_slash (char *pathstr);
+void  unload_jpn_language (DBLK *dblk);
 
 /************************************************/
 /*						*/
@@ -389,7 +391,7 @@ char	*teskey_parser (PARG *parg)
 READ_ANOTHER_WORD:
     outp = outbuf;
     tpstate = BETW_WORDS;
-    while (*outp = cofunction (cofunction_arg)) {
+    while ((*outp = cofunction (cofunction_arg))) {
 	readcount++;
 	cofunction_arg = NULL;
 
@@ -421,7 +423,7 @@ READ_ANOTHER_WORD:
 	     * Otherwise discard just like non_concord.
 	     */
 	    outp++;
-	    if (*outp = cofunction(NULL))
+	    if ((*outp = cofunction(NULL)))
 		readcount++;
 	    if ((charmap[*outp] & CONCORDABLE) != 0) {
 		*outp = charmap[*outp] & 0x00ff;
@@ -476,7 +478,7 @@ READ_ANOTHER_WORD:
 	    }
 	    /* Must be opt_concord... */
 	    outp++;
-	    if (*outp = cofunction(NULL))
+	    if ((*outp = cofunction(NULL)))
 		readcount++;
 	    if ((charmap[*outp] & CONCORDABLE) != 0) {
 		if (outp < endmaxword) {

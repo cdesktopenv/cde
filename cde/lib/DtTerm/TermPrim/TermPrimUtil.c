@@ -462,7 +462,7 @@ _DtTermPrimStartLog(Widget w)
             ** reset signals
             */
             (void) signal(SIGHUP, SIG_DFL);
-            (void) signal(SIGCLD, SIG_DFL);
+            (void) signal(SIGCHLD, SIG_DFL);
 #ifdef	BBA
 	    _bA_dump();
 #endif	/* BBA */

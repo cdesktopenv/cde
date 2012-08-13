@@ -67,6 +67,8 @@
 #elif defined(linux)
 # include <wctype.h>
 # define NO_putwc
+#elif defined(CSRG_BASED)
+# include <wctype.h>
 #endif /* linux */
 
 #include <sys/wait.h>

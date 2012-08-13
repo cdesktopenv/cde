@@ -169,6 +169,8 @@ static long		tot_addr_count; /* may be > reccount bcs deletes */
 static int		vistano;
 static float		*wtvec =		NULL;
 
+extern void     find_keyword (char *cur_word, int vista_num);
+extern void     read_wordstr (struct or_hwordrec * glob_word, int vista_num);
 
 /************************************************/
 /*						*/

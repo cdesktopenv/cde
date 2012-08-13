@@ -43,6 +43,7 @@
 
 /* System Include Files  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 
 #include <X11/Intrinsic.h>

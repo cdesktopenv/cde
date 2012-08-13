@@ -38,6 +38,7 @@ static char rcsid[] = "$XConsortium: WmPresence.c /main/7 1996/10/23 17:24:56 rs
 #include "WmGlobal.h"
 #include "WmResNames.h"
 #include "WmHelp.h"
+#include "WmError.h"
 
 #include <X11/Core.h>
 #include <X11/StringDefs.h>
@@ -47,6 +48,7 @@ static char rcsid[] = "$XConsortium: WmPresence.c /main/7 1996/10/23 17:24:56 rs
 #include <Xm/Xm.h>
 #include <Xm/Form.h>
 #include <Xm/PushBG.h>
+#include <Xm/PushB.h>
 #include <Xm/LabelG.h>
 #include <Xm/List.h>
 #include <Xm/SeparatoG.h>

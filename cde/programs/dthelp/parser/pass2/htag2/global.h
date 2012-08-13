@@ -33,18 +33,17 @@
 #define INIT(a)
 #endif
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #if defined(MSDOS)
 #include <io.h>
-#include <stdlib.h>
 #include <process.h>
 #include <direct.h>
 #endif
 #include <ctype.h>
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(linux) || defined(CSRG_BASED)
 #include <unistd.h>
 #include <locale.h>
 #include <fcntl.h>

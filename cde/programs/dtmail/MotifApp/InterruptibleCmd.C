@@ -69,7 +69,7 @@
 #include <Xm/MessageB.h>
 #include <assert.h>
 
-#if !defined(linux)
+#if !defined(linux) && !defined(CSRG_BASED)
 extern forceUpdate( Widget );
 #endif
 

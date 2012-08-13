@@ -45,6 +45,7 @@
 
 /* Check for optional key existence
 */
+int
 d_keyexist(field TASK_PARM DBN_PARM)
 long field; /* key field constant */
 TASK_DECL

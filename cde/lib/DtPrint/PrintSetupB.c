@@ -46,7 +46,11 @@
 #endif
 
 #include <stdlib.h>
+#if defined(CSRG_BASED)
+#define MAXINT INT_MAX
+#else
 #include <values.h>
+#endif
 #include <stdio.h>
 
 #include <Xm/XmAll.h>
@@ -59,6 +63,7 @@
 #include <Dt/PsubDefProcI.h>
 #include <Dt/PsubUtilI.h>
 #include <Dt/PrintI.h>
+
 
 /*
  * ------------------------------------------------------------------------

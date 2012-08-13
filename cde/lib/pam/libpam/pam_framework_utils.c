@@ -34,7 +34,7 @@
 #include <sys/stat.h>
 #include <utmpx.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <libintl.h>
 #include <synch.h>

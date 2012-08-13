@@ -1290,7 +1290,7 @@ StartClient( struct verify_info *verify, struct display *d, int *pidp )
 	}
 #endif
 
-#ifndef sun
+#if !defined(sun) && !defined(CSRG_BASED)
 	Account(d, user, NULL, getpid(), USER_PROCESS, status);
 #endif
 

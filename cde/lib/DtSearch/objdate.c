@@ -67,6 +67,7 @@
  */
 
 #include "SearchP.h"
+#include <stdlib.h>
 #define X_INCLUDE_STRING_H
 #define XOS_USE_NO_LOCKING
 #include <X11/Xos_r.h>

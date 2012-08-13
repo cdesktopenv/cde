@@ -50,6 +50,7 @@
 
 /* Find last key 
 */
+int
 d_keylast(field TASK_PARM DBN_PARM)
 long field;   /* field constant */
 TASK_DECL

@@ -54,7 +54,7 @@
 #endif
 #include <stdlib.h>
 #include <ctype.h>
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #include <wctype.h>
 #endif
 #include "util/tt_string.h"
@@ -1065,6 +1065,7 @@ _tt_xdr_decode(xdrproc_t xdr_fn, void *data, _Tt_string opaque_string)
 /* 
  * XDR encode or decode a _Tt_string
  */
+int
 tt_xdr_string(XDR *xdrs, _Tt_string *s)
 {
 	return(s->xdr(xdrs));

@@ -42,6 +42,7 @@ static char rcsid[] = "$XConsortium: WmWinState.c /main/6 1996/06/20 09:39:39 rs
 #include "WmGlobal.h"
 #include "WmICCC.h"
 #include "WmProtocol.h"
+#include "WmIPC.h"
 
 
 /*

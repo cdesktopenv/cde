@@ -26,7 +26,6 @@
 #if defined(USL) && (OSMAJORVERSION == 2)
 extern "C" {
 #endif
-#include <malloc.h>
 #if defined(USL) && (OSMAJORVERSION == 2)
 };
 #endif

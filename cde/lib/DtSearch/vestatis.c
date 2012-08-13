@@ -96,6 +96,7 @@
 #define	MEMORY_SIZE	64000	/* 65536 is 64 KBytes of memory */
 #define REC_TYPES       256
 #define NORM_VALUE      30
+#undef INFINITY /* XXX does GCC's __builtin_inff() work here? */
 #define INFINITY        9999.0
 #define	SORT_MESG	10000
 #define	CHAR_BITS	8

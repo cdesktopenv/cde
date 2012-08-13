@@ -50,6 +50,7 @@
 
 /* Write data to a field in the current set owner
 */
+int
 d_csowrite(set, field, data TASK_PARM DBN_PARM)
 int set;    /* Set constant */
 long field; /* Field constant */

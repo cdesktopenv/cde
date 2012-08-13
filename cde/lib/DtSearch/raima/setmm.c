@@ -49,6 +49,7 @@
 
 /* Set current member to current member
 */
+int
 d_setmm(sett, sets TASK_PARM DBN_PARM)
 int sett;   /* set table entry number of target member */
 int sets;   /* set table entry number of source member */

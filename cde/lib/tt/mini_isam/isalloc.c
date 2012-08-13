@@ -41,7 +41,7 @@ static char sccsid[] = "@(#)isalloc.c 1.3 89/07/17 Copyr 1988 Sun Micro";
  */
 
 #include "isam_impl.h"
-#include <malloc.h>
+#include <stdlib.h>
 
 /* strdup is not defined in Ultrix' string.h, so it is implemented in a separate
  * file named strdup.ultrix.c

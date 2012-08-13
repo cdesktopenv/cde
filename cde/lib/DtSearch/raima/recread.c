@@ -51,6 +51,7 @@
 
 /* Read contents of current record
 */
+int
 d_recread(rec TASK_PARM DBN_PARM)
 char FAR *rec; /* ptr to record area */
 TASK_DECL

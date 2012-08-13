@@ -35,13 +35,10 @@
  */
 
 #include "tt_options.h"
-#if defined(OPT_BUG_SUNOS_4) && defined(__GNUG__)
-#	include <stdlib.h>
-#endif
+#include <stdlib.h>
 #include <rpc/rpc.h>
 #include "api/c/api_xdr.h"
 #include <mp/mp_xdr_functions.h>
-#include <malloc.h>
 
 bool_t
 _tt_xdr_cstring_list(XDR *xdrs, char ***ar)

@@ -110,6 +110,7 @@
 #include <signal.h>
 #include <locale.h>
 #include <string.h>
+#include <stdlib.h>
 #include <fcntl.h>
 
 #define PROGNAME	"DTSRAPI"
@@ -120,7 +121,7 @@
 /*------------------- PRIVATE GLOBALS ---------------------*/
 /* Usrblk should not be visible to user interface code,
  * but must be visible to real engine... */
-USRBLK          usrblk = { 0 };
+USRBLK          usrblk = { { 0 } };
 static int      save_search_type = '$';
 static char    *sprintbuf = NULL;
 
@@ -313,7 +314,7 @@ int             DtSearchInit (
 	aa_argv0 = argv0;
     if (err_file)
 	aa_stderr = err_file;
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
     else
 	aa_stderr = stderr;
 #endif
@@ -321,7 +322,7 @@ int             DtSearchInit (
     sprintbuf = austext_malloc (SPRINTBUFSZ, PROGNAME "135", NULL);
 
     /* Open msgs and help text catalogs. */
-    if (switches & DtSrInNOLOCALE == 0) {
+    if (switches & (DtSrInNOLOCALE == 0)) {
 	setlocale (LC_ALL, "");
 	dtsearch_catd = catopen (FNAME_DTSRCAT, 0);
     }
@@ -337,7 +338,9 @@ int             DtSearchInit (
 	signal (SIGQUIT, signal_abort);	/* quit, ctrl-d */
 	signal (SIGKILL, signal_abort);	/* (kill -9, cannot be trapped) */
 	signal (SIGTERM, signal_abort);	/* kill [-15], sfwr terminate */
+#ifdef SIGPWR
 	signal (SIGPWR, signal_abort);	/* power failure imminent */
+#endif
 #ifdef _AIX
 	signal (SIGXCPU, signal_abort);	/* cpu time limit exceeded */
 	signal (SIGDANGER, signal_abort);  /* imminent paging space crash */

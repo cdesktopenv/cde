@@ -41,8 +41,7 @@ static char version[] = "$XConsortium: ilhplrotation.c /main/3 1995/10/23 15:48:
 static char vdate[] = "$XConsortium: ilhplrotation.c /main/3 1995/10/23 15:48:35 rswiston $";
 
 # include <stdio.h>
-# include <malloc.h>
-/*# include <stdlib.h> */
+# include <stdlib.h>
 # include <math.h>
 # include <limits.h>        /* Get definition of */
 # include <float.h>         /*     FLX_MAX       */

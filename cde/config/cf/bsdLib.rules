@@ -33,8 +33,8 @@ XCOMM $XConsortium: bsdLib.rules /main/3 1996/09/28 16:09:18 rws $
 #define InstallSharedLibrary(libname,rev,dest)				@@\
 install:: Concat(lib,libname.so.rev)					@@\
 	MakeDir($(DESTDIR)dest)						@@\
-	$(INSTALL) -c $(INSTLIBFLAGS) Concat(lib,libname.so.rev) $(DESTDIR)dest 
-@@\
+	$(INSTALL) -c $(INSTLIBFLAGS) Concat(lib,libname.so.rev) $(DESTDIR)dest @@\
+	$(LN) Concat(lib,libname.so.rev) Concat($(DESTDIR)dest/lib,libname.so)
 
 #endif /* InstallSharedLibrary */
 
@@ -52,10 +52,13 @@ Concat(lib,libname.so.rev):  solist $(EXTRALIBRARYDEPS)			@@\
 	(cd down; $(LD) -o up/$@~ $(SHLIBLDFLAGS) solist $(REQUIREDLIBS)) @@\
 	$(RM) $@							@@\
 	$(MV) $@~ $@							@@\
+	$(RM) Concat(lib,libname.so)					@@\
+	$(LN) $@ Concat(lib,libname.so)					@@\
 	LinkBuildLibrary($@)						@@\
+	LinkBuildLibrary(Concat(lib,libname.so))			@@\
 									@@\
 clean::									@@\
-	$(RM) Concat(lib,libname.so.rev)
+	$(RM) Concat(lib,libname.so.rev) Concat(lib,libname.so)
 
 #endif /* SharedLibraryTarget */
 

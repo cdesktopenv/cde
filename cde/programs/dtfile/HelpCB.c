@@ -58,7 +58,6 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <errno.h>
-#include <malloc.h>
 #include <nl_types.h>
 
 #include <Xm/XmP.h>

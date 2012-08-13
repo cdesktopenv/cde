@@ -68,12 +68,10 @@
 
 */
 #include <stdio.h>
+#include <stdlib.h>
 #include "vista.h"
 #include "dbtype.h"
 
-
-char *malloc(P1(unsigned));
-char *calloc(P1(unsigned) Pi(unsigned));
 #define memlock(p)   (p)
 #define memunlock(p) 1
 

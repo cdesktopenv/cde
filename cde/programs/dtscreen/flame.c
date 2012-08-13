@@ -44,6 +44,7 @@
 
 #include "dtscreen.h"
 #include <math.h>
+#include <stdlib.h>
 
 #define MAXTOTAL	10000
 #define MAXBATCH	10

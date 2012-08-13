@@ -1451,7 +1451,7 @@ _GetV4UserAccess(Calendar *cal, cms_access_entry *alist)
 		return (CSA_SUCCESS);
 	}
 
-	sprintf(buf, "%s@%s", user, localhost);
+	snprintf(buf, sizeof buf, "%s@%s", user, localhost);
 	for (; alist != NULL; alist = alist->next) {
 		if (strcasecmp(alist->user, "world") == 0)
 			worldaccess = alist->rights;

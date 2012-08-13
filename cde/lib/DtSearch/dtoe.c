@@ -91,6 +91,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <stdlib.h>
 
 #define PROGNAME	"DTOE"
 #define MAX_LASTQRY	64
@@ -104,6 +105,9 @@ typedef struct {
     char           *str;
 }               NUMSTR;
 
+int  boolean_parse (void);
+void boolean_search (void);
+void ve_delete (void);
 
 /*------------------ OPERA ENGINE GLOBALS --------------------
  * Default values set by init_globals() in oeinit.c
@@ -120,7 +124,7 @@ char           *global_memory_ptr = NULL;	/* shared mem, dynam
 int             shm_id = 0;	/* shared mem, dynam defrag */
 
 int             OE_bmhtab_strlen[DtSrMAX_STEMCOUNT] = { 0 };
-size_t          OE_bmhtables[DtSrMAX_STEMCOUNT][MAX_BMHTAB] = { 0 };
+size_t          OE_bmhtables[DtSrMAX_STEMCOUNT][MAX_BMHTAB] = { { 0 } };
 int             OE_dbn = 0;	/* dynamic */
 int             OE_enable_markdel = 0;
 int             OE_enable_usernotes = 0;

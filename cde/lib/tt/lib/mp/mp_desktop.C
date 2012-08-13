@@ -47,7 +47,7 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/time.h>
-#if defined(__STDC__) && !defined(linux)
+#if defined(__STDC__) && !defined(linux) && !defined(CSRG_BASED)
 extern "C" {  extern int ioctl 	(int, int, ...) ; };
 #endif     
 #include "util/tt_global_env.h"
@@ -58,7 +58,7 @@ extern "C" {  extern int ioctl 	(int, int, ...) ; };
 #include "mp/mp_desktop.h"
 #include "mp/mp_mp.h"
 #include <unistd.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "util/tt_gettext.h"
 
 static int parse_Xdisplay_string(_Tt_string display,

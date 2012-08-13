@@ -37,6 +37,8 @@ static char rcsid[] = "$XConsortium: WmOL.c /main/4 1995/11/01 11:45:08 rswiston
  */
 #include "WmGlobal.h"
 #include "WmOL.h"
+#include "WmProperty.h"
+#include <Xm/AtomMgr.h>
 
 #define ValidPropertyList(pcd) ((pcd)->paInitialProperties != NULL)
 

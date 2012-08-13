@@ -110,7 +110,7 @@ typedef enum {B_FALSE, B_TRUE} boolean_t;
 
 #endif	/* HPUX */
 
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 typedef enum {B_FALSE, B_TRUE} boolean_t;
 #define MAXNAMELEN      	256
 

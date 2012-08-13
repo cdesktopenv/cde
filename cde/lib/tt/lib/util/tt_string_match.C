@@ -48,7 +48,11 @@
  */
 #undef MAXINT
 #endif
+#if defined(CSRG_BASED)
+#define MAXINT INT_MAX
+#else
 #include <values.h>     
+#endif
 
 static	int	_tt_csh_match(const char *, const char *);
 static	int	_tt_csh_match_star(const char *, const char *);

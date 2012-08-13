@@ -57,7 +57,11 @@ static char rcs_id[] = "$TOG: TermParse.c /main/3 1999/10/15 12:25:13 mgreess $"
  */
 #undef MAXINT
 #endif
-#include  <values.h>        
+#if defined(CSRG_BASED)
+#define MAXSHORT SHRT_MAX
+#else
+#include  <values.h>
+#endif
 
 #if defined(USL) || defined(__uxp__)
 #include <ctype.h>

@@ -65,7 +65,9 @@ static  char sccsid[] = "@(#)getdate.y 1.10 94/11/07 Copyr 1993 Sun Microsystems
 #define STANDARD 2
 #define MAYBE    3
 
+#ifdef SVR4
 extern long timezone;
+#endif
 
 %}
 

@@ -26,6 +26,8 @@
 */
 
 #include "basic.h"
+#include "trie.h"
+#include "cont.h"
 
 
 /* compare two wide character strings */

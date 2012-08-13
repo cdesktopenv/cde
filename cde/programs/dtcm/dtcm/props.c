@@ -29,7 +29,6 @@
  */
 
 #include <stdlib.h>
-#include <malloc.h>
 #include <Xm/Xm.h>
 #include <Xm/Form.h>
 #include <Xm/LabelG.h>

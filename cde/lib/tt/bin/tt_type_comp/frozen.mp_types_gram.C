@@ -82,7 +82,6 @@ typedef union
 # define TT_STRING 290
 # define TT_NUMBER 291
 
-#include <malloc.h>
 #include <memory.h>
 
 #if defined (__hpux)
@@ -91,7 +90,11 @@ typedef union
  */
 #undef MAXINT
 #endif
+#if defined(CSRG_BASED)
+#define MAXINT INT_MAX
+#else
 #include <values.h>
+#endif
 
 #ifdef __cplusplus
 

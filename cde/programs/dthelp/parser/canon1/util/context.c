@@ -156,7 +156,7 @@ delim.h.
 */
 
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #if defined(MSDOS)
 #include <process.h>
 #endif

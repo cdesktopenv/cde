@@ -57,6 +57,7 @@ static DB_ADDR_P Cb = POINTER_INIT();
 
 /* Read currency table
 */
+int
 d_rdcurr(currbuff, currsize TASK_PARM)
 DB_ADDR **currbuff;
 int FAR *currsize;
@@ -106,6 +107,7 @@ TASK_DECL
 
 /* Write currency table
 */
+int
 d_wrcurr(currbuff TASK_PARM)
 DB_ADDR *currbuff;
 TASK_DECL

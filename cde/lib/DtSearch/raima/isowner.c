@@ -50,6 +50,7 @@
 
 /* Check to see if current record is a owner of non-empty SET
 */
+int
 d_isowner(set TASK_PARM DBN_PARM)
 int set;  /* set table entry */
 TASK_DECL

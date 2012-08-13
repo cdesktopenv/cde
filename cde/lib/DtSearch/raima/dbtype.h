@@ -627,6 +627,10 @@ typedef struct page_entry {
 } PAGE_ENTRY;
 #define buff Buff.ptr
 
+#include <string.h>
+#ifndef _STRING_H
+#define _STRING_H
+#endif
 #include "proto.h"
 #ifdef MULTI_TASK
 #ifdef NO_DT_COVER

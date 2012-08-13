@@ -102,6 +102,7 @@
  */
 
 #include "SearchE.h"
+#include <ctype.h>
 #include <stdlib.h>
 #define X_INCLUDE_STRING_H
 #define XOS_USE_NO_LOCKING
@@ -109,6 +110,8 @@
 #include <errno.h>
 #include <unistd.h>	/* for POSIX getcwd() */
 #include <sys/stat.h>
+
+char    *strupr (char *s);
 
 /*****#define DEBUG_DUMP******/
 /********#define DEBUG_OEF**********/
@@ -145,13 +148,13 @@ char           *OE_inittab_dir = NULL;
 ********/
 OEFTAB          oef_table[] =
 {
-    "AUDIT", &OEF_audit, FALSE,
-    "DISCARD", &OEF_discard, FALSE,
-    "NEWS", &OEF_news, FALSE,
-    "NOTESNOT", &OEF_notesnot, FALSE,
-    "NOTESSEM", &OEF_notessem, FALSE,
-    "README", &OEF_readme, FALSE,
-    NULL, NULL, FALSE	/* end of list */
+    { "AUDIT", &OEF_audit, FALSE, },
+    { "DISCARD", &OEF_discard, FALSE, },
+    { "NEWS", &OEF_news, FALSE, },
+    { "NOTESNOT", &OEF_notesnot, FALSE, },
+    { "NOTESSEM", &OEF_notessem, FALSE, },
+    { "README", &OEF_readme, FALSE, },
+    { NULL, NULL, FALSE },	/* end of list */
 };
 
 

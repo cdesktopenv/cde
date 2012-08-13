@@ -52,6 +52,7 @@
 
 /* Store optional key value
 */
+int
 d_keystore(field TASK_PARM DBN_PARM)
 long field; /* key field constant */
 TASK_DECL

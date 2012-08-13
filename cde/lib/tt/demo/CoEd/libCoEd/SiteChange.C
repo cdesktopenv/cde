@@ -52,7 +52,7 @@
  * connection with the use or performance of this software.
  */
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <rpc/types.h>
 #include <rpc/xdr.h>
 #include <memory.h>

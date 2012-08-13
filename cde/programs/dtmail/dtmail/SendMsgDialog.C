@@ -1374,7 +1374,7 @@ SendMsgDialog::createWorkArea ( Widget parent )
     
     printHelpId("form", _main_form);
     /* add help callback */
-    XtAddCallback(_main_form, XmNhelpCallback, HelpCB, DTMAILCOMPOSEWINDOW);
+    XtAddCallback(_main_form, XmNhelpCallback, HelpCB, (void *)DTMAILCOMPOSEWINDOW);
     XtVaSetValues(_main_form, XmNallowResize, True, NULL);
     
     

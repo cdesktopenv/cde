@@ -169,7 +169,8 @@ RFCFormat::writeHeaders(DtMailEnv & error,
 	 hnd && !error.isSet();
 	 value.clear(), hnd = env->getNextHeader(error, hnd, &name, value)) {
 
-	for (const char ** hdr = suppress_headers; *hdr; hdr++) {
+	const char **hdr;
+	for (hdr = suppress_headers; *hdr; hdr++) {
 	    if (strcasecmp(name, *hdr) == 0)
 	      break;
 	}
@@ -185,7 +186,8 @@ RFCFormat::writeHeaders(DtMailEnv & error,
 	for (int val = 0; val < value.length(); val++) {
 	    //
 	    // If the value is null or empty do not emit this field
-	    for (const char *valPtr = *(value[val]);
+	    const char *valPtr;
+	    for (valPtr = *(value[val]);
 		 *valPtr && (isspace((unsigned char)*valPtr));
 		 valPtr++)
 	    {}

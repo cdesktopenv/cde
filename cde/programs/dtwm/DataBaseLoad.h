@@ -484,6 +484,7 @@ struct _AnimationItem
 extern Boolean FrontPanelReadDatabases (void);
 extern void InitParse(char *, ElementValue **);
 extern void InitializeControlFields( ElementValue *element_values, char *);
+extern void InitializeSubpanelFields (ElementValue * element_values);
 extern void _WriteControlElementValues(ElementValue *);
 extern void WriteControlComponentFile(ControlData *);
 extern void WriteSubpanelComponentFile(SubpanelData *);

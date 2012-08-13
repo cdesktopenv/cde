@@ -39,6 +39,7 @@ static char rcsid[] = ""
 
 extern void ChangeToWorkspace( 
                         WmWorkspaceData *pNewWS) ;
+extern void ChangeWorkspaceTitle( WmWorkspaceData *pWS, char * pchTitle);
 extern Boolean DuplicateWorkspaceName (
 			WmScreenData *pSD, 
 			unsigned char *name, 

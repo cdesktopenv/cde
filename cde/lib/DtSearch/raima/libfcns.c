@@ -71,6 +71,7 @@ static int ctblcmp(P1(CONST unsigned char FAR*)
 #ifndef	 ONE_DB
 /* Check for valid db number and set curr_db, curr_db_table and curr_rn_table
 */
+int
 dbn_check(dbn)
 int dbn;
 {
@@ -93,6 +94,7 @@ int dbn;
 /* Check for valid (external) set number and return (internal) set number
    and set_table pointer.
 */
+int
 nset_check(nset, set, set_ptr )
 register int nset;
 int *set;
@@ -110,6 +112,7 @@ SET_ENTRY FAR * FAR *set_ptr;
 /* Check for valid (external) field number and return (internal) record
    and field numbers and pointers.
 */
+int
 nfld_check(nfld, rec, fld, rec_ptr, fld_ptr )
 long nfld;
 int *rec;
@@ -134,6 +137,7 @@ FIELD_ENTRY FAR * FAR *fld_ptr;
 /* Check for valid (external) record number and return (internal) record
    number and pointer.
 */
+int
 nrec_check(nrec, rec, rec_ptr)
 int nrec;
 int *rec;
@@ -301,7 +305,7 @@ CONST char FAR *f2;   /* pointer to field 2 */
 		 (sfld_ptr < fld_max) && (sfld_ptr->fd_flags & STRUCTFLD);
 		 ++sfld_ptr) {
 	       sub_len = cur_len + sfld_ptr->fd_ptr - fld_ptr->fd_ptr;
-	       if (k = fldcmp(sfld_ptr, f1 + sub_len, f2 + sub_len))
+	       if ((k = fldcmp(sfld_ptr, f1 + sub_len, f2 + sub_len)))
 		  return ( k );
 	    }
 	 }
@@ -312,7 +316,7 @@ CONST char FAR *f2;   /* pointer to field 2 */
 	      (--kt_lc >= 0) && (&field_table[key_ptr->kt_key] == fld_ptr);
 	      ++key_ptr) {
 	    i = key_ptr->kt_ptr;
-	    if ( k = fldcmp(&field_table[key_ptr->kt_field], f1 + i, f2 + i) )
+	    if (( k = fldcmp(&field_table[key_ptr->kt_field], f1 + i, f2 + i) ))
 	       return ( k );
 	 }
 	 return ( 0 );
@@ -365,6 +369,7 @@ CONST DB_ADDR FAR *d1, FAR *d2;
 
 /* check for empty DB_ADDR
 */
+int
 null_dba( db_addr )
 CONST char FAR *db_addr;
 {
@@ -377,6 +382,7 @@ CONST char FAR *db_addr;
 
 /* check for valid DB_ADDR
 */
+int
 check_dba( dba )
 DB_ADDR dba;
 {
@@ -419,14 +425,14 @@ int    n;   /* Max. String length */
 	 f2 = db_global.country_tbl.ptr[*t].sort_as1;
       else f2 = *t;
 
-      if (x = f1 - f2) return(x);
+      if ((x = f1 - f2)) return(x);
  
       /* Check sort_as2-values if sort_as1-values are equal */
       /*----------------------------------------------------*/
       x1 = db_global.country_tbl.ptr[*s].sort_as2;
       x2 = db_global.country_tbl.ptr[*t].sort_as2;
       if ( x1 && x2 ) {  /* We have an entry for char. of both strings */
-	 if ( x = x1 - x2 ) return(x);
+	 if (( x = x1 - x2 )) return(x);
       }
       else {
 	 if ( x1 || x2 ) { /* Only sort_as2 value for one string */
@@ -435,21 +441,21 @@ int    n;   /* Max. String length */
 	       if ( db_global.country_tbl.ptr[*t].sort_as1 )
 		  f2 = db_global.country_tbl.ptr[*t].sort_as1;
                else f2 = *t;
-	       if ( x = x1 - f2 ) return(x);
+	       if (( x = x1 - f2 )) return(x);
 	    }
 	    if ( x2 ) {
                *s++;    /* Compare with next character in string 1 */
 	       if ( db_global.country_tbl.ptr[*s].sort_as1 )
 		  f1 = db_global.country_tbl.ptr[*s].sort_as1;
                else f1 = *s;
-	       if ( x = f1 - x2 ) return(x);
+	       if (( x = f1 - x2 )) return(x);
 	    }
 	 }
 
          /* if both are equal compare sub_sort values */
          /*-------------------------------------------*/
-	 if (x = db_global.country_tbl.ptr[*s].sub_sort -
-		db_global.country_tbl.ptr[*t].sub_sort)
+	 if ((x = db_global.country_tbl.ptr[*s].sub_sort -
+		db_global.country_tbl.ptr[*t].sub_sort))
             return(x);  
       }
       *s++;

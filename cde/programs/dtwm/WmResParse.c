@@ -7315,6 +7315,9 @@ void ProcessMotifBindings (void)
     XDeleteProperty (DISPLAY, RootWindow (DISPLAY, 0),
 		XInternAtom (DISPLAY, "_MOTIF_DEFAULT_BINDINGS", False));
 
+    /* FIXME: unexported openmotif procedures */
+    extern Boolean _XmVirtKeysLoadFileBindings(Display *dsp, String *binding);
+    extern void _XmVirtKeysLoadFallbackBindings(Display *dsp, String *binding);
     if (_XmVirtKeysLoadFileBindings (fileName, &bindings) == True) {
 	XChangeProperty (DISPLAY, RootWindow(DISPLAY, 0),
 		XInternAtom (DISPLAY, "_MOTIF_BINDINGS", False),
@@ -7504,11 +7507,11 @@ SystemCmd (char *pchCmd)
     sa.sa_flags = 0;
     sa.sa_handler = SIG_DFL;
 
-    (void) sigaction (SIGCLD, &sa, &osa);
+    (void) sigaction (SIGCHLD, &sa, &osa);
 
     system (pchCmd);
 
-    (void) sigaction (SIGCLD, &osa, (struct sigaction *) 0);
+    (void) sigaction (SIGCHLD, &osa, (struct sigaction *) 0);
 }
 
 

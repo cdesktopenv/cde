@@ -66,8 +66,8 @@ extern "C" void * RFCMetaFactory(const char * op);
 extern "C" void * V3MetaFactory(const char * op);
 
 static const SymTable symbol_table[] = {
-{ "RFCMetaFactory",	RFCMetaFactory },
-{ "V3MetaFactory",	V3MetaFactory },
+{ "RFCMetaFactory",	(void *)RFCMetaFactory },
+{ "V3MetaFactory",	(void *)V3MetaFactory },
 { NULL,			NULL }
 };
 

@@ -194,7 +194,7 @@ ldchar2(src, len, dst)
  
     /* Load the entire string. */
     memcpy((void *) dst, (const void *) src, len);
-    *(dst + len) = NULL;
+    *(dst + len) = '\0';
 }
  
 int

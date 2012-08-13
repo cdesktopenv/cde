@@ -43,6 +43,7 @@
 
 /* Turn on db_VISTA runtime options
 */
+int
 d_on_opt(optflag TASK_PARM)
 int optflag;
 TASK_DECL
@@ -75,6 +76,7 @@ TASK_DECL
 
 /* Turn off db_VISTA runtime options
 */
+int
 d_off_opt(optflag TASK_PARM)
 int optflag;
 TASK_DECL

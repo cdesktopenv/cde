@@ -52,6 +52,7 @@
 
 #include "dtscreen.h"
 #include <math.h>
+#include <stdlib.h>
 
 typedef struct {
     int         centerx;

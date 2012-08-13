@@ -39,7 +39,7 @@
 // databases. 
 //
 #include <stdlib.h>
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 /*# include <g++/minmax.h>*/
 #else
 # include <macros.h>

@@ -29,7 +29,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 /* Param.c contains procedures related to parameters for program BUILD */
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #include "build.h"
 #include "context.h"

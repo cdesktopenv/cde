@@ -55,7 +55,7 @@ static void block_SIGCLD( void )
     int      rtn;
 
     sigemptyset( &newset );
-    sigaddset( &newset, SIGCLD );
+    sigaddset( &newset, SIGCHLD );
     rtn = sigprocmask( SIG_BLOCK, &newset, (sigset_t *) NULL );
 }
 
@@ -65,7 +65,7 @@ static void unblock_SIGCLD( void )
     int      rtn;
 
     sigemptyset( &newset );
-    sigaddset( &newset, SIGCLD );
+    sigaddset( &newset, SIGCHLD );
     rtn = sigprocmask( SIG_UNBLOCK, &newset, (sigset_t *) NULL );
 }
 

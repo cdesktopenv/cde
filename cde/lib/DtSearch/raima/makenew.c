@@ -53,6 +53,7 @@
 
 /* Set the value of a key field
 */
+int
 d_setkey( field, fldvalue TASK_PARM DBN_PARM )
 long field;
 CONST char FAR *fldvalue;
@@ -134,6 +135,7 @@ int sk_free()
 
 /* Create a new empty record
 */
+int
 d_makenew( nrec TASK_PARM DBN_PARM )
 int nrec;
 TASK_DECL

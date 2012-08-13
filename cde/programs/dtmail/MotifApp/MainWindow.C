@@ -150,7 +150,7 @@ MainWindow::initialize( )
     /* install callback */
     // XtAddCallback(_main, XmNhelpCallback, HelpCB, helpId);
     XtAddCallback(_main, XmNhelpCallback, 
-			    HelpCB, "_HOMETOPIC");
+			    HelpCB, (void *)"_HOMETOPIC");
     
     // Called derived class to create the work area
     

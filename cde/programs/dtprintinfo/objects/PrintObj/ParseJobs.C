@@ -774,7 +774,7 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
 }
 #endif // HP LOCAL PARSER
 
-#if defined(__osf__) || defined(linux)
+#if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 //
 // DEC/OSF1 PARSER - Output from "lpstat -o<printer>
 //
@@ -870,7 +870,7 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
 #if defined(__osf__)
    sprintf(buf, "lpstat -o%s", printer);
 #endif
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
    sprintf(buf, "lpq -P%s", printer);
 #endif
 

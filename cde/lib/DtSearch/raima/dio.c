@@ -228,6 +228,7 @@ static int dio_in(P1(PAGE_ENTRY FAR *) Pi(LOOKUP_ENTRY FAR *)
 
 /* Set the maximum number of open db_VISTA files
 */
+int
 d_setfiles(num)
 int num;
 {
@@ -242,6 +243,7 @@ int num;
 
 /* Set number of virtual memory pages
 */
+int
 d_setpages(dbpgs, ixpgs)
 int dbpgs; /* # of db cache pages */
 int ixpgs; /* # of index cache pages - ignored in single-user version */
@@ -266,6 +268,7 @@ int ixpgs; /* # of index cache pages - ignored in single-user version */
 /****************************************/
 /* Open a database file
 */
+int
 dio_open( fno )
 FILE_NO fno;
 {
@@ -313,6 +316,7 @@ FILE_NO fno;
 /****************************************/
 /* Close a database file
 */
+int
 dio_close( fno )
 FILE_NO fno;
 {
@@ -335,6 +339,7 @@ FILE_NO fno;
 /****************************************/
 /* Initialize database I/O
 */
+int
 dio_init()
 {
    CHAR_P Tempbuff;
@@ -549,6 +554,7 @@ void dio_free()
 /****************************************/
 /* Clear pages for a single file.
 */
+int
 dio_clrfile(fno )
 register FILE_NO fno;
 {
@@ -564,6 +570,7 @@ register FILE_NO fno;
 /****************************************/
 /* Clear all pages for *all* files from I/O buffer
 */
+int
 dio_clear()
 {
    return( clear_cache(0, size_ft) );
@@ -787,6 +794,7 @@ FILE_NO file_no;
 /****************************************/
 /* Database I/O page get
 */
+int
 dio_get( page_no, page_ptr, hold )
 F_ADDR page_no;
 char FAR * FAR *page_ptr;
@@ -829,6 +837,7 @@ int hold;
 /****************************************/
 /* Set modified flag for a page
 */
+int
 dio_touch( page_no )
 F_ADDR page_no;
 {
@@ -879,6 +888,7 @@ F_ADDR page_no;
  * Merely returns ptr into rec in a page
  * unless a page swap is necessary.
  */
+int
 dio_read( dba, recptr, hold )
 DB_ADDR dba;
 char FAR * FAR *recptr;
@@ -935,6 +945,7 @@ int hold;
  * Sets page's 'touched' flags, timestamps, etc.
  * If recptr not NULL, copies rec to page cache.
  */
+int
 dio_write( dba, recptr, release )
 DB_ADDR dba;
 CONST char FAR *recptr;
@@ -994,6 +1005,7 @@ int release;
 
 /* Release database page hold
 */
+int
 dio_release( dba )
 DB_ADDR dba;
 {
@@ -1130,6 +1142,7 @@ INT rid;
 /****************************************/
 /* Search a cache for page
 */
+int
 dio_findpg(file, page, pg_table, xpg_ptr, xlu_ptr )
 FILE_NO      file;       /* file number = 0..size_ft-1 */
 F_ADDR       page;       /* database page number */
@@ -1435,6 +1448,7 @@ LOOKUP_ENTRY FAR * FAR *xlu_ptr;/* pointer to lookup table slot for found page*/
  * slot is byte swapped before the io by calling the
  * page swap function.
  */
+int
 #ifndef NO_TRANS
 dio_out(pg_ptr, lu_ptr, db_cache)
 #else
@@ -1722,6 +1736,7 @@ static int dio_pzflush()
 /****************************************/
 /* Read a file's page zero
 */
+int
 dio_pzread(fno)
 FILE_NO fno;  /* file number */
 {
@@ -1764,6 +1779,7 @@ FILE_NO fno;  /* file number */
  * ie from delete chain if possible.
  * Returns memory address of the free slot into 'loc'.
  */
+int
 dio_pzalloc(fno, loc )
 FILE_NO fno;    /* file number */
 F_ADDR *loc;    /* pointer to allocated location */
@@ -1831,6 +1847,7 @@ F_ADDR *loc;    /* pointer to allocated location */
 /****************************************/
 /* Delete record slot or key node from page zero
 */
+int
 dio_pzdel(fno, loc )
 FILE_NO fno;  /* file number */
 F_ADDR  loc;  /* location to be freed */

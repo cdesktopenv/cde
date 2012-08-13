@@ -49,6 +49,7 @@
 
 /* Set current record to current owner
 */
+int
 d_setro(set TASK_PARM DBN_PARM)
 int set;   /* set table entry number */
 TASK_DECL

@@ -295,7 +295,7 @@ main(
   
     XtSetLanguageProc(NULL, NULL, NULL);
     _DtEnvControl(DT_ENV_SET);
-    (void) signal(SIGCLD, (void (*)())SIG_IGN);
+    (void) signal(SIGCHLD, (void (*)())SIG_IGN);
 
     /*  Initialize the toolkit and open the display  */
     XtToolkitInitialize() ;
@@ -407,7 +407,7 @@ SetGidUid ( unsigned short rgid, unsigned short ruid )
 	/* fix process gid */
 #if defined(SVR4) || defined(_AIX)
     setgid(rgid);
-#elif defined(__osf__) || defined(linux)
+#elif defined(__osf__) || defined(linux) || defined(CSRG_BASED)
     setregid(rgid, rgid);
 #elif defined(__hpux)
     setresgid(rgid, rgid, rgid);
@@ -418,7 +418,7 @@ SetGidUid ( unsigned short rgid, unsigned short ruid )
 	/* fix process uid */
 #if defined (SVR4) || defined (_AIX)
     setuid(ruid);
-#elif defined(__osf__) || defined(linux)
+#elif defined(__osf__) || defined(linux) || defined(CSRG_BASED)
     setreuid(ruid, ruid);
 #elif defined(__hpux)
     setresuid(ruid, ruid, ruid);
@@ -898,7 +898,7 @@ GetUserPrompt( void )
    XmString cancelLabel;
    XmString okLabel;
 
-   snprintf(prompt, BUFSIZ, (GETMESSAGE(1,5, "Enter password for user %s:")), 
+   snprintf(prompt, sizeof prompt, (GETMESSAGE(1,5, "Enter password for user %s:")), 
             appArgs.user);
    xmString = XmStringCreateLocalized(prompt);
    xmString2 =XmStringCreateLocalized(GETMESSAGE(1,6, "Action Invoker - Password"));

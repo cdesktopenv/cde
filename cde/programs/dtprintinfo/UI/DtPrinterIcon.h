@@ -59,7 +59,7 @@ class DtPrinterContainer : public Container
       : Container(category, parent, name, SCROLLED_HORIZONTAL_ROW_COLUMN) { }
    ~DtPrinterContainer() { delete dnd; }
 
-   boolean DtPrinterContainer::SetVisiblity(boolean flag)
+   boolean SetVisiblity(boolean flag)
     {
       Container::SetVisiblity(flag);
       dnd->UpdateActivity(flag);

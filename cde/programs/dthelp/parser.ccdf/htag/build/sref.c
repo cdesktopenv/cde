@@ -26,7 +26,7 @@
 /* Sref.c contains procedures related to short reference map declarations */
 
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "build.h"
 #include "sref.h"
 #include "entdef.h"

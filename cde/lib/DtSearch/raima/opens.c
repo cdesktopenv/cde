@@ -49,6 +49,7 @@
 
 #include <stdio.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include "vista.h"
 #ifdef MSC
 #include <share.h>

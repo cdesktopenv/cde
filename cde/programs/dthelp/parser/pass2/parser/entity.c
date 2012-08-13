@@ -30,7 +30,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Entity.c contains procedures pertaining to entities */
 
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #if defined(MSDOS)
 #include <process.h>

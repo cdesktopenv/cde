@@ -66,6 +66,7 @@ static char rcsid[] = "$XConsortium: WmParse.c /main/5 1996/10/30 11:36:06 drk $
 #ifdef MULTIBYTE
 #include <stdlib.h>
 #endif /* MULTIBYTE */
+#include <ctype.h>
 
 /*
  * Internal routines

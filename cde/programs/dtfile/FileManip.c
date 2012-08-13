@@ -64,7 +64,7 @@
 #    define ROOTINO UFSROOTINO
 #  endif	/* sco */
 #else
-#  if defined(linux)
+#  if defined(linux) || defined(CSRG_BASED)
 #    define ROOTINO 2
 #  endif
 #  include <sys/param.h>
@@ -994,7 +994,8 @@ FileManip(
    if (lstat (to, &s2) >= 0) 			   /* <to> exists */
    {
       if ((stat (to, &s3) >= 0) &&
-#if defined(__hp_osf) || (__ultrix) || defined(__osf__) || defined(linux)
+#if defined(__hp_osf) || (__ultrix) || defined(__osf__) || defined(linux) || \
+	defined(CSRG_BASED)
            (((s3.st_mode & S_IFMT) == S_IFDIR)          /* if is a directory */
            || ((s3.st_mode & S_IFMT) == S_IFSOCK)) )    /* or a net special */
 #else

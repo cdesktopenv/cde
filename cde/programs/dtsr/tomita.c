@@ -701,7 +701,9 @@ static void     deleter (char *infname)
     signal (SIGQUIT, kill_delete);
     signal (SIGTRAP, kill_delete);
     signal (SIGTERM, kill_delete);
+#ifdef SIGPWR
     signal (SIGPWR, kill_delete);
+#endif
 #ifdef _AIX
     signal (SIGXCPU, kill_delete);	/* cpu time limit exceeded */
     signal (SIGDANGER, kill_delete);	/* imminent paging space

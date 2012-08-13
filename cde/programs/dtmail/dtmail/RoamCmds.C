@@ -143,7 +143,7 @@ extern XtPointer _XmStringUngenerate (
 #include <sys/file.h>
 
 
-extern forceUpdate( Widget );
+extern int forceUpdate( Widget );
 
 RoamCmd::RoamCmd
 (char *name, char *label, int active, RoamMenuWindow *window)
@@ -1548,7 +1548,7 @@ MoveCopyCmd::doit()
 		_copy_button,
 		XmNhelpCallback, 
 		HelpCB,
-		"dtmailViewmainWindowWork-AreapanedWform2RowColumnMoveCopy");
+		(void *)"dtmailViewmainWindowWork-AreapanedWform2RowColumnMoveCopy");
 	XtAddCallback(
 		_copy_button,
 		XmNactivateCallback,

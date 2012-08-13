@@ -46,7 +46,7 @@
 #include "api/c/api_error.h"
 #include <errno.h>
 #include <sys/resource.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "tt_options.h"
 
 #if defined(_AIX)

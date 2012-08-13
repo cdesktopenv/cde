@@ -48,7 +48,9 @@
 #define _PROPP_H_
 
 #include <X11/Intrinsic.h>
+#if !defined(CSRG_BASED)
 #include <values.h>
+#endif
 #include <ab_private/obj.h>
 #include <ab_private/pal.h>
 #include <ab_private/abobj_edit.h>

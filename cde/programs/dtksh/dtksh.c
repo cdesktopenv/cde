@@ -34,7 +34,6 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <stdlib.h>
-#include <malloc.h>
 
 #define CONSTCHAR (const char *)
 #define TRUE 1

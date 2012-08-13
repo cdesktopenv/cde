@@ -52,6 +52,7 @@
 #ifndef	 ONE_DB
 /* Set current database
 */
+int
 d_setdb(dbn TASK_PARM)
 int dbn;   /* database number */
 TASK_DECL

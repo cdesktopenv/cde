@@ -1352,7 +1352,7 @@ RemoveFiles(
 
         _DtEnvControl(DT_ENV_RESTORE_PRE_DT);
         
-#ifdef __osf__
+#if defined(__osf__) || defined(CSRG_BASED)
         setsid();
 #else
         (void) setpgrp();
@@ -1457,7 +1457,7 @@ MoveDirectory(
 
         _DtEnvControl(DT_ENV_RESTORE_PRE_DT);
         
-#ifdef __osf__
+#if defined(__osf__) || defined(CSRG_BASED)
         setsid();
 #else
         (void) setpgrp();

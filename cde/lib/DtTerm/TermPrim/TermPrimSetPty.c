@@ -109,6 +109,17 @@ static char rcs_id[] = "$TOG: TermPrimSetPty.c /main/2 1998/04/03 17:11:24 mgree
 #define XTTYMODE_weras  14
 #define XTTYMODE_lnext  15
 #define NXTTYMODES      16
+
+#if defined(CSRG_BASED)
+#define TAB3	0x00000000
+#define NLDLY	0x00000000
+#define CRDLY	0x00000000
+#define TABDLY	0x00000000
+#define BSDLY	0x00000000
+#define VTDLY	0x00000000
+#define FFDLY	0x00000000
+#define CBAUD	0x00000000
+#endif
 typedef struct _ttyMode
 {
     char    *name;

@@ -49,12 +49,12 @@
 /* Included after "util/tt_string.h" to avoid index/strchr conflicts. */
 #define X_INCLUDE_DIRENT_H
 #define XOS_USE_NO_LOCKING
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #define index
 #define rindex
 #endif
 #include <X11/Xos_r.h>
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #undef index
 #undef rindex
 #endif

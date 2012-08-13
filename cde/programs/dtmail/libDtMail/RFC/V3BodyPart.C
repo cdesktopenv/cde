@@ -328,9 +328,11 @@ V3BodyPart::checksum(DtMailEnv & error)
 static int
 countTypes(char ** types)
 {
+    int count;
+
     if (NULL == types) return 0;
 
-    for (int count = 0; *types; types++, count++) {
+    for (count = 0; *types; types++, count++) {
 	continue;
     }
 

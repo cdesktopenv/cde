@@ -50,6 +50,7 @@
 
 /* Set current owner to current owner
 */
+int
 d_setoo(nsett, nsets TASK_PARM DBN_PARM)
 int nsett;   /* set table entry number of target owner */
 int nsets;   /* set table entry number of source owner */

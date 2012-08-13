@@ -30,7 +30,6 @@
 
 #include <EUSCompat.h>
 #include <stdlib.h>
-#include <malloc.h>
 #include <ctype.h>
 #include <sys/param.h>
 #include <Xm/Xm.h>

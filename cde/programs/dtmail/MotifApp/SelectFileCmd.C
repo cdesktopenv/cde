@@ -88,7 +88,7 @@ extern XtPointer _XmStringUngenerate (
 }
 
 
-extern forceUpdate( Widget );
+extern int forceUpdate( Widget );
 
 SelectFileCmd::SelectFileCmd (const char * name, 
 			      const char * label,

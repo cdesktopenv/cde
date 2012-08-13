@@ -60,6 +60,8 @@
 
 #define PROGNAME	"DBCHANGE"
 
+void            oe_uninitialize (void);
+
 /************************************************/
 /*						*/
 /*		  file_has_changed		*/

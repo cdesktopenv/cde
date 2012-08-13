@@ -49,6 +49,7 @@
 
 /* Set Database Files Path
 */
+int
 d_dbfpath(path TASK_PARM)
 CONST char FAR *path;
 TASK_DECL

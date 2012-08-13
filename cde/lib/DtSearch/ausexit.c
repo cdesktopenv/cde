@@ -94,6 +94,7 @@
  * Revision 1.4  1995/08/31  21:54:23  miker
  * Rename austext_exit() to DtSearchExit().
  */
+#include <stdlib.h>
 #include "Search.h"
 
 void	(*austext_exit_first) (int) =	NULL;

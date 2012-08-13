@@ -124,7 +124,7 @@ _DtCmIsSameUser(char *user1, char *user2)
 	/* assume user2=user@host[.domain] */
 	if (str1 == NULL) {
 		str1 = strchr(user1, '@');
-		sprintf(buf, "%s.%s", ++str1, domain);
+		snprintf(buf, sizeof buf, "%s.%s", ++str1, domain);
 		str1 = buf;
 	} else {
 		str1 = strchr(user1, '@');

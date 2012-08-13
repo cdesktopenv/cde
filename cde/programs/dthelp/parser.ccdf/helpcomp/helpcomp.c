@@ -27,7 +27,7 @@ static char *version = "$XConsortium: helpcomp.c /main/3 1995/11/08 11:10:34 rsw
 #include <string.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <dirent.h>
 #include <sys/stat.h>
 

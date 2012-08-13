@@ -49,6 +49,7 @@
  */
 
 #include "dtscreen.h"
+#include <stdlib.h>
 
 typedef struct {
     int         x;

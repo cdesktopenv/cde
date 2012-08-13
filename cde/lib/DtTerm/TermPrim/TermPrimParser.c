@@ -47,7 +47,11 @@ static char rcs_id[] = "$TOG: TermPrimParser.c /main/2 1999/10/15 12:23:41 mgree
  */
 #undef MAXINT
 #endif
-#include <values.h>          
+#if defined(CSRG_BASED)
+#define MAXINT INT_MAX
+#else
+#include  <values.h>
+#endif
 
 #ifdef	BBA
 #pragma	BBA_IGNORE

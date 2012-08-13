@@ -371,7 +371,7 @@ typedef struct maphdr {
 /* 
  * Macro to get pointer to structure if pointer to some element is known 
  */
-#define GETBASE(p,s,e) ((struct s *) ((char *)(p) - (int)&((struct s *)0)->e))
+#define GETBASE(p,s,e) ((struct s *) ((char *)(p) - (char *)&((struct s *)0)->e))
 
 /* In memory sorting object */
 typedef struct issort {
@@ -474,7 +474,7 @@ extern int _isfcb_cntlpg_w();
 #define VL_RECNOTAIL	((long ) -2L)
 
 
-extern long lseek();
+/* extern long lseek(); */
 
 extern char *_ismalloc(), *_isrealloc(), *_isallocstring();
 extern void _isfree(), _isfreestring();

@@ -325,7 +325,7 @@ DmxPrintSetup::createPrintSetupDialog (Widget parent)
 		widgets->dtprint_setup,
 		XmNhelpCallback,
 		HelpCB,
-		DTMAILPRINTSETUPDIALOG);
+		(void *)DTMAILPRINTSETUPDIALOG);
 
     XtAddCallback(
 		widgets->dtprint_setup,

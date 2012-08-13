@@ -42,9 +42,11 @@ static char rcsid[] = "$XConsortium: WmWrkspace.c /main/7 1996/10/23 17:26:33 rs
 #include "WmHelp.h"
 #include "WmResNames.h"
 #include "WmIPlace.h"
+#include "WmInitWs.h"
 #include <X11/Xutil.h>
 #include "WmICCC.h"
 #include <Xm/Xm.h>
+#include <Xm/AtomMgr.h>
 #include <Dt/DtP.h>
 #include <Dt/WsmM.h>
 #include <stdio.h>

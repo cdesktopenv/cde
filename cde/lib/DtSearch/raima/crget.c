@@ -49,6 +49,7 @@
 
 /* Get current record
 */
+int
 d_crget(dba TASK_PARM DBN_PARM)
 DB_ADDR FAR *dba; /* db address of record to become current */
 TASK_DECL
@@ -58,7 +59,7 @@ DBN_DECL
 
    if ( ! dbopen ) RETURN( dberr(S_DBOPEN) );
 
-   if ( *dba = curr_rec )
+   if (( *dba = curr_rec ))
       db_status = S_OKAY;
    else
       db_status = S_NOCR;

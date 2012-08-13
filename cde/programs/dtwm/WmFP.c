@@ -67,6 +67,7 @@
 #include "UI.h"
 
 #include "WmPanelP.h"
+#include "WmManage.h"
 
 #include <pwd.h>
 #include <fcntl.h>

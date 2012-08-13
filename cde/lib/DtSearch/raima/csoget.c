@@ -50,6 +50,7 @@
 
 /* Get current set owner
 */
+int
 d_csoget(set, dba TASK_PARM DBN_PARM)
 int set;      /* Set table entry */
 DB_ADDR FAR *dba; /* db address of record to become current */

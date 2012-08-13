@@ -40,10 +40,18 @@
 #include <memory.h>
 #include "tt_options.h"
 
+#if defined(CSRG_BASED)
+#define XDR __rpc_xdr
+#endif
+
 typedef bool_t (*local_xdrproc_t)(XDR *, caddr_t *);
 
 #ifndef OPT_XDR_LONG_TYPE
+#if defined(OPT_CONST_CORRECT)
+# define OPT_XDR_LONG_TYPE	const long
+#else
 # define OPT_XDR_LONG_TYPE	long
+#endif
 #endif
 static bool_t
 tt_x_putlong(XDR *xp, OPT_XDR_LONG_TYPE *)
@@ -58,7 +66,15 @@ static bool_t
  * The third agrument is also wrong. Both SUN and DEC system header files
  * expect int instead of u_int.
  */
+#if defined(CSRG_BASED)
+#if defined(OPT_CONST_CORRECT)
+tt_x_putbytes(XDR *xp, const char *, unsigned int len)
+#else
+tt_x_putbytes(XDR *xp, caddr_t, unsigned int len)
+#endif
+#else
 tt_x_putbytes(XDR *xp, caddr_t, int len)
+#endif
 {
     xp->x_handy += RNDUP (len);
     return TRUE;
@@ -66,10 +82,16 @@ tt_x_putbytes(XDR *xp, caddr_t, int len)
 
 #if defined(ultrix) || defined(__osf__)
 static int*
+#elif defined(CSRG_BASED)
+static int32_t*
 #else
 static long *
 #endif
+#if defined(CSRG_BASED)
+tt_x_inline(XDR *xp, unsigned int len)
+#else
 tt_x_inline(XDR *xp, int len)
+#endif
 {
 	/* Be paranoid -- some code really expects inline to
 	 * always succeed, so we keep a small buffer around
@@ -83,6 +105,8 @@ tt_x_inline(XDR *xp, int len)
 	xp->x_handy += RNDUP (len);
 #if defined(ultrix) || defined(__osf__)
 	return (int *) xp->x_private;
+#elif defined(CSRG_BASED)
+	return (int32_t *) xp->x_private;
 #else
 	return (long *) xp->x_private;
 #endif

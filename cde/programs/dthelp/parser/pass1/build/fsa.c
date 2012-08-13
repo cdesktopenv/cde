@@ -30,7 +30,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Fsa.c contains the procedures used by program BUILD to convert a tree
    representation of a content model to an FSA */
 
-#include <malloc.h>
+#include <stdlib.h>
 #include "build.h"
 #include "context.h"
 #include "delim.h"

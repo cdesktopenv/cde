@@ -37,7 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "util/copyright.h"
-#if defined(linux) || defined(sgi)
+#if defined(linux) || defined(sgi) || defined(__FreeBSD__)
 #include <getopt.h>
 #endif     
 #include "dbck.h"     

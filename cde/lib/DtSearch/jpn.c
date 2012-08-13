@@ -232,6 +232,7 @@ static UCHAR	*save_parg_string =	NULL;
 static UCHAR	*substrbuf =		NULL;
 static long	substr_offset;
 
+char *ensure_end_slash (char *pathstr);
 
 /************************************************/
 /*						*/
@@ -311,7 +312,7 @@ static int	read_jchar (void)
 	    jstate = JS_KANJI;
 	else
 	    jstate = jstates_set1 [(jchar[0] & 0x7F) - 32];
-	if (jchar[1] = readchar (NULL))
+	if ((jchar[1] = readchar (NULL)))
 	    readcount++;
 	else
 	    jstate = JS_ETX;
@@ -362,7 +363,7 @@ static int	read_jchar (void)
     if (jchar[0] == SS2_CHAR) {
 	jcharlen = 2;
 	jstate = JS_HALFKATA;
-	if (jchar[1] = readchar (NULL))
+	if ((jchar[1] = readchar (NULL)))
 	    readcount++;
 	else
 	    jstate = JS_ETX;
@@ -908,7 +909,7 @@ FILL_ANOTHER_SUBSTRING:
      * one by one, ie parse and return word tokens from string,
      * including possible kanji compounds if switched on.
      */
-    if (token = parse_substring())
+    if ((token = parse_substring()))
 	return (char *) token;
 
     /* When current substring is empty, go back and fill another one.

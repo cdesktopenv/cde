@@ -46,7 +46,7 @@
 
 #include "../Prelude.h"
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #ifdef SUN_CPP
 #define InitBase(T) \

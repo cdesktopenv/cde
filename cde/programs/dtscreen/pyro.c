@@ -50,6 +50,8 @@
 
 #include "dtscreen.h"
 #include <math.h>
+#include <stdlib.h>
+
 #define TWOPI 6.2831853
 
 /* Define this >1 to get small rectangles instead of points */

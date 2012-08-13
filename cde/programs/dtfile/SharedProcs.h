@@ -50,6 +50,9 @@
 
 /********    Public Function Declarations    ********/
 
+extern String _DtStripSpaces(
+                        String string) ;
+
 extern char * _DtPName(
                         register char *name) ;
 extern char * _DtFollowLink(

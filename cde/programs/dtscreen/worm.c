@@ -53,7 +53,8 @@
  */
 
 #include "dtscreen.h"
-#include	<math.h>
+#include <math.h>
+#include <stdlib.h>
 
 #define MAXCOLORS 64
 #define MAXWORMS 64
@@ -87,12 +88,14 @@ typedef struct {
     int         size[MAXCOLORS];
 }           wormstruct;
 
+#if !defined(CSRG_BASED)
 int
 round(x)
     float       x;
 {
     return ((int) floor((double) x));
 }
+#endif
 
 
 void

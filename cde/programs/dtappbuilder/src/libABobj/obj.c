@@ -47,7 +47,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#if !defined(CSRG_BASED)
 #include <values.h>
+#endif
 #include <stdlib.h>
 #include <sys/param.h>
 #include <string.h>
