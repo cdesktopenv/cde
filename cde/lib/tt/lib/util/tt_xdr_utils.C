@@ -47,7 +47,11 @@
 typedef bool_t (*local_xdrproc_t)(XDR *, caddr_t *);
 
 #ifndef OPT_XDR_LONG_TYPE
+#if defined(OPT_CONST_CORRECT)
+# define OPT_XDR_LONG_TYPE	const long
+#else
 # define OPT_XDR_LONG_TYPE	long
+#endif
 #endif
 static bool_t
 tt_x_putlong(XDR *xp, OPT_XDR_LONG_TYPE *)
@@ -63,7 +67,11 @@ static bool_t
  * expect int instead of u_int.
  */
 #if defined(CSRG_BASED)
+#if defined(OPT_CONST_CORRECT)
+tt_x_putbytes(XDR *xp, const char *, unsigned int len)
+#else
 tt_x_putbytes(XDR *xp, caddr_t, unsigned int len)
+#endif
 #else
 tt_x_putbytes(XDR *xp, caddr_t, int len)
 #endif

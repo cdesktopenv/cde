@@ -53,7 +53,7 @@
 
 #include <sys/resource.h>
 #include <unistd.h>
-#if defined(sgi)
+#if defined(sgi) || defined(__FreeBSD__)
 #include <getopt.h>
 #endif
 

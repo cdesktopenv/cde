@@ -45,7 +45,7 @@
 
 extern uid_t _tt_uid;
 extern gid_t _tt_gid;
-extern gid_t _tt_gidlist [NGROUPS_MAX];
+extern gid_t _tt_gidlist [NGROUPS];
 extern int   _tt_gidlen;
 extern int   _tt_auth_level;
 

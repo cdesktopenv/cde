@@ -46,6 +46,7 @@ in this Software without prior written authorization from The Open Group.
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <X11/Xos.h>
 #include <X11/Xfuncs.h>
 
@@ -57,7 +58,7 @@ typedef int Bool;
 
 extern char *ProgramName;
 
-#if !defined(linux)
+#if !defined(linux) && !defined(CSRG_BASED)
 extern char *malloc(), *realloc();
 #endif
 int process_command(), auth_initialize(), auth_finalize();
