@@ -240,7 +240,7 @@ extern ISTRING		istrP_create_alloced_impl9726039350PrivF(STRING*);
 extern int		istrP_notify_invalid2160413670PrivF(ISTRING);
 extern STRING		istrP_get_string_fast3718930164PrivF(ISTRING);
 extern STRING		istrP_get_string_verify4521632085PrivF(ISTRING);
-extern int		istrP_num_count7608925912PrivD;
+extern long		istrP_num_count7608925912PrivD;
 extern ISTR_PRIVT_STRN	*istrP_int_array1809065681PrivD;
 
 
@@ -272,7 +272,7 @@ extern ISTR_PRIVT_STRN	*istrP_int_array1809065681PrivD;
 #define istr_string_safe(s) ((s) == NULL? Istr_null_string:istr_string(s))
 
 #define istrP_get_string_fast3718930164PrivF(istring) \
-    (istrP_int_array1809065681PrivD[((int)istring)].str)
+    (istrP_int_array1809065681PrivD[((long)istring)].str)
 
 /* istr_string - if debugging is turned on, checks ISTRINGS for validity */
 #ifdef DEBUG
