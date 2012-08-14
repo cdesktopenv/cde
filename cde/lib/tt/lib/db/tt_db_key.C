@@ -44,7 +44,7 @@
 
 _Tt_db_key::_Tt_db_key (short version_number)
 {
-  static long last_time_sec = 0;
+  static unsigned int last_time_sec = 0;
   static long counter = 0;
 
   key.version  = version_number;

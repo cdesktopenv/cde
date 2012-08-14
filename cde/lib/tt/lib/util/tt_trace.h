@@ -130,7 +130,7 @@ class _Tt_trace : public _Tt_allocated {
 
 	// API tracing entry call
 	void			entry(
-					char              *argskey,
+					const char        *argskey,
 					_Tt_entry_pt       func,
 					va_list            ap
 				);

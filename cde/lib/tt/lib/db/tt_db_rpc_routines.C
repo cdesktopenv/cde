@@ -73,7 +73,7 @@ void _tt_free_rpc_message (const _tt_message &rpc_message)
 void _tt_free_rpc_messages (const _tt_message_list &rpc_messages)
 {
   if (rpc_messages.messages_val) {
-    for (int i=0; i < rpc_messages.messages_len; i++) {
+    for (unsigned int i=0; i < rpc_messages.messages_len; i++) {
       _tt_free_rpc_message(rpc_messages.messages_val [i]);
     }
 
@@ -84,7 +84,7 @@ void _tt_free_rpc_messages (const _tt_message_list &rpc_messages)
 void _tt_free_rpc_strings (const _tt_string_list &rpc_strings)
 {
   if (rpc_strings.values_val) {
-    for (int i=0; i < rpc_strings.values_len; i++) {
+    for (unsigned int i=0; i < rpc_strings.values_len; i++) {
       if (rpc_strings.values_val [i].value) {
 	free(rpc_strings.values_val [i].value);
       }
@@ -101,7 +101,7 @@ void _tt_free_rpc_property (const _tt_property &rpc_prop)
   }
   
   if (rpc_prop.values.values_val) {
-    for (int i=0; i < rpc_prop.values.values_len; i++) {
+    for (unsigned int i=0; i < rpc_prop.values.values_len; i++) {
       if (rpc_prop.values.values_val [i].value.value_val) {
 	free(rpc_prop.values.values_val [i].value.value_val);
       }
@@ -114,7 +114,7 @@ void _tt_free_rpc_property (const _tt_property &rpc_prop)
 void _tt_free_rpc_properties (const _tt_property_list &rpc_props)
 {
   if (rpc_props.properties_val) {
-    for (int i=0; i < rpc_props.properties_len; i++) {
+    for (unsigned int i=0; i < rpc_props.properties_len; i++) {
       _tt_free_rpc_property(rpc_props.properties_val [i]);
     }
 
@@ -137,7 +137,7 @@ void _tt_get_rpc_strings (const _tt_string_list &rpc_strings,
   strings = new _Tt_string_list;
 
   if (rpc_strings.values_len) {
-    for (int i=0; i < rpc_strings.values_len; i++) {
+    for (unsigned int i=0; i < rpc_strings.values_len; i++) {
       (void)strings->append(_Tt_string(rpc_strings.values_val [i].value));
     }
   }
@@ -151,7 +151,7 @@ void _tt_get_rpc_property (const _tt_property  &rpc_prop,
   if (rpc_prop.name) {
     prop->name = rpc_prop.name;
     
-    for (int i=0; i < rpc_prop.values.values_len; i++) {
+    for (unsigned int i=0; i < rpc_prop.values.values_len; i++) {
       int prop_value_length = rpc_prop.values.values_val [i].value.value_len;
       if (prop_value_length) {
         _Tt_string prop_value(prop_value_length);
@@ -171,7 +171,7 @@ void _tt_get_rpc_properties (const _tt_property_list  &rpc_props,
   props = new _Tt_db_property_list;
 
   if (rpc_props.properties_len) {
-    for (int i=0; i < rpc_props.properties_len; i++) {
+    for (unsigned int i=0; i < rpc_props.properties_len; i++) {
       _Tt_db_property_ptr prop;
       
       _tt_get_rpc_property (rpc_props.properties_val [i], prop);

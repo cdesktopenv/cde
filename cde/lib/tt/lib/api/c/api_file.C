@@ -416,7 +416,7 @@ extern "C" {
 }
 
 Tt_status
-_ttds_file_server(const char *filename, char **hostname)
+_ttds_file_server(const char *filename, const char **hostname)
 {
  	_Tt_c_file_ptr	file;
 	_Tt_db_results	dbresults;

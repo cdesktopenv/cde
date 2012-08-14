@@ -286,7 +286,7 @@ const char *
 _tt_enumname(Tt_feature x) {
 	switch (x) {
 		TTC(TT_FEATURE_MULTITHREADED);
-	      case TT_STATE_LAST:
+	      case _TT_FEATURE_LAST:
 	      default:
 		return "! Tt_feature";
 	}

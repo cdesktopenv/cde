@@ -138,7 +138,7 @@ operator <<(
 	os << _tt_enumname( msg.message_class() );
 	os << " <" << msg.api_id() << "> ";
 	os << _tt_enumname( msg.state() );
-	char *conjunction = " because ";
+	const char *conjunction = " because ";
 	switch (msg.state()) {
 	    case TT_CREATED:
 	    case TT_SENT:

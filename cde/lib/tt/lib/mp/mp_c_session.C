@@ -79,7 +79,6 @@ c_init()
 {
 	_Tt_string	start_ttcmd;
 	int		tried = 0;
-	int		done = 0;
 	Tt_status	status;
 
 	if (env() == _TT_ENV_X11) {

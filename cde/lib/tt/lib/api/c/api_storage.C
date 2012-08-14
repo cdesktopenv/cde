@@ -173,13 +173,13 @@ void _Tt_api_stg_stack_elm::
 print(FILE *f) const
 {
 	
-	(void)fprintf(f,"_Tt_api_stg_stack_elm at %lx <",this);
+	(void)fprintf(f,"_Tt_api_stg_stack_elm at %p <",this);
 	switch (entry_type) {
 	      case STACK_MARK:
-	        (void)fprintf(f,"mark %ld>\n",addr);
+	        (void)fprintf(f,"mark %p>\n",addr);
 		break;
 	      case STACK_STORAGE:
-		(void)fprintf(f,"addr 0x%lx>\n",(long)addr);
+		(void)fprintf(f,"addr 0x%p>\n",addr);
 		break;
 	}
 }

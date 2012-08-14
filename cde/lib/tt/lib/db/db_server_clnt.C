@@ -1138,7 +1138,7 @@ _tt_get_all_sessions_1(_tt_get_all_sessions_args *argp, CLIENT * clnt)
 {
     static _tt_get_all_sessions_results	res;
 
-    clnt_stat result = clnt_call(clnt, TT_GET_ALL_SESSIONS,
+    clnt_call(clnt, TT_GET_ALL_SESSIONS,
 				 (xdrproc_t) xdr_tt_get_all_sessions_args,
 				 (caddr_t) argp,
 				 (xdrproc_t) xdr_tt_get_all_sessions_results,
@@ -1153,7 +1153,7 @@ _tt_garbage_collect_1(void * /*NOTUSED*/, CLIENT *clnt)
 {
 	static	_tt_garbage_collect_results	res;
 
-	clnt_stat result = clnt_call(clnt, TT_GARBAGE_COLLECT,
+	clnt_call(clnt, TT_GARBAGE_COLLECT,
 				     (xdrproc_t) xdr_void, (caddr_t) NULL,
 				     (xdrproc_t) xdr_tt_garbage_collect_results,
 				     (caddr_t) &res,
@@ -1167,7 +1167,7 @@ _tt_delete_session_1(_tt_delete_session_args * args, CLIENT *clnt)
 {
 	static	_tt_delete_session_results	res;
 
-	clnt_stat result = clnt_call(clnt, TT_DELETE_SESSION,
+	clnt_call(clnt, TT_DELETE_SESSION,
 				     (xdrproc_t) xdr_tt_delete_session_args,
 				     (caddr_t) args,
 				     (xdrproc_t) xdr_tt_delete_session_results,

@@ -82,7 +82,7 @@ _tt_get_rpc_messages (const _tt_message_list &rpc_messages,
 	if (rpc_messages.messages_len) {
 		messages = new _Tt_message_list;
 		
-		for (int i=0; i < rpc_messages.messages_len; i++) {
+		for (unsigned int i=0; i < rpc_messages.messages_len; i++) {
 			_Tt_message_ptr message_ptr;
 
 			_tt_get_rpc_message(rpc_messages.messages_val [i],

@@ -562,7 +562,7 @@ _Tt_string _Tt_db_file::getNetworkPath (const _Tt_string &file)
       _Tt_string hostname;
       _Tt_string partition;
 
-      _Tt_db_results results = _tt_db_network_path(file,
+      _tt_db_network_path(file,
 					           local_path,
 					           hostname,
 					           partition,

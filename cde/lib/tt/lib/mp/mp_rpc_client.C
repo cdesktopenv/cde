@@ -123,8 +123,6 @@ init(_Tt_host_ptr &host, int program, int version,
      uid_t servuid, _Tt_auth &auth)
 {
 	int		optval;
-	static caddr_t	saved_opaque = 0;
-	static int	saved_len = 0;
 
 	optval = (_socket == RPC_ANYSOCK);
 	_auth = auth;

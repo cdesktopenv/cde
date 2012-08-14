@@ -307,7 +307,6 @@ _cache_it(_Tt_hostname_cache_ptr cache_ptr, _Tt_string & hostname)
         _Tt_hostname_cache_ptr	sh, lh;
 	struct hostent	       *host_ret;
 	_Xgethostbynameparams	host_buf;
-	int			failed = 0;
 	char			**h_addr_list;
 
 
