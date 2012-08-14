@@ -372,7 +372,7 @@ retry:
 #ifdef KSHELL
 	(HISTCUR)->nvalue.lp = (&hp->histind);
 #endif /* KSHELL */
-	timeradd(1000L*(HIST_RECENT-30), 1, hist_touch, (__V_*)hp->histname);
+	kshtimeradd(1000L*(HIST_RECENT-30), 1, hist_touch, (__V_*)hp->histname);
 #ifdef SHOPT_ACCTFILE
 	if(sh_isstate(SH_INTERACTIVE))
 		acctinit();

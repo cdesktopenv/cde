@@ -171,12 +171,12 @@ static int Text_Widget(
                         int argc,
                         char *argv[]) ;
 static int Text_VarAndWidget( 
-                        int (*func)(),
+                        int (*func)(Widget w),
                         Boolean varIsString,
                         int argc,
                         char *argv[]) ;
 static int Text_WidgetAndBoolean( 
-                        void (*func)(),
+                        void (*func)(Widget w, int b),
                         int argc,
                         char *argv[]) ;
 static int Text_WidgetAndOneParam( 
@@ -3737,7 +3737,8 @@ do_catopen(
    char * ptr;
    nl_catd nlmsg_fd = (nl_catd)-1;
    char * errmsg;
-#if defined(SVR4) || defined (_AIX) || defined(sco) || defined(DEC)
+#if defined(SVR4) || defined (_AIX) || defined(sco) || defined(DEC) || \
+    defined(CSRG_BASED) || defined(linux)
    char * nextMatch;
 #endif
 
@@ -3761,7 +3762,8 @@ do_catopen(
        */
 
       altCatName = XtMalloc(strlen(catName) + 10);
-#if defined(SVR4) || defined (_AIX) || defined(sco) || defined(DEC)
+#if defined(SVR4) || defined (_AIX) || defined(sco) || defined(DEC) || \
+    defined(CSRG_BASED) || defined(linux)
       /* These platforms don't have strrstr() */
       ptr = NULL;
       nextMatch = catName;
@@ -3965,7 +3967,7 @@ do_XmTextRemove(
 
 static int
 Text_VarAndWidget(
-        int (*func)(),
+        int (*func)(Widget w),
         Boolean varIsString,
         int argc,
         char *argv[] )
@@ -4077,7 +4079,7 @@ do_XmTextGetString(
 
 static int
 Text_WidgetAndBoolean(
-        void (*func)(),
+        void (*func)(Widget w, int b),
         int argc,
         char *argv[] )
 {

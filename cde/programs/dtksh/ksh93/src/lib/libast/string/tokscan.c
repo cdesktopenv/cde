@@ -228,11 +228,7 @@ tokscan __PARAM__((register char* s, char** nxt, const char* fmt, ...), (va_alis
 		if (f = prv_f)
 		{
 			prv_f = 0;
-#ifdef __ppc
 			__va_copy( ap, prv_ap );
-#else
-			ap = prv_ap;
-#endif
 			continue;
 		}
 		goto done;
@@ -261,15 +257,9 @@ tokscan __PARAM__((register char* s, char** nxt, const char* fmt, ...), (va_alis
 		case ':':
 			prv_f = f;
 			f = va_arg(ap, char*);
-#ifdef __ppc
 			__va_copy( prv_ap, ap );
-			pap = va_arg(ap, va_list*)) );
-			__va_copy( ap, pap );
-#else
-			prv_ap = ap;
 			pap = va_arg(ap, va_list*);
-			memcpy(&ap, pap, sizeof(ap));
-#endif
+			__va_copy( ap, pap );
 			continue;
 		case 'c':
 			p_char = va_arg(ap, char*);

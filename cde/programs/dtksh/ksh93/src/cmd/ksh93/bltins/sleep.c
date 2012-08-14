@@ -157,7 +157,7 @@ unsigned sleep __PARAM__((unsigned sec), (sec)) __OTORP__(unsigned sec;){
 	__V_ *tp;
 	expired = 0;
 	sh.lastsig = 0;
-	tp = (__V_*)timeradd(1000*sec, 0, completed, (__V_*)0);
+	tp = (__V_*)kshtimeradd(1000*sec, 0, completed, (__V_*)0);
 	do
 	{
 		pause();

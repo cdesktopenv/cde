@@ -964,7 +964,7 @@ static int slowread __PARAM__((Sfio_t *iop,__V_ *buff,register int size,Sfdisc_t
 	if(io_prompt(sh.nextprompt)<0 && errno==EIO)
 		return(0);
 	if(sh.timeout)
-		timeout = (__V_*)timeradd(sh_isstate(SH_GRACE)?1000L*TGRACE:1000L*sh.timeout,0,time_grace,NIL(__V_*));
+		timeout = (__V_*)kshtimeradd(sh_isstate(SH_GRACE)?1000L*TGRACE:1000L*sh.timeout,0,time_grace,NIL(__V_*));
 #   ifdef SHOPT_ESH
 	if(sh_isoption(SH_EMACS|SH_GMACS))
 		readf = ed_emacsread;

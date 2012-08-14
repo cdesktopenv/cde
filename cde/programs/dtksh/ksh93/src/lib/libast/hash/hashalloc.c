@@ -112,7 +112,7 @@ hashalloc __PARAM__((Hash_table_t* ref, ...), (va_alist)) __OTORP__(va_dcl)
 	register Hash_table_t*	ret = 0;
 	register int		internal;
 	int			n;
-	va_list			ap;
+	va_list			ap, vl;
 	va_list			va[4];
 	va_list*		vp = va;
 	HASHregion		region = 0;
@@ -214,27 +214,19 @@ hashalloc __PARAM__((Hash_table_t* ref, ...), (va_alist)) __OTORP__(va_dcl)
 			tab->flags |= HASH_STATIC;
 			break;
 		case HASH_va_list:
-#ifdef __ppc
 			if (vp < &va[elementsof(va)])
 			{
 				__va_copy( *vp, ap );
 				vp++;
 			}
-			__va_copy(ap, *((va_list *) va_arg(ap, va_list)) );
-#else
-			if (vp < &va[elementsof(va)]) *vp++ = ap;
-			ap = va_arg(ap, va_list);
-#endif
+			vl = va_arg(ap, va_list);
+			__va_copy(ap, vl);
 			break;
 		case 0:
 			if (vp > va)
 			{
-#ifdef __ppc
 				vp--;
 				__va_copy( ap, *vp );
-#else
-				ap = *--vp;
-#endif
 				break;
 			}
 			if (tab->flags & HASH_SCOPE)

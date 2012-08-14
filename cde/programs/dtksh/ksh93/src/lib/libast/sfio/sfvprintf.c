@@ -90,7 +90,6 @@
 		goto pop_fa; \
 	  else	elt = (etype)arge; \
 	}
-#ifdef __ppc
 #define GETARGL(elt,arge,argf,args,etype,type,fmt,t_user,n_user) \
 	{ if(!argf) \
 		__va_copy( elt, va_arg(args,type) ); \
@@ -98,7 +97,6 @@
 		goto pop_fa; \
 	  else	__va_copy( elt, arge ); \
 	}
-#endif
 
 #if __STD_C
 sfvprintf(Sfio_t* f, const char* form, va_list args)
@@ -303,15 +301,9 @@ loop_fa :
 			GETARG(form,form,argf,args,char*,char*,'1',t_user,n_user);
 			if(!form)
 				form = "";
-#ifdef __ppc
 			GETARGL(argsp,argsp,argf,args,va_list*,va_list*,'2',t_user,n_user);
 			__va_copy( fa->args, args );
 			__va_copy( args, argsp );
-#else
-			GETARG(argsp,argsp,argf,args,va_list*,va_list*,'2',t_user,n_user);
-			memcpy((Void_t*)(&(fa->args)), (Void_t*)(&args), sizeof(va_list));
-			memcpy((Void_t*)(&args), (Void_t*)argsp, sizeof(va_list));
-#endif
 			fa->argf.p = argf;
 			fa->extf.p = extf;
 			fa->next = fast;
@@ -321,12 +313,8 @@ loop_fa :
 		default :	/* unknown directive */
 			if(extf)
 			{
-#ifdef __ppc
 				va_list	savarg; 	/* is this portable?   Sorry .. NO. */
 				__va_copy( savarg, args );
-#else
-				va_list	savarg = args;	/* is this portable? */
-#endif
 
 				GETARG(sp,astr,argf,args,char*,char*,fmt,t_user,n_user);
 				astr = NIL(char*);
@@ -334,11 +322,7 @@ loop_fa :
 				if((sp = astr) )
 					goto s_format;
 
-#ifdef __ppc
 				__va_copy( args, savarg ); /* extf failed, treat as if unmatched */
-#else
-				args = savarg;	/* extf failed, treat as if unmatched */
-#endif
 			}
 
 			/* treat as text */

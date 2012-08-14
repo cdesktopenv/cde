@@ -104,6 +104,7 @@
 
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <string.h>
 
 # undef	ctime
 
@@ -1331,7 +1332,7 @@ struct ppsymkey
 
 
 extern __MANGLE__ int		access __PROTO__((const char*, int));
-extern __MANGLE__ __V_*		calloc __PROTO__((int, int));
+extern __MANGLE__ __V_*		calloc __PROTO__((size_t, size_t));
 extern __MANGLE__ int		close __PROTO__((int));
 extern __MANGLE__ int		creat __PROTO__((const char*, int));
 extern __MANGLE__ char*		ctime __PROTO__((time_t*));

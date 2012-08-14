@@ -124,7 +124,6 @@
 
 #define	MAXCHAR	MAXLINE-2		/* max char per line */
 
-#undef isblank
 #ifdef SHOPT_MULTIBYTE
     static int bigvi;
 #   define gencpy(a,b)	ed_gencpy(a,b)
@@ -134,14 +133,14 @@
 #   define is_print(c)	((c&~STRIP) || isprint(c))
     static int isalph __PROTO__((int));
     static int ismetach __PROTO__((int));
-    static int isblank __PROTO__((int));
+    static int kshisblank __PROTO__((int));
 #   include	"lexstates.h"
 #else
 #   define gencpy(a,b)	strcpy((char*)(a),(char*)(b))
 #   define genncpy(a,b,n) strncpy((char*)(a),(char*)(b),n)
 #   define genlen(str)	strlen(str)
 #   define isalph(v)	((_c=virtual[v])=='_'||isalnum(_c))
-#   define isblank(v)	isspace(virtual[v])
+#   define kshisblank(v)	isspace(virtual[v])
 #   define ismetach(v)	ismeta(virtual[v])
 #   define digit(c)	isdigit(c)
 #   define is_print(c)	isprint(c)
@@ -220,7 +219,7 @@ static char paren_chars[] = "([{)]}";   /* for % command */
 
 #ifdef FIORDCHK
     static clock_t typeahead;		/* typeahead occurred */
-    extern __MANGLE__ int ioctl __PROTO__((int, int, ...));
+    extern __MANGLE__ int ioctl __PROTO__((int, unsigned long, ...));
 #else
     static int typeahead;		/* typeahead occurred */
 #endif	/* FIORDCHK */
@@ -680,7 +679,7 @@ static void backword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __
 	register int tcur_virt = cur_virt;
 	while( nwords-- && tcur_virt > first_virt )
 	{
-		if( !isblank(tcur_virt) && isblank(tcur_virt-1)
+		if( !kshisblank(tcur_virt) && kshisblank(tcur_virt-1)
 			&& tcur_virt>first_virt )
 			--tcur_virt;
 		else if(cmd != 'B')
@@ -690,11 +689,11 @@ static void backword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __
 			if((!cur && last) || (cur && !last))
 				--tcur_virt;
 		}
-		while( isblank(tcur_virt) && tcur_virt>=first_virt )
+		while( kshisblank(tcur_virt) && tcur_virt>=first_virt )
 			--tcur_virt;
 		if( cmd == 'B' )
 		{
-			while( !isblank(tcur_virt) && tcur_virt>=first_virt )
+			while( !kshisblank(tcur_virt) && tcur_virt>=first_virt )
 				--tcur_virt;
 		}
 		else
@@ -703,7 +702,7 @@ static void backword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __
 				while( isalph(tcur_virt) && tcur_virt>=first_virt )
 					--tcur_virt;
 			else
-				while( !isalph(tcur_virt) && !isblank(tcur_virt)
+				while( !isalph(tcur_virt) && !kshisblank(tcur_virt)
 					&& tcur_virt>=first_virt )
 					--tcur_virt;
 		}
@@ -1185,7 +1184,7 @@ static int delmotion __PARAM__((int motion, int mode), (motion, mode)) __OTORP__
 	{
 		/*** called by change operation, user really expects ***/
 		/* the effect of the eE commands, so back up to end of word */
-		while( end>begin && isblank(end-1) )
+		while( end>begin && kshisblank(end-1) )
 			--end;
 		if( end == begin )
 			++end;
@@ -1220,13 +1219,13 @@ static void endword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __O
 	register int tcur_virt = cur_virt;
 	while( nwords-- )
 	{
-		if( !isblank(tcur_virt) && tcur_virt<=last_virt )
+		if( !kshisblank(tcur_virt) && tcur_virt<=last_virt )
 			++tcur_virt;
-		while( isblank(tcur_virt) && tcur_virt<=last_virt )
+		while( kshisblank(tcur_virt) && tcur_virt<=last_virt )
 			++tcur_virt;	
 		if( cmd == 'E' )
 		{
-			while( !isblank(tcur_virt) && tcur_virt<=last_virt )
+			while( !kshisblank(tcur_virt) && tcur_virt<=last_virt )
 				++tcur_virt;
 		}
 		else
@@ -1235,7 +1234,7 @@ static void endword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __O
 				while( isalph(tcur_virt) && tcur_virt<=last_virt )
 					++tcur_virt;
 			else
-				while( !isalph(tcur_virt) && !isblank(tcur_virt)
+				while( !isalph(tcur_virt) && !kshisblank(tcur_virt)
 					&& tcur_virt<=last_virt )
 					++tcur_virt;
 		}
@@ -1258,7 +1257,7 @@ static void forward __PARAM__((register int nwords, int cmd), (nwords, cmd)) __O
 	{
 		if( cmd == 'W' )
 		{
-			while( !isblank(tcur_virt) && tcur_virt < last_virt )
+			while( !kshisblank(tcur_virt) && tcur_virt < last_virt )
 				++tcur_virt;
 		}
 		else
@@ -1270,12 +1269,12 @@ static void forward __PARAM__((register int nwords, int cmd), (nwords, cmd)) __O
 			}
 			else
 			{
-				while( !isalph(tcur_virt) && !isblank(tcur_virt)
+				while( !isalph(tcur_virt) && !kshisblank(tcur_virt)
 					&& tcur_virt < last_virt )
 					++tcur_virt;
 			}
 		}
-		while( isblank(tcur_virt) && tcur_virt < last_virt )
+		while( kshisblank(tcur_virt) && tcur_virt < last_virt )
 			++tcur_virt;
 	}
 	cur_virt = tcur_virt;
@@ -2528,7 +2527,7 @@ yankeol:
     }
 
 
-    static int isblank __PARAM__((register int c), (c)) __OTORP__(register int c;){
+    static int kshisblank __PARAM__((register int c), (c)) __OTORP__(register int c;){
 	register int v = virtual[c];
 	return((v&~STRIP)==0 && isspace(v));
     }

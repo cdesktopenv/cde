@@ -1322,7 +1322,7 @@ pid_t _sh_fork __PARAM__((register pid_t parent,int flags,int *jobid), (parent, 
 			error(ERROR_system(ERROR_NOEXEC),e_nofork);
 		}
 		sh_sigcheck();
-		timeout = (__V_*)timeradd(forkcnt, 0, timed_out, NIL(__V_*));
+		timeout = (__V_*)kshtimeradd(forkcnt, 0, timed_out, NIL(__V_*));
 		job_wait((pid_t)-1);
 		if(timeout)
 		{

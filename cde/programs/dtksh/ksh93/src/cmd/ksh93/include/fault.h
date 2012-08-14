@@ -176,7 +176,7 @@ extern __MANGLE__ void	sh_siginit __PROTO__((void));
 extern __MANGLE__ void 	sh_sigtrap __PROTO__((int));
 extern __MANGLE__ void 	sh_sigreset __PROTO__((int));
 extern __MANGLE__ void 	sh_timetraps __PROTO__((void));
-extern __MANGLE__ __V_ 	*timeradd __PROTO__((unsigned long,int ,void (*)(__V_*),__V_*));
+extern __MANGLE__ __V_ 	*kshtimeradd __PROTO__((unsigned long,int ,void (*)(__V_*),__V_*));
 extern __MANGLE__ void	timerdel __PROTO__((__V_*));
 
 extern __MANGLE__ const char e_alarm[];
