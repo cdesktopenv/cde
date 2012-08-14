@@ -862,7 +862,7 @@ bool_t	xdr_tt_garbage_collect_results(XDR *, _tt_garbage_collect_results *);
 
 #include "db/tt_db_client_utils.h"
 
-extern int *_tt_min_auth_level_1(const char**, CLIENT*, clnt_stat *status);
+extern int *_tt_min_auth_level_1(char**, CLIENT*, clnt_stat *status);
 extern _Tt_isam_results *_tt_isaddindex_1(_Tt_isaddindex_args*, CLIENT*);
 extern _Tt_isam_results *_tt_isbuild_1(_Tt_isbuild_args*, CLIENT*);
 extern _Tt_isam_results *_tt_isclose_1(int*, CLIENT*);
