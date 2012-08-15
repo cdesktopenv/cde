@@ -193,7 +193,7 @@ _Tt_db_results _Tt_db_client::connectToDB (const _Tt_string &hostname)
 			// If dbVersion == 1, then we are talking to an old DB server
 			static _tt_auth_level_results results;
 
-			const char      *path = "";
+			char      *path = "";
 			clnt_stat  rpc_status;
 			int       *result = (int *)NULL;
 			result = _tt_min_auth_level_1(&path, dbServer, &rpc_status);
