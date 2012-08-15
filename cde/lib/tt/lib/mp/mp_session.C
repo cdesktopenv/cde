@@ -793,8 +793,17 @@ set_id(char *id)
 			if (sscanf((char *)id, "X %s %d", host, &svnum) != 2) {
 				return(TT_ERR_SESSION);
 			}
+			/* We _cannot_ set _displayname based solely on host and svnum, 
+			 * because :0 is NOT the same as 127.0.0.1:0 as far as X11
+			 * is concerned: by default, it will only accept connections
+			 * to the former. (XOpenDisplay etc. will fail if you try the below!)
 			sprintf(dpname, "%s:%d", host, svnum);
 			_displayname = dpname;
+			 */
+			if (! _displayname.len()) {
+				_displayname = _tt_global->xdisplayname;
+			}
+
 			_server_num = svnum;
 			_env = _TT_ENV_X11;
 			break;
