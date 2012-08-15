@@ -205,7 +205,7 @@ abmfP_get_connect_includes(StringList includeFiles, ABObj projOrModule)
     assert(project != NULL);
     if (project == NULL)
     {
-	return NULL;
+	return 0;
     }
 
     for (trav_open(&trav, projOrModule, AB_TRAV_ACTIONS_FOR_OBJ);

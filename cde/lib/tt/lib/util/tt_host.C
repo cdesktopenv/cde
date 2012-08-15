@@ -177,7 +177,7 @@ init_bystringaddr(_Tt_string addr)
 	ip_address = &ip_address_buf;
 
 	*ip_address = inet_addr((char *)addr);
-	if (*ip_address == -1) {
+	if (*ip_address == INADDR_NONE) {
 		return(0);
 	}
 

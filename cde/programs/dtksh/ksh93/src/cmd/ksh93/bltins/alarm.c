@@ -134,7 +134,7 @@ static __V_ *time_add __PARAM__((struct tevent *item, __V_ *list), (item, list))
 		tp->next = item;
 	}
 	tp = item;
-	tp->timeout = (__V_*)timeradd(tp->milli,tp->flags&R_FLAG,trap_timeout,(__V_*)tp);
+	tp->timeout = (__V_*)kshtimeradd(tp->milli,tp->flags&R_FLAG,trap_timeout,(__V_*)tp);
 	return(list);
 }
 

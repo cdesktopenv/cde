@@ -222,7 +222,6 @@ _Tt_pattern::add_netfile(
 )
 {
         _Tt_string abspath;
-	Tt_status  status = TT_OK;
 	int        __scopes = scopes();
 
 	if ((__scopes&(1<<TT_FILE)) || (__scopes&(1<<TT_BOTH))) {

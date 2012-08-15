@@ -40,6 +40,6 @@
 
 class _Tt_audit: public _Tt_trace {
 	public:
-		Tt_status entry(char *argskey, _Tt_entry_pt func, ...);
+		Tt_status entry(const char *argskey, _Tt_entry_pt func, ...);
 };
 #endif	/* TT_AUDIT_H */

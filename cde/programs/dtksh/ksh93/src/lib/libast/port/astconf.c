@@ -285,8 +285,6 @@ initialize __PARAM__((register Feature_t* fp, const char* path, const char* comm
 
 	if (fp->op != OP_path_resolve || !fs3d(FS3D_TEST))
 	{
-		if (fp->op == OP_universe)
-			ok = streq(_UNIV_DEFAULT, "att");
 		if (p = getenv("PATH"))
 		{
 			register int	r = 1;
@@ -402,12 +400,6 @@ feature __PARAM__((const char* name, const char* path, const char* value), (name
 		break;
 
 	case OP_universe:
-#if _lib_universe
-		if (getuniverse(fp->value) < 0)
-			strcpy(fp->value, "att");
-		if (value)
-			setuniverse(value);
-#else
 #ifdef UNIV_MAX
 		n = 0;
 		if (value)
@@ -417,20 +409,13 @@ feature __PARAM__((const char* name, const char* path, const char* value), (name
 			if (n >= univ_max)
 				return(0);
 		}
-#ifdef ATT_UNIV
-		n = setuniverse(n + 1);
-		if (!value && n > 0)
-			setuniverse(n);
-#else
 		n = universe(value ? n + 1 : U_GET);
-#endif
 		if (n <= 0 || n >= univ_max)
 			n = 1;
 		strcpy(fp->value, univ_name[n - 1]);
 #else
 		if (!synthesize(fp, path, value))
 			initialize(fp, path, "echo", "att", "ucb");
-#endif
 #endif
 		break;
 

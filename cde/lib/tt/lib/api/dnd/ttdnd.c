@@ -68,7 +68,6 @@ ttdnd_init(
 {
 	int	mark = tt_mark();
 	const char	*t, **vt;
-	int	validtypecount, i;
 
 
 	if (tt_ptr_error(tt_open())>TT_WRN_LAST) {
@@ -238,7 +237,6 @@ _ttdnd_get_contents_callback(m, p)
      Tt_message m; 
      Tt_pattern p;
 {
-	int xid;
 	int chunknumber;
 	int maxchunk;
 	char *type;

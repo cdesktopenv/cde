@@ -340,7 +340,7 @@ _tt_WriteAuthFileEntry(FILE *auth_file, _tt_AuthFileEntry *auth)
 
 
 _tt_AuthFileEntry *
-_tt_GetAuthFileEntry(char *protocol_name, char *network_id, char *auth_name)
+_tt_GetAuthFileEntry(const char *protocol_name, const char *network_id, const char *auth_name)
 {
     FILE    		*auth_file;
     char    		*filename;

@@ -1134,15 +1134,15 @@ contain_substr(char *str1, char *str2)
 {
 	int	i, len;
 
-	if (str2 == NULL || *str2 == NULL)
+	if (str2 == NULL || *str2 == '\0')
 		return (B_TRUE);
 
-	if (str1 == NULL || *str1 == NULL) {
+	if (str1 == NULL || *str1 == '\0') {
 		return (B_FALSE);
 	} else {
 		len = strlen(str2);
 
-		for (i = 0; str1[i] != NULL; i++) {
+		for (i = 0; str1[i] != '\0'; i++) {
 			if (strncasecmp(&str1[i], str2, len) == 0)
 				return (B_TRUE);
 		}

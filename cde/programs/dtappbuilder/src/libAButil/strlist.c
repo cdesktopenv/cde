@@ -69,7 +69,7 @@ static int strlistP_build_user_data_array(
     ((((_list)->user_datas == NULL) && ((_data) != NULL))? \
         strlistP_build_user_data_array(_list, _index, _data) \
     : \
-        ((int)((_list)->user_datas[(_index)] = (_data))) \
+        ((long)((_list)->user_datas[(_index)] = (_data))) \
     )
 	
 
@@ -189,10 +189,10 @@ strlist_istr_exists(StringList list, ISTRING istring)
 }
 
 
-int
+long
 strlist_set_istr_data(StringList list, ISTRING istring, void *data)
 {
-    int		index = strlist_get_istr_index(list, istring);
+    long		index = strlist_get_istr_index(list, istring);
     if (index < 0)
     {
 	return index;
@@ -215,10 +215,10 @@ strlist_get_istr_data(StringList list, ISTRING istring)
 /*
  * Returns the index of the given string, or -1 if it doesn't exist
  */
-int
+long
 strlist_get_istr_index(StringList list, ISTRING string)
 {
-    int			index = -1;
+    long		index = -1;
     int                 i = 0;
     int                 num_strings = list->num_strings;
 
@@ -293,10 +293,10 @@ epilogue:
 }
 
 
-int
+long
 strlist_remove_istr(StringList list, ISTRING istring)
 {
-    int		index = strlist_get_istr_index(list, istring);
+    long	index = strlist_get_istr_index(list, istring);
     if (index < 0)
     {
 	return 0;
@@ -485,10 +485,10 @@ strlist_str_exists(StringList list, STRING string)
 }
 
 
-int
+long
 strlist_get_str_index(StringList list, STRING string)
 {
-    int		index = -1;
+    long		index = -1;
     ISTRING	istring = istr_create(string);
     if (istring != NULL)
     {
@@ -506,10 +506,10 @@ strlist_get_str(StringList list, int whichString, void **clientDataOut)
 }
 
 
-int
+long
 strlist_remove_str(StringList list, STRING string)
 {
-    int		return_value = 0;
+    long		return_value = 0;
     ISTRING	istring = istr_dup_existing(string);
     if (istring != NULL)
     {
@@ -520,10 +520,10 @@ strlist_remove_str(StringList list, STRING string)
 }
 
 
-int
+long
 strlist_set_str_data(StringList list, STRING string, void *data)
 {
-    int		return_value = 0;
+    long		return_value = 0;
     ISTRING	istring = istr_dup_existing(string);
     if (istring != NULL)
     {
@@ -571,6 +571,7 @@ strlist_dup(StringList list)
 **************************************************************************/
 
 
+int
 strlistP_shrink_array(StringList list, int sizeDiff)
 {
     int		return_value = 0;

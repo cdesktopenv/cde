@@ -1247,7 +1247,6 @@ _Tt_db_client::dequeueMessages (const _Tt_string          &file,
 				const _Tt_string_list_ptr &ptypes,
 				_Tt_message_list_ptr      &messages)
 {
-	_Tt_db_results retval;	
 	_tt_dequeue_msgs_args args;
 	
 	args.file = (char *)file;
@@ -1265,7 +1264,6 @@ _Tt_db_client::dequeueMessages (const _Tt_string          &file,
 	}
 	
 	_tt_get_rpc_messages(results->messages, messages);
-	retval = results->results;
 	if (dbVersion==1) {
 		_tt_free_rpc_messages(results->messages);	
 	} else {

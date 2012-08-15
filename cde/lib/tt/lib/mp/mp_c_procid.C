@@ -340,7 +340,6 @@ commit()
 Tt_status _Tt_c_procid::
 init()
 {
-	int			rpc_version = TT_RPC_VERSION;	
 	Tt_status		status;
 			
 	if (_default_session.is_null()) {

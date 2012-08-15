@@ -53,11 +53,15 @@
 
 # include	<sys/signal.h>
 # include	<sys/stat.h>
+#if defined(__FreeBSD__)
+# include	<utmpx.h>
+#else
 # include	<utmp.h>
+#endif
 # include	<time.h>
 # include	<utime.h>
 # include	<pwd.h>
-#if defined(linux)
+#if defined(linux) || defined(__FreeBSD__)
 # include	<stdarg.h>
 #else
 # include	<varargs.h>
@@ -936,9 +940,9 @@ StartDisplay(
 		else {
 		    strncpy(&(d->utmpId[strlen(d->utmpId)]), t++, 1);
     		}
-	    } while (*t != NULL);
+	    } while (*t != '\0');
 
-	    if (*t == NULL) {
+	    if (*t == '\0') {
 		Debug ("All DT utmp IDs already in use. Removing display %s\n",
 			d->name);
 		LogError ((unsigned char *)"All DT utmp IDs already in use. Removing display %s\n",

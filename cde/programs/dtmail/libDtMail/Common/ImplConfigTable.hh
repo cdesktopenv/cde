@@ -25,9 +25,9 @@
 #include <DtMail/DtMailValues.hh>
 
 struct ImplConfigTable {
-    char	*impl_name;
-    char	*lib_name;
-    char	*meta_entry_point;
+    const char	*impl_name;
+    const char	*lib_name;
+    const char	*meta_entry_point;
 };
 
 static const ImplConfigTable initial_impls[] = {

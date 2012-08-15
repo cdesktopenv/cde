@@ -1382,7 +1382,7 @@ objxm_dump_arglist_indented(
 	    case AB_ARG_WIDGET:
 		if (cgen_args)
 		{
-		    util_dprintf(0,"%s ", args[i].value != NULL?
+		    util_dprintf(0,"%s ", args[i].value != 0?
 		        istr_string((ISTRING)(args[i].value)) : "NULL");
 		}
  		else

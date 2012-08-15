@@ -2304,7 +2304,7 @@ store_attribute(
         {
             AB_ARG_TYPE        type = AB_ARG_UNDEF;
  
-            if ((type = obj_get_arg_type(obj)) != NULL)
+            if ((type = obj_get_arg_type(obj)) != 0)
 	    {
 		switch (type)
 		{
@@ -2382,7 +2382,7 @@ store_attribute(
 		    break;
                 case AB_ATTACH_GRIDLINE:
                 case AB_ATTACH_CENTER_GRIDLINE:
-		    abio_put_integer(outFile, (int)obj_get_attach_value(obj, AB_CP_NORTH));
+		    abio_put_integer(outFile, (long)obj_get_attach_value(obj, AB_CP_NORTH));
 		    break;
 		case AB_ATTACH_POINT:
 		case AB_ATTACH_NONE:
@@ -2415,7 +2415,7 @@ store_attribute(
                     break;
                 case AB_ATTACH_GRIDLINE:
                 case AB_ATTACH_CENTER_GRIDLINE:
-                    abio_put_integer(outFile, (int)obj_get_attach_value(obj, AB_CP_SOUTH));
+                    abio_put_integer(outFile, (long)obj_get_attach_value(obj, AB_CP_SOUTH));
                     break;
                 default:
 		    abio_put_integer(outFile, 0);
@@ -2447,7 +2447,7 @@ store_attribute(
                     break;
                 case AB_ATTACH_GRIDLINE:
                 case AB_ATTACH_CENTER_GRIDLINE:
-                    abio_put_integer(outFile, (int)obj_get_attach_value(obj, AB_CP_EAST));
+                    abio_put_integer(outFile, (long)obj_get_attach_value(obj, AB_CP_EAST));
                     break;
                 default:
 		    abio_put_integer(outFile, 0);
@@ -2479,7 +2479,7 @@ store_attribute(
                     break;
                 case AB_ATTACH_GRIDLINE:
                 case AB_ATTACH_CENTER_GRIDLINE:
-                    abio_put_integer(outFile, (int)obj_get_attach_value(obj, AB_CP_WEST));
+                    abio_put_integer(outFile, (long)obj_get_attach_value(obj, AB_CP_WEST));
                     break;
                 default:
 		    abio_put_integer(outFile, 0);

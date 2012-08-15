@@ -578,7 +578,7 @@ _DtCm_free_entry_content(uint dummy, _DtCm_libentry *entry)
 {
 	_DtCm_remove_from_entry_list(entry->cal, (caddr_t)entry, (caddr_t)entry);
 	if (entry->e) _DtCm_free_cms_entry(entry->e);
-	memset((void *)entry, NULL, sizeof(_DtCm_libentry));
+	memset((void *)entry, 0, sizeof(_DtCm_libentry));
 }
 
 /*
@@ -611,7 +611,7 @@ _DtCm_free_libentries(_DtCm_libentry *entry)
 		nptr = entry->next;
 
 		if (entry->e) _DtCm_free_cms_entry(entry->e);
-		memset((void *)entry, NULL, sizeof(_DtCm_libentry));
+		memset((void *)entry, 0, sizeof(_DtCm_libentry));
 
 		free(entry);
 

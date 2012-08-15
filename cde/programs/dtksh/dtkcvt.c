@@ -67,7 +67,8 @@
 #include "xmwidgets.h"
 #include "msgs.h"
 
-#if defined(SYSV) || defined(SVR4_0) || defined(SVR4) || defined(DEC)
+#if defined(SYSV) || defined(SVR4_0) || defined(SVR4) || defined(DEC) \
+	|| defined(CSRG_BASED) || defined(linux)
 #define lsprintf sprintf
 #endif
 
@@ -430,7 +431,7 @@ DtkshCvtStringToCallback(
    cb = (XtCallbackList)XtMalloc(sizeof(XtCallbackRec)*2);
    cb[0].callback = (XtCallbackProc)stdCB;
 
-   cdata = GetNewCBData((String)fval->addr, w, DTKSHConversionResource, NULL);
+   cdata = GetNewCBData((String)fval->addr, w, DTKSHConversionResource, None);
 
    cb[0].closure = (caddr_t)cdata;
    cb[1].callback = NULL;
@@ -572,7 +573,7 @@ static EventMaskTable eventMasks[] = {
    {"PropertyChangeMask", PropertyChangeMask},
    {"ColormapChangeMask", ColormapChangeMask},
    {"OwnerGrabButtonMask", OwnerGrabButtonMask},
-   {NULL, NULL},
+   {NULL, NoEventMask},
 };
 
 
@@ -739,7 +740,7 @@ static MWMTable mwmDecorations[] = {
    {"MWM_DECOR_MENU", MWM_DECOR_MENU},
    {"MWM_DECOR_MINIMIZE", MWM_DECOR_MINIMIZE},
    {"MWM_DECOR_MAXIMIZE", MWM_DECOR_MAXIMIZE},
-   {NULL, NULL},
+   {NULL, 0},
 };
 
 static MWMTable mwmFunctions[] = {
@@ -749,7 +750,7 @@ static MWMTable mwmFunctions[] = {
    {"MWM_FUNC_MINIMIZE", MWM_FUNC_MINIMIZE},
    {"MWM_FUNC_MAXIMIZE", MWM_FUNC_MAXIMIZE},
    {"MWM_FUNC_CLOSE", MWM_FUNC_CLOSE},
-   {NULL, NULL},
+   {NULL, 0},
 };
 
 static void

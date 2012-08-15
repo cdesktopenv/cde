@@ -605,7 +605,7 @@ widget_into_module(
 	/*
 	 * Store ABObj reference in uil widget node
 	 */
-	uil_widget->header.user_data = (int)ab_widget;
+	uil_widget->header.user_data = (long)ab_widget;
 
 	/*
 	 * Populate arguments and callbacks
@@ -630,7 +630,7 @@ widget_into_module(
 	/*
 	 * Store ABObj reference in uil widget node
 	 */
-	uil_widget->header.user_data = (int)ab_widget;
+	uil_widget->header.user_data = (long)ab_widget;
     }
 
 

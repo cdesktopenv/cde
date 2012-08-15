@@ -378,7 +378,7 @@ _DtCmAttr4ToReminderValue(
 	_csa_duration_to_iso8601(atoi(remval->value), timestr);
 	rval.lead_time = timestr;
 
-	if (remval->clientdata && *remval->clientdata != NULL) {
+	if (remval->clientdata && *remval->clientdata != '\0') {
 		rval.reminder_data.size = strlen(remval->clientdata);
 		rval.reminder_data.data = (unsigned char *)remval->clientdata;
 	} else {

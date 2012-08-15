@@ -202,7 +202,7 @@
  ***************************************************************************/
 
 /*#if defined(SYSV) && !defined(hpux)*/
-#if defined(SYSV) || defined(SVR4) || defined(linux)
+#if defined(SYSV) || defined(SVR4) || defined(linux) || defined(__FreeBSD__)
 #   include	<sys/wait.h>
 # define waitCode(w)	WEXITSTATUS(w)
 # define waitSig(w)	WTERMSIG(w)
@@ -477,7 +477,7 @@ struct verify_info {
  *
  ***************************************************************************/
 
-#if !defined(linux)
+#if !defined(linux) && !defined(CSRG_BASED)
 extern char	*sys_errlist[];		/* system error msgs		   */
 extern int	sys_nerr;		/* system error msgs		   */
 #endif

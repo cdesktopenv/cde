@@ -69,7 +69,7 @@ _DtCmGetPrefix(char *str, char sep)
         if (ptr == buf)
                 return(NULL);
         else {
-                *ptr = NULL;
+                *ptr = '\0';
                 return(strdup(buf));
         }
 }

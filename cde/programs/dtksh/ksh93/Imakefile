@@ -15,7 +15,7 @@ CCFLAGS =
 .NO_PARALLEL:
 #endif /* SunArchitecture */
 
-FORCE_SHIP = -E
+FORCE_SHIP = -F
 
 MALLOCOBJ =
 
@@ -30,7 +30,6 @@ KSH_OBJS = \
 		$(KSHLIBS)
 
 OBJS = $(KSH_OBJS) $(KSH_LIBS)
-
 
 SUIDEXECDEFINES = \
 	-DPROFILEPATH=\"$(CDE_CONFIGURATION_TOP)/config/profile\" \
@@ -57,15 +56,7 @@ ALL_SUBS = *
 
 ksh93src:
 	$(RM) $(SHIP_DIR)/$(ALL_SUBS)/$(ALL_SUBS)/BUILT; \
-	if [ -f /bin/ksh ]; \
-	then \
-		SHELL=/bin/ksh CC=$(CC) CCFLAGS="$(CCFLAGS)" /bin/ksh ship/shipin $(FORCE_SHIP); \
-	elif [ -f /bin/sh ]; \
-	then \
-		SHELL=/bin/sh CC=$(CC) CCFLAGS="$(CCFLAGS)"  /bin/sh ship/shipin $(FORCE_SHIP); \
-	else \
-		SHELL="" CC=$(CC) CCFLAGS="$(CCFLAGS)"  ship/shipin $(FORCE_SHIP); \
-	fi
+	SHELL=$(KORNSHELL) CC=$(CC) CCFLAGS="$(CCFLAGS)" $(KORNSHELL) ship/shipin $(FORCE_SHIP)
 
 ksh93.o: $(OBJS)
 	$(LD) -r -o $@ $(OBJS)

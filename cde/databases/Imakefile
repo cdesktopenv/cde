@@ -30,6 +30,9 @@ UDB_RELEASE_OPT = -ReleaseStream linux
 #ifdef OpenBSDArchitecture
 UDB_RELEASE_OPT = -ReleaseStream openbsd
 #endif
+#ifdef FreeBSDArchitecture
+UDB_RELEASE_OPT = -ReleaseStream freebsd
+#endif
 
 /*
  * Insure that symbols used in the .udb files are undefined for
@@ -97,7 +100,7 @@ CONVERSION= -toDB
 .udb.db:
 	@echo "making $*.db"
 	@$(RM) $*.db
-	$(TOOLSRC)/$(DBTOOLS)/udbToAny.ksh $(CONVERSION) $(UDB_RELEASE_OPT) $< > $*.db
+	$(KORNSHELL) $(TOOLSRC)/$(DBTOOLS)/udbToAny.ksh $(CONVERSION) $(UDB_RELEASE_OPT) $< > $*.db
 
 all::
 

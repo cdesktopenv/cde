@@ -104,12 +104,12 @@ int		strlist_dump(StringList list);
  * STRING interfaces
  */
 int		strlist_add_str(StringList, STRING s, void *userData);
-int		strlist_remove_str(StringList, STRING s);
+long		strlist_remove_str(StringList, STRING s);
 BOOL		strlist_str_exists(StringList list, STRING s);
-int		strlist_get_str_index(StringList list, STRING s);
+long		strlist_get_str_index(StringList list, STRING s);
 STRING		strlist_get_str(StringList, 
 				int whichString, void **userDataOut);
-int		strlist_set_str_data(StringList, STRING string, void *data);
+long		strlist_set_str_data(StringList, STRING string, void *data);
 void		*strlist_get_str_data(StringList, STRING string);
 StringList	strlist_dup(StringList);
 
@@ -120,14 +120,14 @@ StringList	strlist_dup(StringList);
  * The STRINGs and ISTRING are kept in the same list, and behave identically
  */
 int		strlist_add_istr(StringList, ISTRING s, void *userData);
-int		strlist_add_index_istr(StringList, 
+long		strlist_add_index_istr(StringList, 
 				int index, ISTRING s, void *userData);
 BOOL		strlist_istr_exists(StringList list, ISTRING s);
-int		strlist_get_istr_index(StringList list, ISTRING s);
+long		strlist_get_istr_index(StringList list, ISTRING s);
 ISTRING		strlist_get_istr(StringList, 
 				int whichString, void **userDataOut);
-int		strlist_set_istr_data(StringList, ISTRING istring, void *data);
+long		strlist_set_istr_data(StringList, ISTRING istring, void *data);
 void		*strlist_get_istr_data(StringList, ISTRING istring);
-int		strlist_remove_istr(StringList, ISTRING s);
+long		strlist_remove_istr(StringList, ISTRING s);
 
 #endif /* _ABUTIL_STRLIST_H_ */

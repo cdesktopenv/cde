@@ -282,7 +282,7 @@ printf_setval(GenCodeInfo genCodeInfo, ABObj obj, ...)
 #if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 /* OSF/1 define va_list in <va_list.h> as structure of char ** and int
  * Sun define va_list as void * */
-    va_list             paramList = { NULL, 0 };
+    va_list             paramList = { 0, 0 };
 #else
     va_list             paramList = NULL;
 #endif /* __osf__ */

@@ -42,6 +42,7 @@
 #ifndef _Dtksh_xmdtksym_h
 #define _Dtksh_xmdtksym_h
 
+#include "exksh.h"
 
 extern struct symarray Symarray[];
 extern int Symsize;

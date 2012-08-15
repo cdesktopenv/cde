@@ -271,7 +271,7 @@ int sh_readline __PARAM__((char **names, int fd, int flags,long timeout), (names
 		jmpval = sigsetjmp(buff.buff,0);
 		if(jmpval)
 			goto done;
-                timeslot = (__V_*)timeradd(timeout,0,timedout,(__V_*)iop);
+                timeslot = (__V_*)kshtimeradd(timeout,0,timedout,(__V_*)iop);
 	}
 	if(!(cp = (unsigned char*)sfgetr(iop,delim,0)))
 		cp = (unsigned char*)sfgetr(iop,delim,-1);

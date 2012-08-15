@@ -236,7 +236,7 @@ static void oldalrm __PARAM__((__V_ *handle), (handle)) __OTORP__(__V_ *handle;)
 	(*fn)(SIGALRM);
 }
 	
-__V_ *timeradd __PARAM__((unsigned long msec,int flags,void (*action)(__V_*),__V_ *handle), (msec, flags, action, handle)) __OTORP__(unsigned long msec;int flags;void (*action)();__V_ *handle;){
+__V_ *kshtimeradd __PARAM__((unsigned long msec,int flags,void (*action)(__V_*),__V_ *handle), (msec, flags, action, handle)) __OTORP__(unsigned long msec;int flags;void (*action)();__V_ *handle;){
 	register Timer_t *tp;
 	double t;
 	Handler_t fn;
@@ -260,7 +260,7 @@ __V_ *timeradd __PARAM__((unsigned long msec,int flags,void (*action)(__V_*),__V
 			if(hp)
 			{
 				*hp = fn;
-				timeradd((long)(1000*t), 0, oldalrm, (__V_*)hp);
+				kshtimeradd((long)(1000*t), 0, oldalrm, (__V_*)hp);
 			}
 		}
 		tp = tptop;

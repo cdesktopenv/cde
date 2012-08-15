@@ -1659,7 +1659,9 @@ _ttdt_posix_cb(
 		char	       *categoryName, *variable, *value;
 		int		category, i;
 		struct utsname	names;
+#if defined(OPT_SYSINFO)		
 		char		buf[ SYS_NMLN ];
+#endif
 	    case TTDT_SET_LOCALE:
 		return _ttDtGetLocaleCB( msg, pat, (void *)_ttDtApplyLocale, 0 );
 	    case TTDT_GET_LOCALE:

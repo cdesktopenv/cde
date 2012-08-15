@@ -826,7 +826,7 @@ common_special_type:
 			  get_charset_text(az_value_entry->b_charset));
 	else
 	    printf("  font  charset: userdefined(%x)",
-		 get_charset_text((int) az_value_entry->az_charset_value));
+		 get_charset_text((long) az_value_entry->az_charset_value));
 
 	goto check_for_table_value;
 

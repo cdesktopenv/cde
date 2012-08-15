@@ -33,6 +33,7 @@
 
 #include <EUSCompat.h>
 #include "ansi_c.h"
+#include <sys/types.h>
 
 extern CSA_calendar_user *_DtCm_alloc_calendar_users(uint num_elem);
 

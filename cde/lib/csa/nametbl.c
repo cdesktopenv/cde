@@ -120,7 +120,7 @@ _DtCm_add_name_to_table(_DtCmNameTable *tbl, int index, char *newname)
 			return (CSA_E_INSUFFICIENT_MEMORY);
 		} else {
 			tbl->names = newptr;
-			memset((void *)&tbl->names[tbl->size+1], NULL,
+			memset((void *)&tbl->names[tbl->size+1], 0,
 				sizeof(char *)*(index - tbl->size));
 		}
 	}

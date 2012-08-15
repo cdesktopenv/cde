@@ -127,7 +127,7 @@ _TttkList2Free::_TttkList2Free(
 	if (_items == 0) {
 		_max = 0;
 	}
-	for (int i = 0; i < _max; i++) {
+	for (unsigned int i = 0; i < _max; i++) {
 		_items[ i ] = new _TttkItem2Free();
 		if (_items[ i ] == 0) {
 			_destruct();
@@ -188,7 +188,7 @@ _TttkList2Free::operator +=(
 void
 _TttkList2Free::flush()
 {
-	for (int i = 0; i < _num; i++) {
+	for (unsigned int i = 0; i < _num; i++) {
 		_item( i ) = (caddr_t)0;
 	}
 }
@@ -200,7 +200,7 @@ _TttkList2Free::_destruct()
 #ifdef OPT_VECNEW
 		delete [] _items;
 #else
-		for (int i = 0; i < _max; i++) {
+		for (unsigned int i = 0; i < _max; i++) {
 			if (_items[ i ] != 0) {	
 				delete _items[ i ];
 				_items[ i ] = 0;

@@ -215,10 +215,10 @@ match_forward(char *str1, char *str2)
 		get_component(&str2, com2, '.');
 
 		if (*com1) {
-			if (*com2 == NULL)
+			if (*com2 == '\0')
 				return (B_TRUE);
 		} else {
-			if (*com2 == NULL)
+			if (*com2 == '\0')
 				return (B_TRUE);
 			else
 				return (B_FALSE);
@@ -229,18 +229,18 @@ match_forward(char *str1, char *str2)
 
 		/* take care of case: a.b a. */
 		if (strcmp(str2, ".") == 0
-		    && (strcmp(str1, ".") != 0 || *str1 != NULL))
+		    && (strcmp(str1, ".") != 0 || *str1 != '\0'))
 			return (B_FALSE);
 
 		/* skip "." */
 		if (*str1 == '.') {
-			if (*str2 == NULL)
+			if (*str2 == '\0')
 				return (B_TRUE);
 			else {
 				str1++;
 				str2++;
 			}
-		} else if (strcmp(str2, ".") == 0 || *str2 == NULL)
+		} else if (strcmp(str2, ".") == 0 || *str2 == '\0')
 			return (B_TRUE);
 		else
 			return (B_FALSE);
@@ -278,10 +278,10 @@ match_backward(char *str1, char *str2)
 		get_last_component(str2, &ptr2, com2, '.');
 
 		if (*com1) {
-			if (*com2 == NULL)
+			if (*com2 == '\0')
 				return (B_TRUE);
 		} else {
-			if (*com2 == NULL)
+			if (*com2 == '\0')
 				return (B_TRUE);
 			else
 				return (B_FALSE);

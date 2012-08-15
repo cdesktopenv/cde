@@ -3355,7 +3355,7 @@ attach_context_store(
     AttachmentContext	*attach_context = (AttachmentContext *)context;
     STRING		attach_str;
     AB_ATTACH_TYPE	att_type;
-    int			att_pos = 0, att_off = 0, offset = 0;
+    long		att_pos = 0, att_off = 0, offset = 0;
     void		*value  = NULL;
     BOOL		need_val = TRUE;
     ObjRef		*obj_ref;
@@ -3480,7 +3480,7 @@ val_set_rows_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_num_rows(obj,(int)res_value)) return(FALSE);
+    if(obj_set_num_rows(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3492,7 +3492,7 @@ val_set_columns_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_num_columns(obj,(int)res_value)) return(FALSE);
+    if(obj_set_num_columns(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3504,7 +3504,7 @@ val_set_maximum_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_max_value(obj,(int)res_value)) return(FALSE);
+    if(obj_set_max_value(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3516,7 +3516,7 @@ val_set_minimum_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_min_value(obj,(int)res_value)) return(FALSE);
+    if(obj_set_min_value(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3528,7 +3528,7 @@ val_set_numcols_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_num_columns(obj,(int)res_value)) return(FALSE);
+    if(obj_set_num_columns(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3697,7 +3697,7 @@ val_set_maxlen_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_max_length(obj,(int)res_value)) return(FALSE);
+    if(obj_set_max_length(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3709,7 +3709,7 @@ val_set_panemax_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_pane_max(obj,(int)res_value)) return(FALSE);
+    if(obj_set_pane_max(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3721,7 +3721,7 @@ val_set_panemin_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_pane_min(obj,(int)res_value)) return(FALSE);
+    if(obj_set_pane_min(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3733,7 +3733,7 @@ val_set_intvalue_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_initial_value_int(obj,(int)res_value)) return(FALSE);
+    if(obj_set_initial_value_int(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3757,7 +3757,7 @@ val_set_increment_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_increment(obj,(int)res_value)) return(FALSE);
+    if(obj_set_increment(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 
@@ -3769,7 +3769,7 @@ val_set_decpts_proc(
 		    XtPointer	res_value
 )
 {
-    if(obj_set_decimal_points(obj,(int)res_value)) return(FALSE);
+    if(obj_set_decimal_points(obj,(long)res_value)) return(FALSE);
     else return(TRUE);
 }
 

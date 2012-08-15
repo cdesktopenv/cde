@@ -276,7 +276,7 @@ bool_t xdr_Tt_oidaccess_results(XDR*, _Tt_oidaccess_results*);
 struct _Tt_prop {
 	struct {
 		u_int propname_len;
-		char *propname_val;
+		const char *propname_val;
 	} propname;
 	long recnum;
 	struct {

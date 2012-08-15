@@ -57,7 +57,7 @@ _Tt_auth::
 Tt_status _Tt_auth::
 generate_auth_cookie()
 {
-    static char		*funcname = "_Tt_auth::make_auth_cookie()";
+    static const char		*funcname = "_Tt_auth::make_auth_cookie()";
     _tt_AuthFileEntry   *entry;
     int			 exists;
     char                *filename;
@@ -79,7 +79,7 @@ generate_auth_cookie()
     		    		  _TT_ICEAUTH_DEFAULT_RETRIES,
 		    		  _TT_ICEAUTH_DEFAULT_TIMEOUT,
 		    		  _TT_ICEAUTH_DEFAULT_DEADTIME))) {
-	char *reason = "unknown error";
+	const char *reason = "unknown error";
 
 	_tt_UnlockAuthFile(filename);
 	if (retval == _tt_AuthLockTimeout) {
@@ -151,7 +151,7 @@ cleanup:
 Tt_status _Tt_auth::
 read_auth_entries(FILE *fp, _tt_AuthFileEntryList **headp)
 {
-    static char			*funcname = "_Tt_auth::read_auth_entries()";
+    static const char			*funcname = "_Tt_auth::read_auth_entries()";
     _tt_AuthFileEntry		*entry;
     _tt_AuthFileEntryList	*head;
     _tt_AuthFileEntryList	*el_new;
@@ -189,7 +189,7 @@ read_auth_entries(FILE *fp, _tt_AuthFileEntryList **headp)
 Tt_status _Tt_auth::
 read_auth_file(char *filename)
 {
-    static char		*funcname = "Tt_auth::read_auth_file()";
+    static const char		*funcname = "Tt_auth::read_auth_file()";
     FILE		*authfp;
     Tt_status		 status = TT_OK;
 
@@ -213,7 +213,7 @@ read_auth_file(char *filename)
 Tt_status _Tt_auth::
 modify_auth_entry(_tt_AuthFileEntry *entry, _tt_AuthFileEntryList **headp)
 {
-    static char			*funcname = "Tt_auth::modify_auth_entry()";
+    static const char			*funcname = "Tt_auth::modify_auth_entry()";
     _tt_AuthFileEntryList	*list, *prev, *el_new;
 
     for (prev=NULL, list=*headp; list; list=list->next) {
@@ -253,8 +253,8 @@ modify_auth_entry(_tt_AuthFileEntry *entry, _tt_AuthFileEntryList **headp)
 Tt_status _Tt_auth::
 write_auth_file(char *filename)
 {
-    static char			*funcname = "Tt_auth::write_auth_file()";
-    static char			*suffix = "-n";
+    static const char			*funcname = "Tt_auth::write_auth_file()";
+    static const char			*suffix = "-n";
     FILE			*fp;
     _tt_AuthFileEntryList	*list;
     char			*tmpnam;
@@ -300,7 +300,7 @@ retrieve_auth_cookie()
     _tt_AuthFileEntry	*entry = NULL;
 
     entry = _tt_GetAuthFileEntry(_TT_ICEAUTH_PROTOCOL_NAME,
-				(char*) _sessionid,
+				_sessionid,
 				_TT_ICEAUTH_AUTH_NAME);
     if (NULL == entry)
       return TT_AUTHFILE_ENTRY_MISSING;

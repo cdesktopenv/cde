@@ -271,7 +271,7 @@ _Tt_trace::entry(
 		(*_pstream)->set_is_entered(0);
 	}
 
-	const char *s;
+	const char *s = 0;
 	int printmsg = 1;
 	//
 	// We do not print msg if it is a (often incomplete) update
@@ -347,7 +347,7 @@ _Tt_trace::entry(
 //
 void
 _Tt_trace::entry(
-	char         *argskey,
+	const char   *argskey,
 	_Tt_entry_pt  func,
 	va_list       ap
 )
@@ -373,7 +373,8 @@ _Tt_trace::entry(
 		(*_pstream)->set_is_entered(0);
 	}
 
-        char c, *preview;
+        char c;
+        const char *preview;
         int num_args = strlen(argskey);
 
 	// print the API name and open paren

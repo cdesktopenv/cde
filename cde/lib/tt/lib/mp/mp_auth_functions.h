@@ -126,9 +126,9 @@ extern int _tt_WriteAuthFileEntry (
 );
 
 extern _tt_AuthFileEntry *_tt_GetAuthFileEntry (
-    char *		/* protocol_name */,
-    char *		/* network_id */,
-    char *		/* auth_name */
+    const char *		/* protocol_name */,
+    const char *		/* network_id */,
+    const char *		/* auth_name */
 );
 
 extern char *_tt_GenerateMagicCookie (

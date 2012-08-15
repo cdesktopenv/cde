@@ -156,15 +156,15 @@ _DtCm_init_agent()
 	}
  
 	if (registerrpc(_DtCm_transient, AGENTVERS, update_callback,
-	    (char *(*)())_DtCm_update_callback_1, _DtCm_xdr_Table_Res_4,
-	    _DtCm_xdr_Update_Status) == -1) {
+	    (char *(*)())_DtCm_update_callback_1, (xdrproc_t)_DtCm_xdr_Table_Res_4,
+	    (xdrproc_t)_DtCm_xdr_Update_Status) == -1) {
 		_DtCm_print_errmsg("Cannot register v1 callback handler\n");
 		_DtCm_print_errmsg("Callback cannot be enabled.\n");
 	}
 
 	if (registerrpc(_DtCm_transient, AGENTVERS_2, CMCB_UPDATE_CALLBACK,
 	    (char *(*)())cmcb_update_callback_2_svc,
-	    xdr_cmcb_update_callback_args, xdr_void) == -1) {
+	    (xdrproc_t)xdr_cmcb_update_callback_args, (xdrproc_t)xdr_void) == -1) {
 		_DtCm_print_errmsg("Cannot register v2 callback handler\n");
 		_DtCm_print_errmsg("Callback cannot be enabled.\n");
 	}
@@ -296,7 +296,7 @@ _DtCm_process_updates()
  */
  
 Update_Status *
-_DtCm_update_callback_1(Table_Res_4 *t, void *dummy)
+_DtCm_update_callback_1(Table_Res_4 *t, _DtCm_Connection *conn)
 {
 	static Update_Status status = update_succeeded;
 	_CallbackInfo *cbi;

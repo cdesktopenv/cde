@@ -63,10 +63,11 @@ void	*_tt_error_pointer(Tt_status s);
 // loop iteration.  All this in the name of coding efficiency.
 //
 Tt_status _Tt_audit::
-entry(char *argskey, _Tt_entry_pt func, ...)
+entry(const char *argskey, _Tt_entry_pt func, ...)
 {
 	va_list			ap;
-	char			c, *preview, *cp;
+	char			c, *cp;
+    const char *preview;
 	int			num_args = strlen(argskey);
 	Tt_message 		m;
 	_Tt_c_message_ptr       msg;

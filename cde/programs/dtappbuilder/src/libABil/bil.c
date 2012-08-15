@@ -1275,22 +1275,22 @@ static BOOL             	bil_token_table_inited = FALSE;
 /* 
  * Compares to entries (for qsort)
  */
-static int
+static long
 bil_token_entry_compare(const void *leftEntry, const void *rightEntry)
 {
-    return ((int)(((BilTokenIndexEntry)leftEntry)->string))
-		- ((int)(((BilTokenIndexEntry)rightEntry)->string));
+    return ((long)(((BilTokenIndexEntry)leftEntry)->string))
+		- ((long)(((BilTokenIndexEntry)rightEntry)->string));
 }
 
 
 /*
  * Compares a key to an entry (for bsearch)
  */
-static int
+static long
 bil_token_key_compare(const void *voidIstr, const void *voidEntry)
 {
-    return ((int)((ISTRING)(voidIstr)))
-		- ((int)(((BilTokenIndexEntry)voidEntry)->string));
+    return ((long)((ISTRING)(voidIstr)))
+		- ((long)(((BilTokenIndexEntry)voidEntry)->string));
 }
 
 
@@ -1720,9 +1720,9 @@ BIL_TOKEN
 bilP_string_to_token(STRING strToken)
 {
     ISTRING             istrToken = istr_create(strToken);
-    register int	midDiff;
-    register int	midIndex; 
-    int			minIndex, maxIndex;
+    register long	midDiff;
+    register long	midIndex; 
+    long		minIndex, maxIndex;
     bil_token_table_check_init();
 
     /*
@@ -1733,8 +1733,8 @@ bilP_string_to_token(STRING strToken)
     while (minIndex < maxIndex)
     {
 	midIndex = ((minIndex + maxIndex)>>1);
-	midDiff = (((int)bil_token_table_index[midIndex].string)
-			- ((int)istrToken));
+	midDiff = (((long)bil_token_table_index[midIndex].string)
+			- ((long)istrToken));
 	if (midDiff < 0)
 	{
 	    /* mid is too small - take upper half */

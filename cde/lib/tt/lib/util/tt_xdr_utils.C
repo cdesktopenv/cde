@@ -129,7 +129,7 @@ _tt_xdr_sizeof(xdrproc_t f, void *data)
 
 _Tt_xdr_size_stream::
 _Tt_xdr_size_stream() {
-	memset ((char *)&ops, 0, sizeof ops);
+	memset (&ops, 0, sizeof ops);
 #if defined(OPT_BUG_SUNOS_4) || defined(OPT_BUG_HPUX)
 	ops.x_putlong = (int (*)(...))tt_x_putlong;
 	ops.x_putbytes = (int (*)(...))tt_x_putbytes;

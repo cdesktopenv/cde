@@ -1485,7 +1485,7 @@ get_wclass_and_res_value(
     BOOL	foundEm = FALSE;
 
     *wClassOut = NULL;
-    *resValueOut = NULL;
+    *resValueOut = 0;
 
     if (wClass == NULL)
     {

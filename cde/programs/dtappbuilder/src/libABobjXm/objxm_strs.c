@@ -68,7 +68,7 @@
  */
 typedef struct
 {
-    int		rec_num;	/* record # (offset) in table */
+    long		rec_num;	/* record # (offset) in table */
 } TableIndexEntryRec, *TableIndexEntry, *TableIndex;
 
 
@@ -519,7 +519,7 @@ objxm_get_enum_xmdef(
     ISTRING    strdef
 )
 {
-    unsigned char	xmdef = NULL;
+    unsigned char	xmdef = 0;
     int 		i;
     ObjxmEnumTable 	*enum_table = NULL;
     ISTRING		istr_xmname = istr_dup_existing(xmname);
@@ -1052,12 +1052,12 @@ load_res_table(
 }
 
 
-static int
+static long
 xm_res_table_entry_xmname_compare(const void *leftEntry, const void *rightEntry)
 {
     return 
-	((int)xm_res_table[((TableIndexEntry)leftEntry)->rec_num].xmname)
-	    - ((int)xm_res_table[((TableIndexEntry)rightEntry)->rec_num].xmname);
+	((long)xm_res_table[((TableIndexEntry)leftEntry)->rec_num].xmname)
+	    - ((long)xm_res_table[((TableIndexEntry)rightEntry)->rec_num].xmname);
 }
 
 
@@ -1115,7 +1115,7 @@ find_res_entry_by_xmname(ISTRING istr_xmname)
         midIndex = ((minIndex + maxIndex)>>1);
 	entry = get_indexed_entry(
 		    xm_res_table,xm_res_table_xmname_index,midIndex);
-        midDiff = ((int)(entry->xmname)) - ((int)istr_xmname);
+        midDiff = ((long)(entry->xmname)) - ((long)istr_xmname);
         if (midDiff < 0)
         {
             /* mid is too small - take upper half */
