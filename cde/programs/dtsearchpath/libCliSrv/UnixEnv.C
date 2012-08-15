@@ -82,6 +82,8 @@ UnixEnvironment::UnixEnvironment()
         manpath = "/usr/share/man/%L:/usr/share/man:/usr/contrib/man/%L:/usr/contrib/man:/usr/local/man/%L:/usr/local/man";
 #elif defined(__OpenBSD__)
 	manpath = "/usr/share/man:/usr/X11R6/man:/usr/local/man:/usr/ports/infrastructure/man";
+#elif defined(__FreeBSD__)
+	manpath = "/usr/share/man:/usr/local/man";
 #endif
     else
 	manpath = temp;
