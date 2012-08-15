@@ -102,7 +102,7 @@ char	*argv[];
 	char	*style ;	/* style */
 	int 	chk_fd;
 	pid_t	chld_pid = 0;
-#if defined( SVR4 ) || defined( SYSV )
+#if defined( SVR4 ) || defined( SYSV ) || defined(__FreeBSD__)
 	int	chld_stat ;
 #else
 	union	wait	chld_stat ;
@@ -370,7 +370,7 @@ char	*argv[];
 	fclose( Head.output );
 	close( pfd[1] );
 	wait( &exit_stat );
-#if !defined( SVR4 ) && !defined( SYSV )
+#if !defined( SVR4 ) && !defined( SYSV ) && !defined(__FreeBSD__)
 	if ( !WIFEXITED(exit_stat) ) {
 #else
 	if (! ( WIFEXITED(exit_stat) && !WEXITSTATUS(exit_stat) ) ) {
