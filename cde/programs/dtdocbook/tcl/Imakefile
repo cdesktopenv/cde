@@ -7,7 +7,12 @@ XCOMM $XConsortium: Imakefile /main/4 1996/08/08 14:42:19 cde-hp $
 #define LibHeaders	NO
 #define LibInstall	NO
 
+#if defined(FreeBSDArchitecture)
+VERSION = 8.5
+#else
 VERSION = 7.5
+#endif
+
 prefix =	/usr/local
 
 XCOMM Directory from which applications will reference the library of Tcl
@@ -40,10 +45,17 @@ EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
 	-DTCL_GOT_TIMEZONE
 
 #     else
+#       ifdef FreeBSDArchitecture
+EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
+	-DNO_UNION_WAIT -DHAVE_UNISTD_H \
+	-DTCL_GOT_TIMEZONE
+
+#       else
 EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
 	-DNO_UNION_WAIT -DHAVE_UNISTD_H -DNEED_MATHERR \
 	-DTCL_GOT_TIMEZONE
 
+#       endif
 #     endif
 #   endif
 # endif
