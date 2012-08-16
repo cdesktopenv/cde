@@ -92,6 +92,7 @@
 #endif
 
 #include "Sm.h"
+#include "SmGlobals.h"
 #include "SmUI.h"
 #include "SmError.h"
 #include "SmLock.h"

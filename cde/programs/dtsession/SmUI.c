@@ -76,10 +76,13 @@
 #include <Dt/SessionM.h>
 #include <Dt/Icon.h>
 #include <Dt/MsgLog.h>
+#include <Dt/Lock.h>
+#include <Tt/tttk.h>
 
 #include "Sm.h"
 #include "SmUI.h"
 #include "SmSave.h"
+#include "SmRestore.h"
 #include "SmHelp.h"
 #include "SmGlobals.h"
 
@@ -1167,8 +1170,8 @@ ImmediateExit(
      */
     if(smGD.bmsDead == False)
     {
-	notice = (Tt_message) tttk_message_create( 0, TT_NOTICE, TT_SESSION, 0,
-						  "XSession_Ending", 0);
+	notice = (Tt_message) tttk_message_create( NULL, TT_NOTICE, TT_SESSION, NULL,
+						  "XSession_Ending", NULL);
 	tt_message_send( notice );
 	tt_message_destroy( notice );
     }
@@ -1184,8 +1187,8 @@ ImmediateExit(
 	int		sessionType = smGD.sessionType;
 	XtIntervalId	timerId;
 
-    	msg = (Tt_message) tttk_message_create( 0, TT_NOTICE, TT_SESSION, 0,
-					       "DtActivity_Beginning", 0 );
+    	msg = (Tt_message) tttk_message_create( NULL, TT_NOTICE, TT_SESSION, NULL,
+					       "DtActivity_Beginning", NULL );
 	tt_message_send( msg );
 	tt_message_destroy( msg );
 

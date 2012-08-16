@@ -57,6 +57,7 @@
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 #include <Dt/UserMsg.h>
+#include <Dt/WsmP.h>
 #include "Sm.h"
 #include "SmError.h"
 #include "SmWindow.h"

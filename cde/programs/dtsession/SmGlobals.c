@@ -714,9 +714,9 @@ SetRestorePath(
      */
     if(smGD.compatMode == True)
     {
-	smGD.clientPath[0] = NULL;
-	smGD.resourcePath[0] = NULL;
-	smGD.settingPath[0] = NULL;
+	smGD.clientPath[0] = 0;
+	smGD.resourcePath[0] = 0;
+	smGD.settingPath[0] = 0;
 	smGD.sessionType = DEFAULT_SESSION;
 	smGD.restoreSession = NULL;
         return(0);
@@ -836,7 +836,7 @@ SetSysDefaults( void )
      */
     strcpy(smGD.resourcePath, "");
     strcpy(smGD.clientPath, "");
-    smGD.settingPath[0] = NULL;
+    smGD.settingPath[0] = 0;
     smGD.sessionType = DEFAULT_SESSION;
     smGD.restoreSession = (char *) SM_SYSTEM_DIRECTORY;
 
@@ -845,7 +845,7 @@ SetSysDefaults( void )
     {
         strcat(smGD.clientPath, "/");
         strncat(smGD.clientPath, langSpec, MAXPATHLEN-2);
-        smGD.clientPath[MAXPATHLEN-1];
+        smGD.clientPath[MAXPATHLEN-1] = 0;
     }
     
     strcat(smGD.clientPath, "/");
@@ -865,8 +865,8 @@ SetSysDefaults( void )
             PrintErrnoError(DtError, GETMESSAGE(4, 2,
                         "No defaults files exist.  "
                         "No applications will be restarted."));
-            smGD.clientPath[0] = NULL;
-            smGD.resourcePath[0] = NULL;
+            smGD.clientPath[0] = 0;
+            smGD.resourcePath[0] = 0;
         }
         else
         {
@@ -881,8 +881,8 @@ SetSysDefaults( void )
                 PrintErrnoError(DtError, GETMESSAGE(4, 3,
                             "No defaults files exist.  "
                             "No applications will be restarted."));
-                smGD.clientPath[0] = NULL;
-                smGD.resourcePath[0] = NULL;
+                smGD.clientPath[0] = 0;
+                smGD.resourcePath[0] = 0;
             }
         }
     }
@@ -934,13 +934,13 @@ SetResSet( void )
     status = stat(smGD.resourcePath, &buf);
     if(status == -1)
     {
-        smGD.resourcePath[0] = NULL;
+        smGD.resourcePath[0] = 0;
     }
 
     status = stat(smGD.settingPath, &buf);
     if(status == -1)
     {
-        smGD.settingPath[0] = NULL;
+        smGD.settingPath[0] = 0;
     }
     return(0);
 }
@@ -1039,9 +1039,9 @@ SetSavePath(
     if(smGD.savePath == NULL)
     {
         PrintErrnoError(DtError, smNLS.cantCreateDirsString);
-        smGD.clientPath[0] = NULL;
-        smGD.settingPath[0] = NULL;
-        smGD.resourcePath[0] = NULL;
+        smGD.clientPath[0] = 0;
+        smGD.settingPath[0] = 0;
+        smGD.resourcePath[0] = 0;
         return(-1);
     }
         
@@ -1123,9 +1123,9 @@ SetSavePath(
 	    MoveDirectory(smGD.clientPath, smGD.etcPath, False);
         }
 
-        smGD.clientPath[0] = NULL;
-        smGD.settingPath[0] = NULL;
-        smGD.resourcePath[0] = NULL;
+        smGD.clientPath[0] = 0;
+        smGD.settingPath[0] = 0;
+        smGD.resourcePath[0] = 0;
     }
     else
     {
@@ -1141,9 +1141,9 @@ SetSavePath(
             if(status == -1)
             {
                 PrintErrnoError(DtError, smNLS.cantCreateDirsString);
-                smGD.clientPath[0] = NULL;
-                smGD.settingPath[0] = NULL;
-                smGD.resourcePath[0] = NULL;
+                smGD.clientPath[0] = 0;
+                smGD.settingPath[0] = 0;
+                smGD.resourcePath[0] = 0;
                 return(-1);
             }
             chmod(smGD.clientPath, 0755);
@@ -1189,9 +1189,9 @@ SetSavePath(
 	       if(status == -1)
 	       {
                 PrintErrnoError(DtError, smNLS.cantCreateDirsString);
-                smGD.clientPath[0] = NULL;
-                smGD.settingPath[0] = NULL;
-                smGD.resourcePath[0] = NULL;
+                smGD.clientPath[0] = 0;
+                smGD.settingPath[0] = 0;
+                smGD.resourcePath[0] = 0;
                 return(-1);
             }
             chmod(smGD.clientPath, 0755);
@@ -1257,7 +1257,7 @@ SetFontSavePath(char *langPtr)
         if(status == -1)
         {
             PrintErrnoError(DtError, smNLS.cantCreateDirsString);
-            smGD.fontPath[0] = NULL;
+            smGD.fontPath[0] = 0;
             return(-1);
         }
         chmod(smGD.fontPath, 0755);
@@ -1275,7 +1275,7 @@ SetFontSavePath(char *langPtr)
         if(status == -1)
         {
             PrintErrnoError(DtError, smNLS.cantCreateDirsString);
-            smGD.fontPath[0] = NULL;
+            smGD.fontPath[0] = 0;
             return(-1);
         }
         chmod(smGD.fontPath, 0755);

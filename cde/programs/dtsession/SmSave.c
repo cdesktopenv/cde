@@ -88,6 +88,8 @@
 #include "SmDB.h"
 #include "SmProperty.h"
 #include "SmProp.h"
+#include "Srv.h"
+#include "SrvFile_io.h"
 
 #ifdef   MULTIBYTE
 #include <stdlib.h>
@@ -359,7 +361,7 @@ CompleteSave ( )
    * CALLED - SETTINGS MUST BE SAVED BEFORE RESOURCES BECAUSE SETTINGS
    * GETS INFORMATION SAVED IN RESOURCES (smToSet.dClickBuf)
    */
-  smToSet.dClickBuf[0] = NULL;
+  smToSet.dClickBuf[0] = 0;
 
   /*
    * Do the actual output of the X settings information.  Output will
@@ -1607,9 +1609,9 @@ OutputResource( void )
     /*
      * Write out the LANG variable and the screen's Y resolution
      */
-    *resSpec = NULL;
+    *resSpec = 0;
     langPtr = getenv("LANG");
-    if((langPtr != NULL) && (*langPtr != NULL))
+    if((langPtr != NULL) && (*langPtr != 0))
     {
 	sprintf(resSpec, "%s*%s: %s\n", SM_RESOURCE_NAME, SmNsessionLang,
 		langPtr);
@@ -1623,7 +1625,7 @@ OutputResource( void )
 	(float) DisplayHeightMM(smGD.display, 0)) * 1000;
     intYRes = fltYRes;
 
-    if(*resSpec == NULL)
+    if(*resSpec == 0)
     {
 	strcpy(resSpec, SM_RESOURCE_NAME);
     }
@@ -1697,7 +1699,7 @@ OutputResource( void )
 	if (preeditBuf) XFree(preeditBuf);
     }
 
-    if((smCust.dClickChange == True) && (smToSet.dClickBuf[0] != NULL))
+    if((smCust.dClickChange == True) && (smToSet.dClickBuf[0] != 0))
     {
 	_DtAddToResource(smGD.display, (char *)smToSet.dClickBuf);
     }

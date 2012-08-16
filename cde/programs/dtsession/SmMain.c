@@ -69,6 +69,7 @@
 #include <Dt/UserMsg.h>
 #include <Dt/EnvControlP.h>
 #include <Dt/DtP.h>
+#include <Dt/Lock.h>
 #include "Sm.h"
 #include "SmError.h"
 #include "SmGlobals.h"
