@@ -61,7 +61,7 @@
 
 BIL_LOAD_INFO	bilP_load;
 char		Buf[MAXPATHLEN];
-#if !defined(linux)
+#if !defined(linux) && !defined(__FreeBSD__)
 extern char     *sys_errlist[];
 #endif
 

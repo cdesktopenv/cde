@@ -140,7 +140,7 @@ static void 	register_palette_info(
 **                                                                      **
 **************************************************************************/
 
-#if !defined(linux)
+#if !defined(linux) && !defined(__FreeBSD__)
 extern char     *sys_errlist[];
 #endif
 

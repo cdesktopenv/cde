@@ -228,7 +228,7 @@ static XtTranslations proj_transtbl = NULL;
 static XRectangle       *rband_rect = NULL;
 static Boolean          mselect_adjust = False;
 
-#if !defined(linux)
+#if !defined(linux) && !defined(__FreeBSD__)
 extern char             *sys_errlist[];
 #endif
 char			Buf[MAXPATHLEN];	/* Work buffer */

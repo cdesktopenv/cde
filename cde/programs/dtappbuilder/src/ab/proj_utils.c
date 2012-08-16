@@ -180,7 +180,7 @@ static void	notify_proj_save_as_okCB(
 **                                                                      **
 **************************************************************************/
 
-#if !defined(linux)
+#if !defined(linux) && !defined(__FreeBSD__)
 extern char             *sys_errlist[];
 #endif
 
