@@ -33,29 +33,12 @@
 #include <Dt/Icon.h>
 #include <X11/cursorfont.h>
 #include "UxXt.h"
+#include <libgen.h>
 
 #include "dtcreate.h"
 #include "CreateActionAppShell.h"
 #include "fileio.h"
 #include "cmnrtns.h"
-
-/*****************************************************************************/
-/*                                                                           */
-/*  GetBaseName                                                              */
-/*                                                                           */
-/*****************************************************************************/
-char * GetBaseName(char *pszFileName)
-{
-  char *name;
-
-  name = strrchr(pszFileName, '/');
-  if (name) {
-     name = strtok(name, "/");
-     return(name);
-  } else {
-     return(pszFileName);
-  }
-}
 
 /*****************************************************************************/
 /*                                                                           */
@@ -273,7 +256,7 @@ void load_icons (Widget wid, XtPointer client_data,
   */
     {
     XtVaGetValues(IconSelector, XmNuserData, &iSource, NULL);
-    base_name = GetBaseName(path_and_base_name);
+    base_name = basename(path_and_base_name);
     ptr = XtMalloc(strlen(base_name) + 1);
     strcpy(ptr, base_name);
     switch (iSource) {
