@@ -424,6 +424,10 @@ _DtEnvControl(
 		        _postDtEnvironment.binPath = XtMalloc(bytes_needed);
 #ifdef sun
 			if (ptr = strstr(tempString, "/usr/openwin/bin"))
+#elif defined(CSRG_BASED)
+			if (ptr = strstr(tempString, "/usr/X11R6/bin"))
+#elif defined(linux)
+			if (ptr = strstr(tempString, "/usr/bin"))
 #else
 			if (ptr = strstr(tempString, "/usr/bin/X11"))
 #endif
@@ -817,6 +821,10 @@ static void _EnvAdd
 {
   _DtSvcProcessLock();
   if (envBitVector & bv_flag) {
+#if defined(CSRG_BASED) || defined(linux)
+      setenv(envVar, envVarSetting + strlen(envVar) + 1, 1);
+#else
+
       register int i;
       size_t envVarLen = strlen(envVar);
       char *envPtr = NULL;
@@ -850,6 +858,7 @@ static void _EnvAdd
             /* This should never happen */
 	    putenv(strdup(envVarSetting));
     }
+#endif /* linux || CSRG_BASED */
   }
   else
     putenv(strdup(envVarSetting));
@@ -919,6 +928,16 @@ _DtEnvRemove(
                       && ( p[len] == '=' )
                       && !strncmp(p, str, len))
 		{
+#if defined(linux) || defined(CSRG_BASED)
+		  /* JET - 2/19/99
+		     It seems much safer to let libc worry about this
+		     rather than try to do it ourselves.  
+		     */
+
+		  if (str)
+		    unsetenv(str);
+#else
+
 		    freeMe = pEnviron2[index];
 
 		    /* just move the last one into the gap - any
@@ -930,6 +949,7 @@ _DtEnvRemove(
 		    pEnviron2[count - 1] = NULL;
 
 		    XtFree (freeMe);
+#endif /* linux || CSRG_BASED */
 		    return(0);
 		}
 		pEnviron++;
