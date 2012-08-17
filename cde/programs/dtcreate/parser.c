@@ -140,8 +140,8 @@ char        linebuf[1024],**wordPairs,**execstr;
         rewind(fp);
         /* Initialize the ActionData structure passed */
         if(ActionDataptr)
-           memset((ActionData *)ActionDataptr,
-                       NULL,sizeof(ActionData));
+           memset(ActionDataptr,
+                       0,sizeof(ActionData));
         else {
 #ifdef DEBUG
            printf("ActionDataptr is NULL\n");
@@ -278,6 +278,7 @@ char        linebuf[1024],**wordPairs,**execstr;
             {
                 ActionDataptr->pszCmd = execstr[0];
                 ActionDataptr->pszPrompt = execstr[1];
+                free(execstr);
             }
             /* Got the ActionData,so, go get the FiletypeData */
             ActionDataptr->papFiletypes =
@@ -430,10 +431,12 @@ FiletypeData  **ppFiletypeData,**ppnewFiletypeData;
                                 return NULL;
                           }
                          /* Everything looks right so process the exec_string */
-                         if( !(execstr = ProcessExecString((char *)ppFiletypeData[nfiletypes]->pszPrintCmd)) )
-                             ppFiletypeData[nfiletypes]->pszPrintCmd=NULL;
-                         else
-                             ppFiletypeData[nfiletypes]->pszPrintCmd=execstr[0];
+                          if( !(execstr = ProcessExecString((char *)ppFiletypeData[nfiletypes]->pszPrintCmd)) )
+                              ppFiletypeData[nfiletypes]->pszPrintCmd=NULL;
+                          else {
+                              ppFiletypeData[nfiletypes]->pszPrintCmd=execstr[0];
+                              free(execstr);
+			  }
                           nfiletypes++;
                           /* Allocate a new filetypedata record */
                           if( (ppFiletypeData[nfiletypes] =
@@ -693,24 +696,26 @@ GetKeywordValuePairs(char *s, int *id, int table)
             ++s;
         if (!args[0])
         {
-            args[0] = (char *)malloc (s - wordStart + 1);
+            int szArgs0 = s - wordStart + 1;
+            args[0] = (char *)malloc (szArgs0);
             if (!args[0])
                 return NULL;
-            memset(args[0],0,sizeof(args[0]));
+            memset(args[0],0,szArgs0);
         }
         strncpy (args[0], wordStart, s - wordStart);
         args[0][s-wordStart] = '\0';
         if (!args[1])
         {
+	    int szArgs1 = strlen(s) + 1;
             if(s)
-               args[1] = (char *)malloc (strlen(s)+1);
+               args[1] = (char *)malloc (szArgs1);
             if (!args[1])
             {
                 if(args[0])
                 free(args[0]);
                 return NULL;
             }
-            memset(args[1],0,sizeof(args[1]));
+            memset(args[1],0,szArgs1);
         }
         /* Skip all leading spaces */
         while (*s && isspace (*s))
@@ -806,8 +811,8 @@ GetKeywordValuePairs(char *s, int *id, int table)
 **                                                              **
 ** Limitation : Supports only ONE prompt.                       **
 **                                                              **
-** Output     : returns 0 (No error).                           **
-**              returns >0 (Error).                             **
+** Output     : Pointer to 3-element result array from malloc,  **
+**              or NULL on error                                **
 **                                                              **
 ** Assumptions: a) Arg fields start with a '%' character.       **
 **              b) Prompt string start and end with '"' chara-  **
@@ -822,13 +827,15 @@ char **
 ProcessExecString(char *cmd)
 {
 
-char *s1, *s2,*s3,*s4,*argbuf,*exec_args[3];
+char *s1, *s2,*s3,*s4,*argbuf,**exec_args;
 int  done=FALSE, argfound=FALSE,promptfound=FALSE;
 
         if (!cmd) {
            return((char **)NULL);
         }
         s1=s2=s3=s4=argbuf=NULL;
+        exec_args = calloc(3, sizeof(char*));
+        if (!exec_args) return NULL;
         /* Allocate buffer for the cmd string */
         exec_args[0] = (char *)calloc(1,strlen(cmd)+1);
         exec_args[1] = exec_args[2] = NULL;
