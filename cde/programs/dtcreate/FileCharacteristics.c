@@ -535,7 +535,7 @@ static Widget   _Uxbuild_FileCharacteristics(void)
 
         pre = GETMESSAGE(3, 10, "Create Action");
         suf = GETMESSAGE(9, 10, "Identifying Characteristics");
-        dialog_title = XtMalloc(strlen(pre) + strlen(suf) + 2);
+        dialog_title = XtMalloc(strlen(pre) + strlen(suf) + 4);
         sprintf(dialog_title, "%s - %s", pre, suf);
 
         if (bLowRes) {
