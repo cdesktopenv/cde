@@ -162,7 +162,7 @@ GetMemoryUtilization(void)
 {
 #if !defined(linux)
     static int init = 0;
-    static kmem;
+    static int kmem;
 #if !defined(SVR4) && !defined(sco) && !defined(hpV4) && !defined(_POWER) && !defined (__osf__) && !defined(CSRG_BASED)
     extern void nlist();
 #endif

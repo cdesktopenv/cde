@@ -76,6 +76,7 @@ extern int RestoreState( void ) ;
 extern int SetCompatState( void ) ;
 extern int StartWM( void ) ;
 extern int RestoreResources(Boolean, ...) ;
+extern int RestorePreferences(char *) ;
 extern void RestoreIndependentResources(void) ;
 extern void StartEtc( Boolean ) ;
 extern void CreateExecString(char *) ;

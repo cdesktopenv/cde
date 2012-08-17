@@ -67,6 +67,7 @@
 #include <X11/apollosys.h>        /* for pid_t struct in hp-ux sys/types.h */
 #endif
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <errno.h>
@@ -96,6 +97,7 @@
 #include <Dt/MsgLog.h>
 #include <bms/spc.h>
 #include <Dt/CmdInv.h>
+#include <Dt/ActionUtilP.h>
 
 #include "Sm.h"
 #include "SmResource.h"
@@ -333,6 +335,8 @@ static void RemoteRequestSucceeded(char *, void *);
 
 static void SetTemporaryDisplay (
 	int			screenNum);
+
+int RestorePreferences(char *filename);
 
 static void RestoreDisplay (
 	int			screenNum);
@@ -650,7 +654,7 @@ StartWM( void )
     Boolean goodWmStartup = True;
     int status;
   
-    if((smGD.wmStartup == NULL) || (*smGD.wmStartup == NULL))
+    if((smGD.wmStartup == NULL) || (*smGD.wmStartup == 0))
     {
 	ForkWM();
     }
@@ -1105,7 +1109,7 @@ RestoreSettings( void )
     /*
      * Load the resources from the SM database file
      */
-    if (smGD.settingPath[0] != NULL)
+    if (smGD.settingPath[0] != 0)
     {
        smBase = XrmGetFileDatabase(smGD.settingPath);
 
@@ -1565,7 +1569,7 @@ RestoreIndependentResources( void )
     Boolean resIndep = False, resRet;
     char *resdata;
 
-    if(((smGD.sessionLang == NULL) || (*smGD.sessionLang == NULL)) &&
+    if(((smGD.sessionLang == NULL) || (*smGD.sessionLang == 0)) &&
        (smRes.displayResolution == 0))
     {
 	/*
@@ -2441,12 +2445,12 @@ GetNextLine( void )
     {
 	string = (unsigned char *) fgets((char *)line, fileSize, cfileP);
     }
-    else if ((parseP != NULL) && (*parseP != NULL))
+    else if ((parseP != NULL) && (*parseP != 0))
     /* read parse string */
     {
 	string = line;
 #ifdef MULTIBYTE
-	while ((*parseP != NULL) &&
+	while ((*parseP != 0) &&
                ((chlen = mblen ((char *) parseP, MB_CUR_MAX)) > 0) &&
 	       (*parseP != '\n'))
 	/* copy all but NULL and newlines to line buffer */
@@ -2463,7 +2467,7 @@ GetNextLine( void )
 	    *(string++) = *(parseP++);
         }
 #endif
-	*string = NULL;
+	*string = 0;
 	if (*parseP == '\n')
 	{
 	    parseP++;
@@ -2803,7 +2807,7 @@ GetSmartString(
 	lnwsP++;
 	if (lnwsP < endP)
         {
-	    *lnwsP = NULL;
+	    *lnwsP = 0;
         }
     }
 
@@ -2867,9 +2871,9 @@ GetSmartString(
      *   NULL -> point to NULL 
      */
 
-    if (*endP != NULL)
+    if (*endP != 0)
     {
-	*endP = NULL;       /* write NULL over terminator */
+	*endP = 0;       /* write NULL over terminator */
 	*linePP = ++curP;   /* point beyond terminator */
     }
     else
@@ -3589,7 +3593,7 @@ StartLocalClient (
 	    else
 	        tmpEnv = envp;
 
-	    for (ppchar = tmpEnv; ppchar && *ppchar; *ppchar++) 
+	    for (ppchar = tmpEnv; ppchar && *ppchar; ppchar++) 
 	        putenv (strdup (*ppchar));
 	}
 
@@ -4089,14 +4093,14 @@ FixEnvironmentData( void )
    int i;
    extern char **environ;  /* MODIFIED - DISPLAY is remove if found. */
 
-   for (i=0, ppchar = environ; *ppchar; *ppchar++, i++)
+   for (i=0, ppchar = environ; *ppchar; ppchar++, i++)
    {
       if ((strncmp (*ppchar, DISPLAY_NAME_EQUAL, strlen(DISPLAY_NAME_EQUAL))) == 0)
       {
          /*
 	  * Change the DISPLAY environment variable.
 	  */
-	 for (; *ppchar; *ppchar++, i++)
+	 for (; *ppchar; ppchar++, i++)
 	 {
 	     environ[i]=environ[i+1];
 	 }
@@ -4754,7 +4758,7 @@ char ** RemoveEnvironmentVars (
 	if (!envp)
 		return (NULL);
 
-	for (count = 0, ppchar = envp; ppchar && *ppchar; count++, *ppchar++) ;
+	for (count = 0, ppchar = envp; ppchar && *ppchar; count++, ppchar++) ;
 
 	retEnv = (char **) XtMalloc ((count + 1) * sizeof (char *));
 	if (!retEnv)
@@ -4762,7 +4766,7 @@ char ** RemoveEnvironmentVars (
 
 	if (!ignoreEnvPtr) {
 		for (count = 0, ppchar = envp; ppchar && *ppchar; 
-			count++, *ppchar++) {
+			count++, ppchar++) {
 			retEnv[count] = *ppchar;
 		}
 		retEnv[count] = NULL;
@@ -4770,11 +4774,11 @@ char ** RemoveEnvironmentVars (
 		return (retEnv);
 	}
 
-	for (count = 0, ppchar = envp; ppchar && *ppchar; *ppchar++) {
+	for (count = 0, ppchar = envp; ppchar && *ppchar; ppchar++) {
 
 		found = False;
 
-	       	for (ppchar2 = ignoreEnvPtr; ppchar2 && *ppchar2; *ppchar2++) {
+	       	for (ppchar2 = ignoreEnvPtr; ppchar2 && *ppchar2; ppchar2++) {
 
                  	if ((!strncmp (*ppchar, *ppchar2, strlen (*ppchar2))) &&
 		  	    (((*ppchar)[strlen(*ppchar2)]) == '=')) {

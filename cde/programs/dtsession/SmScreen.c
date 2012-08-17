@@ -51,6 +51,7 @@
 #include <Dt/UserMsg.h>
 #include <Dt/SaverP.h>
 #include "Sm.h"
+#include "SmCommun.h"
 #include "SmUI.h"                  /* smDD.* */
 #include "SmError.h"
 #include "SmWindow.h"

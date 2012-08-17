@@ -71,6 +71,8 @@ static char rcsid[] =
 
 #ifdef sun
 #include "OWsync.h"
+#else
+#include <Dt/DtP.h>
 #endif
 
 #define DEFAULT   4
@@ -345,7 +347,7 @@ _DtCacheProperties(
   
   *(palette->converted + palette->converted_len) = XmPIXEL_SET_PROP_VERSION ;
   palette->converted_len++ ;
-  palette->converted[palette->converted_len] = NULL ;
+  palette->converted[palette->converted_len] = 0 ;
   XChangeProperty(dpy, win, pixel_set_atom, XA_STRING, 8, PropModeAppend, 
 		 (unsigned char *) XtNewString(palette->converted), 
 		 palette->converted_len) ;
@@ -796,7 +798,7 @@ lose_selection(
         Widget w,
         Atom *selection )
 {
-     char *tmpStr, *tmpStr2;
+     char *tmpStr, *tmpStr2, *tmpStr3;
 
      Atom pixel_set_atom ;
      pixel_set_atom = XInternAtom(XtDisplay(w), XmSPIXEL_SET_PROP, FALSE) ;
@@ -804,8 +806,13 @@ lose_selection(
 
      tmpStr = (char *)SRV_MALLOC(strlen(MSG2) + strlen(MSG2a) +  6);
      tmpStr2 = (char *)SRV_MALLOC(strlen(MSG2) + 1);
-     sprintf(tmpStr2,"%s", MSG2);
-     sprintf(tmpStr,"%s%s%s", tmpStr2, selection, MSG2a);
+     if (selection != NULL) {
+          tmpStr3 = XGetAtomName(XtDisplay(w), *selection);
+     } else {
+          tmpStr3 = NULL;
+     }
+     printf(tmpStr2,"%s", MSG2);
+     sprintf(tmpStr,"%s%s%s", tmpStr2, (tmpStr3 == NULL) ? "(null)" : tmpStr3, MSG2a);
      _DtSimpleError(XmSCOLOR_SRV_NAME, DtWarning, NULL, tmpStr, NULL);
      SRV_FREE(tmpStr);
      SRV_FREE(tmpStr2);
@@ -932,9 +939,9 @@ FindMaximumDefault(
           colorSrv.FgColor[screen_number] = WHITE;
           return(4);
        }
-     /* should never get here */
-   return(0);
    }
+   /* should never get here */
+   return(0);
 }
 
 /****************************************************************************

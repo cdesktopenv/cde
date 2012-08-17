@@ -78,7 +78,10 @@ extern struct _palette * GetPaletteDefinition(
                             Display *dpy,
                             int     screen_number,
                             char    *palette) ;
-
+extern void SaveDefaultPalette(
+        Display *dpy,
+        char *dtPath,
+        int mode );
 
 #endif /*_srvfile_h*/
 /* DON'T ADD ANYTHING AFTER THIS #endif */

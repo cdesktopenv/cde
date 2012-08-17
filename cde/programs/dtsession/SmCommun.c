@@ -58,6 +58,7 @@
 #include <X11/extensions/scrnsaver.h>
 #endif /* USE_X11SSEXT */
 #include <Xm/Xm.h>
+#include <Dt/Dt.h>
 #include <Dt/DtP.h>
 #include <Dt/Action.h>
 #include <Dt/SessionM.h>

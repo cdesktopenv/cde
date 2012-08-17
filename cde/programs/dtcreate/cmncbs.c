@@ -106,7 +106,7 @@ void activateCB_open_FindSet (Widget find_set_button, XtPointer cdata,
 
   pre = GETMESSAGE(3, 10, "Create Action");
   suf = GETMESSAGE(6, 18, "Find Set");
-  dialog_title = XtMalloc(strlen(pre) + strlen(suf) + 2);
+  dialog_title = XtMalloc(strlen(pre) + strlen(suf) + 4);
   sprintf(dialog_title, "%s - %s", pre, suf);
 
 #ifdef DEBUG

@@ -79,14 +79,14 @@ extern void _DtSimpleErrnoError(
 
 #define DtProgName  XeProgName
 
-extern _DtPrintDefaultError(
+extern int _DtPrintDefaultError(
         Display *dpy,
         XErrorEvent *event,
         char *msg );
 
 #define _DTPRINTDEFAULTERROR_BUFSIZE 1024
 
-extern _DtPrintDefaultErrorSafe(
+extern int _DtPrintDefaultErrorSafe(
         Display *dpy,
         XErrorEvent *event,
         char *msg,
