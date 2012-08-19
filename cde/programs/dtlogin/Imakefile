@@ -120,16 +120,19 @@ SYS_LIBRARIES = -ls
 SYS_LIBRARIES = -lm -lXdmcp
 #endif
 
-#ifdef LinuxArchitecture
+#if defined(LinuxArchitecture) || defined(FreeBSDArchitecture)
 SYS_LIBRARIES = -lm -lcrypt
-/* On Linux, just use the system provided Xau and Xdmcp*/
+/* just use the system provided Xau and Xdmcp*/
 DEPXAUTHLIB = 
 DEPXDMCPLIB = 
+#endif
+
 /* Add in freetype header locations, required for modern Motif libs */
+#ifdef LinuxArchitecture
 INCLUDES = -I/usr/include/freetype2
 #endif
 
-#ifdef OpenBSDArchitecture
+#if defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture)
 INCLUDES = -I$(XPROJECTROOT)/include/freetype2
 #endif
 
