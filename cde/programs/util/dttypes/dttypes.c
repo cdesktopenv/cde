@@ -41,8 +41,8 @@
 #define RETURN(c)     return(c)
 #define ERROR(c)      {rexp_errno = c; return((char *)0);}
 static	int	rexp_errno = 0;
-#ifdef __hpux
-#include	<regexp.h>
+#if defined(CSRG_BASED)
+#include	<regex.h>
 #else
 #include	<regexp.h>
 #endif
@@ -75,13 +75,13 @@ static	char	*error_str[] =
 	"Unknown option\n"			 /* INVALIDE_ARG */
 };
 
-static	enum list_shift
+static	enum
 {
 	r_info,
 	r_name,
 	f_name,
 	f_value
-};
+} list_shift;
 
 typedef struct
 {
@@ -156,6 +156,13 @@ rec_list(List *l)
 	DtDtsMMRecord	*rec_ptr_list;
 	DtDtsMMField	*fld_ptr;
 	DtDtsMMField	*fld_ptr_list;
+
+#if defined(CSRG_BASED)
+	regex_t		regex_rn;
+	regex_t		regex_fn;
+	regex_t		regex_fv;
+	regex_t		regex_df;
+#else
 	char		expbuf_rn[2000];
 	char		expbuf_fn[2000];
 	char		expbuf_fv[2000];
@@ -165,40 +172,58 @@ rec_list(List *l)
 	memset(expbuf_fn, '\0', sizeof(expbuf_fn));
 	memset(expbuf_fv, '\0', sizeof(expbuf_fv));
 	memset(expbuf_df, '\0', sizeof(expbuf_df));
+#endif
+
+#if defined(CSRG_BASED)
+	if(regcomp(&regex_rn, l->rec_name?l->rec_name:"^.*", 0) != 0)
+#else
 	if((compile(l->rec_name?l->rec_name:"^.*",
 			expbuf_rn,
 			&expbuf_rn[sizeof(expbuf_rn)],
 			0)) == (char *)0)
+#endif
 	{
 		/* error */
 		fprintf(stderr, catgets(dtcatd, 1, 36, "error in regular expression %s\n"), l->rec_name?l->rec_name:"(NULL)");
 		exit(1);
 	}
 
+#if defined(CSRG_BASED)
+	if(regcomp(&regex_fn, l->fld_name?l->fld_name:"^.*", 0) != 0)
+#else
 	if((compile(l->fld_name?l->fld_name:"^.*",
 			expbuf_fn,
 			&expbuf_fn[sizeof(expbuf_fn)],
 			0)) == (char *)0)
+#endif
 	{
 		/* error */
 		fprintf(stderr, catgets(dtcatd, 1, 36, "error in regular expression %s\n"), l->fld_name?l->fld_name:"(NULL)");
 		exit(1);
 	}
 
+#if defined(CSRG_BASED)
+	if(regcomp(&regex_fv, l->fld_value?l->fld_value:"^.*", 0) != 0)
+#else
 	if((compile(l->fld_value?l->fld_value:"^.*",
 			expbuf_fv,
 			&expbuf_fv[sizeof(expbuf_fv)],
 			0)) == (char *)0)
+#endif
 	{
 		/* error */
 		fprintf(stderr, catgets(dtcatd, 1, 36, "error in regular expression %s\n"), l->fld_value?l->fld_value:"(NULL)");
 		exit(1);
 	}
 
+#if defined(CSRG_BASED)
+	if(regcomp(&regex_df, l->display_fld?l->display_fld:"^.*", 0) != 0)
+#else
 	if((compile(l->display_fld?l->display_fld:"^.*",
 			expbuf_df,
 			&expbuf_df[sizeof(expbuf_df)],
 			0)) == (char *)0)
+#endif
 	{
 		/* error */
 		fprintf(stderr, catgets(dtcatd, 1, 36, "error in regular expression %s\n"), l->display_fld?l->display_fld:"(NULL)");
@@ -211,7 +236,13 @@ rec_list(List *l)
 	{
 		rec_ptr = &rec_ptr_list[rec];
 		fld_ptr_list = _DtDtsMMGetPtr(rec_ptr->fieldList);
+#if defined(CSRG_BASED)
+		if(regexec(&regex_rn,
+			  (char *)_DtDtsMMBosonToString(rec_ptr->recordName),
+			  0, NULL, 0) == 0)
+#else
 		if(advance((char *)_DtDtsMMBosonToString(rec_ptr->recordName), expbuf_rn) != 0)
+#endif
 		{
 			for(fld = 0; fld < rec_ptr->fieldCount; fld++)
 			{
@@ -223,8 +254,19 @@ rec_list(List *l)
 				fn = _DtDtsMMExpandValue(_DtDtsMMBosonToString(fld_ptr->fieldName));
 				fv = _DtDtsMMExpandValue(_DtDtsMMBosonToString(fld_ptr->fieldValue));
 
+#if defined(CSRG_BASED)
+				if((regexec(&regex_fn, fn, 0, NULL, 0) == 0) &&
+				   ((fld_ptr->fieldValue==0?
+					regexec(&regex_fv,
+						catgets(dtcatd, 1, 4, "NULL"),
+						0, NULL, 0):
+					regexec(&regex_fv,
+						fv,
+						0, NULL, 0)) == 0))
+#else
 				if((advance(fn, expbuf_fn) != 0) &&
 				   ((fld_ptr->fieldValue==0?advance(catgets(dtcatd, 1, 4, "NULL"), expbuf_fv):advance(fv, expbuf_fv)) != 0))
+#endif
 				{
 					add_rec(rec, l);
 					_DtDtsMMSafeFree(fn);
@@ -275,7 +317,11 @@ rec_list(List *l)
 
 			if(l->display_fld)
 			{
+#if defined(CSRG_BASED)
+				if(regexec(&regex_df, fn, 0, NULL, 0) == 0)
+#else
 				if(advance(fn, expbuf_df) !=0)
+#endif
 				{
 					printf(catgets(dtcatd, 1, 11, "\t%s"), 
 						fn?fn:catgets(dtcatd, 1, 12, ""));
