@@ -1618,7 +1618,7 @@ char *from_cs, char *to_cs)
    DtMailEnv error;
    iconv_t cd;
    size_t ileft = (size_t) bp_len, oleft = (size_t) bp_len, ret = 0;
-#if defined(_AIX) || defined(sun) | defined(CSRG_BASED)
+#if defined(_AIX) || defined(sun) || defined(__FreeBSD__)
    const char *ip = (const char *) *bp;
 #else
    char *ip = *bp;
