@@ -885,7 +885,7 @@ get_distrib(FILE *inFile)
   /* would like to know what version of the distribution it is */
 }
 
-static const char *libc_c=
+static const char libc_c[]=
 "#include <stdio.h>\n"
 "#include <ctype.h>\n"
 "\n"
@@ -953,11 +953,34 @@ static const char *libc_c=
 static void
 get_libc_version(FILE *inFile)
 {
-  static char* libcso = "/usr/lib/libc.so";
+  char* libcso = NULL;
   struct stat sb;
   char buf[PATH_MAX];
   char* ptr;
   int libcmajor, libcminor, libcteeny;
+  struct utsname u;
+
+  /*
+   * If we are on a 64-bit Linux system and we see /usr/lib64/libc.so,
+   * we should use it.  Otherwise go with /usr/lib/libc.so.  It is entirely
+   * possible that someone will be running a 32-bit userland on a 64-bit
+   * system.
+   */
+  if (uname(&u) == -1) {
+    fprintf(stderr, "%s (%d): %s\n", __func__, __LINE__, strerror(errno));
+    abort();
+  }
+
+  if (!strcmp(u.sysname, "Linux") &&
+      (!strcmp(u.machine, "x86_64"))) {
+    if (!lstat ("/usr/lib64/libc.so", &sb) && S_ISREG(sb.st_mode)) {
+      libcso = strdup("/usr/lib64/libc.so");
+    }
+  }
+
+  if (libcso == NULL) {
+    libcso = strdup("/usr/lib/libc.so");
+  }
 
   if (lstat (libcso, &sb) == 0) {
     if (S_ISLNK (sb.st_mode)) {
@@ -1011,6 +1034,8 @@ get_libc_version(FILE *inFile)
 	abort ();
     }
   }
+
+  free(libcso);
 }
 
 static void
