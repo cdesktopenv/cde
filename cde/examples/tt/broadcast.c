@@ -36,6 +36,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/param.h>
 #include <sys/types.h>
 #include <string.h>
@@ -50,7 +51,7 @@ void	receive_tt_message();
 void	create_ui_components();
 
 
-void
+int
 main(argc, argv)
 	int		argc;
 	char		**argv;
@@ -64,7 +65,7 @@ main(argc, argv)
 	 */
 	toplevel = XtVaAppInitialize(&app, "ttsample1", NULL, 0,
 					&argc, argv, NULL, NULL);
-	XtVaSetValues(toplevel, XmNtitle, "ToolTalk Sample 1", 0);
+	XtVaSetValues(toplevel, XmNtitle, "ToolTalk Sample 1", NULL);
 	create_ui_components();
 
 	/*
@@ -75,6 +76,11 @@ main(argc, argv)
 
 	my_procid = tt_open();
 	ttfd = tt_fd();
+	if (ttfd < 0) {
+		fprintf(stderr, "Cannot get tt_fd, err=%d\n", ttfd);
+		return -1;
+	}
+		
 
 	/*
 	 * Arrange for Motif to call receive_tt_message when the ToolTalk
@@ -112,7 +118,7 @@ main(argc, argv)
 	 */
 	tt_close();
 
-	exit(0);
+	return 0;
 }
 
 
@@ -132,9 +138,9 @@ broadcast_value(widget, client_data, call_data)
 	 * ttsample1_value(in int <new value)
 	 */
 
-	XtVaGetValues(slider, XmNvalue, &slider_value, 0);
+	XtVaGetValues(slider, XmNvalue, &slider_value, 0, NULL);
 	slider_value++;
-	XtVaSetValues(slider, XmNvalue, slider_value, 0);
+	XtVaSetValues(slider, XmNvalue, slider_value, 0, NULL);
 
 	msg_out = tt_pnotice_create(TT_SESSION, "ttsample1_value");
 	tt_message_arg_add(msg_out, TT_IN, "integer", NULL);
@@ -190,7 +196,7 @@ XtInputId *id;
 	} else if (op != 0) {
 		if (0==strcmp("ttsample1_value", tt_message_op(msg_in))) {
 			tt_message_arg_ival(msg_in, 0, &val_in);
-			XtVaSetValues(gauge, XmNvalue, val_in, 0);
+			XtVaSetValues(gauge, XmNvalue, val_in, 0, NULL);
 		}
 	}
 
@@ -214,13 +220,13 @@ create_ui_components()
                 xmMainWindowWidgetClass, toplevel,
                 XmNwidth,                250,
                 XmNheight,               175,
-                0);
-	XtVaGetValues(base_frame, XmNmwmDecorations, &decor, 0);
+                NULL);
+	XtVaGetValues(base_frame, XmNmwmDecorations, &decor, 0, NULL);
 	decor &= ~MWM_DECOR_RESIZEH;
-	XtVaSetValues(base_frame, XmNmwmDecorations, &decor, 0);
+	XtVaSetValues(base_frame, XmNmwmDecorations, &decor, 0, NULL);
 
 	controls = XtVaCreateManagedWidget("controls",
-                xmFormWidgetClass, base_frame, NULL, 0, 0);
+                xmFormWidgetClass, base_frame, NULL, 0, NULL);
 
 	slabel = XtVaCreateManagedWidget("Send:",
                 xmLabelWidgetClass, controls,
@@ -229,7 +235,7 @@ create_ui_components()
                 XmNtopWidget,       controls,
 		XmNtopOffset,		10,
 		XmNleftOffset,		5,
-                0);
+                NULL);
         slider = XtVaCreateManagedWidget("slider",
                 xmScaleWidgetClass, controls,
                 XmNleftAttachment,  XmATTACH_WIDGET,
@@ -243,7 +249,7 @@ create_ui_components()
                 XmNmaximum,         25,
                 XmNorientation,     XmHORIZONTAL,
                 XmNshowValue,       TRUE,
-                0);
+                NULL);
 
 	glabel = XtVaCreateManagedWidget("Received:",
                 xmLabelWidgetClass, controls,
@@ -251,7 +257,7 @@ create_ui_components()
                 XmNtopAttachment,   XmATTACH_WIDGET,
 		XmNleftOffset,		5,
                 XmNtopWidget,       slider,
-                0);
+                NULL);
 	gauge = XtVaCreateManagedWidget("gauge",
                 xmScaleWidgetClass, controls,
                 XmNleftAttachment,  XmATTACH_WIDGET,
@@ -265,7 +271,7 @@ create_ui_components()
                 XmNminimum,         0,
                 XmNmaximum,         25,
                 XmNshowValue,       TRUE,
-                0);
+                NULL);
 
 	label = XmStringCreateSimple("Broadcast");
 	button = XtVaCreateManagedWidget("button",
@@ -278,7 +284,7 @@ create_ui_components()
                 XmNleftAttachment,  XmATTACH_WIDGET,
 		XmNbottomOffset,	5,
                 XmNlabelString, label,
-                0);
+                NULL);
 	XmStringFree(label);
 	XtAddCallback(button, XmNactivateCallback, broadcast_value, 0);
 }

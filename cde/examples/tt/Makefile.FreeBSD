@@ -1,0 +1,45 @@
+# $XConsortium: Makefile.ibm /main/2 1996/05/13 12:02:39 drk $
+##########################################################################
+#
+#  Makefile for ToolTalk examples (IBM)
+#
+#  (c) Copyright 1993, 1994 Hewlett-Packard Company	
+#  (c) Copyright 1993, 1994 International Business Machines Corp.
+#  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+#  (c) Copyright 1993, 1994 Novell, Inc.
+#
+##########################################################################
+
+CC		= clang
+RM		= rm -f
+
+PROGRAM		= broadcast
+SOURCES		= broadcast.c
+OBJECTS		= broadcast.o
+
+DEFINES		= 
+CDEBUGFLAGS	= -O -g
+CFLAGS		= $(DEFINES) $(CDEBUGFLAGS)
+
+DTINCLUDE	= -I/usr/dt/include
+X11INCLUDE	= -I/usr/local/include
+
+INCLUDES	= $(DTINCLUDE) $(X11INCLUDE)
+
+DTLIBS		= -L/usr/dt/lib -ltt -L/usr/local/lib -lXm
+X11LIBS		= -L/usr/local/lib -lXt -lX11
+SYSLIBS		= 
+
+LIBRARIES	= $(DTLIBS) $(X11LIBS) $(SYSLIBS)
+LDFLAGS		= 
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<
+
+all::	$(PROGRAM)
+
+$(PROGRAM)::	$(OBJECTS)
+	$(CC) -o $(PROGRAM) $(LDFLAGS) $(OBJECTS) $(LIBRARIES)
+
+clean::
+	$(RM) $(PROGRAM) $(OBJECTS)
