@@ -83,7 +83,7 @@ char *str ;
   switch (ttype)
     {
       case T_LABEL : cstr = XmStringCreateLocalized(str) ;
-                     XtVaSetValues(w->label, XmNlabelString, cstr, 0) ;
+                     XtVaSetValues(w->label, XmNlabelString, cstr, NULL) ;
                      XmStringFree(cstr) ;
                      break ;
       case T_VALUE : XmTextFieldSetString(w->textfield, str) ;

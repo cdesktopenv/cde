@@ -1468,7 +1468,7 @@ char *str ;
                 XmNcancelLabelString, contstr,
                 XmNmessageString,     message,
                 XmNdialogStyle,       XmDIALOG_FULL_APPLICATION_MODAL,
-                0) ;
+                NULL) ;
   XmStringFree(contstr) ;
   XmStringFree(message) ;
   XtUnmanageChild((Widget) XmMessageBoxGetChild(X->notice,
@@ -1478,7 +1478,7 @@ char *str ;
 
   tmpStr = GETMESSAGE(2, 36, "Continue Notice");
   cstr = XmStringCreateLocalized(tmpStr) ;
-  XtVaSetValues(X->notice, XmNdialogTitle, cstr, 0) ;
+  XtVaSetValues(X->notice, XmNdialogTitle, cstr, NULL) ;
   XmStringFree(cstr) ;
 
   XtManageChild(X->notice) ;
@@ -1506,7 +1506,7 @@ char *str ;
                 XmNokLabelString,     confirm,
                 XmNmessageString,     message,
                 XmNdialogStyle,       XmDIALOG_APPLICATION_MODAL,
-                0) ;
+                NULL) ;
   XmStringFree(confirm) ;
   XmStringFree(cancel) ;
   XmStringFree(message) ;
@@ -1516,7 +1516,7 @@ char *str ;
 
   tmpStr = GETMESSAGE(2, 37, "Confirmation Notice");
   cstr = XmStringCreateLocalized(tmpStr) ;
-  XtVaSetValues(X->notice, XmNdialogTitle, cstr, 0) ;
+  XtVaSetValues(X->notice, XmNdialogTitle, cstr, NULL) ;
   XmStringFree(cstr) ;
 
   XtManageChild(X->notice) ;
@@ -2136,7 +2136,7 @@ init_graphics()
   XtVaSetValues(X->kframe,
                 XmNiconName, tmpStr1,
                 XmNtitle,    tmpStr1,
-                0) ;
+                NULL) ;
   dtcalc_kpanel_create(X->kframe) ;
   dtcalc_kkeyboard_create(X->kpanel) ;
   make_modewin();
@@ -2246,11 +2246,11 @@ make_frames()
                     frame_interpose, NULL) ;
   XtVaSetValues(X->kframe,
                 XmNtitle, tool_label,
-                0) ;
+                NULL) ;
 
   XtVaGetValues(X->kframe,
                 XmNdepth, &depth,
-                0) ;
+                NULL) ;
 
   if(v->titleline == NULL)
     free(tool_label);
@@ -2298,7 +2298,7 @@ int type;
                ptr[0] = tmpStr[0];
          }
          str = XmStringCreateLocalized(line) ;
-         XtVaSetValues(X->registers[i], XmNlabelString, str, 0) ;
+         XtVaSetValues(X->registers[i], XmNlabelString, str, NULL) ;
          XmStringFree(str) ;
        }
   }
@@ -2348,9 +2348,9 @@ int type;
          }
          str = XmStringCreateLocalized(menu_entries[i + 34].str) ;
          numStr = XmStringCreateLocalized(tmp);
-         XtVaSetValues(X->fregisters[i], XmNlabelString, str, 0) ;
+         XtVaSetValues(X->fregisters[i], XmNlabelString, str, NULL) ;
          XtVaSetValues(X->fregistersvals[i], XmNlabelString, numStr,
-                                            XmNalignment, XmALIGNMENT_END, 0) ;
+                                            XmNalignment, XmALIGNMENT_END, NULL) ;
          XmStringFree(str) ;
          XmStringFree(numStr) ;
        }
@@ -2371,7 +2371,7 @@ Boolean *continue_to_dispatch ;
 
   X->mtype = (enum menu_type) client_data ;
   menu = X->menus[(int) X->mtype] ;
-  XtVaGetValues(menu, XmNwhichButton, &button, 0) ;
+  XtVaGetValues(menu, XmNwhichButton, &button, NULL) ;
   if (event->xbutton.button == button)
     {
       XmMenuPosition(menu, (XButtonPressedEvent *) event) ;
@@ -2415,7 +2415,7 @@ XtPointer client_data, call_data ;
       set_text_str(X->CFpi_cftext, T_LABEL, lstrs[(int) L_CONNO]) ;
 
       cstr = XmStringCreateLocalized(lstrs[(int) L_NEWCON]) ;
-      XtVaSetValues(X->CFframe, XmNdialogTitle, cstr, 0) ;
+      XtVaSetValues(X->CFframe, XmNdialogTitle, cstr, NULL) ;
       XmStringFree(cstr) ;
 
       XtRemoveAllCallbacks(X->CFpi_butHelp, XmNactivateCallback);
@@ -2428,7 +2428,7 @@ XtPointer client_data, call_data ;
       set_text_str(X->CFpi_cftext, T_LABEL, lstrs[(int) L_FUNNO]) ;
 
       cstr = XmStringCreateLocalized(lstrs[(int) L_NEWFUN]) ;
-      XtVaSetValues(X->CFframe, XmNdialogTitle, cstr, 0) ;
+      XtVaSetValues(X->CFframe, XmNdialogTitle, cstr, NULL) ;
       XmStringFree(cstr) ;
 
       XtRemoveAllCallbacks(X->CFpi_butHelp, XmNactivateCallback);
@@ -2557,7 +2557,7 @@ char *str ;
        if(str != NULL)
        {
           cstr = XmStringCreateLocalized(str) ;
-          XtVaSetValues(X->modevals[(int) itemno], XmNlabelString, cstr, 0) ;
+          XtVaSetValues(X->modevals[(int) itemno], XmNlabelString, cstr, NULL) ;
           XmStringFree(cstr) ;
        }
     }
@@ -2582,11 +2582,11 @@ char *str ;
     w = X->mframe[(int) v->modetype] ;
 
   if (fcptype == FCP_KEY)
-    XtVaSetValues(w, XmNtitle, str, 0) ;
+    XtVaSetValues(w, XmNtitle, str, NULL) ;
   else
     {
       cstr = XmStringCreateLocalized(str) ;
-      XtVaSetValues(w, XmNdialogTitle, cstr, 0) ;
+      XtVaSetValues(w, XmNdialogTitle, cstr, NULL) ;
       XmStringFree(cstr) ;
     }
 
