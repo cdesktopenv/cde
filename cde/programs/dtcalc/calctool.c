@@ -563,7 +563,7 @@ char *argv[] ;
                            {
                              msg = (char *) XtMalloc(strlen(
                                                    opts[(int) O_ACCRANGE]) + 3);
-                             sprintf(msg, opts[(int) O_ACCRANGE]);
+                             sprintf(msg, "%s", opts[(int) O_ACCRANGE]);
                              _DtSimpleError (v->appname, DtWarning, NULL, msg);
                              XtFree(msg);
                              v->accuracy = 2 ;
@@ -619,7 +619,7 @@ char *argv[] ;
                            {
                              msg = (char *) XtMalloc(strlen(
                                                     opts[(int) O_BASE]) + 3);
-                             sprintf(msg, opts[(int) O_BASE]);
+                             sprintf(msg, "%s", opts[(int) O_BASE]);
                              _DtSimpleError (v->appname, DtWarning, NULL, msg);
                              XtFree(msg);
                              v->base = DEC ;
@@ -1688,8 +1688,8 @@ usage(progname)
 char *progname ;
 {
   FPRINTF(stderr, ustrs[(int) USAGE1], PATCHLEVEL) ;
-  FPRINTF(stderr, ustrs[(int) USAGE2]) ;
-  FPRINTF(stderr, ustrs[(int) USAGE3]) ;
+  FPRINTF(stderr, "%s", ustrs[(int) USAGE2]) ;
+  FPRINTF(stderr, "%s", ustrs[(int) USAGE3]) ;
   exit(1) ;
 }
 

@@ -312,7 +312,7 @@ char **argv ;
 
       tmpStr = GETMESSAGE(2, 31, "Could not open display.\n");
       msg = XtNewString(tmpStr);
-      FPRINTF(stderr, msg) ;
+      FPRINTF(stderr, "%s", msg) ;
       exit(1) ;
     }
 
@@ -3294,7 +3294,7 @@ XtPointer client_data, call_data ;
   if ((strcmp(X->cfval, "") == 0) || X->cfval[0] < '0' || X->cfval[0] > '9' ||
                                      X->cfno < 0 || X->cfno > 9)
     {
-      SPRINTF(str, (X->CFtype == M_CON) ? vstrs[(int) V_LCON]
+      SPRINTF(str, "%s", (X->CFtype == M_CON) ? vstrs[(int) V_LCON]
                                    : vstrs[(int) V_LFUN]) ;
       SPRINTF(message, "%s\n%s", str, vstrs[(int) V_RANGE]) ;
       do_continue_notice(X->CFframe, message) ;
@@ -3701,7 +3701,7 @@ read_resources()    /* Read all possible resources from the database. */
   else
   {
      msg = (char *) XtMalloc(strlen( opts[(int) O_BASE]) + 3);
-     sprintf(msg, opts[(int) O_BASE]);
+     sprintf(msg, "%s", opts[(int) O_BASE]);
      _DtSimpleError (v->appname, DtWarning, NULL, msg);
      XtFree(msg);
      v->base = (enum base_type) 2;
@@ -4422,7 +4422,7 @@ RestoreSession()
       if (v->accuracy < 0 || v->accuracy > 9)
         {
           msg = (char *) XtMalloc(strlen( opts[(int) O_ACCRANGE]) + 3);
-          sprintf(msg, opts[(int) O_ACCRANGE]);
+          sprintf(msg, "%s", opts[(int) O_ACCRANGE]);
           _DtSimpleError (v->appname, DtWarning, NULL, msg);
           XtFree(msg);
           v->accuracy = 2 ;
@@ -4437,7 +4437,7 @@ RestoreSession()
       if (i == MAXBASES)
       {
           msg = (char *) XtMalloc(strlen( opts[(int) O_BASE]) + 3);
-          sprintf(msg, opts[(int) O_BASE]);
+          sprintf(msg, "%s", opts[(int) O_BASE]);
           _DtSimpleError (v->appname, DtWarning, NULL, msg);
           XtFree(msg);
       }
