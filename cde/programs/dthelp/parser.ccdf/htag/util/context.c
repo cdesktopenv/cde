@@ -169,7 +169,7 @@ delim.h.
 #include "cont.h"
 
 /* Main procedure */
-void main(argc, argv)
+int main(argc, argv)
   int argc ;
   char **argv ;
 {
@@ -242,5 +242,5 @@ fprintf(context, "#define MAXD %d\n", maxd) ;
 dumptree((LOGICAL) (argc > 1)) ;
 fprintf(stderr, "NUMCON set to %d\n", NUMCON) ;
 fprintf(stderr, "NUMDELIM set to %d\n", NUMDELIM) ;
-exit(errexit) ;
+return errexit;
 }

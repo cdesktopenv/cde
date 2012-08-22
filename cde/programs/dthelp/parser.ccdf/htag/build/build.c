@@ -41,7 +41,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "entdef.h"
 
 /* Main procedure */
-void main(argc, argv)
+int main(argc, argv)
 int argc ;
 char **argv ;
 {
@@ -71,4 +71,5 @@ while (TRUE)
     #include "case.c"
     if (m_token == ENDFILE) exit(FALSE) ;
     }
+return EXIT_SUCCESS;
 }

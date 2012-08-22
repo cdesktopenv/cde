@@ -55,7 +55,7 @@ ELTSTRUCT *ntrelt(p)
     w_strcpy(new->enptr, p) ;
     new->model = M_NULLVAL ;
     new->content = M_NULLVAL ;
-    new->inptr = new->exptr = NULL ;
+    new->inptr = new->exptr = 0 ;
     new->parptr = NULL ;
     new->parindex = M_NULLVAL ;
     new->paramcount = M_NULLVAL ;

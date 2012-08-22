@@ -25,6 +25,7 @@
 	       Copyright 1992 Hewlett-Packard Co.
 */
 
+#include <string.h>
 #include "basic.h"
 
 
