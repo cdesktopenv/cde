@@ -57,10 +57,11 @@ in this Software without prior written authorization from The Open Group .
 #endif
 
 #include <stdlib.h>
+#include <unistd.h>
 
-main()
+int main(void)
 {
 	write(1, imake_ccflags, sizeof(imake_ccflags) - 1);
-	exit(0);
+	return EXIT_SUCCESS;
 }
 
