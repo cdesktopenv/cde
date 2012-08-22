@@ -42,6 +42,8 @@
             implementation of pipes.
         */
 
+#include <stdlib.h>
+
 #include "ilint.h"
 #include "ilimage.h"
 #include "ilpipelem.h"

@@ -41,6 +41,7 @@
 #include "ilcontext.h"
 #include "ilX.h"
 #include <math.h>
+#include <stdlib.h>
 #include <X11/Xutil.h>
 #include "ilpipelem.h"
 #include "ilerrors.h"

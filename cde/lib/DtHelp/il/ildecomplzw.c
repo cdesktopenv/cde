@@ -37,6 +37,8 @@
 ***
 ***-------------------------------------------------------------------*/
 
+#include <stdlib.h>
+
 #include "ilint.h"
 #include "ilpipelem.h"
 #include "ildecomp.h"

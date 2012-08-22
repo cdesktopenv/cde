@@ -40,6 +40,8 @@
         /*  /ilc/ilycbcr.c : Code for handling IL_YCBCR images, including
             conversions to/from RGB, and subsampling - upsampling is in /ilc/ilupsample.c
         */
+#include <stdlib.h>
+
 #include "ilint.h"
 #include "ilpipelem.h"
 #include "ilconvert.h"

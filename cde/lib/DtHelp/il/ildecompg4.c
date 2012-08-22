@@ -40,6 +40,7 @@
 
 #include <math.h>
 #include <stdio.h>       
+#include <stdlib.h>
 
 #include "ilint.h"
 #include "ilpipelem.h"

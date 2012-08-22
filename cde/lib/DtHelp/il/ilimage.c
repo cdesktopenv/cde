@@ -40,6 +40,8 @@
         /*  /ilc/ilimage.c : General image handling code.
         */
 
+#include <stdlib.h>
+
 #include "ilint.h"
 #include "ilpipelem.h"
 #include "ilimage.h"

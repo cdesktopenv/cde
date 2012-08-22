@@ -42,6 +42,8 @@
         code (from John Francis) for converting by finding the best "n" colors.
     */
 
+#include <stdlib.h>
+
 #include "ilint.h"
 #include "ilpipelem.h"
 #include "ilconvert.h"

@@ -39,6 +39,7 @@
 
 #include "iljpgdecodeint.h"
 #include <math.h>
+#include <stdlib.h>
 
     /*  Macros to check if "clipValue" (an int) is  outside range 0..255, and
         to branch to point named by second macro if so, which clips and returns.

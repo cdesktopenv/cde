@@ -40,6 +40,8 @@
         /*  ilcontext.c - Contains ilCreate/DestroyContext() and related code.
         */
 
+#include <stdlib.h>
+
 #include "ilint.h"
 #include "ilcontext.h"
 #include "ilerrors.h"

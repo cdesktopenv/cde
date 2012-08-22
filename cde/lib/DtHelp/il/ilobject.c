@@ -40,6 +40,8 @@
         /*  /ilc/ilobject.c : General object handling code, e.g. ilDestroyObject().
         */
 
+#include <stdlib.h>
+
 #include "ilint.h"
 #include "ilcontext.h"
 #include "ilerrors.h"

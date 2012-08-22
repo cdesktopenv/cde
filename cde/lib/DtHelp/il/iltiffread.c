@@ -41,6 +41,8 @@
         to read from a TIFF file.  See also /ilc/iltiff.c and /ilc/iltiffwrite.c .
     */
 
+#include <stdlib.h>
+
 #include "iltiffint.h"
 #include "ilpipelem.h"
 #include "ilcodec.h"

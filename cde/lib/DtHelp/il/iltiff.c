@@ -41,6 +41,8 @@
         those exposed in /ilc/iltiffint.h to other /ilc/iltiff*.c code.
     */
 
+#include <stdlib.h>
+
 #include "iltiffint.h"
 #include "ilerrors.h"
 
