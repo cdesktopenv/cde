@@ -42,6 +42,7 @@ static char sccsid[] = "@(#)iserror.c 1.10 89/07/17 Copyr 1988 Sun Micro";
 
 #include "isam_impl.h"
 #include <errno.h>
+#include <stdlib.h>
 #include <syslog.h>
 #ifdef __ultrix__
 #define LOG_USER LOG_INFO

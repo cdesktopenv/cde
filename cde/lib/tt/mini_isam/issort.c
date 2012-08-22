@@ -39,6 +39,7 @@ static char sccsid[] = "@(#)issort.c 1.3 89/07/17 Copyr 1988 Sun Micro";
  * Description:
  *	ISAM sort package (sort in memory)
  */
+#include <stdlib.h>
 
 #include "isam_impl.h"
 

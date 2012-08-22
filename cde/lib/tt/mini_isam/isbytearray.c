@@ -39,6 +39,7 @@ static char sccsid[] = "@(#)isbytearray.c 1.3 89/07/17 Copyr 1988 Sun Micro";
  *	Byte array handling functions.
  *
  */
+#include <stdlib.h>
 
 #include "isam_impl.h"
 

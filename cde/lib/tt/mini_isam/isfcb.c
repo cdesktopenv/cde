@@ -40,7 +40,7 @@ static char sccsid[] = "@(#)isfcb.c 1.9 89/07/17 Copyr 1988 Sun Micro";
  *	
  *
  */
-
+#include <stdlib.h>
 #include "isam_impl.h"
 #include <sys/stat.h>
 

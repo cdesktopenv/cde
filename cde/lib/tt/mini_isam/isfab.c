@@ -39,6 +39,7 @@ static char sccsid[] = "@(#)isfab.c 1.8 89/07/17 Copyr 1988 Sun Micro";
  *	The ISAM file access block functions.
  *
  */
+#include <stdlib.h>
 
 #include "isam_impl.h"
 
