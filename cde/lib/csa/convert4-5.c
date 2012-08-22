@@ -144,12 +144,12 @@ _DtCm_appt4_to_attrs(
 		ptr2 = (ptr1 ? strchr(ptr1, '.') : NULL);
 
 		if (ptr1) {
-			snprintf(buf, sizeof buf, "%d:%s%s%s", a4->appt_id.key, calname,
+			snprintf(buf, sizeof buf, "%ld:%s%s%s", a4->appt_id.key, calname,
 				(ptr2 == NULL ? "." : ""),
 				(ptr2 == NULL ? _DtCmGetLocalDomain(ptr1+1) :
 				""));
 		} else {
-			snprintf(buf, sizeof buf, "%d:%s@%s", a4->appt_id.key, calname,
+			snprintf(buf, sizeof buf, "%ld:%s@%s", a4->appt_id.key, calname,
 				_DtCmGetHostAtDomain());
 		}
 		opq.size = strlen(buf);
