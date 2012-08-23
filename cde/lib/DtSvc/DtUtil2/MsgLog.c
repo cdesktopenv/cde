@@ -145,7 +145,7 @@ static char * get_file_name (
 	va_list		args;
 
 	file = malloc(MAXPATHLEN+1);
-	if (! file) return;
+	if (! file) return NULL;
 
 	Va_start (args, format);
 

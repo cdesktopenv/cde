@@ -40,6 +40,7 @@
 
 #ifndef NO_MESSAGE_CATALOG
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <nl_types.h>
 #include "DtSvcLock.h"

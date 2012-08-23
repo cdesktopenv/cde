@@ -59,6 +59,9 @@
 #include "osdep.h"	/* select(2) mask width and bit manipulation macros */
 #include <Tt/tt_c.h>
 #include <locale.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <Dt/MsgLog.h>
 
@@ -320,7 +323,7 @@ Help(
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined (__osf__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
 PanicSignal(int s)
 #else
 PanicSignal(void)
@@ -357,7 +360,7 @@ PanicSignal(void)
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined (__osf__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
 IgnoreSignal(int i)
 #else
 IgnoreSignal(void)
@@ -399,7 +402,7 @@ IgnoreSignal(void)
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined (__osf__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
 UrgentSignal(int i)
 #else
 UrgentSignal(void)
@@ -450,7 +453,7 @@ UrgentSignal(void)
  *
  *****************************************************************************/
 static void
-#if defined(__aix) || defined (__osf__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
 SigCld(int i)
 #else
 SigCld(void)
@@ -769,7 +772,7 @@ ParseCommandLine(
 #endif /* _DTEXEC_NLS16 */
 
             if (tick2)
-		*tick2 = NULL;
+		*tick2 = 0;
 
 #ifdef _DTEXEC_NLS16
 	    tick1 = (char *) Dt_strrchr( dtSvcProcIdG, '_' );
@@ -778,8 +781,8 @@ ParseCommandLine(
 #endif /* _DTEXEC_NLS16 */
 
 	    if ( tick1 && tick2 ) {
-		*tick1 = NULL;
-		*tick2 = NULL;
+		*tick1 = 0;
+		*tick2 = 0;
 
 		dtSvcInvIdG = atoi((char *) (tick1 + 1));
 		dtSvcChildIdG = atoi((char *) (tick2 + 1));
@@ -1520,7 +1523,7 @@ main (
 		 * a SIGCLD, give up and exit.
 		 */
 		if (rediscoverUrgentSigG > ((1000/SHORT_SELECT_TIMEOUT)*5) ) {
-#if defined(__aix) || defined (__osf__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
 		    PanicSignal(0);
 #else
 		    PanicSignal();
