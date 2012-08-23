@@ -472,11 +472,34 @@ SetKeyboardMap()
 #endif
 #endif
 
-#if defined(CSRG_BASED) || defined(linux)
+#if defined(linux)
 #ifdef cpp_Xsetup
     if [ "$DTXSERVERLOCATION" != "remote" ]; then
       fontpath=
       FONTLIB=/usr/share/fonts/X11
+      for i in misc 75dpi 100dpi Speedo Type1 PJE
+      do
+	 if [ -f $FONTLIB/$i/fonts.dir ];  then
+	     if [ ! -z "$fontpath" ]; then
+		fontpath=$fontpath,$FONTLIB/$i/
+	     else
+		fontpath=$FONTLIB/$i/
+	     fi
+	 fi
+      done
+
+      if [ ! -z "$fontpath" ]; then
+        $XDIR/xset fp+ $fontpath
+      fi
+    fi
+#endif
+#endif
+
+#if defined(CSRG_BASED)
+#ifdef cpp_Xsetup
+    if [ "$DTXSERVERLOCATION" != "remote" ]; then
+      fontpath=
+      FONTLIB=/usr/local/lib/X11/fonts
       for i in misc 75dpi 100dpi Speedo Type1 PJE
       do
 	 if [ -f $FONTLIB/$i/fonts.dir ];  then
