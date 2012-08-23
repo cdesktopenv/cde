@@ -342,11 +342,11 @@ function tokenize() {
 	#
         # allow escaping of significant syntax characters
         #
-        gsub("[\\\][{]","{")
-        gsub("\\\:",":")
-        gsub("\\\;",";")
-        gsub("\\\=","=")
-        gsub("[\\\][}]","}")
+        gsub("[\\][{]","{")
+        gsub("\\:",":")
+        gsub("\\;",";")
+        gsub("\\=","=")
+        gsub("[\\][}]","}")
 
 	#
 	# Having insured that interesting chars are surrounded by blanks
