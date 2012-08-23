@@ -36,8 +36,10 @@
   pexec=$(LC_TIME=C ps -p $PPID | awk 'NR==2 {print $5}')
 #elif defined(USL) && (OSMAJORVERSION > 1)
   pexec=$(LC_TIME=C ps -p $PPID | awk 'NR==2 {print $6}')
-#elif defined(linux) || defined(CSRG_BASED)
+#elif defined(linux) || defined(CSRG_BASED) && !defined(__FreeBSD__)
   pexec=$(LC_TIME=C /bin/ps -p $PPID 2>/dev/null | awk 'NR==2 {print $4}')
+#elif defined(__FreeBSD__)
+  pexec=$(LC_TIME=C /bin/ps -o comm= -p $PPID 2>/dev/null)
 #else
   pexec=$(LC_TIME=C /usr/bin/ps -p $PPID | awk 'NR==2 {print $4}')
 #endif

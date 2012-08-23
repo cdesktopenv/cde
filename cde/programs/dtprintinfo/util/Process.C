@@ -38,6 +38,8 @@ Process::Process()
 {
 #ifdef aix
    (void)Invoke("ps -e -F \"pid ppid uid command\"", &procs);
+#elif defined(__FreeBSD__)
+   (void)Invoke("/bin/ps ax -o pid,ppid,uid,comm", &procs);
 #else
    (void)Invoke("/bin/ps -el | awk '{printf(\"%s %s %s %s\\n\",$4,$5,$3,$NF)}'",
 		&procs);
