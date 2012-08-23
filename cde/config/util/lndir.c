@@ -63,9 +63,11 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/Xos.h>
 #include <X11/Xfuncproto.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/param.h>
 #include <errno.h>
+#include <unistd.h>
 
 #ifndef X_NOT_POSIX
 #include <dirent.h>
