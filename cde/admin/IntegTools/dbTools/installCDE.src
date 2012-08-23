@@ -1,4 +1,4 @@
-XCOMM! /bin/ksh
+XCOMM! KORNSHELL
 XCOMM $XConsortium: installCDE.src /main/20 1996/11/25 14:21:13 drk $
 
 XCOMM
@@ -154,12 +154,12 @@ DoFilesetScript()
     if [ -x $POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName ]
     then
 	Log "Executing $PLATFORM specific $FilesetName customize script"
-	$POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName -e 2>&1 | \
+	KORNSHELL $POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName -e 2>&1 | \
 				tee -a $LOGFILE
     elif [ -x $POST_INSTALL_DIR/$ScriptName ]
     then
 	Log "Executing $FilesetName customize script" 
-	$POST_INSTALL_DIR/$ScriptName -e 2>&1 | tee -a $LOGFILE
+	KORNSHELL $POST_INSTALL_DIR/$ScriptName -e 2>&1 | tee -a $LOGFILE
     fi
   fi
 }
@@ -182,7 +182,7 @@ CreatePackingList()
     for i in `echo $DATABASE_FILES`
     do
       Log "  for $i"
-      $TOOL_DIR/udbToAny.ksh -toDB -ReleaseStream $PLATFORM $DATABASE_DIR/${i}.udb > /tmp/${i}.db
+      KORNSHELL $TOOL_DIR/udbToAny.ksh -toDB -ReleaseStream $PLATFORM $DATABASE_DIR/${i}.udb > /tmp/${i}.db
       if [ -r /tmp/${i}.db ]
       then
         for file in `fgrep install_target /tmp/${i}.db | cut -sf 2 -d \: ` 
@@ -490,10 +490,10 @@ XCOMM don't bother if the fileset doesn't exist
 
   Log "  $num installing database $2"
   Log "      - creating ${2}.lst file"
-  $TOOL_DIR/udbToAny.ksh  -toLst -ReleaseStream $PLATFORM \
+  KORNSHELL $TOOL_DIR/udbToAny.ksh  -toLst -ReleaseStream $PLATFORM \
             $DATABASE_DIR/${2}.udb >  /tmp/${2}.lst
   Log "      - installing ... \c"
-  $TOOL_DIR/mkProd -D / -S $BUILD_TREE /tmp/${2}.lst \
+  KORNSHELL $TOOL_DIR/mkProd -D / -S $BUILD_TREE /tmp/${2}.lst \
             2>/tmp/${2}.err 1>/tmp/${2}.good
   Log "done."
 

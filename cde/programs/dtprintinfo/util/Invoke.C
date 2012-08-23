@@ -149,7 +149,7 @@ Invoke::Invoke(const char *command,   // Command to Run
        }
 
       // start the program 
-      execlp("/bin/ksh", "ksh", "-c", command, (char *) 0);
+      execlp(KORNSHELL, "ksh", "-c", command, (char *) 0);
 
       exit(-1);
     }

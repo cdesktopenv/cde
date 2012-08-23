@@ -93,7 +93,7 @@ void MotifThread::CreateThread(MotifUI *_obj, const char *cmd, int _pid,
          dup(m_stdout[1]);
          close(m_stdout[1]);
 
-         execlp("/bin/ksh", "ksh", "-c", cmd, NULL);
+         execlp(KORNSHELL, "ksh", "-c", cmd, NULL);
 
          char *msg = strerror(errno);
          write(1, msg, strlen(msg));

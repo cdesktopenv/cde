@@ -1,4 +1,4 @@
-XCOMM! /bin/ksh
+XCOMM! KORNSHELL
 XCOMM ##########################################################################
 XCOMM
 XCOMM   Xsession
@@ -422,7 +422,7 @@ XCOMM ##########################################################################
   HASH source the .dtprofile.
   HASH
   if [ -f $HOME/$DTPROFILE ]; then
-    dtprofile_errors=`/bin/ksh -n $HOME/$DTPROFILE 2>&1`
+    dtprofile_errors=`KORNSHELL -n $HOME/$DTPROFILE 2>&1`
     if [ "0" = "$?" ]; then
       Log "sourcing $HOME/$DTPROFILE..."
       . $HOME/$DTPROFILE
@@ -512,7 +512,7 @@ StartFirst()
   if [ "$DTSOURCEPROFILE" = "true" ]
   then
     case ${SHELL##*/} in
-       sh | ksh | dtksh) shellprofile="$HOME/.profile";;
+       sh | ksh | ksh93 | dtksh) shellprofile="$HOME/.profile";;
        bash) shellprofile="$HOME/.bash_profile";;
        csh | tcsh) shellprofile="$HOME/.login";;
        *) Log "non-standard shell $SHELL"
@@ -553,7 +553,7 @@ StartFirst()
 
     case ${SHELL##*/} in
 
-      sh | bash | ksh | dtksh)
+      sh | bash | ksh | ksh93 | dtksh)
         dotprofile_errors=`$SHELL -n $shellprofile 2>&1`
         if [ "0" = "$?" ]; then
           source_profile=". $shellprofile"
@@ -589,7 +589,7 @@ StartFirst()
                            PATH=/usr/dt/bin:\$PATH $tooltalk;   \
                            $startup > $dtstart_sessionlogfile 2>&1" ;;
 
-      ksh | dtksh) $SHELL -c "$source_profile; \
+      ksh | ksh93 | dtksh) $SHELL -c "$source_profile; \
 			   unset DT; \
 			   $dtdbcache; \
                            PATH=/usr/dt/bin:\$PATH $tooltalk;\
