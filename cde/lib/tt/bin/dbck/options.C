@@ -157,7 +157,7 @@ print(FILE *f) const
 			(char *)_sel_filename);
 	}
 	if (_sel_objid_p) {
-		fprintf(f,catgets(_ttcatd, 6, 8, "Select by objid key:"));
+		fprintf(f, "%s", catgets(_ttcatd, 6, 8, "Select by objid key:"));
 		_sel_objid_key->print(f);
 		fprintf(f,"\n");
 	}
@@ -166,25 +166,25 @@ print(FILE *f) const
 			(char *)_sel_type);
 	}
 	if (_diag_badform_p) {
-		fprintf(f,catgets(_ttcatd, 6, 10,
+		fprintf(f, "%s", catgets(_ttcatd, 6, 10,
 				  "Diagnose badly formed entities\n"));
 	}
 	if (_diag_exist_p) {
-		fprintf(f,catgets(_ttcatd, 6, 11, "Diagnose references to "
+		fprintf(f, "%s", catgets(_ttcatd, 6, 11, "Diagnose references to "
 				  "non-existent entities\n"));
 	}
 	if (_disp_id_p) {
-		fprintf(f,catgets(_ttcatd, 6, 12, "Display ids\n"));
+		fprintf(f, "%s", catgets(_ttcatd, 6, 12, "Display ids\n"));
 	}
 	if (_disp_mand_p) {
-		fprintf(f,catgets(_ttcatd, 6, 13, "Display mandatory data\n"));
+		fprintf(f, "%s", catgets(_ttcatd, 6, 13, "Display mandatory data\n"));
 	}
 	if (_disp_prop_p) {
-		fprintf(f,catgets(_ttcatd, 6, 14,
+		fprintf(f, "%s", catgets(_ttcatd, 6, 14,
 				  "Display properties and values data\n"));
 	}
 	if (_repair_netisam_p) {
-		fprintf(f,catgets(_ttcatd, 6, 15,
+		fprintf(f, "%s", catgets(_ttcatd, 6, 15,
 				  "Invoke NetISAM isrepair() function before "
 				  "inspecting\n"));
 	}
@@ -194,7 +194,7 @@ print(FILE *f) const
 			(char *)_repair_type);
 	}	
 	if (_repair_delete_p) {
-		fprintf(f,catgets(_ttcatd, 6, 17, "Repair by deleting\n"));
+		fprintf(f, "%s", catgets(_ttcatd, 6, 17, "Repair by deleting\n"));
 	}
 	fprintf(f,catgets(_ttcatd, 6, 18, "Debugging printout level %d\n"),
 		_debug_level);

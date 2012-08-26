@@ -474,7 +474,7 @@ check_cycle(_Tt_otype_ptr otype, _Tt_otype **path, int top)
 		} else {
 			for (int i = 0; i <= top-1; i++) {
 				if (path[i] == anc_otype.c_pointer()) {
-					fprintf(stderr,
+					fprintf(stderr, "%s",
 						catgets(_ttcatd, 4, 38, "cyclic otype inheritance hierarchy -\n  {"));
 					for (int j = i; j <= top-1; j++) {
 						fprintf(stderr,"  %s", (char *) path[j]->otid());

@@ -280,11 +280,11 @@ process_spec()
 	        // way through and put the spec on the repair list.
 
 		if ((bad_flags & BAD_NOFILE)!=0) {
-			printf(catgets(_ttcatd, 6, 20,
+			printf("%s", catgets(_ttcatd, 6, 20,
 				       "Error: no file for spec.\n"));
 		}
 		if ((bad_flags & BAD_NOTYPE)!=0) {
-			printf(catgets(_ttcatd, 6, 21,
+			printf("%s", catgets(_ttcatd, 6, 21,
 				       "Error: no type for spec.\n"));
 		}
 		if ((bad_flags & BAD_TYPE)!=0) {
@@ -293,16 +293,16 @@ process_spec()
 			       type.operator const char *());
 		}
 		if ((bad_flags & BAD_MULTITYPE)!=0) {
-			printf(catgets(_ttcatd, 6, 23,"Error: spec has multiple "
+			printf("%s", catgets(_ttcatd, 6, 23,"Error: spec has multiple "
 				       "values for type property.\n"));
 		}
 		if ((bad_flags & BAD_FILE_STAT)!=0) {
-			printf(catgets(_ttcatd, 6, 24,"Error: "));
+			printf("%s", catgets(_ttcatd, 6, 24,"Error: "));
 			printf("%s: %s", (char *)filename, strerror(save_errno));
 		}
 
 		if ((bad_flags & BAD_TYPED_FILESPEC)!=0) {
-			printf(catgets(_ttcatd, 6, 26,"Error: "));
+			printf("%s", catgets(_ttcatd, 6, 26,"Error: "));
 			printf("%s: internal spec for file has an otype.\n",
 			       (char *)filename);
 		}

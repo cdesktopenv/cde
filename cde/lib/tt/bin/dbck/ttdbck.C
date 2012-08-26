@@ -142,7 +142,7 @@ main(int argc, char **argv)
 
 	if (!opts->set_opts(argc, argv))
 	{
-		fprintf(stderr, catgets(_ttcatd, 6, 2,
+		fprintf(stderr, "%s", catgets(_ttcatd, 6, 2,
 "Usage:\n"
 "ttdbck [-f file] [-k objkey] [-t type] [-bx] \n"
 "[-impa] [-IZ] [-F newfilename] [-T newtype] [mountpoints]\n"));
@@ -156,7 +156,7 @@ main(int argc, char **argv)
 	if (opts->repairing_p() &&
 	    !opts->selecting_p() &&
 	    !opts->diagnosing_p()) {
-		fprintf(stderr,
+		fprintf(stderr, "%s",
 			catgets(_ttcatd, 6, 3,
 				"ttdbck: you must specify a selection "
 				"[-fkt] option or a diagnosis [-bx] option\n"
@@ -201,7 +201,7 @@ main(int argc, char **argv)
 	// already been output.
 
 	if (status==0) {
-		fprintf(stderr,
+		fprintf(stderr, "%s",
 			catgets(_ttcatd, 6, 25,
 				"ttdbck: no errors found.\n"));
 	}
@@ -592,7 +592,7 @@ pisamerr(const char *func, const char *name)
 	}
 	switch (iserrno) {
 	      case EBADFILE:
-		fprintf(stderr,
+		fprintf(stderr, "%s",
 			catgets(_ttcatd, 6, 6,
 				"ttdbck: try 'ttdbck -I'.\n"));
 		break;

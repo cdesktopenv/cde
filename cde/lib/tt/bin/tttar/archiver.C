@@ -551,7 +551,7 @@ usage( FILE *fs ) const
 			 "       %s -h\n"),
 		 (char *)_prog_name, (char *)_prog_name, (char *)_prog_name,
 		 (char *)_prog_name );
-	fprintf( fs,
+	fprintf( fs, "%s",
 		 catgets(_ttcatd, 7, 3,
 			 "\tc       create an archive\n"
 			 "\tt       list an archive's contents\n"

@@ -466,7 +466,7 @@ usage(FILE *fs) const
 			 "       %s -h\n"),
 		 (char *)_prog_name, (char *)_prog_name, (char *)_prog_name,
 		 (char *)_prog_name );
-	fprintf( fs,
+	fprintf( fs, "%s",
 		 catgets(_ttcatd, 8, 14,
 			 "\t-L      do not perform a cp(1)\n"
 			 "\t-v      print the version number and quit\n"
