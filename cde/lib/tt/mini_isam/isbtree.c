@@ -40,6 +40,7 @@
  *	B-tree operations: SEARCH
  *	
  */
+#include <stdlib.h>
 
 #include "isam_impl.h"
 

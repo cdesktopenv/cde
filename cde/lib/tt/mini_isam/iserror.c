@@ -114,7 +114,7 @@ _isam_warning(msg)
     char	*msg;
 {
     openlog("NetISAM", LOG_PID, LOG_USER);
-    syslog(LOG_ERR, msg);
+    syslog(LOG_ERR, "%s", msg);
 }
 
 /* Set user specified fatal_error handler */
