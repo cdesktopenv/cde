@@ -2197,7 +2197,7 @@ _DtTermParseSunMisc  /*  Misc sun esc seqs  */
 	s = XtMalloc(strlen(icon) + strlen(fmt) + 1);
       else 
 	s = buf;
-      sprintf(s,fmt);
+      sprintf(s, "%s", fmt);
       sendEscSequence(w,s) ;
       if (s != buf) XtFree(s);
       break ;
@@ -2208,7 +2208,7 @@ _DtTermParseSunMisc  /*  Misc sun esc seqs  */
 	s = XtMalloc(strlen(icon) + strlen(fmt) + 1);
       else 
 	s = buf;
-      sprintf(s,fmt);
+      sprintf(s, "%s", fmt);
       sendEscSequence(w,s) ;
       if (s != buf) XtFree(s);
       break ;
