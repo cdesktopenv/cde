@@ -265,14 +265,14 @@ static int      build_tree (void)
 	 * tree level, quit. 
 	 */
 	if (hctree1[i].sort > MAX_BITLEN) {
-	    fprintf (stderr, catgets(dtsearch_catd, MS_huff, 30,
+	    fprintf (stderr, "%s", catgets(dtsearch_catd, MS_huff, 30,
 		"\n183 Bit strings have grown too large.  You probably "
 		"have literals\n  turned off with grossly unbalanced "
 		"character counts.\n\7"));
 	    exit (2);
 	}
 	if (hctree1[curr].count >= total_count) {
-	    fprintf (stderr, catgets(dtsearch_catd, MS_huff, 31,
+	    fprintf (stderr, "%s", catgets(dtsearch_catd, MS_huff, 31,
 		"\n191 Programming Error:  Still trying to build\n"
 		"  Huffman Code Tree after root created.\n\7"));
 	    exit (2);
@@ -583,7 +583,7 @@ static void     huffman_code (time_t idstamp)
 	    bit_string + 1,	/* hop over LAST_BIT */
 	    hctree1[i].count,
 	    char_label (i));
-	fprintf (outstream_huf, sprintbuf);
+	fprintf (outstream_huf, "%s", sprintbuf);
 
     }	/* end forloop printing out each tree base entry */
 
@@ -669,7 +669,7 @@ static void     user_args_processor (int argc, char **argv)
 
     /* test for required tree file name */
     if (argc <= 0) {
-	fprintf (stderr, catgets(dtsearch_catd, MS_huff, 37,
+	fprintf (stderr, "%s", catgets(dtsearch_catd, MS_huff, 37,
 	    "576 Missing Huffman Code file names prefix.\n"));
 	print_usage ();
 	exit (2);
@@ -735,7 +735,7 @@ int             main (int argc, char *argv[])
     /* initialize tree table, using the table file if it exists */
     init_treebase ();
     if (total_count == 0L)
-	printf (catgets(dtsearch_catd, MS_huff, 41,
+	printf ("%s", catgets(dtsearch_catd, MS_huff, 41,
 	    "Huffman Code Tables will be newly created.\n"));
     else
 	printf (catgets(dtsearch_catd, MS_huff, 42,

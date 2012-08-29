@@ -196,7 +196,7 @@ static int      change_database (char *newname)
 	return FALSE;
 
     /* If browsing, tell user his options */
-    fprintf (aa_stderr,  catgets(dtsearch_catd, MS_tomita, 5,
+    fprintf (aa_stderr, "%s", catgets(dtsearch_catd, MS_tomita, 5,
 	"Available choices are:") );
     for (db = usrblk.dblist; db != NULL; db = db->link)
 	fprintf (aa_stderr, "   '%s'", db->name);
@@ -422,7 +422,7 @@ static int      browser (void)
 		continue;
 
 	    default:
-		printf (catgets(dtsearch_catd, MS_tomita, 16, "...what?\n"));
+		printf ("%s", catgets(dtsearch_catd, MS_tomita, 16, "...what?\n"));
 		continue;
 	}	/* end switch */
 
@@ -471,7 +471,7 @@ DISPLAY_RECORD:
 	    if (pausing && *ptr == '\n') {
 		if (++pause_counter >= PAUSE_ROWS) {
 		    /* Msg 21 is used in two places */
-		    printf ( catgets(dtsearch_catd, MS_tomita, 21,
+		    printf ( "%s", catgets(dtsearch_catd, MS_tomita, 21,
 			"\n...push ENTER to continue... ") );
 
 		    *userbuf = '\0';
@@ -500,7 +500,7 @@ DISPLAY_RECORD:
 		    if (pausing && *ptr == '\n')
 			if (++pause_counter >= PAUSE_ROWS) {
 			    /* Msg 21 is used in two places */
-			    printf ( catgets(dtsearch_catd, MS_tomita, 21,
+			    printf ( "%s", catgets(dtsearch_catd, MS_tomita, 21,
 				"\n...push ENTER to continue... ") );
 
 		            *userbuf = '\0';
@@ -920,7 +920,7 @@ BAD_ARGS:
 
     usrblk.request = OE_SHUTDOWN;
     Opera_Engine ();
-    printf ( catgets(dtsearch_catd, MS_tomita, 36,
+    printf ( "%s", catgets(dtsearch_catd, MS_tomita, 36,
 	"Normal engine shutdown.\n") );
     DtSearchExit (0);
 }  /* main() */

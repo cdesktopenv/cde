@@ -339,7 +339,7 @@ void            open_outfile ()
 	    printf ( catgets(dtsearch_catd, MS_chandel, 3,
 		"Output file '%s' already exists.\n") ,
 		outfile);
-	    printf ( catgets(dtsearch_catd, MS_chandel, 4,
+	    printf ( "%s", catgets(dtsearch_catd, MS_chandel, 4,
 		"Append, overwrite, or quit? [a,o,q] ") );
 	    i = tolower (getchar ());
 
@@ -1366,17 +1366,17 @@ BAD_ABSTR:
     /*---- Process tables, and check for identifiers referenced ----*/
     if (!top_defined && !bot_defined) {
 	bad_profile = TRUE;
-	printf ( catgets(dtsearch_catd, MS_chandel, 49,
+	printf ( "%s", catgets(dtsearch_catd, MS_chandel, 49,
 		"Error - delimiter not defined.\n") );
     }
     if (!key_defined) {
 	bad_profile = TRUE;
-	printf ( catgets(dtsearch_catd, MS_chandel, 50,
+	printf ( "%s", catgets(dtsearch_catd, MS_chandel, 50,
 		"Error - key-type character never defined.\n") );
     }
     if (!key_pos_defined) {
 	bad_profile = TRUE;
-	printf ( catgets(dtsearch_catd, MS_chandel, 51,
+	printf ( "%s", catgets(dtsearch_catd, MS_chandel, 51,
 		"Error - key never defined.\n") );
     }
     if (bad_profile)
@@ -2223,7 +2223,7 @@ static void	user_arg_processor (int argc, char **argv)
 
 	    case 'w':
 		if ((screen_width = atoi (argptr + 2)) == 0) {
-		    printf ( catgets(dtsearch_catd, MS_chandel, 72,
+		    printf ( "%s", catgets(dtsearch_catd, MS_chandel, 72,
 			"Invalid screen width specified.\n") );
 		    bad_parm = TRUE;
 		}
@@ -2255,7 +2255,7 @@ static void	user_arg_processor (int argc, char **argv)
     }				/*--while--*/
 
     if (argc-- <= 0) {
-	printf ( catgets(dtsearch_catd, MS_chandel, 77,
+	printf ( "%s", catgets(dtsearch_catd, MS_chandel, 77,
 		"Missing required profile-file name.\n") );
 	bad_parm = TRUE;
     }
@@ -2272,7 +2272,7 @@ static void	user_arg_processor (int argc, char **argv)
     }
 
     if (argc-- <= 0) {
-	printf ( catgets(dtsearch_catd, MS_chandel, 78,
+	printf ( "%s", catgets(dtsearch_catd, MS_chandel, 78,
 		"Missing required input-file name.\n") );
 	bad_parm = TRUE;
     }
@@ -2290,7 +2290,7 @@ static void	user_arg_processor (int argc, char **argv)
          strcat(outfile,EXT_FZKEY);
 *****************/
 	if (strcmp (infile, "-") == 0) {
-	    printf ( catgets(dtsearch_catd, MS_chandel, 79, "Error - using "
+	    printf ( "%s", catgets(dtsearch_catd, MS_chandel, 79, "Error - using "
 		"stdin as input, output filename is required!\n") );
 	    exit (FILE_ERROR);
 	} else {
@@ -2341,13 +2341,13 @@ static void	user_arg_processor (int argc, char **argv)
 	printf ( catgets(dtsearch_catd, MS_chandel, 83,
 		"        Profile file: %s\n") , profile);
 	if (strcmp (infile, "-") == 0)
-	    printf ( catgets(dtsearch_catd, MS_chandel, 84,
+	    printf ( "%s", catgets(dtsearch_catd, MS_chandel, 84,
 		"          Input file: stdin\n") );
 	else
 	    printf ( catgets(dtsearch_catd, MS_chandel, 85,
 		"          Input file: %s\n") , infile);
 	if (strcmp (outfile, "-") == 0)
-	    printf ( catgets(dtsearch_catd, MS_chandel, 86,
+	    printf ( "%s", catgets(dtsearch_catd, MS_chandel, 86,
 		"         Output file: stdout\n") );
 	else
 	    printf ( catgets(dtsearch_catd, MS_chandel, 87,
@@ -2405,13 +2405,13 @@ int             main (int argc, char **argv)
 	oops = fclose (outstream);
 	fclose (instream);
 	if (oops < 0) {
-	    printf ( catgets(dtsearch_catd, MS_chandel, 90,
+	    printf ( "%s", catgets(dtsearch_catd, MS_chandel, 90,
 		"\nError closing output file - disk full?\n") );
 	    exit (FILE_ERROR);
 	}
     }
     else {
-	printf ( catgets(dtsearch_catd, MS_chandel, 91,
+	printf ( "%s", catgets(dtsearch_catd, MS_chandel, 91,
 		"Quitting due to errors in profile file.\n") );
 	exit (BAD_PROFILE);
     }

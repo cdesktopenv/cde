@@ -224,7 +224,7 @@ static int      change_max_wordsize (char *new_size)
 
     /* Give user a final warning about large word sizes */
     if (maxwordsz > STANDARD_MAXWORD && language != DtSrLaDEU && !quiet_mode)
-	printf (catgets (dtsearch_catd, MS_initausd, 10,
+	printf ("%s", catgets (dtsearch_catd, MS_initausd, 10,
 		PROGNAME" Specifying large maximum word sizes may "
 		"significantly\n  increase storage requirements.\n"));
     return TRUE;
@@ -262,7 +262,7 @@ static int      change_min_wordsize (char *new_size)
 
 	/* give user a warning about short word sizes */
 	if (minwordsz < DEFAULT_MINWORD)
-	    printf (catgets (dtsearch_catd, MS_initausd, 9,
+	    printf ("%s", catgets (dtsearch_catd, MS_initausd, 9,
 		    PROGNAME " Specifying small minimum word sizes"
 		    " may require extensive\n"
 		    "  editing of stopword file to prevent significantly\n"
@@ -800,7 +800,7 @@ DBD_OKAY:
 	printf ("060*** fillnew dbrec.\n");
     d_fillnew (OR_DBREC, &dbrec, 0);
     if (db_status != S_OKAY) {
-	printf (catgets (dtsearch_catd, MS_initausd, 509,
+	printf ("%s", catgets (dtsearch_catd, MS_initausd, 509,
 		PROGNAME "509 Could not initialize database header record.\n"));
 	puts (vista_msg (PROGNAME "510"));
 	DtSearchExit (3);

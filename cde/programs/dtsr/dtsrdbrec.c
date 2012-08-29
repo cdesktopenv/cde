@@ -112,7 +112,7 @@ void            print_dbrec (char *dbname, struct or_dbrec * dbrec)
 	    "Maximum object key size (sizeof(objkey)) is %ld bytes.\n"),
 	DtSrMAX_DB_KEYSIZE);
     if (ORD_USEHUGEKEYS & dbrec->or_dbflags)
-	printf (catgets (dtsearch_catd, MS_dbrec, 4,
+	printf ("%s", catgets (dtsearch_catd, MS_dbrec, 4,
 		"Optional 'Huge' keys enabled.\n"));
 
     printf (catgets (dtsearch_catd, MS_dbrec, 12,
