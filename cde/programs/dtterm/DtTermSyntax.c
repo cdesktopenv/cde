@@ -269,7 +269,7 @@ void Syntax(char *programName, char *badOption)
         */
         int len = fmtlen + strlen(optPtr->opt);
         if (col + len >= cols) {
-            (void) fprintf(stderr, (GETMESSAGE(NL_SETN_Syntax,49, "\r\n   ")));
+            (void) fprintf(stderr, "%s", (GETMESSAGE(NL_SETN_Syntax,49, "\r\n   ")));
             col = 3;
         }
         (void) fprintf(stderr, fmt, optPtr->opt);
@@ -292,11 +292,11 @@ void Help(char *programName)
     */
     GetUsage();
 
-    (void) fprintf(stderr, (GETMESSAGE(NL_SETN_Syntax,52, "usage:\n")));
+    (void) fprintf(stderr, "%s", (GETMESSAGE(NL_SETN_Syntax,52, "usage:\n")));
     (void) fprintf(stderr, (GETMESSAGE(NL_SETN_Syntax,53,
                    "\t%s [-options ...] [-e command args]\n\n")),
                    programName);
-    (void) fprintf(stderr, (GETMESSAGE(NL_SETN_Syntax,54,
+    (void) fprintf(stderr, "%s", (GETMESSAGE(NL_SETN_Syntax,54,
                    "where options include:\n")));
     for (optPtr = optHead; optPtr; optPtr = optPtr->next)
         if (strlen(optPtr->opt) > (size_t) width) width = strlen(optPtr->opt);
