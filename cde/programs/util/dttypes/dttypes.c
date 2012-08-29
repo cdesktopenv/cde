@@ -328,7 +328,7 @@ rec_list(List *l)
 					printf(catgets(dtcatd, 1, 13, " :\t%s"), 
 						fld_ptr->fieldValue?fv:
 							catgets(dtcatd, 1, 14, ""));
-					printf(catgets(dtcatd, 1, 15, "\n"));
+					printf("%s", catgets(dtcatd, 1, 15, "\n"));
 				}
 
 			}
@@ -344,7 +344,7 @@ rec_list(List *l)
 					printf(catgets(dtcatd, 1, 13, " :\t%s"), fld_ptr->fieldValue?fv:catgets(dtcatd, 1, 14, ""));
 					term++;
 				}
-				if(term)printf(catgets(dtcatd, 1, 15, "\n"));
+				if(term)printf("%s", catgets(dtcatd, 1, 15, "\n"));
 			}
 			_DtDtsMMSafeFree(fn);
 			_DtDtsMMSafeFree(fv);
@@ -570,7 +570,7 @@ parse_args(List *l, int argc, char **argv)
 			{
 				if(error & 1<<j)
 				{
-					fprintf(stderr, error_str[j]);
+					fprintf(stderr, "%s", error_str[j]);
 					error = error & ~(1<<j);
 				}
 			}
@@ -587,7 +587,7 @@ parse_args(List *l, int argc, char **argv)
 
 usage()
 {
-	fprintf(stderr, catgets(dtcatd, 1, 25, "usage:  dttypes [-help]\n\tdttypes [-type filename]\n\tdttypes [-db database] [-w [rec_name regexp] [fld_name regexp]\n\t\t\t[fld_value regexp]]\n\t\t[-l [rec_name] [rec_info] [fld_name regexp] [fld_value]]\n"));
+	fprintf(stderr, "%s", catgets(dtcatd, 1, 25, "usage:  dttypes [-help]\n\tdttypes [-type filename]\n\tdttypes [-db database] [-w [rec_name regexp] [fld_name regexp]\n\t\t\t[fld_value regexp]]\n\t\t[-l [rec_name] [rec_info] [fld_name regexp] [fld_value]]\n"));
 	exit(1);
 }
 
