@@ -143,6 +143,7 @@
 #include <errno.h>
 #include <locale.h>
 #include <sys/stat.h>
+#include <stdlib.h>
 
 #define MS_huff		30	/* message catalog set number */
 #define DELIMITERS	"\t\n"	/* betw fields in .huf file */
