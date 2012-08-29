@@ -218,7 +218,7 @@ mail_it(XtPointer client_data, XtIntervalId *interval_id, CSA_reminder_reference
 	    (appt->mail->value->item.reminder_value->reminder_data.size == 0)) {
 		/* empty recipient */
 		if (debug)
-			fprintf(stderr, catgets(c->DT_catd, 1, 1,
+			fprintf(stderr, "%s", catgets(c->DT_catd, 1, 1,
 				"dtcm: empty recipient in mail reminder\n"));
 		to = appt->author->value->item.calendar_user_value->user_name;
 	} else {

@@ -675,13 +675,13 @@ reminder_err_msg(Widget frame, char *name, Reminder_val_op op, Pixmap p)
 
         switch(op) {
         case ADVANCE_BLANK:
-                sprintf(buf, catgets(c->DT_catd, 1, 775, "You must specify a reminder advance\nOperation was cancelled.  Calendar"));
+                sprintf(buf, "%s", catgets(c->DT_catd, 1, 775, "You must specify a reminder advance\nOperation was cancelled.  Calendar"));
                 break;
         case ADVANCE_CONTAINS_BLANK:
-                sprintf(buf, catgets(c->DT_catd, 1, 776, "A reminder advance may not contain an embedded blank\nOperation was cancelled.  Calendar"));
+                sprintf(buf, "%s", catgets(c->DT_catd, 1, 776, "A reminder advance may not contain an embedded blank\nOperation was cancelled.  Calendar"));
                 break;
         case ADVANCE_NONNUMERIC:
-                sprintf(buf, catgets(c->DT_catd, 1, 777, "Advance values must be a number with an optional sign\nOperation was cancelled.  Calendar"));
+                sprintf(buf, "%s", catgets(c->DT_catd, 1, 777, "Advance values must be a number with an optional sign\nOperation was cancelled.  Calendar"));
                 break;
         case REMINDERS_OK:
         default:

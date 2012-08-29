@@ -588,7 +588,7 @@ XmPushButtonCallbackStruct *cbs;
 	astr = XmTextGetString(f->apptstr);
 
         if (astr == NULL || *astr == NULL) {
-		sprintf(message, catgets(c->DT_catd, 1, 290, "Specify Appt String to Match."));
+		sprintf(message, "%s", catgets(c->DT_catd, 1, 290, "Specify Appt String to Match."));
 		set_message(f->find_message, message);
                 return;
         }
@@ -613,12 +613,12 @@ XmPushButtonCallbackStruct *cbs;
 		if (start == DATE_BBOT)
 			start = get_bot();
 		else if (start == DATE_AEOT) {
-                        sprintf(message,  catgets(c->DT_catd, 1, 810, "Please enter a start date after 1/1/1970"));
+                        sprintf(message, "%s", catgets(c->DT_catd, 1, 810, "Please enter a start date after 1/1/1970"));
                         set_message(f->find_message, message);
                         return;
                 }
 		else if (start <= 0) {
-                        sprintf(message,  catgets(c->DT_catd, 1, 811, "Malformed start date"));
+                        sprintf(message, "%s", catgets(c->DT_catd, 1, 811, "Malformed start date"));
                         set_message(f->find_message, message);
                         return;
                 }
@@ -629,18 +629,18 @@ XmPushButtonCallbackStruct *cbs;
 		if (end_of_time == DATE_AEOT)
 			end_of_time = real_eot;
 		else if (end_of_time == DATE_BBOT) {
-                        sprintf(message,  catgets(c->DT_catd, 1, 812, "Please enter an end date before 1/1/2038"));
+                        sprintf(message, "%s", catgets(c->DT_catd, 1, 812, "Please enter an end date before 1/1/2038"));
                         set_message(f->find_message, message);
                         return;
                 }
 		else if (end_of_time <= 0) {
-                        sprintf(message,  catgets(c->DT_catd, 1, 813, "Malformed end date"));
+                        sprintf(message, "%s", catgets(c->DT_catd, 1, 813, "Malformed end date"));
                         set_message(f->find_message, message);
                         return;
                 }
 
 		if (start >= end_of_time) {
-			sprintf(message, catgets(c->DT_catd, 1, 713, "You must choose a begin date before the end date."));
+			sprintf(message, "%s", catgets(c->DT_catd, 1, 713, "You must choose a begin date before the end date."));
                 	set_message(f->find_message, message);
                 	return;
         	}
@@ -752,7 +752,7 @@ XmPushButtonCallbackStruct *cbs;
         }  /* end for range.end loop */
 
 	if (match_total == 0)
-		sprintf(message, catgets(c->DT_catd, 1, 291, "Appointment Not Found."));
+		sprintf(message, "%s", catgets(c->DT_catd, 1, 291, "Appointment Not Found."));
 	else if (match_total == 1)
 		sprintf(message, catgets(c->DT_catd, 1, 631, "%d match found"), match_total);
 	else

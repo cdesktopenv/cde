@@ -145,8 +145,8 @@ cm_args(int argc, char **argv)
 			argv = grab(++argv,cm_appt_file,'-');
 			break;
 		default:
-			fprintf(stderr, catgets(DT_catd, 1, 191, "Usage:\n\tdtcm_insert [ -c calendar ] [-d <mm/dd/yy>] [ -v view ]\n"));
-			fprintf(stderr, catgets(DT_catd, 1, 192, "                   [-w what string] [-s <HH:MMam/pm>] [-e <HH:MMam/pm>]\n"));
+			fprintf(stderr, "%s", catgets(DT_catd, 1, 191, "Usage:\n\tdtcm_insert [ -c calendar ] [-d <mm/dd/yy>] [ -v view ]\n"));
+			fprintf(stderr, "%s", catgets(DT_catd, 1, 192, "                   [-w what string] [-s <HH:MMam/pm>] [-e <HH:MMam/pm>]\n"));
 			exit(1);
 		}
 	}
@@ -179,7 +179,7 @@ prompt_for_insert(Props *p) {
         format_tick(now(), get_int_prop(p, CP_DATEORDERING),
 		    get_int_prop(p, CP_DATESEPARATOR), date_str);
 
-	printf(catgets(DT_catd, 1, 193, "Please enter the information for the appointment you wish to add.\nDefaults will be shown in parentheses.\n"));
+	printf("%s", catgets(DT_catd, 1, 193, "Please enter the information for the appointment you wish to add.\nDefaults will be shown in parentheses.\n"));
 	prompt_for_line(catgets(DT_catd, 1, 194, 
 		"Calendar (%s): "), cm_get_credentials(), cm_target);
 	prompt_for_line(catgets(DT_catd, 1, 195, 
@@ -195,7 +195,7 @@ prompt_for_insert(Props *p) {
 			if (valid_time(p, timecopy))
 				valid = TRUE;
 			else
-				printf(catgets(DT_catd, 1, 197, "You have entered an invalid time.  Please try again:\n"));
+				printf("%s", catgets(DT_catd, 1, 197, "You have entered an invalid time.  Please try again:\n"));
 			free(timecopy);
 		}
 	}
@@ -218,12 +218,12 @@ prompt_for_insert(Props *p) {
 			"Repeat (%s): "), cm_repeatstr, cm_repeatstr);
 
 	if (strcmp(cm_repeatstr, catgets(DT_catd, 1, 200, "One Time"))) {
-		sprintf(buf, catgets(DT_catd, 1, 203, "no default"));
+		sprintf(buf, "%s", catgets(DT_catd, 1, 203, "no default"));
 		prompt_for_line(
 			catgets(DT_catd, 1, 204, "For (%s): "), buf, cm_for);
 	}
 
-	printf(catgets(DT_catd, 1, 205, 
+	printf("%s", catgets(DT_catd, 1, 205, 
 		"What (you may enter up to 5 lines, use ^D to finish):\n"));
 	cm_what[0] = NULL;
 	for (index = 0; index < 5; index++)

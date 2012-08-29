@@ -1162,7 +1162,7 @@ set_rfp_repeat_val(RFP *rfp) {
 	if (rfp->for_val == CSA_X_DT_DT_REPEAT_FOREVER) {
 		if(rfp->repeat_type != CSA_X_DT_REPEAT_ONETIME)
 		{
-			sprintf(buf,catgets(c->DT_catd, 1, 876, "forever"));
+			sprintf(buf, "%s", catgets(c->DT_catd, 1, 876, "forever"));
 			xmstr = XmStringCreateLocalized(buf);
 			XmComboBoxSetItem(rfp->for_menu, xmstr);
 			XmStringFree(xmstr);

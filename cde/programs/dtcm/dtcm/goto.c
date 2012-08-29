@@ -259,7 +259,7 @@ goto_date(Widget widget, XtPointer client_data, XmPushButtonCallbackStruct *cbs)
  
 	date = XmTextGetString(g->datetext);
 	if ((*date == NULL) || (date == NULL)) {
-		sprintf(message, catgets(c->DT_catd, 1, 297, "Please type in a date"));
+		sprintf(message, "%s", catgets(c->DT_catd, 1, 297, "Please type in a date"));
 		set_message(g->goto_message, message);
                 return;
 	}
@@ -279,17 +279,17 @@ goto_date(Widget widget, XtPointer client_data, XmPushButtonCallbackStruct *cbs)
  
 
 	if (gotodate == DATE_BBOT) {
-		sprintf(message, catgets(c->DT_catd, 1, 814, "You must enter a date after 1969 and before 2038"));
+		sprintf(message, "%s", catgets(c->DT_catd, 1, 814, "You must enter a date after 1969 and before 2038"));
 		set_message(g->goto_message, message);
                 return;
 	}
 	else if (gotodate == DATE_AEOT) {
-		sprintf(message, catgets(c->DT_catd, 1, 814, "You must enter a date after 1969 and before 2038"));
+		sprintf(message, "%s", catgets(c->DT_catd, 1, 814, "You must enter a date after 1969 and before 2038"));
 		set_message(g->goto_message, message);
                 return;
 	}
         else if (gotodate <= 0) {
-		sprintf(message, catgets(c->DT_catd, 1, 299, "Invalid Date"));
+		sprintf(message, "%s", catgets(c->DT_catd, 1, 299, "Invalid Date"));
 		set_message(g->goto_message, message);
                 return;
         }

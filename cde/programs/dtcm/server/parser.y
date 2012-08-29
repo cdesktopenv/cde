@@ -656,7 +656,7 @@ yyerror(char *s)
 void
 report_err(char *s)
 {
-         (void)fprintf (stderr, s);
+         (void)fprintf (stderr, "%s", s);
 }
 
 char *

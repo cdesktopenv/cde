@@ -153,7 +153,7 @@ void show_main_help(Widget w, XtPointer clientData, XtPointer cbs)
                switch ((int)status)
                   {
                     case DtHELP_SELECT_ERROR:
-                      printf(catgets(c->DT_catd, 1, 350, "Selection Error, cannot continue\n"));
+                      printf("%s", catgets(c->DT_catd, 1, 350, "Selection Error, cannot continue\n"));
                     break;
                     case DtHELP_SELECT_VALID:
                       while (selWidget != NULL)

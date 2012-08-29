@@ -1947,7 +1947,7 @@ quit_handler(Widget w, XtPointer cdata, XtPointer cbs) {
 	Calendar	*c = (Calendar *)cdata;
 
 	if (debug)
-	  fprintf(stderr, catgets(c->DT_catd, 1, 89, "in quit_handler\n"));
+	  fprintf(stderr, "%s", catgets(c->DT_catd, 1, 89, "in quit_handler\n"));
 
 	if (editor_showing((Editor*) c->editor) ||
 	    todo_showing((ToDo*) c->todo))
@@ -3136,7 +3136,7 @@ switch_it(Calendar *c, char *new_calendar, WindowType win)
 	} else {
 		if ((user = cm_target2name(new_calendar)) == NULL) {
 			if (!strcmp(new_calendar, ""))
-				sprintf(buf, catgets(c->DT_catd, 1, 619, "Please enter a calendar name in the format: <user>@<hostname>"));
+				sprintf(buf, "%s", catgets(c->DT_catd, 1, 619, "Please enter a calendar name in the format: <user>@<hostname>"));
 			else
 				sprintf(buf, catgets(c->DT_catd, 1, 620,
 		"Unknown calendar. Calendar name needed: <name>%s"),
@@ -3149,7 +3149,7 @@ switch_it(Calendar *c, char *new_calendar, WindowType win)
 
 		if ((loc = cm_target2location(new_calendar)) == NULL) {
 			if (!strcmp(new_calendar, ""))
-				sprintf(buf, catgets(c->DT_catd, 1, 619, "Please enter a calendar name in the format: <user>@<hostname>"));
+				sprintf(buf, "%s", catgets(c->DT_catd, 1, 619, "Please enter a calendar name in the format: <user>@<hostname>"));
 			else
 				sprintf(buf, catgets(c->DT_catd, 1, 622,
 	"Unknown calendar. Hostname needed: %s@<hostname>"),

@@ -636,7 +636,7 @@ GetIcon(Calendar *calendar)
                         drag_xbm_width, drag_xbm_height);
                 if (e->drag_bitmap == NULL) {
 
-                        printf(catgets(calendar->DT_catd, 1, 237, "XCreateBitmapFromData() failed for bitmap.\n"));
+                        printf("%s", catgets(calendar->DT_catd, 1, 237, "XCreateBitmapFromData() failed for bitmap.\n"));
                         return;
                 }
                 else
@@ -647,7 +647,7 @@ GetIcon(Calendar *calendar)
                         window, (char *) drag_mask_xbm_bits,
                         drag_mask_xbm_width, drag_mask_xbm_height);
                 if (e->drag_mask == NULL) {
-                        printf(catgets(calendar->DT_catd, 1, 238, "XCreateBitmapFromData() failed for mask.\n"));
+                        printf("%s", catgets(calendar->DT_catd, 1, 238, "XCreateBitmapFromData() failed for mask.\n"));
                         return;
                 }
                 else
@@ -798,7 +798,7 @@ TranslationDragStart(
 			     DtNsourceIcon, e->drag_icon,
 			     NULL) == NULL) {
  
-                printf(catgets(calendar->DT_catd, 1, 239, 
+                printf("%s", catgets(calendar->DT_catd, 1, 239, 
 					"DragStart returned NULL.\n"));
         }
 }
@@ -948,7 +948,7 @@ ApptDragStart(
 		NULL)
             == NULL) {
  
-                printf(catgets(calendar->DT_catd, 1, 239,
+                printf("%s", catgets(calendar->DT_catd, 1, 239,
 			       "DragStart returned NULL.\n"));
         }
 }

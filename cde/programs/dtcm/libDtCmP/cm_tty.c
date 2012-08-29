@@ -246,11 +246,11 @@ query_user(void *client_data) {
 		fprintf(stdout, catgets(catd_global, 1, 1047, 
 			"This appointment: '%s' has an end\n"), what_str);
 	else
-		fprintf(stdout, catgets(catd_global, 1, 1048, 
+		fprintf(stdout, "%s", catgets(catd_global, 1, 1048, 
 			"This appointment has an end\n"));
-	fprintf(stdout, catgets(catd_global, 1, 1049, 
+	fprintf(stdout, "%s", catgets(catd_global, 1, 1049, 
 			"time earlier than its begin time.  Do you\n"));
-	fprintf(stdout, catgets(catd_global, 1, 1050,
+	fprintf(stdout, "%s", catgets(catd_global, 1, 1050,
 			"want to schedule it into the next day? [Y/N]  "));
 	fgets(ans, sizeof(ans)-1, stdin);
 	fprintf(stdout, "\n");
@@ -317,14 +317,14 @@ cm_tty_delete(
 		fprintf(stdout, catgets(catd, 1, 1051, 
 		     "The appointment '%s' is part of a repeating series.  "),
 		      appt->what->value->item.string_value);
-		fprintf(stdout, catgets(catd, 1, 1052, "Do you want to:"));
-		fprintf(stdout, catgets(catd, 1, 1053, 
+		fprintf(stdout, "%s", catgets(catd, 1, 1052, "Do you want to:"));
+		fprintf(stdout, "%s", catgets(catd, 1, 1053, 
 					"\n\t1.  Delete all of them"));
-		fprintf(stdout, catgets(catd, 1, 1054, 
+		fprintf(stdout, "%s", catgets(catd, 1, 1054, 
 					"\n\t2.  Delete this one only"));
-		fprintf(stdout, catgets(catd, 1, 1055, "\n\t3.  Delete forward"));
-		fprintf(stdout, catgets(catd, 1, 1056, "\n\t4.  Cancel"));
-		fprintf(stdout, catgets(catd, 1, 1057, "\n\tOption [1-4]: "));
+		fprintf(stdout, "%s", catgets(catd, 1, 1055, "\n\t3.  Delete forward"));
+		fprintf(stdout, "%s", catgets(catd, 1, 1056, "\n\t4.  Cancel"));
+		fprintf(stdout, "%s", catgets(catd, 1, 1057, "\n\tOption [1-4]: "));
 		fgets(ans, sizeof(ans)-1, stdin);
 		fprintf(stdout, "\n");
 	}

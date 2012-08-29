@@ -887,55 +887,55 @@ editor_err_msg(Widget frame, char *name, Validate_op op, Pixmap p) {
 
 	switch(op) {
 	case COULD_NOT_OPEN_FILE:
-		sprintf(buf, catgets(c->DT_catd, 1, 355, "Unable to open callog file.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 355, "Unable to open callog file.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, CMSD_ERROR_HELP);
 		break;
 	case CANCEL_APPT:
-		sprintf(buf, catgets(c->DT_catd, 1, 356, "Per user request, Operation was cancelled.\nCalendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 356, "Per user request, Operation was cancelled.\nCalendar"));
 		help_button = False;
 		break;
 	case INVALID_DATE:
-		sprintf(buf, catgets(c->DT_catd, 1, 357, "Invalid value in DATE field.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 357, "Invalid value in DATE field.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, DATE_ERROR_HELP);
 		break;
 	case INVALID_START:
-		sprintf(buf, catgets(c->DT_catd, 1, 358, "Invalid value in START field.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 358, "Invalid value in START field.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, START_ERROR_HELP);
 		break;
 	case INVALID_TIME_DUE:
-		sprintf(buf, catgets(c->DT_catd, 1, 1011, "Invalid value in the \"Time Due\" field.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 1011, "Invalid value in the \"Time Due\" field.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, START_ERROR_HELP);
 		break;
 	case INVALID_STOP:
-		sprintf(buf, catgets(c->DT_catd, 1, 359, "Invalid value in END field.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 359, "Invalid value in END field.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, STOP_ERROR_HELP);
 		break;
 	case MISSING_DATE:
-		sprintf(buf, catgets(c->DT_catd, 1, 360, "You must provide a DATE value.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 360, "You must provide a DATE value.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, MISSING_FIELD_ERROR_HELP);
 		break;
 	case MISSING_START:
-		sprintf(buf, catgets(c->DT_catd, 1, 361, "You must provide a START value.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 361, "You must provide a START value.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, MISSING_FIELD_ERROR_HELP);
 		break;
 	case MISSING_WHAT:
-		sprintf(buf, catgets(c->DT_catd, 1, 362, "You must provide a WHAT value.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 362, "You must provide a WHAT value.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, MISSING_FIELD_ERROR_HELP);
 		break;
 	case REPEAT_FOR_MISMATCH:
-		sprintf(buf, catgets(c->DT_catd, 1, 363, "Invalid or mismatched REPEAT and FOR values.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 363, "Invalid or mismatched REPEAT and FOR values.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, REPEAT_FOR_ERROR_HELP);
 		break;
 	case INVALID_NOTIME_APPT:
-		sprintf(buf, catgets(c->DT_catd, 1, 724, "No Time appointments must have a WHAT value specified.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 724, "No Time appointments must have a WHAT value specified.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, NO_TIME_ERROR_HELP);
 		break;
 	case INVALID_TIME:
-		sprintf(buf, catgets(c->DT_catd, 1, 1104, "Invalid value in TIME DUE field.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 1104, "Invalid value in TIME DUE field.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, START_ERROR_HELP);
 		break;
 	case MISSING_TIME:
-		sprintf(buf, catgets(c->DT_catd, 1, 1105, "You must provide a TIME DUE value.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 1105, "You must provide a TIME DUE value.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, MISSING_FIELD_ERROR_HELP);
 		break;
 	case VALID_APPT:
@@ -990,75 +990,75 @@ backend_err_msg(
 
 	switch(stat) {
 	case CSA_E_CALENDAR_EXISTS:
-		sprintf(buf, catgets(c->DT_catd, 1, 367, "Calendar already exists.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 367, "Calendar already exists.\nOperation was cancelled.  Calendar"));
 		help_button = False;
 		break;
 	case CSA_E_CALENDAR_NOT_EXIST:
-		sprintf(buf, catgets(c->DT_catd, 1, 368, "Calendar does not exist.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 368, "Calendar does not exist.\nOperation was cancelled.  Calendar"));
 		help_button = False;
 		break;
 	case CSA_X_DT_E_ENTRY_NOT_FOUND:
-		sprintf(buf, catgets(c->DT_catd, 1, 725, "Calendar Entry does not exist.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 725, "Calendar Entry does not exist.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_INVALID_ENTRY_HANDLE:
-		sprintf(buf, catgets(c->DT_catd, 1, 881, "Internal Error #1: Invalid calendar/entry handle.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 881, "Internal Error #1: Invalid calendar/entry handle.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_INVALID_SESSION_HANDLE:
-		sprintf(buf, catgets(c->DT_catd, 1, 882, "Internal Error #2: Invalid session handle.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 882, "Internal Error #2: Invalid session handle.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_NO_AUTHORITY:
-		sprintf(buf, catgets(c->DT_catd, 1, 370, "Authorization error.  Permission denied.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 370, "Authorization error.  Permission denied.\nOperation was cancelled.  Calendar"));
 		help_button = False;
 		break;
 	case CSA_E_INVALID_PARAMETER:
-		sprintf(buf, catgets(c->DT_catd, 1, 883, "Internal Error #3: Invalid data value.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 883, "Internal Error #3: Invalid data value.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_READONLY:
-		sprintf(buf, catgets(c->DT_catd, 1, 884, "Internal Error #4: Value specified for a read-only attribute.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", atgets(c->DT_catd, 1, 884, "Internal Error #4: Value specified for a read-only attribute.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_INVALID_ATTRIBUTE_VALUE:
-		sprintf(buf, catgets(c->DT_catd, 1, 885, "Internal Error #5: Incorrect data type specified for an attribute value.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 885, "Internal Error #5: Incorrect data type specified for an attribute value.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_UNSUPPORTED_ATTRIBUTE:
-		sprintf(buf, catgets(c->DT_catd, 1, 886, "Internal Error #6: Specified attribute is not supported on this calendar version.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 886, "Internal Error #6: Specified attribute is not supported on this calendar version.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_NOT_SUPPORTED:
-		sprintf(buf, catgets(c->DT_catd, 1, 887, "Internal Error #7: Specified function is not supported on this calendar version.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 887, "Internal Error #7: Specified function is not supported on this calendar version.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_INVALID_ENUM:
-		sprintf(buf, catgets(c->DT_catd, 1, 888, "Internal Error #8: Invalid operator specified.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 888, "Internal Error #8: Invalid operator specified.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_INSUFFICIENT_MEMORY:
-		sprintf(buf, catgets(c->DT_catd, 1, 378, "Memory allocation error - not enough memory.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 378, "Memory allocation error - not enough memory.\nOperation was cancelled.  Calendar"));
 		sprintf(error_buf, MEMORY_ALLOC_ERROR_HELP);
 		break;
 	case CSA_E_DISK_FULL:
-		sprintf(buf, catgets(c->DT_catd, 1, 907, "No space left for calendar file.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 907, "No space left for calendar file.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_SERVICE_UNAVAILABLE:
-		sprintf(buf, catgets(c->DT_catd, 1, 921, "Couldn't access calendar: "));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 921, "Couldn't access calendar: "));
 		break;
 	case CSA_X_DT_E_INVALID_SERVER_LOCATION:
-		sprintf(buf, catgets(c->DT_catd, 1, 641, "Server failed to get network address\nfor the specified location:  invalid hostname."));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 641, "Server failed to get network address\nfor the specified location:  invalid hostname."));
 		break;
 	case CSA_X_DT_E_SERVICE_NOT_REGISTERED:
-		sprintf(buf, catgets(c->DT_catd, 1, 642, "rpc.cmsd daemon is not registered.\nPlease verify rpc.cmsd is installed correctly on your system."));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 642, "rpc.cmsd daemon is not registered.\nPlease verify rpc.cmsd is installed correctly on your system."));
 		sprintf(error_buf, CMSD_ERROR_HELP);
 		break;
 	case CSA_X_DT_E_SERVER_TIMEOUT:
-		sprintf(buf, catgets(c->DT_catd, 1, 727, "Your request timed out\nPlease verify rpc.cmsd is installed correctly on your system."));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 727, "Your request timed out\nPlease verify rpc.cmsd is installed correctly on your system."));
 		sprintf(error_buf, CMSD_ERROR_HELP);
 		break;
 	case CSA_E_FAILURE:
-		sprintf(buf, catgets(c->DT_catd, 1, 643, "Couldn't access calendar. Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 643, "Couldn't access calendar. Calendar"));
 		break;
 	case CSA_E_INVALID_RULE:
-		sprintf(buf, catgets(c->DT_catd, 1, 1120, "The event cannot be scheduled in the given time frame.\nThe operation was cancelled."));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 1120, "The event cannot be scheduled in the given time frame.\nThe operation was cancelled."));
 		break;
 	case CSA_SUCCESS:
 		return;
 	default:
-		sprintf(buf, catgets(c->DT_catd, 1, 383, "Unknown error.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 383, "Unknown error.\nOperation was cancelled.  Calendar"));
 		break;
 	}
 
