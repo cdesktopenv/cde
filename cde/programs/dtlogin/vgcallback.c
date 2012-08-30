@@ -817,7 +817,7 @@ MenuItemCB( Widget w, XtPointer client_data, XtPointer call_data )
 	    temp_p = logoFile;
  
         logoName = _DtGetIconFileName(DefaultScreenOfDisplay(dpyinfo.dpy),
-                          temp_p, NULL, NULL, NULL);
+                          temp_p, NULL, NULL, 0);
  
         if (logoName == NULL) {
            LogError( 
@@ -1740,7 +1740,7 @@ SetDtLabelAndIcon()
  
   logoName = _DtGetIconFileName(
 			DefaultScreenOfDisplay(dpyinfo.dpy),
-                        temp_p, NULL, NULL, NULL);
+                        temp_p, NULL, NULL, 0);
  
   if (logoName == NULL) {
         LogError(

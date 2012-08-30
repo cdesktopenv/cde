@@ -896,7 +896,7 @@ char 	    *temp_p;
 	  /* 
 	   * Make sure the key file exists.
 	   */
-	  if (stat( temp_p, &statb) == NULL) { 
+	  if (stat( temp_p, &statb) == 0) { 
 
     	    j = InitArg(ToggleBG);
     	    if (XrmGetResource(

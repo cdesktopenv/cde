@@ -180,9 +180,9 @@ MakeLogo( void )
 /*
  * On AIX4 we have a Dtlogo.s.pm
  */
-# define LOGO_TYPE (LOWRES ? DtSMALL : NULL)
+# define LOGO_TYPE (LOWRES ? DtSMALL : 0)
 #else 
-# define LOGO_TYPE NULL
+# define LOGO_TYPE 0
 #endif
     
     logoName = _DtGetIconFileName(DefaultScreenOfDisplay(dpyinfo.dpy), 
