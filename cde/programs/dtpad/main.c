@@ -276,7 +276,7 @@ static int dtpadXIOErrorHandler(
  *				edit window)
  *
  ************************************************************************/ 
-void 
+int 
 main(
         int argc,
         char **argv )

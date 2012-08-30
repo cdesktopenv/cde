@@ -211,7 +211,7 @@ PrintOutputCreate(Widget shell)
 		_poDefaultMargin,
 		_poDefaultMargin,
 		&parseError );
-    assert(parseError == NULL);
+    assert(parseError == 0);
 
     return pOutput;
 }
@@ -783,7 +783,7 @@ _poGetFileContents(char **contents, char *file)
     int			nbytes;
     FILE		*fp = NULL;
 
-    if (file == NULL || *file == NULL) return
+    if (file == NULL || *file == '\0') return
 
     /*
      * Open the file for reading.
