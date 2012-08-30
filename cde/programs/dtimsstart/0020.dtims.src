@@ -1,0 +1,92 @@
+XCOMM !KORNSHELL
+XCOMM ####################################################################
+XCOMM ##  File:              0020.dtims
+XCOMM ##
+XCOMM ##  Default Location:  /usr/dt/config/Xsession.d/
+XCOMM ##
+XCOMM ##  Purpose:           Start desktop input method server if required
+XCOMM ##
+XCOMM ##  Description:
+XCOMM ##                     This script is invoked by means of the Xsession file
+XCOMM ##                     at user login. It starts an input method server as
+XCOMM ##                     required for selected locales.
+XCOMM ##
+XCOMM ##  Invoked by:        /usr/dt/bin/Xsession
+XCOMM ##
+XCOMM ##  Product:           @(#)Common Desktop Environment 1.0
+XCOMM ##
+XCOMM ##  Note:
+XCOMM ##
+XCOMM ##    The /usr/dt/config/Xsession.d/0020.dtims file is a
+XCOMM ##    factory-default file and will be unconditionally overwritten upon
+XCOMM ##    subsequent installation. To customize input method server startup
+XCOMM ##    behavior, copy this file to the configuration directory,
+XCOMM ##    /etc/dt/config/Xsession.d and customize that version
+XCOMM ##    of the file.
+XCOMM ##
+XCOMM ##    The value of DTSTARTIMS determines whether this file,
+XCOMM ##    /usr/dt/config/Xsession.d/0020.dtims, will start
+XCOMM ##    the specified input method server. Should an input method server
+XCOMM ##    be started from /etc/dt/config/Xsession.d/0020.dtims
+XCOMM ##    or should an input method server not be desired, unset DTSTARTIMS
+XCOMM ##    to prevent this file from starting one.
+XCOMM ##
+XCOMM ##    The general logic of this file is:
+XCOMM ##
+XCOMM ##    if [ "$DTSTARTIMS" = "True" ]
+XCOMM ##    then
+XCOMM ##      <start input method server>
+XCOMM ##      unset DTSTARTIMS
+XCOMM ##    fi
+XCOMM ##
+XCOMM ##  Revision:          $XConsortium: 0020.dtims /main/2 1996/07/18 14:23:41 drk $
+XCOMM ##
+XCOMM ##  (c) Copyright 1993, 1994 Hewlett-Packard Company
+XCOMM ##  (c) Copyright 1993, 1994 International Business Machines Corp.
+XCOMM ##  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+XCOMM ##  (c) Copyright 1993, 1994 Novell, Inc.
+XCOMM ##
+XCOMM ####################################################################
+#define HASH #
+
+if [ "$DTSTARTIMS" = "True" ]
+then
+
+XCOMM
+XCOMM Start HP platform IM (Input Method) server for Asian locales.
+XCOMM
+
+  if [[ -z "${CDE_IMS_PID:-}" ]]
+  then
+
+    case "$LANG" in
+      ja_JP*    | japanese*     | \
+      ko_KR*    | korean*       | \
+      zh_TW*    | chinese-t*    | \
+      zh_CN*    | chinese-s*    )
+
+        DTIMS_SCRIPT=0020.dtims
+        DTIMS_CMD="/usr/dt/bin/dtimsstart -env -shell ksh"
+
+        if [[ -x "${DTIMS_CMD%% *}" ]]; then
+
+          HASH execute DTIMS_CMD and 'eval' its output
+          Log "$DTIMS_SCRIPT: \"${DTIMS_CMD%% *}\" started."
+          eval ` $DTIMS_CMD `
+
+          HASH  set CDE_IMS_PID to 0 (IMS started, but its pid is unknown.)
+          CDE_IMS_PID=0
+        else
+          Log "$DTIMS_SCRIPT: \"${DTIMS_CMD%% *}\" not found."
+        fi
+
+        unset DTIMS_CMD DTIMS_SCRIPT
+        ;;
+    esac
+    unset DTSTARTIMS
+
+  fi
+
+fi
+
+XCOMM #########################         eof       #####################

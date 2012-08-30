@@ -25,6 +25,13 @@ EXTRA_CCOPTIONS = -xF
 EXTRA_DEFINES = -DANSICPP
 #endif /* RsArchitecture */
 
+CPP_TARGETS = 0020.dtims
+AllTarget($(CPP_TARGETS))
+
+LOCAL_CPP_DEFINES = -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
+                    -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP) \
+		    -DKORNSHELL=$(KORNSHELL)
+
 PROGRAMS=dtimsstart 
 
 SRCS =	action.c 	env.c		file.c \
@@ -36,3 +43,5 @@ OBJS =	action.o 	env.o		file.o \
 	start.o 	util.o		win.o
 
 ComplexProgramTarget($(PROGRAMS))
+
+CppSourceFile(0020.dtims,0020.dtims.src,$(LOCAL_CPP_DEFINES),)
