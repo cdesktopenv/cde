@@ -65,6 +65,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #if defined(SVR4) || defined(SYSV)
 #include <string.h>			/*USL*/
 #else	/* SVR4 or SYSV */
