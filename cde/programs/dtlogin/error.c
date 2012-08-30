@@ -330,7 +330,7 @@ LogOutOfMem( unsigned char *fmt, ...)
     Va_start(args,fmt);
 
     if ( SyncErrorFile(1) ) {
-	fprintf(stderr,(char *)ReadCatalog(MC_ERROR_SET,MC_NO_MEMORY,MC_DEF_NO_MEMORY));
+	fprintf(stderr, "%s", (char *)ReadCatalog(MC_ERROR_SET,MC_NO_MEMORY,MC_DEF_NO_MEMORY));
 	vfprintf (stderr, (char *)fmt, args);
 	fflush (stderr);
     }

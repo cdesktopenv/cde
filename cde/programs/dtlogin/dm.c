@@ -1623,17 +1623,17 @@ GettyMessage( struct display *d, int msgnum )
 	switch (msgnum) {
 	case 1:
 	
-	  fprintf(tf,(char *)ReadCatalog(MC_LABEL_SET,MC_SUS1_LABEL,MC_DEF_SUS1_LABEL));
+	  fprintf(tf, "%s", (char *)ReadCatalog(MC_LABEL_SET,MC_SUS1_LABEL,MC_DEF_SUS1_LABEL));
 
-	  fprintf(tf,(char *)ReadCatalog(MC_LABEL_SET,MC_SUS2_LABEL,MC_DEF_SUS2_LABEL));
+	  fprintf(tf, "%s", (char *)ReadCatalog(MC_LABEL_SET,MC_SUS2_LABEL,MC_DEF_SUS2_LABEL));
 
-	  fprintf(tf,(char *)ReadCatalog(MC_LABEL_SET,MC_SUS3_LABEL,MC_DEF_SUS3_LABEL));
+	  fprintf(tf, "%s", (char *)ReadCatalog(MC_LABEL_SET,MC_SUS3_LABEL,MC_DEF_SUS3_LABEL));
 
 	  break;
 	  
 	case 2:
 	
-	  fprintf(tf,(char *)ReadCatalog(MC_LABEL_SET,MC_RES_LABEL,MC_DEF_RES_LABEL));
+	  fprintf(tf, "%s", (char *)ReadCatalog(MC_LABEL_SET,MC_RES_LABEL,MC_DEF_RES_LABEL));
 
 	  break;
 	  
@@ -1643,7 +1643,7 @@ GettyMessage( struct display *d, int msgnum )
 		(char *)ReadCatalog(MC_LABEL_SET,MC_START_LBLDPY,MC_DEF_START_LBLDPY),
 		d->name);
 
-	  fprintf(tf,(char *)ReadCatalog(MC_LABEL_SET,MC_WAIT_LABEL,MC_DEF_WAIT_LABEL));
+	  fprintf(tf, "%s", (char *)ReadCatalog(MC_LABEL_SET,MC_WAIT_LABEL,MC_DEF_WAIT_LABEL));
 
 	  break;
 	  
