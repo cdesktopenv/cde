@@ -333,7 +333,7 @@ Init_Editor(
   Position lx, ly;
 
 /*** window ID of tablet ***/
-  tablet_win = NULL;
+  tablet_win = 0;
 
 /*** Nothing needs to be saved, yet ***/
   Dirty = False;
@@ -347,7 +347,7 @@ Init_Editor(
   pointCount = 0;
 
 /*** file I/O related globals ***/
-  last_fname[0] = NULL;
+  last_fname[0] = '\0';
   X_Hot = -1;
   Y_Hot = -1;
 
@@ -1346,8 +1346,8 @@ Init_Icons(
     stat_out("         Init_Icons: color=%x mono=%x\n", color_icon, mono_icon);
 #endif
 
-  tmp_color = NULL;
-  tmp_mono = NULL;
+  tmp_color = 0;
+  tmp_mono = 0;
 
 /*** App. init or 'New Icon' ***/
   if (!saveFlag) {
@@ -1371,7 +1371,7 @@ Init_Icons(
   mono_icon = XCreatePixmap(dpy, root, width, height,
                                 DefaultDepth(dpy, screen));
 
-  if ((color_icon == NULL) || (mono_icon == NULL))
+  if ((color_icon == 0) || (mono_icon == 0))
     Abort(GETSTR(10,50, "Cannot initialize application icon storage"));
 
   XSetForeground(dpy, scratch_gc, Transparent);
@@ -2337,7 +2337,7 @@ SaveSession( void )
     sprintf(bufr, "%s*y: %d\n", bufr, y);
     sprintf(bufr, "%s*width: %d\n", bufr, width);
     sprintf(bufr, "%s*height: %d\n", bufr, height);
-    if (last_fname[0] != NULL)
+    if (last_fname[0] != '\0')
         sprintf(bufr, "%s*file: %s\n", bufr, last_fname);
 
     write (fd, bufr, strlen(bufr));
@@ -2414,7 +2414,7 @@ GetSessionInfo( void )
     /*** now get the information we want from the database ***/
     /*** make sure values are at least somewhat reasonable ***/
 
-    xrm_name[1] = NULL;
+    xrm_name[1] = '\0';
 
     /* get x position */
     xrm_name[0] = XrmStringToQuark ("x");

@@ -550,7 +550,7 @@ Do_ButtonOp(
                                 min(tx, last_tx), min(ty, last_ty),
                                 abs(tx-last_tx), abs(ty-last_ty));
                             GraphicsOp = Backup_G_Op;
-                            Backup_G_Op = NULL;
+                            Backup_G_Op = 0;
                             Pressed = False;
                            }
                           break;
@@ -571,7 +571,7 @@ Do_ButtonOp(
          case S_HOTSPOT :
          case S_WAIT_RELEASE :
                           GraphicsOp = Backup_G_Op;
-                          Backup_G_Op = NULL;
+                          Backup_G_Op = 0;
                           break;
          case S_ROTATE  :
          case S_SCALE_2 :

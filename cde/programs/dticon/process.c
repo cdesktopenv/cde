@@ -216,7 +216,7 @@ Process_Save( void )
      tmp2 = strchr(tmp1, c);
      strcpy(newName, tmp2);
   }
-  if (strncmp(newName, untitledStr, 8) == 0 || last_fname[0] == NULL) Process_SaveAs();
+  if (strncmp(newName, untitledStr, 8) == 0 || last_fname[0] == '\0') Process_SaveAs();
   else
  {
   if (SavedOnce == True)
@@ -969,7 +969,7 @@ Do_Paste(
     GraphicsOp = Backup_G_Op;
     if (Backup_G_Op == SELECT)
       Start_HotBox(CONTINUE);
-    Backup_G_Op = NULL;
+    Backup_G_Op = 0;
   }
 
   XPutImage(dpy, color_icon, Color_gc, color_img, 0, 0, x, y,

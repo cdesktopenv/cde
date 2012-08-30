@@ -220,7 +220,7 @@ main(
 
         TopLevel = XtAppInitialize(&AppContext, CLASS_NAME,
                                 option_list, XtNumber(option_list),
-                                &argc, argv, NULL, NULL, NULL);
+                                &argc, argv, NULL, NULL, 0);
 
         XtGetApplicationResources(TopLevel, &xrdb, resources,
                                       XtNumber(resources), NULL, 0);

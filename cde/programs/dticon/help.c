@@ -359,7 +359,7 @@ HelpOnItemCB(
     while (!XtIsSubclass(w, applicationShellWidgetClass))
         w = XtParent(w);
 
-    status = DtHelpReturnSelectedWidgetId(w, NULL, &selWidget);
+    status = DtHelpReturnSelectedWidgetId(w, 0, &selWidget);
     /* NULL value for cursor, uses default cursor value. */
 
     switch ((int)status)

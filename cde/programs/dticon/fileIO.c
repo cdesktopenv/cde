@@ -132,9 +132,9 @@ Do_FileIO(
   if (debug)
     stat_out("Entering Do_FileIO\n");
 #endif
-  pix_ret = NULL;
-  shape_ret = NULL;
-  mask_ret = NULL;
+  pix_ret = 0;
+  shape_ret = 0;
+  mask_ret = 0;
 
   /* get file name */
   if (SaveMeNot){
@@ -294,9 +294,9 @@ Read_File(
 
   XmUpdateDisplay(mainWindow);
 
-  pix_ret = NULL;
-  shape_ret = NULL;
-  mask_ret = NULL;
+  pix_ret = 0;
+  shape_ret = 0;
+  mask_ret = 0;
   xpm_ReadAttribs.valuemask = READ_FLAGS;
   xpm_ReadAttribs.colorsymbols = colorSymbols;
   xpm_ReadAttribs.numsymbols = NUM_PENS;
@@ -388,7 +388,7 @@ Read_File(
 /*** does a suffix exist? ***/
     if (suffix) {
       strncpy(dummy, fname, ((suffix-fname)-1));
-      dummy[(int) (suffix-fname)-1] = NULL;
+      dummy[(int) (suffix-fname)-1] = '\0';
       strcat(dummy, "_m.");
       strcat(dummy, suffix);
 #ifdef DEBUG
@@ -412,11 +412,11 @@ Read_File(
     if (status == BitmapSuccess) {
       if ((width_ret != mask_width_ret) || (height_ret != mask_height_ret)) {
         XFreePixmap(dpy, mask_ret);
-        mask_ret = NULL;
+        mask_ret = 0;
        }
      }
     else
-      mask_ret = NULL;
+      mask_ret = 0;
    }
 
   strcpy(last_fname, fname);
@@ -517,7 +517,7 @@ Write_File(
   if (debug)
     Dump_AttribStruct(&xpm_WriteAttribs);
 #endif
-    status = _DtXpmWriteFileFromPixmap(dpy, fname, color_icon, NULL,
+    status = _DtXpmWriteFileFromPixmap(dpy, fname, color_icon, 0,
                                 &xpm_WriteAttribs);
 
 /*******
@@ -550,7 +550,7 @@ Write_File(
 /*** THIRD, construct the mask filename ***/
     if (suffix) {
       strncpy(dummy, fname, ((suffix-fname)-1));
-      dummy[(int) (suffix-fname)-1] = NULL;
+      dummy[(int) (suffix-fname)-1] = '\0';
       strcat(dummy, "_m.");
       strcat(dummy, suffix);
     }
