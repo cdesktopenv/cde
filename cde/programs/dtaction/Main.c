@@ -40,6 +40,7 @@
  ****************************************************************************
  ************************************<+>*************************************/
 
+#include <stdlib.h>
 #include <limits.h>
 #include <stddef.h>
 #include <unistd.h>
@@ -280,7 +281,7 @@ CheckForDone(
 }
 
 
-void
+int
 main( 
      int argc,
      char **argv ) 
@@ -306,7 +307,7 @@ main(
 			     &argc, argv)) )
     {
 	setlocale(LC_ALL, "");
-        fprintf(stderr,GETMESSAGE(1,11,"Can't open display.\n"));
+        fprintf(stderr, "%s", GETMESSAGE(1,11,"Can't open display.\n"));
 	exit(-1);
     }
   
@@ -351,7 +352,7 @@ main(
     */
     if ( (actionName = argv[1]) == NULL)
     {
-	fprintf(stderr,GETMESSAGE(1,10,"No action name specified.\n"));
+	fprintf(stderr, "%s", GETMESSAGE(1,10,"No action name specified.\n"));
 	exit(-1);
     }
 
@@ -397,6 +398,7 @@ main(
 
     XtAppMainLoop(appContext);
 
+    return EXIT_SUCCESS;
 }
 
 
