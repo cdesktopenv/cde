@@ -22,6 +22,7 @@
  */
 /* @(#)$XConsortium: util.c /main/6 1996/07/12 15:44:21 pascale $ */
 
+#include <time.h>
 #include <DtHelp/LocaleXlate.h>  /* for locale equivalence between platforms */
 #include "xims.h"
 #include <sys/stat.h>

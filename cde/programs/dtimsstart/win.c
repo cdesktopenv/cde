@@ -320,7 +320,7 @@ int	clear_cmd_property(win)			/* clear WM_COMMAND property */
     ret = XGetCommand(Dpy, win, &av, &ac);
     if (ret && ac > 0) {
 	XFreeStringList(av);
-	XSetCommand(Dpy, win, 0, NULL);
+	XSetCommand(Dpy, win, 0, 0);
 	XSync(Dpy, False);
 	clear_ok = True;
 	DPR2(("\tWM_COMMAND cleared on %#x\n", win));
