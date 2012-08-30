@@ -2608,7 +2608,9 @@ MsgScrollingList::formatHeader(DtMailHeaderLine & info,
     {
 	DtMailValueDate ds = ((info.header_values[1])[0])->toDate();
 
-	if (ds.dtm_date && ds.dtm_tz_offset_secs)
+#define USE_MAX_TZ_SECONDS	(60 * 60 * 12)
+	if (ds.dtm_date && ds.dtm_tz_offset_secs >= -USE_MAX_TZ_SECONDS
+			&& ds.dtm_tz_offset_secs <=  USE_MAX_TZ_SECONDS)
 	{
 #define USE_YEAR_FORMAT_SECONDS	(60 * 60 * 24 * 180)
 	    time_t now;

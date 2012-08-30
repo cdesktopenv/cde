@@ -133,8 +133,13 @@ class Application : public UIComponent {
     virtual void shutdown() = 0;
     
     // Functions to manipulate group execution privileges
+#if defined(CSRG_BASED)
+    void	disableGroupPrivileges(void) { (void) setegid(_originalRgid); }
+    void	enableGroupPrivileges(void)  { (void) setegid(_originalEgid); }
+#else
     void	disableGroupPrivileges(void) { (void) setgid(_originalRgid); }
     void	enableGroupPrivileges(void)  { (void) setgid(_originalEgid); }
+#endif
     gid_t	originalEgid(void)	{ return _originalEgid; }
     gid_t	originalRgid(void)	{ return _originalRgid; }
 

@@ -493,6 +493,8 @@ RFCValue::toDate(void)
 	date.dtm_date = SafeMktime(&new_time);
 #ifdef SVR4
 	date.dtm_tz_offset_secs = timezone;
+#else
+	date.dtm_tz_offset_secs = new_time.tm_gmtoff;
 #endif
     }
     else {
