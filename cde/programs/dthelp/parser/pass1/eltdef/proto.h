@@ -226,7 +226,7 @@ LOGICAL litproc(
 #endif
   ) ;
 
-void main(
+int main(
 #if defined(M_PROTO)
   int argc, char **argv
 #endif

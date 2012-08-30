@@ -155,6 +155,7 @@ a #define of MAXD to the length of the longest delimiter is written to
 delim.h.
 */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #if defined(MSDOS)
@@ -169,7 +170,7 @@ delim.h.
 #include "cont.h"
 
 /* Main procedure */
-void main(argc, argv)
+int main(argc, argv)
   int argc ;
   char **argv ;
 {

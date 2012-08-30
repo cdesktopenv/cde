@@ -49,7 +49,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "entity.h"
 
 /* Main program */
-void main(argc, argv)
+int main(argc, argv)
   int argc ;
   char **argv ;
   {
@@ -93,4 +93,5 @@ void main(argc, argv)
         }
       }
     done() ;
+    return EXIT_SUCCESS;
     }

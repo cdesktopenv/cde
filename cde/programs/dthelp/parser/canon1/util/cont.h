@@ -127,7 +127,7 @@ int m_lower(
 #endif
   ) ;
 
-void main(
+int main(
 #if defined(M_PROTO)
   int argc, char **argv
 #endif

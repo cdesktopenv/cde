@@ -58,7 +58,7 @@ struct data {
 char linedir[] = "#line" ;
 char *p = linedir, *q = linedir + 1 ;
 
-void main(
+int main(
 #if defined(M_PROTO)
   int argc, char **argv
 #endif
@@ -76,7 +76,7 @@ int nextchar(
 #endif
   ) ;
 
-void main(argc, argv)
+int main(argc, argv)
   int argc ;
   char **argv ;
   {

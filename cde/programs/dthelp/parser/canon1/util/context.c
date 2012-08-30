@@ -169,7 +169,7 @@ delim.h.
 #include "cont.h"
 
 /* Main procedure */
-void main(argc, argv)
+int main(argc, argv)
   int argc ;
   char **argv ;
 {

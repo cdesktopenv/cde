@@ -51,7 +51,7 @@ void dumpdlmptr(M_NOPAR)
       if (n) fputs(",\n", delim);
       fprintf(delim, "  %s", dlmptr[n]);
       }
-    fprintf(delim, endif);
+    fprintf(delim, "%s", endif);
     }
 
 /* Output the generated data structures */
@@ -83,8 +83,8 @@ void dumptree(sparse)
       else fprintf(context, "0");
       if (i < ccount - 1) fprintf(context, ",\n  ");
       }
-    fprintf(delim, endif);
-    fprintf(context, endif);
+    fprintf(delim, "%s", endif);
+    fprintf(context, "%s", endif);
     nextcon(sparse);
     }
 
@@ -599,8 +599,8 @@ void nextcon(sparse)
         if (i > 0) fprintf(context, ",\n");
         fprintf(context, "  %d", firstinrow);
         }
-      fprintf(delim, endif);
-      fprintf(context, endif);
+      fprintf(delim, "%s", endif);
+      fprintf(context, "%s", endif);
       }
     else {
       fprintf(context,
@@ -616,7 +616,7 @@ void nextcon(sparse)
         if (i < ccount - 1) fprintf(context, ",");
         fprintf(context, "\n");
         }
-      fprintf(context, endif);
+      fprintf(context, "%s", endif);
       }
     }
   

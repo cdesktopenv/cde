@@ -1766,7 +1766,7 @@ if (!charset)
 	charset = dotPtr + 1;
     }
 if (dotPtr)
-    *dotPtr = NULL;
+    *dotPtr = '\0';
 
 strcpy(stdLang, locale);
 if (charset)

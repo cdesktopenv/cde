@@ -1587,7 +1587,7 @@ int  _DtXlateOpenDb(
     SetDebugModeState(dbRec);
 
     if (dbRec->debugMode) 
-       fprintf(stderr,"_DtXlateOpenDb: opened: %s; new db: %p\n",path,dbRec);
+       fprintf(stderr,"_DtXlateOpenDb: opened: %s; new db: %p\n",path, (void *)dbRec);
 
     *ret_db = dbRec;
     free(path);
@@ -1635,7 +1635,7 @@ int  _DtXlateOpenAndMergeDbs(
        
     if ( (*io_db) && (*io_db)->debugMode) 
        fprintf(stderr,"_DtXlateOpenAndMergeDb: "
-                      "target file: %s; existing db: %p\n",databaseName,*io_db);
+                      "target file: %s; existing db: %p\n",databaseName, (void *) *io_db);
 
     /* a db has been opened, let's merge with it */
 
@@ -1655,7 +1655,7 @@ int  _DtXlateOpenAndMergeDbs(
 
     if ((*io_db)->debugMode) 
        fprintf(stderr,"_DtXlateOpenAndMergeDb: "
-                      "opened: %s; merged db: %p\n",path,*io_db);
+                      "opened: %s; merged db: %p\n",path, (void *) *io_db);
 
     free(path);
     return 0;      /* RETURN */
@@ -1709,7 +1709,7 @@ int  _DtXlateMergeDbs(
     if (   ((*io_mergeIntoDb) && (*io_mergeIntoDb)->debugMode) 
         || (*io_dbToMerge)->debugMode) 
        fprintf(stderr,"_DtXlateMergeDbs: "
-                  "mergeIntoDb: %p; dbToMerge: %p\n",*io_mergeIntoDb,*io_dbToMerge);
+                  "mergeIntoDb: %p; dbToMerge: %p\n", (void *) *io_mergeIntoDb, (void *) *io_dbToMerge);
 
     /* if db_mergeIntoDb has not yet been opened */
     if(   NULL == *io_mergeIntoDb
@@ -1731,7 +1731,7 @@ int  _DtXlateMergeDbs(
     SetDebugModeState(*io_mergeIntoDb);
 
     if ((*io_mergeIntoDb)->debugMode) 
-       fprintf(stderr,"merged db: %p\n",*io_mergeIntoDb);
+       fprintf(stderr,"merged db: %p\n", (void *) *io_mergeIntoDb);
 
     return 0;
 }       /*$END$*/
@@ -1836,7 +1836,7 @@ int _DtXlateCloseDb(
  
      XrmDestroyDatabase(dbRec->xrmDb);
 
-     if (dbRec->debugMode) fprintf(stderr,"_DtXlateCloseDb: %p\n",dbRec);
+     if (dbRec->debugMode) fprintf(stderr,"_DtXlateCloseDb: %p\n", (void *) dbRec);
 
      /* zero out object mem and free it */
      DeleteDbMem(io_db);
@@ -2209,7 +2209,7 @@ int _DtXlateGetXlateEnv(
       /* then convert the std value to a integer */
       strcpy(version,names.release);
       strcat(version,names.version);
-      ret = _DtXlateOpToStdValue(db,names.sysname,NULL,
+      ret = _DtXlateOpToStdValue(db,names.sysname,0,
                    _DtXLATE_OPER_VERSION,version,&stdVer,NULL);
       if (ret == 0)
       {
