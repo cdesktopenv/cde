@@ -1959,7 +1959,7 @@ FileOpPipeCB(
               if( strcmp( cb_data->updates[i].directory, "/" ) == 0 )
                 tmpDir[0] = 0x0;
               else
-                sprintf( tmpDir, cb_data->updates[i].directory );
+                sprintf( tmpDir, "%s", cb_data->updates[i].directory );
             }
 
             if( cb_data->updates[i].host )
@@ -3323,7 +3323,7 @@ MakeFilesFromBuffers(
 {
   return _FileMoveCopy ((XtPointer)file_mgr_data, NULL, directory, host,
                         host_set, file_set, buffer_set, num_of_buffers,
-                        NULL, NULL, finish_callback, callback_data);
+                        0, NULL, finish_callback, callback_data);
 }
 
 
@@ -3342,7 +3342,7 @@ MakeFilesFromBuffersDT(
   return _FileMoveCopy ((XtPointer)file_view_data, NULL, directory,
                         home_host_name,
                         host_set, file_set, buffer_set, num_of_buffers,
-                        NULL, desktopWindow, finish_callback, callback_data);
+                        0, desktopWindow, finish_callback, callback_data);
 }
 
 

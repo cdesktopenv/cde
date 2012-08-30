@@ -2618,8 +2618,8 @@ DrawShadowTh (
    XRectangle rect[10];
    DtIconGadget g = (DtIconGadget)w;
    XmManagerWidget mgr = (XmManagerWidget)XtParent(w);
-   Boolean         s_out = NULL,
-                   s_etched =      NULL;
+   Boolean         s_out = False,
+                   s_etched = False;
 
 
 

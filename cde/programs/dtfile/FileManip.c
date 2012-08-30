@@ -228,7 +228,7 @@ FileOperationError(
    else
    {
      message_buf = XtMalloc(strlen(message1) + 1);
-     (void) sprintf(message_buf,message1);
+     (void) sprintf(message_buf, "%s", message1);
    }
 
    /*  Display an error dialog  */
@@ -880,7 +880,7 @@ FileManip(
                char message_buf[512];
                char * tmpStr;
 
-               message_buf[0] = NULL;
+               message_buf[0] = '\0';
                tmpStr = (GETMESSAGE(11,30, "Cannot move or rename the folder %s.\nAll File Manager views displayed for a folder or its sub-folders\nmust be closed before a folder can be moved or renamed."));
                sprintf (message_buf, tmpStr, from);
                (*errorHandler) (w, message_buf, NULL);
@@ -1299,7 +1299,7 @@ FileManip(
                  break;
              default:
                  unknown = True;
-                 sprintf(errnoMsg, GETMESSAGE(11,56, "(Unknown):"));
+                 sprintf(errnoMsg, "%s", GETMESSAGE(11,56, "(Unknown):"));
                  strerrormsg = strerror(errno);
                  break;
          }

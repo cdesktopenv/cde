@@ -566,7 +566,7 @@ Create(
    static Boolean first = True;
    FileMgrRec * file_mgr_rec;
    Widget shell;
-   Widget main;
+   Widget mainWidget;
    Widget menu;
    Widget header_frame;
    Widget header_separator;
@@ -656,9 +656,9 @@ Create(
    XmAddWMProtocolCallback (shell, delete_window, (XtCallbackProc)SystemClose,
                             (XtPointer)file_mgr_rec);
 
-   file_mgr_rec->main = main = XmCreateMainWindow (shell, "main", args, 1);
-   XtManageChild (main);
-   XtAddCallback(main, XmNhelpCallback, (XtCallbackProc)HelpRequestCB,
+   file_mgr_rec->main = mainWidget = XmCreateMainWindow (shell, "main", args, 1);
+   XtManageChild (mainWidget);
+   XtAddCallback(mainWidget, XmNhelpCallback, (XtCallbackProc)HelpRequestCB,
                  HELP_FILE_MANAGER_VIEW_STR);
 
 
@@ -666,9 +666,9 @@ Create(
 
    XtSetArg (args[0], XmNbackground, &background);
    XtSetArg (args[1], XmNcolormap,  &colormap);
-   XtGetValues (main, args, 2);
+   XtGetValues (mainWidget, args, 2);
 
-   XmGetColors (XtScreen (main), colormap, background,
+   XmGetColors (XtScreen (mainWidget), colormap, background,
                 &foreground, &top_shadow, &bottom_shadow, &select);
 
    /*  Create the menu.  */
@@ -676,8 +676,8 @@ Create(
 
    if(TrashView)
    {
-      file_mgr_rec->menuStates = NULL;
-      file_mgr_rec->menu = menu = CreateTrashMenu (main, file_mgr_rec);
+      file_mgr_rec->menuStates = 0;
+      file_mgr_rec->menu = menu = CreateTrashMenu (mainWidget, file_mgr_rec);
    }
    else
    {
@@ -687,7 +687,7 @@ Create(
                                   CLEAN_UP | MOVE_UP |
                                   HOME | CHANGE_DIR | TERMINAL);
 
-      file_mgr_rec->menu = menu = CreateMenu (main, file_mgr_rec);
+      file_mgr_rec->menu = menu = CreateMenu (mainWidget, file_mgr_rec);
    }
 
    /*  Create the work area frame.  */
@@ -696,7 +696,7 @@ Create(
    XtSetArg (args[1], XmNshadowType, XmSHADOW_OUT);
    XtSetArg (args[2], XmNmarginWidth, 5);
    XtSetArg (args[3], XmNmarginHeight, 5);
-   work_frame = XmCreateFrame (main, "work_frame", args, 4);
+   work_frame = XmCreateFrame (mainWidget, "work_frame", args, 4);
    XtManageChild (work_frame);
 
 
@@ -709,7 +709,7 @@ Create(
    XtSetArg (args[n], XmNmarginHeight, 1);                      n++;
    XtSetArg (args[n], XmNtextTranslations, trans_table);        n++;
    file_mgr_rec->header_frame = header_frame =
-         XmCreateForm (main, "header_frame", args, n);
+         XmCreateForm (mainWidget, "header_frame", args, n);
 
    XtAddCallback(header_frame, XmNhelpCallback,
                     (XtCallbackProc)HelpRequestCB,
@@ -924,7 +924,7 @@ Create(
    XtSetArg (args[n], XmNshadowType, XmSHADOW_OUT);             n++;
    XtSetArg (args[n], XmNmarginWidth, 5);                       n++;
    XtSetArg (args[n], XmNmarginHeight, 1);                      n++;
-   status_form = XmCreateForm (main, "status_form", args, n);
+   status_form = XmCreateForm (mainWidget, "status_form", args, n);
    XtManageChild (status_form);
 
    n = 0;
@@ -939,10 +939,10 @@ Create(
    /*  Associate the menu and frames with the appropriate  */
    /*  areas of the main windows.                          */
 
-   XmMainWindowSetAreas (main, menu, file_mgr_rec->header_frame,
+   XmMainWindowSetAreas (mainWidget, menu, file_mgr_rec->header_frame,
                             NULL, NULL, work_frame);
    XtSetArg (args[0], XmNmessageWindow, status_form);
-   XtSetValues(main, args, 1);
+   XtSetValues(mainWidget, args, 1);
 
    /*  Create the Scrolled Window for the file display area and  */
    /*  set the scrollbars colors correctly.                      */
@@ -1047,7 +1047,7 @@ Create(
 
    /*  Set the return values for the dialog widget and dialog instance.  */
 
-   *return_widget = (Widget) main;
+   *return_widget = (Widget) mainWidget;
    *dialog = (XtPointer) file_mgr_rec;
 }
 
@@ -1787,7 +1787,7 @@ SetValues(
    {
       /*  Set the current directory icon to normal colors  */
       SetToNormalColors (file_mgr_rec->current_directory_icon,
-                         file_mgr_rec->file_window, file_mgr_rec->main, NULL);
+                         file_mgr_rec->file_window, file_mgr_rec->main, 0);
 
 
       /*  Update the Change Directory host name  */
@@ -2337,7 +2337,7 @@ ActivateClist(
 #ifdef __osf__
       sscanf( params[0], "%lx", &fileMgrRec );
 #else
-      sscanf( params[0], "%p", &fileMgrRec );
+      sscanf( params[0], "%p", (void **) &fileMgrRec );
 #endif
       _DtMessage(toplevel, title, message, NULL, HelpRequestCB);
       XtFree( title );
@@ -2656,7 +2656,7 @@ StringToBranchList(
       current = DtStrchr (start, ',');
       if (current != NULL)
       {
-         *current = NULL;
+         *current = '\0';
          current += 2;
       }
 
@@ -2716,7 +2716,7 @@ StringToSelectionList(
       current = DtStrchr (start, ',');
       if (current != NULL)
       {
-         *current = NULL;
+         *current = '\0';
          current += 2;
       }
 
@@ -6388,7 +6388,7 @@ FMInput(
 #ifdef __osf__
         sscanf( params[0], "%lx", &fileMgrRec );
 #else
-        sscanf( params[0], "%p", &fileMgrRec );
+        sscanf( params[0], "%p", (void **) &fileMgrRec );
 #endif
       FileWindowInputCallback( wid, (XtPointer)fileMgrRec, (XtPointer)&cb );
     }

@@ -1245,7 +1245,7 @@ SetValues(
 
    /* Adjust the colors of the icon */
    SetToNormalColors (modAttr_rec->fileType, modAttr_rec->bboard, 
-                      modAttr_data->main_widget, NULL);
+                      modAttr_data->main_widget, 0);
 
    /* Verify that we are allowed to change the attributes */
    if (modAttr_data->owner)

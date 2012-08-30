@@ -112,6 +112,7 @@
 
 #include <sys/types.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <signal.h>
 
@@ -958,9 +959,9 @@ extern XtInputId ProcessToolTalkInputId;
 extern void sigchld_handler(int);
 #endif /* __osf__ */
 
-void
+int
 main(
-        unsigned int argc,
+        int argc,
         char **argv )
 {
 #ifdef DT_PERFORMANCE
@@ -1319,7 +1320,7 @@ _DtPerfChkpntMsgSend("Begin XtInitialize");
          /* Default action: Open up pwd or home dir */
          GetPWD(current_directory);
 
-         if (current_directory[0] != NULL)
+         if (current_directory[0] != '\0')
          {
 	    msg = tttk_message_create( 0, TT_REQUEST, TT_SESSION, 0,
 				       "DtFolder_Show",
@@ -1471,7 +1472,7 @@ _DtPerfChkpntMsgSend("Begin XtInitialize");
             /* Get users pwd so we can set the restricted dir to it */
             GetPWD(current_directory);
 
-            if (current_directory[0] != NULL)
+            if (current_directory[0] != '\0')
                special_restricted = XtNewString(current_directory);
             else
                special_restricted = XtNewString("~");
@@ -1633,7 +1634,7 @@ _DtPerfChkpntMsgSend("Begin XtInitialize");
          special_restricted = _DtChangeTildeToHome(special_restricted);
          ptr = strrchr(special_restricted, '/');
          ptr1 = ptr + 1;
-         if(ptr1[0] == NULL)
+         if(ptr1[0] == '\0')
             *ptr = '\0';
       }
 
@@ -1755,7 +1756,7 @@ _DtPerfChkpntMsgSend("Begin XtInitialize");
          /* Get users pwd so we can create a fileviewer window of it */
          GetPWD(current_directory);
 
-         if (current_directory[0] != NULL)
+         if (current_directory[0] != '\0')
          {
            if (!GetNewView (home_host_name, current_directory, NULL, NULL, 0))
               ViewHomeDirectoryHandler (0);
@@ -1804,6 +1805,8 @@ _DtPerfChkpntMsgSend("Begin XtInitialize");
       if (event.type != 0)
          XtDispatchEvent(&event);
    }
+
+   return EXIT_SUCCESS;
 }
 
 
@@ -1922,7 +1925,7 @@ Usage(
    template = (GETMESSAGE(18,23, message_string1));
    fprintf (stderr, template, argv[0]);
    template = (GETMESSAGE(18,24, message_string2));
-   fprintf (stderr, template);
+   fprintf (stderr, "%s", template);
 
    exit (0);
 }
@@ -3018,7 +3021,7 @@ RestoreSession(
       /* first find out if it should show the file system */
       xrm_name [0] = XrmStringToQuark (DTFILE_CLASS_NAME);
       xrm_name [1] = XrmStringToQuark ("showFilesystem");
-      xrm_name [2] = NULL;
+      xrm_name [2] = 0;
       if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value))
       {
          if ((temp = (char *) value.addr) != NULL &&
@@ -3035,7 +3038,7 @@ RestoreSession(
       /* find out if it should be in restricted mode */
       xrm_name [0] = XrmStringToQuark (DTFILE_CLASS_NAME);
       xrm_name [1] = XrmStringToQuark ("restrictMode");
-      xrm_name [2] = NULL;
+      xrm_name [2] = 0;
       if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value))
       {
          if ((temp = (char *) value.addr) != NULL &&
@@ -3052,7 +3055,7 @@ RestoreSession(
       /* find out openFolder mode */
       xrm_name [0] = XrmStringToQuark (DTFILE_CLASS_NAME);
       xrm_name [1] = XrmStringToQuark ("openFolder");
-      xrm_name [2] = NULL;
+      xrm_name [2] = 0;
       if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value))
       {
          if ((temp = (char *) value.addr) != NULL &&
@@ -3069,7 +3072,7 @@ RestoreSession(
 
    xrm_name [0] = XrmStringToQuark (DTFILE_CLASS_NAME);
    xrm_name [1] = XrmStringToQuark ("view_count");
-   xrm_name [2] = NULL;
+   xrm_name [2] = 0;
 
    /* Load standard dtfile views */
    if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value))
@@ -3089,7 +3092,7 @@ RestoreSession(
          xrm_name [1] = XrmStringToQuark (WS_LOAD_RES_HEADER);
          xrm_name [2] = XrmStringToQuark (wsNum);
          xrm_name [3] = XrmStringToQuark (SEC_LOAD_HELP_RES_HEADER);
-         xrm_name [4] = NULL;
+         xrm_name [4] = 0;
 
          /* Load standard dtfile views */
          if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value))
@@ -3318,7 +3321,7 @@ LoadViews (
       /*  and set the property for the view just created  */
 
       xrm_name [2] = XrmStringToQuark ("workspace");
-      xrm_name [3] = NULL;
+      xrm_name [3] = 0;
 
       if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value))
       {
@@ -3334,7 +3337,7 @@ LoadViews (
       /*  Get and set whether the view is iconic  */
 
       xrm_name [2] = XrmStringToQuark ("iconify");
-      xrm_name [3] = NULL;
+      xrm_name [3] = 0;
 
       if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value))
       {
@@ -3427,7 +3430,7 @@ GetPWD(
          }
       }
     (void) pclose (pwd_file);
-    current_directory[i] = NULL;
+    current_directory[i] = '\0';
 
 }
 
@@ -3457,7 +3460,7 @@ OpenDirectories(
    {
       separator = DtStrchr (directory_set, ',');
       if (separator != NULL)
-         *separator = NULL;
+         *separator = '\0';
 
       _DtPathFromInput(directory_set, NULL, &host, &path);
 
@@ -4162,7 +4165,7 @@ ViewSessionHandler(
               char current_directory[MAX_PATH];
 
               GetPWD(current_directory);
-              if (current_directory[0] != NULL)
+              if (current_directory[0] != '\0')
               {
                  if (!GetNewView
                       (home_host_name, current_directory, NULL, NULL, 0))

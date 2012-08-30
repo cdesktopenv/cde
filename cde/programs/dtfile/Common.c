@@ -198,7 +198,7 @@ VFTextChangeSpace(
    currentDirectoryText = GetRestrictedDirectory(text);
 
    /* Extract the path */
-   path[0] = NULL;
+   path[0] = '\0';
 
    if(currentDirectoryText == NULL)
    {

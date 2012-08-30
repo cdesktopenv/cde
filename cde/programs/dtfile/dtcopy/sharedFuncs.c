@@ -656,7 +656,7 @@ _DtCopyPathFromInput(input_string, current_dir)
     /* Strip off trailing '/' */
     dir_len = strlen(path);
     if (dir_len > 1 && *(path + dir_len - 1) == '/')
-        *(path + dir_len - 1) = NULL;
+        *(path + dir_len - 1) = '\0';
     return path;
 }
 char *

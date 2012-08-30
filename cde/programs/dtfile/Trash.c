@@ -758,7 +758,7 @@ CreateTrashMenu(
       trashMenu[i].helpData = NULL;
       trashMenu[i].activateCallback = NULL;
       trashMenu[i].activateData = NULL;
-      trashMenu[i].maskBit = NULL;
+      trashMenu[i].maskBit = 0;
       trashMenu[i].isHelpBtn = False;
       trashMenu[i].label = NULL;
       trashMenu[i].mnemonic = NULL;

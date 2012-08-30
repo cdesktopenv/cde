@@ -390,13 +390,13 @@ static struct TreePx {
   Pixmap px[3];          /*   small, medium, and large pixmap */
 } TreePxTab[tpxN] =
 {
-  { "Dttvnor", NULL },
-  { "Dttverr",   NULL },
-  { "Dttvmor",    NULL },
-  { "Dttvlss",    NULL },
-  { "Dttvbth",    NULL },
-  { "Dttvemp",   NULL },
-  { "Dttvnil",     NULL },
+  { "Dttvnor", 0 },
+  { "Dttverr", 0 },
+  { "Dttvmor", 0 },
+  { "Dttvlss", 0 },
+  { "Dttvbth", 0 },
+  { "Dttvemp", 0 },
+  { "Dttvnil", 0 },
 };
 
 static char *TreePxSuffix[3] = { ".s", ".m", ".l" };
@@ -1859,7 +1859,7 @@ GetDragIcon(
    Pixmap dragPixmap;
    Pixmap dragMask;
 
-   dragPixmap = _DtIconDraw (w, NULL, 0, 0, False);
+   dragPixmap = _DtIconDraw (w, 0, 0, 0, False);
 
    XGetGeometry (XtDisplay(w), dragPixmap,
                  (Window *) &junk,             /* returned root window */
@@ -2117,7 +2117,7 @@ DragFinishCB(Widget w, XtPointer client, XtPointer call)
 {
    DtDndDragFinishCallback cb = (DtDndDragFinishCallback) call;
    int                  i;
-   static Window root = NULL;
+   static Window root = 0;
 
    DPRINTF(("DragFinishCB: dragActive -> False\n"));
 
@@ -2633,7 +2633,7 @@ SetFileSelected(
       if (file_view_data->file_data->link == NULL)
          SetToSelectColors (file_view_data->widget,
               (Widget)((FileMgrRec *)file_mgr_data->file_mgr_rec)->file_window,
-              NULL);
+              0);
       else
          SetToSelectColors (file_view_data->widget,
               (Widget)((FileMgrRec *)file_mgr_data->file_mgr_rec)->file_window,
@@ -2670,7 +2670,7 @@ SetFileUnselected(
          SetToNormalColors (file_view_data->widget,
                     ((FileMgrRec *)(file_mgr_data->file_mgr_rec))->file_window,
                     ((FileMgrRec *)(file_mgr_data->file_mgr_rec))->main,
-                    NULL);
+                    0);
 
       if (PositioningEnabledInView(file_mgr_data))
          RedrawOneGadget(file_view_data->widget, NULL, NULL);
@@ -3516,7 +3516,7 @@ RestorePositionalData (
    }
    xrm_name[i++] = XrmStringToQuark(name);
    xrm_name[i] = XrmStringToQuark("num_positions");
-   xrm_name[i+1] = NULL;
+   xrm_name[i+1] = '\0';
 
    /* Find out how many objects there are to be loaded */
    file_mgr_data->object_positions = NULL;
@@ -5200,7 +5200,7 @@ FreeLayoutData(XtPointer p)
 
    layout_data = (IconLayoutData *)p;
 
-   if (layout_data->work_id != NULL)
+   if (layout_data->work_id != 0)
    {
       DPRINTF(("FreeLayoutData: removing workproc\n"));
       XtRemoveWorkProc(layout_data->work_id);
@@ -7157,7 +7157,7 @@ CommitWorkProcUpdates(
    }
 
    /* if work proc no longer active, everything should already be commited */
-   if (layout_data->work_id == NULL)
+   if (layout_data->work_id == 0)
      return;
 
    /* manage new children */
@@ -7332,7 +7332,7 @@ DisplayWorkProc(
    {
       /* all work is done; all icons are up-to-date */
       file_mgr_data->newSize = False;
-      layout_data->work_id = NULL;
+      layout_data->work_id = 0;
       XmDropSiteEndUpdate(layout_data->drop_site_w);
 
       DPRINTF(("DisplayWorkProc: all done.\n"));
@@ -7848,7 +7848,7 @@ layout_done:
     */
    layout_data->visible_done = False;
    layout_data->all_done = False;
-   if (layout_data->work_id == NULL)
+   if (layout_data->work_id == 0)
    {
       XtAppContext app_context =
         XtWidgetToApplicationContext(file_mgr_rec->shell);
