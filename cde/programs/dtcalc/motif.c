@@ -183,7 +183,7 @@ static Atom command_atom ;
 static Atom wm_state_atom;
 
 Boolean ignore_event = False;
-XtIntervalId timerId = NULL;
+XtIntervalId timerId = 0;
 
 static int lastArmed[10];
 static int countArmed = 0;
@@ -4621,7 +4621,7 @@ setCalcHints()
       {
          ptr = DtStrchr (v->workspaces, ' ');
 
-         if (ptr != NULL) *ptr = NULL;
+         if (ptr != NULL) *ptr = '\0';
 
          workspace_atoms = (Atom *) XtRealloc ((char *)workspace_atoms,
                               sizeof (Atom) * (num_workspaces + 1));
@@ -4731,7 +4731,7 @@ char *file;
    {
       if (isspace(file[i]))
       {
-         for(j = i; file[j] != NULL; j++)
+         for(j = i; file[j] != '\0'; j++)
             file[j] = file[j + 1];
       }
    }
