@@ -35,6 +35,8 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Include generated file */
 #include "tfile.c"
 
+#define M_BUFLEN (32)
+
 /* When a text character occurs */
 #if defined(M_PROTO)
 void m_textaction(M_WCHAR m_textchar)
@@ -43,7 +45,7 @@ void m_textaction(m_textchar)
   M_WCHAR m_textchar ;
   #endif
 {
-    char buffer[10] ;
+    char buffer[M_BUFLEN] ;
     char    mb_re;
     M_WCHAR wc_re;
 
@@ -60,7 +62,7 @@ void m_textaction(m_textchar)
       buffer[1] = M_EOS ;
       m_trace(buffer) ;
       m_trace("' (") ;
-      sprintf(buffer, "%d", m_textchar) ;
+      snprintf(buffer, M_BUFLEN - 1, "%d", m_textchar) ;
       m_trace(buffer) ;
       m_trace(")\n") ;
       }
