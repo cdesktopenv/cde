@@ -45,6 +45,7 @@ static char rcsid[] = "$TOG: WmProperty.c /main/7 1997/12/02 10:00:00 bill $"
 #ifdef WSM
 #include <Dt/WsmP.h>
 #include <X11/Xatom.h>
+#include <Xm/AtomMgr.h>
 #endif /* WSM */
 
 /*
@@ -1361,7 +1362,7 @@ SetWorkspaceInfoProperty (WmWorkspaceData *pWS)
     String sTitle;
     char **ppchList;
     int iNumStrings;
-    int count, iwin;
+    int count;
     int i, ix;
     Status status;
     XTextProperty tp;
@@ -1423,7 +1424,7 @@ SetWorkspaceInfoProperty (WmWorkspaceData *pWS)
 
     /* number of backdrop windows */
     ix = (i * WIP_NUMBER_SIZE);
-    if ((pWS->backdrop.window == None))
+    if (pWS->backdrop.window == None)
     {
 	strcpy (&pch[ix], "0");
     }
@@ -1534,7 +1535,6 @@ WorkspacePropertyName (WmWorkspaceData *pWS)
     char *pch;
     char *pchName;
     int len;
-    Atom aProperty;
 
     /*
      * Construct our property name

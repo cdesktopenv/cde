@@ -61,6 +61,7 @@ static char rcsid[] = "$TOG: WmFunction.c /main/19 1998/04/20 13:00:48 mgreess $
 #include <Dt/DtStrDefs.h>
 #include "WmPanelP.h"
 #include "WmSignal.h"
+#include "WmManage.h"
 #endif /* PANELIST */
 
 /*
@@ -994,10 +995,10 @@ Boolean F_Focus_Color (String args, ClientData *pCD, XEvent *event)
 
 Boolean F_Exec (String args, ClientData *pCD, XEvent *event)
 {
-    int   status;
     int   pid;
-    int   w;
 #ifndef WSM
+    int   status;
+    int   w;
     void (*intStat) ();
     void (*quitStat) ();
 #endif /* WSM */

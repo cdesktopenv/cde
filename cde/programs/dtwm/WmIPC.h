@@ -45,6 +45,13 @@ extern void dtSendWorkspaceModifyNotification(
 	WmScreenData 		*pSD, 
 	Atom 			aWs, 
 	int 			iType);
+extern void dtSendMarqueeSelectionNotification(
+	WmScreenData *pSD,
+	int	type,
+	Position x,
+	Position y,
+	Dimension width,
+	Dimension height);
 
 /********    End Public Function Declarations    ********/
 

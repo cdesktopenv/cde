@@ -2811,7 +2811,6 @@ _WmBackdropBgDefault (Widget widget, int offset, XrmValue *value)
 {
     static Pixel pixValue;
     unsigned int colorSetId = (unsigned int) pResWS->backdrop.colorSet;
-    WmScreenData *pSD;
 
     if (wmGD.statusColorServer == CSERVE_NORMAL)
     {
@@ -2857,7 +2856,6 @@ _WmBackdropFgDefault (Widget widget, int offset, XrmValue *value)
 {
     static Pixel pixValue;
     unsigned int colorSetId = (unsigned int) pResWS->backdrop.colorSet;
-    WmScreenData *pSD;
 
     if (wmGD.statusColorServer == CSERVE_NORMAL)
     {
@@ -3468,7 +3466,7 @@ WriteOutXrmColors (WmScreenData *pSD)
     XrmDatabase     db;
     XrmValue        value;
     int		    thisScreen = pSD->screen;
-    XmPixelSet     *tpixset, *ppixset;
+    XmPixelSet     *tpixset;
     XmPixelSet     *spixset;
 
     char *res_class;
@@ -5304,7 +5302,7 @@ ProcessWorkspaceResources (WmWorkspaceData *pWS)
 	WmNbackdrop, WmCBackdrop, wmBackdropResources, 
 	XtNumber (wmBackdropResources), NULL, 0);
 
-    ProcessBackdropResources (pWS, NULL);
+    ProcessBackdropResources (pWS, 0);
 #endif /* WSM */
 
 } /* END OF FUNCTION ProcessWorkspaceResources */

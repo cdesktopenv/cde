@@ -41,6 +41,7 @@ static char rcsid[] = "$XConsortium: WmSignal.c /main/6 1996/10/17 16:20:07 drk 
 
 #include "WmGlobal.h" /* This should be the first include */
 #include <signal.h>
+#include <unistd.h>
 
 
 /*
@@ -166,7 +167,9 @@ RestoreDefaultSignalHandlers (void)
 
 void SetupWmSignalHandlers (int dummy)
 {
+#ifndef WSM
     void (*signalHandler) ();
+#endif
 
 #ifdef WSM
     struct sigaction 	sa;

@@ -1107,7 +1107,7 @@ void GetTextBox (ClientData *pcd, XRectangle *pBox)
 {
     int x,y;
     unsigned int width,height;
-#ifdef WSM
+#if defined(WSM) && defined(DT_LEFT_JUSTIFIED_TITLE)
     Dimension textWidth;
     Dimension offset;
     XmFontList  fontList;

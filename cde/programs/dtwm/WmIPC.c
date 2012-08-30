@@ -189,7 +189,7 @@ dtInitializeMessaging(Widget toplevel)
     default_session = tt_default_session();
     status = tt_ptr_error(default_session);
     if (status != TT_OK) {
-        GETMESSAGE(2, 4, "Could not get default ToolTalk session:\n%s\n");
+        errfmt = GETMESSAGE(2, 4, "Could not get default ToolTalk session:\n%s\n");
         ToolTalkError(toplevel, errfmt, status);
 	return;
     }
@@ -238,6 +238,7 @@ dtInitializeMessaging(Widget toplevel)
         ToolTalkError(toplevel, errfmt, status);
 	return;
     }
+
     tt_free( default_session );
     status = tt_pattern_class_add(notice_pattern, TT_NOTICE);
     if (status != TT_OK) {

@@ -1862,7 +1862,7 @@ ControlCreateAndRegister (Widget        parent,
 
 {
    Widget icon;
-   unsigned char operations = NULL;
+   unsigned char operations = 0;
    char *format, * next_seg;
    Arg al2[4];
 
@@ -1938,7 +1938,7 @@ ControlCreateAndRegister (Widget        parent,
 	 operations = XmDROP_COPY;
       }
 
-      if (operations != NULL)
+      if (operations != 0)
       {
 	 XtSetArg (al2[0], DtNdropAnimateCallback, dropCB);
 	 XtSetArg (al2[1], DtNtextIsBuffer, True);
@@ -3322,7 +3322,7 @@ DeleteControl (ControlData * control_data)
 
    DeleteControlActionList (control_data);
 
-   RemoveEntry (control_data, CONTROL);
+   RemoveEntry ((RecordData *)control_data, CONTROL);
 }
 
 
@@ -3397,7 +3397,7 @@ DeleteSubpanel (ControlData * control_data)
    XtDestroyWidget (subpanel_data->shell);
    XtFree ((char *) subpanel_data->control_data);
 
-   RemoveEntry (subpanel_data, SUBPANEL);
+   RemoveEntry ((RecordData *)subpanel_data, SUBPANEL);
 
    XtFree ((char *) subpanel_data);
    control_data->subpanel_data = NULL;

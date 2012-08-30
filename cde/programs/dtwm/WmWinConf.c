@@ -90,6 +90,7 @@ static char rcsid[] = "$XConsortium: WmWinConf.c /main/8 1996/10/30 11:15:17 drk
 #include "WmFeedback.h"
 #include "WmFunction.h"
 #include "WmIDecor.h"
+#include "WmIPC.h"
 #include "WmIPlace.h"
 #include "WmIconBox.h"
 #include "WmKeyFocus.h"
@@ -4153,7 +4154,7 @@ StartMarqueeSelect(WmScreenData *pSD, XEvent *pev)
     Window grab_win, junk_win;
     Boolean grabbed;
     int big_inc;
-    int junk, junkX, junkY;
+    int junk;
 
     if (!pSD->bMarqueeSelectionInitialized)
     {

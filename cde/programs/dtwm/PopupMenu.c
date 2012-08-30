@@ -47,6 +47,7 @@
 
 #include "DataBaseLoad.h"
 #include "WmGlobal.h"
+#include "UI.h"
 
 #define POPUP_CHILDREN 7
 
@@ -963,8 +964,8 @@ SetupActionMenuItems (Widget        w,
       {    
 	  action_item[action_index] = 
 	     XmCreatePushButtonGadget (w, "action_button", args, 0);
-						
-          *action_count++;
+
+          (*action_count)++;
 
           XtManageChild (action_item[action_index]);
 	  XtAddCallback (action_item[action_index], XmNactivateCallback,

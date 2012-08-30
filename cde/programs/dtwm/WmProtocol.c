@@ -174,7 +174,7 @@ void SetupWmICCC (void)
 
     XIconSize sizeList;
     int scr;
-    Atom atoms[XtNumber(atom_names)];
+    Atom atoms[XtNumber(atom_names) + 1];
 
     /*
      * Make atoms that are required by the ICCC and mwm.  The atom for

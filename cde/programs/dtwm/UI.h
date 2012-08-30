@@ -70,6 +70,11 @@
 
 extern void ToggleDefaultControl (ControlData *, SubpanelData *, ControlData *);
 extern String GetIconName (String, unsigned int);
+extern void AddSubpanel (ControlData * control_data);
+extern void DeleteSubpanelControl(SubpanelData *subpanel, ControlData *control_data);
+extern void DeleteSubpanel(ControlData *control_data);
+extern void UpdateSwitchGeometry (BoxData * box_data);
+extern void FrontPanelCreate (Widget toplevel);
 
 
 #endif /* _ui_h */

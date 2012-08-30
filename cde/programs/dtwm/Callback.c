@@ -54,6 +54,7 @@
 #include <Dt/WsmP.h>
 #include <Dt/WsmM.h>
 #include <Dt/MacrosP.h>
+#include <Dt/SharedProcs.h>
 
 #include <Xm/Form.h>
 #include <Xm/ToggleBG.h>
@@ -67,7 +68,9 @@
 #include "UI.h"
 
 #include "WmGlobal.h"
+#include "WmHelp.h"
 #include "WmResNames.h"
+#include "WmResParse.h"
 #include "WmFunction.h"
 
 
@@ -1865,7 +1868,7 @@ DropCB (Widget    w,
          if (save_name != NULL)
             drop_action->action_name = save_name;
 
-         control_data->operation = NULL;
+         control_data->operation = 0;
 
          return;
       }
@@ -1878,7 +1881,7 @@ DropCB (Widget    w,
       if (save_name != NULL)
          drop_action->action_name = save_name;
 
-      control_data->operation = NULL;
+      control_data->operation = 0;
    }
 }
 
@@ -2443,7 +2446,7 @@ CustomizeDropCB (Widget    w,
             /*  element values.                                         */
 
             control_data.element_values = element_values;
-            RemoveEntry (&control_data, CONTROL);
+            RemoveEntry ((RecordData *)&control_data, CONTROL);
 	 
             bad_control = True;
             break;
@@ -2538,7 +2541,7 @@ CustomizeDropCB (Widget    w,
       control_data->move_action = NULL;
       control_data->copy_action = NULL;
       control_data->link_action = NULL;
-      control_data->operation = NULL;
+      control_data->operation = 0;
 
       AddControlActionList (control_data);
 

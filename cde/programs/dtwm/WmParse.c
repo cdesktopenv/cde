@@ -1142,7 +1142,7 @@ _DtWmParseNextLine (
 	/* copy all but end-of-line and newlines to line buffer */
 	{
             if (chlen == -1)
-	       *(parseP)++;
+	       parseP++;
 	    else
             {
                 while (chlen--)
@@ -1341,13 +1341,13 @@ _DtWmParseLineNumber (
  * 
  *************************************<->***********************************/
 
-void _DtWmParseToLower (unsigned char  *string)
+void _DtWmParseToLower (char  *string)
 {
-    unsigned char *pch = string;
+    char *pch = string;
 #ifdef MULTIBYTE
     int            chlen;
 
-    while ((chlen = mblen ((char *)pch, MB_CUR_MAX)) > 0)
+    while ((chlen = mblen (pch, MB_CUR_MAX)) > 0)
     {
         if ((chlen == 1) && (isupper (*pch)))
 	{
@@ -1810,7 +1810,7 @@ _DtWmParseExpandEnvironmentVariables (
 		    if (!pchNext)
 		    {
 			/* it's the rest of the string */
-			chSave = NULL;
+			chSave = '\0';
 			bEatBreak = False;
 			pchNext = pch + strlen ((char *) pch);
 		    }

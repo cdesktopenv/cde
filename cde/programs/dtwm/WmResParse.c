@@ -61,7 +61,12 @@ static char rcsid[] = "$XConsortium: WmResParse.c /main/9 1996/11/01 10:17:34 dr
 #endif /* PANELIST */
 #include "WmResource.h"
 
+#include "Dt/shellutils.h"     /* shellscan */
+
 #include <Xm/VirtKeysP.h>
+#include <Xm/XmPrivate.h>      /* _XmVirtKeysLoadFileBindings,
+                                * _XmVirtKeysLoadFallbackBindings */
+
 
 #include <X11/cursorfont.h>
 #include <X11/keysym.h>
@@ -171,7 +176,7 @@ static MaskTableEntry modifierStrings[] = {
     {"mod3",	Mod3Mask},
     {"mod4",	Mod4Mask},
     {"mod5",	Mod5Mask},
-    {NULL,      (unsigned int)NULL},
+    {NULL,      0},
 };
 
 #define ALT_INDEX 3
@@ -293,7 +298,7 @@ static unsigned int StrToHex(unsigned char *str);
 static unsigned int StrToOct(unsigned char *str);
 void ScanAlphanumeric (unsigned char **linePP);
 void ScanWhitespace(unsigned char  **linePP);
-void ToLower (unsigned char  *string);
+void ToLower (char  *string);
 void
 PWarning (char *message);
 static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
@@ -334,14 +339,14 @@ static EventTableEntry buttonEvents[] = {
     {"btn5up",      ButtonRelease,  ParseImmed,    Button5,  FALSE},
     {"btn5click",   ButtonRelease,  ParseImmed,    Button5,  TRUE},
     {"btn5click2",  ButtonPress,    ParseImmed,    Button5,  TRUE},
-    { NULL, (unsigned int)NULL, (Boolean(*)())NULL, (unsigned int)NULL, (Boolean)NULL}
+    { NULL, 0, (Boolean(*)())NULL,  0, FALSE}
 };
 
 
 static EventTableEntry keyEvents[] = {
 
     {"key",         KeyPress,    ParseKeySym,    0,  FALSE},
-    { NULL, (unsigned int)NULL, (Boolean(*)())NULL, (unsigned int)NULL, (Boolean)NULL}
+    { NULL,         0,    (Boolean(*)())NULL,    0,  FALSE}
 };
 
 #ifdef PANELIST
@@ -1073,7 +1078,7 @@ Boolean FindDtSessionMatch(int commandArgc, char **commandArgv,
 			    char **pWorkSpaceList, char *clientMachine)
 
 {
-    int count, item;
+    int count;
     int relCount;
     int argNum;
     SessionGeom *sessionGeom;
@@ -1615,7 +1620,7 @@ Boolean GetSessionHintsInfo (WmScreenData *pSD, long numItems)
         return(False);
     }
     
-    memset ((char *)pSD->pDtSessionItems, NULL,
+    memset ((char *)pSD->pDtSessionItems, 0,
 	    numItems * sizeof (DtSessionItem));
 
     return(True);
@@ -1894,9 +1899,6 @@ void ProcessWmFile (WmScreenData *pSD)
     unsigned int   n;
     MenuSpec      *menuSpec;
 #ifdef PANELIST
-    static Boolean conversionInProgress = False;
-    Arg args[10];
-    int argnum;
 
     if (!bNested)
     {
@@ -1974,7 +1976,7 @@ void ProcessWmFile (WmScreenData *pSD)
 	    continue;
 	}
 
-	ToLower (string);
+	ToLower ((char *)string);
 	if (!strcmp ((char *)string, MENU_SPEC))
 	{
 	    ParseMenuSet (pSD, lineP);
@@ -3842,7 +3844,7 @@ int ParseWmFunction (unsigned char **linePP, unsigned int res_spec,
 
     if (string != NULL)
     {
-        ToLower (string);
+        ToLower ((char *)string);
 	low = 0;
         high = WMFUNCTIONTABLESIZE - 1;
 
@@ -4074,7 +4076,7 @@ Boolean ParseWmFuncStrArg (unsigned char **linePP,
          */
 
 #ifndef NO_MULTIBYTE
-	if ((wmFunction == F_Exec))
+	if (wmFunction == F_Exec)
 	{
 	    lastlen = 0;
 	    p = *pArgs;
@@ -4248,7 +4250,7 @@ static Boolean ParseWmFuncGrpArg (unsigned char **linePP,
         len = min (lineP - startP, MAX_GROUP_STRLEN);
         (void) strncpy ((char *)grpStr, (char *)startP, len);
         grpStr[len] = '\0';
-        ToLower (grpStr);
+        ToLower ((char *)grpStr);
 
         if (!strcmp ("icon", (char *)grpStr))
         {
@@ -4782,7 +4784,7 @@ static Boolean ParseContext (unsigned char **linePP, Context *context,
         len = min(lineP - startP, MAX_CONTEXT_STRLEN);
         (void) strncpy ((char *)ctxStr, (char *)startP, len);
         ctxStr[len] = '\0';
-        ToLower (ctxStr);
+        ToLower ((char *)ctxStr);
 
         if (!strcmp ("root", (char *)ctxStr))
         {
@@ -6048,7 +6050,7 @@ static Boolean LookupModifier (unsigned char *name, unsigned int *valueP)
 
     if (name != NULL)
     {
-        ToLower (name);
+        ToLower ((char *)name);
         for (i=0; modifierStrings[i].name != NULL; i++)
 	{
 	    if (!strcmp (modifierStrings[i].name, (char *)name))
@@ -6099,7 +6101,7 @@ static Boolean GetCCIModifier (String modString, CCIEntryModifier *mod)
 
   if (modString != NULL)
     {
-      ToLower ((unsigned char *)modString);
+      ToLower (modString);
       for (i=NONE; i<=EXCLUDE; i++)
 	{
 	  if (!strcmp (CCIEntryModifierNames[i], modString))
@@ -6261,7 +6263,7 @@ static Boolean ParseEventType (unsigned char **linePP, EventTableEntry *table,
         len = min (lineP - startP, MAX_EVENTTYPE_STRLEN);
         (void) strncpy ((char *)eventTypeStr, (char *)startP, len);
         eventTypeStr[len] = '\0';
-        ToLower (eventTypeStr);
+        ToLower ((char *)eventTypeStr);
 
         for (len = 0; table[len].event != NULL; len++)
             if (!strcmp (table[len].event, (char *)eventTypeStr))
@@ -6679,13 +6681,13 @@ void ScanWhitespace(unsigned char  **linePP)
  * 
  *************************************<->***********************************/
 
-void ToLower (unsigned char  *string)
+void ToLower (char  *string)
 {
-    unsigned char *pch = string;
+    char *pch = string;
 #ifndef NO_MULTIBYTE
     int            chlen;
 
-    while (*pch && ((chlen = mblen ((char *)pch, MB_CUR_MAX)) > 0))
+    while (*pch && ((chlen = mblen (pch, MB_CUR_MAX)) > 0))
     {
         if ((chlen == 1) && (isupper (*pch)))
 	{
@@ -7315,9 +7317,6 @@ void ProcessMotifBindings (void)
     XDeleteProperty (DISPLAY, RootWindow (DISPLAY, 0),
 		XInternAtom (DISPLAY, "_MOTIF_DEFAULT_BINDINGS", False));
 
-    /* FIXME: unexported openmotif procedures */
-    extern Boolean _XmVirtKeysLoadFileBindings(Display *dsp, String *binding);
-    extern void _XmVirtKeysLoadFallbackBindings(Display *dsp, String *binding);
     if (_XmVirtKeysLoadFileBindings (fileName, &bindings) == True) {
 	XChangeProperty (DISPLAY, RootWindow(DISPLAY, 0),
 		XInternAtom (DISPLAY, "_MOTIF_BINDINGS", False),
@@ -7805,7 +7804,6 @@ ConfigStackPush (unsigned char *pchFileName)
 
 static void ConfigStackPop (void)
 {
-    Boolean error = False;
     ConfigFileStackEntry *pPrev;
     char pchCmd[MAXWMPATH+1];
 
@@ -7911,16 +7909,16 @@ Boolean ParseWmFuncActionArg (unsigned char **linePP,
 	pAP->actionName = XtNewString ((char *) string);
 
 	/* Get action arguments, if any */
-	if (pAP->aap = (DtActionArg *) 
-		XtMalloc (WM_ACTION_ARG_INCREMENT * sizeof (DtActionArg)))
+	if ((pAP->aap = (DtActionArg *)
+		XtMalloc (WM_ACTION_ARG_INCREMENT * sizeof (DtActionArg))))
 	{
 	    iArgSz = WM_ACTION_ARG_INCREMENT;
 	    pAP->numArgs = 0;
 
 	    while ((string = GetString (linePP)) != NULL)
 	    {
-	       if (pAP->aap[pAP->numArgs].u.file.name = (char *)
-		       XtMalloc(1 + strlen((char *)string)))
+	       if ((pAP->aap[pAP->numArgs].u.file.name = (char *)
+		       XtMalloc(1 + strlen((char *)string))))
 	       {
 		   pAP->aap[pAP->numArgs].argClass = DtACTION_FILE;
 

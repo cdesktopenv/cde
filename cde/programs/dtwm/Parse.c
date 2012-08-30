@@ -115,7 +115,7 @@ StringToBoolean (char * parse_source,
                  void ** parse_return)
 
 {
-   _DtWmParseToLower((unsigned char *)parse_source);
+   _DtWmParseToLower(parse_source);
 
    if (strcmp (parse_source, "true") == 0)
       *parse_return = (void *) True;
@@ -145,7 +145,7 @@ StringToResolution (char * parse_source,
                     void ** parse_return)
 
 {
-   _DtWmParseToLower ((unsigned char *) parse_source);
+   _DtWmParseToLower (parse_source);
    
    if (strcmp (parse_source, resolution_types[HIGH]) == 0)
       *parse_return = (void *) HIGH;
@@ -179,7 +179,7 @@ StringToControlBehavior (char * parse_source,
                          void ** parse_return)
 
 {
-   _DtWmParseToLower ((unsigned char *) parse_source);
+   _DtWmParseToLower (parse_source);
 
    if (strcmp (parse_source, "double_click") == 0)
       *parse_return = (void *) DOUBLE_CLICK;
@@ -312,7 +312,7 @@ StringToControlType (char * parse_source,
                      void ** parse_return)
 
 {
-   _DtWmParseToLower ((unsigned char *) parse_source);
+   _DtWmParseToLower (parse_source);
 
    if (strcmp (parse_source, control_types[CONTROL_BLANK]) == 0)
       *parse_return = (void *) CONTROL_BLANK;
@@ -352,7 +352,7 @@ StringToMonitorType (char * parse_source,
                      void ** parse_return)
 
 {
-   _DtWmParseToLower ((unsigned char *) parse_source);
+   _DtWmParseToLower (parse_source);
 
    if (strcmp (parse_source, monitor_types[MONITOR_NONE]) == 0)
       *parse_return = (void *) MONITOR_NONE;
@@ -416,7 +416,7 @@ StringToPositionHints (char * parse_source,
 {
    Boolean status;
 
-   _DtWmParseToLower ((unsigned char *) parse_source);
+   _DtWmParseToLower (parse_source);
 
    if (strcmp (parse_source, "first") == 0)
       parse_source = "0";

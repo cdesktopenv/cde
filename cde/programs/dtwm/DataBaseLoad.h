@@ -488,6 +488,7 @@ extern void InitializeSubpanelFields (ElementValue * element_values);
 extern void _WriteControlElementValues(ElementValue *);
 extern void WriteControlComponentFile(ControlData *);
 extern void WriteSubpanelComponentFile(SubpanelData *);
+extern void RemoveEntry (RecordData * record_data, int record_type);
 extern void RemoveControlComponentFile(ControlData *);
 extern void RemoveSubpanelComponentFile(SubpanelData *);
 extern void    SessionAddFileData (char *, char *, int, char *, int, Boolean);

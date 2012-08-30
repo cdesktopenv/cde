@@ -95,7 +95,7 @@ extern unsigned char * _DtWmParseNextChar(
 extern int _DtWmParseLineNumber( 
                         DtWmpParseBuf *pWmPB) ;
 extern void _DtWmParseToLower (
-			unsigned char  *string);
+			char  *string);
 extern unsigned int _DtWmParsePeekAhead(
 			unsigned char *currentChar,
 			unsigned int currentLev) ;

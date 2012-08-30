@@ -55,6 +55,7 @@ static char rcsid[] = "$TOG: WmMain.c /main/8 1998/04/20 13:01:09 mgreess $"
 #include "WmCEvent.h"
 #include "WmEvent.h"
 #include "WmInitWs.h"
+#include "WmError.h"
 #ifdef WSM
 #include "WmIPC.h"
 #include "WmBackdrop.h"

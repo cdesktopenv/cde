@@ -213,7 +213,7 @@ InitMouseBinding(void)
 static void
 BuildLockMaskSequence(void)
 {
-    int i, j, k;
+    int j, k;
     unsigned int mask;
     unsigned int thisbit;
     Boolean bit_on;
@@ -334,7 +334,7 @@ SetupLockingModifierMask(void)
     Display *dpy = wmGD.display;
     int pkcLockingMods[NUM_LOCKING_MODS];
 
-    int kcq, kc;
+    int kc;
 
     for (i=0; i<NUM_LOCKING_MODS; i++)
     {
@@ -1223,7 +1223,6 @@ XFlush (DISPLAY);
 		    Pixmap 	iconBitmap;
 		    Arg		al[5];
 		    int 	ac;
-		    Widget	wFpShell;
 		    WmPanelistObject  pPanelist;
 
                     wmGD.dtSD->wPanelist =
@@ -1327,8 +1326,6 @@ InitWmScreen (WmScreenData *pSD, int sNum)
     int wsnum;
     WmWorkspaceData *pwsI;
     int buf_size;
-    int i;
-    static int dupnum = 0;
     int iwsx;
 #endif /* WSM */
 
@@ -1396,7 +1393,7 @@ InitWmScreen (WmScreenData *pSD, int sNum)
     pSD->workspaceList = NULL;
     pSD->numWorkspaces = 0;
     pSD->numWsDataAllocated = 0;
-    pSD->lastBackdropWin = NULL;
+    pSD->lastBackdropWin = None;
     pSD->pDtSessionItems = NULL;
     pSD->totalSessionItems = 0;
     pSD->remainingSessionItems = 0;
@@ -1443,7 +1440,7 @@ InitWmScreen (WmScreenData *pSD, int sNum)
 	buf_size = strlen(buffer) + 1;
 
 	if ((wmGD.screenNames[sNum] = 
-	     (unsigned char *)XtRealloc (wmGD.screenNames[sNum], buf_size)) == NULL)
+	     (unsigned char *)XtRealloc ((char *)wmGD.screenNames[sNum], buf_size)) == NULL)
 	{
 	    Warning (((char *)GETMESSAGE(40, 7, "Cannot create enough memory for the screen names")));
 	    ExitWM (WM_ERROR_EXIT_VALUE);
@@ -1795,7 +1792,7 @@ InsureDefaultBackdropDir(char **ppchBackdropDirs)
   len = strlen (pchD);
   pchEnd = pch + strlen(pch);
   
-  while (!bFound && (pch != NULL) && (*pch != NULL))
+  while (!bFound && (pch != NULL) && (*pch != 0))
     {
       if (strncmp (pch, pchD, len) == 0)
 	{
@@ -1805,7 +1802,7 @@ InsureDefaultBackdropDir(char **ppchBackdropDirs)
 	   */
 	  pch2 = pch + len;	
 	  if ((pch2 <= pchEnd) &&
-	      ((*pch2 == NULL) ||
+	      ((*pch2 == 0) ||
 	       (((mblen (pch2, MB_CUR_MAX) == 1) &&
 		 (*pch2 == ':')))))
 	    {
@@ -1816,7 +1813,7 @@ InsureDefaultBackdropDir(char **ppchBackdropDirs)
 	{
 	  /* find next path component */
 	  pch = strchr (pch, (int) ':'); 
-	  if ((pch != NULL) && (*pch != NULL))
+	  if ((pch != NULL) && (*pch != 0))
 	    { 
 	      /* skip path separator */
 	      chlen = mblen (pch, MB_CUR_MAX);
@@ -2331,9 +2328,9 @@ void InitNlsStrings (void)
     /*
      * Initialize messages
      */
-    wmGD.okLabel=XmStringCreateLocalized(_DtOkString);
-    wmGD.cancelLabel=XmStringCreateLocalized(_DtCancelString);
-    wmGD.helpLabel=XmStringCreateLocalized(_DtHelpString);
+    wmGD.okLabel=XmStringCreateLocalized((String)_DtOkString);
+    wmGD.cancelLabel=XmStringCreateLocalized((String)_DtCancelString);
+    wmGD.helpLabel=XmStringCreateLocalized((String)_DtHelpString);
 #endif /* WSM */    
 
     /*

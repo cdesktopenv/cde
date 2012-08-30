@@ -49,6 +49,7 @@ extern PropMwmInfo * GetMwmInfo (Window rootWindowOfScreen);
 extern void ProcessWmColormapWindows (ClientData *pCD);
 extern Colormap FindColormap (ClientData *pCD, Window window);
 extern MenuItem * GetMwmMenuItems (ClientData *pCD);
+extern void SetEmbeddedClientsProperty (Window propWindow, Window *pEmbeddedClients, unsigned long cEmbeddedClients);
 #ifdef WSM
 extern void GetInitialPropertyList (ClientData *pCD);
 extern Status GetWorkspaceHints (Display *display, Window window, Atom **ppWsAtoms, unsigned int *pCount, Boolean *pbAll);

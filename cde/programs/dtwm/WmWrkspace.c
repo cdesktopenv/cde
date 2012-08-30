@@ -984,11 +984,11 @@ GetClientWorkspaceInfo(
     pCD->numInhabited = 0;		/* no valid ones yet */
     for (i = 0; i < pCD->pSD->numWorkspaces; i++)
     {
-	pCD->pWsList[i].wsID = NULL;
+	pCD->pWsList[i].wsID = None;
 	pCD->pWsList[i].iconPlace = NO_ICON_PLACE;
 	pCD->pWsList[i].iconX = 0;
 	pCD->pWsList[i].iconY = 0;
-	pCD->pWsList[i].iconFrameWin = NULL;
+	pCD->pWsList[i].iconFrameWin = None;
 	pCD->pWsList[i].pIconBox = NULL;
     }
     pCD->putInAll = bAll = False;
@@ -1217,7 +1217,7 @@ ConvertNamesToIDs(
         strcpy ((char *)pchLocal, (char *)pchIn);
 	pch = pchLocal;
 
-	while (pchName = GetSmartString (&pch))
+	while ((pchName = GetSmartString (&pch)))
 	{
 	    int iwsx;
 	    XmString xms;
@@ -2229,8 +2229,8 @@ ProcessWorkspaceHintList(
 		     * Put the client into requested workspaces that
 		     * exist.
 		     */
-		    if (pWS = GetWorkspaceData (pCD->pSD, 
-						pCD->pWorkspaceHints[i]))
+		    if ((pWS = GetWorkspaceData (pCD->pSD, 
+						pCD->pWorkspaceHints[i])))
 		    {
 			PutClientIntoWorkspace (pWS, pCD);
 		    }
@@ -3728,7 +3728,7 @@ SaveWorkspaceResources(
 		    clientY -= (pCD_Panel->frameInfo.upperBorderWidth +
 				pCD_Panel->frameInfo.titleBarHeight);
 		}
-		sprintf (tmpBuffer, "+%d+%d\0", clientX, clientY);
+		sprintf (tmpBuffer, "+%d+%d", clientX, clientY);
 	    }
 	    else
 	    {
@@ -3739,7 +3739,7 @@ SaveWorkspaceResources(
 		    clientY -= pCD_Panel->frameInfo.lowerBorderWidth;
 		}
 
-		sprintf (tmpBuffer, "+%d-%d\0", clientX, clientY);
+		sprintf (tmpBuffer, "+%d-%d", clientX, clientY);
 	    }
 	}
 	else
@@ -3759,7 +3759,7 @@ SaveWorkspaceResources(
 		    clientY -= (pCD_Panel->frameInfo.upperBorderWidth +
 				pCD_Panel->frameInfo.titleBarHeight);
 		}
-		sprintf (tmpBuffer, "-%d+%d\0", clientX, clientY);
+		sprintf (tmpBuffer, "-%d+%d", clientX, clientY);
 	    }
 	    else
 	    {
@@ -3769,7 +3769,7 @@ SaveWorkspaceResources(
 		{
 		    clientY -= pCD_Panel->frameInfo.lowerBorderWidth;
 		}
-		sprintf (tmpBuffer, "-%d-%d\0", clientX, clientY);
+		sprintf (tmpBuffer, "-%d-%d", clientX, clientY);
 	    }
 	}
 
@@ -3824,7 +3824,7 @@ SaveWorkspaceResources(
 	    clientY = pWS->pIconBox->pCD_iconBox->clientY;
 	}
 
-	sprintf (buffer, "%dx%d+%d+%d\0", clientWidth, clientHeight,
+	sprintf (buffer, "%dx%d+%d+%d", clientWidth, clientHeight,
 		 clientX, clientY);
 
 	pWS->iconBoxGeometry  = strdup( buffer);

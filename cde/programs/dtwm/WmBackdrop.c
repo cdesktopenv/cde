@@ -195,8 +195,8 @@ ProcessBackdropResources(
     unsigned int w, h, bw, depth;
     Window root;
     unsigned long oldFlags;
-    static unsigned char *none_string = NULL;
-    static unsigned char *no_backdrop_string = NULL;
+    static String none_string = NULL;
+    static String no_backdrop_string = NULL;
     Boolean bNone = False;
 #ifndef NO_MULTIBYTE
     unsigned int chlen;
@@ -208,14 +208,13 @@ ProcessBackdropResources(
     }
 
     if (!no_backdrop_string && 
-	(no_backdrop_string = (unsigned char *)
-		       XtNewString (DTWM_REQP_BACKDROP_NONE)))
+	(no_backdrop_string = XtNewString (DTWM_REQP_BACKDROP_NONE)))
     {
 	ToLower(no_backdrop_string);
 	xa_NO_BACKDROP = XmInternAtom (DISPLAY, no_backdrop_string, False);
 
 	/* for compatiblity with DT 2.01 */
-	none_string = (unsigned char *) XtNewString ("none");
+	none_string = XtNewString ("none");
     }
     if (!no_backdrop_string)
     {
@@ -278,7 +277,7 @@ ProcessBackdropResources(
 	    pchL = (unsigned char *) strdup ((char *)pch);
 
             if (*pchL) 
-		ToLower(pchL);
+		ToLower((char *)pchL);
 	
 	    if (!(strcmp ((char *)pchL, (char *)no_backdrop_string)) ||
 	        !(strcmp ((char *)pchL, (char *)none_string)))
@@ -286,7 +285,7 @@ ProcessBackdropResources(
 		/*
 		 * No backdrop (root window shows through)
 		 */
-		pWS->backdrop.window = NULL;
+		pWS->backdrop.window = None;
 		pWS->backdrop.nameAtom = xa_NO_BACKDROP;
 		bNone = True;
 	    }
@@ -602,7 +601,7 @@ SetNewBackdrop(
     if (!bitmapFile || !strlen(bitmapFile) || 
 	!strcmp(bitmapFile, DTWM_REQP_BACKDROP_NONE))
     {
-	pixmap = NULL;
+	pixmap = None;
     }
 
     if (bitmapFile) 
@@ -621,7 +620,7 @@ SetNewBackdrop(
 	{
 	    /* not in Xm pixmap cache */
 	}
-	pWS->backdrop.imagePixmap = NULL;
+	pWS->backdrop.imagePixmap = None;
     }
 
     /* free pWS->backdrop.image */

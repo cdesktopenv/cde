@@ -236,7 +236,7 @@ _WmGrabMasks ( unsigned int modifiers, int *pnum_masks )
     unsigned int mask;
 
     /* count the number of masks in the lock sequence */
-    for (num_masks=0; wmGD.pLockMaskSequence[num_masks] != NULL; num_masks++);
+    for (num_masks=0; wmGD.pLockMaskSequence[num_masks]; num_masks++);
 
     /* insure we have enough space for our returned masks */
     if ((pRetMasks == NULL) || (len_ret_masks < num_masks+2))
@@ -2062,8 +2062,8 @@ HandleDtWmRequest (WmScreenData *pSD, XEvent *pev)
 			{
 			    XtFree ((char *)wmFuncArgs);
 			}
-			else if ((functionTable[iFuncIndex].parseProc ==
-			    		ParseWmFuncActionArg))
+			else if (functionTable[iFuncIndex].parseProc ==
+			    		ParseWmFuncActionArg)
 			{
 			    WmActionArg *pAP = (WmActionArg *) wmFuncArgs;
 

@@ -495,7 +495,7 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	 */
 	for (i = 0; i < pCD->numInhabited; i++)
 	{
-	    if (pwsi = GetWorkspaceData(pCD->pSD, pCD->pWsList[i].wsID))
+	    if ((pwsi = GetWorkspaceData(pCD->pSD, pCD->pWsList[i].wsID)))
 	    {
 
 		if ((pCD->pSD->useIconBox && 
@@ -1039,7 +1039,7 @@ void WithdrawWindow (ClientData *pCD)
 
 		    if (pWsc->iconPlace != NO_ICON_PLACE)
 		    {
-			if (pWsTmp=GetWorkspaceData(pCD->pSD, pWsc->wsID))
+			if ((pWsTmp=GetWorkspaceData(pCD->pSD, pWsc->wsID)))
 			{
 			  pWsTmp->IPData.placeList[pWsc->iconPlace].pCD 
 			      = NULL;
@@ -1615,7 +1615,7 @@ void FreeIcon (ClientData *pCD)
 	 */
 	for (i = 0; i< pCD->numInhabited; i++)
 	{
-	    if (pWsTmp = GetWorkspaceData(pCD->pSD, pCD->pWsList[i].wsID))
+	    if ((pWsTmp = GetWorkspaceData(pCD->pSD, pCD->pWsList[i].wsID)))
 	    {
 		DeleteIconFromBox (pWsTmp->pIconBox, pCD);
 	    }
@@ -1771,7 +1771,7 @@ void ReManageDialog (WmScreenData *pSD, Widget dialogboxW)
     XMapWindow (DISPLAY, pCD->clientFrameWin);
     XtManageChild (dialogboxW);
 
-    if ((wmGD.keyboardFocusPolicy == KEYBOARD_FOCUS_EXPLICIT))
+    if (wmGD.keyboardFocusPolicy == KEYBOARD_FOCUS_EXPLICIT)
     {
 	Do_Focus_Key (pCD, GetTimestamp() , ALWAYS_SET_FOCUS);
     }
@@ -2066,8 +2066,6 @@ ScanForEmbeddedClients (
     ClientListEntry *pCLE;
     WmFpEmbeddedClientData *pECD;
     Boolean bReset;
-    long manageFlags = 0L;
-    Window *pWins, *pW;
 
     /*
      *  Search through all the windows we're managing right now to
@@ -2220,8 +2218,6 @@ ManageEmbeddedClient (
     long manageFlags)
 
 {
-    int wsIndex;
-    int i;
     XWindowChanges windowChanges;
     unsigned int mask;
     WmFpPushRecallClientData *pPRCD;
@@ -2393,11 +2389,8 @@ ReparentEmbeddedClient (
     )
 
 {
-    int wsIndex;
-    int i;
     XWindowChanges windowChanges;
     unsigned int mask;
-    WmFpPushRecallClientData *pPRCD;
     ClientData *pCD;
 
     /*
@@ -2527,7 +2520,7 @@ ForceSubpanelWMState (Window win)
 	}
 	else if (parent == root)
 	{
-	    if (wmStateProp = GetWMState (win))
+	    if ((wmStateProp = GetWMState (win)))
 	    {
 		/*
 		 * Already has a WM_STATE.

@@ -79,6 +79,10 @@ extern void SubpanelTornEventHandler (Widget, XtPointer, XEvent *, Boolean *);
 extern void WorkspaceModifyCB (Widget, Atom, int, XtPointer);
 extern void SessionRestoreData (void);
 extern void UnManageWindow (ClientData *pCD);
+extern void WorkspaceAdjustPanelPosition (Position x,
+                              Position y,
+                              Dimension width,
+                              Dimension height);
 
 static void PushRecallSetData ();
 static void EmbeddedClientSetData ();
@@ -247,7 +251,7 @@ EmbeddedClientRegister (ControlData * control_data,
       {
 	 if (strcmp (client_name, embedded_client_list[i].pchResName) == 0)
          {
-	    embedded_client_list[i].wControl == control_data->icon;
+	    embedded_client_list[i].wControl = control_data->icon;
             break;
          }
       }
@@ -269,7 +273,7 @@ EmbeddedClientRegister (ControlData * control_data,
 
          embedded_client->pchResName = XtNewString (client_name);
          embedded_client->wControl = control_data->icon;
-         embedded_client->winParent = NULL;
+         embedded_client->winParent = None;
          embedded_client->pCD = NULL;
       }
 
@@ -473,7 +477,7 @@ PushRecallRegister (ControlData * control_data,
       {
 	 if (strcmp (client_name, push_recall_list[i].pchResName) == 0)
          {
-	    push_recall_list[i].wControl == control_data->icon;
+	    push_recall_list[i].wControl = control_data->icon;
             break;
          }
       }

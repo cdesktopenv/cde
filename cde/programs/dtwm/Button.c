@@ -43,6 +43,9 @@ static char SCCSID[] = "OSF/Motif: @(#)Button.c	1.19 95/05/01";
 #include <Dt/MacrosP.h>
 #include <Dt/DtStrDefs.h>
 
+#include "DtSvcInternal.h"   /* _DtGetMask */
+#include <Xm/XmPrivate.h>    /* _XmFocusInGadget, _XmFocusOutGadget, _XmSocorro */
+
 #define DELAY_DEFAULT 100	
 
 static void Initialize( 
@@ -377,7 +380,6 @@ UpdateGCs(
 {
    DtButtonGadget bg = (DtButtonGadget) w ;
    XmManagerWidget mw = (XmManagerWidget) XtParent(w) ;
-   XGCValues values;
 
    XtReleaseGC ((Widget) mw, bg->button.gc_normal);
    XtReleaseGC ((Widget) mw, bg->button.gc_background);
@@ -404,7 +406,6 @@ Redisplay(
         Region region )
 {
 DtButtonGadget bg = (DtButtonGadget) w;
-XmManagerWidget mw = (XmManagerWidget) XtParent(w);
 Dimension	s_t = bg -> gadget.shadow_thickness;
 Dimension	h_t = bg -> gadget.highlight_thickness;
 Position	x;
@@ -510,11 +511,9 @@ SetValues(
 
 {
    DtButtonGadget  current = (DtButtonGadget) current_w;
-   DtButtonGadget  request = (DtButtonGadget) request_w;
    DtButtonGadget  new_g = (DtButtonGadget) new_w;
    XmManagerWidget mw = (XmManagerWidget) XtParent(new_w);
    Boolean          returnFlag = FALSE;
-   Cursor           cursor;
 
    G_EventMask (new_g) = (XmARM_EVENT | XmACTIVATE_EVENT |
                         XmMULTI_ARM_EVENT | XmMULTI_ACTIVATE_EVENT |
@@ -648,7 +647,6 @@ Activate(
 {
    DtButtonGadget bg = (DtButtonGadget) w ;
    DtButtonCallbackStruct call_value;
-   Dimension bw = G_BorderWidth(bg);
 
    if (!B_Armed (bg))
       return;
@@ -844,6 +842,7 @@ VisualChange(
        else
 	 return (False);
     }
+    return (False);
 }
 
 /************************************************************************

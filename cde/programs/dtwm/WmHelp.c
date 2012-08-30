@@ -837,7 +837,7 @@ static void WmDtPopupHelpCB (
 	    do
 	    {
 		ptr = DtStrchr (pTemp->workspaces, '*');
-		if (ptr != NULL) *ptr = NULL;
+		if (ptr != NULL) *ptr = '\0';
 		
 		atom_names = 
 		    (char **) XtRealloc ((char *)atom_names,
@@ -1091,8 +1091,8 @@ WmDtHelp (String args)
     WmPanelistObject  pPanelist;
     char *theHelpVolume = WM_DT_HELP_VOLUME;
     char *theHelpTopic  = WM_DT_HELP_TOPIC;
-    char volume[MAXWMPATH + 1];
-    char topic[MAXWMPATH + 1];
+    unsigned char volume[MAXWMPATH + 1];
+    unsigned char topic[MAXWMPATH + 1];
     int  argCount = 0;
 
 
@@ -1103,27 +1103,27 @@ WmDtHelp (String args)
 
     pPanelist = (WmPanelistObject) pSD->wPanelist;
     
-    if (theWidget = O_Panel(pPanelist))
+    if ((theWidget = O_Panel(pPanelist)))
     {
 	if (args )
 	{
 	    /*
 	     * parse args for volume and topic 
 	     */
-	    WmDtGetHelpArgs((unsigned char*)args, &volume, &topic, &argCount);
+	    WmDtGetHelpArgs(args, volume, topic, &argCount);
 	    if (argCount == 1)
 	    {
 		WmDtDisplayTopic(pSD->screenTopLevelW1, 
 				  theHelpVolume, 
-				  topic, 
+				  (char *)topic, 
 				  DtHELP_TYPE_TOPIC, theWidget, True,
 				  NULL, 0, NULL, False, NULL);
 	    }
 	    else
 	    {
 		WmDtDisplayTopic(pSD->screenTopLevelW1, 
-				  volume, 
-				  topic, 
+				  (char *)volume, 
+				  (char *)topic, 
 				  DtHELP_TYPE_TOPIC, theWidget, False,
 				  NULL, 0, NULL, False, NULL);
 	    }
@@ -1174,7 +1174,7 @@ WmDtHelpMode (void)
     int iStatus;
     String sTmp, sMessage, sTitle;
 
-    iStatus = WmDtReturnSelectedWidget(wmGD.topLevelW, NULL, 
+    iStatus = WmDtReturnSelectedWidget(wmGD.topLevelW, None, 
 			&selectedWidget);
 
     switch (iStatus)
@@ -1693,7 +1693,7 @@ RestoreHelpDialogs(
 	}
 	xrm_name [0] = XrmStringToQuark ("wsHelp");
 	xrm_name [1] = XrmStringToQuark ("onScreen");
-	xrm_name [2] = NULL;
+	xrm_name [2] = NULLQUARK;
 	
 	
 	if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value)) 
@@ -1873,7 +1873,7 @@ RestoreHelpDialogs(
 
 	xrm_name [0] = XrmStringToQuark ("cachedHelp");
 	xrm_name [1] = XrmStringToQuark ("cachedCount");
-	xrm_name [2] = NULL;
+	xrm_name [2] = NULLQUARK;
 	
 	
 	if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value)) 
@@ -1884,8 +1884,8 @@ RestoreHelpDialogs(
 	    {
 		sprintf (dialogName,  "oWsHelp%d", cCount);
 		xrm_name [0] = XrmStringToQuark (dialogName);
-		xrm_name [1] = NULL;
-		xrm_name [2] = NULL;
+		xrm_name [1] = NULLQUARK;
+		xrm_name [2] = NULLQUARK;
 
 		displayTopicInfo.xPos = 0;
 		displayTopicInfo.xPos = 0;
@@ -2130,7 +2130,7 @@ SaveHelpResources(
         res_class = DT_WM_RESOURCE_CLASS;
     }
 
-    sprintf (screenName, "%d\0", pSD->screen);
+    sprintf (screenName, "%d", pSD->screen);
 
     sprintf (buffer, "%s*%s*%s:  \\n ", res_class,  screenName, 
 	     WmNhelpResources);
@@ -2344,7 +2344,7 @@ SaveHelpResources(
 		if (pCDforHelp)
 		{
 		    thisCnt = 0;
-		    sprintf(workspaces,"");
+		    sprintf(workspaces, "%s", "");
 		    for (wsCnt = 0; wsCnt < pSD->numWorkspaces;
 			 wsCnt++)
 		    {
@@ -2555,7 +2555,7 @@ wmDtHelpSetPosition(
     int n;
     XFontStruct *font;
     Dimension height;
-    Window wGroup;
+    Window wGroup = None;
     int x, y;
     ClientData *pCDforHelp;
 
@@ -2678,7 +2678,7 @@ wmDtHelpSetPosition(
     }
     else
     {
-        if (wGroup != 0)
+        if (wGroup != None)
 	{
 	    HideHelpDialog (pSD, True);
 	}

@@ -54,6 +54,7 @@ static char rcsid[] = "$TOG: WmWinList.c /main/8 1997/06/10 15:50:50 samborn $"
  */
 #include "WmWinList.h"
 #include "WmCEvent.h"
+#include "WmEvent.h"
 #include "WmFunction.h"
 #include "WmKeyFocus.h"
 #include "WmMenu.h"
@@ -2559,7 +2560,7 @@ LowestWindowInTransientFamily (ClientData *pcdLeader)
 	{
 	    /* cannot get memory space */
 	    size = 0;
-	    return;
+	    return None;
 	}
 	size = count + 5;
     }
@@ -2667,7 +2668,7 @@ MakeTransientFamilyStackingList (
 	ClientData *pcdLeader)
 
 {
-    ClientData *pcdNext, *pcdSub;
+    ClientData *pcdSub;
     Window *nextWindow, wSave, wTemp, wTop;
     int count = CountTransientChildren (pcdLeader);
     register int i, j;

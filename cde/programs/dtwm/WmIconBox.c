@@ -186,7 +186,7 @@ void AddIconBoxForWorkspace (WmWorkspaceData *pWS)
     extern WmWorkspaceData *pIconBoxInitialWS;
 
     pIconBoxInitialWS = pWS;
-    ManageWindow (pWS->pSD, NULL, MANAGEW_ICON_BOX);
+    ManageWindow (pWS->pSD, None, MANAGEW_ICON_BOX);
 
 } /* END OF FUNCTION AddIconBoxForWorkspace */
 #endif /* WSM */
@@ -862,7 +862,7 @@ void InitializeIconBoxData (WmWorkspaceData *pWS, IconBoxData *pIBD)
     pIBD->wsID = pWS->id;
 #endif /* WSM */
 
-    ToLower ((unsigned char *) pWS->pSD->iconBoxSBDisplayPolicy);
+    ToLower (pWS->pSD->iconBoxSBDisplayPolicy);
     
     if (!((!strcmp(pWS->pSD->iconBoxSBDisplayPolicy , "all"))      ||
 	  (!strcmp(pWS->pSD->iconBoxSBDisplayPolicy , szvertical)) ||
@@ -1819,7 +1819,6 @@ IconBoxShowing (WmWorkspaceData *pWS, ControlWindowStruct *pCW)
 #endif /* PANELIST */
 {
     Boolean rval = False;
-    int wsIndex =  GetCurrentWorkspaceIndex (pWS->pSD); 
     
 #ifdef PANELIST
     if (pWS->pIconBox &&
@@ -1876,7 +1875,6 @@ IconBoxPopUp (WmWorkspaceData *pWS,
 {
     
     IconBoxData *pibd;
-    int wsIndex =  GetCurrentWorkspaceIndex (pWS->pSD); 
     
     if (pWS->pIconBox)
     {

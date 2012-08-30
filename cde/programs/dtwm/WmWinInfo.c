@@ -69,6 +69,7 @@ static char rcsid[] = "$TOG: WmWinInfo.c /main/18 1999/02/04 15:17:25 mgreess $"
 #include "WmImage.h"
 #include "WmManage.h"
 #include "WmMenu.h"
+#include "WmOL.h"
 #include "WmProperty.h" 
 #include "WmResource.h"
 #ifdef WSM
@@ -597,7 +598,7 @@ int i;
     pCD->sizeWsList = pCD->pSD->numWorkspaces;
     for (i = 0; i < pCD->pSD->numWorkspaces; i++)
     {
-	pCD->pWsList[i].wsID = NULL;
+	pCD->pWsList[i].wsID = 0L;
 	pCD->pWsList[i].iconPlace = NO_ICON_PLACE;
 	pCD->pWsList[i].iconX = 0;
 	pCD->pWsList[i].iconY = 0;
@@ -1307,7 +1308,7 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
 		    for (iws = 0; iws< pCD->numInhabited; iws++)
 		    {
 			pWsc = &(pCD->pWsList[iws]);
-			if (pWsTmp=GetWorkspaceData(pCD->pSD, pWsc->wsID))
+			if ((pWsTmp=GetWorkspaceData(pCD->pSD, pWsc->wsID)))
 			{
 			    tmpIconX = (pCD->clientFlags & SM_ICON_X) ?
 			      pWsc->iconX : pXWMHints->icon_x;
@@ -1331,7 +1332,7 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
 		    for (iws = 0; iws< pCD->numInhabited; iws++)
 		    {
 			pWsc = &(pCD->pWsList[iws]);
-			if (pWsTmp=GetWorkspaceData(pCD->pSD, pWsc->wsID))
+			if ((pWsTmp=GetWorkspaceData(pCD->pSD, pWsc->wsID)))
 			{
 			    if (!(pCD->clientFlags & SM_ICON_X))
 				pWsc->iconX = pXWMHints->icon_x;

@@ -50,6 +50,7 @@
 #include <Dt/UserMsg.h>
 
 #include "WmParse.h"
+#include "WmPanelP.h"
 #include "DataBaseLoad.h"
 #include "Parse.h"
 #include "UI.h"
@@ -417,24 +418,24 @@ static void InitializeFileControlFields (ElementValue *, char *);
  *
  ************************************************************************/
 
-static panel_count = 0;
-static panel_data_count = 0;
+static int panel_count = 0;
+static int panel_data_count = 0;
 static RecordData * panel_data = NULL;
 
-static box_count = 0;
-static box_data_count = 0;
+static int box_count = 0;
+static int box_data_count = 0;
 static RecordData * box_data = NULL;
 
-static subpanel_count = 0;
-static subpanel_data_count = 0;
+static int subpanel_count = 0;
+static int subpanel_data_count = 0;
 static RecordData * subpanel_data = NULL;
 
-static switch_count = 0;
-static switch_data_count = 0;
+static int switch_count = 0;
+static int switch_data_count = 0;
 static RecordData * switch_data = NULL;
 
-static control_count = 0;
-static control_data_count = 0;
+static int control_count = 0;
+static int control_data_count = 0;
 static RecordData * control_data = NULL;
 
 
@@ -1123,7 +1124,7 @@ AnimationParseCB (DtDtsDbField  * fields,
    panel.animation_data[count].name = strdup(fields[0].fieldValue);
 
 
-   for (i = 1; fields[i].fieldName != NULL; i++)
+   for (i = 1; fields[i].fieldName != NULLQUARK; i++)
    {
        if (fields[i].fieldName == animation_quark)
           field_count++;
@@ -1183,7 +1184,9 @@ ControlSingleParseCB (DtDtsDbField  * fields,
                 Boolean       rejection)
 
 {
-   if (control_element_value_found) return;
+   if (control_element_value_found) {
+	return (True);
+   }
 
    control_element_values = (ElementValue *) XtMalloc (sizeof(ElementValue) *
 						       CONTROL_KEYWORD_COUNT);
@@ -1248,7 +1251,7 @@ ProcessRecord (DtDtsDbField   * fields,
    /*  to the keywords for this record type and when found, enter  */
    /*  it into the element values array for the component.         */
 
-   for (i = 0; fields[i].fieldName != NULL; i++)
+   for (i = 0; fields[i].fieldName != NULLQUARK; i++)
    {
       XrmQuark field1 = fields[i].fieldName;
       char * field2 = fields[i].fieldValue;
@@ -2515,7 +2518,7 @@ ProcessControl (XtPointer       parent,
    control->move_action = NULL;
    control->copy_action = NULL;
    control->link_action = NULL;
-   control->operation = NULL;
+   control->operation = 0;
 
    AddControlActionList (control);
 

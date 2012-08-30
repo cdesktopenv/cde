@@ -100,6 +100,7 @@ extern WsClientData * GetWsClientData(
                         ClientData *pCD) ;
 extern void SetClientWsIndex( 
                         ClientData *pCD) ;
+void ProcessDtWmHints (ClientData *pCD) ;
 extern Boolean ProcessWorkspaceHints( 
                         ClientData *pCD) ;
 extern void ProcessWorkspaceHintList( 

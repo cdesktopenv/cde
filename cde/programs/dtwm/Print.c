@@ -223,7 +223,7 @@ PrintFrontPanelContents(void)
  *
  ************************************************************************/
 
-void
+int
 main (int argc,
       char         **argv)
 
