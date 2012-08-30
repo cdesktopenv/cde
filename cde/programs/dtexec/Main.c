@@ -323,7 +323,7 @@ Help(
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__) || defined(linux)
 PanicSignal(int s)
 #else
 PanicSignal(void)
@@ -360,7 +360,7 @@ PanicSignal(void)
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__) || defined(linux)
 IgnoreSignal(int i)
 #else
 IgnoreSignal(void)
@@ -402,7 +402,7 @@ IgnoreSignal(void)
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__) || defined(linux)
 UrgentSignal(int i)
 #else
 UrgentSignal(void)
@@ -453,7 +453,7 @@ UrgentSignal(void)
  *
  *****************************************************************************/
 static void
-#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__) || defined(linux)
 SigCld(int i)
 #else
 SigCld(void)
@@ -1523,7 +1523,7 @@ main (
 		 * a SIGCLD, give up and exit.
 		 */
 		if (rediscoverUrgentSigG > ((1000/SHORT_SELECT_TIMEOUT)*5) ) {
-#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__)
+#if defined(__aix) || defined (__osf__) || defined(__FreeBSD__) || defined(linux)
 		    PanicSignal(0);
 #else
 		    PanicSignal();
