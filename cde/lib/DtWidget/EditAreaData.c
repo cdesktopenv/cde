@@ -1266,7 +1266,7 @@ LoadFile(
 	 */
         loadError = Check4EnoughMemory( file_length );
 	if (loadError == DtEDITOR_INSUFFICIENT_MEMORY)
-	  returnVal == loadError;
+	  returnVal = loadError;
 	else {
 
 	  /* 

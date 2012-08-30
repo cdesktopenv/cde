@@ -52,11 +52,13 @@
 #include <Xm/GadgetP.h>
 #endif /* RiversVersion == _31 */
 #include <Xm/DrawP.h>
+#include <Xm/XmP.h>
 #include <Dt/TitleBoxP.h>
 #include <Dt/MacrosP.h>
 #include <Dt/DtMsgsP.h>
 #include "DtWidgetI.h"
 
+#include <Xm/XmPrivate.h>         /* _XmClearShadowType */
 
 
 

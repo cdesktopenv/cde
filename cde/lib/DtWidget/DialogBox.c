@@ -274,7 +274,7 @@ DtDialogBoxClassRec dtDialogBoxClassRec =
 	{
 		XtInheritTranslations,		/* default_translations	*/
 		NULL,				/* get_resources	*/
-		NULL,				/* num_get_resources	*/
+		0,				/* num_get_resources	*/
 		NULL,				/* get_cont_resources	*/
 		0,				/* num_get_cont_resources */
 		XmInheritParentProcess,		/* parent_process	*/
@@ -788,7 +788,7 @@ CreateChildren(
 			XtSetArg (al[ac], XmNlabelString, string[i]);  ac++;
 		}
 		XtSetArg (al[ac], XmNchildType, XmBUTTON);  ac++;
-		sprintf (button_name, "%s_%d\0", M_Name (new), i+1);
+		sprintf (button_name, "%s_%d", M_Name (new), i+1);
 		btn = XmCreatePushButtonGadget ((Widget)new, button_name, al, ac);
 		XtManageChild (btn);
  		XtAddCallback (btn, XmNactivateCallback,

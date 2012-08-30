@@ -69,6 +69,7 @@
 # define NO_putwc
 #elif defined(CSRG_BASED)
 # include <wctype.h>
+# include <wchar.h>
 #endif /* linux */
 
 #include <sys/wait.h>
@@ -88,11 +89,17 @@
 #include <Xm/MessageB.h>
 #include <Xm/MwmUtil.h>
 #include <Xm/TextF.h>
+#include <Xm/LabelG.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/PushBG.h>
+#include <Xm/ToggleBG.h>
+#include <Xm/RowColumn.h>
 
 /* Need the following for _DtOkString */
 #include <Dt/DtP.h>
 
 #include <Dt/DtMsgsP.h>
+#include <Dt/HourGlass.h>
 
 #include "DtWidgetI.h"
 
@@ -762,8 +769,10 @@ static XtActionsRec EditorActionTable[] = {
 #endif /* _AIX */
 
 #if !(defined(sun) && (_XOPEN_VERSION==3))
+#if !(defined(__FreeBSD__))
 #  define iswblank(wc)	iswctype((wc),blnkclass)
 #  undef getwc				/* Use the libc function */
+#endif
 #if defined(__osf__) || defined(_AIX) /* __osf__ || _AIX */
 /* function prototype for wctype() was changed to meet spec1170 */
 /* digital compiler flagged warning */
@@ -1344,13 +1353,13 @@ dtEditorClassRec =
 /*	XmForm Part 
 */
 	{
-		(int) NULL,			/* extension		*/
+		NULL,			/* extension		*/
 	},
 
 /*	DtEditor Part
 */
 	{
-		(int) NULL,			/* extension		*/
+		0,			/* extension		*/
 	}
 };
 

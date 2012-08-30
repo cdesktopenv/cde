@@ -49,6 +49,7 @@
 
 #include "EditorP.h"
 #include "DtWidgetI.h"
+#include <Xm/XmPrivate.h>  /* _XmStringSourceGetString */
 
 void
 _DtEditorResetUndo(

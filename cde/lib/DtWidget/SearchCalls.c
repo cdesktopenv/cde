@@ -48,10 +48,14 @@
 #include "EditorP.h"
 #include <Xm/TextF.h>
 #include <Xm/MessageB.h>
+#include <Xm/List.h>
 #include <ctype.h>
 #include <limits.h>
 #include <Dt/DtMsgsP.h>
+#include <Dt/HourGlass.h>
 #include "DtWidgetI.h"
+
+#include <Xm/XmPrivate.h>    /* _XmStringSourceGetString */
 
 #define X_INCLUDE_STRING_H
 #define XOS_USE_XT_LOCKING

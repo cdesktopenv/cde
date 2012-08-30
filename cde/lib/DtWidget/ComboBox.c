@@ -109,9 +109,13 @@ express or implied warranty.
 #include <Xm/XmosP.h>		/* for INT_MAX */
 #include <Dt/DtMsgsP.h>
 #include "ComboBoxP.h"
+#include <Xm/DrawP.h>
 #include <Xm/DisplayP.h>
+#include <Xm/List.h>
 #include <Xm/ComboBox.h>	/* for redirecting utility functions */
 #include "DtWidgetI.h"		/* for _Dt thread-safety macros */
+/* some unpublished Motif interfaces */
+#include <Xm/XmPrivate.h>
 
 /*
  * MotifBc

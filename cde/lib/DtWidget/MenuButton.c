@@ -63,6 +63,9 @@
 #include <Xm/LabelP.h>
 #include <Xm/MenuUtilP.h>
 #include <Xm/DrawP.h>
+#include <Xm/XmP.h>
+
+#include <Xm/XmPrivate.h>   /* _XmRecordEvent, _XmSetInDragMode, ... */
 
 #include <X11/keysymdef.h>
 #include "DtWidgetI.h"
@@ -795,7 +798,7 @@ SetValues(
 	Boolean flag = FALSE;
 	Boolean adjustWidth = FALSE;
 	Boolean adjustHeight = FALSE;
-	unsigned char rowcol_type = NULL;
+	unsigned char rowcol_type = 0;
 	Display *dpy = XtDisplay(nw);
 	Boolean menu_glyph_changed = FALSE;
 	
@@ -911,7 +914,7 @@ Initialize(
 	Boolean adjustWidth = FALSE;
 	Boolean adjustHeight = FALSE;
 	Widget    parent = XtParent(new_w);
-	unsigned char rowcol_type = NULL;
+	unsigned char rowcol_type = 0;
 	char *name = NULL;
 	
 	if ((XmIsRowColumn (parent))) {

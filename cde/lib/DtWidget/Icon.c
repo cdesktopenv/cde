@@ -62,7 +62,9 @@
 #include <Dt/DtMsgsP.h>
 #include <Dt/Dnd.h>
 #include "DtWidgetI.h"
+#include "DtSvcInternal.h"
 
+#include <Xm/XmPrivate.h>  /* Motif _XmEnterGadget and friends */
 
 /*-------------------------------------------------------------
 **	Public Interface
@@ -527,7 +529,7 @@ static XmBaseClassExtRec       iconBaseClassExtRec = {
     (WidgetClass)&dtIconCacheObjClassRec,     /* secondary class      */
     (XtInitProc)SecondaryObjectCreate,        /* creation proc        */
     (XmGetSecResDataFunc) GetIconClassSecResData,    /* getSecResData */
-    {NULL},                                   /* fast subclass        */
+    {0},                                      /* fast subclass        */
     GetValuesPrehook,                         /* get_values prehook   */
     GetValuesPosthook,                        /* get_values posthook  */
     NULL,                                     /* classPartInitPrehook */
@@ -1717,10 +1719,10 @@ Initialize(
 
 	G_Armed (new) = False;
 
-	G_Mask (new) = NULL;
+	G_Mask (new) = None;
 
 	if (G_Pixmap (new) == XmUNSPECIFIED_PIXMAP)
-		G_Pixmap (new) = NULL;
+		G_Pixmap (new) = None;
 
 	if (G_ImageName (new) || G_Pixmap (new))
 	{
@@ -1744,7 +1746,7 @@ Initialize(
 			{
 /* warning? */				
 				name = NULL;
-				G_Pixmap (new) = NULL;
+				G_Pixmap (new) = None;
 			}
 		}
 
@@ -1830,7 +1832,7 @@ Initialize(
 			XmeGetDefaultRenderTable ((Widget)new, XmBUTTON_FONTLIST);
 	G_FontList (new) = XmFontListCopy (G_FontList (new));
 
-	if ((unsigned int)G_String (new) == (unsigned int)XmUNSPECIFIED_STRING)
+	if (G_String (new) == XmUNSPECIFIED_STRING)
 		G_String (new) = (_XmString) NULL;
        
 	if (G_String (new))
@@ -2240,7 +2242,7 @@ SetValues(
 		else
 		{
 			name = NULL;
-			G_Pixmap (new) = NULL;
+			G_Pixmap (new) = None;
 			w = 0;
 			h = 0;
 		}
@@ -2265,7 +2267,7 @@ SetValues(
 
 		if (G_Pixmap (new) != G_Pixmap (current))
 		{
-			if ((G_Pixmap (new) != NULL) &&
+			if ((G_Pixmap (new) != None) &&
 			    (G_PixmapWidth (new) == w) &&
 			    (G_PixmapHeight (new) == h))
 			{
@@ -2292,7 +2294,7 @@ SetValues(
 			if (G_Mask(new) != XmUNSPECIFIED_PIXMAP)
 			  XmDestroyPixmap (XtScreen(new),G_Mask (current));
 			XmDestroyPixmap (XtScreen(new),G_Pixmap (current));
-			G_Pixmap (new) = NULL;			
+			G_Pixmap (new) = None;			
 			G_PixmapWidth (new) = 0;
 			G_PixmapHeight (new) = 0;
 		}
@@ -2693,7 +2695,7 @@ BorderUnhighlight( DtIconGadget g)
 
    register int window_width;
    register int window_height;
-   register highlight_width;
+   register int highlight_width;
    CallCallbackProc	call_callback;
 
    window_width = g->rectangle.width;
@@ -2856,6 +2858,7 @@ VisualChange(
 	  else
 	    return (False);
       }
+      return (False);
 }
 
 
@@ -3326,8 +3329,8 @@ Draw(
 
 		  if (((G_Behavior (g) == XmICON_BUTTON) && G_Armed (g)) ||
 		      ((G_Behavior (g) == XmICON_TOGGLE) &&
-		       (!G_Set (g) && G_Armed (g)) ||
-		       (G_Set (g) && !G_Armed (g))))
+		       ((!G_Set (g) && G_Armed (g)) ||
+		       (G_Set (g) && !G_Armed (g)))))
 		    shadow_type = XmSHADOW_IN;
 		  else
 		    shadow_type = XmSHADOW_OUT;
@@ -3719,7 +3722,7 @@ _DtDuplicateIcon(
    {
       /* No pixmap to load */
       G_ImageName(new) = NULL;
-      G_Pixmap(new) = NULL;
+      G_Pixmap(new) = None;
       G_PixmapWidth(new) = 0;
       G_PixmapHeight(new) = 0;
    }

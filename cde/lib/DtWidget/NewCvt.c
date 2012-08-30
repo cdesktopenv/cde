@@ -51,6 +51,7 @@
 #include <Dt/TitleBox.h>
 #include "DtWidgetI.h"
 
+#include <ctype.h>
 
 extern void _DtRegisterNewConverters( void ) ;
 

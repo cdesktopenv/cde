@@ -89,9 +89,13 @@ express or implied warranty.
  */
 
 #include <Dt/DtMsgsP.h>
+#include <Xm/DrawP.h>
+#include <Xm/XmP.h>
 #include <Xm/RepType.h>
 #include "SpinBoxP.h"
 #include "DtWidgetI.h"
+
+#include <Xm/XmPrivate.h>    /* _XmShellIsExclusive */
 
 #ifdef I18N_MSG
 #include <langinfo.h>
@@ -1929,7 +1933,7 @@ SetTextFieldData(DtSpinBoxWidget spin)
 	}
 	else {
 	    xm_string = (Items(spin))[Position(spin)];
-	    if (text = GetTextString(xm_string)) {
+	    if ((text = GetTextString(xm_string))) {
 		XtSetArg(arg, XmNvalue, text);
 		XtSetValues(Text(spin), &arg, 1);
 		XtFree(text);
@@ -2201,7 +2205,7 @@ FinishUpDown(	DtSpinBoxWidget spin,
 			    repeat_delay, timer_dispatch, (XtPointer)spin);
 
     /* Try to get Xevent */
-    if (arrow_data = (XmArrowButtonCallbackStruct*)arrow_call_data)
+    if ((arrow_data = (XmArrowButtonCallbackStruct*)arrow_call_data))
 	last_event = arrow_data->event;
 
     /* 
@@ -2605,7 +2609,7 @@ DtSpinBoxDeletePos(	Widget spinw,
 
     /* To keep Position of SpinBox up to date */
     if (Position(spin) > 0 && 
-	(Position(spin) >= total_items) || pos < Position(spin) )
+	((Position(spin) >= total_items) || pos < Position(spin)) )
 	Position(spin) = Position(spin) - 1;
 
     if (pos < ItemCount(spin)) {

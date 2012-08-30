@@ -59,12 +59,14 @@
 #include <X11/Xos_r.h>
 #include <Xm/GadgetP.h>
 #include <Xm/DrawP.h>
+#include <Xm/XmP.h>
 #include <Dt/Control.h>
 #include <Dt/ControlP.h>
 #include <Xm/ManagerP.h>
 #include <Dt/MacrosP.h>
 #include <langinfo.h>
 #include "DtWidgetI.h"
+#include "DtSvcInternal.h"
 
 
 /********    Public Function Declarations    ********/
@@ -577,7 +579,7 @@ BusyTimeout(
   else
     {
       G_Set (g) = False;
-      G_BlinkTimer (g) = NULL;
+      G_BlinkTimer (g) = 0;
       G_BlinkElapsed (g) = 0;
       G_Busy (g) = 0;
       (*call_callback) ((DtIconGadget) g, G_Callback (g), XmCR_BUSY_STOP, NULL);
@@ -830,7 +832,7 @@ Initialize(
       G_ControlType (new) != XmCONTROL_MAIL &&
       G_ControlType (new) != XmCONTROL_MONITOR)
     {
-      G_ControlType (new) == XmCONTROL_NONE;
+      G_ControlType (new) = XmCONTROL_NONE;
     }
   
   if (G_ControlType (new) == XmCONTROL_SWITCH)
