@@ -170,7 +170,7 @@ CreateMenu(
          mainMenu[i].helpData = NULL;
          mainMenu[i].activateCallback = NULL;
          mainMenu[i].activateData = NULL;
-         mainMenu[i].maskBit = NULL;
+         mainMenu[i].maskBit = 0;
          mainMenu[i].isHelpBtn = False;
          mainMenu[i].label = NULL;
          mainMenu[i].mnemonic = NULL;
@@ -1005,7 +1005,7 @@ TrashFiles(
 
    XmUpdateDisplay (w);
 
-   if((int)client_data == NULL)
+   if((int)client_data == 0)
       mbar = XmGetPostedFromWidget(XtParent(w));
    else
       mbar =  XtParent(w);

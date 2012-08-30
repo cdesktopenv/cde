@@ -663,7 +663,7 @@ ProcessItemHelp(
    Widget selectedWidget;
    int returnVal;
 
-   returnVal = DtHelpReturnSelectedWidgetId(shell, NULL, &selectedWidget);
+   returnVal = DtHelpReturnSelectedWidgetId(shell, 0, &selectedWidget);
    switch(returnVal)
    {  
       case DtHELP_SELECT_VALID:

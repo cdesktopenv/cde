@@ -327,7 +327,7 @@ _DtStringsAreEquivalent(
             return(False);
 
          /* Are we at the end of the string? */
-         if (c1 == NULL)
+         if (c1 == '\0')
             return(True);
 
          /* Keep comparing */
@@ -752,7 +752,7 @@ _DtCheckAndFreePixmapData(
   if (pixmapData->instanceIconName)
   {
 
-    if(! pixmapData->iconFileName && iconGadget->icon.pixmap == NULL)
+    if(! pixmapData->iconFileName && iconGadget->icon.pixmap == 0)
     { /* Try to get pixmap name
       */
       char * tmp, * ptr;
@@ -789,9 +789,9 @@ _DtCheckAndFreePixmapData(
 
     DtDtsFreeAttributeValue(pixmapData->instanceIconName);
 
-    if (iconGadget->icon.pixmap == NULL                  ||
-        iconGadget->icon.pixmap_width == NULL            ||
-        iconGadget->icon.pixmap_height == NULL           ||
+    if (iconGadget->icon.pixmap == 0                     ||
+        iconGadget->icon.pixmap_width == 0               ||
+        iconGadget->icon.pixmap_height == 0              ||
         (Dimension)iconGadget->icon.pixmap_width > (Dimension)instanceWidth    ||
         (Dimension)iconGadget->icon.pixmap_height > (Dimension)instanceHeight)
     {
@@ -1710,7 +1710,7 @@ _DtPathFromInput(
       /* Strip off trailing '/' */
       dir_len = strlen(true_path);
       if (dir_len > 1 && *(true_path + dir_len - 1) == '/')
-         *(true_path + dir_len - 1) = NULL;
+         *(true_path + dir_len - 1) = '\0';
    }
    else
    {

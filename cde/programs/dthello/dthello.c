@@ -184,7 +184,7 @@ Usage(void)
       fprintf(stderr, (char *) GETMESSAGE (4, 4, 
 "usage: %s [-display <display>] [-bground <color>] [-fground <color>]\n"),
 		  progName);
-      fprintf(stderr, (char *) GETMESSAGE (4, 5, 
+      fprintf(stderr, "%s", (char *) GETMESSAGE (4, 5, 
 "\t[-font <font>] [-string <message>] [-timeout <seconds>] [-file <name>]\n"));
 }
 
@@ -759,7 +759,7 @@ SkipWhitespace (unsigned char *pch)
 
     if (pch)
     {
-	while ((*pch != NULL) &&
+	while ((*pch != '\0') &&
 	       ((chlen = mblen ((char *)pch, MB_CUR_MAX)) == 1) &&
 	       ((*pch == '\t') || (*pch == ' ')))
 	{
@@ -800,12 +800,12 @@ KillNewlines (unsigned char *pch)
 
     if (pch)
     {
-	while (*pch != NULL)
+	while (*pch != '\0')
 	{
 	    if (((chlen = mblen ((char *)pch, MB_CUR_MAX)) == 1) &&
 	        (*pch == '\n'))
 	    {
-		*pch = NULL;
+		*pch = '\0';
 		break;
 	    }
 	    pch += chlen;
@@ -927,7 +927,7 @@ SeparateTextLines (unsigned char *pchIn)
 
     for (i = 0; (i < numLines) && (pch1 < pchInEnd); i++)
     {
-	while ((*pch2 != NULL) &&
+	while ((*pch2 != '\0') &&
                !(((chlen = mblen ((char *)pch2, MB_CUR_MAX)) == 1) &&
 	         (*pch2 == '\n')))
 	{

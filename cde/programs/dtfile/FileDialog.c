@@ -189,7 +189,7 @@ ShowRenameFileDialog(
 
   XmUpdateDisplay (w);
 
-  if((int)client_data != NULL)
+  if((int)client_data != 0)
   {
     file_view_data = (FileViewData *)client_data;
     mbar = XtParent(w);
@@ -221,7 +221,7 @@ ShowRenameFileDialog(
   XtSetArg (args[n], XmNallowShellResize, True);  n++;
 
   /* Ignore accelerators when we're insensitive */
-  if((int)client_data == NULL)
+  if((int)client_data == 0)
   {
     if ((file_mgr_rec->menuStates & RENAME) == 0)
       return;
@@ -298,7 +298,7 @@ ShowCopyFileDialog(
 
    XmUpdateDisplay (w);
 
-   if((int)client_data != NULL)
+   if((int)client_data != 0)
    {
       file_view_data = (FileViewData *)client_data;
       mbar = XtParent(w);
@@ -431,7 +431,7 @@ ShowCopyFileDialog(
 
 
    /* Adjust the colors of the icon */
-   SetToNormalColors (file_type, form, file_mgr_rec->main, NULL);
+   SetToNormalColors (file_type, form, file_mgr_rec->main, 0);
 
 
    /* ------------------------------------------------------------ */
@@ -769,7 +769,7 @@ ShowMoveFileDialog(
 
    XmUpdateDisplay (w);
 
-   if((int)client_data != NULL)
+   if((int)client_data != 0)
    {
       file_view_data = (FileViewData *)client_data;
       mbar = XtParent(w);
@@ -1094,7 +1094,7 @@ ShowLinkFileDialog(
 
    XmUpdateDisplay (w);
 
-   if((int)client_data != NULL)
+   if((int)client_data != 0)
    {
       file_view_data = (FileViewData *)client_data;
       mbar = XtParent(w);
@@ -1221,7 +1221,7 @@ ShowLinkFileDialog(
 
 
    /* Adjust the colors of the icon */
-   SetToNormalColors (file_type, form, file_mgr_rec->main, NULL);
+   SetToNormalColors (file_type, form, file_mgr_rec->main, 0);
 
    n = 0;
    XtSetArg (args[n], XmNrightAttachment, XmATTACH_WIDGET);    n++;
@@ -2118,7 +2118,7 @@ ShowMakeFileDialog(
 
 
    /* Adjust the colors of the icon */
-   SetToNormalColors (file_type, form, file_mgr_rec->main, NULL);
+   SetToNormalColors (file_type, form, file_mgr_rec->main, 0);
 
    /*  The data sent to the Text, Ok and Cancel callbacks  */
 

@@ -56,6 +56,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <locale.h>
 #include "msgfac_msg.h"
 
@@ -168,7 +169,7 @@ int main(int argc,char *argv[])
 				case 'x':
 					{
 					char *pesc = p;
-					int hex, hexlen = 0;
+					unsigned int hex, hexlen = 0;
 
 					while (isxdigit(*++pesc))
 						hexlen++;

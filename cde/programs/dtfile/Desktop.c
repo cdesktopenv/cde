@@ -762,7 +762,7 @@ MakeDesktopWindow(
    XtSetValues (desktopWindow->shell, args, 4);
 
    /* force the Window Manager to map it where I want it */
-   if (XtWindow(desktopWindow->shell) != NULL)
+   if (XtWindow(desktopWindow->shell) != 0)
    {
        XGetNormalHints(XtDisplay(desktopWindow->shell),
                        XtWindow(desktopWindow->shell), &wmSizeHints);
@@ -2042,7 +2042,7 @@ ProcessMoveCopyLinkDT (
      DesktopRec *desktopWindow,
      DtDndDropCallbackStruct *drop_parameters)
 {
-   unsigned int modifiers = NULL;
+   unsigned int modifiers = 0;
    int numFiles, i;
    char ** file_set;
    char ** host_set;
@@ -2079,7 +2079,7 @@ ProcessMoveCopyLinkDT (
       else if (strcmp(command, "FILESYSTEM_LINK") == 0)
          modifiers = ShiftMask;
       else
-         modifiers = NULL;
+         modifiers = 0;
    }
 
       /*************************************************************/
@@ -2532,7 +2532,7 @@ PutOnDTCB (
 
    XmUpdateDisplay (w);
 
-   if((int)client_data != NULL)
+   if((int)client_data != 0)
       mbar = XtParent(w);
    else
       mbar = XmGetPostedFromWidget(XtParent(w));
@@ -3125,7 +3125,7 @@ SetupDesktopWindow (
    if(openDirType == NEW)
       ForceMyIconOpen(desktopWindow->host, NULL);
 
-   if( checkBrokenLink != 0 && checkBrokenLinkTimerId == NULL )
+   if( checkBrokenLink != 0 && checkBrokenLinkTimerId == 0 )
    {
      checkBrokenLinkTimerId = XtAppAddTimeOut(
                    XtWidgetToApplicationContext( toplevel ),
@@ -4384,7 +4384,7 @@ PutOnWorkspaceHandler(
 
   XtFree( workspace );
 
-  if( checkBrokenLink != 0 && checkBrokenLinkTimerId == NULL )
+  if( checkBrokenLink != 0 && checkBrokenLinkTimerId == 0 )
   {
     checkBrokenLinkTimerId = XtAppAddTimeOut(
                                  XtWidgetToApplicationContext( toplevel ),

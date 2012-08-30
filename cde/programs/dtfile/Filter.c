@@ -1632,7 +1632,7 @@ SelectAllFilter(
 {
   FilterRec * filterRec;
 
-  sscanf( params[0], "%p", &filterRec );
+  sscanf( params[0], "%p", (void **) &filterRec );
   SelectAllFileTypes( w, (XtPointer)filterRec, NULL );
   return ;
 }
@@ -1646,7 +1646,7 @@ DeselectAllFilter(
 {
   FilterRec * filterRec;
 
-  sscanf( params[0], "%p", &filterRec );
+  sscanf( params[0], "%p", (void **) &filterRec );
   UnselectAllFileTypes( w, (XtPointer)filterRec, NULL );
   return ;
 }

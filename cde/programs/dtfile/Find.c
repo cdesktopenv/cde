@@ -2158,7 +2158,7 @@ AlternateInputHandler(
 
       if (offset > 0)
       {
-         buf[offset] = NULL;
+         buf[offset] = '\0';
          buf = (String) DtEliminateDots (buf);
 
          if ((stat (buf, &stat_data) == 0) ||
@@ -2310,7 +2310,7 @@ AlternateInputHandler2(
 
       if (offset > 0)
       {
-         buf[offset] = NULL;
+         buf[offset] = '\0';
          buf = (String) DtEliminateDots (buf);
 
          if ((stat (buf, &stat_data) == 0) ||
@@ -2429,7 +2429,7 @@ AlternateInputHandler3(
 
       if (offset > 0)
       {
-         buf[offset] = NULL;
+         buf[offset] = '\0';
          buf = (String) DtEliminateDots (buf);
 
          if ((stat (buf, &stat_data) == 0) ||

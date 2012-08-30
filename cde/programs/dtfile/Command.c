@@ -670,7 +670,7 @@ ProcessMoveCopyLink (
      Widget drop_window)
 
 {
-   unsigned int modifiers = NULL;
+   unsigned int modifiers = 0;
    int numFiles, i;
    char ** file_set = NULL;
    char ** host_set = NULL;
@@ -727,7 +727,7 @@ ProcessMoveCopyLink (
       else if (strcmp(command, "FILESYSTEM_LINK") == 0)
          modifiers = ShiftMask;
       else
-         modifiers = NULL;
+         modifiers = 0;
    }
 
 
@@ -896,7 +896,7 @@ ProcessBufferDropOnFolder (
      Widget drop_window)
 
 {
-   unsigned int modifiers = NULL;
+   unsigned int modifiers = 0;
    int num_of_buffers, i;
    char ** file_set = NULL;
    char ** host_set = NULL;
@@ -1262,7 +1262,7 @@ MoveCopyLinkHandler(
    char *files = NULL;
    char ** file_set = NULL;
    char ** host_set = NULL;
-   unsigned int modifiers = NULL;
+   unsigned int modifiers = 0;
    int file_count = 0;
    int file_set_size = 0;
    int errorCount = 0;
@@ -1328,7 +1328,7 @@ MoveCopyLinkHandler(
 
   /* Set up the modifier key's */
    if( opType == MOVE_FILE)
-      modifiers = NULL;
+      modifiers = 0;
    else if ( opType == COPY_FILE)
       modifiers = ControlMask;
    else
