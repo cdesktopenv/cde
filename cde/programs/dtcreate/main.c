@@ -156,7 +156,7 @@ void GetSessionInfo( void )
     /*** now get the information we want from the database ***/
     /*** make sure values are at least somewhat reasonable ***/
 
-    xrm_name[1] = NULL;
+    xrm_name[1] = '\0';
 
     /*******************************/
     /* get x position              */

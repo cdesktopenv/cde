@@ -170,7 +170,7 @@ static void  CreateFiles(void)
         DbInitDone = TRUE;
      }
      DtActionInvoke(UxTopLevel, "ReloadActions",
-                      NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+                      NULL, 0, NULL, NULL, NULL, 0, NULL, NULL);
 
      _DtTurnOffHourGlass(CreateActionAppShell);
 
@@ -1716,7 +1716,7 @@ Widget  create_applicationShell1(swidget _UxUxParent)
 	       do
 	       {
 		   ptr = strchr (workspaces, '*');
-		   if (ptr != NULL) *ptr = NULL;
+		   if (ptr != NULL) *ptr = '\0';
 
 		   workspace_atoms = (Atom *) XtRealloc (
 				(char *)workspace_atoms, 

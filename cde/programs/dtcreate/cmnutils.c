@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include <Xm/Xm.h>
 #include <Xm/RowColumnP.h>
 #include <Xm/MessageB.h>

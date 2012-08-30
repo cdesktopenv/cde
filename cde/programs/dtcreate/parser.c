@@ -74,7 +74,7 @@ char keywordDB[][30] = { "ACTION"         ,
                           "WINDOW_TYPE"   ,
                           "ARG_TYPE"      ,
                           "LABEL"         ,
-                          NULL            ,
+                          '\0'            ,
                      };
 
 /* Max Number of fields in Action Keyword Table */
@@ -98,7 +98,7 @@ char FiletypekeywordDB[][30] = { "DATA_ATTRIBUTES"       ,
                                   "MAP_ACTION"           ,
                                   "TYPE"                 ,
                                   "LABEL"                ,
-                                   NULL                  ,
+                                   '\0'                  ,
                      };
 
 /* Max Number of fields in Filetype Keyword Table */
