@@ -1014,7 +1014,7 @@ backend_err_msg(
 		sprintf(buf, "%s", catgets(c->DT_catd, 1, 883, "Internal Error #3: Invalid data value.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_READONLY:
-		sprintf(buf, "%s", atgets(c->DT_catd, 1, 884, "Internal Error #4: Value specified for a read-only attribute.\nOperation was cancelled.  Calendar"));
+		sprintf(buf, "%s", catgets(c->DT_catd, 1, 884, "Internal Error #4: Value specified for a read-only attribute.\nOperation was cancelled.  Calendar"));
 		break;
 	case CSA_E_INVALID_ATTRIBUTE_VALUE:
 		sprintf(buf, "%s", catgets(c->DT_catd, 1, 885, "Internal Error #5: Incorrect data type specified for an attribute value.\nOperation was cancelled.  Calendar"));
