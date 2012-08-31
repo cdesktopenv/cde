@@ -319,7 +319,7 @@ static void TrayCtlSelectCB(Widget w, XtPointer client_d, XtPointer call_d);
  */
 static SizeCtl* SizeCtlNew();
 static void SizeCtlDelete(SizeCtl* me);
-static int SizeCtlStrColl(void* e1, void* e2);
+static int SizeCtlStrColl(const void* e1, const void* e2);
 static void SizeCtlSetSizeLists(PdmOidList** oids,
 				XmStringTable* xmstrs,
 				PdmOidLinkedList* oids_ll);
@@ -2289,9 +2289,9 @@ SizeCtlDelete(SizeCtl* me)
  *
  */
 static int
-SizeCtlStrColl(void* e1, void* e2)
+SizeCtlStrColl(const void* e1, const void* e2)
 {
-    SizeCtlSortRec *r1 = e1, *r2 = e2;
+    const SizeCtlSortRec *r1 = e1, *r2 = e2;
 
     return strcoll(r1->str, r2->str);
 }

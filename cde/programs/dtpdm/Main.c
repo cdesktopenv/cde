@@ -33,6 +33,7 @@
  * (c) Copyright 1996 FUJITSU LIMITED.
  * (c) Copyright 1996 Hitachi.
  */
+#include <stdlib.h>
 #include <Xm/XmAll.h>
 #include <Xm/ColorObjP.h>       /* for Xme Color Obj access API */
 #include <Dt/dtpdmd.h>
