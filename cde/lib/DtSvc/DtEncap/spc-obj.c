@@ -71,7 +71,7 @@ object *alloc_channel_object(object_clasp c)
 /*----------------------------------------------------------------------+*/
 {
   object *p=(object *) XeMalloc((unsigned) c->object_size);
-  memset(p, NULL, (int) c->object_size);
+  memset(p, 0, (int) c->object_size);
   return(p);
 }
 
@@ -116,7 +116,7 @@ static Wire dummy_wire={
   (XeString) "/dev/null", 	/* Master PTY */
   (XeString) "/dev/null", 	/* Slave PTY */
   0, 0,                          /* Toolkit IDs */
-  NULL                           /* pointer to next wire */
+  0                           /* pointer to next wire */
   };
 
 /*----------------------------------------------------------------------+*/
@@ -234,7 +234,7 @@ void SPC_Channel_Terminated(SPC_Channel_Ptr channel)
 {
   int type, cause;
 
-  SPC_Change_State(channel, NULL, -1, 0);
+  SPC_Change_State(channel, 0, -1, 0);
 
   /* Set the close timeout.  If we are on a PTY, we will return
      after two seconds if we are waiting for EOF */
@@ -596,7 +596,7 @@ int pre_fork_channel_object(SPC_Channel_Ptr channel)
 
   /* Move to the "Running & (possibly) data ready" state */
   
-  SPC_Change_State(channel, NULL, flag, 1);
+  SPC_Change_State(channel, 0, flag, 1);
 
   
   return(TRUE);

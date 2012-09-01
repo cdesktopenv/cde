@@ -443,7 +443,7 @@ _DtEnvControl(
 				 * then put our dt string just ahead of 
 				 * "/usr/bin/X11" in the new PATH 
 				 */
-				 *(ptr - 1) = NULL; 
+				 *(ptr - 1) = '\0'; 
 				 sprintf(_postDtEnvironment.binPath,
 				   "%s=%s:%s:%s",
 				    BIN_PATH_ENVIRON,
@@ -479,7 +479,7 @@ _DtEnvControl(
 				 * "/usr/bin" in the new PATH 
 				 */
 
-				 *(ptr - 1) = NULL; 
+				 *(ptr - 1) = '\0'; 
 				 sprintf(_postDtEnvironment.binPath,
 				   "%s=%s:%s:%s",
 				    BIN_PATH_ENVIRON,

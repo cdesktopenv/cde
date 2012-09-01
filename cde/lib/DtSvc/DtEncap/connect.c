@@ -119,7 +119,7 @@ XeFindShortHost(XeString host_spec)
       if (ptr2 && strequal(ptr, ptr2)) { /* domains same, can eliminate */
          host = Xe_make_ntype(ptr-host_spec+1, XeChar);
          strncpy(host, host_spec, ptr-host_spec); /* copy only up to "." */
-         host[ptr-host_spec] = NULL; /* NULL terminate copy */
+         host[ptr-host_spec] = '\0'; /* NULL terminate copy */
       }
       else
          host = strdup(host_spec);
@@ -311,7 +311,7 @@ Xegetshorthostname(XeString buffer, unsigned int bufsize)
    if (status = gethostname(buffer, bufsize))
       return status; /* failed gethostname */
    if (ptr = strstr(buffer, (XeString)"."))
-      *ptr = NULL;  /* delete domain name if there is one */
+      *ptr = '\0';  /* delete domain name if there is one */
    return 0;
 }
 
@@ -398,7 +398,7 @@ Xegetcwd(char *buf, int size)
 	  len = size-1;
       
       strncpy(buf, current_dir, len);
-      buf[len] = NULL;
+      buf[len] = '\0';
 
       /* Make sure $PWD is the same as "." before we trust it. */
       /* All this is still much faster the getcwd() esp. on UX discless. */

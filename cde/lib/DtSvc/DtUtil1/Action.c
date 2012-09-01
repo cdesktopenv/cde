@@ -1472,11 +1472,11 @@ CreateInvocationRecord(
                  */
 		return NULL;
       }
-      myassert(invp->id != NULL );
+      myassert(invp->id != 0);
 
       SET_INV_PENDING(invp->state);
       invp->w = w;
-      invp->numChildren = NULL;
+      invp->numChildren = 0;
       invp->childRec = NULL;
 
       /*
@@ -4802,7 +4802,7 @@ InitiateCommandInvokerRequest(
    CallbackData *data=(CallbackData *)XtMalloc((Cardinal)sizeof(CallbackData));
    ActionPtr action = request->clonedAction;
 
-   tmpFileBuf[0]=NULL;	/* seed the buffer with a null string */
+   tmpFileBuf[0]='\0';	/* seed the buffer with a null string */
 
    /*
     * Generate the procId option string for dtexec
@@ -4833,9 +4833,9 @@ InitiateCommandInvokerRequest(
    /*
     * The string generated for procId should never exceed the procId buf size. 
     */
-   sprintf(procIdBuf,"%s_%d_%d",
+   sprintf(procIdBuf,"%s_%d_%lu",
        _DtActNULL_GUARD(procId),
-       request->invocId,
+       (int) request->invocId,
        request->childId );
 
    myassert( strlen(procIdBuf) < sizeof(procIdBuf) );
@@ -5309,7 +5309,7 @@ _DtActMapFileName(
     * Create the full path name relative to curHost
     */
    
-   buf[0]=NULL;	/* empty string to start with */
+   buf[0]='\0';	/* empty string to start with */
 
    if ( dir )
 	   strcpy(buf,dir);
@@ -5326,7 +5326,7 @@ _DtActMapFileName(
    }
 
    /* We should have constructed a file name string now */
-   myassert(buf[0] != NULL);
+   myassert(buf[0] != '\0');
 
    if (newHost)
    {

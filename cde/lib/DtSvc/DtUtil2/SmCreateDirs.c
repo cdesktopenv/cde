@@ -265,7 +265,7 @@ GetShortHostname(
    if (status = gethostname(buffer, bufsize))
       return status; /* failed gethostname */
    if (ptr = strstr(buffer, (char *)"."))
-      *ptr = NULL;  /* delete domain name if there is one */
+      *ptr = '\0';  /* delete domain name if there is one */
    return 0;
 }
 

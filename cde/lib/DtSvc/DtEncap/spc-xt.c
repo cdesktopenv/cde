@@ -71,7 +71,7 @@ static int SPC_AddInput(int 			source,
   if (SPC_Fd_Mapping == NULL) {
     SPC_Fd_Mapping = (SPC_Callback_Struct **) 
 	             XeMalloc (FD_SETSIZE * sizeof (SPC_Callback_Struct *));
-    memset(SPC_Fd_Mapping, NULL, FD_SETSIZE * sizeof(SPC_Callback_Struct *));
+    memset(SPC_Fd_Mapping, 0, FD_SETSIZE * sizeof(SPC_Callback_Struct *));
   }
   structptr=SPC_LOOKUP_FD_MAPPING(source);
 
@@ -112,7 +112,7 @@ static SbInputId SPC_RemoveInput(int 			 source,
   if (SPC_Fd_Mapping == NULL) {
     SPC_Fd_Mapping = (SPC_Callback_Struct **) 
 		     XeMalloc (FD_SETSIZE * sizeof (SPC_Callback_Struct *));
-    memset(SPC_Fd_Mapping, NULL, FD_SETSIZE * sizeof(SPC_Callback_Struct *));
+    memset(SPC_Fd_Mapping, 0, FD_SETSIZE * sizeof(SPC_Callback_Struct *));
   }
   structptr=SPC_LOOKUP_FD_MAPPING(source);
   _DtSvcProcessUnlock();
@@ -129,7 +129,7 @@ static SbInputId SPC_RemoveInput(int 			 source,
     
   }
 
-  return NULL;
+  return 0;
 }
   
 /*-----------------------------------------------------------------------+*/

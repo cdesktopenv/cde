@@ -51,12 +51,12 @@ Wire *get_new_wire(void)
   Wire *tmp_wire;
 
   tmp_wire=(Wire *)XeMalloc(sizeof(Wire));
-  memset(tmp_wire, NULL, sizeof(Wire));
+  memset(tmp_wire, 0, sizeof(Wire));
 
   tmp_wire->master_name=(XeString)XeMalloc(PTY_NAMLEN);
-  memset(tmp_wire->master_name, NULL, PTY_NAMLEN);
+  memset(tmp_wire->master_name, 0, PTY_NAMLEN);
   tmp_wire->slave_name =(XeString)XeMalloc(PTY_NAMLEN);
-  memset(tmp_wire->slave_name,  NULL, PTY_NAMLEN);
+  memset(tmp_wire->slave_name,  0, PTY_NAMLEN);
   tmp_wire->fd[0] = tmp_wire->fd[1] = (-1);
   tmp_wire->read_toolkit_id   = (-1);
   tmp_wire->except_toolkit_id = (-1);
@@ -114,7 +114,7 @@ spc_dup2(int from, int to)
   int retval;
   
   /* Dup file descriptors.  If a null descriptor, then use /dev/null */
-  static int devnull = NULL;
+  static int devnull = 0;
 
   if (from == to)
     return(TRUE);
@@ -155,7 +155,7 @@ XeString *Alloc_Argv(int n)
   av = (XeString *)XeMalloc((n + 1) * sizeof(XeString));
   
   /* Zero the space so we don't have to worry about trailing NULL */
-  memset((XeString) av, NULL, (n + 1) * sizeof(XeString));
+  memset((XeString) av, 0, (n + 1) * sizeof(XeString));
   
   return(av);
 }
@@ -263,7 +263,7 @@ Boolean _path_search (XeString path, XeString filename, path_search_predicate p)
     if(next_colon) { /* found colon */
       path_component_len = next_colon-path_rest;
       strncpy(buffer, path_rest, path_component_len);
-      buffer[path_component_len]=NULL;
+      buffer[path_component_len]='\0';
       path_rest=next_colon+1;
       if(!*path_rest)
 	/* We've seen a ':' at the end of the string.  Make path_rest be "."
@@ -281,7 +281,7 @@ Boolean _path_search (XeString path, XeString filename, path_search_predicate p)
 
     if(!buffer[0]) {
       buffer[0] = '.';
-      buffer[1] = NULL;
+      buffer[1] = '\0';
     }
     
     /*

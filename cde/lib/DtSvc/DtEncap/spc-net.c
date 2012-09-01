@@ -294,7 +294,7 @@ SPC_Open_Socket(SPC_Connection_Ptr conn,
 
   struct servent *service;
   
-  conn->sid=socket(type, SOCK_STREAM, NULL);
+  conn->sid=socket(type, SOCK_STREAM, 0);
   if(conn->sid == ERROR) {
     SPC_Error(SPC_Bad_Socket);
     return(SPC_ERROR);
@@ -406,7 +406,7 @@ SPC_Connection_Ptr SPC_Standalone_Daemon(SPC_Connection_Ptr conn)
 #if defined(__aix)
   if (setsockopt(conn->sid, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on))==ERROR) {
 #else
-  if (setsockopt(conn->sid, SOL_SOCKET, SO_REUSEADDR, NULL, NULL)==ERROR) {
+  if (setsockopt(conn->sid, SOL_SOCKET, SO_REUSEADDR, NULL, 0)==ERROR) {
 #endif
     SPC_Error(SPC_Bad_Reuse);
     return(SPC_ERROR);

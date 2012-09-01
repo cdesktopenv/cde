@@ -189,7 +189,7 @@ SPC_Connection_Ptr SPC_Alloc_Connection(void)
   _DtSvcProcessLock();
   conn=(SPC_Connection_Ptr) XeMalloc(sizeof(SPC_Connection));
   /* Zero the connection */
-  memset(conn, NULL, sizeof(SPC_Connection));
+  memset(conn, 0, sizeof(SPC_Connection));
   conn->queued_remote_data = Xe_make_queue(FALSE);
   conn->termination_id = (-1);
   /* Init the socket id to "-1" because "0" is a valid file descriptor. */
@@ -439,7 +439,7 @@ protocol_request_ptr SPC_Read_Protocol(SPC_Connection_Ptr connection)
   if(!connection->connected)
     return(SPC_ERROR);
   
-  if((prot=SPC_New_Protocol_Ptr(NULL, NULL, NULL))==SPC_ERROR) {
+  if((prot=SPC_New_Protocol_Ptr(NULL, 0, 0))==SPC_ERROR) {
     SPC_Close_Connection(connection);
     return(SPC_ERROR);
   }
@@ -1159,12 +1159,12 @@ int SPC_Send_Multi_Packet(SPC_Connection_Ptr connection,
     
     if(this_str == NULL)
       this_str = NULL_STR;
-    if(*this_str == NULL)
+    if(*this_str == '\0')
       this_str = EMPTY_STR;
     
     tmp_len=strlen(this_str)+1;         /* Room for NULL char */
     if((bytes_left-tmp_len) < 1) {
-      *buf=NULL;
+      *buf='\0';
       prot->dataptr->len=numbytes+1;
       SPC_Write_Single_Prot_Request(connection, name, prot);
       SPC_Free_Protocol_Ptr(prot);
@@ -1193,7 +1193,7 @@ int SPC_Send_Multi_Packet(SPC_Connection_Ptr connection,
   }
   
   if(numbytes) {
-    *buf=NULL;
+    *buf='\0';
     prot->dataptr->len=numbytes+1;
     SPC_Write_Single_Prot_Request(connection, (XeString)"  <-- ENVIRON_RESET", prot);
     SPC_Free_Protocol_Ptr(prot);
@@ -1342,7 +1342,7 @@ XeString *sscan_counted_string(XeString buf,
     len=strlen(bufptr)+1;  /* len is string SIZE (with room for NULL) */
     *tmpidx=(XeString)XeMalloc(len);
     strncpy(*tmpidx, bufptr, len);
-    (*tmpidx)[len-1]=NULL;
+    (*tmpidx)[len-1]='\0';
     bufptr+= len;
   }
   *tmpidx=NULL;

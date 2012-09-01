@@ -998,7 +998,7 @@ dndGetContextXID(
         static XID contextXID;
 
 	_DtSvcProcessLock();
-	if (contextXID == NULL) {
+	if (contextXID == 0) {
 		contextXID = XCreatePixmap(display, 
 					DefaultRootWindow(display), 1, 1, 1);
 	}

@@ -843,7 +843,7 @@ _GetSmWindow(
     Window wroot, wparent, *pchildren;
     unsigned int nchildren;
 
-    *pSmWindow = NULL;
+    *pSmWindow = 0;
     if ((rcode=XGetWindowProperty(display,root,
 			     property,0L, PROP_DT_SM_WINDOW_INFO_ELEMENTS,
 			     False,property,
@@ -938,8 +938,8 @@ static struct {
   char *string;
   Atom atom;
 } smAtomList[] = {
-  {_XA_DT_SM_STATE_INFO, NULL},
-  {_XA_DT_SM_SAVER_INFO, NULL},
+  {_XA_DT_SM_STATE_INFO, 0},
+  {_XA_DT_SM_SAVER_INFO, 0},
 };
 
 static Atom

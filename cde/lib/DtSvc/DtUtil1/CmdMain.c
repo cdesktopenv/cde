@@ -578,7 +578,7 @@ ExecuteQueuedRequest (
 				             strlen (pNode->exec_host) +
 				             cmdlen + 4);
 	    cmdp = (char *) XtMalloc(cmdlen + 1);
-	    *cmdp = NULL;
+	    *cmdp = '\0';
 	    for (i = 0; pNode->argv[i]; i++) {
 	       strcat(cmdp,pNode->argv[i]);
 	       strcat(cmdp, " ");
@@ -1177,7 +1177,7 @@ DtCmdGetWindowType(
 	switch ( windowTypeMask )
 	{
 	case _DtAct_NO_STDIO_BIT:
-		winTypeNum = NULL;
+		winTypeNum = 0;
 		break;
 	case _DtAct_TERMINAL_BIT:
 		winTypeNum = TERMINAL;

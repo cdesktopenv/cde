@@ -111,7 +111,7 @@ _DtBasename( const char *s )
 		return NULL;
 
 	/* Work on a local copy of the original string */
-	*p = NULL;
+	*p = '\0';
 	(void)strcpy(p,s);
 
 #ifdef _Dt_HOST_COLON_PATH_SUPPORT
@@ -140,7 +140,7 @@ _DtBasename( const char *s )
                 myassert( *basep == '/');
 		if ( basep == p )
 			return XtNewString(basep);
-		*basep = NULL;	/* replace trailing slash */
+		*basep = '\0';	/* replace trailing slash */
 		if ( (basep = DtStrrchr(p,'/')) == NULL )
 			return XtNewString(p);
 	}
@@ -202,7 +202,7 @@ _DtDirname( const char *s)
 
 
 	/* Work on a local copy of the original string */
-	*p = NULL;
+	*p = '\0';
 	(void)strcpy(p,s);
 
 #ifdef _Dt_HOST_COLON_PATH_SUPPORT
@@ -231,7 +231,7 @@ _DtDirname( const char *s)
 		 * -- then try again else break
 		 */
 		if ( slashp == DtPrevChar(p,p + strlen(p)) )
-			*slashp = NULL;
+			*slashp = '\0';
 		else
 			break;
 	}
@@ -244,7 +244,7 @@ _DtDirname( const char *s)
 	 * directory name.
 	 */
 	dirp = XtNewString(p);
-	*(dirp + (slashp - p)) = NULL;
+	*(dirp + (slashp - p)) = '\0';
 	return dirp;
 }
 
@@ -283,14 +283,14 @@ _DtHostString( const char *s)
 	 * Make a local copy of the string to avoid problems modifying
 	 * "const" strings.
 	 */
-	*p = NULL;
+	*p = '\0';
 	(void) strcpy(p,s);
 
 	/* if ( (slashp > s) && (*(slashp -1) == ':' )) */
 	if ( (slashp > s) && (*DtPrevChar(s,slashp)  == ':' ))
 	{
 		/* *(p + (slashp - s - 1)) = NULL; */
-                *(p + (DtPrevChar(s,slashp) - s)) = NULL;
+                *(p + (DtPrevChar(s,slashp) - s)) = '\0';
 		host = XtNewString(p);
 		return host;
 	}
@@ -344,7 +344,7 @@ _DtGetDisplayHostName( Display *dp)
 	      }
 
 	tmpName = XtMalloc(MAXHOSTNAMELEN + 5);
-	tmpName[0] = NULL;
+	tmpName[0] = '\0';
 
 	if ( dp )
 	{
@@ -356,7 +356,7 @@ _DtGetDisplayHostName( Display *dp)
 		strcpy(tmpName,DisplayString(dp));
 		if ( tmp = DtStrrchr(tmpName,':') )
 		{
-			*tmp = NULL;
+			*tmp = '\0';
 			displayHostName = XtNewString(tmpName);
 		}
 	} 
@@ -370,7 +370,7 @@ _DtGetDisplayHostName( Display *dp)
 		strcpy(tmpName,getenv("DISPLAY"));
 		if ( tmp = DtStrrchr(tmpName,':') )
 		{
-			*tmp = NULL;
+			*tmp = '\0';
 			displayHostName = XtNewString(tmpName);
 		}
 	}
@@ -424,7 +424,7 @@ _DtGetLocalHostName( void )
 		return NULL; /* failed gethostname */
 	      }
 	if (ptr = DtStrchr(hostNameBuf, '.'))
-		*ptr = NULL;  /* delete domain name if there is one */
+		*ptr = '\0';  /* delete domain name if there is one */
 
 	localHostName = hostNameBuf;
 	_DtSvcProcessUnlock();
@@ -481,9 +481,9 @@ _DtIsSameHost(const char *host1, const char *host2)
 	 * to their short form before doing the compare.
 	 */
 	if ( (tp = DtStrchr(hostName1,'.')) != NULL )
-		*tp = NULL;
+		*tp = '\0';
 	if ( (tp = DtStrchr(hostName2,'.')) != NULL )
-		*tp = NULL;
+		*tp = '\0';
 
 	/*
 	 * Try to avoid querying the name server (or /etc/hosts).
@@ -502,7 +502,7 @@ _DtIsSameHost(const char *host1, const char *host2)
 	 */
 	strcpy(hostName1, host_ret->h_name);
 	if ( (tp = DtStrchr(hostName1,'.')) != NULL )
-		*tp = NULL;
+		*tp = '\0';
 
 	/*
 	 * Try comparing again -- avoiding another gethostbyname
@@ -838,7 +838,7 @@ _DtActGenerateTmpFile(char *dir,char *format,mode_t mode,int *fd)
                  * of the tmp file name (i.e. no %s in format) then
                  * there is no sense trying more than once.
                  */
-                if ( countTrys > 0 && (strcmp(f,nameBuf) == NULL))
+                if ( countTrys > 0 && (strcmp(f,nameBuf) == 0))
                     return NULL;
 
 		base = XtNewString(nameBuf);
@@ -892,7 +892,7 @@ _DtRemoveTrailingBlanksInPlace(char **s)
 	for ( p = DtPrevChar(*s,*s + strlen(*s)); 
               DtIsspace(p) && (p > *s); 
               p=DtPrevChar(*s,p))
-		*p = NULL;
+		*p = '\0';
 	
 }
 
@@ -1245,7 +1245,7 @@ int _DtActDeleteInvRec( DtActionInvocationID id )
 
                     if (IS_BUFFER_OBJ(infop->mask) && IS_FILE_OBJ(infop->mask))
                     {
-                        myassert((infop->name!=NULL) && (*infop->name!=NULL));
+                        myassert((infop->name != NULL) && (*infop->name != '\0'));
                         if ( !infop->name )
                             continue;
                         /*
@@ -1317,7 +1317,7 @@ _DtActChildRecT *_DtActAllocChildRec( _DtActInvRecT *invRec )
 
 	tchildRec = invRec->childRec[invRec->numChildren - 1];	/* shorthand */
 
-        memset(tchildRec, NULL, sizeof(_DtActChildRecT));
+        memset(tchildRec, 0, sizeof(_DtActChildRecT));
 	tchildRec->childId     = invRec->numChildren;	/* serial # of sorts */
 
 	/* tchildRec->u.*      = initialized elsewhere */
@@ -1837,7 +1837,7 @@ _DtActReadTmpFileToBuffer( char *fname, int *sizep )
 
     buf = (char *) XtMalloc(MAX_BUF_SIZE);
     for (size=0, space=MAX_BUF_SIZE;
-	 (bytes=read(fd,buf+size,space)) != NULL;
+	 (bytes=read(fd,buf+size,space)) != 0;
          size += bytes  )
     {
 	if ( bytes < 0 )

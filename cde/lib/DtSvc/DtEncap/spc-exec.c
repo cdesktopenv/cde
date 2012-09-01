@@ -286,7 +286,7 @@ void SPC_Child_Terminated(int i)
      * as done.
      */
     if (SPC_pid_list != NULL) {
-      for (indx=0; SPC_pid_list[indx] != NULL; indx++)
+      for (indx=0; SPC_pid_list[indx] != 0; indx++)
         if (SPC_pid_list[indx] == pid) {
 	   SPC_pid_list[indx] = SPCD_DEAD_PROCESS;
 	   break;
@@ -323,7 +323,7 @@ void SPC_Child_Terminated(int i)
       print_protocol_request((XeString) (XeString)"  <-- INTERNAL APPLICATION_DIED", prot);
     }
     else {
-      SPC_Change_State(channel, NULL, -1, 0);
+      SPC_Change_State(channel, 0, -1, 0);
       if(channel->Terminate_Handler) {
 	XeSPCGetProcessStatus(channel, &type, &cause);
 	(* channel->Terminate_Handler)
@@ -474,7 +474,7 @@ int exec_proc_local_channel_object(SPC_Channel_Ptr channel)
        * If a dead pid entry exists, reuse it; otherwise, must create 
        * room for the new pid.
        */
-      for (i = 0; SPC_pid_list[i] != NULL; i++)
+      for (i = 0; SPC_pid_list[i] != 0; i++)
         if (SPC_pid_list[i] == SPCD_DEAD_PROCESS) {
 	  SPC_pid_list[i] = pid;
 	  reuse_pid = 1;
@@ -486,7 +486,7 @@ int exec_proc_local_channel_object(SPC_Channel_Ptr channel)
     }
     if (!reuse_pid) {
       SPC_pid_list[i] = pid;
-      SPC_pid_list[i+1] = NULL;
+      SPC_pid_list[i+1] = 0;
     }
     _DtSvcProcessUnlock();
 

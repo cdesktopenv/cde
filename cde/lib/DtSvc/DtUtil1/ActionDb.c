@@ -210,7 +210,7 @@ Meaningless for actions -- ignore these for now
 	_DtACTION_DT_NGROUP,		_ActDb_DT_NGROUP_SET,
 	_DtPFX _DtACTION_DTN_VALUE,	_ActDb_DT_ARGN_VAL_SET,
 #endif	/* _DT_ALLOW_DT_MSGS */
-	NULL,				NULL
+	NULL,				0
 };
 
 #define	NUM_FIELD_NAMES		sizeof(_DtActNamesAndBits)/sizeof(_DtActNameAndBit) - 1
@@ -235,7 +235,7 @@ _DtActFieldBitLookup(char *name)
 #endif	/* _DT_ALLOW_DT_MSGS */
 
 	if ( !np )
-		return NULL;
+		return 0;
 	/*
 	 * Check for [DT]T_ARGn_ fields
 	 * The following code assumes that a unique suffix identifying each
@@ -267,7 +267,7 @@ _DtActFieldBitLookup(char *name)
 #endif	/* _DT_ALLOW_DT_MSGS */
 
 	if ( !np )
-		return NULL;
+		return 0;
 
 	for ( j = 0; j < NUM_FIELD_NAMES; j++ )
 		if ( !strcmp(_DtActNamesAndBits[j].name,np) )
@@ -397,7 +397,7 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 			/*
 			 * temporarily truncate string for testing
 			 */
-			*p = NULL;
+			*p = '\0';
 			if (    strcmp(_DtACT_ANY,start)          &&
 				strcmp(_DtACTION_FILE,start) 	&& 
 				strcmp(_DtACTION_BUFFER,start)   )
@@ -540,7 +540,7 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 				return (char *) -1;
 			}
 		}
-		if (*p == NULL)
+		if (*p == '\0')
 		{
 			/* looks like an error */
 			buf = malloc(_DtAct_MAX_BUF_SIZE);
@@ -1028,7 +1028,7 @@ _DtActionConverter(DtDtsDbField * fields,
 		_DtSvcProcessUnlock();
 		return(True);
 	}
-	else if (  fields[1].fieldName == NULL)
+	else if (  fields[1].fieldName == 0)
 	{
 		/* The record contains no fields */
 		buf = XtMalloc(_DtAct_MAX_BUF_SIZE);
@@ -1060,7 +1060,7 @@ _DtActionConverter(DtDtsDbField * fields,
 
 		/* find the corresponding field entry and bitmask */
 
-		if ((ThisBit = _DtActFieldBitLookup(XrmQuarkToString(fields[i].fieldName))) != NULL)
+		if ((ThisBit = _DtActFieldBitLookup(XrmQuarkToString(fields[i].fieldName))) != 0)
 		{
 			switch ((int)(fieldVal=_DtActValidateFieldValue(ThisBit,
                                 fields[i].fieldValue, fields[0].fieldValue,

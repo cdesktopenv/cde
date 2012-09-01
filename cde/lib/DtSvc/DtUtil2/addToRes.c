@@ -564,7 +564,7 @@ _DtAddResString(
     int                 actualFormat;
     unsigned long       nitems, leftover;
 
-    if((data == NULL) || (*data == NULL))
+    if((data == NULL) || (*data == '\0'))
     {
 	return;
     }

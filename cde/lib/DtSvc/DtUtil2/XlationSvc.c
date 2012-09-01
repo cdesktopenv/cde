@@ -259,7 +259,7 @@ char * ExpandPath (
     /*** otherwise, make it relative to the current directory ***/
 
     /* get user's current working directory */
-    if (getcwd(tmpPath, MAXPATHLEN) == NULL) return NULL; /* RETURN: error */
+    if (getcwd(tmpPath, MAXPATHLEN) == 0) return NULL; /* RETURN: error */
 
     /*** add a slash to end of path component, if needed ***/
     /* get end of the string */

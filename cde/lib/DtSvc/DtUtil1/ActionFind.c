@@ -1130,8 +1130,8 @@ _DtActionGetRecordWeight(
 static unsigned long
 _DtActMMParseArgTypesList(char *tlist, DtShmBoson **quarkAddr, int *countp)
 {
-	static DtShmBoson	quark_for_wild_char = NULL;
-	unsigned long 	mask = NULL;
+	static DtShmBoson	quark_for_wild_char = 0;
+	unsigned long 	mask = 0;
 	int 		tcount;
 	DtShmBoson	*qp;
 	char 		**typeVec, **tvp;
@@ -1182,7 +1182,7 @@ _DtActMMParseClassList(char *clist)
 	char buf[_DtAct_MAX_BUF_SIZE];
 	char *bp;
 	char **classVec, **cvp;
-	unsigned long mask = NULL;
+	unsigned long mask = 0;
 
 	if (  !DtStrchr(clist, _DtACT_LIST_SEPARATOR_CHAR ) )
 	{
@@ -1236,7 +1236,7 @@ _DtActMMParseClassList(char *clist)
 static unsigned long
 _DtActMMParseArgCountString( char *countStr, int *countp)
 {
-	unsigned long mask = NULL;
+	unsigned long mask = 0;
 
 	if ( !strcmp(countStr,_DtACT_ANY) )	
 		return SET_ARG_COUNT_WILD(mask);
@@ -1258,7 +1258,7 @@ _DtActMMParseArgCountString( char *countStr, int *countp)
 static unsigned long
 _DtActMMParseActionType(char *actionTypeStr)
 {
-	unsigned long mask = NULL;
+	unsigned long mask = 0;
 
 	if ( !strcmp(actionTypeStr,_DtACTION_COMMAND) )
 		return SET_CMD_ACTION(mask);

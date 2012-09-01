@@ -712,7 +712,7 @@ get_buff(type_info_t *info)
 			if((info->buffer = mmap(NULL,
 				buf->st_size,
 				PROT_READ, MAP_PRIVATE,
-				info->file_fd, NULL)) == (char *)-1)
+				info->file_fd, 0)) == (char *)-1)
 			{
 				info->mmap_size_to_free = -1;
 				info->size_to_free = buf->st_size+1;

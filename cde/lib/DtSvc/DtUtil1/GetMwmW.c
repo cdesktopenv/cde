@@ -115,7 +115,7 @@ _GetMwmWindow(
     Window wroot, wparent, *pchildren;
     unsigned int nchildren;
 
-    *pMwmWindow = NULL;
+    *pMwmWindow = 0;
     if ((rcode=XGetWindowProperty(display,root,
 			     property,0L, PROP_MWM_INFO_ELEMENTS,
 			     False,property,

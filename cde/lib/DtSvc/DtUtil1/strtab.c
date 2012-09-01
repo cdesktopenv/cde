@@ -170,7 +170,7 @@ _DtShmProtoAddStrtab(DtShmProtoStrtab strlist, const char * string, int * isnew)
   
   int ret = *bucket;
 
-  if(*bucket == NULL) /* new */ {
+  if(*bucket == 0) /* new */ {
     unsigned char ** sptr;
     *isnew = 1;
     *bucket = ret = ptr->sl_charcount;

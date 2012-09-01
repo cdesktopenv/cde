@@ -1712,7 +1712,7 @@ SplitField(
       *NumberFieldsAllocated += NUMBER_FIELDS_INCREMENT;
    }
 
-   (*fields)[*slotToUse].fieldName = NULL;
+   (*fields)[*slotToUse].fieldName = 0;
    (*fields)[*slotToUse].fieldValue = NULL;
 
    /* A NULL ptr is how we force a NULL entry to terminate the array */

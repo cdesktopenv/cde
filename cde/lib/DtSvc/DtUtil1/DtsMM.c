@@ -609,7 +609,7 @@ _DtDtsMMapDB(const char *CacheFile)
 					MAP_SHARED,
 #endif
 					mmaped_fd,
-					NULL);
+					0);
 			if(mmaped_db != (void *) -1)
 			{
 				success = TRUE;
