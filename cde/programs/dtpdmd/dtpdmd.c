@@ -170,7 +170,7 @@ static int generic_error_handler( edpy, eevent )
  *
  *****************************************************************************/
 static void
-#if defined(__aix)
+#if defined(__aix) || defined(linux)
 handle_SIGCLD(int sigNum)
 #else
 handle_SIGCLD(void)
@@ -261,6 +261,7 @@ static void xtkick_proc( XtPointer w, int *source, XtInputId *id)
  *
  * main
  */
+int
 main( argc, argv )
     int argc;
     char **argv;

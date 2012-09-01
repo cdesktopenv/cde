@@ -119,7 +119,7 @@ XpPdmServiceRec *find_rec( Window requestor )
 
     g.serviceRecs[g.serviceRecNum] = r;
 
-    memset( (void *) r, NULL, sizeof(XpPdmServiceRec) );    /* cheat NULLing */
+    memset( (void *) r, 0, sizeof(XpPdmServiceRec) );    /* cheat NULLing */
     r->mgr_flag  = False;
     r->mbox_flag = False;
 
