@@ -322,7 +322,7 @@ static TRUTHTAB	*get_stem_truthtab (char *newstem, char *origword)
 	    (saveusr.stems[stemno][0] == STEM_CH) ?
 		'~'  :  saveusr.stems[stemno][0],
 	    &saveusr.stems[stemno][1],
-	    newtt, newtt->pmsz);
+	    (void *) newtt, newtt->pmsz);
 	fflush (aa_stderr);
     }
     return newtt;
@@ -364,7 +364,7 @@ TRUTHTAB	*boolyac_AND (TRUTHTAB *tt1, TRUTHTAB *tt2) {
     newtt = creatett (-1, newpm, new_permutes);
     if (debugging_boolpars) {
 	fprintf (aa_stderr, "    AND: exprs=%p,%p-->expr=%p pmsz=%d\n",
-	    tt1, tt2, newtt, newtt->pmsz);
+	    (void *) tt1, (void *) tt2, (void *) newtt, newtt->pmsz);
 	fflush (aa_stderr);
     }
     return newtt;
@@ -413,7 +413,7 @@ TRUTHTAB	*boolyac_OR (TRUTHTAB *tt1, TRUTHTAB *tt2) {
     newtt = creatett (-1, newpm, new_permutes);
     if (debugging_boolpars) {
 	fprintf (aa_stderr, "     OR: exprs=%p,%p-->expr=%p pmsz=%d\n",
-	    tt1, tt2, newtt, newtt->pmsz);
+	    (void *) tt1, (void *) tt2, (void *) newtt, newtt->pmsz);
 	fflush (aa_stderr);
     }
     return newtt;
@@ -455,7 +455,7 @@ TRUTHTAB	*boolyac_NOT (TRUTHTAB *oldtt) {
     newtt = creatett (-1, newpm, new_permutes);
     if (debugging_boolpars) {
 	fprintf (aa_stderr, "    NOT: expr=%p-->expr=%p pmsz=%d\n",
-	    oldtt, newtt, newtt->pmsz);
+	    (void *) oldtt, (void *) newtt, newtt->pmsz);
 	fflush (aa_stderr);
     }
     return newtt;
@@ -513,7 +513,7 @@ TRUTHTAB	*boolyac_COLLOC (
     freett (word2tt);
     if (debugging_boolpars) {
 	fprintf (aa_stderr, " COLLOC: exprs=%p,%p-->expr=%p pmsz=%d\n",
-	    word1tt, word2tt, newtt, newtt->pmsz);
+	    (void *) word1tt, (void *) word2tt, (void *) newtt, newtt->pmsz);
 	fflush (aa_stderr);
     }
     return newtt;
@@ -825,7 +825,7 @@ DELIVER_TOKEN:
 	fprintf (aa_stderr,
 	    "  yylex: op?=%d parct=%d tok#=%d lval=%p%sYYTEXT='%s'\n",
 	    last_token_was_boolop, paren_count,
-	    retn_token, yylval.truthtab,
+	    retn_token, (void *) yylval.truthtab,
 	    (retn_token == COLLOC_TOKEN)? "\t\t" : "\t",
 	    yytext);
 	fflush (aa_stderr);

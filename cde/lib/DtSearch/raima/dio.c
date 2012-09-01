@@ -348,7 +348,7 @@ dio_init()
 #ifdef DEBUG_DIO
     if (debugging_dio_init) {
 	printf (__FILE__"300 dio_init: dbpgtab=%p pgsz=%d largest=%d\n",
-	    dbpg_table, (int)page_size, (int)largest_page);
+	    (void *) dbpg_table, (int)page_size, (int)largest_page);
 	fflush(stdout);
     }
 #endif
@@ -392,7 +392,7 @@ dio_init()
 #ifdef DEBUG_DIO
    if (debugging_dio_init) {
 	printf (__FILE__"345 dio_init: usedfls=%p lookup=%p pgtab=%p\n",
-	    used_files, db_lookup, dbpg_table);
+	    (void *) used_files, (void *) db_lookup, (void *) dbpg_table);
 	fflush(stdout);
    }
 #endif
@@ -462,7 +462,7 @@ int		    pgsize;
 #ifdef DEBUG_DIO
    if (debugging_dio_init) {
 	printf (__FILE__"400 cache_init: pgcnt=%d lu=%p pgp=%p pgsz=%d\n",
-	    pg_cnt, lu_ptr, pg_ptr, pgsize);
+	    pg_cnt, (void *) lu_ptr, (void *) pg_ptr, pgsize);
 	fflush(stdout);
    }
 #endif
@@ -712,7 +712,7 @@ int dio_flush()
 #ifdef DEBUG_DIO
     if (debugging_dio_close) {
 	printf (__FILE__"685 dio_flush: check cache dbpgtab=%p count=%d\n",
-	    dbpg_table, (int)db_pgtab_sz);
+	    (void *) dbpg_table, (int)db_pgtab_sz);
 	fflush(stdout);
     }
 #endif
@@ -750,7 +750,7 @@ int dio_flush()
 #ifdef DEBUG_DIO
 	if (debugging_dio_close) {
 	    printf (__FILE__"723 dio_flush: write modified pg#%d @ %p\n",
-		db_pgtab_sz - pgt_lc,  pg_ptr);
+		db_pgtab_sz - pgt_lc, (void *) pg_ptr);
 	    fflush(stdout);
 	}
 #endif

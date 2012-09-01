@@ -154,7 +154,7 @@ BAD_INPUT:
 	    *targptr = 0;
 	    fprintf (aa_stderr, "--> DBLK at %p link=%p name='%s' maxhits=%d\n"
 		"    keytypes='%s', path='%s'\n",
-		db, db->link, db->name, db->maxhits,
+		(void *) db, (void *) db->link, db->name, db->maxhits,
 		sprintbuf, NULLORSTR (db->path));
 	}
     }

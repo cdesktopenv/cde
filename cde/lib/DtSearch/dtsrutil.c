@@ -124,7 +124,7 @@ void            print_dittolist (DtSrResult * dittolist, char *prefix)
 	return;
     }
     fprintf (aa_stderr, "%s First %d hits on dittolist at %p:\n",
-	prefix, maxcount, dittolist);
+	prefix, maxcount, (void *) dittolist);
     for (dit = dittolist; dit != NULL && maxcount-- > 0; dit = dit->link) {
 	if (dit->objdate == 0)
 	    strcpy (datebuf, "0");
@@ -248,11 +248,11 @@ void	print_usrblk_record (char *prefix)
 	prefix,
 	(long)usrblk.dba >> 24, (long)usrblk.dba & 0xffffffL,
 	usrblk.objrec.or_objkey,
-	usrblk.notes,
+	(void *) usrblk.notes,
 	(int)usrblk.clearlen,
 	NULLORSTR (usrblk.cleartext),
 	(int)usrblk.hitwcount,
-	usrblk.hitwords,
+	(void *) usrblk.hitwords,
 	NULLORSTR (usrblk.abstrbuf));
     return;
 }  /* print_usrblk_record() */
