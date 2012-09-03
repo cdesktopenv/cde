@@ -81,10 +81,10 @@ $ *****************************************************************************
 
 2 Icon Editor - Error
 4 Continue
-$
+$ 
 $ "-NEW"
 6 OK
-$
+$ 
 $ "-NEW"
 8 "Could not connect to ToolTalk:\n%s\nExiting ..."
 

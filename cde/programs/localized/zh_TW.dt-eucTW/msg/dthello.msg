@@ -58,7 +58,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 
 $ Messages 4 and 5 are both used when there is a syntax error on
 $ the command line invoking dthello
-$
+$ 
 4 ÆîÎÎ¡¨ %s [-display <üÏÆü>] [-fg <ÈãÚ³>] [-bg <ÈãÚ³>]\\\n
 5 [-font <ÇóÊ°>] [-string <Ø¹ÕÉ>] [-file <ÇØê¢>] [-timeout <Òð>]\n
 

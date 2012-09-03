@@ -26,32 +26,32 @@ $ *****************************************************************************
 $ *****************************************************************************
 
 $ *****************************************************************************
-$
+$ 
 $ ***** NOTE FOR MESSAGE CATALOG TRANSLATORS *****
-$
+$ 
 $ There MAY be three types of messages in this file:
-$
+$ 
 $  1. Messages that appear in dialogs or are displayed to the user.
-$
+$ 
 $     These messages are the default and they should ALL BE LOCALIZED.
 $     Note that these messages do NOT have any identification (see the
 $     comments for type 2 and 3 below).
-$
+$ 
 $  2. Messages that only appear in the DT error log file ($HOME/.dt/errorlog).
-$
+$ 
 $     The localization of these messages is OPTIONAL.  These messages are
 $     identified by the following:
-$
+$ 
 $  MESSAGES xx-yy IN SET zz WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-$
+$ 
 $  3. Messages that should not be localized.
-$
+$ 
 $     These messages are identified by the following:
-$
+$ 
 $  DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGES xx-yy from set zz
-$
+$ 
 $ ***** END (NOTE FOR MESSAGE CATALOG TRANSLATORS) *****
-$
+$ 
 $ ******************************************************************************
 
 $quote "
@@ -71,7 +71,7 @@ $quote
 1 Impostazione della risorsa workAreaLocation non è valida.
 
 $ Label values
-$
+$ 
 2 Altre stampanti...
 3 Stampare su file:
 4 Selezionare file...
@@ -90,7 +90,7 @@ $ Note: do not localize the chars %s
 14 Impossibile cambiare la modalità dell'Impostazione della stampa.
 
 $ Label values
-$
+$ 
 15 Informazioni...
 
 $ Warning messages
@@ -107,7 +107,7 @@ $ Note: do not localize the chars %s
 25 Gli argomenti non sono necessari nella conversione di risorse.
 
 $ Label values
-$
+$ 
 26 Errore nella selezione della stampante
 
 $ Warning messages
@@ -115,7 +115,7 @@ $ Note: do not localize the chars %s
 27 Impossibile trovare alcuna stampante.
 
 $ Label values
-$
+$ 
 28 descrizione non disponibile
 29 Selezionare file
 30 Informazioni sulla stampante
@@ -133,19 +133,19 @@ $ ** 							     **
 $ ** _DtPrint Frame GUI messages			     **
 $ ** 							     ** 
 $ *************************************************************
-$
+$ 
 $quote "
 
 $ Label values for Margin Frame
-$
+$ 
 1 "Margini"
 2 "Superiore:"
 3 "Destro:"
 4 "Inferiore:"
 5 "Sinistro:"
-$
+$ 
 $ Label values for Header/Footer Frame
-$
+$ 
 6 "Intestazioni e piè di pagina"
 7 "In alto a sinistra:"
 8 "In alto a destra:"
@@ -158,7 +158,7 @@ $ ** 							     **
 $ ** Dt Print Dialog Manager Job Options GUI messages        **
 $ ** 							     ** 
 $ *************************************************************
-$
+$ 
 $quote
 
 $ Label values for Margin Frame

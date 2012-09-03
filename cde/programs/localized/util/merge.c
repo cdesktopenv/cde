@@ -248,11 +248,7 @@ void cat_open ()
 #endif
         if ( system(line) != 0 )
 	{
-	/* Utter Linux HACK, it seems the return value of GNU gencat is != 0
-	   even on success */
-#if !defined(linux)
            fatal("primary .tmsg file would not gencat\n",0,9);
-#endif
 	}
     }
 
@@ -267,11 +263,7 @@ void cat_open ()
 #endif
         if ( system(line) != 0 )
 	{
-	/* Utter Linux HACK, it seems the return value of GNU gencat is != 0
-	   even on success */
-#if !defined(linux)
            fatal("default .tmsg file would not gencat\n",0,9);
-#endif
 	}
 
     }

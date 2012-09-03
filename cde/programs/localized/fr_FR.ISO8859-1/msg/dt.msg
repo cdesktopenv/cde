@@ -565,12 +565,12 @@ $ an application to abort.
 
 
 $ Set 50 - message logging service 
-$
+$ 
 $ The messages in this set will only appear in the DT log file.
 $ The messages are used to identify messages written to this log file.
-$
+$ 
 $ File: MsgLog.c
-$
+$ 
 $set 50
 1 INFORMATION
 2 STDERR

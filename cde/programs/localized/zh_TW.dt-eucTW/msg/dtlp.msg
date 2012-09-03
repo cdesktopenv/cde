@@ -42,9 +42,9 @@ $ *************************************<L>*************************************
 $quote "
 
 $set 1
-$
+$ 
 $  -- The first group of messages all appear on the Print dialog --
-$
+$ 
 
 
 $  This is the message that appears in the "Printer:" field when no
@@ -89,9 +89,9 @@ $  This is the label on the right button. Pushing this button causes a
 $  help dialog to be posted.
 120 "ëºÉ·ë©Íü"
 
-$
+$ 
 $  -- The following are error messages. --
-$
+$ 
 
 $  This message is posted when there is a problem with the file specified. 
 $  The file name will be appended to the message. One additional message

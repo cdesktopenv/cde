@@ -1250,7 +1250,7 @@ car il est déjà ouvert sur le bureau. Pour lancer une nouvelle session \n\
 du Gestionnaire de fichiers, fermez toutes ses fenêtres en cours \n\
 et retirez tous ses objets de leurs espaces de travail.
 
-$
+$ 
 $ "-NEW"
 40 "Could not connect to ToolTalk:\n%s\nExiting ..."
 

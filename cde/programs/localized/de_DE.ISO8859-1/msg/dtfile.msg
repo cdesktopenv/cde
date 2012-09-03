@@ -1264,7 +1264,7 @@ Dateimanagers bereits auf dem Desktop geöffnet ist. Wenn Sie eine neue Session\n
 des Dateimanagers starten möchten, müssen Sie zuerst alle aktuellen Dateimanager-Fenster schließen\n\
 und alle Dateimanager-Objekte aus den Arbeitsbereichen entfernen.
 
-$
+$ 
 $ "-NEW"
 40 "Could not connect to ToolTalk:\n%s\nExiting ..."
 

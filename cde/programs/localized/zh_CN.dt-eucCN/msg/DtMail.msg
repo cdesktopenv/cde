@@ -1,10 +1,10 @@
-$
+$ 
 $ +SNOTICE
-$
+$ 
 $  $TOG: DtMail.msg /main/5 1998/05/22 17:07:43 rafi $
-$
+$ 
 $  RESTRICTED CONFIDENTIAL INFORMATION:
-$
+$ 
 $  The information in this document is subject to special
 $  restrictions in a confidential disclosure agreement between
 $  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
@@ -12,15 +12,15 @@ $  document outside HP, IBM, Sun, USL, SCO, or Univel without
 $  Sun's specific written approval.  This document and all copies
 $  and derivative works thereof must be returned or destroyed at
 $  Sun's request.
-$
+$ 
 $  Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
-$
+$ 
 $ +ENOTICE
-$
+$ 
 
 $quote "
 
-$
+$ 
 $ Strings from dtmail/RoamApp.C
 
 $set 1
@@ -34,7 +34,7 @@ $            */
 4 "正在修改特性..." 
 
 
-$
+$ 
 $ Strings from dtmail/RoamMenuWindow.C
 
 5 "取消" 
@@ -128,7 +128,7 @@ $            */
 79 "正在转换... 完成了百分之%d" 
 80 "邮件程序" 
 
-$
+$ 
 $ Strings from dtmail/AttachArea.C
 
 81 "邮件程序" 
@@ -136,7 +136,7 @@ $ Strings from dtmail/AttachArea.C
 83 "邮件程序" 
 
 
-$
+$ 
 $ Strings from dtmail/Attachment.C
 
 84 "%s是可执行的附件。你要执行它吗?" 
@@ -146,7 +146,7 @@ $ Strings from dtmail/Attachment.C
 88 "邮件程序" 
 
 
-$
+$ 
 $ Strings from dtmail/RoamCmds.C
 
 89 "邮件程序 - 其它邮箱" 
@@ -177,7 +177,7 @@ $ 	     */
 109 "我在休假。\n你致 \"$SUBJECT\" 的邮件在我回来后会被阅读。\n" 
 
 
-$
+$ 
 $ Strings from dtmail/MsgScrollingList.C
 
 110 "N" 
@@ -215,13 +215,13 @@ $  */
 114 "N" 
 
 
-$
+$ 
 $ Strings from dtmail/Undelete.C
 
 115 "恢复删除" 
 116 "关闭" 
 
-$
+$ 
 $ Strings from dtmail/SendMsgDialog.C
 
 117 "发送" 
@@ -279,7 +279,7 @@ $        * Compose Window.  This message replaces message 151 in set 1.
 $        */
 
 
-$
+$ 
 $ Strings from dtmail/ViewMsgDialog.C
 
 161 "复制" 
@@ -301,7 +301,7 @@ $ Strings from dtmail/ViewMsgDialog.C
 177 "邮件程序" 
 
 
-$
+$ 
 $ Strings from dtmail/DtMailGenDialog.C
 
 178 "邮件程序 - 关于Dtmail" 
@@ -310,7 +310,7 @@ $ Strings from dtmail/DtMailGenDialog.C
 181 "确定" 
 182 "取消" 
 
-$
+$ 
 $ Strings from dtmail/FindDialog.C
 
 183 "查找" 
@@ -334,7 +334,7 @@ $   */
 
 
 
-$
+$ 
 $ Strings from dtmail/Editor.C
 
 195 "-------------- 开始转发消息 --------------\n\n" 
@@ -342,19 +342,19 @@ $ Strings from dtmail/Editor.C
 197 "-------------- 结束转发消息 --------------\n\n" 
 198 "-------------- 结束包括消息 --------------\n\n" 
 
-$
+$ 
 $ Strings from dtmail/XmTextEditor.C
 
 199 "\n-------------- 开始包括消息 --------------\n" 
 200 "\n-------------- 结束包括消息 --------------\n" 
 
-$
+$ 
 $ Strings from dtmail/DtEditor.C
 
 201 "\n-------------- 开始包括消息 --------------\n" 
 202 "\n-------------- 结束包括消息 --------------\n" 
 
-$
+$ 
 $ Strings from dtmail/ComposeCmds.C
 
 203 "邮件程序"
@@ -374,7 +374,7 @@ $ Strings from dtmail/ComposeCmds.C
 217 "邮件程序" 
 218 "该样板看起来被毁坏了。" 
 
-$
+$ 
 $ Strings from dtmail/SortCmd.C
 
 219 "正在排序..." 
@@ -598,7 +598,7 @@ $
 $	These messages have been commented out to allow compilation.
 $	The english messages need to be translated.
 $	The conflicts in the Chinese messages need to be resolved.
-$
+$ 
 $ 84 "Mailer is unable to obtain exclusive access to this\nmailbox because the system is not responding.\n\nFor this time only, you can choose to open this mailbox\nread-only, or to open it read-write without exclusive\naccess (use only if no one else is using this mailbox)."
 $ 85 "只读"
 $ 86 "读写"
@@ -684,7 +684,7 @@ $set 13
 1 "不能创建" 
 2 "不能写" 
 
-$
+$ 
 $ Strings from dtmail/AttachCmds.C
 
 $set 14

@@ -1,10 +1,10 @@
-$
+$ 
 $ +SNOTICE  Bilaga
-$
+$ 
 $  $TOG: DtMail.msg /main/4 1998/05/22 17:07:17 rafi $
-$
+$ 
 $  RESTRICTED CONFIDENTIAL INFORMATION:
-$
+$ 
 $  The information in this document is subject to special
 $  restrictions in a confidential disclosure agreement between
 $  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
@@ -12,15 +12,15 @@ $  document outside HP, IBM, Sun, USL, SCO, or Univel without
 $  Sun's specific written approval.  This document and all copies
 $  and derivative works thereof must be returned or destroyed at
 $  Sun's request.
-$
+$ 
 $  Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
-$
+$ 
 $ +ENOTICE
-$
+$ 
 
 $quote "
 
-$
+$ 
 $ Strings from dtmail/RoamApp.C
 
 $set 1
@@ -30,7 +30,7 @@ $set 1
 4 "Uppdaterar egenskaper..."
 
 
-$
+$ 
 $ Strings from dtmail/RoamMenuWindow.C
 
 5 "Avbryt"
@@ -110,7 +110,7 @@ $ Strings from dtmail/RoamMenuWindow.C
 79 "Konverterar... %d procent färdigt"
 80 "Elektronisk post"
 
-$
+$ 
 $ Strings from dtmail/AttachArea.C
 
 81 "Elektronisk post"
@@ -118,7 +118,7 @@ $ Strings from dtmail/AttachArea.C
 83 "Elektronisk post"
 
 
-$
+$ 
 $ Strings from dtmail/Attachment.C
 
 84 "%s är en exekverbar bilaga. Vill du köra den?"
@@ -127,7 +127,7 @@ $ Strings from dtmail/Attachment.C
 87 "Elektronisk post"
 88 "Elektronisk post"
 
-$
+$ 
 $ Strings from dtmail/RoamCmds.C
 
 89 "Elektronisk post - Andra brevlådor"
@@ -158,7 +158,7 @@ $ 	     */
 109 "Jag är upptagen på annat håll.\nJag kommer att läsa ditt meddelande angående \"$SUBJECT\" när jag återkommer.\n"
 
 
-$
+$ 
 $ Strings from dtmail/MsgScrollingList.C
 
 110 "N"
@@ -195,13 +195,13 @@ $  * please make sure the translation is only 1 character.
 $  */
 114 "N"
 
-$
+$ 
 $ Strings from dtmail/Undelete.C
 
 115 "Återta"
 116 "Stäng"
 
-$
+$ 
 $ Strings from dtmail/SendMsgDialog.C
 
 117 "Sänd"
@@ -259,7 +259,7 @@ $        * Compose Window.  This message replaces message 151 in set 1.
 $        */
 
 
-$
+$ 
 $ Strings from dtmail/ViewMsgDialog.C
 
 161 "Kopiera"
@@ -280,7 +280,7 @@ $ Strings from dtmail/ViewMsgDialog.C
 176 "Om Elektronisk post..."
 177 "Elektronisk post"
 
-$
+$ 
 $ Strings from dtmail/DtMailGenDialog.C
 
 178 "Elektronisk post - Om Dtmail"
@@ -289,7 +289,7 @@ $ Strings from dtmail/DtMailGenDialog.C
 181 "OK"
 182 "Avbryt"
 
-$
+$ 
 $ Strings from dtmail/FindDialog.C
 
 183 "Sök"
@@ -313,31 +313,31 @@ $   */
 
 
 
-$
+$ 
 $ Strings from dtmail/Editor.C
 195 "---- Här börjar det vidarebefordrade meddelandet ----\n\n"
 196 "-------- Här börjar det infogade meddelandet --------\n\n"
 197 "---- Här slutar det vidarebefordrade meddelandet ----\n\n"
 198 "-------- Här slutar det infogade meddelandet --------\n\n"
 
-$
+$ 
 $ Strings from dtmail/XmTextEditor.C
 
-$
+$ 
 199 "\n------- Här börjar det infogade meddelandet -------\n"
 200 "\n------- Här slutar det infogade meddelandet -------\n"
 
-$
+$ 
 $ Strings from dtmail/DtEditor.C
 
-$
+$ 
 201 "\n------- Här börjar det infogade meddelandet -------\n"
 202 "\n------- Här slutar det infogade meddelandet -------\n"
 
-$
+$ 
 $ Strings from dtmail/ComposeCmds.C
 
-$
+$ 
 203 "Elektronisk post"
 204 "Det går inte att skapa ett meddelandefönster."
 205 "Elektronisk post"
@@ -355,7 +355,7 @@ $
 217 "Elektronisk post"
 218 "Mallen är antagligen skadad."
 
-$
+$ 
 $ Strings from dtmail/SortCmd.C
 
 219 "Sorterar..."
@@ -571,7 +571,7 @@ $set 13
 1 "Det går inte att skapa"
 2 "Det går inte att skriva"
 
-$
+$ 
 $ Strings from dtmail/AttachCmds.C
 
 $set 14

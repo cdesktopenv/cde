@@ -41,7 +41,7 @@ $ *************************************<L>*************************************
 
 $set 1
 $ set 1 is labels
-$
+$ 
 $ messages 1 through 6 are button labels on the login screen
 
 1 Ange användarnamn
@@ -51,9 +51,9 @@ $ messages 1 through 6 are button labels on the login screen
 5 Alternativ
 6 Hjälp
 
-$
+$ 
 $ messages 7 through 11 are options button menu items
-$
+$ 
 
 7 Återställ inloggningsskärm
 8 Kommandoradsinloggning
@@ -61,25 +61,25 @@ $
 10 Session med endast ett fönster
 11 Språk
 
-$
+$ 
 $ messages 12 through 14 are miscellaneous button labels
-$
+$ 
 12 Starta DT
 13 Avbryt
 14 Hjälp
 
 
-$
+$ 
 $ message 15, 17 are more option button menu items 
 $ message 16 is the welcome message
-$
+$ 
 15 DT Ren session
 16 Välkommen till
 17 Normal session
 
-$
+$ 
 $ message 18-24
-$
+$ 
 18 * Lämnar tillfälligt inloggningen via skrivbordet...\r\n*\r\n
 19 * Tryck på [Enter] för att få en ledtext för inloggningen.\r\n*\r\n
 20 * Logga in. Inloggningen via skrivbordet kommer att fortsätta så snart du loggar ut.\r\n*\r\n
@@ -91,15 +91,15 @@ $
 $ messages 25 is a options button menu item
 25 Session
 
-$
+$ 
 $ 26 replaces 16 as the greeting after a user name has been 
 $ entered. The %s is replaced by the user name.
-$
+$ 
 26 Välkommen %s
 
 $set 2
 $ set 2 is error messages
-$
+$ 
 
 1 Felaktig inloggning. Försök igen.
 2 Det går inte att byta till hemkatalogen.
@@ -128,7 +128,7 @@ med det nya lösenordet.
 
 $set 3
 $ set 3 is help text
-$
+$ 
 
 $ message 1 is generated when the help button on the login screen is clicked.
 1 \n\
@@ -222,7 +222,7 @@ för att förnya skärmen.\n\
 
 $set 4
 $ set 4 is log error messages
-$
+$ 
 
 1 Det går inte att hitta accessfilen \"%1$s\" på värddatorn \"%2$s\"\n
 2 ReadHostEntry\n

@@ -1,7 +1,7 @@
 
 $quote "
 $ $TOG: dtinfo.msg /main/25 1999/09/20 13:34:13 mgreess $
-$
+$ 
 $ (c) Copyright 1996 Digital Equipment Corporation.
 $ (c) Copyright 1996 Hewlett-Packard Company.
 $ (c) Copyright 1996 International Business Machines Corp.
@@ -9,21 +9,21 @@ $ (c) Copyright 1996 Sun Microsystems, Inc.
 $ (c) Copyright 1996 Novell, Inc.
 $ (c) Copyright 1996 FUJITSU LIMITED.
 $ (c) Copyright 1996 Hitachi.
-$
+$ 
 $ ******************************************************************************
-$
+$ 
 
 $set	1
-$
+$ 
 $ messages specific to message-catalog manager
-$
+$ 
 1 "Il messaggio predefinito non si trova nel catalogo."
 
 
 $set	2
-$
+$ 
 $ messages specific to UAS/DtSearch modules
-$
+$ 
 1 "La funzione di ricerca ``%s'' non è supportata."
 $ "
 
@@ -35,18 +35,18 @@ $       5       "xor" == Exclusive OR (Boolean)
 
 
 $set	4
-$
+$ 
 $ messages specific to booklist window
-$
+$ 
 3 "Dtinfo: Elenco libri BiblioInfo"
 63 "Benvenuti in Dtinfo!"
 65 "Sezione corrente"
 
 
 $set	5
-$
+$ 
 $ messages specific to browser window
-$
+$ 
 1 "Dtinfo: Browser"
 2 "Per una descrizione della destinazione del collegamento, fare clic e mantenere sul collegamento."
 3 "Biblioteca delle informazioni"
@@ -65,10 +65,10 @@ Selezionare alto testo vicino il punto che si desidera\n\
 segnalare oppure includere più del testo circondante."
 
 $set	6
-$
+$ 
 $ messages specific to add information library dialog
 $ Note: "Infolib" is a CDE glossary term.
-$
+$ 
 
 1 "Dtinfo: Aggiunta Biblioteca delle informazioni"
 
@@ -104,9 +104,9 @@ $        are no Infolibs found in the directory.)
 
 
 $set	7
-$
+$ 
 $ dtinfo GUI label strings
-$
+$ 
 1 "File"
 2 "F"
 4 "Visualizzare"
@@ -174,7 +174,7 @@ $ Results Dialog.
 61 "Editor dell'ambito"
 
 $  Messages 62-77 for "Browser" pulldown menu entries
-$
+$ 
 62 "Browser"
 63 "B"
 64 "Nuova finestra"
@@ -459,9 +459,9 @@ $            path.
 
 
 $set	8
-$
+$ 
 $ dtinfo quick help messages (to be exhibited on status display area)
-$
+$ 
 1 "Andare alla sezione precedente nella cronologia"
 2 "Andare alla sezione successiva nella cronologia"
 3 "Andare alla sezione precedente nel documento"
@@ -490,39 +490,39 @@ $ descriptive.
 
 
 $set	9
-$
+$ 
 $ messages specific to bookmark edit dialog
-$
+$ 
 1 "Dtinfo: Editor dei segnalibri"
 2 "Aggiornamento dei segnalibri è fallito."
 
 
 $set	10
-$
+$ 
 $ messages specific to detached graphic window
-$
+$ 
 1 "Dtinfo: Grafico staccato"
 2 "Grafico staccato"
 3 "Illustrazione raster (non ridimensionabile)"
 4 "Illustrazione vettoriale (ridimensionabile)"
 5 "Ridimensionando l'illustrazione..."
-$
+$ 
 $ Dtinfo*SetZoom
-$
+$ 
 6 "Specificare una percentuale di scala:"
-$
+$ 
 $ Dtinfo*SetZoomTitle
-$
+$ 
 7 "Dtinfo: Impostazione scala"
-$
+$ 
 8 "Dtinfo: "
 9 "Illustrazione raster (ridimensionabile)"
 
 
 $set	11
-$
+$ 
 $ messages specific to mark list window
-$
+$ 
 
 $	1 is the title of a window containing a list of the
 $ user's bookmarks
@@ -530,33 +530,33 @@ $ user's bookmarks
 
 
 $set	12
-$
+$ 
 $ messages specific to mark selection dialog
-$
+$ 
 $   Messages 1 & 2: "Select" and "Edit" are verbs
 1 "Dtinfo: Selezionare segnalibro"
 2 "Dtinfo: Editare segnalibro"
 
 
 $set	13
-$
+$ 
 $ messages specific to section history window
-$
+$ 
 1 "Dtinfo: Cronologia delle sezioni"
 
 
 $set	14
-$
+$ 
 $ messages specific to preferences window
-$
+$ 
 1 "Dtinfo: Preferenze"
 2 "Dtinfo: Geometria"
 
 
 $set	15
-$
+$ 
 $ messages specific to printing
-$
+$ 
 1 "Dtinfo: Stampa"
 $          Messages 2 - 5 are obsolete, and have been replaced by 12
 2 Impossibile trovare la Gestione del dialogo di stampa PDM nell'ambiente corrente
@@ -573,36 +573,36 @@ $       Message 12 is used to handle errors from the PDM
 12	Errore Gestione del dialogo di stampa (PDM) - Impostazione non riuscita.
 
 $set	16
-$
+$ 
 $ messages specofic to search scope editor window
-$
+$ 
 $	1	Edit the Scope for for use in a Search
 1 "Dtinfo: Editor dell'ambito della ricerca"
-$
+$ 
 $ Dtinfo*SaveScope
-$
+$ 
 2 "Inserire un nome per il nuovo ambito:"
-$
+$ 
 $ Dtinfo*SaveScopeTitle
-$
+$ 
 3 "Dtinfo: Salvataggio dell'ambito"
-$
+$ 
 4 "Tutte le BiblioInfo"
 
 
 $set	17
-$
+$ 
 $ messages specific to search result window
-$
+$ 
 $	1	"Search Results" is for the results of a search
 1 "Dtinfo: Risultati della ricerca"
 
 
 $set	18
-$
+$ 
 $ messages specific to open locator dialog, and locator
 $ input formats in general.
-$
+$ 
 $ 1	"Dtinfo: Open locator
 1 "Dtinfo: Apertura del localizzatore"
 
@@ -623,209 +623,209 @@ $ 6     "No locator value provided."
 
 
 $set	19
-$
+$ 
 $ messages specific to query editor window
-$
+$ 
 1 "Dtinfo: Editor delle ricerche"
 
 
 $set	20
-$
+$ 
 $ dtinfo general messages
-$
-$
+$ 
+$ 
 $ Dtinfo*PixmapAllocationError
-$
+$ 
 1 "Memoria insufficiente nel server per\n\
 comporre il grafico."
-$
+$ 
 $ Dtinfo*AbandonChanges
-$
+$ 
 2 "Perdere le modifiche?"
-$
+$ 
 $ Dtinfo*NoHelp
-$
+$ 
 3 "Informazioni dell'aiuto introvabili."
-$
+$ 
 $ Dtinfo*NoSelection
-$
+$ 
 4 "Non c'è nessun testo selezionato.\n\
 Selezionare del testo e riprovare."
-$
+$ 
 $ Dtinfo*AbandonBookmarks
-$
+$ 
 5 "I segnalibri aperti contengono modifiche che non sono state\n\
 salvate. Uscire senza salvarle?"
-$
+$ 
 $ Dtinfo*ConfirmQuit
-$
+$ 
 6 "Si desidera uscire da Dtinfo?"
-$
+$ 
 $ Dtinfo*BadTocHierarchy
-$
+$ 
 7 "Registrare un bug"
-$
+$ 
 $ Dtinfo*LinkToBookTitle
-$
+$ 
 8 "Collegamento a %s: %s"
-$
+$ 
 $ Dtinfo*LinkToTitle
-$
+$ 
 9 "Collegamento a %s"
-$
+$ 
 $ Dtinfo*MarkCreateFailed
-$
+$ 
 10 "Dtinfo non è in grado di creare il segnalibro."
-$
+$ 
 $ Dtinfo*MarkDeleteFailed
-$
+$ 
 11 "Dtinfo non è in grado di cancellare il segnalibro."
-$
+$ 
 $ Dtinfo*MarkMoveFailed
-$
+$ 
 12 "Dtinfo non è in grado di rimuovere il segnalibro."
-$
+$ 
 $ Dtinfo*MaxDepthExceeded
-$
+$ 
 13 "Registrare un bug"
-$
+$ 
 $ Dtinfo*MarkIconInvisible
-$
+$ 
 14 "Visualizzazione impossibile: il segnalibro selezionato si\n\
 trova all'esterno dell'area visualizzabile della sezione."
-$
+$ 
 $ Dtinfo*MViewNoBase
-$
+$ 
 15 "Il segnalibro selezionato non si trova\n\
 in un documento accessibile.\n\
 Caricare la BiblioInfo appropriata."
-$
+$ 
 $ Dtinfo*GetGeometry
-$
+$ 
 16 "Fare clic nella finestra Dtinfo la cui\n\
 grandezza va salvata come default."
-$
+$ 
 $ Dtinfo*SaveModifiedScope
-$
+$ 
 17 "Salvare le modifiche all'ambito corrente?"
-$
+$ 
 $ Dtinfo*BadScopeName
-$
+$ 
 18 "Il nome non può contenere i seguenti caratteri:\n\
 due punti (:), punto e virgola (\;) e virgola (,)"
-$
+$ 
 $ Dtinfo*EmptyScopeName
-$
+$ 
 19 "Inserire un nome valido."
-$
+$ 
 $ Dtinfo*ScopeNameTooLong
-$
+$ 
 20 "Il nome non può superare i 30 caratteri.\n\
 Specificare un nome più corto."
-$
+$ 
 $ Dtinfo*DuplicateScopeName
-$
+$ 
 21 "Il nome specificato è già in uso.\n\
 Inserire un nome unico."
-$
+$ 
 $ Dtinfo*Everything
 $	22	"Everything" refers to section components like
 $		titles, body, and related.
-$
+$ 
 22 "Tutto"
-$
+$ 
 $ Dtinfo*Titles
-$
+$ 
 23 "Titoli"
-$
+$ 
 $ Dtinfo*Body
 $	24	"Body" as in the body of text.
-$
+$ 
 24 "Testo principale"
-$
+$ 
 $ Dtinfo*Examples
-$
+$ 
 25 "Esempi"
-$
+$ 
 $ Dtinfo*Index
-$
+$ 
 26 "Indice analitico"
-$
+$ 
 $ Dtinfo*Tables
-$
+$ 
 27 "Tabelle"
-$
+$ 
 $ Dtinfo*Graphics
-$
+$ 
 28 "Grafici"
-$
+$ 
 $ Dtinfo*ScopeDeleteConfirm
-$
+$ 
 29 "Cancellare l'ambito visualizzato?"
-$
+$ 
 $ Dtinfo*CurrentSection
-$
+$ 
 30 "Sezione corrente"
-$
+$ 
 $ Dtinfo*IgnoredScopes
-$
+$ 
 31 "Gli ambiti salvati che non sono validi per queste BiblioInfo\n\
 verrano ignorati."
-$
+$ 
 $ Dtinfo*MarkBaseOpenFailed
-$
+$ 
 32 "Impossibile aprire il database dei segnalibri."
-$
+$ 
 $ Dtinfo*NoOpenMarkBases
-$
+$ 
 33 "Il database dei segnalibri è introvabile.\n\
 Dtinfo non può creare un segnalibro."
-$
+$ 
 $ Dtinfo*MarkBaseReadOnly
-$
+$ 
 34 "Il database corrente è di sola lettura."
-$
+$ 
 35 "Errore sconosciuto nel documento: Rivolgersi al Supporto prodotti."
 
 36 "Messaggio inatteso dal motore di ricerca\n\
 (in UAS_SearchEngine):\n\
 Rivolgersi al Supporto prodotti."
-$
+$ 
 $ Dtinfo*TooManyIbases
-$
+$ 
 37 "Il motore di ricerca è in grado di eseguire la ricerca\n\
 solamente nelle prime %d librerie specificate.\n\
 Continuare?"
-$
+$ 
 $ Dtinfo*DemoFailure
-$
+$ 
 38 "Questa è una versione demo del browser.\n\
 Impossibile accedere alla BiblioInfo."
-$
+$ 
 $ Dtinfo*StyleSheetSyntaxError
-$
+$ 
 39 "Errore nella specificazione degli stili per il documento.\n\
 Verrano usati i valori predefiniti."
-$
+$ 
 $ Dtinfo*NoHits
-$
+$ 
 40 "Non è stata trovata nessuna ricorrenza del testo specificato."
-$
+$ 
 $ Dtinfo*BadQuery
-$
+$ 
 41 "Dtinfo non è riuscito ad analizzare la stringa richiesta.\n\
 Riformulare e riprovare."
-$
+$ 
 $ Dtinfo*SearchError
-$
+$ 
 42 "Errore interno del motore di ricerca. Tutte le ricerche\n\
 seguenti in questa sessione risulteranno con lo stesso errore.\n\n\
 Questo problema è conosciuto e verrà risolto nel prossimo release\n\
 del Browser. Per il momento, vi consigliamo di evitare simili stringhe.\n\
 Per continuare la ricerca, uscire e riavviare il Browser."
-$
+$ 
 $ Dtinfo*KernelError
-$
+$ 
 43 "Errore interno del motore di ricerca.\n\
 È probabile che la directory /usr/tmp di questo\n\
 computer si trovi in (o si colleghi a) un filesytem tmpfs.\n\
@@ -837,73 +837,73 @@ in modo che non si trovi (non si colleghi a) un filesystem tmpfs.\n\
 Dopo aver eseguito le modifiche e riavviato il Browser, la ricerca\n\
 dovrebbe funzionare correttamente. Per ulteriori informazioni, rivolgersi\n\
 all'amministratore di sistema."
-$
+$ 
 $ Dtinfo*FulcrumNoMemory
-$
+$ 
 44 "Il motore di ricerca non è riuscito ad eseguire la ricerca\n\
 dovuto a memoria insufficiente.\n\
 Uscire da altre applicazioni o aumentare la memoria fisica o virtuale."
-$
+$ 
 $ Dtinfo*FulcrumError
-$
+$ 
 45 "Errore del motore di ricerca. Notificare il \n\
 Supporto prodotti dell'errore di ricerca %d."
-$
+$ 
 $ Dtinfo*BadHelp
-$
+$ 
 46 "Questo pulsante è collegato ad un documento che non\n\
 si trova nella BiblioInfo corrente."
-$
+$ 
 $ Dtinfo*query_is_read_only
-$
+$ 
 47 "Questo campo è di sola visualizzazione.  Per editare\n\
 l'oggetto della ricerca, usare l'Editor delle ricerche oppure il campo delle in\n\
 ricerche rapide nelle finestre Lettura o Elenco libri."
-$
+$ 
 $ Dtinfo*ExceedRdWindows
-$
+$ 
 48 "Il numero massimo di finestre di lettura (%d) è stato\n\
 raggiunto. Questo limite viene specificato nelle Preferenze."
-$
+$ 
 $ Dtinfo*NoPrefBase
-$
+$ 
 49 "Il database Preferenze non è disponibile."
-$
+$ 
 $ Dtinfo*PrefBaseReadOnly
-$
+$ 
 50 "Il database Preferenze è stato aperto con l'autorizzazione di\n\
 sola lettura. Le nuove preferenze non possono essere salvate."
-$
+$ 
 $ Dtinfo*DeadEndLink
-$
+$ 
 51 "Il documento o la sezione non è disponibile."
-$
+$ 
 $ Dtinfo*MarkPositionFailed
-$
+$ 
 52 "Dtinfo non può visualizzare il segnalibro specificato.\n\
 \42%s\42\n\
 Il paragrafo associato al segnalibro non esiste più."
-$
+$ 
 $ Dtinfo*ScopeChangeAbandon
-$
+$ 
 53 "Perdere le modifiche?"
-$
+$ 
 $ Dtinfo*InformationLibrary
-$
+$ 
 63 "Biblioteca delle informazioni"
-$
+$ 
 $ Dtinfo*On
-$
+$ 
 64 "Sì"
-$
+$ 
 $ Dtinfo*Off
-$
+$ 
 65 "No"
-$
+$ 
 67 "Impossibile creare la BiblioInfo."
 
 68 "Creazione della BiblioInfo fallita."
-$
+$ 
 69 "La funzione di ricerca 'peso' non è disponibile."
 
 $	70	The "qualified locator" is a "fully qualified
@@ -917,46 +917,46 @@ $		locator" as opposed to the simple format.
 
 
 $set	21
-$
+$ 
 $ messages specific to message dialogs
-$
+$ 
 
 $ Dtinfo*ErrorDialogTitle
-$
+$ 
 1 "Dtinfo: Errore"
 
 $ Dtinfo*WarningDialogTitle
-$
+$ 
 2 "Dtinfo: Avviso"
 
 $ Dtinfo*InfoDialogTitle
-$
+$ 
 3 "Dtinfo: Informazioni"
 
 $ Dtinfo*ProgressDialogTitle
-$
+$ 
 $	4	"Progress" is a level of completion in regards
 $		 to a task.
 4 "Dtinfo: Progresso"
 
 $ Dtinfo*QuitDialogTitle
-$
+$ 
 5 "Dtinfo: Conferma dell'uscita"
 
 $ Dtinfo*QuestionDialogTitle
-$
+$ 
 6 "Dtinfo: Domanda"
-$
+$ 
 7 "Dtinfo: Registrare un bug"
 
 
 $set	22
-$
+$ 
 $ dtinfo version information
-$
-$
+$ 
+$ 
 $	Dtinfo*Version
-$
+$ 
 1 "Browser del CDE Dtinfo\n\
 \n\
 Copyright (c) 1996 Chisholm Technologies, Inc.,\n\
@@ -978,28 +978,28 @@ Systems, 1315 Dell Avenue, Campbell, CA 95008 USA."
 
 
 $set	23
-$
+$ 
 $ messages specific to CanvasRenderer (dtinfo I/F to DtCanvas/DtHelp)
-$
+$ 
 
 
 $set	24
-$
+$ 
 $ messages specific to UAS/Base modules
-$
+$ 
 1 "Nessuna parte di accesso nel localizzatore (URL)."
 2 "Impossibile creare oggetti %s"
 
 $ In the following, do not translate any part of "UAS_ObjList<T>::operator[]"
-$
+$ 
 3 "Errore dell'intervallo: UAS_ObjList<T>::operatore[]"
 4 "Errore dell'intervallo: UAS_PtrList<T>::operatore[]"
 
 
 $set	27
-$
+$ 
 $ messages specific to UAS/MMDB modules
-$
+$ 
 1 "Le seguenti librerie non sono valide:"
 2 "Percorso BiblioInfo MMDB non valido: %s"
 3 "Il percorso BiblioInfo MMDB non è valido e verrà ignorato:"
@@ -1009,17 +1009,17 @@ $
 
 
 $set	28
-$
+$ 
 $ messages specific to graphical map window
-$
+$ 
 1 "Dtinfo: Mappa locale"
 2 "Dtinfo: "
 
 
 $set	29
-$
+$ 
 $ messages specific to search history window
-$
+$ 
 $	1	"Search Results History" is a history of the
 $ search results already obtained under the dtinfo session, for
 $ prior queries.
@@ -1027,25 +1027,25 @@ $ prior queries.
 
 
 $set	30
-$
+$ 
 $ messages specific to window system module
-$
+$ 
 1 "Dtinfo: Errore irreversibile"
 2 "Chiusura applicazione..."
 3 Impossibile aprire il display.\n
 
 $set	31
-$
+$ 
 $ messages specific to printing
-$
+$ 
 1 "Un'intestazione di pagina"
 2 "Un piè di pagina - pagina %d"
 
 
 $set	40
-$
+$ 
 $ messages specific to environmental interface or program context
-$
+$ 
 
 $ 1     ""
 1 "Funzione non implementata."
@@ -1058,13 +1058,13 @@ per la riga di comando.
 $set	41
 $ The messages in this set will only appear in the users
 $   "errorlog" file.
-$
+$ 
 $ ******************************************************************************
-$
+$ 
 $ messages specific to tooltalk interface and operations.
 $ Note that many errors defined by tooltalk are passed through
 $ and therefore not repeated here.
-$
+$ 
 
 $ 1     "Can't get tt session for X display %s"
 1 Can't get tt session for X display:\n%s
@@ -1080,28 +1080,28 @@ $ 4     "Could not declare ptype DtInfo."
 
 $ Messages 5-10: These messages result from an error in a tt_* function
 $    call.
-$
+$ 
 5 The ttsession(1) process is not running and the ToolTalk\n\
 service cannot restart it.
 6 The current default process identifier is out of date or invalid.
 7 The specified ToolTalk session is out of date or invalid.
 
-$
+$ 
 $ Message 8: Do not localize the word DtInfo.
-$
+$ 
 8 The process type 'DtInfo' is not the\n\
 name of an installed process type.
 
-$
+$ 
 $ Message 9: Do not localize the word DtInfoPrint.
-$
+$ 
 9 The process type 'DtInfoPrint' is not the\n\
 name of an installed process type.
 
 10 The error number is not recognized.
 
 $set	42
-$
+$ 
 $ messages specific to UAS/DtSR_SearchEngine modules
-$
+$ 
 1 "DtSearch non supporta la richiesta."

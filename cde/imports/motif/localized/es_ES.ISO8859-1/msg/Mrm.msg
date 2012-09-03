@@ -1,5 +1,5 @@
 $ $XConsortium: Mrm.msg /main/3 1996/10/19 14:47:45 rws $
-$
+$ 
 $  @OSF_COPYRIGHT@
 $  COPYRIGHT NOTICE
 $  Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.
@@ -13,7 +13,7 @@ $ (c) Copyright 1996 Sun Microsystems, Inc.
 $ (c) Copyright 1996 Novell, Inc. 
 $ (c) Copyright 1996 FUJITSU LIMITED.
 $ (c) Copyright 1996 Hitachi.
-$
+$ 
 
 $ This message catalog contains messages issued by Motif Mrm library.
 $ Consult X-Window systems, OSF/MOTIF Programmer's Guide and OSF/MOTIF

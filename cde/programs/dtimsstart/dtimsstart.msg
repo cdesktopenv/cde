@@ -52,4 +52,4 @@ $ 	error messages
 58 ims '%1$s' not registered on '%2$s'
 59 cannot open display '%s'
 
-$
+$ 

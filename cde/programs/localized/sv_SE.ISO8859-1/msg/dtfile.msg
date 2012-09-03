@@ -34,39 +34,39 @@ $ **  ----------------GENERAL LOCALIZATION NOTES SECTION END------------------
 $ *************************************<L>*************************************
 
 $ *****************************************************************************
-$
+$ 
 $ ***** NOTE FOR MESSAGE CATALOG TRANSLATORS *****
-$
+$ 
 $ There may be three types of messages in this file:
-$
+$ 
 $ 1. Messages that appear in dialogs or are displayed to the user.
-$
+$ 
 $     These messages are the default and they should ALL BE LOCALIZED.
 $     Note that these messages do NOT have any identification (see the
 $     comments for type 2 and 3 below).
-$
+$ 
 $ 2. Messages that only appear in the DT error log file ($HOME?.dt/errorlog).
-$
+$ 
 $     The localization of these messages is OPTIONAL.  These messages are
 $     identified by the following:
-$
+$ 
 $     MESSAGES xx-yy WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-$
+$ 
 $ 3. Messages that should not be localized.
-$
+$ 
 $     These messages are identified by the following:
-$
+$ 
 $     DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGES xx-yy
-$
+$ 
 $ ***** END (NOTE FOR MESSAGE CATALOG TRANSLATORS) *****
-$
+$ 
 $ ********** PROLOGUE ****************
 $  Date    Name               Note
 $ ======== =================  ===============================================
 $ 03/25/93 H. Amro            removed the guilty $ from message 30
-$
-$
-$
+$ 
+$ 
+$ 
 $ *****************************************************************************
 
 $set 2

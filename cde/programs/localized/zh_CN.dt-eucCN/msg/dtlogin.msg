@@ -41,7 +41,7 @@ $ *************************************<L>*************************************
 
 $set 1
 $ set 1 is labels
-$
+$ 
 $ messages 1 through 6 are button labels on the login screen
 
 1 请输入你的用户名
@@ -51,9 +51,9 @@ $ messages 1 through 6 are button labels on the login screen
 5 选项
 6 提示
 
-$
+$ 
 $ messages 7 through 11 are options button menu items
-$
+$ 
 
 7 复位登录屏幕
 8 命令行登录
@@ -61,25 +61,25 @@ $
 10 单窗口会话过程
 11 语言
 
-$
+$ 
 $ messages 12 through 14 are miscellaneous button labels
-$
+$ 
 12 启动桌面环境
 13 取消
 14 提示
 
 
-$
+$ 
 $ message 15, 17 are more option button menu items 
 $ message 16 is the welcome message
-$
+$ 
 15 DT Lite 会话过程
 16 欢迎来
 17 正规桌面环境
 
-$
+$ 
 $ message 18-24
-$
+$ 
 18 * 挂起桌面登录...\r\n*\r\n
 19 * 请按回车键出现登录提示。\r\n*\\rn
 20 * 登录。桌面登录将在你注消后很快恢复。\r\n*\r\n
@@ -91,22 +91,22 @@ $
 $ messages 25 is a options button menu item
 25 会话过程
 
-$
+$ 
 $ 26 replaces 16 as the greeting after a user name has been 
 $ entered. The %s is replaced by the user name.
-$
+$ 
 26 欢迎 %s
 
-$
+$ 
 $  Sun specific message catalog id numbers in MC_LABEL_SET messages.
 $  (Starting at a random uneven higher number, 73, to allow some room
 $  for some shared sample source message additions.
-$
+$ 
 73 用户的上一个桌面环境
 
 $set 2
 $ set 2 is error messages
-$
+$ 
 
 1 登录不正确；请再试一次。
 2 不能改变到起始目录。
@@ -135,7 +135,7 @@ $ the language.
 
 $set 3
 $ set 3 is help text
-$
+$ 
 
 $ message 1 is generated when the help button on the login screen is clicked.
 1 \n\
@@ -228,7 +228,7 @@ $ message 3 is generated when the help button on the chooser screen is clicked.
 
 $set 4
 $ set 4 is log error messages
-$
+$ 
 
 1 访问文件“%1$s”，宿主机“%2$s”没有找到\n
 2 ReadHostEntry\n

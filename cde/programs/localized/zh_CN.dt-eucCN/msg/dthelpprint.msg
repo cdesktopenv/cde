@@ -44,11 +44,11 @@ $quote "
 
 $set 2
 $ *****  Module: PrintUtil.c *****
-$
+$ 
 
 $set 3
 $ *****  Module: PrintTopics.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s 出错: 提示类型是一个题目，但没有指定提示卷。\n"
 2 "%s 出错: 不能定位提示卷 %s\n"
@@ -72,7 +72,7 @@ $ string used by can't get a topic title associated with an index subentry
 
 $set 4
 $ *****  Module: PrintManStrFile.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s 出错: 提示类型是字符串，但没有指定字符串数据。\n"
 2 "%s 出错: 提示类型是动态字符串，但没有指定字符串数据。\n"
@@ -82,7 +82,7 @@ $ ** LOCALIZE THESE MESSAGES **
 
 $set 5
 $ *****  Module: Initialize.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 $ Messages 1 to 29: dthelpprint usage message
 $ **DO NOT LOCALIZE** the command line option names (e.g. -copies).
@@ -130,7 +130,7 @@ $ arg order: directory prefix processid filecnt suffix
 
 $set 6
 $ *****  Module: Main.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s 出错: 非法的提示类型 %d。\n"
 

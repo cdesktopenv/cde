@@ -249,9 +249,9 @@ $
 $  
 $ Used as the title, In Asian languages labels need to be different
 $  from the menu label.
-$
+$ 
 47 "Ayuda"
-$
+$ 
 
 $set 3        Redefine set#
 
@@ -1499,9 +1499,9 @@ $
 $  
 $ Used as the title, In Asian languages the dialog title needs to be different
 $  from the menu label.
-$
+$ 
 518 "Registros Financieros"
-$
+$ 
 
 $set 4        Redefine set#
 

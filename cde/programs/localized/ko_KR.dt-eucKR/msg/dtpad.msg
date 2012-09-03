@@ -182,10 +182,10 @@ $ label specified in message 110 of set 11.
 $ Labels for add/don't-add newlines radio buttons in the SaveAs and Save dialogs
 44 줄맞추기 줄의 끝에 줄바꿈 문자를 추가하십시오.
 45 줄바꿈 문자를 추가하지 마십시오. [Return]에 의해 만들어진 줄 분리만이 \n보존됩니다.
-$
+$ 
 $ New message as of 5/31/95 (i.e. new since Sample Implementation). This
 $ new message is in response to bug DTS CISlx19530.
-$
+$ 
 46 파일에 쓰기가 허용되지 않거나\n파일이 경로에 없습니다.
 
 
@@ -243,7 +243,7 @@ $ Default file name used in the main window title.
 $ This should correspond to the default file name used in the "Save As"
 $ dialog box - specified in message 21 of set 5.
 6 (이름없음)
-$
+$ 
 $ New messages (7,8) since CDE/SI - error gets displayed when user tries to run
 $ dtpad -server when and dtpad server process is already running on the
 $ $DISPLAY.
@@ -251,11 +251,11 @@ $ $DISPLAY.
 이 디스플레이를 위한 서비스를 하고 있습니다.
 8 오류: dtpad 서버가 이 디스플레이를\n\
 위한 서비스를 하고 있습니다.
-$
+$ 
 $ Message 9 is also new since CDE/SI - new as of 5/22/95.  It is a usage message
 $ for dtpad. Don't translate the '-OPTION' just the text explaining the
 $ option.
-$
+$ 
 9 '%s' is a bad option.\n\
 사용법: %s...\n\
    -saveOnClose\n\
@@ -308,7 +308,7 @@ $
 \t이 선택사항은 서버 프로세스에만 적용되므로\n\
 \t-server 선택사항과 함께만 사용됩니다.\n\n\
 선택사항에 대한 자세한 정보는 dtpad 온라인 설명서를 참조하십시오.
-$
+$ 
 
 $set 10
 $ ************************************************************************

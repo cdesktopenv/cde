@@ -29,32 +29,32 @@ $ *****************************************************************************
 $ *****************************************************************************
 
 $ *****************************************************************************
-$
+$ 
 $ ***** NOTE FOR MESSAGE CATALOG TRANSLATORS *****
-$
+$ 
 $ There MAY be three types of messages in this file:
-$
+$ 
 $  1. Messages that appear in dialogs or are displayed to the user.
-$
+$ 
 $     These messages are the default and they should ALL BE LOCALIZED.
 $     Note that these messages do NOT have any identification (see the
 $     comments for type 2 and 3 below).
-$
+$ 
 $  2. Messages that only appear in the DT error log file ($HOME/.dt/errorlog).
-$
+$ 
 $     The localization of these messages is OPTIONAL.  These messages are
 $     identified by the following:
-$
+$ 
 $  MESSAGES xx-yy IN SET zz WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-$
+$ 
 $  3. Messages that should not be localized.
-$
+$ 
 $     These messages are identified by the following:
-$
+$ 
 $  DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGES xx-yy from set zz
-$
+$ 
 $ ***** END (NOTE FOR MESSAGE CATALOG TRANSLATORS) *****
-$
+$ 
 $ ******************************************************************************
 
 $quote "
@@ -67,12 +67,12 @@ $ ** 							     **
 $ *************************************************************
 $ Warning messages
 $ Note: do not localize the chars %s
-$
+$ 
 $quote
 1 workAreaLocationリソースの設定が無効です。
 
 $ Label values
-$
+$ 
 2 プリンタの追加...
 3 ファイルに出力
 4 ファイルの選択...
@@ -91,7 +91,7 @@ $ Note: do not localize the chars %s
 14 印刷の設定モードは変更できません。
 
 $ Label values
-$
+$ 
 15 情報...
 
 $ Warning messages
@@ -108,7 +108,7 @@ $ Note: do not localize the chars %s
 25 リソース切り替えのための引き数は必要ありません。
 
 $ Label values
-$
+$ 
 26 プリンタ選択エラー
 
 $ Warning messages
@@ -116,7 +116,7 @@ $ Note: do not localize the chars %s
 27 プリンタを見つけられません。
 
 $ Label values
-$
+$ 
 28 説明を取得できません
 29 選択ファイル
 30 プリンタ情報
@@ -135,19 +135,19 @@ $ ** 							     **
 $ ** _DtPrint Frame GUI messages			     **
 $ ** 							     ** 
 $ *************************************************************
-$
+$ 
 $quote "
 
 $ Label values for Margin Frame
-$
+$ 
 1 "マージン"
 2 "上:"
 3 "右:"
 4 "下:"
 5 "左:"
-$
+$ 
 $ Label values for Header/Footer Frame
-$
+$ 
 6 "ヘッダとフッタ"
 7 "左上:"
 8 "右上:"
@@ -160,7 +160,7 @@ $ ** 							     **
 $ ** Dt Print Dialog Manager Job Options GUI messages        **
 $ ** 							     ** 
 $ *************************************************************
-$
+$ 
 $quote
 
 $ Label values for Margin Frame

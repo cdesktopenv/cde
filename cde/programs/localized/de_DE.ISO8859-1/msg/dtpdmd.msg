@@ -29,19 +29,19 @@ $ *****************************************************************************
 $set 1
 
 $    /* NL_COMMENT
-$
+$ 
 $	General Translator Comments
-$
+$ 
 $       - The acronyms "pdm" and "PDM" are used in several
 $         messages, and were derived from the english phrase
 $         "Print Dialog Manager". The acronyms should not be
 $         localized.
-$
+$ 
 $       - The acronym "pdmd" is used in several messages,
 $         and was derived from the english phrase "Print
 $         Dialog Manager Daemon". The acronym should not be
 $         localized.
-$
+$ 
 $     */
 1 Gebrauch: %1$s [Optionen]\n\
 \n\
@@ -61,13 +61,13 @@ wobei [Optionen] miteinschließt:\n\
 4 %s: Fehler, kann kein Xt signal pipe erstellen\n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "SelectionRequest" in
 $         messages 5, 6 and 7.
-$
+$ 
 $       - Do not translate the word "XmbTextPropertyToTestList"
 $         in message 7.
-$
+$ 
 $     */
 5 %s: Fehler, Zugang zu SelectionRequest property nicht möglich\n
 
@@ -78,21 +78,21 @@ $     */
 8 %s: Fehler, erstellen einer message pipe nicht möglich\n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "fork" in message 9.
-$
+$ 
 $     */
 9 %s: Fehler, fork nicht möglich\n
 
 10 %1$s: Fehler, kann \"%2$s\" nicht ausführen \n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "exec" in message 11.
-$
+$ 
 $       - Do not translate the words "-display" or
 $         "-vdisplay" in message 11.
-$
+$ 
 $     */
 11 %1$s: exec Meldung in %2$s eingetragen\n\
    exec Fehlermeldung = \"%3$s\"\n\
@@ -110,12 +110,12 @@ Meldung an den anfordernden Klienten im Auftrag des\n\
 PDM wegen eines XIO-Fehlers nicht schicken\n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "stderr" in message 14.
-$
+$ 
 $       - Do not translate the words "-display" or
 $         "-vdisplay" in message 14.
-$
+$ 
 $     */
 14 %1$s: pdm Meldung in %2$s eingetragen\n\
    pdm       = \"%3$s\"\n\

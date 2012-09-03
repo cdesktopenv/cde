@@ -29,19 +29,19 @@ $ *****************************************************************************
 $set 1
 
 $    /* NL_COMMENT
-$
+$ 
 $	General Translator Comments
-$
+$ 
 $       - The acronyms "pdm" and "PDM" are used in several
 $         messages, and were derived from the english phrase
 $         "Print Dialog Manager". The acronyms should not be
 $         localized.
-$
+$ 
 $       - The acronym "pdmd" is used in several messages,
 $         and was derived from the english phrase "Print
 $         Dialog Manager Daemon". The acronym should not be
 $         localized.
-$
+$ 
 $     */
 1 Sintassi: %1$s [opzioni]\n\
 \n\
@@ -61,13 +61,13 @@ dove [opzioni] includono:\n\
 4 %s: errore, impossibile creare Xt signal pipe\n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "SelectionRequest" in
 $         messages 5, 6 and 7.
-$
+$ 
 $       - Do not translate the word "XmbTextPropertyToTestList"
 $         in message 7.
-$
+$ 
 $     */
 5 %s: errore, impossibile ottenere la caratteristica SelectionRequest\n
 
@@ -78,21 +78,21 @@ $     */
 8 %s: errore, impossibile creare pipe di messaggi\n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "fork" in message 9.
-$
+$ 
 $     */
 9 %s: errore, fork impossibile\n
 
 10 %1$s: errore, impossibile eseguire \"%2$s\" \n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "exec" in message 11.
-$
+$ 
 $       - Do not translate the words "-display" or
 $         "-vdisplay" in message 11.
-$
+$ 
 $     */
 11 %1$s: messaggio exec registrato a %2$s\n\
    messaggio di errore exec = \"%3$s\"\n\
@@ -110,12 +110,12 @@ Causa: errore generato X.\n
 Causa: errore XIO.\n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "stderr" in message 14.
-$
+$ 
 $       - Do not translate the words "-display" or
 $         "-vdisplay" in message 14.
-$
+$ 
 $     */
 14 %1$s: messaggio pdm registrato a %2$s\n\
    pdm              = \"%3$s\"\n\

@@ -1,27 +1,27 @@
-$
+$ 
 $   COMPONENT_NAME: desktop
-$
+$ 
 $   FUNCTIONS: none
-$
+$ 
 $   ORIGINS: 27,118,119,120,121
-$
+$ 
 $   This module contains IBM CONFIDENTIAL code. -- (IBM
 $   Confidential Restricted when combined with the aggregated
 $   modules for this product)
 $   OBJECT CODE ONLY SOURCE MATERIALS
-$
+$ 
 $   (C) COPYRIGHT International Business Machines Corp. 1995
 $   All Rights Reserved
 $   US Government Users Restricted Rights - Use, duplication or
 $   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-$
-$
+$ 
+$ 
 $ +SNOTICE
-$
+$ 
 $  $TOG: DtMail.msg /main/41 1999/09/14 15:46:38 mgreess $
-$
+$ 
 $  RESTRICTED CONFIDENTIAL INFORMATION:
-$
+$ 
 $  The information in this document is subject to special
 $  restrictions in a confidential disclosure agreement between
 $  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
@@ -29,13 +29,13 @@ $  document outside HP, IBM, Sun, USL, SCO, or Univel without
 $  Sun's specific written approval.  This document and all copies
 $  and derivative works thereof must be returned or destroyed at
 $  Sun's request.
-$
+$ 
 $  Copyright 1993, 1994, 1995 Sun Microsystems, Inc.  All rights reserved.
-$
+$ 
 $ +ENOTICE
-$
+$ 
 $		     Common Desktop Environment
-$
+$ 
 $   (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
 $   (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
 $   (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
@@ -44,15 +44,15 @@ $   (c) Copyright 1995 Digital Equipment Corp.
 $   (c) Copyright 1995 Fujitsu Limited
 $   (c) Copyright 1995 Hitachi, Ltd.
 $                                                                   
-$
+$ 
 $                     RESTRICTED RIGHTS LEGEND                              
-$
+$ 
 $ Use, duplication, or disclosure by the U.S. Government is subject to
 $ restrictions as set forth in subparagraph (c)(1)(ii) of the Rights in
 $ Technical Data and Computer Software clause in DFARS 252.227-7013.  Rights
 $ for non-DOD U.S. Government Departments and Agencies are as set forth in
 $ FAR 52.227-19(c)(1,2).
-$
+$ 
 $ Hewlett-Packard Company, 3000 Hanover Street, Palo Alto, CA 94304 U.S.A.
 $ International Business Machines Corp., Route 100, Somers, NY 10589 U.S.A. 
 $ Sun Microsystems, Inc., 2550 Garcia Avenue, Mountain View, CA 94043 U.S.A.
@@ -63,7 +63,7 @@ $ Hitachi, Ltd., 6, Kanda Surugadai 4-Chome, Chiyoda-ku, Tokyo 101, Japan
 
 $quote "
 
-$
+$ 
 $ Strings from dtmail/RoamApp.C
 
 $set 1
@@ -77,7 +77,7 @@ $      */
 4 "属性の更新中..."
 
 
-$
+$ 
 $ Strings from dtmail/RoamMenuWindow.C
 
 5 "取消し"
@@ -173,7 +173,7 @@ $ 	 */
 79 "変換中... %d パーセント完了"
 80 "メール・プログラム"
 
-$
+$ 
 $ Strings from dtmail/AttachArea.C
 
 81 "メール・プログラム"
@@ -181,7 +181,7 @@ $ Strings from dtmail/AttachArea.C
 83 "メール・プログラム"
 
 
-$
+$ 
 $ Strings from dtmail/Attachment.C
 
 84 "%s は、実行可能なアタッチメントです。このアタッチメントを実行しますか?"
@@ -191,7 +191,7 @@ $ Strings from dtmail/Attachment.C
 88 "メール・プログラム"
 
 
-$
+$ 
 $ Strings from dtmail/RoamCmds.C
 
 89 "メール・プログラム - 他のメールボックス"
@@ -227,7 +227,7 @@ $ 	     */
 109 "休暇中です。\n\"$SUBJECT\" についてのあなたのメールは、休暇終了後に読みます。\n"
 
 
-$
+$ 
 $ Strings from dtmail/MsgScrollingList.C
 
 110 "N" 
@@ -265,13 +265,13 @@ $  */
 114 "N" 
 
 
-$
+$ 
 $ Strings from dtmail/Undelete.C
 
 115 "削除の取消し"
 116 "閉じる"
 
-$
+$ 
 $ Strings from dtmail/SendMsgDialog.C
 
 $ 	    /* NL_COMMENT
@@ -343,7 +343,7 @@ $        * Compose Window.  This message replaces message 151 in set 1.
 $        */
 
 
-$
+$ 
 $ Strings from dtmail/ViewMsgDialog.C
 
 161 "コピー(C)"
@@ -365,7 +365,7 @@ $ Strings from dtmail/ViewMsgDialog.C
 177 "メール・プログラム"
 
 
-$
+$ 
 $ Strings from dtmail/DtMailGenDialog.C
 
 $  /* NL_COMMENT
@@ -376,7 +376,7 @@ $   * 178 and 179 are obsolete messages, replaced by messages
 181 "了解"
 182 "取消し"
 
-$
+$ 
 $ Strings from dtmail/FindDialog.C
 
 183 "検索"
@@ -400,7 +400,7 @@ $   */
 
 
 
-$
+$ 
 $ Strings from dtmail/Editor.C
 
 195 "------------- 転送メッセージ  ここから -------------\n\n"
@@ -408,19 +408,19 @@ $ Strings from dtmail/Editor.C
 197 "------------- 転送メッセージ  ここまで -------------\n\n"
 198 "------------- 取込みメッセージ  ここまで -------------\n\n"
 
-$
+$ 
 $ Strings from dtmail/XmTextEditor.C
 
 199 "\n------------- 取込みメッセージ  ここから -------------\n"
 200 "\n------------- 取込みメッセージ  ここまで -------------\n"
 
-$
+$ 
 $ Strings from dtmail/DtEditor.C
 
 201 "\n------------- 取込みメッセージ  ここから -------------\n"
 202 "\n------------- 取込みメッセージ  ここまで -------------\n"
 
-$
+$ 
 $ Strings from dtmail/ComposeCmds.C
 
 203 "メール・プログラム"
@@ -440,7 +440,7 @@ $ Strings from dtmail/ComposeCmds.C
 217 "メール・プログラム"
 218 "テンプレートが壊れているようです。"
 
-$
+$ 
 $ Strings from dtmail/SortCmd.C
 
 219 "ソート中..."
@@ -512,33 +512,33 @@ $   */
 237 "コピー"
 
 
-$
+$ 
 $ DTMC_BADSTATE
 $ The mailbox is in a state which cannot be deciphered by the Mailer, i.e.
 $ portions of the file have been deleted by another process (the Mailer
 $ only knows how to handle other processes adding to the end of the mailbox.
-$
+$ 
 $ "-NEW"
 238 "Mailer is confused about the state of this mailbox.\nIt may be that another process has rewritten this mailbox in an unexpected way.\n\nSelecting OK will cause the Mailer to close and reopen the mailbox.\nNOTE that any changes made to the mailbox since the last save may be lost."
 
-$
+$ 
 $ DTMC_ACCESSFAILED
 $ The Mailer cannot perform routine file operations on the mailbox file,
 $ a.k.a. stat, fstat, write, ...
-$
+$ 
 $ "-NEW"
 239 "Mailer can no longer access this mailbox.\nIt may be that another process has deleted the mailbox file.\n\nSelecting OK will cause the Mailer to close and reopen the mailbox.\nNOTE that any changes made to the mailbox since the last save may be lost.\n\nSelecting CANCEL will leave the mailbox unchanged."
 
-$
+$ 
 $ DTMC_INODECHANGED
 $ The mailbox has been rewritten by another process.
-$
+$ 
 $ "-NEW"
 240 "Mailer can no longer access this mailbox.\nAnother process has rewritten the mailbox file changing the inode.\n\nSelecting OK will cause the Mailer to close and reopen the mailbox.\nNOTE that any changes made to the mailbox since the last save may be lost.\n\nSelecting CANCEL will leave the mailbox unchanged."
 
-$
+$ 
 $ Messages 241-244 are header field labels for SendMsgDialog.
-$
+$ 
 $ "-NEW"
 241 "To"
 $ "-NEW"
@@ -548,31 +548,31 @@ $ "-NEW"
 $ "-NEW"
 244 "Bcc"
 
-$
+$ 
 $ Message 245 is the label for the Open command in the File menu
 $ Message 246 is the label for the command in the OpenContainer menu
 $	which opens Mailboxes not in the users folder list.
-$
+$ 
 $ "-NEW"
 245 "開く"
 $ "-NEW"
 246 "他のメールボックス..."
 
-$
+$ 
 $ Message 247 is the label for the command in the Aliases menu
 $	which opens the MailOptions dialog allowing the user to create
 $	other aliases.
 $ Message 248 is the label for the Aliases popup menu
-$
+$ 
 $ "-NEW"
 247 "Other Aliases..."
 $ "-NEW"
 248 "Mailer - Aliases"
 
-$
+$ 
 $ Messages 249-255 are strings used to generate attachment summaries
 $                  in included messages.
-$
+$ 
 $ "-NEW"
 249 "------------- Begin Included Attachment -------------\n\n" 
 $ "-NEW"
@@ -673,9 +673,9 @@ $ 	 */
 メール・オプションの環境は現在のセッションでは適用されますが、\n\
 ファイルに保存はされません。"
 
-$
+$ 
 $ Messages for file locking dialog displayed from the Advanced option pane.
-$
+$ 
 $ "-NEW"
 26 "The value of the file locking option has changed.\nTo take immediate effect, folders need to be closed and reopened.\n  o Click on 'Reopen' to reopen folders,\n    making the new option take effect immediately.\n  o Click on 'Continue' to avoid reopening folders.\n    The new option will take effect the next time you open a folder.\n  o Click on 'Cancel' to cancel the Apply and return to editing options."
 $ "-NEW"
@@ -685,9 +685,9 @@ $ "-NEW"
 $ "-NEW"
 29 "Cancel"
 
-$
+$ 
 $ Messages for ToolTalk errors.
-$
+$ 
 $ "-NEW"
 30 "%s returned ToolTalk error: %s\n"
 
@@ -857,27 +857,27 @@ $         */
 95 "読み取り専用"
 96 "読み取り-書き込み"
 
-$
+$ 
 $ "-NEW"
-$
+$ 
 $ This message appears when dtmail tries to open a mailbox which has been
 $ opened by another dtmail process.
-$
+$ 
 $ Parameters:
 $   1.  Error message saying that the <mailbox>.dtmail lockfile has been found.
 $   2.  The mailbox path.
 $   3.  "OK"
 $   4.  "Cancel"
 $   5.  The <mailbox>.dtmail lockfile path.
-$
+$ 
 97 "%s\n\nThis may indicate that another Mailer has opened\n%s\n\nYou may open this mailbox READ ONLY by choosing '%s'.\n\nOtherwise, you may choose '%s',\nmake sure that another Mailer has not opened this mailbox,\ndelete %s,\nand reopen this mailbox."
 
-$
+$ 
 $ "-NEW"
-$
+$ 
 $ Messages 98-100 check for problems in the paths specified by users of
 $ the file selection box.
-$
+$ 
 98 "Search permission denied on a component of the path prefix,\n'%s'."
 99 "A component of the path prefix is not a directory,\n'%s'."
 100 "A component of the path prefix does not exist,\n'%s'."
@@ -938,7 +938,7 @@ $set 13
 1 "作成できません。"
 2 "書き込めません。"
 
-$
+$ 
 $ Strings from dtmail/AttachCmds.C
 
 $set 14
@@ -958,9 +958,9 @@ $set 15
 1 "変更内容をまだ保存していません。\n変更内容を保存するか、変更を破棄するか、\nまたはダイアログ内で以前の場所に戻ることができます。"
 2 "保存"
 3 "破棄"
-$
+$ 
 $ The followings are added by IBM for 41J release
-$
+$ 
 $set 20
 1 "メールボックス %s は、すでに開いています。"
 $ The above message is used in RoamMenuWindow::open
@@ -972,17 +972,17 @@ $ see AIX cmvc defect 176608
 $ The above message is used in RoamMenuWindow::mapnotify()
 $ see AIX cmvc defect 176608
 
-$
+$ 
 $	SETS 21 - 25 WERE ADDED TO SUPPORT CDEnext PRINTING
-$
+$ 
 $	The following set was added to support CDEnext printing based on
 $	the Xp Print Server.
-$
+$ 
 $set 21
-$
+$ 
 $	Messages 1 - 11 are used in DmxPrintJob.
-$
-$
+$ 
+$ 
 $	This is the status message that gets displayed in the MainWindow
 $	and RoamMenuWindow status lines when a print job is being executed.
 $	%s = the name of the temporary file containing the message(s) to be
@@ -991,7 +991,7 @@ $	printed.
 
 $	Messages 2 - 4 are used in the error popup which gets displayed
 $	when an invalid margin specifier has been supplied by the user.
-$
+$ 
 $	Message 2 is the actual error messagactual error message
 $	Message 3 is the title which is displayed in the error popup.
 $	Message 4 is the label on the OK button of the error popup.
@@ -1002,7 +1002,7 @@ $	Message 4 is the label on the OK button of the error popup.
 
 $	Messages 5 - 11 are format string used to construct the header
 $	and footer strings which appear in the printing output.
-$
+$ 
 $	Message 5 is the format string used to make a Cc header/footer.
 $	Message 6 is the format string used to make a Date header/footer.
 $	Message 7 is the format string used to make a From header/footer.
@@ -1018,11 +1018,11 @@ $	Message 11 is the format string used to make a UserName header/footer.
 10 "Page %d of %d"
 11 "Mail For:  %s"
 
-$
+$ 
 $	Messages 12 - 13, 20 are used in DmxPrintSetup to construct the
 $	app-specific printing options for DtMail which will be included
 $	in the DtPrintSetupBox.
-$
+$ 
 $	Message 12 is the label used on the Toggle Button to indicate that
 $	multiple messages should be printed in separate spool jobs.
 $	Message 13 is the label used on the Toggle Button to indicate that
@@ -1033,7 +1033,7 @@ $	"wrapped" to the next line.
 
 
 $	Messages 14 - 15 are status messages for the PrintToFile function.
-$
+$ 
 $	Message 14 indicates that the PrintToFile function was unsuccessful.
 $	Message 15 indicates that the PrintToFile function was successful.
 14 "'ファイルに出力'不成功でした。"
@@ -1041,9 +1041,9 @@ $	Message 15 indicates that the PrintToFile function was successful.
 
 $       NL_COMMENT 
 $          Messages 16 - 19 are obsolete, and have been replaced by 24
-$
+$ 
 $	Messages 16 - 19 are status messages for the popup PDM function.
-$
+$ 
 $	Message 16 indicates that there was no pdm deamon running.
 $	Message 17 indicates that the pdm deamon was unable to start a pdm.
 $	Message 18 indicates that the pdm couldnt connect to the video display.
@@ -1075,14 +1075,14 @@ $       Messages 24 & 25 are used to handle errors from the PDM
 25	"継続"
 
 
-$
+$ 
 $	The messages in this set are used in pulldown menu for the
 $	header/footer $	frame which is part of the "Printing" pane
 $	in the Options dialog.
-$
+$ 
 $	Messages 1 - 8 are used in DmxPrintOptions.
-$
-$
+$ 
+$ 
 $	Message 1 specifies that the page header/footer field be empty.
 $	Message 2 put the Cc msg header in the page header/footer field.
 $	Message 3 put the Date msg header in the page header/footer field.
@@ -1101,18 +1101,18 @@ $set 22
 7 "ページ番号"
 8 "ユーザ名"
 
-$
+$ 
 $	The messages in this set are used in pulldown menu for the
 $	Printed Message Headers option which is part of the "Printing" pane
 $	in the Options dialog.
-$
+$ 
 $	Messages 1 - 4 are used in DmxPrintOptions.
-$
+$ 
 $	Message 1 don't print any message headers.
 $	Message 2 print the "standard" msg headers (To, From, Subject, Cc).
 $	Message 3 print the "abbreviated" msg headers as defined by the user.
 $	Message 4 print all message headers.
-$
+$ 
 $set 23
 
 1 "なし"
@@ -1120,19 +1120,19 @@ $set 23
 3 "略記"
 4 "すべて"
 
-$
+$ 
 $	The messages in this set are used in pulldown menu for the
 $	Printed Message Headers option which is part of the "Printing" pane
 $	in the Options dialog.
-$
+$ 
 $	Messages 1 - 5 are used in DmxPrintOptions.
-$
+$ 
 $	Message 1 use a New Line (CRLF) to separate multiple messages.
 $	Message 2 use a Blank Line (2xCRLF) to separate multiple messages.
 $	Message 3 use a Line of characters to separate multiple messages.
 $	Message 4 start each new message on a new page.
 $	Message 5 print each message in it's own spool job.
-$
+$ 
 $set 24
 1 "改行"
 2 "空行"
@@ -1140,32 +1140,32 @@ $set 24
 4 "改ページ"
 5 "新規ジョブ"
 
-$
+$ 
 $	The following set was added to support CDEnext printing based on
 $	the Xp Print Server.
-$
+$ 
 $	Messages 1 - 2 are used in DmxPrintOptions.
-$
-$
+$ 
+$ 
 $set 25
-$
+$ 
 $	Label for the option menu used to specify which message headers are
 $	printed.
 1 "メッセージ・ヘッダの印刷:  "
-$
+$ 
 $	Label for the option menu used to specify which how multiple messages
 $	are separated.
 2 "複数メッセージの分け方:  "
 
-$
+$ 
 $	The following set was added to support CDEnext printing based on
 $	the Xp Print Server.
-$
+$ 
 $	Messages 1-4 are used in error dialogs to indicate an invalid
 $		     entry for margin specifiers in the printing options pane.
 $	Message 5 is the label string on the button to dismiss the error dialog.
-$
-$
+$ 
+$ 
 $set 26
 1 "上マージンの指定は無効です。:  "
 2 "左マージンの指定は無効です。:  "
@@ -1173,15 +1173,15 @@ $set 26
 4 "右マージンの指定は無効です。:  "
 5 "続く"
 
-$
+$ 
 $	The following set was added to support the Mail Retrieval option pane.
-$
+$ 
 $	Messages 1-5 Used in the Server Protocol option menu to indicate the
 $		     set of mail server network protocols which are supported.
 $	Messages 6-15 Are used to label the options in the pane.
-$
+$ 
 $ "-NEW"
-$
+$ 
 $set 27
 1 "Auto"
 2 "POP3"

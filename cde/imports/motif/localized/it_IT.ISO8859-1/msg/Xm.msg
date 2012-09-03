@@ -1,11 +1,11 @@
 $ $XConsortium: Xm.msg /main/11 1996/12/06 13:57:25 rws $
-$
+$ 
 $  @OSF_COPYRIGHT@
 $  COPYRIGHT NOTICE
 $  Copyright (c) 1990, 1991, 1992, 1993 Open Software Foundation, Inc.
 $  ALL RIGHTS RESERVED (MOTIF). See the file named COPYRIGHT.MOTIF for
 $  the full copyright text.
-$
+$ 
 
 $ This message catalog contains messages issued by Motif toolkit library.
 $ Consult X-Window systems, OSF/MOTIF Programmer's Guide and OSF/MOTIF

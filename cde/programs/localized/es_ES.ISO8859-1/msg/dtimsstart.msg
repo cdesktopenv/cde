@@ -52,4 +52,4 @@ $ 	error messages
 58 no hay ningún ims '%1$s' registrado en '%2$s'
 59 no se puede abrir la pantalla '%s'
 
-$
+$ 

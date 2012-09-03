@@ -197,21 +197,21 @@ der Option 'Zeilenumbruch an Fenster anpassen' ein Umbruch durchgeführt wurde."
 45 "Keine Zeilenumbruchzeichen hinzufügen. Es bleiben nur Zeilenumbrüche\n\
 erhalten, die durch Drücken der Rücklauftaste eingegeben wurden."
 
-$
+$ 
 $ New message as of 5/31/95 (i.e. new since Sample Implementation). This
 $ new message is in response to bug DTS CISlx19530.
-$
+$ 
 
 46 "Entweder ist die Datei nicht beschreibbar, oder der Pfad zu der Datei\nexistiert nicht."
 
-$
+$ 
 $ "-NEW"
-$
+$ 
 47 "Operation failed due to insufficient memory.\nTry increasing swap space."
 
-$
+$ 
 $ "-NEW"
-$
+$ 
 48 "Format operation failed."
 
 $set 6        Redefine set#
@@ -286,7 +286,7 @@ $ This should correspond to the default file name used in the "Save As"
 $ dialog box - specified in message 21 of set 5.
 
 6 "(UNBENANNT)"
-$
+$ 
 $ New messages (7,8) since CDE/SI - error gets displayed when user tries to run
 $ dtpad -server when and dtpad server process is already running on the
 $ $DISPLAY.
@@ -294,11 +294,11 @@ $ $DISPLAY.
 arbeitet bereits als Server für diese Anzeige."
 8 "FEHLER: Ein dtpad-Server\n\
 arbeitet bereits als Server für diese Anzeige."
-$
+$ 
 $ Message 9 is also new since CDE/SI - new as of 5/22/95.  It is a usage message
 $ for dtpad. Don't translate the '-OPTION' just the text explaining the
 $ option.
-$
+$ 
 9 "'%s' ist eine ungültige Option.\n\
 Syntax: %s...\n\
    -saveOnClose\n\
@@ -354,7 +354,7 @@ Syntax: %s...\n\
 \tOption -server verwendet werden, da sie nur auf den Server-Prozeß\n\
 \tanwendbar ist.\n\n\
 \tNähere Einzelheiten zu diesen Optionen enthält die Handbuchseite zu dtpad.\n\n"
-$
+$ 
 
 $ "NEW-"
 11 "Exiting text editor ..."
@@ -712,17 +712,17 @@ $ **
 $ ****************************************************************************
 $ ****************************************************************************
 $set 14
-$
+$ 
 $	Messages 1 - 11 are used in printJob.
-$
+$ 
 $	This is warning message is displayed when the user has provided
 $	a margin specifier in the PrintSetup dialog which cannot be parsed.
 $	
 1 "Die Syntax einer der folgenden Randangaben\n ist nicht korrekt: \n %s \n %s \n %s \n %s \nStattdessen Standardränder benutzen?"
-$
+$ 
 $	Messages 2 - 7 are messages for errors which can occur in the
 $	process of loading a dtpad document file for printing.	
-$
+$ 
 2 "Datei existiert nicht."
 3 "Angegebene Datei ist ein Verzeichnis."
 4 "Dateityp-Fehler."
@@ -732,7 +732,7 @@ $
 
 $	Messages 8 - 11 are format strings used to construct the header
 $	and footer strings which appear in the printing output.
-$
+$ 
 $	Message 8 is the format string used to make a Date header/footer.
 $	Message 9 is the format string used to make a DocName header/footer.
 $	Message 10 is the format string used to make a Page# header/footer.
@@ -742,11 +742,11 @@ $	Message 11 is the format string used to make a UserName header/footer.
 10 "Seite %d von %d"
 11 "Dokument für:  %s"
 
-$
+$ 
 $	Messages 12 - 13 are used in printSetup to construct the
 $	app-specific printing options for DtMail which will be included
 $	in the DtPrintSetupBox.
-$
+$ 
 $	Message 12 is the string labeling the field in the GUI which
 $	contains the name of the document.
 $	Message 13 is the label used on the Toggle Button to indicate that
@@ -757,7 +757,7 @@ $	"wrapped" to the next line.
 
 
 $	Messages 14 - 15 are status messages for the PrintToFile function.
-$
+$ 
 $	Message 14 indicates that the PrintToFile function was unsuccessful.
 $	Message 15 indicates that the PrintToFile function was successful.
 $	Messages 16 - 19 are status messages for the popup PDM function.
@@ -767,7 +767,7 @@ $               Set 1, Message 3.
 15 "'In Datei drucken' erfolgreich beendet."
 
 $          Messages 16 - 19 are obsolete, and have been replaced by 24
-$
+$ 
 $	Message 16 indicates that there was no pdm deamon running.
 $	Message 17 indicates that the pdm deamon was unable to start a pdm.
 $	Message 18 indicates that the pdm couldnt connect to the video display.
@@ -778,7 +778,7 @@ $	Message 19 indicates that the pdm couldnt connect to the print display.
 19 "PDM ist nicht zum Anschluß an einen Druckbildschirm berechtigt."
 
 $	Messages 20 - 22 are status messages displayed while printing
-$
+$ 
 $	Message 20 indicates that the user has asked to close the editor
 $		   window.  Dtpad is prevented from doing so until the
 $		   active print jobs have completed.
@@ -807,12 +807,12 @@ $ **	SET 15
 $ **
 $ ****************************************************************************
 $ ****************************************************************************
-$
+$ 
 $set 15
-$
+$ 
 $	Messages 1-5 are used in printSetup.c in the pulldown menu for the
 $	header/footer options in the print setup dialog.
-$
+$ 
 $	Message 1 specifies that the page header/footer field be empty.
 $	Message 2 put the Date in the page header/footer field.
 $	Message 3 put the Document Name in the page header/footer field.
@@ -826,7 +826,7 @@ $	Message 5 put the User Name msg header in the page header/footer field.
 
 $	Messages 6-9 are used to construct error messages informing users
 $	that they have input an invalid print page margin specification for 
-$
+$ 
 6 "Obere Randangabe ist ungültig:  "
 7 "Rechte Randangabe ist ungültig:  "
 8 "Untere Randangabe ist ungültig:  "

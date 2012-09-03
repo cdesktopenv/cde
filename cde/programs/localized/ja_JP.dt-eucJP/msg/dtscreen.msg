@@ -1,19 +1,19 @@
 $ $XConsortium: dtscreen.msg /main/6 1996/10/16 03:17:20 cde-hit $
 $ @(#)25	1.1.1.1  com/XTOP/aixclients/xlock/xlock.msg, xclients, r5gos325, 9333325d 5/6/93 20:13:37
-$
+$ 
 $ COMPONENT_NAME: dtscreen
-$
+$ 
 $ FUNCTIONS: dtscreen.msg
-$
-$
+$ 
+$ 
 $ (C) COPYRIGHT International Business Machines Corp. 1987, 1993
 $ All Rights Reserved
 $ Licensed Materials - Property of IBM
-$
+$ 
 $ US Government Users Restricted Rights - Use, duplication or
 $ disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-$
-$
+$ 
+$ 
 $ *                                                                      *
 $ * (c) Copyright 1993, 1994 Hewlett-Packard Company                     *
 $ * (c) Copyright 1993, 1994 International Business Machines Corp.       *

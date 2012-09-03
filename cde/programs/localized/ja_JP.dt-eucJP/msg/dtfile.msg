@@ -50,39 +50,39 @@ $ **  ----------------GENERAL LOCALIZATION NOTES SECTION END------------------
 $ *************************************<L>*************************************
 
 $ *****************************************************************************
-$
+$ 
 $ ***** NOTE FOR MESSAGE CATALOG TRANSLATORS *****
-$
+$ 
 $ There may be three types of messages in this file:
-$
+$ 
 $ 1. Messages that appear in dialogs or are displayed to the user.
-$
+$ 
 $     These messages are the default and they should ALL BE LOCALIZED.
 $     Note that these messages do NOT have any identification (see the
 $     comments for type 2 and 3 below).
-$
+$ 
 $ 2. Messages that only appear in the DT error log file ($HOME?.dt/errorlog).
-$
+$ 
 $     The localization of these messages is OPTIONAL.  These messages are
 $     identified by the following:
-$
+$ 
 $     MESSAGES xx-yy WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-$
+$ 
 $ 3. Messages that should not be localized.
-$
+$ 
 $     These messages are identified by the following:
-$
+$ 
 $     DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGES xx-yy
-$
+$ 
 $ ***** END (NOTE FOR MESSAGE CATALOG TRANSLATORS) *****
-$
+$ 
 $ ********** PROLOGUE ****************
 $  Date    Name               Note
 $ ======== =================  ===============================================
 $ 03/25/93 H. Amro            removed the guilty $ from message 30
-$
-$
-$
+$ 
+$ 
+$ 
 $ *****************************************************************************
 
 $set 2
@@ -214,9 +214,9 @@ $ Window title for overwrite dialogs
 38 %s\nはすでに存在します。別の名前を指定してください。
 39 %s\nの名前を \n%s に変更できません。\n%s
 40 オブジェクトの置換 - エラー
-$
+$ 
 $ 41 Got obsoleted - Don't use.
-$
+$ 
 51 コピー中
 52 移動中
 53 リンク中
@@ -613,9 +613,9 @@ $ Messages 9, 14, 16, 28, and 30-36 are file manipulation error messages
 14 フォルダの位置を見つけることができません。
 16 フォルダを、それ自体の中に移動することはできません。\n%s
 28 %s を見つけることができません。
-$
+$ 
 $ 29 Got obsoleted - Don't use.
-$
+$ 
 30 フォルダ %s の移動またはフォルダ名の変更ができません。\n\
 フォルダまたはサブフォルダに表示されるすべてのファイル・マネージャ表示は、\n\
 フォルダを移動またはフォルダ名を変更する前に閉じなければなりません。
@@ -682,9 +682,9 @@ $
 予想される原因は、ソースオブジェクトを移動する許可が\n\
 ユーザにないことです。
 
-$
+$ 
 $ Messages 51 - 56 are new since CDE/SI.   
-$
+$ 
 51 コピーしているディスク上でディスクの割当ての限度を超えているため、\n\
 ファイルをコピーすることができません。
 52 移動しているディスク上でディスクの割当ての限度を超えているため、\n\
@@ -701,7 +701,7 @@ $
 58 Process Create Error
 59 Cannot create a child process to delete the dropped files.
 
-$
+$ 
 $set 12
 $ ****** Module: FileMgr.c ****(developer comment only)********
 
@@ -783,12 +783,12 @@ $ Messages 30-40 and 42 are labels for the Find Files dialog
 
 14 開始
 15 終了
-$
+$ 
 $ 18 Got obsoleted - Don't use.
-$
-$
+$ 
+$ 
 $ 19 Got obsoleted - Don't use.
-$
+$ 
 23 検索情報が無効です。\n\n\
 検索するフォルダを指定しなければなりません。
 26 検索情報が無効です。\n\n\
@@ -1000,7 +1000,7 @@ $ MESSSAGE 39 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 まず、すべてのファイル・マネージャのウィンドウとオブジェクトを\n\
 ワークスペースから消してください。
 
-$
+$ 
 $ "-NEW"
 40 "Could not connect to ToolTalk:\n%s\nExiting ..."
 
@@ -1533,7 +1533,7 @@ $ Messages 5-8 are the labels and mnemonics for the Workspace obj popup menu
 両方のオブジェクトをワークスペース上に置くには、どちらかのオブジェクト名\n\
 を変更してください。
 
-$
+$ 
 $ Messages 12 and 13 are new messages since the CDE/Sample.
 
 12 無効なワークスペースが渡されました。\n\

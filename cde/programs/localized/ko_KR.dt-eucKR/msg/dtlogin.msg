@@ -39,7 +39,7 @@ $ **  ----------------GENERAL LOCALIZATION NOTES SECTION END------------------
 $ *************************************<L>*************************************
 $set 1
 $ set 1 is labels
-$
+$ 
 $ messages 1 through 6 are button labels on the login screen
 1 사용자 이름을 입력하십시오.
 2 암호를 입력하십시오.
@@ -47,30 +47,30 @@ $ messages 1 through 6 are button labels on the login screen
 4 처음부터 다시
 5 선택사항
 6 도움말
-$
+$ 
 $ messages 7 through 11 are options button menu items
-$
+$ 
 7 로그인 화면 다시 설정  
 8 명령 행 로그인
 9 버전...
 10 단일 창 세션
 11 언어
-$
+$ 
 $ messages 12 through 14 are miscellaneous button labels
-$
+$ 
 12 DT 시작
 13 취소
 14 도움말
-$
+$ 
 $ message 15, 17 are more option button menu items
 $ message 16 is the welcome message
-$
+$ 
 15 DT Lite 세션
 16 환영합니다.
 17 일반 데스크탑
-$
+$ 
 $ message 18-24
-$
+$ 
 18 * 데스크탑 로그인 일시중단...\r\n*\r\n
 19 * 로그인 프롬프트를 원하면 [Enter]를 누르십시오.\r\n*\r\n
 20 * 로그인. 데스크탑 로그인은 로그아웃 직후에 다시 계속됩니다.\r\n*\r\n
@@ -80,22 +80,22 @@ $
 24 * X-server는 디스플레이 %1$s에서 시작할 수 없습니다...\r\n*\r\n
 $ messages 25 is a options button menu item
 25 세션
-$
+$ 
 $ 26 replaces 16 as the greeting after a user name has been
 $ entered. The %s is replaced by the user name.
-$
+$ 
 26 %s 사용자를 환영합니다.
 
-$
+$ 
 $  Sun specific message catalog id numbers in MC_LABEL_SET messages.
 $  (Starting at a random uneven higher number, 73, to allow some room
 $  for some shared sample source message additions.
-$
+$ 
 73 사용자의 이전 데스크탑
 
 $set 2
 $ set 2 is error messages
-$
+$ 
 1 로그인이 잘못되었습니다. 다시 해 주십시오.
 2 홈 디렉토리로 바꿀 수 없습니다.
 3 죄송합니다. 최대 사용자 수가 이미 로그인했습니다.
@@ -121,7 +121,7 @@ $ the language.
 16 dtlogin: 루틴의 메모리가 부족합니다.\n
 $set 3
 $ set 3 is help text
-$
+$ 
 $ message 1 is generated when the help button on the login screen is clicked.
 1 \n\
 로그인 도움말:\n\
@@ -213,7 +213,7 @@ $ message 3 is generated when the help button on the chooser screen is clicked.
 
 $set 4
 $ set 4 is log error messages
-$
+$ 
 
 1 사용 파일 \"%1$s\", 호스트 \"%2$s\"을(를) 찾을 수 없습니다.\n
 2 ReadHostEntry\n

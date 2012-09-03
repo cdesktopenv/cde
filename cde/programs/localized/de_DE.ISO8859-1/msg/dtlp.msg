@@ -38,9 +38,9 @@ $ *************************************<L>*************************************
 $quote "
 
 $set 1
-$
+$ 
 $  -- The first group of messages all appear on the Print dialog --
-$
+$ 
 $  This is the message that appears in the "Printer:" field when no
 $  printer name has been specified.
 
@@ -85,9 +85,9 @@ $  This is the label on the right button. Pushing this button causes a
 $  help dialog to be posted.
 
 120 "Hilfe"
-$
+$ 
 $  -- The following are error messages. --
-$
+$ 
 $  This message is posted when there is a problem with the file specified.
 $  The file name will be appended to the message. One additional message
 $  from the list below will also be included in the dialog to provide
@@ -111,9 +111,9 @@ $  This is the label that appears in the title bar of the error dialog.
 160 "Information drucken"
 $   ???SL: please check
 
-$
+$ 
 $  -- Strings used in the Print dialog and Select Printer dialog in CDEnext --
-$
+$ 
 $  This is the label for the field indicating the file(s) that will be printed.
 170 "Dateiname(n): "
 
@@ -127,9 +127,9 @@ $  This is the label for the printer list in the Select Printer dialog.
 $  This is the label for the text box in the Select Printer dialog.
 200 "Druckerinformation:"
 
-$
+$ 
 $  -- The following are error messages added for CDEnext --
-$
+$ 
 $  File is not printable or does not exist.
 210 "Diese Datei ist entweder nicht druckbar oder sie existiert nicht."
 

@@ -1,19 +1,19 @@
 $ $XConsortium: dtcreate.msg /main/3 1995/11/08 13:32:50 rswiston $
 $ %Z%%M%        %I%  %W% %G% %U%
-$
+$ 
 $   COMPONENT_NAME: dtcreate
-$
+$ 
 $   FUNCTIONS: none
-$
+$ 
 $   ORIGINS: 27
-$
-$
+$ 
+$ 
 $   (C) COPYRIGHT International Business Machines Corp. 1993
 $   All Rights Reserved
 $   Licensed Materials - Property of IBM
 $   US Government Users Restricted Rights - Use, duplication or
 $   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-$
+$ 
 $ **   Description:
 $ **   ------------
 $ **   This is the source message catalog file for dtcreate.
@@ -106,96 +106,96 @@ $ **
 $ *****************************************************************************
 10 Funktionsnamnet saknas.\n\
 Skriv ett namn i fältet 'Funktionsnamn'.
-$
+$ 
 15 Exekveringskommandot saknas.\n\
 Skriv ett kommando i fältet\n\
 'Kommando när funktionsikonen öppnas (dubbelklickas)'.
-$
+$ 
 20 Listan 'Datatyper som använder funktionen' är tom.\n\
 Du har markerat 'Endast ovanstående lista' i\n\
 fältet 'Släppbara datatyper'.\n\
 Ändra alternativet till 'Alla datatyper'\n\
 eller lägg till minst en datatyp i listan.
-$
+$ 
 25 Det finns redan en definitionsfil för funktioner och\n\
 datatyper för detta funktionsnamn.\n\
 Du kan avbryta Spara och ändra funktionsnamnet\n\
 eller skriva över den befintliga definitionsfilen.\n\
 Vill du skriva över den befintliga filen?
-$
+$ 
 30 Det saknas ett variabelnamn i fältet\n\
 'Kommando när funktionsikonen öppnas (dubbelklickas)'.\n\
 Lägg till ett variabelnamn för det namn du har angivit\n\
 i fältet 'Fråga användarna efter följande när funktionen öppnas'.\n\
 Giltiga variabelnamn är $*, $1, $2, ..., $9.
-$
+$ 
 35 Dessa ändringar har inte sparats.\n\
 Vill du spara ändringarna innan du avslutar?
-$
+$ 
 40 De aktuella ändringarna har inte sparats.\n\
 Vill du spara funktionen innan du tar bort\n\
 fälten och anger en ny funktion?
-$
+$ 
 45 De aktuella ändringarna har inte sparats.\n\
 Vill du spara ändringarna innan du tar bort\n\
 fälten för att ladda en annan definitionsfil för funktioner?
-$
+$ 
 50 Funktionsnamnet innehåller ett eller flera\n\
 ogiltiga tecken.\n\
 Följande tecken får inte användas i namn:\n\
   / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
-$
+$ 
 55 Det gick inte att skapa följande fil:
-$
+$ 
 60 Det gick inte att öppna följande fil:
-$
+$ 
 65 Det gick inte att ladda följande fil eftersom den\n\
 inte har skapats av verktyget Skapa funktion:
-$
+$ 
 66 Det gick inte att ladda filen eftersom den har ändrats\n\
 på något annat sätt än med Skapa funktion. Filen kan ha\n\
 ändrats med en textredigerare eller något annat verktyg.
-$
+$ 
 67 Skapa funktion kan bara redigera filer som har skapats\n\
 och redigerats med Skapa funktion.
-$
+$ 
 68 Det gick inte att ladda följande fil:
-$
+$ 
 $  The following messages are all part of the same message dialog
 70 Den nya funktionen
 71 har placerats i hemmappen.
 73 Den nya definitionsfilen för funktioner heter:
-$
+$ 
 80 Det gick inte att hitta alla storlekar av ikonen\n\
 som du har markerat.
-$
+$ 
 85 Det gick inte att starta ikonredigeraren.
-$
+$ 
 90 Det gick inte att analysera följande fil:
-$
+$ 
 95 Det gick inte att hitta följande ikonfil i ikonsökvägen:\n\
-$
+$ 
 98 Ikonen som du har markerat finns inte i ikonsökvägen.\n\
 Du måste flytta ikonen till en katalog i ikonsökvägen\n\
 så att den kan visas på rätt sätt på skrivbordet.\n\
 Välj 'OK' om du vill använda ikonen.\n\
 Välj 'Avbryt' om du vill markera en annan ikon.
-$
+$ 
 $ ONLY TRANSLATE  "Usage"  and  "filename"
 110 Syntax: dtcreate [<filnamn>] [-?]
-$
+$ 
 120 Du har inte markerat någon datatyp\n\
 i listan 'Datatyper som använder funktionen'.
 125 Markera den datatyp som du vill ta bort.
 130 Markera den datatyp som du vill redigera.
-$
+$ 
 150 Det aktuella arbetet har inte sparats.
 152 Spara inte
 154 Avbryt Stäng
-$
+$ 
 160 Det går inte att spara sessionen i filen:
 162 Det går inte att återställa sessionen från filen:
-$
+$ 
 $ TRANSLATORS: DO NOT TRANSLATE the word "HOME" in the following message
 170 HOME miljövariabeln är inte angiven.\n\
 HOME miljövariabel måste anges för att den\n\
@@ -249,17 +249,17 @@ $ **
 $ *****************************************************************************
 10 Namnet på datatypsfamiljen saknas.\n\
 Skriv ett namn i fältet 'Namn på datatypsfamilj'.
-$
+$ 
 15 De särskilda egenskaperna saknas.\n\
 Du måste ange egenskaperna innan datatypen kan skapas.\n\
 Du anger egenskaperna genom att välja knappen Redigera\n\
 bredvid listan Särskilda egenskaper.
-$
+$ 
 20 Fältet 'Namn på datatypsfamilj' innehåller ett eller flera\n\
 ogiltiga tecken.\n\
 Följande tecken får inte användas i namn:\n\
   / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
-$
+$ 
 25 Det finns redan en datatypsfamilj med detta namn.\n\
 Ändra namnet i fältet 'Namn på datatypsfamilj'.\n\
 
@@ -303,38 +303,38 @@ $ **
 $ *****************************************************************************
 10 Namnmönstret saknas.\n\
 Om du har markerat Namnmönster måste du ange ett namnmönster.\n\
-$
+$ 
 15 Alternativet Behörighet saknas.\n\
 Om du har markerat Behörighetsmönster måste\n\
 du markera ett eller flera av alternativen\n\
 under Behörighetsmönster.
-$
+$ 
 20 Innehållsmönstret saknas.\n\
 Om du har markerat Innehåll måste du\n\
 fylla i fältet Mönster under Innehåll.
-$
+$ 
 25 Värdet på start-byte saknas.\n\
 Om du har markerat Innehåll måste du\n\
 ange ett värde i fältet 'Start-byte'.
-$
+$ 
 30 Du har inte markerat någon egenskap.\n\
 Markera en eller flera av egenskaperna\n\
 Namnmönster, Behörighetsmönster eller Innehåll.
-$
+$ 
 45 Namnmönstret innehåller ett eller flera\n\
 ogiltiga tecken.\n\
 Följande tecken får inte användas\n\
 i namnmönster:\n\
   / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
-$
+$ 
 46 Innehållsmönstret matchar inte formatet på\n\
 den innehållstyp som du har markerat.\n\
 Ändra formatet på innehållsmönstret eller\n\
 ändra typen så att den matchar innehållsmönstret.
-$
+$ 
 47 Fältet 'Start-byte' innehåller ogiltiga tecken.\n\
 Detta fält får bara innehålla tal i decimalform.
-$
+$ 
 48 När du anger innehållsmönstret kan det hända att\n\
 filhanteraren blir betydligt långsammare.\n\
 Filhanteraren måste nämligen söka igenom innehållet\n\

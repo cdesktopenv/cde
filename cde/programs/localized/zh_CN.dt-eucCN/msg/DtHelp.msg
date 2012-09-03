@@ -40,13 +40,13 @@ $ *************************************<+>*************************************
 
 $set 2
 $ *****  Module: HelpDialog.c  and a few from HelpQuickD.c *****
-$
+$ 
 $ These Messages appear in the pulldown menus for Cde Help General Help
 $ dialog widget.
-$
+$ 
 $ They come in pairs where the first is the menu name (e.g. 1 Print...) and the
 $ second is the mnemonic (e.g. 2 P).  
-$
+$ 
 $ Messages 1 through 6 are the pulldown menus for the File menu.
 1 打印...
 2 P
@@ -80,7 +80,7 @@ $ Messages 17 through 28 are the pulldown menus for the Help menu.
 26 M
 27 关于提示
 28 A
-$
+$ 
 $ Messages 29 through 36 are the menu labels and mnemonics for for the 
 $ Help Dialog.
 29 文件
@@ -93,42 +93,42 @@ $ Help Dialog.
 36 H
 37 编辑
 38 E
-$
-$
+$ 
+$ 
 $ >>>>> Skip #39 through #49
-$
+$ 
 $ Messages 50 through 55 are used to display formatting errors within the
 $ help dialog and quick help dialog widgets.
-$
+$ 
 50 字符串数据不能被格式化。
 51 动态字符串数据不能被格式化。
 52 手册页不能被格式化。请求的手册页或者不在，或者被毁坏。
 53 文本文件数据不能被格式化。请求的文本文件或者不在，或者被毁坏。
 54 提示题目不能被格式化。
 55 不存在的定位标识符：
-$
+$ 
 $ Messages 56 and 67 are displayed when a hypertext link type is selected but
 $ not supported within the current application.
-$
+$ 
 56 选择的超文本链接在此应用程序中不被支持。
 57 到手册页的链接在此应用程序中不被支持。
-$
+$ 
 $ Messages 58 through 62  are used when bad or null help volumes or 
 $ locationId's are used.
-$
+$ 
 58 请求的联机提示没有安装，或者不处在合适的提示搜索路径上。 要获取关于安装联机提示的信息，请查看本产品的文档。\n
 59 定位标识符没有指定。
 60 提示卷没有指定。
 61 提示卷：
 62 定位标识符：
-$
+$ 
 $ >>>>> Skip #63 through #69
-$
-$
+$ 
+$ 
 $ Message 70 is used when a null value for DtNtopicTitle is used.
-$
+$ 
 70 不存在的题目标题。
-$
+$ 
 $ New messages added after early msg cat freeze; not in order
 80 指定的提示类型是非法的。
 

@@ -47,7 +47,7 @@ $ *************************************<L>*************************************
 
 $set 1
 $ set 1 is labels
-$
+$ 
 $ messages 1 through 6 are button labels on the login screen
 
 1 ユーザ名を入力してください　
@@ -57,9 +57,9 @@ $ messages 1 through 6 are button labels on the login screen
 5 オプション
 6 ヘルプ
 
-$
+$ 
 $ messages 7 through 11 are options button menu items
-$
+$ 
 
 7 ログイン画面のリセット
 8 コマンド行ログイン
@@ -68,25 +68,25 @@ $ message 10 is replaced by 27
 10 復旧セッション
 11 言語
 
-$
+$ 
 $ messages 12 through 14 are miscellaneous button labels
-$
+$ 
 12 DT の開始
 13 取消し
 14 ヘルプ
 
 
-$
+$ 
 $ message 15, 17 are more option button menu items 
 $ message 16 is the welcome message
-$
+$ 
 15 DT Lite セッション
 16 ようこそ！
 17 通常のデスクトップ
 
-$
+$ 
 $ message 18-24
-$
+$ 
 18 * Suspending Desktop Login...\r\n*\r\n
 19 * Press [Enter] for a login prompt.\r\n*\r\n
 20 * Log in. Desktop Login will resume shortly after you log out.\r\n*\r\n
@@ -98,30 +98,30 @@ $
 $ messages 25 is a options button menu item
 25 セッション
 
-$
+$ 
 $ 26 replaces 16 as the greeting after a user name has been 
 $ entered. The %s is replaced by the user name.
-$
+$ 
 26 ようこそ %s
-$
+$ 
 $ 27 replaces 10 as the label for the failsafe option menu item
-$
+$ 
 27 復旧セッション
 
-$
+$ 
 $  Sun specific message catalog id numbers in MC_LABEL_SET messages.
 $  (Starting at a random uneven higher number, 73, to allow some room  
 $  for some shared sample source message additions. 
-$
+$ 
 73 ユーザが最後に使ったデスクトップ
-$
+$ 
 $  Following used in Language menu.  
 $  "to" used in phrases like "ja to zh" locales
 74 to
 
 $set 2
 $ set 2 is error messages
-$
+$ 
 
 1 ログインが正しくありません。再度行って下さい。
 2 ホーム・ディレクトリへ移動できません。
@@ -187,30 +187,30 @@ $ message 1 is generated when the help button on the login screen is clicked.
 
 
 $ Comments for messsage #1:
-$
+$ 
 $ Under [Options] there is an item called "Session".  Under
 $ Session there are five items and these items have been
 $ translated in other files.  To be consistent with the other
 $ translations, the translations used below should be the same
 $ as the other translations.  The items and their file are
 $ listed below:
-$
+$ 
 $   1. Current   - _common.session.tmsg ; set 1, message 2
-$
+$ 
 $   2. Home      - _common.session.tmsg ; set 1, message 1
-$
+$ 
 $   3. <display-name> - Current   - <display-name> on the options
 $         menu will be replaced with the workstations display
 $         name so does not need to be translated.  "Current" should
 $         be the same as _common.session.tmsg ; set 1, message 2
-$
+$ 
 $   4. <display-name> - Home      - <display-name> on the options
 $         menu will be replaced with the workstations display
 $         name so does not need to be translated.  "Home" should
 $         be the same as _common.session.tmsg ; set 1, message 1
-$
+$ 
 $ 1 NEW-
-$
+$ 
 $ 1 \n\
 $ Login Help:\n\
 $ \n\
@@ -306,7 +306,7 @@ $ message 3 is generated when the help button on the chooser screen is clicked.
 
 $set 4
 $ set 4 is log error messages
-$
+$ 
 
 1 アクセス・ファイル \"%1$s\"、ホスト \"%2$s\" が見つかりません。\n
 2 ReadHostEntry\n

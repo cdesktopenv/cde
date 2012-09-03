@@ -1,10 +1,10 @@
-$
+$ 
 $ +SNOTICE
-$
+$ 
 $  $TOG: DtMail.msg /main/4 1998/05/22 17:06:52 rafi $
-$
+$ 
 $  RESTRICTED CONFIDENTIAL INFORMATION:
-$
+$ 
 $  The information in this document is subject to special
 $  restrictions in a confidential disclosure agreement between
 $  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
@@ -12,15 +12,15 @@ $  document outside HP, IBM, Sun, USL, SCO, or Univel without
 $  Sun's specific written approval.  This document and all copies
 $  and derivative works thereof must be returned or destroyed at
 $  Sun's request.
-$
+$ 
 $  Copyright 1993, 1994, 1995 Sun Microsystems, Inc.  All rights reserved.
-$
+$ 
 $ +ENOTICE
-$
+$ 
 
 $quote "
 
-$
+$ 
 $ Strings from dtmail/RoamApp.C
 
 $set 1
@@ -34,7 +34,7 @@ $ 	     */
 4 "특성 갱신..."
 
 
-$
+$ 
 $ Strings from dtmail/RoamMenuWindow.C
 
 5 "취소"
@@ -128,7 +128,7 @@ $ 	     */
 79 "변환중... %d 퍼센트 완료"
 80 "우편 시스템"
 
-$
+$ 
 $ Strings from dtmail/AttachArea.C
 
 81 "우편 시스템"
@@ -136,7 +136,7 @@ $ Strings from dtmail/AttachArea.C
 83 "우편 시스템"
 
 
-$
+$ 
 $ Strings from dtmail/Attachment.C
 
 84 "%s은(는) 실행할 수 있는 별첨입니다. 수행하겠습니까?"
@@ -146,7 +146,7 @@ $ Strings from dtmail/Attachment.C
 88 "우편 시스템"
 
 
-$
+$ 
 $ Strings from dtmail/RoamCmds.C
 
 89 "우편 시스템 - 기타 우편함"
@@ -177,7 +177,7 @@ $ 	     */
 109 "I'm on vacation.\nYour mail regarding \"$SUBJECT\" will be read when I return.\n"
 
 
-$
+$ 
 $ Strings from dtmail/MsgScrollingList.C
 
 110 "N"
@@ -215,13 +215,13 @@ $  */
 114 "N"
 
 
-$
+$ 
 $ Strings from dtmail/Undelete.C
 
 115 "복원"
 116 "닫기"
 
-$
+$ 
 $ Strings from dtmail/SendMsgDialog.C
 
 $ 	    /* NL_COMMENT
@@ -293,7 +293,7 @@ $        * Compose Window.  This message replaces message 151 in set 1.
 $        */
 
 
-$
+$ 
 $ Strings from dtmail/ViewMsgDialog.C
 
 161 "복사하기C"
@@ -315,7 +315,7 @@ $ Strings from dtmail/ViewMsgDialog.C
 177 "우편 시스템"
 
 
-$
+$ 
 $ Strings from dtmail/DtMailGenDialog.C
 
 $  /* NL_COMMENT
@@ -326,7 +326,7 @@ $   * 178 and 179 are obsolete messages, replaced by messages
 181 "예"
 182 "취소"
 
-$
+$ 
 $ Strings from dtmail/FindDialog.C
 
 183 "찾기"
@@ -350,7 +350,7 @@ $   */
 
 
 
-$
+$ 
 $ Strings from dtmail/Editor.C
 
 195 "------------- 전달된 메세지 시작 -------------\n\n"
@@ -358,19 +358,19 @@ $ Strings from dtmail/Editor.C
 197 "------------- 전달된 메세지 종료 -----------\n\n"
 198 "------------- 포함된 메세지 종료 ----------\n\n"
 
-$
+$ 
 $ Strings from dtmail/XmTextEditor.C
 
 199 "\n------------- 포함된 메세지 시작 -------------\n"
 200 "\n------------- 포함된 메세지 종료 ------------\n"
 
-$
+$ 
 $ Strings from dtmail/DtEditor.C
 
 201 "\n------------- 포함된 메세지 시작 -------------\n"
 202 "\n------------- 포함된 메세지 종료 ------------\n"
 
-$
+$ 
 $ Strings from dtmail/ComposeCmds.C
 
 203 "우편 시스템"
@@ -390,7 +390,7 @@ $ Strings from dtmail/ComposeCmds.C
 217 "우편 시스템"
 218 "해당 원형은 손상된 것으로 나타납니다."
 
-$
+$ 
 $ Strings from dtmail/SortCmd.C
 
 219 "분류..."
@@ -699,7 +699,7 @@ $set 13
 1 "만들 수 없습니다."
 2 "쓸 수 없습니다."
 
-$
+$ 
 $ Strings from dtmail/AttachCmds.C
 
 $set 14

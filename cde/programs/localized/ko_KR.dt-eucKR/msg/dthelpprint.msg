@@ -44,11 +44,11 @@ $quote "
 
 $set 2
 $ *****  Module: PrintUtil.c *****
-$
+$ 
 
 $set 3
 $ *****  Module: PrintTopics.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s 오류: helpType은 도움말 볼륨이지만, helpVolume을 지정하지 않았습니다.\n"
 2 "%s 오류: 도움말 볼륨 %s을(를) 찾을 수 없습니다.\n"
@@ -72,7 +72,7 @@ $ string used by can't get a topic title associated with an index subentry
 
 $set 4
 $ *****  Module: PrintManStrFile.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s 오류: helpType은 문자열이지만, stringData를 지정하지 않았습니다.\n"
 2 "%s 오류: helpType은 동적 문자열이지만 stringData를 지정하지 않았습니다.\n"
@@ -82,7 +82,7 @@ $ ** LOCALIZE THESE MESSAGES **
 
 $set 5
 $ *****  Module: Initialize.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 $ Messages 1 to 29: dthelpprint usage message
 $ **DO NOT LOCALIZE** the command line option names (e.g. -copies).
@@ -130,7 +130,7 @@ $ arg order: directory prefix processid filecnt suffix
 
 $set 6
 $ *****  Module: Main.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s 오류: 잘못된 helpType %d\n"
 

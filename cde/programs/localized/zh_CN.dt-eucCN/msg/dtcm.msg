@@ -62,7 +62,7 @@ $set	1
 110 "日历出错"
 113 "日历"
 $		/* NL_COMMENT
-$
+$ 
 $		   Message 113 : ``Calendar'' is used in the main titlebar
 $		   of the tool: Calendar : user@host.
 $		 */
@@ -93,10 +93,10 @@ $		 */
 138 "星期天"
 $	 /* NL_COMMENT
 $	    Attention Translator:
-$
+$ 
 $	    The strings (message number 138-144) are abbreviations to
 $	    the days of the week:
-$
+$ 
 $	         Sun --> Sunday
 $	         Mon --> Monday
 $	         Tue --> Tuesday
@@ -105,7 +105,7 @@ $	         Thu --> Thursday
 $	         Fri --> Friday
 $	         Sat --> Saturday
 $	         Sun --> Sunday
-$
+$ 
 $	 */
 139 "星期一"
 140 "星期二"
@@ -123,10 +123,10 @@ $	 */
 154 "S"
 $	/* NL_COMMENT
 $	   Attention Translator:
-$
+$ 
 $	   The strings (message number 154-160, 168) are one letter
 $	   abbreviations to the days of the week:
-$
+$ 
 $	        S --> Sunday (message 154)
 $	        M --> Monday
 $	        T --> Tuesday
@@ -134,7 +134,7 @@ $	        W --> Wednesday
 $	        T --> Thursday
 $	        F --> Friday
 $	        S --> Saturday (message 160)
-$
+$ 
 $	*/
 155 "M"
 156 "T"
@@ -145,10 +145,10 @@ $	*/
 170 "SUN"
 $	/* NL_COMMENT
 $	   Attention Translator:
-$
+$ 
 $	   The strings (message number 170-176) are abbreviations to
 $	   the days of the week:
-$
+$ 
 $	        SUN --> Sunday
 $	        MON --> Monday
 $	        TUE --> Tuesday
@@ -156,7 +156,7 @@ $	        WED --> Wednesday
 $	        THU --> Thursday
 $	        FRI --> Friday
 $	        SAT --> Saturday
-$
+$ 
 $	*/
 171 "MON"
 172 "TUE"
@@ -650,30 +650,30 @@ $	*/
 992 "%A, %B %e, %Y"
 $	/* NL_COMMENT
 $	   Attention Translator:
-$
+$ 
 $	   This string is used in the calendar day view.  In the C locale
 $	   it has the form:
-$
+$ 
 $	        Monday, January 16, 1995
-$
+$ 
 $	   strftime conversion string: "%A, %B %e, %Y" is used.
-$
+$ 
 $	   Use the appropriate strftime conversion for your locale.
 $	*/
 993 "Week Starting %A, %B %e, %Y"
 $	/* NL_COMMENT
 $	   Attention Translator:
-$
+$ 
 $	   This string is used in the calendar week view.  In the C locale
 $	   it has the form:
-$
+$ 
 $	                Monday, January 16, 1995
-$
+$ 
 $	   strftime conversion string: "%A, %B %e, %Y" is used.  The string
 $	   will be used in a label that looks like this:
-$
+$ 
 $	                Week Starting Monday, January 16, 1995
-$
+$ 
 $	   Use the appropriate strftime conversion for your locale.
 $	*/
 994 "日"
@@ -700,40 +700,40 @@ $	*/
 1046 "日程被取消\n"
 1047 "该日程: '%s' has an end\n"
 $	/* NL_COMMENT
-$
+$ 
 $	   The following four messages (1047-1050) will be printed to stdout
 $	   and can have the following two forms:
-$
+$ 
 $	   	"This appointment: '<appt text>' has an end
 $	         time earlier than its begin time.  Do you
 $	         want to schedule it into the next day? [Y/N]  "
-$
+$ 
 $	   or
-$
+$ 
 $	   	"This appointment has an end
 $	         time earlier than its begin time.  Do you
 $	         want to schedule it into the next day? [Y/N]  "
-$
+$ 
 $	   The text <appt text> and [Y/N] should not be translated.
-$
-$
+$ 
+$ 
 $	*/
 1048 "这个日程有结尾\n"
 1049 "时间比它的开始时间早.  你\n"
 1050 "想安排它到第二天吗? [Y/N]  "
 1051 "该日程 '%s' 是重复系列的一部分.  "
 $      /* NL_COMMENT
-$
+$ 
 $	    Message numbers 1051-1057 are printed to stdout a nd
 $	    should appear like:
-$
+$ 
 $      	"The appointment '<appt text>' is part of a repea ting series. Do you want to:
 $	         1.  Delete all of them
 $	         2.  Delete this on only
 $	         3.  Delete forward
 $	         4.  Cancel
 $	         Option [1-4]: "
-$
+$ 
 $	 */
 1052 "你想:"
 1053 "\n\t1.  全部删除"

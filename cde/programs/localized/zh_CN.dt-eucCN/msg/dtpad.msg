@@ -185,10 +185,10 @@ $ label specified in message 110 of set 11.
 $ Labels for add/don't-add newlines radio buttons in the SaveAs and Save dialogs
 44 在折行的行尾增加新行字符（newline）。
 45 不增加新行字符。只有用 [Return] 键建立的行分隔符被保留。
-$
+$ 
 $ New message as of 5/31/95 (i.e. new since Sample Implementation). This
 $ new message is in response to bug DTS CISlx19530.
-$
+$ 
 46 文件不能写或文件不存在。
 
 $set 6
@@ -243,7 +243,7 @@ $ Default file name used in the main window title.
 $ This should correspond to the default file name used in the "Save As"
 $ dialog box - specified in message 21 of set 5.
 6 (未命名的)
-$
+$ 
 $ New messages (7,8) since CDE/SI - error gets displayed when user tries to run
 $ dtpad -server when and dtpad server process is already running on the
 $ $DISPLAY.
@@ -251,11 +251,11 @@ $ $DISPLAY.
 已经用于该显示。
 8 错误: 一个 dtpad 服务程序已经\n\
 用于该显示。
-$
+$ 
 $ Message 9 is also new since CDE/SI - new as of 5/22/95.  It is a usage message
 $ for dtpad. Don't translate the '-OPTION' just the text explaining the
 $ option.
-$
+$ 
 9 '%s' 是一个错误的选项。\n\
 用法: %s...\n\
    -saveOnClose\n\
@@ -298,7 +298,7 @@ $
 \t程序进程。它只是在使用 -server 选项时才有用, 因为它只用于服\n\
 \t务程序进程。\n\n\
 有关这些选项的详细说明, 请参阅 dtpad 联机手册。\n\n
-$
+$ 
 
 
 $set 10

@@ -1,10 +1,10 @@
-$
+$ 
 $ +SNOTICE
-$
+$ 
 $  $TOG: DtMail.msg /main/4 1998/05/22 17:08:11 rafi $
-$
+$ 
 $  RESTRICTED CONFIDENTIAL INFORMATION:
-$
+$ 
 $  The information in this document is subject to special
 $  restrictions in a confidential disclosure agreement between
 $  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
@@ -12,15 +12,15 @@ $  document outside HP, IBM, Sun, USL, SCO, or Univel without
 $  Sun's specific written approval.  This document and all copies
 $  and derivative works thereof must be returned or destroyed at
 $  Sun's request.
-$
+$ 
 $  Copyright 1993, 1994, 1995 Sun Microsystems, Inc.  All rights reserved.
-$
+$ 
 $ +ENOTICE
-$
+$ 
 
 $quote "
 
-$
+$ 
 $ Strings from dtmail/RoamApp.C
 
 $set 1
@@ -34,7 +34,7 @@ $ 	     */
 4 "ÖÖÍÌÊÕä»Äã..."
 
 
-$
+$ 
 $ Strings from dtmail/RoamMenuWindow.C
 
 5 "Ì½Ö¼"
@@ -128,7 +128,7 @@ $ 	     */
 79 "÷ËßÐÄã... ÉùÈ© %d %%"
 80 "çÙÄÍâÓÇµ"
 
-$
+$ 
 $ Strings from dtmail/AttachArea.C
 
 81 "çÙÄÍâÓÇµ"
@@ -136,7 +136,7 @@ $ Strings from dtmail/AttachArea.C
 83 "çÙÄÍâÓÇµ"
 
 
-$
+$ 
 $ Strings from dtmail/Attachment.C
 
 84 "%s ÑÒÄ¡Ô¶Æ«ÙÚÈçÎûÏáúèæÒåô¡¤  ÚÀã÷ÙÚÈçãÃ?"
@@ -146,7 +146,7 @@ $ Strings from dtmail/Attachment.C
 88 "çÙÄÍâÓÇµ"
 
 
-$
+$ 
 $ Strings from dtmail/RoamCmds.C
 
 89 "çÙÄÍâÓÇµ - Ì§ÅìâÓî®"
@@ -177,7 +177,7 @@ $ 	     */
 109 "Ê¼ÆßÇãÇ²ØõåµÄã¡¤\ná«Ê¼ÇßËôÑ¥¡¢äÄïåûôÚÀØÊËôÈ´ùÃ \"$SUBJECT\" ÎûâÓÇµ¡¤\n"
 
 
-$
+$ 
 $ Strings from dtmail/MsgScrollingList.C
 
 110 "N"
@@ -215,13 +215,13 @@ $  */
 114 "N"
 
 
-$
+$ 
 $ Strings from dtmail/Undelete.C
 
 115 "Ì½Ö¼É´Øæ"
 116 "ùÃÝð"
 
-$
+$ 
 $ Strings from dtmail/SendMsgDialog.C
 
 $ 	    /* NL_COMMENT
@@ -293,7 +293,7 @@ $        * Compose Window.  This message replaces message 151 in set 1.
 $        */
 
 
-$
+$ 
 $ Strings from dtmail/ViewMsgDialog.C
 
 161 "îïêû"
@@ -315,7 +315,7 @@ $ Strings from dtmail/ViewMsgDialog.C
 177 "çÙÄÍâÓÇµ"
 
 
-$
+$ 
 $ Strings from dtmail/DtMailGenDialog.C
 
 $  /* NL_COMMENT
@@ -326,7 +326,7 @@ $   * 178 and 179 are obsolete messages, replaced by messages
 181 "íýÌù"
 182 "Ì½Ö¼"
 
-$
+$ 
 $ Strings from dtmail/FindDialog.C
 
 183 "ÞòÊÆ"
@@ -349,7 +349,7 @@ $   * This message replaces message 184 in set 1
 $   */
 
 
-$
+$ 
 $ Strings from dtmail/Editor.C
 
 195 "------------- Begin Forwarded Message -------------\n\n" 
@@ -357,34 +357,34 @@ $ Strings from dtmail/Editor.C
 197 "------------- End Forwarded Message -------------\n\n" 
 198 "------------- End Included Message -------------\n\n" 
 
-$
+$ 
 $ Strings from dtmail/XmTextEditor.C
 
 199 "\n------------- Begin Included Message -------------\n" 
 200 "\n------------- End Included Message -------------\n" 
 
-$
+$ 
 $ Strings from dtmail/DtEditor.C
 
 201 "\n------------- Begin Included Message -------------\n" 
 202 "\n------------- End Included Message -------------\n" 
 
-$
+$ 
 $ Strings from dtmail/Editor.C
 $ 195 "------------- ÷ËØÊØ¹ÕÉâäÌî -------------\n\n"
 $ 196 "------------- ÉÖÑÄØ¹ÕÉâäÌî -------------\n\n"
 $ 197 "------------- ÷ËØÊØ¹ÕÉá¸ÊÖ -------------\n\n"
 $ 198 "------------- ÉÖÑÄØ¹ÕÉá¸ÊÖ -------------\n\n"
-$
+$ 
 $ Strings from dtmail/XmTextEditor.C
 $ 199 "\n------------- ÉÖÑÄØ¹ÕÉâäÌî -------------\n"
 $ 200 "\n------------- ÉÖÑÄØ¹ÕÉá¸ÊÖ -------------\n"
-$
+$ 
 $ Strings from dtmail/DtEditor.C
 $ 201 "\n------------- ÉÖÑÄØ¹ÕÉâäÌî -------------\n"
 $ 202 "\n------------- ÉÖÑÄØ¹ÕÉá¸ÊÖ -------------\n"
 
-$
+$ 
 $ Strings from dtmail/ComposeCmds.C
 
 203 "çÙÄÍâÓÇµ"
@@ -404,7 +404,7 @@ $ Strings from dtmail/ComposeCmds.C
 217 "çÙÄÍâÓÇµ"
 218 "í¼Î²ÈýÅçÄØä´äÚ¡¤"
 
-$
+$ 
 $ Strings from dtmail/SortCmd.C
 
 219 "ÚêÊ©Äã..."
@@ -712,7 +712,7 @@ $set 13
 1 "àÒÎÎÐúÇ¡"
 2 "àÒÎÎìÑÄ«"
 
-$
+$ 
 $ Strings from dtmail/AttachCmds.C
 
 $set 14

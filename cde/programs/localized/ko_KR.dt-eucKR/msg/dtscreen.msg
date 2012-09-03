@@ -1,21 +1,21 @@
 $ $XConsortium: dtscreen.msg /main/3 1995/12/08 09:35:56 rswiston $
 $ @(#)25   1.1.1.1  com/XTOP/aixclients/xlock/xlock.msg, xclients, r5gos325, 9333325d 5/6/93 20:13:37
-$
+$ 
 $ COMPONENT_NAME: dtscreen
-$
+$ 
 $ FUNCTIONS: dtscreen.msg
-$
-$
+$ 
+$ 
 $ (C) COPYRIGHT International Business Machines Corp. 1987, 1993
 $ All Rights Reserved
 $ Licensed Materials - Property of IBM
-$
+$ 
 $ US Government Users Restricted Rights - Use, duplication or
 $ disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-$
+$ 
 $quote "
 
-$
+$ 
 $set 2
 $ message file created 1993
 1 "1386-101 %s:  잘못된 명령 행 선택사항 \"%s\"\n\n"

@@ -61,7 +61,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 
 $ Messages 4 and 5 are both used when there is a syntax error on
 $ the command line invoking dthello
-$
+$ 
 4 使用方法: %s [-display <ディスプレイ>] [-fg <フォアグラウンド・カラー>] [-bg <バックグラウンド・カラー>]\\\n
 5 [-font <フォント>] [-string <メッセージ>] [-file <ファイル名>] [-timeout <秒数>]\n
 

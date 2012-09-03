@@ -24,32 +24,32 @@ $ ** (c) Copyright 1996 Hitachi.
 $ **
 $ *****************************************************************************
 $ *****************************************************************************
-$
+$ 
 $ ***** NOTE FOR MESSAGE CATALOG TRANSLATORS *****
 $ 
 $ There may be three types of messages in this file:
-$
+$ 
 $ 1. Messages that appear in dialogs or are displayed to the user.
-$
+$ 
 $     These messages are the default and they should ALL BE LOCALIZED.
 $     Note that these messages do NOT have any identification (see the
 $     comments for type 2 and 3 below).
-$
+$ 
 $ 2. Messages that only appear in the DT error log file ($HOME/.dt/errorlog).
-$
+$ 
 $     The localization of these messages is OPTIONAL.  These messages are
 $     identified by the following:
-$
+$ 
 $  MESSAGES xx-yy IN SET zz WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-$
+$ 
 $ 3. Messages that should not be localized.  
-$
+$ 
 $     These messages are identified by the following:
-$
+$ 
 $  DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGES xx-yy from set zz
-$
+$ 
 $ ***** END (NOTE FOR MESSAGE CATALOG TRANSLATORS) *****
-$
+$ 
 $ ******************************************************************************
 $ *************************************<L>*************************************
 $ **  -----------------GENERAL LOCALIZATION NOTES SECTION---------------------
@@ -605,9 +605,9 @@ $ Messages 13-16 are replacements for messages 5-8
 $set 19
 $ The set 19 contains messages for the I18N dialog
 
-$
+$ 
 $ Messsages 1 to 11 are labels displayed in the dialog.
-$
+$ 
 
 $ Message 1 is the title of the Dialog.
 1 Style Manager - Internationalization
@@ -651,10 +651,10 @@ $ selected element in the preedit Type list (meaning at the next
 $ position).
 11 Move Down
 
-$
+$ 
 $ Messages 20-21 are displayed in an warning dialog when the user
 $ hits the OK button.
-$
+$ 
 
 $ Message 20 appears when the user modifies the XmNpreeditType
 $ resource value, and the resource *writeXrdbImmediate is True.
@@ -668,9 +668,9 @@ $ resource value, and the resource *writeXrdbImmediate is False.
 21 Your selection will take effect\n\
 at your next session.
 
-$
+$ 
 $ Messages 30 to 41 appear as errors in Error Dialog.
-$
+$ 
 
 $ Do NOT localize the word HOME.
 30 The environment variable HOME is not defined.

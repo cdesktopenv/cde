@@ -234,17 +234,17 @@ $ // DTME_InternalAssertionFailure
 
 $ "-NEW"
 $ // - DTME_ResourceParsingNoEndif
-$
+$ 
 72 "An error occurred while parsing the .mailrc resource file.\nThere is a conditional if statement that does not have a corresponding endif statement.\n"
   
 $ "-NEW"
 $ // - DTME_AlreadyOpened
-$
+$ 
 73 "This mail folder is already opened."
 
 $ "-NEW"
 $ // - DTME_OutOfSpace
-$
+$ 
 74 "No Space on Temporary Filesystem."
 
 $ "-NEW"
@@ -336,7 +336,7 @@ $ // - DTME_MailServerAccessInfo_MessageTooLarge
 96 "Skipping oversized message (%d bytes)."
 
  
-$
+$ 
 $ Strings from libDtMail/Common/DtMailValuesBuiltin.C
 
 $set 2
@@ -347,7 +347,7 @@ $  */
 1 "%C" 
   
 
-$
+$ 
 $ SockOpen error strings from libDtMail/Common/IO.C
 
 $ "-NEW"
@@ -360,7 +360,7 @@ $ "-NEW"
 4 "Error connecting to socket:  %s"
 
 
-$
+$ 
 $ FileShare error strings from libDtMail/Common/FileShare.C
 
 $ "-NEW"

@@ -1,10 +1,10 @@
-$
+$ 
 $ +SNOTICE
-$
+$ 
 $  $TOG: DtMail.msg /main/43 1999/09/14 15:46:00 mgreess $
-$
+$ 
 $  RESTRICTED CONFIDENTIAL INFORMATION:
-$
+$ 
 $  The information in this document is subject to special
 $  restrictions in a confidential disclosure agreement between
 $  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
@@ -12,15 +12,15 @@ $  document outside HP, IBM, Sun, USL, SCO, or Univel without
 $  Sun's specific written approval.  This document and all copies
 $  and derivative works thereof must be returned or destroyed at
 $  Sun's request.
-$
+$ 
 $  Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
-$
+$ 
 $ +ENOTICE
-$
+$ 
 
 $quote "
 
-$
+$ 
 $ Strings from dtmail/RoamApp.C
 
 $set 1
@@ -30,7 +30,7 @@ $set 1
 4 "Aggiornamento delle caratteristiche..." 
 
 
-$
+$ 
 $ Strings from dtmail/RoamMenuWindow.C
 
 5 "Annullare" 
@@ -110,7 +110,7 @@ $ Strings from dtmail/RoamMenuWindow.C
 79 "Conversione in corso... %d percento" 
 80 "Gestione posta" 
 
-$
+$ 
 $ Strings from dtmail/AttachArea.C
 
 81 "Gestione posta" 
@@ -118,7 +118,7 @@ $ Strings from dtmail/AttachArea.C
 83 "Gestione posta" 
 
 
-$
+$ 
 $ Strings from dtmail/Attachment.C
 
 84 "%s è un allegato eseguibile. Confermare l'esecuzione?" 
@@ -128,7 +128,7 @@ $ Strings from dtmail/Attachment.C
 88 "Gestione posta" 
 
 
-$
+$ 
 $ Strings from dtmail/RoamCmds.C
 
 89 "Gestione posta - Altre caselle postali" 
@@ -159,7 +159,7 @@ $ 	     */
 109 "Sono assente.\nLeggerò i vostri messaggi su \"$SUBJECT\" al mio ritorno.\n" 
 
 
-$
+$ 
 $ Strings from dtmail/MsgScrollingList.C
 
 110 "N" 
@@ -197,13 +197,13 @@ $  */
 114 "N" 
 
 
-$
+$ 
 $ Strings from dtmail/Undelete.C
 
 115 "Ripristinare" 
 116 "Chiudere" 
 
-$
+$ 
 $ Strings from dtmail/SendMsgDialog.C
 
 117 "Inviare" 
@@ -261,7 +261,7 @@ $        * Compose Window.  This message replaces message 151 in set 1.
 $        */
 
 
-$
+$ 
 $ Strings from dtmail/ViewMsgDialog.C
 
 161 "Copiare" 
@@ -283,7 +283,7 @@ $ Strings from dtmail/ViewMsgDialog.C
 177 "Gestione posta" 
 
 
-$
+$ 
 $ Strings from dtmail/DtMailGenDialog.C
 
 178 "Gestione posta - Informazioni su Dtmail" 
@@ -292,7 +292,7 @@ $ Strings from dtmail/DtMailGenDialog.C
 181 "OK" 
 182 "Annullare" 
 
-$
+$ 
 $ Strings from dtmail/FindDialog.C
 
 183 "Ricercare" 
@@ -316,7 +316,7 @@ $   */
 
 
 
-$
+$ 
 $ Strings from dtmail/Editor.C
 
 195 "------------- Inizio messaggio inoltrato -------------\n\n" 
@@ -324,19 +324,19 @@ $ Strings from dtmail/Editor.C
 197 "------------- Fine messaggio inoltrato -------------\n\n" 
 198 "------------- Fine messaggio incluso -------------\n\n" 
 
-$
+$ 
 $ Strings from dtmail/XmTextEditor.C
 
 199 "\n------------- Inizio messaggio incluso -------------\n" 
 200 "\n------------- Fine messaggio incluso -------------\n" 
 
-$
+$ 
 $ Strings from dtmail/DtEditor.C
 
 201 "\n------------- Inizio messaggio incluso -------------\n" 
 202 "\n------------- Fine messaggio incluso -------------\n" 
 
-$
+$ 
 $ Strings from dtmail/ComposeCmds.C
 
 203 "Gestione posta" 
@@ -356,7 +356,7 @@ $ Strings from dtmail/ComposeCmds.C
 217 "Gestione posta" 
 218 "Il modello sembra danneggiato." 
 
-$
+$ 
 $ Strings from dtmail/SortCmd.C
 
 219 "Ordinamento in corso..." 
@@ -428,33 +428,33 @@ $   */
 237 "Copiare"
 
 
-$
+$ 
 $ DTMC_BADSTATE
 $ The mailbox is in a state which cannot be deciphered by the Mailer, i.e.
 $ portions of the file have been deleted by another process (the Mailer
 $ only knows how to handle other processes adding to the end of the mailbox.
-$
+$ 
 $ "-NEW"
 238 "Mailer is confused about the state of this mailbox.\nIt may be that another process has rewritten this mailbox in an unexpected way.\n\nSelecting OK will cause the Mailer to close and reopen the mailbox.\nNOTE that any changes made to the mailbox since the last save may be lost."
 
-$
+$ 
 $ DTMC_ACCESSFAILED
 $ The Mailer cannot perform routine file operations on the mailbox file,
 $ a.k.a. stat, fstat, write, ...
-$
+$ 
 $ "-NEW"
 239 "Mailer can no longer access this mailbox.\nIt may be that another process has deleted the mailbox file.\n\nSelecting OK will cause the Mailer to close and reopen the mailbox.\nNOTE that any changes made to the mailbox since the last save may be lost.\n\nSelecting CANCEL will leave the mailbox unchanged."
 
-$
+$ 
 $ DTMC_INODECHANGED
 $ The mailbox has been rewritten by another process.
-$
+$ 
 $ "-NEW"
 240 "Mailer can no longer access this mailbox.\nAnother process has rewritten the mailbox file changing the inode.\n\nSelecting OK will cause the Mailer to close and reopen the mailbox.\nNOTE that any changes made to the mailbox since the last save may be lost.\n\nSelecting CANCEL will leave the mailbox unchanged."
 
-$
+$ 
 $ Messages 241-244 are header field labels for SendMsgDialog.
-$
+$ 
 $ "-NEW"
 241 "A"
 $ "-NEW"
@@ -464,31 +464,31 @@ $ "-NEW"
 $ "-NEW"
 244 "Bcc"
 
-$
+$ 
 $ Message 245 is the label for the Open command in the File menu
 $ Message 246 is the label for the command in the OpenContainer menu
 $	which opens Mailboxes not in the users folder list.
-$
+$ 
 $ "-NEW"
 245 "Aprire" 
 $ "-NEW"
 246 "Altre caselle postali..." 
 
-$
+$ 
 $ Message 247 is the label for the command in the Aliases menu
 $	which opens the MailOptions dialog allowing the user to create
 $	other aliases.
 $ Message 248 is the label for the Aliases popup menu
-$
+$ 
 $ "-NEW"
 247 "Altre Alias..."
 $ "-NEW"
 248 "Gestione posta - Alias"
 
-$
+$ 
 $ Messages 249-255 are strings used to generate attachment summaries
 $                  in included messages.
-$
+$ 
 $ "-NEW"
 249 "------------- Begin Included Attachment -------------\n\n" 
 $ "-NEW"
@@ -583,9 +583,9 @@ $ 	 */
 24 "Uscire"
 25 "Errori gravi nel file ~/.mailrc \nÈ possibile applicare le impostazioni alla sessione \ncorrente però non sarà possibile salvarle su file." 
 
-$
+$ 
 $ Messages for file locking dialog displayed from the Advanced option pane.
-$
+$ 
 $ "-NEW"
 26 "The value of the file locking option has changed.\nTo take immediate effect, folders need to be closed and reopened.\n  o Click on 'Reopen' to reopen folders,\n    making the new option take effect immediately.\n  o Click on 'Continue' to avoid reopening folders.\n    The new option will take effect the next time you open a folder.\n  o Click on 'Cancel' to cancel the Apply and return to editing options."
 $ "-NEW"
@@ -595,9 +595,9 @@ $ "-NEW"
 $ "-NEW"
 29 "Cancel"
 
-$
+$ 
 $ Messages for ToolTalk errors.
-$
+$ 
 $ "-NEW"
 30 "%s returned ToolTalk error: %s\n"
 
@@ -765,27 +765,27 @@ $         */
 95 "Sola lettura"
 96 "Lettura-Scrittura"
 
-$
+$ 
 $ "-NEW"
-$
+$ 
 $ This message appears when dtmail tries to open a mailbox which has been
 $ opened by another dtmail process.
-$
+$ 
 $ Parameters:
 $   1.  Error message saying that the <mailbox>.dtmail lockfile has been found.
 $   2.  The mailbox path.
 $   3.  "OK"
 $   4.  "Cancel"
 $   5.  The <mailbox>.dtmail lockfile path.
-$
+$ 
 97 "%s\n\nThis may indicate that another Mailer has opened\n%s\n\nYou may open this mailbox READ ONLY by choosing '%s'.\n\nOtherwise, you may choose '%s',\nmake sure that another Mailer has not opened this mailbox,\ndelete %s,\nand reopen this mailbox."
 
-$
+$ 
 $ "-NEW"
-$
+$ 
 $ Messages 98-100 check for problems in the paths specified by users of
 $ the file selection box.
-$
+$ 
 98 "Search permission denied on a component of the path prefix,\n'%s'."
 99 "A component of the path prefix is not a directory,\n'%s'."
 100 "A component of the path prefix does not exist,\n'%s'."
@@ -848,7 +848,7 @@ $set 13
 1 "Creazione non riuscita" 
 2 "Scrittura non riuscita" 
 
-$
+$ 
 $ Strings from dtmail/AttachCmds.C
 
 $set 14
@@ -871,9 +871,9 @@ $set 15
 1 "Ci sono modifiche che non sono state salvate.\nSalvare le modifiche, perdere le modifiche oppure\ncontinuare dalla posizione precedente nel dialogo."
 2 "Salvare"
 3 "Perdere"
-$
+$ 
 $ The followings are added by IBM for 41J release
-$
+$ 
 $set 20
 1 "La casella postale %s è già aperta."
 $ The above message is used in RoamMenuWindow::open
@@ -885,17 +885,17 @@ $ see AIX cmvc defect 176608
 $ The above message is used in RoamMenuWindow::mapnotify()
 $ see AIX cmvc defect 176608
 
-$
+$ 
 $	SETS 21 - 25 WERE ADDED TO SUPPORT CDEnext PRINTING
-$
+$ 
 $	The following set was added to support CDEnext printing based on
 $	the Xp Print Server.
-$
+$ 
 $set 21
-$
+$ 
 $	Messages 1 - 11 are used in DmxPrintJob.
-$
-$
+$ 
+$ 
 $	This is the status message that gets displayed in the MainWindow
 $	and RoamMenuWindow status lines when a print job is being executed.
 $	The '%s' is the name of the temporary file containing the message(s)
@@ -904,7 +904,7 @@ $	to be printed.
 
 $	Messages 2 - 4 are used in the error popup which gets displayed
 $	when an invalid margin specifier has been supplied by the user.
-$
+$ 
 $	Message 2 is the actual error messagactual error message
 $	Message 3 is the title which is displayed in the error popup.
 $	Message 4 is the label on the OK button of the error popup.
@@ -914,7 +914,7 @@ $	Message 4 is the label on the OK button of the error popup.
 
 $	Messages 5 - 11 are format string used to construct the header
 $	and footer strings which appear in the printing output.
-$
+$ 
 $	Message 5 is the format string used to make a Cc header/footer.
 $	Message 6 is the format string used to make a Date header/footer.
 $	Message 7 is the format string used to make a From header/footer.
@@ -930,11 +930,11 @@ $	Message 11 is the format string used to make a UserName header/footer.
 10 "Pagina %d di %d"
 11 "Posta per:  %s"
 
-$
+$ 
 $	Messages 12 - 13, 20 are used in DmxPrintSetup to construct the
 $	app-specific printing options for DtMail which will be included
 $	in the DtPrintSetupBox.
-$
+$ 
 $	Message 12 is the label used on the Toggle Button to indicate that
 $	multiple messages should be printed in separate spool jobs.
 $	Message 13 is the label used on the Toggle Button to indicate that
@@ -945,7 +945,7 @@ $	"wrapped" to the next line.
 
 
 $	Messages 14 - 15 are status messages for the PrintToFile function.
-$
+$ 
 $	Message 14 indicates that the PrintToFile function was unsuccessful.
 $	Message 15 indicates that the PrintToFile function was successful.
 $       NOTE:  'Print to File' should be translated as in DtPrint.msg
@@ -955,9 +955,9 @@ $               Set 1, Message 3.
 
 $       NL_COMMENT 
 $          Messages 16 - 19 are obsolete, and have been replaced by 24
-$
+$ 
 $	Messages 16 - 19 are status messages for the popup PDM function.
-$
+$ 
 $	Message 16 indicates that there was no pdm deamon running.
 $	Message 17 indicates that the pdm deamon was unable to start a pdm.
 $	Message 18 indicates that the pdm couldnt connect to the video display.
@@ -990,14 +990,14 @@ $       Messages 24 & 25 are used to handle errors from the PDM
 
 
 
-$
+$ 
 $	The messages in this set are used in pulldown menu for the
 $	header/footer $	frame which is part of the "Printing" pane
 $	in the Options dialog.
-$
+$ 
 $	Messages 1 - 8 are used in DmxPrintOptions.
-$
-$
+$ 
+$ 
 $	Message 1 specifies that the page header/footer field be empty.
 $	Message 2 put the Cc msg header in the page header/footer field.
 $	Message 3 put the Date msg header in the page header/footer field.
@@ -1016,18 +1016,18 @@ $set 22
 7 "Numero di pagina"
 8 "Nome dell'utente"
 
-$
+$ 
 $	The messages in this set are used in pulldown menu for the
 $	Printed Message Headers option which is part of the "Printing" pane
 $	in the Options dialog.
-$
+$ 
 $	Messages 1 - 4 are used in DmxPrintOptions.
-$
+$ 
 $	Message 1 don't print any message headers.
 $	Message 2 print the "standard" msg headers (To, From, Subject, Cc).
 $	Message 3 print the "abbreviated" msg headers as defined by the user.
 $	Message 4 print all message headers.
-$
+$ 
 $set 23
 
 1 "Nessuna"
@@ -1035,19 +1035,19 @@ $set 23
 3 "Abbreviate"
 4 "Tutte"
 
-$
+$ 
 $	The messages in this set are used in pulldown menu for the
 $	Printed Message Headers option which is part of the "Printing" pane
 $	in the Options dialog.
-$
+$ 
 $	Messages 1 - 5 are used in DmxPrintOptions.
-$
+$ 
 $	Message 1 use a New Line (CRLF) to separate multiple messages.
 $	Message 2 use a Blank Line (2xCRLF) to separate multiple messages.
 $	Message 3 use a Line of characters to separate multiple messages.
 $	Message 4 start each new message on a new page.
 $	Message 5 print each message in it's own spool job.
-$
+$ 
 $set 24
 1 "Nuova riga"
 2 "Riga vuota"
@@ -1055,32 +1055,32 @@ $set 24
 4 "Nuova pagina"
 5 "Nuovo lavoro di stampa"
 
-$
+$ 
 $	The following set was added to support CDEnext printing based on
 $	the Xp Print Server.
-$
+$ 
 $	Messages 1 - 2 are used in DmxPrintOptions.
-$
-$
+$ 
+$ 
 $set 25
-$
+$ 
 $	Label for the option menu used to specify which message headers are
 $	printed.
 1 "Intestazioni stampate:  "
-$
+$ 
 $	Label for the option menu used to specify which how multiple messages
 $	are separated.
 2 "Separare messaggi multipli:  "
 
-$
+$ 
 $	The following set was added to support CDEnext printing based on
 $	the Xp Print Server.
-$
+$ 
 $	Messages 1-4 are used in error dialogs to indicate an invalid
 $		     entry for margin specifiers in the printing options pane.
 $	Message 5 is the label string on the button to dismiss the error dialog.
-$
-$
+$ 
+$ 
 $set 26
 1 "Il valore del margine superiore non è valido:  "
 2 "Il valore del margine destro non è valido:"
@@ -1088,15 +1088,15 @@ $set 26
 4 "Il margine sinistro non è valido:"
 5 "Continuare"
 
-$
+$ 
 $	The following set was added to support the Mail Retrieval option pane.
-$
+$ 
 $	Messages 1-5 Used in the Server Protocol option menu to indicate the
 $		     set of mail server network protocols which are supported.
 $	Messages 6-15 Are used to label the options in the pane.
-$
+$ 
 $ "-NEW"
-$
+$ 
 $set 27
 1 "Auto"
 2 "POP3"

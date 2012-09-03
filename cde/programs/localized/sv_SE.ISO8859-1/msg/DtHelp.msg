@@ -40,13 +40,13 @@ $ *************************************<+>*************************************
 
 $set 2
 $ *****  Module: HelpDialog.c  and a few from HelpQuickD.c *****
-$
+$ 
 $ These Messages appear in the pulldown menus for Cde Help General Help
 $ dialog widget.
-$
+$ 
 $ They come in pairs where the first is the menu name (e.g. 1 Print...) and the
 $ second is the mnemonic (e.g. 2 P).  
-$
+$ 
 $ Messages 1 through 6 are the pulldown menus for the File menu.
 1 Skriv ut...
 2 u
@@ -80,7 +80,7 @@ $ Messages 17 through 28 are the pulldown menus for the Help menu.
 26 M
 27 Om hjälpfunktionen
 28 m
-$
+$ 
 $ Messages 29 through 36 are the menu labels and mnemonics for for the 
 $ Help Dialog.
 29 Fil
@@ -93,10 +93,10 @@ $ Help Dialog.
 36 H
 37 Redigera
 38 R
-$
-$
+$ 
+$ 
 $ >>>>> Skip #39 through #49
-$
+$ 
 $ Messages 50 through 55 are used to display formatting errors within the
 $ help dialog and quick help dialog widgets.
 $ 
@@ -108,29 +108,29 @@ så är den skadad.
 skadad.
 54 Avsnittet kunde inte formateras.
 55 Plats-ID finns inte:
-$
+$ 
 $ Messages 56 and 67 are displayed when a hypertext link type is selected but
 $ not supported within the current application.
-$
+$ 
 56 Hypertextlänken fungerar inte i den tillämpningen.
 57 Länkar till kommandobeskrivningarna fungerar inte i den här tillämpningen.
-$
+$ 
 $ Messages 58 through 62  are used when bad or null help volumes or 
 $ locationId's are used.
-$
+$ 
 58 Hjälpen är inte installerad eller inte installerad på rätt sökväg. I dokumentationen som hör till produkten kan du hitta information om hur hjälpen ska installeras.\n
 59 Du har inte angivit något plats-ID.
 60 Du har inte angivit någon volym.
 61 Volym:
 62 Plats-ID:
-$
+$ 
 $ >>>>> Skip #63 through #69
-$
-$
+$ 
+$ 
 $ Message 70 is used when a null value for DtNtopicTitle is used.
-$
+$ 
 70 Avsnittet finns inte.
-$
+$ 
 $ New messages added after early msg cat freeze; not in order
 80 Angiven hjälp typ saknas.
 

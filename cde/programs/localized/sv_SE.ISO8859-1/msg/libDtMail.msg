@@ -50,7 +50,7 @@ $set 1 libDtMail API set
 31 Signaturen MD5 stämde inte överens med meddelandets innehåll.
 32 Den faktiska körgruppen är inte "post" (mail).
 
-$
+$ 
 $ Strings from libDtMail/Common/DtMailValuesBuiltin.C
 
 $set 2

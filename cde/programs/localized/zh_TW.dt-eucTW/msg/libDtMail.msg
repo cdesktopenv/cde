@@ -50,7 +50,7 @@ $set 1 libDtMail API set
 31 MD5 ùËÉ±Ø´æÀêØØ¹ÕÉÄùÕ©ÄâÒÞÜÊ¡¤
 32 È´ÕæÎûÙÚÈçåúÜÚËäÏæ "mail"
 
-$
+$ 
 $ Strings from libDtMail/Common/DtMailValuesBuiltin.C
 
 $set 2

@@ -185,10 +185,10 @@ $ label specified in message 110 of set 11.
 $ Labels for add/don't-add newlines radio buttons in the SaveAs and Save dialogs
 44 Infoga radmatningstecken i slutet av ombrutna rader.
 45 Infoga inte radmatningstecken. Endast sådana radbrytningar som\nskapats med [Return] kommer att behållas.
-$
+$ 
 $ New message as of 5/31/95 (i.e. new since Sample Implementation). This 
 $ new message is in response to bug DTS CISlx19530.
-$
+$ 
 46 Antingen är filen skrivskyddad eller också\nexisterar inte den angivna sökvägen.
 
 
@@ -246,7 +246,7 @@ $ Default file name used in the main window title.
 $ This should correspond to the default file name used in the "Save As"
 $ dialog box - specified in message 21 of set 5.
 6 (NAMNLÖS)
-$
+$ 
 $ New messages (7,8) since CDE/SI - error gets displayed when user tries to run
 $ dtpad -server when and dtpad server process is already running on the
 $ $DISPLAY.
@@ -254,11 +254,11 @@ $ $DISPLAY.
 betjänar redan det här fönstret.
 8 FEL: En dtpad-server\n\
 betjänar redan det här fönstret.
-$
+$ 
 $ Message 9 is also new since CDE/SI - new as of 5/22/95.  It is a usage message
 $ for dtpad. Don't translate the '-OPTION' just the text explaining the
 $ option.
-$
+$ 
 9 Alternativet '%s' är felaktigt.\n\
 Syntax: %s...\n\
    -saveOnClose\n\
@@ -310,7 +310,7 @@ Syntax: %s...\n\
 \tbör endast användas tillsammans med alternativet -server\n\
 \teftersom det bara kan tillämpas på serverprocessen.\n\n\
 Manualsidan för dtpad innehåller fler detaljer om dessa alternativ.\n\n
-$
+$ 
 
 
 $set 10

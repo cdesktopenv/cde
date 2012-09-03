@@ -196,14 +196,14 @@ $ Labels for add/don't-add newlines radio buttons in the SaveAs and Save dialogs
 
 46 Errore: impossibile scrivere sul file o il percorso non e' corretto."
 
-$
+$ 
 $ "-NEW"
-$
+$ 
 47 "Operation failed due to insufficient memory.\nTry increasing swap space."
 
-$
+$ 
 $ "-NEW"
-$
+$ 
 48 "Format operation failed."
 
 $set 6
@@ -263,7 +263,7 @@ $ Default file name used in the main window title.
 $ This should correspond to the default file name used in the "Save As"
 $ dialog box - specified in message 21 of set 5.
 6 (SENZA_NOME)
-$
+$ 
 $ New messages (7,8) since CDE/SI - error gets displayed when user tries to run
 $ dtpad -server when and dtpad server process is already running on the
 $ $DISPLAY.
@@ -271,11 +271,11 @@ $ $DISPLAY.
 è già in esecuzione per questo schermo.
 8 ERRORE: Il server dtpad è già\n\
 in esecuzione per questo schermo.
-$
+$ 
 $ Message 9 is also new since CDE/SI - new as of 5/22/95.  It is a usage message
 $ for dtpad. Don't translate the '-OPTION' just the text explaining the
 $ option.
-$
+$ 
 9 '%s' non è un'opzione corretta.\n\
 Sintassi: %s...\n\
    -saveOnClose\n\
@@ -327,7 +327,7 @@ Sintassi: %s...\n\
 \trelativa allo schermo. Da utilizzare solo con l'opzione\n\
 \t-server perché applicabile ai processi del server.\n\n\
 Consultare la pagina di spiegazioni su dtpad per i dettagli sulle opzioni.\n\n
-$
+$ 
 
 $ "NEW-"
 11 "Exiting text editor ..."
@@ -647,19 +647,19 @@ $ **
 $ ****************************************************************************
 $ ****************************************************************************
 $set 14
-$
+$ 
 $	Messages 1 - 11 are used in printJob.
-$
+$ 
 $	This is warning message is displayed when the user has provided
 $	a margin specifier in the PrintSetup dialog which cannot be parsed.
 $	
 $quote "
 
 1 "Errore di sintassi nella specificazione dei margini:\n %s \n %s \n %s \n %s \nUsare i margini predefiniti?"
-$
+$ 
 $	Messages 2 - 7 are messages for errors which can occur in the
 $	process of loading a dtpad document file for printing.	
-$
+$ 
 2 "Il file non esiste."
 3 "Il file specificato è una directory."
 4 "Errore nel tipo di file."
@@ -669,7 +669,7 @@ $
 
 $	Messages 8 - 11 are format strings used to construct the header
 $	and footer strings which appear in the printing output.
-$
+$ 
 $	Message 8 is the format string used to make a Date header/footer.
 $	Message 9 is the format string used to make a DocName header/footer.
 $	Message 10 is the format string used to make a Page# header/footer.
@@ -679,11 +679,11 @@ $	Message 11 is the format string used to make a UserName header/footer.
 10 "Pagina %d di %d"
 11 "Documento per:  %s"
 
-$
+$ 
 $	Messages 12 - 13 are used in printSetup to construct the
 $	app-specific printing options for DtMail which will be included
 $	in the DtPrintSetupBox.
-$
+$ 
 $	Message 12 is the string labeling the field in the GUI which
 $	contains the name of the document.
 $	Message 13 is the label used on the Toggle Button to indicate that
@@ -694,7 +694,7 @@ $	"wrapped" to the next line.
 
 
 $	Messages 14 - 15 are status messages for the PrintToFile function.
-$
+$ 
 $	Message 14 indicates that the PrintToFile function was unsuccessful.
 $	Message 15 indicates that the PrintToFile function was successful.
 $       NOTE:  'Print to File' should be translated as in DtPrint.msg
@@ -703,9 +703,9 @@ $               Set 1, Message 3.
 15 "L'operazione 'Stampare su file' è riuscita."
 
 $          Messages 16 - 19 are obsolete, and have been replaced by 25
-$
+$ 
 $	Messages 16 - 19 are status messages for the popup PDM function.
-$
+$ 
 $	Message 16 indicates that there was no pdm deamon running.
 $	Message 17 indicates that the pdm deamon was unable to start a pdm.
 $	Message 18 indicates that the pdm couldnt connect to the video display.
@@ -717,7 +717,7 @@ $	Message 19 indicates that the pdm couldnt connect to the print display.
 
 
 $	Messages 20 - 22 are status messages displayed while printing
-$
+$ 
 $	Message 20 indicates that the user has asked to close the editor
 $		   window.  Dtpad is prevented from doing so until the
 $		   active print jobs have completed.
@@ -746,12 +746,12 @@ $ **	SET 15
 $ **
 $ ****************************************************************************
 $ ****************************************************************************
-$
+$ 
 $set 15
-$
+$ 
 $	Messages 1-5 are used in printSetup.c in the pulldown menu for the
 $	header/footer options in the print setup dialog.
-$
+$ 
 $	Message 1 specifies that the page header/footer field be empty.
 $	Message 2 put the Date in the page header/footer field.
 $	Message 3 put the Document Name in the page header/footer field.
@@ -765,7 +765,7 @@ $	Message 5 put the User Name msg header in the page header/footer field.
 
 $	Messages 6-9 are used to construct error messages informing users
 $	that they have input an invalid print page margin specification for 
-$
+$ 
 6 "Il valore del margine superiore non è valido:"
 7 "Il valore del margine destro non è valido:"
 8 "Il valore del margine inferiore non è valido:"

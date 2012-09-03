@@ -1,10 +1,10 @@
-$
+$ 
 $ +SNOTICE
-$
+$ 
 $  $XConsortium: MotifApp.msg /main/3 1995/11/08 13:13:38 rswiston $
-$
+$ 
 $  RESTRICTED CONFIDENTIAL INFORMATION:
-$
+$ 
 $  The information in this document is subject to special
 $  restrictions in a confidential disclosure agreement between
 $  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
@@ -12,21 +12,21 @@ $  document outside HP, IBM, Sun, USL, SCO, or Univel without
 $  Sun's specific written approval.  This document and all copies
 $  and derivative works thereof must be returned or destroyed at
 $  Sun's request.
-$
+$ 
 $  Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
-$
+$ 
 $ +ENOTICE
-$
+$ 
 
 $ -------------------------------------
 $ MotifApp/Application.C
-$
+$ 
 
 $quote "
 
 $ -------------------------------------
 $ MotifApp/AskFirstCmd.C
-$
+$ 
 
 $quote "
 
@@ -35,7 +35,7 @@ $set 1
 1 "이 명령을 실행하겠습니까?"
 $ -------------------------------------
 $ MotifApp/DialogManager.C
-$
+$ 
 
 $quote "
 
@@ -44,7 +44,7 @@ $quote "
 3 "취소"
 $ -------------------------------------
 $ MotifApp/Help.C
-$
+$ 
 
 $quote "
 
@@ -66,7 +66,7 @@ $quote "
 9 "이 폴더를 닫겠습니까?"
 $ -------------------------------------
 $ MotifApp/WarnNoUndoCmd.C
-$
+$ 
 
 $quote "
 
@@ -86,5 +86,5 @@ $set 2
 2 "사용자가 선택을 중단했습니다.\n"
 $ -------------------------------------
 $ MotifApp/QuitCmd.C
-$
+$ 
 

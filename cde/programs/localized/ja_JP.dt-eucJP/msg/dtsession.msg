@@ -267,20 +267,20 @@ $ Server), which is /usr/dt/bin/ttsession.
 プロセスの再起動を開始する用意ができたら、[了解] をクリックして、\n\
 ファイルを保存してください。
 
-$
+$ 
 $ Messages 39-41 are displayed on the logout and/or session selection
 $  confirmation dialogs.  These message are for dialog buttons
-$
+$ 
 39 了解
 40 取消し
 41 ヘルプ
 
-$
+$ 
 $ Messages 50-53 are for the display-specific session confirmation dialog
-$
+$ 
 50 Home
 51 Current
-$
+$ 
 $ The first '%s' in message 52 will be replace with message 50 or 51.
 $ The second '%'s in message 52 will be replace with the value of
 $ $DISPLAY (e.g. hostname:0).
@@ -290,37 +290,37 @@ $ $DISPLAY (e.g. hostname:0).
 作成されます。
 53 警告
 
-$
+$ 
 $ Message 55-56 are for the Session Save error dialog
 $   55 is the dialog title
 $   56 is the message in the dialog - do NOT localize 'save_state'
-$
+$ 
 55 セッション失敗保存
 56 セッションは 'save_type' パラメータ要求が\n\
 メッセージ中にないため、保存されません。\n\
 セッションは保存されません。
 
-$
+$ 
 $ Messages 70-71 refer to the name of the System Administration manual
-$
+$ 
 70 これ以上の情報は以下を参照してください。:
 71 CDE 上級ユーザ及びシステム管理者ガイド
 
-$
+$ 
 $ Message 75 is used during logout if the user started a Current
 $   session but used the Style Manager to return to a Home session.
-$
+$ 
 75 デスクトップ・セッションを終了中です...\n\n\
 現在のセッションを保存しますが、ログインすると、\n\
 ユーザのホームセッションを復元します。\n\n\
 保存していないアプリケーションの変更内容は失われる可能性があります。\n\n\
 ログアウトしますか?
 
-$
+$ 
 $ Message 76 is used at the same time message 36 is used except that
 $   message 76 is for Digital/OSF only and is slightly different than
 $   message 36.
-$
+$ 
 76 DT メッセージ・システムが起動していません。\n\n\
 問題を直すには:\n\n\
 1.  ログイン・スクリーンに戻り、[了解]を選択します。\n\n\
@@ -403,11 +403,11 @@ $ LOCALIZE Set 29
 
 
 $ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-$
+$ 
 $ Set 40 is for messages related to the X11R6 Session Management Protocol
 $ 
 $   o Do NOT localize the string '%s' in any of the messages in this set.
-$
+$ 
 $set 40
 $ Messages 1-7 are used when a session cannot be started.
 $ Message 1 - this message will preface messages 2-7
@@ -415,10 +415,10 @@ $ Message 1 - this message will preface messages 2-7
 2 SmsInitialize は失敗しました。
 3 IceListenForConnections は失敗しました。
 
-$
+$ 
 $ Do not remove the whitespace at the beginning of lines 2 and 3
 $   for message number 4
-$
+$ 
 4 認証ファイル ~/.ICEauthority が作成されません。\n\
    ~/.ICEauthority-c と ~/.ICEauthority-l ファイルがあるならば、\n\
    セッションを開始する前に削除しなければなりません。
@@ -427,9 +427,9 @@ $
 6 IceComposeNetworkIds は失敗しました。
 $ Message 7 - Do NOT translate "SESSION_MANAGER".
 7 SESSION_MANAGER 環境変数を作成できません。
-$
+$ 
 $ Messages 8-9 occur when a session database cannot be opened.
-$
+$ 
 $ Message 8 - Do NOT remove the whitespace before the last '%s'.
 8 以下のセッション・データベースを開けません。:\n\n\
    '%s'
@@ -437,18 +437,18 @@ $ Message 9 - Do NOT remove the whitespace before the last '%s'.
 9 以下のセッション・データベースは要求されたリソース\n\n\
 '%s' を含みません。:\n\n\
    %s
-$
+$ 
 $ Messages 10-11 are used to report errors when reading a session database
-$
+$ 
 $ Message 10 - Do NOT remove the whitespace before the last '%s'.
 10 要求されたプロパティ '%s' は '%s' ファイル中のクライアント\n\n\
     %s \n\n\
 に省略されています。
 11 要求されたリソース '%s' は '%s' ファイル中のクライアント %d \n\n\
 に省略されています。
-$
+$ 
 $ Messages 12-14 used if errors occur when a session is restarted
-$
+$ 
 $ Message 12 - Do NOT remove the whitespace before the last '%s'.
 12 ディレクトリ '%s' \n\
 はアプリケーション '%s' で利用できません。\n\n\
@@ -466,43 +466,43 @@ $   format.
 から正典に変えられないため、アプリケーション '%s' の起動に失敗しました。\n\n\
 [%s]
 
-$
+$ 
 $ Message 15 - used if the -session command line option has no value
-$
+$ 
 15 コマンド行オプション -session でセッション名が提供されていません。
-$
+$ 
 $ Message 16 - used if the Save_Session message contains an unrecognized
 $    argument
-$
+$ 
 16 セッション保存メッセージは認められない引き数 '%s' を含みます。
 
 17 'ウィンドウ・マネージャ'からクライアント・リストを得るのに失敗しました。
-$
+$ 
 $ Message 18 - the client database cannot be opened for writing.
 $ Do NOT remove the whitespace before the last '%s'.
-$
+$ 
 18 以下のデータベース・ファイルは書き込みのために開けません。:\n\n\
    %s\n\n\
 セッションは保存されません。
-$
+$ 
 $ Message 19 - used if an application cannot be saved
-$
+$ 
 19 アプリケーション '%s' は保存されません。
-$
+$ 
 $ Message 20 - used if the IceAcceptConnection function fails:
-$
+$ 
 20 IceAcceptConnection は失敗しました。
-$
+$ 
 $ Message 21 - used if a Save Session is requested and one is already
 $    in progress
 21 セッション保存が進行中のため、セッションは保存されません。
 
 22 セッションのシャットダウンはアプリケーション '%s' によって取り消されました。
 
-$
+$ 
 $ Messages 23-25 are used when a session is saved and an application 
 $    has not set its required properties
-$
+$ 
 $ Message 23 - Do NOT remove the whitespace before the last '%s'.
 23 以下のアプリケーションは要求されたプロパティ '%s' \n\
 を設定できません。\n\n\
@@ -513,7 +513,7 @@ $ Message 23 - Do NOT remove the whitespace before the last '%s'.
 設定されなしため保存されないでしょう。
 
 25 アプリケーション '%s' は要求されたプロパティ '%s' を設定しません。
-$
+$ 
 $ Messages 26-27 are used when the DiscardCommand properties are
 $    invoked - before an old session directory is removed.
 $ Message 26 - do NOT remove the whitespace before the '%s'.
@@ -523,18 +523,18 @@ $    this message
    %s\n\n\
 'DiscardCommand' プロパティは実行されません。
 
-$
+$ 
 $ Message 27 - do NOT translate the word 'DiscardCommand' in
 $    this message
 27 アプリケーション '%s' の失敗によって、'DiscardCommand' \n\
 プロパティを実行します。
 
-$
+$ 
 $ Messages 28-29 - used when an application exists and it wants the
 $    Session Manager to post a dialog with a message that describes
 $    the reason the client exited.
 $ Message 29 is the title for the dialog
-$
+$ 
 28 アプリケーション '%s' を以下の理由で終了します。:\n\n\
 %s
 29 アプリケーションを閉じる理由

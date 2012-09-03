@@ -119,27 +119,27 @@ $
 23 "Aktualisieren der Druckeraktion beendet."
 
 24 "Verwendung:"
-$
+$ 
 25 " %s -inetd    (inetd.conf /usr/dt daemons)"
 26 " %s -inetd.ow (inetd.conf /usr/openwin daemons)"
-$
+$ 
 $	In above messages 25 and 26, only translate words between
 $	left "(" and right ").
-$
+$ 
 27 "Beim nächsten Systemstart werden die folgenden Dateien vom Verzeichnis /usr/dt/bin abgerufen."
-$
+$ 
 28 "    rpc.ttdbserverd         (ToolTalk)"
 29 "    rpc.cmsd                (Kalender-Manager)"
 30 "    dtspcd                  (Unterprozeßsteuerung)"
-$
+$ 
 $  Keep column allignment on messages 28 thru 30.  
 $  Only translate what's beteen ( )'s
-$
+$ 
 31 "Beim nächsten Systemstart werden die folgenden Dateien vom Verzeichnis /usr/openwin/bin abgerufen."
-$
+$ 
 32 "    rpc.ttdbserverd         (ToolTalk)"
 33 "    rpc.cmsd                (Kalender-Manager)"
-$
+$ 
 $  Keep column allignment on messages 32 thru 33.  
 $  Only translate what's beteen ( )'s
-$
+$ 

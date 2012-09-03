@@ -41,7 +41,7 @@ $ *************************************<L>*************************************
 
 $set 1
 $ set 1 is labels
-$
+$ 
 $ messages 1 through 6 are button labels on the login screen
 
 1 îùòÓÄ«ÚÀÎûËðÆîÏ¯ÇØê¢
@@ -51,9 +51,9 @@ $ messages 1 through 6 are button labels on the login screen
 5 òÙâú
 6 ëºÉ·ë©Íü
 
-$
+$ 
 $ messages 7 through 11 are options button menu items
-$
+$ 
 
 7 ÓìÝÃàôÄ«ò­èÝ
 8 ÌÔÅïÈçàôÄ«
@@ -61,25 +61,25 @@ $
 10 ÞÌáþá§âêÑôÉ¢äÆ
 11 ë£ËÆ
 
-$
+$ 
 $ messages 12 through 14 are miscellaneous button labels
-$
+$ 
 12 âäÌî DT
 13 Ì½Ö¼ 
 14 ëºÉ·ë©Íü
 
 
-$
+$ 
 $ message 15, 17 are more option button menu items 
 $ message 16 is the welcome message
-$
+$ 
 15 DT Lite âêÑôÉ¢äÆ
 16 ûãÏÒËðÆî
 17 Ä¡×ïÖ¤Ä¸ê§Ü¡Ë·ÜÓ
 
-$
+$ 
 $ message 18-24
-$
+$ 
 18 * í²ØôÖ¤Ä¸ê§Ü¡Ë·ÜÓàôÄ«...\r\n*\r\n
 19 * ÇñëæàôÄ«ßÈÆü¡¢îùÑº [Enter]¡¤\r\n*\r\n
 20 * àôÄ«¡¤ÇãÚÀàôÅøÄæÑ¥ÄâÄ¼¡¢Ö¤Ä¸ê§Ü¡Ë·ÜÓàôÄ«É»Ùòú«úý¡¤\r\n*\r\n
@@ -91,22 +91,22 @@ $
 $ messages 25 is a options button menu item
 25 âêÑôÉ¢äÆ
 
-$
+$ 
 $ 26 replaces 16 as the greeting after a user name has been 
 $ entered. The %s is replaced by the user name.
-$
+$ 
 26 ûãÏÒ %s
 
-$
+$ 
 $  Sun specific message catalog id numbers in MC_LABEL_SET messages.
 $  (Starting at a random uneven higher number, 73, to allow some room
 $  for some shared sample source message additions.
-$
+$ 
 73 ËðÆîÏ¯Ä¸Ä¡È¹Ö¤Ä¸ê§Ü¡Ë·ÜÓ
 
 $set 2
 $ set 2 is error messages
-$
+$ 
 
 1 àôÄ«ÄâÆßíý¡¢îùÇÂæÜÄ¡È¹¡¤
 2 àÒÎÎüÈßÐÌ¯ØÄÌîÆøòç¡¤
@@ -135,7 +135,7 @@ $ the language.
 
 $set 3
 $ set 3 is help text
-$
+$ 
 
 $ message 1 is generated when the help button on the login screen is clicked.
 1 \n\
@@ -230,7 +230,7 @@ CDE Ö¤Ä¸ê§Ü¡Ë·ÜÓ¡¢ÈºÝåÇ¹ÞóäÄßÈËòÆøÐ©\n\
 
 $set 4
 $ set 4 is log error messages
-$
+$ 
 
 1 ÇôÌ½óòÕù \"%1$s\"¡¢Åäñ¢ \"%2$s\" àÒÎÎÊÆÌ¯\n
 2 ReadHostEntry\n

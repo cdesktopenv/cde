@@ -119,19 +119,19 @@ $
 
 26 "Bienvenue %s"
 
-$
+$ 
 $ 27 replaces 10 as the label for the failsafe option menu item
 $quote
-$
+$ 
 27 Session monofenêtre
 
-$
+$ 
 $  Sun specific message catalog id numbers in MC_LABEL_SET messages.
 $  (Starting at a random uneven higher number, 73, to allow some room  
 $  for some shared sample source message additions. 
-$
+$ 
 73 Dernier bureau de l'utilisateur
-$
+$ 
 $  Following used in Language menu.  
 $  "to" used in phrases like "ja to zh" locales
 74 à
@@ -189,29 +189,29 @@ $ set 3 is help text
 $    
 $ message 1 is generated when the help button on the login screen is clicked.
 $ Comments for messsage #1:
-$
+$ 
 $ Under [Options] there is an item called "Session".  Under
 $ Session there are five items and these items have been
 $ translated in other files.  To be consistent with the other
 $ translations, the translations used below should be the same
 $ as the other translations.  The items and their file are
 $ listed below:
-$
+$ 
 $   1. Current   - _common.session.tmsg ; set 1, message 2
-$
+$ 
 $   2. Home      - _common.session.tmsg ; set 1, message 1
-$
+$ 
 $   3. <display-name> - Current   - <display-name> on the options
 $         menu will be replaced with the workstations display
 $         name so does not need to be translated.  "Current" should
 $         be the same as _common.session.tmsg ; set 1, message 2
-$
+$ 
 $   4. <display-name> - Home      - <display-name> on the options
 $         menu will be replaced with the workstations display
 $         name so does not need to be translated.  "Home" should
 $         be the same as _common.session.tmsg ; set 1, message 1
-$
-$
+$ 
+$ 
 1 "\n\
 Connexion - Aide :\n\
 \n\

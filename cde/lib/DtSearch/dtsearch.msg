@@ -1,5 +1,5 @@
 $ $XConsortium: dtsearch.msg /main/15 1996/10/30 17:29:27 cde-ibm $
-$
+$ 
 $ (c) Copyright 1996 Digital Equipment Corporation.
 $ (c) Copyright 1996 Hewlett-Packard Company.
 $ (c) Copyright 1996 International Business Machines Corp.
@@ -9,15 +9,15 @@ $ (c) Copyright 1996 FUJITSU LIMITED.
 $ (c) Copyright 1996 Hitachi.
 
 $   COMPONENT_NAME: austext
-$
+$ 
 $   FUNCTIONS: database
-$
+$ 
 $   ORIGINS: 27
-$
+$ 
 $   IBM CONFIDENTIAL -- (IBM Confidential Restricted when
 $   combined with the aggregated modules for this product)
 $   OBJECT CODE ONLY SOURCE MATERIALS
-$
+$ 
 $   (C) COPYRIGHT International Business Machines Corp. 1994,1995
 $   All Rights Reserved
 $   US Government Users Restricted Rights - Use, duplication or

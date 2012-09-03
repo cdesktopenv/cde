@@ -40,13 +40,13 @@ $ *************************************<+>*************************************
 
 $set 2
 $ *****  Module: HelpDialog.c  and a few from HelpQuickD.c *****
-$
+$ 
 $ These Messages appear in the pulldown menus for Cde Help General Help
 $ dialog widget.
-$
+$ 
 $ They come in pairs where the first is the menu name (e.g. 1 Print...) and the
 $ second is the mnemonic (e.g. 2 P).  
-$
+$ 
 $ Messages 1 through 6 are the pulldown menus for the File menu.
 1 Stampare...
 2 S
@@ -80,7 +80,7 @@ $ Messages 17 through 28 are the pulldown menus for the Help menu.
 26 M
 27 Informazioni sull'aiuto
 28 f
-$
+$ 
 $ Messages 29 through 36 are the menu labels and mnemonics for for the 
 $ Help Dialog.
 29 File
@@ -93,10 +93,10 @@ $ Help Dialog.
 36 A
 37 Editare
 38 E
-$
-$
+$ 
+$ 
 $ >>>>> Skip #39 through #49
-$
+$ 
 $ Messages 50 through 55 are used to display formatting errors within the
 $ help dialog and quick help dialog widgets.
 $ 
@@ -108,29 +108,29 @@ non è presente o è danneggiata.
 non è presente o è danneggiato.
 54 Impossibile formattare l'argomento dell'aiuto.
 55 ID di posizione inesistente:
-$
+$ 
 $ Messages 56 and 67 are displayed when a hypertext link type is selected but
 $ not supported within the current application.
-$
+$ 
 56 Il collegamento ipertestuale richiesto non è supportato in questa applicazione.
 57 I collegamenti alle pagine di spiegazioni non sono supportati da questa applicazione.
-$
+$ 
 $ Messages 58 through 62  are used when bad or null help volumes or 
 $ locationId's are used.
-$
+$ 
 58 L'aiuto online richiesto non è installato o non si trova nel percorso di ricerca corretto. Per informazioni sull'installazione dell'aiuto online, consultare la documentazione del prodotto.\n
 59 Non è stato specificato l'ID di posizione.
 60 Non è stato specificato il volume di aiuto.
 61 Volume di aiuto:
 62 ID di posizione:
-$
+$ 
 $ >>>>> Skip #63 through #69
-$
-$
+$ 
+$ 
 $ Message 70 is used when a null value for DtNtopicTitle is used.
-$
+$ 
 70 L'argomento specificato non esiste.
-$
+$ 
 $ New messages added after early msg cat freeze; not in order
 80 Il tipo di aiuto specificato non è valido.
 

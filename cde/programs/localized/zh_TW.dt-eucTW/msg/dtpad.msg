@@ -185,10 +185,10 @@ $ label specified in message 110 of set 11.
 $ Labels for add/don't-add newlines radio buttons in the SaveAs and Save dialogs
 44 ÇãÈÜÙ¯ßÐÈçÎûÈçá¸Ê¢ÅûÄ«ßÐÈçÇóÄ÷¡¤
 45 ÄâÅûÄ«ßÐÈçÇóÄ÷¡¤ Æ·ÏñÖçÅè [Return] Ü¨ÆíÎû\nßÐÈç¡¤
-$
+$ 
 $ New message as of 5/31/95 (i.e. new since Sample Implementation). This
 $ new message is in response to bug DTS CISlx19530.
-$
+$ 
 46 Æ«×äÑÒóòÕùàÒÎÎìÑÄ«\nÍÐÌ¯æÚóòÕùÎûæûÕÀÄâÇôÇã¡¤
 
 
@@ -245,7 +245,7 @@ $ Default file name used in the main window title.
 $ This should correspond to the default file name used in the "Save As"
 $ dialog box - specified in message 21 of set 5.
 6 (UNTITLED)
-$
+$ 
 $ New messages (7,8) since CDE/SI - error gets displayed when user tries to run
 $ dtpad -server when and dtpad server process is already running on the
 $ $DISPLAY.
@@ -253,11 +253,11 @@ $ $DISPLAY.
 ÄØåîÇãÎ¤Ù­æÚüÏÆüðÂ¡¤
 8 òãë¨: Ä¡Ô¶ dtpad ÈùÎ¤ðÂ\n\
 ÄØåîÇãÎ¤Ù­æÚüÏÆüðÂ¡¤
-$
+$ 
 $ Message 9 is also new since CDE/SI - new as of 5/22/95.  It is a usage message
 $ for dtpad. Don't translate the '-OPTION' just the text explaining the
 $ option.
-$
+$ 
 9 '%s' ÑÒòãë¨ÎûòÙâú¡¤\n\
 ÆîÎÎ: %s...\n\
    -saveOnClose\n\
@@ -304,7 +304,7 @@ $
 \tÆÆÆ·ØÙÇÙ -server òÙâúËðÆî, ÇÞÒ³ÆÆÆ·ïËÆî\n\
 \tÍõÈùÎ¤ðÂá£Ê©¡¤\n\n\
 È´ùÃÝÕËèòÙâúÎûæÛÜØæñÕè, îùÙ¶ïå dtpad îÀÄ¸ßÎÉ·Ó÷¡¤\n\n
-$
+$ 
 
 
 $set 10

@@ -50,39 +50,39 @@ $ **  ----------------GENERAL LOCALIZATION NOTES SECTION END------------------
 $ *************************************<L>*************************************
 
 $ *****************************************************************************
-$
+$ 
 $ ***** NOTE FOR MESSAGE CATALOG TRANSLATORS *****
-$
+$ 
 $ There may be three types of messages in this file:
-$
+$ 
 $ 1. Messages that appear in dialogs or are displayed to the user.
-$
+$ 
 $     These messages are the default and they should ALL BE LOCALIZED.
 $     Note that these messages do NOT have any identification (see the
 $     comments for type 2 and 3 below).
-$
+$ 
 $ 2. Messages that only appear in the DT error log file ($HOME?.dt/errorlog).
-$
+$ 
 $     The localization of these messages is OPTIONAL.  These messages are
 $     identified by the following:
-$
+$ 
 $     MESSAGES xx-yy WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-$
+$ 
 $ 3. Messages that should not be localized.
-$
+$ 
 $     These messages are identified by the following:
-$
+$ 
 $     DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGES xx-yy
-$
+$ 
 $ ***** END (NOTE FOR MESSAGE CATALOG TRANSLATORS) *****
-$
+$ 
 $ ********** PROLOGUE ****************
 $  Date    Name               Note
 $ ======== =================  ===============================================
 $ 03/25/93 H. Amro            removed the guilty $ from message 30
-$
-$
-$
+$ 
+$ 
+$ 
 $ *****************************************************************************
 
 $set 2
@@ -213,9 +213,9 @@ $ Window title for overwrite dialogs
 38 %s\nalready exists: choose another name.
 39 %s\ncannot be renamed to\n%s\n%s
 40 Object Replace - Error
-$
+$ 
 $ 41 Got obsoleted - Don't use.
-$
+$ 
 51 copying
 52 moving
 53 linking
@@ -621,9 +621,9 @@ the Trash Can on to the Workspace.
 14 Cannot find the folders location.
 16 A folder cannot be moved into itself.\n%s
 28 %s cannot be found.
-$
+$ 
 $ 29 Got obsoleted - Don't use.
-$
+$ 
 30 Cannot move or rename the folder %s.\n\
 All File Manager views displayed for a folder or its sub-folders\n\
 must be closed before a folder can be moved or renamed.
@@ -685,9 +685,9 @@ write permission for the target folder.
 The most likely cause is that you do not have\n\
 permission to move source object.
 
-$
+$ 
 $ Messages 51 - 56 are new since CDE/SI.
-$
+$ 
 51 Unable to copy the file/folder because\n\
 the disk quota will be exceeded on the disk\n\
 you are copying it to.
@@ -708,7 +708,7 @@ Write permission is required.
 58 Process Create Error
 59 Cannot create a child process to delete the dropped files.
 
-$
+$ 
 $set 12
 $ ****** Module: FileMgr.c ****(developer comment only)********
 
@@ -789,12 +789,12 @@ $ Messages 30-40 and 42 are labels for the Find Files dialog
 
 14 Start
 15 Stop
-$
+$ 
 $ 18 Got obsoleted - Don't use.
-$
-$
+$ 
+$ 
 $ 19 Got obsoleted - Don't use.
-$
+$ 
 23 Invalid Find Information.\n\n\
 A search folder must be specified.
 26 Invalid Find Information.\n\n\
@@ -986,7 +986,7 @@ session is already open on the desktop.  If you want to start a new File\n\
 Manager session, you must first close all current File Manager windows\n\
 and remove all File Manager objects from the workspaces.
 
-$
+$ 
 $ "-NEW"
 40 "Could not connect to ToolTalk:\n%s\nExiting ..."
 
@@ -997,12 +997,12 @@ $set 19
 
 $set 20
 $ ****** Module: Menu.c ****(developer comment only)********
-$
+$ 
 $ IMPORTANT
 $ The mnemonic has to stay the same for Japanese and Chinese locale as it's in English
 $ In Japanese and Chinese locale, the text for the menu bar and menu item
 $   must have mnemonic character in it.
-$
+$ 
 
 $ Messages 1-2 are the text and mnemonic for the menu bar File option
 1 File
@@ -1595,9 +1595,9 @@ already exists on the backdrop in this Workspace.\n\
 You cannot put another object with the same name on the Workspace.\n\
 To have both objects on the Workspace, rename one of them.
 
-$
+$ 
 $ Messages 12 and 13 are new messages since the CDE/Sample.
-$
+$ 
 12 An invalid workspace was passed. The default workspace will be\n\
 workspace one and an object named:\n\n\
    %s\n\n\

@@ -1,21 +1,21 @@
-$
+$ 
 $   COMPONENT_NAME: desktop
-$
+$ 
 $   FUNCTIONS: mnemonic
 $		name
-$
+$ 
 $   ORIGINS: 27,118,119,120,121
-$
+$ 
 $   This module contains IBM CONFIDENTIAL code. -- (IBM
 $   Confidential Restricted when combined with the aggregated
 $   modules for this product)
 $   OBJECT CODE ONLY SOURCE MATERIALS
-$
+$ 
 $   (C) COPYRIGHT International Business Machines Corp. 1995
 $   All Rights Reserved
 $   US Government Users Restricted Rights - Use, duplication or
 $   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-$
+$ 
 $ *************************************<+>*************************************
 $ *****************************************************************************
 $ **
@@ -58,13 +58,13 @@ $ *************************************<+>*************************************
 
 $set 2
 $ *****  Module: HelpDialog.c  and a few from HelpQuickD.c *****
-$
+$ 
 $ These Messages appear in the pulldown menus for Cde Help General Help
 $ dialog widget.
-$
+$ 
 $ They come in pairs where the first is the menu name (e.g. 1 Print...) and the
 $ second is the mnemonic (e.g. 2 P).  
-$
+$ 
 $ Messages 1 through 6 are the pulldown menus for the File menu.
 1 Print...
 2 P
@@ -98,7 +98,7 @@ $ Messages 17 through 28 are the pulldown menus for the Help menu.
 26 M
 27 About Help
 28 A
-$
+$ 
 $ Messages 29 through 36 are the menu labels and mnemonics for for the 
 $ Help Dialog.
 29 File
@@ -111,10 +111,10 @@ $ Help Dialog.
 36 H
 37 Edit
 38 E
-$
-$
+$ 
+$ 
 $ >>>>> Skip #39 through #49
-$
+$ 
 $ Messages 50 through 55 are used to display formatting errors within the
 $ help dialog and quick help dialog widgets.
 $ 
@@ -126,29 +126,29 @@ present, or corrupt.
 not present, or corrupt.
 54 Help topic could not be formatted.
 55 Nonexistent location ID:
-$
+$ 
 $ Messages 56 and 67 are displayed when a hypertext link type is selected but
 $ not supported within the current application.
-$
+$ 
 56 The selected Hypertext link is not supported within this application.
 57 Links to Man Pages are not supported by this application.
-$
+$ 
 $ Messages 58 through 62  are used when bad or null help volumes or 
 $ locationId's are used.
-$
+$ 
 58 The requested online help is either not installed or not in the proper help search path.  For information on installing online help, consult the documentation for the product.\n
 59 No location ID specified.
 60 No help volume specified.
 61 Help Volume:
 62 Location ID:
-$
+$ 
 $ >>>>> Skip #63 through #69
-$
-$
+$ 
+$ 
 $ Message 70 is used when a null value for DtNtopicTitle is used.
-$
+$ 
 70 Nonexistent Topic Title.
-$
+$ 
 $ New messages added after early msg cat freeze; not in order
 80 The specified help type is invalid.
 

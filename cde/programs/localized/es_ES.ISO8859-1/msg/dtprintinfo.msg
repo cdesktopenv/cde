@@ -1,28 +1,28 @@
 $ $XConsortium: dtprintinfo.msg /main/5 1996/10/19 14:46:38 rws $
-$
+$ 
 $   COMPONENT_NAME: desktop
-$
+$ 
 $   FUNCTIONS: none
-$
+$ 
 $   ORIGINS: 27,118,119,120,121
-$
+$ 
 $   This module contains IBM CONFIDENTIAL code. -- (IBM
 $   Confidential Restricted when combined with the aggregated
 $   modules for this product)
 $   OBJECT CODE ONLY SOURCE MATERIALS
-$
+$ 
 $   (C) COPYRIGHT International Business Machines Corp. 1995
 $   All Rights Reserved
 $   US Government Users Restricted Rights - Use, duplication or
 $   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-$
-$
+$ 
+$ 
 $ +SNOTICE
-$
+$ 
 $  $XConsortium: dtprintinfo.msg /main/5 1996/10/19 14:46:38 rws $
-$
+$ 
 $  RESTRICTED CONFIDENTIAL INFORMATION:
-$
+$ 
 $  The information in this document is subject to special
 $  restrictions in a confidential disclosure agreement between
 $  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
@@ -30,13 +30,13 @@ $  document outside HP, IBM, Sun, USL, SCO, or Univel without
 $  Sun's specific written approval.  This document and all copies
 $  and derivative works thereof must be returned or destroyed at
 $  Sun's request.
-$
+$ 
 $  Copyright 1993, 1994, 1995 Sun Microsystems, Inc.  All rights reserved.
-$
+$ 
 $ +ENOTICE
-$
+$ 
 $		     Common Desktop Environment
-$
+$ 
 $   (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
 $   (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
 $   (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
@@ -45,15 +45,15 @@ $   (c) Copyright 1995 Digital Equipment Corp.
 $   (c) Copyright 1995 Fujitsu Limited
 $   (c) Copyright 1995 Hitachi, Ltd.
 $                                                                   
-$
+$ 
 $                     RESTRICTED RIGHTS LEGEND                              
-$
+$ 
 $ Use, duplication, or disclosure by the U.S. Government is subject to
 $ restrictions as set forth in subparagraph (c)(1)(ii) of the Rights in
 $ Technical Data and Computer Software clause in DFARS 252.227-7013.  Rights
 $ for non-DOD U.S. Government Departments and Agencies are as set forth in
 $ FAR 52.227-19(c)(1,2).
-$
+$ 
 $ Hewlett-Packard Company, 3000 Hanover Street, Palo Alto, CA 94304 U.S.A.
 $ International Business Machines Corp., Route 100, Somers, NY 10589 U.S.A. 
 $ Sun Microsystems, Inc., 2550 Garcia Avenue, Mountain View, CA 94043 U.S.A.

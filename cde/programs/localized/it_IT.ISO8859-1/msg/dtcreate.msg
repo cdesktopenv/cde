@@ -1,19 +1,19 @@
 $ $TOG: dtcreate.msg /main/4 1999/09/17 17:24:05 mgreess $
 $ %Z%%M%        %I%  %W% %G% %U%
-$
+$ 
 $   COMPONENT_NAME: dtcreate
-$
+$ 
 $   FUNCTIONS: none
-$
+$ 
 $   ORIGINS: 27
-$
-$
+$ 
+$ 
 $   (C) COPYRIGHT International Business Machines Corp. 1993
 $   All Rights Reserved
 $   Licensed Materials - Property of IBM
 $   US Government Users Restricted Rights - Use, duplication or
 $   disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-$
+$ 
 $ **   Description:
 $ **   ------------
 $ **   This is the source message catalog file for dtcreate.
@@ -106,98 +106,98 @@ $ **
 $ *****************************************************************************
 10 Il nome dell'azione non è stato specificato.\n\
 Inserire un nome nel campo 'Nome dell'azione'.
-$
+$ 
 15 Il comando da eseguire non è stato specificato.\n\
 Inserire un comando nel campo\n\
 'Comando da eseguire al doppio clic sull'icona'.
-$
+$ 
 20 La lista 'Tipi di dati che utilizzano l'azione' è vuota.\n\
 Nel campo 'Tipi di dati accettati' è stata\n\
 selezionata l'opzione 'Solo i tipi nella lista'.\n\
 Cambiare la selezione in 'Tutti i tipi di dati'\n\
 o aggiungere almeno un tipo di dati alla lista.
-$
+$ 
 25 Esiste già un file che definisce un'azione e\n\
 un tipo di dati con il nome specificato.\n\
 È possibile annullare il salvataggio e cambiare il nome dell'azione,\n\
 oppure sovrascrivere il file di definizione esistente.\n\
 Si desidera sovrascrivere il file di definizione esistente?
-$
+$ 
 30 Nel campo 'Comando da eseguire al doppio clic sull'icona'\n\
 manca il nome di una variabile.\n\
 Aggiungere una variabile all'etichetta inserita nel\n\
 campo 'All'avvio dell'azione, chiedere all'utente'.\n\
 Le variabili ammesse sono $*, $1, $2, ..., $9.
-$
+$ 
 35 Le modifiche non sono state salvate.\n\
 Si desidera salvare le modifiche prima di uscire?
-$
+$ 
 40 Le modifiche correnti non sono state salvate.\n\
 Si desidera salvare l'azione corrente prima di azzerare\n\
 i campi per una nuova azione?
-$
+$ 
 45 Le modifiche correnti non sono state salvate.\n\
 Si desidera salvare le modifiche correnti prima di azzerare\n\
 i campi per caricare un altro file di definizione?
-$
+$ 
 50 Il nome dell'azione contiene uno o più caratteri\n\
 non ammessi.\n\
 I caratteri da non utilizzare per i nomi sono i seguenti:\n\
   / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
-$
+$ 
 55 Impossibile creare il file:
-$
+$ 
 60 Impossibile aprire il file:
-$
+$ 
 65 Il file seguente non può essere caricato perché non è\n\
 stato originariamente creato con lo strumento Creare azione:
-$
+$ 
 66 Il file non può essere caricato perché è stato modificato con\n\
 uno strumento diverso da Creare azione. È possibile che il file\n\
 sia stato modificato con un editor di testo o altri strumenti.
-$
+$ 
 67 Lo strumento Creare azione può editare solo i file che\n\
 siano stati creati ed editati con questo strumento.
-$
+$ 
 68 Impossibile caricare il file:
-$
+$ 
 $  The following messages are all part of the same message dialog
 70 La nuova azione
 71 è stata inserita nella cartella iniziale.
 73 È stato creato un file di definizione dell'azione di nome:
-$
+$ 
 80 Impossibile trovare tutte le dimensioni dell'icona\n\
 selezionata.
-$
+$ 
 85 Impossibile avviare l'Editor delle icone.
-$
+$ 
 90 Impossibile analizzare il file:
-$
+$ 
 95 Il file seguente non è stato trovato nel percorso di\n\
 ricerca delle icone.
-$
+$ 
 98 L'icona selezionata non si trova nel percorso di ricerca delle icone.\n\
 Per visualizzare correttamente l'icona nell'ambiente del desktop,\n\
 occorre spostarla in una directory inclusa nel percorso di ricerca\n\
 delle icone.\n\
 Scegliere 'OK' se si desidera usare questa icona.\n\
 Scegliere 'Annullare' se si desidera selezionare un'altra icona.
-$
+$ 
 $ ONLY TRANSLATE  "Usage"  and  "filename"
 110 Sintassi: dtcreate [<nomefile>] [-?]
-$
+$ 
 120 Non è stato selezionato un tipo di dati dalla lista\n\
 'Tipi di dati che utilizzano l'azione'.
 125 Selezionare il tipo di dati che si desidera Cancellare.
 130 Selezionare il tipo di dati che si desidera Editare.
-$
+$ 
 150 Il lavoro corrente non è stato salvato.
 152 Non salvare
 154 Annullare la chiusura
-$
+$ 
 160 Impossibile salvare la sessione nel file:
 162 Impossibile ripristinare la sessione dal file:
-$
+$ 
 $ TRANSLATORS: DO NOT TRANSLATE the word "HOME" in the following message
 170 La variabile d'ambiente HOME non è stata impostata.\n\
 Per poter salvare questa azione è necessario che\n\
@@ -250,17 +250,17 @@ $ **
 $ *****************************************************************************
 10 Non è stato specificato il tipo di dati.\n\
 Inserire un nome nel campo 'Nome del tipo di dati'.
-$
+$ 
 15 Non sono state specificate le caratteristiche di identificazione.\n\
 Per poter creare il tipo di dati è necessario specificare queste\n\
 caratteristiche. Per inserire le informazioni richieste, selezionare il\n\
 pulsante Editare vicino alla lista Caratteristiche di identificazione.
-$
+$ 
 20 Il campo 'Nome del tipo di dati' contiene\n\
 uno o più caratteri non ammessi.\n\
 I caratteri da non utilizzare per i nomi sono i seguenti:\n\
   / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
-$
+$ 
 25 Esiste già un tipo di dati con il nome specificato.\n\
 Specificare un altro nome nel campo 'Nome del tipo di dati'.
 
@@ -305,37 +305,37 @@ $ *****************************************************************************
 10 Non è stato specificato uno schema per il nome.\n\
 Se l'opzione Schema del nome è selezionata, è necessario\n\
 inserire una stringa di identificazione.
-$
+$ 
 15 Non sono state selezionate le autorizzazioni.\n\
 Se l'opzione Schema delle autorizzazioni è selezionata,\n\
 occorre specificare una o più delle opzioni disponibili.
-$
+$ 
 20 Non è stato specificato lo schema del contenuto.\n\
 Se l'opzione Contenuto è selezionata, occorre inserire\n\
 una stringa nel campo Schema.
-$
+$ 
 25 Non è stato specificato il valore del byte di inizio.\n\
 Se l'opzione Contenuto è selezionata, occorre inserire\n\
 un valore nel campo 'Byte di inizio'.
-$
+$ 
 30 Non è stata selezionata alcuna caratteristica di identificazione.\n\
 Selezionare una o più caratteristiche\n\
 (Schema del nome, Autorizzazioni o Contenuto).
-$
+$ 
 45 Lo schema del nome contiene uno o più caratteri\n\
 non ammessi.\n\
 Per lo Schema del nome non si possono utilizzare i\n\
 seguenti caratteri:\n\
   / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
-$
+$ 
 46 Lo Schema del contenuto non corrisponde al formato del\n\
 Tipo di contenuto selezionato.\n\
 Reinserire lo Schema del contenuto nel formato corretto, oppure\n\
 cambiare il Tipo in modo che corrisponda allo Schema del contenuto.
-$
+$ 
 47 Il campo Byte di inizio contiene uno o più caratteri non ammessi.\n\
 Questo campo può accettare solo numeri in formato decimale.
-$
+$ 
 48 L'uso dello Schema del contenuto può rallentare sensibilmente\n\
 le prestazioni della Gestione di file.\n\
 Utilizzando lo Schema del contenuto, la Gestione di file deve\n\

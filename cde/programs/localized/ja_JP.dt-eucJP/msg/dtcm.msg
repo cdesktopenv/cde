@@ -889,7 +889,7 @@ $ 	The following message were added because message numbers from
 $    	IBM and Sunsoft conflicted - they both used the same message number
 $    	for different messages.  The IBM message number was changed as
 $    	follows:
-$
+$ 
 $		1100 was 978 from IBM
 $		1101 was 979 from IBM. 
 $		1102 was 981 from IBM. 
@@ -941,13 +941,13 @@ $ by the name of the font.
 1118 "カレンダー : 警告 - 印刷"
 1119 "警告 - フォント %s を読み込むことができません。"
 
-$
+$ 
 $ Message 1120 appears in an error dialog when an appointment cannot
 $   be scheduled.
 $ "NEW-"
 1120	"The event cannot be scheduled in the given time frame.\nThe operation was cancelled."
 
-$
+$ 
 $ Message 1121 is placed in the title bar of a warning dialog if a
 $ print job fails because the Print Server returns BadAlloc.  Message
 $ 1122 is the text displayed in that warning dialog.

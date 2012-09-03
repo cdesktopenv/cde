@@ -40,13 +40,13 @@ $ *************************************<+>*************************************
 
 $set 2
 $ *****  Module: HelpDialog.c  and a few from HelpQuickD.c *****
-$
+$ 
 $ These Messages appear in the pulldown menus for Cde Help General Help
 $ dialog widget.
-$
+$ 
 $ They come in pairs where the first is the menu name (e.g. 1 Print...) and the
 $ second is the mnemonic (e.g. 2 P).  
-$
+$ 
 $ Messages 1 through 6 are the pulldown menus for the File menu.
 1 ÇÄÇÍ(P)...
 2 P
@@ -80,7 +80,7 @@ $ Messages 17 through 28 are the pulldown menus for the Help menu.
 26 M
 27 ùÃÍõëºÉ·ë©Íü(A)
 28 A
-$
+$ 
 $ Messages 29 through 36 are the menu labels and mnemonics for for the 
 $ Help Dialog.
 29 óòÕù(F)
@@ -93,10 +93,10 @@ $ Help Dialog.
 36 H
 37 î¾òÒ(E)
 38 E
-$
-$
+$ 
+$ 
 $ >>>>> Skip #39 through #49
-$
+$ 
 $ Messages 50 through 55 are used to display formatting errors within the
 $ helps dialog and quick help dialog widgets.
 $ 
@@ -108,29 +108,29 @@ $
 ÑÒÄØä´äÚ¡¤
 54 ëºÉ·ë©ÍüÅä÷îàÒÎÎÖªÈ¢Å§¡¤
 55 Æ­ÇÄ ID ÈíåôÄâÇôÇã¡¨
-$
+$ 
 $ Messages 56 and 67 are displayed when a hypertext link type is selected but
 $ not supported within the current application.
-$
+$ 
 56 ÝÕÔ¶óÜÆîá£È¢ÄâÅÅßÎÚÀÍÔòÙÌ½Îûâ¾ÅÆÇóÝÙá¸¡¤
 57 ÝÕÔ¶óÜÆîá£È¢ÄâÅÅßÎÝÙá¸îÀÄ¸ßÎÉ·Ó÷Åü×ä¡¤
-$
+$ 
 $ Messages 58 through 62  are used when bad or null help volumes or 
 $ locationId's are used.
-$
+$ 
 58 ÚÀëæÓÑÎûîÀÄ¸ëºÉ·ë©ÍüÆ«×äÊôÈ´ÇøæÒ¡¢ÍÐÆÜÈíÍõïËåµÎûä²ÞòæûÕÀÄ¸¡¤È´ùÃÇøæÒîÀÄ¸ëºÉ·ë©ÍüÎûæñØ¹¡¢îùÙ¶ÈÓÜ¨ÐÂÎûë©ÍüÅÆÇµ¡¤\n
 59 ÆÜÑÀÌù ID Èíåô¡¤
 60 ÆÜÑÀÌùëºÉ·ë©ÍüÕ©üÕ¡¤
 61 ëºÉ·ë©ÍüÕ©üÕ¡¨
 62 ID Èíåô¡¨
-$
+$ 
 $ >>>>> Skip #63 through #69
-$
-$
+$ 
+$ 
 $ Message 70 is used when a null value for DtNtopicTitle is used.
-$
+$ 
 70 ÈºÅä÷îíº÷îÄâÇôÇã¡¤
-$
+$ 
 $ $ New messages added after early msg cat freeze; not in order
 80 ÑÀÌùÎûëºÉ·ë©ÍüùËÐÎàÒÕæ¡¤
 

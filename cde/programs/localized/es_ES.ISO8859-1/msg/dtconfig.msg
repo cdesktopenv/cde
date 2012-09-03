@@ -119,27 +119,27 @@ $
 23 "la actualización de la acción de impresora se ha completado"
 
 24 "Uso:  "
-$
+$ 
 25 " %s -inetd    (daemons inetd.conf /usr/dt)"
 26 " %s -inetd.ow (daemons inetd.conf /usr/openwin)"
-$
+$ 
 $	In above messages 25 and 26, only translate words between
 $	left "(" and right ").
-$
+$ 
 27 "La próxima inicialización del sistema se ejecutará desde /usr/dt/bin"
-$
+$ 
 28 "    rpc.ttdbserverd         (ToolTalk)"
 29 "    rpc.cmsd                (Gestor del calendario)"
 30 "    dtspcd                  (Control de subprocesos)"
-$
+$ 
 $  Keep column allignment on messages 28 thru 30.  
 $  Only translate what's beteen ( )'s
-$
+$ 
 31 "La próxima inicialización del sistema se ejecutará desde /usr/openwin/bin"
-$
+$ 
 32 "    rpc.ttdbserverd         (ToolTalk)"
 33 "    rpc.cmsd                (Gestor del calendario)"
-$
+$ 
 $  Keep column allignment on messages 32 thru 33.  
 $  Only translate what's beteen ( )'s
-$
+$ 

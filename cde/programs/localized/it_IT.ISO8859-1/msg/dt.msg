@@ -27,32 +27,32 @@ $ *****************************************************************************
 $ *************************************<+>*************************************
 
 $ *****************************************************************************
-$
+$ 
 $ ***** NOTE FOR MESSAGE CATALOG TRANSLATORS *****
 $ 
 $ There may be three types of messages in this file:
-$
+$ 
 $  1. Messages that appear in dialogs or are displayed to the user.
-$
+$ 
 $     These messages are the default and they should ALL BE LOCALIZED.
 $     Note that these messages do NOT have any identification (see the
 $     comments for type 2 and 3 below).
-$
+$ 
 $  2. Messages that only appear in the DT error log file ($HOME/.dt/errorlog).
-$
+$ 
 $     The localization of these messages is OPTIONAL.  These messages are
 $     identified by the following:
-$
+$ 
 $  MESSAGES xx-yy IN SET zz WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-$
+$ 
 $  3. Messages that should not be localized.  
-$
+$ 
 $     These messages are identified by the following:
-$
+$ 
 $  DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGES xx-yy from set zz
-$
+$ 
 $ ***** END (NOTE FOR MESSAGE CATALOG TRANSLATORS) *****
-$
+$ 
 $ ******************************************************************************
 
 
@@ -248,9 +248,9 @@ servizio \"%5$s\" nel file \"%6$s\" dell'host \"%7$s\".
 
 $set 4
 $ *****  Module: DbReader.c  *****
-$
+$ 
 $  MESSAGES 1-11 IN SET 4 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-$
+$ 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 1 Manca un nome in una definizione \"%s\" del file:\n\
   \"%s\"\n\
@@ -310,9 +310,9 @@ $ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 $set 6
 $ *****  Module: ActionDb.c  *****
-$
+$ 
 $  MESSAGES 1-11 IN SET 6 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-$
+$ 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 1 La definizione dell'azione \"%s\" nel file:\n\
   \"%s\"\n\
@@ -444,12 +444,12 @@ $ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 $ Set 50 - message logging service 
-$
+$ 
 $ The messages in this set will only appear in the DT log file.
 $ The messages are used to identify messages written to this log file.
-$
+$ 
 $ File: MsgLog.c
-$
+$ 
 $set 50
 1 INFORMATION
 2 STDERR

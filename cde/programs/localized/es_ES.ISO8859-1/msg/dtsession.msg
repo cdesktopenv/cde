@@ -325,10 +325,10 @@ Nota: La sesión actual no se guardará.\n\n\
 Cuando esté preparado para comenzar el proceso de reiniciar, pulse\n\
 [Bien] y proceda a guardar los archivos."
 
-$
+$ 
 $ Messages 39-41 are displayed on the logout and/or session selection
 $  confirmation dialogs.  These message are for dialog buttons
-$
+$ 
 $quote
 
 $ 39 "Continuar con la desconexión"
@@ -337,9 +337,9 @@ $ 40 "Anular la desconexión"
 40 Cancelar
 41 Ayuda
 
-$
+$ 
 $ Messages 50-53 are for the display-specific session confirmation dialog
-$
+$ 
 50 Inicio
 51 Actual
 $ Message 52 - The first '%s' in message 52 will be replaced with message 
@@ -351,37 +351,37 @@ Si continúa, se creará una nueva sesión\n\
 específica para la pantalla.
 53 Advertencia
 
-$
+$ 
 $ Message 55-56 are for the Session Save error dialog
 $   55 is the dialog title
 $   56 is the message in the dialog - do NOT localize 'save_state'
-$
+$ 
 55 Falló la operación para guardar la sesión
 56 La sesión no puede guardarse debido a que el parámetro\n\
 'save_state' necesario no se encontraba en el mensaje.\n\n\
 No se guardará la sesión.
 
-$
+$ 
 $ Messages 70-71 refer to the name of the System Administration manual
-$
+$ 
 70 Refiérase al siguiente manual para obtener información adicional:
 71 CDE Guía del Administrador del Sistema y del Usuario Avanzado
 
-$
+$ 
 $ Message 75 is used during logout if the user started a Current
 $   session but used the Style Manager to return to a Home session.
-$
+$ 
 75 Saliendo de la sesión de escritorio...\n\n\
 No se guardará la sesión actual pero se restaurará\n\
 la sesión inicial al conectarse.\n\n\
 Se perderán las actualizaciones de aplicación guardadas.\n\n\
 ¿Desea continuar la operación de desconexión?
 
-$
+$ 
 $ Message 76 is used at the same time message 36 is used except that
 $   message 76 is for Digital/OSF only and is slightly different than
 $   message 36.
-$
+$ 
 76 No se pudo activar el sistema de mensajería DT.\n\n\
 Para resolver el problema:\n\n\
 1.  Seleccione [OK] para volver a la pantalla de conexión.\n\n\
@@ -394,9 +394,9 @@ Para resolver el problema:\n\n\
      anfitrión local 127.0.0.1 \n\n\
 Para obtener información adicional, refiérase a CDE Guía del Ususario.
 
-$
+$ 
 $ Message 99 is displayed when a user logs in for the first time
-$
+$ 
 99 Se ha agregado el nuevo archivo '.dtprofile' a su directorio inicial.\n\
 \n\
 Siga las instrucciones de este archivo para asegurarse de que cuando se \n\
@@ -481,11 +481,11 @@ $ LOCALIZE Set 29
 
 
 $ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-$
+$ 
 $ Set 40 is for messages related to the X11R6 Session Management Protocol
 $ 
 $   o Do NOT localize the string '%s' in any of the messages in this set.
-$
+$ 
 $set 40
 $ Messages 1-7 are used when a session cannot be started.
 $ Message 1 - this message will preface messages 2-7
@@ -496,10 +496,10 @@ al siguiente error:
 2 SmsInitialize ha fallado.
 3 IceListenForConnections ha fallado.
 
-$
+$ 
 $ Do not remove the whitespace at the beginning of lines 2 and 3
 $   for message number 4
-$
+$ 
 4 No se pudo crear el archivo de autenticación ~/.ICEauthority.\n\
    Si los archivos ~/.ICEauthority-c y ~/.ICEauthority-l existen,\n\
    se deben quitar para poder iniciar la sesión.
@@ -508,9 +508,9 @@ $
 6 IceComposeNetworkIds ha fallado.
 $ Message 7 - Do NOT translate "SESSION_MANAGER".
 7 No se pudo crear la variable de entorno SESSION_MANAGER.
-$
+$ 
 $ Messages 8-9 occur when a session database cannot be opened.
-$
+$ 
 $ Message 8 - Do NOT remove the whitespace before the last '%s'.
 8 No se pudo abrir la siguiente base de datos de sesión:\n\n\
    '%s'
@@ -518,18 +518,18 @@ $ Message 9 - Do NOT remove the whitespace before the last '%s'.
 9 La siguiente base de datos de sesión no contiene\n\
 el recurso requerido '%s':\n\n\
    %s
-$
+$ 
 $ Messages 10-11 are used to report errors when reading a session database
-$
+$ 
 $ Message 10 - Do NOT remove the whitespace before the last '%s'.
 10 Falta la propiedad requerida '%s' para el cliente\n\n\
    %s\n\n\
 en el archivo '%s'.
 11 Falta el recurso requerido '%s' para el cliente '%d'\n\
 en el archivo '%s'.
-$
+$ 
 $ Messages 12-14 used if errors occur when a session is restarted
-$
+$ 
 $ Message 12 - Do NOT remove the whitespace before the last '%s'.
 12 El directorio '%s'\n\
 no está disponible para la aplicación '%s'.\n\n\
@@ -548,43 +548,43 @@ no se pudo convertir a forma canónica:\n\n\
    %s\n\n\
 [%s]
 
-$
+$ 
 $ Message 15 - used if the -session command line option has no value
-$
+$ 
 15 No se ha suministrado el nombre de sesión para la opción -session de la línea de comando.
-$
+$ 
 $ Message 16 - used if the Save_Session message contains an unrecognized
 $    argument
-$
+$ 
 16 El mensaje Save_Session contiene el argumento no reconocido '%s'.
 
 17 Ha fallado un intento de obtener una lista de cliente del 'Gestor de ventanas'.
-$
+$ 
 $ Message 18 - the client database cannot be opened for writing.
 $ Do NOT remove the whitespace before the last '%s'.
-$
+$ 
 18 No se puede abrir el siguiente archivo de base de datos para escribir:\n\n\
    %s\n\n\
 No se guardará la sesión.
-$
+$ 
 $ Message 19 - used if an application cannot be saved
-$
+$ 
 19 No se puede guardar la aplicación '%s'.
-$
+$ 
 $ Message 20 - used if the IceAcceptConnection function fails:
-$
+$ 
 20 IceAcceptConnection ha fallado.
-$
+$ 
 $ Message 21 - used if a Save Session is requested and one is already
 $    in progress
 21 No se guardará la sesión ya que la operación para guardar la sesión está en curso.
 
 22 La parada de sesión fue cancelada por la aplicación '%s'.
 
-$
+$ 
 $ Messages 23-25 are used when a session is saved and an application 
 $    has not set its required properties
-$
+$ 
 $ Message 23 - Do NOT remove the whitespace before the last '%s'.
 23 La siguiente aplicación no configuró la propiedad\n\
 requerida '%s':\n\n\
@@ -596,7 +596,7 @@ la propiedad requerida '%s'.
 
 25 La aplicación '%s' no configuró la propiedad requerida '%s'.
 
-$
+$ 
 $ Messages 26-27 are used when the DiscardCommand properties are
 $    invoked - before an old session directory is removed.
 $ Message 26 - do NOT remove the whitespace before the '%s'.
@@ -606,18 +606,18 @@ $    this message
    %s\n\n\
 No se pueden ejecutar las propiedades de 'DiscardCommand'.
 
-$
+$ 
 $ Message 27 - do NOT translate the word 'DiscardCommand' in
 $    this message
 27 Ha fallado un intento de ejecutar la propiedad 'DiscardCommand' de \n\
 la aplicación '%s'.
 
-$
+$ 
 $ Messages 28-29 - used when an application exists and it wants the
 $    Session Manager to post a dialog with a message that describes
 $    the reason the client exited.
 $ Message 29 is the title for the dialog
-$
+$ 
 28 Se salió de la aplicación '%s' debido a la siguiente causa:\n\n\
 %s
 29 Causas del cierre de la aplicación

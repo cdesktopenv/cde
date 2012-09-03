@@ -1,9 +1,9 @@
 $ +SNOTICE
-$
+$ 
 $      $TOG: libDtMail.msg /main/4 1997/10/31 15:39:02 rafi $
-$
+$ 
 $      RESTRICTED CONFIDENTIAL INFORMATION:
-$
+$ 
 $      The information in this document is subject to special
 $      restrictions in a confidential disclosure agreement bertween
 $      HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
@@ -11,9 +11,9 @@ $      document outside HP, IBM, Sun, USL, SCO, or Univel wihtout
 $      Sun's specific written approval.  This documment and all copies
 $      and derivative works thereof must be returned or destroyed at
 $      Sun's request.
-$
+$ 
 $      Copyright 1993 Sun Microsystems, Inc.  All rights reserved.
-$
+$ 
 $ +ENOTICE
 $ @(#)libDtMail.msg    1.8 03 Nov 1994
 $set 1 libDtMail API set
@@ -50,7 +50,7 @@ $set 1 libDtMail API set
 31 MD5 서명이 메세지 내용과 맞지 않습니다.
 32 유효한 수행 그룹은 "mail"이 아닙니다.
 
-$
+$ 
 $ Strings from libDtMail/Common/DtMailValuesBuiltin.C
 
 $set 2

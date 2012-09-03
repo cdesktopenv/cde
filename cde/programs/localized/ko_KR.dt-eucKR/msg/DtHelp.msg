@@ -40,13 +40,13 @@ $ *************************************<+>*************************************
 
 $set 2
 $ *****  Module: HelpDialog.c  and a few from HelpQuickD.c *****
-$
+$ 
 $ These Messages appear in the pulldown menus for Cde Help General Help
 $ dialog widget.
-$
+$ 
 $ They come in pairs where the first is the menu name (e.g. 1 Print...) and the
 $ second is the mnemonic (e.g. 2 P).
-$
+$ 
 $ Messages 1 through 6 are the pulldown menus for the File menu.
 1 인쇄P...
 2 P
@@ -80,7 +80,7 @@ $ Messages 17 through 28 are the pulldown menus for the Help menu.
 26 M
 27 도움말에 관하여A
 28 A
-$
+$ 
 $ Messages 29 through 36 are the menu labels and mnemonics for for the
 $ Help Dialog.
 29 파일F
@@ -93,13 +93,13 @@ $ Help Dialog.
 36 H
 37 편집E
 38 E
-$
-$
+$ 
+$ 
 $ >>>>> Skip #39 through #49
-$
+$ 
 $ Messages 50 through 55 are used to display formatting errors within the
 $ help dialog and quick help dialog widgets.
-$
+$ 
 50 문자열 데이타를 서식화할 수 없습니다.
 51 동적 문자열 데이타를 서식화할 수 없습니다.
 52 온라인 설명서를 서식화할 수 없습니다. 요구한 온라인 설명서가 없거나 \
@@ -108,29 +108,29 @@ $
 손상되었습니다.
 54 도움말 주제를 서식화할 수 없습니다.
 55 없는 위치 ID:
-$
+$ 
 $ Messages 56 and 67 are displayed when a hypertext link type is selected but
 $ not supported within the current application.
-$
+$ 
 56 선택된 하이퍼텍스트 링크는 이 응용프로그램에서 지원되지 않습니다.
 57 이 응용프로그램은 온라인 설명서에 대한 링크를 지원하지 않습니다.
-$
+$ 
 $ Messages 58 through 62  are used when bad or null help volumes or
 $ locationId's are used.
-$
+$ 
 58 요구한 온라인 도움말이 설치되지 않았거나 적절한 도움말 찾기 경로에 있지 않습니다. 온라인 도움말 설치에 대한 정보는 해당 제품의 설명서를 참조하십시오.\n
 59 위치 ID를 지정하지 않았습니다.
 60 도움말 볼륨을 지정하지 않았습니다.
 61 도움말 볼륨:
 62 위치 ID:
-$
+$ 
 $ >>>>> Skip #63 through #69
-$
-$
+$ 
+$ 
 $ Message 70 is used when a null value for DtNtopicTitle is used.
-$
+$ 
 70 없는 주제 제목.
-$
+$ 
 $ New messages added after early msg cat freeze; not in order
 80 지정한 도움말 유형이 유효하지 않습니다.
 

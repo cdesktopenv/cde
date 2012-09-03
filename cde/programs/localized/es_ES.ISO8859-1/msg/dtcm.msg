@@ -1974,7 +1974,7 @@ $ 	The following message were added because message numbers from
 $    	IBM and Sunsoft conflicted - they both used the same message number
 $    	for different messages.  The IBM message number was changed as
 $    	follows:
-$
+$ 
 $		1100 was 978 from IBM
 $		1101 was 979 from IBM. 
 $		1102 was 981 from IBM. 
@@ -2039,12 +2039,12 @@ $ is the text displayed in that warning dialog; the %s will be replaced
 $ by the name of the font.
 1118	"Agenda: Advertencia - Imprimir"
 1119	"Advertencia - No se puede cargar el font %s."
-$
+$ 
 $ Message 1120 appears in an error dialog when an appointment cannot
 $   be scheduled.
 1120	"No se puede programar el evento en el período de tiempo especificado.\nSe ha cancelado la operación."
 
-$
+$ 
 $ Message 1121 is placed in the title bar of a warning dialog if a
 $ print job fails because the Print Server returns BadAlloc.  Message
 $ 1122 is the text displayed in that warning dialog.

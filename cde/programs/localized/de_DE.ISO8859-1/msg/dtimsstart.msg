@@ -52,4 +52,4 @@ $ 	error messages
 58 IMS '%1$s' nicht registriert auf '%2$s'.
 59 Kann Bildschirm '%s' nicht öffnen.
 
-$
+$ 

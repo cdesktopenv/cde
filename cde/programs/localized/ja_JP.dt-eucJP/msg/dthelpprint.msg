@@ -44,11 +44,11 @@ $quote "
 
 $set 2
 $ *****  Module: PrintUtil.c *****
-$
+$ 
 
 $set 3
 $ *****  Module: PrintTopics.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s エラー: helpType はトピックですが、helpVolume が指定されていません。\n"
 2 "%s エラー: ヘルプ・ボリューム %s を検出することができません。\n"
@@ -73,7 +73,7 @@ $ string used by can't get a topic title associated with an index subentry
 
 $set 4
 $ *****  Module: PrintManStrFile.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s エラー: helpType は文字列ですが、stringData が指定されていません。\n"
 2 "%s エラー: helpType は動的文字列ですが、stringData が指定されていません。\n"
@@ -83,7 +83,7 @@ $ ** LOCALIZE THESE MESSAGES **
 
 $set 5
 $ *****  Module: Initialize.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 $ Messages 1 to 29: dthelpprint usage message
 $ **DO NOT LOCALIZE** the command line option names (e.g. -copies).
@@ -134,7 +134,7 @@ $ arg order: directory prefix processid filecnt suffix
 
 $set 6
 $ *****  Module: Main.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s エラー: helpType %d が不正です。\n"
 

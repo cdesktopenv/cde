@@ -44,11 +44,11 @@ $quote "
 
 $set 2
 $ *****  Module: PrintUtil.c *****
-$
+$ 
 
 $set 3
 $ *****  Module: PrintTopics.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s Fel: Du har angivit ett ämne, men inte i vilken volym du vill söka.\n"
 2 "%s Fel: Det går inte att hitta volymen %s\n"
@@ -72,7 +72,7 @@ $ string used by can't get a topic title associated with an index subentry
 
 $set 4
 $ *****  Module: PrintManStrFile.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s Fel: Du söker efter en söksträng, men du har inte angivt någon.\n"
 2 "%s Fel: Du söker efter en dynamisk sträng, men du har inte angivt någon.\n"
@@ -82,7 +82,7 @@ $ ** LOCALIZE THESE MESSAGES **
 
 $set 5
 $ *****  Module: Initialize.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 $ Messages 1 to 29: dthelpprint usage message
 $ **DO NOT LOCALIZE** the command line option names (e.g. -copies).
@@ -130,7 +130,7 @@ $ arg order: directory prefix processid filecnt suffix
 
 $set 6
 $ *****  Module: Main.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s Fel: Felaktig hjälp-typ %d.\n"
 

@@ -59,7 +59,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 
 $ Messages 4 and 5 are both used when there is a syntax error on
 $ the command line invoking dthello
-$
+$ 
 4 사용법: %s [-display <display>] [-fg <color>] [-bg <color>]\\\n
 5 [-font <font>] [-string <message>] [-file <name>] [-timeout <seconds>]\n
 
@@ -74,7 +74,7 @@ $                    (2) it is not available on this server
 10 %s: 메모리 부족 (SeparateTextLines)\n
 
 $set 37
-$
+$ 
 $    Sun platform specific messages
 1 오픈윈도우즈 데스크탑 시작\n
 

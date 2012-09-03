@@ -1,7 +1,7 @@
 
 $quote "
 $ $TOG: dtinfo.msg /main/25 1999/09/20 13:35:52 mgreess $
-$
+$ 
 $ (c) Copyright 1996 Digital Equipment Corporation.
 $ (c) Copyright 1996 Hewlett-Packard Company.
 $ (c) Copyright 1996 International Business Machines Corp.
@@ -9,21 +9,21 @@ $ (c) Copyright 1996 Sun Microsystems, Inc.
 $ (c) Copyright 1996 Novell, Inc.
 $ (c) Copyright 1996 FUJITSU LIMITED.
 $ (c) Copyright 1996 Hitachi.
-$
+$ 
 $ ******************************************************************************
-$
+$ 
 
 $set	1
-$
+$ 
 $ messages specific to message-catalog manager
-$
+$ 
 1 "カタログ中にデフォルトのメッセージが見つかりません。"
 
 
 $set	2
-$
+$ 
 $ messages specific to UAS/DtSearch modules
-$
+$ 
 1 "検索機能 ``%s'' はサポートされていません。"
 2 "quoted phrase"
 3 "weight"
@@ -32,18 +32,18 @@ $
 
 
 $set	4
-$
+$ 
 $ messages specific to booklist window
-$
+$ 
 3 "Dtinfo: Infolibのブックリスト"
 63 "Dtinfoへようこそ!"
 65 "現在のセクション"
 
 
 $set	5
-$
+$ 
 $ messages specific to browser window
-$
+$ 
 1 "Dtinfo: ブラウザ"
 2 "リンク先をプレビューするには、リンクをクリックし、ボタンを押したままにしてください。"
 3 "インフォメーション・ライブラリ"
@@ -58,10 +58,10 @@ $ line-break rules (reserved)
 6 "‘“（〔［｛〈《「『【￥＄¢£＠§〒♯"
 
 $set	6
-$
+$ 
 $ messages specific to add information library dialog
 $ Note: "Infolib" is a CDE glossary term.
-$
+$ 
 
 1 "Dtinfo: ドキュメント・ライブラリの追加"
 
@@ -98,9 +98,9 @@ $ "NEW-"
 11 "Infolibがありません。"
 
 $set	7
-$
+$ 
 $ dtinfo GUI label strings
-$
+$ 
 1 "ファイル(F)"
 2 "F"
 4 "表示(V)"
@@ -168,7 +168,7 @@ $ Results Dialog.
 61 "範囲エディタ"
 
 $  Messages 62-77 for "Browser" pulldown menu entries
-$
+$ 
 62 "ブラウザ(B)"
 63 "B"
 64 "新しいウィンドウ(N)"
@@ -456,9 +456,9 @@ $ "NEW-"
 
 
 $set	8
-$
+$ 
 $ dtinfo quick help messages (to be exhibited on status display area)
-$
+$ 
 1 "ヒストリ中の前のセクションに移動します"
 2 "ヒストリ中の次のセクションに移動します"
 3 "ドキュメント中の前のセクションに移動します"
@@ -487,39 +487,39 @@ $ descriptive.
 
 
 $set	9
-$
+$ 
 $ messages specific to bookmark edit dialog
-$
+$ 
 1 "Dtinfo: ブックマーク・エディタ"
 2 "ブックマークの更新に失敗しました。"
 
 
 $set	10
-$
+$ 
 $ messages specific to detached graphic window
-$
+$ 
 1 "Dtinfo: 分離グラフィック"
 2 "分離グラフィック"
 3 "ラスタ・イラスト (非スケーラブル)"
 4 "ベクタ・イラスト (スケーラブル)"
 5 "イラストをスケーリング中です、お待ちください..."
-$
+$ 
 $ Dtinfo*SetZoom
-$
+$ 
 6 "新しいスケーリングの比率を入力してください。"
-$
+$ 
 $ Dtinfo*SetZoomTitle
-$
+$ 
 7 "Dtinfo: スケールの設定"
-$
+$ 
 8 "Dtinfo: "
 9 "ラスタ・イラスト (スケーラブル)"
 
 
 $set	11
-$
+$ 
 $ messages specific to mark list window
-$
+$ 
 
 $	1 is the title of a window containing a list of the
 $ user's bookmarks
@@ -527,33 +527,33 @@ $ user's bookmarks
 
 
 $set	12
-$
+$ 
 $ messages specific to mark selection dialog
-$
+$ 
 $   Messages 1 & 2: "Select" and "Edit" are verbs
 1 "Dtinfo: マークの選択"
 2 "Dtinfo: マークの編集"
 
 
 $set	13
-$
+$ 
 $ messages specific to section history window
-$
+$ 
 1 "Dtinfo: セクション・ヒストリ"
 
 
 $set	14
-$
+$ 
 $ messages specific to preferences window
-$
+$ 
 1 "Dtinfo: 設定"
 2 "Dtinfo: ジオメトリの取得"
 
 
 $set	15
-$
+$ 
 $ messages specific to printing
-$
+$ 
 1 "Dtinfo: 印刷"
 $          Messages 2 - 5 are obsolete, and have been replaced by 12
 2 環境中に印刷ダイアログ・マネージャが見つかりません
@@ -570,36 +570,36 @@ $       Message 12 is used to handle errors from the PDM
 
 
 $set	16
-$
+$ 
 $ messages specofic to search scope editor window
-$
+$ 
 $	1	Edit the Scope for for use in a Search
 1 "Dtinfo: 検索範囲エディタ"
-$
+$ 
 $ Dtinfo*範囲保存"
-$
+$ 
 2 "新しい範囲名を入力してください:"
-$
+$ 
 $ Dtinfo*SaveScopeTitle
-$
+$ 
 3 "Dtinfo: 範囲の保存"
-$
+$ 
 4 "すべてのInfolib"
 
 
 $set	17
-$
+$ 
 $ messages specific to search result window
-$
+$ 
 $	1	"Search Results" is for the results of a search
 1 "Dtinfo: 検索結果"
 
 
 $set	18
-$
+$ 
 $ messages specific to open locator dialog, and locator
 $ input formats in general.
-$
+$ 
 $ 1	"Dtinfo: Open Locator"
 1 "Dtinfo: ロケータを開く"
 
@@ -621,210 +621,210 @@ $ 6     "No locator value provided."
 
 
 $set	19
-$
+$ 
 $ messages specific to query editor window
-$
+$ 
 1 "Dtinfo: クエリー・エディタ"
 
 
 $set	20
-$
+$ 
 $ dtinfo general messages
-$
-$
+$ 
+$ 
 $ Dtinfo*PixmapAllocationError
-$
+$ 
 1 "グラフィックのレンダリングに必要な\n\
 サーバのメモリがありません。"
-$
+$ 
 $ Dtinfo*AbandonChanges
-$
+$ 
 2 "変更内容を破棄しますか?"
-$
+$ 
 $ Dtinfo*NoHelp
-$
+$ 
 3 "ヘルプ情報が見つかりません。"
-$
+$ 
 $ Dtinfo*NoSelection
-$
+$ 
 4 "選択されたテキストがありません。\n\
 テキストを選択してから、再試行してください。"
-$
+$ 
 $ Dtinfo*AbandonBookmarks
-$
+$ 
 5 "保存されていない、開かれたブックマークがあります。\n\
 保存しないで中止しますか?"
-$
+$ 
 $ Dtinfo*ConfirmQuit
-$
+$ 
 6 "Dtinfoを中止しますか?"
-$
+$ 
 $ Dtinfo*BadTocHierarchy
-$
+$ 
 7 "バグをファイル"
-$
+$ 
 $ Dtinfo*LinkToBookTitle
-$
+$ 
 8 "%s: %s へリンク"
-$
+$ 
 $ Dtinfo*LinkToTitle
-$
+$ 
 9 "%s へリンク"
-$
+$ 
 $ Dtinfo*MarkCreateFailed
-$
+$ 
 10 "Dtinfo はこのブックマークを作成できません。"
-$
+$ 
 $ Dtinfo*MarkDeleteFailed
-$
+$ 
 11 "Dtinfo はこのブックマークを削除できません。"
-$
+$ 
 $ Dtinfo*MarkMoveFailed
-$
+$ 
 12 "Dtinfo はこのブックマークを削除できません。"
-$
+$ 
 $ Dtinfo*MaxDepthExceeded
-$
+$ 
 13 "バグをファイル"
-$
+$ 
 $ Dtinfo*MarkIconInvisible
-$
+$ 
 14 "選択されたブックマークを表示できません。\n\
 このセクションの表示可能範囲外にあります。"
-$
+$ 
 $ Dtinfo*MViewNoBase
-$
+$ 
 15 "選択されているマークは\n\
 アクセス可能なドキュメント上にありません。\n\
 適切なInfolibを読み込んでください。"
-$
+$ 
 $ Dtinfo*GetGeometry
-$
+$ 
 16 "デフォルトとして保存するサイズをもつ\n\
 Dtinfoウィンドウの内側をクリックしてください。"
-$
+$ 
 $ Dtinfo*SaveModifiedScope
-$
+$ 
 17 "変更内容を現在の範囲に保存しますか?"
-$
+$ 
 $ Dtinfo*BadScopeName
-$
+$ 
 18 "コロン(:)、コンマ(,)、\n\
 セミコロン(\;)は、検索範囲名では\n\
 許されません。"
-$
+$ 
 $ Dtinfo*EmptyScopeName
-$
+$ 
 19 "有効な範囲名を入力してください。"
-$
+$ 
 $ Dtinfo*ScopeNameTooLong
-$
+$ 
 20 "検索範囲名は、30文字を超えてはなりません。\n\
 もっと短い範囲名を入力してください。"
-$
+$ 
 $ Dtinfo*DuplicateScopeName
-$
+$ 
 21 "入力された名前はすでに使用中です。\n\
 一意的な範囲名を入力してください。"
-$
+$ 
 $ Dtinfo*Everything
 $	22	"Everything" refers to section components like
 $		titles, body, and related.
-$
+$ 
 22 "すべて"
-$
+$ 
 $ Dtinfo*Titles
-$
+$ 
 23 "タイトル"
-$
+$ 
 $ Dtinfo*Body
 $	24	"Body" as in the body of text.
-$
+$ 
 24 "本文"
-$
+$ 
 $ Dtinfo*Examples
-$
+$ 
 25 "例"
-$
+$ 
 $ Dtinfo*Index
-$
+$ 
 26 "索引"
-$
+$ 
 $ Dtinfo*Tables
-$
+$ 
 27 "表"
-$
+$ 
 $ Dtinfo*Graphics
-$
+$ 
 28 "グラフィック"
-$
+$ 
 $ Dtinfo*ScopeDeleteConfirm
-$
+$ 
 29 "表示された範囲を削除しますか?"
-$
+$ 
 $ Dtinfo*CurrentSection
-$
+$ 
 30 "現在のセクション"
-$
+$ 
 $ Dtinfo*IgnoredScopes
-$
+$ 
 31 "このInfolibに有効ではない\n\
 保存された範囲を無視します。"
-$
+$ 
 $ Dtinfo*MarkBaseOpenFailed
-$
+$ 
 32 "ユーザのマーク・データベースを開けません。"
-$
+$ 
 $ Dtinfo*NoOpenMarkBases
-$
+$ 
 33 "Dtinfoのマーク・データベースが見つかりませんでした。\n\
 Dtinfo はブックマークを作成できません。"
-$
+$ 
 $ Dtinfo*MarkBaseReadOnly
-$
+$ 
 34 "現在のマーク・データベースは読み取り専用です。"
-$
+$ 
 35 "ドキュメントで未知のエラーが発生しました: プロダクト・サポートに知らせてください。"
 
 36 "検索エンジン(UAS_SearchEngine内)から、\n\
 予期しないメッセージを受信しました:\n\
 プロダクト・サポートに知らせてください。"
-$
+$ 
 $ Dtinfo*TooManyIbases
-$
+$ 
 37 "検索エンジンの制限のため、現在の範囲の最初の %d 個の\n\
 ブックケースのみ、検索されます。\n\
 継続しますか?"
-$
+$ 
 $ Dtinfo*DemoFailure
-$
+$ 
 38 "これはブラウザの評価バージョンです。\n\
 このInfolibにアクセスする権限はありません。"
-$
+$ 
 $ Dtinfo*StyleSheetSyntaxError
-$
+$ 
 39 "このドキュメントのスタイル・シートにエラーがあります。\n\
 デフォルトのスタイルが適用されます。"
-$
+$ 
 $ Dtinfo*NoHits
-$
+$ 
 40 "このクエリーでの一致はありません。"
-$
+$ 
 $ Dtinfo*BadQuery
-$
+$ 
 41 "Dtinfoはクエリーを理解できません。\n\
 有効なクエリーを入力してください。"
-$
+$ 
 $ Dtinfo*SearchError
-$
+$ 
 42 "検索エンジンの内部エラーが検出されました。\n\
 このブラウザ・セッションで今後おこなわれるすべての検索は、失敗するでしょう。\n\n\
 この問題は記録され、ブラウザの今後のリリースで修正されます。\n\
 一時的な回避策として、この状況を引き起こすようなクエリーの入力を避けてください。\n\
 再び検索を有効にするには、ブラウザを中止し再起動してください。"
-$
+$ 
 $ Dtinfo*KernelError
-$
+$ 
 43 "検索エンジンの内部エラーが検出されました。\n\
 おそらく、このマシンの/usr/tmpディレクトリが\n\
 tmpfsファイル・システム上にあります(またはそこにリンクされています)。\n\
@@ -834,75 +834,75 @@ tmpfsファイル・システム上にあります(またはそこにリンクされています)。\n\
 (またはそこにリンクしない)ように、このマシンの/usr/tmpディレクトリを再構成する事です。\n\
 その後ブラウザを再起動すれば、検索は再び有効となり、正しく動作するはずです。\n\
 詳しくは、システム管理者に問い合わせてください。"
-$
+$ 
 $ Dtinfo*FulcrumNoMemory
-$
+$ 
 44 "検索エンジンは、メモリを割り当てられなかったために、\n\
 検索要求を完了できませんでした。再び検索を試みる前に、\n\
 他のアプリケーションを終了してみるか、システムの物理メモリや\n\
 や仮想メモリを増やしてください。"
-$
+$ 
 $ Dtinfo*FulcrumError
-$
+$ 
 45 "検索エンジンのエラーが発生しました。\n\
 プロダクト・サポートに、検索エラー %d を報告してください。"
-$
+$ 
 $ Dtinfo*BadHelp
-$
+$ 
 46 "このボタンを押すと、現在読み込まれているInfolibには存在しない\n\
 Dtinfoドキュメントへ、リンクします。"
-$
+$ 
 $ Dtinfo*query_is_read_only
-$
+$ 
 47 "これは、表示目的のフィールドです。クエリーを編集するには、\n\
 クエリー・エディタ、または [閲覧] ウィンドウか [ブックリスト] ウィンドウの、\n\
 [クイック検索] フィールドを使用してください。"
-$
+$ 
 $ Dtinfo*ExceedRdWindows
-$
+$ 
 48 "ユーザの設定で設定された、アクティブな [閲覧] ウィンドウ\n\
 の最大数 (%d)に、既に達しました。"
-$
+$ 
 $ Dtinfo*NoPrefBase
-$
+$ 
 49 "利用可能なユーザの設定データベースがありません。"
-$
+$ 
 $ Dtinfo*PrefBaseReadOnly
-$
+$ 
 50 "ユーザの設定データベースは、読み取り専用モードで開かれています。\n\
 新しい設定は、ディスクに保存されません。"
-$
+$ 
 $ Dtinfo*DeadEndLink
-$
+$ 
 51 "要求されたドキュメントまたはセクションを参照できません。"
-$
+$ 
 $ Dtinfo*MarkPositionFailed
-$
+$ 
 52 "Dtinfoは、\42%s\42という名前のマークを\n\
 表示できません。\n\
 それを結び付けていたパラグラフが、\n\
 もはや存在しないためです。"
-$
+$ 
 $ Dtinfo*ScopeChangeAbandon
-$
+$ 
 53 "現在の範囲に対する変更内容を、破棄しますか?"
-$
+$ 
 $ Dtinfo*InformationLibrary
-$
+$ 
 63 "インフォメーション・ライブラリ"
-$
+$ 
 $ Dtinfo*On
-$
+$ 
 64 "オン"
-$
+$ 
 $ Dtinfo*Off
-$
+$ 
 65 "オフ"
-$
+$ 
 67 "Infolibを作成できませんでした。" 
 
 68 "Infolibの作成に失敗しました。"
-$
+$ 
 69 "検索結果の重み付けは、利用可能ではありません。"
 
 $	70	The "qualified locator" is a "fully qualified
@@ -917,46 +917,46 @@ $ "NEW-"
 73 "デタッチするにはグラフィックをクリックしてください。"
 
 $set	21
-$
+$ 
 $ messages specific to message dialogs
-$
+$ 
 
 $ Dtinfo*ErrorDialogTitle
-$
+$ 
 1 "Dtinfo: エラー"
 
 $ Dtinfo*WarningDialogTitle
-$
+$ 
 2 "Dtinfo: 警告"
 
 $ Dtinfo*InfoDialogTitle
-$
+$ 
 3 "Dtinfo: 情報"
 
 $ Dtinfo*ProgressDialogTitle
-$
+$ 
 $	4	"Progress" is a level of completion in regards
 $		 to a task.
 4 "Dtinfo: 経過"
 
 $ Dtinfo*QuitDialogTitle
-$
+$ 
 5 "Dtinfo: 中止の確認"
 
 $ Dtinfo*QuestionDialogTitle
-$
+$ 
 6 "Dtinfo: 質問"
-$
+$ 
 7 "Dtinfo: バグをファイル"
 
 
 $set	22
-$
+$ 
 $ dtinfo version information
-$
-$
+$ 
+$ 
 $	Dtinfo*Version
-$
+$ 
 1 "CDE Dtinfo Browser\n\
 \n\
 Copyright (c) 1996 Chisholm Technologies, Inc.,\n\
@@ -978,15 +978,15 @@ Systems, 1315 Dell Avenue, Campbell, CA 95008 USA."
 
 
 $set	23
-$
+$ 
 $ messages specific to CanvasRenderer (dtinfo I/F to DtCanvas/DtHelp)
-$
+$ 
 
 
 $set	24
-$
+$ 
 $ messages specific to UAS/Base modules
-$
+$ 
 1 "URLで提供されているアクセス部分がありません。"
 2 "作成方法が分かりません %s: object"
 3 "範囲エラーです: UAS_ObjList<T>::operator[]"
@@ -994,9 +994,9 @@ $
 
 
 $set	27
-$
+$ 
 $ messages specific to UAS/MMDB modules
-$
+$ 
 1 "ブックケースは有効ではありません:"
 2 "無効な MMDB infolib パスです: %s"
 3 "無効な MMDB infolib パスを無視します: %s"
@@ -1006,17 +1006,17 @@ $
 
 
 $set	28
-$
+$ 
 $ messages specific to graphical map window
-$
+$ 
 1 "Dtinfo: ローカル・マップ"
 2 "Dtinfo: "
 
 
 $set	29
-$
+$ 
 $ messages specific to search history window
-$
+$ 
 $	1	"Search Results History" is a history of the
 $ search results already obtained under the dtinfo session, for
 $ prior queries.
@@ -1024,25 +1024,25 @@ $ prior queries.
 
 
 $set	30
-$
+$ 
 $ messages specific to window system module
-$
+$ 
 1 "Dtinfo: 致命的エラー"
 2 "終了します..."
 3 ディスプレイを開けません。\n
 
 $set	31
-$
+$ 
 $ messages specific to printing
-$
+$ 
 1 "ページ・ヘッダ"
 2 "ページ・フッタ - %d ページ"
 
 
 $set	40
-$
+$ 
 $ messages specific to environmental interface or program context
-$
+$ 
 
 $ 1     ""
 1 "実装されていません。"
@@ -1051,13 +1051,13 @@ $ 1     ""
 $set	41
 $ The messages in this set will only appear in the users
 $   "errorlog" file.
-$
+$ 
 $ ******************************************************************************
-$
+$ 
 $ messages specific to tooltalk interface and operations.
 $ Note that many errors defined by tooltalk are passed through
 $ and therefore not repeated here.
-$
+$ 
 
 $ 1     "Can't get tt session for X display %s"
 1 Xディスプレイ s の tt session を得られません。:\n%s
@@ -1073,28 +1073,28 @@ $ 4     "Could not declare ptype DtInfo."
 
 $ Messages 5-10: These messages result from an error in a tt_* function
 $    call.
-$
+$ 
 5 ttsession(1)プロセスが実行中ではなく、また\n\
 ToolTalkサービスはそれを再起動できません。
 6 現在のデフォルトのプロセス識別子は、期限切れか無効です。
 7 指定されたToolTalkセッションは、期限切れか無効です。
 
-$
+$ 
 $ Message 8: Do not localize the word DtInfo.
-$
+$ 
 8 プロセス・タイプ'DtInfo'は、\n\
 インストールされたプロセス・タイプの名前ではありません。
 
-$
+$ 
 $ Message 9: Do not localize the word DtInfoPrint.
-$
+$ 
 9 プロセス・タイプ'DtInfoPrint'は、\n\
 インストールされたプロセス・タイプの名前ではありません。
 
 10 エラー番号は認知されません。
 
 $set    42
-$
+$ 
 $ messages specific to UAS/DtSR_SearchEngine modules
-$
+$ 
 1 "DtSearchはクエリーをサポートしていません。"

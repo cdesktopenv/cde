@@ -44,11 +44,11 @@ $ Use the double quote char around all messages
 
 $set 2
 $ *****  Module: PrintUtil.c *****
-$
+$ 
 
 $set 3
 $ *****  Module: PrintTopics.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 $quote "
 1 "%s Errore: helpType è un argomento, ma non è stato specificato un volume di aiuto.\n"
@@ -73,7 +73,7 @@ $ string used by can't get a topic title associated with an index subentry
 
 $set 4
 $ *****  Module: PrintManStrFile.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s Errore: helpType è una stringa, ma non è stata specificata l'opzione stringData.\n"
 2 "%s Errore: helpType è una stringa dinamica, ma non è stata specificata l'opzione stringData.\n"
@@ -83,7 +83,7 @@ $ ** LOCALIZE THESE MESSAGES **
 
 $set 5
 $ *****  Module: Initialize.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 $ Messages 1 to 29: dthelpprint usage message
 $ **DO NOT LOCALIZE** the command line option names (e.g. -copies).
@@ -131,7 +131,7 @@ $ arg order: directory prefix processid filecnt suffix
 
 $set 6
 $ *****  Module: Main.c *****
-$
+$ 
 $ ** LOCALIZE THESE MESSAGES **
 1 "%s Errore: helpType %d non ammesso.\n"
 

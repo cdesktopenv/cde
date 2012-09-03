@@ -237,17 +237,17 @@ $        "PackIcons" and the "P" should be localized unless the
 $        accelerator interferes with the local keyboard.
 $        The accelerator is OSF standard for this item and should only be
 $        changed if this accelerator would lock out a local key use.
-$
+$ 
 $        The underbar
 $        is part of the syntax for mnemonics and should not be changed.
 $        The letter after the underbar should match a letter (case sensitive)
 $        in the item title .
 $        (e.g.   CompressIcons _C Alt Shift<Key>F7 f.pack_icons
-$
+$ 
 $          OR
 $                CompressIcons _I Alt Shift<Key>F7 f.pack_icons
 $   )
-$
+$ 
 $   The mnemonic should also be chosen such such that it does not
 $        conflict with another mnemonic in the menu.
 
@@ -462,12 +462,12 @@ $set 60        Redefine set#
 $    THIS COMMENT FOR DTWM TEAM ONLY -- WmResParse.c --
 $    Messages 1-39,41-42 are written to an error file.
 $    YOU DO NOT NEED TO LOCALIZE MESSAGES 1-39, 41-42.
-$
+$ 
 $    Message 40 allows you to alter the labels for the modifier
 $    keys on the menu accelerators. You may wish to localize
 $    message 40 so that these labels match the keycaps on your
 $    local keyboard.
-$
+$ 
 
 1 "Insufficient memory for session geometry item"
 
@@ -547,30 +547,30 @@ $ modifier key labels to the keycaps that the user sees on the
 $ local keyboard. If modifier key labels are not remapped, then
 $ the key label used in the accelerator spec will appear on
 $ the menu
-$
+$ 
 $ Example: menu spec in dtwmrc file
 $ \t "Close"                 _C   Alt<Key>F4      f.kill
-$
+$ 
 $ Appears as
 $         Close       Alt+F4
 $         -                  (the 'C' in Close is underlined)
-$
+$ 
 $ if message 40 doesn't remap "Alt" then accelerator text is "Alt+F4"
 $ if message 40 is "Alt XYZ" then accelerator text is "XYZ+F4"
-$
+$ 
 $ The format of this message is a sequence of strings separated
 $ by spaces. The strings are taken in pairs. If the first string
 $ in a pair matches a accelerator key label, the second string
 $ appears in its place on the menu. There must be an even number
 $ of strings. The case of the first string does not matter. The
 $ case of the second string is preserved.
-$
+$ 
 
 40 ""
-$
+$ 
 $    Messages 41-42 are written to an error file.
 $    YOU DO NOT NEED TO LOCALIZE MESSAGES 41-42.
-$
+$ 
 
 41 "Insufficient memory to get LANG environment variable."
 
@@ -842,14 +842,14 @@ $ copy of the main panel control exists in the subpanel.
 9 "Etes-vous sûr(e) de vouloir supprimer ce panneau secondaire ?"
 $ Message 10 - 19 are the menu title, menu items, and mnemonics in the
 $ Main/Subpanel Menu.
-$
+$ 
 $ The entries are paired (label + mnemonic). The label appears in the
 $ menu. The mnemonic is the character in the label that is underlined by
 $ the menu system indicating that it is a keyboard shortcut.
-$
+$ 
 $ The mnemonic must be a character in the label. Each mnemonic must be
 $ unique within this particular menu.
-$
+$ 
 
 10 "Ajouter un panneau secondaire"
 
@@ -879,14 +879,14 @@ $ arg in the format.
 21 "Espace de travail"
 $ Message 22 - 30 are the menu title, menu items, and mnemonics in the
 $ Switch Menu.
-$
+$ 
 $ The entries are paired (label + mnemonic). The label appears in the
 $ menu. The mnemonic is the character in the label that is underlined by
 $ the menu system indicating that it is a keyboard shortcut.
-$
+$ 
 $ The mnemonic must be a character in the label. Each mnemonic must be
 $ unique within this particular menu.
-$
+$ 
 
 22 "Zone de commutation"
 
@@ -934,7 +934,7 @@ $set 84        Redefine set#
 
 $    THIS COMMENT FOR DTWM TEAM ONLY -- UI.c --
 $    This entire set should be localized.
-$
+$ 
 $ Message used for the label of the dynamic install area.
 
 1 "Installer une icône"

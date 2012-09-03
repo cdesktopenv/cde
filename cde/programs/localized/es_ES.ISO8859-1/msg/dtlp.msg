@@ -108,9 +108,9 @@ $  This is the label that appears in the title bar of the error dialog.
 
 160 "Información de impresión"
 
-$
+$ 
 $  -- Strings used in the Print dialog and Select Printer dialog in CDEnext --
-$
+$ 
 $  This is the label for the field indicating the file(s) that will be printed.
 170 "Nombres de archivo: "
 
@@ -124,9 +124,9 @@ $  This is the label for the printer list in the Select Printer dialog.
 $  This is the label for the text box in the Select Printer dialog.
 200 "Información acerca de la impresora:"
 
-$
+$ 
 $  -- The following are error messages added for CDEnext --
-$
+$ 
 $  File is not printable or does not exist.
 210 "Este archivo no se puede imprimir o no existe."
 

@@ -29,19 +29,19 @@ $ *****************************************************************************
 $set 1
 
 $    /* NL_COMMENT
-$
+$ 
 $	General Translator Comments
-$
+$ 
 $       - The acronyms "pdm" and "PDM" are used in several
 $         messages, and were derived from the english phrase
 $         "Print Dialog Manager". The acronyms should not be
 $         localized.
-$
+$ 
 $       - The acronym "pdmd" is used in several messages,
 $         and was derived from the english phrase "Print
 $         Dialog Manager Daemon". The acronym should not be
 $         localized.
-$
+$ 
 $     */
 $ "NEW -"
 1 usage: %1$s [options]\n\
@@ -65,13 +65,13 @@ $ "NEW -"
 4 %s: error, cannot create Xt signal pipe\n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "SelectionRequest" in
 $         messages 5, 6 and 7.
-$
+$ 
 $       - Do not translate the word "XmbTextPropertyToTestList"
 $         in message 7.
-$
+$ 
 $     */
 $ "NEW -"
 5 %s: error, unable to get SelectionRequest property\n
@@ -86,9 +86,9 @@ $ "NEW -"
 8 %s: error, unable to create message pipe\n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "fork" in message 9.
-$
+$ 
 $     */
 $ "NEW -"
 9 %s: error, unable to fork\n
@@ -97,12 +97,12 @@ $ "NEW -"
 10 %1$s: error, cannot execute \"%2$s\" \n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "exec" in message 11.
-$
+$ 
 $       - Do not translate the words "-display" or
 $         "-vdisplay" in message 11.
-$
+$ 
 $     */
 $ "NEW -"
 11 %1$s: exec message logged at %2$s\n\
@@ -123,12 +123,12 @@ message to the requesting client on behalf of\n\
 the PDM because of an XIO error\n
 
 $    /* NL_COMMENT
-$
+$ 
 $       - Do not translate the word "stderr" in message 14.
-$
+$ 
 $       - Do not translate the words "-display" or
 $         "-vdisplay" in message 14.
-$
+$ 
 $     */
 $ "NEW -"
 14 %1$s: pdm message logged at %2$s\n\

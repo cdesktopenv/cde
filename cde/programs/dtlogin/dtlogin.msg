@@ -47,7 +47,7 @@ $ *************************************<L>*************************************
 
 $set 1
 $ set 1 is labels
-$
+$ 
 $ messages 1 through 6 are button labels on the login screen
 
 1 Please enter your user name
@@ -57,9 +57,9 @@ $ messages 1 through 6 are button labels on the login screen
 5 Options
 6 Help
 
-$
+$ 
 $ messages 7 through 11 are options button menu items
-$
+$ 
 
 7 Reset Login Screen
 8 Command Line Login
@@ -68,25 +68,25 @@ $ message 10 is replaced by 27
 10 Single-window Session
 11 Language
 
-$
+$ 
 $ messages 12 through 14 are miscellaneous button labels
-$
+$ 
 12 Start DT
 13 Cancel
 14 Help
 
 
-$
+$ 
 $ message 15, 17 are more option button menu items 
 $ message 16 is the welcome message
-$
+$ 
 15 DT Lite Session
 16 Welcome to
 17 Regular Desktop
 
-$
+$ 
 $ message 18-24
-$
+$ 
 18 * Suspending Desktop Login...\r\n*\r\n
 19 * Press [Enter] for a login prompt.\r\n*\r\n
 20 * Log in. Desktop Login will resume shortly after you log out.\r\n*\r\n
@@ -98,30 +98,30 @@ $
 $ messages 25 is a options button menu item
 25 Session
 
-$
+$ 
 $ 26 replaces 16 as the greeting after a user name has been 
 $ entered. The %s is replaced by the user name.
-$
+$ 
 26 Welcome %s
-$
+$ 
 $ 27 replaces 10 as the label for the failsafe option menu item
-$
+$ 
 27 Failsafe Session
 
-$
+$ 
 $  Sun specific message catalog id numbers in MC_LABEL_SET messages.
 $  (Starting at a random uneven higher number, 73, to allow some room  
 $  for some shared sample source message additions. 
-$
+$ 
 73 User's Last Desktop
-$
+$ 
 $  Following used in Language menu.  
 $  "to" used in phrases like "ja to zh" locales
 74 to
 
 $set 2
 $ set 2 is error messages
-$
+$ 
 
 1 Login incorrect; please try again.
 2 Unable to change to home directory.
@@ -150,7 +150,7 @@ using the new password.
 
 $set 3
 $ set 3 is help text
-$
+$ 
 
 $ message 1 is generated when the help button on the login screen is clicked.
 $ 1 \n\
@@ -193,30 +193,30 @@ $ For more help information, log in first, then click on the Help\n\
 $ Manager icon in the Front Panel (Books with a question mark).\n\
 $ Then find the Login Manager help volume.\n\
 
-$
+$ 
 $ 1 NEW-
-$
+$ 
 $ Under [Options] there is an item called "Session".  Under
 $ Session there are five items and these items have been
 $ translated in other files.  To be consistent with the other
 $ translations, the translations used below should be the same
 $ as the other translations.  The items and their file are
 $ listed below:
-$
+$ 
 $   1. Current   - _common.session.tmsg ; set 1, message 2
-$
+$ 
 $   2. Home      - _common.session.tmsg ; set 1, message 1
-$
+$ 
 $   3. <display-name> - Current   - <display-name> on the options
 $         menu will be replaced with the workstations display
 $         name so does not need to be translated.  "Current" should
 $         be the same as _common.session.tmsg ; set 1, message 2
-$
+$ 
 $   4. <display-name> - Home      - <display-name> on the options
 $         menu will be replaced with the workstations display
 $         name so does not need to be translated.  "Home" should
 $         be the same as _common.session.tmsg ; set 1, message 1
-$
+$ 
 
 1 \n\
 Login Help:\n\
@@ -316,7 +316,7 @@ screen unreadable.\n\
 
 $set 4
 $ set 4 is log error messages
-$
+$ 
 
 1 Access file \"%1$s\", host \"%2$s\" not found\n
 2 ReadHostEntry\n

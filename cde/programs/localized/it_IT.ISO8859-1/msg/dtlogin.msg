@@ -41,7 +41,7 @@ $ *************************************<L>*************************************
 
 $set 1
 $ set 1 is labels
-$
+$ 
 $ messages 1 through 6 are button labels on the login screen
 
 1 Inserire il nome utente
@@ -51,9 +51,9 @@ $ messages 1 through 6 are button labels on the login screen
 5 Opzioni
 6 Aiuto
 
-$
+$ 
 $ messages 7 through 11 are options button menu items
-$
+$ 
 
 7 Ripristinare schermo di login
 8 Login della riga comandi
@@ -61,25 +61,25 @@ $
 10 Sessione a finestra singola
 11 Lingua
 
-$
+$ 
 $ messages 12 through 14 are miscellaneous button labels
-$
+$ 
 12 Avviare DT
 13 Annullare
 14 Aiuto
 
 
-$
+$ 
 $ message 15, 17 are more option button menu items 
 $ message 16 is the welcome message
-$
+$ 
 15 Sessione DT Lite
 16 Benvenuti in
 17 Scrivania normale
 
-$
+$ 
 $ message 18-24
-$
+$ 
 18 * Sospensione del login del CDE...\r\n*\r\n
 19 * Premere [Enter] per visualizzare la richiesta di login.\r\n*\r\n
 20 * Eseguire il login. Il login del CDE riapparirà dopo il logout.\r\n*\r\n
@@ -91,24 +91,24 @@ $
 $ messages 25 is a options button menu item
 25 Sessione
 
-$
+$ 
 $ 26 replaces 16 as the greeting after a user name has been 
 $ entered. The %s is replaced by the user name.
-$
+$ 
 26 Benvenuto, %s
 
-$
+$ 
 $ 27 replaces 10 as the label for the failsafe option menu item
-$
+$ 
 27 Sessione protetta
 
-$
+$ 
 $  Sun specific message catalog id numbers in MC_LABEL_SET messages.
 $  (Starting at a random uneven higher number, 73, to allow some room  
 $  for some shared sample source message additions. 
-$
+$ 
 73 Desktop più recente
-$
+$ 
 $  Following used in Language menu.  
 $  "to" used in phrases like "ja to zh" locales
 74 a
@@ -116,7 +116,7 @@ $  "to" used in phrases like "ja to zh" locales
 
 $set 2
 $ set 2 is error messages
-$
+$ 
 
 1 Login errato; riprovare.
 2 Impossibile passare alla directory iniziale.
@@ -146,29 +146,29 @@ il login usando la nuova parola chiave.
 $set 3
 $ set 3 is help text
 $ Comments for messsage #1:
-$
+$ 
 $ Under [Options] there is an item called "Session".  Under
 $ Session there are five items and these items have been
 $ translated in other files.  To be consistent with the other
 $ translations, the translations used below should be the same
 $ as the other translations.  The items and their file are
 $ listed below:
-$
+$ 
 $   1. Current   - _common.session.tmsg ; set 1, message 2
-$
+$ 
 $   2. Home      - _common.session.tmsg ; set 1, message 1
-$
+$ 
 $   3. <display-name> - Current   - <display-name> on the options
 $         menu will be replaced with the workstations display
 $         name so does not need to be translated.  "Current" should
 $         be the same as _common.session.tmsg ; set 1, message 2
-$
+$ 
 $   4. <display-name> - Home      - <display-name> on the options
 $         menu will be replaced with the workstations display
 $         name so does not need to be translated.  "Home" should
 $         be the same as _common.session.tmsg ; set 1, message 1
-$
-$
+$ 
+$ 
 1 \n\
 Aiuto del login:\n\
 \n\
@@ -265,7 +265,7 @@ qualsiasi dello sfondo con un pulsante del mouse.\n\
 
 $set 4
 $ set 4 is log error messages
-$
+$ 
 
 1 File di controllo degli accessi \"%1$s\", host \"%2$s\" non trovato\n
 2 ReadHostEntry\n

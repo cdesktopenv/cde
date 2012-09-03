@@ -41,7 +41,7 @@ $
 $ 	Message numbers 1-4 appear in the page orientation option menu
 $ 	and indicate how the resulting printed page should be
 $ 	oriented.
-$
+$ 
 $     */
 1 Verticale
 2 Orizzontale
@@ -61,7 +61,7 @@ $		    English book) or right to left.
 $	Tumble  ->  print both sides such that the resulting output is
 $		    intended for the reader to turn pages in a
 $		    vertical direction; top to bottom or bottom to top
-$
+$ 
 $     */
 5 Un lato
 6 Due lati (in orizzontale)

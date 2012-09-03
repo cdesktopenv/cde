@@ -1283,7 +1283,7 @@ del Administrador de archivos abierta en el escritorio.  Si desea iniciar una nu
 del Administrador de archivos, deberá cerrar todas la ventanas del Administrador de archivos abiertas actualmente\n\
 y quitar todos los objetos del Administrador de archivos de las áreas de trabajo.
 
-$
+$ 
 $ "-NEW"
 40 "Could not connect to ToolTalk:\n%s\nExiting ..."
 

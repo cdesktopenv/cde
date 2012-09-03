@@ -230,7 +230,7 @@ $ // DTME_CannotRenameNewMailboxFileOverOld
 $ // DTME_InternalAssertionFailure
 71 "An internal error has occurred within this application.\nThere is no way to recover and continue from this error.\nError condition: %s\n"
  
-$
+$ 
 $ Strings from libDtMail/Common/DtMailValuesBuiltin.C
 
 $set 2

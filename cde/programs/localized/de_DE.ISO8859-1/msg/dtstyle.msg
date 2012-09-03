@@ -684,9 +684,9 @@ $ Messages 13-16 are replacements for messages 5-8
 $set 19
 $ The set 19 contains messages for the I18N dialog
 
-$
+$ 
 $ Messsages 1 to 11 are labels displayed in the dialog.
-$
+$ 
 
 $quote
 
@@ -733,10 +733,10 @@ $ selected element in the preedit Type list (meaning at the next
 $ position).
 11 Nach unten verschieben
 
-$
+$ 
 $ Messages 20-21 are displayed in an warning dialog when the user
 $ hits the OK button.
-$
+$ 
 
 $ Message 20 appears when the user modifies the XmNpreeditType
 $ resource value, and the resource *writeXrdbImmediate is True.
@@ -750,9 +750,9 @@ $ resource value, and the resource *writeXrdbImmediate is False.
 21 Ihre Auswahl tritt bei Ihrer\n\
 nächsten Session in Kraft.
 
-$
+$ 
 $ Messages 30 to 41 appear as errors in Error Dialog.
-$
+$ 
 
 $ Do NOT localize the word HOME.
 30 Die Umgebungsvariable HOME wurde nicht definiert.

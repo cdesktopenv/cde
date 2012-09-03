@@ -52,4 +52,4 @@ $ 	error messages
 58 ims '%1$s' n'est pas enregistré sur '%2$s'
 59 impossible d'ouvrir l'écran '%s'
 
-$
+$ 
