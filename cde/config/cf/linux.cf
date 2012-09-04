@@ -23,7 +23,7 @@ XCOMM platform:  $TOG: linux.cf /main/47 1998/04/17 11:32:51 mgreess $
 /*
   Add "#define LinuxDistribution Linux<mumble>" to your site.def or host.def.
   Currently only LinuxSuSE will be figured out automatically.
-  Valid values are (from the list at www.linux.org in Oct. '97):
+  Valid values are (from the list at www.linux.org in Oct. 1997):
     LinuxUnknown    (0)
     LinuxSuSE       (1)
     LinuxCaldera    (2)
@@ -117,6 +117,22 @@ XCOMM binutils:  (LinuxBinUtilsMajorVersion)
 
 #define LinuxLocaleDefines	/**/
 
+XCOMM If you have the tirpc library on your system, and you have the
+XCOMM libtirpc-dev installed, then define HasTIRPCLib to YES in either
+XCOMM your host.def or site.def file.  Using the tirpc lib should
+XCOMM allow running rpcbind in secure mode (ie: without the -i option).
+XCOMM The default is NO.
+
+#ifndef HasTIRPCLib
+# define HasTIRPCLib NO
+#endif
+
+#if HasTIRPCLib
+TIRPCLIB = -ltirpc
+#else
+TIRPCLIB = 
+#endif
+
 #if LinuxCLibMajorVersion < 6
 # define LinuxSourceDefines	-D_POSIX_SOURCE \
 				-D_BSD_SOURCE -D_SVID_SOURCE LinuxLocaleDefines
@@ -128,8 +144,8 @@ XCOMM binutils:  (LinuxBinUtilsMajorVersion)
 # define LinuxSourceDefines	-D_POSIX_C_SOURCE=199309L \
 				-D_POSIX_SOURCE \
 				-D_BSD_SOURCE -D_SVID_SOURCE -D_XOPEN_SOURCE \
-                                -D__NO_STRING_INLINES -D__NO_MATH_INLINES \
-                                LinuxLocaleDefines
+				-D__NO_STRING_INLINES -D__NO_MATH_INLINES \
+				LinuxLocaleDefines
 # define HasPosixThreads	YES
 # define ThreadedX		YES
 # define HasThreadSafeAPI	YES
@@ -232,7 +248,7 @@ XCOMM This is needed for CDE currently
 
 #define ArchitectureDefines	-DLINUX_ARCHITECTURE
 
-#define TtClientLibs $(TTLIB) $(XTOOLLIB) $(XLIB)
+#define TtClientLibs $(TTLIB) $(TIRPCLIB) $(XTOOLLIB) $(XLIB)
 #define TtClientDepLibs $(DEPTTLIB) $(DEPXTOOLLIB) $(DEPXLIB)
 
 #include <lnxLib.rules>
