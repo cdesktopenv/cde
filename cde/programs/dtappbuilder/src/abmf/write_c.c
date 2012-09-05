@@ -350,8 +350,10 @@ write_func_def_params(
 	va_list	va_params
 )
 {
-#if defined(__ppc) || defined(linux)  || defined(CSRG_BASED)
+#if defined(__ppc) || defined(linux)  || defined(__OpenBSD__)
 #define va_start_params() __va_copy(params, va_params)
+#elif defined(__FreeBSD__)
+#define va_start_params() va_copy(params, va_params)
 #else
 #define va_start_params() (params = va_params)
 #endif

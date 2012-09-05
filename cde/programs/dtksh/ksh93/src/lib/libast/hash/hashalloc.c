@@ -214,6 +214,10 @@ hashalloc __PARAM__((Hash_table_t* ref, ...), (va_alist)) __OTORP__(va_dcl)
 			tab->flags |= HASH_STATIC;
 			break;
 		case HASH_va_list:
+#if defined(__FreeBSD__) && !defined(__LP64__)
+			if (vp < &va[elementsof(va)]) *vp++ = ap;
+			ap = va_arg(ap, va_list);
+#else
 			if (vp < &va[elementsof(va)])
 			{
 				__va_copy( *vp, ap );
@@ -221,12 +225,17 @@ hashalloc __PARAM__((Hash_table_t* ref, ...), (va_alist)) __OTORP__(va_dcl)
 			}
 			vl = va_arg(ap, va_list);
 			__va_copy(ap, vl);
+#endif
 			break;
 		case 0:
 			if (vp > va)
 			{
+#if defined(__FreeBSD__) && !defined(__LP64__)
+				ap = *--vp;
+#else
 				vp--;
 				__va_copy( ap, *vp );
+#endif
 				break;
 			}
 			if (tab->flags & HASH_SCOPE)
