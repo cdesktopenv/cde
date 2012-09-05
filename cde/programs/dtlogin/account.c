@@ -57,7 +57,12 @@
 #endif
 
 #include	<fcntl.h>
+#if defined(__FreeBSD__)
+#include	<utmpx.h>
+#else
 #include	<utmp.h>
+#endif
+
 #include	<time.h>
 #include	"dm.h"
 

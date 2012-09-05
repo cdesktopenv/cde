@@ -132,7 +132,7 @@ ds_position_popup(Widget base, Widget popup, ds_location_op location_op) {
                 XmNy,      &base_y,
                 XmNwidth,  &base_width,
                 XmNheight, &base_height,
-                0) ;
+                NULL) ;
   bx = (int) base_x ;
   by = (int) base_y ;
   bw = (int) base_width ;
@@ -143,7 +143,7 @@ ds_position_popup(Widget base, Widget popup, ds_location_op location_op) {
                 XmNy,      &popup_y,
                 XmNwidth,  &popup_width,
                 XmNheight, &popup_height,
-                0) ;
+                NULL) ;
 
   px = (int) popup_x ;
   py = (int) popup_y ;
@@ -232,7 +232,7 @@ ds_force_popup_on_screen(Widget popup, int *popup_x_p, int *popup_y_p) {
   XtVaGetValues(popup,
                 XmNwidth,  &popup_width,
                 XmNheight, &popup_height,
-                0) ;
+                NULL) ;
 
 /* Make sure frame does not go off side of screen */
 

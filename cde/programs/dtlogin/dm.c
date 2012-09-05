@@ -1697,8 +1697,13 @@ GettyMessage( struct display *d, int msgnum )
 int 
 GettyRunning( struct display *d )
 {
+#if defined(__FreeBSD__)
+    struct utmpx utmp;		/* local struct for new entry		   */
+    struct utmpx *u;		/* pointer to entry in utmp file	   */
+#else
     struct utmp utmp;		/* local struct for new entry	   	   */
     struct utmp *u;		/* pointer to entry in utmp file	   */
+#endif
     
     int		rvalue;		/* return value (TRUE or FALSE)		   */
     char	buf[32];
@@ -1717,7 +1722,11 @@ GettyRunning( struct display *d )
         return FALSE;
 
 
+#if defined(__FreeBSD__)
+    bzero(&utmp, sizeof(struct utmpx));
+#else
     bzero(&utmp, sizeof(struct utmp));
+#endif
 
 #ifdef _AIX
    if (!strcmp(d->gettyLine,"console")) {
