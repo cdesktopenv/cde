@@ -120,6 +120,7 @@ init(void (*service_fn)(struct svc_req *, SVCXPRT *))
 	unsigned int buffersize = (bufopt != (char *)0) ? atoi(bufopt) : 32000;
 
 	if (_socket != RPC_ANYSOCK) {
+#ifdef OPT_UNIX_SOCKET_RPC
 		_transp = svcfd_create(_socket, buffersize, buffersize);
 		if (_transp == (SVCXPRT *)0) {
 			return(0);
@@ -130,6 +131,7 @@ init(void (*service_fn)(struct svc_req *, SVCXPRT *))
 			_tt_syslog(0, LOG_ERR, "svc_register(): %m");
 			return(0);
 		}
+#endif
 
 		return(1);
 	}
