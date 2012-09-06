@@ -728,7 +728,7 @@ FindDialog::compareMessage(DtMailMessageHandle	  handle)
   return(found);
 }
 
-#if !defined(CSRG_BASED)
+#if !defined(CSRG_BASED) && !defined(linux)
 //
 // See if string 'toFind' is anyware in string 'str'.
 // A case-insensitive version of strstr().
