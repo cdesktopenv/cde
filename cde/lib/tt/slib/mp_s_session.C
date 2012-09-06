@@ -234,7 +234,7 @@ s_init()
 	// requests. This object also allocates an RPC program
 	// number which is then used to compose the session id to
 	// be advertised to potential clients.
-	_rpc_server = new _Tt_rpc_server(-1,
+	_rpc_server = new _Tt_rpc_server(RPC_ANYSOCK,
 					 TT_RPC_VERSION,
 					 RPC_ANYSOCK,
 					 _auth); 
