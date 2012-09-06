@@ -268,6 +268,13 @@ function tokenize() {
 			printf(" ") > DeBugFile
 		print "Entering function tokenize:" > DeBugFile
 	}
+	# Workaround for a strange awk bug, seen on FreeBSD
+	# and results in .db files generated with
+	#   Syntax ERROR line: 10 of file: CDE-INC.udb
+	#           Missing initial {
+	#
+	DUMMY = $0
+
 	# Skip blank/comment lines
 	while ( NF == 0 || $0 ~ /^[ 	]*#/  ) {
 		if ( (getline) <= 0 ) {

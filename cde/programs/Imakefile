@@ -12,28 +12,39 @@ XCOMM dtksh dtinfo
 #if defined(LinuxArchitecture)
 DTKSHDIR = 
 DTINFODIR = 
-#elif defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+DTCMDIR = dtcm
+DTLOGINDIR = dtlogin
+#elif defined(OpenBSDArchitecture)
 DTKSHDIR = dtksh
 DTINFODIR = 
+DTCMDIR = dtcm
+DTLOGINDIR = dtlogin
+#elif defined(FreeBSDArchitecture)
+DTKSHDIR = dtksh
+DTINFODIR =
+DTCMDIR = dtcm
+DTLOGINDIR = dtlogin/config
 #else
 DTKSHDIR = dtksh
 DTINFODIR = dtinfo
+DTCMDIR = dtcm
+DTLOGINDIR = dtlogin
 #endif
 
 
-SUBDIRS = dthelp dsdm dtmail dtpad dtfile dtwm dtlogin \
+SUBDIRS = dthelp dsdm dtmail dtpad dtfile dtwm $(DTLOGINDIR) \
 	dtsession dthello dtstyle dtexec dtdbcache dticon dtterm \
 	dtcalc dtaction dtspcd \
-	dtscreen $(DTKSHDIR) dtcm dtsearchpath \
+	dtscreen $(DTKSHDIR) $(DTCMDIR) dtsearchpath \
         dtappbuilder dtappintegrate dtprintegrate dtconfig \
         dtcreate dtprintinfo fontaliases dtdspmsg ttsnoop \
 	dtudcfonted dtudcexch dtimsstart dtdocbook dtpdm dtsr \
 	dtpdmd $(DTINFODIR) $(EXTRADIRS)
 
-LINTSUBDIRS = dthelp dsdm dtmail dtpad dtfile dtlogin dtwm \
+LINTSUBDIRS = dthelp dsdm dtmail dtpad dtfile $(DTLOGINDIR) dtwm \
 	dtsession dthello dtstyle dtexec dtdbcache dticon dtterm \
 	dtcalc dtaction dtcreate \
-	dtscreen $(DTKSHDIR) dtcm dtsearchpath \
+	dtscreen $(DTKSHDIR) $(DTCMDIR) dtsearchpath \
         dtappbuilder dtappintegrate dtprintegrate dtprintinfo dtdspmsg \
 	dtudcfonted dtudcexch dtimsstart dtdocbook dtpdm dtsr \
 	dtpdmd $(DTINFODIR) $(EXTRADIRS)

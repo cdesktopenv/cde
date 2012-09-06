@@ -51,7 +51,7 @@ REVISION="$(echo "$Revision: /main/20 $" | awk '{print $2}')"
 
 Log()
 {
-  echo "$1" | tee -a $LOGFILE
+  /bin/echo "$1" | tee -a $LOGFILE
 }
 
 MakeTarball()
@@ -210,6 +210,14 @@ CleanDaemons()
     elif [ "$PLATFORM" = openbsd ]
     then
       true
+    elif [ "$PLATFORM" = freebsd ]
+    then
+      ps axo pid,comm | grep $i > /tmppsout
+      if [ -s /tmp/tmppsout ]
+      then
+        awk '{print "kill " $1}' /tmp/tmppsout | /bin/csh -f
+        sleep 2
+      fi
     else    
       ps -ef | grep $i | grep -v grep >/tmp/tmppsout
       if [ -s /tmp/tmppsout ]
@@ -240,6 +248,9 @@ RestartInetd()
   elif [ "$PLATFORM" = "openbsd" ]
   then
     true
+  elif [ "$PLATFORM" = "freebsd" ]
+  then
+    /etc/rc.d/inetd onestart
   else
 #ifdef hpV4
     /usr/sbin/inetd 
@@ -543,6 +554,10 @@ XCOMM
   then
     PLATFORM="linux"
     PLATFORM_SCRIPT_DIR=""
+  elif [ $BUILDSYSTEM = "FreeBSD" ];
+  then
+    PLATFORM="freebsd"
+    PLATFORM_SCRIPT_DIR="freebsd"
   elif [ $BUILDSYSTEM = "OpenBSD" ];
   then
     PLATFORM="openbsd"

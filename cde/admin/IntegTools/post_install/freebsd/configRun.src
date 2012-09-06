@@ -1,0 +1,331 @@
+XCOMM! /bin/ksh
+XCOMM #######
+XCOMM  Product: CDE
+XCOMM  Fileset: CDE-RUN
+XCOMM  configure
+XCOMM  @(#) $TOG: configRun.src /main/1 1998/03/11 16:18:24 mgreess $
+XCOMM #######
+
+#define HASH #
+#define STAR *
+
+PRODUCT=CDE
+FILESET=CDE-RUN
+DO_CONFIGURATION=""
+retval=0
+
+FixInetdDotConf()
+{
+FILE=/etc/inetd.conf
+TMPFILE=/tmp/inetd.conf
+CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
+
+XCOMM
+XCOMM desired inetd.conf entry:
+XCOMM cmsd/2-4 dgram rpc/udp4 wait root CDE_INSTALLATION_TOP/bin/rpc.cmsd rpc.cmsd
+XCOMM
+
+XCOMM first make an awk script and put it in a file.
+XCOMM
+
+XCOMM comment out any non-cde rpc.cmsd lines
+XCOMM
+
+    nawk -v cmsd=$CMSD \
+	'{if ($1 == "cmsd/2-4" && $6 != cmsd)
+		print "#cde " $0;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    cp $TMPFILE $FILE
+    rm $TMPFILE
+
+XCOMM remove any cde 2-4 cmsd
+XCOMM
+
+    nawk -v cmsd=$CMSD \
+	'{if ($1 == "cmsd/2-4" && $6 == cmsd)
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    cp $TMPFILE $FILE
+    rm $TMPFILE
+
+XCOMM
+XCOMM now run an awk script to see if there is an occurrence of 2-5 cmsd
+XCOMM
+
+    nawk -v cmsd=$CMSD \
+	'{if ($6 == cmsd && $1 == "cmsd/2-5")
+		print $0 > "/tmp/cmsd-already-there"
+	 }' $FILE >/dev/null
+
+XCOMM
+XCOMM if it is not there, add it
+XCOMM
+
+    if [ ! -f /tmp/cmsd-already-there ]
+    then
+        echo "cmsd/2-5 dgram rpc/udp4 wait root $CMSD rpc.cmsd" >>$FILE
+    else
+	rm /tmp/cmsd-already-there
+    fi
+
+}
+
+UnfixInetdDotConf()
+{
+FILE=/etc/inetd.conf
+TMPFILE=/tmp/inetd.conf
+CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
+
+    HASH first remove the CDE rpc.cmsd entry
+
+    nawk -v cmsd=$CMSD \
+	'{if (($1 == "cmsd/2-4" || $1 == "cmsd/2-5") && $6 == cmsd)
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    cp $TMPFILE $FILE
+    rm $TMPFILE
+
+    HASH now uncomment any previously existing cmsd entry
+
+    awk '{if ($1 == "#cde") {
+		if ($2 == "cmsd/2-4") {
+			$1 = $2;
+			$2 = ""
+		}
+	  }
+	  print $0
+	 }' $FILE >$TMPFILE
+
+    cp $TMPFILE $FILE
+    rm $TMPFILE
+}
+
+CreateAppConfigDirectory()
+{
+  HASH
+  HASH Create the APPCONFIG directory inside DT_CONFIG_TOP and create
+  HASH all of its subdirectories
+  HASH
+
+    cd $DT_CONFIG_TOP
+    if [ ! -d $APPCONFIG ]
+    then
+	mkdir $APPCONFIG
+    fi
+
+    cd $APPCONFIG
+
+    for i in $APPCONFIG_DIRS
+    do
+	if [ ! -d $i ]
+	then
+	    mkdir $i
+	fi
+	cd $i
+        HASH
+	HASH for each locale
+	HASH
+	for j in $DT_TOP/$APPCONFIG/$i/STAR
+	do
+	    if [ ! -d `basename $j` ]
+	    then
+		mkdir `basename $j`
+	    fi
+	done
+	cd ..
+    done
+
+}
+
+doDttermTerminfo()
+{
+    if [ -f $DT_TOP/config/dtterm.ti ]
+    then
+	tic $DT_TOP/config/dtterm.ti
+    else
+	echo "Unable to find $DT_TOP/config/dtterm.ti"
+    fi
+}
+
+RemoveRunFiles()
+{
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	rm -f $SRC
+	dirname=${SRC%/STAR}
+	if [ -d $dirname ]
+	then
+	  cd $dirname
+	  while [ "$dirname" != "$CDE_TOP" ]
+	  do
+	    cd ..
+	    rmdir ${dirname##STAR/} >/dev/null 2>/dev/null
+	    dirname=${dirname%/STAR}
+	  done
+	fi
+      fi
+    done <<-EOF
+#include "CDE-RUN.list"
+	EOF
+}
+
+
+VerifyInstalledFiles()
+{
+    echo "Status   mode    owner   group   filename"
+    echo "-----------------------------------------"
+XCOMM	  exists  correct correct correct  /usr/dt/foo1
+XCOMM	  MISSING  WRONG   WRONG   WRONG   /usr/dt/foo2
+XCOMM        exists    the link is correct    /usr/dt/link
+
+    while read SRC
+    do
+#include "../verify.func"
+    done <<-EOF
+#include "CDE-RUN.lst"
+	EOF
+}
+
+
+PrintUsage()
+{
+  echo "Usage:" $0 "[OPERATION]"
+  echo ""
+  echo "Operations:"
+  echo "    -e        configure"
+  echo "    -d        deconfigure"
+  echo "    -v        verify"
+  echo "    -s        size"
+  echo "    -h        help"
+}
+
+#include "../option.func"
+
+XCOMM ##########################################################################
+XCOMM
+XCOMM				Main Body
+XCOMM
+XCOMM ##########################################################################
+
+PRODUCT=CDE
+FILESET=CDE-RUN
+
+DT_TOP=CDE_INSTALLATION_TOP
+DT_CONFIG_TOP=CDE_CONFIGURATION_TOP
+DT_TEMP_TOP=CDE_LOGFILES_TOP
+ROOT=/
+
+retval=0
+
+APPCONFIG=appconfig
+APPCONFIG_DIRS="appmanager help icons types"
+PRINTERS=""
+DEFAULT_PRINTER="DtPrint"
+
+  HandleOption $*
+
+  if [ "$OPERATION" = "usage" ]
+  then
+    PrintUsage
+    exit 0
+  fi
+
+  if [ "$OPERATION" = "configure" ]
+  then
+
+    HASH
+    HASH create the CDE_LOGFILES_TOP directory
+    HASH
+
+    if [ ! -d $DT_TEMP_TOP/$APPCONFIG/appmanager ]
+    then
+	mkdir -p $DT_TEMP_TOP/$APPCONFIG/appmanager
+    fi
+
+    cd $DT_TEMP_TOP
+    mv $APPCONFIG/appmanager .hidden-appmanager
+    chmod -R 755 *
+    chmod 755 .hidden-appmanager
+    chown -R bin *
+    chgrp -R bin *
+    mv .hidden-appmanager $APPCONFIG/appmanager
+    chmod 755 .
+    chown bin .
+    chgrp bin .
+
+    HASH
+    HASH create the CDE_CONFIGURATION_TOP and its config directory
+    HASH
+    if [ ! -d $DT_CONFIG_TOP ]
+    then
+	mkdir -p $DT_CONFIG_TOP
+    fi
+    if [ ! -d $DT_CONFIG_TOP/config ]
+    then
+	mkdir -p $DT_CONFIG_TOP/config
+    fi
+
+    CreateAppConfigDirectory
+
+    HASH
+    HASH ConfigurePrintersDir
+    HASH
+    env LANG=C /usr/dt/bin/dtprintinfo -populate
+
+    HASH
+    HASH Configure Xsession.d
+    HASH
+
+    cd $DT_CONFIG_TOP/config
+    if [ ! -d Xsession.d ]
+    then
+	mkdir Xsession.d
+    fi
+
+    cd $DT_CONFIG_TOP
+    chmod -R 755 *
+
+    FixInetdDotConf
+
+  elif [ "$OPERATION" = "deconfigure" ]
+  then
+
+    UnfixInetdDotConf
+
+    RemoveRunFiles
+
+    VerifyInstalledFiles
+
+  elif [ "$OPERATION" = "verify" ]
+  then
+
+    VerifyInstalledFiles
+
+  fi
+
+  if [ "$OPERATION" != "verify" ]
+  then
+
+    HASH issue a SIGHUP to the inetd process
+
+    /etc/rc.d/inetd onereload
+  fi
+
+   HASH dtmail requires setgid
+   chmod 2555 $DT_TOP/bin/dtmail
+
+  HASH dtmail requires setgid
+  chmod 2555 $DT_TOP/bin/dtmail
+
+  return $retval

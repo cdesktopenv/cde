@@ -49,13 +49,13 @@ AllTarget(Concat(lib,libname.so.rev))					@@\
 									@@\
 Concat(lib,libname.so.rev):  solist $(EXTRALIBRARYDEPS)			@@\
 	$(RM) $@~							@@\
-	(cd down; $(LD) -o up/$@~ $(SHLIBLDFLAGS) solist $(REQUIREDLIBS)) @@\
+	(cd down; $(LD) -o up/$@~ -soname $@ $(SHLIBLDFLAGS) solist $(REQUIREDLIBS)) @@\
 	$(RM) $@							@@\
 	$(MV) $@~ $@							@@\
 	$(RM) Concat(lib,libname.so)					@@\
 	$(LN) $@ Concat(lib,libname.so)					@@\
 	LinkBuildLibrary($@)						@@\
-	LinkBuildLibrary(Concat(lib,libname.so))			@@\
+	(cd $(BUILDLIBDIR) && $(LN) $@ Concat(lib,libname.so))		@@\
 									@@\
 clean::									@@\
 	$(RM) Concat(lib,libname.so.rev) Concat(lib,libname.so)
