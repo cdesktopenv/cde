@@ -10,6 +10,7 @@ XCOMM #######
 PRODUCT=CDE
 FILESET=CDE-MIN
 DO_CONFIGURATION=""
+PREFIX=/usr/local
 retval=0
 
 FixEtcServices()
@@ -194,6 +195,17 @@ RemoveMinFiles()
 	EOF
 }
 
+SetManPath()
+{
+    DTMANPATH=CDE_INSTALLATION_TOP/share/man
+    echo "MANPATH $DTMANPATH" > ${PREFIX}/etc/man.d/cde.conf
+}
+
+UnSetManPath()
+{
+    rm -f ${PREFIX}/etc/man.d/cde.conf
+}
+
 VerifyInstalledFiles()
 {
     echo "Status   mode    owner   group   filename"
@@ -227,6 +239,8 @@ XCOMM ###############################################################
 
     : FixEtcInetdDotConf
 
+    SetManPath
+
     HASH
     HASH  create the /var/dt/tmp directory for the dtspcd
     HASH
@@ -238,6 +252,8 @@ XCOMM ###############################################################
 
   elif [ "$OPERATION" = "deconfigure" ]
   then
+
+    UnsetManPath
 
     UnfixEtcServices
 

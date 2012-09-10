@@ -42,6 +42,12 @@ ManSearchPath::ManSearchPath
 	const char *     sep
 	) : SearchPath(user, envvar, sep)
 {
+#if defined(__FreeBSD__)
+    /* Installer on FreeBSD sets up man configuration so that
+     * setting MANPATH is not necessary
+     */
+    if (!user->OS()->MANPATH().isNull()) {
+#endif
     if (user->DTMANPATH())
 	search_path = user->FactoryManPath() + "," + *user->DTMANPATH();
     else
@@ -55,6 +61,9 @@ ManSearchPath::ManSearchPath
 
     NormalizePath();
     TraversePath();
+#if defined(__FreeBSD__)
+    }
+#endif
 }
 
 
