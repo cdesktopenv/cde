@@ -139,7 +139,7 @@ popup_startupBB(
 
     if (style.startupDialog == NULL) 
     {
-      if (smWindow != NULL)
+      if (smWindow != 0)
       {
           if (style.smState.smCompatMode) 
           {
@@ -660,7 +660,7 @@ restoreStartup(
   XrmValue value;
 
     xrm_name [0] = XrmStringToQuark ("startupDlg");
-    xrm_name [2] = NULL;
+    xrm_name [2] = 0;
 
     /* get x position */
     xrm_name [1] = XrmStringToQuark ("x");

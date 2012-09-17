@@ -552,7 +552,7 @@ static
      ReadBitmaps( void )
 {
   int            status;
-  Pixmap         tmpPix = NULL;
+  Pixmap         tmpPix = 0;
   int            width, height, x, y;
   Window         win;
   int            num;
@@ -589,7 +589,7 @@ static
     {
       /* give error dialog, free space, and return */
       backdrops.errStr = (char *)XtMalloc(strlen(ERR2) + 1);
-      sprintf(backdrops.errStr, ERR2);
+      sprintf(backdrops.errStr, "%s", ERR2);
       ErrDialog (backdrops.errStr, style.shell); 
       FreeAll();      
       free_dirList(backdrops.dirList, backdrops.dirCount);
@@ -608,7 +608,7 @@ static
     {
       /* give error dialog, free space, and return */
       backdrops.errStr = (char *)XtMalloc(strlen(ERR2) + 1);
-      sprintf(backdrops.errStr, ERR2);
+      sprintf(backdrops.errStr, "%s", ERR2);
       ErrDialog (backdrops.errStr, style.shell); 
       FreeAll();  
       free_dirList(backdrops.dirList, backdrops.dirCount);
@@ -1129,7 +1129,7 @@ restoreBackdrop(
     XrmValue value;
 
     xrm_name [0] = XrmStringToQuark (BACKDROPSDLG);
-    xrm_name [2] = NULL;
+    xrm_name [2] = 0;
 
     /* get x position */
     xrm_name [1] = XrmStringToQuark ("x");

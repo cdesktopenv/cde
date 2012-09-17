@@ -198,7 +198,7 @@ build_mainWindow(
 
     n = 0;
     tmpStr = (char *)XtMalloc(strlen(GETMESSAGE(4, 1, "Style Manager"))+1);
-    sprintf(tmpStr, GETMESSAGE(4, 1, "Style Manager"));
+    sprintf(tmpStr, "%s", GETMESSAGE(4, 1, "Style Manager"));
     XtSetArg(args[n], XmNtitle, tmpStr); n++;
     XtSetArg(args[n], XmNiconName, 
         (char *)GETMESSAGE(4, 37, "Style")); n++;
@@ -474,68 +474,68 @@ ProcessComponentList(
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 27, "Color"));
           helpTag = HELP_COLOR_BUTTON;
-	  dtIcon = _DtGetIconFileName(style.screen, COLOR_ICON, NULL, NULL, NULL);
+	  dtIcon = _DtGetIconFileName(style.screen, COLOR_ICON, NULL, NULL, 0);
           style.workProcs = True;          
       }
       else if (strcmp(string, FONT) == 0)
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 28, "Font"));
-	  dtIcon = _DtGetIconFileName(style.screen, FONT_ICON, NULL, NULL, NULL);
+	  dtIcon = _DtGetIconFileName(style.screen, FONT_ICON, NULL, NULL, 0);
           helpTag = HELP_FONT_BUTTON;
       }
 
       else if (strcmp(string, BACKDROP) == 0)
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 29, "Backdrop"));
-	  dtIcon = _DtGetIconFileName(style.screen, BACKDROP_ICON, NULL, NULL, NULL);
+	  dtIcon = _DtGetIconFileName(style.screen, BACKDROP_ICON, NULL, NULL, 0);
           helpTag = HELP_BACKDROP_BUTTON;
       }
 
       else if (strcmp(string, KEYBOARD) == 0)
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 30, "Keyboard"));
-	  dtIcon = _DtGetIconFileName(style.screen, KEYBOARD_ICON, NULL, NULL, NULL);	  
+	  dtIcon = _DtGetIconFileName(style.screen, KEYBOARD_ICON, NULL, NULL, 0);	  
           helpTag = HELP_KEYBOARD_BUTTON;        
       }
 
       else if (strcmp(string, MOUSE) == 0)
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 31, "Mouse"));
-	  dtIcon = _DtGetIconFileName(style.screen, MOUSE_ICON, NULL, NULL, NULL);	  
+	  dtIcon = _DtGetIconFileName(style.screen, MOUSE_ICON, NULL, NULL, 0);	  
           helpTag = HELP_MOUSE_BUTTON;
       }
 
       else if (strcmp(string, BEEP) == 0)
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 32, "Beep"));
-	  dtIcon = _DtGetIconFileName(style.screen, BEEP_ICON, NULL, NULL, NULL);	  
+	  dtIcon = _DtGetIconFileName(style.screen, BEEP_ICON, NULL, NULL, 0);	  
           helpTag = HELP_AUDIO_BUTTON;
       }
 
       else if (strcmp(string, SCREEN) == 0)
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 33, "Screen"));
-	  dtIcon = _DtGetIconFileName(style.screen, SCREEN_ICON, NULL, NULL, NULL);	  
+	  dtIcon = _DtGetIconFileName(style.screen, SCREEN_ICON, NULL, NULL, 0);	  
           helpTag = HELP_SCREEN_BUTTON;
       }
 
       else if (strcmp(string, DTWM) == 0)
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 38, "Window"));
-	  dtIcon = _DtGetIconFileName(style.screen, DTWM_ICON, NULL, NULL, NULL);	  
+	  dtIcon = _DtGetIconFileName(style.screen, DTWM_ICON, NULL, NULL, 0);	  
           helpTag = HELP_DTWM_BUTTON;
       }
 
       else if (strcmp(string, STARTUP) == 0)
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 35, "Startup"));
-	  dtIcon = _DtGetIconFileName(style.screen, STARTUP_ICON, NULL, NULL, NULL);	  
+	  dtIcon = _DtGetIconFileName(style.screen, STARTUP_ICON, NULL, NULL, 0);	  
           helpTag = HELP_STARTUP_BUTTON;
       }
       else if (strcmp(string, I18N) == 0)
       {
           cmp_string = CMPSTR(GETMESSAGE(4, 34, "Intl'"));
-	  dtIcon = _DtGetIconFileName(style.screen, I18N_ICON, NULL, NULL, NULL);	  
+	  dtIcon = _DtGetIconFileName(style.screen, I18N_ICON, NULL, NULL, 0);	  
           helpTag = HELP_I18N_BUTTON;        
       }
       else
@@ -717,7 +717,7 @@ restoreMain(
 
     xrm_name [0] = XrmStringToQuark ("mainWindow");
     xrm_name [1] = XrmStringToQuark ("ismapped");
-    xrm_name [2] = NULL;
+    xrm_name [2] = 0;
 
     if (XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value)) {
       /* Are we supposed to be mapped? */

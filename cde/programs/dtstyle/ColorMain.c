@@ -2323,7 +2323,7 @@ restoreColor(
 
     /*"paletteDlg" is the resource name of the dialog shell we are saving for.*/
     xrm_name [0] = XrmStringToQuark (PALETTEDLG);
-    xrm_name [2] = NULL;
+    xrm_name [2] = 0;
 
     /* get x position */
     xrm_name [1] = XrmStringToQuark ("x");
@@ -2343,7 +2343,7 @@ restoreColor(
        strcpy(defaultName_restore, value.addr);
     }
     else
-       defaultName_restore[0] = NULL;
+       defaultName_restore[0] = 0;
 
     /* get selected button */
     xrm_name [1] = XrmStringToQuark ("selected_button");
