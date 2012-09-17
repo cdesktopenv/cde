@@ -1793,7 +1793,7 @@ RestoreSession(
 
     xrm_name[0] = XrmStringToQuark ("dtterm");
     xrm_name[1] = XrmStringToQuark ("numClonedTerms");
-    xrm_name[2] = NULL;
+    xrm_name[2] = 0;
     XrmQGetResource (db, xrm_name, xrm_name, &rep_type, &value);
 
     /* if we got nothing back, bail out... */
@@ -1875,7 +1875,7 @@ RestoreTerm(
 
     sprintf(buf, "dtterm_%d", termNum);
     xrm_name[0] = XrmStringToQuark(buf);
-    xrm_name[2] = NULL;
+    xrm_name[2] = 0;
 
 /* Pass 1, before widget realization...
  */
@@ -2088,7 +2088,7 @@ SetWorkSpaceHints
 	do {
 	    ptr = strchr (workspaces, ' ');
 	    if (ptr != NULL)
-		*ptr = NULL;
+		*ptr = 0;
 	    thisWsAtom = None;
 
 	    /* if we haven't hit a match, try interning the atom... */

@@ -259,7 +259,7 @@ dttermNewHandler(
 	displayString = newDisplayString;
 	displayEnv = (char *)malloc(strlen("DISPLAY=") +
 				    strlen(displayString) + 2);
-	displayEnv[0]=NULL;
+	displayEnv[0]=0;
 	strcat(displayEnv, "DISPLAY=");
 	strcat(displayEnv, displayString);
 	putenv(displayEnv);
