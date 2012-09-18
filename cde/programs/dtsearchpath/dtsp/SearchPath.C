@@ -329,6 +329,19 @@ int SearchPath::validSearchPath
     return 0;
 }
 
+/*********************************************************************
+ *  useSystemPath()
+ *
+ *    This member function verifies whether system environment variable
+ *    should be left unmodified, since some other configuraton mechanism
+ *    is in effect.
+ *
+ */
+int SearchPath::useSystemPath()
+{
+    return 0;
+}
+
 /*****************************************************************
  *  ExportPath()
  *
@@ -340,7 +353,9 @@ void SearchPath::ExportPath()
     CString env(environment_var);
     env += "SEARCHPATH";
 
-    user->OS()->shell()->putToEnv(env, final_search_path.data());
+    if (!useSystemPath()) {
+      user->OS()->shell()->putToEnv(env, final_search_path.data());
+    }
 }
 
 
@@ -354,7 +369,7 @@ void SearchPath::Print()
 {
     printf("%sSEARCHPATH:\n", GetEnvVar());
     CString sp(GetSearchPath());
-    if (!sp.isNull()) {
+    if (!useSystemPath() && !sp.isNull()) {
 	CTokenizedString path (sp,Separator().data());
 	CString subpath = path.next();
 	while (!subpath.isNull()) {

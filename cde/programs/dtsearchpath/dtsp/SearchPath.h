@@ -78,6 +78,7 @@ class SearchPath {
   CString Separator() const    { return separator; }
 
   virtual int validSearchPath (const CString &) const;
+  virtual int useSystemPath();
 
   void    setSeparator (const char * sep) { separator = sep; }
 
@@ -193,6 +194,9 @@ class ManSearchPath : public SearchPath {
 
  protected:
   virtual void    MakePath (const CString &);
+#if defined(__FreeBSD__)
+  virtual int     useSystemPath();
+#endif
 
  private:
 };
