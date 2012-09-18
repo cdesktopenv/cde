@@ -44,10 +44,10 @@ void	_falmbDefaultDrawImageString()	{ return ; }
 /* Atom */ falInternAtom()		{ return 0 ; }
 int	_falwcGenericDrawString()	{ return 0 ; }
 char	**_falParseBaseFontNameList()	{ return NULL ; }
-/* XFontStruct * */ falLoadQueryFont()	{ return NULL ; }
+/* XFontStruct * */ falLoadQueryFont()	{ return 0 ; }
 falFreeFont()				{ return 0 ; }
 falFreeFontInfo()			{ return 0 ; }
-/* char	** */ falListFonts()		{ return NULL ; }
+/* char	** */ falListFonts()		{ return 0 ; }
 void	_falmbGenericDrawImageString()	{ return ; }
 void	_falwcDefaultDrawImageString()	{ return ; }
 int	_falmbDefaultDrawString()	{ return 0 ; }
@@ -56,7 +56,7 @@ void	falFreeStringList()		{ return ; }
 /* falrmStringToQuark()			{ return 0 ; } */
 /* falrmPermStringToQuark()		{ return 0 ; } */
 int	_falwcDefaultDrawString()	{ return 0 ; }
-/* char	* */ falGetAtomName()		{ return NULL ; }
+/* char	* */ falGetAtomName()		{ return 0 ; }
 int	_falwcGenericTextExtents()	{ return 0 ; }
 int	_falmbGenericTextExtents()	{ return 0 ; }
 void	_falwcGenericDrawImageString()	{ return ; }
@@ -67,7 +67,7 @@ int	_falwcDefaultTextExtents()	{ return 0 ; }
 int	_falmbDefaultTextEscapement()	{ return 0 ; }
 int	_falwcGenericTextEscapement()	{ return 0 ; }
 int	_falmbDefaultTextExtents()	{ return 0 ; }
-/* char	** */ falListFontsWithInfo()	{ return NULL ; }
+/* char	** */ falListFontsWithInfo()	{ return 0 ; }
 int	_falwcDefaultTextEscapement()	{ return 0 ; }
 /* Status */	_falwcGenericTextPerCharExtents(){ return 0 ; }
 /* _fallcMapOSLocaleName()		{ return 0 ; } */

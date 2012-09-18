@@ -627,12 +627,12 @@ int    bsize;
 		}
 	}
 
-	ptn[bsize - 1] = NULL;
+	ptn[bsize - 1] = 0;
 
 	for (i=0, skip=0; i<head->bdf_height; i++) {
 		if (skip) {
 			for(j=0; j<mwidth; j++) {
-				ptn[j] = NULL;
+				ptn[j] = 0;
 			}
 			ptn += mwidth;
 			continue;
@@ -645,7 +645,7 @@ int    bsize;
 		if (!strncmp(p, ENDCHAR, ENDCHARsz)) {
 			skip = 1;
 			for(j=0; j<mwidth; j++) {
-				ptn[j] = NULL;
+				ptn[j] = 0;
 			}
 			ptn += mwidth;
 			continue;
@@ -764,7 +764,7 @@ int	bsize;
 	for (i=0, skip=0; i<head->p_height; i++) {
 		if (skip) {
 			for (j=0; j<mwidth; j++) {
-				ptn[j] = NULL;
+				ptn[j] = 0;
 			}
 			ptn += mwidth;
 			continue;
@@ -778,7 +778,7 @@ int	bsize;
 		    (!strncmp(p, ENDDATA, ENDDATAsz))) {
 			skip = 1;
 			for (j=0; j<mwidth; j++) {
-				ptn[j] = NULL;
+				ptn[j] = 0;
 			}
 			ptn += mwidth;
 			continue;
@@ -808,7 +808,7 @@ int	width;
 	int	i, iend, len;
 	char   *p, str[3];
 
-	str[2] = NULL;
+	str[2] = 0;
 
 	SCAN_TO_NONSP(buf);
 
@@ -829,7 +829,7 @@ int	width;
 	}
 	if (iend%2) {
 		str[0] = *buf;
-		str[1] = NULL;
+		str[1] = 0;
 		*mem = (char)strtol(str, NULL, 16) << 4;
 	}
 }
@@ -857,11 +857,11 @@ int	width;
 
 	for (i=0, skip=0; i<iend; i++) {
 		if (skip) {
-			*mem++ = NULL;
+			*mem++ = 0;
 			continue;
 		}
-		for (j=0, ptn = NULL; j<8; j++) {
-			if ((*buf == '\n') || (*buf == NULL)) {
+		for (j=0, ptn = 0; j<8; j++) {
+			if ((*buf == '\n') || (*buf == 0)) {
 				skip = 1;
 				ptn <<= (8-j);
 				break;
@@ -1238,63 +1238,63 @@ char	*prog_name ;
 	case 0:
 		break;
 	case BDF_OPEN_IN :
-		USAGE2("%s : The input font file cannot be opened.\"%s\"．\n", prog_name, (snf_in != NULL)? snf_in : "\0" );
+		USAGE2("%s : The input font file cannot be opened.\"%s\"\A1\A5\n", prog_name, (snf_in != NULL)? snf_in : "\0" );
 		rtn = OPEN_FAIL ;
 		break;
 
 	case BDF_OPEN_OUT :
-		USAGE2("%s : The output font file cannot be opened.\"%s\"．\n", prog_name, (snf_out != NULL)? snf_out : "\0" );
+		USAGE2("%s : The output font file cannot be opened.\"%s\"\A1\A5\n", prog_name, (snf_out != NULL)? snf_out : "\0" );
 		rtn = OPEN_FAIL ;
 		break;
 
 
 	case BDF_READ :
-		USAGE2("%s : Information from the font file cannot be extracted.\"%s\"． \n", prog_name, (snf_in != NULL) ? snf_in : "\0" );
+		USAGE2("%s : Information from the font file cannot be extracted.\"%s\"\A1\A5 \n", prog_name, (snf_in != NULL) ? snf_in : "\0" );
 		rtn = READ_FAIL ;
 		break;
 
 	case BDF_WRITE :
-		USAGE2("%s : It is not possible to write to the font file.\"%s\"．\n", prog_name, (snf_out != NULL) ? snf_out : "\0" );
+		USAGE2("%s : It is not possible to write to the font file.\"%s\"\A1\A5\n", prog_name, (snf_out != NULL) ? snf_out : "\0" );
 		rtn = DEVICE_FAIL ;
 		break;
 
 	case BDF_INVAL :
-		USAGE2("%s : The format of the font file is illegal.\"%s\"． \n", prog_name, (snf_in != NULL) ? snf_in : "\0" );
+		USAGE2("%s : The format of the font file is illegal.\"%s\"\A1\A5 \n", prog_name, (snf_in != NULL) ? snf_in : "\0" );
 		rtn = 1 ;
 		break;
 
 	case BDF_OPEN_HEAD :
-		USAGE2("%s : The BDF file cannot be opened.\"%s\"．\n", prog_name, (bdf_in != NULL)? bdf_in : "\0" );
+		USAGE2("%s : The BDF file cannot be opened.\"%s\"\A1\A5\n", prog_name, (bdf_in != NULL)? bdf_in : "\0" );
 		rtn = OPEN_FAIL ;
 		break;
 
 	case BDF_READ_HEAD :
-		USAGE2("%s : Information of the BDF file cannot be extracted.\"%s\"． \n", prog_name, (bdf_in != NULL) ? bdf_in : "\0" );
+		USAGE2("%s : Information of the BDF file cannot be extracted.\"%s\"\A1\A5 \n", prog_name, (bdf_in != NULL) ? bdf_in : "\0" );
 		rtn = READ_FAIL ;
 		break;
 
 	case GPF_OPEN_IN :
-		USAGE2("%s : The input character pattern file cannot be opened.\"%s\"．\n", prog_name, (gpf_in != NULL) ? gpf_in : "\0" );
+		USAGE2("%s : The input character pattern file cannot be opened.\"%s\"\A1\A5\n", prog_name, (gpf_in != NULL) ? gpf_in : "\0" );
 		rtn = OPEN_FAIL ;
 		break;
 
 	case GPF_OPEN_OUT :
-		USAGE2("%s : The output character pattern file cannot be opened.\"%s\"．\n", prog_name, (gpf_out != NULL) ? gpf_out : "\0" );
+		USAGE2("%s : The output character pattern file cannot be opened.\"%s\"\A1\A5\n", prog_name, (gpf_out != NULL) ? gpf_out : "\0" );
 		rtn = OPEN_FAIL ;
 		break;
 
 	case GPF_READ :
-		USAGE2("%s : The character pattern file cannot be read.\"%s\"．\n", prog_name, (gpf_in != NULL) ? gpf_in : "\0" );
+		USAGE2("%s : The character pattern file cannot be read.\"%s\"\A1\A5\n", prog_name, (gpf_in != NULL) ? gpf_in : "\0" );
 		rtn = READ_FAIL ;
 		break;
 
 	case GPF_WRITE :
-		USAGE2("%s : It is not possible to write to the character pattern file.\"%s\"．\n", prog_name, (gpf_out != NULL) ? gpf_out : "\0" );
+		USAGE2("%s : It is not possible to write to the character pattern file.\"%s\"\A1\A5\n", prog_name, (gpf_out != NULL) ? gpf_out : "\0" );
 		rtn = DEVICE_FAIL ;
 		break;
 
 	case GPF_INVAL :
-		USAGE2("%s : The format of the character pattern file is illegal.\"%s\"．\n", prog_name, (gpf_in != NULL) ? gpf_in : "\0" );
+		USAGE2("%s : The format of the character pattern file is illegal.\"%s\"\A1\A5\n", prog_name, (gpf_in != NULL) ? gpf_in : "\0" );
 		rtn = 1 ;
 		break;
 
@@ -1566,8 +1566,8 @@ char	*com;
 	errno = 0;
 	if ( chown (fname, owner, group) != 0) {
 		USAGE2("%s : Failed in setteing of the owner and the group of the following files. \tPlease change to the file of the owner and the group of following ID \tafter the inquiry the system manager.\"%s\"\n", com, fname );
-		USAGE1("\t\t Owner ID ：%d\n", (int)owner);
-		USAGE1("\t\t Group ID ：%d\n", (int)group);
+		USAGE1("\t\t Owner ID \A1\A7%d\n", (int)owner);
+		USAGE1("\t\t Group ID \A1\A7%d\n", (int)group);
 		return( 1 );
 	}
 	return( 0 );
@@ -1643,7 +1643,7 @@ char	*cmd;
 
 	for ( ; end = ( char * )strchr( path, ':' ); path = end + 1 ) {
 		chr_sv = *end;
-		*end = NULL;
+		*end = 0;
 		AllocString( cmd_path, path, NULL ) ;
 		*end = chr_sv;
 

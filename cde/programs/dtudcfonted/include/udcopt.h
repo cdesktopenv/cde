@@ -188,7 +188,7 @@
 /*
  * help message
  */
-#define COMM_HELP_MSG{ \
+#define COMM_HELP_MSG { \
 	USAGE("              [-codeset number] [-help]\n"); \
 	USAGE("\n"); \
 }

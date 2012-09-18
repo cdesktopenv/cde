@@ -181,7 +181,7 @@ extern char *bdftopcf;
 #define	SNFFONTC_ERROR	-26
 
 #define SCAN_TO_NONSP(p) {\
-    while (*(p) != NULL) {\
+    while (*(p) != 0) {\
 	if ((*(p) == ' ') || (*(p) == TAB_CD) || (*(p) == 0xa1)) {\
 	    (p)++;\
 	} else {\
@@ -191,7 +191,7 @@ extern char *bdftopcf;
 }
 
 #define SCAN_TO_SP(p) {\
-    while (*(p) != NULL) {\
+    while (*(p) != 0) {\
 	if ((*(p) == ' ') || (*(p) == TAB_CD) || (*(p) == 0xa1)) {\
 	    break;\
 	} else {\

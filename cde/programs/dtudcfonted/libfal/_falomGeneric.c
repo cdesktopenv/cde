@@ -608,7 +608,7 @@ static char
 	return NULL;
     strcpy(pattern, font_name);
 
-    memset(fields, NULL, sizeof(char *) * 14);
+    memset(fields, 0, sizeof(char *) * 14);
     ptr = pattern;
     while(isspace(*ptr)) {
 	ptr++;
@@ -644,7 +644,7 @@ static char
     strcpy(str_point, "*");
     fields[POINT_SIZE_FIELD - 1] = str_point;
 
-    rotate_font[0] = NULL;
+    rotate_font[0] = '\0';
     for(field_num = 0 ; field_num < CHARSET_ENCODING_FIELD &&
 			fields[field_num] ; field_num++) {
 	sprintf(rotate_font, "%s-%s", rotate_font, fields[field_num]);

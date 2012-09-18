@@ -245,7 +245,7 @@ void makelist(ListData *ld)
     existcode_num = 0;
     for (i = 0; i < ld->allcode_num; i++) {
 	code = *allcodep;
-	pattern = FalReadFont(fid, code, NULL, NULL);
+	pattern = FalReadFont(fid, code, 0, 0);
 	if (fal_utyexists == 0) {
 	    *existcodep = *allcodep;
 	    existcodep++;
@@ -294,7 +294,7 @@ char *i2s(int code)
     for (i = 0; ; i++) {
 	if (tmp < 16) {
 	    buf[i] = i2c(tmp);
-	    buf[i+1] = NULL;
+	    buf[i+1] = 0;
 	    break;
 	}
 	buf[i] = i2c(tmp % 16);
@@ -309,7 +309,7 @@ char *i2s(int code)
 	*cp = buf[i];
 	cp++;
     }
-    *cp = NULL;
+    *cp = 0;
     return (number);
 }
 

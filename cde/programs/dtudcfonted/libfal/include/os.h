@@ -98,7 +98,9 @@ pragma on(alloca);
 
 
 #if defined(__GNUC__) || defined(__uxp__)
+#if !defined(linux)
 #define alloca ___builtin_alloca
+#endif
 #define ALLOCATE_LOCAL(size) alloca((int)(size))
 #define DEALLOCATE_LOCAL(ptr)  /* as nothing */
 #else /* ! __GNUC__ ! __uxp__ */
