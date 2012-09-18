@@ -2369,7 +2369,7 @@ FalFontData	*fdata;
 	if ((fp = open_fonts_list()) == NULL) {
 	    return FAL_ERROR ;
 	}
-	memset( pname, NULL, sizeof( pname ) );
+	memset( pname, 0, sizeof( pname ) );
 
 	while ( fgets( buf, FAL_LINE_MAX, fp ) != ( char * ) NULL ) {
 	    int     eq;
@@ -2523,7 +2523,7 @@ FalFontData	*fdata;
 		fls->list = p_bak ;
 	    }
 
-	    memset( buf, NULL, sizeof(buf));
+	    memset( buf, 0, sizeof(buf));
 
 	    while( fgets( buf, FAL_LINE_MAX, fp ) != (char *)NULL ) {
 		int	tmp_num, eq ;
@@ -2535,7 +2535,7 @@ FalFontData	*fdata;
 
 		/* parse string of font file */
 		if( (ep = strchr( buf, ' ' )) == (char *)NULL ) continue ;
-		else	*ep = NULL ;
+		else	*ep = 0 ;
 		/* refuse font file (not gpf) */
 		if(
 		    ( strcmp( FILE_SUFFIX(buf), PCFSUFFIX ) != 0 ) &&
@@ -2563,7 +2563,7 @@ FalFontData	*fdata;
 		    case _FAL_TRY_NEXT :
 			if( (func & SRCHFNAME) || (func & FONTOFID) )	FreeString( fontFileName ) ;
 			fal_clear_data( &tmp_data );
-			memset( buf, NULL, sizeof(buf));
+			memset( buf, 0, sizeof(buf));
 			continue ;
 		    case 0:
 			if( (func & FONTOFID) )	FreeString( fontFileName ) ;
@@ -2577,7 +2577,7 @@ FalFontData	*fdata;
 		if( !(func & FONTOFID) && (codeset_num == 0) ){
 		    if( (func & SRCHFNAME) )	FreeString( fontFileName ) ;
 		    fal_clear_data( &tmp_data );
-		    memset( buf, NULL, sizeof(buf));
+		    memset( buf, 0, sizeof(buf));
 		    continue ;
 		}
 
@@ -2639,7 +2639,7 @@ FalFontData	*fdata;
 		    if( fal_read_fidinf( fid, &fontid_inf ) != FAL_ERROR )
 			fdata->cd_set = fontid_inf.cd_set ;
 		    else {
-			fdata->cd_set = NULL ;
+			fdata->cd_set = 0 ;
 			goto FalError ;
 		    }
 		    fclose(fp) ;
@@ -3091,7 +3091,7 @@ unsigned int	*glidx ;
 		/*
 		 *	get string of "CHARSET_REGISTRY"
 	 	 */
-		memset( &tmp_data, NULL, sizeof(FalFontData) ) ;
+		memset( &tmp_data, 0, sizeof(FalFontData) ) ;
 
 		if( cmpfid != fid ){
 		    if( falReadGpfProp( FAL_READ_FONTINFO, finf, FAL_FONT_PRM, &tmp_data ) ) {
@@ -3158,7 +3158,7 @@ unsigned int	*code ;
 		/*
 		 *	get string of "CHARSET_REGISTRY"
 	 	 */
-		memset( &tmp_data, NULL, sizeof(tmp_data) ) ;
+		memset( &tmp_data, 0, sizeof(tmp_data) ) ;
 		if( falReadGpfProp( FAL_READ_FONTINFO, finf, FAL_FONT_PRM, &tmp_data ) ) {
 			fal_clear_data( &tmp_data ) ;
 			return	FAL_ERROR;

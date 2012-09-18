@@ -172,7 +172,7 @@ long	fb_default;
 
     for(i = 0; i < NRUNE; i++)
 	table[i] = -1;
-    while((rv = fscanf(fptr, "%lx", &value)) != EOF) {
+    while((rv = fscanf(fptr, "%lx", (long unsigned *) &value)) != EOF) {
 	if(rv != 0 && value >= 0) {
 	    table[value] = j++;
 	} else {
@@ -532,11 +532,11 @@ long	fb_default;
     register int	i = 0;
     int		j = 0;
     int		rv = 0;
-    long	value;
+    long 	value;
 
     for(i = 0; i < NRUNE; i++)
 	from_tbl[i] = -1;
-    while((rv = fscanf(fptr, "%lx", &value)) != EOF) {
+    while((rv = fscanf(fptr, "%lx", (long unsigned *) &value)) != EOF) {
 	if(rv != 0) {
 	    (*to_tbl)[j++] = value;
 	} else {

@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <stdlib.h>
 #ifndef SVR4
 #if !defined( SYSV )
 #include <sys/resource.h>

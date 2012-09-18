@@ -376,7 +376,7 @@ int		buttons_cnt;
 static Atom
 DeleteWindowAtom()
 {
-    static Atom delatom = NULL;
+    static Atom delatom = 0;
     if (! delatom){
 	delatom = XInternAtom(XtDisplayOfObject(toplevel),
 		"WM_DELETE_WINDOW", False);
@@ -532,7 +532,7 @@ int offset;
     XmNleftAttachment, XmATTACH_WIDGET,
     XmNleftWidget, ref,
     XmNleftOffset, offset,
-    0);
+    NULL);
 }
 
 void
@@ -543,7 +543,7 @@ int offset;
     XtVaSetValues( w,
     XmNleftAttachment, XmATTACH_FORM,
     XmNleftOffset, offset,
-    0);
+    NULL);
 }
 
 void
@@ -556,7 +556,7 @@ int offset;
     XmNtopAttachment, XmATTACH_WIDGET,
     XmNtopWidget, ref,
     XmNtopOffset, offset,
-    0);
+    NULL);
 }
 
 void
@@ -567,7 +567,7 @@ int offset;
     XtVaSetValues( w,
     XmNtopAttachment, XmATTACH_FORM,
     XmNtopOffset, offset,
-    0);
+    NULL);
 }
 
 void
@@ -580,7 +580,7 @@ int offset;
     XmNrightAttachment, XmATTACH_WIDGET,
     XmNrightWidget, ref,
     XmNrightOffset, offset,
-    0);
+    NULL);
 }
 
 void
@@ -591,7 +591,7 @@ int offset;
     XtVaSetValues( w,
     XmNrightAttachment, XmATTACH_FORM,
     XmNrightOffset, offset,
-    0);
+    NULL);
 }
 
 void
@@ -602,7 +602,7 @@ int offset;
     XtVaSetValues( w,
     XmNbottomAttachment, XmATTACH_FORM,
     XmNbottomOffset, offset,
-    0);
+    NULL);
 }
 #endif	/* not USE_MACRO */
 
@@ -641,7 +641,7 @@ String str;
 {
     XmString cs;
     cs = XmStringCreateLocalized(str);
-    XtVaSetValues( w, XmNlabelString, cs, 0);
+    XtVaSetValues( w, XmNlabelString, cs, NULL);
     XmStringFree( cs );
 }
 
@@ -652,7 +652,7 @@ String str;
 {
     XmString cs;
     cs = XmStringCreateLocalized(str);
-    XtVaSetValues( w, XmNlabelString, cs, 0);
+    XtVaSetValues( w, XmNlabelString, cs, NULL);
     XmStringFree( cs );
 	XmUpdateDisplay(w);
 }
@@ -680,7 +680,7 @@ char *str;
 
 	if (! str || ! *str) 	return;
 		
-	for( p=str, s=buf, lw=0; *p != NULL;  ){
+	for( p=str, s=buf, lw=0; *p != 0;  ){
 
 		if ( (*p == '\n') || (charcnt <= lw) ){
 			*s = '\n';	/* new line */
@@ -692,7 +692,7 @@ char *str;
 
                 lw += wcwidth( wc );
 	}
-	*s = NULL;
+	*s = 0;
 
 	cs = XmStringCreateLocalized(buf);
 	XtVaSetValues(st, XmNlabelString, (XtArgVal)cs, (String)0 );
@@ -808,13 +808,13 @@ XtPointer clientdata;
     Dimension bbw, mw, sw, cw;
 
 
-    XtVaGetValues(w, XmNchildren, &child, XmNnumChildren, &num, 0);
+    XtVaGetValues(w, XmNchildren, &child, XmNnumChildren, &num, NULL);
     XtVaGetValues(XtParent(w),
 	XmNwidth, &bbw,
 	XmNmarginWidth, &mw,
 	XmNshadowThickness, &sw,
-	0);
-    XtVaGetValues(child[0], XmNwidth, &cw, 0);
+	NULL);
+    XtVaGetValues(child[0], XmNwidth, &cw, NULL);
     XtVaSetValues(w, XmNwidth, ((int)bbw-2*((int)mw+(int)sw)), NULL);
     XtVaSetValues(child[0], XmNx,
     			((((int)bbw-2*((int)mw+(int)sw))-(int)cw)/2), NULL);

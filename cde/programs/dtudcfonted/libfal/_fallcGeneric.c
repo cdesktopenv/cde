@@ -687,7 +687,7 @@ int num;
     FontScope scope;
     ret = (ExtdSegment)Xmalloc(sizeof(ExtdSegmentRec));
     if(ret == NULL){
-        return (NULL);
+        return (0);
     }
     if(strchr(value[0],':')){
         ret->name = (char *)Xmalloc(strlen(value[0])+1);
@@ -696,7 +696,7 @@ int num;
         }
         strcpy(ret->name,value[0]);
         ptr = strchr(ret->name,':');
-        *ptr = NULL;
+        *ptr = 0;
         ptr++;
         if( !_fallcNCompareISOLatin1(ptr, "none", 4) ){
             ret->side =  XlcNONE ;
@@ -939,7 +939,7 @@ load_generic(lcd)
                     char tmp[128];
                     tmpb = (codeset->byteM)[M-1].byteinfo ;
                     /* default 0x00 - 0xff */
-                    sscanf(value[ii],"\\x%lx,\\x%lx",&start,&end);
+                    sscanf(value[ii], "\\x%lx,\\x%lx", (long unsigned *) &start, (long unsigned *) &end);
                     tmpb[ii].start = (unsigned char)start;
                     tmpb[ii].end  = (unsigned char)end;
                 }
