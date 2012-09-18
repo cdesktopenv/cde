@@ -2843,7 +2843,7 @@ restoreScreen(
     XrmValue value;
 
     xrm_name [0] = XrmStringToQuark ("Screen");
-    xrm_name [2] = NULL;
+    xrm_name [2] = 0;
 
     /* get x position */
     xrm_name [1] = XrmStringToQuark ("x");
