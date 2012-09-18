@@ -96,6 +96,7 @@
 
 #include <Dt/Connect.h>
 #include <Dt/DtNlUtils.h>
+#include <Dt/SharedProcs.h>
 
 #include "sharedFuncs.h"
 #include "dtcopy.h"
@@ -645,7 +646,7 @@ _DtCopyPathFromInput(input_string, current_dir)
     else if (!path)
     {
         XtFree(tmp_path);
-        return;
+        return NULL;
     }
 
     /* Resolve '.' or '..' -- input is overwritten, output may be NULL! */

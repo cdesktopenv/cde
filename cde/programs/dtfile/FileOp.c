@@ -98,6 +98,8 @@
 #include <Xm/XmP.h>
 #include <Xm/Xm.h>
 #include <Xm/MwmUtil.h>
+#include <Xm/TextF.h>
+#include <Xm/ScrollBar.h>
 #include <X11/ShellP.h>
 #include <X11/Shell.h>
 #include <X11/Xutil.h>
@@ -116,6 +118,7 @@
 #include <Dt/Wsm.h>
 #include <Dt/DtNlUtils.h>
 #include <Dt/HourGlass.h>
+#include <Dt/SharedProcs.h>
 
 #include <Tt/tttk.h>
 
@@ -607,7 +610,7 @@ FileMoveCopyProcess(
      rc = -1;
      write(pipe_s2m, &pipe_msg, sizeof(short));
      write(pipe_s2m, &rc, sizeof(int));
-     return;
+     return rc;
    }
 
    DtEliminateDots(target_dir);
@@ -1306,7 +1309,7 @@ FileMoveCopyProcessDesktop(
      rc = -1;
      write(pipe_s2m, &pipe_msg, sizeof(short));
      write(pipe_s2m, &rc, sizeof(int));
-     return;
+     return rc;
    }
    DtEliminateDots(to);
 

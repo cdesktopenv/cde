@@ -73,6 +73,7 @@
 
 
 #include <Dt/DtNlUtils.h>
+#include <Dt/SharedProcs.h>
 
 #include "Encaps.h"
 #include "FileMgr.h"

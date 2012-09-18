@@ -61,6 +61,8 @@
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 #include <Xm/Xm.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
 
 /* #Include <X11/Xmu/Editres.h> */      /* for editres debugging tool */
 
@@ -758,7 +760,7 @@ InitNlsMessage(void)
  * Main
  *------------------------------------------------------------------*/
 
-void
+int
 main(int argc, char *argv[])
 {
   char msg[1024];

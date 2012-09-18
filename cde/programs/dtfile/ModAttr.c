@@ -87,6 +87,8 @@
 #include <Dt/IconP.h>
 #include <Dt/IconFile.h>
 #include <Dt/TitleBox.h>
+#include <Dt/Dts.h>
+#include <Dt/SharedProcs.h>
 
 #include <X11/ShellP.h>
 #include <X11/Shell.h>
@@ -1871,9 +1873,9 @@ OkCallback(
   old = (ModAttrData *) old_dialog->data;
 
   if(RecheckFlag(NULL,w))
-    return;
+    return None;
   else if(RecheckFlag(NULL,close))
-    return;
+    return None;
 
   new_attr_data = (ModAttrData *) XtCalloc (1, sizeof (ModAttrData));
   new_attr_data->displayed = True;

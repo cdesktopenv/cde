@@ -117,8 +117,12 @@
 #include <Dt/Connect.h>
 #include <Dt/DtNlUtils.h>
 #include <Dt/HourGlass.h>
+#include <Dt/Dts.h>
+#include <Dt/SharedProcs.h>
 
 #include <Tt/tttk.h>
+
+#include <Xm/XmPrivate.h> /* _XmStringUngenerate */
 
 #include "Encaps.h"
 #include "SharedProcs.h"
@@ -236,7 +240,7 @@ static void InvalidFindMessage(
                         FindRec *find_rec,
                         int messageIndex,
                         String extra_string) ;
-static int FreeMatchInfo(
+static void FreeMatchInfo(
                         String *matches,
                         int numMatches) ;
 static void LeaveStopBttn(
@@ -951,7 +955,7 @@ GetDefaultValues( void )
    find_data->height = 0;
    find_data->width = 0;
 
-   (char *)getcwd((char *)dirbuf, (unsigned int)MAX_DIR_PATH_LEN);
+   (void)getcwd((char *)dirbuf, (unsigned int)MAX_DIR_PATH_LEN);
    if(restrictMode &&
            strncmp(users_home_dir, dirbuf, strlen(users_home_dir)) != 0)
    {
@@ -1391,7 +1395,7 @@ InvalidFindMessage(
  *
  ************************************************************************/
 
-static int
+static void
 FreeMatchInfo(
         String *matches,
         int numMatches )

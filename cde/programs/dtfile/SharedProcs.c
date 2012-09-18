@@ -120,6 +120,8 @@ extern XmWidgetExtData _XmGetWidgetExtData(
 #include <Dt/IconFile.h>
 #include <Dt/Action.h>
 #include <Dt/Dnd.h>
+#include <Dt/Utility.h>
+#include <Dt/SharedProcs.h>
 
 #include <Tt/tttk.h>
 

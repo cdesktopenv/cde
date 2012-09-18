@@ -47,6 +47,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <errno.h>
+#include <sys/wait.h>
 
 #include <unistd.h>
 #include <limits.h>

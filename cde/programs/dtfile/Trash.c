@@ -131,6 +131,8 @@
 #include <Dt/EnvControlP.h>
 #include <Dt/Wsm.h>
 #include <Dt/Dnd.h>
+#include <Dt/SharedProcs.h>
+#include "DtSvcInternal.h" /* _DtGetMask */
 
 #include <Tt/tttk.h>
 
@@ -142,6 +144,7 @@
 #include "Desktop.h"
 #include "Main.h"
 #include "SharedMsgs.h"
+#include "dtcopy/fsrtns.h"
 
 #define AdditionalHeader (GETMESSAGE(27,98, "(Plus %d additional object(s))"))
 
@@ -244,6 +247,12 @@ Widget trashShell;
 DialogData * primaryTrashHelpDialog = NULL;
 DialogData ** secondaryTrashHelpDialogList = NULL;
 int secondaryTrashHelpDialogCount = 0;
+
+/* Forward prototype */
+int EraseDir(char *dir_name);
+/* From dtcopy/fsrtns.c */
+extern int EmptyDir(char *sourceP, int rm, int force);
+
                                             /* 'defines' for trash files */
 static char * TRASH_DIR = ".dt/Trash";
 static char * TRASH_INFO_FILE = ".dt/Trash/.trashinfo";
@@ -1212,7 +1221,7 @@ TrashEmpty(void)
       Select_All(*selectAllBtn, NULL, NULL);
       Remove(*removeBtn, NULL, NULL);
 */
-      EmptyDir(trashFileMgrData->current_directory,0);
+      EmptyDir(trashFileMgrData->current_directory,0,0);
    }
 }
 
@@ -4330,7 +4339,7 @@ RestoreVerifyOk(
 
       if(lstat(dirs[1],&s1) < 0)
          goto goback;
-      fsErase(dirs[1],&status);
+      fsErase(dirs[1],&status,0);
       FileList = (char **) XtMalloc(sizeof(char *));
       FileList[0] = XtNewString(dirs[0]);
       RestoreFromTrash(FileList, (int) 1, NULL, NULL, NULL,True);

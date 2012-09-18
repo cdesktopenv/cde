@@ -116,8 +116,10 @@
 #include "Encaps.h"
 #include "FileMgr.h"
 #include "Desktop.h"
+#include "IconicPath.h"
 #include "Main.h"
 #include "SharedMsgs.h"
+#include "SharedProcs.h"
 #include "Prefs.h"
 
 extern Boolean removingTrash;
@@ -231,6 +233,8 @@ typedef struct
 /* background procedure */
 typedef int (*DirBackgroundProc)(int, Directory *, ActivityStatus);
 
+extern void _DtFlushIconFileCache(String path);
+
 
 /*--------------------------------------------------------------------
  * Static Function Declarations
@@ -293,7 +297,7 @@ int maxDirectoryProcesses = 10;
 int maxRereadProcesses = 5;
 int maxRereadProcsPerTick = 1;
 
-XtIntervalId checkBrokenLinkTimerId = NULL;
+XtIntervalId checkBrokenLinkTimerId = None;
 
 static Directory ** directory_set = NULL;
 static int          directory_count = 0;
@@ -408,7 +412,7 @@ InitializeDirectoryRead(
    }
    else
    {
-     checkBrokenLinkTimerId = NULL;
+     checkBrokenLinkTimerId = None;
    }
 }
 
@@ -2127,7 +2131,7 @@ ReaddirPipeCallback(
    int *fd,
    XtInputId *id)
 {
-   static whined_fd = 0;
+   static int whined_fd = 0;
    PipeCallbackData *pipe_data = (PipeCallbackData *)client_data;
    Directory *directory = pipe_data->directory;
    FileMgrData *file_mgr_data;
@@ -2364,7 +2368,7 @@ ReaddirPipeCallback(
 	 {
 	     whined_fd = *fd;
              fprintf(stderr,
-	       "ReaddirPipeCallback: badmsg, ppid=%d pid=%d fd=%d activ'y=%d\n",
+	       "ReaddirPipeCallback: badmsg=%d, ppid=%d pid=%d fd=%d activ'y=%d\n",
 	       msg, getppid(), getpid(), *fd, activity);
 	 }
          directory->errnum = -1;
@@ -4682,7 +4686,7 @@ TimerEventBrokenLinks(
    }
    else
    {
-     checkBrokenLinkTimerId = NULL;
+     checkBrokenLinkTimerId = None;
    }
 }
 

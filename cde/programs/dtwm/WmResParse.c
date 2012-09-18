@@ -61,7 +61,7 @@ static char rcsid[] = "$XConsortium: WmResParse.c /main/9 1996/11/01 10:17:34 dr
 #endif /* PANELIST */
 #include "WmResource.h"
 
-#include "Dt/shellutils.h"     /* shellscan */
+#include <codelibs/shellutils.h>    /* shellscan */
 
 #include <Xm/VirtKeysP.h>
 #include <Xm/XmPrivate.h>      /* _XmVirtKeysLoadFileBindings,

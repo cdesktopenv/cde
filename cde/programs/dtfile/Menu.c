@@ -65,12 +65,15 @@
 
 #include <Xm/XmP.h>
 #include <Xm/CascadeBG.h>
+#include <Xm/TextF.h>
 #include <Xm/PushBG.h>
 #include <Xm/RowColumn.h>
 #include <Xm/SeparatoG.h>
 #include <Xm/ToggleBG.h>
 #include <Xm/MessageB.h>
 #include <Xm/MenuShellP.h>
+
+#include <Xm/XmPrivate.h> /* _XmGetActiveTopLevelMenu */
 
 #include <X11/ShellP.h>
 
@@ -81,6 +84,7 @@
 #include <Dt/Connect.h>
 #include <Dt/Indicator.h>
 #include <Dt/FileM.h>
+#include <Dt/SharedProcs.h>
 
 #include "Encaps.h"
 #include "SharedProcs.h"

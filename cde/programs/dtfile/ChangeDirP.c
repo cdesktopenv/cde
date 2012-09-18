@@ -61,9 +61,11 @@
 #include <limits.h>
 #include <Xm/Xm.h>
 #include <Xm/XmP.h>
+#include <Xm/DrawP.h>
 #include <Xm/TextFP.h>
 #include <Xm/PushBG.h>
 #include <Xm/DragDrop.h>
+#include <Xm/RowColumn.h>
 #include <Dt/Icon.h>
 #include <Dt/IconP.h>
 #include <Dt/DtNlUtils.h>

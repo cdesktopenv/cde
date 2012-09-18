@@ -92,6 +92,9 @@
 #include <Dt/Connect.h>
 #include <Dt/DtNlUtils.h>
 #include <Dt/FileM.h>
+#include <Dt/HourGlass.h>
+#include <Dt/Dts.h>
+#include <Dt/SharedProcs.h>
 
 #include <Tt/tttk.h>
 

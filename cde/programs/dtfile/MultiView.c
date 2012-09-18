@@ -66,6 +66,8 @@
 #include <Dt/DtNlUtils.h>
 #include <Dt/Connect.h>
 
+#include <Xm/XmPrivate.h> /* _XmGetActiveTopLevelMenu */
+
 #include "Encaps.h"
 #include "MultiView.h"
 

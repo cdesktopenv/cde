@@ -113,6 +113,7 @@
 #include <Dt/IconP.h>
 #include <Dt/IconFile.h>
 #include <Dt/Connect.h>
+#include <Dt/Dts.h>
 #include <Dt/Wsm.h>
 #include <Dt/WsmM.h>
 #include <Dt/UserMsg.h>
@@ -121,10 +122,12 @@
 #include <Xm/DragIcon.h>
 #include <Xm/DragC.h>
 #include <Dt/Dnd.h>
+#include <Dt/HourGlass.h>
 
 #include <Dt/ActionP.h>
 #include <Dt/Action.h>
 #include <Dt/Session.h>
+#include <Dt/SharedProcs.h>
 
 #include <Tt/tttk.h>
 

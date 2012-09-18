@@ -56,8 +56,10 @@
 
 #include <Xm/Xm.h>
 #include <Xm/XmP.h>
+#include <Xm/DrawP.h>
 #include <Xm/TextF.h>
 #include <Xm/VirtKeys.h>
+#include <Xm/ScrollBar.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -80,6 +82,7 @@
 #include "Prefs.h"
 #include "Common.h"
 #include "Filter.h"
+#include "SharedProcs.h"
 
                            /* For HightlightBorder & UnhighlightBorder */
 externalref XmPrimitiveClassRec xmPrimitiveClassRec;

@@ -68,7 +68,9 @@
 #include <Xm/TextF.h>
 #include <Xm/ToggleB.h>
 #include <Xm/MessageB.h>
+#include <Xm/RowColumn.h>
 #include <Xm/Separator.h>
+#include <Dt/SharedProcs.h>
 
 #include "dtcopy.h"
 #include "sharedFuncs.h"

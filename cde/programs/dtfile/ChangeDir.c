@@ -86,11 +86,14 @@
 #include <Dt/Action.h>
 #include <Dt/Connect.h>
 #include <Dt/DtNlUtils.h>
+#include <Dt/SharedProcs.h>
 
 #include <Tt/tttk.h>
 
 #include <Xm/DragIcon.h>
 #include <Xm/DragC.h>
+#include <Xm/TextF.h>
+#include <Xm/XmPrivate.h> /* _XmStringUngenerate */
 #include <Dt/Dnd.h>
 
 #include "Encaps.h"
@@ -786,7 +789,7 @@ TryToChangeDir(
 
        XtFree(title);
        XtFree(msg);
-       return;
+       return False;
      }
      else
      {

@@ -59,6 +59,7 @@
 
 #include <Dt/Connect.h>
 #include <Dt/FileM.h>
+#include <Dt/SharedProcs.h>
 
 #include <Tt/tttk.h>
 

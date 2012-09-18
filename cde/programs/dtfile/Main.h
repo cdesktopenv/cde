@@ -505,6 +505,10 @@ extern void ChangeToNewDir (
                         Widget text_field,
                         XtPointer client_data,
                         XmAnyCallbackStruct * callback_data );
+
+extern void ChangeDirectoryToParent(
+                        FileMgrRec * file_mgr_rec,
+                        char *directory) ;
 extern void DropOnChangeView (
                         Widget w,
                         XtPointer client_data,
@@ -662,6 +666,10 @@ extern void DirectoryFileModified(
 extern void DirectoryEndModify(
                         char *host_name,
                         char *directory_name) ;
+extern void DirectoryAbortModify(
+                        char *host_name,
+                        char *directory_name);
+
 extern void UpdateDirectorySet( void ) ;
 extern void UpdateCachedDirectories(
                         View **view_set,
@@ -676,6 +684,11 @@ extern char * GetDirectoryLogicalType(
 extern FileData * FileData2toFileData(
                         FileData2 *file_data2,
                         int *l);
+
+extern FileData * ReadFileData(
+                        char *full_directory_name,
+                        char *file_name);
+
 extern int ReadFileData2(
 			FileData2 *fdata,
                         char *full_directory_name,
@@ -888,8 +901,23 @@ extern void RepairFileWindow (
                         FileMgrData * file_mgr_data);
 StrcollProc GetStrcollProc(void);
 
+extern void StartDrag(
+                        Widget w,
+                        FileViewData * fileViewData,
+                        XEvent * event);
+extern void FreeLayoutData(XtPointer p);
 
+extern void GetAncestorInfo(
+                        FileMgrData *file_mgr_data,
+                        FileViewData *ip,
+                        int *levelp,
+                        char *path,
+                        Bool *morep);
 
+extern void GetFullName(
+                        FileMgrData *file_mgr_data,
+                        FileViewData *ip,
+                        char *path);
 
 /* prototypes from FileDialog.h */
 
@@ -938,6 +966,10 @@ extern Boolean FileManip(
                         void (*errorHandler)(),
                         Boolean checkForBusyDir,
                         int type);
+extern int CheckAccess(
+                        char *fname,
+                        int what);
+
 extern char * DName(
                         register char *name) ;
 
@@ -1295,6 +1327,7 @@ extern Boolean FileFromTrash(
 extern int CheckDeletePermission(
                         char *dir,
                         char *file);
+extern int EraseObject(char *file_name);
 
 /* prototype for Desktop.c */
 
@@ -1465,7 +1498,6 @@ extern Boolean MakeFilesFromBuffersDT(
 extern Boolean fsDialogAvailable(const String      path,
                                        dtFSData  * fsDialogData);
 
-
 /* prototype for Utils.c */
 extern char *
 ResolveLocalPathName(
@@ -1558,6 +1590,23 @@ buffer_multicollide_ok_callback(
      XtPointer client_data,
      XtPointer call_data);
 
+/* From SharedProcs.c - needs DesktopRec */
+extern void _DtBuildActionArgsWithDTSelectedFiles(
+                        DesktopRec **selection_list,
+                        int selected_count,
+                        DtActionArg **action_args,
+                        int *arg_count) ;
+
+
+/* From DtWidget */
+extern void _DtIconGetTextExtent_r(Widget widget, XRectangle *clip);
+
+/* From DtSvc */
+extern Pixmap _DtGetPixmap(
+        Screen *screen,
+        char *image_name,
+        Pixel foreground,
+        Pixel background );
 
  /*
  * macro to get message catalog strings

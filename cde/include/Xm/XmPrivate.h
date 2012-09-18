@@ -26,6 +26,13 @@ extern void _XmPopWidgetExtData(
 #else
                         unsigned char extType) ;
 #endif /* NeedWidePrototypes */
+extern XmWidgetExtData _XmGetWidgetExtData(
+                        Widget widget,
+#if NeedWidePrototypes
+                        unsigned int extType) ;
+#else
+                        unsigned char extType) ;
+#endif /* NeedWidePrototypes */
 /* Extracted from MenuStateI.h */
 extern void _XmSetInDragMode( 
                         Widget widget,
@@ -44,6 +51,10 @@ extern int _XmGrabPointer(
                         Window confine_to,
                         Cursor cursor,
                         Time time) ;
+/* Extracted from RCMenuI.h */
+extern void _XmGetActiveTopLevelMenu(
+				     Widget wid,
+				     Widget *rwid);
 /* Extracted from SyntheticI.h */
 extern void _XmExtGetValuesHook( 
                         Widget w,
@@ -53,6 +64,11 @@ extern void _XmGadgetImportSecondaryArgs(
                         Widget w,
                         ArgList args,
                         Cardinal *num_args) ;
+/* Extracted from TextFI.h */
+extern Boolean _XmTextFieldSetDestination(
+                        Widget w,
+                        XmTextPosition position,
+                        Time set_time) ;
 /* Extracted from TextStrSoI.h */
 extern char  * _XmStringSourceGetString(XmTextWidget tw,
 				        XmTextPosition from,
@@ -90,6 +106,7 @@ extern Boolean _XmShellIsExclusive(
                         Widget wid) ;
 /* Extracted from UniqueEvnI.h */
 extern Boolean _XmIsEventUnique(XEvent *event) ;
+extern void _XmRecordEvent(XEvent *event) ;
 /* Extracted from VendorSI.h */
 extern void _XmAddGrab( 
                         Widget wid,
@@ -121,6 +138,11 @@ extern void _XmClearShadowType(
                         Dimension old_shadow_thickness,
                         Dimension old_highlight_thickness) ;
 #endif /* NeedWidePrototypes */
+/* Extracted from XmStringI.h */
+extern XtPointer _XmStringUngenerate (XmString string,
+			XmStringTag tag,
+			XmTextType tag_type,
+			XmTextType output_type);
 #ifdef __cplusplus
 }
 #endif

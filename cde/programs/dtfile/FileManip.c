@@ -119,6 +119,7 @@
 #include <Dt/DtP.h>                     /* required for DtDirPaths type */
 #include <Dt/Connect.h>
 #include <Dt/DtNlUtils.h>
+#include <Dt/SharedProcs.h>
 
 #include "Encaps.h"
 #include "SharedProcs.h"

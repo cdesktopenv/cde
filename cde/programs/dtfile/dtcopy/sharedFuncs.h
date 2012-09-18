@@ -96,6 +96,6 @@ extern void      TimeoutHandler(
                                     XtPointer client_data,
                                     XtIntervalId *id);
 
-
+extern char *    get_path(char *path);
 
 #endif /* SHAREDFUNCS_H */

@@ -51,8 +51,12 @@
 
 #include <Xm/Xm.h>
 #include <Xm/XmP.h>
+#include <Xm/TextF.h>
 
 #include <Dt/DtP.h>                     /* required for DtDirPaths type */
+
+#include <codelibs/shellutils.h>
+
 #include <Dt/DtNlUtils.h>
 #include "Encaps.h"
 #include "SharedProcs.h"

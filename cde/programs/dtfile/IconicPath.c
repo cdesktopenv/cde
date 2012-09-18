@@ -83,6 +83,8 @@
 #include "Encaps.h"
 #include "SharedProcs.h"
 
+#include <Xm/XmPrivate.h> /* _XmShellIsExclusive */
+
 #include "Desktop.h"
 #include "FileMgr.h"
 #include "Main.h"

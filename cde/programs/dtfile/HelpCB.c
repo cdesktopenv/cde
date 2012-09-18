@@ -74,6 +74,7 @@
 #include <Dt/DtNlUtils.h>
 #include <Dt/FileM.h>
 #include <Dt/Action.h>
+#include <Dt/SharedProcs.h>
 #include "Encaps.h"
 
 #include <Dt/HelpDialog.h>

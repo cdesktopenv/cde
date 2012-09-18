@@ -38,8 +38,8 @@
  ****************************************************************************
  ************************************<+>*************************************/
 
-#ifndef _SharedProcs_h
-#define _SharedProcs_h
+#ifndef _DtFile_SharedProcs_h
+#define _DtFile_SharedProcs_h
 
 #include <Dt/Icon.h>
 #include <Dt/Action.h>
@@ -135,6 +135,7 @@ extern void _DtBuildActionArgsWithSelectedFiles(
                         int selected_file_count,
                         DtActionArg **action_args,
                         int *args_count) ;
+
 extern void _DtBuildActionArgsWithDroppedFiles(
                         FileViewData *dropped_on_obj,
                         DtDndDropCallbackStruct *drop_parameters,
@@ -202,11 +203,5 @@ extern Boolean messageDisplayEnabled;
 /* Flag controlling whether dialogs are auto-positioned */
 extern Boolean disableDialogAutoPlacement;
 
-/* Generic overlay for all dialog 'Rec' structures */
-typedef struct
-{
-   Widget shell;
-} GenericRecord;
-
-#endif /* _SharedProcs_h */
+#endif /* _DtFile_SharedProcs_h */
 /* DON'T ADD ANYTHING AFTER THIS #endif */

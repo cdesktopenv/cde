@@ -332,6 +332,10 @@ extern void _DtShowBuiltDialog(
                         Boolean iconify_state,
                         XClassHint * classHints ) ;
 
+extern void _DtChangeTo(
+                        XtPointer client_data,
+                        char  *directory) ;
+
 extern void _DtFreeDialog(
                         DialogData *dialog_data);
 /********    End Public Function Declarations    ********/

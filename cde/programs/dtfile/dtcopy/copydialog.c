@@ -65,6 +65,7 @@
 #include <Xm/Form.h>
 #include <Xm/Frame.h>
 #include <Xm/BulletinB.h>
+#include <Xm/MessageB.h>
 #include <Xm/Text.h>
 #include <Xm/TextF.h>
 #include <Xm/ScrolledW.h>
@@ -81,6 +82,11 @@
 #define TOP_SPACING  (VERTICAL_SPACING + 5)
 #define INDENTED_SPACING (HORIZONTAL_SPACING + 5)
 
+/* Cannot put into sharedFuncs.h due to conflict with FileManip.c */
+extern int       Check(
+                                    register char *spth,
+                                    register char *dpth,
+                                    int mode);
 
 /*--------------------------------------------------------------------
  * Global variables

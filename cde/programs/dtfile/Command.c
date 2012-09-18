@@ -53,6 +53,7 @@
 #include <sys/stat.h>
 #include <Xm/PushBG.h>
 #include <Xm/RowColumn.h>
+#include <Xm/ScrollBar.h>
 #include <Xm/SeparatoG.h>
 #include <Xm/XmP.h>
 #include <X11/Shell.h>
@@ -64,6 +65,9 @@
 #include <Dt/DtNlUtils.h>
 #include <Dt/HourGlass.h>
 #include <Dt/Dnd.h>
+#include <Dt/Dts.h>
+#include <Dt/SharedProcs.h>
+#include <Dt/Utility.h>
 
 #include "Encaps.h"
 #include "SharedProcs.h"

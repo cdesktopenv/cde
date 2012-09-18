@@ -37,6 +37,7 @@
 
 #include <Dt/DtP.h>
 #include <bms/connect.h>
+#include <codelibs/pathutils.h>
 
 #define DtGetShortHostname Xegetshorthostname
 #define DtGetHostname      Xegethostname
