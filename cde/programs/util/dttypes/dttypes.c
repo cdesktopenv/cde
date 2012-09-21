@@ -56,6 +56,7 @@ static	int	rexp_errno = 0;
 #define NL_CAT_LOCALE  0
 #endif 
 
+extern	char **	_DtsMMListDb(void);
 static	enum	errors
 {
 	BAD_DB,
@@ -653,7 +654,7 @@ main(int argc, char **argv)
 	}
 	else
 	{
-		dbs = (char **)_DtsMMListDb();
+		dbs = _DtsMMListDb();
 		for(i = 0; dbs[i]; i++)
 		{
 			printf(catgets(dtcatd, 1, 29, "--------------------- %s ----------------\n"),
