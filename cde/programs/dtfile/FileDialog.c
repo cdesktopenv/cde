@@ -192,7 +192,7 @@ ShowRenameFileDialog(
 
   XmUpdateDisplay (w);
 
-  if((int)client_data != 0)
+  if(client_data != 0)
   {
     file_view_data = (FileViewData *)client_data;
     mbar = XtParent(w);
@@ -224,7 +224,7 @@ ShowRenameFileDialog(
   XtSetArg (args[n], XmNallowShellResize, True);  n++;
 
   /* Ignore accelerators when we're insensitive */
-  if((int)client_data == 0)
+  if(client_data == 0)
   {
     if ((file_mgr_rec->menuStates & RENAME) == 0)
       return;
@@ -270,6 +270,7 @@ ShowCopyFileDialog(
    char * directory_name;
    char * tmpStr, *tempStr;
 
+   XtPointer width;
    Dimension f_width, d_width;
 
    Widget shell;
@@ -301,7 +302,7 @@ ShowCopyFileDialog(
 
    XmUpdateDisplay (w);
 
-   if((int)client_data != 0)
+   if(client_data != 0)
    {
       file_view_data = (FileViewData *)client_data;
       mbar = XtParent(w);
@@ -542,16 +543,20 @@ ShowCopyFileDialog(
    /*  Make the two labels the same length - maximum.  */
    /* ------------------------------------------------ */
 
-   XtVaGetValues(dir_label, XmNwidth, &d_width, NULL);
-   XtVaGetValues(file_label, XmNwidth, &f_width, NULL);
+   XtVaGetValues(dir_label, XmNwidth, &width, NULL);
+   d_width = (Dimension)width;
+   XtVaGetValues(file_label, XmNwidth, &width, NULL);
+   f_width = (Dimension)width;
 
    if (d_width > f_width)
        XtVaSetValues(file_label, XmNwidth, d_width, NULL);
    else
        XtVaSetValues(dir_label, XmNwidth, f_width, NULL);
 
-   XtVaGetValues(dir_text, XmNwidth, &d_width, NULL);
-   XtVaGetValues(file_text, XmNwidth, &f_width, NULL);
+   XtVaGetValues(dir_text, XmNwidth, &width, NULL);
+   d_width = (Dimension)width;
+   XtVaGetValues(file_text, XmNwidth, &width, NULL);
+   f_width = (Dimension)width;
 
    if (d_width > f_width)
        XtVaSetValues(file_text, XmNwidth, d_width, NULL);
@@ -772,7 +777,7 @@ ShowMoveFileDialog(
 
    XmUpdateDisplay (w);
 
-   if((int)client_data != 0)
+   if(client_data != 0)
    {
       file_view_data = (FileViewData *)client_data;
       mbar = XtParent(w);
@@ -1097,7 +1102,7 @@ ShowLinkFileDialog(
 
    XmUpdateDisplay (w);
 
-   if((int)client_data != 0)
+   if(client_data != 0)
    {
       file_view_data = (FileViewData *)client_data;
       mbar = XtParent(w);

@@ -1757,9 +1757,12 @@ Create_Action_Area(
 
        if (i == actions.defaultAction)
          {
+            XtPointer heightptr;
             Dimension height, h;
-            XtVaGetValues (action_area, XmNmarginHeight, &h, NULL);
-            XtVaGetValues (widget, XmNheight, &height, NULL);
+            XtVaGetValues (action_area, XmNmarginHeight, &heightptr, NULL);
+            height = (Dimension)heightptr;
+            XtVaGetValues (widget, XmNheight, &heightptr, NULL);
+            h = (Dimension)heightptr;
 
             height +=2 * h;
             XtVaSetValues (action_area,

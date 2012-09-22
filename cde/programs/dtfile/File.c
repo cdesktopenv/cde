@@ -7193,7 +7193,7 @@ CommitWorkProcUpdates(
    /* If not managed yet, manage the file window again */
    if (!XtIsManaged((Widget)file_window))
    {
-     int incr;
+     XtPointer incr;
      Arg args[2];
 
      XtManageChild ((Widget)file_window);
