@@ -406,7 +406,8 @@ MenuBar::addCommands(
     // if(isValidMenuPane(pulldown) == FALSE)
     // 	return NULL;
 
-    int    i, num_children;
+    int    i;
+    XtArgVal num_children;
     WidgetList children;
     Boolean haveNoSeparator;
     int newItemIndex, numPBUnmanaged, tmpPBUnmanaged;
@@ -503,7 +504,8 @@ MenuBar::removeOnlyCommands(
     // if(isValidMenuPane(pulldown) == FALSE)
     //	return;
 
-    int    i, j, num_children;
+    int    i, j;
+    XtArgVal num_children;
     WidgetList children;
     
     XtVaGetValues(pulldown,
@@ -545,7 +547,8 @@ MenuBar::removeCommands(
     // if(isValidMenuPane(pulldown) == FALSE)
     //	return;
 
-    int    i, j, num_children;
+    int    i, j;
+    XtArgVal num_children;
     WidgetList children;
     
     XtVaGetValues(pulldown,
@@ -615,7 +618,8 @@ MenuBar::changeLabel(
     // if(isValidMenuPane(pulldown) == FALSE)
     // 	return;
 
-    int managed_widgets, i, num_children;
+    int managed_widgets, i;
+    XtArgVal num_children;
     WidgetList children;
     XmString label;
     Widget wid;
@@ -658,7 +662,7 @@ MenuBar::changeLabel(Widget pulldown,
 
     // Locate the appropriate widget in the list.
     //
-    int num_children;
+    XtArgVal num_children;
     char wid_name[200];
     XmString label_string = XmStringCreateLocalized((char *)label);
 
@@ -695,7 +699,8 @@ MenuBar::rotateLabels(
     // if(isValidMenuPane(pulldown) == FALSE)
     // 	return;
 
-    int    num_managed_wids=0, i, j, num_children, num_to_change;
+    int    num_managed_wids=0, i, j, num_to_change;
+    XtArgVal num_children;
     WidgetList children;
     XmString label, endlabel;
     Widget prevwid, wid;
@@ -805,7 +810,8 @@ MenuBar::removeCommand(
     //if(isValidMenuPane(pulldown) == FALSE)
     //   return;
 
-    int   managed_widgets, i, num_children;
+    int   managed_widgets, i;
+    XtArgVal num_children;
     WidgetList children;
 
     XtVaGetValues(pulldown,

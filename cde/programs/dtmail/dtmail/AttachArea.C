@@ -475,7 +475,7 @@ void AttachArea::resizeCallback (
 				  XtPointer //callData
 				  )
 {
-    Dimension wid;
+    XtArgVal wid;
 
     AttachArea *obj = (AttachArea *) clientData;
     XtVaGetValues(
@@ -484,7 +484,7 @@ void AttachArea::resizeCallback (
 	NULL
     );
 
-    obj->resize(wid);
+    obj->resize((Dimension)wid);
 }
 
 void AttachArea::resize(
@@ -1284,13 +1284,11 @@ AttachArea::attachment_summary(
 void
 AttachArea::manage()
 {
-    Dimension wid;
-    Dimension ht;
-    Dimension pht;
+    XtArgVal /* Dimension */ ht;
+    XtArgVal /* Dimension */ pht;
     Widget sww;
 
     // Update the display
-    XtVaGetValues(this->baseWidget(), XmNwidth, &wid, NULL);
     sww = getSWWindow();
     this->manageList();
 

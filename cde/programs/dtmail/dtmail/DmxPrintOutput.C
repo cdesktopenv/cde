@@ -546,7 +546,7 @@ DmxPrintOutput::setWrapToFit (DtMailBoolean onoff)
 
 int DmxPrintOutput::getCharactersPerLine ()
 {
-    short	columns = 0;
+    XtArgVal	columns = 0;
 
 #ifdef USE_DTEDITOR
     XtVaGetValues(_editor, DtNcolumns, &columns, NULL);
@@ -560,7 +560,7 @@ int DmxPrintOutput::getCharactersPerLine ()
 
 int DmxPrintOutput::getNumLines ()
 {
-    int	total = 0;
+    XtArgVal	total = 0;
 
 #ifdef USE_DTEDITOR
 #else
@@ -570,7 +570,7 @@ int DmxPrintOutput::getNumLines ()
     //
     total -= 1;
 #endif
-    return(total);
+    return((int)total);
 }
 
 
@@ -726,7 +726,7 @@ void DmxPrintOutput::clearContents (void)
 int
 DmxPrintOutput::doGetLinesPerPage ()
 {
-    Dimension	lpp;
+    XtArgVal /* Dimension */	lpp;
 
     XtVaGetValues(_editor, XmNrows, &lpp, NULL);
     return ((int) lpp);
@@ -741,22 +741,27 @@ DmxPrintOutput::setInnerPageDimensions (
 					Dimension left
 					   )
 {
+    XtArgVal height0, width0;
     Dimension	inner_height, inner_width, inner_x, inner_y,
 		outer_height, outer_width,
 		editor_height, footer_height, header_height;
 
     XtVaGetValues(_form,
-		  XmNheight, &outer_height,
-		  XmNwidth, &outer_width,
+		  XmNheight, &height0,
+		  XmNwidth, &width0,
 		  NULL);
+    outer_height = (Dimension)height0;
+    outer_width = (Dimension)width0;
 
     XtVaGetValues(_header_left,
-		  XmNheight, &header_height,
+		  XmNheight, &height0,
 		  NULL);
+    header_height = (Dimension)height0;
 
     XtVaGetValues(_footer_left,
-		  XmNheight, &footer_height,
+		  XmNheight, &height0,
 		  NULL);
+    footer_height = (Dimension)height0;
 
     inner_x = left;
     inner_y = top;

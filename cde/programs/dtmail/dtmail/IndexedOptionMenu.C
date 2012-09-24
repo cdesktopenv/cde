@@ -214,9 +214,12 @@ IndexedOptionMenu::getIndexSpec (void)
 
     if (_w)
     {
+        XtArgVal arg;
         Widget	selected;
-        XtVaGetValues(_w, XmNmenuHistory, &selected, NULL);
-        XtVaGetValues(selected, XmNuserData, &data, NULL);
+        XtVaGetValues(_w, XmNmenuHistory, &arg, NULL);
+        selected = (Widget)arg;
+        XtVaGetValues(selected, XmNuserData, &arg, NULL);
+        data = (int)arg;
     }
     return data;
 }

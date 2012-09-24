@@ -111,10 +111,13 @@ void
 MenuWindow::getIconColors(Pixel & fore, Pixel & back)
 {
     if (_menuBar) {
+        XtArgVal fore0, back0;
 	XtVaGetValues (_menuBar->baseWidget(),
-		       XmNforeground, &fore,
-		       XmNbackground, &back,
+		       XmNforeground, &fore0,
+		       XmNbackground, &back0,
 		       NULL);
+        fore = (Pixel) fore0;
+        back = (Pixel) back0;
     }
     else {
 	MainWindow::getIconColors(fore, back);

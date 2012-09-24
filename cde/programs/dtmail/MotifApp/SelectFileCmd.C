@@ -347,7 +347,7 @@ int
 SelectFileCmd::getHidden()
 {
     int			val;
-    unsigned char	current_state;
+    XtArgVal		current_state;
 
     if (NULL == _fileBrowser || NULL == _hidden_button)
       return 0;
@@ -388,8 +388,8 @@ SelectFileCmd::setSelected(char *path)
 void
 SelectFileCmd::setHidden(int on)
 {
-    unsigned char	current_state;
-    unsigned char	desired_state;
+    XtArgVal		current_state;
+    XtArgVal		desired_state;
 
     if (NULL == _fileBrowser || NULL == _hidden_button)
       return;

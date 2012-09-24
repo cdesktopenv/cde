@@ -674,7 +674,7 @@ DmxPrintJob::printOnePageCB(
     if (thisJob->_print_output == NULL)
     {
         
-	Dimension	width, height;
+	XtArgVal /* Dimension */	width, height;
 
         width = 0; height=0;
         XtVaGetValues(

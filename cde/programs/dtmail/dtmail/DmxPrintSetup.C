@@ -161,8 +161,8 @@ DmxPrintSetup::display (void)
     if (_dtprint_setup == NULL) return;
 
 #ifdef REUSE_PRINT_SETUP_DIALOGS
-    Position x1, y1, x2, y2;
-    Dimension w1, h1, w2, h2;
+    XtArgVal /* Position */ x1, y1, x2, y2;
+    XtArgVal /* Dimension */ w1, h1, w2, h2;
     XtVaGetValues(
 		XtParent(_dtprint_setup),
 		XmNx, &x1, XmNy, &y1,
@@ -444,7 +444,7 @@ DmxPrintSetup::detachPrintSetupDialog (void)
 void
 DmxPrintSetup::savePrintSetupOptions(DtPrintSetupData *print_data)
 {
-    unsigned char	is_set;
+    XtArgVal /* unsigned char */	is_set;
 
     XtVaGetValues(_widgets->print_separately_tb, XmNset, &is_set, NULL);
     _print_separately = (is_set == XmSET) ? DTM_TRUE : DTM_FALSE;
@@ -479,7 +479,7 @@ DmxPrintSetup::destinationChangedCB(
 				XtPointer)
 {
     PrintSetupWidgets	*widgets = (PrintSetupWidgets*) client_data;
-    Boolean		toggleFlag;
+    XtArgVal /* Boolean */ toggleFlag;
 
     if (NULL == checkbox_tb) return;
 
