@@ -88,7 +88,7 @@ writeToFileDesc(const char * buf, int len, va_list args)
 {
     int * fds = va_arg(args, int *);
     int cnt = va_arg(args, int);
-    DtMailBoolean strip = va_arg(args, DtMailBoolean);
+    DtMailBoolean strip = (DtMailBoolean)va_arg(args, int);
 
     unsigned long saveErrno = 0;	// Initially no error recorded
 
