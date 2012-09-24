@@ -825,8 +825,8 @@ PdmPrinterBoxResizeCB(Widget w,
     PdmSetupBox* me = (PdmSetupBox*)client_data;
     PdmPrinterBoxData* data = (PdmPrinterBoxData*)me->subclass_data;
     typedef struct {
-	Position x, y;
-	Dimension width, height;
+	XtArgVal /* Position */ x, y;
+	XtArgVal /* Dimension */ width, height;
     } PdmRect;
     PdmRect rt, rs, ro, rp, c1, c2, r1, r2;
     /*
@@ -1121,9 +1121,9 @@ static void
 OrientCtlResizeCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
     OrientCtl* me = (OrientCtl*)client_data;
-    Dimension height, width, margin_width, new_width;
-    Position menu_x, menu_y, icon_x, icon_y;
-    Dimension menu_h, menu_w, icon_h, icon_w;
+    XtArgVal /* Dimension */ height, width, margin_width, new_width;
+    XtArgVal /* Position */ menu_x, menu_y, icon_x, icon_y;
+    XtArgVal /* Dimension */ menu_h, menu_w, icon_h, icon_w;
     /*
      * get current layout info
      */
@@ -1212,7 +1212,7 @@ static void
 OrientCtlSelectCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
     OrientCtl* me;
-    int selected_item = (int)client_data;
+    XtArgVal /* int */ selected_item = (XtArgVal)client_data;
 
     XtVaGetValues(w, XmNuserData, &me, NULL);
     OrientCtlSetSelectedItem(me, selected_item);
@@ -1574,9 +1574,9 @@ static void
 PlexCtlResizeCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
     PlexCtl* me = (PlexCtl*)client_data;
-    Dimension height, width, margin_width, new_width;
-    Position menu_x, menu_y, icon_x, icon_y;
-    Dimension menu_h, menu_w, icon_h, icon_w;
+    XtArgVal /* Dimension */ height, width, margin_width, new_width;
+    XtArgVal /* Position  */ menu_x, menu_y, icon_x, icon_y;
+    XtArgVal /* Dimension */ menu_h, menu_w, icon_h, icon_w;
     /*
      * get current layout info
      */
@@ -1665,7 +1665,7 @@ static void
 PlexCtlSelectCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
     PlexCtl* me;
-    int selected_item = (int)client_data;
+    XtArgVal /* int */ selected_item = (XtArgVal)client_data;
 
     XtVaGetValues(w, XmNuserData, &me, NULL);
     PlexCtlSetSelectedItem(me, selected_item);
@@ -2072,8 +2072,8 @@ static void
 TrayCtlResizeCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
     TrayCtl* me = (TrayCtl*)client_data;
-    Dimension height, menu_h;
-    Position menu_y;
+    XtArgVal /* Dimension */ height, menu_h;
+    XtArgVal /* Position  */ menu_y;
     /*
      * get current layout info
      */
@@ -2217,7 +2217,7 @@ static void
 TrayCtlSelectCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
     TrayCtl* me;
-    int selected_item = (int)client_data;
+    XtArgVal /* int */ selected_item = (XtArgVal)client_data;
 
     XtVaGetValues(w, XmNuserData, &me, NULL);
     TrayCtlSetSelectedItem(me, selected_item);
@@ -2725,9 +2725,9 @@ static void
 SizeCtlResizeCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
     SizeCtl* me = (SizeCtl*)client_data;
-    Dimension height, width, margin_width, new_width;
-    Position list_x, list_y, radio_x, radio_y;
-    Dimension list_h, list_w, radio_h, radio_w;
+    XtArgVal /* Dimension */ height, width, margin_width, new_width;
+    XtArgVal /* Position  */ list_x, list_y, radio_x, radio_y;
+    XtArgVal /* Dimension */ list_h, list_w, radio_h, radio_w;
     Widget scrolled_list = XtParent(me->list_box);
     /*
      * get current layout info
@@ -2969,7 +2969,7 @@ CreateOptionMenuPulldown(String pulldown_name,
 					 NULL);
 	if(activate_proc != (XtCallbackProc)NULL)
 	    XtAddCallback(button, XmNactivateCallback,
-			  activate_proc, (XtPointer)i);
+			  activate_proc, (XtPointer)(XtArgVal)i);
 	if(i == initial_item)
 	    initial_selected = button;
     }
@@ -3063,6 +3063,7 @@ IconMaxDimension(Widget icon_label,
 		 Dimension* max_width, Dimension* max_height)
 {
     Dimension width, height;
+    XtArgVal width0, height0;
     /*
      * set the pixmap in the label
      */
@@ -3073,9 +3074,11 @@ IconMaxDimension(Widget icon_label,
      * get the label dimensions
      */
     XtVaGetValues(icon_label,
-		  XmNwidth, &width,
-		  XmNheight, &height,
+		  XmNwidth, &width0,
+		  XmNheight, &height0,
 		  NULL);
+    width  = (Dimension)width0;
+    height = (Dimension)height0;
     /*
      * update the max dimensions
      */
@@ -3104,6 +3107,7 @@ PdmPixmapListNew(int count,
 		 Boolean stipple)
 {
     PdmPixmapList* me = (PdmPixmapList*)XtCalloc(1, sizeof(PdmPixmapList));
+    XtArgVal fg, bg;
 
     me->pixmap = (Pixmap*)XtCalloc(count, sizeof(Pixmap));
     me->image_name = (char**)XtCalloc(count, sizeof(char*));
@@ -3118,9 +3122,11 @@ PdmPixmapListNew(int count,
 	me->stipple = None;
     }
     XtVaGetValues(w,
-		  XmNforeground, &me->foreground,
-		  XmNbackground, &me->background,
+		  XmNforeground, &fg,
+		  XmNbackground, &bg,
 		  NULL);
+    me->foreground = (Pixel)fg;
+    me->background = (Pixel)bg;
 
     return me;
 }
@@ -3263,6 +3269,7 @@ PdmPixmapListGetPixmap(PdmPixmapList* me, int i)
 static void
 SetListBoxSelection(Widget list_box, int position)
 {
+    XtArgVal visible_item_count0, item_count0;
     int visible_item_count;
     int item_count;
     int middle_offset;
@@ -3273,9 +3280,11 @@ SetListBoxSelection(Widget list_box, int position)
      * it the initial selection.
      */
     XtVaGetValues(list_box,
-		  XmNitemCount, &item_count,
-		  XmNvisibleItemCount, &visible_item_count,
+		  XmNitemCount, &item_count0,
+		  XmNvisibleItemCount, &visible_item_count0,
 		  NULL);
+    item_count = (int)item_count0;
+    visible_item_count = (int)visible_item_count0;
 
     if(item_count > visible_item_count)
     {

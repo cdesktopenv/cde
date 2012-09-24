@@ -447,12 +447,13 @@ PdmMainWinHelpCB(Widget w, XtPointer client_data, XtPointer call_data)
      * determine the current setup box
      */
     {
-	int current_page, i;
+	XtArgVal current_page;
+	int i;
 	PdmBoxNode* node;
 	
 	XtVaGetValues(me->notebook, XmNcurrentPageNumber, &current_page, NULL);
 	node = me->box_list_head;
-	for(i = 1; i < current_page; i++)
+	for(i = 1; i < (int)current_page; i++)
 	    node = node->next;
 	box = node->box;
     }

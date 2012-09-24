@@ -275,6 +275,7 @@ PdmShellPresent(PdmShell* me)
 {
     int parent_abs_x, parent_abs_y;
     Position x, y;
+    XtArgVal  width0, height0;
     Dimension width, height;
     Window dummy_child;
     /*
@@ -290,7 +291,9 @@ PdmShellPresent(PdmShell* me)
      * get the dimensions of the PDM window
      */
     XtRealizeWidget(me->widget);
-    XtVaGetValues(me->widget, XmNwidth, &width, XmNheight, &height, NULL);
+    XtVaGetValues(me->widget, XmNwidth, &width0, XmNheight, &height0, NULL);
+    width = (Dimension)width0;
+    height = (Dimension)height0;
     /*
      * determine the origin of the PDM popup such that it is
      * centered w.r.t. the parent window
