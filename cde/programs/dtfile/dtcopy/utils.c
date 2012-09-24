@@ -137,7 +137,7 @@ help_callback(
   char  *helpVolume, *locationId;
   int   topic;
 
-  topic = (int)client_data;
+  topic = (int)(XtArgVal) client_data;
   helpVolume = HELP_VOLUME;
 
   switch (topic)
@@ -418,15 +418,12 @@ Create_Action_Area(
 
        if (i == actions.defaultAction)
          {
-            union {
-                XtPointer ptr;
-                Dimension dim;
-            } wide;
+            XtArgVal arg;
             Dimension height, h;
-            XtVaGetValues (action_area, XmNmarginHeight, &wide.ptr, NULL);
-            h = wide.dim;
-            XtVaGetValues (widget, XmNheight, &wide.ptr, NULL);
-            height = wide.dim;
+            XtVaGetValues (action_area, XmNmarginHeight, &arg, NULL);
+            h = (Dimension)arg;
+            XtVaGetValues (widget, XmNheight, &arg, NULL);
+            height = (Dimension)arg;
 
             height +=2 * h;
             XtVaSetValues (action_area,

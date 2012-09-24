@@ -461,7 +461,7 @@ ShowDTHelpDialog(
    }
 
    _DtShowDialog(parentShell, NULL, NULL, dialogData, NULL, NULL, 
-              DTHelpClose, (XtPointer)workspaceNum, 
+              DTHelpClose, (XtPointer)(XtArgVal)workspaceNum,
               desktop_data->workspaceData[workspaceNum]->name,
               False, False, NULL, NULL);
 
@@ -474,7 +474,7 @@ ShowDTHelpDialog(
    helpRec = (HelpRec *)_DtGetDialogInstance(dialogData);
    XtRemoveAllCallbacks(helpRec->helpDialog, DtNhyperLinkCallback);
    XtAddCallback(helpRec->helpDialog, DtNhyperLinkCallback,
-                 DTHyperLink, (XtPointer)workspaceNum);
+                 DTHyperLink, (XtPointer)(XtArgVal)workspaceNum);
 }
 
 
@@ -494,7 +494,7 @@ DTHelpClose(
         DialogData *new_dialog_data )
 
 {
-   int  workspaceNum = (int) client_data;
+   int  workspaceNum = (int)(XtArgVal) client_data;
    int count;
    int i, j;
    WorkspaceRec * wsInfo;
@@ -535,7 +535,7 @@ DTHyperLink(
         XtPointer callData )
 
 {
-   int  workspaceNum = (int) clientData;
+   int  workspaceNum = (int)(XtArgVal) clientData;
    DtHelpDialogCallbackStruct * hyperData;
 
    hyperData = (DtHelpDialogCallbackStruct *)callData;

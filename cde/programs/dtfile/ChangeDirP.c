@@ -304,7 +304,7 @@ ShowChangeDirDialog(
 
    if (w)
    {
-      if((int)client_data == FM_POPUP)
+      if((XtArgVal)client_data == FM_POPUP)
          mbar = XtParent(w);
       else
          mbar = (Widget) XmGetPostedFromWidget(XtParent(w));

@@ -270,7 +270,7 @@ ShowCopyFileDialog(
    char * directory_name;
    char * tmpStr, *tempStr;
 
-   XtPointer width;
+   XtArgVal width;
    Dimension f_width, d_width;
 
    Widget shell;
@@ -1750,7 +1750,7 @@ FileTypePreview(
    char * new_link_path;
    PixmapData *pixmapData;
    Tt_status tt_status;
-   Boolean Flag =  ((Boolean)call_data == True)?True:False;
+   Boolean Flag =  ((Boolean)(XtArgVal)call_data == True)?True:False;
 
    call_struct = (DialogCallbackStruct *) client_data;
    new_name = (char *) _DtStripSpaces (new_name);

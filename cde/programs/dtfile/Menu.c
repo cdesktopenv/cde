@@ -843,7 +843,7 @@ UnselectAll(
    Arg args[1];
    Widget mbar;
 
-   if ((int)client_data == FM_POPUP)
+   if ((int)(XtArgVal) client_data == FM_POPUP)
      mbar = XtParent(w);
    else
      mbar = XmGetPostedFromWidget(XtParent(w));
@@ -886,7 +886,7 @@ SelectAll(
    Arg args[1];
    Widget mbar;
 
-   if ((int)client_data == FM_POPUP)
+   if ((int)(XtArgVal)client_data == FM_POPUP)
      mbar = XtParent(w);
    else
      mbar = XmGetPostedFromWidget(XtParent(w));
@@ -1009,7 +1009,7 @@ TrashFiles(
 
    XmUpdateDisplay (w);
 
-   if((int)client_data == 0)
+   if((int)(XtArgVal)client_data == 0)
       mbar = XmGetPostedFromWidget(XtParent(w));
    else
       mbar =  XtParent(w);
@@ -1164,7 +1164,7 @@ ChangeToHome(
    Boolean found;
 
    XmUpdateDisplay (w);
-   if((int)client_data == FM_POPUP)
+   if((int)(XtArgVal)client_data == FM_POPUP)
       mbar = XtParent(w);
    else
       mbar = XmGetPostedFromWidget(XtParent(w));
@@ -1242,7 +1242,7 @@ ChangeToParent(
    Widget focus_widget;
 
    XmUpdateDisplay (w);
-   if((int)client_data == FM_POPUP)
+   if((int)(XtArgVal)client_data == FM_POPUP)
       mbar = XtParent(w);
    else
       mbar = XmGetPostedFromWidget(XtParent(w));

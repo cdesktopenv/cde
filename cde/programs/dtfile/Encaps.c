@@ -1249,22 +1249,22 @@ IntDialogGetResources(
       {
          if (resource->size == sizeof(char))
          {
-            charVal = (char)resource->default_value;
+            charVal = (char)(XtArgVal)resource->default_value;
             convertedValue.addr = (caddr_t) &charVal;
          }
          else if (resource->size == sizeof(short))
          {
-            shortVal = (short)resource->default_value;
+            shortVal = (short)(XtArgVal)resource->default_value;
             convertedValue.addr = (caddr_t) &shortVal;
          }
          else if (resource->size == sizeof(int))
          {
-            intVal = (int)resource->default_value;
+            intVal = (int)(XtArgVal)resource->default_value;
             convertedValue.addr = (caddr_t) &intVal;
          }
          else
          {
-            longVal = (long)resource->default_value;
+            longVal = (long)(XtArgVal)resource->default_value;
             convertedValue.addr = (caddr_t) &longVal;
          }
       }

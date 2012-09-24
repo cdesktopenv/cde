@@ -5146,7 +5146,7 @@ CleanUp (
    XRectangle textExtent;
    Position x, y;
 
-   if ((int) client_data == FM_POPUP)
+   if ((int)(XtArgVal) client_data == FM_POPUP)
      mbar = XtParent(w);
    else
      mbar = XmGetPostedFromWidget(XtParent(w));

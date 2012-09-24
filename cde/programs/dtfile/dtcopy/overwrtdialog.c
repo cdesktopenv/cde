@@ -94,7 +94,7 @@ radio_callback(
    XmToggleButtonCallbackStruct *state = (XmToggleButtonCallbackStruct *)call_data;
 
 
-   G_overwrite_selection = (int) client_data;
+   G_overwrite_selection = (int)(XtArgVal) client_data;
 
    if (state->set)
       switch (G_overwrite_selection)
@@ -404,7 +404,7 @@ create_overwrite_dialog(
                                             XmNalignment,   XmALIGNMENT_BEGINNING,
                                             XmNlabelString, xm_string[i],
                                             NULL);
-       XtAddCallback(radiobtn[i], XmNvalueChangedCallback, radio_callback, (XtPointer) i);
+       XtAddCallback(radiobtn[i], XmNvalueChangedCallback, radio_callback, (XtPointer)(XtArgVal) i);
        XmStringFree(xm_string[i]);
      }
 
