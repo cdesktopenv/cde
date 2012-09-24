@@ -1107,7 +1107,7 @@ SetWorkSpaceHints(
     {
       ptr = MbStrchr (workspaces, ' ');
 
-      if (ptr != NULL) *ptr = NULL;
+      if (ptr != NULL) *ptr = 0;
 
       workspace_atoms = (Atom *) XtRealloc ((char *)workspace_atoms,
                         sizeof (Atom) * (num_workspaces + 1));
