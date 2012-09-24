@@ -963,7 +963,7 @@ dtb_help_back_hdlr(
     ** Parse the combined volume/locationID string.  Disable the "More..."
     ** button if there isn't any help info, and enable it if there is.
     */
-    if( buffer == 0 || (*buffer == '/0') ||
+    if( buffer == 0 || (*buffer == '\0') ||
 	(cp=strrchr(buffer,'/')) == (char *)NULL) {
 		XtSetSensitive(more_button,False);
     }
