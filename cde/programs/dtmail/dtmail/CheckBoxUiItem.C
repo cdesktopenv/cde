@@ -97,7 +97,7 @@ void CheckBoxUiItem::writeFromSourceToUi()
   else if (NULL == value || strcmp(value, "f") == 0)
     options_checkbox_set_value(w, FALSE, this->dirty_bit);
   
-  if (NULL != NULL)
+  if (value != NULL)
     free((void*) value);
 }
 

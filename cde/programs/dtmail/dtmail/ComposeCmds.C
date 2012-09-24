@@ -279,7 +279,7 @@ ComposeFamily::appendSignature(SendMsgDialog * compose)
     compose->get_editor()->textEditor()->append_to_contents(fullpath);
     if (NULL != fullpath)
       free((void*) fullpath);
-    if (NULL != NULL)
+    if (NULL != value)
       free((void*) value);
 
     compose->get_editor()->textEditor()->set_to_top();

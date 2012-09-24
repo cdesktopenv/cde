@@ -99,7 +99,7 @@ void AntiCheckBoxUiItem::writeFromSourceToUi()
   else if (value == NULL || strcmp(value, "") == 0)
     options_checkbox_set_value(w, FALSE, this->dirty_bit);
   
-  if (NULL != NULL)
+  if (value != NULL)
     free((void*) value);
 }
 
