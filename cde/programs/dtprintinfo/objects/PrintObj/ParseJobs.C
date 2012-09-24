@@ -870,8 +870,10 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
 #if defined(__osf__)
    sprintf(buf, "lpstat -o%s", printer);
 #endif
-#if defined(linux) || defined(CSRG_BASED)
-   sprintf(buf, "lpq -P%s", printer);
+#if defined(linux) || defined(__OpenBSD__)
+   snprintf(buf, 1000, "lpq -P%s", printer);
+#elif defined(__FreeBSD__)
+   snprintf(buf, 1000, "/usr/local/bin/lpq -P%s", printer);
 #endif
 
    Invoke *_thread = new Invoke(buf, &output);
