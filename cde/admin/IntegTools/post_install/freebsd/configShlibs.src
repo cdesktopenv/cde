@@ -78,6 +78,8 @@ FILESET=CDE-SHLIBS
 retval=0
 CDE_TOP=CDE_INSTALLATION_TOP
 CDE_CONF_TOP=CDE_CONFIGURATION_TOP
+LOCALBASE=/usr/local
+LDCONFIGFILE="${LOCALBASE}/libdata/ldconfig/cde"
 
   HandleOption $*
 
@@ -88,6 +90,7 @@ CDE_CONF_TOP=CDE_CONFIGURATION_TOP
 
     RemoveShlibFiles
 
+    rm -rf $LDCONFIGFILE
     /sbin/ldconfig -R
 
     VerifyInstalledFiles
@@ -97,7 +100,8 @@ CDE_CONF_TOP=CDE_CONFIGURATION_TOP
 
     MakeTheLink
 
-    /sbin/ldconfig -m "${DT_TOP}/lib"
+    echo "${DT_OPT}/lib" > $LDCONFIGFILE
+    /sbin/ldconfig -R
 
   elif [ "$OPERATION" = "verify" ]
   then
