@@ -152,7 +152,6 @@
 #include <X11/Shell.h>
 #include <X11/Xatom.h>
 #include <Xm/Protocols.h>
-#include <X11/keysymdef.h>
 #ifdef HAVE_EDITRES
 #include <X11/Xmu/Editres.h>
 #endif
@@ -999,7 +998,6 @@ main(
    XtInputMask pending;
    Boolean eventDebugging;
    int offset;
-   KeySym keysym;
    int displayHeight;
    int displayWidth;
    Arg args[10];

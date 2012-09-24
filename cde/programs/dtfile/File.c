@@ -159,6 +159,9 @@
 #include <X11/Shell.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
+#ifndef XK_MISCELLANY
+#define XK_MISCELLANY
+#endif
 #include <X11/keysymdef.h>
 
 #ifdef SHAPE

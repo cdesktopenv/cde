@@ -59,7 +59,6 @@
 #include <Xm/MwmUtil.h>
 
 #include <Xm/MessageB.h>
-#include <X11/keysymdef.h>
 #include <X11/Shell.h>
 #include <X11/Intrinsic.h>
 #include <X11/cursorfont.h>

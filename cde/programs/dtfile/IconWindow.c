@@ -72,6 +72,9 @@
 
 #include <X11/cursorfont.h>
 #include <X11/Xutil.h>
+#ifndef  XK_MISCELLANY
+#define  XK_MISCELLANY
+#endif
 #include <X11/keysymdef.h>
 #include <Xm/PrimitiveP.h>  /* For HighlightBorder & UnhighlightBorder */
 

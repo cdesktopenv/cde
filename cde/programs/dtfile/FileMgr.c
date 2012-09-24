@@ -132,7 +132,6 @@
 #include <X11/ShellP.h>
 #include <X11/Shell.h>
 #include <X11/Xatom.h>
-#include <X11/keysymdef.h>
 
 #include <Xm/Protocols.h>
 

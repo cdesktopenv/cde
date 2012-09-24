@@ -66,7 +66,6 @@
 #include <X11/Shell.h>
 #include <X11/Xatom.h>
 #include <Xm/Protocols.h>
-#include <X11/keysymdef.h>
 
 #include <Dt/Session.h>
 #include <Dt/DtP.h>

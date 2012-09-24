@@ -104,7 +104,6 @@
 #include <X11/Shell.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
-#include <X11/keysymdef.h>
 
 #ifdef SHAPE
 #include <X11/extensions/shape.h>
