@@ -130,7 +130,7 @@ broadcast_value(widget, client_data, call_data)
 	Widget widget;
 	XtPointer client_data, call_data;
 {
-	int slider_value;
+	XtArgVal slider_value;
 	Tt_message msg_out;
 
 	/*

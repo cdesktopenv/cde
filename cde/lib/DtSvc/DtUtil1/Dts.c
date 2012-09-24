@@ -1180,7 +1180,7 @@ type_name(const char *name, char *attr)
 {
 	int	match = 0;
 
-	if(name && (int)name != -1)
+	if(name && name != (char *)-1)
 	{
 #ifdef USE_FNMATCH
 		match = !fnmatch(attr, name, 0);
