@@ -41,10 +41,13 @@
   #define boolean boolean_t
   #define true B_TRUE
   #define false B_FALSE
-#elif defined(linux) || defined(CSRG_BASED)
+#elif defined(linux)
   #define false 0
-  #define true 0
+  #define true 1
   #define boolean int
+#elif defined(CSRG_BASED)
+#include <stdbool.h>
+#define boolean bool
 #else
   typedef enum
   {
