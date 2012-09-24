@@ -569,6 +569,7 @@ PrintOutputGetLinesPerPage(PrintOutput *pOutput)
 int
 PrintOutputGetNumLines(PrintOutput *pOutput)
 {
+    XtArgVal p;
     int	total = 0;
     int saveTop;
 
@@ -581,7 +582,8 @@ PrintOutputGetNumLines(PrintOutput *pOutput)
     DtEditorGoToLine(pOutput->editor, saveTop);
     pOutput->currentLine = saveTop;
 #else
-    XtVaGetValues(pOutput->editor, XmNtotalLines, &total, NULL);
+    XtVaGetValues(pOutput->editor, XmNtotalLines, &p, NULL);
+    total = (int)p;
 #endif
     return(total);
 }
@@ -698,7 +700,7 @@ PrintOutputLoadFile( PrintOutput *pOutput, char *file)
 static int
 _poDoGetLinesPerPage(PrintOutput *pOutput)
 {
-    Dimension   lpp;
+    XtArgVal   lpp;
 
     XtVaGetValues(pOutput->editor, XmNrows, &lpp, NULL);
     return ((int) lpp);
@@ -714,22 +716,28 @@ _poSetInnerPageDimensions(
 			Dimension left
 			)
 {
+    XtArgVal	outer_height0, outer_width0, footer_height0, header_height0;
     Dimension	inner_height, inner_width, inner_x, inner_y,
 		outer_height, outer_width,
 		editor_height, footer_height, header_height;
 
     XtVaGetValues(pOutput->page,
-		  XmNheight, &outer_height,
-		  XmNwidth, &outer_width,
+		  XmNheight, &outer_height0,
+		  XmNwidth, &outer_width0,
 		  NULL);
 
     XtVaGetValues(pOutput->headerLeft,
-		  XmNheight, &header_height,
+		  XmNheight, &header_height0,
 		  NULL);
 
     XtVaGetValues(pOutput->footerLeft,
-		  XmNheight, &footer_height,
+		  XmNheight, &footer_height0,
 		  NULL);
+
+    outer_height = (Dimension)outer_height0;
+    outer_width = (Dimension)outer_width0;
+    header_height = (Dimension)header_height0;
+    footer_height = (Dimension)footer_height0;
 
     inner_x = left;
     inner_y = top;

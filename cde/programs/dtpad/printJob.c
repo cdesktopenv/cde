@@ -953,14 +953,17 @@ _pjPrintOnePageCB(
 
     if (pJob->pOutput == NULL)
     {
-	Dimension	width, height;
+        XtArgVal	width0, height0;
+        Dimension	width, height;
 
         width = 0; height=0;
         XtVaGetValues(
                 pJob->pShell,
-                XmNwidth, &width,
-                XmNheight, &height,
+                XmNwidth, &width0,
+                XmNheight, &height0,
                 NULL);
+        width = (Dimension)width0;
+        height = (Dimension)height0;
 
 #if defined(PRINT_TO_VIDEO)
         printf("PrintShell in _pjPrintOnePageCB: <W %d - H %d>\n",width,height);

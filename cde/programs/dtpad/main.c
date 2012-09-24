@@ -924,7 +924,7 @@ SendMessageToServer(
      ttdt_subcontract_manage(msg,
 		        pStatusCB,
 		        NULL,
-		        (void *) ((int) pPad->xrdb.blocking));/* client data */
+		        (void *) ((XtArgVal) pPad->xrdb.blocking));/* client data */
 
      /* Add pArgs to msg using tt_message_context_set */
      SetupLoadArgs(msg, pPad);
@@ -1163,7 +1163,7 @@ StartDbUpdate(
 void
 exitCB(Widget w, XtPointer callData, XtPointer clientData)
 {
-    exit((int) clientData);
+    exit((XtArgVal) clientData);
 }
 
 /************************************************************************

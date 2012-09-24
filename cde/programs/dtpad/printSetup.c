@@ -614,7 +614,7 @@ _psSetupToUi(PrintSetup *pSetup)
 static void
 _psUiToSetup(PrintSetup *pSetup)
 {
-    unsigned char	isSet;
+    XtArgVal		isSet;
     Widget		frame, w;
     PrintOptions	*pOption;
     char		*marginSpec;
