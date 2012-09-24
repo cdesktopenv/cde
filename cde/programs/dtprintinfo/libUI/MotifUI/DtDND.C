@@ -191,6 +191,7 @@ void DtDND::GetDragPixmaps()
 
    Dimension height, width;
    unsigned int w, h, junk;
+   Window junkwin;
 
    XtVaGetValues(icon->BaseWidget(), XmNbackground, &bg, XmNforeground, &fg,
                  GuiNselectColor, &selectColor, XmNalignment, &alignment,
@@ -219,7 +220,7 @@ void DtDND::GetDragPixmaps()
       icon->GetPixmaps(icon->BaseWidget(), iconFile, &tmp_pixmap, &tmp_mask);
       if (tmp_pixmap && tmp_pixmap != XmUNSPECIFIED_PIXMAP)
        {
-	 XGetGeometry(icon->display, tmp_pixmap, (Window *) &junk, 
+	 XGetGeometry(icon->display, tmp_pixmap, &junkwin,
 		      (int *) &junk, (int *) &junk, &w, &h, &junk, &junk);
 	 p_w = w;
 	 p_h = h;

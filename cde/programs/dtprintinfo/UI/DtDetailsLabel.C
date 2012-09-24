@@ -55,9 +55,11 @@ DtDetailsLabel::DtDetailsLabel(MotifUI *parent)
               MESSAGE(JobNumberL), MESSAGE(TimeL), MESSAGE(DateL));
       bottom_label[1] = StringCreate(label);
 
+      XtArgVal arg;
       Dimension highlight;
       XtVaGetValues(parent->BaseWidget(),
-		    XmNhighlightThickness, &highlight, NULL);
+		    XmNhighlightThickness, &arg, NULL);
+      highlight = (Dimension)arg;
       int height = 21 + 2 * highlight;
       blank_pixmap = XCreatePixmap(display, root, 1, height, depth);
       blank_mask = XCreatePixmap(display, root, 1, height, 1);
@@ -73,7 +75,7 @@ DtDetailsLabel::DtDetailsLabel(MotifUI *parent)
    XmString top_string = StringCreate(MESSAGE(Position1L));
    XmString label_string = StringCreate(MESSAGE(JobNameL));
    Widget p = XtParent(parent->BaseWidget());
-   Pixel bg;
+   XtArgVal bg;
    XtVaGetValues(p, XmNbackground, &bg, NULL);
    _w = XtVaCreateManagedWidget("DtDetailsLabel", iconWidgetClass, p,
 				GuiNsuperNode, parent->BaseWidget(),

@@ -454,7 +454,7 @@ IconClassRec iconClassRec =
     },
     {
     /* icon_class record     */
-    (int) NULL,                         /* extension            */
+    0,                                  /* extension            */
     }
 };
 
@@ -1052,6 +1052,7 @@ CalculateSize(
    )
 {
     unsigned int width, height, junk;
+    Window junkwin;
     int x, y;
     Boolean show_fields = False;
     Dimension _width;
@@ -1060,7 +1061,7 @@ CalculateSize(
       {
 	if (Pixmap(w) != XmUNSPECIFIED_PIXMAP)
 	  {
-            XGetGeometry(XtDisplay(w), Pixmap(w), (Window *) &junk,
+            XGetGeometry(XtDisplay(w), Pixmap(w), &junkwin,
 		(int *) &junk, (int *) &junk, &width, &height, &junk, &junk);
             PixmapWidth(w) = (Dimension) width;
             PixmapHeight(w) = (Dimension) height;
@@ -1361,7 +1362,7 @@ CalculateSize(
       {
 	Dimension x_offset, y_offset;
 
-        XGetGeometry(XtDisplay(w), StatePixmap(w), (Window *) &junk,
+        XGetGeometry(XtDisplay(w), StatePixmap(w), &junkwin,
             (int *) &junk, (int *) &junk, &width, &height, &junk, &junk);
         StatePixmapWidth(w) = (Dimension) width;
         StatePixmapHeight(w) = (Dimension) height;
