@@ -164,9 +164,9 @@ AppManagerDirectory::AppManagerDirectory
 	        if (!user->OS()->isDirectory(dir)) {   // does dt exist?
 		    dir.replace("/dt","");
 		    if (!user->OS()->isDirectory(dir)) {  // does /var exist?
-			user->OS()->MakeDirectory(dir,0775);
+			user->OS()->MakeDirectory(dir,0755);
 			user->OS()->changeOwnerGroup(dir,"root","other");
-			user->OS()->changePermissions(dir,0775);
+			user->OS()->changePermissions(dir,0755);
 		    }
 		    dir += "/dt";
 		    user->OS()->MakeDirectory(dir,0755);

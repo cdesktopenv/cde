@@ -122,7 +122,7 @@ static long StorePid( void ) ;
 static void TerminateProcess( int pid, int sig) ;
 static void UnlockPidFile( void ) ;
 static void dtMakeDefaultDir( void );
-static void dtmkdir(char *dir, mode_t dir_mode);
+static void dtmkdir(char *dir, mode_t dir_mode, int force);
 
 
 
@@ -1877,15 +1877,15 @@ MarkShutdownTime( void )
 static void
 dtMakeDefaultDir( void )
 {
-    dtmkdir("/var", 0775);
-    dtmkdir("/var/dt", 0755);
-    dtmkdir("/var/dt/tmp", 0755);
-    dtmkdir("/var/dt/appconfig", 0755);
-    dtmkdir("/var/dt/appconfig/appmanager", 0755);
+    dtmkdir("/var", 0755, 0);
+    dtmkdir("/var/dt", 0755, 1);
+    dtmkdir("/var/dt/tmp", 0755, 1);
+    dtmkdir("/var/dt/appconfig", 0755, 1);
+    dtmkdir("/var/dt/appconfig/appmanager", 0755, 1);
 }
 
 static void
-dtmkdir(char *dir, mode_t dir_mode)
+dtmkdir(char *dir, mode_t dir_mode, int force)
 {
     struct stat file_status;
 
@@ -1898,7 +1898,7 @@ dtmkdir(char *dir, mode_t dir_mode)
             LogError((unsigned char *)"Unable to create dir %s\n", dir);
         }
     } else {
-        if ( (file_status.st_mode & dir_mode) != dir_mode) {
+        if ( force && (file_status.st_mode & dir_mode) != dir_mode) {
             /** try to set correct permissions **/
             if ( chmod(dir, file_status.st_mode | dir_mode) == 0) {
                 Debug("Set permissions on %s\n", dir);
