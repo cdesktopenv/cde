@@ -796,7 +796,8 @@ CREATION:       Visual Edge Software            Sept 19/91
 -----------------------------------------------------------------------------*/
 static  int     handle_dialog_child( Widget wgt, void (*manage_func)() )
 {
-        int     i, num_children;
+        int      i;
+        XtActVal num_children;
         Widget  *children;
 
         XtVaGetValues( wgt,
@@ -809,7 +810,7 @@ static  int     handle_dialog_child( Widget wgt, void (*manage_func)() )
          * implementations of Motif add protocol children to the dialogShell.
          */
 
-        for (i = 0; i < num_children; i++)
+        for (i = 0; i < (int)num_children; i++)
         {
                 if ( XtIsSubclass( children[i], rectObjClass ) )
                 {
