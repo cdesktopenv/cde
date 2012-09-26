@@ -825,7 +825,8 @@ UpdateImList(
     I18nEnv *env,
     char *hostname)
 {
-    Cardinal n,i;
+    Cardinal i;
+    XtArgVal n;
     Widget *im_tog = NULL;
     int ret = NoError;
 
@@ -992,7 +993,8 @@ SaveSelectedValues(
 {
     int ret = NoError;
     char *preeditStr = NULL, *tmpStr;
-    int i, num_preedit = 0;
+    int i;
+    XtArgVal num_preedit = 0;
     XmStringTable list_preedit;
     static char preeditTypeRes[1024];
 
@@ -1068,7 +1070,8 @@ SetFileSelValues(
 )
 {
     char *hostname;
-    Cardinal n,i;
+    Cardinal i;
+    XtArgVal n;
     Widget *im_tog;
 
     /* The hostname value is stored in the ImsSel structure. */

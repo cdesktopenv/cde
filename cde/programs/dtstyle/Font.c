@@ -452,7 +452,8 @@ ButtonCB(
 {
   DtDialogBoxCallbackStruct *cb     
            = (DtDialogBoxCallbackStruct *) call_data;
-  int      n, len, items;
+  int      n, len;
+  XtArgVal items;
   char	   *str, *fntstr, *fntsetstr;
   Arg      args[MAX_ARGS];
   char     fontres[8192];

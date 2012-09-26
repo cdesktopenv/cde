@@ -507,6 +507,7 @@ build_screenDialog(
     Dimension        LabelWidth = 0;
     Atom             delete_window_atom;
     Boolean          low_res = False;
+    XtArgVal         scratch;
 
     /* initialize saver data */
     savers.shadow = 2;
@@ -820,7 +821,8 @@ build_screenDialog(
       XtSetArg (args[n], XmNwidth, SAVER_WIDTH); n++; }
     screen.saverArea = XmCreateDrawingArea (screen.saverAreaFrame, "saverArea", args, n);
     /* get the initial secondary color pixel value for dtstyle for later use */
-    XtVaGetValues(screen.saverArea, XmNbackground, &savers.bg, NULL);
+    XtVaGetValues(screen.saverArea, XmNbackground, &scratch, NULL);
+    savers.bg = (Pixel)scratch;
 
     /* label for the previewed saver  */
     n = 0;
@@ -2396,6 +2398,7 @@ ButtonCB(
   Boolean             flag;
   static char         screenres[48];
   int                 mintime;
+  XtArgVal            scratch;
   
   DtDialogBoxCallbackStruct *cb = (DtDialogBoxCallbackStruct *) call_data;
   
@@ -2482,7 +2485,8 @@ ButtonCB(
       free_saverList(savers.selsaverActionNames, savers.selsaverCount); 
       savers.selsaverActionNames = NULL;
 
-      XtVaGetValues(screen.cycleTimeScale, XmNvalue, &screen.cycleTimeout, NULL);
+      XtVaGetValues(screen.cycleTimeScale, XmNvalue, &scratch, NULL);
+      screen.cycleTimeout = scratch;
       
       /* send new saver time, lock time and time per saver to SM if they have changed, */
       /* flag value indicates which value has changed */
@@ -2610,6 +2614,7 @@ no_svr_ext_ButtonCB(
   Boolean             flag;
   static char         screenres[48];
   int                 mintime;
+  XtArgVal            scratch;
   
   DtDialogBoxCallbackStruct *cb = (DtDialogBoxCallbackStruct *) call_data;
   
@@ -2686,7 +2691,8 @@ no_svr_ext_ButtonCB(
       free_saverList(savers.selsaverActionNames, savers.selsaverCount); 
       savers.selsaverActionNames = NULL;
 
-      XtVaGetValues(screen.cycleTimeScale, XmNvalue, &screen.cycleTimeout, NULL);
+      XtVaGetValues(screen.cycleTimeScale, XmNvalue, &scratch, NULL);
+      screen.cycleTimeout = scratch;
       
       /* send new saver time, lock time and time per saver to SM if they have changed, */
       /* flag value indicates which value has changed */
