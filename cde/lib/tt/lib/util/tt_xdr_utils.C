@@ -40,7 +40,7 @@
 #include <memory.h>
 #include "tt_options.h"
 
-#if defined(CSRG_BASED)
+#if defined(__OpenBSD__)
 #define XDR __rpc_xdr
 #endif
 
