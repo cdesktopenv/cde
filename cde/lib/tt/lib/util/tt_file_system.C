@@ -85,12 +85,24 @@
 #elif defined(__osf__) || defined(CSRG_BASED)
 #       include <sys/types.h>
 #       include <sys/mount.h>
-# ifdef __osf__
+
+
+#if defined(HAS_STATVFS)
+        extern "C" int getfsstat(struct statvfs *, long, int);
+#elif defined(__osf__)
         extern "C" int getfsstat(struct statfs *, long, int);
 # endif
+
 #       define MNTTYPE_NFS              "nfs"
 #       define ttOpenMntTbl(path,mode)  ((FILE *) 1)
-#       define TtMntEntry               struct statfs *
+
+# if defined(HAS_STATVFS)
+#     include <sys/statvfs.h>
+#     define TtMntEntry struct statvfs *
+# else
+#     define TtMntEntry struct statfs *
+# endif
+
 # ifdef __osf__
 #       define ttFsType(e)              \
                                 (((e)->f_type == MOUNT_UFS) ? "ufs" \
@@ -466,6 +478,37 @@ updateFileSystemEntries ()
 
 	for (entry = (TtMntEntry)tmpbuf; rc > 0; --rc,
 	     entry = (TtMntEntry)((char *) entry + entry->vmt_length))
+
+#elif defined(HAS_STATVFS)
+        int             numfs,i;
+        struct statvfs  *buf;
+        long            bufsize;
+        int             flags = MNT_NOWAIT;
+        char            *s, *host, path[MNAMELEN] ;
+
+        numfs = getvfsstat ( (struct statvfs *)0, 0, 0 );
+
+        bufsize = numfs * sizeof ( struct statvfs );
+        buf = (struct statvfs *) malloc ( bufsize );
+        memset ((void *)buf,0,bufsize);
+
+        getvfsstat ( buf, bufsize, flags );
+
+        for ( i=0; i<numfs; i++ )
+        {
+            // convert path@host to host:/path
+            s = strchr(buf[i].f_mntfromname,'@');
+            if (s != NULL) {
+                host = s + 1 ;
+                memset((char*)path,0,MNAMELEN);
+                strncpy(path,buf[i].f_mntfromname, (strlen(buf[i].f_mntfromname)
+ - strlen(s))) ;
+                strcpy(buf[i].f_mntfromname,host) ;
+                strcat(buf[i].f_mntfromname,":") ;
+                strcat(buf[i].f_mntfromname,path) ;
+            }
+            entry = &buf[i];
+
 #elif defined(__osf__) || defined(CSRG_BASED)
         int             numfs,i;
         struct statfs   *buf;

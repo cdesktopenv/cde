@@ -624,6 +624,37 @@
 # undef  OPT_XTHREADS 
 # define OPT_CONST_CORRECT
 
+#elif defined(__NetBSD__)
+# undef  OPT_UNIX_SOCKET_RPC
+# undef  OPT_TLI
+# undef  OPT_DLOPEN_X11
+# undef  OPT_DLOPEN_CE
+# undef  OPT_ADDMSG_DIRECT
+# undef  OPT_SECURE_RPC
+# undef  OPT_CLASSING_ENGINE
+# undef  OPT_PATCH
+# define OPT_POSIX_SIGNAL
+# undef  OPT_BSD_WAIT
+# undef  OPT_DGETTEXT
+# define OPT_CATGETS
+# undef  OPT_GETDTABLESIZE
+# undef  OPT_SYSINFO
+# define OPT_CPP_PATH		"/usr/bin/cpp"
+# define OPT_CPP_OPTIONS	""
+# define OPT_STRERROR
+# undef  OPT_SVR4_GETMNTENT
+# undef  OPT_LOCKF_MNTENT
+# define OPT_LOCAL_MOUNT_TYPE	MNTTYPE_UFS
+# undef  OPT_OLD_RPC
+# define OPT_DEFINE_SIG_PF
+# define OPT_TAR_HAS_EXCLUDE_OPTION
+# define OPT_HAS_REALPATH
+# define OPT_AUTOMOUNT_PATH_FIX
+# define OPT_BUG_RPCINTR
+# undef  OPT_XTHREADS
+# define OPT_CONST_CORRECT
+# define HAS_STATVFS
+
 #else
 /* Unknown configuration, complain */
 }}}} You must edit lib/tt_options.h and add a section defining the options for your configuration.
