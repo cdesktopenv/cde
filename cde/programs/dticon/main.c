@@ -797,7 +797,7 @@ CREATION:       Visual Edge Software            Sept 19/91
 static  int     handle_dialog_child( Widget wgt, void (*manage_func)() )
 {
         int      i;
-        XtActVal num_children;
+        XtArgVal num_children;
         Widget  *children;
 
         XtVaGetValues( wgt,
