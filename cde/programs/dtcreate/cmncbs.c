@@ -220,6 +220,9 @@ void activateCB_edit_icon (Widget wid, XtPointer client_data,
   return;
 }
 
+/* We use this so we can reuse an open help dialog window. */
+static Widget  mainHelpDialog = NULL;
+
 /******************************************************************************/
 /*                                                                            */
 /* closeCB_mainHelpDialog                                                     */
@@ -234,6 +237,7 @@ void closeCB_mainHelpDialog(Widget wid, XtPointer client_data,
                            XtPointer *cbs)
 {
   XtDestroyWidget(wid);
+  mainHelpDialog = NULL;
 }
 
 /******************************************************************************/
@@ -248,7 +252,6 @@ void closeCB_mainHelpDialog(Widget wid, XtPointer client_data,
 /******************************************************************************/
 void DisplayHelpDialog(Widget wid, XtPointer client_data, XtPointer cbs)
 {
-  static Widget  mainHelpDialog = NULL;
   Widget  parent;
   int     i;
   Arg     args[10];
