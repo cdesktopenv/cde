@@ -2856,7 +2856,7 @@ RecheckFlag(
   Widget w)
 {
    Arg args[2];
-   int flag;
+   XtArgVal flag;
 
    XtSetArg (args[0], XmNuserData, &flag);
    XtGetValues(w,args,1);
