@@ -86,7 +86,7 @@ static	char	*util_locale ;
 
 static	pid_t	gtob_pid = 0;
 static	pid_t	btop_pid = 0;
-#if defined( SVR4 ) || defined( SYSV ) || defined(__osf__) || defined(__FreeBSD__)
+#if defined( SVR4 ) || defined( SYSV ) || defined(__osf__) || defined(CSRG_BASED)
 static	int	chld_stat ;
 #else
 static	union	wait	chld_stat ;

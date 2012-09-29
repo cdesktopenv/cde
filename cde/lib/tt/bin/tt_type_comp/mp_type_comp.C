@@ -42,7 +42,7 @@
 #if defined(linux)
 #include <unistd.h>
 #endif
-#if defined(sgi) || defined(__FreeBSD__)
+#if defined(sgi) || defined(CSRG_BASED)
 #include <getopt.h>
 #endif
 #if defined(USL) || defined(__uxp__)

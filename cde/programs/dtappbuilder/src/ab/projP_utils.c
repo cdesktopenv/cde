@@ -93,7 +93,7 @@ static void     mult_module_selected(
 **                                                                      **
 **************************************************************************/
 
-#if !defined(linux) && !defined(__FreeBSD__)
+#if !defined(linux) && !defined(CSRG_BASED)
 extern char	*sys_errlist[];
 #endif
 char		Buf[MAXPATHLEN];	/* Work buffer */

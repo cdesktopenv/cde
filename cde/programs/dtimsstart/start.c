@@ -32,7 +32,7 @@
 #define _NFILE FOPEN_MAX
 #endif
 
-#if !defined(linux) && !defined(__FreeBSD__)
+#if !defined(linux) && !defined(CSRG_BASED)
 extern char	*sys_errlist[];
 extern int	sys_nerr;
 #endif

@@ -63,7 +63,7 @@
 #include <termios.h>
 #include <time.h>
 
-#if defined(sgi) || defined(__FreeBSD__)
+#if defined(sgi) || defined(CSRG_BASED)
 #include <getopt.h>
 #endif
 

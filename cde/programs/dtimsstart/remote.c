@@ -37,7 +37,7 @@
 #include	<X11/Xproto.h>		/* for X_ChangeHosts */
 #include	<X11/Xatom.h>		/* for XA_STRING */
 
-#if !defined(linux) && !defined(__FreeBSD__)
+#if !defined(linux) && !defined(CSRG_BASED)
 extern char	*sys_errlist[];
 #endif
 
