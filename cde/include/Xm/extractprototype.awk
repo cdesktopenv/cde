@@ -24,6 +24,7 @@ function proto() {
 				printf("/* Extracted from %s */\n", n);
 				curfile = FILENAME;
 			}
+			sub(/[ \t]*$/, "", line);
 			print line;
 			getline;
 			if ( pattern == 0) {
