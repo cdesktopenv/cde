@@ -54,6 +54,7 @@
 #include "dtcreate.h"
 #include "af_aux.h"
 #include "CreateActionAppShell.h"
+#include "FileCharacteristics.h"
 #include "cmncbs.h"
 
 #define CONTEXT_MACRO_ACCESS 1
@@ -255,7 +256,7 @@ static Widget   _Uxbuild_AddFiletype(void)
         int                   nbutton = 0;
         Widget                AF_ScrolledWindow;
         Widget                AF_BigForm;
-        Dimension             dim1, dim2, dim3;
+        XtArgVal /* Dimension */             dim1, dim2, dim3;
         Widget                AF_MED_IconForm, AF_TINY_IconForm;
         IconData             *pIconData;
 	char		     *pre, *suf, *title;
@@ -894,9 +895,9 @@ Widget  create_AddFiletype(swidget _UxUxParent)
 {
         Widget                  rtrn;
         _UxCAddFiletype         *UxContext;
-        Dimension               dimHeight;
-        Dimension               dimWidth;
-        Dimension               dimTmp;
+        XtArgVal /* Dimension */               dimHeight;
+        XtArgVal /* Dimension */               dimWidth;
+        XtArgVal /* Dimension */               dimTmp;
         Widget                  widScrolledWindow;
         Widget                  widTmp;
 

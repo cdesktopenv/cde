@@ -37,6 +37,7 @@
 #include "UxXt.h"
 #include "dtcreate.h"
 #include "cmnrtns.h"
+#include "cmncbs.h"
 #include "ca_aux.h"
 #include "fileio.h"
 
@@ -132,7 +133,7 @@ static  void    helpCallback_OpenFile( Widget UxWidget,
         UxOpenFileContext = UxContext =
                         (_UxCOpenFile *) UxGetContext( UxWidget );
         {
-        DisplayHelpDialog(UxWidget, HELP_OPENFILE, UxCallbackArg);
+        DisplayHelpDialog(UxWidget, (XtPointer)HELP_OPENFILE, UxCallbackArg);
         }
         UxOpenFileContext = UxSaveCtx;
 }

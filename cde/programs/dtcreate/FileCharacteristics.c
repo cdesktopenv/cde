@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <Xm/Xm.h>
 #include <Xm/MwmUtil.h>
@@ -39,6 +40,7 @@
 #include <Xm/RowColumn.h>
 #include <Xm/Form.h>
 #include <Xm/ToggleBG.h>
+#include <Xm/Text.h>
 #include <Xm/TextF.h>
 #include <Xm/Label.h>
 #include <Xm/PushBG.h>
@@ -48,6 +50,9 @@
 #include "UxXt.h"
 #include "dtcreate.h"
 #include "cmncbs.h"
+#include "cmnrtns.h"
+#include "cmnutils.h"
+#include "ErrorDialog.h"
 
 #define CONTEXT_MACRO_ACCESS 1
 #include "FileCharacteristics.h"
@@ -167,6 +172,7 @@ ushort GetContentsType(void)
   } else if (XmToggleButtonGadgetGetState(FC_LongToggle)) {
     return((ushort)CA_FT_CNTLONG);
   }
+  /* NOTREACHED */
 }
 
 /******************************************************************************/
@@ -345,7 +351,7 @@ void ParseAndUpdateID(FiletypeData *pFtD)
 /*****************************************************************************/
 void CalculateAND(void)
 {
-  Boolean set1, set2, set3, set4;
+  XtArgVal /* Boolean */ set1, set2, set3, set4;
   int     cnt;
 
   XtVaGetValues(FC_NameOrPathToggle, XmNset, &set1, NULL);
@@ -408,7 +414,7 @@ static  void    valueChangedCB_FC_PermissionToggle(Widget UxWidget,
                                           XtPointer UxClientData,
                                           XtPointer UxCallbackArg)
 {
-  Boolean set;
+  XtArgVal /* Boolean */ set;
 
   XtVaGetValues(UxWidget, XmNset, &set, NULL);
   XtSetSensitive(FC_PermissionLabel, set);
@@ -467,7 +473,7 @@ static  void    valueChangedCB_FC_ContentsToggle( Widget UxWidget,
                                                  XtPointer UxClientData,
                                                  XtPointer UxCallbackArg)
 {
-  Boolean set;
+  XtArgVal /* Boolean */ set;
 
   XtVaGetValues(UxWidget, XmNset, &set, NULL);
   XtSetSensitive(FC_ContentsLabel, set);
@@ -483,7 +489,7 @@ static  void    valueChangedCB_FC_NameOrPathToggle(Widget UxWidget,
                                                    XtPointer UxCallbackArg)
 
 {
-  Boolean set;
+  XtArgVal /* Boolean */ set;
 
   XtVaGetValues(UxWidget, XmNset, &set, NULL);
   XtSetSensitive(FC_NamePatternLabel, set);
@@ -1315,9 +1321,9 @@ static Widget   _Uxbuild_FileCharacteristics(void)
 Widget  create_FileCharacteristics( swidget _UxUxParent )
 {
         Widget            rtrn;
-        Dimension         dimHeight;
-        Dimension         dimWidth;
-        Dimension         dimTmp;
+        XtArgVal /* Dimension */          dimHeight;
+        XtArgVal /* Dimension */          dimWidth;
+        XtArgVal /* Dimension */          dimTmp;
         Widget            widScrolledWindow;
         Widget            widTmp;
 

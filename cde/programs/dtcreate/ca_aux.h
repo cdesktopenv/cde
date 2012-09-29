@@ -31,14 +31,12 @@
 
 #include "UxXt.h"
 
-#if defined(USL) || defined(__uxp__)
 #if !defined(_DIRENT_H)
 #include <dirent.h>
 #endif
 #if !defined(_DtIcon_h_)
 #include <Dt/Icon.h> 
 #endif 
-#endif
 
 /***************************************************************************/
 /*                                                                         */
@@ -60,6 +58,7 @@
 /*                                                                         */
 /***************************************************************************/
 
+void initAD( ActionData *pAD );
 void readCAFromGUI (struct _ActionData *ca_struct);
 void getCAactionName (struct _ActionData *ca_struct);
 void getCAdblClkCmd (struct _ActionData *ca_struct);

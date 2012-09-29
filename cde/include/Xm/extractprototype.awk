@@ -61,3 +61,4 @@ function proto() {
 /_XmShellIsExclusive/ { proto(); }
 /_XmTextFieldSetDestination/ { proto(); }
 /_XmGetActiveTopLevelMenu/ { proto(); }
+/XmeFlushIconFileCache/ { proto(); }

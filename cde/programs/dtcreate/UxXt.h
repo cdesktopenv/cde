@@ -170,6 +170,7 @@ extern  void            UxMrmRegisterClass( char *, Widget (*)(Widget, String, A
 /* The following are declarations of the functions in UxXt.c */
 
 
+extern  void*		UxNewContext (size_t size, int isSubclass);
 extern  int             UxPopupInterface( Widget wgt, XtGrabKind grab_flag );
 extern  int             UxPopdownInterface( Widget wgt );
 extern  int             UxDestroyInterface( Widget wgt);

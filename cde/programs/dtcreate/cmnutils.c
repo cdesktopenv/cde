@@ -34,6 +34,7 @@
 #include <Xm/RowColumnP.h>
 #include <Xm/MessageB.h>
 #include <Xm/Text.h>
+#include <Xm/List.h>
 #include "cmnutils.h"
 
 
@@ -119,7 +120,7 @@ return (text_string);
 /********************************************************************************/
 void delete_all_list_items (Widget list)
 {
-int item_count = 0;
+XtArgVal /* int */ item_count = 0;
 
 XtVaGetValues (list, XmNitemCount, &item_count, NULL);
 if (item_count > 0) {

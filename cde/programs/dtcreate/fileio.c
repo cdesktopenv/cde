@@ -23,7 +23,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #include <Dt/Icon.h>
 
@@ -31,6 +33,8 @@
 #include "dtcreate.h"
 #include "cmnrtns.h"
 #include "fileio.h"
+#include "parser.h"
+#include "ErrorDialog.h"
 
 #define COMMENT_CHAR      '#'
 #define MAX_KEY           10000
@@ -836,9 +840,14 @@ char * CreateIconName(char *pszDirName, char *pszBaseName, enum icon_size_range 
     case Medium_Icon :
                strcpy(pszSize, MEDIUM_EXT);
                break;
+    case Small_Icon :
+               strcpy(pszSize, SMALL_EXT);
+               break;
     case Tiny_Icon :
                strcpy(pszSize, TINY_EXT);
                break;
+    case None_Selected :
+               pszSize[0] = 0;
   }
   if (bIsMask) {
      strcat(pszSize, "_m");

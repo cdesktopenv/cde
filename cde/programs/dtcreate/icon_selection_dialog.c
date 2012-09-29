@@ -50,6 +50,7 @@
 #include <Xm/Form.h>
 #include <Xm/RowColumn.h>
 #include <Xm/MessageB.h>
+#include <Xm/XmPrivate.h> /* XmeFlushIconFileCache */
 #include <X11/cursorfont.h>
 
 #include <Dt/Icon.h>
@@ -59,6 +60,8 @@
 #include "cmncbs.h"
 #include "cmnrtns.h"
 #include "cmnutils.h"
+#include "fileio.h"
+#include "ErrorDialog.h"
 
 /*******************************************************************************
        Includes, Defines, and Global variables from the Declarations Editor:
@@ -1315,7 +1318,7 @@ void    resizeCB_clipWindow( Widget UxWidget,
   Widget     widvScrollbar;
   Widget     widRowColumn;
   int        increment;
-  Dimension  height;
+  XtArgVal /* Dimension */  height;
 
   XtVaGetValues(XtParent(UxWidget), XmNverticalScrollBar, &widvScrollbar, NULL);
   widRowColumn = (Widget)UxClientData;

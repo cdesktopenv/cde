@@ -35,6 +35,7 @@
 #include <sys/signal.h>
 
 #include "dtcreate.h"
+#include "ca_aux.h"
 #include "UxXt.h"
 #include "CreateActionAppShell.h"
 

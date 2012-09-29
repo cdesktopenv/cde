@@ -59,18 +59,25 @@
 #include <Dt/IconFile.h>
 
 #include "dtcreate.h"
+#include "af_aux.h"
 #include "ca_aux.h"
-#include "cmnutils.h"
+#include "cmncbs.h"
 #include "cmnrtns.h"
+#include "cmnutils.h"
 #include "CreateActionAppShell.h"
 #include "Confirmed.h"
+#include "ErrorDialog.h"
+#include "FileCharacteristics.h"
+
+/* from main.c */
+extern void RemoveTmpIconFiles( void );
 
 /******************************************************************************/
 /*                                                                            */
 /*  External Variables                                                        */
 /*                                                                            */
 /******************************************************************************/
-extern Dimension wintypeheight, winheight, xprtheight, newheight;
+extern XtArgVal /* Dimension */ wintypeheight, winheight, xprtheight, newheight;
 
 /******************************************************************************/
 /*                                                                            */
@@ -652,7 +659,7 @@ void activateCB_FileQuit (Widget wid, XtPointer cdata,
 void activateCB_ExpertOption (Widget wid, XtPointer client_data,
                               XtPointer *cbs)
 {
-  Dimension  ca_width;
+  XtArgVal /* Dimension */  ca_width;
 
   if (!XtIsManaged(XprtOptionForm)) {
      /**********************************************************************/
@@ -828,7 +835,8 @@ void activateCB_action_icon (Widget wid, XtPointer client_data,
     printf("DblClick icon callback.\n");
 #endif
 
-    activateCB_edit_icon(wid, CA_ACTION_ICONS, cbs);
+    activateCB_edit_icon(wid, (XtPointer)CA_ACTION_ICONS,
+		(XmPushButtonCallbackStruct *)cbs /* unused anyway */);
 
   }
   return;

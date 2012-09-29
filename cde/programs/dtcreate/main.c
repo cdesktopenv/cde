@@ -40,9 +40,14 @@
 #include <Xm/Xm.h>
 #include <Xm/Protocols.h>
 #include <Xm/VendorSEP.h>
+#include <Xm/XmPrivate.h> /* XmeFlushIconFileCache */
+#include <Dt/Action.h>
+#include <Dt/GetDispRes.h>
 #include <Dt/Icon.h>
 #include <Dt/EnvControlP.h>
 #include <Dt/UserMsg.h>
+#include <Dt/Session.h>
+#include <Dt/Wsm.h>
 
 #define GETXMSTRING(s, m, d)	XmStringCreateLocalized(GETMESSAGE(s,m,d))
 #define CLASS_NAME		"Dtcreate"
@@ -60,6 +65,8 @@ extern XmWidgetExtData _XmGetWidgetExtData(
 #include "dtcreate.h"
 #include "ca_aux.h"
 #include "cmnrtns.h"
+#include "ErrorDialog.h"
+#include "fileio.h"
 
 #ifdef __TOOLTALK
 #include <Tt/tttk.h>
@@ -89,7 +96,7 @@ int             UxScreen;
  * Insert application global declarations here
  *---------------------------------------------*/
 
-extern Dimension wintypeheight;
+extern XtArgVal /* Dimension */ wintypeheight;
 
 /*  Structure used on a save session to see if a dt is iconic  */
 typedef struct {
@@ -533,7 +540,7 @@ void RemoveTmpIconFiles( void )
 static void
 ExitCB (Widget dialog, XtPointer client_data, XtPointer call_data)
 {
-    exit((int) client_data);
+    exit((int)(XtArgVal) client_data);
 }
 
 void
@@ -753,7 +760,7 @@ Tt_callback_action IconEdit_tt_handler( Tt_message m, Tt_pattern p )
 	   display_error_message(XtParent(pIconData->wid), errPtr);
 	   XtFree(errPtr);
            tt_release( ttMark );
-           return;
+           return (TT_CALLBACK_CONTINUE);
         }
 
         /*******************************************************************/
@@ -796,7 +803,7 @@ Tt_callback_action IconEdit_tt_handler( Tt_message m, Tt_pattern p )
 	      XtFree(errPtr);
               tt_release( ttMark );
               if (tmpfd > -1) close(tmpfd);
-              return;
+              return (TT_CALLBACK_CONTINUE);
            }
 
         /*******************************************************************/
@@ -847,7 +854,7 @@ Tt_callback_action IconEdit_tt_handler( Tt_message m, Tt_pattern p )
 	      XtFree(errPtr);
               tt_release( ttMark );
               if (tmpfd > -1) close(tmpfd);
-              return;
+              return (TT_CALLBACK_CONTINUE);
            }
 
            /****************************************************************/
@@ -873,7 +880,7 @@ Tt_callback_action IconEdit_tt_handler( Tt_message m, Tt_pattern p )
                  display_error_message(XtParent(pIconData->wid), errPtr);
 		 XtFree(errPtr);
                  tt_release( ttMark );
-                 return;
+                 return (TT_CALLBACK_CONTINUE);
               }
 
 #ifdef DEBUG
@@ -900,7 +907,7 @@ Tt_callback_action IconEdit_tt_handler( Tt_message m, Tt_pattern p )
 		 XtFree(errPtr);
                  tt_release( ttMark );
                  if (tmpfd > -1) close(tmpfd);
-                 return;
+                 return (TT_CALLBACK_CONTINUE);
               }
 
            /****************************************************************/
@@ -1175,6 +1182,7 @@ void UxDoEditPixmap(Widget wid, char *fname)
 /*                                                                           */
 /*                                                                           */
 /*****************************************************************************/
+int
 main(int argc, char *argv[])
 {
         /*-----------------------------------------------------------

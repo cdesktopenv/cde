@@ -41,9 +41,12 @@
 #include "cmncbs.h"
 #include "cmnrtns.h"
 #include "CreateActionAppShell.h"
+#include "af_aux.h"
 #include "ca_aux.h"
 #include "icon_selection_dialog.h"
 
+/* from main.c */
+extern void UxDoEditPixmap(Widget wid, char *fname);
 
 /******************************************************************************/
 /* Initialize global values.                                                  */
@@ -68,7 +71,7 @@ void activateCB_open_FindSet (Widget find_set_button, XtPointer cdata,
                               XmFileSelectionBoxCallbackStruct *cbstruct)
 {
   Widget filter;
-  Boolean use_bm = False;
+  XtArgVal /* Boolean */ use_bm = False;
   static char *use_bm_filter = "*.m.bm";
   static char *use_pm_filter = "*.m.pm";
   char *search_path;
@@ -201,7 +204,7 @@ void activateCB_edit_icon (Widget wid, XtPointer client_data,
 
   if (bIconEditorDisplayed) return;
 
-  if ((int)client_data == CA_ACTION_ICONS) {
+  if ((int)(XtArgVal)client_data == CA_ACTION_ICONS) {
      IsActionIcons = True;
      widSelectedIcon = get_selected_action_icon();
      widEditSource = CreateActionAppShell;
@@ -278,7 +281,7 @@ void DisplayHelpDialog(Widget wid, XtPointer client_data, XtPointer cbs)
   XtSetArg(args[i], DtNhelpVolume, "CreatAct"); i++;
   XtSetArg(args[i], DtNlocationId, pszTopic); i++;
 
-  switch ((int)client_data) {
+  switch ((XtArgVal)client_data) {
      case HELP_OVERVIEW:
                          strcpy(pszTopic, "_hometopic");
                          break;

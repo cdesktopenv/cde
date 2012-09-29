@@ -128,7 +128,7 @@ CREATION:       Visual Edge Software            Sept 19/91
 -----------------------------------------------------------------------------*/
 static  int     handle_dialog_child( Widget wgt, void (*manage_func)(Widget) )
 {
-        int     i, num_children;
+        XtArgVal i, num_children;
         Widget  *children;
         int     error_flag = UX_ERROR;
 
@@ -284,7 +284,7 @@ void    UxDeleteContextCB( Widget wgt, XtPointer client_data,
 
         (void) XDeleteContext( XtDisplay( UxTopLevel ),
                                (Window) wgt,
-                               (XContext) client_data );
+                               (XContext)(XtArgVal) client_data );
 }
 
 /******************************************************************************
@@ -323,7 +323,7 @@ int     UxPutContext( Widget wgt, caddr_t context )
                 return ( UX_ERROR );
 
         XtAddCallback (wgt, XmNdestroyCallback,
-                        UxDeleteContextCB, (XtPointer) xcontext_id);
+                        UxDeleteContextCB, (XtPointer)(XtArgVal) xcontext_id);
 
         return ( UX_NO_ERROR );
 }

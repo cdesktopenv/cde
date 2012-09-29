@@ -33,6 +33,8 @@ extern XmWidgetExtData _XmGetWidgetExtData(
 #else
                         unsigned char extType) ;
 #endif /* NeedWidePrototypes */
+/* Extracted from IconFileP.h */
+extern void XmeFlushIconFileCache(String	path);
 /* Extracted from MenuStateI.h */
 extern void _XmSetInDragMode(
                         Widget widget,

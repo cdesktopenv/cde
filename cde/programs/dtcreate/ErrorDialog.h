@@ -42,7 +42,7 @@ extern Widget   ErrorDialog;
 *******************************************************************************/
 
 
-void    display_error_message (Widget parent, char *message);
+extern void    display_error_message (Widget parent, char *message);
 
 
 #endif  /* _ERRORDIALOG_H_INCLUDED */

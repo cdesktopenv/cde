@@ -43,6 +43,7 @@
 #include <Xm/RowColumnP.h>
 #include <Xm/MessageB.h>
 #include <Xm/FileSB.h>
+#include <Xm/List.h>
 #include <sys/stat.h>
 #if defined(AIXV3)
 #    include <sys/dir.h>
@@ -58,8 +59,11 @@
 
 #include "dtcreate.h"
 #include "af_aux.h"
+#include "cmncbs.h"
 #include "cmnutils.h"
 #include "cmnrtns.h"
+#include "ErrorDialog.h"
+#include "FileCharacteristics.h"
 
 /******************************************************************************/
 /*                                                                            */
@@ -145,7 +149,8 @@ void activateCB_filetype_icon (Widget wid, XtPointer client_data,
     printf("DblClick icon callback.\n");
 #endif
 
-    activateCB_edit_icon(wid, CA_FILETYPE_ICONS, cbs);
+    activateCB_edit_icon(wid, (XtPointer)CA_FILETYPE_ICONS,
+	(XmPushButtonCallbackStruct *)cbs /* unused anyway */);
 
   }
 

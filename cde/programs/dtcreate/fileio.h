@@ -44,14 +44,14 @@
 /*                                                                         */
 /***************************************************************************/
 
-ushort  WriteDefinitionFile(char *, ActionData *);
-ushort  WriteActionFile(ActionData *);
-Boolean check_file_exists(char *);
-int     OpenDefinitionFile(char *, ActionData *);
-ushort  CopyIconFiles(ActionData *);
-char *  CreateIconName(char *, char *, enum icon_size_range, char *, Boolean);
-Boolean ActionHasIcon (void);
-Boolean FiletypeHasIcon (FiletypeData *);
+extern ushort  WriteDefinitionFile(char *, ActionData *);
+extern ushort  WriteActionFile(ActionData *);
+extern Boolean check_file_exists(char *);
+extern int     OpenDefinitionFile(char *, ActionData *);
+extern ushort  CopyIconFiles(ActionData *);
+extern char *  CreateIconName(char *, char *, enum icon_size_range, char *, Boolean);
+extern Boolean ActionHasIcon (void);
+extern Boolean FiletypeHasIcon (FiletypeData *);
 
 
 #endif /* _FILEIO_H_INCLUDED */

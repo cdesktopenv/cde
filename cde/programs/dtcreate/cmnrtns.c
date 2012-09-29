@@ -30,10 +30,12 @@
 /*****************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <Dt/Icon.h>
 #include <X11/cursorfont.h>
 #include "UxXt.h"
 #include <libgen.h>
+#include <Dt/HourGlass.h>
 
 #include "dtcreate.h"
 #include "CreateActionAppShell.h"
@@ -51,7 +53,7 @@ char * ReplaceSpaces(char *pszName)
   char *ptr;
 
   newName = (char *)XtMalloc(strlen(pszName) + 1);
-  memset(newName, 0, sizeof(newName));
+  memset(newName, 0, strlen(pszName) + 1);
   strcpy(newName, pszName);
   ptr = strrchr(newName, ' ');
   if (ptr) {
@@ -185,7 +187,7 @@ char * GetCoreName(char *pszFullName)
      name = pszFullName;
   }
   newName = (char *)malloc(strlen(name) + 1);
-  memset(newName, 0, sizeof(newName));
+  memset(newName, 0, strlen(name) + 1);
   strcpy(newName, name);
   ptr = strrchr(newName, '.');
   if (ptr) {
@@ -210,7 +212,7 @@ void load_icons (Widget wid, XtPointer client_data,
   char          *full_name, *path_and_base_name, *type_name, *size_name;
   char          *base_name;
   char          *ptr;
-  int           iSource;
+  XtArgVal /* int */     iSource;
   FiletypeData  *pFtD;
 
   /*****************************************/

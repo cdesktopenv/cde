@@ -55,15 +55,21 @@
 #include <X11/Shell.h>
 #include <X11/cursorfont.h>
 
+#include <Dt/Dt.h>
 #include <Dt/Icon.h>
 #include <Dt/Action.h>
+#include <Dt/HourGlass.h>
+#include <Dt/Wsm.h>
 
 #include "dtcreate.h"
 #include "UxXt.h"
+#include "af_aux.h"
 #include "ca_aux.h"
 #include "cmncbs.h"
 #include "cmnrtns.h"
+#include "fileio.h"
 #include "Confirmed.h"
+#include "ErrorDialog.h"
 
 #define CONTEXT_MACRO_ACCESS 1
 #include "CreateActionAppShell.h"
@@ -73,7 +79,7 @@
        Includes, Defines, and Global variables from the Declarations Editor:
 *******************************************************************************/
 
-Dimension winheight, xprtheight, newheight, wintypeheight;
+XtArgVal /* Dimension */ winheight, xprtheight, newheight, wintypeheight;
 Widget    FileTypes;
 
 /*******************************************************************************
@@ -484,7 +490,7 @@ static  void    activateCB_WindowTypeOptionMenu( Widget UxWidget,
                                            XtPointer UxCallbackArg)
 {
   AD.fsFlags &= (~(CA_WT_XWINDOWS | CA_WT_TERM | CA_WT_PERMTERM));
-  switch ((int)UxClientData) {
+  switch ((int)(XtArgVal)UxClientData) {
     case CA_WT_XWINDOWS :
          AD.fsFlags |= CA_WT_XWINDOWS;
          break;
@@ -516,7 +522,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         Widget               CA_WindowType_Pane;
         Widget               CA_WindowType_OptionMenu;
         char                 mnemonic[2];
-        Dimension            dim1, dim2;
+        XtArgVal /* Dimension */        dim1, dim2;
         Widget               CA_MED_IconForm, CA_TINY_IconForm, CA_LRG_IconForm;
         IconData             *pIconData;
 

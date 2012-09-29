@@ -55,6 +55,8 @@ void show_warning_dialog (void);
 Widget show_working_dialog (void);
 void show_info_dialog (void);
 void free_XmStringTable (XmStringTable table);
-
+void clear_text (Widget textfield);
+void clear_text_field (Widget textfield);
+void delete_all_list_items (Widget list);
 
 #endif /* _CMNUTILS_H_INCLUDED */
