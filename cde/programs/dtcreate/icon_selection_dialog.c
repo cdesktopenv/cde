@@ -1782,7 +1782,7 @@ static Widget   _Uxbuild_icon_selection_dialog(void)
                         XmNleftWidget, icon_container_label,
                         XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
                         XmNbottomOffset, 10,
-                        XmNbottomWidget, XmATTACH_NONE,
+                        XmNbottomWidget, None,
                         XmNbottomAttachment, XmATTACH_WIDGET,
                         NULL );
 
