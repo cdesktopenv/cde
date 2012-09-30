@@ -12,10 +12,10 @@ ALLHEADERS = *.h
 
 BuildIncludes($(HEADERS),Xm,..)
 
-XCOMM We do not build with Motif sources on Linux, so this will never 
-XCOMM do the right thing on that platform.  Just leave XmPrivate.h as-is.
+XCOMM XmPrivate must be generated manually.  For this you work, you must have
+XCOMM a freshly compiled openmotif tree, and MLIBSRC must be pointing to it.
 
-XmPrivate.h: extractprototype.awk
+XmPrivate.h: 
 	awk -f extractprototype.awk $(MLIBSRC)/Xm/$(ALLHEADERS) > $@ || rm -f $@
 
 depend::
