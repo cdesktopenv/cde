@@ -1,19 +1,23 @@
-I have attached an LSB-compliant init script for dtlogin as an update to
-the current wiki. All instructions currently on the wiki should be left.
-This only replaces the script contents. This allows dtlogin to be
-controlled using either of the following syntax:
+Attached is an LSB-compliant init script for dtlogin. This allows dtlogin
+to be controlled using either of the following syntax:
 
 /etc/init.d/dtlogin start | stop | restart | status
 service dtlogin start | stop | restart | status
 
-With the old script, dtlogin would be restarted on shutdown which resulted
-in the system hanging. This script allows CDE to be properly shutdown on
-halt or restarts.
+This script also allows CDE to be properly handled on runlevel changes.
 
-If anyone can improve/change/enhance this script, please feel free. This is
-just my attempt at getting a working version so my system doesn't hang.
-Also, note that there is no #!/bin/sh at the start of the file. It is not
-necessary and will cause the script not to work properly.
+***SCRIPT INSTALL INSTRUCTIONS:***
+1. Copy "dtlogin" script from this directory to /etc/init.d/
+2. chmod 755 /etc/init.d/dtlogin
+3. update-rc.d dtlogin defaults
+4. Restart
+
+dtlogin should now start on boot and correctly exit on shutdown/restart.
+
+Tested on Debian Squeeze & Ubuntu 12.04, but should work on any LSB-compliant
+distro.
+
+
 
 David McBrayer <d9j0m.dev@gmail.com>
 
