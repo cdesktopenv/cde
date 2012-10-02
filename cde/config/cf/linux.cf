@@ -6,16 +6,16 @@ XCOMM platform:  $TOG: linux.cf /main/47 1998/04/17 11:32:51 mgreess $
 #define TopXInclude -isystem$(TOP)/imports/x11/include
 
 #ifndef OSName
-#define OSName			DefaultOSName
+# define OSName			DefaultOSName
 #endif
 #ifndef OSMajorVersion
-#define OSMajorVersion		DefaultOSMajorVersion
+# define OSMajorVersion		DefaultOSMajorVersion
 #endif
 #ifndef OSMinorVersion
-#define OSMinorVersion		DefaultOSMinorVersion
+# define OSMinorVersion		DefaultOSMinorVersion
 #endif
 #ifndef OSTeenyVersion
-#define OSTeenyVersion		DefaultOSTeenyVersion
+# define OSTeenyVersion		DefaultOSTeenyVersion
 #endif
 
 #ifndef LinuxDistribution 
@@ -40,16 +40,16 @@ XCOMM platform:  $TOG: linux.cf /main/47 1998/04/17 11:32:51 mgreess $
 */
 #endif
 #ifndef LinuxCLibMajorVersion
-#define LinuxCLibMajorVersion   DefaultLinuxCLibMajorVersion
+# define LinuxCLibMajorVersion   DefaultLinuxCLibMajorVersion
 #endif
 #ifndef LinuxCLibMinorVersion
-#define LinuxCLibMinorVersion   DefaultLinuxCLibMinorVersion
+# define LinuxCLibMinorVersion   DefaultLinuxCLibMinorVersion
 #endif
 #ifndef LinuxCLibTeenyVersion
-#define LinuxCLibTeenyVersion   DefaultLinuxCLibTeenyVersion
+# define LinuxCLibTeenyVersion   DefaultLinuxCLibTeenyVersion
 #endif
 #ifndef LinuxBinUtilsMajorVersion
-#define LinuxBinUtilsMajorVersion	DefaultLinuxBinUtilsMajorVersion
+# define LinuxBinUtilsMajorVersion	DefaultLinuxBinUtilsMajorVersion
 #endif
 
 XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVersion)
@@ -57,13 +57,14 @@ XCOMM libc:  (LinuxCLibMajorVersion./**/LinuxCLibMinorVersion./**/LinuxCLibTeeny
 XCOMM binutils:  (LinuxBinUtilsMajorVersion)
 
 #ifndef UseElfFormat
-#if OSMajorVersion > 1 || (OSMajorVersion == 1 && OSMinorVersion > 1)
-#define UseElfFormat		YES
-#else
-#define UseElfFormat		NO
-#error "Only ELF format is supported on linux"
+# if OSMajorVersion > 1 || (OSMajorVersion == 1 && OSMinorVersion > 1)
+#  define UseElfFormat		YES
+# else
+#  define UseElfFormat		NO
+#  error "Only ELF format is supported on linux"
+# endif
 #endif
-#endif
+
 #define BuildLibPathVar   	LD_LIBRARY_PATH
 #define HasGcc			YES
 #define HasGcc2			YES
@@ -76,7 +77,7 @@ XCOMM binutils:  (LinuxBinUtilsMajorVersion)
 #define HasShm			YES
 #define HasSockets		YES
 #if (LinuxDistribution == LinuxRedHat)
-#define HasZlib			YES
+# define HasZlib		YES
 #endif
 
 #define AvoidNullMakeCommand	YES
@@ -101,9 +102,9 @@ XCOMM binutils:  (LinuxBinUtilsMajorVersion)
 #define MkdirHierCmd		mkdir -p
 #define CppCmd			/lib/cpp
 #if OSMajorVersion >= 2
-#define YaccCmd                 yacc
+# define YaccCmd                yacc
 #else
-#define YaccCmd                 bison -y
+# define YaccCmd                bison -y
 #endif
 #define LexCmd			flex -l
 #define LexLib			-lfl
@@ -133,6 +134,10 @@ TIRPCLIB = -ltirpc
 TIRPCLIB = 
 #endif
 
+#if !defined(DefaultGcc2i386Opt)
+# define DefaultGcc2i386Opt -O2 -fno-strict-aliasing
+#endif
+
 #if LinuxCLibMajorVersion < 6
 # define LinuxSourceDefines	-D_POSIX_SOURCE \
 				-D_BSD_SOURCE -D_SVID_SOURCE LinuxLocaleDefines
@@ -157,66 +162,66 @@ TIRPCLIB =
 #endif
 
 #ifdef SparcArchitecture
-#define LinuxMachineDefines -Dsparc
+# define LinuxMachineDefines -Dsparc
 
-#if UseElfFormat
-#define HasPlugin               YES
-#define VendorHasX11R6_3libXext YES     /* XC or XFree86 3.3.1 */
-#endif
+# if UseElfFormat
+#  define HasPlugin             YES
+#  define VendorHasX11R6_3libXext YES     /* XC or XFree86 3.3.1 */
+# endif
 #endif /* SparcArchitecture */
 
 #ifdef ARMArchitecture
-#define LinuxMachineDefines -D__arm__
-#define LSBBitOrder             YES
+# define LinuxMachineDefines -D__arm__
+# define LSBBitOrder             YES
 
-#if UseElfFormat
-#define HasPlugin               YES
-#define VendorHasX11R6_3libXext YES     /* XC or XFree86 3.3.1 */
-#endif 
+# if UseElfFormat
+#  define HasPlugin              YES
+#  define VendorHasX11R6_3libXext YES     /* XC or XFree86 3.3.1 */
+# endif 
 #endif /* ARMArchitecture */
 
 #ifdef i386Architecture
-#define OptimizedCDebugFlags	DefaultGcc2i386Opt
-#define LinuxMachineDefines	-D__i386__
+# define OptimizedCDebugFlags	DefaultGcc2i386Opt
+# define LinuxMachineDefines	-D__i386__
 /* For DtHelp TIFF processing routines. */
-#define LSBBitOrder             YES
+# define LSBBitOrder             YES
 
-#if UseElfFormat
-#define HasPlugin		YES
-#define VendorHasX11R6_3libXext	YES	/* XC or XFree86 3.3.1 */
-#endif
+# if UseElfFormat
+#  define HasPlugin		YES
+#  define VendorHasX11R6_3libXext	YES	/* XC or XFree86 3.3.1 */
+# endif
 /* add this to void screenfuls of warnings from makedepend */
-#define DependFlags -I/usr/include/i386-linux-gnu
+# define DependFlags -I/usr/include/i386-linux-gnu
 #endif /* i386Architecture */
 
 #ifdef AMD64Architecture
-#define OptimizedCDebugFlags	DefaultGcc2i386Opt
-#define LinuxMachineDefines	-D__x86_64__ 
+# define OptimizedCDebugFlags	DefaultGcc2i386Opt
+# define LinuxMachineDefines	-D__x86_64__ 
 /* For DtHelp TIFF processing routines. */
-#define LSBBitOrder             YES
+# define LSBBitOrder            YES
 
-#if UseElfFormat
-#define HasPlugin		YES
-#define VendorHasX11R6_3libXext	YES	/* XC or XFree86 3.3.1 */
-#endif
+# if UseElfFormat
+#  define HasPlugin		YES
+#  define VendorHasX11R6_3libXext	YES	/* XC or XFree86 3.3.1 */
+# endif
 /* add this to void screenfuls of warnings from makedepend */
-#define DependFlags -I/usr/include/x86_64-linux-gnu
+# define DependFlags -I/usr/include/x86_64-linux-gnu
 #endif /* AMD64Architecture */
 
 #ifdef PpcArchitecture
-#define OptimizedCDebugFlags    -O2
-#define LinuxMachineDefines     -D__powerpc__
+# define OptimizedCDebugFlags    DefaultGcc2i386Opt
+# define LinuxMachineDefines     -D__powerpc__
 #endif /* PpcArchitecture */
 
 #ifdef AlphaArchitecture
-#define OptimizedCDebugFlags	-O2
-#define LinuxMachineDefines	-D__alpha__
+# define OptimizedCDebugFlags	DefaultGcc2i386Opt
+# define LinuxMachineDefines	-D__alpha__
 #endif /* AlphaArchitecture */
 
 #ifdef Mc68020Architecture
-#define OptimizedCDebugFlags	-O2
-#define LinuxMachineDefines	-D__mc68000__
-#define StandardCppDefines      -traditional 
+# define OptimizedCDebugFlags	DefaultGcc2i386Opt
+# define LinuxMachineDefines	-D__mc68000__
+# define StandardCppDefines      -traditional 
 #endif /* Mc68020Architecture */
 
 #define StandardDefines		-Dlinux LinuxMachineDefines LinuxSourceDefines
