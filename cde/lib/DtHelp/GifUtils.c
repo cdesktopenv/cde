@@ -1090,7 +1090,7 @@ create_pixmap( GifObj *g, pixel **image, int width, int height, Pixel fg, Pixel 
 
   if (!ximData) {
     fprintf(stderr, "Could not allocate ximage data\n");
-    return NULL;
+    return None;
   }
 
   /* Monochrome */
@@ -1107,7 +1107,7 @@ create_pixmap( GifObj *g, pixel **image, int width, int height, Pixel fg, Pixel 
 
   if (!g->f_ximage) {
     fprintf(stderr, "XCreateImage failed\n");
-    return NULL;
+    return None;
   }
 
 
@@ -1212,7 +1212,7 @@ else
 
   if (!pm) {
     fprintf(stderr, "could not create pixmap\n");
-    return NULL;
+    return None;
   }
 
   _XmPutScaledImage (g->f_dpy,pm,g->f_gc,g->f_ximage,
@@ -1239,7 +1239,7 @@ gif_to_pixmap(GifObj *g, byte *inbuf, unsigned int buflen, Dimension *w, Dimensi
 
   /* Create raw image from compress GIF data */
   raw_image = create_raw_image (inbuf, buflen, &width, &height, 1);
-  if (!raw_image) return NULL;
+  if (!raw_image) return None;
 
   /* Create X pixmap from raw image data */
   pixmap = create_pixmap(g, raw_image, width, height, fg, bg, ratio);

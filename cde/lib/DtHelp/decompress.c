@@ -56,7 +56,7 @@ typedef long int	  count_int;
  typedef	unsigned char	char_type;
 #endif /* UCHAR */
 
-static	char_type magic_header[] = { "\037\235" };	/* 1F 9D */
+static int magic_header[] = { 0x1F, 0x9D };
 
 /* Defines for third byte of header */
 #define BIT_MASK	0x1f
@@ -128,8 +128,8 @@ _DtHelpCeBufFilePushZ (BufFilePtr f)
     CompressedFile  *file;
     int		    extra;
 
-    if ((BufFileGet(f) != (magic_header[0] & 0xFF)) ||
-	(BufFileGet(f) != (magic_header[1] & 0xFF)))
+    if ((BufFileGet(f) != magic_header[0]) ||
+	(BufFileGet(f) != magic_header[1]))
     {
 	return 0;
     }
