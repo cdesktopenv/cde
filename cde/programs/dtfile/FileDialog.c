@@ -2878,9 +2878,11 @@ ResetFlag(
    Widget w)
 {
    Arg args[2];
+   XtArgVal flag0;
    int flag;
-   XtSetArg (args[0], XmNuserData, &flag);
+   XtSetArg (args[0], XmNuserData, &flag0);
    XtGetValues(w,args,1);
+   flag = (int)flag0;
    if(flag != FLAG_SET)
       return;
    flag = FLAG_RESET;
