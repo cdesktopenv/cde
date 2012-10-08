@@ -5195,7 +5195,7 @@ void  _DtHelpGlobSrchInitVars(
     srch->curVolRadBtnSens = False;
     srch->volLeftCnt    = 0;
     srch->volListHead   = NULL; 	/* info on search topics found */
-    srch->workProcId    = NULL;
+    srch->workProcId    = 0;
 }
 
 

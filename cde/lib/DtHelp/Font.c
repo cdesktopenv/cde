@@ -264,7 +264,7 @@ static  const char    *FontResources[] =
 #define	GROW_SIZE	5
 
 static	Boolean		QuarksInited = FALSE;
-static	XrmQuark	StringFontQuark = NULL;
+static	XrmQuark	StringFontQuark = 0;
 static	XrmName		DefaultFontQuarks[_DtHelpFontQuarkNumber];
 static	XrmBinding	FontBindings[_DtHelpFontQuarkNumber] =
         { XrmBindLoosely, XrmBindLoosely, XrmBindLoosely, XrmBindLoosely,
@@ -272,7 +272,7 @@ static	XrmBinding	FontBindings[_DtHelpFontQuarkNumber] =
 
 static	DtHelpDAFSMetrics  DefaultMetrics = { FALSE, 0, 0 };
 static	DtHelpDAFontInfo   DefFontInfo    = { NULL, NULL, NULL, NULL, NULL,
-					NULL, NULL, NULL, 0, 0, 0, 0, 0};
+					NULL, 0, NULL, 0, 0, 0, 0, 0};
 
 /******************************************************************************
  *
@@ -546,7 +546,7 @@ __DtHelpFontIndexGet (
 	retValue.addr = (XtPointer) &xrm_list[_DT_HELP_FONT_CHAR_SET];
 	xrmList[0] = XrmStringToQuark (buffer);
 	xrmList[1] = XrmStringToQuark ("code_set");
-	xrmList[2] = NULL;
+	xrmList[2] = 0;
 	XrmQPutResource (&(fontInfo->font_idx_db),
 				((XrmBindingList) FontBindings),
 					xrmList, _DtHelpXrmQuark, &retValue);
@@ -596,7 +596,7 @@ __DtHelpFontCharSetQuarkGet (
     sprintf (buffer, "%d", font_index);
     xrmList[0] = XrmStringToQuark (buffer);
     xrmList[1] = XrmStringToQuark ("code_set");
-    xrmList[2] = NULL;
+    xrmList[2] = 0;
 
     /*
      * look in my font data base for the quark.
@@ -640,7 +640,7 @@ __DtHelpFontLangQuarkGet (
     sprintf (buffer, "%d", font_index);
     xrmList[0] = XrmStringToQuark (buffer);
     xrmList[1] = XrmStringToQuark ("language");
-    xrmList[2] = NULL;
+    xrmList[2] = 0;
 
     /*
      * look in my font data base for the quark.
@@ -743,7 +743,7 @@ __DtHelpFontDatabaseInit (
         DefaultFontQuarks[_DT_HELP_FONT_LANG_TER] = XrmStringToQuark ("C");
         DefaultFontQuarks[_DT_HELP_FONT_CHAR_SET] =
 						XrmStringToQuark ("ISO-8859-1");
-        DefaultFontQuarks[_DT_HELP_FONT_END]      = NULL;
+        DefaultFontQuarks[_DT_HELP_FONT_END]      = 0;
 	QuarksInited = True;
       }
     _DtHelpProcessUnlock();
@@ -1053,7 +1053,7 @@ _DtHelpGetExactFontIndex (
 		    retValue.addr = (XtPointer) &myQuark;
 		    xrmList[0] = XrmStringToQuark (buffer);
 		    xrmList[1] = XrmStringToQuark ("code_set");
-		    xrmList[2] = NULL;
+		    xrmList[2] = 0;
 		    XrmQPutResource (&(fontInfo->font_idx_db),
 				    ((XrmBindingList) FontBindings),
 				    xrmList, _DtHelpXrmQuark, &retValue);

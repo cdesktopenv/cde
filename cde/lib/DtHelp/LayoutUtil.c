@@ -169,7 +169,7 @@ CheckList (
      */
     if (list != NULL)
       {
-        while (NULL != *list)
+        while ('\0' != *list)
 	  {
 	    /*
 	     * it matches, return true

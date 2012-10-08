@@ -696,7 +696,7 @@ _DtHelpCeExpandPathname (
 #define	MY_NUM 7
     _DtSubstitutionRec mySubs [MY_NUM];
 
-    if (spec == NULL || *spec == NULL)
+    if (spec == NULL || *spec == '\0')
       {
 	errno = EINVAL;
 	return NULL;
@@ -2404,7 +2404,7 @@ _DtHelpCeGetDocStamp (
       {
 	errno = EINVAL;
 	_DtHelpProcessUnlock();
-	return NULL;
+	return 0;
       }
 
     /*

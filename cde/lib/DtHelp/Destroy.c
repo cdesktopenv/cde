@@ -161,7 +161,7 @@ _DtHelpDisplayAreaDestroyCB (
     XFreeGC (dpy, pDAS->normalGC);
     XFreeGC (dpy, pDAS->pixmapGC);
     XFreeGC (dpy, pDAS->invertGC);
-    if (pDAS->def_pix != NULL &&
+    if (pDAS->def_pix != 0 &&
 	XmDestroyPixmap(XDefaultScreenOfDisplay(dpy), pDAS->def_pix) == False)
 	    XFreePixmap(dpy, pDAS->def_pix);
     if (pDAS->context != NULL)

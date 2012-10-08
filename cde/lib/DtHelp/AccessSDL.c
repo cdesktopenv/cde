@@ -1127,7 +1127,7 @@ _DtHelpCeGetSdlIdPath(
     *ret_ids = NULL;
 
     if (_DtHelpCeGetSdlVolIds(volume, -1, &idSegs) != 0)
-	return NULL;
+	return 0;
 
     if (_SdlVolumeMinorNumber(_DtHelpCeGetSdlVolumePtr(volume)) >= SDL_DTD_1_1)
 	hiddenNo = 0;

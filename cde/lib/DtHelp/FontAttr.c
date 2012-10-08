@@ -46,6 +46,7 @@
  * system includes
  */
 #include <string.h>
+#include <stdlib.h>
 
 /*
  * private includes

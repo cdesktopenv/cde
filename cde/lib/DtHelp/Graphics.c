@@ -1311,7 +1311,7 @@ static enum _DtGrLoadStatus processBitmap(
     int           junk;
     unsigned int  width, height;
     unsigned char *data;
-    Pixmap        scaled_pixmap=NULL;
+    Pixmap        scaled_pixmap = 0;
     Display       *dpy = DisplayOfScreen(screen);
     Drawable      drawable = RootWindowOfScreen(screen);
     XImage        ximage;
@@ -1404,7 +1404,7 @@ static enum _DtGrLoadStatus processTiff(
 )
 {
     int		 result = -1;
-    Pixmap       pixmap = NULL;
+    Pixmap       pixmap = 0;
     ilFile	 inFile;
     ilPipe	 inPipe;
     ilFileImage	 inImage;
@@ -1507,7 +1507,7 @@ static enum _DtGrLoadStatus processTiff(
 		if (result == -1)
 		  {
 		    XFreePixmap (dpy, pixmap);
-		    pixmap = NULL;
+		    pixmap = 0;
 		  }
 	      }
 	  }
@@ -1650,7 +1650,8 @@ myXpmReadFileToPixmap(
     float           ratio
 )
 {
-    XImage *image, **imageptr = NULL;
+    XImage *image = NULL;
+    XImage **imageptr = 0;
     XImage *shapeimage, **shapeimageptr = NULL;
     int ErrorStatus;
     int switchFlag = 0;
@@ -1660,11 +1661,11 @@ myXpmReadFileToPixmap(
      */
 
     if (pixmap_return) {
-        *pixmap_return = NULL;
+        *pixmap_return = 0;
         imageptr = &image;
     }
     if (shapemask_return) {
-        *shapemask_return = NULL;
+        *shapemask_return = 0;
         shapeimageptr = &shapeimage;
     }
 
@@ -1795,7 +1796,7 @@ static enum _DtGrLoadStatus processXpm(
     int		    i, j;
     int             result;
     short           done;
-    Pixmap          pixmap  = NULL;
+    Pixmap          pixmap  = 0;
     XpmAttributes   xpmAttr;
     Visual          vis2;
     XGCValues       gcvalues;
@@ -1990,7 +1991,7 @@ static enum _DtGrLoadStatus processGIF(
                                      g.f_black, g.f_white, ratio);
 
     /* Set the returned colors parameters */
-    if (*ret_pixmap != NULL)
+    if (*ret_pixmap != 0)
     {
         if (g.f_do_visual == DO_COLOR)
 	{
@@ -2384,7 +2385,7 @@ _DtHelpProcessGraphic(
     unsigned int    pixHeight = 0; 
     Dimension       pWidth, pHeight;
     char  *ptr;
-    Pixmap pix = NULL, mask = NULL;
+    Pixmap pix = 0, mask = 0;
     _DtGrStream stream;
     Screen *scrptr = ScreenOfDisplay (dpy, screen);
     static enum _DtGrColorModel ForceColor = _DtGrCOLOR;
@@ -2465,7 +2466,7 @@ _DtHelpProcessGraphic(
 	result = _DtGrOpenFile(&stream, filename);
 
 	if (result != 0)
-	    pix = NULL;
+	    pix = 0;
         else 
 	{
 	    /* Create a pixmap from the image data stream */
@@ -2481,7 +2482,7 @@ _DtHelpProcessGraphic(
         }
       }
 
-    if (pix == NULL)
+    if (pix == 0)
       {
 	/*
 	 * Try to get a localized pixmap
@@ -2489,7 +2490,7 @@ _DtHelpProcessGraphic(
          * This is a cached pixmap.....
          * Make sure XFreePixmaps does not free this one.
 	 */
-	if (*def_pix == NULL)
+	if (*def_pix == 0)
 	  {
 	    *def_pix = XmGetPixmap(scrptr, "Dthgraphic", fore_ground, back_ground);
 	    if (*def_pix != XmUNSPECIFIED_PIXMAP)
@@ -2503,16 +2504,16 @@ _DtHelpProcessGraphic(
 				&pixWidth, &pixHeight, &border, &depth) == 0)
 	          {
 		    XmDestroyPixmap(scrptr, *def_pix);
-		    *def_pix = NULL;
+		    *def_pix = 0;
 	          }
 	      }
 	    else
-	        *def_pix = NULL;
+	        *def_pix = 0;
 
 	    /*
 	     * couldn't get a localized pixmap, go with a build in default
 	     */
-	    if (*def_pix == NULL)
+	    if (*def_pix == 0)
 	      {
 	        pixWidth  = Missing_bm_width;
 	        pixHeight = Missing_bm_height;

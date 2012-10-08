@@ -441,8 +441,8 @@ HelpCreateDA(
     pDAS->searchColor   = DA_args.search_color;
     pDAS->depth		= 0;
     pDAS->spc_chars     = NULL;
-    pDAS->scr_timer_id  = NULL;
-    pDAS->def_pix       = NULL;
+    pDAS->scr_timer_id  = 0;
+    pDAS->def_pix       = 0;
     pDAS->context       = NULL;
     pDAS->vertIsMapped  = False;
     pDAS->horzIsMapped  = False;

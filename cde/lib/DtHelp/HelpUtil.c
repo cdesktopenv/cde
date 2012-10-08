@@ -1160,7 +1160,7 @@ static Widget  LocateWidgetId(
     Widget           shellWidget,
     Cursor           cursorIn)
 {
-    static Cursor    DfltOnItemCursor = NULL;
+    static Cursor    DfltOnItemCursor = 0;
     Widget           widget;
     Widget           child;
     CompositeWidget  comp_widget;
@@ -1179,7 +1179,7 @@ static Widget  LocateWidgetId(
 
  
     /* Make the target cursor */
-    if (cursorIn != NULL)
+    if (cursorIn != 0)
         cursor = cursorIn;
     else
 #if 0
@@ -1187,7 +1187,7 @@ static Widget  LocateWidgetId(
 #else
     {
         _DtHelpProcessLock();
-        if (NULL == DfltOnItemCursor)
+        if (0 == DfltOnItemCursor)
         {
             char        *bits;
             char        *maskBits;

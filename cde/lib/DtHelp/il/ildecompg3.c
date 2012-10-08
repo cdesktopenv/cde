@@ -454,7 +454,7 @@ ilImageDes         *pimdes
 	dstdata.producerObject  =  (ilObject) NULL;
 	des                     = *pimdes;
 	des.compression         =  IL_UNCOMPRESSED;
-	des.compInfo.g4.flags   =  NULL;
+	des.compInfo.g4.flags   =  0;
 	dstdata.pDes            =  &des;
 	dstdata.pFormat         =  IL_FORMAT_BIT;
 	dstdata.width           =  pinfo->width;

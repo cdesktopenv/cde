@@ -2068,7 +2068,7 @@ _DtHelpDALoadGraphic (
     if (fileName != file_xid)
 	free (fileName);
 
-    if (pGS->pix == NULL)
+    if (pGS->pix == 0)
       {
 	free(pReg);
 	free(pGS);

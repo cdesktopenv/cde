@@ -351,7 +351,7 @@ ScrollTimerCB (
     if (*id != pDAS->scr_timer_id)
       return;
 
-    pDAS->scr_timer_id = NULL;
+    pDAS->scr_timer_id = 0;
 
     maxY  = pDAS->maxYpos;
     dispY = pDAS->firstVisible + pDAS->dispUseHeight;
@@ -604,7 +604,7 @@ _DtHelpCancelSelection(
 	if (pDAS->scr_timer_id)
 	  {
 	    XtRemoveTimeOut (pDAS->scr_timer_id);
-	    pDAS->scr_timer_id = NULL;
+	    pDAS->scr_timer_id = 0;
 	  }
 	_DtHelpClearSelection (client_data);
       }
@@ -1067,7 +1067,7 @@ _DtHelpEndSelectionCB (
     if (pDAS->scr_timer_id)
       {
 	XtRemoveTimeOut (pDAS->scr_timer_id);
-	pDAS->scr_timer_id = NULL;
+	pDAS->scr_timer_id = 0;
       }
 
     newX = callback->event->xbutton.x;
@@ -1140,7 +1140,7 @@ _DtHelpMouseMoveCB(
     if (pDAS->scr_timer_id)
       {
 	XtRemoveTimeOut (pDAS->scr_timer_id);
-	pDAS->scr_timer_id = NULL;
+	pDAS->scr_timer_id = 0;
       }
 
     newX = event->xmotion.x;

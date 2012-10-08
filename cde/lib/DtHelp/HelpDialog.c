@@ -3089,7 +3089,7 @@ static void CloseHelpCB (
        callDataInfo.locationId = NULL;
        callDataInfo.helpVolume = NULL;
        callDataInfo.specification = NULL;
-       callDataInfo.hyperType = NULL;
+       callDataInfo.hyperType = 0;
    
        
        /* All we do is envoke the applications close callback */

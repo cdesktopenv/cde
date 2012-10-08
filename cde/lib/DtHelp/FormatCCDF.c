@@ -390,7 +390,7 @@ static const FrmtPrivateInfo DefPrivInfo =
 	(char) False,		/* char		 top_block;	*/
 	(char) False,		/* char		 dup_flag;	*/
 	0,			/* int		 sdl_type;	*/
-	NULL,			/* void		*match_info;	*/
+	0,			/* void		*match_info;	*/
 	NULL,			/* void		*id_info;	*/
 	NULL,			/* void		*tmp_info;	*/
   };
