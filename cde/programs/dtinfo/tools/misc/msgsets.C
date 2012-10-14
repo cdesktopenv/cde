@@ -42,7 +42,7 @@
 #ifdef __cplusplus
 
 #include <stdlib.h>
-#if !defined(__DECCXX) && !defined(USL) && !defined(CSRG_BASED)
+#if !defined(__DECCXX) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <osfcn.h>
 #else
 #include <unistd.h>
@@ -195,12 +195,13 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 /*	All Rights Reserved			*/
 
 #include <string.h>
-#include <strstream>
+#include <sstream>
 #include <iostream>
+using namespace std;
 
 #define BUFFER_INCR_UNIT	64
 
-std::ostrstream **sets;
+std::ostringstream **sets;
 int sets_cnt = 0; /* number of sets slots occupied */
 int sets_max = 0; /* total number of sets slots */
 
@@ -510,14 +511,14 @@ case 1:
 
 	sets_max += BUFFER_INCR_UNIT;
 	if (sets_cnt == 0) {
-	    sets = (std::ostrstream **)
-			malloc(sizeof(std::ostrstream *) * sets_max);
+	    sets = (std::ostringstream **)
+			malloc(sizeof(std::ostringstream *) * sets_max);
 	    set_nums = (int *)
 			malloc(sizeof(int) * sets_max);
 	}
 	else {
-	    sets = (std::ostrstream **)
-			realloc(sets, sizeof(std::ostrstream *) * sets_max);
+	    sets = (std::ostringstream **)
+			realloc(sets, sizeof(std::ostringstream *) * sets_max);
 	    set_nums = (int *)
 			realloc(set_nums, sizeof(int) * sets_max);
 	}
@@ -529,7 +530,7 @@ case 1:
     }
     if (cur_set >= 0)
 	*sets[cur_set] << '\0';
-    sets[cur_set = sets_cnt++] = new std::ostrstream;
+    sets[cur_set = sets_cnt++] = new std::ostringstream;
 
     *sets[cur_set] << (char*)yytext;
 
@@ -1151,7 +1152,7 @@ main()
     }
 
     for (i = 0; i < sets_cnt; i++) {
-	const char* record = sets[sorted[i]]->str();
+	const char* record = sets[sorted[i]]->str().c_str();
 	std::cout << record << '\n' << std::flush;
     }
 

@@ -22,6 +22,7 @@
  */
 /* $XConsortium: dfiles.c /main/3 1996/06/11 17:40:25 cde-hal $ */
 #include <stdio.h>
+#include <stdlib.h>
 
 main(argc, argv)
 int argc ;

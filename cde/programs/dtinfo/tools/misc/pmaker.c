@@ -22,6 +22,7 @@
  */
 /* $XConsortium: pmaker.c /main/3 1996/06/11 17:40:31 cde-hal $ */
 #include <stdio.h>
+#include <stdlib.h>
 
 main(argc, argv)
 int argc ;

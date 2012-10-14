@@ -24,9 +24,16 @@ INDEPENDENT_SUBDIRS = clients
 
 SUBDIRS = $(PRE_REQ_SUBDIRS) $(BROWSER_SUBDIRS) $(TOOLKIT_SUBDIRS) $(INDEPENDENT_SUBDIRS)
 
-XCOMM WARNING!!!
-XCOMM from here use the local config dir in addition to the standard one.
-IRULESRC = $(TOP)/$(CURRENT_DIR)/tools/config
+XCOMM redefine TopLevelProject to build DtInfo with standard CDE config dir
+#undef  TopLevelProject
+#define TopLevelProject		DtInfo
+IMAKE_DEFINES = -DTopLevelProject=TopLevelProject \
+		-DProjectTmplFile='<DtInfo.tmpl>' \
+		-DProjectRulesFile='<DtInfo.rules>'
+
+XCOMM Variables to switch on debug mode temporarily
+XCOMM CDEBUGFLAGS = -g -DDEBUG
+XCOMM CXXDEBUGFLAGS = -g -DDEBUG
 
 MakeSubdirs($(SUBDIRS))
 DependSubdirs($(SUBDIRS))

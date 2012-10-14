@@ -4,11 +4,12 @@
 /*	All Rights Reserved			*/
 
 #include <string.h>
-#include <strstream.h>
+#include <sstream>
+using namespace std;
 
 #define BUFFER_INCR_UNIT	64
 
-ostrstream **sets;
+ostringstream **sets;
 int sets_cnt = 0; /* number of sets slots occupied */
 int sets_max = 0; /* total number of sets slots */
 
@@ -32,14 +33,14 @@ int* sorted;
 
 	sets_max += BUFFER_INCR_UNIT;
 	if (sets_cnt == 0) {
-	    sets = (ostrstream **)
-			malloc(sizeof(ostrstream *) * sets_max);
+	    sets = (ostringstream **)
+			malloc(sizeof(ostringstream *) * sets_max);
 	    set_nums = (int *)
 			malloc(sizeof(int) * sets_max);
 	}
 	else {
-	    sets = (ostrstream **)
-			realloc(sets, sizeof(ostrstream *) * sets_max);
+	    sets = (ostringstream **)
+			realloc(sets, sizeof(ostringstream *) * sets_max);
 	    set_nums = (int *)
 			realloc(set_nums, sizeof(int) * sets_max);
 	}
@@ -51,7 +52,7 @@ int* sorted;
     }
     if (cur_set >= 0)
 	*sets[cur_set] << '\0';
-    sets[cur_set = sets_cnt++] = new ostrstream;
+    sets[cur_set = sets_cnt++] = new ostringstream;
 
     *sets[cur_set] << (char*)yytext;
 
@@ -136,7 +137,7 @@ main()
     }
 
     for (i = 0; i < sets_cnt; i++) {
-	const char* record = sets[sorted[i]]->str();
+	const char* record = sets[sorted[i]]->str().c_str();
 	cout << record << '\n' << flush;
     }
 
