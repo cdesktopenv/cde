@@ -42,7 +42,7 @@
 #ifdef __cplusplus
 
 #include <stdlib.h>
-#if !defined(__osf__) && !defined(USL)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <osfcn.h>
 #endif
 
@@ -190,15 +190,16 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #define YY_CHAR unsigned char
 #define INITIAL 0
 
-#if !defined(__osf__) && !defined(USL)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <osfcn.h>
 #else
 #include <unistd.h>
 #endif
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
-#include <stream.h>  
+#include <sstream>
+using namespace std;
 #include <string.h>
 
 #include "Exceptions.hh"
@@ -209,6 +210,7 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #include "AttributeList.h"  
 #include "FlexBuffer.h"
 #include "Token.h"
+#include "api/utility.h"
 
 static SGMLDefn *defn = new SGMLDefn();
 static FlexBuffer *DataBuffer = new FlexBuffer();
@@ -1845,7 +1847,7 @@ case 1:
                              type = SGMLName::intern(tstr);
 
                              if ( type != SGMLName::IMPLIED ){
-			       if(!value) value = "";
+			       if(!value) value = (char*)"";
 			       Dispatch::tok->StoreAttribute( name, value, type);
 			     }
 			   }

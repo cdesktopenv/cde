@@ -70,7 +70,7 @@ int select_and_process( int argc, char** argv )
    } else {
       if ( strcmp(argv[1], "define") == 0 ) {
 
-         infolib_ptr = mmdb.openInfoLib();  
+         infolib_ptr = mmdb.openInfoLib(getenv("MMDB_PATH"));
 
          if ( infolib_ptr == 0 ||
               infolib_ptr->define_info_base(argv[3],argv[4],argv[2]) == false
@@ -149,12 +149,12 @@ main( int argc, char** argv )
 
    int ok;
 
-   try 
+   mtry
    {
       ok = select_and_process( argc, argv );
    } 
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       cerr << "Exception msg: " << e << "\n";
 #ifdef DEBUG

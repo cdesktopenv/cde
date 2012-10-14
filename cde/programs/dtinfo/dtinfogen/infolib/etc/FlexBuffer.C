@@ -22,7 +22,8 @@
  */
 /* $XConsortium: FlexBuffer.cc /main/2 1996/07/18 16:13:49 drk $ */
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <memory.h>
 #include <string.h>
 #include "FlexBuffer.h"

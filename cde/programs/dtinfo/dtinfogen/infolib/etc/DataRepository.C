@@ -33,7 +33,7 @@
 
 
 //-------------Initializer for the zone_name mapping ----------------  
-static char *zone_name[] = {
+static const char *zone_name[] = {
   "D",
   "H",
   "G",

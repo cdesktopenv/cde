@@ -36,13 +36,15 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <assert.h>
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 /* imported interfaces */
 #include <misc/unique_id.h>
 #include "FlexBuffer.h"
 #include "Task.h"
 #include "DataBase.h"
+#include "api/utility.h"
 
 /* exported interfaces */
 #include "SearchStorage.h"

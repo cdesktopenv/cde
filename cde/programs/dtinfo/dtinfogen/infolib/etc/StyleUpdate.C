@@ -23,7 +23,8 @@
 /* $XConsortium: StyleUpdate.C /main/7 1996/08/21 15:47:33 drk $ */
 
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 
 #include "Exceptions.hh"
@@ -79,8 +80,8 @@ int main(int argc, char **argv)
 
     Dispatch::setRoot(styleTask, istack);
 
-    try{
-      try{
+    mtry{
+      mtry{
 	extern int yylex();
       
 	yylex();
@@ -112,21 +113,21 @@ int main(int argc, char **argv)
 
 	ret = 0;
 
-      }catch(Unexpected&, u){
+      }mcatch(Unexpected&, u){
 	Dispatch::tok->reportError(Token::User, Token::Fatal,
 				   "markup error: %s", u.msg());
       }
-      catch(PosixError&, p){
+      mcatch(PosixError&, p){
 	Token::signalError(Token::Internal, Token::Fatal, 0, 0,
 			   "%s", p.msg() );
       }end_try;
 	
-    }catch(ErrorReported&, e){
+    }mcatch(ErrorReported&, e){
       /* error is already reported. */
-    }catch(mmdbException&, e){
+    }mcatch(mmdbException&, e){
       cerr << e;
     }
-    catch_any() {
+    mcatch_any() {
       fprintf(stderr, "*** Internal Error ***: unexpected exception\n");
       abort();
     }end_try;

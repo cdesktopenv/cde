@@ -37,7 +37,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <assert.h>
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 /* imported interfaces */
 #include <misc/unique_id.h>
@@ -45,6 +46,7 @@
 #include "Task.h"
 #include "DataBase.h"
 #include "DataRepository.h"
+#include "api/utility.h"
 
 /* exported interfaces */
 #include "AusTextStorage.h"
@@ -297,7 +299,7 @@ AusTextStore::insert( const char *BookShortTitle,
 	  // The following was unique, but there is a limit to the size of
 	  // the key, so let's just use a simple counter.
 //	  fprintf(afp, "%s%s%s\n", store->get_zone_name(pos), BookID, SectionID);
-	  fprintf(afp, "%s%d\n", store->get_zone_name(pos), f_recordcount);
+	  fprintf(afp, "%s%d\n", store->get_zone_name(pos), (int)f_recordcount);
 
 	  fprintf(afp, "0/0/0~0:0\n"); // null date
 

@@ -1,6 +1,9 @@
 XCOMM $TOG: Imakefile /main/27 1997/09/05 11:29:30 samborn $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+CXXEXTRA_INCLUDES = -DEXPAND_TEMPLATES
+
+NormalCplusplusObjectRule()
 
 #ifdef RegenParserFiles
 XCOMM lex flags
@@ -287,6 +290,13 @@ SimpleCPlusPlusProgram(NodeParser, NodeParser.o libOLAFParse.a libOLAFParseT.a,$
 SimpleCPlusPlusProgram(NCFGen, NCFGen.o libOLAFParse.a libOLAFParseT.a,$(Libs) $(DTSVCLIB) $(TTLIB))
 SimpleCPlusPlusProgram(MixedGen, MixedGen.o RemoteId.o libOLAFParse.a libOLAFParseT.a,$(Libs) $(DTSVCLIB) $(TTLIB))
 SimpleCPlusPlusProgram(StyleUpdate, StyleUpdate.o libOLAFParse.a libOLAFParseT.a,$(Libs) $(DTSVCLIB) $(TTLIB))
+#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+TEMPLATE_OBJS = TKTemplate.o
+RealLibrary(OLAFParse,$(OBJS),$(LIBDIR))
+SimpleCPlusPlusProgram(NodeParser, NodeParser.o $(TEMPLATE_OBJS) libOLAFParse.a,$(Libs))
+SimpleCPlusPlusProgram(NCFGen, NCFGen.o $(TEMPLATE_OBJS) libOLAFParse.a,$(Libs) $(DTSVCLIB) $(MTF_LIBRARIES) $(TTLIB))
+SimpleCPlusPlusProgram(MixedGen, MixedGen.o RemoteId.o $(TEMPLATE_OBJS) libOLAFParse.a,$(Libs) $(DTSVCLIB) $(MTF_LIBRARIES) $(TTLIB))
+SimpleCPlusPlusProgram(StyleUpdate, StyleUpdate.o $(TEMPLATE_OBJS) libOLAFParse.a,$(Libs) $(DTSVCLIB) $(MTF_LIBRARIES) $(TTLIB))
 #else
 TEMPLATE_OBJS = TKTemplate.o
 RealLibrary(OLAFParse,$(OBJS),$(LIBDIR))

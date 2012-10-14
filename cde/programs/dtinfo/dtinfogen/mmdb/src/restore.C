@@ -31,8 +31,9 @@
  * (c) Copyright 1996 Hitachi.
  */
 
-#include <fstream.h>
-#include <strstream.h>
+#include <fstream>
+#include <sstream>
+using namespace std;
 
 #include "utility/const.h"
 #include "utility/randomize.h"
@@ -49,7 +50,7 @@ main(int argc, char** argv)
 
   fstr.getline(schema_header, 1024);
 
-  int sz = bytes(fstr) - strlen(schema_header) - 1;
+  int sz = bytes(*(argv+1)) - strlen(schema_header) - 1;
 
   char* buf = new char[sz];
 

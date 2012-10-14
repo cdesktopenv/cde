@@ -22,20 +22,22 @@
  */
 /* $XConsortium: StyleValidate.cc /main/2 1996/07/18 16:18:13 drk $ */
 #include <stdio.h>
-#include <iostream.h>
-#include <stream.h>
+#include <iostream>
+#include <sstream>
+using namespace std;
 #include <unistd.h>
 #include <sys/wait.h>
 
 #include "DataBase.h"
 #include "StyleValidate.h"
+#include "api/utility.h"
 
 //---------------------------------------------------------------------
 int 
 validate_stylesheet( const char *buf, int buf_size, enum RENDERER_ENGINE_T t )
 {
 
-  char *styleFile = form( "/usr/tmp/style_sheet.%d", getpid() );
+  char *styleFile = form( "/tmp/style_sheet.%d", getpid() );
   
   FILE *fp = fopen( styleFile, "w" );
   if ( !fp ) {
@@ -49,10 +51,10 @@ validate_stylesheet( const char *buf, int buf_size, enum RENDERER_ENGINE_T t )
 
   switch ( t ) {
     case ONLINE:
-     renderer = "online";
+     renderer = (char*)"online";
      break;
     case PRINT:
-     renderer = "hardcopy";
+     renderer = (char*)"hardcopy";
      break;
     default:
      throw( PosixError(1, "Unknown renderer engine\n") );

@@ -26,7 +26,8 @@
 #ifndef TOKEN_HEADER
 #define TOKEN_HEADER
 
-#include <strstream.h>
+#include <sstream>
+using namespace std;
 
 #include "Exceptions.hh"
 

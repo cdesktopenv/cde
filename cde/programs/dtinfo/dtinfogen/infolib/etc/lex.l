@@ -1,7 +1,7 @@
 %{ /* -*- c++ -*- */
 /* $XConsortium: lex.l /main/5 1996/11/19 16:55:12 drk $ */
 
-#if !defined(__osf__) && !defined(USL)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <osfcn.h>
 #else
 #include <unistd.h>
@@ -20,6 +20,7 @@
 #include "AttributeList.h"  
 #include "FlexBuffer.h"
 #include "Token.h"
+#include "api/utility.h"
 
 static SGMLDefn *defn = new SGMLDefn();
 static FlexBuffer *DataBuffer = new FlexBuffer();

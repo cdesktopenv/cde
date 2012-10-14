@@ -33,7 +33,8 @@
 #include "StyleSheet/FeatureDefDictionary.h"
 #include "StyleSheet/RendererHCV.h"
 #include "HardCopy/autoNumberFP.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <stdarg.h>
 
      
@@ -89,7 +90,7 @@ main(int argc, char** argv )
         quit(1);
   }
 
-  try {
+  mtry {
 
      if ( strcasecmp(argv[1], "hardcopy") == 0 )
         gRenderer = new RendererHCV();
@@ -133,14 +134,14 @@ main(int argc, char** argv )
      *defStream >> *g_FeatureDefDictionary;
 //cerr << *g_FeatureDefDictionary;
   }
-  catch_any()
+  mcatch_any()
   {
       cerr << "\nfeature definition has error.\n";
       quit(1);
   }
   end_try;
 
-  try {
+  mtry {
 
      fstream* styleStream = new fstream(argv[2], ios::in);
      if ( !(*styleStream) ) {
@@ -166,7 +167,7 @@ main(int argc, char** argv )
 
   }
 
-  catch_any()
+  mcatch_any()
   {
       report_error_location(); 
       quit(1);

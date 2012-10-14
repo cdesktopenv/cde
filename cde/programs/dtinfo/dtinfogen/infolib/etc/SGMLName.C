@@ -114,6 +114,8 @@ StringToInt::StringToInt()
   total = used = 0;
 }
 
+
+int
 StringToInt::intern(const char *name)
 {
   int indx;

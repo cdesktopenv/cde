@@ -25,7 +25,8 @@
 #define FLEX_BFR_HDR
 
 #include <stddef.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 class FlexBuffer {
   

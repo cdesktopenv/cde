@@ -24,7 +24,7 @@
 #ifndef __HandlerH__
 #define __HandlerH__
 
-#include <new.h>
+#include <new>
 extern void FreeStoreException();
 
 #endif

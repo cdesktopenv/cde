@@ -27,7 +27,8 @@
 #if !defined(__uxp__) && !defined(USL)
 #include <strings.h>
 #endif
-#include <strstream.h>
+#include <sstream>
+using namespace std;
 
 #include "Exceptions.hh"
 #include "DataBase.h"
@@ -150,7 +151,7 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
         comp_agent[i] = 0;
     }
 
-    ostrstream str_buf( comp_agent,COMPRESSED_AGENT_SIZE);
+    ostringstream str_buf( comp_agent );
     handler *x = (base_ptr->get_obj_dict()).get_handler(
       form("%s.%s", base_name, "sgml.dict"));
     x->its_oid().asciiOut(str_buf);
@@ -195,10 +196,8 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
       }
 
       stylesheet_smart_ptr sheet(base_ptr, style);
-      char oid_buf[BUFSIZE];
-      ostrstream strout(oid_buf,BUFSIZE,ios::out);
+      ostringstream strout;
       sheet.its_oid().asciiOut(strout);
-      oid_buf[strout.pcount()] = NULL;
 
       ncf->insert(STRING_CODE, nodeLocator,
 		  STRING_CODE, title,
@@ -206,7 +205,7 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
 		  COMPRESSED_STRING_CODE, comp_agent, "",
 		  STRING_CODE, bookLocator,
 		  OID_CODE, "0.0", /* pointer to Book/CCF/DOC object */
-		  OID_CODE, oid_buf,
+		  OID_CODE, (char *)strout.str().c_str(),
 		  NULL);
     }
 
@@ -252,10 +251,8 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
       
       
       stylesheet_smart_ptr sheet(base_ptr, style);
-      char oid_buf[BUFSIZE];
-      ostrstream strout(oid_buf,BUFSIZE,ios::out);
+      ostringstream strout;
       sheet.its_oid().asciiOut(strout);
-      oid_buf[strout.pcount()] = NULL;
       
       ncf->insert(STRING_CODE, nodeLocator,
 		  STRING_CODE, title,
@@ -263,7 +260,7 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
 		  STRING_CODE, "",
 		  STRING_CODE, bookLocator,
 		  OID_CODE, "0.0", /* pointer to Book/CCF/DOC object */
-		  OID_CODE, oid_buf,
+		  OID_CODE, (char *)strout.str().c_str(),
 		  NULL);
     }
     
@@ -327,7 +324,7 @@ main(int argc, char **argv)
     const char *base_name = argv[0];
     const char *bookcaseDir = argv[1];
 
-    try{
+    mtry{
       BookCaseDB db(bookcaseDir);
 
       if ( load_style_only ) {
@@ -339,20 +336,20 @@ main(int argc, char **argv)
       ret = 0;
     }
 
-    catch(PosixError&, pe){
+    mcatch(PosixError&, pe){
       fprintf(stderr, "%s: error on %s: %s\n",
 	      progname, bookcaseDir, pe.msg());
     }
 
-    catch(Unexpected&, pe) {
+    mcatch(Unexpected&, pe) {
       fprintf(stderr, "(ERROR) %s\n\n", pe.msg() );
     }
     
-    catch(mmdbException&, e) {
+    mcatch(mmdbException&, e) {
       cerr << e;
     }
     
-    catch_any() {
+    mcatch_any() {
       fprintf(stderr, "*** Internal Error ***: unexpected exception\n");
       abort();
     }end_try;

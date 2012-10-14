@@ -184,7 +184,7 @@ static void
 signalErrorVA(int src, int sev, const char *file, int line,
 	      const char *fmt, va_list ap)
 {
-  static char *srcMsg[] = { "Error", "**Internal Error**" };
+  static const char *srcMsg[] = { "Error", "**Internal Error**" };
 
   if(file){
     fprintf(stderr, "DtInfo Toolkit: %s at %s:%d: ", srcMsg[src], file, line);

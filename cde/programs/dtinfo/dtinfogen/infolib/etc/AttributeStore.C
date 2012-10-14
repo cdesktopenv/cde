@@ -25,7 +25,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #include "List.h"
 #include "AttributeRec.h"

@@ -569,7 +569,8 @@ writeDLP(BookCaseDB &db, info_lib *mmdb,
 char *
 getGI( char * bufptr )
 {
-  for (char * cptr = bufptr; *cptr != '>'; cptr++) {
+  char* cptr;
+  for (cptr = bufptr; *cptr != '>'; cptr++) {
   }
   *cptr = '\0';
   char * retval = strdup(bufptr);
@@ -811,11 +812,11 @@ writeBooks(BookCaseDB& db,
   DBCursor *GraphicsCursorPtr;
   
   int process_graphics = 1;
-  try {
+  mtry {
     DBTable *graphics = db.table(BookCaseDB::Graphics, DB::READ);
     GraphicsCursorPtr = new DBCursor( *graphics );
   }
-  catch (PosixError&, p){
+  mcatch (PosixError&, p){
     /* error opening graphics stuff... skip graphics */
 
     process_graphics = 0;
@@ -876,7 +877,7 @@ writeLCF(BookCaseDB& db, info_lib *mmdb,
     const char *opaque, *nodeloc;
     char* reflabel;
     nodeloc = opaque = (const char *)loc_val->get_value();
-    reflabel = strchr(opaque, '\t');
+    reflabel = strchr((char*)opaque, '\t');
     *reflabel++ = 0;
     
     const char *nodeOID = to_oid(mmdb, bcname, nodeloc);
@@ -959,7 +960,7 @@ main(int argc, char **argv)
     char *bookcaseDir = argv[0];
     char *infobaseDir = argv[1];
     
-    try{
+    mtry{
       BookCaseDB db(bookcaseDir);
 
       const char *infolibDir;
@@ -979,7 +980,7 @@ main(int argc, char **argv)
             comp_agent[i] = 0;
         }
 
-	ostrstream str_buf( comp_agent, COMPRESSED_AGENT_SIZE );
+	ostringstream str_buf( comp_agent );
 
 	info_base *bcptr = mmdb->get_info_base(bcname);
 	handler *x = 
@@ -1004,11 +1005,11 @@ main(int argc, char **argv)
       ret = 0;
 
     }
-    catch(PosixError&, pe){
+    mcatch(PosixError&, pe){
       fprintf(stderr, "%s: error on %s: %s\n",
 	      progname, bookcaseDir, pe.msg());
     }
-    catch(Unexpected&, pe) {
+    mcatch(Unexpected&, pe) {
       fprintf(stderr, "(ERROR) %s\n\n", pe.msg() );
       exit(1);
     }end_try;

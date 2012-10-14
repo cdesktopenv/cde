@@ -54,7 +54,7 @@
 
 #include <stdlib.h>
 
-#if !defined(__osf__) && !defined(USL)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 # include <osfcn.h>
 #else
 # include <unistd.h>
@@ -205,9 +205,11 @@ typedef struct graphics_task_buffer_state *graphics_task_BUFFER_STATE;
 #define INITIAL 0
 
 #include <assert.h>
-#include <stream.h>
+#include <iostream>
+#include <sstream>
+using namespace std;
 
-#ifdef DEBUG
+#ifdef NODEBUG
 #include "oliasdb/olias_consts.h"
 GR_TYPE gtype;
 #else
@@ -2548,7 +2550,7 @@ FILE *file;
     }
 
 
-#ifndef DEBUG
+#ifndef NODEBUG
 void
 get_type()
 {

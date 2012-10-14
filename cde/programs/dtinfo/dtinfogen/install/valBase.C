@@ -47,7 +47,8 @@
  * 
  */
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
@@ -91,7 +92,7 @@ main(int argc, char **argv)
   
   dbgLevel = dbgInit();
 
-  try {
+  mtry {
     
    if ( argc < 2 ) {
      cerr << "Usage : valBase checkBase installBase\n";
@@ -167,7 +168,7 @@ main(int argc, char **argv)
 
    // Now to check locators
 
-   iterator *it = checkBase->first(LOCATOR_SET_NAME, LOCATOR_CODE );
+   Iterator *it = checkBase->first(LOCATOR_SET_NAME, LOCATOR_CODE );
 
    int DupLocFound=0;
    
@@ -204,7 +205,7 @@ main(int argc, char **argv)
    exit (0);
  } 
 
- catch ( mmdbException &, e )
+ mcatch ( mmdbException &, e )
  {
    debug(cerr, e );
    abort();

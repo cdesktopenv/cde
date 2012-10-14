@@ -477,6 +477,7 @@ void DBCursor::int_field(FILE *fp, int *out)
 void DBCursor::short_list(FILE *fp, int *qout, int ltype, void *out)
 {
   int c;
+  int ret;
       
   c = fgetc(fp);
   FRIENDLY_ASSERT(c == '#');
@@ -498,7 +499,7 @@ void DBCursor::short_list(FILE *fp, int *qout, int ltype, void *out)
 	int ftype;
 	
 	ungetc(c, fp);
-	fscanf(fp, "%d\n", &ftype);
+	ret = fscanf(fp, "%d\n", &ftype);
 	FRIENDLY_ASSERT(ftype == STRING_CODE);
 	
 	string_field(fp, &item, NULL);

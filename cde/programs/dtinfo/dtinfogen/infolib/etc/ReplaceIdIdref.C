@@ -43,7 +43,7 @@
 
 #include <stdlib.h>
 
-#if !defined(__osf__) && !defined(USL)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <osfcn.h>
 #endif
 
@@ -195,8 +195,9 @@ typedef struct nodedata_buffer_state *nodedata_BUFFER_STATE;
 #include "NodeData.h"
   
 /* imported interfaces... */
-#include <iostream.h>
-#include <stream.h>
+#include <iostream>
+#include <sstream>
+using namespace std;
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -214,6 +215,7 @@ typedef struct nodedata_buffer_state *nodedata_BUFFER_STATE;
 #include "BookCaseDB.h"
 #include "GraphicsTask.h"
 #include "Dispatch.h"  
+#include "api/utility.h"
 
 // Debugging macro
 #ifdef DEBUG

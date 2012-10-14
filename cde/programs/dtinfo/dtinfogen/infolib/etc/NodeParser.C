@@ -93,32 +93,32 @@ int main(int argc, char **argv)
 
     Dispatch::setRoot(t, istack);
 
-    try{
+    mtry{
       extern int yylex();
       
       yylex();
 
       ret = 0;
     }
-    catch(Unexpected&, u)
+    mcatch(Unexpected&, u)
       {
-	try {
+	mtry {
 	  Dispatch::tok->reportError(Token::User, Token::Fatal,
 				     "markup error: %s", u.msg());
 	}
-	catch(ErrorReported&, e)
+	mcatch(ErrorReported&, e)
 	  {
 	    if ( e.f_severity == Token::Fatal ) {
 	      exit(1);
 	    }
 	  }end_try;
       }
-    catch(PosixError&, pe)
+    mcatch(PosixError&, pe)
       {
 	fprintf(stderr, "(ERROR) %s\n", pe.msg() );
 	exit(1);
       }
-    catch(ErrorReported&, e)
+    mcatch(ErrorReported&, e)
       {
 	if ( e.f_severity == Token::Fatal ) {
 	  exit(1);

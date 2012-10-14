@@ -23,7 +23,8 @@
 /* $XConsortium: NodeTask.C /main/6 1996/10/26 18:18:31 cde-hal $ */
 /* $Id */
 
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 /* exported interfaces... */
 #include "NodeTask.h"
@@ -42,6 +43,7 @@
 #include "OL-Data.h"
 #include "NodeData.h"
 #include "StyleTask.h"
+#include "api/utility.h"
 
 #ifdef FISH_DEBUG
 #include "dbug.h" /* Fred Fish's dbug.h */

@@ -181,7 +181,7 @@ t_entry langtbl[] =
   NULL,			0,	NULL,		NULL,		NULL
 };
 
-static char *usageMsg = "USAGE:\n\
+static char *usageMsg1 = "USAGE:\n\
   " EXEC_NAME " -h\n\
   " EXEC_NAME " admin\n\
   " EXEC_NAME " build [-h] [-T <tmpdir>] [-m <catalog>] [-d <library description>]\n\
@@ -191,7 +191,9 @@ static char *usageMsg = "USAGE:\n\
   " EXEC_NAME " update [-h] [-m <catalog>] -l <library> -b <bookcase> <stylesheet>\n\
   " EXEC_NAME " validate [-h] [-T <tmpdir>] [-m <catalog>] <document>...\n\
 \n\
-options:\n\
+options:\n";
+
+static char *usageMsg2 = "\
     -T <tmpdir>          directory for intermediate processing files\n\
     -h                   help: show usage\n\
     -v                   verbose: more diagnostic output\n";
@@ -258,7 +260,8 @@ printUsage(char *preMsg, int exitCode)
     if (preMsg)
 	fputs(preMsg, stderr);
 
-    fputs(usageMsg, stderr);
+    fputs(usageMsg1, stderr);
+    fputs(usageMsg2, stderr);
 
     exit(exitCode);
 }
@@ -526,12 +529,13 @@ makeWorkDir(void)
 static void
 removeWorkDir(void)
 {
+    int ret;
     char cmdBuf[MAXPATHLEN + 10];
 
     if (gStruct->workDir)
     {
 	sprintf(cmdBuf, "rm -rf %s", gStruct->workDir);
-	system(cmdBuf);
+	ret = system(cmdBuf);
 	XtFree(gStruct->workDir);
 	gStruct->workDir = (char *)NULL;
     }
@@ -1422,6 +1426,8 @@ parseDocument(Boolean runCmd, ...)
 static void
 buildBookcase(char *cmdSrc, char *dirName)
 {
+    int ret1;
+    char *ret2;
     char *dataBase;
     char *tmpFile;
     char *newMmdbPathEnv;
@@ -1483,10 +1489,10 @@ buildBookcase(char *cmdSrc, char *dirName)
 			style_file, bookCaseName, bookCaseName);
       runShellCmd(cmd);
 
-      XtFree(style_file);
+      XtFree((char*)style_file);
 
       sprintf(cmd, "rm -f %s", style_file);
-      system(cmd);
+      ret1 = system(cmd);
     }
 
     sprintf(cmd, "NCFGen -compressed %s %s |\
@@ -1506,10 +1512,10 @@ buildBookcase(char *cmdSrc, char *dirName)
 
       runShellCmd(cmd);
 
-      XtFree(anonym_file);
+      XtFree((char*)anonym_file);
 
       sprintf(cmd, "rm -f %s", anonym_file);
-      system(cmd);
+      ret1 = system(cmd);
     }
 
     validateBookCase(bookCaseMap, bookCaseName);
@@ -1556,7 +1562,7 @@ buildBookcase(char *cmdSrc, char *dirName)
 	}
 
 	curDir[0] = '\0';
-	getcwd(curDir, MAXPATHLEN);
+	ret2 = getcwd(curDir, MAXPATHLEN);
 	sprintf(newDir, "%s/%s", bookCaseDir, gStruct->searchEngine);
 	if (chdir(newDir) != 0)
 	    dieRWD(-1, "%s: Cannot find %s: %s\n",
@@ -1678,6 +1684,7 @@ only 8 alphanumeric characters are allowed\n",
 static void
 validateBookCase(char *mapFile, char *bookCaseName)
 {
+    char *ret;
     FILE *fp;
     char lineBuf[MAXPATHLEN + 1];
     char cmdBuf[MAXPATHLEN + 1];
@@ -1687,7 +1694,7 @@ validateBookCase(char *mapFile, char *bookCaseName)
 	dieRWD(-1, "%s: cannot open bookcase.map: %s\n",
 	       EXEC_NAME, strerror(errno));
 
-    fgets(lineBuf, MAXPATHLEN, fp); /* Skip first line. */
+    ret = fgets(lineBuf, MAXPATHLEN, fp); /* Skip first line. */
     while (fgets(lineBuf, MAXPATHLEN, fp) != (char *)NULL)
     {
 	if ((bcName = strtok(lineBuf, "\t\n")) != (char *)NULL)
@@ -1709,6 +1716,7 @@ validateBookCase(char *mapFile, char *bookCaseName)
 static void
 editMapFile(char *bookCaseName, char *bookCaseMap)
 {
+    size_t ret;
     struct stat statBuf;
     FILE *fp;
     char *file;
@@ -1728,7 +1736,7 @@ editMapFile(char *bookCaseName, char *bookCaseMap)
 	       strerror(errno));
 
     file = XtMalloc((statBuf.st_size + 1) * sizeof(char));
-    fread(file, statBuf.st_size, sizeof(char), fp);
+    ret = fread(file, statBuf.st_size, sizeof(char), fp);
     if (file[statBuf.st_size - 1] == '\n')
 	file[statBuf.st_size - 1] = '\0';
     else file[statBuf.st_size] = '\0';

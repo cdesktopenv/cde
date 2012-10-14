@@ -54,7 +54,7 @@
 
 #include <stdlib.h>
 
-#if !defined(__osf__) && !defined(USL)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <osfcn.h>
 #endif
 
@@ -201,8 +201,9 @@ typedef struct ol_data_buffer_state *ol_data_BUFFER_STATE;
 
 #define ol_data_CHAR unsigned char
 #define INITIAL 0
-#include <iostream.h>
-#include <stream.h>  
+#include <iostream>
+#include <sstream>
+using namespace std;
 #include <stdio.h>
 #include <memory.h>
 #include <string.h>
@@ -217,6 +218,7 @@ typedef struct ol_data_buffer_state *ol_data_BUFFER_STATE;
 #include "Expression.h"
 #include "OL_DataExpr.tab.h"
 #include "ContentType.h"
+#include "api/utility.h"
   
 /* CurrentContentPtr is used as the communication media between
  * ol_dataparse and ContentType::Parse()

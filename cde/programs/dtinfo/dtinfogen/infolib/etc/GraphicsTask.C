@@ -22,8 +22,9 @@
  */
 /* $XConsortium: GraphicsTask.cc /main/8 1996/08/14 16:59:38 rcs $ */
 #include <assert.h>
-#include <stream.h>
-#include <iostream.h>
+#include <sstream>
+#include <iostream>
+using namespace std;
 
 #include <sys/types.h>
 #include <netinet/in.h>

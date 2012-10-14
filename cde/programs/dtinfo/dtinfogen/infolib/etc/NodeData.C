@@ -35,8 +35,9 @@
 #include "NodeData.h"
   
 /* imported interfaces... */
-#include <iostream.h>
-#include <stream.h>
+#include <iostream>
+#include <sstream>
+using namespace std;
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -54,6 +55,7 @@
 #include "BookCaseDB.h"
 #include "GraphicsTask.h"
 #include "Dispatch.h"  
+#include "api/utility.h"
 #ifdef UseQSearch
 #include "QSearch.h"
 #else

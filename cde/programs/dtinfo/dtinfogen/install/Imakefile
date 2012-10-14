@@ -25,10 +25,11 @@ XCOMM                  Campbell, CA  95008
 XCOMM 
 XCOMM 
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+
+NormalCplusplusObjectRule()
 
 INCLUDES=$(GLOBAL_INCLUDES) $(MMDB_INCLUDES) $(EXCEPTIONS_INCLUDES)
-
 
 
  
@@ -205,6 +206,8 @@ ALL_MMDB_OBJS =	$(API_OBJS)		$(BTREE_OBJS) \
 
 #ifdef AIXArchitecture
 Libs=$(ALL_MMDB_OBJS) $(DTSVCLIB) $(TTLIB) $(MATH_LIB)
+#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+Libs=$(MMDB_LIBS) $(DTSVCLIB) $(MTF_LIBRARIES) $(TTLIB) $(MATH_LIB)
 #else
 Libs=$(MMDB_LIBS) $(DTSVCLIB) $(TTLIB) $(MATH_LIB)
 #endif

@@ -32,7 +32,8 @@
  */
 
 
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 /* import... */
 #include <assert.h>
@@ -46,6 +47,7 @@
 #include "OL-Data.h"
 #include "StringList.h"
 #include "StyleTask.h"
+#include "api/utility.h"
 
 /* export... */
 #include "BookTasks.h"

@@ -228,14 +228,16 @@ ol_dataloop:
         goto ol_datareduce;
     }
     if (ol_dataerrflag) goto ol_datainrecovery;
-#if 0					// Disable for now
+// Disable for now
+#if 0
 #ifdef lint
     goto ol_datanewerror;
 #endif
 ol_datanewerror:
 #endif /* 0 */
-    ol_dataerror("syntax error");
-#if 0					// Disable for now
+    ol_dataerror((char*)"syntax error");
+// Disable for now
+#if 0
 #ifdef lint
     goto ol_dataerrlab;
 #endif
@@ -424,7 +426,7 @@ to state %d\n", *ol_datassp, ol_datastate);
     *++ol_datavsp = ol_dataval;
     goto ol_dataloop;
 ol_dataoverflow:
-    ol_dataerror("yacc stack overflow");
+    ol_dataerror((char*)"yacc stack overflow");
 ol_dataabort:
     return (1);
 ol_dataaccept:

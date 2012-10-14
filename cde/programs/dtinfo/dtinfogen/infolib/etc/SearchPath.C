@@ -29,10 +29,12 @@
 #endif
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #include "Exceptions.hh"
 #include "Task.h"
+#include "api/utility.h"
 
 /* exported interface */
 #include "SearchPath.h"
@@ -147,9 +149,6 @@ SearchPath::get_real_path( const char *file_name )
       fclose( fp );
       return ( full_path_name );
     }
-
-    fclose( fp );
-    
   }
 
   return NULL;

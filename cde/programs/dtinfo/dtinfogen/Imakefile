@@ -5,6 +5,17 @@ XCOMM $TOG: Imakefile /main/12 1998/08/10 15:54:48 mgreess $
 
 SUBDIRS=mmdb infolib install
 
+XCOMM redefine TopLevelProject to build DtInfo with standard CDE config dir
+#undef  TopLevelProject
+#define TopLevelProject		DtInfo
+IMAKE_DEFINES = -DTopLevelProject=TopLevelProject \
+		-DProjectTmplFile='<DtInfo.tmpl>' \
+		-DProjectRulesFile='<DtInfo.rules>'
+
+XCOMM Variables to switch on debug mode temporarily
+XCOMM CDEBUGFLAGS = -g -DDEBUG
+XCOMM CXXDEBUGFLAGS = -g -DDEBUG
+
 MakeSubdirs($(SUBDIRS))
 DependSubdirs($(SUBDIRS))
 NamedTargetSubdirs(install_buildtools,$(SUBDIRS),\

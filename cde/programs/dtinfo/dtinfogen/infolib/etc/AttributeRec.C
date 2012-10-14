@@ -23,7 +23,8 @@
 /* $XConsortium: AttributeRec.cc /main/4 1996/07/18 16:08:22 drk $ */
 #include <string.h>
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <assert.h>
 
 #include "SGMLDefn.h"

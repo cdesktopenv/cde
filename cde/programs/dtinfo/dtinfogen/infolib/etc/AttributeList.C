@@ -34,7 +34,8 @@
  #include <stdio.h>
  #include <string.h>
  #include <stdlib.h>
- #include <iostream.h>
+ #include <iostream>
+using namespace std;
  #include <assert.h>
 
  #include "AttributeRec.h"

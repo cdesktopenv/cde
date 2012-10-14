@@ -24,6 +24,7 @@
 
 #include "oliasdb/Mmdb.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 
 usage(int argc, char** argv)
