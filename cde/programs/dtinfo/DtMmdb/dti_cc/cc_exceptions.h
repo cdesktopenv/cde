@@ -25,7 +25,9 @@
 #ifndef _cc_exception_h
 #define _cc_exception_h 1
 
-#include <fstream.h>
+#include <fstream>
+#include <iostream>
+using namespace std;
 #include "Exceptions.hh"
 
 #define END_TRY end_try 
@@ -36,15 +38,9 @@
 extern int errno;
 #endif
 
-#if defined(linux)
-#define CASTCCEXCEPT (ccException*)
-#define CASTCCSEXCEPT (ccStringException*)
-#define CASTCCBEXCEPT (ccBoundaryException*)
-#else
 #define CASTCCEXCEPT
 #define CASTCCSEXCEPT
 #define CASTCCBEXCEPT
-#endif
 
 class ccException : public Exception
 {
@@ -69,7 +65,7 @@ protected:
 public:
    DECLARE_EXCEPTION(ccStringException, ccException);
 
-   ccStringException(char* m) : msg(m) {};
+   ccStringException(char const* m) : msg((char*)m) {};
    ~ccStringException() {};
 
    virtual ostream& asciiOut(ostream&);
@@ -81,13 +77,13 @@ class ccBoundaryException : public ccException
 protected:
    int low;
    int high;
-   int index;
+   int mindex;
 
 public:
    DECLARE_EXCEPTION(ccBoundaryException, ccException);
 
    ccBoundaryException(int l, int h, int i) : 
-     low(l), high(h), index(i) {};
+     low(l), high(h), mindex(i) {};
    ~ccBoundaryException() {};
 
    virtual ostream& asciiOut(ostream&);

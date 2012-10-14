@@ -522,7 +522,8 @@ FeatureValueString::operator+(const FeatureValue& x) const
 
      char* newString = new char[len1 + len2 + 1];
 
-     for ( int i=0; i<len1; i++ )
+     int i;
+     for ( i=0; i<len1; i++ )
         newString[i] = str1[i];
        
      for ( i=0; i<len2; i++ )
@@ -560,14 +561,14 @@ FeatureValueString::operator+(const FeatureValueExpression& expr) const
 {
    FeatureValue *x = 0;
    FeatureValue *y = 0;
-   try
+   mtry
     {
       x = expr.evaluate();
       y = operator+(*x);
       delete x;
       return y;
     }
-   catch_any()
+   mcatch_any()
     {
       delete x;
       rethrow;
@@ -2343,13 +2344,13 @@ FeatureValueArray::FeatureValueArray(const FeatureValueArray& x) :
    f_name(strdup(x.f_name)), FeatureValue(array), 
    pointer_vector<FeatureValue>(x.length(), 0)
 {
-   try
+   mtry
     {
       for ( int i=0; i<length(); i++ )
          (*this)[i] = x[i] -> clone();
       return;
     }
-   catch_any()
+   mcatch_any()
     {
       for ( int i=0; i<length(); i++ )
          delete (*this)[i];
@@ -2371,14 +2372,14 @@ FeatureValueArray::evaluate() const
 {
   FeatureValueArray *result = new FeatureValueArray(f_name, length());
 
-  try
+  mtry
     {
       for ( int i=0; i<length(); i++ ) {
         (*result)[i] = (*this)[i] -> evaluate();
       }
       return result;
     }
-   catch_any()
+   mcatch_any()
     {
       delete result;
       rethrow;

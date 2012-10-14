@@ -13,7 +13,8 @@
 #include "FeatureDefDictionary.h"
 #include "defParser.tab.h"
 #include "Debug.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 extern istream *g_yyin;
 

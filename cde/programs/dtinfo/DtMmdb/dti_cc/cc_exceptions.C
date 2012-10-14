@@ -23,6 +23,7 @@
 // $XConsortium: cc_exceptions.C /main/4 1996/08/21 15:48:54 drk $
 
 #include "dti_cc/cc_exceptions.h"
+using namespace std;
 
 ostream& ccException::asciiOut(ostream& out)
 {
@@ -43,7 +44,7 @@ ostream& ccBoundaryException::asciiOut(ostream& out)
 {
    cerr << low << "\t";
    cerr << high << "\t";
-   cerr << index << "\n";
+   cerr << mindex << "\n";
    return out;
 }
 

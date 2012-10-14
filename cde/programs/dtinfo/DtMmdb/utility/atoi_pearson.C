@@ -75,7 +75,8 @@ void atoi_pearson::init(int r, int, pm_random& rdm_generator)
 
    v_tbl = new char[v_entries];
 
-   for ( int i = 0; i < v_entries; i++ )
+   int i;
+   for ( i = 0; i < v_entries; i++ )
       v_tbl[i] = i;
 
 /*

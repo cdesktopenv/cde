@@ -54,7 +54,7 @@ DtMmdbOpenInfoLib(
 	DtMmdbBool delayed_infolib_init
                )
 {
-   try {
+   mtry {
 
       Boolean option = (delayed_infolib_init == DtMmdbTrue) ? true : false;
 
@@ -74,7 +74,7 @@ DtMmdbOpenInfoLib(
       return i;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       return -1;
    } end_try;
@@ -94,7 +94,7 @@ void DtMmdbCloseInfoLib(int infolib_descriptor)
 DtMmdbInfoLibInfo* 
 DtMmdbInfoLibGetInfo(int infolib_descriptor)
 {
-   try {
+   mtry {
         info_lib* x = mmdb_ptr -> getInfoLib(infolib_descriptor);
    
         if ( x == 0 ) return 0;
@@ -111,7 +111,7 @@ DtMmdbInfoLibGetInfo(int infolib_descriptor)
         return y;
    
    }
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       return 0;
    } end_try;

@@ -20,32 +20,27 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: c_strstream.h /main/5 1996/08/21 15:55:22 drk $ */
+/* $XConsortium: c_string.h /main/5 2012/09/18 22:54:47 xxx $ */
 
-#ifndef _strstream_h
-#define _strstream_h
+#ifndef _string_h
+#define _string_h
 
 #include <string.h>
 #include "utility/c_iostream.h"
+#include "utility/c_charbuf.h"
 
-class istrstream : public istream
+class string
 {
 public:
-   istrstream(char* str, int size) ;
-   istrstream(char* str);
-   ~istrstream() ;
+   string(char* str);
+   string(char* str, int size);
+   ~string() ;
+
+   char* c_str();
+   int size();
+
+protected:
+   streambuf*	sbuf; // buffer that provides char sequence read/write
 };
-
-class ostrstream : public ostream
-{
-public:
-   ostrstream(char* str, int size, int=ios::out);
-   ~ostrstream() ;
-
-   int pcount() ;
-
-   char* str();
-};
-
 
 #endif

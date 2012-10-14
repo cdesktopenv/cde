@@ -52,10 +52,12 @@
 #ifndef _funcs_h
 #define _funcs_h 1
 
-#if !defined(USL) && !defined(__osf__)
+#if !defined(USL) && !defined(__osf__) && !defined(linux) && \
+    !defined(CSRG_BASED)
 #include <libc.h>
 #endif
-#if defined(hpux) || defined(sgi) || defined(USL) ||defined(__osf__)
+#if defined(hpux) || defined(sgi) || defined(USL) ||defined(__osf__) || \
+    defined(linux) || defined(CSRG_BASED)
 #include <unistd.h>
 #else
 #include <sysent.h>
@@ -69,12 +71,13 @@
 #ifdef C_API
 #include "utility/c_stream.h"
 #include "utility/c_fstream.h"
-#include "utility/c_strstream.h"
+#include "utility/c_stringstream.h"
 #else
 #include <assert.h>
-#include <stream.h>
-#include <fstream.h>
-#include <strstream.h>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+using namespace std;
 #endif
 
 #include <math.h>
@@ -109,7 +112,9 @@ extern int  strncasecmp(const char *, const char *, size_t);
 int gethostname(char* name, int namelen);
 #endif
 
-int compare_stream(ostrstream& x, ostrstream& y);
+int compare_stream(ostringstream& x, ostringstream& y);
+
+char * cuserid(char *s);
 
 
 inline float flog2(unsigned int x) {
@@ -195,8 +200,8 @@ int open_dir_prot();
 
 Boolean cc_is_digit(istream&); // "cc" stands for current char
 
-int bytes(fstream&);
 unsigned long disk_space(const char* path);
+char* access_info( char* request );
 
 Boolean int_eq(void*, void*);
 Boolean int_ls(void*, void*);
@@ -217,8 +222,15 @@ Boolean timed_unlock( int fd, int seconds = 5);
 void onalarm(int);
 */
 
+#ifdef C_API
 int bytes(int fd);
-char* access_info( char* request );
+int bytes(fstream&);
+#else
+int bytes(fstream*);
+#endif
+int bytes(char* file_name);
+
+char*  form(const char* ...);
 
 // lsb is considered as the 0th bit
 void lsb_putbits(unsigned& target, unsigned position_from_lsb, 

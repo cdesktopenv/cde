@@ -51,7 +51,12 @@
 #ifndef _params_h
 #define _params_h 1
 
+#include <limits.h>
+#if defined(CSRG_BASED)
+#define MAXINT INT_MAX
+#else
 #include <values.h>
+#endif
 #include "utility/funcs.h"
 
 class params 

@@ -360,9 +360,9 @@ Boolean trie::travers_to(char* str, int len,
       
 
    node = root;
-   int j;
+   int i, j;
 
-   for ( int i=0; i<len; i++ ) {
+   for ( i=0; i<len; i++ ) {
       j = str[i];
 
 //debug(cerr, str[i]);

@@ -27,8 +27,9 @@ static char defParsersccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 #define defParserBYACC 1
 #include <stdio.h>
 #include <ctype.h>
-#include <stream.h>
-#include <iostream.h>
+#include <sstream>
+#include <iostream>
+using namespace std;
 #include "Debug.h"
 #include "FeatureDefDictionary.h"
 
@@ -269,14 +270,16 @@ defParserloop:
         goto defParserreduce;
     }
     if (defParsererrflag) goto defParserinrecovery;
-#if 0					// Disable for now
+// Disable for now
+#if 0
 #ifdef lint
     goto defParsernewerror;
 #endif
 defParsernewerror:
 #endif /* 0 */
-    defParsererror("syntax error");
-#if 0					// Disable for now
+    defParsererror((char*)"syntax error");
+// Disable for now
+#if 0
 #ifdef lint
     goto defParsererrlab;
 #endif
@@ -516,7 +519,7 @@ to state %d\n", *defParserssp, defParserstate);
     *++defParservsp = defParserval;
     goto defParserloop;
 defParseroverflow:
-    defParsererror("yacc stack overflow");
+    defParsererror((char*)"yacc stack overflow");
 defParserabort:
     return (1);
 defParseraccept:

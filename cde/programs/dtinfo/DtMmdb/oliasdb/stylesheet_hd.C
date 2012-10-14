@@ -132,7 +132,7 @@ void stylesheet_smart_ptr::update_hardcopy_data(istream& in)
 void stylesheet_smart_ptr::update_data(istream& in, int index)
 {
    transaction trans ;
-   try {
+   mtry {
       trans.begin();
 
       update_string(index, in);
@@ -140,15 +140,15 @@ void stylesheet_smart_ptr::update_data(istream& in, int index)
       trans.end();
    }
 
-   catch (beginTransException&, e)
+   mcatch (beginTransException&, e)
       {
          rethrow;
       }
-   catch (commitTransException&, e)
+   mcatch (commitTransException&, e)
       {
          rethrow;
       }
-   catch (mmdbException&, e)
+   mcatch (mmdbException&, e)
       {
          trans.rollback();
          rethrow;
@@ -172,7 +172,7 @@ void
 stylesheet_smart_ptr::update_data(const char* buf, int size, int index)
 {
    transaction trans ;
-   try {
+   mtry {
       trans.begin();
 
       update_string(index, buf, size);
@@ -180,15 +180,15 @@ stylesheet_smart_ptr::update_data(const char* buf, int size, int index)
       trans.end();
    }
 
-   catch (beginTransException&, e)
+   mcatch (beginTransException&, e)
       {
          rethrow;
       }
-   catch (commitTransException&, e)
+   mcatch (commitTransException&, e)
       {
          rethrow;
       }
-   catch (mmdbException&, e)
+   mcatch (mmdbException&, e)
       {
          trans.rollback();
          rethrow;

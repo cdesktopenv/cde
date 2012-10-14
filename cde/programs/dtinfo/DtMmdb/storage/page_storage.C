@@ -1110,7 +1110,7 @@ Boolean page_storage::io_mode(int mode)
 
 void page_storage::begin_trans()
 {
-   try {
+   mtry {
       if ( trans_info.status == store_trans::ENABLED )
          throw(stringException("trans is still in progress"));
    
@@ -1127,7 +1127,7 @@ void page_storage::begin_trans()
         updateString(0, (char*)&l_max_pages, sizeof(l_max_pages), 0, true);
   }
 
-  catch (mmdbException&, e) {
+  mcatch (mmdbException&, e) {
 // workaround for solaris's /SUNWspro/bin/CC compiler.
      beginTransException x;
      throw(x);
@@ -1141,7 +1141,7 @@ void page_storage::commit_trans()
 //////////////////////////////
 // sync the touched pages
 //////////////////////////////
-   try {
+   mtry {
       int ind = trans_info.log_index -> first_bucket();
    
       while ( ind != -1 ) {
@@ -1165,7 +1165,7 @@ void page_storage::commit_trans()
       trans_info.status = store_trans::DISABLED;
    }
 
-   catch (mmdbException &,e) {
+   mcatch (mmdbException &,e) {
 // workaround for solaris's /SUNWspro/bin/CC compiler.
       commitTransException x;
       throw(x);
@@ -1174,7 +1174,7 @@ void page_storage::commit_trans()
 
 void page_storage::roll_back()
 {
-   try 
+   mtry
    {
       if ( exist_file(form("%s.log", name), path) == false ) 
          return;
@@ -1270,7 +1270,7 @@ void page_storage::roll_back()
       trans_info.status = store_trans::DISABLED;
   }
 
-  catch (mmdbException &,e)
+  mcatch (mmdbException &,e)
   {
 // workaround for solaris's /SUNWspro/bin/CC compiler.
       rollbackTransException x;
@@ -1310,7 +1310,7 @@ debug(cerr, trans_info.max_pages);
 
          int log_bytes_before = trans_info.log_store -> bytes();
    
-         try {
+         mtry {
             if ( swap_order() == true ) // swap to desired order
                ORDER_SWAP_UINT(l_pid);
 
@@ -1331,7 +1331,7 @@ debug(cerr, trans_info.max_pages);
             trans_info.log_index -> insert(pkey);
          }
 
-         catch (mmdbException&, e) {
+         mcatch (mmdbException&, e) {
             trans_info.log_store -> truncate(log_bytes_before);
             rethrow;
          }

@@ -24,7 +24,7 @@
 #ifndef _Feature_h
 #define _Feature_h
 
-#include <stream.h>
+#include <sstream>
 
 #ifndef CDE_NEXT
 

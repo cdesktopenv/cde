@@ -27,8 +27,9 @@ static char stylesccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 #define styleBYACC 1
 #include <stdio.h>
 #include <ctype.h>
-#include <stream.h>
-#include <iostream.h>
+#include <sstream>
+#include <iostream>
+using namespace std;
 #include <assert.h>
 #include "StyleSheetExceptions.h"
 #include "VariableTable.h"
@@ -533,7 +534,7 @@ styleloop:
 #endif
 stylenewerror:
 #endif	/* if 0 */
-    styleerror("syntax error");
+    styleerror((char*)"syntax error");
 #if 0					/* remove if needed */
 #ifdef lint
     goto styleerrlab;
@@ -1353,7 +1354,7 @@ to state %d\n", *stylessp, stylestate);
     *++stylevsp = styleval;
     goto styleloop;
 styleoverflow:
-    styleerror("yacc stack overflow");
+    styleerror((char*)"yacc stack overflow");
 styleabort:
     return (1);
 styleaccept:

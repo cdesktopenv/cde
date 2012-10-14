@@ -168,14 +168,14 @@ io_status cset::asciiIn(istream& in)
 io_status cset::batch_asciiIn(istream& in) 
 {
    handler* root_hd_ptr = 0;
-
+/*
 #ifdef DEBUG
 xtime tmr;
 float f1;
 long f2;
 tmr.start();
 #endif
-
+*/
    char ccode_buf[LBUFSIZ];
    int c;
 //fprintf(stderr, "batch_asciiIn() : start looping \n");

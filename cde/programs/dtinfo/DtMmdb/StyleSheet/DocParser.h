@@ -24,8 +24,9 @@
 /*	Copyright (c) 1995 FUJITSU LIMITED	*/
 /*	All Rights Reserved			*/
 
-#include <iostream.h>
-#include <strstream.h>
+#include <iostream>
+#include <sstream>
+using namespace std;
 
 #include "SymTab.h"
 #include "Exceptions.hh"
@@ -84,7 +85,7 @@ private:
   char* const	f_buffer;
   ostrstream	f_output;
 #else
-  strstreambuf *f_streambuf ;
+  stringbuf	*f_streambuf;
   ostream	f_output;
 #endif
   Resolver     &f_resolver;

@@ -24,7 +24,8 @@
 
 #include <stdlib.h> 
 #include <string.h> 
-#include <iostream.h> 
+#include <iostream>
+using namespace std;
 
 #define BUFSIZ 1000
 

@@ -22,7 +22,8 @@
  */
 // $XConsortium: convert.cc /main/3 1996/06/11 17:23:53 cde-hal $
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 /*****************************************/
 //Note: convert node.dat file to new format

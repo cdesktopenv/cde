@@ -62,7 +62,7 @@ char* get_oid(info_lib* infolib_ptr, char* base_str, char* locator_line)
     if ( strcmp(locator, "	0000000000000000000000") == 0 ||
          strcmp(locator, "0") == 0 ) 
     {
-        return "0.0";
+        return (char*)"0.0";
     }
 
     return get_oid_2(infolib_ptr, base_str, locator);
@@ -75,9 +75,9 @@ char* get_oid_2(info_lib* infolib_ptr, char* base_str, char* locator)
     const char *this_node_locator = x.locator();
 
     if ( strcmp( this_node_locator, locator) == 0 ) {
-        ostrstream strout(oid_in_string_buf, BUFSIZ, ios::out);
+        ostringstream strout(oid_in_string_buf, ios::out);
         x.its_oid().asciiOut(strout);
-        oid_in_string_buf[strout.pcount()] = NULL;
+        strcpy(oid_in_string_buf, strout.str().c_str());
     } else {
          cerr << "dangling locator " << locator << "\n"
               << "mismatches with " << this_node_locator << "\n"

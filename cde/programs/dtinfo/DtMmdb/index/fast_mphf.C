@@ -398,10 +398,13 @@ Boolean fast_mphf::build(istream& in)
       throw(stringException("finding a mphf failed"));
    }
    
-   istrstream strin(mphf_spec.get_base(), mphf_spec.content_sz());
+   stringstream strin;
 
    if ( !strin ) {
       throw(streamException(strin.rdstate()));
+   }
+   else {
+      strin.write(mphf_spec.get_base(), mphf_spec.content_sz());
    }
 
    asciiIn(strin);

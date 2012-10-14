@@ -64,7 +64,7 @@ unsigned int PathTerm::operator ==(const PathTerm&)
 
 ostream& operator <<(ostream& out, PathTerm& pt)
 {
-   out << pt.symbol() << " (" << int(pt.f_PQExpr) << ") ";
+   out << pt.symbol() << " (" << size_t(pt.f_PQExpr) << ") ";
    return out;
 }
 

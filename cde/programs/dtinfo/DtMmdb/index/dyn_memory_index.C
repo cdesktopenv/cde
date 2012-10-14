@@ -93,7 +93,7 @@ dyn_memory_index::~dyn_memory_index()
       char buf[PATHSIZ]; 
       for ( int i=0; i<PATHSIZ; buf[i++]=0 );
 
-      ostrstream oid_t_out(buf, PATHSIZ);
+      ostringstream oid_t_out(buf, PATHSIZ);
       my_oid().asciiOut(oid_t_out);
 */
 
@@ -106,7 +106,7 @@ dyn_memory_index::~dyn_memory_index()
    }
 }
 
-int dyn_memory_index::handler_to_inv_idx(const handler&)
+size_t dyn_memory_index::handler_to_inv_idx(const handler&)
 {
    throw(stringException(
          "dyn_memory_index::handler_to_int(): not implemented yet"

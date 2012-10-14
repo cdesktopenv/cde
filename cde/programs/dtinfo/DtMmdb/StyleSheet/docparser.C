@@ -30,7 +30,8 @@
 #include "StyleSheet.h"
 #include "StyleSheetExceptions.h"
 #include "VariableTable.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 Renderer *gRenderer = 0;
 class TestRenderer : public Renderer

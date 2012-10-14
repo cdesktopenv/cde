@@ -59,7 +59,7 @@ atoi_larson* data_t::larson_convertor_ptr;
 atoi_pearson* data_t::pearson_convertor_ptr;
 #else
 atoi_larson data_t::larson_convertor;
-atoi_pearson data_t::pearson_convertor(MAXSHORT, 256);
+atoi_pearson data_t::pearson_convertor(SHRT_MAX, 256);
 #endif
 
 data_t::data_t(data_t& d)
@@ -214,7 +214,7 @@ istream& operator >>(istream& i, data_t& d)
       delete d.key.str_key;
 
    d.flag = (data_t::flag_type)atoi(buf);
-   d.dt = voidPtr(atoi(voidPtr_ptr));
+   d.dt = (voidPtr)(size_t)atoi(voidPtr_ptr);
 
    if ( d.flag == data_t::INT )
       d.key.int_key = atoi(key_ptr);

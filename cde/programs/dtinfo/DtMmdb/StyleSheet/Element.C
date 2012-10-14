@@ -21,7 +21,8 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $TOG: Element.C /main/5 1998/04/17 11:48:25 mgreess $
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <stdlib.h>
 #include "StyleSheetExceptions.h"
 #include "Element.h"

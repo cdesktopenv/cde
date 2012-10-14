@@ -56,7 +56,8 @@
 #ifdef C_API
 #include <stdlib.h>
 #else
-#include <new.h>
+#include <new>
+using namespace std;
 #endif
 
 #define NEW_AND_DELETE_BODIES(class_name) \

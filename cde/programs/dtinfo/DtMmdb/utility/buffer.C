@@ -162,11 +162,7 @@ int buffer::expand_chunk(const int newsz)
    return 0;
 }
 
-#if defined(linux)
-#define CASTBNDEXCEPT (boundaryException*)
-#else
 #define CASTBNDEXCEPT
-#endif
 
 /***********************************************************/
 // Get sz chars to the array x. x is supposed allocated
@@ -433,10 +429,6 @@ Boolean operator ==(buffer&x, buffer& y)
           debug(cerr, i);
           debug(cerr, x_buf[i]);
           debug(cerr, y_buf[i]);
-#ifndef __osf__
-          debug(cerr, hex(x_buf[i]));
-          debug(cerr, hex(y_buf[i]));
-#endif
           //return false;
        }
    }
@@ -459,8 +451,8 @@ ostream& operator<<(ostream& s, buffer& b)
 
    int x = b.v_eptr - b.v_base ;
 
-
-   for ( int i = 0; i < x; i++ ) {
+   int i;
+   for ( i = 0; i < x; i++ ) {
       s << b.v_base[i];
 
 /*

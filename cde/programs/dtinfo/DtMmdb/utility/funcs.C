@@ -61,12 +61,15 @@
 
 #if defined(linux)
 #include <sys/vfs.h>
+#include <stdarg.h>
 #elif defined(_AIX)
 #include <sys/vfs.h>
 #include <sys/statfs.h>
 #include <sys/statvfs.h>
 #else
 #include <sys/statvfs.h>
+#include <stdio.h>
+#include <stdarg.h>
 #endif
 #ifdef __osf__
 extern "C"
@@ -138,24 +141,24 @@ int gethostname(char* name, int namelen)
 }
 #endif
 
-int compare_stream(ostrstream& x, ostrstream& y)
+int compare_stream(ostringstream& x, ostringstream& y)
 {
-   if ( x.pcount() != y.pcount() ) {
-      cerr << x.pcount() << "---" << y.pcount() << endl;
-//debug(cerr, x.str());
-//debug(cerr, y.str());
+   if ( x.str().size() != y.str().size() ) {
+      cerr << x.str().size() << "---" << y.str().size() << endl;
+//debug(cerr, x.str().c_str());
+//debug(cerr, y.str().c_str());
       return 1;
    } else {
 
-     char* u = x.str();
-     char* v = y.str();
+     char* u = (char *)x.str().c_str();
+     char* v = (char *)y.str().c_str();
 
 //debug(cerr, u);
 //debug(cerr, v);
 //fprintf(stderr, "u=%s, pcount() = %d\n", u, x.pcount());
 //fprintf(stderr, "v=%s, pcount() = %d\n", v, y.pcount());
 
-     if ( memcmp(u, v, x.pcount()) != 0 ) {
+     if ( memcmp(u, v, x.str().size()) != 0 ) {
        STDERR_MESSAGE("two streams do not match.");
 debug(cerr, u);
 debug(cerr, v);
@@ -208,6 +211,7 @@ int pos_of_LSB(const unsigned int y)
    //debug(cerr, x);
    //debug(cerr, hex(x));
    
+      int i;
       for ( int i =0; i<sizeof(x); i++ ) {
          if ( ( 0x000000ff & x) == 0 ) 
             x >>= 8;
@@ -217,7 +221,8 @@ int pos_of_LSB(const unsigned int y)
    
    //debug(cerr, i);
    
-      for ( int j =1; j<=8; j++ )
+      int j;
+      for ( j =1; j<=8; j++ )
          if ( (0x00000001 & x) == 0 ) 
             x >>= 1;
          else
@@ -441,7 +446,7 @@ Boolean check_and_create_dir(const char* path)
 
 // create the subdirecties
    while ( path_tail[0] != 0 &&
-           ( slash_ptr = strchr(path_tail, '/') ) ) {
+           ( slash_ptr = (char *)strchr(path_tail, '/') ) ) {
 
        path_tail = slash_ptr + 1; // set for the next check
        slash_ptr[0] = 0;          // temp. set the slash to 0.
@@ -632,6 +637,7 @@ char* time_stamp(_Xctimeparams *ctime_buf)
    return _XCtime(&x, *ctime_buf);
 }
 
+#ifdef C_API
 int bytes(fstream& fs)
 {
    struct stat file_info;
@@ -650,6 +656,49 @@ int bytes(int fd)
       return 0;
    else
       return int(file_info.st_size);
+}
+#else
+int bytes(fstream* fs)
+{
+   streampos begin, current, end;
+   int total_bytes;
+
+   current = fs->tellg();
+   fs->seekg(ios::beg);
+   begin = fs->tellg();
+   fs->seekg(ios::end);
+   end = fs->tellg();
+   fs->seekg(current);
+   total_bytes = end - begin;
+   return int(total_bytes);
+}
+#endif
+
+int bytes(char * file_name)
+{
+   struct stat file_info;
+
+   if ( stat( file_name, &file_info) != 0 )
+      return 0;
+   else
+      return int(file_info.st_size);
+}
+
+char* form(const char* fmt, ...)
+{
+   static char formbuf[BUFSIZ];
+   char tempbuf[BUFSIZ];
+   va_list args;
+
+   va_start(args, fmt);
+
+   strcpy(tempbuf, formbuf);
+   (void) vsprintf(tempbuf, fmt, args);
+
+   va_end(args);
+
+   strcpy(formbuf, tempbuf);
+   return formbuf;
 }
 
 static char info_buf[BUFSIZ];
@@ -685,9 +734,8 @@ char* access_info( char* request )
    char userid[L_cuserid];
 
 #ifndef SVR4
-   sprintf(info_buf, "%s-%s-%s-%ld-%s-%s",
+   sprintf(info_buf, "%s-%s-%ld-%s-%s",
            host_name, dm_name,
-           ( cuserid(userid)[0] == 0 ) ? "???" : userid,
            /* getenv("USER"), */
            (long)getpid(), x, request
           );
@@ -725,7 +773,7 @@ Boolean cc_is_digit(istream& in)
 
 unsigned long disk_space(const char* path)
 {
-#if defined(__osf__) || defined (hpux) || defined (SVR4)
+#if defined(__osf__) || defined (hpux) || defined (SVR4) || defined(CSRG_BASED)
    struct statvfs statfs_buf;
 #else
    struct statfs statfs_buf;
@@ -733,7 +781,7 @@ unsigned long disk_space(const char* path)
 
    long free_bytes;
 
-#if defined(__osf__) || defined (hpux) || defined (SVR4)
+#if defined(__osf__) || defined (hpux) || defined (SVR4) || defined(CSRG_BASED)
    if ( statvfs(path, &statfs_buf) == 0 ) {
       free_bytes = statfs_buf.f_bavail * statfs_buf.f_frsize ;
 #else
@@ -754,8 +802,8 @@ Boolean writeToTmpFile(char* unique_nm, char* str, int size)
     fstream *out = 0;
     char* tmp_dir_tbl[4];
     tmp_dir_tbl[0] = getenv("TMPDIR");
-    tmp_dir_tbl[1] = "/tmp";
-    tmp_dir_tbl[2] = "/usr/tmp";
+    tmp_dir_tbl[1] = (char*)"/tmp";
+    tmp_dir_tbl[2] = (char*)"/usr/tmp";
     tmp_dir_tbl[3] = getenv("HOME");
 
     int tmp_dir_tbl_size = 4;
@@ -769,7 +817,7 @@ Boolean writeToTmpFile(char* unique_nm, char* str, int size)
 
        strcpy(unique_nm, form("%s/tmp.%s", tmp_dir_tbl[i], uid));
 
-       try {
+       mtry {
 //debug(cerr, tmp_dir_tbl[i]);
 //debug(cerr, disk_space(tmp_dir_tbl[i]));
           if ( disk_space(tmp_dir_tbl[i]) <= size )
@@ -795,7 +843,7 @@ Boolean writeToTmpFile(char* unique_nm, char* str, int size)
           }
    
        }
-       catch_any() 
+       mcatch_any()
        {
          continue;
        }

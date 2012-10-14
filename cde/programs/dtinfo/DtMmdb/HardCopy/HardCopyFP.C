@@ -186,7 +186,7 @@ featureProcessor::getFeatureValueArray(const Feature* f)
      if ( f -> value() -> type() == FeatureValue::array ) 
         return (FeatureValueArray*)(f -> value());
      else {
-        MESSAGE(cerr, form("%s is not of an array type.", f -> name()));
+        MESSAGE(cerr, form("%s is not of an array type.", f -> name().name()));
         throw(CASTHCREXCEPT hardCopyRendererException());
      }
   } else

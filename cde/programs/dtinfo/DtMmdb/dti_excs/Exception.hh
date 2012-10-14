@@ -1,13 +1,9 @@
-// $TOG: Exception.hh /main/11 1998/04/20 09:55:15 mgreess $
+
 #include <ctype.h>
 
 #define G_TEMP_SPACE_SIZE 1024
 
-#if defined(linux)
-#define CASTEXCEPT (Exception*)
-#else
 #define CASTEXCEPT
-#endif
 
 class Exception : public Destructable
 {
@@ -158,7 +154,7 @@ private:
     { Exception *temp; \
       if (in_stack()) { \
 	temp = new (0) NAME (*this); \
-	(Exception *) (((NAME *)temp)->f_temporary = 1); \
+	((NAME *)temp)->f_temporary = 1; \
       } else \
         temp = this; \
       temp->do_throw (line, file, dbg); } \

@@ -28,7 +28,8 @@
 #include "StyleSheet/StyleSheetExceptions.h"
 #include "utility/const.h"
 #include "utility/funcs.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 featureDefDictionary* g_FeatureDefDictionary = 0;
 
@@ -314,34 +315,34 @@ MESSAGE(cerr, "");
    }
 
    FeatureValue * fv = 0;
-   try {
+   mtry {
      fv = f -> evaluate();
    }
-   catch (undefinedAttributeException&, e) {
+   mcatch (undefinedAttributeException&, e) {
       return true;
    }
 
-   catch (undefinedVariableException&, e) {
+   mcatch (undefinedVariableException&, e) {
       report_error_location();
       cerr << "Undefined variable error.\n";
       return false;
    }
 
 /*
-   catch (badCastException&, e) {
+   mcatch (badCastException&, e) {
       report_error_location();
       cerr << "Evaluating expression error.\n";
       return false;
    }
 
-   catch (badEvaluationException&, e) {
+   mcatch (badEvaluationException&, e) {
       report_error_location();
       cerr << "Evaluating expression error.\n";
       return false;
    }
 */
 
-   catch_any() {
+   mcatch_any() {
       //report_error_location();
       //cerr << "There might be an error in the expression.\n";
       return true;

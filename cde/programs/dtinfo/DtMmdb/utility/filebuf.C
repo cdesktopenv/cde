@@ -26,7 +26,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#if !defined(hpux) && !defined(__osf__) && !defined(USL)
+#if !defined(hpux) && !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <sysent.h>
 #endif
 

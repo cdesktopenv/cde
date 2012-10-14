@@ -31,7 +31,8 @@
 #include "dti_cc/CC_String.h"
 #include "dti_cc/cc_hdict.h"
 //#include "StyleSheet/cde_next.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #endif
 
 #include "Types.h"

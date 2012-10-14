@@ -27,7 +27,7 @@
 static doc_smart_ptr*
 getDocUsingPrOrSecOrSeq(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       info_base* x = getBookCase(request -> bookcase_descriptor);
       if ( x == 0 ) return 0;
 
@@ -51,7 +51,7 @@ getDocUsingPrOrSecOrSeq(DtMmdbInfoRequest* request)
       return new doc_smart_ptr(x, seq+1);
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -61,7 +61,7 @@ getDocUsingPrOrSecOrSeq(DtMmdbInfoRequest* request)
 DtMmdbHandle*
 DtMmdbBookGetTocObjectId(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       doc_smart_ptr* x = getDocUsingPrOrSecOrSeq(request);
       if ( x == 0 ) return 0;
 
@@ -71,7 +71,7 @@ DtMmdbBookGetTocObjectId(DtMmdbInfoRequest* request)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -81,7 +81,7 @@ DtMmdbBookGetTocObjectId(DtMmdbInfoRequest* request)
 const char*
 DtMmdbBookGetShortTitle(DtMmdbInfoRequest* request, unsigned int* length)
 {
-   try {
+   mtry {
       doc_smart_ptr* x = getDocUsingPrOrSecOrSeq(request);
       if ( x == 0 ) return 0;
 
@@ -93,7 +93,7 @@ DtMmdbBookGetShortTitle(DtMmdbInfoRequest* request, unsigned int* length)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -103,7 +103,7 @@ DtMmdbBookGetShortTitle(DtMmdbInfoRequest* request, unsigned int* length)
 const char*
 DtMmdbBookGetLongTitle(DtMmdbInfoRequest* request, unsigned int* length)
 {
-   try {
+   mtry {
       doc_smart_ptr* x = getDocUsingPrOrSecOrSeq(request);
       if ( x == 0 ) return 0;
 
@@ -115,7 +115,7 @@ DtMmdbBookGetLongTitle(DtMmdbInfoRequest* request, unsigned int* length)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -124,7 +124,7 @@ DtMmdbBookGetLongTitle(DtMmdbInfoRequest* request, unsigned int* length)
 
 int DtMmdbBookGetSeqNum(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       doc_smart_ptr* x = getDocUsingPrOrSecOrSeq(request);
       if ( x == 0 ) return 0;
 
@@ -134,7 +134,7 @@ int DtMmdbBookGetSeqNum(DtMmdbInfoRequest* request)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -144,7 +144,7 @@ int DtMmdbBookGetSeqNum(DtMmdbInfoRequest* request)
 const char*
 DtMmdbBookGetSeqLIcense(DtMmdbInfoRequest* request, unsigned int* length)
 {
-    try {
+    mtry {
       doc_smart_ptr* x = getDocUsingPrOrSecOrSeq(request);
       if ( x == 0 ) return 0;
 
@@ -156,7 +156,7 @@ DtMmdbBookGetSeqLIcense(DtMmdbInfoRequest* request, unsigned int* length)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -165,7 +165,7 @@ DtMmdbBookGetSeqLIcense(DtMmdbInfoRequest* request, unsigned int* length)
 
 DtMmdbHandle** DtMmdbBookGetTabList(DtMmdbInfoRequest* request, unsigned int* length)
 {
-   try {
+   mtry {
       doc_smart_ptr* x = getDocUsingPrOrSecOrSeq(request);
       if ( x == 0 ) return 0;
 
@@ -182,7 +182,8 @@ DtMmdbHandle** DtMmdbBookGetTabList(DtMmdbInfoRequest* request, unsigned int* le
       const char* desc = 0;
       pstring_handler *p = 0;
 
-      for (int i=0; i<count; i++) {
+      int i;
+      for (i=0; i<count; i++) {
          p = (pstring_handler *)((*z)->get_component (i+1));
 
 // The format is the title, a tab char, then the section oid.
@@ -211,7 +212,7 @@ DtMmdbHandle** DtMmdbBookGetTabList(DtMmdbInfoRequest* request, unsigned int* le
       return u;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;

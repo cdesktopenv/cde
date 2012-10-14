@@ -53,6 +53,7 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifdef SVR4
 #include <sys/systeminfo.h>
@@ -159,8 +160,8 @@ unique_id (void)
 	hostid = gethostid();
 
 #ifdef DEBUG
-      PRINT_BITS (cur_time.tv_usec);
-      PRINT_BITS (cur_time.tv_sec);
+      PRINT_BITS ((unsigned int)cur_time.tv_usec);
+      PRINT_BITS ((unsigned int)cur_time.tv_sec);
       PRINT_BITS (pid);
       PRINT_BITS (hostid);
 #endif

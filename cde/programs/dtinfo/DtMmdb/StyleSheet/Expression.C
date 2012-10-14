@@ -30,7 +30,7 @@
 #include "VariableTable.h"
 #include "Renderer.h"
 #include "Debug.h"
-#include <stream.h>
+#include <sstream>
 
 #include "HardCopy/autoNumberFP.h"
 
@@ -141,20 +141,20 @@ BinaryOperatorNode::evaluate() const
 {
   // calculate children trees and then have feature value do the operation 
 
-#if !defined(SC3) && !defined(_IBMR2) && !defined(__uxp__) && !defined(__osf__) && !defined(USL) && !defined(linux)
+#if !defined(SC3) && !defined(_IBMR2) && !defined(__uxp__) && !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
   volatile
 #endif
   FeatureValue *left =  0;
-#if !defined(SC3) && !defined(_IBMR2) && !defined(__uxp__) && !defined(__osf__) && !defined(USL) && !defined(linux)
+#if !defined(SC3) && !defined(_IBMR2) && !defined(__uxp__) && !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
   volatile
 #endif
   FeatureValue *right = 0;
-#if !defined(SC3) && !defined(_IBMR2) && !defined(__uxp__) && !defined(__osf__) && !defined(USL) && !defined(linux)
+#if !defined(SC3) && !defined(_IBMR2) && !defined(__uxp__) && !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
   volatile
 #endif
   FeatureValue *result = 0;
 
-  try
+  mtry
     {
       left  = f_left->evaluate();
       right = f_right->evaluate();
@@ -176,7 +176,7 @@ BinaryOperatorNode::evaluate() const
 	}
 
     }
-  catch_any()
+  mcatch_any()
     {
       delete left ;
       delete right ;
@@ -219,11 +219,11 @@ VariableNode::evaluate() const
   // etc.  
   FeatureValue *return_variable = 0;
 
-  try
+  mtry
     {
       return_variable = variable_value->evaluate() ;
     }
-  catch_any()
+  mcatch_any()
     {
       delete return_variable; 
       delete variable_value ;

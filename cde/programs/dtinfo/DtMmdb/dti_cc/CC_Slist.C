@@ -41,23 +41,6 @@ CC_TPtrSlist<T>::CC_TPtrSlist(const CC_TPtrSlist<T>&slist)
   
 }
 
-
-//------------------------------------------------------------------
-template<class T>
-T *CC_TPtrSlist<T>::at(size_t pos) const 
-{
-  
-// Hack to get it passed to iter
-  CC_TPtrSlistIterator<T> iter( *(CC_TPtrSlist<T> *)this );
-  for ( int i = 0; i <=pos; i++ ) {
-    if ( !(++iter) ) {
-      throw(CASTCCBEXCEPT ccBoundaryException(0,0,i));
-    }
-  }
-
-  return( iter.key() );
-}
-
 //------------------------------------------------------------------
 template<class T>
 T *CC_TPtrSlist<T>::removeAt(size_t pos) {

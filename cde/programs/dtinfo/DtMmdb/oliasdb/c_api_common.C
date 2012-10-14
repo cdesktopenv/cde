@@ -26,6 +26,7 @@
 #include "storage/page_storage.h"
 #include "api/info_lib.h"
 #include <stdlib.h>
+#include <limits.h>
 #include "schema/store_desc.h"
 #include "dynhash/data_t.h"
 #include "index/index.h"
@@ -62,7 +63,7 @@ void initialize_MMDB()
    ostring::input_buf = new char[LBUFSIZ];
 
    data_t::larson_convertor_ptr = new atoi_larson;
-   data_t::pearson_convertor_ptr = new atoi_pearson(MAXSHORT, 256);
+   data_t::pearson_convertor_ptr = new atoi_pearson(SHRT_MAX, 256);
 
    ground_ptr = new oid_t(c_code_t(0), i_code_t(0));
 
@@ -230,7 +231,7 @@ DtMmdbGraphicInfo* newDtMmdbGraphicInfo()
 void DtMmdbFreeHandle(DtMmdbHandle* x)
 {
    if ( x ) {
-      delete x -> oid_ptr;
+//    delete x -> oid_ptr;
       free((void*)x);
    }
 }
@@ -254,7 +255,7 @@ extern int auto_test(int argc, char** argv, OLIAS_DB& db);
 extern "C" {
 int auto_test_c_api(int argc, char** argv)
 {
-   try
+   mtry
    {
 #ifdef REGRESSION_TEST
       OLIAS_DB db;
@@ -264,7 +265,7 @@ int auto_test_c_api(int argc, char** argv)
 #endif
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       cerr << "Exception msg: " << e << "\n";
       return -1;
@@ -331,7 +332,7 @@ char* DtMmdbHandleToString(DtMmdbHandle* x)
    static char buf[100];
    if ( x -> oid_ptr) {
       oid_t *z = (oid_t*)(x -> oid_ptr);
-      sprintf(buf, "%d.%d", z -> ccode(), z -> icode());
+      sprintf(buf, "%d.%d", z -> ccode(), (int)z -> icode());
    } else
      buf[0] = 0;
 

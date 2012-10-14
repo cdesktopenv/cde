@@ -52,9 +52,9 @@
 #define _oid_t_h 1
 
 #ifdef C_API
-#include "utility/c_strstream.h"
+#include "utility/c_stringstream.h"
 #else
-#include <strstream.h>
+#include <sstream>
 #endif
 
 #include "utility/funcs.h"
@@ -83,7 +83,7 @@ public:
 // oid_t equal and less test
    Boolean eq(const oid_t&) const;
    Boolean ls(const oid_t&) const;
-   operator==(const oid_t& arg) const { return eq(arg); };
+   bool  operator==(const oid_t& arg) const { return eq(arg); };
 
 // class code, oid type and instance code export functions
    const c_code_t ccode() const { return v_c_code; } ;

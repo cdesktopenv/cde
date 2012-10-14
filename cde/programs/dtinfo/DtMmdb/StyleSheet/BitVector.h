@@ -25,7 +25,9 @@
 #ifndef _BitVector_h
 #define _BitVector_h 1
 
-#include <stream.h>
+#include <sstream>
+#include <ostream>
+using namespace std;
 
 #ifndef CDE_NEXT
 

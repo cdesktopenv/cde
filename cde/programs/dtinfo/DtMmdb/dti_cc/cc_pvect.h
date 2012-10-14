@@ -25,6 +25,7 @@
 #ifndef _cc_pvector_h
 #define _cc_pvector_h 1
 
+#include <stddef.h>
 #include "dti_cc/types.h"
 
 template <class T> 
@@ -45,8 +46,8 @@ public:
    pointer_vector(size_t, T* = 0);
    ~pointer_vector();
 
-   T* operator[](size_t) const;
-   T*& operator[](size_t);
+   T* operator[](ptrdiff_t) const;
+   T*& operator[](ptrdiff_t);
 
 //   size_t entries() const { return f_items; };
    size_t length() const { return f_size; };

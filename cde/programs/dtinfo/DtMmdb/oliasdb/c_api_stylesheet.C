@@ -27,7 +27,7 @@
 static stylesheet_smart_ptr*
 getStylesheetUsingLocAndProid(DtMmdbInfoRequest* request, Boolean checkPIDOnly = false)
 {
-   try {
+   mtry {
       info_base* x = getBookCase(request -> bookcase_descriptor);
       if ( x == 0 ) return 0;
 
@@ -48,7 +48,7 @@ getStylesheetUsingLocAndProid(DtMmdbInfoRequest* request, Boolean checkPIDOnly =
 
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -58,7 +58,7 @@ getStylesheetUsingLocAndProid(DtMmdbInfoRequest* request, Boolean checkPIDOnly =
 const char*
 DtMmdbStylesheetGetName(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       stylesheet_smart_ptr* x = getStylesheetUsingLocAndProid(request, true);
 
       if ( x == 0 ) return 0;
@@ -67,7 +67,7 @@ DtMmdbStylesheetGetName(DtMmdbInfoRequest* request)
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -77,14 +77,14 @@ DtMmdbStylesheetGetName(DtMmdbInfoRequest* request)
 const char*
 DtMmdbStylesheetGetata(DtMmdbInfoRequest* request, unsigned int* data_length)
 {
-   try {
+   mtry {
       stylesheet_smart_ptr* x = getStylesheetUsingLocAndProid(request, false);
 
       if ( x == 0 ) return 0;
 
 #ifdef DEBUG
-      fprintf(stderr, " stylesheetInfo: mmdb_oid = %d.%d\n", (*x).its_oid().ccode()
-, (*x).its_oid().icode());
+      fprintf(stderr, " stylesheetInfo: mmdb_oid = %d.%d\n", (int)(*x).its_oid().ccode()
+, (int)(*x).its_oid().icode());
 #endif
 
       const char* y = x -> online_data();
@@ -95,7 +95,7 @@ DtMmdbStylesheetGetata(DtMmdbInfoRequest* request, unsigned int* data_length)
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;

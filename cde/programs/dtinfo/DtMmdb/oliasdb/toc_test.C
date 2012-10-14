@@ -47,12 +47,12 @@ void print_toc(toc_smart_ptr& x, ostream& out)
 int compare_toc(toc_smart_ptr& pattern, info_base* base_ptr)
 {
    char pattern_buf[LARGE_BUFSIZ];
-   ostrstream pattern_out(pattern_buf, LARGE_BUFSIZ, ios::out);
+   ostringstream pattern_out(pattern_buf, LARGE_BUFSIZ, ios::out);
    print_toc(pattern, pattern_out);
 
    toc_smart_ptr x(base_ptr, pattern.toc_node_oid());
    char db_buf[LARGE_BUFSIZ];
-   ostrstream db_out(db_buf, LARGE_BUFSIZ, ios::out);
+   ostringstream db_out(db_buf, LARGE_BUFSIZ, ios::out);
    print_toc(x, db_out);
 
    return compare_stream(pattern_out, db_out);

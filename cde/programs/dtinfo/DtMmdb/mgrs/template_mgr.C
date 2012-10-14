@@ -217,7 +217,7 @@ template_mgr_t::init_obj(abs_storage* store, mmdb_pos_t pos, root*& x)
      char* dbg_char_ptr;
      int   dbg_int;
      store->get_str_ptr(pos, dbg_char_ptr, dbg_int);
-     fprintf(stderr, "init_obj ptr=0x%lx len=%d\n", dbg_char_ptr, dbg_int);
+     fprintf(stderr, "init_obj ptr=0x%lx len=%d\n", (long)dbg_char_ptr,dbg_int);
    }
 #endif
 
@@ -508,7 +508,8 @@ debug(cerr, CLASS_CODE_BYTES);
       char* dbg_char_ptr;
       int   dbg_int;
       store->get_str_ptr(pinfo.position, dbg_char_ptr, dbg_int);
-      fprintf(stderr, "create_obj ptr=0x%lx len=%d\n", dbg_char_ptr, dbg_int);
+      fprintf(stderr, "create_obj ptr=0x%lx len=%d\n",
+					(long)dbg_char_ptr, dbg_int);
     }
 #endif
 #endif

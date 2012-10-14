@@ -23,7 +23,11 @@
 // $TOG: autoNumber.C /main/6 1998/04/17 11:47:13 mgreess $
 
 #include <ctype.h>
+#if defined(CSRG_BASED)
+#define MAXINT INT_MAX
+#else
 #include <values.h>
+#endif
 
 #include "HardCopy/autoNumber.h"
 #include "HardCopy/FPExceptions.h"
@@ -137,7 +141,7 @@ autoNumberNumeric::getValue()
    char* ptr = f_buf.get_base();
 
    if (f_values.entries())
-     sprintf(ptr, form("%s%d%s", f_prefix, f_values.top(), f_postfix));
+     sprintf(ptr, "%s", form("%s%d%s", f_prefix, f_values.top(), f_postfix));
    else
      *ptr = 0;
 
@@ -291,10 +295,12 @@ const char* autoNumberAlphabetic::intToAlpha(int x, enum CaseType a_case)
       x = z;
    }
 
-   for (int k=0; k<digits-i; k++ )
+   int k;
+   for (k=0; k<digits-i; k++ )
       buf[k] = letters[0];
 
-   for (int n=0; n<i; n++ )
+   int n;
+   for (n=0; n<i; n++ )
       buf[k+n] = buf1[n];
 
    buf[k+n] = 0;
@@ -317,7 +323,7 @@ const char* autoNumberAlphabetic::getValue()
    char* ptr = f_buf.get_base();
 
    if (f_values.entries())
-     sprintf(ptr, form("%s%s%s", f_prefix,
+     sprintf(ptr, "%s", form("%s%s%s", f_prefix,
 		     intToAlpha(f_values.top(), f_case), f_postfix));
    else
      *ptr = 0;
@@ -481,13 +487,14 @@ autoNumberRoman::ArabicToRoman(int x)
 	 const char* romanCardinal = romanCardinals[j][buf[i]-'1'];
 	 char  precise_romanCardinal[8];
 
+	 int k;
 	 if (f_case == UPPER) {
-	    for (int k=0; romanCardinal[k]; k++)
+	    for (k=0; romanCardinal[k]; k++)
 		precise_romanCardinal[k] = romanCardinal[k];
 	    precise_romanCardinal[k] = 0;
 	 }
 	 else {
-	    for (int k=0; romanCardinal[k]; k++)
+	    for (k=0; romanCardinal[k]; k++)
 		precise_romanCardinal[k] = tolower(romanCardinal[k]);
 	    precise_romanCardinal[k] = 0;
 	 }

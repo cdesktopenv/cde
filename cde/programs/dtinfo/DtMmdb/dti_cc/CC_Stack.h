@@ -31,19 +31,55 @@ template <class T> class Stack: public Destructable
 {
 
 public:
-  Stack ();  /* This is a value stack, ie an assignment operator  
-              * for T is assumed */
+  /* This is a value stack, ie an assignment operator for T is assumed */
+  Stack ()
+  {
+    Items = new CC_TValSlist<T>();
+  }
   
-  ~Stack ();
+  ~Stack ()
+  {
+    delete Items;
+  }
 
 public:
-  T	pop ();      
-  void	push (const T);
-  T&	top () const;
+  T	pop ()
+  {
+    CC_Link<T> *last_elem = (CC_Link<T> *)Items->removeLast();
+
+    if ( !last_elem ) {
+      throw (Exception());
+    }
+
+    T *ret = last_elem->f_element;
+    delete last_elem;
+
+    T ret_value = *ret;
+    delete ret;
+
+    return(ret_value);
+  }
+
+  void	push (const T newItem)
+  {
+    Items->append ( newItem );
+  }
+
+  T&	top () const
+  {
+    CC_Link<T> *last_elem = (CC_Link<T> *)Items->last();
+    if ( !last_elem ) {
+      throw(Exception());
+    }
+
+    return ( *last_elem->f_element );
+  }
+
   int   entries() const
   { 
     return( Items->entries() );  //ie no. of elements in the stack
   }
+
   int     empty() const {
     return( Items->entries() == 0 );
   }

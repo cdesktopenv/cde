@@ -53,6 +53,7 @@ extern desc* last_desc_ptr;
 
 #define CAST_TO_CONTAINER(x) 	((container_desc*)x)
 
+#undef  alloca
 #define alloca(x) 	(malloc(x))
 
 extern void  schemaerror(char*);
@@ -97,6 +98,7 @@ typedef union
 #define MODE 284
 #define PAGE_SZ 285
 #define CACHED_PAGES 286
+#undef  BYTE_ORDER
 #define BYTE_ORDER 287
 #define SEPARATOR 288
 #define  schemaERRCODE 256
@@ -414,7 +416,7 @@ int
 #endif
  schemanewerror:
 #endif
-     schemaerror("syntax error");
+     schemaerror((char*)"syntax error");
 #if 0				/* remove if needed */
 #ifdef lint
     goto  schemaerrlab;
@@ -799,7 +801,7 @@ to state %d\n", * schemassp,  schemastate);
     *++ schemavsp =  schemaval;
     goto  schemaloop;
  schemaoverflow:
-     schemaerror("yacc stack overflow");
+     schemaerror((char*)"yacc stack overflow");
  schemaabort:
     return (1);
  schemaaccept:

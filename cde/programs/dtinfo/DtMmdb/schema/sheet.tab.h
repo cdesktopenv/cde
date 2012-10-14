@@ -51,6 +51,7 @@
 #define MODE 284
 #define PAGE_SZ 285
 #define CACHED_PAGES 286
+#undef  BYTE_ORDER
 #define BYTE_ORDER 287
 #define SEPARATOR 288
 typedef union

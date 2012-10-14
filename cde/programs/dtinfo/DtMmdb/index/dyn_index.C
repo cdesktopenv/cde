@@ -160,7 +160,7 @@ MESSAGE(cerr, "insert to list after");
 
        (*v_inv_lists_hd) -> append_list(list);
 
-       intKey.dt = voidPtr((*v_inv_lists_hd) -> count());
+       intKey.dt = (voidPtr)(size_t)(*v_inv_lists_hd) -> count();
 //debug(cerr, int(intKey.dt));
 
        v_idx_agent_ptr -> insert( intKey );

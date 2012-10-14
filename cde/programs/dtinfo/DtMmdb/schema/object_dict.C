@@ -131,7 +131,7 @@ desc* object_dict::init_a_base(char* db_path, char* db_name)
       x = parse(schema_path);
    } else {
 
-      int sz = bytes(in) - strlen(schema_header) - 1;
+      int sz = bytes(schema_path) - strlen(schema_header) - 1;
       char* buf = new char[sz];
    
       if ( !in.read(buf, sz) ) 
@@ -188,7 +188,7 @@ desc* object_dict::init_a_base(char* define_desc_path, char* db_path,
       throw(stringException(form("%s does not exist.", define_desc_path)));
    }
 
-   unsigned long len = bytes(in_test)*4;
+   unsigned long len = bytes(define_desc_path)*4;
 
    in_test.close();
 
@@ -213,21 +213,19 @@ desc* object_dict::init_a_base(char* define_desc_path, char* db_path,
        throw(streamException(in.rdstate()));
    } 
 
-   int sz = bytes(in);
+   int sz = bytes(define_desc_path);
    in.close();
 
    char* schema_buf = new char[sz*3];
 
-   ostrstream* string_out = new ostrstream(schema_buf, sz*3);
+   ostringstream* string_out = new ostringstream(schema_buf);
    if ( !(*string_out) ) {
        throw(streamException(string_out -> rdstate()));
    } 
 
    x -> asciiOutList(*string_out);
 
-   string_out -> put('\0'); // make NULL terminated string
-
-
+   strcpy(schema_buf, string_out->str().c_str());
    delete string_out;
 
    sz = strlen(schema_buf);
@@ -242,7 +240,8 @@ desc* object_dict::init_a_base(char* define_desc_path, char* db_path,
 /////////////////////////////
 // save the output to db_path
 /////////////////////////////
-   fstream out(form("%s/%s.%s", db_path, db_name, SCHEMA_FILE_SUFFIX), ios::out, open_file_prot());
+   fstream out(form("%s/%s.%s", db_path, db_name, SCHEMA_FILE_SUFFIX), ios::out);
+// fstream out(form("%s/%s.%s", db_path, db_name, SCHEMA_FILE_SUFFIX), ios::out, open_file_prot());
 
    if ( !out ) {
        MESSAGE(cerr, form("bad file name: %s", db_path));
@@ -290,11 +289,11 @@ desc* object_dict::parse(buffer& desc_buf)
 
     desc* x = 0;
 
-    try {
+    mtry {
        x = parse(unique_nm);
     }
 
-    catch (mmdbException &,e) {
+    mcatch (mmdbException &,e) {
        del_file(unique_nm);
        rethrow;
     } end_try;
@@ -318,14 +317,14 @@ desc* object_dict::parse(char* define_desc_path)
     else 
        ct = 1;
 
-    try {
+    mtry {
        if ( schemaparse() != 0 ) {
           fclose(schemain);
           throw(stringException("Parsing input failed"));
        }
     }
 
-    catch (mmdbException &,e) {
+    mcatch (mmdbException &,e) {
       fclose(schemain);
       rethrow;
     } end_try;
@@ -341,14 +340,14 @@ void object_dict::_init(desc* x)
 
    desc *ptr = x;
 
-   try { // init all stores
+   mtry { // init all stores
       while ( ptr ) {
          ptr -> init_store(this -> v_db_path);
          ptr = ptr -> next_desc;
       }
    }
 
-   catch (mmdbException &,e) {
+   mcatch (mmdbException &,e) {
       _quit_stores(x, ptr);
       _quit_descs(x, ptr);
       rethrow;
@@ -390,10 +389,10 @@ void object_dict::_quit_stores(desc* start_ptr, desc* end_ptr, Boolean sync)
    if ( sync == true ) {
       while ( ptr != end_ptr ) {
    
-         try {
+         mtry {
             ptr -> sync_store();
          }
-         catch (mmdbException &,e)
+         mcatch (mmdbException &,e)
          {
 #ifdef DEBUG
 	    fprintf(stderr, "mmdbException caught @ %s line:%d.\n",
@@ -410,11 +409,11 @@ void object_dict::_quit_stores(desc* start_ptr, desc* end_ptr, Boolean sync)
    ptr = start_ptr;
 
    while ( ptr != end_ptr ) {
-      try {
+      mtry {
          ptr -> quit_store();
       }
 
-      catch (mmdbException &,e)
+      mcatch (mmdbException &,e)
       {
 #ifdef DEBUG
 	    fprintf(stderr, "mmdbException caught @ %s line:%d.\n",
@@ -434,12 +433,12 @@ void object_dict::_quit_stored_objects(desc* start_ptr, desc* end_ptr)
 
    while ( ptr != end_ptr ) {
 
-      try {
+      mtry {
          ptr -> quit_handler();
 //debug(cerr, *ptr);
       }
 
-      catch (mmdbException &,e)
+      mcatch (mmdbException &,e)
       {
 #ifdef DEBUG
 	 fprintf(stderr, "mmdbException caught @ %s line:%d.\n",

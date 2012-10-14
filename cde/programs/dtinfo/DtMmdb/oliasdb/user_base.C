@@ -89,7 +89,7 @@ user_base::user_base( const char* spec_path, rw_flag_t rw) :
    char* name = getenv("USER");
 
    if ( name == 0 )
-      name = "";
+      name = (char*)"";
 
    strcpy(base_path, path);
    strcpy(base_name, name);
@@ -119,7 +119,7 @@ user_base::user_base( const char* base_dir,
 
 user_base::checking_status_t user_base::check_mode()
 {
-   try {
+   mtry {
 
      switch ( rw_flag ) {
          case user_base::READ:
@@ -139,7 +139,7 @@ user_base::checking_status_t user_base::check_mode()
      }
    }
 
-   catch (systemException&, e)
+   mcatch (systemException&, e)
       {
          return user_base::FAIL;
       }
@@ -176,7 +176,7 @@ user_base::checking_status_t user_base::check_lock()
 
         if (
          read_lock(atomic_lock_path, write_lock_path, 
-                   ai_path, access_info("read"), offset, ai_info
+                   ai_path, access_info((char*)"read"), offset, ai_info
                   ) == false
            ) {
             if ( ai_info ) {
@@ -192,7 +192,7 @@ user_base::checking_status_t user_base::check_lock()
 
          if (
           write_lock(atomic_lock_path, write_lock_path, 
-                    ai_path, access_info("write"), ai_info
+                    ai_path, access_info((char*)"write"), ai_info
                    ) == false
          ) {
              if ( ai_info ) {
@@ -243,7 +243,7 @@ void user_base::_init()
            break;
        }
 
-       try
+       mtry
          {
            ubase_trans.begin();
 
@@ -254,14 +254,14 @@ void user_base::_init()
    
          }
 
-       catch (beginTransException &,e)
+       mcatch (beginTransException &,e)
          {
 // cases: can't open log or write size info to log
            checking_status = user_base::FAIL;
            clean_up();
            break;
          }
-       catch (commitTransException &,e)
+       mcatch (commitTransException &,e)
          {
 // cases: bad log file, can't write to store, etc.
            checking_status = user_base::FAIL;
@@ -269,7 +269,7 @@ void user_base::_init()
            break;
          }
 // cases: can't do define()
-       catch (mmdbException &,e)
+       mcatch (mmdbException &,e)
          {
            checking_status = user_base::FAIL;
            ubase_trans.rollback(); 
@@ -285,7 +285,7 @@ void user_base::_init()
 
     case user_base::SUCC:
 
-       try {
+       mtry {
           ubase_trans.begin();
 
           first_desc_ptr = f_obj_dict -> init_a_base(base_path, base_name);
@@ -293,7 +293,7 @@ void user_base::_init()
           ubase_trans.end();
        }
 
-       catch (mmdbException &,e) {
+       mcatch (mmdbException &,e) {
 #ifdef DEBUG
 	  fprintf(stderr, "mmdbException caught @ %s line:%d.\n",
 						__FILE__, __LINE__);
@@ -372,14 +372,14 @@ void user_base::clean_up()
         store_ptr = desc_ptr -> get_store();
 
         if ( store_ptr ) {
-          try {
+          mtry {
 /*
 MESSAGE(cerr, "removing: ");
 MESSAGE(cerr, store_ptr -> my_name());
 */
                store_ptr->remove();
           }
-          catch (mmdbException &,e)
+          mcatch (mmdbException &,e)
           {
           } end_try;
         }

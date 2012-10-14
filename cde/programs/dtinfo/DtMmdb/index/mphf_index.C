@@ -193,7 +193,7 @@ oid_list_handler* mphf_index::get_loc_list(const oid_t& )
    return 0;
 }
 
-int mphf_index::handler_to_inv_idx(const handler& t) 
+size_t mphf_index::handler_to_inv_idx(const handler& t)
 {
    get_key_string(t);
 //debug(cerr, v_static_key);
@@ -224,7 +224,7 @@ Boolean mphf_index::batch_index_begin()
 {
 /*
 MESSAGE(cerr, "batch_index_begin()");
-debug(cerr, cmp_selector);
+debug(cerr, v_cmp_selector);
 debug(cerr, count());
 debug(cerr, int(this));
 */

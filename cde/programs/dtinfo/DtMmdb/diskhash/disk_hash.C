@@ -315,7 +315,7 @@ void disk_hash::caching(disk_bucket& b, data_t& w, int slot_num)
 
       if ( x ) {
          hash_vector -> insert(
-                   voidPtr(ind), 
+                   (voidPtr)(size_t)ind,
                    x -> slot_num(k, r, p, hash_vector -> count())
                               );
       }
@@ -330,7 +330,7 @@ void disk_hash::caching(disk_bucket& b, data_t& w, int slot_num)
 // others may be overwritten. 
 ////////////////////////////////////////
    hash_vector -> insert(
-         voidPtr(slot_num), 
+         (voidPtr)(size_t)slot_num,
          w.slot_num(k, r, p, hash_vector -> count())
                         );
 }

@@ -65,7 +65,7 @@ public:
 //init run time data members
    Boolean init_data_member( inv_lists_handler*, const char* btree_store );
 
-   int handler_to_inv_idx(const handler& query);
+   size_t handler_to_inv_idx(const handler& query);
 
    MMDB_SIGNATURES(btree_index);
 };

@@ -44,7 +44,8 @@ void randomize::restore(buffer& scrambled)
 
    int *pos = new int[bytes-1];
 
-   for ( int i=0; i<bytes-1; i++ ) {
+   int i;
+   for ( i=0; i<bytes-1; i++ ) {
       pos[i] = rdn.rand() % ( bytes - i ) + i;
    }
 

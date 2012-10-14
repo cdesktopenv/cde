@@ -70,20 +70,20 @@
 #define USER_MARK_CODE 		1006
 #define USER_CONFIG_CODE 	1007
 
-#define DOC_SET_NAME		"doc"
-#define NODE_SET_NAME		"node"
-#define TOC_SET_NAME		"toc"
-#define LOCATOR_SET_NAME	"loc"
-#define GRAPHIC_SET_NAME	"graphic"
-#define STYLESHEET_SET_NAME	"stylesheet"
+#define DOC_SET_NAME		(char*)"doc"
+#define NODE_SET_NAME		(char*)"node"
+#define TOC_SET_NAME		(char*)"toc"
+#define LOCATOR_SET_NAME	(char*)"loc"
+#define GRAPHIC_SET_NAME	(char*)"graphic"
+#define STYLESHEET_SET_NAME	(char*)"stylesheet"
 
-#define DLP_LIST_NAME		"dlp"
+#define DLP_LIST_NAME		(char*)"dlp"
 
-#define USER_MARK_SET_NAME	"mark"
-#define USER_CONFIG_SET_NAME	"config"
+#define USER_MARK_SET_NAME	(char*)"mark"
+#define USER_CONFIG_SET_NAME	(char*)"config"
 
-#define MARK_SPEC "mmdb.mark.spec"
-#define PREF_SPEC "mmdb.pref.spec"
+#define MARK_SPEC		(char*)"mmdb.mark.spec"
+#define PREF_SPEC		(char*)"mmdb.pref.spec"
 
 #define NODE_SET_POS    	0
 #define TOC_SET_POS     	1

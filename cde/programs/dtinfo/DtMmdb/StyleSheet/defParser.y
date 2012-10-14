@@ -3,7 +3,7 @@
 %{
 #include <stdio.h>
 #include <ctype.h>
-#include <stream.h>
+#include <sstream>
 #include <iostream.h>
 #include "Debug.h"
 #include "FeatureDefDictionary.h"

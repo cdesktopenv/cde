@@ -75,7 +75,11 @@ Boolean read_lock(char* lock_file_path,
          throw(streamException(x.rdstate()));
       }
 
+#ifdef C_API
       offset = bytes(x.rdbuf() -> fd());
+#else
+      offset = bytes(ai_info);
+#endif
       x << "A-" << reader_info << "\n";
 
       x.close();
@@ -89,7 +93,11 @@ Boolean read_lock(char* lock_file_path,
          throw(streamException(x.rdstate()));
       }
 
+#ifdef C_API
       int sz = bytes(x.rdbuf() -> fd());
+#else
+      int sz = bytes(ai_info);
+#endif
 
       ai_info = new char[sz+1];
       ai_info[0] = 0;
@@ -134,7 +142,11 @@ Boolean read_unlock(char* lock_file_path, char* ai_path, int offset)
 // and the file size is over 1k
 ///////////////////////////////////////////////
 
+#ifdef C_API
    if ( bytes(x.rdbuf() -> fd()) > 1024 ) {
+#else
+   if ( bytes(ai_path) > 1024 ) {
+#endif
 
       ok = false;
       char buf[BUFSIZ];
@@ -172,6 +184,7 @@ Boolean write_lock(char* lock_file_path,
                    char*& ai_info
                   )
 {
+   int ret;
    atomic_lock l(lock_file_path);
 
    if ( l.lock() == false ) {
@@ -190,7 +203,11 @@ Boolean write_lock(char* lock_file_path,
 
    char buf[BUFSIZ];
 
+#ifdef C_API
    int sz = bytes(x.rdbuf() -> fd());
+#else
+   int sz = bytes(ai_path);
+#endif
    ai_info = new char[sz+1]; 
    ai_info[0] = 0;
    
@@ -215,7 +232,7 @@ Boolean write_lock(char* lock_file_path,
 /////////////////////////////////////////
 // create the access info file
 /////////////////////////////////////////
-         truncate(ai_path, 0);
+         ret = truncate(ai_path, 0);
          fstream x(ai_path, ios::out);
          x << "A-" << writer_info << "\n";
    

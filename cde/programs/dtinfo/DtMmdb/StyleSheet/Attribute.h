@@ -39,7 +39,7 @@ public:
   ~Attribute();
 
   const Symbol &name() const	{ return f_name; }
-  operator==(const Attribute &) const ;
+  bool operator==(const Attribute &) const ;
 
   const char   *value() const	{ return f_value ; } 
 

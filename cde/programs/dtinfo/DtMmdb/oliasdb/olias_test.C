@@ -48,6 +48,7 @@
  */
 
 
+#include "oliasdb/olias_test.h"
 #include "api/utility.h"
 #include "utility/pm_random.h"
 #include "misc/unique_id.h"
@@ -55,7 +56,6 @@
 #include "dstr/dstr_test.h"
 #include "storage/store_test.h"
 #include "oliasdb/olias_funcs.h"
-#include "oliasdb/olias_test.h"
 
 #include "object/random_gen.h"
 
@@ -76,7 +76,7 @@
 #include "oliasdb/mmdb.h"
 
       
-#ifdef DEBUG
+#ifdef NODEBUG
 void test_collector_iterator(info_base* base)
 {
    MESSAGE(cerr, "node locators:");
@@ -108,7 +108,7 @@ int dump_instances(info_base* base_ptr, char* col_nm, c_code_t ins_code)
    if ( base_ptr == 0 )
       throw(stringException("null base ptr"));
 
-   iterator *it = base_ptr -> first(col_nm, ins_code);
+   Iterator *it = base_ptr -> first(col_nm, ins_code);
   
    if (it==0)
       throw(stringException("null iterator pointer"));
@@ -159,7 +159,8 @@ int cache_test( info_lib* infolib_ptr, const char* base_name, int argc, char** a
    locator_smart_ptrPtr* ptr_array = new locator_smart_ptrPtr[argc];
 debug(cerr, argc);
 
-   for ( int i=0; i<argc; i++ ) {
+   int i;
+   for ( i=0; i<argc; i++ ) {
       ptr_array[i] = new locator_smart_ptr(infolib_ptr, base_name, argv[i]);
    
       cerr << form("node_id of locator %s:\n", argv[i]);
@@ -241,7 +242,8 @@ int generate_stream(info_base* b_ptr, char* path, int num_sections, int min, int
    if ( !stylesheet_stream )
      return -1;
 
-   for (int i=0; i<stylesheets; i++ ) {
+   int i;
+   for (i=0; i<stylesheets; i++ ) {
 // assume the stylesheet and section are of approx. length
      generate_stylesheet_instance(x, stylesheet_stream, min, max);
    }
@@ -303,12 +305,12 @@ int generate_stream(info_base* b_ptr, char* path, int num_sections, int min, int
 
 int destroy_stream(char* path)
 {
-   try {
+   mtry {
       del_file(TEST_STY_FILE, path);
       del_file(TEST_SEC_FILE, path);
       del_file(TEST_MIX_FILE, path);
    }
-   catch_any() 
+   mcatch_any()
    {
       return -1;
    }
@@ -323,7 +325,7 @@ int extract_and_compare_objects(istream& in, info_base* base_ptr, int code)
 
    handler* root_hd_ptr = 0;
 
-   vm_storage st("", "");
+   vm_storage st((char*)"", (char*)"");
 
    char ccode_buf[LBUFSIZ];
    int c;
@@ -338,9 +340,9 @@ int extract_and_compare_objects(istream& in, info_base* base_ptr, int code)
 
       if ( c == SGML_CONTENT_CODE ) {
         if ( code == c || code == 0 )
-           ok |= compare_SGML_content(in, base_ptr, true);
+           ok |= compare_SGML_content(in, base_ptr, (Boolean)true);
         else
-           compare_SGML_content(in, base_ptr, false);
+           compare_SGML_content(in, base_ptr, (Boolean)false);
       } else {
 
          root_hd_ptr = new handler(c, &st);
@@ -384,13 +386,13 @@ struct {
    c_code_t code;
 } auto_test_spec[] = 
 {
-  {"auto_node_test", OLIAS_NODE_CODE},
-  {"auto_SGML_content_test", SGML_CONTENT_CODE},
-  {"auto_stylesheet_test", STYLESHEET_CODE},
-  {"auto_graphic_test", GRAPHIC_CODE},
-  {"auto_doc_test", DOC_CODE},
-  {"auto_toc_test", TOC_CODE},
-  {"auto_loc_test", LOCATOR_CODE},
+  {(char*)"auto_node_test", OLIAS_NODE_CODE},
+  {(char*)"auto_SGML_content_test", SGML_CONTENT_CODE},
+  {(char*)"auto_stylesheet_test", STYLESHEET_CODE},
+  {(char*)"auto_graphic_test", GRAPHIC_CODE},
+  {(char*)"auto_doc_test", DOC_CODE},
+  {(char*)"auto_toc_test", TOC_CODE},
+  {(char*)"auto_loc_test", LOCATOR_CODE},
 };
 
 #define NUM_OF_AUTO_TESTS 7
@@ -570,7 +572,7 @@ int select_debug_routine(int argc, char** argv, OLIAS_DB& db)
    } 
 
    ok =mark_test(argc, argv);
-#ifdef DEBUG
+#ifdef NODEBUG
    if (ok < 0) {
      cerr << "mark_test failed." << endl;
      return ok;
@@ -604,7 +606,7 @@ int select_debug_routine(int argc, char** argv, OLIAS_DB& db)
       }
 #endif
 
-#ifdef DEBUG
+#ifdef NODEBUG
    if ( strcmp(argv[1], "random_gen") == 0 ) {
         if ( argc != 7 ) {
            cerr << "random_gen args: " << "random_gen base_name path num_sections min_section_len max_sec_len\n";

@@ -48,7 +48,7 @@
 #ifdef C_API
 #include "utility/c_stream.h"
 #else
-#include <stream.h>
+#include <sstream>
 #endif
 
 #include "dstr/dlist.h"

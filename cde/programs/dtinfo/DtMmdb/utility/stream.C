@@ -27,7 +27,7 @@
 
 #include "utility/c_stream.h"
 
-char*  form(const char* fmt ...)
+char*  sform(const char* fmt ...)
 {
    static char buf[1024];
 

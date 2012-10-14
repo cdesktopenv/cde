@@ -53,7 +53,8 @@
 #ifdef C_API
 #include "utility/c_iostream.h"
 #else
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #endif
 
 int steps[] = { 2, 3, 5, 7, 11, 13, 17, 21, 23, 29, 31, 37, 41, 43, 47, 51 };
@@ -129,7 +130,8 @@ void imp_die::alloc_table(int new_H)
 
 void imp_die::init_table()
 {
-   for ( int i = 0; i < B; i++ ) {
+   int i;
+   for ( i = 0; i < B; i++ ) {
       bucket_array[i] = 0 ; 
    }
    for ( i = 0; i < H; i++ ) {
@@ -142,7 +144,8 @@ void imp_die::clean()
    n = 0;
    collect_all_keys();
 
-   for ( int i=0; i<B; i++ ) {
+   int i;
+   for ( i=0; i<B; i++ ) {
       if ( bucket_array[i] ) {
          delete bucket_array[i];
          bucket_array[i] = 0 ;

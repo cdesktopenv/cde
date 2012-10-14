@@ -86,9 +86,13 @@ MESSAGE(cerr, "~unixf storeage ()");
 
 void unixf_storage::remove()
 {
+#ifdef C_API
    int fd = rdbuf() -> fd();
    fsync(fd);
    ::close(fd);
+#else
+   rdbuf() -> close();
+#endif
    del_file(my_name(), my_path());
 /*
    int md = mode;
@@ -133,7 +137,7 @@ int unixf_storage::_open(int new_mode)
    }
 
    if ( v_file_exist == false ) {
-      SET_BIT(new_mode, ios::out);
+      SET_BIT(new_mode, ios::out | ios::app);
       v_file_exist = true;
    }
 
@@ -157,13 +161,23 @@ int unixf_storage::_open(int new_mode)
       SET_BIT(mode, new_mode);
 
       fmt = ::form("%s/%s", path, name);
-      fstream::open((const char *) fmt, mode, open_file_prot());
+#ifdef C_API
+      fstream::open((const char *) fmt, mode);
+#else
+      fstream::open((const char *) fmt, (ios_base::openmode)mode);
+#endif
+//    fstream::open((const char *) fmt, mode, open_file_prot());
 
    } else {
 
       if ( ! fstream::rdbuf() -> is_open() )  {
         fmt = ::form("%s/%s", path, name);
-        fstream::open((const char *) fmt, mode, open_file_prot());
+#ifdef C_API
+        fstream::open((const char *) fmt, mode);
+#else
+        fstream::open((const char *) fmt, (ios_base::openmode)mode);
+#endif
+//      fstream::open((const char *) fmt, mode, open_file_prot());
       }
 
    }
@@ -254,11 +268,11 @@ fprintf(stderr, "flush option=%d\n", flush_opt);
       flush();
 
 #ifdef DEBUG
-   fprintf(stderr, "%d bytes have been written at offset %d in %s/%s @ %s:%d\n", len, loc+string_ofst, path, name, __FILE__, __LINE__);
+   fprintf(stderr, "%d bytes have been written at offset %ld in %s/%s @ %s:%d\n", len, loc+string_ofst, path, name, __FILE__, __LINE__);
 #ifndef C_API
    {
      char fname[64];
-     sprintf(fname, "%s.%d-%d", name, loc+string_ofst, len);
+     sprintf(fname, "%s.%ld-%d", name, loc+string_ofst, len);
      ofstream output(fname);
      output.write(base, len);      
      output.flush();
@@ -296,14 +310,18 @@ int unixf_storage::bytes()
 {
    if ( total_bytes == -1 ) {
 
+      char* info_lib_file = form("%s/%s", path, name);
+
       _open(ios::in);
-  
 
       if ( !good() ) 
          clear();
 
-      
+#ifdef C_API
       total_bytes = ::bytes(rdbuf() -> fd());
+#else
+      total_bytes = ::bytes(info_lib_file);
+#endif
    }
 
    return total_bytes;
@@ -318,7 +336,12 @@ Boolean unixf_storage::io_mode(int test_mode)
       fstream::close();
    }
 
-   fstream::open(name, test_mode, open_file_prot());
+#ifdef C_API
+   fstream::open(name, test_mode);
+#else
+   fstream::open(name, (ios_base::openmode)test_mode);
+#endif
+// fstream::open(name, test_mode, open_file_prot());
 
    if ( ! fstream::rdbuf() -> is_open() )
       return false;
@@ -326,7 +349,12 @@ Boolean unixf_storage::io_mode(int test_mode)
       fstream::close();
     
       if ( opened == true )
+#ifdef C_API
          fstream::open(name, mode, open_file_prot());
+#else
+         fstream::open(name, (ios_base::openmode)mode);
+#endif
+//       fstream::open(name, mode, open_file_prot());
 
       return true;
    }

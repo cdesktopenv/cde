@@ -60,8 +60,12 @@
 #define	_CDEFS_H_
 
 #if defined(__cplusplus)
+#ifndef	__BEGIN_DECLS
 #define	__BEGIN_DECLS	extern "C" {
+#endif
+#ifndef	__END_DECLS
 #define	__END_DECLS	};
+#endif
 #else
 #define	__BEGIN_DECLS
 #define	__END_DECLS
@@ -79,7 +83,9 @@
 #undef  __P
 #endif
 #define	__P(protos)	protos		/* full-blown ANSI C */
+#ifndef __CONCAT
 #define	__CONCAT(x,y)	x ## y
+#endif
 #define	__STRING(x)	#x
 
 #else	/* !(__STDC__ || __cplusplus) */
@@ -114,7 +120,9 @@
  */
 #if defined(__GNUC__) && !defined(__STRICT_ANSI__)
 #define __dead __volatile
+#ifndef __pure
 #define __pure __const
+#endif
 #else
 #define __dead
 #define __pure

@@ -25,6 +25,7 @@
 #ifndef _ios_h
 #define _ios_h
 
+#include <sys/types.h>
 #include "utility/macro.h"
 #include "utility/c_streambuf.h"
 
@@ -57,7 +58,7 @@ public:
   void clear() { f_state = OK; };
 
   int operator!() { return fail(); };
-  operator void*() { return (void*)good(); };
+  operator void*() { return (void*)(size_t)good(); };
 
 };
 

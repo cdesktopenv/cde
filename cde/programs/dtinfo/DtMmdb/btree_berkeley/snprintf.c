@@ -25,6 +25,7 @@
 #include "cdefs.h"
 
 #include <compat.h>
+#include <string.h>
 
 #ifdef __STDC__
 #include <stdarg.h>
@@ -52,7 +53,7 @@ snprintf(str, n, fmt, va_alist)
 	va_start(ap);
 #endif
 #ifdef VSPRINTF_CHARSTAR
-	rp = vsprintf(str, fmt, ap);
+	rp = (char*)(size_t)vsprintf(str, fmt, ap);
 	va_end(ap);
 	return (strlen(rp));
 #else
@@ -70,7 +71,7 @@ vsnprintf(str, n, fmt, ap)
 	va_list ap;
 {
 #ifdef VSPRINTF_CHARSTAR
-	return (strlen(vsprintf(str, fmt, ap)));
+	return (strlen((char*)(size_t)vsprintf(str, fmt, ap)));
 #else
 	return (vsprintf(str, fmt, ap));
 #endif

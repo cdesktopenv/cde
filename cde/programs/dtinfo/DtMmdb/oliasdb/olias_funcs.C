@@ -76,16 +76,16 @@ struct map_record {
 
 struct map_record set_map[]=
 { 
-   {"loc", LOCATOR_CODE, 0},
-   {"toc", TOC_CODE, 0 },
-   {"doc", DOC_CODE, 0 },
-   {"graphic", GRAPHIC_CODE, 0 },
-//   {"stylesheet", STYLESHEET_CODE, 0 },
+   {(char*)"loc", LOCATOR_CODE, 0},
+   {(char*)"toc", TOC_CODE, 0 },
+   {(char*)"doc", DOC_CODE, 0 },
+   {(char*)"graphic", GRAPHIC_CODE, 0 },
+//   {(char*)"stylesheet", STYLESHEET_CODE, 0 },
 }; 
 
 struct map_record list_map[]=
 { 
-   {"dlp", DLP_CODE, 0},
+   {(char*)"dlp", DLP_CODE, 0},
 }; 
 
 //#define SET_MAP_SZ 5
@@ -104,7 +104,8 @@ void insert_to_collection(c_code_t ccode, istream& in)
     abs_storage* store = 0;
     handler* hd = 0;
 
-    for ( int i = 0; i<SET_MAP_SZ ; i++ ) {
+    int i;
+    for ( i = 0; i<SET_MAP_SZ ; i++ ) {
       if ( set_map[i].instance_class_code == ccode ) {
          obj_type = SET;
          store = set_map[i].collection_hd -> its_store();
@@ -176,7 +177,8 @@ int _load_mixed_objects_from_cin(info_base* base_ptr)
 
 int _load_mixed_objects(info_base* base_ptr, istream& in)
 {
-   for ( int i = 0; i<SET_MAP_SZ ; i++ ) {
+   int i;
+   for ( i = 0; i<SET_MAP_SZ ; i++ ) {
       cset_handlerPtr x = base_ptr -> get_set(set_map[i].col_name);
 
       if (x==0)

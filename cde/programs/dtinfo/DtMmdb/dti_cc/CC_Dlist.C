@@ -56,7 +56,7 @@ CC_TPtrDlist<T>::CC_TPtrDlist(const CC_TPtrDlist<T>&adlist)
 template <class T>
 void CC_TPtrDlist<T>::clear()
 {
-  if ( !destructed ) {
+  if ( !this->get_destructed() ) {
     CC_TPtrSlistIterator<T> iter(*this);
     if (++iter) {
       while (1) {
@@ -82,7 +82,7 @@ template <class T>
 void CC_TPtrDlist<T>::clearAndDestroy()
 {
     
-    destructed = TRUE;
+    this->set_destructed(TRUE);
     CC_TPtrDlistIterator<T> iter(*this);
     if ( ++iter ) {
 	while (1) {

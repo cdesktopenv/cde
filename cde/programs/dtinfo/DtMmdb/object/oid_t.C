@@ -98,7 +98,7 @@ oid_t::oid_t(const char* source, Boolean ascii_format, Boolean swap_order)
 #endif
 
    } else {
-      istrstream in((char*)source);
+      istringstream in((char*)source);
 
       in >> v_c_code;
 

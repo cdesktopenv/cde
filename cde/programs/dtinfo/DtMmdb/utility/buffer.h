@@ -52,6 +52,7 @@
 #define _buffer_h 1
 
 #include <ctype.h>
+#include <iomanip>
 #include "utility/funcs.h"
 
 class buffer 

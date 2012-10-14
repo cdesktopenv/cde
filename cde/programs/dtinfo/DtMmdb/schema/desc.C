@@ -78,7 +78,7 @@ void desc::set_nm(const char* name)
 
 void desc::set_oid(const char* source)
 {
-   istrstream in((char*)source);
+   istringstream in((char*)source);
    v_oid._asciiIn(in);
 }
 

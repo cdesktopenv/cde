@@ -151,7 +151,7 @@ MESSAGE(cerr, "inv::insert");
 debug(cerr, index);
 */
 
-   if ( INRANGE(list_id.ccode(), 0, 1) && 
+   if ( INRANGE((short)list_id.ccode(), 0, 1) &&
         id.ccode() != OID_LIST_CODE 
    ) {
 

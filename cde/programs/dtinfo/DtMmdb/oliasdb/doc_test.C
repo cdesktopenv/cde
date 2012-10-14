@@ -60,12 +60,12 @@ void print_doc(doc_smart_ptr& x, ostream& out, Boolean out_it_oid, Boolean out_t
 int compare_doc(doc_smart_ptr& pattern, info_base* base_ptr)
 {
    char pattern_buf[LARGE_BUFSIZ];
-   ostrstream pattern_out(pattern_buf, LARGE_BUFSIZ, ios::out);
+   ostringstream pattern_out(pattern_buf, LARGE_BUFSIZ, ios::out);
    print_doc(pattern, pattern_out, false, false);
 
    doc_smart_ptr x( base_ptr, pattern.seq_num());
    char db_buf[LARGE_BUFSIZ];
-   ostrstream db_out(db_buf, LARGE_BUFSIZ, ios::out);
+   ostringstream db_out(db_buf, LARGE_BUFSIZ, ios::out);
    print_doc(x, db_out, false, false);
 
    return compare_stream(pattern_out, db_out);

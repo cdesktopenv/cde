@@ -35,7 +35,7 @@ extern OLIAS_DB* mmdb_ptr;
 int
 DtMmdbGetBookCaseByName(int infolib_descriptor, const char* name)
 {
-   try {
+   mtry {
       info_lib* x = mmdb_ptr -> getInfoLib(infolib_descriptor);
 
       if ( x == 0 ) return -1;
@@ -48,7 +48,7 @@ DtMmdbGetBookCaseByName(int infolib_descriptor, const char* name)
          return base -> index_id();
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       return -1;
    } end_try;
@@ -58,7 +58,7 @@ DtMmdbGetBookCaseByName(int infolib_descriptor, const char* name)
 int
 DtMmdbGetBookCaseByIndex(int infolib_descriptor, int index)
 {
-   try {
+   mtry {
       info_lib* x = mmdb_ptr -> getInfoLib(infolib_descriptor);
 
       if ( x == 0 ) return -1;
@@ -81,7 +81,7 @@ DtMmdbGetBookCaseByIndex(int infolib_descriptor, int index)
       } else
         return -1;
    }
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       return -1;
    } end_try;
@@ -91,7 +91,7 @@ DtMmdbGetBookCaseByIndex(int infolib_descriptor, int index)
 int
 DtMmdbGetBookCaseByLoc(int infolib_descriptor, const char* locator)
 {
-   try {
+   mtry {
       info_lib* x = mmdb_ptr -> getInfoLib(infolib_descriptor);
 
       if ( x == 0 ) return -1;
@@ -105,7 +105,7 @@ DtMmdbGetBookCaseByLoc(int infolib_descriptor, const char* locator)
             return base -> index_id();
       
    }
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       return -1;
    } end_try;
@@ -118,7 +118,7 @@ DtMmdbGetBookCaseByLocs(int infolib_descriptor, const char** locators,
 	int* count_ptr)
 {
 
-    try {
+    mtry {
       info_lib* x = mmdb_ptr -> getInfoLib(infolib_descriptor);
 
       if ( x == 0 ) return 0;
@@ -146,7 +146,7 @@ DtMmdbGetBookCaseByLocs(int infolib_descriptor, const char** locators,
       return ds;
 
    }
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       if (count_ptr) *count_ptr = 0;
       return 0;
@@ -159,7 +159,7 @@ DtMmdbGetBookCaseByLocs(int infolib_descriptor, const char** locators,
 DtMmdbBookCaseInfo* 
 DtMmdbBookCaseGetInfo(int bookcase_descriptor)
 {
-   try {
+   mtry {
         info_base* x = getBookCase(bookcase_descriptor);
   
         if ( x == 0 ) return 0;
@@ -175,7 +175,7 @@ DtMmdbBookCaseGetInfo(int bookcase_descriptor)
         return y;
 
    }
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       return 0;
    } end_try;

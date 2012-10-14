@@ -27,7 +27,7 @@
 static dlp_smart_ptr*
 getDlpUsingProid(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       info_base* x = getBookCase(request -> bookcase_descriptor);
       if ( x == 0 ) return 0;
 
@@ -40,7 +40,7 @@ getDlpUsingProid(DtMmdbInfoRequest* request)
       return 0;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -50,7 +50,7 @@ getDlpUsingProid(DtMmdbInfoRequest* request)
 DtMmdbHandle*
 DtMmdbDlpGetPrevSectionId(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       dlp_smart_ptr* x = getDlpUsingProid(request);
       if ( x == 0 ) return 0;
       DtMmdbHandle *z = 0;
@@ -64,7 +64,7 @@ DtMmdbDlpGetPrevSectionId(DtMmdbInfoRequest* request)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -74,7 +74,7 @@ DtMmdbDlpGetPrevSectionId(DtMmdbInfoRequest* request)
 DtMmdbHandle*
 DtMmdbDlpGetNextSectionId(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       dlp_smart_ptr* x = getDlpUsingProid(request);
       if ( x == 0 ) return 0;
 
@@ -89,7 +89,7 @@ DtMmdbDlpGetNextSectionId(DtMmdbInfoRequest* request)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;

@@ -27,7 +27,7 @@
 const char* 
 DtMmdbSectionGetLoc(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       info_base* x = getBookCase(request -> bookcase_descriptor);
       if ( x == 0 ) return 0;
    
@@ -40,7 +40,7 @@ DtMmdbSectionGetLoc(DtMmdbInfoRequest* request)
       return y.locator();
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -50,7 +50,7 @@ DtMmdbSectionGetLoc(DtMmdbInfoRequest* request)
 static node_smart_ptr* 
 getSectionUsingLocAndProid(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       info_base* x = getBookCase(request -> bookcase_descriptor);
       if ( x == 0 ) return 0;
 
@@ -67,7 +67,7 @@ getSectionUsingLocAndProid(DtMmdbInfoRequest* request)
       return new node_smart_ptr(x, *id);
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -80,7 +80,7 @@ DtMmdbSectionGetLongTitle(
 	unsigned int* title_length
 			 )
 {
-   try {
+   mtry {
       node_smart_ptr* x = getSectionUsingLocAndProid(request);
 
       if ( x == 0 ) return 0;
@@ -98,7 +98,7 @@ DtMmdbSectionGetLongTitle(
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -111,7 +111,7 @@ DtMmdbSectionGetShortTitle(
 	unsigned int* title_length
 			  )
 {
-   try {
+   mtry {
       node_smart_ptr* x = getSectionUsingLocAndProid(request);
 
       if ( x == 0 ) return 0;
@@ -122,7 +122,7 @@ DtMmdbSectionGetShortTitle(
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -136,7 +136,7 @@ DtMmdbSectionGetData
 	unsigned int* data_length
 	)
 {
-   try {
+   mtry {
       node_smart_ptr* x = getSectionUsingLocAndProid(request);
 
       if ( x == 0 ) return 0;
@@ -147,7 +147,7 @@ DtMmdbSectionGetData
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -156,7 +156,7 @@ DtMmdbSectionGetData
 
 int DtMmdbSectionGetDataSize(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       node_smart_ptr* x = getSectionUsingLocAndProid(request);
 
       if ( x == 0 ) return -1;
@@ -167,7 +167,7 @@ int DtMmdbSectionGetDataSize(DtMmdbInfoRequest* request)
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return -1;
    } end_try;
@@ -177,7 +177,7 @@ int DtMmdbSectionGetDataSize(DtMmdbInfoRequest* request)
 	
 const char* DtMmdbSectionGetTocLoc(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       node_smart_ptr* x = getSectionUsingLocAndProid(request);
 
       if ( x == 0 ) return 0;
@@ -187,7 +187,7 @@ const char* DtMmdbSectionGetTocLoc(DtMmdbInfoRequest* request)
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -198,7 +198,7 @@ const char* DtMmdbSectionGetTocLoc(DtMmdbInfoRequest* request)
 DtMmdbHandle* 
 DtMmdbSectionGetBookId(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       node_smart_ptr* x = getSectionUsingLocAndProid(request);
 
       if ( x == 0 ) return 0;
@@ -209,7 +209,7 @@ DtMmdbSectionGetBookId(DtMmdbInfoRequest* request)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -219,7 +219,7 @@ DtMmdbSectionGetBookId(DtMmdbInfoRequest* request)
 DtMmdbHandle* 
 DtMmdbSectionGetStyleSheetId(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       node_smart_ptr* x = getSectionUsingLocAndProid(request);
 
       if ( x == 0 ) return 0;
@@ -230,7 +230,7 @@ DtMmdbSectionGetStyleSheetId(DtMmdbInfoRequest* request)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;

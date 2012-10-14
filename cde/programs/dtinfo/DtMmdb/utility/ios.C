@@ -22,9 +22,9 @@
  */
 // $XConsortium: ios.C /main/4 1996/08/21 15:54:46 drk $
 
-#include "utility/c_ios.h"
 #include <ctype.h>
 #include <stdio.h>
+#include "utility/c_ios.h"
 
 ios::ios(streambuf* sb) : sbuf(sb), f_state(OK)
 {

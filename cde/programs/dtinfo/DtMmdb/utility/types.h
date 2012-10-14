@@ -49,7 +49,8 @@
 #ifdef C_API
 #include "utility/c_iostream.h"
 #else
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #endif
 
 #define true  1

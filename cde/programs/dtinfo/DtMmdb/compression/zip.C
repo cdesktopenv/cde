@@ -61,6 +61,7 @@ void zip::compress(const buffer& uncompressed, buffer& compressed)
 // code for testing. I know it is slow. 
 ////////////////////////////////////////
 
+   int ret;
    fstream out(UNCOMPRESSED, ios::out|ios::trunc);
 
    if ( !out )
@@ -71,14 +72,14 @@ void zip::compress(const buffer& uncompressed, buffer& compressed)
 
    out.close();
 
-   system(form("gzip -c %s > %s", UNCOMPRESSED, COMPRESSED));
+   ret = system(form("gzip -c %s > %s", (char*)UNCOMPRESSED,(char*)COMPRESSED));
 
    fstream in(COMPRESSED, ios::in);
 
    if ( !in )
       throw(streamException(in.rdstate()));
 
-   int x = bytes(in);
+   int x = bytes((char*)COMPRESSED);
 
    compressed.expand_chunk(x);
 
@@ -94,6 +95,7 @@ void zip::compress(const buffer& uncompressed, buffer& compressed)
 
 void zip::decompress(buffer& compressed, buffer& uncompressed) 
 {
+   int ret;
    fstream out(COMPRESSED, ios::out|ios::trunc);
 
    if ( !out )
@@ -104,14 +106,14 @@ void zip::decompress(buffer& compressed, buffer& uncompressed)
 
    out.close();
 
-   system(form("gzip -cd %s > %s", COMPRESSED, UNCOMPRESSED));
+   ret = system(form("gzip -cd %s > %s",(char*)COMPRESSED,(char*)UNCOMPRESSED));
 
    fstream in(UNCOMPRESSED, ios::in);
 
    if ( !in )
       throw(streamException(in.rdstate()));
 
-   int x = bytes(in);
+   int x = bytes((char*)UNCOMPRESSED);
 
    uncompressed.expand_chunk(x);
 

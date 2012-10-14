@@ -38,6 +38,7 @@ Attribute::~Attribute()
   delete f_value ;
 }
 
+bool
 Attribute::operator==(const Attribute &attr) const
 {
 /*

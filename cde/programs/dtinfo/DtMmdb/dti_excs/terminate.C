@@ -48,11 +48,11 @@ terminate()
       // abuse in the terminate handler. 
       PFV handler = _terminate_handler;
       _terminate_handler = NULL;
-      try
+      mtry
 	{
 	  (*handler)();
 	}
-      catch_any()
+      mcatch_any()
 	{
 	  Exceptions::error (Exceptions::f_msg_throw_from_terminate,
 			     Exceptions::APPLICATION_ERROR);

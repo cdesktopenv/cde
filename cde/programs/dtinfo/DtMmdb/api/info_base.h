@@ -59,11 +59,11 @@
 #include "object/cset.h"
 #include "object/dl_list.h"
 
-class iterator 
+class Iterator
 {
 public:
-   iterator( handler*, c_code_t );
-   ~iterator();
+   Iterator( handler*, c_code_t );
+   ~Iterator();
 
    operator void*();
 
@@ -106,9 +106,9 @@ public:
    mm_version& data_version() { return f_v; };
 
 // iterate over all instances with 'c_code' in a set or a list
-   iterator* first(char* col_nm, c_code_t c_code);
-   oid_t get_oid(const iterator& ind);
-   void next(iterator&);
+   Iterator* first(char* col_nm, c_code_t c_code);
+   oid_t get_oid(const Iterator& ind);
+   void next(Iterator&);
 
 #ifdef C_API
 // an integer id within the infolib

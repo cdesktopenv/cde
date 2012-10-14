@@ -24,20 +24,20 @@
 
 
 #include <stdio.h>
-#include "utility/c_strstream.h"
+#include "utility/c_stringstream.h"
 
-tst_ostrstream()
+tst_ostringstream()
 {
    char buf[1024];
-   ostrstream os(buf, 1024);
+   ostringstream os(buf, 1024);
    os << "istream : virtual public ios.";
    fprintf(stderr, "buf=%s\n", buf);
 }
 
-tst_istrstream()
+tst_istringstream()
 {
    char* buf = "303.0";
-   istrstream is(buf, strlen(buf));
+   istringstream is(buf, strlen(buf));
 
    int c = is.get() ;
    fprintf(stderr, "c=%c\n", c);
@@ -51,6 +51,6 @@ tst_istrstream()
 
 main()
 {
-   tst_ostrstream();
-   tst_istrstream();
+   tst_ostringstream();
+   tst_istringstream();
 }

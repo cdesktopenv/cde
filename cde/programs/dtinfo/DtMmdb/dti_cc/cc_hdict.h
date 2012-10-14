@@ -29,7 +29,8 @@
 #include "dti_cc/cc_pvect.h"
 #include "dti_cc/CC_Slist.h"
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 template <class K, class V> 
 class kv_pair {

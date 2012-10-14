@@ -51,9 +51,10 @@
 #include "oliasdb/node_hd.h"
 
 #ifdef C_API
-#include "utility/c_strstream.h"
+#include "utility/c_stringstream.h"
 #else
-#include <strstream.h>
+#include <sstream>
+using namespace std;
 #endif
 
 MMDB_BODIES(olias_node)

@@ -27,7 +27,7 @@
 static toc_smart_ptr*
 getTocUsingProid(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       info_base* x = getBookCase(request -> bookcase_descriptor);
       if ( x == 0 ) return 0;
 
@@ -38,7 +38,7 @@ getTocUsingProid(DtMmdbInfoRequest* request)
       return new toc_smart_ptr(x, *id);
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -49,7 +49,7 @@ getTocUsingProid(DtMmdbInfoRequest* request)
 DtMmdbHandle*
 DtMmdbTocGetParentId(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       toc_smart_ptr* x = getTocUsingProid(request);
       if ( x == 0 ) return 0;
 
@@ -64,7 +64,7 @@ DtMmdbTocGetParentId(DtMmdbInfoRequest* request)
       return z; 
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -77,7 +77,7 @@ DtMmdbTocGetChildIds(
         unsigned int* list_length
         )
 {
-   try {
+   mtry {
       toc_smart_ptr* x = getTocUsingProid(request);
       if ( x == 0 ) return 0;
 
@@ -92,7 +92,8 @@ DtMmdbTocGetChildIds(
 //fprintf(stderr, "z=%x\n", (void*)z);
       if ( z == 0 ) return 0;
     
-      for (int i=0; i<count; i++) { 
+      int i;
+      for (i=0; i<count; i++) {
          z[i] = newDtMmdbHandle(oid_t(OLIAS_NODE_CODE, ((*y) -> operator()(i+1)).icode()));
       }
 
@@ -107,7 +108,7 @@ DtMmdbTocGetChildIds(
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -116,7 +117,7 @@ DtMmdbTocGetChildIds(
 
 int DtMmdbTocGetNumOfChildren( DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       toc_smart_ptr* x = getTocUsingProid(request);
       if ( x == 0 ) return -1;
       int y = x -> subtree_size();
@@ -124,7 +125,7 @@ int DtMmdbTocGetNumOfChildren( DtMmdbInfoRequest* request)
       return y; 
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return -1;
    } end_try;

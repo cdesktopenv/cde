@@ -56,7 +56,6 @@
 #include <sys/types.h>
 #include <sys/times.h>
 #include <sys/time.h>
-#include <sys/timeb.h>
 
 #include "funcs.h"
 

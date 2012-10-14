@@ -27,7 +27,7 @@
 static locator_smart_ptr*
 getLocatorUsingLocAndProid(DtMmdbInfoRequest* request, Boolean checkLocOnly = false)
 {
-   try {
+   mtry {
       info_base* x = getBookCase(request -> bookcase_descriptor);
       if ( x == 0 ) return 0;
 
@@ -49,7 +49,7 @@ getLocatorUsingLocAndProid(DtMmdbInfoRequest* request, Boolean checkLocOnly = fa
 */
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -59,7 +59,7 @@ getLocatorUsingLocAndProid(DtMmdbInfoRequest* request, Boolean checkLocOnly = fa
 const char*
 DtMmdbLocatorGetSectionLoc(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       locator_smart_ptr* x = getLocatorUsingLocAndProid(request, false);
 
       if ( x == 0 ) return 0;
@@ -68,7 +68,7 @@ DtMmdbLocatorGetSectionLoc(DtMmdbInfoRequest* request)
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -78,7 +78,7 @@ DtMmdbLocatorGetSectionLoc(DtMmdbInfoRequest* request)
 DtMmdbHandle*
 DtMmdbLocatorGetSectionObjectId(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       locator_smart_ptr* x = getLocatorUsingLocAndProid(request, true);
       if ( x == 0 ) return 0;
       DtMmdbHandle *z = newDtMmdbHandle(x -> node_id());
@@ -86,7 +86,7 @@ DtMmdbLocatorGetSectionObjectId(DtMmdbInfoRequest* request)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;

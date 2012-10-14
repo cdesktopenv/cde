@@ -288,8 +288,8 @@ void smart_ptr::update_oid(int i, const oid_t& x)
    handler* z = get_handler(i, OID_CODE);
    oid_handler* y = (oid_handler*)z;
 
-   sprintf(buf, "%d.%d\n", x.ccode(), x.icode());
-   istrstream in(buf, 64);
+   sprintf(buf, "%d.%d\n", x.ccode(), (int)x.icode());
+   istringstream in(buf);
 
    (*y) -> asciiIn(in);
 

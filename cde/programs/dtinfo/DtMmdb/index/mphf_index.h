@@ -97,7 +97,7 @@ public:
    virtual oid_t first_of_invlist(const handler&);
 
 //
-   int handler_to_inv_idx(const handler& query);
+   size_t handler_to_inv_idx(const handler& query);
 
 // status inquiry functions
    virtual Boolean sorted() const { return false; };  

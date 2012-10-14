@@ -102,5 +102,6 @@ base::base(object_dict* obj_dict,
    
 base::~base() 
 {
+   ;
 }
 

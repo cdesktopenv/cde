@@ -20,45 +20,35 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: new_delete_simple.h /main/3 1996/06/11 16:52:04 cde-hal $ */
+// $XConsortium: string.C /main/5 2012/09/18 22:56:32 xxx $
 
+#include "utility/c_string.h"
+#include "utility/c_charbuf.h"
+#include <string.h>
 
-#ifndef _new_delete_simple_h
-#define _new_delete_simple_h 1
-
-
-#define NEW_AND_DELETE_SIGNATURES(class_name) \
-   void* operator new( size_t ); \
-   void* operator new( size_t, void* ); \
-   void operator delete( void* ) 
-
-#ifdef C_API
-#include <stdlib.h>
-
-#define NEW_AND_DELETE_BODIES_SIMPLE(class_name) \
-\
-void* class_name::operator new( size_t sz )\
-{\
-   return (void*)malloc(sz); \
-}\
-\
-void* class_name::operator new( size_t sz, void* ptr )\
-{\
-   return (void*)ptr; \
-}\
-\
-void class_name::operator delete( void* p )\
-{\
-   ::operator delete(p); \
+string::string(char* str)
+{
+   sbuf = new charbuf(str, strlen(str), 1);
 }
 
+string::string(char* str, int size)
+{
+   sbuf = new charbuf(str, size);
+}
 
-#else
-#include <new>
-using namespace std;
-#endif
+string::~string()
+{
+}
 
+char* string::c_str()
+{
+   char* x = sbuf -> get_buf();
+// x[pcount()] = 0;
+   return x;
+}
 
-#endif
-
-
+int string::size()
+{
+   char* x = sbuf -> get_buf();
+   return(strlen(x));
+}

@@ -317,7 +317,7 @@ debug(cerr, base_name);
 
 //fprintf(stderr, "try to init %s\n", base_name);
 
-     try {
+     mtry {
         f_obj_dict -> init_a_base((char*)base_path, (char*)base_name);
 
         x = new info_base(*f_obj_dict, set_nm_list, list_nm_list,
@@ -328,7 +328,7 @@ debug(cerr, base_name);
         info_base_list.insert_as_tail(new dlist_void_ptr_cell(x));
      }
 
-     catch (mmdbException &,e)
+     mcatch (mmdbException &,e)
      {
 //fprintf(stderr, "in catch block\n");
        return 0;
@@ -445,7 +445,8 @@ info_lib::define_info_base( char* base_name, char* base_desc,
 /*************************************/
       char* lib_nm = form("%s/%s", info_lib_path, MAP_FILE_8_3);
 
-      fstream nm_out(lib_nm, ios::app, open_file_prot());
+      fstream nm_out(lib_nm, ios::out | ios::app);
+//    fstream nm_out(lib_nm, ios::app, open_file_prot());
 
       if ( !nm_out ) {
          MESSAGE(cerr, form("can't open %s/%s for append", 
@@ -454,7 +455,7 @@ info_lib::define_info_base( char* base_name, char* base_desc,
          throw(streamException(nm_out.rdstate()));
       }
 
-      if ( bytes(nm_out) == 0 ) {
+      if ( bytes(lib_nm) == 0 ) {
          char* lib_entry = form("%s\t%s\n", info_lib_name, unique_id());
 
          if ( !(nm_out << lib_entry) ) {
@@ -589,7 +590,7 @@ info_lib::getInfobaseByComponent(const char *locator_string, enum TestSelector s
       if (ib==0)
          throw(stringException("null info_base ptr"));
 
-      try { // since an infobase may not have any graphics, we catch
+      mtry { // since an infobase may not have any graphics, we catch
             // any exceptions there and try next infobase.
 
          switch (sel) {
@@ -615,7 +616,7 @@ info_lib::getInfobaseByComponent(const char *locator_string, enum TestSelector s
          }
       }
 
-      catch (mmdbException &,e)
+      mcatch (mmdbException &,e)
       {
       } end_try;
 
@@ -630,7 +631,8 @@ info_base**
 info_lib::getInfobasesByComponent(char **locator_strings, int count, enum TestSelector sel)
 {
    info_base** ibs = new info_basePtr[count];
-   for ( int i=0; i<count; ibs[i++] = 0 );
+   int i;
+   for ( i=0; i<count; ibs[i++] = 0 );
 
    info_base* ib = 0;
 
@@ -645,7 +647,7 @@ info_lib::getInfobasesByComponent(char **locator_strings, int count, enum TestSe
 
       for ( i=0; i<count; i++ ) {
 
-         try {
+         mtry {
    
             if ( locator_strings[i] && ibs[i] == 0 ) { 	
               switch (sel) {
@@ -674,7 +676,7 @@ info_lib::getInfobasesByComponent(char **locator_strings, int count, enum TestSe
             }
          }
 
-         catch (mmdbException &,e)
+         mcatch (mmdbException &,e)
          {
          } end_try;
 

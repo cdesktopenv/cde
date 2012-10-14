@@ -50,7 +50,7 @@ pointer_vector<T>::~pointer_vector()
 }
 
 template <class T> 
-T* pointer_vector<T>::operator[](size_t i) const
+T* pointer_vector<T>::operator[](ptrdiff_t i) const
 {
   if ( i<0 || i>= f_size )
     throw(CASTCCBEXCEPT ccBoundaryException(0, f_size-1, i));
@@ -59,7 +59,7 @@ T* pointer_vector<T>::operator[](size_t i) const
 }
 
 template <class T> 
-T*& pointer_vector<T>::operator[](size_t i) 
+T*& pointer_vector<T>::operator[](ptrdiff_t i)
 {
   if ( i<0 || i>= f_size )
     throw(CASTCCBEXCEPT ccBoundaryException(0, f_size-1, i));

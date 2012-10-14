@@ -53,7 +53,8 @@
 #ifdef C_API
 #include "utility/c_stream.h"
 #else
-#include <stream.h>
+#include <sstream>
+using namespace std;
 #endif
 
 token_stack::token_stack() : curr_token_start(0)

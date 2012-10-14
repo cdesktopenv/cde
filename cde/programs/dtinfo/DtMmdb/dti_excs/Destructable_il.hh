@@ -80,7 +80,7 @@ Destructable::~Destructable()
 inline void
 Destructable::destruct()
 {
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
   delete this;
 #else
   // Have to call this here since some compilers don't allow

@@ -203,7 +203,8 @@ ostring& ostring::operator +(ostring& s)
 
    ostring *new_ostring = new ostring(l1+l2);
 
-   for ( int i = 0; i<l1; (*new_ostring).v_p[i] = s.v_p[i] ) i++;
+   int i;
+   for ( i = 0; i<l1; (*new_ostring).v_p[i] = s.v_p[i] ) i++;
    for ( i = 0; i<l2; (*new_ostring).v_p[l1 + i] = s.v_p[i] ) i++;
 
    return *new_ostring;

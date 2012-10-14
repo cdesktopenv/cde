@@ -72,7 +72,7 @@ dyn_disk_index::init_data_member(inv_lists_handler* y, abs_storage* store)
    return true;
 }
 
-int dyn_disk_index::handler_to_inv_idx(const handler&)
+size_t dyn_disk_index::handler_to_inv_idx(const handler&)
 {
    throw(stringException("handler_to_int() not implemented"));
    return 0;

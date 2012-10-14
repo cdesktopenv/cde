@@ -48,6 +48,10 @@
  */
 
 
+#ifndef C_API
+#include <sstream>
+using namespace std;
+#endif
 #include "api/info_base.h"
 #include "compression/abs_agent.h"
 
@@ -74,21 +78,22 @@ debug(cerr, base_ds);
      *info_base_locale = 0;
 
    char* nm ;
+   int i;
  
 //////////////////////
 // sets
 //////////////////////
    info_base_set_ptrs = new cset_handlerPtr[num_cset_ptrs];
 
-   for ( int i=0; i<num_cset_ptrs; i++ ) {
+   for ( i=0; i<num_cset_ptrs; i++ ) {
 
       nm = form("%s.%s", base_nm, info_base_set_names[i]);
 
-      try {
+      mtry {
          info_base_set_ptrs[i] = (cset_handler*)
               (f_obj_dict -> get_handler(nm));
       }
-      catch_any()
+      mcatch_any()
           {
          info_base_set_ptrs[i] = 0;
           }
@@ -104,11 +109,11 @@ debug(cerr, base_ds);
 
       nm = form("%s.%s", base_nm, info_base_list_names[i]);
 
-      try {
+      mtry {
          info_base_list_ptrs[i] = (dl_list_handler*)
              obj_dict.get_handler(nm);
       }
-      catch_any()
+      mcatch_any()
           {
          info_base_list_ptrs[i] = 0;
           }
@@ -195,23 +200,23 @@ int info_base::num_of_docs()
 //
 ////////////////////////////////////////////////////////////////////
 
-iterator::iterator( handler* x, c_code_t y) :
+Iterator::Iterator( handler* x, c_code_t y) :
    collection_hd(x), instance_c_code(y), ind(0)
 {
 }
 
-iterator::~iterator()
+Iterator::~Iterator()
 {
 }
 
-iterator::operator void*()
+Iterator::operator void*()
 { 
    return ( ind == 0 ) ? 0 : (void*)1; 
 }
 
 
 
-iterator* info_base::first(char* col_nm, c_code_t code)
+Iterator* info_base::first(char* col_nm, c_code_t code)
 {
    handler* x = get_set(col_nm);
 
@@ -233,7 +238,7 @@ iterator* info_base::first(char* col_nm, c_code_t code)
       throw(stringException("non page store no supported"));
    }
 
-   iterator* it = new iterator(x, code);
+   Iterator* it = new Iterator(x, code);
 
    it -> ind = s -> first_loc();
 
@@ -244,7 +249,7 @@ iterator* info_base::first(char* col_nm, c_code_t code)
    return it;
 }
 
-oid_t info_base::get_oid(const iterator& it)
+oid_t info_base::get_oid(const Iterator& it)
 {
    page_storage *s = (page_storage*)( it.collection_hd -> its_store() );
 
@@ -256,7 +261,7 @@ oid_t info_base::get_oid(const iterator& it)
    return r -> my_oid();
 }
 
-void info_base::next(iterator& it)
+void info_base::next(Iterator& it)
 {
    page_storage *s = (page_storage*)( it.collection_hd -> its_store());
 

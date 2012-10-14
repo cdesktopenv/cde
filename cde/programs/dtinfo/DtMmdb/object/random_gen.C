@@ -86,7 +86,8 @@ const char* random_gen::get_random_string(int low, int high)
       delete buf;
       buf = new char[buf_len+1];
    }
-   for ( int i=0; i<buf_len; i++ )
+   int i;
+   for ( i=0; i<buf_len; i++ )
      buf[i] = char_set[rand_gen.rand() % sizeof(char_set)]; 
 
    buf[i] = 0;

@@ -100,11 +100,11 @@ const char* locator_smart_ptr::label()
 {
   const char* rval;
 
-  try
+  mtry
     {
       rval = get_string(BASE_COMPONENT_INDEX+2);
     }
-  catch_any()
+  mcatch_any()
     {
       // catch exceptions to ensure backwards compatibility
       rval = 0;

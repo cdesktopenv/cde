@@ -78,7 +78,8 @@ void sorter::_init(istream& in)
 {
    v_bucket_array = new bucketPtr[NUM_BUCKETS];
 
-   for ( int i=0; i<NUM_BUCKETS; v_bucket_array[i++] = 0);
+   int i;
+   for ( i=0; i<NUM_BUCKETS; v_bucket_array[i++] = 0);
 
    char key_buf[LBUFSIZ];
 
@@ -105,7 +106,8 @@ void sorter::_init(istream& in)
 
 sorter::~sorter() 
 {
-   for ( int i=0; i<NUM_BUCKETS; delete v_bucket_array[i++] );
+   int i;
+   for ( i=0; i<NUM_BUCKETS; delete v_bucket_array[i++] );
    delete v_bucket_array;
 
    for ( i=0; i<v_no_unique_keys; delete v_unique_keys[i++] );
@@ -117,7 +119,8 @@ void sorter::filter_by_hash()
 // a small hash table for keys to map to
    v_map_table = new charPtr[2*v_max_bucket_sz];
 
-   for ( int i=0; i<2*v_max_bucket_sz; v_map_table[i++] = 0 );
+   int i;
+   for ( i=0; i<2*v_max_bucket_sz; v_map_table[i++] = 0 );
 
 // an int table remembering slots in the v_map_table
 // that have been mapped.
@@ -283,7 +286,8 @@ void sorter::remove_keys(bucketPtr bkt, char* key, slist_void_ptr_cell* lp)
 
 void sorter::assemble_unique_keys()
 {
-   for ( int i=0; i<NUM_BUCKETS; i++ ) {
+   int i;
+   for ( i=0; i<NUM_BUCKETS; i++ ) {
       if ( v_bucket_array[i] ) {
          v_no_unique_keys += v_bucket_array[i] -> v_no_keys;
       }

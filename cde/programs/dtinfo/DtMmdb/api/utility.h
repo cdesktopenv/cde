@@ -52,9 +52,9 @@
 #define _utility_h 1
 
 #ifdef C_API
-#include "utility/c_strstream.h"
+#include "utility/c_stringstream.h"
 #else
-#include <strstream.h>
+#include <sstream>
 #endif
 
 #include <string.h>

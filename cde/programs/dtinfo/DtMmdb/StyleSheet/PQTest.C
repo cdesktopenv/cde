@@ -21,7 +21,8 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $XConsortium: PQTest.cc /main/3 1996/06/11 17:07:26 cde-hal $
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include "SymTab.h"
 #include "PathQualifier.h"
 #include "Element.h"

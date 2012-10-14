@@ -43,7 +43,7 @@
 
 #include <stdlib.h>
 
-#if !defined(__osf__) && !defined(USL)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <osfcn.h>
 #endif
 
@@ -228,7 +228,8 @@ typedef struct style_buffer_state *style_BUFFER_STATE;
 #include "StyleSheetExceptions.h"
 #include "style.tab.h"
 #include "Debug.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 istream *g_stylein = 0;
 

@@ -52,9 +52,9 @@
 #define _index_h 1
 
 #ifdef C_API
-#include "utility/c_strstream.h"
+#include "utility/c_stringstream.h"
 #else
-#include <strstream.h>
+#include <sstream>
 #endif
 
 #include "object/oid_list.h"
@@ -100,7 +100,7 @@ public:
    virtual int invlist_length(handler&) = 0;
 
 // translate a query to an index of an inv_list
-   virtual int handler_to_inv_idx(const handler& query) = 0;
+   virtual size_t handler_to_inv_idx(const handler& query) = 0;
 
 // status inquiry functions
    int bound_to() const { return v_cmp_selector; } ;

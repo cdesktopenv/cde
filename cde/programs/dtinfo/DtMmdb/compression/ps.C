@@ -43,8 +43,12 @@
 
 #include <stdlib.h>
 
-#if !defined(__osf__) && !defined(USL)
+#if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#include <unistd.h>
+#else
+#if !defined(__uxp__) && !defined(USL)
 #include <osfcn.h>
+#endif
 #endif
 
 /* use prototypes in function declarations */

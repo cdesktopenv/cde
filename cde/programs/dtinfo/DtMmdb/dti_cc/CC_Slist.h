@@ -25,6 +25,7 @@
 #define __CC_Slist_h
 
 #include "CC_Listbase.h"
+#include "cc_exceptions.h"
 
 template <class T> class CC_TPtrSlist;
 template <class T> class CC_TPtrSlistIterator;
@@ -65,7 +66,7 @@ class CC_TPtrSlist : public CC_Listbase
    friend class CC_List_Iterator<T>;
 
 protected:
-  CC_Boolean destructed;
+   CC_Boolean destructed;
 
 // Inherit public members from CC_Listbase
 /*
@@ -97,9 +98,20 @@ public:
   void insert(T* element)
   { CC_Listbase::append (new CC_Link<T> (element)); }
 
-  T*  at(size_t pos) const; /* throw boundaryException 
+  T*  at(size_t pos) const  /* throw boundaryException
 			     * if list size is smaller than pos
 			     */
+  {
+    // Hack to get it passed to iter
+    CC_TPtrSlistIterator<T> iter( *(CC_TPtrSlist<T> *)this );
+    for ( int i = 0; i <=pos; i++ ) {
+      if ( !(++iter) ) {
+        throw(CASTCCBEXCEPT ccBoundaryException(0,0,i));
+      }
+    }
+
+    return( iter.key() );
+  }
 
   T*  removeAt(size_t pos); /* throw boundaryException 
 			     * if list size is smaller than pos 
@@ -146,7 +158,11 @@ public:
 
   operator CC_Listbase *() { return(this); }
 
+  CC_Boolean get_destructed() const
+    { return (destructed); }
 
+  CC_Boolean set_destructed(CC_Boolean what)
+    { destructed = what; }
 
 };
 

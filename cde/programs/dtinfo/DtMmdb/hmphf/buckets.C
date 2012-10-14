@@ -140,7 +140,8 @@ h_convertor(pms.v_n, 128, rnd)
 {
    v_bucket_array = new bucketPtr[v_no_buckets]; 
 
-   for ( int i=0; i<v_no_buckets; v_bucket_array[i++] = 0);
+   int i;
+   for ( i=0; i<v_no_buckets; v_bucket_array[i++] = 0);
 
 //debug(cerr, pms);
 
@@ -234,7 +235,8 @@ void buckets::sort_by_size()
 {
 //MESSAGE(cerr, "sort()");
    int* links = new int[v_no_buckets];
-   for ( int i=0; i<v_no_buckets; links[i++]=-1 );
+   int i;
+   for ( i=0; i<v_no_buckets; links[i++]=-1 );
 
    int* sizes = new int[v_max_bucket_sz+1];
    for ( i=0; i<v_max_bucket_sz+1; sizes[i++]=-1 );

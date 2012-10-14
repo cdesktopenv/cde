@@ -78,7 +78,7 @@ OLIAS_DB::~OLIAS_DB()
 
 int OLIAS_DB::validInfoLibPath(const char* path)
 {
-  try
+  mtry
    {
      if ( exist_dir(path) == false )
        return 0;
@@ -91,7 +91,7 @@ int OLIAS_DB::validInfoLibPath(const char* path)
    
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
       return 0;
    }
@@ -104,7 +104,8 @@ info_lib*
 OLIAS_DB::openInfoLib(const char* infoLibPath, const char* selectedBaseName,
 		  const char* infoLibName) 
 {
-   for ( int i=0; i<infolib_array.no_elmts(); i++ ) {
+   int i;
+   for ( i=0; i<infolib_array.no_elmts(); i++ ) {
       if ( infolib_array[i] == 0 )
         break;
    }

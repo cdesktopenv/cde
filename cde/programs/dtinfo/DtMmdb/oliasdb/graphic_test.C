@@ -67,7 +67,7 @@ void print_graphic(graphic_smart_ptr& x, ostream& out, Boolean out_misc)
 int compare_graphic(graphic_smart_ptr& pattern, info_base* base_ptr)
 {
    char pattern_buf[LARGE_BUFSIZ];
-   ostrstream pattern_out(pattern_buf, LARGE_BUFSIZ, ios::out);
+   ostringstream pattern_out(pattern_buf, LARGE_BUFSIZ, ios::out);
    print_graphic(pattern, pattern_out, false);
 
    char loc[BUFSIZ];
@@ -75,7 +75,7 @@ int compare_graphic(graphic_smart_ptr& pattern, info_base* base_ptr)
 
    graphic_smart_ptr x( base_ptr, loc );
    char db_buf[LARGE_BUFSIZ];
-   ostrstream db_out(db_buf, LARGE_BUFSIZ, ios::out);
+   ostringstream db_out(db_buf, LARGE_BUFSIZ, ios::out);
    print_graphic(x, db_out, false);
 
    return compare_stream(pattern_out, db_out);

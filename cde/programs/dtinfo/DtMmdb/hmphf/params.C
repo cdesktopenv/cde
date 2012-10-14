@@ -62,7 +62,8 @@ struct partition_t {
 
 void params::select_value(float bts)  
 {
-   for ( int i=0; ; i++ ) {
+   int i;
+   for ( i=0; ; i++ ) {
       if ( v_n <= partition_tbl[i].upper_bound )
          break;
    }

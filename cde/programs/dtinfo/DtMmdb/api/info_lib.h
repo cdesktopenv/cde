@@ -55,6 +55,7 @@
 #include "dstr/dlist_void_ptr_cell.h"
 #include "api/info_base.h"
 #include "utility/funcs.h"
+#include "schema/object_dict.h"
 
 /*************************************/
 // The info_lib class

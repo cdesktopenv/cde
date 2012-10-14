@@ -46,7 +46,12 @@
 #ifndef _atoi_larson_h
 #define _atoi_larson_h 1
 
+#include <limits.h>
+#if defined(CSRG_BASED)
+#define MAXINT INT_MAX
+#else
 #include <values.h>
+#endif
 #include "key.h"
 
 // Based on Larson's algorithm presented in CACM ???.

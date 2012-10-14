@@ -76,7 +76,7 @@ btree_index::~btree_index()
    delete v_idx_agent_ptr;
 }
 
-int btree_index::handler_to_inv_idx(const handler& query)
+size_t btree_index::handler_to_inv_idx(const handler& query)
 {
    get_key_string(query);
 
@@ -85,7 +85,7 @@ int btree_index::handler_to_inv_idx(const handler& query)
    if ( v_idx_agent_ptr -> member(k) == false )
      throw(stringException("first_of_invlist(): key is not in btree"));
 
-   return int(k.dt);
+   return size_t(k.dt);
 }
 
  

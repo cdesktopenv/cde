@@ -67,7 +67,7 @@ public:
 //init run time data components
    Boolean init_data_member( inv_lists_handler*, abs_storage* );
 
-   int handler_to_inv_idx(const handler&);
+   size_t handler_to_inv_idx(const handler&);
 
    virtual Boolean remove_loc(handler&, const oid_t&);
    virtual Boolean remove_loc(const oid_t&, const oid_t&);

@@ -75,16 +75,16 @@ FeatureSet::evaluate(FeatureSet *result_set) const
   while(++next)
     {
       FeatureValue *value ;
-      try
+      mtry
 	{
 	  value = next.key()->evaluate();
 	  result_set->append(new Feature(next.key()->name(),
 					 value));
 	}
 #ifdef UXPDS
-      catch_any()
+      mcatch_any()
 #else
-      catch_noarg(badEvaluationException)
+      mcatch_noarg(badEvaluationException)
 #endif
 	{
 	  /* do nothing...we just ignore any that will not evaluate */
@@ -143,7 +143,8 @@ FeatureSet::print(ostream &o) const
   // cast to non-const to get iterator 
   CC_TPtrSlistIterator<Feature> next(*(CC_TPtrSlist<Feature>*)this);
   
-  for (int i = 0 ; i < f_print_indent_level; i++)
+  int i;
+  for (i = 0 ; i < f_print_indent_level; i++)
     o << "  " ;
 
   o << "{" << endl;

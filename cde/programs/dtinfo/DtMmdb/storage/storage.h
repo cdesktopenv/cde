@@ -57,7 +57,8 @@
 #ifdef C_API
 #include "utility/c_fstream.h"
 #else
-#include <fstream.h>
+#include <fstream>
+using namespace std;
 #endif
 
 #include "utility/macro.h"

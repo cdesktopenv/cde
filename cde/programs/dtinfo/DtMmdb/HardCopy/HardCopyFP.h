@@ -25,13 +25,15 @@
 #ifndef _fp_h
 #define _fp_h 1
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include "FPExceptions.h"
 #include "StyleSheet/Feature.h"
 #include "StyleSheet/FeatureValue.h"
 #include "StyleSheet/Element.h"
 #include "StyleSheet/Const.h"
 #include "StyleSheet/Debug.h"
+#include "utility/funcs.h"
 
 enum BLOCK_MODE { NON_BLOCK, BLOCK };
 extern enum BLOCK_MODE g_block_mode;

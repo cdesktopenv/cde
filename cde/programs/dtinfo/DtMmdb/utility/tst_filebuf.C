@@ -22,7 +22,8 @@
  */
 // $XConsortium: tst_filebuf.C /main/4 1996/08/21 15:55:25 drk $
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #include "utility/debug.h"
 #include "utility/c_fstream.h"

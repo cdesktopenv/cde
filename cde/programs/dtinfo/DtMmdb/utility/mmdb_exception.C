@@ -78,7 +78,7 @@ ostream& boundaryException::asciiOut(ostream& out)
 {
    cerr << low << "\t";
    cerr << high << "\t";
-   cerr << index << "\n";
+   cerr << mindex << "\n";
    return out;
 }
 

@@ -284,7 +284,8 @@ autoNumberFP::defineAutoNumber(const char* nm, const FeatureValue* f)
 
    const char* gi = 0;
    autoNumberListT* anList = 0;
-   for (int i=0; i<controlList -> length(); i++ ) {
+   int i;
+   for (i=0; i<controlList -> length(); i++ ) {
 
       gi = stringToCharPtr((*controlList)[i]);
       key = new CC_String(gi);
@@ -353,11 +354,11 @@ autoNumberFP::accept(const char* name, const Expression* expr)
 {
    FeatureValue* fv = 0;
 
-   try
+   mtry
     {
       fv = expr -> evaluate();
     }
-   catch_any()
+   mcatch_any()
     {
       return false;
     }

@@ -44,7 +44,8 @@
 
 #include <sys/time.h>
 #include <math.h>
-#include <fstream.h>
+#include <fstream>
+using namespace std;
 #include <search.h>
 #include "dynhash/bucket.h"
 

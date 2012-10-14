@@ -54,6 +54,13 @@ DONES = \
 
 EXTRALIBRARYDEPS = $(DONES)
 
+XCOMM redefine TopLevelProject to build DtInfo with standard CDE config dir
+#undef  TopLevelProject
+#define TopLevelProject		DtInfo
+IMAKE_DEFINES = -DTopLevelProject=TopLevelProject \
+		-DProjectTmplFile='<DtInfo.tmpl>' \
+		-DProjectRulesFile='<DtInfo.rules>'
+
 MakeSubdirs($(SUBDIRS))
 ForceSubdirs($(SUBDIRS))
 DependSubdirs($(SUBDIRS))
@@ -201,8 +208,8 @@ UTILITY_OBJS = \
 	utility/filter.o		utility/mmdb_exception.o \
 	utility/randomize.o	\
 	utility/streambuf.o	utility/charbuf.o	utility/filebuf.o \
-	utility/strstream.o	utility/iostream.o	utility/fstream.o \
-	utility/stream.o	utility/ios.o
+	utility/stringstream.o	utility/iostream.o	utility/fstream.o \
+	utility/stream.o	utility/string.o	utility/ios.o
 
 
 OBJS =	$(API_OBJS)		$(BTREE_OBJS) \
@@ -220,5 +227,9 @@ STATIC =
 DYNAMIC =
 
 #include <Library.tmpl>
+
+XCOMM Variables to switch on debug mode temporarily
+XCOMM CDEBUGFLAGS = -g -DDEBUG
+XCOMM CXXDEBUGFLAGS = -g -DDEBUG
 
 DependTarget()

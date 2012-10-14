@@ -83,7 +83,8 @@ istream& istream::_getline(char* b, int lim, int delim, int fill_zero)
 
    int i;
 
-   for ( int count = 0 ; count < lim-1; count++ ) {
+   int count;
+   for ( count = 0 ; count < lim-1; count++ ) {
 
       i = sbuf -> get();
 

@@ -23,12 +23,10 @@
 /* $XConsortium: streambuf.C /main/8 1996/08/21 15:55:14 drk $ */
 #include "utility/c_streambuf.h"
 
-#if !defined(USL) && !defined(__osf__)
-#include <libc.h>
-#endif
-
-#if defined(USL) || defined(__osf__)
+#if defined(USL) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #include <stdlib.h>
+#else
+#include <libc.h>
 #endif
 
 #define DEF_BUF_SIZ 4096

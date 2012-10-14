@@ -57,7 +57,7 @@
 
 //compute_a_mphf(char* key_file, params& pms, char* mphf_spec_file)
 
-compute_a_mphf(char** keys, params& pms, buffer& mphf_buffer)
+int compute_a_mphf(char** keys, params& pms, buffer& mphf_buffer)
 {
    mphf_hash_table ht(pms);      
 
@@ -98,7 +98,7 @@ compute_a_mphf(char** keys, params& pms, buffer& mphf_buffer)
    return 1;
 }
 
-search(buckets& bs, mphf_hash_table& ht, params& pms)
+int search(buckets& bs, mphf_hash_table& ht, params& pms)
 {
    int i = 0,
        fails = 0,
@@ -158,7 +158,7 @@ search(buckets& bs, mphf_hash_table& ht, params& pms)
    return ( patternFit >= 0 ) ? 0 : -1;
 }
 
-verify(buckets& bs, mphf_hash_table& ht, params& pms)
+int verify(buckets& bs, mphf_hash_table& ht, params& pms)
 {
    int i;
    int_pattern new_pattern(bs.max_bucket_sz());
@@ -246,7 +246,7 @@ int write_spec(buckets& bs, params& pms, buffer& mphf_buffer)
    mphf_buffer.put((char*)c_array, g_array_bytes); mphf_buffer.put('\n');
 */
 
-   ostrstream fout(mphf_buffer.get_base(), mphf_buffer.buf_sz(), ios::out);
+   ostringstream fout(mphf_buffer.get_base(), ios::out);
 
    fout << pms.v_n << "\n";
    fout << pms.v_b << "\n";
@@ -267,6 +267,7 @@ int write_spec(buckets& bs, params& pms, buffer& mphf_buffer)
 
 
    mphf_buffer.set_content_sz(spec_bytes);
+   memcpy(mphf_buffer.get_base(), fout.str().c_str(), spec_bytes);
 
    delete c_array;
 

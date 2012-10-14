@@ -43,7 +43,7 @@
 
 #include <stdlib.h>
 
-#if !defined(__osf__) && !defined(USL)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <osfcn.h>
 #endif
 
@@ -196,7 +196,8 @@ typedef struct defParser_buffer_state *defParser_BUFFER_STATE;
 #include "FeatureDefDictionary.h"
 #include "defParser.tab.h"
 #include "Debug.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 extern istream *g_defParserin;
 

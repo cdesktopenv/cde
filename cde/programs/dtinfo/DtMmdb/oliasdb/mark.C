@@ -71,7 +71,7 @@ debug(cerr, node_locator);
 
    mark_set_hd_ptr = uptr->mark_set_hd;
 
-   try {
+   mtry {
       mbase -> trans().begin();
    
       abs_storage* marks_store = mark_set_hd_ptr -> its_store();
@@ -126,17 +126,17 @@ debug(cerr, int(v_mark_hd));
      mbase -> trans().end();
    }
 
-   catch (beginTransException&, e)
+   mcatch (beginTransException&, e)
       {
          smart_ptr::_init(ground, 0); // mark the mark obsolete
          rethrow;
       }
-   catch (commitTransException&, e)
+   mcatch (commitTransException&, e)
       {
          smart_ptr::_init(ground, 0); // mark the mark obsolete
          rethrow;
       }
-   catch (mmdbException&, e)
+   mcatch (mmdbException&, e)
       {
          smart_ptr::_init(ground, 0); // mark the mark obsolete
          mbase -> trans().rollback();
@@ -156,7 +156,7 @@ debug(cerr, uptr -> get_base_name());
 debug(cerr, mark_id);
 #endif
 
-   try 
+   mtry
    {
       v_loct_hd = (pstring_handler*)
                get_handler(BASE_COMPONENT_INDEX, STRING_CODE);
@@ -164,7 +164,7 @@ debug(cerr, mark_id);
                get_handler(BASE_COMPONENT_INDEX+1, STRING_CODE);
    }
 
-   catch (mmdbException&, e)
+   mcatch (mmdbException&, e)
       {
          smart_ptr::_init(ground, 0); // mark the mark obsolete
          rethrow;
@@ -187,7 +187,7 @@ void mark_smart_ptr::update_usermark(const pstring& new_mark)
 void mark_smart_ptr::update_usermark(const char* new_mark_str,
                               int new_mark_str_sz)
 {
-   try {
+   mtry {
       mbase -> trans().begin();
 
       (*v_mark_hd) -> update(new_mark_str, new_mark_str_sz);
@@ -196,15 +196,15 @@ void mark_smart_ptr::update_usermark(const char* new_mark_str,
       mbase -> trans().end();
    }
 
-   catch (beginTransException&, e)
+   mcatch (beginTransException&, e)
       {
          rethrow;
       }
-   catch (commitTransException&, e)
+   mcatch (commitTransException&, e)
       {
          rethrow;
       }
-   catch (mmdbException&, e)
+   mcatch (mmdbException&, e)
       {
          mbase -> trans().rollback();
          rethrow;
@@ -214,7 +214,7 @@ void mark_smart_ptr::update_usermark(const char* new_mark_str,
 
 void mark_smart_ptr::remove_from_db()
 {
-   try {
+   mtry {
       mbase -> trans().begin();
 
       (*mark_set_hd_ptr) -> remove_component(its_oid()); 
@@ -223,15 +223,15 @@ void mark_smart_ptr::remove_from_db()
       mbase -> trans().end();
    }
 
-   catch (beginTransException&, e)
+   mcatch (beginTransException&, e)
       {
          rethrow;
       }
-   catch (commitTransException&, e)
+   mcatch (commitTransException&, e)
       {
          rethrow;
       }
-   catch (mmdbException&, e)
+   mcatch (mmdbException&, e)
       {
          mbase -> trans().rollback();
          rethrow;

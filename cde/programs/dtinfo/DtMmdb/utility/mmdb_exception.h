@@ -56,7 +56,9 @@
 #ifdef C_API
 #include "utility/c_fstream.h"
 #else
-#include <fstream.h>
+#include <fstream>
+#include <iostream>
+using namespace std;
 #endif
 
 #define END_TRY end_try 
@@ -90,7 +92,7 @@ protected:
 public:
    DECLARE_EXCEPTION(stringException, mmdbException);
 
-   stringException(char* m) : msg(m) {};
+   stringException(char const* m) : msg((char*)m) {};
    ~stringException() {};
 
    virtual ostream& asciiOut(ostream&);
@@ -104,7 +106,7 @@ protected:
 public:
    DECLARE_EXCEPTION(formatException, stringException);
 
-   formatException(char* m) : stringException(m) {};
+   formatException(char const* m) : stringException(m) {};
    ~formatException() {};
 };
 
@@ -155,13 +157,13 @@ class boundaryException : public mmdbException
 protected:
    long low;
    long high;
-   long index;
+   long mindex;
 
 public:
    DECLARE_EXCEPTION(boundaryException, mmdbException);
 
    boundaryException(long l, long h, long i) : 
-     low(l), high(h), index(i) {};
+     low(l), high(h), mindex(i) {};
    ~boundaryException() {};
 
    virtual ostream& asciiOut(ostream&);

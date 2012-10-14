@@ -46,7 +46,8 @@
 #ifndef _debug_h
 #define _debug_h 1
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #ifdef DEBUG
 #define ON_DEBUG(stmt) stmt

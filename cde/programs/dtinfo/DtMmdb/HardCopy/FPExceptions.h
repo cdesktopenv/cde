@@ -37,11 +37,7 @@ public:
   DECLARE_EXCEPTION(hardCopyRendererException, Exception);
 };
 
-#if defined(linux)
-#define CASTHCREXCEPT (hardCopyRendererException*)
-#else
 #define CASTHCREXCEPT
-#endif
 
 #endif /* _FPExceptions_h */
 /* DO NOT ADD ANY LINES AFTER THIS #endif */

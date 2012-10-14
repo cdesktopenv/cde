@@ -27,7 +27,7 @@
 static graphic_smart_ptr*
 getGraphicUsingLocAndProid(DtMmdbInfoRequest* request, Boolean checkLocOnly = false)
 {
-   try {
+   mtry {
       info_base* x = getBookCase(request -> bookcase_descriptor);
       if ( x == 0 ) return 0;
 
@@ -46,7 +46,7 @@ getGraphicUsingLocAndProid(DtMmdbInfoRequest* request, Boolean checkLocOnly = fa
       return new graphic_smart_ptr(x, *id);
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -56,13 +56,13 @@ getGraphicUsingLocAndProid(DtMmdbInfoRequest* request, Boolean checkLocOnly = fa
 const char*
 DtMmdbGraphicGetData(DtMmdbInfoRequest* request, unsigned int* data_length)
 {
-   try {
+   mtry {
       graphic_smart_ptr* x = getGraphicUsingLocAndProid(request, true);
 
       if ( x == 0 ) return 0;
 
 #ifdef DEBUG
-      fprintf(stderr, " graphicInfo: mmdb_oid = %d.%d\n", (*x).its_oid().ccode(), (*x).its_oid().icode());
+      fprintf(stderr, " graphicInfo: mmdb_oid = %d.%d\n", (int)(*x).its_oid().ccode(), (int)(*x).its_oid().icode());
 #endif
 
       const char* y = x -> data();
@@ -72,7 +72,7 @@ DtMmdbGraphicGetData(DtMmdbInfoRequest* request, unsigned int* data_length)
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -83,7 +83,7 @@ DtMmdbGraphicInfo*
 DtMmdbGraphicGetInfo(DtMmdbInfoRequest* request)
 {
 
-   try {
+   mtry {
       graphic_smart_ptr* x = getGraphicUsingLocAndProid(request, true);
 
       if ( x == 0 ) return 0;
@@ -107,7 +107,7 @@ DtMmdbGraphicGetInfo(DtMmdbInfoRequest* request)
       return z;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;
@@ -116,7 +116,7 @@ DtMmdbGraphicGetInfo(DtMmdbInfoRequest* request)
 
 const char* DtMmdbGraphicGetLoc(DtMmdbInfoRequest* request)
 {
-   try {
+   mtry {
       graphic_smart_ptr* x = getGraphicUsingLocAndProid(request, true);
 
       if ( x == 0 ) return 0;
@@ -127,7 +127,7 @@ const char* DtMmdbGraphicGetLoc(DtMmdbInfoRequest* request)
       return y;
    }
 
-   catch (mmdbException &,e)
+   mcatch (mmdbException &,e)
    {
      return 0;
    } end_try;

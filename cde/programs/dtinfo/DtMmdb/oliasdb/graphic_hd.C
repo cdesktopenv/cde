@@ -174,12 +174,12 @@ int graphic_smart_ptr::data_size()
 
 const char* graphic_smart_ptr::title()
 {
-  try 
+  mtry
   {
      return get_string(BASE_COMPONENT_INDEX+5);
   }
 
-  catch (mmdbException&,e)
+  mcatch (mmdbException&,e)
   {
      return 0;
   } 

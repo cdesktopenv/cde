@@ -27,21 +27,6 @@
 #include "Exceptions.hh"
 #include "SymTab.h"
 
-#if defined(linux)
-#define CASTEXCEPT (Exception*)
-#define CASTBCEXCEPT (badCastException*)
-#define CASTBEEXCEPT (badEvaluationException*)
-#define CASTDPEXCEPT (docParserException*)
-#define CASTDPUCEXCEPT (docParserUnexpectedCharacter*)
-#define CASTDPUTEXCEPT (docParserUnexpectedTag*)
-#define CASTDPUDEXCEPT (docParserUnexpectedData*)
-#define CASTDPUEEXCEPT (docParserUnexpectedEof*)
-#define CASTSSEXCEPT (StyleSheetException*)
-#define CASTSSSEEXCEPT (StyleSheetSyntaxError*)
-#define CASTUAEXCEPT (undefinedAttributeException*)
-#define CASTUTEXCEPT (unknownTagException*)
-#define CASTUVEXCEPT (undefinedVariableException*)
-#else
 #define CASTEXCEPT
 #define CASTBCEXCEPT
 #define CASTBEEXCEPT
@@ -55,7 +40,6 @@
 #define CASTUAEXCEPT
 #define CASTUTEXCEPT
 #define CASTUVEXCEPT
-#endif
 
 class StyleSheetException : public Exception
 {

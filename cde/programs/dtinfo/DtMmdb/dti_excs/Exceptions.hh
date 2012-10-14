@@ -4,14 +4,27 @@
 
 #define _Exceptions_hh_active
 
+#ifndef C_API
 #ifndef NATIVE_EXCEPTIONS
+#define NATIVE_EXCEPTIONS
+#endif
+#define Exception mException
+#endif
 
+#ifndef NATIVE_EXCEPTIONS
 extern "C" {
 #include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
 }
+#else
+extern "C" {
+#include <stdio.h>
+#include <stdlib.h>
+}
+#endif
 
+#ifndef NATIVE_EXCEPTIONS
 #ifdef EXC_DEBUG
 #define PRINTF(MSG) printf MSG
 #ifndef DEBUG
@@ -45,12 +58,14 @@ extern "C" {
 
 #define INIT_EXCEPTIONS()
 
-#define throw(OBJ) throw OBJ
+#define mthrow(OBJ) throw OBJ
 #define rethrow throw
 
-#define catch_any() catch(...)
-#define catch_noarg(OBJ) catch(OBJ)
-#define catch(TYPE,OBJ) catch(TYPE OBJ)
+#define mtry try
+
+#define mcatch_any() catch(...)
+#define mcatch_noarg(OBJ) catch(OBJ)
+#define mcatch(TYPE,OBJ) catch(TYPE OBJ)
 
 #define end_try
 
@@ -64,7 +79,7 @@ extern "C" {
 
 // TRY MACRO 
 
-#define try \
+#define mtry \
   { \
     Jump_Environment __jump_env; \
     if (setjmp (__jump_env.f_env) == 0) {
@@ -81,10 +96,10 @@ extern "C" {
 // This works if OBJ is an object or a pointer since Exception objects
 // overload operator ->.
 #if !defined(hpux) && !defined(USL)
-#define throw(OBJ) \
+#define mthrow(OBJ) \
   (OBJ)->throw_it (__LINE__, __FILE__, DEBUG_THROW_FLAG)
 #else
-#define throw(OBJ) \
+#define mthrow(OBJ) \
   OBJ->throw_it (__LINE__, __FILE__, DEBUG_THROW_FLAG)
 #endif
 
@@ -105,16 +120,16 @@ extern "C" {
 #define PRINT_CATCH
 #endif
 
-#define catch_any() \
+#define mcatch_any() \
     } else if (1) { \
       PRINT_CATCH
 
-#define catch_noarg(OBJ) \
+#define mcatch_noarg(OBJ) \
     } else if (Exception::current_exception().isa (STRINGIFY(OBJ))) { \
       PRINT_CATCH
 
-#define catch(TYPE,OBJ) \
-    catch_noarg (TYPE) \
+#define mcatch(TYPE,OBJ) \
+    mcatch_noarg (TYPE) \
     TYPE OBJ = (TYPE) Exception::current_exception();
 
 #define end_try \

@@ -152,10 +152,10 @@ int mphf_hash_table::fit_hash_table(int_pattern& pat)
 {
    int i, j;
    for ( i=0; i<pat.no_elmts(); i++ ) {
-      if ( v_rep[int(pat[i])] != (int) NULL ) {
+      if ( v_rep[int(pat[i])] != (int) 0 ) {
 
          for ( j=0; j<=i; j++ ) 
-           v_rep[int(pat[j])] = (int) NULL; 
+           v_rep[int(pat[j])] = (int) 0;
      
          v_num_filled_slots -= i+1;
          return -1;

@@ -400,11 +400,12 @@ io_status huff::cdrOut(buffer& buf)
 //MESSAGE(cerr, "huff::cdrOut");
 //debug(cerr, my_oid());
    static buffer v_out_buf(LBUFSIZ);
+   int i;
 
    if ( cts > 0 ) {
 //MESSAGE(cerr, "huff::cdrOut: dict out");
       int sz = sizeof(int);
-      for ( int i=0; i<cts; i++ ) {
+      for ( i=0; i<cts; i++ ) {
          sz += ( e_units[i] -> word -> size() +
                         sizeof(unsigned int) +
                         sizeof(char)

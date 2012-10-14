@@ -289,7 +289,7 @@ bt_fast(t, key, data, exactp)
 	const DBT *key, *data;
 	int *exactp;
 {
-	EPG e;
+	static EPG e;
 	PAGE *h;
 	size_t nbytes;
 	int cmp;

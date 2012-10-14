@@ -32,7 +32,7 @@
 #include "dti_cc/cc_hdict.h"
 #endif
 
-#include <stream.h>
+#include <sstream>
 #include "Types.h"
 #include "SymTab.h"
 #include "SSPath.h"

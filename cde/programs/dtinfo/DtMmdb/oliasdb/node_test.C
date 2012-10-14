@@ -51,7 +51,7 @@ void print_node(node_smart_ptr& x, ostream& out, Boolean get_data, Boolean get_d
 int compare_node(node_smart_ptr& pattern, info_base* base_ptr)
 {
    char pattern_buf[LARGE_BUFSIZ];
-   ostrstream pattern_out(pattern_buf, LARGE_BUFSIZ, ios::out);
+   ostringstream pattern_out(pattern_buf, LARGE_BUFSIZ, ios::out);
    print_node(pattern, pattern_out, false, false);
 
    char loc[BUFSIZ];
@@ -59,7 +59,7 @@ int compare_node(node_smart_ptr& pattern, info_base* base_ptr)
 
    node_smart_ptr x( base_ptr, loc );
    char db_buf[LARGE_BUFSIZ];
-   ostrstream db_out(db_buf, LARGE_BUFSIZ, ios::out);
+   ostringstream db_out(db_buf, LARGE_BUFSIZ, ios::out);
    print_node(x, db_out, false, false);
 
    return compare_stream(pattern_out, db_out);
@@ -88,14 +88,14 @@ debug(cerr, loc_size);
 
    char* db_buf;
    int data_size ;
-   ostrstream* db_out;
+   ostringstream* db_out;
 
    if ( doingTest ) {
       node_smart_ptr x( base_ptr, loc );
       data_size = x.data_size();
    
       db_buf = new char[data_size+1];
-      db_out = new ostrstream(db_buf, data_size+1, ios::out);
+      db_out = new ostringstream(db_buf, data_size+1, ios::out);
    
       const char* z = x.data();
       for ( int i=0; i<data_size; i++ )
@@ -105,7 +105,7 @@ debug(cerr, loc_size);
    in >> data_size; in.get(); 
 
    char* pattern_buf = new char[data_size+1];
-   ostrstream pattern_out(pattern_buf, data_size+1, ios::out);
+   ostringstream pattern_out(pattern_buf, data_size+1, ios::out);
 
    for ( i=0; i<data_size; i++ )
       pattern_out.put((char)in.get());
