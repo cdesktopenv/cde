@@ -662,6 +662,11 @@ char *cpp_argv[ARGUMENTS] = {
  *     them to the the following table.  The definition of struct symtab is
  *     in util/makedepend/def.h.
  */
+#undef DEF_EVALUATE
+#undef DEF_STRINGIFY
+#define DEF_EVALUATE(__x) #__x
+#define DEF_STRINGIFY(_x) DEF_EVALUATE(_x)
+
 struct symtab	predefs[] = {
 #ifdef apollo
 	{"apollo", "1"},
@@ -742,7 +747,7 @@ struct symtab	predefs[] = {
 	{"mc68020", "1"},
 #endif
 #ifdef __GNUC__
-	{"__GNUC__", "1"},
+	{"__GNUC__", DEF_STRINGIFY(__GNUC__)},
 #endif
 #if __STDC__
 	{"__STDC__", "1"},

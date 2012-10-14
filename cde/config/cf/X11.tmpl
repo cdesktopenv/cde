@@ -737,10 +737,18 @@ XCOMM X Window System make variables; these need to be coordinated with rules
 
      INSTAPPFLAGS = $(INSTDATFLAGS)	/* XXX - this should go away - XXX */
 
+#ifdef X11ProjectRoot
+     XPROJECTROOT = X11ProjectRoot
+#endif
+
 #if UseInstalledX11
               RGB = $(BINDIR)/rgb
             FONTC = $(BINDIR)/bdftopcf
         MKFONTDIR = $(BINDIR)/mkfontdir
+#elif defined(X11ProjectRoot)
+              RGB = $(XPROJECTROOT)/bin/rgb
+            FONTC = $(XPROJECTROOT)/bin/bdftopcf
+        MKFONTDIR = $(XPROJECTROOT)/bin/mkfontdir
 #else
               RGB = $(CLIENTENVSETUP) $(XBUILDBINDIR)/rgb
             FONTC = $(CLIENTENVSETUP) $(XBUILDBINDIR)/bdftopcf
@@ -767,9 +775,6 @@ XCOMM X Window System make variables; these need to be coordinated with rules
         EXTINCSRC = $(XTOP)/include/extensions
      TRANSCOMMSRC = $(LIBSRC)/xtrans
    TRANS_INCLUDES = -I$(TRANSCOMMSRC)
-#ifdef X11ProjectRoot
-     XPROJECTROOT = X11ProjectRoot
-#endif
 #ifdef BuildLibPathVar
 # ifdef SystemBuildLibPath
   SYSTEMENVLIBDIR = SystemBuildLibPath

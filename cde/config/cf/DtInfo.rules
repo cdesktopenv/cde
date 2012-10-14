@@ -1,0 +1,415 @@
+XCOMM $TOG: DtInfo.rules /main/21 1997/09/05 11:31:01 samborn $
+
+/* Note whether we are the top level project. */
+#ifndef SeenTopLevelProject
+# define SeenTopLevelProject		YES
+# define DtInfoIsTopLevelProject	YES
+#else
+# define DtInfoIsTopLevelProject	NO
+#endif
+
+/* Chain project rules files. */
+#include <cde.rules>
+
+/* Include our favorites in PROJECT_DEFINES. */
+#ifndef DtInfoProjectDefines
+# define DtInfoProjectDefines	$(DTINFO_DEFINES) $(WIDEC_DEFINES) $(I18N_DEFINES) $(SEARCH_DEFINES) $(DLOPEN_DEFINES) $(LM_DEFINES) $(BYTE_ORDER_DEFINES)
+#endif
+#ifdef ProjectDefines
+# undef ProjectDefines
+#endif
+#define ProjectDefines		\
+	X11ProjectDefines MotifProjectDefines CdeProjectDefines DtInfoProjectDefines
+
+/* Ditto for CXXPROJECT_DEFINES. */
+#ifndef DtInfoCplusplusProjectDefines
+# define DtInfoCplusplusProjectDefines	DtInfoProjectDefines
+#endif
+#ifdef CplusplusProjectDefines
+# undef CplusplusProjectDefines
+#endif
+#define CplusplusProjectDefines	\
+	X11CplusplusProjectDefines MotifCplusplusProjectDefines CdeCplusplusProjectDefines DtInfoCplusplusProjectDefines
+
+
+/*
+ * library building stuff
+ */
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+# define makelibT(libname)					@@\
+	makelib(libname)					@@\
+								@@\
+libname/lib/**/libname/**/T.a: FRC				@@\
+	@(cd libname ;	\					@@\
+		echo "### Making lib libname Templates ###" ; \ @@\
+		$(MAKE) lib/**/libname/**/T.a ; \		@@\
+	)
+
+# define makelibsubsubdir(subdir,libname)			@@\
+								@@\
+subdir/libname/lib/**/libname.a: FRC				@@\
+	@(cd subdir ;	\					@@\
+		echo "### Making lib libname ###" ; \		@@\
+		$(MAKE) libname/lib/**/libname.a ; \		@@\
+	)
+
+# define makelibTsubsubdir(subdir,libname)			@@\
+								@@\
+subdir/libname/lib/**/libname/**/T.a: FRC			@@\
+	@(cd subdir ;	\					@@\
+		echo "### Making lib libname Templates ###" ; \ @@\
+		$(MAKE) libname/lib/**/libname/**/T.a ; \	@@\
+	)
+#else /* not defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3 */
+# define makelibT(libname)					@@\
+	makelib(libname)
+#endif
+
+#define makelib(libname)					@@\
+	makelibd(libname,)
+
+#define makelibd(libname, deps)					@@\
+libname/lib/**/libname.a: deps FRC				@@\
+	@(cd libname; \						@@\
+		echo "### Making lib libname ###" ; \		@@\
+		$(MAKE) lib/**/libname.a ; \	 		@@\
+		if [ -d "$(TEMPLATE_DB)" ]; then \		@@\
+		    $(MAKE) lib/**/libname/**/T.a ; \		@@\
+		fi \						@@\
+	)							@@\
+libname/libname.d:	libname/Classlist.mk			@@\
+	@(cd libname; \						@@\
+		echo "### Making dfiles in libname ###" ; \	@@\
+		$(MAKE) libname.d ;\				@@\
+	)							@@\
+libname/libname.h:	libname/Classlist.mk			@@\
+	@(cd libname; \						@@\
+		echo "### Making dfiles in libname ###" ; \	@@\
+		$(MAKE) libname.h ;\				@@\
+	)							@@\
+libname/libname.msg:	libname/Classlist.mk			@@\
+	@(cd libname; \						@@\
+		echo "### Making msgs in libname ###" ; \	@@\
+		$(MAKE) libname.msg ;\				@@\
+	)							@@\
+								@@\
+FRC:								@@\
+
+
+XCOMM
+XCOMM makes toplevel Prelude.h
+XCOMM
+#define make_prelude(libraries, deps)				@@\
+Prelude.h: deps							@@\
+	@$(RM) $@						@@\
+	$(OLIAS)/tools/misc/pmaker libraries
+
+
+XCOMM
+XCOMM build .d and .h files within a library
+XCOMM
+#define make_libfiles(library,classes)				@@\
+dfiles:: Concat(library,.d) Concat(library,.h)			@@\
+Concat(library,.d) : Classlist.mk				@@\
+	$(RM) $@						@@\
+	$(OLIAS)/tools/misc/dfiles d library classes		@@\
+Concat(library,.h) : Classlist.mk				@@\
+	$(RM) $@						@@\
+	$(OLIAS)/tools/misc/dfiles h library classes		@@\
+clean::								@@\
+	$(RM) Concat(library,.d) Concat(library,.h)
+
+#define make_msgs(library, msgs)				@@\
+messages:: Concat(library,.msg)					@@\
+Concat(library,.msg) : Classlist.mk msgs			@@\
+	$(RM) $@						@@\
+	cat msgs > Concat(library,.msg)				@@\
+clean::								@@\
+	$(RM) Concat(library,.msg)
+
+XCOMM Build a library
+XCOMM *NOTE* SimpleLibrary does *not* build a real ar-style
+XCOMM library; it merely uses ld -r -o to concatenate a set
+XCOMM of .o's together. Use RealLibrary to build an honest-
+XCOMM -to-gosh ranlib'd library. Unless you really need true
+XCOMM library behavior (partial selection of contents, etc.),
+XCOMM SimpleLibrary is the better choice.
+
+#define SimpleLibraryWithAddedObjs(libname,objlist,libdir,objlist1)	@@\
+AllTarget(Concat(lib,libname.a))				@@\
+								@@\
+Concat(lib,libname.a): objlist					@@\
+	$(RM) $@						@@\
+	@echo "### Making SimpleLibraryWithAddedObjs libname.a"	@@\
+	$(LD) -r -o $@ objlist objlist1
+
+#define SimpleLibrary(libname,objlist,libdir)			@@\
+AllTarget(Concat(lib,libname.a))				@@\
+								@@\
+Concat(lib,libname.a): objlist					@@\
+	$(RM) $@						@@\
+	@echo "### Making SimpleLibrary libname.a"		@@\
+	$(LD) -r -o $@ objlist
+
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+#define SimpleLibraryT(libname,objlist,libdir)			@@\
+SimpleLibrary(libname,objlist,libdir)				@@\
+								@@\
+AllTarget(Concat(lib,libname/**/T.a))				@@\
+								@@\
+Concat(lib,libname/**/T.a):					@@\
+	$(RM) $@						@@\
+	@echo "### Making SimpleLibraryT libname Templates"	@@\
+	find ./Templates.DB -name '*.o' -type f -print | xargs -n4 ar cq $@ @@\
+								@@\
+clean::								@@\
+	ptclean
+#else
+#define SimpleLibraryT(libname,objlist,libdir)			@@\
+SimpleLibrary(libname,objlist,libdir)				@@\
+								@@\
+AllTarget(Concat(lib,libname/**/T.a))				@@\
+								@@\
+Concat(lib,libname/**/T.a): TemplateObjs			@@\
+	$(RM) $@						@@\
+	@echo "### Making SimpleLibraryT libname Templates"	@@\
+	$(AR) $@ TemplateObjs					@@\
+								@@\
+clean::								@@\
+	$(RM) -r $(TEMPLATE_DB)
+#endif
+
+#define RealLibrary(libname,objlist,libdir)			@@\
+AllTarget(Concat(lib,libname.a))				@@\
+								@@\
+Concat(lib,libname.a): objlist					@@\
+	$(RM) $@						@@\
+	@echo "### Making RealLibrary libname.a"		@@\
+	ar cq $@ objlist					@@\
+	RanLibrary($@)
+
+#define NotSoSimpleLibrary(libname,objlist,libdir,otherdeps)	@@\
+AllTarget(Concat(lib,libname.a))				@@\
+								@@\
+Concat(lib,libname.a): objlist otherdeps			@@\
+	$(RM) $@						@@\
+	@echo "### Making NotSoSimpleLibrary libname.a"		@@\
+	$(LD) -r -o $@ objlist
+
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+#define NotSoSimpleLibraryT(libname,objlist,libdir,otherdeps)	@@\
+NotSoSimpleLibrary(libname,objlist,libdir,otherdeps)		@@\
+								@@\
+AllTarget(Concat(lib,libname/**/T.a))				@@\
+								@@\
+Concat(lib,libname/**/T.a):					@@\
+	$(RM) $@						@@\
+	@echo "### Making NotSoSimpleLibraryT libname Templates"@@\
+	find ./Templates.DB -name '*.o' -type f -print | xargs -n4 ar cq $@ @@\
+								@@\
+clean::								@@\
+	ptclean
+#else
+#define NotSoSimpleLibraryT(libname,objlist,libdir,otherdeps)	@@\
+NotSoSimpleLibrary(libname,objlist,libdir,otherdeps)		@@\
+								@@\
+AllTarget(Concat(lib,libname/**/T.a))				@@\
+								@@\
+Concat(lib,libname/**/T.a): 					@@\
+	$(RM) $@						@@\
+	@echo "### Making NotSoSimpleLibraryT libname Templates"@@\
+	$(AR) $@ TemplateObjs					@@\
+								@@\
+clean::								@@\
+	$(RM) -r $(TEMPLATE_DB)
+#endif
+
+#define do_subdirs_imakefile(subdirs) /* nothing */
+#define do_subdirs(subdirs) /* nothing */
+
+#define foreach_subdirs(name, subdirs)				@@\
+NamedTargetSubdirs(name,subdirs,name,NullParameter,name)
+
+/* Yacc and Lex Support */
+
+#define SimpleCPlusPlusLexTarget(lexname)			@@\
+lexname.o : lexname.l						@@\
+	$(RM) lexname.C						@@\
+	$(FLEX) $(LFLAGS) -t lexname.l	> lexname.C		@@\
+	$(CXX) -c $(CXXFLAGS) lexname.C
+
+#define LexTarget(lexname, parsename)				@@\
+lexname.o : lexname.l						@@\
+	$(RM) lexname.C lex.yy.c lexname.o			@@\
+	$(FLEX) $(LFLAGS) lexname.l				@@\
+	sed 's/yy/parsename/g' lex.yy.c | sed 's/YY/parsename/g' > lexname.C @@\
+	$(CXX)  -c $(CXXFLAGS) lexname.C			@@\
+	$(RM) lexname.C lex.yy.c
+
+#define YaccTarget(file, parser)				@@\
+file.o: file.y							@@\
+	$(RM) file.tab.h file.C y.tab.h y.tab.c file.o		@@\
+	$(BYACC) $(YFLAGS) file.y				@@\
+	sed 's/yy/parser/g' y.tab.h > file.tab.h		@@\
+	sed 's/yy/parser/g' y.tab.c | sed 's/YY/parser/g' > file.C	@@\
+	$(CXX) $(CXXFLAGS) -c  file.C				@@\
+	$(RM) file.C y.tab.h y.tab.c
+
+/*
+ * C++ Support (from here down...)
+ */
+
+/*
+ *  On hp, *..c files need to be removed
+ */
+#ifdef HPArchitecture
+#  define CplusObjectCompile(options) $(RM) $*..c $*.o $*.prep	@@\
+	ObjectCplusplusCompile(options)
+#else /* not defined(HPArchitecture) */
+# define CplusObjectCompile(options) ObjectCplusplusCompile(options)
+#endif
+
+#define CplusIntermediateCompile(options) $(RM) $@		@@\
+	$(CXX) +i -c $(CXXFLAGS) options `basename $@ .c`CCsuf
+
+/* need to remove this and "C++*", and use default from r6, with "CXX*": */
+#ifdef  NormalCplusplusObjectRule
+# undef  NormalCplusplusObjectRule
+#endif
+#define NormalCplusplusObjectRule()				@@\
+.SUFFIXES: .C .o						@@\
+								@@\
+.C.o:								@@\
+	CplusObjectCompile($(_NOOP_))
+
+#define HPchatr(program)					@@\
+install::							@@\
+	chatr +s enable program
+
+/*
+ * Total bogosity with error codes:
+ *	if [ `chatr $@ | grep 'libftft'` -gt 0 ] ; then \	@@\
+ *		chatr -l `chatr $@ | grep 'libftft' | \		@@\
+ *		sed -e 's|[^/]*\(/VOB/.*\)|\1|'` +s enable $@;\	@@\
+ *	fi							@@\
+ *	echo "chatr checked"					@@\
+ */
+
+#define ComplexCPlusPlusProgram(program)			@@\
+PROGRAM = program						@@\
+								@@\
+AllTarget(program)						@@\
+								@@\
+program: $(OBJS) $(DEPLIBS)					@@\
+	RemoveTargetProgram($@)					@@\
+	$(CXXLINK) -o $@ $(OBJS) $(CXXLDOPTIONS) $(STATIC) $(LOCAL_LIBRARIES) $(EXTRA_LOAD_FLAGS) $(EXTRA_LIBRARIES) $(SYS_LIBRARIES) @@\
+								@@\
+clean::								@@\
+	$(RM) $(PROGRAM)					@@\
+
+#define CPlusPlusProgram(program,objects,libs)			@@\
+program: objects						@@\
+	RemoveTargetProgram($@)					@@\
+	$(CXXLINK) -o $@ objects $(CXXLDOPTIONS) $(STATIC) libs $(LDLIBS) $(EXTRA_LOAD_FLAGS) $(EXTRA_LIBRARIES) @@\
+								@@\
+clean::								@@\
+	$(RM) program
+
+#define SimpleCPlusPlusProgram(program,objects,libs)		@@\
+	AllTarget(program)					@@\
+	CPlusPlusProgram(program,objects,libs)
+
+
+
+#define SpecialCPlusPlusObjectRule(objs,depends,options)	@@\
+objs:	depends							@@\
+	CplusObjectCompile(options)				@@\
+								@@\
+clean::								@@\
+	$(RM) *..c
+
+#define SpecialCPlusPlusExpandRule(expn,depends,options)	@@\
+expn:	depends							@@\
+	CplusIntermediateCompile(options)
+
+XCOMM
+XCOMM  CProgram is required by C modules in build-tools
+XCOMM
+#define CProgram(program,objects,libs)				@@\
+program: objects						@@\
+	RemoveTargetProgram($@)					@@\
+	$(CCLINK) -o $@ objects $(LDOPTIONS) $(STATIC) libs $(LDLIBS) $(EXTRA_LOAD_FLAGS) $(EXTRA_LIBRARIES) @@\
+								@@\
+clean::								@@\
+	$(RM) program
+
+XCOMM
+XCOMM SimpleCProgram is required by the C modules in buildtools to build
+XCOMM statically
+XCOMM
+#define SimpleCProgram(program,objects,libs)		      	@@\
+	AllTarget(program)					@@\
+	CProgram(program,objects,libs)
+
+
+XCOMM
+XCOMM platform dependent executables, shell scripts
+XCOMM
+#define InstallLibFile(filename)				@@\
+	InstallNonExecFile(filename,$(INSTALL_LIB_DIR))
+
+
+XCOMM The following macros are used by the build tools
+
+/*
+ * InstallBuildToolsBinary - generate rules to install an executable
+ *	program in build tools.
+ */
+#ifndef InstallBuildToolsBinary
+# define InstallBuildToolsBinary(program)			@@\
+install_buildtools::						@@\
+	MakeDir($(INSTALL_PLATFORM_ETC_DIR))			@@\
+	$(INSTALL) -c $(INSTPGMFLAGS) program $(INSTALL_PLATFORM_ETC_DIR)
+#endif /* InstallBuildToolsBinary */
+
+/*
+ * InstallBuildToolsScript - generate rules for installing scripts
+ */
+#ifndef InstallBuildToolsScript
+# define InstallBuildToolsScript(program)			@@\
+install_buildtools:: program					@@\
+	MakeDir($(INSTALL_BIN_DIR))				@@\
+	$(INSTALL) -c $(INSTBINFLAGS) program $(INSTALL_BIN_DIR)
+#endif /* InstallBuildToolsScript */
+
+/*
+ * InstallPlatformBuildToolsScript - generate rules for installing
+ *	scripts in platform specific directory.
+ */
+#ifndef InstallPlatformBuildToolsScript
+# define InstallPlatformBuildToolsScript(program)		@@\
+install_buildtools:: program					@@\
+	MakeDir($(INSTALL_PLATFORM_ETC_DIR))			@@\
+	$(INSTALL) -c $(INSTBINFLAGS) program $(INSTALL_PLATFORM_ETC_DIR)
+#endif /* InstallPlatformBuildToolsScript */
+
+
+XCOMM
+XCOMM only use this for files that are platform independent
+XCOMM /* this is based upon InstallScript in Imake.rules */
+XCOMM
+#define InstallShellProg(progname)				@@\
+install:: progname						@@\
+	MakeDir($(DESTDIR)$(INSTALL_BIN_DIR))			@@\
+	$(INSTALL) -c $(INSTBINFLAGS) progname $(DESTDIR)$(INSTALL_BIN_DIR)/progname
+
+XCOMM
+XCOMM don't depend on built-in .C.o rules
+XCOMM
+
+
+XCOMM
+XCOMM forcing old C to be used
+XCOMM

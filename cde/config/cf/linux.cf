@@ -224,6 +224,13 @@ TIRPCLIB =
 # define StandardCppDefines      -traditional 
 #endif /* Mc68020Architecture */
 
+#ifdef HasGcc2
+CXXDEPENDINCLUDE = $(shell CppCmd -x c++ -Wp,-v < /dev/null \
+		   2>&1 | sed -n 's/ \(.*[cg]++.*\)/-I\1/p')
+#define CplusplusDependIncludes	$(CXXDEPENDINCLUDE)
+#endif
+#define DependDefines		-D_SYS_RESOURCE_H -D_SYS_UTSNAME_H
+
 #define StandardDefines		-Dlinux LinuxMachineDefines LinuxSourceDefines
 
 #define ConnectionFlags		-DUNIXCONN -DTCPCONN

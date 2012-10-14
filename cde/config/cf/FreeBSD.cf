@@ -148,6 +148,12 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 # define OptimizedCDebugFlags -O2 -fno-strict-aliasing
 #endif
 
+#ifdef HasGcc2
+CXXDEPENDINCLUDE != CppCmd -x c++ -Wp,-v < /dev/null \
+		    2>&1 | sed -n 's/ \(.*[cg]++.*\)/-I\1/p'
+#define CplusplusDependIncludes	$(CXXDEPENDINCLUDE)
+#endif
+
 #define ServerExtraDefines	GccGasOption XFree86ServerDefines
 
 #define StandardDefines		-DCSRG_BASED
