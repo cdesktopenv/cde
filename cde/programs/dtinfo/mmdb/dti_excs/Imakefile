@@ -21,10 +21,12 @@ XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
 #define LibCreate	NO
 
 #define CplusplusSource	YES
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
 
 #if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
 EXCEPTION_DEFINES  = -DHAS_TERMINATE
+#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture)
+EXCEPTION_DEFINES  = -DNATIVE_EXCEPTIONS
 #endif
 
 DEFINES  = -DCC_VERSION=30 -DCHECK_INITIALIZED $(EXCEPTION_DEFINES)

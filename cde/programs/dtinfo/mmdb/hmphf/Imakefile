@@ -21,9 +21,13 @@ XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
 #define LibCreate	NO
 
 #define CplusplusSource	YES
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
 
-DEFINES  = -DPORTABLE_DB
+#if defined(LinuxArchitecture) || defined(FreeBSDArchitecture)
+EXCEPTION_DEFINES  = -DNATIVE_EXCEPTIONS
+#endif
+
+DEFINES  = -DPORTABLE_DB $(EXCEPTION_DEFINES)
 INCLUDES = -I$(DTMMDBSRC)/hmphf -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES)
 
 LinkSourceFile(buckets.C,$(DTMMDBSRC)/hmphf)

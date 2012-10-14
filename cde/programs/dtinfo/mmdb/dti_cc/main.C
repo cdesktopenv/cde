@@ -21,7 +21,8 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $XConsortium: main.cc /main/3 1996/06/11 16:57:24 cde-hal $
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include "Exceptions.hh"
 #include "cc_exceptions.h"
 #include "CC_Slist.h"
