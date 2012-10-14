@@ -72,7 +72,8 @@
 #include <WWL/WComposite.h>
 #include <WWL/WXmScrollBar.h>
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <unistd.h>
 #include <sys/param.h>
 
@@ -110,7 +111,7 @@ OutlineListView::OutlineListView (const WComposite &parent, const char *name,
   f_tracking_element (NULL),
   f_library_agent (NULL)
 {
-  static serial_number = 1;
+  static int serial_number = 1;
 
   // Assign a unique serial number to this outline list. 
   f_serial_number = serial_number++;
@@ -186,7 +187,7 @@ icon_width(Widget w)
   else
     string[0] = OLIAS_PLACEHOLDER_ICON;
   string[1] = '\0';
-  XmString thing = XmStringCreate (string, OLIAS_FONT);
+  XmString thing = XmStringCreate (string, (char*)OLIAS_FONT);
 
   Dimension rval = XmStringWidth(defaultList, thing);
   XmStringFree (thing);
@@ -385,7 +386,7 @@ OutlineListView::create_xm_string (OutlineElement *oe, int base_level,
   else
     s[oe->level() - base_level + 1 + track] = '\0';
   
-  next = XmStringCreate (s, OLIAS_FONT);
+  next = XmStringCreate (s, (char*)OLIAS_FONT);
   
 #ifdef NotDefined
   // Concat the parts 
@@ -798,8 +799,8 @@ OutlineListView::register_actions()
   
   static XtActionsRec actions_list[] =
     {
-      {"OutlineListBeginSelect",   OutlineListView::_select_start},
-      {"OutlineListEndSelect",     OutlineListView::_select_end},
+      {(char*)"OutlineListBeginSelect",   OutlineListView::_select_start},
+      {(char*)"OutlineListEndSelect",     OutlineListView::_select_end},
     };
   
   
@@ -1184,7 +1185,7 @@ OutlineListView::activate (WCallback *wcb)
 
   if ((oe->type() == TOC_Element::TOC_ElementClass) && !expanded)
     {
-      try {
+      mtry {
           UAS_ObjectType type = ((TOC_Element *) oe)->toc()->type();
           switch (type)
           {
@@ -1223,7 +1224,7 @@ OutlineListView::activate (WCallback *wcb)
 	      break;
           }
         }
-      catch_any()
+      mcatch_any()
         {
           message_mgr().error_dialog( (char*)UAS_String(CATGETS(
                            Set_UrlAgent, 5, "Document not found." )) ) ;

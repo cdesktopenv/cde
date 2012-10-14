@@ -81,4 +81,5 @@ private:  // variables
   LONG_LIVED_HH(NodeMgr,node_mgr);
 };
 
+LONG_LIVED_HH2(NodeMgr,node_mgr);
 

@@ -67,7 +67,8 @@
 
 
 #include "Prelude.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 LONG_LIVED_CC(SearchScopeMgr,search_scope_mgr);
 

@@ -21,7 +21,8 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $XConsortium: UtilityFunctions.cc /main/4 1996/06/11 16:35:41 cde-hal $
-#include <stream.h>
+#include <sstream>
+using namespace std;
 # include "UtilityFunctions.hh"
 
 UAS_List<UAS_Common>

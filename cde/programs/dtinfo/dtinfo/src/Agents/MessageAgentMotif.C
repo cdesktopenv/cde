@@ -69,7 +69,8 @@
 #include <WWL/WXmPushButton.h>
 #include <WWL/WXmTextField.h>
 #include <X11/X.h>
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #define CLASS MessageAgent
 #include "create_macros.hh"
@@ -91,7 +92,7 @@ MessageAgent::create_ui(Widget parent)
 {
   f_popped_up = False;
   f_dialog = (WXmMessageDialog *)(Widget)
-             WXmMessageDialog(parent, "MessageDialog");
+             WXmMessageDialog(parent, (char*)"MessageDialog");
 
   f_text = (WXmTextField *)
            XtCreateWidget ("text", xmTextFieldWidgetClass, *f_dialog, NULL, 0);
@@ -586,7 +587,7 @@ MessageAgent::get_integer (const char *message, const char* title,
 
   // Set the dialog title.
   WXmDialogShell shell (XtParent(*f_dialog));
-  shell.Title (title? (char*)title : "File a Bug");
+  shell.Title (title? (char*)title : (char *)"File a Bug");
 
   // Set the dialog buttons.
   f_dialog->CancelPB().Manage();

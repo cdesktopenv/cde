@@ -80,11 +80,11 @@ PixmapGraphic::PixmapGraphic(Pixmap pixmap, Dimension width, Dimension height,
   f_width (width),
   f_height (height),
   f_flag (flag),
-  f_colormap(NULL),
+  f_colormap(0),
   f_num_colors(0),
   f_colors(NULL),
   f_tiff_context(NULL),
-  f_agent(NULL)
+  f_agent(0)
 {
 }
 

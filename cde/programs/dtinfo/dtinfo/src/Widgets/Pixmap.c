@@ -117,7 +117,7 @@ Cardinal *nargs ;
     XtVaGetValues(XtParent(new),
 		  XtNwidth, &width,
 		  XtNheight, &height,
-		  0);
+		  (char*)0);
 
     if (new->core.width == 0)
       new->core.width = width ;
@@ -214,7 +214,9 @@ XtWidgetGeometry *proposed, *answer;
   return XtGeometryYes ;
 }
 
+#ifndef DEBUG
 #define DEBUG
+#endif
 
 static void
 ReDisplay(w, event)

@@ -153,7 +153,7 @@ Boolean
 DisplayNode_wp( XtPointer locator )
 {
   UrlAgent::document( (char *)locator, 1 );	// arg2 = force new window
-  delete [] locator;
+  delete [] (char *)locator;
 
   return (Boolean)True ;			// must always return True
 }
@@ -209,7 +209,7 @@ Boolean
 PrintNode_wp( XtPointer locator )
 {
   UrlAgent::print_document( (char *)locator);
-  delete [] locator;
+  delete [] (char *)locator;
   return (Boolean)True ;                        // must always return True
 }
 
@@ -281,7 +281,7 @@ main(int argc, char **argv)
     if (env().init(argc, argv) < 0)
 	exit(1);
     
-    try
+    mtry
     {
 	
 	// don't set up for session management or tooltalk if
@@ -315,12 +315,16 @@ main(int argc, char **argv)
 	
 	window_system.run();
     }
-    catch (Exception &, e)
+    mcatch (Exception &, e)
     {
 	char buffer[256];
 	sprintf (buffer,
 		 "Internal Error: Exception got away.\nFile: %s, Line: %d",
+#ifdef C_API
 		 e.file(), e.line());
+#else
+		 __FILE__, __LINE__);
+#endif
 	message_mgr().error_dialog (buffer);
 	exit (1);
     }

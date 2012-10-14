@@ -4,4 +4,5 @@ $set	Set_CanvasRenderer
 $
 $ messages specific to CanvasRenderer (dtinfo I/F to DtCanvas/DtHelp)
 $
+1	"Dtinfo: Canvas Renderer"
 

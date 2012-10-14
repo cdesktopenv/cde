@@ -52,7 +52,8 @@
 
 #include "Receiver.hh"
 
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 // /////////////////////////////////////////////////////////////////
 // class destructor - remove this sender from all receiver's lists

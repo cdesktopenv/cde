@@ -40,7 +40,9 @@
  *                  1315 Dell Avenue, Campbell, CA  95008
  *
  */
-#include <stream.h>
+#include <sstream>
+#include <iostream>
+using namespace std;
 
 #define C_LibraryMgr
 #define C_NodeMgr
@@ -57,7 +59,8 @@
 #define L_Support
 
 #include "Prelude.h"
-#include <iostream.h>
+
+#include "utility/mmdb_exception.h"
 
 LONG_LIVED_CC(LibraryMgr,library_mgr);
 
@@ -170,7 +173,8 @@ LibraryMgr::display (UAS_Pointer<UAS_Common> &toc)
   //  First, check to see if the object to display is already
   //  in our list.
   //
-  for (int i = 0; i < fObjList.length(); i ++)
+  int i;
+  for (i = 0; i < fObjList.length(); i ++)
   {
     if (fObjList[i] == toc)
     {
@@ -419,7 +423,7 @@ LibraryMgr::init(UAS_List<UAS_String> &infolibpaths)
   UAS_List<UAS_String> locList = UAS_Common::rootLocators ();
 
   for (i = 0; i < locList.length(); i ++) {
-    try
+    mtry
     {
       UAS_Pointer<UAS_Common> d =
           UAS_Common::create (*(UAS_String*)locList[i]);
@@ -435,7 +439,7 @@ LibraryMgr::init(UAS_List<UAS_String> &infolibpaths)
       else
         message_mgr().error_dialog(window_system().get_message ("NoDocument"));
     }
-    catch(demoException &, demo)
+    mcatch(demoException &, demo)
     {
       message_mgr().demo_failure(demo);
     }

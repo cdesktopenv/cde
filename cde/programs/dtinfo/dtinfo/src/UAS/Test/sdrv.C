@@ -22,7 +22,8 @@
  */
 // $XConsortium: sdrv.C /main/5 1996/09/27 19:02:52 drk $
 #include <stdio.h>
-#include <stream.h>
+#include <sstream>
+using namespace std;
 #include <strings.h>
 #include <assert.h>
 #include <errno.h>

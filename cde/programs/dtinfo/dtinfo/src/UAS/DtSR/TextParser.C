@@ -29,7 +29,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <strstream.h>
+#include <sstream>
+using namespace std;
 
 #include "TextParser.hh"
 
@@ -57,7 +58,7 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
 
     int npat;
     for (npat = 0; *patterns && n_of_pats > 0; npat++, n_of_pats--) {
-	char* del = strchr(patterns, '\n');
+	char* del = (char *)strchr(patterns, '\n');
 	if (del != NULL) { // more pattern specified
 	    pat_tbl[npat] = new char[del - patterns + 1];
 	    strncpy(pat_tbl[npat], patterns, del - patterns);
@@ -160,18 +161,18 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
 		    *p = *p - 0x20;
 	    }
 	}
-	ostrstream capitalized;
+	ostringstream capitalized;
 	for (p = (unsigned char*)text_in; *p; p++) {
 	    if (*p < 0x7B && *p > 0x60) // a ... z
 		capitalized << (char)(*p - 0x20); // capitalize
 	    else
 		capitalized << *p;
 	}
-	text_in = caped_text = capitalized.str();
-	*(char*)(text_in + capitalized.pcount()) = '\0';
+	text_in = caped_text = (char *)capitalized.str().c_str();
+	*(char*)(text_in + capitalized.str().size()) = '\0';
     }
 
-    ostrstream text_run;
+    ostringstream text_run;
 
     for (int index = 0; index < text_len;) {
 	unsigned int candidate = (1 << npat) - 1;
@@ -235,7 +236,7 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
     if (caped_text)
 	delete[] caped_text;
 
-    char* ret_text = text_run.str();
+    char* ret_text = (char *)text_run.str().c_str();
 
     if (ret_text == NULL)
 	return NULL;
@@ -254,7 +255,7 @@ StringParser::project_textrun(const char* org_textrun)
     if (org_textrun == NULL || *org_textrun == '\0')
 	return NULL;
 
-    istrstream textrun(org_textrun);
+    istringstream textrun(org_textrun);
 
     char line[128];
     textrun.get(line, 128, '\n');
@@ -279,7 +280,7 @@ StringParser::project_textrun(const char* org_textrun)
 	return NULL;
     }
 
-    ostrstream ret_text;
+    ostringstream ret_text;
 
     while (textrun.get(line, 128, '\n')) {
 	if (textrun.get() != '\n') {
@@ -321,7 +322,7 @@ StringParser::project_textrun(const char* org_textrun)
 
     ret_text << off << '\t' << len << '\n' << '\0';
 
-    return ret_text.str();
+    return (char *)ret_text.str().c_str();
 }
 
 char *

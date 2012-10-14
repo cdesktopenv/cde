@@ -81,7 +81,7 @@ char *gettext(char *text)
 // definitely defined in other include files
 #define TRUE 1
 #define FALSE 0
-typedef unsigned char bool;
+//typedef unsigned char bool;
 
 typedef char  int8;
 typedef short int16;
@@ -145,7 +145,8 @@ typedef unsigned char  u_char;
 
 // for debugging statements if desired
 #ifdef DEBUG
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <stdio.h>
 #endif
 

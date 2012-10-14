@@ -23,7 +23,7 @@
 // $XConsortium: UAS_SearchEngine.cc /main/4 1996/06/11 16:39:22 cde-hal $
 # include "UAS_Exceptions.hh"
 #include "UAS_SearchEngine.hh"
-
+#include "UAS_Collection.hh"
 #include "UAS_OQLParser.hh"
 
 #define CLASS UAS_SearchEngine

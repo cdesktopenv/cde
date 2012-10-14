@@ -52,7 +52,8 @@
 #include "FeatureValue.h"
 #include "StyleSheetExceptions.h"
 #include <utility/funcs.h>
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #include <Dt/CanvasP.h>
 #include "CanvasRenderer.hh"
@@ -607,7 +608,7 @@ CanvasRenderer::_dofont(const FeatureSet &fs, Symbol** symbols)
 	// if we still can't find one go with whatever.
 
 	else {
-	    xlfd = "-*-*-*-*-*-*-*-*-*-*-*-*-*";
+	    xlfd = (char*)"-*-*-*-*-*-*-*-*-*-*-*-*-*";
 	}
 #ifdef FONT_DEBUG
 	fprintf(stderr, "resulting in \"%s\".\n", xlfd);
@@ -811,7 +812,7 @@ CanvasRenderer::domargin(ElementFeatures	&return_features,
   int top   = 0;
   int bottom= 0;
 
-  try
+  mtry
   {
     //const Feature *f = marginset->lookup(symbols[FIRST]);
     const Feature *l = marginset->lookup(symbols[LEFT]);
@@ -833,7 +834,7 @@ CanvasRenderer::domargin(ElementFeatures	&return_features,
     bottom_margin = bottom;
 
   }
-  catch_noarg (StyleSheetException &)
+  mcatch_noarg (StyleSheetException &)
     {
 #ifdef DEBUG
       cerr << "MarginFPtml: style sheet exception" << endl;
@@ -1573,7 +1574,7 @@ CanvasRenderer::docolformat(ElementFeatures	&return_features,
   ColFormat *colf = new ColFormat ;
   
 
-  try
+  mtry
     {
       const Feature *widthF = set->lookup (symbols[WIDTH]) ;
       if (widthF)
@@ -1616,7 +1617,7 @@ CanvasRenderer::docolformat(ElementFeatures	&return_features,
 	  colf->justify (justify);
 	}
     }
-  catch_any()
+  mcatch_any()
     {
       abort();
     }
@@ -1738,11 +1739,11 @@ CanvasRenderer::dorow (ElementFeatures  &return_features,
 
   const FeatureSet* features;
 
-  try
+  mtry
     {
       features = *local.lookup(symbols[ROW])->value();
     }
-  catch_any()
+  mcatch_any()
     {
       features = NULL;
     }

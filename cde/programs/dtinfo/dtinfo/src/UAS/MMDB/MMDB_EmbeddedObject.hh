@@ -3,6 +3,8 @@
 # define _MMDB_EmbeddedObject_hh_
 
 # include "UAS_EmbeddedObject.hh"
+# include "UAS_Collection.hh"
+# include "UAS_Exceptions.hh"
 # include "MMDB_Common.hh"
 
 class MMDB_EmbeddedObject: public UAS_EmbeddedObject, public MMDB_Common {

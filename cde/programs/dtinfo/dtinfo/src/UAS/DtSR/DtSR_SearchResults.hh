@@ -3,6 +3,7 @@
 #define _DTSR_SEARCHRESULTS_HH_
 
 #include "UAS_SearchResults.hh"
+#include "UAS_Collection.hh"
 #include "DtSR_SearchResultsEntry.hh"
 #include "DtSR_Stems.hh"
 

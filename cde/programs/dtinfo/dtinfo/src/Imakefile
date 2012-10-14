@@ -1,10 +1,13 @@
 XCOMM $TOG: Imakefile /main/48 1998/08/10 15:52:48 mgreess $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+CXXEXTRA_DEFINES = -DEXPAND_TEMPLATES
 
 PROGRAM_NAME=dtinfo
 
 MAKEFILEDEPS=Classlist.mk
+
+NormalCplusplusObjectRule()
 
 #if defined(RsArchitecture) || defined(AIXArchitecture)
 LOCAL_LDFLAGS=-blibpath:/usr/dt/lib:/X11/lib:/usr/lib/threads:/usr/lib:/lib
@@ -22,6 +25,13 @@ SUBDIRS=Widgets $(CLASSLIBS) Messages cgm
 #define IHaveSubdirs
 #define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
 
+XCOMM redefine TopLevelProject to build DtInfo with standard CDE config dir
+#undef  TopLevelProject
+#define TopLevelProject		DtInfo
+IMAKE_DEFINES = -DTopLevelProject=TopLevelProject \
+		-DProjectTmplFile='<DtInfo.tmpl>' \
+		-DProjectRulesFile='<DtInfo.rules>'
+
 DependSubdirs($(SUBDIRS))
 
 #if defined(SVR4) && defined(i386)
@@ -32,6 +42,8 @@ SYS_LIBRARIES=-lm -liconv /usr/lib/libpthreads.a -blibpath:/usr/dt/lib:/X11/lib:
 SYS_LIBRARIES=-lm -lfs
 #elif defined(HPArchitecture)
 SYS_LIBRARIES=$(DYNAMIC) -lm
+#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+SYS_LIBRARIES=-lm -L$(XPROJECTROOT)/lib
 #else
 SYS_LIBRARIES=-lm
 #endif
@@ -299,7 +311,7 @@ all:: Prelude.h dfiles messages Dtinfo
 
 includes:: Prelude.h dfiles messages
 
-#if defined(HPArchitecture) ||defined (AIXArchitecture) || defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4) || defined(AlphaArchitecture) || defined(USLArchitecture)
+#if defined(HPArchitecture) ||defined (AIXArchitecture) || defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4) || defined(AlphaArchitecture) || defined(USLArchitecture) || defined(FreeBSDArchitecture)
 # ifndef Dont_Use_Templates_Repository
 #  define Dont_Use_Templates_Repository
 UAS_INCLUDES=-I./UAS/Base
@@ -324,6 +336,9 @@ SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
 SpecialCPlusPlusExpandRule(Templates..c,,-ptf -DMakeOperatorNewPublic)
 #elif defined(DoLicenseManagement)
 SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(LICENSE_L_INCLUDES))
+#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture)
+SpecialCPlusPlusObjectRule(Templates.o,,$(SUBDIR_TEMPL_INCLUDES))
+SpecialCPlusPlusExpandRule(Templates..c,,-DMakeOperatorNewPublic)
 #else
 SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
 SpecialCPlusPlusExpandRule(Templates..c,,-ptf -DMakeOperatorNewPublic)
@@ -459,5 +474,9 @@ InstallNonExecFile(Olias.hlp,$(INSTALL_HELP_DIR)/C)
 InstallNonExecFile(Olias.hlp,$(INSTALL_HELP_DIR)/C)
 #endif
 InstallNonExecFile($(PROGRAM_NAME).cat,$(INSTALL_MSG_CAT_DIR)/C)
+
+XCOMM Variables to switch on debug mode temporarily
+XCOMM CDEBUGFLAGS = -g -DDEBUG
+XCOMM CXXDEBUGFLAGS = -g -DDEBUG
 
 DependTarget()

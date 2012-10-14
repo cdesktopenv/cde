@@ -32,7 +32,7 @@ public:
   WindowGeometry()
     : ulx(0), uly(0), width(100), height(100)
     { }
-  operator == (const WindowGeometry &wg)
+  bool operator == (const WindowGeometry &wg)
     { return (ulx == wg.ulx && uly == wg.uly &&
 	      width == wg.width && height == wg.height); }
   int ulx, uly;

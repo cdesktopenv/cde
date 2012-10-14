@@ -57,6 +57,8 @@ private:
   LONG_LIVED_HH (GlobalHistoryMgr,global_history_mgr);
 };
 
+LONG_LIVED_HH2 (GlobalHistoryMgr,global_history_mgr);
+
 
 struct HistoryDelete : public Destructable
 {

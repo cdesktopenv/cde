@@ -86,7 +86,7 @@ UrlAgent::~UrlAgent () {
 
 void
 UrlAgent::display (NodeWindowAgent *prefWindow) {
-    if (fShell == NULL)
+    if (fShell == 0)
 	create_ui ();
     //f_form.Manage();
     XmProcessTraversal( (Widget)fTextField, XmTRAVERSE_CURRENT );
@@ -126,7 +126,7 @@ UrlAgent::document( char   *locator,
   }
 
   UAS_Pointer<UAS_Common> d = NULL ;
-  try
+  mtry
     {
       // perform basic syntax tests, but rely on the
       // precise format parsing to be done in the UAS layer
@@ -171,7 +171,7 @@ UrlAgent::document( char   *locator,
           d->retrieve();
         }
     }
-  catch_any()
+  mcatch_any()
     {
       message_mgr().error_dialog( (char*)UAS_String(CATGETS(
                        Set_UrlAgent, ERR_LOCATOR_RESOLUTION,
@@ -253,7 +253,7 @@ UrlAgent::print_document(char *locator)
     }
     
     UAS_Pointer<UAS_Common> d = NULL ;
-    try
+    mtry
     {
 	// perform basic syntax tests, but rely on the
 	// precise format parsing to be done in the UAS layer
@@ -332,7 +332,7 @@ UrlAgent::print_document(char *locator)
 	    }
         }
     }
-    catch_any()
+    mcatch_any()
 	{
 	    
 	    if ((!window_system().videoShell()->silent)) {
@@ -407,7 +407,7 @@ UrlAgent::create_ui () {
     ON_ACTIVATE (fApply,displayDocument);
     ON_ACTIVATE (close,close);
     ON_ACTIVATE (fClear,clear);
-    help_agent().add_activate_help (help, "open_url_help");
+    help_agent().add_activate_help (help, (char*)"open_url_help");
 
     //
     //  A few clean up things...
@@ -475,7 +475,7 @@ UrlAgent::displayDocument () {
 //		"Invalid access method in url.")));
 //	}
 //    }
-//    catch_any() {
+//    mcatch_any() {
 //	message_mgr().error_dialog ((char*)
 //		UAS_String(CATGETS(Set_Messages, 71,
 //		"Document creation failed.")));
@@ -508,6 +508,6 @@ UrlAgent::modifyVerify (WCallback *wcb) {
 
 void
 UrlAgent::clear () {
-    XmTextFieldSetString (fTextField, "");
+    XmTextFieldSetString (fTextField, (char*)"");
     valueChanged ();
 }

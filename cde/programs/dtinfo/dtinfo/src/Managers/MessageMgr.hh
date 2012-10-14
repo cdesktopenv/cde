@@ -89,12 +89,14 @@ private:
   LONG_LIVED_HH(MessageMgr,message_mgr);
 };
 
+LONG_LIVED_HH2(MessageMgr,message_mgr);
+
 
 
 #ifdef __STDC__
 #define Xassert(STMT) \
 if (!(STMT)) { \
-  message_mgr().assert_failed (#STMT, __FILE__, __LINE__); \
+  message_mgr().assert_failed ((char*)#STMT, (char*)__FILE__, __LINE__); \
   return; \
 };
 #else

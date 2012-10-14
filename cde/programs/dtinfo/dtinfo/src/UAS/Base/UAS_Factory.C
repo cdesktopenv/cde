@@ -21,13 +21,16 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $XConsortium: UAS_Factory.C /main/9 1996/10/04 12:33:17 cde-hal $
-# include <stream.h>
+# include <sstream>
+using namespace std;
 # include <string.h>
 # include "UAS_Pointer.hh"
 # include "UAS_String.hh"
 # include "UAS_Factory.hh"
 # include "UAS_Common.hh"
 # include "UAS_Exceptions.hh"
+# include "UAS_Collection.hh"
+# include "UAS_EmbeddedObject.hh"
 
 #include "Managers/CatMgr.hh"
 #include "Registration.hh"

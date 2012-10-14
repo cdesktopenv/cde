@@ -1,7 +1,8 @@
 XCOMM $XConsortium: Imakefile /main/9 1996/08/21 15:42:26 drk $
 
 XCOMM NodeMgr.o and PrintMgr.o need STYLE_SHEET_INCLUDES.
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(STYLE_SHEET_INCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES) $(STYLE_SHEET_INCLUDES)
+CXXEXTRA_DEFINES = -DEXPAND_TEMPLATES
 
 DEFINES=-DCDE_NEXT $(BYTE_ORDER_DEFINES)
 
@@ -19,6 +20,8 @@ LFLAGS=-8 -s
 MAKEFILEDEPS=Classlist.mk
 
 LIBNAME=Managers
+
+NormalCplusplusObjectRule()
 
 INCLUDES=$(BROWSER_INCLUDES) $(COMMON_CLASS_INCLUDES)
 
@@ -43,8 +46,12 @@ make_msgs($(LIBNAME), $(MSGS))
 
 #if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
 SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#elif defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture) || \
+      defined(LinuxArchitecture)
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #else
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+XCOMM RealLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #endif
 
 DependTarget()

@@ -43,6 +43,7 @@
 
 #include "TabButtonP.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 /* **************************************************************
  * constant and type declarations
@@ -185,7 +186,7 @@ static XtResource resources[] =
     XmRImmediate, (XtPointer) True  },
   { XmNarmColor, XmCArmColor, XmRPixel, sizeof (Pixel),
     XtOffsetOf (struct _XyzTabButtonRec, tab.arm_color),
-    XmRCallProc, (XtPointer) _XmSelectColorDefault },
+    XmRCallProc, (XtPointer)(size_t) _XmSelectColorDefault },
   { XmNarmPixmap, XmCArmPixmap, XmRPrimForegroundPixmap, sizeof (Pixmap),
     XtOffsetOf (struct _XyzTabButtonRec, tab.arm_pixmap),
     XmRImmediate, (XtPointer) XmUNSPECIFIED_PIXMAP },

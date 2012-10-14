@@ -17,3 +17,5 @@ class UrlMgr: public Long_Lived {
 
 	LONG_LIVED_HH(UrlMgr,url_mgr);
 };
+
+LONG_LIVED_HH2(UrlMgr,url_mgr);

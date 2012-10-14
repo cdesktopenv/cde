@@ -54,4 +54,5 @@ private:
   LONG_LIVED_HH(SearchScopeMgr,search_scope_mgr);
 };
 
+LONG_LIVED_HH2(SearchScopeMgr,search_scope_mgr);
 

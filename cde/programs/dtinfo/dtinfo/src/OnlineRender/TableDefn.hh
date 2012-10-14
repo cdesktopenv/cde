@@ -32,7 +32,7 @@ public:
   int		rowsep()		{ return f_rowsep; }
   void		rowsep(int v)		{ f_rowsep = v; }
 
-  operator==(const ColFormat &c) const
+  bool operator==(const ColFormat &c) const
     { return &c == this ; }
 
 private:
@@ -84,7 +84,7 @@ public:
   void	      colend(char *e) { f_colend = e; }
   const char* colend()        { return f_colend; }
 
-  operator==(const ColDefn &c) const
+  bool operator==(const ColDefn &c) const
     { return &c == this ; }
 
   _DtCvFrmtOption justify() { return f_justify; }
@@ -126,7 +126,7 @@ public:
 
   CC_TPtrSlist<ColDefn> &columns() { return f_columns ; }
 
-  operator==(const RowDefn &r) const
+  bool operator==(const RowDefn &r) const
     { return &r == this ; }
 
   _DtCvFrmtOption vjustify ()		
@@ -163,7 +163,7 @@ public:
 
   void setup_cell(_DtCvSegment*, ColDefn*, RowDefn*, ColFormat*, ColFormat*);
 
-  operator==(const TGDefn& t) const
+  bool operator==(const TGDefn& t) const
     { return &t == this ; } 
 
   _DtCvFrmtOption justify() { return f_justify; }

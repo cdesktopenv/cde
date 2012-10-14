@@ -80,4 +80,5 @@ private:
     LONG_LIVED_HH(PrintMgr,print_mgr);
 };
 
+LONG_LIVED_HH2(PrintMgr,print_mgr);
 

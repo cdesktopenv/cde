@@ -5,11 +5,7 @@
 #include "Exceptions.hh"
 #include "UAS_String.hh"
 
-#if defined(linux)
-#define CASTUASEXCEPT (UAS_Exception*)
-#else
 #define CASTUASEXCEPT
-#endif
 
 class UAS_Exception: public Exception {
     protected:

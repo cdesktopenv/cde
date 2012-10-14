@@ -54,7 +54,8 @@
 #define EXPAND_TEMPLATES
 
 #include "Prelude.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 struct Message
 {

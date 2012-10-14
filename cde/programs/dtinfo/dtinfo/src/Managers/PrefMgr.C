@@ -122,13 +122,13 @@ PrefMgr::display()
 void
 PrefMgr::sync()
 {
-  try
+  mtry
     {
       UserPreference::flush_preferences();
     }
-  catch_any()
+  mcatch_any()
     {
-      message_mgr().error_dialog ("Unable to save preferences.");
+      message_mgr().error_dialog ((char*)"Unable to save preferences.");
     }
   end_try;
 }

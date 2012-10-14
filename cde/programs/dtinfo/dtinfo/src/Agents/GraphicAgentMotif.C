@@ -80,7 +80,8 @@
 #include "Other/XmStringLocalized.hh"
 
 #include <Prelude.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <string.h>
 #include <stdio.h>
 
@@ -142,7 +143,7 @@ GraphicAgent::~GraphicAgent()
 		  pixmap);	// a scaled pixmap...give it back 
 
     }
-  if(f_shell != NULL)
+  if(f_shell != 0)
     f_shell.Destroy();
 }
 
@@ -153,7 +154,7 @@ GraphicAgent::~GraphicAgent()
 void 
 GraphicAgent::popup()
 {
-  if (f_shell == NULL)
+  if (f_shell == 0)
     create_ui();
 
   f_shell.Popup();
@@ -167,7 +168,7 @@ GraphicAgent::popup()
 void 
 GraphicAgent::display()
 {
-  if (f_shell == NULL)
+  if (f_shell == 0)
     create_ui();
     
   // assume all graphics are scalable for now.
@@ -240,7 +241,7 @@ GraphicAgent::create_ui()
   f_shell.SetDestroyCallback (this, (WWL_FUN) &GraphicAgent::ui_destroyed);
 
   DECL  (WXmForm,           form,         f_shell,      "form"         );
-  DECLM (WXmMenuBar,        menu_bar,     form,         "menu_bar"     );
+  DECLMC(WXmMenuBar,        menu_bar,     form,         "menu_bar"     );
 #ifdef hpux
   //
   //  rtp: hard-wire the menu bar's background, since
@@ -252,7 +253,7 @@ GraphicAgent::create_ui()
 
 #endif
   DECLM (WXmCascadeButton,  file,         menu_bar,     "file"         );
-  DECLM (WXmPulldownMenu,   file_menu,    menu_bar,     "file_menu"    );
+  DECLMC(WXmPulldownMenu,   file_menu,    menu_bar,     "file_menu"    );
   DECLM (WXmPushButton,     attach,       file_menu,    "attach"       );
   DECLM (WXmPushButton,     visit,        file_menu,    "visit"        );
   DECLM (WXmPushButton,     close,        file_menu,    "close"        );
@@ -282,7 +283,7 @@ GraphicAgent::create_ui()
     NULL);
 
   DECLM (WXmCascadeButton,  pan,          menu_bar,     "panner"       );
-  DECLM (WXmPulldownMenu,   panner_menu,  menu_bar,     "panner_menu"  );
+  DECLMC(WXmPulldownMenu,   panner_menu,  menu_bar,     "panner_menu"  );
   DECLM (WXmToggleButton,   none,         panner_menu,  "none"         );
   DECLM (WXmToggleButton,   up_left,      panner_menu,  "up_left"      );
   DECLM (WXmToggleButton,   up_right,     panner_menu,  "up_right"     );
@@ -327,8 +328,8 @@ GraphicAgent::create_ui()
 
   // NOTE: some code in this module depends upon the exact ordering of items
   // view menu will only be sensitive for scalable graphics 
-  DECL (WXmCascadeButton,   view,         menu_bar,     "view"         );
-  DECLM (WXmPulldownMenu,   view_menu,   menu_bar,     "view_menu"    );
+  DECL  (WXmCascadeButton,  view,          menu_bar,     "view"        );
+  DECLMC(WXmPulldownMenu,   view_menu,     menu_bar,     "view_menu"   );
   DECLM (WXmPushButton,     fit_gr_to_win, view_menu,    "fit_window"  );
   DECLM (WXmPushButton,     fit_win_to_gr, view_menu,    "fit_graphic" );
 
@@ -386,7 +387,7 @@ GraphicAgent::create_ui()
   f_view_menu = (WXmPulldownMenu*)(Widget)view_menu ;
 
   DECLM (WXmCascadeButton,  help,         menu_bar,      "help"        );
-  DECLM (WXmPulldownMenu,   help_menu,    menu_bar,      "help_menu"   );
+  DECLMC(WXmPulldownMenu,   help_menu,    menu_bar,      "help_menu"   );
   DECLM (WXmPushButton,     on_window,    help_menu,     "on_window"   );
   DECLM (WXmPushButton,     on_help,      help_menu,     "on_help"     );
 
@@ -480,8 +481,8 @@ GraphicAgent::create_ui()
   SET_CALLBACK_D (z_200,ValueChanged,zoom_callback,200);
   SET_CALLBACK_D (z_custom,ValueChanged,zoom_callback,0);
 
-  help_agent().add_activate_help (on_window, "graphic_on_window");
-  help_agent().add_activate_help (on_help,   "graphic_on_help");
+  help_agent().add_activate_help (on_window, (char*)"graphic_on_window");
+  help_agent().add_activate_help (on_help,   (char*)"graphic_on_help");
 
   view.Manage();
 
@@ -815,7 +816,7 @@ GraphicAgent::set_panner(WCallback *wcb)
   WXmToggleButton button(wcb->GetWidget());
   if (button.Set())
     {
-      unsigned int state = (unsigned int)wcb->ClientData();
+      size_t state = (size_t)wcb->ClientData();
       adjust_panner(state);
     }      
 }
@@ -835,7 +836,7 @@ GraphicAgent::zoom_callback(WCallback *wcb)
   
   if (button.Set())
     {
-      int scale = (unsigned int) wcb->ClientData();
+      size_t scale = (size_t) wcb->ClientData();
       if (scale > 0)
 	{
 	  set_zoom (scale);

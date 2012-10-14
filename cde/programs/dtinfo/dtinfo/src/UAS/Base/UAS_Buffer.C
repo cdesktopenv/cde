@@ -21,9 +21,9 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $XConsortium: UAS_Buffer.cc /main/3 1996/06/11 16:36:44 cde-hal $
-#include "UAS_Buffer.hh"
 #include <string.h>
 #include <stdio.h>
+#include "UAS_Buffer.hh"
 
 // If necessary in the future, we can rework UAS_Buffer class to provide
 // global buffer by default and private buffers on request.  SWM
@@ -112,7 +112,7 @@ static int g_int;
 static char *const g_intbuf = (char *) &g_int;
 
 void
-UAS_Buffer::write (const int integer)
+UAS_Buffer::write (const ssize_t integer)
 {
   char *inbuf = (char *) &integer;
 
@@ -146,7 +146,7 @@ UAS_Buffer::read (int *integer)
 void
 UAS_Buffer::write (const char *string)
 {
-  int length = strlen (string);
+  ssize_t length = strlen (string);
   write (length);
   write (string, sizeof (char), length + 1);
 }

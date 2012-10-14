@@ -11,10 +11,6 @@
 
 #define CATALOG_PREFIX	"dtinfo"
 
-#ifndef NULL
-#define NULL	(char*)0
-#endif
-
 class CatMgr
 {
   public:
@@ -23,7 +19,7 @@ class CatMgr
     ~CatMgr();
     static CatMgr& msg_catalog_mgr() { return *f_msg_catalog_mgr; }
 
-    char* catgets(int set, int msg, const char* def = NULL);
+    char* catgets(int set, int msg, const char* def = (char*)0);
 
     static int is_open(nl_catd catd)
 			{ return ((catd != (nl_catd)-1) ? 1 : 0); }

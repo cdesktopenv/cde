@@ -127,7 +127,7 @@ MarkChooser::create_ui (Widget parent,
 #endif
   DECLM (WXmSeparator,    sep,      f_form,    "separator");
 
-  Widget list = XmCreateScrolledList (f_form, "list", NULL, 0);
+  Widget list = XmCreateScrolledList (f_form, (char*)"list", NULL, 0);
   f_list = WXmList (list);
   f_list.Manage();
 

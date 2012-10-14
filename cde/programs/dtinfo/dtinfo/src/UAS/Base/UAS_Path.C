@@ -22,6 +22,8 @@
  */
 // $XConsortium: UAS_Path.cc /main/3 1996/06/11 16:38:39 cde-hal $
 # include "UAS_Path.hh"
+# include "UAS_Collection.hh"
+# include "UAS_Exceptions.hh"
 
 UAS_Pointer<UAS_Common>
 UAS_Path::first () {

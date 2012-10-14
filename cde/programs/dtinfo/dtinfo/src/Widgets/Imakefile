@@ -1,6 +1,6 @@
 XCOMM $XConsortium: Imakefile /main/6 1996/08/21 15:45:28 drk $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
 
 LIBNAME= Widgets
 LIBDIR = ../lib
@@ -23,10 +23,17 @@ OBJS2 = $(SRCS2:.C=.o)
 SRCS = $(SRCS1) $(SRCS2)
 OBJS = $(OBJS1) $(OBJS2)
 
+NormalCplusplusObjectRule()
 NormalLibraryObjectRule()
 
 INCLUDES=$(CDEINCLUDES) $(WWL_INCLUDES) $(EXCEPTIONS_INCLUDES)
 
+#if defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture) || \
+    defined(LinuxArchitecture)
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+#else
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+XCOMM RealLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+#endif
 
 DependTarget()

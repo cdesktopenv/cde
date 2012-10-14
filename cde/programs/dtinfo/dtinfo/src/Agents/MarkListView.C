@@ -93,7 +93,7 @@ MarkListView::MarkListView()
 
 MarkListView::~MarkListView()
 {
-  if (f_shell != NULL)
+  if (f_shell != 0)
     f_shell.Destroy();
   free_mark_list();
 }
@@ -107,7 +107,7 @@ void
 MarkListView::display()
 {
   Wait_Cursor bob;
-  if (f_shell == NULL)
+  if (f_shell == 0)
     create_ui();
 
   if (!f_popped_up)
@@ -143,7 +143,7 @@ MarkListView::create_ui()
   DECLM (WXmPushButton,   close,        form,         "close");
   DECLM (WXmPushButton,   help,         form,         "help");
   DECLM (WXmSeparator,    sep,          form,         "separator");
-  Widget list = XmCreateScrolledList (form, "list", NULL, 0);
+  Widget list = XmCreateScrolledList (form, (char*)"list", NULL, 0);
   f_list = WXmList (list);
   f_list.Manage();
 
@@ -165,7 +165,7 @@ MarkListView::create_ui()
   ON_ACTIVATE (f_edit,edit);
   ON_ACTIVATE (f_delete,remove);
   ON_ACTIVATE (close,close);
-  help_agent().add_activate_help (help, "mark_list_help");
+  help_agent().add_activate_help (help, (char*)"mark_list_help");
 
   SET_CALLBACK (f_shell,Popdown,popdown);
 
@@ -279,7 +279,7 @@ MarkListView::view()
 {
   Wait_Cursor bob_dobbs;
 
-  try
+  mtry
     {
 
       Xassert (f_selected_item > 0);
@@ -295,7 +295,7 @@ MarkListView::view()
       // Now `m' points to the selected Mark.
       m.item()->view();
     }
-  catch(demoException &, demo)
+  mcatch(demoException &, demo)
     {
       message_mgr().demo_failure(demo);
     }
@@ -392,7 +392,7 @@ MarkListView::receive (MarkDeleted &msg, void* /*client_data*/)
       i++, m++;
     }
 
-  Xassert (m != NULL);
+  Xassert (m != 0);
 
   //
   //  XXXSWM: Need to check if this is the selected item.
@@ -429,7 +429,7 @@ MarkListView::receive (MarkChanged &msg, void* /*client_data*/)
       i++, m++;
     }
 
-  Xassert (m != NULL);
+  Xassert (m != 0);
 
   // Change the title of the entry, once it is found.
   WXmString title (msg.f_mark_ptr->name());

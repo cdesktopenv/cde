@@ -72,7 +72,7 @@ static int operator_precedence[] =
   -1, 0, 0, 1, 2, 2
 };
 
-static char *fulcrum_formats[] =
+static const char *fulcrum_formats[] =
 { "",                                                // NONE 
   "\\Cu %s %s \\C}",		                     // OR
   "\\Ct\\Cu %s %s \\C} \\Cx\\Ct %s %s \\C}\\C}",     // XOR 
@@ -86,7 +86,7 @@ static char *fulcrum_formats[] =
   "%s\\C-w",                                         // COMPLETION
   "\\C0p %s \\C}" };                                 // PHRASE 
 
-static char *infix_formats[] =
+static const char *infix_formats[] =
 #ifdef DtinfoClient
 { "", "(%s | %s)", "(%s ^ %s)", "(%s & %s)",
   "(%s % %s%%s)", "(%s < %s%%s)",  // %%s is loc to insert proximity 
@@ -99,14 +99,14 @@ static char *infix_formats[] =
   "%s weight %%s", "%s scope %s", "not %s", "%s*", "\"%s\"" };
 #endif
 
-static char *infix_pformats[] =
+static const char *infix_pformats[] =
 { "", "(%s or %s%)", "(%s xor %s%)", "(%s and %s)",
   "(%s near %s%%s)", "(%s before %s%%s)",  // %%s is loc to insert proximity 
   " within %s",                        // proximity string to insert
   "%%s weight %s", "%s scope %s", "not %s", "%s*", "\"%s\"" };
 
 // Order of these correspond to query_type_t enum in QueryGroup.hh 
-static char **formats[] = { fulcrum_formats, infix_formats };
+static const char **formats[] = { fulcrum_formats, infix_formats };
 
 // The buffer is used to format the query.  As each term is processed
 // a NULL-terminated string is tacked on to the end of the buffer.
@@ -381,7 +381,7 @@ QueryGroup::gen_query_internal (query_type_t query_type)
 int
 QueryGroup::format (query_type_t query_type, QueryTerm *term)
 {
-  char *s = "\001s", *tmp;
+  char *s = (char*)"\001s", *tmp;
   // Need two buffers for alternating writes. 
   // Allocate a buffer with enough room for term plus operators.
   static char *buf[2];
@@ -489,7 +489,7 @@ QueryGroup::reduce (query_type_t query_type,
   char *proximity = proximity_stack.pop ();
 
   if (*proximity == '\0') {
-      proximity = "32";  // NOTE: Hard coded proximity. 12:39 02/09/93 DJB 
+      proximity = (char*)"32"; // NOTE: Hard coded proximity. 12:39 02/09/93 DJB
   }
 
   connective_t opt = (connective_t) operator_stack.pop();

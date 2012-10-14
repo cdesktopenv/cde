@@ -57,7 +57,7 @@ public:
 
 #ifdef DEBUG
   bool	is_used(BitHandle);
-  ostream      &BitField::dump(ostream &);
+  ostream      &dump(ostream &);
 #endif
 
 private:

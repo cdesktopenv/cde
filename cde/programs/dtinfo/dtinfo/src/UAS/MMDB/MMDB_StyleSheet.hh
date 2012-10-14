@@ -3,6 +3,8 @@
 #define _MMDB_StyleSheet_hh_
 
 # include "UAS_StyleSheet.hh"
+# include "UAS_Collection.hh"
+# include "UAS_Exceptions.hh"
 # include "MMDB_Common.hh"
 
 class MMDB_StyleSheet: public UAS_StyleSheet, public MMDB_Common {

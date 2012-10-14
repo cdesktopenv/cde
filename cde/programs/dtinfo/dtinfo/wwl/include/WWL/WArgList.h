@@ -45,9 +45,9 @@
 #define WArgList_h
 
 // Allow setting of resources by name in arg list
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #define CASTRNAM (char*)
-#define CASTVAL  (void*)
+#define CASTVAL  (void*)(size_t)
 #else
 #define CASTRNAM
 #define CASTVAL

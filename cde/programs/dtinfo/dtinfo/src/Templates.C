@@ -84,7 +84,9 @@ class ColFormat;
 class RowDefn;
 class UpdateMenu;
 
+#ifndef EXPAND_TEMPLATES
 #define EXPAND_TEMPLATES
+#endif
 #ifndef TEMPL_DEBUG
 #ifdef DEBUG
 #undef DEBUG

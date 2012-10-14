@@ -15,6 +15,8 @@ private:
   LONG_LIVED_HH(DatabaseMgr,database_mgr);
 };
 
+LONG_LIVED_HH2(DatabaseMgr,database_mgr);
+
 inline olias_server *
 olias_db()
 {

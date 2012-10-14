@@ -27,7 +27,8 @@
 #include <assert.h>
 #include <string.h>
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #include "config.h"
 #include "Basic/Error.hh"

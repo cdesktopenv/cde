@@ -1,11 +1,14 @@
 XCOMM $XConsortium: Imakefile /main/7 1996/08/21 15:44:17 drk $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+CXXEXTRA_DEFINES = -DEXPAND_TEMPLATES
 
 MAKEFILEDEPS=Classlist.mk
 
 LIBNAME=Base
 LIBDIR=../lib
+
+NormalCplusplusObjectRule()
 
 INCLUDES=-I. -I.. -I../.. -I../Support $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES)
 
@@ -19,8 +22,12 @@ OBJS=$(SRCS:.C=.o)
 
 #if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
 SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#elif defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture) || \
+      defined(LinuxArchitecture)
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #else
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+XCOMM RealLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #endif
 
 DependTarget()

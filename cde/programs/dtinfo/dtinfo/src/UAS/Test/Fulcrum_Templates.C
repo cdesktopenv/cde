@@ -23,7 +23,8 @@
 // $XConsortium: Fulcrum_Templates.cc /main/3 1996/06/11 16:44:22 cde-hal $
 # define EXPAND_TEMPLATES
 
-# include <stream.h>
+# include <sstream>
+using namespace std;
 # include "Exceptions.hh"
 # include "UAS_Exceptions.hh"
 # include "UAS_PtrList.hh"

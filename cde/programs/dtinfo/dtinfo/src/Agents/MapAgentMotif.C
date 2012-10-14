@@ -120,8 +120,8 @@ MapButton::MapButton (WComposite &parent,
   f_doc_ptr (doc_ptr),
   f_expanded (FALSE)
 {
-  ON_DEBUG (printf ("MapButton::MapButton (%s)\n", f_doc_ptr->title()));
-  static expandable_tree =
+  ON_DEBUG (printf ("MapButton::MapButton (%s)\n", (char*)f_doc_ptr->title()));
+  static bool expandable_tree =
     window_system().get_boolean_default ("ExpandableMap");
   UAS_List<UAS_Common> kids (f_doc_ptr->children());
   UAS_String t = f_doc_ptr->title();
@@ -483,7 +483,7 @@ MapAgent::create_ui()
   WXmForm bottomform (rootform, "bottomform");
   WXmPushButton close (bottomform, "close", WAutoManage);
   WXmPushButton help (bottomform, "help", WAutoManage);
-  help_agent().add_activate_help (help, "map_help");
+  help_agent().add_activate_help (help, (char*)"map_help");
 
   XtVaSetValues(close, XmNlabelString,
 	(XmString)XmStringLocalized(CATGETS(Set_AgentLabel, 12, "Close")), NULL);

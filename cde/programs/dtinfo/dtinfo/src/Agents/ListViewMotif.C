@@ -166,7 +166,7 @@ ListView::create_ui_objects()
   //  WXmLabelGadget label (form, "label", WAutoManage);
   WXmSeparator separator (form, "separator", WAutoManage);
   // NOTE: Fix WWL to have a scrolled list object!
-  Widget scrolled_list = XmCreateScrolledList (form, "list", NULL, 0);
+  Widget scrolled_list = XmCreateScrolledList (form, (char*)"list", NULL, 0);
   f_list = new WXmList (scrolled_list);
   f_list->Manage();
 
@@ -256,7 +256,7 @@ ListView::select (WCallback *wcb)
 void
 ListView::activate (WCallback *)
 {
-  notify (ENTRY_ACTIVATE, (void *) f_selected_item);
+  notify (ENTRY_ACTIVATE, (void *)(size_t) f_selected_item);
 }
   
 

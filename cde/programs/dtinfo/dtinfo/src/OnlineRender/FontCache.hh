@@ -49,7 +49,7 @@ public:
   FontEntry(const FontEntry &);
   ~FontEntry();
 
-  operator ==(const FontEntry &) const;
+  bool operator ==(const FontEntry &) const;
 
   unsigned hash() const;
 

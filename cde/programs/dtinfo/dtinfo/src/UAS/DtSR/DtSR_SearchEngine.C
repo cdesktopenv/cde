@@ -29,7 +29,9 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#include <fstream.h>
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 #include "Registration.hh"
 #include "Managers/CatMgr.hh"
@@ -189,7 +191,7 @@ UpdateConfigFile(UAS_PtrList<const char> *bcases, UAS_String ocf_path)
 	return 0;
 
     ofstream dtiocf((char*)ocf_path,
-			ios::out | ios::trunc | ios::nocreate);
+			ios::out | ios::trunc);
     if (! dtiocf) { // could not open ocf_path in specified mode
 #ifdef DEBUG
 	fprintf(stderr, "(ERROR) could not open %s\n", (char*)ocf_path);
@@ -268,13 +270,13 @@ DtSR_SearchEngine::~DtSR_SearchEngine()
 DtSR_SearchEngine::DtSR_SearchEngine()
     : f_dbnames(NULL), f_dbcount(0), f_valid_bc_map(0)
 {
-    char* ocf_path = tempnam(NULL, ".DtSR_");
+    char* ocf_path = mktemp((char*)".DtSR_XXXXXX");
     f_config_path = ocf_path;
 
     if (ocf_path)
 	free(ocf_path);
 
-    ofstream dtiocf((char*)f_config_path, ios::out | ios::noreplace);
+    ofstream dtiocf((char*)f_config_path, ios::out);  // TODO
     if (! dtiocf) // could not open ocf_path in specified mode
 	throw(CASTEXCEPT Exception());
 
@@ -302,7 +304,7 @@ DtSR_SearchEngine::init(UAS_PtrList<const char> *bcases)
 #ifdef DEBUG
 	fprintf(stderr, "(DEBUG) DtSearch is being initialized.\n");
 #endif
-	status = DtSearchInit("DtSearch", NULL, 0, (char*)f_config_path,
+	status = DtSearchInit((char*)"DtSearch", NULL, 0, f_config_path,
 					NULL, &f_dbnames, &f_dbcount);
     }
     else {
@@ -548,10 +550,10 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
     }
 
     UAS_String aus_query;
-    try {
+    mtry {
 	aus_query = f_oql_parser->parse((char*)oql);
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	rethrow;
     }
     end_try;
@@ -641,7 +643,8 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
 	    Dict<UAS_String, int> bookid_dict(NULL, False);
 	    UAS_ObjList<int> &books = targets[n]->book_list();
 	    // register bookids in Dict<UAS_String, int>
-	    for (int i = 0; i < books.numItems(); i++) {
+	    int i;
+	    for (i = 0; i < books.numItems(); i++) {
 		UAS_Pointer<UAS_Common> bcase(bookcases[index]->bcase());
 		UAS_String bookid = resolve_bookid(bcase, books[i]);
 		if ((char*)bookid == (int)NULL || *(char*)bookid == '\0')

@@ -196,7 +196,8 @@ UAS_String::splitFields (const char separator) const {
     UAS_List<UAS_String> rval;
     UAS_Pointer<UAS_String> cur;
     int start = 0;
-    for (int i = 0; i < fStringRep->fDataSize; i ++) {
+    int i;
+    for (i = 0; i < fStringRep->fDataSize; i ++) {
 	if (fStringRep->fData[i] == separator) {
 	    cur = new UAS_String(&(fStringRep->fData[start]),
 				i - start, UAS_OWNER);

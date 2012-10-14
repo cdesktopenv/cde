@@ -46,7 +46,8 @@
 #define L_Other
 
 # include <Prelude.h>
-# include <stream.h>
+# include <sstream>
+using namespace std;
 
 
 InputMgrX::InputMgrX () {

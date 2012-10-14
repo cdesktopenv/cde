@@ -20,6 +20,7 @@
  */
 
 #include "UAS.hh"
+// #include "Managers/GraphicsMgr.hh"
 
 class GraphicsMgr;
 class GraphicAgent ;

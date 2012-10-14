@@ -105,119 +105,119 @@ public :
    DEFINE_GETTER_SETTER (SkipAdjust,         Boolean,        "skipAdjust")
 
    inline void LeftAttachment( unsigned char to_what, Widget w ) {
-      Arg a; a.name = "leftAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-       a.name = "leftWidget";     a.value = (XtArgVal)w;       _Set(a);
+      Arg a; a.name = CASTRNAM "leftAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+       a.name = CASTRNAM "leftWidget";     a.value = (XtArgVal)w;       _Set(a);
    }
 
    inline void LeftAttachment( unsigned char to_what, Widget w, int offset ) {
-      Arg a; a.name = "leftAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-       a.name = "leftOffset";     a.value = (XtArgVal)offset;  _Set(a);
-       a.name = "leftWidget";     a.value = (XtArgVal)w;       _Set(a);
+      Arg a; a.name = CASTRNAM "leftAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+       a.name = CASTRNAM "leftOffset";     a.value = (XtArgVal)offset;  _Set(a);
+       a.name = CASTRNAM "leftWidget";     a.value = (XtArgVal)w;       _Set(a);
    }
 
    inline void LeftAttachment( unsigned char to_what, int poffset ) {
-      Arg a; a.name = "leftAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+      Arg a; a.name = CASTRNAM "leftAttachment"; a.value = (XtArgVal)to_what; _Set(a);
       if( to_what == XmATTACH_POSITION ) {
-	 a.name = "leftPosition";
+	 a.name = CASTRNAM "leftPosition";
 	 a.value = (XtArgVal)poffset;  _Set(a);
       } else {
-	 a.name = "leftOffset";  
+	 a.name = CASTRNAM "leftOffset";
 	 a.value = (XtArgVal)poffset;  _Set(a);
       }
    }
 
    inline void LeftAttachment( unsigned char to_what, int position,
 			      int offset ) {
-      Arg a; a.name = "leftAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-      a.name = "leftPosition"; a.value = (XtArgVal)position;  _Set(a);
-      a.name = "leftOffset";   a.value = (XtArgVal)offset;  _Set(a);
+      Arg a; a.name = CASTRNAM "leftAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+      a.name = CASTRNAM "leftPosition"; a.value = (XtArgVal)position;  _Set(a);
+      a.name = CASTRNAM "leftOffset";   a.value = (XtArgVal)offset;  _Set(a);
    }
 
    inline void RightAttachment( unsigned char to_what, Widget w ) {
-      Arg a; a.name = "rightAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-       a.name = "rightWidget";     a.value = (XtArgVal)w;       _Set(a);
+      Arg a; a.name = CASTRNAM "rightAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+       a.name = CASTRNAM "rightWidget";     a.value = (XtArgVal)w;       _Set(a);
    }
 
    inline void RightAttachment( unsigned char to_what, Widget w, int offset ) {
-      Arg a; a.name = "rightAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-       a.name = "rightOffset";     a.value = (XtArgVal)offset;  _Set(a);
-       a.name = "rightWidget";     a.value = (XtArgVal)w;       _Set(a);
+      Arg a; a.name = CASTRNAM "rightAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+       a.name = CASTRNAM "rightOffset";     a.value = (XtArgVal)offset;  _Set(a);
+       a.name = CASTRNAM "rightWidget";     a.value = (XtArgVal)w;       _Set(a);
    }
 
    inline void RightAttachment( unsigned char to_what, int poffset ) {
-      Arg a; a.name = "rightAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+      Arg a; a.name = CASTRNAM "rightAttachment"; a.value = (XtArgVal)to_what; _Set(a);
       if( to_what == XmATTACH_POSITION ) {
-	 a.name = "rightPosition";
+	 a.name = CASTRNAM "rightPosition";
 	 a.value = (XtArgVal)poffset;  _Set(a);
       } else {
-	 a.name = "rightOffset";  
+	 a.name = CASTRNAM "rightOffset";
 	 a.value = (XtArgVal)poffset;  _Set(a);
       }
    }
 
    inline void RightAttachment( unsigned char to_what, int position,
 			      int offset ) {
-      Arg a; a.name = "rightAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-      a.name = "rightPosition"; a.value = (XtArgVal)position;  _Set(a);
-      a.name = "rightOffset";   a.value = (XtArgVal)offset;  _Set(a);
+      Arg a; a.name = CASTRNAM "rightAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+      a.name = CASTRNAM "rightPosition"; a.value = (XtArgVal)position;  _Set(a);
+      a.name = CASTRNAM "rightOffset";   a.value = (XtArgVal)offset;  _Set(a);
    }
  
    inline void TopAttachment( unsigned char to_what, Widget w ) {
-      Arg a; a.name = "topAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-       a.name = "topWidget";     a.value = (XtArgVal)w;       _Set(a);
+      Arg a; a.name = CASTRNAM "topAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+       a.name = CASTRNAM "topWidget";     a.value = (XtArgVal)w;       _Set(a);
    }
 
    inline void TopAttachment( unsigned char to_what, Widget w, int offset ) {
-      Arg a; a.name = "topAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-       a.name = "topOffset";     a.value = (XtArgVal)offset;  _Set(a);
-       a.name = "topWidget";     a.value = (XtArgVal)w;       _Set(a);
+      Arg a; a.name = CASTRNAM "topAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+       a.name = CASTRNAM "topOffset";     a.value = (XtArgVal)offset;  _Set(a);
+       a.name = CASTRNAM "topWidget";     a.value = (XtArgVal)w;       _Set(a);
    }
 
    inline void TopAttachment( unsigned char to_what, int poffset ) {
-      Arg a; a.name = "topAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+      Arg a; a.name = CASTRNAM "topAttachment"; a.value = (XtArgVal)to_what; _Set(a);
       if( to_what == XmATTACH_POSITION ) {
-	 a.name = "topPosition";
+	 a.name = CASTRNAM "topPosition";
 	 a.value = (XtArgVal)poffset;  _Set(a);
       } else {
-	 a.name = "topOffset";  
+	 a.name = CASTRNAM "topOffset";
 	 a.value = (XtArgVal)poffset;  _Set(a);
       }
    }
 
    inline void TopAttachment( unsigned char to_what, int position,
 			      int offset ) {
-      Arg a; a.name = "topAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-      a.name = "topPosition"; a.value = (XtArgVal)position;  _Set(a);
-      a.name = "topOffset";   a.value = (XtArgVal)offset;  _Set(a);
+      Arg a; a.name = CASTRNAM "topAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+      a.name = CASTRNAM "topPosition"; a.value = (XtArgVal)position;  _Set(a);
+      a.name = CASTRNAM "topOffset";   a.value = (XtArgVal)offset;  _Set(a);
    }
 
    inline void BottomAttachment( unsigned char to_what, Widget w ) {
-      Arg a; a.name = "bottomAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-       a.name = "bottomWidget";     a.value = (XtArgVal)w;       _Set(a);
+      Arg a; a.name = CASTRNAM "bottomAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+       a.name = CASTRNAM "bottomWidget";     a.value = (XtArgVal)w;       _Set(a);
    }
 
    inline void BottomAttachment( unsigned char to_what, Widget w, int offset ) {
-      Arg a; a.name = "bottomAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-       a.name = "bottomOffset";     a.value = (XtArgVal)offset;  _Set(a);
-       a.name = "bottomWidget";     a.value = (XtArgVal)w;       _Set(a);
+      Arg a; a.name = CASTRNAM "bottomAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+       a.name = CASTRNAM "bottomOffset";     a.value = (XtArgVal)offset;  _Set(a);
+       a.name = CASTRNAM "bottomWidget";     a.value = (XtArgVal)w;       _Set(a);
    }
 
    inline void BottomAttachment( unsigned char to_what, int poffset ) {
-      Arg a; a.name = "bottomAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+      Arg a; a.name = CASTRNAM "bottomAttachment"; a.value = (XtArgVal)to_what; _Set(a);
       if( to_what == XmATTACH_POSITION ) {
-	 a.name = "bottomPosition";
+	 a.name = CASTRNAM "bottomPosition";
 	 a.value = (XtArgVal)poffset;  _Set(a);
       } else {
-	 a.name = "bottomOffset";  
+	 a.name = CASTRNAM "bottomOffset";
 	 a.value = (XtArgVal)poffset;  _Set(a);
       }
    }
 
    inline void BottomAttachment( unsigned char to_what, int position,
 			      int offset ) {
-      Arg a; a.name = "bottomAttachment"; a.value = (XtArgVal)to_what; _Set(a);
-      a.name = "bottomPosition"; a.value = (XtArgVal)position;  _Set(a);
-      a.name = "bottomOffset";   a.value = (XtArgVal)offset;  _Set(a);
+      Arg a; a.name = CASTRNAM "bottomAttachment"; a.value = (XtArgVal)to_what; _Set(a);
+      a.name = CASTRNAM "bottomPosition"; a.value = (XtArgVal)position;  _Set(a);
+      a.name = CASTRNAM "bottomOffset";   a.value = (XtArgVal)offset;  _Set(a);
    }
 
 

@@ -5,6 +5,10 @@ SEARCHENG=DtSearch
 SEARCHENG=Fulcrum
 #endif
 
+CXXEXTRA_DEFINES = -DEXPAND_TEMPLATES
+
+NormalCplusplusObjectRule()
+
 #ifdef UseDtSearch
 
 DTSEARCH_LIBS=-L/VOB/olias/library/dtsearch/solaris -lDtSr -lDtvis
@@ -32,9 +36,16 @@ PREF_LIB_OBJS = $(PREF_LIB_SRCS:.C=.o)
 
 make_libfiles($(LIBNAME),)
 
+#if defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture) || \
+    defined(LinuxArchitecture)
 SimpleLibrary($(PREF_LIB_NAME), $(PREF_LIB_OBJS), $(LIBDIR))
-
 SimpleLibraryT(uasdrv, uasdrv.o,)
+#else
+SimpleLibrary($(PREF_LIB_NAME), $(PREF_LIB_OBJS), $(LIBDIR))
+SimpleLibraryT(uasdrv, uasdrv.o,)
+XCOMM RealLibrary($(PREF_LIB_NAME), $(PREF_LIB_OBJS), $(LIBDIR))
+XCOMM RealLibraryT(uasdrv, uasdrv.o,)
+#endif
 
 SimpleCPlusPlusProgram(sdrv, sdrv.o dlstub.o UAS_Templates.o, $(Libs))
 SimpleCPlusPlusProgram(uasdrv, uasdrv.o dlstub.o libuasdrvT.a, $(Libs))

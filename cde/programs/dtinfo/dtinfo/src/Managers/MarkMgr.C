@@ -51,7 +51,8 @@
  */
 
 #include <sys/param.h>
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #include "UAS.hh"
 
@@ -239,7 +240,7 @@ MarkMgr::create_mark (UAS_Pointer<UAS_Common> &doc_ptr, const Anchor &anchor,
 
   List_Iterator<MarkBase *> b (f_base_list);
 
-  assert (b != NULL);
+  assert (b != 0);
 
   // Trim leading and trailing space and check for an empty name.
 #ifdef UseWideChars
@@ -328,7 +329,7 @@ MarkMgr::move_mark (UAS_Pointer<UAS_Common> &doc_ptr, const Anchor &anchor,
 
   List_Iterator<MarkBase *> b (f_base_list);
 
-  assert (b != NULL);
+  assert (b != 0);
 
   MarkMoved move_message;
   move_message.f_new_mark_ptr = b.item()->

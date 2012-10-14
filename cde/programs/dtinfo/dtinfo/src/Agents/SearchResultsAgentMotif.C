@@ -74,7 +74,8 @@
 #include "Managers/WString.hh"
 
 #include <Prelude.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #include "Registration.hh"
 
@@ -137,7 +138,7 @@ SearchResultsAgent::form_result_string (UAS_Pointer<UAS_SearchResultsEntry> re)
     relevancy[0] += (char) ((re->relevance() * 8 ) / f_scale);
 
 
-  WXmString rel  (relevancy, OLIAS_FONT);
+  WXmString rel  (relevancy, (char*)OLIAS_FONT);
 
   WXmString book;
   WXmString name;
@@ -171,7 +172,7 @@ SearchResultsAgent::form_result_string (UAS_Pointer<UAS_SearchResultsEntry> re)
   }
   else {
 
-    char* dots = "...";
+    char* dots = (char*)"...";
 
     WXmString temp_xmstring = book + WXmString(dots);
     char *temp_str = (char*)temp_xmstring;
@@ -379,7 +380,8 @@ SearchResultsAgent::fill_list(UAS_List<UAS_SearchResultsEntry>& rlist)
   XmString *t = string_table;
 
   int string_count = 0 ;
-  for (int i = 0; i < rlist.length(); i ++) {
+  int i;
+  for (i = 0; i < rlist.length(); i ++) {
       string_count++ ;
       *t++ = form_result_string (rlist[i]);
   }
@@ -445,7 +447,7 @@ SearchResultsAgent::fill_list(UAS_List<UAS_SearchResultsEntry>& rlist)
 void
 SearchResultsAgent::create_window()
 {
-  create_base_window ("results");
+  create_base_window ((char*)"results");
 
   XmStringLocalized mtfstring;
   String	    string;
@@ -453,7 +455,7 @@ SearchResultsAgent::create_window()
   string = CATGETS(Set_SearchResultsAgent, 1, "Dtinfo: Search Results");
   XtVaSetValues((Widget)*f_shell, XmNtitle, string, NULL);
 
-  help_agent().add_activate_help(f_help, "results_help");
+  help_agent().add_activate_help(f_help, (char*)"results_help");
 
 #define AM WAutoManage
   // NOTE: need form to contain things in the same row 'cause of resizing
@@ -486,7 +488,7 @@ SearchResultsAgent::create_window()
   mtfstring = CATGETS(Set_AgentLabel, 221, "Query:");
   XtVaSetValues(query_label, XmNlabelString, (XmString)mtfstring, NULL);
   
-  Widget textw = XmCreateScrolledText (*f_pane, "query_text", NULL, 0);
+  Widget textw = XmCreateScrolledText (*f_pane, (char*)"query_text", NULL, 0);
   f_query_text = new WXmText (textw);
   f_query_text->Manage();
 //  WXmPushButton      editq           (*f_panel,       "edit_query",     AM);
@@ -527,7 +529,7 @@ SearchResultsAgent::create_window()
     header.FontList(header_font);
   }
 
-  int offset = WXmString(relevancy, OLIAS_FONT).Width(f_list->FontList());
+  int offset = WXmString(relevancy,(char*)OLIAS_FONT).Width(f_list->FontList());
   header.LeftOffset(offset); 
 
   WXmPrimitive prim(XtParent(*f_list));

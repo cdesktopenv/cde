@@ -66,3 +66,5 @@ private: // variables
 private:
   LONG_LIVED_HH(LibraryMgr,library_mgr);
 };
+
+LONG_LIVED_HH2(LibraryMgr,library_mgr);

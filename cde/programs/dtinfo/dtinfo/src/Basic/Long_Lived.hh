@@ -39,14 +39,14 @@ private:
 
 // Macros to easily create access functions.
 
-#define LONG_LIVED_HH(CLASS,FUNC)   \
-  friend CLASS &FUNC();             \
-  static CLASS * CONCAT(g_,FUNC)
+#define LONG_LIVED_HH(CLASS,FUNC)   friend CLASS &FUNC(); \
+                                    static CLASS * CONCAT(g_,FUNC)
 
-#define LONG_LIVED_CC(CLASS,FUNC)             \
-  CLASS * CLASS::CONCAT(g_,FUNC);             \
-  CLASS &FUNC() {                             \
-    if (CLASS::CONCAT(g_,FUNC) == NULL)       \
-      CLASS::CONCAT(g_,FUNC) = new CLASS();   \
-    return (*CLASS::CONCAT(g_,FUNC));         \
-  }		 
+#define LONG_LIVED_HH2(CLASS,FUNC)  CLASS &FUNC();
+
+#define LONG_LIVED_CC(CLASS,FUNC)   CLASS * CLASS::CONCAT(g_,FUNC);         \
+                                    CLASS &FUNC() {                         \
+                                      if (CLASS::CONCAT(g_,FUNC) == NULL)   \
+                                      CLASS::CONCAT(g_,FUNC) = new CLASS(); \
+                                      return (*CLASS::CONCAT(g_,FUNC));     \
+                                    }

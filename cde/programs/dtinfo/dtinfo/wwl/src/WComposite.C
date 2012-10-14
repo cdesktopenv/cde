@@ -29,7 +29,8 @@
 //	$CurLog$	(Log at end)
 //
 
-//#include <stream.h>
+//#include <sstream>
+//using namespace std;
 
 #ifndef _XtintrinsicP_h
 #include <X11/IntrinsicP.h>

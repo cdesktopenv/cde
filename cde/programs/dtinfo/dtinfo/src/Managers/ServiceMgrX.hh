@@ -54,5 +54,6 @@ private:
   LONG_LIVED_HH(ServiceMgr,service_manager);
 };
 
+LONG_LIVED_HH2(ServiceMgr,service_manager);
 
 

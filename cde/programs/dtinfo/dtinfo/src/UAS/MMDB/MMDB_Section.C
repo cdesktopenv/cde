@@ -30,6 +30,8 @@
 #endif
 # include "MMDB_StyleSheet.hh"
 # include "MMDB_Factory.hh"
+# include "UAS_Collection.hh"
+# include "UAS_SearchEngine.hh"
 
 char* g_mmdb_section_label;
 

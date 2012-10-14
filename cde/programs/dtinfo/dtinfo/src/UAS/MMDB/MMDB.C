@@ -21,13 +21,15 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $TOG: MMDB.C /main/8 1998/04/17 11:42:22 mgreess $
-#include <stream.h>
+#include <sstream>
+using namespace std;
 #include "MMDB.hh"
 #include "UAS_Exceptions.hh"
 #include "UAS_Buffer.hh"
 #include "UAS_Common.hh"
 #include "UAS_Msgs.hh"
 #include "MMDB_Factory.hh"
+#include "UAS_Collection.hh"
 
 #include "Managers/CatMgr.hh"
 #include "Registration.hh"

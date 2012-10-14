@@ -46,7 +46,8 @@
 #define C_AddLibraryAgent
 #define C_HelpAgent
 #define L_Agents
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #include "Other/XmStringLocalized.hh"
 #include "Managers/CatMgr.hh"
@@ -118,7 +119,7 @@ AddLibraryAgent::create_ui (Widget parent) {
     ON_ACTIVATE (f_ok, ok);
     ON_ACTIVATE (f_clr, clear);
     ON_ACTIVATE (canc, cancel);
-    help_agent().add_activate_help (help, "add_infolib_help");
+    help_agent().add_activate_help (help, (char*)"add_infolib_help");
 
     f_shell.Realize ();
     // XtVaSetValues(f_form, XmNinitialFocus, (Widget)f_text, NULL);
@@ -134,7 +135,7 @@ void
 AddLibraryAgent::clear () {
  // autoUnmanage must be set to False for this button to work properly
 
-    XmTextFieldSetString( f_text, "" );
+    XmTextFieldSetString( f_text, (char*)"" );
 }
 
 void
@@ -212,8 +213,8 @@ AddLibraryAgent::pick_dir () {
           CATGETS(Set_AddLibraryAgent, 10, "Dtinfo: Infolib Selection"));
     XmString no_libs_str = XmStringCreateLocalized(
           CATGETS(Set_AddLibraryAgent, 11, "No Infolibs Present"));
-    XmString patt_str = XmStringCreateLocalized( "*.dti" );
-    XmString infolibs_str = XmStringCreateLocalized( "Infolibs" );
+    XmString patt_str = XmStringCreateLocalized( (char*)"*.dti" );
+    XmString infolibs_str = XmStringCreateLocalized( (char*)"Infolibs" );
 
     // default initial directory on first entry
     char *buf = new char[256];
@@ -244,7 +245,7 @@ AddLibraryAgent::pick_dir () {
     XtSetArg(args[n], XmNpathMode, XmPATH_MODE_RELATIVE); n++;
 
     f_file_sel = XmCreateFileSelectionDialog(
-                      f_shell, "pick_dir_file", args, n );
+                      f_shell, (char*)"pick_dir_file", args, n );
 
     XmStringFree(basedir_str);
     XmStringFree(initdir_str);

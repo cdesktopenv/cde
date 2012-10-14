@@ -133,13 +133,13 @@ ServiceMgr::create_atoms()
     {
       enum { XA_OLIAS_WINDOW_ID_ATOM, XA_OLIAS_EVENT_ATOM,
 	     XA_OLIAS_REPLY_ATOM, NUM_ATOMS }; 
-      static char *atom_names[] = { OLIAS_WINDOW_ID_ATOM, OLIAS_EVENT_ATOM,
-	     OLIAS_REPLY_ATOM }; 
+      static const char *atom_names[] = { OLIAS_WINDOW_ID_ATOM,
+	     OLIAS_EVENT_ATOM, OLIAS_REPLY_ATOM };
 
       Atom atoms[XtNumber(atom_names)];
 
-      XInternAtoms (window_system().display(), atom_names,
-		    XtNumber(atom_names), False, atoms);
+      XInternAtoms (window_system().display(), (char**)atom_names,
+		    XtNumber((char**)atom_names), False, atoms);
 
       _XA_OLIAS_WINDOW_ID = atoms[XA_OLIAS_WINDOW_ID_ATOM];
       _XA_OLIAS_EVENT = atoms[XA_OLIAS_EVENT_ATOM];
@@ -265,7 +265,7 @@ ServiceMgr::process_olias_event (Window client,
   locator = (char *) stream;
 
   UAS_Pointer<UAS_Common> d;
-  try
+  mtry
     {
       if (strchr (locator, ':'))
 	{
@@ -285,11 +285,11 @@ ServiceMgr::process_olias_event (Window client,
 	  delete [] buffer;
 	}
     }
-  catch (demoException&, demo)
+  mcatch (demoException&, demo)
     {
       message_mgr().demo_failure(demo);
     }
-  catch_any()
+  mcatch_any()
     {
       d = NULL;
     }
@@ -408,7 +408,7 @@ olias_send_event (Widget, OliasEvent *event)
       case OLIAS_DISPLAY_EVENT:
 	locator = ((OliasDisplayEvent *) event)->locator;
 	ON_DEBUG (printf (">>> external-api display <%s>\n", locator));
-	try
+	mtry
 	  {
 	    if (strchr (locator, ':'))
 	      {
@@ -433,11 +433,11 @@ olias_send_event (Widget, OliasEvent *event)
 		  }
 	      }
 	  }
-	catch (demoException&, demo)
+	mcatch (demoException&, demo)
 	  {
 	    message_mgr().demo_failure(demo);
 	  }
-	catch_any()
+	mcatch_any()
 	  {
 	    d = NULL;
 	  }

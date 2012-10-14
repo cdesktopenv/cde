@@ -129,7 +129,7 @@ SimpleClassRec simpleClassRec = {
     /* extension		*/	NULL
   },
   { /* simple fields */
-    /* change_sensitive		*/	ChangeSensitive
+    /* change_sensitive		*/	(Bool (*)(Widget))ChangeSensitive
   }
 };
 
@@ -167,7 +167,7 @@ static void ClassPartInitialize(class)
 		"%s Widget: The Simple Widget class method 'change_sensitive' is undefined.\nA function must be defined or inherited.",
 		c->core_class.class_name);
 	XtWarning(buf);
-	c->simple_class.change_sensitive = ChangeSensitive;
+	c->simple_class.change_sensitive = (Bool (*)(Widget))ChangeSensitive;
     }
 
     if (c->simple_class.change_sensitive == XtInheritChangeSensitive)

@@ -1,10 +1,13 @@
 XCOMM $XConsortium: Imakefile /main/8 1996/08/21 15:41:09 drk $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+CXXEXTRA_DEFINES = -DEXPAND_TEMPLATES
 
 MAKEFILEDEPS=Classlist.mk
 
 LIBNAME=Agents
+
+NormalCplusplusObjectRule()
 
 #ifdef DoLicenseManagement
 INCLUDES=$(BROWSER_INCLUDES) $(MMDB_INCLUDES) $(LICENSE_L_INCLUDES)
@@ -23,8 +26,12 @@ make_msgs($(LIBNAME), $(MSGS))
 
 #if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
 SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#elif defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture) || \
+      defined(LinuxArchitecture)
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #else
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+XCOMM RealLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #endif
 
 #if defined(HPArchitecture)||defined(UXPArchitecture)

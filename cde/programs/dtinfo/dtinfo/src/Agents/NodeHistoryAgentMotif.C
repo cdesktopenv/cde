@@ -49,7 +49,8 @@
  * 
  */
 
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #include "UAS.hh"
 
@@ -89,7 +90,7 @@
 
 NodeHistoryAgent::~NodeHistoryAgent()
 {
-  if (f_shell != NULL)
+  if (f_shell != 0)
     f_shell.Destroy();
 }
 
@@ -101,7 +102,7 @@ NodeHistoryAgent::~NodeHistoryAgent()
 void
 NodeHistoryAgent::display()
 {
-  if (f_shell == NULL)
+  if (f_shell == 0)
     create_ui();
 
   refresh_list();
@@ -152,7 +153,7 @@ NodeHistoryAgent::create_ui()
   mtfstring = CATGETS(Set_AgentLabel, 185, "Section");
   XtVaSetValues(sectionlabel, XmNlabelString, (XmString)mtfstring, NULL);
 
-  Widget scrolled_list =  XmCreateScrolledList (form, "list", NULL, 0);
+  Widget scrolled_list =  XmCreateScrolledList (form, (char*)"list", NULL, 0);
   f_list = WXmList (scrolled_list);
   f_list.Manage();
 
@@ -174,7 +175,7 @@ NodeHistoryAgent::create_ui()
   SET_CALLBACK (f_list,DefaultAction,view);
   ON_ACTIVATE (f_display,view);
   ON_ACTIVATE (close,close);
-  help_agent().add_activate_help (help, "node_hist_help");
+  help_agent().add_activate_help (help, (char*)"node_hist_help");
 
   global_history_mgr().UAS_Sender<HistoryAdd>::request (this);
   global_history_mgr().UAS_Sender<HistoryDelete>::request (this);
@@ -211,7 +212,7 @@ NodeHistoryAgent::create_ui()
 void
 NodeHistoryAgent::refresh_list()
 {
-  Xassert (f_list != NULL);
+  Xassert (f_list != 0);
 
   xList<UAS_Pointer<UAS_Common> > &hist_list = global_history_mgr().history_list();
   XmStringTable table = new XmString [hist_list.length()];
@@ -330,7 +331,7 @@ NodeHistoryAgent::compose_entry(UAS_String book, UAS_String section)
 
   if (bookString.Width(f_list.FontList()) >= SECTION_OFFSET)
   {
-    char* dots = "...";
+    char* dots = (char*)"...";
 
     char* ungenerated = (char*)(bookString + WXmString(dots));
 

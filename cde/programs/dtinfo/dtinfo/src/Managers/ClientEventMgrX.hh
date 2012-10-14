@@ -14,3 +14,5 @@ private:
 
   LONG_LIVED_HH(ClientEventMgr, client_event_manager);
 };
+
+LONG_LIVED_HH2(ClientEventMgr, client_event_manager);

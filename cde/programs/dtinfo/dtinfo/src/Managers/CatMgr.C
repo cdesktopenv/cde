@@ -30,7 +30,8 @@
 #include <locale.h>
 #include <stdlib.h>
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #include <Dt/Dt.h>
 #include <Dt/EnvControlP.h>
@@ -66,9 +67,9 @@ CatMgr::CatMgr() : f_msg(NULL), f_default(NULL)
     else {
 #ifdef DEBUG	
 	cerr << "(WARNING) catopen failed." << '\n' << flush;
-	static char* cat_not_found = "default message not found.";
+	static char* cat_not_found = (char*)"default message not found.";
 #else
-	static char* cat_not_found = "";
+	static char* cat_not_found = (char*)"";
 #endif
 	f_default = new char[strlen(cat_not_found) + 1];
 	strcpy(f_default, cat_not_found);

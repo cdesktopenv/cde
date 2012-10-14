@@ -44,3 +44,4 @@ private:
   LONG_LIVED_HH(MarkListMgr,mark_list_mgr);
 };
 
+LONG_LIVED_HH2(MarkListMgr,mark_list_mgr);

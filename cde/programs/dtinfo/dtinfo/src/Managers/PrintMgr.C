@@ -66,6 +66,7 @@
 #define C_NodeWindowMgr
 #define C_StyleSheetMgr
 #define C_LibraryMgr
+#define C_GraphicsMgr
 #define L_Managers
 
 #include "Prelude.h"
@@ -105,7 +106,7 @@ PrintNode::receive (UAS_DocumentRetrievedMsg &message, void *client_data)
 {
     RCS_DEBUG("PrintNode::receive called.");
 
-    int cd = (int)client_data;
+    size_t cd = (size_t)client_data;
 
     //  1 == print request
     if (cd == 1) {
@@ -206,11 +207,11 @@ PrintMgr::load(UAS_Pointer<UAS_Common> &node_ptr)
   extern void stylerestart(FILE *);
   extern NodeViewInfo *gNodeViewInfo;
 
-  try
+  mtry
     {
       style_sheet_mgr().initPrintStyleSheet(node_ptr);
     }
-  catch_noarg (StyleSheetSyntaxError)
+  mcatch_noarg (StyleSheetSyntaxError)
     {
       message_mgr().error_dialog(
 	  (char*)UAS_String(CATGETS(Set_Messages, 39, 
@@ -219,9 +220,9 @@ PrintMgr::load(UAS_Pointer<UAS_Common> &node_ptr)
     }
   end_try ;
 
-  istrstream input((char *) node_ptr->data());
+  istringstream input((char *) node_ptr->data());
 
-  try
+  mtry
     {
       window_system().setPrinting(True);
       // assign node_ptr to global variable that TmlRenderer can pick up 
@@ -232,7 +233,7 @@ PrintMgr::load(UAS_Pointer<UAS_Common> &node_ptr)
       docparser.parse(input);
       window_system().setPrinting(False);
     }
-  catch_any()
+  mcatch_any()
     {
       ON_DEBUG(cerr << "PrintMgr::load...exception thrown" << endl);
       delete gNodeViewInfo ;

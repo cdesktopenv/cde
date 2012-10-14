@@ -82,7 +82,8 @@
 #endif
 
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #include "Other/XmStringLocalized.hh"
 #include "Managers/CatMgr.hh"
@@ -149,7 +150,7 @@ SearchScopeList::save()
   Buffer buffer, temp_buffer;
 
   // for each search scope do
-  for (; i != NULL; i++)
+  for (; i != 0; i++)
   {
     scope = i.item();
     if (scope->deleted() || scope->read_only())
@@ -224,7 +225,7 @@ SearchScopeList::save()
   // Now dump the name of each of the scopes.
   buffer.reset();
   const char *name;
-  for (i.reset(); i != NULL; i++)
+  for (i.reset(); i != 0; i++)
   {
     if (i.item()->read_only())
       continue;
@@ -532,13 +533,14 @@ SearchScopeList::remove_handle(UAS_SearchScope *scope)
 {
     // first, find index into search scope list
     List_Iterator<UAS_SearchScope *> s (this);
-    for (int i = 0; s != NULL && s.item() != scope; s++, i++);
+    int i;
+    for (i = 0; s != 0 && s.item() != scope; s++, i++);
     // if can't find scope in list then something is hosed
     if (s == NULL)
         return;
     // next, find the bit handle located at this index in handle list
     List_Iterator<BitHandle> h (f_handle_list);
-    for (int j = 0; j < i && h != NULL; j++, h++);
+    for (int j = 0; j < i && h != 0; j++, h++);
     // if this happens then something is hosed
     if (h == NULL)
         return;
@@ -554,7 +556,8 @@ SearchScopeList::lookup_handle(UAS_SearchScope *scope)
   // first, find index into search scope list
   List_Iterator<UAS_SearchScope *> s (this);
 
-  for (int i = 0; s != NULL && s.item() != scope; s++, i++);
+  int i;
+  for (i = 0; s != 0 && s.item() != scope; s++, i++);
   // if can't find scope in list then something is hosed
   if (s == NULL)
     return 0;
@@ -562,7 +565,7 @@ SearchScopeList::lookup_handle(UAS_SearchScope *scope)
   // next, find the bit handle located at this index in handle list
   List_Iterator<BitHandle> h (f_handle_list);
 
-  for (int j = 0; j < i && h != NULL; j++, h++);
+  for (int j = 0; j < i && h != 0; j++, h++);
   // if this happens then something is hosed
   if (h == NULL)
     return 0;

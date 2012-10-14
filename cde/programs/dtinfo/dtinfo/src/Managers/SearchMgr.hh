@@ -57,7 +57,7 @@ public: // functions
   }
   UAS_Pointer<UAS_List<UAS_TextRun> > current_hits ();
 
-friend SearchMgr &search_mgr();
+// friend SearchMgr &search_mgr();
 
 private:
   friend class SeReconfigure;
@@ -81,5 +81,6 @@ private:
   LONG_LIVED_HH(SearchMgr,search_mgr);
 };
 
+LONG_LIVED_HH2(SearchMgr,search_mgr);
 
 

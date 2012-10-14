@@ -120,7 +120,8 @@ LocalHistoryMgr::truncate()
 void
 LocalHistoryMgr::append (UAS_Pointer<UAS_Common> &doc_ptr)
 {
-  ON_DEBUG (printf ("&&&&& APPENDING <%s> to history\n", doc_ptr->title()));
+  ON_DEBUG (printf ("&&&&& APPENDING <%s> to history\n",
+		(char*)doc_ptr->title()));
   LocalHistoryEntry *entry = new LocalHistoryEntry (doc_ptr);
   truncate();
   entry->f_previous = f_current;

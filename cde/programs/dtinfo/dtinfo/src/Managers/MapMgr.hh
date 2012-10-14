@@ -43,3 +43,5 @@ protected: // variables
 private:
   LONG_LIVED_HH(MapMgr,map_mgr);
 };
+
+LONG_LIVED_HH2(MapMgr,map_mgr);

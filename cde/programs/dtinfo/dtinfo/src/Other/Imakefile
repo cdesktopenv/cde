@@ -1,12 +1,14 @@
 XCOMM $XConsortium: Imakefile /main/8 1996/08/21 15:43:18 drk $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
 
 CDEBUGFLAGS=-g
 
 MAKEFILEDEPS=Classlist.mk
 
 LIBNAME=Other
+
+NormalCplusplusObjectRule()
 
 INCLUDES = $(BROWSER_INCLUDES)
 
@@ -18,9 +20,13 @@ make_libfiles($(LIBNAME), $(CLASSES))
 make_msgs($(LIBNAME), $(MSGS))
 
 #if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#elif defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture) || \
+      defined(LinuxArchitecture)
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #else
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+XCOMM RealLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #endif
 
 DependTarget()

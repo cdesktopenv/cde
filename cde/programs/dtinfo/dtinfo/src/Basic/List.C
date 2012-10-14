@@ -147,7 +147,7 @@ List::append (FolioObject &element)
     abort();
   f_list_element[f_length] = &element;
   f_length++;
-  notify (APPENDED, (void *) (f_length - 1));
+  notify (APPENDED, (void *)(size_t) (f_length - 1));
 }
 
 
@@ -200,7 +200,7 @@ List::insert (unsigned int location, FolioObject *element)
   // Insert the new element in the list.
   f_list_element[location] = element;
   f_length++;
-  notify (INSERTED, (void *) location);
+  notify (INSERTED, (void *)(size_t) location);
 }
 
 

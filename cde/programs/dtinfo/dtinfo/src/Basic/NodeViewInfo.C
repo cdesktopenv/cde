@@ -117,7 +117,7 @@ cleanup(_DtCvSegment *segment)
 	  break;
 	case _DtCvSTRING:
             if (segment->handle.string.string)
-                delete (segment->handle.string.string);
+                delete (char*)(segment->handle.string.string);
 	  if (segment->client_use) {
 	    delete (SegClientData*)segment->client_use;
 	    segment->client_use = NULL;
@@ -188,7 +188,8 @@ NodeViewInfo::~NodeViewInfo()
     while (gli)
     {
 #ifdef DEBUG
-      printf( "delete UAS_Pointer<Graphic> gli.item() = %p\n", gli.item() );
+      printf( "delete UAS_Pointer<Graphic> gli.item() = %p\n",
+		(void*)gli.item() );
 #endif
       f_pixmap_list.remove(gli) ;
     }
@@ -204,14 +205,14 @@ NodeViewInfo::add_graphic(UAS_Pointer<Graphic> &pg)
   f_pixmap_list.append(pg);
 
 #ifdef DEBUG
-  printf( "NodeViewInfo: add UAS_Pointer<Graphic> %p\n", pg );
+  printf( "NodeViewInfo: add UAS_Pointer<Graphic> %p\n", (void*)pg );
   if (f_pixmap_list != NULL)
   {
       List_Iterator<UAS_Pointer<Graphic> > gli (f_pixmap_list) ;
       printf( "graphics list is now: " );
       while (gli)
       {
-        printf( " %p ", gli.item() );
+        printf( " %p ", (void*)gli.item() );
         gli++;
       }
       printf( "\n" );
@@ -530,7 +531,7 @@ highlight_search_hit(_DtCvSegment* seg, unsigned int vcc, unsigned int len)
 		if (sibling->handle.string.string)
 		    free (sibling->handle.string.string);
 		if (sibling->client_use) {
-		    delete sibling->client_use;
+		    delete (SegClientData*)sibling->client_use;
 		    sibling->client_use = NULL;
 		}
 

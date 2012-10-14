@@ -18,10 +18,11 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with these librararies and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
- * Floor, Boston, MA 02110-1301 USA
+
  */
 // $TOG: MMDB_Factory.C /main/15 1998/04/17 11:42:43 mgreess $
-# include <stream.h>
+# include <sstream>
+using namespace std;
 # include "UAS_Exceptions.hh"
 # include "MMDB_Factory.hh"
 # include "UAS_Exceptions.hh"
@@ -76,10 +77,10 @@ MMDB_Factory::createMMDB (const UAS_String &infoLibPath) {
 	    UAS_Common::send_message (badPath);
 	    return rval;
 	}
-	try {
+	mtry {
 	    rval = new MMDB (infoLibPath);
 	    fMMDBList.append (rval);
-	} catch_any() {
+	} mcatch_any() {
 #if 0
 	    char buf[BUFSIZ];
 	    (void) sprintf (buf, CATGETS(Set_UAS_MMDB, 3,

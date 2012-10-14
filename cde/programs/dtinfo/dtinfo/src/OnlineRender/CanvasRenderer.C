@@ -1029,7 +1029,7 @@ CanvasRenderer::handle_olias_attributes(ElementFeatures  &features,
       pGS->pix = graphic->pixmap();
       pGS->width = graphic->width() ;
       pGS->height = graphic->height();
-      pGS->mask = NULL ;
+      pGS->mask = 0 ;
       pGS->pixels = NULL ;
       pGS->num_pixels = 0 ;
 
@@ -1565,7 +1565,7 @@ CanvasRenderer::really_insert_string (_DtCvSegment *container,
     cerr << " indx: " << ret_indx << " " << font << endl;
 #endif
   }
-  strseg->handle.string.font = (_DtCvPointer) ret_indx ;
+  strseg->handle.string.font = (_DtCvPointer)(size_t) ret_indx ;
 
    // copy data into new memory to hand over to the canvas
   char *string = new char[size + 1];
@@ -2159,7 +2159,8 @@ TGDefn::find_format(const char *name, int* index)
 
   CC_TPtrSlistIterator<ColFormat> cf_cursor (f_colformats);
       
-  for (int nth = 0; ++cf_cursor; nth++)
+  int nth;
+  for (nth = 0; ++cf_cursor; nth++)
     {
       if (cf_cursor.key()->name() == NULL)
 	continue;
@@ -2329,10 +2330,10 @@ TGDefn::build()
 #endif
 
 	ColDefn* colcell;
-	try {
+	mtry {
 	  colcell = columns.at(kept);
 	}
-	catch_any() {
+	mcatch_any() {
 	  abort(); // consider it as fatal
 	}
 	end_try;
@@ -2392,10 +2393,10 @@ TGDefn::build()
 	fprintf(stderr, "[vc,kept,count]=[%d,%d,%d]\n", vc, kept, count);
 #endif
 	ColDefn* colcell;
-	try {
+	mtry {
 	  colcell = columns.at(kept);
 	}
-	catch_any() {
+	mcatch_any() {
 	  abort();
 	}
 	end_try;
@@ -2448,7 +2449,8 @@ TGDefn::build()
   }
   
   // temp for now deal with blank spots in the table
-  for (unsigned r = 0 ; r < num_rows ; r++)
+  unsigned r;
+  for (r = 0 ; r < num_rows ; r++)
     for (unsigned c = 0; c < num_columns ;  c++)
       {
 	if (grid[r][c] == NULL)

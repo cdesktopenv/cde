@@ -284,7 +284,7 @@ void
 PrefAgent::display()
 {
   Wait_Cursor bob;
-  if (f_shell == NULL)
+  if (f_shell == 0)
     create_ui();
 
   // Always reset on new popup. 
@@ -321,8 +321,8 @@ PrefAgent::create_ui()
                 NULL);
 
   DECL  (WXmForm,         form,         f_shell,      "form");
-  DECLM (WXmOptionMenu,   options,      form,         "options");
-  DECL  (WXmPulldownMenu, options_menu, form,         "options_menu");
+  DECLMC(WXmOptionMenu,   options,      form,         "options");
+  DECLC (WXmPulldownMenu, options_menu, form,         "options_menu");
 
   mtfstring = CATGETS(Set_AgentLabel, 186, "Preferences for");
   XtVaSetValues(options, XmNlabelString, (XmString)mtfstring, NULL);
@@ -348,7 +348,7 @@ PrefAgent::create_ui()
   SET_CALLBACK (f_apply,Activate,apply);
   SET_CALLBACK (f_reset,Activate,reset);
   SET_CALLBACK (cancel,Activate,cancel);
-  help_agent().add_activate_help (help, "preferences_help");
+  help_agent().add_activate_help (help, (char*)"preferences_help");
 
   DECLM (WXmFrame,        frame,        form,         "frame");
   DECL  (WXmForm,         container,    frame,        "container");
@@ -1064,13 +1064,13 @@ PrefAgent::get_geometry (WCallback *wcb)
   WXmTextField text_field ((Widget)wcb->ClientData());
   char *shell_name;
   if (text_field == f_map_geo)
-    shell_name = "map";
+    shell_name = (char*)"map";
   else if (text_field == f_browse_geo)
-    shell_name = "nodeview";
+    shell_name = (char*)"nodeview";
     
   // Display an instructional dialog. 
   WXmMessageDialog
-    info_dialog ((Widget)f_shell, "geometry_msg",
+    info_dialog ((Widget)f_shell, (char*)"geometry_msg",
 		 WArgList (XmNdialogType, XmDIALOG_INFORMATION, NULL));
   WXmDialogShell shell (info_dialog.Parent());
   // set window title

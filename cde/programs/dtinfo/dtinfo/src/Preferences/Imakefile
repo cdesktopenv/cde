@@ -1,11 +1,13 @@
 XCOMM $XConsortium: Imakefile /main/6 1996/08/21 15:43:25 drk $
 
 #define CplusplusSource	YES
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES)
+DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
 
 MAKEFILEDEPS=Classlist.mk
 
 LIBNAME=Preferences
+
+NormalCplusplusObjectRule()
 
 INCLUDES=$(BROWSER_INCLUDES)
 
@@ -16,7 +18,13 @@ OBJS=$(SRCS:.C=.o)
 
 make_libfiles($(LIBNAME), $(CLASSES))
 
+#if defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture) || \
+    defined(LinuxArchitecture)
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+#else
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+XCOMM RealLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+#endif
 
 LOCAL_LIBRARIES=$(EXCLIB) -lPreferences
 

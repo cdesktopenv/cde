@@ -93,6 +93,6 @@ protected: // variables
 
 inline
 SearchResultsAgent::SearchResultsAgent()
-: f_work_proc_id (NULL), f_popped_up(FALSE)
+: f_work_proc_id (0), f_popped_up(FALSE)
 {
 }

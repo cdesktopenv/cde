@@ -56,7 +56,7 @@
 
 extern "C"
 {
-  extern int strlen(const char *);
+  extern size_t strlen(const char *);
   extern char *strcpy(char *, const char *);
 }
 

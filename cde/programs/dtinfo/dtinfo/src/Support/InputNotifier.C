@@ -25,7 +25,8 @@
 # define C_InputNotifier
 
 # include <Prelude.h>
-# include <stream.h>
+# include <sstream>
+using namespace std;
 
 #define CLASS InputNotifier
 

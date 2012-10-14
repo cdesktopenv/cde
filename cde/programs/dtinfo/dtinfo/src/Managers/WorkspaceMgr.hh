@@ -61,5 +61,6 @@ class WorkspaceMgr : public Long_Lived
 					//  servicing of request (dynamic)
 } ;
 
+LONG_LIVED_HH2( WorkspaceMgr, workspace ) ;
 
 

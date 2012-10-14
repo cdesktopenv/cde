@@ -3,6 +3,8 @@
 # define _MMDB_BookCase_hh_
 
 # include "UAS_Common.hh"
+# include "UAS_Collection.hh"
+# include "UAS_Exceptions.hh"
 # include "MMDB_Common.hh"
 
 class MMDB_BookCase: public UAS_Common, public MMDB_Common {

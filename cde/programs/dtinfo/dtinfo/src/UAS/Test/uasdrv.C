@@ -21,7 +21,8 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $XConsortium: uasdrv.cc /main/4 1996/06/11 16:45:11 cde-hal $
-# include <stream.h>
+# include <sstream>
+using namespace std;
 # include <stdio.h>
 
 

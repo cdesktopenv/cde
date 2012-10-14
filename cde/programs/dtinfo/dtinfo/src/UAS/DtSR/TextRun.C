@@ -28,7 +28,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <strstream.h>
+#include <sstream>
+using namespace std;
 
 main(int argc, char** argv)
 {
@@ -49,13 +50,13 @@ main(int argc, char** argv)
 	return 1;
     }
 
-    ostrstream text;
+    ostringstream text;
 
     char ch;
     while (cin.get(ch)) text << ch;
 
-    char* buf = text.str();
-    *(buf + text.pcount()) = '\0';
+    char* buf = (char *)text.str().c_str();
+    *(buf + text.str().size()) = '\0';
     char* p = buf;
 
     if (buf == NULL || *buf == '\0') {

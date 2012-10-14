@@ -47,6 +47,8 @@ class SessionMgr : public Long_Lived
     char	*prior_session ;  // prior session state file name, if any
 } ;
 
+LONG_LIVED_HH2( SessionMgr, session ) ;
+
 
 // class SessionMgrX : public SessionMgr
 // {

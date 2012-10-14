@@ -6,6 +6,13 @@ LIBNAME=UAS
 #define IHaveSubdirs
 #define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
 
+XCOMM redefine TopLevelProject to build DtInfo with standard CDE config dir
+#undef  TopLevelProject
+#define TopLevelProject		DtInfo
+IMAKE_DEFINES = -DTopLevelProject=TopLevelProject \
+		-DProjectTmplFile='<DtInfo.tmpl>' \
+		-DProjectRulesFile='<DtInfo.rules>'
+
 DependSubdirs($(SUBDIRS))
 
 #ifdef UseDtSearch
@@ -18,6 +25,10 @@ SUBDIRS= \
 Base \
 MMDB \
 $(SEARCH_SUBDIR)
+
+XCOMM Variables to switch on debug mode temporarily
+XCOMM CDEBUGFLAGS = -g -DDEBUG
+XCOMM CXXDEBUGFLAGS = -g -DDEBUG
 
 make_libfiles($(LIBNAME),)
 

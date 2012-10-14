@@ -23,7 +23,8 @@
 /* $XConsortium: WXmRadioBox.cc /main/3 1996/06/11 17:03:50 cde-hal $ */
 
 #ifndef STREAMH
-#include <stream.h>
+#include <sstream>
+using namespace std;
 #endif
 
 #ifndef _WXmRadioBox_h

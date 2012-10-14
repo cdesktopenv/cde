@@ -6,7 +6,7 @@
 
 #include "UAS_String.hh"
 
-typedef unsigned char bool;
+//typedef unsigned char mbool;
 
 class UAS_SearchZones
 {

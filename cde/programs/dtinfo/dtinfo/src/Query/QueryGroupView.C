@@ -130,7 +130,7 @@ QueryGroupView::QueryGroupView (QueryGroup *group, Widget parent)
 			 (XtEventHandler) &QueryGroupView::resize,
 			 (Widget) f_restraint);
       // Store the min width in UserData...
-      f_restraint.UserData ((XtPointer) f_restraint.Width());
+      f_restraint.UserData ((XtPointer)(size_t) f_restraint.Width());
     }
   // Make sure the restraint widget isn't too narrow.
   else
@@ -192,7 +192,7 @@ QueryGroupView::resize (Widget, Widget w,
     return;
 
   WRestraint restraint (w);
-  Dimension min_width = (Dimension) (int) restraint.UserData();
+  Dimension min_width = (Dimension) (size_t) restraint.UserData();
 
   ON_DEBUG(printf ("Group Form Resized: (event %d)\n", event->type));
 

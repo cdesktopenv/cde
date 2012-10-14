@@ -2,6 +2,9 @@
 #ifndef _UAS_PtrList_hh_
 #define _UAS_PtrList_hh_
 
+class UAS_Exception;
+class UAS_String;
+
 template <class T> class UAS_PtrList {
     public:
 	UAS_PtrList ();

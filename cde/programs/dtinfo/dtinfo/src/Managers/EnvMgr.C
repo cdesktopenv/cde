@@ -42,7 +42,8 @@
  */
 
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <sys/stat.h>
 
 #include <lib/DtSvc/DtUtil2/LocaleXlate.h>
@@ -69,6 +70,7 @@
 #ifdef UseSessionMgmt
 #define C_SessionMgr
 #endif
+#define C_GraphicsMgr
 #define L_Managers
 
 #include "Managers/CatMgr.hh"
@@ -144,7 +146,7 @@ EnvMgr::EnvMgr() : f_argv(NULL),
   if(!check_user_path())
   {
     create_user_path();
-    help_agent().display_help ("doc_list_help");
+    help_agent().display_help ((char*)"doc_list_help");
   }
 
   UAS_Collection::request(
@@ -216,7 +218,7 @@ EnvMgr::init(int argc_i, char** argv_i)
   {
     // link up indirect paths to mmdb code... ;-)
     static char buffer[256];
-    sprintf (buffer, "MMDB_PATH=%s", f_infolibsStr );
+    sprintf (buffer, "MMDB_PATH=%s", (char *)f_infolibsStr );
     putenv (buffer);
 
     char *where = getenv ("DTINFO_MARKSPECPATH");
@@ -935,7 +937,7 @@ EnvMgr::mkdirs(char *pathname)
   {
     c = strrchr(buffer, '/');
     if (c != NULL)
-      *c = NULL;
+      *c = 0;
     (void)mkdirs(buffer);
     if (c != NULL)
       *c = '/';

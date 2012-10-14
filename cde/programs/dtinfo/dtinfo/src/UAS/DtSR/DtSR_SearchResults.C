@@ -140,7 +140,8 @@ DtSR_SearchResults::merge(UAS_Pointer<DtSR_SearchResults> & res)
 	if (! (position < ndocs))
 	    break;
 
-	for (int j = position; j < ndocs; j++) {
+	int j;
+	for (j = position; j < ndocs; j++) {
 	    if (f_results[j]->relevance() > res->f_results[i]->relevance())
 		continue;
 

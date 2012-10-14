@@ -227,12 +227,12 @@ Mark_mmdb::restore()
   int sz;
   char *str;
 
-  try
+  mtry
     {
       sz = f_user_mark->mark_value()->size();
       str = f_user_mark->mark_value()->get();
     }
-  catch_any()
+  mcatch_any()
     {
       delete this;
       rethrow;

@@ -52,7 +52,12 @@
 // /__   \/     F-91405 ORSAY Cedex                   +33 (1) 69 41 66 29
 
 #include <X11/Intrinsic.h>
+#if !defined(linux) && !defined(CSRG_BASED)
 #include <generic.h>
+#else
+#define name2(__n1,__n2)	__paste2(__n1,__n2)
+#define __paste2(__p1,__p2)	__p1##__p2
+#endif
 
 #include <Xm/Xm.h>
 #include "WXmString.h"
@@ -73,23 +78,23 @@ class WComposite;
  typedef void	(* XtProc)();
 #endif
 
-#define	DEFINE_GETTER(rsc,typ,rnam) \
-inline typ rsc() const \
-{ Arg a; typ __value; \
-  a.name = rnam; a.value = (XtArgVal)&__value; \
-  _Get(a); return __value; }
-
-#define	DEFINE_SETTER(rsc,typ,rnam) \
-inline void rsc(typ val) const \
-{ Arg a; a.name = rnam; a.value = (XtArgVal)val; _Set(a); }
-
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #define CASTRNAM (char*)
-#define CASTVAL  (void*)
+#define CASTVAL  (void*)(size_t)
 #else
 #define CASTRNAM
 #define CASTVAL
 #endif
+
+#define	DEFINE_GETTER(rsc,typ,rnam) \
+inline typ rsc() const \
+{ Arg a; typ __value; \
+  a.name = CASTRNAM rnam; a.value = (XtArgVal)&__value; \
+  _Get(a); return __value; }
+
+#define	DEFINE_SETTER(rsc,typ,rnam) \
+inline void rsc(typ val) const \
+{ Arg a; a.name = CASTRNAM rnam; a.value = (XtArgVal)val; _Set(a); }
 
 #define	DEFINE_ARG(rsc,typ,rnam) \
 inline WArgList& rsc(typ val, WArgList& _w) const \

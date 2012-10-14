@@ -54,6 +54,7 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include "RestraintP.h"
 
@@ -289,7 +290,7 @@ ChangeManaged (RestraintWidget w)
   ON_DEBUG(printf ("Restraint::ChangeManaged: my size = %d x %d\n",
 		   w->core.width, w->core.height));
   ON_DEBUG(printf ("  Num children = %d, child = 0x%p\n",
-		   w->composite.num_children, child));
+		   w->composite.num_children, (void*)child));
 
   /* If this is our first child, compute initial sizing. */
   /* Tried using !XtIsRealized (w) to do this stuff when were
@@ -297,7 +298,7 @@ ChangeManaged (RestraintWidget w)
      widget being realized before it has a child.  This code will
      handle both cases correctly. */
   ON_DEBUG(printf ("  Checking for width calc\n    child = 0x%p, first = %d\n",
-		   child, w->restraint.had_child));
+		   (void*)child, w->restraint.had_child));
   if (child != NULL && w->restraint.had_child == False)
     {
       compute_width (w, child);

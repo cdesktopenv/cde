@@ -47,7 +47,8 @@
  * 
  */
 
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 
 #define C_xList
@@ -98,11 +99,11 @@ MarkBase_mmdb::open (const char *filename, bool read_only)
 
   mark_base *base;
   user_base::rw_flag_t mode = read_only ? user_base::READ : user_base::WRITE;
-  try
+  mtry
     {
       base = new mark_base (filename, "mark_base", "", mode);
     }
-  catch_any()
+  mcatch_any()
     {
       return (NULL);
     }
@@ -128,7 +129,7 @@ MarkBase_mmdb::create (const char *filename, bool read_only)
   mark_base *base;
   user_base::rw_flag_t mode = read_only ? user_base::READ : user_base::WRITE;
 
-  try
+  mtry
     {
       if (!read_only)
 	{
@@ -152,7 +153,7 @@ MarkBase_mmdb::create (const char *filename, bool read_only)
 	    }
 	}
     }
-  catch_any()
+  mcatch_any()
     {
       return (NULL);
     }
@@ -261,12 +262,12 @@ MarkBase_mmdb::get_marks (UAS_Pointer<UAS_Common> &doc_ptr,
 	  // Assure that the oid_t has not been deleted. qfc 7-6-93
           if (id.eq (oid_t (c_code_t(0), 0)) == false)
 	    {
-	      try
+	      mtry
 		{
 		  Mark_mmdb *m = find_mark (id, doc_ptr);
 		  list.append (m);
 		}
-	      catch_any()
+	      mcatch_any()
 		{
 		  // ignore failure for now! DJB 
 		}
@@ -291,12 +292,12 @@ MarkBase_mmdb::get_all_marks (xList<UAS_Pointer<Mark> > &list)
   for (i = f_mark_base->first(); i != 0; f_mark_base->next(i))
     {
       oid_t id = f_mark_base->get_mark_oid (i);
-      try
+      mtry
 	{
 	  m = find_mark (id, null_doc);
 	  list.append (m);
 	}
-      catch_any()
+      mcatch_any()
 	{
 	  // ignore any errors for now -- DJB
 	}

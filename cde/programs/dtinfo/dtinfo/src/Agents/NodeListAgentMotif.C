@@ -132,24 +132,24 @@ NodeListAgent::create_base_window (char *name)
 //Widget Class       Var Name        Parent           Widget Name
 //------------------ --------------- ---------------- ----------------
   f_form     = new WXmForm    (*f_shell, "form");
-  f_menu_bar = new WXmMenuBar (*f_form, "menu_bar" /* , WAutoManage */);
+  f_menu_bar = new WXmMenuBar (*f_form, (char*)"menu_bar" /* , WAutoManage */);
 
   WXmCascadeButton   file_cascade    (*f_menu_bar,    "file",           AM);
-  WXmPulldownMenu    file_menu       (*f_menu_bar,    "file_menu"         );
+  WXmPulldownMenu    file_menu       (*f_menu_bar,    (char*)"file_menu"  );
   WXmPushButton      close           (file_menu,      "close",          AM);
   WXmCascadeButton   edit_cascade    (*f_menu_bar,    "edit",           AM);
-  WXmPulldownMenu    edit_menu       (*f_menu_bar,    "edit_menu"         );
+  WXmPulldownMenu    edit_menu       (*f_menu_bar,    (char*)"edit_menu"  );
   WXmPushButton      undo            (edit_menu,      "undo",           AM);
   /*
   WXmCascadeButton   view_cascade    (*f_menu_bar,    "view",           AM);
-  WXmPulldownMenu    view_menu       (*f_menu_bar,    "view_menu"         );
+  WXmPulldownMenu    view_menu       (*f_menu_bar,    (char*)"view_menu"  );
   WXmCascadeButton   sort_cascade    (view_menu,      "sort",           AM);
-  WXmPulldownMenu    sort_menu       (*f_menu_bar,    "sort_menu"         );
+  WXmPulldownMenu    sort_menu       (*f_menu_bar,    (char*)"sort_menu"  );
   WXmPushButton      ooo             (sort_menu,      "ooo",            AM);
   */
 
   WXmCascadeButton   help_cascade    (*f_menu_bar,    "help",           AM);
-  WXmPulldownMenu    help_menu       (*f_menu_bar,    "help_menu"         );
+  WXmPulldownMenu    help_menu       (*f_menu_bar,    (char*)"help_menu"  );
   WXmPushButton      context         (help_menu,      "context",        AM);
   WXmPushButton      window          (help_menu,      "window",         AM);
 
@@ -173,7 +173,7 @@ NodeListAgent::create_base_window (char *name)
   
   f_list_form  = (WXmForm*)(Widget)WXmForm(*f_pane, "listform", AM);
 
-  Widget scrolled_list =  XmCreateScrolledList (*f_list_form, "list", NULL, 0);
+  Widget scrolled_list =  XmCreateScrolledList (*f_list_form, (char*)"list", NULL, 0);
 
   f_list = (WXmList*)scrolled_list ;
   f_list->Manage();

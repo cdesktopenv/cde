@@ -60,7 +60,8 @@
 #include "Other/XmStringLocalized.hh"
 
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 LONG_LIVED_CC (MessageMgr,message_mgr);
 
@@ -257,7 +258,7 @@ MessageMgr::create_dialog (unsigned char dialog_type,
       parent = window_system().toplevel();
   }
 
-  dialog = XmCreateMessageDialog(parent, "dialog", NULL, 0);
+  dialog = XmCreateMessageDialog(parent, (char*)"dialog", NULL, 0);
 
   WXmString wxms = message_text;
   XtVaSetValues(dialog,
@@ -470,7 +471,7 @@ MessageMgr::question_dialog (char *message_text, Widget parent)
 {
   if(parent == NULL)
     parent = (Widget)window_system().toplevel();
-  Widget dialog = XmCreateInformationDialog(parent, "dialog", NULL, 0);
+  Widget dialog = XmCreateInformationDialog(parent, (char*)"dialog", NULL, 0);
   XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_HELP_BUTTON));
   WXmString wxms = message_text;
   XtVaSetValues(dialog,
@@ -559,7 +560,7 @@ File \"%s,\" line %d.",
     f_booklist_message.displayError (buffer, window_system().toplevel());
   else
     f_nodeview_message.displayError (buffer, parent);
-  quit_dialog ("We strongly suggest you quit now, Ok?", parent);
+  quit_dialog ((char*)"We strongly suggest you quit now, Ok?", parent);
 }
 
 // /////////////////////////////////////////////////////////////////////////

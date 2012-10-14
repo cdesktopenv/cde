@@ -26,6 +26,9 @@
 
 class PixmapGraphic;
 class DetachGraphic;
+class ReAttachGraphic;
+class GraphicAgent;
+class DisplayGraphic;
 
 
 #if defined(SVR4) || defined(hpux)
@@ -78,6 +81,8 @@ private:
   LONG_LIVED_HH(GraphicsMgr,graphics_mgr);
 };
 
+LONG_LIVED_HH2(GraphicsMgr,graphics_mgr);
+
 //
 //  Now (as of CDE development), instead of using the Graphic class
 //  (which was changed to UAS_EmbeddedObject), we use this Graphic
@@ -89,8 +94,23 @@ private:
 
 class Graphic: public UAS_Base {
     public:
-	Graphic (UAS_Pointer<UAS_Common> &, const UAS_String &);
-	~Graphic ();
+	Graphic (UAS_Pointer<UAS_Common> &doc, const UAS_String &locator):
+		fPixmap (0),
+		fDetachedPixmap (0),
+		fDetached (0),
+		fObj (doc->create_embedded_object (locator)) {
+	}
+
+	~Graphic () {
+	    //graphics_mgr().uncache(this);
+	    //graphics_mgr().remove_detached(this);
+#ifdef DEBUG
+	    printf("for Graphic %p, delete PixmapGraphic %p\n", this, fPixmap );
+#endif
+	    delete fPixmap;
+	    delete fDetachedPixmap;
+	}
+
 
     public:
 	unsigned int is_detached () const { return fDetached; }
@@ -98,9 +118,35 @@ class Graphic: public UAS_Base {
 	PixmapGraphic *graphic () {
 	    return is_detached () ? detached_graphic() : pixmap_graphic();
 	}
-	PixmapGraphic *pixmap_graphic ();
-	PixmapGraphic *pixmap_graphic (UAS_String&, unsigned int, UAS_String&, unsigned short);
-	PixmapGraphic *detached_graphic();
+
+	PixmapGraphic *pixmap_graphic () {
+	    UAS_Pointer<Graphic> tmp(this);
+	    // fPixmap records the PixmapGraphic & pixmap once created (and only
+	    // if created via this method) for this instance of Graphic
+	    if (!fPixmap)
+		fPixmap = graphics_mgr().get_graphic (tmp);
+	    return fPixmap;
+	}
+
+	// If this one is called instead of the null arg version, the resulting
+	// PixmapGraphic instance is not tracked nor recorded by this instance
+	PixmapGraphic *pixmap_graphic (UAS_String& imdata,
+                         unsigned int imlen,
+                         UAS_String& imtype, unsigned short scale) {
+	    PixmapGraphic *the_pixmap;
+	    //UAS_Pointer<Graphic> tmp(this);
+	    //if (fPixmap)
+	    //   delete fPixmap;
+
+	    the_pixmap = graphics_mgr().get_graphic(imdata,imlen,imtype,scale);
+	    return the_pixmap;
+	}
+
+	PixmapGraphic *detached_graphic () {
+	    if (!fDetachedPixmap)
+		fDetachedPixmap = graphics_mgr().detached_graphic();
+	    return fDetachedPixmap;
+	}
 
 	//
 	//  Pass-throughs for UAS_EmbeddedObject (and all of its
@@ -116,10 +162,15 @@ class Graphic: public UAS_Base {
 	}
 	void cancel_retrieval () { fObj->cancel_retrieval (); }
 	void flush () { fObj->flush(); }
-	UAS_String locator ();
-	UAS_String content_type();
-	UAS_String title ();
-	UAS_String id ();
+
+	UAS_String locator() { return fObj->locator(); }
+
+	UAS_String content_type() { return fObj->content_type(); }
+
+	UAS_String title() { return fObj->title(); }
+
+	UAS_String id() { return fObj->id(); }
+
 	UAS_ObjectType type () { return fObj->type (); }
 
 	unsigned int llx () { return fObj->llx(); }

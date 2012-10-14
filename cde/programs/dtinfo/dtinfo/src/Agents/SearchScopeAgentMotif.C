@@ -105,7 +105,8 @@
 #endif
 
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <stdio.h>
 
 #define CLASS SearchScopeAgent
@@ -419,7 +420,7 @@ void
 SearchScopeAgent::display()
 {
   Wait_Cursor bob;
-  if (f_shell == NULL)
+  if (f_shell == 0)
     {
       create_ui();
     }
@@ -459,7 +460,7 @@ SearchScopeAgent::fill_option_menu()
   WComposite menu (f_scope_option.SubMenuId());
 
   ON_DEBUG (printf ("There are %d user scopes:\n", f_scope_list.length()));
-  for (; i != NULL; i++)
+  for (; i != 0; i++)
   {
     if (i.item()->read_only())
       continue;
@@ -490,11 +491,11 @@ SearchScopeAgent::create_ui()
   XtVaSetValues((Widget)f_shell, XmNtitle, string, NULL);
 
   DECL  (WXmForm,         form,           f_shell,     "form");
-  DECL  (WXmPulldownMenu, scope_menu,     form,        "scope_menu");
+  DECLC (WXmPulldownMenu, scope_menu,     form,        "scope_menu");
   Arg args[1];
   int n = 0;
   XtSetArg(args[n], XmNsubMenuId, (Widget) scope_menu); n++;
-  f_scope_option = WXmOptionMenu (form, "scope_option", WAutoManage, args, n);
+  f_scope_option = WXmOptionMenu (form, (char*)"scope_option", WAutoManage, args, n);
   ASSN  (WXmPushButton,   f_unnamed,      scope_menu,  "unnamed");
 
   mtfstring = CATGETS(Set_AgentLabel, 212, "Scope Name");
@@ -546,7 +547,7 @@ SearchScopeAgent::create_ui()
   ON_ACTIVATE (f_delete,delete_scope);
   ON_ACTIVATE (f_reset,reset);
   ON_ACTIVATE (close,close);
-  help_agent().add_activate_help (help, "scope_editor_help");
+  help_agent().add_activate_help (help, (char*)"scope_editor_help");
   
   form.ShadowThickness (0);
   form.Manage();
@@ -711,10 +712,10 @@ SearchScopeAgent::scope_name_prompt()
           // Check for name in use.
           List_Iterator<UAS_SearchScope *> s (f_scope_list);
           if (strcasecmp (scope_name, "unnamed") != 0)
-            for (; s != NULL; s++)
+            for (; s != 0; s++)
               if (strcmp (scope_name, s.item()->name()) == 0)
                 break;
-          if (s != NULL)
+          if (s != 0)
             {
               message_mgr().error_dialog (
 		(char*)UAS_String(CATGETS(Set_Messages, 21,
@@ -797,7 +798,7 @@ SearchScopeAgent::create_scope (const char *name,
 {
   // this flag should be defined elsewhere-this could
   // become a command-line option
-  if (f_shell == NULL)
+  if (f_shell == 0)
     {
       create_ui();
     }
@@ -962,7 +963,7 @@ SearchScopeAgent::rename_scope()
 
   int position = 1, old_position = -1;
   List_Iterator<UAS_SearchScope *> s (f_scope_list);
-  for (; s != NULL; s++)
+  for (; s != 0; s++)
     {
       if (s.item()->read_only())
         continue;
@@ -989,7 +990,7 @@ SearchScopeAgent::rename_scope()
       f_scope_list.remove_handle(f_current_scope);
       f_scope_list.remove (f_current_scope);
       ON_DEBUG (printf ("ScopeAgent: Inserting before <%s>\n",
-                        s != NULL ? s.item()->name() : "LAST"));
+                        s != 0 ? s.item()->name() : "LAST"));
       // add handle and scope back in appropriate location
       f_scope_list.add_handle(data_handle, position-1);
       f_scope_list.insert_before (s, f_current_scope);
@@ -1106,7 +1107,7 @@ SearchScopeAgent::save_unnamed_scope (const char *name)
 
   // Scan the current menu to find the correct insertion position. 
   List_Iterator<UAS_SearchScope *> s (f_scope_list);
-  for (; s != NULL; s++, position++)
+  for (; s != 0; s++, position++)
     {
       if (s.item()->read_only())
         continue;
@@ -1606,7 +1607,8 @@ SearchScopeAgent::add_infolib(UAS_Pointer<UAS_Common> &lib)
 
   // See if infolib is already in list--if it's there, 
   // don't add it again.
-  for (int i = 0; i < ol->length(); i++)
+  int i;
+  for (i = 0; i < ol->length(); i++)
   {
     oe = ((OutlineElement *) (*ol)[i]);
     if (((TOC_Element *)oe)->toc() == lib)
@@ -1685,7 +1687,8 @@ SearchScopeAgent::remove_infolib(UAS_Pointer<UAS_Common> &lib)
   BitHandle handle = f_infolib_list->data_handle();
 
   f_infolib_list->clear();
-  for (int i = 0; i < ol->length(); i ++)
+  int i;
+  for (i = 0; i < ol->length(); i ++)
     ((OutlineElement *) (*ol)[i])->set_expanded (handle);
 
   f_infolib_list->set_list (ol, handle);
@@ -1815,7 +1818,7 @@ SearchScopeAgent::rebuild_scope_list()
   // Delete all named scopes so list can be rebuilt.
   List_Iterator<UAS_SearchScope *> si (f_scope_list);
 
-  for (; si != NULL; si++)
+  for (; si != 0; si++)
   {
     scope = si.item();
 
@@ -1933,7 +1936,7 @@ SearchScopeAgent::update_option_menu(UAS_String &scope_name)
 UAS_List<UAS_Common>
 SearchScopeAgent::list()
 {
-  if (f_shell == NULL)
+  if (f_shell == 0)
   {
     create_ui();
   }

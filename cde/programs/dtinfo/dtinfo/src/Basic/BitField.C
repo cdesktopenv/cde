@@ -146,7 +146,8 @@ BitField::get_handle()
   // find first free bit
 
   // first find first free word
-  for (int word = 0 ; word < f_num_words ; word++ )
+  int word;
+  for (word = 0 ; word < f_num_words ; word++ )
     if ( word_has_zero_bit(f_bits_in_use[word]) )
       break;
 
@@ -179,7 +180,8 @@ BitField::get_handle()
 
 
   // now find first free byte in word 
-  for (int byte = 0 ; byte < bytes_per_word ; byte++ )
+  int byte;
+  for (byte = 0 ; byte < bytes_per_word ; byte++ )
     if (byte_has_zero_bit(get_byte(byte, f_bits_in_use[word])))
       break;
   
@@ -187,7 +189,8 @@ BitField::get_handle()
     (f_bits_in_use[word] >> (byte * bits_per_byte)) & 0xFF ;
 
   // now check byte for zero bit
-  for (int bit = 0 ; bit < bits_per_byte ; bit++ )
+  int bit;
+  for (bit = 0 ; bit < bits_per_byte ; bit++ )
     if ((the_byte & mask[bit]) == 0)
       break ;
 

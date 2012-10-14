@@ -97,7 +97,8 @@
 #include <WWL/WXmFrame.h>
 #include <WWL/WXmPushButton.h>
 #include <WWL/WXmSeparator.h>
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #define CLASS PrintPanelAgent
 
@@ -476,7 +477,7 @@ CreatePrintShell(Widget widget, AppPrintData* p)
 	p->f_print_shell = XmPrintSetup(widget, 
 					XpGetScreenOfContext(p->f_print_data->print_display,
 							     p->f_print_data->print_context),
-					"PrintShell", NULL, 0);
+					(char*)"PrintShell", NULL, 0);
 
 
 	//  set the global variable to this value so that the create_ui function in 
@@ -598,17 +599,17 @@ CreatePrintSetup(Widget parent, AppPrintData* p)
 
 	// resources common to silent and noisy printing cases
 
-	XtSetArg(args[n], DtNcopies, window_system().videoShell()->copies); n++;
+	XtSetArg(args[n], (char*)DtNcopies, window_system().videoShell()->copies); n++;
 	
 	// set print to file if file name given 
 	if ((char *)window_system().videoShell()->file_name != NULL) {
-	    XtSetArg(args[n], DtNfileName, (char *)window_system().videoShell()->file_name); n++;
-	    XtSetArg(args[n], DtNprintDestination, DtPRINT_TO_FILE); n++;
+	    XtSetArg(args[n], (char*)DtNfileName, (char *)window_system().videoShell()->file_name); n++;
+	    XtSetArg(args[n], (char*)DtNprintDestination, DtPRINT_TO_FILE); n++;
 	}
 
 	// printer name
 	if ((char *)window_system().videoShell()->printer != NULL) {
-	    XtSetArg(args[n], DtNprinterName, (char *)window_system().videoShell()->printer); n++;
+	    XtSetArg(args[n], (char*)DtNprinterName, (char *)window_system().videoShell()->printer); n++;
 	}
 
 	// if silent printing we won't need a dialog
@@ -620,11 +621,11 @@ CreatePrintSetup(Widget parent, AppPrintData* p)
 
 	    if (XtIsApplicationShell(parent)) {
 		p->f_print_dialog =
-		    DtCreatePrintSetupBox(parent, "PrintSetup", args, n);
+		    DtCreatePrintSetupBox(parent, (char*)"PrintSetup", args, n);
 	    }
 	    else {	
 		p->f_print_dialog =
-		    DtCreatePrintSetupBox(XtParent(parent), "PrintSetup", args, n);
+		    DtCreatePrintSetupBox(XtParent(parent), (char*)"PrintSetup", args, n);
 	    }
 	}    
 
@@ -638,18 +639,18 @@ CreatePrintSetup(Widget parent, AppPrintData* p)
 		CATGETS(Set_PrintPanelAgent, 1, "Dtinfo: Print"));
 
 	    XtSetArg(args[n], XmNdialogTitle, title); n++;
-	    XtSetArg(args[n], DtNworkAreaLocation, DtWORK_AREA_BOTTOM); n++;
+	    XtSetArg(args[n], (char*)DtNworkAreaLocation, DtWORK_AREA_BOTTOM); n++;
  
 	    // if parent widget is an application shell, use it, otherwise use
 	    // the grandparent
 
 	    if (XtIsApplicationShell(parent)) {
 		p->f_print_dialog =
-		    DtCreatePrintSetupDialog(parent, "PrintSetup", args, n); 
+		    DtCreatePrintSetupDialog(parent, (char*)"PrintSetup", args, n);
 	    }
 	    else {
 		p->f_print_dialog =
-		    DtCreatePrintSetupDialog(XtParent(parent), "PrintSetup", args, n); 
+		    DtCreatePrintSetupDialog(XtParent(parent), (char*)"PrintSetup", args, n);
 	    }
 //	    XmStringFree(title);
 	}
@@ -672,7 +673,7 @@ CreatePrintSetup(Widget parent, AppPrintData* p)
 
 	// add context help for dialog
 
-	help_agent().add_activate_help(p->f_print_dialog, "print_panel_help");
+	help_agent().add_activate_help(p->f_print_dialog, (char*)"print_panel_help");
     }
 
     //  update message area

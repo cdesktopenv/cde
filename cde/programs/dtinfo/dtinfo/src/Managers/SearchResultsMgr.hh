@@ -41,3 +41,5 @@ protected: // functions
 protected: //variables
   LONG_LIVED_HH(SearchResultsMgr,search_results_mgr);
 };
+
+LONG_LIVED_HH2(SearchResultsMgr,search_results_mgr);

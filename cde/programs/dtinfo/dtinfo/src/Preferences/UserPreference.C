@@ -63,7 +63,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <unistd.h>
-#if !defined(hpux) && !defined(__osf__) && !defined(USL)
+#if !defined(hpux) && !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
 #include <sysent.h>
 #endif
 #include <sys/types.h>
@@ -132,6 +132,7 @@ PreferenceRecord::form_filename()
 void
 revert_from_backup (const char *filename)
 {
+  int ret;
   // Failed, so look for the backup file.
   char backup[256], original[256];
   sprintf (backup, "%s.bak", filename);
@@ -141,7 +142,7 @@ revert_from_backup (const char *filename)
       S_ISREG(file_info.st_mode))
     {
       unlink (filename);
-      link (backup, filename);
+      ret = link (backup, filename);
     }
 }
 
@@ -149,14 +150,16 @@ revert_from_backup (const char *filename)
 int
 read_version (FILE *stream)
 {
+  size_t ret1;
+  int ret2;
   // Make sure the file is valid.
   char V = '-';
-  fread (&V, 1, 1, stream);
+  ret1 = fread (&V, 1, 1, stream);
   if (V != 'V')
     return (0);
   // Nab the version from the file. 
   int version = 0;
-  fscanf (stream, "%d", &version);
+  ret2 = fscanf (stream, "%d", &version);
   return (version);
 }
 
@@ -164,10 +167,11 @@ read_version (FILE *stream)
 int
 read_update_count (FILE *stream)
 {
+  char *ret;
   char buffer[256], *p;
   int update_count;
 
-  fgets (buffer, 256, stream);
+  ret = fgets (buffer, 256, stream);
   p = buffer;
   while (*p != ',' && *p != '\0')
     p++;
@@ -276,7 +280,7 @@ PreferenceRecord::write_prefs()
   if (update_count != g_update_count)
     {
       bool doit = message_mgr().
-	question_dialog ("Preferences have changed on disk.\nOverwrite?");
+	question_dialog ((char*)"Preferences have changed on disk.\nOverwrite?");
       if (!doit)
 	return;
     }
@@ -347,14 +351,14 @@ PreferenceRecord::lookup (const char *key)
 {
   if (g_update_count == -1)
     {
-      try
+      mtry
 	{
 	  read_prefs();
 	}
-      catch_any()
+      mcatch_any()
 	{
 	  // This will only happen the first time through. 
-	  message_mgr().error_dialog ("Unable to read preferences.");
+	  message_mgr().error_dialog ((char*)"Unable to read preferences.");
 	  g_update_count = 0;
 	}
       end_try;

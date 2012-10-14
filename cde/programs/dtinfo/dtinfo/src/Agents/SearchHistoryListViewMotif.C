@@ -47,7 +47,8 @@
  * 
  */
 
-#include "iostream.h"
+#include "iostream"
+using namespace std;
 
 #include "UAS.hh"
 
@@ -112,7 +113,7 @@ SearchHistoryListView::display_value(FolioObject *object)
 
   if ((allowance = scope_field_width - scopeString.Width(fontlist)) < 0)
   {
-    char* dots = "...";
+    char* dots = (char*)"...";
 
     // need to free ungenerated at the end
     char* ungenerated = (char*)(scopeString + WXmString(dots));
@@ -210,7 +211,7 @@ SearchHistoryListView::child_create_ui_pre(WXmForm &form)
 
   if (matchString.Width(header_font) >= scope_offset)
   {
-    char* dots = "...";
+    char* dots = (char*)"...";
 
     char* ungenerated = (char*)(matchString + WXmString(dots));
 

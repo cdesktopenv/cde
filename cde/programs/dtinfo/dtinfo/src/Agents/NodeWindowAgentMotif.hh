@@ -62,6 +62,9 @@ class MarkCreated;
 class MarkDeleted;
 class MarkCanvas ;
 class MarkIcon ;
+// class DetachGraphic;
+// class ReAttachGraphic;
+// class DisplayGraphic;
 
 class GraphicsHandler ;
 // self is used by some MACROS somewhere, but the X include files use

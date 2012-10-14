@@ -40,7 +40,8 @@
 #include "FontCache.hh"
 
 #if defined DEBUG || defined SMALL_DEBUG || defined FONT_DEBUG
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #endif
 
 #define C_List
@@ -132,6 +133,7 @@ FontEntry::hash() const
 	 f_charset.hash() + f_ptsize ;
 }
 
+bool
 FontEntry::operator==(const FontEntry &fe) const
 {
   return

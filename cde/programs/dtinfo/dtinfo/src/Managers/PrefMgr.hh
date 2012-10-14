@@ -87,6 +87,8 @@ private:
   LONG_LIVED_HH(PrefMgr,pref_mgr);
 };
 
+LONG_LIVED_HH2(PrefMgr,pref_mgr);
+
 inline
 PrefMgr::PrefMgr()
 : f_pref_agent (NULL), f_last_symbol (NULL), f_last_preference (NULL)

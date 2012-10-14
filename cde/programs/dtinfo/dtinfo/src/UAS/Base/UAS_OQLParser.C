@@ -24,12 +24,13 @@
 /*	Copyright (c) 1995 FUJITSU LIMITED	*/
 /*	All Rights Reserved			*/
 
-#if defined(__uxp__) || defined(USL)
+#if defined(__uxp__) || defined(USL) || defined(linux)
 #include <string.h>
 #else
 #include <strings.h>
 #endif
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 #include <assert.h>
 
 #include "Exceptions.hh"
@@ -119,11 +120,11 @@ UAS_OQLParser::parse(const char *oql)
     // initialize input parameters 
     f_input_ptr = oql;
 
-    try {
+    mtry {
 	GetSymbol();
 	ERecognize();
     }
-    catch_any()
+    mcatch_any()
     {
 #ifdef DEBUG
 	fprintf(stderr, "(WARNING) OQLParser could not parse expression\n");
@@ -609,109 +610,109 @@ UAS_OQLParser::determine_caps()
     unsigned int caps = 0;
 
     caps |= 0x01 << OQL_AND;
-    try {
+    mtry {
 	se_construct(AND, word, word, "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_AND);
     }
     end_try;
 
     caps |= 0x01 << OQL_OR;
-    try {
+    mtry {
 	se_construct(OR, word, word, "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_OR);
     }
     end_try;
 
     caps |= 0x01 << OQL_XOR;
-    try {
+    mtry {
 	se_construct(XOR, word, word, "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_XOR);
     }
     end_try;
 
     caps |= 0x01 << OQL_NOT;
-    try {
+    mtry {
 	se_construct(NOT, word, "", "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_NOT);
     }
     end_try;
 
     caps |= 0x01 << OQL_WEIGHT;
-    try {
+    mtry {
 	se_construct(WEIGHT, word, digits, "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_WEIGHT);
     }
     end_try;
 
     caps |= 0x01 << OQL_COMPLETION;
-    try {
+    mtry {
 	se_construct(COMPLETION, word, "", "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_COMPLETION);
     }
     end_try;
 
     caps |= 0x01 << OQL_PHRASE;
-    try {
+    mtry {
 	se_construct(PHRASE, word, word, "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_PHRASE);
     }
     end_try;
 
     caps |= 0x01 << OQL_QUOTED_PHRASE;
-    try {
+    mtry {
 	se_construct(QUOTED_PHRASE, quoted_phrase, "", "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_QUOTED_PHRASE);
     }
     end_try;
 
     caps |= 0x01 << OQL_NEAR;
-    try {
+    mtry {
 	se_construct(NEAR, word, word, "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_NEAR);
     }
     end_try;
 
     caps |= 0x01 << OQL_BEFORE;
-    try {
+    mtry {
 	se_construct(BEFORE, word, word, "");
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_BEFORE);
     }
     end_try;
 
     caps |= 0x01 << OQL_NEAR_WITHIN;
-    try {
+    mtry {
 	se_construct(NEAR_WITHIN, word, word, digits);
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_NEAR_WITHIN);
     }
     end_try;
 
     caps |= 0x01 << OQL_BEFORE_WITHIN;
-    try {
+    mtry {
 	se_construct(BEFORE_WITHIN, word, word, digits);
     }
-    catch_any() { // OQL parse failed
+    mcatch_any() { // OQL parse failed
 	caps &= ~(0x01 << OQL_BEFORE_WITHIN);
     }
     end_try;

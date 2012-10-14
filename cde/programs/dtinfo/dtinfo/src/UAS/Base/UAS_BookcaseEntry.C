@@ -22,6 +22,8 @@
  */
 // $TOG: UAS_BookcaseEntry.C /main/5 1998/04/17 11:40:44 mgreess $
 #include "UAS_BookcaseEntry.hh"
+#include "UAS_Exceptions.hh"
+#include "UAS_Collection.hh"
 
 #include <string.h>
 

@@ -22,6 +22,9 @@
  */
 // $XConsortium: UAS_TextRun.cc /main/3 1996/06/11 16:40:55 cde-hal $
 #include "UAS_TextRun.hh"
+#include "UAS_Exceptions.hh"
+#include "UAS_SearchEngine.hh"
+#include "UAS_Collection.hh"
 
 UAS_TextRun::UAS_TextRun (unsigned int off, unsigned int len)
 :f_offset(off), f_length(len)

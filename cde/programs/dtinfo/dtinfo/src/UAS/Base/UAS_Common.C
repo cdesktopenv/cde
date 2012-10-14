@@ -21,13 +21,15 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $TOG: UAS_Common.C /main/10 1998/04/17 11:41:00 mgreess $
-# include <stream.h>
+# include <sstream>
+using namespace std;
 # include "UAS_Common.hh"
 # include "UAS_Factory.hh"
 # include "UAS_Exceptions.hh"
 # include "UAS_SearchEngine.hh"
 # include "UAS_Collection.hh"
 # include "UAS_StyleSheet.hh"
+# include "UAS_EmbeddedObject.hh"
 
 # define CLASS UAS_Common
 

@@ -85,10 +85,13 @@
 #include <WWL/WXmPanedWindow.h>
 
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #define CLASS QueryEditor
 #include "../Agents/create_macros.hh"
+
+#include "utility/mmdb_exception.h"
 
 //static bool g_allow_query_text_change;
   
@@ -126,7 +129,7 @@ QueryEditor::display()
 {
   static int count = 0;
   if (count++ == 0) {
-    if (f_shell == NULL)
+    if (f_shell == 0)
       create_ui();
 
     if (f_query == NULL)
@@ -243,7 +246,7 @@ QueryEditor::edit_query (QueryGroup *query)
     }
 
   //g_allow_query_text_change = TRUE;
-  f_query_text.Value ("");
+  f_query_text.Value ((char*)"");
   //g_allow_query_text_change = FALSE;
 
   // Move the input focus to the term view.
@@ -277,20 +280,20 @@ QueryEditor::create_ui()
 
   // Main form and menu bar. 
   WXmForm form                      (f_shell,    "form"                );
-  WXmMenuBar menu_bar               (form,       "menu_bar"            );
+  WXmMenuBar menu_bar               (form,       (char*)"menu_bar"     );
 
-  WXmPulldownMenu scope_menu        (form,       "scope_menu");
+  WXmPulldownMenu scope_menu        (form,       (char*)"scope_menu"   );
   Arg args[1];
   int n = 0;
   XtSetArg(args[n], XmNsubMenuId, (Widget) scope_menu); n++;
-  f_scope_option = WXmOptionMenu    (form,       "scope_option", AM, args, n);
+  f_scope_option = WXmOptionMenu    (form,       (char*)"scope_option", AM, args, n);
 
   mtfstring = CATGETS(Set_AgentLabel, 212, "Scope Name");
   XtVaSetValues(f_scope_option, XmNlabelString, (XmString)mtfstring, NULL);
 
   // Menu definitions.   how about using AddPushButton (name, obj, fun)??
   WXmCascadeButton edit_cascade     (menu_bar,   "edit",             AM);
-  WXmPulldownMenu edit_menu         (menu_bar,   "edit_menu"           );
+  WXmPulldownMenu edit_menu         (menu_bar,   (char*)"edit_menu"    );
   f_cut_btn = WXmPushButton         (edit_menu,  "cut",              AM);
   f_copy_btn = WXmPushButton        (edit_menu,  "copy",             AM);
   f_paste_btn = WXmPushButton       (edit_menu,  "paste",            AM);
@@ -346,7 +349,7 @@ QueryEditor::create_ui()
   mtfstring =  CATGETS(Set_AgentLabel, 48, "Help");
   XtVaSetValues(help, XmNlabelString, (XmString)mtfstring, NULL);
 
-  help_agent().add_activate_help (help, "query_editor_help");
+  help_agent().add_activate_help (help, (char*)"query_editor_help");
 
   // Main "work" area 
   WXmPanedWindow pane               (form,       "pane"                );
@@ -356,7 +359,7 @@ QueryEditor::create_ui()
   mtfstring =  CATGETS(Set_AgentLabel, 230, "Query");
   XtVaSetValues(qlabel, XmNlabelString, (XmString)mtfstring, NULL);
   
-  f_query_text = WXmScrolledText    (qform,      "qtext",            AM);
+  f_query_text = WXmScrolledText    (qform,      (char*)"qtext",     AM);
 //  f_query_text.SetEditable(False);
   f_query_area = WXmScrolledWindow  (pane,       "query_area",       AM);
   XtUnmanageChild (f_query_area.HorizontalScrollBar());
@@ -430,11 +433,11 @@ QueryEditor::search_activate()
   UAS_SearchScope *scope =
     (UAS_SearchScope *) WXmPushButton (f_scope_option.MenuHistory()).UserData();
 
-  try {
+   mtry {
       // Search manager owns query from this point on.  Don't delete it here. 
       search_mgr().parse_and_search (human_readable, scope);
    }
-   catch (demoException &, demo) {
+   mcatch (demoException &, demo) {
       message_mgr().demo_failure(demo);
    }
    end_try;
@@ -557,7 +560,7 @@ QueryEditor::fill_menu()
   List_Iterator<UAS_SearchScope *> s (scope_list);
   bool old_read_only = TRUE;
 
-  for (; s != NULL; s++)
+  for (; s != 0; s++)
     {
       // Add a separator when they change from read only to changable. 
       if (old_read_only != s.item()->read_only())
@@ -628,7 +631,7 @@ QueryEditor::receive (ScopeCreated &msg, void* /*client_data*/)
   {
     // Scan the current menu to find the correct insertion position. 
     UAS_SearchScope *scope;
-    for (; s != NULL; s++, position++)
+    for (; s != 0; s++, position++)
     {
       scope = s.item();
       if (scope->read_only() != need_sep)
@@ -671,7 +674,8 @@ QueryEditor::receive (ScopeDeleted &msg, void* /*client_data*/)
   WidgetList kids = WComposite(f_scope_option.SubMenuId()).Children();
   int num_kids = WComposite(f_scope_option.SubMenuId()).NumChildren();
   int separator_pos = -1;
-  for (int i = 0; i < num_kids; i++)
+  int i;
+  for (i = 0; i < num_kids; i++)
     {
       if (XmIsSeparator (kids[i]))
 	separator_pos = i + 1;
@@ -706,7 +710,8 @@ QueryEditor::receive (ScopeRenamed &msg, void* /*client_data*/)
   // First find renamed button in our list.
   WidgetList kids = WComposite(f_scope_option.SubMenuId()).Children();
   int num_kids = WComposite(f_scope_option.SubMenuId()).NumChildren();
-  for (int i = 0; i < num_kids; i++)
+  int i;
+  for (i = 0; i < num_kids; i++)
     {
       if (msg.f_search_scope ==
 	  ((UAS_SearchScope *) WXmPushButton (kids[i]).UserData()))
@@ -723,7 +728,7 @@ QueryEditor::receive (ScopeRenamed &msg, void* /*client_data*/)
   List_Iterator<UAS_SearchScope *> s (scope_list);
 
   // find the new position in the list
-  for (; s != NULL; s++)
+  for (; s != 0; s++)
     {
       if (s.item() == msg.f_search_scope)
 	continue;

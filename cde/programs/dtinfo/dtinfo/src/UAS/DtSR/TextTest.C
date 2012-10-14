@@ -29,8 +29,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <iostream.h>
-#include <strstream.h>
+#include <iostream>
+#include <sstream>
+using namespace std;
 
 #include "TextParser.hh"
 
@@ -57,13 +58,13 @@ main(int argc, char** argv)
 	sprintf(patterns, "%s%s\n", patterns, argv[i]);
     }
 
-    ostrstream text;
+    ostringstream text;
 
     char ch;
     while (cin.get(ch)) text << ch;
 
-    char* buf = text.str();
-    *(buf + text.pcount()) = '\0';
+    char* buf = (char *)text.str().c_str();
+    *(buf + text.str().size()) = '\0';
 
     char* match = StringParser::brute_force(buf, npat, patterns);
 

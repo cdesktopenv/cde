@@ -1468,7 +1468,7 @@ static void getRLPixels(unsigned char *dat_ptr, cgm_s_type *cgm_s,
     } /* end of row */
     /* may have to skip to end of row */
     if (bitOffset) ++dat_ptr; /* incomplete byte */
-    if (((int) dat_ptr - (int) rowPtr) % 2) ++dat_ptr; /* need to round up */
+    if (((size_t) dat_ptr - (size_t) rowPtr) % 2) ++dat_ptr; /* need round up */
   } /* end of cell array */
 }
 

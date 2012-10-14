@@ -9,7 +9,8 @@
 #include <StyleSheet/Element.h>
 #include <StyleSheet/Renderer.h>
 
-#include <strstream.h>
+#include <sstream>
+using namespace std;
 
 #include "dti_cc/CC_Stack.h"
 
@@ -29,7 +30,7 @@ class Tml_TextRenderer : public Renderer
 {
   public:
 
-    Tml_TextRenderer(ostrstream &, UAS_SearchZones &);
+    Tml_TextRenderer(ostringstream &, UAS_SearchZones &);
     ~Tml_TextRenderer();
 
     FeatureSet * initialize();
@@ -50,7 +51,7 @@ class Tml_TextRenderer : public Renderer
 
     int effective_zone(UAS_SearchZones::uas_zones);
 
-    ostrstream		&f_ostr;
+    ostringstream	&f_ostr;
     UAS_SearchZones	&f_zones;
 
     int f_current_level;

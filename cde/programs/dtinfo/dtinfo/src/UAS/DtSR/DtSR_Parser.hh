@@ -13,7 +13,7 @@
 class DtSR_Parser : public UAS_OQLParser
 {
 public:
-  DtSR_Parser::DtSR_Parser();
+  DtSR_Parser();
 
   int stemming_suggested() { return f_completion_specified; }
 

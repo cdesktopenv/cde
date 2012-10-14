@@ -54,8 +54,8 @@ public:
   void write (const int integer);
 
 #ifndef __osf__
-  void write (const unsigned int integer)
-    { write ((int) ((void *) integer)); }
+  void write (const size_t integer)
+    { write ((size_t) ((void *) integer)); }
 #else
   void write (const unsigned int integer)
     { write ((int) integer); }

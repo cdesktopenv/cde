@@ -77,10 +77,7 @@
 #include <WWL/WXmPushButton.h>
 
 #include <stdlib.h>
-#ifdef SVR4
-#include <limits.h>
-#endif
-#ifdef SYSV
+#if defined(SVR4) || defined(SYSV) || defined(linux) || defined(CSRG_BASED)
 #include <limits.h>
 #endif
 
@@ -173,11 +170,11 @@ QueryTermView::create_ui()
   ASSN  (WXmForm,         f_form,           f_form,       "qterm_view"      );
   // What is this widget used for? - 6/28/94 kamiya
   ASSN  (WXmToggleButton, f_select_toggle,  f_form,       "select"          );
-  DECL  (WXmPulldownMenu, prefix_menu,      f_form,       "prefix_menu"     );
+  DECLC (WXmPulldownMenu, prefix_menu,      f_form,       "prefix_menu"     );
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, (Widget) prefix_menu); n++;
-  f_prefix = WXmOptionMenu    (f_form, "prefix", WAutoManage, args, n);
+  f_prefix = WXmOptionMenu    (f_form, (char*)"prefix", WAutoManage, args, n);
 
   DECLM (WXmPushButtonGadget, contains,     prefix_menu,  "contains"        );
   DECLM (WXmPushButtonGadget, not_contains, prefix_menu,  "not_contains"    );
@@ -199,11 +196,11 @@ QueryTermView::create_ui()
     mtfstring = CATGETS(Set_AgentLabel, 235, "Doesn\'t Start With");
     XtVaSetValues(not_starts, XmNlabelString, (XmString)mtfstring, NULL);
   }
-  DECL  (WXmPulldownMenu, connect_menu,     f_form,       "connect_menu"    );
+  DECLC (WXmPulldownMenu, connect_menu,     f_form,       "connect_menu"    );
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, (Widget) connect_menu); n++;
-  f_connective = WXmOptionMenu (f_form, "connective", WAutoManage, args, n);
+  f_connective = WXmOptionMenu (f_form, (char*)"connective", WAutoManage, args, n);
 
   DECLM (WXmPushButtonGadget,   none,       connect_menu, " "               );
   DECLM (WXmPushButtonGadget,   orgad,      connect_menu, "or"              );
@@ -369,7 +366,7 @@ QueryTermView::register_actions()
 
   static XtActionsRec actions_list[] =
   {
-    { "TermSelect", QueryTermView::_select },
+    { (char*)"TermSelect", QueryTermView::_select },
   };
 
   XtAppAddActions (window_system().app_context(),
@@ -414,7 +411,7 @@ QueryTermView::invert_colors()
   for (i = 0; i < num; i++)
     SET_COLORS (children[i]);
 
-  if (f_weight_field != NULL)
+  if (f_weight_field != 0)
     {
       SET_COLORS (f_weight_field);
 #ifndef UseQSearch
@@ -432,7 +429,7 @@ QueryTermView::invert_colors()
 void
 QueryTermView::set_prefix (WCallback *wcb)
 {
-  f_query_term->prefix ((u_int) wcb->ClientData());
+  f_query_term->prefix ((size_t) wcb->ClientData());
 #ifdef UseQSearch
   if (f_weight_field)
 	if ( (int)wcb->ClientData() == QueryTerm::PFX_CONTAIN) {
@@ -477,7 +474,7 @@ QueryTermView::set_connective (WCallback *wcb)
       new QueryTermView (term, f_parent, this, f_next);
     }
   // Set it in the term. 
-  f_query_term->connective ((u_int) wcb->ClientData());
+  f_query_term->connective ((size_t) wcb->ClientData());
   query_editor().query_changed();
 }
 
@@ -489,7 +486,7 @@ QueryTermView::set_connective (WCallback *wcb)
 void
 QueryTermView::pw_activate (WCallback *)
 {
-  if (f_pws_form == NULL)
+  if (f_pws_form == 0)
     create_fields();
 
   // change attachments of some widgets - 6/28/94 kamiya
@@ -591,7 +588,7 @@ QueryTermView::create_fields()
   // sensitivity is stored in the label object.  11:53 01/14/93 DJB 
   // this shouldn't cause a 64 bit conversion problem - rCs
 
-  int proximity_sensitive = (int) (Widget) f_proximity_label;
+  size_t proximity_sensitive = (size_t) (Widget) f_proximity_label;
   
   ASSN  (WXmForm,         f_pws_form,        f_form,       "pws_form"        );
   ASSNM (WXmLabelGadget,  f_proximity_label, f_pws_form,   "proximity_label" );
@@ -793,7 +790,7 @@ QueryTermView::prev_connective_changed()
     {
       case C_NEAR:
       case C_BEFORE:
-        if (f_pws_form != NULL)
+        if (f_pws_form != 0)
 	  {
 	    f_proximity_label.SetSensitive (True);
 	    f_proximity_field.SetSensitive (True);	  }
@@ -802,7 +799,7 @@ QueryTermView::prev_connective_changed()
 	break;
 
       default:
-	if (f_pws_form != NULL)
+	if (f_pws_form != 0)
 	  {
 	    f_proximity_label.SetSensitive (False);
 	    f_proximity_field.SetSensitive (False);

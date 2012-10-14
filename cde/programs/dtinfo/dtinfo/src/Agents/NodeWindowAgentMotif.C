@@ -56,8 +56,9 @@
  * 
  */
 
-#include <stream.h>
-#include <iostream.h>
+#include <sstream>
+#include <iostream>
+using namespace std;
 
 #define C_FString
 #define C_List
@@ -141,6 +142,8 @@
 #include <DtI/RegionI.h>
 
 #include "OnlineRender/SegClientData.hh"
+
+#include "utility/mmdb_exception.h"
 
 #include <Xm/MainW.h>
 #include <Xm/RowColumn.h>
@@ -958,7 +961,7 @@ NodeWindowAgent::create_ui()
 
   n = 0;
   XtSetArg(args[n], XmNscrolledWindowChildType, XmMENU_BAR); n++;
-  Widget menu_bar = XmCreateMenuBar(mainw, "menu_bar", args, n);
+  Widget menu_bar = XmCreateMenuBar(mainw, (char*)"menu_bar", args, n);
 
   n = 0;
   XtSetArg(args[n], XmNorientation, XmHORIZONTAL); n++;
@@ -972,7 +975,7 @@ NodeWindowAgent::create_ui()
 				      mainw, args, n);
 
   // Menus
-  Widget fileM = XmCreatePulldownMenu(menu_bar, "file_menu", 0, 0);
+  Widget fileM = XmCreatePulldownMenu(menu_bar, (char*)"file_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, fileM); n++;
@@ -1031,7 +1034,7 @@ NodeWindowAgent::create_ui()
   XtVaSetValues(widget, XmNlabelString, (XmString)mtfstring, XmNmnemonic, mnemonic, NULL);
 
   // search menu
-  Widget searchM = XmCreatePulldownMenu(menu_bar, "search_menu", 0, 0);
+  Widget searchM = XmCreatePulldownMenu(menu_bar, (char*)"search_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, searchM); n++;
@@ -1111,7 +1114,7 @@ NodeWindowAgent::create_ui()
   XtVaSetValues(f_search_next, XmNlabelString, (XmString)mtfstring, XmNmnemonic, mnemonic, NULL);
 
   // go menu
-  Widget goM = XmCreatePulldownMenu(menu_bar, "go_menu", 0, 0);
+  Widget goM = XmCreatePulldownMenu(menu_bar, (char*)"go_menu", 0, 0);
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, goM); n++;
   widget = XtCreateManagedWidget("go", xmCascadeButtonGadgetClass,
@@ -1182,7 +1185,7 @@ NodeWindowAgent::create_ui()
   XtVaSetValues(widget, XmNlabelString, (XmString)mtfstring, XmNmnemonic, mnemonic, NULL);
 
   // marks menu
-  Widget markM = XmCreatePulldownMenu(menu_bar, "marks_menu", 0, 0);
+  Widget markM = XmCreatePulldownMenu(menu_bar, (char*)"marks_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, markM); n++;
@@ -1286,7 +1289,7 @@ NodeWindowAgent::create_ui()
 	XtGetValues(f_create_bmrk, args, n);
 	n = 0;
 	XtSetArg(args[n], XmNlabelString,
-		 XmStringConcat(XmStringCreate(icon, OLIAS_FONT),
+		 XmStringConcat(XmStringCreate(icon, (char*)OLIAS_FONT),
 				string)); n++;
 	XtSetValues(f_create_bmrk, args, n);
 
@@ -1296,7 +1299,7 @@ NodeWindowAgent::create_ui()
 	XtGetValues(f_create_anno, args, n);
 	n = 0;
 	XtSetArg(args[n], XmNlabelString,
-		 XmStringConcat(XmStringCreate(icon, OLIAS_FONT),
+		 XmStringConcat(XmStringCreate(icon, (char*)OLIAS_FONT),
 				string)); n++;
 	XtSetValues(f_create_anno, args, n);
 
@@ -1306,7 +1309,7 @@ NodeWindowAgent::create_ui()
 	XtGetValues(f_move_mark, args, n);
 	n = 0;
 	XtSetArg(args[n], XmNlabelString,
-		 XmStringConcat(XmStringCreate(icon, OLIAS_FONT),
+		 XmStringConcat(XmStringCreate(icon, (char*)OLIAS_FONT),
 				string)); n++;
 	XtSetValues(f_move_mark, args, n);
 
@@ -1315,7 +1318,7 @@ NodeWindowAgent::create_ui()
 	XtGetValues(list_marks, args, n);
 	n = 0;
 	XtSetArg(args[n], XmNlabelString,
-		 XmStringConcat(XmStringCreate(icon, OLIAS_FONT),
+		 XmStringConcat(XmStringCreate(icon, (char*)OLIAS_FONT),
 				string)); n++;
 	XtSetValues(list_marks, args, n);
 
@@ -1324,7 +1327,7 @@ NodeWindowAgent::create_ui()
 	XtGetValues(f_edit_mark, args, n);
 	n = 0;
 	XtSetArg(args[n], XmNlabelString,
-		 XmStringConcat(XmStringCreate(icon, OLIAS_FONT),
+		 XmStringConcat(XmStringCreate(icon, (char*)OLIAS_FONT),
 				string)); n++;
 	XtSetValues(f_edit_mark, args, n);
 
@@ -1333,13 +1336,13 @@ NodeWindowAgent::create_ui()
 	XtGetValues(f_delete_mark, args, n);
 	n = 0;
 	XtSetArg(args[n], XmNlabelString,
-		 XmStringConcat(XmStringCreate(icon, OLIAS_FONT),
+		 XmStringConcat(XmStringCreate(icon, (char*)OLIAS_FONT),
 				string)); n++;
 	XtSetValues(f_delete_mark, args, n);
     }
 
   // options menu
-  Widget optionsM = XmCreatePulldownMenu(menu_bar, "options_menu", 0, 0);
+  Widget optionsM = XmCreatePulldownMenu(menu_bar, (char*)"options_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, optionsM); n++;
@@ -1393,7 +1396,7 @@ NodeWindowAgent::create_ui()
   XtVaSetValues(search_areaT, XmNlabelString, (XmString)mtfstring, XmNmnemonic, mnemonic, NULL);
 
   // windows menu
-  Widget windowsM = XmCreatePulldownMenu(menu_bar, "windows_menu", 0, 0);
+  Widget windowsM = XmCreatePulldownMenu(menu_bar, (char*)"windows_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, windowsM); n++;
@@ -1423,7 +1426,7 @@ NodeWindowAgent::create_ui()
 
 
   // help menu
-  Widget helpM = XmCreatePulldownMenu(menu_bar, "help_menu", 0, 0);
+  Widget helpM = XmCreatePulldownMenu(menu_bar, (char*)"help_menu", 0, 0);
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, helpM); n++;
   widget = XtCreateManagedWidget("help", xmCascadeButtonGadgetClass,
@@ -1513,13 +1516,13 @@ NodeWindowAgent::create_ui()
   
 #endif
 
-  help_agent().add_activate_help ((Widget)on_overview, "on_overview");
-  help_agent().add_activate_help ((Widget)on_tasks, "on_tasks");
-  help_agent().add_activate_help ((Widget)on_reference, "on_reference");
-  help_agent().add_activate_help ((Widget)on_reference, "on_reference");
+  help_agent().add_activate_help ((Widget)on_overview, (char*)"on_overview");
+  help_agent().add_activate_help ((Widget)on_tasks, (char*)"on_tasks");
+  help_agent().add_activate_help ((Widget)on_reference, (char*)"on_reference");
+  help_agent().add_activate_help ((Widget)on_reference, (char*)"on_reference");
   help_agent().add_context_help ((Widget)on_item);
-  help_agent().add_activate_help ((Widget)on_help, "on_help");
-  help_agent().add_activate_help ((Widget)on_about, "on_about");
+  help_agent().add_activate_help ((Widget)on_help, (char*)"on_help");
+  help_agent().add_activate_help ((Widget)on_about, (char*)"on_about");
 
 
   // Tools
@@ -1682,11 +1685,11 @@ NodeWindowAgent::create_ui()
   f_form = XtCreateWidget("form", xmFormWidgetClass, mainw, args, n);
 
 
-  f_title_menu = (WXmPulldownMenu*)(Widget)WXmPulldownMenu((WComposite&)f_form, "title_menu");
+  f_title_menu = (WXmPulldownMenu*)(Widget)WXmPulldownMenu((WComposite&)f_form, (char*)"title_menu");
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, (Widget) f_title_menu); n++;
   f_title_option = (WXmOptionMenu*)(Widget)
-                   WXmOptionMenu ((WComposite&)f_form, "title", AM, args, n);
+                   WXmOptionMenu ((WComposite&)f_form, (char*)"title", AM, args, n);
   help_agent().add_help_cb ((Widget)*f_title_option);
 
   f_tab_area = (WXmRowColumn*)(Widget) WXmRowColumn (f_form, "tab_area");
@@ -1714,8 +1717,8 @@ NodeWindowAgent::create_ui()
 #ifdef DEBUG
 #ifdef MONITOR
 
-  WXmCascadeButton   windows_cascade (menu_bar,       "windows"       , AM);
-  WXmPulldownMenu    windows_menu    (menu_bar,       "windows_menu"      );
+  WXmCascadeButton   windows_cascade (menu_bar,     "windows"       ,   AM);
+  WXmPulldownMenu    windows_menu    (menu_bar,     (char*)"windows_menu" );
   WXmPushButton(windows_menu, "monitor", AM).
     SetActivateCallback(this, (WWL_FUN)&NodeWindowAgent::monitor, (void*)1);
 
@@ -1725,9 +1728,9 @@ NodeWindowAgent::create_ui()
 #endif
 #endif
 
-#ifdef DEBUG
+#ifdef NODEBUG
   WXmCascadeButton   debug_cascade     (menu_bar,   "debug"                );
-  WXmPulldownMenu    debug_menu        (menu_bar,   "debug_menu"           );
+  WXmPulldownMenu    debug_menu        (menu_bar,   (char*)"debug_menu"    );
   WXmToggleButton    command_processor (debug_menu, "command_processor", AM);
   WXmPushButton	     document_id       (debug_menu, "document_id", 	 AM);
 #endif
@@ -1742,7 +1745,7 @@ NodeWindowAgent::create_ui()
 
   f_help_dsp_area = (DtHelpDispAreaStruct*)
     _DtHelpCreateDisplayArea(WXmForm(*f_frame, "inform", WAutoManage),//parent
-			     "display_area",	// name
+			     (char*)"display_area",	// name
 			     _DtHelpSTATIC,	// vert flag
 			     _DtHelpAS_NEEDED,	// horz flag
 			     FALSE,		// traversal flag
@@ -1763,20 +1766,20 @@ NodeWindowAgent::create_ui()
 
   // create detach graphic popup menu
   f_detach_menu = XmCreatePopupMenu(
-                       f_help_dsp_area->dispWid, "detach_graphic", NULL, 0);
-  f_detach_button = XmCreatePushButton(f_detach_menu, "Detach Graphic", NULL, 0);
+                       f_help_dsp_area->dispWid, (char*)"detach_graphic", NULL, 0);
+  f_detach_button = XmCreatePushButton(f_detach_menu, (char*)"Detach Graphic", NULL, 0);
   XtAddCallback(f_detach_button, XmNactivateCallback, detach_grCB, this);
   XtManageChild(f_detach_button);
   mtfstring =  CATGETS(Set_AgentLabel, 124, "Detach Graphic");
   XtVaSetValues(f_detach_button, XmNlabelString, (XmString)mtfstring, NULL);
 
-  f_attach_button = XmCreatePushButton(f_detach_menu, "Attach Graphic", NULL, 0);
+  f_attach_button = XmCreatePushButton(f_detach_menu, (char*)"Attach Graphic", NULL, 0);
   XtAddCallback(f_attach_button, XmNactivateCallback, attach_grCB, this);
   XtManageChild(f_attach_button);
   mtfstring =  CATGETS(Set_AgentLabel, 265, "Attach Graphic");
   XtVaSetValues(f_attach_button, XmNlabelString, (XmString)mtfstring, NULL);
 
-  f_raise_button = XmCreatePushButton(f_detach_menu, "Raise Graphic", NULL, 0);
+  f_raise_button = XmCreatePushButton(f_detach_menu, (char*)"Raise Graphic", NULL, 0);
   XtAddCallback(f_raise_button, XmNactivateCallback, raise_grCB, this);
   XtManageChild(f_raise_button);
   mtfstring =  CATGETS(Set_AgentLabel, 264, "Raise Graphic");
@@ -1787,22 +1790,22 @@ NodeWindowAgent::create_ui()
 
   // create link preview popup menu
   f_preview_menu = XmCreatePopupMenu(
-                       f_help_dsp_area->dispWid, "preview_menu", NULL, 0);
+                       f_help_dsp_area->dispWid, (char*)"preview_menu", NULL, 0);
 
-  f_preview_label = XmCreateLabel(f_preview_menu, "pre_label", NULL, 0);
+  f_preview_label = XmCreateLabel(f_preview_menu, (char*)"pre_label", NULL, 0);
   XtManageChild(f_preview_label);
 
-  widget = XmCreateSeparator(f_preview_menu, "sep", NULL, 0);
+  widget = XmCreateSeparator(f_preview_menu, (char*)"sep", NULL, 0);
   XtVaSetValues(widget, XmNseparatorType, XmDOUBLE_LINE, NULL);
   XtManageChild(widget);
 
-  widget = XmCreatePushButton(f_preview_menu, "widget", NULL, 0);
+  widget = XmCreatePushButton(f_preview_menu, (char*)"widget", NULL, 0);
   XtAddCallback(widget, XmNactivateCallback, go_to_linkCB, this);
   XtManageChild(widget);
   mtfstring =  CATGETS(Set_AgentLabel, 168, "Display Link");
   XtVaSetValues(widget, XmNlabelString, (XmString)mtfstring, NULL);
 
-  widget = XmCreatePushButton(f_preview_menu, "widget", NULL, 0);
+  widget = XmCreatePushButton(f_preview_menu, (char*)"widget", NULL, 0);
   XtAddCallback(widget, XmNactivateCallback, open_new_nodeCB, this);
   XtManageChild(widget);
   mtfstring =  CATGETS(Set_AgentLabel, 64, "New Window");
@@ -1810,33 +1813,33 @@ NodeWindowAgent::create_ui()
 
   // create default popup menu
   f_default_menu = XmCreatePopupMenu(
-                       f_help_dsp_area->dispWid, "default_menu", NULL, 0);
+                       f_help_dsp_area->dispWid, (char*)"default_menu",NULL, 0);
 
-  f_node_next3 = XmCreatePushButton(f_default_menu, "f_node_next3", NULL, 0);
+  f_node_next3 = XmCreatePushButton(f_default_menu, (char*)"f_node_next3", NULL, 0);
   XtAddCallback(f_node_next3, XmNactivateCallback, node_nextCB, this);
   XtManageChild(f_node_next3);
   mtfstring =  CATGETS(Set_AgentLabel, 96, "Next Section");
   XtVaSetValues(f_node_next3, XmNlabelString, (XmString)mtfstring, NULL);
 
-  f_node_prev3 = XmCreatePushButton(f_default_menu, "f_node_prev3", NULL, 0);
+  f_node_prev3 = XmCreatePushButton(f_default_menu, (char*)"f_node_prev3", NULL, 0);
   XtAddCallback(f_node_prev3, XmNactivateCallback, node_previousCB, this);
   XtManageChild(f_node_prev3);
   mtfstring =  CATGETS(Set_AgentLabel, 94, "Previous Section");
   XtVaSetValues(f_node_prev3, XmNlabelString, (XmString)mtfstring, NULL);
 
-  widget = XmCreateSeparator(f_default_menu, "sep", NULL, 0);
+  widget = XmCreateSeparator(f_default_menu, (char*)"sep", NULL, 0);
   XtManageChild(widget);
 
-  widget = XmCreatePushButton(f_default_menu, "widget", NULL, 0);
+  widget = XmCreatePushButton(f_default_menu, (char*)"widget", NULL, 0);
   XtAddCallback(widget, XmNactivateCallback, show_locatorCB, this);
   XtManageChild(widget);
   mtfstring =  CATGETS(Set_AgentLabel, 68, "Show Locator");
   XtVaSetValues(widget, XmNlabelString, (XmString)mtfstring, NULL);
 
-  widget = XmCreateSeparator(f_default_menu, "sep", NULL, 0);
+  widget = XmCreateSeparator(f_default_menu, (char*)"sep", NULL, 0);
   XtManageChild(widget);
 
-  widget = XmCreatePushButton(f_default_menu, "widget", NULL, 0);
+  widget = XmCreatePushButton(f_default_menu, (char*)"widget", NULL, 0);
   XtAddCallback(widget, XmNactivateCallback, printCB, this);
   XtManageChild(widget);
   mtfstring =  CATGETS(Set_AgentLabel, 70, "Print");
@@ -1953,11 +1956,11 @@ NodeWindowAgent::create_ui()
 
 
   // Search area
-  widget = XmCreatePulldownMenu(search_area, "scope_menu", 0, 0);
+  widget = XmCreatePulldownMenu(search_area, (char*)"scope_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, widget); n++;
-  XtManageChild(widget = XmCreateOptionMenu(search_area, "scope", args, n));
+  XtManageChild(widget = XmCreateOptionMenu(search_area, (char*)"scope", args, n));
   help_agent().add_help_cb (widget);
 
   textstore = new UAS_String(CATGETS(Set_AgentQHelp, 60,
@@ -2004,7 +2007,7 @@ NodeWindowAgent::create_ui()
   XtSetArg(args[n], XmNrightWidget, widget); n++;
   XtSetValues(*f_search_text, args, n);
   
-#ifdef DEBUG
+#ifdef NODEBUG
   /* -------- Debugging setup.  Should be a function. -------- */
   
   bool debugging = window_system().get_boolean_app_resource("debug");
@@ -2271,7 +2274,7 @@ NodeWindowAgent::search_help (Widget, XtPointer client_data,
   // clear quick help
   if (event->type == LeaveNotify || event->type == FocusOut)
   {
-    XmTextFieldSetString(agent->f_status_text, "");
+    XmTextFieldSetString(agent->f_status_text, (char*)"");
     return;
   }
 
@@ -2997,7 +3000,7 @@ NodeWindowAgent::unpreview()
   else
     {
       // If the timeout has already happened, just clear the preview area. 
-      XmTextFieldSetString(f_status_text, "");
+      XmTextFieldSetString(f_status_text, (char*)"");
     }
 }
 
@@ -3079,7 +3082,7 @@ NodeWindowAgent::make_bookmark (Boolean edit, MarkCanvas* refmark)
 #endif
 
   _DtCvSegPts **segs = NULL ;
-  try
+  mtry
   {
       int ret_x, ret_y ;
       // find the selection segment and offset
@@ -3125,7 +3128,8 @@ NodeWindowAgent::make_bookmark (Boolean edit, MarkCanvas* refmark)
       unsigned int length      = 0;
       unsigned int offset      = 0;
 
-      for (int i = 0; segs[i]; i++)
+      int i;
+      for (i = 0; segs[i]; i++)
       {
 	_DtCvSegPts* segpts = segs[i];
 
@@ -3227,7 +3231,7 @@ NodeWindowAgent::make_bookmark (Boolean edit, MarkCanvas* refmark)
     else
 	throw(CASTEXCEPT Exception());
   }
-  catch_any()
+  mcatch_any()
   {
       if (! refmark)
 	message_mgr().error_dialog ((char*)UAS_String(CATGETS(Set_Messages, 10,
@@ -3506,14 +3510,14 @@ void
 NodeWindowAgent::delete_mark()
 {
   Xassert (MarkCanvas::selected_mark() != NULL);
-  try
+  mtry
     {
       MarkCanvas::selected_mark()->mark_ptr()->remove();
 
       XtSetSensitive(f_create_bmrk, False);
       XtSetSensitive(f_create_anno, False);
     }
-  catch_any()
+  mcatch_any()
     {
       message_mgr().error_dialog (
 		(char*)UAS_String(CATGETS(Set_Messages, 11,
@@ -3556,7 +3560,7 @@ NodeWindowAgent::move_markCB(Widget, XtPointer client_data, XtPointer)
   UAS_Pointer<Mark> mark_ptr = MarkTml::selected_mark()->mark_ptr();
   Wait_Cursor bob;
   // Create a new mark based on the old one at the new location.
-  try
+  mtry
     {
       f_viewport_agent->mark_creator (this); // 94/10/27 yuji bug fix for TC-530
       UAS_Pointer<UAS_Common> d;
@@ -3564,7 +3568,7 @@ NodeWindowAgent::move_markCB(Widget, XtPointer client_data, XtPointer)
 			    AnchorCanvas (f_viewport_agent->selection_range()),
 			    mark_ptr);
     }
-  catch_any()
+  mcatch_any()
     {
       message_mgr().error_dialog (
 		(char*)UAS_String(CATGETS(Set_Messages, 12,
@@ -3624,7 +3628,7 @@ NodeWindowAgent::detach_graphic()
 
   // Display an instructional dialog.
   WXmMessageDialog
-    info_dialog ((Widget)f_shell, "detach_msg",
+    info_dialog ((Widget)f_shell, (char*)"detach_msg",
                  WArgList (XmNdialogType, XmDIALOG_INFORMATION, NULL));
   WXmDialogShell shell (info_dialog.Parent());
   // set window title
@@ -3829,7 +3833,7 @@ NodeWindowAgent::display (UAS_Pointer<UAS_Common> &node_ptr)
   
   int sameNode = f_node_view_info && f_node_view_info->node_ptr() == node_ptr;
   if (sameNode && !g_style_sheet_update && !f_history_display) {
-    extern char g_top_locator[];
+//    extern char g_top_locator[];
 #ifdef JBM
     // need to change this to pass in the locator to SetTopic so the
     // Canvas knows where to scroll to when it displays
@@ -3988,12 +3992,12 @@ NodeWindowAgent::do_bookmarks(bool move_to_mark)
 #endif
   while (i)
     {
-      try {
+      mtry {
 	MarkCanvas *mc = add_mark (i.item());
 	if (g_view_mark() == i.item())
 	  jump_to = mc ;
       }
-      catch_any()
+      mcatch_any()
 	{
 #ifdef BOOKMARK_DEBUG	  
 	  cerr << "error adding bookmark " << i.item()->name() << endl;
@@ -4293,7 +4297,7 @@ NodeWindowAgent::quick_helpEH (Widget w, XtPointer client_data,
   if (event->type == EnterNotify || event->type == FocusIn)
     XmTextFieldSetString(agent->f_status_text, (char*)client_data);
   else if (event->type == LeaveNotify || event->type != FocusOut)
-    XmTextFieldSetString(agent->f_status_text, "");
+    XmTextFieldSetString(agent->f_status_text, (char*)"");
 }
 
 
@@ -4368,7 +4372,7 @@ NodeWindowAgent::re_display()
   bool lock_flag = f_locked ;
   f_locked = False ; // have to force it to happen regardless of lock 
   
-  try
+  mtry
     {
       
       node_mgr().set_preferred_window(this); // make re-display happen in this window 
@@ -4377,7 +4381,7 @@ NodeWindowAgent::re_display()
       f_locked = lock_flag ;
       
     }
-  catch_any()
+  mcatch_any()
     {
       delete anchor ;
       g_history_anchor = save_anchor ;
@@ -4558,7 +4562,8 @@ NodeWindowAgent::create_canvas_mark(_DtCvHandle  canvas,
   UAS_List<UAS_String> marks_loc_list;
   marks_loc_list = marks_loc.splitFields(',');
 
-  for (int i = 0; i < marks_loc_list.length(); i++)
+  int i;
+  for (i = 0; i < marks_loc_list.length(); i++)
   {
     UAS_String& mark_loc = *marks_loc_list[i];
     unsigned int vcc, offset, length;
@@ -5073,7 +5078,7 @@ MarkViewer::receive (ViewMark &message, void* /*client_data*/)
   // Slight hack... Set a global that tells the ViewportAgent to
   // select and jump to the specified mark when the corresponding
   // node is displayed (see "jump_to" below).  15:17 02-Dec-93 DJB
-  try
+  mtry
     {
       g_view_mark() = message.f_mark_ptr;
 
@@ -5083,14 +5088,14 @@ MarkViewer::receive (ViewMark &message, void* /*client_data*/)
 
       section->retrieve();
     }
-  catch_noarg(demoException &)
+  mcatch_noarg(demoException &)
     {
       // this is a hack. what should happen, is that the catch_any below this
       // should only be catching a specific (or set of) exception so that others
       // can pass through - 14:32 06/ 1/94 - jbm
       rethrow ;
     }
-  catch_any()
+  mcatch_any()
     {
       message_mgr().info_dialog (
 		(char*)UAS_String(CATGETS(Set_Messages, 15,

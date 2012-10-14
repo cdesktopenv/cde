@@ -23,9 +23,12 @@
 // $XConsortium: UAS_SearchScope.C /main/6 1996/09/14 13:10:00 cde-hal $
 #include "UAS_Exceptions.hh"
 #include "UAS_SearchScope.hh"
+#include "UAS_Collection.hh"
 
 #include <string.h>
-#include <stream.h>
+#include <iostream>
+#include <sstream>
+using namespace std;
 
 #define CLASS UAS_SearchScope
 STATIC_SENDER_CC (ScopeCreated);

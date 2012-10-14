@@ -66,6 +66,7 @@
 #define C_NodeWindowMgr
 #define C_StyleSheetMgr
 #define C_LibraryMgr
+#define C_GraphicsMgr
 #define L_Managers
 
 #define C_xList
@@ -90,7 +91,7 @@
 #include "../OnlineRender/CanvasRenderer.hh"
 #endif
 
-#include <strstream.h>
+#include <sstream>
 
 class NodeWindowAgent;
 class NodeHandle;
@@ -110,7 +111,7 @@ void
 DisplayNode::receive (UAS_DocumentRetrievedMsg &message, void *client_data)
 {
     ON_DEBUG (cerr <<"Got Node display message!" << endl);
-    int cd = (int)client_data;
+    size_t cd = (size_t)client_data;
     
     //  0 == display request
 
@@ -340,11 +341,11 @@ NodeMgr::load(UAS_Pointer<UAS_Common> &node_ptr)
     styleparse();
   }
 #else
-  try
+  mtry
     {
       style_sheet_mgr().initOnlineStyleSheet(node_ptr);
     }
-  catch_noarg (StyleSheetSyntaxError)
+  mcatch_noarg (StyleSheetSyntaxError)
     {
       message_mgr().error_dialog(
 		(char*)UAS_String(CATGETS(Set_Messages, 39, "File a Bug")));
@@ -361,9 +362,9 @@ NodeMgr::load(UAS_Pointer<UAS_Common> &node_ptr)
   }
 #endif
 
-  istrstream input((char *) node_ptr->data());
+  istringstream input((char *) node_ptr->data());
 
-  try
+  mtry
     {
 #ifdef FONT_SCALE_DEBUG
       cerr << "PrefMgr::FontScale: " <<
@@ -376,7 +377,7 @@ NodeMgr::load(UAS_Pointer<UAS_Common> &node_ptr)
       DocParser docparser(resolver);
       docparser.parse(input);
     }
-  catch_any()
+  mcatch_any()
     {
       ON_DEBUG(cerr << "NodeMgr::load...exception thrown" << endl);
       delete gNodeViewInfo ;

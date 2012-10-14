@@ -93,7 +93,7 @@ protected:
     { return (f_current); }
 #ifndef DEC
   int operator!=(int i)
-    { return (f_current != (Link_base *)i); }
+    { return (f_current != (Link_base *)(size_t)i); }
 #endif
 
   // For internal List_base usage. 

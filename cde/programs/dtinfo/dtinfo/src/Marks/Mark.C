@@ -74,7 +74,7 @@ Mark::~Mark()
 {
   ON_DEBUG (printf ("Mark::~Mark() @ 0x%p\n", this));
   if (f_reference_count != 0)
-    message_mgr().error_dialog ("Attempt to delete mark with references!");
+   message_mgr().error_dialog((char*)"Attempt to delete mark with references!");
 }
 
 
@@ -95,7 +95,7 @@ Mark::save()
 {
   if (f_deleted)
     {
-      message_mgr().error_dialog ("Cannot save changes to deleted mark.");
+      message_mgr().error_dialog((char*)"Cannot save changes to deleted mark.");
     }
   else
     {

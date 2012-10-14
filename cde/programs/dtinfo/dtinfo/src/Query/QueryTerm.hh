@@ -76,7 +76,7 @@ public:
   void proximity (char *s)
     { free (f_proximity); f_proximity = s; }
   char *scope()
-    { return (""); }
+    { return ((char*)""); }
   static unsigned int avail_caps() { return f_caps; }
   static void avail_caps(unsigned int caps) { f_caps = caps; }
 

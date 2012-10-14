@@ -38,4 +38,3 @@ $	(This string will be shown in a directory listing where there
 $	 are no Infolibs found in the directory.)
 11	"No Infolibs Present"
 
-

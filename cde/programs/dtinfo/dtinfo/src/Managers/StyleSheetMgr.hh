@@ -49,4 +49,5 @@ private:
   LONG_LIVED_HH(StyleSheetMgr,style_sheet_mgr);
 };
 
+LONG_LIVED_HH2(StyleSheetMgr,style_sheet_mgr);
 

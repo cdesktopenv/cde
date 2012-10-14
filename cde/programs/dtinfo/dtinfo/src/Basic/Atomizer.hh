@@ -37,9 +37,9 @@ public: // functions
 // them and they can be eliminated.
 
 #ifndef __osf__
-  int value() { return ((int) f_value); }
+  size_t value() { return ((size_t) f_value); }
   operator int () 
-    { return ((int) f_value); }
+    { return ((size_t) f_value); }
 #endif
 
   operator const char * ()

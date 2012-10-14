@@ -23,7 +23,8 @@
 // $XConsortium: dict_driver.cc /main/3 1996/06/11 16:42:53 cde-hal $
 #include <string.h>
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #include "Exceptions.hh"
 #include "UAS_Exceptions.hh"

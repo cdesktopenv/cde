@@ -49,6 +49,7 @@
  * 
  */
 
+#include <X11/Shell.h>
 #include <X11/Xmu/Editres.h>
 #include <Xm/Xm.h>
 #include <Xm/XmP.h>
@@ -170,7 +171,7 @@ static unsigned char anno_double_bits[] = {
    0x0a, 0x20, 0xea, 0x2f, 0x0a, 0x20, 0xea, 0x2f, 0x0a, 0x20, 0xfa, 0x3f,
    0x02, 0x08, 0xfe, 0x0f, 0x00, 0x00};
 
-#ifdef SVR4
+#if defined(SVR4) || defined(linux) || defined(CSRG_BASED)
 #include <signal.h>
 #else
 #include <sys/signal.h>
@@ -193,26 +194,26 @@ extern "C" {
 extern Boolean print_server_error;
 
 static String fallbacks[] = {
-"Dtinfo.Print*background:white",
-"Dtinfo.Print*renderTable:-dt-application-bold-r-normal-serif-0-0-0-0-p-0-iso8859-1",
-"Dtinfo.Print*shadowThickness:0",
-"Dtinfo.Print*highlightThickness:0",
-"Dtinfo.Print*pform.marginHeight: 1in",
-"Dtinfo.Print*pform.marginWidth: 1in",
-"Dtinfo.Print*ptext.Attachment:attach_form",
+(char*)"Dtinfo.Print*background:white",
+(char*)"Dtinfo.Print*renderTable:-dt-application-bold-r-normal-serif-0-0-0-0-p-0-iso8859-1",
+(char*)"Dtinfo.Print*shadowThickness:0",
+(char*)"Dtinfo.Print*highlightThickness:0",
+(char*)"Dtinfo.Print*pform.marginHeight: 1in",
+(char*)"Dtinfo.Print*pform.marginWidth: 1in",
+(char*)"Dtinfo.Print*ptext.Attachment:attach_form",
 NULL
 };
 
 
 static XtActionsRec DrawnBActions[] =
     {
-        {"DeSelectAll"    , _DtHelpDeSelectAll    },
-        {"SelectAll"      , _DtHelpSelectAll      },
-        {"ActivateLink"   , _DtHelpActivateLink   },
-        {"CopyToClipboard", _DtHelpCopyAction     },
-        {"PageUpOrDown"   , _DtHelpPageUpOrDown   },
-        {"PageLeftOrRight", _DtHelpPageLeftOrRight},
-        {"NextLink"       , _DtHelpNextLink       }
+        {(char*)"DeSelectAll"    , _DtHelpDeSelectAll    },
+        {(char*)"SelectAll"      , _DtHelpSelectAll      },
+        {(char*)"ActivateLink"   , _DtHelpActivateLink   },
+        {(char*)"CopyToClipboard", _DtHelpCopyAction     },
+        {(char*)"PageUpOrDown"   , _DtHelpPageUpOrDown   },
+        {(char*)"PageLeftOrRight", _DtHelpPageLeftOrRight},
+        {(char*)"NextLink"       , _DtHelpNextLink       }
     };
 
 
@@ -244,11 +245,11 @@ public:
 
 WindowSystem::WindowSystem (int &argc, char *argv[])
 : f_shell_list (20),
-  f_default_pixmap (NULL),
+  f_default_pixmap (0),
   f_defpix_width (0),
   f_defpix_height (0),
   f_printing(False),
-  f_detached_pixmap(NULL),
+  f_detached_pixmap(0),
   f_cursor_stack_pos(-1),
   f_dtinfo_font(NULL),
   f_dtinfo_space_font(NULL)
@@ -283,9 +284,9 @@ WindowSystem::WindowSystem (int &argc, char *argv[])
   if (count && names)
   {
     f_dtinfo_font = XmFontListEntryLoad(f_display, *names,
-					XmFONT_IS_FONT, "olias");
+					XmFONT_IS_FONT, (char*)"olias");
     f_dtinfo_space_font = XmFontListEntryLoad(f_display, *names,
-					      XmFONT_IS_FONT, "ospace");
+					      XmFONT_IS_FONT, (char*)"ospace");
     XFreeFontNames(names);
   }
 }
@@ -409,43 +410,43 @@ extern "C" { void tml_dp_set_font_display(Display *); }
 
 // include "dbg" so we can use the startup script -debug flag independently 
 XrmOptionDescRec options[] = {
-  {"-debug",		"*debug",	  XrmoptionNoArg,  "True"},
-  {"-dbg",		"*debug",	  XrmoptionNoArg,  "True"},
-  {"-author",		"*author",	  XrmoptionNoArg,  "True"},
-  {"-readonly",		"*readonly",	  XrmoptionNoArg,  "True"},
-  {"-ro",		"*readonly",	  XrmoptionNoArg,  "True"},
-  {"-autohelp",         "*AutomaticHelp", XrmoptionNoArg,  "On"},
-  {"-nofonts",		"*NoFonts",	  XrmoptionNoArg,  "True"},
-  {"-print",            "printOnly",      XrmoptionNoArg,  "True"},
-  {"-hierarchy",        "hierarchy",      XrmoptionNoArg,  "True"},
-  {"-printer",          "printer",        XrmoptionSepArg, NULL},
-  {"-copies",           "copies",         XrmoptionSepArg, NULL},
-  {"-paperSize",        "paperSize",      XrmoptionSepArg, NULL},
-  {"-silent",           "silent",         XrmoptionNoArg,  "True"},
-  {"-outputFile",       "outputFile",     XrmoptionSepArg, NULL}
+  {(char*)"-debug",	(char*)"*debug",	XrmoptionNoArg,  (char*)"True"},
+  {(char*)"-dbg",	(char*)"*debug",	XrmoptionNoArg,  (char*)"True"},
+  {(char*)"-author",	(char*)"*author",	XrmoptionNoArg,  (char*)"True"},
+  {(char*)"-readonly",	(char*)"*readonly",	XrmoptionNoArg,  (char*)"True"},
+  {(char*)"-ro",	(char*)"*readonly",	XrmoptionNoArg,  (char*)"True"},
+  {(char*)"-autohelp",	(char*)"*AutomaticHelp",XrmoptionNoArg,  (char*)"On"},
+  {(char*)"-nofonts",	(char*)"*NoFonts",	XrmoptionNoArg,  (char*)"True"},
+  {(char*)"-print",	(char*)"printOnly",	XrmoptionNoArg,  (char*)"True"},
+  {(char*)"-hierarchy",	(char*)"hierarchy",	XrmoptionNoArg,  (char*)"True"},
+  {(char*)"-printer",	(char*)"printer",	XrmoptionSepArg, NULL},
+  {(char*)"-copies",	(char*)"copies",	XrmoptionSepArg, NULL},
+  {(char*)"-paperSize",	(char*)"paperSize",	XrmoptionSepArg, NULL},
+  {(char*)"-silent",	(char*)"silent",	XrmoptionNoArg,  (char*)"True"},
+  {(char*)"-outputFile",(char*)"outputFile",	XrmoptionSepArg, NULL}
 };
 
 static XtResource VideoResources[] =
 {
-  {"printOnly", "PrintOnly", XmRBoolean, sizeof (Boolean),
+  {(char*)"printOnly", (char*)"PrintOnly", XmRBoolean, sizeof (Boolean),
 	XtOffsetOf (VideoShell, print_only), XmRImmediate, (XtPointer)False,
   },
-  {"outputFile", "OutputFile", XmRString, sizeof (char *),
+  {(char*)"outputFile", (char*)"OutputFile", XmRString, sizeof (char *),
 	XtOffsetOf (VideoShell, file_name), XmRImmediate, (XtPointer)NULL,
   },
-  {"hierarchy", "Hierarchy", XmRBoolean, sizeof (Boolean),
+  {(char*)"hierarchy", (char*)"Hierarchy", XmRBoolean, sizeof (Boolean),
 	XtOffsetOf (VideoShell, hierarchy), XmRImmediate, (XtPointer)False,
   },
-  {"printer", "Printer", XmRString, sizeof (char *),
+  {(char*)"printer", (char*)"Printer", XmRString, sizeof (char *),
 	XtOffsetOf (VideoShell, printer), XmRImmediate, (XtPointer)NULL,
   },
-  {"copies", "Copies", XmRInt, sizeof (int),
+  {(char*)"copies", (char*)"Copies", XmRInt, sizeof (int),
 	XtOffsetOf (VideoShell, copies), XmRImmediate, (XtPointer)1,
   },
-  {"paperSize", "PaperSize", XmRString, sizeof (char *),
+  {(char*)"paperSize", (char*)"PaperSize", XmRString, sizeof (char *),
 	XtOffsetOf (VideoShell, paper_size), XmRImmediate, (XtPointer)NULL,
   },
-  {"silent", "Silent", XmRBoolean, sizeof (Boolean),
+  {(char*)"silent", (char*)"Silent", XmRBoolean, sizeof (Boolean),
 	XtOffsetOf (VideoShell, silent), XmRImmediate, (XtPointer)False,
   },
 };
@@ -521,7 +522,7 @@ xevent_error_aborter(Display *display, XErrorEvent* error_event)
     // log error
 
     _DtPrintDefaultErrorSafe(display, error_event, error_msg, _DTINFO_BUFSIZE);
-    _DtSimpleError("dtinfo", DtWarning, NULL, error_msg, NULL);
+    _DtSimpleError((char*)"dtinfo", DtWarning, NULL, error_msg, NULL);
     
     // if the error occured on the print display we're going to set 
     // a variable so that and when the job is done, right before calling
@@ -566,7 +567,8 @@ WindowSystem::init()
 
   if (f_display == (Display*)NULL)
   {
-      fprintf(stderr, CATGETS(Set_WindowSystem, 3, "Unable to open display.\n"));
+      fprintf(stderr, "%s",
+		CATGETS(Set_WindowSystem, 3, "Unable to open display.\n"));
       exit(1);
   }
     
@@ -586,7 +588,7 @@ WindowSystem::init()
   f_toplevel = f_video_shell->widget;
 
   if (DtAppInitialize( f_application_context,
-               f_display, f_toplevel, f_argv[0], CLASS_NAME) == False)
+               f_display, f_toplevel, f_argv[0], (char*)CLASS_NAME) == False)
   {
      /* DtAppInitialize() has already logged an appropriate error msg */
      exit(-1);
@@ -606,8 +608,8 @@ WindowSystem::init()
 #endif
 
   // Create atom used elsewhere by agents
-  f_wm_delete_window = XmInternAtom (f_display, "WM_DELETE_WINDOW", False);
-  XA_WM_STATE = XmInternAtom (f_display, "WM_STATE", False);
+  f_wm_delete_window = XmInternAtom (f_display, (char*)"WM_DELETE_WINDOW", False);
+  XA_WM_STATE = XmInternAtom (f_display, (char*)"WM_STATE", False);
 
   // -------- Add some converters -------- //
 
@@ -633,9 +635,9 @@ WindowSystem::init()
   f_screen = XtScreen(f_toplevel);
   f_nofonts = get_boolean_default ("NoFonts");
 
-  f_locked_pixmap = NULL;
-  f_semilocked_pixmap  = NULL;
-  f_unlocked_pixmap = NULL; 
+  f_locked_pixmap = 0;
+  f_semilocked_pixmap  = 0;
+  f_unlocked_pixmap = 0;
 
   XImage *mark_single =
 	XCreateImage(f_display, DefaultVisualOfScreen(f_screen),
@@ -669,10 +671,10 @@ WindowSystem::init()
   anno_double->bitmap_bit_order = LSBFirst;
   anno_double->bitmap_unit = 8;
 
-  XmInstallImage(mark_single, "mark_single");
-  XmInstallImage(mark_double, "mark_double");
-  XmInstallImage(anno_single, "anno_single");
-  XmInstallImage(anno_double, "anno_double");
+  XmInstallImage(mark_single, (char*)"mark_single");
+  XmInstallImage(mark_double, (char*)"mark_double");
+  XmInstallImage(anno_single, (char*)"anno_single");
+  XmInstallImage(anno_double, (char*)"anno_double");
 }
 
 Pixmap 
@@ -686,7 +688,7 @@ WindowSystem::locked_pixmap(Widget w)
 		      XmNbackground, &bg,
 		      NULL);
 	
-	f_locked_pixmap = XmGetPixmap (f_screen, "locked.xbm", fg, bg);
+	f_locked_pixmap = XmGetPixmap (f_screen, (char*)"locked.xbm", fg, bg);
 	if (f_locked_pixmap == XmUNSPECIFIED_PIXMAP) {
 	    fprintf(stderr, "Couldn't load locked.xbm.\n");
 	}
@@ -707,7 +709,7 @@ WindowSystem::unlocked_pixmap(Widget w)
 		      XmNbackground, &bg,
 		      NULL);
 	
-	f_unlocked_pixmap = XmGetPixmap (f_screen, "unlocked.xbm", fg, bg);
+	f_unlocked_pixmap = XmGetPixmap (f_screen, (char*)"unlocked.xbm", fg, bg);
 	if (f_unlocked_pixmap == XmUNSPECIFIED_PIXMAP) {
 	    fprintf(stderr, "Couldn't load locked.xbm.\n");
 	}
@@ -727,7 +729,7 @@ WindowSystem::semilocked_pixmap(Widget w)
 		      XmNbackground, &bg,
 		      NULL);
 	
-	f_semilocked_pixmap = XmGetPixmap (f_screen, "semilocked.xbm", fg, bg);
+	f_semilocked_pixmap = XmGetPixmap (f_screen, (char*)"semilocked.xbm", fg, bg);
 	if (f_semilocked_pixmap == XmUNSPECIFIED_PIXMAP) {
 	    fprintf(stderr, "Couldn't load locked.xbm.\n");
 	}
@@ -1010,7 +1012,7 @@ WindowSystem::core_dump_handler (int signal_number)
 {
   if ((XtWindow ((Widget)window_system().toplevel())) != 0)
     {
-      WXmMessageDialog byebye (window_system().toplevel(), "core_dump");
+      WXmMessageDialog byebye (window_system().toplevel(), (char*)"core_dump");
       XtVaSetValues((Widget)byebye, XmNmessageString,
 	(XmString)XmStringLocalized(CATGETS(Set_WindowSystem, 2,
 					    "Bombing...")), NULL);
@@ -1102,7 +1104,7 @@ WindowSystem::default_pixmap (Dimension *width, Dimension *height)
 	
 	status = XmeXpmCreatePixmapFromData(f_display,
 					    XtWindow((Widget)toplevel()),
-					    graphic_unavailable_data,
+					    (char**)graphic_unavailable_data,
 					    &temp_pixmap,
 					    NULL, &xpm_attr);
 	temp_width = xpm_attr.width;
@@ -1162,7 +1164,7 @@ WindowSystem::detached_pixmap(Dimension *width, Dimension *height)
 
       int status = XmeXpmCreatePixmapFromData(f_display,
 					   XtWindow((Widget)toplevel()),
-					   detached_pixmap_data,
+					   (char**)detached_pixmap_data,
 					   &f_detached_pixmap,
 					   NULL, &xpm_attr);
       f_detached_width = xpm_attr.width ;
@@ -1206,7 +1208,7 @@ WindowSystem::read_pixmap(const char *pname,
 #endif
 
   if (status != XpmSuccess) {
-    pixmap = NULL;
+    pixmap = 0;
     *width = 0;
     *height = 0;
 
@@ -1233,7 +1235,7 @@ WindowSystem::get_boolean_default (const char *name)
   resource[0].resource_class = (char *) name;
   resource[0].resource_type = XtRBoolean;
   resource[0].resource_size = sizeof(Boolean);
-  resource[0].resource_offset = NULL;
+  resource[0].resource_offset = 0;
   resource[0].default_type = XtRImmediate;
   resource[0].default_addr = False;
 
@@ -1253,7 +1255,7 @@ WindowSystem::get_int_default (const char *name)
   resource[0].resource_class = (char *) name;
   resource[0].resource_type = XtRInt;
   resource[0].resource_size = sizeof(int);
-  resource[0].resource_offset = NULL;
+  resource[0].resource_offset = 0;
   resource[0].default_type = XtRImmediate ;
   resource[0].default_addr = 0;
 
@@ -1272,9 +1274,9 @@ WindowSystem::get_string_default (const char *name)
   resource[0].resource_class = (char *) name;
   resource[0].resource_type = XtRString;
   resource[0].resource_size = sizeof(String);
-  resource[0].resource_offset = NULL;
+  resource[0].resource_offset = 0;
   resource[0].default_type = XtRString;
-  resource[0].default_addr = "";
+  resource[0].default_addr = (void *) "";
 
   XtGetApplicationResources(toplevel(), &string, resource, 1, NULL, 0);
 
@@ -1292,9 +1294,9 @@ WindowSystem::get_geometry_default (const char *name)
   resource[0].resource_class = (char *) name;
   resource[0].resource_type = XtRString;
   resource[0].resource_size = sizeof(String);
-  resource[0].resource_offset = NULL;
+  resource[0].resource_offset = 0;
   resource[0].default_type = XtRString;
-  resource[0].default_addr = "0x0";
+  resource[0].default_addr = (void *) "0x0";
 
   XtGetApplicationResources(toplevel(), &string, resource, 1, NULL, 0);
 
@@ -1318,7 +1320,7 @@ WindowSystem::get_color_default(const char *name)
   resource[0].resource_class = (char *) name;
   resource[0].resource_type = XtRPixel;
   resource[0].resource_size = sizeof(Pixel);
-  resource[0].resource_offset = NULL;
+  resource[0].resource_offset = 0;
   resource[0].default_type = XtRImmediate ;
   resource[0].default_addr = (XtPointer)
     WhitePixelOfScreen(DefaultScreenOfDisplay(f_display));
@@ -1337,10 +1339,10 @@ WindowSystem::get_message (const char *message_name)
   static char default_message[256];
 
   resource[0].resource_name = (char *) message_name;
-  resource[0].resource_class = "Message";
+  resource[0].resource_class = (char*)"Message";
   resource[0].resource_type = XtRString;
   resource[0].resource_size = sizeof(String);
-  resource[0].resource_offset = NULL;
+  resource[0].resource_offset = 0;
   resource[0].default_type = XtRString;
   resource[0].default_addr = default_message;
 
@@ -1411,7 +1413,7 @@ WindowSystem::make_space (int space_to_fill, Widget w)
       space_array[i] = OLIAS_SPACE32 ;
     space_array[i] = 0 ;
   } 
-  WXmString string_32(space_array, OLIAS_SPACE_FONT) ;
+  WXmString string_32(space_array, (char*)OLIAS_SPACE_FONT) ;
 
   
   space_array[0] = 0 ;
@@ -1420,7 +1422,7 @@ WindowSystem::make_space (int space_to_fill, Widget w)
       space_array[i] = OLIAS_SPACE16 ;
     space_array[i] = 0 ;
   } 
-  WXmString string_16(space_array, OLIAS_SPACE_FONT) ;
+  WXmString string_16(space_array, (char*)OLIAS_SPACE_FONT) ;
 
   space_array[0] = 0 ;
   if (eight != 0){
@@ -1428,7 +1430,7 @@ WindowSystem::make_space (int space_to_fill, Widget w)
       space_array[i] = OLIAS_SPACE08 ;
     space_array[i] = 0 ;
   }
-  WXmString string_8(space_array, OLIAS_SPACE_FONT) ;
+  WXmString string_8(space_array, (char*)OLIAS_SPACE_FONT) ;
 
   space_array[0] = 0 ;
   if (four != 0){
@@ -1436,7 +1438,7 @@ WindowSystem::make_space (int space_to_fill, Widget w)
       space_array[i] = OLIAS_SPACE04 ;
     space_array[i] = 0 ;
   }
-  WXmString string_4(space_array, OLIAS_SPACE_FONT) ;
+  WXmString string_4(space_array, (char*)OLIAS_SPACE_FONT) ;
 
   space_array[0] = 0 ;
   if (two != 0){
@@ -1444,7 +1446,7 @@ WindowSystem::make_space (int space_to_fill, Widget w)
       space_array[i] = OLIAS_SPACE02 ;
     space_array[i] = 0 ;
   }
-  WXmString string_2(space_array, OLIAS_SPACE_FONT) ;
+  WXmString string_2(space_array, (char*)OLIAS_SPACE_FONT) ;
 
   space_array[0] = 0 ;
   if (one != 0){
@@ -1452,7 +1454,7 @@ WindowSystem::make_space (int space_to_fill, Widget w)
       space_array[i] = OLIAS_SPACE01 ;
     space_array[i] = 0 ;
   }
-  WXmString string_1(space_array, OLIAS_SPACE_FONT) ;
+  WXmString string_1(space_array, (char*)OLIAS_SPACE_FONT) ;
 
   WXmString space = string_32 + string_16 + string_8 + string_4 + string_2 + string_1 ;
 

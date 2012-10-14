@@ -117,7 +117,8 @@ MMDB_Library::name () {
     if (f_name == "")
     {
       UAS_List<UAS_Common> kids = children();
-      for (int i = 0; i < kids.length(); i++)
+      int i;
+      for (i = 0; i < kids.length(); i++)
       {
         if (kids[i]->type() == UAS_BOOKCASE)
           break;

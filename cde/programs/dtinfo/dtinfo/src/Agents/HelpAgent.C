@@ -81,7 +81,8 @@
 #include <Dt/Help.h>
 #include <Dt/HelpDialog.h>
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #define CLASS HelpAgent
 #include "create_macros.hh"
@@ -164,7 +165,7 @@ HelpAgent::create_ui()
   n = 0;
   XtSetArg(args[n], XmNtitle, "Dtinfo Help"); n++;
   f_helper = DtCreateHelpDialog(app_shell,
-                                "helpdialog",
+                                (char*)"helpdialog",
                                 args, n);
 }
 
@@ -399,13 +400,13 @@ HelpAgent::get_locator_id(const Widget w)
 {
    XtResource   res;
    //res.resource_name   = (resourceName ? (String)resourceName : "helpcard");
-   res.resource_name   = "helpcard";
+   res.resource_name   = (char*)"helpcard";
    res.resource_class  = XtCString;
    res.resource_type   = XtRString;
    res.resource_size   = sizeof(String);
    res.resource_offset = 0;
    res.default_type    = XtRString;
-   res.default_addr    = NULL_LOCATORID;
+   res.default_addr    = (void*)NULL_LOCATORID;
 
    char         *wname = XtName(w);     // Just for gdb
    String       string;

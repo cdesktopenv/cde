@@ -87,7 +87,8 @@
 #include <WWL/WXmPushButtonGadget.h>
 #include <WWL/WXmSeparatorGadget.h>
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 int BookmarkEdit::g_modified_count = 0;
 
@@ -250,14 +251,14 @@ BookmarkEdit::create_ui()
   WXmPushButtonGadget help (form, "help", WAutoManage);
   mtfstring = CATGETS(Set_AgentLabel, 48, "Help");
   XtVaSetValues(help, XmNlabelString, (XmString)mtfstring, NULL);
-  help_agent().add_activate_help (help, "bookmark_edit_help");
+  help_agent().add_activate_help (help, (char*)"bookmark_edit_help");
   f_wm_delete_callback =
     new WCallback (*f_shell, window_system().WM_DELETE_WINDOW(),
                    this, (WWL_FUN) &BookmarkEdit::cancel);
 
   WXmSeparatorGadget   separator   (form,     "separator",   WAutoManage);
 
-  Widget notes_text = XmCreateScrolledText (form, "notes_text", NULL, 0);
+  Widget notes_text = XmCreateScrolledText (form, (char*)"notes_text", NULL, 0);
   f_notes_text = new WXmText (notes_text);
   f_notes_text->Manage();
 
@@ -295,11 +296,11 @@ BookmarkEdit::ok()
       f_mark_ptr->set_name (f_name_text->Value());
       f_mark_ptr->set_notes (f_notes_text->Value());
       // Save the mark to disk.
-      try
+      mtry
 	{
 	  f_mark_ptr->save();
 	}
-      catch_any()
+      mcatch_any()
 	{
 	  message_mgr().error_dialog(
 		CATGETS(Set_BookmarkEdit, 1, "Dtinfo: Bookmark Editor"));

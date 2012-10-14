@@ -257,7 +257,8 @@ WObject :: SetCallback (const char* name, WWL* obj, WWL_FUN fun)
 #else // Not for doc
 
 #include <WWL/WComposite.h>
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #define NL << '\n'; cout.flush()
 

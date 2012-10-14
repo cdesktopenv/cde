@@ -15,7 +15,7 @@
 #define FALSE 0
 #endif
 
-typedef unsigned char bool;
+//typedef unsigned char bool;
 
 class UAS_SearchScope;
 

@@ -28,7 +28,7 @@
 #include <limits.h>
 #include <string.h>
 
-#include <strstream.h>
+#include <sstream>
 
 #include <StyleSheet/DocParser.h>
 #include <StyleSheet/Resolver.h>
@@ -272,11 +272,12 @@ DtSR_SearchResultsEntry::create_matches()
     }
 #endif
 
-    try
+    mtry
 	{
 	    style_sheet_mgr().initOnlineStyleSheet(doc);
 	}
-    catch_noarg (StyleSheetSyntaxError)
+//  catch_noarg (StyleSheetSyntaxError)
+    mcatch_any()
 	{
 #ifdef JOE_HATES_THIS
 	    message_mgr().error_dialog(
@@ -287,10 +288,10 @@ DtSR_SearchResultsEntry::create_matches()
 	}
     end_try;
 
-    istrstream input((char *)doc->data());
-    ostrstream output;
+    istringstream input((char *)doc->data());
+    ostringstream output;
     
-    try
+    mtry
 	{
 	    Tml_TextRenderer	renderer(output, f_search_res->search_zones());
 	    Resolver resolver(*gPathTab, renderer);
@@ -298,15 +299,15 @@ DtSR_SearchResultsEntry::create_matches()
 
 	    docparser.parse(input);
 	}
-    catch_any()
+    mcatch_any()
 	{
 	    ON_DEBUG(cerr << "DtSR_SearchResultsEntry::create_matches...exception thrown" << '\n' << flush);
 	    rethrow;
 	}
     end_try;
 
-    char* text = output.str();
-    *(text + output.pcount()) = '\0';
+    char* text = (char*)output.str().c_str();
+    *(text + output.str().size()) = '\0';
 
 #ifdef DUMP_NODES
     {
@@ -345,12 +346,12 @@ DtSR_SearchResultsEntry::create_matches()
     if (f_language == DtSrLaJPN) { // do not trust DtSearchHighlight!
 	int count        = f_search_res->stems(f_dbn)->count();
 
-	ostrstream stemsbuf;
+	ostringstream stemsbuf;
 	for (int i = 0; i < count; i++) {
 	    stemsbuf << (f_search_res->stems(f_dbn)->stems())[i] << '\n';
 	}
-	char* stems = stemsbuf.str();
-	*(stems + stemsbuf.pcount()) = '\0';
+	char* stems = (char*)stemsbuf.str().c_str();
+	*(stems + stemsbuf.str().size()) = '\0';
 
 	parseout = StringParser::hilite(text, count, stems);
 
@@ -374,7 +375,7 @@ DtSR_SearchResultsEntry::create_matches()
 	}
 
 #ifdef DEBUG
-	fprintf(stderr, "(DEBUG) %d hit found in %s\n", n_kwics, (char*)f_id);
+	fprintf(stderr, "(DEBUG) %ld hit found in %s\n", n_kwics, (char*)f_id);
 #endif
     }
 
@@ -383,11 +384,11 @@ DtSR_SearchResultsEntry::create_matches()
 
     // convert kwics to textrun
     if (parseout == NULL && kwics) {
-	ostrstream textrunbuf;
+	ostringstream textrunbuf;
 	for (int i = 0; i < n_kwics; i++)
 	    textrunbuf << kwics[i].offset << '\t' << kwics[i].length << '\n';
-	parseout = textrunbuf.str();
-	*(parseout + textrunbuf.pcount()) = '\0';
+	parseout = (char*)textrunbuf.str().c_str();
+	*(parseout + textrunbuf.str().size()) = '\0';
     }
     else if (parseout == NULL)
     {
@@ -400,7 +401,7 @@ DtSR_SearchResultsEntry::create_matches()
     fprintf(stderr, "(DEBUG) byte offset and length\n%s", parseout);
 #endif
 
-    istrstream textruns(parseout);
+    istringstream textruns(parseout);
 
     char linebuf[128];
     while (textruns.get(linebuf, 128, '\n')) {

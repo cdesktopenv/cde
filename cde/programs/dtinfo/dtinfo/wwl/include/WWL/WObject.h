@@ -76,8 +76,8 @@ inline		WObject (const WObject& w) {
 
 inline		operator Widget () const { return widget; }
 #ifndef DEC
-inline	int	operator== (int i)	{ return (Widget)i == widget; }
-inline	int	operator!= (int i)	{ return (Widget)i != widget; }
+inline	int	operator== (int i)	{ return (Widget)(size_t)i == widget; }
+inline	int	operator!= (int i)	{ return (Widget)(size_t)i != widget; }
 #endif
 inline  WObject &operator = (const Widget w) { widget = w; return *this; }
 inline	WidgetClass Class () const	{ return XtClass (widget); }

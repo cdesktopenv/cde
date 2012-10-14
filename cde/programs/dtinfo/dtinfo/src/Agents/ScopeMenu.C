@@ -128,7 +128,7 @@ ScopeMenu::fill_menu()
   ON_DEBUG(cerr << "Scope Popup" << endl);
 
   int first = TRUE;
-  for (; s != NULL; s++)
+  for (; s != 0; s++)
     {
       
       // in case we are not using Current Section
@@ -136,7 +136,7 @@ ScopeMenu::fill_menu()
 	f_current_scope = s.item();
 
       ON_DEBUG(cerr << "\t" << f_current_scope->name() << endl);
-      ON_DEBUG(f_current_scope->dump_items());
+//    ON_DEBUG(f_current_scope->dump_items());
 
       // Add a separator when they change from read only to changable. 
       if (old_read_only != s.item()->read_only())
@@ -227,7 +227,7 @@ ScopeMenu::receive (ScopeCreated &msg, void *client_data)
   else
   {
     // Scan the current menu to find the correct insertion position. 
-    for (; s != NULL; s++, position++)
+    for (; s != 0; s++, position++)
     {
       scope = s.item();
       if (need_sep != scope->read_only())
@@ -284,7 +284,8 @@ ScopeMenu::receive (ScopeDeleted &msg, void *client_data)
   XtSetArg(args[n], XmNchildren, &kids); n++;
   XtGetValues(f_pull_menu, args, n);
 
-  for (int i = 0; i < num_kids; i++)
+  int i;
+  for (i = 0; i < num_kids; i++)
     {
       if (XmIsSeparator (kids[i]))
       {
@@ -345,7 +346,8 @@ ScopeMenu::receive (ScopeRenamed &msg, void *client_data)
   XtSetArg(args[n], XmNchildren, &kids); n++;
   XtGetValues(f_pull_menu, args, n);
 
-  for (int i = 0; i < num_kids; i++)
+  int i;
+  for (i = 0; i < num_kids; i++)
     {
       if (XmIsPushButtonGadget (kids[i]) &&
 	  msg.f_search_scope ==
@@ -363,7 +365,7 @@ ScopeMenu::receive (ScopeRenamed &msg, void *client_data)
   List_Iterator<UAS_SearchScope *> s (scope_list);
 
   // find the new position in the list
-  for (; s != NULL; s++)
+  for (; s != 0; s++)
     {
       if (s.item() == msg.f_search_scope)
 	continue;

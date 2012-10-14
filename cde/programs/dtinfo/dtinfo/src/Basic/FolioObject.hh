@@ -38,7 +38,7 @@ typedef void (FolioObject::* notify_handler_t)
   static ClassType C##Class
 #define INIT_CLASS(C) \
   ClassType C::type() const { return (C##Class); } \
-  ClassType C::C##Class = (ClassType) &C::C##Class
+  ClassType C::C##Class = (size_t) &C::C##Class
 #else
 #define DEF_CLASS(C) \
   virtual ClassType type() const; \

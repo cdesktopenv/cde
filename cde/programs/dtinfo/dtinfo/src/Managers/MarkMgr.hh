@@ -72,3 +72,5 @@ private:
 
   LONG_LIVED_HH (MarkMgr,mark_mgr);
 };
+
+LONG_LIVED_HH2 (MarkMgr,mark_mgr);

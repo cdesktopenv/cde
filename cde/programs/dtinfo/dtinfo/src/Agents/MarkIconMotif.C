@@ -76,7 +76,8 @@
 #include <WWL/WXmLabelGadget.h>
 #include <WWL/WXmPushButton.h>
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 #define CLASS MarkIcon
 #include "create_macros.hh"
@@ -94,7 +95,7 @@ MarkIcon::MarkIcon (Widget parent,
 		    Widget chooser_parent,
 		    MarkCanvas *mark, 
 		    int ypos, int scrollbar_offset)
-: f_icon_char (NULL),
+: f_icon_char (0),
   f_selected (FALSE),
   f_y_position (ypos),
   f_chooser_parent (chooser_parent)
@@ -148,8 +149,8 @@ MarkIcon::register_actions()
 
  static XtActionsRec actions_list[] =
  { 
-      {"double_click",    &MarkIcon::static_double_click},
-      {"single_click",    &MarkIcon::static_single_click},
+      {(char*)"double_click",    &MarkIcon::static_double_click},
+      {(char*)"single_click",    &MarkIcon::static_single_click},
  };
 
  XtAppAddActions (window_system().app_context(), actions_list, XtNumber (actions_list));
@@ -323,7 +324,7 @@ MarkIcon::deselect (MarkCanvas *)
 void
 MarkIcon::update_icon (MarkCanvas *)
 {
-  Pixmap button_pixmap = NULL;
+  Pixmap button_pixmap = 0;
 
   int multi = mark_count() > 1;
   int anno  = False;
@@ -342,18 +343,18 @@ MarkIcon::update_icon (MarkCanvas *)
 
   if (anno) {
     if (multi)
-      button_pixmap = XmGetPixmap(window_system().screen(), "anno_double",
+      button_pixmap = XmGetPixmap(window_system().screen(),(char*)"anno_double",
 				  Foreground(), Background());
     else
-      button_pixmap = XmGetPixmap(window_system().screen(), "anno_single",
+      button_pixmap = XmGetPixmap(window_system().screen(),(char*)"anno_single",
 				  Foreground(), Background());
   }
   else {
     if (multi)
-      button_pixmap = XmGetPixmap(window_system().screen(), "mark_double",
+      button_pixmap = XmGetPixmap(window_system().screen(),(char*)"mark_double",
 				  Foreground(), Background());
     else
-      button_pixmap = XmGetPixmap(window_system().screen(), "mark_single",
+      button_pixmap = XmGetPixmap(window_system().screen(),(char*)"mark_single",
 				  Foreground(), Background());
   }
 
@@ -593,18 +594,18 @@ MarkIcon::swap_colors()
 
   if (anno) {
     if (multi)
-      button_pixmap = XmGetPixmap(window_system().screen(), "anno_double",
+      button_pixmap = XmGetPixmap(window_system().screen(),(char*)"anno_double",
 				  foreground, background);
     else
-      button_pixmap = XmGetPixmap(window_system().screen(), "anno_single",
+      button_pixmap = XmGetPixmap(window_system().screen(),(char*)"anno_single",
 				  foreground, background);
   }
   else {
     if (multi)
-      button_pixmap = XmGetPixmap(window_system().screen(), "mark_double",
+      button_pixmap = XmGetPixmap(window_system().screen(),(char*)"mark_double",
 				  foreground, background);
     else
-      button_pixmap = XmGetPixmap(window_system().screen(), "mark_single",
+      button_pixmap = XmGetPixmap(window_system().screen(),(char*)"mark_single",
 				  foreground, background);
   }
 

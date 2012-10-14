@@ -44,7 +44,8 @@
  * 
  */
 
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #include "Registration.hh"
 
@@ -75,8 +76,6 @@
 #include <Prelude.h>
 
 #include "Managers/CatMgr.hh"
-
-#include <stream.h>
 
 LONG_LIVED_CC(SearchMgr,search_mgr)
 
@@ -184,7 +183,7 @@ SearchMgr::history_entry_activate (FolioObject *, u_int,
 				   void *notify_data, void *)
 {
   Wait_Cursor bob;
-  u_int which_item = (int) notify_data;
+  size_t which_item = (size_t) notify_data;
 
   ResultID *rid = (ResultID *) f_search_history_list[which_item];
 
@@ -206,7 +205,8 @@ SearchMgr::search_history_list_view()
   if (f_search_history_list_view == NULL)
     {
       f_search_history_list_view =
-	new SearchHistoryListView (&f_search_history_list, "search_history");
+	new SearchHistoryListView (&f_search_history_list,
+	 (char*)"search_history");
       f_search_history_list_view->AddDependent
 	((notify_handler_t) &SearchMgr::history_entry_activate,
 	 ListView::ENTRY_ACTIVATE);
@@ -253,16 +253,16 @@ SearchMgr::parse_and_search (char *query, UAS_SearchScope *scope) {
   if (f_search_section.length()) {
     scope->search_zones().section ((char*)f_search_section);
   }
-  try
+  mtry
   {
       tmp_results = search_engine().search (query, *scope);
   }
-  catch (UAS_Exception&, e)
+  mcatch (UAS_Exception&, e)
   {
-      message_mgr().error_dialog ((char*)e->message());
+      message_mgr().error_dialog ((char*)e.message());
       return;
   }
-  catch_any ()
+  mcatch_any ()
   {
 
   }

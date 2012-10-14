@@ -46,7 +46,8 @@
  *                  Campbell, CA  95008
  * 
  */
-#include <stream.h>
+#include <sstream>
+using namespace std;
 #include "UAS.hh"
 
 #define C_GlobalHistoryMgr
@@ -163,7 +164,7 @@ GlobalHistoryMgr::add (UAS_Pointer<UAS_Common> &node_ptr)
 
   for (i = 0; hl; hl++, i++)
     {
-      ON_DEBUG (printf ("%2d: Checking <%s>\n", i, hl.item()->title()));
+      ON_DEBUG (printf ("%2d: Checking <%s>\n", i, (char*)hl.item()->title()));
       if (hl.item() == node_ptr)
 	  break;
     }

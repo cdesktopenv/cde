@@ -1,6 +1,12 @@
 XCOMM $XConsortium: Imakefile /main/4 1996/08/21 15:42:57 drk $
+
+CXXEXTRA_DEFINES = -DEXPAND_TEMPLATES
+
 MAKEFILEDEPS=Classlist.mk
 LIBNAME=OliasSearch
+
+NormalCplusplusObjectRule()
+
 INCLUDES=$(BROWSER_INCLUDES)
 
 #include "Classlist.mk"
@@ -11,8 +17,12 @@ make_libfiles($(LIBNAME), $(CLASSES))
 
 #if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
 SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#elif defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture) || \
+      defined(LinuxArchitecture)
+SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #else
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
+XCOMM RealLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #endif
 
 DependTarget()

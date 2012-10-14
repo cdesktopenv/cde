@@ -21,7 +21,8 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 // $XConsortium: MMDB_StyleSheet.C /main/4 1996/09/04 01:36:27 cde-hal $
-# include <stream.h>
+# include <sstream>
+using namespace std;
 # include "MMDB_StyleSheet.hh"
 
 MMDB_StyleSheet::MMDB_StyleSheet (MMDB &theMMDB,

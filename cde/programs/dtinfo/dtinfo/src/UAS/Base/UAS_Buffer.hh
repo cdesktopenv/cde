@@ -30,9 +30,9 @@ public:
   void reset()
     { f_point = f_start; }
 
-  void write (const int integer);
+  void write (const ssize_t integer);
   void write (const unsigned int integer)
-    { write ((int) ((void *) integer)); }
+    { write ((ssize_t) ((void *)(ssize_t) integer)); }
   void write (const char *string);
   void write (const char *bytes, unsigned int size, unsigned int length);
 

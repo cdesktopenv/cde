@@ -83,5 +83,5 @@ class TtIpcMgr : public Long_Lived
     Tt_status	 tt_state ;
 } ;
 
-
+LONG_LIVED_HH2( TtIpcMgr, tt_manager ) ;
 

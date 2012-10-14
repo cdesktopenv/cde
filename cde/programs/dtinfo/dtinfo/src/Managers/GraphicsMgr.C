@@ -70,7 +70,8 @@
 
 #include "Prelude.h"
 
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 extern "C"
 {
 #include "../cgm/spec.h"
@@ -111,7 +112,7 @@ GraphicsMgr::get_graphic (UAS_Pointer<Graphic> &gr)
     if (window_system().printing()) {
 	string_resolution = XpGetOneAttribute(window_system().printDisplay(), 
 					      l_AppPrintData->f_print_data->print_context,
-					      XPDocAttr, "default-printer-resolution") ;
+					      XPDocAttr, (char*)"default-printer-resolution") ;
 	resolution = atoi(string_resolution);
 	XFree(string_resolution);	
     }
@@ -162,7 +163,7 @@ GraphicsMgr::get_graphic (const UAS_String &imdata,
 
   if(!initialized)
   {
-    _DtGrRegisterConverter("CGM", processCGM, NULL, NULL, NULL);
+    _DtGrRegisterConverter((char*)"CGM", processCGM, NULL, NULL, NULL);
     initialized = 1;
   }
 
@@ -172,7 +173,7 @@ GraphicsMgr::get_graphic (const UAS_String &imdata,
   // if content_type is a NULL string, image type is unknown
   if (content_type == "")
   {
-    image_type = "unknown";
+    image_type = (char*)"unknown";
   } 
   else
   {
@@ -254,17 +255,17 @@ GraphicsMgr::get_graphic (const UAS_String &imdata,
 
   if (!strcasecmp (image_type, "XBM")) {
     // match up infolib name for XBM to DtGr library
-    image_type = "BM";
+    image_type = (char*)"BM";
   }
 
   if (!strcasecmp (image_type, "XPM")) {
     // match up infolib name for XPM to DtGr library
-    image_type = "PM";
+    image_type = (char*)"PM";
   }
 
 #ifdef XWD_TEST
   if (!image_type || !strcasecmp (image_type, "unknown"))
-    image_type = "XWD" ;
+    image_type = (char*)"XWD" ;
 #endif
 
   // Context struct is required for TIFF data type only
@@ -577,80 +578,3 @@ GraphicsMgr::init_gr(UAS_Pointer<Graphic> &gr)
   //ga->set_graphic(gr);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Graphic implementation
-//
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-Graphic::Graphic (UAS_Pointer<UAS_Common> &doc, const UAS_String &locator):
-	fPixmap (0),
-	fDetachedPixmap (0),
-	fDetached (0),
-	fObj (doc->create_embedded_object (locator)) {
-}
-
-Graphic::~Graphic () {
-    //graphics_mgr().uncache(this);
-    //graphics_mgr().remove_detached(this);
-#ifdef DEBUG
-    printf( "for Graphic %p, delete PixmapGraphic %p\n", this, fPixmap );
-#endif
-    delete fPixmap;
-    delete fDetachedPixmap;
-}
-
-
-// If this one is called instead of the null arg version, the resulting
-// PixmapGraphic instance is not tracked nor recorded by this instance
-PixmapGraphic *
-Graphic::pixmap_graphic (UAS_String& imdata,
-                         unsigned int imlen,
-                         UAS_String& imtype, unsigned short scale) {
-    PixmapGraphic *the_pixmap;
-    //UAS_Pointer<Graphic> tmp(this);
-    //if (fPixmap)
-    //   delete fPixmap;
-
-    the_pixmap = graphics_mgr().get_graphic (imdata, imlen, imtype, scale);
-    return the_pixmap;
-}
-
-PixmapGraphic *
-Graphic::pixmap_graphic () {
-    UAS_Pointer<Graphic> tmp(this);
-    // fPixmap records the PixmapGraphic & pixmap once created (and only
-    // if created via this method) for this instance of Graphic
-    if (!fPixmap)
-	fPixmap = graphics_mgr().get_graphic (tmp);
-    return fPixmap;
-}
-
-PixmapGraphic *
-Graphic::detached_graphic () {
-    if (!fDetachedPixmap)
-	fDetachedPixmap = graphics_mgr().detached_graphic();
-    return fDetachedPixmap;
-}
-
-UAS_String Graphic::title()
-{
-  return fObj->title();
-}
-
-UAS_String Graphic::content_type()
-{
-  return fObj->content_type();
-}
-
-UAS_String Graphic::locator()
-{
-  return fObj->locator() ;
-}
-
-UAS_String Graphic::id()
-{
-  return fObj->id() ;
-}

@@ -113,3 +113,5 @@ private:   // data
 private:
   LONG_LIVED_HH( EnvMgr, env );
 };
+
+LONG_LIVED_HH2( EnvMgr, env ) ;

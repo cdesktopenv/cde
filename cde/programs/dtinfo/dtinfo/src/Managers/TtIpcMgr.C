@@ -142,7 +142,7 @@ LogToolTalkMessage (
     statmsg = tt_status_message(status);
     errmsg = XtMalloc(strlen(errfmt) + strlen(statmsg) + 2);
     if (! strlen(errfmt))
-      errfmt = "%s";
+      errfmt = (char*)"%s";
     sprintf(errmsg, errfmt, statmsg);
 
     DtMsgLogMessage ("Dtinfo", msg_type, errfmt, errmsg);
@@ -182,7 +182,7 @@ TtIpcMgr::TtIpcMgr()
   {
       errmsg = LogToolTalkMessage (DtMsgLogError, 
 				   ERR_TT_DISPLAY_AS_SESSION,
-				   DFLTXT_DISPLAY_AS_SESSION,
+				   (char*)DFLTXT_DISPLAY_AS_SESSION,
 				   tt_state);
       message_mgr().error_dialog( (char*)UAS_String(errmsg) ) ;
       XtFree (errmsg);
@@ -222,7 +222,7 @@ TtIpcMgr::TtIpcMgr()
 
 	      errmsg = LogToolTalkMessage (DtMsgLogError, 
 					   ERR_TT_PTYPE_DECLARE,
-					   DFLTXT_PTYPE_DECLARE,
+					   (char*)DFLTXT_PTYPE_DECLARE,
 					   tt_state);
               message_mgr().error_dialog( (char*)UAS_String(errmsg) );
 	      XtFree(errmsg);
@@ -232,7 +232,7 @@ TtIpcMgr::TtIpcMgr()
       {
         errmsg = LogToolTalkMessage (DtMsgLogError,
 				     ERR_TT_OPEN,
-				     DFLTXT_OPEN,
+				     (char*)DFLTXT_OPEN,
 				     tt_state);
         message_mgr().error_dialog( (char*)UAS_String(errmsg) );
 	XtFree(errmsg);
@@ -242,7 +242,7 @@ TtIpcMgr::TtIpcMgr()
   {
     errmsg = LogToolTalkMessage (DtMsgLogError, 
 				 ERR_TT_DEFAULT_AS_SESSION,
-				 DFLTXT_DEFAULT_AS_SESSION,
+				 (char*)DFLTXT_DEFAULT_AS_SESSION,
 				 tt_state);
     message_mgr().error_dialog( (char*)UAS_String(errmsg) );
     XtFree(errmsg);
@@ -827,7 +827,7 @@ locale_of_desktop()
 #ifdef DEBUG
         if (!WM_LOCALE_NAME)
             printf( "Atom WM_LOCALE_NAME not interned\n" );
-#endif DEBUG
+#endif
 
         if (!WM_LOCALE_NAME)	return (char *)NULL;
 
@@ -838,7 +838,7 @@ locale_of_desktop()
 #ifdef DEBUG
         if (!_DT_SM_WINDOW_INFO)
             printf( "Atom _DT_SM_WINDOW_INFO not interned\n" );
-#endif DEBUG
+#endif
 
         if (!_DT_SM_WINDOW_INFO)  return (char *)NULL;
 
@@ -856,8 +856,8 @@ locale_of_desktop()
             printf(
              "null value from Atom _DT_SM_WINDOW_INFO for SM window ID\n" );
         else
-            printf( "dtsession window is %x\n", *sm_prop_window );
-#endif DEBUG
+            printf( "dtsession window is %lx\n", *sm_prop_window );
+#endif
 
         if (!sm_prop_window)	return (char *)NULL;
 
@@ -872,7 +872,7 @@ locale_of_desktop()
 
 #ifdef DEBUG
         printf( "desktop's locale is %s\n", dt_locale ) ;
-#endif DEBUG
+#endif
 
         if (!dt_locale)   return (char *)NULL;
         else              return dt_locale;

@@ -47,7 +47,8 @@
  * 
  */
 
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 // NOTE: this is just for the Xassert
 #define C_MessageMgr
@@ -101,14 +102,14 @@ StyleSheetMgr::font_preference_modified()
   // scale is only updated when a new node is displayed. This is
   // managed by having NodeMgr create a CanvasRenderer and passing in
   // the current font scale value
-  try
+  mtry
     {
       g_style_sheet_update = TRUE;
       // load new style sheet
       node_mgr().re_display_all();
       g_style_sheet_update = FALSE;
     }
-  catch_any()
+  mcatch_any()
     {
       Xassert(0 == "StyleSheetMgr::font_preference_modified()");
       g_style_sheet_update = FALSE ;
@@ -146,7 +147,7 @@ StyleSheetMgr::initOnlineStyleSheet (UAS_Pointer<UAS_Common> &doc) {
     fLastSS = onlineSS;
     fCurrent = new StyleSheet;
     UAS_String sstextStr = fLastSS->data();
-    istrstream input ((char *) sstextStr);
+    istringstream input ((char *) sstextStr);
     g_stylein = &input;
 #ifdef DUMP_STYLESHEETS
   {
@@ -159,17 +160,17 @@ StyleSheetMgr::initOnlineStyleSheet (UAS_Pointer<UAS_Common> &doc) {
 	stylerestart (0);
     fStyleSheetRead = 1;
 
-    try {
+    mtry {
 	styleparse ();
     }
-    catch_noarg (StyleSheetSyntaxError) {
+    mcatch_noarg (StyleSheetSyntaxError) {
 	fLastSS = 0;
 	delete fCurrent;
 	{ //  Don't remove these curlies. For destructors before rethrow
 	fCurrent = new StyleSheet;
 	const char *def =
 	"* { wrap: \"word\", break: \"line\", margin: { left: 20, right: 20} }";
-	istrstream definput(def);
+	istringstream definput(def);
 	input.unsetf (ios::skipws);
 	g_stylein = &definput;
 	stylerestart(0);
@@ -204,7 +205,7 @@ StyleSheetMgr::initPrintStyleSheet (UAS_Pointer<UAS_Common> &doc) {
     fLastSS = printSS;
     fCurrent = new StyleSheet;
     UAS_String sstextStr = fLastSS->data();
-    istrstream input ((char *) sstextStr);
+    istringstream input ((char *) sstextStr);
     g_stylein = &input;
 #ifdef DUMP_STYLESHEETS
   {
@@ -217,17 +218,17 @@ StyleSheetMgr::initPrintStyleSheet (UAS_Pointer<UAS_Common> &doc) {
 	stylerestart (0);
     fStyleSheetRead = 1;
 
-    try {
+    mtry {
 	styleparse ();
     }
-    catch_noarg (StyleSheetSyntaxError) {
+    mcatch_noarg (StyleSheetSyntaxError) {
 	fLastSS = 0;
 	delete fCurrent;
 	{ //  Don't remove these curlies. For destructors before rethrow
 	fCurrent = new StyleSheet;
 	const char *def =
 	"* { wrap: \"word\", break: \"line\", margin: { left: 20, right: 20} }";
-	istrstream definput(def);
+	istringstream definput(def);
 	input.unsetf (ios::skipws);
 	g_stylein = &definput;
 	stylerestart(0);

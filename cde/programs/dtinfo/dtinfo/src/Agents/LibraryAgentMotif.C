@@ -51,8 +51,9 @@
 
 #include <sys/stat.h>
 
-#include <stream.h>
-#include <iostream.h>
+#include <sstream>
+#include <iostream>
+using namespace std;
 
 #define C_xList
 #define L_Support
@@ -85,6 +86,7 @@
 #define C_MessageMgr
 #define C_PrefMgr
 #define C_EnvMgr
+#define C_GraphicsMgr
 #define L_Managers
 
 
@@ -361,7 +363,7 @@ LibraryAgent::create_ui()
 
   n = 0;
   XtSetArg(args[n], XmNscrolledWindowChildType, XmMENU_BAR); n++;
-  Widget menu_bar = XmCreateMenuBar(mainw, "menu_bar", args, n);
+  Widget menu_bar = XmCreateMenuBar(mainw, (char*)"menu_bar", args, n);
 
   n = 0;
   XtSetArg(args[n], XmNorientation, XmHORIZONTAL); n++;
@@ -375,7 +377,7 @@ LibraryAgent::create_ui()
 				      mainw, args, n);
 
   // Menus
-  Widget fileM = XmCreatePulldownMenu(menu_bar, "file_menu", 0, 0);
+  Widget fileM = XmCreatePulldownMenu(menu_bar, (char*)"file_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, fileM); n++;
@@ -456,7 +458,7 @@ LibraryAgent::create_ui()
 	NULL);
 
   // edit menu
-  Widget editM = XmCreatePulldownMenu(menu_bar, "edit_menu", 0, 0);
+  Widget editM = XmCreatePulldownMenu(menu_bar, (char*)"edit_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, editM); n++;
@@ -504,7 +506,7 @@ LibraryAgent::create_ui()
 	NULL);
 
   // options menu
-  Widget optionsM = XmCreatePulldownMenu(menu_bar, "options_menu", 0, 0);
+  Widget optionsM = XmCreatePulldownMenu(menu_bar, (char*)"options_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, optionsM); n++;
@@ -572,7 +574,7 @@ LibraryAgent::create_ui()
 	NULL);
 
   // windows menu
-  Widget windowsM = XmCreatePulldownMenu(menu_bar, "windows_menu", 0, 0);
+  Widget windowsM = XmCreatePulldownMenu(menu_bar, (char*)"windows_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, windowsM); n++;
@@ -637,7 +639,7 @@ LibraryAgent::create_ui()
 	*CATGETS(Set_AgentLabel, 47, ""),
 	NULL);
 
-  Widget helpM = XmCreatePulldownMenu(menu_bar, "help_menu", 0, 0);
+  Widget helpM = XmCreatePulldownMenu(menu_bar, (char*)"help_menu", 0, 0);
 
   // create help menu
   n = 0;
@@ -731,17 +733,17 @@ LibraryAgent::create_ui()
   // WXmPushButtonGadget tmp_pbg(tmp);
   // help_agent().add_activate_help (tmp_pbg, "doc_list_help");
   WXmPushButtonGadget on_overview_pbg(on_overview);
-  help_agent().add_activate_help (on_overview, "on_overview");
+  help_agent().add_activate_help (on_overview, (char*)"on_overview");
   WXmPushButtonGadget on_tasks_pbg(on_tasks);
-  help_agent().add_activate_help (on_tasks, "on_tasks");
+  help_agent().add_activate_help (on_tasks, (char*)"on_tasks");
   WXmPushButtonGadget on_reference_pbg(on_reference);
-  help_agent().add_activate_help (on_reference, "on_reference");
+  help_agent().add_activate_help (on_reference, (char*)"on_reference");
   WXmPushButtonGadget on_item_pbg(on_item);
   help_agent().add_context_help (on_item);
   WXmPushButtonGadget on_help_pbg(on_help);
-  help_agent().add_activate_help (on_help,  "on_help");
+  help_agent().add_activate_help (on_help,  (char*)"on_help");
   WXmPushButtonGadget on_about_pbg(on_about);
-  help_agent().add_activate_help (on_about, "on_about");
+  help_agent().add_activate_help (on_about, (char*)"on_about");
 
   // Tools
   f_view2 = XtCreateManagedWidget("view", xmPushButtonWidgetClass,
@@ -864,11 +866,11 @@ LibraryAgent::create_ui()
   XtVaSetValues(f_status_text, XmNvalue, string, NULL);
 
   // Search area
-  widget = XmCreatePulldownMenu(search_area, "scope_menu", 0, 0);
+  widget = XmCreatePulldownMenu(search_area, (char*)"scope_menu", 0, 0);
 
   n = 0;
   XtSetArg(args[n], XmNsubMenuId, widget); n++;
-  XtManageChild(widget = XmCreateOptionMenu(search_area, "scope", args, n));
+  XtManageChild(widget = XmCreateOptionMenu(search_area, (char*)"scope", args, n));
   XtVaSetValues(widget,
 	XmNlabelString,
 	(XmString)XmStringLocalized(CATGETS(Set_AgentLabel, 59, "Search:")),
@@ -1013,7 +1015,7 @@ LibraryAgent::quick_helpEH (Widget w, XtPointer client_data,
   if (event->type == EnterNotify || event->type == FocusIn)
     XmTextFieldSetString(agent->f_status_text, (char*)client_data);
   else if (event->type == LeaveNotify || event->type != FocusOut)
-    XmTextFieldSetString(agent->f_status_text, "");
+    XmTextFieldSetString(agent->f_status_text, (char*)"");
 }
 
 
@@ -1052,7 +1054,7 @@ LibraryAgent::search_help (Widget, XtPointer client_data,
 
   if (event->type == LeaveNotify || event->type == FocusOut)
   {
-    XmTextFieldSetString(agent->f_status_text, "");
+    XmTextFieldSetString(agent->f_status_text, (char*)"");
     return;
   }
 
@@ -1170,7 +1172,7 @@ LibraryAgent::add_library(char* newLib, Widget parent)
     }
 
     UAS_Pointer<UAS_Common> d = NULL ;
-    try {
+    mtry {
         // (precise locator format parsing to be done in the UAS layer)
 
         if( strchr( newLib, ':' ) && strchr( newLib, '/' ) ) {
@@ -1232,7 +1234,7 @@ LibraryAgent::add_library(char* newLib, Widget parent)
 #endif
             sts = NOT_FOUND ;
 	}
-    } catch_any () {
+    } mcatch_any () {
         // one case that will reach here, but get no MMDB interface error
         // is if a (close to) fully qualified locator format is entered,
         // but with keyword error.
@@ -1545,6 +1547,7 @@ LibraryAgent::track_to (UAS_Pointer<UAS_Common> &node_ptr)
   OutlineList &rootList = *(f_doc_tree_view->list());
   bool in_subtree = FALSE;
   UAS_Pointer<UAS_Common> doc_root = node_ptr;
+  int inum;
 
   // Trace up to the root.
   free_tracking_hierarchy();
@@ -1554,6 +1557,7 @@ LibraryAgent::track_to (UAS_Pointer<UAS_Common> &node_ptr)
       for (int i = 0; i < rootList.length(); i ++) {
 	if (doc_root == ((TOC_Element *) rootList[i])->toc()) {
 	    in_subtree = TRUE;
+	    inum = i;
 	    break;
 	}
       }
@@ -1563,7 +1567,8 @@ LibraryAgent::track_to (UAS_Pointer<UAS_Common> &node_ptr)
   if (in_subtree)
     {
       ON_DEBUG (printf ("Found node <%s> in my doc list subtree <%s>\n",
-			node_ptr->title(), my_root->title()));
+		    (char*)node_ptr->title(),
+		    (char*)((TOC_Element *) rootList[inum])->toc()->title()));
       // Track to the element, scrolling if necessary. 
       track (TRUE);
     }
@@ -1619,7 +1624,8 @@ LibraryAgent::track (bool scroll)
 	  // If the entry is expanded, it MUST have children. 
 	  Xassert (oe->has_children());
 	  OutlineList &kids = *(oe->children());
-	  for (int i = 0; i < kids.length(); i++)
+	  int i;
+	  for (i = 0; i < kids.length(); i++)
 	    {
 	      // Keep track of how many expanded items we skip over.
 	      list_location++;
@@ -1742,7 +1748,8 @@ void
 LibraryAgent::library_removed (UAS_Pointer<UAS_Common> lib)
 {
     OutlineList &rootList = *(f_doc_tree_view->list());
-    for (int i = rootList.length() - 1; i >= 0; i --) {
+    int i;
+    for (i = rootList.length() - 1; i >= 0; i --) {
 	TOC_Element *te = (TOC_Element *) rootList[i];
 	if (te->toc()->get_library() == lib) {
 	    if (f_tracking_hierarchy && f_tracking_hierarchy->f_toc == lib) {
@@ -1974,13 +1981,13 @@ LibraryAgent::transferCB(Widget w, XtPointer client_data, XtPointer call_data)
 	url = url + file;
 
 	UAS_Pointer<UAS_Common> pIL;
-	try {
+	mtry {
 	    pIL = UAS_Common::create ((char*)url);
 	    if (! (pIL == (UAS_Pointer<UAS_Common>)NULL)) {
 		pIL->retrieve();
 	    }
 	}
-	catch_any() {
+	mcatch_any() {
 	    pIL = NULL;
 	}
 	end_try;
@@ -2009,7 +2016,7 @@ LibraryAgent::copy_to_clipbd()
   //Window window = XtWindowOfObject((Widget)f_shell);
   Window window = XtWindowOfObject(f_shell);
   long item_id = 0;
-  clip_label = XmStringCreateLocalized("Data");
+  clip_label = XmStringCreateLocalized((char*)"Data");
   Wait_Cursor bob;
   UAS_String nl("\n");
   
@@ -2040,7 +2047,7 @@ LibraryAgent::copy_to_clipbd()
                 window_system().display(),
                 window,
                 item_id,
-                "STRING",
+                (char*)"STRING",
                 (char*)buf, (long)strlen((char*)buf) + 1,
                 private_id, NULL);
   } while(status == ClipboardLocked);

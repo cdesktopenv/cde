@@ -50,7 +50,8 @@
  * 
  */
 
-#include <stream.h>
+#include <sstream>
+using namespace std;
 
 #define C_FString
 #define C_List
@@ -198,13 +199,13 @@ static char another_g_top_locator[4096] ;
  */
 static XtActionsRec DrawnBActions[] =
     {
-        {"DeSelectAll"    , _DtHelpDeSelectAll    },
-        {"SelectAll"      , _DtHelpSelectAll      },
-        {"ActivateLink"   , _DtHelpActivateLink   },
-        {"CopyToClipboard", _DtHelpCopyAction     },
-        {"PageUpOrDown"   , _DtHelpPageUpOrDown   },
-        {"PageLeftOrRight", _DtHelpPageLeftOrRight},
-        {"NextLink"       , _DtHelpNextLink       }
+        {(char*)"DeSelectAll"    , _DtHelpDeSelectAll    },
+        {(char*)"SelectAll"      , _DtHelpSelectAll      },
+        {(char*)"ActivateLink"   , _DtHelpActivateLink   },
+        {(char*)"CopyToClipboard", _DtHelpCopyAction     },
+        {(char*)"PageUpOrDown"   , _DtHelpPageUpOrDown   },
+        {(char*)"PageLeftOrRight", _DtHelpPageLeftOrRight},
+        {(char*)"NextLink"       , _DtHelpNextLink       }
     };
 
 //-------  Functions --------------------------------------------
@@ -224,7 +225,7 @@ _DtHelpCreatePrintArea(Widget parent,
     
     string_resolution =  
 	XpGetOneAttribute(XtDisplay(parent), l_AppPrintData->f_print_data->print_context,
-			  XPDocAttr, "default-printer-resolution");
+			  XPDocAttr, (char*)"default-printer-resolution");
     resolution = atoi(string_resolution);
     XFree(string_resolution);
 
@@ -331,7 +332,7 @@ NodePrintAgent::create_ui(Widget parent)
     // Setup up an outer form to hold the different page elements 
 
     n = 0;
-    f_form = XmCreateForm(parent, "outer_page", NULL, n);
+    f_form = XmCreateForm(parent, (char*)"outer_page", NULL, n);
 
     //  make sure the DtHelpDialog's actions are declared in order to satisfy
     //  the need of the DisplayArea 
@@ -346,17 +347,17 @@ NodePrintAgent::create_ui(Widget parent)
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNbottomAttachment, XmATTACH_FORM); n++; // bottom
-    footer_form = XmCreateForm(f_form, "footer", args, n);
+    footer_form = XmCreateForm(f_form, (char*)"footer", args, n);
 
     // Create a left attached label for the book name
 
-    label = XmStringCreate("", XmFONTLIST_DEFAULT_TAG);
+    label = XmStringCreate((char*)"", XmFONTLIST_DEFAULT_TAG);
     n = 0;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_BEGINNING); n++;
     XtSetArg(args[n], XmNlabelString, label); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
-    footer_book_name = XmCreateLabel(footer_form, "bookname", args, n);
+    footer_book_name = XmCreateLabel(footer_form, (char*)"bookname", args, n);
     XmStringFree(label);
 
     XtManageChild(footer_book_name);
@@ -370,13 +371,13 @@ NodePrintAgent::create_ui(Widget parent)
     XtSetArg(args[n], XmNlabelString, label); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
-    footer_page_no = XmCreateLabel(footer_form, "page_no", args, n);
+    footer_page_no = XmCreateLabel(footer_form, (char*)"page_no", args, n);
     XmStringFree(label);
 
     XtManageChild(footer_page_no);
     XtManageChild(footer_form);
 
-    f_help_dsp_area = _DtHelpCreatePrintArea(f_form, "DisplayArea", width, height);
+    f_help_dsp_area = _DtHelpCreatePrintArea(f_form, (char*)"DisplayArea", width, height);
     gHelpDisplayArea = f_help_dsp_area ;
 
     //  Setup Display Area attachments 

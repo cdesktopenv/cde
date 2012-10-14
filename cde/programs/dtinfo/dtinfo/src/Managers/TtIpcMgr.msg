@@ -1,5 +1,4 @@
 $ $XConsortium: TtIpcMgr.msg /main/4 1996/08/14 14:30:36 rcs $
-$ $XConsortium: TtIpcMgr.msg /main/4 1996/08/14 14:30:36 rcs $
 $
 $ (c) Copyright 1996 Digital Equipment Corporation.
 $ (c) Copyright 1996 Hewlett-Packard Company.
