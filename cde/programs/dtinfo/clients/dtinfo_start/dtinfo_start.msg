@@ -65,7 +65,7 @@ $ Messages 11-16: These message are the result of the dtinfo_start
 $   getting an error while trying to parse a ToolTalk message.
 $
 $   Do NOT localize the word NULL
-$   
+$
 11 The message operation '%d' is not supported.
 
 12 Message '%s' does not have the required\n\

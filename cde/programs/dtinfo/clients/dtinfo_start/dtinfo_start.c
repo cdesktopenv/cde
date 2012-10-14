@@ -116,7 +116,7 @@ static void DieFromToolTalkError (
 	Tt_status		status);
 
 
-void
+int
 main ( 
 	int 			argc,
 	char 			** argv) 
@@ -135,7 +135,7 @@ main (
 	app_context = XtCreateApplicationContext ();
 
 	if (!(display = XtOpenDisplay (app_context, NULL, NULL, name,
-                             	       NULL, NULL, &argc, argv))) {
+				       NULL, 0, &argc, argv))) {
 		DtMsgLogMessage (argv[0], DtMsgLogError, 
 			(char *) GETMESSAGE (SET_NUM, 7, "XtOpenDisplay() failed.  Perhaps the DISPLAY environment\nvariable is not set or is invalid."));
 		exit (1);
@@ -568,7 +568,7 @@ LogToolTalkError (
 static void
 ExitCB (Widget dialog, XtPointer client_data, XtPointer call_data)
 {
-    exit((int) client_data);
+    exit((size_t) client_data);
 }
 
 static void
