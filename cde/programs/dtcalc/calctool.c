@@ -378,7 +378,6 @@ int argc ;
 char **argv ;
 {
   char *ptr ;
-  int i ;
 
   v->progname = argv[0] ;     /* Save programs name. */
   v->appname  = NULL ;
@@ -476,7 +475,7 @@ int
 get_index(ch)
 char ch ;
 {
-  int n, val ;
+  int n ;
  
   for (n = 0; n < TITEMS; n++) {
     if (ch == buttons[n].value)  
@@ -1253,9 +1252,9 @@ int
 matherr(exc)        /* Default math library exception handling routine. */
 struct exception *exc ;
 {
+#if 0
   char msg[100];
   
-#if 0
   if (exc) {
 	  strcpy(msg, exc->name);
 	  strcat(msg, ": ");
@@ -1775,9 +1774,7 @@ void
 write_resources(filename)
 char *filename;
 {
-  char regval[5] ;
   char intval[5] ;
-  int i;
   int MPtemp[MP_SIZE];
 
   SPRINTF(intval, "%d", v->accuracy) ;

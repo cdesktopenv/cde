@@ -278,9 +278,7 @@ main(argc, argv)
 int argc ;
 char **argv ;
 {
-  char bind_home[MAXPATHLEN], **new_environ ;
   Pixmap pixmap;
-  int i, j ;
 
   XtSetLanguageProc(NULL, NULL, NULL);
   _DtEnvControl(DT_ENV_SET);
@@ -407,7 +405,6 @@ int row, column, maxrows, maxcols ;
   enum menu_type mtype = buttons[n].mtype ;
   Widget button ;
   XmString lstr ;
-  int result;
   Pixel bg;
 
   get_label(n) ;
@@ -756,7 +753,7 @@ Widget owner ;
   static char *mnames[] = { "base", "ttype", "num", "hyp",
                             "inv",  "op",  "mode" } ;
   int i, n, val;
-  Widget basePulldown, numPulldown, modePulldown, trigPulldown, dummyText;
+  Widget basePulldown, numPulldown, modePulldown, trigPulldown;
   Arg args[10];
   XmString label_string;
   Pixel tmp_pixelbg, tmp_pixelfg;
@@ -1591,9 +1588,7 @@ int row, column, inverted ;
 {
   char str[10] ;
   Widget widget ;
-  XmPushButtonWidget pb;
   int i, j, row2, column2;
-  static XtIntervalId timerId = 0;
 
   if(inverted)
   {
@@ -2268,7 +2263,8 @@ int type;
 {
   char line[MAXLINE] ;     /* Current memory register line. */
   char *ptr, *tmp, *tmpStr;
-  int i, savAcc ;
+  int i;
+/*  int savAcc;*/
   XmString str, numStr ;
   int MPtemp[MP_SIZE];
 
@@ -2614,7 +2610,7 @@ show_ascii_frame()      /* Display ASCII popup. */
 {
   int j;
   XmString tstr ;
-  Widget sep, frame, form;
+  Widget sep;
   Arg args[15];
   XmString label_string;
 
@@ -2991,8 +2987,6 @@ static void
 switch_mode(curmode)
 enum mode_type curmode ;
 {
-  int i ;
-  XmString lstr;
   Arg args[2];
 
   v->modetype = curmode ;
@@ -3349,7 +3343,7 @@ Widget widget ;
 XtPointer client_data, call_data ;
 {
   Arg args[1];
-  int position, val, choice;
+  int val, choice;
 
   X->mtype = (enum menu_type) client_data ;
   XtSetArg (args[0], XmNuserData, &val);
@@ -3371,17 +3365,15 @@ create_menu_bar(parent)
 Widget parent;
 {
    register int n;
-   int i, j, val, count;
+   int count;
    Widget WidgList[10];
    Arg args[5];
    char *mnemonic;
    XmString labelString;
    Widget child, mem_reg;
    Widget lastCascadeButtonGadget;
-   Widget lastCascadeButton;
    Widget lastMenuPane;
    Widget helpPulldown;
-   Widget lastCascadeMenuPane;
 
 
    /*  Create the pulldown menu  */
@@ -3673,7 +3665,6 @@ XtPointer call_data ;
 void
 read_resources()    /* Read all possible resources from the database. */
 {
-  int boolval, i, intval ;
   char str[MAXLINE] ;
   char *msg;
 
@@ -3848,9 +3839,7 @@ XtPointer client_data, call_data ;
 create_popup(parent)
 Widget parent;
 {
-  int n;
   char *mnemonic;
-  Arg args[10];
   XmString label;
   Widget dummyHelp1, dummyHelp2, memRegs;
   Widget help, helpI, helpToc, helpT, helpR, helpO, helpU, helpV;
@@ -4200,7 +4189,6 @@ XtPointer call_data ;
 {
    char *full_path = NULL;
    char *file_name = NULL;
-   char *strPtr;
    char *sessionFileName;
 
    char **restart_argv = NULL;
@@ -4272,7 +4260,6 @@ SaveSession( path, file_name )
         char *path ;
         char *file_name ;
 {
-   char workspaceNumber[5];
    int fd;
    Atom * ws_presence = NULL;
    char * workspace_name;
@@ -4287,12 +4274,8 @@ SaveSession( path, file_name )
    Position x, y;
    Dimension width, height;
 
-   char * command;
-   int command_len;
-   int i;
    int j;
    char * msg;
-   int view_index;
    char * tmpStr;
    XmVendorShellExtObject vendorExt;
    XmWidgetExtData        extData;
@@ -4399,11 +4382,9 @@ RestoreSession()
    Boolean status=False;
    char *path, *msg;
    char str[MAXLINE] ;
-   char temp[MAXLINE] ;
    char * full_path = NULL;
    XrmDatabase db;
    int boolval, i, intval ;
-   double result;
    int MPtemp[MP_SIZE];
 
    status = DtSessionRestorePath(X->kframe, &full_path,

@@ -442,7 +442,6 @@ GetHelpDialog()
 
     HelpStruct *pHelp;
     Arg args[5];
-    int n;
 
     if(pHelpCache == (HelpStruct *)NULL)
     {

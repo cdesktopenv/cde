@@ -76,8 +76,6 @@ do_accuracy()     /* Set display accuracy. */
 void
 do_ascii()        /* Convert ASCII value. */
 {
-  int val ;
-
   show_ascii_frame() ;
 }
 
@@ -112,8 +110,7 @@ do_business()     /* Perform special business mode calculations. */
   Boolean need_show = TRUE;
   char *display_number = NULL;
   int MPbv[MP_SIZE], MP1[MP_SIZE], MP2[MP_SIZE], MP3[MP_SIZE], MP4[MP_SIZE] ;
-  int MP5[MP_SIZE];
-  int i, len, val, val2, accSav ;
+  int i, len, val, accSav ;
   double result, w;
 
   if (IS_KEY(v->current, KEY_CTRM))
@@ -1166,7 +1163,7 @@ do_portion()
 void
 do_shift()     /* Perform bitwise shift on display value. */
 {
-  int i, MPtemp[MP_SIZE], shift ;
+  int MPtemp[MP_SIZE], shift ;
   BOOLEAN temp ;
   double dval ;
 

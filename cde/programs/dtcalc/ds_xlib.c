@@ -94,7 +94,7 @@ char *appname ;                           /* Application name. */
 char *resource ;                          /* X resource to search for. */
 {
   char app[MAXLINE], res[MAXLINE] ;
-  char cstr[MAXLINE], nstr[MAXLINE], str[MAXLINE] ;
+  char cstr[MAXLINE], nstr[MAXLINE] ;
   char *str_type[20] ;
   XrmValue value ;
 
