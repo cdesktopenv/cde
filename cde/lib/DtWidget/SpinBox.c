@@ -575,7 +575,6 @@ Initialize(	DtSpinBoxWidget request,
 {   /* MotifBc */
     DtSpinBoxPart *spin_p = (DtSpinBoxPart*)
         &(XmField(new,ipot,DtSpinBox,label,Widget));
-    Widget parent;
     char *widget_name;
     Arg args[20];
     int n;
@@ -1312,7 +1311,6 @@ ForceChildSizes(DtSpinBoxWidget spin)
 {
     Dimension available_height, available_width, arrow_width;
     /* MotifBc & Resolution Independent */
-    Dimension width, height, border_width;
     Arg args[3];
     unsigned char unit_type = XmPIXELS;
 
@@ -1818,10 +1816,6 @@ StoreResourceInfo(	DtSpinBoxPart *spin_p,
 			Boolean do_items)
 {
     XmStringTable table;
-    XmFontList font_list;
-    Dimension width, height;
-    Dimension longest = 0;
-    Dimension highest = 0;
     int i, base = 1;
 
     if (do_items && spin_p->items) {
@@ -2327,9 +2321,6 @@ down_cb(Widget w,
     DtSpinBoxWidget spin = (DtSpinBoxWidget)client_data;
     DtSpinBoxPart *spin_p = (DtSpinBoxPart*)
 	&(XmField(spin,ipot,DtSpinBox,label,Widget));
-    XmArrowButtonCallbackStruct *arrow_data;
-    XEvent *last_event = NULL;
-    int repeat_delay = RepeatDelay(spin);
     Boolean crossed_boundary = FALSE;
     int new_position = Position(spin);
     float new_current = Current(spin);
@@ -2531,7 +2522,7 @@ DtSpinBoxAddItem(	Widget spinw,
     DtSpinBoxWidget spin = (DtSpinBoxWidget)spinw;
     DtSpinBoxPart *spin_p;
     XmString old, new_str, tmp;
-    int total_items, i;
+    int total_items;
     _DtWidgetToAppContext(spinw);
     _DtAppLock(app);
 

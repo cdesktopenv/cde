@@ -451,7 +451,6 @@ insertDataValue(
 	XmTextPosition	 beginInsert,
 	XmTextPosition	 endInsert)
 {
-   char *textData;
    DtEditorErrorCode status = DtEDITOR_NULL_ITEM, loadError;
 
    /*
@@ -1043,7 +1042,6 @@ _DtEditorValidateFileAccess(
 	int	accessType )
 {
    struct stat statbuf;	/* Information on a file. */
-   unsigned short tmpMode;
 
    DtEditorErrorCode error = DtEDITOR_INVALID_FILENAME;
 
@@ -1192,7 +1190,6 @@ LoadFile(
 	XmTextPosition	 endReplace )
 
 {
-    DtEditorWidget editor = (DtEditorWidget) w;
     DtEditorContentRec cr;	/* Structure for passing data to widget */
     struct stat statbuf;	/* Information on a file. */
     int file_length;            /* Length of file. */
@@ -1390,7 +1387,7 @@ CopySubstring(
         Boolean addNewlines)
 {
     register XmTextLineTable line_table = widget->text.line_table;
-    int last_line_index, currLine, firstLine;
+    int currLine, firstLine;
     char *pString, *pCurrChar, *pLastChar;
     int numToCopy;
 
@@ -1534,9 +1531,6 @@ _DtEditorCopyDataOut(
         char *buf,
 	Boolean addNewlines)
 {
-    XmTextPosition curCharNum;
-    DtEditorWidget editor = M_editor(tw);
-
     buf = CopySubstring(tw, 0, tw->text.last_position, buf, addNewlines);
 
     return buf;
@@ -1759,7 +1753,6 @@ DtEditorSaveContentsToFile(
 	Boolean			markContentsAsSaved )
 {
 
-   struct stat statbuf;		/* Information on a file. */
    FILE *pFile;
    DtEditorContentRec cr;  /* Structure for retrieving contents of widget */
    DtEditorWidget editor = (DtEditorWidget) widget;

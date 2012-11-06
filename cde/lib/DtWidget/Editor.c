@@ -4013,11 +4013,9 @@ Editor_SetSelectionProc(
         Time set_time )  
 {
     XmSourceData data = source->data;
-    int 				i;
     Widget 				widget;
     XmTextWidget 			tw;
     DtEditorWidget 			editor;
-    DtEditorSelectCallbackStruct	select_cb;
 
 
     /*
@@ -4212,7 +4210,6 @@ TransferCallback(
 
     DtDndTransferCallbackStruct *transferInfo = 
 				    (DtDndTransferCallbackStruct *) call_data;
-    DtEditorWidget editor = (DtEditorWidget) client_data;
 
     transferInfo->status = DtDND_SUCCESS;
 

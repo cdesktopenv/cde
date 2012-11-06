@@ -908,7 +908,6 @@ _DtEditorDialogReplaceCB(
         caddr_t client_data,
         caddr_t call_data )
 {
-    Arg al[10];                 /* arg list */
     DtEditorWidget pPriv = (DtEditorWidget) client_data;
 
     /*
@@ -1098,8 +1097,6 @@ _DtEditorMisspelledDblClickCB(
         caddr_t client_data,
         caddr_t call_data )
 {
-    XmListCallbackStruct *cb = (XmListCallbackStruct *)call_data;
-
     _DtEditorMisspelledSelectCB(w, client_data, call_data );
     _DtEditorDialogSearchCB(w, client_data, call_data );
 } /* end _DtEditorMisspelledDblClickCB */

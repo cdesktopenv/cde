@@ -757,12 +757,6 @@ Redisplay(
 			h =	 	M_Height (manager),
 			s_t = 		M_ShadowThickness (manager);
 
-	GC		top_gc = 	NULL,
-			bottom_gc = 	NULL,
-			fill_gc = 	NULL;
-	Boolean		s_out = 	False,
-			s_etched = 	False;
-	Drawable	drawable = 	XtWindow (manager);
 	Position	x = 0,
 			y = title_height / 2 - s_t / 2;
 
@@ -931,18 +925,12 @@ QueryGeometry(
         XtWidgetGeometry *request,
         XtWidgetGeometry *reply )
 {
-	Position	x = M_X (manager),
-			y = M_Y (manager);
 	Dimension	w = M_Width (manager),
 			h = M_Height (manager),
-			bw = M_BorderWidth (manager),
 			new_w = 0,
 			new_h = 0;
-	Boolean		x_req = request->request_mode & CWX,
-			y_req = request->request_mode & CWY,
-			width_req = request->request_mode & CWWidth,
-			height_req = request->request_mode & CWHeight,
-			bw_req = request->request_mode & CWBorderWidth;
+	Boolean		width_req = request->request_mode & CWWidth,
+			height_req = request->request_mode & CWHeight;
 
 /*	Compute preferred size if preferred width or height requested.
 */
@@ -985,13 +973,11 @@ GeometryManager(
         XtWidgetGeometry *reply )
 {
 	DtTitleBoxWidget	manager = (DtTitleBoxWidget) XtParent (kid);
-	Widget		title_area = M_TitleArea (manager),
-			work_area = M_WorkArea (manager);
+	Widget		title_area = M_TitleArea (manager);
 	Dimension	ta_w = 0, ta_h = 0, ta_bw = 0,
 			wa_w = 0, wa_h = 0,
 			w = M_Width (manager),
-			h = M_Height (manager),
-			sp = M_TitleSpacing (manager);
+			h = M_Height (manager);
 	Boolean		query_only = request->request_mode & XtCWQueryOnly,
 			x_req = request->request_mode & CWX,
 			y_req = request->request_mode & CWY,
@@ -1140,7 +1126,6 @@ InsertChild(
 	DtTitleBoxWidget	w;
 	XmManagerWidgetClass	mc = (XmManagerWidgetClass)
 						xmManagerWidgetClass;
-	unsigned char		child_type;
 	XtWidgetProc		insert_child;
 
 	_DtProcessLock();

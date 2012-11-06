@@ -745,7 +745,6 @@ Destroy(
 	DtMenuButtonWidget mb = (DtMenuButtonWidget) wid ;
 	XmRowColumnWidget submenu = (XmRowColumnWidget) MB_SMENU(mb);
 	Widget shell;
-	Display *dpy = XtDisplay(wid);
 	
 	XtRemoveAllCallbacks ((Widget) mb, DtNcascadingCallback);
 	
@@ -799,7 +798,6 @@ SetValues(
 	Boolean adjustWidth = FALSE;
 	Boolean adjustHeight = FALSE;
 	unsigned char rowcol_type = 0;
-	Display *dpy = XtDisplay(nw);
 	Boolean menu_glyph_changed = FALSE;
 	
 	if (MB_SMENU(new_w) != (Widget)NULL) {

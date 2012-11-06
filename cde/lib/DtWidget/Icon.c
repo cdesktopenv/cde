@@ -3635,7 +3635,6 @@ LoadPixmap(
         String pixmap )
 
 {
-   Display * display = XtDisplay(new);
    unsigned int int_h, int_w;
    Screen *s = XtScreen(new);
    Pixmap pm = XmGetPixmap(s, pixmap, G_PixmapForeground(new),
@@ -3955,7 +3954,6 @@ AnimateCallback(
     XtPointer   clientData,
     XtPointer   callData )
 {
-  DtDndDropAnimateCallback call_data = (DtDndDropAnimateCallback) callData;
   DtIconGadget g = (DtIconGadget) w;
 
   if (G_DropCallback(g)) {

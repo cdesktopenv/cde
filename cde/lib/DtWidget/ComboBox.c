@@ -1025,7 +1025,6 @@ _ComboBoxKbdCancel(	Widget w,
 {
     DtComboBoxWidget combo;
     XtPointer data;
-    Widget new;
     Arg args[1];
 
     /* Get combo-box off list data */
@@ -1462,8 +1461,6 @@ SetValues(	DtComboBoxWidget current,
 {
     DtComboBoxPart *new_p = (DtComboBoxPart*)
 	&(XmField(new,ipot,DtComboBox,arrow,Widget));
-    DtComboBoxPart *cur_p = (DtComboBoxPart*)
-	&(XmField(current,ipot,DtComboBox,arrow,Widget));
     Boolean label_size_changed = FALSE;
     Boolean force_label_string = FALSE;
     Arg args[10];
@@ -2471,7 +2468,6 @@ activate_cb(	Widget w,
     Position root_x, root_y, root_y0;
     Arg args[5];
     int n;
-    XmStringTable list_items;
     unsigned char unit_type = XmPIXELS;
 
     /* Resolution Independent Handling */
@@ -2656,7 +2652,6 @@ arrow_expose_cb(Widget w,
     short center_w;
     short center_h;
     XPoint points[10];
-    short min;
     Arg args[3];
     GC gc;
     Dimension arrow_width, arrow_height;
@@ -2733,7 +2728,7 @@ arrow_expose_cb(Widget w,
  * the user if they requested it.  Our losing-focus callback 
  * is just a convenience callback, so that the user doesn't
  * have to get the text-field first.  This make our integration
- * with XDesigner a little easier.
+ * with XDesigner a little easier.d
  */
 static void
 text_losing_focus_cb(	Widget w,

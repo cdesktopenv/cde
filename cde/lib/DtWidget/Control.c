@@ -481,7 +481,6 @@ static void
 CheckFile(
         DtControlGadget g )
 {
-  Boolean		result;
   Boolean		file_changed;
   long		file_size = 0;
   struct stat	stat_buf;
@@ -604,12 +603,10 @@ DateTimeout(
   XtAppContext		app_context =
     XtWidgetToApplicationContext ((Widget) g);
   char			sTime[128];
-  _Xltimeparams		localtime_buf;
   struct tm		*timeptr;
   time_t	 	tse;
   String	 	s1, s2, s3;
   unsigned long		tilMidnight;
-  Boolean		old_format = False;
   XtExposeProc		expose;
   
   /*	Get time string.
@@ -765,12 +762,9 @@ Initialize(
 {
   DtControlGadget	request = (DtControlGadget) request_w,
   new = (DtControlGadget) new_w;
-  XmManagerWidget		mw = (XmManagerWidget) XtParent (new);
   XtAppContext	app_context =
     XtWidgetToApplicationContext (new_w);
-  String		str;
-  int		file_name_size;				
-  XrmValue	pixVal;
+  String		str;			
   UpdateGCsProc	update_gcs;
   
   G_MonitorTimer (new) = 0;
@@ -1005,8 +999,7 @@ SetValues(
 {
 
 
-    DtControlGadget	request_c =	(DtControlGadget) request_w,
-			current_c =	(DtControlGadget) current_w,
+    DtControlGadget	current_c =	(DtControlGadget) current_w,
 			new_c =		(DtControlGadget) new_w;
 #if 0
 	String		file_name =	G_FileName (new);
@@ -1302,8 +1295,6 @@ Draw(
   XRectangle		clip;
   Position		p_x, p_y, s_x, s_y;
   Dimension		width = 0, height = 0;
-  unsigned char		behavior =	G_Behavior (g);
-  Position		adj_x, adj_y;
   Pixmap		pix;
   Pixmap		mask;
   int			index;
@@ -1847,7 +1838,6 @@ _DtControlDoPushAnimation(
 	Widget w )
 {
   DtControlGadget	 g = (DtControlGadget) w;
-  XtAppContext		 app_context = XtWidgetToApplicationContext (w);
   
   if ((G_NumPushImages (g) > 0) && (G_PushImagePosition (g) == 0))
     {
@@ -1869,10 +1859,7 @@ _DtControlAddPushAnimationImage(
         int delay )
 {
   DtControlGadget	 g = (DtControlGadget) w;
-  XmManagerWidget	 mw = (XmManagerWidget) XtParent (w);
   int			 i;
-  XGCValues		 values;
-  XtGCMask		 value_mask;
   
   /*	Allocate blocks of animation data.
    */
@@ -1940,7 +1927,6 @@ _DtControlDoDropAnimation(
 	Widget w )
 {
   DtControlGadget	 g = (DtControlGadget) w;
-  XtAppContext		 app_context = XtWidgetToApplicationContext (w);
   
   if ((G_NumDropImages (g) > 0) && (G_DropImagePosition (g) == 0))
     {
@@ -1962,10 +1948,7 @@ _DtControlAddDropAnimationImage(
         int delay )
 {
   DtControlGadget	 g = (DtControlGadget) w;
-  XmManagerWidget	 mw = (XmManagerWidget) XtParent (w);
   int			 i;
-  XGCValues		 values;
-  XtGCMask		 value_mask;
   
   /*	Allocate blocks of animation data.
    */

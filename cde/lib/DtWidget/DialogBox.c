@@ -382,12 +382,7 @@ Initialize(
         Widget request_w,
         Widget new_w )
 {
-	DtDialogBoxWidget	request	= (DtDialogBoxWidget) request_w,
-				new	= (DtDialogBoxWidget) new_w;
-	Widget		sep;
-
-	Arg		al[20];		/*  arg list		*/
-	register int	ac;		/*  arg count		*/
+	DtDialogBoxWidget	new	= (DtDialogBoxWidget) new_w;
 	XtWidgetProc	create_children;
 
 	if (M_ButtonCount (new) > 0)
@@ -437,10 +432,6 @@ SetValues(
         Widget request_w,
         Widget new_w )
 {
-	DtDialogBoxWidget	current	= (DtDialogBoxWidget) current_w,
-				request	= (DtDialogBoxWidget) request_w,
-				new	= (DtDialogBoxWidget) new_w;
-
 	Boolean redraw_flag = False;
 
 /*	Superclass does all the work so far; checks for redisplay, etc.
@@ -641,7 +632,7 @@ GetSize(
 				i;		      
 	Boolean			min_btns =	M_MinimizeButtons (mgr);
 	Dimension		sep_h =	0,
-				b_h, offset = OFFSET, pad,
+				offset = OFFSET, pad,
 				max_w = 0, max_h = 0,
 				s_t =		M_ShadowThickness (mgr);
 	XtWidgetGeometry	request, reply;
