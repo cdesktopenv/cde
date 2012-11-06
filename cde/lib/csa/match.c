@@ -101,7 +101,7 @@ _DtCmHashCriteria(
 	int	i, j, index, starti = -1, endi = -1;
 	time_t	tstart1, tstart2, tend1, tend2;
 	time_t	tick;
-	char	*ptr, *name;
+	char	*name;
 	cms_attribute_value	*val, *hval;
 	boolean_t keep;
 
@@ -399,7 +399,7 @@ _DtCm_match_reminders(Reminder_4 *rems, uint num_names, char **names)
 {
 	Reminder_4 *head = NULL;
 	Reminder_4 *freelist = NULL;
-	Reminder_4 *nptr, *rlist;
+	Reminder_4 *nptr;
 	
 	if (rems == NULL)
 		return (NULL);

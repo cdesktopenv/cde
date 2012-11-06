@@ -63,9 +63,6 @@ xdr_time_t(register XDR *xdrs, time_t *objp)
 bool_t
 xdr_cms_name(register XDR *xdrs, cms_name *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, objp, ~0))
 		return (FALSE);
 	return (TRUE);
@@ -78,9 +75,6 @@ xdr_cms_name(register XDR *xdrs, cms_name *objp)
 bool_t
 xdr_cms_access_entry(register XDR *xdrs, cms_access_entry *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->user, ~0))
 		return (FALSE);
 	if (!xdr_u_int(xdrs, &objp->rights))
@@ -99,9 +93,6 @@ xdr_cms_access_entry(register XDR *xdrs, cms_access_entry *objp)
 bool_t
 xdr_cms_key(register XDR *xdrs, cms_key *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_time_t(xdrs, &objp->time))
 		return (FALSE);
 	if (!xdr_long(xdrs, &objp->id))
@@ -112,9 +103,6 @@ xdr_cms_key(register XDR *xdrs, cms_key *objp)
 bool_t
 xdr_CSA_opaque_data(register XDR *xdrs, CSA_opaque_data *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_bytes(xdrs, (char **)&objp->data, (u_int *) &objp->size, ~0))
 		return (FALSE);
 	return (TRUE);
@@ -123,9 +111,6 @@ xdr_CSA_opaque_data(register XDR *xdrs, CSA_opaque_data *objp)
 bool_t
 xdr_CSA_reminder(register XDR *xdrs, CSA_reminder *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->lead_time, ~0))
 		return (FALSE);
 	if (!xdr_string(xdrs, &objp->snooze_time, ~0))
@@ -140,9 +125,6 @@ xdr_CSA_reminder(register XDR *xdrs, CSA_reminder *objp)
 bool_t
 xdr_CSA_date_time_entry(register XDR *xdrs, CSA_date_time_entry *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->date_time, ~0))
 		return (FALSE);
 	if (!xdr_pointer(xdrs, (char **)&objp->next,
@@ -154,9 +136,6 @@ xdr_CSA_date_time_entry(register XDR *xdrs, CSA_date_time_entry *objp)
 bool_t
 xdr_cms_attribute_value(register XDR *xdrs, cms_attribute_value *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_int(xdrs, &objp->type))
 		return (FALSE);
 
@@ -217,9 +196,6 @@ xdr_cms_attribute_value(register XDR *xdrs, cms_attribute_value *objp)
 bool_t
 xdr_cms_attr_name(register XDR *xdrs, cms_attr_name *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_short(xdrs, &objp->num))
 		return (FALSE);
 	if (!xdr_string(xdrs, &objp->name, ~0))
@@ -234,9 +210,6 @@ xdr_cms_attr_name(register XDR *xdrs, cms_attr_name *objp)
 bool_t
 xdr_cms_attribute(register XDR *xdrs, cms_attribute *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_cms_attr_name(xdrs, &objp->name))
 		return (FALSE);
 	if (!xdr_pointer(xdrs, (char **)&objp->value,
@@ -254,9 +227,6 @@ xdr_cms_attribute(register XDR *xdrs, cms_attribute *objp)
 bool_t
 xdr_cms_entry(register XDR *xdrs, cms_entry *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_cms_key(xdrs, &objp->key))
 		return (FALSE);
 	if (!xdr_array(xdrs, (char **)&objp->attrs, (u_int *) &objp->num_attrs,
@@ -278,9 +248,6 @@ xdr_cms_entry(register XDR *xdrs, cms_entry *objp)
 bool_t
 xdr_cms_enumerate_calendar_attr_res(register XDR *xdrs, cms_enumerate_calendar_attr_res *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_array(xdrs, (char **)&objp->names, (u_int *) &objp->num_names,
@@ -299,9 +266,6 @@ xdr_cms_enumerate_calendar_attr_res(register XDR *xdrs, cms_enumerate_calendar_a
 bool_t
 xdr_cms_list_calendars_res(register XDR *xdrs, cms_list_calendars_res *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_array(xdrs, (char **)&objp->names, (u_int *) &objp->num_names,
@@ -318,9 +282,6 @@ xdr_cms_list_calendars_res(register XDR *xdrs, cms_list_calendars_res *objp)
 bool_t
 xdr_cms_open_args(register XDR *xdrs, cms_open_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_int(xdrs, &objp->pid))
@@ -343,9 +304,6 @@ xdr_cms_open_args(register XDR *xdrs, cms_open_args *objp)
 bool_t
 xdr_cms_open_res(register XDR *xdrs, cms_open_res *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_int(xdrs, &objp->svr_vers))
@@ -368,9 +326,6 @@ xdr_cms_open_res(register XDR *xdrs, cms_open_res *objp)
 bool_t
 xdr_cms_create_args(register XDR *xdrs, cms_create_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_string(xdrs, &objp->char_set, ~0))
@@ -391,9 +346,6 @@ xdr_cms_create_args(register XDR *xdrs, cms_create_args *objp)
 bool_t
 xdr_cms_remove_args(register XDR *xdrs, cms_remove_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_int(xdrs, &objp->pid))
@@ -409,9 +361,6 @@ xdr_cms_remove_args(register XDR *xdrs, cms_remove_args *objp)
 bool_t
 xdr_cms_register_args(register XDR *xdrs, cms_register_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_u_int(xdrs, &objp->update_type))
@@ -437,9 +386,6 @@ xdr_cms_register_args(register XDR *xdrs, cms_register_args *objp)
 bool_t
 xdr_cms_get_cal_attr_res(register XDR *xdrs, cms_get_cal_attr_res *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_array(xdrs, (char **)&objp->attrs, (u_int *) &objp->num_attrs,
@@ -456,9 +402,6 @@ xdr_cms_get_cal_attr_res(register XDR *xdrs, cms_get_cal_attr_res *objp)
 bool_t
 xdr_cms_get_cal_attr_args(register XDR *xdrs, cms_get_cal_attr_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_array(xdrs, (char **)&objp->names, (u_int *) &objp->num_names,
@@ -475,9 +418,6 @@ xdr_cms_get_cal_attr_args(register XDR *xdrs, cms_get_cal_attr_args *objp)
 bool_t
 xdr_cms_set_cal_attr_args(register XDR *xdrs, cms_set_cal_attr_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_int(xdrs, &objp->pid))
@@ -498,9 +438,6 @@ xdr_cms_set_cal_attr_args(register XDR *xdrs, cms_set_cal_attr_args *objp)
 bool_t
 xdr_cms_archive_res(register XDR *xdrs, cms_archive_res *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_string(xdrs, &objp->data, ~0))
@@ -516,9 +453,6 @@ xdr_cms_archive_res(register XDR *xdrs, cms_archive_res *objp)
 bool_t
 xdr_cms_archive_args(register XDR *xdrs, cms_archive_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_bool(xdrs, &objp->delete))
@@ -542,9 +476,6 @@ xdr_cms_archive_args(register XDR *xdrs, cms_archive_args *objp)
 bool_t
 xdr_cms_restore_args(register XDR *xdrs, cms_restore_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_string(xdrs, &objp->data, ~0))
@@ -568,9 +499,6 @@ xdr_cms_restore_args(register XDR *xdrs, cms_restore_args *objp)
 bool_t
 xdr_cms_reminder_ref(register XDR *xdrs, cms_reminder_ref *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->reminder_name, ~0))
 		return (FALSE);
 	if (!xdr_string(xdrs, &objp->entryid, ~0))
@@ -595,9 +523,6 @@ xdr_cms_reminder_ref(register XDR *xdrs, cms_reminder_ref *objp)
 bool_t
 xdr_cms_reminder_res(register XDR *xdrs, cms_reminder_res *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_pointer(xdrs, (char **)&objp->rems, sizeof (cms_reminder_ref),
@@ -614,9 +539,6 @@ xdr_cms_reminder_res(register XDR *xdrs, cms_reminder_res *objp)
 bool_t
 xdr_cms_reminder_args(register XDR *xdrs, cms_reminder_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_time_t(xdrs, &objp->tick))
@@ -637,9 +559,6 @@ xdr_cms_reminder_args(register XDR *xdrs, cms_reminder_args *objp)
 bool_t
 xdr_cms_entries_res(register XDR *xdrs, cms_entries_res *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_pointer(xdrs, (char **)&objp->entries, sizeof (cms_entry),
@@ -656,9 +575,6 @@ xdr_cms_entries_res(register XDR *xdrs, cms_entries_res *objp)
 bool_t
 xdr_cms_lookup_entries_args(register XDR *xdrs, cms_lookup_entries_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_string(xdrs, &objp->char_set, ~0))
@@ -680,9 +596,6 @@ xdr_cms_lookup_entries_args(register XDR *xdrs, cms_lookup_entries_args *objp)
 bool_t
 xdr_cms_enumerate_args(register XDR *xdrs, cms_enumerate_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_long(xdrs, &objp->id))
@@ -704,9 +617,6 @@ xdr_cms_get_entry_attr_res_item(
 	register XDR			*xdrs,
 	cms_get_entry_attr_res_item	*objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_cms_key(xdrs, &objp->key))
@@ -732,9 +642,6 @@ xdr_cms_get_entry_attr_res_item(
 bool_t
 xdr_cms_get_entry_attr_res(register XDR *xdrs, cms_get_entry_attr_res *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_pointer(xdrs, (char **)&objp->entries,
@@ -752,9 +659,6 @@ xdr_cms_get_entry_attr_res(register XDR *xdrs, cms_get_entry_attr_res *objp)
 bool_t
 xdr_cms_get_entry_attr_args(register XDR *xdrs, cms_get_entry_attr_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_array(xdrs, (char **)&objp->keys, (u_int *) &objp->num_keys,
@@ -776,9 +680,6 @@ xdr_cms_get_entry_attr_args(register XDR *xdrs, cms_get_entry_attr_args *objp)
 bool_t
 xdr_cms_entry_res(register XDR *xdrs, cms_entry_res *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_u_long(xdrs, &objp->stat))
 		return (FALSE);
 	if (!xdr_pointer(xdrs, (char **)&objp->entry, sizeof (cms_entry),
@@ -795,9 +696,6 @@ xdr_cms_entry_res(register XDR *xdrs, cms_entry_res *objp)
 bool_t
 xdr_cms_insert_args(register XDR *xdrs, cms_insert_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_int(xdrs, &objp->pid))
@@ -816,9 +714,6 @@ xdr_cms_insert_args(register XDR *xdrs, cms_insert_args *objp)
 bool_t
 xdr_cms_update_args(register XDR *xdrs, cms_update_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_int(xdrs, &objp->pid))
@@ -841,9 +736,6 @@ xdr_cms_update_args(register XDR *xdrs, cms_update_args *objp)
 bool_t
 xdr_cms_delete_args(register XDR *xdrs, cms_delete_args *objp)
 {
-
-	register long *buf;
-
 	if (!xdr_string(xdrs, &objp->cal, ~0))
 		return (FALSE);
 	if (!xdr_int(xdrs, &objp->pid))

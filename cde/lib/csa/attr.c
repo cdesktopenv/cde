@@ -1668,7 +1668,6 @@ hash_entry_attrs(
 	cms_attribute	**hattrs,
 	uint		*num)
 {
-	CSA_return_code		stat;
 	int			i, j, index, count = 0;
 	cms_attribute		*nattrs;
 	char			*name;
@@ -1718,7 +1717,6 @@ hash_cal_attrs(
 	cms_attribute	**hattrs,
 	uint		*num)
 {
-	CSA_return_code		stat;
 	int			i, j, index, count = 0;
 	cms_attribute		*nattrs;
 	char			*name;
@@ -1949,7 +1947,6 @@ _CheckCalendarName(char *owner, char *cname, cms_attribute_value *val)
 	CSA_return_code stat;
 	char		*ptr, *optr;
 	char		user[BUFSIZ];
-	int		res;
 	boolean_t	isuser;
 
 	if (val->type != CSA_VALUE_STRING)

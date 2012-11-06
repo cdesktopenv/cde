@@ -54,10 +54,6 @@ static boolean_t match_backward(char *str1, char *str2);
 extern boolean_t
 _DtCmIsSamePath(char *str1, char *str2)
 {
-	char *ptr1,*ptr2;
-	char *user;
-	int res, n;
-
 	if (str1 == NULL || str2 == NULL)
 		return(B_FALSE);
 
@@ -81,7 +77,6 @@ _DtCmIsSameUser(char *user1, char *user2)
 {
 	char *str1, *str2;
 	char buf[BUFSIZ], *domain;
-	boolean_t res;
 
 	if (user1 == NULL || user2 == NULL)
 		return (B_FALSE);

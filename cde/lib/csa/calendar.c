@@ -613,8 +613,6 @@ _get_product_identifier(Calendar *cal, CSA_attribute *attr)
 static CSA_return_code
 _get_version_supported(Calendar *cal, CSA_attribute *attr)
 {
-	char buf[10];
-
 	if (attr->name = strdup(CSA_CAL_ATTR_VERSION))
 		return (_DtCm_set_csa_string_attrval(
 			_DtCM_SPEC_VERSION_SUPPORTED, &attr->value,

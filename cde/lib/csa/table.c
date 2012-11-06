@@ -386,8 +386,6 @@ _DtCm_table_lookup_range(
 	_DtCm_Connection	*conn;
 	Range_4		new_range, old_range;
 	Appt_4		*appts = NULL, *lptr = NULL, *tptr = NULL, *rptr = NULL;
-	boolean_t	need_matching = B_FALSE;
-	time_t		tick;
 
 	DP(("table.c: _DtCm_table_lookup_range\n"));
 
@@ -670,7 +668,6 @@ _DtCm_table_insert(
         Table_Res_4	*res = NULL;
 	_DtCm_Connection	*conn;
 	Appt_4		*appt4;
-	int		id, i, j;
 
 	DP(("table.c: _DtCm_table_insert\n"));
 
@@ -789,7 +786,6 @@ _DtCm_table_update(
 	Id_4		key;
 	Options_4	opt;
 	Appt_4		*appt4;
-	int		id, i, j;
 	_DtCm_libentry	*temp;
 
 	DP(("table.c: _DtCm_table_update_one\n"));
@@ -942,7 +938,6 @@ _DtCm_table_delete(
         Table_Res_4	*res = NULL;
 	_DtCm_Connection	*conn;
 	Uidopt_4	key;
-	int		id, i, j;
 	cms_attribute	*rtype;
 
 	DP(("table.c: _DtCm_table_delete\n"));

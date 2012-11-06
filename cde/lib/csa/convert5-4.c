@@ -239,7 +239,7 @@ _DtCm_attrs_to_apptdata(uint size, CSA_attribute *attrs, Appt_4 *appt)
 {
 	CSA_return_code	stat = CSA_SUCCESS;
 	_DtCm_old_attrs	oldattr;
-	char		*string, *ptr;
+	char		*string;
 	int		interval = 0, week_num = 0, i;
 	boolean_t	set_interval = B_FALSE, set_weeknum = B_FALSE;
 	time_t		endtick = -1;
@@ -784,7 +784,6 @@ _DtCm_add_reminder(char *rem, CSA_reminder * val, Appt_4 *appt)
 {
 	Attribute_4	*newattr, *attrs, *prev = NULL;
 	char		adv[80];
-	char		*str;
 	time_t		ltime = 0;
 
 /*

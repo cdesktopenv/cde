@@ -66,7 +66,6 @@ static tcp_count = 0;
 static cl_count = 0;
 static _DtCm_Client_Info *client_cache_head = NULL;
 static _DtCm_Client_Info *client_cache_tail = NULL;
-static char *svcfmt = "Error on server %s\n";
 
 /*****************************************************************************
  * forward declaration of static functions.
@@ -263,7 +262,6 @@ _DtCm_clnt_call(
 	_DtCm_Client_Info	*ci;
 	_DtCm_Transport_Type	ttype;
 	enum clnt_stat status = RPC_FAILED;
-	char errbuffer[100];
 	int retry = conn->retry;
 
 	while (B_TRUE) {
@@ -325,7 +323,6 @@ _DtCm_add_registration(
 {
 	_DtCm_Target_List *listp, *prev;
 	_DtCm_Target_List *listitem;
-	char *host;
 	int result;
 
 	if (ci == NULL || cal == NULL)

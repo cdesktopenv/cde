@@ -79,5 +79,5 @@ strncasecmp(register const char *s1,
     return (int) (*s1 - *s2);
 }
 #else
-static int unused = 0;		/* Make the compiler happy. */
+int ansi_c_strcasecmp_not_needed = 0;		/* Make the compiler happy. */
 #endif

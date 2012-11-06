@@ -257,7 +257,6 @@ _DtCm_libentry_to_entryh(
 	CSA_uint32 *size,
 	CSA_entry_handle **entries_r)
 {
-	CSA_return_code	stat = CSA_SUCCESS;
 	CSA_entry_handle	*eh;
 	_DtCm_libentry	*ptr;
 	int		i, j;
@@ -480,7 +479,6 @@ _DtCm_cms2csa_reminder_ref(
 	cms_reminder_ref	*rptr;
 	int			i, count;
 	char			isotime[BUFSIZ];
-	char			*ptr;
 	CSA_opaque_data		opq;
 
 	if (num_rems == NULL || csarems == NULL)
@@ -626,7 +624,6 @@ _DtCm_free_libentries(_DtCm_libentry *entry)
 extern void
 _DtCm_free_reminder_references(uint num_rems, CSA_reminder_reference *rems)
 {
-	CSA_reminder_reference *nptr;
 	_DtCm_libentry	*entry, *head, *cptr;
 	int i;
 

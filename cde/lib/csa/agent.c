@@ -103,7 +103,6 @@ extern void
 _DtCm_init_agent()
 {
 	int 		s = RPC_ANYSOCK;
-	XtInputId	id;
 
 #if defined(SunOS) && SunOS < 55 || defined(USL) || defined(__uxp__)
 	extern boolean_t rpc_reg(const u_long, const u_long, const u_long,
@@ -464,8 +463,6 @@ static void
 _DtCm_handle_callback()
 {
 	_CallbackInfo		*ptr, *prev;
-	Calendar		*cal;
-	_DtCmCallbackEntry	*cb;
 	boolean_t		keep = B_FALSE;
 
 	DP(("agent.c: _DtCm_handle_callback()\n"));

@@ -350,7 +350,6 @@ csa_list_entries(
 	CSA_return_code		stat;
 	Calendar		*cal;
 	_DtCm_libentry		*elist;
-	int			i;
 
 	DP(("api.c: csa_list_entries\n"));
 
@@ -453,7 +452,6 @@ csa_read_entry_attributes(
 {
 	CSA_return_code	stat;
 	_DtCm_libentry	*entry;
-	int		i;
 
 	DP(("api.c: csa_read_entry_attributes\n"));
 
@@ -573,9 +571,7 @@ csa_read_calendar_attributes(
 	CSA_attribute	**calendar_attributes,
 	CSA_extension	*read_calendar_attributes_extensions)
 {
-	CSA_return_code	stat;
 	Calendar	*cal;
-	int		i;
 
 	DP(("api.c: csa_read_calendar_attributes\n"));
 
@@ -816,7 +812,6 @@ csa_update_calendar_attributes(
 {
 	CSA_return_code	stat = CSA_SUCCESS;
 	Calendar	*cal;
-	int		i;
 
 	DP(("api.c: csa_update_calendar_attributes\n"));
 
@@ -917,7 +912,6 @@ csa_delete_entry(
 {
 	CSA_return_code	stat;
 	_DtCm_libentry	*entry;
-	int		i;
 
 	DP(("api.c: csa_delete_entry\n"));
 
@@ -969,7 +963,6 @@ csa_list_entry_sequence(
 	cms_attribute	*rtimes;
 	/* needed temporaryly */
 	time_t start = 0, end = 0;
-	char *ptr;
 
 	DP(("api.c: csa_list_entry_sequence\n"));
 
@@ -1059,7 +1052,6 @@ csa_read_next_reminder(
 	CSA_return_code	stat;
 	Calendar	*cal;
 	_DtCm_libentry	*eptr, *prev = NULL, *head = NULL;
-	CSA_reminder_reference * rlist;
 	int	i;
 	time_t	timeval;
 
@@ -1133,7 +1125,7 @@ csa_update_entry_attributes(
 	CSA_extension		*update_entry_attributes_extensions)
 {
 	CSA_return_code	stat;
-	_DtCm_libentry	*oentry, *tptr, *nentry;
+	_DtCm_libentry	*oentry, *nentry;
 
 	DP(("api.c: csa_update_entry_attributes\n"));
 

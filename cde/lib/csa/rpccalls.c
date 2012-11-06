@@ -221,7 +221,6 @@ _DtCm_rpc_create_calendar(
 	} else if (ci->vers_out < TABLEVERS_4) {
 		_DtCm_libentry		*entries;
 		char			*ptr, *owner;
-		boolean_t		isuser;
 
 		/* check to make sure user is not creating a calendar
 		 * using another user's name
@@ -528,7 +527,6 @@ _DtCm_rpc_enumerate_sequence(
 {
 	_DtCm_Client_Info	*ci=NULL;
 	CSA_return_code	stat = CSA_SUCCESS;
-	int		i;
 
 	DP(("rpccalls.c: _DtCm_rpc_enumerate_sequence\n"));
 
@@ -582,7 +580,6 @@ _DtCm_rpc_lookup_entry_by_id(Calendar *cal, _DtCm_libentry *entry)
 {
 	_DtCm_Client_Info	*ci=NULL;
 	CSA_return_code	stat = CSA_SUCCESS;
-	int		i;
 
 	DP(("rpccalls.c: _DtCm_rpc_lookup_entry_by_id\n"));
 
@@ -732,7 +729,6 @@ _DtCm_rpc_set_cal_attrs(Calendar *cal, CSA_uint32 num_attrs, CSA_attribute * att
 {
 	_DtCm_Client_Info	*ci;
 	CSA_return_code	stat = CSA_SUCCESS;
-	int		i;
 
 	DP(("rpccalls.c: _DtCm_rpc_set_cal_attrs\n"));
 
@@ -879,8 +875,6 @@ _DtCm_rpc_update_entry(
 {
 	_DtCm_Client_Info	*ci = NULL;
 	CSA_return_code	stat = CSA_SUCCESS;
-	_DtCm_libentry	*hptr = NULL, *tptr, *cptr;
-	int i;
 
 	DP(("rpccalls.c: _DtCm_rpc_update_entry\n"));
 

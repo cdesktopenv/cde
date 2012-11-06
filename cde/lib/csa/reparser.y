@@ -920,8 +920,6 @@ DeriveDailyEvent(
 {
 	RepeatEvent	*re;
 	DailyData	*dd;
-	NumberList	*nl;
-	int		 i = 0;
 
 	dd = (DailyData *)calloc(1, sizeof(DailyData));
 
