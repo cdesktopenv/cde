@@ -490,7 +490,7 @@ iljpgError _iljpgDehuffExecute (
         iljpgDehuffPtr  pHuffPriv;
         int             coeff_ct = 0;
 #define         is_dc   (!coeff_ct)     /* First coefficient is DC */
-        int             i, delta;
+        int             delta;
         int             len, zrun; 
         register BITBUF bitbuf, ch, c;
         register int    bitsleft;
@@ -556,7 +556,6 @@ iljpgError _iljpgDehuffExecute (
                 next byte (which can't be a marker or error!); set into bitbuf.
             */
         if (pHuffPriv->resetDone) {
-            int         resetSeen = FALSE;
             pHuffPriv->resetDone = 0;
             if (!ILJPG_DECODE_GET_BYTE (stream, ch, error))
                 return error;                   /* must be more bytes after restart */

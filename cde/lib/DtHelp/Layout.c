@@ -2121,7 +2121,6 @@ ProcessTable(
     int		   saveTravCnt  = canvas->trav_cnt;
     _DtCvUnit	   workWidth;
     _DtCvUnit	   newLeft;
-    _DtCvUnit	   rightMargin = 0;
     _DtCvUnit	   saveLeft    = layout->left;
     _DtCvUnit	   saveYpos    = layout->info.y_pos;
     _DtCvUnit	   tableYpos;
@@ -2141,7 +2140,6 @@ ProcessTable(
     _DtCvFrmtOption  *colJustSpec;
 
     _DtCvValue	   oldFound  = layout->id_found;
-    _DtCvValue	   haveHeads = False;
     _DtCvValue	   haveBrds  = False;
     _DtCvValue	   saveState = layout->table_flag;
     _DtCvValue	   saveAlignFlag = layout->info.align_flag;
@@ -3187,7 +3185,6 @@ ProcessController(
     int		   saveTravCnt  = canvas->trav_cnt;
     _DtCvUnit	   saveYPos     = layout->info.y_pos;
     _DtCvUnit	   saveMaxWidth = layout->max_width;
-    _DtCvUnit	   saveY        = layout->info.y_pos;
     _DtCvUnit	   saveLeft     = layout->left;
     _DtCvUnit	   saveRight    = layout->right;
     _DtCvUnit	   maxWidth;
@@ -3742,10 +3739,6 @@ ProcessContainer(
     int			*ret_cnt)
 {
     int		   getLn;
-    int            saveTravCnt  = canvas->trav_cnt;
-    int            saveLnCnt    = canvas->line_cnt;
-    int            saveTxtCnt   = canvas->txt_cnt;
-    int            joinLine     = layout->info.join_line;
     const char	  *saveJustifyChar = layout->info.align_char;
     _DtCvUnit	   yPad         = 0;
     _DtCvUnit	   xPad         = 0;
@@ -3758,9 +3751,6 @@ ProcessContainer(
     _DtCvUnit	   saveFirst    = layout->first;
     _DtCvUnit	   saveYpos     = layout->info.y_pos;
     _DtCvValue	   saveStatic   = layout->stat_flag;
-    _DtCvValue	   botBrdr      = False;
-    _DtCvValue	   rightBrdr    = False;
-    _DtCvValue	   joinFlag     = layout->info.join;
     _DtCvValue	   saveBrdr     = layout->brdr_flag;
     _DtCvFrmtOption   saveJustify  = layout->txt_justify;
     LayFrmtInfo    frmtInfo;
@@ -5093,14 +5083,10 @@ CheckMoveInfo (
     LayoutInfo		*layout)
 {
     int		 i;
-    int		 txt_idx;
-    int		 ln_idx;
     _DtCvUnit	 topY;
     _DtCvUnit	 botY;
-    _DtCvUnit	 space;
     _DtCvUnit	 maxWidth = canvas->metrics.width;
     GrpInfo	*nxtGrp;
-    GrpInfo	*grp;
 
     /*
      * fill in the max x of each group
@@ -5542,8 +5528,6 @@ _DtCanvasResize (
     _DtCvStatus		 selectStatus;
     _DtCvStatus		 retStatus = _DtCvSTATUS_NONE;
     _DtCanvasStruct	*canvas    = (_DtCanvasStruct *) canvas_handle;
-    _DtCvSpaceMetrics	 oldLink   = canvas->link_info;
-    _DtCvSpaceMetrics	 oldTrav   = canvas->traversal_info;
     _DtCvUnit		 oldWidth  = canvas->metrics.width;
     LayoutInfo		 layOut;
     _DtCvPointInfo       selPt;
@@ -5650,7 +5634,6 @@ _DtCanvasSetTopic (
     _DtCvUnit		*ret_height,
     _DtCvUnit		*ret_y )
 {
-    int                  i;
     _DtCvStatus		 result = _DtCvSTATUS_OK;
     _DtCanvasStruct	*canvas = (_DtCanvasStruct *) canvas_handle;
     LayoutInfo		layOut;

@@ -180,7 +180,6 @@ GetNoEnterCursor(
     Pixmap       pixmap;
     Pixmap       maskPixmap;
     XColor       xcolors[2];
-    int          scr;
     unsigned int cWidth;
     unsigned int cHeight;
     int		 useLargeCursors = 0;
@@ -284,7 +283,6 @@ _DtHelpGetHourGlassCursor(
     Pixmap       pixmap;
     Pixmap       maskPixmap;
     XColor       xcolors[2];
-    int          scr;
     unsigned int cWidth;
     unsigned int cHeight;
     int		 useLargeCursors = 0;

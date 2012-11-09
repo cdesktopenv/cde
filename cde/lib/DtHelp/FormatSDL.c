@@ -4420,7 +4420,6 @@ CompressLinkSeg(
     _DtCvSegment *p_seg)
 {
     void    *pChar;
-    wchar_t  fChar;
     int      wcFlag;
 
     /*
@@ -4461,7 +4460,6 @@ CompressLinkSeg(
 		strmove(((char *)pChar), &(((char *)pChar)[1]));
 	    else
 	      {
-		int i;
 		wchar_t *wcChar = (wchar_t *) pChar;
 
 		while (0 != wcChar[0])
@@ -10106,7 +10104,6 @@ _DtHelpCeFrmtSDLVolTitleToAscii(
 {
     char		*abbrev  = NULL;
     int			 result  = 0;
-    int			 done    = 0;
     _DtCvSegment	*pHeadSeg;
     _DtHelpCeLockInfo    lockInfo;
 

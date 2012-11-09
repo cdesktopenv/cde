@@ -97,8 +97,6 @@ _DtHelpResizeDisplayArea (
     Dimension    tstHeight;
     Dimension    oldWidth;
     Dimension    oldHeight;
-    XEvent	 event;
-    XmDrawnButtonCallbackStruct callBack;
     DtHelpDispAreaStruct        *pDAS = (DtHelpDispAreaStruct *) client_data;
 
     /*

@@ -199,7 +199,6 @@ ilPipeInfo              info;
 ilImageDes              des;
 ilImageFormat           format;
 ilImageInfo            *pInfo;
-long                    width, height;
 int                     i;
 ilError               (*executeProc) ();
 

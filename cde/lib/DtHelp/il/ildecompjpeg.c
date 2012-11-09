@@ -154,7 +154,6 @@ static ilError ilDecompJIFExecute (
     register ilJPEGPrivPtr pPriv;
     ilError             error;
     int                 i;
-    iljpgPtr            pJPEGPriv;
     iljpgPtr            pPixels[ILJPG_MAX_COMPS];
     long                nBytesPerRow[ILJPG_MAX_COMPS];
     ilImagePlaneInfo   *pPlane;

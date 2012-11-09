@@ -155,7 +155,6 @@ static ilError ilReadFileInit (
 register ilReadFilePrivPtr pPriv = (ilReadFilePrivPtr)pPrivate;
 ilFileImagePtr          pFileImage;
 ilError                 error;
-long                    dstRowBytes;
 register ilFileTag     *pTag;
 
     /*  Data for tags to read: "numbers" is the array of tag ids, "nTags" in length.

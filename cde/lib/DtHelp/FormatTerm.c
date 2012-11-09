@@ -356,7 +356,6 @@ TermStrDraw (
         mbstowcs(&wcStr[x], string, byte_len);
     else
       {
-	int i;
 	wchar_t *wcp = (wchar_t *) string;
 
 	while (0 < byte_len)

@@ -1722,7 +1722,6 @@ _DtCvDrawSegments(
     short	 image_offset = _DtCvFALSE;
     _DtCvUnit	 segWidth;
     _DtCvUnit	 yPos;
-    _DtCvValue	 junk;
     void	*pChar;
     _DtCvFlags	 saveEnd = new_flag &
 	(_DtCvTRAVERSAL_END | _DtCvLINK_END | _DtCvMARK_END);

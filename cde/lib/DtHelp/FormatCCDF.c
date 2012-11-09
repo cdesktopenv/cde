@@ -4072,7 +4072,6 @@ Format(
     char		*id_string,
     _DtCvTopicPtr	*ret_topic )
 {
-    int			 cnt;
     int			 result  = 0;
     int			 done    = 0;
     char		*charSet = NULL;

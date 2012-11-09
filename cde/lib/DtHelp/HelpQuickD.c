@@ -196,7 +196,6 @@ static void InitialPopupCB(
 
 
 /* Static variables */
-static char helpOnHelp[] = "Help4Help";
 
 
 /* Supported resources for the HelpQuickDialog Widget */

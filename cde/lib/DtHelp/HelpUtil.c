@@ -123,7 +123,7 @@ static void  CloseDefBoxCB(
 #define HUSET 8     /* message catalog set */
 
 /******** static variables ********/
-static char DirSlash[] = "/";
+
 
 /******** data structures ********/
 typedef struct ExecContext 
@@ -865,7 +865,6 @@ int _DtHelpFilterExecCmd(
    XmString labelString2;
    Widget  noexecBtn;
    Widget  execBtn;
-   Cursor  cursor;
 
    goodCmd = _DtHelpFilterExecCmdStr(helpWidget, executionPolicy, 
                  commandStr, &filteredCmdStr, &invalidAlias, 
@@ -1003,7 +1002,6 @@ void _DtHelpExecFilteredCmd(
    Boolean queryNeeded;
    char *  filteredCmdStr = NULL;
    ExecContext * execContext;
-   DtHelpListStruct *pHelpInfo;
    XmString labelString;
    XmString labelString2;
    Widget   msgDlg;
@@ -1023,7 +1021,9 @@ void _DtHelpExecFilteredCmd(
    following code can fail on IBM platform when XTHREADS and XUSE_MTSAFE_API
    are defined.
 */
+/*
    _Xgetpwparams pwd_buf;
+*/
    struct passwd * pwd_ret;
 
   /** -------------------------------------------------------------- *

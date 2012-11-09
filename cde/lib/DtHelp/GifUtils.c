@@ -1040,6 +1040,7 @@ static int dither_8X8[8][8] =
 //};
 */
 
+/*
 static int dither_4X4[4][4] = 
 {
  { 0, 8, 2, 10 },
@@ -1062,6 +1063,7 @@ static int dither_2X2[2][2] =
  { 0, 2 },
  { 3, 1}
 };
+*/
 
 /*static int dither_matrix_sz = 2; */
 /*static int dither_matrix_sz = 4; */

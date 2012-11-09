@@ -1996,7 +1996,6 @@ _DtCvCvtSegsToPts (
     _DtCvSegmentI	*saveSeg;
     _DtCvSegmentI	**retSeg;
     _DtCvDspLine	*lines = canvas->txt_lst;
-    _DtCvFlags		 flag;
     _DtCvFlags		 result = _DtCvSTATUS_NONE;
     _DtCvSelectData	*tmpBeg;
     _DtCvSelectData	*tmpEnd;

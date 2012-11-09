@@ -81,7 +81,6 @@ const char * _DtHelpFileSuffixList[3] = {
                     NULL };
 
 /******** variables *********/
-static const char * EmptyStr = "";
 #ifdef	not_used
 static const char * PeriodStr = ".";
 #endif

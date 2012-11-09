@@ -89,7 +89,6 @@ _DtCvStrLen (
     int            type )
 {
     int		   len = 0;
-    const char	  *s1;
     const wchar_t *wcs;
 
     if (0 == type)

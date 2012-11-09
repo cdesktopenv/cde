@@ -137,11 +137,13 @@ static void my_error_exit (j_common_ptr cinfo)
  *****************************************************************************/
 static void my_output_message (j_common_ptr cinfo)
 {
-    char buffer[JMSG_LENGTH_MAX];
-
     /* 
     ** Uncommenting the lines below will cause error and warning messages
     ** from the JPEG library to be displayed to stderr instead of suppressed
+    */
+
+    /*
+    ** char buffer[JMSG_LENGTH_MAX];
     */
 
     /* 
@@ -169,7 +171,7 @@ static void my_output_message (j_common_ptr cinfo)
 static void init_source (
     j_decompress_ptr cinfo)
 {
-    stream_src_ptr src = (stream_src_ptr) cinfo->src;
+/*    stream_src_ptr src = (stream_src_ptr) cinfo->src; */
 }
 
 /******************************************************************************

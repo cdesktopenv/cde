@@ -2121,7 +2121,6 @@ void _DtHelpUpdateDisplayArea(
    char          *userErrorStr=NULL;
    char          *sysErrorStr=NULL;
    char          *tmpMsg=NULL;
-   char	         *retTitle;
    XmString      labelString;
    Arg		 args[10];
    int      	 n=0;

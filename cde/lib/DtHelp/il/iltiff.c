@@ -981,7 +981,7 @@ ilError                 error;
 long                    imageSequenceNumber;
 ilByte                  fourBytes [4];
 ilFileOffset            IFDOffset;
-ilFileImagePtr          pFileImage, pFileImageHead, pPrevFileImage;
+ilFileImagePtr          pFileImage, pPrevFileImage;
 ilTIFFHeader            header;
 register ilFilePtr      pFile;
 register ilBool         bigEndian;

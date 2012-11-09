@@ -310,7 +310,6 @@ int _DtGrReadBitmapStream (display, d, stream, width, height, pixmap, x_hot, y_h
     int *x_hot, *y_hot;                 /* RETURNED */
 #endif
 {
-    Pixmap pix;				/* value to return */
     unsigned char *data;
     int res;
 

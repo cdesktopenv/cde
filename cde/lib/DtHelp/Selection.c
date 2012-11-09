@@ -571,7 +571,6 @@ BuildLine(
     _DtCvPointer	*ret_data)
 {
     _DtCvUnit		 topY;
-    _DtCvUnit		 lastY;
     _DtCvDspLine	*lines = canvas->txt_lst;
     _DtCvStringInfo	 strInfo = { NULL, 0, 1, NULL };
 
@@ -691,7 +690,6 @@ GetSelectedText(
 {
     _DtCvUnit   maxY;
     _DtCvUnit   botY;
-    _DtCvUnit   lastY;
     int    i;
     int    lineCnt  = 0;
     int    junk;
@@ -1332,7 +1330,6 @@ _DtCanvasProcessSelection (
     _DtCvUnit		y,
     _DtCvSelectMode	mode)
 {
-    int			 i;
     _DtCanvasStruct	*canvas = (_DtCanvasStruct *) canvas_handle;
     _DtCvSelectData	 temp;
 

@@ -152,7 +152,6 @@ _DtHelpFreeSegments (
     _DtCvSegment	 *topSeg = NULL;
     _DtCvSegment	 *topTab = NULL;
     _DtCvSegment	**tableSeg;
-    _DtHelpDARegion	 *pReg;
 
     while (seg_list != NULL)
       {

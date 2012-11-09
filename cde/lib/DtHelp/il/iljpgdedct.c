@@ -254,7 +254,6 @@ void _iljpgDeDCTFull (
     )
 {
   register int   i;
-  register float *oxptr;
   register int   *zptr;
   float           ox[64];
   register float in0, in1, in2, in3, in4, in5, in6, in7;
@@ -551,7 +550,7 @@ void _iljpgDeDCT4x4 (
   register int   i;
   register int   *zptr;
   float           ox[64];
-  register float in0, in2, in3, in4, in5, in6, in7;
+  register float in0, in2, in3, in4, in5, in7;
   register float tmp0, tmp1, tmp2, tmp5, tmp6, tmp7;
   register float tmp;
   register float *oxaddr;

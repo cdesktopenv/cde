@@ -1796,10 +1796,8 @@ static enum _DtGrLoadStatus processXpm(
     int		    i, j;
     int             result;
     short           done;
-    Pixmap          pixmap  = 0;
     XpmAttributes   xpmAttr;
     Visual          vis2;
-    XGCValues       gcvalues;
     float           ratio = 1.0;
 
     enum _DtGrLoadStatus status = _DtGrSUCCESS;
@@ -2384,7 +2382,6 @@ _DtHelpProcessGraphic(
     unsigned int    pixWidth  = 0;
     unsigned int    pixHeight = 0; 
     Dimension       pWidth, pHeight;
-    char  *ptr;
     Pixmap pix = 0, mask = 0;
     _DtGrStream stream;
     Screen *scrptr = ScreenOfDisplay (dpy, screen);
@@ -2874,7 +2871,6 @@ size_t _DtGrRead(
     size_t      num_items,
     _DtGrStream *stream)
 {
-    size_t num_items_read;
     unsigned nleft;
     int n;
 
