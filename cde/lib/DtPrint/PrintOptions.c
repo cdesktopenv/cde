@@ -397,7 +397,6 @@ _DtPrintHdrFtrFrameMenuWidgets(
 {
     int			i;
     DtpoHdrFtrFrame	*info;
-    Widget		widget = NULL;
 
     if (frame == NULL) return;
 
@@ -604,7 +603,6 @@ _DtPrintDestroyMarginFrameCB(
 	)
 {
     DtpoHdrFtrFrame	*info = (DtpoHdrFtrFrame *) client_data;
-    Widget		widget;
 
     if (info == NULL) return;
     XtFree((char*) info);
@@ -630,7 +628,6 @@ _DtPrintCreateMarginFrame(
     Arg		args[16];
     int		n;
     XmString	xms;
-    int		i;
 
     info = (DtpoMarginFrame *) XtMalloc( sizeof(DtpoMarginFrame) );
 

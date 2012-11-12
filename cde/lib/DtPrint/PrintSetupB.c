@@ -1822,7 +1822,7 @@ Initialize(
 	   Cardinal *num_args)
 {
     DtPrintSetupBoxWidget new_w = (DtPrintSetupBoxWidget) nw ;
-    int i;
+
     /*
      * Validate the Print Setup Mode
      */
@@ -2561,7 +2561,6 @@ SetValues(
 	  Cardinal *num_args)
 {
     DtPrintSetupBoxWidget current = (DtPrintSetupBoxWidget) cw ;
-    DtPrintSetupBoxWidget request = (DtPrintSetupBoxWidget) rw ;
     DtPrintSetupBoxWidget new_w = (DtPrintSetupBoxWidget) nw ;
     Boolean need_layout = False;
 
@@ -3042,7 +3041,6 @@ UpdatePrinterNameCallback(
 			  XtPointer client_data,
 			  XtPointer call_data)
 {
-    XmComboBoxCallbackStruct* callback = (XmComboBoxCallbackStruct*)call_data;
     DtPrintSetupBoxWidget psub = (DtPrintSetupBoxWidget)client_data;
 
     if(PSUB_TimeoutId(psub) != (XtIntervalId)NULL)

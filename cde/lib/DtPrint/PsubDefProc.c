@@ -1433,10 +1433,6 @@ static void PresentHelp(
     DtPrintDefaultProcData* dpd = &PSUB_DefaultProcData(w);
     Widget wmshell_ancestor;
     Widget dialog_shell;
-
-    char* hv = 0;
-    char* lid = 0;
-    
     
     wmshell_ancestor = GetWMShellAncestor(w);
 
@@ -1665,7 +1661,6 @@ SelectPrinterCB(
 	(XmSelectionBoxCallbackStruct*)call_data;
     Widget psub = (Widget)client_data;
     DtPrintDefaultProcData* dpd = &PSUB_DefaultProcData(psub);
-    int i;
     String printer_spec;
 
     /*
