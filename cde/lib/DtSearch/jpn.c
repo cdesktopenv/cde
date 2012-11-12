@@ -455,7 +455,7 @@ static UCHAR	*kanji_compounder (void)
 	    if (debugging_jpn)
 		fprintf (aa_stderr,
 		    "knjcompdr: subofs=%2ld totofs=%3ld \"%s\"\n",
-		    mysubstrp - substrbuf, *offsetp, outbuf);
+		    (long) (mysubstrp - substrbuf), *offsetp, outbuf);
 	    return outbuf;
 	}
     }
@@ -633,7 +633,7 @@ static UCHAR	*parse_substring (void)
 	if (debugging_jpn) {
 	    int		i;
 	    fprintf (aa_stderr, "jpnsubstr: js=%s len=%ld str='",
-		display_jstate(last_jstate), substrlen);
+		display_jstate(last_jstate), (long) substrlen);
 	    for (i = 0;  i < substrlen;  i++)
 		fputc ((substrbuf[i] < 32)? '~' : substrbuf[i],
 		    aa_stderr);
@@ -824,7 +824,7 @@ char	*jpn_parser (PARG *parg)
 	if (debugging_jpn) {
 	    fprintf (aa_stderr,
 		"jpnparser: start text block, substrbufsz=%ld.\n",
-		substrbufsz);
+		(long) substrbufsz);
 	    fflush (aa_stderr);
 	}
 
@@ -886,9 +886,9 @@ FILL_ANOTHER_SUBSTRING:
 		size_t	curlen = substrp - substrbuf;
 		if (debugging_jpn) {
 		    fprintf (aa_stderr,
-			"jpnparser: curr substr len %ld, "
-			"new substrbufsz %ld.\n",
-			curlen, substrbufsz<<1);
+			"jpnparser: curr substr len %lu, "
+			"new substrbufsz %lu.\n",
+			(unsigned long) curlen, (unsigned long) substrbufsz<<1);
 		    fflush (aa_stderr);
 		}
 		substrbufsz <<= 1;	/* double its size */

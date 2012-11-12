@@ -153,7 +153,7 @@ long	hilite_cleartext (int parse_type, char *stems, int stemcount)
 		hitwords_size += hitwords_size >> 1;	/* 1.5 times */
 		if (debugging_hilite || (usrblk.debug & USRDBG_RETRVL))
 		    fprintf (aa_stderr,
-			PROGNAME"098 realloc for %ld hitwords.\n",
+			PROGNAME"098 realloc for %d hitwords.\n",
 			hitwords_size);
 		hitwords = realloc (hitwords,
 		    hitwords_size * sizeof(DtSrHitword) + 16);

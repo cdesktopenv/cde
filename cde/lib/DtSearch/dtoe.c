@@ -258,7 +258,7 @@ int	oe_unblob (LLIST *bloblist)
     if (usrblk.debug & USRDBG_RETRVL)
 	fprintf (aa_stderr, PROGNAME "256 "
 	    "oe_unblob: actual decompressed length = %ld.\n",
-	    targ - (UCHAR *) usrblk.cleartext);
+	    (long) (targ - (UCHAR *) usrblk.cleartext));
     return OE_OK;
 }  /* oe_unblob() */
 
@@ -816,7 +816,7 @@ NO_TEXT:
 		fprintf (aa_stderr, PROGNAME "1089 RECKEY2DBA: "
 		    "retncode=%d, reckey='%s' ->\tdba=%ld:%ld\n",
 		    usrblk.retncode, usrblk.query,
-		    (usrblk.dba) >> 24, (usrblk.dba) & 0xffffff);
+		     (long) ((usrblk.dba) >> 24), (long) ((usrblk.dba) & 0xffffff));
 	    break;
 
 	case OE_DELETE_RECID:

@@ -228,8 +228,8 @@ char           *get_hitlist_text (int maxlen)
 
     if (usrblk.debug & USRDBG_UTIL)
 	fprintf (aa_stderr, PROGNAME "160 "
-	    "get_hitlist_text(): mallocsz=%ld textlen=%ld\n",
-	    mallocsz, strlen (text));
+	    "get_hitlist_text(): mallocsz=%lu textlen=%lu\n",
+	    (unsigned long) mallocsz, (unsigned long) strlen (text));
     return text;
 }  /* get_hitlist_text() */
 

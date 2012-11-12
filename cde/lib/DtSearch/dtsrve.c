@@ -272,10 +272,10 @@ int             ve_initialize (void)
 	    fprintf (aa_stderr,
 		"\tvers='%s' reccount=%ld maxdba=%ld fzkeysz=%d\n"
 		"\tdbflags=x%lx maxwordsz=%d hufid=%ld abstrsz=%d\n",
-		db->dbrec.or_version, db->dbrec.or_reccount,
-		db->dbrec.or_maxdba, db->dbrec.or_fzkeysz,
-		db->dbrec.or_dbflags, db->dbrec.or_maxwordsz,
-		db->dbrec.or_hufid, db->dbrec.or_abstrsz);
+		db->dbrec.or_version, (long) db->dbrec.or_reccount,
+		(long) db->dbrec.or_maxdba, db->dbrec.or_fzkeysz,
+		(unsigned long) db->dbrec.or_dbflags, db->dbrec.or_maxwordsz,
+		(long) db->dbrec.or_hufid, db->dbrec.or_abstrsz);
 	}
 
 	/*-------------- OPEN D97 and D98 FILES ----------------
@@ -888,8 +888,8 @@ LLIST          *ve_getblobs (DtSrINT32 dba, int vistano)
 	fprintf (aa_stderr, PROGNAME "792 ve_getblobs: "
 	    "db='%s'[v#%d] dba=%ld:%ld v#=%d sz=%ld: '%s'\n",
 	    usrblk.dblk->name, usrblk.dblk->vistano,
-	    dba >> 24, dba % 0xffffff, vistano,
-	    myobjbuf.or_objsize, myobjbuf.or_objkey);
+	    (long) (dba >> 24), (long) (dba % 0xffffff), vistano,
+	    (long) myobjbuf.or_objsize, myobjbuf.or_objkey);
     }
 
     /* Retrieve blobs and append to end of growing list.

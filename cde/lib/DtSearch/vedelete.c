@@ -193,7 +193,7 @@ static int      delete_addrs (void)
 	printf (PROGNAME "80 "
 	    "fseek failed on '%s%s.d99'.  Offset=%ld.  Word='%s'.\n",
 	    usrblk.dblk->path, usrblk.dblk->name,
-	    got_hword.or_hwoffset, keyptr);
+	    (long) got_hword.or_hwoffset, keyptr);
 	DtSearchExit (99);
     }
     write_offset = ftell (dtbs_addr_fp);
@@ -276,9 +276,9 @@ static int      delete_addrs (void)
 		ncopy, dtbs_addr_fp);
 	    if (num_writes != ncopy) {
 		printf (PROGNAME "283 fwrite at pos %ld failed on '%s%s.d99'.\n"
-		    "  Wrote %ld dba's instead of %ld dba's.\n",
+		    "  Wrote %lu dba's instead of %lu dba's.\n",
 		    write_offset, usrblk.dblk->path, usrblk.dblk->name,
-		    num_writes, ncopy);
+		    (unsigned long) num_writes, (unsigned long) ncopy);
 		DtSearchExit (99);
 	    }
 	    write_offset = ftell (dtbs_addr_fp);
@@ -496,7 +496,7 @@ NOTHING_TO_DO:
     /*--------- Gendler's SWORD Loop ---------*/
     /* every database has short words */
     fprintf (aa_stderr, PROGNAME "368 "
-	"Entering SHORT word loop.  Each dot = %ld words.\n",
+	"Entering SHORT word loop.  Each dot = %d words.\n",
 	WORDS_PER_DOT);
     fflush (aa_stderr);
     word_count = 0;
@@ -530,7 +530,7 @@ NOTHING_TO_DO:
 
     /*--------- Gendler's LWORD Loop ---------*/
     fprintf (aa_stderr, PROGNAME "398 "
-	"Entering LONG word loop.  Each dot = %ld words.\n",
+	"Entering LONG word loop.  Each dot = %d words.\n",
 	WORDS_PER_DOT);
     fflush (aa_stderr);
     word_count = 0;
@@ -562,7 +562,7 @@ NOTHING_TO_DO:
 
     /*--------- Gendler's HWORD Loop --------- */
     fprintf (aa_stderr, PROGNAME "429 "
-	"Entering HUGE word loop.  Each dot = %ld words.\n",
+	"Entering HUGE word loop.  Each dot = %d words.\n",
 	WORDS_PER_DOT);
     fflush (aa_stderr);
     word_count = 0;

@@ -261,7 +261,7 @@ static int	search_wordtree (WORDTREE *wordtree, UCHAR *wordstring)
 	/* Descend left or right depending on word */
 	if (debugging_search_wordtree)
 	    fprintf (aa_stderr, "  %c '%s'\n",
-		(direction < 0) ? 'L' : 'R', node->word);
+		(direction < 0) ? 'L' : 'R', (char *) node->word);
 	if (direction < 0)
 	    node = node->llink;
 	else
@@ -380,8 +380,8 @@ char	*teskey_parser (PARG *parg)
 	endmaxword = outbuf + maxwordsz;
 	if (debugging_teskey)
 	    fprintf (aa_stderr,
-		"teskey: start of text block, maxwsz=%ld outbufsz=%ld\n",
-		maxwordsz, outbufsz);
+		"teskey: start of text block, maxwsz=%d outbufsz=%lu\n",
+		maxwordsz, (unsigned long) outbufsz);
 	readcount = 0L;
     }
 
