@@ -537,7 +537,7 @@ int             DtSearchQuery (
 		int	*stemcount)	/* put size of stems array */
 {
     int             final_request;
-    int             i, maxbkt;
+    int             i;
     char           *ptr;
     DBLK           *db;
     LLIST          *llp;
@@ -722,8 +722,6 @@ int             DtSearchRetrieve (
                     long *clearlen,	/* length of returned cleartext */
                     int *fzkeyi)	/* ptr to array of FZKEYSZ integers */
 {
-    int             i;
-
     if (!valid_dbname (dbname))
 	return DtSrREINIT;
     usrblk.dba = dba;

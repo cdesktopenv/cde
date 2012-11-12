@@ -153,8 +153,6 @@ char           *OEF_readme = NULL;
 
 /*------------ OTHER GLOBALS -----------*/
 SAVEUSR         saveusr = { 0 };
-static DtSrHitword
-		next_hitwords [DtSrMAX_STEMCOUNT];
 
 
 /****************************************/
@@ -475,16 +473,11 @@ char	*retncode_str (int num)
 /************************************************/
 void            Opera_Engine (void)
 {
-    int		i, len, ws_flag;
+    int		i;
     char	sprintbuf [1024];
-    char	*ptr, *ptr2;
     LLIST	*bloblist;
-    LLIST	*llp;
-    FILE	*stream;
     DBLK	*db;
-    PARG	parg;
     DB_ADDR	dba;
-    static int	first_idletime_call = TRUE;
     static time_t
 		start_time = 0L;
 

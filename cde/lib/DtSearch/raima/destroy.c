@@ -61,7 +61,9 @@ TASK_DECL
 {
    register int ft_lc;			/* loop control */
    register FILE_ENTRY FAR *file_ptr;
+#ifndef NO_TRANS
    int ovfl_save;
+#endif
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
 

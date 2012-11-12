@@ -488,7 +488,6 @@ static UCHAR	*search_kanjitree (void)
     static JPNTREE	*node, *last_node;
     static UCHAR	*substrp, *substrend;
     static int     	direction;
-    static int		nodelen;
     static int		jcharlen;
 
     if (is_new_substring) {

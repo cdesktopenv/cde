@@ -110,8 +110,6 @@
 static int      SHM_FLAG = IPC_CREAT | S_IRUSR | S_IWUSR | S_IWGRP |
 			S_IRGRP | S_IROTH | S_IWOTH;
 
-static int      mem_break;
-
 static char    *mem_start;
 static char    *cur_pos;
 static long     mem_offset;

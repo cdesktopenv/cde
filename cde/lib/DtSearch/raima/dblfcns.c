@@ -170,8 +170,9 @@ int db_glob_init = 0;
    calls would complete before a new task is run.  If this assumption is
    ever "broken" then lock_reply will need to be placed back within db_global
    again */
-
+#ifndef SINGLE_USER
 static LR_LOCK lock_reply;		/* This used to be in db_global */
+#endif
 
 #ifdef MULTI_TASK
 DB_TASK Currtask = {POINTER_ASSIGN((TASK FAR *)&db_global), POINTER_ASSIGN((char FAR *)NULL)};

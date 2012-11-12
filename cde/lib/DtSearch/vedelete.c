@@ -412,7 +412,6 @@ static void     print_counters (char *wordtype)
 void            ve_delete (void)
 {
     DB_ADDR         dba;
-    DB_ADDR         *dbap1, *dbap2;
     char            charbuf[200 + DtSrMAX_DB_KEYSIZE];
     int             i, j;
     int             ret_code;

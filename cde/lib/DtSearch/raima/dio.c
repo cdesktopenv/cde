@@ -598,7 +598,9 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
    PAGE_ENTRY FAR *pg_ptr;
    PGZERO FAR *pgzero_ptr;
    FILE_ENTRY FAR *file_ptr;
+#ifndef SINGLE_USER
    int FAR *appl_ptr, FAR *excl_ptr;
+#endif
 
 #ifndef SINGLE_USER
    /* 
@@ -705,7 +707,9 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
 int dio_flush()
 {
    register int pgt_lc;			/* loop control */
+#ifndef NO_TRANS
    int fno;
+#endif
    PAGE_ENTRY FAR *pg_ptr;
    LOOKUP_ENTRY FAR *lu_ptr;
 

@@ -278,7 +278,7 @@ int             hc_encode (struct or_blobrec * targblobrec,
 		} un1;
 	static char temp1 [MAX_NUM_CHAR+1];  ...repl by blobrec;
 ************/
-    char           *ptr, *targ, *src;
+    char           *targ, *src;
     int             i, j;
     char            temp;
     char            ret_code = TRUE;

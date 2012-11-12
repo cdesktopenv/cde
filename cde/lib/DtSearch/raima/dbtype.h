@@ -464,7 +464,7 @@ typedef struct {LONG FAR *ptr; LOCK_DESC} LONG_P;
 #ifndef NO_COUNTRY
 typedef struct {struct CNTRY_TBL_S FAR *ptr; LOCK_DESC} CNTRY_TBL_P;
 #endif
-static struct sk {
+struct sk {
    INT sk_fld;
    CHAR_P sk_val;
 } __SK__;

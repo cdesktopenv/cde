@@ -256,7 +256,6 @@ BAD_DBA:
 static void	calculate_idfs (void)
 {
     int		i;
-    char	*cptr;
     double	dbl;
 
     for (i = 0;  i < saveusr.stemcount;  i++) {
@@ -1084,7 +1083,7 @@ static DB_ADDR	read_d99 (struct or_hwordrec *wordrec)
     static DB_ADDR	readbuf [DBAS_PER_BLOCK];
     static DB_ADDR	*bufptr, *endbuf;
     static FILE		*fptr;
-    static long		bal_read, request_read, actual_read;
+    static long		bal_read, request_read;
 
     /* First call for new term */
     if (wordrec) {

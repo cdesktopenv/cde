@@ -51,9 +51,6 @@
 #include "vista.h"
 #include "dbtype.h"
 
-static DB_ADDR_P Cb = POINTER_INIT();
-#define cb (Cb.ptr)
-
 
 /* Read currency table
 */

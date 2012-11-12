@@ -443,8 +443,6 @@ static void     set_boolint (int *boolint, char *keyword,
 /* sets OE_fileio string pointer */
 static void     set_fileio (_Xstrtokparams *strtok_buf)
 {
-    char           *ptr;
-
     /* if a value is missing, presume -ON */
     if ((token = _XStrtok(NULL, DELIMITERS, *strtok_buf)) == NULL) {
 	OE_fileio = "-ON";
@@ -488,8 +486,6 @@ static void     set_fileio (_Xstrtokparams *strtok_buf)
 static void     read_rest_of_line (char *keyword, char **passed_ptr,
 				   _Xstrtokparams *strtok_buf)
 {
-    int             len;
-
     if ((token = _XStrtok(NULL, "\n", *strtok_buf)) == NULL) {
 	sprintf (sprintbufp, catgets (dtsearch_catd, MS_loadocf, 1007,
 	    "%s%s: Empty %s string ignored."),
@@ -833,7 +829,6 @@ static void     read_keytypes (int how_many, _Xstrtokparams *strtok_buf)
 static int      ocfopen (char *prefix, char *fname, FILE ** stream)
 {
     char            fullname[1024];
-    char           *cptr;
     FILE           *fptr;
     struct stat     statbuf;
     int             is_prespecified_fname = (prefix == NULL && fname == NULL);
@@ -917,8 +912,7 @@ GOT_FULLNAME:
  */
 int             load_ocf (void)
 {
-    int             i;
-    char           *ptr, *p, *q;
+    char           *p, *q;
     char            sprintbuf[1024];
     char            cfgfnamebuf[1024];
     char            inbuf[1024];

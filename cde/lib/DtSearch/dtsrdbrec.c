@@ -102,7 +102,6 @@ static char    *language_name (int language_number)
 void            print_dbrec (char *dbname, struct or_dbrec * dbrec)
 {
     int             i;
-    char           *cptr;
     int             blobs_are_possible = FALSE;
 
     printf (catgets (dtsearch_catd, MS_dbrec, 1,

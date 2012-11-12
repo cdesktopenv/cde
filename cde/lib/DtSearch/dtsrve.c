@@ -133,8 +133,6 @@ static LLIST   *append_blob (LLIST ** bloblink,
                     struct or_blobrec * blobrec)
 {
     LLIST          *new;
-    int             i;
-    char           *to;
 
     new = austext_malloc (sizeof (struct or_blobrec) + sizeof (LLIST) + 4,
 	PROGNAME "36", NULL);
@@ -418,7 +416,6 @@ int             ve_append_notes (void)
     static char	formfeed_line[] = "\f\n";
     struct or_miscrec
 		miscrec;
-    _Xltimeparams localtime_buf;
     struct tm	*time_ptr;
 
     /* Test if function is disabled */
@@ -600,7 +597,6 @@ static void     store_next_misc (
 			store_state =	STORE_DONE;
     static char		*targ =		NULL;
     static int		targlen =	0;
-    static int		fzkeysz =	0;
     static int		abstrsz =	0;
     int			i;
 
@@ -703,9 +699,7 @@ int             ve_getrec_dba (LLIST ** bloblist)
 		myblobuf;
     struct or_miscrec
 		mymiscrec;
-    int		i;
     int		debugging = (usrblk.debug & USRDBG_RETRVL);
-    char	*src, *targ;
     LLIST	*new, *lastnode, **lastlink;
     int		vistano = usrblk.dblk->vistano;
     int		is_first_misc = TRUE;
