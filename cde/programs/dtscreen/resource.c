@@ -732,7 +732,7 @@ CheckResources()
 #ifdef MIT_R5
         fprintf(stderr, "Unknown mode: ");
 #else
-        fprintf(stderr, catgets(scmc_catd, 2, 7, 
+        fprintf(stderr, "%s", catgets(scmc_catd, 2, 7, 
              "Unknown mode: "));
 #endif
 	Syntax(mode);
