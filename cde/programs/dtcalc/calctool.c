@@ -312,8 +312,7 @@ struct button mode_buttons[MAXMODES * MODEKEYS] = {
 
 
 int
-char_val(chr)
-char chr ;
+char_val(char chr)
 {
        if (chr >= '0' && chr <= '9') return(chr - '0') ;
   else if (chr >= 'a' && chr <= 'f') return(chr - 'a' + 10) ;
@@ -323,7 +322,7 @@ char chr ;
 
 
 void
-clear_display()
+clear_display(void)
 {
   int i ;
  
@@ -344,10 +343,10 @@ clear_display()
   set_item(INVITEM, "    ") ;
 }
 
-
+/* Convert .dtcalcrc line to ascii values. */
+/* line    Input line to be converted. */
 char *
-convert(line)              /* Convert .dtcalcrc line to ascii values. */
-char *line ;               /* Input line to be converted. */
+convert(char *line)
 {
   static char output[MAXLINE] ;   /* Converted output record. */
   int ctrl = 0       ;     /* Set if we are processing a control character. */
@@ -373,9 +372,7 @@ char *line ;               /* Input line to be converted. */
 
 
 void
-do_dtcalc(argc, argv)
-int argc ;
-char **argv ;
+do_dtcalc(int argc, char **argv)
 {
   char *ptr ;
 
@@ -432,8 +429,7 @@ char **argv ;
 /* Dtcalc's customised math library error-handling routine. */
 
 void
-doerr(errmes)
-char *errmes ;
+doerr(char *errmes)
 {
   if (!v->started) return ;
   STRCPY(v->display, errmes) ;
@@ -443,11 +439,9 @@ char *errmes ;
   set_item(OPITEM, vstrs[(int) V_CLR]) ;
 }
 
-
+/* Get boolean resource from database. */
 int
-get_bool_resource(rtype, boolval)   /* Get boolean resource from database. */
-enum res_type rtype ;
-int *boolval ;
+get_bool_resource(enum res_type rtype, int *boolval)
 {
   char *val, tempstr[MAXLINE] ;
   int len, n ;
@@ -472,8 +466,7 @@ int *boolval ;
  */
  
 int
-get_index(ch)
-char ch ;
+get_index(char ch)
 {
   int n ;
  
@@ -492,11 +485,9 @@ char ch ;
   return(n) ;
 }
 
-
+ /* Get integer resource from database. */
 int
-get_int_resource(rtype, intval)   /* Get integer resource from database. */
-enum res_type rtype ;
-int *intval ;
+get_int_resource(enum res_type rtype, int *intval)
 {
   char *val ;
 
@@ -509,16 +500,14 @@ int *intval ;
 /* Get keyboard equivalent from first character of localised string. */
 
 void
-get_key_val(val, str)
-char *val, *str ;
+get_key_val(char *val, char *str)
 {
   *val = str[0] ;
 }
 
 
 void
-get_label(n)
-int n ;
+get_label(int n)
 {
   int val ;
   char *temp;
@@ -535,11 +524,9 @@ int n ;
      STRCPY(v->pstr, "");
 }
 
-
+/* Extract command line options. */
 void
-get_options(argc, argv)      /* Extract command line options. */
-int argc ;
-char *argv[] ;
+get_options(int argc, char *argv[])
 {
   char next[MAXLINE] ;       /* The next command line parameter. */
   char strval[MAXLINE] ;
@@ -720,8 +707,7 @@ char *argv[] ;
 
 
 void
-getparam(s, argv, errmes)
-char *s, *argv[], *errmes ;
+getparam(char *s, char *argv[], char *errmes)
 {
   char *msg;
 
@@ -738,9 +724,9 @@ char *s, *argv[], *errmes ;
 }
 
 
+/* Read .dtcalcrc file. */
 void
-get_rcfile(name)          /* Read .dtcalcrc file. */
-char *name ;
+get_rcfile(char *name)
 {
   char line[MAXLINE] ;    /* Current line from the .dtcalcrc file. */
   char tmp[MAXLINE] ;     /* Used to extract definitions. */
@@ -844,11 +830,9 @@ char *name ;
   FCLOSE(rcfd) ;
 }
 
-
+/* Get a string resource from database. */
 int
-get_str_resource(rtype, strval)   /* Get a string resource from database. */
-enum res_type rtype ;
-char *strval ;
+get_str_resource(enum res_type rtype, char *strval)
 {
   char *val ;
   int i, len ;
@@ -864,10 +848,9 @@ char *strval ;
   return(1) ;
 }
 
-
+/* Grey out numeric buttons depending upon base. */
 void
-grey_buttons(base)     /* Grey out numeric buttons depending upon base. */
-enum base_type base ;
+grey_buttons(enum base_type base)
 {
   char val ;
   int column, dim, i, n, row ;
@@ -887,10 +870,9 @@ enum base_type base ;
     }
 }
 
-
+/* Process right button menu selection. */
 void
-handle_menu_selection(n, item)   /* Process right button menu selection. */
-int n, item ;
+handle_menu_selection(int n, int item)
 {
   if (item != -1)
     {
@@ -912,9 +894,9 @@ int n, item ;
     }
 }
 
-
+/* Setup default values for various variables. */
 void
-init_vars()    /* Setup default values for various variables. */
+init_vars(void)
 {
   int acc, i, n, size ;
 
@@ -970,7 +952,7 @@ init_vars()    /* Setup default values for various variables. */
 
 
 void
-initialise()
+initialise(void)
 {
   int i ;
 
@@ -983,9 +965,9 @@ initialise()
 }
 
 
+/* Convert engineering or scientific number. */
 char *
-make_eng_sci(MPnumber)      /* Convert engineering or scientific number. */
-int *MPnumber ;
+make_eng_sci(int *MPnumber)
 {
   char fixed[MAX_DIGITS+1], *optr ;
   int MP1[MP_SIZE], MPatmp[MP_SIZE], MPval[MP_SIZE] ;
@@ -1083,11 +1065,10 @@ int *MPnumber ;
   return(v->snum) ;
 }
 
-
+/* Convert MP number to fixed number string. */
+/* cmax    Maximum characters to generate. */
 char *
-make_fixed(MPnumber, cmax)     /* Convert MP number to fixed number string. */
-int *MPnumber ;
-int cmax ;                     /* Maximum characters to generate. */
+make_fixed(int *MPnumber, int cmax)
 {
   char *optr ;
   int MP1base[MP_SIZE], MP1[MP_SIZE], MP2[MP_SIZE], MPval[MP_SIZE] ;
@@ -1139,7 +1120,7 @@ int cmax ;                     /* Maximum characters to generate. */
 
 
 void
-make_items()
+make_items(void)
 {
   set_item(DISPLAYITEM, v->display) ;
   set_item(OPITEM,      "    ") ;
@@ -1147,11 +1128,9 @@ make_items()
   set_item(INVITEM,     "    ") ;
 }
 
-
+/* Convert MP number to character string. */
 char *
-make_number(MPnumber, mkFix)     /* Convert MP number to character string. */
-int *MPnumber ;
-BOOLEAN mkFix ;
+make_number(int *MPnumber, BOOLEAN mkFix)
 {
   double number, val ;
 
@@ -1248,9 +1227,9 @@ BOOLEAN mkFix ;
 
 
 /*ARGSUSED*/
+/* Default math library exception handling routine. */
 int
-matherr(exc)        /* Default math library exception handling routine. */
-struct exception *exc ;
+matherr(struct exception *exc)
 {
 #if 0
   char msg[100];
@@ -1281,12 +1260,9 @@ struct exception *exc ;
   return(1) ;                     /* Value ignored. */
 }
 
-
+/* Convert string into an MP number. */
 void
-MPstr_to_num(str, base, MPval)    /* Convert string into an MP number. */
-char *str ;
-enum base_type base ;
-int *MPval ;
+MPstr_to_num(char *str, enum base_type base, int *MPval)
 {
   char   *optr ;
   int MP1[MP_SIZE], MP2[MP_SIZE], MPbase[MP_SIZE] ;
@@ -1346,10 +1322,9 @@ int *MPval ;
   }
 }
 
-
+/* Append the latest parenthesis char to the display item. */
 void
-paren_disp(c)   /* Append the latest parenthesis char to the display item. */
-char c ;
+paren_disp(char c)
 {
   int i, n ;
 
@@ -1423,10 +1398,9 @@ char c ;
   v->show_paren = 0 ;
 }
 
-
+/* Process this event. */
 void
-process_event(type)       /* Process this event. */
-int type ;
+process_event(int type)
 {
   int ival ;
 
@@ -1479,8 +1453,7 @@ int type ;
 
 
 void
-process_item(n)
-int n ;
+process_item(int n)
 {
   int i,isvalid ;
 
@@ -1538,13 +1511,14 @@ int n ;
 }
 
 
-/* Process a portion of the parentheses stack. */
+/* Process a portion of the parentheses stack.
+ startop   Initial position in the operand stack.
+ startnum  Initial position in the numeric stack.
+ n         Number of items to process.
+*/
 
 void
-process_stack(startop, startnum, n)
-int startop ;         /* Initial position in the operand stack. */
-int startnum ;        /* Initial position in the numeric stack. */
-int n ;               /* Number of items to process. */
+process_stack(int startop, int startnum, int n)
 {
   char sdisp[MAXLINE] ;     /* Used to save display contents. */
   int i ;
@@ -1586,9 +1560,7 @@ int n ;               /* Number of items to process. */
 
 
 void
-process_str(str, mtype)
-char *str ;
-enum menu_type mtype ;
+process_str(char *str, enum menu_type mtype)
 {
   int i, len ;
   char save[80];
@@ -1639,7 +1611,7 @@ enum menu_type mtype ;
 
 
 void
-read_rcfiles()   /* Read .dtcalcrc's from home and current directories. */
+read_rcfiles(void)   /* Read .dtcalcrc's from home and current directories. */
 {
   char *home ;                  /* Pathname for users home directory. */
   char name[MAXPATHLEN + 50] ;          /* Full name of users .dtcalcrc file. */
@@ -1671,8 +1643,7 @@ read_rcfiles()   /* Read .dtcalcrc's from home and current directories. */
 
 
 void
-show_display(MPval)
-int *MPval ;
+show_display(int *MPval)
 {
   if (!v->error)
     {
@@ -1683,8 +1654,7 @@ int *MPval ;
 
 
 void
-usage(progname)
-char *progname ;
+usage(char *progname)
 {
   FPRINTF(stderr, ustrs[(int) USAGE1], PATCHLEVEL) ;
   FPRINTF(stderr, "%s", ustrs[(int) USAGE2]) ;
@@ -1693,10 +1663,7 @@ char *progname ;
 }
 
 void
-write_rcfile(mtype, exists, cfno, val, comment)
-enum menu_type mtype ;
-int exists, cfno ;
-char *val, *comment ;
+write_rcfile(enum menu_type mtype, int exists, int cfno, char *val, char *comment)
 {
   char *home ;                  /* Pathname for users home directory. */
   char pathname[MAXPATHLEN] ;   /* Current working directory. */
@@ -1771,8 +1738,7 @@ char *val, *comment ;
 
 
 void
-write_resources(filename)
-char *filename;
+write_resources(char *filename)
 {
   char intval[5] ;
   int MPtemp[MP_SIZE];

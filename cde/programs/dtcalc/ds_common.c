@@ -41,8 +41,7 @@
 
 
 void
-read_str(str, value)
-char **str, *value ;
+read_str(char **str, char *value)
 {
   if (*str != NULL) FREE(*str) ;
   if (value != NULL && strlen(value))
@@ -55,8 +54,7 @@ char **str, *value ;
 
 
 char *
-set_bool(value)
-int value ;
+set_bool(int value)
 {
   return((value) ? "true" : "false") ;
 }

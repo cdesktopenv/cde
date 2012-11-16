@@ -63,8 +63,7 @@
  */
 
 void
-ds_beep(display)
-Display *display ;
+ds_beep(Display *display)
 {
   XBell(display, 0) ;
 }
@@ -88,10 +87,7 @@ Display *display ;
  */
 
 char *
-ds_get_resource(rDB, appname, resource)
-XrmDatabase rDB ;                         /* Resources database. */
-char *appname ;                           /* Application name. */
-char *resource ;                          /* X resource to search for. */
+ds_get_resource(XrmDatabase rDB, char *appname, char *resource)                          
 {
   char app[MAXLINE], res[MAXLINE] ;
   char cstr[MAXLINE], nstr[MAXLINE] ;
@@ -140,8 +136,7 @@ char *resource ;                          /* X resource to search for. */
  */
 
 XrmDatabase
-ds_load_resources(display)
-Display *display ;
+ds_load_resources(Display *display)
 {
   XrmDatabase db, rDB ;
   char *home, name[MAXPATHLEN], *ptr ;
@@ -211,9 +206,7 @@ Display *display ;
  */
 
 void
-ds_put_resource(rDB, appname, rstr, rval)
-XrmDatabase *rDB ;
-char *appname, *rstr, *rval ;
+ds_put_resource(XrmDatabase *rDB, char *appname, char *rstr, char *rval)
 {
   char app[MAXLINE], resource[MAXLINE] ;
 
@@ -242,11 +235,7 @@ char *appname, *rstr, *rval ;
  */
 
 void
-ds_save_cmdline(display, w, argc, argv)
-Display *display ;
-Window w ;
-int argc ;
-char **argv ;
+ds_save_cmdline(Display *display, Window w, int argc, char **argv)
 {
   XSetCommand(display, w, argv, argc) ;
 }
@@ -266,9 +255,7 @@ char **argv ;
 
 
 int
-ds_save_resources(rDB, filename)
-XrmDatabase rDB ;
-char *filename;
+ds_save_resources(XrmDatabase rDB, char *filename)
 {
   char *home;
   struct stat statbuf ;

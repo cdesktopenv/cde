@@ -85,8 +85,7 @@ extern Vars v ;                 /* Calctool variables and options. */
 
 
 void
-mpabs(x, y)
-int *x, *y ;
+mpabs(int *x, int *y)
 {
 
 /* SETS Y = ABS(X) FOR MP NUMBERS X AND Y */
@@ -101,8 +100,7 @@ int *x, *y ;
 
 
 void
-mpadd(x, y, z)
-int *x, *y, *z ;
+mpadd(int *x, int *y, int *z)
 {
 
 /*  ADDS X AND Y, FORMING RESULT IN Z, WHERE X, Y AND Z ARE MP
@@ -119,8 +117,7 @@ int *x, *y, *z ;
 
 
 void
-mpadd2(x, y, z, y1, trunc)
-int *x, *y, *z, *y1, *trunc ;
+mpadd2(int *x, int *y, int *z, int *y1, int *trunc)
 {
   int i__1, i__2 ;
 
@@ -235,8 +232,7 @@ L130:
 
 
 void
-mpadd3(x, y, s, med, re)
-int *x, *y, *s, *med, *re ;
+mpadd3(int *x, int *y, int *s, int *med, int *re)
 {
   int i__1 ;
 
@@ -391,8 +387,7 @@ L160:
 
 
 void
-mpaddi(x, iy, z)
-int *x, *iy, *z ;
+mpaddi(int *x, int *iy, int *z)
 {
 
 /*  ADDS MULTIPLE-PRECISION X TO INTEGER IY
@@ -415,8 +410,7 @@ int *x, *iy, *z ;
 
 
 void
-mpaddq(x, i, j, y)
-int *x, *i, *j, *y ;
+mpaddq(int *x, int *i, int *j, int *y)
 {
 
 /*  ADDS THE RATIONAL NUMBER I/J TO MP NUMBER X, MP RESULT IN Y
@@ -435,8 +429,7 @@ int *x, *i, *j, *y ;
 
 
 void
-mpart1(n, y)
-int *n, *y ;
+mpart1(int *n, int *y)
 {
   int i__1, i__2 ;
 
@@ -524,8 +517,7 @@ L60:
 
 
 void
-mpasin(x, y)
-int *x, *y ;
+mpasin(int *x, int *y)
 {
   int i__1 ;
 
@@ -586,8 +578,7 @@ L40:
 
 
 void
-mpatan(x, y)
-int *x, *y ;
+mpatan(int *x, int *y)
 {
   int i__1, i__2 ;
   float r__1 ;
@@ -691,9 +682,7 @@ L50:
 
 
 void
-mpcdm(dx, z)
-double *dx ;
-int *z ;
+mpcdm(double *dx, int *z)
 {
   int i__1 ;
 
@@ -822,8 +811,7 @@ L130:
 
 
 void
-mpchk(i, j)
-int *i, *j ;
+mpchk(int *i, int *j)
 {
   static int ib, mx ;
 
@@ -904,8 +892,7 @@ L100:
 
 
 void
-mpcim(ix, z)
-int *ix, *z ;
+mpcim(int *ix, int *z)
 {
   int i__1 ;
 
@@ -957,9 +944,7 @@ L40:
 
 
 void
-mpcmd(x, dz)
-int *x ;
-double *dz ;
+mpcmd(int *x, double *dz)
 {
   int i__1 ;
   double d__1 ;
@@ -1031,8 +1016,7 @@ L30:
 
 
 void
-mpcmf(x, y)
-int *x, *y ;
+mpcmf(int *x, int *y)
 {
   int i__1 ;
 
@@ -1096,8 +1080,7 @@ L30:
 
 
 void
-mpcmi(x, iz)
-int *x, *iz ;
+mpcmi(int *x, int *iz)
 {
   int i__1 ;
 
@@ -1167,8 +1150,7 @@ L30:
 
 
 void
-mpcmim(x, y)
-int *x, *y ;
+mpcmim(int *x, int *y)
 {
   int i__1 ;
 
@@ -1210,8 +1192,7 @@ L10:
 
 
 int
-mpcmpi(x, i)
-int *x, *i ;
+mpcmpi(int *x, int *i)
 {
   int ret_val ;
 
@@ -1236,9 +1217,7 @@ int *x, *i ;
 
 
 int
-mpcmpr(x, ri)
-int *x ;
-float *ri ;
+mpcmpr(int *x, float *ri)
 {
   int ret_val ;
 
@@ -1263,9 +1242,7 @@ float *ri ;
 
 
 void
-mpcmr(x, rz)
-int *x ;
-float *rz ;
+mpcmr(int *x, float *rz)
 {
   int i__1 ;
   float r__1 ;
@@ -1330,8 +1307,7 @@ L30:
 
 
 int
-mpcomp(x, y)
-int *x, *y ;
+mpcomp(int *x, int *y)
 {
   int ret_val, i__1, i__2 ;
 
@@ -1404,8 +1380,7 @@ L70:
 
 
 void
-mpcos(x, y)
-int *x, *y ;
+mpcos(int *x, int *y)
 {
   static int i2 ;
 
@@ -1455,8 +1430,7 @@ L20:
 
 
 void
-mpcosh(x, y)
-int *x, *y ;
+mpcosh(int *x, int *y)
 {
   static int i2 ;
 
@@ -1501,8 +1475,7 @@ L10:
 
 
 void
-mpcqm(i, j, q)
-int *i, *j, *q ;
+mpcqm(int *i, int *j, int *q)
 {
   static int i1, j1 ;
 
@@ -1536,9 +1509,7 @@ L40:
 
 
 void
-mpcrm(rx, z)
-float *rx ;
-int *z ;
+mpcrm(float *rx, int *z)
 {
   int i__1 ;
 
@@ -1746,8 +1717,7 @@ L40:
 
 
 void
-mpdivi(x, iy, z)
-int *x, *iy, *z ;
+mpdivi(int *x, int *iy, int*z)
 {
   int i__1, i__2 ;
 
@@ -1952,8 +1922,7 @@ L240:
 
 
 int
-mpeq(x, y)
-int *x, *y ;
+mpeq(int *x, int *y)
 {
   int ret_val ;
 
@@ -1968,7 +1937,7 @@ int *x, *y ;
 
 
 void
-mperr()
+mperr(void)
 {
 
 /*  THIS ROUTINE IS CALLED WHEN AN ERROR CONDITION IS ENCOUNTERED, AND
@@ -1980,8 +1949,7 @@ mperr()
 
 
 void
-mpexp(x, y)
-int *x, *y ;
+mpexp(int *x, int *y)
 {
   int i__1, i__2 ;
   float r__1 ;
@@ -2166,8 +2134,7 @@ L110:
 
 
 void
-mpexp1(x, y)
-int *x, *y ;
+mpexp1(int *x, int *y)
 {
   int i__1 ;
 
@@ -2271,8 +2238,7 @@ L80:
 
 
 void
-mpext(i, j, x)
-int *i, *j, *x ;
+mpext(int *i, int *j, int *x)
 {
   static int q, s ;
 
@@ -2313,8 +2279,7 @@ L10:
 
 
 void
-mpgcd(k, l)
-int *k, *l ;
+mpgcd(int *k, int *l)
 {
   static int i, j, is, js ;
 
@@ -2356,8 +2321,7 @@ L30:
 
 
 int
-mpge(x, y)
-int *x, *y ;
+mpge(int *x, int *y)
 {
   int ret_val ;
 
@@ -2372,8 +2336,7 @@ int *x, *y ;
 
 
 int
-mpgt(x, y)
-int *x, *y ;
+mpgt(int *x, int *y)
 {
   int ret_val ;
 
@@ -2388,8 +2351,7 @@ int *x, *y ;
 
 
 int
-mple(x, y)
-int *x, *y ;
+mple(int *x, int *y)
 {
   int ret_val ;
 
@@ -2404,8 +2366,7 @@ int *x, *y ;
 
 
 void
-mpln(x, y)
-int *x, *y ;
+mpln(int *x, int *y)
 {
   float r__1 ;
 
@@ -2496,8 +2457,7 @@ L50:
 
 
 void
-mplns(x, y)
-int *x, *y ;
+mplns(int *x, int *y)
 {
   int i__1, i__2 ;
 
@@ -2608,8 +2568,7 @@ L80:
 
 
 int
-mplt(x, y)
-int *x, *y ;
+mplt(int *x, int *y)
 {
   int ret_val ;
 
@@ -2624,8 +2583,7 @@ int *x, *y ;
 
 
 void
-mpmaxr(x)
-int *x ;
+mpmaxr(int *x)
 {
   int i__1 ;
 
@@ -2654,8 +2612,7 @@ int *x ;
 
 
 void
-mpmlp(u, v, w, j)
-int *u, *v, *w, *j ;
+mpmlp(int *u, int *v, int *w, int *j)
 {
   int i__1 ;
 
@@ -2676,8 +2633,7 @@ int *u, *v, *w, *j ;
 
 
 void
-mpmul(x, y, z)
-int *x, *y, *z ;
+mpmul(int *x, int *y, int *z)
 {
   int i__1, i__2, i__3, i__4 ;
 
@@ -2806,8 +2762,7 @@ L110:
 
 
 void
-mpmul2(x, iy, z, trunc)
-int *x, *iy, *z, *trunc ;
+mpmul2(int *x, int *iy, int *z, int *trunc)
 {
   int i__1, i__2 ;
 
@@ -2965,8 +2920,7 @@ L130:
 
 
 void
-mpmuli(x, iy, z)
-int *x, *iy, *z ;
+mpmuli(int *x, int *iy, int *z)
 {
 
 /*  MULTIPLIES MP X BY SINGLE-PRECISION INTEGER IY GIVING MP Z.
@@ -2984,8 +2938,7 @@ int *x, *iy, *z ;
 
 
 void
-mpmulq(x, i, j, y)
-int *x, *i, *j, *y ;
+mpmulq(int *x, int *i, int *j, int *y)
 {
   int i__1 ;
 
@@ -3033,8 +2986,7 @@ L50:
 
 
 void
-mpneg(x, y)
-int *x, *y ;
+mpneg(int *x, int *y)
 {
 
 /* SETS Y = -X FOR MP NUMBERS X AND Y */
@@ -3049,8 +3001,7 @@ int *x, *y ;
 
 
 void
-mpnzr(rs, re, z, trunc)
-int *rs, *re, *z, *trunc ;
+mpnzr(int *rs, int *re, int *z, int *trunc)
 {
   int i__1 ;
 
@@ -3206,8 +3157,7 @@ L190:
 
 
 void
-mpovfl(x)
-int *x ;
+mpovfl(int *x)
 {
 
 /*  CALLED ON MULTIPLE-PRECISION OVERFLOW, IE WHEN THE
@@ -3238,8 +3188,7 @@ int *x ;
 
 
 void
-mppi(x)
-int *x ;
+mppi(int *x)
 {
   float r__1 ;
 
@@ -3281,8 +3230,7 @@ int *x ;
 
 
 void
-mppwr(x, n, y)
-int *x, *n, *y ;
+mppwr(int *x, int *n, int *y)
 {
   static int i2, n2, ns ;
 
@@ -3362,8 +3310,7 @@ L70:
 
 
 void
-mppwr2(x, y, z)
-int *x, *y, *z ;
+mppwr2(int *x, int *y, int *z)
 {
   static int i2 ;
 
@@ -3421,8 +3368,7 @@ L70:
 
 
 void
-mprec(x, y)
-int *x, *y ;
+mprec(int *x, int *y)
 {
 
 /* Initialized data */
@@ -3567,8 +3513,7 @@ L70:
 
 
 void
-mproot(x, n, y)
-int *x, *n, *y ;
+mproot(int *x, int *n, int *y)
 {
 
 /* Initialized data */
@@ -3766,8 +3711,7 @@ L170:
 
 
 void
-mpset(idecpl, itmax2, maxdr)
-int *idecpl, *itmax2, *maxdr ;
+mpset(int *idecpl, int *itmax2, int *maxdr)
 {
   int i__1 ;
 
@@ -3881,8 +3825,7 @@ L80:
 
 
 void
-mpsin(x, y)
-int *x, *y ;
+mpsin(int *x, int *y)
 {
   float r__1 ;
 
@@ -3995,8 +3938,7 @@ L50:
 
 
 void
-mpsin1(x, y, is)
-int *x, *y, *is ;
+mpsin1(int *x, int *y, int *is)
 {
   int i__1 ;
 
@@ -4093,8 +4035,7 @@ L80:
 
 
 void
-mpsinh(x, y)
-int *x, *y ;
+mpsinh(int *x, int *y)
 {
   int i__1 ;
 
@@ -4161,8 +4102,7 @@ L30:
 
 
 void
-mpsqrt(x, y)
-int *x, *y ;
+mpsqrt(int *x, int *y)
 {
   static int i, i2, iy3 ;
 
@@ -4204,8 +4144,7 @@ L40:
 
 
 void
-mpstr(x, y)
-int *x, *y ;
+mpstr(int *x, int *y)
 {
   int i__1 ;
 
@@ -4244,8 +4183,7 @@ L10:
 
 
 void
-mpsub(x, y, z)
-int *x, *y, *z ;
+mpsub(int *x, int *y, int *z)
 {
   static int y1[1] ;
 
@@ -4264,8 +4202,7 @@ int *x, *y, *z ;
 
 
 void
-mptanh(x, y)
-int *x, *y ;
+mptanh(int *x, int *y)
 {
   float r__1 ;
 
@@ -4337,8 +4274,7 @@ L40:
 
 
 void
-mpunfl(x)
-int *x ;
+mpunfl(int *x)
 {
 
 /*  CALLED ON MULTIPLE-PRECISION UNDERFLOW, IE WHEN THE
@@ -4363,9 +4299,7 @@ int *x ;
 
 
 double
-mppow_di(ap, bp)
-double *ap ;
-int *bp ;
+mppow_di(double *ap, int *bp)
 {
   double pow, x ;
   int n ;
@@ -4394,8 +4328,7 @@ int *bp ;
 
 
 int
-pow_ii(ap, bp)
-int *ap, *bp ;
+pow_ii(int *ap, int *bp)
 {
   int pow, x, n ;
 
@@ -4415,9 +4348,7 @@ int *ap, *bp ;
 
 
 double
-mppow_ri(ap, bp)
-float *ap ;
-int *bp ;
+mppow_ri(float *ap, int *bp)
 {
   double pow, x ;
   int n ;
