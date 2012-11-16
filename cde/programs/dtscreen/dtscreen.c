@@ -112,6 +112,7 @@ nl_catd  scmc_catd;   /* Cat descriptor for scmc conversion */
 #include <stdlib.h>
 #include <signal.h>
 #include <string.h>
+#include <errno.h>
 
 #include <X11/Intrinsic.h> /* For Boolean */
 #include <X11/Shell.h>
@@ -219,7 +220,6 @@ main(argc, argv)
 {
     XSetWindowAttributes xswa;
     XGCValues   xgcv;
-    XColor      nullcolor;
     int         nitems = 0;
     int         window;
     int i;
@@ -375,7 +375,9 @@ main(argc, argv)
       Win[window].gc = XCreateGC(dsp, Win[window].w,
                          GCForeground | GCBackground, &xgcv);
     }
-    nice(nicelevel);
+    if(-1 == nice(nicelevel)) {
+      fprintf(stderr, "dtscreen: failed to set nice() level '%s'\n", strerror(errno));
+    }
 
     justDisplay();
 

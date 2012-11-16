@@ -119,7 +119,7 @@ recurse(fs, x, y, l)
     register double x, y;
     register int l;
 {
-    int         xp, yp, i;
+    int         i;
     double      nx, ny;
 
     if (l == fs->max_levels) {
@@ -128,10 +128,6 @@ recurse(fs, x, y, l)
 	    return False;
 
 	if (x > -1.0 && x < 1.0 && y > -1.0 && y < 1.0) {
-	    xp = fs->pts[fs->num_points].x = (int) ((fs->width / 2)
-						    * (x + 1.0));
-	    yp = fs->pts[fs->num_points].y = (int) ((fs->height / 2)
-						    * (y + 1.0));
 	    fs->num_points++;
 	    if (fs->num_points > MAXBATCH) {	/* point buffer size */
 		XDrawPoints(dsp, fs->pwin->w, fs->pwin->gc, fs->pts,
@@ -162,7 +158,7 @@ drawflame(pwin)
     flamestruct *fs = (flamestruct *)pwin->data;
 
     int         i, j, k;
-    static      alt = 0;
+    static int  alt = 0;
 
     if (!(fs->cur_level++ % fs->max_levels)) {
 	XClearWindow(dsp, fs->pwin->w);

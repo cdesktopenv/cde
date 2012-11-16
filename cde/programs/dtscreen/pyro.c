@@ -250,7 +250,7 @@ ignite(pwin, pp)
     x = random() % pp->width;
     xvel = FLOATRAND(-pp->maxvelx, pp->maxvelx);
 /* All this to stop too many rockets going offscreen: */
-    if (x < pp->lmargin && xvel < 0.0 || x > pp->rmargin && xvel > 0.0)
+    if ((x < pp->lmargin && xvel < 0.0) || (x > pp->rmargin && xvel > 0.0))
 	xvel = -xvel;
     yvel = FLOATRAND(pp->minvely, pp->maxvely);
     fuse = INTRAND(MINFUSE, MAXFUSE);

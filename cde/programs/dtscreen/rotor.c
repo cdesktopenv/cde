@@ -56,7 +56,7 @@
 #define MAXANGLE	10000.0	/* irrectangular */
 #define DEFAULTCOUNT	3
 
-typedef unsigned char Boolean;
+/*typedef unsigned char Boolean; */
 
 #define IDENT(X)	X
 #if defined (__STDC__) || defined (AIXV3)

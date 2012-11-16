@@ -101,6 +101,8 @@ extern void drawflame();
 extern void initworm();
 extern void drawworm();
 
+void CheckResources(void);
+
 typedef struct {
     char       *cmdline_arg;
     void        (*lp_init) ();
@@ -507,7 +509,6 @@ open_display()
 {
     if (display != NULL) {
 	char       *colon = strchr(display, ':');
-	int         n = colon - display;
 
 	if (colon == NULL)
 #ifdef MIT_R5
@@ -710,7 +711,7 @@ GetResources(argc, argv)
 }
 
 
-CheckResources()
+void CheckResources(void)
 {
     int         i;
 

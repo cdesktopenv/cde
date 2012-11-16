@@ -41,6 +41,8 @@
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
 
+#include <Dt/Dt.h>
+
 #define MAXSCREENS 3
 #define NUMCOLORS 64
 
@@ -74,6 +76,7 @@ extern void (*callback) ();
 extern void (*init) ();
 
 extern void GetResources();
+extern void CheckResources();
 extern void hsbramp();
 extern void error();
 extern long seconds();
