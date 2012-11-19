@@ -674,7 +674,7 @@ void MPstr_to_num          P((char *, enum base_type, int *)) ;
 void paren_disp            P((char)) ;
 void process_event         P((int)) ;
 void process_item          P((int)) ;
-void process_parens        P((int)) ;
+void process_parens        P((char)) ;
 void process_stack         P((int, int, int)) ;
 void process_str           P((char *, enum menu_type)) ;
 void push_num              P((int *)) ;
