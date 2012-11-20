@@ -49,7 +49,7 @@
 #include <locale.h>
 #include <sys/param.h>		/* for MAXPATHLEN and MAXHOSTNAMELEN */
 
-#ifdef sun
+#if defined(sun) || defined(linux)
 #include <crypt.h>
 #include <shadow.h>
 #endif
@@ -61,6 +61,7 @@
 #include <X11/Intrinsic.h>
 #include <Xm/XmP.h>
 #include <Xm/Text.h>
+#include <Xm/TextF.h>
 #include <Xm/SelectioB.h>
 #include <Xm/MessageB.h>
 #include <Xm/Protocols.h>
@@ -85,12 +86,6 @@ XrmOptionDescRec option_list[] =
    {  "-contextDir", "contextDir",  XrmoptionSepArg,   NULL},
    {  "-execHost", "execHost",      XrmoptionSepArg,   NULL},
    {  "-termOpts", "termOpts",      XrmoptionSepArg,   NULL},
-};
-
-/* Fallback Resources */
-static char *fallback_resources[] = {
-    "*timeout: 5",
-    (char *) NULL
 };
 
 typedef struct {
@@ -291,7 +286,6 @@ main(
     int n=0;
     char *actionName;
     int numArgs = 0;
-    char contextDir[MAXPATHLEN+1];
     DtActionArg *ap = NULL;
   
     XtSetLanguageProc(NULL, NULL, NULL);
