@@ -791,7 +791,7 @@ unsigned char *
 ReadCatalog(int setn, int msgn, char *dflt)
 {
     OpenCatalog();
-    if (0 > (int) nl_fd)
+    if ((0 > (int) nl_fd) || (NULL == langenv))
       return (unsigned char*) dflt;
     else
       return (unsigned char*) catgets(nl_fd, setn, msgn, dflt);
