@@ -82,5 +82,7 @@ set_text_str(struct tW_struct *w, enum text_type ttype, char *str)
                      XmStringFree(cstr) ;
                      break ;
       case T_VALUE : XmTextFieldSetString(w->textfield, str) ;
+                     break ;
+      default : break ;
     }
 }

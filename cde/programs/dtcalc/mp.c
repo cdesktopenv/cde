@@ -621,7 +621,7 @@ L10:
 L20:
   if (MP.r[i3] < 0) goto L30 ;
 
-  if (MP.r[i3] == 0 && MP.r[i3 + 1] + 1 << 1 <= MP.b)
+  if (MP.r[i3] == 0 && (MP.r[i3 + 1] + 1) << 1 <= MP.b)
     goto L30 ;
 
   q <<= 1 ;
@@ -3478,7 +3478,7 @@ L40:
 /* RETURN IF NEWTON ITERATION WAS CONVERGING */
 
 L50:
-  if (MP.r[i3 - 1] == 0 || MP.r[i2] - MP.r[i3] << 1 >= 
+  if (MP.r[i3 - 1] == 0 || (MP.r[i2] - MP.r[i3]) << 1 >= 
           MP.t - it0)
     goto L70 ;
 
@@ -3676,7 +3676,7 @@ L130:
  */
 
 L140:
-  if (MP.r[i3 - 1] == 0 || MP.r[i2] - MP.r[i3] << 1 >= 
+  if (MP.r[i3 - 1] == 0 || (MP.r[i2] - MP.r[i3]) << 1 >= 
       MP.t - it0) 
     goto L160 ;
 

@@ -63,4 +63,7 @@ int ds_force_popup_on_screen  P((Widget, int *, int *)) ;
 
 void ds_get_screen_size       P((Widget, int *, int *)) ;
 
+void _DtGenericMapWindow      P((Widget shell, Widget parent ));
+void _DtChildPosition         P((Widget w, Widget parent, Position *newX, Position *newY));
+
 #endif /*!_ds_popup_h*/

@@ -37,6 +37,7 @@
 #include <Xm/MessageB.h>
 
 #include <Dt/Dt.h>
+#include <Dt/Wsm.h>
 #include <Dt/HelpDialog.h>
 
 #include "calctool.h"

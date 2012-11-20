@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <ctype.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include "ds_xlib.h"

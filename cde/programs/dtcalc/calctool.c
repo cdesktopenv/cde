@@ -509,10 +509,8 @@ get_key_val(char *val, char *str)
 void
 get_label(int n)
 {
-  int val ;
   char *temp;
 
-  val = buttons[n].value ;
   if (v->tstate)
      temp = buttons[n].str2;
   else 
@@ -696,7 +694,6 @@ get_options(int argc, char *argv[])
               case 'v' : usage(v->progname) ;
                          break ;
               default  :
-              toolarg  :             /* Pick up generic tool arguments. */
                          usage(v->progname) ;
             }
           INC ;
@@ -1146,7 +1143,7 @@ make_number(int *MPnumber, BOOLEAN mkFix)
   val = fabs(number) ;
   if (v->error) return(vstrs[(int) V_ERROR]) ;
   if (v->dtype == ENG || v->dtype == SCI ||
-       v->dtype == FIX && val != 0.0 && (val > max_fix[(int) v->base]))
+       (v->dtype == FIX && val != 0.0 && (val > max_fix[(int) v->base])))
      return(make_eng_sci(MPnumber)) ;
   else if (v->dtype == FIX && val != 0.0 && mkFix)
   {
@@ -1219,6 +1216,10 @@ make_number(int *MPnumber, BOOLEAN mkFix)
            return(make_eng_sci(MPnumber)) ;
         else
            return(make_fixed(MPnumber, MAX_DIGITS)) ;
+     }
+     else 
+     {
+        return(make_fixed(MPnumber, MAX_DIGITS)) ;
      }
   }
   else 
@@ -1503,6 +1504,9 @@ process_item(int n)
             set_item(OPITEM, vstrs[(int) V_CLR]) ;
          else 
             set_item(OPITEM, "") ;
+         break;
+      default:
+         break;
     }
   (*buttons[n].func)() ;
 
@@ -1712,6 +1716,8 @@ write_rcfile(enum menu_type mtype, int exists, int cfno, char *val, char *commen
                                if (!strncmp(str, sval, 2)) FPUTS("#", tmpfd) ;
                                sval[0] = 'F' ;
                                if (!strncmp(str, sval, 2)) FPUTS("#", tmpfd) ;
+                               break;
+                  default: break;
                 }
             }    
           FPRINTF(tmpfd, "%s", str) ;
@@ -1726,6 +1732,8 @@ write_rcfile(enum menu_type mtype, int exists, int cfno, char *val, char *commen
       case M_FUN : 
                if(strcmp(val, "") != 0)
                   FPRINTF(tmpfd, "\nF%1d %s %s\n", cfno, val, comment) ;
+               break;
+      default: break;
     }
   UNLINK(rcname) ;
   rcfd = fopen(rcname, "w") ;

@@ -38,6 +38,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <unistd.h>
 #include <signal.h>
 #include <sys/param.h>
@@ -229,7 +230,6 @@ static void event_proc           P((Widget, XtPointer, XEvent *, Boolean *)) ;
 static void frame_interpose      P((Widget, XtPointer, XEvent *, Boolean *)) ;
 static void menu_handler         P((Widget, XtPointer, XEvent *, Boolean *)) ;
 static void popupHandler         P((Widget, XtPointer, XEvent *, Boolean *)) ;
-static void make_mode_frame      P((enum mode_type)) ;
 static void new_cf_value         P((Widget, XtPointer, XtPointer)) ;
 static void do_memory            P((Widget, XtPointer, XtPointer)) ;
 static void switch_mode          P((enum mode_type)) ;
@@ -1770,6 +1770,8 @@ event_proc(Widget widget, XtPointer client_data, XEvent *event, Boolean *continu
               v->cur_ch == KEY_E ||
               v->cur_ch == KEY_F)
                return;
+        default: /* HEX, allow all keys */
+          break;
       }
    }
 
@@ -1869,7 +1871,7 @@ static int
 get_next_event(Widget widget, int ev_action, XEvent *xevent)
 {
   char *tmpStr, chs[2] ;
-  int cval, down, nextc, up ;
+  int cval = 0, down, nextc, up ;
   KeySym ksym;
   XKeyPressedEvent *key_event ;
 
@@ -2514,7 +2516,7 @@ set_item(enum item_type itemno, char *str)
 void
 set_title(enum fcp_type fcptype, char *str)
 {
-  Widget w ;
+  Widget w;
   XmString cstr ;
 
 
@@ -2526,6 +2528,10 @@ set_title(enum fcp_type fcptype, char *str)
     w = X->frframe ;
   else if (fcptype == FCP_MODE)
     w = X->mframe[(int) v->modetype] ;
+  else {
+    fprintf(stderr, "Unknown fcptype %d in set_title\n", fcptype);
+    return;
+  }
 
   if (fcptype == FCP_KEY)
     XtVaSetValues(w, XmNtitle, str, NULL) ;
@@ -3127,6 +3133,8 @@ update_cf_value(void)
                    }
                    else
                       STRCPY(v->fun_names[X->cfno], "");
+                   break;
+      default : break;
     }
 
   XtDestroyWidget(X->menus[(int) X->CFtype]) ;
@@ -3142,6 +3150,8 @@ update_cf_value(void)
       case M_FUN :
                    write_rcfile(X->CFtype, X->cfexists, X->cfno,
                                                         X->vval, X->dval) ;
+                   break ;
+      default : break;
     }
 
   ignore_event = True;
@@ -3154,7 +3164,7 @@ update_cf_value(void)
 void
 win_display(enum fcp_type fcptype, int state)
 {
-  Widget widget ;
+  Widget widget = NULL;
   Position newX, newY;
   Arg args[3];
 
@@ -3244,6 +3254,8 @@ write_cf_value(Widget widget, XtPointer client_data, XtPointer call_data)
       case M_CON : X->cfexists = 1 ;    /* Always the default constants. */
                    break ;
       case M_FUN : if (strlen(v->fun_vals[X->cfno])) X->cfexists = 1 ;
+                   break;
+      default : break;
     }
   if (X->cfexists)
     {
@@ -3769,7 +3781,7 @@ create_popup(Widget parent)
   char *mnemonic;
   XmString label;
   Widget dummyHelp1, dummyHelp2, memRegs;
-  Widget help, helpI, helpToc, helpT, helpR, helpO, helpU, helpV;
+  Widget helpI, helpToc, helpT, helpR, helpO, helpU, helpV;
 
   X->popupMenu = XmCreatePopupMenu(parent, "popup", NULL, 0) ;
   XtCreateManagedWidget(GETMESSAGE(2, 46,"Calculator Popup"),
@@ -3966,7 +3978,7 @@ create_popup(Widget parent)
 
   mnemonic = GETMESSAGE(2, 17, "H");
   label = XmStringCreateLocalized ( GETMESSAGE(2, 18, "Help") );
-  help = XtVaCreateManagedWidget("help",
+  XtVaCreateManagedWidget("help",
 		xmCascadeButtonGadgetClass,  X->popupMenu,
 		XmNsubMenuId, 		    dummyHelp2,
 		XmNmnemonic,		    XStringToKeysym( mnemonic ),
@@ -4086,11 +4098,9 @@ map_popup(Widget widget, XtPointer client_data, XtPointer call_data)
 {
    XmAnyCallbackStruct * callback;
    XEvent * event;
-   XKeyPressedEvent *key_event ;
 
    callback = (XmAnyCallbackStruct *) call_data;
    event = (XEvent *) callback->event;
-   key_event = (XKeyPressedEvent *) event ;
 
    if(event->type != KeyRelease)
       return;

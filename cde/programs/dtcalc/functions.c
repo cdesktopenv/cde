@@ -57,6 +57,7 @@ double mods[] = { 1.0, 1.0e-1, 1.0e-2, 1.0e-3, 1.0e-4,
                   1.0e-15, 1.0e-16, 1.0e-17, 1.0e-18, 1.0e-19 };
 
 static void compute_i(double *target);
+static int count_sign_changes(double *cf, int count);
 
 
 void
@@ -472,12 +473,15 @@ do_calc(void)      /* Perform arithmetic calculation and display result. */
   /* the financial state is false - last key was not a fin. key */
   v->funstate = 0;
 
-  if (!(v->opsptr && !v->show_paren))   /* Don't do if processing parens. */
-    if (IS_KEY(v->current, KEY_EQ) && IS_KEY(v->old_cal_value, KEY_EQ))
-      if (v->new_input)
+  if (!(v->opsptr && !v->show_paren)) {  /* Don't do if processing parens. */
+    if (IS_KEY(v->current, KEY_EQ) && IS_KEY(v->old_cal_value, KEY_EQ)) {
+      if (v->new_input) {
          mpstr(v->MPdisp_val, v->MPresult) ;
-      else
+      } else {
          mpstr(v->MPlast_input, v->MPdisp_val) ;
+      }
+    }
+  }
 
   if (!IS_KEY(v->current, KEY_EQ) && IS_KEY(v->old_cal_value, KEY_EQ))
     v->cur_op = '?' ;
@@ -934,6 +938,7 @@ do_numtype(void)    /* Set number type (engineering, fixed or scientific). */
   set_numtype(v->dtype);
 }
 
+void
 set_numtype(enum num_type dtype)
 {
   v->pending = 0 ;
@@ -1734,7 +1739,7 @@ do_round(double result, int ndigits)
     if (!temp)
        return (temp > 0) ? HUGE : -HUGE;
 #else
-    if (temp = isinf(result)) return (temp > 0) ? HUGE : -HUGE;
+    if ((temp = isinf(result))) return (temp > 0) ? HUGE : -HUGE;
 #endif /* USL or __uxp__ */
 #endif /* _AIX or __osf__ */
 
@@ -1829,6 +1834,7 @@ try_compute_i(double guess, double *result, int method)
 
 	switch (method)
 	{
+            default:
 	    case 1:
 		f = lsp - lsn;
 		f_prime = sum_pos_prime / sum_pos - sum_neg_prime / sum_neg;
@@ -1856,7 +1862,7 @@ try_compute_i(double guess, double *result, int method)
 #endif
 #endif /* _AIX or __osf__ */
 
-	if (new_w == w || w != 0.0 && fabs((new_w - w) / w) < FIN_EPSILON)
+	if (new_w == w || (w != 0.0 && fabs((new_w - w) / w) < FIN_EPSILON))
            break;
 
 	w = new_w;
@@ -1933,7 +1939,7 @@ compute_i(double *target)
         doerr(GETMESSAGE(5, 1, "ERROR: Computation Failed"));
 }
 
-int
+static int
 count_sign_changes(double *cf, int count)
 {
     int i, curr_sign = 0, result = 0;
