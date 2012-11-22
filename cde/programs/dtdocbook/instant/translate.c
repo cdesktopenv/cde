@@ -197,14 +197,17 @@ ExpandVariables(
     char	*def_val, *s, *atval, *modifier;
     char	vbuf[500];
     int		lev;
+    size_t	len = 0, totlen;
 
     ip = in;
     op = out;
-    while (*ip) {
+    totlen = strlen(ip);
+    while (totlen >= len && *ip) {
 	/* start of regular variable? */
 	if (*ip == VDELIM && *(ip+1) == L_CURLY && *(ip+2) != '_') {
 	    ip++;
 	    ip++;		/* point at variable name */
+	    len + 2;
 	    vp = vbuf;
 	    /*	Look for matching (closing) curly. (watch for nesting)
 	     *	We store the variable content in a tmp buffer, so we don't
@@ -216,11 +219,13 @@ ExpandVariables(
 		if (*ip == R_CURLY) {
 		    if (lev == 0) {
 			ip++;
+			len++;
 			break;
 		    }
 		    else lev--;
 		}
 		*vp++ = *ip++;	/* copy to variable buffer */
+		len++;
 	    }
 	    *vp = EOS;
 	    /* vbuf now contains the variable name (stuff between curlys). */
@@ -270,6 +275,7 @@ ExpandVariables(
 	    }
 	}
 	*op++ = *ip++;
+	len++;
     }
     *op = EOS;		/* terminate string */
 }
