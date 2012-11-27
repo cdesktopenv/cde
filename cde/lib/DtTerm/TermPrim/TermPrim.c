@@ -894,6 +894,8 @@ GetMetaMask
 	for (i1 = 0; i1 < modifierMapping->max_keypermod; i1++) {
 	    thisKeyCode = modifierMapping->modifiermap[mapIndex *
 		    modifierMapping->max_keypermod + i1];
+	    if (thisKeyCode < minKeycodes)
+		break;
 	    thisKeySym = keyboardMapping[(thisKeyCode - minKeycodes) *
 		    keysymsPerKeycode];
 	    if ((thisKeySym == XK_Meta_L) || (thisKeySym == XK_Meta_R)) {
