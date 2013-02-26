@@ -2112,6 +2112,11 @@ SwitchCreate (BoxData * box_data)
                             panel.inactive_pixel_set->fg);
       XtSetArg (al[ac], XmNbackgroundPixmap, pixmap);  ac++;
    }
+   else
+   {
+      XtSetArg (al[ac], XmNbackground, panel.primary_pixel_set->bg);	ac++;
+      XtSetArg (al[ac], XmNforeground, panel.primary_pixel_set->fg);	ac++;
+   }
 
    switch_data->rc = 
       XmCreateRowColumn (box_data->switch_form, "switch_rc", al, ac);
