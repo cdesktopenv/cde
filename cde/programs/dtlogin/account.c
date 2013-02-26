@@ -57,7 +57,7 @@
 #endif
 
 #include	<fcntl.h>
-#if defined(__FreeBSD__)
+#if defined(__FreeBSD__) && OSMAJORVERSION > 8
 #include	<utmpx.h>
 #else
 #include	<utmp.h>

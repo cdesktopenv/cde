@@ -61,7 +61,9 @@ static char rcs_id[] = "$TOG: TermPrimSetUtmp.c /main/10 1998/04/03 17:11:42 mgr
 #endif	/* sun */
 
 #ifdef	__FreeBSD__
+#if OSMAJORVERSION > 8
 #define	UT_UTMPX
+#endif
 #define	UT_HOST		ut_host
 #define	UT_NO_pututline
 #endif

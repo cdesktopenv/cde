@@ -39,7 +39,7 @@
 # include <signal.h>
 # include <X11/Xatom.h>
 # include <setjmp.h>
-#if defined(__FreeBSD__)
+#if defined(__FreeBSD__) && OSMAJORVERSION > 8
 # include <utmpx.h>
 #else
 # include <utmp.h>
