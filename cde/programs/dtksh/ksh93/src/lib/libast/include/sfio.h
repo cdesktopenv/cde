@@ -149,8 +149,10 @@
 #define _STDIO_INCLUDED	1
 #endif
 
+#if !defined(CSRG_BASED)
 #ifndef FILE
 #define FILE	Sfio_t
+#endif
 #endif
 #endif /* __cplusplus */
 

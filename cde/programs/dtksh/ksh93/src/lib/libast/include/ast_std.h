@@ -137,7 +137,9 @@
 #define _SKIP_SFSTDIO_H
 #else
 #define _SFSTDIO_H
+#if !defined(linux)
 #define FILE	int
+#endif
 #if defined(__STDPP__directive) && defined(__STDPP__hide)
 #if !_std_def_calloc
 __STDPP__directive pragma pp:hide calloc

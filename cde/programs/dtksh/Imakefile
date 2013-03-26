@@ -61,16 +61,15 @@ EXTRA_INCLUDES = -I$(DTHELPSRC) -I$(DTPRINTSRC)
 .NO_PARALLEL:
 #endif
 
+#ifdef LinuxArchitecture
+SYS_LIBRARIES = -lm -ldl
+#endif
+
 #define IHaveSubdirs
 #define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
 
-#if defined(LinuxArchitecture)
-SUBDIRS = examples
-KSH93OBJ =
-#else
 SUBDIRS = examples ksh93
 KSH93OBJ = $(KSH93SRC)/ksh93.o
-#endif
 
 MakeSubdirs($(SUBDIRS))
 
