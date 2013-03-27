@@ -86,6 +86,10 @@
 #include "SmHelp.h"
 #include "SmGlobals.h"
 
+#ifdef USE_XINERAMA
+#include <DtXinerama.h>
+#endif
+
 typedef enum {
 	ConfirmationNone,
 	ConfirmationOK,
@@ -1340,6 +1344,7 @@ DialogUp(
     int 	i;
     Dimension	width, height;
     Position	x, y;
+    unsigned int dpwidth, dpheight, xorg, yorg; /* JET - Xinerama */
 
     /*
      * Get the size of the dialog box - then compute its position
@@ -1349,9 +1354,30 @@ DialogUp(
     XtSetArg(uiArgs[i], XmNheight, &height);i++;
     XtGetValues(w, uiArgs, i);
     
-    x = (DisplayWidth(smGD.display, smGD.screen) / 2) - (width / 2);
-    y = (DisplayHeight(smGD.display, smGD.screen) / 2) - (height / 2);
-    
+				/* JET - get xinerama info */
+#ifdef USE_XINERAMA
+                                /* use the 'prefered' screen */
+    if (!_DtXineramaGetScreen(smGD.DtXineramaInfo, 
+                              smRes.xineramaPreferredScreen, 
+			      &dpwidth, &dpheight, &xorg, &yorg))
+      {                         /* no joy here either - setup for normal */
+        dpwidth = DisplayWidth(smGD.display, smGD.screen);
+        dpheight = DisplayHeight(smGD.display, smGD.screen);
+	xorg = yorg = 0;
+      }
+#else  /* no Xinerama */
+    dpwidth = DisplayWidth(smGD.display, smGD.screen);
+    dpheight = DisplayHeight(smGD.display, smGD.screen);
+    xorg = yorg = 0;
+#endif
+
+    x = (dpwidth / 2) - (width / 2);
+    y = (dpheight / 2) - (height / 2);
+
+				/* add the x/y origins for Xinerama */
+    x += xorg;
+    y += yorg;
+
     i = 0;
     XtSetArg(uiArgs[i], XmNx, x);i++;
     XtSetArg(uiArgs[i], XmNy, y);i++;
@@ -1484,6 +1510,7 @@ LockDialogUp(
     register int	i;
     Dimension	width, height;	/* size values returned by XtGetValues	   */
     Dimension	shadowThickness;/* size values returned by XtGetValues	   */
+    unsigned int dpwidth, dpheight, xorg, yorg; /* JET - xinerama */
     
     struct
     {			/* position, size of widgets (pixels)	   */
@@ -1497,6 +1524,23 @@ LockDialogUp(
     int		x1, y1;		/* general position variables		   */
     int		index;
     
+				/* JET - get xinerama info */
+#ifdef USE_XINERAMA
+                                /* use the prefered screen */
+    if (!_DtXineramaGetScreen(smGD.DtXineramaInfo, 
+                              smRes.xineramaPreferredScreen, 
+			      &dpwidth, &dpheight, &xorg, &yorg))
+      {                         /* no joy here either - setup for normal */
+        dpwidth = DisplayWidth(smGD.display, smGD.screen);
+        dpheight = DisplayHeight(smGD.display, smGD.screen);
+	xorg = yorg = 0;
+      }
+#else  /* no Xinerama */
+    dpwidth = DisplayWidth(smGD.display, smGD.screen);
+    dpheight = DisplayHeight(smGD.display, smGD.screen);
+    xorg = yorg = 0;
+#endif
+
     /*
      * The partial cover has widgets of index 0 - the cover has
      * index 1
@@ -1522,14 +1566,15 @@ LockDialogUp(
     mw.shadow = shadowThickness;
     mw.width  = width;
     mw.height = height;
-    mw.x      = (DisplayWidth(smGD.display, smGD.screen)  - mw.width)/2;
-    mw.y      = (DisplayHeight(smGD.display, smGD.screen) - mw.height)/2;
+    mw.x      = (dpwidth  - mw.width)/2;
+    mw.y      = (dpheight - mw.height)/2;
 
     if ( mw.x < 0 ) mw.x = 0;
     if ( mw.y < 0 ) mw.y = 0;
     
-    x1 = mw.x;
-    y1 = mw.y;
+				/* adjust origins if using Xinerama */
+    x1 = mw.x + xorg;
+    y1 = mw.y + yorg;
 
     i = 0;
 

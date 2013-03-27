@@ -66,6 +66,9 @@ extern int errno;
 #    include <sys/security.h>
 #endif
 
+#ifdef USE_XINERAMA
+# include <DtXinerama.h>
+#endif
 
 #ifdef SIGNALRETURNSINT
 #define SIGVAL int
@@ -264,6 +267,9 @@ typedef struct {
     char 	*languageList;	/* list of languages to display in menu	   */
     int 	unitType;	/* widgets' unit type			   */
     char        *languageListCmd; /* command to produce language list      */
+#if defined(USE_XINERAMA)
+    int         xineramaPreferredScreen; /* preferred screen for xinerama */
+#endif
 } AppInfo, *AppInfoPtr;
 
 
@@ -278,6 +284,10 @@ typedef struct displayInfo {
     int		height;		/* initialized with DisplayHeight()	   */
     Pixel	black_pixel;	/* initialized with BlackPixel()	   */
     Visual	*visual;	/* initialized with DefaultVisual()	   */
+#ifdef USE_XINERAMA		/* initialized with _DtXineramaInit()      */
+  DtXineramaInfoPtr_t DtXineramaInfo;
+#endif
+
 } DisplayInfo;
 
 

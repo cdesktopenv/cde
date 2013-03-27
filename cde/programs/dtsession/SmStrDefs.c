@@ -80,6 +80,7 @@ char SmNsaveYourselfTimeout[] = "saveYourselfTimeout";
 char SmNmergeXdefaults[] = "mergeXdefaults";
 char SmNnumSessionsBackedup[] = "numSessionsBackedup";
 char SmNignoreEnvironment[] = "ignoreEnvironment";
+char SmNxineramaPreferredScreen[] = "xineramaPreferredScreen";
 
 
 /* Resource names for settings information */
@@ -141,6 +142,7 @@ char SmCsaveYourselfTimeout[] = "SaveYourselfTimeout";
 char SmCmergeXdefaults[] = "MergeXdefaults";
 char SmCnumSessionsBackedup[] = "NumSessionsBackedup";
 char SmCignoreEnvironment[] = "IgnoreEnvironment";
+char SmCxineramaPreferredScreen[] = "XineramaPreferredScreen";
 
 /*
  * Class names for session settings information

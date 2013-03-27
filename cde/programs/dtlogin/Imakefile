@@ -4,6 +4,11 @@ XCOMM $TOG: Imakefile /main/21 1999/03/01 18:26:06 mgreess $
 
 SUBDIRS = config $(XDMSUBDIRS) $(BLSSUBDIRS) $(AFSSUBDIRS)
 
+#if CDE_USEXINERAMA
+XINOPT = -DUSE_XINERAMA
+XINLIB = -lDtXinerama -lXinerama
+#endif
+
 MakeSubdirs($(SUBDIRS))
 DependSubdirs($(SUBDIRS))
 
@@ -122,6 +127,8 @@ SYS_LIBRARIES = -lm -lXdmcp
 
 #if defined(LinuxArchitecture) || defined(FreeBSDArchitecture)
 SYS_LIBRARIES = -lm -lcrypt
+EXTRA_DEFINES = $(XINOPT)
+LOGINXLIB = $(XLIB) $(XINLIB)
 /* just use the system provided Xau and Xdmcp*/
 DEPXAUTHLIB = 
 DEPXDMCPLIB = 
@@ -293,9 +300,9 @@ EXTRA_RES_DEFINES = \
 
     BASE_LIBS1  = $(XAUTHLIB) $(LOGINXMULIB) $(XDMCPLIB) $(LOGINXLIB)
     BASE_LIBS2  = $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) $(XMLIB) \
-		  $(XTOOLLIB) $(XPLIB) $(XLIB)
+		  $(XTOOLLIB) $(XPLIB) $(XLIB) $(XINLIB)
     BASE_LIBS3  = $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) $(XDMCPLIB) $(XMLIB) \
-		  $(XTOOLLIB) $(XPLIB) $(XLIB)
+		  $(XTOOLLIB) $(XPLIB) $(XLIB) $(XINLIB)
 
     LOCAL_LIBRARIES1 = $(BASE_LIBS1) $(IAFSYSLIB)
     LOCAL_LIBRARIES2 = $(BASE_LIBS2)

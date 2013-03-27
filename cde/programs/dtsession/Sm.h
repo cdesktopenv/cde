@@ -61,6 +61,10 @@
 #include <Tt/tt_c.h>
 #include "SmError.h"
 
+#ifdef USE_XINERAMA
+# include <DtXinerama.h>
+#endif
+
 /* 
  *  #define statements 
  */
@@ -202,6 +206,9 @@ typedef struct
     Boolean     mergeXdefaults;
     int		numSessionsBackedup;
     char	*ignoreEnvironment;
+#if defined(USE_XINERAMA)
+    int         xineramaPreferredScreen; /* prefered xinerama screen */
+#endif
 } SessionResources, *SessionResourcesPtr;
 
 /*
@@ -336,6 +343,10 @@ typedef struct
 				    specific display, otherwise False */
     Boolean	loggingOut;	/* Is True if the current save is for
 				   a logout; False otherwise. */
+
+#ifdef USE_XINERAMA		/* JET - Xinerama.  Schwiing!  */
+  DtXineramaInfoPtr_t DtXineramaInfo;
+#endif
 
     Boolean ExitComplete;	/* JET - don't exit before we are ready... */
 

@@ -70,6 +70,9 @@
 #include <Dt/EnvControlP.h>
 #include <Dt/DtP.h>
 #include <Dt/Lock.h>
+#ifdef USE_XINERAMA
+#include <DtXinerama.h>		/* JET - Xinerama support */
+#endif
 #include "Sm.h"
 #include "SmError.h"
 #include "SmGlobals.h"
@@ -386,6 +389,25 @@ main (int argc, char **argv)
         PrintError(DtError, GETMESSAGE(2, 2, "Another dtsession is currently running - exiting."));
         SM_EXIT(-1);
     }
+
+    /* JET - initialize for Xinerama, if present 4/12/2001 */
+#ifdef USE_XINERAMA
+    smGD.DtXineramaInfo = _DtXineramaInit(smGD.display);
+
+# ifdef DEBUG
+    if (smGD.DtXineramaInfo == NULL)
+      {                         /* No xinerama, how... sad. */
+        fprintf(stderr, "### JET SmMain: Xinerama NOT available.\n");
+      }
+    else
+      {
+        fprintf(stderr, "### JET SmMain: Xinerama available, scrns = %d\n",
+                dpyinfo.DtXineramaInfo->numscreens);
+      }
+# endif
+
+#endif
+
 
    /*
     * Restore preferences

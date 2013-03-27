@@ -86,6 +86,7 @@ extern char SmNsaveYourselfTimeout[];
 extern char SmNmergeXdefaults[];
 extern char SmNnumSessionsBackedup[];
 extern char SmNignoreEnvironment[];
+extern char SmNxineramaPreferredScreen[];
 
 /* 
  * Resource names for settings information 
@@ -147,6 +148,8 @@ extern char SmCsaveYourselfTimeout[];
 extern char SmCmergeXdefaults[];
 extern char SmCnumSessionsBackedup[];
 extern char SmCignoreEnvironment[];
+extern char SmCxineramaPreferredScreen[];
+
 
 /*
  * Class names for session settings information

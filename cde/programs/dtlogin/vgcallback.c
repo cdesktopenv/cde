@@ -552,11 +552,14 @@ FakeFocusIn( Widget focus_widget, XtPointer client_data, XEvent *eventprm,
 void
 LayoutCB( Widget w, XtPointer client_data, XtPointer call_data )
 {
-    register int	i, j;
+    int	i, j;
     Dimension	width, height;	/* size values returned by XtGetValues	   */
     Dimension	shadowThickness;/* size values returned by XtGetValues	   */
     Position	x, y;		/* position values returned by XtGetValues */
     
+    int dpwidth, dpheight;	/* JET - display w/h set according to */
+    int xorg, yorg;		/* xinerama usage */
+
     struct {			/* position, size of widgets (pixels)	   */
     int x, y;
     int	width;
@@ -585,6 +588,22 @@ LayoutCB( Widget w, XtPointer client_data, XtPointer call_data )
     vg_TRACE_EXECUTION("main:  entered LayoutCB ...");
 #endif /* VG_TRACE */
 
+#ifdef USE_XINERAMA
+				/* get info on the prefered screen */
+    if (!_DtXineramaGetScreen(dpyinfo.DtXineramaInfo, 
+                              appInfo.xineramaPreferredScreen,
+			      &dpwidth, &dpheight, &xorg, &yorg))
+      {				/* no joy here either - setup for normal */
+	dpwidth = dpyinfo.width;
+	dpheight = dpyinfo.height;
+	xorg = yorg = 0;
+      }
+#else  /* no Xinerama */
+    dpwidth = dpyinfo.width;
+    dpheight = dpyinfo.height;
+    xorg = yorg = 0;
+#endif    
+
     /*
      * - squeeze dialog to fit onto screen (if necessary)
      */
@@ -593,9 +612,9 @@ LayoutCB( Widget w, XtPointer client_data, XtPointer call_data )
     XtGetValues(matte, argt, i);
     mw.width  = ToPixel(matte, XmHORIZONTAL, (int)width  );
 #define HMARGIN 4 /* min sum horizontal margin of matte */
-    if (mw.width+HMARGIN > dpyinfo.width)
+    if (mw.width+HMARGIN > dpwidth)
     {
-      int delta = mw.width + HMARGIN - dpyinfo.width;
+      int delta = mw.width + HMARGIN - dpwidth;
      /*
       * Matte width greater than screen so shrink matteFrame
       * and matte1 width to compensate.
@@ -612,7 +631,7 @@ LayoutCB( Widget w, XtPointer client_data, XtPointer call_data )
       XtSetArg(argt[i], XmNwidth,       width1          ); i++;
       XtSetValues(matteFrame, argt, i);
 
-      width1 = dpyinfo.width - HMARGIN;
+      width1 = dpwidth - HMARGIN;
       mw.width = FromPixel(matte, XmHORIZONTAL, width1 );
 
       i=0;
@@ -661,16 +680,20 @@ LayoutCB( Widget w, XtPointer client_data, XtPointer call_data )
     mw.height = ToPixel(matte, XmVERTICAL,   (int)height );
 
     mw.x = ( x > 0 ? ToPixel(matte, XmHORIZONTAL, (int) x)
-	    : (dpyinfo.width - mw.width)/2 );
+	    : (dpwidth - mw.width)/2 );
     
     mw.y = ( y > 0 ? ToPixel(matte, XmVERTICAL, (int) y)
-	    : (dpyinfo.height - mw.height)/2 );
+	    : (dpheight - mw.height)/2 );
  
     if ( mw.x < 0 ) mw.x = 0;
     if ( mw.y < 0 ) mw.y = 0;
 
     x1 = FromPixel(matte, XmHORIZONTAL, mw.x );
     y1 = FromPixel(matte, XmVERTICAL,   mw.y );
+
+    x1 += xorg;			/* JET - adjust for xinerama */
+    y1 += yorg;
+
 
     i = 0;
     XtSetArg(argt[i], XmNx,			x1			); i++;
@@ -733,7 +756,7 @@ LayoutCB( Widget w, XtPointer client_data, XtPointer call_data )
 	XtGetValues(copyright_msg, argt, i);
 
 	width1 = ToPixel(copyright_msg, XmHORIZONTAL, width);
-	width1 = (dpyinfo.width - (int) geometry.width - 2 * width1)/2;
+	width1 = (dpwidth - (int) geometry.width - 2 * width1)/2;
 
 	x1 = FromPixel(copyright_msg, XmHORIZONTAL, width1);
 	y1 = FromPixel(copyright_msg, XmVERTICAL, mw.y);

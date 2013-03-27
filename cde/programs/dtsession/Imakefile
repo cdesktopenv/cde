@@ -16,6 +16,10 @@ LOCAL_LIBRARIES = $(DTHELPLIB) $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) \
 #endif /* SunArchitecture */
 SYS_LIBRARIES = -lm
 
+#if CDE_USEXINERAMA
+XINOPT = -DUSE_XINERAMA
+XINLIB = -lDtXinerama -lXinerama
+#endif
 
 #ifdef AlphaArchitecture
 SYS_LIBRARIES = -lm
@@ -74,7 +78,7 @@ SYS_LIBRARIES = $(XPLIB) $(XINLIB) -ldl -lcrypt -lm
 
 #if defined(FreeBSDArchitecture)
 EXTRA_DEFINES = -D${PROGRAMS} $(XINOPT)
-SYS_LIBRARIES = $(XPLIB) -lcrypt -lm
+SYS_LIBRARIES = $(XPLIB) $(XINLIB) -lcrypt -lm
 #endif
 
 PROGRAMS=dtsession

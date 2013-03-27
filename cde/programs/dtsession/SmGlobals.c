@@ -222,6 +222,12 @@ static XtResource sessionResources[]=
    {SmNignoreEnvironment, SmCignoreEnvironment, XtRString, sizeof(String),
         XtOffset(SessionResourcesPtr, ignoreEnvironment),
         XtRImmediate, (XtPointer) NULL},
+#if defined(USE_XINERAMA)	/* JET - Xinerama */
+   {SmNxineramaPreferredScreen, SmCxineramaPreferredScreen, XtRInt, sizeof(int),
+        XtOffset(SessionResourcesPtr, xineramaPreferredScreen),
+        XtRImmediate, (XtPointer) 0},
+#endif
+
 }
 ;
 

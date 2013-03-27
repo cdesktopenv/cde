@@ -90,6 +90,10 @@
 #include 	<Dt/MenuButton.h>
 
 
+#ifdef USE_XINERAMA
+#include <DtXinerama.h>
+#endif
+
 #if !defined(NL_CAT_LOCALE)
 #define NL_CAT_LOCALE 0
 #endif
@@ -318,6 +322,13 @@ static
 	XtRString, sizeof(char *), XtOffset(AppInfoPtr, languageList),
 	XtRString, NULL							},
 
+#if defined(USE_XINERAMA)
+    { "xineramaPreferredScreen",        "XineramaPreferredScreen",
+        XtRInt, sizeof(int), XtOffset(AppInfoPtr, xineramaPreferredScreen),
+        XtRImmediate, (XtPointer) 0
+        },
+#endif
+
 #if defined (ENABLE_DYNAMIC_LANGLIST)
     {"languageListCmd", "LanguageListCmd",
         XtRString, sizeof(char *), XtOffset(AppInfoPtr, languageListCmd),
@@ -492,6 +503,27 @@ main( int argc, char **argv )
     dpyinfo.height	= DisplayHeight(dpyinfo.dpy, dpyinfo.screen);
     dpyinfo.black_pixel	= BlackPixel   (dpyinfo.dpy, dpyinfo.screen);
     dpyinfo.visual	= DefaultVisual(dpyinfo.dpy, dpyinfo.screen);
+
+				/* JET - for Xinerama, see if the extension */
+				/* is available and init accordingly. */
+
+#ifdef USE_XINERAMA
+
+    dpyinfo.DtXineramaInfo = _DtXineramaInit(dpyinfo.dpy);
+
+# ifdef DEBUG
+    if (dpyinfo.DtXineramaInfo == NULL)
+      {				/* No xinerama, no joy. */
+	fprintf(stderr, "### JET VGMAIN: Xinerama NOT available.\n"); 
+      }
+    else
+      {
+	fprintf(stderr, "### JET VGMAIN: Xinerama available, scrns = %d\n",
+		dpyinfo.DtXineramaInfo->numscreens);
+      }
+# endif
+
+#endif
 
     /*
      *  check if any overrides were passed in the argv string...
@@ -1180,6 +1212,10 @@ MakeDialog( DialogType dtype )
     Widget	w, text;
     Dimension txt_width, txt_height;
     XmString	ok, cancel, nw, sv;
+
+    Widget      tlev;		/* JET - warning, there be dragons here */
+    unsigned int dpwidth, dpheight, xorg, yorg;
+
     
     
 #ifdef VG_TRACE
@@ -1188,6 +1224,23 @@ MakeDialog( DialogType dtype )
     /*
      *  do things common to all dialogs...
      */
+
+#ifdef USE_XINERAMA
+				/* get info on prefered screen */
+    if (!_DtXineramaGetScreen(dpyinfo.DtXineramaInfo, 
+                              appInfo.xineramaPreferredScreen,
+			      &dpwidth, &dpheight, &xorg, &yorg))
+      {				/* no joy here either - setup for normal */
+	dpwidth = dpyinfo.width;
+	dpheight = dpyinfo.height;
+	xorg = yorg = 0;
+      }
+				/* else, should be setup properly */
+#else  /* no Xinerama */
+    dpwidth = dpyinfo.width;
+    dpheight = dpyinfo.height;
+    xorg = yorg = 0;
+#endif    
 
     ok     = ReadCatalogXms(MC_LABEL_SET, MC_OK_LABEL, MC_DEF_OK_LABEL);
     cancel = ReadCatalogXms(MC_LABEL_SET, MC_CANCEL_LABEL, MC_DEF_CANCEL_LABEL);
@@ -1205,13 +1258,25 @@ MakeDialog( DialogType dtype )
      *  create the various dialogs...
      */
 
-    switch (dtype) {
+    /* JET - check the matte widget, and if non-null, well use that as
+     * the parent for dialogs.  Otherwise use table (the original
+     * toplevel widget for this func).  This is useful for Xinerama so
+     * that child dialogs are centered on the matte, and not the whole
+     * SLS screen.
+     */
+
+    if (matte != (Widget)NULL)
+      tlev = matte;
+    else
+      tlev = table;
+
+   switch (dtype) {
 
     case error:
 	xmstr = ReadCatalogXms(MC_ERROR_SET, MC_LOGIN, "");
 	XtSetArg(argt[i], XmNmessageString,		xmstr		); i++;
 
-	w = XmCreateErrorDialog(table, "error_message", argt, i);
+	w = XmCreateErrorDialog(tlev, "error_message", argt, i);
 	XtUnmanageChild(XmMessageBoxGetChild(w,XmDIALOG_CANCEL_BUTTON));
 	XtUnmanageChild(XmMessageBoxGetChild(w,XmDIALOG_HELP_BUTTON));
 
@@ -1221,13 +1286,13 @@ MakeDialog( DialogType dtype )
 
     case help:
 
-        txt_width = (dpyinfo.width > 850) ? 800 : dpyinfo.width - 50;
-        txt_height = (dpyinfo.height > 900) ? 600 : dpyinfo.height - 300;
+        txt_width = (dpwidth > 850) ? 800 : dpwidth - 50;
+        txt_height = (dpheight > 900) ? 600 : dpheight - 300;
 
         xmstr = ReadCatalogXms(MC_LABEL_SET, MC_HELP_LABEL, MC_DEF_HELP_LABEL);
 	XtSetArg(argt[i], XmNmessageString, xmstr); i++;
 
-        w = XmCreateInformationDialog(table, "help_message", argt, i);
+        w = XmCreateInformationDialog(tlev, "help_message", argt, i);
         XtUnmanageChild(XmMessageBoxGetChild(w,XmDIALOG_CANCEL_BUTTON));
         XtUnmanageChild(XmMessageBoxGetChild(w,XmDIALOG_HELP_BUTTON));
 
@@ -1277,7 +1342,7 @@ MakeDialog( DialogType dtype )
 
 	XtSetArg(argt[i], XmNmessageString,		xmstr		); i++;
 
-	w = XmCreateInformationDialog(table, "copyright_msg", argt, i);
+	w = XmCreateInformationDialog(tlev, "copyright_msg", argt, i);
 	XtUnmanageChild(XmMessageBoxGetChild(w,XmDIALOG_CANCEL_BUTTON));
 	XtUnmanageChild(XmMessageBoxGetChild(w,XmDIALOG_HELP_BUTTON));
 	
@@ -1297,7 +1362,7 @@ MakeDialog( DialogType dtype )
 	XtSetArg(argt[i], XmNokLabelString,		nw		); i++;
 	XtSetArg(argt[i], XmNcancelLabelString,		sv		); i++;
 
-	w = XmCreateWarningDialog(table, "hostname_msg", argt, i);
+	w = XmCreateWarningDialog(tlev, "hostname_msg", argt, i);
 
 	XtUnmanageChild(XmMessageBoxGetChild(w,XmDIALOG_HELP_BUTTON));
 
@@ -1314,7 +1379,7 @@ MakeDialog( DialogType dtype )
 			    MC_DEF_PASSWD_EXPIRED);
 	XtSetArg(argt[i], XmNmessageString,		xmstr		); i++;
 
-	w = XmCreateQuestionDialog(table, "password_msg", argt, i);
+	w = XmCreateQuestionDialog(tlev, "password_msg", argt, i);
 
 	XtUnmanageChild(XmMessageBoxGetChild(w,XmDIALOG_HELP_BUTTON));
 
