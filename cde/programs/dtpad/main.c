@@ -633,6 +633,11 @@ CreateFirstPad(
 	initialServerResources = pPad->xrdb;
 	initialServerResources.server = False; /* so window will be mapped */ 
 	initialServerGeometry = pPad->geometry;
+	if(pPad->xrdb.workspaceList)
+		pPad->xrdb.workspaceList = strdup(pPad->xrdb.workspaceList);
+	if(pPad->xrdb.session)
+		pPad->xrdb.session = strdup(pPad->xrdb.session);
+	pPad->geometry = strdup(pPad->geometry);
     }
 
     /* Set some initial Editor instance values */
@@ -1677,7 +1682,6 @@ RestoreInitialServerResources(
 	XtFree(pPad->geometry );
 
     pPad->xrdb = initialServerResources;
-    pPad->geometry = initialServerGeometry;
 
     /* -----> duplicate resource strings */
     if (initialServerResources.workspaceList != (char *)NULL)
