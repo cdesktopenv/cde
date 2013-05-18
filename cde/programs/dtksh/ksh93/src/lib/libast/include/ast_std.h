@@ -341,8 +341,6 @@ typedef unsigned short wchar_t;
 #include <ast_types.h>
 #endif
 
-struct stat;
-
 #if defined(__cplusplus) || !defined(_std_stdlib) && !defined(__STDC__)
 
 /* <stdlib.h> */
