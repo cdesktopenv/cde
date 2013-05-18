@@ -1103,7 +1103,7 @@ $inc
 					*)	e='-e /[\\\\/]sys[\\\\/]'$x'\.h"/d' ;;
 					esac
 					if	$cc -E $tmp.c <&$nullin >$tmp.i
-					then	i=`sed -e '/^#[line 	]*[0-9][0-9]*[ 	][ 	]*"[\\\\/].*[\\\\/]'$x'\.h"/!d' $e -e s'/.*"\(.*\)".*/\1/' -e 's,\\\\,/,g' -e 's,///*,/,g' $tmp.i | sort -u`
+					then	i=`sed -e '/^#[line 	]*[0-9][0-9]*[ 	][ 	]*"[\\\\/].*[\\\\/]'$x'\.h"/!d' $e -e '/\/bits\//d' -e s'/.*"\(.*\)".*/\1/' -e 's,\\\\,/,g' -e 's,///*,/,g' $tmp.i | sort -u`
 						for i in $i
 						do	break
 						done

@@ -235,7 +235,11 @@ OPEN_MAX_CEIL		50	AST	XX 1 L		OPEN_MAX
 OS_VERSION		119	AES	SC 1 FSU
 PAGESIZE		51	POSIX	SC 1 L		PAGE_SIZE 4096
 	#if _lib_getpagesize
+	#if defined(linux)
+	extern int		getpagesize(void);
+	#else
 	extern ssize_t		getpagesize(void);
+	#endif
 	#define _LOCAL_PAGESIZE	getpagesize()
 	#endif
 PAGE_SIZE		101	XOPEN	SC 1 L		PAGESIZE

@@ -417,8 +417,19 @@ gettransient(int proto, int vers, int *sockp)
 	// if you try to grab a number for udp and we have it grabbed
 	// for tcp).
 
-	// search up in the range 0x4fffffff - 0x5fffffff
-	for (prognum = 0x4fffffff; prognum <= 0x5fffffff; prognum++) {
+        // JET - this is way too many pnums to search, and causes what
+        // appears to be an infinite loop (though it isn't) if the
+        // user is running an rpcbind in secure mode and not using
+        // libtirpc - a common error.  The end result is staring at
+        // the dthello welcome screen.  So - rather than search this
+        // immense space, we will only search from start to +-50
+        // before bailing.  If a hundred attmepts to get a transient
+        // fail, I don't see that doing approximately 537 million
+        // attempts are worth it :)
+#define MAX_TRANS_RANGE 50
+
+	// search up in the range 0x4fffffff to 0x4fffffff +  MAX_TRANS_RANGE
+	for (prognum = 0x4fffffff; prognum <= (0x4fffffff + MAX_TRANS_RANGE); prognum++) {
 		/* XXX: pmap_set allows the same prognum for different	*/
 		/* protocols so we hack around that by attemptint to	*/
 		/* set both tcp and udp. */
@@ -447,7 +458,7 @@ gettransient(int proto, int vers, int *sockp)
 	}
 
 	// search down in the range 0x4ffffffe - 0x40000000
-	for (prognum = 0x4ffffffe; prognum >= 0x40000000; prognum--) {
+	for (prognum = 0x4ffffffe; prognum >= (0x4ffffffe - MAX_TRANS_RANGE); prognum--) {
 		/* XXX: pmap_set allows the same prognum for different	*/
 		/* protocols so we hack around that by attemptint to	*/
 		/* set both tcp and udp. */
