@@ -361,26 +361,57 @@ ReadPalette(
 */
     if (add == TRUE)
     {
-      /* set the item_position for the scrolled list */
-       new_palette->item_position = NumOfPalettes + 1;
-
       /* set the next pointer to NULL*/
        new_palette->next = NULL;
 
       /* increment the total number of palettes in the customizer */
        NumOfPalettes++;
 
-       if( pHeadPalette == NULL )
+       if( pHeadPalette == NULL /* First entry */
+          || (pHeadPalette != NULL && strcmp(pHeadPalette->name, new_palette->name) > 0)) /* Earlier entry than current list head */
+       {
+           new_palette->item_position = 1;
+           if(pHeadPalette)
+           {
+               new_palette->next = pHeadPalette;
+               /* Increment position poineter of other items in the list */
+	       tmp_palette = pHeadPalette;
+               while( tmp_palette != NULL)
+               {
+                   tmp_palette->item_position += 1;
+                   tmp_palette = tmp_palette->next;
+               }
+           }
+
            pHeadPalette = new_palette;
+       }
        else
        {
            tmp_palette = pHeadPalette;
-           while( tmp_palette->next != NULL)
-              tmp_palette = tmp_palette->next;
+
+           /* Search through the linked list to find the first entry with a 
+              name > new entries name, new item will be inserted after it */
+           while(tmp_palette->next && strcmp(tmp_palette->next->name, new_palette->name) < 0) 
+           {
+               tmp_palette = tmp_palette->next;
+           }
+
+           /* Insert the new palette */
+           new_palette->next = tmp_palette->next;
            tmp_palette->next = new_palette;
+           new_palette->item_position = tmp_palette->item_position + 1;
+
+           /* Now continue incrementing through the list increasing the position
+              count of all items following the new entry */
+           tmp_palette = new_palette->next;
+           while( tmp_palette != NULL)
+           {
+              tmp_palette->item_position += 1;
+              tmp_palette = tmp_palette->next;
+           }
        }
     }
-   
+
   /* done with filename so XtFree it */
    XtFree(filename);
 
