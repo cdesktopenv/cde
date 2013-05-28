@@ -239,7 +239,7 @@ SmSaverParseSaverList(
    int i = 0;
    char * tmpStr;
    int len = strlen(saverList);
-   int bytes = sizeof(int);
+   int bytes = sizeof(long);
    char *p;
    SmSaverParseStruct *pstruct;
 

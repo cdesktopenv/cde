@@ -101,6 +101,9 @@ static int RegisterX11ScreenSaver(Display *display, int *ssEventType);
 #ifdef SVR4
 #define SECURE_SYS_PATH "/etc/shadow"
 #endif
+#ifdef CSRG_BASED
+#define SECURE_SYS_PATH "/etc/master.passwd"
+#endif
 
 
 
