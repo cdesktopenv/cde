@@ -118,11 +118,15 @@ XCOMM binutils:  (LinuxBinUtilsMajorVersion)
 
 #define LinuxLocaleDefines	/**/
 
-XCOMM Using the tirpc lib should allow running rpcbind in secure
-XCOMM mode (ie: without the -i option).  Make sure you install the 
-XCOMM libtirpc-dev package or equivalent.
+XCOMM If you have the tirpc library on your system, and you have the
+XCOMM libtirpc-dev installed, then define HasTIRPCLib to YES in either
+XCOMM your host.def or site.def file.  Using the tirpc lib should
+XCOMM allow running rpcbind in secure mode (ie: without the -i option).
+XCOMM The default is NO.
 
-#define HasTIRPCLib  YES
+#ifndef HasTIRPCLib
+# define HasTIRPCLib NO
+#endif
 
 #if HasTIRPCLib
 TIRPCLIB = -ltirpc
