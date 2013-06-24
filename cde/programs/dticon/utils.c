@@ -377,7 +377,8 @@ Init_Editor(
   Erase_gc = XCreateGC(dpy, root, 0, 0);
   Flicker_gc = XCreateGC(dpy, root, 0, 0);
   scratch_gc = XCreateGC(dpy, root, 0, 0);
-  XSetState(dpy, Flicker_gc, black_pixel, white_pixel, GXinvert, 0x1);
+  XSetState(dpy, Flicker_gc, black_pixel, white_pixel, GXinvert,
+       (DefaultDepthOfScreen(XtScreen(wid)) > 8) ? AllPlanes : 0x01);
   XSetSubwindowMode(dpy, Flicker_gc, IncludeInferiors);
   XSetDashes(dpy, Grid_gc, 0, dash_list, 2);
   XSetLineAttributes(dpy, Grid_gc, 0, LineDoubleDash, CapButt, JoinMiter);
