@@ -221,7 +221,7 @@ int reset_remote_channel_object(SPC_Channel_Ptr channel)
      flush any queued data on this channel. */
 
   {
-    if (tmpqueue=channel->queued_remote_data)
+    if ((tmpqueue=channel->queued_remote_data))
     {
       Xe_for_queue(protocol_request_ptr, prot, tmpqueue) {
 	Xe_delete_queue_element(channel->queued_remote_data, prot);
@@ -402,6 +402,7 @@ int attach_remote_channel_object(SPC_Channel_Ptr channel,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 remove_logfile_remote_channel_object(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -448,6 +449,7 @@ int add_input_remote_channel_object(SPC_Channel_Ptr channel,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Debug_Mode(SPC_Channel_Ptr channel,
 	       XeString file)
 /*----------------------------------------------------------------------+*/

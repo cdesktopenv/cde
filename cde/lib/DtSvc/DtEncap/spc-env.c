@@ -32,6 +32,7 @@
  * (c) Copyright 1993, 1994 Novell, Inc.				*
  */
 
+#include <ctype.h>
 #include <stdlib.h>
 #include <bms/sbport.h> /* NOTE: sbport.h must be the first include. */
 

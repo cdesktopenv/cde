@@ -82,6 +82,7 @@
 #include <Dt/DtNlUtils.h>
 #include <Dt/CommandM.h>
 #include <Dt/Utility.h>
+#include <Dt/SvcTT.h>
 #include <Dt/Service.h>
 
 #include <Dt/ActionUtilP.h>

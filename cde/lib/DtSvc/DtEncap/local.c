@@ -154,7 +154,7 @@ int local_channel_object_wait_for_termination(SPC_Channel_Ptr channel)
 }
 
 /*----------------------------------------------------------------------+*/
-remove_logfile_local_channel_object(SPC_Channel_Ptr channel)
+int remove_logfile_local_channel_object(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
   int result;
@@ -206,7 +206,7 @@ void local_channel_object_input_handler(void * client_data,
   timeout.tv_sec = 0;
   timeout.tv_usec = 0;
   
-#if defined(SVR4) || defined(__osf__) || defined(__hpux)
+#if defined(SVR4) || defined(__osf__) || defined(__hpux) || defined(__OpenBSD__)
   select(max_fds, (fd_set*)&read_fd_vect, NULL, (fd_set*)&except_fd_vect, &timeout);
 #else
   /* UX has select defined with int*, not fd_set* parms */

@@ -423,13 +423,13 @@ _DtEnvControl(
 
 		        _postDtEnvironment.binPath = XtMalloc(bytes_needed);
 #ifdef sun
-			if (ptr = strstr(tempString, "/usr/openwin/bin"))
+			if ((ptr = strstr(tempString, "/usr/openwin/bin")))
 #elif defined(CSRG_BASED)
-			if (ptr = strstr(tempString, "/usr/X11R6/bin"))
+			if ((ptr = strstr(tempString, "/usr/X11R6/bin")))
 #elif defined(linux)
-			if (ptr = strstr(tempString, "/usr/bin"))
+			if ((ptr = strstr(tempString, "/usr/bin")))
 #else
-			if (ptr = strstr(tempString, "/usr/bin/X11"))
+			if ((ptr = strstr(tempString, "/usr/bin/X11")))
 #endif
 			{
 			     /* 

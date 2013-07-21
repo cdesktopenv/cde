@@ -33,6 +33,7 @@
  */
 
 #include <bms/sbport.h> /* NOTE: sbport.h must be the first include. */
+#include <ctype.h>
 #include <errno.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -66,6 +67,9 @@ static int remove_variable(
   	char		*string );
 static void resolve_variable_reference(
   	char		**string );
+
+Boolean _path_search (
+	XeString path, XeString filename, path_search_predicate p); /* XXX */
 
 /*
  * This array contains the process id's of the sub-processes
@@ -105,6 +109,7 @@ extern XeString *environ;
 */
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Setup_Synchronous_Terminator(void)
 /*----------------------------------------------------------------------+*/
 {
@@ -167,6 +172,7 @@ void SPC_Close_Unused(void)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_MakeSystemCommand(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -262,7 +268,7 @@ void SPC_Child_Terminated(int i)
   prot->dataptr=pdata;
 
   wait_pid = -1;
-  while(pid = waitpid(wait_pid, &status, WNOHANG)) {
+  while((pid = waitpid(wait_pid, &status, WNOHANG))) {
     if((pid == -1 && errno == ECHILD) || pid == 0) {
       /* no more children.  Return */
       errno = saved_errno;

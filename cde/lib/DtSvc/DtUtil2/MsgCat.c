@@ -38,6 +38,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <nl_types.h>
+#include <X11/Intrinsic.h>
 #include <Dt/MsgCatP.h>
 #include <DtSvcLock.h>
 

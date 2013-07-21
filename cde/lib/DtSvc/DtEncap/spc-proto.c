@@ -586,8 +586,8 @@ void SPC_Flush_Queued_Data(SPC_Channel_Ptr channel)
   XeQueue tmpqueue;
   protocol_request_ptr prot;
   
-  if(tmpqueue=channel->queued_remote_data) {
-    while(prot=(protocol_request_ptr)Xe_pop_queue(tmpqueue))
+  if((tmpqueue=channel->queued_remote_data)) {
+    while((prot=(protocol_request_ptr)Xe_pop_queue(tmpqueue)))
       SPC_Free_Protocol_Ptr(prot);
   }
 

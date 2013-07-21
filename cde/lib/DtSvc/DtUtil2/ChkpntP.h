@@ -97,7 +97,7 @@ typedef union {
 */
 
 /* Initialize the checkpointing mechanism */
-extern _DtPerfChkpntInit(
+extern int _DtPerfChkpntInit(
     Display	   *display,	   /* Display pointer			   */
     Window	   parentwin,	   /* Parent window id                     */
     char           *prog_name,	   /* Name of the client program (argv[0]) */
@@ -105,12 +105,12 @@ extern _DtPerfChkpntInit(
 );
 
 /* Send a checkpoint message to the listener */
-extern _DtPerfChkpntMsgSend(
+extern void _DtPerfChkpntMsgSend(
     char           *message	   /* Acual message for transmission     */
 );
 
 /* End the checkpointing message delivery */
-extern _DtPerfChkpntEnd(
+extern int _DtPerfChkpntEnd(
 );
 
 /*************************************************************************/
@@ -118,7 +118,7 @@ extern _DtPerfChkpntEnd(
 /*************************************************************************/
 
 /* Initialize the listener */
-extern _DtPerfChkpntListenInit(
+extern int _DtPerfChkpntListenInit(
     Display *display,	/* Current display */
     Window parentwin	/* Parent of window associated with listener */
 );

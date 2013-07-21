@@ -35,6 +35,7 @@
 /*                                                                           */
 /*****************************************************************************/
 
+#include <ctype.h>
 #include <string.h>
 #include <Dt/DtNlUtils.h>
 #include "DtSvcLock.h"

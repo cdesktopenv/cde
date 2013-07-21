@@ -116,7 +116,7 @@ XeAppendToStringBuffer(XeStringBuffer buffer, XeString string)
        buffer->last_char = i - 1;
        if (-1 == ExpandStringBuffer(buffer)) return(-1);
    }
-   buffer->buffer[i] = (XeChar) NULL;
+   buffer->buffer[i] = (XeChar)'\0';
    buffer->last_char = i;
 #  if DEBUG >= 5
       sprintf(debug_string, "new string is: \"%s\"", buffer->buffer);
@@ -131,7 +131,7 @@ XeClearStringBuffer(XeStringBuffer buffer)
 /*------------------------------------------------------------------------+*/
 {
    XeString string = buffer->buffer;
-   string[0] = (XeChar) NULL;
+   string[0] = (XeChar)'\0';
    buffer->last_char = 0;
 }
 

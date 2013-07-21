@@ -29,6 +29,7 @@
  */
 #include <Xm/XmP.h>
 #include <Xm/IconFile.h>
+#include <Xm/XmPrivate.h>
 
 #ifdef DtUse_XmFunctions
 

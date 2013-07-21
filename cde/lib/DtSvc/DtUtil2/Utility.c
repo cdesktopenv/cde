@@ -125,7 +125,7 @@ _DtVectorizeInPlace(
       vector.  There is one more element than separator characters. */
    num_pieces = 1;
    nextc = string;
-   while (nextc = DtStrchr(nextc, separator))
+   while ((nextc = DtStrchr(nextc, separator)))
    {
       num_pieces++;
       nextc++;
@@ -140,7 +140,7 @@ _DtVectorizeInPlace(
    nextc = string;
 
    /* Parse out each component, terminating it with a NULL */
-   while (nextc = DtStrchr(nextc, separator))
+   while ((nextc = DtStrchr(nextc, separator)))
    {
       *nextc = '\0';
       nextc++;

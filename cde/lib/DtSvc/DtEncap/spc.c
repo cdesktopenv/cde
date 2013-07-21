@@ -118,6 +118,7 @@ SPC_Channel_Ptr XeSPCOpen(XeString hostname,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCClose(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -141,6 +142,7 @@ XeSPCClose(SPC_Channel_Ptr channel)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCReset(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -163,6 +165,7 @@ XeSPCReset(SPC_Channel_Ptr channel)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCRead(SPC_Channel_Ptr channel,
 	  int connector,           /* STDOUT or STDERR */
 	  XeString buffer,
@@ -201,6 +204,7 @@ XeSPCRead(SPC_Channel_Ptr channel,
 
   
 /*----------------------------------------------------------------------+*/
+int
 XeSPCWrite(SPC_Channel_Ptr channel,
 	   XeString buffer,
 	   int length)
@@ -230,6 +234,7 @@ XeSPCWrite(SPC_Channel_Ptr channel,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCActive(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -244,6 +249,7 @@ XeSPCActive(SPC_Channel_Ptr channel)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCData(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -258,6 +264,7 @@ XeSPCData(SPC_Channel_Ptr channel)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCExecuteProcess(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -286,6 +293,7 @@ XeSPCExecuteProcess(SPC_Channel_Ptr channel)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCSignalProcess(SPC_Channel_Ptr channel,
 		   int sig)
 /*----------------------------------------------------------------------+*/
@@ -308,6 +316,7 @@ XeSPCSignalProcess(SPC_Channel_Ptr channel,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCAddInput(SPC_Channel_Ptr	channel,
 	      SbInputHandlerProc handler,
 /*----------------------------------------------------------------------+*/
@@ -332,6 +341,7 @@ XeSPCAddInput(SPC_Channel_Ptr	channel,
 
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCRegisterTerminator(SPC_Channel_Ptr			channel,
 			SPC_TerminateHandlerType	terminator,
 			void * 				client_data)
@@ -371,6 +381,7 @@ XeSPCRegisterTerminator(SPC_Channel_Ptr			channel,
 
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCAttach(SPC_Channel_Ptr channel,
 	    int pid)
 /*----------------------------------------------------------------------+*/
@@ -385,6 +396,7 @@ XeSPCAttach(SPC_Channel_Ptr channel,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCDetach(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -417,6 +429,7 @@ XeSPCDetach(SPC_Channel_Ptr channel)
 */
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCSpawn(XeString pathname,
 	   XeString context_dir,
 	   XeString *argv,
@@ -505,6 +518,7 @@ XeSPCKillProcesses(int wait)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCKillProcess(SPC_Channel_Ptr channel,
 		 int wait)
 /*----------------------------------------------------------------------+*/
@@ -527,6 +541,7 @@ XeSPCKillProcess(SPC_Channel_Ptr channel,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCInterruptProcess(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -567,6 +582,7 @@ XeString XeSPCGetDevice(SPC_Channel_Ptr channel,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCGetProcessStatus(SPC_Channel_Ptr channel,
 		      int *type, 
 		      int *cause)
@@ -609,6 +625,7 @@ XeSPCGetProcessStatus(SPC_Channel_Ptr channel,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCGetPID(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -677,6 +694,7 @@ int XeSPCRemoveLogfile(SPC_Channel_Ptr channel)
 */
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Process_Single_Prot_Request(protocol_request_ptr req, SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -724,7 +742,7 @@ SPC_Channel_Ptr XeSPCHandleTerminator(int fd)
   connection_queue=connection->queued_remote_data;
   Xe_push_queue(connection_queue, prot);
 
-  while(prot=(protocol_request_ptr)Xe_pop_queue(connection_queue)) {
+  while((prot=(protocol_request_ptr)Xe_pop_queue(connection_queue))) {
     
     channel=prot->channel;
 
@@ -755,6 +773,7 @@ SPC_Channel_Ptr XeSPCHandleTerminator(int fd)
 */
 
 /*----------------------------------------------------------------------+*/
+int
 XeSPCGetChannelSyncFd(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {
@@ -852,6 +871,7 @@ void XeSPCRestartCallbacks(void)
 */
 
 /*----------------------------------------------------------------------+*/
+int
 XeSetpgrp(int read_current_termio)
 /*----------------------------------------------------------------------+*/
 {

@@ -260,7 +260,7 @@ static int getspec1170ptypair(Wire *wire)
    
 
 /*----------------------------------------------------------------------+*/
-static getptypair(Wire *wire)
+static int getptypair(Wire *wire)
 /*----------------------------------------------------------------------+*/
 {
   /* Attempt to open the master/slave pair of preset pty */
@@ -639,7 +639,7 @@ int read_pty_channel_object(SPC_Channel_Ptr channel,
     result = read(fd, buffer, nbytes);
   } while (result<0 && errno == EINTR);
 
-  if(result == ERROR)
+  if(result == ERROR) {
     if(errno == EIO) {
       SPC_XtRemoveInput(&channel->wires[connector]->read_toolkit_id, SPC_Input);
       SPC_Change_State(channel, connector, 0, -1);
@@ -652,6 +652,7 @@ int read_pty_channel_object(SPC_Channel_Ptr channel,
       XeFree(connection_hostname);
       return(SPC_ERROR);
     }
+  }
 
   return(result);
 }
@@ -1031,7 +1032,7 @@ struct termios *SPC_Get_Current_Termio(void)
 }
 
 /*----------------------------------------------------------------------+*/
-SPC_Setpgrp(int read_current_termio)
+int SPC_Setpgrp(int read_current_termio)
 /*----------------------------------------------------------------------+*/
 {
   _DtSvcProcessLock();

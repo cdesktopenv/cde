@@ -32,6 +32,8 @@
  * (c) Copyright 1993, 1994 Novell, Inc.				*
  */
 
+#include <Dt/UserMsg.h>
+
 #include <bms/sbport.h> 		/* NOTE: sbport.h must be the first include. */
 
 #include <sys/socket.h>         /**** needed by gethostbyname et al *****/
@@ -208,6 +210,7 @@ UnParseFileString(XeString host, XeString path)
 
 
 /*------------------------------------------------------------------------+*/
+int
 XeParseFileString(XeString line,
 		  XeString *host_addr,
 		  XeString *path_addr)
@@ -261,7 +264,7 @@ GetDomainName(XeString buffer, unsigned int bufsize)
    int status;
    
    /* try to get domain name from hostname */
-   if (status = gethostname(tmpbuf, bufsize)) {
+   if ((status = gethostname(tmpbuf, bufsize))) {
       XeFree(tmpbuf);
       return status; /* failed gethostname */
    }
@@ -287,7 +290,7 @@ GetDomainName(XeString buffer, unsigned int bufsize)
 	 _DtSvcProcessUnlock();
 	 return -1;
       }
-      if (ptr = strstr(host_ret->h_name, (XeString)".")) /* if dot in canonical name */
+      if ((ptr = strstr(host_ret->h_name, (XeString)"."))) /* if dot in canonical name */
 	 domainname = strdup(ptr);
    }
 
@@ -308,9 +311,9 @@ Xegetshorthostname(XeString buffer, unsigned int bufsize)
    XeString ptr;
    int status;
    
-   if (status = gethostname(buffer, bufsize))
+   if ((status = gethostname(buffer, bufsize)))
       return status; /* failed gethostname */
-   if (ptr = strstr(buffer, (XeString)"."))
+   if ((ptr = strstr(buffer, (XeString)".")))
       *ptr = '\0';  /* delete domain name if there is one */
    return 0;
 }
@@ -385,7 +388,7 @@ Xegetcwd(char *buf, int size)
    Boolean pwd_ok = FALSE;
    char *env, *current_dir;
 
-   if (current_dir = getenv("PWD")) { /* use PWD instead of slow call */
+   if ((current_dir = getenv("PWD"))) { /* use PWD instead of slow call */
       int s1, s2;
       struct stat sb1, sb2;
 

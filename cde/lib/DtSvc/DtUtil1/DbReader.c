@@ -189,7 +189,7 @@ _DtDbPathIdToString(
    char * path;
    char * newPath;
 
-   if (path = XrmQuarkToString((XrmQuark)pathId))
+   if ((path = XrmQuarkToString((XrmQuark)pathId)))
    {
       /* Allocate some storage for the string */
       newPath = (char *) XtNewString(path);

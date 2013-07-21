@@ -36,6 +36,8 @@
 #define SBSTDINC_H_NO_REDEFINE
 #endif
 
+#include <Dt/UserMsg.h>
+
 #include <bms/sbport.h>		/* NOTE: sbport.h must be the first include. */
 
 #include <assert.h>

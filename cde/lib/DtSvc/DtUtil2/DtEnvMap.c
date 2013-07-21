@@ -1001,7 +1001,7 @@ static void _DtEnvMapIt(
 	    /*
 	     * Tear apart and check for so called substitution characters.
 	     */
-	    if ( tmpPtr = DtStrchr(prePend, '%') ) {
+	    if (( tmpPtr = DtStrchr(prePend, '%') )) {
 		/*
 		 * Temporarly shorten path up to substitution character.
 		 */
@@ -1341,7 +1341,7 @@ void _DtEnvMapForRemote (char *targetHost)
 	     */
 	    cacheRegen = 0;
 	    for ( i = 0; i < targetCache->mapListCnt; i++ ) {
-		if ( tmpPtr = getenv(targetCache->mapList[i]) ) {
+		if (( tmpPtr = getenv(targetCache->mapList[i]) )) {
 		    if ( strcmp( tmpPtr,
 			     targetCache->mapListDetails[i].localEnvVarCopy) ) {
 			cacheRegen = 1;	/* one map entry is no longer valid */
@@ -1402,8 +1402,8 @@ void _DtEnvMapForRemote (char *targetHost)
 	 * the restoration pointers.
 	 */
 	for ( i = 0; i < targetCache->mapListCnt; i++ ) {
-	    if ( targetCache->mapListDetails[i].localEnvVarPtr =
-					getenv( targetCache->mapList[i] ) ) {
+	    if (( targetCache->mapListDetails[i].localEnvVarPtr =
+					getenv( targetCache->mapList[i] ) )) {
 		targetCache->mapListDetails[i].localEnvVarPtr -=
 					strlen( targetCache->mapList[i] ) + 1;
 	    }

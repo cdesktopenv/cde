@@ -32,6 +32,8 @@
  * (c) Copyright 1993, 1994 Novell, Inc.				*
  */
 
+#include <Dt/UserMsg.h>
+
 #include <bms/sbport.h> /* NOTE: sbport.h must be the first include. */
 #include <errno.h>
 #include <stdarg.h>
@@ -55,7 +57,7 @@ XeChar spc_logfile[MAXPATHLEN+1];
 XeChar spc_logging = FALSE;
 /* FILE *spc_logF = NULL; -- to bmsglob.c */
 
-int spc_logfd = NULL;
+int spc_logfd = 0;
 
 /* This is the SPC error number variable */
 /* ------------------------------------- */
@@ -243,6 +245,7 @@ void SPC_Error (int error, ...)
  */
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Make_Log_Filename(XeString name,
 		      int unique)      	/* When TRUE, make name unique */
 /*----------------------------------------------------------------------+*/
@@ -283,6 +286,7 @@ SPC_Make_Log_Filename(XeString name,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Open_Log(XeString filename,
 	     int unique)		/* When TRUE, make filename unique */
 /*----------------------------------------------------------------------+*/
@@ -308,6 +312,7 @@ SPC_Open_Log(XeString filename,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Close_Log(void)
 /*----------------------------------------------------------------------+*/
 {
@@ -319,7 +324,7 @@ SPC_Close_Log(void)
   if (spc_logF) {
     fclose(spc_logF);
   }
-  spc_logfd = NULL;
+  spc_logfd = 0;
   spc_logF = NULL;
   spc_logging = FALSE;
 
@@ -328,6 +333,7 @@ SPC_Close_Log(void)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Write_Log(XeString str)
 /*----------------------------------------------------------------------+*/
 {

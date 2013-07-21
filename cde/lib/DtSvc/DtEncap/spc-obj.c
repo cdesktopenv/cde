@@ -120,6 +120,7 @@ static Wire dummy_wire={
   };
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_ResetTerminator(void)
 /*----------------------------------------------------------------------+*/
 {
@@ -142,6 +143,7 @@ SPC_ResetTerminator(void)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Initialize(void)
 /*----------------------------------------------------------------------+*/
 {
@@ -265,6 +267,7 @@ void SPC_Channel_Terminated(SPC_Channel_Ptr channel)
 */
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Check_Style(int iomode)
 /*----------------------------------------------------------------------+*/
 {
@@ -314,6 +317,7 @@ SPC_Check_Style(int iomode)
 */
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Transform_Iomode(int iomode)
 /*----------------------------------------------------------------------+*/
 {
@@ -342,6 +346,7 @@ SPC_Transform_Iomode(int iomode)
 */
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Newline_Filter(SPC_Channel_Ptr channel,
 		   int connector, 
 		   XeString buffer,
@@ -399,6 +404,7 @@ SPC_Newline_Filter(SPC_Channel_Ptr channel,
 }
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Input_Handler(SPC_Channel_Ptr channel,
 		  int connector)
 /*----------------------------------------------------------------------+*/
@@ -642,6 +648,7 @@ int  exec_proc_channel_object (SPC_Channel_Ptr channel)
 
 
 /*----------------------------------------------------------------------+*/
+int
 signal_channel_object (SPC_Channel_Ptr UNUSED_PARM(channel),
 		       int 	       UNUSED_PARM(sig))
 /*----------------------------------------------------------------------+*/
@@ -659,6 +666,7 @@ int channel_object_wait_for_termination(SPC_Channel_Ptr UNUSED_PARM(channel))
 
 
 /*----------------------------------------------------------------------+*/
+int
 attach_channel_object(SPC_Channel_Ptr UNUSED_PARM(channel),
 		      int 	      UNUSED_PARM(pid))
 /*----------------------------------------------------------------------+*/
@@ -668,6 +676,7 @@ attach_channel_object(SPC_Channel_Ptr UNUSED_PARM(channel),
 
 
 /*----------------------------------------------------------------------+*/
+int
 add_input_channel_object(SPC_Channel_Ptr    UNUSED_PARM(channel), 
 			 SbInputHandlerProc UNUSED_PARM(handler),
 			 void		   *UNUSED_PARM(data) )
@@ -678,6 +687,7 @@ add_input_channel_object(SPC_Channel_Ptr    UNUSED_PARM(channel),
 
 
 /*----------------------------------------------------------------------+*/
+int
 remove_logfile_channel_object(SPC_Channel_Ptr channel)
 /*----------------------------------------------------------------------+*/
 {

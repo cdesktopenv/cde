@@ -38,6 +38,7 @@
 ************************************<+>*************************************/
 
 /*LINTLIBRARY*/
+#include <ctype.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
@@ -66,6 +67,7 @@
 #include <Dt/ActionUtilP.h>
 #include <Dt/CmdInvP.h>
 #include <Dt/DtNlUtils.h>
+#include <Dt/Indicator.h>
 
 #include "myassertP.h"
 #include "DtSvcLock.h"
@@ -354,7 +356,7 @@ _DtGetDisplayHostName( Display *dp)
 		 */
 		
 		strcpy(tmpName,DisplayString(dp));
-		if ( tmp = DtStrrchr(tmpName,':') )
+		if (( tmp = DtStrrchr(tmpName,':') ))
 		{
 			*tmp = '\0';
 			displayHostName = XtNewString(tmpName);
@@ -368,7 +370,7 @@ _DtGetDisplayHostName( Display *dp)
 		 * DISPLAY environment variable.
 		 */
 		strcpy(tmpName,getenv("DISPLAY"));
-		if ( tmp = DtStrrchr(tmpName,':') )
+		if (( tmp = DtStrrchr(tmpName,':') ))
 		{
 			*tmp = '\0';
 			displayHostName = XtNewString(tmpName);
@@ -423,7 +425,7 @@ _DtGetLocalHostName( void )
 	        _DtSvcProcessUnlock();
 		return NULL; /* failed gethostname */
 	      }
-	if (ptr = DtStrchr(hostNameBuf, '.'))
+	if ((ptr = DtStrchr(hostNameBuf, '.')))
 		*ptr = '\0';  /* delete domain name if there is one */
 
 	localHostName = hostNameBuf;
@@ -1872,6 +1874,7 @@ _DtActReadTmpFileToBuffer( char *fname, int *sizep )
  *
  *****************************************************************************/
 
+int
 _DtActGetCmdReturnArgs( 
     DtActionInvocationID invId,
     _DtActChildRecT *childp,

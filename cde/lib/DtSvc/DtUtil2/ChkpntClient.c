@@ -97,7 +97,8 @@ static Bool myCheckClientEvent(Display *display, XEvent *event, char *args)
 /*
  * myDtChkpntMsgSend --- Helper function: Send a checkpoint message to the listener
  */
-static myDtChkpntMsgSend(char *message, char *type) 
+static int
+myDtChkpntMsgSend(char *message, char *type)
 {
     static long     msgcount = 0;  /* Running count of messages */
     static int      propnum  = 0;  /* Which property are we using ? */
@@ -210,6 +211,7 @@ static myDtChkpntMsgSend(char *message, char *type)
 /*
  * _DtPerfChkpntInit --- Initialize the checkpointing mechanism
  */
+int
 _DtPerfChkpntInit(Display      *display,
 	     Window       parentwin,
 	     char         *prog_name,
@@ -300,6 +302,7 @@ _DtPerfChkpntInit(Display      *display,
 /*
  * _DtPerfChkpntMsgSend --- Send a checkpoint message to the listener
  */
+void
 _DtPerfChkpntMsgSend(char *message) 
 {
     myDtChkpntMsgSend(message, DT_PERF_CHKPNT_MSG_CHKPNT);
@@ -308,6 +311,7 @@ _DtPerfChkpntMsgSend(char *message)
 /*
  * myDtPerfChkpntEnd --- End the checkpointing message delivery
  */
+int
 _DtPerfChkpntEnd() 
 {
     myDtChkpntMsgSend("End checkpoint delivery", DT_PERF_CHKPNT_MSG_END);

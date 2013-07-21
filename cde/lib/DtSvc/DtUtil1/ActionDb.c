@@ -42,6 +42,7 @@
 /*LINTLIBRARY*/
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <ctype.h>
 #include <string.h>
 #include <X11/Intrinsic.h>
 
@@ -176,41 +177,41 @@ typedef struct {
  * along with the bitmask that represents the field.
  */
 static _DtActNameAndBit _DtActNamesAndBits[] = {
-	_DtACTION_LABEL,		_ActDb_LABEL_SET,
-	_DtACTION_TYPE,			_ActDb_TYPE_SET,
-	_DtACTION_ARG_CLASS,		_ActDb_ARG_CLASS_SET,
-        _DtACTION_ARG_MODE,		_ActDb_ARG_MODE_SET,
-	_DtACTION_ARG_TYPE,		_ActDb_ARG_TYPE_SET,
-	_DtACTION_ARG_COUNT,		_ActDb_ARG_COUNT_SET,
-	_DtACTION_DESCRIPTION,		_ActDb_DESCRIPTION_SET,
-	_DtACTION_ICON,			_ActDb_ICON_SET,
+	{ _DtACTION_LABEL,		_ActDb_LABEL_SET, },
+	{ _DtACTION_TYPE,		_ActDb_TYPE_SET, },
+	{ _DtACTION_ARG_CLASS,		_ActDb_ARG_CLASS_SET, },
+        { _DtACTION_ARG_MODE,		_ActDb_ARG_MODE_SET, },
+	{ _DtACTION_ARG_TYPE,		_ActDb_ARG_TYPE_SET, },
+	{ _DtACTION_ARG_COUNT,		_ActDb_ARG_COUNT_SET, },
+	{ _DtACTION_DESCRIPTION,	_ActDb_DESCRIPTION_SET, },
+	{ _DtACTION_ICON,		_ActDb_ICON_SET, },
 /*******************************************************************
 Meaningless for actions -- ignore these for now
-	_DtACTION_INSTANCE_ICON,	_ActDb_INSTANCE_ICON_SET,
+	{ _DtACTION_INSTANCE_ICON,	_ActDb_INSTANCE_ICON_SET, },
 *******************************************************************/
-	_DtACTION_MAP_ACTION,		_ActDb_MAP_ACTION_SET,
-	_DtACTION_EXEC_STRING,		_ActDb_EXEC_STRING_SET,
-	_DtACTION_EXEC_HOST,		_ActDb_EXEC_HOST_SET,
-	_DtACTION_CWD,			_ActDb_CWD_SET,
-	_DtACTION_WINDOW_TYPE,		_ActDb_WINDOW_TYPE_SET,
-	_DtACTION_TERM_OPTS,		_ActDb_TERM_OPTS_SET,
-	_DtACTION_TT_CLASS,		_ActDb_TT_CLASS_SET,
-	_DtACTION_TT_SCOPE,		_ActDb_TT_SCOPE_SET,
-	_DtACTION_TT_OPERATION,		_ActDb_TT_OPERATION_SET,
-	_DtACTION_TT_FILE,		_ActDb_TT_FILE_SET,
-	_DtACTION_TTN_MODE,		_ActDb_TT_ARGN_MODE_SET,
-	_DtACTION_TTN_VTYPE,		_ActDb_TT_ARGN_VTYP_SET,
-	_DtACTION_TTN_REP_TYPE,		_ActDb_TT_ARGN_RTYP_SET,
-	_DtACTION_TTN_VALUE,		_ActDb_TT_ARGN_VAL_SET,
+	{ _DtACTION_MAP_ACTION,		_ActDb_MAP_ACTION_SET, },
+	{ _DtACTION_EXEC_STRING,	_ActDb_EXEC_STRING_SET, },
+	{ _DtACTION_EXEC_HOST,		_ActDb_EXEC_HOST_SET, },
+	{ _DtACTION_CWD,		_ActDb_CWD_SET, },
+	{ _DtACTION_WINDOW_TYPE,	_ActDb_WINDOW_TYPE_SET, },
+	{ _DtACTION_TERM_OPTS,		_ActDb_TERM_OPTS_SET, },
+	{ _DtACTION_TT_CLASS,		_ActDb_TT_CLASS_SET, },
+	{ _DtACTION_TT_SCOPE,		_ActDb_TT_SCOPE_SET, },
+	{ _DtACTION_TT_OPERATION,	_ActDb_TT_OPERATION_SET, },
+	{ _DtACTION_TT_FILE,		_ActDb_TT_FILE_SET, },
+	{ _DtACTION_TTN_MODE,		_ActDb_TT_ARGN_MODE_SET, },
+	{ _DtACTION_TTN_VTYPE,		_ActDb_TT_ARGN_VTYP_SET, },
+	{ _DtACTION_TTN_REP_TYPE,	_ActDb_TT_ARGN_RTYP_SET, },
+	{ _DtACTION_TTN_VALUE,		_ActDb_TT_ARGN_VAL_SET, },
 
 #ifdef _DT_ALLOW_DT_MSGS
-	_DtACTION_DT_REQUEST_NAME,	_ActDb_DT_REQ_NAME_SET,
-	_DtACTION_DT_SVC,		_ActDb_DT_SVC_SET,
-	_DtACTION_DT_NOTIFY_NAME,	_ActDb_DT_NTFY_NAME_SET,
-	_DtACTION_DT_NGROUP,		_ActDb_DT_NGROUP_SET,
-	_DtPFX _DtACTION_DTN_VALUE,	_ActDb_DT_ARGN_VAL_SET,
+	{ _DtACTION_DT_REQUEST_NAME,	_ActDb_DT_REQ_NAME_SET, },
+	{ _DtACTION_DT_SVC,		_ActDb_DT_SVC_SET, },
+	{ _DtACTION_DT_NOTIFY_NAME,	_ActDb_DT_NTFY_NAME_SET, },
+	{ _DtACTION_DT_NGROUP,		_ActDb_DT_NGROUP_SET, },
+	{ _DtPFX _DtACTION_DTN_VALUE,	_ActDb_DT_ARGN_VAL_SET, },
 #endif	/* _DT_ALLOW_DT_MSGS */
-	NULL,				0
+	{ NULL,				0 },
 };
 
 #define	NUM_FIELD_NAMES		sizeof(_DtActNamesAndBits)/sizeof(_DtActNameAndBit) - 1

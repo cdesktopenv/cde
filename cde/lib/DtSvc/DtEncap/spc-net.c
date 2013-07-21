@@ -172,6 +172,7 @@ Boolean SPC_Init_Local_Host_Info(void)
  */
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Local_Hostname(XeString hostname)
 /*----------------------------------------------------------------------+*/
 {
@@ -287,6 +288,7 @@ SPC_Connection_Ptr SPC_Open_Connection(XeString hostname)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Open_Socket(SPC_Connection_Ptr conn,
 		int type)
 /*----------------------------------------------------------------------+*/
@@ -319,6 +321,7 @@ SPC_Open_Socket(SPC_Connection_Ptr conn,
 */
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Contact_Server(SPC_Connection_Ptr connection)
 /*----------------------------------------------------------------------+*/
 {
@@ -481,6 +484,7 @@ SPC_Connection_Ptr SPC_Standalone_Daemon(SPC_Connection_Ptr conn)
 }
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Inetd_Daemon(SPC_Connection_Ptr conn)
 /*----------------------------------------------------------------------+*/
 {

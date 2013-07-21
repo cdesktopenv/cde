@@ -66,6 +66,7 @@ static int (* spc_state_table[16]) (SPC_Channel_Ptr channel, int connector)= {
   };
 
 /*----------------------------------------------------------------------+*/
+int
 SPC_Change_State(SPC_Channel_Ptr channel,
 		 int connector, 
 		 int data_line, 
@@ -132,6 +133,7 @@ SPC_Change_State(SPC_Channel_Ptr channel,
    error condition in the state table */
 
 /*----------------------------------------------------------------------+*/
+int
 error_fun(SPC_Channel_Ptr UNUSED_PARM(channel),
 	  int 		  UNUSED_PARM(connector))
 /*----------------------------------------------------------------------+*/
@@ -152,6 +154,7 @@ error_fun(SPC_Channel_Ptr UNUSED_PARM(channel),
 */
 
 /*----------------------------------------------------------------------+*/
+int
 connector_eof(SPC_Channel_Ptr channel,
 	      int connector)
 /*----------------------------------------------------------------------+*/
@@ -196,6 +199,7 @@ connector_eof(SPC_Channel_Ptr channel,
 
   
 /*----------------------------------------------------------------------+*/
+int
 connector_eof_with_reset(SPC_Channel_Ptr channel,
 			 int connector)
 /*----------------------------------------------------------------------+*/
@@ -216,6 +220,7 @@ connector_eof_with_reset(SPC_Channel_Ptr channel,
 */
 
 /*----------------------------------------------------------------------+*/
+int
 sigcld_with_reset(SPC_Channel_Ptr channel,
 		  int             UNUSED_PARM(connector))
 /*----------------------------------------------------------------------+*/

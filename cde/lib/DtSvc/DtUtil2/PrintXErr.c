@@ -45,6 +45,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xlibint.h>
 
+#include <Dt/UserMsg.h>
+
 int 
 _DtPrintDefaultError(
         Display *dpy,
@@ -52,6 +54,7 @@ _DtPrintDefaultError(
         char *msg )
 {
     _DtPrintDefaultErrorSafe(dpy, event, msg, BUFSIZ);
+    /* XXX retval? */
 }
 
 #define _DTP_STRNCAT(s1, s2, nb, ec) \

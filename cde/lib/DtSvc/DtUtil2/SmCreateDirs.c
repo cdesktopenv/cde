@@ -38,6 +38,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <X11/Xlib.h>
 #include <X11/Xlibint.h>
 #include <X11/Intrinsic.h>
@@ -262,9 +263,9 @@ GetShortHostname(
    char * ptr;
    int status;
 
-   if (status = gethostname(buffer, bufsize))
+   if ((status = gethostname(buffer, bufsize)))
       return status; /* failed gethostname */
-   if (ptr = strstr(buffer, (char *)"."))
+   if ((ptr = strstr(buffer, (char *)".")))
       *ptr = '\0';  /* delete domain name if there is one */
    return 0;
 }
@@ -332,10 +333,10 @@ GetDisplayName (
     /*
      * Strip host name to nothing but the unqualified (short) host name
      */
-    if (pch = DtStrchr(hostName, ':'))
+    if ((pch = DtStrchr(hostName, ':')))
 	*pch = '\0';
 
-    if (pch = DtStrchr(hostName, '.'))
+    if ((pch = DtStrchr(hostName, '.')))
 	*pch = '\0';
 
     if((!strcmp(hostName, "unix")) || (!strcmp(hostName, "local"))
@@ -350,8 +351,8 @@ GetDisplayName (
     /*
      * Strip screen off of display name
      */
-    if (tmpNumber = DtStrchr(displayName, ':'))
-	if (pch = DtStrchr(tmpNumber, '.'))
+    if ((tmpNumber = DtStrchr(displayName, ':')))
+	if ((pch = DtStrchr(tmpNumber, '.')))
 	    *pch = '\0';
 
     /*

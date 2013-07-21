@@ -36,6 +36,8 @@
 #include "/usr/include/apollo/shlib.h"
 #endif
 
+#include <Dt/UserMsg.h>
+
 #include <bms/sbport.h> /* NOTE: sbport.h must be the first include. */
 
 #include <bms/bms.h>
@@ -55,8 +57,8 @@ void * XeMalloc( size_t size )
     XeString  ptr;
     
     if (!size) return 0;
-    if (ptr = malloc(size)) {
-	*ptr = (XeChar)NULL;   /* Force first byte to NULL for bozos who */
+    if ((ptr = malloc(size))) {
+	*ptr = (XeChar)0;   /* Force first byte to NULL for bozos who */
 	                       /* think malloc zeros memory!             */
 	return ptr;
     }

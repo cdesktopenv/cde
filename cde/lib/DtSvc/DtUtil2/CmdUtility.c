@@ -32,6 +32,7 @@
  * (c) Copyright 1993, 1994 Novell, Inc.				*
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/param.h>

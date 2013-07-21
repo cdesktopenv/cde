@@ -742,7 +742,7 @@ _DtDbGetDataBaseEnv( void )
     * Get the DTDATABASESEARCHPATH environment variable.  If it is not set,
     * create the default value.
     */
-   if ( temp_s = getenv ("DTDATABASESEARCHPATH"))
+   if (( temp_s = getenv ("DTDATABASESEARCHPATH")))
       if ( *temp_s != 0 ) return XtNewString(temp_s);
 
    temp_buf =

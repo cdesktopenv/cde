@@ -35,9 +35,11 @@ $END$
  ****************************************************************************
  ************************************<+>*************************************/
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #if defined(sun)
 #include <sys/utsname.h>
 #endif

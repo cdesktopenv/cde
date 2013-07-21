@@ -58,6 +58,7 @@
 #include <Dt/CommandM.h>
 #include <Dt/EnvControlP.h>
 #include <Dt/DtNlUtils.h>
+#include <Dt/Utility.h>
 
 #include <Dt/ActionDb.h>
 #include <Dt/ActionUtilP.h>

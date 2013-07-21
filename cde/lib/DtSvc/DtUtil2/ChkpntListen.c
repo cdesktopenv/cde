@@ -57,6 +57,7 @@ static struct {
 } dtsvc_info;
 
 /* _DtPerfChkpntListenInit(): Start the Checkpoint listener */
+int
 #ifdef _NOPROTO
 _DtPerfChkpntListenInit(display, parentwin)
 Display *display;	/* Current display */

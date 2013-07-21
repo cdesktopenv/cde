@@ -1939,14 +1939,14 @@ ValidKeyword(
      * Fill in the length of the keywords at compile time by
      * using the "sizeof" operator (and subtracting one for the NULL).
      */
-   static  localHostLen = sizeof(_DtACT_LOCALHOST_STR) - 1;
-   static   databaseHostLen = sizeof(_DtACT_DATABASEHOST_STR) - 1;
-   static   displayHostLen = sizeof(_DtACT_DISPLAYHOST_STR) - 1;
-   static   sessionHostLen = sizeof(_DtACT_SESSIONHOST_STR) - 1;
-   static   argsLen = sizeof(_DtACT_ARGS_STR) - 1;
-   static   arg_Len = sizeof(_DtACT_ARG_UNDER_STR) - 1;
-   static   stringQualifierLen = sizeof(_DtACT_STRING_QUALIFIER) - 1;
-   static   fileQualifierLen = sizeof(_DtACT_FILE_QUALIFIER) - 1;
+   static  int localHostLen = sizeof(_DtACT_LOCALHOST_STR) - 1;
+   static  int databaseHostLen = sizeof(_DtACT_DATABASEHOST_STR) - 1;
+   static  int displayHostLen = sizeof(_DtACT_DISPLAYHOST_STR) - 1;
+   static  int sessionHostLen = sizeof(_DtACT_SESSIONHOST_STR) - 1;
+   static  int argsLen = sizeof(_DtACT_ARGS_STR) - 1;
+   static  int arg_Len = sizeof(_DtACT_ARG_UNDER_STR) - 1;
+   static  int stringQualifierLen = sizeof(_DtACT_STRING_QUALIFIER) - 1;
+   static  int fileQualifierLen = sizeof(_DtACT_FILE_QUALIFIER) - 1;
    int len = end - start + 1;
    char *stop;
    char *lastCh;
@@ -2303,7 +2303,7 @@ ParseMessage(
    while (1)
    {
       /* Look for the start and end of a keyword */
-      if (keywordStart = DtStrchr(start, '%'))
+      if ((keywordStart = DtStrchr(start, '%')))
          keywordEnd = DtStrchr(keywordStart+1, '%');
       else
          keywordEnd = NULL;

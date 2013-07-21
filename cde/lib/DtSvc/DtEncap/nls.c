@@ -35,6 +35,7 @@
 #include <bms/sbport.h> /* NOTE: sbport.h must be the first include. */
 
 #include <bms/bms.h>
+#include <bms/MemoryMgr.h>
 
 #ifndef CDE_LOGFILES_TOP
 #define CDE_LOGFILES_TOP "/var/dt/tmp"

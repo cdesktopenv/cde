@@ -133,7 +133,8 @@ static SbInputId SPC_RemoveInput(int 			 source,
 }
   
 /*-----------------------------------------------------------------------+*/
-static SPC_Select(void )
+static int
+SPC_Select(void )
 /*-----------------------------------------------------------------------+*/
 {
     break_on_termination=TRUE;

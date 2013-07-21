@@ -119,7 +119,7 @@ GetTableIndex(
 
     if (tab->keyIsString) {
 	s1 = (String)key;
-	for (s2 = (char *)s1; c = *s2++; )
+	for (s2 = (char *)s1; (c = *s2++); )
 	  sig = (sig << 1) + c;
 	len = s2 - s1 - 1;
     }
@@ -127,7 +127,7 @@ GetTableIndex(
       sig = (Signature)key;
     
     idx = HASH(tab, sig);
-    while (entry = entries[idx]) {
+    while ((entry = entries[idx])) {
 	if (entries[idx] == &DtHashfake) {
 	    if (new)
 	      return idx;

@@ -63,6 +63,7 @@
 
 #include <X11/Intrinsic.h>
 
+#include <Dt/CmdInv.h>
 #include <Dt/DtP.h>
 #include <Dt/Dts.h>
 #include <Dt/Help.h>
@@ -5138,7 +5139,7 @@ CmdInvSuccessfulRequest(
          * its status via TT messaging OR it may already have exited.
 	 * For now we set the state here -- till we find a better place.
 	 */
-       if (childrecp = _DtActFindChildRec(invp->id,data->requestPtr->childId))
+       if ((childrecp = _DtActFindChildRec(invp->id,data->requestPtr->childId)))
            childrecp->childState = _DtActCHILD_ALIVE_UNKNOWN;
        else
 	   myassert(0 /* could not find child record */ );
