@@ -731,9 +731,9 @@ MyDrawString (
     Display	*dpy,
     Drawable	 d,
     GC		 gc,
-    int		 font_index,
-    int		 x,
-    int		 y,
+    long	 font_index,
+    long	 x,
+    long	 y,
     const void	*string,
     int		 length,
     int          wc,
@@ -802,7 +802,7 @@ ResolveFont (
     char		*lang,
     const char		*charset,
     _DtHelpFontHints	 font_attr,
-    int			*ret_idx )
+    long		*ret_idx )
 {
     int    result = -1;
     char  *xlfdSpec = font_attr.xlfd;
@@ -1246,8 +1246,8 @@ DADrawString (
     if (strWidth)
       {
         MyDrawString (dpy, win, drawGC,
-			(int) font_ptr,
-			(int) x, (int) y, string, byte_len,
+			(long) font_ptr,
+			(long) x, (long) y, string, byte_len,
 			wc, False, pDAS->font_info);
 
 	if (pDAS->dtinfo && NULL != pSCD) {
@@ -1365,7 +1365,7 @@ DADrawSpc (
     _DtCvFlags	 new_flags )
 {
     int			  i;
-    int			  spcLstIdx = (int) spc_handle;
+    long		  spcLstIdx = (long) spc_handle;
     _DtCvUnit		  ascent;
     _DtCvUnit		  descent;
     const char		 *spcStr;
@@ -1693,7 +1693,7 @@ DABuildSelectedSpc (
     _DtCvUnit		 space,
     _DtCvFlags		 flags )
 {
-    int    spcIdx = (int) spc_handle;
+    long   spcIdx = (long) spc_handle;
     int    i;
     int    totalLen;
     int    spaceNum  = 0;
@@ -1792,7 +1792,7 @@ _DtHelpDAResolveFont (
      * note - if the mod_string comes in with a NULL pointer,
      * it came from our own call rather than the Core Engine.
      */
-    int idx;
+    long idx;
 
     (void) ResolveFont(client_data, lang, charset, font_attr, &idx);
     *ret_font = (_DtCvPointer) idx;
@@ -1822,8 +1822,8 @@ _DtHelpDAResolveSpc (
 {
     register int          i = 0;
     int			  result = -1;
-    int			  fontIdx;
-    int			  spcTbIdx = 0;
+    long		  fontIdx;
+    long		  spcTbIdx = 0;
     _DtCvUnit		  ascent;
     _DtCvUnit		  descent;
     const char		 *newSet;
@@ -1842,7 +1842,7 @@ _DtHelpDAResolveSpc (
 
     if (result == 0)
       {
-	int		 spcLstIdx = 0;
+	long		 spcLstIdx = 0;
 	_DtCvUnit	 maxWidth;
 	_DtHelpDARegion *pReg;
 
@@ -2154,7 +2154,7 @@ _DtHelpDADestroySpc (
     _DtCvPointer	client_data,
     _DtCvPointer	spc_handle)
 {
-    int			  spc_index = (int) spc_handle;
+    long		  spc_index = (long) spc_handle;
     DtHelpDispAreaStruct *pDAS      = (DtHelpDispAreaStruct *) client_data;
 
     if (pDAS->max_spc == 0)
@@ -2324,7 +2324,7 @@ _DtHelpDAGetFontMetrics (
 {
     DtHelpDispAreaStruct *pDAS = (DtHelpDispAreaStruct *) client_data;
 
-    __DtHelpFontMetrics (pDAS->font_info, (int) font_ptr,
+    __DtHelpFontMetrics (pDAS->font_info, (long) font_ptr,
 		ret_ascent, ret_descent, ret_width, ret_super, ret_sub);
 }
 
@@ -2346,7 +2346,7 @@ _DtHelpDAGetStrWidth (
 {
     DtHelpDispAreaStruct *pDAS = (DtHelpDispAreaStruct *) client_data;
     int   length;
-    int   font_index;
+    long  font_index;
     _DtCvStringInfo *strInfo;
 
     if (elem_type != _DtCvSTRING_TYPE)
@@ -2362,7 +2362,7 @@ _DtHelpDAGetStrWidth (
      * was opened for this string.  Use the X11R5 I18N routine to figure
      * out its length.  Otherwise use the standard X11 text width call.
      */
-    font_index = (int) strInfo->font_ptr;
+    font_index = (long) strInfo->font_ptr;
     if (font_index < 0)
       {
 	if (0 == strInfo->wc)

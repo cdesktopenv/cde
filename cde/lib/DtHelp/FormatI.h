@@ -100,5 +100,9 @@ extern	int		 _DtHelpFormatVolumeTitle (
 				XmString	 *ret_title,
 				XmFontList	 *ret_list,
 				Boolean		 *ret_mod);
+extern int		_DtHelpGetAsciiVolumeTitle (
+				XtPointer            client_data,
+				_DtHelpVolumeHdl      volume,
+				char                **ret_title);
 
 #endif /* _DtHelpFormatI_h */

@@ -292,10 +292,11 @@ register int                rowBitAlign, nBits, nSamplesPerPixel, i;
 
         while (nSamplesPerPixel-- > 0) {
             nBits = *pNBits++;
-            if (nBits > 8)
+            if (nBits > 8) {
                 if (nBits <= 16)
                     nBits = 16;
                 else nBits = 32;
+            }
             if (pYCbCr) {
                 i = width >> _ilSubsampleShift[pYCbCr->subsampleHoriz];
                 if (i <= 0) i = 1;
@@ -373,9 +374,9 @@ register ilYCbCrSampleInfo *pYCbCr;
         else {
             pPixels = (ilPtr)IL_MALLOC (nBytesToAlloc);
             if (!pPixels) {                     /* error; free those already created */
-                while (plane != 0) {
+                while ((plane != 0)) {
                     plane--;
-                    if (pPixels = pImage->i.plane[plane].pPixels)
+                    if ((pPixels = pImage->i.plane[plane].pPixels))
                         IL_FREE (pPixels);
                     }
                 pImage->i.clientPixels = TRUE;      /* so IL does not deallocate them */
@@ -500,7 +501,7 @@ ilError                 error;
         }
 
         /*  Validate pDes: don't allow user-defined types. */
-    if (context->error = _ilValidateDesFormat (FALSE, pDes, (ilImageFormat *)NULL))
+    if ((context->error = _ilValidateDesFormat (FALSE, pDes, (ilImageFormat *)NULL)))
         return (ilInternalImage)NULL;
 
         /*  Create the object and add it to context. */
@@ -564,7 +565,7 @@ ilError                 error;
     pImage->i.pPalette = (unsigned short *)NULL;
     pImage->i.clientPalette = TRUE;
 
-    if (error = _ilMallocImagePixels (pImage)) {
+    if ((error = _ilMallocImagePixels (pImage))) {
         ilDestroyObject ((ilObject)pImage);
         context->error = error;
         return (ilInternalImage)NULL;
@@ -665,7 +666,7 @@ int                     plane, nPlanes;
         }
 
         /*  Validate pDes and pFormat: do allow user-defined types. */
-    if (context->error = _ilValidateDesFormat (TRUE, pInfo->pDes, pInfo->pFormat))
+    if ((context->error = _ilValidateDesFormat (TRUE, pInfo->pDes, pInfo->pFormat)))
         return (ilClientImage)NULL;
 
         /*  Create the object and add it to context. */
@@ -733,7 +734,7 @@ int                     plane, nPlanes;
             pImage->i.plane[plane] = pInfo->plane[plane];
         }
     else {      /*  no pixels from client; allocate them here if uncompressed image */
-        if (error = _ilMallocImagePixels (pImage)) {
+        if ((error = _ilMallocImagePixels (pImage))) {
             ilDestroyObject ((ilObject)pImage);
             context->error = error;
             return (ilClientImage)NULL;

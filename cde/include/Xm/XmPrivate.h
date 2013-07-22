@@ -39,8 +39,26 @@ extern void _XmBulletinBoardSizeUpdate(
 extern void _XmBulletinBoardSetDynDefaultButton(
                         Widget wid,
                         Widget newDefaultButton) ;
+/* Extracted from GeoUtilsI.h */
+extern Boolean _XmGeoSetupKid(
+                        XmKidGeometry geo,
+                        Widget kidWid) ;
 /* Extracted from IconFileP.h */
 extern void XmeFlushIconFileCache(String	path);
+/* Extracted from ImageCachI.h */
+extern void _XmPutScaledImage (
+    Display*		 display ,
+    Drawable		 d ,
+    GC			 gc ,
+    XImage*		 src_image ,
+    int			 src_x ,
+    int			 src_y ,
+    int			 dest_x ,
+    int			 dest_y ,
+    unsigned int	 src_width ,
+    unsigned int	 src_height,
+    unsigned int	 dest_width ,
+    unsigned int	 dest_height);
 /* Extracted from ManagerI.h */
 extern void _XmManagerHelp(
                         Widget wid,

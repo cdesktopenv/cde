@@ -69,4 +69,6 @@ function proto() {
 /_XmBulletinBoardSetDynDefaultButton/ { proto(); }
 /_XmBulletinBoardSizeUpdate/ { proto(); }
 /_XmManagerHelp/ { proto(); }
+/_XmPutScaledImage/ { proto(); }
+/_XmGeoSetupKid/ { proto(); }
 /XmeFlushIconFileCache/ { proto(); }

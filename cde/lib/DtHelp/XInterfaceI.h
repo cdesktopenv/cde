@@ -131,6 +131,9 @@ extern	void		_DtHelpDARenderElem (
 				_DtCvElemType	trav_type,
 				_DtCvPointer	trav_data,
 				_DtCvPointer	data);
+extern void		_DtHelpDATocMarker (
+				XtPointer    client_data,
+				Boolean      draw);
 
 #ifdef __cplusplus
 }  /* Close scope of 'extern "C"' declaration which encloses file. */

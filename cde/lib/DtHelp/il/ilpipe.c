@@ -44,6 +44,7 @@
 
 #include <stdlib.h>
 
+#include "ilcodec.h"
 #include "ilint.h"
 #include "ilimage.h"
 #include "ilpipelem.h"
@@ -1102,7 +1103,7 @@ ilBool                  constantStrip, haveConsumerImage, insertCopyFilter;
                 pPipe->image.info.constantStrip = pDstData->constantStrip;
                 pPipe->image.info.stripHeight = pDstData->stripHeight;
                 }
-            if (pDes = pDstData->pDes) {
+            if ((pDes = pDstData->pDes)) {
                 if (pDes->type == IL_PALETTE) {
                     if (pDstData->pPalette)
                         pPipe->image.info.pPalette = pDstData->pPalette;

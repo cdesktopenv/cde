@@ -298,9 +298,9 @@ int                     stripOffsetsIndex, stripByteCountsIndex, colorMapIndex,
          || (pACTag->nItems != nSamples) || (pACTag->type != IL_TAG_LONG))
             return IL_ERROR_FILE_MALFORMED_TAG;
 
-        if (error = ilReadJPEGTags (pPriv->pFile, nSamples, (long *)pQTag->pItems, 
+        if ((error = ilReadJPEGTags (pPriv->pFile, nSamples, (long *)pQTag->pItems,
                                     (long *)pDCTag->pItems, (long *)pACTag->pItems, 
-                                    (ilJPEGData *)pPriv->pCompData))
+                                    (ilJPEGData *)pPriv->pCompData)))
             return error;
 
             /*  If restartInterval tag present, store value else default to 0 */
@@ -332,7 +332,7 @@ int                     stripOffsetsIndex, stripByteCountsIndex, colorMapIndex,
 
             hasCountBug = FALSE;
             hasOffsetBug = FALSE;
-            if (pSoftwareTag = tags[softwareIndex]) {
+            if ((pSoftwareTag = tags[softwareIndex])) {
                 pName = (char *)pSoftwareTag->pItems;
                 if ((pSoftwareTag->nItems >= 7) && (pName[0] == 'H') && (pName[1] == 'P') 
                  && (pName[2] == ' ') && (pName[3] == 'I') && (pName[4] == 'L') 

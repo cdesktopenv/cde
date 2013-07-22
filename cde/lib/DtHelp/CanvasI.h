@@ -130,7 +130,7 @@ typedef	struct	_dtCvSearchData {
 
 typedef	struct _dtCanvasStruct {
 	int		error;
-	int		txt_cnt;	/* maximum used in txt_list	*/
+	long		txt_cnt;	/* maximum used in txt_list	*/
 	int		txt_max;	/* maximum in txt_list		*/
 
 	int		line_cnt;	/* maximum used in line_lst	*/

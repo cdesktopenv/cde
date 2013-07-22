@@ -57,6 +57,7 @@
 #include <Xm/AtomMgr.h>
 #include <Xm/DrawnB.h>
 #include <Xm/CutPaste.h>
+#include <Xm/XmPrivate.h>
 
 
 /*
@@ -67,6 +68,7 @@
 /*
  * private includes
  */
+#include "Access.h"
 #include "DisplayAreaP.h"
 #include "CallbacksI.h"
 #include "FontI.h"

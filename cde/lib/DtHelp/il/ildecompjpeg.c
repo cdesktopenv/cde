@@ -86,7 +86,7 @@ static ilError ilDecompCleanup (
         /*  Cleanup from JPEG decode, but only if firstStrip setup done */
     if (!pPriv->firstStrip) {
         if (pPriv->pJPEGPriv) 
-            if (error = iljpgDecodeCleanup (pPriv->pJPEGPriv))
+            if ((error = iljpgDecodeCleanup (pPriv->pJPEGPriv)))
                 return error;
         if (pPriv->pJPEGData)
             return iljpgFreeData (pPriv->pJPEGData);
@@ -120,7 +120,7 @@ static ilError ilDecompRawExecute (
         /*  If first strip, setup iljpg data and call iljpg Init() function */
     if (pPriv->firstStrip) {
         _ilJPEGTablesIn ((ilJPEGData *)pSrcImage->pCompData, &pPriv->jpgData);
-        if (error = iljpgDecodeInit (&pPriv->jpgData, &pPriv->pJPEGPriv))
+        if ((error = iljpgDecodeInit (&pPriv->jpgData, &pPriv->pJPEGPriv)))
             return error;
         pPriv->firstStrip = FALSE;
         }
@@ -167,9 +167,9 @@ static ilError ilDecompJIFExecute (
     if (firstStrip) {
         pPriv->streamRec.pData = pData->pSrcImage->plane[0].pPixels;
         pPriv->streamRec.nBytesLeft = pData->compressed.nBytesToRead;
-        if (error = iljpgDecodeJIF (&pPriv->streamRec, &pPriv->pJPEGData))
+        if ((error = iljpgDecodeJIF (&pPriv->streamRec, &pPriv->pJPEGData)))
             return error;
-        if (error = iljpgDecodeInit (pPriv->pJPEGData, &pPriv->pJPEGPriv))
+        if ((error = iljpgDecodeInit (pPriv->pJPEGData, &pPriv->pJPEGPriv)))
             return error;
         }
 
@@ -184,8 +184,8 @@ static ilError ilDecompJIFExecute (
     if ((pPriv->nLinesWritten + pPriv->stripHeight) > pPriv->jpgData.height)
          *pNLines = pPriv->jpgData.height - pPriv->nLinesWritten;
     else *pNLines = pPriv->stripHeight;
-    if (error = iljpgDecodeExecute (pPriv->pJPEGPriv, &pPriv->streamRec, FALSE, *pNLines, 
-                                    pPixels, nBytesPerRow))
+    if ((error = iljpgDecodeExecute (pPriv->pJPEGPriv, &pPriv->streamRec, FALSE, *pNLines,
+                                    pPixels, nBytesPerRow)))
         return error;
 
         /*  Handle based on whether firstStrip and/or last strip:
@@ -212,7 +212,7 @@ static ilError ilDecompJIFExecute (
     /*  Called by ilDecompress() when pipe image is JPEG compressed.  Add a filter to
         decompress the pipe image.
     */
-IL_PRIVATE ilBool _ilDecompJPEG (
+ilBool _ilDecompJPEG (
     ilPipe              pipe,
     ilPipeInfo         *pInfo,                              
     ilImageDes         *pDes

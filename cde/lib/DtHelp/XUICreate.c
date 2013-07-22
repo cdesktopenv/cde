@@ -55,6 +55,7 @@
 #include <Xm/DrawnB.h>
 #include <Xm/Form.h>
 #include <Xm/ScrollBar.h>
+#include <Xm/XmPrivate.h>
 
 /*
  * Canvas Engine
@@ -66,6 +67,7 @@
  * private includes
  */
 #include "bufioI.h"
+#include "Access.h"
 #include "DisplayAreaP.h"
 #include "CallbacksI.h"
 #include "XUICreateI.h"

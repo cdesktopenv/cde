@@ -50,11 +50,11 @@ const ilImageDes ilBitonal0WhiteImageDes = {             /* IL_DES_BITONAL */
     /* blackIsZero      */  FALSE,
     /* nSamplesPerPixel */  1,
     /* noLongerUsed */      0x10001,
-    /* compInfo.g3 */       {0},
+    /* compInfo.g3 */       { {0} },
     /* reserved         */  {0, 0, 0, 0},
     /* flags            */  0,
-    /* typeInfo.YCbCr   */  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    /* nLevelsPerSample */  2
+    /* typeInfo.YCbCr   */  { { { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }, 0, 0, 0, 0 } },
+    /* nLevelsPerSample */  { 2 }
     };
 
 const ilImageDes ilGray256ImageDes = {                   /* IL_DES_GRAY */
@@ -63,11 +63,11 @@ const ilImageDes ilGray256ImageDes = {                   /* IL_DES_GRAY */
     /* blackIsZero      */  TRUE,
     /* nSamplesPerPixel */  1,
     /* noLongerUsed */      0x10001,
-    /* compInfo.g3 */       {0},
+    /* compInfo.g3 */       { {0} },
     /* reserved         */  {0, 0, 0, 0},
     /* flags            */  0,
-    /* typeInfo.YCbCr   */  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    /* nLevelsPerSample */  256
+    /* typeInfo.YCbCr   */  { { { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }, 0, 0, 0, 0 } },
+    /* nLevelsPerSample */  { 256 }
     };
 
 const ilImageDes ilRGB256ImageDes = {                    /*  IL_DES_RGB */
@@ -76,11 +76,11 @@ const ilImageDes ilRGB256ImageDes = {                    /*  IL_DES_RGB */
     /* blackIsZero      */  FALSE,
     /* nSamplesPerPixel */  3,
     /* noLongerUsed */      0x10001,
-    /* compInfo.g3 */       {0},
+    /* compInfo.g3 */       { {0} },
     /* reserved         */  {0, 0, 0, 0},
     /* flags            */  0,
-    /* typeInfo.YCbCr   */  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    /* nLevelsPerSample */  256, 256, 256
+    /* typeInfo.YCbCr   */  { { { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }, 0, 0, 0, 0 } },
+    /* nLevelsPerSample */  { 256, 256, 256 }
     };
 
 const ilImageDes ilYCbCrImageDes = {                    /*  IL_DES_YCBCR */
@@ -89,12 +89,12 @@ const ilImageDes ilYCbCrImageDes = {                    /*  IL_DES_YCBCR */
     /* blackIsZero      */  FALSE,
     /* nSamplesPerPixel */  3,
     /* noLongerUsed */      0x10001,
-    /* compInfo.g3 */       {0},
+    /* compInfo.g3 */       { {0} },
     /* reserved         */  {0, 0, 0, 0},
     /* flags            */  0,
-    /* typeInfo.YCbCr   */  {0, 255, 1, 1, 128, 255, 1, 1, 128, 255, 1, 1, 
-                             2990, 5870, 1140, 0},
-    /* nLevelsPerSample */  256, 256, 256
+    /* typeInfo.YCbCr   */  { { { { 0, 255, 1, 1 }, { 128, 255, 1, 1 }, { 128, 255, 1, 1 } },
+                             2990, 5870, 1140, 0} },
+    /* nLevelsPerSample */  { 256, 256, 256 }
     };
 
 const ilImageDes ilYCbCr2ImageDes = {                   /*  IL_DES_YCBCR_2 */
@@ -103,12 +103,12 @@ const ilImageDes ilYCbCr2ImageDes = {                   /*  IL_DES_YCBCR_2 */
     /* blackIsZero      */  FALSE,
     /* nSamplesPerPixel */  3,
     /* noLongerUsed */      0x10001,
-    /* compInfo.g3 */       {0},
+    /* compInfo.g3 */       { {0} },
     /* reserved         */  {0, 0, 0, 0},
     /* flags            */  0,
-    /* typeInfo.YCbCr   */  {0, 255, 1, 1, 128, 255, 2, 2, 128, 255, 2, 2,
-                             2990, 5870, 1140, 0},
-    /* nLevelsPerSample */  256, 256, 256
+    /* typeInfo.YCbCr   */  { { { { 0, 255, 1, 1 }, { 128, 255, 2, 2 }, { 128, 255, 2, 2 } },
+                             2990, 5870, 1140, 0} },
+    /* nLevelsPerSample */  { 256, 256, 256 }
     };
 
 const ilImageDes ilPaletteImageDes = {                   /* IL_DES_PALETTE */
@@ -117,11 +117,11 @@ const ilImageDes ilPaletteImageDes = {                   /* IL_DES_PALETTE */
     /* blackIsZero      */  FALSE,
     /* nSamplesPerPixel */  1,
     /* noLongerUsed */      0x10001,
-    /* compInfo.g3 */       {0},
+    /* compInfo.g3 */       { {0} },
     /* reserved         */  {0, 0, 0, 0},
     /* flags            */  0,
-    /* typeInfo.YCbCr   */  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    /* nLevelsPerSample */  256
+    /* typeInfo.YCbCr   */  { { { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }, 0, 0, 0, 0 } },
+    /* nLevelsPerSample */  { 256 }
     };
 
 
@@ -147,16 +147,16 @@ const unsigned char ilBitReverseTable [256] =
 
 
 const ilImageFormat ilBitImageFormat =                        /* IL_FORMAT_BIT */
-    { IL_SAMPLE_PIXELS, IL_MSB_FIRST, 32, 0, 0, 0, 0, 1 };
+    { IL_SAMPLE_PIXELS, IL_MSB_FIRST, 32, { 0, 0, 0, 0 }, { 1 } };
 
 const ilImageFormat ilByteImageFormat =                       /* IL_FORMAT_BYTE */
-    { IL_SAMPLE_PIXELS, IL_MSB_FIRST, 8,  0, 0, 0, 0, 8 };
+    { IL_SAMPLE_PIXELS, IL_MSB_FIRST, 8, { 0, 0, 0, 0 }, { 8 } };
 
 const ilImageFormat il3BytePixelImageFormat =                 /* IL_FORMAT_3BYTE_PIXEL */
-    { IL_SAMPLE_PIXELS, IL_MSB_FIRST, 8,  0, 0, 0, 0, 8, 8, 8 };
+    { IL_SAMPLE_PIXELS, IL_MSB_FIRST, 8, { 0, 0, 0, 0 }, { 8, 8, 8 } };
 
 const ilImageFormat il3BytePlaneImageFormat =                 /* IL_FORMAT_3BYTE_PLANEL */
-    { IL_SAMPLE_PLANES, IL_MSB_FIRST, 8,  0, 0, 0, 0, 8, 8, 8 };
+    { IL_SAMPLE_PLANES, IL_MSB_FIRST, 8,  { 0, 0, 0, 0 }, { 8, 8, 8 } };
 
 
         /*  Table of shift values, indexed by YCbCr subsample values (1, 2 or 4) */

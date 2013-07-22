@@ -49,6 +49,7 @@
 /*
  * private includes
  */
+#include "Access.h"
 #include "DisplayAreaP.h"
 #include "CallbacksI.h"
 #include "ResizeI.h"

@@ -5206,7 +5206,7 @@ _DtHelpCeGetCcdfTitleChunks(
     _FrmtUiInfo		  *ui_info,
     void		***ret_chunks)
 {
-    int		  type   = 0;
+    long	  type   = 0;
     int		  result = 0;
     int		  offset;
     char	 *fileName;

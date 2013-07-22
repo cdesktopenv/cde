@@ -78,12 +78,12 @@ extern "C" {
  *			Semi Public Routines
  ****************************************************************************/
 extern	void		 _DtHelpCopyDefaultList(XrmName *xrm_list);
-extern	int		 __DtHelpDefaultFontIndexGet (
+extern	long		 __DtHelpDefaultFontIndexGet (
 				DtHelpDispAreaStruct	*pDAS);
 extern	void		 _DtHelpGetStringQuarks(XrmName *xrm_list);
 extern	int		 __DtHelpFontCharSetQuarkGet(
 				DtHelpDispAreaStruct	*pDAS,
-				int			 font_index,
+				long			 font_index,
 				XrmQuark		*ret_quark);
 extern	void		 __DtHelpFontDatabaseInit (
 				DtHelpDispAreaStruct	*pDAS,
@@ -93,14 +93,14 @@ extern	void		 __DtHelpFontDatabaseInit (
 extern	int		 __DtHelpFontIndexGet (
 				DtHelpDispAreaStruct	*pDAS,
 				XrmQuarkList		 xrm_list,
-				int			*ret_idx);
+				long			*ret_idx);
 extern	int		 __DtHelpFontLangQuarkGet(
 				DtHelpDispAreaStruct	*pDAS,
-				int			 font_index,
+				long			 font_index,
 				XrmQuark		*ret_quark);
 extern	void		 __DtHelpFontMetrics (
 				DtHelpDAFontInfo	 font_info,
-				int			 font_index,
+				long			 font_index,
 				_DtCvUnit		*ret_ascent,
 				_DtCvUnit		*ret_descent,
 				_DtCvUnit		*ret_char_width,
@@ -108,16 +108,16 @@ extern	void		 __DtHelpFontMetrics (
 				_DtCvUnit		*ret_sub);
 extern	XFontSet	 __DtHelpFontSetGet (
 				DtHelpDAFontInfo	 font_info,
-				int			 font_index );
+				long			 font_index );
 extern	XFontStruct	*__DtHelpFontStructGet (
 				DtHelpDAFontInfo	 font_info,
-				int			 font_index);
+				long			 font_index);
 extern	int		 _DtHelpGetExactFontIndex(
 				DtHelpDispAreaStruct	*pDAS,
 				const char		*lang,
 				const char		*char_set,
 				char			*xlfd_spec,
-				int			*ret_idx);
+				long			*ret_idx);
 
 #ifdef __cplusplus
 }

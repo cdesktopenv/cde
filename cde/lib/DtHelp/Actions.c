@@ -45,6 +45,7 @@
 /*
  * system includes
  */
+#include <stdlib.h>
 #include <Xm/Xm.h>
 
 /*

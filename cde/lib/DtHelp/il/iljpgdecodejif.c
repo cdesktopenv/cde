@@ -172,9 +172,9 @@ iljpgError iljpgDecodeJIF (
 
             /*  DRI: get value and save into restartInterval */
           case ILJPGM_DRI:
-            if (error = iljpgGet2Bytes (stream, &value))        /* length */
+            if ((error = iljpgGet2Bytes (stream, &value)))        /* length */
                 goto JIFError;
-            if (error = iljpgGet2Bytes (stream, &value))        /* restart interval */
+            if ((error = iljpgGet2Bytes (stream, &value)))        /* restart interval */
                 goto JIFError;
             pData->restartInterval = value;
             break;
@@ -182,15 +182,15 @@ iljpgError iljpgDecodeJIF (
             /*  Start Of Frame 0 (SOF0): save Q table indices; note marker seen. */
           case ILJPGM_SOF0:
             SOF0Found = TRUE;
-            if (error = iljpgGet2Bytes (stream, &value))        /* length */
+            if ((error = iljpgGet2Bytes (stream, &value)))        /* length */
                 goto JIFError;
             if (!ILJPG_DECODE_GET_BYTE (stream, value, error))
                 goto JIFError;
             if (value != 8)                     /* precision != 8; not supported */
                 goto BadJIFData;
-            if (error = iljpgGet2Bytes (stream, &pData->height))
+            if ((error = iljpgGet2Bytes (stream, &pData->height)))
                 goto JIFError;
-            if (error = iljpgGet2Bytes (stream, &pData->width))
+            if ((error = iljpgGet2Bytes (stream, &pData->width)))
                 goto JIFError;
             if (!ILJPG_DECODE_GET_BYTE (stream, nFrameComps, error))
                 goto JIFError;
@@ -218,7 +218,7 @@ iljpgError iljpgDecodeJIF (
                 Multiple tables ("n") can be defined: n = (length-2)/65;
             */
           case ILJPGM_DQT:
-            if (error = iljpgGet2Bytes (stream, &length))       /* length */
+            if ((error = iljpgGet2Bytes (stream, &length)))       /* length */
                 goto JIFError;
             length -= 2;                                        /* includes itself */
             while (length > 0) {
@@ -254,7 +254,7 @@ iljpgError iljpgDecodeJIF (
                 4 AC or DC tables are allowed,used by "extended" DCT mode.
             */
           case ILJPGM_DHT:
-            if (error = iljpgGet2Bytes (stream, &length))
+            if ((error = iljpgGet2Bytes (stream, &length)))
                 goto JIFError;
             length -= 2;                            /* length includes itself */
             while (length > 0) {
@@ -307,7 +307,7 @@ iljpgError iljpgDecodeJIF (
             SOSFound = TRUE;                        /* terminate while loop */
             if (!SOF0Found)                         /* SOS before SOF0 is an error */
                 goto BadJIFData;
-            if (error = iljpgGet2Bytes (stream, &value))        /* length */
+            if ((error = iljpgGet2Bytes (stream, &value)))        /* length */
                 goto JIFError;
 
             if (!ILJPG_DECODE_GET_BYTE (stream, value, error))  /* Ns (0..3) */
@@ -357,15 +357,15 @@ iljpgError iljpgDecodeJIF (
                     goto BadJIFData;
                 }   /* END each scan header component */
 
-            if (error = iljpgSkipBytes (stream, 3))     /* skip Ss, Se, Ah/Al */
+            if ((error = iljpgSkipBytes (stream, 3)))     /* skip Ss, Se, Ah/Al */
                 goto JIFError;
             break;
 
                 /* All other markers have lengths: get length and skip length-2 bytes */
           default:
-            if (error = iljpgGet2Bytes (stream, &value))
+            if ((error = iljpgGet2Bytes (stream, &value)))
                 goto JIFError;
-            if (error = iljpgSkipBytes (stream, value - 2)) /* "length" already skipped */
+            if ((error = iljpgSkipBytes (stream, value - 2))) /* "length" already skipped */
                 goto JIFError;
             break;
             }   /* END switch marker */

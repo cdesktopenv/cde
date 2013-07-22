@@ -893,7 +893,7 @@ _DtHelpFormatManPage(
    /*
     * did we have any paragraphs to format?
     */
-   if (topic != NULL && NULL == topicStruct->seg_list
+   if ((topic != NULL && NULL == topicStruct->seg_list)
 		|| NULL == _DtCvContainerListOfSeg(topicStruct->seg_list))
       {
 	_DtHelpFreeSegments(topicStruct->seg_list, _DtCvFALSE,

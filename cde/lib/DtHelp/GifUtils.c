@@ -71,6 +71,7 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
+#include <Xm/XmPrivate.h>
 #include "GifUtilsI.h"
 
 #ifndef __STDC__

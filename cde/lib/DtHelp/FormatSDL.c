@@ -600,19 +600,21 @@ static FormatStruct DefFormatStruct =
 	    SdlTypeDynamic,		/* SdlOption       sdl_type   */
 	    SdlWindowCurrent,		/* SdlOption       window;    */
 	    SdlInterpKsh,		/* SdlOption       interp;    */
-	    0,				/* SDLNumber       count/offset; */
+	    { 0 },			/* SDLNumber       count/offset; */
 	    NULL,			/* SDLCdata	   language;  */
 	    NULL,			/* SDLCdata	   char_set;  */
 	    NULL,			/* SDLCdata	   id;        */
 	    NULL,			/* SDLCdata	   elstr1;    */
 	    NULL,			/* SDLCdata	   elstr2;    */
 	      {				/* SDLDocInfo	   doc_info;  */
+		{
 	        NULL,			   /* SDLCdata	   language;  */
 	        NULL,			   /* SDLCdata	   char_set;  */
 	        NULL,			   /* SDLId	   first_pg;  */
 	        NULL,			   /* SDLCdata	   doc-id;    */
 	        NULL,			   /* SDLCdata	   timestamp; */
 	        NULL,			   /* SDLCdata    sdldtd;    */
+		},
 	      },
 	      {				/* SdlMatchData              */
 	        SdlClassText,		    /* SdlOption   clan;  */
@@ -9355,7 +9357,7 @@ CreateTitleChunks(
     int			  *ret_cnt,
     void		***ret_chunks)
 {
-    int		 type;
+    long	 type;
     int		 cnt;
     int		 result = 0;
     const char	*myLang;

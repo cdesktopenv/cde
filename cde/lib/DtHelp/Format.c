@@ -83,10 +83,12 @@ extern int errno;
 #include "Access.h"
 #include "AccessP.h"
 #include "AccessI.h"
+#include "AccessCCDFI.h"
 #include "SDLI.h"
 #include "FormatUtilI.h"
 #include "FormatCCDFI.h"
 #include "FormatSDLI.h"
+#include "StringFuncsI.h"
 
 
 #ifdef NLS16
@@ -135,10 +137,10 @@ FormatChunksToXmString(
 {
     int			 result = 0;
     int			 i;
-    int			 j;
+    long		 j;
     int			 quarkCount;
-    int			 chunkType;
-    int			 myIdx;
+    long		 chunkType;
+    long		 myIdx;
     _DtCvPointer	 fontPtr;
     char		*charSet;
     const char		*strChunk;
@@ -219,7 +221,7 @@ FormatChunksToXmString(
         /*
          * create a string for the char set and a quark for it.
          */
-	chunkType = (int) title_chunks[i++];
+	chunkType = (long) title_chunks[i++];
 
         /*
 	 * i now points to the first value after the type
@@ -247,7 +249,7 @@ FormatChunksToXmString(
 	     * resolve/load the font for the default fonts
 	     */
 	    _DtHelpDAResolveFont(pDAS, lang, charSet, fontSpecs, &fontPtr);
-	    myIdx = (int) fontPtr;
+	    myIdx = (long) fontPtr;
 	    if (lang != NULL)
 	      {
 		charSet--;
@@ -267,9 +269,9 @@ FormatChunksToXmString(
 	    /*
 	     * get the default font for the language and code set.
 	     */
-	    (void) __DtHelpFontCharSetQuarkGet(pDAS, (int)title_chunks[i],
+	    (void) __DtHelpFontCharSetQuarkGet(pDAS, (long)title_chunks[i],
 					&xrmName[_DT_HELP_FONT_CHAR_SET]);
-	    (void) __DtHelpFontLangQuarkGet(pDAS, (int)title_chunks[i],
+	    (void) __DtHelpFontLangQuarkGet(pDAS, (long)title_chunks[i],
 					&xrmName[_DT_HELP_FONT_LANG_TER]);
 	    (void) __DtHelpFontIndexGet(pDAS, xrmName, &myIdx);
 
@@ -284,23 +286,23 @@ FormatChunksToXmString(
 	 */
 	if (chunkType & DT_HELP_CE_SPC)
 	  {
-	    j        = (int) title_chunks[i];
+	    j        = (long) title_chunks[i];
 	    strChunk = _DtHelpDAGetSpcString(pDAS->spc_chars[j].spc_idx);
 	    fontPtr  = pDAS->spc_chars[j].font_ptr;
 
 	    /*
 	     * get the default font for the language and code set.
 	     */
-	    (void) __DtHelpFontCharSetQuarkGet(pDAS, (int)fontPtr,
+	    (void) __DtHelpFontCharSetQuarkGet(pDAS, (long)fontPtr,
 					&xrmName[_DT_HELP_FONT_CHAR_SET]);
-	    (void) __DtHelpFontLangQuarkGet(pDAS, (int)fontPtr,
+	    (void) __DtHelpFontLangQuarkGet(pDAS, (long)fontPtr,
 					&xrmName[_DT_HELP_FONT_LANG_TER]);
 	    (void) __DtHelpFontIndexGet(pDAS, xrmName, &myIdx);
 	  }
 	else /* if (chunkType & _DT_HELP_CE_STRING) */
 	    strChunk = (char *) title_chunks[i];
 
-	sprintf(buffer, "%d", myIdx);
+	sprintf(buffer, "%ld", myIdx);
 	charSetQuark = XrmStringToQuark(buffer);
 
         j = 0;

@@ -38,6 +38,7 @@
 ***-------------------------------------------------------------------*/
 
 #include "ilint.h"
+#include "ilpipeint.h"
 #include "ilpipelem.h"
 #include "ilconvert.h"
 #include "ilerrors.h"

@@ -394,14 +394,14 @@ iljpgError _iljpgDehuffInit (
 
         /*  Build lookup tables from DC/AC tables from caller (*pPriv->pData) */
     for (i = 0; i < 4; i++) {
-        if (pTable = pData->DCTables[i]) {
-            if (error = build_huffman_tables (pTable, (pTable+16), LOOKUP_BITS,
-                               &pHuffPriv->table_set_dc[i]))
+        if ((pTable = pData->DCTables[i])) {
+            if ((error = build_huffman_tables (pTable, (pTable+16), LOOKUP_BITS,
+                               &pHuffPriv->table_set_dc[i])))
                 return error;
             }
-        if (pTable = pData->ACTables[i]) {
-            if (error = build_huffman_tables (pTable, (pTable+16), LOOKUP_BITS,
-                               &pHuffPriv->table_set_ac[i]))
+        if ((pTable = pData->ACTables[i])) {
+            if ((error = build_huffman_tables (pTable, (pTable+16), LOOKUP_BITS,
+                               &pHuffPriv->table_set_ac[i])))
                 return error;
             }
         }

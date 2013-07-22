@@ -66,6 +66,7 @@
 #include "GenUtilsP.h"
 #include "FontAttrI.h"
 #include "Access.h"
+#include "AccessI.h"
 #include "AccessP.h"
 #include "AccessSDLP.h"
 #include "AccessSDLI.h"

@@ -67,6 +67,7 @@
 #include "Access.h"
 #include "bufioI.h"
 #include "DisplayAreaI.h"
+#include "DisplayAreaP.h"
 
 #include <Dt/Help.h>
 #include "HelpI.h"
@@ -76,6 +77,8 @@
 #include "HelpDialogP.h"
 #include "HelpUtilI.h"
 #include "HelposI.h"
+#include "HyperTextI.h"
+#include "FormatI.h"
 #include "MessagesP.h"
 #include "HelpQuickD.h"
 #include "SetListI.h"

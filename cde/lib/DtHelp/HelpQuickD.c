@@ -62,6 +62,7 @@
 #include <Xm/SeparatoG.h>
 #include <Xm/Frame.h>
 #include <Xm/RepType.h>
+#include <Xm/XmPrivate.h>
 
 /* Copied from Xm/GeoUtilsI.h */
 extern XmGeoMatrix _XmGeoMatrixAlloc( 
@@ -79,6 +80,7 @@ extern XmGeoMatrix _XmGeoMatrixAlloc(
 #include <Dt/Help.h>
 #include "HelpP.h"
 #include "DisplayAreaI.h"
+#include "DisplayAreaP.h"
 #include "StringFuncsI.h"
 #include "HelpQuickDP.h"
 #include "HelpQuickDI.h"

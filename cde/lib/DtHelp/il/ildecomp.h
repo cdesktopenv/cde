@@ -75,4 +75,10 @@ IL_EXTERN ilBool _ilDecompPackbits (
     ilImageFormat      *pimformat
     );
 
+IL_EXTERN ilBool _ilDecompJPEG (
+    ilPipe              pipe,
+    ilPipeInfo         *pInfo,
+    ilImageDes         *pDes
+    );
+
 #endif

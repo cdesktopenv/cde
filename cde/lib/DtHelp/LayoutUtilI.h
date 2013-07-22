@@ -181,6 +181,9 @@ extern	int		_DtCvSetTravEntryPos (
 extern	void		_DtCvSortTraversalList (
 			      _DtCanvasStruct	 *canvas,
 			      _DtCvValue	  retain);
+extern	int		_DtCvSetSearchEntryInfo (
+			      _DtCanvasStruct* canvas,
+			      int line_idx);
 
 #ifdef __cplusplus
 }  /* Close scope of 'extern "C"' declaration which encloses file. */

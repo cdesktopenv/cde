@@ -130,6 +130,13 @@ void _DtHelpPrintJob(
     Boolean	printToc,
     char *	topicTitle);
 
+extern void _DtHelpInitPrintStuff (
+    _DtHelpPrintStuff * print);
+
+extern void _DtHelpFreePrintStuff (
+    _DtHelpPrintStuff * print,
+    int                 cleanUpKind);
+
 
 #endif /* _PrintI_h */
 /* Do not add anything after this endif. */

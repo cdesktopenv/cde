@@ -46,6 +46,7 @@
 #include "ilpipelem.h"
 #include "ilerrors.h"
 
+#include <Xm/XmPrivate.h>
 
 #define X_COLOR_MAX             65535       /* max value for X colormap RGB 
 					       value */
@@ -318,10 +319,11 @@ double          spreadFactor;
         /*  Use the grays if the same number, else deallocate them.
         */
     context->error = IL_OK;                         /* assume no errors */
-    if (pXWC->pGrays)
+    if (pXWC->pGrays) {
         if (pXWC->nGrays == nGrays)
             return TRUE;
         else ilFreeColorData (pXWC, IL_FREE_XGRAYS);
+    }
 
     if (nGrays > 256)
         return FALSE;                               /* EXIT */

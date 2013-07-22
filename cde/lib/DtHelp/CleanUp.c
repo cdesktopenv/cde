@@ -45,6 +45,7 @@
  * system includes
  */
 #include <stdlib.h>
+#include <X11/Intrinsic.h>
 
 /*
  * Canvas Engine includes
@@ -61,6 +62,7 @@
 #include "FontAttrI.h"
 #include "FormatUtilI.h"
 #include "RegionI.h"
+#include "StringFuncsI.h"
 #include "XInterfaceI.h"
 
 #ifdef NLS16

@@ -89,6 +89,7 @@ static char rcs_id[]="$XConsortium: Graphics.c /main/23 1996/12/06 11:12:54 cde-
 #include <sys/stat.h>
 #include <X11/Xlib.h>
 #include <X11/XWDFile.h>
+#include <X11/ImUtil.h>
 #ifndef	STUB
 #include "il.h"
 #include "ilfile.h"
@@ -96,9 +97,13 @@ static char rcs_id[]="$XConsortium: Graphics.c /main/23 1996/12/06 11:12:54 cde-
 #include "ilerrors.h"
 #endif
 #include <Xm/Xm.h>
+#include <Xm/XmPrivate.h>
 #include <Dt/Dts.h>
 #include <Dt/xpm.h>
 
+#include "bufioI.h"
+#include "Access.h"
+#include "AccessI.h"
 #include "GraphicsP.h"
 #include "GraphicsI.h"
 #include "StringFuncsI.h"
@@ -454,7 +459,7 @@ static int registry_count = XtNumber(registry);
 
 /* Registry of converters and destructors for non-default image types */
 static _DtGrRegistryRec *new_registry = NULL;
-static new_registry_count = 0;
+static int new_registry_count = 0;
 
 /***************************************************************************** 
  *         Private Routines

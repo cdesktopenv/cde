@@ -67,6 +67,7 @@
 #include "DisplayAreaP.h"
 #include "CallbacksI.h"
 #include "FontAttrI.h"
+#include "FormatI.h"
 #include "SetListI.h"
 #include "XInterfaceI.h"
 #include "XUICreateI.h"

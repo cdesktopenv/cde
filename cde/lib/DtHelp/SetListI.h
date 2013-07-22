@@ -68,6 +68,10 @@ extern	Boolean		_DtHelpSetScrollBars (
 				XtPointer	client_data,
 				Dimension	new_width,
 				Dimension	new_height );
+extern int		_DtHelpUpdatePath (
+				DtHelpDispAreaStruct        *pDAS,
+				_DtHelpVolumeHdl             volume_handle,
+				char                        *loc_id);
 
 #ifdef __cplusplus
 }

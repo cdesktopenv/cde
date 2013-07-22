@@ -58,7 +58,9 @@
  * private includes
  */
 #include "ObsoleteP.h"
+#include "bufioI.h"
 #include "Access.h"
+#include "AccessI.h"
 
 #ifdef NLS16
 #endif

@@ -72,6 +72,8 @@ extern int errno;
 #include "CCDFUtilI.h"
 #include "FontAttrI.h"
 #include "CvStringI.h"
+#include "FormatUtilI.h"
+#include "StringFuncsI.h"
 
 #ifdef NLS16
 #endif

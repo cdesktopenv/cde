@@ -43,6 +43,7 @@
 /*
  * system includes
  */
+#include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -59,6 +60,7 @@
  */
 #include "bufioI.h"
 #include "CanvasOsI.h"
+#include "FormatUtilI.h"
 
 #ifdef NLS16
 #endif

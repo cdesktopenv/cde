@@ -179,3 +179,8 @@ IL_EXTERN const ilDecompG4HuffTableRec ilArFax1DDecodeBlack[G4K_BlackTableSize];
 
 IL_EXTERN const ilDecompG4HuffTableRec ilArFax2DDecodeTable[G4K_DecodeTableSize];
 
+IL_EXTERN ilError   _ilDecompG4Line(
+register ilDecompG3G4PrivPtr  pPriv,
+ilPtr          pRefLine,
+ilPtr          dstImageP
+);

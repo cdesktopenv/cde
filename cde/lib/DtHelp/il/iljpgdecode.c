@@ -186,7 +186,7 @@ iljpgError iljpgDecodeExecute (
 
         /*  Reset Huffman decoding: beginning of a strip/restart interval */
     if (doReset) {
-        if (error = _iljpgDehuffReset (pPriv))
+        if ((error = _iljpgDehuffReset (pPriv)))
             return error;
         }
 
@@ -201,7 +201,7 @@ iljpgError iljpgDecodeExecute (
                 If a restart interval and mcu count >, do a reset/restart.
             */
             if (restartInterval && (pPriv->mcuRestartCount >= restartInterval)) {
-                if (error = _iljpgDehuffReset (pPriv))
+                if ((error = _iljpgDehuffReset (pPriv)))
                     return error;
                 pPriv->mcuRestartCount = 0;
                 }
@@ -212,8 +212,8 @@ iljpgError iljpgDecodeExecute (
 
                 for (v = 0, bY = pComp->y; v < pComp->vertFactor; v++, bY += 8) {
                     for (h = 0, bX = pComp->x; h < pComp->horiFactor; h++, bX += 8) {
-                        if (error = _iljpgDehuffExecute (pPriv, stream, comp, outHuff, 
-                                                         &blockType))
+                        if ((error = _iljpgDehuffExecute (pPriv, stream, comp, outHuff,
+                                                         &blockType)))
                             return error;
 
                             /*  Add previous DC to this one, save away for next */

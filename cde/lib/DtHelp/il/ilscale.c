@@ -41,6 +41,7 @@
 #include "ilpipelem.h"
 #include "ilscaleint.h"
 #include "ilerrors.h"
+#include "ilconvert.h"
 
 #define LONGSZ        4
 #ifdef LSB_BIT_ORDER

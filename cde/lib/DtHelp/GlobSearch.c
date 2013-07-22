@@ -89,7 +89,9 @@
 /*
  * private includes
  */
+#include "bufioI.h"
 #include "Access.h"
+#include "AccessI.h"
 #include "StringFuncsI.h"
 #include "DisplayAreaI.h"
 #include "HelpDialogP.h"
@@ -97,6 +99,7 @@
 #include "HelpAccessI.h"
 #include "HelpUtilI.h"
 #include "HelposI.h"
+#include "HourGlassI.h"
 #include "GlobSearchI.h"
 #include "FileListUtilsI.h"
 #include "FileUtilsI.h"
@@ -1070,8 +1073,8 @@ done:
      else *ret_helpFile = NULL;
    }
    /* WARNING: depends on pointers and integers the same size */
-#ifdef __osf__
-   return (NULL == ((ulong_t)hit|(ulong_t)posFile|(ulong_t)locationIdList)) ? -1 : 0;
+#ifdef __LP64__
+   return (NULL == ((int64_t)hit|(int64_t)posFile|(int64_t)locationIdList)) ? -1 : 0;
 #else
    return (0 == ((int)hit|(int)posFile|(int)locationIdList)) ? -1 : 0;
 #endif

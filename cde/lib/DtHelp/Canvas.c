@@ -61,6 +61,7 @@
 #include "CvStringI.h"
 #include "LinkMgrI.h"
 #include "LayoutUtilI.h"
+#include "SelectionI.h"
 #include "VirtFuncsI.h"
 
 #ifdef NLS16
@@ -144,7 +145,7 @@ static	_DtCanvasStruct	DefaultCanvas =
 	NULL,		/* _DtCvMarkData	*marks; */
 	NULL,		/* searchs */
 	NULL,		/* pg_breaks */
-	NULL,		/* _DtCvVirtualInfo	 virt_functions; */
+	{ NULL },	/* _DtCvVirtualInfo	 virt_functions; */
   };
 
 /*****************************************************************************

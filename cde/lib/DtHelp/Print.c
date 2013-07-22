@@ -62,6 +62,7 @@
 #include <Xm/RowColumn.h>
 #include <Xm/MwmUtil.h>
 #include <Xm/Protocols.h>
+#include <Xm/ToggleB.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>
@@ -74,7 +75,11 @@
  */
 #include "DisplayAreaI.h"
 
+#include "bufioI.h"
+#include "Access.h"
+#include "AccessI.h"
 #include "MessagesP.h"
+#include "FormatI.h"
 #include "HelpI.h"
 #include "HelposI.h"
 #include "HelpUtilI.h"

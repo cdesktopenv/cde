@@ -100,7 +100,7 @@ BufFileRawSkip (
     return count;
 }
 
-static
+static int
 BufFileRawFlush (
     int		c,
     BufFilePtr	f )

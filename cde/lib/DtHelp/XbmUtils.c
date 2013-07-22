@@ -74,6 +74,7 @@ from the X Consortium.
  * without the other).
  */
 
+#include <X11/IntrinsicP.h>
 #include <X11/Xlibint.h>
 #include <X11/Xos.h>
 #include <X11/Xutil.h>
@@ -123,7 +124,7 @@ static void initHexTable()
 /*
  *	read next hex value in the input stream, return -1 if EOF
  */
-static NextInt (fstream)
+static int NextInt (fstream)
     _DtGrStream *fstream;
 {
     int	ch;

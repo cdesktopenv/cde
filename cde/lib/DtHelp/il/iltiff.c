@@ -216,8 +216,8 @@ register ilBool         bigEndian;
             else pFileTag++;
             }
         if (tagFound) {
-            mallocSize += sizeof (ilFileTag) + 
-                (pFileTag->length * _ilTagTypeItemSizes [pFileTag->type] + 3) & ~3;
+            mallocSize += (sizeof (ilFileTag) +
+                (pFileTag->length * _ilTagTypeItemSizes [pFileTag->type] + 3)) & ~3;
             *ppTag++ = (ilFileTag *)pFileTag;
             }
         else *ppTag++ = (ilFileTag *)NULL;
@@ -384,7 +384,7 @@ static void ilAddImageToList (
         /*  Main image: if page # present, add to list in page order, else add to end */
       case mainImage:
         if (pFileImage->p.nPages < 0) {     /* no page #; add to end of list */
-            if (pFileImage->p.pPrev = (ilFileImage)pFile->pFileImageTail)
+            if ((pFileImage->p.pPrev = (ilFileImage)pFile->pFileImageTail))
                 pFileImage->p.pPrev->pNext = (ilFileImage)pFileImage;
             else pFile->pFileImageHead = pFileImage;
             }
@@ -1061,7 +1061,7 @@ register ilBool         bigEndian;
             /*  Add file image to list, if supported.  An error is returned only if
                 the file image is malformed; not if it is just unsupported.
             */
-        if (error = ilReadTagsAndAddImageToList (pFile, &pPrevFileImage, pFileImage))
+        if ((error = ilReadTagsAndAddImageToList (pFile, &pPrevFileImage, pFileImage)))
             goto LFIFatalError;             /* fatal error returned; EXIT */
 
             /*  Read and flip offset to next IFD, at end of tags; save in pFile. */

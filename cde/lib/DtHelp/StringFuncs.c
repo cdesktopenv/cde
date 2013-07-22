@@ -51,7 +51,7 @@
 #include <errno.h>
 #include <locale.h>  /* getlocale(), LOCALE_STATUS, LC_xxx */
 
-#if defined(_AIX) || defined(USL) || defined(__uxp__)
+#if defined(_AIX) || defined(USL) || defined(__uxp__) || defined(CSRG_BASED)
 #include <ctype.h>
 #endif
 
@@ -493,7 +493,7 @@ int _DtHelpCeStrHashToKey(
 
     if (!str) return 0;                  /* RETURN */
 
-    for (tstr = str; c = *tstr++; )
+    for (tstr = str; (c = *tstr++); )
         key = (key << 1) + c;
 
     return key;

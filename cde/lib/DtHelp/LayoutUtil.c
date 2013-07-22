@@ -900,7 +900,7 @@ _DtCvSaveInfo (
     int    len;
     int    start      = layout->line_start;
     int    count      = layout->line_bytes;
-    int    txtCnt     = canvas->txt_cnt;
+    long   txtCnt     = canvas->txt_cnt;
     _DtCvUnit   maxAscent  = 0;
     _DtCvUnit   maxDescent = 0;
     _DtCvUnit   maxRegion  = 0;
@@ -1984,7 +1984,7 @@ _DtCvCvtSegsToPts (
     int			 cnt;
     int			 start;
     int			 length;
-    int			 lineIdx;
+    long		 lineIdx;
     int			 linkIdx = -1;
     _DtCvValue		 lastVisLnk = _DtCvFALSE;
     _DtCvUnit		 minY = -1;
@@ -2020,7 +2020,7 @@ _DtCvCvtSegsToPts (
 	/*
 	 * what line is this segment on?
 	 */
-	lineIdx = (int) ((*segs)->segment->internal_use);
+	lineIdx = (long) ((*segs)->segment->internal_use);
 
 	/*
 	 * get some information about the line

@@ -120,7 +120,7 @@ typedef	struct	_DtHelpDAfontInfo {
 	int		max_sets;	/* The max number of font_sets	     */
 	int		struct_cnt;	/* the cur number of font_structs    */
 	int		set_cnt;	/* The cur number of font_sets	     */
-	int		def_idx;	/* The default index                 */
+	long		def_idx;	/* The default index                 */
 } DtHelpDAFontInfo;
 
 /* 

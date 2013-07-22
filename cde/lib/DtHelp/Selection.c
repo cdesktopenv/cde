@@ -58,6 +58,7 @@
 #include "CvStringI.h"
 #include "LayoutUtilI.h"
 #include "SelectionI.h"
+#include "VirtFuncsI.h"
 
 #ifdef NLS16
 #endif
@@ -1112,7 +1113,7 @@ _DtCvDrawAreaWithFlags (
 		 * I.E. is this line before the start or after the end?
 		 */
 		if (canvas->txt_lst[i].max_x < start.x ||
-					end.y == start.y && end.x <= dstX )
+					(end.y == start.y && end.x <= dstX) )
 		    continue;
 
 		/*

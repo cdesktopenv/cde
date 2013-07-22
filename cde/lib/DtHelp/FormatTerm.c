@@ -317,7 +317,7 @@ TermStrDraw (
 	pTerm->lines[y] = (wchar_t *) malloc (sizeof(wchar_t) * (length + 1));
 	if (pTerm->lines[y] != NULL)
 	  {
-	    register i;
+	    register int i;
 
 	    wcStr = pTerm->lines[y];
 	    _DtHelpProcessLock();
@@ -340,7 +340,7 @@ TermStrDraw (
 					(sizeof(wchar_t) * (length + 1)));
 	    if (pTerm->lines[y] != NULL)
 	      {
-	        register i;
+	        register int i;
 	        wcStr = pTerm->lines[y];
 		_DtHelpProcessLock();
 	        for (i = pTerm->wc_num[y]; i < x; i++)

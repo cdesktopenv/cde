@@ -140,7 +140,7 @@ _DtHelpDisplayAreaDestroyCB (
     XtPointer call_data)
 {
     int      i;
-    int      strIdx;
+    long     strIdx;
     XrmName		  xrmList[_DtHelpFontQuarkNumber];
     Display		 *dpy;
     DtHelpDispAreaStruct *pDAS = (DtHelpDispAreaStruct *) client_data;

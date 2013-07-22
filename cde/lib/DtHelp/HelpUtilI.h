@@ -393,7 +393,7 @@ void _DtHelpDisplayFormatError(
  * Purpose:        This routine inits common help stuff
  *
  ****************************************************************************/
-void _DtHelpInitCommonHelpInit(
+void _DtHelpCommonHelpInit(
     _DtHelpCommonHelpStuff * help);
 
 /*****************************************************************************

@@ -57,7 +57,7 @@ _gotoLabel: \
 
 
     /* compute 2-D DCT descaling matrix */
-static _il_fwft_rev_scale (
+static void _il_fwft_rev_scale (
     iljpgPtr q,                /* pointer to quantization matrix */
     float   *s                 /* pointer to pointer to descaling matrix */
     )

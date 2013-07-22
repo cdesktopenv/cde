@@ -564,7 +564,7 @@ unsigned long      *pNLines
 	while ( nLines-- > 0 )
 	{
 
-		if (error = _ilDecompG4Line(pPriv,pRefLine,dstImageP) )
+		if ((error = _ilDecompG4Line(pPriv,pRefLine,dstImageP)) )
 			return error;
 
 		pRefLine       =   dstImageP;

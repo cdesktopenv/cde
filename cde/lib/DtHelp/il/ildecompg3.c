@@ -389,12 +389,12 @@ unsigned long      *pNLines
 
 			if ( tag_bit ) {
 				pPriv->srcpos++;
-				if (error = _ilDecompG3Line(pPriv,dstImageP) )
+				if ((error = _ilDecompG3Line(pPriv,dstImageP)) )
 					return error;
 			}
 			else {
 				pPriv->srcpos++;
-				if (error = _ilDecompG4Line(pPriv,pRefLine,dstImageP) )
+				if ((error = _ilDecompG4Line(pPriv,pRefLine,dstImageP)) )
 					return error;
 			}
 
@@ -402,7 +402,7 @@ unsigned long      *pNLines
 
 			if ( ( !Is_EOLs) && ( ( temp = pPriv->srcpos % 8) != 0 )  )
 				pPriv->srcpos += (8-temp) ;
-			if (error = _ilDecompG3Line(pPriv,dstImageP) )
+			if ((error = _ilDecompG3Line(pPriv,dstImageP)) )
 				return error;
 		}                                        /* is 2d coding */
 

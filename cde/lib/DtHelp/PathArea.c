@@ -64,6 +64,7 @@
  * private includes
  */
 #include "DisplayAreaI.h"
+#include "DisplayAreaP.h"
 #include "StringFuncsI.h"
 #include "HelposI.h"
 #include "HelpDialogI.h"
@@ -71,6 +72,7 @@
 #include "HelpUtilI.h"
 #include "PathAreaI.h"
 #include "DestroyI.h"
+#include "SetListI.h"
 #include "XUICreateI.h"
 
 /*

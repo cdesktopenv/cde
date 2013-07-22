@@ -270,7 +270,7 @@ static	XrmBinding	FontBindings[_DtHelpFontQuarkNumber] =
         { XrmBindLoosely, XrmBindLoosely, XrmBindLoosely, XrmBindLoosely,
           XrmBindLoosely, XrmBindLoosely, XrmBindLoosely };
 
-static	DtHelpDAFSMetrics  DefaultMetrics = { FALSE, 0, 0 };
+static	DtHelpDAFSMetrics  DefaultMetrics = { FALSE, { 0, 0 } };
 static	DtHelpDAFontInfo   DefFontInfo    = { NULL, NULL, NULL, NULL, NULL,
 					NULL, 0, NULL, 0, 0, 0, 0, 0};
 
@@ -366,7 +366,7 @@ LoadFont (
     Display	*dpy,
     DtHelpDAFontInfo	*font_info,
     char	*font_string,
-    int		*ret_index)
+    long	*ret_index)
 {
     short	 found = False;
     short	 colon = False;
@@ -479,10 +479,10 @@ int
 __DtHelpFontIndexGet (
     DtHelpDispAreaStruct	*pDAS,
     XrmQuarkList		 xrm_list,
-    int				*ret_idx)
+    long			*ret_idx)
 {
     int		 	 result    = -1;
-    int                  fontIndex = pDAS->font_info.def_idx;
+    long                 fontIndex = pDAS->font_info.def_idx;
     XrmRepresentation    retType;
     XrmValue             retValue;
     char                 buffer[10];
@@ -541,7 +541,7 @@ __DtHelpFontIndexGet (
 	/*
 	 * remember the character set for this font.
 	 */
-	sprintf (buffer, "%d", fontIndex);
+	sprintf (buffer, "%ld", fontIndex);
 	retValue.size = sizeof (XrmQuark);
 	retValue.addr = (XtPointer) &xrm_list[_DT_HELP_FONT_CHAR_SET];
 	xrmList[0] = XrmStringToQuark (buffer);
@@ -581,7 +581,7 @@ __DtHelpFontIndexGet (
 int
 __DtHelpFontCharSetQuarkGet (
     DtHelpDispAreaStruct	*pDAS,
-    int       font_index,
+    long      font_index,
     XrmQuark  *ret_quark )
 {
     XrmRepresentation    retType;
@@ -593,7 +593,7 @@ __DtHelpFontCharSetQuarkGet (
     /*
      * quarkize the font index
      */
-    sprintf (buffer, "%d", font_index);
+    sprintf (buffer, "%ld", font_index);
     xrmList[0] = XrmStringToQuark (buffer);
     xrmList[1] = XrmStringToQuark ("code_set");
     xrmList[2] = 0;
@@ -625,7 +625,7 @@ __DtHelpFontCharSetQuarkGet (
 int
 __DtHelpFontLangQuarkGet (
     DtHelpDispAreaStruct	*pDAS,
-    int       font_index,
+    long      font_index,
     XrmQuark  *ret_quark )
 {
     XrmRepresentation    retType;
@@ -637,7 +637,7 @@ __DtHelpFontLangQuarkGet (
     /*
      * quarkize the font index
      */
-    sprintf (buffer, "%d", font_index);
+    sprintf (buffer, "%ld", font_index);
     xrmList[0] = XrmStringToQuark (buffer);
     xrmList[1] = XrmStringToQuark ("language");
     xrmList[2] = 0;
@@ -814,7 +814,7 @@ __DtHelpFontDatabaseInit (
 }
 
 /******************************************************************************
- * Function:	XFontStruct *__DtHelpFontStructGet (int font_index );
+ * Function:	XFontStruct *__DtHelpFontStructGet (long font_index );
  *
  * Parameters:	font_index	Specifies an index into the Font Structure
  *				List.
@@ -827,7 +827,7 @@ __DtHelpFontDatabaseInit (
 XFontStruct *
 __DtHelpFontStructGet (
     DtHelpDAFontInfo	font_info,
-    int		  font_index)
+    long	  font_index)
 {
 
     if (font_index > -1 && font_index < font_info.struct_cnt)
@@ -837,7 +837,7 @@ __DtHelpFontStructGet (
 }
 
 /******************************************************************************
- * Function:	XFontSet __DtHelpFontSetGet (int font_index);
+ * Function:	XFontSet __DtHelpFontSetGet (long font_index);
  *
  * Parameters:	font_index	Specifies an index into the Font Set List.
  *
@@ -849,7 +849,7 @@ __DtHelpFontStructGet (
 XFontSet
 __DtHelpFontSetGet (
     DtHelpDAFontInfo	font_info,
-    int		 font_index)
+    long		 font_index)
 {
 
     if (font_index < 0)
@@ -864,7 +864,7 @@ __DtHelpFontSetGet (
 }
 
 /******************************************************************************
- * Function:	int __DtHelpDefaultFontIndexGet ();
+ * Function:	long __DtHelpDefaultFontIndexGet ();
  *
  * Parameters:
  *
@@ -873,7 +873,7 @@ __DtHelpFontSetGet (
  * Purpose:
  *
  *****************************************************************************/
-int
+long
 __DtHelpDefaultFontIndexGet (
     DtHelpDispAreaStruct	*pDAS)
 {
@@ -894,7 +894,7 @@ __DtHelpDefaultFontIndexGet (
 void
 __DtHelpFontMetrics (
     DtHelpDAFontInfo	font_info,
-    int		  font_index,
+    long	  font_index,
     _DtCvUnit	 *ret_ascent,
     _DtCvUnit	 *ret_descent,
     _DtCvUnit	 *ret_char_width,
@@ -983,11 +983,11 @@ _DtHelpGetExactFontIndex (
     const char			*lang,
     const char			*char_set,
     char		 	*xlfd_spec,
-    int				*ret_idx)
+    long			*ret_idx)
 {
     int			 i = 0;
     int		 	 result    = -1;
-    int                  fontIndex = pDAS->font_info.def_idx;
+    long                 fontIndex = pDAS->font_info.def_idx;
     char		**nameList;
     DtHelpDAFontInfo	*fontInfo = &(pDAS->font_info);
     Display		*dpy      = XtDisplay(pDAS->dispWid);
@@ -1048,7 +1048,7 @@ _DtHelpGetExactFontIndex (
 		     * remember the character set for this font.
 		     */
 		    myQuark = XrmStringToQuark(char_set);
-		    sprintf (buffer, "%d", fontIndex);
+		    sprintf (buffer, "%ld", fontIndex);
 		    retValue.size = sizeof (XrmQuark);
 		    retValue.addr = (XtPointer) &myQuark;
 		    xrmList[0] = XrmStringToQuark (buffer);
