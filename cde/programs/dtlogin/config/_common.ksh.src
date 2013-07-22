@@ -32,11 +32,11 @@
   HASH
   HASH Determine Xsession parent
   HASH
-#if defined (__osf__)
+#if defined (__osf__) || defined(__OpenBSD__)
   pexec=$(LC_TIME=C ps -p $PPID | awk 'NR==2 {print $5}')
 #elif defined(USL) && (OSMAJORVERSION > 1)
   pexec=$(LC_TIME=C ps -p $PPID | awk 'NR==2 {print $6}')
-#elif defined(linux) || defined(CSRG_BASED) && !defined(__FreeBSD__)
+#elif defined(linux)
   pexec=$(LC_TIME=C /bin/ps -p $PPID 2>/dev/null | awk 'NR==2 {print $4}')
 #elif defined(__FreeBSD__)
   pexec=$(LC_TIME=C /bin/ps -o comm= -p $PPID 2>/dev/null)
@@ -499,7 +499,11 @@ SetKeyboardMap()
 #ifdef cpp_Xsetup
     if [ "$DTXSERVERLOCATION" != "remote" ]; then
       fontpath=
+#if defined(__FreeBSD__)
       FONTLIB=/usr/local/lib/X11/fonts
+#elif defined(__OpenBSD__)
+      FONTLIB=/usr/X11R6/lib/X11/fonts
+#endif
       for i in misc 75dpi 100dpi Speedo Type1 PJE
       do
 	 if [ -f $FONTLIB/$i/fonts.dir ];  then
