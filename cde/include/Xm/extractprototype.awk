@@ -66,4 +66,7 @@ function proto() {
 /_XmPrimitiveLeave/ { proto(); }
 /_XmPrimitiveFocusOut/ { proto(); }
 /_XmPrimitiveFocusIn\(/ { proto(); }
+/_XmBulletinBoardSetDynDefaultButton/ { proto(); }
+/_XmBulletinBoardSizeUpdate/ { proto(); }
+/_XmManagerHelp/ { proto(); }
 /XmeFlushIconFileCache/ { proto(); }

@@ -45,6 +45,7 @@
 #undef MAXINT
 #endif
 
+#include <ctype.h>
 #include <stdlib.h>
 #if defined(CSRG_BASED)
 #define MAXINT INT_MAX
@@ -58,6 +59,7 @@
 #include <Xm/RowColumnP.h>
 #include <Xm/TraitP.h>
 #include <Xm/TakesDefT.h>
+#include <Xm/XmPrivate.h>
 
 #include <Dt/PrintSetupBP.h>
 #include <Dt/PsubDefProcI.h>

@@ -38,6 +38,7 @@
  * Include Files
  *
  */
+#include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <Dt/DtNlUtils.h>

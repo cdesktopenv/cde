@@ -33,8 +33,20 @@ extern XmWidgetExtData _XmGetWidgetExtData(
 #else
                         unsigned char extType) ;
 #endif /* NeedWidePrototypes */
+/* Extracted from BulletinBI.h */
+extern void _XmBulletinBoardSizeUpdate(
+                        Widget wid) ;
+extern void _XmBulletinBoardSetDynDefaultButton(
+                        Widget wid,
+                        Widget newDefaultButton) ;
 /* Extracted from IconFileP.h */
 extern void XmeFlushIconFileCache(String	path);
+/* Extracted from ManagerI.h */
+extern void _XmManagerHelp(
+                        Widget wid,
+                        XEvent *event,
+                        String *params,
+                        Cardinal *num_params) ;
 /* Extracted from MenuStateI.h */
 extern void _XmSetInDragMode(
                         Widget widget,
