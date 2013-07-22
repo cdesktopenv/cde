@@ -36,8 +36,12 @@ static char rcs_id[] = "$XConsortium: TermPrimCursor.c /main/1 1996/04/21 19:17:
  * (c) Copyright 1996 Hitachi.						*
  */
 
+#include <Xm/ScrollBar.h>
+#include <Xm/XmPrivate.h>
+
 #include "TermHeader.h"
 #include "TermPrimDebug.h"
+#include "TermPrimI.h"
 #include "TermPrimP.h"
 #include "TermPrimData.h"
 #include "TermPrimLineDraw.h"
@@ -322,7 +326,7 @@ _DtTermPrimCursorOn(Widget w)
     }
 
     /* set the GC... */
-    if (tpd->cursorGC.foreground != enhInfo.fg ^ enhInfo.bg) {
+    if (tpd->cursorGC.foreground != (enhInfo.fg ^ enhInfo.bg)) {
 	tpd->cursorGC.foreground = enhInfo.fg ^ enhInfo.bg;
 	values.foreground = enhInfo.fg ^ enhInfo.bg;
 	valueMask |= GCForeground;

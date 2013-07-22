@@ -285,7 +285,7 @@ termFuncErase
 	break;
 
       case eraseBuffer:
-	(void) _DtTermFuncClearBuffer(w, (int) NULL, functionSource);
+	(void) _DtTermFuncClearBuffer(w, 0, functionSource);
 	break;
 
       case eraseFromCol0:
@@ -508,7 +508,7 @@ _DtTermFuncDeleteLine(Widget w, int count, FunctionSource functionSource)
 	/* special case out when there is a single line and we are
 	 * deleting the top line...
 	 */
-	if ((tpd->lastUsedRow == 1) && (tpd->cursorRow == 0) ||
+	if (((tpd->lastUsedRow == 1) && (tpd->cursorRow == 0)) ||
             (tpd->cursorRow + 1 == tpd->lastUsedRow)) {
 	    /* we need to clear the line, re-render it, and we are done...
 	     */
@@ -588,7 +588,7 @@ _DtTermFuncHardReset(Widget w, int count, FunctionSource functionSource)
     tpd->autoLineFeed=False ;
     vtw->term.jumpScroll = True ;
     /* auto key repeat is X server issue - do nothing here */
-    _DtTermFuncClearBuffer(w, (int) NULL, (FunctionSource) NULL ) ;
+    _DtTermFuncClearBuffer(w, 0, (FunctionSource) NULL ) ;
     _DtTermFunctionKeyClear(w) ;
 
     (void) _DtTermPrimSetCursorVisible(w, True);

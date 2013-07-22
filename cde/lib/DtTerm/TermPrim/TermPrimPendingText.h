@@ -120,6 +120,15 @@ _DtTermPrimPendingTextDestroy
     PendingText	    ptr
 );
 
+extern
+Boolean
+_DtTermPrimPendingTextAppend
+(
+    PendingText     list,
+    unsigned char  *text,
+    int             len
+);
+
 #ifdef	__cplusplus
 } /* close scope of 'extern "C"'... */
 #endif	/* __cplusplus */

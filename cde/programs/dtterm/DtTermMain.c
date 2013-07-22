@@ -37,6 +37,7 @@ static char rcs_id[] = "$TOG: DtTermMain.c /main/19 1999/09/17 13:26:34 mgreess 
 #include <dlfcn.h>
 #endif /* sun */
 #include "TermHeader.h"
+#include "TermPrim.h"
 #include "TermPrimDebug.h"
 #include <fcntl.h>
 #include <sys/types.h>

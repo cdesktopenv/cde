@@ -43,7 +43,9 @@ static char rcs_id[] = "$TOG: TermPrimRender.c /main/3 1999/07/20 17:34:54 mgree
 #include "TermPrimData.h"
 #include "TermPrimLineDraw.h"
 #include "TermPrimBufferP.h"
+#include "TermPrimRender.h"
 #include "TermPrimRenderP.h"
+#include "TermPrimSelect.h"
 #include "TermPrimSelectP.h"
 #include "TermPrimMessageCatI.h"
 #include <limits.h>
@@ -123,7 +125,7 @@ _DtTermPrimBell(Widget w)
 	 * are done...
 	 */
 	if (tpd->renderGC.foreground !=
-		tw->primitive.foreground ^ tw->core.background_pixel) {
+		(tw->primitive.foreground ^ tw->core.background_pixel)) {
 	    tpd->renderGC.foreground = 
 		    tw->primitive.foreground ^ tw->core.background_pixel;
 	    (void) XSetForeground(XtDisplay(w), tpd->renderGC.gc,

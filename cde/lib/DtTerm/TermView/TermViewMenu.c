@@ -58,6 +58,8 @@ static char rcs_id[] = "$XConsortium: TermViewMenu.c /main/4 1996/09/26 16:42:48
 #include "TermViewGlobalDialog.h"
 #include "TermViewTerminalDialog.h"
 #include "TermPrimMessageCatI.h"
+#include "TermPrimSelect.h"
+#include "TermFunction.h"
 
 static Widget currentWidget = (Widget ) 0;
 					/* widget for current menu
@@ -254,14 +256,14 @@ Widget
 _DtTermViewCreateLabel(Widget parent, char *label)
 {
     return(createMenuWidget(xmLabelGadgetClass, NULL,
-	parent, NULL, label, NULL, NULL, NULL, NULL, NULL));
+	parent, NULL, label, 0, NULL, NULL, NULL, NULL));
 }
 
 Widget
 _DtTermViewCreateSeparator(Widget parent, char *label)
 {
     return(createMenuWidget(xmSeparatorGadgetClass, NULL,
-	parent, NULL, label, NULL, NULL, NULL, NULL, NULL));
+	parent, NULL, label, 0, NULL, NULL, NULL, NULL));
 }
 
 static Widget
@@ -304,7 +306,7 @@ createSizeMenu
     DtTermViewWidget	  tw = (DtTermViewWidget) w;
     Widget		  submenu;
     Widget		  button;
-    int			  i1;
+    long		  i1;
     char		 *c1;
     char		 *c2;
 #ifdef	NOTDEF
@@ -357,10 +359,10 @@ createSizeMenu
 #endif
 #ifdef	WINDOW_SIZE_TOGGLES
 	windowSizeToggles[i1] = _DtTermViewCreateToggleButton(submenu, buffer,
-		NULL, NULL, NULL, sizeChangeCallback, (XtPointer) i1);
+		0, NULL, NULL, sizeChangeCallback, (XtPointer) i1);
 #else	/* WINDOW_SIZE_TOGGLES */
 	button = _DtTermViewCreatePushButton(submenu, buffer,
-		NULL, NULL, NULL, sizeChangeCallback, (XtPointer) i1);
+		0, NULL, NULL, sizeChangeCallback, (XtPointer) i1);
 #endif	/* WINDOW_SIZE_TOGGLES */
     }
 
@@ -381,10 +383,10 @@ createSizeMenu
 #endif 
 #ifdef	WINDOW_SIZE_TOGGLES
     windowSizeToggles[i1] = _DtTermViewCreateToggleButton(submenu, buffer,
-	    NULL, NULL, NULL, defaultSizeCallback, NULL);
+	    0, NULL, NULL, defaultSizeCallback, NULL);
 #else	/* WINDOW_SIZE_TOGGLES */
     button = _DtTermViewCreatePushButton(submenu, buffer,
-	    NULL, NULL, NULL, defaultSizeCallback, NULL);
+	    0, NULL, NULL, defaultSizeCallback, NULL);
 #endif	/* WINDOW_SIZE_TOGGLES */
 
     ks = XStringToKeysym(GETMESSAGE(NL_SETN_ViewMenu,3, "W"));
@@ -415,7 +417,7 @@ createFontMenu
     DtTermViewWidget	  tw = (DtTermViewWidget) w;
     Widget		  submenu;
     Widget		  button;
-    int			  i1;
+    long		  i1;
     int			  i2;
     char		 *c1;
     char		 *c2;
@@ -471,7 +473,7 @@ createFontMenu
 	fontArray[i1].labelName = XtMalloc(strlen(buffer) + 1);
 	(void) strcpy(fontArray[i1].labelName, buffer);
 	/* look for a separating '/'... */
-	if (c2 = strchr(fontArray[i1].labelName, '/')) {
+	if ((c2 = strchr(fontArray[i1].labelName, '/'))) {
 	    /* found, null it out... */
 	    *c2++ = '\0';
 	    /* and assign it to the fontName... */
@@ -496,8 +498,8 @@ createFontMenu
 		}
 		(void) strcat(fontName, (GETMESSAGE(NL_SETN_ViewMenu,4, "-iso8859-1")));
 	    }
-	    if (fontNames =
-		    XListFonts(XtDisplay(w), fontName, 1, &fontNameCount)) {
+	    if ((fontNames =
+		    XListFonts(XtDisplay(w), fontName, 1, &fontNameCount))) {
 		c2 = *fontNames;
 		for (i2 = 0; i2 < 7; i2++) {
 		    while (*c2 && (*c2 != '-')) {
@@ -570,12 +572,12 @@ createFontMenu
 #endif 
 	fontSizeToggles[i1] = _DtTermViewCreateToggleButton(submenu,
 		fontArray[i1].labelName,
-		NULL, NULL, NULL, fontChangeCallback, (XtPointer) i1);
+		0, NULL, NULL, fontChangeCallback, (XtPointer) i1);
     }
 
     (void) strcpy(buffer, (GETMESSAGE(NL_SETN_ViewMenu,9, "Default")));
     fontSizeToggles[i1] = _DtTermViewCreateToggleButton(submenu, buffer,
-	    NULL, NULL, NULL, defaultFontCallback, NULL);
+	    0, NULL, NULL, defaultFontCallback, NULL);
     fontSizeTogglesDefault = i1;
 
     ks = XStringToKeysym(GETMESSAGE(NL_SETN_ViewMenu,11, "F"));
@@ -1400,13 +1402,13 @@ sizeChangeCallback(Widget w, XtPointer client_data, XtPointer call_data)
     DtTermViewWidget tw;
     Arg al[10];
     int ac;
-    int i1;
+    long i1;
 
     _DtTermProcessLock();
     tw = (DtTermViewWidget) currentWidget;
     _DtTermProcessUnlock();
 
-    i1 = (int) client_data;
+    i1 = (long) client_data;
     ac = 0;
     if (tw->termview.sizeList.sizes[i1].columns > 0) {
 	(void) XtSetArg(al[ac], DtNcolumns,
@@ -1452,12 +1454,12 @@ fontChangeCallback(Widget w, XtPointer client_data, XtPointer call_data)
     XrmValue to;
     Arg al[10];
     int ac;
-    int i1;
+    long i1;
 
     _DtTermProcessLock();
     tw = (DtTermViewWidget) currentWidget;
 
-    i1 = (int) client_data;
+    i1 = (long) client_data;
 
     /* generate the fontlist from the font... */
     from.size = strlen(fontArray[i1].fontName);
@@ -1593,7 +1595,7 @@ void
 _DtTermViewSetUserFontListIndex
 (
     Widget		  w,
-    int			  i1
+    long		  i1
 )
 {
     DtTermViewWidget	  tw = (DtTermViewWidget) w;

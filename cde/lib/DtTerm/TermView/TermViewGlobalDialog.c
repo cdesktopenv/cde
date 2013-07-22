@@ -55,6 +55,7 @@ static char rcs_id[] = "$XConsortium: TermViewGlobalDialog.c /main/2 1996/08/28 
 #include "TermViewGlobalDialog.h"
 #include "TermViewMenu.h"
 #include "TermViewP.h"
+#include "TermPrimCursor.h"
 #include "TermPrimFunction.h"
 #include "TermPrimMessageCatI.h"
 

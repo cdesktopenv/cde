@@ -514,11 +514,11 @@ _DtTermPrimScrollText(Widget w, short lines)
     if (0 == lines)
 	return;
 
-    if (tw->term.jumpScroll &&
+    if ((tw->term.jumpScroll &&
 	    ((lines + tpd->scroll.jump.scrollLines) >
 	    (tw->term.rows -
 		tpd->scrollLockTopRow -
-		(tw->term.rows - 1 - tpd->scrollLockBottomRow))) ||
+		(tw->term.rows - 1 - tpd->scrollLockBottomRow)))) ||
 	    ((lines + tpd->scroll.jump.scrollLines) <
 	    -(tw->term.rows -
 		tpd->scrollLockTopRow -

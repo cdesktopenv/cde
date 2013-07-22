@@ -49,6 +49,9 @@ extern void _DtTermPrimLogFileCleanup(void);
 
 extern void _DtTermPrimRemoveSuidRoot();
 extern void _DtTermPrimToggleSuidRoot(Boolean root);
+extern void _DtTermPrimStartLog(Widget w);
+extern void _DtTermPrimCloseLog(Widget w);
+extern void _DtTermPrimWriteLog(DtTermPrimitiveWidget tw, char *buffer, int cnt);
 
 #endif	/* _Dt_TermPrimUtil_h */
 

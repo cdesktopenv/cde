@@ -38,8 +38,11 @@ static char rcs_id[] = "$XConsortium: TermPrimBuffer.c /main/1 1996/04/21 19:16:
 
 #define	USE_MEMCPY	/* use memcpy for line movement... */
 
+#include <wchar.h>
 #include <Xm/Xm.h>
 #include "TermHeader.h"       /* for MIN/MAX */
+#include "TermPrim.h"
+#include "TermPrimBuffer.h"
 #include "TermPrimBufferP.h"
 #include "TermPrimSelect.h"
 #include "TermPrimDebug.h"

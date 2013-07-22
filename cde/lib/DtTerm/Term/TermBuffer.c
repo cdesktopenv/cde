@@ -39,6 +39,7 @@ static char rcs_id[] = "$TOG: TermBuffer.c /main/2 1997/04/17 18:04:41 samborn $
 #define	USE_MEMCPY	/* use memcpy for line movement... */
 
 #include <Xm/Xm.h>
+#include "TermPrim.h"
 #include "TermHeader.h"       /* for MIN/MAX */
 #include "TermBufferP.h"
 #include "TermEnhance.h"
@@ -46,7 +47,7 @@ static char rcs_id[] = "$TOG: TermBuffer.c /main/2 1997/04/17 18:04:41 samborn $
 /*
 ** clear "count" enhancements starting at startCol
 */
-static
+static void
 clearEnhancements
 (
     TermBuffer tb,
@@ -451,7 +452,7 @@ _DtTermBufferFreeBuffer
 /*
 ** clear all the enhancements from startCol through stopCol
 */
-static
+static void
 clearEnhancements
 (
     TermBuffer tb,

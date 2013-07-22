@@ -39,6 +39,7 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-svr4.c /main/1 1996/04/21 1
  *        was basically taken intact as were the comments...
  */
 
+#include "TermPrim.h"
 #include "TermPrimOSDepI.h"
 #include "TermPrimDebug.h"
 #include "TermHeader.h"

@@ -65,6 +65,7 @@ static char rcs_id[] = "$TOG: TermPrimSubproc.c /main/11 1998/04/20 12:45:57 mgr
 #include "TermPrimSetPty.h"
 #include "TermPrimSubproc.h"
 #include "TermPrimDebug.h"
+#include "TermPrimSetUtmp.h"
 #include "TermPrimUtil.h"
 
 typedef struct _subprocInfo {
@@ -94,7 +95,7 @@ FakeFork (void)
 #endif	/*BBA*/
         _DtTermProcessLock();
 	if (debugInit) {
-	    if (c = getenv("dttermDebugForkFailures")) {
+	    if ((c = getenv("dttermDebugForkFailures"))) {
 		debugForkFailures = strtol(c, (char **) 0, 0);
 		debugInit = 0;
 	    }
@@ -382,7 +383,7 @@ _DtTermPrimSubprocExec(Widget		  w,
 	if (loginShell) {
 	    /* pre-pend an '-' for loginShell... */
 	    (void) strcat(argv[0], "-");
-	    if (c = strrchr(cmd, '/')) {
+	    if ((c = strrchr(cmd, '/'))) {
 		strcat(argv[0], ++c);
 	    } else {
 		strcat(argv[0], cmd);

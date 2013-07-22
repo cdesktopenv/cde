@@ -36,12 +36,12 @@ static char rcs_id[] = "$TOG: TermPrimSetUtmp.c /main/10 1998/04/03 17:11:42 mgr
  * (c) Copyright 1996 Hitachi.						*
  */
 
-#include "TermPrimDebug.h"
-#include "TermHeader.h"
 #include <Xm/Xm.h>
 #include <TermPrimP.h>
 #include <TermPrimSetUtmp.h>
 #include <TermPrimUtil.h>
+#include "TermPrimDebug.h"
+#include "TermHeader.h"
 
 /* for sigprocmask... */
 #include <signal.h>

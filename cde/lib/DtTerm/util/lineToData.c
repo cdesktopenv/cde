@@ -33,6 +33,7 @@ static char rcs_id[] = "$XConsortium: lineToData.c /main/1 1996/04/21 19:20:58 d
  * (c) Copyright 1993, 1994 Novell, Inc.                                *
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

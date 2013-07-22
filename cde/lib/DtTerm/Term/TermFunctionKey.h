@@ -70,7 +70,7 @@ _DtTermFunctionKeyClear(
 );
 
 
-extern _DtTermFunctionKeyInit(
+extern void _DtTermFunctionKeyInit(
    Widget w
 );
 

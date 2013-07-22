@@ -662,6 +662,17 @@ _DtTermPrimBufferSetInSelectionFlag
     short       row,
     TermLineSelection     state
 );
+
+extern void
+_DtTermPrimBufferSetSelectLines
+(
+    TermBuffer tb,
+    short beginRow,
+    short beginCol,
+    short endRow,
+    short endCol
+);
+
 #ifdef	__cplusplus
 } /* close scope of 'extern "C"'... */
 #endif	/* __cplusplus */

@@ -49,16 +49,20 @@ extern char * _DtTermPrimGetMessage( char *filename, int set, int n, char *s );
 #include <Xm/MessageB.h>
 #include <Xm/XmP.h>
 #include <Xm/DisplayP.h>
+#include <Xm/XmPrivate.h>
 #include <Xm/VirtKeys.h>
 #include <Xm/MwmUtil.h>
+#include <Xm/DrawP.h>
 #include "TermHeader.h"
 #include "TermPrimOSDepI.h"		/* for SETENV_LINES_AND_COLS	*/
 #include "TermPrimI.h"
 #include "TermPrimP.h"
 #include "TermPrimBufferP.h"
 #include "TermPrimAction.h"
+#include "TermPrimGetPty.h"
 #include "TermPrimParser.h"
 #include "TermPrimParseTable.h"
+#include "TermPrimPendingText.h"
 #include "TermPrimPendingTextP.h"
 #include "TermPrimRenderFont.h"
 #include "TermPrimRenderFontSet.h"
@@ -76,6 +80,7 @@ extern char * _DtTermPrimGetMessage( char *filename, int set, int n, char *s );
 #include <signal.h>
 #include <ctype.h>
 #include <nl_types.h>
+#include <wchar.h>
 #if defined(linux) || defined(hpV4)
 # include <sys/types.h> /* For FD_* macros. */
 # include <sys/time.h> /* For select() prototype. */
@@ -679,7 +684,7 @@ _DtTermPrimGetFontSet
      * "Assignment in conditional 'while' expression."...
      */
     /*SUPPRESS 624*/
-    while (fontListEntry = XmFontListNextEntry(fontContext)) {
+    while ((fontListEntry = XmFontListNextEntry(fontContext))) {
 	pointer = XmFontListEntryGetFont(fontListEntry, &fontType);
 	if (fontType == XmFONT_IS_FONTSET) {
 	    int i;
@@ -2386,7 +2391,7 @@ Realize(Widget w, XtValueMask *p_valueMask, XSetWindowAttributes *attributes)
      * register input method, and set callbacks for on the spot
      * support.
      */
-    (void) XmImRegister(w, (unsigned int) NULL);
+    (void) XmImRegister(w, 0);
     imPoint.x = 0;
     imPoint.y = 0;
 

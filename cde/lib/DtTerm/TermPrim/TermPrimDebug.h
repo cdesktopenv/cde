@@ -58,5 +58,8 @@ extern unsigned char *debugLevel[256];
 #define	_TERM_DEBUG(c, a) \
 	_TERM_DEBUG_FLAG(c, 0, a)
 
+void _DtTermPrimDebugDumpEvent (FILE *f, Widget w, XEvent *ev);
+
+
 #endif	/* _Dt_TermPrimDebug_h */
 /* DON'T ADD ANYTHING AFTER THIS #endif... */

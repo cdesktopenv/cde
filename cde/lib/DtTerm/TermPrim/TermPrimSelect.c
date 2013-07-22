@@ -41,7 +41,9 @@ static char rcs_id[] = "$TOG: TermPrimSelect.c /main/6 1999/10/14 16:22:53 mgree
 #include <Xm/Xm.h>
 #include <Xm/AtomMgr.h>
 #include <Xm/CutPaste.h>
+#include <Xm/XmPrivate.h>
 #include <Xm/ScrollBarP.h>
+#include "TermPrimAction.h"
 #include "TermPrimDebug.h"
 #include "TermPrimP.h"
 #include "TermPrimData.h"
@@ -51,7 +53,7 @@ static char rcs_id[] = "$TOG: TermPrimSelect.c /main/6 1999/10/14 16:22:53 mgree
 #include <Xm/DropSMgr.h>
 #include <Xm/DropTrans.h>
 
-#if defined(USL)
+#if defined(USL) || defined(OPENBSD_ARCHITECTURE)
 #include <ctype.h>
 #include <wctype.h>
 #endif
@@ -1200,7 +1202,7 @@ _DtTermPrimSelectStart
     selectInfo->anchor = xyToPos(tw, btnEvent->x, btnEvent->y);
     
     if (selectInfo->scanType != XmSELECT_POSITION ||
-            _DtTermPrimSelectGetSelection(w, &begin, &end) && begin != end
+            (_DtTermPrimSelectGetSelection(w, &begin, &end) && begin != end)
          )
     {
         _DtTermPrimSelectDoSelection(w, event, params, paramCount);
@@ -2057,7 +2059,7 @@ _DtTermPrimSelectConvert
             return(False);
         }
     }
-    else if ((*target == CS_OF_LOCALE) && !isDebugFSet('s', 2) ||
+    else if (((*target == CS_OF_LOCALE) && !isDebugFSet('s', 2)) ||
              (*target == TEXT  && !isDebugFSet('s', 3)))
     {
         *type   = CS_OF_LOCALE;
@@ -2241,8 +2243,8 @@ _DtTermPrimSelectDeleteLines
     /* if there are no lines, etc. return... */
     if ((len <= 0) || !selectInfo->ownPrimary ||  
             ((tw->term.tpd->scrollLockTopRow > 0 ||
-              tw->term.tpd->scrollLockBottomRow < tw->term.rows-1)) &&  
-              row < tw->term.tpd->scrollLockTopRow) {
+              (tw->term.tpd->scrollLockBottomRow < tw->term.rows-1)) &&
+              row < tw->term.tpd->scrollLockTopRow)) {
               
 	return;
     }
@@ -3003,8 +3005,8 @@ XmTestInSelection(
 
     position = xyToPos(tw, event->xbutton.x, event->xbutton.y);
 
-    if (!(_DtTermPrimSelectGetSelection(w, &left, &right) &&
-        left != right && (position > left && position < right) 
+    if ((!(_DtTermPrimSelectGetSelection(w, &left, &right) &&
+        (left != right && (position > left && position < right)))
          || (position == left &&
                event->xbutton.x > GetXFromPos(w, left))
          || (position == right &&

@@ -63,6 +63,8 @@ extern void _DtTermPrimExposeText(Widget w, int startX, int startY, int endX,
 	int endY, Boolean isExposeEvent);
 extern int _DtTermPrimInsertText(Widget w, unsigned char *buffer, int length);
 extern int _DtTermPrimInsertTextWc(Widget w, wchar_t *buffer, int length);
+extern void _DtTermPrimRefreshTextWc(Widget w, short startColumn,
+	short startRow, short endColumn, short endRow);
 
 extern Boolean
 _DtTermPrimParseInput

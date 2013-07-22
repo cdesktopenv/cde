@@ -48,8 +48,10 @@ static char rcs_id[] = "$XConsortium: TermPrimRenderMb.c /main/1 1996/04/21 19:1
 #include "TermPrimOSDepI.h"
 #include "TermPrimBufferP.h"
 #include "TermPrimRenderP.h"
+#include "TermPrimSelect.h"
 #include "TermPrimSelectP.h"
 #include <limits.h>
+#include <wchar.h>
 
 void
 _DtTermPrimRefreshTextWc(Widget w, short startColumn, short startRow,

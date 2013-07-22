@@ -277,6 +277,41 @@ void
 _DtTermPrimSelectInitBtnEvents(
         Widget w);
 
+extern
+void
+_DtTermPrimRenderRefreshTextLinear
+(
+    Widget          w,
+    XmTextPosition  start,
+    XmTextPosition  stop
+);
+
+extern
+XmTextPosition
+rowColToPos
+(
+    DtTermPrimitiveWidget   tw,
+    short                   row,
+    short                   col
+);
+
+extern
+void
+_DtTermPrimSelectDisown
+(
+    Widget          w
+);
+
+extern
+Boolean
+_DtTermPrimSelectIsInSelection
+(
+    Widget      w,
+    int         row,
+    short       startCol,
+    short       width,
+    short      *selWidth
+);
 
 #ifdef	__cplusplus
 } /* close scope of 'extern "C"'... */

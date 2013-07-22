@@ -113,7 +113,7 @@ extern void
 _DtTermViewSetUserFontListIndex
 (
     Widget		  w,
-    int			  i
+    long		  i
 );
 
 #endif	/* _Dt_TermViewMenu_h */

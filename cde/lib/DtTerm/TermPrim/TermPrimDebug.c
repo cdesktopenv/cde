@@ -138,7 +138,7 @@ setDebugFlags(char *c1)
 
     argHead.next = (argArray *) 0;
     argPtr = &argHead;
-    while (c3 = _XStrtok(c2, " \t\n", strtok_buf)) {
+    while ((c3 = _XStrtok(c2, " \t\n", strtok_buf))) {
 	/* null out c2 so we won't restart strtok... */
 	c2 = (char *) 0;
 	argPtr->next = (argArray *) malloc(sizeof(argArray));
@@ -151,7 +151,7 @@ setDebugFlags(char *c1)
     for (argPtr = argHead.next; argPtr; argPtr = argPtr->next) {
 	charList = argPtr->str;
 	flagList = (char *) 0;
-	if (c2 = strchr(argPtr->str, ':')) {
+	if ((c2 = strchr(argPtr->str, ':'))) {
 	    /* null out the ':'... */
 	    *c2++ = '\0';
 	    flagList = c2;
@@ -197,7 +197,7 @@ setDebugFlags(char *c1)
 	}
 
 	c3 = flagList;
-	while (flagList = _XStrtok(c3, ",", strtok_buf)) {
+	while ((flagList = _XStrtok(c3, ",", strtok_buf))) {
 	    /* null out c3 so we won't restart strtok... */
 	    c3 = (char *) 0;
 	    if (!flagList || !*flagList) {

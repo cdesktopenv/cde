@@ -36,6 +36,8 @@ static char rcs_id[] = "$TOG: TermParse.c /main/3 1999/10/15 12:25:13 mgreess $"
  * (c) Copyright 1996 Hitachi.						*
  */
 
+#include <wctype.h>
+
 #include "TermHeader.h"
 #include "TermPrimDebug.h"
 #include "TermPrimP.h"
@@ -50,6 +52,8 @@ static char rcs_id[] = "$TOG: TermParse.c /main/3 1999/10/15 12:25:13 mgreess $"
 #include "TermFunctionKey.h"
 #include "TermParseTableP.h"
 #include "TermBufferP.h"
+#include "TermPrimUtil.h"
+#include "TermPrimParseTable.h"
 
 #if defined (__hpux)
 /*
@@ -274,7 +278,7 @@ _DtTermPModeSet(Widget w)   /*  DECSET CSI?ph */
           /* case 2:  can't return from vt52 mode */
           case 3: /* Column (132) */
                    if ( vtw->vt.c132 )  {  /* xterm allow 132 mode */
-                     (void) _DtTermFuncClearBuffer(w, NULL, fromParser);
+                     (void) _DtTermFuncClearBuffer(w, 0, fromParser);
                      vtw->term.tpd->cursorRow = TOPROW(vtw) ;
                      vtw->term.tpd->cursorColumn = FIRSTCOLUMN(vtw) ;
                      vtw->term.tpd->scrollLockTopRow = TOPROW(vtw);
@@ -362,7 +366,7 @@ _DtTermPModeReset(Widget w)   /* DECRST CSI?pl */
           /* case 2:   ** set vt52 mode */
           case 3: /* Column (80) */
                   if (vtw->vt.c132)  {   /* allow 132 mode */
-                    (void) _DtTermFuncClearBuffer(w, NULL, fromParser);
+                    (void) _DtTermFuncClearBuffer(w, 0, fromParser);
                     vtw->term.tpd->cursorRow = TOPROW(vtw) ;
                     vtw->term.tpd->cursorColumn = FIRSTCOLUMN(vtw) ;
                     vtw->term.tpd->scrollLockTopRow = TOPROW(vtw);

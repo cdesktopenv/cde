@@ -174,6 +174,29 @@ typedef struct _TermBufferRec
     TermBufferPart term_buffer;
 } TermBufferRec;
 
+extern
+short
+_DtTermPrimBufferInsertWc
+(
+    const TermBuffer  tb,
+    const short       row,
+    const short       col,
+          wchar_t    *newChars,
+          short       numChars,
+          Boolean     insertFlag,
+          termChar  **returnChars,
+          short      *returnLength
+);
+
+extern
+Boolean
+_DtTermPrimBufferClearLineWc
+(
+    const TermBuffer  tb,
+    const short       row,
+          short       newWidth
+);
+
 #ifdef	__cplusplus
 } /* close scope of 'extern "C"'... */
 #endif	/* __cplusplus */

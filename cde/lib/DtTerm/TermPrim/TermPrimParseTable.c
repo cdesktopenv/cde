@@ -47,12 +47,12 @@ static StateTableRec stateStart;
 static StateEntryRec
 startTable[] =
 {
-    0x07, 0x07, &stateStart, _DtTermPrimParseBell,      /* ring the bell   */
-    0x08, 0x08, &stateStart, _DtTermPrimParseBackspace, /* backspace       */
-    0x09, 0x09, &stateStart, _DtTermPrimParseTab,       /* horizontal tab  */
-    0x0A, 0x0A, &stateStart, _DtTermPrimParseLF,        /* newline         */
-    0x0D, 0x0D, &stateStart, _DtTermPrimParseCR,        /* carriage return */
-    0x00, 0xFF, &stateStart, _DtTermPrimParseWriteChar, /* write to dpy    */
+  { 0x07, 0x07, &stateStart, _DtTermPrimParseBell,      }, /* ring the bell   */
+  { 0x08, 0x08, &stateStart, _DtTermPrimParseBackspace, }, /* backspace       */
+  { 0x09, 0x09, &stateStart, _DtTermPrimParseTab,       }, /* horizontal tab  */
+  { 0x0A, 0x0A, &stateStart, _DtTermPrimParseLF,        }, /* newline         */
+  { 0x0D, 0x0D, &stateStart, _DtTermPrimParseCR,        }, /* carriage return */
+  { 0x00, 0xFF, &stateStart, _DtTermPrimParseWriteChar, }, /* write to dpy    */
 };
 
 static StateTableRec stateStart = {True, startTable};

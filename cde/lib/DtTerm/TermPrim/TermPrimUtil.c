@@ -467,7 +467,7 @@ _DtTermPrimStartLog(Widget w)
 	    _bA_dump();
 #endif	/* BBA */
             (void) execl(DEFAULT_SHELL, DEFAULT_SHELL_ARGV0, 
-                         "-c", &tw->term.logFile[1], 0);
+                         "-c", &tw->term.logFile[1], NULL);
             (void) fprintf(stderr, " Can't exec \"%s\"\n",
                                        &tw->term.logFile[1]);
             (void) exit(1);
@@ -484,7 +484,7 @@ _DtTermPrimStartLog(Widget w)
             if (access(tw->term.logFile, W_OK) < 0) {
 		return;
 	    }
-        } else if (cp = strrchr(tw->term.logFile, '/')) {
+        } else if ((cp = strrchr(tw->term.logFile, '/'))) {
             *cp = 0;
             i   = access(tw->term.logFile, W_OK);
             *cp = '/';

@@ -81,8 +81,23 @@ extern char  * _XmStringSourceGetString(XmTextWidget tw,
                                         Boolean want_wchar);
 #endif /* NeedWidePrototypes */
 /* Extracted from TravActI.h */
-extern void _XmEnterGadget(
+extern void _XmPrimitiveEnter(
                         Widget wid,
+                        XEvent *event,
+                        String *params,
+                        Cardinal *num_params) ;
+extern void _XmPrimitiveLeave(
+                        Widget wid,
+                        XEvent *event,
+                        String *params,
+                        Cardinal *num_params) ;
+extern void _XmPrimitiveFocusOut(
+                        Widget wid,
+                        XEvent *event,
+                        String *params,
+                        Cardinal *num_params) ;
+extern void _XmPrimitiveFocusIn(
+                        Widget pw,
                         XEvent *event,
                         String *params,
                         Cardinal *num_params) ;
@@ -103,6 +118,8 @@ extern void _XmFocusOutGadget(
                         Cardinal *num_params) ;
 /* Extracted from TraversalI.h */
 extern Boolean _XmFocusIsHere(
+                        Widget w) ;
+extern unsigned char _XmGetFocusPolicy(
                         Widget w) ;
 extern Boolean _XmShellIsExclusive(
                         Widget wid) ;

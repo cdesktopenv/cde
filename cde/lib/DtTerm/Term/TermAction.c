@@ -167,9 +167,9 @@ typedef enum {
 } ScrollAmount;
 
 static EnumType scrollUnits[] = {
-    "page",	(char) scrollPage,
-    "halfpage",	(char) scrollHalfPage,
-    "line",	(char) scrollLine
+  { "page",	(char) scrollPage, },
+  { "halfpage",	(char) scrollHalfPage, },
+  { "line",	(char) scrollLine },
 };
 
 void
@@ -227,7 +227,7 @@ void
 _DtTermActionBeginningOfBuffer(Widget w, XEvent *event,
 	String *params, Cardinal *num_params)
 {
-    _DtTermFuncBeginningOfBuffer(w,NULL,1) ;
+    _DtTermFuncBeginningOfBuffer(w,0,1) ;
     (void) _DtTermPrimCursorOn(w);
     return;
 }
@@ -236,7 +236,7 @@ void
 _DtTermActionEndOfBuffer(Widget w, XEvent *event,
 	String *params, Cardinal *num_params)
 {
-    _DtTermFuncEndOfBuffer(w,NULL,1) ;
+    _DtTermFuncEndOfBuffer(w,0,1) ;
     (void) _DtTermPrimCursorOn(w);
     return;
 }
@@ -330,10 +330,10 @@ typedef enum {
 } CursorDirection;
 
 static EnumType cursorDirections[] = {
-    "forward",	(char) cursorForward,
-    "backward",	(char) cursorBackward,
-    "up",	(char) cursorUp,
-    "down",	(char) cursorDown
+  { "forward",	(char) cursorForward, },
+  { "backward",	(char) cursorBackward, },
+  { "up",	(char) cursorUp, },
+  { "down",	(char) cursorDown },
 };
 
 void
@@ -557,16 +557,16 @@ typedef enum {
 } EditType;
 
 static EnumType editTypes[] = {
-    "find",     (char) findType,
-    "insert", (char) insertType,     
-    "select",   (char) selectType, 
-    "next",    (char) nextType,    
-    "prior",   (char) priorType,  
-    "delete",  (char) deleteType,
-    "remove",  (char) removeType,
-    "help",    (char) helpType,
-    "menu",    (char) menuType,
-    "do",      (char) doType
+  { "find",     (char) findType, },
+  { "insert", (char) insertType,      },
+  { "select",   (char) selectType,  },
+  { "next",    (char) nextType,     },
+  { "prior",   (char) priorType,   },
+  { "delete",  (char) deleteType, },
+  { "remove",  (char) removeType, },
+  { "help",    (char) helpType, },
+  { "menu",    (char) menuType, },
+  { "do",      (char) doType },
 };
 
 void

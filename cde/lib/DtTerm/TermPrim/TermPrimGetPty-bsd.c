@@ -33,11 +33,10 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-bsd.c /main/4 1996/11/21 19
  * (c) Copyright 1993, 1994 Novell, Inc.                                *
  */
 
-#include "TermPrimDebug.h"
-#include "TermHeader.h"
 #include <fcntl.h>
 #include <termios.h>
 #if defined(OPENBSD_ARCHITECTURE)
+#include <sys/stat.h>
 #include <util.h>
 #endif
 #include <sys/wait.h>
@@ -49,6 +48,10 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-bsd.c /main/4 1996/11/21 19
 #define X_INCLUDE_UNISTD_H
 #define XOS_USE_XT_LOCKING
 #include <X11/Xos_r.h>
+#include "TermPrim.h"
+#include "TermPrimDebug.h"
+#include "TermPrimUtil.h"
+#include "TermHeader.h"
 
 typedef struct _ptyInfo {
     char *ptyName;

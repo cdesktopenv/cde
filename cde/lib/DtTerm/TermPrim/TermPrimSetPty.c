@@ -71,7 +71,7 @@ static char rcs_id[] = "$TOG: TermPrimSetPty.c /main/2 1998/04/03 17:11:24 mgree
 #include <sys/stat.h>
 #endif	/* USE_TIOCCONS */
 
-#ifdef  LINUX_ARCHITECTURE
+#if defined(LINUX_ARCHITECTURE) || defined(OPENBSD_ARCHITECTURE)
 #include <sys/ioctl.h>
 #endif /* LINUX_ARCHITECTURE */
 

@@ -35,6 +35,7 @@ static char rcs_id[] = "$XConsortium: TermFunctionKey.c /main/1 1996/04/21 19:15
 
 #include "TermHeader.h"
 #include <Xm/Xm.h>
+#include "TermAction.h"
 #include "TermPrimI.h"
 #include "TermP.h"
 /* #include "TermFunctionKeyP.h" */
@@ -147,6 +148,7 @@ _DtTermFunctionKeyClear(
     }
 }
 
+void
 _DtTermFunctionKeyInit(
    Widget w
 )

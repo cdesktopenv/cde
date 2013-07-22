@@ -278,7 +278,7 @@ _DtTermPrimPendingTextFlush
     walkPendingText(list);
 #endif	/* DEBUG */
     
-    while (chunk = _DtTermPrimPendingTextGetChunk(list)) {
+    while ((chunk = _DtTermPrimPendingTextGetChunk(list))) {
 	(void) _DtTermPrimPendingTextRemoveChunk(list, chunk);
     }
 }

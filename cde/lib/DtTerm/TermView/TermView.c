@@ -41,6 +41,7 @@ static char rcs_id[] = "$XConsortium: TermView.c /main/1 1996/04/21 19:20:13 drk
 #include "TermViewP.h"
 #include <Xm/ScrolledW.h>
 #include <Xm/ScrollBar.h>
+#include <Xm/DrawP.h>
 #include <Xm/Form.h>
 #include <Xm/PushB.h>
 #include <Xm/PushBG.h>
@@ -601,7 +602,7 @@ externaldef(termclassrec) DtTermViewClassRec dtTermViewClassRec =
     {
 	NULL,
 	0,
-	NULL,
+	0,
 	NULL,
 	NULL,
 	NULL,
