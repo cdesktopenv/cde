@@ -75,11 +75,11 @@ _DtTtMsgCbChooserSet(
 		dtb_callback_chooser_callback_chooser_initialize(
 			instance, dtb_ttsnoop_ttsnoop_win.ttsnoopWin );
 	}
-	XtVaSetValues( instance->callbackChooser, XmNtitle, title, 0 );
+	XtVaSetValues( instance->callbackChooser, XmNtitle, title, NULL );
 	XtPointer xtPtr = (XtPointer)isMessage;
-	XtVaSetValues( instance->callbackAddButton, XmNuserData, xtPtr, 0 );
+	XtVaSetValues( instance->callbackAddButton, XmNuserData, xtPtr, NULL );
 	XtVaSetValues( instance->callbackAddCancelButton,
-		       XmNuserData, entity, 0 );
+		       XmNuserData, entity, NULL );
 	XtManageChild( instance->callbackChooser_shellform );
 }
 
@@ -674,16 +674,16 @@ callbackOkayed(
     Tt_pattern pat = 0;
     XtPointer xtPtr = 0;
     int isMessage = 0;
-    XtVaGetValues( instance->callbackAddButton, XmNuserData, &xtPtr, 0 );
+    XtVaGetValues( instance->callbackAddButton, XmNuserData, &xtPtr, NULL );
     isMessage = (int) (long) xtPtr;
-    XtVaGetValues( instance->callbackAddCancelButton, XmNuserData, &xtPtr, 0 );
+    XtVaGetValues( instance->callbackAddCancelButton, XmNuserData, &xtPtr, NULL );
     msg = (Tt_message)xtPtr;
     pat = (Tt_pattern)xtPtr;
 
     What2Do action = DoOpen;
     Widget actionWidget;
     XtVaGetValues( instance->msgActionChoice,
-		   XmNmenuHistory, &actionWidget, 0 );
+		   XmNmenuHistory, &actionWidget, NULL );
     if (actionWidget == instance->msgActionChoice_items.Open_item) {
 	    action = DoOpen;
     } else if (actionWidget == instance->msgActionChoice_items.Print_item) {
@@ -703,7 +703,7 @@ callbackOkayed(
     int destroy = 0;
     Boolean destroyBool;
     XtVaGetValues( instance->msgDestroyChoice_items.Destroy_item,
-		   XmNset, &destroyBool, 0 );
+		   XmNset, &destroyBool, NULL );
     if (destroyBool) {
 	    destroy = 1;
     }
@@ -711,7 +711,7 @@ callbackOkayed(
     Tt_callback_action returnVal = TT_CALLBACK_CONTINUE;
     Widget returnWidget;
     XtVaGetValues( instance->msgReturnChoice,
-		   XmNmenuHistory, &returnWidget, 0 );
+		   XmNmenuHistory, &returnWidget, NULL );
     if (returnWidget == instance->msgReturnChoice_items.PROCESSED_item) {
 	    returnVal = TT_CALLBACK_PROCESSED;
     }
@@ -755,7 +755,7 @@ callbackHelp(
 	    (DtbCallbackChooserCallbackChooserInfo)clientData;
     XtPointer xtPtr = 0;
     int isMessage = 0;
-    XtVaGetValues( instance->callbackAddButton, XmNuserData, &xtPtr, 0 );
+    XtVaGetValues( instance->callbackAddButton, XmNuserData, &xtPtr, NULL );
     isMessage = (int) (long) xtPtr;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     if (isMessage) {

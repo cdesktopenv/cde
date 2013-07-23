@@ -455,7 +455,7 @@ DtTtSetLabel(
 	    return TT_OK;
     }
     XmString labelXmString = XmStringCreateLocalized( (String)string );
-    XtVaSetValues( labelWidget, XmNlabelString, labelXmString, 0 );
+    XtVaSetValues( labelWidget, XmNlabelString, labelXmString, NULL );
     XmStringFree( labelXmString );
     return TT_OK;
 }
@@ -730,7 +730,7 @@ _DtHelped(
 )
 {
 	char *topics;
-	XtVaGetValues( helpDialog, DtNstringData, &topics, 0 );
+	XtVaGetValues( helpDialog, DtNstringData, &topics, NULL );
 	if (! _DtCanHelp( topics )) {
 		return False;
 	}

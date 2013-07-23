@@ -96,7 +96,7 @@ messageProps2Msg(
 {
 	Tt_message msg;
 	XtVaGetValues( instance->messageProps_shellform,
-		       XmNuserData, &msg, 0 );
+		       XmNuserData, &msg, NULL );
 	return msg;
 }
 
@@ -140,7 +140,7 @@ _DtTtMessageWidgetUpdate(
 	if (tt_is_err( status )) {
 		printout = tt_status_message( status );
 	}
-	XtVaSetValues( instance->messageText, XmNvalue, printout, 0 );
+	XtVaSetValues( instance->messageText, XmNvalue, printout, NULL );
 	if (level == _DtTtMessageRePrint) {
 		return;
 	}
@@ -204,7 +204,7 @@ _DtTtMessageWidgetUpdate(
 	}
 
 	int val = tt_message_status( msg );
-	XtVaSetValues( instance->statusBox, DtNposition, val, 0 );
+	XtVaSetValues( instance->statusBox, DtNposition, val, NULL );
 	char *status_string = tt_status_string( (Tt_status)val );
 	DtTtSetLabel( instance->statusLabel, status_string );
 	tt_free( status_string );
@@ -225,7 +225,7 @@ _DtTtMessageWidgetUpdate(
 		choice = instance->classChoice_items.OFFER_item;
 		break;
 	}
-	XtVaSetValues( instance->classChoice, XmNmenuHistory, choice, 0 );
+	XtVaSetValues( instance->classChoice, XmNmenuHistory, choice, NULL );
 
 	switch (tt_message_address( msg )) {
 	    case TT_PROCEDURE:
@@ -245,7 +245,7 @@ _DtTtMessageWidgetUpdate(
 		choice = instance->addressChoice_items.ADDRESS_LAST_item;
 		break;
 	}
-	XtVaSetValues( instance->addressChoice, XmNmenuHistory, choice, 0 );
+	XtVaSetValues( instance->addressChoice, XmNmenuHistory, choice, NULL );
 
 	switch (tt_message_scope( msg )) {
 	    case TT_SCOPE_NONE:
@@ -265,7 +265,7 @@ _DtTtMessageWidgetUpdate(
 		choice = instance->scopeChoice_items.FILE_IN_SESSION_item;
 		break;
 	}
-	XtVaSetValues( instance->scopeChoice, XmNmenuHistory, choice, 0 );
+	XtVaSetValues( instance->scopeChoice, XmNmenuHistory, choice, NULL );
 
 	switch (tt_message_disposition( msg )) {
 	    case TT_DISCARD:
@@ -282,7 +282,7 @@ _DtTtMessageWidgetUpdate(
 		choice = instance->dispositionChoice_items.QUEUE_START_item;
 		break;
 	}
-	XtVaSetValues( instance->dispositionChoice, XmNmenuHistory, choice, 0);
+	XtVaSetValues( instance->dispositionChoice, XmNmenuHistory, choice, NULL);
 
 	_DtTtMessageSetUpdating( msg, False );
 }
@@ -599,7 +599,7 @@ DtTtMessageWidgetCreate(
 	dtb_message_props_message_props_initialize( instance, parent );
 	widget = instance->messageProps;
 
-	XtVaSetValues( instance->messageProps_shellform, XmNuserData, msg, 0 );
+	XtVaSetValues( instance->messageProps_shellform, XmNuserData, msg, NULL );
 	status = tt_message_user_set( msg, DtTtMsgWidgetKey, widget );
 	if (tt_is_err( status )) {
 		XtDestroyWidget( widget );
@@ -624,7 +624,7 @@ DtTtMessageWidgetCreate(
 	labelStream << "Tt_message " << (void *)msg;
 	XtVaSetValues( instance->messageProps,
 		       XmNtitle, labelStream.str(),
-		       0 );
+		       NULL );
 	delete labelStream.str();
 
 	_DtTtMessageWidgetUpdate( instance, msg, _DtTtMessageFullUpdate );
@@ -1726,9 +1726,9 @@ setStatus(
 	    return;
     }
     int val;
-    XtVaGetValues( instance->statusBox, DtNposition, &val, 0 );
+    XtVaGetValues( instance->statusBox, DtNposition, &val, NULL );
     XmString statusName = DtTtStatusString( (Tt_status)val );
-    XtVaSetValues( instance->statusLabel, XmNlabelString, statusName, 0 );
+    XtVaSetValues( instance->statusLabel, XmNlabelString, statusName, NULL );
     XmStringFree( statusName );
     Tt_status status = tt_message_status_set( msg, val );
     DtTtSetLabel( instance->messageFooterLabel,

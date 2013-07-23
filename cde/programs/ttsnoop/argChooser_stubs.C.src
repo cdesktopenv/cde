@@ -76,7 +76,7 @@ _DtArgChooserSet(
 		modeChoice = instance->modeChoice_items.INOUT_item;
 		break;
 	}
-	XtVaSetValues( instance->modeChoice, XmNmenuHistory, modeChoice, 0 );
+	XtVaSetValues( instance->modeChoice, XmNmenuHistory, modeChoice, NULL );
 
 	Widget valType = instance->argValTypeChoice_items.None_item;
 	if (! noValue) {
@@ -88,11 +88,11 @@ _DtArgChooserSet(
 				argValTypeChoice_items.int_item;
 		}
 	}
-	XtVaSetValues( instance->argValTypeChoice, XmNmenuHistory, valType, 0 );
+	XtVaSetValues( instance->argValTypeChoice, XmNmenuHistory, valType, NULL);
 
 	XmTextFieldSetString( instance->vtypeText, vtype );
-	XtVaSetValues( instance->argIvalBox, DtNposition, ival, 0 );
-	XtVaSetValues( instance->argValText, XmNvalue, val, 0 );
+	XtVaSetValues( instance->argIvalBox, DtNposition, ival, NULL );
+	XtVaSetValues( instance->argValText, XmNvalue, val, NULL );
 
 	_DtArgChooserSet( choice, entity, nth );
 }
@@ -152,16 +152,16 @@ _DtArgChooserSet(
 	}
 
 	DtTtSetLabel( instance->argChooserOkButton, okString );
-	XtVaSetValues( instance->argChooser, XmNtitle, title, 0 );
+	XtVaSetValues( instance->argChooser, XmNtitle, title, NULL );
 	DtTtSetLabel( instance->vtypeText_label, vtypeLabel );
 	XtSetSensitive( instance->vtypeText, vtypeActive );
 	XtSetSensitive( instance->modeChoice, modeActive );
 
 	// Remember dialog mode, entity, nth
-	XtVaSetValues( instance->argChooserOkButton, XmNuserData, choice, 0 );
+	XtVaSetValues( instance->argChooserOkButton, XmNuserData, choice, NULL );
 	XtVaSetValues( instance->argChooserCancelButton,
-		       XmNuserData, entity, 0 );
-	XtVaSetValues( instance->argChooserHelpButton, XmNuserData, nth, 0 );
+		       XmNuserData, entity, NULL );
+	XtVaSetValues( instance->argChooserHelpButton, XmNuserData, nth, NULL );
 
 	if (vtypeActive) {
 		// Pre-select vtype text
@@ -393,12 +393,12 @@ argOkayed(
     _DtArgChooserAction choice = _DtArgChooseNone;
 
     XtPointer pval;
-    XtVaGetValues( instance->argChooserOkButton, XmNuserData, &pval, 0 );
+    XtVaGetValues( instance->argChooserOkButton, XmNuserData, &pval, NULL );
     choice = (_DtArgChooserAction) (long) pval;
-    XtVaGetValues( instance->argChooserCancelButton, XmNuserData, &pval, 0 );
+    XtVaGetValues( instance->argChooserCancelButton, XmNuserData, &pval, NULL );
     msg = (Tt_message)pval;
     pat = (Tt_pattern)pval;
-    XtVaGetValues( instance->argChooserHelpButton, XmNuserData, &pval, 0 );
+    XtVaGetValues( instance->argChooserHelpButton, XmNuserData, &pval, NULL );
     nth = (int) (long) pval;
 
     char *vtype = XmTextFieldGetString( instance->vtypeText );
@@ -408,7 +408,7 @@ argOkayed(
     }
 
     Widget modeWidget;
-    XtVaGetValues( instance->modeChoice, XmNmenuHistory, &modeWidget, 0 );
+    XtVaGetValues( instance->modeChoice, XmNmenuHistory, &modeWidget, NULL );
     Tt_mode mode = TT_IN;
     if (modeWidget == instance->modeChoice_items.OUT_item) {
 	    mode = TT_OUT;
@@ -420,13 +420,13 @@ argOkayed(
     int ival = 0;
     Widget valTypeWidget;
     XtVaGetValues( instance->argValTypeChoice,
-		   XmNmenuHistory, &valTypeWidget, 0 );
+		   XmNmenuHistory, &valTypeWidget, NULL );
     if (valTypeWidget == instance->argValTypeChoice_items.char_item) {
 	    val = XmTextGetString( instance->argValText );
     } else if (valTypeWidget == instance->argValTypeChoice_items.int_item) {
 	    // see _DtArgChooserAction invariant in DtTt.h
 	    choice = (_DtArgChooserAction)(choice + 1);
-	    XtVaGetValues( instance->argIvalBox, DtNposition, &ival, 0 );
+	    XtVaGetValues( instance->argIvalBox, DtNposition, &ival, NULL );
     }
 
     switch (choice) {
@@ -468,7 +468,7 @@ argHelp(
     DtbArgChooserArgChooserInfo	instance =
 	    (DtbArgChooserArgChooserInfo)clientData;
     XtPointer val;
-    XtVaGetValues( instance->argChooserOkButton, XmNuserData, &val, 0 );
+    XtVaGetValues( instance->argChooserOkButton, XmNuserData, &val, NULL );
     _DtArgChooserAction choice = (_DtArgChooserAction) (long) val;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {
