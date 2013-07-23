@@ -78,6 +78,7 @@ static char *CopyRt =
 #include <dirent.h>
 #include <time.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <locale.h>
 #include "LocaleXlate.h"
 #include "XlationSvc.h"
