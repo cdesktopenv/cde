@@ -319,7 +319,7 @@ loop_fa :
 		default :	/* unknown directive */
 			if(extf)
 			{
-#if defined(CSRG_BASED) && !defined(__LP64__)
+#if defined(CSRG_BASED) && defined(__i386__)
 				va_list savarg = args;  /* is this portable? */
 #else
 				va_list	savarg; 	/* is this portable?   Sorry .. NO. */

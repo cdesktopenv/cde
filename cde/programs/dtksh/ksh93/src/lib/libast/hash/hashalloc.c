@@ -214,7 +214,7 @@ hashalloc __PARAM__((Hash_table_t* ref, ...), (va_alist)) __OTORP__(va_dcl)
 			tab->flags |= HASH_STATIC;
 			break;
 		case HASH_va_list:
-#if defined(CSRG_BASED) && !defined(__LP64__)
+#if defined(CSRG_BASED) && defined(__i386__)
 			if (vp < &va[elementsof(va)]) *vp++ = ap;
 			ap = va_arg(ap, va_list);
 #else
@@ -230,7 +230,7 @@ hashalloc __PARAM__((Hash_table_t* ref, ...), (va_alist)) __OTORP__(va_dcl)
 		case 0:
 			if (vp > va)
 			{
-#if defined(CSRG_BASED) && !defined(__LP64__)
+#if defined(CSRG_BASED) && defined(__i386__)
 				ap = *--vp;
 #else
 				vp--;
