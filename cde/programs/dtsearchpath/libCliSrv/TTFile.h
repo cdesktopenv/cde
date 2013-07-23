@@ -65,7 +65,7 @@ class TTFile : public CString {
   };
 #else
   void TT_Exception (char *);
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
   friend std::ostream & operator<< (std::ostream &, TTFile &);
 #else
   friend ostream & operator<< (ostream &, TTFile &);
