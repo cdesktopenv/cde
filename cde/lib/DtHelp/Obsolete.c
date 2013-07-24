@@ -48,6 +48,7 @@
  * system includes
  */
 #include <stdlib.h>
+#include <unistd.h>
 
 /*
  * Canvas Engine
