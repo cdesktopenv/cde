@@ -165,7 +165,7 @@ __instantiate(Vector<NamedResourceTable<Entity> >)
 __instantiate(Vector<ContentModelAmbiguity>)
 __instantiate(Vector<Transition>)
 __instantiate(Vector<LeafContentToken*>)
-__instantiate(Vector<size_t>)
+__instantiate(Vector<unsigned long>)
 __instantiate(Vector<unsigned int>)
 
 __instantiate(NamedTable<Id>)
