@@ -45,6 +45,7 @@
 #include <Dt/Action.h>
 #include <Dt/DtGetMessageP.h>
 #include <Dt/MsgLog.h>
+#include <Dt/Dt.h>
 
 #include <Tt/tt_c.h>
 
@@ -162,8 +163,8 @@ main (
 	/*  
 	 * Initialize the desktop
 	 */
-	if (DtAppInitialize (app_context, display, top_level, argv[0], name) 
-			== False) {
+	if (DtAppInitialize (app_context, display, top_level,
+			     argv[0], (char *)name) == False) {
 		DtMsgLogMessage (argv[0], DtMsgLogError, 
 			(char *) GETMESSAGE (SET_NUM, 8, "DtAppInitialize() failed.  Perhaps the desktop environment\nis not properly installed."));
    		exit (1);
@@ -190,6 +191,8 @@ main (
 	DtDbLoad();
 
 	XtAppMainLoop (app_context);
+
+	return (0);
 }
 
 
@@ -500,7 +503,7 @@ ReceiveMessage (
 		 * Put locale into the environment so that DtActionInvoke
 		 * will propagate it to the dtinfo process.
 		 */
-		(void) sprintf (lang, "LANG=%s", locale);
+		(void) snprintf (lang, sizeof(lang), "LANG=%s", locale);
 		(void) putenv (lang);
 	}
 
@@ -576,15 +579,16 @@ DieFromToolTalkError(Widget parent, char *errfmt, Tt_status status)
 {
     Arg		 args[10];
     Widget	 dialog, dialogShell;
-    char	*errmsg, *statmsg, *title;
+    char	*errmsg, *statmsg;
     XmString	 xms_errmsg, xms_ok, xms_title;
-    int		 n;
+    int		 n, errmsglen;
 
     if (! tt_is_err(status)) return;
 
     statmsg = tt_status_message(status);
-    errmsg = XtMalloc(strlen(errfmt) + strlen(statmsg) + 2);
-    sprintf(errmsg, errfmt, statmsg);
+    errmsglen = strlen(errfmt) + strlen(statmsg) + 2;
+    errmsg = XtMalloc(errmsglen);
+    snprintf(errmsg, errmsglen, errfmt, statmsg);
 
     xms_ok = GETXMSTRING(2, 3, "OK");
     xms_errmsg = XmStringCreateLocalized(errmsg);

@@ -40,7 +40,7 @@ char **argv;
     {
     case 'h':
       {
-	sprintf(buffer, "%s.h", libname);
+	snprintf(buffer, sizeof(buffer), "%s.h", libname);
 
 	hfile = fopen(buffer, "w");
 	if (!hfile)
@@ -55,7 +55,7 @@ char **argv;
       break;
     case 'd':
       {
-	sprintf(buffer, "%s.d", libname);
+	snprintf(buffer, sizeof(buffer), "%s.d", libname);
 
 	dfile = fopen(buffer, "w");
 	if (!dfile)

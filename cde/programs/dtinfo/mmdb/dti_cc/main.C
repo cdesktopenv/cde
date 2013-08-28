@@ -218,7 +218,7 @@ main()
 
 
     char str[128];
-    sprintf(str, "\t\nthis is \t    another string\t\n");
+    snprintf(str, sizeof(str), "\t\nthis is \t    another string\t\n");
     CC_String cc_str2( (const char *)str);
     
     CC_Tokenizer next2( cc_str2 );
