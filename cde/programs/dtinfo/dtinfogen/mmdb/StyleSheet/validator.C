@@ -77,7 +77,7 @@ void quit(int code)
    exit(code);
 }
 
-main(int argc, char** argv )
+int main(int argc, char** argv )
 {
   INIT_EXCEPTIONS();
 

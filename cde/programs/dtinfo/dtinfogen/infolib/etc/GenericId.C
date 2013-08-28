@@ -83,7 +83,7 @@ GenericId::markup( const Token &t )
 
     if ( f_base == t.level() && !done ) {
 
-      if ( data_complete = f_data->DataIsComplete() ) {
+      if ( (data_complete = f_data->DataIsComplete()) ) {
 	ValueBuffer.writeStr( f_data->content() );
       }
 

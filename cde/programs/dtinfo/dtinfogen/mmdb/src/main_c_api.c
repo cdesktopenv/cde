@@ -25,9 +25,10 @@
 #include "oliasdb/Mmdb.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 
-usage(int argc, char** argv)
+void usage(int argc, char** argv)
 {
    fprintf(stderr, "Usage:\n");
    fprintf(stderr, "   %s 0 libpath [bookcaseName]\n", argv[0]);
@@ -67,7 +68,7 @@ extern int test_book2(int argc, char** argv);
 extern int test_book3(int argc, char** argv);
 extern int auto_test_c_api(int argc, char** argv);
 
-main( int argc, char** argv )
+int main( int argc, char** argv )
 {
    int ok = 0;
    DtMmdbInit();

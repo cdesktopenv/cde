@@ -119,7 +119,7 @@ report_position(FlexBuffer *buffer, const char *file, int line)
 {
   char info[200]; //MAGIC
 
-  sprintf(info, "#file: %.150s line: %d\n", file, line);
+  snprintf(info, sizeof(info), "#file: %.150s line: %d\n", file, line);
   buffer->writeStr(info);
 }
 
@@ -138,7 +138,7 @@ write_array(FlexBuffer *buffer, const char *tokens, int quotes)
       buffer->writeStr( token );
       if (quotes) buffer->put( '\"' );
 
-      while ( token = strtok ( NULL, " \n\t" ) ) {
+      while ( (token = strtok ( NULL, " \n\t" )) ) {
 	buffer->put(',');
         if (quotes) buffer->put( '\"' );
 	buffer->writeStr( token );
@@ -329,7 +329,7 @@ StyleTask::markup( const Token &t )
 	 {
 	   const AttributeRec *arec;
 	   int id = SGMLName::intern("ID");
-	   if(arec = t.LookupAttr(id)){
+	   if((arec = t.LookupAttr(id))){
 
 	     if(f_dataMode == inContent){
 	       f_buffer->writeStr(" + ");
@@ -354,7 +354,7 @@ StyleTask::markup( const Token &t )
 	 /*
 	  * Is it an enumeration feature?
 	  */
-	 if(arec = t.LookupAttr(OLAF::OL_Choice)){
+	 if((arec = t.LookupAttr(OLAF::OL_Choice))){
 
            /* OL_Choice can only be applied to NAME attributes, hence
 	      we don't neet to worryabout "'s in the attribute value.
@@ -417,7 +417,7 @@ StyleTask::markup( const Token &t )
 
 	int topelement;
 	if ( !feature_depth->empty() ) {
-	  if ( topelement = feature_depth->top() ) {
+	  if ( (topelement = feature_depth->top()) ) {
 	    if ( topelement == t.level() ) {
 	      topelement = feature_depth->pop();
 	      write_tabs( f_buffer, feature_depth, '\t');

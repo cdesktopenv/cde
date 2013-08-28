@@ -123,8 +123,9 @@ StringToInt::intern(const char *name)
   if( (indx = whichString(name, items, used)) < 0){
     grow(used + 1);
 
-    char *p = new char[strlen(name)+1];
-    strcpy(p, name);
+    int len = strlen(name);
+    char *p = new char[len + 1];
+    *((char *) memcpy(p, name, len) + len) = '\0';
 
     indx = used;
 
@@ -161,7 +162,7 @@ void StringToInt::grow(size_t needed)
 
 const char* StringToInt::lookup(int indx)
 {
-  int i;
+  unsigned int i;
   
   for(i = 0; i < used; i++){
     if (items[i].code == indx) return items[i].string;

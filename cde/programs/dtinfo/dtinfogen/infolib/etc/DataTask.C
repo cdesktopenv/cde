@@ -47,6 +47,10 @@ void DataTask::markup(const Token &t)
     
   case END:
     if(level > 0) level--;
+    break;
+
+  default:
+    break;
   }
 }
 

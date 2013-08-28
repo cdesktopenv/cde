@@ -91,7 +91,7 @@ DataRepository::deActivateZone( int level )
     return;
   }
   
-  Rec ZoneRec = zone_stack->pop();
+  zone_stack->pop();
 
   // update the current_buf 
   if ( !zone_stack->empty() ) {

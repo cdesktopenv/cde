@@ -425,7 +425,7 @@ NodeData::write_record()
   DBTable *tbl = f_node->book()->bookcase()->table(BookCaseDB::NodeSGML);
   tbl->insert(STRING_CODE,  TocLocator,
 	      STRING_CODE,  NodeLocator,
-	      -STRING_CODE, DbBuffer->GetBuffer(), DbBuffer->GetSize(),
+	      -STRING_CODE, DbBuffer->GetBuffer(), (size_t)DbBuffer->GetSize(),
 	      NULL);
 
   /*

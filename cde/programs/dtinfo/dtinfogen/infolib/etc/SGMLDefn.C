@@ -60,10 +60,11 @@ SGMLDefn::store_sys_id( char *sid )
   if ( sid ) {
     delete sys_id;
 
-    sys_id = new char [ strlen(sid) + 1 ];
+    int len = strlen(sid);
+    sys_id = new char [len + 1];
     assert(sys_id != NULL);
     
-    strcpy ( sys_id , sid );
+    *((char *) memcpy(sys_id, sid, len) + len) = '\0';
   }
 }
 
@@ -73,10 +74,11 @@ SGMLDefn::store_pub_id( char *pid )
   if ( pid ) {
     delete pub_id;
 
-    pub_id = new char [ strlen(pid) + 1 ];
+    int len = strlen(pid);
+    pub_id = new char [len + 1];
     assert(pub_id != NULL);
     
-    strcpy ( pub_id, pid );
+    *((char *) memcpy(pub_id, pid, len) + len) = '\0';
   }
 }
 
@@ -98,10 +100,11 @@ SGMLDefn::store_file_name( char *fname )
   if ( fname ) {
     delete file_name;
 
-    file_name = new char [ strlen(fname) + 1 ];
+    int len = strlen(fname);
+    file_name = new char [len + 1];
     assert(file_name != NULL);
 
-    strcpy( file_name, fname );
+    *((char *) memcpy(file_name, fname, len) + len) = '\0';
   }
 }
 

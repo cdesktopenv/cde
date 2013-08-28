@@ -57,8 +57,9 @@ void StringList::grow(size_t total)
 
 const char * StringList::append(const char *str)
 {
-  char *p = new char[strlen(str)+1];
-  strcpy(p, str);
+  int len = strlen(str);
+  char *p = new char[len + 1];
+  *((char *) memcpy(p, str, len) + len) = '\0';
   
   grow(used);
   

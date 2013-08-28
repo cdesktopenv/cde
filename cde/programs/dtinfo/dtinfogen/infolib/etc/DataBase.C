@@ -53,8 +53,9 @@
 
 DB::DB(const char *name)
 {
-  f_name = new char[strlen(name)+1];
-  strcpy(f_name, name);
+  int len = strlen(name);
+  f_name = new char[len + 1];
+  *((char *) memcpy(f_name, name, len) + len) = '\0';
 }
 
 
@@ -116,8 +117,9 @@ DBTable::DBTable(DB *database, int schema_code, int cols, const char *name)
   f_schema_code = schema_code;
   f_cols = cols;
 
-  f_name = new char[strlen(name)+1];
-  strcpy(f_name, name);
+  int len = strlen(name);
+  f_name = new char[len + 1];
+  *((char *) memcpy(f_name, name, len) + len) = '\0';
 
   f_file = NULL;
   f_start = 0;
@@ -142,8 +144,9 @@ DBTable::file(DB::Access access)
     }else{
 
       const char *p = f_database->path();
-      char *path = new char[strlen(p) + 1 + strlen(f_name) + 1];
-      sprintf(path, "%s/%s", p, f_name);
+      int pathlen = strlen(p) + 1 + strlen(f_name) + 1;
+      char *path = new char[pathlen];
+      snprintf(path, pathlen, "%s/%s", p, f_name);
       
       f_file = fopen(path, access == DB::CREATE ? "w" : "r");
       
@@ -500,6 +503,7 @@ void DBCursor::short_list(FILE *fp, int *qout, int ltype, void *out)
 	
 	ungetc(c, fp);
 	ret = fscanf(fp, "%d\n", &ftype);
+	if(ret == 0) throw(PosixError(errno, "Unable to fscanf\n"));
 	FRIENDLY_ASSERT(ftype == STRING_CODE);
 	
 	string_field(fp, &item, NULL);

@@ -46,6 +46,7 @@ AttributeRec::AttributeRec( const char *name,
 			      "type = %d", name, value, type));
 #endif
   
+  int len;
   next=NULL;
   attName = SGMLName::intern( name );
 
@@ -63,8 +64,9 @@ AttributeRec::AttributeRec( const char *name,
 
   case SGMLName::CDATA:
     attValue = -1;
-    attValueString = copy = new char[ strlen(value) + 1 ];
-    strcpy( copy, value );
+    len = strlen(value);
+    attValueString = copy = new char[len + 1];
+    *((char *) memcpy(copy, value, len) + len) = '\0';
     break;
 
   default:

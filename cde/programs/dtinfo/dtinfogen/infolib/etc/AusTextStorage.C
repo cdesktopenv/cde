@@ -239,14 +239,15 @@ AusTextStore::AusTextStore( const char *path, const char *name )
     makedir(path);
   }
 
-  austext_path = new char [ strlen(path) + 1 + strlen("dtsearch") + 1 ];
+  int textlen = strlen(path) + 1 + strlen("dtsearch") + 1;
+  austext_path = new char [ textlen ];
   /*
    * throw(ResourceExhausted)
    *
    */
   assert ( austext_path != NULL );
   
-  sprintf( austext_path, "%s/dtsearch", path );
+  snprintf( austext_path, textlen, "%s/dtsearch", path );
   
   if ( !isdir(austext_path) ) {
     makedir(austext_path);

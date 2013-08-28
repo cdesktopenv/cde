@@ -153,7 +153,7 @@ OL_Data::OL_Data( const Token &t,
       {
 	BaseData *sub_data = new AttributeData(t, eptr->name(), mode );
 	if ( sub_data ) {
-	  if (  data_avail= sub_data->DataWillBeAvailable() ) {
+	  if ( (data_avail= sub_data->DataWillBeAvailable()) ) {
 	    ValueBuffer.write( sub_data->content(),
 			       sub_data->content_size() );
 	    data_complete = 1;

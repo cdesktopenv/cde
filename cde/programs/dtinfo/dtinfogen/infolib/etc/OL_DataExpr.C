@@ -22,7 +22,7 @@
  */
 /* $TOG: OL_DataExpr.C /main/4 1997/12/23 11:38:27 bill $ */
 #ifndef lint
-static char ol_datasccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
+static const char ol_datasccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 #endif
 #define ol_dataBYACC 1
 #line 2 "OL_DataExpr.y"
@@ -171,7 +171,7 @@ ol_dataparse()
 #if ol_dataDEBUG
     register char *ol_datas;
 
-    if (ol_datas = getenv("ol_dataDEBUG"))
+    if ((ol_datas = getenv("ol_dataDEBUG")))
     {
         ol_datan = *ol_datas;
         if (ol_datan >= '0' && ol_datan <= '9')
@@ -188,7 +188,7 @@ ol_dataparse()
     *ol_datassp = ol_datastate = 0;
 
 ol_dataloop:
-    if (ol_datan = ol_datadefred[ol_datastate]) goto ol_datareduce;
+    if ((ol_datan = ol_datadefred[ol_datastate])) goto ol_datareduce;
     if (ol_datachar < 0)
     {
         if ((ol_datachar = ol_datalex()) < 0) ol_datachar = 0;

@@ -206,8 +206,8 @@ GraphicsTask::write_record( const Token &t )
    */
 
   FlexBuffer graphics_buffer;
-  const char *size_info;
-  int graphics_available=0;
+  const char *size_info = NULL;
+  int graphics_available = 0;
   
     
   FILE *gp;
@@ -257,6 +257,9 @@ GraphicsTask::write_record( const Token &t )
 	}
 	break;
 
+      default:
+	break;
+
       }
 
       size_info = form("%d.%d.%s",
@@ -288,7 +291,7 @@ GraphicsTask::write_record( const Token &t )
 		STRING_CODE, "v0",
 		STRING_CODE, graphics_available?size_info : "0.0.0.0.0.0",
 		-STRING_CODE, graphics_buffer.GetBuffer(),
-		              graphics_buffer.GetSize(),
+		              (size_t)graphics_buffer.GetSize(),
 		STRING_CODE, f_title?f_title->content():"",
 		NULL);
 
@@ -299,7 +302,8 @@ GraphicsTask::write_record( const Token &t )
 		 STRING_CODE, "v0",
 		 STRING_CODE, "@@ type info",
 		 COMPRESSED_STRING_CODE, "@@ CompressedAgent",
-		 -STRING_CODE, graphics_buffer.GetBuffer(), graphics_buffer.GetBSize(),
+		 -STRING_CODE, graphics_buffer.GetBuffer(),
+			       (size_t)graphics_buffer.GetBSize(),
 		 STRING_CODE, "@@ graphics title" );
       }
 

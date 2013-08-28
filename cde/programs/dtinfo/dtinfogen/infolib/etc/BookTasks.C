@@ -75,8 +75,9 @@ const int A_DEFAULT_SECTION = OLAF::DefaultSection;
   
 BookCaseTask::BookCaseTask(const char *infolib)
 {
-  library = new char[strlen(infolib)+1];
-  strcpy(library, infolib);
+  int len = strlen(infolib);
+  library = new char[len + 1];
+  *((char *) memcpy(library, infolib, len) + len) = '\0';
 
   f_base = -1;
 
@@ -533,16 +534,17 @@ void BookTask::write_record(void)
     tabFiles->append(tabLocator->filename());
   }
       
-  for(int i = 0; i < tabNames->qty(); i++){
+  for(unsigned int i = 0; i < tabNames->qty(); i++){
     const char *name = tabNames->item(i);
     const char *loc = tabLocators->item(i);
     const char *line = tabLines->item(i);
     const char *file = tabFiles->item(i);
 
-    char *p = new char [strlen(name) + 1 + strlen(loc) + 1 
-                        + strlen(line) + 1 + strlen(file) + 1];
+    int plen = strlen(name) + 1 + strlen(loc) + 1
+			    + strlen(line) + 1 + strlen(file) + 1;
+    char *p = new char [plen];
 
-    sprintf(p, "%s\t%s\t%s\t%s", name, loc, line, file);
+    snprintf(p, plen, "%s\t%s\t%s\t%s", name, loc, line, file);
     tablines.append(p);
 
     delete p;
@@ -569,7 +571,7 @@ void BookTask::write_record(void)
 		STRING_CODE, bk_title,
 		INTEGER_CODE, f_seq_no,
 		SHORT_LIST_CODE, tablines.qty(), STRING_CODE, tablines.array(),
-		-STRING_CODE, e_string , e_len,
+		-STRING_CODE, e_string , (size_t)e_len,
 		NULL);
 
 #ifdef FISH_DEBUG
@@ -617,8 +619,9 @@ const char *BookTask::locator()
      * is the TOC node locator!
      */
     const char *l = f_node->locator();
-    tocLocator = new char[strlen(l) + 1];
-    strcpy(tocLocator, l);
+    int len = strlen(l);
+    tocLocator = new char[len + 1];
+    *((char *) memcpy(tocLocator, l, len) + len) = '\0';
   }
   
   return tocLocator;

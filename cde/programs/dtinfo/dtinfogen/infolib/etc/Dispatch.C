@@ -103,6 +103,8 @@ Dispatch::token(TOKEN_TYPE tokType, unsigned char *Name )
 		      "Unable to find entity definition for %.50s", Name);
     }
     break;
+  default:
+    break;
   }
   
 
@@ -168,9 +170,10 @@ Dispatch::entity_decl( SGMLDefn *defn )
 void
 Dispatch::file(const char *f)
 {
+  int len = strlen(f);
   delete f_file;
-  f_file = new char[strlen(f)+1];
-  strcpy(f_file, f);
+  f_file = new char[len + 1];
+  *((char *) memcpy(f_file, f, len) + len) = '\0';
 
   
   /*
@@ -184,7 +187,8 @@ Dispatch::file(const char *f)
       *p = '\0';
     }
     else {
-      strcpy( dirname,"." );
+      len = MIN(strlen(dirname), 1);
+      *((char *) memcpy(dirname, ".", len) + len) = '\0';
     }
     
     search_path_table->replace_file_scope( dirname );

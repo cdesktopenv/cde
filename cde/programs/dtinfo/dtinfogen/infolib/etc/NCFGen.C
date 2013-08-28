@@ -85,12 +85,12 @@ writeStyleSheets(BookCaseDB& db)
 		    -STRING_CODE, &online, &len_o,
 		    -STRING_CODE, &print, &len_p,
 		    NULL)){
-    if( statusO=validate_stylesheet( online, len_o, ONLINE )){
+    if( (statusO=validate_stylesheet( online, len_o, ONLINE ))){
       Token::signalError(Token::User, Token::Continuable, 0, 0,
 			 "Online style sheet for `%s' is invalid.", name);
     }
     
-    if( statusP=validate_stylesheet( print, len_p, PRINT )){
+    if( (statusP=validate_stylesheet( print, len_p, PRINT ))){
       Token::signalError(Token::User, Token::Continuable, 0, 0,
 			 "Print style sheet for `%s' is invalid.", name);
     }
@@ -100,8 +100,8 @@ writeStyleSheets(BookCaseDB& db)
     }
     
     out->insert(STRING_CODE, name,
-		-STRING_CODE, online, len_o,
-		-STRING_CODE, print, len_p,
+		-STRING_CODE, online, (size_t)len_o,
+		-STRING_CODE, print, (size_t)len_p,
 		NULL);
   }
 
@@ -155,6 +155,7 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
     handler *x = (base_ptr->get_obj_dict()).get_handler(
       form("%s.%s", base_name, "sgml.dict"));
     x->its_oid().asciiOut(str_buf);
+    memcpy(comp_agent, str_buf.str().c_str(), COMPRESSED_AGENT_SIZE);
     
 
     while(cursor.next(STRING_CODE, &bookLocator,
@@ -251,8 +252,11 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
       
       
       stylesheet_smart_ptr sheet(base_ptr, style);
-      ostringstream strout;
+      char oid_buf[BUFSIZE];
+      ostringstream strout(oid_buf);
       sheet.its_oid().asciiOut(strout);
+      strout << ends;
+      memcpy(oid_buf, strout.str().c_str(), BUFSIZE);
       
       ncf->insert(STRING_CODE, nodeLocator,
 		  STRING_CODE, title,
@@ -260,7 +264,7 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
 		  STRING_CODE, "",
 		  STRING_CODE, bookLocator,
 		  OID_CODE, "0.0", /* pointer to Book/CCF/DOC object */
-		  OID_CODE, (char *)strout.str().c_str(),
+		  OID_CODE, oid_buf,
 		  NULL);
     }
     
@@ -285,7 +289,7 @@ usage(const char *progname)
 }
 
 //-------------------------------------------------------------------------
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   INIT_EXCEPTIONS();
 

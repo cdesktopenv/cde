@@ -78,7 +78,7 @@ int dbgInit()
 }
 
 //------------------------------------------------
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   
   INIT_EXCEPTIONS();
@@ -126,8 +126,9 @@ main(int argc, char **argv)
    short major_version_check = checkVersion.major_version();
    short minor_version_check = checkVersion.minor_version();
 
-   sprintf ( checkVersionStr, "%d%d", major_version_check,
-	                              minor_version_check );
+   snprintf (checkVersionStr, sizeof(checkVersionStr),
+			      "%d%d", major_version_check,
+				      minor_version_check);
    
    int checkVersionNum = atoi ( checkVersionStr );
 
@@ -137,8 +138,9 @@ main(int argc, char **argv)
    short major_version_install = installVersion.major_version();
    short minor_version_install = installVersion.minor_version();
 
-   sprintf ( installVersionStr, "%d%d", major_version_install,
-	                                minor_version_install );
+   snprintf (installVersionStr, sizeof(installVersionStr),
+				"%d%d", major_version_install,
+					minor_version_install);
    int installVersionNum = atoi ( installVersionStr );
 
    DBG(10) cerr << "(DEBUG) installVersionNum = " << installVersionNum << endl;
@@ -176,7 +178,9 @@ main(int argc, char **argv)
 
      locator_smart_ptr x(checkBase, checkBase->get_oid(*it));
 
-     strcpy ( locatorStr, x.inside_node_locator_str() );
+     int len = MIN(strlen(x.inside_node_locator_str()), 64 - 1);
+     *((char *) memcpy (locatorStr,
+			x.inside_node_locator_str(), len) + len) = '\0';
 
      DBG(10) cerr << "(DEBUG) locatorStr = " << locatorStr
 		  << endl;

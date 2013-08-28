@@ -97,15 +97,16 @@ SearchStorage::SearchStorage( const char *path, const char *name )
     makedir(path);
   }
 
-  filteredPath = new char [ strlen(path) + 1 + strlen("filtered") + 1 ];
+  int pathlen = strlen(path) + 1 + strlen("filtered") + 1;
+  filteredPath = new char [pathlen];
   /*
    * throw(ResourceExhausted)
    *
    */
   assert ( filteredPath != NULL );
-  
-  sprintf( filteredPath, "%s/filtered", path );
-  
+
+  snprintf( filteredPath, pathlen, "%s/filtered", path );
+
   if ( !isdir(filteredPath) ) {
     makedir(filteredPath);
   }

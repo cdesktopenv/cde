@@ -52,6 +52,10 @@
 #define LANG_COMMON	"C"		/* default os language */
 #define CLANG_COMMON	"C.ISO-8859-1"	/* default canonical language */
 
+#define XtsNewString(str) \
+    ((str) != NULL ? (char *)(memcpy(XtMalloc((unsigned)strlen(str) + 1), \
+     str, (unsigned)strlen(str) + 1)) : NULL)
+
 typedef enum
 {
     FSTAT_EXISTS        = 1 << 0,
@@ -172,13 +176,13 @@ typedef struct
 static
 t_entry langtbl[] =
 {
-  "C.ISO-8859-1",	1,	"eng.sfx",	"eng.stp",	NULL,
-  "es_ES.ISO-8859-1",	2,	"esp.sfx",	"esp.stp",	NULL,
-  "fr_FR.ISO-8859-1",	3,	"fra.sfx",	"fra.stp",	NULL,
-  "it_IT.ISO-8859-1",	4,	"ita.sfx",	"ita.stp",	NULL,
-  "de_DE.ISO-8859-1",	5,	"deu.sfx",	"deu.stp",	NULL,
-  "ja_JP.EUC-JP",	7,	NULL,		NULL,		"jpn.knj",
-  NULL,			0,	NULL,		NULL,		NULL
+  { "C.ISO-8859-1",	1,	"eng.sfx",	"eng.stp",	NULL },
+  { "es_ES.ISO-8859-1",	2,	"esp.sfx",	"esp.stp",	NULL },
+  { "fr_FR.ISO-8859-1",	3,	"fra.sfx",	"fra.stp",	NULL },
+  { "it_IT.ISO-8859-1",	4,	"ita.sfx",	"ita.stp",	NULL },
+  { "de_DE.ISO-8859-1",	5,	"deu.sfx",	"deu.stp",	NULL },
+  { "ja_JP.EUC-JP",	7,	NULL,		NULL,		"jpn.knj" },
+  { NULL,		0,	NULL,		NULL,		NULL }
 };
 
 static char *usageMsg1 = "USAGE:\n\
@@ -189,9 +193,9 @@ static char *usageMsg1 = "USAGE:\n\
   " EXEC_NAME " tocgen [-h] [-T <tmpdir>] [-m <catalog>] -f <tocfile> [-id <tocid>]\n\
             [-title <toctitle>] <document>...\n\
   " EXEC_NAME " update [-h] [-m <catalog>] -l <library> -b <bookcase> <stylesheet>\n\
-  " EXEC_NAME " validate [-h] [-T <tmpdir>] [-m <catalog>] <document>...\n\
-\n\
-options:\n";
+  " EXEC_NAME " validate [-h] [-T <tmpdir>] [-m <catalog>] <document>...\n"
+  "\n"
+  "options:\n";
 
 static char *usageMsg2 = "\
     -T <tmpdir>          directory for intermediate processing files\n\
@@ -207,7 +211,6 @@ static void sigHandler(int sig);
 static void touchFile(char *fileName);
 static Boolean checkStat(char *fileName, unsigned int flags);
 static void checkDir(char *dirName);
-static Boolean textExec(char *execName);
 static void checkExec(char *execName);
 static char *makeTmpFile(void);
 static char *makeWorkDir(void);
@@ -270,7 +273,6 @@ static void
 dieRWD(int exitCode, char *format, ...)
 {
     va_list ap;
-    char *msg;
 
     va_start(ap, format);
     vfprintf(stderr, format, ap);
@@ -286,7 +288,6 @@ static void
 die(int exitCode, char *format, ...)
 {
     va_list ap;
-    char *msg;
 
     va_start(ap, format);
     vfprintf(stderr, format, ap);
@@ -418,7 +419,7 @@ checkDir(char *dirName)
 	dieRWD(-1, "%s: %s not writable\n", EXEC_NAME, dirName);
     }
 
-    sprintf(cmdBuf, "mkdir -p %s", dirName);
+    snprintf(cmdBuf, sizeof(cmdBuf), "mkdir -p %s", dirName);
     runShellCmd(cmdBuf);
 }
 
@@ -437,12 +438,12 @@ testExec(char *execName, Boolean tellIt)
     if ((path = getenv("PATH")) == (char *)NULL)
 	return True;
 
-    path = XtNewString(path);
+    path = XtsNewString(path);
     pathVector = _DtVectorizeInPlace(path, ':');
 
     for (i = 0; pathVector[i] != (char *)NULL; i++)
     {
-	sprintf(execBuf, "%s/%s", pathVector[i], execName);
+	snprintf(execBuf, sizeof(execBuf), "%s/%s", pathVector[i], execName);
 	if (checkStat(execBuf, FSTAT_IS_EXECUTABLE))
 	    break;
     }
@@ -510,7 +511,7 @@ makeWorkDir(void)
 	workDir = buildPath("%s/otk.%d", gStruct->tmpDir, i);
 	if (!checkStat(workDir, FSTAT_EXISTS))
 	{
-	    sprintf(cmdBuf, "mkdir -p %s", workDir);
+	    snprintf(cmdBuf, sizeof(cmdBuf), "mkdir -p %s", workDir);
 	    runShellCmd(cmdBuf);
 	    gStruct->workDir = workDir;
 
@@ -534,8 +535,9 @@ removeWorkDir(void)
 
     if (gStruct->workDir)
     {
-	sprintf(cmdBuf, "rm -rf %s", gStruct->workDir);
+	snprintf(cmdBuf, sizeof(cmdBuf), "rm -rf %s", gStruct->workDir);
 	ret = system(cmdBuf);
+	if(ret != 0) die(-1, "system for rm failed; exiting...\n");
 	XtFree(gStruct->workDir);
 	gStruct->workDir = (char *)NULL;
     }
@@ -604,10 +606,10 @@ doBuild(int argc, char *argv[])
 		dieRWD(-1, "%s: %s: %s\n",
 		       EXEC_NAME, bookcase, strerror(errno));
 
-	    bcCopy = XtNewString(bookcase);
+	    bcCopy = XtsNewString(bookcase);
 	    if ((dirName = dirname(bcCopy)) == (char *)NULL)
 		dirName = ".";
-	    dirName = XtNewString(dirName);
+	    dirName = XtsNewString(dirName);
 	    XtFree(bcCopy);
 
 	    if (gStruct->loadESIS)
@@ -688,7 +690,8 @@ doUpdate(int argc, char *argv[])
 
 	if (!gStruct->bookCase)
 	    printUsage(EXEC_NAME ": -b required\n", -1);
-	sprintf(bookCaseBuf, "%s/%s", gStruct->library, gStruct->bookCase);
+	snprintf(bookCaseBuf, sizeof(bookCaseBuf), "%s/%s",
+				gStruct->library, gStruct->bookCase);
 	if (!checkStat(bookCaseBuf, FSTAT_IS_DIR))
 	    die(-1, "%s: No such bookcase: %s\n", EXEC_NAME,
 		gStruct->bookCase);
@@ -793,7 +796,7 @@ appendStr(char **str, int *curLen, int *maxLen, char *strToAppend)
 	*maxLen += MAXPATHLEN;
     }
 
-    strcpy(&((*str)[*curLen]), strToAppend);
+    *((char *) memcpy (&((*str)[*curLen]), strToAppend, len) + len) = '\0';
     *curLen += len;
 }
 
@@ -802,6 +805,7 @@ makeAbsPathEnv(char *var)
 {
     char *oldPath, *newPath = NULL;
     char *newVar;
+    int pathlen;
 
     if (!var)
 	return (char *)NULL;
@@ -816,8 +820,9 @@ makeAbsPathEnv(char *var)
 	fprintf(stdout, "Expanding %s\n  from %s\n  to %s\n",
 		var, oldPath, newPath);
 
-    newVar = XtMalloc(strlen(var) + strlen(newPath) + 2);
-    sprintf(newVar, "%s=%s", var, newPath);
+    pathlen = strlen(var) + strlen(newPath) + 2;
+    newVar = XtMalloc(pathlen);
+    snprintf(newVar, pathlen, "%s=%s", var, newPath);
     putenv(newVar);
 
     if (newPath)
@@ -841,7 +846,7 @@ makeAbsPathStr(char *str)
 
     if (str == (char *)NULL)
 	return (char *)NULL;
-    str = XtNewString(str);
+    str = XtsNewString(str);
 
     if (!getcwd(cwd, MAXPATHLEN))
 	cwd[0] = '\0';
@@ -909,7 +914,7 @@ static char *
 addToEnv(char *var, char *addMe, Boolean prepend)
 {
     char *envStr;
-    int len;
+    int len, ptrlen;
     char *ptr;
 
     if (!var)
@@ -917,25 +922,26 @@ addToEnv(char *var, char *addMe, Boolean prepend)
     envStr = getenv(var);
 
     if (!addMe)
-	return XtNewString(envStr);
+	return XtsNewString(envStr);
 
     len = strlen(var) + strlen(STR(envStr)) + strlen(addMe) + 3;
+    ptrlen = len * sizeof(char);
 
-    if ((ptr = XtMalloc(len * sizeof(char))) != (char *)NULL)
+    if ((ptr = XtMalloc(ptrlen)) != (char *)NULL)
     {
 	if (envStr)
 	{
 	    if (prepend)
-		sprintf(ptr, "%s=%s:%s", var, addMe, envStr);
-	    else sprintf(ptr, "%s=%s:%s", var, envStr, addMe);
+		snprintf(ptr, ptrlen, "%s=%s:%s", var, addMe, envStr);
+	    else snprintf(ptr, ptrlen, "%s=%s:%s", var, envStr, addMe);
 	}
-	else sprintf(ptr, "%s=%s", var, addMe);
+	else snprintf(ptr, ptrlen, "%s=%s", var, addMe);
 
 	putenv(ptr);
 	return ptr;
     }
 
-    return XtNewString(envStr);
+    return XtsNewString(envStr);
 }
 
 static char *
@@ -945,10 +951,10 @@ buildPath(char *format, ...)
     va_list ap;
 
     va_start(ap, format);
-    vsprintf(pathBuf, format, ap);
+    vsnprintf(pathBuf, sizeof(pathBuf), format, ap);
     va_end(ap);
 
-    return XtNewString(pathBuf);
+    return XtsNewString(pathBuf);
 }
 
 /* Assumes gStruct->install and gStruct->clang */
@@ -1102,12 +1108,14 @@ static void
 checkGlobals(void)
 {
     if ((!gStruct->install) || (!checkStat(gStruct->install, FSTAT_IS_DIR)))
-	die(-1, "%s: Cannot find DtInfo Toolkit installation directory.\n\
-\n\
-The DTINFO_HOME variable must be set to the directory where the DtInfo\n\
-toolkit is installed.\n\
-\n\
-You probably invoked this script in an unsupported manner.\n", EXEC_NAME);
+	die(-1, "%s: Cannot find DtInfo Toolkit installation directory.\n"
+		"\n"
+		"The DTINFO_HOME variable must be set to the directory "
+		"where the DtInfo\n"
+		"toolkit is installed.\n"
+		"\n"
+		"You probably invoked this script in an unsupported manner.\n",
+	    EXEC_NAME);
 
     if (!gStruct->arch)
 	die(-1, "%s: ARCH not set\n", EXEC_NAME);
@@ -1179,7 +1187,7 @@ addCatFile(char *catalog, Bool needed)
     if (parserIsNSGMLS)
     {
 	ptr1 = makeAbsPathStr(catalog);
-	sprintf(pathBuf, "-c%s ", ptr1);
+	snprintf(pathBuf, sizeof(pathBuf), "-c%s ", ptr1);
 	appendStr(&gStruct->sgmlCatFiles, &gStruct->sgmlCatFilesLen,
 		  &gStruct->sgmlCatFilesMaxLen, pathBuf);
 	XtFree(ptr1);
@@ -1190,7 +1198,8 @@ addCatFile(char *catalog, Bool needed)
 	catlen = strlen(catalog);
 	if (ptr1)
 	    catlen -= strlen(ptr1);
-	sprintf(pathBuf, "%.*s/%%P:%.*s/%%S", catlen, catalog, catlen, catalog);
+	snprintf(pathBuf, sizeof(pathBuf), "%.*s/%%P:%.*s/%%S",
+				catlen, catalog, catlen, catalog);
 	ptr1 = makeAbsPathStr(pathBuf);
 	ptr2 = addToEnv("SGML_PATH", ptr1, False);
 	if (gStruct->sgmlPathEnv)
@@ -1230,7 +1239,7 @@ parseArgs(int argc, char *argv[])
 	    {
 		int j;
 
-		gStruct->libDesc = XtNewString(argv[i]);
+		gStruct->libDesc = XtsNewString(argv[i]);
 
 		/* Change TABs to SPACEs */
 		for (j = 0; gStruct->libDesc[j] != '\0'; j++)
@@ -1246,8 +1255,8 @@ parseArgs(int argc, char *argv[])
 	    {
 		gStruct->libName = argv[i];
 		if (strlen(gStruct->libName) > 8)
-		    dieRWD(-1, "%s: information library name must be \n\
-less than or equal to eight characters.\n", EXEC_NAME);
+		    dieRWD(-1, "%s: information library name must be \n"
+			       "less than or equal to eight characters.\n", EXEC_NAME);
 	    }
 	}
 	else if (strcmp(argv[i], "-f") == 0)
@@ -1349,7 +1358,7 @@ static char *
 parseDocument(Boolean runCmd, ...)
 {
     va_list ap;
-    char *ptr, *ptr2;
+    char *ptr;
     char *cmd = (char *)NULL;
     int cmdLen = 0;
     int maxLen = 0;
@@ -1458,7 +1467,7 @@ buildBookcase(char *cmdSrc, char *dirName)
     {
 	fprintf(stderr, "%s: deleting existing %s ...\n",
 		EXEC_NAME, bookCaseDir);
-	sprintf(cmd, "rm -rf %s", bookCaseDir);
+	snprintf(cmd, sizeof(cmd), "rm -rf %s", bookCaseDir);
 	runShellCmd(cmd);
 
 	if (checkStat(bookCaseDir, FSTAT_IS_DIR))
@@ -1466,7 +1475,7 @@ buildBookcase(char *cmdSrc, char *dirName)
 		   EXEC_NAME, bookCaseDir);
     }
 
-    sprintf(cmd, "dbdrv define %s %s \"%s\"",
+    snprintf(cmd, sizeof(cmd), "dbdrv define %s %s \"%s\"",
 	    gStruct->spec, bookCaseName, bookCaseDesc);
     runShellCmd(cmd);
 
@@ -1480,42 +1489,62 @@ buildBookcase(char *cmdSrc, char *dirName)
 
       const char* style_file = makeTmpFile();
 
-      sprintf(cmd, "NCFGen -load-style %s %s > %s",
+      snprintf(cmd, sizeof(cmd), "NCFGen -load-style %s %s > %s",
 			bookCaseName, dataBase, style_file);
 
       runShellCmd(cmd);
 
-      sprintf(cmd, "cat %s | dbdrv stdin_load %s %s.stylesheet",
+      snprintf(cmd, sizeof(cmd), "cat %s | dbdrv stdin_load %s %s.stylesheet",
 			style_file, bookCaseName, bookCaseName);
       runShellCmd(cmd);
 
       XtFree((char*)style_file);
 
-      sprintf(cmd, "rm -f %s", style_file);
+      snprintf(cmd, sizeof(cmd), "rm -f %s", style_file);
       ret1 = system(cmd);
+      if(ret1 != 0) die(-1, "system for rm failed; exiting...\n");
     }
 
-    sprintf(cmd, "NCFGen -compressed %s %s |\
- dbdrv stdin_load %s %s.node",
-		    bookCaseName, dataBase, bookCaseName, bookCaseName);
-    runShellCmd(cmd);
+
+    {
+
+      const char* compress_file = makeTmpFile();
+
+      snprintf(cmd, sizeof(cmd), "NCFGen -compressed %s %s > %s",
+			bookCaseName, dataBase, compress_file);
+
+      runShellCmd(cmd);
+
+      snprintf(cmd, sizeof(cmd), "cat %s | dbdrv stdin_load %s %s.node",
+			compress_file, bookCaseName, bookCaseName);
+      runShellCmd(cmd);
+
+      XtFree((char*)compress_file);
+
+      snprintf(cmd, sizeof(cmd), "rm -f %s", compress_file);
+      ret1 = system(cmd);
+      if(ret1 != 0) die(-1, "system for rm failed; exiting...\n");
+    }
+
 
     {
       const char* anonym_file = makeTmpFile();
 
-      sprintf(cmd, "MixedGen -compressed %s %s > %s",
+      snprintf(cmd, sizeof(cmd), "MixedGen -compressed %s %s > %s",
 			dataBase, bookCaseDir, anonym_file);
 
       runShellCmd(cmd);
 
-      sprintf(cmd, "cat %s | dbdrv mixed_load %s", anonym_file, bookCaseName);
+      snprintf(cmd, sizeof(cmd), "cat %s | dbdrv mixed_load %s",
+					anonym_file, bookCaseName);
 
       runShellCmd(cmd);
 
       XtFree((char*)anonym_file);
 
-      sprintf(cmd, "rm -f %s", anonym_file);
+      snprintf(cmd, sizeof(cmd), "rm -f %s", anonym_file);
       ret1 = system(cmd);
+      if(ret1 != 0) die(-1, "system for rm failed; exiting...\n");
     }
 
     validateBookCase(bookCaseMap, bookCaseName);
@@ -1527,35 +1556,35 @@ buildBookcase(char *cmdSrc, char *dirName)
 	char newDir[MAXPATHLEN + 1];
 	const char *dtsr_stp, *dtsr_sfx, *dtsr_knj;
 
-	sprintf(cmd, "mkdir -p %s/%s",
+	snprintf(cmd, sizeof(cmd), "mkdir -p %s/%s",
 		bookCaseDir, gStruct->searchEngine);
 	runShellCmd(cmd);
 
-	sprintf(cmd, "cp %s/%s/%s.fzk %s/%s",
+	snprintf(cmd, sizeof(cmd), "cp %s/%s/%s.fzk %s/%s",
 		dataBase, gStruct->searchEngine, bookCaseName,
 		bookCaseDir, gStruct->searchEngine);
 	runShellCmd(cmd);
 
-	sprintf(cmd, "cp %s %s/%s",
+	snprintf(cmd, sizeof(cmd), "cp %s %s/%s",
 		gStruct->dbdfile, bookCaseDir, gStruct->searchEngine);
 	runShellCmd(cmd);
 
-	if (dtsr_stp = langtbl[gStruct->dtsridx].stp) {
-	    sprintf(cmd, "cp %s/%s %s/%s/%s.stp",
+	if ((dtsr_stp = langtbl[gStruct->dtsridx].stp)) {
+	    snprintf(cmd, sizeof(cmd), "cp %s/%s %s/%s/%s.stp",
 		    gStruct->dtsrlib, dtsr_stp, bookCaseDir,
 		    gStruct->searchEngine, bookCaseName);
 	    runShellCmd(cmd);
 	}
 
-	if (dtsr_sfx = langtbl[gStruct->dtsridx].sfx) {
-	    sprintf(cmd, "cp %s/%s %s/%s/%s.sfx",
+	if ((dtsr_sfx = langtbl[gStruct->dtsridx].sfx)) {
+	    snprintf(cmd, sizeof(cmd), "cp %s/%s %s/%s/%s.sfx",
 		    gStruct->dtsrlib, dtsr_sfx, bookCaseDir,
 		    gStruct->searchEngine, bookCaseName);
 	    runShellCmd(cmd);
 	}
 
-	if (dtsr_knj = langtbl[gStruct->dtsridx].knj) {
-	    sprintf(cmd, "cp %s/%s %s/%s/%s.knj",
+	if ((dtsr_knj = langtbl[gStruct->dtsridx].knj)) {
+	    snprintf(cmd, sizeof(cmd), "cp %s/%s %s/%s/%s.knj",
 		    gStruct->dtsrlib, dtsr_knj, bookCaseDir,
 		    gStruct->searchEngine, bookCaseName);
 	    runShellCmd(cmd);
@@ -1563,31 +1592,33 @@ buildBookcase(char *cmdSrc, char *dirName)
 
 	curDir[0] = '\0';
 	ret2 = getcwd(curDir, MAXPATHLEN);
-	sprintf(newDir, "%s/%s", bookCaseDir, gStruct->searchEngine);
+	if(ret2 == (char *)NULL) die(-1, "getcwd failed; exiting...\n");
+	snprintf(newDir, sizeof(newDir), "%s/%s",
+				bookCaseDir, gStruct->searchEngine);
 	if (chdir(newDir) != 0)
 	    dieRWD(-1, "%s: Cannot find %s: %s\n",
 		   EXEC_NAME, newDir, strerror(errno));
 
-	sprintf(cmd, "dtsrcreate %s-o -l%d %s",
+	snprintf(cmd, sizeof(cmd), "dtsrcreate %s-o -l%d %s",
 		(gStruct->verbose) ? "" : "-q ",
 		langtbl[gStruct->dtsridx].dtsrlang, bookCaseName);
 	runShellCmd(cmd);
 
-	sprintf(cmd, "dtsrload -d%s '-t\n' %s",
+	snprintf(cmd, sizeof(cmd), "dtsrload -d%s '-t\n' %s",
 		bookCaseName, bookCaseName);
 	runShellCmd(cmd);
 
-	sprintf(cmd, "dtsrindex -d%s '-t\n' %s",
+	snprintf(cmd, sizeof(cmd), "dtsrindex -d%s '-t\n' %s",
 		bookCaseName, bookCaseName);
 	runShellCmd(cmd);
 
-	sprintf(cmd, "echo keytypes %s = %s > %s.ocf",
+	snprintf(cmd, sizeof(cmd), "echo keytypes %s = %s > %s.ocf",
 		bookCaseName, gStruct->keytypes, gStruct->searchEngine);
 	runShellCmd(cmd);
 
-	sprintf(cmd, "%s.fzk", bookCaseName);
+	snprintf(cmd, sizeof(cmd), "%s.fzk", bookCaseName);
 	unlink(cmd);
-	sprintf(cmd, "%s.dbd", gStruct->searchEngine);
+	snprintf(cmd, sizeof(cmd), "%s.dbd", gStruct->searchEngine);
 	unlink(cmd);
 
 	if (chdir(curDir) != 0)
@@ -1606,11 +1637,32 @@ storeBookCase(char *cmdSrc, char *tocOpt, char *dbName,
 {
     char *tmpFile;
     char *cmd;
+    int ret;
 
-    tmpFile = makeTmpFile();
-    cmd = buildPath("%s | NodeParser %s %s %s > %s",
-		    cmdSrc, tocOpt, dbName, dirName, tmpFile);
-    runShellCmd(cmd);
+    /*
+     * changed not to use pipe for better error handling
+     */
+    {
+
+      const char* nsgmls_file = makeTmpFile();
+
+      cmd = buildPath("%s > %s;echo", cmdSrc, nsgmls_file);
+
+      runShellCmd(cmd);
+
+      tmpFile = makeTmpFile();
+
+      cmd = buildPath("cat %s | NodeParser %s %s %s > %s",
+			nsgmls_file, tocOpt, dbName, dirName, tmpFile);
+      runShellCmd(cmd);
+
+      XtFree((char*)nsgmls_file);
+
+      cmd = buildPath("rm -f %s", nsgmls_file);
+      ret = system(cmd);
+      if(ret != 0) die(-1, "system for rm failed; exiting...\n");
+    }
+
     XtFree(cmd);
 
     return tmpFile;
@@ -1625,6 +1677,7 @@ findBookCaseNameAndDesc(char *tmpFile, char *bookCaseName,
     char *p1, *p2;
     static char *patt1 = "BookCase name: `";
     static char *patt2 = "' desc: `";
+    unsigned int len;
 
     if ((fp = fopen(tmpFile, "r")) == (FILE *)NULL)
 	dieRWD(-1, "%s: opening %s: %s\n",
@@ -1637,14 +1690,14 @@ findBookCaseNameAndDesc(char *tmpFile, char *bookCaseName,
 	    p1 += strlen(patt1);
 	    if ((p2 = strstr(p1, patt2)) != (char *)NULL)
 	    {
-		strncpy(bookCaseName, p1, p2 - p1);
-		bookCaseName[p2 - p1] = '\0';
+		len = p2 - p1;
+		*((char *) memcpy(bookCaseName, p1, len) + len) = '\0';
 		validateBookCaseName(bookCaseName);
 		p1 = p2 + strlen(patt2);
 		if ((p2 = strchr(p1, '\'')) != (char *)NULL)
 		{
-		    strncpy(bookCaseDesc, p1, p2 - p1);
-		    bookCaseDesc[p2 - p1] = '\0';
+		    len = p2 - p1;
+		    *((char *) memcpy(bookCaseDesc, p1, len) + len) = '\0';
 		    fclose(fp);
 
 		    return True;
@@ -1676,8 +1729,8 @@ validateBookCaseName(char *bookCaseName)
     }
 
     if (!isOk)
-	dieRWD(-1, "%s: Bookcase name `%s' is not valid;\n\
-only 8 alphanumeric characters are allowed\n",
+	dieRWD(-1, "%s: Bookcase name `%s' is not valid;\n"
+		   "only 8 alphanumeric characters are allowed\n",
 	       EXEC_NAME, bookCaseName);
 }
 
@@ -1695,13 +1748,16 @@ validateBookCase(char *mapFile, char *bookCaseName)
 	       EXEC_NAME, strerror(errno));
 
     ret = fgets(lineBuf, MAXPATHLEN, fp); /* Skip first line. */
+    if(ret == (char *)NULL) die(-1, "fgets failed; exiting...\n");
+
     while (fgets(lineBuf, MAXPATHLEN, fp) != (char *)NULL)
     {
 	if ((bcName = strtok(lineBuf, "\t\n")) != (char *)NULL)
 	{
 	    if (strcmp(bcName, bookCaseName) != 0)
 	    {
-		sprintf(cmdBuf, "valBase %s %s", bookCaseName, bcName);
+		snprintf(cmdBuf, sizeof(cmdBuf), "valBase %s %s",
+					bookCaseName, bcName);
 
 		/* Should this return an error code instead of */
 		/* exiting so that we can cleanup the bookcase? */
@@ -1718,7 +1774,7 @@ editMapFile(char *bookCaseName, char *bookCaseMap)
 {
     size_t ret;
     struct stat statBuf;
-    FILE *fp;
+    FILE *fp = NULL;
     char *file;
     char **fileVector;
     char *libDesc;
@@ -1737,6 +1793,7 @@ editMapFile(char *bookCaseName, char *bookCaseMap)
 
     file = XtMalloc((statBuf.st_size + 1) * sizeof(char));
     ret = fread(file, statBuf.st_size, sizeof(char), fp);
+    if(ret == 0) die(-1, "fread failed; exiting...\n");
     if (file[statBuf.st_size - 1] == '\n')
 	file[statBuf.st_size - 1] = '\0';
     else file[statBuf.st_size] = '\0';
@@ -1744,7 +1801,7 @@ editMapFile(char *bookCaseName, char *bookCaseMap)
 
     fileVector = _DtVectorizeInPlace(file, '\n');
 
-    firstLine = XtNewString(fileVector[0]);
+    firstLine = XtsNewString(fileVector[0]);
     lineVector = _DtVectorizeInPlace(firstLine, '\t');
     if ((oldDesc = lineVector[0]) != (char *)NULL)
 	libID = lineVector[1];
@@ -1805,13 +1862,17 @@ buildTOC(int argc, char *argv[])
     char *tocBC;
     char *tocDir;
     char *cmdSrc;
+    unsigned int len;
     static char *patt1start = "<TOC id=\"";
     static char *patt1end = "\">";
     static char *patt2start = "<TITLE>";
     static char *patt2end = "</TITLE>";
 
-    strcpy(idBuf, gStruct->id);
-    strcpy(titleBuf, gStruct->title);
+    len = MIN(strlen(gStruct->id), MAXPATHLEN);
+    *((char *) memcpy (idBuf, gStruct->id, len) + len) = '\0';
+    len = MIN(strlen(gStruct->title), MAXPATHLEN);
+    *((char *) memcpy (titleBuf, gStruct->id, len) + len) = '\0';
+
     if (checkStat(gStruct->outFile, FSTAT_IS_FILE))
     {
 	if ((fp = fopen(gStruct->outFile, "r")) == (FILE *)NULL)
@@ -1826,8 +1887,8 @@ buildTOC(int argc, char *argv[])
 		p1 += strlen(patt1start);
 		if ((p2 = strstr(p1, patt1end)) != (char *)NULL)
 		{
-		    strncpy(idBuf, p1, p2 - p1);
-		    idBuf[p2 - p1] = '\0';
+		    len = p2 - p1;
+		    *((char *) memcpy(idBuf, p1, len) + len) = '\0';
 		}
 	    }
 	    if ((p1 = strstr(lineBuf, patt2start)) != (char *)NULL)
@@ -1835,8 +1896,8 @@ buildTOC(int argc, char *argv[])
 		p1 += strlen(patt2start);
 		if ((p2 = strstr(p1, patt2end)) != (char *)NULL)
 		{
-		    strncpy(titleBuf, p1, p2 - p1);
-		    titleBuf[p2 - p1] = '\0';
+		    len = p2 - p1;
+		    *((char *) memcpy(titleBuf, p1, len) + len) = '\0';
 		}
 	    }
 	}
@@ -1852,7 +1913,7 @@ buildTOC(int argc, char *argv[])
     cmdSrc = parseDocument(False, tocBC, 0);
     if ((tocDir = dirname(tocBC)) == (char *)NULL)
 	tocDir = ".";
-    tocDir = XtNewString(tocDir);
+    tocDir = XtsNewString(tocDir);
     p1 = storeBookCase(cmdSrc, "toc", makeWorkDir(), tocDir);
     XtFree(p1);
     XtFree(tocDir);
@@ -1880,10 +1941,11 @@ tocBookcase(int argc, char *argv[])
 	dieRWD(-1, "%s: %s: %s\n", EXEC_NAME,
 	       tmpFile, strerror(errno));
 
-    fputs("<!DOCTYPE Bookcase PUBLIC \n\
-\"-//Common Desktop Environment//DTD DtInfo Bookcase Description//EN\" \n\
-[\n\
-        <!-- Books -->\n",
+    fputs("<!DOCTYPE Bookcase PUBLIC \n"
+	  "\"-//Common Desktop Environment//"
+	  "DTD DtInfo Bookcase Description//EN\" \n"
+	  "[\n"
+	  "        <!-- Books -->\n",
 	  fp);
 
     for (i = 0; i < argc; i++)
@@ -1892,14 +1954,15 @@ tocBookcase(int argc, char *argv[])
 		i + 1, argv[i]);
     }
 
-    fputs("]>\n\
-<BOOKCASE StyleSheet=dummySty>\n\
-        <BOOKCASENAME>TOCDummy</>\n\
-        <BOOKCASEDESC>Dummy Bookcase for TOC Generation</>\n\
-        <StyleSheet name=\"dummySty\"><path>*</><online><linebreak after></></>\n\
-	<BOOK>\n\
-	<TITLE>Dummy Book for TOC Generation</>\n\
-	<TOCFILE></>\n",
+    fputs("]>\n"
+	  "<BOOKCASE StyleSheet=dummySty>\n"
+	  "        <BOOKCASENAME>TOCDummy</>\n"
+	  "        <BOOKCASEDESC>Dummy Bookcase for TOC Generation</>\n"
+	  "        <StyleSheet name=\"dummySty\"><path>*</>"
+	  "<online><linebreak after></></>\n"
+	  "	<BOOK>\n"
+	  "	<TITLE>Dummy Book for TOC Generation</>\n"
+	  "	<TOCFILE></>\n",
 	  fp);
 
     for (i = 0; i < argc; i++)
@@ -1907,8 +1970,8 @@ tocBookcase(int argc, char *argv[])
 	fprintf(fp, "\t<FILE>&book%d;</>\n", i + 1);
     }
 
-    fputs("	</BOOK>\n\
-</BOOKCASE>\n",
+    fputs("	</BOOK>\n"
+	  "</BOOKCASE>\n",
 	  fp);
 
     fclose(fp);
@@ -1950,7 +2013,7 @@ makeTOC(char *id, char *title)
 	dieRWD(-1, "%s: %s: %s\n",
 	       EXEC_NAME, gStruct->outFile, strerror(errno));
 
-    while (tocRecord = getTOCRecord(fpIn))
+    while ((tocRecord = getTOCRecord(fpIn)))
     {
 	char lineBuf[MAXPATHLEN + 1];
 
@@ -1963,7 +2026,8 @@ makeTOC(char *id, char *title)
 	ptr2 = replaceData(ptr1, "\"", "&#34;");
 	XtFree(ptr1);
 
-	sprintf(lineBuf, "<TOCEntry LinkEnd=\"%s\">%s</> <!-- %s:%s -->\n",
+	snprintf(lineBuf, sizeof(lineBuf),
+		"<TOCEntry LinkEnd=\"%s\">%s</> <!-- %s:%s -->\n",
 		ptr2, trTitle, STR(tocRecord->file),
 		STR(tocRecord->line));
 	XtFree(ptr2);
@@ -1979,10 +2043,11 @@ makeTOC(char *id, char *title)
 
     fclose(fpIn);
 
-    fprintf(fpOut, "<!DOCTYPE TOC PUBLIC\n\
-    \"-//Common Desktop Environment//DTD DtInfo Table of Contents//EN\">\n\
-<TOC id=\"%s\">\n\
-<TITLE>%s</TITLE>\n",
+    fprintf(fpOut, "<!DOCTYPE TOC PUBLIC\n"
+		   "    \"-//Common Desktop Environment//"
+		   "DTD DtInfo Table of Contents//EN\">\n"
+		   "<TOC id=\"%s\">\n"
+		   "<TITLE>%s</TITLE>\n",
 	    id, tocTitle);
     XtFree(tocTitle);
 
@@ -2054,7 +2119,7 @@ sgmlData(char *inData)
 static char *
 replaceData(char *inData, char *replaceMe, char *replacement)
 {
-    int i;
+    int i, slen, len;
     int newLen;
     int replaceMeLen = strlen(replaceMe);
     char *p, *endP;
@@ -2069,7 +2134,7 @@ replaceData(char *inData, char *replaceMe, char *replacement)
     }
 
     if (i == 0)
-	return XtNewString(inData);
+	return XtsNewString(inData);
 
     newLen = strlen(inData) + (i * (strlen(replacement) - replaceMeLen));
     newData = XtMalloc((newLen + 1) * sizeof(char));
@@ -2077,11 +2142,18 @@ replaceData(char *inData, char *replaceMe, char *replacement)
     p = inData;
     while ((endP = strstr(p, replaceMe)) != (char *)NULL)
     {
-	strncat(newData, p, endP - p);
-	strcat(newData, replacement);
+	slen = strlen(newData);
+	len = endP - p;
+	*((char *) memcpy(newData + slen, p, len) + len) = '\0';
+
+	slen = strlen(newData);
+	len = MIN(strlen(replacement), (newLen - slen) * sizeof(char));
+	*((char *) memcpy(newData + slen, replacement, len) + len) = '\0';
 	p = endP + replaceMeLen;
     }
-    strcat(newData, p);
+    slen = strlen(newData);
+    len = MIN(strlen(p), (newLen - slen) * sizeof(char));
+    *((char *) memcpy(newData + slen, p, len) + len) = '\0';
 
     return newData;
 }
@@ -2104,8 +2176,8 @@ addTOCEntry(TOCEntry **tocEntries, int *nTOCEntries, int *maxEntries,
 	*maxEntries += 10;
     }
 
-    (*tocEntries)[*nTOCEntries].ord = XtNewString(newEntry->ord);
-    (*tocEntries)[*nTOCEntries].entry = XtNewString(newEntry->entry);
+    (*tocEntries)[*nTOCEntries].ord = XtsNewString(newEntry->ord);
+    (*tocEntries)[*nTOCEntries].entry = XtsNewString(newEntry->entry);
     (*nTOCEntries)++;
 }
 
@@ -2314,7 +2386,7 @@ getTOCField(FILE *fp)
 	if ((ptrLen > 0) && (ptr[ptrLen - 1] == '\n'))
 	    ptr[ptrLen - 1] = '\0';
 
-	ptr = XtNewString(ptr);
+	ptr = XtsNewString(ptr);
 
 	if (longField != (char *)NULL)
 	    XtFree(longField);

@@ -39,7 +39,8 @@ public:
   enum { MAXMSG = 200 };
   
   PosixError(int error_no, const char *msg)
-  { f_errno = error_no; strncpy(f_msg, msg, MAXMSG+1); };
+  { f_errno = error_no;
+    *((char *) memcpy(f_msg, msg, MAXMSG+1) + MAXMSG+1) = '\0'; };
 
   const char *msg(void) const { return f_msg; };
   int error_no(void) const { return f_errno; };

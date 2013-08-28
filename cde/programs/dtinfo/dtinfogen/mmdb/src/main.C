@@ -142,7 +142,7 @@ int select_and_process( int argc, char** argv )
    return (ok);
 }
 
-main( int argc, char** argv )
+int main( int argc, char** argv )
 {
    //quantify_clear_data();
    INIT_EXCEPTIONS();

@@ -45,7 +45,7 @@ FlexBuffer::FlexBuffer()
 void
 FlexBuffer::grow(size_t needed)
 {
-  if(needed + 1 > maxSize){
+  if(needed + 1 > (size_t) maxSize){
     char *born = new char[maxSize = needed * 3 / 2 + 10];
     
     if(pos){

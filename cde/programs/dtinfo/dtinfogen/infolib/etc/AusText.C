@@ -90,7 +90,7 @@ AusText::write_start_tag ( const Token &t)
   
   int level = t.level();
   
-  if ( a = t.LookupAttr( OLAF::OL_scope ) ) {
+  if ( (a = t.LookupAttr( OLAF::OL_scope )) ) {
 
     switch ( a->getAttValue() ) {
 

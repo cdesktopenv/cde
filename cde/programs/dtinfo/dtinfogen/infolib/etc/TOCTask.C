@@ -62,10 +62,10 @@ int toc_depth(const Token& t)
   if( t.LookupAttr( OLAF::OL_ToC ) ){
     ret = 0;
   }
-  else if(a = t.LookupAttr( OLAF::OL_ToCEntry )){
+  else if((a = t.LookupAttr( OLAF::OL_ToCEntry ))){
     const char *val;
 
-    if(val = a->getAttrValueString()){
+    if((val = a->getAttrValueString())){
       ret = atoi(val);
     }
   }

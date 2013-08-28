@@ -135,7 +135,7 @@ SearchPath::get_real_path( const char *file_name )
 
   // remove storage object specifier
   if (strncasecmp(file_name, "<OSFILE", 7) == 0) {
-    if (file_name = strchr(file_name, '>'))
+    if ((file_name = strchr(file_name, '>')))
       file_name++;
     else
       return NULL;

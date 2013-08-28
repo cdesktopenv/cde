@@ -38,7 +38,7 @@ using namespace std;
 #include "utility/const.h"
 #include "utility/randomize.h"
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
   if (argc < 2) {
     cerr << "usage: " << *argv << " filename\n" << flush;

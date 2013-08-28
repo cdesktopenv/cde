@@ -36,7 +36,7 @@ AttributeData::AttributeData( const Token &t,
 {
 
   const char *str;
-  if ( str = attribute_value( t, attr_name ) ) {
+  if ( (str = attribute_value( t, attr_name )) ) {
     data_complete = 1;
     ValueBuffer.writeStr( str );
   }
@@ -73,6 +73,9 @@ AttributeData::attribute_value( const Token &t, int attributeName )
   else if ( att_type == SGMLName::CDATA ||
 	    att_type == SGMLName::TOKEN ){
     return ( tmp->getAttrValueString() );
+  }
+  else {
+    return 0;
   }
 }
 

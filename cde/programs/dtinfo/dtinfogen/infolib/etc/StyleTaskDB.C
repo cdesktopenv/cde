@@ -52,8 +52,8 @@ void StyleTaskDB::done(const char * name,
   DBTable *tbl = f_bookcase->table(BookCaseDB::StyleSheet);
   
   tbl->insert(STRING_CODE, name,
-	      -STRING_CODE, online, online_len,
-	      -STRING_CODE, print,  print_len,
+	      -STRING_CODE, online, (size_t)online_len,
+	      -STRING_CODE, print,  (size_t)print_len,
 	      NULL);
 
   reset();

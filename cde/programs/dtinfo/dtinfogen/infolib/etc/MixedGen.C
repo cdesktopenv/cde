@@ -274,8 +274,9 @@ locator_table( BookCaseDB& db,
 		    INTEGER_CODE, &line_num,
 		    NULL)){
 
-  char *buf = new char[strlen(nodeloc) + strlen(reflabel) + 2];
-  sprintf(buf, "%s\t%s", nodeloc, reflabel);
+  int buflen = strlen(nodeloc) + strlen(reflabel) + 2;
+  char *buf = new char[buflen];
+  snprintf(buf, buflen, "%s\t%s", nodeloc, reflabel);
     
     CC_String *loc_collect = new CC_String( locator );
     BTCollectable *node_collect = new BTCollectable( filename, 
@@ -403,8 +404,9 @@ writeCCF(BookCaseDB& db,
       // It will just loop through all the tabs, and report all the bad ones
       if ( !exception_flag ) {
 	const char *tabOID = to_oid(mmdb, bcname, loc);
-	char *result = new char[nameLen + 1 + strlen(tabOID) + 1];
-	sprintf(result, "%s\t%s", name, tabOID );
+	int resultlen = nameLen + 1 + strlen(tabOID) + 1;
+	char *result = new char[resultlen];
+	snprintf(result, resultlen, "%s\t%s", name, tabOID );
 	heap.add(result);
       }
     }
@@ -687,7 +689,6 @@ writeSGML(BookCaseDB &db,
   size_t dataLen;
   const char *data;
   char *bufptr;		// Walk through SGML data stream and update LAST fields
-  char *nevermind;	// We don't care about the return value from the parse
 
   while(sgml_cursor.next(STRING_CODE, &aBook,
 		    STRING_CODE, &nodeLoc,
@@ -707,14 +708,14 @@ writeSGML(BookCaseDB &db,
     FlexBuffer new_node_buffer;
     
     bufptr = (char *) data;
-    nevermind = parse4last( bufptr );
+    parse4last( bufptr );
 
     insert_remotelink( &hd, (char *)data, dataLen, &new_node_buffer);
     
     out->insert_untagged(STRING_CODE, nodeLoc,
 			 -STRING_CODE,
 			 new_node_buffer.GetBuffer(),
-			 new_node_buffer.GetSize(),
+			 (size_t)new_node_buffer.GetSize(),
 			 NULL);
   }
 
@@ -767,7 +768,7 @@ writeGraphics(BookCaseDB &db, const char *thisBook, DBCursor &gr_cursor,
 		  STRING_CODE, name,
 		  STRING_CODE, version,
 		  STRING_CODE, typeInfo,
-		  -COMPRESSED_STRING_CODE, comp_agent, data, len,
+		  -COMPRESSED_STRING_CODE, comp_agent, data, (size_t)len,
 		  STRING_CODE, title,
 		  NULL);
     }
@@ -776,7 +777,7 @@ writeGraphics(BookCaseDB &db, const char *thisBook, DBCursor &gr_cursor,
 		  STRING_CODE, name,
 		  STRING_CODE, version,
 		  STRING_CODE, typeInfo,
-		  -STRING_CODE, data, len,
+		  -STRING_CODE, data, (size_t)len,
 		  STRING_CODE, title,
 		  NULL);
     }
@@ -809,7 +810,7 @@ writeBooks(BookCaseDB& db,
   DBTable *sgml = db.table(BookCaseDB::NodeSGML, DB::READ);
   DBCursor SgmlCursor(*sgml);
 
-  DBCursor *GraphicsCursorPtr;
+  DBCursor *GraphicsCursorPtr = NULL;
   
   int process_graphics = 1;
   mtry {
@@ -925,7 +926,7 @@ usage(const char *progname)
 }
 
 
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   INIT_EXCEPTIONS();
   
@@ -988,6 +989,7 @@ main(int argc, char **argv)
 	    form("%s.%s", bcname, "ps.dict"));
 
 	x->its_oid().asciiOut(str_buf);
+	memcpy(comp_agent, str_buf.str().c_str(), COMPRESSED_AGENT_SIZE);
       }
 
       hashTable<CC_String, BTCollectable> hd(hash_func);

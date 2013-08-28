@@ -56,7 +56,7 @@ using namespace std;
 static int findDigits( int num ) 
 {
   char str[NUM_FIELDS+1];
-  sprintf( str, "%d", num );
+  snprintf( str, NUM_FIELDS+1, "%d", num );
   return( strlen(str) );
 }
 
@@ -301,16 +301,18 @@ int NodeTask::formatOrd(char * buf, int max)
   int ord_len = findDigits( ord );
 
   if ( ord_len > NUM_FIELDS ) {
-    throw(Unexpected(form("No. of sections = %d have exceeded the maximum number of sections allowed at one level\n", ord )));
+    throw(Unexpected(form("No. of sections = %d have exceeded"
+			  " the maximum number of sections allowed"
+			  " at one level\n", ord )));
   }
   
   if(f_parent == NULL){
     int buflen = strlen(buf);
     assert( buflen + NUM_FIELDS < max );
 
-    sprintf(buf, "%05d", ord); /* we assume max is
-				* big enough to format one int
-				*/
+    snprintf(buf, NUM_FIELDS + 1, "%05d", ord);  /* we assume max is big
+						  * enough to format one int
+						  */
     ret = buflen + NUM_FIELDS;
 
   }else{
@@ -319,7 +321,7 @@ int NodeTask::formatOrd(char * buf, int max)
     int buflen = ret;
     assert ( buflen + NUM_FIELDS + 1< max );
 
-    sprintf(buf + buflen, ".%05d", ord);
+    snprintf(buf + buflen, NUM_FIELDS + 2, ".%05d", ord);
     ret = buflen + NUM_FIELDS + 1;
 
   }

@@ -222,11 +222,58 @@ case "$OS" in
 	;;
 
 	Linux*)
-		ARCH=i386
+		case "`uname -i`" in
+
+			i386*)
+				ARCH=i386
+			;;
+
+			x86_64*)
+				ARCH=amd64
+			;;
+
+			*)
+				ARCH=unknown
+			;;
+		esac
 	;;
 
 	FreeBSD*)
-		ARCH=i386
+		case "`uname -m`" in
+
+			i386*)
+				ARCH=i386
+			;;
+
+			amd64*)
+				ARCH=amd64
+			;;
+
+			*)
+				ARCH=unknown
+			;;
+		esac
+	;;
+
+	OpenBSD*)
+		case "`uname -m`" in
+
+			i386*)
+				ARCH=i386
+			;;
+
+			amd64*)
+				ARCH=amd64
+			;;
+
+			powerpc*)
+				ARCH=powerpc
+			;;
+
+			*)
+				ARCH=unknown
+			;;
+		esac
 	;;
 
 	*)
