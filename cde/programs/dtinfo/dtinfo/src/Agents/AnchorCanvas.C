@@ -82,13 +82,14 @@ AnchorCanvas::AnchorCanvas (const char *locator, MarkInfo& mi)
 
 
   /* -------- Now form the anchor string -------- */
-  for (int i = 0; i < mi.length(); i++) {
+  for (unsigned int i = 0; i < mi.length(); i++) {
       UAS_Pointer<MarkUnitInfo> mui_t = mi[i];
       MarkUnitInfo& mui = *mui_t;
       char buf[64];
       if (i > 0)
 	  location = location + ",";
-      sprintf(buf, "%u\t%u\t%u", mui.vcc(), mui.offset(), mui.length());
+      snprintf(buf, sizeof(buf),
+			"%u\t%u\t%u", mui.vcc(), mui.offset(), mui.length());
       location = location + buf;
   }
 

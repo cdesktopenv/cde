@@ -80,13 +80,14 @@
 #define _VROOT_H_
 
 #if !defined(lint) && !defined(SABER)
-static char vroot_rcsid[] = "$XConsortium: vroot.h /main/3 1996/06/11 16:30:45 cde-hal $";
+static const char vroot_rcsid[] = "$XConsortium: vroot.h /main/3 1996/06/11 16:30:45 cde-hal $";
 #endif
 
 #include <X11/X.h>
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 
+#if 0
 static Window
 VirtualRootWindowOfScreen(Screen *screen)
 {
@@ -97,7 +98,7 @@ VirtualRootWindowOfScreen(Screen *screen)
     {
       Display *dpy = DisplayOfScreen(screen);
       Atom __SWM_VROOT = None;
-      int i;
+      unsigned int i;
       Window rootReturn, parentReturn, *children;
       unsigned int numChildren;
 
@@ -139,6 +140,7 @@ VirtualRootWindowOfScreen(Screen *screen)
 
   return (root);
 }
+#endif
 
 
 /* Need original macros to figure out if there is a virtual root. */

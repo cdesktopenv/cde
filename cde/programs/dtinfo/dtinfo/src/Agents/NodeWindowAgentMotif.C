@@ -133,6 +133,7 @@ using namespace std;
 #include "Registration.hh"
 
 // for DtCanvas Help stuff
+#include <DtI/Access.h>
 #include <DtI/XUICreateI.h>
 #include <DtI/SetListI.h>
 #include <DtI/CallbacksI.h>
@@ -461,7 +462,7 @@ NodeWindowAgent::popup_menu(XButtonPressedEvent* event)
         gr_type++;
 
       char buff[40];
-      sprintf(buff,"%s graphic",gr_type);
+      snprintf(buff, sizeof(buff), "%s graphic", gr_type);
       XmTextFieldSetString(f_status_text, buff);
       break;
 
@@ -499,16 +500,15 @@ NodeWindowAgent::popup_menu(XButtonPressedEvent* event)
           char preview_buffer[256];
  
           UAS_String pt = doc_ptr->title();
-          strncpy (title, (char *) pt, 127);
-          title[127] = '\0';
+          *((char *) memcpy(title, (char *) pt, 127) + 127) = '\0';
           UAS_String bn = doc_ptr->book_name(UAS_SHORT_TITLE);
           const char *book_name = (char *) bn;
           if (book_name != NULL && *book_name != '\0')
-            sprintf (preview_buffer, CATGETS(Set_Messages, 8, "Link to %s: %s"),
-                     book_name, title);
+            snprintf (preview_buffer, sizeof(preview_buffer),
+               CATGETS(Set_Messages, 8, "Link to %s: %s"), book_name, title);
           else
-            sprintf (preview_buffer, CATGETS(Set_Messages, 9, "Link to %s"),
-                     title);
+            snprintf (preview_buffer, sizeof(preview_buffer),
+               CATGETS(Set_Messages, 9, "Link to %s"), title);
           WXmLabel lb = WXmLabel(f_preview_label);
           lb.LabelString(WXmString(title));
   
@@ -692,16 +692,16 @@ public:
 				  NULL));
 	}
     }
-  ~Ancestor()
+  virtual ~Ancestor()
     {
       f_button.Destroy();
     }
   void update (const char *title, UAS_Pointer<UAS_Common> toc_ptr);
   void activate();
   
+  NodeWindowAgent  *f_node_window_agent;
   WXmPushButton     f_button;
   UAS_Pointer<UAS_Common>      f_toc_ptr;
-  NodeWindowAgent  *f_node_window_agent;
 };
 
 void
@@ -765,21 +765,21 @@ Ancestor::activate()
 // /////////////////////////////////////////////////////////////////
 
 NodeWindowAgent::NodeWindowAgent (u_int serial_no)
-: f_shell (NULL),
-  f_help_dsp_area (NULL),
+: IcccmAgent((void*)this,(data_handler_t)&NodeWindowAgent::do_search_selection),
   f_node_view_info (NULL),
+  f_shell (NULL),
+  f_help_dsp_area (NULL),
+  f_close(NULL),
+  f_current_ancestor (NULL),
+  f_form(NULL),
   f_preview_timeout (NULL),
   f_serial_number(serial_no),
-  f_current_ancestor (NULL),
   f_history_display (FALSE),
-  f_form(NULL),
-  f_graphics_handler(NULL),
-  IcccmAgent((void*)this, (data_handler_t)&NodeWindowAgent::do_search_selection),
-  f_close(NULL),
-  f_close_sensitive(FALSE),
   f_vscrollbar_offset(0),
   f_hscrollbar_offset(0),
-  f_graphic_segment(NULL)
+  f_graphic_segment(NULL),
+  f_graphics_handler(NULL),
+  f_close_sensitive(FALSE)
 {
     UAS_Common::request ((UAS_Receiver<UAS_LibraryDestroyedMsg> *) this);
 
@@ -2155,7 +2155,8 @@ NodeWindowAgent::do_search_selection (const char* value, unsigned long)
 	{
 	  buflen += 16 ;
 	  char *newbuf = new char[buflen] ;
-	  strcpy(newbuf, buffer);
+          int len = buflen - 1;
+	  *((char *) memcpy(newbuf, buffer, len) + len) = '\0';
 	  int depth = dest - buffer ;
 	  delete buffer ;
 	  buffer = newbuf ;
@@ -2228,7 +2229,7 @@ NodeWindowAgent::search_on_selectionCB(Widget, XtPointer client_data,
 void
 NodeWindowAgent::text_callback(WCallback *wcb)
 {
-    XmAnyCallbackStruct *cbs = (XmAnyCallbackStruct*)wcb->CallData();
+    (XmAnyCallbackStruct*)wcb->CallData();
     char *text = XmTextGetString(wcb->GetWidget());
     if (text == NULL)
       return;
@@ -2298,9 +2299,9 @@ NodeWindowAgent::search_help (Widget, XtPointer client_data,
   UAS_SearchScope *scope = agent->f_scope_menu->current_scope();
   char buffer[128];
   if (scope != NULL)
-    sprintf (buffer, help_text, (char *) scope->name());
+    snprintf (buffer, sizeof(buffer), help_text, (char *) scope->name());
   else
-    sprintf (buffer, help_text, default_scope);
+    snprintf (buffer, sizeof(buffer), help_text, default_scope);
   
   // Finally, display it in the quick help field.
   XmTextFieldSetString(agent->f_status_text, buffer);
@@ -2959,16 +2960,15 @@ NodeWindowAgent::preview (WTimeOut *)
   char preview_buffer[256];
   
   UAS_String pt = f_preview_document->title();
-  strncpy (title, (char *) pt, 127);
-  title[127] = '\0';
+  *((char *) memcpy(title, (char *) pt, 127) + 127) = '\0';
   UAS_String bn = f_preview_document->book_name(UAS_SHORT_TITLE);
   const char *book_name = (char *) bn;
   if (book_name != NULL && *book_name != '\0')
-    sprintf (preview_buffer, CATGETS(Set_Messages, 8, "Link to %s: %s"),
-	     book_name, title);
+    snprintf (preview_buffer, sizeof(preview_buffer),
+              CATGETS(Set_Messages, 8, "Link to %s: %s"), book_name, title);
   else
-    sprintf (preview_buffer, CATGETS(Set_Messages, 9, "Link to %s"),
-	     title);
+    snprintf (preview_buffer, sizeof(preview_buffer),
+              CATGETS(Set_Messages, 9, "Link to %s"), title);
   XmTextFieldSetString(f_status_text, preview_buffer);
   f_preview_timeout = NULL;
   f_preview_document = NULL;
@@ -3128,7 +3128,7 @@ NodeWindowAgent::make_bookmark (Boolean edit, MarkCanvas* refmark)
       unsigned int length      = 0;
       unsigned int offset      = 0;
 
-      int i;
+      unsigned int i;
       for (i = 0; segs[i]; i++)
       {
 	_DtCvSegPts* segpts = segs[i];
@@ -3431,7 +3431,7 @@ NodeWindowAgent::select_mark_in_canvas(MarkCanvas *mark_to_show, bool show_it)
   }
 
   point_info.client_data = mark_to_show;
-  _DtCvStatus status2 =
+
     _DtCanvasActivatePts (f_help_dsp_area->canvas,
 			  _DtCvACTIVATE_MARK_ON, // mask
 			  &point_info,		 // info
@@ -3696,7 +3696,7 @@ NodeWindowAgent::show_locator()
   //const char *locator = f_node_ptr->locator();
   UAS_String locator_str = f_node_ptr->id();
   const char *locator = (const char *)locator_str;
-  sprintf (buffer,
+  snprintf (buffer, sizeof(buffer),
 	   CATGETS(Set_NodeWindowAgent, 4,
                    "The locator for this section is %s"), locator);
   XmTextFieldSetString(f_status_text, buffer);
@@ -3893,10 +3893,11 @@ NodeWindowAgent::display (UAS_Pointer<UAS_Common> &node_ptr)
   f_node_view_info->comp_pixel_values(
 					XtDisplay(f_help_dsp_area->dispWid),
 					f_help_dsp_area->colormap
+
 				     );
   
   _DtCvTopicInfo *topic = f_node_view_info->topic();
-  SetTopic(f_node_view_info->topic());
+  SetTopic(topic);
   
   initialize_controls();
   
@@ -3914,10 +3915,11 @@ NodeWindowAgent::display (UAS_Pointer<UAS_Common> &node_ptr)
 
 
   char buffer[256];
-  strcpy (buffer, "Dtinfo: ");
-  strncat (buffer,
-	   f_node_view_info->node_ptr()->book_name (UAS_LONG_TITLE),
-	   127);
+  *((char *) memcpy(buffer, "Dtinfo: ", 8) + 8) = '\0';
+  int slen = strlen(buffer);
+  *((char *) memcpy(buffer + slen,
+		    f_node_view_info->node_ptr()->book_name (UAS_LONG_TITLE),
+		    127) + 127) = '\0';
   f_shell->Title (buffer);
   f_shell->IconName (buffer);
   
@@ -4410,8 +4412,7 @@ NodeWindowAgent::SetTopic(_DtCvTopicPtr topic)
     if (g_top_locator[0] != 0)
       topic->id_str = g_top_locator ;
 
-    _DtCvStatus status;
-    status = _DtCanvasSetTopic(f_help_dsp_area->canvas, topic, _DtCvFALSE,
+    _DtCanvasSetTopic(f_help_dsp_area->canvas, topic, _DtCvFALSE,
 			       &ret_width, &ret_height, &ret_y);
 #ifdef CV_HYPER_DEBUG
     cerr << "top locator=" << topic->id_str << ' ' 
@@ -4562,7 +4563,7 @@ NodeWindowAgent::create_canvas_mark(_DtCvHandle  canvas,
   UAS_List<UAS_String> marks_loc_list;
   marks_loc_list = marks_loc.splitFields(',');
 
-  int i;
+  unsigned int i;
   for (i = 0; i < marks_loc_list.length(); i++)
   {
     UAS_String& mark_loc = *marks_loc_list[i];
@@ -4713,7 +4714,8 @@ NodeWindowAgent::link_to (const char *locator)
   if (target) {
     node_mgr().set_preferred_window (this);
   
-    strcpy(g_top_locator, (char*)loc);
+    int len = MIN(strlen((char*)loc), 4096 - 1);
+    *((char *) memcpy(g_top_locator, (char*)loc, len) + len) = '\0';
   
     target->retrieve() ;
   }
@@ -4793,14 +4795,14 @@ NodeWindowAgent::layout_mark_icons()
   
   List_Iterator <MarkCanvas *> m (f_mark_list);
   MarkIcon *mark_icon = NULL;
-  MarkCanvas  *jump_to = NULL;
+//MarkCanvas  *jump_to = NULL;
   
   while (m)
     {
       if (g_view_mark() == m.item()->mark_ptr())
 	{
 	  g_view_mark() = NULL;
-	  jump_to = m.item();
+//	  jump_to = m.item();
 	}
 
       MarkIcon *mi = NULL;
@@ -4820,7 +4822,7 @@ NodeWindowAgent::layout_mark_icons()
       }
 
       if (mi == NULL) {
-	MarkIcon *mark_icon =
+	mark_icon =
 	    new MarkIcon (XtParent (XtParent (f_help_dsp_area->dispWid)),
 			  *f_shell, m.item(),
 			  m.item()->y_position(), f_vscrollbar_offset);
@@ -5236,8 +5238,7 @@ NodeWindowAgent::replace(UAS_Pointer<Graphic> &gr)
 
   // inform our canvas that it needs to re-render
   _DtCvUnit width = 0, height = 0;
-  _DtCvStatus status;
-  status = _DtCanvasResize((_DtCvHandle)f_help_dsp_area->canvas,
+  _DtCanvasResize((_DtCvHandle)f_help_dsp_area->canvas,
 			   _DtCvTRUE, &width, &height);
   // There's no C/RE APIs provided to set maxYpos correctly
   // after canvas reformatting contents, so dtinfo manually

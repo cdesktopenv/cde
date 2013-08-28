@@ -163,7 +163,7 @@ static void ClassPartInitialize(class)
     if (c->simple_class.change_sensitive == NULL) {
 	char buf[BUFSIZ];
 
-	sprintf(buf,
+	snprintf(buf, sizeof(buf),
 		"%s Widget: The Simple Widget class method 'change_sensitive' is undefined.\nA function must be defined or inherited.",
 		c->core_class.class_name);
 	XtWarning(buf);
@@ -179,7 +179,7 @@ static void Realize(w, valueMask, attributes)
     Mask *valueMask;
     XSetWindowAttributes *attributes;
 {
-    Pixmap border_pixmap;
+    Pixmap border_pixmap = 0;
 
     if (!XtIsSensitive(w)) {
 	/* change border to gray; have to remember the old one,

@@ -92,6 +92,7 @@ class MapButton : public WWL
 public:
   MapButton (WComposite &parent, const UAS_Pointer<UAS_Common> &doc_ptr,
 	     MapButton *ancestor);
+  virtual ~MapButton() {}
 
   void activate();
   void expand();
@@ -193,7 +194,7 @@ MapButton::expand()
       // Create a button for each child.
       UAS_List<UAS_Common> kids (f_doc_ptr->children());
       WXawTree tree (XtParent (f_form));
-      for (int i = 0; i < kids.length(); i++)
+      for (unsigned int i = 0; i < kids.length(); i++)
 	new MapButton (tree, kids[i], this);
       ON_DEBUG (puts ("managing kids"));
       MapButton::ManageKids();

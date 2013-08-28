@@ -54,7 +54,10 @@ UAS_BookcaseEntry::UAS_BookcaseEntry(UAS_Pointer<UAS_Common> &bookcase,
   f_name(0),
   f_base_num(-1)
 {
-    const char *bc_path = bookcase->id();
+    int len;
+
+    f_bookcase_name = bookcase->id();
+    const char *bc_path = f_bookcase_name;
     if (! bc_path) {
 	f_name = f_path = NULL;
     }
@@ -62,11 +65,13 @@ UAS_BookcaseEntry::UAS_BookcaseEntry(UAS_Pointer<UAS_Common> &bookcase,
 
 	const char *bc_name = UASbasename(bc_path);
 
-	f_name = new char[strlen(bc_name)+1];
-	strcpy(f_name, bc_name);
+	len = strlen(bc_name);
+	f_name = new char[len + 1];
+	*((char *) memcpy(f_name, bc_name, len) + len) = '\0';
 
-	f_path = new char[strlen(bc_path)+1];
-	strcpy (f_path, bc_path);
+	len = strlen(bc_path);
+	f_path = new char[len + 1];
+	*((char *) memcpy(f_path, bc_path, len) + len) = '\0';
     }
 
    f_infolib_id  = bookcase->lid();

@@ -88,7 +88,7 @@ SearchHistoryListView::display_value(FolioObject *object)
   ResultID &rid = *(ResultID*)object;
 
   char buf[8];
-  sprintf(buf, "%d", rid.ndocs());
+  snprintf(buf, sizeof(buf), "%d", rid.ndocs());
   WXmString matchString = buf;
 
   UAS_Pointer<UAS_SearchResults> results = rid.results();  

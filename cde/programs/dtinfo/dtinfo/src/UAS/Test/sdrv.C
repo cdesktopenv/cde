@@ -138,8 +138,9 @@ config_environment( int argc, char **argv )
         if (!ilib)
             print_usage_and_exit(argv[0], NULL);
         else {
-            tbuf = new char[128];
-            sprintf(tbuf, "DTINFO_INFOLIB_PATH=%s", ilib);
+            int buflen = 128;
+            tbuf = new char[buflen];
+            snprintf(tbuf, buflen, "DTINFO_INFOLIB_PATH=%s", ilib);
             putenv(tbuf);
         }
     }
@@ -165,7 +166,7 @@ loadBasepathList(UAS_PtrList<const char> &basepathList)
 
     for (int i = 0; i < fields.length(); i ++) {
         ilib_path = (char *)*(fields[i]);
-        sprintf(names_buf, "%s/names.mmdb", ilib_path);
+        snprintf(names_buf, sizeof(names_buf), "%s/names.mmdb", ilib_path);
         if (stat(names_buf, &stat_buf) == -1) {
             cout << "\n\nWarning: library does not appear to be valid;\n";
             cout << "         couldn't stat file: " << names_buf << ";\n";
@@ -185,7 +186,7 @@ loadBasepathList(UAS_PtrList<const char> &basepathList)
             if (base_name[0] != '#') {
                 new_len = strlen(ilib_path) + 1 + strlen(base_name) + 1;
                 new_buf = new char[new_len];
-                sprintf(new_buf, "%s/%s", ilib_path, base_name);
+                snprintf(new_buf, new_len, "%s/%s", ilib_path, base_name);
                 basepathList.append(new_buf);
             }
         }
@@ -434,7 +435,7 @@ readScopesFromPrefs(UAS_PtrList<const char> &baseList,
       }
       assert( strlen(name) > 0 );
       // Get the specified preference.
-      sprintf (scratch, "Scope.%s", name);
+      snprintf (scratch, sizeof(scratch), "Scope.%s", name);
       StringPref scope (scratch);
       ON_DEBUG (printf ("RESTORING scope: %s\n", name));
       ON_DEBUG (printf ("  value = %s\n", scope.value()));

@@ -72,13 +72,19 @@
 #include <X11/Xaw/XawInit.h>		/* for XawInitializeWidgetSet */
 #include <X11/Xaw/PannerP.h>		/* us */
 #include <X11/Xmu/Misc.h>		/* for Min */
+#include <X11/Xmu/StdCmap.h>		/* for XmuDistinguishableColors() */
+#include <X11/Xmu/Drawing.h>		/* for XmuCreateStippledPixmap */
 #include <Xm/Xm.h>			/* for Motif */
 #include <ctype.h>			/* for isascii() etc. */
-#include <math.h>			/* for atof() */
+#include <stdlib.h>			/* for atof() */
 
 #if defined(ISC) && defined(SYSV) && defined(SYSV386) && __STDC__
 extern double atof(char *);
 #endif
+
+extern void _XmDrawShadow (Display *display, Drawable d, GC top_GC,
+			   GC bottom_GC, int size, int x, int y,
+			    int width, int height);
 
 static char defaultTranslations[] = 
   "<Btn1Down>:    start() \n\

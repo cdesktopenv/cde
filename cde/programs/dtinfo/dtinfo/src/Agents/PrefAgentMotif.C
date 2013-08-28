@@ -982,7 +982,7 @@ void
 PrefAgent::set_geometry (WXmTextField &field, WindowGeometry &wg)
 {
   static char buf[16];
-  sprintf (buf, "%dx%d", wg.width, wg.height);
+  snprintf (buf, sizeof(buf), "%dx%d", wg.width, wg.height);
   field.Value (buf);
   SET_VALUE (field, WindowGeometry, wg);
 }
@@ -996,7 +996,7 @@ void
 PrefAgent::set_integer (WXmTextField &field, int i)
 {
   static char buf[16];
-  sprintf (buf, "%d", i);
+  snprintf (buf, sizeof(buf), "%d", i);
   field.Value (buf);
   SET_VALUE (field, Integer, i);
 }
@@ -1062,7 +1062,7 @@ void
 PrefAgent::get_geometry (WCallback *wcb)
 {
   WXmTextField text_field ((Widget)wcb->ClientData());
-  char *shell_name;
+  char *shell_name = NULL;
   if (text_field == f_map_geo)
     shell_name = (char*)"map";
   else if (text_field == f_browse_geo)

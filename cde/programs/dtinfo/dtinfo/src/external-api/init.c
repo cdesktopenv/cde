@@ -75,7 +75,7 @@ _olias_initialize (Widget toplevel)
 
   /* -------- Create a unique selection property for this client. -------- */
 
-  sprintf (buf, OLIAS_CLIENT_ATOM_FMT, XtWindow (toplevel));
+  snprintf (buf, sizeof(buf), OLIAS_CLIENT_ATOM_FMT, XtWindow (toplevel));
   _olias_client_atom = XInternAtom (XtDisplay (toplevel), buf, False);
 
   /* -------- Set up communication handling routines. -------- */

@@ -210,7 +210,8 @@ MessageMgr::cancel_cb()
 void
 MessageMgr::show_it(Widget dialog)
 {
-  Widget parent, shell;
+  Widget parent = NULL;
+  Widget shell = NULL;
 
   XtManageChild(dialog);
 
@@ -548,7 +549,7 @@ MessageMgr::assert_failed (char *statement, char *file,
 {
   char buffer[512];
 
-  sprintf (buffer,
+  snprintf (buffer, sizeof(buffer),
 "An internal error has occured.\n\
 The current operation cannot be completed.\n\
 Please file a bug report with this information:\n\

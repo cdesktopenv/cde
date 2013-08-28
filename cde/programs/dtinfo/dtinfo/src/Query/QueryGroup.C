@@ -99,11 +99,13 @@ static const char *infix_formats[] =
   "%s weight %%s", "%s scope %s", "not %s", "%s*", "\"%s\"" };
 #endif
 
+#if 0
 static const char *infix_pformats[] =
 { "", "(%s or %s%)", "(%s xor %s%)", "(%s and %s)",
   "(%s near %s%%s)", "(%s before %s%%s)",  // %%s is loc to insert proximity 
   " within %s",                        // proximity string to insert
   "%%s weight %s", "%s scope %s", "not %s", "%s*", "\"%s\"" };
+#endif
 
 // Order of these correspond to query_type_t enum in QueryGroup.hh 
 static const char **formats[] = { fulcrum_formats, infix_formats };
@@ -387,15 +389,17 @@ QueryGroup::format (query_type_t query_type, QueryTerm *term)
   static char *buf[2];
   // 48 is enough space to handle phrase, not, weight, and completion. 
   int n = 48 + strlen (term->term_string());
+  int buflen = n;
   buf[0] = (char *) malloc (n);
   buf[1] = (char *) malloc (n);
   n = 0;
 
-  s = strcpy (buf[n++], s);
+  int len = strlen(s);
+  *((char *) memcpy(buf[n++], s, len) + len) = '\0';
 
   if (term->prefix() & QueryTerm::PFX_COMPLETE_BITS){
     char * p = buf [n++ % 2];
-    sprintf (p, formats[query_type][OPT_COMPLETE], s);
+    snprintf (p, buflen, formats[query_type][OPT_COMPLETE], s);
     s = p;
   }
   // If there's any interal spaces, we need to use the phase operator.
@@ -404,13 +408,13 @@ QueryGroup::format (query_type_t query_type, QueryTerm *term)
   for (; *cp > 0x20; cp++); // looking for control chars
   if (*cp != '\0') {
     char *p = buf [n++ % 2];
-    sprintf (p, infix_formats[OPT_PHRASE], s);
+    snprintf (p, buflen, infix_formats[OPT_PHRASE], s);
     s = p; /// alternating
   }
   if (term->prefix() & QueryTerm::PFX_NOT_BITS)
     {
       char *p = buf [n++ % 2];
-      sprintf (p, formats[query_type][OPT_NOT], s);
+      snprintf (p, buflen, formats[query_type][OPT_NOT], s);
       s = p;
     }
 #else
@@ -423,13 +427,13 @@ QueryGroup::format (query_type_t query_type, QueryTerm *term)
   if (TRUE || *t != '\0')
     {
       char *p = buf [n++ % 2];
-      sprintf (p, formats[query_type][OPT_PHRASE], s);
+      snprintf (p, buflen, formats[query_type][OPT_PHRASE], s);
       s = p;
     }
   if (term->prefix() & QueryTerm::PFX_NOT_BITS)
     {
       char *p = buf [n++ % 2];
-      sprintf (p, formats[query_type][OPT_NOT], s);
+      snprintf (p, buflen, formats[query_type][OPT_NOT], s);
       s = p;
     }
 #endif
@@ -442,10 +446,10 @@ QueryGroup::format (query_type_t query_type, QueryTerm *term)
     {
       // First plug in the weight format string, then add the weight to it. 
       char *p = buf [n++ % 2];
-      sprintf (p, formats[query_type][OPT_WEIGHT], s);
+      snprintf (p, buflen, formats[query_type][OPT_WEIGHT], s);
       s = p;
       p = buf [n++ % 2];
-      sprintf (p, s, term->weight());
+      snprintf (p, buflen, s, term->weight());
       s = p;
     }
 
@@ -457,7 +461,7 @@ QueryGroup::format (query_type_t query_type, QueryTerm *term)
 
   {
     char *p = buf [n % 2];
-    sprintf (p, s, term->term_string());
+    snprintf (p, buflen, s, term->term_string());
     s = p;
   }
   // Rember the point, since it will change after the write.
@@ -499,16 +503,17 @@ QueryGroup::reduce (query_type_t query_type,
   if (opt == C_XOR) opsize *= 2;
   int fmt_length = strlen (formats[query_type][opt]) +
                    strlen (formats[query_type][OPT_PROXIMITY]);
-  char *buf = (char*) malloc (fmt_length + opsize + 1);
+  int buflen = fmt_length + opsize + 1;
+  char *buf = (char*) malloc (buflen);
 
-  sprintf (buf, formats[query_type][opt], op1, op2, op1, op2);
+  snprintf (buf, buflen, formats[query_type][opt], op1, op2, op1, op2);
 
   // Take care of proximity if necessary.
   if (opt == C_NEAR || opt == C_BEFORE)
     {
-      char *b2 = (char *) malloc (fmt_length + opsize + 1);
-      sprintf (b2, buf, formats[query_type][OPT_PROXIMITY]);
-      sprintf (buf, b2, proximity);
+      char *b2 = (char *) malloc (buflen);
+      snprintf (b2, buflen, buf, formats[query_type][OPT_PROXIMITY]);
+      snprintf (buf, buflen, b2, proximity);
       free (b2);
     }
 

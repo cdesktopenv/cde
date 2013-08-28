@@ -500,7 +500,7 @@ GraphicAgent::create_ui()
   else
   {
 #if !defined(VF_DEBUG)
-      for (int i = 0 ; i < view_menu.NumChildren(); i++)
+      for (unsigned int i = 0 ; i < view_menu.NumChildren(); i++)
 	WRect(view_menu.Children()[i]).SetSensitive(False);
 #endif
     mtfstring = CATGETS(Set_GraphicAgent, 3,
@@ -637,9 +637,12 @@ GraphicAgent::visit_node()
   extern char g_top_locator[];
   extern bool g_scroll_to_locator;
   const char *glocator = f_graphic->locator();
+  int len = 0;
+
   ON_DEBUG (printf ("Graphic jumping to <%s>\n", glocator));
   ON_DEBUG (printf ("  copying to %p\n", g_top_locator));
-  strcpy (g_top_locator, &glocator[8]);
+  len = MIN(strlen(&glocator[8]), 4096 - 1);
+  *((char *) memcpy(g_top_locator, &glocator[8], len) + len) = '\0';
   g_scroll_to_locator = TRUE;
   f_node_ptr->retrieve();
 }
@@ -827,8 +830,10 @@ GraphicAgent::zoom_callback(WCallback *wcb)
 {
   ON_DEBUG (puts ("GraphicAgent::zoom_callback() called"));
   WXmToggleButton button(wcb->GetWidget());
+#if DEBUG
   XmToggleButtonCallbackStruct &cbs = 
     *(XmToggleButtonCallbackStruct*)wcb->CallData();
+#endif
 
   ON_DEBUG(cerr << "cbs.set = " << cbs.set << endl);
   ON_DEBUG(cerr << "cbs.rsn = " << cbs.reason << endl);
@@ -862,7 +867,7 @@ GraphicAgent::zoom_callback(WCallback *wcb)
                                 (Widget)f_shell);
 
 	  ON_DEBUG(cerr << "scale value is " << scale << endl);
-	  if (scale == -1)
+	  if ((int)scale == -1)
 	    {
 	      // unset Custom option in list 
 	      if (((Widget)*f_scale_button) != ((Widget)button))
@@ -949,14 +954,17 @@ GraphicAgent::fit_graphic_to_window_callback(WCallback *)
   Dimension gr_width;
   Dimension gr_height;
   int wscale, hscale;
+#if 0
   unsigned int scale_factor;
+  int dx, dy;
+#endif
 
   // get size of graphic
   gr_width = f_graphic->pixmap_graphic()->width();
   gr_height = f_graphic->pixmap_graphic()->height();
 
-  int dx, dy;
   WXawPorthole porthole(XtParent(*f_pixmap_widget));
+#if 0
   dx = abs(porthole.Width() - f_graphic->pixmap_graphic()->width());
   dy = abs(porthole.Height() - f_graphic->pixmap_graphic()->height());
   if (dx < dy)
@@ -965,6 +973,7 @@ GraphicAgent::fit_graphic_to_window_callback(WCallback *)
   else
     scale_factor = 
          (100 * porthole.Height()) / f_graphic->pixmap_graphic()->height();
+#endif
   
 
   wscale = (100 * porthole.Width()) / gr_width;

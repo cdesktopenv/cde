@@ -55,7 +55,7 @@ main(int argc, char** argv)
 	    size += 256;
 	    patterns = (char*) realloc(patterns, size);
 	}
-	sprintf(patterns, "%s%s\n", patterns, argv[i]);
+	snprintf(patterns, size, "%s%s\n", patterns, argv[i]);
     }
 
     ostringstream text;

@@ -182,8 +182,8 @@ Dtinfo
 ! Default Preference values.  These are only the initial values!
 ! Once changed with the Preferences dialog they are no longer used.
 
-Dtinfo*BrowseGeometry:   500x630
-Dtinfo*FontScale:        0
+Dtinfo*BrowseGeometry:   640x720
+Dtinfo*FontScale:        1
 Dtinfo*BrowseLock:       off
 Dtinfo*MapGeometry:      520x350
 Dtinfo*MapAutoUpdate:    true

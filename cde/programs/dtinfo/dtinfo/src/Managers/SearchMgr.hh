@@ -69,8 +69,8 @@ private:
   List *ibase_list();
 
 protected: // variables
-  QueryEditor        *f_query_editor;
   UAS_Pointer<UAS_SearchEngine>      f_search_engine ;
+  QueryEditor        *f_query_editor;
   HistoryList		f_search_history_list;
   ListView           *f_search_history_list_view;
   UAS_String	      f_search_section;

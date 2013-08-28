@@ -51,7 +51,7 @@ class ScopeMenu : public WWL,
 {
 public:
   ScopeMenu (Widget option_menu, bool requires_current_section = FALSE);
-  ~ScopeMenu();
+  virtual ~ScopeMenu();
 
   UAS_SearchScope *current_scope()
     { return (f_current_scope); }
@@ -67,8 +67,8 @@ private:
   void receive (UpdateMenu &, void *client_data);
 
 private:
-  Widget            f_option_menu;
-  Widget            f_pull_menu;
   UAS_SearchScope  *f_current_scope;
   bool		    f_use_current_section ;
+  Widget            f_option_menu;
+  Widget            f_pull_menu;
 };

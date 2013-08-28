@@ -245,7 +245,7 @@ ServiceMgr::process_olias_event (Window client,
     return;
 
   unsigned char event_type = *stream++;
-  char *infobase;
+  int len, bufferlen;
   char *locator;		// NOTE: make fixed width and add "mmdb:" to
 				// front ? Should eventually go into calling
 				// program to determine doc type.
@@ -258,7 +258,6 @@ ServiceMgr::process_olias_event (Window client,
 
   // Skip over the defunct infobase name.
   // NOTE:  It should be removed from the olias api.  DJB 
-  infobase = (char *) stream;
   while (*stream != '\0')
     stream++;
   stream++;
@@ -273,14 +272,16 @@ ServiceMgr::process_olias_event (Window client,
 	}
       else
 	{
-	  char *buffer = new char[strlen("mmdb:LOCATOR=") + strlen(locator) + 1];
-	  sprintf (buffer, "mmdb:LOCATOR=%s", locator);
+	  bufferlen = strlen("mmdb:LOCATOR=") + strlen(locator) + 1;
+	  char *buffer = new char[bufferlen];
+	  snprintf (buffer, bufferlen, "mmdb:LOCATOR=%s", locator);
 	  d = UAS_Common::create (buffer);
 	  if (d != (const int)NULL)
 	    {
 	      // (evil hack alert) 
 	      g_scroll_to_locator = TRUE;
-	      strcpy (g_top_locator, locator);
+	      len = MIN(strlen(locator), 4096 - 1);
+	      *((char *) memcpy(g_top_locator, locator, len) + len) = '\0';
 	    }
 	  delete [] buffer;
 	}
@@ -398,6 +399,7 @@ olias_send_event (Widget, OliasEvent *event)
 {
   char *buffer = NULL;
   char *locator;
+  int len, bufferlen;
   UAS_Pointer<UAS_Common> d;
 
   switch (event->type)
@@ -416,8 +418,9 @@ olias_send_event (Widget, OliasEvent *event)
 	      }
 	    else
 	      {
-		buffer = new char[strlen("mmdb:LOCATOR=") + strlen(locator) + 1];
-		sprintf (buffer, "mmdb:LOCATOR=%s", locator);
+		bufferlen = strlen("mmdb:LOCATOR=") + strlen(locator) + 1;
+		buffer = new char[bufferlen];
+		snprintf (buffer, bufferlen, "mmdb:LOCATOR=%s", locator);
 		d = UAS_Common::create (buffer);
 		delete [] buffer;
 		if (d != (const int)NULL)
@@ -425,11 +428,12 @@ olias_send_event (Widget, OliasEvent *event)
 		    // (evil hack alert) 
 		    if (locator == NULL)
 		      return (OLIAS_TIMEOUT);
-		    ON_DEBUG (printf (">>> g_top_locator = %p\n", g_top_locator));
+		    ON_DEBUG(printf(">>> g_top_locator = %p\n", g_top_locator));
 		    if (g_top_locator == NULL)
 		      return (OLIAS_TIMEOUT);
                     g_scroll_to_locator = TRUE;
-		    strcpy (g_top_locator, locator);
+                    len = MIN(strlen(locator), 4096 - 1);
+                    *((char *) memcpy(g_top_locator, locator, len) +len) = '\0';
 		  }
 	      }
 	  }
@@ -459,4 +463,6 @@ olias_send_event (Widget, OliasEvent *event)
       default:
 	return (OLIAS_TIMEOUT);
     }
+
+    return (OLIAS_LOCATOR_NOT_FOUND);
 }

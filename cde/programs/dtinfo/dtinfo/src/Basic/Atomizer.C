@@ -60,8 +60,9 @@ class PoolString : public FolioObject
 public: // functions
   PoolString (const char *string)
     {
-      f_string = new char[strlen(string) + 1];
-      strcpy (f_string, string);
+      int len = strlen(string);
+      f_string = new char[len + 1];
+      *((char *) memcpy(f_string, string, len) + len) = '\0';
     }
 	
   ~PoolString ()
@@ -81,7 +82,7 @@ public: // variables
 Atomizer::Atomizer (const char *string)
 {
   // Try to find the string in the pool of strings
-  register int i;
+  register unsigned int i;
 
   for (i = 0; i < f_pool.length(); i++)
     if (((PoolString *)f_pool[i])->equals (string))

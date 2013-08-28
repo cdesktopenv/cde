@@ -157,7 +157,7 @@ WArgList::WArgList (String name, XtArgVal value, ...)
 	Add (name, value);
 	va_list argv;
 	va_start (argv, value);
-	while (str = va_arg(argv, String))
+	while ((str = va_arg(argv, String)))
 		Add (str, va_arg (argv, XtArgVal));
 	va_end (argv);
 }
@@ -204,7 +204,7 @@ WArgList::Add (String name, XtArgVal value)
    Boolean	found = False;
 
 // Loop til a matching name is found or we get to the end of the array
-   for (int i=0; !found && i<num_args; i++) {
+   for (unsigned int i = 0; !found && i < num_args; i++) {
       a = &(*this)[i];
       if ( strcmp(a->name, name) == 0 ) {
 	 found = True;

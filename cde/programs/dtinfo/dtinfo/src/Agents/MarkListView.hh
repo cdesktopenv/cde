@@ -43,7 +43,7 @@ class MarkListView : public WWL,
 public:
 
   MarkListView();
-  ~MarkListView();
+  virtual ~MarkListView();
 
   void display();
 

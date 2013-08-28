@@ -117,7 +117,7 @@ UAS_Factory::create (const UAS_String &locator) {
     UAS_Factory *theFactory = UAS_Factory::lookup(access);
     if (theFactory == 0) {
 	char buf[BUFSIZ];
-	(void) sprintf (buf, CATGETS(Set_UAS_Base, 2,
+	(void) snprintf (buf, sizeof(buf), CATGETS(Set_UAS_Base, 2,
 				     "Don't know how to create %s: objects"),
 			(char*)access);
 
@@ -165,7 +165,7 @@ UAS_Factory::getRootLocators () {
     UAS_PtrList<FactoryEntry>&theList = *gFactoryList;
     for (int i = 0; i < theList.numItems(); i ++) {
 	UAS_List<UAS_String> cur = theList[i]->factory()->rootLocators();
-	for (int j = 0; j < cur.length(); j ++) {
+	for (unsigned int j = 0; j < cur.length(); j ++) {
 	    rval.insert_item (cur[j]);
 	}
     }

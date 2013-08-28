@@ -42,9 +42,8 @@ static void Resize();
 static void ReDisplay();
 static XtGeometryResult QueryGeometry();
 
-static char *defaultTranslations[] = {""};
-
 /*
+static char *defaultTranslations[] = {""};
 static XtActionsRec actions[] =
 {
 };

@@ -38,7 +38,7 @@ class MarkCanvas : public Destructable,
 public:
   MarkCanvas (UAS_Pointer<Mark>, Agent *agent, 
 	      unsigned int offset, unsigned int ypos);
-  ~MarkCanvas();
+  virtual ~MarkCanvas();
 
   STATIC_SENDER_HH (MarkSelectionChanged);
 
@@ -78,8 +78,8 @@ private: // functions
 
 private: // variables
   UAS_Pointer<Mark>   f_mark_ptr;
-  unsigned int    f_full_offset;
   MarkIcon       *f_mark_icon;
+  unsigned int    f_full_offset;
   unsigned int	  f_y_position ;
   Agent		 *f_agent ;
 

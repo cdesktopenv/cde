@@ -5,8 +5,10 @@
 Dtinfo
   deleteResponse: do_nothing
   allowShellResize: false
-  minWidth: 371
-  minHeight: 184
+! geometry values are added to the min sizes!
+  geometry: 120x400
+  minWidth: 380
+  minHeight: 200
   mainw
 !------ Menus
     menu_bar

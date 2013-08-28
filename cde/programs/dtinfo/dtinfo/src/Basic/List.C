@@ -194,7 +194,7 @@ List::insert (unsigned int location, FolioObject *element)
     abort();
  
   // Shift the array forward to make room for new insertion.
-  for (int i = f_length; i > location; i--)
+  for (unsigned int i = f_length; i > location; i--)
     f_list_element[i] = f_list_element[i-1];
 
   // Insert the new element in the list.
@@ -233,7 +233,7 @@ List::copy() const
 
     // NOTE: use length() instead of f_length because it may be more general
     List *retlist = new List(length());
-    for (int i = 0 ; i < length(); i++)
+    for (unsigned int i = 0 ; i < length(); i++)
       retlist->append((*this)[i]);
 
     return retlist ;

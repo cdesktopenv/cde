@@ -29,7 +29,7 @@ UAS_List<UAS_Common>
 bookcaseList () {
     UAS_List<UAS_Common> rval;
     UAS_List<UAS_String> rootLocs = UAS_Common::rootLocators ();
-    int i;
+    unsigned int i;
     for (i = 0; i < rootLocs.length(); i ++) {
 	UAS_Pointer<UAS_Common> curDoc (UAS_Common::create
 						(*(UAS_String*)rootLocs[i]));
@@ -42,7 +42,7 @@ bookcaseList () {
 
 	if (curDoc->type() == UAS_LIBRARY) {
 	    UAS_List<UAS_Common> kids = curDoc->children();
-	    for (int j = 0; j < kids.length(); j ++) {
+	    for (unsigned int j = 0; j < kids.length(); j ++) {
 		if (kids[j]->type() == UAS_BOOKCASE) {
 		    rval.insert_item(kids[j]);
 		}

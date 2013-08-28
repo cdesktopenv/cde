@@ -54,8 +54,9 @@ OString::string (const char *s, copy_t copy)
 
   if (s != NULL && copy == COPY)
     {
-      f_string = new char [strlen(s) + 1];
-      strcpy ((char *) f_string, (char *) s);
+      int len = strlen(s);
+      f_string = new char [len + 1];
+      *((char *) memcpy((char *)f_string, (char *)s, len) + len) = '\0';
       f_delete_string = TRUE;
     }
   else

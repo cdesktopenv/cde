@@ -175,7 +175,7 @@ operator == (const UAS_String &s1, const char *cp) {
     if (!cp) {
         return s1.length() == 0;
     }
-    if (strlen (cp) != s1.length())
+    if (strlen (cp) != (size_t)s1.length())
         return 0;
     return !memcmp (cp, (char *) s1, s1.length());
 }

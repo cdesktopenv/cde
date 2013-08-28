@@ -60,7 +60,7 @@ printLocs (UAS_Pointer<UAS_Common> doc, int level) {
     if (level >= 2) {
 	char buf[1024];
 	UAS_String loc = doc->id();
-	(void) sprintf (buf, "mmdb:LOCATOR=%s", (char *) loc);
+	(void) snprintf (buf, sizeof(buf), "mmdb:LOCATOR=%s", (char *) loc);
 	UAS_Pointer<UAS_Common> theDoc = UAS_Common::create(buf);
 	cerr << (char *) theLoc << ", " << (char *) theDoc->title() << endl;
     } else {

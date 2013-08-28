@@ -347,7 +347,7 @@ class PartialElementFeatures
 public:
   PartialElementFeatures(CanvasRenderer *);
   PartialElementFeatures (PartialElementFeatures &);
-  ~PartialElementFeatures();
+  virtual ~PartialElementFeatures();
 
   virtual int requires_container(int affix);
   virtual int ignore_linebreak(int affix);

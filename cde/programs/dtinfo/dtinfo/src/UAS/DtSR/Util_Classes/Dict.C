@@ -65,7 +65,7 @@ Dict<K,V>::Dict() : def_key(kdef()), def_val(vdef()), head(NULL)
 
 
 template<class K, class V>
-Dict<K,V>::Dict(const K& k, const V& v) : def_key(k), def_val(v), head(NULL)
+Dict<K,V>::Dict(const K& k, const V& v) : head(NULL), def_key(k), def_val(v)
 {
     init();
 }

@@ -24,7 +24,7 @@
 /* this is the module of common routines for the CGM interpreter */
 #include "cgm.h"			/* our defs */
 /* this routine sets a cgm state variable to its defaults */
-cgm_defs(cgm_s_type *cgm_s)
+int cgm_defs(cgm_s_type *cgm_s)
 {
   int i;
   
@@ -142,7 +142,7 @@ cgm_defs(cgm_s_type *cgm_s)
   return(1);
 }
 /* this routine sets one cgm state equal to another */
-cgm_assign(cgm_s_type *cgm_1, cgm_s_type *cgm_2)
+int cgm_assign(cgm_s_type *cgm_1, cgm_s_type *cgm_2)
 {
   int i;
   

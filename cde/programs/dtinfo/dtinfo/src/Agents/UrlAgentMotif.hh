@@ -12,7 +12,7 @@ class UrlAgent: public WWL {
     //  Constructors, Destructor
     public:
 	UrlAgent ();
-	~UrlAgent ();
+	virtual ~UrlAgent ();
 
     //  Public Member Functions
     public:

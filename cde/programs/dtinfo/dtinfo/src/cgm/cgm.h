@@ -29,10 +29,10 @@
 #include <X11/Intrinsic.h>     /* Xt toolkit */
 #include "GraphicsP.h"
 
-extern open_cgm_file(_DtGrStream *stream); 		/* in cgmio.c */
-extern open_cgm_buffer(_DtGrStream *stream); 		/* in cgmio.c */
+extern int open_cgm_file(_DtGrStream *stream); 		/* in cgmio.c */
+extern int open_cgm_buffer(_DtGrStream *stream); 		/* in cgmio.c */
 /* in cgmcmds.c */
-extern xl_setup(Screen*, Display*, Window, int, Colormap, Visual*, GC,
+extern int xl_setup(Screen*, Display*, Window, int, Colormap, Visual*, GC,
 		Dimension*, Dimension*, Pixel**, int*, Pixmap*, unsigned short);
 /* the external entry point */
 
@@ -348,6 +348,7 @@ struct cmd_info_s {
   int	byte_no;	/* its byte position in file */
   int 	p_len;		/* its parameter length */
 };
+#if 0
 /* now put in the strings we will use for diagnostics and listings */
 /* use B_ATTRSIZE since it is the largest Class (of 8) */
 static char *cgm_name[8][B_ATTRSIZE] = {
@@ -474,12 +475,14 @@ static char *cgm_name[8][B_ATTRSIZE] = {
     "Application Data"
     }
 };
+#endif
+
 extern unsigned char *get_b_cmd(struct cmd_info_s*, 
 				_DtGrStream *stream);	/* in cgmio.c */
-extern do_b_cmd(struct cmd_info_s*, unsigned char*,cgm_s_type*);
+extern int do_b_cmd(struct cmd_info_s*, unsigned char*,cgm_s_type*);
 /* in cgmcmds.c */
-extern cgm_defs(cgm_s_type*),
-  cgm_assign(cgm_s_type*, cgm_s_type*);	/* in cgmcommon.c */
+extern int cgm_defs(cgm_s_type*);			/* in cgmcommon.c */
+extern int cgm_assign(cgm_s_type*, cgm_s_type*);	/* in cgmcommon.c */
 /* structure for the description of partial text pieces */
 struct partialTextStruct {
   char *text;

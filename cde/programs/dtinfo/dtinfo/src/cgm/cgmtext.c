@@ -168,7 +168,7 @@ void draw_cgm_text(Display *inDis,  Drawable inDraw, GC inGC,
 		   partialText *inText)
 {
   XPoint myPts[128]; /* should be plenty */
-  int offset, noPts, w1, w2, x, y, w = 0, h = 0;
+  int offset, noPts, w1, w2, x, y, w = 0;
   unsigned char *hPtr;
   char *inS;
   float charSize, cMod = 1;
@@ -221,7 +221,7 @@ void draw_cgm_text(Display *inDis,  Drawable inDraw, GC inGC,
       inS = myText->text;
       charSize = cMod * myText->cheight / 24.0; /* chars are in a 24 pt box */
       while (*inS) { /* step thru the string */
-	if ((*inS < 0) || ((offset = h_array[*inS]) < 0))
+	if ((*inS < 0) || ((offset = h_array[(int)*inS]) < 0))
 	  { /* illegal character */
 	    ++inS; /* step over */	  
 	    continue; 

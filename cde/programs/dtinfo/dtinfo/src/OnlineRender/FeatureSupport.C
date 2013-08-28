@@ -137,7 +137,6 @@ CanvasRenderer::get_pattern(const char *fallback, const char *weight, const char
     const char *family_str = "*";
     const char *weight_str = weight;
     const char *slant_str = slant;
-    const char *setwidth_name_str = "*";
     const char *style_str = "*";
     int  point_size = size;
     const char *spacing_str = "*";
@@ -378,8 +377,9 @@ pattern_done:
     
     char pattern[256];
     // -dt-application-medium-r-normal-sans-8-80-75-75-p-46-iso8859-1
-    sprintf (
+    snprintf (
 	pattern, 
+	sizeof(pattern),
 	"-%s-%s-%s-%s-normal-%s-*-%d-*-*-%s-*-%s", 
 	foundry_str ? foundry_str : "*",
 	family_str  ? family_str  : "*",
@@ -417,8 +417,9 @@ pattern_done:
 	printf("point size = %d.\n", point_size);
 #endif
 	
-	sprintf (
+	snprintf (
 	    pattern, 
+	    sizeof(pattern),
 	    "-%s-%s-%s-%s-normal-%s-*-%d-*-*-%s-*-%s", 
 	    foundry_str ? foundry_str : "*",
 	    family_str  ? family_str  : "*",
@@ -462,11 +463,12 @@ pattern_done:
 char*
 CanvasRenderer::_dofont(const FeatureSet &fs, Symbol** symbols)
 {
+    int len, slen;
     const char *fallback = NULL;
     
     const Feature *fallbackF = fs.lookup(symbols[FALLBACK]);
     if (fallbackF) {
-	if (fallback = *fallbackF->value()) {
+	if ((fallback = *fallbackF->value())) {
 	    if (strcasecmp(fallback, "sans") == 0)
 		fallback = f_sans ;
 	    else if (strcasecmp(fallback, "serif") == 0)
@@ -492,14 +494,17 @@ CanvasRenderer::_dofont(const FeatureSet &fs, Symbol** symbols)
     const Feature *slantF	= fs.lookup(symbols[SLANT]);
     const Feature *sizeF	= fs.lookup(symbols[SIZE]);
     
-    const char *name = NULL, *foundry = NULL, *charset = NULL;
+    const char *name = NULL, *charset = NULL;
+#ifdef JBM_FONT_DEBUG
+    const char *foundry = NULL;
+#endif
     
     // need to add something for spacing here
     //const Feature *spacingF	= fs.lookup(symbols[SPACING]);
     const char* font;    
     char* xlfd = NULL;
     
-    int i;
+    unsigned int i;
     for (i = 0; i < fs.entries(); i++) {
 	
 	Feature* entry;
@@ -525,10 +530,12 @@ CanvasRenderer::_dofont(const FeatureSet &fs, Symbol** symbols)
 		continue;
 	    }
 	    
+#ifdef JBM_FONT_DEBUG
 	    const Feature* foundryF = familyFS->lookup(symbols[FOUNDRY]);
 	    if (foundryF) {
 		foundry = *foundryF->value();
 	    }
+#endif
 	    const Feature* charsetF = familyFS->lookup(symbols[CHARSET]);
 	    if (charsetF)
 		charset = *charsetF->value();
@@ -566,9 +573,11 @@ CanvasRenderer::_dofont(const FeatureSet &fs, Symbol** symbols)
 	    
 	    // if xlfd already defined, create a font list
 	    if (xlfd) {
-		xlfd = (char*)realloc(xlfd, strlen(xlfd) + strlen(font) + 3);
-		strcat(xlfd, ",");
-		strcat(xlfd, font);
+		slen = strlen(xlfd);
+		len = strlen(font);
+		xlfd = (char*)realloc(xlfd, slen + len + 3);
+		*((char *) memcpy(xlfd + slen, ",", 1) + 1) = '\0';
+		*((char *) memcpy(xlfd + slen + 1, ",", len) + len) = '\0';
 	    }
 	    // otherwise, just dup the font streing
 	    else {
@@ -587,7 +596,8 @@ CanvasRenderer::_dofont(const FeatureSet &fs, Symbol** symbols)
 	//  list so append a colon to the end of the font list string
 	
 	if (strchr(xlfd, ',')) {
-	    strcat(xlfd, ":");
+	    slen = strlen(xlfd);
+	    *((char *) memcpy(xlfd + slen, ":", 1) + 1) = '\0';
 	}
     }
     
@@ -629,10 +639,9 @@ CanvasRenderer::_dofont(const FeatureSet &fs, Symbol** symbols)
     // p points to comma or end of string 
     if (*p == ',')
     {
-	int len = p - family ;
+	len = p - family ;
 	fallback = new char[len + 1] ;
-	strncpy(fallback, family, len);
-	fallback[len] = 0 ;
+	*((char *) memcpy(fallback, family, len) + len) = '\0';
 	
 	do p++; while (isspace(*p));
 	family = p ;

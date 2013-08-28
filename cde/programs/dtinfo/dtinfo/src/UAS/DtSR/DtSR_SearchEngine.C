@@ -270,7 +270,11 @@ DtSR_SearchEngine::~DtSR_SearchEngine()
 DtSR_SearchEngine::DtSR_SearchEngine()
     : f_dbnames(NULL), f_dbcount(0), f_valid_bc_map(0)
 {
-    char* ocf_path = mktemp((char*)".DtSR_XXXXXX");
+    string ocf_tmpl = "/tmp/.DtSR_XXXXXX";
+    int len = ocf_tmpl.size();
+    char* ocf_path = new char [len + 1];
+    *((char *) memcpy(ocf_path, ocf_tmpl.c_str(), len) + len) = '\0';
+    ocf_path = mktemp(ocf_path);
     f_config_path = ocf_path;
 
     if (ocf_path)
@@ -289,7 +293,8 @@ DtSR_SearchEngine::init(UAS_PtrList<const char> *bcases)
     if (bcases->numItems() == 0 || *(char*)f_config_path == '\0')
 	return;
 
-    if (bcases->numItems() == DtSR_BookcaseSearchEntry::bcases().length()) {
+    if (bcases->numItems() ==
+		(int) DtSR_BookcaseSearchEntry::bcases().length()) {
 	// if sets of bookcases are same, you do not have to (re)init
     }
 
@@ -442,8 +447,10 @@ apply_scope(DtSrResult* res, fine_scopes scope, const char* id, long &count)
 #endif
 	    DtSrResult *item = (DtSrResult *)malloc(sizeof(DtSrResult));
 	    *item = *iter; // copy as it is
-	    item->abstractp = (char*)malloc(strlen(iter->abstractp) + 1);
-	    strcpy(item->abstractp, iter->abstractp);
+	    int len = strlen(iter->abstractp);
+	    item->abstractp = (char*)malloc(len + 1);
+	    *((char *) memcpy(item->abstractp,
+			      iter->abstractp, len) + len) = '\0';
 	    item->link = NULL;
 	    if (rval == NULL)
 		rval = tail = item;
@@ -652,7 +659,7 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
 
 		bookid_dict[bookid] = True;
 	    }
-	    for (i = 0; i < res->length(); i++) {
+	    for (i = 0; i < (int) res->length(); i++) {
 
 		// all these temporary variables are needed to get this 
 		// code to compile on novell
@@ -675,7 +682,7 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
 		    res->set_item(NULL, i);
 	    }
 
-	    for (i = 0; i < res->length(); i++) {
+	    for (i = 0; i < (int) res->length(); i++) {
 		if (res->item(i) == (int)NULL)
 		    res->remove_item(i--);
 	    }

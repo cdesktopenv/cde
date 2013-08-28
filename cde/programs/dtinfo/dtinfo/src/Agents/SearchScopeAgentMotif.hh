@@ -125,17 +125,19 @@ private: // functions
 
 
 private:   // variables
-  SearchScopeList   f_scope_list;
-  UAS_SearchScope  *f_current_scope;
   WTopLevelShell    f_shell;
+  SearchScopeList   f_scope_list;
+
+  bool              f_first_time;
+  bool              f_auto_expand;
+  QueryEditor      *f_option_menu;
+
+  UAS_SearchScope  *f_current_scope;
   WXmOptionMenu     f_scope_option;
   WXmPushButton     f_unnamed;
   OutlineListView  *f_infolib_list;
   OutlineListView  *f_component_list;
   WXmPushButton     f_new, f_save, f_rename, f_delete, f_reset;
 
-  bool              f_first_time;
-  bool              f_auto_expand;
-  QueryEditor      *f_option_menu;
   
 };

@@ -354,7 +354,7 @@ class GraphicsHandler : public UAS_Receiver<DetachGraphic>,
 {
 public:
   GraphicsHandler(NodeWindowAgent *agent);
-  ~GraphicsHandler();
+  virtual ~GraphicsHandler();
 
   void receive(DetachGraphic &, void *client_data);
   void receive(ReAttachGraphic &, void *client_data);

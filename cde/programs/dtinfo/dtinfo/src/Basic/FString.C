@@ -57,13 +57,14 @@
 extern "C"
 {
   extern size_t strlen(const char *);
-  extern char *strcpy(char *, const char *);
+  extern void* memcpy(void *dst, const void *src, size_t len);
 }
 
 FString::FString(const char *string)
 {
-  f_string = new char[ strlen (string) + 1 ] ;
-  strcpy(f_string, string);
+  int len = strlen(string);
+  f_string = new char[ len + 1 ] ;
+  *((char *) memcpy(f_string, string, len) + len) = '\0';
 }
 
 FString::~FString()

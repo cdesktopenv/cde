@@ -67,13 +67,13 @@ public:
     f_handler (handler),
     f_notify_type (notify_type), f_dependent_data (dependent_data)
     { if (next) next->f_pre_next = &f_next; }
+  Dependent        **f_pre_next;
+  Dependent         *f_next;
   FolioObject       *f_dependent;
   FolioObject       *f_folio_object;
   notify_handler_t   f_handler;
   u_int              f_notify_type;
   void              *f_dependent_data;
-  Dependent        **f_pre_next;
-  Dependent         *f_next;
   void release();
   void call (FolioObject *obj, void *notify_data);
 };
@@ -101,8 +101,8 @@ public:
     : f_next (next), f_dependent_obj (d)
   { }
   void delete_dependent();
-  Dependent *f_dependent_obj;
   DependOnList *f_next;
+  Dependent *f_dependent_obj;
 };
 
 inline void

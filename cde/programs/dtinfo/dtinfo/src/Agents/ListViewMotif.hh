@@ -74,8 +74,8 @@ protected: // view variables
   List           *f_the_list;
 
 protected: // ui variables
-  char           *f_name;
   WTopLevelShell *f_shell;
+  char           *f_name;
   WXmList        *f_list;
   WCallback      *f_wm_delete_callback;
   int             f_selected_item;

@@ -98,7 +98,7 @@ OutlineList::count_expanded (BitHandle data_handle)
 void
 OutlineList::copy_selected(BitHandle src, BitHandle dest)
 {
-  for (int i = 0 ; i < length(); i++)
+  for (unsigned int i = 0 ; i < length(); i++)
     {
       if (OUTLINE_ELEMENT(i)->is_selected(src))
 	OUTLINE_ELEMENT(i)->set_selected(dest) ;
@@ -119,7 +119,7 @@ OutlineList::copy_selected(BitHandle src, BitHandle dest)
 void
 OutlineList::copy_expanded (BitHandle src, BitHandle dest)
 {
-  for (int i = 0 ; i < length(); i++)
+  for (unsigned int i = 0 ; i < length(); i++)
     {
       if (OUTLINE_ELEMENT(i)->is_expanded (src))
 	OUTLINE_ELEMENT(i)->set_expanded (dest);
@@ -140,7 +140,7 @@ OutlineList::copy_expanded (BitHandle src, BitHandle dest)
 void
 OutlineList::recursive_select(BitHandle data_handle)
 {
-  for (int i = 0 ; i < length() ; i++ )
+  for (unsigned int i = 0 ; i < length() ; i++ )
     if (OUTLINE_ELEMENT(i)->children_cached() &&
 	OUTLINE_ELEMENT(i)->has_children())
       {
@@ -159,7 +159,7 @@ OutlineList::recursive_select(BitHandle data_handle)
 void
 OutlineList::select_all(BitHandle data_handle)
 {
-  for (int i = 0 ; i < length(); i++)
+  for (unsigned int i = 0 ; i < length(); i++)
     {
       OUTLINE_ELEMENT(i)->set_selected(data_handle);
       if (OUTLINE_ELEMENT(i)->children_cached() &&
@@ -177,7 +177,7 @@ OutlineList::select_all(BitHandle data_handle)
 void
 OutlineList::deselect_all(BitHandle data_handle)
 {
-  for (int i = 0 ; i < length(); i++)
+  for (unsigned int i = 0 ; i < length(); i++)
     {
       OUTLINE_ELEMENT(i)->unset_selected(data_handle);
       if (OUTLINE_ELEMENT(i)->children_cached() &&
@@ -231,7 +231,7 @@ OutlineList::selected_items (BitHandle data_handle, List *l)
   if (l == NULL)
     l = new List (8, 8, List::GROW_MULTIPLY);
 
-  for (int i = 0; i < length(); i++)
+  for (unsigned int i = 0; i < length(); i++)
     {
       if (OUTLINE_ELEMENT(i)->is_selected (data_handle))
 	l->append (OUTLINE_ELEMENT(i));

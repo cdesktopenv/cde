@@ -77,8 +77,9 @@ HashObject::HashObject(const char *key, FolioObject *object)
     assert(key != NULL);
     assert(object != NULL);
 
-    f_key = new char[strlen(key) + 1] ;
-    strcpy(f_key, key);
+    int len = strlen(key);
+    f_key = new char[len + 1] ;
+    *((char *) memcpy(f_key, key, len) + len) = '\0';
 }
 
 HashObject::~HashObject()

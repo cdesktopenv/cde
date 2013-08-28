@@ -240,15 +240,14 @@ Mark_mmdb::restore()
   end_try;
   
   // NOTE: Need better guard against corrupt mark data!! 
-  if (f_user_mark->mark_value()->size() == 0)
+  if (sz == 0)
     {
       ON_DEBUG (puts ("*** ZERO LENGTH MARK ***"));
       throw (CASTEXCEPT Exception());
     }
   // Suck the data out of the mmdb mark object. 
   g_buffer.reset();
-  g_buffer.write (f_user_mark->mark_value()->get(), sizeof (char),
-		  f_user_mark->mark_value()->size());
+  g_buffer.write (str, sizeof (char), sz);
 
   // Read the fields out of the buffer.
   int mark_version;

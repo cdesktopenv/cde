@@ -65,6 +65,7 @@
 #include "Registration.hh"
 
 #include "utility/mmdb_exception.h"
+#include "utility/funcs.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -135,15 +136,17 @@ LogToolTalkMessage (
     char		* errfmt;
     char		* statmsg;
     char		* errmsg;
+    int			errmsglen;
     
-    if (! tt_is_err(status)) return XtNewString("");;
+    if (! tt_is_err(status)) return XtsNewString("");;
 
     errfmt = CATGETS(Set_TtIpcMgr, msg_num, dflt_txt);
     statmsg = tt_status_message(status);
-    errmsg = XtMalloc(strlen(errfmt) + strlen(statmsg) + 2);
+    errmsglen = strlen(errfmt) + strlen(statmsg) + 2;
+    errmsg = XtMalloc(errmsglen);
     if (! strlen(errfmt))
       errfmt = (char*)"%s";
-    sprintf(errmsg, errfmt, statmsg);
+    snprintf(errmsg, errmsglen, errfmt, statmsg);
 
     DtMsgLogMessage ("Dtinfo", msg_type, errfmt, errmsg);
     return errmsg;
@@ -301,7 +304,7 @@ TtIpcMgr::ipc_init_wp1( XtPointer theIpcObj )
 
       // actually join the "default" session for all previously
       // registered patterns to take effect there-in
-      Tt_pattern *sess_patterns =
+      // Tt_pattern *sess_patterns =
              ttdt_session_join( NULL, NULL,
                          window_system().toplevel(), theIpcObj, True ) ;
       // invoke msg handler explicitly in case a message already queued
@@ -320,7 +323,7 @@ TtIpcMgr::ipc_init_wp1( XtPointer theIpcObj )
 
 TtIpcMgr::~TtIpcMgr()
 {
-  char  *dfile;
+  // char  *dfile;
 
   // send a Dtinfo_Quit message to whomever may be observing
   notify_quit() ;
@@ -401,12 +404,11 @@ TtIpcMgr::do_locator( char	*locator,
 int
 TtIpcMgr::do_print(Tt_message msg)
 {
-    
-    int	sts = ID_SUCCESS ;
     UAS_Pointer<UAS_Common> d = NULL ;
     char *filepath = tt_message_file(msg);
     FILE *fp;
     char locator[512];
+    int bufferlen;
     
     fprintf(stderr, "TtIpcMgr::do_print: filepath = %s.\n", filepath);
     
@@ -433,10 +435,10 @@ TtIpcMgr::do_print(Tt_message msg)
 	{
 	    // assume given a unique locator ID for the target.
 	    // construct a fully-qualified form and pass it on.
-	    
-	    char *buffer =
-		new char[strlen("mmdb:LOCATOR=") + strlen(locator) + 1];
-	    sprintf (buffer, "mmdb:LOCATOR=%s", locator);
+
+	    bufferlen = strlen("mmdb:LOCATOR=") + strlen(locator) + 1;
+	    char *buffer = new char[bufferlen];
+	    snprintf (buffer, bufferlen, "mmdb:LOCATOR=%s", locator);
 	    d = UAS_Common::create (buffer);
 	    delete [] buffer;
 	}

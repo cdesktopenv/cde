@@ -283,7 +283,7 @@ SearchResultsAgent::display (ResultID *results)
 
   f_results = results;
 
-  UAS_SearchEngine &se = search_mgr().search_engine();
+  // UAS_SearchEngine &se = search_mgr().search_engine();
 
   // get window up quick 
 
@@ -319,10 +319,10 @@ SearchResultsAgent::display (ResultID *results)
   /* -------- Display the number of hits. -------- */
   char buffer[80];
 
-  sprintf (buffer, "%d of %d sections",
+  snprintf (buffer, sizeof(buffer), "%d of %d sections",
 	   f_docs_to_display, results->ndocs());
   f_hits_label->LabelString (buffer);
-  sprintf (buffer, "%s",
+  snprintf (buffer, sizeof(buffer), "%s",
 		(char *)*(UAS_String*)(results->results()->scope_name()));
   f_scope_label->LabelString (buffer);
 
@@ -379,8 +379,8 @@ SearchResultsAgent::fill_list(UAS_List<UAS_SearchResultsEntry>& rlist)
   static XmString string_table[INITIAL_FILL_SIZE];
   XmString *t = string_table;
 
-  int string_count = 0 ;
-  int i;
+  unsigned int string_count = 0 ;
+  unsigned int i;
   for (i = 0; i < rlist.length(); i ++) {
       string_count++ ;
       *t++ = form_result_string (rlist[i]);

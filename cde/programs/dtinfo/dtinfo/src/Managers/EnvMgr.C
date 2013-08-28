@@ -75,6 +75,8 @@ using namespace std;
 
 #include "Managers/CatMgr.hh"
 #include "Prelude.h"
+#include "utility/funcs.h"
+#undef debug
 
 LONG_LIVED_CC(EnvMgr, env);
 
@@ -87,8 +89,8 @@ bool g_debug;
 #define SLSEP	','
 
 
-EnvMgr::EnvMgr() : f_argv(NULL),
-                   f_argc(0),
+EnvMgr::EnvMgr() : f_argc(0),
+		   f_argv(NULL),
 		   f_lang(NULL),
                    f_secondary(False),
                    f_verbose(False),
@@ -116,7 +118,7 @@ EnvMgr::EnvMgr() : f_argv(NULL),
 #ifdef LCX_DEBUG
 	fprintf(stderr, "(DEBUG) standard locale=\"%s\"\n", std_locale);
 #endif
-	f_lang = XtNewString(std_locale);
+	f_lang = XtsNewString(std_locale);
 	free(std_locale);
       }
     }
@@ -127,18 +129,18 @@ EnvMgr::EnvMgr() : f_argv(NULL),
 
   // If OpToStd conversion failed, use non-std name
   if (f_lang == NULL)
-    f_lang = XtNewString(lang);
+    f_lang = XtsNewString(lang);
 
   // tell mmdb info_lib to load info_base only if it matches to f_lang
   static char mmdb_lang[_POSIX_PATH_MAX];
-  sprintf(mmdb_lang, "MMDB_LANG=%s", f_lang);
+  snprintf(mmdb_lang, _POSIX_PATH_MAX, "MMDB_LANG=%s", f_lang);
   putenv (mmdb_lang);
 
-  f_home = XtNewString( getenv("HOME") );
+  f_home = XtsNewString( getenv("HOME") );
 
   char dirname[256];
-  sprintf (dirname, "%s/.dt/dtinfo/%s", f_home, f_lang);
-  f_user_path = XtNewString(dirname);
+  snprintf (dirname, sizeof(dirname), "%s/.dt/dtinfo/%s", f_home, f_lang);
+  f_user_path = XtsNewString(dirname);
 
 
   // if $HOME/.dt/dtinfo/$LANG does not exist, create it,
@@ -146,7 +148,7 @@ EnvMgr::EnvMgr() : f_argv(NULL),
   if(!check_user_path())
   {
     create_user_path();
-    help_agent().display_help ((char*)"doc_list_help");
+//  help_agent().display_help ((char*)"doc_list_help");
   }
 
   UAS_Collection::request(
@@ -218,14 +220,15 @@ EnvMgr::init(int argc_i, char** argv_i)
   {
     // link up indirect paths to mmdb code... ;-)
     static char buffer[256];
-    sprintf (buffer, "MMDB_PATH=%s", (char *)f_infolibsStr );
+    snprintf (buffer, sizeof(buffer), "MMDB_PATH=%s", (char *)f_infolibsStr );
     putenv (buffer);
 
     char *where = getenv ("DTINFO_MARKSPECPATH");
     if (where == NULL)
     {
        static char markref[256];
-       sprintf (markref, "DTINFO_MARKSPECPATH=%s", "/usr/dt/infolib/etc" );
+       snprintf (markref, sizeof(markref), "DTINFO_MARKSPECPATH=%s",
+					"/usr/dt/infolib/etc" );
        putenv (markref);
     }
   }
@@ -868,21 +871,21 @@ EnvMgr::arglist()
     f_argv = (char **)XtMalloc( p_argc*sizeof(char *) ) ;
 
     int ia = 0 ;
-    f_argv[ia++] = XtNewString( "dtinfo" ) ;
+    f_argv[ia++] = XtsNewString( "dtinfo" ) ;
     if( secondary() )
     {
-      f_argv[ia++] = XtNewString( "-secondary" ) ;
+      f_argv[ia++] = XtsNewString( "-secondary" ) ;
     }
 
-    f_argv[ia++] = XtNewString( "-l" ) ;
+    f_argv[ia++] = XtsNewString( "-l" ) ;
     tmp = (char *)(infolibsArg()) ;
-    f_argv[ia++] = XtNewString( tmp ) ;
+    f_argv[ia++] = XtsNewString( tmp ) ;
 
     // always insert the -sect key and its arg, even if the arg
     // is zero length. This saves us from any re-malloc and copy.
-    f_argv[ia++] = XtNewString( "-sect" ) ;
+    f_argv[ia++] = XtsNewString( "-sect" ) ;
     tmp = (char *)(sectionsArg()) ;	// can be empty here
-    f_argv[ia++] = XtNewString( tmp ) ;
+    f_argv[ia++] = XtsNewString( tmp ) ;
 
     f_argc = p_argc ;
   }
@@ -897,14 +900,14 @@ EnvMgr::arglist()
       {
         XtFree( f_argv[++i] ) ;
         tmp = (char *)(infolibsArg()) ;
-        f_argv[i] = XtNewString( tmp ) ;
+        f_argv[i] = XtsNewString( tmp ) ;
         il = i ;
       }
       else if( strcmp(f_argv[i], "-sect") == 0 )
       {
         XtFree( f_argv[++i] ) ;
         tmp = (char *)(sectionsArg()) ;
-        f_argv[i] = XtNewString( tmp ) ;
+        f_argv[i] = XtsNewString( tmp ) ;
         is = i ;
       }
     }
@@ -931,7 +934,8 @@ EnvMgr::mkdirs(char *pathname)
 {
   char buffer[256];
   char *c;
-  strcpy(buffer, pathname);
+  int len = MIN(strlen(pathname), 256 - 1);
+  *((char *) memcpy(buffer, pathname, len) + len) = '\0';
 
   if(mkdir(buffer, 0777) == -1)
   {

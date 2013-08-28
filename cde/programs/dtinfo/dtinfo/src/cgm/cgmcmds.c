@@ -37,9 +37,11 @@ static Visual *vis;
 static int visualClass, visualID, colormap_size, bits_per_rgb;
 static unsigned long redMask, greenMask, blueMask;
 static unsigned int visualDepth;
+#ifdef DEBUG_VISUAL
 /* in case we need this for error messages */
 static char *visualNames[6] = {"StaticGrey", "GrayScale", "StaticColor",
 			       "PseudoColor", "TrueColor", "DirectColor"};
+#endif
 static Dimension *ret_width;
 static Dimension *ret_height;
 static XColor my_colrs[MAXCOLRS];
@@ -74,7 +76,7 @@ static float ScaleFactor;
 /* all of these routines take the address of a pointer and step the pointer */
 /* forward before they return */
 /* the general Binary format string */
-static b_str(unsigned char **in_ptr, char **out_ptr)
+static int b_str(unsigned char **in_ptr, char **out_ptr)
 {
   int p_len, data_left, i;
   unsigned char *my_ptr;
@@ -240,10 +242,10 @@ static double b_real(dat_ptr, rprec)
 }
 /* XLib specific functions */
 /* the setup routine */
-xl_setup(Screen *screen, Display *inDisplay, Window inWin, int inDepth,
-	 Colormap inCmap, Visual *inVis, GC inGC, Dimension *in_width,
-	 Dimension *in_height, Pixel **in_colrs, int *in_number,
-	 Pixmap *inPixmap, unsigned short sf)
+int xl_setup(Screen *screen, Display *inDisplay, Window inWin, int inDepth,
+	     Colormap inCmap, Visual *inVis, GC inGC, Dimension *in_width,
+	     Dimension *in_height, Pixel **in_colrs, int *in_number,
+	     Pixmap *inPixmap, unsigned short sf)
 {
   XVisualInfo myTemp, *myInfo;
   int tmp;
@@ -361,7 +363,6 @@ static Pixel getPixel(cgm_s_type *cgm_s, int iColrs[3])
   Pixel bestPixel = 0;
   float dColrs[3];
   float fDiv;
-  unsigned short r, g, b;
   int i, bestI;
   unsigned int bestDif, tempDif;
   /* normalize colours for X routines */
@@ -456,35 +457,35 @@ static void setIndex(cgm_s_type *cgm_s, int index, GC inGC)
 /* now the functions that do the work */
 /* Delimiters */
 /* Begin Metafile */
-static bmf(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-	   cgm_s_type *cgm_s)
+static int bmf(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+	       cgm_s_type *cgm_s)
 {
   /* nothing for now */
   return 1;
 }
 /* End Metafile */
-static emf(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-	   cgm_s_type *cgm_s)
+static int emf(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+	       cgm_s_type *cgm_s)
 {
   /* nothing for now */
   return 1;
 }
 /* Begin Picture */
-static bpic(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-	    cgm_s_type *cgm_s)
+static int bpic(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		cgm_s_type *cgm_s)
 {
   /* nothing for now */
   return 1;
 }
 /* Begin Picture Body */
-static bpicbody(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-		cgm_s_type *cgm_s)
+static int bpicbody(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		    cgm_s_type *cgm_s)
 {
   XPoint myClipRect[4];
   GC clearGC;
   /* look at VDC extent and figure out Pixmap size and scaling */
   float x0, x1, y0, y1, w, h, maxWH;
-  int i;
+
   if (cgm_s->vdctype) { /* real VDC's */
     x0 = cgm_s->vdcextent[0].r;
     y0 = cgm_s->vdcextent[1].r;
@@ -553,8 +554,8 @@ static bpicbody(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
   return(1);
 }
 /* End Picture */
-static epic(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-	    cgm_s_type *cgm_s)
+static int epic(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		cgm_s_type *cgm_s)
 {
   /* need to fill out the pixels array */
   int i;
@@ -565,7 +566,7 @@ static epic(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
 }
 /* Metafile Descriptors */
 /* Metafile Version */
-static mfversion(dat_ptr, cmd_ptr, cgm_s)
+static int mfversion(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -574,7 +575,7 @@ static mfversion(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Metafile Descriptor */
-static mfdescrip(dat_ptr, cmd_ptr, cgm_s)
+static int mfdescrip(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -583,7 +584,7 @@ static mfdescrip(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* VDC type */
-static vdctype(dat_ptr, cmd_ptr, cgm_s)
+static int vdctype(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -595,7 +596,7 @@ static vdctype(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Integer Precision */
-static intprec(dat_ptr, cmd_ptr, cgm_s)
+static int intprec(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -604,7 +605,7 @@ static intprec(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Real Precision */
-static realprec(dat_ptr, cmd_ptr, cgm_s)
+static int realprec(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -616,7 +617,7 @@ static realprec(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Index Precision */
-static indexprec(dat_ptr, cmd_ptr, cgm_s)
+static int indexprec(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -625,7 +626,7 @@ static indexprec(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Colour Precision */
-static colprec(dat_ptr, cmd_ptr, cgm_s)
+static int colprec(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -634,7 +635,7 @@ static colprec(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Colour Index Precision */
-static cindprec(dat_ptr, cmd_ptr, cgm_s)
+static int cindprec(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -643,7 +644,7 @@ static cindprec(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Maximum Colour Index */
-static maxcind(dat_ptr, cmd_ptr, cgm_s)
+static int maxcind(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -652,7 +653,7 @@ static maxcind(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Colour Value Extent */
-static cvextent(dat_ptr, cmd_ptr, cgm_s)
+static int cvextent(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -670,7 +671,7 @@ static cvextent(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Metafile Element List */
-static mfellist(dat_ptr, cmd_ptr, cgm_s)
+static int mfellist(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -687,13 +688,13 @@ static mfellist(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Metafile Defaults Replacement, a complex element */
-static mfdefrep(dat_ptr, cmd_ptr, cgm_s)
+static int mfdefrep(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
 {
   struct cmd_info_s new_cmd;	/* for the new commands */
-  int i, ret = 1, new_len, b_to_move, data_left;
+  int i, new_len, b_to_move, data_left;
   unsigned char *out_ptr, *end_ptr, *new_ptr, *start_ptr;
   
   /* in this element, many other elements can be encoded in its 	    */
@@ -760,7 +761,7 @@ static mfdefrep(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Font List, store the data, but ignored for now */
-static fontlist(dat_ptr, cmd_ptr, cgm_s)
+static int fontlist(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -782,7 +783,7 @@ static fontlist(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Character Set List, stored but ignored */
-static charlist(dat_ptr, cmd_ptr, cgm_s)
+static int charlist(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -807,7 +808,7 @@ static charlist(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Character Announcer */
-static charannounce(dat_ptr, cmd_ptr, cgm_s)
+static int charannounce(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -817,7 +818,7 @@ static charannounce(dat_ptr, cmd_ptr, cgm_s)
 }
 /* Picture Descriptors */
 /* Scaling Mode */
-static scalmode(dat_ptr, cmd_ptr, cgm_s)
+static int scalmode(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -830,7 +831,7 @@ static scalmode(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Colour Selection Mode */
-static colselmode(dat_ptr, cmd_ptr, cgm_s)
+static int colselmode(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -840,7 +841,7 @@ static colselmode(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Line Width Specification Mode */
-static lwidspecmode(dat_ptr, cmd_ptr, cgm_s)
+static int lwidspecmode(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -849,7 +850,7 @@ static lwidspecmode(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Marker Size Specification Mode */
-static marksizspecmode(dat_ptr, cmd_ptr, cgm_s)
+static int marksizspecmode(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -858,7 +859,7 @@ static marksizspecmode(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Edge Width Specification Mode */
-static edwidspecmode(dat_ptr, cmd_ptr, cgm_s)
+static int edwidspecmode(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -867,7 +868,7 @@ static edwidspecmode(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* VDC Extent */
-static vdcextent(dat_ptr, cmd_ptr, cgm_s)
+static int vdcextent(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -885,7 +886,7 @@ static vdcextent(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Background Colour */
-static backcolr(dat_ptr, cmd_ptr, cgm_s)
+static int backcolr(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -898,7 +899,7 @@ static backcolr(dat_ptr, cmd_ptr, cgm_s)
 }
 /* Control Elements */
 /* VDC Integer Precision */
-static vdcintprec(dat_ptr, cmd_ptr, cgm_s)
+static int vdcintprec(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -907,7 +908,7 @@ static vdcintprec(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* VDC Real Precision */
-static vdcrprec(dat_ptr, cmd_ptr, cgm_s)
+static int vdcrprec(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -919,7 +920,7 @@ static vdcrprec(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Auxiliary Colour */
-static auxcolr(dat_ptr, cmd_ptr, cgm_s)
+static int auxcolr(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -935,7 +936,7 @@ static auxcolr(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Transparency */
-static transp(dat_ptr, cmd_ptr, cgm_s)
+static int transp(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -973,8 +974,8 @@ unsigned int getXPoints(unsigned char *dat_ptr,
   return noPts;
 }
 /* Clipping Rectangle */
-static cliprect(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-		cgm_s_type *cgm_s)
+static int cliprect(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		    cgm_s_type *cgm_s)
 {
   int noPts;
   XPoint *myPtr = NULL, myClipRect[4];
@@ -1010,10 +1011,9 @@ static cliprect(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
   return 1;
 }
 /* Clipping Indicator */
-static clipindic(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-		 cgm_s_type *cgm_s)
+static int clipindic(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		     cgm_s_type *cgm_s)
 {
-  Region r;
   cgm_s->clipindic = b_gsint(&dat_ptr, 16);
   if (cgm_s->clipindic) {
     XSetRegion(display, lineGC, clipRegion);
@@ -1061,7 +1061,7 @@ unsigned int getXSegments(unsigned char *dat_ptr,
   return noSegments;
 }
 /* Polyline */
-static polyline(dat_ptr, cmd_ptr, cgm_s)
+static int polyline(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1074,10 +1074,10 @@ static polyline(dat_ptr, cmd_ptr, cgm_s)
   return(1);
 }
 /* Disjoint Polyline, on/off segments */
-static dispoly(dat_ptr, cmd_ptr, cgm_s)
-     unsigned char *dat_ptr;
-     struct cmd_info_s *cmd_ptr;
-     cgm_s_type *cgm_s;
+static int dispoly(dat_ptr, cmd_ptr, cgm_s)
+unsigned char *dat_ptr;
+struct cmd_info_s *cmd_ptr;
+cgm_s_type *cgm_s;
 {
   int noSegments;
   XSegment *myPtr = NULL;
@@ -1089,7 +1089,7 @@ static dispoly(dat_ptr, cmd_ptr, cgm_s)
   return(1);
 }
 /* Polymarker */
-static polymarker(dat_ptr, cmd_ptr, cgm_s)
+static int polymarker(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1158,13 +1158,12 @@ void doText(cgm_s_type *cgm_s)
   textX = textY = textW = textH = 0;
 }
 /* Regular Text */
-static text(dat_ptr, cmd_ptr, cgm_s)
+static int text(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
 {
   int final_flag;
-  unsigned char *out_ptr;
   partialText *newPtr, *myPtr;
    /* clean up in case we didn't get a final flag (e.g., old NCAR) */
   if (textPtr) doText(cgm_s);
@@ -1199,7 +1198,7 @@ static text(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Restricted Text */
-static restext(dat_ptr, cmd_ptr, cgm_s)
+static int restext(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1239,17 +1238,14 @@ static restext(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Appended Text */
-static apptext(dat_ptr, cmd_ptr, cgm_s)
+static int apptext(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
 {
-  int i, ret, final_flag;
   partialText *newPtr, *myPtr;
-  if (!textPtr) return; /* can't append if there's nothing started ! */
+  if (!textPtr) return 0; /* can't append if there's nothing started ! */
   
-  /* first the final/not final flag */
-  final_flag = b_gsint(&dat_ptr, 16);
   /* make some memory */
   newPtr = (partialText *) malloc(sizeof(partialText));
   newPtr->text = NULL;
@@ -1271,7 +1267,7 @@ static apptext(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Polygon */
-static polygon(dat_ptr, cmd_ptr, cgm_s)
+static int polygon(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1292,12 +1288,12 @@ static polygon(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Polyset */
-static polyset(dat_ptr, cmd_ptr, cgm_s)
+static int polyset(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
 {
-  int i, j, noPts, *vPtr, lastFill;
+  int i, noPts, *vPtr, lastFill;
   XPoint *myPtr;
   
   /* get the number of pts */
@@ -1376,10 +1372,11 @@ case 1: if(!(temp=(((done + 1) * prec) % 8))) out = *ptr++ & 1; \
 else out = (*ptr >> (8 - temp)) & 1; break;}
 /* get a packed list */
 static void getListPixels(unsigned char *datPtr, cgm_s_type *cgm_s,
-			    int nx, int ny, int prec, Pixel *retPtr)
+			  int nx, int ny, int prec, Pixel *retPtr)
 {
   unsigned char *startPtr;
-  int rowSize, i, j, k, maxCol, done, iCol, iColrs[3];
+  int rowSize, i, j, k, done, iColrs[3];
+  int iCol = 0;
   /* may be in direct colour mode or indexed colour mode */
   switch (cgm_s->colselmode) {
   case D_C_M: /* direct colour */
@@ -1417,12 +1414,13 @@ static void getListPixels(unsigned char *datPtr, cgm_s_type *cgm_s,
 }
 /* get a run-length encoded list */
 static void getRLPixels(unsigned char *dat_ptr, cgm_s_type *cgm_s,
-			    int nx, int ny, int prec, Pixel *retPtr)
+			int nx, int ny, int prec, Pixel *retPtr)
 {
   static unsigned char bitMask[8] = {255, 127, 63, 31, 15, 7, 3, 1};
   unsigned char *rowPtr;
   Pixel myPixel;
-  int i, j, k, done, iCol, iColrs[3], bitOffset,count;
+  int i, j, k, done, iColrs[3], bitOffset,count;
+  int iCol = 0;
   Pixel tP;
 
   for (i=0; i<ny; ++i) { /* loop through the rows */
@@ -1477,7 +1475,6 @@ static void getRLPixels(unsigned char *dat_ptr, cgm_s_type *cgm_s,
 static Pixel *getPixels(unsigned char *dat_ptr, cgm_s_type *cgm_s,
 			int nx, int ny, int localPrec, int repMode)
 {
-  int ix, iy;
   Pixel *retPtr;
   retPtr = (Pixel *) malloc(nx * ny * sizeof(Pixel));
   if (!retPtr) return NULL;
@@ -1494,12 +1491,12 @@ static Pixel *getPixels(unsigned char *dat_ptr, cgm_s_type *cgm_s,
   return retPtr;
 }
 /* actually get the cellarray command */
-static cellarray(dat_ptr, cmd_ptr, cgm_s)
+static int cellarray(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
 {
-  int i, j, x[3], y[3], nx, ny, local_prec, rep_mode, xSize, ySize;
+  int i, x[3], y[3], nx, ny, local_prec, rep_mode, xSize, ySize;
   int Qx, Qy, Rx, Ry, det, xMin, xMax, yMin, yMax, newX, newY, ix, iy,
   oldX, oldY;
   double ddet, axx, axy, ayx, ayy;
@@ -1578,7 +1575,7 @@ static cellarray(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Rectangle */
-static rectangle(dat_ptr, cmd_ptr, cgm_s)
+static int rectangle(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1625,7 +1622,7 @@ static rectangle(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Circle */
-static circle(dat_ptr, cmd_ptr, cgm_s)
+static int circle(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1649,7 +1646,8 @@ static int getArc(float inX[3], float inY[3], int *outXC, int *outYC,
 {
   int i, r, xc, yc;
   double theta[3], dtheta;
-  float m1, m2, x[5], y[5];
+  float m1 = 0;
+  float m2, x[5], y[5];
   /* for convenience */
   for (i=0; i<3; ++i) {
     x[i] = inX[i];
@@ -1707,7 +1705,7 @@ static int getArc(float inX[3], float inY[3], int *outXC, int *outYC,
   return r;
 }
 /* Circular Arc, set by 3 points */
-static circ3(dat_ptr, cmd_ptr, cgm_s)
+static int circ3(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1740,7 +1738,7 @@ static circ3(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Circular Arc, set by 3 points, close */
-static circ3close(dat_ptr, cmd_ptr, cgm_s)
+static int circ3close(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1808,7 +1806,7 @@ static double getAngles(int xc, int yc, float dxy[4], double  *outTheta0)
   return dtheta;
 }
 /* Circular Arc, set by center */
-static circcentre(dat_ptr, cmd_ptr, cgm_s)
+static int circcentre(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1836,7 +1834,7 @@ static circcentre(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Circular Arc, set by center, close */
-static circcclose(dat_ptr, cmd_ptr, cgm_s)
+static int circcclose(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -1844,7 +1842,6 @@ static circcclose(dat_ptr, cmd_ptr, cgm_s)
   int i, xc, yc, r, close_type, x0, y0, x1, y1;
   double theta0, dtheta;
   float dxy[4];
-  double t0, t1;
   /* get the center */
   xc = getX(&dat_ptr, cgm_s);
   yc = getY(&dat_ptr, cgm_s);
@@ -1997,12 +1994,12 @@ static int getEllipseXPoints(int x1, int y1, int x2, int y2,
   return nSteps;
 }
 /* Ellipse */
-static ellipse(dat_ptr, cmd_ptr, cgm_s)
+static int ellipse(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
 {
-  int xc, yc, cdx0, cdy0, cdx1, cdy1, x0, y0, w, h, noPts, i;
+  int xc, yc, cdx0, cdy0, cdx1, cdy1, noPts, i;
   XPoint *myPtr = NULL;
   static float dxy[4] = {1, 0, 1, 0}; /* make a full ellipse */
   /* get the Ellipse centre */
@@ -2035,7 +2032,7 @@ static ellipse(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Elliptical arc */
-static elarc(dat_ptr, cmd_ptr, cgm_s)
+static int elarc(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2071,7 +2068,7 @@ static elarc(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Elliptical arc, close */
-static elarcclose(dat_ptr, cmd_ptr, cgm_s)
+static int elarcclose(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2156,7 +2153,7 @@ static int setLineType(int inType, GC inGC)
   return 1;
 }
 /* Line Type */
-static ltype(dat_ptr, cmd_ptr, cgm_s)
+static int ltype(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2166,7 +2163,7 @@ static ltype(dat_ptr, cmd_ptr, cgm_s)
   return setLineType(cgm_s->ltype, lineGC);
 }
 /* Line Width */
-static lwidth(dat_ptr, cmd_ptr, cgm_s)
+static int lwidth(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2191,7 +2188,7 @@ static lwidth(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Line Colour */
-static lcolr(dat_ptr, cmd_ptr, cgm_s)
+static int lcolr(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2212,7 +2209,7 @@ static lcolr(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Marker Type */
-static mtype(dat_ptr, cmd_ptr, cgm_s)
+static int mtype(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2223,7 +2220,7 @@ static mtype(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Marker Size */
-static msize(dat_ptr, cmd_ptr, cgm_s)
+static int msize(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2244,7 +2241,7 @@ static msize(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Marker Colour */
-static mcolr(dat_ptr, cmd_ptr, cgm_s)
+static int mcolr(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2263,8 +2260,8 @@ static mcolr(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Text Font Index, ignored at the moment */
-static tfindex(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-	       cgm_s_type *cgm_s)
+static int tfindex(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		   cgm_s_type *cgm_s)
 {
   /* get the text font index */
   cgm_s->tfindex = b_gsint(&dat_ptr, cgm_s->indexprec);
@@ -2272,8 +2269,8 @@ static tfindex(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
   return 1;
 }
 /* Text Precision, ignored at the moment; stroke everything */
-static tprec(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-	     cgm_s_type *cgm_s)
+static int tprec(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		 cgm_s_type *cgm_s)
 {
   /* get the text font index */
   cgm_s->tprec = b_gsint(&dat_ptr, 16);
@@ -2281,24 +2278,24 @@ static tprec(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
   return 1;
 }
 /* Character Expansion Factor */
-static cexpfac(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-     cgm_s_type *cgm_s)
+static int cexpfac(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		   cgm_s_type *cgm_s)
 {
   cgm_s->cexpfac = b_real(&dat_ptr, &(cgm_s->realprec));
   
   return 1;
 }
 /* Character Space */
-static cspace(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-	      cgm_s_type *cgm_s)
+static int cspace(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		  cgm_s_type *cgm_s)
 {
   cgm_s->cspace = b_real(&dat_ptr, &(cgm_s->realprec));
   
   return 1;
 }
 /* Text Colour */
-static tcolr(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-     cgm_s_type *cgm_s)
+static int tcolr(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		 cgm_s_type *cgm_s)
 {
   int i, index;
   
@@ -2321,16 +2318,16 @@ static tcolr(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
   return 1;
 }
 /* Character Height */
-static cheight(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-	       cgm_s_type *cgm_s)
+static int cheight(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		   cgm_s_type *cgm_s)
 {
   /* just 1 VDC to grab */
   cgm_s->cheight.i = getVDC(&dat_ptr, cgm_s);
   return 1;
 }
 /* Character Orientation */
-static corient(unsigned char *dat_ptr,struct cmd_info_s *cmd_ptr,
-     cgm_s_type *cgm_s)
+static int corient(unsigned char *dat_ptr,struct cmd_info_s *cmd_ptr,
+		   cgm_s_type *cgm_s)
 {
   int i;
   
@@ -2346,16 +2343,16 @@ static corient(unsigned char *dat_ptr,struct cmd_info_s *cmd_ptr,
   return 1;
 }
 /* Text Path */
-static tpath(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-     cgm_s_type *cgm_s)
+static int tpath(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		 cgm_s_type *cgm_s)
 {
   cgm_s->tpath = b_gsint(&dat_ptr, 16);
   
   return 1;
 }
 /* Text Alignment */
-static talign(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
-     cgm_s_type *cgm_s)
+static int talign(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
+		  cgm_s_type *cgm_s)
 {
   int i;
   
@@ -2368,7 +2365,7 @@ static talign(unsigned char *dat_ptr, struct cmd_info_s *cmd_ptr,
   return 1;
 }
 /* Character Set Index */
-static csetindex(dat_ptr, cmd_ptr, cgm_s)
+static int csetindex(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2378,7 +2375,7 @@ static csetindex(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Alternate Character Set Index */
-static altcsetindex(dat_ptr, cmd_ptr, cgm_s)
+static int altcsetindex(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2388,7 +2385,7 @@ static altcsetindex(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Interior Style */
-static intstyle(dat_ptr, cmd_ptr, cgm_s)
+static int intstyle(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2412,7 +2409,7 @@ static intstyle(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Fill Colour */
-static fillcolr(dat_ptr, cmd_ptr, cgm_s)
+static int fillcolr(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2433,7 +2430,7 @@ static fillcolr(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Hatch Index */
-static hatchindex(dat_ptr, cmd_ptr, cgm_s)
+static int hatchindex(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2443,7 +2440,7 @@ static hatchindex(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Pattern Index */
-static patindex(dat_ptr, cmd_ptr, cgm_s)
+static int patindex(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2453,7 +2450,7 @@ static patindex(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Edge Type */
-static etype(dat_ptr, cmd_ptr, cgm_s)
+static int etype(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2462,7 +2459,7 @@ static etype(dat_ptr, cmd_ptr, cgm_s)
   return setLineType(cgm_s->etype, edgeGC);
 }
 /* Edge Width */
-static ewidth(dat_ptr, cmd_ptr, cgm_s)
+static int ewidth(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2487,7 +2484,7 @@ static ewidth(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Edge Colour */
-static ecolr(dat_ptr, cmd_ptr, cgm_s)
+static int ecolr(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2508,7 +2505,7 @@ static ecolr(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Edge Visibility */
-static evis(dat_ptr, cmd_ptr, cgm_s)
+static int evis(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2522,7 +2519,7 @@ static evis(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* Colour Table */
-static coltab(dat_ptr, cmd_ptr, cgm_s)
+static int coltab(dat_ptr, cmd_ptr, cgm_s)
      unsigned char *dat_ptr;
      struct cmd_info_s *cmd_ptr;
      cgm_s_type *cgm_s;
@@ -2546,8 +2543,8 @@ static coltab(dat_ptr, cmd_ptr, cgm_s)
   return 1;
 }
 /* this is the external entry point */
-do_b_cmd(struct cmd_info_s *cmd_ptr, unsigned char *dat_ptr,
-	cgm_s_type *cgm_s)
+int do_b_cmd(struct cmd_info_s *cmd_ptr, unsigned char *dat_ptr,
+	     cgm_s_type *cgm_s)
 {
   /* for convenience define and argument list macro */
 #define ARG_LIST dat_ptr,cmd_ptr, cgm_s

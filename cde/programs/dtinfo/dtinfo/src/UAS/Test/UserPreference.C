@@ -113,7 +113,7 @@ PreferenceRecord::form_filename()
       if (home == NULL)
 	throw (Exception());
 
-      sprintf (filename, "%s/.olias/preferences", home);
+      snprintf (filename, sizeof(filename), "%s/.olias/preferences", home);
     }
 
   return (filename);
@@ -125,7 +125,7 @@ revert_from_backup (const char *filename)
 {
   // Failed, so look for the backup file.
   char backup[256], original[256];
-  sprintf (backup, "%s.bak", filename);
+  snprintf (backup, sizeof(backup), "%s.bak", filename);
   struct stat file_info;
 
   if (stat (backup, &file_info) != -1 &&

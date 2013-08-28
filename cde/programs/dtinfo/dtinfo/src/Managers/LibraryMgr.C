@@ -173,7 +173,7 @@ LibraryMgr::display (UAS_Pointer<UAS_Common> &toc)
   //  First, check to see if the object to display is already
   //  in our list.
   //
-  int i;
+  unsigned int i;
   for (i = 0; i < fObjList.length(); i ++)
   {
     if (fObjList[i] == toc)
@@ -309,7 +309,7 @@ LibraryMgr::undisplay (OutlineElement *root) {
     UAS_Pointer<UAS_Common> rootDoc = ((TOC_Element *) root)->toc();
     if (rootDoc->type() != UAS_LIBRARY)
 	throw (CASTEXCEPT Exception());
-    int i;
+    unsigned int i;
     for (i = 0; i < fObjList.length(); i ++) {
 	if (fObjList[i] == rootDoc) {
 	    break;
@@ -328,7 +328,7 @@ LibraryMgr::remove (UAS_Pointer<UAS_Common> lib) {
   for (; l; l++) {
     l.item()->library_removed (lib);
   }
-  for (int i = 0; i < fObjList.length(); i ++) {
+  for (unsigned int i = 0; i < fObjList.length(); i ++) {
     if (fObjList[i] == lib) {
 	fObjList.remove_item(i);
 	break;
@@ -416,7 +416,7 @@ LibraryMgr::library()
 void
 LibraryMgr::init(UAS_List<UAS_String> &infolibpaths)
 {
-  int i;
+  unsigned int i;
 
   UAS_Common::initialize(infolibpaths);
 
@@ -450,7 +450,7 @@ LibraryMgr::init(UAS_List<UAS_String> &infolibpaths)
 bool
 LibraryMgr::lib_exist(UAS_String& lid)
 {
-  for (int i = 0; i < fObjList.length(); i ++) {
+  for (unsigned int i = 0; i < fObjList.length(); i ++) {
     if (fObjList[i]->lid() == lid)
       return True;
   }

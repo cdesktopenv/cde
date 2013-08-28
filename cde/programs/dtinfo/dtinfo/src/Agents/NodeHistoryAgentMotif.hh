@@ -40,7 +40,7 @@ public: // functions
   NodeHistoryAgent()
     : f_shell (NULL), f_selected_item (0)
     { }
-  ~NodeHistoryAgent();
+  virtual ~NodeHistoryAgent();
   void display();
 
 private: // functions

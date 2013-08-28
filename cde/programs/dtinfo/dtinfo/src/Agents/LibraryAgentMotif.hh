@@ -103,6 +103,10 @@ private: // variables
   Widget                    f_shell;
   OutlineListView        *f_doc_tree_view;
   OutlineElement         *f_oe;
+  bool                    f_keep_forever;
+  WCallback	         *f_wm_delete_callback;
+  TrackingEntry          *f_tracking_hierarchy;
+  bool                    f_popped_down;
   Widget     f_close;
   Widget     f_copy;
   Widget     f_detach;
@@ -115,10 +119,6 @@ private: // variables
   Widget     f_remove;
   Widget     f_remove2;
   Widget     f_auto_track;
-  bool                    f_keep_forever;
-  WCallback	         *f_wm_delete_callback;
-  TrackingEntry          *f_tracking_hierarchy;
-  bool                    f_popped_down;
   bool                    f_close_sensitive;
   Widget     f_status_text;
   ScopeMenu             *f_scope_menu;

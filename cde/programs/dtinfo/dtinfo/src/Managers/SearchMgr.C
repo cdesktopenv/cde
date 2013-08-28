@@ -142,7 +142,7 @@ SearchMgr::init()
 {
     UAS_List<UAS_String> rootLocs = UAS_Common::rootLocators ();
 
-    int i;
+    unsigned int i;
     for (i = 0; i < rootLocs.length(); i ++) {
 	UAS_Pointer<UAS_Common> theDoc =
 				UAS_Common::create(*(UAS_String*)rootLocs[i]);
@@ -308,8 +308,6 @@ SearchMgr::parse_and_search (char *query, UAS_SearchScope *scope) {
 void
 SearchMgr::display_message (SearchMessageType msg, int)
 {
-  char *msg_str;
-
   switch( msg ){
   case NO_HITS:
     message_mgr().info_dialog (
@@ -336,7 +334,7 @@ SearchMgr::current_hits()
 void
 SearchMgr::add_root(UAS_Pointer<UAS_Common>& root)
 {
-    int i;
+    unsigned int i;
     for (i = 0; i < f_roots.length(); i++) {
 	if (f_roots[i] == root)
 	    break;
@@ -352,7 +350,7 @@ SearchMgr::add_root(UAS_Pointer<UAS_Common>& root)
 void
 SearchMgr::remove_root(UAS_Pointer<UAS_Common>& root)
 {
-    int i;
+    unsigned int i;
     for (i = 0; i < f_roots.length(); i++) {
 	if (f_roots[i] == root)
 	    break;

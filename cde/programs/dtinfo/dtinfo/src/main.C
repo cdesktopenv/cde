@@ -180,7 +180,7 @@ DisplayDocList( UAS_List<UAS_String> docs )
 
   // set up to display the documents
 
-  for (int i = 0; i < docs.length(); i++)
+  for (unsigned int i = 0; i < docs.length(); i++)
   {
     (*(docs[i])).split( '-', start_doc, end_doc ) ;
     doc_locator = start_doc.length() ? start_doc : end_doc ;
@@ -191,9 +191,10 @@ DisplayDocList( UAS_List<UAS_String> docs )
     // allocate memory for a normal c string to pass
     // through to the work proc
 
-    document = new char[doc_locator.length()];
+    int len = doc_locator.length();
+    document = new char[len + 1];
     temp = (char *)doc_locator;
-    strcpy(document, temp);
+    *((char *) memcpy(document, temp, len) + len) = '\0';
 
     XtAppAddWorkProc( window_system().app_context(),
                       DisplayNode_wp, document) ;
@@ -223,15 +224,16 @@ PrintDocList( UAS_List<UAS_String> docs )
     char *document;
     char *temp;
     
-    for (int i = 0; i < docs.length(); i++)
+    for (unsigned int i = 0; i < docs.length(); i++)
     {
 	(*(docs[i])).split( '-', start_doc, end_doc ) ;
 	doc_locator = start_doc.length() ? start_doc : end_doc ;
 	
 	// only print cares about a range of locators;
-	document = new char[doc_locator.length()];
+	int len = doc_locator.length();
+	document = new char[len + 1];
 	temp = (char *)doc_locator;
-	strcpy(document, temp);
+	*((char *) memcpy(document, temp, len) + len) = '\0';
 		
 	// ... needs expansion of range here if present ...
 	XtAppAddWorkProc( window_system().app_context(),
@@ -318,7 +320,7 @@ main(int argc, char **argv)
     mcatch (Exception &, e)
     {
 	char buffer[256];
-	sprintf (buffer,
+	snprintf (buffer, sizeof(buffer),
 		 "Internal Error: Exception got away.\nFile: %s, Line: %d",
 #ifdef C_API
 		 e.file(), e.line());

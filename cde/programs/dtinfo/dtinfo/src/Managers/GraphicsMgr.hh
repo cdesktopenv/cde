@@ -182,9 +182,9 @@ class Graphic: public UAS_Base {
         GraphicAgent *get_agent() { return fagent; }
 
     private:
-	unsigned int			fDetached;
 	PixmapGraphic *			fPixmap;
 	PixmapGraphic *			fDetachedPixmap;
+	unsigned int			fDetached;
 	UAS_Pointer<UAS_EmbeddedObject> fObj;
 
    	GraphicAgent 		       *fagent;

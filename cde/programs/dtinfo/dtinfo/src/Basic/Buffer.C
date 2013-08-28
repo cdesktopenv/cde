@@ -145,7 +145,7 @@ Buffer::write (const int integer)
 
   // Convert bytes from native to MSB first ordering.
   g_int = 0;
-  for (int i = 0; i < sizeof (int); i++)
+  for (unsigned int i = 0; i < sizeof (int); i++)
     if (g_byte_pos[i] != 0)
       g_intbuf[g_byte_pos[i]-1] = inbuf[i];
 
@@ -158,7 +158,7 @@ Buffer::read (int *integer)
   *integer = 0;
 
   // Convert from MSB first ordering to native.
-  for (int i = 0; i < sizeof (int); i++)
+  for (unsigned int i = 0; i < sizeof (int); i++)
     if (g_byte_pos[i] != 0)
       ((char *) integer)[i] = f_point[g_byte_pos[i]-1];
 
@@ -217,7 +217,7 @@ Buffer::write (const char *bytes, u_int size, u_int length)
   ON_DEBUG(printf ("Writing %d bytes to buffer @ %p\n", size * length, f_point));
   int num_bytes = size * length;
   check_space (num_bytes);
-  for (int i = 0; i < size * length; i++)
+  for (unsigned int i = 0; i < size * length; i++)
     ON_DEBUG(printf ("%02X ", (unsigned char) bytes[i]));
   ON_DEBUG(printf ("\n"));
   memcpy (f_point, bytes, num_bytes);
@@ -232,7 +232,7 @@ Buffer::read (char **bytes, u_int size, u_int length)
   ON_DEBUG(printf ("Reading %d bytes from buffer @ %p\n", num_bytes, f_point));
   assert (f_point + num_bytes <= f_end_of_data);
   *bytes = f_point;
-  for (int i = 0; i < size * length; i++)
+  for (unsigned int i = 0; i < size * length; i++)
     ON_DEBUG(printf ("%02X ", (unsigned int) (*bytes)[i]));
   ON_DEBUG(printf ("\n"));
   f_point += num_bytes;

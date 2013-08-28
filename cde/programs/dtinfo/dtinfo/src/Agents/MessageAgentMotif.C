@@ -143,9 +143,9 @@ MessageAgent::position_dialog (WCallback *)
   int           win_x, win_y;
   unsigned int  mask;
 
+#ifdef BOGUS
   static int	sizesSet = 0;
 
-#ifdef BOGUS
   if (!sizesSet) {
       WXmDialogShell theShell (XtParent (*f_dialog));
       theShell.MinHeight (theShell.Height());
@@ -600,7 +600,7 @@ MessageAgent::get_integer (const char *message, const char* title,
   mtfstring = CATGETS(Set_AgentLabel, 162, "Cancel");
   XtVaSetValues((Widget)f_dialog->CancelPB(), XmNlabelString, (XmString)mtfstring, NULL);
 
-  sprintf (buffer, "%d", default_value);
+  snprintf (buffer, sizeof(buffer), "%d", default_value);
   f_text->Value (buffer);
   f_text->Manage();
  
@@ -734,7 +734,8 @@ MessageAgent::get_string (const char *msg, const char* title,
   g_active = FALSE;
   f_text->Unmanage();
   char *value = f_text->Value();
-  strcpy (buffer, value);
+  int len = MIN(strlen(value), 256 - 1);
+  *((char *) memcpy(buffer, value, len) + len) = '\0';
 
   ON_DEBUG (printf ("User entered <%s>\n", value));
 

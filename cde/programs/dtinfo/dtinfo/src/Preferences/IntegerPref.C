@@ -63,7 +63,7 @@
 void
 IntegerPref::save()
 {
-  sprintf (g_buffer, "%d", f_value);
+  snprintf (g_buffer, sizeof(g_buffer), "%d", f_value);
   set_value (g_buffer);
 }
 

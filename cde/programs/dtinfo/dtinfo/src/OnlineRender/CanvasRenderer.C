@@ -87,87 +87,87 @@ struct s_entry
 static
 struct s_entry symbols[] = 
 {
-  GRAPHIC_attr,	"GRAPHIC",
-  INLGRAPHIC,	"INLGRAPHIC",
-  ISMAP,	"ISMAP",
-  OLID,		"OL-ID",
-  OLIDREF,	"OL-IDREF",
-  REMOTE,	"REMOTE",
-  TABLE,	"TABLE",
-  TERMS,	"TERMS",
-  ALIGN,	"ALIGN",
-  BOTTOM,	"BOTTOM",
-  LINEBREAK,	"LINEBREAK",
-  CHARSETS,	"CHARSET",
-  SET,		"SET",
-  BGCOLOR,	"BGCOLOR",
-  FGCOLOR,	"FGCOLOR",
-  FONT,		"FONT",
-  FONTCATALOG,	"FONTCATALOG",
-  FONTFAMILY,	"FONTFAMILY",
-  HIGHLIGHT,	"HIGHLIGHT",
-  IGNORE,	"IGNORE",
-  LEFT,		"LEFT",
-  MARGIN,	"MARGIN",
-  SUFFIX,	"SUFFIX",
-  PREFIX,	"PREFIX",
-  PREVIEW,	"PREVIEW",
-  RIGHT,	"RIGHT",
-  TABSTOPS,	"TABSTOP",
-  CONTENT,	"CONTENT",
-  TOP,		"TOP",
-  OVERLINE,	"OVERLINE",
-  STRIKETHROUGH,"STRIKETHROUGH",
-  UNDERLINE,	"UNDERLINE",
-  WRAP,		"WRAP",
-  XLFD,		"XLFD",
-  GRAPHIC_feature,"GRAPHIC",
-  FAMILY,	"FAMILY",
-  WEIGHT,	"WEIGHT",
-  SLANT,	"SLANT",
-  SIZE,		"SIZE",
-  CHARSET,	"CHARSET",
-  REVERSEVIDEO,	"REVERSE-VIDEO",
-  AT,		"AT",
-  EVERY,	"EVERY",
-  POSITION,	"POSITION",
-  HORIZ,	"HORIZ",
-  VERT,		"VERT",
-  LAYOUT,	"LAYOUT",
-  ASPACE,	"ASPACE",
-  BSPACE,	"BSPACE",
-  LEADING,	"LEADING",
-  FINDENT,	"FINDENT",
-  LINDENT,	"LINDENT",
-  RINDENT,	"RINDENT",
-  FLOW,		"FLOW",
-  JUSTIFY,	"JUSTIFY",
-  VJUSTIFY,	"VJUSTIFY",
-  BORDER,	"BORDER",
-  THICKNESS,	"THICKNESS",
-  ROW,		"ROW",
-  COLS,		"COLS",
-  COLFORMAT,	"COLFORMAT",
-  CHARALIGN,	"CHARALIGN",
-  SPANCOLS,	"SPANCOLS",
-  MOREROWS,	"MOREROWS",
-  CELL,		"CELL",
-  WIDTH,	"WIDTH",
-  FALLBACK,	"FALLBACK",
-  FOUNDRY,	"FOUNDRY",
-  NAME,		"NAME",
-  DISPLAY,	"DISPLAY",
-  COLREF,	"COLREF",
-  SUBSUPER,	"POSITION",
-  COLSEP,	"COLSEP",
-  ROWSEP,	"ROWSEP",
-  TGROUP,	"TGROUP",
-  FRAME,	"FRAME",
-  MEDIA,	"MEDIUM",
-  PAGEBREAK,	"PAGEBREAK",
-  FOOTERS,	"FOOTERS",
-  HEADERS,	"HEADERS",
-  ORIENTATION,  "ORIENTATION"
+  { GRAPHIC_attr,	"GRAPHIC" },
+  { INLGRAPHIC,	"INLGRAPHIC" },
+  { ISMAP,	"ISMAP" },
+  { OLID,		"OL-ID" },
+  { OLIDREF,	"OL-IDREF" },
+  { REMOTE,	"REMOTE" },
+  { TABLE,	"TABLE" },
+  { TERMS,	"TERMS" },
+  { ALIGN,	"ALIGN" },
+  { BOTTOM,	"BOTTOM" },
+  { LINEBREAK,	"LINEBREAK" },
+  { CHARSETS,	"CHARSET" },
+  { SET,		"SET" },
+  { BGCOLOR,	"BGCOLOR" },
+  { FGCOLOR,	"FGCOLOR" },
+  { FONT,		"FONT" },
+  { FONTCATALOG,	"FONTCATALOG" },
+  { FONTFAMILY,	"FONTFAMILY" },
+  { HIGHLIGHT,	"HIGHLIGHT" },
+  { IGNORE,	"IGNORE" },
+  { LEFT,		"LEFT" },
+  { MARGIN,	"MARGIN" },
+  { SUFFIX,	"SUFFIX" },
+  { PREFIX,	"PREFIX" },
+  { PREVIEW,	"PREVIEW" },
+  { RIGHT,	"RIGHT" },
+  { TABSTOPS,	"TABSTOP" },
+  { CONTENT,	"CONTENT" },
+  { TOP,		"TOP" },
+  { OVERLINE,	"OVERLINE" },
+  { STRIKETHROUGH,"STRIKETHROUGH" },
+  { UNDERLINE,	"UNDERLINE" },
+  { WRAP,		"WRAP" },
+  { XLFD,		"XLFD" },
+  { GRAPHIC_feature,"GRAPHIC" },
+  { FAMILY,	"FAMILY" },
+  { WEIGHT,	"WEIGHT" },
+  { SLANT,	"SLANT" },
+  { SIZE,		"SIZE" },
+  { CHARSET,	"CHARSET" },
+  { REVERSEVIDEO,	"REVERSE-VIDEO" },
+  { AT,		"AT" },
+  { EVERY,	"EVERY" },
+  { POSITION,	"POSITION" },
+  { HORIZ,	"HORIZ" },
+  { VERT,		"VERT" },
+  { LAYOUT,	"LAYOUT" },
+  { ASPACE,	"ASPACE" },
+  { BSPACE,	"BSPACE" },
+  { LEADING,	"LEADING" },
+  { FINDENT,	"FINDENT" },
+  { LINDENT,	"LINDENT" },
+  { RINDENT,	"RINDENT" },
+  { FLOW,		"FLOW" },
+  { JUSTIFY,	"JUSTIFY" },
+  { VJUSTIFY,	"VJUSTIFY" },
+  { BORDER,	"BORDER" },
+  { THICKNESS,	"THICKNESS" },
+  { ROW,		"ROW" },
+  { COLS,		"COLS" },
+  { COLFORMAT,	"COLFORMAT" },
+  { CHARALIGN,	"CHARALIGN" },
+  { SPANCOLS,	"SPANCOLS" },
+  { MOREROWS,	"MOREROWS" },
+  { CELL,		"CELL" },
+  { WIDTH,	"WIDTH" },
+  { FALLBACK,	"FALLBACK" },
+  { FOUNDRY,	"FOUNDRY" },
+  { NAME,		"NAME" },
+  { DISPLAY,	"DISPLAY" },
+  { COLREF,	"COLREF" },
+  { SUBSUPER,	"POSITION" },
+  { COLSEP,	"COLSEP" },
+  { ROWSEP,	"ROWSEP" },
+  { TGROUP,	"TGROUP" },
+  { FRAME,	"FRAME" },
+  { MEDIA,	"MEDIUM" },
+  { PAGEBREAK,	"PAGEBREAK" },
+  { FOOTERS,	"FOOTERS" },
+  { HEADERS,	"HEADERS" },
+  { ORIENTATION,  "ORIENTATION" }
 };
 // supported features
 
@@ -231,11 +231,11 @@ print_justify (unsigned value)
 
 CanvasRenderer::CanvasRenderer(int font_scale)
 : Renderer(),
-  fBogusSymbol(gElemSymTab->intern("%BOGUS")),
-  f_font_scale(font_scale),
+  f_current_tgroup (0),
   f_font (0),
   f_link_idx (-1),
-  f_current_tgroup (0),
+  f_font_scale(font_scale),
+  fBogusSymbol(gElemSymTab->intern("%BOGUS")),
   f_level(0)
 {
   // make symbols 
@@ -993,10 +993,10 @@ CanvasRenderer::handle_olias_attributes(ElementFeatures  &features,
   
   if (grattr)
     {
+#ifdef GRAPHIC_DEBUG
       const Feature *graphic_display_type =
 	complete.deep_lookup("GRAPHIC", "ALIGN", 0);
 
-#ifdef GRAPHIC_DEBUG
       cerr << "GRAPHIC" << endl;
 
       cerr << "Graphic( " << element.gi() << "): (" ;
@@ -1225,7 +1225,8 @@ CanvasRenderer::handle_olias_attributes(ElementFeatures  &features,
 	  else
 	    {
 	      char buf[100] ;
-	      sprintf(buf, "Graphic \"%s\" unavailable", graphic);
+	      snprintf(buf, sizeof(buf),
+			"Graphic \"%s\" unavailable", graphic);
 #ifdef TML_NO_THIS_ASSIGNMENT
 	      new_gnode = new (the_model) gnode(the_model);
 #else
@@ -1377,7 +1378,7 @@ new_segment(unsigned long type)
     unsigned size = sizeof(segment->handle);
     //cerr << "Handle size = " << size << endl;
     char *p = (char *)&(segment->handle) ;
-    for (int i = 0; i < size; i++, p++)
+    for (unsigned int i = 0; i < size; i++, p++)
 	  *p = 0;
   }
   
@@ -1493,7 +1494,7 @@ CanvasRenderer::insert_string (_DtCvSegment *container,
   // find the newlines, and make a string segment up to that point,
   // then advance our start pointer beyond that point
 
-  for (; newline = strchr(start, '\n'); start = newline + 1) {
+  for (; (newline = strchr(start, '\n')); start = newline + 1) {
 
       seg = really_insert_string(container, font, start, (newline - start), count_vcc);
       _DtCvSegment *lbseg = insert_break(container, _DtCvNEW_LINE);
@@ -1541,7 +1542,7 @@ CanvasRenderer::really_insert_string (_DtCvSegment *container,
   
   f_current_displayable = strseg ;
   
-  int ret_indx ;
+  long ret_indx ;
   // calculate dthelp font index
   {
     // WARNING: this routine keeps the ptr to the xlfd_spec
@@ -1582,7 +1583,7 @@ CanvasRenderer::really_insert_string (_DtCvSegment *container,
 #endif
     unsigned char* strp;
 
-    while (strp = (unsigned char*)strchr(string, '\015')) {
+    while ((strp = (unsigned char*)strchr(string, '\015'))) {
 #ifdef CR_JP_DEBUG
       cerr << "<CR> found...";
 #endif
@@ -1800,12 +1801,12 @@ CanvasRenderer::setup_container(_DtCvSegment *container, ElementFeatures &featur
 PartialElementFeatures::PartialElementFeatures(CanvasRenderer* renderer)
 : f_text (0),
   f_font(0),
+  f_subsuper(baseline),
   f_linebreak(0),
   f_pagebreak(PAGEBREAK_NONE),
-  f_graphic (0),
-  f_subsuper(baseline),
-  f_ignore(0),
   f_layout(renderer),
+  f_graphic (0),
+  f_ignore(0),
   f_orientation("portrait")
 
 {
@@ -1814,13 +1815,13 @@ PartialElementFeatures::PartialElementFeatures(CanvasRenderer* renderer)
 PartialElementFeatures::PartialElementFeatures (PartialElementFeatures &features)
 : f_text (features.f_text),
   f_font (features.f_font),
+  f_subsuper (features.f_subsuper),
   f_highlight (features.f_highlight),
   f_linebreak (features.f_linebreak),
   f_pagebreak (features.f_pagebreak),
   f_position (features.f_position),
   f_layout (features.f_layout),
   f_graphic (features.f_graphic),
-  f_subsuper (features.f_subsuper),
   f_ignore (features.f_ignore),
   f_orientation (features.f_orientation)
 {
@@ -1834,17 +1835,17 @@ PartialElementFeatures::~PartialElementFeatures()
 ElementFeatures::ElementFeatures(CanvasRenderer* renderer)
 : PartialElementFeatures(renderer),
   f_row (NULL),
-  f_border (_DtCvBORDER_NONE),
   f_graphic (0),
-  f_locator (0),
-  f_link_idx (-1),
+  f_border (_DtCvBORDER_NONE),
+  f_border_width(-1), // invalid border width
   f_table (NULL),
   f_tgroup (NULL),
   f_colformat (NULL),
-  f_border_width(-1), // invalid border width
-  f_xref(NULL),
   f_prefix(renderer),
-  f_suffix(renderer)
+  f_suffix(renderer),
+  f_locator (0),
+  f_xref(NULL),
+  f_link_idx (-1)
 {}
 
 ElementFeatures::~ElementFeatures()
@@ -1911,8 +1912,8 @@ Layout::Layout(CanvasRenderer* renderer)
   f_aspace (0), f_bspace (0), f_leading (-1),
   f_findent (0), f_rindent(0), f_lindent (0),
   f_flow (_DtCvOPTION_BAD),
-  f_wrap (_DtCvOPTION_BAD),
-  f_justify (_DtCvOPTION_BAD)
+  f_justify (_DtCvOPTION_BAD),
+  f_wrap (_DtCvOPTION_BAD)
 {
 }
 
@@ -1922,11 +1923,11 @@ Layout::Layout (Layout &layout)
   f_bspace (layout.f_bspace),
   f_leading (layout.f_leading),
   f_findent (layout.f_findent),
-  f_lindent (layout.f_lindent),
   f_rindent (layout.f_rindent),
+  f_lindent (layout.f_lindent),
   f_flow (layout.f_flow),
-  f_wrap (layout.f_wrap),
-  f_justify (layout.f_justify)
+  f_justify (layout.f_justify),
+  f_wrap (layout.f_wrap)
 {
 }
 
@@ -2076,14 +2077,17 @@ TGDefn::add (ColDefn *cd)
   }
 }
 
+#if 0
 static void
 add_id(char **cell_ids, unsigned row, unsigned number, _DtCvSegment *segment)
 {
   char *id = segment->handle.container.id;
   char idstr[64];
+  int cell_idslen;
+
   if (id == NULL)
     {
-      sprintf(idstr,"id%d", number);
+      snprintf(idstr, sizeof(idstr), "id%d", number);
       
       id = idstr ;
       segment->handle.container.id = strdup (id);
@@ -2095,17 +2099,19 @@ add_id(char **cell_ids, unsigned row, unsigned number, _DtCvSegment *segment)
   else
     {
       char *orig = cell_ids[row] ;
-      cell_ids[row] = new char [ strlen (orig) + 1 + strlen (id) + 1 ] ;
-      sprintf(cell_ids[row], "%s %s", orig, id);
+      cell_idslen = strlen (orig) + 1 + strlen (id) + 1 ;
+      cell_ids[row] = new char [ cell_idslen ] ;
+      snprintf(cell_ids[row], cell_idslen, "%s %s", orig, id);
     }
 }
+#endif
 
 
 ColFormat::ColFormat() 
 : f_char_align ('.'),
+  f_name(NULL),
   f_justify (_DtCvOPTION_BAD),
   f_width (1),
-  f_name(NULL),
   f_colsep(CRSEP_NOT_SPECIFIED),
   f_rowsep(CRSEP_NOT_SPECIFIED)
 {}
@@ -2142,7 +2148,7 @@ _DtCvSegment *ensure_id(_DtCvSegment *segment)
   if (segment->handle.container.id == NULL)
     {
       char buffer[16] ;
-      sprintf(buffer, "id%d", id_count++);
+      snprintf(buffer, sizeof(buffer), "id%d", id_count++);
       segment->handle.container.id = strdup (buffer);
     }
   return segment ;
@@ -2188,7 +2194,7 @@ TGDefn::find_format(const char *name, int* index)
 void
 TGDefn::build()
 {
-  unsigned i ;
+  unsigned i, len, slen, lent, leng;
   unsigned num_cells   = 0; // # of virtual cells
   unsigned num_rows    = 0; // # of physical rows
   unsigned num_columns = 0; // # of physical columns
@@ -2290,7 +2296,7 @@ TGDefn::build()
   for (i = 0 ; i < num_rows ; i++)
     {
       grid[i] = new _DtCvSegment *[num_columns]  ;
-      for (int c = 0 ; c < num_columns; c++)
+      for (unsigned int c = 0 ; c < num_columns; c++)
 	grid[i][c] = NULL ;
     }
 
@@ -2342,9 +2348,9 @@ TGDefn::build()
 	int spancols = 1;
 	ColFormat* msformat; // most  significant format
 	ColFormat* lsformat; // least significant format
-	if (msformat = find_format(colcell->colstart(), &start_index)) {
+	if ((msformat = find_format(colcell->colstart(), &start_index))) {
 	  int end_index;
-	  if (lsformat = find_format(colcell->colend(), &end_index)) {
+	  if ((lsformat = find_format(colcell->colend(), &end_index))) {
 	    if (start_index > end_index) {
 		int anonym = start_index;
 		start_index = end_index;
@@ -2370,7 +2376,7 @@ TGDefn::build()
 	setup_cell(segment, colcell, row_cursor.key(), msformat, lsformat);
 
 	for (int i = 0 ; i < spancols; i++) {
-	  for (int j = 0; j < colcell->spanrows(); j++) {
+	  for (unsigned int j = 0; j < colcell->spanrows(); j++) {
 	    // if there's entrenchment from above rows, skip it.
 	    if (grid[current_row + j][start_index + i])
 	      continue;
@@ -2383,7 +2389,6 @@ TGDefn::build()
 	columns.removeAt(kept);
       }
 
-      unsigned current_column = 0 ; 
       count = columns.entries();
       for (vc = 0, kept = 0; vc < count; vc++) // iterate for virtual cells
       {
@@ -2401,7 +2406,7 @@ TGDefn::build()
 	}
 	end_try;
 
-	int i, start_index;
+	unsigned int i, start_index;
 	for (i = 0; i < num_columns; i++) {
 	  if (grid[current_row][i] == NULL) {
 	    start_index = i;
@@ -2434,7 +2439,7 @@ TGDefn::build()
 	columns.removeAt(kept);
       }
 
-      for (int c = 0; c < num_columns; c++)
+      for (unsigned int c = 0; c < num_columns; c++)
       {
 	if (grid[current_row][c] == NULL)
 	{
@@ -2458,7 +2463,7 @@ TGDefn::build()
 #ifdef TABLE_DEBUG
 	    fprintf(stderr, "(DEBUG) blank spot found in the table.\n");
 #endif
-	    int col;
+	    unsigned int col;
 
 	    if (c == 0)
 	    {
@@ -2471,7 +2476,7 @@ TGDefn::build()
 	      {
 		_DtCvSegment* filler = grid[r][col];
 
-		for (int i = c; i < col; i++)
+		for (unsigned int i = c; i < col; i++)
 		  grid[r][i] = filler;
 	      }
 	    }
@@ -2501,7 +2506,7 @@ TGDefn::build()
 
   for (r = 0 ; r < num_rows ; r++)
     {    
-      for (int c = 0 ; c < num_columns ; c++)
+      for (unsigned int c = 0 ; c < num_columns ; c++)
 	{
 	  if (c == 0)
 	    {
@@ -2512,11 +2517,13 @@ TGDefn::build()
 	    {
 	      // subsequent items, append space separated id
 
-	      unsigned len = strlen (table->cell_ids[r]) + strlen (grid[r][c]->handle.container.id);
-	      char *new_ids = new char [len + 2] ;
-	      strcpy(new_ids, table->cell_ids[r]) ;
-	      strcat(new_ids, " ");
-	      strcat(new_ids, grid[r][c]->handle.container.id);
+	      lent = strlen (table->cell_ids[r]);
+	      leng = strlen (grid[r][c]->handle.container.id);
+	      char *new_ids = new char [lent + leng + 2] ;
+	      *((char *) memcpy(new_ids, table->cell_ids[r], lent) +lent) ='\0';
+	      *((char *) memcpy(new_ids + lent, " ", 1) + 1) = '\0';
+	      *((char *) memcpy(new_ids + lent + 1,
+			grid[r][c]->handle.container.id, leng) + leng) = '\0';
 	      delete table->cell_ids[r] ;
 	      table->cell_ids[r] = new_ids ;
 	    }
@@ -2534,7 +2541,7 @@ TGDefn::build()
     
     justify_chars[0] = 0 ;
 
-    for (int i = 0 ; i < num_columns ; i++)
+    for (unsigned int i = 0 ; i < num_columns ; i++)
       {
 	justify[i]       = _DtCvOPTION_BAD;
 	col_widths[i]    = NULL;
@@ -2547,7 +2554,7 @@ TGDefn::build()
 
 	justify[i] = format->justify();
 
-	sprintf(buffer, "%d", format->width());
+	snprintf(buffer, sizeof(buffer), "%d", format->width());
 	col_widths[i] = strdup(buffer);
 
 	if (format->justify() == _DtCvJUSTIFY_CHAR)
@@ -2555,7 +2562,9 @@ TGDefn::build()
 	    char buf[2] ;
 	    buf[0] = format->char_align() ;
 	    buf[1] = 0 ;
-	    strcat(justify_chars, buf);
+	    slen = strlen(buf);
+	    len = MIN(strlen(buf), num_columns - slen);
+	    *((char *) memcpy(justify_chars + slen, buf, len) + len) = '\0';
 	  }
       }
     table->col_justify = justify ;

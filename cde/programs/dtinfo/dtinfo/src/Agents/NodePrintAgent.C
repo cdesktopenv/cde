@@ -124,6 +124,7 @@ using namespace std;
 #include "Registration.hh"
 
 // for DtCanvas Help stuff
+#include <DtI/Access.h>
 #include <DtI/XUICreateI.h>
 #include <DtI/SetListI.h>
 #include <DtI/CallbacksI.h>
@@ -364,7 +365,7 @@ NodePrintAgent::create_ui(Widget parent)
     
     // Create a right attached label for the book number
 
-    sprintf(buf, "%d", 1);
+    snprintf(buf, sizeof(buf), "%d", 1);
     label = XmStringCreate(buf, XmFONTLIST_DEFAULT_TAG);
     n = 0;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
@@ -417,7 +418,7 @@ NodePrintAgent::display(UAS_Pointer<UAS_Common> &node_ptr)
     // ui
 
     if ((f_help_dsp_area == NULL) || (gHelpDisplayArea == 0)) {
-	DtHelpDispAreaStruct *displayArea = create_ui(f_print_shell);
+	create_ui(f_print_shell);
 	first_time = TRUE;
     }
     
@@ -433,7 +434,7 @@ NodePrintAgent::display(UAS_Pointer<UAS_Common> &node_ptr)
     // update page number in footer
     
     n = 0;
-    sprintf(buf, "%d", 1);
+    snprintf(buf, sizeof(buf), "%d", 1);
     label = XmStringCreate(buf, XmFONTLIST_DEFAULT_TAG);
     
     XtSetArg(args[n], XmNlabelString, label); n++;

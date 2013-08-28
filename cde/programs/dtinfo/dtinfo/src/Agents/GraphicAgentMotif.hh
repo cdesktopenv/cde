@@ -91,9 +91,9 @@ private:
   void unset_scale_buttons();
 
 private:
-  UAS_Pointer<UAS_Common>		f_node_ptr ;
-  UAS_Pointer<Graphic>	f_graphic ;
   WTopLevelShell  	f_shell;
+  UAS_Pointer<UAS_Common>	f_node_ptr ;
+  UAS_Pointer<Graphic>	f_graphic ;
   WXawPanner           *f_panner;
   WXmLabel	       *f_label;
   WPixmap	       *f_pixmap_widget ;

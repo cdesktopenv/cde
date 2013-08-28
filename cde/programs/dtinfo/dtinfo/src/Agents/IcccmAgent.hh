@@ -103,6 +103,7 @@ private:
 
     static const char* extract_ascii(const char*);
 
+    void* f_real_object;
     data_handler_t	f_string_handler; 
 #if 0
     data_handler_t	f_eps_handler; 
@@ -111,7 +112,6 @@ private:
     data_exporter_t	f_string_exporter;
 
     static Time f_paste_activated_time;
-    void* f_real_object;
 
     // Need this flag to know if we lost the selection to ourself or
     // to another application in the lose_selection procedure.

@@ -78,8 +78,8 @@ BookTab::BookTab (const WComposite &parent)
 
 BookTab::BookTab (NodeWindowAgent *nwa,
 		  const WComposite &parent, UAS_Pointer<UAS_Common> &tab_ptr)
-: f_node_window_agent (nwa),
-  WXyzTab ((Widget) NULL),
+: WXyzTab ((Widget) NULL),
+  f_node_window_agent (nwa),
   f_selected (FALSE)
 {
   widget = XyzCreateTabButton (parent, "tab", NULL, 0);

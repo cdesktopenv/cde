@@ -70,7 +70,7 @@ MMDB_Factory::createMMDB (const UAS_String &infoLibPath) {
 	if (!olias_db().validInfoLibPath(infoLibPath)) {
 	    UAS_ErrorMsg badPath;
 	    char buf[BUFSIZ];
-	    (void) sprintf (buf, CATGETS(Set_UAS_MMDB, 2,
+	    (void) snprintf (buf, sizeof(buf), CATGETS(Set_UAS_MMDB, 2,
 					"Invalid Infolib path: %s"),
 					(char *) infoLibPath);
 	    badPath.fErrorMsg = buf;
@@ -83,7 +83,7 @@ MMDB_Factory::createMMDB (const UAS_String &infoLibPath) {
 	} mcatch_any() {
 #if 0
 	    char buf[BUFSIZ];
-	    (void) sprintf (buf, CATGETS(Set_UAS_MMDB, 3,
+	    (void) snprintf (buf, sizeof(buf), CATGETS(Set_UAS_MMDB, 3,
 					"Ignoring invalid Infolib path: %s"),
 					(char *) infoLibPath);
 	    UAS_ErrorMsg theError;
@@ -122,8 +122,8 @@ MMDB_Factory::resolveLocator (const UAS_String &loc,
     returnMMDB = 0;
     returnInfoBase = 0;
     for (int i = 0; i < fMMDBList.numItems(); i ++) {
-	if (returnInfoBase = fMMDBList[i]->infolib()->
-		getInfobaseByComponent(loc, info_lib::LOC)) {
+	if ((returnInfoBase = fMMDBList[i]->infolib()->
+		getInfobaseByComponent(loc, info_lib::LOC))) {
 	    returnMMDB = fMMDBList[i];
 	    return;
 	}
@@ -280,7 +280,7 @@ MMDB_Factory::initializeFactory (UAS_List<UAS_String>& libs) {
     //for (int i = 0; i < fields.length(); i ++) {
 	//(void) getMMDB (*(UAS_String*)fields[i]);
     //}
-    for (int i = 0; i < libs.length(); i ++) {
+    for (unsigned int i = 0; i < libs.length(); i ++) {
 	//  If this call doesn't create a new MMDB, it sends
 	//  an error message to the application.
 	(void) getMMDB (*(UAS_String*)libs[i]);
@@ -350,7 +350,8 @@ UAS_String
 MMDB_Factory::genInfolibName () {
     static int counter = 0;
     char buf[BUFSIZ];
-    (void) sprintf (buf, CATGETS(Set_UAS_MMDB, 4, "DtMmdb Library %d"), ++counter);
+    (void) snprintf (buf, sizeof(buf),
+		CATGETS(Set_UAS_MMDB, 4, "DtMmdb Library %d"), ++counter);
     return UAS_String (buf);
 }
 
@@ -414,7 +415,7 @@ MMDB_URL::locator (const UAS_String &in) {
     UAS_String access, rest;
     in.split (':', access, rest);
     UAS_List<UAS_String> pairs = rest.splitFields ('&');
-    for (int i = 0; i < pairs.length(); i ++) {
+    for (unsigned int i = 0; i < pairs.length(); i ++) {
 	UAS_String key, value;
 	pairs[i]->split ('=', key, value);
 	installPair (key, value);

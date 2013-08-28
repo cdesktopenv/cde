@@ -43,7 +43,7 @@ DtSR_SearchResults::DtSR_SearchResults
     UAS_List<UAS_SearchResultsEntry>& list =
 			*(UAS_List<UAS_SearchResultsEntry>*)res;
 
-    for (int i = 0; i < list.length(); i++) {
+    for (unsigned int i = 0; i < list.length(); i++) {
 
 	UAS_Pointer<UAS_SearchResultsEntry> crude_ptr = list[i];
 	UAS_SearchResultsEntry &cptr2 = *crude_ptr;
@@ -60,8 +60,8 @@ DtSR_SearchResults::sort(UAS_Pointer<UAS_List<UAS_SearchResultsEntry> > res)
 			*(UAS_List<UAS_SearchResultsEntry>*)res;
   
     unsigned int list_length = Ref_list.length();
-    for (int i = 0; i < list_length; i++) {
-	for (int j = i+1; j < list_length; j++) {
+    for (unsigned int i = 0; i < list_length; i++) {
+	for (unsigned int j = i+1; j < list_length; j++) {
 
 #ifdef USL
 	    // this line does nothing, but if you remove it
@@ -83,7 +83,7 @@ UAS_Pointer<UAS_List<UAS_SearchResultsEntry> >
 DtSR_SearchResults::create_results(int index, int nres)
 {
     // garbage input
-    if (nres == 0 || index >= f_results.length())
+    if (nres == 0 || index >= (int) f_results.length())
 	return NULL;
 
     int n;
@@ -122,7 +122,7 @@ DtSR_SearchResults::merge(UAS_Pointer<DtSR_SearchResults> & res)
 	}
 
 	f_ndocs = res->f_ndocs;
-	for (i = 0; i < res->f_stems_list.length(); i++) {
+	for (i = 0; i < (int) res->f_stems_list.length(); i++) {
 	    f_stems_list.insert_item(res->f_stems_list[i]);
 	}
 	res = NULL; 
@@ -177,7 +177,7 @@ DtSR_SearchResults::merge(UAS_Pointer<DtSR_SearchResults> & res)
     }
 
     // merge stems list
-    for (i = 0; i < res->f_stems_list.length(); i++) {
+    for (i = 0; i < (int) res->f_stems_list.length(); i++) {
 	f_stems_list.insert_item(res->f_stems_list[i]);
     }
 
@@ -193,7 +193,7 @@ DtSR_SearchResults::stems(int dbn)
     if (dbn < 0 || dbn >= db_count)
 	return NULL;
 
-    int i;
+    unsigned int i;
     for (i = 0; i < f_stems_list.length(); i++) {
 	if (f_stems_list[i]->dbn() == dbn)
 	    break;

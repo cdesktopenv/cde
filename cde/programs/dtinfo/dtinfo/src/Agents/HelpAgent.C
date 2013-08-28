@@ -408,7 +408,6 @@ HelpAgent::get_locator_id(const Widget w)
    res.default_type    = XtRString;
    res.default_addr    = (void*)NULL_LOCATORID;
 
-   char         *wname = XtName(w);     // Just for gdb
    String       string;
    XtGetApplicationResources(w, &string, &res, 1, NULL, 0);
 

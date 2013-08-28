@@ -84,7 +84,7 @@ UAS_List<T>::length () const {
 template <class T>
 UAS_Pointer<T> &
 UAS_List<T>::item(unsigned int index) {
-    if (index >= fNumItems) {
+    if (index >= (unsigned int)fNumItems) {
 	abort ();
     }
     return fItems[index];
@@ -163,7 +163,7 @@ UAS_List<T>::insert_item (const T& theItem, int index) {
 template <class T>
 int
 UAS_List<T>::set_item (const UAS_Pointer<T>& theItem, unsigned int index) {
-    if (index >= fNumItems)
+    if (index >= (unsigned int)fNumItems)
 	return 0;
     fItems[index] = theItem;
     return 1;
@@ -180,7 +180,7 @@ UAS_List<T>::set_item (const T& theItem, unsigned int index) {
 template <class T>
 int
 UAS_List<T>::remove_item (unsigned int index) {
-    if (index >= fNumItems)
+    if (index >= (unsigned int)fNumItems)
 	return 0;
     for (int i = index + 1; i < fNumItems; i ++)
 	fItems[i - 1] = fItems[i];
@@ -191,7 +191,7 @@ UAS_List<T>::remove_item (unsigned int index) {
 template <class T>
 int
 UAS_List<T>::remove_item (const UAS_Pointer<T>& theItem) {
-    for (unsigned int i = 0; i < fNumItems; i ++) {
+    for (unsigned int i = 0; i < (unsigned int)fNumItems; i ++) {
 	if (fItems[i] == theItem) {
 	    return remove_item (i);
 	}

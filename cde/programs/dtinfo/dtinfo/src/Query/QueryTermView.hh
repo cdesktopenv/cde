@@ -97,10 +97,13 @@ private:
 private:
 #ifdef UseQSearch
   QueryTerm      *f_query_term;
+  WXmForm         f_form;
+  WXmForm         f_pws_form;
+  WXmTextField    f_weight_field;
+  WXmLabelGadget  f_weight_label;
   QueryGroupView *f_parent;
   QueryTermView  *f_previous;
   QueryTermView  *f_next;
-  WXmForm         f_form;
   WXmOptionMenu   f_prefix;
   union {
     WXmTextField   *f_term_field;
@@ -109,15 +112,15 @@ private:
   };
   WXmArrowButton  f_pw_button;
   WXmOptionMenu   f_connective;
-  WXmForm         f_pws_form;
-  WXmLabelGadget  f_weight_label;
-  WXmTextField    f_weight_field;
 #else
   QueryTerm      *f_query_term;
+  WXmForm         f_form;
+  WXmForm         f_pws_form;
+  WXmLabelGadget  f_proximity_label;
+  WXmTextField    f_proximity_field;
   QueryGroupView *f_parent;
   QueryTermView  *f_previous;
   QueryTermView  *f_next;
-  WXmForm         f_form;
   WXmToggleButton f_select_toggle; // What is this for? - 6/28/94 kamiya
   WXmOptionMenu   f_prefix;
   union {
@@ -127,9 +130,6 @@ private:
   };
   WXmArrowButton  f_pw_button;
   WXmOptionMenu   f_connective;
-  WXmForm         f_pws_form;
-  WXmLabelGadget  f_proximity_label;
-  WXmTextField    f_proximity_field;
   WXmTextField    f_weight_field;
   WXmTextField    f_scope_field;
 #endif

@@ -374,7 +374,7 @@ chop_segment(_DtCvSegment* seg, unsigned int nc)
     if (widec) {
 	wchar_t* src  = (wchar_t*)seg->handle.string.string + nc;
 	wchar_t* dest = new wchar_t[seg_nc - nc + 1];
-	for (int i = 0; i < seg_nc - nc; i++)
+	for (unsigned int i = 0; i < seg_nc - nc; i++)
 	    dest[i] = src[i];
 	dest[seg_nc - nc] = '\0';
 	nseg_str = (void*)dest;
@@ -385,7 +385,7 @@ chop_segment(_DtCvSegment* seg, unsigned int nc)
     else {
 	char* src  = (char*)seg->handle.string.string + nc;
 	char* dest = new char[seg_nc - nc + 1];
-	for (int i = 0; i < seg_nc - nc; i++)
+	for (unsigned int i = 0; i < seg_nc - nc; i++)
 	    dest[i] = src[i];
 	dest[seg_nc - nc] = '\0';
 	nseg_str = (void*)dest;
@@ -510,21 +510,23 @@ highlight_search_hit(_DtCvSegment* seg, unsigned int vcc, unsigned int len)
 		if (widec) {
 		    wchar_t* src = (wchar_t*)sibling->handle.string.string;
 		    wchar_t* dst = (wchar_t*)seg->handle.string.string;
-		    int len = wcslen(dst) + wcslen(src);
+		    int slen = wcslen(dst);
+		    int len = wcslen(src);
 		    seg->handle.string.string = (void*)
 			realloc(seg->handle.string.string,
-					sizeof(wchar_t) * (len + 1));
+					sizeof(wchar_t) * (slen + len + 1));
 		    dst = (wchar_t*)seg->handle.string.string;
-		    wcscat(dst, src);
+		    *((char *) memcpy(dst + slen, src, len) + len) = '\0';
 		}
 		else {
 		    char* src = (char*)sibling->handle.string.string;
 		    char* dst = (char*)seg->handle.string.string;
-		    int len = strlen(dst) + strlen(dst);
+		    int slen = strlen(dst);
+		    int len = strlen(src);
 		    seg->handle.string.string = (void*)
-			realloc(seg->handle.string.string, len + 1);
+			realloc(seg->handle.string.string, slen + len + 1);
 		    dst = (char*)seg->handle.string.string;
-		    strcat(dst, src);
+		    *((char *) memcpy(dst + slen, src, len) + len) = '\0';
 		}
 		DtCvStrVcLenSync(seg);
 
@@ -596,7 +598,7 @@ traverse_for_vcc(_DtCvSegment* seg, unsigned int vcc)
     else if (seg_ptype == _DtCvTABLE) {
 	_DtCvSegment** cell = seg->handle.table.cells;
 	for (; *cell; cell++) {
-	    if (therein = traverse_for_vcc(*cell, vcc))
+	    if ((therein = traverse_for_vcc(*cell, vcc)))
 		break;
 	}
     }
@@ -709,7 +711,7 @@ NodeViewInfo::set_search_hits(UAS_Pointer<UAS_List<UAS_TextRun> >& hits)
 
 	assert( (seg->type & _DtCvPRIMARY_MASK) == _DtCvSTRING );
 
-	if (seg = highlight_search_hit(seg, hit->offset(), hit->length())) {
+	if ((seg = highlight_search_hit(seg, hit->offset(), hit->length()))) {
 #ifdef DEBUG
 	    fprintf(stderr, "(DEBUG) highlight_search_hit succeeded, "
 			    			"offset=%d\n", hit->offset());

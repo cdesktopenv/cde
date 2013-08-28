@@ -71,9 +71,9 @@ void
 BooleanPref::save()
 {
   if (f_value == 0)
-    strcpy (g_buffer, "false");
+    *((char *) memcpy(g_buffer, "false", 6) + 6) = '\0';
   else
-    strcpy (g_buffer, "true");
+    *((char *) memcpy(g_buffer, "true", 5) + 5) = '\0';
   set_value (g_buffer);
 }
 

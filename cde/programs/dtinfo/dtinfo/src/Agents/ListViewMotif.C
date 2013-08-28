@@ -154,8 +154,9 @@ ListView::create_ui_objects()
 	(XmString)XmStringLocalized(CATGETS(Set_AgentLabel, 48, "Help")), NULL);
 
   // 7/30/93 rtp - bear with this hack, it's a little bogus
-  char *help_name = new char[strlen(f_name) + strlen("_help") + 1];
-  sprintf(help_name, "%s%s", f_name, "_help");
+  int help_namelen = strlen(f_name) + strlen("_help") + 1;
+  char *help_name = new char[help_namelen];
+  snprintf(help_name, help_namelen, "%s%s", f_name, "_help");
   // What i've done is appended '_help' to the widget name and added
   // a help callback to the help button that will reference this name
   help_agent().add_activate_help (help, help_name);
@@ -212,7 +213,7 @@ ListView::display_list()
   if (f_shell == NULL || f_the_list == NULL)
     return;
 
-  int i;
+  unsigned int i;
 
   // NOTE: There should be a wwl object for string tables!! 6/19/92 djb
   XmStringTable st = (XmStringTable)

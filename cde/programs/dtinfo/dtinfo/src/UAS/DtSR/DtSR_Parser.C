@@ -128,7 +128,7 @@ DtSR_Parser::se_construct(OQL_Token token,
 	UAS_String str   = CATGETS(Set_DtSR_Parser, 1,
 				"The ``%s'' Search feature is not supported.");
 	UAS_String opstr = CATGETS(Set_DtSR_Parser, 3, "weight");
-	sprintf(msg, (char*)str, (char*)opstr);
+	snprintf(msg, sizeof(msg), (char*)str, (char*)opstr);
 	UAS_String uas_msg = msg;
 	throw(UAS_Search_Feature_Unavailable(uas_msg));
 #endif
@@ -169,7 +169,7 @@ DtSR_Parser::se_construct(OQL_Token token,
 	UAS_String str   = CATGETS(Set_DtSR_Parser, 1,
 				"The ``%s'' Search feature is not supported.");
 	UAS_String opstr = CATGETS(Set_DtSR_Parser, 2, "quoted phrase");
-	sprintf(msg, (char*)str, (char*)opstr);
+	snprintf(msg, sizeof(msg), (char*)str, (char*)opstr);
 
 	UAS_String uas_msg = msg;
 	throw(UAS_Search_Feature_Unavailable(uas_msg));
@@ -190,7 +190,7 @@ DtSR_Parser::se_construct(OQL_Token token,
 	UAS_String str   = CATGETS(Set_DtSR_Parser, 1,
 				"The ``%s'' Search feature is not supported.");
 	UAS_String opstr = CATGETS(Set_DtSR_Parser, 4, "proximity");
-	sprintf(msg, (char*)str, (char*)opstr);
+	snprintf(msg, sizeof(msg), (char*)str, (char*)opstr);
 	UAS_String uas_msg = msg;
 	throw(UAS_Search_Feature_Unavailable(uas_msg));
 #endif
@@ -231,7 +231,7 @@ DtSR_Parser::se_construct(OQL_Token token,
 	UAS_String str   = CATGETS(Set_DtSR_Parser, 1,
 				"The ``%s'' Search feature is not supported.");
 	UAS_String opstr = CATGETS(Set_DtSR_Parser, 5, "xor");
-	sprintf(msg, (char*)str, (char*)opstr);
+	snprintf(msg, sizeof(msg), (char*)str, (char*)opstr);
 	UAS_String uas_msg = msg;
 	throw(UAS_Search_Feature_Unavailable(uas_msg));
 #endif

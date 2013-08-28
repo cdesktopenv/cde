@@ -44,6 +44,8 @@
 #include "TabButtonP.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <Xm/Xm.h>
+#include <Xm/IconButtonP.h>
 
 /* **************************************************************
  * constant and type declarations
@@ -402,10 +404,10 @@ ActivateCommon (Widget w, XEvent *event, String *params, Cardinal *num_params)
   /* If the event was a button event, make sure it occured within
      the tab.  (The user could have released outside the tab.) */
   if (event->type != ButtonRelease ||
-      event->xbutton.x >= (int) -bw &&
-      event->xbutton.y >= (int) -bw &&
-      event->xbutton.x <  (int) (tabw->core.width + bw) &&
-      event->xbutton.y <  (int) (tabw->core.height + bw))
+      (event->xbutton.x >= (int) -bw &&
+       event->xbutton.y >= (int) -bw &&
+       event->xbutton.x <  (int) (tabw->core.width + bw) &&
+       event->xbutton.y <  (int) (tabw->core.height + bw)))
     {
       /* Bail out if this is a multiple click and we're ignoring them. */
       if (tabw->tab.click_count > 1 &&
@@ -745,7 +747,6 @@ static Boolean
 SetValues (Widget cw, Widget rw, Widget nw, ArgList args, Cardinal *num_args)
 {
    XyzTabButtonWidget current = (XyzTabButtonWidget) cw;
-   XyzTabButtonWidget request = (XyzTabButtonWidget) rw;
    Boolean redisplay = False;
 
    if (tabw->tab.arm_pixmap != current->tab.arm_pixmap &&
@@ -1035,7 +1036,7 @@ draw_shadow (Widget w)
 static void
 get_label_rect (Widget w, rect_t *rect)
 {
-  int dx, adjust;
+  int dx;
   short fill = 0;
 
   /* Make some room between shadows and label area if the colors are

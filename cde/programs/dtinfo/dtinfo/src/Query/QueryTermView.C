@@ -327,8 +327,7 @@ QueryTermView::create_ui()
 void
 QueryTermView::select_toggle (WCallback *wcb)
 {
-  XmToggleButtonCallbackStruct *tbcs =
-    (XmToggleButtonCallbackStruct *) wcb->CallData();
+  (XmToggleButtonCallbackStruct *) wcb->CallData();
 
   // notify someone about selection state...
   invert_colors();
@@ -716,7 +715,7 @@ QueryTermView::weight_changed()
 		cursor_pos = w = 0;
 	    else
 		cursor_pos = f_weight_field.GetInsertionPosition();
-	    sprintf(weight_string, "%d", w);
+	    snprintf(weight_string, sizeof(weight_string), "%d", w);
 	    f_weight_field.SetString(weight_string);
 	    f_weight_field.SetInsertionPosition(cursor_pos);
 	}

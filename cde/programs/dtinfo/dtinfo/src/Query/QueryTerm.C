@@ -172,7 +172,7 @@ QueryTerm::cleanup_term_string()
   wclen = mbstowcs(wcbuf, f_term_string, length + 1);
   assert( *(wcbuf + wclen) == (TML_CHAR_TYPE)'\0' );
 #else
-  strcpy((char *) wcbuf, f_term_string);
+  *((char *) memcpy((char *) wcbuf, f_term_string, length) + length) = '\0';
   wclen = length ;
 #endif
 
@@ -200,7 +200,8 @@ QueryTerm::cleanup_term_string()
 #ifdef UseWideChars
       wcstombs(f_term_string, first, length + 1);
 #else
-      strcpy(f_term_string, (const char *) first);
+      *((char *) memcpy(f_term_string,
+			(const char *) first, length) + length) = '\0';
 #endif
     }
   delete[] wcbuf;

@@ -93,7 +93,7 @@ BitField::BitField(unsigned long initial_bits)
   f_bits_in_use = new unsigned long [ f_num_words ] ;
 
   // zero bit arrays 
-  for (int i = 0 ; i < f_num_words; i++){
+  for (unsigned int i = 0 ; i < f_num_words; i++){
     f_words[i] = 0 ;
   }
   // reserve first (0) bit
@@ -115,7 +115,7 @@ BitField::check_allocation (unsigned long word)
       unsigned long *new_words = new unsigned long [word + 1];
       unsigned long *new_use   = new unsigned long [word + 1];
 
-      int i;
+      unsigned int i;
       for (i = 0 ; i < f_num_words ; i++)
 	{
 	  // copy old info 
@@ -146,7 +146,7 @@ BitField::get_handle()
   // find first free bit
 
   // first find first free word
-  int word;
+  unsigned int word;
   for (word = 0 ; word < f_num_words ; word++ )
     if ( word_has_zero_bit(f_bits_in_use[word]) )
       break;

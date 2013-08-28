@@ -44,6 +44,8 @@ CatMgr* CatMgr::f_msg_catalog_mgr = NULL;
 
 CatMgr::CatMgr() : f_msg(NULL), f_default(NULL)
 {
+    int len;
+
 #ifdef DEBUG
     char* nlspath = getenv("NLSPATH");
     if (nlspath)
@@ -61,8 +63,9 @@ CatMgr::CatMgr() : f_msg(NULL), f_default(NULL)
 #endif
 	char* msg = ::catgets(f_catd, Set_CatMgr, DEFAULT_MSG,
 						"default message not found.");
-	f_default = new char[strlen(msg) + 1];
-	strcpy(f_default, msg);
+	len = strlen(msg);
+	f_default = new char[len + 1];
+	*((char *) memcpy(f_default, msg, len) + len) = '\0';
     }
     else {
 #ifdef DEBUG	
@@ -71,8 +74,9 @@ CatMgr::CatMgr() : f_msg(NULL), f_default(NULL)
 #else
 	static char* cat_not_found = (char*)"";
 #endif
-	f_default = new char[strlen(cat_not_found) + 1];
-	strcpy(f_default, cat_not_found);
+	len = strlen(cat_not_found);
+	f_default = new char[len + 1];
+	*((char *) memcpy(f_default, cat_not_found, len) + len) = '\0';
     }
 #ifdef DEBUG	
     cerr << "(DEBUG) default msg=" << f_default << '\n' << flush;
@@ -91,15 +95,17 @@ CatMgr::~CatMgr()
 
     if (is_open(f_catd)) {
 	int status = catclose(f_catd);
-#ifdef DEBUG
 	if (status < 0) {
+#ifdef DEBUG
 	    cerr << "(ERROR) catclose failed." << '\n' << flush;
 	    abort();
+#endif
 	}
 	else {
+#ifdef DEBUG
 	    cerr << "(DEBUG) catclose succeeded" << '\n' << flush;
-	}
 #endif
+	}
     }
 #ifdef DEBUG
     else {
@@ -111,6 +117,8 @@ CatMgr::~CatMgr()
 char*
 CatMgr::catgets(int set_num, int msg_num, const char* def)
 {
+    int len;
+
     if (f_msg)
 	delete[] f_msg;
 
@@ -126,6 +134,7 @@ CatMgr::catgets(int set_num, int msg_num, const char* def)
 	for (; *msg == ' ' || *msg == '\t'; msg++);
 #endif
 	int msglen = strlen(msg);
+	len = msglen;
 	f_msg = new char[msglen + 1];
 #if defined(UXPDS) && defined(GENCAT_BUG)
 #ifdef DEBUG
@@ -144,16 +153,18 @@ CatMgr::catgets(int set_num, int msg_num, const char* def)
 	    msglen--;
 	}
 #endif
-	strcpy(f_msg, msg);
+	*((char *) memcpy(f_msg, msg, len) + len) = '\0';
     }
     else {
 	if (def) {
-	    f_msg = new char[strlen(def) + 1];
-	    strcpy(f_msg, def);
+	    len = strlen(def);
+	    f_msg = new char[len + 1];
+	    *((char *) memcpy(f_msg, def, len) + len) = '\0';
 	}
 	else {
-	    f_msg =new char[strlen(f_default) + 1];
-	    strcpy(f_msg, f_default);
+	    len = strlen(f_default);
+	    f_msg =new char[len + 1];
+	    *((char *) memcpy(f_msg, f_default, len) + len) = '\0';
 	}
     }
 

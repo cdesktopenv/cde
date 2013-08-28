@@ -107,7 +107,8 @@ XmStringUngenerate(XmString string, XmStringCharSet tag, char** ret)
 
   while (XmStringGetNextSegment(context, &text, &tag, &dir, &sep)) {
     if (text) {
-      int textlen = strlen(text) + (sep? 1 : 0);
+      len = strlen(text);
+      int textlen = len + (sep? 1 : 0);
       { // buffer size adjustment
 	int bufsize_required = bufsize;
 	while (buflen + textlen > bufsize_required)
@@ -117,9 +118,10 @@ XmStringUngenerate(XmString string, XmStringCharSet tag, char** ret)
 	  bufsize = bufsize_required;
 	}
       }
-      strcat(buf, text);
+      slen = strlen(buf);
+      *((char *) memcpy(buf + slen, text, len) + len) = '\0';
       if (sep)
-	strcat(buf, "\n");
+	*((char *) memcpy(buf + slen + 1, "\n", 1) + 1) = '\0';
       buflen += textlen;
 
       XtFree(text);

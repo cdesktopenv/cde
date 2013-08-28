@@ -28,9 +28,9 @@ SUBDIRS=Widgets $(CLASSLIBS) Messages cgm
 XCOMM redefine TopLevelProject to build DtInfo with standard CDE config dir
 #undef  TopLevelProject
 #define TopLevelProject		DtInfo
-IMAKE_DEFINES = -DTopLevelProject=TopLevelProject \
-		-DProjectTmplFile='<DtInfo.tmpl>' \
-		-DProjectRulesFile='<DtInfo.rules>'
+IMAKE_DEF_DTINFO =  -DTopLevelProject=TopLevelProject \
+		    -DProjectTmplFile='<DtInfo.tmpl>' \
+		    -DProjectRulesFile='<DtInfo.rules>'
 
 DependSubdirs($(SUBDIRS))
 
@@ -42,8 +42,10 @@ SYS_LIBRARIES=-lm -liconv /usr/lib/libpthreads.a -blibpath:/usr/dt/lib:/X11/lib:
 SYS_LIBRARIES=-lm -lfs
 #elif defined(HPArchitecture)
 SYS_LIBRARIES=$(DYNAMIC) -lm
-#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture)
 SYS_LIBRARIES=-lm -L$(XPROJECTROOT)/lib
+#elif defined(OpenBSDArchitecture)
+SYS_LIBRARIES=-lm -L$(XPROJECTROOT)/lib -L$(MPROJECTROOT)/lib
 #else
 SYS_LIBRARIES=-lm
 #endif
@@ -311,7 +313,7 @@ all:: Prelude.h dfiles messages Dtinfo
 
 includes:: Prelude.h dfiles messages
 
-#if defined(HPArchitecture) ||defined (AIXArchitecture) || defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4) || defined(AlphaArchitecture) || defined(USLArchitecture) || defined(FreeBSDArchitecture)
+#if defined(HPArchitecture) ||defined (AIXArchitecture) || defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4) || defined(AlphaArchitecture) || defined(USLArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
 # ifndef Dont_Use_Templates_Repository
 #  define Dont_Use_Templates_Repository
 UAS_INCLUDES=-I./UAS/Base
@@ -336,7 +338,7 @@ SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
 SpecialCPlusPlusExpandRule(Templates..c,,-ptf -DMakeOperatorNewPublic)
 #elif defined(DoLicenseManagement)
 SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(LICENSE_L_INCLUDES))
-#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture)
+#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
 SpecialCPlusPlusObjectRule(Templates.o,,$(SUBDIR_TEMPL_INCLUDES))
 SpecialCPlusPlusExpandRule(Templates..c,,-DMakeOperatorNewPublic)
 #else

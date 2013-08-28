@@ -32,10 +32,10 @@ class UAS_SearchResults : public UAS_Base {
     int num_docs() const { return f_ndocs; }
 
   protected:
-    int f_ndocs;
     UAS_Pointer<UAS_String> f_query;
     UAS_Pointer<UAS_String> f_scope_name;
     UAS_List<UAS_SearchResultsEntry> f_results;
+    int f_ndocs;
 };
 
 #endif

@@ -316,13 +316,13 @@ NodeMgr::set_font_scale(int value)
 NodeViewInfo *
 NodeMgr::load(UAS_Pointer<UAS_Common> &node_ptr)
 {
-  static int first = 0;
-
   extern int styleparse();
   extern void stylerestart(FILE *);
   extern NodeViewInfo *gNodeViewInfo;
 
 #ifdef FILE_STYLE_SHEET
+  static int first = 0;
+
   StyleSheet ss ;
   {
     extern istream *g_stylein;

@@ -66,8 +66,6 @@ OrderList::clear()
 int
 OrderList::add(ListEntry *node, AddCode where, bool mvcursor)
 {
-    int             status = OLIST_OK;
-
     if (node != NULL) {
         if (f_cursor == NULL)
 	  insertNew(node);
@@ -149,26 +147,26 @@ ListEntry *
 OrderList::extract()
 {
     ListEntry      *node;
-    int             status = OLIST_OK;
+//  int             status = OLIST_OK;
 
     node = f_cursor;
     if ((node == f_head) && (node == f_tail)) {
         f_head = NULL;
         f_cursor = NULL;
         f_tail = NULL;
-        status = OLIST_LAST_REMOVD;
+//      status = OLIST_LAST_REMOVD;
     }
     else if (node == f_head) {
         f_head = node->f_next;
         f_cursor = node->f_next;
         f_cursor->f_prev = NULL;
-        status = OLIST_HEAD_REMOVD;
+//      status = OLIST_HEAD_REMOVD;
     }
     else if (node == f_tail) {
         f_tail = node->f_prev;
         f_cursor = node->f_prev;
         f_cursor->f_next = NULL;
-        status = OLIST_TAIL_REMOVD;
+//      status = OLIST_TAIL_REMOVD;
     }
     else {
         node->f_prev->f_next = node->f_next;

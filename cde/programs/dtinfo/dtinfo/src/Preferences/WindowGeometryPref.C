@@ -63,7 +63,7 @@
 void
 WindowGeometryPref::save()
 {
-  sprintf (g_buffer, "%dx%d+%d+%d",
+  snprintf (g_buffer, sizeof(g_buffer), "%dx%d+%d+%d",
 	   f_value.width, f_value.height, f_value.ulx, f_value.uly);
   set_value (g_buffer);
 }

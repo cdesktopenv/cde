@@ -91,9 +91,10 @@ using namespace std;
 
 extern "C" { void _Xm_dump_external(XmString); }
 
+#ifdef NotDefined
 static XmString
 XmStringCreateComponent (XmStringComponentType tag, void *data, u_int length);
-static void register_actions();
+#endif
 
 enum { XmSTRING_COMPONENT_POINTER = XmSTRING_COMPONENT_USER_BEGIN };
 
@@ -238,11 +239,12 @@ OutlineListView::set_list (OutlineList *list, BitHandle handle)
   if (f_list != NULL && f_list != list )
     list->free_data_handle (f_data_handle);
   f_list = list;
-  if (list != NULL)
+  if (list != NULL) {
     if (handle != 0)
       f_data_handle = handle ;
     else
       f_data_handle = list->get_data_handle();
+  }
   // Determine the base level.
   f_base_level = 0;
   if (list->length() > 0) {
@@ -465,6 +467,7 @@ OutlineListView::generate_table (OutlineList *list, XmStringTable &table,
 }
 
 
+#ifdef NotDefined
 // /////////////////////////////////////////////////////////////////
 // XmStringCreateComponent
 // /////////////////////////////////////////////////////////////////
@@ -505,6 +508,7 @@ XmStringCreateComponent (XmStringComponentType tag,
 #endif
   return (string);
 }
+#endif
 
 
 // /////////////////////////////////////////////////////////////////
@@ -529,7 +533,7 @@ OutlineListView::y_to_outline_element (Position y)
 #endif
   // Another Motif 1.2 bug.  YToPos should return 0 for bogus position,
   // but it doesn't check the range. 
-  if (f_item_pos < 0 || f_item_pos >= ItemCount())
+  if (f_item_pos < 0 || (int) f_item_pos >= ItemCount())
     return (NULL);
   
   oe = item_at (f_item_pos);
@@ -833,7 +837,7 @@ OutlineListView::printConvertCallback(WCallback *wcb)
     char           filepath[MAXPATHLEN];
     OutlineElement *oe = NULL;
     FILE *         fp;
-    int            n;
+    int            n, len, slen;
     
     Atom FILE_NAME = XInternAtom(XtDisplay(w), XmSFILE_NAME, False);
     Atom TARGETS = XInternAtom(XtDisplay(w), XmSTARGETS, False);
@@ -904,8 +908,12 @@ OutlineListView::printConvertCallback(WCallback *wcb)
 					( S_IRUSR|S_IRGRP|S_IWUSR|S_IWGRP), 
 					&fp);
 #else	
-	strcpy(filepath, getenv("HOME"));
-	strcat(filepath, "/.dt/tmp/file.itp");
+	len = MIN(strlen(getenv("HOME")), MAXPATHLEN - 1);
+	*((char *) memcpy(filepath, getenv("HOME"), len) + len) = '\0';
+	slen = len;
+	len = MIN(strlen("/.dt/tmp/file.itp"), MAXPATHLEN - 1);
+	*((char *) memcpy(filepath + slen,
+			  "/.dt/tmp/file.itp", len) + len) = '\0';
 #endif
 	
 	// print on on debug
@@ -919,7 +927,7 @@ OutlineListView::printConvertCallback(WCallback *wcb)
 
 	// write out each element in the list
 
-	for (int i = 0; i < f_selected_item_count; i++)	{
+	for (unsigned int i = 0; i < f_selected_item_count; i++)	{
 	    oe = item_at(selectedPositions[i] - 1) ;
 	    TOC_Element *te = (TOC_Element *)oe;
 
@@ -966,7 +974,6 @@ void
 OutlineListView::select (WCallback *wcb)
 {
   XmListCallbackStruct *lcs = (XmListCallbackStruct *) wcb->CallData();
-  XmStringTable items = Items();
   OutlineElement *oe = NULL;
   
   DEBUGF (("**** select: item count = %d, pos = %d, selected = %s\n",
@@ -986,7 +993,7 @@ OutlineListView::select (WCallback *wcb)
       printf ("selected # = %d\n", f_selected_item_count);
       printf ("         # = %d\n", SelectedItemCount());
 #endif
-      for (int i = 0; i < f_selected_item_count; i++)
+      for (unsigned int i = 0; i < f_selected_item_count; i++)
 	{
 	  DEBUGF (("M-> extracting at %d\n", lcs->selected_item_positions[i]));
 	  oe = item_at(lcs->selected_item_positions[i] - 1) ;
@@ -1079,7 +1086,6 @@ void
 OutlineListView::activate (WCallback *wcb)
 {
   XmListCallbackStruct *lcs = (XmListCallbackStruct *) wcb->CallData();
-  XmStringTable items = Items();
   OutlineElement *oe;
   int	expanded = False;
   
@@ -1263,7 +1269,7 @@ void
 OutlineListView::update_highlighting_recursive (OutlineList *list,
 						u_int &item_pos)
 {
-  for (int i = 0; i < list->length(); i++)
+  for (unsigned int i = 0; i < list->length(); i++)
     {
       // Select it, do not call the select callback.  
       if (OUTLINE_ELEMENT(i)->is_selected (f_data_handle))
@@ -1346,12 +1352,13 @@ void
 OutlineListView::track_to (OutlineElement *oe, u_int position, char icon)
 {
   // Remove the old tracking icon, if any set. 
-  if (f_tracking_position > 0)
+  if (f_tracking_position > 0) {
     if (window_system().nofonts())
       set_track_icon (f_tracking_element, f_tracking_position, ' ');
     else
       set_track_icon (f_tracking_element, f_tracking_position,
 		      OLIAS_PLACEHOLDER_ICON);
+  }
   
   // Set the new tracking icon. 
   set_track_icon (oe, position, icon);
@@ -1363,12 +1370,13 @@ OutlineListView::track_to (OutlineElement *oe, u_int position, char icon)
 void
 OutlineListView::untrack()
 {
-  if (f_tracking_position > 0)
+  if (f_tracking_position > 0) {
     if (window_system().nofonts())
       set_track_icon (f_tracking_element, f_tracking_position, ' ');
     else
       set_track_icon (f_tracking_element, f_tracking_position,
 		      OLIAS_PLACEHOLDER_ICON);
+  }
   
   f_tracking_position = 0;
 }
@@ -1381,8 +1389,6 @@ void
 OutlineListView::set_track_icon (OutlineElement *oe, u_int position, char icon)
 {
   xmstring (oe, 1, icon);
-
-  XmStringTable items = Items();
 
   // Tell the list about the change
   XmString item = (XmString) oe->xm_string();

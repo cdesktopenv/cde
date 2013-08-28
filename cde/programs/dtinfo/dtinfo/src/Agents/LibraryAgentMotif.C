@@ -671,7 +671,7 @@ LibraryAgent::create_ui()
 #endif
 
   Widget on_overview, on_tasks, on_reference;
-  Widget on_item, on_help, on_about, sep;
+  Widget on_item, on_help, on_about;
 
   on_overview = XtCreateManagedWidget("on_overview", xmPushButtonGadgetClass,
 			      helpM, 0, 0);
@@ -682,7 +682,7 @@ LibraryAgent::create_ui()
 	*CATGETS(Set_AgentLabel, 258, ""),
 	NULL);
 
-  sep = XtCreateManagedWidget("sep", xmSeparatorGadgetClass,
+  XtCreateManagedWidget("sep", xmSeparatorGadgetClass,
 			      helpM, 0, 0);
   on_tasks = XtCreateManagedWidget("on_tasks", xmPushButtonGadgetClass,
 			      helpM, 0, 0);
@@ -709,7 +709,7 @@ LibraryAgent::create_ui()
 	XmNmnemonic,
 	*CATGETS(Set_AgentLabel, 51, ""),
 	NULL);
-  sep = XtCreateManagedWidget("sep", xmSeparatorGadgetClass,
+  XtCreateManagedWidget("sep", xmSeparatorGadgetClass,
 			      helpM, 0, 0);
   on_help = XtCreateManagedWidget("on_help", xmPushButtonGadgetClass,
 			      helpM, 0, 0);
@@ -719,7 +719,7 @@ LibraryAgent::create_ui()
 	XmNmnemonic,
 	*CATGETS(Set_AgentLabel, 254, ""),
 	NULL);
-  sep = XtCreateManagedWidget("sep", xmSeparatorGadgetClass,
+  XtCreateManagedWidget("sep", xmSeparatorGadgetClass,
 			      helpM, 0, 0);
   on_about = XtCreateManagedWidget("on_about", xmPushButtonGadgetClass,
 			      helpM, 0, 0);
@@ -1026,7 +1026,9 @@ LibraryAgent::quick_helpEH (Widget w, XtPointer client_data,
 void
 LibraryAgent::text_callback(WCallback *wcb)
 {
+#if 0
     XmAnyCallbackStruct *cbs = (XmAnyCallbackStruct*)wcb->CallData();
+#endif
     char *text = XmTextGetString(wcb->GetWidget());
 
     if (*text != '\0')
@@ -1077,9 +1079,9 @@ LibraryAgent::search_help (Widget, XtPointer client_data,
   UAS_SearchScope *scope = agent->f_scope_menu->current_scope();
   char buffer[128];
   if (scope != NULL)
-    sprintf (buffer, help_text, (char *) scope->name());
+    snprintf (buffer, sizeof(buffer), help_text, (char *) scope->name());
   else
-    sprintf (buffer, help_text, default_scope);
+    snprintf (buffer, sizeof(buffer), help_text, default_scope);
 
   // Finally, display it in the quick help field.
   XmTextFieldSetString(agent->f_status_text, buffer);
@@ -1161,6 +1163,7 @@ int
 LibraryAgent::add_library(char* newLib, Widget parent)
 {
     int   sts = ID_SUCCESS ;
+    int   bufferlen;
 
     if(  (newLib == NULL) ||
         ((newLib != NULL) && ( *newLib == '\0' )) )
@@ -1183,9 +1186,9 @@ LibraryAgent::add_library(char* newLib, Widget parent)
         else if( *newLib == '/' ) {
             // assume given absolute path to an infolib.
             // construct the fully-qualified form and pass it on.
-            char *buffer =
-                    new char[strlen("mmdb:INFOLIB=") + strlen(newLib) + 1];
-            sprintf (buffer, "mmdb:INFOLIB=%s", newLib);
+            bufferlen = strlen("mmdb:INFOLIB=") + strlen(newLib) + 1;
+            char *buffer = new char[bufferlen];
+            snprintf (buffer, bufferlen, "mmdb:INFOLIB=%s", newLib);
             d = UAS_Common::create (buffer);
             delete [] buffer;
         }
@@ -1197,9 +1200,9 @@ LibraryAgent::add_library(char* newLib, Widget parent)
             if (pathname != NULL)
             {
                 // construct the fully-qualified form and pass it on.
-                char *buffer =
-                     new char[strlen("mmdb:INFOLIB=") + strlen(pathname) + 1];
-                sprintf (buffer, "mmdb:INFOLIB=%s", pathname);
+                bufferlen = strlen("mmdb:INFOLIB=") + strlen(pathname) + 1;
+                char *buffer = new char[bufferlen];
+                snprintf (buffer, bufferlen, "mmdb:INFOLIB=%s", pathname);
                 XtFree(pathname);
                 d = UAS_Common::create (buffer);
                 delete [] buffer;
@@ -1338,7 +1341,7 @@ LibraryAgent::entry_selected (void *, u_int notify_type)
       int removeSensitive = 0;
       if (rootList.length() > 1) { // don't let 'em remove the last one...
 	  if (((TOC_Element *) f_oe)->toc()->type() == UAS_LIBRARY) {
-	      for (int i = 0; i < rootList.length(); i ++) {
+	      for (unsigned int i = 0; i < rootList.length(); i ++) {
 		if (((TOC_Element *) f_oe)->toc() ==
 				    ((TOC_Element *) rootList[i])->toc()) {
 		    removeSensitive = 1;
@@ -1376,9 +1379,9 @@ LibraryAgent::entry_selected (void *, u_int notify_type)
     {
       // Get the list of selections. 
       List *select_list = f_doc_tree_view->selected_item_list();
-      Xassert (selected_item_count == select_list->length());
+      Xassert (selected_item_count == (int) select_list->length());
 
-      for (int i = 0; i < select_list->length(); i++)
+      for (unsigned int i = 0; i < select_list->length(); i++)
 	{
 	  if (((TOC_Element *) (*select_list)[i])->toc()->data_length() == 0)
 	    {
@@ -1442,7 +1445,7 @@ LibraryAgent::print_asCB(Widget w, XtPointer client_data, XtPointer)
     List *select_list = agent->f_doc_tree_view->selected_item_list();
     xList<UAS_Pointer<UAS_Common> > * print_list = new  xList<UAS_Pointer<UAS_Common> >;
     
-    for (int i = 0; i < select_list->length(); i++) {
+    for (unsigned int i = 0; i < select_list->length(); i++) {
 	print_list->append (((TOC_Element *) (*select_list)[i])->toc());
     }
 
@@ -1480,7 +1483,7 @@ LibraryAgent::printCB(Widget w, XtPointer client_data, XtPointer)
     List *select_list = agent->f_doc_tree_view->selected_item_list();
     xList<UAS_Pointer<UAS_Common> > * print_list = new  xList<UAS_Pointer<UAS_Common> >;
     
-    for (int i = 0; i < select_list->length(); i++) {
+    for (unsigned int i = 0; i < select_list->length(); i++) {
 	print_list->append (((TOC_Element *) (*select_list)[i])->toc());
     }
 
@@ -1547,17 +1550,21 @@ LibraryAgent::track_to (UAS_Pointer<UAS_Common> &node_ptr)
   OutlineList &rootList = *(f_doc_tree_view->list());
   bool in_subtree = FALSE;
   UAS_Pointer<UAS_Common> doc_root = node_ptr;
+#ifdef DEBUG
   int inum;
+#endif
 
   // Trace up to the root.
   free_tracking_hierarchy();
   while (doc_root != (const int)NULL && !in_subtree)
     {
       f_tracking_hierarchy = new TrackingEntry(doc_root, f_tracking_hierarchy);
-      for (int i = 0; i < rootList.length(); i ++) {
+      for (unsigned int i = 0; i < rootList.length(); i ++) {
 	if (doc_root == ((TOC_Element *) rootList[i])->toc()) {
 	    in_subtree = TRUE;
+#ifdef DEBUG
 	    inum = i;
+#endif
 	    break;
 	}
       }
@@ -1598,9 +1605,9 @@ LibraryAgent::track (bool scroll)
   // that we can ultimately highlight the right entry in the list. 
   unsigned int list_location = 0;
   // Make sure the roots match up, just to be safe.
-  TrackingEntry *t;
-  OutlineElement *oe;
-  for (int cnt = 0; cnt < rootList.length(); cnt ++) {
+  TrackingEntry *t = NULL;
+  OutlineElement *oe = NULL;
+  for (unsigned int cnt = 0; cnt < rootList.length(); cnt ++) {
       list_location ++;
       t = f_tracking_hierarchy->f_child;
       oe = (OutlineElement *) rootList[cnt];
@@ -1624,7 +1631,7 @@ LibraryAgent::track (bool scroll)
 	  // If the entry is expanded, it MUST have children. 
 	  Xassert (oe->has_children());
 	  OutlineList &kids = *(oe->children());
-	  int i;
+	  unsigned int i;
 	  for (i = 0; i < kids.length(); i++)
 	    {
 	      // Keep track of how many expanded items we skip over.
@@ -1677,18 +1684,18 @@ LibraryAgent::track (bool scroll)
       ON_DEBUG (printf ("top = %d, bottom = %d, old = %d\n",
 			top_position, bottom_position, old_selection));
 
-      if (list_location < top_position ||
-	  list_location > bottom_position)
+      if ((int)list_location < top_position ||
+	  (int)list_location > bottom_position)
 	{
 	  ON_DEBUG (puts ("* About to scroll list"));
-	  if (old_selection == top_position &&
-	      list_location == top_position - 1)
+	  if ((int)old_selection == top_position &&
+	      (int)list_location == top_position - 1)
 	    {
 	      // Scroll up one item. 
 	      f_doc_tree_view->TopItemPosition (top_position - 1);
 	    }
-	  else if (old_selection == bottom_position &&
-		   list_location == bottom_position + 1)
+	  else if ((int)old_selection == bottom_position &&
+		   (int)list_location == bottom_position + 1)
 	    {
 	      // Scroll down one item. 
 	      f_doc_tree_view->TopItemPosition (top_position + 1);
@@ -1748,7 +1755,7 @@ void
 LibraryAgent::library_removed (UAS_Pointer<UAS_Common> lib)
 {
     OutlineList &rootList = *(f_doc_tree_view->list());
-    int i;
+    unsigned int i;
     for (i = rootList.length() - 1; i >= 0; i --) {
 	TOC_Element *te = (TOC_Element *) rootList[i];
 	if (te->toc()->get_library() == lib) {
@@ -1767,7 +1774,6 @@ LibraryAgent::library_removed (UAS_Pointer<UAS_Common> lib)
     //BitHandle handle = rootList.get_data_handle();
     BitHandle handle = f_doc_tree_view->data_handle();
 
-    int level = ((OutlineElement *) rootList[0])->level();
     for (i = 0; i < rootList.length(); i ++)
     {
       ((OutlineElement *) rootList[i])->set_expanded (handle);
@@ -1778,7 +1784,7 @@ LibraryAgent::library_removed (UAS_Pointer<UAS_Common> lib)
 
       List *bclist = oe->children();
          
-      for(int b = 0; b < bclist->length(); b++)
+      for(unsigned int b = 0; b < bclist->length(); b++)
       {
         OutlineElement *coe = (OutlineElement *)(*bclist)[b];
         if (coe->is_expanded(handle))
@@ -2020,7 +2026,7 @@ LibraryAgent::copy_to_clipbd()
   Wait_Cursor bob;
   UAS_String nl("\n");
   
-  for (int i = 0; i < select_list->length(); i++)
+  for (unsigned int i = 0; i < select_list->length(); i++)
   {
     UAS_Pointer<UAS_Common> toc;
     toc = ((TOC_Element *) (*select_list)[i])->toc();

@@ -29,10 +29,10 @@ MMDB_StyleSheet::MMDB_StyleSheet (MMDB &theMMDB,
 				  info_base *ib,
 				  const oid_t &ssid,
 				  StyleSheetType sstype):
-			    MMDB_Common (theMMDB, ib),
 			    UAS_StyleSheet (sstype),
-			    fSSID (ssid),
-			    fStyleSheet (ib, ssid) {
+			    MMDB_Common (theMMDB, ib),
+			    fStyleSheet (ib, ssid),
+			    fSSID (ssid) {
 }
 
 MMDB_StyleSheet::~MMDB_StyleSheet () {

@@ -63,10 +63,10 @@ public:
 protected:
   void insert_op (WCallback *wcb);
 
-  long                 &f_position;
   PRoot               *&f_root;
-  insert_op_func_t      f_insert;
+  long                 &f_position;
   is_sensitive_func_t   f_is_sensitive;
+  insert_op_func_t      f_insert;
   bool	               f_sensitive;
 };
 

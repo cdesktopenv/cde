@@ -39,7 +39,7 @@ class MarkIcon : public WWL, public WXmPushButton
 public:
   MarkIcon (Widget parent, Widget chooser_parent,
 	    MarkCanvas *, int ypos, int scrollbar_offset);
-  ~MarkIcon();
+  virtual ~MarkIcon();
 
   void append (MarkCanvas *);
   void insert (MarkCanvas *);

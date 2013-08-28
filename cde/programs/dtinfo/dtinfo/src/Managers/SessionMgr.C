@@ -52,6 +52,7 @@
 #define L_Managers
 
 #include "Prelude.h"
+#include "utility/funcs.h"
 
 LONG_LIVED_CC( SessionMgr, session );
 
@@ -65,9 +66,9 @@ SaveSession_cb( Widget w,
 }
 
 
-SessionMgr::SessionMgr() : prior_session(NULL),
-                           session_path(NULL),
-                           sid(NULL)
+SessionMgr::SessionMgr() : sid(NULL),
+			   session_path(NULL),
+			   prior_session(NULL)
 {
     // get session id & the place to save special startup info (future)
     DtSessionSavePath( window_system().toplevel(), &session_path, &sid );
@@ -94,7 +95,7 @@ SessionMgr::~SessionMgr()
 void
 SessionMgr::file( char *savefile )
 {
-    prior_session = XtNewString( savefile );
+    prior_session = XtsNewString( savefile );
 }
 
 
@@ -137,19 +138,19 @@ SessionMgr::setWmCommand()
 
     // insert a -session arg and its value into the arg list
     wm_command = (char **) XtMalloc((in_cnt+2) * sizeof(char*));
-    wm_command[0] = XtNewString( main_argv[0] );
-    wm_command[1] = XtNewString( "-session" );
+    wm_command[0] = XtsNewString( main_argv[0] );
+    wm_command[1] = XtsNewString( "-session" );
 
-    if( sid )               wm_command[2] = XtNewString( sid );
-    else if( session_path ) wm_command[2] = XtNewString( session_path );
-    else                    wm_command[2] = XtNewString( "dtinfo_session" );
+    if( sid )               wm_command[2] = XtsNewString( sid );
+    else if( session_path ) wm_command[2] = XtsNewString( session_path );
+    else                    wm_command[2] = XtsNewString( "dtinfo_session" );
 
 #ifdef DEBUG
     printf( "session id = %s  input arg count = %d\n", wm_command[2], in_cnt );
 #endif
 
     for (i = 1, j = 3; i < in_cnt; i++) {
-            wm_command[j] = XtNewString(main_argv[i]);
+            wm_command[j] = XtsNewString(main_argv[i]);
             j++;
     }
     // actually register the command line with the window system

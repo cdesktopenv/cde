@@ -37,8 +37,9 @@ class NodeID {
 inline
 NodeID::NodeID(const char *filename)
 {
-    f_filename = new char[strlen(filename) + 1] ;
-    strcpy(f_filename, filename);
+    int len = strlen(filename);
+    f_filename = new char[len + 1] ;
+    *((char *) memcpy(f_filename, filename, len) + len) = '\0';
 }
 
 inline 

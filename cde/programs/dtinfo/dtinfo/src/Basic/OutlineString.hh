@@ -34,8 +34,9 @@ public: // functions
     {
       if (string != NULL)
 	{
-	  f_string = new char [strlen(string) + 1];
-	  strcpy (f_string, string);
+	  int len = strlen(string);
+	  f_string = new char [len + 1];
+	  *((char *) memcpy(f_string, string, len) + len) = '\0';
 	}
       else
 	f_string = NULL;

@@ -56,18 +56,19 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
     char** pat_tbl = new char*[n_of_pats + 1];
     char** pat_tbl_end = pat_tbl + n_of_pats;
 
-    int npat;
+    int npat, len;
     for (npat = 0; *patterns && n_of_pats > 0; npat++, n_of_pats--) {
 	char* del = (char *)strchr(patterns, '\n');
 	if (del != NULL) { // more pattern specified
-	    pat_tbl[npat] = new char[del - patterns + 1];
-	    strncpy(pat_tbl[npat], patterns, del - patterns);
-	    pat_tbl[npat][del - patterns] = '\0';
+	    len = del - patterns;
+	    pat_tbl[npat] = new char[len + 1];
+	    *((char *) memcpy(pat_tbl[npat], patterns, len) + len) = '\0';
 	    patterns = del + 1;
 	}
 	else {
-	    pat_tbl[npat] = new char[strlen(patterns) + 1];
-	    strcpy(pat_tbl[npat], patterns);
+	    int len = strlen(patterns);
+	    pat_tbl[npat] = new char[len + 1];
+	    *((char *) memcpy(pat_tbl[npat], patterns, len) + len) = '\0';
 	    patterns += strlen(patterns);
 	    assert( *patterns == '\0' );
 	}
@@ -88,7 +89,7 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
     // remove null and too long patterns
     int i;
     for (i = 0 ; pat_tbl[i]; i++) {
-	if (*(pat_tbl[i]) == '\0' || text_len < strlen(pat_tbl[i])) {
+	if (*(pat_tbl[i]) == '\0' || text_len < (int) strlen(pat_tbl[i])) {
 	    delete[] pat_tbl[i];
 	    pat_tbl[i] = NULL;
 	    npat--;

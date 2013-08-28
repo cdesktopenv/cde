@@ -75,9 +75,9 @@ private:
 
 private:	// variables
 
-  const char*	f_input_ptr; // olias query language string
-
   OQL_Token		fSymbol;
+
+  const char*	f_input_ptr; // olias query language string
 
   char		fBuffer[1024];
   unsigned int	fIndx;

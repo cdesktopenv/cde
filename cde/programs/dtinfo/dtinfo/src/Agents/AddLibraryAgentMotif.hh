@@ -32,7 +32,7 @@ class AddLibraryAgent: public WWL {
 	WXmForm		f_form;
 	WXmPushButton   f_ok;
 	WXmPushButton   f_clr;
-	Widget		f_file_sel;
 	bool		f_done;
 	bool		f_cancelled;
+	Widget		f_file_sel;
 };

@@ -391,10 +391,12 @@ GeometryManager (Widget w, XtWidgetGeometry *request, XtWidgetGeometry *reply)
 
   /* Only allow width changes to the width of the restraint. */
   if (request->request_mode & CWWidth)
-    if (request->width == restraint->core.width)
-      yes = True;
-    else
-      almost = True;
+    {
+      if (request->width == restraint->core.width)
+        yes = True;
+      else
+        almost = True;
+    }
 
   /* Allow any height changes */ 
   if (request->request_mode & CWHeight)

@@ -49,7 +49,6 @@ processCGM(
     int                   *ret_num_colors,
     _DtGrContext          *context)
 {
-  int thisPage;
   unsigned char *dat_ptr;
   /* declare two CGM state variables, one active, one for defaults */
   static cgm_s_type cgm_act, cgm_def, *cgm_s_ptr;
@@ -94,7 +93,6 @@ processCGM(
   cgm_def.tPixel = BlackPixelOfScreen(screen);
 
   /* now go thru the input file */
-  thisPage = 0;
   do {
     /* get next command */
     dat_ptr = get_b_cmd(&cmd_info, stream);

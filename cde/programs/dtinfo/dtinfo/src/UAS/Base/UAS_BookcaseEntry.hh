@@ -47,6 +47,7 @@ class UAS_BookcaseEntry : public UAS_Base
 
     UAS_String        f_infolib_id;   // infolib id where bookcase resides
     UAS_String        f_bookcase_id;  // bookcase id
+    UAS_String        f_bookcase_name;// infolib name where bookcase resides
 };
 
 #endif

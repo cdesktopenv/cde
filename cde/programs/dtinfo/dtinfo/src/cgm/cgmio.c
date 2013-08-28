@@ -37,9 +37,9 @@ static unsigned char *begin_ptr, *endin_ptr, *in_ptr;
 static int io_debug = 0, recs_got, bytes_read;
 
 /* function to get an input record, return no of bytes read */
-static get_cgm_rec(unsigned char *start_ptr, 
-		   int buffer_size, 
-		   _DtGrStream *cgmptr)
+static int get_cgm_rec(unsigned char *start_ptr,
+		       int buffer_size,
+		       _DtGrStream *cgmptr)
 {
   int bytes_got;
   
@@ -51,7 +51,7 @@ static get_cgm_rec(unsigned char *start_ptr,
 }
 /* function to open the CGM file */
 /* stream is a file stream */
-open_cgm_file(_DtGrStream *stream)
+int open_cgm_file(_DtGrStream *stream)
 {
   int bytes_got;
   fprintf(stderr, "Attempting to open file, %s\n", stream->source.file.filename);
@@ -76,7 +76,7 @@ open_cgm_file(_DtGrStream *stream)
 
 /* function to prepare the CGM buffer */
 /* stream is a buffer stream */
-open_cgm_buffer(_DtGrStream *stream)
+int open_cgm_buffer(_DtGrStream *stream)
 {
   int bytes_got;
 
@@ -92,8 +92,8 @@ open_cgm_buffer(_DtGrStream *stream)
 }
 
 /* function to get a number of binary format bytes */
-static get_b_bytes(unsigned char *out_ptr, 
-		   int bytes_wanted, _DtGrStream *stream)
+static int get_b_bytes(unsigned char *out_ptr,
+		       int bytes_wanted, _DtGrStream *stream)
 {
   int bytes_got, i;
   if (!begin_ptr) {

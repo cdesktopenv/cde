@@ -71,6 +71,7 @@ encode_display_event (OliasDisplayEvent *event,
 		      XtPointer *value, unsigned long *length, int *format)
 {
   unsigned char *stream;
+  int len;
   
   *length = 1 + strlen (event->infobase) + strlen (event->locator) + 2;
   /* Xt will free this memory. */
@@ -80,9 +81,11 @@ encode_display_event (OliasDisplayEvent *event,
 
   /* Encode event in packed byte format. */
   *stream++ = (unsigned char) event->type;
-  strcpy (stream, event->infobase);
-  stream += strlen (event->infobase) + 1;
-  strcpy (stream, event->locator);
+  len = strlen (event->infobase);
+  *((char *) memcpy(stream, event->infobase, len) + len) = '\0';
+  stream += len + 1;
+  len = strlen (event->locator);
+  *((char *) memcpy(stream, event->locator, len) + len) = '\0';
 }
 
 

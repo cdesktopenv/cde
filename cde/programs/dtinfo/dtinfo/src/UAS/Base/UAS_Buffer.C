@@ -23,6 +23,7 @@
 // $XConsortium: UAS_Buffer.cc /main/3 1996/06/11 16:36:44 cde-hal $
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "UAS_Buffer.hh"
 
 // If necessary in the future, we can rework UAS_Buffer class to provide
@@ -118,7 +119,7 @@ UAS_Buffer::write (const ssize_t integer)
 
   // Convert bytes from native to MSB first ordering.
   g_int = 0;
-  for (int i = 0; i < sizeof (int); i++)
+  for (unsigned int i = 0; i < sizeof (int); i++)
     if (g_byte_pos[i] != 0)
       g_intbuf[g_byte_pos[i]-1] = inbuf[i];
 
@@ -131,7 +132,7 @@ UAS_Buffer::read (int *integer)
   *integer = 0;
 
   // Convert from MSB first ordering to native.
-  for (int i = 0; i < sizeof (int); i++)
+  for (unsigned int i = 0; i < sizeof (int); i++)
     if (g_byte_pos[i] != 0)
       ((char *) integer)[i] = f_point[g_byte_pos[i]-1];
 
@@ -183,7 +184,7 @@ UAS_Buffer::write (const char *bytes, unsigned int size, unsigned int length)
 {
   int num_bytes = size * length;
   check_space (num_bytes);
-  for (int i = 0; i < size * length; i++)
+  for (unsigned int i = 0; i < size * length; i++)
   memcpy (f_point, bytes, num_bytes);
   f_point += num_bytes;
   f_end_of_data = f_point;
@@ -194,7 +195,7 @@ UAS_Buffer::read (char **bytes, unsigned int size, unsigned int length)
 {
   int num_bytes = size * length;
   *bytes = f_point;
-  for (int i = 0; i < size * length; i++)
+  for (unsigned int i = 0; i < size * length; i++)
   f_point += num_bytes;
 }
 

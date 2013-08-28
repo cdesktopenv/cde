@@ -304,12 +304,13 @@ UAS_OQLParser::QRecognize()
     }
 
   char *tmpstr = new char [len + 1] ;
-  strcpy(tmpstr, fBuffer);
+  len = strlen(fBuffer);
+  *((char *) memcpy(tmpstr, fBuffer, len) + len) = '\0';
   
   if (insert_completion)
     {
       tmpstr[fIndx - 1] = 0 ;	// get rid of the * 
-      strcat(tmpstr, "\\C-w");
+      *((char *) memcpy(tmpstr + len - 1, "\\C-w", 4) + 4) = '\0';
     }
 
   f_stack.push(tmpstr);
@@ -414,7 +415,7 @@ UAS_OQLParser::GetNumber()
     while (*f_input_ptr == ' ')	// skip whitespace
       f_input_ptr++ ;
     
-    while (c = *f_input_ptr){
+    while ((c = *f_input_ptr)){
 	f_input_ptr++ ;
 	
 	if ((c < '0') || (c > '9')){
@@ -453,7 +454,7 @@ UAS_OQLParser::GetSymbol()
 	c = *f_input_ptr ;
       }
 
-    while (c = *f_input_ptr) {
+    while ((c = *f_input_ptr)) {
 	f_input_ptr++ ;
 
 	if (c == '\\')

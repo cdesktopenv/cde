@@ -126,7 +126,7 @@ DtSR_SearchResultsEntry::overlay_proximity(DtSR_SearchZones::uas_zones uas_zone,
     if (uas_zone > UAS_SearchZones::uas_all) // range error
 	return Beyond_Range;
 
-    if (f_zone & 0x01<<uas_zone == 0)
+    if (f_zone & (0x01<<uas_zone == 0))
 	return set_proximity(uas_zone, proximity);
 
     return f_proximity[uas_zone] = (f_proximity[uas_zone] + proximity) / 2;
@@ -227,7 +227,7 @@ static unsigned int proximity2relevance(int prox)
 unsigned int
 DtSR_SearchResultsEntry::relevance()
 {
-    if (f_relevance != Inv_Relevance)
+    if ((int)f_relevance != Inv_Relevance)
 	return f_relevance;
 
     int prox;

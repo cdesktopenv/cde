@@ -117,7 +117,7 @@ MMDB_Library::name () {
     if (f_name == "")
     {
       UAS_List<UAS_Common> kids = children();
-      int i;
+      unsigned int i;
       for (i = 0; i < kids.length(); i++)
       {
         if (kids[i]->type() == UAS_BOOKCASE)
@@ -126,8 +126,8 @@ MMDB_Library::name () {
       if (i < kids.length())
       { 
         char scratch[128];
-        sprintf(scratch, CATGETS(Set_UAS_MMDB, 6, "File a Bug"),
-			 (char *)kids[i]->id());
+        snprintf(scratch, sizeof(scratch),
+                 CATGETS(Set_UAS_MMDB, 6, "File a Bug"), (char *)kids[i]->id());
         f_name = UAS_String(scratch);
       }
     }
@@ -160,7 +160,7 @@ MMDB_Library::search_engine() {
   UAS_List<UAS_Common> bookcases = bookcaseList();
   UAS_PtrList<const char> cList;
 
-  int i;
+  unsigned int i;
 #ifdef DEBUG
   for (i = 0; i < bookcases.length(); i++)
       fprintf(stderr, "(DEBUG) bookcases %d=%s\n",

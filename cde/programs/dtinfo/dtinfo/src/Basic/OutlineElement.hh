@@ -117,7 +117,6 @@ protected: // functions
 
 protected: // variables
   OutlineList *f_children;  // Each outline element may have a list of children
-  unsigned char f_level;    // Level this element is at, zero-based
   
   BitField	f_selected ;
   BitField	f_expanded ;
@@ -130,6 +129,7 @@ protected: // variables
   u_int f_string_creator;
 
   unsigned char f_display_flag;  // Able to be displayed on activate [rtp]
+  unsigned char f_level;    // Level this element is at, zero-based
 };
 
 

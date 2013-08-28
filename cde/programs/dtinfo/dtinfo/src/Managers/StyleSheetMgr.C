@@ -129,7 +129,7 @@ void
 StyleSheetMgr::initOnlineStyleSheet (UAS_Pointer<UAS_Common> &doc) {
     UAS_List<UAS_StyleSheet> ssList = doc->style_sheet_list ();
     UAS_Pointer<UAS_StyleSheet> onlineSS;
-    for (int i = 0; i < ssList.length(); i ++) {
+    for (unsigned int i = 0; i < ssList.length(); i ++) {
 	if (ssList[i]->style_sheet_type() == SS_ONLINE) {
 	    onlineSS = ssList[i];
 	    break;
@@ -187,7 +187,7 @@ void
 StyleSheetMgr::initPrintStyleSheet (UAS_Pointer<UAS_Common> &doc) {
     UAS_List<UAS_StyleSheet> ssList = doc->style_sheet_list ();
     UAS_Pointer<UAS_StyleSheet> printSS;
-    for (int i = 0; i < ssList.length(); i ++) {
+    for (unsigned int i = 0; i < ssList.length(); i ++) {
 	if (ssList[i]->style_sheet_type() == SS_HARDCOPY) {
 	    printSS = ssList[i];
 	    break;

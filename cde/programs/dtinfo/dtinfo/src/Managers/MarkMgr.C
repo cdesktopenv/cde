@@ -132,10 +132,10 @@ MarkMgr::MarkMgr()
     {
       // the marks directory needs to be in sync with mmdb (user_base.cc)
       buffer = new char[MAXPATHLEN];
-      sprintf (buffer, "%s/marks/default", env().user_path());
+      snprintf (buffer, MAXPATHLEN, "%s/marks/default", env().user_path());
 
 #if EAM
-      sprintf (buffer, "%s/.dt/dtinfo/%s/marks/default",
+      snprintf (buffer, MAXPATHLEN, "%s/.dt/dtinfo/%s/marks/default",
                 env().home(), env().lang());
 #endif
       filename = buffer;
@@ -249,7 +249,9 @@ MarkMgr::create_mark (UAS_Pointer<UAS_Common> &doc_ptr, const Anchor &anchor,
   char* trimmed_name;
   int size = strlen(name) + 1;
   int n = mbstowcs(new_name, name, size);
-  assert( n >= 0 );
+  if( n >= 0 ) {
+    assert( n >= 0 );
+  }
   while (*start != (wchar_t)'\0' && iswspace(*start))
     start++;
   if (*start != (wchar_t)'\0') {

@@ -114,6 +114,7 @@ UrlAgent::document( char   *locator,
                     Boolean new_window )
 {
   int   sts = ID_SUCCESS ;
+  int   len, bufferlen;
 
   if(  (locator == NULL) ||
       ((locator != NULL) && ( *locator == '\0' )) )
@@ -136,9 +137,9 @@ UrlAgent::document( char   *locator,
           // assume given a unique locator ID for the target.
           // construct a fully-qualified form and pass it on.
 
-          char *buffer =
-                  new char[strlen("mmdb:LOCATOR=") + strlen(locator) + 1];
-          sprintf (buffer, "mmdb:LOCATOR=%s", locator);
+          bufferlen = strlen("mmdb:LOCATOR=") + strlen(locator) + 1;
+          char *buffer = new char[bufferlen];
+          snprintf (buffer, bufferlen, "mmdb:LOCATOR=%s", locator);
           d = UAS_Common::create( buffer ) ;
           delete [] buffer;
 
@@ -166,7 +167,8 @@ UrlAgent::document( char   *locator,
 
           // (evil hack alert)
           g_scroll_to_locator = TRUE;
-          strcpy( g_top_locator, locator ) ;
+          len = MIN(strlen(locator), 4096 - 1);
+          *((char *) memcpy(g_top_locator, locator, len) + len) = '\0';
 
           d->retrieve();
         }
@@ -208,7 +210,9 @@ CloseProgramCB(
 		XtPointer client_data,
 		XtPointer /*call_data*/)
 {
+#if 0
     AppPrintData * p = (AppPrintData *) client_data ;
+#endif
     /* we want to wait for the current job to complete before exiting */
     
     //  If a job is running, just unmap the windows and install itself
@@ -235,6 +239,7 @@ int
 UrlAgent::print_document(char *locator)
 {
     int   sts = ID_SUCCESS ;
+    int   bufferlen;
 
     // set up for printing
     AppPrintData* p = window_system().GetAppPrintData();
@@ -263,9 +268,9 @@ UrlAgent::print_document(char *locator)
 	    // assume given a unique locator ID for the target.
 	    // construct a fully-qualified form and pass it on.
 	    
-	    char *buffer =
-		new char[strlen("mmdb:LOCATOR=") + strlen(locator) + 1];
-	    sprintf (buffer, "mmdb:LOCATOR=%s", locator);
+	    bufferlen = strlen("mmdb:LOCATOR=") + strlen(locator) + 1;
+	    char *buffer = new char[bufferlen];
+	    snprintf (buffer, bufferlen, "mmdb:LOCATOR=%s", locator);
 	    d = UAS_Common::create( buffer ) ;
 	    delete [] buffer;
 	    

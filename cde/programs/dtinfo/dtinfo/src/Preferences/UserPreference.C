@@ -111,7 +111,8 @@ PreferenceRecord::form_filename()
   static char filename[256];
   if (filename[0] == '\0')
     {
-      sprintf (filename, "%s/preferences", env().user_path());
+      snprintf (filename, sizeof(filename),
+			"%s/preferences", env().user_path());
 #if EAM
       const char *home = env().home();
       if (home == NULL)
@@ -120,8 +121,8 @@ PreferenceRecord::form_filename()
       if (lang == NULL)
 	throw (CASTEXCEPT Exception());
 
-      sprintf (filename, "%s/.dt/dtinfo/%s/preferences",
-                         home, lang);
+      snprintf (filename, sizeof(filename),
+			"%s/.dt/dtinfo/%s/preferences", home, lang);
 #endif
     }
 
@@ -134,8 +135,8 @@ revert_from_backup (const char *filename)
 {
   int ret;
   // Failed, so look for the backup file.
-  char backup[256], original[256];
-  sprintf (backup, "%s.bak", filename);
+  char backup[256];
+  snprintf (backup, sizeof(backup), "%s.bak", filename);
   struct stat file_info;
 
   if (stat (backup, &file_info) != -1 &&
@@ -143,6 +144,7 @@ revert_from_backup (const char *filename)
     {
       unlink (filename);
       ret = link (backup, filename);
+      if(ret == 0) throw (CASTEXCEPT Exception());
     }
 }
 
@@ -155,11 +157,13 @@ read_version (FILE *stream)
   // Make sure the file is valid.
   char V = '-';
   ret1 = fread (&V, 1, 1, stream);
+  if(ret1 == 0) throw (CASTEXCEPT Exception());
   if (V != 'V')
     return (0);
   // Nab the version from the file. 
   int version = 0;
   ret2 = fscanf (stream, "%d", &version);
+  if(ret2 == 0) throw (CASTEXCEPT Exception());
   return (version);
 }
 
@@ -172,6 +176,7 @@ read_update_count (FILE *stream)
   int update_count;
 
   ret = fgets (buffer, 256, stream);
+  if(ret == NULL) throw (CASTEXCEPT Exception());
   p = buffer;
   while (*p != ',' && *p != '\0')
     p++;
@@ -290,7 +295,7 @@ PreferenceRecord::write_prefs()
   backup[0] = '\0';
   if (status == 0)
     {
-      sprintf (backup, "%s.bak", filename);
+      snprintf (backup, sizeof(backup), "%s.bak", filename);
       unlink (backup);
       if (rename (filename, backup) == -1)
 	throw (CASTEXCEPT Exception());
@@ -298,7 +303,7 @@ PreferenceRecord::write_prefs()
   else    // Make sure the parent directory exists.
     {
       char dirname[256];
-      sprintf (dirname, "%s", env().user_path());
+      snprintf (dirname, sizeof(dirname), "%s", env().user_path());
       status = stat (dirname, &file_info);
       if (status == -1)
 	{

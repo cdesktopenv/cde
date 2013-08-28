@@ -113,8 +113,9 @@ PText::PText (PNode *parent, PNode *previous, PNode *next, char *str)
   else
     f_symbol_space = f_symbol_len;
 
-  f_symbol = (char *) malloc (sizeof(char) * (f_symbol_space + 1));
-  strcpy (f_symbol, str);
+  int len = sizeof(char) * f_symbol_space;
+  f_symbol = (char *) malloc (len + sizeof(char));
+  *((char *) memcpy(f_symbol, str, len) + len) = '\0';
 }
 
   

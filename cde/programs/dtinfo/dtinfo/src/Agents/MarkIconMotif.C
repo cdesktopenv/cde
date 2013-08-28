@@ -84,8 +84,6 @@ using namespace std;
 
 WTimeOut *g_timeout;
 
-static void register_actions();
-
 
 // /////////////////////////////////////////////////////////////////
 // class constructor

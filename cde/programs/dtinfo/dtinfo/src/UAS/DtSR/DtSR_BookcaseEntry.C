@@ -64,17 +64,17 @@ DtSR_BookcaseSearchEntry::DtSR_BookcaseSearchEntry(
     }
 
     int status;
-    if (status = DtSearchGetKeytypes((char*)*f_dbname,
+    if ((status = DtSearchGetKeytypes((char*)*f_dbname,
 				     &f_ktcount,
-				     &f_keytypes)) {
+				     &f_keytypes))) {
 #ifdef DEBUG
 	fprintf(stderr, "(ERROR) DtSearchGetKeytypes failed\n");
 	abort();
 #endif
     }
 
-    int i;
 #ifdef DEBUG
+    int i;
     printf("(DEBUG) ktcount = %d\n", f_ktcount);
     for (i = 0; i < f_ktcount; i++) {
 	printf("    kt[%d]=%c,%s\n", i, f_keytypes[i].ktchar, f_keytypes[i].name);
@@ -123,7 +123,7 @@ DtSR_BookcaseSearchEntry::search_zones(UAS_SearchZones& search_zones)
 	return;
     }
 
-    int i;
+    unsigned int i;
     for (i = 0; i < bcases().length(); i++) {
 	DtSR_BookcaseSearchEntry* bce = bcases()[i];
 	bce->_search_zones(search_zones);

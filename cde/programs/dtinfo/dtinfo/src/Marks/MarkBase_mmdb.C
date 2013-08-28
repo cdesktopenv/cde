@@ -91,7 +91,7 @@ MarkBase_mmdb::open (const char *filename, bool read_only)
   char buffer[256];
   struct stat file_info;
 
-  sprintf (buffer, "%s/mmdb.names", filename);
+  snprintf (buffer, sizeof(buffer), "%s/names.mmdb", filename);
   int status = stat (buffer, &file_info);
 
   if (status == -1)

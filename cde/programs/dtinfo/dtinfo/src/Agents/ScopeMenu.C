@@ -176,8 +176,6 @@ ScopeMenu::fill_menu()
 void
 ScopeMenu::set_scope (WCallback *wcb)
 {
-  CALL_DATA (XmToggleButtonCallbackStruct,tbcs);
-
   f_current_scope =
 	(UAS_SearchScope *) WXmPushButtonGadget(wcb->GetWidget()).UserData();
 }
@@ -284,7 +282,7 @@ ScopeMenu::receive (ScopeDeleted &msg, void *client_data)
   XtSetArg(args[n], XmNchildren, &kids); n++;
   XtGetValues(f_pull_menu, args, n);
 
-  int i;
+  unsigned int i;
   for (i = 0; i < num_kids; i++)
     {
       if (XmIsSeparator (kids[i]))
@@ -300,7 +298,7 @@ ScopeMenu::receive (ScopeDeleted &msg, void *client_data)
 
   // It had better be in the list! 
   theKid = i;
-  Xassert (theKid != num_kids);
+  Xassert (theKid != (int) num_kids);
   ON_DEBUG (printf ("widget #%d is the button\n", theKid));
 
   // if it is selected, select first w/ callback called
@@ -322,7 +320,7 @@ ScopeMenu::receive (ScopeDeleted &msg, void *client_data)
   ON_DEBUG (printf ("ScopeMenu: sep pos = %d, num_kids = %d (%d)\n",
 		    separator_pos, num_kids, num_kids -1 -2));
   // - 1 for deleted widget
-  if (separator_pos == (num_kids - 1))
+  if (separator_pos == (int) (num_kids - 1))
     {
       ON_DEBUG (puts ("   destroying separator"));
       XtDestroyWidget (kids[separator_pos-1]);
@@ -339,14 +337,13 @@ ScopeMenu::receive (ScopeRenamed &msg, void *client_data)
   int n;
   Cardinal num_kids;
   WidgetList kids;
-  int separator_pos = -1;
 
   n = 0;
   XtSetArg(args[n], XmNnumChildren, &num_kids); n++;
   XtSetArg(args[n], XmNchildren, &kids); n++;
   XtGetValues(f_pull_menu, args, n);
 
-  int i;
+  unsigned int i;
   for (i = 0; i < num_kids; i++)
     {
       if (XmIsPushButtonGadget (kids[i]) &&
@@ -405,7 +402,7 @@ ScopeMenu::receive (UpdateMenu &msg, void *client_data)
   XtGetValues(f_pull_menu, args, n);
 
   // destroy all toggle buttons in menu
-  for (int i = 0; i < num_kids; i++)
+  for (unsigned int i = 0; i < num_kids; i++)
   {
     XtUnmanageChild (kids[i]);
     XtDestroyWidget (kids[i]);

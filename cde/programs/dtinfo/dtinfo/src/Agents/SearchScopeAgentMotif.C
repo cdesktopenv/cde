@@ -220,7 +220,9 @@ ScopeOutlineListView::select(WCallback *wcb)
     } else {
 
       // first get item that was selected 
+#ifdef JBM
       XmStringTable items = Items();
+#endif
       XmListCallbackStruct *lcs = (XmListCallbackStruct *)wcb->CallData();
       OutlineElement *oe ;
 
@@ -287,7 +289,7 @@ ScopeOutlineListView::find_parent(OutlineElement *parent,
   if (parent->has_children() && parent->children_cached())
     {
       OutlineList *olist = parent->children() ;
-      for (int i = 0 ; i < olist->length(); i++)
+      for (unsigned int i = 0 ; i < olist->length(); i++)
         {
           current = (OutlineElement*)(*olist)[i] ;
           if (current == element)
@@ -331,7 +333,7 @@ ScopeOutlineListView::lid_to_index(const UAS_String &lid)
 {
   OutlineList *ol = list();
   OutlineElement *oe;
-  for (int i = 0; i < ol->length(); i++)
+  for (unsigned int i = 0; i < ol->length(); i++)
   {
     oe = ((OutlineElement *) (*ol)[i]);
     UAS_Pointer<UAS_Common> infolib = ((TOC_Element *)oe)->toc();
@@ -347,7 +349,7 @@ ScopeOutlineListView::lid_to_name(UAS_String &lid)
 {
   OutlineList *ol = list();
   OutlineElement *oe;
-  for (int i = 0; i < ol->length(); i++)
+  for (unsigned int i = 0; i < ol->length(); i++)
   {
     oe = ((OutlineElement *) (*ol)[i]);
     UAS_Pointer<UAS_Common> infolib = ((TOC_Element *)oe)->toc();
@@ -364,7 +366,7 @@ ScopeOutlineListView::name_to_lid(UAS_String &name)
 {
   OutlineList *ol = list();
   OutlineElement *oe;
-  for (int i = 0; i < ol->length(); i++)
+  for (unsigned int i = 0; i < ol->length(); i++)
   {
     oe = ((OutlineElement *) (*ol)[i]);
     UAS_Pointer<UAS_Common> infolib = ((TOC_Element *)oe)->toc();
@@ -576,7 +578,7 @@ SearchScopeAgent::create_ui()
 #else
   UAS_List<UAS_String> rootList = UAS_Common::rootLocators ();
   OutlineList *ol = new OutlineList(rootList.length());
-  for (int i = 0; i < rootList.length(); i ++) {
+  for (unsigned int i = 0; i < rootList.length(); i ++) {
       UAS_Pointer<UAS_Common> d = UAS_Common::create(*(UAS_String *)rootList[i]);
       UAS_Pointer<UAS_Collection> cd = (UAS_Collection *) ((UAS_Common *) d);
       ol->append (new TOC_Element (cd->root()));
@@ -663,7 +665,7 @@ SearchScopeAgent::scope_name_prompt()
           default_name = new char[len + 1] ;
           default_name_len = len ;
         }
-      strcpy (default_name, scope_name);
+      *((char *) memcpy(default_name, scope_name, len) + len) = '\0';
       message_mgr().set_max_length(default_name_len);
       scope_name = message_mgr().get_string(
 	(char*)UAS_String(CATGETS(Set_SearchScopeAgent, 2,
@@ -1001,7 +1003,7 @@ SearchScopeAgent::rename_scope()
   // Make sure old scope name preference isn't saved by NULLing out
   // it's value.  This should really happen in a ScopeListMgr object.  DJB
   char scratch[64];
-  sprintf (scratch, "Scope.%s", f_current_scope->name());
+  snprintf (scratch, sizeof(scratch), "Scope.%s", f_current_scope->name());
   StringPref (scratch).value ("");
   f_current_scope->set_name (name);
   f_scope_list.save();
@@ -1319,7 +1321,7 @@ SearchScopeAgent::bookcase_list (BitHandle handle)
 
   // Iterate over the infolibs looking for selected entries.
   assert (handle != 0);
-  for (infolib = 0; infolib < ol->length(); infolib++)
+  for (infolib = 0; infolib < (int) ol->length(); infolib++)
   { 
     //
     // See if the infolib is selected.
@@ -1329,7 +1331,7 @@ SearchScopeAgent::bookcase_list (BitHandle handle)
     if (oe->is_selected (handle))
     {
       // get all bookcases and append them to the selected list
-      for (bookcase = 0; bookcase < bclist->length(); bookcase++)
+      for (bookcase = 0; bookcase < (int) bclist->length(); bookcase++)
       {
         oe = ((OutlineElement *)(*bclist)[bookcase]);
         common = ((TOC_Element*)oe)->toc();
@@ -1350,7 +1352,7 @@ SearchScopeAgent::bookcase_list (BitHandle handle)
       // Get children of the infolib.
       // If the bookcase is selected, create a BookcaseEntry and 
       // append it to the list.
-      for (bookcase = 0; bookcase < bclist->length(); bookcase++)
+      for (bookcase = 0; bookcase < (int) bclist->length(); bookcase++)
       {
         oe = ((OutlineElement *)(*bclist)[bookcase]);
         if (oe->is_selected (handle))
@@ -1378,7 +1380,7 @@ SearchScopeAgent::bookcase_list (BitHandle handle)
             //
             List *books = oe->children();
             // (1-based book, since that's how they're indexed in Fulcrum.)
-            for (int book_num = 1; book_num <= books->length(); book_num++)
+            for (int book_num = 1; book_num <= (int)books->length(); book_num++)
             {
                 ON_DEBUG (printf ("Checking Book #%d: ", book_num));
               if (((OutlineElement*)(*books)[book_num-1])->is_selected (handle))
@@ -1422,12 +1424,12 @@ SearchScopeAgent::bookcase_list()
   OutlineList *ol = f_infolib_list->list();
   OutlineElement *oe;
 
-  for (int i = 0; i < ol->length(); i++)
+  for (unsigned int i = 0; i < ol->length(); i++)
   {
     oe = ((OutlineElement *) (*ol)[i]);
     UAS_Pointer<UAS_Common> infolib = ((TOC_Element *)oe)->toc();
     UAS_List<UAS_Common> kids = infolib->children();
-    for (int j = 0; j < kids.length(); j++)
+    for (unsigned int j = 0; j < kids.length(); j++)
     {
       if (kids[j]->type() == UAS_BOOKCASE)
       {
@@ -1457,7 +1459,7 @@ SearchScopeAgent::bookcase_list(UAS_String &lid)
   UAS_BookcaseEntry *bce;
   UAS_List<UAS_Common> kids = infolib->children();
 
-  for (int j = 0; j < kids.length(); j++)
+  for (unsigned int j = 0; j < kids.length(); j++)
   {
     if (kids[j]->type() == UAS_BOOKCASE)
     {
@@ -1585,7 +1587,7 @@ SearchScopeAgent::delete_scope()
   // Make sure old scope name preference isn't saved by NULLing out
   // it's value.  This should really happen in a ScopeListMgr object.  DJB
   char scratch[64];
-  sprintf (scratch, "Scope.%s", scope->name());
+  snprintf (scratch, sizeof(scratch), "Scope.%s", scope->name());
   StringPref (scratch).value ("");
   delete scope;
 
@@ -1598,16 +1600,14 @@ void
 SearchScopeAgent::add_infolib(UAS_Pointer<UAS_Common> &lib)
 {
   // get infolib list and append new infolib to the list
-  char scratch[256];
   OutlineList *ol = f_infolib_list->list();
   OutlineElement *oe;
-  int infolib_num;
-      
+
   UAS_String temp_lid;
 
   // See if infolib is already in list--if it's there, 
   // don't add it again.
-  int i;
+  unsigned int i;
   for (i = 0; i < ol->length(); i++)
   {
     oe = ((OutlineElement *) (*ol)[i]);
@@ -1634,8 +1634,6 @@ SearchScopeAgent::add_infolib(UAS_Pointer<UAS_Common> &lib)
       if (((TOC_Element *)oe)->toc()->lid() == newLib->lid())  
 	  break;
   }
-
-  infolib_num = i; // next insertion point in list
 
   // Create search scope for new infolib
   UAS_String newLib_lid(newLib->lid());
@@ -1671,7 +1669,6 @@ SearchScopeAgent::remove_infolib(UAS_Pointer<UAS_Common> &lib)
 {
   // get infolib list and remove infolib from the list
   OutlineList *ol = f_infolib_list->list();
-  OutlineElement *oe;
   int infolib_num;
 
   // Get index of infolib in infobase list
@@ -1687,7 +1684,7 @@ SearchScopeAgent::remove_infolib(UAS_Pointer<UAS_Common> &lib)
   BitHandle handle = f_infolib_list->data_handle();
 
   f_infolib_list->clear();
-  int i;
+  unsigned int i;
   for (i = 0; i < ol->length(); i ++)
     ((OutlineElement *) (*ol)[i])->set_expanded (handle);
 
@@ -1710,7 +1707,7 @@ SearchScopeAgent::remove_infolib(UAS_Pointer<UAS_Common> &lib)
         break;
   }
   char scratch[128];
-  sprintf(scratch, "Infolib %s", (char *)kids[i]->id());
+  snprintf(scratch, sizeof(scratch), "Infolib %s", (char *)kids[i]->id());
 #endif
 
   // remove search scope associated with infolib
@@ -1725,7 +1722,7 @@ SearchScopeAgent::remove_infolib(UAS_Pointer<UAS_Common> &lib)
   // it's value.  This should really happen in a ScopeListMgr
   // object.  DJB
   char scratch[128];
-  sprintf (scratch, "Scope.%s", scope->name());
+  snprintf (scratch, sizeof(scratch), "Scope.%s", scope->name());
   StringPref (scratch).value ("");
 #endif
 
@@ -1766,7 +1763,6 @@ SearchScopeAgent::update_current_scope()
   WidgetList kids;
   Cardinal num_kids;
   UAS_SearchScope* scope;
-  UAS_SearchScope* current_scope=NULL;
 
   n = 0;
   XtSetArg(args[n], XmNnumChildren, &num_kids); n++;
@@ -1775,7 +1771,7 @@ SearchScopeAgent::update_current_scope()
 
   if(f_current_scope != NULL)
   {
-    for (int i = 1; i < num_kids; i++)
+    for (unsigned int i = 1; i < num_kids; i++)
     {
       WXmPushButton btn (kids[i]);
       scope = (UAS_SearchScope*)btn.UserData();
@@ -1869,7 +1865,7 @@ SearchScopeAgent::update_option_menu(UAS_String &scope_name)
 
   // destroy all toggle buttons in menu except
   // the unnamed button.
-  for (int i = 1; i < num_kids; i++)
+  for (unsigned int i = 1; i < num_kids; i++)
   {
     XtUnmanageChild (kids[i]);
     XtDestroyWidget (kids[i]);
@@ -1945,7 +1941,7 @@ SearchScopeAgent::list()
   OutlineList *ol = f_infolib_list->list();
   OutlineElement *oe;
 
-  for (int i = 0; i < ol->length(); i++)
+  for (unsigned int i = 0; i < ol->length(); i++)
   {
     oe = ((OutlineElement *) (*ol)[i]);
     UAS_Pointer<UAS_Common> infolib = ((TOC_Element *)oe)->toc();
@@ -1971,7 +1967,7 @@ SearchScopeAgent::list(UAS_String &lid)
 
   // get infolibs children--only save bookcases
   UAS_List<UAS_Common> kids = infolib->children();
-  for (int i = 0; i < kids.length(); i++)
+  for (unsigned int i = 0; i < kids.length(); i++)
     if (kids[i]->type() == UAS_BOOKCASE)
       rval.insert_item(kids[i]);
   return rval;
@@ -2009,7 +2005,7 @@ SearchScopeAgent::create_infolib_scope(UAS_String &lid)
   // entry for each one.
   //
   UAS_List<UAS_Common> kids = list(lid);
-  for (int i = 0; i < kids.length(); i++)
+  for (unsigned int i = 0; i < kids.length(); i++)
   {
     bce = new UAS_BookcaseEntry(kids[i]);
     bcases.append(bce);
@@ -2017,7 +2013,8 @@ SearchScopeAgent::create_infolib_scope(UAS_String &lid)
 
 #ifdef EAM
   char scratch[128];
-  sprintf(scratch, "Infolib %s", (char *)kids[first_base_num]->id());
+  snprintf(scratch, sizeof(scratch), "Infolib %s",
+			(char *)kids[first_base_num]->id());
 #endif
 
   // create search scope for infolib using the infolib name as
@@ -2059,7 +2056,7 @@ SearchScopeAgent::bid_to_index(UAS_String &lid, UAS_String &bid)
   OutlineElement *oe = ((OutlineElement *) (*ol)[index]);
   UAS_Pointer<UAS_Common> infolib = ((TOC_Element *)oe)->toc();
   UAS_List<UAS_Common> kids = infolib->children();
-  for (int i = 0; i < kids.length(); i++)
+  for (unsigned int i = 0; i < kids.length(); i++)
   {
     if (kids[i]->bid() == bid)
       return i;
@@ -2094,8 +2091,6 @@ SearchScopeAgent::get_search_scope(UAS_Pointer<UAS_Common> &infolib)
   xList<UAS_SearchScope *> &scopes = f_scope_list;
   List_Iterator<UAS_SearchScope *> iter (scopes);
   UAS_SearchScope *scope;
-  int scope_idx=0;
-  int maxScope=0; // max scope index
 
   iter++; // skip "Current Section" scope
   iter++; // skip "All Libraries" scope

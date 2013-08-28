@@ -87,17 +87,17 @@ private:
   QueryGroup   *f_parent;
   QueryTerm    *f_previous;
   QueryTerm    *f_next;
-  u_char f_type;
   union {
     QueryGroup *f_group_term;
     char       *f_term_string;
   };
   u_char  f_prefix;
   u_char  f_connective;
-  char   *f_proximity;
   char   *f_weight;
+  char   *f_proximity;
   char   *f_scope;
   bool f_term_string_fixed;
+  u_char f_type;
   // may need some way to verify the scope... 
 
   static unsigned int f_caps; 

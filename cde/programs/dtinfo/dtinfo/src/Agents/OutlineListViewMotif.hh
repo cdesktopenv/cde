@@ -126,8 +126,8 @@ protected: // view variables
   unsigned short  f_base_level;
   unsigned char   f_selection_policy;
   u_int           f_serial_number;
-  u_int		  f_selected_item_count;
   OutlineElement *f_current_selection;
+  u_int		  f_selected_item_count;
   unsigned char   f_tracking_possible;
   u_int           f_tracking_position;
   OutlineElement *f_tracking_element;

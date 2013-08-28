@@ -83,7 +83,7 @@ print_usage_and_exit (char *pname, char *arg)
 static void
 parse_args (int argc, char *argv[])
 {
-  int i;
+  int i. len;
 
   if (argc == 1)
      print_usage_and_exit (argv[0], NULL);
@@ -102,7 +102,8 @@ parse_args (int argc, char *argv[])
         print_usage_and_exit(argv[0], argv[i]);
     }
     else
-      strcpy (loc_buf, argv[i]);
+      len = MIN(strlen(argv[i]), BUFSIZE -1);
+      *((char *) memcpy (loc_buf, argv[i], len) + len) = '\0';
 
   }
 

@@ -225,8 +225,8 @@ class Shell_Info {
 public:
   Shell_Info (Widget w)
     : f_shell (w),
-      f_restore (False),
-      f_size_hints (NULL)
+      f_size_hints (NULL),
+      f_restore (False)
     { }
 
 public:
@@ -244,12 +244,12 @@ public:
 // /////////////////////////////////////////////////////////////////
 
 WindowSystem::WindowSystem (int &argc, char *argv[])
-: f_shell_list (20),
+: f_printing(False),
   f_default_pixmap (0),
   f_defpix_width (0),
   f_defpix_height (0),
-  f_printing(False),
   f_detached_pixmap(0),
+  f_shell_list (20),
   f_cursor_stack_pos(-1),
   f_dtinfo_font(NULL),
   f_dtinfo_space_font(NULL)
@@ -275,7 +275,7 @@ WindowSystem::WindowSystem (int &argc, char *argv[])
     }
 
   /* Reference the scale widget so Veritas Replay Xt lib can link. */
-  WidgetClass xxx = xmScaleWidgetClass;
+  /* WidgetClass xxx = xmScaleWidgetClass; */
 
   int count;
   char **names = XListFonts(window_system().display(),
@@ -540,9 +540,6 @@ xevent_error_aborter(Display *display, XErrorEvent* error_event)
 void
 WindowSystem::init()
 {
-  Arg    args[8];
-  int    i = 0;
-
   XtSetLanguageProc(NULL, (XtLanguageProc)NULL, NULL);
 
   _DtEnvControl(DT_ENV_SET);
@@ -872,7 +869,7 @@ WindowSystem::set_cursor (Cursor cursor, Widget exception)
 {
   Widget shell;
   //  ON_DEBUG (printf ("Cursor change <%d>\n", f_cursor_stack_pos));
-  for (int i = 0; i < f_shell_list.length(); i++)
+  for (unsigned int i = 0; i < f_shell_list.length(); i++)
     {
       shell = ((Shell_Info *) f_shell_list[i])->f_shell;
       if (shell != exception && XtWindow (shell) != 0)
@@ -904,14 +901,14 @@ WindowSystem::reset_cursor (WCallback *wcb)
   Widget shell;
   Widget exception = wcb ? wcb->GetWidget() : NULL;
   f_cursor_stack_pos--;
-  Cursor cursor;
+  Cursor cursor = 0;
   if (f_cursor_stack_pos >= 0)
     cursor = f_cursor_stack[f_cursor_stack_pos].cursor;
 
-  for (int i = 0; i < f_shell_list.length(); i++)
+  for (unsigned int i = 0; i < f_shell_list.length(); i++)
     {
       shell = ((Shell_Info *) f_shell_list[i])->f_shell;
-      if (shell != exception && XtWindow (shell) != 0)
+      if (shell != exception && XtWindow (shell) != 0) {
 	// Reset the previous cursor if there's one on the stack, revert
 	// to default cursor if the stack is empty. 
 	//  printf ("Resetting cursor on %s\n", XtName(shell));
@@ -920,6 +917,7 @@ WindowSystem::reset_cursor (WCallback *wcb)
 	  XDefineCursor (f_display, XtWindow (shell), cursor);
 	else
 	  XUndefineCursor (f_display, XtWindow (shell));
+      }
     }
   XFlush (f_display);
 }
@@ -957,10 +955,11 @@ WindowSystem::create_cursor (const char *filename)
   Cursor cursor;
   Pixmap cursor_bits, cursor_mask;
   Screen *screen = DefaultScreenOfDisplay (f_display);
-  static XColor white = { 0, ~0, ~0, ~0, DoRed | DoGreen | DoBlue };
+  unsigned short c = ~0;
+  static XColor white = { 0,  c,  c,  c, DoRed | DoGreen | DoBlue };
   static XColor black = { 0,  0,  0,  0, DoRed | DoGreen | DoBlue };
   int  hot_x, hot_y;
-  int depth;
+  int depth, len;
   Boolean success;
 
   // Get the cursor pixmap. 
@@ -978,12 +977,15 @@ WindowSystem::create_cursor (const char *filename)
 			      &hot_x, &hot_y,	   // 
 			      0, 0);		   // width, height
 
-  assert (success);
+  if(!success) {
+    assert (success);
+  }
 
   // Get the cursor mask pixmap. 
-  char *mask_filename = new char [strlen(filename) + 2];
-  strcpy (mask_filename, filename);
-  strcat (mask_filename, "m");
+  len = strlen(filename);
+  char *mask_filename = new char [len + 2];
+  *((char *) memcpy(mask_filename, filename, len) + len) = '\0';
+  *((char *) memcpy(mask_filename + len, "m", 1) + 1) = '\0';
   cursor_mask = XmGetPixmapByDepth (screen, mask_filename, 1, 0, 1);
   if (cursor_mask == XmUNSPECIFIED_PIXMAP)
     {
@@ -1098,11 +1100,10 @@ WindowSystem::default_pixmap (Dimension *width, Dimension *height)
 	temp_width = default_width;
 	temp_height = default_height;
 #else
-	int status ;
 	XpmAttributes xpm_attr ;
 	xpm_attr.valuemask = 0 ;
 	
-	status = XmeXpmCreatePixmapFromData(f_display,
+	XmeXpmCreatePixmapFromData(f_display,
 					    XtWindow((Widget)toplevel()),
 					    (char**)graphic_unavailable_data,
 					    &temp_pixmap,
@@ -1197,7 +1198,8 @@ WindowSystem::read_pixmap(const char *pname,
 
   xpm_attributes.valuemask = 0;
 
-  strcpy(fname, pname);
+  int len = MIN(strlen(pname), 255 - 1);
+  *((char *) memcpy(fname, pname, len) + len) = '\0';
 
 #ifdef UseDlOpen
   status = xpm_lib().ReadFileToPixmap (f_display, XtWindow ((Widget)toplevel()),
@@ -1349,7 +1351,8 @@ WindowSystem::get_message (const char *message_name)
   XtGetApplicationResources (toplevel(), &string, resource, 1, NULL, 0);
 
   if (string == default_message)
-    sprintf (string, "%s (Message description not found)", message_name);
+    snprintf (string, sizeof(default_message),
+		"%s (Message description not found)", message_name);
 
   return (string);
 }
@@ -1499,7 +1502,7 @@ WindowSystem::show_all_windows()
   Shell_Info *si;
   Boolean waiting_for_wm;
 
-  for (int i = 0; i < f_shell_list.length(); i++)
+  for (unsigned int i = 0; i < f_shell_list.length(); i++)
     {
       si = (Shell_Info *) f_shell_list[i];
       if (si->f_restore)

@@ -108,20 +108,23 @@ SimpleBuffer::~SimpleBuffer ()
 void
 SimpleBuffer::write (char *new_data)
 {
+  int slen, len = 0;
   int new_len = 0;
 
   if (f_data)
-    new_len = strlen (f_data);
+    len = new_len = strlen (f_data);
   new_len += strlen (new_data);
   // manual realloc
   char *new_buf = new char [new_len + 1];
   if (f_data)
-    (void) strcpy (new_buf, f_data);
+    *((char *) memcpy(new_buf, f_data, len) + len) = '\0';
   else
     *new_buf = 0;
   delete [] f_data;
   f_data = new_buf;
-  (void) strcat (f_data, new_data);
+  slen = len;
+  len = strlen(new_data);
+  *((char *) memcpy(f_data + slen, new_data, len) + len) = '\0';
 }
 
 char *
@@ -159,7 +162,7 @@ SearchScopeList::save()
     buffer.reset();
 
     // Store the scope component mask.
-    sprintf (scratch, "%d;", scope->search_zones().zones());
+    snprintf (scratch, sizeof(scratch), "%d;", scope->search_zones().zones());
     buffer.write (scratch, sizeof (char), strlen (scratch));
 
     // get the list of bookcases for the current scope
@@ -187,9 +190,9 @@ SearchScopeList::save()
       const char *name = bce->name();
       const char *bid = bce->bid();
       if (bc > 0)
-        sprintf (scratch, "&%s(%s)", bid, name);
+        snprintf (scratch, sizeof(scratch), "&%s(%s)", bid, name);
       else
-        sprintf (scratch, "%s(%s)", bid, name);
+        snprintf (scratch, sizeof(scratch), "%s(%s)", bid, name);
       buffer.write(scratch, sizeof (char), strlen(scratch));
 
       if(env().debug())
@@ -204,7 +207,7 @@ SearchScopeList::save()
       {
         for (int bk = 0; bk < booklist.numItems(); bk++)
         {
-          sprintf (scratch, ",%d", booklist[bk]);
+          snprintf (scratch, sizeof(scratch), ",%d", booklist[bk]);
           buffer.write(scratch, sizeof (char), strlen(scratch));
         }
         if(env().debug())
@@ -214,7 +217,7 @@ SearchScopeList::save()
     buffer.write ("\0", sizeof (char), 1);
 
     // Get the right preference object.
-    sprintf (scratch, "Scope.%s", scope->name());
+    snprintf (scratch, sizeof(scratch), "Scope.%s", scope->name());
     StringPref store (scratch);
 
     // Update its value.
@@ -278,9 +281,7 @@ SearchScopeList::save()
 void
 SearchScopeList::restore()
 {
-  char scratch[1024];
-  char basename[256];
-  int  i;
+  unsigned int  i;
   UAS_SearchScope *s;
 
   // get the list of bookcase names
@@ -352,13 +353,13 @@ SearchScopeList::create_named_scopes()
   }
 
   // retrieve scopes from preference file and validate each one
-  for (int sname = 0; sname < scope_names.length(); sname++)
+  for (int sname = 0; sname < (int) scope_names.length(); sname++)
   {
     is_scope_valid = True;
 
     // Get the specified scope from preferences.
     UAS_String ss = *(UAS_String*) scope_names[sname];
-    sprintf (scratch, "Scope.%s", (char*)ss);
+    snprintf (scratch, sizeof(scratch), "Scope.%s", (char*)ss);
     StringPref scope (scratch);
 
     // Grab the component mask.
@@ -389,7 +390,7 @@ SearchScopeList::create_named_scopes()
     // loop once for each bookcase in search scope. create a
     // bookcase entry for each valid bookcase. if bookcase
     // is invalid, invalidate the scope.
-    for (int bname = 0; bname < bookcases.length(); bname++)
+    for (int bname = 0; bname < (int) bookcases.length(); bname++)
     {
       UAS_String str = *(UAS_String*)bookcases[bname];
       UAS_List<UAS_String>bc_list = str.splitFields (',');
@@ -410,14 +411,13 @@ SearchScopeList::create_named_scopes()
     UAS_String sn = *(UAS_String*)scope_names[sname];
     if(is_scope_valid)
     {
-      UAS_SearchScope *s = f_search_scope_agent->create_scope (
-                  sn, bookcase_list, mask, False);
+      f_search_scope_agent->create_scope (sn, bookcase_list, mask, False);
     }
     else
     {
       // rtp - 4/24/95 : otherwise store its name for use later;
       //                 see SearchScopeList::save routine above
-      sprintf(scratch, "%s%s", (char*)sn, ",");
+      snprintf(scratch, sizeof(scratch), "%s%s", (char*)sn, ",");
       f_buffer->write (scratch);
     }
     // reset list for next turn
@@ -433,10 +433,10 @@ SearchScopeList::validate_bookcase(UAS_String &bid)
   // validate bookcase id
   UAS_List<UAS_Common> libs = f_search_scope_agent->list();
 
-  for (int i = 0; i < libs.length(); i++)
+  for (unsigned int i = 0; i < libs.length(); i++)
   {
     UAS_List<UAS_Common> kids = libs[i]->children();
-    for (int j = 0; j < kids.length(); j++)
+    for (unsigned int j = 0; j < kids.length(); j++)
     {
       if(kids[j]->bid() == bid)
       {
@@ -483,7 +483,7 @@ SearchScopeList::create_bcase_entry(UAS_List<UAS_String> &bc_list)
     int book_num;
     UAS_ObjList<int> booklist;
 
-    for (int book = 1; book < bc_list.length(); book++)
+    for (int book = 1; book < (int) bc_list.length(); book++)
     {
       UAS_String abook = *(UAS_String*)bc_list[book];
       if(sscanf ((char*)abook, "%d", &book_num) == 1)

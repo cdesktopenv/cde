@@ -182,7 +182,7 @@ HashTbl::remove (const Hashable &element)
 void
 HashTbl::remove_all (bool delete_elements)
 {
-  for (int i = 0; i < f_num_buckets; i++)
+  for (unsigned int i = 0; i < f_num_buckets; i++)
     if (f_hash_bucket[i] != NULL)
       {
 	if (delete_elements)

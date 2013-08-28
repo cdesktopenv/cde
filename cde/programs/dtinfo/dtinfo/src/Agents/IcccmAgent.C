@@ -158,12 +158,14 @@ IcccmAgent::value_handler(Widget w, XtPointer ia, Atom *selection,
         prop.format = 8;
         prop.nitems = *length;
         char** string_list;
-        int count;
+        int count, len, slen;
         XmbTextPropertyToTextList(XtDisplay(w), &prop, &string_list, &count);
         char *mbs = strdup("");
         for (int i=0; i<count; i++) {
-            mbs = (char*)realloc(mbs, strlen(mbs) + strlen(string_list[i]) + 1);
-            mbs = strcat(mbs, string_list[i]);
+            slen = strlen(mbs);
+            len = strlen(string_list[i]);
+            mbs = (char*)realloc(mbs, slen + len + 1);
+            *((char *) memcpy(mbs, string_list[i], len) + len) = '\0';
         }
         XwcFreeStringList((wchar_t**)string_list);
 #if 0
@@ -493,7 +495,7 @@ IcccmAgent::convert_handler(Widget w, Atom selection, Atom target,
     target_list[1] = XA_STRING;
     target_list[2] = XA_TEXT(XtDisplay(w));
     target_list[3] = XA_LENGTH(XtDisplay(w));
-    for (int i = OLIAS_SUPPORT_TARGETS; i < length_return; i++)
+    for (unsigned int i = OLIAS_SUPPORT_TARGETS; i < length_return; i++)
 	target_list[i] = xmu_targets[i - OLIAS_SUPPORT_TARGETS];
     XtFree((char*)xmu_targets);
     xmu_targets = NULL;

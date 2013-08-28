@@ -305,7 +305,7 @@ GraphicsMgr::get_graphic (const UAS_String &imdata,
         printf(
        "Insufficient color cells for graphic. Retry with degraded colors.\n" );
 #endif
-        _DtGrLoadStatus status =
+        status =
           _DtGrLoad(&gr_stream, // image
               &image_type,
               screen,
@@ -412,7 +412,7 @@ GraphicsMgr::detach (UAS_Pointer<UAS_Common> &node_ptr,
   // ViewportAgent will actually remove it from display
 
   gr->set_detached(TRUE);
-  PixmapGraphic *pgraphic = gr->pixmap_graphic();
+  //PixmapGraphic *pgraphic = gr->pixmap_graphic();
   GraphicAgent *ga = new GraphicAgent(node_ptr, gr);
 
   //gr->set_agent(ga);

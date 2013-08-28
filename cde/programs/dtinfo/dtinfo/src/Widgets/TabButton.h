@@ -84,5 +84,16 @@ extern char _XtSCRadius[];
 }
 #endif
 
+_XFUNCPROTOBEGIN
+
+extern void _XmCalcLabelDimensions(Widget wid);
+
+extern Boolean _XmFontListSearch (XmFontList fontlist, XmStringCharSet charset,
+				  short *indx, XFontStruct **font_struct);
+
+extern Boolean _XmDifferentBackground (Widget w, Widget parent);
+
+_XFUNCPROTOEND
+
 #endif /* _TabButton_h */
 /* DO NOT ADD ANY LINES AFTER THIS #endif */

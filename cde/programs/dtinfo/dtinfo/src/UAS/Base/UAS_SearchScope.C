@@ -43,8 +43,9 @@ UAS_SearchScope::UAS_SearchScope (const char *name,
   f_read_only (ro),
   f_infolib(NULL)
 {
-  f_name = new char[strlen(name) + 1 ];
-  strcpy(f_name, name);
+  int len = strlen(name);
+  f_name = new char[len + 1];
+  *((char *) memcpy(f_name, name, len) + len) = '\0';
 
   f_bcases = bcases;
 
@@ -83,7 +84,7 @@ UAS_SearchScope::name(const char *newname)
   delete f_name ;
   u_int len = strlen(newname);
   f_name = new char[len + 1] ;
-  strcpy(f_name,newname);
+  *((char *) memcpy(f_name, newname, len) + len) = '\0';
   return name();
 }
 
@@ -91,8 +92,9 @@ void
 UAS_SearchScope::set_name (const char *name)
 {
   delete f_name;
-  f_name = new char[strlen(name) + 1 ];
-  strcpy(f_name, name);
+  int len = strlen(name);
+  f_name = new char[len + 1];
+  *((char *) memcpy(f_name, name, len) + len) = '\0';
   static ScopeRenamed rename_msg;
   rename_msg.f_search_scope = this;
   send_message (rename_msg, 0);

@@ -283,7 +283,7 @@ MarkListView::view()
     {
 
       Xassert (f_selected_item > 0);
-      Xassert (f_selected_item <= f_mark_list.length());
+      Xassert (f_selected_item <= (int) f_mark_list.length());
 
       List_Iterator<UAS_Pointer<Mark> > m (f_mark_list);
       int i  = 1;
@@ -311,7 +311,7 @@ void
 MarkListView::remove()
 {
   Xassert (f_selected_item > 0);
-  Xassert (f_selected_item <= f_mark_list.length());
+  Xassert (f_selected_item <= (int) f_mark_list.length());
 
   List_Iterator<UAS_Pointer<Mark> > m (f_mark_list);
   int i  = 1;
@@ -335,7 +335,7 @@ void
 MarkListView::edit()
 {
   Xassert (f_selected_item > 0);
-  Xassert (f_selected_item <= f_mark_list.length());
+  Xassert (f_selected_item <= (int) f_mark_list.length());
 
   List_Iterator<UAS_Pointer<Mark> > m (f_mark_list);
   int i  = 1;

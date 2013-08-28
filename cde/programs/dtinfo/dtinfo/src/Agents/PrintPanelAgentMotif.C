@@ -194,8 +194,8 @@ reset_ui(AppPrintData *p)
     
     // Set up the "Number of Nodes" labels. 
     static char buffer[24];
-    
-    sprintf (buffer, "%d", print_list.length());
+
+    snprintf (buffer, sizeof(buffer), "%d", print_list.length());
     f_selected_field.LabelString (WXmString (buffer));
     f_to_print_field.LabelString (WXmString (buffer));
     
@@ -244,8 +244,8 @@ customizePrintSetupBox(AppPrintData *p)
     Widget print_dialog = p->f_print_dialog;
     RCS_DEBUG("customizePrintSetupBox called.\n");   
 
-    Widget row, how_many_frame, how_many_title, how_many_form, selected_label, print_panel;
-    Widget to_print_label, what_frame, what_title, what_form, selected_field, to_print_field;
+    Widget how_many_frame, how_many_form, selected_label, print_panel;
+    Widget what_frame, what_form, selected_field, to_print_field;
     Widget print_nodes;
 
     //  Create the app-specific top work area
@@ -273,7 +273,7 @@ customizePrintSetupBox(AppPrintData *p)
     label = XmStringGenerate(CATGETS(Set_AgentLabel, 205, "Number of Sections"), 
 			     NULL, XmCHARSET_TEXT, NULL);
 
-    how_many_title = XtVaCreateManagedWidget("how_many_title",
+    XtVaCreateManagedWidget("how_many_title",
 					     xmLabelWidgetClass,
 					     how_many_frame,
 					     XmNchildType, XmFRAME_TITLE_CHILD,
@@ -315,7 +315,7 @@ customizePrintSetupBox(AppPrintData *p)
     label = XmStringGenerate(CATGETS(Set_AgentLabel, 207, "To Be Printed:"),
 			     NULL, XmCHARSET_TEXT, NULL);
     
-    to_print_label = XtVaCreateManagedWidget("to_print_label",
+    XtVaCreateManagedWidget("to_print_label",
 					     xmLabelWidgetClass,
 					     how_many_form, 
 					     XmNlabelString, label,
@@ -358,7 +358,7 @@ customizePrintSetupBox(AppPrintData *p)
     label = XmStringGenerate(CATGETS(Set_AgentLabel, 209, "What to Print"),
 			     NULL, XmCHARSET_TEXT, NULL);
 
-    what_title = XtVaCreateManagedWidget("what_title",
+    XtVaCreateManagedWidget("what_title",
 					 xmLabelWidgetClass,
 					 what_frame,
 					 XmNlabelString, label,
@@ -435,7 +435,6 @@ PdmNotifyCB(Widget pr_shell, XtPointer client_data, XtPointer call_data)
 
     XmPrintShellCallbackStruct* pr_cbs = 
 	(XmPrintShellCallbackStruct*) call_data;
-    AppPrintData * p = (AppPrintData *) client_data ;
     
     if ((pr_cbs->reason == XmCR_PDM_NONE) ||
 	(pr_cbs->reason == XmCR_PDM_START_ERROR) ||
@@ -494,7 +493,8 @@ CreatePrintShell(Widget widget, AppPrintData* p)
 	// set default print medium if specified on command line
 	
 	if (window_system().videoShell()->paper_size != NULL) {
-	    sprintf(buf, "*default-medium: %s\n", window_system().videoShell()->paper_size);
+	    snprintf(buf, sizeof(buf), "*default-medium: %s\n",
+			window_system().videoShell()->paper_size);
 	    XpSetAttributes(
 		p->f_print_data->print_display, 
 		p->f_print_data->print_context, 
@@ -725,8 +725,6 @@ PrintCB(Widget print_dialog, XtPointer client_data, XtPointer call_data)
 void 
 QuickPrintCB(Widget pr_button, XtPointer client_data, XtPointer call_data)
 {
-    char *msg;
-
     RCS_DEBUG("QuickPrintCB called.\n");   
 
     AppPrintData *p = (AppPrintData*)client_data;
@@ -969,8 +967,10 @@ PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP)
     // set print orientation to either landscape or portrait (if set)
 
     if (f_printOrientation != NULL) {
-	sprintf(buf, "*content-orientation: %s\n", f_printOrientation);
-	XpSetAttributes(XtDisplay(pshell), XpGetContext(XtDisplay(pshell)), XPPageAttr, buf, XPAttrMerge);
+	snprintf(buf, sizeof(buf),
+			"*content-orientation: %s\n", f_printOrientation);
+	XpSetAttributes(XtDisplay(pshell), XpGetContext(XtDisplay(pshell)),
+			XPPageAttr, buf, XPAttrMerge);
     }
     
     for (gHelpDisplayArea->firstVisible = gHelpDisplayArea->nextNonVisible = 0;
@@ -981,7 +981,7 @@ PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP)
 
 	XpStartPage(XtDisplay(pshell), XtWindow(pshell));
 
-	sprintf(buf, "%d", *cur_pageP);
+	snprintf(buf, sizeof(buf), "%d", *cur_pageP);
 	label = XmStringCreateLocalized(buf);
 
 	n = 0;
@@ -1000,7 +1000,7 @@ PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP)
     // Print chidren if appropriate
     if (print_hierarchy)
     {
-	int i;
+	unsigned int i;
 	UAS_List<UAS_Common> kids = doc->children();
 
 	for (i = 0; i < kids.length(); i++)
@@ -1028,7 +1028,6 @@ PrintCloseDisplayCB(
 {
     RCS_DEBUG("PrintCloseDisplayCB called.\n");   
 
-    DtPrintSetupCallbackStruct *pbs = (DtPrintSetupCallbackStruct*)call_data;
     AppPrintData *p = (AppPrintData*)client_data;
 
     if (p->f_print_shell)
@@ -1062,7 +1061,6 @@ ToggleWhatCB(
 {
     RCS_DEBUG("ToggleWhatCB called.\n");   
 
-    XmToggleButtonCallbackStruct * cbs = (XmToggleButtonCallbackStruct *) call_data;
     AppPrintData * p = (AppPrintData *)client_data;
     
     xList<UAS_Pointer<UAS_Common> > &print_list = *(p->f_print_list);
@@ -1089,7 +1087,7 @@ ToggleWhatCB(
     
     if (active == f_print_nodes)
     {
-	sprintf (buffer, "%d", print_list.length());
+	snprintf (buffer, sizeof(buffer), "%d", print_list.length());
 	print_hierarchy = False;
     }
     else // active == f_print_hierarchy 
@@ -1099,11 +1097,11 @@ ToggleWhatCB(
 
 	if (subtree_size != 0)
 	{
-	    sprintf (buffer, "%d", subtree_size);
+	    snprintf (buffer, sizeof(buffer), "%d", subtree_size);
 	}
 	else
 	{
-	    strcpy (buffer, "?");
+	    *((char *) memcpy(buffer, "?", 1) + 1) = '\0';
 	}
 	print_hierarchy = True;
     }

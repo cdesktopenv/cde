@@ -160,13 +160,16 @@ FontCache::getxlfd(const char *family, int bold,
     // get cache of font family
     static char pattern[256];
     if (charset && *charset) {
-	sprintf(pattern, "-*-%s-*-*-*-*-*-*-*-*-*-*-%s", family, charset);
+	snprintf(pattern, sizeof(pattern),
+			"-*-%s-*-*-*-*-*-*-*-*-*-*-%s", family, charset);
     }
     else if (family && *family) {
-	sprintf(pattern, "-*-%s-*-*-*-*-*-*-*-*-*-*-*-*", family);
+	snprintf(pattern, sizeof(pattern),
+			"-*-%s-*-*-*-*-*-*-*-*-*-*-*-*", family);
     }
     else {
-	strcpy(pattern, fallback);
+	int len = MIN(strlen(fallback), 256 - 1);
+	*((char *) memcpy(pattern, fallback, len) + len) = '\0';
     }
     
   CC_String _l_pattern(pattern);
@@ -177,8 +180,8 @@ FontCache::getxlfd(const char *family, int bold,
 #if DO_SCALEABLE_FONTS
     // first check for scalable 
     char scaled_pattern[256];
-    sprintf(scaled_pattern, "-*-%s-%s-%s-*-*-0-0-*-*-*-*-*-*",
-	    family, weight, slant);
+    snprintf(scaled_pattern, sizeof(scaled_pattern),
+		"-*-%s-%s-%s-*-*-0-0-*-*-*-*-*-*", family, weight, slant);
     
     newfont = XLoadQueryFont(display, pattern);
 #endif
@@ -218,8 +221,8 @@ FontCache::getxlfd(const char *family, int bold,
 #ifdef DO_SCALEABLE_FONTS
   if (fontlist->scaleable())
     {
-      sprintf(pattern, "-*-%s-%s-%s-*-*-%d-*-*-*-*-*-*-*",
-	      family, weight, slant, size);
+      snprintf(pattern, sizeof(pattern),
+	"-*-%s-%s-%s-*-*-%d-*-*-*-*-*-*-*", family, weight, slant, size);
     
       return pattern ;
     }
@@ -243,7 +246,7 @@ FontCache::getxlfd(const char *family, int bold,
 	 (scan = strchr(scan+1, '-'))){
 	if(bold == (strncmp(scan + 1, "medium", 6) == 0))
 	  score += 500; //HEURISTIC
-	if(scan = strchr(scan+1, '-')){
+	if((scan = strchr(scan+1, '-'))){
 	  if(italic == (strncmp(scan+1, "r", 1) == 0))
 	    score += 500; //HEURISTIC
 	  if((scan = strchr(scan+1, '-')) &&
@@ -286,8 +289,8 @@ FontCache::getxlfd(const char *family, int bold,
 
 
 FontList::FontList(int count, const char **names)
-: f_count(count),
-  f_names(names)
+: f_names(names),
+  f_count(count)
 {
 }
 FontList::~FontList()

@@ -72,8 +72,8 @@ private: // functions
 private:
   UAS_Pointer<UAS_Common>    f_doc_ptr;
   Anchor               f_anchor;
+  MarkBase_mmdb       &f_mark_base;
   char                *f_name;
   char                *f_notes;
   mark_smart_ptr      *f_user_mark;
-  MarkBase_mmdb       &f_mark_base;
 };

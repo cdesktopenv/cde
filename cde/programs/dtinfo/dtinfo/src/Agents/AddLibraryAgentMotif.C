@@ -207,6 +207,7 @@ AddLibraryAgent::pick_dir () {
   if( !f_file_sel )
   {
     Arg args[20];
+    unsigned int len, slen;
     int n;
 
     XmString title_str = XmStringCreateLocalized(
@@ -217,20 +218,23 @@ AddLibraryAgent::pick_dir () {
     XmString infolibs_str = XmStringCreateLocalized( (char*)"Infolibs" );
 
     // default initial directory on first entry
-    char *buf = new char[256];
+    unsigned int buflen = 256;
+    char *buf = new char[buflen];
 
 // Note: infolibs need to be placed in platform-portably-named
 //       LANG-type subdirectories, so the normalized CDE language
 //       string can be used for lookup. For now, must assume the
 //       user environment LANG is OK ...
     char *tmpstr;
-    if( tmpstr = getenv("LANG") )
-        sprintf( buf, "/usr/dt/infolib/%s/", tmpstr );
+    if( (tmpstr = getenv("LANG")) )
+	snprintf( buf, buflen, "/usr/dt/infolib/%s/", tmpstr );
     else
-	sprintf( buf, "/usr/dt/infolib/%s/", env().lang() );
+	snprintf( buf, buflen, "/usr/dt/infolib/%s/", env().lang() );
 //
     XmString basedir_str = XmStringCreateLocalized( buf );
-    strcat( buf, "*.dti" );
+    slen = strlen(buf);
+    len = MIN(5, buflen - 1 - slen);
+    *((char *) memcpy(buf + slen, "*.dti", len) + len) = '\0';
     XmString initdir_str = XmStringCreateLocalized( buf );
     delete [] buf;
 
