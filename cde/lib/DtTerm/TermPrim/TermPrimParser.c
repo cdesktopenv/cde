@@ -37,6 +37,7 @@ static char rcs_id[] = "$TOG: TermPrimParser.c /main/2 1999/10/15 12:23:41 mgree
  */
 
 #include <Xm/Xm.h>
+#include "TermHeader.h"
 #include "TermPrimDebug.h"
 #include "TermPrimP.h"
 #include "TermPrimParserP.h"

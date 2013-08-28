@@ -275,7 +275,7 @@ goodver:
        * so opening .dbd file read-only is still ok.
        */
       dbf = open_b (dbfile, O_RDONLY);
-      DB_LSEEK(dbf, DBD_COMPAT_LEN + 8L*sizeof(INT), 0);
+      DB_LSEEK(dbf, (off_t)(DBD_COMPAT_LEN + 8L*sizeof(INT)), 0);
 
       /*----------------- FILE TABLE -------------------*/
       DB_READ(dbf, (char FAR *)&file_table[ORIGIN(ft_offset)],

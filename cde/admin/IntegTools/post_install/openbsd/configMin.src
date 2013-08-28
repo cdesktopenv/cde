@@ -36,7 +36,7 @@ XCOMM
 
     if [ ! -f /tmp/dtspc-already-there ]
     then
-        echo "dtspc\t6112/tcp\t#subprocess control" >>$FILE
+        printf "dtspc\t\t6112/tcp\t#subprocess control" >>$FILE
     else
 	rm /tmp/dtspc-already-there
     fi
@@ -96,7 +96,7 @@ XCOMM
 
     if [ ! -f /tmp/dtspc-already-there ]
     then
-        echo "dtspc stream tcp nowait root $DTSPCD $DTSPCD" >>$FILE
+        echo "dtspc stream tcp4 nowait root $DTSPCD $DTSPCD" >>$FILE
     else
 	rm /tmp/dtspc-already-there
     fi
@@ -225,9 +225,7 @@ XCOMM ###############################################################
 
     FixEtcServices
 
-    FixEtcInetdDotConf
-
-    HASH FixEtcPamDotConf
+    : FixEtcInetdDotConf
 
     HASH
     HASH  create the /var/dt/tmp directory for the dtspcd
@@ -243,9 +241,7 @@ XCOMM ###############################################################
 
     UnfixEtcServices
 
-    UnfixEtcInetdDotConf
-
-    UnfixEtcPamDotConf
+    : UnfixEtcInetdDotConf
 
     RemoveMinFiles
 
@@ -256,20 +252,6 @@ XCOMM ###############################################################
 
     VerifyInstalledFiles
 
-  fi
-
-  if [ "$OPERATION" != "verify" ]
-  then
-
-    HASH issue a SIGHUP to the inetd process
-
-    ps -ef | grep inetd | grep -v grep >/tmp/tmppsout
-    if [ -s /tmp/tmppsout ]
-    then
-	awk '{print "kill -1 " $2}' /tmp/tmppsout | /bin/sh
-    else
-	[ -x /usr/sbin/inetd ] && /usr/sbin/inetd
-    fi
   fi
 
   return $retval

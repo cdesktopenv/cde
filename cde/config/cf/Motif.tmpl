@@ -582,7 +582,16 @@ LINTXMWIDGETLIB = $(MWIDGETSRC)/llib-l/Xm.ln
 # else
         DEPLIBS = $(LOCAL_LIBRARIES)
 # endif
-        DEPLIBS1 = $(DEPLIBS)
-        DEPLIBS2 = $(DEPLIBS)
-        DEPLIBS3 = $(DEPLIBS)
+       DEPLIBS1 = $(DEPLIBS)
+       DEPLIBS2 = $(DEPLIBS)
+       DEPLIBS3 = $(DEPLIBS)
 #endif /* NeedDefaultDepLibs */
+
+/* check for existence of Dtinfo Motif Documents */
+#if defined(LinuxArchitecture)
+      MOTIF_DOC = $(shell if test -f $(MDOCSRC)/C/guides/bookcase.bc; then echo -D_MOTIFDOC_; fi)
+#elif defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+     MOTIF_DOC != if test -f $(MDOCSRC)/C/guides/bookcase.bc; then echo -D_MOTIFDOC_; fi
+#else
+      MOTIF_DOC = -D_MOTIFDOC_
+#endif

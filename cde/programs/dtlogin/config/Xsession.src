@@ -76,7 +76,7 @@ XCOMM ##########################################################################
 #  define cpp_XINITUSER "$HOME/.xinitrc"
 #  define cpp_XDMSYS "/etc/X11/Xsession"
 #  undef cpp_HELLO
-#  define cpp_HELLO "$DT_BINPATH/dthello -file CDE_INSTALLATION_TOP/copyright &"
+#  define cpp_HELLO "$DT_BINPATH/dthello -file $DT_INSTALL/copyright &"
 #endif
 
 #ifdef __FreeBSD__
@@ -84,7 +84,7 @@ XCOMM ##########################################################################
 #  define cpp_XINITUSER "$HOME/.xinitrc"
 #  define cpp_XDMSYS "/usr/local/lib/X11/xdm/Xsession"
 #  undef cpp_HELLO
-#  define cpp_HELLO "$DT_BINPATH/dthello -file CDE_INSTALLATION_TOP/copyright &"
+#  define cpp_HELLO "$DT_BINPATH/dthello -file $DT_INSTALL/copyright &"
 #endif
 
 #ifdef __OpenBSD__
@@ -92,7 +92,7 @@ XCOMM ##########################################################################
 #  define cpp_XINITUSER "$HOME/.xinitrc"
 #  define cpp_XDMSYS "/etc/X11/xdm/Xsession"
 #  undef cpp_HELLO
-#  define cpp_HELLO "$DT_BINPATH/dthello -file CDE_INSTALLATION_TOP/copyright &"
+#  define cpp_HELLO "$DT_BINPATH/dthello -file $DT_INSTALL/copyright &"
 #endif
 
 
@@ -281,6 +281,7 @@ fi
   HASH
   XDIR=XPROJECTROOT/bin
   DT_BINPATH=CDE_INSTALLATION_TOP/bin
+  DT_INSTALL=CDE_INSTALLATION_TOP
   DT_INSTALL_CONFIG=CDE_INSTALLATION_TOP/config
   DT_CONFIG=CDE_CONFIGURATION_TOP/config
   DT_CONFIG_PATH="$DT_INSTALL_CONFIG $DT_CONFIG"
@@ -602,13 +603,13 @@ StartFirst()
       sh | bash) $SHELL -c "$source_profile; \
 			   unset DT; \
 			   $dtdbcache; \
-                           PATH=CDE_INSTALLATION_TOP/bin:\$PATH $tooltalk;   \
+                           PATH=$DT_BINPATH:\$PATH $tooltalk;   \
                            $startup > $dtstart_sessionlogfile 2>&1" ;;
 
       ksh | ksh93 | dtksh) $SHELL -c "$source_profile; \
 			   unset DT; \
 			   $dtdbcache; \
-                           PATH=CDE_INSTALLATION_TOP/bin:\$PATH $tooltalk;\
+                           PATH=$DT_BINPATH:\$PATH $tooltalk;\
                            $startup >| $dtstart_sessionlogfile 2>&1" ;;
 
       csh | tcsh) $SHELL -c "unsetenv _ PWD;       \

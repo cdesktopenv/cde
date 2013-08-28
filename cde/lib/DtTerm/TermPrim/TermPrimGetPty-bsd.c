@@ -49,9 +49,9 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-bsd.c /main/4 1996/11/21 19
 #define XOS_USE_XT_LOCKING
 #include <X11/Xos_r.h>
 #include "TermPrim.h"
+#include "TermHeader.h"
 #include "TermPrimDebug.h"
 #include "TermPrimUtil.h"
-#include "TermHeader.h"
 
 typedef struct _ptyInfo {
     char *ptyName;

@@ -207,15 +207,28 @@ CleanDaemons()
       then
         stopsrc -s inetd >>$LOGFILE 2>&1
       fi
-    elif [ "$PLATFORM" = openbsd ]
-    then
-      true
-    elif [ "$PLATFORM" = freebsd ]
+    elif [ "$PLATFORM" = "openbsd" ]
     then
       ps axo pid,comm | grep $i > /tmp/tmppsout
       if [ -s /tmp/tmppsout ]
       then
         awk '{print "kill " $1}' /tmp/tmppsout | /bin/csh -f
+        sleep 2
+      fi
+    elif [ "$PLATFORM" = "freebsd" ]
+    then
+      ps axo pid,comm | grep $i > /tmp/tmppsout
+      if [ -s /tmp/tmppsout ]
+      then
+        awk '{print "kill " $1}' /tmp/tmppsout | /bin/csh -f
+        sleep 2
+      fi
+    elif [ "$PLATFORM" = "linux" ]
+    then
+      ps axo pid,comm | grep $i > /tmp/tmppsout
+      if [ -s /tmp/tmppsout ]
+      then
+        awk '{print "kill " $1}' /tmp/tmppsout | /bin/sh -f
         sleep 2
       fi
     else    
@@ -247,10 +260,13 @@ RestartInetd()
     /usr/sbin/inetd
   elif [ "$PLATFORM" = "openbsd" ]
   then
-    true
+    /etc/rc.d/inetd start >/dev/null
   elif [ "$PLATFORM" = "freebsd" ]
   then
     /etc/rc.d/inetd onestart
+  elif [ "$PLATFORM" = "linux" ]
+  then
+    /etc/init.d/openbsd-inetd start >/dev/null 2>&1
   else
 #ifdef hpV4
     /usr/sbin/inetd 
@@ -553,7 +569,7 @@ XCOMM
   elif [ $BUILDSYSTEM = "Linux" ];
   then
     PLATFORM="linux"
-    PLATFORM_SCRIPT_DIR=""
+    PLATFORM_SCRIPT_DIR="linux"
   elif [ $BUILDSYSTEM = "FreeBSD" ];
   then
     PLATFORM="freebsd"
@@ -561,7 +577,7 @@ XCOMM
   elif [ $BUILDSYSTEM = "OpenBSD" ];
   then
     PLATFORM="openbsd"
-    PLATFORM_SCRIPT_DIR=""
+    PLATFORM_SCRIPT_DIR="openbsd"
   else			# Build system = HP
     PLATFORM=hp-ux
     PLATFORM_SCRIPT_DIR=hp

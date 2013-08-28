@@ -1056,7 +1056,7 @@ INT *rid;
       page = (sno - 1)/spp + 1;
       offset = PGHDRSIZE + page*file_ptr->ft_pgsize +
 				 (sno - 1 - (page - 1)*spp)*file_ptr->ft_slsize;
-      DB_LSEEK(file_ptr->ft_desc, offset, 0);
+      DB_LSEEK(file_ptr->ft_desc, (off_t)offset, 0);
       if ( DB_READ(file_ptr->ft_desc, (char FAR *)rid, sizeof(INT))
 		!= sizeof(INT) ) {
 	 dberr(S_BADREAD);
@@ -1118,7 +1118,7 @@ INT rid;
 	 offset += page*file_ptr->ft_pgsize;
 
 	 /* read rid from disk, and set/clear rlb accordingly */
-	 DB_LSEEK(file_ptr->ft_desc, offset, 0);
+	 DB_LSEEK(file_ptr->ft_desc, (off_t)offset, 0);
 	 if ( DB_READ(file_ptr->ft_desc, (char FAR *)&trid, sizeof(INT))
 		!= sizeof(INT) ) {
 	    dberr(S_BADREAD);
@@ -1128,7 +1128,7 @@ INT rid;
 
 	 /* write original rid out with modified rlb */
          trid = htons (rid); /* make a copy in trid for byte swap */
-	 DB_LSEEK(file_ptr->ft_desc, offset, 0);	/* reseek */
+	 DB_LSEEK(file_ptr->ft_desc, (off_t)offset, 0);	/* reseek */
 	 if ( DB_WRITE(file_ptr->ft_desc, (char FAR *)&trid, sizeof(INT)) !=
 	      sizeof(INT) )
 	    dberr(S_BADWRITE);
@@ -1507,7 +1507,7 @@ LOOKUP_ENTRY FAR *lu_ptr;  /* corresponding lookup table entry */
    if ( dio_open(fno) == S_OKAY ) {
       swab_page (pg_ptr->buff, &file_table[fno], HTON);
       desc = file_table[fno].ft_desc;
-      DB_LSEEK( desc, addr, 0 );
+      DB_LSEEK( desc, (off_t)addr, 0 );
       if (DB_WRITE( desc, pg_ptr->buff, pgsize ) != pgsize) dberr(S_BADWRITE);
    }
    MEM_UNLOCK(&pg_ptr->Buff);
@@ -1565,14 +1565,14 @@ BOOLEAN db_cache;  /* TRUE if pg_ptr in db cache */
 #endif
    if ( dio_open(fno) == S_OKAY ) {
       desc = file_ptr->ft_desc;
-      DB_LSEEK(desc, addr, 0);
+      DB_LSEEK(desc, (off_t)addr, 0);
       MEM_LOCK(&pg_ptr->Buff);
       if ((r = DB_READ( desc, pg_ptr->buff, pgsize )) < pgsize) {
 	 byteset(&pg_ptr->buff[r], '\0', pgsize - r);
-	 DB_LSEEK(desc, addr, 0);
+	 DB_LSEEK(desc, (off_t)addr, 0);
 	 if (DB_WRITE( desc, pg_ptr->buff, pgsize ) != pgsize) {
 	    /* clean up and return out of space */
-	    DB_LSEEK(desc, addr, 0);
+	    DB_LSEEK(desc, (off_t)addr, 0);
 	    DB_WRITE(desc, "", 0);
 	    pgzero_ptr = &pgzero[fno];
 	    pgzero_ptr->pz_next--;
@@ -1713,7 +1713,7 @@ static int dio_pzflush()
 		memcpy (cptr, &align_LONG, sizeof(LONG));
 	    }
 	    desc = file_ptr->ft_desc;
-	    DB_LSEEK(desc, 0L, 0);
+	    DB_LSEEK(desc, (off_t)0L, 0);
 	    if (DB_WRITE(desc, (char FAR *)pgzero_ptr, PGZEROSZ) != PGZEROSZ) 
 	       return( dberr(S_BADWRITE) );
 	    pgzero_ptr->pz_modified = FALSE;
@@ -1761,7 +1761,7 @@ FILE_NO fno;  /* file number */
    }
 
    /* seek to and read page zero */
-   DB_LSEEK(file_ptr->ft_desc, 0L, 0);
+   DB_LSEEK(file_ptr->ft_desc, (off_t)0L, 0);
    if ( DB_READ(file_ptr->ft_desc, (char FAR *)pgzero_ptr, PGZEROSZ) 
 							!= PGZEROSZ ) {
       return( dberr(S_BADREAD) );

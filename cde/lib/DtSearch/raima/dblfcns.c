@@ -949,10 +949,10 @@ TASK_DECL
 #ifndef NO_TRANS
       if ( use_ovfl ) o_free();
 #endif
-      termfree();
+/*    termfree();
       key_close();
       sk_free();
-      dio_free();
+      dio_free(); */
 #ifndef SINGLE_USER
       if ( db_lockmgr ) {
 	 termses();

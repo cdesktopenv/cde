@@ -31,7 +31,7 @@ XCOMM
 XCOMM comment out any non-cde rpc.cmsd lines
 XCOMM
 
-    nawk -v cmsd=$CMSD \
+    awk -v cmsd=$CMSD \
 	'{if ($1 == "cmsd/2-4" && $6 != cmsd)
 		print "#cde " $0;
 	  else
@@ -44,7 +44,7 @@ XCOMM
 XCOMM remove any cde 2-4 cmsd
 XCOMM
 
-    nawk -v cmsd=$CMSD \
+    awk -v cmsd=$CMSD \
 	'{if ($1 == "cmsd/2-4" && $6 == cmsd)
 		;
 	  else
@@ -58,7 +58,7 @@ XCOMM
 XCOMM now run an awk script to see if there is an occurrence of 2-5 cmsd
 XCOMM
 
-    nawk -v cmsd=$CMSD \
+    awk -v cmsd=$CMSD \
 	'{if ($6 == cmsd && $1 == "cmsd/2-5")
 		print $0 > "/tmp/cmsd-already-there"
 	 }' $FILE >/dev/null
@@ -84,7 +84,7 @@ CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
 
     HASH first remove the CDE rpc.cmsd entry
 
-    nawk -v cmsd=$CMSD \
+    awk -v cmsd=$CMSD \
 	'{if (($1 == "cmsd/2-4" || $1 == "cmsd/2-5") && $6 == cmsd)
 		;
 	  else
@@ -281,7 +281,7 @@ DEFAULT_PRINTER="DtPrint"
     HASH
     HASH ConfigurePrintersDir
     HASH
-    env LANG=C /usr/dt/bin/dtprintinfo -populate
+    HASH env LANG=C /usr/dt/bin/dtprintinfo -populate
 
     HASH
     HASH Configure Xsession.d
@@ -319,7 +319,7 @@ DEFAULT_PRINTER="DtPrint"
 
     HASH issue a SIGHUP to the inetd process
 
-    /etc/rc.d/inetd onereload
+    /etc/rc.d/inetd reload >/dev/null
   fi
 
   HASH dtmail requires setgid

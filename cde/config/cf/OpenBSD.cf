@@ -149,6 +149,9 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 /*
  * Compiler Features
  */
+#ifndef HasGcc2ForCplusplus
+#define HasGcc2ForCplusplus	YES
+#endif
 #define GccUsesGas		YES
 #define UseGas			YES
 #define GnuCpp			YES
@@ -480,6 +483,8 @@ install:: fonts.alias							@@\
 
 # define HasAgpGart		YES
 
+# define LdPostLib		-L/usr/X11R6/lib -L/usr/local/lib
+
 # define ServerExtraSysLibs	-lamd64
 # define ServerExtraDefines	GccGasOption -D_XSERVER64 XFree86ServerDefines
 
@@ -494,6 +499,9 @@ install:: fonts.alias							@@\
 # ifndef HasX86Support
 #  define HasX86Support		YES
 # endif
+
+/* For DtHelp TIFF processing routines. */
+#define LSBBitOrder		YES
 
 #endif /* AMD64Architecture */
 
@@ -542,13 +550,13 @@ install:: fonts.alias							@@\
 # ifndef DefaultGcc2i386Opt
 #   if (OSMajorVersion == 2 && OSMinorVersion >= 3) || OSMajorVersion > 2
       /* The GCC strength-reduce bug is fixed for OpenBSD 2.3 and later */
-#     define DefaultGcc2i386Opt	-O2 GccAliasingArgs
+#     define DefaultGcc2i386Opt	-O2 -fno-strict-aliasing
 #   endif
 # endif
 # define OptimizedCDebugFlags	DefaultGcc2i386Opt
 # define ServerOSDefines	XFree86ServerOSDefines -DDDXTIME
 # define ServerExtraSysLibs	-li386
-# define LdPostLib		/**/
+# define LdPostLib		-L/usr/X11R6/lib -L/usr/local/lib
 # define ServerExtraDefines GccGasOption XFree86ServerDefines
 # ifndef XFree86ConsoleDefines
 #   define XFree86ConsoleDefines -DWSCONS_SUPPORT -DPCVT_SUPPORT
@@ -570,6 +578,9 @@ install:: fonts.alias							@@\
 # ifndef HasX86Support
 #  define HasX86Support		UseElfFormat
 # endif
+
+/* For DtHelp TIFF processing routines. */
+#define LSBBitOrder		YES
 
 
 #endif /* i386Architecture */
@@ -891,8 +902,22 @@ install:: fonts.alias							@@\
  * which can be overridden by architecture specific sections above
  */
 
+#ifdef HasGcc2ForCplusplus
+CXXDEPENDINCLUDE != echo | `CcCmd -print-prog-name=cc1plus` -v 2>&1 | \
+		    sed -n 's/ \(.*[cg]++.*\)/-I\1/p'; rm -f gccdump.s
+#define CplusplusDependIncludes $(CXXDEPENDINCLUDE)
+#endif
+
 #ifndef StandardDefines
 # define StandardDefines	-DCSRG_BASED 
+#endif
+
+#ifndef StandardIncludes
+# define StandardIncludes	-I/usr/X11R6/include -I/usr/local/include
+#endif
+
+#ifndef TopMotifInclude
+# define TopMotifInclude	/usr/local/include
 #endif
 
 #if !defined(OptimizedCDebugFlags)

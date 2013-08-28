@@ -79,8 +79,10 @@ static int      vista_syserrno = 0;
 static char     vista_errmsg[1024];
 void            (*dberr_exit) (int) = exit;
 
-extern nl_catd	dtsearch_catd;	/* non AusText user should #define to -1 */
-extern FILE    *aa_stderr;	/* non AusText user should #define to stderr */
+/* non AusText user should #define to -1 */
+#define	dtsearch_catd -1
+/* non AusText user should #define to stderr */
+#define aa_stderr stderr
 
 /****************************************/
 /*					*/

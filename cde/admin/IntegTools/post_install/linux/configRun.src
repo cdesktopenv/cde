@@ -21,6 +21,15 @@ TMPFILE=/tmp/inetd.conf
 CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
 
 XCOMM
+XCOMM check for existence of /etc/inetd.conf
+XCOMM
+
+    if [ ! -f $FILE ]	# highly unlikely
+    then
+	echo "" >$FILE
+    fi
+
+XCOMM
 XCOMM desired inetd.conf entry:
 XCOMM 100068/2-4 dgram rpc/udp wait root CDE_INSTALLATION_TOP/bin/rpc.cmsd rpc.cmsd
 XCOMM
@@ -31,7 +40,7 @@ XCOMM
 XCOMM comment out any non-cde rpc.cmsd lines
 XCOMM
 
-    nawk -v cmsd=$CMSD \
+    awk -v cmsd=$CMSD \
 	'{if ($1 == "100068/2-4" && $6 != cmsd)
 		print "#cde " $0;
 	  else
@@ -44,7 +53,7 @@ XCOMM
 XCOMM remove any cde 2-4 cmsd
 XCOMM
 
-    nawk -v cmsd=$CMSD \
+    awk -v cmsd=$CMSD \
 	'{if ($1 == "100068/2-4" && $6 == cmsd)
 		;
 	  else
@@ -58,7 +67,7 @@ XCOMM
 XCOMM now run an awk script to see if there is an occurrence of 2-5 cmsd
 XCOMM
 
-    nawk -v cmsd=$CMSD \
+    awk -v cmsd=$CMSD \
 	'{if ($6 == cmsd && $1 == "100068/2-5")
 		print $0 > "/tmp/cmsd-already-there"
 	 }' $FILE >/dev/null
@@ -84,7 +93,7 @@ CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
 
     HASH first remove the CDE rpc.cmsd entry
 
-    nawk -v cmsd=$CMSD \
+    awk -v cmsd=$CMSD \
 	'{if (($1 == "100068/2-4" || $1 == "100068/2-5") && $6 == cmsd)
 		;
 	  else
@@ -298,7 +307,7 @@ DEFAULT_PRINTER="DtPrint"
     HASH
     HASH ConfigurePrintersDir
     HASH
-    env LANG=C /usr/dt/bin/dtprintinfo -populate
+    HASH env LANG=C /usr/dt/bin/dtprintinfo -populate
 
     HASH
     HASH Configure Xsession.d
@@ -341,7 +350,7 @@ DEFAULT_PRINTER="DtPrint"
     ps -ef | grep inetd | grep -v grep >/tmp/tmppsout
     if [ -s /tmp/tmppsout ]
     then
-	awk '{print "kill -1 " $2}' /tmp/tmppsout | /bin/csh
+	awk '{print "kill -1 " $2}' /tmp/tmppsout | /bin/sh
     else
 	[ -x /usr/sbin/inetd ] && /usr/sbin/inetd
     fi

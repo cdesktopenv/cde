@@ -23,20 +23,11 @@ TMPFILE=/tmp/inetd.conf
 TTDBSERVERD=CDE_INSTALLATION_TOP/bin/rpc.ttdbserver
 
 XCOMM
-XCOMM check for existence of /etc/inetd.conf
-XCOMM
-
-    if [ ! -f $FILE ]	# highly unlikely
-    then
-	echo "" >$FILE
-    fi
-
-XCOMM
 XCOMM see if it already exists
 XCOMM
 
     awk -v ttdb=$TTDBSERVERD \
-	'{if ($1 == "100083/1" && $6 != ttdb)
+	'{if ($1 == "ttdbserver/1" && $6 != ttdb)
 		print "#cde " $0;
 	  else
 		print $0
@@ -45,13 +36,13 @@ XCOMM
     cp $TMPFILE $FILE
     rm $TMPFILE
 
-    awk '{if ($1 == "100083/1")
+    awk '{if ($1 == "ttdbserver/1")
 		print $0 > "/tmp/tt-already-there"
 	 }' $FILE >/dev/null
 
     if [ ! -f /tmp/tt-already-there ]
     then
-        echo "100083/1 stream rpc/tcp wait root $TTDBSERVERD $TTDBSERVERD" \
+        echo "ttdbserver/1 stream rpc/tcp4 wait root $TTDBSERVERD $TTDBSERVERD" \
 		 >>$FILE
     else
 	rm /tmp/tt-already-there
@@ -65,7 +56,7 @@ TMPFILE=/tmp/inetd.conf
 TTDBSERVERD=CDE_INSTALLATION_TOP/bin/rpc.ttdbserver
 
     awk -v ttdb=$TTDBSERVERD \
-	'{if ($1 == "100083/1" && $6 == ttdb)
+	'{if ($1 == "ttdbserver/1" && $6 == ttdb)
 		;
 	  else
 		print $0
@@ -74,7 +65,7 @@ TTDBSERVERD=CDE_INSTALLATION_TOP/bin/rpc.ttdbserver
     cp $TMPFILE $FILE
     rm $TMPFILE
 
-    awk '{if ($1 == "#cde" && ($2 == "100083/1" || $2 == "100083")) {
+    awk '{if ($1 == "#cde" && ($2 == "ttdbserver/1" || $2 == "ttdbserver")) {
 		$1 = $2;
 		$2 = ""
 	     }
@@ -138,12 +129,12 @@ XCOMM ######################################################################
   if [ "$OPERATION" = "configure" ]
   then
 
-    FixInetdDotConf
+    : FixInetdDotConf
 
   elif [ "$OPERATION" = "deconfigure" ]
   then
 
-    UnfixInetdDotConf
+    : UnfixInetdDotConf
 
     RemoveTTFiles
 
@@ -154,22 +145,6 @@ XCOMM ######################################################################
 
     VerifyInstalledFiles
 
-  fi
-
-  if [ "$OPERATION" != "verify" ]
-  then
-
-    HASH issue a SIGHUP to the inetd process
-
-    ps -ef | grep inetd | grep -v grep >/tmp/tmppsout
-    if [ -s /tmp/tmppsout ]
-    then
-	awk '{print "kill -1 " $2}' /tmp/tmppsout | /bin/sh
-    else
-	[ -x /usr/sbin/inetd ] && /usr/sbin/inetd
-    fi
-
-    rm /tmp/tmppsout
   fi
 
   return $retval
