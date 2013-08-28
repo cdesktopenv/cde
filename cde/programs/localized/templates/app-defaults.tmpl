@@ -8,12 +8,6 @@ SHELL=/bin/ksh
 .NO_PARALLEL:
 #endif
 
-#if defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
-XCOMM no dtinfo for linux/fbsd
-DTINFO=
-#else
-DTINFO="Dtinfo"
-#endif
 
 OBJS =  \
         Dthelpview  \
@@ -33,7 +27,7 @@ OBJS =  \
 	Dtterm \
 	Dtmail \
 	Dtbuilder \
-	$(DTINFO) \
+	Dtinfo \
 	Dtudcfonted \
         Dt
 
@@ -56,10 +50,7 @@ LinkFile(Dtcm.nls,$(CDESRC)/dtcm/dtcm/Dtcm.ad)
 LinkFile(Dtterm.nls,$(CDESRC)/dtterm/Dtterm.ad)
 LinkFile(Dtmail.nls,$(CDESRC)/dtmail/dtmail/Dtmail)
 LinkFile(Dtbuilder.nls,$(CDESRC)/dtappbuilder/src/ab/Dtbuilder.ad)
-#if !defined(LinuxArchitecture) && !defined(FreeBSDArchitecture) && !defined(OpenBSDArchitecture)
-XCOMM no dtinfo for linux/fbsd
 LinkFile(Dtinfo.nls,$(CDESRC)/dtinfo/dtinfo/src/Dtinfo)
-#endif
 LinkFile(Dtudcfonted.nls,$(CDESRC)/dtudcfonted/resource/Dtudcfonted)
 LinkFile(Dt.nls,$(DTSVCSRC)/DtUtil2/Dt.ad)
 
@@ -80,10 +71,7 @@ DtstyleDescRule(Dtcm,Dtcm)
 DtstyleDescRule(Dtterm,Dtterm)
 DtstyleDescRule(Dtmail,Dtmail)
 DtstyleDescRule(Dtbuilder,Dtbuilder)
-#if !defined(LinuxArchitecture) && !defined(FreeBSDArchitecture) && !defined(OpenBSDArchitecture)
-XCOMM no dtinfo for linux/fbsd
 DtstyleDescRule(Dtinfo,Dtinfo)
-#endif
 DtstyleDescRule(Dtudcfonted,Dtudcfonted)
 DtstyleDescRule(Dt,Dt)
 

@@ -3,14 +3,8 @@ XCOMM $XConsortium: Imakefile /main/10 1996/07/23 22:00:00 rws $
 #define PassCDebugFlags
 
 /* due to split-VOB setup, force help to come last in make Makefiles */
-#if defined(LinuxArchitecture) || defined(OpenBSDArchitecture) || defined(FreeBSDArchitecture)
-XCOMM we cannot build guides on linux yet
-SUBDIRS = man help
-BSUBDIRS = help man 
-#else
 SUBDIRS = man guides m-guides help
 BSUBDIRS = help man guides m-guides
-#endif
 
 XCOMM work around local clearcase vobs setup
 MakeDirectories(all,help-sdl cde.dti)
@@ -20,7 +14,11 @@ MakeDirectories(Makefiles,m-guides)
 Makefiles::
 	$(RM) m-guides/?*; \
 	cd m-guides; \
-	$(LN) ../$(MDOCSRC)/C/guides/?* .; \
+	if test -f ../$(MDOCSRC)/C/guides/bookcase.bc; \
+	then $(LN) ../$(MDOCSRC)/C/guides/?* .; \
+	else $(CP) /dev/null ./Imakefile; \
+	     $(LN) ../$(MDOCSRC)/C/guides/common .; \
+	fi; \
 	cd ..
 
 MakeSubdirs($(BSUBDIRS))

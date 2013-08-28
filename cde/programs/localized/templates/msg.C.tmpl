@@ -8,13 +8,6 @@ SHELL=/bin/ksh
 .NO_PARALLEL:
 #endif
 
-#if defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
-XCOMM no dtinfo for linux/fbsd
-DTINFOCATS=
-#else
-DTINFOCATS="dtinfo.cat dtinfo_start.cat"
-#endif
-
 
 OBJS= \
       Xm.cat		\
@@ -42,7 +35,8 @@ OBJS= \
       dthelpprint.cat	\
       dticon.cat	\
       dtimsstart.cat	\
-      $(DTINFOCATS)	\
+      dtinfo.cat	\
+      dtinfo_start.cat	\
       dtksh.cat		\
       dtlogin.cat	\
       dtlp.cat		\
@@ -94,11 +88,8 @@ LinkFile(dthelpgen.msg,$(CDESRC)/dthelp/dthelpgen/dthelpgen.msg)
 LinkFile(dthelpprint.msg,$(CDESRC)/dthelp/dthelpprint/dthelpprint.msg)
 LinkFile(dticon.msg,$(CDESRC)/dticon/dticon.msg)
 LinkFile(dtimsstart.msg,$(CDESRC)/dtimsstart/dtimsstart.msg)
-#if !defined(LinuxArchitecture) && !defined(FreeBSDArchitecture) && !defined(OpenBSDArchitecture)
-XCOMM no dtinfo for linux/fbsd
 LinkFile(dtinfo.msg,$(CDESRC)/dtinfo/dtinfo/src/dtinfo.msg.updated)
 LinkFile(dtinfo_start.msg,$(CDESRC)/dtinfo/clients/dtinfo_start/dtinfo_start.msg)
-#endif
 LinkFile(dtksh.msg,$(CDESRC)/dtksh/dtksh.msg)
 LinkFile(dtlogin.msg,$(CDESRC)/dtlogin/dtlogin.msg)
 LinkFile(dtlp.msg,$(CDESRC)/dtprintegrate/dtlp.msg)
