@@ -92,10 +92,10 @@ protected:
    void _quit_descs(desc* start_ptr, desc* end_ptr = 0);
 
 protected:
+   bset v_dict;             // name to oid mapping
    desc * v_desc_ptr;       // list of stored object desc cells
    desc * v_last_desc_ptr;  // tail cell 
    char v_db_path[PATHSIZ]; // db_path
-   bset v_dict;   // name to oid mapping
 };
 
 #endif

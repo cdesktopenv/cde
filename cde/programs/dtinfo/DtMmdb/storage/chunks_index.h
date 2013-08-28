@@ -70,9 +70,9 @@ protected:
                          int left, int right);
 
 protected:
+   bset v_index_imp;
    abs_storage* v_storage_ptr;
    mmdb_pos_t v_initial_loc;
-   bset v_index_imp;
 
 };
 

@@ -430,7 +430,7 @@ Boolean page::_alloc_slot( int slot_num, int size, char*& str_ptr )
        new_blank_len -= size;
 //debug(cerr, new_blank_len);
    
-       if ( new_blank_len < 2*SLOT_HEADER_SIZE + 10 )
+       if ( new_blank_len < (int)(2*SLOT_HEADER_SIZE + 10) )
           new_blank_len = 0;
        else
           new_blank_len -= SLOT_HEADER_SIZE; // space allocated for new

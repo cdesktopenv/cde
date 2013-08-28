@@ -102,14 +102,14 @@ void insert_to_collection(c_code_t ccode, istream& in)
     coll_type obj_type = VOID;
 
     abs_storage* store = 0;
-    handler* hd = 0;
+//  handler* hd = 0;
 
     int i;
     for ( i = 0; i<SET_MAP_SZ ; i++ ) {
       if ( set_map[i].instance_class_code == ccode ) {
          obj_type = SET;
          store = set_map[i].collection_hd -> its_store();
-         hd = set_map[i].collection_hd;
+//       hd = set_map[i].collection_hd;
          break;
       }
     }
@@ -119,7 +119,7 @@ void insert_to_collection(c_code_t ccode, istream& in)
        if ( list_map[i].instance_class_code == ccode ) {
          obj_type = LIST;
           store = list_map[i].collection_hd -> its_store();
-          hd = set_map[i].collection_hd;
+//        hd = set_map[i].collection_hd;
           break;
        }
     }

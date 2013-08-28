@@ -77,7 +77,7 @@ handler* tuple::get_component(int index)
 //debug(cerr, int(storage_ptr));
 
 
-   if (!INRANGE(index, 1, v_sz)) {
+   if (!INRANGE(index, 1, (int) v_sz)) {
       MESSAGE(cerr, "out of range in tuple::get_component()");
       throw( boundaryException(1, v_sz, index) );
    }
@@ -112,7 +112,7 @@ io_status tuple::asciiOut(ostream& out)
    out << "\n";
    // debug(cerr, v_sz);
 
-   for ( int i=1; i<=v_sz; i++ ) {
+   for ( unsigned int i=1; i<=v_sz; i++ ) {
     
       handler* hd_ptr = get_component(i);
 
@@ -154,7 +154,7 @@ MESSAGE(cerr, "\n");
       throw(stringException("'\\n' expected"));
    }
 
-   if ( comps > v_sz ) {
+   if ( comps > (int) v_sz ) {
 MESSAGE(cerr, "tuple asciiIn(): to expand space");
 debug(cerr, comps);
 debug(cerr, v_sz);

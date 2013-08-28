@@ -30,7 +30,7 @@ void showTOC(DtMmdbInfoRequest* req)
 {
    DtMmdbHandle* id = 0;
    unsigned int ct = 0;
-   int i = 0;
+   unsigned int i = 0;
    DtMmdbHandle** ids = 0;
 
    if ( req == 0 ) return ;
@@ -59,7 +59,6 @@ int test4(int argc, char** argv)
 {
    int j = 0;
    int i = 0;
-   const char* str;
    DtMmdbInfoRequest* req = 0;
 
    switch ( argc ) {

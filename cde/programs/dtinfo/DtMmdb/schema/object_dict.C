@@ -104,7 +104,9 @@ desc* object_dict::init_a_base(char* db_path, char* db_name)
 {
 //MESSAGE(cerr, "object_dict::init_a_base()");
 //debug(cerr, db_path);
-   strcpy(v_db_path, db_path);
+
+   int len = MIN(strlen(db_path), PATHSIZ - 1);
+   *((char *) memcpy(v_db_path, db_path, len) + len) = '\0';
 
    desc* x = 0;
 
@@ -131,7 +133,7 @@ desc* object_dict::init_a_base(char* db_path, char* db_name)
       x = parse(schema_path);
    } else {
 
-      int sz = bytes(schema_path) - strlen(schema_header) - 1;
+      unsigned int sz = bytes(schema_path) - strlen(schema_header) - 1;
       char* buf = new char[sz];
    
       if ( !in.read(buf, sz) ) 
@@ -171,10 +173,14 @@ desc* object_dict::init_a_base(char* define_desc_path, char* db_path,
 //debug(cerr, db_path);
 //debug(cerr, db_name);
 
-   strcpy(v_db_path, db_path);
+   int len;
+
+   len = MIN(strlen(db_path), PATHSIZ - 1);
+   *((char *) memcpy(v_db_path, db_path, len) + len) = '\0';
 
    if ( db_name ) {
-      strcpy(replace_string, db_name);
+      len = MIN(strlen(db_name), PATHSIZ - 1);
+      *((char *) memcpy(replace_string, db_name, len) + len) = '\0';
       replace_string_len = strlen(replace_string);
    } else {
       replace_string[0] = 0;
@@ -188,11 +194,11 @@ desc* object_dict::init_a_base(char* define_desc_path, char* db_path,
       throw(stringException(form("%s does not exist.", define_desc_path)));
    }
 
-   unsigned long len = bytes(define_desc_path)*4;
+   unsigned long llen = bytes(define_desc_path)*4;
 
    in_test.close();
 
-   if ( disk_space(v_db_path) < len ) {
+   if ( disk_space(v_db_path) < llen ) {
        throw(stringException(form("no enough space on %s", v_db_path)));
    }
 
@@ -213,7 +219,7 @@ desc* object_dict::init_a_base(char* define_desc_path, char* db_path,
        throw(streamException(in.rdstate()));
    } 
 
-   int sz = bytes(define_desc_path);
+   unsigned int sz = bytes(define_desc_path);
    in.close();
 
    char* schema_buf = new char[sz*3];
@@ -225,7 +231,8 @@ desc* object_dict::init_a_base(char* define_desc_path, char* db_path,
 
    x -> asciiOutList(*string_out);
 
-   strcpy(schema_buf, string_out->str().c_str());
+   len = MIN((unsigned int) string_out->str().size(), sz*3 - 1);
+   *((char *) memcpy(schema_buf, string_out->str().c_str(), len) + len) = '\0';
    delete string_out;
 
    sz = strlen(schema_buf);

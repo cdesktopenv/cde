@@ -56,8 +56,6 @@ DtMmdbOpenInfoLib(
 {
    mtry {
 
-      Boolean option = (delayed_infolib_init == DtMmdbTrue) ? true : false;
-
       mmdb_ptr = new OLIAS_DB;
       info_lib* x = mmdb_ptr -> openInfoLib(infolib_path, selected_base_name);
    

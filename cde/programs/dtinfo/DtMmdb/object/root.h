@@ -127,8 +127,8 @@ protected:
 /***************************/
 // instance-wise data 
 /***************************/
-   status_t status;      
    oid_t f_oid;
+   status_t status;
    abs_storage* storage_ptr;
 
    virtual void init_persistent_info(persistent_info* = &transient_info);

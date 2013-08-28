@@ -58,7 +58,8 @@ extern int errno;
 
 atomic_lock::atomic_lock(const char* p)
 {
-   strcpy(v_path, p);
+   int len = MIN(strlen(p), PATHSIZ - 1);
+   *((char *) memcpy(v_path, p, len) + len) = '\0';
 }
 
 atomic_lock::~atomic_lock()

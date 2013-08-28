@@ -80,6 +80,8 @@ int getdomainname(char *, int);
 #endif /* __osf__ */
 #include <sys/stat.h>
 
+#define BUFLEN 512
+
 #ifdef USL
 
 int _DtMmdbStrcasecmp(register const char* s1, register const char* s2)
@@ -201,8 +203,8 @@ int pos_of_LSB(const unsigned int y)
 {
    switch (y) {
 
-   case 8192: return 14; 
-   case 1024: return 11;
+   case 8192: return 13;
+   case 1024: return 10;
 
    default:
     {
@@ -211,8 +213,8 @@ int pos_of_LSB(const unsigned int y)
    //debug(cerr, x);
    //debug(cerr, hex(x));
    
-      int i;
-      for ( int i =0; i<sizeof(x); i++ ) {
+      unsigned int i;
+      for ( i =0; i<sizeof(x); i++ ) {
          if ( ( 0x000000ff & x) == 0 ) 
             x >>= 8;
          else
@@ -275,7 +277,8 @@ unsigned getbits(unsigned x, unsigned p, unsigned n)
 
 int del_file(const char* filename, const char* pathname)
 {
-   static char buf[512];
+   unsigned int len, slen;
+   static char buf[BUFLEN];
 
    int ok;
 
@@ -283,13 +286,19 @@ int del_file(const char* filename, const char* pathname)
        ok = unlink(filename);
    else {
 
-       if ( strlen(filename) + strlen(pathname) > 511 )
-          throw(boundaryException(1, 512, strlen(filename) + strlen(pathname)));
+       if ( strlen(filename) + strlen(pathname) > (BUFLEN - 1) )
+          throw(boundaryException(1, BUFLEN,
+				  strlen(filename) + strlen(pathname)));
 
        buf[0] = 0;
-       strcpy(buf, pathname);
-       strcat(buf, "/");
-       strcat(buf, filename);
+       len = MIN(strlen(pathname), BUFLEN - 1);
+       *((char *) memcpy(buf, pathname, len) + len) = '\0';
+       slen = len;
+       len = MIN(1, BUFLEN - 1 - slen);
+       *((char *) memcpy(buf + slen, "/", len) + len) = '\0';
+       slen += len;
+       len = MIN(strlen(filename), BUFLEN - 1 - slen);
+       *((char *) memcpy(buf + slen, filename, len) + len) = '\0';
        ok = unlink(buf);
    }
    
@@ -331,8 +340,8 @@ copy_file(const char* path, const char* file,
    char source[PATHSIZ];
    char target[PATHSIZ];
 
-   sprintf(source, "%s/%s.%s", path, file, source_ext);
-   sprintf(target, "%s/%s.%s", path, file, target_ext);
+   snprintf(source, sizeof(source), "%s/%s.%s", path, file, source_ext);
+   snprintf(target, sizeof(target), "%s/%s.%s", path, file, target_ext);
 
    return copy_file(source, target) ;
 }
@@ -689,15 +698,18 @@ char* form(const char* fmt, ...)
    static char formbuf[BUFSIZ];
    char tempbuf[BUFSIZ];
    va_list args;
+   int len;
 
    va_start(args, fmt);
 
-   strcpy(tempbuf, formbuf);
-   (void) vsprintf(tempbuf, fmt, args);
+   len = MIN(strlen(formbuf), BUFSIZ - 1);
+   *((char *) memcpy(tempbuf, formbuf, len) + len) = '\0';
+   (void) vsnprintf(tempbuf, sizeof(tempbuf), fmt, args);
 
    va_end(args);
 
-   strcpy(formbuf, tempbuf);
+   len = MIN(strlen(tempbuf), BUFSIZ - 1);
+   *((char *) memcpy(formbuf, tempbuf, len) + len) = '\0';
    return formbuf;
 }
 
@@ -731,16 +743,15 @@ char* access_info( char* request )
    char* x = time_stamp(&ctime_buf);
    x[strlen(x)-1] = 0;
 
-   char userid[L_cuserid];
-
 #ifndef SVR4
-   sprintf(info_buf, "%s-%s-%ld-%s-%s",
+   snprintf(info_buf, sizeof(info_buf), "%s-%s-%ld-%s-%s",
            host_name, dm_name,
            /* getenv("USER"), */
            (long)getpid(), x, request
           );
 #else
-   sprintf(info_buf, "%s-%s-%ld-%s-%s",
+   char userid[L_cuserid];
+   snprintf(info_buf, sizeof(info_buf), "%s-%s-%ld-%s-%s",
            name.nodename, 
            ( cuserid(userid)[0] == 0 ) ? "???" : userid,
            /* getenv("USER"), */
@@ -801,6 +812,7 @@ Boolean writeToTmpFile(char* unique_nm, char* str, int size)
     Boolean ok = false;
     fstream *out = 0;
     char* tmp_dir_tbl[4];
+    int len;
     tmp_dir_tbl[0] = getenv("TMPDIR");
     tmp_dir_tbl[1] = (char*)"/tmp";
     tmp_dir_tbl[2] = (char*)"/usr/tmp";
@@ -815,12 +827,15 @@ Boolean writeToTmpFile(char* unique_nm, char* str, int size)
        if ( tmp_dir_tbl[i] == 0 )
           continue;
 
-       strcpy(unique_nm, form("%s/tmp.%s", tmp_dir_tbl[i], uid));
+       len = MIN(strlen(tmp_dir_tbl[i]) + strlen(uid) + 5, PATHSIZ - 1);
+       *((char *) memcpy(unique_nm,
+			 form("%s/tmp.%s", tmp_dir_tbl[i], uid),
+			 len) + len) = '\0';
 
        mtry {
 //debug(cerr, tmp_dir_tbl[i]);
 //debug(cerr, disk_space(tmp_dir_tbl[i]));
-          if ( disk_space(tmp_dir_tbl[i]) <= size )
+          if ( disk_space(tmp_dir_tbl[i]) <= (unsigned long) size )
             continue;
 
           out = new fstream(unique_nm, ios::out);

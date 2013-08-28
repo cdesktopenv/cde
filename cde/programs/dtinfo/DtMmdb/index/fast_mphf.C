@@ -241,6 +241,8 @@ debug(cerr, t);
 
 int fast_mphf::hashTo(const key_type& k)
 {
+   unsigned int i;
+
    if ( v_long_string_core_indexed == false ) {
       v_long_string_core_indexed = true;
    }
@@ -255,7 +257,7 @@ debug(cerr, k);
       throw(stringException("hash table empty"));
    }
 
-   int i = v_tbl0 -> atoi(k.get(), k.size(), r, v_key_set_sz); // for halmphf
+   i = v_tbl0 -> atoi(k.get(), k.size(), r, v_key_set_sz); // for halmphf
 
 
    if ( i < v_p1 ) {
@@ -281,7 +283,7 @@ debug(cerr, k);
 
 int fast_mphf::gValue(int i, int& gvalue, int& ctl_bit) 
 {
-   if ( !INRANGE(i, 0, v_no_ps-1) ) {
+   if ( !INRANGE(i, 0, (int) v_no_ps-1) ) {
       throw(boundaryException(0, v_no_ps-1, i));
    }
 
@@ -428,7 +430,7 @@ fast_mphf::print_mapping(const char *key_file, int option)
    }
 
    char *hash_table = new char[v_hash_tbl_sz];
-   for (int i = 0; i < v_hash_tbl_sz; hash_table[i++] = 0 );
+   for (unsigned int i = 0; i < v_hash_tbl_sz; hash_table[i++] = 0 );
 
    ostring lbuf(LBUFSIZ);
 
@@ -470,7 +472,7 @@ void fast_mphf::print_tbls(ostream& out)
 void fast_mphf::print_gvalues(ostream& out) 
 {
    int gv, cbit;
-   for (int i = 0; i<v_no_ps; i++ ) {
+   for (unsigned int i = 0; i<v_no_ps; i++ ) {
       out << i;
       gValue(i, gv, cbit);
       out << " " <<  gv << " " << cbit << "\n";
@@ -479,7 +481,7 @@ void fast_mphf::print_gvalues(ostream& out)
 
 int fast_mphf::print_bits(unsigned x, ostream& out)
 {
-   for ( int i=0; i<8*sizeof(unsigned); i++ ) {
+   for ( unsigned int i=0; i<8*sizeof(unsigned); i++ ) {
       if ( BIT_TEST(x, 0x80000000) )
         out << "1";
       else

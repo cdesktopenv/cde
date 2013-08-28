@@ -93,9 +93,9 @@ public:
    long last();    // 0 if the list is empty
 
 protected:
+   int v_ct;            // cell in the list
    slist_cell *v_head;  // head pointer
    slist_cell *v_tail;  // tail pointer
-   int v_ct;            // cell in the list
 
 };
 

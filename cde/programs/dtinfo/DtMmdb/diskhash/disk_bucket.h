@@ -95,12 +95,13 @@ protected:
    page* bucket_page();
 
 protected:
+   int v_bucket_num;
+   page_storage* v_key_store;
+
    Boolean  v_overflowed;
    //unsigned int v_k;
    //unsigned int v_r;
 
-   int v_bucket_num;
-   page_storage* v_key_store;
    buffer& buf;
 };
 

@@ -288,7 +288,7 @@ void smart_ptr::update_oid(int i, const oid_t& x)
    handler* z = get_handler(i, OID_CODE);
    oid_handler* y = (oid_handler*)z;
 
-   sprintf(buf, "%d.%d\n", x.ccode(), (int)x.icode());
+   snprintf(buf, sizeof(buf), "%d.%d\n", x.ccode(), (int)x.icode());
    istringstream in(buf);
 
    (*y) -> asciiIn(in);
@@ -305,16 +305,18 @@ void smart_ptr::update_string(int i, istream& in)
   io_status ok;
   switch ( x -> its_oid().ccode() ) {
      case STRING_CODE:
-       ok = (*(pstring_handler*)x) -> asciiIn(in); 
+       ok =(*(pstring_handler*)x) -> asciiIn(in);
        break;
 
      case COMPRESSED_STRING_CODE:
-       ok = (*(compressed_pstring_handler*)x) -> _asciiIn(in); 
+       ok =(*(compressed_pstring_handler*)x) -> _asciiIn(in);
        break;
 
      default:
        throw(stringException("invalid node data class code"));
   }
+
+  if(ok) { ; }
   delete x;
 }
 

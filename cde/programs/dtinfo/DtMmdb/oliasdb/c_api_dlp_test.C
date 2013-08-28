@@ -49,7 +49,6 @@ int test_dlp(int argc, char** argv)
 {
    int j = 0;
    int i = 0;
-   const char* str;
    DtMmdbInfoRequest* req ;
 
    switch ( argc ) {

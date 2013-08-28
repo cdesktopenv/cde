@@ -47,14 +47,14 @@ typedef unsigned int LetterType;
 
 class EncodedPath 
 {
-   int f_patternSize;
    int f_size;
+   int f_patternSize;
    LetterType* f_array;
+
+   hashTable<LetterType, BitVector> f_SVectors;
 
    LetterType f_wildCard;
    LetterType f_unlimitedWildCard;
-
-   hashTable<LetterType, BitVector> f_SVectors;
 
    BitVector* f_copyOfS; // copy of S vector, used in match()
 
@@ -98,7 +98,7 @@ class PathFeature : public basePathFeature
 
 public:
    PathFeature(SSPath* p,FeatureSet* f,EncodedPath* e=0, unsigned int id=0): 
-      f_encodedPath(e), f_id(id), basePathFeature(p, f) {};
+      basePathFeature(p, f), f_id(id), f_encodedPath(e) {};
    ~PathFeature();
 
    EncodedPath* encodedPath() { return f_encodedPath; };
@@ -117,7 +117,7 @@ class PathFeatureList : public CC_TPtrDlist<PathFeature>
 
 public:
    PathFeatureList() {};
-   ~PathFeatureList();
+   virtual ~PathFeatureList();
 
    void appendList(PathFeatureList&);
 };

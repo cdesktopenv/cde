@@ -65,7 +65,8 @@ server::server(char* x_infolib_path) :
                            )
            );
 
-   strcpy(info_lib_dir, x_infolib_path); 
+   int len = MIN(strlen(x_infolib_path), PATHSIZ - 1);
+   *((char *) memcpy(info_lib_dir, x_infolib_path, len) + len) = '\0';
 
 }
 

@@ -109,7 +109,7 @@ void huff::build_tree()
    heap htr_node_set(htr_eq, htr_ls, cts);
 
    htr_node* x ;
-   for (int i=0; i<cts; i++ ) {
+   for (unsigned int i=0; i<cts; i++ ) {
       if ( e_units[i] ) {
          x = new htr_node(e_units[i]);
          e_units[i] -> leaf_htr_node = x; 
@@ -146,7 +146,7 @@ void huff::calculate_code()
    htr_node* x ;
    htr_node* parent;
 
-   for (int i=0; i<cts; i++ ) {
+   for (unsigned int i=0; i<cts; i++ ) {
 
       if ( e_units[i] == 0 )
          continue;
@@ -175,7 +175,7 @@ void huff::calculate_code()
          x = parent;
          e_units[i] -> bits++;
 
-         if ( e_units[i] -> bits > BITS_IN(unsigned long) ) {
+         if ( e_units[i] -> bits > (int) BITS_IN(unsigned long) ) {
             debug(cerr, e_units[i] -> bits);
             throw(stringException("huffman tree too deep"));
          }
@@ -191,7 +191,7 @@ ostream& huff::print_alphabet(ostream& out)
    unsigned long total_uncmp = 0;
    unsigned long int total_cmp = 0;
 
-   for (int i=0; i<cts; i++ ) {
+   for (unsigned int i=0; i<cts; i++ ) {
 
       if ( e_units[i] == 0 )
          continue;
@@ -400,7 +400,7 @@ io_status huff::cdrOut(buffer& buf)
 //MESSAGE(cerr, "huff::cdrOut");
 //debug(cerr, my_oid());
    static buffer v_out_buf(LBUFSIZ);
-   int i;
+   unsigned int i;
 
    if ( cts > 0 ) {
 //MESSAGE(cerr, "huff::cdrOut: dict out");
@@ -454,7 +454,7 @@ io_status huff::cdrIn(buffer& buf)
       unsigned int word_freq;
       //ostring *z = 0;
    
-      for ( int i=0; i<cts; i++ ) {
+      for ( unsigned int i=0; i<cts; i++ ) {
    
          v_in_buf.get(word_sz);
          v_in_buf.get(word_buf, int(word_sz));

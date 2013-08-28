@@ -22,7 +22,7 @@
  */
 // $TOG: defParser.C /main/5 1997/12/23 11:16:25 bill $
 #ifndef lint
-static char defParsersccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
+static const char defParsersccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 #endif
 #define defParserBYACC 1
 #include <stdio.h>
@@ -230,7 +230,7 @@ defParserparse()
     *defParserssp = defParserstate = 0;
 
 defParserloop:
-    if (defParsern = defParserdefred[defParserstate]) goto defParserreduce;
+    if ((defParsern = defParserdefred[defParserstate])) goto defParserreduce;
     if (defParserchar < 0)
     {
         if ((defParserchar = defParserlex()) < 0) defParserchar = 0;

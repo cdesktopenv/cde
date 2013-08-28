@@ -70,23 +70,27 @@ base::base(object_dict* obj_dict,
    num_cset_ptrs(0), num_list_ptrs(0),
    f_obj_dict(obj_dict)
 {
+   int len = MIN(strlen(base_dir), PATHSIZ - 1);
    if ( base_dir )
-      strcpy(base_path, base_dir);
+      *((char *) memcpy (base_path, base_dir, len) + len) = '\0';
    else
       base_path[0] = 0;
 
+   len = MIN(strlen(base_nm), PATHSIZ - 1);
    if ( base_nm )
-      strcpy(base_name, base_nm);
+      *((char *) memcpy (base_name, base_nm, len) + len) = '\0';
    else
       base_name[0] = 0;
 
+   len = MIN(strlen(base_ds), PATHSIZ - 1);
    if ( base_ds )
-      strcpy(base_desc, base_ds);
+      *((char *) memcpy (base_desc, base_ds, len) + len) = '\0';
    else
       base_desc[0] = 0;
 
+   len = MIN(strlen(base_uid_str), UIDSIZ - 1);
    if ( base_uid_str )
-      strcpy(base_uid, base_uid_str);
+      *((char *) memcpy (base_uid, base_uid_str, len) + len) = '\0';
    else
       base_uid[0] = 0;
 

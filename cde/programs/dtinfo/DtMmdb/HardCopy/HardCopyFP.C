@@ -34,16 +34,20 @@ char* loutFeatureProcessor::empty_string()
 char* 
 loutFeatureProcessor::prepend(const char* header, const char* body)
 {
-   char* x = new char[strlen(header)+strlen(body)+1];
-   strcpy(x, header);
-   strcat(x, body);
+   int hlen = strlen(header);
+   int blen = strlen(body);
+
+   char* x = new char[hlen + blen + 1];
+
+   *((char *) memcpy (x, header, hlen) + hlen) = '\0';
+   *((char *) memcpy (x + hlen, body, blen) + blen) = '\0';
    return x;
 }
 
 void 
 loutFeatureProcessor::handleData(const char *data, unsigned int size, ostream& out)
 {
-   for (int i=0; i<size; i++ )
+   for (unsigned int i=0; i<size; i++ )
      out << data[i];
 }
 
@@ -135,15 +139,13 @@ loutFeatureProcessor::dimensionToCharPtr(const FeatureValue* f,
 
    if ( dimensionToFloat(y, unitOfY, f, u) ) {
 
-        FeatureValueDimension::Unit unit;
-
         if ( u != FeatureValueDimension::NONE ) {
 	   unitOfY = u;
 	}
 
         switch ( unitOfY ) {
           case FeatureValueDimension::INCH:
-            sprintf(dBuf, "%.2fi", y);
+            snprintf(dBuf, sizeof(dBuf), "%.2fi", y);
             break;
 
           case FeatureValueDimension::PICA:
@@ -151,11 +153,11 @@ loutFeatureProcessor::dimensionToCharPtr(const FeatureValue* f,
             break;
 
 	  case FeatureValueDimension::POINT:
-            sprintf(dBuf, "%.2fp", y);
+            snprintf(dBuf, sizeof(dBuf), "%.2fp", y);
             break;
 
 	  case FeatureValueDimension::CM:
-            sprintf(dBuf, "%.2fc", y);
+            snprintf(dBuf, sizeof(dBuf), "%.2fc", y);
             break;
 
 	  case FeatureValueDimension::PIXEL:

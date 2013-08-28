@@ -51,7 +51,7 @@
 #include "schema/container_desc.h"
 
 container_desc::container_desc(int code, const char* comment) : 
-	index_nms(10), stored_object_desc(code, comment)
+	stored_object_desc(code, comment), index_nms(10)
 {
 }
 

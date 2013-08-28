@@ -65,10 +65,11 @@ extern Boolean g_transaction_on;
 extern int g_mode_8_3;
 
 user_base::user_base( const char* spec_path, rw_flag_t rw) : 
-   spec_name(spec_path), backup_file(0), rw_flag(rw), first_desc_ptr(0),
-   base(0)
+   base(0), backup_file(0), rw_flag(rw), first_desc_ptr(0),
+   spec_name(spec_path)
 {
    g_mode_8_3 = 1;
+   int len;
 
    f_obj_dict = new object_dict;
 
@@ -91,9 +92,12 @@ user_base::user_base( const char* spec_path, rw_flag_t rw) :
    if ( name == 0 )
       name = (char*)"";
 
-   strcpy(base_path, path);
-   strcpy(base_name, name);
-   strcpy(base_desc, "");
+   len = MIN(strlen(path), PATHSIZ - 1);
+   *((char *) memcpy(base_path, path, len) + len) = '\0';
+   len = MIN(strlen(name), PATHSIZ - 1);
+   *((char *) memcpy(base_name, name, len) + len) = '\0';
+   len = MIN(strlen(""), PATHSIZ - 1);
+   *((char *) memcpy(base_desc, "", len) + len) = '\0';
 
    _init();
 
@@ -106,9 +110,9 @@ user_base::user_base( const char* base_dir,
                       const char* spec_path,
 		      rw_flag_t rw 
                     ) : 
-	base(0, 0, 0, base_dir, base_nm, base_ds, ""), first_desc_ptr(0),
-	backup_file(0), rw_flag(rw), checking_status(SUCC),
-   	spec_name(spec_path)
+	base(0, 0, 0, base_dir, base_nm, base_ds, ""), backup_file(0),
+	rw_flag(rw), checking_status(SUCC), first_desc_ptr(0),
+	spec_name(spec_path)
 {
    g_mode_8_3 = 1;
 
@@ -157,17 +161,24 @@ user_base::checking_status_t user_base::check_mode()
 user_base::checking_status_t user_base::check_lock()
 {
    char lock_dir[PATHSIZ];
+   int len;
 
-   sprintf(lock_dir, "%s/%s", base_path, LOCK_DIR);
+   snprintf(lock_dir, sizeof(lock_dir), "%s/%s", base_path, LOCK_DIR);
 
    if ( check_and_create_dir(lock_dir) == false ) {
       MESSAGE(cerr, form("no write permission to %s", lock_dir));
       return user_base::CREATE_LOCKFILE_FAIL;
    }
 
-   strcpy(atomic_lock_path, form("%s/%s", lock_dir, AT_LOCK));
-   strcpy(write_lock_path, form("%s/%s", lock_dir, W_LOCK));
-   strcpy(ai_path, form("%s/%s", lock_dir, ACCESS_INFO));
+   len = MIN(strlen(atomic_lock_path), strlen(lock_dir) + strlen(AT_LOCK) + 1);
+   *((char *) memcpy(atomic_lock_path,
+		     form("%s/%s", lock_dir, AT_LOCK), len) + len) = '\0';
+   len = MIN(strlen(write_lock_path), strlen(lock_dir) + strlen(W_LOCK) + 1);
+   *((char *) memcpy(write_lock_path,
+		     form("%s/%s", lock_dir, W_LOCK), len) + len) = '\0';
+   len = MIN(strlen(ai_path), strlen(lock_dir) + strlen(ACCESS_INFO) + 1);
+   *((char *) memcpy(ai_path,
+		     form("%s/%s", lock_dir, ACCESS_INFO), len) + len) = '\0';
 
    char* ai_info = 0;
 
@@ -392,6 +403,8 @@ MESSAGE(cerr, store_ptr -> my_name());
 
 Boolean user_base::define()
 {
+   int len;
+
    if ( check_and_create_dir(base_path) == false ) {
       throw(stringException(form("can't create %s", base_path))); 
    }
@@ -402,10 +415,14 @@ Boolean user_base::define()
    char* x = getenv("DTINFO_MARKSPECPATH");
 
    if ( x == 0 ) {
-       strcpy(spec_file_path, spec_name);
+       len = MIN(strlen(spec_name), PATHSIZ - 1);
+       *((char *) memcpy(spec_file_path, spec_name, len) + len) = '\0';
    } 
-   else
-       strcpy(spec_file_path, form("%s/%s", x, spec_name));
+   else {
+       len = MIN(strlen(x) + strlen(spec_name) + 1, PATHSIZ - 1);
+       *((char *) memcpy(spec_file_path,
+			 form("%s/%s", x, spec_name), len) + len) = '\0';
+   }
    
    if (exist_file(spec_file_path) == false) {
        
@@ -419,7 +436,11 @@ Boolean user_base::define()
  
 /*
    char unique_nm[PATHSIZ];
-   strcpy(unique_nm, form("%s.%s", base_name, unique_id()));
+   const char* uid;
+   uid = unique_id();
+   len = MIN(strlen(base_name) + strlen(uid) + 1, PATHSIZ - 1);
+   *((char *) memcpy(unique_nm,
+		     form("%s.%s", base_name, uid), len) + len) = '\0';
 */
 
    first_desc_ptr = 

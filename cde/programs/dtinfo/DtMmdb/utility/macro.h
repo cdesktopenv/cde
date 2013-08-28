@@ -70,6 +70,11 @@
 #define TOBOOLEAN(x) ( ((x) == 1 ) ? true : false )
 #define TOBIT(x) ( ((x) == true ) ? 1 : 0 )
 
+/* secure XtNewString macro */
+#define XtsNewString(str) \
+    ((str) != NULL ? (char *)(memcpy(XtMalloc((unsigned)strlen(str) + 1), \
+     str, (unsigned)strlen(str) + 1)) : NULL)
+
 /* little endian to/from big endian swap macros. */
 
 #ifndef __osf__

@@ -4,6 +4,9 @@
 
 #define _Exceptions_hh_active
 
+#undef MIN
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+
 #ifndef C_API
 #ifndef NATIVE_EXCEPTIONS
 #define NATIVE_EXCEPTIONS
@@ -46,6 +49,16 @@ extern "C" {
 #else
 #define STRINGIFY(S) #S
 #endif
+#endif
+
+#ifndef UNUSED_VARIABLE
+# if defined(__GNUC__)
+#  define UNUSED_VARIABLE(x) x __attribute__((unused))
+# elif defined(__LCLINT__)
+#  define UNUSED_VARIABLE(x) /*@unused@*/ x
+# else
+#  define UNUSED_VARIABLE(x) x
+# endif
 #endif
 
 #endif /* NATIVE_EXCEPTIONS */
@@ -130,7 +143,7 @@ extern "C" {
 
 #define mcatch(TYPE,OBJ) \
     mcatch_noarg (TYPE) \
-    TYPE OBJ = (TYPE) Exception::current_exception();
+    TYPE UNUSED_VARIABLE(OBJ) = (TYPE) Exception::current_exception();
 
 #define end_try \
     } else { \

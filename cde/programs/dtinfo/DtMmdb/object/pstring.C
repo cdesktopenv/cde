@@ -271,7 +271,7 @@ cerr << "\n";
 
    out << v_sz << '\t';
 
-   for ( int i=0; i<v_sz; i++ )
+   for ( unsigned int i=0; i<v_sz; i++ )
       out << x[i];
 
     return done;
@@ -380,7 +380,7 @@ for (int i=0; i<new_value_sz; i++)
          v_str_ptr.p = new char[v_sz+1];
       } 
       memcpy(v_str_ptr.p, new_value, v_sz);
-
+      *(v_str_ptr.p + v_sz) = '\0';
    }
 
    set_mode(UPDATE, true);

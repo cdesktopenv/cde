@@ -131,9 +131,9 @@ protected:
    void _swap_order(Boolean swap_count_field_first);
 
 protected:
-   int num_locks;          // no. of locks
-   unsigned int pageid ;            // page id
+   unsigned int pageid ;   // page id
    Boolean dirty ;         // = false: page has not been written;
+   int num_locks;          // no. of locks
    int v_memalign_offset;  // align offset of the memory
                            // chunk for this page
 

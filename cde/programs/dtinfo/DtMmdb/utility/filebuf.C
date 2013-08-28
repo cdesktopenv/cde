@@ -48,8 +48,8 @@ filebuf::~filebuf()
 /////////////////////////////////////////////
 
 filebuf::filebuf(int __fd) :
-   new_pos(0), default_new_pos(0), _fd(__fd), current_pos(0), 
-   _prev_action(-1), _name(0)
+   _fd(__fd), _prev_action(-1), _name(0),
+   current_pos(0), new_pos(0), default_new_pos(0)
 {
    _mode = 0;
 
@@ -66,8 +66,8 @@ filebuf::filebuf(int __fd) :
 }
 
 filebuf::filebuf(const char* name, int mode, int protect) :
-   new_pos(0), default_new_pos(0), current_pos(0), 
-   _fd(-1), _prev_action(-1), _name(strdup(name))
+   _fd(-1), _prev_action(-1), _name(strdup(name)),
+   current_pos(0), new_pos(0), default_new_pos(0)
 {
    open(name, mode, protect);
 }

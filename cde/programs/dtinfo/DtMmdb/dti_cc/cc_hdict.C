@@ -58,7 +58,7 @@ hashTable<K,V>::~hashTable()
    CC_TPtrSlist<kv_pair<K, V> > * b = 0;
    kv_pair<K, V>  * r = 0;
 
-   for (int i=0; i<f_buckets.length(); i++ ) {
+   for (size_t i=0; i<f_buckets.length(); i++ ) {
 
       b  = f_buckets[i];
 
@@ -78,7 +78,7 @@ void hashTable<K,V>::clearAndDestroy()
 
    CC_TPtrSlist<kv_pair<K, V> >* b = 0;
 
-   for (int i=0; i<f_buckets.length(); i++ ) {
+   for (size_t i=0; i<f_buckets.length(); i++ ) {
 
      b = f_buckets[i];
      if ( b ) {

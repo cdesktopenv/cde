@@ -78,7 +78,7 @@ data_t::data_t(data_t& d)
       {
         int sz = strlen(d.key.str_key);
         key.str_key = new char[sz+1];
-        strcpy(key.str_key, d.key.str_key);
+        *((char *) memcpy(key.str_key, d.key.str_key, sz) + sz) = '\0';
         key.str_key[sz] = 0;
 
         flag = STRING;
@@ -104,8 +104,10 @@ data_t::data_t(const char* str, int sz, voidPtr d) : dt(d)
 
    key.str_key = new char[sz+1];
 
-   if ( sz > 0 )
-      strcpy(key.str_key, str);
+   if ( sz > 0 ) {
+      int len = MIN(strlen(str), (unsigned int) sz);
+      *((char *) memcpy(key.str_key, str, len) + len) = '\0';
+   }
 
    key.str_key[sz] = 0;
 }
@@ -146,6 +148,8 @@ int data_t::operator==(data_t& d)
       case VOID:
         throw(stringException("VOID type in operator==()"));
    }
+
+   return 0;
 }
 
 data_t& data_t::operator =(data_t& d) 
@@ -161,13 +165,12 @@ data_t& data_t::operator =(data_t& d)
 
       case STRING:
         {
-        int d_sz = strlen(d.key.str_key);
+        unsigned int d_sz = strlen(d.key.str_key);
         if ( strlen(key.str_key) < d_sz ) {
            delete key.str_key;
            key.str_key = new char[d_sz+1];
         }
-        strcpy(key.str_key, d.key.str_key);
-        key.str_key[d_sz] = 0;
+        *((char *) memcpy(key.str_key, d.key.str_key, d_sz) + d_sz) = '\0';
         flag = STRING;
         break;
         }
@@ -222,8 +225,7 @@ istream& operator >>(istream& i, data_t& d)
    if ( d.flag == data_t::STRING ) {
       int sz = strlen(key_ptr);
       d.key.str_key = new char[sz+1];
-      strcpy(d.key.str_key, key_ptr);
-      d.key.str_key[sz] = 0;
+      *((char *) memcpy(d.key.str_key, key_ptr, sz) + sz) = '\0';
    }
 
    return i;
@@ -242,6 +244,8 @@ ostream& operator <<(ostream& o, data_t& d)
         break;
       case data_t::STRING:
         o << d.key.str_key;
+        break;
+      default:
         break;
    }
 

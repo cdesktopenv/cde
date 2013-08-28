@@ -69,17 +69,17 @@ public:
   ostream &print(ostream &) const ;
 
 private:
-  unsigned int		f_freeAttrLists;
+  Symbol		f_gi ;
   unsigned int		f_sibling_number ; // counting all children of a parent
+  AttributeList	       *f_attributes;
+  AttributeList	       *f_olias_attributes;
+  unsigned int		f_freeAttrLists;
   unsigned int		f_relative_sibling_number ; // counting all 
 						    // consecutive children
 						    // of same types of a
 						    // parent
   int			f_last_child;
   int			f_relatively_last_child;
-  Symbol		f_gi ;
-  AttributeList	       *f_attributes;
-  AttributeList	       *f_olias_attributes;
 };
 
 inline

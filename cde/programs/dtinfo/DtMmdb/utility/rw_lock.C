@@ -184,7 +184,7 @@ Boolean write_lock(char* lock_file_path,
                    char*& ai_info
                   )
 {
-   int ret;
+   unsigned int len, slen;
    atomic_lock l(lock_file_path);
 
    if ( l.lock() == false ) {
@@ -217,8 +217,14 @@ Boolean write_lock(char* lock_file_path,
    while ( x.getline(buf, BUFSIZ) ) {
       if ( buf[0] == 'A' ) {
          ok = false;
-         strcat(ai_info, buf+1);
-         strcat(ai_info, "\n");
+
+         slen = strlen(ai_info);
+         len = MIN(strlen(buf+1), BUFSIZ - 1 - slen);
+         *((char *) memcpy(ai_info + slen, buf+1, len) + len) = '\0';
+
+         slen = strlen(ai_info);
+         len = MIN(1, BUFSIZ - 1 - slen);
+         *((char *) memcpy(ai_info + slen, "\n", len) + len) = '\0';
       }
    }
    
@@ -232,7 +238,9 @@ Boolean write_lock(char* lock_file_path,
 /////////////////////////////////////////
 // create the access info file
 /////////////////////////////////////////
-         ret = truncate(ai_path, 0);
+         if(truncate(ai_path, 0) != 0 ) {
+            throw(systemException(errno));
+         }
          fstream x(ai_path, ios::out);
          x << "A-" << writer_info << "\n";
    

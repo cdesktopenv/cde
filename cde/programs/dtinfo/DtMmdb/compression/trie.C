@@ -147,7 +147,7 @@ trie::~trie()
    delete root;
    delete sorted_freqs;
 
-   for ( int i=0; i<alphabet_sz; i++ ) 
+   for ( unsigned int i=0; i<alphabet_sz; i++ )
       delete alphabet[i];
 
    delete alphabet;
@@ -155,7 +155,7 @@ trie::~trie()
 
 void trie::extend_alphabet()
 {
-   if ( alphabet_sz >=  estimated_sz ) {
+   if ( (int) alphabet_sz >=  estimated_sz ) {
      encoding_unitPtr* new_alphabet = new encoding_unitPtr[2* estimated_sz];
 
      for ( int k=0; k< estimated_sz; k++ ) {
@@ -175,12 +175,9 @@ void trie::add(unsigned char* word, int sz, int fq)
 //  cerr << word[k];
 //cerr << "\n";
 
-   static int j, level = 0;
+   static int j;
    static trie_node* x = 0;
    static trie_node_info* y = 0;
-
-   static char buf[1];
-   static ostring *z;
 
    if ( root == 0 )
       root = new trie_node(0);

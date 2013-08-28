@@ -85,7 +85,7 @@ long_pstring::extract(int left, int right, char* sink)
 //debug(cerr, right);
 //debug(cerr, int(v_str_ptr.loc));
 
-   if ( left > right || right - left > v_sz ) {
+   if ( left > right || right - left > (int) v_sz ) {
       throw(boundaryException(left, right, v_sz));
    }
   

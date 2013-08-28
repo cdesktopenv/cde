@@ -105,7 +105,7 @@ oid_list::oid_list(oid_list& x) :
    list_ptr.loc = 0;
    init_data_member(x.v_sz);
 
-   for ( int i=1; i<=v_sz; i++ )
+   for ( unsigned int i=1; i<=v_sz; i++ )
       update_component(i, x(i));
 }
 
@@ -240,7 +240,7 @@ debug(cerr, int(this));
 debug(cerr, int(list_ptr.p));
 */
 
-   if ( !INRANGE(ind, 1, v_sz) ) {
+   if ( !INRANGE(ind, 1, (int) v_sz) ) {
       MESSAGE(cerr, "oid_list::opeartor(): out of range");
       throw(boundaryException(1, v_sz, ind));
    }
@@ -330,7 +330,7 @@ oid_list::update_component(int index, const oid_t& new_oid)
 {
 //MESSAGE(cerr, "oid_list::update_component()");
 //debug(cerr, my_oid());
-   if ( !INRANGE(index, 1, v_sz) ) {
+   if ( !INRANGE(index, 1, (int) v_sz) ) {
       MESSAGE(cerr, "oid_list update(): out of range");
       throw(boundaryException(1, v_sz, index));
    }
@@ -378,8 +378,6 @@ io_status oid_list::asciiIn(istream& in)
 
    if ( in.get() != '\n' ) 
       throw(formatException("should be a \n"));
-
-   handler* hd_ptr = 0;
 
    dlist temp_list;
    dlist_void_ptr_cell* y = 0;

@@ -55,12 +55,12 @@ public:
   featureProcessorPtr* ptrs;
   int count;
 
+  const char* f_QuaddingString;
+
   const Element* f_element;
   const FeatureSet* f_local;
   const FeatureSet* f_complete;
   const FeatureSet* f_parent;
-
-  const char* f_QuaddingString;
 };
 
 #endif

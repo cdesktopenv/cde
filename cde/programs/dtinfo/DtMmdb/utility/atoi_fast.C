@@ -66,8 +66,8 @@ void atoi_fast::init(int r, int, pm_random& rdm_generator)
 
    v_tbl = new char[v_entries];
 
-   int i;
-   for ( i = 0; i < v_entries; i++ )
+   unsigned int i;
+   for ( unsigned i = 0; i < v_entries; i++ )
      v_tbl[i] = i;
 
    for ( i = 0; i < v_entries - 1;  i++ ) {
@@ -113,22 +113,22 @@ int atoi_fast::atoi(const char* string, int l, int , int rang ) const
      case 0:
          break;
      case 1:
-         reg.chars_val.b1 = v_tbl[string[0]] ;
+         reg.chars_val.b1 = v_tbl[(unsigned int)string[0]] ;
          break;
      case 2:
-         reg.chars_val.b1 = v_tbl[string[0]] ;
-         reg.chars_val.b2 = v_tbl[string[1]] ;
+         reg.chars_val.b1 = v_tbl[(unsigned int)string[0]] ;
+         reg.chars_val.b2 = v_tbl[(unsigned int)string[1]] ;
          break;
      case 3:
-         reg.chars_val.b1 = v_tbl[string[0]] ;
-         reg.chars_val.b2 = v_tbl[string[1]] ;
-         reg.chars_val.b3 = v_tbl[string[2]] ;
+         reg.chars_val.b1 = v_tbl[(unsigned int)string[0]] ;
+         reg.chars_val.b2 = v_tbl[(unsigned int)string[1]] ;
+         reg.chars_val.b3 = v_tbl[(unsigned int)string[2]] ;
          break;
      default:
-         reg.chars_val.b1 = v_tbl[string[0]] ;
-         reg.chars_val.b2 = v_tbl[string[1]] ;
-         reg.chars_val.b3 = v_tbl[string[2]] ;
-         reg.chars_val.b4 = v_tbl[string[3]] ;
+         reg.chars_val.b1 = v_tbl[(unsigned int)string[0]] ;
+         reg.chars_val.b2 = v_tbl[(unsigned int)string[1]] ;
+         reg.chars_val.b3 = v_tbl[(unsigned int)string[2]] ;
+         reg.chars_val.b4 = v_tbl[(unsigned int)string[3]] ;
    }
 
    int x = 0;
@@ -187,7 +187,7 @@ int atoi_fast::atoi(const char* str, int offset, int rang ) const
 
 ostream& operator<<(ostream& s, atoi_fast& p)
 {
-   for ( int i = 0; i < p.v_entries ; i++ )
+   for ( unsigned int i = 0; i < p.v_entries ; i++ )
       s << int(p.v_tbl[i]) << " ";
    return s;
 }

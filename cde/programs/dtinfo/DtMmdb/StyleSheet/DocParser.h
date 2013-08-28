@@ -64,29 +64,29 @@ public:
   unsigned int	rawParse(istream &);
 
 protected:
-  virtual void read_data(istream &, ostream &);
+  virtual void read_data(istream &, ostringstream &);
 
 private:
   
-  void		process(istream &, ostream &, const Symbol &tagname, 
+  void		process(istream &, ostringstream &, const Symbol &tagname,
 			unsigned int sibling_number,
 			unsigned int relative_sibling_number);
-  TagType	read_tag(istream &, ostream &);
-  void		process_entity(istream &, ostream &);
+  TagType	read_tag(istream &, ostringstream &);
+  void		process_entity(istream &, ostringstream &);
 
-  void		process_attributes(istream &, ostream &,
+  void		process_attributes(istream &, ostringstream &,
 				   AttributeList *&attrs,
 				   AttributeList *&olias_attrs);
-  Attribute    *process_attribute(istream &, ostream &, const Symbol &name, TagType);
+  Attribute    *process_attribute(istream &, ostringstream &, const Symbol &name, TagType);
   
 private:
   unsigned int	f_ignoring_element ;
+  Resolver      &f_resolver;
 #if defined(SC3) || defined(__osf__)
   char* const	f_buffer;
   ostrstream	f_output;
 #else
   stringbuf	*f_streambuf;
-  ostream	f_output;
+  ostringstream	f_output;
 #endif
-  Resolver     &f_resolver;
 };

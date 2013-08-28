@@ -88,18 +88,17 @@ public:
 
 protected:
 
-   object_dict* f_obj_dict;
-
-
    char base_path[PATHSIZ];
    char base_name[PATHSIZ];
    char base_desc[PATHSIZ];
    char base_uid[UIDSIZ];
 
-   int num_cset_ptrs;
-   int num_list_ptrs;
    char** info_base_set_names;
    char** info_base_list_names;
+   int num_cset_ptrs;
+   int num_list_ptrs;
+
+   object_dict* f_obj_dict;
 };
 
 typedef base* basePtr;

@@ -77,7 +77,9 @@ char* get_oid_2(info_lib* infolib_ptr, char* base_str, char* locator)
     if ( strcmp( this_node_locator, locator) == 0 ) {
         ostringstream strout(oid_in_string_buf, ios::out);
         x.its_oid().asciiOut(strout);
-        strcpy(oid_in_string_buf, strout.str().c_str());
+        int len = strout.str().size();
+        *((char *) memcpy(oid_in_string_buf,
+			  strout.str().c_str(), len) + len) = '\0';
     } else {
          cerr << "dangling locator " << locator << "\n"
               << "mismatches with " << this_node_locator << "\n"

@@ -60,12 +60,13 @@ bucket::bucket(char* key, int orig_position, Boolean copy) :
 {
 
    char* x = 0;
+   int len;
 
    switch (copy) {
      case true:
-       x = new char[strlen(key)+1];
-       strcpy(x, key);
-       x[strlen(key)] = 0;
+       len = strlen(key);
+       x = new char[len + 1];
+       *((char *) memcpy(x, key, len) + len) = '\0';
        break;
      case false:
        x = key;
@@ -90,12 +91,13 @@ bucket::~bucket()
 int bucket::add_key(char* key, Boolean copy)
 {
    char *x = 0;
+   int len;
 
    switch (copy) {
      case true:
-       x = new char[strlen(key)+1];
-       strcpy(x, key);
-       x[strlen(key)] = 0;
+       len = strlen(key);
+       x = new char[len + 1];
+       *((char *) memcpy(x, key, len) + len) = '\0';
        break;
      case false:
        x = key;
@@ -140,8 +142,8 @@ h_convertor(pms.v_n, 128, rnd)
 {
    v_bucket_array = new bucketPtr[v_no_buckets]; 
 
-   int i;
-   for ( i=0; i<v_no_buckets; v_bucket_array[i++] = 0);
+   unsigned int i;
+   for ( i=0; i < (unsigned int) v_no_buckets; v_bucket_array[i++] = 0);
 
 //debug(cerr, pms);
 
@@ -188,7 +190,7 @@ int buckets::bucket_num(char* k, params& pms)
 
 //debug(cerr, sum);
 
-   if ( sum < pms.v_p1 ) {
+   if ( sum < (int) pms.v_p1 ) {
       sum %= pms.v_p2;
    } else {
       sum %= (pms.v_b - pms.v_p2);

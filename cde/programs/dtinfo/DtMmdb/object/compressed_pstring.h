@@ -73,9 +73,9 @@ protected:
 
    oid_t compress_agent_id;
 
-   unsigned int v_uncompressed_sz;
-   
    compress_agent_handler* agent;
+
+   unsigned int v_uncompressed_sz;
 
 protected:
    void _compress();

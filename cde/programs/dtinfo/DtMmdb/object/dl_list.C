@@ -179,7 +179,7 @@ handler* dl_list::get_component(int index)
 
 oid_list_handler* dl_list::get_locs(handler& query, int index)
 {
-   if ( !INRANGE(index, 0, v_num_indices-1) )
+   if ( !INRANGE(index, 0, (int) v_num_indices-1) )
       throw(boundaryException(0, v_num_indices-1, index));
 
    if ( v_indices[index] == 0 ) 
@@ -352,7 +352,7 @@ v_dl_list_tail.asciiOut(out); cerr << "\n";
 
    oid_t* cell_ptr = &v_dl_list_head;
 
-   for ( int i=1; i<=v_sz; i++ ) {
+   for ( unsigned int i=1; i<=v_sz; i++ ) {
 
        if ( cell_ptr == 0 ) {
           throw(stringException("broken chain"));
@@ -377,7 +377,7 @@ v_dl_list_tail.asciiOut(out); cerr << "\n";
 
 void dl_list::batch_index_begin()
 {
-   for ( int i=0; i<v_num_indices; i++ ) {
+   for ( unsigned int i=0; i<v_num_indices; i++ ) {
       if ( v_indices[i] != 0 ) {
         (*v_indices[i]) -> batch_index_begin();
       }
@@ -386,7 +386,7 @@ void dl_list::batch_index_begin()
 
 void dl_list::batch_index_end()
 {
-   for ( int i=0; i<v_num_indices; i++ ) {
+   for ( unsigned int i=0; i<v_num_indices; i++ ) {
       if ( v_indices[i] != 0 ) {
          (*v_indices[i]) -> batch_index_end();
       }
@@ -456,7 +456,7 @@ dl_list::insert_to_indices(const dl_list_cell_handler& new_object)
 
    }
 
-   for ( int i = 1; i < v_num_indices; i++ ) {
+   for ( unsigned int i = 1; i < v_num_indices; i++ ) {
 
       if ( v_indices[i] == 0 ) continue;
 
@@ -521,7 +521,7 @@ io_status dl_list::cdrIn(buffer& buf)
 
 oid_t dl_list::get_first_oid(const handler& query, int index)
 {
-   if ( !INRANGE(index, 0, v_num_indices-1) ) {
+   if ( !INRANGE(index, 0, (int) v_num_indices-1) ) {
        MESSAGE(cerr, "cset::get_first_oid(): invalid index");
        throw(boundaryException(0, v_num_indices-1, index));
    }
@@ -535,7 +535,7 @@ oid_t dl_list::get_first_oid(const handler& query, int index)
 
 void dl_list::commit()
 {
-   for ( int i = 1; i < v_num_indices; i++ ) 
+   for ( unsigned int i = 1; i < v_num_indices; i++ )
    {
       if ( v_indices[i] ) 
         v_indices[i] -> commit() ;

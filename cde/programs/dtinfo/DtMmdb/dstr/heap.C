@@ -84,7 +84,7 @@ int heap::count()
 
 Boolean heap::insert(voidPtr elm) 
 {
-   if ( buf_sz() < content_sz() + 2*sizeof(voidPtr) ) 
+   if ( buf_sz() < (int)(content_sz() + 2*sizeof(voidPtr)) )
       buffer::expand_chunk(2*buf_sz()) ;
 
    long x = long(elm);

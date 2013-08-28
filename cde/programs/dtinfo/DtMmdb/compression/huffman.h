@@ -60,11 +60,11 @@
 class htr_node 
 {
 public:
-   htr_node* parent;
    htr_node* left;
    htr_node* right;
-   unsigned long freq; 
    encoding_unit* eu;
+   unsigned long freq;
+   htr_node* parent;
 
 public:
    htr_node(encoding_unit* eu, htr_node* lt = 0, htr_node* rt = 0);
@@ -80,10 +80,10 @@ class huff : public compress_agent
 {
 
 protected:
-   htr_node* htr_root;
    encoding_unit** e_units;
-   trie* tri;
    unsigned int cts ;
+   trie* tri;
+   htr_node* htr_root;
 
 protected:
    void build_tree();

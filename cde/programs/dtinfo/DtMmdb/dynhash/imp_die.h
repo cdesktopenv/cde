@@ -93,12 +93,12 @@ protected:
    int k;        // parameter used in the 1st level hash function
    int p;        // prime number p
 
-   int n;        // current key set size
    int H;        // current hash table size
    int B;        // current bucket table size
+   int n;        // current key set size
 
-   data_tPtr* hash_table;   // the hash table
    imp_bucketPtr* bucket_array;    // bucket array
+   data_tPtr* hash_table;   // the hash table
 
    bucket_holder* free_list_head ;   // free bucket holder list head
    bucket_holder* collected_records; // collected bucket list head

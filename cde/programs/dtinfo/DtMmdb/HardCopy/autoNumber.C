@@ -139,9 +139,11 @@ const char*
 autoNumberNumeric::getValue()
 {
    char* ptr = f_buf.get_base();
+   int ptrlen = f_buf.buf_sz();
 
    if (f_values.entries())
-     sprintf(ptr, "%s", form("%s%d%s", f_prefix, f_values.top(), f_postfix));
+     snprintf(ptr, ptrlen, "%s",
+		form("%s%d%s", f_prefix, f_values.top(), f_postfix));
    else
      *ptr = 0;
 
@@ -154,7 +156,7 @@ autoNumberNumeric::getValue()
 
 autoNumberCased::autoNumberCased(const char* nm, autoNumberType an_t, 
 				 int delta, enum CaseType ct, const char* prefix, const char* postfix) :
-   f_case(ct), autoNumber(nm, an_t, delta, prefix, postfix)
+   autoNumber(nm, an_t, delta, prefix, postfix), f_case(ct)
 {
 }
 
@@ -204,7 +206,7 @@ int autoNumberAlphabetic::alphaToInt(const char* alpha, enum CaseType a_case)
 {
    int digits = strlen(alpha);
    int i;
-   int offset;
+   int offset = 0;
 
    switch ( a_case ) {
      case UPPER:
@@ -321,9 +323,10 @@ void autoNumberAlphabetic::setNextValue()
 const char* autoNumberAlphabetic::getValue()
 {
    char* ptr = f_buf.get_base();
+   int ptrlen = f_buf.buf_sz();
 
    if (f_values.entries())
-     sprintf(ptr, "%s", form("%s%s%s", f_prefix,
+     snprintf(ptr, ptrlen, "%s", form("%s%s%s", f_prefix,
 		     intToAlpha(f_values.top(), f_case), f_postfix));
    else
      *ptr = 0;
@@ -472,6 +475,8 @@ const char* romanCardinals[4][9] =
 const char* 
 autoNumberRoman::ArabicToRoman(int x)
 {
+   unsigned int len, slen;
+
    RomanNumberBuf[0] = 0;
    if ( x > 3999 ) {
       MESSAGE(cerr, "Value too large.");
@@ -481,7 +486,7 @@ autoNumberRoman::ArabicToRoman(int x)
    char* buf = form("%d", x);
 
    int j=strlen(buf)-1;
-   for ( int i=0; i<strlen(buf); i++ ) {
+   for ( unsigned int i=0; i<strlen(buf); i++ ) {
       if ( buf[i] != '0' )
       {
 	 const char* romanCardinal = romanCardinals[j][buf[i]-'1'];
@@ -498,7 +503,11 @@ autoNumberRoman::ArabicToRoman(int x)
 		precise_romanCardinal[k] = tolower(romanCardinal[k]);
 	    precise_romanCardinal[k] = 0;
 	 }
-         strcat(RomanNumberBuf, precise_romanCardinal);
+
+         slen = strlen(RomanNumberBuf);
+         len = MIN(strlen(precise_romanCardinal), 256 - 1 - slen);
+         *((char *) memcpy(RomanNumberBuf + slen,
+			   precise_romanCardinal, len) + len) = '\0';
       }
       j--;
    }

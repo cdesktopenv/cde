@@ -229,7 +229,7 @@ __bt_defcmp(a, b)
 
 	len = MIN(a->size, b->size);
 	for (p1 = a->data, p2 = b->data; len--; ++p1, ++p2)
-		if (diff = *p1 - *p2)
+		if ((diff = *p1 - *p2))
 			return (diff);
 	return (a->size - b->size);
 }

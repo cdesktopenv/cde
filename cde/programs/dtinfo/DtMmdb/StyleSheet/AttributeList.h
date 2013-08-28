@@ -38,7 +38,7 @@ class AttributeList : private CC_TPtrSlist<Attribute>
 {
 public:
   AttributeList();
-  ~AttributeList();
+  virtual ~AttributeList();
   
   void add(Attribute *);
 

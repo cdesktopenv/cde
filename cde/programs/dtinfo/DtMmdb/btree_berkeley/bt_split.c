@@ -111,13 +111,15 @@ __bt_split(t, sp, key, data, flags, ilen, skip)
 	size_t ilen;
 	u_int skip;
 {
-	BINTERNAL *bi;
-	BLEAF *bl, *tbl;
+	BINTERNAL *bi = NULL;
+	BLEAF *bl = NULL;
+	BLEAF *tbl;
 	DBT a, b;
 	EPGNO *parent;
 	PAGE *h, *l, *r, *lchild, *rchild;
 	indx_t nxtindex;
-	size_t n, nbytes, nksize;
+	size_t n, nbytes;
+	size_t nksize = 0;
 	int parentsplit;
 	char *dest;
 
@@ -640,7 +642,7 @@ bt_psplit(t, h, l, r, pskip, ilen)
 	RLEAF *rl;
 	EPGNO *c;
 	PAGE *rval;
-	void *src;
+	void *src = NULL;
 	indx_t full, half, nxt, off, skip, top, used;
 	size_t nbytes;
 	int bigkeycnt, isbigkey;

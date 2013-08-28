@@ -2336,23 +2336,23 @@ FeatureValueDimension::doConvert(Unit unit) const
 ///////////////////////////////////////////////////
 
 FeatureValueArray::FeatureValueArray(const char* nm, int size) :
-   f_name(strdup(nm)), FeatureValue(array), pointer_vector<FeatureValue>(size, 0) 
+   FeatureValue(array), pointer_vector<FeatureValue>(size, 0), f_name(strdup(nm))
 {
 }
 
 FeatureValueArray::FeatureValueArray(const FeatureValueArray& x) :
-   f_name(strdup(x.f_name)), FeatureValue(array), 
-   pointer_vector<FeatureValue>(x.length(), 0)
+   FeatureValue(array), pointer_vector<FeatureValue>(x.length(), 0),
+   f_name(strdup(x.f_name))
 {
    mtry
     {
-      for ( int i=0; i<length(); i++ )
+      for ( unsigned int i=0; i<length(); i++ )
          (*this)[i] = x[i] -> clone();
       return;
     }
    mcatch_any()
     {
-      for ( int i=0; i<length(); i++ )
+      for ( unsigned int i=0; i<length(); i++ )
          delete (*this)[i];
       rethrow;
     }
@@ -2361,7 +2361,7 @@ FeatureValueArray::FeatureValueArray(const FeatureValueArray& x) :
 
 FeatureValueArray::~FeatureValueArray()
 {
-   for ( int i=0; i<length(); i++ )
+   for ( unsigned int i=0; i<length(); i++ )
      delete (*this)[i];
 
    delete f_name;
@@ -2374,7 +2374,7 @@ FeatureValueArray::evaluate() const
 
   mtry
     {
-      for ( int i=0; i<length(); i++ ) {
+      for ( unsigned int i=0; i<length(); i++ ) {
         (*result)[i] = (*this)[i] -> evaluate();
       }
       return result;
@@ -2392,7 +2392,7 @@ FeatureValueArray::print(ostream& out) const
 {
    out << f_name << "[\n";
 
-   for ( int i=0; i<length(); i++ ) {
+   for ( unsigned int i=0; i<length(); i++ ) {
 
      if ( (*this)[i] == 0 ) {
         MESSAGE(cerr, form("%d is a null slot", i));

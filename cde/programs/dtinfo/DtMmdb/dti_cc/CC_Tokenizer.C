@@ -27,8 +27,9 @@
 //--------------------------------------------------------------
 CC_Tokenizer::CC_Tokenizer( const CC_String &s )
 {
-  str_ = new char [s.length()+1];
-  strcpy(str_, s.data() );
+  int len = s.length();
+  str_ = new char [len + 1];
+  *((char *) memcpy(str_, s.data(), len) + len) = '\0';
   current_ptr = str_;
   touched = FALSE;
 }

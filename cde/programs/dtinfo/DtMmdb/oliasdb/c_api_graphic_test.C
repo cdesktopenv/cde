@@ -31,7 +31,7 @@ void showGraphic(DtMmdbInfoRequest* req)
 {
    const char* str;
    unsigned int l;
-   int i;
+   unsigned int i;
    DtMmdbGraphicInfo* info ;
 
    if ( req == 0 ) return ;
@@ -68,7 +68,6 @@ int test_graphic1(int argc, char** argv)
 {
    int j = 0;
    int i = 0;
-   const char* str;
    DtMmdbInfoRequest* req;
 
    switch ( argc ) {
@@ -99,7 +98,6 @@ int test_graphic2(int argc, char** argv)
 {
    int j = 0;
    int i = 0;
-   const char* str;
    DtMmdbInfoRequest* req;
 
    switch ( argc ) {

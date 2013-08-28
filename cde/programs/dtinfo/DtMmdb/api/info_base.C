@@ -72,8 +72,9 @@ debug(cerr, base_dir);
 debug(cerr, base_nm);
 debug(cerr, base_ds);
 */
+   int len = MIN(strlen(base_locale), PATHSIZ - 1);
    if (base_locale)
-     strcpy(info_base_locale, base_locale);
+     *((char *) memcpy (info_base_locale, base_locale, len) + len) = '\0';
    else
      *info_base_locale = 0;
 
@@ -131,7 +132,6 @@ info_base::~info_base()
 
 int info_base::get_set_pos(const char* set_nm)
 {
-   char* nm = 0;
    for ( int i=0; i<num_cset_ptrs; i++ ) {
       if ( strcmp(set_nm,  info_base_set_names[i]) == 0 ) 
          return i;
@@ -221,7 +221,7 @@ Iterator* info_base::first(char* col_nm, c_code_t code)
    handler* x = get_set(col_nm);
 
    if ( x == 0 ) {
-      handler* x = get_list(col_nm);
+      x = get_list(col_nm);
    }
 
    if ( x == 0 ) {
@@ -299,7 +299,7 @@ int stdin_sgml_data_getchar(unsigned char* buf, int max_sz)
 
    chars_to_read = MIN(max_sz, remain_chars);
 
-   if ( fread((char*)buf, 1, chars_to_read, stdin) != chars_to_read ) {
+   if ( (int)fread((char*)buf, 1, chars_to_read, stdin) != chars_to_read ) {
       throw(stringException("sgml_data_getchar(): fread() failed"));
    }
 

@@ -33,7 +33,7 @@
 template <class T>
 CC_Boolean CC_TPtrDlistIterator<T>::operator+=(size_t n)
 {
-  for ( int i = 0; i < n ; i++ ) {
+  for ( size_t i = 0; i < n ; i++ ) {
     if ( !(++(*this)) ) {
       return (FALSE);
     }

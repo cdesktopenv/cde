@@ -75,7 +75,7 @@ void atoi_pearson::init(int r, int, pm_random& rdm_generator)
 
    v_tbl = new char[v_entries];
 
-   int i;
+   unsigned int i;
    for ( i = 0; i < v_entries; i++ )
       v_tbl[i] = i;
 
@@ -175,7 +175,7 @@ int atoi_pearson::atoi(const char* str, int offset, int rang ) const
 
 ostream& operator<<(ostream& s, atoi_pearson& p)
 {
-   for ( int i = 0; i < p.v_entries ; i++ )
+   for ( unsigned int i = 0; i < p.v_entries ; i++ )
       s << int(p.v_tbl[i]) << " ";
    return s;
 }

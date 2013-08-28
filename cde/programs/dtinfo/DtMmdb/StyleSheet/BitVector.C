@@ -51,7 +51,7 @@ void BitVector::setAllBitsTo(unsigned int initValue)
 {
    unsigned int fill = ( initValue == 0 ) ? 0x0 : ~0x0;
 
-   for ( int i=0; i<f_words; i++ )
+   for ( unsigned int i=0; i<f_words; i++ )
      f_array[i]=fill;
 }
 
@@ -70,14 +70,14 @@ void BitVector::setTo(BitVector& v)
    f_bits = v.f_bits;
    f_words = v.f_words;
 
-   for ( int i=0; i<f_words; i++ )
+   for ( unsigned int i=0; i<f_words; i++ )
      f_array[i]=v.f_array[i];
 }
 
 void BitVector::setBitTo(int i, unsigned int x)
 {
-   int wordIndex = i / WORD_SIZE;
-   int bitIndex = i % WORD_SIZE;
+   unsigned int wordIndex = i / WORD_SIZE;
+   unsigned int bitIndex = i % WORD_SIZE;
 
    if ( x == 1 ) {
       if ( wordIndex < f_words - 1 ) 
@@ -106,20 +106,20 @@ void BitVector::recordPositions(unsigned int PTPos, unsigned int BITPos)
 
 unsigned int BitVector::getBit(int i)
 {
-   int wordIndex = i / WORD_SIZE;
-   int bitIndex = i % WORD_SIZE;
+   unsigned int wordIndex = i / WORD_SIZE;
+   unsigned int bitIndex = i % WORD_SIZE;
 
    if ( wordIndex < f_words - 1 ) 
-         return BIT_TEST(f_array[wordIndex], (0x1 << bitIndex)) ? 1 : 0;
+         return BIT_TEST((int)f_array[wordIndex], (0x1 << bitIndex)) ? 1 : 0;
    else
-         return BIT_TEST(f_array[wordIndex], 
+         return BIT_TEST((int)f_array[wordIndex],
                  (0x1 << (WORD_SIZE - f_bits % WORD_SIZE + bitIndex))
                         ) ? 1 : 0;
 }
 
 BitVector& BitVector::operator &=(BitVector& b)
 {
-   for ( int i=0; i<f_words; i++ )
+   for ( unsigned int i=0; i<f_words; i++ )
      f_array[i] &= b.f_array[i];
 
    return *this;
@@ -127,7 +127,7 @@ BitVector& BitVector::operator &=(BitVector& b)
 
 BitVector& BitVector::operator ^=(BitVector& b)
 {
-   for ( int i=0; i<f_words; i++ )
+   for ( unsigned int i=0; i<f_words; i++ )
      f_array[i] ^= b.f_array[i];
 
    return *this;
@@ -135,7 +135,7 @@ BitVector& BitVector::operator ^=(BitVector& b)
 
 BitVector& BitVector::operator |=(BitVector& b)
 {
-   for ( int i=0; i<f_words; i++ )
+   for ( unsigned int i=0; i<f_words; i++ )
      f_array[i] |= b.f_array[i];
 
    return *this;
@@ -146,7 +146,7 @@ BitVector& BitVector::shiftRightOneBit()
    unsigned int msb = 0;
    unsigned int lsb = 0;
 
-   for ( int i=0; i<f_words; i++ ) {
+   for ( unsigned int i=0; i<f_words; i++ ) {
      lsb = ( BIT_TEST(f_array[i], 0x1) ) ? 0x1 : 0x0;
      f_array[i] = f_array[i] >> 1;   
      f_array[i] |= msb;
@@ -164,8 +164,8 @@ BitVector& BitVector::shiftLeftOneBit()
    unsigned int lsb = 0;
 
 
-   for ( int i=f_words-1; i>=0; i++ ) {
-     msb = ( BIT_TEST(f_array[i], wordWithMSBSet) ) ? wordWithMSBSet : 0x0;
+   for ( unsigned int i=f_words-1; i>=0; i++ ) {
+     msb = (BIT_TEST((int)f_array[i], wordWithMSBSet)) ? wordWithMSBSet : 0x0;
      f_array[i] = f_array[i] << 1;   
      f_array[i] |= lsb;
      lsb = msb;

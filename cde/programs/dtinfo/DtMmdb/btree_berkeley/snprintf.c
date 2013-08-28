@@ -26,6 +26,7 @@
 
 #include <compat.h>
 #include <string.h>
+#include <stdio.h>
 
 #ifdef __STDC__
 #include <stdarg.h>
@@ -45,24 +46,30 @@ snprintf(str, n, fmt, va_alist)
 #endif
 {
 	va_list ap;
+#ifdef VSPRINTF_CHARSTAR
 	char *rp;
+#else
 	int rval;
+#endif
+
 #ifdef __STDC__
 	va_start(ap, fmt);
 #else
 	va_start(ap);
 #endif
+
 #ifdef VSPRINTF_CHARSTAR
-	rp = (char*)(size_t)vsprintf(str, fmt, ap);
+	rp = (char*)(size_t)vsnprintf(str, n, fmt, ap);
 	va_end(ap);
 	return (strlen(rp));
 #else
-	rval = vsprintf(str, fmt, ap);
+	rval = vsnprintf(str, n, fmt, ap);
 	va_end(ap);
 	return (rval);
 #endif
 }
 
+#if 0
 int
 vsnprintf(str, n, fmt, ap)
 	char *str;
@@ -71,8 +78,9 @@ vsnprintf(str, n, fmt, ap)
 	va_list ap;
 {
 #ifdef VSPRINTF_CHARSTAR
-	return (strlen((char*)(size_t)vsprintf(str, fmt, ap)));
+	return (strlen((char*)(size_t)vsnprintf(str, fmt, ap)));
 #else
-	return (vsprintf(str, fmt, ap));
+	return (vsnprintf(str, fmt, ap));
 #endif
 }
+#endif

@@ -222,7 +222,7 @@ page_cache_global_part::load_new_page(
 {
    lru_pagePtr p = 0;
 
-   if ( f_replace_policy.active_elmts() < f_total_allowed_pages ) {
+   if ( f_replace_policy.active_elmts() < (int) f_total_allowed_pages ) {
 
 /*
 debug(cerr, page_cache -> active_elmts());

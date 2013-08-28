@@ -44,7 +44,8 @@ int compare_stylesheet(stylesheet_smart_ptr& pattern, info_base* base_ptr)
    print_stylesheet(pattern, pattern_out);
 
    char loc[BUFSIZ];
-   strcpy(loc, pattern.name());
+   int len = MIN(strlen(pattern.name()), BUFSIZ - 1);
+   *((char *) memcpy(loc, pattern.name(), len) + len) = '\0';
 
    stylesheet_smart_ptr x( base_ptr, loc );
    char db_buf[LARGE_BUFSIZ];
@@ -61,7 +62,9 @@ void update_stylesheet_test(char* filename, info_base* base_ptr, char* locator)
    fstream in(filename, ios::in);
    while (in) {
       in.getline(buf, LBUFSIZ);
-      strcat(st_buf, buf);
+      int slen = strlen(st_buf);
+      int len = MIN(strlen(buf), LBUFSIZ - 1 - slen);
+      *((char *) memcpy(st_buf + slen, buf, len) + len) = '\0';
    }
    stylesheet_smart_ptr st(base_ptr, locator);
    st.update_online_data(st_buf, strlen(st_buf));

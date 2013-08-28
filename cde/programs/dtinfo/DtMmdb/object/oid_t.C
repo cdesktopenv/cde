@@ -111,8 +111,8 @@ oid_t::oid_t(const char* source, Boolean ascii_format, Boolean swap_order)
 
 /*
 MESSAGE(cerr, "constr oid_t using a string");
-debug(cerr, c_code);
-debug(cerr, i_code);
+debug(cerr, v_c_code);
+debug(cerr, v_i_code);
 */
 }
 

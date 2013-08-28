@@ -415,7 +415,9 @@ static int ps_did_buffer_switch_on_eof;
 static ps_state_type ps_get_previous_state ps_PROTO(( void ));
 static ps_state_type ps_try_NUL_trans ps_PROTO(( ps_state_type current_state ));
 static int ps_get_next_buffer ps_PROTO(( void ));
+#if 0
 static void psunput ps_PROTO(( ps_CHAR c, ps_CHAR *buf_ptr ));
+#endif
 void psrestart ps_PROTO(( FILE *input_file ));
 void ps_switch_to_buffer ps_PROTO(( ps_BUFFER_STATE new_buffer ));
 void ps_load_buffer_state ps_PROTO(( void ));
@@ -807,6 +809,7 @@ register ps_state_type ps_current_state;
     }
 
 
+#if 0
 #ifdef ps_USE_PROTOS
 static void psunput( ps_CHAR c, register ps_CHAR *ps_bp )
 #else
@@ -850,6 +853,7 @@ register ps_CHAR *ps_bp;
      */
     ps_DO_BEFORE_ACTION; /* set up pstext again */
     }
+#endif
 
 
 #ifdef __cplusplus

@@ -75,7 +75,7 @@ private:
 public:
    SSPath(char*, unsigned int assignId); // for test purpose
    SSPath();
-   ~SSPath();
+   virtual ~SSPath();
 
 // this call update f_containPathQualifier field
    void appendPathTerm(PathTerm*);

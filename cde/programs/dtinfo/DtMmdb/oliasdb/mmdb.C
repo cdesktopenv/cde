@@ -214,7 +214,7 @@ Boolean OLIAS_DB::real_destroy(const char* infoLibPath, const char* infoLibName)
    int major_mm_version = 0;
    int minor_mm_version = 0;
 
-   sprintf(buf, "%s/%s", infoLibPath, MAP_FILE_8_3);
+   snprintf(buf, sizeof(buf), "%s/%s", infoLibPath, MAP_FILE_8_3);
    fstream in(buf, ios::in);
 
    while ( in.getline(base_name, PATHSIZ, '\t') ) {

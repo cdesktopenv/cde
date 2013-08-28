@@ -107,11 +107,13 @@ oid_t c_index::first_of_invlist(int ind)
 
 Boolean c_index::get_key_string(const handler& t) const
 {
-   ostringstream out(v_static_key.get());
+   ostringstream out;
+   int len;
 
    ((handler&)t) -> asciiOut(out);
-   v_static_key.set_size(out.str().size());
-   strcpy(v_static_key.get(), out.str().c_str());
+   len = out.str().size();
+   v_static_key.set_size(len);
+   *((char *) memcpy(v_static_key.get(), out.str().c_str(), len) + len) = '\0';
 
    return true;
 }
@@ -119,12 +121,14 @@ Boolean c_index::get_key_string(const handler& t) const
 Boolean c_index::get_key_string(const oid_t& t) const
 {
    v_static_key.reset();
+   int len;
 
    ostringstream out(v_static_key.get());
    t.asciiOut(out);
 
-   v_static_key.set_size(out.str().size());
-   strcpy(v_static_key.get(), out.str().c_str());
+   len = out.str().size();
+   v_static_key.set_size(len);
+   *((char *) memcpy(v_static_key.get(), out.str().c_str(), len) + len) = '\0';
 
    return true;
 }

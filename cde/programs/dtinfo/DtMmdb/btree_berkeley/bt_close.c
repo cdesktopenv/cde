@@ -141,7 +141,7 @@ __bt_sync(dbp, flags)
 	BTREE *t;
 	int status;
 	PAGE *h;
-	void *p;
+	void *p = NULL;
 
 	t = dbp->internal;
 

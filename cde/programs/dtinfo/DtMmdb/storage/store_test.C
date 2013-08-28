@@ -35,7 +35,7 @@ void real_page_cache_test_1(pm_random& rand_gen, page_storage** st, unsigned int
    unsigned int j, k;
    page_storage::access_t l;
 
-   for ( int i=0; i< no_access; i++) 
+   for ( unsigned int i=0; i< no_access; i++)
    {
 
       j = rand_gen.rand() % ct; // pick the store
@@ -66,7 +66,7 @@ prepare_store(char* path, lru& open_file_policy,
    page_storage** x = new page_storagePtr[ct];
    unixf_storage*  unix_file = 0;
 
-   for ( int i=0; i<ct; i++) {
+   for ( unsigned int i=0; i<ct; i++) {
       int pages = rand_gen.rand() % (high-low) + low;
 
 /*
@@ -76,7 +76,7 @@ if ( i == 1 )
    pages = 17;
 */
 
-      sprintf(name, "test.%d", i);
+      snprintf(name, sizeof(name), "test.%d", i);
 
       if ( exist_file(name) == true )
          del_file(name);
@@ -90,7 +90,7 @@ if ( i == 1 )
    
 void quit_store(page_storage** st, unsigned int ct)
 {
-   for ( int i=0; i<ct; i++) {
+   for ( unsigned int i=0; i<ct; i++) {
      delete st[i];
    }
    delete st;

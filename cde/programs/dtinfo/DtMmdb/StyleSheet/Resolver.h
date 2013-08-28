@@ -71,12 +71,12 @@ public:
 
 private:
   SSPath		f_path ;
-  ResolverStack	        f_resolverStack;
   PathTable	       &f_pathTable;
 
    // NOTE: this one could be a pointer so we can change them on the fly
   Renderer	       &f_Renderer;
 
+  ResolverStack	        f_resolverStack;
 };
 
 #endif /* _Resolver_h */

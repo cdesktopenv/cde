@@ -66,8 +66,8 @@
 class oid_list: public composite
 {
 protected:
-   chunks_index* chk_index;
    Boolean f_internal_index;
+   chunks_index* chk_index;
 
    union {
       mmdb_pos_t loc;

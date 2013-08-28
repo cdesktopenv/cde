@@ -74,8 +74,8 @@ public:
   virtual PQBoolean evaluate(const Element &);
 
 private:
-  int	f_position ;
   PQEqOp	f_optype;
+  int	f_position ;
 };
 
 class PQSibling: public PQExpr
@@ -85,8 +85,8 @@ public:
   virtual PQBoolean evaluate(const Element &);
 
 private:
-  int	f_sibling;
   PQEqOp	f_optype;
+  int	f_sibling;
 };
 
 class PQAttributeSelector : public PQExpr

@@ -117,16 +117,16 @@ class trie
 {
 
 protected:
+   trie_node* root;
    int max_trie_level;
    int total_nodes;
    int level_sz[MAX_LEVELS];
 
-   trie_node* root;
    heap* sorted_freqs;
 
-   int  estimated_sz;
    encoding_unit** alphabet;
    unsigned int alphabet_sz;
+   int  estimated_sz;
 
 protected:
    void collect_freqs(trie_node* rt, int level);

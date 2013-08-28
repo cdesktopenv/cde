@@ -83,12 +83,12 @@ protected:
 public:
    enum flag_type { INT=0, STRING=1, VOID=2 };
 
+   voidPtr dt;     // rest of information in the record
    flag_type flag;
    union {
       int int_key;
       char* str_key;
    } key;
-   voidPtr dt;     // rest of information in the record
 
    data_t(): dt(0), flag(data_t::VOID) {} ;
    data_t(data_t&) ;

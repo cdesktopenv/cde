@@ -90,7 +90,6 @@ debug(cerr, inactive_list.count());
 
 
    replaced = 0;
-   Boolean ok = true;
 
    switch (x.get_position()) {
      case ACTIVE:
@@ -131,8 +130,6 @@ Boolean lru::promote(rep_cell& x)
 
 Boolean lru::derank(rep_cell& x, position_t opt)
 {
-   Boolean ok = true;
-
    switch (x.get_position()) {
      case ACTIVE:
         //MESSAGE(cerr, "active status to derank");
@@ -157,6 +154,8 @@ Boolean lru::derank(rep_cell& x, position_t opt)
      case INACTIVE:
         inactive_list.insert_as_tail(&x);
         x.set_position(INACTIVE);
+        break;
+     default:
         break;
    }
 
@@ -227,6 +226,8 @@ Boolean lru::remove(rep_cell& x)
      case NOWHERE:
        throw(stringException("lru::last(): bad option"));
    }
+
+   return false;
 }
 
 void lru::remove()

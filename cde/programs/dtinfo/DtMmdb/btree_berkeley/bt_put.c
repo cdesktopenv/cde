@@ -95,7 +95,7 @@ __bt_put(dbp, key, data, flags)
 {
 	BTREE *t;
 	DBT tkey, tdata;
-	EPG *e;
+	EPG *e = NULL;
 	PAGE *h;
 	indx_t index, nxtindex;
 	pgno_t pg;
@@ -243,7 +243,7 @@ delete:		if (__bt_dleaf(t, h, index) == RET_ERROR) {
 	dest = (char *)h + h->upper;
 	WR_BLEAF(dest, key, data, dflags);
 
-	if (t->bt_order == NOT)
+	if (t->bt_order == NOT) {
 		if (h->nextpg == P_INVALID) {
 			if (index == NEXTINDEX(h) - 1) {
 				t->bt_order = FORWARD;
@@ -257,6 +257,7 @@ delete:		if (__bt_dleaf(t, h, index) == RET_ERROR) {
 				t->bt_last.pgno = h->pgno;
 			}
 		}
+	}
 
 	mpool_put(t->bt_mp, h, MPOOL_DIRTY);
 

@@ -128,6 +128,8 @@ Boolean btree::insert(data_t& w)
      case RET_SUCCESS:
         return true;
    }
+
+   return false;
 }
 
 Boolean btree::remove(data_t& w)
@@ -145,6 +147,8 @@ Boolean btree::remove(data_t& w)
      case RET_SUCCESS:
         return true;
    }
+
+   return false;
 }
 
 Boolean btree::member(data_t& w) 
@@ -169,6 +173,8 @@ Boolean btree::member(data_t& w)
         memcpy((char*)&w.dt, data_DBT.data, data_DBT.size);
         return true;
    }
+
+   return false;
 }
 
 ostream& btree::asciiOut(ostream& out)

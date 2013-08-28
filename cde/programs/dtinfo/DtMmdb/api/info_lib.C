@@ -79,6 +79,8 @@ f_bad_info_base_names(0), f_bad_info_base_paths(0), f_descriptor(des)
 //debug(cerr, info_lib_dir);
 //debug(cerr, infoLibName);
 
+   int len;
+
    f_obj_dict = new object_dict;
 
    if ( info_lib_dir == 0 ) {
@@ -91,8 +93,10 @@ f_bad_info_base_names(0), f_bad_info_base_paths(0), f_descriptor(des)
                            )
            );
 
-   strcpy(info_lib_path, info_lib_dir);
-   strcpy(info_lib_name, infoLibName);
+   len = MIN(strlen(info_lib_dir), PATHSIZ -1);
+   *((char *) memcpy (info_lib_path, info_lib_dir, len) + len) = '\0';
+   len = MIN(strlen(infoLibName), PATHSIZ -1);
+   *((char *) memcpy (info_lib_name, infoLibName, len) + len) = '\0';
 
    fstream *map_in = 0;
 
@@ -163,9 +167,10 @@ f_bad_info_base_names(0), f_bad_info_base_paths(0), f_descriptor(des)
 	      strcmp("C.ISO-8859-1", base_locale) == 0))
          {
 
-            strcpy(db_path_name, 
-                   form("%s/%s", info_lib_dir, base_name)
-                  );
+            len = MIN(strlen(info_lib_dir) + strlen(base_name) +1, PATHSIZ -1);
+            *((char *) memcpy (db_path_name,
+			       form("%s/%s", info_lib_dir, base_name),
+			       len) + len) = '\0';
  
             mm_version mmv_code(MAJOR, MINOR);
             mm_version mmv_base_data(2, 1);
@@ -363,10 +368,17 @@ info_lib::define_info_base( char* base_name, char* base_desc,
    char new_db_path[PATHSIZ]; 
    char f_name[PATHSIZ]; 
    char base_uid[UIDSIZ]; 
+   int len;
+   const char* uid;
 
-   strcpy(new_db_path, form("%s/%s", info_lib_path, base_name));
+   len = MIN(strlen(info_lib_path) + strlen(base_name) + 1, PATHSIZ -1);
+   *((char *) memcpy (new_db_path,
+		      form("%s/%s", info_lib_path, base_name),
+		      len) + len) = '\0';
 
-   strcpy(base_uid, unique_id());
+   uid = unique_id();
+   len = MIN(strlen(uid), UIDSIZ -1);
+   *((char *) memcpy(base_uid, uid, len) + len) = '\0';
 
    g_mode_8_3 = 1;
 
@@ -387,15 +399,24 @@ info_lib::define_info_base( char* base_name, char* base_desc,
 // remove any old files 
 //////////////////////////
 
-      strcpy(f_name, form("%s.%s", base_name, DATA_FILE_SUFFIX));
+      len = MIN(strlen(base_name) + strlen(DATA_FILE_SUFFIX) +1, PATHSIZ -1);
+      *((char *) memcpy(f_name,
+			form("%s.%s", base_name, DATA_FILE_SUFFIX),
+			len) + len) = '\0';
       if ( exist_file(f_name, new_db_path) == true )
          del_file(f_name, new_db_path);
 
-      strcpy(f_name, form("%s.%s", base_name, INDEX_FILE_SUFFIX));
+      len = MIN(strlen(base_name) + strlen(INDEX_FILE_SUFFIX) + 1, PATHSIZ -1);
+      *((char *) memcpy(f_name,
+			form("%s.%s", base_name, INDEX_FILE_SUFFIX),
+			len) + len) = '\0';
       if ( exist_file(f_name, new_db_path) == true )
          del_file(f_name, new_db_path);
 
-      strcpy(f_name, form("%s.%s", base_name, SCHEMA_FILE_SUFFIX));
+      len = MIN(strlen(base_name) + strlen(SCHEMA_FILE_SUFFIX) +1, PATHSIZ -1);
+      *((char *) memcpy(f_name,
+			form("%s.%s", base_name, SCHEMA_FILE_SUFFIX),
+			len) + len) = '\0';
       if ( exist_file(f_name, new_db_path) == true )
          del_file(f_name, new_db_path);
 

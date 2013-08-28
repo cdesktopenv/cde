@@ -22,7 +22,7 @@
  */
 // $TOG: sheet.C /main/4 1997/12/23 11:20:35 bill $
 #ifndef lint
-static char  schemasccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
+static const char schemasccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 #endif
 #define  schemaBYACC 1
 
@@ -370,7 +370,7 @@ int
     * schemassp =  schemastate = 0;
 
  schemaloop:
-    if ( scheman =  schemadefred[ schemastate]) goto  schemareduce;
+    if ( (scheman =  schemadefred[ schemastate])) goto  schemareduce;
     if ( schemachar < 0)
     {
         if (( schemachar =  schemalex()) < 0)  schemachar = 0;

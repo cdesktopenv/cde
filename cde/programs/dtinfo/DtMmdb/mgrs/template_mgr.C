@@ -169,7 +169,7 @@ cerr << "\n";
 */
 
 
-   if ( len < CLASS_CODE_BYTES || z == 0 ) 
+   if ( len < (int) CLASS_CODE_BYTES || z == 0 )
       throw(stringException("_peek_obj(): corrupted data"));
 
    c_code_t class_code; 
@@ -265,13 +265,13 @@ template_mgr_t::init_obj(abs_storage* store, mmdb_pos_t pos, root*& x)
             object_template -> set_cdr_size(cdr_io_buf.content_sz());
        }
 
-       int cdr_sz = object_template -> get_cdr_size();
-
 
 /////////////////
 // safety check
 /////////////////
 #ifdef DEBUG
+       int cdr_sz = object_template -> get_cdr_size();
+
        if ( obj_len != cdr_sz ) {
           debug(cerr, obj_len);
           debug(cerr, cdr_sz);

@@ -421,7 +421,9 @@ static int sgml_did_buffer_switch_on_eof;
 static sgml_state_type sgml_get_previous_state sgml_PROTO(( void ));
 static sgml_state_type sgml_try_NUL_trans sgml_PROTO(( sgml_state_type current_state ));
 static int sgml_get_next_buffer sgml_PROTO(( void ));
+#if 0
 static void sgmlunput sgml_PROTO(( sgml_CHAR c, sgml_CHAR *buf_ptr ));
+#endif
 void sgmlrestart sgml_PROTO(( FILE *input_file ));
 void sgml_switch_to_buffer sgml_PROTO(( sgml_BUFFER_STATE new_buffer ));
 void sgml_load_buffer_state sgml_PROTO(( void ));
@@ -818,6 +820,7 @@ register sgml_state_type sgml_current_state;
     }
 
 
+#if 0
 #ifdef sgml_USE_PROTOS
 static void sgmlunput( sgml_CHAR c, register sgml_CHAR *sgml_bp )
 #else
@@ -861,6 +864,7 @@ register sgml_CHAR *sgml_bp;
      */
     sgml_DO_BEFORE_ACTION; /* set up sgmltext again */
     }
+#endif
 
 
 #ifdef __cplusplus

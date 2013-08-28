@@ -236,7 +236,7 @@ int generate_stream(info_base* b_ptr, char* path, int num_sections, int min, int
    int stylesheets = x.pick_a_value(5, 20); // assume [5, 20] is the range
 
    char buf[BUFSIZ];
-   sprintf(buf, "%s/%s", path, TEST_STY_FILE);
+   snprintf(buf, sizeof(buf), "%s/%s", path, TEST_STY_FILE);
    fstream stylesheet_stream(buf, ios::out);
 
    if ( !stylesheet_stream )
@@ -252,14 +252,14 @@ int generate_stream(info_base* b_ptr, char* path, int num_sections, int min, int
 
    cerr << " sections ..." << endl;
 
-   sprintf(buf, "%s/%s", path, TEST_SEC_FILE);
+   snprintf(buf, sizeof(buf), "%s/%s", path, TEST_SEC_FILE);
    fstream section_stream(buf, ios::out);
 
    if ( !section_stream ) return -1;
 
 
 // prepare mixed stream
-   sprintf(buf, "%s/%s", path, TEST_MIX_FILE);
+   snprintf(buf, sizeof(buf), "%s/%s", path, TEST_MIX_FILE);
    fstream mix_stream(buf, ios::out);
 
    if ( !mix_stream ) return -1;
@@ -432,8 +432,8 @@ int auto_test(int argc, char** argv, OLIAS_DB& db)
    cerr << " loading stylesheets ..." << endl;
    char buf[256];
    char file_name[256];
-   sprintf(buf, "%s.stylesheet", argv[4]);
-   sprintf(file_name, "%s/%s", argv[2], TEST_STY_FILE);
+   snprintf(buf, sizeof(buf), "%s.stylesheet", argv[4]);
+   snprintf(file_name, sizeof(file_name), "%s/%s", argv[2], TEST_STY_FILE);
 
    infolib_ptr = db.openInfoLib(argv[2]);
    base_ptr = infolib_ptr -> get_info_base(argv[4]);
@@ -450,8 +450,8 @@ int auto_test(int argc, char** argv, OLIAS_DB& db)
 
 // load sections (small component)
    cerr << " loading sections ..." << endl;
-   sprintf(buf, "%s.node", argv[4]);
-   sprintf(file_name, "%s/%s", argv[2], TEST_SEC_FILE);
+   snprintf(buf, sizeof(buf), "%s.node", argv[4]);
+   snprintf(file_name, sizeof(file_name), "%s/%s", argv[2], TEST_SEC_FILE);
 
    infolib_ptr = db.openInfoLib(argv[2]);
    base_ptr = infolib_ptr -> get_info_base(argv[4]);
@@ -467,7 +467,7 @@ int auto_test(int argc, char** argv, OLIAS_DB& db)
 
 // load all other objects
    cerr << " loading all other objects ..." << endl;
-   sprintf(file_name, "%s/%s", argv[2], TEST_MIX_FILE);
+   snprintf(file_name, sizeof(file_name), "%s/%s", argv[2], TEST_MIX_FILE);
    fstream in(file_name, ios::in);
 
    if ( !in ) return -1;
@@ -490,7 +490,7 @@ int auto_test(int argc, char** argv, OLIAS_DB& db)
    base_ptr = infolib_ptr -> get_info_base(argv[4]);
 
 // stylesheet
-   sprintf(file_name, "%s/%s", argv[2], TEST_STY_FILE);
+   snprintf(file_name, sizeof(file_name), "%s/%s", argv[2], TEST_STY_FILE);
    fstream ss_in(file_name, ios::in);
 
    if ( !ss_in ) return -1;
@@ -504,7 +504,7 @@ int auto_test(int argc, char** argv, OLIAS_DB& db)
       STDERR_MESSAGE("testing stylesheet data done\n");
 
 // node 
-   sprintf(file_name, "%s/%s", argv[2], TEST_SEC_FILE);
+   snprintf(file_name, sizeof(file_name), "%s/%s", argv[2], TEST_SEC_FILE);
    fstream nd_in(file_name, ios::in);
    if ( !nd_in ) return -1;
 
@@ -517,7 +517,7 @@ int auto_test(int argc, char** argv, OLIAS_DB& db)
       STDERR_MESSAGE("testing section done\n");
 
 // all other 
-   sprintf(file_name, "%s/%s", argv[2], TEST_MIX_FILE);
+   snprintf(file_name, sizeof(file_name), "%s/%s", argv[2], TEST_MIX_FILE);
    fstream all_in(file_name, ios::in);
    if ( !all_in ) return -1;
 

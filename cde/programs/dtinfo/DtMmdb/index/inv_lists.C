@@ -140,7 +140,7 @@ ostream& operator <<(ostream&s, inv_lists& o)
 
 void inv_lists::insert_to_list(int index, oid_t& id)
 {
-   if ( !INRANGE(index, 1, v_sz) ) {
+   if ( !INRANGE(index, 1, (int) v_sz) ) {
       throw(boundaryException(1, v_sz, index));
    }
 

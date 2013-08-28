@@ -53,7 +53,7 @@ public:
    {
      // Hack to get it passed to iter
      CC_TPtrSlistIterator<T> iter( *(CC_TPtrSlist<T> *)this );
-     for ( int i = 0; i <=pos; i++ ) {
+     for ( size_t i = 0; i <=pos; i++ ) {
        if ( !(++iter) ) {
          throw(CASTCCBEXCEPT ccBoundaryException(0,0,i));
        }

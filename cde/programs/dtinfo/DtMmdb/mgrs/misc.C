@@ -154,7 +154,6 @@ istream& operator >>(istream& in, mark_t& m)
 {
    char c ;
    char* ptr = m.get();
-   int count = m.size();
    Boolean read_marks = false;
 
    while ( in && in.get(c) ) {

@@ -54,6 +54,8 @@
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <ctype.h>
 
 #ifdef SVR4
 #include <sys/systeminfo.h>
@@ -123,7 +125,6 @@ gethostid()
 const char *
 unique_id (void)
 {
-  static unsigned int info[4];
   static char buf[16];
   static unsigned int hostid;
   static struct timeval cur_time, old_time;
@@ -194,7 +195,7 @@ unique_id (void)
 	  printf ("%2d  0x%02x  ", i, ch);
 	  PRINT_BITS (ch);
 #endif
-	  buf[i] = mapping[buf[i]];
+	  buf[i] = mapping[(int)buf[i]];
 	}
 
     } while (!isalnum (buf[0]));

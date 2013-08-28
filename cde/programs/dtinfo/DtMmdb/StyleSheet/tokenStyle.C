@@ -586,7 +586,9 @@ static int style_did_buffer_switch_on_eof;
 static style_state_type style_get_previous_state style_PROTO(( void ));
 static style_state_type style_try_NUL_trans style_PROTO(( style_state_type current_state ));
 static int style_get_next_buffer style_PROTO(( void ));
+#if 0
 static void styleunput style_PROTO(( style_CHAR c, style_CHAR *buf_ptr ));
+#endif
 void stylerestart style_PROTO(( FILE *input_file ));
 void style_switch_to_buffer style_PROTO(( style_BUFFER_STATE new_buffer ));
 void style_load_buffer_state style_PROTO(( void ));
@@ -1305,6 +1307,7 @@ register style_state_type style_current_state;
     }
 
 
+#if 0
 #ifdef style_USE_PROTOS
 static void styleunput( style_CHAR c, register style_CHAR *style_bp )
 #else
@@ -1348,6 +1351,7 @@ register style_CHAR *style_bp;
      */
     style_DO_BEFORE_ACTION; /* set up styletext again */
     }
+#endif
 
 
 #ifdef __cplusplus

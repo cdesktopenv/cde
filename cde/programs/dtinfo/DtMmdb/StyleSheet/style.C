@@ -22,7 +22,7 @@
  */
 // $TOG: style.C /main/6 1998/04/17 11:51:49 mgreess $
 #ifndef lint
-static char stylesccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
+static const char stylesccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 #endif
 #define styleBYACC 1
 #include <stdio.h>
@@ -70,7 +70,7 @@ const char* toUpperCase(unsigned char* string)
 {
    static char buffer[512];
    int j=0;
-   for ( int i=0; i<strlen((const char*)string); i++ ) 
+   for ( unsigned int i=0; i<strlen((const char*)string); i++ )
    {
 		 if (islower(string[i]))
 		   buffer[j] = toupper(string[i]) ;
@@ -488,7 +488,7 @@ styleparse()
     *stylessp = stylestate = 0;
 
 styleloop:
-    if (stylen = styledefred[stylestate]) goto stylereduce;
+    if ((stylen = styledefred[stylestate])) goto stylereduce;
     if (stylechar < 0)
     {
         if ((stylechar = stylelex()) < 0) stylechar = 0;
@@ -1123,7 +1123,7 @@ case 63:
           /* char handling better too? */
            if ( gGI_CASE_SENSITIVE == false )
              {
-               for (int i=0; i<strlen((const char*)stylevsp[0].charPtrData); i++)
+               for (unsigned int i=0; i<strlen((const char*)stylevsp[0].charPtrData); i++)
                  if ( islower(stylevsp[0].charPtrData[i]) )
                    stylevsp[0].charPtrData[i] = toupper(stylevsp[0].charPtrData[i]);
              }
@@ -1135,21 +1135,33 @@ case 64:
 break;
 case 65:
 {
-           int l = strlen((char*)stylevsp[-3].charPtrData) + strlen((char*)stylevsp[0].charPtrData) + 2;
+           int l3 = strlen((char*)stylevsp[-3].charPtrData);
+           int l0 = strlen((char*)stylevsp[0].charPtrData);
+           int l = l3 + l0 + 2;
            styleval.charPtrData=new unsigned char[l];
-           strcpy((char*)styleval.charPtrData, (char*)stylevsp[-3].charPtrData);
-           strcat((char*)styleval.charPtrData, ".");
-           strcat((char*)styleval.charPtrData, (char*)stylevsp[0].charPtrData);
+
+           *((char *) memcpy((char*)styleval.charPtrData,
+			     (char*)stylevsp[-3].charPtrData, l3) + l3) = '\0';
+           *((char *) memcpy((char*)(styleval.charPtrData + l3),
+			     ".", 1) + 1) = '\0';
+           *((char *) memcpy((char*)(styleval.charPtrData + l3 + 1),
+			     (char*)stylevsp[0].charPtrData, l0) + l0) = '\0';
+
            delete stylevsp[-3].charPtrData;
            delete stylevsp[0].charPtrData;
 	}
 break;
 case 66:
 {
-           int l = strlen((char*)stylevsp[-1].charPtrData) + 2;
+           int l1 = strlen((char*)stylevsp[-1].charPtrData);
+           int l = l1 + 2;
            styleval.charPtrData=new unsigned char[l];
-           strcpy((char*)styleval.charPtrData, (char*)stylevsp[-1].charPtrData);
-           strcat((char*)styleval.charPtrData, ".");
+
+           *((char *) memcpy((char*)styleval.charPtrData,
+			     (char*)stylevsp[-1].charPtrData, l1) + l1) = '\0';
+           *((char *) memcpy((char*)styleval.charPtrData + l1,
+			     ".", 1) + 1) = '\0';
+
            delete stylevsp[-1].charPtrData;
 	}
 break;
@@ -1160,7 +1172,7 @@ case 67:
 break;
 case 68:
 {
-          int i;
+          unsigned int i;
 
           for (i=0; i<strlen((const char*)stylevsp[0].charPtrData); i++) {
 

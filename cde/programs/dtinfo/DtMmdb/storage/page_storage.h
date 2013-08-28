@@ -89,14 +89,14 @@ class store_trans
 protected:
    enum trans_t { ENABLED, DISABLED };
 
-   int page_sz;
-   int max_pages;
+   char* path;
+   char* name;
+
    trans_t status;
    unixf_storage* log_store;
    imp_die* log_index;
-
-   char* path;
-   char* name;
+   int max_pages;
+   int page_sz;
 
 public:
    store_trans(char* path, char*name, int page_sz); 
@@ -125,7 +125,7 @@ class page_storage : public abs_storage
 {
 
 protected:
-   buffer* v_buf; 	   // aux. buf.
+   store_trans trans_info;
 
    int page_sz ;           // page size
 
@@ -142,14 +142,14 @@ protected:
 
    int total_pages;
 
-   int pagings ;
-   int total_page_access;
-
-   store_trans trans_info;
-
 // byte order 
    int v_server_order;
    int v_db_order;
+
+   buffer* v_buf; 	   // aux. buf.
+
+   int pagings ;
+   int total_page_access;
 
 protected:
 

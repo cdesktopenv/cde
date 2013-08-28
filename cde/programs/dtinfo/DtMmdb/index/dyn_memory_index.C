@@ -97,7 +97,7 @@ dyn_memory_index::~dyn_memory_index()
       my_oid().asciiOut(oid_t_out);
 */
 
-      abs_storage* x = get_store();
+      get_store();
       fstream out(
            form("%s.%s", storage_ptr->my_path(), storage_ptr->my_name()), 
            ios::out

@@ -49,7 +49,6 @@ int test_ss1(int argc, char** argv)
 {
    int j = 0;
    int i = 0;
-   const char* str;
    DtMmdbInfoRequest* req ;
 
    switch ( argc ) {
@@ -80,7 +79,6 @@ int test_ss2(int argc, char** argv)
 {
    int j = 0;
    int i = 0;
-   const char* str;
    DtMmdbInfoRequest* req ;
 
    switch ( argc ) {

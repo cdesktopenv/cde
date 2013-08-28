@@ -99,7 +99,7 @@ void token_stack::new_token()
 
 void token_stack::add_partial_token(char* x) 
 {
-   if ( v_curr_token_buf -> remaining_sz() < strlen(x) + 1) {
+   if ( v_curr_token_buf -> remaining_sz() < (int)(strlen(x) + 1) ) {
 
       int partial_str_len = curr_token_start ? strlen(curr_token_start) : 0;
 

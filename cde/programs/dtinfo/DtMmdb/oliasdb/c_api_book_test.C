@@ -29,7 +29,6 @@ extern "C"
 void showBook(DtMmdbInfoRequest* req)
 {
     const char* str = 0;
-    int size = 0;
     DtMmdbHandle* id = 0;
     unsigned int l;
     int x ;
@@ -59,7 +58,7 @@ void showBook(DtMmdbInfoRequest* req)
 
     ids = DtMmdbBookGetTabList(req, &l);
     if (ids) {
-      for ( x=0; x<l; x++ )
+      for ( x=0; x<(int)l; x++ )
         fprintf(stderr, "        bookInfo: tab section id=%s\n", DtMmdbHandleToString(ids[x]));
     }
     DtMmdbFreeHandleList(ids);
@@ -70,9 +69,7 @@ extern "C"
 int test_book1(int argc, char** argv)
 {
    int j = 0;
-   int n = 0;
    int i = -1;
-   const char* str;
    DtMmdbInfoRequest* req = 0;
 
    switch ( argc ) {
@@ -102,10 +99,9 @@ extern "C"
 int test_book2(int argc, char** argv)
 {
    int j = 0;
-   int n = 0;
    int i = -1;
-   const char* str;
    DtMmdbInfoRequest* req = 0;
+
    switch ( argc ) {
      case 5:
       {
@@ -133,10 +129,9 @@ extern "C"
 int test_book3(int argc, char** argv)
 {
    int j = 0;
-   int n = 0;
    int i = -1;
-   const char* str;
    DtMmdbInfoRequest* req = 0;
+
    switch ( argc ) {
      case 5:
       {

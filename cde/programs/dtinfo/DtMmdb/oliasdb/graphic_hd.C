@@ -184,6 +184,8 @@ const char* graphic_smart_ptr::title()
      return 0;
   } 
   end_try;
+
+  return 0;
 }
 
 int graphic_smart_ptr::type() const

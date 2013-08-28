@@ -483,7 +483,9 @@ static int defParser_did_buffer_switch_on_eof;
 static defParser_state_type defParser_get_previous_state defParser_PROTO(( void ));
 static defParser_state_type defParser_try_NUL_trans defParser_PROTO(( defParser_state_type current_state ));
 static int defParser_get_next_buffer defParser_PROTO(( void ));
+#if 0
 static void defParserunput defParser_PROTO(( defParser_CHAR c, defParser_CHAR *buf_ptr ));
+#endif
 void defParserrestart defParser_PROTO(( FILE *input_file ));
 void defParser_switch_to_buffer defParser_PROTO(( defParser_BUFFER_STATE new_buffer ));
 void defParser_load_buffer_state defParser_PROTO(( void ));
@@ -1055,6 +1057,7 @@ register defParser_state_type defParser_current_state;
     }
 
 
+#if 0
 #ifdef defParser_USE_PROTOS
 static void defParserunput( defParser_CHAR c, register defParser_CHAR *defParser_bp )
 #else
@@ -1098,6 +1101,7 @@ register defParser_CHAR *defParser_bp;
      */
     defParser_DO_BEFORE_ACTION; /* set up defParsertext again */
     }
+#endif
 
 
 #ifdef __cplusplus

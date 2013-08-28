@@ -79,7 +79,7 @@ index_agent(), key_store(store), buf(store -> aux_buf())
    init_params(prime, expected_n);
 
    bucket_vector = new bucket_array(M+v, store);
-   hash_vector = new void_ptr_array(2*MAX(expected_n, n));
+   hash_vector = new void_ptr_array(2*MAX(expected_n, (int) n));
 
    k_vector = new void_ptr_array(M+v);
    r_vector = new void_ptr_array(M+v);
@@ -159,7 +159,7 @@ Boolean disk_hash::rehash(data_t& w)
 {
 //MESSAGE(cerr, "REHASH:");
    char tmp_name[PATHSIZ];
-   sprintf(tmp_name, "%s.tmp", key_store -> my_name());
+   snprintf(tmp_name, sizeof(tmp_name), "%s.tmp", key_store -> my_name());
 
    fstream pool(form("%s/%s", key_store -> my_path(), tmp_name),
                 ios::in | ios::out
@@ -271,7 +271,7 @@ Boolean disk_hash::_insert(data_t& w, Boolean rehash_if_fail)
 //MESSAGE(cerr, "INSERT to overflow buckets");
 //debug(cerr, hash);
 
-      for ( hash %= v; hash < v; hash++ ) {
+      for ( hash %= v; hash < (int) v; hash++ ) {
 
          disk_bucket& overflowb = bucket_vector -> get_bucket(hash+M);
 
@@ -386,7 +386,7 @@ Boolean disk_hash::member(data_t& w, disk_bucket*& b, int& slot_num) const
 
    if ( b -> overflow() == true ) {
 
-      for ( hash %= v; hash<v; hash++ ) {
+      for ( hash %= v; hash < (int) v; hash++ ) {
 
          b = &bucket_vector -> get_bucket(hash+M);
 
@@ -411,7 +411,7 @@ disk_bucket* disk_hash::get_bucket(int& ind)
 
 void disk_hash::next_bucket(int& ind)
 {
-   ind = ( ind >= M+v-1 ) ? -1 : (ind+1);
+   ind = ( ind >= (int)(M+v-1) ) ? -1 : (ind+1);
 }
 
 

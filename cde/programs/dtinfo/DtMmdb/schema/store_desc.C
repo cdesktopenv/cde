@@ -115,15 +115,13 @@ void store_desc::set_mode(const char* str)
    delete mode_str;
    mode_str = strdup(str);
 
-   //strncpy(mode_str, str, NAMESIZ-1);
-
    get_mode(); // check 
 }
 
 int store_desc::get_mode()
 {
    int mode = 0;
-   for ( int i=0; i<strlen(mode_str); i++ ) {
+   for ( unsigned int i=0; i<strlen(mode_str); i++ ) {
       switch ( mode_str[i] ) {
          case 'r':
            mode |= ios::in;

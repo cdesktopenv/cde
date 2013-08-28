@@ -500,7 +500,9 @@ static int  schema_did_buffer_switch_on_eof;
 static  schema_state_type  schema_get_previous_state  schema_PROTO(( void ));
 static  schema_state_type  schema_try_NUL_trans  schema_PROTO((  schema_state_type current_state ));
 static int  schema_get_next_buffer  schema_PROTO(( void ));
+#if 0
 static void  schemaunput  schema_PROTO((  schema_CHAR c,  schema_CHAR *buf_ptr ));
+#endif
 void  schemarestart  schema_PROTO(( FILE *input_file ));
 void  schema_switch_to_buffer  schema_PROTO((  schema_BUFFER_STATE new_buffer ));
 void  schema_load_buffer_state  schema_PROTO(( void ));
@@ -775,7 +777,10 @@ case 34:
 case 35:
 {
          if ( replace_string[0] != 0 &&  schematext[0] == '$' ) {
-            strcpy(replace_string + replace_string_len, (char*) schematext+1);
+             int len = MIN(strlen((char*) schematext+1),
+			   (unsigned int)(PATHSIZ - replace_string_len - 1));
+             *((char *) memcpy(replace_string + replace_string_len,
+			       (char*) schematext+1, len) + len) = '\0';
     	     schemalval.string = replace_string;
          } else
     	     schemalval.string = (char*) schematext;
@@ -1064,6 +1069,7 @@ register  schema_state_type  schema_current_state;
     }
 
 
+#if 0
 #ifdef  schema_USE_PROTOS
 static void  schemaunput(  schema_CHAR c, register  schema_CHAR * schema_bp )
 #else
@@ -1107,6 +1113,7 @@ register  schema_CHAR * schema_bp;
      */
      schema_DO_BEFORE_ACTION; /* set up  schematext again */
     }
+#endif
 
 
 #ifdef __cplusplus

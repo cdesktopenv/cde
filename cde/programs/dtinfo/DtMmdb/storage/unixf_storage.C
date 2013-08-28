@@ -62,7 +62,7 @@ unixf_storage( char* file_path, char* file_name,
                rep_policy* rep_p, int m
              ) :
 abs_storage( file_path, file_name, UNIX_STORAGE_CODE, rep_p ), 
-mode(m), fstream(), 
+fstream(), mode(m),
 total_bytes(-1), v_file_exist(exist_file(file_name, file_path))
 {
 }
@@ -137,7 +137,7 @@ int unixf_storage::_open(int new_mode)
    }
 
    if ( v_file_exist == false ) {
-      SET_BIT(new_mode, ios::out | ios::app);
+      SET_BIT(new_mode, ios::out | ios::trunc);
       v_file_exist = true;
    }
 
@@ -272,7 +272,7 @@ fprintf(stderr, "flush option=%d\n", flush_opt);
 #ifndef C_API
    {
      char fname[64];
-     sprintf(fname, "%s.%ld-%d", name, loc+string_ofst, len);
+     snprintf(fname, sizeof(fname), "%s.%ld-%d", name, loc+string_ofst, len);
      ofstream output(fname);
      output.write(base, len);      
      output.flush();
@@ -310,16 +310,16 @@ int unixf_storage::bytes()
 {
    if ( total_bytes == -1 ) {
 
-      char* info_lib_file = form("%s/%s", path, name);
-
+#ifdef C_API
       _open(ios::in);
 
       if ( !good() ) 
          clear();
 
-#ifdef C_API
       total_bytes = ::bytes(rdbuf() -> fd());
 #else
+      char* info_lib_file = form("%s/%s", path, name);
+
       total_bytes = ::bytes(info_lib_file);
 #endif
    }

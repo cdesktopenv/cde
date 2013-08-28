@@ -82,7 +82,7 @@ public:
   CC_TPtrSlist(const CC_TPtrSlist<T> &);
 
   CC_TPtrSlist() { destructed = FALSE; }
-  ~CC_TPtrSlist();
+  virtual ~CC_TPtrSlist();
 
   virtual void clearAndDestroy();
   virtual void clear();           /* clear only removes item, but not calling
@@ -104,7 +104,7 @@ public:
   {
     // Hack to get it passed to iter
     CC_TPtrSlistIterator<T> iter( *(CC_TPtrSlist<T> *)this );
-    for ( int i = 0; i <=pos; i++ ) {
+    for ( size_t i = 0; i <=pos; i++ ) {
       if ( !(++iter) ) {
         throw(CASTCCBEXCEPT ccBoundaryException(0,0,i));
       }
@@ -161,7 +161,7 @@ public:
   CC_Boolean get_destructed() const
     { return (destructed); }
 
-  CC_Boolean set_destructed(CC_Boolean what)
+  void set_destructed(CC_Boolean what)
     { destructed = what; }
 
 };

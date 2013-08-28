@@ -123,7 +123,7 @@ protected:
    unsigned int k;        // parameter used in the 1st level hash function
    unsigned int p;        // prime number p
 
-   //unsigned int n;        // current key set size
+   unsigned int n;        // current key set size
 
    bucket_array* bucket_vector;  // bucket array
 

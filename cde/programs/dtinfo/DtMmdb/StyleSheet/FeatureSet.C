@@ -143,7 +143,7 @@ FeatureSet::print(ostream &o) const
   // cast to non-const to get iterator 
   CC_TPtrSlistIterator<Feature> next(*(CC_TPtrSlist<Feature>*)this);
   
-  int i;
+  unsigned int i;
   for (i = 0 ; i < f_print_indent_level; i++)
     o << "  " ;
 
@@ -153,7 +153,7 @@ FeatureSet::print(ostream &o) const
 
   while (++next)
     {
-      for (int i = 0 ; i < f_print_indent_level; i++)
+      for (unsigned int i = 0 ; i < f_print_indent_level; i++)
 	o << "  " ;
       o << *next.key() << endl ;
     }

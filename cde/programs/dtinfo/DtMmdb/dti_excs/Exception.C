@@ -40,7 +40,7 @@ char *Exception::g_next_avail = Exception::g_temp_space;
 // /////////////////////////////////////////////////////////////////
 
 Exception::Exception()
-: f_line(0), f_thrown_as_pointer(1), f_thrown(0), f_temporary(0)
+: f_thrown(0), f_thrown_as_pointer(1), f_temporary(0), f_line(0)
 {
   PRINTF (("Constructed Exception obj @ %p\n", this));
 }
@@ -76,19 +76,17 @@ Exception::operator delete (void *place)
 void *
 Exception::operator new (size_t size, int)
 {
-  if (g_next_avail + size <= g_temp_space + G_TEMP_SPACE_SIZE)
-    {
-      void *p = g_next_avail;
-      g_next_avail += size;
-      PRINTF (("Allocate EXC @ %p, size = %ld\n", p, (long)size));
-      return (p);
-    }
-  else
+  if (g_next_avail + size > g_temp_space + G_TEMP_SPACE_SIZE)
     {
       Exceptions::error (Exceptions::f_msg_out_of_exception_memory,
 			 Exceptions::INTERNAL_ERROR);
       terminate();
     }
+
+  void *p = g_next_avail;
+  g_next_avail += size;
+  PRINTF (("Allocate EXC @ %p, size = %ld\n", p, (long)size));
+  return (p);
 }
 
 
@@ -248,8 +246,8 @@ Exception::is (const char *type, const char *this_class)
   PRINTF (("  var part is <%s>\n", type));
 
   // See if one's a pointer and the other isn't. 
-  if (*type == '*' && !f_thrown_as_pointer ||
-      *type != '*' &&  f_thrown_as_pointer)
+  if ((*type == '*' && !f_thrown_as_pointer) ||
+      (*type != '*' &&  f_thrown_as_pointer))
     return (0);
   // Otherwise they are either both pointers or both objects/references.
   return (1);

@@ -644,8 +644,8 @@ public:
 
 private:
   FeatureValue *f_value ;
-  Unit		f_unit ;
   float         f_cachedValue;
+  Unit		f_unit ;
 
 private:
   float convert(float y, Unit dimensionOfy, Unit dimensionOfReturn);

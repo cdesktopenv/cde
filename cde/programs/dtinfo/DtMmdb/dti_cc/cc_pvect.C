@@ -39,7 +39,7 @@ template <class T>
 pointer_vector<T>::pointer_vector(size_t n, T* t) 
   : f_array(new Tptr[n]), f_size(n), f_items(0)
 {
-   for ( int i=0; i<f_size; i++ )
+   for ( size_t i=0; i<f_size; i++ )
     f_array[i] = t;
 }
 
@@ -52,7 +52,7 @@ pointer_vector<T>::~pointer_vector()
 template <class T> 
 T* pointer_vector<T>::operator[](ptrdiff_t i) const
 {
-  if ( i<0 || i>= f_size )
+  if ( i < 0 || i >= (ptrdiff_t)f_size )
     throw(CASTCCBEXCEPT ccBoundaryException(0, f_size-1, i));
   else
     return f_array[i];
@@ -61,7 +61,7 @@ T* pointer_vector<T>::operator[](ptrdiff_t i) const
 template <class T> 
 T*& pointer_vector<T>::operator[](ptrdiff_t i)
 {
-  if ( i<0 || i>= f_size )
+  if ( i < 0 || i >= (ptrdiff_t)f_size )
     throw(CASTCCBEXCEPT ccBoundaryException(0, f_size-1, i));
   else
      return f_array[i];

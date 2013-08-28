@@ -39,8 +39,8 @@
 #if defined(SC3) || defined(__osf__)
 static ostrstream& terminate(ostrstream& ost)
 {
-    char* string = ost.str();
-    *(string + ost.pcount()) = 0;
+    char* pstring = ost.str();
+    *(pstring + ost.pcount()) = '\0';
 
     return ost;
 }
@@ -53,7 +53,7 @@ DocParser::DocParser(Resolver &r)
   f_output(f_buffer, DATA_BUF_SIZ)
 #else
   f_streambuf(new stringbuf()),
-  f_output(f_streambuf)
+  f_output()
 #endif
 {
 }
@@ -81,6 +81,8 @@ DocParser::parse(istream &input)
 unsigned int
 DocParser::rawParse(istream &input)
 {
+  string data;
+
   input.unsetf(ios::skipws);
 
   f_ignoring_element = 0 ;
@@ -93,18 +95,15 @@ DocParser::rawParse(istream &input)
 	Symbol name(gElemSymTab->intern(terminate(f_output).str()));
 	f_output.rdbuf()->freeze(0);
 #else
-	char *data = (char *)f_streambuf->str().c_str();
+	data = f_output.str().c_str();
 
 /*
 MESSAGE(cerr, "StartTag case:");
-debug(cerr, f_streambuf->pcount());
-debug(cerr, data);
+debug(cerr, f_output.str().size());
+debug(cerr, data.c_str());
 */
 
-#if !defined(SC3) && !defined(__osf__)
-	data[f_streambuf->str().size()] = 0;
-#endif
-	Symbol name(gElemSymTab->intern(data));
+	Symbol name(gElemSymTab->intern(data.c_str()));
 #endif
 	process(input, f_output, name, 1, 1);
       }
@@ -139,7 +138,7 @@ update_last_seen_child_name(Symbol*& last_seen_child_name, unsigned int& child_r
 }
 
 void
-DocParser::process(istream &input, ostream &output,
+DocParser::process(istream &input, ostringstream &output,
 		   const Symbol &name,
 		   unsigned int sibling_number, unsigned int this_sibling_number)
 {
@@ -150,6 +149,11 @@ DocParser::process(istream &input, ostream &output,
   unsigned int child_relative_sibling_number = 0;
 
   unsigned int child = 1 ;	// sibling numbers for child elements 
+
+#if !defined(SC3) && !defined(__osf__)
+  string pstring;
+#endif
+  string data;
 
   char c ;
   while ((input >> c) && (c == '\n'));
@@ -193,11 +197,11 @@ DocParser::process(istream &input, ostream &output,
 
 	    process(input, output, name, child++, child_relative_sibling_number);
 #else
-	    char *data = (char *)f_streambuf->str().c_str();
-#if !defined(SC3)  && !defined(__osf__)
-	    data[f_streambuf->str().size()] = 0;
-#endif
-	    Symbol name(gElemSymTab->intern(data));
+	    data = f_output.str().c_str();
+//#if !defined(SC3)  && !defined(__osf__)
+//	    data[f_output.str().size()] = '\0';
+//#endif
+	    Symbol name(gElemSymTab->intern(data.c_str()));
 	    update_last_seen_child_name(last_seen_child_name, 
 				 child_relative_sibling_number, name);
 
@@ -211,17 +215,17 @@ DocParser::process(istream &input, ostream &output,
 #ifdef DEBUG
 	  {
 #if defined(SC3) || defined(__osf__)
-	    char *data = terminate(f_output).str();
+	    data = terminate(f_output).str();
 	    f_output.rdbuf()->freeze(0);
 #else
-	    char *data = (char*)f_streambuf->str().c_str();
+	    data = f_output.str().c_str();
 //#ifdef _IBMR2
-#if !defined(SC3)  && !defined(__osf__)
-	    data[f_streambuf->str().size()] = 0;
+//#if !defined(SC3)  && !defined(__osf__)
+//	    data[f_output.str().size()] = '\0';
+//#endif
 #endif
-#endif
-	    cerr << "EndTag: " << data << endl;
-	    assert(gElemSymTab->intern(data) == name);
+	    cerr << "EndTag: " << data.c_str() << endl;
+	    assert(gElemSymTab->intern(data.c_str()) == name);
 	  }
 #endif
 
@@ -312,20 +316,14 @@ DocParser::process(istream &input, ostream &output,
 		//  and increment the pcount, so we must make sure it gets
 		//  called first
 #if defined(SC3) || defined(__osf__)
-		char *string = terminate(f_output).str();
+		char *pstring = terminate(f_output).str();
 		int   size = f_output.pcount();
-		f_resolver.data(string, size);
+		f_resolver.data(pstring, size);
 		f_output.rdbuf()->freeze(0);
 #else
-		char *string = (char *)f_streambuf->str().c_str();
-//#ifdef _IBMR2
-#if !defined(SC3) && !defined(__osf__)
-		string[f_streambuf->str().size()] = 0;
-		int   size = f_streambuf->str().size() ;
-#else
-		int   size = f_streambuf->pcount() - 1 ;
-#endif
-		f_resolver.data(string, size);
+		pstring = f_output.str().c_str();
+		int   size = pstring.size() + 1;
+		f_resolver.data(pstring.c_str(), size);
 #endif
 	      }
 	  }
@@ -340,25 +338,18 @@ DocParser::process(istream &input, ostream &output,
 /////////////////////////////
 // second child and beyond.
 /////////////////////////////
+	      data = f_output.str().c_str();
 #if defined(SC3) || defined(__osf__)
-	      char *data = f_output.str();
-	      *(data + f_output.pcount()) = 0;
 	      f_output.rdbuf()->freeze(0);
-#else
-	      char *data = (char *)f_streambuf->str().c_str();
-//#ifdef _IBMR2
-#if !defined(SC3) && !defined(__osf__)
-              data[f_streambuf->str().size()] = 0;
-#endif
 #endif
 
 /*
 MESSAGE(cerr, "StartTag case2");
 debug(cerr, data);
-debug(cerr, f_streambuf->pcount ());
+debug(cerr, f_output.str().size());
 */
 
-	      Symbol name(gElemSymTab->intern(data));
+	      Symbol name(gElemSymTab->intern(data.c_str()));
 	      update_last_seen_child_name(last_seen_child_name, 
 				 child_relative_sibling_number, name);
 
@@ -382,21 +373,15 @@ debug(cerr, f_streambuf->pcount ());
 		  //  and increment the pcount, so we must make sure it gets
 		  //  called first
 #if defined(SC3) || defined(__osf__)
-		  char *string = f_output.str();
+		  char *pstring = f_output.str();
 		  int   size = f_output.pcount();
-		  *(string + size) = 0;
-		  f_resolver.data(string, size);
+		  *(pstring + size) = 0;
+		  f_resolver.data(pstring, size);
 		  f_output.rdbuf()->freeze(0);
 #else
-		  char *string = (char *)f_streambuf->str().c_str();
-//#ifdef _IBMR2
-#if !defined(SC3) && !defined(__osf__)
-		  string[f_streambuf->str().size()] = 0;
-		  int   size = f_streambuf->str().size() ;
-#else
-		  int   size = f_streambuf->pcount() - 1 ;
-#endif
-		  f_resolver.data(string, size);
+		  pstring = f_output.str().c_str();
+		  int   size = pstring.size() + 1;
+		  f_resolver.data(pstring.c_str(), size);
 #endif
 		}
 	    }
@@ -404,17 +389,13 @@ debug(cerr, f_streambuf->pcount ());
 #ifdef DEBUG
       {
 #if defined(SC3) || defined(__osf__)
-	char *data = terminate(f_output).str();
+	data = terminate(f_output).str();
 	f_output.rdbuf()->freeze(0);
 #else
-	char *data = (char*)f_streambuf->str().c_str();
-//#ifdef _IBMR2
-#if !defined(SC3) && !defined(__osf__)
-	data[f_streambuf->str().size()] = 0;
+	data = f_output.str().c_str();
 #endif
-#endif
-	cerr << "EndTag: " << data << endl;
-	assert(gElemSymTab->intern(data) == name);
+	cerr << "EndTag: " << data.c_str() << endl;
+	assert(gElemSymTab->intern(data.c_str()) == name);
       }
 #endif
       // hit end tag, end processing
@@ -436,18 +417,19 @@ debug(cerr, f_streambuf->pcount ());
 
 
 void
-DocParser::process_attributes(istream &input, ostream &output,
+DocParser::process_attributes(istream &input, ostringstream &output,
 			      AttributeList *&attrs,
 			      AttributeList *&olias_attrs)
 {
+#if !defined(SC3) && !defined(__osf__)
+  string theData;
+#endif
   TagType tt ;
 
   Attribute* newAttribute = 0;
 
   AttributeList* orig_attrs = attrs;
   AttributeList* orig_olias_attrs = olias_attrs;
-
-  char *theData = 0;
 
   mtry {
      while ((tt = read_tag(input,output)) != NoTag)
@@ -456,10 +438,8 @@ DocParser::process_attributes(istream &input, ostream &output,
    	{
    	case StartTag:
           {
-//#ifdef _IBMR2
 #if !defined(SC3) && !defined(__osf__)
-	  theData = (char *)f_streambuf->str().c_str();
-          theData[f_streambuf->str().size()] = 0;
+	  theData = f_output.str().c_str();
 #endif
    	  if (!attrs)
    	    attrs = new AttributeList ;
@@ -468,13 +448,9 @@ DocParser::process_attributes(istream &input, ostream &output,
    		process_attribute(input, output,
 #if defined(SC3) || defined(__osf__)
 				  gSymTab->intern(terminate(f_output).str()),
-#else
-//#ifdef _IBMR2
-#if !defined(SC3)  && !defined(__osf__)
-   				  gSymTab->intern(theData),
-#else
    				  gSymTab->intern(f_streambuf->str()),
-#endif
+#else
+				  gSymTab->intern(theData.c_str()),
 #endif
        				  StartTag
 				 );
@@ -488,10 +464,8 @@ DocParser::process_attributes(istream &input, ostream &output,
    	  throw(CASTDPUTEXCEPT docParserUnexpectedTag());
    	  break;
    	case OliasAttribute:
-//#ifdef _IBMR2
 #if !defined(SC3) && !defined(__osf__)
-	  theData = (char *)f_streambuf->str().c_str();
-          theData[f_streambuf->str().size()] = 0;
+	  theData = f_output.str().c_str();
 #endif
    	  // mirrors attribute 
    	  if (!olias_attrs)
@@ -501,13 +475,9 @@ DocParser::process_attributes(istream &input, ostream &output,
    		process_attribute(input, output,
 #if defined(SC3) || defined(__osf__)
 				  gSymTab->intern(terminate(f_output).str()),
-#else
-//#ifdef _IBMR2
-#if !defined(SC3)  && !defined(__osf__)
-   				  gSymTab->intern(theData),
-#else
    				  gSymTab->intern(f_streambuf->str()),
-#endif
+#else
+				  gSymTab->intern(theData.c_str()),
 #endif
        				  OliasAttribute
    				 );
@@ -540,9 +510,11 @@ DocParser::process_attributes(istream &input, ostream &output,
 }
 
 Attribute *
-DocParser::process_attribute(istream &input, ostream &output,
+DocParser::process_attribute(istream &input, ostringstream &output,
 			     const Symbol &name, TagType tt)
 {
+  string data;
+
   //ON_DEBUG(cerr << "process_attribute: " << name << endl);
 
 // If the attribute is OLIAS internal, we use DocParser's 
@@ -562,14 +534,11 @@ DocParser::process_attribute(istream &input, ostream &output,
   char *data = f_output.str();
   *(data + f_output.pcount()) = 0;
   f_output.rdbuf()->freeze(0);
-#else
-  char *data = (char *)f_streambuf->str().c_str();
-//#ifdef _IBMR2
-#if !defined(SC3)  && !defined(__osf__)
-  data[f_streambuf->str().size()] = 0;
-#endif
-#endif
   Attribute *attr = new Attribute(name, strdup(data));
+#else
+  data = f_output.str().c_str();
+  Attribute *attr = new Attribute(name, strdup(data.c_str()));
+#endif
 
   switch (read_tag(input, output))
     {
@@ -593,7 +562,7 @@ DocParser::process_attribute(istream &input, ostream &output,
 
 
 DocParser::TagType
-DocParser::read_tag(istream &input, ostream &output)
+DocParser::read_tag(istream &input, ostringstream &output)
 {
   output.seekp(streampos(0));
 
@@ -643,13 +612,14 @@ DocParser::read_tag(istream &input, ostream &output)
   // get (remainder of) tag name 
   while ((input >> c) && (c != '>'))
     output << c ;
+  output << ends;
 
   return tt ;
 }
 
 
 void
-DocParser::read_data(istream &input, ostream &output)
+DocParser::read_data(istream &input, ostringstream &output)
 {
   char c ;
 
@@ -700,6 +670,8 @@ DocParser::read_data(istream &input, ostream &output)
 
       output << c;
     }
+
+  output << ends;
 
   // can never run out of input while reading data, tags must be balanced
   if (input.eof())

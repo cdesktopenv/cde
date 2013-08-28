@@ -67,7 +67,7 @@ Boolean void_eq(const void* o1, const void* o2)
 //**************************************************************
 
 
-bset::bset(cmp_func_ptr_t eq, cmp_func_ptr_t ls): v_setroot(0), set(eq, ls)
+bset::bset(cmp_func_ptr_t eq, cmp_func_ptr_t ls): set(eq, ls), v_setroot(0)
 {
    //assert ( eq && ls );
 }

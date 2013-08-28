@@ -92,9 +92,9 @@ protected:
    //static memory_pool handler_space_pool;
 
 protected:
-   rootPtr obj_ptr;
    abs_storage* store;
    oid_t obj_id;
+   rootPtr obj_ptr;
 };
 
 

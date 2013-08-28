@@ -94,6 +94,8 @@ dbopen(fname, flags, mode, type, openinfo)
 			return (__rec_open(fname, flags & USE_OPEN_FLAGS,
 			    mode, openinfo, flags & DB_FLAGS));
 */
+		default:
+			break;
 		}
 	errno = EINVAL;
 	return (NULL);

@@ -60,10 +60,10 @@ typedef CC_TValSlistIterator<posRecord> positionArrayIteratorT;
 ///////////////////////////////////////////////////////
 class BitVector 
 {
-   positionArrayT *f_positionArray;
    unsigned int *f_array;
    unsigned int f_bits;
    unsigned int f_words;
+   positionArrayT *f_positionArray;
 
 public:
    BitVector(int bits, unsigned int initValue);

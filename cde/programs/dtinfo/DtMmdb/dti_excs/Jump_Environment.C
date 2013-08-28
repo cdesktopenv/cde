@@ -44,7 +44,7 @@ Unwind_Record Unwind_Stack::g_stack[UNWIND_STACK_SIZE];
 // /////////////////////////////////////////////////////////////////
 
 Jump_Environment::Jump_Environment()
-: f_unwinding (0), f_active_exception (NULL)
+: f_active_exception (NULL), f_unwinding (0)
 {
   PRINTF (("<%d> New Jump_Environment @ %p\n", ++g_level, this));
   // Push this on to the top of the jump env stack. 

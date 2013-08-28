@@ -74,8 +74,8 @@ public:
 
 protected:
    int v_buckets;
-   disk_bucket* v_cached_bucket_ptr;
    page_storage* v_key_store;
+   disk_bucket* v_cached_bucket_ptr;
 };
 
 typedef bucket_array* bucket_arrayPtr;

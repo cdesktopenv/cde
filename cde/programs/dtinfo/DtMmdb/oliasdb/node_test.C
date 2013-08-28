@@ -55,7 +55,8 @@ int compare_node(node_smart_ptr& pattern, info_base* base_ptr)
    print_node(pattern, pattern_out, false, false);
 
    char loc[BUFSIZ];
-   strcpy(loc, pattern.locator());
+   int len = MIN(strlen(pattern.locator()), BUFSIZ - 1);
+   *((char *) memcpy(loc, pattern.locator(), len) + len) = '\0';
 
    node_smart_ptr x( base_ptr, loc );
    char db_buf[LARGE_BUFSIZ];

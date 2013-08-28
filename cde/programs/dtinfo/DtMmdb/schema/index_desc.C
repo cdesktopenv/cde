@@ -56,8 +56,8 @@
 #include "index/btree_index.h"
 
 
-index_desc::index_desc(int class_code, const char* comment) : position(0), 
-	stored_object_desc(class_code, comment)
+index_desc::index_desc(int class_code, const char* comment) :
+	stored_object_desc(class_code, comment), position(0)
 {
    inv_nm = strdup("");
    agent_nm = strdup("");
@@ -73,18 +73,12 @@ void index_desc::set_inv_nm(const char* str)
 {
    delete inv_nm;
    inv_nm = strdup(str);
-
-   //strncpy(inv_nm, str, NAMESIZ-1);
-   //inv_nm[strlen(str)] = 0;
 }
 
 void index_desc::set_agent_nm(const char* str)
 {
    delete agent_nm;
    agent_nm = strdup(str);
-
-   //strncpy(agent_nm, str, NAMESIZ-1);
-   //agent_nm[strlen(str)] = 0;
 }
 
 ostream& index_desc::asciiOut(ostream& out, Boolean last)

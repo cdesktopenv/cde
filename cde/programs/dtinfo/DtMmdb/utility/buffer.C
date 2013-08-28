@@ -308,7 +308,7 @@ buffer& buffer::put(const char content, Boolean exp_buf)
 {
    //return put((char*)&content, sizeof(content));
 
-   if ( v_bufsz == content_sz() ) 
+   if ( (int) v_bufsz == content_sz() )
    {
       if ( exp_buf == true )
         expand_chunk(v_bufsz + 10);
@@ -391,7 +391,7 @@ buffer& buffer::put(const float content, Boolean exp_buf)
 /***********************************************************/
 buffer& buffer::put(const char* content, int sz, Boolean exp_buf) 
 {
-   if ( sz > v_bufsz - content_sz() ) {
+   if ( sz > (int)(v_bufsz - content_sz()) ) {
       if ( exp_buf == true ) 
          expand_chunk(v_bufsz + sz);
       else {

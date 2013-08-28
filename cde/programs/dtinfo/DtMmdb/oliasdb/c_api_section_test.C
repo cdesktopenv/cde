@@ -75,9 +75,7 @@ extern "C"
 int test2(int argc, char** argv)
 {
    int j = 0;
-   int n = 0;
    int i = -1;
-   const char* str;
    DtMmdbInfoRequest* req = 0;
 
    switch ( argc ) {
@@ -106,10 +104,9 @@ extern "C"
 int test3(int argc, char** argv)
 {
    int j = 0;
-   int n = 0;
    int i = -1;
-   const char* str;
    DtMmdbInfoRequest* req = 0;
+
    switch ( argc ) {
      case 5:
       {

@@ -42,7 +42,7 @@ public:
    enum autoNumberType { NUMERIC, ALPHABETIC, ROMAN };
 
    autoNumber(const char* nm, enum autoNumberType, int delta, const char* prefix, const char* postfix);
-   ~autoNumber();
+   virtual ~autoNumber();
 
    void setNumTagsSeen();
 
@@ -59,11 +59,11 @@ public:
 
 protected:
    static buffer f_buf;
+   char* f_name;
+   enum autoNumberType f_type;
    int f_delta;
    char* f_prefix;
    char* f_postfix;
-   char* f_name;
-   enum autoNumberType f_type;
 
    int f_initialValue;
    Stack<int> f_values;
@@ -179,7 +179,7 @@ class autoNumberListT : public CC_TPtrSlist<autoNumber>
 {
 public:
    autoNumberListT() {};
-   ~autoNumberListT() {};
+   virtual ~autoNumberListT() {};
    unsigned int operator==(const autoNumberListT&);
 } ;
 

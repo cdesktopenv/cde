@@ -284,7 +284,7 @@ autoNumberFP::defineAutoNumber(const char* nm, const FeatureValue* f)
 
    const char* gi = 0;
    autoNumberListT* anList = 0;
-   int i;
+   unsigned int i;
    for (i=0; i<controlList -> length(); i++ ) {
 
       gi = stringToCharPtr((*controlList)[i]);

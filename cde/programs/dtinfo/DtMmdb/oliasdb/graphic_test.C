@@ -71,7 +71,8 @@ int compare_graphic(graphic_smart_ptr& pattern, info_base* base_ptr)
    print_graphic(pattern, pattern_out, false);
 
    char loc[BUFSIZ];
-   strcpy(loc, pattern.locator());
+   int len = MIN(strlen(pattern.locator()), BUFSIZ -1);
+   *((char *) memcpy(loc, pattern.locator(), len) + len) = '\0';
 
    graphic_smart_ptr x( base_ptr, loc );
    char db_buf[LARGE_BUFSIZ];

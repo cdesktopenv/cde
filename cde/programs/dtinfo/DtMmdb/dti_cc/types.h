@@ -32,4 +32,7 @@ typedef unsigned int CC_Boolean;
 #define TRUE  1
 #define FALSE 0
 
+#undef MIN
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+
 #endif

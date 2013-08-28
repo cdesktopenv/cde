@@ -271,6 +271,8 @@ int auto_test_c_api(int argc, char** argv)
       return -1;
    }
    end_try;
+
+   return -1;
 }
 
 
@@ -332,7 +334,7 @@ char* DtMmdbHandleToString(DtMmdbHandle* x)
    static char buf[100];
    if ( x -> oid_ptr) {
       oid_t *z = (oid_t*)(x -> oid_ptr);
-      sprintf(buf, "%d.%d", z -> ccode(), (int)z -> icode());
+      snprintf(buf, sizeof(buf), "%d.%d", z -> ccode(), (int)z -> icode());
    } else
      buf[0] = 0;
 

@@ -32,8 +32,8 @@
 class ios
 {
 protected:
-  int f_state;
   streambuf*      sbuf; // buffer that provides char sequence read/write
+  int f_state;
 
 public:
 

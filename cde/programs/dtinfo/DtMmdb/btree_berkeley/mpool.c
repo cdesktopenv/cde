@@ -215,7 +215,7 @@ mpool_get(mp, pgno, flags)
 	 * If asking for a specific page that is already in the cache, find
 	 * it and return it.
 	 */
-	if (b = mpool_look(mp, pgno)) {
+	if ((b = mpool_look(mp, pgno))) {
 #ifdef STATISTICS
 		++mp->pageget;
 #endif

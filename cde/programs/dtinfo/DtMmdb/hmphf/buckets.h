@@ -79,10 +79,10 @@ public:
 
 protected:
    short v_no_keys;
-   int v_orig_pos;
+   int v_count;
    int v_control_bit;
    int v_g_value;
-   int v_count;
+   int v_orig_pos;
    slist_void_ptr_cell* key_ptr;
 
    friend class buckets;

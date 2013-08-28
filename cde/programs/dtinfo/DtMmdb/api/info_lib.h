@@ -132,8 +132,8 @@ protected:
 
    int   f_bad_base_array_size;
    int   f_bad_info_bases;
-   char** f_bad_info_base_paths;
    char** f_bad_info_base_names;
+   char** f_bad_info_base_paths;
 
    int f_descriptor;
 

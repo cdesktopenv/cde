@@ -72,7 +72,7 @@ int composite::first() const
 
 void composite::next(int& index) const
 {
-   if INRANGE( index, 1, v_sz - 1 )
+   if INRANGE( index, 1, (int) v_sz - 1 )
       index ++;
    else 
       index = 0;

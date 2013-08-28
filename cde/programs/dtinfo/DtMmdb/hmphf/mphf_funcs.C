@@ -277,7 +277,8 @@ int write_spec(buckets& bs, params& pms, buffer& mphf_buffer)
 int compact(buckets& bs, unsigned s[], int t, Boolean swap)
 {
    int target, k, i, remaining_bits, branch;
-   unsigned unsigned_g, high_part_bits, lower_part_bits;
+   unsigned unsigned_g, high_part_bits;
+   unsigned lower_part_bits = 0;
 
    remaining_bits = BITS_IN(unsigned);
    k = target = 0;
@@ -331,7 +332,7 @@ debug(cerr, "=====");
 	branch = 0;
      } else {
         high_part_bits = getbits(unsigned_g,t,remaining_bits);
-        lower_part_bits  = unsigned_g & ~(~0 << t-remaining_bits);
+        lower_part_bits  = unsigned_g & ~(~0 << (t-remaining_bits));
         lower_part_bits <<= (BITS_IN(unsigned)- (t-remaining_bits));
 
         s[k++] =  target | high_part_bits;

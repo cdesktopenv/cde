@@ -129,7 +129,7 @@ short_list::~short_list()
 
 handler* short_list::get_component(int index) 
 {
-  if ( !INRANGE(index, 1, v_sz) ) {
+  if ( !INRANGE(index, 1, (int) v_sz) ) {
      MESSAGE(cerr, "out of range in short_list::get_component()");
      throw(boundaryException(1, v_sz, index));
   }
@@ -155,7 +155,7 @@ io_status short_list::asciiOut(ostream& out)
    my_oid().asciiOut(out);
    out << "\n";
 
-   for ( int i=1; i<=v_sz; i++ ) {
+   for ( unsigned int i=1; i<=v_sz; i++ ) {
 
       handler* hd_ptr = get_component(i);
 
@@ -187,10 +187,10 @@ io_status short_list::asciiIn(istream& in)
 #ifndef C_API
    oid_t oid_buffer[OID_BUFFER_SIZE]; 
    int oid_buffer_level = 0;
+   int ct = 0;
 #endif
 
    char c;
-   int ct = 0;
    while ( (c = in.get()) != LIST_MARK_CHAR ) {
 
       in.putback(c);

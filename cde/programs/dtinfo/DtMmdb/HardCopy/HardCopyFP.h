@@ -122,7 +122,7 @@ protected:
    
 public:
    loutFeatureProcessor(loutFeatureProcessor& x) : 
-    f_change(x.f_change), featureProcessor(x) {};
+    featureProcessor(x), f_change(x.f_change) {};
 
    loutFeatureProcessor(const char* name) : 
      featureProcessor(name), f_change(false) {};

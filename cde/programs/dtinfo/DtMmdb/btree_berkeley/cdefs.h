@@ -67,7 +67,9 @@
 #define	__END_DECLS	};
 #endif
 #else
+#undef	__BEGIN_DECLS
 #define	__BEGIN_DECLS
+#undef	__END_DECLS
 #define	__END_DECLS
 #endif
 
@@ -119,6 +121,7 @@
  * define them only if compiling without this.
  */
 #if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#undef  __dead
 #define __dead __volatile
 #ifndef __pure
 #define __pure __const

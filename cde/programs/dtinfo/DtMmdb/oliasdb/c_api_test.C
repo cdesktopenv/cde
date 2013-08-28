@@ -156,7 +156,7 @@ char* DtMmdbHandleToString(DtMmdbHandle* x)
    static char buf[100];
    if ( x -> oid_ptr) {
       oid_t *z = (oid_t*)(x -> oid_ptr);
-      sprintf(buf, "%d.%d", z -> ccode(), z -> icode());
+      snprintf(buf, sizeof(buf), "%d.%d", z -> ccode(), z -> icode());
    } else
      buf[0] = 0;
 

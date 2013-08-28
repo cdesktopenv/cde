@@ -63,8 +63,8 @@ class encoding_unit
 public:
    ostring* word;
    int bits;
-   unsigned int code;
    unsigned int freq;
+   unsigned int code;
    htr_node* leaf_htr_node;
 
 public:

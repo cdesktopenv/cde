@@ -47,7 +47,7 @@ class Renderer : public Destructable
 {
 public:
   Renderer() {};
-  ~Renderer() {};
+  virtual ~Renderer() {};
 
   virtual FeatureSet *initialize() = 0;	/* return default feature set */
 

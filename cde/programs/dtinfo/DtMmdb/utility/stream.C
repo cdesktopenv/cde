@@ -35,7 +35,7 @@ char*  sform(const char* fmt ...)
 
    va_start(args, fmt);
 
-   (void) vsprintf(buf, fmt, args);
+   (void) vsnprintf(buf, sizeof(buf), fmt, args);
                
    va_end(args);
 

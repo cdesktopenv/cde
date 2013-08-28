@@ -77,7 +77,7 @@ public:
    oid_t(c_code_t c, i_code_t i) : v_c_code(c), v_i_code(i), v_e_code(0) {};
    oid_t(const char* source, Boolean ascii_format, Boolean swap_order);
    oid_t(const oid_t& x) : 
-      v_e_code(x.v_e_code), v_c_code(x.v_c_code), v_i_code(x.v_i_code) {};
+      v_c_code(x.v_c_code), v_i_code(x.v_i_code), v_e_code(x.v_e_code) {};
    ~oid_t() {};
 
 // oid_t equal and less test
@@ -138,10 +138,10 @@ protected:
    }
 
 protected:
-   e_code_t v_e_code; // extended code. Not used within this class.
-                      // for using extra space purpose.
    c_code_t v_c_code; // class code
    i_code_t v_i_code; // instance code
+   e_code_t v_e_code; // extended code. Not used within this class.
+                      // for using extra space purpose.
 };
 
 typedef oid_t* oid_tPtr;

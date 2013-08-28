@@ -41,7 +41,7 @@ EncodedPath::~EncodedPath()
 }
 
 EncodedPath::EncodedPath(SSPath* p, unsigned int asPattern) :
-   f_size(p -> entries()), f_SVectors(letterHash), f_patternSize(0),
+   f_size(p -> entries()), f_patternSize(0), f_SVectors(letterHash),
    f_wildCard(gElemSymTab -> wildCardId()), 
    f_unlimitedWildCard(gElemSymTab -> unlimitedWildCardId()),
    f_copyOfS(new BitVector(WORD_SIZE, 0))
@@ -478,7 +478,7 @@ void PathTable::initLastSymIndex()
 {
    f_lastSymIndexCount = gElemSymTab -> IdsAssigned()+1;
    f_lastSymIndex = new CC_TPtrDlist_PathFeature_Ptr_T[f_lastSymIndexCount];
-   for (int i=0; i<f_lastSymIndexCount; i++)
+   for (unsigned int i=0; i<f_lastSymIndexCount; i++)
       f_lastSymIndex[i] = new CC_TPtrDlist<PathFeature>;
       
 

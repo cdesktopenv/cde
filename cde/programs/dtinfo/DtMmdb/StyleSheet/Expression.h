@@ -57,7 +57,7 @@ class Expression
 public:
   Expression(TermNode *root);
   Expression(const Expression&);
-  ~Expression();
+  virtual ~Expression();
 
   virtual FeatureValue *evaluate() const;
   ostream &print(ostream &) const; 

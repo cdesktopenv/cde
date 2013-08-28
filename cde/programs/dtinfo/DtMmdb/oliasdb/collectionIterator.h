@@ -49,9 +49,9 @@ protected:
    oid_t get_oid(int index);
 
 protected:
-   int f_index;
    cset_handler* f_set_ptr;
    info_base* f_base;
+   int f_index;
 };
 
 // iterator over node set

@@ -391,8 +391,6 @@ debug(cerr, len);
 debug(cerr, str_offset);
 */
 
-   Boolean ok = false;
-
    buffer in_cache(0);
    in_cache.set_chunk(base, len);
 
@@ -595,8 +593,8 @@ debug(cerr, name);
 debug(cerr, loc);
 */
 
-   int page_num ;
-   int slot_num ;
+   int page_num =0;
+   int slot_num =0;
    int offset = 0;
    page* y = 0;
    spointer_t *x = 0;
@@ -761,9 +759,9 @@ debug(cerr,  int(string_ptr));
 #endif
 
 
-      int u1 = PAGE_ID( loc, page_sz );
-      int u2 = PAGE_IDX( loc, page_sz );
-//cerr << "Allocated ID=" << u1 << "." << u2 << " " << len << "\n";
+// int u1 = PAGE_ID( loc, page_sz );
+// int u2 = PAGE_IDX( loc, page_sz );
+// cerr << "Allocated ID=" << u1 << "." << u2 << " " << len << "\n";
 
    return 0;
 }
@@ -779,8 +777,8 @@ cerr << "append:" << u1 << "." << u2 << " " << len << "\n";
 
 
 
-   int page_num ;
-   int slot_num ;
+   int page_num = 0;
+   int slot_num = 0;
    page* y;
    spointer_t *x;
 
@@ -910,8 +908,10 @@ io_status page_storage::asciiOut(ostream& out)
 {
    int ind = first();
    while ( ind != 0  ) {
+#ifdef DEBUG
       page* p = (*this)(ind, READ);
       debug(out, *p);
+#endif
       next(ind);
    }
    return done;
@@ -1187,7 +1187,7 @@ void page_storage::roll_back()
    // verify the log is in good shape
    //////////////////////////////////
       int m;
-      int log_bytes = trans_info.log_store -> bytes();
+      unsigned int log_bytes = trans_info.log_store -> bytes();
    
       if ( trans_info.log_store && 
            (*trans_info.log_store) &&

@@ -162,28 +162,35 @@ Exceptions::set_error_handler (error_handler_t error_handler)
 void
 Exceptions::error (const char *message, error_type_t error_type)
 {
-  static char buffer[3][100];
+  unsigned int bufferlen = 100;
+  char buffer[3][bufferlen];
   static char *lines[3] = { buffer[0], buffer[1], buffer[2] };
-  int count = 0;
+  int len, count = 0;
 
-  if (error_type == INTERNAL_ERROR)
-    strcpy (buffer[count++], f_msg_internal_error);
-  else if (error_type == APPLICATION_ERROR)
-    strcpy (buffer[count++], f_msg_application_error);
-  else
-    strcpy (buffer[count++], f_msg_throw_message);
+  if (error_type == INTERNAL_ERROR) {
+    len = MIN(strlen(f_msg_internal_error), bufferlen - 1);
+    *((char *) memcpy(buffer[count++], f_msg_internal_error, len) + len) = '\0';
+  }
+  else if (error_type == APPLICATION_ERROR) {
+    len = MIN(strlen(f_msg_application_error), bufferlen - 1);
+    *((char *) memcpy(buffer[count++], f_msg_application_error,len)+len) = '\0';
+  }
+  else {
+    len = MIN(strlen(f_msg_throw_message), bufferlen - 1);
+    *((char *) memcpy(buffer[count++], f_msg_throw_message, len) + len) = '\0';
+  }
       
   // Don't use fprintf because it may try to allocate memory.
   if (Exception::g_current_exception != NULL)
     {
-      sprintf (buffer[count++],
+      snprintf (buffer[count++], bufferlen,
 	       "   In exception thrown in file \"%s\", line %d,",
 	       Exception::g_current_exception->f_file,
 	       Exception::g_current_exception->f_line);
     }
 
   if (message != NULL)
-    sprintf (buffer[count++], "   %s", message);
+    snprintf (buffer[count++], bufferlen, "   %s", message);
 
   // Call user print function if set, otherwise just dump lines.
   if (g_error_handler != NULL)

@@ -57,15 +57,15 @@ class streambuf
 protected:
    char* base;
    char* end;
-   char* get_ptr;
    char* put_ptr;
+   char* get_ptr;
 
-   int _gcount;
-   int _pcount;
-
-   int _capacity;
    int _size;
+   int _capacity;
    int _alloc;
+
+   int _pcount;
+   int _gcount;
 
 protected:
    enum notify_action_t { GET, PUT };

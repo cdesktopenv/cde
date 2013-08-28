@@ -107,7 +107,7 @@ public:
   FeatureSet(const FeatureSet &); /* copy */
   FeatureSet(const FeatureSet &,
 	     const FeatureSet &); /* merge */
-  ~FeatureSet();
+  virtual ~FeatureSet();
 
   void			add(Feature *);
   const Feature	       *lookup(const Symbol *) const ;

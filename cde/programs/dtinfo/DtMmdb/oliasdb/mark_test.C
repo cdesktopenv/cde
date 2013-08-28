@@ -63,7 +63,7 @@ mark_base* get_mark_base(char* path, char* name)
                         );
    }
 
-   catch (mmdbException &,e)
+   catch (MMDBeXCEPtion &,e)
    {
        return 0;
    } end_try;

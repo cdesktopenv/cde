@@ -66,8 +66,8 @@ template <class K, class V> class hashTable
    friend class hashTableIterator<K, V>;
 
 protected:
-   pointer_vector<CC_TPtrSlist<kv_pair<K, V> > > f_buckets;
    unsigned (*f_hash_func_ptr)(const K&);
+   pointer_vector<CC_TPtrSlist<kv_pair<K, V> > > f_buckets;
    size_t f_items;
 
 protected:

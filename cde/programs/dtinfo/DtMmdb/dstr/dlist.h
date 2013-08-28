@@ -85,9 +85,9 @@ public:
    long last();    // 0 if the list is empty
 
 protected:
+   int v_ct;            // cell in the list
    dlist_cell *v_head;  // head pointer
    dlist_cell *v_tail;  // tail pointer
-   int v_ct;            // cell in the list
    int remove_cells_when_done;
 };
 

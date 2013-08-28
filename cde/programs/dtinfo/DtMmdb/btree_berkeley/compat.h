@@ -86,10 +86,10 @@ typedef unsigned int	sigset_t;
 #endif
 
 /*
- * If your system's vsprintf returns a char *, not an int,
+ * If your system's vsnprintf returns a char *, not an int,
  * change the 0 to a 1.
  */
-#if !defined(_AIX) && !defined(__osf__)
+#if !defined(_AIX) && !defined(__osf__) && !defined(linux) && !defined(CSRG_BASED)
 #define	VSPRINTF_CHARSTAR
 #endif
 

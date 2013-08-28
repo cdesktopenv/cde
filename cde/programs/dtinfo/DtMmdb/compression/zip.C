@@ -73,6 +73,7 @@ void zip::compress(const buffer& uncompressed, buffer& compressed)
    out.close();
 
    ret = system(form("gzip -c %s > %s", (char*)UNCOMPRESSED,(char*)COMPRESSED));
+   if(ret != 0) throw(systemException(ret));
 
    fstream in(COMPRESSED, ios::in);
 
@@ -107,6 +108,7 @@ void zip::decompress(buffer& compressed, buffer& uncompressed)
    out.close();
 
    ret = system(form("gzip -cd %s > %s",(char*)COMPRESSED,(char*)UNCOMPRESSED));
+   if(ret != 0) throw(systemException(ret));
 
    fstream in(UNCOMPRESSED, ios::in);
 

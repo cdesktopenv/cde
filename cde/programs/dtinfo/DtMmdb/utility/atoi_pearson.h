@@ -75,13 +75,13 @@ private:
    void init(int _range, int _entries, pm_random&);
 
 protected:
-   char *v_tbl;
-   Boolean v_shared;
-
-   unsigned v_mask;
    unsigned int v_entries;
    unsigned int v_range;
+   unsigned v_mask;
+
    unsigned int v_no_bytes;
+   char *v_tbl;
+   Boolean v_shared;
 };
 
 

@@ -100,7 +100,7 @@ handler* cset::get_component(int index)
 
 oid_list_handler* cset::get_locs(handler& query, int index)
 {
-   if ( !INRANGE(index, 0, num_indices-1) ) {
+   if ( !INRANGE(index, 0, (int) num_indices-1) ) {
       MESSAGE(cerr, "cset::get_locs(): invalid index");
       throw(boundaryException(0, num_indices-1, index));
    }
@@ -115,7 +115,7 @@ oid_list_handler* cset::get_locs(handler& query, int index)
 
 oid_t cset::get_first_oid(const handler& query, int index)
 {
-   if ( !INRANGE(index, 0, num_indices-1) ) {
+   if ( !INRANGE(index, 0, (int) num_indices-1) ) {
       MESSAGE(cerr, "cset::get_first_oid(): invalid index");
       throw(boundaryException(0, num_indices-1, index));
    }
@@ -130,7 +130,7 @@ oid_t cset::get_first_oid(const handler& query, int index)
 
 c_index_handler* cset::get_index_ptr(int index)
 {
-   if ( !INRANGE(index, 0, num_indices-1) ) {
+   if ( !INRANGE(index, 0, (int) num_indices-1) ) {
       MESSAGE(cerr, "cset::get_index_ptr(): invalid index");
       throw(boundaryException(0, num_indices-1, index));
    }
@@ -140,7 +140,7 @@ c_index_handler* cset::get_index_ptr(int index)
 
 void cset::batch_index_begin() 
 {
-   for ( int i=0; i<num_indices; i++ ) {
+   for ( unsigned int i=0; i<num_indices; i++ ) {
       if ( indices[i] != 0 ) {
          (*indices[i]) -> batch_index_begin();
       }
@@ -149,7 +149,7 @@ void cset::batch_index_begin()
 
 void cset::batch_index_end() 
 {
-   for ( int i=0; i<num_indices; i++ ) {
+   for ( unsigned int i=0; i<num_indices; i++ ) {
       if ( indices[i] != 0 ) {
          (*indices[i]) -> batch_index_end();
       }
@@ -255,7 +255,7 @@ new_object.its_oid().asciiOut(cerr); cerr << "\n";
 #endif
    }
 
-   for ( int i = 1; i < num_indices; i++ ) {
+   for ( unsigned int i = 1; i < num_indices; i++ ) {
 
       if ( indices[i] == 0 )
           continue;
@@ -287,7 +287,7 @@ Boolean cset::remove_component(const oid_t& x_oid)
 {
    handler* x = new handler(x_oid, storage_ptr);
 
-   for ( int i = 1; i < num_indices; i++ ) {
+   for ( unsigned int i = 1; i < num_indices; i++ ) {
 
       if ( indices[i] == 0 )
          continue;
@@ -324,7 +324,7 @@ cset::update_index(handler* old_comp_obj, handler* new_comp_obj,
                    oid_t& main_obj_oid)
 {
 
-   if ( !INRANGE(index, 1, num_indices-1) ) {
+   if ( !INRANGE(index, 1, (int) num_indices-1) ) {
       throw(boundaryException(1, num_indices-1, index));
    }
 
@@ -364,7 +364,7 @@ io_status cset::cdrIn(buffer& buf)
 
 void cset::commit() 
 {
-   for ( int i = 1; i < num_indices; i++ ) {
+   for ( unsigned int i = 1; i < num_indices; i++ ) {
 
       if ( indices[i] )
          indices[i] -> commit();

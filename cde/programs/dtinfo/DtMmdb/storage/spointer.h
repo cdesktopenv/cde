@@ -90,7 +90,7 @@ public:
       header.int_view |= (HEADER_MASK & m); 
       set_mode(UPDATED, true);
    };
-   Boolean test_mode(int m) { 
+   Boolean test_mode(unsigned int m) {
       return ( (header.int_view & HEADER_MASK & m) == m ) ? true : false;
    };
 

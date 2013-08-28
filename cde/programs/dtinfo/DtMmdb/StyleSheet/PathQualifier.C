@@ -70,7 +70,7 @@ PQPosition::evaluate(const Element &element)
 {
    switch ( f_optype ) {
      case PQEqual: 
-       if ( f_position == element.sibling_number() ||
+       if ( f_position == (int) element.sibling_number() ||
             ( f_position==-1 && element.last_child() )
           )
           return PQTrue;
@@ -85,7 +85,7 @@ PQPosition::evaluate(const Element &element)
           else
             return PQFalse;
        } else
-          if ( f_position != element.sibling_number() )
+          if ( f_position != (int) element.sibling_number() )
              return PQTrue;
           else
              return PQFalse;
@@ -104,7 +104,7 @@ PQSibling::evaluate(const Element &element)
 {
    switch ( f_optype ) {
      case PQEqual: 
-       if ( f_sibling == element.relative_sibling_number() ||
+       if ( f_sibling == (int) element.relative_sibling_number() ||
             ( f_sibling ==-1 && element.relatively_last_child() )
           )
           return PQTrue;
@@ -119,7 +119,7 @@ PQSibling::evaluate(const Element &element)
           else
             return PQFalse;
        } else
-          if ( f_sibling != element.relative_sibling_number() )
+          if ( f_sibling != (int) element.relative_sibling_number() )
              return PQTrue;
           else
              return PQFalse;
