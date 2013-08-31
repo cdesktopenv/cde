@@ -1498,11 +1498,10 @@ buildBookcase(char *cmdSrc, char *dirName)
 			style_file, bookCaseName, bookCaseName);
       runShellCmd(cmd);
 
-      XtFree((char*)style_file);
-
       snprintf(cmd, sizeof(cmd), "rm -f %s", style_file);
       ret1 = system(cmd);
       if(ret1 != 0) die(-1, "system for rm failed; exiting...\n");
+      XtFree((char*)style_file);
     }
 
 
@@ -1519,11 +1518,10 @@ buildBookcase(char *cmdSrc, char *dirName)
 			compress_file, bookCaseName, bookCaseName);
       runShellCmd(cmd);
 
-      XtFree((char*)compress_file);
-
       snprintf(cmd, sizeof(cmd), "rm -f %s", compress_file);
       ret1 = system(cmd);
       if(ret1 != 0) die(-1, "system for rm failed; exiting...\n");
+      XtFree((char*)compress_file);
     }
 
 
@@ -1540,11 +1538,10 @@ buildBookcase(char *cmdSrc, char *dirName)
 
       runShellCmd(cmd);
 
-      XtFree((char*)anonym_file);
-
       snprintf(cmd, sizeof(cmd), "rm -f %s", anonym_file);
       ret1 = system(cmd);
       if(ret1 != 0) die(-1, "system for rm failed; exiting...\n");
+      XtFree((char*)anonym_file);
     }
 
     validateBookCase(bookCaseMap, bookCaseName);
@@ -1656,11 +1653,10 @@ storeBookCase(char *cmdSrc, char *tocOpt, char *dbName,
 			nsgmls_file, tocOpt, dbName, dirName, tmpFile);
       runShellCmd(cmd);
 
-      XtFree((char*)nsgmls_file);
-
       cmd = buildPath("rm -f %s", nsgmls_file);
       ret = system(cmd);
       if(ret != 0) die(-1, "system for rm failed; exiting...\n");
+      XtFree((char*)nsgmls_file);
     }
 
     XtFree(cmd);
