@@ -208,9 +208,9 @@ BuildStartup(
   startup.dlg = NULL;
 
   /* Set up DialogBoxDialog button labels */
-  button_string[0] = CMPSTR(_DtOkString);
-  button_string[1] = CMPSTR(_DtCancelString);
-  button_string[2] = CMPSTR(_DtHelpString);
+  button_string[0] = CMPSTR((String) _DtOkString);
+  button_string[1] = CMPSTR((String) _DtCancelString);
+  button_string[2] = CMPSTR((String) _DtHelpString);
   
   /* Create toplevel DialogBox */
   /* saveRestore
@@ -554,8 +554,8 @@ SetHomeSession(
     {
       string = CMPSTR(((char *)GETMESSAGE(7, 11, "This will replace your home session with\nthe current session.\n\n                   Continue?")));
       XtSetArg(args[n], XmNmessageString, string); n++;
-      okstr = CMPSTR(_DtOkString);
-      cancelstr = CMPSTR(_DtCancelString);
+      okstr = CMPSTR((String) _DtOkString);
+      cancelstr = CMPSTR((String) _DtCancelString);
       XtSetArg(args[n], XmNokLabelString, okstr); n++;
       XtSetArg(args[n], XmNcancelLabelString, cancelstr); n++;
       XtSetArg(args[n], XmNmwmFunctions, DIALOG_MWM_FUNC ); n++;

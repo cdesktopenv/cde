@@ -167,9 +167,9 @@ build_keyboardDlg(
     XmString         string;
 
     /* Set up DialogBoxDialog button labels */
-    button_string[0] = CMPSTR(_DtOkString);
-    button_string[1] = CMPSTR(_DtCancelString);
-    button_string[2] = CMPSTR(_DtHelpString);
+    button_string[0] = CMPSTR((String) _DtOkString);
+    button_string[1] = CMPSTR((String) _DtCancelString);
+    button_string[2] = CMPSTR((String) _DtHelpString);
 
     /* Create toplevel DialogBox */
 

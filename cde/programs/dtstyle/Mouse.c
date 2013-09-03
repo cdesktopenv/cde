@@ -397,9 +397,9 @@ build_mouseDialog( Widget shell )
 	}
   
     /* Set up DialogBoxDialog button labels */
-    button_string[0] = CMPSTR(_DtOkString);
-    button_string[1] = CMPSTR(_DtCancelString);
-    button_string[2] = CMPSTR(_DtHelpString);
+    button_string[0] = CMPSTR((String) _DtOkString);
+    button_string[1] = CMPSTR((String) _DtCancelString);
+    button_string[2] = CMPSTR((String) _DtHelpString);
 
     /* Create toplevel DialogBox */
     /* saveRestore
@@ -1130,8 +1130,8 @@ warnToggleCB(
     }
   
   n = 0;
-  XtSetArg(args[n], XmNokLabelString, CMPSTR(_DtOkString)); n++;
-  XtSetArg(args[n], XmNcancelLabelString, CMPSTR(_DtCancelString)); n++;
+  XtSetArg(args[n], XmNokLabelString, CMPSTR((String) _DtOkString)); n++;
+  XtSetArg(args[n], XmNcancelLabelString, CMPSTR((String) _DtCancelString)); n++;
   string = CMPSTR(WARN_MSG);
   XtSetArg(args[n], XmNmessageString, string); n++;
   XtSetArg(args[n], XmNmwmFunctions, DIALOG_MWM_FUNC ); n++;
@@ -1177,8 +1177,8 @@ midwarnToggleCB(
     }
 
   n = 0;
-  XtSetArg(args[n], XmNokLabelString, CMPSTR(_DtOkString)); n++;
-  XtSetArg(args[n], XmNcancelLabelString, CMPSTR(_DtCancelString)); n++;
+  XtSetArg(args[n], XmNokLabelString, CMPSTR((String) _DtOkString)); n++;
+  XtSetArg(args[n], XmNcancelLabelString, CMPSTR((String) _DtCancelString)); n++;
   XtSetArg(args[n], XmNborderWidth, 3); n++;
   XtSetArg(args[n], XmNmwmFunctions, DIALOG_MWM_FUNC ); n++;
   XtSetArg(args[n], XmNdialogStyle, XmDIALOG_FULL_APPLICATION_MODAL); n++; 

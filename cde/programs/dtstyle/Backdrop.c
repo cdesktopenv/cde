@@ -42,6 +42,8 @@
 /* include files                         */
 /*+++++++++++++++++++++++++++++++++++++++*/
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <sys/types.h>
 
 #if defined(_AIX) || defined(__apollo)
@@ -423,10 +425,10 @@ CreateBackdropDialog(
     XtFree(bd_desc);
 
     /* Set up DialogBox button labels. */
-    strings[0] = XmStringCreateLocalized (_DtOkString);
-    strings[1] = XmStringCreateLocalized (_DtApplyString);
-    strings[2] = XmStringCreateLocalized (_DtCloseString);
-    strings[3] = XmStringCreateLocalized (_DtHelpString);
+    strings[0] = XmStringCreateLocalized ((String) _DtOkString);
+    strings[1] = XmStringCreateLocalized ((String) _DtApplyString);
+    strings[2] = XmStringCreateLocalized ((String) _DtCloseString);
+    strings[3] = XmStringCreateLocalized ((String) _DtHelpString);
 
     /* saveRestore
      * Note that save.poscnt has been initialized elsewhere.
@@ -539,6 +541,17 @@ MoreBitmaps( void )
 }
 
 /************************************************************************
+ * cmpstringp()
+ * qsort() sort function, used for sorting bitmap names into alphabetical order
+ * can't use strcmp() due to char** rather than char*
+ ************************************************************************/
+static int
+cmpstringp(const void *p1, const void *p2)
+{
+  return strcmp(*(char * const *) p1, *(char * const *) p2);
+}
+
+/************************************************************************
  *   ReadBitmaps()
  *   Create an array of bitmaps by reading backdrop directories in the
  *   following order overriding any duplicates:
@@ -595,6 +608,9 @@ static
       free_dirList(backdrops.dirList, backdrops.dirCount);
       return 0;
     }
+
+  /* Sort the list into alphanetical order */
+  qsort(backdrops.tmpBitmapNames, backdrops.tmpNumBitmaps, sizeof(char *), cmpstringp);
   
   /* get the fg/bg colors from Dtwm */
   if (backdrops.newColors)
