@@ -163,7 +163,7 @@ raiseWindow(
         Window dialogWin )
 {
   static int changeMask = CWStackMode;
-  static XWindowChanges windowChanges = {0,0,0,0,0,NULL,Above};
+  static XWindowChanges windowChanges = {0,0,0,0,0,0,Above};
 
     XReconfigureWMWindow(style.display, dialogWin,
       style.screenNum, changeMask, &windowChanges);
@@ -242,7 +242,7 @@ ErrDialog(
 
     if (style.errDialog == NULL)     /* create it */
     {
-        ok = XmStringCreateLocalized(_DtOkString);
+        ok = XmStringCreateLocalized((String) _DtOkString);
 
         n = 0;
         XtSetArg(args[n], XmNokLabelString, ok); n++;
@@ -333,7 +333,7 @@ InfoDialog(
     style.tmpXmStr = CMPSTR(infoString);
 
     if (ok == NULL)
-	ok = CMPSTR(_DtOkString);
+	ok = CMPSTR((String) _DtOkString);
 
     /* create it */
     n = 0;
@@ -439,7 +439,7 @@ putDialog(
 /*++++++++++++++++++++++++++++++++++++++*/
 /* main                                 */
 /*++++++++++++++++++++++++++++++++++++++*/
-void 
+int 
 main(
         int argc,
         char **argv )
@@ -616,6 +616,7 @@ malloc_trace(0);
 
     XtAppMainLoop(XtWidgetToApplicationContext(style.shell));
 
+    return 0;
 }
 
 /************************************************************************

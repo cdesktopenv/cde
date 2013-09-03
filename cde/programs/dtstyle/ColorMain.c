@@ -1065,9 +1065,9 @@ addPaletteCB(
     {
         n = 0;
 
-        XtSetArg(args[n], XmNokLabelString, CMPSTR(_DtOkString)); n++;
-        XtSetArg(args[n], XmNcancelLabelString, CMPSTR(_DtCancelString)); n++;
-        XtSetArg(args[n], XmNhelpLabelString, CMPSTR(_DtHelpString)); n++;
+        XtSetArg(args[n], XmNokLabelString, CMPSTR((String) _DtOkString)); n++;
+        XtSetArg(args[n], XmNcancelLabelString, CMPSTR((String) _DtCancelString)); n++;
+        XtSetArg(args[n], XmNhelpLabelString, CMPSTR((String) _DtHelpString)); n++;
 	string =  CMPSTR(((char *)GETMESSAGE(14, 10, "New palette name:")));
         XtSetArg(args[n], XmNselectionLabelString, string); n++;
         string1 =  CMPSTR("");
@@ -1476,9 +1476,9 @@ deletePaletteCB(
     if (deleteDialog == NULL)
     {
 	n=0;
-        XtSetArg(args[n], XmNokLabelString, CMPSTR(_DtOkString)); n++;
-        XtSetArg(args[n], XmNcancelLabelString, CMPSTR(_DtCancelString)); n++;
-        XtSetArg(args[n], XmNhelpLabelString, CMPSTR(_DtHelpString)); n++;
+        XtSetArg(args[n], XmNokLabelString, CMPSTR((String) _DtOkString)); n++;
+        XtSetArg(args[n], XmNcancelLabelString, CMPSTR((String) _DtCancelString)); n++;
+        XtSetArg(args[n], XmNhelpLabelString, CMPSTR((String) _DtHelpString)); n++;
 	XtSetArg(args[n], XmNdialogType, XmDIALOG_INFORMATION);             n++;
 	XtSetArg(args[n], XmNborderWidth, 3);                               n++;
         XtSetArg(args[n], XmNdefaultPosition, False);                      n++;
@@ -1567,9 +1567,9 @@ resourcesCB(
         n = 0;
 
         /* Set up DialogBox button labels. */
-        button_string[0] = CMPSTR(_DtOkString);
-        button_string[1] = CMPSTR(_DtCancelString);
-        button_string[2] = CMPSTR(_DtHelpString);
+        button_string[0] = CMPSTR((String) _DtOkString);
+        button_string[1] = CMPSTR((String) _DtCancelString);
+        button_string[2] = CMPSTR((String) _DtHelpString);
 
         XtSetArg (args[n], XmNchildType, XmWORK_AREA);  n++;
         XtSetArg (args[n], XmNbuttonCount, NUM_LABELS);  n++;
@@ -2049,7 +2049,7 @@ SaveOrgPalette( void )
    int i;
    palette  *tmp_palette, *tmp2_palette;
 
-   if(save.restoreFlag && defaultName_restore[0] != NULL) {
+   if(save.restoreFlag && defaultName_restore[0] != 0) {
       tmp_palette = pHeadPalette;
       while(tmp_palette->next != NULL )
          if(strcmp(tmp_palette->name, defaultName))
@@ -2077,7 +2077,7 @@ SaveOrgPalette( void )
        OrgPalette.active = pCurrentPalette->active;
        OrgPalette.inactive = pCurrentPalette->inactive;
 
-       if(save.restoreFlag && defaultName_restore[0] != NULL)
+       if(save.restoreFlag && defaultName_restore[0] != 0)
           OrgPalette.color[i].bg.pixel = tmp2_palette->color[i].bg.pixel;
        else
           OrgPalette.color[i].bg.pixel = pCurrentPalette->color[i].bg.pixel;
@@ -2085,7 +2085,7 @@ SaveOrgPalette( void )
        OrgPalette.color[i].bg.green = pCurrentPalette->color[i].bg.green;
        OrgPalette.color[i].bg.blue = pCurrentPalette->color[i].bg.blue;
 
-       if(save.restoreFlag && defaultName_restore[0] != NULL)
+       if(save.restoreFlag && defaultName_restore[0] != 0)
           OrgPalette.color[i].fg.pixel = tmp2_palette->color[i].fg.pixel;
        else
           OrgPalette.color[i].fg.pixel = pCurrentPalette->color[i].fg.pixel;
@@ -2093,7 +2093,7 @@ SaveOrgPalette( void )
        OrgPalette.color[i].fg.green = pCurrentPalette->color[i].fg.green;
        OrgPalette.color[i].fg.blue = pCurrentPalette->color[i].fg.blue;
 
-       if(save.restoreFlag && defaultName_restore[0] != NULL)
+       if(save.restoreFlag && defaultName_restore[0] != 0)
           OrgPalette.color[i].ts.pixel = tmp2_palette->color[i].ts.pixel;
        else
           OrgPalette.color[i].ts.pixel = pCurrentPalette->color[i].ts.pixel;
@@ -2101,7 +2101,7 @@ SaveOrgPalette( void )
        OrgPalette.color[i].ts.green = pCurrentPalette->color[i].ts.green;
        OrgPalette.color[i].ts.blue = pCurrentPalette->color[i].ts.blue;
 
-       if(save.restoreFlag && defaultName_restore[0] != NULL)
+       if(save.restoreFlag && defaultName_restore[0] != 0)
           OrgPalette.color[i].bs.pixel = tmp2_palette->color[i].bs.pixel;
        else
           OrgPalette.color[i].bs.pixel = pCurrentPalette->color[i].bs.pixel;
@@ -2109,7 +2109,7 @@ SaveOrgPalette( void )
        OrgPalette.color[i].bs.green = pCurrentPalette->color[i].bs.green;
        OrgPalette.color[i].bs.blue = pCurrentPalette->color[i].bs.blue;
 
-       if(save.restoreFlag && defaultName_restore[0] != NULL)
+       if(save.restoreFlag && defaultName_restore[0] != 0)
           OrgPalette.color[i].sc.pixel = tmp2_palette->color[i].sc.pixel;
        else
           OrgPalette.color[i].sc.pixel = pCurrentPalette->color[i].sc.pixel;
@@ -2118,7 +2118,7 @@ SaveOrgPalette( void )
        OrgPalette.color[i].sc.blue = pCurrentPalette->color[i].sc.blue;
    }
 
-   if(save.restoreFlag && defaultName_restore[0] != NULL) 
+   if(save.restoreFlag && defaultName_restore[0] != 0) 
       if(tmp_palette != NULL)
          pCurrentPalette = tmp2_palette;
 
@@ -2286,8 +2286,8 @@ show_selection(
     {
        if((int)client_data == GET_TYPE_MONITOR)
        {
-          sscanf ((char *)value, "%x_%x_%x_%x",&(TypeOfMonitor),
-                                     &(UsePixmaps), &(FgColor),&dynamic_color);
+          sscanf ((char *)value, "%x_%x_%x_%x", (unsigned int *) &(TypeOfMonitor),
+                                     (unsigned int *) &(UsePixmaps), (unsigned int *) &(FgColor), (unsigned int *) &dynamic_color);
           if(dynamic_color == FALSE)
              style.dynamicColor = False;
           else
@@ -2440,9 +2440,9 @@ SameName(
      tmpStr = (char *)XtMalloc(strlen(STR1) + strlen(name) + 1);
      sprintf(tmpStr, STR1, name);
      XtSetArg(args[n], XmNmessageString, CMPSTR(tmpStr)); n++;
-     XtSetArg(args[n], XmNokLabelString, CMPSTR(_DtOkString)); n++;
-     XtSetArg(args[n], XmNcancelLabelString, CMPSTR(_DtCancelString)); n++;
-     XtSetArg(args[n], XmNhelpLabelString, CMPSTR(_DtHelpString)); n++;
+     XtSetArg(args[n], XmNokLabelString, CMPSTR((String) _DtOkString)); n++;
+     XtSetArg(args[n], XmNcancelLabelString, CMPSTR((String) _DtCancelString)); n++;
+     XtSetArg(args[n], XmNhelpLabelString, CMPSTR((String) _DtHelpString)); n++;
      XtSetArg(args[n], XmNmwmFunctions, DIALOG_MWM_FUNC ); n++;
      XtSetArg(args[n], XmNdialogTitle, CMPSTR(((char *)GETMESSAGE(14, 21, "Warning")))); n++;
      colorDialog.dlg = XmCreateWarningDialog(style.colorDialog, "QNotice", args, n);
@@ -2593,9 +2593,9 @@ CreateDialogBoxD(
        XtRealizeWidget(parent);
 
    /* Set up DialogBox button labels. */
-    button_string[0] = CMPSTR(_DtOkString);
-    button_string[1] = CMPSTR(_DtCancelString);
-    button_string[2] = CMPSTR(_DtHelpString);
+    button_string[0] = CMPSTR((String) _DtOkString);
+    button_string[1] = CMPSTR((String) _DtCancelString);
+    button_string[2] = CMPSTR((String) _DtHelpString);
 
    /* saveRestore
     * Note that save.poscnt has been initialized elsewhere.  

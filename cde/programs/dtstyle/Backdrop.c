@@ -425,10 +425,10 @@ CreateBackdropDialog(
     XtFree(bd_desc);
 
     /* Set up DialogBox button labels. */
-    strings[0] = XmStringCreateLocalized (_DtOkString);
-    strings[1] = XmStringCreateLocalized (_DtApplyString);
-    strings[2] = XmStringCreateLocalized (_DtCloseString);
-    strings[3] = XmStringCreateLocalized (_DtHelpString);
+    strings[0] = XmStringCreateLocalized ((String) _DtOkString);
+    strings[1] = XmStringCreateLocalized ((String) _DtApplyString);
+    strings[2] = XmStringCreateLocalized ((String) _DtCloseString);
+    strings[3] = XmStringCreateLocalized ((String) _DtHelpString);
 
     /* saveRestore
      * Note that save.poscnt has been initialized elsewhere.
