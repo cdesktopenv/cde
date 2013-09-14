@@ -220,7 +220,9 @@ $ ** Prefix string for all dialogs. **
 $ ************************************
 $ bogus?? blank string gotten but otherwise unused in main()
 $ DO NOT LOCALIZE string 1
-1 
+$quote "
+1 ""
+$quote
 
 $ The name used in the title bar of every window.
 $ Be sure to end this message with a space character.

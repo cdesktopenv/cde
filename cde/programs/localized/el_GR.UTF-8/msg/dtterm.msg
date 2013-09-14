@@ -124,18 +124,18 @@ $ DO NOT TRANSLATE Messages 37 or 41 ("End-of-list")
 32 -/+vb				ενεργοποίηση/απενεργοποίηση οπτικό κουδούνισμα
 33 -xrm resourcestring		additional resource specifications
 34 -C				κατάσταση κονσόλας
-35 -Sxxd				slave mode on \"ttyxx\" file descriptor \"d\"
-36 -Sxxx.d			slave mode on \"ttyxxx\" file descriptor \"d\"
+35 -Sxxd				slave mode on "ttyxx" file descriptor "d"
+36 -Sxxx.d			slave mode on "ttyxxx" file descriptor "d"
 37 End-Of-List
 38 The -e option, if given must appear at the end of the command line,
 39 otherwise the user's default shell will be started.  Options that start
 40 with a plus sign (+) restore the default.
 41 End-Of-List
-47 %s:  κακή επιλογή στη γραμμή εντολών \"%s\"\r\n\n
+47 %s:  κακή επιλογή στη γραμμή εντολών "%s"\r\n\n
 48 χρήση:  %s
 49 \r\n   
 50  [%s]
-51 \r\n\nΓράψτε \"%s -help\" για εκτενή βοήθεια.\r\n\n
+51 \r\n\nΓράψτε "%s -help" για εκτενή βοήθεια.\r\n\n
 52 χρήση:\n
 53 \t%s [-options ...] [-e command args]\n\n
 54 όπου οι επιλογές περιλαμβάνουν:\n

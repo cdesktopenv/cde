@@ -415,8 +415,8 @@ SINTASSI: %1$s -d<nome_db> [opzioni] <input>\n\
 2 "%1$s: Codice di uscita = %2$d\n"
 13 "%1$s Controllo delle id duplicate è stato disattivato.\n"
 14 "\n%1$s Argomento sconosciuto '%2$s'.\n"
-15 "\nSpecificare il nome del file di input.\a"
-16 "\nNessun nome di database specificato (argomento -d).\a"
+15 "\nSpecificare il nome del file di input.\07"
+16 "\nNessun nome di database specificato (argomento -d).\07"
 17 "%1$s Inizializzaione il conteggio totale di record. Conteggio in corso...\n"
 18 "%1$s: '%2$s' versione schema = %3$s, conteggio record = %4$ld, ultimo slot = %5$ld.\n"
 19 "%1$s: Numero totale di record nel database = %2$ld, ultimo slot = %3$ld.\n"
@@ -494,17 +494,17 @@ Si desidera sovrascrivere questo file e gli altri file di database? [s,n] "
 $ Msg 13 should not translate "load_custom_language."
 13 "%s Avviso! È stata specificata una lingua personalizzata che non è supportata.\n\
   Per accedere al database sarà necessario fornire al tempo di esecuzione un programma\n\
-  di carico lingue nella funzione 'load_custom_language'.\a\n"
+  di carico lingue nella funzione 'load_custom_language'.\07\n"
 
 14 "\n\
-%s L'elaborazione semantica è solo disponibile per i database di lingua inglese.\n\a"
+%s L'elaborazione semantica è solo disponibile per i database di lingua inglese.\n\07"
 $ Msg 15 needs "y" to match the "yes" option in msg 12.
 15 "s"
 24 "DTSRCREATE Database '%1$s' è stato inizializzato.\n"
 98 "DTSRCREATE %1$s id della tabella di compressione Huffman non valida."
 186 "DTSRCREATE186 Impossibile cambiare il nome di '%1$s' in '%2$s':\n  %3$s\n"
 205 "DTSRCREATE205 Impossibile cambiare le autorizzazioni per '%1$s': %2$s\n"
-213 "%1$s Impossibile aprire '%2$s':\n  %3$s.\7\n"
+213 "%1$s Impossibile aprire '%2$s':\n  %3$s.\07\n"
 214 "%1$s Impossibile copiare '%2$s' in '%3$s':\n  %4$s\n"
 230 "DTSRCREATE230 Non è stato possibile aprire il database '%1$s'.\n"
 239 "DTSRCREATE239 Non è stato possibile inizializzare il database '%1$s'.\n"
@@ -681,7 +681,7 @@ $ Msg 280 should not be translated.
 567 "%1$s Argomento sconosciuto nella riga di comando '%2$s'.\n"
 577 "%1$s Argomento non valido '%2$s'.  Si userà  il valore predefinito -r%3$d.\n"
 580 "%1$s Specificare il nome del file di input.\n"
-589 "%1$s Non è stato specificato nessun nome di database (-d argomento).\a\n"
+589 "%1$s Non è stato specificato nessun nome di database (-d argomento).\07\n"
 595 "%1$s Argomento di dimensione batch non valido '%2$s'.\n"
 600 "%1$sLa dimensione della cache è stata cambiata in %2$d.\n"
 659 "\n%1$s: %2$s Eliminazione del record, la chiave eccede la lunghezza massima consentita:\n  '%3$s'.\n"
@@ -900,7 +900,7 @@ $ ****************************************************
 $ set MS_dtsrkdump is set 25.  5/20/96.  dtsrkdump.c
 $set 25
 
-1 "%s Errore di programma. Terminazione.\a\n"
+1 "%s Errore di programma. Terminazione.\07\n"
 $ Msg 2 should not be translated
 2 "%1$c dba=%2$d:%3$-7ld ofs=%4$-9ld adr=%5$-6ld fre=%6$ld\n"
 $ Msg 3 is like "<program name> <RCS revision number>, engine
@@ -926,12 +926,12 @@ SINTASSI: %1$s -o|w|ow [-v] [-t<N> | -p<N>] <nome_db>\n\
             il predefinito = -t%2$d.\n\
   <nome_db> Nome database di 1 a 8 caratteri.\n\
             Include prefisso di percorso facoltativo.\n"
-5 "%1$s Percentuale non valida %2$lf.\a\n"
-53 "%1$s Valore di soglia non valido.\a\n"
-55 "%1$s Argomento sconosciuto nella riga di comando '%2$c'.\a\n"
-56 "%1$s Specificare il nome del database.\a\n"
-57 "%1$s È necessario specificare -o oppure -w.\a\n"
-58 "%1$s Nome database non valido '%2$s'.\a\n"
+5 "%1$s Percentuale non valida %2$lf.\07\n"
+53 "%1$s Valore di soglia non valido.\07\n"
+55 "%1$s Argomento sconosciuto nella riga di comando '%2$c'.\07\n"
+56 "%1$s Specificare il nome del database.\07\n"
+57 "%1$s È necessario specificare -o oppure -w.\07\n"
+58 "%1$s Nome database non valido '%2$s'.\07\n"
 $ Msg 60 should not be translated.
 60 "%1$s: '%2$s' reccount=%3$ld maxdba=%4$ld recslots=%5$hd minw=%6$hd maxw=%7$hd\n"
 70 "%1$s Elencherà solo parole che occorrono in %2$ld o più record.\n"
@@ -1072,15 +1072,15 @@ SINTASSI: %3$s [-opzioni] <oggetto>...\n\
                virgolette per includere l'uso di operatori Boole.\n"
 4 "Ricerca nel database '%1$s'...\n"
 9 "<nessun riassunto disponibile>"
-117 "%1$s Argomento non valido nella riga di comando '%2$s'.\a\n"
-125 "%1$s L'oggetto della ricerca non è stato specificato.\a\n"
+117 "%1$s Argomento non valido nella riga di comando '%2$s'.\07\n"
+125 "%1$s L'oggetto della ricerca non è stato specificato.\07\n"
 165 "%1$s DtSearch inizializzazione fallita:\n  %2$s\n"
 190 "%1$s Non ci sono ricorrenze.\n"
-195 "%1$s Ricerca fallita.\a\n"
+195 "%1$s Ricerca fallita.\07\n"
 200 "%1$s Il testo non è disponibile per il documento '%2$s'.\n"
 203 "%1$s Impossibile individuare i keytype disponibili:\n  %2$s\n"
 224 "%1$s Non si trovano chiavi di record inizianti con '%2$c' nel database '%3$s'.\n"
-247 "%1$s ----- Messaggi di motore dopo l'inizializzazione -----\n\%2$s\n"
+247 "%1$s ----- Messaggi di motore dopo l'inizializzazione -----\n%2$s\n"
 248 "%1$s ----- Fine dei messaggi di inizializzazione -----\n"
 
 $ ****************************************************

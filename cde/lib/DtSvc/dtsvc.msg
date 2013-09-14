@@ -74,14 +74,14 @@ $ NOTE: trailing spaces ARE important in message 7!
 7 The following host was not accessible:\n\n        
 8 \n\nCheck that the appropriate remote data access connection\nhas been made.\n\n
 $ ** The arguments for message #9 are: <action name>, <file name>, <file type>.
-9 Either action \"%1$s\" was not found or\nthis action does not apply to file:\n    \"%2$s\"\nwith data attribute::   \"%3$s\"\n\n
+9 Either action "%1$s" was not found or\nthis action does not apply to file:\n    "%2$s"\nwith data attribute::   "%3$s"\n\n
 $ ** The argument for message #10 is: <action name>
-10 Action \"%s\" was not found.\n
+10 Action "%s" was not found.\n
 $ ** Message number 11 is difficult to generate without an internal error.
 11 The following file was not found:\n\n       
 $ Do NOT localize the word "MAP".
 12 This action cannot be executed because it contains too\n\
-many levels of MAPs, or the mapping is \"circular\".
+many levels of MAPs, or the mapping is "circular".
 13 Unable to invoke the requested action.\n\nAre the following hosts accessible?\n\t(%s)\nDoes the corresponding program exist?\n(Run /usr/dt/bin/dttypes to match actions and programs.)\n\nHas your system run out of room to execute new processes?
 14 The request to service this action has failed.
 15 The request to service this action has failed.\nA ToolTalk connection could not be established:\n\n%s
@@ -89,13 +89,13 @@ many levels of MAPs, or the mapping is \"circular\".
 17 The request to service this action has failed for the following reason:\n\n    %s.
 18 An error occurred while attempting to map one of\nthe file arguments.
 $ ** The arguments for message #19 are: <action name>, <buffer type>.
-19 Either action \"%1$s\" was not found or\nthis action does not apply to buffers of type: \n\n\"%2$s\"
+19 Either action "%1$s" was not found or\nthis action does not apply to buffers of type: \n\n"%2$s"
 $ **  MESSAGE NUMBER 20 IS OBSOLETE.
-20 Unable to create tmp file: \"%1$s\" \nfor action: \"%2$s\"
-21 Unsupported input object class: \"%d\"\nfor action: \"%s\".
-22 Unable to create a temporary file in directory: \"%s\"\nfor the action named: \"%s\".
-23 Unable to open a temporary file: \"%s\"\nfor the action named: \"%s\".
-24 Unable to write a temporary file: \"%s\"\nfor the action named: \"%s\".
+20 Unable to create tmp file: "%1$s" \nfor action: "%2$s"
+21 Unsupported input object class: "%d"\nfor action: "%s".
+22 Unable to create a temporary file in directory: "%s"\nfor the action named: "%s".
+23 Unable to open a temporary file: "%s"\nfor the action named: "%s".
+24 Unable to write a temporary file: "%s"\nfor the action named: "%s".
 
 $set 3
 $ ****  Module: CmdMain.c ****
@@ -104,12 +104,12 @@ $ Note that set 3, messages 1, 3, 4, 12, 13, 16 have been obsoleted.
 
 2 An attempt to change to the following directory:\n\n\
    %1$s\n\n\
-from host \"%2$s\" failed.\n\n\
+from host "%2$s" failed.\n\n\
 Check the spelling and permissions and be sure the directory exists.
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 5 An attempt to execute the following command on host\n\
-\"%1$s\" failed:\n\n\
+"%1$s" failed:\n\n\
    %2$s\n\n\
 Check that the program exists, has the correct\n\
 permissions and is executable.
@@ -127,7 +127,7 @@ terminal emulator cannot be executed:\n\n\
    %s\n\n\
 Check that the program exists, has the correct permissions\n\
 and is executable.  This problem may have occurred because the\n\
-program is not in your \"PATH\".
+program is not in your "PATH".
 
 $ Message number 8 is OBSOLETE.
 $ 8 This action is missing one or more of the following:\n\n\
@@ -135,15 +135,15 @@ $   execution parameters, execution string or execution host.\n\n\
 $ Check that the action has an appropriate number of parameters.
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-9 The total number of characters in this action exceeds the limit of \"%d\".\n\n\
+9 The total number of characters in this action exceeds the limit of "%d".\n\n\
 You may need to break the action into more than one action.
 
 $ Message number 10 is OBSOLETE.
-$ 10 The shell program \"%s\" cannot be started.\n\n\
+$ 10 The shell program "%s" cannot be started.\n\n\
 $ Check that the program has the correct permissions and\n\
 $ is executable.
 
-11 An attempt to start a new process on host \"%s\" failed.\n\n\
+11 An attempt to start a new process on host "%s" failed.\n\n\
 To continue, you may need to stop an unneeded process on this host.
 
 $ Message number 14 is OBSOLETE.
@@ -155,7 +155,7 @@ To continue, you may need to stop an existing process.
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the words "WINDOW_TYPE".
-17 This action's WINDOW_TYPE \"%1$s\" is un-recognized.\n\
+17 This action's WINDOW_TYPE "%1$s" is un-recognized.\n\
 The WINDOW-TYPE should be one of the following:\n\n\
   %2$s, %3$s, %4$s,\n\
   %5$s, %6$s, or %7$s
@@ -169,62 +169,62 @@ permissions and is executable.
 $ MESSAGE 19 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ MESSAGE 19 IN SET 3 IS OBSOLETE
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-19 An attempt to run 'xhost' on Xserver host \"%s\" failed.\n\n\
+19 An attempt to run 'xhost' on Xserver host "%s" failed.\n\n\
 To suppress this message and disable automatic xhost'ing, run the\n\
 "EditResources" action and add the following resource:\n\n\
    *autoXhosting:  False\n
 
 $ Do NOT remove the leading spaces from any lines in the following message.
-20 This action cannot be executed on host \"%1$s\"\n\
+20 This action cannot be executed on host "%1$s"\n\
 because the following required program either\n\
 does not exist or it is not executable:\n\n\
    %2$s\n
 
 $ MESSAGE 21 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-21 The action \"%1$s\" was successfully executed on host \"%2$s\".
+21 The action "%1$s" was successfully executed on host "%2$s".
 
 $ MESSAGE 22 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-22 The directory \"%1$s\" on host \"%2$s\"\n\
+22 The directory "%1$s" on host "%2$s"\n\
 could not be converted to a network path.\n\
 (%3$s)
 
 $ MESSAGE 23 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-23 The stderr logfile \"%1$s\" on host \"%2$s\"\n\
+23 The stderr logfile "%1$s" on host "%2$s"\n\
 could not be converted to a network path.\n\
 (%3$s)
 
 24 This action cannot be executed because\n\
-host \"%s\" cannot be reached.
+host "%s" cannot be reached.
 
-25 This action cannot be executed on host \"%1$s\" because the\n\
-\"%2$s\" service is not properly configured on this host.
+25 This action cannot be executed on host "%1$s" because the\n\
+"%2$s" service is not properly configured on this host.
 
-26 This action cannot be executed because the \"%1$s\"\n\
-service is not configured on host \"%2$s\".
+26 This action cannot be executed because the "%1$s"\n\
+service is not configured on host "%2$s".
 
-27 This action cannot be executed on host \"%1$s\" because user\n\
-\"%2$s\" has a user id of \"%3$d\" on host \"%4$s\" and this does\n\
+27 This action cannot be executed on host "%1$s" because user\n\
+"%2$s" has a user id of "%3$d" on host "%4$s" and this does\n\
 not match the username and user id on the action\n\
-invocation host \"%5$s\".
+invocation host "%5$s".
 
-28 This action cannot be executed on host \"%1$s\" because\n\
-user \"%2$s\" does not have an account on this host.
+28 This action cannot be executed on host "%1$s" because\n\
+user "%2$s" does not have an account on this host.
 
-29 This action cannot be executed on host \"%s\" because\n\
+29 This action cannot be executed on host "%s" because\n\
 a pathname to the authentication file cannot be created.
 
-30 This action cannot be executed on host \"%s\" because\n\
+30 This action cannot be executed on host "%s" because\n\
 the authentication file on this host cannot be opened.\n\n\
 This may be caused by your network home not being\n\
 properly configured.
 
-31 This action cannot be executed on host \"%1$s\" because\n\
-the environment exceeds \"%2$d\" bytes.
+31 This action cannot be executed on host "%1$s" because\n\
+the environment exceeds "%2$d" bytes.
 
-32 This action cannot be executed on host \"%1$s\" because\n\
-host \"%2$s\" is not authorized to use the \"%3$s\" service.\n\n\
-To fix this, add host \"%4$s\" to the \"%5$s\" service\n\
-entry in file \"%6$s\" on host \"%7$s\".
+32 This action cannot be executed on host "%1$s" because\n\
+host "%2$s" is not authorized to use the "%3$s" service.\n\n\
+To fix this, add host "%4$s" to the "%5$s" service\n\
+entry in file "%6$s" on host "%7$s".
 
 
 $set 4
@@ -233,45 +233,45 @@ $
 $  MESSAGES 1-11 IN SET 4 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-1 A \"%s\" definition in the file:\n\
-  \"%s\"\n\
+1 A "%s" definition in the file:\n\
+  "%s"\n\
 is missing a name.  Add the name\n  to the definition.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the word "END".
 $ THIS MESSAGE IS OBSOLETE
-2 The definition \"%s\" in the file\n\
-  \"%s\"\n\
+2 The definition "%s" in the file\n\
+  "%s"\n\
 is incomplete. The definition may be missing\n\
-the \"END\" field.\n
-   
+the "END" field.\n
+
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-3 A multi-line field in the definition \"%s\"\n\
+3 A multi-line field in the definition "%s"\n\
 in the file\n\
-  \"%s\"\n\
-is incomplete.  A \"\\\" character may be missing\n\
+  "%s"\n\
+is incomplete.  A "\\" character may be missing\n\
 in the multi-line field.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-4 The definition \"%s\" in the file\n\
-  \"%s\"\n\
+4 The definition "%s" in the file\n\
+  "%s"\n\
 has too many fields.\n
 
 $ Do NOT localize the word "Dt.TypesDirs".
 5 An attempt to read the action and filetypes databases failed.\n\
-This may be caused by the resource \"Dt.TypesDirs\" being incorrectly set.\n
+This may be caused by the resource "Dt.TypesDirs" being incorrectly set.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-6 The definition \"%s\" in the file\n  \"%s\"\n  has an end symbol '}' with no start symbol '{'.\n
+6 The definition "%s" in the file\n  "%s"\n  has an end symbol '}' with no start symbol '{'.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-7 The definition \"%s\" in the file\n  \"%s\"\n  has an unexpected start symbol '{'.\n
+7 The definition "%s" in the file\n  "%s"\n  has an unexpected start symbol '{'.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-8 The definition \"%s\" in the file\n  \"%s\"\n  is incomplete. The definition may be missing\n  the \"}\" field.\n
+8 The definition "%s" in the file\n  "%s"\n  is incomplete. The definition may be missing\n  the "}" field.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-9 The definition \"%s\" in the file\n  \"%s\"\n  is missing a start symbol '{'.\n
+9 The definition "%s" in the file\n  "%s"\n  is missing a start symbol '{'.\n
 
 10 The DtDbVersion variable can only be set\nat the beginning of the file.  The remainder of the file\n'%s' is being ignored.\n
 
@@ -291,86 +291,86 @@ $
 $  MESSAGES 1-11 IN SET 6 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-1 The action definition \"%s\" in the file:\n\
-  \"%s\"\n\
+1 The action definition "%s" in the file:\n\
+  "%s"\n\
 does not have any fields.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-2 The action definition \"%s\" in the file\n\
-  \"%s\"\n\
+2 The action definition "%s" in the file\n\
+  "%s"\n\
 contains the following unrecognized field name and value:\n\
-\"%s\"\n
+"%s"\n
 
 $ Message number 3 is OBSOLETE.
-$ 3 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ does not have the required field \"%s\".\n
+$ 3 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ does not have the required field "%s".\n
 
-4 The \"%s\" field in the action definition \"%s\"\n\
-in the file \"%s\"\n\
+4 The "%s" field in the action definition "%s"\n\
+in the file "%s"\n\
 has an unrecognized action type.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the words "TYPE MAP".
-5 The action definition \"%s\" in the file\n\
-  \"%s\"\n\
-is not mapped properly.  The \"%s\" field\n\
+5 The action definition "%s" in the file\n\
+  "%s"\n\
+is not mapped properly.  The "%s" field\n\
 should be: TYPE MAP action_mapped_to.\n
 
 $ Message number 6 is OBSOLETE.
-$ 6 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
+$ 6 The action definition "%s" in the file\n\
+$   "%s"\n\
 $ contains a MAP to itself.\n
 
 $ Message number 7 is OBSOLETE.
-$ 7 The \"%s\" field in the action definition \"%s\"\n\
-$ in the file \"%s\"\n\
-$ has the unrecognized value \"%s\".\n
+$ 7 The "%s" field in the action definition "%s"\n\
+$ in the file "%s"\n\
+$ has the unrecognized value "%s".\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the word "COMMAND".
-8 The action definition \"%s\" in the file\n\
-  \"%s\"\n\
-is a \"COMMAND\" action type but lacks the\n\
-required field \"%s\".\n
+8 The action definition "%s" in the file\n\
+  "%s"\n\
+is a "COMMAND" action type but lacks the\n\
+required field "%s".\n
 
 $ Message number 9 is OBSOLETE.
-$ 9 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ is a \"MESSAGE\" action type but lacks the\n\
-$ required field \"%s\".\n
+$ 9 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ is a "MESSAGE" action type but lacks the\n\
+$ required field "%s".\n
 
 $ Message number 10 is OBSOLETE.
-$ 10 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ is a \"MESSAGE\" action type but lacks the\n\
-$ required field \"%s\".\n
+$ 10 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ is a "MESSAGE" action type but lacks the\n\
+$ required field "%s".\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-11 The action definition \"%s\" in the file\n\
-  \"%s\"\n\
-has the illegal value \"%s\" in the \"%s\" field.\n"
+11 The action definition "%s" in the file\n\
+  "%s"\n\
+has the illegal value "%s" in the "%s" field.\n"
 
-12 The action definition \"%s\" in the file\n\
-  \"%s\"\n\
-contains duplicate fields named:\n \"%s\".
+12 The action definition "%s" in the file\n\
+  "%s"\n\
+contains duplicate fields named:\n "%s".
 
-13 The action definition \"%s\" in the file\n\
-  \"%s\"\n\
-contains invalid fields for \"%s\" type actions.\n
+13 The action definition "%s" in the file\n\
+  "%s"\n\
+contains invalid fields for "%s" type actions.\n
 
-14 The action definition \"%s\" in the file\n\
-  \"%s\"\n\
-is missing the required field, \"%s\"\n for \"%s\" type actions.\n
+14 The action definition "%s" in the file\n\
+  "%s"\n\
+is missing the required field, "%s"\n for "%s" type actions.\n
 
 $ Message number 15 is OBSOLETE.
-$ 15 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ contains a NULL field value, for the \"%s\" field.\n
+$ 15 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ contains a NULL field value, for the "%s" field.\n
 
-16 The action definition \"%s\" in the file\n\
-  \"%s\"\n\
-has the illegal value \"%s\" in the \"%s%s%s\" field.\n"
+16 The action definition "%s" in the file\n\
+  "%s"\n\
+has the illegal value "%s" in the "%s%s%s" field.\n"
 
 
 $ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -442,6 +442,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtsvc.msg /main/5 1999/09/16 14:56:30 mgreess $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtsvc.msg /main/5 1999/09/16 14:56:30 mgreess $"
 

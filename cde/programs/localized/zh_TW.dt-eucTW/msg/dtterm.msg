@@ -119,18 +119,18 @@ $ DO NOT TRANSLATE Messages 37 or 41 ("End-of-list")
 32 -/+vb				ÚöÙ¯/Ì½Ö¼áþú¼çÉ
 33 -xrm resourcestring		Ì§ÅìÎûæñäãÝ½Öª
 34 -C				ÅäÚÕÆºí¼èè
-35 -Sxxd				ÇãÚ·úèí¼èè \"ttyxx\" ÎûóòÕùßÀÓÝÄ÷ \"d\" 
-36 -Sxxx.d			ÇãÚ·úèí¼èè \"ttyxxx\" ÎûóòÕùßÀÓÝÄ÷ \"d\" 
+35 -Sxxd				ÇãÚ·úèí¼èè "ttyxx" ÎûóòÕùßÀÓÝÄ÷ "d" 
+36 -Sxxx.d			ÇãÚ·úèí¼èè "ttyxxx" ÎûóòÕùßÀÓÝÄ÷ "d" 
 37 End-Of-List
 38 ÇñÎªÓÑÑÀÌù -e òÙâú¡¢ÆÆÆÒâüÅøÜ¢ÇãÌÔÅïÈçá¸Ê¢¡¢
 39 ÉÁÐ¬ËðÆîÏ¯ÄùÌùÎû shell äÄÚöÙ¯¡¤Ð©ÓòÅûÈ´ÅûæÀ (+)
 40 ÎûòÙâú¡¢Æ«ÅèÇßß¦ÄùÌùÔ«¡¤
 41 End-Of-List
-47 %s¡¨ÌÔÅïÈçòÙâúòãë¨ \"%s\"\r\n\n
+47 %s¡¨ÌÔÅïÈçòÙâúòãë¨ "%s"\r\n\n
 48 ÆîÎÎ¡¨%s
 49 \r\n   
 50  [%s]
-51 \r\n\nõïÄ« \"%s -help\" É»Æ«ÚµÌ¯ÉùðìÎûë©Íü¡¤\r\n\n
+51 \r\n\nõïÄ« "%s -help" É»Æ«ÚµÌ¯ÉùðìÎûë©Íü¡¤\r\n\n
 52 ÆîÎÎ¡¨\n
 53 \t%s [-options ...] [-e command args]\n\n
 54 òÙâúÅýÑÄ¡¨\n

@@ -119,18 +119,18 @@ $ DO NOT TRANSLATE Messages 37 or 41 ("End-of-list")
 32 -/+vb				enable/disable visual bell
 33 -xrm resourcestring		additional resource specifications
 34 -C				console mode
-35 -Sxxd				slave mode on \"ttyxx\" file descriptor \"d\"
-36 -Sxxx.d			slave mode on \"ttyxxx\" file descriptor \"d\"
+35 -Sxxd				slave mode on "ttyxx" file descriptor "d"
+36 -Sxxx.d			slave mode on "ttyxxx" file descriptor "d"
 37 End-Of-List
 38 The -e option, if given must appear at the end of the command line,
 39 otherwise the user's default shell will be started.  Options that start
 40 with a plus sign (+) restore the default.
 41 End-Of-List
-47 %s:  bad command line option \"%s\"\r\n\n
+47 %s:  bad command line option "%s"\r\n\n
 48 usage:  %s
 49 \r\n   
 50  [%s]
-51 \r\n\nType \"%s -help\" for a full description.\r\n\n
+51 \r\n\nType "%s -help" for a full description.\r\n\n
 52 usage:\n
 53 \t%s [-options ...] [-e command args]\n\n
 54 where options include:\n

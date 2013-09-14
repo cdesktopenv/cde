@@ -15,7 +15,7 @@ $ Do not translate variables such as %s, %d %s ... etc.
 $ Do not translate Motif resource name, such as XmNlabelType.
 $ Special terms with capital letter(s) should not be translated.
 $ "False" and "True" are keywords. Do not translate.
- 
+
 $quote " 
 
 
@@ -717,9 +717,9 @@ $ MSG_XmIm_1003 message is obsolete - DO NOT localize this message.
 MSG_XmIm_1004 "XmIMMove ohne Fokus für Art der Eingabe aufgerufen ."
 $ MSG_XmIm_1004 message is obsolete - DO NOT localize this message.
 
-  
+
 $set MS_Resources
-  
+
 MSG_Resource_0001 "OK"
 $ "OK" as in "Go ahead"/"Confirmed to proceed as instructed"/"Fine"
 
@@ -995,9 +995,9 @@ MSG_ColObj_0001 "Speicherzuordnung für Farbobjektdaten nicht möglich."
 
 MSG_ColObj_0002 "Ungültige Zahl der Anzeige von der Auswahl des Farb-Servers."
 
- 
+
 $set MS_IG
- 
+
 MSG_IG_1 "Ausrichtung nicht korrekt."
 $ MSG_IG_1 message is obsolete - DO NOT localize this message.
 

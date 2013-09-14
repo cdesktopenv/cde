@@ -287,8 +287,10 @@ $set 44
 $    THIS COMMENT FOR DTWM TEAM ONLY -- WmMain.c --
 $    This entire set is written to an error file
 $ YOU DON'T NEED TO LOCALIZE THIS SET.
-1 
-2 창 관리자의 이름을 위한 메모리 부족
+$quote "
+1 ""
+2 "창 관리자의 이름을 위한 메모리 부족"
+$quote "
 
 
 $set 46
@@ -433,7 +435,9 @@ $ appears in its place on the menu. There must be an even number
 $ of strings. The case of the first string does not matter. The
 $ case of the second string is preserved.
 $ 
-40 
+$quote "
+40 ""
+$quote
 
 $ 
 $    Messages 41 is written to an error file.
@@ -715,9 +719,9 @@ $
 
 $ Message 31 - 40 are the pieces for the deletion dialogs
 31 조절도구 없애기:
-32 이 조절도구를 삭제하면, \"아이콘 설치\" 놓기 영역을\n사용하여 복원할 수 없습니다.\n\n응용프로그램 관리자의 \"RestorePanel\"을 사용하면 \n이 조절도구를 나중에 되살릴 수 있습니다.\n\n이 조절도구를 삭제하겠습니까?
+32 이 조절도구를 삭제하면, "아이콘 설치" 놓기 영역을\n사용하여 복원할 수 없습니다.\n\n응용프로그램 관리자의 "RestorePanel"을 사용하면 \n이 조절도구를 나중에 되살릴 수 있습니다.\n\n이 조절도구를 삭제하겠습니까?
 33 부속패널 없애기:
-34 이 부속패널을 삭제하면, \"아이콘 설치\" 놓기 영역을 \n사용하여 해당 부속패널에 포함된 모든 조절도구를 \n복원할 수 없습니다.\n\n응용프로그램 관리자의 \"RestorePanel\"을 사용하면 \n이 부속패널과 그것의 조절도구들을 나중에 되살릴 수 있습니다.\n\n이 부속패널을 확실히 삭제하겠습니까?
+34 이 부속패널을 삭제하면, "아이콘 설치" 놓기 영역을 \n사용하여 해당 부속패널에 포함된 모든 조절도구를 \n복원할 수 없습니다.\n\n응용프로그램 관리자의 "RestorePanel"을 사용하면 \n이 부속패널과 그것의 조절도구들을 나중에 되살릴 수 있습니다.\n\n이 부속패널을 확실히 삭제하겠습니까?
 
 $ Used for the name of a newly created workspace.
 35 새 작업장
@@ -760,5 +764,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtwm.msg /main/3 1995/11/08 13:19:16 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtwm.msg /main/3 1995/11/08 13:19:16 rswiston $"
+

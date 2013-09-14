@@ -258,7 +258,8 @@ $ set 6 formerly set MS_ve
 $set 6
 
 26 "Wird dummy_workproc() genannt.\n"
-142 "%1$s Client-Fehler: Datensatz mit ungültiger\n\ Datenbankadresse %2$ld (%3$d:%4$ld, x'%5$08.8lx') für Datenbank '%6$s' angefordert."
+142 "%1$s Client-Fehler: Datensatz mit ungültiger\n\
+  Datenbankadresse %2$ld (%3$d:%4$ld, x'%5$08.8lx') für Datenbank '%6$s' angefordert."
 156 "%1$s Nicht kompatible Datenverdichtungstabelle für Datenbank '%2$s' benutzt.\n\
   Datenbank wurde mit %3$ld verdichtet; der Entkomprimierer der Maschine ist %4$ld.\n"
 157 "DTSRVE157 Client-Programmfehler: Leere Datenbankadresse in usrblk.dba."
@@ -412,8 +413,8 @@ VERWENDUNG: %1$s -d<dbname> [Optionen] <infile>\n\
 2 "%1$s: Exit-Code = %2$d\n"
 13 "%1$s Überprüfung doppelter Datensatz-IDs deaktiviert.\n"
 14 "\n%1$s Unbekanntes Befehlszeilenargument '%2$s'.\n"
-15 "\nErforderlicher Eingabedateiname fehlt.\a"
-16 "\nKein Datenbankname angegeben (Argument -d).\a"
+15 "\nErforderlicher Eingabedateiname fehlt.\07"
+16 "\nKein Datenbankname angegeben (Argument -d).\07"
 17 "%1$s Gesamte Datensatzzahl in der Datenbank wird durch tatsächliches Zählen... initialisiert.\n"
 18 "%1$s: Schemaversion '%2$s' = %3$s, Datensatzzahl = %4$ld, letzter Steckplatz = %5$ld.\n"
 19 "%1$s: Endgültige Datensatzzahl der Datenbank = %2$ld, letzter Steckplatz = %3$ld.\n"
@@ -492,17 +493,17 @@ Ist es ok, sie und andere Datenbankdateien zu überschreiben? [J,N] "
 $ Msg 13 should not translate "load_custom_language."
 13 "%s Warnung! Sie haben eine nicht unterstützte, spezifische Sprache angegeben.\n\
   Sie müssen Ihre eigenen Sprachladeprogramme zu jeder Programmlaufzeit\n\
-  in der Benutzerfunktion 'load_custom_language' bereitstellen, um auf diese Datenbank zugreifen zu können.\a\n"
+  in der Benutzerfunktion 'load_custom_language' bereitstellen, um auf diese Datenbank zugreifen zu können.\07\n"
 
 14 "\n\
-%s Semantische Verarbeitung ist nur für englischsprachige Datenbanken verfügbar.\n\a"
+%s Semantische Verarbeitung ist nur für englischsprachige Datenbanken verfügbar.\n\07"
 $ Msg 15 needs "y" to match the "yes" option in msg 12.
 15 "J"
 24 "DTSRCREATE Datenbank '%1$s' erfolgreich initialisiert.\n"
 98 "DTSRCREATE %1$s Ungültige ID für Huffman-Verdichtungstabelle."
 186 "DTSRCREATE186 Kann '%1$s' nicht in '%2$s' umbenennen:\n  %3$s\n"
 205 "DTSRCREATE205 Kann Zugriffsrechte für '%1$s' nicht ändern: %2$s\n"
-213 "%1$s Kann '%2$s' nicht öffnen:\n  %3$s.\7\n"
+213 "%1$s Kann '%2$s' nicht öffnen:\n  %3$s.\07\n"
 214 "%1$s Kann '%2$s' nicht nach '%3$s' kopieren:\n  %4$s\n"
 230 "DTSRCREATE230 Konnte Datenbank '%1$s' nicht öffnen.\n"
 239 "DTSRCREATE239 Konnte Datenbank '%1$s' nicht initialisieren.\n"
@@ -677,7 +678,7 @@ $ Msg 280 should not be translated.
 567 "%1$s Unbekanntes Befehlszeilenargument '%2$s'.\n"
 577 "%1$s Ungültiges Argument '%2$s'. Standard -r%3$d wird benutzt.\n"
 580 "%1$s Erforderlicher Eingabedateiname fehlt.\n"
-589 "%1$s Kein Datenbankname angegeben (Argument -d).\a\n"
+589 "%1$s Kein Datenbankname angegeben (Argument -d).\07\n"
 595 "%1$s Ungültiges Stapelgrößeargument '%2$s'.\n"
 600 "%1$sCachegröße wieder an %2$d angepaßt.\n"
 659 "\n%1$s: %2$s Datensatz wird verworfen, Taste zu lang:\n  '%3$s'.\n"
@@ -894,7 +895,7 @@ $ ****************************************************
 $ set MS_dtsrkdump is set 25.  5/20/96.  dtsrkdump.c
 $set 25
 
-1 "%s Abgebrochen wegen Programmfehler.\a\n"
+1 "%s Abgebrochen wegen Programmfehler.\07\n"
 $ Msg 2 should not be translated
 2 "%1$c dba=%2$d:%3$-7ld ofs=%4$-9ld adr=%5$-6ld fre=%6$ld\n"
 $ Msg 3 is like "<program name> <RCS revision number>, engine
@@ -919,12 +920,12 @@ VERWENDUNG: %1$s -o|w|ow [-v] [-t<N> | -p<N>] <dbname>\n\
             Kandidaten für die Stopliste zu finden.\n\
             Wenn w und v ohne Schwellenwert gesetzt werden, ist der Standard -t%2$d.\n\
   <dbname>  1 - 8 Zeichen langer Datenbankname mit optionalem Pfad-Präfix.\n"
-5 "%1$s Ungültiger Prozentwert %2$lf.\a\n"
-53 "%1$s Ungültiger Schwellenwert.\a\n"
-55 "%1$s Unbekanntes Befehlszeilenargument '%2$c'.\a\n"
-56 "%1$s Erforderlicher Datenbankname fehlt.\a\n"
-57 "%1$s Entweder -o oder -w muß angegeben werden.\a\n"
-58 "%1$s Ungültiger Datenbankname '%2$s'.\a\n"
+5 "%1$s Ungültiger Prozentwert %2$lf.\07\n"
+53 "%1$s Ungültiger Schwellenwert.\07\n"
+55 "%1$s Unbekanntes Befehlszeilenargument '%2$c'.\07\n"
+56 "%1$s Erforderlicher Datenbankname fehlt.\07\n"
+57 "%1$s Entweder -o oder -w muß angegeben werden.\07\n"
+58 "%1$s Ungültiger Datenbankname '%2$s'.\07\n"
 $ Msg 60 should not be translated.
 60 "%1$s: '%2$s' reccount=%3$ld maxdba=%4$ld recslots=%5$hd minw=%6$hd maxw=%7$hd\n"
 70 "%1$s Listet nur Wörter auf, die in %2$ld oder mehr Datensätzen vorkommen.\n"
@@ -1060,15 +1061,15 @@ VERWENDUNG: %3$s [-Optionen] <query>...\n\
               Die Abfrage kann in Anführungsstriche eingeschlossen sein, um Boolesche Operatoren einzuschließen.\n"
 4 "Datenbank '%1$s' wird durchsucht...\n"
 9 "<kein Abstract verfügbar>"
-117 "%1$s Ungültiges Befehlszeilenargument '%2$s'.\a\n"
-125 "%1$s Keine Abfrage angegeben.\a\n"
+117 "%1$s Ungültiges Befehlszeilenargument '%2$s'.\07\n"
+125 "%1$s Keine Abfrage angegeben.\07\n"
 165 "%1$s DtSearch nicht initialisiert:\n  %2$s\n"
 190 "%1$s Keine Treffer gefunden.\n"
-195 "%1$s Suche fehlgeschlagen.\a\n"
+195 "%1$s Suche fehlgeschlagen.\07\n"
 200 "%1$s Text für Dokument '%2$s' nicht verfügbar.\n"
 203 "%1$s Konnte keine verfügbaren Tastentypen bestimmen:\n  %2$s\n"
 224 "%1$s Keine Datensatztasten in Datenbank '%3$s' beginnen mit '%2$c'.\n"
-247 "%1$s ----- Maschinenmeldungen nach Initialisierung -----\n\%2$s\n"
+247 "%1$s ----- Maschinenmeldungen nach Initialisierung -----\n%2$s\n"
 248 "%1$s ----- Ende der Maschineninitialisierungsmeldungen -----\n"
 
 $ ****************************************************

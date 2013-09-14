@@ -120,7 +120,7 @@ $
 5 <ABBREV>ûãÏÒËðÆîëºÉ·ë©Íüê§Ü¡ÔÞ</ABBREV>                                \
 <LINK 0 "Help4Help How-To-Register-Help">                                \
 <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>                         \
-îùÎÃãô¡¨\ \ \ ÊôÈ´ÄØâ¡ÅõÎûëºÉ·ë©Íü                                       \
+îùÎÃãô¡¨   ÊôÈ´ÄØâ¡ÅõÎûëºÉ·ë©Íü                                          \
 </SIZE></WEIGHT></TYPE></></LINK>                                        \
 <PARAGRAPH leftindent 3 firstindent 3>                                   \
 <WEIGHT bold>ÊôÈ´Ü¨ÐÂË·ÇÄßäâ¡ÅõÌ§îÀÄ¸ëºÉ·ë©ÍüóòÕùËòößûª.</>              \

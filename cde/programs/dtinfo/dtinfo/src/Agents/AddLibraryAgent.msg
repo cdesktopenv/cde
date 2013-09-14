@@ -4,7 +4,7 @@ $set	Set_AddLibraryAgent
 $ 
 $ messages specific to add information library dialog
 $ Note: "Infolib" is a CDE glossary term.
-$
+$ 
 
 1	"Dtinfo: Add Document Library"
 

@@ -306,8 +306,10 @@ $set 44
 $    THIS COMMENT FOR DTWM TEAM ONLY -- WmMain.c --
 $    This entire set is written to an error file
 $ YOU DON'T NEED TO LOCALIZE THIS SET.
-1 
-2 Insufficient memory for name of window manager
+$quote "
+1 ""
+2 "Insufficient memory for name of window manager"
+$quote
 
 
 $set 46
@@ -458,7 +460,9 @@ $ appears in its place on the menu. There must be an even number
 $ of strings. The case of the first string does not matter. The 
 $ case of the second string is preserved.
 $ 
-40 
+$quote "
+40 ""
+$quote
 
 $ 
 $    Message 41-42 are written to an error file.
@@ -741,9 +745,9 @@ $
 
 $ Message 31 - 40 are the pieces for the deletion dialogs
 31 Cancellazione del controllo:
-32 Cancellando questo controllo non sarà possibile \nripristinarlo usando l'area \"Installazione icona\".\n\nPer ripristinarlo, occorrerà usare l'opzione\n\"Ripristinare pannello\" nella Gestione di applicazioni.\n\nConfermare la cancellazione?
+32 Cancellando questo controllo non sarà possibile \nripristinarlo usando l'area "Installazione icona".\n\nPer ripristinarlo, occorrerà usare l'opzione\n"Ripristinare pannello" nella Gestione di applicazioni.\n\nConfermare la cancellazione?
 33 Cancellazione del pannello secondario:
-34 Cancellando questo pannello secondario non sarà possibile \nripristinare tutti i controlli che esso contiene usando \nl'area \"Installazione icona\".\n\nPer ripristinare il pannello secondario e i controlli\noccorrerà usare l'opzione \"Ripristinare pannello\" \nnella Gestione di applicazioni.             \n\nConfermare la cancellazione?
+34 Cancellando questo pannello secondario non sarà possibile \nripristinare tutti i controlli che esso contiene usando \nl'area "Installazione icona".\n\nPer ripristinare il pannello secondario e i controlli\noccorrerà usare l'opzione "Ripristinare pannello" \nnella Gestione di applicazioni.             \n\nConfermare la cancellazione?
 
 $ Used for the name of a newly created workspace.
 35 Nuovo
@@ -786,5 +790,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtwm.msg /main/6 1999/09/20 15:20:44 mgreess $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtwm.msg /main/6 1999/09/20 15:20:44 mgreess $"
+

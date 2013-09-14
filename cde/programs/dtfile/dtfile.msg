@@ -473,7 +473,8 @@ permission for the above file. Change Write permission or manually\n\
 rename the file you are changing so it no longer has the same name.
 
 123 Move Canceled - none of the objects were moved.\n\n\
-A file that you want to replace could not be deleted.\n\ File: %s\n\n1 other object has been deleted.\n\n\
+A file that you want to replace could not be deleted.\n\
+    File: %s\n\n1 other object has been deleted.\n\n\
 The most probable cause of this problem is that you do not have Write\n\
 permission for the above file. Change Write permission or manually\n\
 rename the file you are moving so it no longer has the same name.
@@ -675,13 +676,13 @@ or the Name for Copy before a copy can be created.
 You must change either the Destination Folder\n\
 or the Name for Copy before a link can be created.
 47 Cannot move a folder into itself.
-48 Cannot copy the following objects to folder \"%s\"\n\n%s\n\n\
+48 Cannot copy the following objects to folder "%s"\n\n%s\n\n\
 The most likely cause is that you do not have\n\
 write permission for the target folder.
-49 Cannot move the following objects to folder \"%s\"\n\n%s\n\n\
+49 Cannot move the following objects to folder "%s"\n\n%s\n\n\
 The most likely cause is that you do not have\n\
 write permission for the target folder.
-50 Cannot move the following objects to folder \"%s\"\n\n%s\n\n\
+50 Cannot move the following objects to folder "%s"\n\n%s\n\n\
 The most likely cause is that you do not have\n\
 permission to move source object.
 
@@ -863,7 +864,9 @@ $ Messages 29 and 30 are text for the Save Settings dialog
 $ Messages 34 and 35 are drag/drop error messages
 
 $ DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGE 1
-1 
+$quote "
+1 ""
+$quote
 
 $ MESSAGE 2 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ above no longer true - it will be displayed - see CDExc21626
@@ -1761,5 +1764,7 @@ $ DO NOT TRANSLATE THESE MESSAGES
 $ DO NOT CHANGE THESE MESSAGES
 $ DO NOT LOCALIZE THESE MESSAGES
 $ These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/10 1999/09/16 09:42:03 mgreess $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/10 1999/09/16 09:42:03 mgreess $"
+

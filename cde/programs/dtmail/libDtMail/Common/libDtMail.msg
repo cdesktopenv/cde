@@ -237,7 +237,7 @@ $ "-NEW"
 $ // - DTME_ResourceParsingNoEndif
 $ 
 72 "An error occurred while parsing the .mailrc resource file.\nThere is a conditional if statement that does not have a corresponding endif statement.\n"
-  
+
 $ "-NEW"
 $ // - DTME_AlreadyOpened
 $ 
@@ -259,7 +259,7 @@ $ // - DTME_MailboxInodeChanged
 $ "-NEW"
 $ // - DTME_MailServerAccess_AuthorizationFailed
 77 "Cannot retrieve mail for '%s@%s' using '%s'.\nAuthorization failed.  The server returned:\n     %s\n\nPlease enter a new password"
-  
+
 $ "-NEW"
 $ // - DTME_MailServerAccess_Error
 78 "Cannot retrieve mail for '%s@%s' using '%s'.\nThe server returned:\n     %s"
@@ -271,31 +271,31 @@ $ // - DTME_MailServerAccess_MissingPassword
 $ "-NEW"
 $ // - DTME_MailServerAccess_ProtocolViolation
 80 "Cannot retrieve mail for '%s@%s' using '%s'.\nClient/server protocol error."
-  
+
 $ "-NEW"
 $ // - DTME_MailServerAccess_ServerTimeoutError
 81 "Cannot retrieve mail for '%s@%s' using '%s'.\nTimed out waiting for server."
-  
+
 $ "-NEW"
 $ // - DTME_MailServerAccess_SocketIOError
 82 "Cannot retrieve mail for '%s@%s' using '%s'.\n%s."
-  
+
 $ "-NEW"
 $ // - DTME_AppendMailboxFile_Error
 83 "Cannot append to mailbox"
-  
+
 $ "-NEW"
 $ // - DTME_AppendMailboxFile_FileTooBig
 84 "Cannot append to mailbox:  %s\nSYSERROR(%d):  %s."
-  
+
 $ "-NEW"
 $ // - DTME_AppendMailboxFile_LinkLost
 85 "Cannot append to mailbox:  %s\nSYSERROR(%d):  %s."
-  
+
 $ "-NEW"
 $ // - DTME_AppendMailboxFile_NoSpaceLeft
 86 "Cannot append to mailbox:  %s\nSYSERROR(%d):  %s."
-  
+
 $ "-NEW"
 $ // - DTME_AppendMailboxFile_SystemError
 87 "Cannot append to mailbox:  %s\nSYSERROR(%d):  %s."
@@ -307,7 +307,7 @@ $ // - DTME_GetmailCommandRetrieval_SystemError
 $ "-NEW"
 $ // - DTME_GetmailCommandRetrieval_AbnormalExit
 89 "Getmail command exited abnormally:  %s."
-  
+
 $ "-NEW"
 $ // - DTME_PathElementPermissions
 90 "Search permission denied on a component of the path prefix,\n'%s'."
@@ -323,19 +323,19 @@ $ // - DTME_PathElementDoesNotExist
 $ "-NEW"
 $ // - DTME_MailServerAccessInfo_SocketOpen
 93 "Opening connection for '%s@%s'."
-  
+
 $ "-NEW"
 $ // - DTME_MailServerAccessInfo_NoMessages
 94 "No messages for '%s@%s'."
-  
+
 $ "-NEW"
 $ // - DTME_MailServerAccessInfo_RetrievingMessage
 95 "Retrieving message %d of %d for '%s@%s'."
- 
+
 $ "-NEW"
 $ // - DTME_MailServerAccessInfo_MessageTooLarge
 96 "Skipping oversized message (%d bytes)."
-  
+
 
 $ 
 $ Strings from libDtMail/Common/DtMailValuesBuiltin.C
@@ -346,7 +346,7 @@ $  * The %C is the time and date format, please refer to strftime man page for
 $  * explanation of each format.
 $  */
 1 "%C" 
-  
+
 
 $ 
 $ SockOpen error strings from libDtMail/Common/IO.C

@@ -1,4 +1,4 @@
- 
+
 $ "$XConsortium: dtstyle.msg /main/10 1996/11/19 19:29:20 rws $"
 
 $ *************************************<+>*************************************
@@ -69,7 +69,7 @@ $ _DtMessage 3 is the title of all Error dialog boxes
 $ _DtMessage 4 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 4 Impossibile comunicare con la \n\
 Gestione delle sessioni... Uscita.
- 
+
 $  MESSAGES 5-6 IN SET 2 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 5 La Gestione degli stili è già in esecuzione,\n\
 il secondo tentativo è stato abbandonato.
@@ -442,7 +442,7 @@ $ _DtMessage 11 is the title of the Add Palette dialog box.
 $ Messages 12 through 14 are error messages.
 12 Il nome della tavolozza non può contenere\n\
 questi caratteri:\n\n\
-<spazio> * : ( ) [ ] { } < > ! | \" / \\
+<spazio> * : ( ) [ ] { } < > ! | " / \\
 $ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE 
 $ TO SAY THE PALETTE NAME MUST BE 10 BYTES OR LESS
 13 Il nome della tavolozza non può avere\nuna dimensione maggiore di 10 byte.\n
@@ -708,8 +708,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/10 1996/11/19 19:29:20 rws $
-
-
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/10 1996/11/19 19:29:20 rws $"
 

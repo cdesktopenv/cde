@@ -224,7 +224,7 @@ $set 4
 $ set 4 is log error messages
 $ 
 
-1 Det går inte att hitta accessfilen \"%1$s\" på värddatorn \"%2$s\"\n
+1 Det går inte att hitta accessfilen "%1$s" på värddatorn "%2$s"\n
 2 ReadHostEntry\n
 3 Accessfilen %1$2s, okänd visningsenhet %1$2s\n
 4 Det går inte att öppna accessinställningsfilen %1$s, XDMCP-förfrågningarna kan inte garanteras\n
@@ -275,7 +275,7 @@ $
 49 Dtlogin kan inte koppla bort klienten\n
 50 Det går inte att exekvera %1$s\n
 51 Det går inte att klyva för att exekvera %1$s\n
-52 Felaktigt verifieringsnamn \"%1$s\". Använd AFS, Kerberos eller standardnamnet.\n
+52 Felaktigt verifieringsnamn "%1$s". Använd AFS, Kerberos eller standardnamnet.\n
 53 Det går inte att exekvera Dtgreet %1$s för %2$s\n
 54 Det går inte att klyva för att exekvera Dtgreet %1$s\n
 55 Det gick inte att skapa sockel på port %1$d\n
@@ -292,7 +292,7 @@ $
 66 Kontot för %1$s har upphört att gälla. Kontakta systemadministratören.\n
 67 Servern har slutat att fungera  %1$s\n
 68 Det går inte att öppna en bitmappsfil för logotypen: %1$s\n
-69 Det går inte att läsa meddelandeförteckningen \"%1$s\". Standardspråket används.
+69 Det går inte att läsa meddelandeförteckningen "%1$s". Standardspråket används.
 70 Det gick inte att initiera visningsenheten %1$s. Servern kan ha kopierats.\n
 71 (%1$s): Bredden på Login matte överstiger visningsenheten, standardinställningen används i stället. Matte-enheterna är bildpunkter.\n
 72 (%1$s) Höjden på Login matte överstiger visningsenheten, standardinställningen används i stället. Matte-enheterna är bildpunkter.\n
@@ -312,5 +312,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/3 1995/11/08 13:34:30 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/3 1995/11/08 13:34:30 rswiston $"
+

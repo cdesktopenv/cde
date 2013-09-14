@@ -193,7 +193,9 @@ $ 53 "Manual Page: "
 $ Don't translate message 60 unless it is not an empty string
 $ This is the default value that goes in the Printer field
 $ 60 " "
-60 
+$quote "
+60 ""
+$quote
 
 $ Don't translate message 61
 $ This is the default value that goes in the Copies field
@@ -225,22 +227,24 @@ $ " (%s)"
 18 찾는 중... 남은 볼륨수: %d개
 19 찾는 색인 항목이 없습니다.
 20 전체 색인
-21 \"%s\"을(를) 가진 항목
+21 "%s"을(를) 가진 항목
 22 선택된 볼륨이 없습니다.
 23 위 찾기 선택사항을 선택하십시오.
 $ Do NOT translate messages 25-31
+$quote "
 $ " "
-25 
-26 +
-27 -
+25 " "
+26 "+"
+27 "-"
 $ "  +"
-28  +
+28 "  +"
 $ "  -"
-29  -
+29 "  -"
 $ 30 "       "
-30 
+30 "       "
 $ 31 "         "
-31 
+31 "         "
+$quote
 $ DO translate messages 32 and above
 $ kind of topic messages
 32 도움말 메세지
@@ -351,6 +355,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)Message catalog source $XConsortium: DtHelp.msg /main/3 1995/11/08 13:12:26 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)Message catalog source $XConsortium: DtHelp.msg /main/3 1995/11/08 13:12:26 rswiston $"
 

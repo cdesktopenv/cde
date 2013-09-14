@@ -725,17 +725,17 @@ $ Messages 9, 14, 16, 28, and 30-36 are file manipulation error messages
 
 47 àÒÎÎä°ÜÃóòÕùÉèÈÝÆÛËÎ¡¤
 
-48 "àÒÎÎÙòÄ¶ÇÄÎìÇµîïêûÌ¯óòÕùÉè \"%s\"\n\n\
+48 "àÒÎÎÙòÄ¶ÇÄÎìÇµîïêûÌ¯óòÕùÉè "%s"\n\n\
 %s\n\n\
 Æ«×äÇÞÒ³ÊôÈ´ìÑÄ«ÆøíºóòÕùÉè\n\
 ÎûûâÓî¡¤"
 
-49 "àÒÎÎÙòÄ¶ÇÄÎìÇµÜÃÙ¯Ì¯óòÕùÉè \"%s\"\n\n\
+49 "àÒÎÎÙòÄ¶ÇÄÎìÇµÜÃÙ¯Ì¯óòÕùÉè "%s"\n\n\
 %s\n\n\
 Æ«×äÇÞÒ³ÊôÈ´ìÑÄ«ÆøíºóòÕùÉè\n\
 ÎûûâÓî¡¤"
 
-50 "àÒÎÎÙòÄ¶ÇÄÎìÇµÜÃÙ¯Ì¯óòÕùÉè \"%s\"\n\n\
+50 "àÒÎÎÙòÄ¶ÇÄÎìÇµÜÃÙ¯Ì¯óòÕùÉè "%s"\n\n\
 %s\n\n\
 Æ«×äÇÞÒ³ÊôÈ´ÜÃÙ¯ËôäãÎìÇµ\n\
 ÎûûâÓî¡¤"
@@ -913,7 +913,9 @@ $ Messages 29 and 30 are text for the Save Settings dialog
 $ Messages 34 and 35 are drag/drop error messages
 
 $ DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGE 1
-1 
+$quote "
+1 ""
+$quote
 
 $ MESSAGE 2 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 2 àÒÎÎÐúÇ¡ .dt óòÕùÉèÍÐÄÍóòÕùÉè¡¤
@@ -1676,6 +1678,7 @@ $set 33
 1 ÇéÓìÎìÇµ
 2 ÆøÐ©óòÕùÉè
 
+$quote "
 3 "ÜÃÙ¯ÎìÇµòãë¨"
 
 4 "îïêûÎìÇµòãë¨"
@@ -1740,5 +1743,6 @@ $ DO NOT TRANSLATE THESE MESSAGES
 $ DO NOT CHANGE THESE MESSAGES
 $ DO NOT LOCALIZE THESE MESSAGES
 $ These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/6 1998/04/29 15:13:40 rafi $
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/6 1998/04/29 15:13:40 rafi $"
+

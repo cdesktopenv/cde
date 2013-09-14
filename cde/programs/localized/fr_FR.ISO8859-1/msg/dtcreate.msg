@@ -215,7 +215,7 @@ $
 50 "Le nom d'action contient un ou plusieurs\n\
 caractères incorrects.\n\
 Les caractères suivants ne sont pas autorisés:\n\
-  / \ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
+  / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $   
 
 55 "Impossible de créer le fichier suivant:"
@@ -385,7 +385,7 @@ $
 20 "La zone Nom de la famille de type de données\n\
 contient un ou plusieurs caractères incorrects.\n\
 Les caractères suivants ne sont pas autorisés:\n\
-  / \ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
+  / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $   
 
 25 "Ce nom est déjà utilisé pour une famille de type de\n\
@@ -487,7 +487,7 @@ $
 45 "Le modèle de nom contient un ou plusieurs\n\
 caractères incorrects.\n\
 Les caractères suivants ne sont pas autorisés:\n\
-  / \ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
+  / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $   
 
 46 "Le Modèle de contenu n'est pas compatible\n\

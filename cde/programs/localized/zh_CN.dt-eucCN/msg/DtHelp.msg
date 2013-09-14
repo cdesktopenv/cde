@@ -191,7 +191,9 @@ $ 53 "Manual Page: "
 $ Don't translate message 60 unless it is not an empty string
 $ This is the default value that goes in the Printer field
 $ 60 " "
-60 
+$quote "
+60 ""
+$quote
 
 $ Don't translate message 61
 $ This is the default value that goes in the Copies field
@@ -227,18 +229,20 @@ $ " (%s)"
 22 没有选择的卷
 23 选择以上的搜索选项
 $ Do NOT translate messages 25-31
+$quote "
 $ " "
-25  
-26 +
-27 -
+25 " "
+26 "+"
+27 "-"
 $ "  +"
-28  +
+28 "  +"
 $ "  -"
-29  -
+29 "  -"
 $ 30 "       "
-30        
+30 "       "
 $ 31 "         "
-31          
+31 "         "
+$quote
 $ DO translate messages 32 and above
 $ kind of topic messages
 32 提示信息
@@ -349,6 +353,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)Message catalog source $XConsortium: DtHelp.msg /main/3 1995/11/08 13:46:59 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)Message catalog source $XConsortium: DtHelp.msg /main/3 1995/11/08 13:46:59 rswiston $"
 

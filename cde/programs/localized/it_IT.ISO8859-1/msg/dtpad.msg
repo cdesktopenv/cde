@@ -177,7 +177,7 @@ $ This is displayed when a ToolTalk edit request on a file or buffer is
 $ received with a document name specified in the request, a Save operation
 $ is done and there are unsaved changes.  The "%s" in the message is
 $ replaced by the document name (instead of the filename).
-41 Salvare le modifiche a \"%s\"?
+41 Salvare le modifiche a "%s"?
 
 $ Title of "Copy As" dialog which is substitued for the "Save As" dialog
 $ when file name changes are disallowd.  This should match the menu button
@@ -240,7 +240,9 @@ $ ** Prefix string for all dialogs. **
 $ ************************************
 $ bogus?? blank string gotten but otherwise unused in main()
 $ DO NOT LOCALIZE string 1
-1 
+$quote "
+1 ""
+$quote
 
 $ The name used in the title bar of every window.
 $ Be sure to end this message with a space character.
@@ -314,9 +316,9 @@ Sintassi: %s...\n\
 \til testo in una finestra autonoma e indipendentemente dal\n\
 \tserver dell'Editor di testo.\n\n\
    -noBlocking\n\
-\Conclude l'elaborazione delle richieste non appena il\n\
+\tConclude l'elaborazione delle richieste non appena il\n\
 \tserver dell'Editor di testo conferma di poter gestire\n\
-\le richieste di modifica.\n\n\
+\tle richieste di modifica.\n\n\
    -server\n\
 \tAvvia il server dell'Editor di testo (se non è già in\n\
 \tfunzione) per elaborare tutte le successive richieste di\n\
@@ -726,7 +728,7 @@ $	Message 22 status message displayed as the print job progresses.
 20 "Close pending:  waiting for task to terminate ..."
 21 "È in corso la stampa di %s ..."
 22 "È in corso la stampa di %s: pagina %d di %d ..."
- 
+
 $       Message 23 is used in the construction of a title string for the
 $                  Print Setup dialog.
 23 "Impostazione della stampa - "

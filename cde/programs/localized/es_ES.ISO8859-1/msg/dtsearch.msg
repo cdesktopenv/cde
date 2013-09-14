@@ -413,8 +413,8 @@ USO: %1$s -d<nombre de la base de datos> [opciones] <archivo de entrada>\n\
 2 "%1$s: Código de salida = %2$d\n"
 13 "%1$s Verificación de identificación de anotación desactivada.\n"
 14 "\n%1$s Argumento de línea de comando '%2$s' desconocido.\n"
-15 "\nFalta el nombre de archivo de entrada requerido.\a"
-16 "\nNo se ha especificado el nombre de la base de datos (argumento -d).\a"
+15 "\nFalta el nombre de archivo de entrada requerido.\07"
+16 "\nNo se ha especificado el nombre de la base de datos (argumento -d).\07"
 17 "%1$s Se inicializa la cuenta total de anotaciones de la base de datos contando...\n"
 18 "%1$s: Versión de esquema '%2$s' versión = %3$s, total de anotaciones = %4$ld, última posición = %5$ld.\n"
 19 "%1$s: Total final de anotaciones de la base de datos = %2$ld, última posición = %3$ld.\n"
@@ -493,17 +493,17 @@ $ other than the translated "y" option means "no."
 $ Msg 13 should not translate "load_custom_language."
 13 "%s ¡Advertencia! Ha especificado un idioma personalizado no soportado.\n\
   Deberá suministrar sus propios cargadores de idiomas al ejecutar\n\
-  en la función de usuario 'load_custom_language' para obtener acceso a esta base de datos.\a\n"
+  en la función de usuario 'load_custom_language' para obtener acceso a esta base de datos.\07\n"
 
 14 "\n\
-El procesamiento semántico %s sólo está disponible para bases de datos en inglés.\n\a"
+El procesamiento semántico %s sólo está disponible para bases de datos en inglés.\n\07"
 $ Msg 15 needs "y" to match the "yes" option in msg 12.
 15 "s"
 24 "DTSRCREATE Ha inicializado la base de datos '%1$s' correctamente.\n"
 98 "DTSRCREATE %1$s Identificación de tabla de compresión Huffman no válida."
 186 "DTSRCREATE186 No se puede cambiar el nombre de '%1$s' a '%2$s':\n  %3$s\n"
 205 "DTSRCREATE205 No se pueden cambiar los permisos de '%1$s': %2$s\n"
-213 "%1$s Incapaz de abrir '%2$s':\n  %3$s.\7\n"
+213 "%1$s Incapaz de abrir '%2$s':\n  %3$s.\07\n"
 214 "%1$s Incapaz de copiar '%2$s' en '%3$s':\n  %4$s\n"
 230 "DTSRCREATE230 No se pudo abrir la base de datos '%1$s'.\n"
 239 "DTSRCREATE239 No se pudo inicializar la base de datos '%1$s'.\n"
@@ -678,7 +678,7 @@ $ Msg 280 should not be translated.
 567 "%1$s Argumento de línea de comando '%2$s' desconocido.\n"
 577 "%1$s Argumento '%2$s' no válido.  Se utiliza el argumento predeterminado -r%3$d.\n"
 580 "%1$s Falta el nombre de archivo de entrada requerido.\n"
-589 "%1$s No se ha especificado ningún nombre de base de datos (argumento -d).\a\n"
+589 "%1$s No se ha especificado ningún nombre de base de datos (argumento -d).\07\n"
 595 "%1$s Argumento de tamaño de lote '%2$s' no válido.\n"
 600 "%1$sEl tamaño del caché se ha vuelto a ajustar en %2$d.\n"
 659 "\n%1$s: %2$s Se desechará la anotación. La clave es demasiado larga:\n  '%3$s'.\n"
@@ -895,7 +895,7 @@ $ ****************************************************
 $ set MS_dtsrkdump is set 25.  5/20/96.  dtsrkdump.c
 $set 25
 
-1 "%s Cancelación debido a error del programa.\a\n"
+1 "%s Cancelación debido a error del programa.\07\n"
 $ Msg 2 should not be translated
 2 "%1$c dba=%2$d:%3$-7ld ofs=%4$-9ld adr=%5$-6ld fre=%6$ld\n"
 $ Msg 3 is like "<program name> <RCS revision number>, engine
@@ -920,12 +920,12 @@ USO: %1$s -o|w|ow [-v] [-t<N> | -p<N>] <nombre de la base de datos>\n\
             buscar candidatos para la lista de parada.\n\
             Si w y v se configuran sin umbral, el valor predeterminado es -t%2$d.\n\
   <nombre de la base de datos>  Nombre de base de datos de 1 a 8 caracteres con un prefijo de ruta opcional.\n"
-5 "%1$s Valor de porcentaje %2$lf no válido.\a\n"
-53 "%1$s Valor de umbral no válido.\a\n"
-55 "%1$s Argumento de línea de comando '%2$c' no válido.\a\n"
-56 "%1$s Falta el nombre de base de datos necesario.\a\n"
-57 "%1$s Se debe especificar -o o -w.\a\n"
-58 "%1$s Nombre de base de datos '%2$s' no válido.\a\n"
+5 "%1$s Valor de porcentaje %2$lf no válido.\07\n"
+53 "%1$s Valor de umbral no válido.\07\n"
+55 "%1$s Argumento de línea de comando '%2$c' no válido.\07\n"
+56 "%1$s Falta el nombre de base de datos necesario.\07\n"
+57 "%1$s Se debe especificar -o o -w.\07\n"
+58 "%1$s Nombre de base de datos '%2$s' no válido.\07\n"
 $ Msg 60 should not be translated.
 60 "%1$s: '%2$s' reccount=%3$ld maxdba=%4$ld recslots=%5$hd minw=%6$hd maxw=%7$hd\n"
 70 "%1$s Listará solamente palabras que aparecen en %2$ld o más anotaciones.\n"
@@ -1061,15 +1061,15 @@ USO: %3$s [-opciones] <consulta>...\n\
               La consulta puede estar entre comillas para incluir operadores boleanos.\n"
 4 "Buscando en la base de datos '%1$s'...\n"
 9 "<no ningún resumen disponible>"
-117 "%1$s Argumento de línea de comando '%2$s' no válido.\a\n"
-125 "%1$s No se ha especificado ninguna consulta.\a\n"
+117 "%1$s Argumento de línea de comando '%2$s' no válido.\07\n"
+125 "%1$s No se ha especificado ninguna consulta.\07\n"
 165 "%1$s DtSearch no se ha inicializado:\n  %2$s\n"
 190 "%1$s No se han encontrado elementos.\n"
-195 "%1$s La búsqueda ha fallado.\a\n"
+195 "%1$s La búsqueda ha fallado.\07\n"
 200 "%1$s No hay texto disponible para el documento '%2$s'.\n"
 203 "%1$s No se pudieron determinar los tipos de clave disponbiles:\n  %2$s\n"
 224 "%1$s No hay claves de anotación que comienzan con '%2$c' en la base de datos '%3$s'.\n"
-247 "%1$s ----- Mensajes del motor después de la inicialización -----\n\%2$s\n"
+247 "%1$s ----- Mensajes del motor después de la inicialización -----\n%2$s\n"
 248 "%1$s ----- Fin de los mensajes de inicialización del motor -----\n"
 
 $ ****************************************************

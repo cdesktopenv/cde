@@ -67,7 +67,7 @@ UIL_29 "Se ha cancelado la compilación, por favor resuelva los errores anteriore
 
 UIL_30 "Error interno. Por favor envíe un informe acerca del error."
 
-UIL_31  
+UIL_31 " "
 
 UIL_32 "A %s le falta la siguiente opción \"%s\""
 

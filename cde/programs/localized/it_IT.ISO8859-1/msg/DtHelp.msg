@@ -193,7 +193,9 @@ $ 53 "Manual Page: "
 $ $ Don't translate message 60 unless it is not an empty string
 $ This is the default value that goes in the Printer field
 $ 60 " "
-60 
+$quote "
+60 ""
+$quote
 
 $ $ Don't translate message 61
 $ This is the default value that goes in the Copies field
@@ -225,22 +227,24 @@ $ " (%s)"
 18 Ricerca in corso... Volumi restanti: %d
 19 Nessuna voce di indice trovata
 20 Indice completo
-21 Voci contenenti \"%s\"
+21 Voci contenenti "%s"
 22 Nessun volume selezionato
 23 Selezionare le opzioni per la ricerca
 $ Do NOT translate messages 25-31
+$quote "
 $ " "
-25  
-26 +
-27 -
+25 " "
+26 "+"
+27 "-"
 $ "  +"
-28  +
+28 "  +"
 $ "  -"
-29  -
+29 "  -"
 $ 30 "       "
-30        
+30 "       "
 $ 31 "         "
-31          
+31 "         "
+$quote
 $ DO translate messages 32 and above
 $ kind of topic messages
 32 Messaggio di aiuto
@@ -311,7 +315,7 @@ $ for translation.  They are not in any order or chosen location.
 11 Non eseguire
 12 Il volume di help ha cercato di eseguire un alias di comando.\nL'alias '%s' non è definito.
 13 Il volume di help ha cercato di eseguire un comando.\nPer ragioni di sicurezza, l'esecuzione automatica del comando è stata disabilitata.\nIl comando è:  %s
-14 Il volume di help ha cercato di eseguire un comando come utente root, ma la\ndirectory iniziale  \"%s\"  ($HOME) non corrisponde alla\ndirectory iniziale dell'utente root.  Questa situazione potrebbe causare l'esecuzione di\ncomandi erronei.\n\nIl comando è:  \"%s\"\n\nNota bene:  per evitare questo problema:\n utilizzare il comando \"su - root\"  invece di  \"su root\".\n
+14 Il volume di help ha cercato di eseguire un comando come utente root, ma la\ndirectory iniziale  "%s"  ($HOME) non corrisponde alla\ndirectory iniziale dell'utente root.  Questa situazione potrebbe causare l'esecuzione di\ncomandi erronei.\n\nIl comando è:  "%s"\n\nNota bene:  per evitare questo problema:\n utilizzare il comando "su - root"  invece di  "su root".\n
 $ End Message set 8
 
 
@@ -352,6 +356,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)Message catalog source $XConsortium: DtHelp.msg /main/5 1996/10/19 16:10:24 rws $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)Message catalog source $XConsortium: DtHelp.msg /main/5 1996/10/19 16:10:24 rws $"
 

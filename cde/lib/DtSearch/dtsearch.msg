@@ -413,8 +413,8 @@ USAGE: %1$s -d<dbname> [options] <infile>\n\
 2 "%1$s: Exit code = %2$d\n"
 13 "%1$s Duplicate record id checking disabled.\n"
 14 "\n%1$s Unknown command line argument '%2$s'.\n"
-15 "\nMissing required input file name.\a"
-16 "\nNo database name specified (-d argument).\a"
+15 "\nMissing required input file name."
+16 "\nNo database name specified (-d argument).\07"
 17 "%1$s Initializing total record count in database by actually counting...\n"
 18 "%1$s: '%2$s' schema version = %3$s, record count = %4$ld, last slot = %5$ld.\n"
 19 "%1$s: Final database record count = %2$ld, last slot = %3$ld.\n"
@@ -493,17 +493,17 @@ Is it ok to overwrite it and other database files? [y,n] "
 $ Msg 13 should not translate "load_custom_language."
 13 "%s Warning! you have specified an unsupported, custom language.\n\
   You will have to provide your own language loaders at run time\n\
-  in user function 'load_custom_language' to access this database.\a\n"
+  in user function 'load_custom_language' to access this database.\07\n"
 
 14 "\n\
-%s semantic processing is only available for English language databases.\n\a"
+%s semantic processing is only available for English language databases.\n\07"
 $ Msg 15 needs "y" to match the "yes" option in msg 12.
 15 "y"
 24 "DTSRCREATE Successfully initialized database '%1$s'.\n"
 98 "DTSRCREATE %1$s Invalid Huffman compression table id."
 186 "DTSRCREATE186 Unable to rename '%1$s' to '%2$s':\n  %3$s\n"
 205 "DTSRCREATE205 Unable to change permissions for '%1$s': %2$s\n"
-213 "%1$s Unable to open '%2$s':\n  %3$s.\7\n"
+213 "%1$s Unable to open '%2$s':\n  %3$s.\07\n"
 214 "%1$s Unable to copy '%2$s' to '%3$s':\n  %4$s\n"
 230 "DTSRCREATE230 Could not open database '%1$s'.\n"
 239 "DTSRCREATE239 Could not initialize database '%1$s'.\n"
@@ -678,7 +678,7 @@ $ Msg 280 should not be translated.
 567 "%1$s Unknown command line argument '%2$s'.\n"
 577 "%1$s Invalid arg '%2$s'.  Using default -r%3$d.\n"
 580 "%1$s Missing required input file name.\n"
-589 "%1$s No database name specified (-d argument).\a\n"
+589 "%1$s No database name specified (-d argument).\07\n"
 595 "%1$s Invalid batch size argument '%2$s'.\n"
 600 "%1$sCache size readjusted to %2$d.\n"
 659 "\n%1$s: %2$s Discarding record, key too long:\n  '%3$s'.\n"
@@ -895,7 +895,7 @@ $ ****************************************************
 $ set MS_dtsrkdump is set 25.  5/20/96.  dtsrkdump.c
 $set 25
 
-1 "%s Program Error Abort.\a\n"
+1 "%s Program Error Abort.\07\n"
 $ Msg 2 should not be translated
 2 "%1$c dba=%2$d:%3$-7ld ofs=%4$-9ld adr=%5$-6ld fre=%6$ld\n"
 $ Msg 3 is like "<program name> <RCS revision number>, engine
@@ -920,12 +920,12 @@ USAGE: %1$s -o|w|ow [-v] [-t<N> | -p<N>] <dbname>\n\
             candidates for the stop list.\n\
             If w and v are set without threshold, default is -t%2$d.\n\
   <dbname>  1 - 8 character database name with optional path prefix.\n"
-5 "%1$s Invalid percent value %2$lf.\a\n"
-53 "%1$s Invalid threshold value.\a\n"
-55 "%1$s Unknown command line argument '%2$c'.\a\n"
-56 "%1$s Missing required database name.\a\n"
-57 "%1$s Either -o or -w must be specified.\a\n"
-58 "%1$s Invalid database name '%2$s'.\a\n"
+5 "%1$s Invalid percent value %2$lf.\07\n"
+53 "%1$s Invalid threshold value.\07\n"
+55 "%1$s Unknown command line argument '%2$c'.\07\n"
+56 "%1$s Missing required database name.\07\n"
+57 "%1$s Either -o or -w must be specified.\07\n"
+58 "%1$s Invalid database name '%2$s'.\07\n"
 $ Msg 60 should not be translated.
 60 "%1$s: '%2$s' reccount=%3$ld maxdba=%4$ld recslots=%5$hd minw=%6$hd maxw=%7$hd\n"
 70 "%1$s Will only list words occurring in %2$ld or more records.\n"
@@ -1061,15 +1061,15 @@ USAGE: %3$s [-options] <query>...\n\
               Query may be enclosed in quotes to include boolean operators.\n"
 4 "Searching '%1$s' Database...\n"
 9 "<no abstract available>"
-117 "%1$s Invalid command line argument '%2$s'.\a\n"
-125 "%1$s No query specified.\a\n"
+117 "%1$s Invalid command line argument '%2$s'.\07\n"
+125 "%1$s No query specified.\07\n"
 165 "%1$s DtSearch failed to initialize:\n  %2$s\n"
 190 "%1$s No hits found.\n"
-195 "%1$s Search failed.\a\n"
+195 "%1$s Search failed.\07\n"
 200 "%1$s Text not available for document '%2$s'.\n"
 203 "%1$s Could not determine available keytypes:\n  %2$s\n"
 224 "%1$s No record keys begin with '%2$c' in database '%3$s'.\n"
-247 "%1$s ----- Engine Messages After Initialization -----\n\%2$s\n"
+247 "%1$s ----- Engine Messages After Initialization -----\n%2$s\n"
 248 "%1$s ----- End of Engine Initialization Messages -----\n"
 
 $ ****************************************************

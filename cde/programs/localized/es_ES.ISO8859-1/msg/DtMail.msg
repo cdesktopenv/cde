@@ -1281,7 +1281,7 @@ $	the printing options dialog from the DtPrintSetupDialog.
 20 "Más..."
 $       Message 21 is used for the title string on the DtPrintSetupDialog.
 21 "Mailer - Configurar impresión"
- 
+
 $       Message 22 is used to alert the user to the fact that the mailer
 $                  cannot close the mailer window until a task (usually
 $                  a print job) has terminated.
@@ -1291,7 +1291,7 @@ $	Message 23 is used to alert the user to the fact that the X Print
 $		   Server cannot complete the print request due to a lack
 $		   of resources.
 23 "El servidor de impresión X está temporalmente sin recursos. "
-  
+
 $       Messages 24 & 25 are used to handle errors from the PDM
 24	"Error del Administrador de diálogo de impresión (PDM) - Falló la configuración."
 25	"Continuar"

@@ -169,7 +169,9 @@ $ label used to indicate Editor is in overstrike (overtype) mode.
 $ Default value for DtNinsertLabel resource,
 $ label used to indicate Editor is in insert mode.
 $ The default value is a blank string.
-43 
+$quote "
+43 ""
+$quote
 
 $ ******************************************************************
 $ **                                          module: SearchCalls **

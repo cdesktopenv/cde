@@ -480,7 +480,7 @@ $set 25
 174 end of file
 175 f:[format]enprsu:[filenum] [arg...]
 176 fnv name...
-177 hist -e \"${VISUAL:-${EDITOR:-vi}}\" 
+177 hist -e "${VISUAL:-${EDITOR:-vi}}" 
 178 history file cannot open
 179 incorrect syntax
 180 invalid argument of type %c

@@ -118,18 +118,18 @@ $ DO NOT TRANSLATE Messages 37 or 41 ("End-of-list")
 32 -/+vb				aktivera/avaktivera synlig signal 
 33 -xrm resurssträng		extra resursspecifikationer
 34 -C				console-läge
-35 -Sxxd				slavläge på \"ttyxx\"-filbeskrivning \"d\"
-36 -Sxxx.d			slavläge på \"ttyxxx\"-filbeskrivning \"d\"
+35 -Sxxd				slavläge på "ttyxx"-filbeskrivning "d"
+36 -Sxxx.d			slavläge på "ttyxxx"-filbeskrivning "d"
 37 End-Of-List
 38 Om tillägget -e används måste det placeras i slutet av kommandoraden.
 39 I annat fall startas användarens standardskal. Tillägg som inleds 
 40 med ett plustecken (+) återställer standardvalet.
 41 End-Of-List
-47 %s:  felaktigt tillägg på kommandoraden \"%s\"\r\n\n
+47 %s:  felaktigt tillägg på kommandoraden "%s"\r\n\n
 48 syntax:  %s
 49 \r\n   
 50  [%s]
-51 \r\n\nSkriv \"%s -help\" för att få en fullständig beskrivning.\r\n\n
+51 \r\n\nSkriv "%s -help" för att få en fullständig beskrivning.\r\n\n
 52 syntax:\n
 53 \t%s [-options ...] [-e kommandoargument]\n\n
 54 där alternativen omfattar:\n

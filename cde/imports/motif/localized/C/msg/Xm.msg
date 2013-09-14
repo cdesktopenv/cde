@@ -25,8 +25,8 @@ $ Do not translate variables such as %s, %d %s ... etc.
 $ Do not translate Motif resource name, such as XmNlabelType.
 $ Special terms with capital letter(s) should not be translated.
 $ "False" and "True" are keywords. Do not translate.
- 
- 
+
+
 
 $set MS_ArrowButton
 
@@ -211,8 +211,8 @@ $ please do not translate shellWidgetClass.
 MSG_MenuShell_0004 XtMenuPopup requires exactly one argument.
 MSG_MenuShell_0005 XtMenuPopup only supports ButtonPress, KeyPress or EnterNotify events.
 $ please do not translate ButtonPress, KeyPress or EnterNotify.
-MSG_MenuShell_0006 Cannot find popup widget \"%s\" in XtMenuPopup.
-MSG_MenuShell_0007 Cannot find popup widget \"%s\" in XtMenuPopdown.
+MSG_MenuShell_0006 Cannot find popup widget "%s" in XtMenuPopup.
+MSG_MenuShell_0007 Cannot find popup widget "%s" in XtMenuPopdown.
 MSG_MenuShell_0008 XtMenuPopdown called with more than one argument.
 MSG_MenuShell_0009 Cannot change XmNlayoutDirection after initialization.
 
@@ -627,7 +627,7 @@ MSG_DropSMgrI_0003 %s is not a drop site child of %s
 
 $set MS_GeoUtils
 
-MSG_GeoUtils_0000 Failure of geometry request to \"almost\" reply".
+MSG_GeoUtils_0000 Failure of geometry request to "almost" reply".
 $ please do not translate "almost"
 $ MSG_GeoUtils_0000 message is obsolete - DO NOT localize this message.
 MSG_GeoUtils_0001 Invalid layout of children found.
@@ -652,11 +652,11 @@ MSG_ResConvert_0000 FetchUnitType: bad widget class.
 $ please do not translate FetchUnitType.
 $ MSG_ResConvert_0000 message is obsolete - DO NOT localize this message.
 MSG_ResConvert_0001 Improperly defined default list! Exiting...
-MSG_ResConvert_0002 Missing colon in font string \"%s\"; any remaining fonts in list unparsed
-MSG_ResConvert_0003 Invalid delimiter in tag \"%s\"; any remaining fonts in list unparsed
-MSG_ResConvert_0004 Unmatched quotation marks in string \"%s\"; any remaining fonts in list unparsed"
+MSG_ResConvert_0002 Missing colon in font string "%s"; any remaining fonts in list unparsed
+MSG_ResConvert_0003 Invalid delimiter in tag "%s"; any remaining fonts in list unparsed
+MSG_ResConvert_0004 Unmatched quotation marks in string "%s"; any remaining fonts in list unparsed"
 $ MSG_ResConvert_0004 message is obsolete - DO NOT localize this message.
-MSG_ResConvert_0005 Unmatched quotation marks in tag \"%s\"; any remaining fonts in list unparsed
+MSG_ResConvert_0005 Unmatched quotation marks in tag "%s"; any remaining fonts in list unparsed
 MSG_ResConvert_0006 Null tag found when converting to type %s; any remaining fonts in list unparsed
 MSG_ResConvert_0007 Cannot convert XmString to Compound Text
 MSG_ResConvert_0008 Insufficient memory for XmbTextListToTextProperty
@@ -685,9 +685,9 @@ $set MS_ColObj
 
 MSG_ColObj_0001 Could not allocate memory for color object data.
 MSG_ColObj_0002 Bad screen number from color server selection.
- 
+
 $set MS_IG
- 
+
 MSG_IG_1 Incorrect alignment.
 $ MSG_IG_1 message is obsolete - DO NOT localize this message.
 MSG_IG_2 Incorrect behavior.
@@ -844,7 +844,7 @@ $ MSG_XmSelect_0000 message is obsolete - DO NOT localize this message.
 MSG_XmSelect_0001 Selection owner returned type INCR property with format != 32.
 $ please do not translate INCR.
 $ MSG_XmSelect_0001 message is obsolete - DO NOT localize this message.
-MSG_XmSelect_0002 XtGetSelectionRequest called for widget \"%s\" outside of ConvertSelection proc.
+MSG_XmSelect_0002 XtGetSelectionRequest called for widget "%s" outside of ConvertSelection proc.
 $ please do not translate ConvertSelection.
 $ MSG_XmSelect_0002 message is obsolete - DO NOT localize this message.
 

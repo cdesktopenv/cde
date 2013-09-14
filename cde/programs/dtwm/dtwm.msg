@@ -307,8 +307,10 @@ $set 44
 $    THIS COMMENT FOR DTWM TEAM ONLY -- WmMain.c --
 $    This entire set is written to an error file
 $ YOU DON'T NEED TO LOCALIZE THIS SET.
-1 
-2 Insufficient memory for name of window manager
+$quote "
+1 ""
+2 "Insufficient memory for name of window manager"
+$quote
 
 
 $set 46
@@ -458,7 +460,9 @@ $ appears in its place on the menu. There must be an even number
 $ of strings. The case of the first string does not matter. The 
 $ case of the second string is preserved.
 $ 
-40 
+$quote "
+40 ""
+$quote
 
 $ 
 $    Messages 41-42 are written to an error file.
@@ -741,9 +745,9 @@ $
 
 $ Message 31 - 40 are the pieces for the deletion dialogs
 31 Delete Control:
-32 If you delete this control, you cannot restore it using\nthe \"Install Icon\" drop zone.\n\nYou can use \"RestorePanel\" in the Application Manager\nto put back this control at a later time.\n\nAre you sure you want to delete this control?
+32 If you delete this control, you cannot restore it using\nthe "Install Icon" drop zone.\n\nYou can use "RestorePanel" in the Application Manager\nto put back this control at a later time.\n\nAre you sure you want to delete this control?
 33 Delete Subpanel:
-34 If you delete this subpanel, you cannot restore all\nof the controls contained in the subpanel using the\n\"Install Icon\" drop zone.\n\nYou can use \"RestorePanel\" in the Application Manager\nto put back this subpanel and its controls at a later time.\n\nAre you sure you want to delete this subpanel?
+34 If you delete this subpanel, you cannot restore all\nof the controls contained in the subpanel using the\n"Install Icon" drop zone.\n\nYou can use "RestorePanel" in the Application Manager\nto put back this subpanel and its controls at a later time.\n\nAre you sure you want to delete this subpanel?
 
 $ Used for the name of a newly created workspace.
 35 New
@@ -786,5 +790,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtwm.msg /main/6 1999/09/20 15:18:52 mgreess $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtwm.msg /main/6 1999/09/20 15:18:52 mgreess $"
+

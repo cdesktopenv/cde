@@ -718,7 +718,7 @@ $ 	*/
 76 "OK" 
 
 
-77 "C'è un allegato che contiene modifiche che non sono state salvate.\nLa spedizione del messaggio interromperà il collegamento all'allegato aperto.\Le modifiche non salvate non verranno incluse nel messaggio.\n Il comando Salvare come sarà disponibile\n dopo l'interruzione del collegamento però le modifiche \n non verranno incluse nell'allegato."
+77 "C'è un allegato che contiene modifiche che non sono state salvate.\nLa spedizione del messaggio interromperà il collegamento all'allegato aperto.\nLe modifiche non salvate non verranno incluse nel messaggio.\n Il comando Salvare come sarà disponibile\n dopo l'interruzione del collegamento però le modifiche \n non verranno incluse nell'allegato."
 78 "Inizializzazione delle Opzioni posta..."
 79 "Eliminare e uscire"
 80 "Uscire senza eliminare"
@@ -972,7 +972,7 @@ $	the printing options dialog from the DtPrintSetupDialog.
 20 "Altre ..."
 $       Message 21 is used for the title string on the DtPrintSetupDialog.
 21 "Gestione posta - Impostazione della stampa"
- 
+
 $       Message 22 is used to alert the user to the fact that the mailer
 $                  cannot close the mailer window until a task (usually
 $                  a print job) has terminated.
@@ -982,7 +982,7 @@ $	Message 23 is used to alert the user to the fact that the X Print
 $		   Server cannot complete the print request due to a lack
 $		   of resources.
 23 "Il server di stampa X è temporaneamente senza risorse."
-  
+
 $       Messages 24 & 25 are used to handle errors from the PDM
 24	"Errore Gestione del dialogo di stampa (PDM) - Impostazione non riuscita."
 25	"Continuare"

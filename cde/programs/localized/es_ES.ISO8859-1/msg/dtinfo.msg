@@ -711,7 +711,7 @@ $
 $ Dtinfo*BadScopeName
 $ 
 18 "No se pueden utilizar los caracteres dos puntos (:), coma (,),\n\
-y punto y coma (\;)\n\
+y punto y coma (;)\n\
 en nombres de amplitud de búsqueda."
 $ 
 $ Dtinfo*EmptyScopeName

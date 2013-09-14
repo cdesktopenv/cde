@@ -1,9 +1,9 @@
 $ $TOG: PrintPanelAgent.msg /main/7 1997/08/01 15:14:54 samborn $
 
 $set	Set_PrintPanelAgent
-$
+$ 
 $ messages specific to printing
-$
+$ 
 1	"Dtinfo: Print"
 $          Messages 2 - 5 are obsolete, and have been replaced by 12
 2	No Print Dialog Manager can be found in the environment

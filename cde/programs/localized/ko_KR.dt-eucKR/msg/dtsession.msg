@@ -445,5 +445,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtsession.msg /main/4 1995/12/08 09:36:07 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtsession.msg /main/4 1995/12/08 09:36:07 rswiston $"
+

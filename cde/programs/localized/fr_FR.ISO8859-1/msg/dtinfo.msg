@@ -710,7 +710,7 @@ $
 $ Dtinfo*BadScopeName
 $ 
 18 "Les caractères deux points (:), virgule (,),\n\
-et point virgule (\;) ne sont pas autorisés\n\
+et point virgule (;) ne sont pas autorisés\n\
 dans le nom de l'étendue de recherche."
 $ 
 $ Dtinfo*EmptyScopeName

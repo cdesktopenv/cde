@@ -119,7 +119,7 @@ $
 5 <ABBREV>欢迎使用提示管理程序</ABBREV>                        \
 <LINK 0 "Help4Help How-To-Register-Help">                      \
 <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>               \
-注意: \ \ \ 没有已注册的提示                                   \
+注意:    没有已注册的提示                                      \
 </SIZE></WEIGHT></TYPE></></LINK>                              \
 <PARAGRAPH leftindent 3 firstindent 3>                         \
 <WEIGHT bold>没有一个产品系列注册了用于浏览                      \

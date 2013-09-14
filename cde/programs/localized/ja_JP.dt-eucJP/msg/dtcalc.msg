@@ -1219,5 +1219,7 @@ $ DO NOT TRANSLATE THESE MESSAGES
 $ DO NOT CHANGE THESE MESSAGES
 $ DO NOT LOCALIZE THESE MESSAGES
 $ These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtcalc.msg /main/4 1996/10/16 03:13:46 cde-hit $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtcalc.msg /main/4 1996/10/16 03:13:46 cde-hit $"
+

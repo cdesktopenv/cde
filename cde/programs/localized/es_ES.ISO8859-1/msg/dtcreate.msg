@@ -215,7 +215,7 @@ $
 50 "El Nombre de Acción contiene uno o más caracteres\n\
 no permitidos.\n\
 Los caracteres siguientes no se deben utilizar en un nombre:\n\
-  / \ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
+  / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $    
 
 55 "No se pudo crear el archivo siguiente:"
@@ -386,7 +386,7 @@ $
 20 "El campo 'Nombre de la Familia de Tipos de Datos' contiene uno o más\n\
 caracteres no permitidos.\n\
 Los caracteres siguientes no se deben utilizar en un nombre:\n\
-  / \ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
+  / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $    
 
 25 "Ya existe una Familia de Tipos de Datos con este nombre.\n\
@@ -489,7 +489,7 @@ $
 no permitidos.\n\
 Los caracteres siguientes no se deben utilizar en\n\
 un Patrón de Nombre:\n\
-  / \ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
+  / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $    
 
 46 "El Patrón de Contenido no coincide con el formato para \n\

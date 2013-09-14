@@ -1,9 +1,9 @@
 $ $XConsortium: Agent.msg /main/14 1996/10/26 13:24:40 cde-hal $
 
 $set	Set_AgentLabel
-$
+$ 
 $ dtinfo GUI label strings
-$
+$ 
 1	"File"
 2	"F"
 4	"View"
@@ -71,7 +71,7 @@ $ Results Dialog.
 61	"Scope Editor"
 
 $  Messages 62-77 for "Browser" pulldown menu entries
-$
+$ 
 62	"Browser"
 63	"B"
 64	"New Window"
@@ -304,9 +304,9 @@ $	193	"Pin []" is a verb
 $   Messages 232-242 relate to operators available in a query
 $ expression, and appear in the Query Editor.
 232	"Matches"
-233	"Doesn\'t Match"
+233	"Doesn't Match"
 234	"Starts With"
-235	"Doesn\'t Start With"
+235	"Doesn't Start With"
 $	236	Boolean operator OR
 236	"Or"
 $	237	"Xor" is for Boolean logic "Exclusive OR"
@@ -351,9 +351,9 @@ $            path.
 
 
 $set	Set_AgentQHelp
-$
+$ 
 $ dtinfo quick help messages (to be exhibited on status display area)
-$
+$ 
 1	"Go to the previous section in history"
 2	"Go to the next section in history"
 3	"Go to the previous section in document"

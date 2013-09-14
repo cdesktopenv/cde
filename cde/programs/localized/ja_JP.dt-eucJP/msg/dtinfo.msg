@@ -710,7 +710,7 @@ $
 $ Dtinfo*BadScopeName
 $ 
 18 "コロン(:)、コンマ(,)、\n\
-セミコロン(\;)は、検索範囲名では\n\
+セミコロン(;)は、検索範囲名では\n\
 許されません。"
 $ 
 $ Dtinfo*EmptyScopeName

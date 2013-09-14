@@ -186,7 +186,7 @@ $set 4
  -O\tNamen aller gelesenen O-Typen auf stdout ausgeben\n\
  -P\tNamen aller gelesenen P-Typen auf stdout ausgeben\n\
  -p\talle gelesenen ToolTalk-Typen formatiert auf stdout ausgeben\n\
- -E\Classing Engine-Datenbank(en) anstelle von XDR-Datenbank(en) verwenden\n\
+ -E\tClassing Engine-Datenbank(en) anstelle von XDR-Datenbank(en) verwenden\n\
  -d db\tzu lesende Datenbanken. Entweder: user, system oder network. Standard: alle\n\n\
  tt_type_comp [-s] -x [-o komp_Datei] Quellendatei\n\
  -x\tTypen aus Quellendatei kompilieren (oder stdin, falls Datei \"-\" ist)\n\
@@ -194,7 +194,7 @@ $set 4
  \tStandard: Quellendatei.xdr oder \"types.xdr\", falls Quelle stdin\n\n\
  tt_type_comp [-hv]\n\
  -v\tVersionsnummer ausgeben\n\
- -h\diesen Hilfetext ausgeben\n\
+ -h\tdiesen Hilfetext ausgeben\n\
  -s\tkeine Statusmeldungen ausgeben\n\n\n\
  Diese cpp-Optionen werden an folgenden Befehl übergeben:\n\
            -undef -Dname -IVerzeichnis -Uname -YVerzeichnis"

@@ -134,7 +134,7 @@ $ That is - DO NOT localize the tags such as <ABBREV> and <PARAGRAPH>.
 $           DO     localize the text between the tags. 
 $  
 
-5 "<ABBREV>Bienvenido al Gestor de Ayuda</ABBREV>                         <LINK 0 \"Help4Help Cómo-Registrar-Ayuda\">                                <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>                         Nota:\ \ \ No Se Ha Registrado Ayuda                                            </SIZE></WEIGHT></TYPE></></LINK>                                        <PARAGRAPH leftindent 3 firstindent 3>                                   <WEIGHT bold>Ninguna familia de productos ha registrado su ayuda en línea       archivos para examinar.</>  Se puede disponer de ayuda para algunas aplicaciones   eligiendo mandatos de Ayuda directamente dentro de las aplicaciones.</>"
+5 "<ABBREV>Bienvenido al Gestor de Ayuda</ABBREV>                         <LINK 0 \"Help4Help Cómo-Registrar-Ayuda\">                                <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>                         Nota:   No Se Ha Registrado Ayuda                                            </SIZE></WEIGHT></TYPE></></LINK>                                        <PARAGRAPH leftindent 3 firstindent 3>                                   <WEIGHT bold>Ninguna familia de productos ha registrado su ayuda en línea       archivos para examinar.</>  Se puede disponer de ayuda para algunas aplicaciones   eligiendo mandatos de Ayuda directamente dentro de las aplicaciones.</>"
 $  
 $ Specifies the title to use in the dthelpgen dtksh dialog. 
 $  

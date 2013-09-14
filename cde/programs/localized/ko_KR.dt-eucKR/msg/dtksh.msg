@@ -471,7 +471,7 @@ $set 25
 174 파일 끝
 175 f:[format]nprsu:[filenum] [arg...]
 176 fnv name...
-177 hist -e \"${VISUAL:-${EDITOR:-vi}}\"
+177 hist -e "${VISUAL:-${EDITOR:-vi}}"
 178 기록 파일을 열 수 없습니다.
 179 구문이 틀립니다.
 180 유형 %c의 유효하지 않은 인수

@@ -414,8 +414,8 @@ SYNTAXE : %1$s -d<dbname> [options] <infile>\n\
 2 "%1$s: Code de sortie = %2$d\n"
 13 "%1$s Vérificateur d'id en double désactivé.\n"
 14 "\n%1$s Argument '%2$s' de la ligne de commande inconnu.\n"
-15 "\nNom obligatoire du fichier d'entrée absent \a"
-16 "\naPas de nom de base de données spécifié (-d argument).\a"
+15 "\nNom obligatoire du fichier d'entrée absent \07"
+16 "\naPas de nom de base de données spécifié (-d argument).\07"
 17 "%1$s Initialisation du nombre total d'enregistrements dans la base de données effectuée en comptant...\n"
 18 "%1$s: version'%2$s' du schéma = %3$s, nombre d'enregistrement = %4$ld, dernière tranche =%5$ld.\n"
 19 "%1$s: Nombre total d'enregistrements de la base de données = %2$ld, dernière tranche = %3$ld.\n"
@@ -494,17 +494,17 @@ Permission de l'écraser ainsi que les autres fichiers de la base de données ? [o
 $ Msg 13 should not translate "load_custom_language."
 13 "%s Avertissement ! vous avez spécifié une langue personnalisable, non prise en charge.\n\
   Vous devrez fournir vos propres chargeurs de langues au moment de l'exécution\n\
-  dans la fonction d'utilisateur 'load_custom_language' pour avoir accès à cette base de données.\a\n"
+  dans la fonction d'utilisateur 'load_custom_language' pour avoir accès à cette base de données.\07\n"
 
 14 "\n\
-Le traitement sémantique%s n'est possible que pour les bases de données de langue anglaise.\n\a"
+Le traitement sémantique%s n'est possible que pour les bases de données de langue anglaise.\n\07"
 $ Msg 15 needs "y" to match the "yes" option in msg 12.
 15 "o"
 24 "DTSRCREATE Initialisation réussie de la base de données '%1$s'.\n"
 98 "DTSRCREATE %1$s Id de table de compression Huffman incorrecte."
 186 "DTSRCREATE186 Impossible de renommer '%1$s' to '%2$s':\n  %3$s\n"
 205 "DTSRCREATE205 Impossible de modifier les permissions de '%1$s': %2$s\n"
-213 "%1$s Impossible d'ouvrir '%2$s':\n  %3$s.\7\n"
+213 "%1$s Impossible d'ouvrir '%2$s':\n  %3$s.\07\n"
 214 "%1$s Impossible de copier '%2$s' to '%3$s':\n  %4$s\n"
 230 "DTSRCREATE230 Impossible d'ouvrir la base de données '%1$s'.\n"
 239 "DTSRCREATE239 Impossible d'initialiser la base de données '%1$s'.\n"
@@ -679,7 +679,7 @@ $ Msg 280 should not be translated.
 567 "%1$s Argument de la ligne de commande '%2$s' inconnu.\n"
 577 "%1$s Arg. '%2$s'incorrect. Utilisation de la valeur par défaut -r%3$d.\n"
 580 "%1$s Nom obligatoire de fichier d'entrée absent.\n"
-589 "%1$s Pas de nom de base de données spécifié (argument -d).\a\n"
+589 "%1$s Pas de nom de base de données spécifié (argument -d).\07\n"
 595 "%1$s Argument de taille batch '%2$s incorrect.\n"
 600 "%1$sTaille du cache changée à %2$d.\n"
 659 "\n%1$s: %2$s supprime l'enregistrement clé trop longue :\n  '%3$s'.\n"
@@ -896,7 +896,7 @@ $ ****************************************************
 $ set MS_dtsrkdump is set 25.  5/20/96.  dtsrkdump.c
 $set 25
 
-1 "%s Erreur de programme Abandon.\a\n"
+1 "%s Erreur de programme Abandon.\07\n"
 $ Msg 2 should not be translated
 2 "%1$c dba=%2$d:%3$-7ld ofs=%4$-9ld adr=%5$-6ld fre=%6$ld\n"
 $ Msg 3 is like "<program name> <RCS revision number>, engine
@@ -921,12 +921,12 @@ SYNTAXE : %1$s -o|w|ow [-v] [-t<N> | -p<N>] <dbname>\n\
             pour la liste d'arrêt.\n\
             Si w et vsont définis sans un seuil, la valeur par défaut est -t%2$d.\n\
   <nombde>  nom de la base de donnée de 1 - 8 caractères avec un préfix de chemin facultatif.\n"
-5 "%1$s Valeur de pourcentage incorrecte %2$lf.\a\n"
-53 "%1$s Valeur du seuil incorrecte.\a\n"
-55 "%1$s Argument de la ligne de commande '%2$c' inconnu.\a\n"
-56 "%1$s Nom obligatoire de la base de données absent.\a\n"
-57 "%1$s Vous devez spécifier soit -o ou -.\a\n"
-58 "%1$s Nom de la base de données incorrect '%2$s'.\a\n"
+5 "%1$s Valeur de pourcentage incorrecte %2$lf.\07\n"
+53 "%1$s Valeur du seuil incorrecte.\07\n"
+55 "%1$s Argument de la ligne de commande '%2$c' inconnu.\07\n"
+56 "%1$s Nom obligatoire de la base de données absent.\07\n"
+57 "%1$s Vous devez spécifier soit -o ou -.\07\n"
+58 "%1$s Nom de la base de données incorrect '%2$s'.\07\n"
 $ Msg 60 should not be translated.
 60 "%1$s: '%2$s' reccount=%3$ld maxdba=%4$ld recslots=%5$hd minw=%6$hd maxw=%7$hd\n"
 70 "%1$s Ne fera la liste que des mots trouvés dans %2$ld ou plus des enregistrements.\n"
@@ -1062,15 +1062,15 @@ SYNTAXE: %3$s [-options] <requête>...\n\
               La requête peut être encadrée de guillements pour y inclure des opérateurs bouléens.\n"
 4 "Recherche de lla base de données '%1$s'..\n"
 9 "<aucun résumé disponible>"
-117 "%1$s Argument de la ligne de commande '%2$s' incorrect.\a\n"
-125 "%1$s Pas de requête indiquée.\a\n"
+117 "%1$s Argument de la ligne de commande '%2$s' incorrect.\07\n"
+125 "%1$s Pas de requête indiquée.\07\n"
 165 "%1$s Initialisation de DtSearch a échoué :\n  %2$s\n"
 190 "%1$s Pas de correspondance.\n"
-195 "%1$s Recherche a échoué.\a\n"
+195 "%1$s Recherche a échoué.\07\n"
 200 "%1$s Le texte n'est pas disponible pour le document '%2$s'.\n"
 203 "%1$s Impossible de déterminer les types de clés disponibles :\n  %2$s\n"
 224 "%1$s Aucune clé d'enregistrement ne commence par '%2$c' dans la base de données '%3$s'.\n"
-247 "%1$s ----- Message du moteur après linitialisation -----\n\%2$s\n"
+247 "%1$s ----- Message du moteur après linitialisation -----\n%2$s\n"
 248 "%1$s ----- fin des messages d'initialisation du moteur -----\n"
 
 $ ****************************************************

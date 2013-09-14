@@ -1,10 +1,10 @@
 $ $XConsortium: UrlAgent.msg /main/5 1996/07/24 18:21:16 drk $
 
 $set	Set_UrlAgent
-$
+$ 
 $ messages specific to open locator dialog, and locator
 $ input formats in general.
-$
+$ 
 $ 1	"Dtinfo: Open Locator"
 1	"Dtinfo: Open Locator"
 

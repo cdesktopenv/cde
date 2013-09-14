@@ -160,6 +160,6 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-$quote
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtlp.msg /main/5 1996/08/11 17:26:52 pascale $
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtlp.msg /main/5 1996/08/11 17:26:52 pascale $"
+

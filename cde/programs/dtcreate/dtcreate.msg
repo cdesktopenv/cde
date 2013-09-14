@@ -143,7 +143,7 @@ $
 50 The Action Name contains one or more illegal\n\
 characters.\n\
 The following characters should not be used in a name:\n\
-  / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
+  / \\ " ' ;  (  ) ~ ! $ { } < > # @ | &
 $ 
 55 Could not create the following file:
 $ 
@@ -259,7 +259,7 @@ $
 20 The 'Name of Datatype Family' field contains one or more\n\
 illegal characters.\n\
 The following characters should not be used in a name:\n\
-  / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
+  / \\ " ' ;  (  ) ~ ! $ { } < > # @ | &
 $ 
 25 A Datatype Family with this name already exists.\n\
 Please change the name in the 'Name of Datatype Family'\n\
@@ -328,7 +328,7 @@ $
 characters.\n\
 The following characters should not be used in\n\
 a Name Pattern:\n\
-  / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
+  / \\ " ' ;  (  ) ~ ! $ { } < > # @ | &
 $ 
 46 The Contents Pattern does not match the format for\n\
 the contents Type you have selected.\n\

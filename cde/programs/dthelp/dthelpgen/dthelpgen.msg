@@ -120,7 +120,7 @@ $
 5 <ABBREV>Welcome to the Help Manager</ABBREV>                           \
 <LINK 0 "Help4Help How-To-Register-Help">                                \
 <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>                         \
-Note:\ \ \ No Help Registered                                            \
+Note:   No Help Registered                                               \
 </SIZE></WEIGHT></TYPE></></LINK>                                        \
 <PARAGRAPH leftindent 3 firstindent 3>                                   \
 <WEIGHT bold>No product families have registered their online help       \

@@ -426,7 +426,7 @@ $ _DtMessage 11 is the title of the Add Palette dialog box.
 $ Messages 12 through 14 are error messages.
 12 调色板名不能包含这些字符\n\
 \n\
-<space> * : ( ) [ ] { } < > ! | \" / \\
+<space> * : ( ) [ ] { } < > ! | " / \\
 $ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE 
 $ TO SAY THE PALETTE NAME MUST BE 10 BYTES OR LESS
 13 调色板名必须少于或等于 10 个字节。\n
@@ -587,7 +587,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/3 1995/11/08 13:52:58 rswiston $
-
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/3 1995/11/08 13:52:58 rswiston $"
 

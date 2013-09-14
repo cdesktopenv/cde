@@ -47,8 +47,8 @@ $     */
 \n\
 où [options] comprennent :\n\
    -d <display>        hôte : affiche [.écran] du serveur X Print\n\
-   -a <alt selection>  un nom de remplacement de X-selection (\"%2$s\" default)\n\
-   -p <default pdm>    un pdm par défaut pour lancer (\"%3$s\" default)\n\
+   -a <alt selection>  un nom de remplacement de X-selection ("%2$s" default)\n\
+   -p <default pdm>    un pdm par défaut pour lancer ("%3$s" default)\n\
    -P <the pdm>        le pdm pour lancer, recouvre tous les autres\n\
    -s                  active le protocole de sécurité\n\
    -f <auth file>      un groupe  initial d'entrées d'autorisation\n\
@@ -84,7 +84,7 @@ $
 $     */
 9 %s: erreur, impossible de fork\n
 
-10 %1$s: erreur, impossible d'exécuter \"%2$s\" \n
+10 %1$s: erreur, impossible d'exécuter "%2$s" \n
 
 $    /* NL_COMMENT
 $ 
@@ -95,11 +95,11 @@ $         "-vdisplay" in message 11.
 $ 
 $     */
 11 %1$s: message exec enregistré à %2$s\n\
-   message d'erreur exec  = \"%3$s\"\n\
+   message d'erreur exec  = "%3$s"\n\
    erreur de code exec     = %4$s\n\
-   pdm                = \"%5$s\"\n\
-   -display           = \"%6$s\"\n\
-   -vdisplay          = \"%7$s\" \n
+   pdm                = "%5$s"\n\
+   -display           = "%6$s"\n\
+   -vdisplay          = "%7$s" \n
 
 12 %1$s: erreur, impossible d'envoyer le message final %2$s\n\
 au client demandé par le PDM à cause\n\
@@ -118,13 +118,13 @@ $         "-vdisplay" in message 14.
 $ 
 $     */
 14 %1$s: message pdm enregistré à %2$s\n\
-   pdm       = \"%3$s\"\n\
-   -display  = \"%4$s\"\n\
-   -vdisplay = \"%5$s\"\n\
-   exit code = \"%6$d\"\n\
-   stderr    = \"%7$s\" \n
+   pdm       = "%3$s"\n\
+   -display  = "%4$s"\n\
+   -vdisplay = "%5$s"\n\
+   exit code = "%6$d"\n\
+   stderr    = "%7$s" \n
 
-15 erreur de pdmd annexé= \n\"%s\" \n
+15 erreur de pdmd annexé= \n"%s" \n
 
-16 %1$s: erreur, impossible d'ouvrir le fichier journal \"%2$s\". Enregistrement des messages stderr arrêté\n
+16 %1$s: erreur, impossible d'ouvrir le fichier journal "%2$s". Enregistrement des messages stderr arrêté\n
 

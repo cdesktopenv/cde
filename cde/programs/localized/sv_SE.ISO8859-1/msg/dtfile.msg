@@ -717,20 +717,20 @@ eller\n\
 
 47 Det gick inte att flytta mappen till sig själv.  
 
-48 "Det gick inte att kopiera följande objekt till mappen \"%s\"\n\n\
+48 Det gick inte att kopiera följande objekt till mappen "%s"\n\n\
 %s\n\n\
 Den troligaste orsaken är att du inte har\n\
-skrivbehörighet till målmappen."
+skrivbehörighet till målmappen.
 
-49 "Det går inte att flytta följande objekt till mappen \"%s\"\n\n\
+49 Det går inte att flytta följande objekt till mappen "%s"\n\n\
 %s\n\n\
 Den troligaste orsaken är att du inte har\n\
-skrivbehörighet till målmappen."
+skrivbehörighet till målmappen.
 
-50 "Det går inte att flytta följande objekt till mappen \"%s\"\n\n\
+50 Det går inte att flytta följande objekt till mappen "%s"\n\n\
 %s\n\n\
 Den troligaste orsaken är att du inte har\n\
-behörighet att flytta källobjekt."
+behörighet att flytta källobjekt.
 $  
 $ Messages 51 - 56 are new since CDE/SI.    
 $  
@@ -906,7 +906,9 @@ $ Messages 29 and 30 are text for the Save Settings dialog
 $ Messages 34 and 35 are drag/drop error messages
 
 $ DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGE 1
-1 
+$quote "
+1 ""
+$quote
 
 $ MESSAGE 2 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 2 Could not create the .dt folder or sub folders.
@@ -1679,6 +1681,7 @@ $set 33
 1 Flera objekt
 2 Aktuell mapp
 
+$quote "
 3 "Fel vid Flytta objekt"
 
 4 "Fel vid Kopiera objekt"
@@ -1743,5 +1746,6 @@ $ DO NOT TRANSLATE THESE MESSAGES
 $ DO NOT CHANGE THESE MESSAGES
 $ DO NOT LOCALIZE THESE MESSAGES
 $ These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/6 1998/04/29 15:12:43 rafi $
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/6 1998/04/29 15:12:43 rafi $"
+

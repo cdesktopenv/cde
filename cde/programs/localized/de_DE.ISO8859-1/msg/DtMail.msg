@@ -1321,7 +1321,7 @@ $	the printing options dialog from the DtPrintSetupDialog.
 20 "Optionen..."
 $       Message 21 is used for the title string on the DtPrintSetupDialog.
 21 "Post - Druckereinstellungen"
- 
+
 $       Message 22 is used to alert the user to the fact that the mailer
 $                  cannot close the mailer window until a task (usually
 $                  a print job) has terminated.
@@ -1331,7 +1331,7 @@ $	Message 23 is used to alert the user to the fact that the X Print
 $		   Server cannot complete the print request due to a lack
 $		   of resources.
 23 "Dem X-Druckserver fehlen vorübergehend die notwendigen Ressourcen"
-  
+
 $       Messages 24 & 25 are used to handle errors from the PDM
 24	"Druckdialogmanager (PDM)-Fehler - Einstellungen fehlgeschlagen."
 25	"Weiter"

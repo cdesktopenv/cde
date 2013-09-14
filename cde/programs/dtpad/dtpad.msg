@@ -174,7 +174,7 @@ $ This is displayed when a ToolTalk edit request on a file or buffer is
 $ received with a document name specified in the request, a Save operation
 $ is done and there are unsaved changes.  The "%s" in the message is
 $ replaced by the document name (instead of the filename).
-41 Save changes to \"%s\"?
+41 Save changes to "%s"?
 
 $ Title of "Copy As" dialog which is substitued for the "Save As" dialog
 $ when file name changes are disallowd.  This should match the menu button
@@ -238,7 +238,9 @@ $ ** Prefix string for all dialogs. **
 $ ************************************
 $ bogus?? blank string gotten but otherwise unused in main()
 $ DO NOT LOCALIZE string 1
-1 
+$quote "
+1 ""
+$quote
 
 $ The name used in the title bar of every window.
 $ Be sure to end this message with a space character.

@@ -142,9 +142,9 @@ $
 
 $quote
 5 <ABBREV>Willkommen im Hilfemanager</ABBREV>\
-<LINK 0 \"Help4Help How-To-Register-Help\"> \
+<LINK 0 "Help4Help How-To-Register-Help"> \
 <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>\
- Hinweis:\ \ \ Keine Hilfe
+ Hinweis:   Keine Hilfe
 
 $ 
 $ Specifies the title to use in the dthelpgen dtksh dialog.

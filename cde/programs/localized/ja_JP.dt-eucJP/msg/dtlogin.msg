@@ -308,7 +308,7 @@ $set 4
 $ set 4 is log error messages
 $ 
 
-1 アクセス・ファイル \"%1$s\"、ホスト \"%2$s\" が見つかりません。\n
+1 アクセス・ファイル "%1$s"、ホスト "%2$s" が見つかりません。\n
 2 ReadHostEntry\n
 3 アクセス・ファイル %1$s、未知のディスプレイ %2$s です。\n
 4 アクセス・コントロール・ファイル %1$s を開けません。XDMCP 要求が認可されていません。\n
@@ -359,7 +359,7 @@ $
 49 Dtlogin はクライアントを強制終了できません。\n
 50 %1$s を実行できません。\n
 51 %1$s を実行するためにフォークできません。\n
-52 認証名 \"%1$s\" が不適切です。AFS、Kerberos、またはデフォルトを使用してください。\n
+52 認証名 "%1$s" が不適切です。AFS、Kerberos、またはデフォルトを使用してください。\n
 53 %2$s に対する Dtgreet %1$s を実行できません。\n
 54 Dtgreet %1$s を実行するためにフォークできません。\n
 55 ポート %1$d のソケット作成が失敗しました。\n
@@ -376,7 +376,7 @@ $
 66 %1$s のアカウントが期限切れです。システム管理者に問い合わせてください。\n
 67 サーバが落ちています。%1$s\n
 68 ロゴ・ビットマップ・ファイルを開けません: %1$s\n
-69 \"%1$s\" メッセージ・カタログを読めません。デフォルト言語を使用します。
+69 "%1$s" メッセージ・カタログを読めません。デフォルト言語を使用します。
 70 ディスプレイ %1$s を初期化できません。サーバがグラブされている可能性があります。\n
 71 (%1$s): ログイン・マットの幅がディスプレイの幅を越えています。\n\
 デフォルトを使用します。マットの単位はピクセルです。\n
@@ -398,5 +398,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/9 1996/11/15 13:52:10 barstow $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/9 1996/11/15 13:52:10 barstow $"
+

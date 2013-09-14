@@ -74,13 +74,13 @@ $ NOTE: trailing spaces ARE important in message 7!
 7 Ingen tillgång till värddator:\n\n        
 8 Kontrollera att uppkopplingen för åtkomst av\nangivna fjärrdata är genomförd.\n\n
 $ ** The arguments for message #9 are: <action name>, <file name>, <file type>.
-9 Funktionen \"%1$s\" saknas eller \nså tillämpas den inte av filen:\n    \"%2$s\"\nmed attributet:   \"%3$s\"\n\n 
+9 Funktionen "%1$s" saknas eller \nså tillämpas den inte av filen:\n    "%2$s"\nmed attributet:   "%3$s"\n\n 
 $ ** The argument for message #10 is: <action name>
-10 Funktionen \"%s\" saknas.\n
+10 Funktionen "%s" saknas.\n
 $ ** Message number 11 is difficult to generate without an internal error.
 11 Följande fil saknas:\n\n       
 $ Do NOT localize the word "MAP".
-12 Funktionen kan inte utföras, den innehåller för många nivåer av MAP\n\eller mappningen är \"cirkulär\".
+12 Funktionen kan inte utföras, den innehåller för många nivåer av MAP\n\eller mappningen är "cirkulär".
 13 Det går inte att köra den begärda funktionen.\n\nÄr följande värddatorer tillgängliga?\n\t(%s)\nFinns motsvarande program?\n(Kör /usr/dt/bin/dttypes för att matcha funktioner och program.)\n\nFinns det för lite utrymme på systemet för att exekvera nya processer?
 14 Det gick inte att utföra funktionen.
 15 Det gick inte att utföra funktionen.\nToolTalk-anslutningen kunde inte upprättas.
@@ -88,13 +88,13 @@ $ Do NOT localize the word "MAP".
 17 Det gick inte att utföra funktionen av följande skäl:\n\n    %s.
 18 Det inträffade ett fel medan ett av filargumenten\nmappades.
 $ ** The arguments for message #19 are: <action name>, <buffer type>.
-19 Antingen gick det inte att hitta funktionen \"%1$s\"\neller så tillämpas inte funktionen på buffertar av typen: \n\n\"%2$s\"
+19 Antingen gick det inte att hitta funktionen "%1$s"\neller så tillämpas inte funktionen på buffertar av typen: \n\n"%2$s"
 $ **  MESSAGE NUMBER 20 IS OBSOLETE.
-20 Det går inte att skapa en tmp-fil: \"%1$s\" \nför funktionen: \"%2$s\"
-21 Objektklassen: \"%d\"\nstöds inte för funktionen: \"%s\".
-22 Det går inte att skapa en tmp-fil i katalogen: \"%s\"\nför funktionen: \"%s\".
-23 Det går inte att öppna tmp-filen: \"%s\"\nför funktionen: \"%s\".
-24 Det går inte att skriva tmp-fil: \"%s\"\nför funktionen: \"%s\".
+20 Det går inte att skapa en tmp-fil: "%1$s" \nför funktionen: "%2$s"
+21 Objektklassen: "%d"\nstöds inte för funktionen: "%s".
+22 Det går inte att skapa en tmp-fil i katalogen: "%s"\nför funktionen: "%s".
+23 Det går inte att öppna tmp-filen: "%s"\nför funktionen: "%s".
+24 Det går inte att skriva tmp-fil: "%s"\nför funktionen: "%s".
 
 $set 3
 $ ****  Module: CmdMain.c ****
@@ -103,12 +103,12 @@ $ Note that set 3, messages 1, 3, 4, 12, 13, 16 have been obsoleted.
 
 2 Det går inte att byta till följande katalog:\n\n\
    %2$s\n\n\
-från värddatorn \"%1$s\".\n\n\
+från värddatorn "%1$s".\n\n\
 Kontrollera stavningen och behörigheter samt att katalogen verkligen finns.
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 5 Det går inte att exekvera följande kommando på värddatorn\n\
-\"%1$s\":\n\n\
+"%1$s":\n\n\
    %2$s\n\n\
 Kontrollera att programmet finns, att det har korrekta\n\
 behörigheter och att det är körbart.
@@ -126,7 +126,7 @@ terminalemulator inte kunde exekveras:\n\n\
    %s\n\n\
 Kontrollera att programmet finns, att det har korrekta\n\
 behörigheter och att det är körbart. Situationen kan\n\
-ha uppkommit eftersom programmet inte finns i \"PATH\".
+ha uppkommit eftersom programmet inte finns i "PATH".
 
 $ Message number 8 is OBSOLETE.
 $ 8 Funktionen saknar något av följande:\n\n\
@@ -134,15 +134,15 @@ $   körargument, körsträng och körvärddator.\n\n\
 $ Kontrollera att funktionen har korrekt antal argument.
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-9 Det totala antalet tecken i denna funktion överstiger \"%d\".\n\n\
+9 Det totala antalet tecken i denna funktion överstiger "%d".\n\n\
 Du måste dela upp funktionen i delfunktioner.
 
 $ Message number 10 is OBSOLETE.
-$ 10 Det går inte att starta skalprogrammet \"%s\".\n\n\
+$ 10 Det går inte att starta skalprogrammet "%s".\n\n\
 $ Kontrollera att programmet har korrekta behörigheter samt\n\
 $ är körbart.
 
-11 Det går inte att starta en ny process på värddatorn \"%s\".\n\n\
+11 Det går inte att starta en ny process på värddatorn "%s".\n\n\
 För att kunna fortsätta måste du stoppa eventuella onödiga processer på värddatorn.
 
 $ Message number 14 is OBSOLETE.
@@ -154,7 +154,7 @@ För att kunna fortsätta måste du stoppa en aktiv process.
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the words "WINDOW_TYPE".
-17 Det går inte att känna igen funktionens WINDOW_TYPE \"%1$s\".\n\
+17 Det går inte att känna igen funktionens WINDOW_TYPE "%1$s".\n\
 WINDOW_TYPE bör vara något av följande:\n\n\
   %2$s, %3$s, %4$s,\n\
   %5$s, %6$s eller %7$s
@@ -167,61 +167,61 @@ behörigheter samt är körbart.
 $ MESSAGE 19 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ MESSAGE 19 IN SET 3 IS OBSOLETE
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-19 Det går inte att köra 'xhost' på värddatorn \"%s\" med X-hanteraren.\n\n\
+19 Det går inte att köra 'xhost' på värddatorn "%s" med X-hanteraren.\n\n\
 Du kan avaktivera detta meddelande och den automatiska x-hanteringen\n\
 genom att köra funktionen "EditResources" och lägga till följande resurs:\n\n\
    *autoXhosting:  False\n
 
 $ Do NOT remove the leading spaces from any lines in the following message.
-20 Det går inte att exekvera denna funktion på värddatorn \"%1$s\"\n\
+20 Det går inte att exekvera denna funktion på värddatorn "%1$s"\n\
 eftersom följande program antingen inte finns\n\
 eller inte kan köras:\n\n\
    %2$s\n
 
 $ MESSAGE 21 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-21 Funktionen \"%1$s\" exekverades framgångsrikt på värden \"%2$s\".
+21 Funktionen "%1$s" exekverades framgångsrikt på värden "%2$s".
 
 $ MESSAGE 22 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-22 Katalogen \"%1$s\" på värden \"%2$s\"\n\
+22 Katalogen "%1$s" på värden "%2$s"\n\
 kunde inte konverteras till en nätverkssökväg.\n\
 (%3$s)
 
 $ MESSAGE 23 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-23 Loggfilen för stderr \"%1$s\" på värden \"%2$s\"\n\
+23 Loggfilen för stderr "%1$s" på värden "%2$s"\n\
 kunde inte konverteras till en nätverkssökväg.\n\
 (%3$s)
 
 24 Denna funktion kan inte exekveras eftersom\n\
-det inte går att få tillgång till värddatorn \"%s\".
+det inte går att få tillgång till värddatorn "%s".
 
-25 Denna funktion kan inte exekveras på värddatorn \"%1$s\" eftersom\n\
-tjänsten \"%2$s\" inte har konfigurerats korrekt på värddatorn.
+25 Denna funktion kan inte exekveras på värddatorn "%1$s" eftersom\n\
+tjänsten "%2$s" inte har konfigurerats korrekt på värddatorn.
 
-26 Denna funktion kan inte exekveras eftersom tjänsten \"%1$s\"\n\
-inte har konfigurerats på värddatorn \"%2$s\".
+26 Denna funktion kan inte exekveras eftersom tjänsten "%1$s"\n\
+inte har konfigurerats på värddatorn "%2$s".
 
-27 Denna funktion kan inte exekveras på värddatorn \"%1$s\" eftersom\n\
-användaren \"%2$s\" har ett användar-ID \"%3$d\" på värddatorn \"%4$s\" som\n\
-inte matchar användarnamnet och användar-ID på värddatorn \"%5$s\"\n\
+27 Denna funktion kan inte exekveras på värddatorn "%1$s" eftersom\n\
+användaren "%2$s" har ett användar-ID "%3$d" på värddatorn "%4$s" som\n\
+inte matchar användarnamnet och användar-ID på värddatorn "%5$s"\n\
 som styr körningen av funktionen.
 
-28 Denna funktion kan inte exekveras på värddatorn \"%1$s\" eftersom\n\
-användaren \"%2$s\" inte har något konto på denna dator.
+28 Denna funktion kan inte exekveras på värddatorn "%1$s" eftersom\n\
+användaren "%2$s" inte har något konto på denna dator.
 
-29 Denna funktion kan inte exekveras på värddatorn \"%s\" eftersom\n\
+29 Denna funktion kan inte exekveras på värddatorn "%s" eftersom\n\
 det inte går att skapa ett sökvägsnamn till behörighetsfilen.
 
-30 Denna funktion kan inte exekveras på värddatorn \"%s\" eftersom\n\
+30 Denna funktion kan inte exekveras på värddatorn "%s" eftersom\n\
 det inte går att öppna behörighetsfilen på denna dator.\n\n\
 Det kan bero på att hemnätverket inte har konfigurerats korrekt.
 
-31 Denna funktion kan inte exekveras på värddatorn \"%1$s\" eftersom\n\
-miljön överstiger \"%2$d\" byte.
+31 Denna funktion kan inte exekveras på värddatorn "%1$s" eftersom\n\
+miljön överstiger "%2$d" byte.
 
-32 Denna funktion kan inte exekveras på värddatorn \"%1$s\" eftersom\n\
-värden \"%2$s\" inte är behörig att använda tjänsten \"%3$s\".\n\n\
-Du kan lösa detta genom att lägga till värden \"%4$s\" till tjänsten \"%5$s\"\n\
-i filen \"%6$s\" på värddatorn \"%7$s\".
+32 Denna funktion kan inte exekveras på värddatorn "%1$s" eftersom\n\
+värden "%2$s" inte är behörig att använda tjänsten "%3$s".\n\n\
+Du kan lösa detta genom att lägga till värden "%4$s" till tjänsten "%5$s"\n\
+i filen "%6$s" på värddatorn "%7$s".
 
 
 $set 4
@@ -230,45 +230,45 @@ $
 $  MESSAGES 1-11 IN SET 4 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-1 En \"%s\"-definition i filen:\n\
-  \"%s\"\n\
+1 En "%s"-definition i filen:\n\
+  "%s"\n\
 saknar ett namn. Lägg till namnet\n  i definitionen.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the word "END".
 $ THIS MESSAGE IS OBSOLETE
-2 The definition \"%s\" in the file\n\
-  \"%s\"\n\
+2 The definition "%s" in the file\n\
+  "%s"\n\
 is incomplete. The definition may be missing\n\
-the \"END\" field.\n
+the "END" field.\n
    
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-3 Ett flerradsfält i definitionen \"%s\"\n\
+3 Ett flerradsfält i definitionen "%s"\n\
 i filen\n\
-  \"%s\"\n\
-är inte komplett.  Ett \"\\\"-tecken kanske saknas\n\
+  "%s"\n\
+är inte komplett.  Ett "\\"-tecken kanske saknas\n\
 i ett flerradsfält.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-4 Definitionen \"%s\" i filen\n\
-  \"%s\"\n\
+4 Definitionen "%s" i filen\n\
+  "%s"\n\
 har för många fält.\n
 
 $ Do NOT localize the word "Dt.TypesDirs".
 5 Ett försök att läsa databasen med funktioner och filtyper misslyckades.\n\
-Detta kan bero på att resursen  \"Dt.TypesDirs\" är felaktigt inställd.\n
+Detta kan bero på att resursen  "Dt.TypesDirs" är felaktigt inställd.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-6 Definitionen \"%s\" i filen\n  \"%s\"\n  har en slutsymbol '}' utan ha en startsymbol '{'.\n
+6 Definitionen "%s" i filen\n  "%s"\n  har en slutsymbol '}' utan ha en startsymbol '{'.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-7 Definitionen \"%s\" i filen\n  \"%s\"\n  har en oväntad startsymbol '{'.\n
+7 Definitionen "%s" i filen\n  "%s"\n  har en oväntad startsymbol '{'.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-8 Definitionen \"%s\" i filen\n  \"%s\"\n  är inte komplett. Definitionen kanske saknar\n  \"}\"-fältet.\n
+8 Definitionen "%s" i filen\n  "%s"\n  är inte komplett. Definitionen kanske saknar\n  "}"-fältet.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-9 Definitionen \"%s\" i filen\n  \"%s\"\n  saknar en startsymbol '{'.\n
+9 Definitionen "%s" i filen\n  "%s"\n  saknar en startsymbol '{'.\n
 
 10 Variabeln DtDbVersion kan bara ställas in\ni början av filen.  Resten av filen\n'%s' ignoreras.\n
 
@@ -288,86 +288,86 @@ $
 $  MESSAGES 1-11 IN SET 6 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-1 Funktionsdefinitionen \"%s\" in the file:\n\
-  \"%s\"\n\
+1 Funktionsdefinitionen "%s" in the file:\n\
+  "%s"\n\
 does not have any fields.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-2 Funktionsdefinitionen \"%s\" in the file\n\
-  \"%s\"\n\
+2 Funktionsdefinitionen "%s" in the file\n\
+  "%s"\n\
 contains the following unrecognized field name and value:\n\
-\"%s\"\n
+"%s"\n
 
 $ Message number 3 is OBSOLETE.
-$ 3 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ does not have the required field \"%s\".\n
+$ 3 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ does not have the required field "%s".\n
 
-4 The \"%s\" field in the action definition \"%s\"\n\
-in the file \"%s\"\n\
+4 The "%s" field in the action definition "%s"\n\
+in the file "%s"\n\
 has an unrecognized action type.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the words "TYPE MAP".
-5 Funktionsdefinitionen \"%s\" in the file\n\
-  \"%s\"\n\
-is not mapped properly.  The \"%s\" field\n\
+5 Funktionsdefinitionen "%s" in the file\n\
+  "%s"\n\
+is not mapped properly.  The "%s" field\n\
 should be: TYPE MAP action_mapped_to.\n
 
 $ Message number 6 is OBSOLETE.
-$ 6 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
+$ 6 The action definition "%s" in the file\n\
+$   "%s"\n\
 $ contains a MAP to itself.\n
 
 $ Message number 7 is OBSOLETE.
-$ 7 The \"%s\" field in the action definition \"%s\"\n\
-$ in the file \"%s\"\n\
-$ has the unrecognized value \"%s\".\n
+$ 7 The "%s" field in the action definition "%s"\n\
+$ in the file "%s"\n\
+$ has the unrecognized value "%s".\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the word "COMMAND".
-8 Funktionsdefinitionen \"%s\" i filen\n\
-  \"%s\"\n\
-är en funktion av typen \"COMMAND\" men saknar\n\
-det nödvändiga fältet \"%s\".\n
+8 Funktionsdefinitionen "%s" i filen\n\
+  "%s"\n\
+är en funktion av typen "COMMAND" men saknar\n\
+det nödvändiga fältet "%s".\n
 
 $ Message number 9 is OBSOLETE.
-$ 9 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ is a \"MESSAGE\" action type but lacks the\n\
-$ required field \"%s\".\n
+$ 9 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ is a "MESSAGE" action type but lacks the\n\
+$ required field "%s".\n
 
 $ Message number 10 is OBSOLETE.
-$ 10 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ is a \"MESSAGE\" action type but lacks the\n\
-$ required field \"%s\".\n
+$ 10 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ is a "MESSAGE" action type but lacks the\n\
+$ required field "%s".\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-11 Funktionsdefinitionen \"%s\" i filen\n\
-  \"%s\"\n\
-har det felaktiga värdet \"%s\" i fältet \"%s\".\n"
+11 Funktionsdefinitionen "%s" i filen\n\
+  "%s\n\
+har det felaktiga värdet "%s" i fältet "%s".\n"
 
-12 Funktionsdefinitionen \"%s\" i filen\n\
-  \"%s\"\n\
-innehåller dubletter av fältet:\n \"%s\".
+12 Funktionsdefinitionen "%s" i filen\n\
+  "%s"\n\
+innehåller dubletter av fältet:\n "%s".
 
-13 Funktionsdefinitionen \"%s\" i filen\n\
-  \"%s\"\n\
-innehåller felaktiga fält för funktioner av typen \"%s\".\n
+13 Funktionsdefinitionen "%s" i filen\n\
+  "%s"\n\
+innehåller felaktiga fält för funktioner av typen "%s".\n
 
-14 Funktionsdefinitionen \"%s\" i filen\n\
-  \"%s\"\n\
-saknar fältet \"%s\"\n för funktioner av typen \"%s\".\n
+14 Funktionsdefinitionen "%s" i filen\n\
+  "%s"\n\
+saknar fältet "%s"\n för funktioner av typen "%s".\n
 
 $ Message number 15 is OBSOLETE.
-$ 15 Funktionsdefinitionen \"%s\" i filen\n\
-$   \"%s\"\n\
-$   innehåller värdet NULL i fältet\"%s\".\n
+$ 15 Funktionsdefinitionen "%s" i filen\n\
+$   "%s"\n\
+$   innehåller värdet NULL i fältet"%s".\n
 
-16 Funktionsdefinitionen \"%s\" i filen\n\
-  \"%s\"\n\
-har det felaktiga värdet \"%s\" i fältet \"%s%s%s\".\n"
+16 Funktionsdefinitionen "%s" i filen\n\
+  "%s"\n\
+har det felaktiga värdet "%s" i fältet "%s%s%s".\n"
 
 
 $ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -423,6 +423,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dt.msg /main/3 1995/11/08 13:31:51 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dt.msg /main/3 1995/11/08 13:31:51 rswiston $"
 

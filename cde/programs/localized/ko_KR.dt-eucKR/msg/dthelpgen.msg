@@ -120,7 +120,7 @@ $
 5 <ABBREV>도움말 관리자에 들어오신 것을 환영합니다.</ABBREV>              \
 <LINK 0 "Help4Help How-To-Register-Help">                                \
 <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>                         \
-주:\ \ \ 등록된 도움말이 없습니다.                                        \
+주:   등록된 도움말이 없습니다.                                        \
 </SIZE></WEIGHT></TYPE></></LINK>                                        \
 <PARAGRAPH leftindent 3 firstindent 3>                                   \
 <WEIGHT bold>훑어보기 위한 온라인 도움말 파일을 등록한 제품군이          \

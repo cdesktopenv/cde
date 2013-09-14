@@ -479,7 +479,7 @@ $set 25
 174 filslut
 175 f:[format]nprsu:[filnr] [arg...]
 176 fnv namn...
-177 hist -e \"${VISUAL:-${EDITOR:-vi}}\" 
+177 hist -e "${VISUAL:-${EDITOR:-vi}}" 
 178 det går inte att öppna historikfil
 179 felaktig syntax
 180 felaktigt argument av typen %c

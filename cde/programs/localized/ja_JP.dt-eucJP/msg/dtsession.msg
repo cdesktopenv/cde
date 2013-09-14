@@ -545,5 +545,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)Message catalog source $TOG: dtsession.msg /main/18 1999/09/20 13:50:16 mgreess $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)Message catalog source $TOG: dtsession.msg /main/18 1999/09/20 13:50:16 mgreess $"
+

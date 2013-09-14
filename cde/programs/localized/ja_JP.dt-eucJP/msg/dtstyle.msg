@@ -442,7 +442,7 @@ $ _DtMessage 11 is the title of the Add Palette dialog box.
 
 $ Messages 12 through 14 are error messages.
 12 パレット名には次の文字は使用できません:\n\n\
-<space> * : ( ) [ ] { } < > ! | \" / \\
+<space> * : ( ) [ ] { } < > ! | " / \\
 $ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE 
 $ TO SAY THE PALETTE NAME MUST BE 10 BYTES OR LESS
 13 パレット名は 10 文字以下でなければなりません。\n
@@ -693,7 +693,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/11 1996/12/01 23:39:42 cde-hit $
-
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/11 1996/12/01 23:39:42 cde-hit $"
 

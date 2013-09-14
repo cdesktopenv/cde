@@ -689,13 +689,13 @@ $
 Πρέπει είτε να αλλάξετε φάκελο προορισμού\n\
 ή το όνομα για την αντιγραφή πριν σχηματιστεί ο δεσμός.
 47 Δεν είναι εφικτό να να μετακινηθεί ένας φάκελος στον εαυτό του.
-48 Δεν είναι εφικτό να αντιγραφούν τα ακόλουθα αντικείμενα στον φάκελο \"%s\"\n\n%s\n\n\
+48 Δεν είναι εφικτό να αντιγραφούν τα ακόλουθα αντικείμενα στον φάκελο "%s"\n\n%s\n\n\
 Το πιθανότερο είναι ότι δεν έχετε\n\
 δικαίωμα εγγραφής στον φάκελο προορισμού.
-49 Δεν είναι εφικτή η μετακίνηση των ακόλουθων αντικειμένων στον φάκελο \"%s\"\n\n%s\n\n\
+49 Δεν είναι εφικτή η μετακίνηση των ακόλουθων αντικειμένων στον φάκελο "%s"\n\n%s\n\n\
 Το πιθανότερο είναι ότι δεν έχετε\n\
 δικαίωμα εγγραφής στον φάκελο προορισμού.
-50 Δεν είναι εφικτή η μετακίνηση των ακόλουθων αντικειμένων στον φάκελο \"%s\"\n\n%s\n\n\
+50 Δεν είναι εφικτή η μετακίνηση των ακόλουθων αντικειμένων στον φάκελο "%s"\n\n%s\n\n\
 Το πιθανότερο είναι ότι δεν έχετε το δικαίωμα να\n\
 μετακινήσετε το αντικείμενο.
 
@@ -879,7 +879,9 @@ $ Messages 29 and 30 are text for the Save Settings dialog
 $ Messages 34 and 35 are drag/drop error messages
 
 $ DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGE 1
-1 
+$quote "
+1 ""
+$quote
 
 $ MESSAGE 2 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ above no longer true - it will be displayed - see CDExc21626
@@ -1775,5 +1777,7 @@ $ DO NOT TRANSLATE THESE MESSAGES
 $ DO NOT CHANGE THESE MESSAGES
 $ DO NOT LOCALIZE THESE MESSAGES
 $ These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/10 1999/09/16 09:42:03 mgreess $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/10 1999/09/16 09:42:03 mgreess $"
+

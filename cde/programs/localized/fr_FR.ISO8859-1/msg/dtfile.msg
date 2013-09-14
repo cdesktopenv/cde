@@ -643,7 +643,7 @@ manuellement le fichier à modifier."
 
 123 "Déplacement annulé - aucun objet n'a été déplacé.\n\n\
 Un fichier à remplacer n'a pas pu être supprimé.\n\
-\ Fichier: %s\n\n\
+    Fichier: %s\n\n\
 1 autre objet a été supprimé.\n\n\
 Vous ne disposez probablement pas du droit d'accès en écriture\n\
 sur le fichier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
@@ -891,11 +891,11 @@ n'existe pas."
 44 "Aucune opération de déplacement n'a été lancée sur\n\
    l'objet %s. Vous ne pouvez déplacer un objet dans le dossier dans lequel\n\
    il se trouve. Vous devez entrer une destination différente (nom de dossier)\n\
-\   avant de pouvoir déplacer l'objet."
+   avant de pouvoir déplacer l'objet."
 
 45 "Aucune opération de copie n'a été lancée sur\n\
    l'objet %s. Vous devez changer le dossier de destination ou le nom de copie\n\
-\   avant que la copie ne soit créée."
+   avant que la copie ne soit créée."
 
 46 "Aucune opération de lien n'a été lancée sur l'objet %s.\n\
    Vous devez changer le dossier de destination ou le nom de copie avant que\n\
@@ -1130,10 +1130,10 @@ $ MESSSAGES 17-21 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 18 "Impossible d'ouvrir le fichier de session."
 
 19 "La spécification de dossier\n\
-\%s ne correspond pas à un dossier."
+%s ne correspond pas à un dossier."
 
 20 "La spécification de dossier\n\
-\%s n'existe pas."
+%s n'existe pas."
 
 21 "Spécification de dossier %s:%s non valide."
 

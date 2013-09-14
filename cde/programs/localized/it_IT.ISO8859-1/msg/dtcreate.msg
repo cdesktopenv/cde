@@ -143,7 +143,7 @@ $
 50 Il nome dell'azione contiene uno o più caratteri\n\
 non ammessi.\n\
 I caratteri da non utilizzare per i nomi sono i seguenti:\n\
-  / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
+  / \\ " ' ;  (  ) ~ ! $ { } < > # @ | &
 $ 
 55 Impossibile creare il file:
 $ 
@@ -259,7 +259,7 @@ $
 20 Il campo 'Nome del tipo di dati' contiene\n\
 uno o più caratteri non ammessi.\n\
 I caratteri da non utilizzare per i nomi sono i seguenti:\n\
-  / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
+  / \\ " ' ;  (  ) ~ ! $ { } < > # @ | &
 $ 
 25 Esiste già un tipo di dati con il nome specificato.\n\
 Specificare un altro nome nel campo 'Nome del tipo di dati'.
@@ -326,7 +326,7 @@ $
 non ammessi.\n\
 Per lo Schema del nome non si possono utilizzare i\n\
 seguenti caratteri:\n\
-  / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
+  / \\ " ' ;  (  ) ~ ! $ { } < > # @ | &
 $ 
 46 Lo Schema del contenuto non corrisponde al formato del\n\
 Tipo di contenuto selezionato.\n\

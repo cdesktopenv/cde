@@ -494,7 +494,8 @@ $ Messages 12 through 14 are error messages.
 
 12 "Le nom de la palette ne peut pas contenir\n\
 les caractères suivants:\n\n\
-<espace> * : ( ) [ ] { } < > ! | \" / \"$ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE "
+<espace> * : ( ) [ ] { } < > ! | \" / \\"
+$ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE
 $ TO SAY THE PALETTE NAME MUST BE 10 BYTES OR LESS  
 
 13 "Le nom de la palette est limité\n\

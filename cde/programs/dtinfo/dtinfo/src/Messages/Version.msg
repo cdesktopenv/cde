@@ -1,12 +1,12 @@
 $ $XConsortium: Version.msg /main/4 1996/08/19 15:18:26 cde-hal $
 
 $set	Set_Version
-$
+$ 
 $ dtinfo version information
-$
-$
+$ 
+$ 
 $	Dtinfo*Version
-$
+$ 
 1	"CDE Dtinfo Browser\n\
 \n\
 Copyright (c) 1996 Chisholm Technologies, Inc.,\n\

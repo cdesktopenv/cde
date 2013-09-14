@@ -336,23 +336,23 @@ $ " (%s)"
 $ Do NOT translate messages 25-31  
 $ " "  
 
-25 ""
+25 " "
 
 26 "+"
 
 27 "-"
 $ "  +"  
 
-28 "+"
+28 "  +"
 $ "  -"  
 
-29 "-"
+29 "  -"
 $ 30 "       "  
 
-30 ""
+30 "       "
 $ 31 "         "  
 
-31 ""
+31 "         "
 $ DO translate messages 32 and above  
 $ kind of topic messages  
 

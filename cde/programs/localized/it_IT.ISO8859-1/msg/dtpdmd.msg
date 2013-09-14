@@ -47,8 +47,8 @@ $     */
 \n\
 dove [opzioni] includono:\n\
    -d <display>        host:display[.screen] del server di stampa X\n\
-   -a <selezione alt>  un altro nome di X-selezione (default \"%2$s\")\n\
-   -p <pdm predef.>    un pdm di default per avviare (default \"%3$s\")\n\
+   -a <selezione alt>  un altro nome di X-selezione (default "%2$s")\n\
+   -p <pdm predef.>    un pdm di default per avviare (default "%3$s")\n\
    -P <il pdm>         il pdm da avviare, ignorare tutti gli altri\n\
    -s                  attivare il protocollo di sicurezza\n\
    -f <file autorizz>  un insieme iniziale di voci di autorizzazione\n\
@@ -84,7 +84,7 @@ $
 $     */
 9 %s: errore, fork impossibile\n
 
-10 %1$s: errore, impossibile eseguire \"%2$s\" \n
+10 %1$s: errore, impossibile eseguire "%2$s" \n
 
 $    /* NL_COMMENT
 $ 
@@ -95,11 +95,11 @@ $         "-vdisplay" in message 11.
 $ 
 $     */
 11 %1$s: messaggio exec registrato a %2$s\n\
-   messaggio di errore exec = \"%3$s\"\n\
+   messaggio di errore exec = "%3$s"\n\
    codice di errore exec    = %4$s\n\
-   pdm                      = \"%5$s\"\n\
-   -display                 = \"%6$s\"\n\
-   -vdisplay          = \"%7$s\" \n
+   pdm                      = "%5$s"\n\
+   -display                 = "%6$s"\n\
+   -vdisplay          = "%7$s" \n
 
 12 %1$s: errore, impossibile spedire il messaggio finale\n\
 %2$s da parte del PDM al client che l'ha richiesto.\n\
@@ -118,13 +118,13 @@ $         "-vdisplay" in message 14.
 $ 
 $     */
 14 %1$s: messaggio pdm registrato a %2$s\n\
-   pdm              = \"%3$s\"\n\
-   -display         = \"%4$s\"\n\
-   -vdisplay        = \"%5$s\"\n\
-   codice di uscita = \"%6$d\"\n\
-   stderr           = \"%7$s\" \n
+   pdm              = "%3$s"\n\
+   -display         = "%4$s"\n\
+   -vdisplay        = "%5$s"\n\
+   codice di uscita = "%6$d"\n\
+   stderr           = "%7$s" \n
 
-15 errore pdmd allegato= \n\"%s\" \n
+15 errore pdmd allegato= \n"%s" \n
 
-16 %1$s: errore, impossibile aprire il logfile \"%2$s\".  È in corso la chiusura della registrazione dei messaggi stderr\n
+16 %1$s: errore, impossibile aprire il logfile "%2$s".  È in corso la chiusura della registrazione dei messaggi stderr\n
 

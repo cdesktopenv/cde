@@ -143,7 +143,7 @@ $
 50 Funktionsnamnet innehåller ett eller flera\n\
 ogiltiga tecken.\n\
 Följande tecken får inte användas i namn:\n\
-  / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
+  / \\ " ' ;  (  ) ~ ! $ { } < > # @ | &
 $ 
 55 Det gick inte att skapa följande fil:
 $ 
@@ -258,7 +258,7 @@ $
 20 Fältet 'Namn på datatypsfamilj' innehåller ett eller flera\n\
 ogiltiga tecken.\n\
 Följande tecken får inte användas i namn:\n\
-  / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
+  / \\ " ' ;  (  ) ~ ! $ { } < > # @ | &
 $ 
 25 Det finns redan en datatypsfamilj med detta namn.\n\
 Ändra namnet i fältet 'Namn på datatypsfamilj'.\n\
@@ -325,7 +325,7 @@ $
 ogiltiga tecken.\n\
 Följande tecken får inte användas\n\
 i namnmönster:\n\
-  / \ " ' ;  (  ) ~ ! $ { } < > # @ | &
+  / \\ " ' ;  (  ) ~ ! $ { } < > # @ | &
 $ 
 46 Innehållsmönstret matchar inte formatet på\n\
 den innehållstyp som du har markerat.\n\

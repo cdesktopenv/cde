@@ -67,7 +67,7 @@ UIL_29 "Kompilierung abgeschlossen - bitte vorherige Fehler beheben."
 
 UIL_30 "Interner Fehler - bitte Fehlerreport vorlegen."
 
-UIL_31  
+UIL_31 " "
 
 UIL_32 "%s fehlt nach der Option \"%s\"."
 

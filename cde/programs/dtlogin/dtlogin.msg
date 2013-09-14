@@ -318,7 +318,7 @@ $set 4
 $ set 4 is log error messages
 $ 
 
-1 Access file \"%1$s\", host \"%2$s\" not found\n
+1 Access file "%1$s", host "%2$s" not found\n
 2 ReadHostEntry\n
 3 Access file %1$s, display %2$s unknown\n
 4 Cannot open access control file %1$s, no XDMCP reqeusts will be granted\n
@@ -369,7 +369,7 @@ $
 49 Dtlogin can not kill client\n
 50 Can not execute %1$s\n
 51 Can not fork to execute %1$s\n
-52 Improper authentication name \"%1$s\". Use AFS, Kerberos or the default.\n
+52 Improper authentication name "%1$s". Use AFS, Kerberos or the default.\n
 53 Can not execute Dtgreet %1$s for %2$s\n
 54 Can not fork to execute Dtgreet %1$s\n
 55 Socket creation failed on port %1$d\n
@@ -386,7 +386,7 @@ $
 66 Account for %1$s has expired. Please see your System Administrator.\n
 67 Server dead  %1$s\n
 68 Can't open logo bitmap file: %1$s\n
-69 cannot read \"%1$s\" message catalog. Using default language.
+69 cannot read "%1$s" message catalog. Using default language.
 70 display %1$s could not be initialized, server may be grabbed.\n
 71 (%1$s): Login matte width exceeds display, using default. Matte units are pixels.\n
 72 (%1$s) Login matte height exceeds display, using default.  Matte units are pixels.\n
@@ -406,5 +406,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/6 1996/11/15 08:46:31 barstow $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/6 1996/11/15 08:46:31 barstow $"
+

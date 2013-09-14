@@ -55,7 +55,7 @@ $ Dtudcfonted is name of this application.
 34 Dtudcfonted ne peut pas modifier les polices de caractères proportionnelles.
 
 36 Des modifications n'ont pas été sauvegardées.\nVoulez-vous les sauvegarder avant l'ouverture ?
-38 Des modifications n'ont pas été sauvegardées.\ nVoulez-vous les sauvegarder avant de quitter ?
+38 Des modifications n'ont pas été sauvegardées.\nVoulez-vous les sauvegarder avant de quitter ?
 40 Au cours du traitement des copies, l'image glyphe \n des plages suivantes est modifiée.\nProcéder au traitement des copies ?\n\n
 42 Pas de droit en écriture pour cette police. Changez le mode d'accès du fichier avant de le sauvegarder.\n
 

@@ -47,8 +47,8 @@ $     */
 \n\
 wobei [Optionen] miteinschließt:\n\
    -d <Anzeige>        Rechner:Anzeige[.Bildschirm] des X-Druckservers\n\
-   -a <alt. Auswahl>  ein alternativer X-Auswahlname (\"%2$s\" Standard)\n\
-   -p <Standard pdm>    ein Standard pdm, um (\"%3$s\" Standard) zu starten\n\
+   -a <alt. Auswahl>  ein alternativer X-Auswahlname ("%2$s" Standard)\n\
+   -p <Standard pdm>    ein Standard pdm, um ("%3$s" Standard) zu starten\n\
    -P <der pdm>        der Start-pdm, der alle anderen überstimmt\n\
    -s                  Sicherheitsprotokoll einschalten\n\
    -f <Befugnisdatei>      ein anfängliche Datei mit Befugniseintragungen\n\
@@ -84,7 +84,7 @@ $
 $     */
 9 %s: Fehler, fork nicht möglich\n
 
-10 %1$s: Fehler, kann \"%2$s\" nicht ausführen \n
+10 %1$s: Fehler, kann "%2$s" nicht ausführen \n
 
 $    /* NL_COMMENT
 $ 
@@ -95,11 +95,11 @@ $         "-vdisplay" in message 11.
 $ 
 $     */
 11 %1$s: exec Meldung in %2$s eingetragen\n\
-   exec Fehlermeldung = \"%3$s\"\n\
+   exec Fehlermeldung = "%3$s"\n\
    exec Fehlercode    = %4$s\n\
-   pdm                = \"%5$s\"\n\
-   -display           = \"%6$s\"\n\
-   -vdisplay          = \"%7$s\" \n
+   pdm                = "%5$s"\n\
+   -display           = "%6$s"\n\
+   -vdisplay          = "%7$s" \n
 
 12 %1$s: Fehler, kann die endgültige %2$s\n\
 Meldung an den anfordernden Klienten im Auftrag des\n\
@@ -118,13 +118,13 @@ $         "-vdisplay" in message 14.
 $ 
 $     */
 14 %1$s: pdm Meldung in %2$s eingetragen\n\
-   pdm       = \"%3$s\"\n\
-   -display  = \"%4$s\"\n\
-   -vdisplay = \"%5$s\"\n\
-   Beenden-code = \"%6$d\"\n\
-   stderr    = \"%7$s\" \n
+   pdm       = "%3$s"\n\
+   -display  = "%4$s"\n\
+   -vdisplay = "%5$s"\n\
+   Beenden-code = "%6$d"\n\
+   stderr    = "%7$s" \n
 
-15 beigefügte pdmd Fehler= \n\"%s\" \n
+15 beigefügte pdmd Fehler= \n"%s" \n
 
-16 %1$s: Fehler, kann die log Datei \"%2$s\" nicht öffnen. stderr Meldung logging wird ausgeschaltet\n
+16 %1$s: Fehler, kann die log Datei "%2$s" nicht öffnen. stderr Meldung logging wird ausgeschaltet\n
 

@@ -120,18 +120,18 @@ $ DO NOT TRANSLATE Messages 37 or 41 ("End-of-list")
 32 -/+vb				abilita/disabilita l'avvertimento visivo
 33 -xrm stringarisorse		specifica le risorse aggiuntive
 34 -C				abilita la modalità console
-35 -Sxxd				abilita la modalità slave su \"ttyxx\" descrittore del file \"d\"
-36 -Sxxx.d			abilita la modalità slave su \"ttyxxx\" descrittore del file \"d\"
+35 -Sxxd				abilita la modalità slave su "ttyxx" descrittore del file "d"
+36 -Sxxx.d			abilita la modalità slave su "ttyxxx" descrittore del file "d"
 37 End-Of-List
 38 L'opzione -e, se specificata, deve apparire alla fine della riga comandi,
 39 diversamente verrà avviata la shell predefinita dell'utente. Le opzioni
 40 precedute da un segno più (+) ripristinano l'impostazione predefinita.
 41 End-Of-List
-47 %s: errore nell'opzione \"%s\"\r\n\n
+47 %s: errore nell'opzione "%s"\r\n\n
 48 Sintassi:  %s
 49 \r\n   
 50  [%s]
-51 \r\n\nPer una descrizione completa delle opzioni, digitare \"%s -help\".\r\n\n
+51 \r\n\nPer una descrizione completa delle opzioni, digitare "%s -help".\r\n\n
 52 Sintassi:\n
 53 \t%s [-opzioni ...] [-e comando arg]\n\n
 54 dove le opzioni disponibili sono:\n

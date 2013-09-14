@@ -497,7 +497,8 @@ $ Messages 12 through 14 are error messages.
 
 12 "Der Palettenname darf folgende Zeichen\n\
 nicht enthalten:\n\n\
-<space> * : ( ) [ ] { } < > ! | \" / \$ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE "
+<space> * : ( ) [ ] { } < > ! | \" / \\"
+$ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE
 $ TO SAY THE PALETTE NAME MUST BE 10 BYTES OR LESS  
 
 13 "Der Palettenname darf\n\

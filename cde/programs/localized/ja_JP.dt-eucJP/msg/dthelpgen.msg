@@ -121,7 +121,7 @@ $
 5 <ABBREV>ヘルプ・マネージャの使用法</ABBREV>\
 <LINK 0 "Help4Help How-To-Register-Help">\
 <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>\
-注意:\ \ \ ヘルプは登録されていません。\
+注意:   ヘルプは登録されていません。\
 </SIZE></WEIGHT></TYPE></></LINK>\
 <PARAGRAPH leftindent 3 firstindent 3>\
 <WEIGHT bold>プロダクト・ファミリには登録済みのブラウズ用オンライン・\n\

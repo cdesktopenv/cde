@@ -480,7 +480,7 @@ $set 25
 174 óòÕùá¸ÊÖ
 175 f:[format]nprsu:[filenum] [arg...]
 176 fnv name...
-177 hist -e \"${VISUAL:-${EDITOR:-vi}}\" 
+177 hist -e "${VISUAL:-${EDITOR:-vi}}" 
 178 Ø´òçóòÕùÆÜâäÚö
 179 ë£ÎÎòãë¨
 180 ùËÐÎ %c ÎûÅ¿í°àÒÕæ

@@ -28,7 +28,7 @@ $quote "
 1 "1386-101 %s:  Bad command line option:  %s.\n\n"
 2 "1386-102 \nType %s -help for a full description.\n\n"
 
-3 "1386-103 Usage:\n        %s [-options ...]\n\n\where options include:\n"
+3 "1386-103 Usage:\n        %s [-options ...]\n\nwhere options include:\n"
 5 "1386-105    %-28s %s\n\t where mode is one of:\n\", \"-mode mode\", \"animation mode"
 
 7 "1386-107 Unknown mode: "

@@ -120,7 +120,7 @@ $
 5 <ABBREV>Benvenuti nella Gestione dell'aiuto</ABBREV>                   \
 <LINK 0 "Help4Help How-To-Register-Help">                                \
 <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>                         \
-Nota:\ \ \ Nessun aiuto registrato                                       \
+Nota:   Nessun aiuto registrato                                          \
 </SIZE></WEIGHT></TYPE></></LINK>                                        \
 <PARAGRAPH leftindent 3 firstindent 3>                                   \
 <WEIGHT bold>Nessuna famiglia di prodotti ha registrato i propri file di \

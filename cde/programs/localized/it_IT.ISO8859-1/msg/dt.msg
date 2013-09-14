@@ -77,15 +77,15 @@ $ NOTE: trailing spaces ARE important in message 7!
 8 \n\nVerificare che sia stato stabilito il collegamento\nappropriato per \
 l'accesso remoto ai dati.\n\n
 $ ** The arguments for message #9 are: <action name>, <file name>, <file type>.
-9 L'azione \"%1$s\" non esiste, oppure\nnon è valida per il file:\n\
-\"%2$s\"\ncon l'attributo di dati::   \"%3$s\"\n\n
+9 L'azione "%1$s" non esiste, oppure\nnon è valida per il file:\n\
+"%2$s"\ncon l'attributo di dati::   "%3$s"\n\n
 $ ** The argument for message #10 is: <action name>
-10 L'azione \"%s\" non esiste.\n
+10 L'azione "%s" non esiste.\n
 $ ** Message number 11 is difficult to generate without an internal error.
 11 Non è stato trovato il file seguente:\n\n       
 $ Do NOT localize the word "MAP".
 12 Questa azione non può essere eseguita perché contiene\n\
-troppi livelli di MAP, o perché la mappatura è \"circolare\".
+troppi livelli di MAP, o perché la mappatura è "circolare".
 13 Impossibile eseguire l'azione richiesta.\n\nGli host seguenti sono \
 accessibili?\n\t(%s)\nIl programma corrispondente esiste?\n(Eseguire \
 /usr/dt/bin/dttypes per trovare le corrispondenze\ntra operazioni e \
@@ -99,17 +99,17 @@ seguente ragione:\n\n    %s.
 18 Si è verificato un errore nel tentativo di mappare uno\ndegli argomenti del \
 file.
 $ ** The arguments for message #19 are: <action name>, <buffer type>.
-19 L'azione \"%1$s\" non è stata trovata, oppure\nnon è valida per i buffer di \
-tipo: \n\n\"%2$s\"
+19 L'azione "%1$s" non è stata trovata, oppure\nnon è valida per i buffer di \
+tipo: \n\n"%2$s"
 $ **  MESSAGE NUMBER 20 IS OBSOLETE.
-20 Impossibile creare il file tmp: \"%1$s\" \nper l'azione: \"%2$s\"
-21 La classe di oggetti di input: \"%d\"\nnon è supportata per l'azione: \"%s\".
-22 Impossibile creare un file temporaneo nella directory: \"%s\"\nper l'azione \
-denominata: \"%s\".
-23 Impossibile aprire il file temporaneo: \"%s\"\nper l'azione denominata: \
-\"%s\".
-24 Impossibile scrivere nel file temporaneo: \"%s\"\nper l'azione denominata: \
-\"%s\".
+20 Impossibile creare il file tmp: "%1$s" \nper l'azione: "%2$s"
+21 La classe di oggetti di input: "%d"\nnon è supportata per l'azione: "%s".
+22 Impossibile creare un file temporaneo nella directory: "%s"\nper l'azione \
+denominata: "%s".
+23 Impossibile aprire il file temporaneo: "%s"\nper l'azione denominata: \
+"%s".
+24 Impossibile scrivere nel file temporaneo: "%s"\nper l'azione denominata: \
+"%s".
 
 
 $set 3
@@ -119,13 +119,13 @@ $ Note that set 3, messages 1, 3, 4, 12, 13, 16 have been obsoleted.
 
 2 Non è stato possibile passare alla directory seguente:\n\n\
    %1$s\n\n\
-dall'host \"%2$s\".\n\n\
+dall'host "%2$s".\n\n\
 Controllare la sintassi e le autorizzazioni e verificare l'esistenza della \
 directory.
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 5 Non è stato possibile eseguire il comando seguente sull'host\n\
-\"%1$s\":\n\n\
+"%1$s":\n\n\
    %2$s\n\n\
 Controllare che il programma esista, che abbia le\n\
 autorizzazioni corrette e che sia eseguibile.
@@ -143,7 +143,7 @@ possibile avviare il seguente emulatore di terminale:\n\n\
    %s\n\n\
 Controllare che il programma esista, abbia le autorizzazioni\n\
 corrette e sia eseguibile.  Forse il problema si è verificato\n\
-perché il programma non si trova nel \"PATH\".
+perché il programma non si trova nel "PATH".
 
 $ Message number 8 is OBSOLETE.
 $ 8 This action is missing one or more of the following:\n\n\
@@ -151,15 +151,15 @@ $   execution parameters, execution string or execution host.\n\n\
 $ Check that the action has an appropriate number of parameters.
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-9 Il totale dei caratteri in questa azione supera il limite di \"%d\".\n\n\
+9 Il totale dei caratteri in questa azione supera il limite di "%d".\n\n\
 Forse sarà necessario suddividere l'azione in più parti.
 
 $ Message number 10 is OBSOLETE.
-$ 10 The shell program \"%s\" cannot be started.\n\n\
+$ 10 The shell program "%s" cannot be started.\n\n\
 $ Check that the program has the correct permissions and\n\
 $ is executable.
 
-11 Non è stato possibile avviare un nuovo processo sull'host \"%s\".\n\n\
+11 Non è stato possibile avviare un nuovo processo sull'host "%s".\n\n\
 Per continuare, occorrerà probabilmente interrompere un processo non necessario \
 su questo host.
 
@@ -172,7 +172,7 @@ Per continuare, occorrerà probabilmente interrompere un processo esistente.
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the words "WINDOW_TYPE".
-17 Il WINDOW_TYPE \"%1$s\" di questa azione non è stato riconosciuto.\n\
+17 Il WINDOW_TYPE "%1$s" di questa azione non è stato riconosciuto.\n\
 Il WINDOW-TYPE deve essere uno dei seguenti:\n\n\
   %2$s, %3$s, %4$s,\n\
   %5$s, %6$s, o %7$s
@@ -187,63 +187,63 @@ corrette e sia eseguibile.
 $ MESSAGE 19 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ MESSAGE 19 IN SET 3 IS OBSOLETE
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-19 Non è stato possibile eseguire 'xhost' sull'host Xserver \"%s\".\n\n\
+19 Non è stato possibile eseguire 'xhost' sull'host Xserver "%s".\n\n\
 Per eliminare questo messaggio e disabilitare l'esecuzione automatica di \
 xhost,\n\
 eseguire l'azione "EditResources" e aggiungere la risorsa seguente:\n\n\
    *autoXhosting:  False\n
 
 $ Do NOT remove the leading spaces from any lines in the following message.
-20 Questa azione non può essere eseguita sull'host \"%1$s\"\n\
+20 Questa azione non può essere eseguita sull'host "%1$s"\n\
 perché il programma seguente non esiste o non è\n\
 eseguibile:\n\n\
    %2$s\n
 
 $ MESSAGE 21 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-21 L'azione \"%1$s\" è stata eseguita con successo sull'host \"%2$s\".
+21 L'azione "%1$s" è stata eseguita con successo sull'host "%2$s".
 
 $ MESSAGE 22 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-22 La directory \"%1$s\" sull'host \"%2$s\"\n\
+22 La directory "%1$s" sull'host "%2$s"\n\
 non è stata convertita in un percorso di rete.\n\
 (%3$s)
 
 $ MESSAGE 23 IN SET 3 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-23 Il file di log stderr \"%1$s\" sull'host \"%2$s\"\n\
+23 Il file di log stderr "%1$s" sull'host "%2$s"\n\
 non è stato convertito in un percorso di rete.\n\
 (%3$s)
 
 24 Questa azione non può essere eseguita perché\n\
-non è possibile accedere all'host \"%s\".
+non è possibile accedere all'host "%s".
 
-25 Questa azione non può essere eseguita sull'host \"%1$s\" perché\n\
-il servizio \"%2$s\" non è configurato correttamente su questo host.
+25 Questa azione non può essere eseguita sull'host "%1$s" perché\n\
+il servizio "%2$s" non è configurato correttamente su questo host.
 
-26 Questa azione non può essere eseguita perché il servizio \"%1$s\"\n\
-non è configurato sull'host \"%2$s\".
+26 Questa azione non può essere eseguita perché il servizio "%1$s"\n\
+non è configurato sull'host "%2$s".
 
-27 Questa azione non può essere eseguita sull'host \"%1$s\" perché\n\
-l'utente \"%2$s\" ha un id utente \"%3$d\" sull'host \"%4$s\", e questi\n\
+27 Questa azione non può essere eseguita sull'host "%1$s" perché\n\
+l'utente "%2$s" ha un id utente "%3$d" sull'host "%4$s", e questi\n\
 non corrispondono al nome utente e all'id utente dell'host che ha\n\
-richiesto l'azione \"%5$s\".
+richiesto l'azione "%5$s".
 
-28 Questa azione non può essere eseguita sull'host \"%1$s\" perché\n\
-l'utente \"%2$s\" non dispone di un conto su questo host.
+28 Questa azione non può essere eseguita sull'host "%1$s" perché\n\
+l'utente "%2$s" non dispone di un conto su questo host.
 
-29 Questa azione non può essere eseguita sull'host \"%s\" perché\n\
+29 Questa azione non può essere eseguita sull'host "%s" perché\n\
 non è possibile creare un percorso per il file di autenticazione.
 
-30 Questa azione non può essere eseguita sull'host \"%s\" perché\n\
+30 Questa azione non può essere eseguita sull'host "%s" perché\n\
 non è possibile aprire il file di autenticazione su questo host.\n\n\
 Il problema può essere causato da un errore nella configurazione\n\
 iniziale dell'utente nella rete.
 
-31 Questa azione non può essere eseguita sull'host \"%1$s\" perché\n\
-l'ambiente supera \"%2$d\" byte.
+31 Questa azione non può essere eseguita sull'host "%1$s" perché\n\
+l'ambiente supera "%2$d" byte.
 
-32 Questa azione non può essere eseguita sull'host \"%1$s\" perché\n\
-l'host \"%2$s\" non è autorizzato ad usare il servizio \"%3$s\".\n\n\
-Per correggere il problema, aggiungere l'host \"%4$s\" alla riga del\n\
-servizio \"%5$s\" nel file \"%6$s\" dell'host \"%7$s\".
+32 Questa azione non può essere eseguita sull'host "%1$s" perché\n\
+l'host "%2$s" non è autorizzato ad usare il servizio "%3$s".\n\n\
+Per correggere il problema, aggiungere l'host "%4$s" alla riga del\n\
+servizio "%5$s" nel file "%6$s" dell'host "%7$s".
 
 
 $set 4
@@ -252,48 +252,48 @@ $
 $  MESSAGES 1-11 IN SET 4 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-1 Manca un nome in una definizione \"%s\" del file:\n\
-  \"%s\"\n\
+1 Manca un nome in una definizione "%s" del file:\n\
+  "%s"\n\
 Aggiungere il nome\n  alla definizione.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the word "END".
 $ THIS MESSAGE IS OBSOLETE
-2 La definizione \"%s\" nel file\n\
-  \"%s\"\n\
+2 La definizione "%s" nel file\n\
+  "%s"\n\
 è incompleta. È possibile che nella definizione\n\
-manchi il campo \"END\".\n
-   
+manchi il campo "END".\n
+
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-3 Un campo di più righe nella definizione \"%s\"\n\
+3 Un campo di più righe nella definizione "%s"\n\
 del file\n\
-  \"%s\"\n\
-è incompleto. È possibile che manchi un carattere \"\\\".\n\
+  "%s"\n\
+è incompleto. È possibile che manchi un carattere "\\".\n\
 \n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-4 La definizione \"%s\" nel file\n\
-  \"%s\"\n\
+4 La definizione "%s" nel file\n\
+  "%s"\n\
 contiene troppi campi.\n
 
 $ Do NOT localize the word "Dt.TypesDirs".
 5 Non è stato possibile leggere i database delle azioni e dei tipi di file.\n\
-È possibile che la risorsa \"Dt.TypesDirs\" non sia impostata correttamente.\n
+È possibile che la risorsa "Dt.TypesDirs" non sia impostata correttamente.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-6 La definizione \"%s\" nel file\n  \"%s\"\n  ha un simbolo finale '}' ma non ha \
+6 La definizione "%s" nel file\n  "%s"\n  ha un simbolo finale '}' ma non ha \
 alcun simbolo iniziale '{'.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-7 La definizione \"%s\" nel file\n  \"%s\"\n  ha un simbolo iniziale inatteso \
+7 La definizione "%s" nel file\n  "%s"\n  ha un simbolo iniziale inatteso \
 '{'.\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-8 La definizione \"%s\" nel file\n  \"%s\"\n  è incompleta. È possibile che \
-manchi\n  il campo \"}\".\n
+8 La definizione "%s" nel file\n  "%s"\n  è incompleta. È possibile che \
+manchi\n  il campo "}".\n
 
 $ Do NOT localize the strings "'{'" or "'}'".
-9 La definizione \"%s\" nel file\n  \"%s\"\n  non contiene alcun simbolo iniziale \
+9 La definizione "%s" nel file\n  "%s"\n  non contiene alcun simbolo iniziale \
 '{'.\n
 
 10 La variabile DtDbVersion può essere impostata\nsolo all'inizio del file.  La \
@@ -314,86 +314,86 @@ $
 $  MESSAGES 1-11 IN SET 6 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-1 La definizione dell'azione \"%s\" nel file:\n\
-  \"%s\"\n\
+1 La definizione dell'azione "%s" nel file:\n\
+  "%s"\n\
 non contiene alcun campo.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-2 La definizione dell'azione \"%s\" nel file\n\
-  \"%s\"\n\
+2 La definizione dell'azione "%s" nel file\n\
+  "%s"\n\
 contiene il campo e il valore sconosciuti seguenti:\n\
-\"%s\"\n
+"%s"\n
 
 $ Message number 3 is OBSOLETE.
-$ 3 La definizione dell'azione \"%s\" nel file\n\
-$  \"%s\"\n\
-$ non contiene il campo richiesto \"%s\".\n
+$ 3 La definizione dell'azione "%s" nel file\n\
+$  "%s"\n\
+$ non contiene il campo richiesto "%s".\n
 
-4 Il campo \"%s\" nella definizione dell'azione \"%s\"\n\
-nel file \"%s\"\n\
+4 Il campo "%s" nella definizione dell'azione "%s"\n\
+nel file "%s"\n\
 contiene un tipo di azione sconosciuto.\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the words "TYPE MAP".
-5 La definizione dell'azione \"%s\" nel file\n\
-  \"%s\"\n\
-non è mappata correttamente. Il campo \"%s\"\n\
+5 La definizione dell'azione "%s" nel file\n\
+  "%s"\n\
+non è mappata correttamente. Il campo "%s"\n\
 dovrebbe essere: TYPE MAP action_mapped_to.\n
 
 $ Message number 6 is OBSOLETE.
-$ 6 La definizione dell'azione \"%s\" nel file\n\
-$  \"%s\"\n\
+$ 6 La definizione dell'azione "%s" nel file\n\
+$  "%s"\n\
 $ contiene una MAP rivolta a se stessa.\n
 
 $ Message number 7 is OBSOLETE.
-$ 7 Il campo \"%s\" nella definizione dell'azione \"%s\"\n\
-$ nel file \"%s\"\n\
-$ presenta il valore sconosciuto \"%s\".\n
+$ 7 Il campo "%s" nella definizione dell'azione "%s"\n\
+$ nel file "%s"\n\
+$ presenta il valore sconosciuto "%s".\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the word "COMMAND".
-8 La definizione dell'azione \"%s\" nel file\n\
-  \"%s\"\n\
-è di tipo \"COMMAND\" ma non contiene\n\
-il campo richiesto \"%s\".\n
+8 La definizione dell'azione "%s" nel file\n\
+  "%s"\n\
+è di tipo "COMMAND" ma non contiene\n\
+il campo richiesto "%s".\n
 
 $ Message number 9 is OBSOLETE.
-$ 9 La definizione dell'azione \"%s\" nel file\n\
-$  \"%s\"\n\
-$ è di tipo \"MESSAGE\" ma non contiene\n\
-$ il campo richiesto \"%s\".\n
+$ 9 La definizione dell'azione "%s" nel file\n\
+$  "%s"\n\
+$ è di tipo "MESSAGE" ma non contiene\n\
+$ il campo richiesto "%s".\n
 
 $ Message number 10 is OBSOLETE.
-$ 10 La definizione dell'azione \"%s\" nel file\n\
-$  \"%s\"\n\
-$ è di tipo \"MESSAGE\" ma non contiene\n\
-$ il campo richiesto \"%s\".\n
+$ 10 La definizione dell'azione "%s" nel file\n\
+$  "%s"\n\
+$ è di tipo "MESSAGE" ma non contiene\n\
+$ il campo richiesto "%s".\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
-11 La definizione dell'azione \"%s\" nel file\n\
-  \"%s\"\n\
-presenta il valore non ammesso \"%s\" nel campo \"%s\".\n"
+11 La definizione dell'azione "%s" nel file\n\
+  "%s"\n\
+presenta il valore non ammesso "%s" nel campo "%s".\n"
 
-12 La definizione dell'azione \"%s\" nel file\n\
-  \"%s\"\n\
-contiene due campi con lo stesso nome:\n \"%s\".
+12 La definizione dell'azione "%s" nel file\n\
+  "%s"\n\
+contiene due campi con lo stesso nome:\n "%s".
 
-13 La definizione dell'azione \"%s\" nel file\n\
-  \"%s\"\n\
-contiene campi non validi per le azioni di tipo \"%s\".\n
+13 La definizione dell'azione "%s" nel file\n\
+  "%s"\n\
+contiene campi non validi per le azioni di tipo "%s".\n
 
-14 La definizione dell'azione \"%s\" nel file\n\
-  \"%s\"\n\
-non contiene il campo richiesto \"%s\"\n per le azioni di tipo \"%s\".\n
+14 La definizione dell'azione "%s" nel file\n\
+  "%s"\n\
+non contiene il campo richiesto "%s"\n per le azioni di tipo "%s".\n
 
 $ Message number 15 is OBSOLETE.
-$ 15 La definizione dell'azione \"%s\" nel file\n\
-$  \"%s\"\n\
-$  contiene un valore NULL per il campo \"%s\".\n
+$ 15 La definizione dell'azione "%s" nel file\n\
+$  "%s"\n\
+$  contiene un valore NULL per il campo "%s".\n
 
-16 La definizione dell'azione \"%s\" nel file\n\
-  \"%s\"\n\
-presenta il valore non ammesso \"%s\" nel campo \"%s%s%s\".\n"
+16 La definizione dell'azione "%s" nel file\n\
+  "%s"\n\
+presenta il valore non ammesso "%s" nel campo "%s%s%s".\n"
 
 
 $ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -464,6 +464,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dt.msg /main/6 1999/09/16 14:54:27 mgreess $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dt.msg /main/6 1999/09/16 14:54:27 mgreess $"
 

@@ -664,13 +664,13 @@ $ Messages 9, 14, 16, 28, and 30-36 are file manipulation error messages
    링크가 만들어질 수 있기 전에 새 폴더 또는\n\
    새 이름을 바꾸어야 합니다.
 47 폴더를 그 자체로 옮길 수는 없습니다.
-48 다음 오브젝트를 폴더 \"%s\"에 복사할수 없음\n\n%s\n\n\
+48 다음 오브젝트를 폴더 "%s"에 복사할수 없음\n\n%s\n\n\
 주 원인은 목표 폴더에 대한 쓰기권한을 가지고 계시지 않기\n\
 때문일 것입니다.
-49 다음 오브젝트를 폴더 \"%s\"에 옮길수 없음\n\n%s\n\n\
+49 다음 오브젝트를 폴더 "%s"에 옮길수 없음\n\n%s\n\n\
 주 원인은 목표 폴더에 대한 쓰기권한을 가지고 계시지 않기\n\
 때문일 것입니다.
-50 다음 오브젝트를 폴더 \"%s\"에 옮길수 없음\n\n%s\n\n\
+50 다음 오브젝트를 폴더 "%s"에 옮길수 없음\n\n%s\n\n\
 주 원인은 소스 오브젝트를 옮길 권한을 가지고 계시지 않기\n\
 때문일 것입니다.
 
@@ -846,7 +846,9 @@ $ Messages 29 and 30 are text for the Save Settings dialog
 $ Messages 34 and 35 are drag/drop error messages
 
 $ DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGE 1
-1 
+$quote "
+1 ""
+$quote
 
 $ MESSAGE 2 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 2 .dt 폴더 또는 하위 폴더를 만들 수 없습니다.
@@ -1428,9 +1430,9 @@ $ message 99 is not used
 110 이미 다음 이름의 오브젝트가 존재함\n\n\
     %s\n\n\
 만약 휴지통으로부터의 오브젝트로 대치하기를 원하시면\n\
-\"예\"를 선택하십시오.\n\n\
-오브젝트를 그대로 가지고 계시려면 \"취소\"를 선택하십시오.\n\
-그러신후 오브젝트의 이름을 바꾸시면, \"복원\"을 반복하시어\n\
+"예"를 선택하십시오.\n\n\
+오브젝트를 그대로 가지고 계시려면 "취소"를 선택하십시오.\n\
+그러신후 오브젝트의 이름을 바꾸시면, "복원"을 반복하시어\n\
 두 오브젝트 모두를 가지실수 있습니다.
 
 111 복원 오류
@@ -1615,6 +1617,7 @@ $set 33
 1 복수 오브젝트
 2 현재 폴더
 
+$quote "
 3 "오브젝트 옮기기 오류"
 
 4 "오브젝트 복사하기 오류"
@@ -1679,5 +1682,6 @@ $ DO NOT TRANSLATE THESE MESSAGES
 $ DO NOT CHANGE THESE MESSAGES
 $ DO NOT LOCALIZE THESE MESSAGES
 $ These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/6 1998/04/29 15:12:14 rafi $
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/6 1998/04/29 15:12:14 rafi $"
+

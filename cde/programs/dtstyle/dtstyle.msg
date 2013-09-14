@@ -72,7 +72,7 @@ $ _DtMessage 3 is the title of all Error dialog boxes
 $ _DtMessage 4 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 4 Cannot communicate with the session\n\
 manager... Exiting.
- 
+
 $  MESSAGES 5-6 IN SET 2 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 5 Style Manager is already running,\n\
 second attempt aborted.
@@ -446,7 +446,7 @@ $ _DtMessage 11 is the title of the Add Palette dialog box.
 $ Messages 12 through 14 are error messages.
 12 The palette name cannot contain\n\
 these characters:\n\n\
-<space> * : ( ) [ ] { } < > ! | \" / \\
+<space> * : ( ) [ ] { } < > ! | " / \\
 $ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE 
 $ TO SAY THE PALETTE NAME MUST BE 10 BYTES OR LESS
 13 The palette name must be\n10 characters or less.\n
@@ -700,7 +700,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/6 1996/08/16 17:02:45 pascale $
-
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/6 1996/08/16 17:02:45 pascale $"
 

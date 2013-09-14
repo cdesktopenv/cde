@@ -809,7 +809,7 @@ $	Message 22 status message displayed as the print job progresses.
 20 "Fermeture imminente :  attendez la fin de la tâche..."
 21 "Impression %s en cours ..."
 22 "Impression %s: page %d de %d ..."
- 
+
 $       Message 23 is used in the construction of a title string for the
 $                  Print Setup dialog.
 23 "Configuration de l'impression - "

@@ -267,7 +267,7 @@ $set 4
 $ set 4 is log error messages
 $ 
 
-1 File di controllo degli accessi \"%1$s\", host \"%2$s\" non trovato\n
+1 File di controllo degli accessi "%1$s", host "%2$s" non trovato\n
 2 ReadHostEntry\n
 3 File di controllo degli accessi %1$s, schermo %2$s sconosciuto\n
 4 Impossibile aprire il file di controllo degli accessi %1$s; non verrà accettata alcuna richiesta XDMCP\n
@@ -318,7 +318,7 @@ $
 49 Dtlogin non può interrompere il client\n
 50 Impossibile eseguire %1$s\n
 51 Impossibile eseguire un fork per eseguire %1$s\n
-52 L'autenticazione \"%1$s\" non è corretta. Usare AFS, Kerberos o il nome predefinito.\n
+52 L'autenticazione "%1$s" non è corretta. Usare AFS, Kerberos o il nome predefinito.\n
 53 Impossibile eseguire Dtgreet %1$s per %2$s\n
 54 Impossibile eseguire un fork per eseguire Dtgreet %1$s\n
 55 Creazione del socket fallita sulla porta %1$d\n
@@ -335,7 +335,7 @@ $
 66 Il profilo per %1$s è scaduto. Rivolgersi all'amministratore del sistema.\n
 67 Server interrotto  %1$s\n
 68 Impossibile aprire il file a mappa di bit del logo: %1$s\n
-69 Impossibile leggere il catalogo dei messaggi \"%1$s\". Verrà usata la lingua predefinita.
+69 Impossibile leggere il catalogo dei messaggi "%1$s". Verrà usata la lingua predefinita.
 70 Impossibile inizializzare lo schermo %1$s; forse il server è bloccato.\n
 71 (%1$s): La larghezza del riquadro di login supera quella dello schermo; verrà usato il valore predefinito. I riquadri vengono impostati in pixel.\n
 72 (%1$s) L'altezza del riquadro di login supera quella dello schermo; verrà usato il valore predefinito. I riquadri vengono impostati in pixel.\n
@@ -355,5 +355,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/10 1996/12/20 15:13:33 rws $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/10 1996/12/20 15:13:33 rws $"
+

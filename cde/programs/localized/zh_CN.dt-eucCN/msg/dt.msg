@@ -93,9 +93,9 @@ $ ** The arguments for message #19 are: <action name>, <buffer type>.
 $ **  MESSAGE NUMBER 20 IS OBSOLETE.
 20 不能创建临时文件：“%1$s” \n为动作：“%2$s”
 21 不受支持的输入对象类：“%d”\n为动作：“%s”。
-22 不能在目录: \"%s\"中创建一个临时文件。\n其动作名为：\"%s\"。
-23 不能打开一个临时文件：\"%s\"\n其动作名为：\"%s\"。
-24 不能写一个临时文件：\"%s\"\n其动作名为：\"%s\"。
+22 不能在目录: "%s"中创建一个临时文件。\n其动作名为："%s"。
+23 不能打开一个临时文件："%s"\n其动作名为："%s"。
+24 不能写一个临时文件："%s"\n其动作名为："%s"。
 
 $set 3
 $ ****  Module: CmdMain.c ****
@@ -138,7 +138,7 @@ $ Do NOT remove the leading spaces from any of the lines of the following messag
 你可以将此动作分解成多个动作。
 
 $ Message number 10 is OBSOLETE.
-$ 10 The shell program \"%s\" cannot be started.\n\n\
+$ 10 The shell program "%s" cannot be started.\n\n\
 $ Check that the program has the correct permissions and\n\
 $ is executable.
 
@@ -303,9 +303,9 @@ $ Do NOT remove the leading spaces from any of the lines of the following messag
 “%s”\n
 
 $ Message number 3 is OBSOLETE.
-$ 3 The action definition\"%s\" in the file\n\
-$   \"%s\"\n\
-$ does not have the required field \"%s\".\n
+$ 3 The action definition"%s" in the file\n\
+$   "%s"\n\
+$ does not have the required field "%s".\n
 
 4 “%s”字段在动作定义“%s”中\n\
 －该定义在文件“%s”中－\n\
@@ -319,14 +319,14 @@ $ Do NOT localize the words "TYPE MAP".
 应该是：TYPE MAP 要映射的动作。\n
 
 $ Message number 6 is OBSOLETE.
-$ 6 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
+$ 6 The action definition "%s" in the file\n\
+$   "%s"\n\
 $ contains a MAP to itself.\n
 
 $ Message number 7 is OBSOLETE.
-$ 7 The \"%s\" field in the action definition \"%s\"\n\
-$ in the file \"%s\"\n\
-$ has the unrecognized value \"%s\".\n
+$ 7 The "%s" field in the action definition "%s"\n\
+$ in the file "%s"\n\
+$ has the unrecognized value "%s".\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 $ Do NOT localize the word "COMMAND".
@@ -336,16 +336,16 @@ $ Do NOT localize the word "COMMAND".
 要求的字段“%s”。\n
 
 $ Message number 9 is OBSOLETE.
-$ 9 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ is a \"MESSAGE\" action type but lacks the\n\
-$ required field \"%s\".\n
+$ 9 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ is a "MESSAGE" action type but lacks the\n\
+$ required field "%s".\n
 
 $ Message number 10 is OBSOLETE.
-$ 10 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ is a \"MESSAGE\" action type but lacks the\n\
-$ required field \"%s\".\n
+$ 10 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ is a "MESSAGE" action type but lacks the\n\
+$ required field "%s".\n
 
 $ Do NOT remove the leading spaces from any of the lines of the following message.
 11 动作定义“%s”在文件\n\
@@ -365,9 +365,9 @@ $ Do NOT remove the leading spaces from any of the lines of the following messag
 中缺少要求的字段，“%s”\n 对“%s”类型动作。\n
 
 $ Message number 15 is OBSOLETE.
-$ 15 The action definition \"%s\" in the file\n\
-$   \"%s\"\n\
-$ contains a NULL field value, for the \"%s\" field.\n
+$ 15 The action definition "%s" in the file\n\
+$   "%s"\n\
+$ contains a NULL field value, for the "%s" field.\n
 
 16 动作定义“%s”在文件\n\
   “%s”\n\
@@ -426,6 +426,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dt.msg /main/3 1995/11/08 13:48:51 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dt.msg /main/3 1995/11/08 13:48:51 rswiston $"
 

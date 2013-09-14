@@ -67,7 +67,7 @@ UIL_29 "compilation complète - rectifiez les erreurs précédentes"
 
 UIL_30 "erreur interne - établissez un rapport des erreurs"
 
-UIL_31  
+UIL_31 " "
 
 UIL_32 "%s est absent après l'option \"%s\""
 

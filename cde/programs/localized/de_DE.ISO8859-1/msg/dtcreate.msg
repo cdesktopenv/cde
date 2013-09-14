@@ -218,7 +218,7 @@ $
 Zeichen.\n\
 Folgende Zeichen dürfen in einem Namen nicht verwendet \n\
 werden:\n\
-  / \ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
+  / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $  
 
 55 "Folgende Datei konnte nicht erstellt werden:"
@@ -392,7 +392,7 @@ $
 20 "Das Feld 'Name der Dateitypfamilie' enthält ein oder mehrere\n\
 ungültige Zeichen.\n\
 Folgende Zeichen dürfen nicht in Namen verwendet werden.\n\
-  / \ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
+  / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $  
 
 25 "Eine Dateitypfamilie mit diesem Namen ist bereits vorhanden.\n\
@@ -494,7 +494,7 @@ $
 Zeichen.\n\
 Folgende Zeichen dürfen in einem Namensmuster nicht\n\
 verwendet werden:\n\
-  / \ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
+  / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $  
 
 46 "Das Inhaltsmuster stimmt nicht mit dem Format für den\n\

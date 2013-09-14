@@ -669,7 +669,7 @@ tenga el mismo nombre. "
 
 123 "Se ha cancelado Mover - no se ha movido ningún objeto. \n\n\
 No se ha podido suprimir un archivo que desea sustituir.  \n\
-\ Archivo: %s\n\n\
+    Archivo: %s\n\n\
 Se ha suprimido 1 objeto más. \n\n\
 La causa más probable de este problema es que no tenga permiso de \n\
 Escritura para el archivo mencionado. Cambie el permiso de escritura\n\

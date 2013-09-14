@@ -232,7 +232,7 @@ $set 4
 $ set 4 is log error messages
 $ 
 
-1 ÇôÌ½óòÕù \"%1$s\"¡¢Åäñ¢ \"%2$s\" àÒÎÎÊÆÌ¯\n
+1 ÇôÌ½óòÕù "%1$s"¡¢Åäñ¢ "%2$s" àÒÎÎÊÆÌ¯\n
 2 ReadHostEntry\n
 3 ÇôÌ½óòÕù %1$2s¡¢üÏÆüðÂ %1$2s Ò³ÄâÍüÎûüÏÆüðÂ\n
 4 àÒÎÎâäÚöÇôÌ½ÚÕÌ±óò %1$s¡¢ÇÞÈºàÒÎÎá°óÜ XDMCP ÓÑÊå\n
@@ -283,7 +283,7 @@ $
 49 Dtlogin àÒÎÎÛÒØæÐêÅÂñ¢\n
 50 àÒÎÎÙÚÈç %1$s\n
 51 àÒÎÎÜ¨ÆíÄÍá£Ê©ÅèÙÚÈç %1$s\n
-52 ÄâïËåµÎûíýë¥ÇØê¢ \"%1$s\"¡¤ËðÆî AFS¡£Kerberos ÍÐÄùÌùÇØê¢¡¤\n
+52 ÄâïËåµÎûíýë¥ÇØê¢ "%1$s"¡¤ËðÆî AFS¡£Kerberos ÍÐÄùÌùÇØê¢¡¤\n
 53 %2$s àÒÎÎÙÚÈç Dtgreet %1$s \n
 54 àÒÎÎÜ¨ÆíÄÍá£Ê©ÅèÙÚÈç Dtgreet %1$s\n
 55 %1$d ÙÕÐúÇ¡ßÆÕ½ÆÂÚõ\n
@@ -300,7 +300,7 @@ $
 66 %1$s ÎûÅÂó¤ÄØÌ¯ßæ¡¤îùêØÚÀÎûË·ÜÓê§Ü¡ÔÞÝÙá¾¡¤\n
 67 ÈùÎ¤ðÂÄãÅÏ  %1$s\n
 68 àÒÎÎâäÚöíºë¢ÈíÄ÷ÑÐÕ«óò¡¨%1$s\n
-69 àÒÎÎûôÌ½ \"%1$s\" Ø¹ÕÉÆøòç¡¤ËðÆîÄùÌùë£ËÆ¡¤
+69 àÒÎÎûôÌ½ "%1$s" Ø¹ÕÉÆøòç¡¤ËðÆîÄùÌùë£ËÆ¡¤
 70 üÏÆüðÂ %1$s àÒÎÎÚöÌîÝÃÌù¡¢ÈùÎ¤ðÂÆ«×äÝ·ÊÎÌ½¡¤\n
 71 (%1$s)¡¨àôÄ« matte ìÏÐùâ¾ç´üÏÆüðÂìÏÐù¡¢ËðÆîÄùÌùÔ«¡¤matte ÎûÞÌÈíÒ³è·çùÞÌÄ÷¡¤\n
 72 (%1$s) àôÄ« matte ØíÐùâ¾ç´üÏÆüðÂØíÐù¡¢ËðÆîÄùÌùÔ«¡¤matte ÎûÞÌÈíÒ³è·çùÞÌÄ÷¡¤\n
@@ -320,6 +320,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/3 1995/11/08 14:07:17 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/3 1995/11/08 14:07:17 rswiston $"
 

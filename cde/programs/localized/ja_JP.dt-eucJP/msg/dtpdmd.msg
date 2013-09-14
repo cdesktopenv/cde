@@ -48,8 +48,8 @@ $ "NEW -"
 \n\
 where [options] includes:\n\
    -d <display>        host:display[.screen] of X Print Server\n\
-   -a <alt selection>  an alternate X-selection name (\"%2$s\" default)\n\
-   -p <default pdm>    a default pdm to launch (\"%3$s\" default)\n\
+   -a <alt selection>  an alternate X-selection name ("%2$s" default)\n\
+   -p <default pdm>    a default pdm to launch ("%3$s" default)\n\
    -P <the pdm>        the pdm to launch, overrides all others\n\
    -s                  turn on security protocol\n\
    -f <auth file>      an initial set of authorization cookies\n\
@@ -94,7 +94,7 @@ $ "NEW -"
 9 %s: error, unable to fork\n
 
 $ "NEW -"
-10 %1$s: error, cannot execute \"%2$s\" \n
+10 %1$s: error, cannot execute "%2$s" \n
 
 $    /* NL_COMMENT
 $ 
@@ -106,11 +106,11 @@ $
 $     */
 $ "NEW -"
 11 %1$s: exec message logged at %2$s\n\
-   exec error message = \"%3$s\"\n\
+   exec error message = "%3$s"\n\
    exec error code    = %4$s\n\
-   pdm                = \"%5$s\"\n\
-   -display           = \"%6$s\"\n\
-   -vdisplay          = \"%7$s\" \n
+   pdm                = "%5$s"\n\
+   -display           = "%6$s"\n\
+   -vdisplay          = "%7$s" \n
 
 $ "NEW -"
 12 %1$s: error, unable to send the final %2$s\n\
@@ -132,15 +132,15 @@ $
 $     */
 $ "NEW -"
 14 %1$s: pdm message logged at %2$s\n\
-   pdm       = \"%3$s\"\n\
-   -display  = \"%4$s\"\n\
-   -vdisplay = \"%5$s\"\n\
-   exit code = \"%6$d\"\n\
-   stderr    = \"%7$s\" \n
+   pdm       = "%3$s"\n\
+   -display  = "%4$s"\n\
+   -vdisplay = "%5$s"\n\
+   exit code = "%6$d"\n\
+   stderr    = "%7$s" \n
 
 $ "NEW -"
-15 attached pdmd error= \n\"%s\" \n
+15 attached pdmd error= \n"%s" \n
 
 $ "NEW -"
-16 %1$s: error, cannot open log file \"%2$s\". Turning off stderr message logging\n
+16 %1$s: error, cannot open log file "%2$s". Turning off stderr message logging\n
 

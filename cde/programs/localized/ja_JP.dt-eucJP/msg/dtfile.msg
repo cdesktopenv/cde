@@ -672,13 +672,13 @@ $
    リンクを作成する前に、必ず出力先フォルダ\n\
    またはコピー名を変更してください。
 47 フォルダ自体を移動できません。
-48 次のオブジェクトをフォルダ \"%s\" にコピーできません。\n\n%s\n\n\
+48 次のオブジェクトをフォルダ "%s" にコピーできません。\n\n%s\n\n\
 予想される原因は、目的のフォルダに対する書き込み権が\n\
 ユーザにないことです。
-49 次のオブジェクトをフォルダ \"%s\" に移動できません。\n\n%s\n\n\
+49 次のオブジェクトをフォルダ "%s" に移動できません。\n\n%s\n\n\
 予想される原因は、目的のフォルダに対する書き込み権が\n\
 ユーザにないことです。
-50 次のオブジェクトをフォルダ \"%s\" に移動できません。\n\n%s\n\n\
+50 次のオブジェクトをフォルダ "%s" に移動できません。\n\n%s\n\n\
 予想される原因は、ソースオブジェクトを移動する許可が\n\
 ユーザにないことです。
 
@@ -857,7 +857,9 @@ $ Messages 29 and 30 are text for the Save Settings dialog
 $ Messages 34 and 35 are drag/drop error messages
 
 $ DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGE 1
-1 
+$quote "
+1 ""
+$quote
 
 $ MESSAGE 2 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 2 .dt folder またはサブフォルダを作成できません。
@@ -1658,7 +1660,7 @@ $set 32
 $ ****** Module: dterror.src ****(developer comment only)********
 $ Message 1 is a title for dterror
 1 dt エラー
-2 ファイル・マネージャの \"ディレクトリを開く\" のエラー
+2 ファイル・マネージャの "ディレクトリを開く" のエラー
 
 $set 33
 1 複数オブジェクト
@@ -1697,5 +1699,7 @@ $ DO NOT TRANSLATE THESE MESSAGES
 $ DO NOT CHANGE THESE MESSAGES
 $ DO NOT LOCALIZE THESE MESSAGES
 $ These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/11 1999/09/16 09:45:10 mgreess $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtfile.msg /main/11 1999/09/16 09:45:10 mgreess $"
+

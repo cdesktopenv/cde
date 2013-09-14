@@ -713,7 +713,7 @@ $
 $ Dtinfo*BadScopeName
 $ 
 18 "Die Zeichen Doppelpunkt (:), Komma (,)\n\
-und Semikolon (\;) sind im Namen\n\
+und Semikolon (;) sind im Namen\n\
 eines Suchbereichs nicht gestattet."
 $ 
 $ Dtinfo*EmptyScopeName
@@ -884,7 +884,7 @@ $
 $ Dtinfo*MarkPositionFailed
 $ 
 52 "Dtinfo kann das Lesezeichen\n\
-\42%s\42\n\ nicht anzeigen,\n\
+\42%s\42\n nicht anzeigen,\n\
 da der damit verbundene Absatz\n\
 nicht mehr existiert."
 $ 

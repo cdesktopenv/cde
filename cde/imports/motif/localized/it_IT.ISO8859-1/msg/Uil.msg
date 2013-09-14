@@ -67,7 +67,7 @@ UIL_29 "Compilazione interrotta - Correggere gli errori precedenti"
 
 UIL_30 "Errore interno - Inviare un rapporto difetti"
 
-UIL_31  
+UIL_31 " "
 
 UIL_32 "%s mancante dopo l'opzione \"%s\" "
 

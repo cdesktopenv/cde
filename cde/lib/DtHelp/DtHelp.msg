@@ -192,7 +192,7 @@ $ 30-33: help volume-specific printing options
 32 Current and Subtopics
 33 Table of Contents and Index
 34 All Topics in Volume
- 
+
 $ 40-42: buttons at bottom of dialog
 40 Print
 41 Cancel
@@ -211,7 +211,9 @@ $ 53 "Manual Page: "
 $ Don't translate message 60 unless it is not an empty string
 $ This is the default value that goes in the Printer field
 $ 60 " "
-60 
+$quote "
+60 ""
+$quote
 
 $ Don't translate message 61
 $ This is the default value that goes in the Copies field
@@ -243,22 +245,24 @@ $ " (%s)"
 18 Searching... Volumes remaining: %d
 19 No index entries found
 20 Complete Index
-21 Entries with \"%s\"
+21 Entries with "%s"
 22 No volumes selected
 23 Select search options above
 $ Do NOT translate messages 25-31
+$quote "
 $ " "
-25  
-26 +
-27 -
+25 " "
+26 "+"
+27 "-"
 $ "  +"
-28  +
+28 "  +"
 $ "  -"
-29  -
+29 "  -"
 $ 30 "       "
-30        
+30 "       "
 $ 31 "         "
-31          
+31 "         "
+$quote
 $ DO translate messages 32 and above
 $ kind of topic messages
 32 Help Message
@@ -329,7 +333,7 @@ $ for translation.  They are not in any order or chosen location.
 11 Don't Execute
 12 The help volume wanted to execute a command alias.\nThe alias '%s' is not defined.
 13 The help volume wanted to execute a command.\nFor security reasons, automatic command execution is turned off.\nThe command is:  %s
-14 The help volume wanted to execute a command as the root user, but the\nhome directory of  \"%s\"  ($HOME) does not match the root\nuser's home directory.  This could result in executing unexpected\ncommands.\n\nThe command is:  \"%s\"\n\nNote:  to avoid this in the future:\n execute \"su - root\"  rather than \"su root\".\n
+14 The help volume wanted to execute a command as the root user, but the\nhome directory of  "%s"  ($HOME) does not match the root\nuser's home directory.  This could result in executing unexpected\ncommands.\n\nThe command is:  "%s"\n\nNote:  to avoid this in the future:\n execute "su - root"  rather than "su root".\n
 $ End Message set 8
 
 
@@ -370,6 +374,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)Message catalog source $XConsortium: DtHelp.msg /main/3 1995/10/26 12:19:02 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)Message catalog source $XConsortium: DtHelp.msg /main/3 1995/10/26 12:19:02 rswiston $"
 

@@ -120,7 +120,7 @@ $
 5 <ABBREV>Välkommen till Hjälp</ABBREV>                                  \
 <LINK 0 "Help4Help How-To-Register-Help">                                \
 <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>                         \
-Observera:\ \ \ Ingen hjälp finns registrerad                                            \
+Observera:   Ingen hjälp finns registrerad                                               \
 </SIZE></WEIGHT></TYPE></></LINK>                                        \
 <PARAGRAPH leftindent 3 firstindent 3>                                   \
 <WEIGHT bold>Ingen produktkategori har gjort sina hjälpfiler tillgängliga  \

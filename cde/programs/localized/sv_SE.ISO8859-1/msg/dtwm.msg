@@ -287,8 +287,10 @@ $set 44
 $    THIS COMMENT FOR DTWM TEAM ONLY -- WmMain.c --
 $    This entire set is written to an error file
 $ YOU DON'T NEED TO LOCALIZE THIS SET.
-1 
-2 Insufficient memory for name of window manager
+$quote "
+1 "" 
+2 "Insufficient memory for name of window manager"
+$quote
 
 
 $set 46
@@ -433,7 +435,10 @@ $ appears in its place on the menu. There must be an even number
 $ of strings. The case of the first string does not matter. The 
 $ case of the second string is preserved.
 $ 
-40 
+$quote "
+40 ""
+$quote
+
 $ 
 $    Messages 41 is written to an error file.
 $    YOU DO NOT NEED TO LOCALIZE MESSAGE 41.
@@ -715,9 +720,9 @@ $
 
 $ Message 31 - 40 are the pieces for the deletion dialogs
 31 Ta bort inställning:
-32 Om du tar bort denna inställning kan du inte återställa den med\nmålområdet \"Installera ikon\".\n\nI stället kan du använda \"RestorePanel\" i programhanteraren\nför att lägga tillbaka inställningen vid ett senare tillfälle.\n\nVill du ta bort inställningen?
+32 Om du tar bort denna inställning kan du inte återställa den med\nmålområdet "Installera ikon".\n\nI stället kan du använda "RestorePanel" i programhanteraren\nför att lägga tillbaka inställningen vid ett senare tillfälle.\n\nVill du ta bort inställningen?
 33 Ta bort panelundermeny:
-34 Om du tar bort denna panelundermeny kan du inte återställa alla\n inställningarna i panelundermenyn med\nmålområdet \"Installera ikon\".\n\nI stället kan du använda \"RestorePanel\" i programhanteraren\n för att lägga tillbaka panelundermenyn och dess inställningar vid ett senare tillfälle.\n\nVill du ta bort panelundermenyn?
+34 Om du tar bort denna panelundermeny kan du inte återställa alla\n inställningarna i panelundermenyn med\nmålområdet "Installera ikon".\n\nI stället kan du använda "RestorePanel" i programhanteraren\n för att lägga tillbaka panelundermenyn och dess inställningar vid ett senare tillfälle.\n\nVill du ta bort panelundermenyn?
 
 $ Used for the name of a newly created workspace.
 35 Nytt
@@ -760,5 +765,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtwm.msg /main/4 1995/12/08 09:39:59 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtwm.msg /main/4 1995/12/08 09:39:59 rswiston $"
+

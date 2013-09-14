@@ -215,7 +215,7 @@ $set 4
 $ set 4 is log error messages
 $ 
 
-1 사용 파일 \"%1$s\", 호스트 \"%2$s\"을(를) 찾을 수 없습니다.\n
+1 사용 파일 "%1$s", 호스트 "%2$s"을(를) 찾을 수 없습니다.\n
 2 ReadHostEntry\n
 3 사용 파일 %1$2s, 디스플레이 %1$2s을(를) 알 수 없습니다.\n
 4 사용 제어 파일 %1$s을(를) 열 수 없습니다. XDMCP 요구가 승인되지 않습니다.\n
@@ -266,7 +266,7 @@ $
 49 Dtlogin이 클라이언트를 없앨 수 없습니다.\n
 50 %1$s을(를) 실행할 수 없습니다.\n
 51 %1$s을(를) 실행하기 위해 분기할 수 없습니다.\n
-52 부적당한 확증 이름 \"%1$s\". AFS, Kerberos 또는 기본값을 사용하십시오.\n
+52 부적당한 확증 이름 "%1$s". AFS, Kerberos 또는 기본값을 사용하십시오.\n
 53 %2$s에 대해 Dtgreet %1$s을(를) 실행할 수 없습니다.\n
 54 Dtgreet %1$s을(를) 실행하기 위해 분기할 수 없습니다.\n
 55 포트 %1$d에서 소켓을 만들지 못했습니다.\n
@@ -283,7 +283,7 @@ $
 66 %1$s에 대한 계정이 만료되었습니다. 시스템 관리자에게 문의하십시오.\n
 67 서버가 종료했습니다.  %1$s\n
 68 로고 비트맵 파일을 열 수 없습니다. %1$s\n
-69 \"%1$s\" 메세지 카탈로그를 읽을 수 없습니다. 기본 언어를 사용합니다.
+69 "%1$s" 메세지 카탈로그를 읽을 수 없습니다. 기본 언어를 사용합니다.
 70 디스플레이 %1$s을(를) 초기화할 수 없습니다. 서버가 잡힐 수 있습니다.\n
 71 (%1$s): 로그인 대화상자 폭이 디스플레이 한계를 초과합니다. 기본값을 사용합니다. 대화상자 단위는 픽셀입니다.\n
 72 (%1$s) 로그인 대화상자 높이가 디스플레이 한계를 초과합니다. 기본값을 사용합니다. 대화상자 단위는 픽셀입니다.\n
@@ -301,5 +301,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/3 1995/11/08 13:17:29 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtlogin.msg /main/3 1995/11/08 13:17:29 rswiston $"
+

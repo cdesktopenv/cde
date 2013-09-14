@@ -1603,7 +1603,7 @@ $ "position from left offset" has been changed to "left margin".
 $ 912 "Es wurde eine ungültige Position für die relative Position von rechts angegeben.\n\
 $ Die Einstellungen für die Eigenschaften wurden nicht gespeichert."
 $ "position from right offset" has been changed to "top margin".
-912	"Es wurde ein ungültiger Wert für den oberen Rand angegeben.\ Die Einstellungen für die Eigenschaften wurden nicht gespeichert."
+912	"Es wurde ein ungültiger Wert für den oberen Rand angegeben.\nDie Einstellungen für die Eigenschaften wurden nicht gespeichert."
 
 913 "Bei einem Aufgabenpunkt muß in der ersten Kommentarzeile Text eingegeben werden."
 

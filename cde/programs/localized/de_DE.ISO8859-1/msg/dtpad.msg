@@ -787,7 +787,7 @@ $	Message 22 status message displayed as the print job progresses.
 20 "Schließen anstehend: wartet auf Beendung der Aufgabe..."
 21 "Druckt %s ..."
 22 "Druckt %s: Seite %d von %d ..."
- 
+
 $       Message 23 is used in the construction of a title string for the
 $                  Print Setup dialog.
 23 " Druckereinstellungen - "

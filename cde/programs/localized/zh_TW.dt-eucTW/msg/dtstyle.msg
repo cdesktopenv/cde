@@ -429,7 +429,7 @@ $ _DtMessage 11 is the title of the Add Palette dialog box.
 $ Messages 12 through 14 are error messages.
 12 îþÈãíõÇØê¢Äâ×äÅýÉÖ\n\
 Ä¶ÇÄÇóÄ÷¡¨\n\n\
-<space> * : ( ) [ ] { } < > ! | \" / \\
+<space> * : ( ) [ ] { } < > ! | " / \\
 $ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE 
 $ TO SAY THE PALETTE NAME MUST BE 10 BYTES OR LESS
 13 îþÈãíõÇØê¢ÆÒâüÇã 10 Ô¶ÇóÄ÷ÅèÄù¡¤\n
@@ -590,8 +590,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/4 1995/12/08 09:50:58 rswiston $
-
-
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtstyle.msg /main/4 1995/12/08 09:50:58 rswiston $"
 

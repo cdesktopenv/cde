@@ -288,8 +288,10 @@ $set 44
 $    THIS COMMENT FOR DTWM TEAM ONLY -- WmMain.c --
 $    This entire set is written to an error file
 $ YOU DON'T NEED TO LOCALIZE THIS SET.
-1 
-2 Insufficient memory for name of window manager
+$quote "
+1 "" 
+2 "Insufficient memory for name of window manager"
+$quote
 
 
 $set 46
@@ -434,7 +436,10 @@ $ appears in its place on the menu. There must be an even number
 $ of strings. The case of the first string does not matter. The 
 $ case of the second string is preserved.
 $ 
-40 
+$quote "
+40 ""
+$quote
+
 $ 
 $    Messages 41 is written to an error file.
 $    YOU DO NOT NEED TO LOCALIZE MESSAGE 41.
@@ -760,6 +765,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $XConsortium: dtwm.msg /main/3 1995/11/08 14:09:06 rswiston $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $XConsortium: dtwm.msg /main/3 1995/11/08 14:09:06 rswiston $"
 

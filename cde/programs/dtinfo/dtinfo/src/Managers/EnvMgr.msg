@@ -3,7 +3,7 @@ $ $XConsortium: EnvMgr.msg /main/4 1996/11/07 16:16:38 rcs $
 $set	Set_EnvMgr
 $ 
 $ messages specific to environmental interface or program context
-$
+$ 
 
 $ 1     ""
 1 "Not implemented."

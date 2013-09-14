@@ -712,7 +712,7 @@ $
 $ Dtinfo*BadScopeName
 $ 
 18 "Il nome non può contenere i seguenti caratteri:\n\
-due punti (:), punto e virgola (\;) e virgola (,)"
+due punti (:), punto e virgola (;) e virgola (,)"
 $ 
 $ Dtinfo*EmptyScopeName
 $ 

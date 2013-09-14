@@ -493,7 +493,7 @@ $ Messages 12 through 14 are error messages.
 
 12 "El nombre de la paleta no puede\n\
 contener estos caracteres:\n\n\
-<espacio> * : ( ) [ ] { } < > ! | \" / "
+<espacio> * : ( ) [ ] { } < > ! | \" / //"
 $ TO SAY THE PALETTE NAME MUST BE 10 BYTES OR LESS    
 
 13 "El nombre de la paleta debe ser de\n\

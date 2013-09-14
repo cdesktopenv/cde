@@ -305,8 +305,10 @@ $set 44
 $    THIS COMMENT FOR DTWM TEAM ONLY -- WmMain.c --
 $    This entire set is written to an error file
 $ YOU DON'T NEED TO LOCALIZE THIS SET.
-1 
-2 Insufficient memory for name of window manager
+$quote "
+1 ""
+2 "Insufficient memory for name of window manager"
+$quote
 
 
 $set 46
@@ -456,7 +458,9 @@ $ appears in its place on the menu. There must be an even number
 $ of strings. The case of the first string does not matter. The 
 $ case of the second string is preserved.
 $ 
-40 
+$quote "
+40 ""
+$quote
 
 $ 
 $    Messages 41-42 are written to an error file.
@@ -740,9 +744,9 @@ $
 
 $ Message 31 - 40 are the pieces for the deletion dialogs
 31 コントロールの削除:
-32 もしこのコントロールを削除すると、\"アイコンのインストール\"\nドロップ領域を使って復元できなくなります。\n\nアプリケーション・マネージャの "パネルの復元" を使って、この\nコントロールを以前の状態に戻すことができます。\n\nこのコントロールを本当に削除しますか ?
+32 もしこのコントロールを削除すると、"アイコンのインストール"\nドロップ領域を使って復元できなくなります。\n\nアプリケーション・マネージャの "パネルの復元" を使って、この\nコントロールを以前の状態に戻すことができます。\n\nこのコントロールを本当に削除しますか ?
 33 サブパネルの削除:
-34 もしこのサブ・パネルを削除すると、\"アイコンのインストール\"\nドロップ領域を使ってこのサブ・パネルに含まれるすべてのコントロールを復元する\nことができなくなります。\n\nアプリケーション・マネージャの "パネルの復元" を使って、この\nサブ・パネルとそのコントロールを以前の状態に戻すことができます。\n\nこのサブパネルを本当に削除しますか ?
+34 もしこのサブ・パネルを削除すると、"アイコンのインストール"\nドロップ領域を使ってこのサブ・パネルに含まれるすべてのコントロールを復元する\nことができなくなります。\n\nアプリケーション・マネージャの "パネルの復元" を使って、この\nサブ・パネルとそのコントロールを以前の状態に戻すことができます。\n\nこのサブパネルを本当に削除しますか ?
 
 $ Used for the name of a newly created workspace.
 35 新規
@@ -785,5 +789,7 @@ $    DO NOT TRANSLATE THESE MESSAGES
 $    DO NOT CHANGE THESE MESSAGES
 $    DO NOT LOCALIZE THESE MESSAGES
 $    These messages are used for the version information.
-1 @(#)version_goes_here
-2 \n@(#)_DtMessage catalog source $TOG: dtwm.msg /main/7 1999/09/20 15:21:12 mgreess $
+$quote "
+1 "@(#)version_goes_here"
+2 "\n@(#)_DtMessage catalog source $TOG: dtwm.msg /main/7 1999/09/20 15:21:12 mgreess $"
+

@@ -480,7 +480,7 @@ $set 25
 174 fine del file
 175 f:[formato]nprsu:[num_file] [arg...]
 176 fnv nome...
-177 hist -e \"${VISUAL:-${EDITOR:-vi}}\" 
+177 hist -e "${VISUAL:-${EDITOR:-vi}}" 
 178 impossibile aprire il file history 
 179 errore di sintassi 
 180 argomento non valido di tipo %c
