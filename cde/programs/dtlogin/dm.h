@@ -495,6 +495,7 @@ extern int	debugLevel;
 extern char	*errorLogFile;
 extern int	errorLogSize;
 extern int	daemonMode;
+extern int	quiet;
 extern char	*pidFile;
 extern int	lockPidFile;
 extern char	*authDir;

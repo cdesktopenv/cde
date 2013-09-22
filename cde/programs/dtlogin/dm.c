@@ -1617,6 +1617,8 @@ GettyMessage( struct display *d, int msgnum )
     FILE *tf;
     char buf[128];
 
+    if (quiet) return;
+
     strcpy(buf,"/dev/");
     strcat(buf,d->gettyLine);
     

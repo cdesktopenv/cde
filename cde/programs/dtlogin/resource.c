@@ -72,6 +72,7 @@ int	debugLevel;
 char	*errorLogFile;
 int	errorLogSize;
 int	daemonMode;
+int	quiet;
 char	*pidFile;
 int	lockPidFile;
 char	*authDir;
@@ -253,6 +254,8 @@ struct dmResources {
 "errorLogSize",	"ErrorLogSize",	DM_INT,		(char **) &errorLogSize,
 				"50",
 "daemonMode",	"DaemonMode",	DM_BOOL,	(char **) &daemonMode,
+				"false",
+"quiet",	"quiet",	DM_BOOL,	(char **) &quiet,
 				"false",
 "pidFile",	"PidFile",	DM_STRING,	&pidFile,
 				"",
@@ -499,7 +502,8 @@ XrmOptionDescRec optionTable [] = {
 {"-debug",	"*debugLevel",		XrmoptionSepArg,	(caddr_t) NULL },
 {"-xrm",	NULL,			XrmoptionResArg,	(caddr_t) NULL },
 {"-daemon",	".daemonMode",		XrmoptionNoArg,		"true"         },
-{"-nodaemon",	".daemonMode",		XrmoptionNoArg,		"false"        }
+{"-nodaemon",	".daemonMode",		XrmoptionNoArg,		"false"        },
+{"-quiet",	".quiet",		XrmoptionNoArg,		"true"        }
 };
 
 static int	originalArgc;
