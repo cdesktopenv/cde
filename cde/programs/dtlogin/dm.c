@@ -1496,6 +1496,8 @@ SetTitle( char *name, char *ptr )
 #define GETTYPATH "/usr/sbin/getty"
 #elif defined(__OpenBSD__)
 #define GETTYPATH "/usr/libexec/getty"
+#elif defined(__linux)
+#define GETTYPATH "/sbin/getty"
 #elif !defined (__apollo)
 #define GETTYPATH "/etc/getty"
 #endif
