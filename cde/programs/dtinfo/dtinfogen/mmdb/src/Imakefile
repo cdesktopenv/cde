@@ -181,13 +181,13 @@ ALL_MMDB_OBJS =	$(API_OBJS)		$(BTREE_OBJS) \
 
 #ifdef AIXArchitecture
 Libs = $(ALL_MMDB_OBJS) $(MATH_LIB) $(DTSVCLIB) $(TTLIB) $(XLIB)
-#elif defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+#elif defined(LinuxArchitecture) || defined(BSDArchitecture)
 Libs=$(MMDB_LIBS) $(MATH_LIB) $(DTSVCLIB) $(MTF_LIBRARIES) $(TTLIB) $(XLIB)
 #else
 Libs = $(MMDB_LIBS) $(MATH_LIB) $(DTSVCLIB) $(TTLIB) $(XLIB)
 #endif
 
-#if defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+#if defined(LinuxArchitecture) || defined(BSDArchitecture)
 Libs_C_API = $(MMDB_LIBS_C_API) $(DTSVCLIB) $(MTF_LIBRARIES) $(TTLIB) $(XLIB) $(MATH_LIB)
 #else
 Libs_C_API = $(MMDB_LIBS_C_API) $(DTSVCLIB) $(TTLIB) $(XLIB) $(MATH_LIB)
@@ -196,7 +196,7 @@ Libs_C_API = $(MMDB_LIBS_C_API) $(DTSVCLIB) $(TTLIB) $(XLIB) $(MATH_LIB)
 SimpleCPlusPlusProgram(dbdrv,main.o,$(Libs))
 SimpleCPlusPlusProgram(restore,restore.o,$(Libs))
 
-#if defined(USLArchitecture) || defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+#if defined(USLArchitecture) || defined(LinuxArchitecture) || defined(BSDArchitecture)
 SimpleCPlusPlusProgram(dbdrv_c_api,main_c_api.o,$(Libs_C_API))
 #else
 SimpleCProgram(dbdrv_c_api,main_c_api.o,$(Libs_C_API))

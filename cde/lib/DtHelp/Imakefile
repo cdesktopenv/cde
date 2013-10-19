@@ -13,7 +13,7 @@ XCOMM $XConsortium: Imakefile /main/25 1996/11/22 11:17:34 drk $
 #define IHaveSubdirs
 #define PassCDebugFlags	/**/
 
-#if defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+#if defined(LinuxArchitecture) || defined(BSDArchitecture)
 SUBDIRS = il
 DONES = il/DONE
 #else
@@ -34,9 +34,7 @@ BIT_ORDER_DEFINES = -DLSB_BIT_ORDER
 #endif
 
 INCLUDES = -I. -I./il -I./jpeg
-#if defined(OpenBSDArchitecture)
-INCLUDES += -I$(INCROOT)
-#endif
+
 DEFINES = -DDTLIB $(LOCAL_DEFINES) \
 	  -DCDE_INSTALLATION_TOP='"$(CDE_INSTALLATION_TOP)"' \
 	  -DCDE_CONFIGURATION_TOP='"$(CDE_CONFIGURATION_TOP)"' \
@@ -155,7 +153,7 @@ JPEG_OBJS = \
         jpeg/jdinput.o      jpeg/jerror.o       jpeg/jutils.o
 
 SRCS = $(SRCS1) $(SRCS2) $(CVSRCS) $(LCXSRCS)
-#if defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+#if defined(LinuxArchitecture) || defined(BSDArchitecture)
 OBJS = $(OBJS1) $(OBJS2) $(CVOBJS) $(LCXOBJS) $(IL_OBJS)
 #else
 OBJS = $(OBJS1) $(OBJS2) $(CVOBJS) $(LCXOBJS) $(IL_OBJS) $(JPEG_OBJS)
