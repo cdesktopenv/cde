@@ -685,7 +685,7 @@ ExecuteCommand (
 
       for (i=3; i < FOPEN_MAX; i++) {
          if ( i != errorpipeG[1] )
-	     (void) fcntl (i, F_SETFD, 1);
+	     (void) fcntl (i, F_SETFD, FD_CLOEXEC);
       }
 
       (void) execvp(commandArray[0], commandArray);
