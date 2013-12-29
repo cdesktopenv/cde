@@ -1295,6 +1295,20 @@ main (
 	COPYBITS(allactivefdsG, readfds);
 	COPYBITS(allactivefdsG, exceptfds);
 
+#if defined(linux)
+       /* JET 9/1/98 - linux select will actually modify the timeout struct -
+        *  if a select exits early then the timeout struct will contain the
+        *  amount remaining.  When this gets to 0,0, an infinite loop
+        *  will occur.  So... setup the timeouts each iteration. 
+        */
+
+       timeoutShort.tv_sec  = 0;               /* in quick rediscovery mode */
+       timeoutShort.tv_usec = SHORT_SELECT_TIMEOUT;
+       timeoutLong.tv_sec  = 86400;    /* don't thrash on rediscovery */
+       timeoutLong.tv_usec = 0;
+#endif
+
+
 	if (rediscoverSigCldG || rediscoverUrgentSigG) {
 	    nfound =select(MAXSOCKS, FD_SET_CAST(&readfds), FD_SET_CAST(NULL),
 				FD_SET_CAST(&exceptfds), &timeoutShort);
