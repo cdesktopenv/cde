@@ -2367,7 +2367,9 @@ typedef struct _WmGlobalData
 #define ACTIVE_ROOT	(wmGD.pActiveSD->rootWindow)
 #define ACTIVE_ICON_TEXT_WIN (wmGD.pActiveSD->activeIconTextWin)
 
-#define NOLOCKMOD(state)  ((state) & ~wmGD.lockingModMask)
+/* According to the xkb protocol bits 13 and 14 are interpreted as a  */
+/* two-bit unsigned numeric value and report the state keyboard group */
+#define NOLOCKMOD(state)  ((state) & ~wmGD.lockingModMask & ~(3 << 13))
 #ifdef WSM
 /* absent map behavior policy values (absentMapBehavior): */
 #define AMAP_BEHAVIOR_ADD       0
