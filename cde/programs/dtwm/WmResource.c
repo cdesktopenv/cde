@@ -4391,6 +4391,70 @@ ProcessAppearanceResources (WmScreenData *pSD)
 
 } /* END OF FUNCTION ProcessAppearanceResources */
 
+
+
+/*************************************<->*************************************
+ *
+ *  FallbackMakeTitleHeight (pAData)
+ *
+ *
+ *  Description:
+ *  -----------
+ *  This function makes title hight for AppearanceData
+ *  (using XExtentsOfFontSet on pAData->fontList)
+ *
+ *  Inputs:
+ *  ------
+ *
+ *  pAData = pointer to appearance data structure containing resource info
+ *
+ *
+ *  Outputs:
+ *  -------
+ *  *pAData - pAData->titleHeight is updated
+ *  return = 1 on success, 0 on failure (pAData->titleHeight is intact)
+ *
+ *************************************<->***********************************/
+
+int
+FallbackMakeTitleHeight (AppearanceData *pAData) {
+  XmFontContext       fc;
+  XmFontType          type;
+  XmFontListEntry     entry;
+  XtPointer           pFont;
+  XFontSetExtents     *pExtents;
+  int                 result = 0;
+
+  XmFontListInitFontContext ( &fc, pAData->fontList);
+  pAData->titleHeight = 0;
+  entry = XmFontListNextEntry (fc);
+  while (entry)
+  {
+    pFont = XmFontListEntryGetFont (entry, &type);
+    switch (type)
+    {
+    case XmFONT_IS_FONT:
+      /* does not really happen since XmeRenderTableGetDefaultFont
+	 seems to fail only on fontsets */
+      break;
+    case XmFONT_IS_FONTSET:
+      if (!(pExtents = XExtentsOfFontSet ((XFontSet) pFont))) {
+	break;
+      }
+      if (WM_TITLE_BAR_PADDING + pExtents->max_logical_extent.height > pAData->titleHeight) {
+	pAData->titleHeight = WM_TITLE_BAR_PADDING + pExtents->max_logical_extent.height;
+	result = 1;
+      }
+      break;
+    default:
+      break;
+    }
+    entry = XmFontListNextEntry (fc);
+  }
+  XmFontListFreeFontContext (fc);
+  return result;
+}
+
 
 /*************************************<->*************************************
  *
@@ -4433,24 +4497,35 @@ MakeAppearanceResources (WmScreenData *pSD, AppearanceData *pAData, Boolean make
 	Warning((char *)wmGD.tmpBuffer);
 #if defined(CSRG_BASED) || defined(linux)
 	/* HACK to try get _some_ font anyway (fontList seems to end up as an empty list on
-         * some modern systems; investigate) */
-        pAData->font = XLoadQueryFont(wmGD.display, "fixed");
-	if (pAData->font == NULL) {
-	    ExitWM(WM_ERROR_EXIT_VALUE);
+	 * some modern systems; investigate) */
+	pAData->font = XLoadQueryFont(wmGD.display, "fixed");
+	if (pAData->font == NULL)
+	{
+	  ExitWM(WM_ERROR_EXIT_VALUE);
+	}
+	/* try to get right title hight using XExtentsOfFontSet: on UTF-8
+	 * locales XmeRenderTableGetDefaultFont does not return anything
+	 * when font is a compound fontset*/
+	if (!FallbackMakeTitleHeight(pAData))
+	{
+	  /* failed to get height from fontList - falling back to fixed */
+	  pAData->titleHeight = (pAData->font)->ascent + (pAData->font)->descent
+	    + WM_TITLE_BAR_PADDING;
 	}
 #else
 	ExitWM(WM_ERROR_EXIT_VALUE);
 #endif
-
+    } else {
+	/* got default font successfully, hack was not needed */
+#ifndef NO_MULTIBYTE
+	/*
+	 *  Calculate title bar's height (using selected font) and store it in pAData.
+	 */
+	pAData->titleHeight = (pAData->font)->ascent + (pAData->font)->descent
+	+ WM_TITLE_BAR_PADDING;
+#endif
     }
 
-#ifndef NO_MULTIBYTE
-    /*
-     *  Calculate title bar's height and store it in pAData.
-     */
-    pAData->titleHeight = (pAData->font)->ascent + (pAData->font)->descent
-        + WM_TITLE_BAR_PADDING;
-#endif
 
 
     /*
