@@ -1867,7 +1867,7 @@ buildTOC(int argc, char *argv[])
     len = MIN(strlen(gStruct->id), MAXPATHLEN);
     *((char *) memcpy (idBuf, gStruct->id, len) + len) = '\0';
     len = MIN(strlen(gStruct->title), MAXPATHLEN);
-    *((char *) memcpy (titleBuf, gStruct->id, len) + len) = '\0';
+    *((char *) memcpy (titleBuf, gStruct->title, len) + len) = '\0';
 
     if (checkStat(gStruct->outFile, FSTAT_IS_FILE))
     {

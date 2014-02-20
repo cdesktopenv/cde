@@ -383,7 +383,7 @@ QueryGroup::gen_query_internal (query_type_t query_type)
 int
 QueryGroup::format (query_type_t query_type, QueryTerm *term)
 {
-  char *s = (char*)"\001s", *tmp;
+  char *s = strdup("\001s"), *tmp;
   // Need two buffers for alternating writes. 
   // Allocate a buffer with enough room for term plus operators.
   static char *buf[2];

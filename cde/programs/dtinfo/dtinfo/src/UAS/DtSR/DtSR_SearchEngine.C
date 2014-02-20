@@ -620,6 +620,11 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
 	    UAS_String msg(CATGETS(Set_DtSR_SearchEngine, 1,
 				"DtSearch does not support the query."));
 	    DtSearchFreeMessages();
+
+	    if (current_bc != 0) {
+		targets.remove(current_bc);
+		current_bc = NULL;
+	    }
 	    throw(CASTUASEXCEPT UAS_Exception(msg));
 
 	    continue;
@@ -692,10 +697,10 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
 	UAS_Pointer<DtSR_Stems> stems = bookcases[index]->takeover_stems();
 
 	UAS_Pointer<UAS_String> q = new UAS_String(oql);
-	UAS_Pointer<UAS_String> n = new UAS_String(scope.name());
+	UAS_Pointer<UAS_String> s = new UAS_String(scope.name());
 
 	UAS_Pointer<DtSR_SearchResults> DtSR_res =
-			new DtSR_SearchResults(q, n, res, res->length(),
+			new DtSR_SearchResults(q, s, res, res->length(),
 					stems, scope.search_zones(), stype);
 
 	if (DtSR_result == (int)0)

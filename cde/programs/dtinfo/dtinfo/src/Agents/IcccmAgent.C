@@ -141,11 +141,7 @@ IcccmAgent::value_handler(Widget w, XtPointer ia, Atom *selection,
             free(wcs);
         }
 #endif
-#if 0
         (((IcccmAgent*)ia)->*f_string_handler)((char*)value, *length);
-#else
-        (((IcccmAgent*)f_real_object)->*f_string_handler)((char*)value, *length);
-#endif
         XtFree((char*)value);
     }
     else if (*type == XA_COMPOUND_TEXT(XtDisplay(w))) {
@@ -168,11 +164,7 @@ IcccmAgent::value_handler(Widget w, XtPointer ia, Atom *selection,
             *((char *) memcpy(mbs, string_list[i], len) + len) = '\0';
         }
         XwcFreeStringList((wchar_t**)string_list);
-#if 0
         (((IcccmAgent*)ia)->*f_string_handler)(mbs, strlen(mbs));
-#else
-        (((IcccmAgent*)f_real_object)->*f_string_handler)(mbs, strlen(mbs));
-#endif
         free((void*)mbs);
     }
     else {
