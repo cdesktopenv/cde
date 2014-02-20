@@ -23,6 +23,7 @@
 // $TOG: autoNumber.C /main/6 1998/04/17 11:47:13 mgreess $
 
 #include <ctype.h>
+#include <limits.h>
 #if defined(CSRG_BASED)
 #define MAXINT INT_MAX
 #else

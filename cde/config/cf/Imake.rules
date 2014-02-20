@@ -1482,7 +1482,7 @@ BuildMakefileTarget(Imakefile,NullParameter)
 	else \								@@\
 	    echo "mkdir dir"; mkdir dir; \				@@\
 	    for i in $(SUBDIRS); do \					@@\
-	      j=`echo "$$i" | sed -e 's;[^/]\{1,\};..;g'`; \		@@\
+	      j=`echo "$$i" | $(SED) -e 's;[^/]\{1,\};..;g'`; \		@@\
 	      $(MKDIRHIER) "dir/`dirname $$i`"; \			@@\
 	      echo $(LN) "$$j/$$i/dir" "dir/$$i"; \			@@\
 	      $(LN) "$$j/$$i/dir" "dir/$$i"; \				@@\
@@ -2084,7 +2084,7 @@ clean::									@@\
 #ifndef MakeSubincludesForBuild
 #define MakeSubincludesForBuild(step,dir,srclist)			@@\
 step::  dir srclist							@@\
-	@-(list=`echo srclist | sed -e 's/[^ ]*\///g'`; \		@@\
+	@-(list=`echo srclist | $(SED) -e 's/[^ ]*\///g'`; \		@@\
 		set -x; cd dir; RemoveFiles($$list))			@@\
 	@for i in srclist; do \						@@\
 		(set -x; cd dir; $(LN) ../$$i .); \			@@\
@@ -2095,7 +2095,7 @@ dir::									@@\
 									@@\
 clean::									@@\
 	@-(if [ -d dir ]; then \					@@\
-		list=`echo srclist | sed -e 's/[^ ]*\///g'`; \		@@\
+		list=`echo srclist | $(SED) -e 's/[^ ]*\///g'`; \	@@\
 		set -x; cd dir; RemoveFile($$list); else exit 0; fi)
 #endif
 
@@ -2311,7 +2311,7 @@ target::								@@\
 		*) curdir=$(CURRENT_DIR)/ ;; \				@@\
 		esac; \							@@\
 		echo "making Makefiles in $$curdir$$i..."; \		@@\
-		itmp=`echo $$i | sed -e 's;^\./;;g' -e 's;/\./;/;g'`; \	@@\
+		itmp=`echo $$i | $(SED) -e 's;^\./;;g' -e 's;/\./;/;g'`; \	@@\
 		curtmp="$(CURRENT_DIR)" \				@@\
 		toptmp=""; \						@@\
 		case "$$itmp" in \					@@\
@@ -2320,7 +2320,7 @@ target::								@@\
 			  do \						@@\
 			     toptmp="/`basename $$curtmp`$$toptmp"; \	@@\
 			     curtmp="`dirname $$curtmp`"; \		@@\
-			     itmp="`echo $$itmp | sed 's;\.\./;;'`"; \	@@\
+			     itmp="`echo $$itmp | $(SED) 's;\.\./;;'`"; \	@@\
 			  done \					@@\
 		    ;; \						@@\
 		esac; \							@@\
@@ -2376,7 +2376,7 @@ MakeMakeSubdirs(dirs,Makefiles)
  * Also delete line numbers from the cpp output (-P is not portable, I guess).
  */
 #ifndef CppSedMagic
-#define CppSedMagic sed -e '/^#  *[0-9][0-9]*  *.*$$/d' -e '/^XCOMM$$/s//#/' -e '/^XCOMM[^a-zA-Z0-9_]/s/^XCOMM/#/'
+#define CppSedMagic $(SED) -e '/^#  *[0-9][0-9]*  *.*$$/d' -e '/^XCOMM$$/s//#/' -e '/^XCOMM[^a-zA-Z0-9_]/s/^XCOMM/#/'
 #endif /* CppSedMagic */
 
 #ifndef CppFileTarget
@@ -2412,7 +2412,7 @@ dst::  src deplist							@@\
 	RemoveFile($@)							@@\
 	ClearmakeOSName \
 	echo \: >$@							@@\
-	sed '1d' src | $(CPP) CppNoLineInfoOption defs | CppSedMagic >>$@	@@\
+	$(SED) '1d' src | $(CPP) CppNoLineInfoOption defs | CppSedMagic >>$@	@@\
 	chmod a+x $@							@@\
 									@@\
 clean::									@@\
@@ -2437,7 +2437,33 @@ CppFileTarget(dst,src,defs,deplist)					@@\
 includes:: dst								@@\
 									@@\
 depend:: dst
-#endif /* CppFileTarget */
+#endif /* CppSourceFile */
+
+
+/*
+ * SedFileTarget - generate rules to create a file by running the
+ * input through sed.
+ */
+#ifndef SedFileTarget
+#define SedFileTarget(dst,src,cmds)					@@\
+dst::  src								@@\
+	RemoveFile($@)							@@\
+	$(SED) cmds src >$@						@@\
+	chmod a+x $@							@@\
+									@@\
+clean::									@@\
+	RemoveFiles(dst)
+#endif /* SedFileTarget */
+
+#ifndef SedSourceFile
+#define SedSourceFile(dst,src,cmds)					@@\
+SedFileTarget(dst,src,cmds)						@@\
+									@@\
+includes:: dst								@@\
+									@@\
+depend:: dst
+#endif /* SedSourceFile */
+
 
 /*
  * MakeDirectories - generate rules to create a hierarchy of directories.

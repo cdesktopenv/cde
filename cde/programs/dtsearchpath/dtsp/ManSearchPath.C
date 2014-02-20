@@ -136,7 +136,7 @@ void ManSearchPath::Print()
     }
 }
 
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 std::ostream & operator<< 
 	(
 	std::ostream & os, 
@@ -150,7 +150,7 @@ ostream & operator<<
 	)
 #endif
 {
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
     os << sp.GetEnvVar() << std::endl;
 #else
     os << sp.GetEnvVar() << endl;

@@ -27,9 +27,9 @@ $  The information in this document is subject to special
 $  restrictions in a confidential disclosure agreement between
 $  HP, IBM, Sun, USL, SCO and Univel.  Do not distribute this
 $  document outside HP, IBM, Sun, USL, SCO, or Univel without
-$  Sun's specific written approval.  This document and all copies
+$  SunXSQUOTEs specific written approval.  This document and all copies
 $  and derivative works thereof must be returned or destroyed at
-$  Sun's request.
+$  SunXSQUOTEs request.
 $ 
 $  Copyright 1993, 1994, 1995 Sun Microsystems, Inc.  All rights reserved.
 $ 
@@ -62,7 +62,7 @@ $ Digital Equipment Corp., 111 Powdermill Road, Maynard, MA 01754, U.S.A.
 $ Fujitsu Limited, 1015, Kamikodanaka Nakahara-Ku, Kawasaki 211, Japan
 $ Hitachi, Ltd., 6, Kanda Surugadai 4-Chome, Chiyoda-ku, Tokyo 101, Japan
 
-$quote "
+$quote XDQUOTE
 
 $set DTPRINTER_SET
 $ ----- These are the titles that appear on dialogs and the main window -----    

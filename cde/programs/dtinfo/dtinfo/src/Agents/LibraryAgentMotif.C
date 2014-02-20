@@ -1224,7 +1224,7 @@ LibraryAgent::add_library(char* newLib, Widget parent)
 	        parent);
         }
 
-	if (d != (const int)NULL) {
+	if (d != (const int)0) {
 	    d->retrieve ();
 	} else {
 #ifdef DEBUG
@@ -1243,7 +1243,7 @@ LibraryAgent::add_library(char* newLib, Widget parent)
         // but with keyword error.
 
         // report error only if likely from retrieval; others handled already
-        if( d != (const int)NULL )
+        if( d != (const int)0 )
         {
           message_mgr().error_dialog(
                 (char*)UAS_String(CATGETS(Set_AddLibraryAgent, 4,
@@ -1538,7 +1538,7 @@ void
 LibraryAgent::track_to (UAS_Pointer<UAS_Common> &node_ptr)
 {
   ON_DEBUG (printf ("LibraryAgent::track_to: popped_down = %d, track set = %d, node_ptr = %p\n", f_popped_down, XmToggleButtonGadgetGetState(f_auto_track),(UAS_Common *) node_ptr));
-  if (f_popped_down || !XmToggleButtonGadgetGetState(f_auto_track) || node_ptr == (const int)NULL)
+  if (f_popped_down || !XmToggleButtonGadgetGetState(f_auto_track) || node_ptr == (const int)0)
     return;
   Wait_Cursor bob;
   ON_DEBUG (puts ("TRYING to locate document in doc tree!"));
@@ -1556,7 +1556,7 @@ LibraryAgent::track_to (UAS_Pointer<UAS_Common> &node_ptr)
 
   // Trace up to the root.
   free_tracking_hierarchy();
-  while (doc_root != (const int)NULL && !in_subtree)
+  while (doc_root != (const int)0 && !in_subtree)
     {
       f_tracking_hierarchy = new TrackingEntry(doc_root, f_tracking_hierarchy);
       for (unsigned int i = 0; i < rootList.length(); i ++) {

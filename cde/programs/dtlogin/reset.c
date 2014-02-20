@@ -53,6 +53,7 @@
  */
 
 # include	<setjmp.h>
+# include	<sys/types.h>
 # include	<sys/signal.h>
 # include	"dm.h"
 # include	"vgmsg.h"

@@ -450,7 +450,7 @@ TtIpcMgr::do_print(Tt_message msg)
 
 	//  add UAS_Common pointer to list of sections to print
 
-	if (d != (const int)NULL)
+	if (d != (const int)0)
 	{
 	    print_list->append(d);
 	}

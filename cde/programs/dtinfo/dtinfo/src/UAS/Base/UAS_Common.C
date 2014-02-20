@@ -246,7 +246,7 @@ UAS_Common::subtree_size()
     int tree_size = 1;
 
     for (unsigned int i = 0; i < num_kids; i++) {
-	if (! (kids[i] == (const int)NULL))
+	if (! (kids[i] == (const int)0))
 	    tree_size += kids[i]->subtree_size();
     }
 

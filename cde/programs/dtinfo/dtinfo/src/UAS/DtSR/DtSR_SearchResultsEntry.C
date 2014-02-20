@@ -196,7 +196,7 @@ DtSR_SearchResultsEntry::section_in_abstract(char* abstract, const char* id)
 
     UAS_Pointer<UAS_String> section_id, book, section;
 
-    if (parse_abstract(abstract, section_id, book, section) == (const int)NULL) {
+    if (parse_abstract(abstract, section_id, book, section) == (const int)0) {
 #ifdef DEBUG
 	fprintf(stderr, "(ERROR) parse_abstract failed\n");
 #endif
@@ -221,7 +221,7 @@ static unsigned int proximity2relevance(int prox)
     else
 	inv_prox = 1 / (float)prox; // 0 to 1;
 
-    return inv_prox * DtSR_SearchResultsEntry::Utmost_Relevance;
+    return (unsigned int)(inv_prox * DtSR_SearchResultsEntry::Utmost_Relevance);
 }
 
 unsigned int

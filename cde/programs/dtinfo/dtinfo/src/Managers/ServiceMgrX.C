@@ -276,7 +276,7 @@ ServiceMgr::process_olias_event (Window client,
 	  char *buffer = new char[bufferlen];
 	  snprintf (buffer, bufferlen, "mmdb:LOCATOR=%s", locator);
 	  d = UAS_Common::create (buffer);
-	  if (d != (const int)NULL)
+	  if (d != (const int)0)
 	    {
 	      // (evil hack alert) 
 	      g_scroll_to_locator = TRUE;
@@ -296,7 +296,7 @@ ServiceMgr::process_olias_event (Window client,
     }
   end_try;
 
-  if (d != (const int)NULL)
+  if (d != (const int)0)
     {
       d->retrieve();
       reply_to_client(client, OLIAS_SUCCESS);
@@ -423,7 +423,7 @@ olias_send_event (Widget, OliasEvent *event)
 		snprintf (buffer, bufferlen, "mmdb:LOCATOR=%s", locator);
 		d = UAS_Common::create (buffer);
 		delete [] buffer;
-		if (d != (const int)NULL)
+		if (d != (const int)0)
 		  {
 		    // (evil hack alert) 
 		    if (locator == NULL)
@@ -446,7 +446,7 @@ olias_send_event (Widget, OliasEvent *event)
 	    d = NULL;
 	  }
 	end_try;
-	if (d != (const int)NULL)
+	if (d != (const int)0)
 	  {
 	    d->retrieve();
 	    return (OLIAS_SUCCESS);

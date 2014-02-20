@@ -101,7 +101,7 @@ BookTab::set_tab (UAS_Pointer<UAS_Common> &tab_ptr)
     {
       f_tab_ptr = tab_ptr;
 
-      if (f_tab_ptr != (const int)NULL)
+      if (f_tab_ptr != (const int)0)
 	{
 	  UAS_String st = f_tab_ptr->tab_title();
 	  LabelString ((char *) st);
@@ -127,7 +127,7 @@ BookTab::set_tab (UAS_Pointer<UAS_Common> &tab_ptr)
 void
 BookTab::activate()
 {
-  Xassert (f_tab_ptr != (const int)NULL);
+  Xassert (f_tab_ptr != (const int)0);
   node_mgr().set_preferred_window (f_node_window_agent);
   f_tab_ptr->retrieve();
 }
@@ -141,7 +141,7 @@ BookTab::activate()
 void
 BookTab::select_if_same (UAS_Pointer<UAS_Common> &doc_ptr)
 {
-  Xassert (f_tab_ptr != (const int)NULL);
+  Xassert (f_tab_ptr != (const int)0);
   // If this tab points to the Node in question, select the tab,
   // otherwise deselect the tab. 
   if (f_tab_ptr == doc_ptr)

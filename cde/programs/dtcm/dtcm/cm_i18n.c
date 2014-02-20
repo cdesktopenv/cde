@@ -68,13 +68,6 @@ should be fixed in the future.
 #include <locale.h>
 #include <sys/param.h>       /* for MAXPATHLEN */
 #include <Xm/Xm.h>
-#include "util.h"
-#include "timeops.h"
-#include "cm_i18n.h"
-#include "deskset.h"
-/*
-#include "gettext.h"
-*/
 
 #include <langinfo.h>
 /* Iconv not defined for linux.  Use the EUSCompat stubs instead. */
@@ -82,6 +75,14 @@ should be fixed in the future.
 #  include <iconv.h>
 #endif
 #include <EUSCompat.h>
+
+#include "util.h"
+#include "timeops.h"
+#include "cm_i18n.h"
+#include "deskset.h"
+/*
+#include "gettext.h"
+*/
 
 char *fontset1[2]; 
 char *fontset2[2];

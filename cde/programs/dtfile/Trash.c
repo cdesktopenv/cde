@@ -4120,15 +4120,19 @@ CheckDeletePermission(
   char *parentdir,
   char *destinationPath)
 {
-#if defined(CSRG_BASED)
+#if defined(__FreeBSD__) || defined(__OpenBSD__)
   struct statfs statbuf;
+#elif defined(__NetBSD__)
+  struct statvfs statbuf;
 #else
   struct stat statbuf;
 #endif
   char fname[1024];
 
-#if defined(CSRG_BASED)
+#if defined(__FreeBSD__) || defined(__OpenBSD__)
   if (statfs(parentdir,&statbuf) < 0)  /* does not exist */
+#elif defined(__NetBSD__)
+  if (statvfs(parentdir,&statbuf) < 0)  /* does not exist */
 #else
   if (lstat(parentdir,&statbuf) < 0)  /* does not exist */
 #endif

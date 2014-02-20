@@ -258,7 +258,8 @@ in this Software without prior written authorization from The Open Group.
 #if defined(sun) && (defined(SVR4) || defined(__svr4__) || defined(__SVR4) || defined(__sol__))
 #define DEFAULT_CPP "/usr/ccs/lib/cpp"
 #endif
-#if defined(__bsdi__) || (defined(__FreeBSD__) && !defined(CPP_IN_LIBEXEC))
+#if defined(__bsdi__) || defined(__NetBSD__) \
+	|| (defined(__FreeBSD__) && !defined(CPP_IN_LIBEXEC))
 #define DEFAULT_CPP "/usr/bin/cpp"
 #endif
 #ifdef __uxp__
@@ -270,7 +271,7 @@ in this Software without prior written authorization from The Open Group.
 #ifdef _CRAY
 #define DEFAULT_CPP "/lib/pcpp"
 #endif
-#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) \
+#if defined(__386BSD__) || defined(__OpenBSD__) \
 	|| (defined(__FreeBSD__) && defined(CPP_IN_LIBEXEC))
 #define DEFAULT_CPP "/usr/libexec/cpp"
 #endif
@@ -642,8 +643,8 @@ char *cpp_argv[ARGUMENTS] = {
 # define DEFAULT_OS_MAJOR_REV	"v V%[0-9]"
 # define DEFAULT_OS_MINOR_REV	"v V%*dL%[0-9]"
 # define DEFAULT_OS_NAME	"srvm %[^\n]"
-#elif defined(__FreeBSD__)
-/* NetBSD, OpenBSD, 386BSD, and BSD/OS too? */
+#elif defined(__FreeBSD__) || defined(__NetBSD__)
+/* 386BSD, and BSD/OS too? */
 /* uname -r returns "x.y[.z]-mumble", e.g. "2.1.5-RELEASE" or "2.2-0801SNAP" */
 # define DEFAULT_OS_MAJOR_REV   "r %[0-9]"
 # define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"

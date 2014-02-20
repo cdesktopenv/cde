@@ -30,7 +30,7 @@ ifs=$IFS
 magic=4400000
 map=
 regress=
-shell=`(eval 'typeset -l x=$((0+0))KSH; echo ${x#0}') 2>/dev/null`
+shell=`(eval 'x=$((0+0))ksh; echo ${x#0}') 2>/dev/null`
 something=
 PATH=$PATH:/usr/kvm:/usr/ccs/bin:/usr/local/bin:/usr/add-on/gnu/bin:/usr/add-on/GNU/bin:/opt/gnu/bin:/opt/GNU/bin
 export PATH
@@ -442,7 +442,6 @@ main()
 				;;
 			esac
 			case $shell in
-			ksh)	typeset -l type=$type ;;
 			*)	type=`echo $type | tr '[A-Z]' '[a-z]'` ;;
 			esac
 

@@ -1,5 +1,5 @@
 # feed this into perl
-eval '(exit $?0)' && eval 'exec /usr/bin/perl $0 ${1+"$@"}' & eval 'exec /usr/bin/perl $0 $argv'
+eval '(exit $?0)' && eval 'exec PERL $0 ${1+"$@"}' & eval 'exec PERL $0 $argv'
    if 0;
 
 # treeres - resource file preprocessor
@@ -34,7 +34,7 @@ eval '(exit $?0)' && eval 'exec /usr/bin/perl $0 ${1+"$@"}' & eval 'exec /usr/bi
 *IN = STDIN;
 $file = "<stdin>";
 if ($#ARGV >= 0)
-  { 
+  {
     open(IN,$ARGV[0]) || die "Can't open file $ARGV[0].\n";
     $file = $ARGV[0];
   }
@@ -65,7 +65,7 @@ while (<IN>)
     $continuation = /[^\\](\\\\)*\\$/;
 
     # Multiple blank lines are compressed to one
-    if (/^([ \t]*)(!x.*)?$/) { 
+    if (/^([ \t]*)(!x.*)?$/) {
       if ($blankcount++ == 0) { print; }
       next;
     }
@@ -92,7 +92,7 @@ while (<IN>)
     # Make base array length match current level
     #DEBUG print "! oldlevel = $oldlevel, level = $level\n";
     if ($oldlevel > 0 && $level <= $oldlevel && ! $did_gen)
-      { print STDERR $file, ":", $line, 
+      { print STDERR $file, ":", $line,
                      ": Level <= previous with no generation.\n"; }
     $#base = $level - 1;
 

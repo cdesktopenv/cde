@@ -1264,13 +1264,13 @@ SearchScopeAgent::generate_component_list()
   OutlineElement *oe;
 
   ADD (components, CATGETS(Set_Messages, 22, "Everything"), parts, True);
-  ADD (parts, CATGETS(Set_Messages, 23, "Titles"), NULL, False);
-  ADD (parts, CATGETS(Set_Messages, 24, "Body"), NULL, False);
-  ADD (parts, CATGETS(Set_Messages, 25, "Examples"), NULL, False);
-  ADD (parts, CATGETS(Set_Messages, 26, "Index"), NULL, False);
-  ADD (parts, CATGETS(Set_Messages, 27, "Tables"), NULL, False);
+  ADD (parts, CATGETS(Set_Messages, 23, "Titles"), 0, False);
+  ADD (parts, CATGETS(Set_Messages, 24, "Body"), 0, False);
+  ADD (parts, CATGETS(Set_Messages, 25, "Examples"), 0, False);
+  ADD (parts, CATGETS(Set_Messages, 26, "Index"), 0, False);
+  ADD (parts, CATGETS(Set_Messages, 27, "Tables"), 0, False);
 #ifndef DtinfoClient
-  ADD (parts, CATGETS(Set_Messages, 28, "Graphics"), NULL, False);
+  ADD (parts, CATGETS(Set_Messages, 28, "Graphics"), 0, False);
 #endif
   
   return (components);

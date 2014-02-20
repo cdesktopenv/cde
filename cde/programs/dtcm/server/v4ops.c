@@ -37,7 +37,11 @@
 #include <pwd.h>
 #include <time.h>
 #if defined(CSRG_BASED)
+#if defined(__NetBSD__)
+#include <limits.h>
+#else
 #include <sys/limits.h>
+#endif
 #define MAXINT INT_MAX
 #else
 #include <values.h>

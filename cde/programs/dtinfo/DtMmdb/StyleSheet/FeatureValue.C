@@ -500,7 +500,7 @@ FeatureValue::operator const char *() const
 
 FeatureValueReal::operator int() const
 {
-  return f_value ;
+  return (int)f_value ;
 }
 
 FeatureValueReal::operator float() const
@@ -612,7 +612,7 @@ FeatureValueExpression::operator const char *() const
 FeatureValueDimension::operator int ()  const
 {
   if ( f_cachedValue != -1 )
-    return f_cachedValue;
+    return (int)f_cachedValue;
 
   if ( f_value == 0 )
      throw(CASTBEEXCEPT badEvaluationException()) ;

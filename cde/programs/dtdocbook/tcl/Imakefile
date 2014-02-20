@@ -7,58 +7,61 @@ XCOMM $XConsortium: Imakefile /main/4 1996/08/08 14:42:19 cde-hp $
 #define LibHeaders	NO
 #define LibInstall	NO
 
-#if defined(FreeBSDArchitecture)
 VERSION = 8.5
-#else
-VERSION = 7.5
-#endif
 
-prefix =	/usr/local
+#if defined(LinuxArchitecture)
+prefix =	/usr/lib
+#elif defined(OpenBSDArchitecture)
+prefix =	/usr/local/lib/tcl
+#elif defined(NetBSDArchitecture)
+prefix =	/usr/pkg/lib
+#else
+prefix =	/usr/local/lib
+#endif
 
 XCOMM Directory from which applications will reference the library of Tcl
 XCOMM scripts (note: you can set the TCL_LIBRARY environment variable at
 XCOMM run-time to override this value):
-TCL_LIBRARY =	$(prefix)/lib/tcl$(VERSION)
-#ifdef OpenBSDArchitecture
+#ifdef TclLibrary
 TCL_LIBRARY =	TclLibrary
+#else
+TCL_LIBRARY =	$(prefix)/tcl$(VERSION)
 #endif
 
-#ifdef SunArchitecture
+#if defined(SunArchitecture)
 EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
 	-DNO_UNION_WAIT -DHAVE_UNISTD_H \
 	-DTCL_GOT_TIMEZONE
-#else
-# ifdef IBMArchitecture
+
+#elif defined(IBMArchitecture)
 EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
 	-DNO_UNION_WAIT -DHAVE_UNISTD_H -DNEED_MATHERR -Dvfork=fork \
 	-DTCL_GOT_TIMEZONE -DHAVE_SYS_SELECT_H
-# else
-#   ifdef AlphaArchitecture
+
+#elif defined(AlphaArchitecture)
 EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
 	-DNO_UNION_WAIT -DHAVE_UNISTD_H -DNEED_MATHERR \
 	-DTCL_GOT_TIMEZONE -DTIME_WITH_SYS_TIME
 
-#   else
-#     ifdef OpenBSDArchitecture
+#elif defined(OpenBSDArchitecture)
 EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
 	-DNO_UNION_WAIT -DHAVE_UNISTD_H \
 	-DTCL_GOT_TIMEZONE
 
-#     else
-#       ifdef FreeBSDArchitecture
+#elif defined(FreeBSDArchitecture)
 EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
 	-DNO_UNION_WAIT -DHAVE_UNISTD_H \
 	-DTCL_GOT_TIMEZONE
 
-#       else
+#elif defined(NetBSDArchitecture)
 EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
 	-DNO_UNION_WAIT -DHAVE_UNISTD_H -DNEED_MATHERR \
 	-DTCL_GOT_TIMEZONE
 
-#       endif
-#     endif
-#   endif
-# endif
+#else
+EXTRA_DEFINES = -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
+	-DNO_UNION_WAIT -DHAVE_UNISTD_H -DNEED_MATHERR \
+	-DTCL_GOT_TIMEZONE
 #endif
 
 INCLUDES = -I.

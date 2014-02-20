@@ -24,7 +24,7 @@
  *                  Campbell, CA  95008
  * 
  */
-#if defined(SVR4) || defined(hpux) || defined(linux)
+#if defined(SVR4) || defined(hpux) || defined(linux) || defined(__NetBSD__)
 #include <limits.h>
 #else
 #include <sys/limits.h>

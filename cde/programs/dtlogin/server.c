@@ -46,6 +46,7 @@
  * Author:  Keith Packard, MIT X Consortium
  */
 
+# include	<sys/types.h>
 # include	<sys/signal.h>
 # include	<setjmp.h>
 # include	<pwd.h>

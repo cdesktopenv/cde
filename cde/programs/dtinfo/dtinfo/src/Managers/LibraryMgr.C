@@ -237,7 +237,7 @@ LibraryMgr::display (UAS_Pointer<UAS_Common> &toc)
   OutlineList *ol = new OutlineList(fObjList.length());
   for (i = 0; i < fObjList.length(); i ++) {
     ol->append (new TOC_Element (fObjList[i]));
-    if (toc->parent() == (const int)NULL) {
+    if (toc->parent() == (const int)0) {
       BitHandle handle = ol->get_data_handle();
       ((OutlineElement *) (*ol)[i])->set_expanded (handle);
       ol->free_data_handle (handle);

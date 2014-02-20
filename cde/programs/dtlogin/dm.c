@@ -51,6 +51,7 @@
  * display manager
  */
 
+# include	<sys/types.h>
 # include	<sys/signal.h>
 # include	<sys/stat.h>
 #if defined(__FreeBSD__) && OSMAJORVERSION > 8
@@ -61,7 +62,7 @@
 # include	<time.h>
 # include	<utime.h>
 # include	<pwd.h>
-#if defined(linux) || defined(__FreeBSD__)
+#if defined(linux) || defined(__FreeBSD__) || defined(__NetBSD__)
 # include	<stdarg.h>
 #else
 # include	<varargs.h>

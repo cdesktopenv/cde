@@ -10,13 +10,11 @@
 #             by gencat.
 #
 
-typeset -u CAP_SYMBOL_NAME
-
 (( $# != 2 )) && { print "usage: sym2num <symbol name> <source file>" ;\
                  exit 1 ; }
 
 SYMBOL_NAME=$1
-CAP_SYMBOL_NAME=$1   # capitalized symbol name
+CAP_SYMBOL_NAME=`echo $1 | tr '[:lower:]' '[:upper:]'`  # capitalized symbol
 SOURCE_FILE=$2
 inc_file=${SYMBOL_NAME}_msg.h     # include file
 
@@ -61,11 +59,15 @@ then
 elif [[ -f /usr/libexec/cpp ]] #BSD
 then
    cpp_path=/usr/libexec
+elif [[ -f /usr/bin/cpp ]]     #BSD
+then
+   cpp_path=/usr/bin
 elif [[ -f /lib/cpp ]]         #HP
 then
    cpp_path=/lib
 fi
    ( cat ${inc_file} | sed -n /define/p ; cat ${SOURCE_FILE} ) | \
-   ${cpp_path}/cpp -P | sed '/^$/d' | sed 's/^\([1-9][0-9]*\)[ ]*\(.*\)/\1 \2/'
+   ${cpp_path}/cpp -P | sed -e '/^$/d' -e 's/^\$$/\$ /' \
+    -e 's/\"\"$/\"/' -e 's/XDQUOTE/\"/' -e "s/XSQUOTE/\'/" \
+    -e 's/^\([1-9][0-9]*\)[ ]*[\"]*\(\"\)\(.*\)/\1 \2\3/'
 
-   

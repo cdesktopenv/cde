@@ -1,0 +1,214 @@
+XCOMM! /bin/ksh
+XCOMM #######
+XCOMM  Product: CDE
+XCOMM  Fileset: CDE-TT
+XCOMM  configure
+XCOMM  @(#) $TOG: configTT.src /main/1 1998/03/11 16:18:40 mgreess $
+XCOMM #######
+XCOMM
+XCOMM (c) Copyright Hewlett-Packard Company, 1993
+XCOMM
+XCOMM #######
+#define HASH #
+
+PRODUCT=CDE
+FILESET=CDE-TT
+DO_CONFIGURATION=""
+retval=0
+
+FixInetdDotConf()
+{
+FILE=/etc/inetd.conf
+TMPFILE=/tmp/inetd.conf
+TTDBSERVERD=CDE_INSTALLATION_TOP/bin/rpc.ttdbserver
+
+XCOMM
+XCOMM see if it already exists
+XCOMM
+
+    awk -v ttdb=$TTDBSERVERD \
+	'{if ($1 == "ttdbserver/1" && $6 != ttdb)
+		print "#cde " $0;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    cp $TMPFILE $FILE
+    rm $TMPFILE
+
+    awk '{if ($1 == "ttdbserver/1")
+		print $0 > "/tmp/tt-already-there"
+	 }' $FILE >/dev/null
+
+    if [ ! -f /tmp/tt-already-there ]
+    then
+	printf "ttdbserver/1\tstream\trpc/tcp wait\troot\t$TTDBSERVERD $TTDBSERVERD\n" >>$FILE
+    else
+	rm /tmp/tt-already-there
+    fi
+}
+
+UnfixInetdDotConf()
+{
+FILE=/etc/inetd.conf
+TMPFILE=/tmp/inetd.conf
+TTDBSERVERD=CDE_INSTALLATION_TOP/bin/rpc.ttdbserver
+
+    awk -v ttdb=$TTDBSERVERD \
+	'{if ($1 == "ttdbserver/1" && $6 == ttdb)
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    cp $TMPFILE $FILE
+    rm $TMPFILE
+
+    awk '{if ($1 == "#cde" && ($2 == "ttdbserver/1" || $2 == "ttdbserver")) {
+		$1 = $2;
+		$2 = ""
+	     }
+	     print $0
+	 }' $FILE >$TMPFILE
+
+    cp $TMPFILE $FILE
+    rm $TMPFILE
+}
+
+FixEtcRpc()
+{
+FILE=/etc/rpc
+TMPFILE=/tmp/etc-rpc
+
+    if [ ! -f $FILE ]
+    then
+	printf "ttdbserver\t100083\ttooltalk\n" >$FILE
+    else
+	awk '{if ($1 == "ttdbserver" && $2 == "100083")
+		print $0 > "/tmp/etc-rpc-already-there"
+	     }' $FILE >/dev/null
+
+	if [ ! -f /tmp/etc-rpc-already-there ]
+	then
+	    awk '{if ($1 == "ttdbserver" || $2 == "100083")
+			print $0 > "/tmp/etc-rpc-already-there"
+		 }' $FILE >/dev/null
+
+	    if [ ! -f /tmp/etc-rpc-already-there ]
+	    then
+	        printf "ttdbserver\t100083\ttooltalk\n" >>$FILE
+	    else
+		awk '{if ($1 == "ttdbserver" || $2 == "100083")
+			print "#cde " $0; else print $0
+		     }'	$FILE >$TMPFILE
+
+	        printf "ttdbserver\t100083\ttooltalk\n" >>$TMPFILE
+
+		mv $TMPFILE $FILE
+		rm /tmp/etc-rpc-already-there
+	    fi
+	else
+	    rm /tmp/etc-rpc-already-there
+	fi
+    fi
+}
+
+UnfixEtcRpc()
+{
+FILE="/etc/rpc"
+TMPFILE="/tmp/etc-rpc"
+
+    awk '{if ($1 == "ttdbserver" && $2 == "100083")
+		;
+	  else
+		print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+
+    awk '{if ($1 == "#cde") {
+		$1 = $2;
+		$2 = ""
+	     }
+	  print $0
+	 }' $FILE >$TMPFILE
+
+    mv $TMPFILE $FILE
+}
+
+RemoveTTFiles()
+{
+    while read SRC
+    do
+      if [ "$SRC" != "" ]
+      then
+	rm -f $SRC
+	dirname=${SRC%/STAR}
+	if [ -d $dirname ]
+	then
+	  cd $dirname
+	  while [ "$dirname" != "$CDE_TOP" ]
+	  do
+	    cd ..
+	    rmdir ${dirname##STAR/} >/dev/null 2>/dev/null
+	    dirname=${dirname%/STAR}
+	  done
+	fi
+      fi
+    done <<-EOF
+#include "CDE-TT.list"
+	EOF
+}
+
+VerifyInstalledFiles()
+{
+    echo "Status   mode    owner   group   filename"
+    echo "-----------------------------------------"
+XCOMM	  exists  correct correct correct  /usr/dt/foo1
+XCOMM	  MISSING  WRONG   WRONG   WRONG   /usr/dt/foo2
+XCOMM        exists    the link is correct    /usr/dt/link
+
+    while read SRC
+    do
+#include "../verify.func"
+    done <<-EOF
+#include "CDE-TT.lst"
+	EOF
+}
+
+#include "../option.func"
+
+XCOMM ######################################################################
+XCOMM
+XCOMM				Main Body
+XCOMM
+XCOMM ######################################################################
+
+  HandleOption $*
+
+  if [ "$OPERATION" = "configure" ]
+  then
+
+    FixInetdDotConf
+
+    FixEtcRpc
+
+  elif [ "$OPERATION" = "deconfigure" ]
+  then
+
+    UnfixEtcRpc
+
+    UnfixInetdDotConf
+
+    RemoveTTFiles
+
+    VerifyInstalledFiles
+
+  elif [ "$OPERATION" = "verify" ]
+  then
+
+    VerifyInstalledFiles
+
+  fi
+
+  return $retval

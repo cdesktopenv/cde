@@ -33,7 +33,7 @@
 
 #include "Options.h"
 #include <stdlib.h>
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #include <iostream>
 #else
 #include <iostream.h>

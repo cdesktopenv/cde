@@ -34,7 +34,7 @@
 
 #include "Environ.h"
 #include "cstring.h"
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
 #include <iostream>
 #else
 #include <iostream.h>
@@ -51,7 +51,7 @@ class SearchPath {
   virtual void Print();
   virtual void AddPredefinedPath();
 
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
   virtual void PrettyPrint (std::ostream &) const;
 
   friend std::ostream & operator<< (std::ostream &, const SearchPath &);
@@ -186,7 +186,7 @@ class ManSearchPath : public SearchPath {
   virtual void    ExportPath ();
   virtual void    Print();
 
-#if defined(linux)
+#if defined(linux) || defined(CSRG_BASED)
   friend std::ostream & operator<< (std::ostream &, const ManSearchPath &);
 #else
   friend ostream & operator<< (ostream &, const ManSearchPath &);

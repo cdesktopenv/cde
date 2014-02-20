@@ -29,6 +29,7 @@
 /*                                                                           */
 /*****************************************************************************/
 #include <stdio.h>
+#include <sys/types.h>
 #include <sys/signal.h>
 #include <X11/cursorfont.h>
 

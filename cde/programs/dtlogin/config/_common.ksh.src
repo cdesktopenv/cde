@@ -32,7 +32,7 @@
   HASH
   HASH Determine Xsession parent
   HASH
-#if defined (__osf__) || defined(__OpenBSD__)
+#if defined (__osf__) || defined(__OpenBSD__) || defined(__NetBSD__)
   pexec=$(LC_TIME=C ps -p $PPID | awk 'NR==2 {print $5}')
 #elif defined(USL) && (OSMAJORVERSION > 1)
   pexec=$(LC_TIME=C ps -p $PPID | awk 'NR==2 {print $6}')
@@ -503,6 +503,8 @@ SetKeyboardMap()
       FONTLIB=/usr/local/lib/X11/fonts
 #elif defined(__OpenBSD__)
       FONTLIB=/usr/X11R6/lib/X11/fonts
+#elif defined(__NetBSD__)
+      FONTLIB=/usr/X11R7/lib/X11/fonts
 #endif
       for i in misc 75dpi 100dpi Speedo Type1 PJE
       do

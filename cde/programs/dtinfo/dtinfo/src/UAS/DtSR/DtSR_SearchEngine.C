@@ -373,11 +373,11 @@ DtSR_SearchEngine::init(UAS_PtrList<const char> *bcases)
 		continue;
 
 	    UAS_Pointer<UAS_Common> obj;
-	    if ((obj = UAS_Factory::create(bookcase_url)) == (int)NULL)
+	    if ((obj = UAS_Factory::create(bookcase_url)) == (int)0)
 		continue;
 	    UAS_Pointer<UAS_Common> bookcase;
 	    if ((bookcase =
-			((UAS_Collection*)(UAS_Common *)obj)->root()) == (int)NULL)
+		    ((UAS_Collection*)(UAS_Common *)obj)->root()) == (int)0)
 		continue;
 
 	    new DtSR_BookcaseSearchEntry(dbn++, bookcase, True);
@@ -478,7 +478,7 @@ resolve_bookid(UAS_Pointer<UAS_Common> &bcase, int serial)
 {
     UAS_String rval;
 
-    if (bcase == (int)NULL || bcase->type() != UAS_BOOKCASE)
+    if (bcase == (int)0 || bcase->type() != UAS_BOOKCASE)
 	return rval;
 
     if (serial < 1) // apparently wrong serial number
@@ -642,7 +642,7 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
 
 	UAS_Pointer<UAS_List<UAS_SearchResultsEntry> > res;
 
-	if ((res = compress_DtSrResult(DtSr_res, rescount)) == (int)NULL)
+	if ((res = compress_DtSrResult(DtSr_res, rescount)) == (int)0)
 	    continue;
 
 	// book#s specified, apply book-level scope here
@@ -683,7 +683,7 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
 	    }
 
 	    for (i = 0; i < (int) res->length(); i++) {
-		if (res->item(i) == (int)NULL)
+		if (res->item(i) == (int)0)
 		    res->remove_item(i--);
 	    }
 	}
@@ -698,23 +698,23 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
 			new DtSR_SearchResults(q, n, res, res->length(),
 					stems, scope.search_zones(), stype);
 
-	if (DtSR_result == (int)NULL)
+	if (DtSR_result == (int)0)
 	    DtSR_result = DtSR_res;
 	else  // merge uas_res into result
 	    DtSR_result->merge(DtSR_res);
     }
 
-    if (DtSR_result == (int)NULL)
+    if (DtSR_result == (int)0)
 	UAS_result = new UAS_SearchResults(new UAS_String(oql),
 					new UAS_String(scope.name()));
 
 
-    if (UAS_result == (int)NULL) {
-	assert( DtSR_result != (int)NULL );
+    if (UAS_result == (int)0) {
+	assert( DtSR_result != (int)0 );
 	UAS_result = (UAS_SearchResults*)(DtSR_SearchResults*)DtSR_result;
     }
 
-    assert( UAS_result != (int)NULL );
+    assert( UAS_result != (int)0 );
 
     if (current_bc != 0) {
 	targets.remove(current_bc);
@@ -750,7 +750,7 @@ DtSR_SearchEngine::compress_DtSrResult(DtSrResult*& res, long& count)
 	char* abstract = iter->abstractp;
 	UAS_Pointer<UAS_String> id, book, section;
 	if (DtSR_SearchResultsEntry::
-		parse_abstract(abstract, id, book, section) == (int)NULL) {
+		parse_abstract(abstract, id, book, section) == (int)0) {
 #ifdef DEBUG
 	    fprintf(stderr, "parse_abstract failed\n");
 	    abort();
@@ -759,7 +759,7 @@ DtSR_SearchEngine::compress_DtSrResult(DtSrResult*& res, long& count)
 	}
 	UAS_String Id(*(UAS_String*)id);
 	UAS_Pointer<DtSR_SearchResultsEntry>& sre = map[Id];
-	if (sre == (int)NULL) { // not found in map, create one
+	if (sre == (int)0) { // not found in map, create one
 #ifdef DEBUG
 	    cerr << "(DEBUG) " << (char*)Id <<  ' ' <<
 				"not found in map" << '\n' << flush;

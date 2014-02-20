@@ -105,7 +105,7 @@ SysErrorMsg(
    int n
    )
 {
-#if !defined(linux) && !defined(__FreeBSD__)
+#if !defined(linux) && !defined(__FreeBSD__) && !defined(__NetBSD__)
     extern char *sys_errlist[];
     extern int sys_nerr;
 #endif

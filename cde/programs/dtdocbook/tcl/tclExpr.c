@@ -392,7 +392,11 @@ ExprParseString(interp, string, valuePtr)
 	    }
 	} else {
 	    errno = 0;
+#ifdef __NetBSD__
+	    valuePtr->doubleValue = (double)strtof(string, &term);
+#else
 	    valuePtr->doubleValue = strtod(string, &term);
+#endif
 	    if ((term != string) && (*term == 0)) {
 		if (errno != 0) {
 		    Tcl_ResetResult(interp);
@@ -496,7 +500,11 @@ ExprLex(interp, infoPtr, valuePtr)
 	    return TCL_OK;
 	} else {
 	    errno = 0;
+#ifdef __NetBSD__
+	    valuePtr->doubleValue = (double)strtof(p, &term);
+#else
 	    valuePtr->doubleValue = strtod(p, &term);
+#endif
 	    if (term != p) {
 		if (errno != 0) {
 		    TclExprFloatError(interp, valuePtr->doubleValue);

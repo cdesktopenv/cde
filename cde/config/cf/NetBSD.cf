@@ -4,50 +4,36 @@ XCOMM platform:  $XConsortium: NetBSD.cf /main/16 1996/10/31 14:47:14 kaleb $
 
 XCOMM platform:  $XFree86: xc/config/cf/NetBSD.cf,v 3.44 1996/10/23 13:07:55 dawes Exp $
 
-#ifndef OpenBSDArchitecture
-
 #ifndef OSName
-#define OSName		NetBSD 1.2
+#define OSName			DefaultOSName
 #endif
 #ifndef OSMajorVersion
-#define OSMajorVersion    1
+#define OSMajorVersion		DefaultOSMajorVersion
 #endif
 #ifndef OSMinorVersion
-#define OSMinorVersion    2
+#define OSMinorVersion		DefaultOSMinorVersion
 #endif
 /* 1 = A, 2 = B, 3 = C */
 #ifndef OSTeenyVersion
-#define OSTeenyVersion	  0
+#define OSTeenyVersion		DefaultOSTeenyVersion
 #endif
 
-#else
-
-#ifndef OSName
-#define OSName		OpenBSD 2.0
-#endif
-#ifndef OSMajorVersion
-#define OSMajorVersion    2
-#endif
-#ifndef OSMinorVersion
-#define OSMinorVersion    0
-#endif
-/* 1 = A, 2 = B, 3 = C */
-#ifndef OSTeenyVersion
-#define OSTeenyVersion	  0
-#endif
-
-#endif
 
 #ifndef OSVendor
 #define	OSVendor	/**/
 #endif
 XCOMM operating system:  OSName
 
+#define LibDir			/usr/X11R7/lib/X11
+#define UsrLibDir		/usr/X11R7/lib
+#define ManDirectoryRoot	/usr/X11R7/man
+#define FontDir			/usr/X11R7/lib/X11/fonts
+#define FontEncDir		/usr/X11R7/lib/X11/fonts/encodings
+
 /*
  * C library features
  */
-#if defined(OpenBSDArchitecture) || \
-   defined(NetBSDArchitecture) && (OsMajorVersion == 1 && OsMinorVersion >= 2)
+#if defined(NetBSDArchitecture) && (OsMajorVersion == 1 && OsMinorVersion >= 2)
 #  define HasPoll			YES
 #endif
 #define HasNdbm         	YES
@@ -75,7 +61,7 @@ XCOMM operating system:  OSName
 /*
  * There's a bug in NetBSD 1.0, 1.1 and 1.2 dlsym()
  */
-#if !defined(OpenBSDArchitecture) && OSMajorVersion == 1 && OSMinorVersion <= 2
+#if OSMajorVersion == 1 && OSMinorVersion <= 2
 #  define HasDlsymBug		YES
 #endif
 
@@ -92,11 +78,6 @@ XCOMM operating system:  OSName
 #define UseGas			YES
 #define GnuCpp			YES
 
-/* OpenBSD has gcc 2.7.2.1 which fixes the strength-reduce bug */
-#ifdef OpenBSDArchitecture
-#define DefaultGcc2i386Opt	-O2
-#endif
-
 #define NeedConstPrototypes	YES
 #define NeedFunctionPrototypes	YES
 #define NeedNestedPrototypes	YES
@@ -105,29 +86,29 @@ XCOMM operating system:  OSName
 
 #define MkdirHierCmd		mkdir -p
 
-#define CppCmd          	/usr/libexec/cpp
+#define PerlCmd			/usr/pkg/bin/perl
+
+#define CppCmd          	/usr/bin/cpp
 #define StandardCppDefines	-traditional
 #define PreProcessCmd   	CppCmd
-#ifndef OpenBSDArchitecture
 #define PreIncDir		/usr/include
-#else
-#define PreIncDir /usr/lib/gcc-lib/i386-unknown-openbsd1.2/2.7.2.1/include
-#endif
 
 #undef CcCmd
 #define CcCmd 			gcc
 #if UseInstalled
 #define DefaultCCOptions 	/**/
 #else
-#define DefaultCCOptions 	-ansi -Dasm=__asm
+#define DefaultCCOptions 	-pipe
 #endif
+
+#define CplusplusLibC		-lm -lstdc++
 
 #define GccGasOption 		-DGCCUSESGAS
 #define AsmDefines 		-DUSE_GAS
 
 
 #ifdef i386Architecture
-# define OptimizedCDebugFlags 	-m486 DefaultGcc2i386Opt
+# define OptimizedCDebugFlags 	-O2
 # if OSMajorVersion < 1
 #  define ServerOSDefines	XFree86ServerOSDefines -DDDXTIME -DXNO_SYSCONF
 # else
@@ -166,11 +147,7 @@ XCOMM operating system:  OSName
 #define ExtraLibraries		/**/
 #endif
 #ifndef UseGnuMalloc
-#ifndef OpenBSDArchitecture
-#  define UseGnuMalloc		YES
-#else
-#  define UseGnuMalloc		NO
-#endif
+# define UseGnuMalloc		YES
 #endif
 #ifndef GnuMallocLibrary
 #define GnuMallocLibrary	-lgnumalloc
@@ -188,6 +165,7 @@ XCOMM operating system:  OSName
 #define CompressAllFonts	YES
 #define DefaultUserPath		.:/bin:/usr/bin:/usr/local/bin:$(BINDIR)
 #define DefaultSystemPath	/sbin:/usr/sbin:/bin:/usr/bin:$(BINDIR)
+#define BuildLibPathVar		LD_LIBRARY_PATH
 
 #ifdef  InstallCmd
 # undef  InstallCmd
@@ -228,60 +206,6 @@ dirs:	.EXEC								@@\
 									@@\
 .EXEC:
 
-XCOMM Man pages need to be formatted when installed, so override the default
-XCOMM imake rules.
-
-#define ManSuffix	1
-#define FileManSuffix	5
-#define ManSourcePath	$(MANPATH)/cat
-
-#define InstallManPageLong(file,destdir,dest)                           @@\
-all:: file.0								@@\
-									@@\
-file.0:: file.man							@@\
-	@if [ -f file.man ]; \						@@\
-	then \								@@\
-	cat file.man | $(NEQN) | $(TBL) | $(NROFF) $(MANMACROS) | $(COL) >/tmp/$$$$.man; \	@@\
-	cp /tmp/$$$$.man file.0; \					@@\
-	$(RM) /tmp/$$$$.man; \						@@\
-	fi 								@@\
-									@@\
-install.man::                                                           @@\
-	MakeDir($(DESTDIR)destdir)					@@\
-	-@if [ -f file.0 ]; \						@@\
-	then \								@@\
-	$(INSTALL) -c $(INSTMANFLAGS) file.0 $(DESTDIR)destdir/dest.0; \@@\
-	fi
-
-#define InstallGenManPageLong(file,destdir,dest,suffix)			@@\
-	InstallManPageLong(file,destdir,dest)
-
-#define InstallMultipleManSuffix(list,dest,suff)                        @@\
-install.man:: 								@@\
-	MakeDir($(DESTDIR)dest)						@@\
-	case '${MFLAGS}' in *[i]*) set +e;; esac; \			@@\
-	for i in list; do \                                             @@\
-	  (set -x; \							@@\
-	  cat $$i.suff | $(NEQN) | $(TBL) | $(NROFF) $(MANMACROS) | $(COL) >/tmp/$$$$.suff; \	@@\
-	  $(INSTALL) -c $(INSTMANFLAGS) /tmp/$$$$.suff $(DESTDIR)dest/$$i.0; \	@@\
-	  $(RM) /tmp/$$$$.suff); \						@@\
-	done
-
-#define InstallMultipleMan(list,dest)                                   @@\
-	InstallMultipleManSuffix(list,dest,man)
-
-#define InstallManPageAliases(file,destdir,aliases)                     @@\
-install.man:: 								@@\
-	@case '${MFLAGS}' in *[i]*) set +e;; esac; \                    @@\
-	for i in aliases; do \                                          @@\
-		(set -x; \						@@\
-		$(RM) $(DESTDIR)destdir/$$i.0;\  			@@\
-		(cd $(DESTDIR)/destdir; $(LN) file.0 $$i.0);\ 		@@\
-		); \							@@\
-	done
-
-#define InstallGenManPageAliases(file,destdir,suffix,aliases)		@@\
-	InstallManPageAliases(file,destdir,aliases)
 
 #include <bsdLib.rules>
 
@@ -325,4 +249,62 @@ install.man:: 								@@\
 sed 's/\.[0-9]*$$//'`
 #define SharedXtReqs $(XLIBONLY) $(SMLIB) $(ICELIB)
 #define SharedXmuReqs $(LDPRELIB) $(XTOOLONLYLIB) $(XONLYLIB) $(EXTENSIONLIB)
+#endif
+
+
+/* For DtHelp TIFF processing routines. */
+#ifdef AMD64Architecture
+#define LSBBitOrder             YES
+#endif
+
+#ifdef ARMArchitecture
+#define LSBBitOrder             YES
+#endif
+
+#ifdef i386Architecture
+#define LSBBitOrder             YES
+#endif
+
+
+/*
+ * Generic settings for all architectures
+ * which can be overridden by architecture specific sections above
+ */
+
+#ifdef HasGcc2
+CXXDEPENDINCLUDE != CppCmd -x c++ -Wp,-v < /dev/null \
+		    2>&1 | sed -n 's/ \(.*[cg]++.*\)/-I\1/p'
+#define CplusplusDependIncludes	$(CXXDEPENDINCLUDE)
+#endif
+
+#ifndef StandardIncludes
+# define StandardIncludes	-I/usr/pkg/include -I/usr/local/include
+#endif
+
+#ifndef MTop
+#define MTop			$(TOP)/imports/motif
+#endif
+
+#ifndef TopMotifInclude
+# define TopMotifInclude	/usr/pkg/include
+#endif
+
+#ifndef ExtraLoadFlags
+# define ExtraLoadFlags -Wl,-rpath,$(USRLIBDIRPATH):$(CDE_INSTALLATION_TOP)/lib
+#endif
+
+#ifndef SharedTtReqs
+# define SharedTtReqs $(LDPRELIBS) SharedXReqs $(CXXLIB) -Wl,-rpath,$(USRLIBDIRPATH)
+#endif
+
+#ifndef SharedDtSvcReqs
+# define SharedDtSvcReqs $(LDPRELIBS) SharedXReqs $(CXXLIB) -Wl,-rpath,$(USRLIBDIRPATH)
+#endif
+
+#ifndef SharedCsaReqs
+# define SharedCsaReqs -lXt $(LDPOSTLIBS) -Wl,-rpath,$(USRLIBDIRPATH)
+#endif
+
+#ifndef KornShell
+#define KornShell		/usr/pkg/bin/ksh93
 #endif

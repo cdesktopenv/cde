@@ -132,7 +132,7 @@ UAS_Pointer<UAS_Common> &
 Mark_mmdb::doc_ptr()
 {
   // If the doc_ptr isn't known yet, find it. 
-  if (f_doc_ptr == (const int)NULL)
+  if (f_doc_ptr == (const int)0)
     {
       UAS_String url = "mmdb:LOCATOR=";
 
