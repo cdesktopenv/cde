@@ -528,11 +528,15 @@ time_t cm_getdate(char *p, struct timeb *now)
 	lptr = p;
 	if (now == ((struct timeb *) NULL)) {
 		now = &ftz;
-#ifdef SVR4
+#if defined(SVR4) || defined(__OpenBSD__)
 		tod = time(0);
 		lt = localtime(&tod);
 		now->time = lt->tm_sec;
+#ifdef __OpenBSD__
+		now->timezone = lt->tm_gmtoff / 60;
+#else
 		now->timezone = timezone/60;
+#endif
 #else
 		ftime(&ftz);
 #endif /* SVR4 */

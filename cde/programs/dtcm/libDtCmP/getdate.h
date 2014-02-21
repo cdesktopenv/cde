@@ -52,7 +52,7 @@
 #ifndef _GETDATE_H
 #define _GETDATE_H
 
-#ifdef USG
+#if defined(USG) || defined(__OpenBSD__)
 struct timeb
 {
         time_t  time;
