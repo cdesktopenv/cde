@@ -128,6 +128,8 @@ recurse(fs, x, y, l)
 	    return False;
 
 	if (x > -1.0 && x < 1.0 && y > -1.0 && y < 1.0) {
+	    fs->pts[fs->num_points].x = (int) ((fs->width / 2) * (x + 1.0));
+	    fs->pts[fs->num_points].y = (int) ((fs->height / 2) * (y + 1.0));
 	    fs->num_points++;
 	    if (fs->num_points > MAXBATCH) {	/* point buffer size */
 		XDrawPoints(dsp, fs->pwin->w, fs->pwin->gc, fs->pts,
