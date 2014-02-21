@@ -96,7 +96,7 @@ static XrmOptionDescRec options[] =
 };
 
 extern "C" {
-   extern void XmeRenderTableGetDefaultFont(XmFontList, XFontStruct **);
+   extern Boolean XmeRenderTableGetDefaultFont(XmFontList, XFontStruct **);
 } 
 
 Application::Application(char *name,
@@ -151,9 +151,12 @@ Application::Application(char *name,
 	   {
 	     XmFontType _type_return;
 	     fs = (XFontStruct *)XmFontListEntryGetFont(entry, &_type_return);
-	     if (_type_return != XmFONT_IS_FONT)
+	     if (_type_return != XmFONT_IS_FONT) {
 	       XmeRenderTableGetDefaultFont(userFont, &fs);
-	     font = fs->fid;
+	     }
+	     if (fs) {
+	       font = fs->fid;
+	     }
 	   }
 	 XmFontListFreeFontContext(context);
        }

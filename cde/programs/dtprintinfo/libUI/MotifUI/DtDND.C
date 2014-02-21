@@ -93,7 +93,9 @@ DtDND::DtDND(MotifUI *_obj, DNDCallback _dndCB, boolean _can_drop_on_root)
       gc = XCreateGC(tmp->display, tmp_pixmap, 0, NULL);
       tmp_pixmap = XCreatePixmap(tmp->display, tmp->root, 1, 1, 1);
       gc_mask = XCreateGC(tmp->display, tmp_pixmap, 0, NULL);
-      XSetFont(tmp->display, gc, tmp->font);
+      if (tmp->font) {
+	XSetFont(tmp->display, gc, tmp->font);
+      }
       FirstTime = false;
     }
 
