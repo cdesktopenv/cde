@@ -1027,8 +1027,13 @@ else if (G_ClockHandGC (g))
 
 /*	Get clock hand GC.
 */
-font_rtn = XmeRenderTableGetDefaultFont (G_FontList (g), &font);
-value_mask = GCForeground | GCFont | GCFillStyle;
+
+value_mask = GCForeground | GCFillStyle;
+
+if (XmeRenderTableGetDefaultFont (G_FontList (g), &font)) {
+  value_mask |= GCFont;
+  values.font = font->fid;
+}
 
 if (((G_PixmapForeground (g) == WhitePixelOfScreen (XtScreen (g))) &&
      (G_PixmapBackground (g) == BlackPixelOfScreen (XtScreen (g)))) ||
@@ -1038,7 +1043,7 @@ if (((G_PixmapForeground (g) == WhitePixelOfScreen (XtScreen (g))) &&
 else
     values.foreground = mw->manager.top_shadow_color;
 values.fill_style = FillSolid;
-values.font = font->fid;
+
 
 G_ClockHandGC (g) = XtGetGC ((Widget) mw, value_mask, &values);
 

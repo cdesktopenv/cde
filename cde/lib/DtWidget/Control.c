@@ -1716,7 +1716,6 @@ UpdateGCs(
   XtGCMask		value_mask;
   XmManagerWidget	mw = (XmManagerWidget) XtParent(g);
   XFontStruct *		font;
-  Boolean		font_rtn;
   
   if (!G__DoUpdate (g))
     return;
@@ -1736,16 +1735,19 @@ UpdateGCs(
   
   /*	Get normal GC.
    */
-  font_rtn = XmeRenderTableGetDefaultFont (G_FontList (g), &font);
-  value_mask = GCForeground | GCBackground | GCFont | GCFillStyle;
+  value_mask = GCForeground | GCBackground | GCFillStyle;
+  if (XmeRenderTableGetDefaultFont (G_FontList (g), &font)) {
+    value_mask |= GCFont;
+    values.font = font->fid;
+  }
+
   if (G_UseEmbossedText (g))
     values.foreground = WhitePixelOfScreen (XtScreen (g));
   else
     values.foreground = G_Foreground (g);
   values.background = G_Background (g);
-  
   values.fill_style = FillSolid;
-  values.font = font->fid;
+
   G_NormalGC (g) = XtGetGC ((Widget)mw, value_mask, &values);
   
   /*	Get top shadow GC.
