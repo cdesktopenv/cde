@@ -1683,7 +1683,6 @@ ReadDirectoryProcess(
 
      }
      XtFree( (char *)position_info );
-     fclose(fptr);
    }
 
    XtFree(full_directory_name);
