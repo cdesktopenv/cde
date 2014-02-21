@@ -96,6 +96,8 @@ public :
       }
    }
 
+   WArgList(const WArgList &r);
+
    inline ArgList	Args() const	{ return args; }
    inline Cardinal	NumArgs() const { return num_args; }
    inline void		Reset()		{ num_args = 0; }

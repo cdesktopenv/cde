@@ -162,6 +162,14 @@ WArgList::WArgList (String name, XtArgVal value, ...)
 	va_end (argv);
 }
 
+WArgList::WArgList(const WArgList &r)
+{
+	num_args = r.num_args;
+	alloc_args = num_args;
+	args = new Arg[num_args];
+	memcpy(args, r.args, sizeof(Arg)*num_args);
+}
+
 /*?nodoc?*/
 Arg&
 WArgList::Grow (Cardinal n)
