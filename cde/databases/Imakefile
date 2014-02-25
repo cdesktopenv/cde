@@ -192,10 +192,15 @@ DBS = \
 clean::
 	$(RM) *.db
 
+
+#if defined UTF8_NLS_SUPPORT
+# define UTF8_NLS_SUPPORT_OPT -DUTF8_NLS_SUPPORT
+#endif
+
 /*
  * Default locale (C)
  */
-LOC_CPP_LIST = $(UDB_CPP_UNDEF_LIST) -D_ENGLISH_
+LOC_CPP_LIST = $(UDB_CPP_UNDEF_LIST) -D_ENGLISH_ UTF8_NLS_SUPPORT_OPT
 CppSourceFile(CDE-LOC-C.tmp,CDE-LOC.src,$(LOC_CPP_LIST),)
 CppSourceFile(CDE-HELP-LOC-C.tmp,CDE-HELP-LOC.src,$(LOC_CPP_LIST),)
 CppSourceFile(CDE-MSG-LOC-C.tmp,CDE-MSG-LOC.src,$(LOC_CPP_LIST),)
