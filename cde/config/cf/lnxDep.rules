@@ -1,0 +1,37 @@
+XCOMM dependency handling for linux, included by linux.cf.
+XCOMM We do not want builds to fail if dependencies cannot
+XCOMM be generated.  In some cases, checking will always fail
+XCOMM because the relevant files have not been generated yet.
+XCOMM Not ignoring errors can cause make to go into an infinite
+XCOMM loop during depend processing.
+XCOMM
+
+#ifndef DependDependency
+#define DependDependency() /**/
+#endif
+
+#ifdef DependTarget
+# undef DependTarget
+#endif
+
+#define DependTarget()                                                  @@@@\
+DependDependency()                                                      @@@@\
+                                                                        @@@@\
+depend:: DependFileName                                                 @@@@\
+                                                                        @@@@\
+DependFileName::                                                        @@@@\
+	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) $(SRCS)) > $@
+
+#ifdef DependTarget3
+# undef DependTarget3
+#endif
+
+#define DependTarget3(srcs1,srcs2,srcs3)                                @@@@\
+DependDependency()                                                      @@@@\
+                                                                        @@@@\
+depend:: DependFileName                                                 @@@@\
+                                                                        @@@@\
+DependFileName::                                                        @@@@\
+	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) srcs1) > $@   @@@@\
+	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) srcs2) >> $@  @@@@\
+	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) srcs3) >> $@

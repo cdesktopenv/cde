@@ -259,40 +259,8 @@ XCOMM This is needed for CDE currently
 
 #define ArchitectureDefines	-DLINUX_ARCHITECTURE
 
-XCOMM dependency handling
-#ifndef DependDependency
-#define DependDependency() /**/
-#endif
-
-#ifdef DependTarget
-# undef DependTarget
-#endif
-
-#define DependTarget()                                                  @@@@\
-DependDependency()                                                      @@@@\
-                                                                        @@@@\
-depend:: DependFileName                                                 @@@@\
-                                                                        @@@@\
-DependFileName::                                                        @@@@\
-	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) $(SRCS)) > $@
-
-#ifdef DependTarget3
-# undef DependTarget3
-#endif
-
-#define DependTarget3(srcs1,srcs2,srcs3)                                @@@@\
-DependDependency()                                                      @@@@\
-                                                                        @@@@\
-depend:: DependFileName                                                 @@@@\
-                                                                        @@@@\
-DependFileName::                                                        @@@@\
-	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) srcs1) > $@   @@@@\
-	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) srcs2) >> $@  @@@@\
-	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) srcs3) >> $@
-
-
-
 #define TtClientLibs $(TTLIB) $(TIRPCLIB) $(XTOOLLIB) $(XLIB)
 #define TtClientDepLibs $(DEPTTLIB) $(DEPXTOOLLIB) $(DEPXLIB)
 
+#include <lnxDep.rules>
 #include <lnxLib.rules>
