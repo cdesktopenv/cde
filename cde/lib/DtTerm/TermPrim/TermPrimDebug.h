@@ -31,6 +31,9 @@
  */
 #ifndef	_Dt_TermPrimDebug_h
 #define	_Dt_TermPrimDebug_h
+
+#include <stdio.h>
+
 #define	isDebugFSet	_DtTermPrimIsDebugFSet
 #define	isDebugSet(c)	isDebugFSet((c), 0)
 #define	setDebugFlags	_DtTermPrimSetDebugFlags
