@@ -49,8 +49,8 @@ public:
   void swap(IList<T> &list) { IListBase::swap(list); }
   T *head() const { return (T *)IListBase::head(); }
   T *get() { return (T *)IListBase::get(); }
-  IListBase::clear;
-  IListBase::empty;
+  using IListBase::clear;
+  using IListBase::empty;
 friend class IListIter<T>;
 private:
   IList(const IList<T> &) {}

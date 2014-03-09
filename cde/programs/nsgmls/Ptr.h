@@ -99,8 +99,8 @@ public:
   const T *operator->() const { return Ptr<T>::pointer(); }
   const T &operator*() const { return *Ptr<T>::pointer(); }
   void swap(ConstPtr<T> &p) { Ptr<T>::swap(p); }
-  Ptr<T>::isNull;
-  Ptr<T>::clear;
+  using Ptr<T>::isNull;
+  using Ptr<T>::clear;
   Boolean operator==(const Ptr<T> &p) const { return Ptr<T>::operator==(p); }
   Boolean operator!=(const Ptr<T> &p) const { return Ptr<T>::operator!=(p); }
   Boolean operator==(const ConstPtr<T> &p) const {

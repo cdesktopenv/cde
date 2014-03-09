@@ -85,15 +85,15 @@ public:
   Parser(const SgmlParser::Params &);
   Event *nextEvent();
   void parseAll(EventHandler &, SP_CONST SP_VOLATILE sig_atomic_t *cancelPtr);
-  ParserState::sdPointer;
-  ParserState::instanceSyntaxPointer;
-  ParserState::prologSyntaxPointer;
-  ParserState::activateLinkType;
-  ParserState::allLinkTypesActivated;
-  ParserState::entityManager;
-  ParserState::entityCatalog;
-  ParserState::baseDtd;
-  ParserState::options;
+  using ParserState::sdPointer;
+  using ParserState::instanceSyntaxPointer;
+  using ParserState::prologSyntaxPointer;
+  using ParserState::activateLinkType;
+  using ParserState::allLinkTypesActivated;
+  using ParserState::entityManager;
+  using ParserState::entityCatalog;
+  using ParserState::baseDtd;
+  using ParserState::options;
 private:
   Parser(const Parser &);	// undefined
   void operator=(const Parser &); // undefined
