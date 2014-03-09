@@ -76,6 +76,17 @@ XCOMM binutils:  (LinuxBinUtilsMajorVersion)
 #define HasPutenv		YES
 #define HasShm			YES
 #define HasSockets		YES
+
+#define HasMakefileSafeInclude  YES
+#define DependFileName .depend
+#define DependCmd $(CC) -E -MM -MG
+
+#ifdef IncludeMakefile
+# undef IncludeMakefile
+#endif
+
+#define IncludeMakefile(file) -include file
+
 #if (LinuxDistribution == LinuxRedHat)
 # define HasZlib		YES
 #endif
@@ -190,8 +201,6 @@ TIRPCLIB =
 #  define HasPlugin		YES
 #  define VendorHasX11R6_3libXext	YES	/* XC or XFree86 3.3.1 */
 # endif
-/* add this to void screenfuls of warnings from makedepend */
-# define DependFlags -I/usr/include/i386-linux-gnu
 #endif /* i386Architecture */
 
 #ifdef AMD64Architecture
@@ -204,8 +213,6 @@ TIRPCLIB =
 #  define HasPlugin		YES
 #  define VendorHasX11R6_3libXext	YES	/* XC or XFree86 3.3.1 */
 # endif
-/* add this to void screenfuls of warnings from makedepend */
-# define DependFlags -I/usr/include/x86_64-linux-gnu
 #endif /* AMD64Architecture */
 
 #ifdef PpcArchitecture
@@ -223,13 +230,6 @@ TIRPCLIB =
 # define LinuxMachineDefines	-D__mc68000__
 # define StandardCppDefines      -traditional 
 #endif /* Mc68020Architecture */
-
-#ifdef HasGcc2
-CXXDEPENDINCLUDE = $(shell CppCmd -x c++ -Wp,-v < /dev/null \
-		   2>&1 | sed -n 's/ \(.*[cg]++.*\)/-I\1/p')
-#define CplusplusDependIncludes	$(CXXDEPENDINCLUDE)
-#endif
-#define DependDefines		-D_SYS_RESOURCE_H -D_SYS_UTSNAME_H
 
 #define StandardDefines		-Dlinux LinuxMachineDefines LinuxSourceDefines
 
@@ -259,6 +259,39 @@ XCOMM This is needed for CDE currently
 #endif
 
 #define ArchitectureDefines	-DLINUX_ARCHITECTURE
+
+XCOMM different dependancy handling
+#ifndef DependDependency
+#define DependDependency() /**/
+#endif
+
+#ifdef DependTarget
+# undef DependTarget
+#endif
+
+#define DependTarget()                                                  @@@@\
+DependDependency()                                                      @@@@\
+                                                                        @@@@\
+depend:: DependFileName                                                 @@@@\
+                                                                        @@@@\
+DependFileName::                                                        @@@@\
+	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) $(SRCS)) > $@
+
+#ifdef DependTarget3
+# undef DependTarget3
+#endif
+
+#define DependTarget3(srcs1,srcs2,srcs3)                                @@@@\
+DependDependency()                                                      @@@@\
+                                                                        @@@@\
+depend:: DependFileName                                                 @@@@\
+                                                                        @@@@\
+DependFileName::                                                        @@@@\
+	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) srcs1) > $@   @@@@\
+	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) srcs2) >> $@  @@@@\
+	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) srcs3) >> $@
+
+
 
 #define TtClientLibs $(TTLIB) $(TIRPCLIB) $(XTOOLLIB) $(XLIB)
 #define TtClientDepLibs $(DEPTTLIB) $(DEPXTOOLLIB) $(DEPXLIB)
