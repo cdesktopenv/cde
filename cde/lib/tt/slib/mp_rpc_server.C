@@ -244,8 +244,7 @@ init(void (*service_fn)(struct svc_req *, SVCXPRT *))
 	(void)endnetconfig(handlep);
 #endif				/* OPT_TLI */
 	// now figure out what fd the rpc package is using
-	int maxfds = _tt_global->maxfds();
-	for (int i=0; i < maxfds; i++) {
+	for (int i=0; i < FD_SETSIZE; i++) {
 		if (FD_ISSET(i, &svc_fdset)) {
 			_rpc_fd = i;
 		}
