@@ -433,6 +433,7 @@ PdmNotifyCB(Widget pr_shell, XtPointer client_data, XtPointer call_data)
     RCS_DEBUG("PdmNotifyCB called.\n");   
     char *msg;
 
+#if defined(PRINTING_SUPPORTED)
     XmPrintShellCallbackStruct* pr_cbs = 
 	(XmPrintShellCallbackStruct*) call_data;
     
@@ -446,7 +447,7 @@ PdmNotifyCB(Widget pr_shell, XtPointer client_data, XtPointer call_data)
     }
  
     RCS_DEBUG("PdmNotifyCB exiting.\n");   
-
+#endif  /* PRINTING_SUPPORTED */
 }
 
 /*
@@ -465,6 +466,7 @@ CreatePrintShell(Widget widget, AppPrintData* p)
     char buf[BUFSIZ];
     
     RCS_DEBUG("CreatePrintShell called.\n");   
+#if defined(PRINTING_SUPPORTED)
 
     /*
      * create a print_shell if none available.  the print dialog callback
@@ -504,7 +506,7 @@ CreatePrintShell(Widget widget, AppPrintData* p)
 	}
 
     }
-
+#endif  /* PRINTING_SUPPORTED */
     RCS_DEBUG("CreatePrintShell exiting.\n");   
 
 }
@@ -524,6 +526,7 @@ PrintSetupCB(Widget print_dialog, XtPointer client_data, XtPointer call_data)
     char *msg;
 
     RCS_DEBUG("PrintSetupCB called.\n");   
+#if defined(PRINTING_SUPPORTED)
 
 
     AppPrintData *p = (AppPrintData*)client_data;
@@ -551,6 +554,7 @@ PrintSetupCB(Widget print_dialog, XtPointer client_data, XtPointer call_data)
     // Free the setup data - use fresh data when Print button pressed.
     DtPrintFreeSetupData(p->f_print_data);
 
+#endif  /* PRINTING_SUPPORTED */
     RCS_DEBUG("PrintSetupCB exiting.\n");   
 }
 
@@ -807,14 +811,18 @@ FinishPrintToFile(Display *display,
 void 
 DoPrint(Widget widget, AppPrintData * p) 
 {
+#if defined(PRINTING_SUPPORTED)
     int save_data = XPSpool;
     char *msg;
 
     xList<UAS_Pointer<UAS_Common> > &print_list = *(p->f_print_list);
     Xassert (print_list.length() > 0);    
 
+#endif  /* PRINTING_SUPPORTED */
+
     RCS_DEBUG("DoPrint called.\n");   
 
+#if defined(PRINTING_SUPPORTED)
     // create print shell, if not done yet 
     CreatePrintShell(widget, p);
 
@@ -912,6 +920,7 @@ DoPrint(Widget widget, AppPrintData * p)
 
     }
 
+#endif  /* PRINTING_SUPPORTED */
     RCS_DEBUG("DoPrint exiting.\n");   
 
 }
