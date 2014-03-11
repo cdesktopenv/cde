@@ -871,6 +871,7 @@ clearSetupData(_DtCmPrintData *pd)
 static void
 createPrintShell(Calendar *c)
 {
+#if defined(PRINTING_SUPPORTED)
   _DtCmPrintData *pd = (_DtCmPrintData *)c->print_data;
 
 #ifdef GR_DEBUG
@@ -895,6 +896,7 @@ createPrintShell(Calendar *c)
     XtAddCallback(pd->printShell, XmNpdmNotificationCallback,
 		  pdm_notify_cb, (XtPointer)c);
   }
+#endif  /* PRINTING_SUPPORTED */
 }
 
 void
@@ -1251,6 +1253,7 @@ report_error(Calendar *c, char *title, char *errText)
 static void
 pdm_notify_cb(Widget w, XtPointer uData, XtPointer cbData)
 {
+#if defined(PRINTING_SUPPORTED)
   XmPrintShellCallbackStruct *cbStruct =
     (XmPrintShellCallbackStruct *)cbData;
   Calendar *c = (Calendar *)uData;
@@ -1278,6 +1281,7 @@ pdm_notify_cb(Widget w, XtPointer uData, XtPointer cbData)
     XtFree(title);
     XtFree(errText);
   }
+#endif  /* PRINTING_SUPPORTED */
 }
 
 /*
@@ -1327,6 +1331,7 @@ print_cb(Widget w, XtPointer data, XtPointer cbDataP)
 static void
 print_setup_cb(Widget w, XtPointer uData, XtPointer cbData)
 {
+#if defined(PRINTING_SUPPORTED)
   Calendar *c = (Calendar *)uData;
   _DtCmPrintData *pd = (_DtCmPrintData *)c->print_data;
   DtPrintSetupCallbackStruct *cbStruct =
@@ -1357,6 +1362,7 @@ print_setup_cb(Widget w, XtPointer uData, XtPointer cbData)
   }
 
   clearSetupData(pd);
+#endif  /* PRINTING_SUPPORTED */
 }
 
 /*

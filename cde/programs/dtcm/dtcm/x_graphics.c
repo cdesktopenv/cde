@@ -2228,6 +2228,8 @@ x_open_file(Calendar *c)
 			    NULL, 0);
 #endif
 
+#if defined(PRINTING_SUPPORTED)
+
 #ifdef GR_DEBUG
   if (!inDebugMode(c))
   {
@@ -2262,6 +2264,8 @@ x_open_file(Calendar *c)
 #ifdef GR_DEBUG
   }
 #endif
+#endif  /* PRINTING_SUPPORTED */
+
 
   nargs = 0;
 #ifdef SHELL_SIZE_BUG
