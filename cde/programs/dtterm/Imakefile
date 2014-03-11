@@ -29,6 +29,10 @@ DEPHELPLIB = $(DEPDTHELPLIB) $(DEPDTSVCLIB) $(DEPTTLIB)
 USE_XHPLIB = $(XHPLIB)
 #endif	/* HPArchitecture */
 
+#ifdef BSDArchitecture
+UTILLIB = -lutil
+#endif /* BSDArchitecture */
+
 /* DEPLIBS contains the list of library depencies for a client.
  * LOCAL_LIBRARIES contains the list of libraries on the link line.
  * Generally, the dependency form of a library has DEP as a prefix.
@@ -39,9 +43,9 @@ USE_XHPLIB = $(XHPLIB)
  *       paths to the library.
  */
 DEPLIBS = $(DEPDTTERMLIB) $(DEPARCHLIBS) $(DEPXINPUTLIB) $(DEPHELPLIB) \
-	$(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB) 
+	$(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXPLIB) $(DEPXLIB) $(DEPUTILLIB)
 LOCAL_LIBRARIES = $(DTTERMLIB) $(USE_XHPLIB) $(XINPUTLIB) $(HELPLIB) \
-	$(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB)
+	$(XMLIB) $(XTOOLLIB) $(XPLIB) $(XLIB) $(UTILLIB)
 SYS_LIBRARIES = DtClientSysLibs
 
 INCLUDES = -I. -I$(DTTERMSRC)/TermPrim -I$(DTTERMSRC)/Term -I$(DTTERMSRC)/TermView

@@ -116,7 +116,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 
-#if defined(__osf__) || defined(__OpenBSD__)
+#if defined(__osf__) || defined(CSRG_BASED)
 #include <sys/wait.h>
 #endif /* __osf__ */
 
@@ -975,7 +975,7 @@ XtActionsRec actionTable[] = {
 
 extern XtInputId ProcessToolTalkInputId;
 
-#if defined(__osf__) || defined(__OpenBSD__)
+#if defined(__osf__) || defined(CSRG_BASED)
 extern void sigchld_handler(int);
 #endif /* __osf__ */
 
@@ -1019,7 +1019,7 @@ main(
    Tt_pattern requests2Handle;
    Tt_message msg;
    Tt_status status;
-#if defined(__osf__) || defined(__OpenBSD__)
+#if defined(__osf__) || defined(CSRG_BASED)
    struct sigaction sa, osa;
 #endif /* __osf__ */
    int session_flag = 0;
@@ -1031,7 +1031,7 @@ main(
    (void) signal (SIGINT, (void (*)())Stop);
 
    /* We don't want any zombie children, do we? */
-#if defined(__osf__) || defined(__OpenBSD__)
+#if defined(__osf__) || defined(CSRG_BASED)
     sa.sa_handler = sigchld_handler;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags   =  0;
@@ -6292,7 +6292,7 @@ FinalizeToolTalkSession();
 exit (1);
 }
 
-#if defined(__osf__) || defined(__OpenBSD__)
+#if defined(__osf__) || defined(CSRG_BASED)
 extern void
 sigchld_handler(int signo)      /* Do not use the arg signo at the moment */
 {
