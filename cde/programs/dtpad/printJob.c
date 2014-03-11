@@ -374,6 +374,8 @@ _pjCreatePrintShell(PrintJob *pJob)
 	pJob->parentShell == NULL ||
 	pJob->pSetup == NULL) return;
 
+#if defined(PRINTING_SUPPORTED)
+    
     /*
      * Create the print shell and
      * the print output widgets
@@ -440,6 +442,8 @@ _pjCreatePrintShell(PrintJob *pJob)
 #endif
 
     if (pJob->pShell == NULL) return;
+#endif  /* PRINTING_SUPPORTED */
+
 }
 
 
@@ -585,6 +589,8 @@ _pjCreateOutputWidgets(PrintJob *pJob)
 static void
 _pjDoPrint(PrintJob *pJob)
 {
+#if defined(PRINTING_SUPPORTED)
+
     static char		buf[1024];
     static char 	*format;
     DtPrintSetupData    *psd = NULL;
@@ -651,6 +657,9 @@ _pjDoPrint(PrintJob *pJob)
         }
     }
 #endif
+#endif  /* PRINTING_SUPPORTED */
+
+
 }
 
 /************************************************************************
@@ -878,6 +887,7 @@ _pjPrintCB (Widget widget, XtPointer client_data, XtPointer call_data)
 static void
 _pjPdmSetupCB(Widget print_setup, XtPointer client_data, XtPointer call_data)
 {
+#if defined(PRINTING_SUPPORTED)
     char	*pname = "_pjPdmSetupCB";
     PrintJob	*pJob = (PrintJob *) client_data;
     DtPrintSetupCallbackStruct
@@ -899,6 +909,7 @@ _pjPdmSetupCB(Widget print_setup, XtPointer client_data, XtPointer call_data)
 	else
 	  fprintf(stderr, "Internal Error %s:  Missing XmPrintShell.", pname);
     }
+#endif  /* PRINTING_SUPPORTED */
 }
 
 
@@ -909,6 +920,7 @@ _pjPdmSetupCB(Widget print_setup, XtPointer client_data, XtPointer call_data)
 static void
 _pjPdmNotificationCB (Widget widget, XtPointer client_data, XtPointer call_data)
 {
+#if defined(PRINTING_SUPPORTED)
     PrintJob			*pJob = (PrintJob*) client_data;
     XmPrintShellCallbackStruct	*pscbs = (XmPrintShellCallbackStruct*)call_data;
     char			*message = NULL;
@@ -931,6 +943,7 @@ _pjPdmNotificationCB (Widget widget, XtPointer client_data, XtPointer call_data)
 
     if (message != NULL)
       Warning( pJob->pPad, message, XmDIALOG_WARNING);
+#endif  /* PRINTING_SUPPORTED */
 }
 
 
@@ -946,6 +959,7 @@ _pjPrintOnePageCB(
 		XtPointer call_data
 		)
 {
+#if defined(PRINTING_SUPPORTED)
     PrintJob	*pJob = (PrintJob *) client_data;
 
     XmPrintShellCallbackStruct  *pscbs = (XmPrintShellCallbackStruct*)call_data;
@@ -1049,4 +1063,6 @@ _pjPrintOnePageCB(
     if (pJob->npagesDone >= pJob->npagesTotal)
       pscbs->last_page = TRUE;
 #endif
+
+#endif /* PRINTING_SUPPORTED */
 }
