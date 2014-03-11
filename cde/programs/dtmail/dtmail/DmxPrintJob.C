@@ -310,6 +310,7 @@ DmxPrintJob::execute (void)
 void
 DmxPrintJob::createPrintShell (void)
 {
+#if defined(PRINTING_SUPPORTED)
     DtMailEnv		dmxenv;
     DtMail::Session	*d_session = theRoamApp.session()->session();
 
@@ -377,6 +378,8 @@ DmxPrintJob::createPrintShell (void)
                 &DmxPrintJob::pdmNotificationCB,
                 (XtPointer) this);
 #endif
+
+#endif  /* PRINTING_SUPPORTED */
 }
 
 
@@ -456,6 +459,7 @@ ok_cb(DtMailGenDialog *genDialog)
 void
 DmxPrintJob::doPrint (void)
 {
+#if defined(PRINTING_SUPPORTED)
     DtMailEnv		dmxenv;
     DtMail::Session	*d_session = theRoamApp.session()->session();
     XPSaveData		dest = XPSpool;
@@ -558,6 +562,7 @@ DmxPrintJob::doPrint (void)
         }
     }
 #endif
+#endif  /* PRINTING_SUPPORTED */
 }
 
 
@@ -665,6 +670,7 @@ DmxPrintJob::printOnePageCB(
 			XtPointer client_data,
 			XtPointer call_data)
 {
+#if defined(PRINTING_SUPPORTED)
     DmxPrintJob		*thisJob = (DmxPrintJob *) client_data;
 
     XmPrintShellCallbackStruct	*pscbs = (XmPrintShellCallbackStruct*)call_data;
@@ -810,6 +816,7 @@ DmxPrintJob::printOnePageCB(
     if (thisJob->_spool_npages_done >= thisJob->_spool_npages_total)
       pscbs->last_page = TRUE;
 #endif
+#endif  /* PRINTING_SUPPORTED */
 }
 
 
@@ -1062,6 +1069,7 @@ DmxPrintJob::pdmNotificationCB(
 			XtPointer client_data,
 			XtPointer call_data)
 {
+#if defined(PRINTING_SUPPORTED)
     DmxPrintJob			*thisJob = (DmxPrintJob *) client_data;
     XmPrintShellCallbackStruct  *pscbs = (XmPrintShellCallbackStruct*)call_data;
     char			*message = NULL;
@@ -1095,6 +1103,7 @@ DmxPrintJob::pdmNotificationCB(
                             NULL);
         delete genDialog;
     }
+#endif  /* PRINTING_SUPPORTED */
 }
 
 /*
@@ -1109,6 +1118,7 @@ DmxPrintJob::pdmSetupCB(
 		XtPointer client_data,
 		XtPointer call_data)
 {
+#if defined(PRINTING_SUPPORTED)
     DmxPrintJob *thisJob = (DmxPrintJob *) client_data;
     DtPrintSetupCallbackStruct *pbs = (DtPrintSetupCallbackStruct *) call_data;
 
@@ -1125,8 +1135,9 @@ DmxPrintJob::pdmSetupCB(
 	if (shell)
           XmPrintPopupPDM(thisJob->_pshell, shell);
 	else
-	  fprintf(stderr, "Internal Error %s:  Missing XmPrintShell\n");
+	  fprintf(stderr, "Internal Error:  Missing XmPrintShell\n");
     }
+#endif  /* PRINTING_SUPPORTED */
 }
 
 /*
