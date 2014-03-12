@@ -29,6 +29,10 @@
  */
 
 #include <EUSCompat.h>
+#define XOS_USE_NO_LOCKING
+#define X_INCLUDE_TIME_H
+#include <X11/Xos_r.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -42,12 +46,12 @@ set_timezone(char *tzname)
         static char tzenv[BUFSIZ];
  
         if (tzname==NULL)
-		system("unset TZ\n");
+                (void) putenv("TZ");
         else {
                 snprintf(tzenv, sizeof tzenv, "TZ=%s", tzname);
                 (void) putenv(tzenv);
-                tzset();
         }
+        tzset();
 }
 
 static int
@@ -166,11 +170,15 @@ _csa_tick_to_iso8601(time_t tick, char *buf_out)
 	time_t		tk=tick;
 	char 		tz_orig[BUFSIZ];
 	boolean_t	orig_tzset = B_FALSE;
+        _Xgtimeparams   gmtime_buf;
 
 	/* tick must be +ve to be valid */
 	if (tick < 0) {
 	   return(-1);
 	}
+
+	/* JET.  This is horrible. */
+#if !defined(linux) && !defined(CSRG_BASED)
 
 	if (getenv("TZ")) {
 		strncpy(tz_orig, getenv("TZ"), sizeof(tz_orig));
@@ -190,6 +198,11 @@ _csa_tick_to_iso8601(time_t tick, char *buf_out)
 		set_timezone(tz_orig);
 	else
 		set_timezone(NULL);
+
+#else 
+	/* let's use something a little more reasonable */
+        time_str = _XGmtime(&tk, gmtime_buf);
+#endif /* !linux && !CSGRC_BASED */
 
 	/* format string forces fixed width (zero-padded) fields */
 	sprintf(buf_out, "%04d%02d%02dT%02d%02d%02dZ",
