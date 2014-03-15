@@ -218,6 +218,12 @@ static void _DtmapCB_colorUse(
                         Widget w,
                         XtPointer client_data,
                         XtPointer call_data) ;
+static void colorEditorCB(
+                        Widget w,
+                        XtPointer client_data,
+                        XtPointer call_data) ;
+
+static void allocNewColors(void);
 static Boolean ValidName( char *name) ;
 void loadDatabase();
 
@@ -551,8 +557,9 @@ CreatePaletteButtons(
        XtSetArg (args[n], XmNrecomputeSize, False); n++; 
        XtSetArg (args[n], XmNwidth,  COLOR_BUTTON_WIDTH); n++; 
        XtSetArg (args[n], XmNheight, COLOR_BUTTON_HEIGHT); n++; 
-       /* allow traversal only if dynamicColor is on */
-       if (!style.dynamicColor)
+       /* allow traversal only if editing is possible */
+       if (style.dynamicColor || style.visualClass==TrueColor
+			|| style.visualClass==DirectColor)
        {
            XtSetArg (args[n], XmNtraversalOn, False); n++; 
        }
@@ -589,8 +596,9 @@ CreatePaletteButtons(
        string = CMPSTR("     ");
        XtSetArg (args[n], XmNlabelString, string); n++;
        colorButton[i] = XmCreatePushButton(paletteRc, "colorButton", args, n);
-       /* allow access to modify functionality only if dynamicColor is on */
-       if (style.dynamicColor)
+       /* allow access to modify functionality if available */
+       if (style.dynamicColor || style.visualClass==TrueColor
+			|| style.visualClass==DirectColor)
            XtAddCallback(colorButton[i], XmNactivateCallback, selectColorCB, 
                          (XtPointer)i);  
        XmStringFree(string);
@@ -600,14 +608,18 @@ CreatePaletteButtons(
     if(!save.restoreFlag)
        selected_button = 0;
 
-    /* draw selection border only if dynamicColor is on */
-    if (style.dynamicColor)
+    /* draw selection border if editing is possible */
+    if (style.dynamicColor || style.visualClass==TrueColor
+		|| style.visualClass==DirectColor)
     {
         n=0;
         XtSetArg (args[n], XmNborderColor, BlackPixelOfScreen(style.screen)); n++;
         XtSetValues(colorButton[selected_button],args,n);
     }
-    
+
+	if(style.visualClass==TrueColor || style.visualClass==DirectColor)
+		allocNewColors();
+
     style.count++;
 }
 
@@ -742,6 +754,77 @@ InitializePaletteList(
   style.count++;
   return(True);
 }
+
+/*
+ * Allocate new pixel values and update color palette buttons.
+ * This is needed for screens without dynamicColor.
+ */
+static void allocNewColors(void)
+{
+	int i, n;
+	Arg args[10];
+	static unsigned long   pixels[XmCO_MAX_NUM_COLORS*5];
+	static int       count = 0;
+
+	if(count)
+	{
+		/* free the cells from last selection */
+		XFreeColors(style.display, style.colormap, pixels, count, 0);
+		count=0;
+	}
+
+	for (i=0; i<pCurrentPalette->num_of_colors; i++)
+	{
+		n=0;
+		if (XAllocColor(style.display, style.colormap,
+			&(pCurrentPalette->color[i].fg)) == 0) break;
+		pixels[count++] = pCurrentPalette->color[i].fg.pixel;
+
+		if (XAllocColor(style.display, style.colormap,
+			&(pCurrentPalette->color[i].bg)) == 0) break;
+		pixels[count++] = pCurrentPalette->color[i].bg.pixel;
+		XtSetArg (args[n], XmNbackground,
+			pCurrentPalette->color[i].bg.pixel); n++;
+
+		if (XAllocColor(style.display, style.colormap,
+			&(pCurrentPalette->color[i].sc)) == 0)	break;
+		pixels[count++] = pCurrentPalette->color[i].sc.pixel;
+		XtSetArg (args[n], XmNarmColor,
+			pCurrentPalette->color[i].sc.pixel); n++;
+
+		if (UsePixmaps == FALSE)
+		{
+			if (XAllocColor(style.display, style.colormap,
+				&(pCurrentPalette->color[i].ts)) == 0) break;
+			pixels[count++] = pCurrentPalette->color[i].ts.pixel;
+			XtSetArg (args[n], XmNtopShadowColor,
+				pCurrentPalette->color[i].ts.pixel); n++;
+
+			if (XAllocColor(style.display, style.colormap,
+				&(pCurrentPalette->color[i].bs)) == 0) break;
+			pixels[count++] = pCurrentPalette->color[i].bs.pixel;
+			XtSetArg (args[n], XmNbottomShadowColor,
+				pCurrentPalette->color[i].bs.pixel); n++;
+		}
+		else	/* create pixmaps for top/bottom shadow */
+		{
+			XmDestroyPixmap(style.screen, edit.pixmap25);
+			XmDestroyPixmap(style.screen, edit.pixmap75);
+
+			edit.pixmap25 = XmGetPixmap (style.screen,
+				"50_foreground",pCurrentPalette->color[i].bg.pixel,
+				WhitePixelOfScreen(style.screen));
+
+			edit.pixmap75 = XmGetPixmap (style.screen,
+				"50_foreground",pCurrentPalette->color[i].bg.pixel,
+				BlackPixelOfScreen(style.screen));
+
+			XtSetArg (args[n], XmNtopShadowPixmap, edit.pixmap25); n++;
+			XtSetArg (args[n], XmNbottomShadowPixmap, edit.pixmap75); n++;
+		}
+		XtSetValues(colorButton[i], args, n);
+	}
+}
     
 /*
 **  This is the selection callback for the Scrolled list.
@@ -754,16 +837,13 @@ selectPaletteCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    register int     n,i;
+    register int     n;
     Arg              args[10];
     XmListCallbackStruct *cb = (XmListCallbackStruct *)call_data;
     palette         *tmp_palette;
     XmString         string;
     Pixel            white, black;
-    static unsigned long   pixels[XmCO_MAX_NUM_COLORS*5];
-    static int       count;
-    static Boolean   First = True;
-
+	static Boolean   First = True;
 
     white = WhitePixelOfScreen(style.screen);
     black = BlackPixelOfScreen(style.screen);
@@ -793,82 +873,15 @@ selectPaletteCB(
 	        ReColorPalette();
 	    else 
             {     
-               /* PUT DIALOG saying can't dynamically change */
-               if(First)
-               {
-                  InfoDialog(NEXT_SESSION, style.colorDialog, False);
-                  First = False;
-               }
-               else
-               {
-                  if (TypeOfMonitor != XmCO_BLACK_WHITE)
-
-                     /* free the cells from last selection */
-                     XFreeColors(style.display, style.colormap, pixels, 
-                                 count, 0);
-               }
-
                if (TypeOfMonitor != XmCO_BLACK_WHITE)
                {
-                  /* allocate new colors */
-                  count = 0;
-
-                  for (i=0; i<pCurrentPalette->num_of_colors; i++)
-                  {
-                     n=0;  
-                     if (XAllocColor(style.display, style.colormap,
-                                 &(pCurrentPalette->color[i].bg)) == 0)
-                        break;
-                     pixels[count++] = pCurrentPalette->color[i].bg.pixel;
-                     XtSetArg (args[n], XmNbackground,
-                                 pCurrentPalette->color[i].bg.pixel); n++;
-
-                     if (XAllocColor(style.display, style.colormap,
-                                 &(pCurrentPalette->color[i].sc)) == 0)
-                        break;
-                     pixels[count++] = pCurrentPalette->color[i].sc.pixel;
-                     XtSetArg (args[n], XmNarmColor, 
-                                 pCurrentPalette->color[i].sc.pixel); n++;
-
-                     if (UsePixmaps == FALSE)
-                     {
-                        if (XAllocColor(style.display, style.colormap,
-                                 &(pCurrentPalette->color[i].ts)) == 0)
-                           break;
-                        pixels[count++] = pCurrentPalette->color[i].ts.pixel;
-                        XtSetArg (args[n], XmNtopShadowColor, 
-                                 pCurrentPalette->color[i].ts.pixel); n++;
-
-                        if (XAllocColor(style.display, style.colormap,
-                                 &(pCurrentPalette->color[i].bs)) == 0)
-                           break;
-                        pixels[count++] = pCurrentPalette->color[i].bs.pixel;
-                        XtSetArg (args[n], XmNbottomShadowColor, 
-                            pCurrentPalette->color[i].bs.pixel); n++;
-                     }
-                     else     /* create pixmaps for top/bottom shadow */
-                     {
-                         XmDestroyPixmap(style.screen, edit.pixmap25);
-                         XmDestroyPixmap(style.screen, edit.pixmap75);
-
-                         edit.pixmap25 = XmGetPixmap (style.screen, 
-                                         "50_foreground",
-                                         pCurrentPalette->color[i].bg.pixel,
-                                         WhitePixelOfScreen(style.screen));
-
-                         edit.pixmap75 = XmGetPixmap (style.screen, 
-                                         "50_foreground",
-                                         pCurrentPalette->color[i].bg.pixel,
-                                         BlackPixelOfScreen(style.screen));
-
-                        XtSetArg (args[n], XmNtopShadowPixmap, edit.pixmap25);
-                            n++;
-                        XtSetArg (args[n], XmNbottomShadowPixmap, edit.pixmap75);     
-                            n++;
-                     }
-
-                     XtSetValues(colorButton[i], args, n);
-                  }
+			     /* PUT DIALOG saying can't dynamically change */
+                 if(First)
+                 {
+                    InfoDialog(NEXT_SESSION, style.colorDialog, False);
+                    First = False;
+                 }
+                 allocNewColors();
                }
                else  /* XmCO_BLACK_WHITE */
                {
@@ -994,10 +1007,15 @@ selectColorCB(
 
     if ((edit.DialogShell == NULL) || (!XtIsManaged(edit.DialogShell)))
     {
+		Pixel bg_pixel;
+
         /* make the new selected button have a border color */
-        n=0;
-        XtSetArg (args[n], XmNborderColor, 
-                  pCurrentPalette->color[pCurrentPalette->secondary].bg.pixel);
+		n=0;
+		XtSetArg(args[n],XmNbackground,&bg_pixel); n++;
+		XtGetValues(colorDialog.colorForm,args,n);
+
+		n=0;
+        XtSetArg (args[n], XmNborderColor,bg_pixel);
         n++;
         XtSetValues(colorButton[selected_button],args,n);
 
@@ -1010,9 +1028,28 @@ selectColorCB(
 
         color_set = (ColorSet *) &pCurrentPalette->color[selected_button];
         ColorEditor(style.colorDialog,color_set);
+
+		if(!style.dynamicColor)	/* need to update pixels */
+			XtAddCallback(edit.DialogShell, XmNcallback, colorEditorCB, NULL);
     }
 }
 
+/*
+ * Color editor callback for screens without dynamicColor.
+ */
+static void colorEditorCB(Widget w, XtPointer client_data, XtPointer call_data)
+{
+	static Boolean first = True;
+	DtDialogBoxCallbackStruct *cb = (DtDialogBoxCallbackStruct *) call_data;
+
+	/* show "next session" message if first edit */
+    if(cb->button_position==OK_BUTTON && first){
+		InfoDialog(NEXT_SESSION, style.colorDialog, False);
+		first = False;
+	}
+	allocNewColors();
+	XtRemoveCallback(edit.DialogShell, XmNcallback, colorEditorCB, NULL);
+}
 
 /*
 **  This is the double click timeout callback.  If this routine is called
@@ -1026,6 +1063,7 @@ timeoutCB(
     register int     n;
     int              i;
     Arg              args[2];
+	Pixel	bg_pixel;
 
     if (TypeOfMonitor == XmCO_BLACK_WHITE)
         return;
@@ -1035,9 +1073,12 @@ timeoutCB(
     if ((edit.DialogShell == NULL) || (!XtIsManaged(edit.DialogShell)))
     {
         /* make the new selected button have a border color */
+		n=0;
+		XtSetArg(args[n],XmNbackground,&bg_pixel); n++;
+		XtGetValues(colorDialog.colorForm,args,n);
+
         n=0;
-        XtSetArg (args[n], XmNborderColor, 
-                  pCurrentPalette->color[pCurrentPalette->secondary].bg.pixel);
+        XtSetArg (args[n], XmNborderColor,bg_pixel);
         n++;
         XtSetValues(colorButton[selected_button],args,n);
 
@@ -1366,6 +1407,8 @@ modifyColorCB(
     color_set = (ColorSet *) &pCurrentPalette->color[selected_button];
     ColorEditor(style.colorDialog,color_set);
 
+	if(!style.dynamicColor)	/* need to update pixels */
+		XtAddCallback(edit.DialogShell, XmNcallback, colorEditorCB, NULL);
 }
 
 
@@ -2738,8 +2781,7 @@ CreateBottomColor( void )
     if(style.count > 10)
        return;
 
-
-    if(style.dynamicColor)
+    if(TypeOfMonitor != XmCO_BLACK_WHITE)
     {
         /* Create form for Add and Delete buttons */
         n = 0;
@@ -2814,7 +2856,7 @@ CreateBottomColor( void )
     XtManageChild(style.buttonsForm);
     
     /* Create Modify... button */
-    if(style.dynamicColor)
+    if(TypeOfMonitor != XmCO_BLACK_WHITE)
     {
         n = 0;
         XtSetArg (args[n], XmNtopAttachment, XmATTACH_FORM);  n++;

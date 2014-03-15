@@ -452,6 +452,7 @@ main(
     Boolean         useMaskRtn, useIconFileCacheRtn;    
     char           *dirs = NULL;
     char           *string;
+	Visual         *visual;
 
 #ifdef USERHELP
 malloc_check(1);
@@ -500,6 +501,8 @@ malloc_trace(0);
     style.startupDialog = NULL;
     style.dtwmDialog = NULL;
     style.i18nDialog = NULL;
+	visual = XDefaultVisual(style.display,style.screenNum);
+	style.visualClass = visual->class;
     
     if (progName = DtStrrchr(argv[0], '/')) progName++;
     else progName = argv[0];

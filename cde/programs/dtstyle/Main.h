@@ -198,6 +198,7 @@ typedef struct {
     Boolean          dynamicColor;
     Boolean          workProcs;
     int              horizontalSpacing, verticalSpacing;
+	int              visualClass;
 } Style;
 
 /*

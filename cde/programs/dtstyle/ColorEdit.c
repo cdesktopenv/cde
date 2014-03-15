@@ -187,6 +187,16 @@ ColorEditor(
 	{
             edit.color_set = color_set;
 	    CopyPixelSet(&edit.oldButtonColor,edit.color_set);
+
+		/* update "old" button if necessary */
+		if(style.visualClass==TrueColor || style.visualClass==DirectColor){
+			XtVaSetValues(edit.oldButton,
+				XmNbackground,edit.color_set->bg.pixel,
+				XmNarmColor,edit.color_set->bg.pixel,
+				XmNforeground,edit.color_set->fg.pixel,
+				XmNtopShadowColor,edit.color_set->ts.pixel,
+				XmNbottomShadowColor,edit.color_set->bs.pixel,NULL);
+		}
 	    InitializeNewButton();
 	    SetScales(&edit.color_set->bg);
 	    XtManageChild(edit.DialogShell);
@@ -287,8 +297,17 @@ CreateColorEditor(
         XtSetArg(args[n], XmNverticalSpacing, style.verticalSpacing); n++;
 	sampleForm = XmCreateForm(sampleTB, "sampleForm", args, n);
 	
-        /*   Create Old and New Buttons */
-        InitializeOldButton();
+        /* Create Old and New Buttons */
+		if(style.visualClass==TrueColor || style.visualClass==DirectColor){
+			edit.oldButtonColor.bg.pixel = edit.color_set->bg.pixel;
+			edit.oldButtonColor.fg.pixel = edit.color_set->fg.pixel;
+			edit.oldButtonColor.sc.pixel = edit.color_set->sc.pixel;
+			edit.oldButtonColor.bs.pixel = edit.color_set->bs.pixel;
+			edit.oldButtonColor.ts.pixel = edit.color_set->ts.pixel;
+			CopyPixelSet(&edit.oldButtonColor,edit.color_set);
+		}else{
+			InitializeOldButton();
+		}
 
         if(!OldNewSame) {
   	   n=0;
@@ -973,7 +992,36 @@ GenerateColors( void )
         edit.color_set->bs.blue = 0;
     }
 
-    XStoreColors(style.display, style.colormap, colors, j );
+    if(style.visualClass==PseudoColor || style.visualClass==StaticColor)
+	{
+		XStoreColors(style.display, style.colormap, colors, j );
+	}
+	else if(style.visualClass==TrueColor || style.visualClass==DirectColor)
+	{
+		static unsigned long pixels[4];
+		static int count=0;
+
+		if(count){
+			XFreeColors(style.display,style.colormap,pixels,count,0);
+			count=0;
+		}
+
+		if(XAllocColor(style.display,style.colormap,&edit.color_set->fg))
+			pixels[count++]=edit.color_set->fg.pixel;
+		if(XAllocColor(style.display,style.colormap,&edit.color_set->bg))
+			pixels[count++]=edit.color_set->bg.pixel;
+		if(XAllocColor(style.display,style.colormap,&edit.color_set->ts))
+			pixels[count++]=edit.color_set->ts.pixel;
+		if(XAllocColor(style.display,style.colormap,&edit.color_set->bs))
+			pixels[count++]=edit.color_set->bs.pixel;
+
+		XtVaSetValues(edit.newButton,
+			XmNbackground,edit.color_set->bg.pixel,
+			XmNarmColor,edit.color_set->bg.pixel,
+			XmNforeground,edit.color_set->fg.pixel,
+			XmNtopShadowColor,edit.color_set->ts.pixel,
+			XmNbottomShadowColor,edit.color_set->bs.pixel,NULL);
+	}
  }
 
 /************************************************************************
@@ -1187,8 +1235,8 @@ CopyPixelSet(
 
        XtSetValues(edit.oldButton, args, n);
     }
-
-    XStoreColors(style.display, style.colormap, colors, j );
+	if(style.visualClass == PseudoColor || style.visualClass == GrayScale)
+		XStoreColors(style.display, style.colormap, colors, j );
 
 }
 
