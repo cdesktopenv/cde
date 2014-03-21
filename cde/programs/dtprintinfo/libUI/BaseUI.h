@@ -40,6 +40,16 @@
   #define boolean boolean_t
   #define true B_TRUE
   #define false B_FALSE
+#elif defined(sun)
+  #include <sys/types.h>
+  #define boolean boolean_t
+#if defined(__XOPEN_OR_POSIX)
+  #define true _B_TRUE
+  #define false _B_FALSE
+#else
+  #define true B_TRUE
+  #define false B_FALSE
+#endif
 #elif defined(linux)
   #define false 0
   #define true 1

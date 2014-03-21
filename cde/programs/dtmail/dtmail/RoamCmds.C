@@ -143,7 +143,7 @@ extern XtPointer _XmStringUngenerate (
 #include <sys/file.h>
 
 
-extern int forceUpdate( Widget );
+extern void forceUpdate( Widget );
 
 RoamCmd::RoamCmd
 (char *name, char *label, int active, RoamMenuWindow *window)

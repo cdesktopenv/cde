@@ -122,7 +122,7 @@ getNamedValueString(const char *string, const char *name)
 	results = strdup(&string[offset + nameLen + 1]);
 	if (*results == '"') {
 	  results++;
-	  stringEnd = strchr(results, '"');
+	  stringEnd = const_cast <char *> (strchr(results, '"'));
 	  if (stringEnd != NULL) {
 	    *stringEnd = '\0';
 	  }
@@ -420,7 +420,7 @@ RFCMailBox::_assemblePartial(DtMailEnv	& error,
 		//
 		embHeader1StLen = (int) length;
 		embHeader1St = (const char *)contents;
-		endHeader = strstr((const char *)contents, "\n\n");
+		endHeader = const_cast <char *> (strstr((const char *)contents, "\n\n"));
 
 		if (endHeader != NULL) {
 		  RFCEnvelope	embEnv(error,

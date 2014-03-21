@@ -160,7 +160,7 @@ DtMailServer::set_password(char *password)
 //
 //	len	- Length of message.
 //
-#if defined(sun) || defined(USL)
+#if defined(reallyoldsun) || defined(USL)
 #define SA_HANDLER_TYPE void (*)(void)
 #else
 #define SA_HANDLER_TYPE void (*)(int)
@@ -231,7 +231,7 @@ DtMailServer::ptrans_retrieve_readandappend(
 	// Determine if we are done with this message.
         if (proto_is_delimited())
 	{
-	    char *s = strrchr((const char *) _msgbuf, (int) '.');
+	  char *s = const_cast<char *> (strrchr((const char *) _msgbuf, (int) '.'));
 	    
 	    if (s &&
 		(s == _msgbuf || *(s-1) == '\n') &&

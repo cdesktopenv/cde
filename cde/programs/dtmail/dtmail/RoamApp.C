@@ -957,6 +957,12 @@ Usage(char *progname)
 
 nl_catd DT_catd = (nl_catd) -1;    // catgets file descriptor
 
+#if defined(reallyoldsun) || defined(USL)
+#define SA_HANDLER_TYPE void (*)(void)
+#else
+#define SA_HANDLER_TYPE void (*)(int)
+#endif
+
 void RoamApp::initialize(int *argcp, char **argv)
 {
     char		**av = argv;
@@ -991,11 +997,7 @@ void RoamApp::initialize(int *argcp, char **argv)
 
     action = &action_buf;
     memset((void*) action, 0, sizeof(struct sigaction));
-#ifdef USL
-    action->sa_handler = (void (*)())panicQuitSignalHandler;
-#else
-    action->sa_handler = panicQuitSignalHandler;
-#endif
+    action->sa_handler = (SA_HANDLER_TYPE) panicQuitSignalHandler;
     action->sa_flags = 0;
     sigaction(SIGHUP, action, NULL);
     sigaction(SIGINT, action, NULL);

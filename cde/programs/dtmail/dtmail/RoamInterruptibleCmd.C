@@ -48,7 +48,7 @@
 #include <Xm/Xm.h>
 #include <Xm/MessageB.h>
 #include <assert.h>
-extern int forceUpdate( Widget );
+extern void forceUpdate( Widget );
 
 
 RoamInterruptibleCmd::RoamInterruptibleCmd ( char *name, 

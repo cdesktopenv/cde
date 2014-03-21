@@ -46,7 +46,7 @@
 #include "calctool.h"
 #include "ds_common.h"
 
-#ifdef sun
+#ifdef legacysun
 
 /* Copied from math.h */
 struct exception {

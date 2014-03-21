@@ -938,9 +938,9 @@ MIMEBodyPart::csFromContentType(DtMailValueSeq &value)
       }
    } 
    // Get charset value
-   val_ptr = strstr(val, "charset=");
+   val_ptr = const_cast <char *> (strstr(val, "charset="));
    if ( val_ptr == NULL ) {
-	  val_ptr = strstr(val, "CHARSET=");
+     val_ptr = const_cast <char *> (strstr(val, "CHARSET="));
    }
    if ( val_ptr == NULL ) {
 	  return NULL;

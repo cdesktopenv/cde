@@ -38,6 +38,9 @@
 #define _DB_SERVER_GLOBALS_H
 
 #include <limits.h>
+#if !defined(NGROUPS)
+#define NGROUPS	NGROUPS_MAX
+#endif
 
 #if defined(OPT_GARBAGE_THREADS)
 #include <synch.h>

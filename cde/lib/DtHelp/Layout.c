@@ -332,7 +332,7 @@ static	const	_DtCvSegmentI	BlankTableCell =
 	_DtCvCONTAINER,		/* type         */
 	-1,			/* link_idx     */
 	  {			/* container info */
-	    { NULL },		  /* id           */
+	    NULL,		  /* id           */
 	    NULL,		  /* justify_char */
 	    _DtCvDYNAMIC,	  /* type         */
 	    _DtCvBORDER_NONE,	  /* border       */

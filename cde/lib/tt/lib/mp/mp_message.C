@@ -1284,7 +1284,7 @@ print(const _Tt_ostream &os) const
 		os << "otype:\t\t" << _otype << "\n";
 	}
 	if (! _sender.is_null()) {
-		os << "sender:\t\t[" << _uid << "/" << _gid << "] ";
+		os << "sender:\t\t[" << (unsigned long)_uid << "/" << (unsigned long)_gid << "] ";
 		_sender->print( os );
 	}
 	if (_sender_ptype.len() > 0) {

@@ -1430,7 +1430,7 @@ Authenticate( struct display *d, char *name, char *passwd, char **msg )
         case PAM_SUCCESS:
             return(VF_OK);
 
-        case PAM_AUTHTOKEN_REQD:
+        case PAM_NEW_AUTHTOK_REQD:
 	    return(VF_PASSWD_AGED);
 
 	default:

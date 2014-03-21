@@ -201,16 +201,16 @@ dispname(const char *hdr)
 
 	if (hdr == 0)
 		return 0;
-	if (((cp = strchr(hdr, '<')) != 0) && (cp > hdr)) {
+	if (((cp = const_cast <char *> (strchr(hdr, '<'))) != 0) && (cp > hdr)) {
 		*cp = 0;
-		if ((*hdr == '"') && ((cp = strrchr(++hdr, '"')) != 0))
+		if ((*hdr == '"') && ((cp = const_cast <char *> (strrchr(++hdr, '"'))) != 0))
 			*cp = 0;
 		return (char *)hdr;
-	} else if ((cp = strchr(hdr, '(')) != 0) {
+	} else if ((cp = const_cast <char *> (strchr(hdr, '('))) != 0) {
 		hdr = ++cp;
-		if ((cp = strchr(hdr, '+')) != 0)
+		if ((cp = const_cast <char *> (strchr(hdr, '+'))) != 0)
 			*cp = 0;
-		if ((cp = strrchr(hdr, ')')) != 0)
+		if ((cp = const_cast <char *> (strrchr(hdr, ')'))) != 0)
 			*cp = 0;
 		return (char *)hdr;
 	}

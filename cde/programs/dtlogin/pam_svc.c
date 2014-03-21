@@ -150,7 +150,7 @@ PamAuthenticate ( char*   prog_name,
 	    return(PAM_AUTH_ERR);
         }
 
-#ifdef sun        
+#ifdef legacysun
         /* Solaris BSM Audit trail */
 
 	audit_login_save_host(display_name);
@@ -167,7 +167,7 @@ PamAuthenticate ( char*   prog_name,
            status = pam_authenticate( pamh, 0 );
 	   pam_auth_trys++;
 
-#ifdef sun	  	 
+#ifdef legacysun
 	   pwd = getpwnam(user);
 	   audit_login_save_pw(pwd);
 
@@ -262,7 +262,7 @@ PamAccounting( char*   prog_name,
                     Debug("PamAccounting: USER_PROCESS open_session error=%d\n",
 								 status); 
 		}
-#ifdef sun
+#ifdef legacysun
 	        if (status == PAM_SUCCESS) audit_login_success();
 #endif
 		session_type = SOLARIS_LOGIN;
@@ -450,7 +450,7 @@ login_conv(int num_msg, struct pam_message **msg,
                     if (saved_user_passwd != NULL) {
                         r->resp = (char *) malloc(strlen(saved_user_passwd)+1);
                         if (r->resp == NULL) {
-                     	    __pam_free_resp(num_msg, *response);
+			  /* __pam_free_resp(num_msg, *response); */
                             *response = NULL;
                             return (PAM_CONV_ERR);
                         }

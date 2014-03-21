@@ -41,7 +41,7 @@
 
 #include "dtscreen.h"
 
-#if !defined(_AIX) && !defined(hpV4) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined(_AIX) && !defined(hpV4) && !defined(linux) && !defined(sun) && !defined(CSRG_BASED)
 int
 usleep(unsigned long usec)
 {

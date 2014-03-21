@@ -103,7 +103,7 @@ class BufferMemory : public Buffer {
 	virtual int getSize(void);      // get total size of the buffer
 
     private:
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 	class Chunk;
 #endif
 

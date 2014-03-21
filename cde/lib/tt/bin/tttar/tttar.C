@@ -37,10 +37,10 @@
 #include <stdlib.h>
 #include <sys/param.h>
 #include <sys/stat.h>
-#if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(__osf__) || defined(linux) || defined(sun) || defined(CSRG_BASED)
 #include <unistd.h>
 #else
-#if !defined(USL) && !defined(__uxp__)
+#if !defined(USL) && !defined(__uxp__) && !defined(sun)
 #include <osfcn.h>
 #endif
 #endif

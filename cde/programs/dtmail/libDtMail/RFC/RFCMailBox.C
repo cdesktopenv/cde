@@ -4542,6 +4542,12 @@ RFCMailBox::startAutoSave(DtMailEnv & error,
 	_session->removeEventRoutine(error, PollEntry, this);
 }
 
+#if defined(reallyoldsun) || defined(USL)
+#define SA_HANDLER_TYPE void (*)(void)
+#else
+#define SA_HANDLER_TYPE void (*)(int)
+#endif
+
 void
 RFCMailBox::dumpMaps(const char *str)
 {
@@ -4573,11 +4579,7 @@ RFCMailBox::dumpMaps(const char *str)
    */
   (void) sigemptyset(&sig_act.sa_mask);
   sig_act.sa_flags = 0;
-#if defined(USL)
-  sig_act.sa_handler = (void(*)())SigBusHandler;
-#else
-  sig_act.sa_handler = SigBusHandler;
-#endif /* USL */
+  sig_act.sa_handler = (SA_HANDLER_TYPE) SigBusHandler;
   sigaction(SIGBUS, &sig_act, &old_sig_act);
   sigbus_env_valid = 1;
   if (setjmp(sigbus_env) == 0) {

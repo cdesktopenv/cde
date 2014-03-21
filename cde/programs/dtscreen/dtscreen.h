@@ -111,7 +111,7 @@ struct passwd {
 #include <shadow.h>
 #define getpwnam getspnam
 #endif
-#if !(defined(_AIX) || defined(hpux))
+#if !(defined(_AIX) || defined(hpux) || defined(sun))
 # define srandom srand
 # define random rand
 # define MAXRAND (32767.0)

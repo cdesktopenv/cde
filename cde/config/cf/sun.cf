@@ -178,7 +178,9 @@ XCOMM SunPro C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 #   define XawI18nDefines    -DHAS_WCHAR_H -DHAS_ISW_FUNCS
 #  endif
 # endif
-# if OSMinorVersion > 3
+# if OSMinorVersion > 10
+#  define InstallCmd	    /usr/bin/ginstall
+# elif OSMinorVersion > 3
 #  define InstallCmd	    /usr/ucb/install
 # endif
 # ifdef i386Architecture
@@ -333,8 +335,15 @@ man_keywords::								@@\
 
 #if !defined(UsePamLibrary)
 # if (OSMajorVersion > 5) || ((OSMajorVersion == 5) && (OSMinorVersion >= 4))
-#  define UsePamLibrary		YES
+#  define UsePamLibrary		NO
 # endif
+#endif
+
+#if (OSMajorVersion > 5) || ((OSMajorVersion == 5) && (OSMinorVersion >= 10))
+#define SharedLibXau YES
+#define SharedXauRev 6
+#define SharedLibXdmcp YES
+#define SharedXdmcpRev 6
 #endif
 
 #define MotifDefines			\

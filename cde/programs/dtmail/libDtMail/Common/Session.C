@@ -783,7 +783,7 @@ DtMail::Session::getRelativePath(DtMailEnv & error, const char * path)
 		free(old_exp);
 
 		// Check to see if the path starts with the folder path.
-		char * matched_path = strstr(path, exp_name);
+		char * matched_path = const_cast<char *>(strstr(path, exp_name));
 		if (matched_path == path) {
 		    // Yes it does, make it a relative path to the folder dir.
 		    int folder_path_length = strlen(exp_name);

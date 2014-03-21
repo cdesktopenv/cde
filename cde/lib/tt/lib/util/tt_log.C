@@ -37,7 +37,7 @@
 #ifdef __osf__
 #include <unistd.h>
 #else
-#if !defined (USL) && !defined(__uxp__) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined (USL) && !defined(__uxp__) && !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <osfcn.h>
 #endif
 #endif /* __osf__ */

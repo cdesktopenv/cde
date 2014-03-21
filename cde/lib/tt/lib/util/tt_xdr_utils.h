@@ -55,7 +55,7 @@ class _Tt_xdr_size_stream : public _Tt_allocated {
 #ifdef __DECCXX
         XDR::xdr_ops ops;
 #else
-	struct XDR::xdr_ops ops;
+	struct xdr_ops ops;
 #endif
 };
 

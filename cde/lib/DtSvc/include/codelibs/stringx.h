@@ -75,7 +75,7 @@ extern "C"
 
 #ifdef __cplusplus
     char *strtokx(char *&ptr, const char *sep);
-# if !defined(__osf__) && !defined(linux) && !defined(CSRG_BASED)
+# if !defined(__osf__) && !defined(linux) && !defined(sun) && !defined(CSRG_BASED)
     char **strsep(const char *str, const char *sep,
 	boolean whsp = TRUE, int *num = NULL);
 #  if !defined(__osf__)
@@ -85,7 +85,7 @@ extern "C"
 
 #else /* __STDC__ */
     char *strtokx(char **ptr, const char *sep);
-# if !defined(linux) && !defined(CSRG_BASED)
+# if !defined(linux) && !defined(sun) && !defined(CSRG_BASED)
     char **strsep(const char *str, const char *sep,
 	boolean whsp, int *num);
 #endif

@@ -77,7 +77,7 @@ int SUNWDtHelpdlopen()
 
     _DtSvcProcessLock();
     pmySUNWProcList = (SUNWHelpProcList *)malloc(sizeof(SUNWHelpProcList));
-    libDtHelpHandle = dlopen("libDtHelp.so.1", RTLD_LAZY | RTLD_GLOBAL);
+    libDtHelpHandle = dlopen("libDtHelp.so.2.1", RTLD_LAZY | RTLD_GLOBAL);
     if (libDtHelpHandle == NULL) {
 	char *my_err_msg;
 

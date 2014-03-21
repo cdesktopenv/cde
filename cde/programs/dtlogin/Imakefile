@@ -59,7 +59,14 @@ SOLARIS_OBJS =
 #endif
 
 #if defined(SunArchitecture) && !UsePamLibrary
+/* Unsure when libauth went away */
+#  if (OSMajorVersion == 5) && (OSMinorVersion < 5)
 PAM_LIB = -lauth
+#  else
+PAM_SRCS = pam_svc.c
+PAM_OBJS = pam_svc.o
+PAM_LIB = -lpam
+#  endif
 #endif
 
          XDMDIR = $(CDE_LOGFILES_TOP)
@@ -99,13 +106,12 @@ SYS_LIBRARIES = -lsec
  * 	 on Solaris 2.4 and run on Solaris 2.5.  In Solaris 2.4 some of 
  *       libcmd.a functions are also in libauth.so.  But on Solaris 2.5 
  *       these Sun private functions have been removed from libauth.so. */
-SYS_LIBRARIES = -lm -ldl -lgen -lresolv -lC -lbsm -lcmd -lauth $(PAM_LIB)
+SYS_LIBRARIES = -lm -ldl -lgen -lresolv -lC -lbsm -lcmd $(PAM_LIB)
+   EXTRA_DEFINES = -DPAM
 
 
 #  if UsePamLibrary
    EXTRA_DEFINES = -DPAM
-#  else
-   EXTRA_DEFINES = -DSUNAUTH
 #  endif
 #endif
 
