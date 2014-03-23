@@ -466,7 +466,7 @@ ThreadCreate(
 #else
 	ThreadEntryPoint, void*)
 {
-    return(NULL);
+  return(0);
 }
 #endif
 
@@ -476,7 +476,7 @@ ThreadSelf(void)
 #if defined(POSIX_THREADS)
     return(thr_self());
 #else
-    return(NULL);
+    return(0);
 #endif
 
 }
