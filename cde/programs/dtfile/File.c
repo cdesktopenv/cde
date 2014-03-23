@@ -6339,12 +6339,17 @@ EstimateIconSize(
    int label_len;
    int label_width;
 
-   if (file_view_data == NULL)
+   if (file_view_data == NULL) {
       label_len = 1;
-   else if (file_view_data->label == NULL)
-      label_len = strlen(file_view_data->file_data->file_name);
-   else
-      label_len = strlen(file_view_data->label);
+   } else {
+#ifdef MULTIBYTE
+      label_len = DtCharCount(file_view_data->label == NULL ?
+			file_view_data->file_data->file_name : file_view_data->label);
+#else
+      label_len = strlen(file_view_data->label == NULL ?
+			file_view_data->file_data->file_name : file_view_data->label);
+#endif
+   }
 
    if (layout_data->pixmap_position == XmPIXMAP_TOP)
    {
