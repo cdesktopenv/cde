@@ -190,7 +190,7 @@ void MotifUI::DoContextualHelp()
    if (context_widget != NULL)
     {
 #else
-   int returnVal = DtHelpReturnSelectedWidgetId(shell, NULL, &context_widget);
+   int returnVal = DtHelpReturnSelectedWidgetId(shell, 0, &context_widget);
    if (returnVal == DtHELP_SELECT_VALID)
     {
 #endif
