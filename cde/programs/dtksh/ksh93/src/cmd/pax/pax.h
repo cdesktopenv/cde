@@ -105,6 +105,9 @@
 #include <modex.h>
 #include <sfstr.h>
 #include <debug.h>
+
+#include <stdio.h>
+
 #if !defined(va_start)
 #if defined(__STDARG__)
 #include <stdarg.h>
