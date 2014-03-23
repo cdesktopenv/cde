@@ -41,6 +41,7 @@ static  char sccsid[] = "@(#)getdate.y 1.10 94/11/07 Copyr 1993 Sun Microsystems
 
 #include <EUSCompat.h>
 #include <ctype.h>
+#include <string.h>
 #include <time.h>
 #include "getdate.h"
 #ifdef SVR4
