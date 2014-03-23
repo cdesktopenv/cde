@@ -22,6 +22,7 @@
  */
 /* $XConsortium: Icon.c /main/10 1996/11/20 15:35:35 drk $ */
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "IconP.h"
 
