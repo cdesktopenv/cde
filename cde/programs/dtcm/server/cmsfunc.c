@@ -87,12 +87,10 @@ static CSA_return_code _DtCmsGetOldCalAttrNames(_DtCmsCalendar *cal,
 extern void *
 cms_ping_5_svc(void *args, struct svc_req *svcrq)
 {
-	char dummy;
-
 	if (debug)
 		fprintf(stderr, "cms_ping_5_svc called\n");
 
-	return((void *)&dummy); /* for RPC reply */
+	return(NULL); /* for RPC reply */
 }
 
 

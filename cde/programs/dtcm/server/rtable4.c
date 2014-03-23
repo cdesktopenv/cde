@@ -1554,12 +1554,10 @@ _DtCm_rtable_rename_4_svc(Table_Op_Args_4 *args, struct svc_req *svcrq)
 extern void *
 _DtCm_rtable_ping_4_svc(void *args, struct svc_req *svcrq)
 {
-	char dummy;
-
 	if (debug)
 		fprintf(stderr, "_DtCm_rtable_ping_4_svc called\n");
 
-	return((void *)&dummy); /* for RPC reply */
+	return(NULL); /* for RPC reply */
 }
 
 extern void

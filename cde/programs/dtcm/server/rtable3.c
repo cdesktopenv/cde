@@ -54,8 +54,7 @@ _DtCm_rtable_ping_3_svc(args, svcrq)
 void *args;
 struct svc_req *svcrq;
 {
-	char dummy;	
-	return((void *)&dummy); /* for RPC reply */
+	return(NULL); /* for RPC reply */
 }
 
 /*	PROC #1		*/
