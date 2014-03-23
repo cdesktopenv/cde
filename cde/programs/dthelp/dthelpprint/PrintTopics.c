@@ -61,6 +61,7 @@ $COPYRIGHT$:
 #endif
 #include <errno.h>
 
+#include <time.h>
 
 #include "HelpPrintI.h"  /* helpprint */
 
@@ -1354,7 +1355,7 @@ int PrintHeadFootStr(
     free(formattedStr);
 
     /*** output the str ***/
-    fprintf(topicsFP,buf);
+    fprintf(topicsFP, "%s", buf);
 
     return lineCnt;
 }       /*$END$*/
@@ -2484,9 +2485,10 @@ int DoHelpTopicsProcessing(
    /* only do the operation if there are valid files */
    if (validFile)
    {
+      int rv;
       sprintf(next,"> %s", *ret_resultsFile);
       if(options->debugHelpPrint) printf("%s\n",buf);
-      system(buf);
+      rv = system(buf);
    }
    free(buf);
    ret = 0;
