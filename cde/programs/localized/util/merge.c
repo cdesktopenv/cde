@@ -93,6 +93,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <locale.h>
 #include <nl_types.h>
 
@@ -310,17 +311,20 @@ int file; /* 0: Primary message file, 1: Default message file */
 
 /*
  * Display error message and exit program.
+ *
+ * file == file in which the error found  0: Primary message file 
+ *                                1: Default message file 
+ *                                2: Template file        
+ *                                9: N/A                  
  */
-void fatal (m, line, file)
-char *m;
-int line; /* line where the error found */
-int file; /* file in which the error found  0: Primary message file */
+void fatal (char *m, int line, int file)
+/* file in which the error found  0: Primary message file */
           /*                                1: Default message file */
           /*                                2: Template file        */
           /*                                9: N/A                  */
 {
     fprintf (stderr, "*** Fatal: ");
-    fprintf (stderr, m);
+    fprintf (stderr, "%s", m);
     switch(file)
     {
     case 0:
