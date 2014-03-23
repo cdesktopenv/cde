@@ -3604,41 +3604,108 @@ GetLongName(
    }
 
    {
+#define ELLIPSIS " (...) "
 #define NAME_PRECISION 28
-     int len = strlen( file_data->file_name );
-     if( len > NAME_PRECISION )
+#ifdef MULTIBYTE
+     if (! is_multibyte)
      {
-       int i;
-       char name[NAME_PRECISION];
-       sprintf( name, "%-20.20s (...) ", file_data->file_name );
+#endif
+       int len = strlen( file_data->file_name );
+       if( len > NAME_PRECISION )
+       {
+	 int i;
+	 char name[NAME_PRECISION];
+	 sprintf( name, "%-20.20s%s", file_data->file_name, ELLIPSIS);
 
-       sprintf( long_name, "%-28.28s  %s  %9ld  %c%c%c%c%c%c%c%c%c%c  %-9s  %-9s  %s",
-                            name,
-                            time_string,
-                            (long)file_data->stat.st_size,
-                            permission,
-                            usr_read_priv, usr_write_priv, usr_exec_priv,
-                            grp_read_priv, grp_write_priv, grp_exec_priv,
-                            oth_read_priv, oth_write_priv, oth_exec_priv,
-                            user_name, group_name,
-                            link_path );
-     }
-     else
-     {
-       sprintf( long_name, "%-28.28s  %s  %9ld  %c%c%c%c%c%c%c%c%c%c  %-9s  %-9s  %s",
-                            file_data->file_name,
-                            time_string,
-                            (long)file_data->stat.st_size,
-                            permission,
-                            usr_read_priv, usr_write_priv, usr_exec_priv,
-                            grp_read_priv, grp_write_priv, grp_exec_priv,
-                            oth_read_priv, oth_write_priv, oth_exec_priv,
-                            user_name, group_name,
-                            link_path );
-     }
+	 sprintf( long_name, "%-28.28s  %s  %9ld  %c%c%c%c%c%c%c%c%c%c  %-9s  %-9s  %s",
+		  name,
+		  time_string,
+		  (long)file_data->stat.st_size,
+		  permission,
+		  usr_read_priv, usr_write_priv, usr_exec_priv,
+		  grp_read_priv, grp_write_priv, grp_exec_priv,
+		  oth_read_priv, oth_write_priv, oth_exec_priv,
+		  user_name, group_name,
+		  link_path );
+       }
+       else
+       {
+	 sprintf( long_name, "%-28.28s  %s  %9ld  %c%c%c%c%c%c%c%c%c%c  %-9s  %-9s  %s",
+		  file_data->file_name,
+		  time_string,
+		  (long)file_data->stat.st_size,
+		  permission,
+		  usr_read_priv, usr_write_priv, usr_exec_priv,
+		  grp_read_priv, grp_write_priv, grp_exec_priv,
+		  oth_read_priv, oth_write_priv, oth_exec_priv,
+		  user_name, group_name,
+		  link_path );
+       }
+#ifdef MULTIBYTE
+     } else {
+       /* MULTIBYTE
+	*
+	* sprintf() counts width in bytes (not characters), moreover,
+	* it fails (returns -1 and produces no output) if input string is not
+	* a valid multibyte string (at least the glibc version), but we can't fail
+	* to display a file because it's name has some invalid characters). So it looks
+	* that instead of using sprintf() we have to format the file name part manually.
+	*/
+       int len = DtCharCount( file_data->file_name );
+       int copy_len =  len > NAME_PRECISION ?  NAME_PRECISION - sizeof(ELLIPSIS) + 1 : len;
+       int byte_len = 0;
+       int count;
+
+       long_name[0]='\0';
+       /* properly copy copy_len characters of the multibyte string
+	  replacing invalid chars with '?' */
+       for (count = 0;
+	    (count < copy_len) && *(file_data->file_name + byte_len);
+	    count ++)
+       {
+	 int chr_bytes = mblen(file_data->file_name + byte_len, MB_CUR_MAX);
+	 if (chr_bytes > 0)
+	 {
+	   strncpy(long_name + byte_len, file_data->file_name + byte_len, chr_bytes);
+	 }
+	 else if (chr_bytes < 0)
+	 { /* invalid char */
+	   chr_bytes = 1;
+	   long_name[byte_len]='?';
+	 }
+	 else
+	 {
+	   /* null-wide character, won't really happen */
+	   break;
+	 }
+	 byte_len+=chr_bytes;
+       }
+       if (copy_len < len)
+       {
+	 /* truncated name, add ellipsis */
+	 strncpy(long_name + byte_len, ELLIPSIS, sizeof(ELLIPSIS) - 1);
+	 byte_len+= sizeof(ELLIPSIS) - 1;
+       }
+       else
+       {
+	 /* full name, pad it with spaces up to the proper length */
+	 for (; count <  NAME_PRECISION ; count++)
+	 {
+	   long_name[byte_len++]=' ';
+	 }
+       }
+       sprintf( long_name + byte_len, "  %s  %9ld  %c%c%c%c%c%c%c%c%c%c  %-9s  %-9s  %s",
+		time_string,
+		(long)file_data->stat.st_size,
+		permission,
+		usr_read_priv, usr_write_priv, usr_exec_priv,
+		grp_read_priv, grp_write_priv, grp_exec_priv,
+		oth_read_priv, oth_write_priv, oth_exec_priv,
+		user_name, group_name,
+		link_path );
+     } /* is_multibyte */
+#endif  /* MULTIBYTE */
    }
-
-
 
    return (long_name);
 }
