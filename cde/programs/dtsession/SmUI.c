@@ -1686,9 +1686,13 @@ UpdatePasswdField(
         int numChars )
 {
     int i, index;
-    char passwdMessage[25];
+    char *passwdMessage = XtMalloc(numChars + 1);
     XmString tmpString;
 
+    if (!passwdMessage) {
+      PrintErrnoError(DtError, smNLS.cantMallocErrorString);
+      return;
+    }
 
     if(numChars > 0)
     {
@@ -1708,7 +1712,7 @@ UpdatePasswdField(
     }
 
     tmpString = XmStringCreateLocalized (passwdMessage);
-
+    XtFree(passwdMessage);
     /*
      * Set the index for the indLabel widget
      */

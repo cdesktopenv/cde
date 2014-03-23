@@ -969,19 +969,27 @@ CheckString(
         register char *s,
         register int i )
 {
+  /* maximum supported length of password */
+#if defined(SIA)
+#define MAX_PASSWORD_LENGTH SIAMXPASSWORD
+#else
+  /* seems to be reasonable maximal length */
+#define MAX_PASSWORD_LENGTH 65535
+#endif
+
+  /* step when allocating/extending buffer */
+#define BUF_ALLOC_LEN 64
+
     /*
      * password rules:
-     *	- Only the first eight characters are used.
-     *	- If pw_length > 8, we've gone over eight characters and won't
+     *	- If pw_length >  MAX_PASSWORD_LENGTH, we've gone over the limit and won't
      *	  accept any more.
      *	- An ESC kills the line.
      */
-#ifdef SIA
-    static char passwd[82];           /* password space */
-#else
-    static char passwd[10];		/* password space */
-#endif
-    static int pw_length = 0;		/* password length */
+    static char *passwd = NULL;                            /* password space */
+    static int pw_buf_length = 0;                          /* length of allocated password buffer */
+    static int pw_length = 0;		                   /* password length */
+    char * tmpptr;
 
     if (s == NULL)
     {
@@ -991,9 +999,23 @@ CheckString(
       pw_length = 0;
       return;
     }
-    
     for (; i>0; s++,i--)
     {
+	/* extend buffer by BUF_ALLOC_LEN bytes if needed*/
+#ifdef  JET_AUTHDEBUG
+	fprintf(stderr, "CheckString: pw_length=%d\n",pw_length);
+#endif
+
+	if (pw_length == pw_buf_length)
+	{
+	    tmpptr = SM_REALLOC(passwd,  pw_buf_length + BUF_ALLOC_LEN);
+	    if (!tmpptr) {
+		PrintErrnoError(DtError, smNLS.cantMallocErrorString);
+		return;
+	    }
+	    pw_buf_length += BUF_ALLOC_LEN;
+	    passwd = tmpptr;
+	}
 	switch(*s)
 	{
 	    case '\010':
@@ -1007,17 +1029,10 @@ CheckString(
 
 	    case '\n':
 	    case '\r':
-#ifdef SIA
-		if (pw_length > 80)
+		if (pw_length > MAX_PASSWORD_LENGTH)
                 {
-                    pw_length = 80;
+                    pw_length = MAX_PASSWORD_LENGTH;
                 }
-#else
-		if (pw_length > 8)
-		{
-		    pw_length = 8;
-		}
-#endif
 		passwd[pw_length] = '\0';	/* terminate string */
 		pw_length = 0;			/* reset length */
 		if (CheckPassword(passwd))
@@ -1030,34 +1045,14 @@ CheckString(
 		break;
 
 	    default:
-#ifdef SIA
-                if (pw_length < 80)
-#else
-		if (pw_length < 8)
-#endif
-		    passwd[pw_length] = *s;	/* store character */
-                /*
-		 * The length is incremented no matter what, so the user can
-		 * think the program handles multi-thousand-character
-		 * passwords.  If the user types twenty characters and eighteen
-		 * erases (#), the result will be the first two characters
-		 * entered, as expected.  Up to a point -- 65536 is long
-		 * enough!
-		 */
-		if (pw_length < 65535)
-		    pw_length++;
+		if (pw_length < MAX_PASSWORD_LENGTH)
+		{
+		    passwd[pw_length++] = *s;	/* store character */
+		}
 		break;
 	}
     }
-
-    if(pw_length > 8)
-    {
-	UpdatePasswdField(8);
-    }
-    else
-    {
-	UpdatePasswdField(pw_length);
-    }
+    UpdatePasswdField(pw_length > MAX_PASSWORD_LENGTH ? MAX_PASSWORD_LENGTH : pw_length);
 }
 
 
