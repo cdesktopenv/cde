@@ -934,7 +934,7 @@ rfp_form_flags_to_appt(RFP *rfp, Dtcm_appointment *a, char *name, int *flagsP)
 				  /* return (CSA_E_INSUFFICIENT_MEMORY); */
 				  return False;
 
-                                memset(a->repeat_type, NULL, sizeof(CSA_attribute));
+                                memset(a->repeat_type, 0, sizeof(CSA_attribute));
 
                                 _DtCm_set_sint32_attrval(rfp->repeat_type,
 							 &a->repeat_type->value);
@@ -951,7 +951,7 @@ rfp_form_flags_to_appt(RFP *rfp, Dtcm_appointment *a, char *name, int *flagsP)
 			  /* return (CSA_E_INSUFFICIENT_MEMORY); */
 			  return False;
 
-                        memset(a->repeat_type, NULL, sizeof(CSA_attribute));
+                        memset(a->repeat_type, 0, sizeof(CSA_attribute));
 
                         _DtCm_set_sint32_attrval(rfp->repeat_type,&a->repeat_type->value);
                 }
