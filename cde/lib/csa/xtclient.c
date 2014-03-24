@@ -69,11 +69,8 @@ _DtCm_register_xtcallback(XtAppContext appct)
 		return;
 
 	/* assuming only 1 bit is set */
-#if defined(linux)
-	bits = fdset.__fds_bits;
-#else
 	bits = fdset.fds_bits;
-#endif
+
 	for (i = 0; i < FD_SETSIZE; i += NFDBITS) {
 		fmask = *bits;
 		for (j = 0; fmask != 0; j++, fmask >>= 1) {
