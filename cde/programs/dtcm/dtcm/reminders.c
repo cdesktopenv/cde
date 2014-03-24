@@ -97,7 +97,7 @@ r_validate_advance(char *advance_string) {
                ((*(end_ptr - 1) == ' ') || (*(end_ptr - 1) == '\t')))
                 end_ptr--;
  
-        *end_ptr = NULL;
+        *end_ptr = 0;
 
 
 	if (blank_buf(c_p)) {
@@ -823,7 +823,7 @@ reminders_attrs_to_form(Reminders *r, Dtcm_appointment *appt) {
 	if (appt->mail && appt->mail->value) {
 		r->mail_val.selected = True;
 		_csa_iso8601_to_duration(appt->mail->value->item.reminder_value->lead_time, &r->mail_val.scope_val);
-		memset(r->mailto_val, NULL, MAILTO_LEN);
+		memset(r->mailto_val, 0, MAILTO_LEN);
 		strncpy(r->mailto_val, (char *) appt->mail->value->item.reminder_value->reminder_data.data, appt->mail->value->item.reminder_value->reminder_data.size);
 	} else {
 		r->mail_val.selected = False;
