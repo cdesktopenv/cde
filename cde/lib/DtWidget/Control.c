@@ -900,6 +900,7 @@ Initialize(
       G_AltPix (new) = XmUNSPECIFIED_PIXMAP;
       G_AltMask (new) = XmUNSPECIFIED_PIXMAP;
       G_MonitorTimer (new) = 0;
+      G_FileName (new) = NULL;
     }
   
   if (G_ControlType (new) == XmCONTROL_DATE)
