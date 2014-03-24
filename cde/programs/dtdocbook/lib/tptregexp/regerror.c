@@ -22,6 +22,7 @@
  */
 /* $XConsortium: regerror.c /main/3 1996/06/19 17:13:36 drk $ */
 #include <stdio.h>
+#include <stdlib.h>
 
 void
 tpt_regerror(s)

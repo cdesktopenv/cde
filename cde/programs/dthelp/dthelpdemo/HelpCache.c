@@ -43,7 +43,8 @@
  ************************************<+>*************************************/
 
 /* System Include Files  */
-
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <Xm/Xm.h>
 #include <Xm/XmP.h>

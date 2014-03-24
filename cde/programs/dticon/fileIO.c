@@ -452,7 +452,7 @@ Write_File(
   int i, j;
   int mask_needed;
   Boolean SUN;
-  char *base_name, *suffix, fname[256], *tmp, *tmp2, *vend;
+  char *base_name, *suffix, fname[MAXPATHLEN], *tmp, *tmp2, *vend;
   Pixmap scratch_pix;
   XImage *scratch_shape, *scratch_mask;
   struct stat statbuf;        /* Information on a file. */
@@ -478,7 +478,8 @@ Write_File(
     netfile = tt_host_file_netfile(fnameIn, tmp+1);
     localfile = tt_netfile_file(netfile);
 
-    strncpy(fname, localfile, MAXPATHLEN);
+    strncpy(fname, localfile, MAXPATHLEN - 1);
+    fname[MAXPATHLEN - 1] = 0;
     tmp[0] = ':';
 
     tt_free(netfile);

@@ -41,6 +41,7 @@ $COPYRIGHT$:
  * to determine how the lines are drawn.
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <locale.h>
 #include <X11/Xlib.h>
 #include <X11/Xresource.h>
@@ -108,7 +109,7 @@ int main(
    if (options.debugHelpPrint)
    {
       XrmPutFileDatabase(appDB,"db.dthelpprint"); /* dump rsrc for debug */
-      system("cat db.dthelpprint|fgrep -i print");
+      system("/bin/cat db.dthelpprint|/bin/fgrep -i print");
    }
 
    /****************************************

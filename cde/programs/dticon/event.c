@@ -55,6 +55,8 @@
  **  implied warranty.
  **
  ******************************************************************************/
+#include <stdio.h>
+
 #include <Xm/Xm.h>
 #include "externals.h"
 #include "main.h"

@@ -101,7 +101,7 @@
 
 
 # define ctime		_huh_ctime
-
+# include <stdlib.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <string.h>

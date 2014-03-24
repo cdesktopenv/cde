@@ -42,6 +42,9 @@
  ****************************************************************************
  ************************************<+>*************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include <Xm/Xm.h>
 #include <Xm/RowColumn.h>
 #include <Xm/PushB.h>
@@ -624,7 +627,7 @@ static void ManageButtonsCB(
 
   TurnOnHourGlass(topLevel);
 
-  switch ((int)clientData)
+  switch ((long)clientData)
     {
       case CREATE_SAMPLE:
    
@@ -745,7 +748,7 @@ static void Control1ButtonsCB(
 
   TurnOnHourGlass(topLevel);
 
-  switch ((int)clientData)
+  switch ((long)clientData)
     {
       case CHANGE_CONTENT:
          
@@ -881,14 +884,14 @@ static void HelpMenuCB(
   /* Determine which help button was activated and display the
    * appropriate help information */
 
-   switch ((int)clientData)
+   switch ((long)clientData)
 	   {
 	     case HELP_ON_ITEM:
                while (!XtIsSubclass(widget, applicationShellWidgetClass))
                    widget = XtParent(widget);
 
 
-               status = DtHelpReturnSelectedWidgetId(widget, NULL, &selWidget);
+               status = DtHelpReturnSelectedWidgetId(widget, 0, &selWidget);
 
                 switch ((int)status)
 	          {
