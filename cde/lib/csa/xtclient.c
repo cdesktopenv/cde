@@ -59,8 +59,7 @@ extern void
 _DtCm_register_xtcallback(XtAppContext appct)
 {
 	XtInputId	id;
-	int	i, j;
-	fd_mask	fmask, *bits;
+	int	i;
 	fd_set	fdset = svc_fdset;
 
 	DP(("xtclient.c: _DtCm_register_xtcallback()\n"));
@@ -69,29 +68,21 @@ _DtCm_register_xtcallback(XtAppContext appct)
 		return;
 
 	/* assuming only 1 bit is set */
-	bits = fdset.fds_bits;
 
-	for (i = 0; i < FD_SETSIZE; i += NFDBITS) {
-		fmask = *bits;
-		for (j = 0; fmask != 0; j++, fmask >>= 1) {
-			if (fmask & 0x1) {
+	for (i = 0; i < FD_SETSIZE; i++) {
+          if (FD_ISSET(i, &svc_fdset))
+            {
+              /* register callback with XtAppAddInput
+               * for rpc input
+               */
+              id = XtAppAddInput(appct, i,
+                                 (XtPointer)XtInputReadMask,
+                                 xtcallback, NULL);
 
-				if ((i + j) >= FD_SETSIZE)
-					break;
-
-        			/* register callback with XtAppAddInput
-				 * for rpc input
-				 */
-				id = XtAppAddInput(appct, ((i *NFDBITS) + j),
-					(XtPointer)XtInputReadMask,
-					xtcallback, NULL);
-
-				DP(("xtclient.c: id %d for input at fd %d\n",
-					id, ((i * NFDBITS) + j)));
-			}
-		}
-		bits++;
-	}
+              DP(("xtclient.c: id %d for input at fd %d\n",
+                  id, ((i * NFDBITS) + j)));
+            }
+        }
 }
 
 /*****************************************************************************
