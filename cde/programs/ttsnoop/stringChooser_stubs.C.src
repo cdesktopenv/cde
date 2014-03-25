@@ -182,10 +182,10 @@ _DtStringChooserSet(
 	}
 	DtTtSetLabel( instance->stringOkButton, okString );
 	DtTtSetLabel( instance->stringText_label, valueLabel );
-	XtVaSetValues( instance->stringChooser, XmNtitle, title, 0 );
+	XtVaSetValues( instance->stringChooser, XmNtitle, title, NULL );
 	// Remember dialog mode, entity
-	XtVaSetValues( instance->stringOkButton, XmNuserData, choice, 0 );
-	XtVaSetValues( instance->stringCancelButton, XmNuserData, entity, 0 );
+	XtVaSetValues( instance->stringOkButton, XmNuserData, choice, NULL );
+	XtVaSetValues( instance->stringCancelButton, XmNuserData, entity, NULL );
 	XmTextPosition last = XmTextFieldGetLastPosition( instance->stringText );
 	Time when = XtLastTimestampProcessed( XtDisplay( instance->stringText ));
 	XmTextFieldSetSelection( instance->stringText, 0, last, when );
@@ -242,9 +242,9 @@ stringOkayed(
 	    string = 0;
     }
     XtPointer val;
-    XtVaGetValues( instance->stringOkButton, XmNuserData, &val, 0 );
+    XtVaGetValues( instance->stringOkButton, XmNuserData, &val, NULL );
     _DtStringChooserAction choice = (_DtStringChooserAction) (long) val;
-    XtVaGetValues( instance->stringCancelButton, XmNuserData, &val, 0 );
+    XtVaGetValues( instance->stringCancelButton, XmNuserData, &val, NULL );
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {
 	    Tt_status status;
@@ -327,7 +327,7 @@ stringHelp(
     DtbStringChooserStringChooserInfo instance =
 	    (DtbStringChooserStringChooserInfo)clientData;
     XtPointer val;
-    XtVaGetValues( instance->stringOkButton, XmNuserData, &val, 0 );
+    XtVaGetValues( instance->stringOkButton, XmNuserData, &val, NULL );
     _DtStringChooserAction choice = (_DtStringChooserAction) (long) val;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {

@@ -183,7 +183,7 @@ int i;
     XtVaSetValues( wgeStaT_list[i],
 	XmNbackground, (XtArgVal) resource.foreground,
 	XmNforeground, (XtArgVal) resource.background,
-	0);
+	NULL);
     xl.list_winID = XtWindow( wgeStaT_disp[i] ) ;
 }
 
@@ -194,8 +194,8 @@ int i;
     XtVaSetValues( wgeStaT_list[i],
 	XmNbackground, (XtArgVal) resource.background,
 	XmNforeground, (XtArgVal) resource.foreground,
-	0);
-    xl.list_winID = NULL ;
+	NULL);
+    xl.list_winID = 0 ;
 }
 
 void
@@ -505,7 +505,7 @@ Widget owner;
     }
 
     /* create the scroll bar for Charcter list */
-    XtVaGetValues( listBase, XmNheight, &(edlist.list_h), 0);
+    XtVaGetValues( listBase, XmNheight, &(edlist.list_h), NULL);
 
     if (( slimax = efctPtnNum()) < edlist.nlist)  
 	slimax = edlist.nlist;

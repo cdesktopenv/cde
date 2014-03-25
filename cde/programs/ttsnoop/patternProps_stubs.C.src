@@ -59,7 +59,7 @@ patternProps2Pat(
 {
 	Tt_pattern pat;
 	XtVaGetValues( instance->patternProps_shellform,
-		       XmNuserData, &pat, 0 );
+		       XmNuserData, &pat, NULL );
 	return pat;
 }
 
@@ -96,7 +96,7 @@ _DtTtPatternWidgetUpdate(
 	if (tt_is_err( status )) {
 		printout = tt_status_message( status );
 	}
-	XtVaSetValues( instance->patternText, XmNvalue, printout, 0 );
+	XtVaSetValues( instance->patternText, XmNvalue, printout, NULL );
 
 	_DtTtPatternSetUpdating( pat, True );
 
@@ -119,7 +119,7 @@ _DtTtPatternWidgetUpdate(
 		choice = instance->categoryChoice_items.HANDLE_ROTATE_item;
 		break;
 	}
-	XtVaSetValues( instance->categoryChoice, XmNmenuHistory, choice, 0 );
+	XtVaSetValues( instance->categoryChoice, XmNmenuHistory, choice, NULL );
 
 	_DtTtPatternSetUpdating( pat, False );
 }
@@ -356,7 +356,7 @@ DtTtPatternWidgetCreate(
 	dtb_pattern_props_pattern_props_initialize( instance, parent );
 	widget = instance->patternProps;
 
-	XtVaSetValues( instance->patternProps_shellform, XmNuserData, pat, 0 );
+	XtVaSetValues( instance->patternProps_shellform, XmNuserData, pat, NULL );
 	status = tt_pattern_user_set( pat, DtTtPatWidgetKey, widget );
 	if (tt_is_err( status )) {
 		XtDestroyWidget( widget );
@@ -375,7 +375,7 @@ DtTtPatternWidgetCreate(
 	labelStream << "Tt_pattern " << (void *)pat << ends;
 	XtVaSetValues( instance->patternProps,
 		       XmNtitle, labelStream.str(),
-		       0 );
+		       NULL );
 	delete labelStream.str();
 
 	_DtTtPatternWidgetUpdate( instance, pat );

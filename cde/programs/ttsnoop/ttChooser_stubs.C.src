@@ -208,10 +208,10 @@ _DtTtChooserSet(
     XtVaSetValues( instance->chooserList,
 		   XmNitemCount, itemCount,
 		   XmNitems, items,
-		   0 );
+		   NULL );
     XmListDeselectAllItems( instance->chooserList );
     XmTextFieldSetString( instance->chooserText, 0 );
-    XtVaSetValues( instance->chooser, XmNtitle, title, 0 );
+    XtVaSetValues( instance->chooser, XmNtitle, title, NULL );
 
     std::ostrstream valuesStream;
     valuesStream << itemCount << " " << valuesLabel;
@@ -221,8 +221,8 @@ _DtTtChooserSet(
     delete valuesStream.str();
 
     // Remember dialog mode, entity
-    XtVaSetValues( instance->chooserOkButton, XmNuserData, choice, 0 );
-    XtVaSetValues( instance->chooserCancelButton, XmNuserData, entity, 0 );
+    XtVaSetValues( instance->chooserOkButton, XmNuserData, choice, NULL );
+    XtVaSetValues( instance->chooserCancelButton, XmNuserData, entity, NULL );
 
     XtManageChild( instance->chooser_shellform );
 }
@@ -272,7 +272,7 @@ choiceSelected(
     DtbTtChooserChooserInfo instance = (DtbTtChooserChooserInfo)clientData;
     XmListCallbackStruct *info = (XmListCallbackStruct *)callData;
     int choice;
-    XtVaGetValues( instance->chooserOkButton, XmNuserData, &choice, 0 );
+    XtVaGetValues( instance->chooserOkButton, XmNuserData, &choice, NULL );
     DtTtType type;
     Boolean isString = False;
     switch ((_DtTtChooserAction)choice) {
@@ -340,7 +340,7 @@ choiceOkayed(
     DtbTtChooserChooserInfo instance = (DtbTtChooserChooserInfo)clientData;
     char *text = XmTextFieldGetString( instance->chooserText );
     int ival;
-    XtVaGetValues( instance->chooserOkButton, XmNuserData, &ival, 0 );
+    XtVaGetValues( instance->chooserOkButton, XmNuserData, &ival, NULL );
     _DtTtChooserAction choice = (_DtTtChooserAction)ival;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {
@@ -374,25 +374,25 @@ choiceOkayed(
 	    break;
 	case _DtTtChooserMessageOpSet:
 	    XtVaGetValues( instance->chooserCancelButton,
-			   XmNuserData, &xtPtr, 0 );
+			   XmNuserData, &xtPtr, NULL );
 	    _DtTtMessageUpdate( (Tt_message)xtPtr, choice, text );
 	    XtUnmanageChild( instance->chooser_shellform );
 	    break;
 	case _DtTtChooserPatternOpAdd:
 	    XtVaGetValues( instance->chooserCancelButton,
-			   XmNuserData, &xtPtr, 0 );
+			   XmNuserData, &xtPtr, NULL );
 	    _DtTtPatternUpdate( (Tt_pattern)xtPtr, choice, text );
 	    XtUnmanageChild( instance->chooser_shellform );
 	    break;
 	case _DtTtChooserMessageHandlerSet:
 	    XtVaGetValues( instance->chooserCancelButton,
-			   XmNuserData, &xtPtr, 0 );
+			   XmNuserData, &xtPtr, NULL );
 	    _DtTtMessageUpdate( (Tt_message)xtPtr, choice, text );
 	    XtUnmanageChild( instance->chooser_shellform );
 	    break;
 	case _DtTtChooserPatternSenderAdd:
 	    XtVaGetValues( instance->chooserCancelButton,
-			   XmNuserData, &xtPtr, 0 );
+			   XmNuserData, &xtPtr, NULL );
 	    _DtTtPatternUpdate( (Tt_pattern)xtPtr, choice, text );
 	    XtUnmanageChild( instance->chooser_shellform );
 	    break;
@@ -592,7 +592,7 @@ ttChooserHelp(
     /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
     DtbTtChooserChooserInfo instance = (DtbTtChooserChooserInfo)clientData;
     int ival;
-    XtVaGetValues( instance->chooserOkButton, XmNuserData, &ival, 0 );
+    XtVaGetValues( instance->chooserOkButton, XmNuserData, &ival, NULL );
     _DtTtChooserAction choice = (_DtTtChooserAction)ival;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
     switch (choice) {

@@ -130,7 +130,7 @@ MainWindow::initialize( )
 				theApplication->baseWidget(),
 				XmNdeleteResponse, XmDO_NOTHING,
 				XmNallowShellResize, _allow_resize,
-				NULL, 0 );
+				NULL, NULL );
 
 #ifdef USE_EDITRES
     XtAddEventHandler(

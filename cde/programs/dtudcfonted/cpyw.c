@@ -294,7 +294,7 @@ Widget owner;
      Widget delNoticeW = NULL;
 
     delNoticeW = CreateDelNotice(owner);
-    XtVaSetValues(XtParent(delNoticeW), XmNmappedWhenManaged, False, 0);
+    XtVaSetValues(XtParent(delNoticeW), XmNmappedWhenManaged, False, NULL);
     XtManageChild(delNoticeW);
 
     for ( i=0 ; i < dn.disp_num ; i++ ) {
@@ -304,7 +304,7 @@ Widget owner;
 	drawDelCode(i);
 	drawDelPtn(i);
     }
-    XtVaSetValues(XtParent(delNoticeW), XmNmappedWhenManaged, True, 0);
+    XtVaSetValues(XtParent(delNoticeW), XmNmappedWhenManaged, True, NULL);
 
     XBell(XtDisplayOfObject(delNoticeW), 0);
 }

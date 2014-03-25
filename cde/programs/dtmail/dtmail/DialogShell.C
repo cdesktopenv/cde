@@ -94,7 +94,7 @@ DialogShell::initialize()
     _w = XtVaCreatePopupShell(
 			_name, _widgetClass, _parent->baseWidget(),
 			XmNdefaultPosition, False,
-			NULL, 0 );
+			NULL, NULL );
 #ifdef USE_EDITRES
     XtAddEventHandler(
 		_w, (EventMask) 0, True,

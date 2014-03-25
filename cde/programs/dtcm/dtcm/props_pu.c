@@ -277,7 +277,7 @@ p_create_editor_pane(
 		}
 	}
 
-	XtVaGetValues(pu->ep_dur_cb, XmNtextField, &text_field, 0);
+	XtVaGetValues(pu->ep_dur_cb, XmNtextField, &text_field, NULL);
 	XtAddCallback(text_field, XmNvalueChangedCallback, p_mark_change, pu);
 	XtAddCallback(pu->ep_dur_cb, XmNselectionCallback, p_mark_change, pu);
 

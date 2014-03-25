@@ -253,7 +253,7 @@ ds_force_popup_on_screen(Widget popup, int *popup_x_p, int *popup_y_p) {
   XtVaSetValues(popup,
                 XmNx, left,
                 XmNy, top,
-                0) ;
+                NULL) ;
 
   if (popup_x != *popup_x_p || popup_y != *popup_y_p) rcode = TRUE ;
   else                                                rcode = FALSE ;

@@ -184,7 +184,7 @@ _ttdt_realized_widget(
 	}
 	Boolean mappedWhenManaged = False;
 	CALLXT(XtVaGetValues)( _widget,
-			       XtNmappedWhenManaged, &mappedWhenManaged, 0 );
+			       XtNmappedWhenManaged, &mappedWhenManaged, NULL );
 	if (! mappedWhenManaged) {
 		return 0;
 	}
@@ -838,7 +838,7 @@ _ttdt_is_iconic(
 {
 	Boolean iconic;
 	// XXX XtNiconic always returns false?!
-	CALLXT(XtVaGetValues)( widget, XtNiconic, &iconic, 0 );
+	CALLXT(XtVaGetValues)( widget, XtNiconic, &iconic, NULL );
 	return (iconic == TRUE);
 }
 
