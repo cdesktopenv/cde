@@ -80,7 +80,7 @@ _DtCm_register_xtcallback(XtAppContext appct)
                                  xtcallback, NULL);
 
               DP(("xtclient.c: id %d for input at fd %d\n",
-                  id, ((i * NFDBITS) + j)));
+                  id, i));
             }
         }
 }
