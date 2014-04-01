@@ -35,7 +35,7 @@ class collectionIterator
 {
 public:
    collectionIterator(info_base*, int set_position);
-   ~collectionIterator();
+   virtual ~collectionIterator();
 
 // advance the iterator to the next position.
 // A newly constructed iterator's position is

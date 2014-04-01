@@ -183,7 +183,7 @@ ostream& TypeValues::print(ostream& out, int tabs) const
    return out;
 }
 
-unsigned hash(const FeatureDef& key)
+unsigned fhash(const FeatureDef& key)
 {
    return key.name() -> hash();
 }

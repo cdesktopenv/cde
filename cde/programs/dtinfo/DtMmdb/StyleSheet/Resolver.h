@@ -57,7 +57,7 @@ class Resolver : public Destructable
 {
 public:
   Resolver(PathTable& pTable, Renderer& r);
-  ~Resolver();
+  virtual ~Resolver();
 
   // beginElement returns a non-zero value if element is to be ignored
   unsigned int beginElement(Element*);

@@ -133,7 +133,7 @@ IcccmAgent::value_handler(Widget w, XtPointer ia, Atom *selection,
             char* mbs = (char *)value;
             wchar_t *wcs = (wchar_t*)malloc(strlen(mbs) + 1);
             // check if value string can be valid in current locale
-            if (mbstowcs(wcs, mbs, strlen(mbs) + 1) < 0) { // invalid
+            if ((long)mbstowcs(wcs, mbs, strlen(mbs) + 1) < 0) { // invalid
                 const char* p = extract_ascii((char*)value);
                 XtFree((char*)value);
                 value = (XtPointer)p;

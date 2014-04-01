@@ -102,7 +102,7 @@ public:
    friend class fast_mphf;
 };
 
-class fast_mphf : public long_pstring, public hash
+class fast_mphf : public long_pstring, public ihash
 {
 
 public:

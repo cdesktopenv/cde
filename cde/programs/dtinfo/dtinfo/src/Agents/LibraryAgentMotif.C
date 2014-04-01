@@ -1756,7 +1756,7 @@ LibraryAgent::library_removed (UAS_Pointer<UAS_Common> lib)
 {
     OutlineList &rootList = *(f_doc_tree_view->list());
     unsigned int i;
-    for (i = rootList.length() - 1; i >= 0; i --) {
+    for (i = rootList.length() - 1; (int) i >= 0; i --) {
 	TOC_Element *te = (TOC_Element *) rootList[i];
 	if (te->toc()->get_library() == lib) {
 	    if (f_tracking_hierarchy && f_tracking_hierarchy->f_toc == lib) {

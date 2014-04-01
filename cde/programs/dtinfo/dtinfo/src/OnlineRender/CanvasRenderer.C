@@ -2406,7 +2406,7 @@ TGDefn::build()
 	}
 	end_try;
 
-	unsigned int i, start_index;
+	unsigned int i, start_index = 0;
 	for (i = 0; i < num_columns; i++) {
 	  if (grid[current_row][i] == NULL) {
 	    start_index = i;

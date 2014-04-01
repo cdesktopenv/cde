@@ -63,8 +63,8 @@ main(int argc, char** argv)
     char ch;
     while (cin.get(ch)) text << ch;
 
-    char* buf = (char *)text.str().c_str();
-    *(buf + text.str().size()) = '\0';
+    string textstr = text.str();
+    char* buf = (char *)textstr.c_str();
 
     char* match = StringParser::brute_force(buf, npat, patterns);
 

@@ -121,9 +121,9 @@ ListView::display()
   if (f_shell == NULL)
     {
       create_ui_objects();
-      display_list();
     }
 
+  display_list();
   f_shell->Popup();
   f_shell->DeIconify();
 }

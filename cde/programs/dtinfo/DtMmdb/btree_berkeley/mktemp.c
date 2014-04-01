@@ -71,7 +71,7 @@ static char sccsid[] = "@(#)mktemp.c	8.1 (Berkeley) 6/4/93";
 extern int errno;
 #endif
 
-static int _gettemp();
+static int _gettemp(char*, int*);
 
 int mkstemp(path)
 	char *path;
@@ -142,7 +142,7 @@ _gettemp(path, doopen)
 			if (*trv == 'z')
 				*trv++ = 'a';
 			else {
-				if (isdigit(*trv))
+				if (isdigit((unsigned char) *trv))
 					*trv = 'a';
 				else
 					++*trv;

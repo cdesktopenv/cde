@@ -241,7 +241,7 @@ PreferenceRecord::read_prefs()
       if (*value == '\0')  // Ignore bogus lines. 
 	continue;
       *value++ = '\0';
-      while (isspace (*value))
+      while (isspace ((unsigned char) *value))
 	value++;
       int len = strlen(value);
       value[len-1] = '\0';

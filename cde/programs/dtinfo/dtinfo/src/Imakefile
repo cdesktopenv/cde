@@ -439,16 +439,18 @@ GENCAT=gencat -m
 GENCAT=gencat
 #endif
 
+#define MACRO_Messages @(messages=; \					@@\
+		for i in $(MSGS) ; \					@@\
+		do \							@@\
+			messages="$$messages $$i/$$i.msg"; \		@@\
+		done; \							@@\
+		cat $$messages > $(PROGRAM_NAME).cpp )
+
 messages:: 
 	foreach_subdirs(messages, $(MSGS))
 	@echo "### Making msgs in src ###"
 	@$(RM) $(PROGRAM_NAME).msg.updated
-	@(messages=;	\
-		for i in $(MSGS) ; \
-		do \
-			messages="$$messages $$i/$$i.msg"; \
-		done; \
-		cat $$messages > $(PROGRAM_NAME).cpp )
+	MACRO_Messages
 	$(CPP) -P -C $(PROGRAM_NAME)_msg.tmpl | $(TOOLS)/misc/msgsets > $(PROGRAM_NAME).msg.updated
 	@$(RM) $(PROGRAM_NAME).cpp
 

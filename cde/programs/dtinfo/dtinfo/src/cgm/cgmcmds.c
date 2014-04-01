@@ -778,7 +778,7 @@ static int fontlist(dat_ptr, cmd_ptr, cgm_s)
     }
   }
   /* zero out the rest of the fonts */
-  for (; i>MAX_FONTS; ++i) cgm_s->fontlist[i] = NULL;
+  for (; i<MAX_FONTS; ++i) cgm_s->fontlist[i] = NULL;
   
   return 1;
 }

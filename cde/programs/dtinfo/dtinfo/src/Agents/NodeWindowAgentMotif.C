@@ -2229,7 +2229,7 @@ NodeWindowAgent::search_on_selectionCB(Widget, XtPointer client_data,
 void
 NodeWindowAgent::text_callback(WCallback *wcb)
 {
-    (XmAnyCallbackStruct*)wcb->CallData();
+    (void) (XmAnyCallbackStruct*)wcb->CallData();
     char *text = XmTextGetString(wcb->GetWidget());
     if (text == NULL)
       return;
@@ -2846,7 +2846,7 @@ NodeWindowAgent::initialize_tabs()
 {
   List_Iterator<UAS_Pointer<UAS_Common> > tabs (g_tab_list);
   List_Iterator<BookTab *> btns (f_tab_btn_list);
-  BookTab *current;
+  BookTab *current = NULL;
   bool changed = FALSE;
   static int old_count = -1;
   int count = 0;

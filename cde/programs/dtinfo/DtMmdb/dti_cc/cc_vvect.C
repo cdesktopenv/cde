@@ -63,7 +63,7 @@ void value_vector<T>::_grow(size_t t)
 template <class T> 
 T value_vector<T>::operator[](size_t i) const
 {
-  if ( i<0 || i>= f_size )
+  if ( (long)i < 0 || i >= f_size )
     throw(ccBoundaryException(0, f_size-1, i));
   else
     return f_array[i];
@@ -72,7 +72,7 @@ T value_vector<T>::operator[](size_t i) const
 template <class T> 
 T& value_vector<T>::operator[](size_t i) 
 {
-  if ( i<0 || i>= f_size )
+  if ( (long)i < 0 || i >= f_size )
     throw(ccBoundaryException(0, f_size-1, i));
   else
     return f_array[i];

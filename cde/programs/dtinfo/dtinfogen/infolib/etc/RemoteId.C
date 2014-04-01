@@ -2378,9 +2378,11 @@ case 10:
 		  CC_String *val = (CC_String *)hd->findValue( &key );
 		  if ( !val ) {
 		    NeedRemote = 1;
+#ifdef REMOTE_DEBUG
 		    cerr << "(WARNING) Unresolved link  = " << (const char *)key << endl
 			 << "                file       = " << current_file_name << endl
 			 << "                line no.   = " << current_line_num << "\n\n";
+#endif
 		  }
 
 		  // cleanup and reset

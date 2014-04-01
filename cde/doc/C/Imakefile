@@ -12,12 +12,13 @@ MakeDirectories(all,help-sdl cde.dti)
 XCOMM We need to build Motif documentation as part of CDE
 MakeDirectories(Makefiles,m-guides)
 Makefiles::
-	$(RM) m-guides/?*; \
+	$(RM) -r m-guides/?*; \
 	cd m-guides; \
 	if test -f ../$(MDOCSRC)/C/guides/bookcase.bc; \
 	then $(LN) ../$(MDOCSRC)/C/guides/?* .; \
 	else $(CP) /dev/null ./Imakefile; \
-	     $(LN) ../$(MDOCSRC)/C/guides/common .; \
+	     $(MKDIRHIER) ./common; \
+	     $(LN) ../../guides/common/ManLinksMotif.sgm common/ManLinks.sgm; \
 	fi; \
 	cd ..
 

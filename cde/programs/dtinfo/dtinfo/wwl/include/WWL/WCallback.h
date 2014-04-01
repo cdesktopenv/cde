@@ -50,7 +50,7 @@ protected:
 	WCallback*	cbList;
 public:
 	WWL ();
-	~WWL ();
+	virtual ~WWL ();
 	
 	void		AddCb (WCallback *);
 	Boolean		RemoveCb (WCallback *);

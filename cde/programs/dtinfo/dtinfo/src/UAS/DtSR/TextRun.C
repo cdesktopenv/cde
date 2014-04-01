@@ -55,8 +55,8 @@ main(int argc, char** argv)
     char ch;
     while (cin.get(ch)) text << ch;
 
-    char* buf = (char *)text.str().c_str();
-    *(buf + text.str().size()) = '\0';
+    string textstr = text.str();
+    char* buf = (char *)textstr.c_str();
     char* p = buf;
 
     if (buf == NULL || *buf == '\0') {

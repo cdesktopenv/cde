@@ -533,7 +533,7 @@ OutlineListView::y_to_outline_element (Position y)
 #endif
   // Another Motif 1.2 bug.  YToPos should return 0 for bogus position,
   // but it doesn't check the range. 
-  if (f_item_pos < 0 || (int) f_item_pos >= ItemCount())
+  if ((int) f_item_pos < 0 || (int) f_item_pos >= ItemCount())
     return (NULL);
   
   oe = item_at (f_item_pos);

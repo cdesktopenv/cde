@@ -267,8 +267,10 @@ SearchResultsAgent::compose_header()
 void
 SearchResultsAgent::resize()
 {
+  UAS_Pointer<UAS_List<UAS_SearchResultsEntry> > tmpList =
+		f_results->results()->create_results(0, f_count);
   UAS_List<UAS_SearchResultsEntry>& rlist =
-		*(f_results->results()->create_results(0, f_count));
+		*(UAS_List<UAS_SearchResultsEntry> *)tmpList;
 
   fill_list(rlist);
 

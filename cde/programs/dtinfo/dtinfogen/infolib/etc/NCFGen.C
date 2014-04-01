@@ -129,6 +129,7 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
   const char *stitle;
   const char *style;
   int dupID = 0;
+  string outstr;
 
   OLIAS_DB mmdb_handle;
   info_lib *mmdb = 
@@ -199,6 +200,7 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
       stylesheet_smart_ptr sheet(base_ptr, style);
       ostringstream strout;
       sheet.its_oid().asciiOut(strout);
+      outstr = strout.str();
 
       ncf->insert(STRING_CODE, nodeLocator,
 		  STRING_CODE, title,
@@ -206,7 +208,7 @@ buildNCF(BookCaseDB& db, const char *base_name, int compressed)
 		  COMPRESSED_STRING_CODE, comp_agent, "",
 		  STRING_CODE, bookLocator,
 		  OID_CODE, "0.0", /* pointer to Book/CCF/DOC object */
-		  OID_CODE, (char *)strout.str().c_str(),
+		  OID_CODE, (char *)outstr.c_str(),
 		  NULL);
     }
 

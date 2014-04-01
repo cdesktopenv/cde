@@ -67,7 +67,7 @@ class info_lib : public primitive
 public:
    info_lib(char** set_name_array, char** list_name_array,
             char* info_lib_dir = 0, char* selected_base_name = 0, 
-            char* info_lib_name = "", int descriptor = -1); 
+            char* info_lib_name = (char*)"", int descriptor = -1);
 
    virtual ~info_lib();
 

@@ -1252,7 +1252,7 @@ SearchScopeAgent::set_components (u_int mask)
 
 #define ADD(LIST,STRING,CHILD,EXPANDED) \
   oe = new OutlineString (STRING); \
-  if (CHILD) oe->set_children (CHILD); \
+  if ((bool)CHILD) oe->set_children (CHILD); \
   if (EXPANDED) oe->set_expanded (0x1); \
   LIST->append (*oe);
 

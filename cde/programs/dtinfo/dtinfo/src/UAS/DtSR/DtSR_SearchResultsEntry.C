@@ -306,8 +306,8 @@ DtSR_SearchResultsEntry::create_matches()
 	}
     end_try;
 
-    char* text = (char*)output.str().c_str();
-    *(text + output.str().size()) = '\0';
+    string outpstr = output.str();
+    char* text = (char*)outpstr.c_str();
 
 #ifdef DUMP_NODES
     {
@@ -350,8 +350,8 @@ DtSR_SearchResultsEntry::create_matches()
 	for (int i = 0; i < count; i++) {
 	    stemsbuf << (f_search_res->stems(f_dbn)->stems())[i] << '\n';
 	}
-	char* stems = (char*)stemsbuf.str().c_str();
-	*(stems + stemsbuf.str().size()) = '\0';
+	string stemsbstr = stemsbuf.str();
+	char* stems = (char*)stemsbstr.c_str();
 
 	parseout = StringParser::hilite(text, count, stems);
 
@@ -383,17 +383,16 @@ DtSR_SearchResultsEntry::create_matches()
 				matches = new UAS_List<UAS_TextRun>;
 
     // convert kwics to textrun
+    string textrbstr;
     if (parseout == NULL && kwics) {
 	ostringstream textrunbuf;
 	for (int i = 0; i < n_kwics; i++)
 	    textrunbuf << kwics[i].offset << '\t' << kwics[i].length << '\n';
-	parseout = (char*)textrunbuf.str().c_str();
-	*(parseout + textrunbuf.str().size()) = '\0';
+	textrbstr = textrunbuf.str();
+	parseout = (char*)textrbstr.c_str();
     }
     else if (parseout == NULL)
     {
-	if (text)
-	    delete[] text;
 	return matches;
     }
 
@@ -438,8 +437,11 @@ DtSR_SearchResultsEntry::create_matches()
 	    }
 	    else {
 		scanned = mblen(cursor, MB_CUR_MAX);
-		assert( scanned >= 0 );
 		vcc++;
+
+		/* skip one byte in case of failure */
+		if (scanned < 0)
+		    scanned = 1;
 	    }
 
 	    off -= scanned;
@@ -476,11 +478,6 @@ DtSR_SearchResultsEntry::create_matches()
 	UAS_Pointer<UAS_TextRun> textrun = new UAS_TextRun(vcc, vlen);
 	matches->insert_item(textrun);
     }
-
-    if (text)
-	delete[] text;
-    if (parseout)
-	delete[] parseout;
 
     return matches;
 }

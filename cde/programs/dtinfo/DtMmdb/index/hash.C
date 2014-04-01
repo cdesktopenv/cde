@@ -51,16 +51,16 @@
 #include <stdio.h>
 #include "index/hash.h"
 
-hash::hash() : v_key_set_sz(0), v_hash_func_sz(0), v_hash_tbl_sz(0)
+ihash::ihash() : v_key_set_sz(0), v_hash_func_sz(0), v_hash_tbl_sz(0)
 {
 }
 
-hash::~hash()
+ihash::~ihash()
 {
 }
 
 void 
-hash::init_data_member(unsigned int a, unsigned int b, unsigned int c)
+ihash::init_data_member(unsigned int a, unsigned int b, unsigned int c)
 {
    v_key_set_sz = a;
    v_hash_func_sz = b; 
@@ -68,15 +68,15 @@ hash::init_data_member(unsigned int a, unsigned int b, unsigned int c)
 }
 
 
-int hash::cdr_sizeof()
+int ihash::cdr_sizeof()
 {
    return sizeof(v_key_set_sz) + sizeof(v_hash_func_sz) + sizeof(v_hash_tbl_sz);
 }
 
-io_status hash::cdrOut(buffer& buf)
+io_status ihash::cdrOut(buffer& buf)
 {
 /*
-MESSAGE(cerr, "hash::cdrOut");
+MESSAGE(cerr, "ihash::cdrOut");
 debug(cerr, v_hash_tbl_sz);
 debug(cerr, v_key_set_sz);
 */
@@ -86,9 +86,9 @@ debug(cerr, v_key_set_sz);
    return done;
 }
 
-io_status hash::cdrIn(buffer& buf)
+io_status ihash::cdrIn(buffer& buf)
 {
-//MESSAGE(cerr, "hash::cdrIn");
+//MESSAGE(cerr, "ihash::cdrIn");
 
    buf.get(v_key_set_sz);
    buf.get(v_hash_func_sz);

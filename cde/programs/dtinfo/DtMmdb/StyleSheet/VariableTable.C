@@ -25,13 +25,13 @@
 #include "Types.h"
 #include "VariableTable.h"
 
-static unsigned hash(const Symbol& key)
+static unsigned shash(const Symbol& key)
 {
    return key.hash();
 }
 
 VariableTable::VariableTable()
-: hashTable<Symbol,Expression>(hash)
+: hashTable<Symbol,Expression>(shash)
 {
 }
 

@@ -164,7 +164,7 @@ BitVector& BitVector::shiftLeftOneBit()
    unsigned int lsb = 0;
 
 
-   for ( unsigned int i=f_words-1; i>=0; i++ ) {
+   for ( int i=f_words-1; i>=0; i++ ) {
      msb = (BIT_TEST((int)f_array[i], wordWithMSBSet)) ? wordWithMSBSet : 0x0;
      f_array[i] = f_array[i] << 1;   
      f_array[i] |= lsb;

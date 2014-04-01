@@ -24,6 +24,7 @@
 /*	Copyright (c) 1995,1996 FUJITSU LIMITED		*/
 /*	All Rights Reserved				*/
 
+#include "UAS_Exceptions.hh"
 #include "DtSR_SearchEngine.hh"
 #include "DtSR_SearchResultsEntry.hh"
 #include "DtSR_SearchResults.hh"

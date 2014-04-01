@@ -24,7 +24,7 @@ friend class UAS_Sender<T>;
 protected:
   // This is an abstract base class.
   UAS_Receiver() { }
-  ~UAS_Receiver();
+  virtual ~UAS_Receiver();
 
   virtual void receive (T &message, void *client_data = 0) = 0;
 

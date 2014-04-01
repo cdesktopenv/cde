@@ -153,6 +153,7 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
 #endif
 
     char* caped_text = NULL;
+    string capstr;
 
     if (sensitive == False) { // case-insensitive search
 	unsigned char *p;
@@ -169,8 +170,8 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
 	    else
 		capitalized << *p;
 	}
-	text_in = caped_text = (char *)capitalized.str().c_str();
-	*(char*)(text_in + capitalized.str().size()) = '\0';
+	capstr = capitalized.str();
+	text_in = caped_text = (char *)capstr.c_str();
     }
 
     ostringstream text_run;
@@ -237,7 +238,8 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
     if (caped_text)
 	delete[] caped_text;
 
-    char* ret_text = (char *)text_run.str().c_str();
+    string trunstr = text_run.str();
+    char* ret_text = (char *)trunstr.c_str();
 
     if (ret_text == NULL)
 	return NULL;
@@ -323,7 +325,8 @@ StringParser::project_textrun(const char* org_textrun)
 
     ret_text << off << '\t' << len << '\n' << '\0';
 
-    return (char *)ret_text.str().c_str();
+    string rettstr = ret_text.str();
+    return (char *)rettstr.c_str();
 }
 
 char *

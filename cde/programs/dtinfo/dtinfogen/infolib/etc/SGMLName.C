@@ -88,7 +88,7 @@ SGMLName::intern(const char *name, int upcase)
     const char *src;
     char *dest;
     for(src = name, dest=buf; *src; src++, dest++){
-      *dest = toupper(*src);
+      *dest = toupper((unsigned char) *src);
     }
     *dest = 0;
     

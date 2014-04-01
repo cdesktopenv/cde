@@ -26,7 +26,7 @@ public:
     IcccmAgent(void*, data_handler_t);
     IcccmAgent(void*, data_exporter_t);
 	
-    ~IcccmAgent();
+    virtual ~IcccmAgent();
     data_handler_t  set_string_handler(data_handler_t);
     data_exporter_t set_string_exporter(data_exporter_t);
 

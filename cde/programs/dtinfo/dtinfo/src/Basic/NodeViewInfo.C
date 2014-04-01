@@ -250,7 +250,7 @@ DtCvStrVccToIndex(_DtCvSegment* seg, unsigned int vcc)
     unsigned int index = 0;
 
     unsigned int rel_vcc;
-    if ((rel_vcc = vcc - ((SegClientData*)seg->client_use)->vcc()) < 0)
+    if ((int)(rel_vcc = vcc - ((SegClientData*)seg->client_use)->vcc()) < 0)
 	return (unsigned int)-1;
 
     if (seg->type & _DtCvWIDE_CHAR) {

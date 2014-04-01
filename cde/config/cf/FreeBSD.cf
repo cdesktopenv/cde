@@ -21,6 +21,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define HasBSD44Sockets		YES
 #define HasZlib			YES
 
+#ifndef CppCmd
 #if OSMajorVersion >= 5
 #define CppCmd			/usr/bin/cpp -traditional
 #define PreProcessCmd		/usr/bin/cpp -traditional
@@ -28,6 +29,8 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define CppCmd			/usr/libexec/cpp -traditional
 #define PreProcessCmd		/usr/libexec/cpp -traditional
 #endif
+#endif
+
 #undef  InstallCmd
 #define InstallCmd		/usr/bin/install
 #undef	KornShell
@@ -67,9 +70,11 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 #define MkdirHierCmd		mkdir -p
 
+#ifndef CcCmd
 #define CcCmd gcc
 #ifndef DefaultCCOptions
 #define DefaultCCOptions	-pipe
+#endif
 #endif
 
 #define CplusplusLibC		-lstdc++
@@ -142,10 +147,12 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #endif
 #endif
 
-#ifdef i386Architecture
-# define OptimizedCDebugFlags DefaultGcc2i386Opt
-#else
-# define OptimizedCDebugFlags -O2 -fno-strict-aliasing
+#ifndef OptimizedCDebugFlags
+# ifdef i386Architecture
+#  define OptimizedCDebugFlags DefaultGcc2i386Opt
+# else
+#  define OptimizedCDebugFlags -O2 -fno-strict-aliasing
+# endif
 #endif
 
 #ifdef HasGcc2

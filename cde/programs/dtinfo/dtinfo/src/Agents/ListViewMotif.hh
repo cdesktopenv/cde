@@ -40,7 +40,7 @@ public: // notification types
   enum { ENTRY_ACTIVATE = FolioObjectLast, _LAST };
   
 public:  // functions 
-ListView (List *the_list = NULL, char *name = "ListView")
+ListView (List *the_list = NULL, char *name = (char*)"ListView")
     : f_the_list(NULL), f_shell (NULL), f_name (name)
     {
       list (the_list);

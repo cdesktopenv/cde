@@ -145,22 +145,25 @@ int gethostname(char* name, int namelen)
 
 int compare_stream(ostringstream& x, ostringstream& y)
 {
-   if ( x.str().size() != y.str().size() ) {
-      cerr << x.str().size() << "---" << y.str().size() << endl;
-//debug(cerr, x.str().c_str());
-//debug(cerr, y.str().c_str());
+   string xstr = x.str();
+   string ystr = y.str();
+
+   if ( xstr.size() != ystr.size() ) {
+      cerr << xstr.size() << "---" << ystr.size() << endl;
+//debug(cerr, xstr.c_str());
+//debug(cerr, ystr.c_str());
       return 1;
    } else {
 
-     char* u = (char *)x.str().c_str();
-     char* v = (char *)y.str().c_str();
+     char* u = (char *)xstr.c_str();
+     char* v = (char *)ystr.c_str();
 
 //debug(cerr, u);
 //debug(cerr, v);
 //fprintf(stderr, "u=%s, pcount() = %d\n", u, x.pcount());
 //fprintf(stderr, "v=%s, pcount() = %d\n", v, y.pcount());
 
-     if ( memcmp(u, v, x.str().size()) != 0 ) {
+     if ( memcmp(u, v, xstr.size()) != 0 ) {
        STDERR_MESSAGE("two streams do not match.");
 debug(cerr, u);
 debug(cerr, v);

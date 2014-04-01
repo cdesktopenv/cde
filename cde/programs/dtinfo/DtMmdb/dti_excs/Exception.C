@@ -218,7 +218,7 @@ Exception::relocate (Exception **exception, int length)
   // Slide the specified exception down to fill the hole below it.
   if (g_next_avail >= (char *) *exception)
     abort();
-  memcpy (g_next_avail, *exception, length);
+  memcpy (g_next_avail, (void*)*exception, length);
   *exception = (Exception *) g_next_avail;
   g_next_avail = ((char *) *exception) + length;
 }
@@ -233,13 +233,15 @@ Exception::is (const char *type, const char *this_class)
 {
   PRINTF (("Type specified is <%s>\n", type));
   
-  while (isalnum (*type) && isalnum (*this_class) &&
+  while (isalnum ((unsigned char) *type) &&
+	 isalnum ((unsigned char) *this_class) &&
 	 *type++ == *this_class++);
-  if (isalnum (*type) || isalnum (*this_class))
+  if (isalnum ((unsigned char) *type) ||
+      isalnum ((unsigned char) *this_class))
     return (0);
 
   // Check for pointer types
-  while (isspace (*type))
+  while (isspace ((unsigned char) *type))
     {
       type++;
     }

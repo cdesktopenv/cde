@@ -55,12 +55,12 @@
 #include "utility/buffer.h"
 #include "utility/key.h"
 
-class hash 
+class ihash
 {   
 
 public:
-   hash();
-   virtual ~hash() ;
+   ihash();
+   virtual ~ihash() ;
  
    virtual void init_data_member(unsigned int v_key_set_sz = 0, 
                                 unsigned int v_hash_func_sz = 0, 

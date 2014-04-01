@@ -92,7 +92,7 @@ void delete_name_oid_rec_f(const void* name_oid_ptr);
 class mark_t : private ostring
 {
 public:
-   mark_t(char* marks = "\t\n ");
+   mark_t(char* marks = (char*)"\t\n ");
    virtual ~mark_t() {};
    friend istream& operator >>(istream&, mark_t&);
    friend ostream& operator <<(ostream&, mark_t&);

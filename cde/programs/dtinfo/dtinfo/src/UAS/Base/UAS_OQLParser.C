@@ -24,7 +24,7 @@
 /*	Copyright (c) 1995 FUJITSU LIMITED	*/
 /*	All Rights Reserved			*/
 
-#if defined(__uxp__) || defined(USL) || defined(linux)
+#if defined(__uxp__) || defined(USL) || defined(linux) || defined(CSRG_BASED)
 #include <string.h>
 #else
 #include <strings.h>
@@ -646,6 +646,7 @@ UAS_OQLParser::determine_caps()
     }
     end_try;
 
+#if 0					/* not supported by libDtSearch */
     caps |= 0x01 << OQL_WEIGHT;
     mtry {
 	se_construct(WEIGHT, word, digits, "");
@@ -663,6 +664,7 @@ UAS_OQLParser::determine_caps()
 	caps &= ~(0x01 << OQL_COMPLETION);
     }
     end_try;
+#endif
 
     caps |= 0x01 << OQL_PHRASE;
     mtry {

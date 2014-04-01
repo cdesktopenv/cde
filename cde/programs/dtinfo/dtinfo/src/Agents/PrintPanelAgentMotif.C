@@ -149,7 +149,10 @@ static  WXmToggleButton	        f_print_hierarchy;
 
 static Boolean print_hierarchy;  // keep track of hierarchy vs section
 
+#if defined(PRINTING_SUPPORTED)
 static void PrintEverything(AppPrintData *p);
+#endif  /* PRINTING_SUPPORTED */
+
 static void PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP);
 
 PrintPanelAgent::PrintPanelAgent()
@@ -431,9 +434,10 @@ void
 PdmNotifyCB(Widget pr_shell, XtPointer client_data, XtPointer call_data)
 {
     RCS_DEBUG("PdmNotifyCB called.\n");   
-    char *msg;
 
 #if defined(PRINTING_SUPPORTED)
+    char *msg;
+
     XmPrintShellCallbackStruct* pr_cbs = 
 	(XmPrintShellCallbackStruct*) call_data;
     
@@ -463,10 +467,10 @@ PdmNotifyCB(Widget pr_shell, XtPointer client_data, XtPointer call_data)
 void 
 CreatePrintShell(Widget widget, AppPrintData* p)
 {
-    char buf[BUFSIZ];
-    
     RCS_DEBUG("CreatePrintShell called.\n");   
+
 #if defined(PRINTING_SUPPORTED)
+    char buf[BUFSIZ];
 
     /*
      * create a print_shell if none available.  the print dialog callback
@@ -523,11 +527,10 @@ CreatePrintShell(Widget widget, AppPrintData* p)
 void 
 PrintSetupCB(Widget print_dialog, XtPointer client_data, XtPointer call_data)
 {
-    char *msg;
-
     RCS_DEBUG("PrintSetupCB called.\n");   
-#if defined(PRINTING_SUPPORTED)
 
+#if defined(PRINTING_SUPPORTED)
+    char *msg;
 
     AppPrintData *p = (AppPrintData*)client_data;
     DtPrintSetupCallbackStruct *pbs = (DtPrintSetupCallbackStruct*)call_data;
@@ -925,6 +928,7 @@ DoPrint(Widget widget, AppPrintData * p)
 
 }
 
+#if defined(PRINTING_SUPPORTED)
 /*
  * ------------------------------------------------------------------------
  * Name: PrintEverything
@@ -958,6 +962,7 @@ PrintEverything(AppPrintData *p)
 
     RCS_DEBUG("PrintEverything exiting.\n");
 }
+#endif  /* PRINTING_SUPPORTED */
 
 static void
 PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP)

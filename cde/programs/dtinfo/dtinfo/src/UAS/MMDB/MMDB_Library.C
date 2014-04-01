@@ -22,6 +22,7 @@
  */
 // $XConsortium: MMDB_Library.C /main/9 1996/09/14 13:10:52 cde-hal $
 
+# include "UAS_Exceptions.hh"
 # include "MMDB_Library.hh"
 # include "MMDB_BookCase.hh"
 # include "MMDB_Factory.hh"

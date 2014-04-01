@@ -136,14 +136,14 @@ void DtMmdbQuit()
 
 }
 
-void* operator new( size_t sz )
+void* operator new( size_t sz ) throw(std::bad_alloc)
 {
    void* p = (void*)malloc(sz);
    //printf("a::operator new called(). sz= %d, allo=%x\n", sz, p);
    return p;
 }
 
-void operator delete( void* p )
+void operator delete( void* p ) throw()
 {
    //printf("a::operator free called(). alloc= %x\n", p);
    if ( p )

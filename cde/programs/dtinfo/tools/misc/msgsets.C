@@ -1127,9 +1127,10 @@ FILE *file;
     }
 
 
-main()
+int main()
 {
     int i,j;
+    string setstr;
 
     yylex();
 
@@ -1152,7 +1153,8 @@ main()
     }
 
     for (i = 0; i < sets_cnt; i++) {
-	const char* record = sets[sorted[i]]->str().c_str();
+	setstr = sets[sorted[i]]->str();
+	const char* record = setstr.c_str();
 	std::cout << record << '\n' << std::flush;
     }
 

@@ -24,6 +24,8 @@ class FolioObject;
 class Iterator
 {
 public:
+  virtual ~Iterator() {}
+
   // initialize iterator, find first element
   virtual FolioObject *init() = 0;
 

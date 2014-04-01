@@ -108,7 +108,9 @@ XCOMM operating system:  OSName
 
 
 #ifdef i386Architecture
-# define OptimizedCDebugFlags 	-O2
+# ifndef OptimizedCDebugFlags
+#  define OptimizedCDebugFlags 	-O2 -fno-strict-aliasing
+# endif
 # if OSMajorVersion < 1
 #  define ServerOSDefines	XFree86ServerOSDefines -DDDXTIME -DXNO_SYSCONF
 # else
@@ -118,7 +120,9 @@ XCOMM operating system:  OSName
 #  define ServerExtraSysLibs	-li386
 # endif
 #else
-# define OptimizedCDebugFlags 	-O2
+# ifndef OptimizedCDebugFlags
+#  define OptimizedCDebugFlags 	-O2 -fno-strict-aliasing
+# endif
 # if defined(SparcArchitecture)
 #  define ServerOSDefines 	-DDDXOSINIT
 # else

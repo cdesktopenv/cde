@@ -483,6 +483,13 @@ install:: fonts.alias							@@\
 
 # define HasAgpGart		YES
 
+# ifndef DefaultGcc2i386Opt
+#  define DefaultGcc2i386Opt	-O2 -fno-strict-aliasing
+# endif
+# ifndef OptimizedCDebugFlags
+#  define OptimizedCDebugFlags	DefaultGcc2i386Opt
+# endif
+
 # define LdPostLib		-L/usr/X11R6/lib -L/usr/local/lib
 
 # define ServerExtraSysLibs	-lamd64
@@ -553,7 +560,9 @@ install:: fonts.alias							@@\
 #     define DefaultGcc2i386Opt	-O2 -fno-strict-aliasing
 #   endif
 # endif
-# define OptimizedCDebugFlags	DefaultGcc2i386Opt
+# ifndef OptimizedCDebugFlags
+#   define OptimizedCDebugFlags	DefaultGcc2i386Opt
+# endif
 # define ServerOSDefines	XFree86ServerOSDefines -DDDXTIME
 # define ServerExtraSysLibs	-li386
 # define LdPostLib		-L/usr/X11R6/lib -L/usr/local/lib
@@ -1032,8 +1041,12 @@ CXXDEPENDINCLUDE != echo | `CcCmd -print-prog-name=cc1plus` -v 2>&1 | \
 #define TtClientDepLibs $(DEPTTLIB) $(DEPXTOOLLIB) $(DEPXLIB)
 
 #define CplusplusLibC           -lstdc++
+#ifndef CplusplusOptions
 #define CplusplusOptions	-Wall -Wpointer-arith -Wno-unused -Wno-write-strings -Wno-switch
+#endif
+#ifndef LibraryCplusplusOptions
 #define LibraryCplusplusOptions	-Wall -Wpointer-arith -Wno-unused -Wno-write-strings -Wno-switch
+#endif
 
 #define ArchitectureDefines    -DOPENBSD_ARCHITECTURE
 

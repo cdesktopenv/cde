@@ -133,7 +133,7 @@ WString::get_mbstr()
     int   buffer_size = MB_CUR_MAX * f_wstringrep->f_length + 1;
     char* buffer      = new char[buffer_size];
 
-    if (wcstombs(buffer, f_wstringrep->f_data, buffer_size) < 0)
+    if ((long)wcstombs(buffer, f_wstringrep->f_data, buffer_size) < 0)
 	*buffer = 0;
 
     return buffer;

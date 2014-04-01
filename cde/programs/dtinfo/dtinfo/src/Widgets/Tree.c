@@ -98,9 +98,9 @@ static void             Redisplay();
 static XtGeometryResult	QueryGeometry();
 
 					/* utility routines */
-static void             insert_node();
-static void             delete_node();
-static void             layout_tree();
+static void             insert_node(Widget, Widget);
+static void             delete_node(Widget, Widget);
+static void             layout_tree(TreeWidget, Boolean);
 
 
 /*

@@ -90,8 +90,12 @@ static XtResource resources[] = {
 #undef offset
 };
 
-static void ClassPartInitialize(), ClassInitialize(),Realize(),ConvertCursor();
-static Boolean SetValues(), ChangeSensitive();
+static void ClassPartInitialize(WidgetClass);
+static void ClassInitialize();
+static void Realize(Widget, Mask*, XSetWindowAttributes*);
+static void ConvertCursor(Widget);
+static Boolean SetValues();
+static Boolean ChangeSensitive(Widget);
 
 SimpleClassRec simpleClassRec = {
   { /* core fields */

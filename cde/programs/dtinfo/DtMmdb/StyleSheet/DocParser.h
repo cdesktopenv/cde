@@ -55,7 +55,7 @@ public:
   enum TagType { StartTag, EndTag, AttributeSection, OliasAttribute, NoTag };
 
   DocParser(Resolver &);
-  ~DocParser();
+  virtual ~DocParser();
   
   // returns a boolean  
   unsigned int	parse(istream &);

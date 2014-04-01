@@ -102,8 +102,13 @@ static char defaultTranslations[] =
    <Key>Home:     page(0,0) ";
 
 
-static void ActionStart(), ActionStop(), ActionAbort(), ActionMove();
-static void ActionPage(), ActionNotify(), ActionSet();
+static void ActionStart(Widget, XEvent*, String*, Cardinal*);
+static void ActionStop(Widget, XEvent*, String*, Cardinal*);
+static void ActionAbort(Widget, XEvent*, String*, Cardinal*);
+static void ActionMove(Widget, XEvent*, String*, Cardinal*);
+static void ActionPage(Widget, XEvent*, String*, Cardinal*);
+static void ActionSet(Widget, XEvent*, String*, Cardinal*);
+static void ActionNotify(Widget, XEvent*, String*, Cardinal*);
 
 static XtActionsRec actions[] = {
     { "start", ActionStart },		/* start tmp graphics */
@@ -467,7 +472,8 @@ static int parse_page_string (s, pagesize, canvassize, relative)
      * syntax:    spaces [+-] number spaces [pc\0] spaces
      */
 
-    for (; isascii(*s) && isspace(*s); s++) ;	/* skip white space */
+					/* skip white space */
+    for (; isascii(*s) && isspace((unsigned char) *s); s++) ;
 
     if (*s == '+' || *s == '-') {	/* deal with signs */
 	rel = TRUE;
@@ -480,11 +486,11 @@ static int parse_page_string (s, pagesize, canvassize, relative)
     }
 
 					/* skip over numbers */
-    for (cp = s; isascii(*s) && (isdigit(*s) || *s == '.'); s++) ;
+    for (cp = s; isascii(*s) && (isdigit((unsigned char)*s)|| *s == '.'); s++) ;
     val *= atof (cp);
 
 					/* skip blanks */
-    for (; isascii(*s) && isspace(*s); s++) ;
+    for (; isascii(*s) && isspace((unsigned char) *s); s++) ;
 
     if (*s) {				/* if units */
 	switch (s[0]) {

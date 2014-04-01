@@ -1596,8 +1596,8 @@ buildBookcase(char *cmdSrc, char *dirName)
 	    dieRWD(-1, "%s: Cannot find %s: %s\n",
 		   EXEC_NAME, newDir, strerror(errno));
 
-	snprintf(cmd, sizeof(cmd), "dtsrcreate %s-o -l%d %s",
-		(gStruct->verbose) ? "" : "-q ",
+	snprintf(cmd, sizeof(cmd), "dtsrcreate %s-o -a%d -l%d %s",
+		(gStruct->verbose) ? "" : "-q ", 210,
 		langtbl[gStruct->dtsridx].dtsrlang, bookCaseName);
 	runShellCmd(cmd);
 
@@ -1717,7 +1717,7 @@ validateBookCaseName(char *bookCaseName)
 
 	for (i = 0; bookCaseName[i] != '\0'; i++)
 	{
-	    if (!isalnum(bookCaseName[i]))
+	    if (!isalnum((unsigned char) bookCaseName[i]))
 		break;
 	}
 
@@ -1823,7 +1823,7 @@ editMapFile(char *bookCaseName, char *bookCaseMap)
     for (i = 1; fileVector[i] != (char *)NULL; i++)
     {
 	if ((strncmp(fileVector[i], bookCaseName, bcNameLen) == 0) &&
-	    (!isalnum(fileVector[i][bcNameLen])) &&
+	    (!isalnum((unsigned char) fileVector[i][bcNameLen])) &&
 	    (fileVector[i][bcNameLen] != '_'))
 	{
 	    if (!replaced)
@@ -1996,8 +1996,9 @@ makeTOC(char *id, char *title)
     tocTitle = sgmlData(title);
     for (i = 0; id[i] != '\0'; i++)
     {
-	if ((!isalnum(id[i])) && (id[i] != '.') && (id[i] != '-'))
-	    die(-1, "bad ID: %s\n", id);
+	if ((!isalnum((unsigned char) id[i])) &&
+	    (id[i] != '.') && (id[i] != '-'))
+		die(-1, "bad ID: %s\n", id);
     }
 
     fileIn = buildPath("%s/NodeMeta", makeWorkDir());

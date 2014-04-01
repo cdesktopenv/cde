@@ -12,6 +12,8 @@ class UAS_EmbeddedObject;
 
 class UAS_Factory {
     public:
+	virtual ~UAS_Factory() {}
+
 	static void initialize (UAS_List<UAS_String>&);
 	static void finalize ();
 	static UAS_List<UAS_String> getRootLocators ();

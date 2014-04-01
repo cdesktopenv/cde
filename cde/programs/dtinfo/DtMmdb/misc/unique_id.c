@@ -198,7 +198,7 @@ unique_id (void)
 	  buf[i] = mapping[(int)buf[i]];
 	}
 
-    } while (!isalnum (buf[0]));
+    } while (!isalnum ((unsigned char) buf[0]));
 
   return (buf);
 }

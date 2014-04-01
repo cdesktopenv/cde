@@ -73,7 +73,7 @@ int main( int argc, char** argv )
    int ok = 0;
    DtMmdbInit();
 
-   if ( argc == 1 || 0==isdigit(argv[1][0]) ) {
+   if ( argc == 1 || 0==isdigit((unsigned char) argv[1][0]) ) {
       usage(argc, argv);
    } else
       switch ( atoi(argv[1]) ) {

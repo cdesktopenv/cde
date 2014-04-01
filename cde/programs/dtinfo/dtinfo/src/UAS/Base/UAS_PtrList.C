@@ -22,6 +22,7 @@
  */
 // $XConsortium: UAS_PtrList.cc /main/5 1996/08/06 09:23:58 rcs $
 
+#include "UAS_Exceptions.hh"
 #include "Managers/CatMgr.hh"
 #include "Registration.hh"
 

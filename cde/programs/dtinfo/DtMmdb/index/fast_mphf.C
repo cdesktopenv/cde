@@ -135,7 +135,7 @@ void fast_mphf::init_persistent_info(persistent_info* x)
       r = 0;
       v_seed = 0;
       t = 0;
-      hash::init_data_member();
+      ihash::init_data_member();
    }
 }
 
@@ -495,14 +495,14 @@ int fast_mphf::print_bits(unsigned x, ostream& out)
 
 int fast_mphf::cdr_sizeof()
 {
-   return long_pstring::cdr_sizeof() + hash::cdr_sizeof() +
+   return long_pstring::cdr_sizeof() + ihash::cdr_sizeof() +
           6*sizeof(unsigned int);
 }
 
 io_status fast_mphf::cdrOut(buffer& buf)
 {
    long_pstring::cdrOut(buf);
-   hash::cdrOut(buf);
+   ihash::cdrOut(buf);
 
    buf.put(v_no_ps);
    buf.put(v_p1);
@@ -517,7 +517,7 @@ io_status fast_mphf::cdrOut(buffer& buf)
 io_status fast_mphf::cdrIn(buffer& buf)
 {
    long_pstring::cdrIn(buf);
-   hash::cdrIn(buf);
+   ihash::cdrIn(buf);
 
    buf.get(v_no_ps);
    buf.get(v_p1);

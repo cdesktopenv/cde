@@ -327,7 +327,7 @@ QueryTermView::create_ui()
 void
 QueryTermView::select_toggle (WCallback *wcb)
 {
-  (XmToggleButtonCallbackStruct *) wcb->CallData();
+  (void) (XmToggleButtonCallbackStruct *) wcb->CallData();
 
   // notify someone about selection state...
   invert_colors();
