@@ -56,7 +56,7 @@ RoamInterruptibleCmd::RoamInterruptibleCmd ( char *name,
 					     int active ) :
                         NoUndoCmd ( name, label, active )
 {
-    _wpId        = NULL;   // There is no work procedure yet
+    _wpId        = 0;   // There is no work procedure yet
     _callback    = NULL;	   // Callbacks are specified in execute()
     _clientData  = NULL;
     _done        = FALSE; 
