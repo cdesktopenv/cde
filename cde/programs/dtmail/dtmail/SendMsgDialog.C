@@ -2892,7 +2892,7 @@ SendMsgDialog::reset()
     _lastAttBP = NULL;    // So just set this to NULL.
     // Delete or set to NULL ???
     _inclMsgHandle = NULL; 
-    _inclMsgHasText = NULL;
+    _inclMsgHasText = 0;
 
     for (int clear = 0; clear < _header_list.length(); clear++) {
 	HeaderList * hl = _header_list[clear];
