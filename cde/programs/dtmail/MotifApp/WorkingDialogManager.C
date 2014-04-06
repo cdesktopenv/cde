@@ -78,7 +78,7 @@ WorkingDialogManager *theWorkingDialogManager =
 WorkingDialogManager::WorkingDialogManager ( char   *name ) : 
                            DialogManager ( name )
 {
-    _intervalId  = NULL;
+    _intervalId  = 0;
     _busyPixmaps = NULL;
 }
 
