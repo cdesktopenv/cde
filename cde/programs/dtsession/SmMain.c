@@ -669,7 +669,6 @@ RegisterX11ScreenSaver(
   int screen;
   Window root;
   XID xid;
-  XSetWindowAttributes attr;
   Atom type;
 
   if (XScreenSaverQueryExtension(display, pssEventType, &ssErrorBase) &&
@@ -695,13 +694,22 @@ RegisterX11ScreenSaver(
 
     if (result == 0)
     {
+      XSetWindowAttributes attr;
+
      /* 
       * Registration successful.
       */
       XScreenSaverSelectInput(display, root, 
                               ScreenSaverNotifyMask|ScreenSaverCycleMask);
+
+      /* Even though OverrideRedirect is the default attribute in this
+       *  check, lets make sure it's set, and make sure only the
+       *  CWOverrideRedirect attr is being looked at.  The rest is
+       *  just random garbage anyway, since it's allocated from the stack.
+       */
+      attr.override_redirect = True;
       XScreenSaverSetAttributes(display, root, 0, 0, 1, 1, 0, CopyFromParent,
-                          CopyFromParent, CopyFromParent, CWBackPixel, &attr);
+                          CopyFromParent, CopyFromParent, CWOverrideRedirect, &attr);
     }
   }
   return(result);   
