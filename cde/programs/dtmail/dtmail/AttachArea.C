@@ -663,7 +663,7 @@ AttachArea::addAttachment(
 	buffer = new char[s.st_size + 1];
 
 	if (!buffer) {
-	    sprintf(buf, 
+            sprintf(buf, "%s",
 		    GETMSG(DT_catd, 3, 36, "Unable to allocate memory."));
             helpId = DTMAILHELPNOALLOCMEM;
 	    answer = this->handleErrorDialog(GETMSG(DT_catd, 1, 83, "Mailer"), 
@@ -1471,7 +1471,7 @@ AttachArea::undeleteLastDeletedAttachment(
 
     Attachment *tmpAttachment;
     Attachment **list;
-    time_t time_deleted = NULL, tmpTime = NULL;
+    time_t time_deleted = 0, tmpTime = 0;
     int i;
 
     if (_deleteCount == 0) {
