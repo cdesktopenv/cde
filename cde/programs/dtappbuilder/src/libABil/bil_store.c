@@ -606,7 +606,7 @@ bil_get_filename(
     ABObj module
 )
 {
-    char	proj_dir[MAXPATHLEN]= "", 
+    static char	proj_dir[MAXPATHLEN]= "", 
 		module_dir[MAXPATHLEN]= "",
     		module_file[MAXPATHLEN]= "";
     STRING	proj_fullpath, mod_fullpath;
