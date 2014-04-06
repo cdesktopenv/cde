@@ -430,8 +430,8 @@ RoamMenuWindow::RoamMenuWindow (char *name) : MenuWindow ("dtmail", True)
     //
     // Initialize private variables
     //
-    _mbox_image = NULL;
-    _mbox_mask  = NULL;
+    _mbox_image = 0;
+    _mbox_mask  = 0;
 
     _my_editor = NULL;
     _message = NULL;
@@ -683,7 +683,7 @@ RoamMenuWindow::initialize()
 
 	if (_mbox_image == XmUNSPECIFIED_PIXMAP ||
 	    _mbox_mask == XmUNSPECIFIED_PIXMAP)
-	  _mbox_image = _mbox_mask = NULL;
+	  _mbox_image = _mbox_mask = 0;
     }
     
     // Add an event handler for structureNotify.
