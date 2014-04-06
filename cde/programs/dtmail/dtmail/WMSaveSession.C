@@ -437,7 +437,7 @@ RoamMenuWindow::restoreSession(char *buf)
 		do
 		{
 		    ptr = strchr (workspaces, '*');
-		    if (ptr != NULL) *ptr = NULL;
+		    if (ptr != NULL) *ptr = 0;
 				
 		    workspace_atoms = (Atom*) XtRealloc(
 					(char*) workspace_atoms, 
@@ -638,7 +638,7 @@ SendMsgDialog::restoreSession(char *buf)
 	        do
 		{
 		    ptr = strchr(workspaces, '*');
-		    if (ptr != NULL) *ptr = NULL;
+		    if (ptr != NULL) *ptr = 0;
 				
 		    workspace_atoms = (Atom*) XtRealloc(
 					(char*) workspace_atoms, 
