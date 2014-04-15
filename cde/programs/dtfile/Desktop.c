@@ -2487,6 +2487,7 @@ RegisterInGrid(
    int row, column;
    int rowHeight, columnWidth;
    int desktop_grid_index;
+   int i,j;
 
    if(desktopIconType == LARGE)
    {
@@ -2503,16 +2504,24 @@ RegisterInGrid(
       columnWidth = (rX + width) / PIXELS_PER_COLUMN_SMALL;
    }
 
+   if (columnWidth >= numColumns)
+   {
+      columnWidth = numColumns - 1;
+   }
+   if (rowHeight >= numRows)
+   {
+      rowHeight = numRows - 1;
+   }
+
    desktop_grid_index = (workspace - 1) * numColumns * numRows;
-   if(column < numColumns && row < numRows)
-     desktop_grid[ desktop_grid_index + (column * numRows) + row] = type;
-   if(rowHeight < numRows)
-      desktop_grid[desktop_grid_index + (column * numRows) + rowHeight] = type;
-   if(columnWidth < numColumns)
-      desktop_grid[desktop_grid_index + (columnWidth * numRows) + row] = type;
-   if(rowHeight < numRows && columnWidth < numColumns)
-      desktop_grid[desktop_grid_index +
-                                   (columnWidth * numRows) + rowHeight] = type;
+
+   for (i = (column > 0) ? column : 0; i <= columnWidth ; i++)
+   {
+      for (j = (row > 0) ? row : 0; j <= rowHeight ; j++)
+      {
+	 desktop_grid[ desktop_grid_index + (i * numRows) + j] = type;
+      }
+   }
 }
 
 
