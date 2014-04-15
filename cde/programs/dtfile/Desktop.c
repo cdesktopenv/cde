@@ -64,6 +64,7 @@
  *		PutOnDTCB
  *		RegisterIconDropsDT
  *		RegisterInGrid
+ *		RegisterPanelInGrid
  *		RemoveDT
  *		RemoveMovedObjectFromDT
  *		RunDTCommand
@@ -2453,25 +2454,48 @@ DTFileIsSelected (
 
 /***********************************************************************
  *
+ *  RegisterPanelInGrid - Registers the Dtwm planel in grid
+ *
+ *  Arguments: workspace - workspace number
+ *             displayWidth - width of worspace screen
+ *             displayHaight - height of workspace screen
+ *
+ ************************************************************************/
+
+void RegisterPanelInGrid(int workspace,  int displayWidth, int displayHeight )
+{
+   /* want to take out space where the FP lays ... Note this only for the
+      default size of the FP.  Right now there is no dynamic way of registering
+      the FP no matter what size it is */
+#define EXPECTED_PANEL_WIDTH 1105
+#define EXPECTED_PANEL_HEIGHT 83
+   RegisterInGrid(EXPECTED_PANEL_WIDTH, EXPECTED_PANEL_HEIGHT,
+                 /* the panel is expected to be horizontally centered */
+                 (displayWidth > EXPECTED_PANEL_WIDTH) ?
+                  (displayWidth - EXPECTED_PANEL_WIDTH) / 2 : 0,
+                 /* the panel is expected to be at the bottom of the screen */
+                 (displayHeight > EXPECTED_PANEL_HEIGHT) ?
+                   (displayHeight - EXPECTED_PANEL_HEIGHT) : displayHeight,
+                 workspace, True);
+}
+
+/***********************************************************************
+ *
  *  InitializeDesktopGrid
  *
  ************************************************************************/
 
 void
-InitializeDesktopGrid( void )
+InitializeDesktopGrid( int displayWidth, int displayHeight)
 {
    int i,j,k;
 
    desktop_grid_size = desktop_data->numWorkspaces * numColumns * numRows;
    desktop_grid = (Boolean *)XtCalloc(1, desktop_grid_size);
 
-   /* want to take out space where the FP lays ... Note this only for the
-      default size of the FP.  Right now there is no dynamic way of registering
-      the FP no matter what size it is */
-
    for(i = 1; i <= desktop_data->numWorkspaces; i++)
    {
-      RegisterInGrid((int)1132, (int)115, 78, 910, i, True);
+      RegisterPanelInGrid(i, displayWidth, displayHeight);
    }
 }
 
@@ -3604,6 +3628,11 @@ InitializeNewWorkspaces (
          for(k = 0; k < numRows; k++)
             desktop_grid[(i * numRows * numColumns) +
                                            (j * numRows) + k] = False;
+
+      RegisterPanelInGrid( i + 1,
+                           DisplayWidth(display,screen),
+                           DisplayHeight(display, screen));
+
    }
    desktop_data->numWorkspaces = numInfo;
 

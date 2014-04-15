@@ -1704,7 +1704,7 @@ _DtPerfChkpntMsgSend("Begin XtInitialize");
    /* go build 10 desktop windows */
    desktop_data = NULL;
    InitializeDesktopWindows(10, display);
-   InitializeDesktopGrid();
+   InitializeDesktopGrid(displayWidth, displayHeight);
 
    LoadDesktopInfo(application_args.session);
 

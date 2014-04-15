@@ -1399,7 +1399,9 @@ extern void UnpostDTTextField(void) ;
 extern Boolean DTFileIsSelected(
                         DesktopRec *desktopRec,
                         FileViewData *fileViewData) ;
-extern void InitializeDesktopGrid( void ) ;
+extern void InitializeDesktopGrid(
+                        int displayWidth,
+                        int displayHeight) ;
 extern void RegisterInGrid(
                         int width,
                         int height,
