@@ -149,7 +149,7 @@ static char DESKTOP_SAVE_NAME[] =  ".!dtdesktop";
 DesktopData *desktop_data;
 Widget widget_dragged;
 DesktopRec *sacredDesktop;
-Boolean *desktop_grid;
+unsigned char *desktop_grid;
 unsigned short int desktop_grid_size;
 
 
@@ -2543,7 +2543,19 @@ RegisterInGrid(
    {
       for (j = (row > 0) ? row : 0; j <= rowHeight ; j++)
       {
-	 desktop_grid[ desktop_grid_index + (i * numRows) + j] = type;
+         if (type)
+         {
+           /* increase count of objects at given cell */
+            desktop_grid[ desktop_grid_index + (i * numRows) + j] ++;
+         }
+         else
+         {
+           /* decrease count of objects at given cell  */
+           if (desktop_grid[ desktop_grid_index + (i * numRows) + j] > 0)
+           {
+              desktop_grid[ desktop_grid_index + (i * numRows) + j] --;
+           }
+         }
       }
    }
 }
@@ -2777,7 +2789,7 @@ CalculateRootCoordinates (
    ws_num = ((ws_num - 1) * numColumns * numRows);
    while(1)
    {
-      if(desktop_grid[ws_num + (column * numRows) + row] == False)
+      if(desktop_grid[ws_num + (column * numRows) + row] == 0)
       {
          if(numGridsR == 1 && numGridsC == 1)
          {
@@ -2798,8 +2810,7 @@ CalculateRootCoordinates (
          {
             for(j = 0; j < numGridsC; j++)
             {
-               if(desktop_grid[ws_num + ((column + j) * numRows) + (row + i)]
-                                                                       == True)
+               if(desktop_grid[ws_num + ((column + j) * numRows) + (row + i)] > 0)
               {
                  error = True;
                  break;
@@ -3627,7 +3638,7 @@ InitializeNewWorkspaces (
       for(j = 0; j < numColumns; j++)
          for(k = 0; k < numRows; k++)
             desktop_grid[(i * numRows * numColumns) +
-                                           (j * numRows) + k] = False;
+                                           (j * numRows) + k] = 0;
 
       RegisterPanelInGrid( i + 1,
                            DisplayWidth(display,screen),
