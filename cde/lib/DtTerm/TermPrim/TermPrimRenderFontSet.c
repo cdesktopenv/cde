@@ -64,9 +64,56 @@ FontSetRenderFunction(
     XGCValues values;
     unsigned long valueMask;
     TermFontSet termFontSet = (TermFontSet) font->fontInfo;
+    int escapement;
+    XRectangle extents;
+    Boolean fixExtents;
 
     /* set the renderGC... */
     valueMask = (unsigned long) 0;
+
+    /* set background... */
+    if (tpd->renderGC.background != bg) {
+	tpd->renderGC.background = bg;
+	values.background = bg;
+	valueMask |= GCBackground;
+    }
+
+    /* since Xlib will be mucking with the GC's font under us, we need to
+     * make sure we trash the cached value...
+     */
+    tpd->renderGC.fid = (Font) 0;
+
+    escapement = (tpd->mbCurMax == 1) ?
+        XmbTextExtents(termFontSet->fontSet, (char *) string, len,
+		       NULL, &extents) :
+        XwcTextExtents(termFontSet->fontSet, (wchar_t*) string, len,
+		       NULL, &extents);
+
+    /* Text height may be smaller than cellHeight (happens when using font sets).
+       In this case we need to fill background manually and then use X*DrawString
+       instead of X*DrawImageString */
+    fixExtents = extents.height < tpd->cellHeight;
+
+    if (fixExtents) {
+      /* set background color as foreground if needed*/
+      if (tpd->renderGC.foreground != bg) {
+	tpd->renderGC.foreground = bg;
+	valueMask|= GCForeground ;
+	values.foreground = bg;
+      }
+      if (valueMask) {
+	(void) XChangeGC(XtDisplay(w), tpd->renderGC.gc, valueMask, &values);
+	valueMask= (unsigned long) 0;
+      }
+      /* paint background manually */
+      (void) XFillRectangle(XtDisplay(w),
+			    XtWindow(w),
+			    tpd->renderGC.gc,
+			    x,
+			    y,
+			    escapement,
+			    tpd->cellHeight);
+    }
 
     /* set the foreground... */
     if (TermIS_SECURE(flags)) {
@@ -82,19 +129,6 @@ FontSetRenderFunction(
 	    valueMask |= GCForeground;
 	}
     }
-
-    /* set background... */
-    if (tpd->renderGC.background != bg) {
-	tpd->renderGC.background = bg;
-	values.background = bg;
-	valueMask |= GCBackground;
-    }
-
-    /* since Xlib will be mucking with the GC's font under us, we need to
-     * make sure we trash the cached value...
-     */
-    tpd->renderGC.fid = (Font) 0;
-
     if (valueMask) {
 	(void) XChangeGC(XtDisplay(w), tpd->renderGC.gc, valueMask,
 		&values);
@@ -102,6 +136,10 @@ FontSetRenderFunction(
 
     /* draw image string a line of text... */
     if (isDebugFSet('t', 1)) {
+        /* we need to clear background after the debug draw and delay,
+           so this will cause  X*DrawImageString to be always used
+           in debug mode */
+        fixExtents = 0;
 #ifdef	BBA
 #pragma BBA_IGNORE
 #endif	/*BBA*/
@@ -113,18 +151,18 @@ FontSetRenderFunction(
 		tpd->renderGC.gc,
 		x,
 		y,
-		(tpd->mbCurMax == 1) ?
-		XmbTextEscapement(termFontSet->fontSet, (char *) string, len) :
-		XwcTextEscapement(termFontSet->fontSet, (wchar_t *) string,
-		len),
-		tpd->cellHeight);
-	(void) XSync(XtDisplay(w), False);
-	(void) shortSleep(100000);
+		escapement,
+		extents.height);
+	  (void) XSync(XtDisplay(w), False);
+	  (void) shortSleep(100000);
     }
-			
+
+
     if (tpd->mbCurMax == 1)
     {
-	 (void) XmbDrawImageString(XtDisplay(w),/* Display		*/
+        /* select right function, we do not want text background be drawn twice */
+        (void) (fixExtents ? XmbDrawString: XmbDrawImageString)
+                 (XtDisplay(w),                 /* Display		*/
 		 XtWindow(w),			/* Drawable		*/
 		 termFontSet->fontSet,		/* XFontSet		*/
 		 tpd->renderGC.gc,		/* GC			*/
@@ -133,9 +171,9 @@ FontSetRenderFunction(
                  (char *)string,       		/* string		*/
 		 len);				/* length		*/
 
-	 /* handle overstrike... */
-	 if (TermIS_OVERSTRIKE(flags)) {
-	     (void) XmbDrawString(XtDisplay(w),	/* Display		*/
+        /* handle overstrike... */
+        if (TermIS_OVERSTRIKE(flags)) {
+	    (void) XmbDrawString(XtDisplay(w),	/* Display		*/
 		     XtWindow(w),		/* Drawable		*/
 		     termFontSet->fontSet,	/* XFontSet		*/
 		     tpd->renderGC.gc,		/* GC			*/
@@ -144,22 +182,12 @@ FontSetRenderFunction(
 		     (char *)string,           	/* string		*/
 		     len);			/* length		*/
 	 }
-	 /* handle the underline enhancement... */
-	 /* draw the underline... */
-	 if (TermIS_UNDERLINE(flags)) {
-	     XDrawLine(XtDisplay(w),		/* Display		*/
-		       XtWindow(w),		/* Window		*/
-		       tpd->renderGC.gc,	/* GC			*/
-		       x,			/* X1			*/
-		       y + tpd->cellHeight - 1,	/* Y1			*/
-		       x - 1 + XmbTextEscapement(termFontSet->fontSet,
-						 (char *) string, len), /* X2  */
-		       y + tpd->cellHeight - 1);/* Y2			*/
-	 }
     }
     else
     {
-        (void) XwcDrawImageString(XtDisplay(w),	/* Display		*/
+        /* select right function, we do not want text background be drawn twice */
+        (void)  (fixExtents ? XwcDrawString: XwcDrawImageString)
+	        (XtDisplay(w),	                /* Displa*/
 	        XtWindow(w),			/* Drawable		*/
 	        termFontSet->fontSet,		/* XFontSet		*/
                 tpd->renderGC.gc,		/* GC			*/
@@ -179,18 +207,17 @@ FontSetRenderFunction(
 		    (wchar_t *) string,		/* string		*/
 		    len);			/* length		*/
         }
-	/* handle the underline enhancement... */
-	/* draw the underline... */
-	if (TermIS_UNDERLINE(flags)) {
-	    XDrawLine(XtDisplay(w),		/* Display		*/
-		      XtWindow(w),		/* Window		*/
-		      tpd->renderGC.gc,		/* GC			*/
-		      x,			/* X1			*/
-		      y + tpd->cellHeight - 1,	/* Y1			*/
-		      x - 1 + XwcTextEscapement(termFontSet->fontSet,
-						(wchar_t *) string, len), /* X2 */
-		      y + tpd->cellHeight - 1);	/* Y2			*/
-	}
+    }
+    /* handle the underline enhancement... */
+    /* draw the underline... */
+    if (TermIS_UNDERLINE(flags)) {
+        XDrawLine(XtDisplay(w),             /* Display          */
+                  XtWindow(w),              /* Window           */
+                  tpd->renderGC.gc,         /* GC               */
+                  x,                        /* X1               */
+                  y + tpd->cellHeight - 1,  /* Y1               */
+                  x - 1 + escapement,       /* X2               */
+                  y + tpd->cellHeight - 1); /* Y2               */
     }
 }
 
