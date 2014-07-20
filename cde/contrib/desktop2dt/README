@@ -1,0 +1,120 @@
+Hello,
+Earlier I noticed that *.dt files contain much the same information as 
+*.desktop files, so I thought I'd see about automatically converting
+from *.desktop to *.dt.
+Here's a first try, in the form of a shell script.
+It reads one or more desktop files, listed on the command line, 
+to generate as many .dt files and the corresponding icons.
+Each .dt file contains only the action that would start the command.
+
+This does NOT handle quite a few things:
+-multiple locales ( for example, Comment[de]= could make an entry in the
+right locale).
+-putting anything in the right place
+-line-wrapped entries 
+-adding entries to the app manager
+-file types and associations
+-most sanity checks
+
+That said, this works for me:
+cd emptydir
+desktop2dt /usr/share/applications/nedit.desktop \
+ /usr/share/applications/xephem.desktop
+mv *.dt ~/.dt/types/
+mv *.pm ~/.dt/icons/
+touch ~/.dt/appmanager/Desktop_Apps/nedit
+touch ~/.dt/appmanager/Desktop_Apps/xephem
+chmod +x ~/.dt/appmanager/Desktop_Apps/nedit
+chmod +x ~/.dt/appmanager/Desktop_Apps/xephem
+
+and then go to Desktop_Tools > Reload Applications
+
+I'd like to hear any comments you have.
+
+Thanks,
+Isaac Dunham
+
+=-=
+Hello,
+I've been working on desktop2dt some more, and have a version that 
+works much better.
+It can handle icons in subdirectories, installing files (to $DESTDIR/etc/dt
+or ~/.dt), and terminal applications.
+
+There are still some missing features:
+-line-wrapped entries 
+-adding entries to the app manager
+-file types and associations
+ Unless we use libmagic, this will be a real pain.
+-multiple locales ( for example, Comment[de]= could make an entry in the
+ right locale).
+ 
+Currently, it's hard-coded to output action databases in the C locale.
+
+
+Usage is similar to the last version, except -i installs everything:
+desktop2dt -i /usr/share/applications/nedit.desktop \
+ /usr/share/applications/xephem.desktop
+touch ~/.dt/appmanager/Desktop_Apps/nedit
+touch ~/.dt/appmanager/Desktop_Apps/xephem
+chmod +x ~/.dt/appmanager/Desktop_Apps/nedit
+chmod +x ~/.dt/appmanager/Desktop_Apps/xephem
+
+ and then go to Desktop_Tools > Reload Applications
+
+If you can test it, that will be a great help.  I've tried to stick to POSIX,
+but I only tested on Squeeze.
+
+Thanks,
+Isaac Dunham
+
+=-=
+
+Hello,
+
+Here's the third revision of the script.
+
+What's new:
+
+* Converts %u, %U, %f, and %F to "%(File)Arg_1%" (with quotes).
+* -a option to install in the app manager
+(Thanks to Antonis Tsolomis for suggesting these improvements.)
+
+* Slightly improved icon location search (based on PREFIX).
+
+Still needs to handle wrapped lines, but that's the main issue with
+processing .desktop files for applications that remains.
+
+HTH,
+Isaac Dunham
+
+=-=
+Here's a fourth revison of desktop2dt.
+Changes:
+* export and test were changed for compatability with old shells like
+ Solaris has
+* ~ was changed to $HOME because it didn't always get expanded.
+
+Not yet changed:
+I'm inclined to prevent creation of appmanager folders more than 3 deep.
+
+Still no multi-locale stuff. If someone has a way to figure out which
+locales to grab (two-letter) and where they go (CDE locale), I'm open to
+including it.
+
+Still doesn't handle line wrap.  I may be able to deal with this.
+
+The more platforms it's tested on, the better; I'd like to hear from
+someone using one of the BSDs.
+
+So far, it's been tested on Debian and Solaris, with at least the
+following shells on Debian:
+bash, dash, busybox ash, pdksh, mksh, ksh93
+This would suggest that it should work on all the BSDs as well.
+
+Besides POSIX sh, find, sed, and grep, it needs imagemagick (or
+graphicksmagick + imagemagick-compat).
+
+Thanks,
+Isaac Dunham
+

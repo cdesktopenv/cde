@@ -1,0 +1,154 @@
+#!/bin/sh
+# Copyright 2013, Isaac Dunham
+#
+# Permission is hereby granted, free of charge, to any person obtaining a 
+# copy of this software and associated documentation files (the "Software"), 
+# to deal in the Software without restriction, including without limitation 
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+# and/or sell copies of the Software, and to permit persons to whom the 
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in 
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+# DEALINGS IN THE SOFTWARE.
+
+# Name=	   ->   LABEL  ...
+# Icon=	   ->	ICON   ...
+#  (use imagemagick/gm convert to resize and change format)
+# Comment= -> 	DESCRIPTION
+# Exec=	   ->	EXEC_STRING
+#  (note: %F means "file name"; = "%(File)Arg_1%" )
+# Terminal=false/0 -> WINDOW_TYPE NO_STDIO
+# Terminal=true/1  -> WINDOW_TYPE PERM_TERMINAL
+# or maybe something else is a little better than PERM_TERMINAL
+
+# Note that the component of an ACTION MUST be in the right order!
+# for example, EXEC_STRING must be before ICON, or you will not
+# get the right icon or command.
+
+usage(){
+  echo "Usage: $0"' [-i] [-a] some.desktop ...'
+  echo "generates some.dt and the appropriate icons"
+  echo "If -i is specified, some.dt and the icons are installed"
+  echo '(in $DESTDIR/etc/dt if possible, otherwise in $HOME/.dt)'
+  echo 'If -a is specified, appmanager files are created'
+  echo '(in $DESTDIR/etc/dt/appconfig/appmanager/C or $HOME/.dt/appmanager)'
+  exit 1
+}
+
+#find_convert icon | /path/to/icon.png
+# Find icon and convert it to an xpm of suitable size; t/m/l = 16/32/48
+find_convert(){
+  ICON=""
+  case "$1" in
+    /*)
+      ICON="$1"
+    ;;
+    *)
+      ICON=` find ${PREFIX:-$DESTDIR/usr}/share/pixmaps \
+        ${PREFIX:-$DESTDIR/usr}/share/icons \
+        $DESTDIR$PREFIX/share/pixmaps $DESTDIR$PREFIX/share/icons \
+        /usr/share/pixmaps /usr/share/icons \
+        -type f -name "$1" -o -name "$1.png" -o -name "$1.xpm" \
+	-o -name "$1-32.xpm" -o -name "$1_*x*.xpm" \
+	-o -name "$1.svg" -o -name "$1.jp*g" | head -n 1`
+    ;;
+  esac
+  export ICON
+#  echo "For $1: $ICON" 1>&2
+  NEWICON=`basename $ICON|sed -e 's/\.xpm$//' -e 's/\.png$//' -e 's/\.svg$//' -e 's/\.jpe*g$//' -e 's/[-_][1-9][0-9x]*$//g'`
+  convert -resize 48x48 "$ICON" "$NEWICON.l.xpm" && \
+	  mv "$NEWICON.l.xpm" "$ICONDIR$NEWICON.l.pm"
+  convert -resize 32x32 "$ICON" "$NEWICON.m.xpm" && \
+	  mv "$NEWICON.m.xpm" "$ICONDIR$NEWICON.m.pm"
+  convert -resize 16x16 "$ICON" "$NEWICON.t.xpm" && \
+	  mv "$NEWICON.t.xpm" "$ICONDIR$NEWICON.t.pm"
+  echo "$NEWICON"
+}
+
+
+# usage: process_desktop /path/to/some.desktop >some.dt
+# Writes a CDE action equivalent to some.desktop to stdout.
+process_desktop(){
+  echo "ACTION `basename $1 .desktop`"
+  echo '{'
+  LABEL="`sed -ne 's/^Name=//p' $1`"
+  [ -n "$LABEL" ] && echo "     LABEL         $LABEL"
+  echo '     TYPE          COMMAND'
+  sed -ne 's/%[ufUF]/"%(File)Arg_1%"/g' -e 's/^Exec=/     EXEC_STRING   /p' "$1"
+  ICON="`sed -ne 's:^Icon=::p' $1`"
+  [ -n "$ICON" ] && ICON="`find_convert $ICON`"
+  echo "     ICON          $ICON"
+  INTERM=`sed -ne 's/^Terminal=//gp' "$1"`
+  case "$INTERM" in
+    0 | f* )   echo "     WINDOW_TYPE   NO_STDIO"
+    ;;
+    *)         echo "     WINDOW_TYPE   PERM_TERMINAL"
+    ;;
+  esac
+  sed -ne 's/^Comment=/     DESCRIPTION   /p' "$1"
+  echo '}'
+}
+
+canwrite(){
+  rm -f "$1" && touch "$1" && [ -w "$1" ] && rm -f "$1" || return 1
+}
+
+create_appentry(){
+  grep '^Exec=' "$1" >/dev/null || return 0
+  for i in "`sed -n -e 's/X-[^;]*;//g' -e 's/GTK;//' -e 's/Motif;//' \
+  -e 's/\([^;]\)$/\1;/' \
+  -e 's/=System;Emulator/=Emulator/' -e 's/=.*;Education/=Education/' \
+  -e 's/GNOME;//' -e 's/Qt;//' -e 's_;_/_g' -e 's/^Categories=//p' $1`"
+  do
+    mkdir -p "$APPMGR/$i"
+    touch "$APPMGR/$i`basename $1 .desktop`"
+    chmod +x "$APPMGR/$i`basename $1 .desktop`"
+    #echo $APPMGR/$i
+  done
+}
+
+unset INSTALLDIR; INSTALLDIR="./" ICONDIR="./"; export INSTALLDIR ICONDIR 
+
+while [ -n "$1" ]
+do
+  case "$1" in
+    *.desktop)
+      XPREFIX="$PREFIX"
+      [ -n "$PREFIX" ] || export PREFIX=`echo "$1"|sed 's|\(.*\)/share/.*|\1|'`
+      [ -n "$PREFIX" ] || unset PREFIX
+      process_desktop "$1" >"$INSTALLDIR"`basename "$1" .desktop`.dt
+      test -n "$APPMGR" && create_appentry "$1"
+      PREFIX="$XPREFIX"; export PREFIX
+    ;;
+    -i*)
+      mkdir -p "$DESTDIR/etc/dt/appconfig/types/C" && \
+      canwrite "$DESTDIR/etc/dt/appconfig/types/C/aaa.xyz.test" && \
+      INSTALLDIR="$DESTDIR/etc/dt/appconfig/types/C/" \
+      ICONDIR="$DESTDIR/etc/dt/appconfig/icons/C/" || \
+      INSTALLDIR="$HOME/.dt/types/" ICONDIR="$HOME/.dt/icons/"
+      export ICONDIR INSTALLDIR
+      mkdir -p "$ICONDIR" "$INSTALLDIR"
+    ;;
+    -a)
+      mkdir -p "$DESTDIR/etc/dt/appconfig/appmanager/C" && \
+      canwrite "$DESTDIR/etc/dt/appconfig/appmanager/C/aaa.xyz.test" && \
+      APPMGR="$DESTDIR/etc/dt/appconfig/appmanager/C" || \
+      APPMGR="$HOME/.dt/appmanager"
+      export APPMGR
+      #echo $APPMGR
+    ;;
+    *)
+      usage
+    ;;
+  esac
+  shift
+done
+
