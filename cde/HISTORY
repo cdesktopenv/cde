@@ -5,6 +5,90 @@ use 'git log', or peruse the commit history at:
 
 https://sourceforge.net/p/cdesktopenv/code/commit_browser
 
+# 2.2.2 07/27/2014
+
+A lot of fixes and improvements in this release.  CDE can be built on
+more modern Linuxes and BSDs.  An initial stab at illimios support is
+also present.
+
+Here is the shortlog:
+
+Eugene Doudine (7):
+      Fixes the bug #17 dtsession can't validate passwords longer than 8 characters when the session is locked
+      Fixed bug #27 dtfile space handling bug
+      Fixed bug #32 dtfile table formatting bug with non-latin filenames
+      Fixes the off-by-one bug in RegisterInGrid(), which caused dtfile's desktop icons on the right edge of the screen (if desktop width is not a multiple of icon with) to be registered on the next workspace or (in the case of the last workspace) beyond the desktop_grid array (possibly causing segfaults).
+      Fixes several issues with grid registration of the dtwm panel on dtfile startup and on workspace addition:
+      Fixes a small bug in grid registration: when an object is placed over another object (can be done manually) and then removed from there, the registration of the covered object is removed as well (that is it's cell is considered empty).
+      Fixes the bug, which caused dtterm to show stripes of wrong color between text lines when using fontsets that include fonts of slightly different heights.
+
+Jon Trulson (52):
+      update HISTORY file for 2.2.1, though a little too late :)
+      building_release_archive: add some steps and clean up
+      linux depend: stop using makedepend, use gcc instead
+      libDtTerm: add include <stdio.h> so FILE is properly defined.
+      linux: Use installed X11 header files rather than requiring /imports/x11/include
+      nsgmls: fix up some gcc 4.8 warnings.
+      linux.cf: fix typo and some formatting.
+      linux: move dependancy handling out of linux.cf and into new lnxDep.rules file.
+      mp_rpc_server.C: limit iteration of svc_fdset to FD_SETSIZE, as per spec.
+      dtdocbook/instant: *always* link with local libtcl.a
+      dtpad: stub out XmPrint stuff if there is no XmPrint support.
+      dtmail: stub out XmPrint stuff if there is no XmPrint support.
+      dtcm: stub out XmPrint stuff if there is no XmPrint support.
+      dtinfo: stub out XmPrint stuff if there is no XmPrint support.
+      linux: libDtSearch requires linking with -lm
+      libcsa: fix up some stupidness.
+      tt_xdr_utils.h: fix build error on linux/bsd introduced with illumos initial patch.
+      Updated Greek (el_GR.UTF-8) translations from Antonis Tsolomitis.
+      PrintTopics.c: fix up some warnings
+      pax.h: include stdio.h
+      getdate.y: include string.h
+      Icon.c: include stdlib.h
+      localized/util/merge.h: include string.h and fix up some warnings
+      Threads.C: NULL is not 0
+      MotifUI.C: NULL is not 0
+      dtcm/server/: just return NULL, not the address of a dummy local variable.  Geez.
+      cleanup: eliminate "implicit declaration" warnings.
+      linux.cf: turn off writable strings warnings (write-strings)
+      linux: build with thread safety and REENTRANT enabled.
+      dtcm/reminders.c: NULL is not 0
+      dtcm/rfp.c: NULL is not 0
+      cleanup: eliminate missing sentinel warnings
+      xtclient.c, spcd_event.c: stop referencing fds_bits directly
+      linux.cf: with fds_bits fixes, stop using _POSIX_C_SOURCE=199309L and _XOPEN_SOURCE defines
+      xtclient.c: fix debug statement regarding fd number
+      dtsession: screensaver don't pass random attributes to XScreenSaverSetAttributes()
+      InterruptibleCmd.C, WorkingDialogManager.C: NULL is not 0
+      AttachArea.C: NULL is not 0, sprintf needs a format
+      RoamInterruptibleCmd.C: NULL is not 0
+      RoamMenuWindow.C: NULL is not 0
+      SendMsgDialog.C: NULL is not 0
+      WMSaveSession.C: NULL is not 0
+      ttsnoop.C.src: NULL is not 0
+      dtappbuilder: bil_store.c: don't return local variables
+      fr_FR.ISO8859-1/types/_common.dt.tmsg: Fix up a couple of backslash errors.
+      contrib/: add vcal2xapia from Edmond Orignac
+      Added additional info to vcal2xapia/README
+      contrib/: add desktop2dt from Isaac Dunham
+      el_GR _common.dt.tmsg: fix corrupted msg line at line 1763
+      site.def: create new DtDocLocalesToBuild define
+      Version change to 2.2.2
+      Fixup UDB databases to fix a problem introduced with FreeBSD 10 patch.
+
+Peter Tribble (1):
+      initial illumos port
+
+Ulrich Wilkens (4):
+      Fix dtfile and dtterm on NetBSD
+      Fix cpp output on Ubuntu 13
+      Fix dtinfo search engine
+      FreeBSD 10 clang port
+
+alx (2):
+      dtstyle: enable palette editor on true/direct color screens
+      DtWidget: Don't free random pointer on Control widget destruction
+
 
 # 2.2.1 03/01/2014
 
