@@ -7,7 +7,7 @@ XCOMM $TOG: Imakefile /main/17 1998/03/19 09:46:16 mgreess $
  * Trigger different installation behavior for HPUX 10.0 and later.
  */
 #if defined (HPArchitecture) && (OSMajorVersion > 9)
-UDB_RELEASE_OPT = -ReleaseStream hp-ux
+UDB_RELEASE_OPT = -ReleaseStream hpux
 #endif
 #ifdef SunArchitecture
 UDB_RELEASE_OPT = -ReleaseStream sun
@@ -41,13 +41,7 @@ UDB_RELEASE_OPT = -ReleaseStream netbsd
  * Insure that symbols used in the .udb files are undefined for
  * pre-processing by cpp.
  */
-#if defined(LinuxArchitecture) || defined(BSDArchitecture) || \
-    defined(RsArchitecture)
-/* cpp of some systems reject "hp-ux" as an invalid sub-option. */
-UDB_CPP_UNDEF_LIST = -UhpV4 -Uhpux         -Uaix -Usun -Uusl -Udec -Uuxp -Uunix
-#else
-UDB_CPP_UNDEF_LIST = -UhpV4 -Uhpux -Uhp-ux -Uaix -Usun -Uusl -Udec -Uuxp -Uunix -Ulinux -Uopenbsd -Ufreebsd -Unetbsd
-#endif
+UDB_CPP_UNDEF_LIST = -UhpV4 -Uhpux -Uaix -Usun -Uusl -Udec -Uuxp -Uunix -Ulinux -Uopenbsd -Ufreebsd -Unetbsd
 
 
 #define CreateLocalizedFilesets(Locale,Lang,readablename,runfs,helpfs,msgfs,AltLang,HelpLang,ResDB,HelpDB,MsgDB,InfoDB)	@@\

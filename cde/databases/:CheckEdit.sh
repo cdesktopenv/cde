@@ -13,6 +13,6 @@
 
 /x/toolsrc/dbTools/databaseConversionTool.ksh \
   -toFileList           \
-  -ReleaseStream hp-ux  \
+  -ReleaseStream hpux  \
   -Machine 7            \
   -Database $1
