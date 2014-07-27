@@ -95,7 +95,6 @@ private:
   UAS_Pointer<UAS_Common>	f_node_ptr ;
   UAS_Pointer<Graphic>	f_graphic ;
   WXawPanner           *f_panner;
-  WXmLabel	       *f_label;
   WPixmap	       *f_pixmap_widget ;
   unsigned int		f_panner_state ;
   unsigned int          f_current_scale;

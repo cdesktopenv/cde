@@ -163,7 +163,6 @@ void trie::extend_alphabet()
         new_alphabet[k + estimated_sz] = 0;
      }
 
-     new_alphabet = new_alphabet;
      estimated_sz *= 2;
   }
 }

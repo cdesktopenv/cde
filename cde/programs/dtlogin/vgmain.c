@@ -2106,7 +2106,7 @@ MyBackspace( Widget w, XEvent *event, char **params, Cardinal *num_params )
 static int 
 ErrorHandler( Display *dpy, XErrorEvent *event )
 {
-    return;
+    return 0;
 }
 
 

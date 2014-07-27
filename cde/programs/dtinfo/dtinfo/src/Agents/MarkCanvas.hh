@@ -29,8 +29,8 @@
 class Agent;
 class Mark;
 class MarkIcon;
-class MarkSelectionChanged;
-class MarkChanged;
+struct MarkSelectionChanged;
+struct MarkChanged;
 
 class MarkCanvas : public Destructable, 
 		   public UAS_Receiver<MarkChanged> 

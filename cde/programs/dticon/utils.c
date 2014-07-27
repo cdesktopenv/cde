@@ -1755,7 +1755,7 @@ Select_New_Pen(
       XmToggleButtonSetState(StaticWid[new_pen], True, False);
     else
       XmToggleButtonSetState(DynamicWid[new_pen], True, False);
-    return;
+    return 0;
    }
 
 /*** un-set the previous choice ***/

@@ -1758,10 +1758,12 @@ void ol_data_init_buffer ol_data_PROTO(( ol_data_BUFFER_STATE b, FILE *file ));
 
 #define ol_data_new_buffer ol_data_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int ol_datainput ol_data_PROTO(( void ));
 #else
 static int input ol_data_PROTO(( void ));
+#endif
 #endif
 
 ol_data_DECL
@@ -2248,6 +2250,7 @@ register ol_data_CHAR *ol_data_bp;
 #endif
 
 
+#if 0
 #ifdef __cplusplus
 static int ol_datainput()
 #else
@@ -2314,6 +2317,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef ol_data_USE_PROTOS

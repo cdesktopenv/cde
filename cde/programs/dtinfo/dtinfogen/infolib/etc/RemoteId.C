@@ -2233,10 +2233,12 @@ void remote_init_buffer remote_PROTO(( remote_BUFFER_STATE b, FILE *file ));
 
 #define remote_new_buffer remote_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int remoteinput remote_PROTO(( void ));
 #else
 static int input remote_PROTO(( void ));
+#endif
 #endif
 
 remote_DECL
@@ -2733,6 +2735,7 @@ register remote_CHAR *remote_bp;
 #endif
 
 
+#if 0
 #ifdef __cplusplus
 static int remoteinput()
 #else
@@ -2799,6 +2802,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef remote_USE_PROTOS

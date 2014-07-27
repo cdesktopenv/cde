@@ -242,7 +242,7 @@ register int                shift, bitNumber;
 
     nLines = *pNLines;
     if (nLines <= 0)
-        return;                                 /* no lines, EXIT */
+        return 0;                               /* no lines, EXIT */
     if (pPriv->srcBufferHeight)
          bottomLine = pPriv->srcBufferHeight - 1;
     else bottomLine = pData->srcLine + nLines - 1;

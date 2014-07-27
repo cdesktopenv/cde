@@ -512,10 +512,12 @@ void  schema_init_buffer  schema_PROTO((  schema_BUFFER_STATE b, FILE *file ));
 
 #define  schema_new_buffer  schema_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int  schemainput  schema_PROTO(( void ));
 #else
 static int input  schema_PROTO(( void ));
+#endif
 #endif
 
  schema_DECL
@@ -1116,6 +1118,7 @@ register  schema_CHAR * schema_bp;
 #endif
 
 
+#if 0
 #ifdef __cplusplus
 static int  schemainput()
 #else
@@ -1182,6 +1185,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef  schema_USE_PROTOS

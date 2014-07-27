@@ -140,7 +140,7 @@ ldchar(src, len, dst)
     register char	*p;
 
     if (len <= 0)
-	return;
+	return 0;
 
     /* Load the entire string. */
     memcpy((void *) dst, (const void *) src, len);
@@ -165,7 +165,7 @@ stchar(src, dst, len)
     register char	c;
 
     if (len <= 0)
-	return;
+	return 0;
 
     /* Copy up to NULL character. */
     do {
@@ -190,7 +190,7 @@ ldchar2(src, len, dst)
     register char       *p;
  
     if (len <= 0)
-        return;
+        return 0;
  
     /* Load the entire string. */
     memcpy((void *) dst, (const void *) src, len);
@@ -206,7 +206,7 @@ stchar2(src, dst, len)
     register char       c;
  
     if (len <= 0)
-        return;
+        return 0;
  
     /* Copy up to a NULL character. */
     do {

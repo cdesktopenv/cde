@@ -32,8 +32,8 @@
 #include <WWL/WXmPushButton.h>
 #include <WWL/WXmList.h>
 
-class MarkCreated;
-class MarkDeleted;
+struct MarkCreated;
+struct MarkDeleted;
 
 class MarkListView : public WWL,
 		     public UAS_Receiver<MarkCreated>,

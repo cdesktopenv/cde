@@ -27,7 +27,7 @@ class WXmTextField;
 class WXmText;
 #include <WWL/WXmPushButtonGadget.h>
 class Mark;
-class MarkMoved;
+struct MarkMoved;
 
 class BookmarkEdit : public Dialog, public UAS_Receiver<MarkMoved>
 {

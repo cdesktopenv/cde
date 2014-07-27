@@ -1750,10 +1750,12 @@ void yy_init_buffer YY_PROTO(( YY_BUFFER_STATE b, FILE *file ));
 
 #define yy_new_buffer yy_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int yyinput YY_PROTO(( void ));
 #else
 static int input YY_PROTO(( void ));
+#endif
 #endif
 
 YY_DECL
@@ -2322,6 +2324,7 @@ register YY_CHAR *yy_bp;
 #endif
 
 
+#if 0
 #ifdef __cplusplus
 static int yyinput()
 #else
@@ -2388,6 +2391,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef YY_USE_PROTOS

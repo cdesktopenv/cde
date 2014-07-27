@@ -914,12 +914,12 @@ int scaledX, scaledY ;
 
     nSrcLines = *pNLines;
     if (nSrcLines <= 0)
-        return;                                     /* no lines, EXIT */
+        return 0;                                     /* no lines, EXIT */
     pPriv = (ilXPrivPtr)pData->pPrivate;
     pSrcImage = pData->pSrcImage;
     width = pSrcImage->width;
     if (width <= 0)
-        return;                                     /* no width, EXIT */
+        return 0;                                     /* no width, EXIT */
     srcRowBytes = pSrcImage->plane[0].nBytesPerRow;
     pSrcLine = (ilPtr)(pSrcImage->plane[0].pPixels + 
 		       pData->srcLine * srcRowBytes);

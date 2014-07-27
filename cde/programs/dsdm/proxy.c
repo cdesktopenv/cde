@@ -517,7 +517,7 @@ AdvertiseMotifDropSite(dpy, win)
 	XFree(data);
     }
     if (motif_receiver)
-	return;
+	return 0;
 
 #ifdef DEBUG
     printf("AdvertiseMotifDropSite\n");

@@ -93,8 +93,7 @@ MarkIcon::MarkIcon (Widget parent,
 		    Widget chooser_parent,
 		    MarkCanvas *mark, 
 		    int ypos, int scrollbar_offset)
-: f_icon_char (0),
-  f_selected (FALSE),
+: f_selected (FALSE),
   f_y_position (ypos),
   f_chooser_parent (chooser_parent)
 {

@@ -696,7 +696,7 @@ _psUiSpecsAreValid(PrintSetup *pSetup)
     if (pSetup == NULL ||
 	pSetup->dtprintSetup == NULL ||
 	pSetup->widgets == NULL)
-      return;
+      return 0;
     pOption = &pSetup->options;
 
     frame = pSetup->widgets->marginFrame;

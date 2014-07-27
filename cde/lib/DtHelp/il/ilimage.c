@@ -619,11 +619,11 @@ register ilImagePtr     pImage;
     pImage = (ilImagePtr)image;
     if (mustBeZero != 0) {
         pImage->o.p.context->error = IL_ERROR_PAR_NOT_ZERO;
-        return;                                                 /* EXIT */
+        return 0;                                                 /* EXIT */
         }
     if (pImage->o.p.objectType != IL_INTERNAL_IMAGE) {
         pImage->o.p.context->error = IL_ERROR_OBJECT_TYPE;
-        return;                                                 /* EXIT */
+        return 0;                                                 /* EXIT */
         }
 
     pImage->o.p.context->error = IL_OK;

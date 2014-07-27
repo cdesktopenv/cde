@@ -27,8 +27,8 @@
 
 #include "UAS.hh"
 
-class HistoryDelete;
-class HistoryAdd;
+struct HistoryDelete;
+struct HistoryAdd;
 class NodeHistoryAgent;
 
 class GlobalHistoryMgr : public Long_Lived,

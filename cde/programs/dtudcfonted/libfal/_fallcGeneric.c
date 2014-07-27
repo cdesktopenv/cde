@@ -472,7 +472,7 @@ XLCdGenericPart *gen;
                 }
                 if (charsetd == NULL &&
                     (charsetd = srch_charset_define(cset_name,&new)) == NULL)
-                    return ;
+                    return 0;
             }
         } else {
             if(i == 0){
@@ -484,7 +484,7 @@ XLCdGenericPart *gen;
         if(new){
             tmp = (char *)Xmalloc(strlen(cset_name)+1);
             if(tmp == NULL){
-                return ;
+                return 0;
             }
             strcpy(tmp,cset_name);
             charsetd->name = tmp;
@@ -528,7 +528,7 @@ XLCdGenericPart *gen;
 */
             tmp = (char *)Xmalloc(strlen(value[0])+1);
             if(tmp == NULL){
-                return;
+                return 0;
             }
             charsetd->ct_sequence = tmp;
             string_to_encoding(value[0],tmp);
@@ -597,7 +597,7 @@ XLCdGenericPart *gen;
             char *tmp;
             if (conversion == NULL &&
                 (conversion = faladd_conversion(gen)) == NULL) {
-                return ;
+                return 0;
             }
             dbg_printValue(name,value,num);
         } else {
@@ -617,7 +617,7 @@ XLCdGenericPart *gen;
             dbg_printValue(name,value,num);
             tmp = (char *)Xmalloc(strlen(value[0])+1);
             if(tmp == NULL){
-                return;
+                return 0;
             }
             strcpy(tmp,value[0]);
             conversion->source_encoding = tmp;
@@ -625,7 +625,7 @@ XLCdGenericPart *gen;
             if(new){
                 tmp = (char *)Xmalloc(strlen(conversion->source_encoding)+1);
                 if(tmp == NULL){
-                    return ;
+                    return 0;
                 }
                 strcpy(tmp,conversion->source_encoding);
                 conversion->source->name = tmp;
@@ -639,7 +639,7 @@ XLCdGenericPart *gen;
             dbg_printValue(name,value,num);
             tmp = (char *)Xmalloc(strlen(value[0])+1);
             if(tmp == NULL){
-                return;
+                return 0;
             }
             strcpy(tmp,value[0]);
             conversion->destination_encoding = tmp;
@@ -648,7 +648,7 @@ XLCdGenericPart *gen;
                 tmp = (char *)Xmalloc(
                     strlen(conversion->destination_encoding)+1);
                 if(tmp == NULL){
-                    return ;
+                    return 0;
                 }
                 strcpy(tmp,conversion->destination_encoding);
                 conversion->dest->name = tmp;
@@ -729,7 +729,7 @@ int num;
     if(new){
         tmp = (char *)Xmalloc(strlen(cset_name)+1);
         if(tmp == NULL){
-            return ;
+            return 0;
         }
         strcpy(tmp,cset_name);
         ret->charset->name = tmp;

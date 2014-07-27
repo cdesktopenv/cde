@@ -105,12 +105,14 @@ rtable3_clnt.c rtable3_xdr.c: rtable3.h namechange1.sed namechange2.sed
 rtable2_clnt.c rtable2_xdr.c: rtable3.h namechange1.sed namechange2.sed
 agent_xdr.c agent.c: agent.h
 
+#define RPCGEN rpcgen -h agent.x | $(EXTRASED) \			@@\
+	  $(SED) -f namechange1.sed | \					@@\
+	  $(SED) -f namechange2.sed >> agent.h
+
 agent.h:
 	$(RM) $@
 	cat agent.wrapbegin > agent.h
-	rpcgen -h agent.x | $(EXTRASED) \
-	  sed -f namechange1.sed | \
-	  sed -f namechange2.sed >> agent.h
+	RPCGEN
 	cat agent.wrapend >> agent.h
 
 .SUFFIXES: .x

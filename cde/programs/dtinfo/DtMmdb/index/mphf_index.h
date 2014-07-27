@@ -112,7 +112,6 @@ protected:
 
 private:
    fast_mphf_handler *v_mphf;     // hash func
-   inv_lists_handler *v_invlists; // list of inv_list
 
    char* f_key_file_name; 
 };

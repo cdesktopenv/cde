@@ -962,9 +962,7 @@ static void set_tree_size (tw, insetvalues, width, height)
     return;
 }
 
-static void layout_tree (tw, insetvalues)
-    TreeWidget tw;
-    Boolean insetvalues;
+static void layout_tree (TreeWidget tw, Boolean insetvalues)
 {
     int i;
     Dimension *dp;

@@ -110,7 +110,7 @@ int deftype (line, filep, file_red, file, parse_it)
 	int	parse_it;
 {
 	register char	*p;
-	char	*directive, savechar;
+	char	*directive, savechar, *q;
 	register int	ret;
 
 	/*
@@ -167,6 +167,11 @@ int deftype (line, filep, file_red, file, parse_it)
 	 */
 	while (*p == ' ' || *p == '\t')
 		p++;
+	q = p + strlen(p);
+	do {
+		q--;
+	} while (*q == ' ' || *q == '\t');
+	q[1] = '\0';
 	switch (ret) {
 	case IF:
 		/*
@@ -227,7 +232,7 @@ int deftype (line, filep, file_red, file, parse_it)
 		/*
 		 * copy the definition back to the beginning of the line.
 		 */
-		strcpy (line, p);
+		memmove (line, p, strlen(p) + 1);
 		break;
 	case ELSE:
 	case ENDIF:

@@ -486,7 +486,7 @@ Flood_Fill(
   struct seg stack[MAX], *sp = stack;
 
   old_pixel = XGetPixel(color_image, x, y);	/* read pv at seed point */
-  if (old_pixel==new_pixel || x<0 || x>width || y<0 || y>height) return;
+  if (old_pixel==new_pixel || x<0 || x>width || y<0 || y>height) return 0;
   PUSH(y, x, x, 1);			/* needed in some cases */
   PUSH(y+1, x, x, -1);		/* seed segment (popped 1st) */
 

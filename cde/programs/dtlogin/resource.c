@@ -435,7 +435,7 @@ GetResource( char *name, char *class, int valueType, char **valuep,
      
      if (valueType == DM_STRING && *valuep) {
  	if (string != NULL && strlen (*valuep) == len && !strncmp (*valuep, string, len))
- 	    return;
+	    return 0;
  	else {
  	    free (*valuep);
 	    *(valuep) = NULL;
@@ -450,7 +450,7 @@ GetResource( char *name, char *class, int valueType, char **valuep,
 	    if (!new_string) {
 		LogOutOfMem(
 		  ReadCatalog(MC_LOG_SET,MC_LOG_GET_RSC,MC_DEF_LOG_GET_RSC));
-		return;
+		return 0;
 	    }
 	    strncpy (new_string, string, len);
 	    new_string[len] = '\0';

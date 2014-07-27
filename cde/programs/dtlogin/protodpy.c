@@ -152,7 +152,7 @@ DisposeProtoDisplay( struct protoDisplay *pdpy )
 	prev = p;
     }
     if (!p)
-	return;
+	return 0;
     if (prev)
 	prev->next = pdpy->next;
     else

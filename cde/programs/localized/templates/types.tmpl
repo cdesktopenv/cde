@@ -146,13 +146,19 @@ DtstyleDescRule(hp.dt,hp.dt)
 DtstyleDescRule(ibm.dt,ibm.dt)
 #endif
 
+#define NLS_CLEAN \							@@\
+	for i in *.nls; do \						@@\
+		[ -z $$i ] && continue; \				@@\
+		[ -h $$i ] && $(RM) $$i; \				@@\
+	done; true;
+
+#define OBJS_CLEAN \							@@\
+	for i in $(OBJS); do \						@@\
+		$(RM) $$i.tmsg; \					@@\
+	done; true;
+
 clean::
 	$(RM) $(OBJS) $(OBJS2)
-	for i in *.nls; do \
-		[ -z $$i ] && continue; \
-		[ -h $$i ] && $(RM) $$i; \
-	done; true; 
-	for i in $(OBJS); do \
-		$(RM) $$i.tmsg; \
-	done; true; 
+	NLS_CLEAN
+	OBJS_CLEAN
 

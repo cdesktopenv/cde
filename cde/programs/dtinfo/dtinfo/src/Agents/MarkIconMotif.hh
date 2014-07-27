@@ -88,7 +88,6 @@ private:
   // MarkTml objects are stored in reverse order in the list
   // to allow quick access to the last element. 
   xList<MarkCanvas *> f_mark_list;
-  char             f_icon_char;
   bool             f_selected;
   unsigned int     f_offset;
   unsigned int	   f_y_position ;

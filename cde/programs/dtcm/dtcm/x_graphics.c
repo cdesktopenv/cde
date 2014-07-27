@@ -1677,7 +1677,7 @@ cm_count_appts(CMGraphicsInfo *gInfo, CSA_entry_handle *list, int a_total,
     if (stat != CSA_SUCCESS)
     {
       free_appt_struct(&appt);
-      return;
+      return 0;
     }
     skip_appt = B_FALSE;
 

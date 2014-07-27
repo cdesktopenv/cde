@@ -162,6 +162,9 @@ XCOMM rules:  $TOG: Imake.rules /main/227 1998/02/02 12:07:57 kaleb $
  * CppSourceFile		(dst,src,defs,deplist)
  * MakeDirectories		(step,dirs)
  * AllTarget			(depends)
+ * MakeImakeDir			()
+ * DoUDB_SCRIPT3		(target, file, script, build)
+ * DoUDB_SCRIPT4		(target, file, script, build)
  *
  *
  * The following are in specific <os>Lib.rules:
@@ -174,6 +177,16 @@ XCOMM rules:  $TOG: Imake.rules /main/227 1998/02/02 12:07:57 kaleb $
  */
 
 #define NullParameter
+
+/* stringify macro */
+#ifndef STR
+# if defined(__llvm__)
+# define STR2(x)	#x
+# else
+# define STR2(x)	"x"
+# endif
+#define STR(x)	STR2(x)
+#endif
 
 /* if [ -d ] or [ ! -d ] causes make to fail, define this as - */
 #ifndef DirFailPrefix
@@ -210,7 +223,7 @@ XCOMM special target for clearmake					@@\
  * Concat - concatenates two strings.
  */
 #ifndef Concat
-#if (__STDC__ && !defined(UnixCpp)) || defined(AnsiCpp)
+#if (__STDC__ && !defined(UnixCpp)) || defined(AnsiCpp) || defined(__llvm__)
 #define Concat(a,b)a##b
 #else
 #define Concat(a,b)a/**/b
@@ -221,7 +234,7 @@ XCOMM special target for clearmake					@@\
  * Concat3 - concatenates three strings.
  */
 #ifndef Concat3
-#if (__STDC__ && !defined(UnixCpp)) || defined(AnsiCpp)
+#if (__STDC__ && !defined(UnixCpp)) || defined(AnsiCpp) || defined(__llvm__)
 #define Concat3(a,b,c)a##b##c
 #else
 #define Concat3(a,b,c)a/**/b/**/c
@@ -232,7 +245,7 @@ XCOMM special target for clearmake					@@\
  * Concat4 - concatenates four strings.
  */
 #ifndef Concat4
-#if (__STDC__ && !defined(UnixCpp)) || defined(AnsiCpp)
+#if (__STDC__ && !defined(UnixCpp)) || defined(AnsiCpp) || defined(__llvm__)
 #define Concat4(a,b,c,d)a##b##c##d
 #else
 #define Concat4(a,b,c,d)a/**/b/**/c/**/d
@@ -262,7 +275,7 @@ XCOMM special target for clearmake					@@\
  *           exists to avoid problems with some preprocessors
  */
 #ifndef _XUseCat
-# if (__STDC__ && !defined(UnixCpp)) || defined(AnsiCpp)
+# if (__STDC__ && !defined(UnixCpp)) || defined(AnsiCpp) || defined(__llvm__)
 #  if defined(UseInstalled) || UseInstalledX11
 #   define _XUseCat(a,b,c) a##c
 #  else
@@ -2485,6 +2498,44 @@ step::									@@\
 #define AllTarget(depends)						@@\
 all:: depends
 #endif /* AllTarget */
+
+
+/*
+ * MakeImakeDir - call make in imake directory.
+ */
+#ifndef MakeImakeDir
+#define MakeImakeDir() cd $(IMAKESRC) && \				@@\
+	if [ -f Makefile ]; then \					@@\
+	    $(MAKE) $(MFLAGS) BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \	@@\
+	else \								@@\
+	    $(MAKE) $(MFLAGS) -f Makefile.ini BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \									@@\
+	fi
+#endif /* MakeImakeDir */
+
+
+/*
+ * DoUDB_SCRIPT3 - macro for creation of udb scripts for installation
+ */
+#ifndef DoUDB_SCRIPT3
+#define DoUDB_SCRIPT3(target, file, script, build)			@@\
+target:: $(DATABASE_DIR)/file.udb					@@\
+	script -toLst -ReleaseStream $(PLATFORM) \			@@\
+	    $(DATABASE_DIR)/file.udb > file.lst				@@\
+	build file ../../..
+#endif
+
+
+/*
+ * DoUDB_SCRIPT4 - macro for creation of udb scripts for installation
+ */
+#ifndef DoUDB_SCRIPT4
+#define DoUDB_SCRIPT4(target, file, script, build)			@@\
+target:: $(DATABASE_DIR)/file.udb					@@\
+	script -toLst -ReleaseStream $(PLATFORM) \			@@\
+	    $(DATABASE_DIR)/file.udb > file.lst				@@\
+	build file ../../../..
+#endif
+
 
 #ifdef DefineOldLibraryRules
 #include <oldlib.rules>

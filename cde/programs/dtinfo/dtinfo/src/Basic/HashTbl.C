@@ -55,8 +55,8 @@ public: // functions
   HashBucket()
     // NOTE: remove 3rd param after testing
     : List (10, 10, List::GROW_ADD) { };
-  FolioObject *find (const FolioObject &);
-  void remove (const FolioObject &);
+  int find (FolioObject &);
+  void remove (FolioObject &);
 };
 
 
@@ -64,18 +64,18 @@ public: // functions
 // bucket find
 // /////////////////////////////////////////////////////////////////
 
-FolioObject *
-HashBucket::find (const FolioObject &element)
+int
+HashBucket::find (FolioObject &element)
 {
   register int i;
 
   for (i = 0; i < f_length; i++)
     {
       if (((Hashable *)f_list_element[i])->equals ((Hashable &) element))
-	return ((Hashable *) f_list_element[i]);
+	return (i);
     }
 
-  return (NULL);
+  return (-1);
 }
 
 
@@ -84,7 +84,7 @@ HashBucket::find (const FolioObject &element)
 // /////////////////////////////////////////////////////////////////
 
 void
-HashBucket::remove (const FolioObject &element)
+HashBucket::remove (FolioObject &element)
 {
   register int i;
 
@@ -140,7 +140,7 @@ HashTbl::add (Hashable &element)
     f_hash_bucket[where] = new HashBucket();
 
   /* -------- See if it exists. -------- */
-  if (f_hash_bucket[where]->find (element) == NULL)
+  if (f_hash_bucket[where]->find (element) == -1)
     /* -------- Finally, add it. -------- */
     f_hash_bucket[where]->append (element);
 }
@@ -150,15 +150,15 @@ HashTbl::add (Hashable &element)
 // find - find an entry in the hash table
 // /////////////////////////////////////////////////////////////////
 
-Hashable *
-HashTbl::find (const Hashable &element) const
+int
+HashTbl::find (Hashable &element) const
 {
   u_int where = element.hash_code (0, f_num_buckets - 1);
 
   if (f_hash_bucket[where] != NULL)
-    return ((Hashable *) f_hash_bucket[where]->find (element));
+    return (f_hash_bucket[where]->find (element));
   else
-    return (NULL);
+    return (-1);
 }
 
 
@@ -167,7 +167,7 @@ HashTbl::find (const Hashable &element) const
 // /////////////////////////////////////////////////////////////////
 
 void
-HashTbl::remove (const Hashable &element)
+HashTbl::remove (Hashable &element)
 {
   u_int where = element.hash_code (0, f_num_buckets - 1);
   if (f_hash_bucket[where] != NULL)

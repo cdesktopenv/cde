@@ -535,8 +535,8 @@ static XtEventHandler TestProbeHandler(
     Arg   al[5];
     
     *ctd = True;
-    if (cm->send_event == False) return;
-    if (cm->message_type != xa_DTTERM_REMOTE_PROBE_REQUEST) return;
+    if (cm->send_event == False) return 0;
+    if (cm->message_type != xa_DTTERM_REMOTE_PROBE_REQUEST) return 0;
     
     reply = (unsigned char*) malloc(sizeof(unsigned char) * 1024);
 

@@ -121,7 +121,7 @@ _DtTermPrimParse
 
 	    if (*parseChar == debugChar) {
 		ParseTrap();
-		return;
+		return 0;
 	    }
 	}
     }

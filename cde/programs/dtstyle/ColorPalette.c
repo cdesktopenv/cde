@@ -77,7 +77,7 @@ AllocatePaletteCells(
     XColor      colors[XmCO_MAX_NUM_COLORS * 5];
 
     if(style.count > 9)
-       return;
+       return 0;
 
     XmeGetPixelData (style.screenNum, &colorUse, pixels,
                                    &(pCurrentPalette->active),

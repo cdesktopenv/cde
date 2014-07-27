@@ -255,6 +255,17 @@ main(argc, argv)
 				argc--;
 			}
 			break;
+		case 'i':
+			if (strncmp(argv[0]+2, "system", 6) == 0) {
+				if (incp >= includedirs + MAXDIRS)
+				    fatalerr("Too many -I flags.\n");
+				*incp++ = argv[0]+8;
+				if (**(incp-1) == '\0') {
+					*(incp-1) = *(++argv);
+					argc--;
+				}
+			}
+			break;
 		case 'Y':
 			defincdir = argv[0]+2;
 			break;

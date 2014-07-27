@@ -79,7 +79,6 @@ class TtIpcMgr : public Long_Lived
  private: // data
 
     char  	*procid ;		// tt id for process
-    Tt_pattern  *sess_patterns ;	// tt patterns array for process
     Tt_status	 tt_state ;
 } ;
 

@@ -86,11 +86,11 @@ register ilPtr              pSrc, pDst, pTranslate;
     pPriv = (ilMapPrivPtr)pData->pPrivate;
     nRowsM1 = pPriv->width;
     if (nRowsM1 <= 0)
-        return;
+        return 0;
     nRowsM1--;
     nLinesM1 = *pNLines;
     if (nLinesM1 <= 0)
-        return;
+        return 0;
     nLinesM1--;
 
     srcRowBytes = pPriv->srcRowBytes;
@@ -135,11 +135,11 @@ register ilPtr              pSrc, pDst, pTranslate;
     pPriv = (ilMapPrivPtr)pData->pPrivate;
     nRowsM1 = pPriv->width;
     if (nRowsM1 <= 0)
-        return;
+        return 0;
     nRowsM1--;
     nLinesM1 = *pNLines;
     if (nLinesM1 <= 0)
-        return;
+        return 0;
     nLinesM1--;
 
     srcRowBytes = pPriv->srcRowBytes;

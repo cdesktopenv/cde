@@ -630,9 +630,11 @@ g_view_mark()
 }
 
 
+#if 0
 static unsigned
 find_segment_offset (_DtCvSegment *start, const _DtCvSegment *target,
 		     unsigned &offset);
+#endif
 
 static void
 arm_callback (void *client_data)
@@ -4451,6 +4453,7 @@ NodeWindowAgent::SetTopic(_DtCvTopicPtr topic)
 // stack of the parents
 
 
+#if 0
 static _DtCvSegment *
 contains(_DtCvSegment *root, _DtCvSegment *segment)
 {
@@ -4527,6 +4530,7 @@ next_string_segment(_DtCvSegment *root, _DtCvSegment *start)
 
   return 0;
 }
+#endif
 
 
 
@@ -4650,6 +4654,7 @@ NodeWindowAgent::create_canvas_mark(_DtCvHandle  canvas,
   return mark_canvas ;
 }
 
+#if 0
 static unsigned
 find_segment_offset (_DtCvSegment *start, const _DtCvSegment *target,
 		     unsigned &offset)
@@ -4701,6 +4706,7 @@ find_segment_offset (_DtCvSegment *start, const _DtCvSegment *target,
   
   return found ;
 }
+#endif
 
 void
 NodeWindowAgent::link_to (const char *locator)

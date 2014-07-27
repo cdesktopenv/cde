@@ -433,10 +433,12 @@ void sgml_init_buffer sgml_PROTO(( sgml_BUFFER_STATE b, FILE *file ));
 
 #define sgml_new_buffer sgml_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int sgmlinput sgml_PROTO(( void ));
 #else
 static int input sgml_PROTO(( void ));
+#endif
 #endif
 
 sgml_DECL
@@ -867,6 +869,7 @@ register sgml_CHAR *sgml_bp;
 #endif
 
 
+#if 0
 #ifdef __cplusplus
 static int sgmlinput()
 #else
@@ -933,6 +936,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef sgml_USE_PROTOS

@@ -427,10 +427,12 @@ void ps_init_buffer ps_PROTO(( ps_BUFFER_STATE b, FILE *file ));
 
 #define ps_new_buffer ps_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int psinput ps_PROTO(( void ));
 #else
 static int input ps_PROTO(( void ));
+#endif
 #endif
 
 ps_DECL
@@ -856,6 +858,7 @@ register ps_CHAR *ps_bp;
 #endif
 
 
+#if 0
 #ifdef __cplusplus
 static int psinput()
 #else
@@ -922,6 +925,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef ps_USE_PROTOS

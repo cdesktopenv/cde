@@ -3038,10 +3038,12 @@ void nodedata_init_buffer nodedata_PROTO(( nodedata_BUFFER_STATE b, FILE *file )
 
 #define nodedata_new_buffer nodedata_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int nodedatainput nodedata_PROTO(( void ));
 #else
 static int input nodedata_PROTO(( void ));
+#endif
 #endif
 
 nodedata_DECL
@@ -3564,6 +3566,7 @@ register nodedata_CHAR *nodedata_bp;
 #endif
 
 
+#if 0
 #ifdef __cplusplus
 static int nodedatainput()
 #else
@@ -3630,6 +3633,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef nodedata_USE_PROTOS

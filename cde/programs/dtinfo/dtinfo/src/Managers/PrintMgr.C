@@ -128,7 +128,7 @@ static PrintNode node_printer;
 // /////////////////////////////////////////////////////////////////
 
 PrintMgr::PrintMgr()
-    : f_print_panel(NULL), f_npa(NULL), f_font_scale(0)
+    : f_npa(NULL), f_font_scale(0)
 {
     RCS_DEBUG("PrintMgr::PrintMgr called.");
     set_font_scale(pref_mgr().get_int(PrefMgr::FontScale));

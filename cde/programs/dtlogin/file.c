@@ -197,12 +197,12 @@ ParseDisplay( char *source,
 
     args = splitIntoWords (source);
     if (!args)
-	return;
+	return 0;
     if (!args[0])
     {
 	LogError(ReadCatalog(MC_LOG_SET,MC_LOG_MISS_NAME,MC_DEF_LOG_MISS_NAME));
 	freeArgs (args);
-	return;
+	return 0;
     }
     name = args[0];
     if (!args[1])
@@ -210,7 +210,7 @@ ParseDisplay( char *source,
 	LogError(ReadCatalog(MC_LOG_SET,MC_LOG_MISS_TYPE,MC_DEF_LOG_MISS_TYPE),
 		args[0]);
 	freeArgs (args);
-	return;
+	return 0;
     }
 
     /*

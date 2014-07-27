@@ -95,7 +95,6 @@ private:
   u_char  f_connective;
   char   *f_weight;
   char   *f_proximity;
-  char   *f_scope;
   bool f_term_string_fixed;
   u_char f_type;
   // may need some way to verify the scope... 

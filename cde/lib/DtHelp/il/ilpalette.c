@@ -159,10 +159,10 @@ register long               nLinesM1, nPixelsM1Temp;
 
     nPixelsM1 = pPriv->nPixelsM1;
     if (nPixelsM1 < 0)
-        return;
+        return 0;
     nLinesM1 = *pNLines;
     if (nLinesM1 <= 0)
-        return;
+        return 0;
     nLinesM1--;
 
         /*  For each src byte: get a long from the cvt'd palette table, then take

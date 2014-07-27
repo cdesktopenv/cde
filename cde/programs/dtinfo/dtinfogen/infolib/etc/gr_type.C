@@ -1873,10 +1873,12 @@ void graphics_task_init_buffer graphics_task_PROTO(( graphics_task_BUFFER_STATE 
 
 #define graphics_task_new_buffer graphics_task_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int graphics_taskinput graphics_task_PROTO(( void ));
 #else
 static int input graphics_task_PROTO(( void ));
+#endif
 #endif
 
 graphics_task_DECL
@@ -2349,6 +2351,7 @@ register graphics_task_CHAR *graphics_task_bp;
 #endif
 
 
+#if 0
 #ifdef __cplusplus
 static int graphics_taskinput()
 #else
@@ -2415,6 +2418,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef graphics_task_USE_PROTOS

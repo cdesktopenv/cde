@@ -27,7 +27,7 @@
 
 #include "UAS.hh"
 
-class Anchor;
+struct Anchor;
 
 class LocalHistoryEntry
 {

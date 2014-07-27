@@ -449,7 +449,6 @@ public:
 
 private:
   RowDefn*	f_row ;
-  unsigned	f_graphic;
 
   _DtCvFrmtOption	f_border;
   int			f_border_width;

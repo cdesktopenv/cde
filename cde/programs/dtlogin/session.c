@@ -1746,7 +1746,7 @@ AbortClient( int pid )
 			MC_LOG_SET,MC_LOG_NO_KILLCL,MC_DEF_LOG_NO_KILLCL));
 	    case EINVAL:
 	    case ESRCH:
-		return;
+		return 0;
 	    }
 	}
 	if (!setjmp (tenaciousClient)) {
@@ -1834,11 +1834,11 @@ execute(char **argv, char **environ )
 	 */
 	f = fopen (argv[0], "r");
 	if (!f)
-	    return;
+	    return 0;
 	if (fgets (program, sizeof (program) - 1, f) == NULL)
  	{
 	    fclose (f);
-	    return;
+	    return 0;
 	}
 	fclose (f);
 	e = program + strlen (program) - 1;

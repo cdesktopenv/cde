@@ -111,13 +111,13 @@ CreateWellKnownSockets ()
     char		*name, *localHostname();
 
     if (request_port == 0)
-	    return;
+	    return 0;
     Debug ("creating socket %d\n", request_port);
     xdmcpFd = socket (AF_INET, SOCK_DGRAM, 0);
     if (xdmcpFd == -1) {
 	LogError (ReadCatalog(MC_LOG_SET,MC_LOG_FAIL_SOCK,MC_DEF_LOG_FAIL_SOCK),
 		  request_port);
-	return;
+	return 0;
     }
     name = localHostname ();
     registerHostname (name, strlen (name));
@@ -136,7 +136,7 @@ CreateWellKnownSockets ()
 		  request_port, errno);
 	close (xdmcpFd);
 	xdmcpFd = -1;
-	return;
+	return 0;
     }
     WellKnownSocketsMax = xdmcpFd;
     FD_SET (xdmcpFd, &WellKnownSocketsMask);
@@ -146,7 +146,7 @@ CreateWellKnownSockets ()
     if (chooserFd == -1)
     {
 	LogError ((unsigned char *)"chooser socket creation failed, errno %d\n", errno);
-	return;
+	return 0;
     }
     listen (chooserFd, 5);
     if (chooserFd > WellKnownSocketsMax)

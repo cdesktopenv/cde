@@ -120,6 +120,9 @@ extern int errno;
 #  ifdef macII
 #   define USE_CRYPT
 #  endif
+#  ifdef __FreeBSD__
+#   define USE_CRYPT
+#  endif
 #  ifdef sun
 #   define USE_CRYPT
 #   if (OSMAJORVERSION >= 4)
@@ -453,7 +456,7 @@ InitCryptoKey( void )
     char    *key_file = "/dev/mem";
 #endif    
     if (cryptoInited)
-	return;
+	return 0;
 
     /*
      *  If the sumFile fails to produce a result

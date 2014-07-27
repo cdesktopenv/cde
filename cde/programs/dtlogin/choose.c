@@ -389,7 +389,7 @@ ProcessChooserSocket (
     if (client_fd == -1)
     {
 	LogError ((unsigned char *)"Cannot accept chooser connection\n");
-	return;
+	return 0;
     }
     Debug ("Accepted %d\n", client_fd);
     

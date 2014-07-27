@@ -99,7 +99,6 @@ private:   // data
   char                 *f_lang;
   char                 *f_home;
   char                 *f_user_path;
-  char                 *f_lang_normalized;
 
     // option flags and data
   UAS_String            f_infolibsStr;

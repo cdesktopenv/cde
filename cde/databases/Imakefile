@@ -41,8 +41,9 @@ UDB_RELEASE_OPT = -ReleaseStream netbsd
  * Insure that symbols used in the .udb files are undefined for
  * pre-processing by cpp.
  */
-#ifdef RsArchitecture
-/* AIX cpp rejects "hp-ux" as an invalid sub-option. */
+#if defined(LinuxArchitecture) || defined(BSDArchitecture) || \
+    defined(RsArchitecture)
+/* cpp of some systems reject "hp-ux" as an invalid sub-option. */
 UDB_CPP_UNDEF_LIST = -UhpV4 -Uhpux         -Uaix -Usun -Uusl -Udec -Uuxp -Uunix
 #else
 UDB_CPP_UNDEF_LIST = -UhpV4 -Uhpux -Uhp-ux -Uaix -Usun -Uusl -Udec -Uuxp -Uunix -Ulinux -Uopenbsd -Ufreebsd -Unetbsd
@@ -56,10 +57,12 @@ clean::									@@\
 Concat3(CDE-,Locale,.udb):: ResDB					@@\
 	@echo Building readablename Resources database file.		@@\
 	@rm -f $@ 							@@\
-	@echo sed -e 's/%_LANG_%/Lang/g' -e 's/%_ALT_LANG_%/AltLang/g' \@@\
-		-e 's/%_FILENAME_%/runfs/g' ResDB 			@@\
-	@sed -e 's/%_LANG_%/Lang/g' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
-		-e 's/%_FILENAME_%/runfs/g' ResDB > $@			@@\
+	@echo $(SED) -e STR(s/%_LANG_%/Lang/g) \			@@\
+		     -e STR(s/%_ALT_LANG_%/AltLang/g) \			@@\
+		     -e STR(s/%_FILENAME_%/runfs/g) ResDB		@@\
+	@$(SED) -e STR(s/%_LANG_%/Lang/g) \				@@\
+		-e STR(s/%_ALT_LANG_%/AltLang/g) \			@@\
+		-e STR(s/%_FILENAME_%/runfs/g) ResDB > $@		@@\
 									@@\
 clean::									@@\
 	$(RM) Concat3(CDE-HELP-,Locale,.udb)				@@\
@@ -67,10 +70,12 @@ clean::									@@\
 CDE-HELP-Locale.udb:: HelpDB						@@\
 	@echo Building readablename Help database file.			@@\
 	@rm -f $@							@@\
-	@echo sed -e 's/%_LANG_%/HelpLang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
-		-e 's/%_FILENAME_%/helpfs/g' HelpDB 			@@\
-	@sed -e 's/%_LANG_%/HelpLang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
-		-e 's/%_FILENAME_%/helpfs/g' HelpDB > $@		@@\
+	@echo $(SED) -e STR(s/%_LANG_%/HelpLang/) \			@@\
+		     -e STR(s/%_ALT_LANG_%/AltLang/g) \			@@\
+		     -e STR(s/%_FILENAME_%/helpfs/g) HelpDB		@@\
+	@$(SED) -e STR(s/%_LANG_%/HelpLang/) \				@@\
+		-e STR(s/%_ALT_LANG_%/AltLang/g) \			@@\
+		-e STR(s/%_FILENAME_%/helpfs/g) HelpDB > $@		@@\
 									@@\
 clean::									@@\
 	$(RM) Concat3(CDE-MSG-,Locale,.udb)				@@\
@@ -78,10 +83,12 @@ clean::									@@\
 CDE-MSG-Locale.udb:: MsgDB						@@\
 	@echo Building readablename Message catalog database file.	@@\
 	@rm -f $@							@@\
-	@echo sed -e 's/%_LANG_%/Lang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
-		-e 's/%_FILENAME_%/msgfs/g' MsgDB  			@@\
-	@sed -e 's/%_LANG_%/Lang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
-		-e 's/%_FILENAME_%/msgfs/g' MsgDB > $@			@@\
+	@echo $(SED) -e STR(s/%_LANG_%/Lang/) \				@@\
+		     -e STR(s/%_ALT_LANG_%/AltLang/g) \			@@\
+		     -e STR(s/%_FILENAME_%/msgfs/g) MsgDB		@@\
+	@$(SED) -e STR(s/%_LANG_%/Lang/) \				@@\
+		-e STR(s/%_ALT_LANG_%/AltLang/g) \			@@\
+		-e STR(s/%_FILENAME_%/msgfs/g) MsgDB > $@		@@\
 									@@\
 clean::									@@\
 	$(RM) Concat3(CDE-INFOLIB-,Locale,.udb)				@@\
@@ -89,10 +96,12 @@ clean::									@@\
 CDE-INFOLIB-Locale.udb:: InfoDB						@@\
 	@echo Building readablename Infolib catalog database file.	@@\
 	@rm -f $@							@@\
-	@echo sed -e 's/%_LANG_%/Lang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
-		-e 's/%_FILENAME_%/msgfs/g' InfoDB  			@@\
-	@sed -e 's/%_LANG_%/Lang/' -e 's/%_ALT_LANG_%/AltLang/g' \	@@\
-		-e 's/%_FILENAME_%/msgfs/g' InfoDB > $@
+	@echo $(SED) -e STR(s/%_LANG_%/Lang/) \				@@\
+		     -e STR(s/%_ALT_LANG_%/AltLang/g) \			@@\
+		     -e STR(s/%_FILENAME_%/msgfs/g) InfoDB		@@\
+	@$(SED) -e STR(s/%_LANG_%/Lang/) \				@@\
+		-e STR(s/%_ALT_LANG_%/AltLang/g) \			@@\
+		-e STR(s/%_FILENAME_%/msgfs/g) InfoDB > $@
 
 .SUFFIXES: .db .udb
 

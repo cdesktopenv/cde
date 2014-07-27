@@ -26,7 +26,7 @@
  */
 
 
-class Anchor
+struct Anchor
 {
 public:
   Anchor (const char *location, const char *format, bool keep = FALSE)

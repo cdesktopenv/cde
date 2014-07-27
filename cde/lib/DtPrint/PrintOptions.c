@@ -460,7 +460,7 @@ _DtPrintGetHdrFtrData(
 
     if (! option) return (void*) NULL;
     XtVaGetValues(option, XmNuserData, &info, NULL);
-    if (info == NULL) return;
+    if (info == NULL) return 0;
 
     index = _DtPrintGetHdrFtrIndex(option);
     return info->specs[index].data;
@@ -484,7 +484,7 @@ _DtPrintGetHdrFtrString(
 
     if (! option) return (void*) NULL;
     XtVaGetValues(option, XmNuserData, &info, NULL);
-    if (info == NULL) return;
+    if (info == NULL) return 0;
 
     index = _DtPrintGetHdrFtrIndex(option);
     return info->specs[index].string;

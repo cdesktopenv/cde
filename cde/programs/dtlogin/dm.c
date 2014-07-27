@@ -350,7 +350,7 @@ ScanServers( void )
 	    LogError(
 		ReadCatalog(MC_LOG_SET,MC_LOG_NO_SRVACC,MC_DEF_LOG_NO_SRVACC),
 		servers);
-	    return;
+	    return 0;
 	}
 	if (ServersModTime == 0)
 	{
@@ -861,7 +861,7 @@ StartDisplay(
      */
     if (d->displayType.origin == FromFile && dt_shutdown ) {
 	RemoveDisplay(d);
-	return;
+	return 0;
     }
     
     {
@@ -949,7 +949,7 @@ StartDisplay(
 		LogError ((unsigned char *)"All DT utmp IDs already in use. Removing display %s\n",
 			d->name);
 		RemoveDisplay(d);
-		return;
+		return 0;
 	    }
 	}
 #endif
@@ -1024,7 +1024,7 @@ StartDisplay(
 
 	    if (!StartGetty(d))
 		RemoveDisplay (d);
-	    return;
+	    return 0;
 	}
     }
     else
@@ -1442,12 +1442,12 @@ SetTitle( char *name, char *ptr )
      *  remove domain qualifiers and screens from name...
      */
 
-    if ( (p = malloc(strlen(name) + 1)) == NULL) return;
+    if ( (p = malloc(strlen(name) + 1)) == NULL) return 0;
     strcpy(p, name);
 
     if ( (s = strchr(p,':')) == NULL ) {
 	free(p);
-	return;
+	return 0;
     }
     
     if ( (t = strchr(s,'.')) != NULL )

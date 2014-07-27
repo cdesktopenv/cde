@@ -156,8 +156,7 @@ MessageMgr::MessageMgr() :
  f_nodeview_process(0),
  f_popped_up(False),
  f_pressed_ok(False),
- f_exit_flag(False),
- f_dialog_active(False)
+ f_exit_flag(False)
 
 {
     MessageAgent::request ((UAS_Receiver<CancelOperation> *) this);

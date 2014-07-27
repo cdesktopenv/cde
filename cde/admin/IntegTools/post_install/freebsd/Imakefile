@@ -28,27 +28,14 @@ PLATFORM = uxp
 UDBTOANY = $(KORNSHELL) $(TOOL_DIR)/udbToAny.ksh
 BUILD_UDB_LIST = $(SHELL) ../build_udb_list
 
+
 all::
 
-configMin:: $(DATABASE_DIR)/CDE-MIN.udb
-	$(UDBTOANY) -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-MIN.udb > CDE-MIN.lst
-	$(BUILD_UDB_LIST) CDE-MIN ../../../..
+DoUDB_SCRIPT4(configMin,CDE-MIN,$(UDBTOANY),$(BUILD_UDB_LIST))
+DoUDB_SCRIPT4(configTT,CDE-TT,$(UDBTOANY),$(BUILD_UDB_LIST))
+DoUDB_SCRIPT4(configRun,CDE-RUN,$(UDBTOANY),$(BUILD_UDB_LIST))
+DoUDB_SCRIPT4(configShlibs,CDE-SHLIBS,$(UDBTOANY),$(BUILD_UDB_LIST))
 
-configTT:: $(DATABASE_DIR)/CDE-TT.udb
-	$(UDBTOANY) -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-TT.udb > CDE-TT.lst
-	$(BUILD_UDB_LIST) CDE-TT ../../../..
-
-configRun:: $(DATABASE_DIR)/CDE-RUN.udb
-	$(UDBTOANY) -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-RUN.udb > CDE-RUN.lst
-	$(BUILD_UDB_LIST) CDE-RUN ../../../..
-
-configShlibs:: $(DATABASE_DIR)/CDE-SHLIBS.udb
-	$(UDBTOANY) -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-SHLIBS.udb > CDE-SHLIBS.lst
-	$(BUILD_UDB_LIST) CDE-SHLIBS ../../../..
 
 LOCAL_CPP_DEFINES = -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
                     -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP) \

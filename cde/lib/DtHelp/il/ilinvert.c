@@ -106,10 +106,10 @@ register long               nLines, nPixels;
     dstnbytes = pPriv->dstRowBytes;
     pdstline = pPriv->pDstPixels + dstLine * dstnbytes;
 
-    if (pPriv->nPixels < 0)  return;
+    if (pPriv->nPixels < 0)  return 0;
 
     nLines = *pNLines;
-    if (nLines <= 0) return;
+    if (nLines <= 0) return 0;
 
     while ( nLines--  > 0 ) {
           psrc = psrcline;

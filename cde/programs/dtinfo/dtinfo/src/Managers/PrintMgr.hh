@@ -71,7 +71,6 @@ public:
     void set_font_scale(int);  
 
 private:
-    PrintPanelAgent * f_print_panel;
     NodePrintAgent * f_npa;      
     UAS_Pointer<UAS_Common> f_last_printed;	
     int	f_font_scale ; // for old style.sheet    

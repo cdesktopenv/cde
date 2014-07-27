@@ -495,10 +495,12 @@ void defParser_init_buffer defParser_PROTO(( defParser_BUFFER_STATE b, FILE *fil
 
 #define defParser_new_buffer defParser_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int defParserinput defParser_PROTO(( void ));
 #else
 static int input defParser_PROTO(( void ));
+#endif
 #endif
 
 defParser_DECL
@@ -1104,6 +1106,7 @@ register defParser_CHAR *defParser_bp;
 #endif
 
 
+#if 0
 #ifdef __cplusplus
 static int defParserinput()
 #else
@@ -1170,6 +1173,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef defParser_USE_PROTOS

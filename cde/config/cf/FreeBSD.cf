@@ -15,20 +15,33 @@ XCOMM platform:  $TOG: FreeBSD.cf /main/21 1997/10/05 20:42:34 kaleb $
 #ifndef OSTeenyVersion
 #define OSTeenyVersion		DefaultOSTeenyVersion
 #endif
-XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVersion)
+XCOMM operating system:  OSName (OSMajorVersion/**/./**/OSMinorVersion/**/./**/OSTeenyVersion)
 
 #define HasPutenv		YES
 #define HasBSD44Sockets		YES
 #define HasZlib			YES
 
-#ifndef CppCmd
-#if OSMajorVersion >= 5
-#define CppCmd			/usr/bin/cpp -traditional
-#define PreProcessCmd		/usr/bin/cpp -traditional
-#else
-#define CppCmd			/usr/libexec/cpp -traditional
-#define PreProcessCmd		/usr/libexec/cpp -traditional
+#if OSMajorVersion >= 10 && defined(UseGcc)
+USE_GCC = UseGcc
 #endif
+
+#ifndef CppCmd
+#if OSMajorVersion >= 10 && defined(UseGcc)
+# define CppCmd			/usr/local/bin/cpp$(USE_GCC)
+#else
+# define CppCmd			/usr/bin/cpp
+#endif
+#endif
+#define PreProcessCmd		CppCmd
+
+#if OSMajorVersion >= 10
+#define CppArgs			-Wno-invalid-pp-token
+#else
+#define CppArgs			/**/
+#endif
+
+#ifndef StandardCppDefines
+#define StandardCppDefines	-traditional CppArgs
 #endif
 
 #undef  InstallCmd
@@ -71,19 +84,33 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define MkdirHierCmd		mkdir -p
 
 #ifndef CcCmd
-#define CcCmd gcc
-#ifndef DefaultCCOptions
-#define DefaultCCOptions	-pipe
+#if OSMajorVersion >= 10
+# if defined(UseGcc)
+#  define CcCmd			/usr/local/bin/gcc$(USE_GCC)
+#  define CplusplusCmd		/usr/local/bin/g++$(USE_GCC)
+# else
+#  define CcCmd			cc
+#  define CplusplusCmd		c++
+# endif
+#else
+# define CcCmd			gcc
+# define CplusplusCmd		g++
 #endif
 #endif
 
+#ifndef DefaultCCOptions
+#define DefaultCCOptions	-pipe
+#endif
+
+#ifndef CplusplusLibC
 #define CplusplusLibC		-lstdc++
+#endif
 
 #if OSMajorVersion > 1
 #define ServerOSDefines		XFree86ServerOSDefines -DDDXTIME
 #define XawI18nDefines		-DUSE_XWCHAR_STRING
 #define HasMakefileSafeInclude	YES
-#define IncludeMakefile(file)	@@# dependencies are in .depend
+#define IncludeMakefile(file)	HASH_SIGN dependencies are in .depend
 #define DependFileName		.depend
 #if OSMajorVersion < 3
 #if OSMinorVersion < 2
@@ -148,7 +175,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #endif
 
 #ifndef OptimizedCDebugFlags
-# ifdef i386Architecture
+# if defined(i386Architecture) || defined(AMD64Architecture)
 #  define OptimizedCDebugFlags DefaultGcc2i386Opt
 # else
 #  define OptimizedCDebugFlags -O2 -fno-strict-aliasing
@@ -156,9 +183,14 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #endif
 
 #ifdef HasGcc2
-CXXDEPENDINCLUDE != CppCmd -x c++ -Wp,-v < /dev/null \
-		    2>&1 | sed -n 's/ \(.*[cg]++.*\)/-I\1/p'
+CXXDEPENDINCLUDE != CcCmd -v -x c++ /dev/null -fsyntax-only \
+		    2>&1 | sed -n 's/^ \(\/.*[cg]++.*\)/-I\1/p'
 #define CplusplusDependIncludes	$(CXXDEPENDINCLUDE)
+#endif
+
+/* beginning with svn version 254273 iconv functions are moved to libc */
+#if (OSMajorVersion >= 10)
+ICONVSYSLIB != if test -f /usr/local/include/iconv.h; then echo -liconv; else echo; fi
 #endif
 
 #define ServerExtraDefines	GccGasOption XFree86ServerDefines

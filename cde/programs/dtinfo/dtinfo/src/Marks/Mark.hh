@@ -31,12 +31,12 @@
  # include "UAS.hh"
 
 
-class Anchor;
-class MarkChanged;
-class MarkDeleted;
-class MarkMoved;
-class EditMark;
-class ViewMark;
+struct Anchor;
+struct MarkChanged;
+struct MarkDeleted;
+struct MarkMoved;
+struct EditMark;
+struct ViewMark;
 
 class Mark
 {

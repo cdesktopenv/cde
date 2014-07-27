@@ -1025,7 +1025,7 @@ _DtTermPrimBufferInsert
 	_DtTermPrimBufferInsertWc(tb, row, col, (wchar_t *)newChars,
 				  numChars, insertFlag,
 				  returnChars, returnCount);
-	return;
+	return 0;
     }
 
     if (WIDTH(line) < col)

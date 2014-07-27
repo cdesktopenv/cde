@@ -470,7 +470,7 @@ RemoveHostname (host)
 	prev = &hosts->next;
     }
     if (!hosts)
-	return;
+	return 0;
     *prev = host->next;
     DisposeHostname (host);
     NameTableSize--;
@@ -563,12 +563,12 @@ RegisterHostaddr (addr, len, type)
 
     host = (HostAddr *) malloc (sizeof (HostAddr));
     if (!host)
-	return;
+	return 0;
     host->addr = (struct sockaddr *) malloc (len);
     if (!host->addr)
     {
 	free ((char *) host);
-	return;
+	return 0;
     }
     memmove( (char *) host->addr, (char *) addr, len);
     host->addrlen = len;
@@ -602,7 +602,7 @@ RegisterHostname (name)
 	ifc.ifc_len = sizeof (buf);
 	ifc.ifc_buf = buf;
 	if (ioctl (socketFD, (int) SIOCGIFCONF, (char *) &ifc) < 0)
-	    return;
+	    return 0;
 	for (ifr = ifc.ifc_req
 #if defined (__bsdi__) || defined(__NetBSD__)
 	     ; (char *)ifr < ifc.ifc_buf + ifc.ifc_len;
@@ -665,9 +665,9 @@ RegisterHostname (name)
 	{
 	    hostent = gethostbyname (name);
 	    if (!hostent)
-		return;
+		return 0;
 	    if (hostent->h_addrtype != AF_INET || hostent->h_length != 4)
-	    	return;
+		return 0;
 	    in_addr.sin_family = hostent->h_addrtype;
 	    memmove( &in_addr.sin_addr, hostent->h_addr, 4);
 	}
@@ -689,10 +689,10 @@ RegisterAuthenticationName (name, namelen)
     ARRAY8Ptr	authName;
     if (!XdmcpReallocARRAYofARRAY8 (&AuthenticationNames,
 				    AuthenticationNames.length + 1))
-	return;
+	return 0;
     authName = &AuthenticationNames.data[AuthenticationNames.length-1];
     if (!XdmcpAllocARRAY8 (authName, namelen))
-	return;
+	return 0;
     memmove( authName->data, name, namelen);
 }
 

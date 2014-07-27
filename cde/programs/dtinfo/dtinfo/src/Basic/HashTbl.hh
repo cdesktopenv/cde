@@ -31,9 +31,9 @@ public: // functions
   void add (Hashable &);
   void add (Hashable *h)
     { add (*h); }
-  void remove (const Hashable &);
+  void remove (Hashable &);
   void remove_all (bool delete_elements = FALSE);
-  Hashable *find (const Hashable &) const;
+  int find (Hashable &) const;
 
 protected: // variables
   HashBucket **f_hash_bucket;

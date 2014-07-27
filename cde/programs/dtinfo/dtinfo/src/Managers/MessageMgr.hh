@@ -83,7 +83,6 @@ private: // variables
   bool			f_popped_up;
   bool			f_pressed_ok;
   bool			f_exit_flag;
-  bool			f_dialog_active;
 
 private:
   LONG_LIVED_HH(MessageMgr,message_mgr);

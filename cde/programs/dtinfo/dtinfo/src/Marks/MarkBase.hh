@@ -23,7 +23,7 @@
 
 template <class T> class xList;
 class Mark;
-class Anchor;
+struct Anchor;
 
 class MarkBase
 {

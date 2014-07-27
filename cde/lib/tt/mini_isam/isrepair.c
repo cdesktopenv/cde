@@ -411,7 +411,7 @@ printkey(n, pkdesc, print)
 
     if (pkdesc->k_nparts == 0) {
 	print("%3d: --- NO PRIMARY KEY ---\n", n);
-	return;
+	return 0;
     }
 
     if (n == 1)

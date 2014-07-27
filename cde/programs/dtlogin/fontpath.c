@@ -103,12 +103,12 @@ ApplyFontPathMods( struct display *d, Display *dpy )
 
     if (d->displayType.location == Foreign) {
         Debug("  Foreign display\n");
-        return;
+        return 0;
     }
 
     if (!(fontPath=XGetFontPath(dpy, &numPaths))) {
         Debug("  Can't get font path\n");
-        return;
+        return 0;
     }
 
     /*

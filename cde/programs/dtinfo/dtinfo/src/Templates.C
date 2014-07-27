@@ -53,7 +53,7 @@ class LinkAction;
 class BookTab;
 class MarkTml;
 class MarkIcon;
-class MarkCreated;
+struct MarkCreated;
 class MarkSelectionChanged;
 #ifndef _IBMR2
 class DisplayDocument;

@@ -36,7 +36,7 @@
 
 #include <WWL/WXmMenu.h>
 class WXmArrowButton;
-class UpdateMenu;
+struct UpdateMenu;
 
 
 // A ScopeMenu is not a real menu, it's only an object responsible to update

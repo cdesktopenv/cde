@@ -2483,7 +2483,7 @@ todo_insert(Dtcm_appointment *appt, CSA_entry_handle *new_a, Calendar *c) {
 		 * occurred.
 		 */
 		_DtTurnOffHourGlass(t->frame);
-		return;
+		return 0;
 	case 4:
 	default:
 		/*
@@ -2501,7 +2501,7 @@ todo_insert(Dtcm_appointment *appt, CSA_entry_handle *new_a, Calendar *c) {
 
 	if (stat != CSA_SUCCESS) {
 		_DtTurnOffHourGlass(t->frame);
-		return;
+		return 0;
 	}
 	csa_free((CSA_buffer) new_a);
 

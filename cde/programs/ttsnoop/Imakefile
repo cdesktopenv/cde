@@ -147,39 +147,45 @@ $(m.GEN_UI_C) Plus() $(m.GEN_UI_H) Plus() $(m.GEN_STUBS_C++): ttsnoop.bip $(m.SR
 # define CodeGenTarget(m) CodeGenAppendableTarget(m)
 #endif
 
+#define SED_MoreButton $(SED) \						@@\
+	-e 's/\(MoreButton;\)/\1Boolean _DtCanHelp( const char * );/' \	@@\
+	-e 's/\(XtManageChild(Quick_help\)/XtSetSensitive(MoreButton,_DtCanHelp(help_data->help_text));\1/' \	@@\
+	-e 's/\(buffer, vol, loc;\)/\1Boolean _DtHelped( Widget );/' \	@@\
+	-e 's/\(if( (cp=strrchr\)/if (_DtHelped( help_dialog)) return;\1/' \ @@\
+	dtb_utils.c > dtb_utils.c.patched
+
+#define SED_DtbTt $(SED) \						@@\
+	-e 's/^DtbTt/extern String snooperArgv[];DtbTt/' \		@@\
+	-e 's/XmNheight, 257,//' \					@@\
+	-e 's/XmNwidth, 580,//' \					@@\
+	-e 's/XmNcolumns, 80,//' \					@@\
+	-e 's/XmNrows, 24/DtNsubprocessArgv, snooperArgv/' \		@@\
+	ttsnoop_ui.c > ttsnoop_ui.c.patched
+
+#define SED_DtbApi $(SED) \						@@\
+	-e 's/^DtbApi/extern String apiTracerArgv[];DtbApi/' \		@@\
+	-e 's/XmNrows, 24/XmNrows, 24, DtNsubprocessArgv, apiTracerArgv/' \ @@\
+	apiTracer_ui.c > apiTracer_ui.c.patched
 
 ttsnoop.C ttsnoop.h dtb_utils.c dtb_utils.h: ttsnoop.bip ttsnoop.C.src
 	$(CP) ttsnoop.C.src ttsnoop.c
-	-if [ ! -w ttsnoop.c ]; then \
-		chmod +w ttsnoop.c; fi
+	-if [ ! -w ttsnoop.c ]; then chmod +w ttsnoop.c; fi
 	$(DTCODEGEN) -changed -merge -p ttsnoop.bip -main
 	$(RM) ttsnoop.C
 	$(MV) ttsnoop.c ttsnoop.C
 	chmod -w ttsnoop.C
 	cat externC.h dtb_utils.h closeBrace.h > dtb_utils.h.patched
 	$(MV) dtb_utils.h.patched dtb_utils.h
-	sed \
-	-e 's/\(MoreButton;\)/\1Boolean _DtCanHelp( const char * );/' \
-	-e 's/\(XtManageChild(Quick_help\)/XtSetSensitive(MoreButton,_DtCanHelp(help_data->help_text));\1/' \
-	-e 's/\(buffer, vol, loc;\)/\1Boolean _DtHelped( Widget );/' \
-	-e 's/\(if( (cp=strrchr\)/if (_DtHelped( help_dialog)) return;\1/' \
-	dtb_utils.c > dtb_utils.c.patched
+	SED_MoreButton
 	$(MV) dtb_utils.c.patched dtb_utils.c
 ttsnoop.o: ttsnoop.C ttsnoop.bip $(TARGETS.h) $(TARGETS.h.merged)
 
 CodeGenAppendableTarget(ttsnoop)
-	sed -e 's/^DtbTt/extern String snooperArgv[];DtbTt/' \
-	-e 's/XmNheight, 257,//' \
-	-e 's/XmNwidth, 580,//' \
-	-e 's/XmNcolumns, 80,//' \
-	-e 's/XmNrows, 24/DtNsubprocessArgv, snooperArgv/' \
-	ttsnoop_ui.c > ttsnoop_ui.c.patched
+	SED_DtbTt
 	$(MV) ttsnoop_ui.c.patched ttsnoop_ui.c
 
 CodeGenAppendableTarget(apiTracer)
-	sed -e 's/^DtbApi/extern String apiTracerArgv[];DtbApi/' \
-	-e 's/XmNrows, 24/XmNrows, 24, DtNsubprocessArgv, apiTracerArgv/' \
-	apiTracer_ui.c > apiTracer_ui.c.patched
+	SED_DtbApi
 	$(MV) apiTracer_ui.c.patched apiTracer_ui.c
 
 CodeGenTarget(ttChooser)

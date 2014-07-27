@@ -89,6 +89,8 @@
 #else
 #define __VA_START__(p,a)	va_start(p)
 #endif
+#define va_listval(p)		(*(p))
+#define va_listarg		va_list*
 #endif
 static const char id_hash[] = "\n@(#)hash (AT&T Bell Laboratories) 05/09/95\0\n";
 
@@ -112,7 +114,7 @@ hashalloc __PARAM__((Hash_table_t* ref, ...), (va_alist)) __OTORP__(va_dcl)
 	register Hash_table_t*	ret = 0;
 	register int		internal;
 	int			n;
-	va_list			ap, vl;
+	va_list			ap;
 	va_list			va[4];
 	va_list*		vp = va;
 	HASHregion		region = 0;
@@ -223,8 +225,7 @@ hashalloc __PARAM__((Hash_table_t* ref, ...), (va_alist)) __OTORP__(va_dcl)
 				__va_copy( *vp, ap );
 				vp++;
 			}
-			vl = va_arg(ap, va_list);
-			__va_copy(ap, vl);
+			__va_copy(ap, va_listval(va_arg(ap, va_listarg)));
 #endif
 			break;
 		case 0:

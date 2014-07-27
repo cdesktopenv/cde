@@ -435,21 +435,16 @@ GraphicAgent::create_ui()
   PixmapGraphic &pgraphic = *(f_graphic->pixmap_graphic());
 
   Graphic *graphic = f_graphic ;
+  UAS_String buffer = CATGETS(Set_GraphicAgent, 8, "Dtinfo: ");
   UAS_String titleStr(graphic->title());
   const char *title = titleStr ;
 
   if (title == NULL || *title == '\0')	// empty string 
     title = (char *)CATGETS(Set_GraphicAgent, 2, "Detached Graphic");
+  buffer = buffer + title;
 
-  {
-
-    UAS_String buffer = CATGETS(Set_GraphicAgent, 8, "Dtinfo: ");
-    buffer = buffer + title;
-
-    f_shell.Title((char*)buffer);
-    f_shell.IconName((char*)buffer);
-
-  }
+  f_shell.Title((char*)buffer);
+  f_shell.IconName((char*)buffer);
 
   args.Reset();
   panner.CanvasWidth (pgraphic.width(), args);

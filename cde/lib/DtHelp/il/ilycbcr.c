@@ -327,11 +327,11 @@ ilImagePlaneInfo           *pPlane;
         /*  Set nPixels/LinesM1 to # pixels / lines - 1; exit if either 0. */
     nPixelsM1Init = pData->pSrcImage->width;
     if (nPixelsM1Init <= 0)
-        return;
+        return 0;
     nPixelsM1Init--;
     nLinesM1 = *pNLines;
     if (nLinesM1 <= 0)
-        return;
+        return 0;
     nLinesM1--;
 
         /*  Point pY/Cb/CrLine to 1st line in src planes; pDstLine to 1st line in dst.
@@ -420,11 +420,11 @@ ilImagePlaneInfo           *pPlane;
         /*  Set nPixels/LinesM1 to # pixels / lines - 1; exit if either 0. */
     nPixelsM1Init = pData->pSrcImage->width;
     if (nPixelsM1Init <= 0)
-        return;
+        return 0;
     nPixelsM1Init--;
     nLinesM1 = *pNLines;
     if (nLinesM1 <= 0)
-        return;
+        return 0;
     nLinesM1--;
 
         /*  Point pY/Cb/CrLine to 1st line in src planes; pDstLine to 1st line in dst.
@@ -1161,11 +1161,11 @@ register long               R, G, B, pixel;
     pPriv = (ilRGBToYCbCrPrivPtr)pData->pPrivate;
     nPixelsM1Init = pData->pSrcImage->width;
     if (nPixelsM1Init <= 0)
-        return;
+        return 0;
     nPixelsM1Init--;
     nLinesM1 = *pNLines;
     if (nLinesM1 <= 0)
-        return;
+        return 0;
     nLinesM1--;
 
         /*  Point pSrcLine to first line of src RGB (pixel-order) data; point 

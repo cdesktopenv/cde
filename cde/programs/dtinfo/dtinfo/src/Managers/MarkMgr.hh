@@ -30,7 +30,7 @@
 
 class Mark;
 class MarkBase;
-class Anchor;
+struct Anchor;
 class MarkListView;
 
 class MarkMgr : public Long_Lived

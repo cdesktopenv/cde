@@ -227,7 +227,7 @@ in this Software without prior written authorization from The Open Group.
  *     all colons).  One way to tell if you need this is to see whether or not
  *     your Makefiles have no tabs in them and lots of @@ strings.
  */
-#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(sco) || (defined(AMOEBA) && defined(CROSS_COMPILE))
+#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(sco) || defined(__llvm__) || (defined(AMOEBA) && defined(CROSS_COMPILE))
 #define FIXUP_CPP_WHITESPACE
 #endif
 #ifdef WIN32
@@ -274,6 +274,9 @@ in this Software without prior written authorization from The Open Group.
 #if defined(__386BSD__) || defined(__OpenBSD__) \
 	|| (defined(__FreeBSD__) && defined(CPP_IN_LIBEXEC))
 #define DEFAULT_CPP "/usr/libexec/cpp"
+#endif
+#if defined(__FreeBSD__) && (__FreeBSD__ >= 10) && !defined(__llvm__)
+#undef DEFAULT_CPP
 #endif
 #if defined(__sgi) && defined(__ANSI_CPP__)
 #define USE_CC_E
@@ -353,6 +356,11 @@ char *cpp_argv[ARGUMENTS] = {
 
 # ifdef __GNUC__
 	"-traditional",
+# endif
+# ifdef __llvm__
+	"-fms-extensions",
+	"-Wno-invalid-token-paste",
+	"-Wno-invalid-pp-token",
 # endif
 #endif
 
@@ -643,12 +651,18 @@ char *cpp_argv[ARGUMENTS] = {
 # define DEFAULT_OS_MAJOR_REV	"v V%[0-9]"
 # define DEFAULT_OS_MINOR_REV	"v V%*dL%[0-9]"
 # define DEFAULT_OS_NAME	"srvm %[^\n]"
-#elif defined(__FreeBSD__) || defined(__NetBSD__)
+#elif defined(__FreeBSD__)
+/* uname -r returns "x.y[.z]-mumble", e.g. "9.0-RELEASE" or "11.0-CURRENT" */
+# define DEFAULT_OS_MAJOR_REV   "r %[0-9]"
+# define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"
+# define DEFAULT_OS_TEENY_REV   "v %*s %*s %*s r%[0-9]"
+# define DEFAULT_OS_NAME        "srm %[^\n]"
+#elif defined(__NetBSD__)
 /* 386BSD, and BSD/OS too? */
 /* uname -r returns "x.y[.z]-mumble", e.g. "2.1.5-RELEASE" or "2.2-0801SNAP" */
 # define DEFAULT_OS_MAJOR_REV   "r %[0-9]"
 # define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"
-# define DEFAULT_OS_TEENY_REV   "r %*d.%*d.%[0-9]" 
+# define DEFAULT_OS_TEENY_REV   "r %*d.%*d.%[0-9]"
 # define DEFAULT_OS_NAME        "srm %[^\n]"
 #elif defined(__OpenBSD__)
 # define DEFAULT_OS_MAJOR_REV   "r %[0-9]"
@@ -747,8 +761,11 @@ struct symtab	predefs[] = {
 #ifdef mc68020
 	{"mc68020", "1"},
 #endif
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(linux)
 	{"__GNUC__", DEF_STRINGIFY(__GNUC__)},
+#endif
+#ifdef __GNUC_MINOR__
+	{"__GNUC_MINOR__", DEF_STRINGIFY(__GNUC_MINOR__)},
 #endif
 #if __STDC__
 	{"__STDC__", "1"},

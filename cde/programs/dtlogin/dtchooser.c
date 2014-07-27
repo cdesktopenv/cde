@@ -1030,7 +1030,7 @@ MakeOptionsMenu( void )
 static int 
 ErrorHandler( Display *dpy, XErrorEvent *event )
 {
-    return;
+    return 0;
 }
 
 

@@ -40,26 +40,26 @@ XCOMM $TOG: DtInfo.rules /main/21 1997/09/05 11:31:01 samborn $
 # define makelibT(libname)					@@\
 	makelib(libname)					@@\
 								@@\
-libname/lib/**/libname/**/T.a: FRC				@@\
+Concat3(libname/lib,libname,T.a): FRC				@@\
 	@(cd libname ;	\					@@\
-		echo "### Making lib libname Templates ###" ; \ @@\
-		$(MAKE) lib/**/libname/**/T.a ; \		@@\
+	    echo STR(*** Making lib libname Templates ***) ; \	@@\
+	    $(MAKE) Concat3(lib,libname,T.a) ; \		@@\
 	)
 
 # define makelibsubsubdir(subdir,libname)			@@\
 								@@\
-subdir/libname/lib/**/libname.a: FRC				@@\
+Concat(subdir/libname/lib,libname.a): FRC			@@\
 	@(cd subdir ;	\					@@\
-		echo "### Making lib libname ###" ; \		@@\
-		$(MAKE) libname/lib/**/libname.a ; \		@@\
+	    echo STR(*** Making lib libname ***) ; \		@@\
+	    $(MAKE) Concat(libname/lib,libname.a) ; \		@@\
 	)
 
 # define makelibTsubsubdir(subdir,libname)			@@\
 								@@\
-subdir/libname/lib/**/libname/**/T.a: FRC			@@\
+Concat3(subdir/libname/lib,libname,T.a): FRC			@@\
 	@(cd subdir ;	\					@@\
-		echo "### Making lib libname Templates ###" ; \ @@\
-		$(MAKE) libname/lib/**/libname/**/T.a ; \	@@\
+	    echo STR(*** Making lib libname Templates ***) ; \	@@\
+	    $(MAKE) Concat3(libname/lib,libname,T.a) ; \	@@\
 	)
 #else /* not defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3 */
 # define makelibT(libname)					@@\
@@ -70,28 +70,28 @@ subdir/libname/lib/**/libname/**/T.a: FRC			@@\
 	makelibd(libname,)
 
 #define makelibd(libname, deps)					@@\
-libname/lib/**/libname.a: deps FRC				@@\
+Concat(libname/lib,libname.a): deps FRC				@@\
 	@(cd libname; \						@@\
-		echo "### Making lib libname ###" ; \		@@\
-		$(MAKE) lib/**/libname.a ; \	 		@@\
-		if [ -d "$(TEMPLATE_DB)" ]; then \		@@\
-		    $(MAKE) lib/**/libname/**/T.a ; \		@@\
-		fi \						@@\
+	    echo STR(*** Making lib libname ***) ; \		@@\
+	    $(MAKE) Concat(lib,libname.a) ; \			@@\
+	    if [ -d "$(TEMPLATE_DB)" ]; then \			@@\
+		$(MAKE) Concat3(lib,libname,T.a) ; \		@@\
+	    fi \						@@\
 	)							@@\
 libname/libname.d:	libname/Classlist.mk			@@\
 	@(cd libname; \						@@\
-		echo "### Making dfiles in libname ###" ; \	@@\
-		$(MAKE) libname.d ;\				@@\
+	    echo STR(*** Making dfiles in libname ***) ; \	@@\
+	    $(MAKE) libname.d ;\				@@\
 	)							@@\
 libname/libname.h:	libname/Classlist.mk			@@\
 	@(cd libname; \						@@\
-		echo "### Making dfiles in libname ###" ; \	@@\
-		$(MAKE) libname.h ;\				@@\
+	    echo STR(*** Making dfiles in libname ***) ; \	@@\
+	    $(MAKE) libname.h ;\				@@\
 	)							@@\
 libname/libname.msg:	libname/Classlist.mk			@@\
 	@(cd libname; \						@@\
-		echo "### Making msgs in libname ###" ; \	@@\
-		$(MAKE) libname.msg ;\				@@\
+	    echo STR(*** Making msgs in libname ***) ; \	@@\
+	    $(MAKE) libname.msg ;\				@@\
 	)							@@\
 								@@\
 FRC:								@@\
@@ -149,7 +149,7 @@ AllTarget(Concat(lib,libname.a))				@@\
 								@@\
 Concat(lib,libname.a): objlist					@@\
 	$(RM) $@						@@\
-	@echo "### Making SimpleLibrary libname.a"		@@\
+	@echo STR(*** Making SimpleLibrary libname.a)		@@\
 	$(LD) -r -o $@ objlist
 
 
@@ -157,11 +157,11 @@ Concat(lib,libname.a): objlist					@@\
 #define SimpleLibraryT(libname,objlist,libdir)			@@\
 SimpleLibrary(libname,objlist,libdir)				@@\
 								@@\
-AllTarget(Concat(lib,libname/**/T.a))				@@\
+AllTarget(Concat3(lib,libname,T.a))				@@\
 								@@\
-Concat(lib,libname/**/T.a):					@@\
+Concat3(lib,libname,T.a):					@@\
 	$(RM) $@						@@\
-	@echo "### Making SimpleLibraryT libname Templates"	@@\
+	@echo STR(*** Making SimpleLibraryT libname Templates)	@@\
 	find ./Templates.DB -name '*.o' -type f -print | xargs -n4 ar cq $@ @@\
 								@@\
 clean::								@@\
@@ -170,11 +170,11 @@ clean::								@@\
 #define SimpleLibraryT(libname,objlist,libdir)			@@\
 SimpleLibrary(libname,objlist,libdir)				@@\
 								@@\
-AllTarget(Concat(lib,libname/**/T.a))				@@\
+AllTarget(Concat3(lib,libname,T.a))				@@\
 								@@\
-Concat(lib,libname/**/T.a): TemplateObjs			@@\
+Concat3(lib,libname,T.a): TemplateObjs				@@\
 	$(RM) $@						@@\
-	@echo "### Making SimpleLibraryT libname Templates"	@@\
+	@echo STR(*** Making SimpleLibraryT libname Templates)	@@\
 	$(AR) $@ TemplateObjs					@@\
 								@@\
 clean::								@@\
@@ -186,7 +186,7 @@ AllTarget(Concat(lib,libname.a))				@@\
 								@@\
 Concat(lib,libname.a): objlist					@@\
 	$(RM) $@						@@\
-	@echo "### Making RealLibrary libname.a"		@@\
+	@echo STR(*** Making RealLibrary libname.a)		@@\
 	ar cq $@ objlist					@@\
 	RanLibrary($@)
 
@@ -195,18 +195,18 @@ AllTarget(Concat(lib,libname.a))				@@\
 								@@\
 Concat(lib,libname.a): objlist otherdeps			@@\
 	$(RM) $@						@@\
-	@echo "### Making NotSoSimpleLibrary libname.a"		@@\
+	@echo STR(*** Making NotSoSimpleLibrary libname.a)	@@\
 	$(LD) -r -o $@ objlist
 
 #if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
 #define NotSoSimpleLibraryT(libname,objlist,libdir,otherdeps)	@@\
 NotSoSimpleLibrary(libname,objlist,libdir,otherdeps)		@@\
 								@@\
-AllTarget(Concat(lib,libname/**/T.a))				@@\
+AllTarget(Concat3(lib,libname,T.a))				@@\
 								@@\
-Concat(lib,libname/**/T.a):					@@\
+Concat3(lib,libname,T.a):					@@\
 	$(RM) $@						@@\
-	@echo "### Making NotSoSimpleLibraryT libname Templates"@@\
+	@echo STR(*** Making NotSoSimpleLibraryT libname Templates)	@@\
 	find ./Templates.DB -name '*.o' -type f -print | xargs -n4 ar cq $@ @@\
 								@@\
 clean::								@@\
@@ -215,11 +215,11 @@ clean::								@@\
 #define NotSoSimpleLibraryT(libname,objlist,libdir,otherdeps)	@@\
 NotSoSimpleLibrary(libname,objlist,libdir,otherdeps)		@@\
 								@@\
-AllTarget(Concat(lib,libname/**/T.a))				@@\
+AllTarget(Concat3(lib,libname,T.a))				@@\
 								@@\
-Concat(lib,libname/**/T.a): 					@@\
+Concat3(lib,libname,T.a): 					@@\
 	$(RM) $@						@@\
-	@echo "### Making NotSoSimpleLibraryT libname Templates"@@\
+	@echo STR(*** Making NotSoSimpleLibraryT libname Templates)	@@\
 	$(AR) $@ TemplateObjs					@@\
 								@@\
 clean::								@@\

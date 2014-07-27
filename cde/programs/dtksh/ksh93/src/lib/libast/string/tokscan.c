@@ -89,6 +89,8 @@
 #else
 #define __VA_START__(p,a)	va_start(p)
 #endif
+#define va_listval(p)		(*(p))
+#define va_listarg		va_list*
 #endif
 #include <ast.h>
 
@@ -213,7 +215,6 @@ tokscan __PARAM__((register char* s, char** nxt, const char* fmt, ...), (va_alis
 	char**		p_string;
 	char*		prv_f = 0;
 	va_list		prv_ap;
-	va_list*	pap;
 
 	__VA_START__(ap, fmt); __OTORP__(s = va_arg(ap, char* );nxt = va_arg(ap, char** );fmt = va_arg(ap, const char* );)
 	if (!*s || *s == '\n')
@@ -258,8 +259,7 @@ tokscan __PARAM__((register char* s, char** nxt, const char* fmt, ...), (va_alis
 			prv_f = f;
 			f = va_arg(ap, char*);
 			__va_copy( prv_ap, ap );
-			pap = va_arg(ap, va_list*);
-			__va_copy( ap, pap );
+			__va_copy(ap, va_listval(va_arg(ap, va_listarg)));
 			continue;
 		case 'c':
 			p_char = va_arg(ap, char*);

@@ -59,65 +59,19 @@ MakeSubdirs($(SUBDIRS))
 
 all::
 
-configHelp:: $(DATABASE_DIR)/CDE-HELP-C.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-HELP-C.udb > CDE-HELP-C.lst
-	$(BUILD_UDB_TOOL) CDE-HELP-C ../../..
+DoUDB_SCRIPT3(configHelp,CDE-HELP-C,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configHelpPrg,CDE-HELP-PRG,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configDemos,CDE-DEMOS,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configFonts,CDE-FONTS,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configHelpRun,CDE-HELP-RUN,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configIcons,CDE-ICONS,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configInc,CDE-INC,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configManDev,CDE-MAN-DEV,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configMan,CDE-MAN,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configMsgCat,CDE-MSG-C,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configPrg,CDE-PRG,$(UDB_TOOL),$(BUILD_UDB_TOOL))
+DoUDB_SCRIPT3(configShlibs,CDE-SHLIBS,$(UDB_TOOL),$(BUILD_UDB_TOOL))
 
-configHelpPrg:: $(DATABASE_DIR)/CDE-HELP-PRG.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-HELP-PRG.udb > CDE-HELP-PRG.lst
-	$(BUILD_UDB_TOOL) CDE-HELP-PRG ../../..
-
-configDemos:: $(DATABASE_DIR)/CDE-DEMOS.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-DEMOS.udb > CDE-DEMOS.lst
-	$(BUILD_UDB_TOOL) CDE-DEMOS ../../..
-
-configFonts:: $(DATABASE_DIR)/CDE-FONTS.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-FONTS.udb > CDE-FONTS.lst
-	$(BUILD_UDB_TOOL) CDE-FONTS ../../..
-
-configHelpRun:: $(DATABASE_DIR)/CDE-HELP-RUN.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-HELP-RUN.udb > CDE-HELP-RUN.lst
-	$(BUILD_UDB_TOOL) CDE-HELP-RUN ../../..
-
-configIcons:: $(DATABASE_DIR)/CDE-ICONS.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-ICONS.udb > CDE-ICONS.lst
-	$(BUILD_UDB_TOOL) CDE-ICONS ../../..
-
-configInc:: $(DATABASE_DIR)/CDE-INC.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-INC.udb > CDE-INC.lst
-	$(BUILD_UDB_TOOL) CDE-INC ../../..
-
-configManDev:: $(DATABASE_DIR)/CDE-MAN-DEV.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-MAN-DEV.udb > CDE-MAN-DEV.lst
-	$(BUILD_UDB_TOOL) CDE-MAN-DEV ../../..
-
-configMan:: $(DATABASE_DIR)/CDE-MAN.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-MAN.udb > CDE-MAN.lst
-	$(BUILD_UDB_TOOL) CDE-MAN ../../..
-
-configMsgCat:: $(DATABASE_DIR)/CDE-MSG-C.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-MSG-C.udb > CDE-MSG-C.lst
-	$(BUILD_UDB_TOOL) CDE-MSG-C ../../..
-
-configPrg:: $(DATABASE_DIR)/CDE-PRG.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-PRG.udb > CDE-PRG.lst
-	$(BUILD_UDB_TOOL) CDE-PRG ../../..
-
-configShlibs:: $(DATABASE_DIR)/CDE-SHLIBS.udb
-	$(UDB_TOOL)  -toLst -ReleaseStream $(PLATFORM) \
-            $(DATABASE_DIR)/CDE-SHLIBS.udb > CDE-SHLIBS.lst
-	$(BUILD_UDB_TOOL) CDE-SHLIBS ../../..
 
 LOCAL_CPP_DEFINES = -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
                     -DCDE_CONFIGURATION_TOP=$(CDE_CONFIGURATION_TOP) \
@@ -125,7 +79,6 @@ LOCAL_CPP_DEFINES = -DCDE_INSTALLATION_TOP=$(CDE_INSTALLATION_TOP) \
 
 CppSourceFile(configHelp,configHelp.src,$(LOCAL_CPP_DEFINES),)
 CppSourceFile(configHelpPrg,configHelpPrg.src,$(LOCAL_CPP_DEFINES),)
-
 CppSourceFile(configDemos,configDemos.src,$(LOCAL_CPP_DEFINES),)
 CppSourceFile(configFonts,configFonts.src,$(LOCAL_CPP_DEFINES),)
 CppSourceFile(configHelpRun,configHelpRun.src,$(LOCAL_CPP_DEFINES),)

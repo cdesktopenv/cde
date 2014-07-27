@@ -1835,7 +1835,6 @@ PartialElementFeatures::~PartialElementFeatures()
 ElementFeatures::ElementFeatures(CanvasRenderer* renderer)
 : PartialElementFeatures(renderer),
   f_row (NULL),
-  f_graphic (0),
   f_border (_DtCvBORDER_NONE),
   f_border_width(-1), // invalid border width
   f_table (NULL),

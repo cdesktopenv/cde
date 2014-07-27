@@ -293,6 +293,9 @@ ConstantNode::evaluate() const
 
 extern unsigned g_validation_mode;
 
+#if defined(__FreeBSD__) && (__FreeBSD__ >= 10) && !defined(__llvm__)
+__attribute__((optimize(0)))
+#endif
 FeatureValue *
 SgmlAttributeNode::evaluate() const
 {
