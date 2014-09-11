@@ -452,7 +452,7 @@ struct _PopupData
    Widget delete_ws_item;
    Widget rename_ws_item;
    Widget * action_item;
-   int action_count;
+   long action_count;
    Boolean subpanel_add_state;
 };
 

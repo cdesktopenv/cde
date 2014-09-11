@@ -76,9 +76,9 @@ ActionCB (Widget    w,
 
 {
    ControlData * control_data;
-   int           control_type;
+   long           control_type;
 
-   int indx = (int) client_data;
+   long indx = (long) client_data;
    Arg args[1];
 
 
@@ -88,7 +88,7 @@ ActionCB (Widget    w,
    if (CheckControlTypeFile (control_data) == False)
       return;
 
-   control_type = (int) (control_data->element_values[CONTROL_TYPE].parsed_value);		  
+   control_type = (long) (control_data->element_values[CONTROL_TYPE].parsed_value);
 
    if (control_type == CONTROL_FILE && !control_data->is_action)
    {
@@ -136,7 +136,7 @@ DeleteWorkspaceCB (Widget    w,
 
 
 {
-   int delete_workspace = (int) client_data;
+   long delete_workspace = (long) client_data;
    SwitchData * switch_data;
    int i;
    
@@ -178,7 +178,7 @@ RenameWorkspaceCB (Widget    w,
 
 
 {
-   int rename_ws = (int) client_data;
+   long rename_ws = (long) client_data;
    SwitchData * switch_data;
    int i;
    
@@ -397,7 +397,7 @@ DeleteControlCB (Widget    w,
 #endif
     Widget dialog;
     String title, del_ctrl, ctrl_name, ctrl_label, del_msg, message;
-    int indx = (int) client_data;
+    long indx = (long) client_data;
     Arg args[2];
 
     XtSetArg (args[0], XmNuserData, &control_data);
@@ -414,7 +414,7 @@ DeleteControlCB (Widget    w,
     if (ctrl_label == NULL)
        ctrl_label = ctrl_name;
 
-    if ((Boolean)control_data->element_values[CONTROL_LOCKED].parsed_value)
+    if (control_data->element_values[CONTROL_LOCKED].parsed_value)
     {
        title = FPGETMESSAGE(82,1, "Workspace Manager - Delete Locked Control Error");
        title = XtNewString (title);
@@ -501,7 +501,7 @@ ToggleControlCB (Widget    w,
 {
     SubpanelData * subpanel_data = (SubpanelData *) client_data;
     ControlData * control_data;
-    int indx = (int) client_data;
+    long indx = (long) client_data;
     Arg args[1];
 
     XtSetArg (args[0], XmNuserData, &control_data);
@@ -528,7 +528,7 @@ AddSubpanelCB (Widget w,
 
 {
     ControlData * control_data;
-    int indx = (int) client_data;
+    long indx = (long) client_data;
     Arg args[1];
 
     XtSetArg (args[0], XmNuserData, &control_data);
@@ -572,7 +572,7 @@ DeleteSubpanelCB (Widget    w,
     spanel_name = (char *)
                   subpanel_data->element_values[SUBPANEL_NAME].parsed_value;
 
-    if ((Boolean)subpanel_data->element_values[SUBPANEL_LOCKED].parsed_value)
+    if (subpanel_data->element_values[SUBPANEL_LOCKED].parsed_value)
     {
        title = FPGETMESSAGE(82,3, "Workspace Manager - Delete Locked Subpanel Error");
        title = XtNewString (title);
@@ -937,14 +937,14 @@ SetupActionMenuItems (Widget        w,
                       ControlData * control_data,
 		      PopupData  * popup_data,
                       Widget      * action_item,
-                      int         * action_count)
+                      long        * action_count)
 
 
 {
    XmString label_string;
-   int i;
-   int num_actions = 0;
-   int action_index = *action_count;
+   long i;
+   long num_actions = 0;
+   long action_index = *action_count;
    Arg args[5];
    
 
@@ -1038,7 +1038,7 @@ UpdateMainControlMenu (ControlData * control_data)
    char     * mnemonic;
    char     * control_label;
 
-   int control_type;
+   long control_type;
    Arg args[5];
 
    ElementValue * old_element_values;
@@ -1072,7 +1072,7 @@ UpdateMainControlMenu (ControlData * control_data)
    /*  Otherwise, if there is a subpanel, activate the delete subpanel  */
    /*  item.  Else activate the add subpanel item.                      */
 
-   control_type = (int) control_data->element_values[CONTROL_TYPE].parsed_value;
+   control_type = (long)control_data->element_values[CONTROL_TYPE].parsed_value;
 
    if (control_type != CONTROL_BLANK)
    {
@@ -1252,8 +1252,8 @@ UpdateSubpanelControlMenu (SubpanelData * subpanel_data,
 
    XtManageChild (panel.popup_data->deinstall_item);
 
-   if ((Boolean) (subpanel_data->parent_control_data->
-                  element_values[CONTROL_LOCKED].parsed_value) != True)
+   if (! (subpanel_data->parent_control_data->
+                  element_values[CONTROL_LOCKED].parsed_value))
       XtManageChild (panel.popup_data->toggle_item);
    else
       XtUnmanageChild (panel.popup_data->toggle_item);
@@ -1289,7 +1289,7 @@ PopupMenu (Widget    w,
    BoxData * box_data = NULL;
    XmString label_string;
    Arg args[5];
-   int control_type, action_count = panel.popup_data->action_count;
+   long control_type, action_count = panel.popup_data->action_count;
 
    callback = (XmAnyCallbackStruct *) call_data;
    event = (XEvent *) callback->event;
@@ -1393,7 +1393,7 @@ CreatePopupMenu (Widget w)
    char * mnemonic;
    Arg args[5];
    PopupData * popup_data;
-   int i, child_num = 0;
+   long i, child_num = 0;
    XmString label_string;
 
    popup_data = panel.popup_data = (PopupData *) XtMalloc(sizeof(PopupData));
@@ -1499,7 +1499,7 @@ CreateActionButtons (Widget        w,
 
 {
     PopupData * popup_data = switch_data->popup_data;
-    int action_count = popup_data->action_count;
+    long action_count = popup_data->action_count;
     Arg args[1];
     XmString label_string;
     char     * control_label;
@@ -1554,7 +1554,7 @@ ShowWorkspaceItems (SwitchData * switch_data,
 
 {
    PopupData * popup_data = switch_data->popup_data;
-   int i;
+   long i;
    Arg args[1];
    XmString label_string;
    char     * control_label;
@@ -1769,7 +1769,7 @@ WSPopupMenu (Widget     w,
    Boolean is_button = False;
    Position x, y;
    Arg args[2];
-   int control_type;
+   long control_type;
 
    callback = (XmAnyCallbackStruct *) call_data;
    event = (XEvent *) callback->event;
@@ -1838,7 +1838,7 @@ WSPopupMenu (Widget     w,
          if (control_data != NULL)
          {
             control_type =
-		 (int) control_data->element_values[CONTROL_TYPE].parsed_value;
+		 (long) control_data->element_values[CONTROL_TYPE].parsed_value;
 
             if (control_type != CONTROL_BLANK)
               /* The mouse is over a control in the switch area */
@@ -1885,7 +1885,7 @@ CreateWorkspacePopupMenu (Widget       w,
    XmString label_string;
    char * mnemonic;
    Arg args[5];
-   int i, child_num = 0;
+   long i, child_num = 0;
    PopupData * popup_data;
 
    popup_data = (PopupData *) XtMalloc(sizeof(PopupData));

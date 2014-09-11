@@ -78,7 +78,7 @@ StringToInt (char * parse_source,
 
 {
    char * source_ptr = parse_source;
-   int    value = 0;
+   long    value = 0;
    char   chr;
 
 
@@ -425,12 +425,12 @@ StringToPositionHints (char * parse_source,
 
    status = StringToInt (parse_source, parse_return);
 
-   if ((int) *parse_return < 0 || (int) *parse_return > 100)
+   if ((long) *parse_return < 0 || (long) *parse_return > 100)
    {
       
       _DtSimpleError (panel.app_name, DtError, NULL, 
                      "Invalid Position Hints value -- %d",
-                     (int) *parse_return);
+                     (long) *parse_return);
       return (False);
    }
 
