@@ -96,7 +96,7 @@ ToggleButtonCmd::getButtonState()
    CmdInterface *ci;
    Widget toggleButton;
 
-   if (!_ci) return(NULL);
+   if (!_ci) return(False);
 
    ci = _ci[0];
 
