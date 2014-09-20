@@ -115,10 +115,6 @@ static char     Buf[MAXBSIZE];	/* work buffer */
 /*
  * System error message definitions.
  */
-#if !defined(linux)
-extern int          sys_nerr;
-extern STRING       sys_errlist[];
-#endif
 
 /*
  * Internal function declarations.
@@ -1080,8 +1076,7 @@ abio_open_bil_input(STRING name, int *pLinesRead, FILE ** pInFile)
     }
     else
     {
-	errmsg = sys_errlist[errno];
-	sprintf(Buf, "%s: %s", name, errmsg);
+	sprintf(Buf, "%s: %s", name, strerror(errno));
 	errmsg = Buf;
     }
 
@@ -1317,7 +1312,7 @@ abio_open_gil_input(STRING name, FILE ** pInFile)
     }
     else
     {
-	errmsg = sys_errlist[errno];
+      errmsg = strerror(errno);
     }
 
     /*
@@ -1431,7 +1426,7 @@ ERROR_EXIT:
     /*
      * Return a message if unsuccessful.
      */
-    sprintf(Buf, "%s: %s", outfile, sys_errlist[errno]);
+    sprintf(Buf, "%s: %s", outfile, strerror(errno));
     return Buf;
 #undef outFile
 }
@@ -1493,7 +1488,7 @@ abio_open_output(STRING name, FILE ** pOutFile)
 	return NULL;
     }
 
-    sprintf(Buf, "%s: %s", name, sys_errlist[errno]);
+    sprintf(Buf, "%s: %s", name, strerror(errno));
     return Buf;
 #undef outFile
 }

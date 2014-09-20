@@ -180,10 +180,6 @@ static void	notify_proj_save_as_okCB(
 **                                                                      **
 **************************************************************************/
 
-#if !defined(linux) && !defined(CSRG_BASED)
-extern char             *sys_errlist[];
-#endif
-
 /*************************************************************************
 **                                                                      **
 **       Function Definitions                                           **
@@ -1497,7 +1493,7 @@ proj_save_exploded(
                 else /* An error occurred with stat */
                 {
                     obj_set_name(project, old_name);
-                    sprintf(Buf, "%s: %s", mod_exp_file, sys_errlist[errno]);
+                    sprintf(Buf, "%s: %s", mod_exp_file, strerror(errno));
 		    util_printf_err(Buf);
     		    if (old_name != NULL) util_free(old_name);
 		    if (old_file != NULL) util_free(old_file);
@@ -1563,7 +1559,7 @@ proj_save_exploded(
                         if ((iRet = util_mkdir_hier(dir)) < 0)
                         {
 		    	    obj_set_name(project, old_name);
-			    sprintf(Buf, "%s: %s", dir, sys_errlist[errno]);
+			    sprintf(Buf, "%s: %s", dir, strerror(errno));
 			    util_printf_err(Buf);
 			    if (rel_path) util_free(rel_path);
 			    if (old_name != NULL) util_free(old_name);
@@ -2140,7 +2136,7 @@ save_proj_as_bix(
             }
             else /* An error occurred with stat */
             {
-		sprintf(Buf, "%s: %s", bix_file, sys_errlist[errno]);
+              sprintf(Buf, "%s: %s", bix_file, strerror(errno));
 		xm_buf = XmStringCreateLocalized(Buf);
 		dtb_proj_error_msg_initialize(&dtb_proj_error_msg);
 		(void)dtb_show_modal_message(dtb_get_toplevel_widget(), 
@@ -2229,7 +2225,7 @@ export_uil_file(
 	else 
 	{
 	    /* An error occurred in stat (inside util_file_exists()) */
-	    sprintf(Buf, "%s: %s", fullpath, sys_errlist[errno]);
+          sprintf(Buf, "%s: %s", fullpath, strerror(errno));
 	    xm_buf = XmStringCreateLocalized(Buf);
 	    dtb_proj_error_msg_initialize(&dtb_proj_error_msg);
 	    (void)dtb_show_modal_message(dtb_get_toplevel_widget(), 

@@ -93,9 +93,6 @@ static void     mult_module_selected(
 **                                                                      **
 **************************************************************************/
 
-#if !defined(linux) && !defined(CSRG_BASED)
-extern char	*sys_errlist[];
-#endif
 char		Buf[MAXPATHLEN];	/* Work buffer */
 
 /*************************************************************************
@@ -374,8 +371,8 @@ projP_save_export_bil(
         }
         else  /* An error occurred with stat */
         {
-            sprintf(Buf, "%s: %s", new_filename, sys_errlist[errno]);
-	    util_printf_err(Buf);
+          sprintf(Buf, "%s: %s", new_filename, strerror(errno));
+          util_printf_err(Buf);
         }
         XtUnmanageChild(AB_generic_chooser);
     }

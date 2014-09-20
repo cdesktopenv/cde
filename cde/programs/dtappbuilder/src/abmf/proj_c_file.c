@@ -542,7 +542,7 @@ write_main(GenCodeInfo genCodeInfo, ABObj project)
     /*
      * Local variables
      */
-    abio_puts(codeFile, "Widget\t\ttoplevel = (Widget)NULL;\n");
+    abio_puts(codeFile, "Widget\t\ttoplevel = 0;\n");
     abio_puts(codeFile, "Display\t\t*display = (Display*)NULL;\n");
     abio_puts(codeFile, "XtAppContext\tapp = (XtAppContext)NULL;\n");
     abio_puts(codeFile, "String\t\t*fallback_resources = (String*)NULL;\n");
@@ -560,8 +560,8 @@ write_main(GenCodeInfo genCodeInfo, ABObj project)
 	abmfP_icon_pixmap_var(genCodeInfo) = istr_const("icon_pixmap");
 	abmfP_icon_mask_pixmap_var(genCodeInfo) = 
 					istr_const("icon_mask_pixmap");
-	abio_puts(codeFile, "Pixmap\ticon_pixmap = NULL;\n");
-	abio_puts(codeFile, "Pixmap\ticon_mask_pixmap = NULL;\n");
+	abio_puts(codeFile, "Pixmap\ticon_pixmap = 0;\n");
+	abio_puts(codeFile, "Pixmap\ticon_mask_pixmap = 0;\n");
     }
 
     abmfP_write_user_long_seg(genCodeInfo,

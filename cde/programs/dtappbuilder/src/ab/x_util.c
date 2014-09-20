@@ -178,7 +178,7 @@ x_create_stencil_cursor(
     {
         if (util_get_verbosity() > 0)
             fprintf(stderr,"x_create_stencil_cursor: widget must be realized\n");
-        return NULL;
+        return 0;
     }
 
     dpy     = XtDisplay(widget);

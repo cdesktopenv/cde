@@ -61,9 +61,6 @@
 
 BIL_LOAD_INFO	bilP_load;
 char		Buf[MAXPATHLEN];
-#if !defined(linux) && !defined(CSRG_BASED)
-extern char     *sys_errlist[];
-#endif
 
 /*
  * Read a BIL file into memory. Returns a project node.
@@ -327,7 +324,7 @@ bil_load_file_and_resolve_all(
 	util_get_file_name_from_path(path, fileName, MAXPATHLEN);
 	if (chdir(dirName) != 0)
 	{
-	    util_printf_err("%s: %s\n", dirName, sys_errlist[errno]);
+          util_printf_err("%s: %s\n", dirName, strerror(errno));
 	    return ERR;
 	}
     }
