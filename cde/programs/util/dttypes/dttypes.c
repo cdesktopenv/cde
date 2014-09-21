@@ -41,7 +41,7 @@
 #define RETURN(c)     return(c)
 #define ERROR(c)      {rexp_errno = c; return((char *)0);}
 static	int	rexp_errno = 0;
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(linux)
 #include	<regex.h>
 #else
 #include	<regexp.h>
@@ -158,7 +158,7 @@ rec_list(List *l)
 	DtDtsMMField	*fld_ptr;
 	DtDtsMMField	*fld_ptr_list;
 
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(linux)
 	regex_t		regex_rn;
 	regex_t		regex_fn;
 	regex_t		regex_fv;
@@ -175,7 +175,7 @@ rec_list(List *l)
 	memset(expbuf_df, '\0', sizeof(expbuf_df));
 #endif
 
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(linux)
 	if(regcomp(&regex_rn, l->rec_name?l->rec_name:"^.*", 0) != 0)
 #else
 	if((compile(l->rec_name?l->rec_name:"^.*",
@@ -189,7 +189,7 @@ rec_list(List *l)
 		exit(1);
 	}
 
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(linux)
 	if(regcomp(&regex_fn, l->fld_name?l->fld_name:"^.*", 0) != 0)
 #else
 	if((compile(l->fld_name?l->fld_name:"^.*",
@@ -203,7 +203,7 @@ rec_list(List *l)
 		exit(1);
 	}
 
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(linux)
 	if(regcomp(&regex_fv, l->fld_value?l->fld_value:"^.*", 0) != 0)
 #else
 	if((compile(l->fld_value?l->fld_value:"^.*",
@@ -217,7 +217,7 @@ rec_list(List *l)
 		exit(1);
 	}
 
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(linux)
 	if(regcomp(&regex_df, l->display_fld?l->display_fld:"^.*", 0) != 0)
 #else
 	if((compile(l->display_fld?l->display_fld:"^.*",
@@ -237,7 +237,7 @@ rec_list(List *l)
 	{
 		rec_ptr = &rec_ptr_list[rec];
 		fld_ptr_list = _DtDtsMMGetPtr(rec_ptr->fieldList);
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(linux)
 		if(regexec(&regex_rn,
 			  (char *)_DtDtsMMBosonToString(rec_ptr->recordName),
 			  0, NULL, 0) == 0)
@@ -255,7 +255,7 @@ rec_list(List *l)
 				fn = _DtDtsMMExpandValue(_DtDtsMMBosonToString(fld_ptr->fieldName));
 				fv = _DtDtsMMExpandValue(_DtDtsMMBosonToString(fld_ptr->fieldValue));
 
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(linux)
 				if((regexec(&regex_fn, fn, 0, NULL, 0) == 0) &&
 				   ((fld_ptr->fieldValue==0?
 					regexec(&regex_fv,
@@ -318,7 +318,7 @@ rec_list(List *l)
 
 			if(l->display_fld)
 			{
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(linux)
 				if(regexec(&regex_df, fn, 0, NULL, 0) == 0)
 #else
 				if(advance(fn, expbuf_df) !=0)
