@@ -64,7 +64,7 @@
 #include "abmf.h"
 
 /* glibc considers CLK_TCK obsolete */
-#if defined(linux)
+#if defined(linux) && !defined(CLK_TCK)
 #define CLK_TCK CLOCKS_PER_SEC
 #endif
 
@@ -1141,45 +1141,45 @@ abmf_usage(void)
 "Usage: %s [options] [project-file] [module-file [module-file] ...]\n\n"), 
 	program_name_string);
 
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 13,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 13,
 "Code is generated for each module specified on the command line, or for\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 14,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 14,
 "all modules in the project, if no modules are specified. If no project\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 15,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 15,
 "file is specified, a project file containing the specified module(s) is\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 16,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 16,
 "searched for in the current directory.\n\n"));
 
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 17,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 17,
 "Files with extension .bip are assumend to be BIL project files, files with\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 18,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 18,
 ".bix extenstion are assumed to be encapsulated BIL files, and files\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 19,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 19,
 "With a .bil extension are assumed to be BIL module files.\n\n"));
 
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 20,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 20,
 "Options (* = default, + = default with no project file):\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 21,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 21,
 "  -help (-h)        Print out this help message\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 22,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 22,
 "  -main             Write file containing main()\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 23,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 23,
 "  -changed          Only generate files that have changed\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 24,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 24,
 "* -merge	     Merge generated _stubs.c files with previous version\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 25,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 25,
 "  -nomerge          Don't merge existing and new stubs file\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 26,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 26,
 "* -project (-p)     Specify a project to generate code for\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 27,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 27,
 "  -noproject (-np)  Use default project settings, ignore project file\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 28,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 28,
 "+ -showall          Application shows (maps) all windows at startup\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 29,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 29,
 "* -noshowall        Application shows (maps) only initially-visible windows\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 30,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 30,
 "  -silent (-s)      Silent mode, no messages written\n"));
-    fprintf(stderr, catgets(Dtb_project_catd, 1, 31,
+    fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 31,
 "  -verbose (-v)     Verbose mode, detailed progress messages\n\n"));
 
 
@@ -1258,7 +1258,7 @@ find_proj_file(CmdlineArgs cmdline)
 	{
 	    fprintf(stderr, ", %s", strlist_get_str(&projFiles, i, NULL));
 	}
-	fprintf(stderr, catgets(Dtb_project_catd, 1, 34, ")\n"));
+	fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 34, ")\n"));
 	if (!strlist_is_empty(cmdline->files))
 	{
 	    fprintf(stderr,
