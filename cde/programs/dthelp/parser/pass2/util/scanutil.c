@@ -33,7 +33,7 @@ int getachar(M_NOPAR)
 int  c;
 M_WCHAR wc,wnl;
 char mbyte[32]; /* bigger than any possible multibyte char */
-int  length;
+int  length, ret;
 
 if (toundo) wc = (M_WCHAR) savechar[--toundo];
 else
@@ -58,10 +58,11 @@ else
 	    return(EOF);
 	    }
 	}
-    mbtowc(&wc,mbyte,length);
+    ret = mbtowc(&wc,mbyte,length);
     }
 
-mbtowc(&wnl, "\n", 1);
+ret = mbtowc(&wnl, "\n", 1);
+(void) ret;
 if (wc == wnl) m_line++;
 
 if (wc == 65535)
@@ -246,7 +247,8 @@ if (toundo >= SAVECHAR)
 savechar[toundo++] = c;
 if (toundo > maxundo) maxundo = toundo;
 
-mbtowc(&wnl, "\n", 1);
+int ret = mbtowc(&wnl, "\n", 1);
+(void) ret;
 if (c == wnl) m_line--;
 }
 

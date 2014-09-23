@@ -40,7 +40,7 @@ void addent(M_NOPAR)
     M_ENTITY *new ;
 
     new = (M_ENTITY *) m_malloc(sizeof(M_ENTITY), "entity") ;
-    if (entity = (M_ENTITY *) m_ntrtrie(name, m_enttrie, (M_TRIE *) new)) {
+    if ((entity = (M_ENTITY *) m_ntrtrie(name, m_enttrie, (M_TRIE *) new))) {
       m_free(new, "entity") ;
       if (! entity->wheredef) return ;
       if (entity->wheredef == M_DBUILD) {

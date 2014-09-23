@@ -127,11 +127,13 @@ M_WCHAR wlb = 0, wcm, wnl, wsl, wst;
 
 if (!wlb)
     {
-    mbtowc(&wlb, "{", 1); /* keep the "}" balanced */
-    mbtowc(&wcm, ",", 1);
-    mbtowc(&wnl, "\n", 1);
-    mbtowc(&wsl, "/", 1);
-    mbtowc(&wst, "*", 1);
+    int
+    ret = mbtowc(&wlb, "{", 1); /* keep the "}" balanced */
+    ret = mbtowc(&wcm, ",", 1);
+    ret = mbtowc(&wnl, "\n", 1);
+    ret = mbtowc(&wsl, "/", 1);
+    ret = mbtowc(&wst, "*", 1);
+    (void) ret;
     }
 
 while (m_whitespace((M_WCHAR) (c = readchar(FALSE))));
@@ -226,7 +228,8 @@ M_WCHAR wcl;
 char unexp[32]; /* arbitraily large */
 int  length;
 
-mbtowc(&wcl, ":", 1);
+int ret = mbtowc(&wcl, ":", 1);
+(void) ret;
 
 while (TRUE)
     {
@@ -252,9 +255,11 @@ char *mb_name;
 
 if (!wsm)
     {
-    mbtowc(&wsm, ";", 1);
-    mbtowc(&wcl, ":", 1);
-    mbtowc(&wcm, ",", 1);
+    int
+    ret = mbtowc(&wsm, ";", 1);
+    ret = mbtowc(&wcl, ":", 1);
+    ret = mbtowc(&wcm, ",", 1);
+    (void) ret;
     }
 
 while (TRUE)
@@ -333,7 +338,7 @@ c = readchar(TRUE))
     *p++ = (M_WCHAR) c;
     }
 *p = M_EOS;
-if (dstruct = (struct dstruct *) m_lookfortrie(dname, &delimtrie))
+if ((dstruct = (struct dstruct *) m_lookfortrie(dname, &delimtrie)))
     {
     withdelim = TRUE;
     curdelim = dstruct->count - 1;
@@ -451,7 +456,8 @@ int i;
 M_WCHAR wnl;
 char *mb_dname, *mb_dstring;
 
-mbtowc(&wnl, "\n", 1);
+int ret = mbtowc(&wnl, "\n", 1);
+(void) ret;
 
 loading = TRUE;
 while ((c = getc(ddat)) != EOF)
@@ -526,13 +532,13 @@ while ((c = getc(ddat)) != EOF)
     fprintf(delim,
 	    "M_DELIMEXTERN char %s[%d] M_DELIMINIT(\"",
 	    mb_dname,
-	    strlen(mb_dstring) + 1);
+	    (int)strlen(mb_dstring) + 1);
 
     for (p = dstring ; *p ; p++)
 	{
 	char *pc;
 	char mb_p[32]; /* arbitrarily large */
-	int  length, i;
+	int  length;
 
 	length = wctomb(mb_p, *p);
 	mb_p[length] = 0;
@@ -629,7 +635,7 @@ void prtctxt(column, value)
 
     if (! first) fprintf(delim, ",\n");
     first = FALSE;
-    fprintf(delim, "  %d, %d", column, value);
+    fprintf(delim, "  {%d, %d}", column, value);
     nonzero++;
     }
 
@@ -645,7 +651,8 @@ int readchar(cap)
 int c;
 M_WCHAR wnl;
 
-mbtowc(&wnl, "\n", 1);
+int ret = mbtowc(&wnl, "\n", 1);
+(void) ret;
 
 c = mb_getwc(cdat); /* use mb_getwc so we read multi-byte chars */
 if (cap && c != EOF) c = m_upper(c);
@@ -667,7 +674,8 @@ int c;
 {
 M_WCHAR wnl;
 
-mbtowc(&wnl, "\n", 1);
+int ret = mbtowc(&wnl, "\n", 1);
+(void) ret;
 
 ungetc(c, cdat);
 if (c == wnl) m_line--;

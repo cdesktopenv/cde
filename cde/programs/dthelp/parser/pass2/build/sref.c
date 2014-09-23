@@ -40,7 +40,7 @@ void adddefent(mapname)
 M_WCHAR *mapname;
 {
 M_WCHAR *p;
-int n, length;
+int n;
 char c;
 
 if (!wc_prefix)
@@ -59,8 +59,9 @@ for (n = egensuf ; n ; n /= 10)
 	return;
 	}
     c = ('0' + (n % 10));
-    mbtowc(p, &c, 1);
-    *p++;
+    int ret = mbtowc(p, &c, 1);
+    (void) ret;
+    p++;
     }
 *p = M_EOS;
 egensuf++;
@@ -80,7 +81,7 @@ M_WCHAR *name;
 M_ENTITY *new;
 
 new = (M_ENTITY *) m_malloc(sizeof(M_ENTITY), "entity");
-if (entity = (M_ENTITY *) m_ntrtrie(name, m_enttrie, (M_TRIE *) new))
+if ((entity = (M_ENTITY *) m_ntrtrie(name, m_enttrie, (M_TRIE *) new)))
     {
     m_free((M_POINTER) new, "entity");
     return(FALSE);
@@ -113,7 +114,7 @@ MAP *new;
 LOGICAL retval;
 
 new = (MAP *) m_malloc(sizeof(MAP), "map");
-if (old = (MAP *) m_ntrtrie(p, &maptree, (M_TRIE *) new))
+if ((old = (MAP *) m_ntrtrie(p, &maptree, (M_TRIE *) new)))
     {
     m_free(new, "map");
     curmap = old->map;
@@ -153,7 +154,7 @@ int noseq = 0;
 /* Define the delimiter */
 delim = (SREFSTRUCT *)
       m_malloc(sizeof(SREFSTRUCT), "short reference delimiter");
-if (prevsr = (SREFSTRUCT *) m_ntrtrie(p, &sreftree, (M_TRIE *) delim))
+if ((prevsr = (SREFSTRUCT *) m_ntrtrie(p, &sreftree, (M_TRIE *) delim)))
     {
     m_free(delim, "short reference delimiter");
     delim = prevsr;

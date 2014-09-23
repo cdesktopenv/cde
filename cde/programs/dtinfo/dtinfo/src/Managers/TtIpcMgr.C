@@ -850,7 +850,7 @@ locale_of_desktop()
                             1L, 1L, False,
                             _DT_SM_WINDOW_INFO,
                             &type, &format, &nitems, &after,
-                            (unsigned char **)&sm_prop_window) ;
+                            (unsigned char **)(void*)&sm_prop_window) ;
 
 #ifdef DEBUG
 // property.smWindow = (unsigned long) smGD.topLevelWindow;
@@ -870,7 +870,7 @@ locale_of_desktop()
                             0L, (long)8, False,
                             XA_STRING,
                             &type, &format, &nitems, &after,
-                            (unsigned char **)&dt_locale) ;
+                            (unsigned char **)(void*)&dt_locale) ;
 
 #ifdef DEBUG
         printf( "desktop's locale is %s\n", dt_locale ) ;

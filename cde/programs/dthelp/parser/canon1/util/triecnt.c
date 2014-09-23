@@ -88,12 +88,12 @@ void dumpnode(first, file, trieptr, count, proc)
       /* generate a child */
       if (*first) *first = FALSE ;
       else fprintf(file, ",\n") ;
-      fprintf(file, "  ") ;
+      fprintf(file, "  {") ;
       if (p->next) fprintf(file, "TRUE, ") ;
       else fprintf(file, "FALSE, ") ;
-      fprintf(file, "%d", p->symbol) ;
-      if (p->symbol) fprintf(file, ", %d", *count) ;
-      else (*proc)(file, p->data) ;
+      fprintf(file, "%d", (int)p->symbol) ;
+      if (p->symbol) fprintf(file, ", %d}", *count) ;
+      else { (*proc)(file, p->data) ; fprintf(file, "}") ; }
 
       /* count the children of the child*/
       if (p->symbol) countdown(p, count) ;
@@ -110,5 +110,5 @@ void printval(file, value)
   FILE *file ;
   void *value ;
   {
-    fprintf(file, ", %d", (int) value) ;
+    fprintf(file, ", %ld", (long) value) ;
     }

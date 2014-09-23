@@ -42,7 +42,7 @@ ELTSTRUCT *ntrelt(p)
     int length ;
 
     new = (ELTSTRUCT *) m_malloc(sizeof(ELTSTRUCT), "element structure") ;
-    if (old = (ELTSTRUCT *) m_ntrtrie(p, &eltree, (M_TRIE *) new)) {
+    if ((old = (ELTSTRUCT *) m_ntrtrie(p, &eltree, (M_TRIE *) new))) {
       m_free((M_POINTER) new, "element structure") ;
       return(old) ;
       }

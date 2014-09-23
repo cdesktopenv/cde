@@ -85,11 +85,11 @@ void checkand(andstart, andptr, start, root, errelt)
           for (pand = parc->group ; pand ; pand = pand->next)
             checkand(andstart, andptr, pand->start, root, errelt) ;
         }
-      else if (c = checkdfsa(andptr->start,
+      else if ((c = checkdfsa(andptr->start,
                              parc->label,
                              parc->group,
                              parc->id,
-                             errelt))
+                             errelt)))
         nondeterm(root, c, *errelt) ;
       }
     }
@@ -112,7 +112,7 @@ int checkdfsa(from, label, and, id, errelt)
       if (parc->group) {
         if (and == parc->group) return(ANDCONFLICT) ;
         for (group = parc->group ; group ; group = group->next)
-          if (c = checkdfsa(group->start, label, and, id, errelt))
+          if ((c = checkdfsa(group->start, label, and, id, errelt)))
             return(c) ;
         }
       else if (! and && label == parc->label && parc->id != id) {
@@ -138,14 +138,14 @@ int checkrepeat(from, and, errelt)
     for (; and ; and = and->next)
       for (parc = and->start->first ; parc ; parc = parc->next) {
         if (parc->group)
-          if (c = checkrepeat(from, parc->group, errelt)) return(c) ;
+          if ((c = checkrepeat(from, parc->group, errelt))) return(c) ;
           else ;
         else
-          if (c = checkdfsa(from,
+          if ((c = checkdfsa(from,
                             parc->label,
                             M_NULLVAL,
                             parc->id,
-                            errelt))
+                            errelt)))
             return(c) ;
           else ;
         }
@@ -239,7 +239,7 @@ void makeand(canbenull, root, optional)
     TREE *child ;
     STATELIST *start, *final ;
     LOGICAL groupbenull ;
-    ANDGROUP *andptr, *saveand, *otherand ;
+    ANDGROUP *andptr = NULL, *saveand = NULL, *otherand ;
     STATELIST *index ;
     ELTSTRUCT *errelt ;
 
@@ -579,7 +579,7 @@ void repeat(root)
     for (a = top->starta ; a ; a = a->next) {
       for (final = top->allfinal ; final ; final = final->next) {
         if (a->group)
-          if (c = checkrepeat(final->value, a->group, &errelt)) {
+          if ((c = checkrepeat(final->value, a->group, &errelt))) {
 	    wtemp = MakeWideCharString(root->occurrence == PLUS ? plus : rep);
             warning1("Conflict in use of %s", wtemp);
 	    m_free(wtemp, "wide character string");
@@ -588,11 +588,11 @@ void repeat(root)
           else
             ;
         else
-          if (c = checkdfsa(final->value,
+          if ((c = checkdfsa(final->value,
                             a->label,
                             a->group,
                             a->id,
-                            &errelt))
+                            &errelt)))
             nondeterm (root, c, errelt) ;
           else
             ;
@@ -600,14 +600,14 @@ void repeat(root)
       for (final = top->finals ; final ; final = final->next) {
         if (samelabelarc(a, final->value)) continue ;
         if (a->group)
-          if (c = checkrepeat(final->value, a->group, &errelt))
+          if ((c = checkrepeat(final->value, a->group, &errelt)))
             nondeterm(root, c, errelt) ;
         if (a->label ||
             a->group ||
             ! final->value->frompcdata) {
-          if (c = addarc(final->value, a->to, a->label,
+          if ((c = addarc(final->value, a->to, a->label,
                          a->group, TRUE, a->id,
-                         a->minim, &errelt))
+                         a->minim, &errelt)))
             nondeterm(root, c, errelt) ;
           if (permitspcd(a)) final->value->datacontent = TRUE ;
           }
@@ -697,7 +697,7 @@ void simplebranch(root, value, group, optional)
        states of and-groups that terminate at the start state of the new
        arc */       
     for (index = top->allfinal ; index ; index = index->next)
-      if (c = checkdfsa(index->value, value, group, root->eltid, &errelt))
+      if ((c = checkdfsa(index->value, value, group, root->eltid, &errelt)))
         nondeterm(root, c, errelt) ;
     for (index = top->starts ; index ; index = index->next) {
       if (! group && ! value && index->value->frompcdata)

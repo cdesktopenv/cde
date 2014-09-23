@@ -43,7 +43,7 @@ LOGICAL *flag;
 char *delim;
 {
 M_WCHAR wcbuff[129];
-size_t  length;
+ssize_t  length;
 
 wcbuff[128] = 0;
 length = mbstowcs(wcbuff,delim,128);
@@ -73,7 +73,7 @@ m_openchk(&m_errfile, "error", "w") ;
 fprintf(stderr, "MARKUP System - BUILD %s\n", M_VERSION) ;
 fprintf(stderr, "Copyright (c) 1986, 1987, 1988, 1989 Hewlett-Packard Co.\n") ;
 if (! standard)
-    warning("Warning: optional enhancements of SGML enabled.") ;
+    warning("Info: optional enhancements of SGML enabled.") ;
 
 mb_delims = mb_dlmptr;
 wc_delims = m_dlmptr;
@@ -112,7 +112,7 @@ void ruleinit(M_NOPAR)
 /* Rule end processing */
 void rulend(M_NOPAR)
   {
-    STATE *fsa ;
+    STATE *fsa = NULL ;
     LOGICAL canbenull ;
     LHS *lhsp ;
     LHS *discard ;
@@ -153,7 +153,7 @@ void rulend(M_NOPAR)
 void skiptoend(M_NOPAR)
   {
     int i ;
-    static errlev = 0 ;
+    static int errlev = 0 ;
 
     if (! errlev++) {
       curcon = ERROR ;

@@ -81,6 +81,8 @@
 
 #include "ifparser.h"
 #include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 #include <limits.h>
 
 /****************************************************************************
@@ -89,8 +91,8 @@
 
 #define DO(val) if (!(val)) return NULL
 #define CALLFUNC(ggg,fff) (*((ggg)->funcs.fff))
-#define SKIPSPACE(ccc) while (isspace(*ccc)) ccc++
-#define isvarfirstletter(ccc) (isalpha(ccc) || (ccc) == '_')
+#define SKIPSPACE(ccc) while (isspace((int)*ccc)) ccc++
+#define isvarfirstletter(ccc) (isalpha((int)ccc) || (ccc) == '_')
 
 
 static const char *
@@ -106,7 +108,7 @@ parse_variable (g, cp, varp)
 
     *varp = cp;
     /* EMPTY */
-    for (cp++; isalnum(*cp) || *cp == '_'; cp++) ;
+    for (cp++; isalnum((int)*cp) || *cp == '_'; cp++) ;
     return cp;
 }
 
@@ -120,7 +122,7 @@ parse_number (g, cp, valp)
     long base = 10;
     SKIPSPACE (cp);
 
-    if (!isdigit(*cp))
+    if (!isdigit((int)*cp))
 	return CALLFUNC(g, handle_error) (g, cp, "number");
 
     *valp = 0;
@@ -248,7 +250,7 @@ parse_value (g, cp, valp)
 	return cp + 1;
 
       case 'd':
-	if (strncmp (cp, "defined", 7) == 0 && !isalnum(cp[7])) {
+	if (strncmp (cp, "defined", 7) == 0 && !isalnum((int)cp[7])) {
 	    int paren = 0;
 	    int len;
 
@@ -269,7 +271,7 @@ parse_value (g, cp, valp)
 	/* fall out */
     }
 
-    if (isdigit(*cp)) {
+    if (isdigit((int)*cp)) {
 	DO (cp = parse_number (g, cp, valp));
     } else if (!isvarfirstletter(*cp))
 	return CALLFUNC(g, handle_error) (g, cp, "variable or number");

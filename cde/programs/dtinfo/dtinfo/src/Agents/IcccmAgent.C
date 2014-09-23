@@ -475,7 +475,7 @@ IcccmAgent::convert_handler(Widget w, Atom selection, Atom target,
     unsigned long xmu_length;
 
     XmuConvertStandardSelection(w, req->time, &selection, &target, &type_return,
-				(caddr_t*)&xmu_targets, &xmu_length,
+				(caddr_t*)(void*)&xmu_targets, &xmu_length,
 				&format_return);
     assert( type_return == XA_ATOM );
     assert( format_return == sizeof(Atom) * 8 );

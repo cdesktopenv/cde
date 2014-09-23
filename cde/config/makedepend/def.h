@@ -148,6 +148,7 @@ char			*malloc();
 char			*realloc();
 #endif
 
+int			match();
 char			*copy();
 char			*base_name();
 char			*our_getline();
@@ -155,8 +156,17 @@ struct symtab		**slookup();
 struct symtab		**isdefined();
 struct symtab		**fdefined();
 struct filepointer	*getfile();
+void			included_by();
 struct inclist		*newinclude();
+void			inc_clean();
 struct inclist		*inc_path();
+void			freefile();
+void			define2();
+void			define();
+int			find_includes();
+void			recursive_pr_include();
+void			add_include();
+int			cppsetup();
 
 #if NeedVarargsPrototypes
 extern void fatalerr(char *, ...);

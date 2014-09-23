@@ -56,7 +56,11 @@ extern void get_type ();
 const int GR_ENCODING_TEXT = 1;
 
 //-------------------------------------------------------------------------
+#if __GNUC__ == 4 && __GNUC_MINOR__ == 4
+GR_TYPE __attribute__((optimize("O0")))
+#else
 GR_TYPE
+#endif
 GraphicsTask::graphics_type( const char *gname )
 {
 
@@ -90,7 +94,7 @@ GraphicsTask::graphics_type( const char *gname )
 			form("cannot reopen graphics file %s\n", gname)));
     }
     
-    hdrptr = (XWDFileHeader *)header;
+    hdrptr = (XWDFileHeader *)(void*)header;
     // Initialize the structure
     for (CARD32 ndx = 0; ndx < sz_XWDheader; ndx++) {
       header[ndx] = (CARD32) 0;

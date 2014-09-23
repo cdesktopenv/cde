@@ -149,7 +149,7 @@ void *m_ntrtrie(p, xtrie, dataval)
     M_TRIE *currentnode ;
     void *n ;
 
-    if (n = m_lookfortrie(p, xtrie)) return(n) ;
+    if ((n = m_lookfortrie(p, xtrie))) return(n) ;
     currentnode = xtrie ;
     for ( ; *p ; p++)
       m_entercharintrie(&currentnode, m_ctupper(*p)) ;

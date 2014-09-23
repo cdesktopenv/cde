@@ -89,7 +89,7 @@ ptypelen++ ;
 /* Add a parameter to the current element */
 void addpar(M_NOPAR)
 {
-PARAMETER *paramp, *last ;
+PARAMETER *paramp, *last  = NULL ;
 int length ;
 
 parcount++ ;
@@ -200,6 +200,7 @@ switch (newpar->type)
 	}
     break ;
     }
+    return(FALSE);
 }
 
 /* Normalize parameter default.  Change tabs and RE's to spaces, capitalize
@@ -212,7 +213,7 @@ M_WCHAR *string ;
 #endif /* M_PROTO */
 {
 M_WCHAR *p, *q ;
-int i ;
+int i, ret ;
 
 switch (newpar->type)
     {
@@ -238,7 +239,7 @@ switch (newpar->type)
       for (p = string, i = 0 ; *p ; p++, i++)
 	  if (m_whitespace(*p))
 	      {
-	      mbtowc(p, " ", 1);
+	      ret = mbtowc(p, " ", 1);
 	      for (q = p + 1 ; m_whitespace(*q); q++) ;
 	      w_strcpy(p + 1, q) ;
 	      }
@@ -262,10 +263,13 @@ switch (newpar->type)
 	      mbyte[1] = 0;
 	      }
 	  if ((length == 1) && (*mbyte == '\n' || *mbyte == '\t'))
-	    mbtowc(string, " ", 1);
+	      {
+	      ret = mbtowc(string, " ", 1);
+	      }
 	  }
       return ;
     }
+    (void) ret;
 }
 
 /* Called at end of parameter attribute list rule */

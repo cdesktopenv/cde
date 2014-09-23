@@ -79,7 +79,7 @@ issymbolic(dir, component)
 	struct stat	st;
 	char	buf[ BUFSIZ ], **pp;
 
-	sprintf(buf, "%s%s%s", dir, *dir ? "/" : "", component);
+	snprintf(buf, BUFSIZ, "%s%s%s", dir, *dir ? "/" : "", component);
 	for (pp=notdotdot; *pp; pp++)
 		if (strcmp(*pp, buf) == 0)
 			return (TRUE);
@@ -166,7 +166,7 @@ remove_dotdot(path)
 	/*
 	 * copy the reconstituted path back to our pointer.
 	 */
-	strcpy(path, newpath);
+	strncpy(path, newpath, BUFSIZ);
 }
 
 /*
@@ -299,11 +299,12 @@ struct inclist *inc_path(file, include, dot)
 			if (*p == '/')
 				break;
 		if (p == file)
-			strcpy(path, include);
+			strncpy(path, include, BUFSIZ);
 		else {
 			strncpy(path, file, (p-file) + 1);
 			path[ (p-file) + 1 ] = '\0';
-			strcpy(path + (p-file) + 1, include);
+			strncpy(path + (p-file) + 1, include,
+						BUFSIZ - (p-file) - 1);
 		}
 		remove_dotdot(path);
 		if (stat(path, &st) == 0) {
@@ -320,7 +321,7 @@ struct inclist *inc_path(file, include, dot)
 	 */
 	if (!found)
 		for (pp = includedirs; *pp; pp++) {
-			sprintf(path, "%s/%s", *pp, include);
+			snprintf(path, BUFSIZ, "%s/%s", *pp, include);
 			remove_dotdot(path);
 			if (stat(path, &st) == 0) {
 				ip = newinclude(path, include);

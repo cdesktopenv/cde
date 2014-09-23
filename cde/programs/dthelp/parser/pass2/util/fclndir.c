@@ -130,17 +130,19 @@ void copyfile(pfile1,pfile2)
 {
 	int ret;
 	char *pcmd;
+	int slen;
 
 /* malloc space for the system command: two filenames, plus a command,
    spaces, and the terminating null */
-	pcmd = (char *) malloc(strlen(pfile1) + strlen(pfile2) + 8);
+	slen = strlen(pfile1) + strlen(pfile2) + 8;
+	pcmd = (char *) malloc(slen);
 #if defined(MSDOS)
-	ret = sprintf(pcmd,"copy %s %s",pfile1,pfile2);
+	ret = snprintf(pcmd, slen, "copy %s %s",pfile1,pfile2);
 #else
-	ret = sprintf(pcmd,"cp %s %s",pfile1,pfile2);
+	ret = snprintf(pcmd, slen, "cp %s %s",pfile1,pfile2);
 #endif
 	ret = system(pcmd);
-	ret = sprintf(pcmd,"touch %s",pfile2);
+	ret = snprintf(pcmd, slen, "touch %s",pfile2);
 	ret = system(pcmd);
 }
 

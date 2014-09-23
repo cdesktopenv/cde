@@ -114,8 +114,8 @@ mpool_open(key, fd, pagesize, maxcache)
 
 	if ((mp = malloc(sizeof(MPOOL))) == NULL)
 		return (NULL);
-	mp->free.cnext = mp->free.cprev = (BKT *)&mp->free;
-	mp->lru.cnext = mp->lru.cprev = (BKT *)&mp->lru;
+	mp->free.cnext = mp->free.cprev = (BKT *)(void *)&mp->free;
+	mp->lru.cnext = mp->lru.cprev = (BKT *)(void *)&mp->lru;
 	for (entry = 0; entry < HASHSIZE; ++entry)
 		mp->hashtable[entry].hnext = mp->hashtable[entry].hprev = 
 		    mp->hashtable[entry].cnext = mp->hashtable[entry].cprev =
@@ -322,7 +322,7 @@ mpool_close(mp)
 	BKT *b, *next;
 
 	/* Free up any space allocated to the lru pages. */
-	for (b = mp->lru.cprev; b != (BKT *)&mp->lru; b = next) {
+	for (b = mp->lru.cprev; b != (BKT *)(void *)&mp->lru; b = next) {
 		next = b->cprev;
 		free(b);
 	}
@@ -345,7 +345,7 @@ mpool_sync(mp)
 {
 	BKT *b;
 
-	for (b = mp->lru.cprev; b != (BKT *)&mp->lru; b = b->cprev)
+	for (b = mp->lru.cprev; b != (BKT *)(void *)&mp->lru; b = b->cprev)
 		if (b->flags & MPOOL_DIRTY && mpool_write(mp, b) == RET_ERROR)
 			return (RET_ERROR);
 	return (fsync(mp->fd) ? RET_ERROR : RET_SUCCESS);
@@ -375,7 +375,7 @@ mpool_bkt(mp)
 	 * any lists.  If we don't find anything we grow the cache anyway.
 	 * The cache never shrinks.
 	 */
-	for (b = mp->lru.cprev; b != (BKT *)&mp->lru; b = b->cprev)
+	for (b = mp->lru.cprev; b != (BKT *)(void *)&mp->lru; b = b->cprev)
 		if (!(b->flags & MPOOL_PINNED)) {
 			if (b->flags & MPOOL_DIRTY &&
 			    mpool_write(mp, b) == RET_ERROR)

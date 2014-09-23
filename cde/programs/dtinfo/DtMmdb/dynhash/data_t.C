@@ -277,7 +277,7 @@ Boolean data_t::binaryIn(buffer& buf)
 
         break;
    }
-   buf.get(*(long*)&dt);
+   buf.get(*(char*)&dt);
    return true;
 }
 

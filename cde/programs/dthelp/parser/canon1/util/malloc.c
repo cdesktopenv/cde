@@ -96,11 +96,11 @@ void m_free(block, msg)
     free(block) ;
     if (m_malftrace) {
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)
-      sprintf(buffer, "%5x:%5x",
+      snprintf(buffer, 32, "%5x:%5x",
         (unsigned int) ((unsigned long) block >> 16),
         (unsigned int) block, msg) ;
 #else
-      sprintf(buffer, "  %9p", block, msg) ;
+      snprintf(buffer, 32, "  %9p", block) ;
 #endif
       m_trace(buffer) ;
       m_trace("- Freed                      ") ;
@@ -171,14 +171,14 @@ void *m_malloc(size, msg)
       }
     if (m_malftrace) {
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)
-      sprintf(buffer, "%5x:%5x",
+      snprintf(buffer, 32, "%5x:%5x",
         (unsigned int) ((unsigned long) p >> 16), (unsigned int) p) ;
 #else
-      sprintf(buffer, "  %9p", p) ;
+      snprintf(buffer, 32, "  %9p", p) ;
 #endif
       m_trace(buffer) ;
       m_trace("- Allocated ") ;
-      sprintf(buffer, "%6d", size) ;
+      snprintf(buffer, 32, "%6d", size) ;
       m_trace(buffer) ;
       m_trace(" bytes for ") ;
       m_trace(msg) ;
@@ -212,14 +212,14 @@ void *m_realloc(ptr, size, msg)
       }
     if (m_malftrace) {
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)
-      sprintf(buffer, "%5x:%5x",
+      snprintf(buffer, 32, "%5x:%5x",
         (unsigned int) ((unsigned long) p >> 16), (unsigned int) p) ;
 #else
-      sprintf(buffer, "  %9p", p) ;
+      snprintf(buffer, 32, "  %9p", p) ;
 #endif
       m_trace(buffer) ;
       m_trace("- Re-allocated ") ;
-      sprintf(buffer, "%6d", size) ;
+      snprintf(buffer, 32, "%6d", size) ;
       m_trace(buffer) ;
       m_trace(" bytes for ") ;
       m_trace(msg) ;

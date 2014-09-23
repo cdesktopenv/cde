@@ -148,7 +148,7 @@ catch (sig)
 struct sigaction sig_act;
 #endif /* USGISH */
 
-main(argc, argv)
+int main(argc, argv)
 	int	argc;
 	char	**argv;
 {
@@ -491,11 +491,11 @@ char *copy(str)
 {
 	register char	*p = (char *)malloc(strlen(str) + 1);
 
-	strcpy(p, str);
+	strncpy(p, str, strlen(str) + 1);
 	return(p);
 }
 
-match(str, list)
+int match(str, list)
 	register char	*str, **list;
 {
 	register int	i;
@@ -642,7 +642,7 @@ redirect(line, makefile)
 	    stat(makefile, &st);
 	if ((fdin = fopen(makefile, "r")) == NULL)
 		fatalerr("cannot open \"%s\"\n", makefile);
-	sprintf(backup, "%s.bak", makefile);
+	snprintf(backup, BUFSIZ, "%s.bak", makefile);
 	unlink(backup);
 #ifdef WIN32
 	fclose(fdin);

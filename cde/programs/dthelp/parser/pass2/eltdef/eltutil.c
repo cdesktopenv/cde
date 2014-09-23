@@ -106,7 +106,7 @@ void cvalue(M_NOPAR)
     PARVAL *new;
 
     new = (PARVAL *) m_malloc(sizeof(PARVAL), "parameter value");
-    if (pval = (PARVAL *) m_ntrtrie(name, &parval, (M_TRIE *) new))
+    if ((pval = (PARVAL *) m_ntrtrie(name, &parval, (M_TRIE *) new)))
       m_free(new, "parameter value");
     else {
       new->line = 0;
@@ -467,7 +467,7 @@ for ( ; p ; p = p->next)
 		iffile);
 	fprintf(pvalh, "#define %s \"", mb_cname);
 	m_free(mb_cname,"multi-byte string");
-	if (q = ((PARVAL *) p->data)->value)
+	if ((q = ((PARVAL *) p->data)->value))
 	    for ( ; *q ; q++)
 		{
 		char mbq[32]; /* larger than largest possible mbyte char */
@@ -498,7 +498,7 @@ for ( ; p ; p = p->next)
 void skiptoend(M_NOPAR)
   {
     int i;
-    static errlev = 0;
+    static int errlev = 0;
     CVARSTRUCT *cvarp, *dvarp;
 
     for (cvarp = cvarlist ; cvarp ;) {
@@ -615,7 +615,7 @@ void startelement(M_NOPAR)
       m_free(discard, "C variable");
       }
     cvarlist = NULL;
-    if (openelt = m_packedlook(m_entree, name)) {
+    if ((openelt = m_packedlook(m_entree, name))) {
       if (processed[openelt - 1])
         warning1("Warning: Element %s already processed", name);
       processed[openelt - 1] = TRUE;
@@ -670,7 +670,7 @@ if (m_partype(cvarlist->param + m_element[openelt - 1].parptr, p))
 	    {
 	    M_WCHAR *w_buffer;
 
-	    sprintf(buffer, "%d", pval->line);
+	    snprintf(buffer, 5, "%d", pval->line);
 	    w_buffer = MakeWideCharString(buffer);
 	    m_err5("Can't #define %s to %s. %s #define'd to %s on line %s",
 		   pval->cname,

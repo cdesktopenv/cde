@@ -154,6 +154,7 @@ XCOMM rules:  $TOG: Imake.rules /main/227 1998/02/02 12:07:57 kaleb $
  * MakeLintSubdirs		(dirs,target,subtarget)
  * LintSubdirs			(dirs)
  * MakeLintLibSubdirs		(dirs)
+ * MakeMakeOneSubdirs		()
  * MakeMakeSubdirs		(dirs,target)
  * MakefileSubdirs		(dirs)
  * CppScriptTarget		(dst,src,defs,deplist)
@@ -2298,22 +2299,29 @@ MakeLintSubdirs(dirs,lintlib,lintlib)
 
 
 /*
- * MakeMakeSubdirs - generate rules to recursively recreate Makefiles as part
- * of the specified step in the build.  If $(TOP) is set to an absolute path, 
- * do not prepend the ../ prefix.  This makes running things outside of the 
- * source tree much easier.
- * $(ONESUBDIR)/Makefile exists as a separate, explicit target so that
- * clearmake will know what its goal is and do wink-in.
+ * MakeMakeOneSubdirs - generate rules to recreate $(ONESUBDIR)/Makefile
+ * as part of the specified step in the build. This separate, explicit target
+ * exists so that clearmake will know what its goal is and do wink-in.
  */
-#ifndef MakeMakeSubdirs
-#define MakeMakeSubdirs(dirs,target)					@@\
+#ifndef MakeMakeOneSubdirs
+#define MakeMakeOneSubdirs()						@@\
 $(ONESUBDIR)/Makefile:							@@\
 	@MakeFlagsToShellFlags(n,executeit="no"); \			@@\
 	cd $(ONESUBDIR); \						@@\
 	if [ "$$executeit" != "no" ]; then \				@@\
 		ImakeSubCmdHelper -DTOPDIR=$(IMAKETOP) -DCURDIR=$(ONECURDIR)$(ONESUBDIR); \ @@\
-	fi;								@@\
-									@@\
+	fi;
+#endif /* MakeMakeOneSubdirs */
+
+
+/*
+ * MakeMakeSubdirs - generate rules to recursively recreate Makefiles as part
+ * of the specified step in the build.  If $(TOP) is set to an absolute path, 
+ * do not prepend the ../ prefix.  This makes running things outside of the 
+ * source tree much easier.
+ */
+#ifndef MakeMakeSubdirs
+#define MakeMakeSubdirs(dirs,target)					@@\
 target::								@@\
 	-@MakeFlagsToShellFlags(ik,set +e); \				@@\
 	MakeFlagsToShellFlags(n,executeit="no"); \			@@\
@@ -2380,6 +2388,7 @@ target::								@@\
  */
 #ifndef MakefileSubdirs
 #define MakefileSubdirs(dirs)						@@\
+MakeMakeOneSubdirs()							@@\
 MakeMakeSubdirs(dirs,Makefiles)
 #endif /* MakefileSubdirs */
 

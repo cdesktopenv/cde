@@ -137,7 +137,7 @@ typedef struct MPOOL {
 }
 #define inschain(bp, dp) { \
         (bp)->cnext = (dp)->cnext; \
-        (bp)->cprev = (struct BKT *)(dp); \
+        (bp)->cprev = (struct BKT *)(void *)(dp); \
         (dp)->cnext->cprev = (bp); \
         (dp)->cnext = (bp); \
 }

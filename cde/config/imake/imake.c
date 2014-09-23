@@ -405,13 +405,14 @@ main(int argc, char *argv[])
 		tmpMakefile = Makefile;
 	else {
 		tmpMakefile = Strdup(tmpMakefile);
-		mkstemp(tmpMakefile);
+		int ret = mkstemp(tmpMakefile);
+		(void) ret;
 	}
 	AddMakeArg("-f");
 	AddMakeArg( tmpMakefile );
-	sprintf(makeMacro, "MAKE=%s", program);
+	snprintf(makeMacro, BUFSIZ, "MAKE=%s", program);
 	AddMakeArg( makeMacro );
-	sprintf(makefileMacro, "MAKEFILE=%s", Imakefile);
+	snprintf(makefileMacro, BUFSIZ, "MAKEFILE=%s", Imakefile);
 	AddMakeArg( makefileMacro );
 
 	if ((tmpfd = fopen(tmpMakefile, "w+")) == NULL)
@@ -709,7 +710,8 @@ optional_include(FILE *inFile, const char *defsym, const char *fname)
 {
 	errno = 0;
 	if (access(fname, R_OK) == 0) {
-		LogMsg(OverrideWarning, fname);
+		if(errno)
+			LogMsg(OverrideWarning, fname);
 		return (fprintf(inFile, LocalDefineFmt, defsym, fname) < 0 ||
 			fprintf(inFile, IncludeFmt, defsym) < 0);
 	}
@@ -780,35 +782,35 @@ parse_utsname(struct utsname *name, const char *fmt, char *result, const char *m
 	case 's':
 	  if (arg > 0)
 	    *ptr++ = ' ';
-	  strcpy(ptr, name->sysname);
+	  strncpy(ptr, name->sysname, SYS_NMLN);
 	  ptr += strlen(ptr);
 	  break;
 
 	case 'n':
 	  if (arg > 0)
 	    *ptr++ = ' ';
-	  strcpy(ptr, name->nodename);
+	  strncpy(ptr, name->nodename, SYS_NMLN);
 	  ptr += strlen(ptr);
 	  break;
 
 	case 'r':
 	  if (arg > 0)
 	    *ptr++ = ' ';
-	  strcpy(ptr, name->release);
+	  strncpy(ptr, name->release, SYS_NMLN);
 	  ptr += strlen(ptr);
 	  break;
 
 	case 'v':
 	  if (arg > 0)
 	    *ptr++ = ' ';
-	  strcpy(ptr, name->version);
+	  strncpy(ptr, name->version, SYS_NMLN);
 	  ptr += strlen(ptr);
 	  break;
 
 	case 'm':
 	  if (arg > 0)
 	    *ptr++ = ' ';
-	  strcpy(ptr, name->machine);
+	  strncpy(ptr, name->machine, SYS_NMLN);
 	  ptr += strlen(ptr);
 	  break;
 
@@ -823,7 +825,8 @@ parse_utsname(struct utsname *name, const char *fmt, char *result, const char *m
 
   /* Parse the buffer.  The sscanf() return value is rarely correct. */
   *result = '\0';
-  (void) sscanf(buf, fmt + arg + 1, result);
+  int ret = sscanf(buf, fmt + arg + 1, result);
+  (void) ret;
 }
 #endif
 
@@ -993,7 +996,8 @@ get_libc_version(FILE *inFile)
         */
       if (readlink (libcso, buf, PATH_MAX) >= 0) {
 	for (ptr = buf; *ptr && !isdigit (*ptr); ptr++);
-	  (void) sscanf (ptr, "%d.%d.%d", &libcmajor, &libcminor, &libcteeny);
+	  int ret = sscanf (ptr, "%d.%d.%d", &libcmajor, &libcminor, &libcteeny);
+	  (void) ret;
 	  fprintf(inFile, "#define DefaultLinuxCLibMajorVersion %d\n", libcmajor);    
 	  fprintf(inFile, "#define DefaultLinuxCLibMinorVersion %d\n", libcminor);    
 	  fprintf(inFile, "#define DefaultLinuxCLibTeenyVersion %d\n", libcteeny);    
@@ -1014,17 +1018,17 @@ get_libc_version(FILE *inFile)
       memset(&aout, '\0', PATH_MAX);
 
       if (!lstat(getenv("TMPDIR"), &sb) && S_ISDIR(sb.st_mode))
-	strcpy(aout, getenv("TMPDIR"));
+	strncpy(aout, getenv("TMPDIR"), PATH_MAX);
 #ifdef P_tmpdir /* defined by XPG and XOPEN, but don't assume we have it */
       else if (!lstat(P_tmpdir, &sb) && S_ISDIR(sb.st_mode))
-	strcpy(aout, P_tmpdir);
+	strncpy(aout, P_tmpdir, PATH_MAX);
 #endif
       else if (!lstat("/tmp", &sb) && S_ISDIR(sb.st_mode))
-	strcpy(aout, "/tmp");
+	strncpy(aout, "/tmp", PATH_MAX);
       else
 	abort();
 
-      strcpy(aout+strlen(aout), "/imaketmp.XXXXXX");
+      strncpy(aout+strlen(aout), "/imaketmp.XXXXXX", 16);
 
       if ((fd = mkstemp(aout)) == -1)
 	abort ();
@@ -1051,7 +1055,7 @@ get_libc_version(FILE *inFile)
 	abort ();
 
       while (fgets (command, len, fp))
-	fprintf (inFile, command);
+	fprintf (inFile, "%s", command);
   
       len = pclose (fp);
       remove (aout);
@@ -1073,7 +1077,8 @@ get_ld_version(FILE *inFile)
       c = fgetc (ldprog);
     } while (c != EOF && !isdigit (c));
     ungetc (c, ldprog);
-    (void) fscanf (ldprog, "%d.%d", &ldmajor, &ldminor);
+    int ret = fscanf (ldprog, "%d.%d", &ldmajor, &ldminor);
+    (void) ret;
     fprintf(inFile, "#define DefaultLinuxBinUtilsMajorVersion %d\n", 
 	    ldmajor * 10 + ldminor);    
     pclose (ldprog);
@@ -1097,15 +1102,16 @@ get_sun_compiler_versions(FILE *inFile)
   char* vptr;
   struct stat sb;
   FILE* ccproc;
+  int ret;
 
   if (lstat (sunpro_cc, &sb) == 0) {
-    strcpy (cmd, sunpro_cc);
-    strcat (cmd, " -V 2>&1");
+    strncpy (cmd, sunpro_cc, PATH_MAX);
+    strncat (cmd, " -V 2>&1", 8);
     if ((ccproc = popen (cmd, "r")) != NULL) {
       if (fgets (buf, PATH_MAX, ccproc) != NULL) {
 	vptr = strrchr (buf, 'C');
 	for (; !isdigit(*vptr); vptr++);
-	(void) sscanf (vptr, "%d.%d", &cmajor, &cminor);
+	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
 	fprintf (inFile, 
 		 "#define DefaultSunProCCompilerMajorVersion %d\n",
 		 cmajor);
@@ -1118,13 +1124,13 @@ get_sun_compiler_versions(FILE *inFile)
     }
   }
   if (lstat (sunpro_CC, &sb) == 0) {
-    strcpy (cmd, sunpro_CC);
-    strcat (cmd, " -V 2>&1");
+    strncpy (cmd, sunpro_CC, PATH_MAX);
+    strncat (cmd, " -V 2>&1", 8);
     if ((ccproc = popen (cmd, "r")) != NULL) {
       if (fgets (buf, PATH_MAX, ccproc) != NULL) {
 	vptr = strrchr (buf, 'C');
 	for (; !isdigit(*vptr); vptr++);
-	(void) sscanf (vptr, "%d.%d", &cmajor, &cminor);
+	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
 	fprintf (inFile, 
 		 "#define DefaultSunProCplusplusCompilerMajorVersion %d\n",
 		 cmajor);
@@ -1136,6 +1142,7 @@ get_sun_compiler_versions(FILE *inFile)
       pclose (ccproc);
     }
   }
+  (void) ret;
 }
 #endif
 
@@ -1159,12 +1166,12 @@ get_gcc_incdir(FILE *inFile)
   buf[0] = '\0';
   for (i = 0; i < sizeof gcc_path / sizeof gcc_path[0]; i++) {
     if (lstat (gcc_path[i], &sb) == 0) {
-      strcpy (cmd, gcc_path[i]);
-      strcat (cmd, " --print-libgcc-file-name");
+      strncpy (cmd, gcc_path[i], PATH_MAX - 25);
+      strncpy (cmd + strlen(cmd), " --print-libgcc-file-name", 25);
       if ((gccproc = popen (cmd, "r")) != NULL) {
 	if (fgets (buf, PATH_MAX, gccproc) != NULL) {
 	  ptr = strstr (buf, "libgcc.a");
-	  if (ptr) strcpy (ptr, "include");
+	  if (ptr) strncpy (ptr, "include", 7);
 	}
 	(void) pclose (gccproc);
 	break;
@@ -1262,7 +1269,7 @@ cppit(const char *imakefile, const char *template, const char *masterc, FILE *ou
 	    fprintf(inFile, IncludeFmt, ImakeTmplSym) < 0 ||
 	    optional_include(inFile, "IMAKE_ADMIN_MACROS", "adminmacros") ||
 	    optional_include(inFile, "IMAKE_LOCAL_MACROS", "localmacros") ||
-	    fflush(inFile) || 
+	    fflush(inFile) ||
 	    fclose(inFile))
 		LogFatal("Cannot write to %s.", masterc);
 	/*
@@ -1334,7 +1341,8 @@ CleanCppInput(char *imakefile)
 		    strcmp(ptoken, "undef")) {
 		    if (outFile == NULL) {
 			tmpImakefile = Strdup(tmpImakefile);
-			mkstemp(tmpImakefile);
+			int ret = mkstemp(tmpImakefile);
+			(void) ret;
 			outFile = fopen(tmpImakefile, "w");
 			if (outFile == NULL)
 			    LogFatal("Cannot open %s for write.",
@@ -1413,10 +1421,10 @@ isempty(char *line)
 		if (*pend == 'l' && pend[1] == 'i' && pend[2] == 'n' &&
 		    pend[3] == 'e' && pend[4] == ' ')
 			pend += 5;
-		if (isdigit(*pend)) {
+		if (isdigit((int)*pend)) {
 		    	do {
 			    pend++;
-			} while (isdigit(*pend));
+			} while (isdigit((int)*pend));
 			if (*pend == '\n' || *pend == '\0')
 				return(TRUE);
 			if (*pend++ == ' ' && *pend == '"')
@@ -1432,7 +1440,7 @@ isempty(char *line)
 		    (pend[5] == ' ' || pend[5] == '\t' || pend[5] == '\0'))
 		{
 		    *pend = '#';
-		    strcpy(pend+1, pend+5);
+		    strncpy(pend+1, pend+5, 1);
 		}
 #ifdef MAGIC_MAKE_VARS
 		if (*pend == 'X' && pend[1] == 'V' && pend[2] == 'A' &&
@@ -1445,7 +1453,7 @@ isempty(char *line)
 			pend[7] >= '0' && pend[7] <= '9')
 		    {
 			i = pend[7] - '0';
-			sprintf(varbuf, "%0.4d", xvariable);
+			snprintf(varbuf, 5, "%0.4d", xvariable);
 			strncpy(pend+4, varbuf, 4);
 			xvariables[i] = xvariable;
 			xvariable = (xvariable + 1) % 10000;
@@ -1455,7 +1463,7 @@ isempty(char *line)
 			     pend[7] <= '9')
 		    {
 			i = pend[7] - '0';
-			sprintf(varbuf, "%0.4d", xvariables[i]);
+			snprintf(varbuf, 5, "%0.4d", xvariables[i]);
 			strncpy(pend+4, varbuf, 4);
 		    }
 		}
@@ -1504,7 +1512,8 @@ ReadLine(FILE *tmpfd, const char *tmpfname)
 		if (! tmpfd)
 			LogFatal("cannot reopen %s.", tmpfname);
 #else	/* !SYSV */
-		ftruncate(fileno(tmpfd), (off_t) 0);
+		int ret = ftruncate(fileno(tmpfd), (off_t) 0);
+		(void) ret;
 #endif	/* !SYSV */
 		initialized = TRUE;
 	    fprintf (tmpfd, "# Makefile generated by imake - do not edit!\n");
@@ -1515,7 +1524,8 @@ ReadLine(FILE *tmpfd, const char *tmpfname)
 	for (p1 = pline; p1 < end; p1++) {
 		if (*p1 == '@' && *(p1+1) == '@'
 		    /* ignore ClearCase version-extended pathnames */
-		    && !(p1 != pline && !isspace(*(p1-1)) && *(p1+2) == '/'))
+		    && !(p1 != pline && !isspace((int)*(p1-1))
+		    && *(p1+2) == '/'))
 		{ /* soft EOL */
 			*p1++ = '\0';
 			p1++; /* skip over second @ */
@@ -1652,6 +1662,6 @@ Strdup(const char *cp)
 {
 	char *new = Emalloc(strlen(cp) + 1);
 
-	strcpy(new, cp);
+	strncpy(new, cp, strlen(cp) + 1);
 	return new;
 }

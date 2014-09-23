@@ -101,25 +101,24 @@ static int write_os_params(
 static int write_aix_stuff(File makeFile, AbmfLibs libs);
 static int write_hpux_stuff(File makeFile, AbmfLibs libs);
 static int write_sunos_params(File makeFile, AbmfLibs libs);
+static int write_unixware_params(File makeFile, AbmfLibs libs);
 static int write_uxp_params(File makeFile, AbmfLibs libs);
 static int write_osf1_stuff(File makeFile, AbmfLibs libs);
-
-#ifdef USL
-	/*
-	 * USL specific changes were added ifdef USL due to time constraints
-	 * These ifdefs should be removed in the next release
-	 */
-static int write_unixware_params(File makeFile, AbmfLibs libs);
-#endif
+static int write_lnx_params(File makeFile, AbmfLibs libs);
+static int write_fbsd_params(File makeFile, AbmfLibs libs);
+static int write_nbsd_params(File makeFile, AbmfLibs libs);
+static int write_obsd_params(File makeFile, AbmfLibs libs);
 
 static int	determine_aix_libs(AbmfLibs libs, ABObj project);
 static int	determine_hpux_libs(AbmfLibs libs, ABObj project);
 static int	determine_sunos_libs(AbmfLibs libs, ABObj project);
+static int	determine_unixware_libs(AbmfLibs libs, ABObj project);
 static int	determine_uxp_libs(AbmfLibs libs, ABObj project);
 static int      determine_osf1_libs(AbmfLibs libs, ABObj project);
-#ifdef USL
-static int	determine_unixware_libs(AbmfLibs libs, ABObj project);
-#endif
+static int      determine_lnx_libs(AbmfLibs libs, ABObj project);
+static int      determine_fbsd_libs(AbmfLibs libs, ABObj project);
+static int      determine_nbsd_libs(AbmfLibs libs, ABObj project);
+static int      determine_obsd_libs(AbmfLibs libs, ABObj project);
 
 static int	write_file_header(
 			GenCodeInfo	genCodeInfo, 
@@ -239,13 +238,23 @@ determine_libs(AbmfLibs libs, ABObj project, AB_OS_TYPE osType)
         case AB_OS_OSF1:
                 return_value = determine_osf1_libs(libs, project);
                 break;
-#ifdef USL
 	case AB_OS_UNIXWARE:
 		return_value = determine_unixware_libs(libs, project);
 		break;
-#endif
 	case AB_OS_UXP:
 		return_value = determine_uxp_libs(libs, project);
+		break;
+	case AB_OS_LNX:
+		return_value = determine_lnx_libs(libs, project);
+		break;
+	case AB_OS_FBSD:
+		return_value = determine_fbsd_libs(libs, project);
+		break;
+	case AB_OS_NBSD:
+		return_value = determine_nbsd_libs(libs, project);
+		break;
+	case AB_OS_OBSD:
+		return_value = determine_obsd_libs(libs, project);
 		break;
     }
 
@@ -288,13 +297,35 @@ determine_osf1_libs(AbmfLibs libs, ABObj project)
     return 0;
 }
 
-#ifdef USL
 static int
 determine_unixware_libs(AbmfLibs libs, ABObj project)
 {
     return 0;
 }
-#endif
+
+static int
+determine_lnx_libs(AbmfLibs libs, ABObj project)
+{
+    return 0;
+}
+
+static int
+determine_fbsd_libs(AbmfLibs libs, ABObj project)
+{
+    return 0;
+}
+
+static int
+determine_nbsd_libs(AbmfLibs libs, ABObj project)
+{
+    return 0;
+}
+
+static int
+determine_obsd_libs(AbmfLibs libs, ABObj project)
+{
+    return 0;
+}
 
 static STRING
 get_string_for_lib(AbmfLibDesc lib, AB_OS_TYPE osType)
@@ -491,6 +522,10 @@ write_os_params(
 		return_value = write_sunos_params(makeFile, libs);
 		break;
 
+	case AB_OS_UNIXWARE:
+                return_value = write_unixware_params(makeFile, libs);
+                break;
+
 	case AB_OS_UXP:
                 return_value = write_uxp_params(makeFile, libs);
                 break;
@@ -499,11 +534,21 @@ write_os_params(
                 return_value = write_osf1_stuff(makeFile, libs);
                 break;
 
-#ifdef USL
-	case AB_OS_UNIXWARE:
-                return_value = write_unixware_params(makeFile, libs);
+        case AB_OS_LNX:
+                return_value = write_lnx_params(makeFile, libs);
                 break;
-#endif
+
+        case AB_OS_FBSD:
+                return_value = write_fbsd_params(makeFile, libs);
+                break;
+
+        case AB_OS_NBSD:
+                return_value = write_nbsd_params(makeFile, libs);
+                break;
+
+        case AB_OS_OBSD:
+                return_value = write_obsd_params(makeFile, libs);
+                break;
     }
 
     return return_value;
@@ -732,7 +777,6 @@ write_osf1_stuff(File makeFile, AbmfLibs libs)
     return 0;
 }
 
-#ifdef USL
 static int
 write_unixware_params(File makeFile, AbmfLibs libs)
 {
@@ -774,7 +818,185 @@ write_unixware_params(File makeFile, AbmfLibs libs)
     return 0;
 }
 
-#endif /*** USL***/
+static int
+write_lnx_params(File makeFile, AbmfLibs libs)
+{
+    STRING	osName = util_os_type_to_string(AB_OS_LNX);
+
+    abio_printf(makeFile,
+    "\n"
+"###########################################################################\n"
+"# These are the %s-dependent configuration parameters that must be\n"
+"# set in order for any application to build.\n"
+"###########################################################################\n",
+	osName);
+
+     abio_puts(makeFile,
+"\n"
+".KEEP_STATE:\n"
+"\n"
+"        RM = rm -f\n"
+"        INCLUDES = -I/usr/dt/include -I/X11/include\n"
+"\n"
+"        STD_DEFINES = \n"
+"        ANSI_DEFINES = \n"
+"\n"
+"        CDEBUGFLAGS = -g\n"
+"        COPTFLAGS = -O2\n"
+"        SYS_LIBRARIES = -lgen -lm\n"
+"        CDE_LIBPATH = /usr/dt/lib\n"
+"        CDE_LDFLAGS = -L$(CDE_LIBPATH)\n"
+"        ALLX_LIBPATH = /X11/lib\n"
+"        ALLX_LDFLAGS = -L$(ALLX_LIBPATH)\n"
+);
+    write_local_libraries(makeFile, libs, AB_OS_LNX);
+
+    abio_puts(makeFile,
+"\n"
+"        CFLAGS = $(CDEBUGFLAGS) $(INCLUDES) $(STD_DEFINES)"
+            " $(ANSI_DEFINES)\n"
+"        LDLIBS = $(SYS_LIBRARIES)\n"
+"        LDOPTIONS = $(CDE_LDFLAGS) $(ALLX_LDFLAGS)\n"
+"\n"
+);
+
+    return 0;
+}
+
+static int
+write_fbsd_params(File makeFile, AbmfLibs libs)
+{
+    STRING	osName = util_os_type_to_string(AB_OS_FBSD);
+
+    abio_printf(makeFile,
+    "\n"
+"###########################################################################\n"
+"# These are the %s-dependent configuration parameters that must be\n"
+"# set in order for any application to build.\n"
+"###########################################################################\n",
+	osName);
+
+     abio_puts(makeFile,
+"\n"
+".KEEP_STATE:\n"
+"\n"
+"        RM = rm -f\n"
+"        INCLUDES = -I/usr/dt/include -I/X11/include\n"
+"\n"
+"        STD_DEFINES = \n"
+"        ANSI_DEFINES = \n"
+"\n"
+"        CDEBUGFLAGS = -g\n"
+"        COPTFLAGS = -O2\n"
+"        SYS_LIBRARIES = -lgen -lm\n"
+"        CDE_LIBPATH = /usr/dt/lib\n"
+"        CDE_LDFLAGS = -L$(CDE_LIBPATH)\n"
+"        ALLX_LIBPATH = /X11/lib\n"
+"        ALLX_LDFLAGS = -L$(ALLX_LIBPATH)\n"
+);
+    write_local_libraries(makeFile, libs, AB_OS_FBSD);
+
+    abio_puts(makeFile,
+"\n"
+"        CFLAGS = $(CDEBUGFLAGS) $(INCLUDES) $(STD_DEFINES)"
+            " $(ANSI_DEFINES)\n"
+"        LDLIBS = $(SYS_LIBRARIES)\n"
+"        LDOPTIONS = $(CDE_LDFLAGS) $(ALLX_LDFLAGS)\n"
+"\n"
+);
+
+    return 0;
+}
+
+static int
+write_nbsd_params(File makeFile, AbmfLibs libs)
+{
+    STRING	osName = util_os_type_to_string(AB_OS_NBSD);
+
+    abio_printf(makeFile,
+    "\n"
+"###########################################################################\n"
+"# These are the %s-dependent configuration parameters that must be\n"
+"# set in order for any application to build.\n"
+"###########################################################################\n",
+	osName);
+
+     abio_puts(makeFile,
+"\n"
+".KEEP_STATE:\n"
+"\n"
+"        RM = rm -f\n"
+"        INCLUDES = -I/usr/dt/include -I/X11/include\n"
+"\n"
+"        STD_DEFINES = \n"
+"        ANSI_DEFINES = \n"
+"\n"
+"        CDEBUGFLAGS = -g\n"
+"        COPTFLAGS = -O2\n"
+"        SYS_LIBRARIES = -lgen -lm\n"
+"        CDE_LIBPATH = /usr/dt/lib\n"
+"        CDE_LDFLAGS = -L$(CDE_LIBPATH)\n"
+"        ALLX_LIBPATH = /X11/lib\n"
+"        ALLX_LDFLAGS = -L$(ALLX_LIBPATH)\n"
+);
+    write_local_libraries(makeFile, libs, AB_OS_NBSD);
+
+    abio_puts(makeFile,
+"\n"
+"        CFLAGS = $(CDEBUGFLAGS) $(INCLUDES) $(STD_DEFINES)"
+            " $(ANSI_DEFINES)\n"
+"        LDLIBS = $(SYS_LIBRARIES)\n"
+"        LDOPTIONS = $(CDE_LDFLAGS) $(ALLX_LDFLAGS)\n"
+"\n"
+);
+
+    return 0;
+}
+
+static int
+write_obsd_params(File makeFile, AbmfLibs libs)
+{
+    STRING	osName = util_os_type_to_string(AB_OS_OBSD);
+
+    abio_printf(makeFile,
+    "\n"
+"###########################################################################\n"
+"# These are the %s-dependent configuration parameters that must be\n"
+"# set in order for any application to build.\n"
+"###########################################################################\n",
+	osName);
+
+     abio_puts(makeFile,
+"\n"
+".KEEP_STATE:\n"
+"\n"
+"        RM = rm -f\n"
+"        INCLUDES = -I/usr/dt/include -I/X11/include\n"
+"\n"
+"        STD_DEFINES = \n"
+"        ANSI_DEFINES = \n"
+"\n"
+"        CDEBUGFLAGS = -g\n"
+"        COPTFLAGS = -O2\n"
+"        SYS_LIBRARIES = -lgen -lm\n"
+"        CDE_LIBPATH = /usr/dt/lib\n"
+"        CDE_LDFLAGS = -L$(CDE_LIBPATH)\n"
+"        ALLX_LIBPATH = /X11/lib\n"
+"        ALLX_LDFLAGS = -L$(ALLX_LIBPATH)\n"
+);
+    write_local_libraries(makeFile, libs, AB_OS_OBSD);
+
+    abio_puts(makeFile,
+"\n"
+"        CFLAGS = $(CDEBUGFLAGS) $(INCLUDES) $(STD_DEFINES)"
+            " $(ANSI_DEFINES)\n"
+"        LDLIBS = $(SYS_LIBRARIES)\n"
+"        LDOPTIONS = $(CDE_LDFLAGS) $(ALLX_LDFLAGS)\n"
+"\n"
+);
+
+    return 0;
+}
 
 static int	
 write_local_libraries(
@@ -1112,8 +1334,10 @@ write_targets(
 "	$(RM)  $(CLEAN_FILES)\n"
 "\n"
 "scour:\n"
-"	$(RM) $(CLEAN_FILES) $(TARGETS.h.merged) $(TARGETS.c.merged) Makefile Makefile.aix Makefile.hpux Makefile.sunos \\\n"
-"              Makefile.osf1\n"
+"	$(RM) $(CLEAN_FILES) $(TARGETS.h.merged) $(TARGETS.c.merged) \\\n"
+"	      Makefile Makefile.aix Makefile.hpux Makefile.sunos \\\n"
+"	      Makefile.osf1 Makefile.uxp Makefile.unixware Makefile.linux \\\n"
+"	      Makefile.freebsd Makefile.netbsd Makefile.openbsd\n"
 );
 
     return 0;

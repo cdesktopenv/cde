@@ -53,7 +53,8 @@ M_WCHAR *p, wus;
 int c, cttype;
 LOGICAL cname;
 
-mbtowc(&wus, "_", 1);
+int ret = mbtowc(&wus, "_", 1);
+(void) ret;
 
 cname = (LOGICAL) (curcon == INPARAM || curcon == INVALUE);
 *(p = name) = (M_WCHAR) first;
@@ -92,7 +93,8 @@ int n;
 static char unexp[] = "c";
 M_WCHAR wus;
 
-mbtowc(&wus, "_", 1);
+int ret = mbtowc(&wus, "_", 1);
+(void) ret;
 
 while (TRUE)
     {

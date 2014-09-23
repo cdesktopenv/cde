@@ -41,7 +41,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "entdef.h"
 
 /* Main procedure */
-void main(argc, argv)
+int main(argc, argv)
 int argc ;
 char **argv ;
 {
@@ -67,8 +67,9 @@ while (TRUE)
     if (scantrace)
     printf(
     "m_prevcon=%d, m_token=%d, curcon=%d, scanval = %c (%d), line=%d\n",
-    m_prevcon, m_token, curcon, scanval, scanval, m_line) ;
+    m_prevcon, m_token, curcon, (char)scanval, (int)scanval, m_line) ;
     #include "case.c"
     if (m_token == ENDFILE) exit(FALSE) ;
     }
+    return 0;
 }

@@ -62,14 +62,14 @@ void m_dumptrie(file, xtrie, extname, count, proc)
 
     for (p = xtrie ; p ; p = p->next) {
       (*count)++ ;
-      fprintf(file, ",\n  %d, ", p-> symbol) ;
+      fprintf(file, ",\n  {%d, ", (int)p-> symbol) ;
       if (p->next) fprintf(file, "&%s[%d], ", extname, *count + 1) ;
       else fputs("NULL, ", file) ;
       if (p->symbol) {
-        fprintf(file, "&%s[%d]", extname, firstson) ;
+        fprintf(file, "&%s[%d]}", extname, firstson) ;
         countdown(p, &firstson) ;
         }
-      else (*proc) (p->data) ;
+      else { (*proc) (p->data) ; fprintf(file, "}") ; }
       }
 
     for (p = xtrie ; p ; p = p->next)

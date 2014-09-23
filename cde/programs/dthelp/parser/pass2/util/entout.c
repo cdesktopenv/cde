@@ -72,8 +72,8 @@ void entout(fname)
     int nameindex ;
     LOGICAL start ;
 
-    strcpy(efilename, fname) ;
-    strcpy(&efilename[strlen(efilename)], ".h") ;
+    strncpy(efilename, fname, ENTFILENAME) ;
+    strncpy(&efilename[strlen(efilename)], ".h", 2) ;
     m_openchk(&entfile, efilename, "w") ;
 
     fprintf(entfile, "#include \"entdef.h\"\n") ;
@@ -101,7 +101,7 @@ void entout(fname)
             if (start) fputs(",\n", entfile) ;
             start = TRUE ;
             for (p = ent->content ; *p ; p++)
-              fprintf(entfile, "  %d,\n", *p) ;
+              fprintf(entfile, "  %d,\n", (int)*p) ;
             fputs("  0", entfile) ;
             }
         fprintf(entfile, "}\n#endif\n") ;
@@ -112,7 +112,7 @@ void entout(fname)
       fputs("#if defined(M_ENTDEF)\n  = {\n", entfile) ;
       for (ent = firstent ; ent ; ent = ent->next) {
         for (p = ent->name ; *p ; p++)
-          fprintf(entfile, "  %d,\n", *p) ;
+          fprintf(entfile, "  %d,\n", (int)*p) ;
         if (ent != lastent) fputs("  0,\n", entfile) ;
         else fputs("  0\n", entfile) ;
         }
@@ -130,7 +130,7 @@ void entout(fname)
       fprintf(entfile, "#if defined(M_ENTDEF)\n  = {\n") ;
       for (ent = firstent, conindex = 0, nameindex = 0 ;
            ent ; ent = ent->next) {
-        fprintf(entfile, "  %s, %s, ",
+        fprintf(entfile, "  {%s, %s, ",
           typetype(ent->type),
           typewhere(ent->wheredef)) ;
         if (ent->content) {
@@ -143,10 +143,10 @@ void entout(fname)
 #if defined(BUILDEXTERN)
         fprintf(entfile, ", %d", ent->index) ;
         if (ent != lastent)
-          fprintf(entfile, ", &m_entities[%d], 0", ent->index) ;
-        else fputs(", NULL, 0", entfile) ;
+          fprintf(entfile, ", &m_entities[%d], 0}", ent->index) ;
+        else fputs(", NULL, 0}", entfile) ;
 #else
-        fprintf(entfile, ", %d", ent->codeindex) ;
+        fprintf(entfile, ", %d}", ent->codeindex) ;
 #endif
         if (ent != lastent) fprintf(entfile, ", \n") ;
         else fprintf(entfile, "}\n#endif\n") ;
@@ -159,7 +159,7 @@ void entout(fname)
       "M_ENTEXTERN M_TRIE m_enttrie[%d]\n", count) ;
     if (m_enttrie->data) {
       count = 0 ;
-      fputs("#if defined(M_ENTDEF)\n  = {\n  0, NULL, &m_enttrie[1]", entfile) ;
+      fputs("#if defined(M_ENTDEF)\n  = {\n  {0, NULL, &m_enttrie[1]}", entfile) ;
       m_dumptrie(entfile, m_enttrie->data, "m_enttrie", &count, entptr) ;
       fprintf(entfile, "}\n#endif\n") ;
       }
@@ -225,6 +225,7 @@ char *typewhere(n)
       case M_DELTDEF: return(xdeltdef) ;
       case FALSE: return("0") ;
       }
+    return("0");
     }
 
 

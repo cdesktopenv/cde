@@ -118,3 +118,21 @@ void *m_malloc(
   int size, char *msg
 #endif
   ) ;
+
+void m_free(
+#if defined(M_PROTO)
+  void *block, char *msg
+#endif
+  ) ;
+
+void m_err2(
+#if defined(M_PROTO)
+  const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2
+#endif
+  ) ;
+
+int mb_getwc(
+#if defined(M_PROTO)
+  void *m_ptr
+#endif
+  ) ;

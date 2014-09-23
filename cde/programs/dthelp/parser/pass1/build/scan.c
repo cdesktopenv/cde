@@ -80,9 +80,10 @@ int c;
 int n;
 M_WCHAR wsp, wnl, wtb;
 
-mbtowc(&wsp, " ", 1);
-mbtowc(&wnl, "\n", 1);
-mbtowc(&wtb, "\t", 1);
+int
+ret = mbtowc(&wsp, " ", 1);
+ret = mbtowc(&wnl, "\n", 1);
+ret = mbtowc(&wtb, "\t", 1);
 
 while (TRUE)
     {
@@ -158,13 +159,14 @@ while (TRUE)
 	{
 	char mbyte[32]; /* bigger than the biggest multibyte char */
 
-	wctomb(mbyte, c);
+	ret = wctomb(mbyte, c);
 
 	fprintf(stderr, "\n'%s' (%d)", mbyte, c);
 	fprintf(m_errfile, "\n'%s' (%d)", mbyte, c);
 	m_error("Unexpected character");
 	}
     } /* End while */
+    (void) ret;
 }   /* End scan */
 
 #include "scanutil.c"

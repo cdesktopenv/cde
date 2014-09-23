@@ -249,18 +249,14 @@ util_get_os_type(void)
     struct utsname 		sysInfo;
     int				aixIndex = -1;
     int				hpIndex = -1;
+    int				sunIndex = -1;
+    int				unixwareIndex = -1;
     int			        uxpIndex = -1;
     int                         osf1Index = -1;
-
-#ifdef USL
-    /*
-     * These changes were made ifdef USL due to time constraint.
-     * ifdefs should be removed in next release
-     */
-    int                 unixwareIndex = -1;
-#endif
-    
-    int				sunIndex = -1;
+    int                         lnxIndex = -1;
+    int                         fbsdIndex = -1;
+    int                         nbsdIndex = -1;
+    int                         obsdIndex = -1;
 
     if (osTypeDefined)
     {
@@ -274,86 +270,80 @@ util_get_os_type(void)
     aixIndex = util_strcasestr(sysInfo.sysname, "aix");
     hpIndex = util_strcasestr(sysInfo.sysname, "hp");
     sunIndex = util_strcasestr(sysInfo.sysname, "sun");
+    unixwareIndex = util_strcasestr(sysInfo.sysname, "UNIX_SV");
     uxpIndex = util_strcasestr(sysInfo.sysname, "UNIX_System_V");
     osf1Index = util_strcasestr(sysInfo.sysname, "osf1");
-
-#ifdef USL
-    /*
-     * These changes were made ifdef USL due to time constraint.
-     * ifdefs should be removed in next release
-     */
-    unixwareIndex = util_strcasestr(sysInfo.sysname, "UNIX_SV");
-#endif
+    lnxIndex = util_strcasestr(sysInfo.sysname, "linux");
+    fbsdIndex = util_strcasestr(sysInfo.sysname, "freebsd");
+    nbsdIndex = util_strcasestr(sysInfo.sysname, "netbsd");
+    obsdIndex = util_strcasestr(sysInfo.sysname, "openbsd");
 
     if (aixIndex < 0) aixIndex = INT_MAX;
     if (hpIndex < 0) hpIndex = INT_MAX;
     if (sunIndex < 0) sunIndex = INT_MAX;
+    if (unixwareIndex < 0) unixwareIndex = INT_MAX;
     if (uxpIndex < 0) uxpIndex = INT_MAX;
     if (osf1Index < 0) osf1Index = INT_MAX;
+    if (lnxIndex < 0) lnxIndex = INT_MAX;
+    if (fbsdIndex < 0) fbsdIndex = INT_MAX;
+    if (nbsdIndex < 0) nbsdIndex = INT_MAX;
+    if (obsdIndex < 0) obsdIndex = INT_MAX;
 
-#ifdef USL
-    /*
-     * These changes were made ifdef USL due to time constraint.
-     * ifdefs should be removed in next release
-     */
-    if (unixwareIndex < 0) unixwareIndex = INT_MAX;
-#endif
+#define IS_MATCH(a,b,c,d,e,f,g,h,i,j)	\
+  (((a) < (b)) && ((a) < (c)) && ((a) < (d)) && ((a) < (e)) && ((a) < (f)) && \
+   ((a) < (g)) && ((a) < (h)) && ((a) < (i)) && ((a) < (j)))
 
-#ifndef USL
-
-#define IS_MATCH(a,b,c,d,e)	\
-    (((a) < (b)) && ((a) < (c)) && ((a) < (d))&& ((a) < (e)))
-
-    if (IS_MATCH(aixIndex, hpIndex, sunIndex, osf1Index, uxpIndex))
+    if (IS_MATCH(aixIndex, hpIndex, sunIndex, osf1Index, unixwareIndex,
+		 uxpIndex, lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
     {
 	return AB_OS_AIX;
     }
-    if (IS_MATCH(hpIndex, aixIndex, sunIndex, osf1Index, uxpIndex))
+    if (IS_MATCH(hpIndex, aixIndex, sunIndex, osf1Index, unixwareIndex,
+		 uxpIndex, lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
     {
 	return AB_OS_HPUX;
     }
-    if (IS_MATCH(sunIndex, aixIndex, hpIndex, osf1Index, uxpIndex))
+    if (IS_MATCH(sunIndex, aixIndex, hpIndex, osf1Index, unixwareIndex,
+		 uxpIndex, lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
     {
 	return AB_OS_SUNOS;
     }
-    if (IS_MATCH(osf1Index, aixIndex, hpIndex, sunIndex, uxpIndex))
+    if (IS_MATCH(osf1Index, aixIndex, hpIndex, sunIndex, unixwareIndex,
+		 uxpIndex, lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
     {
         return AB_OS_OSF1;
     }
-    if (IS_MATCH(uxpIndex, aixIndex, hpIndex, sunIndex, osf1Index))
+    if (IS_MATCH(uxpIndex, aixIndex, hpIndex, sunIndex, unixwareIndex,
+		 osf1Index, lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
     {
         return AB_OS_UXP;
     }
-
-#else
-#define IS_MATCH(a,b,c,d,e,f)	\
-    (((a) < (b)) && ((a) < (c)) && ((a) < (d)) && ((a) < (e))  && ((a) < (f)))
-
-    if (IS_MATCH(aixIndex, hpIndex, sunIndex, osf1Index, unixwareIndex, uxpIndex))
-    {
-	return AB_OS_AIX;
-    }
-    if (IS_MATCH(hpIndex, aixIndex, sunIndex, osf1Index, unixwareIndex, uxpIndex))
-    {
-	return AB_OS_HPUX;
-    }
-    if (IS_MATCH(sunIndex, aixIndex, hpIndex, osf1Index, unixwareIndex, uxpIndex))
-    {
-	return AB_OS_SUNOS;
-    }
-    if (IS_MATCH(osf1Index, aixIndex, hpIndex, sunIndex, unixwareIndex, uxpIndex))
-    {
-        return AB_OS_OSF1;
-    }
-    if (IS_MATCH(uxpIndex, aixIndex, hpIndex, sunIndex, unixwareIndex, osf1Index))
-    {
-        return AB_OS_UXP;
-    }
-    if (IS_MATCH(unixwareIndex, aixIndex, hpIndex, sunIndex, osf1Index, uxpIndex))
+    if (IS_MATCH(unixwareIndex, aixIndex, hpIndex, sunIndex, osf1Index,
+		 uxpIndex, lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
     {
 	return AB_OS_UNIXWARE;
     }
-#endif /**USL**/
+    if (IS_MATCH(lnxIndex, aixIndex, hpIndex, sunIndex, osf1Index,
+		 unixwareIndex, uxpIndex, fbsdIndex, nbsdIndex, obsdIndex))
+    {
+	return AB_OS_LNX;
+    }
+    if (IS_MATCH(fbsdIndex, aixIndex, hpIndex, sunIndex, osf1Index,
+		 unixwareIndex, uxpIndex, lnxIndex, nbsdIndex, obsdIndex))
+    {
+	return AB_OS_FBSD;
+    }
+    if (IS_MATCH(nbsdIndex, aixIndex, hpIndex, sunIndex, osf1Index,
+		 unixwareIndex, uxpIndex, lnxIndex, fbsdIndex, obsdIndex))
+    {
+	return AB_OS_NBSD;
+    }
+    if (IS_MATCH(obsdIndex, aixIndex, hpIndex, sunIndex, osf1Index,
+		 unixwareIndex, uxpIndex, lnxIndex, fbsdIndex, nbsdIndex))
+    {
+	return AB_OS_OBSD;
+    }
+
     osTypeDefined = TRUE;
 
 epilogue:

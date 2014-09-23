@@ -41,6 +41,7 @@ static char rcs_id[] = "$XConsortium: lineToData.c /main/1 1996/04/21 19:20:58 d
 
 #include "TermPrimLineFontP.h"
 
+int getopt(int argc, char * const argv[], const char *optstring);
 int ParseChar(char **str);
 int parseCoord(char **str, char *val, signed char *offset);
 char * parseToken(char **str);
@@ -60,20 +61,13 @@ main(argc, argv)
 int argc;
 char **argv;
 {
-    int charNum = 0;
     char buffer[BUFSIZ];
     char *bufPtr;
     char orig[BUFSIZ];
     register int i;
     register char *c;
     FILE *f;
-    FILE *tmp;
-    extern int getopt();
-    extern int optind;
     extern char *optarg;
-    extern int opterr;
-    int resolution = 75;		/* dots per inch		*/
-    int points;
     char *prefix = "_Term";
 
     charType *charList = (charType *) 0;
@@ -99,8 +93,6 @@ char **argv;
     int charCount = 0;			/* total number of chars in font*/
 
     char *datafilename = "linegen.data";
-    int dummyInt;
-    int error;
 
     while (EOF != (i = getopt(argc, argv, "p:f:"))) {
 	switch (i) {
@@ -139,7 +131,7 @@ char **argv;
 	}
 
 	/* back up buffer... */
-	(void) strcpy(orig, buffer);
+	(void) strncpy(orig, buffer, BUFSIZ);
 
 	bufPtr = buffer;
 
@@ -734,20 +726,20 @@ vis(char val)
 {
     char buffer[BUFSIZ];
 
-    if (isprint(val)) {
+    if (isprint((int)val)) {
 	if (val == '^') {
-	    (void) strcpy(buffer, "'^^'");
+	    (void) strncpy(buffer, "'^^'", BUFSIZ);
 	} else if (val == '\\') {
-	    (void) strcpy(buffer, "'\\\\'");
+	    (void) strncpy(buffer, "'\\\\'", BUFSIZ);
 	} else if (val == '\'') {
-	    (void) strcpy(buffer, "'\\\''");
+	    (void) strncpy(buffer, "'\\\''", BUFSIZ);
 	} else {
-	    (void) sprintf(buffer, "'%c'", val);
+	    (void) snprintf(buffer, BUFSIZ, "'%c'", val);
 	}
-    } else if (iscntrl(val)) {
-	(void) sprintf(buffer, "'^%c'", val);
+    } else if (iscntrl((int)val)) {
+	(void) snprintf(buffer, BUFSIZ, "'^%c'", val);
     } else {
-	(void) sprintf(buffer, "'\\%03o'", val);
+	(void) snprintf(buffer, BUFSIZ, "'\\%03o'", val);
     }
 
     return(strdup(buffer));

@@ -261,8 +261,8 @@ static void WriteHeader (tagline, phile, abi)
 {
     FILE* f;
     char* tmp;
-    Table* t;
-    TableEnt* te;
+
+
     static void (*headerproc[])() = { 
 	DefaultWriteHeader, ArrayperWriteHeader,
 	IntelABIWriteHeader, IntelABIWriteHeader,
@@ -284,11 +284,14 @@ static void WriteHeader (tagline, phile, abi)
     if (strcmp (prefixstr, "Xm") == 0) {
 	if ((fileprotstr = malloc (strlen (phile->name) + 3)) == NULL)
 	   exit (1);
-	(void) sprintf (fileprotstr, "_%s_", phile->name);
+	(void) snprintf (fileprotstr, strlen (phile->name) + 3,
+				"_%s_", phile->name);
     } else {
 	if ((fileprotstr = malloc (strlen (phile->name) + strlen (prefixstr) +  3)) == NULL)
 	   exit (1);
-	(void) sprintf (fileprotstr, "_%s%s_", prefixstr, phile->name);
+	(void) snprintf (fileprotstr,
+				strlen (phile->name) + strlen (prefixstr) + 3,
+				"_%s%s_", prefixstr, phile->name);
     }
 
     for (tmp = fileprotstr; *tmp; tmp++) if (*tmp == '.') *tmp = '_';
@@ -404,7 +407,7 @@ static void ArrayperWriteSource (abi)
 		}
 		(void) printf ("%s %sConst char %s%s[] = \"%s\";\n",
 			       externdefstr, conststr ? conststr : prefixstr, 
-			       te->left, te->right);
+			       prefixstr, te->left, te->right);
 	    }
     }
 }
@@ -520,7 +523,8 @@ static void DoLine(buf)
 		exit(1);
 	    if ((phile->name = malloc (strlen (buf + strlen (file_str)) + 1)) == NULL) 
 		exit(1);
-	    (void) strcpy (phile->name, buf + strlen (file_str) + 1);
+	    (void) strncpy (phile->name, buf + strlen (file_str) + 1,
+					strlen (buf + strlen (file_str)) + 1);
 	    phile->table = NULL;
 	    phile->tablecurrent = NULL;
 	    phile->tabletail = &phile->table;
@@ -539,7 +543,8 @@ static void DoLine(buf)
 		exit(1);
 	    if ((table->name = malloc (strlen (buf + strlen (table_str)) + 1)) == NULL) 
 		exit(1);
-	    (void) strcpy (table->name, buf + strlen (table_str) + 1);
+	    (void) strncpy (table->name, buf + strlen (table_str) + 1,
+					strlen (buf + strlen (table_str)) + 1);
 	    table->tableent = NULL;
 	    table->tableentcurrent = NULL;
 	    table->tableenttail = &table->tableent;
@@ -554,27 +559,32 @@ static void DoLine(buf)
     case X_PREFIX_TOKEN:
 	if ((prefixstr = malloc (strlen (buf + strlen (prefix_str)) + 1)) == NULL) 
 	    exit(1);
-	(void) strcpy (prefixstr, buf + strlen (prefix_str) + 1);
+	(void) strncpy (prefixstr, buf + strlen (prefix_str) + 1,
+				strlen (buf + strlen (prefix_str)) + 1);
 	break;
     case X_FEATURE_TOKEN:
 	if ((featurestr = malloc (strlen (buf + strlen (feature_str)) + 1)) == NULL) 
 	    exit(1);
-	(void) strcpy (featurestr, buf + strlen (feature_str) + 1);
+	(void) strncpy (featurestr, buf + strlen (feature_str) + 1,
+				strlen (buf + strlen (feature_str)) + 1);
 	break;
     case X_EXTERNREF_TOKEN:
 	if ((externrefstr = malloc (strlen (buf + strlen (externref_str)) + 1)) == NULL) 
 	    exit(1);
-	(void) strcpy (externrefstr, buf + strlen (externref_str) + 1);
+	(void) strncpy (externrefstr, buf + strlen (externref_str) + 1,
+				    strlen (buf + strlen (externref_str)) + 1);
 	break;
     case X_EXTERNDEF_TOKEN:
 	if ((externdefstr = malloc (strlen (buf + strlen (externdef_str)) + 1)) == NULL) 
 	    exit(1);
-	(void) strcpy (externdefstr, buf + strlen (externdef_str) + 1);
+	(void) strncpy (externdefstr, buf + strlen (externdef_str) + 1,
+				    strlen (buf + strlen (externdef_str)) + 1);
 	break;
     case X_CTMPL_TOKEN:
 	if ((ctmplstr = malloc (strlen (buf + strlen (ctmpl_str)) + 1)) == NULL) 
 	    exit(1);
-	(void) strcpy (ctmplstr, buf + strlen (ctmpl_str) + 1);
+	(void) strncpy (ctmplstr, buf + strlen (ctmpl_str) + 1,
+				strlen (buf + strlen (ctmpl_str)) + 1);
 	break;
     case X_HTMPL_TOKEN:
 	if ((filecurrent->tmpl = fopen (buf + strlen (htmpl_str) + 1, "r")) == NULL) {
@@ -586,7 +596,8 @@ static void DoLine(buf)
     case X_CONST_TOKEN:
 	if ((conststr = malloc (strlen (buf + strlen (const_str)) + 1)) == NULL)
 	    exit(1);
-	(void) strcpy (conststr, buf + strlen (const_str) + 1);
+	(void) strncpy (conststr, buf + strlen (const_str) + 1,
+				strlen (buf + strlen (const_str)) + 1);
 	break;
     default:
 	{
@@ -596,13 +607,13 @@ static void DoLine(buf)
 	    int rlen;
 	    int len;
 
-	    if (right = index(buf, ' '))
+	    if ((right = index(buf, ' ')))
 		*right++ = 0;
 	    else
 		right = buf + 1;
 	    if (buf[0] == 'H') {
-		strcpy (lbuf, prefixstr);
-		strcat (lbuf, right);
+		strncpy (lbuf, prefixstr, 1024);
+		strncat (lbuf, right, strlen(right));
 		right = lbuf;
 	    }
 
@@ -612,10 +623,10 @@ static void DoLine(buf)
 	    if ((tableent = (TableEnt*)malloc(sizeof(TableEnt) + len)) == NULL)
 		exit(1);
 	    tableent->left = (char *)(tableent + 1);
-	    strcpy(tableent->left, buf);
+	    strncpy(tableent->left, buf, llen);
 	    if (llen != len) {
 		tableent->right = tableent->left + llen;
-		strcpy(tableent->right, right);
+		strncpy(tableent->right, right, rlen);
 	    } else {
 		tableent->right = tableent->left + 1;
 	    }

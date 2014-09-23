@@ -11,6 +11,7 @@ EXTRA_LOAD_FLAGS = ExtraLoadFlags $(UNSHARED_CXXLIB)
 DEPLIBS = $(DEPDTTERMLIB) DepDtClientLibs $(DEPUTILLIB)
 LOCAL_LIBRARIES = $(DTTERMLIB) DtClientLibs $(UTILLIB)
 SYS_LIBRARIES = DtClientSysLibs DtClientExtraLibs
+DTCODEGENCAT = NLSPATH=$(CDESRC)/dtappbuilder/src/abmf/dtcodegen.cat
 
 
 XCOMM ##########################################################################
@@ -57,11 +58,11 @@ TARGETS.C.merged = \
 	ttChooser_stubs.C 	ttsnoop.C \
 	ttsnoop_stubs.C
  
-SRCS.h = $(TARGETS.h.merged) $(TARGETS.h) tt_c++.h DtTt.h
+SRCS2.h = $(TARGETS.h.merged) $(TARGETS.h) tt_c++.h DtTt.h
 
-SRCS = $(TARGETS.C.merged) $(TARGETS.c) tt_c++.C DtTt.C
+SRCS2 = $(TARGETS.C.merged) $(TARGETS.c) tt_c++.C DtTt.C
 
-OBJS = \
+OBJS2 = \
 	DtTt.o			apiTracer_stubs.o \
 	apiTracer_ui.o		argChooser_stubs.o \
 	argChooser_ui.o 	callbackChooser_stubs.o \
@@ -75,6 +76,17 @@ OBJS = \
 	tt_c++.o		ttsnoop.o \
 	ttsnoop_stubs.o 	ttsnoop_ui.o
  
+AB_MAKEFILES = \
+	Makefile.aix \
+	Makefile.hpux \
+	Makefile.sunos \
+	Makefile.osf1 \
+	Makefile.uxp \
+	Makefile.unixware \
+	Makefile.linux \
+	Makefile.freebsd \
+	Makefile.netbsd \
+	Makefile.openbsd
 
 XCOMM ###
 XCOMM ### This is basically a kludge since dtappbuilder is not being 
@@ -85,7 +97,7 @@ XCOMM ### includes::  $(TARGETS.h) $(TARGETS.c)
 XCOMM ### localincludes::  $(TARGETS.h) $(TARGETS.c)
 XCOMM ###
 
-all:: targets
+all:: targets ttdepend
 
 targets::  $(TARGETS.h) $(TARGETS.c)
 
@@ -99,7 +111,17 @@ depend::
 
 NormalCplusplusObjectRule()
 
-ComplexCplusplusProgramTarget($(PROGRAMS))
+all:: $(PROGRAMS)
+
+ComplexCplusplusProgramTarget_2($(PROGRAMS),$(LOCAL_LIBRARIES),)
+
+ttdepend:: DependFileName
+
+DependFileName::
+	-RunProgram(DEPEND,$(DEPENDFLAGS) $(ALLDEFINES) $(DEPEND_DEFINES) $(SRCS2)) > $@
+
+clean::
+	RemoveFile(ProgramTargetName(PROGRAMS))
 
 
 XCOMM #####################################################################
@@ -198,11 +220,11 @@ CodeGenTarget(argChooser)
 CodeGenTarget(callbackChooser)
 
 CLEAN_FILES =	core .dtcodegen.log *.BAK *.delta *.patched \
-                $(PROGRAMS) $(OBJS) $(TARGETS.c) $(TARGETS.h) \
+                $(PROGRAMS) $(OBJS2) $(TARGETS.c) $(TARGETS.h) \
 		$(TARGETS.c.temp) $(TARGETS.C.merged) Ttsnoop
 
 clean::
-	$(RM) $(CLEAN_FILES)
+	$(RM) $(CLEAN_FILES) $(AB_MAKEFILES)
 
 scour:
 	$(RM) $(CLEAN_FILES) $(TARGETS.h.merged) Makefile Makefile.aix Makefile.hpux Makefile.sunos

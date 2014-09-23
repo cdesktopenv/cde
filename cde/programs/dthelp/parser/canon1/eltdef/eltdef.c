@@ -49,13 +49,13 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "entity.h"
 
 /* Main program */
-void main(argc, argv)
+int main(argc, argv)
   int argc ;
   char **argv ;
   {
     int m_token ;
 
-    if (argc > 2)
+    if (argc > 2) {
       if (*argv[2] == '-') {
         if (strchr(argv[2], 'a')) m_malftrace = TRUE ;
         if (strchr(argv[2], 'A')) m_malftrace = TRUE ;
@@ -70,6 +70,7 @@ void main(argc, argv)
         fprintf(stderr,
      "****Starting with MARKUP 2.0, ELTDEF no longer writes a statistics file"
          ) ;
+      }
     if (argc < 2) {
       fprintf(stderr, "**** Specify interface file ****\n") ;
       exit(TRUE) ;
@@ -84,7 +85,7 @@ void main(argc, argv)
       if (scantrace)
         printf(
        "Main: m_prevcon=%d,m_token=%d,curcon=%d,textchar='%c'(%d), line=%d\n",
-        m_prevcon, m_token, curcon, textchar, textchar, m_line) ;
+        m_prevcon, m_token, curcon, (char)textchar, (int)textchar, m_line) ;
 #include "case.c"
       if (m_token == ENDFILE) break ;
       if (! curcon) {
@@ -93,4 +94,5 @@ void main(argc, argv)
         }
       }
     done() ;
+    return 0;
     }

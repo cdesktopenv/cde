@@ -31,6 +31,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #if defined(MSDOS)
 #include <process.h>
 #endif
@@ -195,7 +196,7 @@ void eltreeout(M_NOPAR)
       if (first) first = FALSE ;
       else fputs(",\n", dtd) ;
       for (p = eltp->enptr ; *p ; p++)
-        fprintf(dtd, "  %d,\n", *p) ;
+        fprintf(dtd, "  %d,\n", (int)*p) ;
       fputs("  0", dtd) ;
       }
     fputs(ndif, dtd) ;
@@ -211,14 +212,14 @@ void eltreeout(M_NOPAR)
       else fputs(",\n", dtd) ;
       if (! eltp->content)
         warning1("No content model for element %s", eltp->enptr) ;
-      fprintf(dtd, "  %d, %d, %s, ",
+      fprintf(dtd, "  {%d, %d, %s, ",
         enameindex, eltp->model ? eltp->model->count : 0,
         typecon(eltp->content)) ;
       fprintf(dtd, "%d, %d, ", eltp->inptr, eltp->exptr) ;
       fprintf(dtd, "%d, %d, %d",
         eltp->parindex, eltp->paramcount, eltp->srefptr) ;
       enameindex += w_strlen(eltp->enptr) + 1 ;
-      fprintf(dtd, ", %s, %s, %s",
+      fprintf(dtd, ", %s, %s, %s}",
         boolean(eltp->stmin), boolean(eltp->etmin), boolean(eltp->useoradd)) ;
       }
     fputs(ndif, dtd) ;
@@ -259,7 +260,7 @@ void exout(M_NOPAR)
         if (! first) fputs(",\n", dtd) ;
         first = FALSE ;
         exindex++ ;
-        fprintf(dtd, "  %d, %d", ex->element, ex->next ? exindex + 1 : 0) ;
+        fprintf(dtd, "  {%d, %d}", ex->element, ex->next ? exindex + 1 : 0) ;
         }
       fputs(ndif, dtd) ;
       }
@@ -294,7 +295,7 @@ void fsa(M_NOPAR)
     for (pstate = firststate ; pstate ; pstate = pstate->next) {
       if (first) first = FALSE ;
       else fputs(",\n", dtd) ;
-      fprintf(dtd, "  %s, %s, %d",
+      fprintf(dtd, "  {%s, %s, %d}",
         boolean(pstate->final), boolean(pstate->datacontent), 
         pstate->first ? ++arcount : 0) ;
       for (parc = pstate->first ; parc ; parc = parc->next) {
@@ -319,7 +320,7 @@ void fsa(M_NOPAR)
       for (pand = firstand ; pand ; pand = pand->nextptr) {
         if (first) first = FALSE ;
         else fputs(",\n", dtd) ;
-        fprintf(dtd, "  %d, %d",
+        fprintf(dtd, "  {%d, %d}",
                      pand->start->count,
                      pand->next ? pand->next->count : M_NULLVAL) ;
         }
@@ -352,7 +353,7 @@ if (kwlen)
 	if (first) first = FALSE ;
 	else fputs(",\n", dtd) ;
 	for (p = ptypep->keyword ; *p ; p++)
-	    fprintf(dtd, "  %d,\n", *p) ;
+	    fprintf(dtd, "  %d,\n", (int)*p) ;
 	fputs("  0", dtd) ;
 	}
     fputs(ndif, dtd) ;
@@ -372,7 +373,7 @@ if (deflen)
 	if (first) first = FALSE ;
 	else fputs(",\n", dtd) ;
 	for (p = paramp->defstring ; *p ; p++)
-	fprintf(dtd, "  %d,\n", *p) ;
+	fprintf(dtd, "  %d,\n", (int)*p) ;
 	fputs("  0", dtd) ;
 	}
     fputs(ndif, dtd) ;
@@ -392,7 +393,7 @@ if (ptypelen)
 	{
 	if (first) first = FALSE ;
 	else fprintf(dtd, ",\n") ;
-	fprintf(dtd, "  %d, %d", kw, ptypep->next) ;
+	fprintf(dtd, "  {%d, %d}", kw, ptypep->next) ;
 	kw += w_strlen(ptypep->keyword) + 1 ;
 	}
     fputs(ndif, dtd) ;
@@ -412,21 +413,21 @@ if (parcount)
 	if (first) first = FALSE ;
 	else fputs(",\n", dtd) ;
 	fprintf(dtd,
-		"  %d, %s, %d, %s, ",
+		"  {%d, %s, %d, %s, ",
 		pnameindex,
 		partype(paramp->type),
 		paramp->kwlist,
 		deftype(paramp->deftype)) ;
 	pnameindex += w_strlen(paramp->paramname) + 1 ;
 	if (paramp->defval)
-	    fprintf(dtd, "&m_keyword[%d]", paramp->defval - 1) ;
+	    fprintf(dtd, "&m_keyword[%d]}", paramp->defval - 1) ;
 	else if (paramp->defstring)
 	    {
-	    fprintf(dtd, "&m_defval[%d]", defindex) ;
+	    fprintf(dtd, "&m_defval[%d]}", defindex) ;
 	    defindex += w_strlen(paramp->defstring) + 1 ;
 	    }
 	else 
-	fputs("NULL", dtd) ;
+	fputs("NULL}", dtd) ;
 	}
     fputs(ndif, dtd) ;
     }
@@ -443,7 +444,7 @@ if (pnamelen)
 	{
 	if (first) first = FALSE ;
 	else fputs(",\n", dtd) ;
-	for (p = paramp->paramname ; *p ; p++) fprintf(dtd, "  %d,\n", *p) ;
+	for (p = paramp->paramname ; *p ; p++) fprintf(dtd, "  %d,\n", (int)*p);
 	fputs("  0", dtd) ;
 	}
     fputs(ndif, dtd) ;
@@ -534,10 +535,10 @@ void srefout(M_NOPAR)
             count++ ;
             if (first) first = FALSE ;
             else fputs(",\n", dtd) ;
-            fprintf(dtd, "  %d, %d, ", j + 1, mapbysref[sreflen * i + j]) ;
+            fprintf(dtd, "  {%d, %d, ", j + 1, mapbysref[sreflen * i + j]) ;
             for (j++ ; j < sreflen ; j++)
               if (mapbysref[sreflen * i + j]) break ;
-            fprintf(dtd, "%d", j < sreflen ? count + 1 : 0) ;
+            fprintf(dtd, "%d}", j < sreflen ? count + 1 : 0) ;
             }
           else j++ ;
       fputs(ndif, dtd) ;
@@ -557,7 +558,7 @@ char *mb_paramname;
 int indent ;
 int i ;
 
-fprintf(tempfile, "\n<ELEMENT %s>\n", eltp->enptr) ;
+fprintf(tempfile, "\n<ELEMENT %s>\n", (char *)eltp->enptr) ;
 if (eltp->parptr)
     {
     fputs("  /*\n", tempfile) ;
@@ -570,7 +571,8 @@ if (eltp->parptr)
 	    {
 	    int length;
 	    char mbyte[32]; /* larger than any multibyte character */
-	    char *pc, c;
+	    char *pc;
+	    unsigned char c;
 
 	    length = wctomb(mbyte, *p);
 	    if (length < 0)
@@ -600,8 +602,8 @@ if (eltp->parptr)
 		mb_keyword = MakeMByteString(ptypep->keyword);
 		fprintf(tempfile,
 			"%s = %s",
-		        ptypep->keyword,
-			ptypep->keyword) ;
+		        (char *)ptypep->keyword,
+			(char *)ptypep->keyword) ;
 		m_free(mb_keyword,"multi-byte string");
 		ptypep = ptypep->next ? ptypep->nextptr : (PTYPE *) NULL ;
 		if (ptypep)
@@ -640,7 +642,7 @@ void template(M_NOPAR)
           undefent = TRUE ;
           }
         fprintf(tempfile, "<!ENTITY %s %s \"\">\n",
-          ent->name,
+          (char *)ent->name,
           enttype(ent->type)
           ) ;
         }

@@ -270,7 +270,7 @@ __bt_split(t, sp, key, data, flags, ilen, skip)
 			    rchild->pgno, bl->flags & P_BIGKEY);
 			memmove(dest, bl->bytes, nksize ? nksize : bl->ksize);
 			if (bl->flags & P_BIGKEY &&
-			    bt_preserve(t, *(pgno_t *)bl->bytes) == RET_ERROR)
+			    bt_preserve(t, *(char *)bl->bytes) == RET_ERROR)
 				goto err1;
 			break;
 		case P_RINTERNAL:
@@ -590,7 +590,7 @@ bt_broot(t, h, l, r)
 		 * so it isn't deleted when the leaf copy of the key is deleted.
 		 */
 		if (bl->flags & P_BIGKEY &&
-		    bt_preserve(t, *(pgno_t *)bl->bytes) == RET_ERROR)
+		    bt_preserve(t, *(char *)bl->bytes) == RET_ERROR)
 			return (RET_ERROR);
 		break;
 	case P_BINTERNAL:

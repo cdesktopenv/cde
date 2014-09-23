@@ -45,29 +45,30 @@ EXTRA_INCLUDES=-I/X11/include
 OBJS1=	cgmcmds.o \
 	cgmcommon.o \
 	cgmio.o \
-	cgmtext.o \
-	getcgm.o
+	cgmtext.o
 
 SRCS1=	cgmcmds.c \
 	cgmcommon.c \
 	cgmio.c \
-	cgmtext.c \
-	getcgm.c
+	cgmtext.c
+
+SRCS2=	getcgm.c
+OBJS2=	getcgm.o
 
 
 NormalCplusplusObjectRule()
 NormalLibraryObjectRule()
-NormalLibraryTarget(cgm, $(OBJS1))
+NormalLibraryTarget2(cgm, $(OBJS1), $(OBJS2))
 
 
 AllTarget($(PROGRAMS))
 
-SRCS2 = testcgm.c
-OBJS2 = testcgm.o
+SRCS3 = testcgm.c
+OBJS3 = testcgm.o
 
-ComplexProgramTarget_2($(PROGRAMS),$(LOCAL_LIBRARIES),$(SYS_LIBRARIES))
+ComplexProgramTarget_3($(PROGRAMS),$(LOCAL_LIBRARIES),$(SYS_LIBRARIES))
 
-DependTarget3($(SRCS1),$(SRCS2),NullParameter)
+DependTarget3($(SRCS1),$(SRCS2),$(SRCS3))
 
 clean::
 	RemoveFiles($(PROGRAMS))

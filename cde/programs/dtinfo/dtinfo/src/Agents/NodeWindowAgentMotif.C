@@ -3041,7 +3041,7 @@ NodeWindowAgent::make_bookmark (Boolean edit, MarkCanvas* refmark)
   {
     char *name;
     _DtCanvasGetSelection(f_help_dsp_area->canvas,
-			  _DtCvSELECTED_TEXT, ((_DtCvPointer *)&name));
+			  _DtCvSELECTED_TEXT, ((_DtCvPointer *)(void*)&name));
 
 #ifdef BOOKMARK_DEBUG
     cerr << "Bookmark Name: [" << name << "]" << endl;

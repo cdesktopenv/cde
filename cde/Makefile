@@ -127,7 +127,7 @@ World.doc:
 # This is just a sequence of bootstrapping steps we have to do.
 # The steps are listed as separate targets so clearmake can wink in
 # the Makefile.proto files.
-Makefile.boot: imake.proto $(DEPENDSRC)/Makefile.proto depend.bootstrap $(IMAKESRC)/Makefile.proto imake.bootstrap
+Makefile.boot: imake.proto $(DEPENDSRC)/Makefile.proto depend.bootstrap $(IMAKESRC)/Makefile.proto imake.bootstrap $(DEPENDSRC)/proto.clean
 
 imake.proto:
 	cd $(IMAKESRC) && $(MAKE) $(FLAGS)
@@ -151,6 +151,9 @@ imake.bootstrap:
 	  $(RM) xmakefile.bak; $(MV) xmakefile xmakefile.bak; \
 	  else exit 0; fi
 	$(MAKE) $(MFLAGS) xmakefile
+
+$(DEPENDSRC)/proto.clean:
+	cd $(DEPENDSRC) && $(RM) -r Makefile.proto
 
 Makefile::
 	$(MAKE) $(MFLAGS) xmakefile

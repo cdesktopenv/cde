@@ -61,7 +61,7 @@ in this Software without prior written authorization from The Open Group .
 
 int main(void)
 {
-	write(1, imake_ccflags, sizeof(imake_ccflags) - 1);
+	ssize_t ret = write(1, imake_ccflags, sizeof(imake_ccflags) - 1);
 	return EXIT_SUCCESS;
 }
 

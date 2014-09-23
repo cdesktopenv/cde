@@ -306,8 +306,8 @@ void esuffix(M_NOPAR)
 void msgline(text)
   char *text ;
   {
-    fprintf(stderr, text) ;
-    fprintf(m_errfile, text) ;
+    fprintf(stderr, "%s", text) ;
+    fprintf(m_errfile, "%s", text) ;
     }
 
 /* Print something to both stderr and m_errfile */

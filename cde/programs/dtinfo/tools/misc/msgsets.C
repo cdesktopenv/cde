@@ -400,7 +400,9 @@ static int yy_did_buffer_switch_on_eof;
 static yy_state_type yy_get_previous_state YY_PROTO(( void ));
 static yy_state_type yy_try_NUL_trans YY_PROTO(( yy_state_type current_state ));
 static int yy_get_next_buffer YY_PROTO(( void ));
+#if 0
 static void yyunput YY_PROTO(( YY_CHAR c, YY_CHAR *buf_ptr ));
+#endif
 void yyrestart YY_PROTO(( FILE *input_file ));
 void yy_switch_to_buffer YY_PROTO(( YY_BUFFER_STATE new_buffer ));
 void yy_load_buffer_state YY_PROTO(( void ));
@@ -410,10 +412,12 @@ void yy_init_buffer YY_PROTO(( YY_BUFFER_STATE b, FILE *file ));
 
 #define yy_new_buffer yy_create_buffer
 
+#if 0
 #ifdef __cplusplus
 static int yyinput YY_PROTO(( void ));
 #else
 static int input YY_PROTO(( void ));
+#endif
 #endif
 
 YY_DECL
@@ -876,7 +880,7 @@ register yy_state_type yy_current_state;
     return ( yy_is_jam ? 0 : yy_current_state );
     }
 
-
+#if 0
 #ifdef YY_USE_PROTOS
 static void yyunput( YY_CHAR c, register YY_CHAR *yy_bp )
 #else
@@ -920,8 +924,10 @@ register YY_CHAR *yy_bp;
      */
     YY_DO_BEFORE_ACTION; /* set up yytext again */
     }
+#endif
 
 
+#if 0
 #ifdef __cplusplus
 static int yyinput()
 #else
@@ -988,6 +994,7 @@ static int input()
 
     return ( c );
     }
+#endif
 
 
 #ifdef YY_USE_PROTOS

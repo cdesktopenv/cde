@@ -82,10 +82,12 @@ typedef enum
     AB_OS_AIX,
     AB_OS_SUNOS,
     AB_OS_OSF1,
-#ifdef USL
     AB_OS_UNIXWARE,
-#endif
     AB_OS_UXP,
+    AB_OS_LNX,
+    AB_OS_FBSD,
+    AB_OS_NBSD,
+    AB_OS_OBSD,
     AB_OS_TYPE_NUM_VALUES	/* must be last */
 } AB_OS_TYPE;
 

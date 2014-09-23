@@ -103,7 +103,7 @@ M_WCHAR *string1start;
 
 string1start = string1;
 
-while (*string1++ = *string2++);
+while ((*string1++ = *string2++));
 
 return string1start;
 }
@@ -236,7 +236,7 @@ length = (length + sizeof(M_WCHAR) - 1) / sizeof(M_WCHAR);
 mb_string = (char *) m_malloc(length, "multi-byte string");
 
 length = 0;
-while (wc = *wc_string++)
+while ((wc = *wc_string++))
     {
     if ((retVal = wctomb(&mb_string[length], wc)) > 0)
 	length += retVal;
@@ -257,7 +257,6 @@ char *mb_string;
 {
 M_WCHAR *wc_string, *wc_stringStart;
 int      length, incr;
-char     c;
 
 if (!mb_string)
     mb_string = "";
@@ -275,8 +274,9 @@ while (mb_string[length])
 
 	badOne[0] = mb_string[length];
 	badOne[1] = 0;
-	sprintf(buffer, "0x%x", mb_string[length]);
-	m_err2("invalid multibyte character found: '%c' (%s)", badOne, buffer);
+	snprintf(buffer, 32, "0x%x", mb_string[length]);
+	m_err2("invalid multibyte character found: '%c' (%s)",
+		(M_WCHAR *)badOne, (M_WCHAR *)buffer);
 	incr = 1;
 	}
     length += incr;
@@ -294,7 +294,6 @@ void *m_ptr;
 {
 int  c;
 M_WCHAR wc;
-char badch[2];
 char mbyte[32]; /* make this bigger than any possible multi-byte char */
 int  length;
 
@@ -319,7 +318,8 @@ while (1)
 	return(EOF);
 	}
     }
-mbtowc(&wc,mbyte,length);
+int ret = mbtowc(&wc,mbyte,length);
+(void) ret;
 
 return((int) wc);
 }
