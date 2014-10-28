@@ -199,15 +199,15 @@ static char another_g_top_locator[4096] ;
  * DtHelpDialog widget action list - required by the DisplayArea
  */
 static XtActionsRec DrawnBActions[] =
-    {
-        {(char*)"DeSelectAll"    , _DtHelpDeSelectAll    },
-        {(char*)"SelectAll"      , _DtHelpSelectAll      },
-        {(char*)"ActivateLink"   , _DtHelpActivateLink   },
-        {(char*)"CopyToClipboard", _DtHelpCopyAction     },
-        {(char*)"PageUpOrDown"   , _DtHelpPageUpOrDown   },
-        {(char*)"PageLeftOrRight", _DtHelpPageLeftOrRight},
-        {(char*)"NextLink"       , _DtHelpNextLink       }
-    };
+  {
+    {(char*)"DeSelectAll"    , (DeSelectAll_ptr)_DtHelpDeSelectAll         },
+    {(char*)"SelectAll"      , (SelectAll_ptr)_DtHelpSelectAll             },
+    {(char*)"ActivateLink"   , (ActivateLink_ptr)_DtHelpActivateLink       },
+    {(char*)"CopyToClipboard", (CopyAction_ptr)_DtHelpCopyAction           },
+    {(char*)"PageUpOrDown"   , (PageUpOrDown_ptr)_DtHelpPageUpOrDown       },
+    {(char*)"PageLeftOrRight", (PageLeftOrRight_ptr)_DtHelpPageLeftOrRight },
+    {(char*)"NextLink"       , (NextLink_ptr)_DtHelpNextLink               }
+  };
 
 //-------  Functions --------------------------------------------
 

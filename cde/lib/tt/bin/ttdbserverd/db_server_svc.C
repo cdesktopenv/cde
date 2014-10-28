@@ -214,10 +214,10 @@ main(int argc, char** argv, char **envp)
 	void install_signal_handler();
 	SVCXPRT *transp;
  	struct sockaddr_in saddr;
-#if defined(DEC) || defined(sun) || defined(HPUX)
+#if defined(DEC) || defined(HPUX)
  	int asize = sizeof(struct sockaddr);
 #else
-# if defined(linux) || defined(CSRG_BASED)
+# if defined(linux) || defined(CSRG_BASED) || defined(sun)
  	socklen_t asize;
 # else
  	size_t asize = sizeof(struct sockaddr);

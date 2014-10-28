@@ -45,7 +45,7 @@ public:
   const char *msg(void) const { return f_msg; };
   int error_no(void) const { return f_errno; };
   
-  DECLARE_EXCEPTION(PosixError, Exception);
+  DECLARE_EXCEPTION(PosixError, Exception)
   
 private:
   char f_msg[MAXMSG+1];

@@ -136,13 +136,14 @@ tst	pipe_rw note{ full duplex pipes }end execute{
 tst	real_vfork note{ vfork child shares data with parent }end execute{
 	_BEGIN_EXTERNS_
 	extern int	vfork();
+	extern int	_exit(int);
 	_END_EXTERNS_
 	int		code;
 	main()
 	{
 		code = 1;
 		if (!vfork()) code = 0;
-		return code;
+		_exit(code);
 	}
 }end
 

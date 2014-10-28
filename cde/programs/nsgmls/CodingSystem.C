@@ -33,7 +33,7 @@
 #ifdef SP_SHORT_HEADERS
 #include <strstrea.h>
 #else
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <strstream>
 #else
 #include <strstream.h>
@@ -82,7 +82,7 @@ String<char> OutputCodingSystem::convertOut(const StringC &str) const
   encoder->output(copy.data(), copy.size(), &stream);
   delete encoder;
   char *s = stream.str();
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
   String<char> result(s, stream.pcount());
 #else
   String<char> result(s, stream.out_waiting());

@@ -69,7 +69,7 @@ inline	XmTextSource	GetSource () const { return XmTextGetSource (widget); }
 inline	char*	GetString () const { return XmTextGetString (widget); }
 inline	XmTextPosition	GetTopCharacter () const { return XmTextGetTopCharacter (widget); }
 inline	void	Insert (XmTextPosition position, char* value) const { XmTextInsert (widget, position, value); }
-inline	Boolean	Paste (Widget widget) const { return XmTextPaste (widget); }
+inline	Boolean	Paste (Widget twidget) const { return XmTextPaste (twidget); }
 inline	Boolean	 PosToXY (XmTextPosition position, Position* x, Position* y) const { return XmTextPosToXY (widget, position, x, y); }
 inline	Boolean	Remove () const { return XmTextRemove (widget); }
 inline	void	Replace (XmTextPosition from, XmTextPosition to, char* s) const { XmTextReplace (widget, from, to, s); }

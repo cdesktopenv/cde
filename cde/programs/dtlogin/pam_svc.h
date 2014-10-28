@@ -70,7 +70,7 @@ extern int audit_login_success(void);
 extern int audit_login_save_pw(struct passwd *pwd);
 extern int audit_login_bad_pw(void);
 extern int audit_login_maxtrys(void);
-#endif sun
+#endif /* sun */
 
 
 #endif /* _DTLOGIN_PAM_SVC_H */

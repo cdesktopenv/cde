@@ -21,16 +21,16 @@ XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
 #define LibCreate	NO
 
 #define CplusplusSource	YES
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
 
 #if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
-EXCEPTION_DEFINES  = -DHAS_TERMINATE
+EXCEPTION_DEFINES  = -DHAS_TERMINATE -DNATIVE_EXCEPTIONS
 #elif defined(LinuxArchitecture) || defined(BSDArchitecture)
 EXCEPTION_DEFINES  = -DNATIVE_EXCEPTIONS
 #endif
 
 DEFINES  = -DCC_VERSION=30 -DCHECK_INITIALIZED $(EXCEPTION_DEFINES)
-INCLUDES = -I$(DTMMDBSRC)/dti_excs
+INCLUDES = $(CXXDEPENDINCLUDES) -I$(DTMMDBSRC)/dti_excs
 
 LinkSourceFile(Jump_Environment.C,$(DTMMDBSRC)/dti_excs)
 LinkSourceFile(Exceptions.C,$(DTMMDBSRC)/dti_excs)

@@ -160,13 +160,13 @@ while (TRUE)
 	char mbyte[32]; /* bigger than the biggest multibyte char */
 
 	ret = wctomb(mbyte, c);
+	(void) ret;
 
 	fprintf(stderr, "\n'%s' (%d)", mbyte, c);
 	fprintf(m_errfile, "\n'%s' (%d)", mbyte, c);
 	m_error("Unexpected character");
 	}
     } /* End while */
-    (void) ret;
 }   /* End scan */
 
 #include "scanutil.c"

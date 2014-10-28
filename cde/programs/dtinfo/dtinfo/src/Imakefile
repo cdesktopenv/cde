@@ -1,6 +1,6 @@
 XCOMM $TOG: Imakefile /main/48 1998/08/10 15:52:48 mgreess $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
 CXXEXTRA_DEFINES = -DEXPAND_TEMPLATES
 
 PROGRAM_NAME=dtinfo
@@ -50,7 +50,7 @@ SYS_LIBRARIES=-lm -L$(XPROJECTROOT)/lib -L$(MPROJECTROOT)/lib
 SYS_LIBRARIES=-lm
 #endif
 
-INCLUDES = -I. $(BROWSER_INCLUDES) $(MMDB_INCLUDES)
+INCLUDES = $(CXXDEPENDINCLUDES) -I. $(BROWSER_INCLUDES) $(MMDB_INCLUDES)
 
 OLIASNORMALLIBS= \
            Agents/libAgents.a \
@@ -67,7 +67,7 @@ OLIASNORMALLIBS= \
            OliasSearch/libOliasSearch.a \
            Widgets/libWidgets.a \
 	   cgm/libcgm.a
-#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 5
 OLIASTLIBS= \
 	   Agents/libAgentsT.a \
 	   Basic/libBasicT.a \
@@ -89,7 +89,7 @@ DLLIB=-ldl
 
 OTHEROBJS=Support/InputNotifier.o
 
-#if defined(SunArchitecture) && (CplusplusCompilerMajorVersion > 3)
+#if defined(SunArchitecture) && (CplusplusCompilerMajorVersion > 5)
   MMDBTEMPLATES=$(OLIAS)/mmdb/libMMDBTemplates.a
   UAS_TEMPLATES=UAS/Base/libBaseT.a \
                 UAS/DtSR/libDtSRT.a \
@@ -257,7 +257,7 @@ DTI_CC_OBJS = \
 	$(MMDB_DIR)/dti_cc/CC_String.o		$(MMDB_DIR)/dti_cc/CC_Tokenizer.o \
 	$(MMDB_DIR)/dti_cc/CC_Stack.o		$(MMDB_DIR)/dti_cc/CC_Slist.o
 
-#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion < 4)
 EXTRA_HARDCOPY_OBJS = $(MMDB_DIR)/HardCopy/TemplatesAutoNumber.o
 #endif
 
@@ -266,7 +266,7 @@ HARDCOPY_OBJS = \
 	$(MMDB_DIR)/HardCopy/autoNumber.o		$(MMDB_DIR)/HardCopy/autoNumberFP.o \
 	$(EXTRA_HARDCOPY_OBJS)
 
-#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion < 4)
 EXTRA_STYLESHEET_OBJS = $(MMDB_DIR)/StyleSheet/SSTemplates.o
 #endif
 
@@ -313,7 +313,10 @@ all:: Prelude.h dfiles messages Dtinfo
 
 includes:: Prelude.h dfiles messages
 
-#if defined(HPArchitecture) ||defined (AIXArchitecture) || defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4) || defined(AlphaArchitecture) || defined(USLArchitecture) || defined(BSDArchitecture)
+#if defined(HPArchitecture) ||defined (AIXArchitecture) || \
+    defined(UXPArchitecture) || defined(AlphaArchitecture) || \
+    (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 6) || \
+    defined(USLArchitecture) || defined(BSDArchitecture)
 # ifndef Dont_Use_Templates_Repository
 #  define Dont_Use_Templates_Repository
 UAS_INCLUDES=-I./UAS/Base
@@ -338,7 +341,8 @@ SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
 SpecialCPlusPlusExpandRule(Templates..c,,-ptf -DMakeOperatorNewPublic)
 #elif defined(DoLicenseManagement)
 SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(LICENSE_L_INCLUDES))
-#elif defined(LinuxArchitecture) || defined(BSDArchitecture)
+#elif defined(LinuxArchitecture) || defined(BSDArchitecture) || \
+      defined(SunArchitecture)
 SpecialCPlusPlusObjectRule(Templates.o,,$(SUBDIR_TEMPL_INCLUDES))
 SpecialCPlusPlusExpandRule(Templates..c,,-DMakeOperatorNewPublic)
 #else
@@ -358,7 +362,7 @@ makelib(Preferences)
 makelibT(Managers)
 makelib(Other)
 makelibT(Agents)
-#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 5
 makelibsubsubdir(UAS,Base)
 makelibsubsubdir(UAS,DtSR)
 makelibsubsubdir(UAS,MMDB)
@@ -370,7 +374,7 @@ makelibT(Marks)
 makelibT(OnlineRender)
 makelibT(OliasSearch)
 makelib(cgm)
-#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 5
 makelibTsubsubdir(UAS,Base)
 makelibTsubsubdir(UAS,DtSR)
 makelibTsubsubdir(UAS,MMDB)

@@ -34,6 +34,21 @@
 
 #include "UAS.hh"
 
+typedef void _DtHelpDeSelectAll_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpDeSelectAll_t * DeSelectAll_ptr;
+typedef void _DtHelpSelectAll_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpSelectAll_t * SelectAll_ptr;
+typedef void _DtHelpActivateLink_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpActivateLink_t * ActivateLink_ptr;
+typedef void _DtHelpCopyAction_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpCopyAction_t * CopyAction_ptr;
+typedef void _DtHelpPageUpOrDown_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpPageUpOrDown_t * PageUpOrDown_ptr;
+typedef void _DtHelpPageLeftOrRight_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpPageLeftOrRight_t * PageLeftOrRight_ptr;
+typedef void _DtHelpNextLink_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpNextLink_t * NextLink_ptr;
+
 class NodeViewInfo;
 class NodeHandle;
 class Manager;

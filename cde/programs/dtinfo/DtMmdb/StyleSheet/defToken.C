@@ -43,7 +43,8 @@
 
 #include <stdlib.h>
 
-#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && \
+    !defined(CSRG_BASED) && !defined(sun)
 #include <osfcn.h>
 #endif
 

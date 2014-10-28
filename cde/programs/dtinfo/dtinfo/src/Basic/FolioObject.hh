@@ -72,7 +72,7 @@ public: // functions
 #define AddDependentd(CB, TYPE, DATA) \
   add_dependent (this, (notify_handler_t)CB, TYPE, DATA)
 
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
   void add_dependent (FolioObject *dependent, notify_handler_t handler,
 		      u_int notify_type, void *dependent_data = NULL);
 #else
@@ -85,7 +85,7 @@ public: // functions
 #define RemoveDependentd(CB, TYPE, DATA) \
   remove_dependent(this, (notify_handler_t)CB, TYPE, DATA)
 
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
   void remove_dependent (FolioObject *dependent, notify_handler_t handler,
 			 u_int notify_type, void *dependent_data = NULL);
 #else
@@ -101,7 +101,7 @@ public: // functions
 #define Observed(TARG, TYPE, CB, DATA) \
   observe (this, TARG, (notify_handler_t) CB, TYPE, DATA)
 
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
   void observe (FolioObject *real_this, FolioObject *target,
 		notify_handler_t callback, u_int notify_type,
 		void *client_data = NULL);

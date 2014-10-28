@@ -229,6 +229,11 @@ load_xt_fns_from_handle(void *xt_handle)
 	if ( _tt_xt . fn  == (_Tt_xfn_ptr)0) {				\
 		return(0);						\
 	}								
+#define	DLINK_FNV(fn)\
+	_tt_xt . fn = (void*)(_Tt_xfn_ptr)dlsym(xt_handle, #fn);	\
+	if ( _tt_xt . fn  == (_Tt_xfn_ptr)0) {				\
+		return(0);						\
+	}
 #else /* __STDC__ */
 #define	DLINK_FN(fn)\
 	_tt_xt . fn = (_Tt_xfn_ptr)dlsym(xt_handle, "fn");		\
@@ -250,7 +255,7 @@ load_xt_fns_from_handle(void *xt_handle)
 	DLINK_FN(XtAppAddTimeOut)
 	DLINK_FN(XtRemoveTimeOut)
 	DLINK_FN(XtAppProcessEvent)
-	DLINK_FN(applicationShellWidgetClass)
+	DLINK_FNV(applicationShellWidgetClass)
 	return(1);
 }
 

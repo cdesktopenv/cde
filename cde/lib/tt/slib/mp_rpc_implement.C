@@ -100,7 +100,7 @@ static	gid_t	req_auth_gids[NGROUPS_MAX];
 #endif /* OPT_BUG_SUNOS_4 */
 
 #if defined(OPT_BUG_SUNOS_5)
-	typedef (*Hack_getucred)(const struct authdes_cred *,
+	typedef void (*Hack_getucred)(const struct authdes_cred *,
 				 uid_t *,
 				 gid_t *,
 				 short *,

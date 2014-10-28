@@ -34,7 +34,7 @@
 class hardCopyRendererException : public Exception
 {
 public:
-  DECLARE_EXCEPTION(hardCopyRendererException, Exception);
+  DECLARE_EXCEPTION(hardCopyRendererException, Exception)
 };
 
 #define CASTHCREXCEPT

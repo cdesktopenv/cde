@@ -525,7 +525,8 @@ char *our_getline(filep)
 	lineno = filep->f_line;
 
 	for(bol = p--; ++p < eof; ) {
-		if (*p == '/' && *(p+1) == '*') { /* consume comments */
+		if (*p == '/' && (p+1) < eof && *(p+1) == '*') {
+			/* consume C comments */
 			*p++ = ' ', *p++ = ' ';
 			while (*p) {
 				if (*p == '*' && *(p+1) == '/') {
@@ -538,15 +539,31 @@ char *our_getline(filep)
 			}
 			continue;
 		}
-#ifdef WIN32
-		else if (*p == '/' && *(p+1) == '/') { /* consume comments */
-			*p++ = ' ', *p++ = ' ';
-			while (*p && *p != '\n')
-				*p++ = ' ';
-			lineno++;
-			continue;
+		else if (*p == '/' && (p+1) < eof && *(p+1) == '/') {
+			/* consume C++ comments */
+			*p++ = ' ';
+			*p++ = ' ';
+			while (p < eof && *p) {
+				if (*p == '\\' && (p+1) < eof &&
+				    *(p+1) == '\n') {
+					*(p++) = ' ';
+					lineno++;
+				}
+				else if (*p == '?' && (p+3) < eof &&
+					 *(p+1) == '?' &&
+					 *(p+2) == '/' &&
+					 *(p+3) == '\n') {
+					*(p++) = ' ';
+					*(p++) = ' ';
+					*(p++) = ' ';
+					lineno++;
+				}
+				else if (*p == '\n')
+					break;  /* to process end of line */
+				*(p++) = ' ';
+			}
+			--p;
 		}
-#endif
 		else if (*p == '\\') {
 			if (*(p+1) == '\n') {
 				*p = ' ';

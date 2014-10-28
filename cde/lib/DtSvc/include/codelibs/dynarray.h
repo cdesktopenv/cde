@@ -36,7 +36,7 @@
 #ifndef __DYNARRAY_H_
 #define __DYNARRAY_H_
 
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <generic.h>
 #endif
 #if defined(USL) || defined(__uxp__) || defined(__osf__) || defined(sun) || defined(linux) || defined(CSRG_BASED)

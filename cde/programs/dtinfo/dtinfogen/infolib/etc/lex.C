@@ -42,7 +42,8 @@
 #ifdef __cplusplus
 
 #include <stdlib.h>
-#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && \
+    !defined(CSRG_BASED) && !defined(sun)
 #include <osfcn.h>
 #endif
 
@@ -190,7 +191,8 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #define YY_CHAR unsigned char
 #define INITIAL 0
 
-#if !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__osf__) && !defined(USL) && !defined(linux) && \
+    !defined(CSRG_BASED) && !defined(sun)
 #include <osfcn.h>
 #else
 #include <unistd.h>

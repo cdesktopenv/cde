@@ -29,7 +29,7 @@
 #ifndef TT_CXX_H
 #define TT_CXX_H
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <iostream>
 using namespace std;
 #else

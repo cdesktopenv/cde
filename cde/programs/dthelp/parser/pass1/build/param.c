@@ -267,9 +267,9 @@ switch (newpar->type)
 	      ret = mbtowc(string, " ", 1);
 	      }
 	  }
-      return ;
     }
     (void) ret;
+    return;
 }
 
 /* Called at end of parameter attribute list rule */

@@ -43,7 +43,7 @@
 #include <stddef.h>
 #endif
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <fstream>
 using namespace std;
 #else

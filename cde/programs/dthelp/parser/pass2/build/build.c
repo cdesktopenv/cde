@@ -71,5 +71,4 @@ while (TRUE)
     #include "case.c"
     if (m_token == ENDFILE) exit(FALSE) ;
     }
-    return 0;
 }

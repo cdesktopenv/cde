@@ -114,7 +114,7 @@ dyn_index::_insert_loc(data_t& intKey, const oid_t& id)
 MESSAGE(cerr, "in dyn_index insert()");
 debug(cerr, intKey);
 debug(cerr, id);
-debug(cerr, pos);
+debug(cerr, p);
 */
 
     if ( v_idx_agent_ptr -> member( intKey ) == true ) {
@@ -268,12 +268,12 @@ oid_list_handler* dyn_index::get_loc_list(const handler& t)
       ) {
 //MESSAGE(cerr, "in hash table");
 
-      int pos = int(long(intKey -> dt));
-//debug(cerr, pos);
+      int p = int(long(intKey -> dt));
+//debug(cerr, p);
       delete intKey;
 //MESSAGE(cerr, "dyn_index::get_loc_list() done");
 
-      return  (*v_inv_lists_hd) -> get_list(pos); 
+      return  (*v_inv_lists_hd) -> get_list(p);
 
    } else {
 //MESSAGE(cerr, "not in hash table");

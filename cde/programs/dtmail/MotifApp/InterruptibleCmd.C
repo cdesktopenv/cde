@@ -70,7 +70,7 @@
 #include <assert.h>
 
 #if !defined(linux) && !defined(CSRG_BASED)
-extern forceUpdate( Widget );
+extern void forceUpdate( Widget );
 #endif
 
 InterruptibleCmd::InterruptibleCmd ( char *name, char *label, int active ) :

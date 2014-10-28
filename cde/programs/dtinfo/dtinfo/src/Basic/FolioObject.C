@@ -176,7 +176,7 @@ FolioObject::notify (u_int notify_type, void *notify_data)
 // /////////////////////////////////////////////////////////////////
 
 void
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
 FolioObject::add_dependent (FolioObject *dependent, notify_handler_t handler,
 #else
 FolioObject::add_dependent (void *dependent, notify_handler_t handler,
@@ -184,7 +184,7 @@ FolioObject::add_dependent (void *dependent, notify_handler_t handler,
 			    u_int notify_type, void *dependent_data)
 {
   // Adds to begining because that's easiest.
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
   f_dependents = new Dependent (&f_dependents, f_dependents,
 				dependent, NULL, handler,
 				notify_type, dependent_data);
@@ -206,7 +206,7 @@ FolioObject::add_dependent (void *dependent, notify_handler_t handler,
   // by mistake like this.  We'll just have to cast it to a FolioObject
   // when the call through it is made and hope the compiler doesn't
   // expect it to point to an actual FolioObject (or whatever, eg: WWL). 
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
   ON_DEBUG(printf ("@@@ adding to depend_on_list of %p\n", dependent));
   dependent->f_depend_on_list =
     new DependOnList (dependent->f_depend_on_list, f_dependents);
@@ -244,7 +244,7 @@ FolioObject::remove_depend_on (FolioObject *target, Dependent *d)
 // /////////////////////////////////////////////////////////////////
 
 void
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
 FolioObject::remove_dependent (FolioObject *dependent,
 #else
 FolioObject::remove_dependent (void *dependent,
@@ -258,7 +258,7 @@ FolioObject::remove_dependent (void *dependent,
   // That means that each handler added must be removed!
   for (d = &f_dependents; *d != NULL; d = &((*d)->f_next))
     {
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
       if ((*d)->f_dependent      == dependent   &&
 #else
       if ((*d)->f_dependent      == (FolioObject*)dependent   &&
@@ -272,7 +272,7 @@ FolioObject::remove_dependent (void *dependent,
 	  // f_folio_object will be NULL if the Dependent object was
 	  // created in add_dependent!  DJB 11/10/92 
 	  assert ((*d)->f_folio_object != NULL);
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
 	  remove_depend_on (dependent, *d);
 #else
 	  remove_depend_on ((FolioObject*)dependent, *d);
@@ -342,7 +342,7 @@ FolioObject::release_depend_on_list()
 // by deleting that handle!!! 
 
 void
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
 FolioObject::observe (FolioObject *real_this, FolioObject *target,
 #else
 FolioObject::observe (void *real_this, FolioObject *target,
@@ -358,7 +358,7 @@ FolioObject::observe (void *real_this, FolioObject *target,
   // ---
   // OK, instead we will have to pass in the "real" this pointer which
   // may be different from the this pointer visible in this routine. 
-#if defined(SC3) || defined(__osf__) || defined(USL)
+#if defined(SC3) || defined(__osf__) || defined(USL) || defined(__SunOS)
   target->f_dependents =
     new Dependent (&target->f_dependents, target->f_dependents,
 		   real_this, this,

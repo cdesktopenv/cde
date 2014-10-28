@@ -98,7 +98,7 @@ void m_free(block, msg)
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)
       snprintf(buffer, 32, "%5x:%5x",
         (unsigned int) ((unsigned long) block >> 16),
-        (unsigned int) block, msg) ;
+        (unsigned int) block) ;
 #else
       snprintf(buffer, 32, "  %9p", block) ;
 #endif

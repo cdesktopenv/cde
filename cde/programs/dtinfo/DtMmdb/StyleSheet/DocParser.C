@@ -248,7 +248,8 @@ DocParser::process(istream &input, ostringstream &output,
     !defined(__uxp__) && \
     !defined(USL) && \
     !defined(linux) && \
-    !defined(CSRG_BASED)
+    !defined(CSRG_BASED) && \
+    !defined(sun)
 	    volatile
 #endif
 	    AttributeList *attrs = 0;
@@ -258,7 +259,8 @@ DocParser::process(istream &input, ostringstream &output,
     !defined(__uxp__) && \
     !defined(USL) && \
     !defined(linux) && \
-    !defined(CSRG_BASED)
+    !defined(CSRG_BASED) && \
+    !defined(sun)
 	    volatile
 #endif
 	    AttributeList *olias_attrs = 0;

@@ -68,7 +68,7 @@
 #include "msgs.h"
 
 #if defined(SYSV) || defined(SVR4_0) || defined(SVR4) || defined(DEC) \
-	|| defined(CSRG_BASED) || defined(linux)
+	|| defined(CSRG_BASED) || defined(linux) || defined(sun)
 #define lsprintf sprintf
 #endif
 

@@ -112,7 +112,7 @@ gethostid()
     return atoi(u.idnumber);
   abort();
 }
-#elif defined(SVR4)
+#elif defined(SVR4) && !defined(sun)
 static unsigned int
 gethostid()
 {

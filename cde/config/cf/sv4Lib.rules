@@ -61,8 +61,17 @@ install:: Concat(lib,libname.so.rev) 					@@\
 #endif /* InstallSharedLibraryData */
 
 #ifndef LinkWithExports
-# if UseExportLists
-#  define LinkWithExports(libname,rev,solist,down,up) \
+# if defined(SunArchitecture)
+#  if HasGcc2
+#   define LinkWithExports(libname,rev,solist,down,up) \
+	(cd down; $(CC) -o up/$@~ $(SHLIBLDFLAGS) -Wl,-soname,$@ solist $(REQUIREDLIBS))
+#  else
+#   define LinkWithExports(libname,rev,solist,down,up) \
+	(cd down; $(CCENVSETUP) $(CXX) -o up/$@~ $(SHLIBLDFLAGS) -h $@ solist $(REQUIREDLIBS))
+#  endif
+# else
+#  if UseExportLists
+#   define LinkWithExports(libname,rev,solist,down,up) \
 	(cd down; $(CCENVSETUP) $(LD) -o up/$@~ $(SHLIBLDFLAGS) -h $@ solist $(REQUIREDLIBS))	@@\
 	if [ -f Concat(lib,libname.elist) ]; then \			@@\
 	    $(RM) down/$@.exports $@.list; \				@@\
@@ -71,9 +80,10 @@ install:: Concat(lib,libname.so.rev) 					@@\
 	    (cd down; $(CCENVSETUP) $(LD) -o up/$@~ $(SHLIBLDFLAGS) -h $@ ShlibExportListOpt($@.exports) solist $(REQUIREDLIBS)); \	@@\
 	    $(RM) down/$@.exports $@.list; \				@@\
 	fi;
-# else
-#  define LinkWithExports(libname,rev,solist,down,up) \
+#  else
+#   define LinkWithExports(libname,rev,solist,down,up) \
 	(cd down; $(CCENVSETUP) $(LD) -o up/$@~ $(SHLIBLDFLAGS) -h $@ solist $(REQUIREDLIBS))
+#  endif
 # endif
 #endif
 

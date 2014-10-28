@@ -21,10 +21,14 @@ XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
 #define LibCreate	NO
 
 #define CplusplusSource	YES
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
+
+#if defined(SunArchitecture)
+EXCEPTION_DEFINES  = -DNATIVE_EXCEPTIONS
+#endif
 
 DEFINES  = 
-INCLUDES = -I$(DTMMDBSRC)/api -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES) -I$(DTMMDBSRC)/misc
+INCLUDES = $(CXXDEPENDINCLUDES) -I$(DTMMDBSRC)/api -I$(DTMMDBSRC) $(EXCEPTIONS_INCLUDES) -I$(DTMMDBSRC)/misc
 
 LinkSourceFile(base.C,$(DTMMDBSRC)/api)
 LinkSourceFile(info_base.C,$(DTMMDBSRC)/api)

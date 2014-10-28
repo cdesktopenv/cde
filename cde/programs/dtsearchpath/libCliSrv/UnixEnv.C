@@ -37,7 +37,7 @@
 #endif
 #include <stdlib.h>
 #include <string.h>
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <iostream>
 #else
 #include <iostream.h>

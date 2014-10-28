@@ -64,7 +64,7 @@ int replace_string_len;
 //extern FILE *yyin;
 
 extern int schemaparse();
-extern int schemarestart(FILE*);
+extern void schemarestart(FILE*);
 extern FILE *schemain;
 
 object_dict::object_dict() :

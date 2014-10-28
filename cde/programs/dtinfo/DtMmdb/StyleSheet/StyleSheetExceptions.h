@@ -44,21 +44,21 @@
 class StyleSheetException : public Exception
 {
 public:
-  DECLARE_EXCEPTION(StyleSheetException, Exception);
+  DECLARE_EXCEPTION(StyleSheetException, Exception)
   virtual ~StyleSheetException();
 };
 
 class StyleSheetSyntaxError : public StyleSheetException
 {
 public:
-  DECLARE_EXCEPTION(StyleSheetSyntaxError, StyleSheetException);
+  DECLARE_EXCEPTION(StyleSheetSyntaxError, StyleSheetException)
   
 };
 
 class badEvaluationException : public StyleSheetException
 {
 public:
-  DECLARE_EXCEPTION(badEvaluationException, StyleSheetException);
+  DECLARE_EXCEPTION(badEvaluationException, StyleSheetException)
 
   virtual ~badEvaluationException();
 };
@@ -66,13 +66,13 @@ public:
 class badCastException : public StyleSheetException
 {
 public:
-  DECLARE_EXCEPTION(badCastException, StyleSheetException);
+  DECLARE_EXCEPTION(badCastException, StyleSheetException)
 };
 
 class undefinedVariableException : public badEvaluationException
 {
 public:
-  DECLARE_EXCEPTION(undefinedVariableException, badEvaluationException);
+  DECLARE_EXCEPTION(undefinedVariableException, badEvaluationException)
 
   undefinedVariableException(const Symbol &v)
     : badEvaluationException(),
@@ -87,7 +87,7 @@ private:
 class undefinedAttributeException : public badEvaluationException
 {
 public:
-  DECLARE_EXCEPTION(undefinedAttributeException, badEvaluationException);
+  DECLARE_EXCEPTION(undefinedAttributeException, badEvaluationException)
 
   undefinedAttributeException(const Symbol &a)
     : badEvaluationException(),
@@ -101,38 +101,38 @@ private:
 class docParserException : public Exception
 {
 public:
-  DECLARE_EXCEPTION(docParserException, Exception);
+  DECLARE_EXCEPTION(docParserException, Exception)
 };
 
 class unknownTagException : public docParserException
 {
 public:
-  DECLARE_EXCEPTION(unknownTagException, docParserException);
+  DECLARE_EXCEPTION(unknownTagException, docParserException)
   
 };
 
 class docParserUnexpectedCharacter : public docParserException
 {
 public:
-  DECLARE_EXCEPTION(docParserUnexpectedCharacter, docParserException);
+  DECLARE_EXCEPTION(docParserUnexpectedCharacter, docParserException)
   
 };
 class docParserUnexpectedTag : public docParserException
 {
 public:
-  DECLARE_EXCEPTION(docParserUnexpectedTag, docParserException);
+  DECLARE_EXCEPTION(docParserUnexpectedTag, docParserException)
   
 };
 class docParserUnexpectedData : public docParserException
 {
 public:
-  DECLARE_EXCEPTION(docParserUnexpectedData, docParserException);
+  DECLARE_EXCEPTION(docParserUnexpectedData, docParserException)
   
 };
 class docParserUnexpectedEof : public docParserException
 {
 public:
-  DECLARE_EXCEPTION(docParserUnexpectedEof, docParserException);
+  DECLARE_EXCEPTION(docParserUnexpectedEof, docParserException)
   
 };
 

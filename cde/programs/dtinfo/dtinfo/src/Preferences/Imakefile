@@ -1,7 +1,7 @@
 XCOMM $XConsortium: Imakefile /main/6 1996/08/21 15:43:25 drk $
 
 #define CplusplusSource	YES
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
 
 MAKEFILEDEPS=Classlist.mk
 
@@ -9,7 +9,7 @@ LIBNAME=Preferences
 
 NormalCplusplusObjectRule()
 
-INCLUDES=$(BROWSER_INCLUDES)
+INCLUDES=$(CXXDEPENDINCLUDES) $(BROWSER_INCLUDES)
 
 
 #include "Classlist.mk"
@@ -18,7 +18,9 @@ OBJS=$(SRCS:.C=.o)
 
 make_libfiles($(LIBNAME), $(CLASSES))
 
-#if defined(LinuxArchitecture) || defined(BSDArchitecture)
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#elif defined(LinuxArchitecture) || defined(BSDArchitecture)
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #else
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))

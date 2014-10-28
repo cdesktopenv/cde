@@ -34,7 +34,7 @@
 #include "Fixed2CodingSystem.h"
 #include "macros.h"
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <iostream>
 #else
 #include <iostream.h>

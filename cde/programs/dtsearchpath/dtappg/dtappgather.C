@@ -75,7 +75,7 @@
 #include "dtappgather.h"
 #include "DirIterator.h"
 #include <stdlib.h>
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <iostream>
 #else
 #include <iostream.h>

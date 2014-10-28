@@ -13,7 +13,7 @@
 class UAS_OQLParser_Exception : public UAS_Exception
 {
   public:
-    DECLARE_EXCEPTION(UAS_OQLParser_Exception, Exception);
+    DECLARE_EXCEPTION(UAS_OQLParser_Exception, Exception)
 
     UAS_OQLParser_Exception(const UAS_String &m) : UAS_Exception(m) {};
     virtual ~UAS_OQLParser_Exception() {};
@@ -22,7 +22,7 @@ class UAS_OQLParser_Exception : public UAS_Exception
 class UAS_Search_Feature_Unavailable : public UAS_OQLParser_Exception
 {
   public:
-    DECLARE_EXCEPTION(UAS_Search_Feature_Unavailable, Exception);
+    DECLARE_EXCEPTION(UAS_Search_Feature_Unavailable, Exception)
 
     UAS_Search_Feature_Unavailable(const UAS_String &m) :
 					UAS_OQLParser_Exception(m) {};

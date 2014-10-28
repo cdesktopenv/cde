@@ -31,7 +31,6 @@
 #include <X11/Intrinsic.h>
 
 class OutlineListView;
-class OutlineListView;
 class WTopLevelShell;
 class ScopeMenu;
 class IcccmAgent;

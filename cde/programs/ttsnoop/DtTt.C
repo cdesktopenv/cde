@@ -34,7 +34,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <strstream>
 #else
 #include <strstream.h>

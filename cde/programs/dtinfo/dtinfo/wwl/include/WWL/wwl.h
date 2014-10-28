@@ -52,7 +52,7 @@
 // /__   \/     F-91405 ORSAY Cedex                   +33 (1) 69 41 66 29
 
 #include <X11/Intrinsic.h>
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <generic.h>
 #else
 #define name2(__n1,__n2)	__paste2(__n1,__n2)
@@ -78,7 +78,7 @@ class WComposite;
  typedef void	(* XtProc)();
 #endif
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #define CASTRNAM (char*)
 #define CASTVAL  (void*)(size_t)
 #else

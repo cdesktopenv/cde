@@ -26,6 +26,9 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#if defined(sun)
+#include <iconv.h>
+#endif
 #include <sys/stat.h>
 /*#include <nl_types.h>*/
 #include <DtMail/DtMailError.hh>
@@ -893,7 +896,7 @@ class DtMail {
 	    void *			_cb_data;
 	    void *			_obj_mutex;
 	};
-    
+
   private:
     
 friend class MailBox;
@@ -910,5 +913,14 @@ friend class Session;
 			DtMailEnv & error,
 			DTMailError_t minor_code);
 };
+
+#if defined(sun)
+template <typename T>
+size_t iconv (iconv_t i, const T inbuf, size_t* inleft,
+	       char** outbuf, size_t* outleft)
+{
+    return iconv(i, const_cast<T>(inbuf), inleft, outbuf, outleft);
+};
+#endif
 
 #endif

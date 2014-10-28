@@ -852,7 +852,11 @@ XtResource wmGlobalResources[] =
 	sizeof (int),
         XtOffsetOf(WmGlobalData, keyboardFocusPolicy),
 	XtRImmediate,
+#if defined(sun)
+	(XtPointer)KEYBOARD_FOCUS_POINTER
+#else
 	(XtPointer)KEYBOARD_FOCUS_EXPLICIT
+#endif
     },
 
     {

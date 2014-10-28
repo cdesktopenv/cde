@@ -32,7 +32,7 @@
 #ifndef _CSTRING_H_
 #define _CSTRING_H_
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <iostream>
 #else
 #include <iostream.h>
@@ -72,7 +72,7 @@ class CString {
   int       isNull() const;
   void      replace (const CString &, const CString &);
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
   friend std::ostream & operator<< (std::ostream &, const CString &);
 #else
   friend ostream & operator<< (ostream &, const CString &);

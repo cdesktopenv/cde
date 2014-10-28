@@ -257,6 +257,7 @@ Boolean data_t::binaryIn(buffer& buf)
 {
    char c; buf.get(c);
    flag = (data_t::flag_type)c;
+   char* cp;
 
    unsigned int sz;
 
@@ -277,7 +278,8 @@ Boolean data_t::binaryIn(buffer& buf)
 
         break;
    }
-   buf.get(*(char*)&dt);
+   cp = (char*)&dt;
+   buf.get(*(long*)cp);
    return true;
 }
 

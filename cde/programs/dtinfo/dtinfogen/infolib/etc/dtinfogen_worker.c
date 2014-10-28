@@ -42,6 +42,9 @@
 #endif
 #include <ctype.h>
 #include <signal.h>
+#if !defined(CSRG_BASED)
+#include <sys/sysmacros.h>
+#endif
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <X11/Intrinsic.h>

@@ -41,6 +41,33 @@ typedef struct _VideoShell
     Boolean silent;
 } VideoShell;
 
+typedef void _DtHelpDeSelectAll_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpDeSelectAll_t * DeSelectAll_ptr;
+typedef void _DtHelpSelectAll_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpSelectAll_t * SelectAll_ptr;
+typedef void _DtHelpActivateLink_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpActivateLink_t * ActivateLink_ptr;
+typedef void _DtHelpCopyAction_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpCopyAction_t * CopyAction_ptr;
+typedef void _DtHelpPageUpOrDown_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpPageUpOrDown_t * PageUpOrDown_ptr;
+typedef void _DtHelpPageLeftOrRight_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpPageLeftOrRight_t * PageLeftOrRight_ptr;
+typedef void _DtHelpNextLink_t(_WidgetRec*,_XEvent*,char**,unsigned*);
+typedef _DtHelpNextLink_t * NextLink_ptr;
+typedef void XmuCvtStringToGravity_t(XrmValue*,unsigned*,XrmValue*,XrmValue*);
+typedef XmuCvtStringToGravity_t * XmuCvtStringToGravity_ptr;
+
+extern "C"
+{
+  typedef void core_dump_handler_t(int signal_number);
+  typedef core_dump_handler_t * core_dump_handler_ptr;
+  typedef void interrupt_handler_t(int signal_number);
+  typedef interrupt_handler_t * interrupt_handler_ptr;
+  typedef int xevent_error_aborter_t(Display *display,XErrorEvent* error_event);
+  typedef xevent_error_aborter_t * xevent_error_aborter_ptr;
+}
+
 class WindowGeometry;
 
 class WindowSystem : public WWL, public FolioObject

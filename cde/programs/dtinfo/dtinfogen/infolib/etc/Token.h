@@ -144,7 +144,7 @@ public:
   int f_source;
   int f_severity;
 
-  DECLARE_EXCEPTION(ErrorReported, Exception);
+  DECLARE_EXCEPTION(ErrorReported, Exception)
 };
 
 

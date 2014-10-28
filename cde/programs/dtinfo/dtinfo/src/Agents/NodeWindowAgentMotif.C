@@ -209,6 +209,12 @@ xList<UAS_Pointer<UAS_Common> > g_tab_list;
 
 extern AppPrintData * l_AppPrintData; 
 
+extern "C"
+{
+  typedef void (*resize_cb_ptr)();
+  typedef void (*hypertext_cb_ptr)();
+}
+
 #ifdef CV_HYPER_DEBUG
 void
 #else
@@ -1753,8 +1759,8 @@ NodeWindowAgent::create_ui()
 			     FALSE,		// traversal flag
 			     1,			// rows
 			     1,			// columns
-			     (void(*)()) hypertext_cb, // hypertext cb
-			     (void(*)())resize_cb,     // resize cb
+			     (hypertext_cb_ptr) hypertext_cb, // hypertext cb
+			     (resize_cb_ptr) resize_cb,       // resize cb
 			     0,			// exec ok routine
 			     this,		// client_data
 			     defaultList	// default font list

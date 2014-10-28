@@ -1,6 +1,6 @@
 XCOMM $XConsortium: Imakefile /main/6 1996/08/21 15:45:28 drk $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
 
 LIBNAME= Widgets
 LIBDIR = ../lib
@@ -26,9 +26,11 @@ OBJS = $(OBJS1) $(OBJS2)
 NormalCplusplusObjectRule()
 NormalLibraryObjectRule()
 
-INCLUDES=$(CDEINCLUDES) $(WWL_INCLUDES) $(EXCEPTIONS_INCLUDES)
+INCLUDES=$(CXXDEPENDINCLUDES) $(CDEINCLUDES) $(WWL_INCLUDES) $(EXCEPTIONS_INCLUDES)
 
-#if defined(LinuxArchitecture) || defined(BSDArchitecture)
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+SimpleLibraryT($(LIBNAME), $(OBJS), $(LIBDIR))
+#elif defined(LinuxArchitecture) || defined(BSDArchitecture)
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))
 #else
 SimpleLibrary($(LIBNAME), $(OBJS), $(LIBDIR))

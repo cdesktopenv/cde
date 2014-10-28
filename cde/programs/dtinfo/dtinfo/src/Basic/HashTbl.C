@@ -56,6 +56,7 @@ public: // functions
     // NOTE: remove 3rd param after testing
     : List (10, 10, List::GROW_ADD) { };
   int find (FolioObject &);
+  using List::remove;
   void remove (FolioObject &);
 };
 

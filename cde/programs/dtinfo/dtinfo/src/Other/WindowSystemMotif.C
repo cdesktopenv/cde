@@ -206,15 +206,15 @@ NULL
 
 
 static XtActionsRec DrawnBActions[] =
-    {
-        {(char*)"DeSelectAll"    , _DtHelpDeSelectAll    },
-        {(char*)"SelectAll"      , _DtHelpSelectAll      },
-        {(char*)"ActivateLink"   , _DtHelpActivateLink   },
-        {(char*)"CopyToClipboard", _DtHelpCopyAction     },
-        {(char*)"PageUpOrDown"   , _DtHelpPageUpOrDown   },
-        {(char*)"PageLeftOrRight", _DtHelpPageLeftOrRight},
-        {(char*)"NextLink"       , _DtHelpNextLink       }
-    };
+  {
+    {(char*)"DeSelectAll"    , (DeSelectAll_ptr)_DtHelpDeSelectAll         },
+    {(char*)"SelectAll"      , (SelectAll_ptr)_DtHelpSelectAll             },
+    {(char*)"ActivateLink"   , (ActivateLink_ptr)_DtHelpActivateLink       },
+    {(char*)"CopyToClipboard", (CopyAction_ptr)_DtHelpCopyAction           },
+    {(char*)"PageUpOrDown"   , (PageUpOrDown_ptr)_DtHelpPageUpOrDown       },
+    {(char*)"PageLeftOrRight", (PageLeftOrRight_ptr)_DtHelpPageLeftOrRight },
+    {(char*)"NextLink"       , (NextLink_ptr)_DtHelpNextLink               }
+  };
 
 
 
@@ -268,10 +268,11 @@ WindowSystem::WindowSystem (int &argc, char *argv[])
   bool debugging = get_boolean_app_resource("debug");
   if (!debugging)
     {
-      signal (SIGABRT, /*DWC IBM (SIG_PF)*/ core_dump_handler);
-      signal (SIGBUS, /*(SIG_PF)*/ core_dump_handler);
-      signal (SIGSEGV, /*(SIG_PF)*/ core_dump_handler);
-      signal (SIGINT, interrupt_handler);
+      signal (SIGABRT,
+              /*DWC IBM (SIG_PF)*/ (core_dump_handler_ptr)core_dump_handler);
+      signal (SIGBUS, /*(SIG_PF)*/ (core_dump_handler_ptr)core_dump_handler);
+      signal (SIGSEGV, /*(SIG_PF)*/ (core_dump_handler_ptr)core_dump_handler);
+      signal (SIGINT, (interrupt_handler_ptr)interrupt_handler);
     }
 
   /* Reference the scale widget so Veritas Replay Xt lib can link. */
@@ -553,7 +554,7 @@ WindowSystem::init()
   XSynchronize(f_display, True);
 #endif
   XSync(f_display, False);
-  XSetErrorHandler(xevent_error_aborter);
+  XSetErrorHandler((xevent_error_aborter_ptr)xevent_error_aborter);
 
 #if 0
   XtAppSetFallbackResources(f_application_context, fallbacks);
@@ -620,7 +621,8 @@ WindowSystem::init()
 	      parentCvtArg, XtNumber (parentCvtArg), XtCacheNone, NULL);
 #endif /* XmVersion < 1002 */
 
-  XtAddConverter (XtRString, XtRGravity, XmuCvtStringToGravity, NULL, 0);
+  XtAddConverter (XtRString, XtRGravity,
+                  (XmuCvtStringToGravity_ptr)XmuCvtStringToGravity, NULL, 0);
 
 #if XmVersion >= 1002
   XmRepTypeInstallTearOffModelConverter();
@@ -1592,6 +1594,6 @@ WindowSystem::interrupt_handler (int /* signal_number */)
   }
 
 #if defined(SVR4) || defined(hpux) || defined(_IBMR2)
-  signal (SIGINT, interrupt_handler);
+  signal (SIGINT, (interrupt_handler_ptr)interrupt_handler);
 #endif
 }

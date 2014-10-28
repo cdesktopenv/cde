@@ -56,7 +56,22 @@ XCOMM site:  $TOG: site.def /main/23 1998/03/19 18:43:26 mgreess $
 # endif
 
 # if defined(SunArchitecture)
-#  define HasSunCplusplus	YES
+#  ifndef HasSunC
+#   define HasSunC		NO
+#  endif
+#  ifndef HasSunCplusplus
+#   define HasSunCplusplus	HasSunC
+#  endif
+#  ifndef HasGcc2
+#   if HasSunC
+#    define HasGcc2		NO
+#   else
+#    define HasGcc2		YES
+#   endif
+#  endif
+#  ifndef HasGcc2ForCplusplus
+#   define HasGcc2ForCplusplus	HasGcc2
+#  endif
 # endif
 
 # if defined(UXPArchitecture) || defined(USLArchitecture) \
@@ -91,6 +106,8 @@ XCOMM site:  $TOG: site.def /main/23 1998/03/19 18:43:26 mgreess $
 #  define MotifProjectRoot	/usr/local
 # elif defined(NetBSDArchitecture)
 #  define MotifProjectRoot	/usr/pkg
+# elif defined(SunArchitecture)
+#  define MotifProjectRoot	/usr/X11
 # endif
 #endif
 

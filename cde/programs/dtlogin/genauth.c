@@ -230,7 +230,7 @@ char	bytes[64];
  *  the OS's random number device.
  */
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #define READ_LIMIT (sizeof (long) * 2)
 
 static sumFile (char *name, long sum[2])
@@ -447,7 +447,7 @@ InitCryptoKey( void )
 #if defined(linux) 
     /* non-blocking */
     char    *key_file = "/dev/urandom";
-#elif defined(CSRG_BASED)
+#elif defined(CSRG_BASED) || defined(sun)
     /* non-blocking */
     char    *key_file = "/dev/random";
 #else

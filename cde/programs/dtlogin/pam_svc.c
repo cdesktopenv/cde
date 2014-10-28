@@ -182,7 +182,7 @@ PamAuthenticate ( char*   prog_name,
 		 audit_login_maxtrys();
 	      }
 	   }
-#endif sun
+#endif
 
 	   if (status != PAM_SUCCESS) {
 	      sleep(PAM_LOGIN_SLEEPTIME);
@@ -327,7 +327,7 @@ PamAccounting( char*   prog_name,
 		status = solaris_setutmp_mgmt(user, tty_line, display_name, 
 					 session_type, entry_type, entry_id); 
 	        if (status != SOLARIS_SUCCESS) {
-                    Debug("PamAccounting: LOGIN_PRCESS set_utmp error=%d\n", 
+                    Debug("PamAccounting: LOGIN_PROCESS set_utmp error=%d\n",
 								status);
  		}
 		break;

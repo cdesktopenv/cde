@@ -298,8 +298,8 @@ void disk_hash::caching(disk_bucket& b, data_t& w, int slot_num)
 //debug(cerr, b.bnum());
 //debug(cerr, k_vector -> count());
 
-   int k = int((long)(*k_vector)[b.bnum()]);
-   int r = int((long)(*r_vector)[b.bnum()]);
+   int kv = int((long)(*k_vector)[b.bnum()]);
+   int rv = int((long)(*r_vector)[b.bnum()]);
 
 ///////////////////////////////////////////
 // cache all keys in the bycket except w.
@@ -316,7 +316,7 @@ void disk_hash::caching(disk_bucket& b, data_t& w, int slot_num)
       if ( x ) {
          hash_vector -> insert(
                    (voidPtr)(size_t)ind,
-                   x -> slot_num(k, r, p, hash_vector -> count())
+                   x -> slot_num(kv, rv, p, hash_vector -> count())
                               );
       }
 
@@ -331,7 +331,7 @@ void disk_hash::caching(disk_bucket& b, data_t& w, int slot_num)
 ////////////////////////////////////////
    hash_vector -> insert(
          (voidPtr)(size_t)slot_num,
-         w.slot_num(k, r, p, hash_vector -> count())
+         w.slot_num(kv, rv, p, hash_vector -> count())
                         );
 }
       
@@ -373,11 +373,11 @@ Boolean disk_hash::member(data_t& w, disk_bucket*& b, int& slot_num) const
 
    b = &bucket_vector -> get_bucket(hash);
 
-   int k = int((long)(*k_vector)[b -> bnum()]);
-   int r = int((long)(*r_vector)[b -> bnum()]);
+   int kv = int((long)(*k_vector)[b -> bnum()]);
+   int rv = int((long)(*r_vector)[b -> bnum()]);
 
    slot_num = 
-     int((long)(*hash_vector)[w.slot_num(k, r, p, hash_vector -> count())]);
+     int((long)(*hash_vector)[w.slot_num(kv, rv, p, hash_vector -> count())]);
 
 //debug(cerr, slot_num);
 

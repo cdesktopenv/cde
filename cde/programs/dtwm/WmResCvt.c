@@ -1083,7 +1083,11 @@ void WmCvtStringToKFocus (XrmValue *args, Cardinal numArgs, XrmValue *fromVal, X
 
     if (!fHit)
     {
+#if defined(sun)
+	cval =  KEYBOARD_FOCUS_POINTER;
+#else
 	cval =  KEYBOARD_FOCUS_EXPLICIT;
+#endif
     }
 
 

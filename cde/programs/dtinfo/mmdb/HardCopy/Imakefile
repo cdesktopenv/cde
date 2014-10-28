@@ -21,7 +21,7 @@ XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
 #define LibCreate	NO
 
 #define CplusplusSource	YES
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
 CXXEXTRA_DEFINES = -DEXPAND_TEMPLATES
 
 XCOMM Do not put any -g here, will cause the generation of MasterTemplate.c.c
@@ -34,9 +34,10 @@ DEFINES=-DCDE_NEXT
 DEFINES=
 #endif
 
-INCLUDES = -I$(DTMMDBSRC)/HardCopy $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES) -I$(DTMMDBSRC)
+INCLUDES = $(CXXDEPENDINCLUDES) -I$(DTMMDBSRC)/HardCopy $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES) -I$(DTMMDBSRC)
 
-#if defined(CplusplusCompilerMajorVersion) && (CplusplusCompilerMajorVersion == 4)
+#if defined(CplusplusCompilerMajorVersion) && \
+    (CplusplusCompilerMajorVersion == 4) && !defined(SunArchitecture)
 XCOMM need the ptr repository
 CXXEXTRA_DEFINES = -ptr../templates
 #endif
@@ -71,7 +72,8 @@ LinkSourceFile(all_tmpls,$(DTMMDBSRC)/HardCopy)
 SpecialCPlusPlusObjectRule(TemplatesAutoNumber.o,,+Tall_tmpls -DEXPAND_TEMPLATES)
 #elif defined(AlphaArchitecture)	
 SpecialCPlusPlusObjectRule(TemplatesAutoNumber.o,,-ptf -DEXPAND_TEMPLATES)
-#elif defined(LinuxArchitecture) || defined(BSDArchitecture)
+#elif defined(LinuxArchitecture) || defined(BSDArchitecture) || \
+      defined(SunArchitecture)
 SpecialCPlusPlusObjectRule(TemplatesAutoNumber.o,,-DEXPAND_TEMPLATES)
 SpecialCPlusPlusExpandRule(TemplatesAutoNumber..c,TemplatesAutoNumber.C,-DEXPAND_TEMPLATES)
 #else

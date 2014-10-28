@@ -1,14 +1,14 @@
 XCOMM $TOG: Imakefile /main/14 1997/09/05 11:32:36 samborn $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
 
 NormalCplusplusObjectRule()
 
-INCLUDES=$(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES)
+INCLUDES=$(CXXDEPENDINCLUDES) $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES)
 
 DEFINES=-DCDE_NEXT
 
-#if defined(CplusplusCompilerMajorVersion) && (CplusplusCompilerMajorVersion == 4)
+#if defined(CplusplusCompilerMajorVersion) && (CplusplusCompilerMajorVersion > 3)
 TEMPLATE_OBJS=
 #else
 TEMPLATE_OBJS=$(OLIAS)/mmdb/StyleSheet/SSTemplates.o
@@ -148,7 +148,7 @@ DTI_CC_OBJS = \
 	$(MMDB_DIR)/dti_cc/CC_String.o		$(MMDB_DIR)/dti_cc/CC_Tokenizer.o \
 	$(MMDB_DIR)/dti_cc/CC_Stack.o		$(MMDB_DIR)/dti_cc/CC_Slist.o
 
-#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion < 4)
 EXTRA_HARDCOPY_OBJS = $(MMDB_DIR)/HardCopy/TemplatesAutoNumber.o
 #endif
 
@@ -157,7 +157,7 @@ HARDCOPY_OBJS = \
 	$(MMDB_DIR)/HardCopy/autoNumber.o		$(MMDB_DIR)/HardCopy/autoNumberFP.o \
 	$(EXTRA_HARDCOPY_OBJS)
 
-#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion < 4)
 EXTRA_STYLESHEET_OBJS = $(MMDB_DIR)/StyleSheet/SSTemplates.o
 #endif
 
@@ -191,7 +191,7 @@ ALL_MMDB_OBJS =	$(API_OBJS)		$(BTREE_OBJS) \
 
 #ifdef AIXArchitecture
 Libs=	$(STATIC) $(ALL_MMDB_OBJS)  $(MATH_LIB) $(DTSVC_LIBRARY) $(TTLIB) $(SYS_LIBRARIES)
-#elif defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+#elif defined(SunArchitecture) && CplusplusCompilerMajorVersion > 5
 Libs=	$(STATIC) -L../../../mmdb -lMMDB -lMMDBTemplates $(MATH_LIB) $(SYS_LIBRARIES)
 #else
 Libs=	$(STATIC) -L../../../mmdb -lMMDB $(MATH_LIB) $(SYS_LIBRARIES)

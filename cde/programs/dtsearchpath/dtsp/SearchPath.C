@@ -387,7 +387,7 @@ void SearchPath::Print()
  *
  ****************************************************************/
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 void SearchPath::PrettyPrint
 	(
 	std::ostream & os
@@ -402,14 +402,14 @@ void SearchPath::PrettyPrint
     CTokenizedString path (GetSearchPath(), Separator().data());
     CString subpath = path.next();
     while (!subpath.isNull()) {
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 	os << "        " << subpath << std::endl;
 #else
 	os << "        " << subpath << endl;
 #endif
 	subpath = path.next();
     }
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
     os << std::endl;
 #else
     os << endl;
@@ -424,7 +424,7 @@ void SearchPath::PrettyPrint
  *
  ****************************************************************/
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 std::ostream & operator<< 
 	(
 	std::ostream & os, 
@@ -438,7 +438,7 @@ ostream & operator<<
 	)
 #endif
 {
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
     os << sp.GetEnvVar() << "SEARCHPATH:" << std::endl;
 #else
     os << sp.GetEnvVar() << "SEARCHPATH:" << endl;

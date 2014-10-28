@@ -1096,8 +1096,12 @@ get_sun_compiler_versions(FILE *inFile)
 {
   char buf[PATH_MAX];
   char cmd[PATH_MAX];
-  static char* sunpro_cc = "/opt/SUNWspro/bin/cc";
-  static char* sunpro_CC = "/opt/SUNWspro/bin/CC";
+  static char* sunpro_cc = "/opt/solarisstudio/bin/cc";
+  static char* sunpro_CC = "/opt/solarisstudio/bin/CC";
+  static char* gnu_cc1 = "/usr/bin/gcc";
+  static char* gnu_cc2 = "/usr/gnu/bin/gcc";
+  static char* gnu_CC1 = "/usr/bin/g++";
+  static char* gnu_CC2 = "/usr/gnu/bin/g++";
   int cmajor, cminor;
   char* vptr;
   struct stat sb;
@@ -1142,6 +1146,56 @@ get_sun_compiler_versions(FILE *inFile)
       pclose (ccproc);
     }
   }
+  cmd[0] = '\0';
+  if (lstat (gnu_cc1, &sb) == 0) {
+    strncpy (cmd, gnu_cc1, PATH_MAX);
+  }
+  else if (lstat (gnu_cc2, &sb) == 0) {
+    strncpy (cmd, gnu_cc2, PATH_MAX);
+  }
+  if (cmd[0] != '\0') {
+    strncat (cmd, " --version 2>&1", 15);
+    if ((ccproc = popen (cmd, "r")) != NULL) {
+      if (fgets (buf, PATH_MAX, ccproc) != NULL) {
+	vptr = strrchr (buf, 'G');
+	for (; !isdigit(*vptr); vptr++);
+	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
+	fprintf (inFile,
+		 "#define DefaultGnuCCompilerMajorVersion %d\n",
+		 cmajor);
+	fprintf (inFile,
+		 "#define DefaultGnuCCompilerMinorVersion %d\n",
+		 cminor);
+      }
+      while (fgets (buf, PATH_MAX, ccproc) != NULL) {};
+      pclose (ccproc);
+    }
+  }
+  cmd[0] = '\0';
+  if (lstat (gnu_CC1, &sb) == 0) {
+    strncpy (cmd, gnu_CC1, PATH_MAX);
+  }
+  else if (lstat (gnu_CC2, &sb) == 0) {
+    strncpy (cmd, gnu_CC2, PATH_MAX);
+  }
+  if (cmd[0] != '\0') {
+    strncat (cmd, " --version 2>&1", 15);
+    if ((ccproc = popen (cmd, "r")) != NULL) {
+      if (fgets (buf, PATH_MAX, ccproc) != NULL) {
+	vptr = strrchr (buf, 'G');
+	for (; !isdigit(*vptr); vptr++);
+	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
+	fprintf (inFile,
+		 "#define DefaultGnuCplusplusCompilerMajorVersion %d\n",
+		 cmajor);
+	fprintf (inFile,
+		 "#define DefaultGnuCplusplusCompilerMinorVersion %d\n",
+		 cminor);
+      }
+      while (fgets (buf, PATH_MAX, ccproc) != NULL) {};
+      pclose (ccproc);
+    }
+  }
   (void) ret;
 }
 #endif
@@ -1152,6 +1206,10 @@ get_gcc_incdir(FILE *inFile)
   static char* gcc_path[] = {
 #ifdef linux
     "/usr/bin/cc",	/* for Linux PostIncDir */
+#endif
+#ifdef sun
+    "/usr/bin/gcc",
+    "/usr/gnu/bin/gcc",
 #endif
     "/usr/local/bin/gcc",
     "/opt/gnu/bin/gcc"

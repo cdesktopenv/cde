@@ -11,7 +11,7 @@ class UAS_Exception: public Exception {
     protected:
 	UAS_String fMessage;
     public:
-	DECLARE_EXCEPTION(UAS_Exception, Exception);
+	DECLARE_EXCEPTION(UAS_Exception, Exception)
 	UAS_Exception(const UAS_String&m): fMessage(m) {}
 	virtual ~UAS_Exception() {}
 	const UAS_String & message () const { return fMessage; }

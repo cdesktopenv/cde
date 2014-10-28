@@ -49,7 +49,8 @@ private:
 };
 
 template <class T>
-#if defined(__uxp__) || defined(_IBMR2) || defined(__osf__) || defined(USL) || defined(linux) || defined(CSRG_BASED)
+#if defined(__uxp__) || defined(_IBMR2) || defined(__osf__) || \
+    defined(USL) || defined(linux) || defined(CSRG_BASED) || defined(sun)
 class xList : public List_base
 #else
 class xList : private List_base
@@ -60,7 +61,8 @@ class xList : private List_base
 #ifdef SC3
 friend class List_Iterator<T>;
 #else
-#if !defined(_IBMR2) && !defined(__osf__) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined(_IBMR2) && !defined(__osf__) && !defined(USL) && \
+    !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 template <class T> friend class List_Iterator;
 #endif
 #endif
@@ -96,7 +98,8 @@ public:
 
 
 template <class T>
-#if defined(_IBMR2) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(_IBMR2) || defined(__osf__) || defined(linux) || \
+    defined(CSRG_BASED) || defined(sun)
 class List_Iterator : public List_Iterator_base
 #else
 class List_Iterator : private List_Iterator_base

@@ -77,6 +77,7 @@
  *     ParseIfExpression		parse a string for #if
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 
 #define const /**/

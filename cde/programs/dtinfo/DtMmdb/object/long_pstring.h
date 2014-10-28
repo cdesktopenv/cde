@@ -82,7 +82,8 @@ public:
 */
 
 // print function
-   virtual io_status asciiIn(istream&) ;
+   using pstring::asciiIn;
+   virtual io_status asciiIn(istream&);
 
 protected:
    chunks_index *v_str_index;

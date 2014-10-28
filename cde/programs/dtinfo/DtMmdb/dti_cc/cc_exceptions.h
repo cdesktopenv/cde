@@ -45,7 +45,7 @@ extern int errno;
 class ccException : public Exception
 {
 public:
-   DECLARE_EXCEPTION(ccException, Exception);
+   DECLARE_EXCEPTION(ccException, Exception)
 
    virtual ~ccException() {};
 
@@ -63,7 +63,7 @@ protected:
    char* msg;
 
 public:
-   DECLARE_EXCEPTION(ccStringException, ccException);
+   DECLARE_EXCEPTION(ccStringException, ccException)
 
    ccStringException(char const* m) : msg((char*)m) {};
    ~ccStringException() {};
@@ -80,7 +80,7 @@ protected:
    int mindex;
 
 public:
-   DECLARE_EXCEPTION(ccBoundaryException, ccException);
+   DECLARE_EXCEPTION(ccBoundaryException, ccException)
 
    ccBoundaryException(int l, int h, int i) : 
      low(l), high(h), mindex(i) {};

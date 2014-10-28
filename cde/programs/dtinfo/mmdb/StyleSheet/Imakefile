@@ -21,7 +21,7 @@ XCOMM		.../programs/dtinfo/mmdb/<subdir>/Imakefile
 #define LibCreate	NO
 
 #define CplusplusSource	YES
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
 CXXEXTRA_DEFINES = -DEXPAND_TEMPLATES
 
 #ifdef DtinfoClient
@@ -30,7 +30,7 @@ DEFINES = -DCDE_NEXT
 DEFINES =
 #endif
 
-INCLUDES = -I$(DTMMDBSRC)/StyleSheet $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES) -I$(DTMMDBSRC)
+INCLUDES = $(CXXDEPENDINCLUDES) -I$(DTMMDBSRC)/StyleSheet $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES) -I$(DTMMDBSRC)
 
 #ifdef RegenParserFiles
 LinkSourceFile(defParser.y,$(DTMMDBSRC)/StyleSheet)
@@ -50,7 +50,8 @@ YaccTarget(defParser,defParser)
 #endif
 
 
-#if defined(CplusplusCompilerMajorVersion) && (CplusplusCompilerMajorVersion == 4)
+#if defined(CplusplusCompilerMajorVersion) && \
+    (CplusplusCompilerMajorVersion == 4) && !defined(SunArchitecture)
 XCOMM need the ptr repository
 CXXEXTRA_DEFINES = -ptr../templates
 #endif
@@ -111,7 +112,8 @@ LinkSourceFile(all_tmpls,$(DTMMDBSRC)/StyleSheet)
 SpecialCPlusPlusObjectRule(SSTemplates.o,,+Tall_tmpls -DEXPAND_TEMPLATES)
 #elif defined(AlphaArchitecture)
 SpecialCPlusPlusObjectRule(SSTemplates.o,,-ptf -DEXPAND_TEMPLATES)
-#elif defined(LinuxArchitecture) || defined(BSDArchitecture)
+#elif defined(LinuxArchitecture) || defined(BSDArchitecture) || \
+      defined(SunArchitecture)
 SpecialCPlusPlusObjectRule(SSTemplates.o,,-DEXPAND_TEMPLATES)
 SpecialCPlusPlusExpandRule(SSTemplates..c,SSTemplates.C,-DEXPAND_TEMPLATES)
 #else

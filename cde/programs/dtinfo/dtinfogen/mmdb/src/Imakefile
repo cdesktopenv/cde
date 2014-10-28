@@ -1,10 +1,12 @@
 XCOMM $TOG: Imakefile /main/11 1997/12/31 09:07:38 bill $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
 
 NormalLibraryObjectRule()
 
-INCLUDES  = -I.. $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES)
+NormalCplusplusObjectRule()
+
+INCLUDES  = $(CXXDEPENDINCLUDES) -I.. $(EXCEPTIONS_INCLUDES) $(COMMON_CLASS_INCLUDES)
 CINCLUDES = -I..
 
  
@@ -196,7 +198,8 @@ Libs_C_API = $(MMDB_LIBS_C_API) $(DTSVCLIB) $(TTLIB) $(XLIB) $(MATH_LIB)
 SimpleCPlusPlusProgram(dbdrv,main.o,$(Libs))
 SimpleCPlusPlusProgram(restore,restore.o,$(Libs))
 
-#if defined(USLArchitecture) || defined(LinuxArchitecture) || defined(BSDArchitecture)
+#if defined(USLArchitecture) || defined(LinuxArchitecture) || \
+    defined(BSDArchitecture) || defined(SunArchitecture)
 SimpleCPlusPlusProgram(dbdrv_c_api,main_c_api.o,$(Libs_C_API))
 #else
 SimpleCProgram(dbdrv_c_api,main_c_api.o,$(Libs_C_API))

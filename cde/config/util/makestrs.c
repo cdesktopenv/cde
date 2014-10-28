@@ -308,6 +308,7 @@ static void WriteHeader (tagline, phile, abi)
 static void WriteSourceLine (te, abi, fudge)
     TableEnt* te;
     int abi;
+    int fudge;
 {
     char* c;
 

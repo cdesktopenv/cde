@@ -64,7 +64,7 @@ inline	char*	GetSelection () const { return XmTextFieldGetSelection (widget); }
 inline	Boolean	GetSelectionPosition (XmTextPosition* left, XmTextPosition* right) const { return XmTextFieldGetSelectionPosition (widget, left, right); }
 inline	char*	GetString () const { return XmTextFieldGetString (widget); }
 inline	void	Insert (XmTextPosition position, char* value) const { XmTextFieldInsert (widget, position, value); }
-inline	Boolean	Paste (Widget widget) const { return XmTextFieldPaste (widget); }
+inline	Boolean	Paste (Widget twidget) const { return XmTextFieldPaste (twidget); }
 inline	Boolean	 PosToXY (XmTextPosition position, Position* x, Position* y) const { return XmTextFieldPosToXY (widget, position, x, y); }
 inline	Boolean	Remove () const { return XmTextFieldRemove (widget); }
 inline	void	Replace (XmTextPosition from, XmTextPosition to, char* s) const { XmTextFieldReplace (widget, from, to, s); }

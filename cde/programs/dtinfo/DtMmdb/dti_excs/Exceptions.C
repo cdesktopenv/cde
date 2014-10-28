@@ -162,7 +162,7 @@ Exceptions::set_error_handler (error_handler_t error_handler)
 void
 Exceptions::error (const char *message, error_type_t error_type)
 {
-  unsigned int bufferlen = 100;
+  const unsigned int bufferlen = 100;
   char buffer[3][bufferlen];
   static char *lines[3] = { buffer[0], buffer[1], buffer[2] };
   int len, count = 0;

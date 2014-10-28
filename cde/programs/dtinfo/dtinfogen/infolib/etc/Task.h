@@ -36,7 +36,7 @@ public:
 
   const char *msg(void) { return msg_; };
 
-  DECLARE_EXCEPTION(Unexpected, Exception);
+  DECLARE_EXCEPTION(Unexpected, Exception)
   
 private:
   const char *msg_;

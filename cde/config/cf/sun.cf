@@ -16,42 +16,40 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 /*
  * Compiler setup.  This sun.cf file knows what options to use with 
- * certain compilers, including Sun C, CenterLine C, and gcc.  It 
- * also understands how to set some of the options for various C++
- * compilers, including Sun C++ and CenterLine C++.
+ * certain compilers, including Sun C and gcc.  It also understands
+ * how to set some of the options for various C++ compilers, including
+ * Sun C++ and g++.
  *
  * === C Compiler Setup ==========================================
  *
- * For SunPro C, define HasSunC to YES in site.def.  
- * For CenterLine C, define HasCenterLineC to YES in site.def
- * For gcc or gcc2, define HasGcc or HasGcc2 to YES in site.def
- * For other compilers, define HasSunC to NO in site.def, then 
+ * For SunPro C, define HasSunC to YES in host.def.
+ * For Gnu gcc, define HasGcc2 to YES in host.def
+ * For other compilers, define HasSunC to NO in host.def, then
  *    provide appropriate values for the various compiler related
  *    configuration varibles used here.
  * 
  * If you don't tell us which C compiler you have, we assume you have 
- * the SunPro C compiler under Solaris 2.x, and the bundled /bin/cc 
+ * the Gcc C compiler under Solaris 5.x.
  * under SunOS 4.1.x
  *
  * === C++ Compiler Setup ==========================================
  *
- * For SunPro C++, define HasSunCplusplus to YES in site.def
- * For CenterLine C++, define HasCenterLineCplusplus to YES in site.def
- * For Gnu g++ 2.6.x, define HasGcc2ForCplusplus to YES in site.def
- * For other compilers, define HasCplusplus to YES in site.def, and 
+ * For SunPro C++, define HasSunCplusplus to YES in host.def
+ * For Gnu g++ 4.x, define HasGcc2ForCplusplus to YES in host.def
+ * For other compilers, define HasCplusplus to YES in host.def, and
  *    check to see if you need to provide values for CplusplusOptions
  *    and/or DefaultCplusplusOptions.
  *
  * In any case, you may also need to set CplusplusDependIncludes.
  *
  * If you say you have the SunPro C++ compiler, we assume you have 
- * version 3.0.x of the compiler.  If you have version 4.0.x instead, 
- * define CplusplusCompilerMajorVersion as 4 in site.def.
+ * version 5.0.x of the compiler.  If you have version 4.0.x instead,
+ * define CplusplusCompilerMajorVersion as 4 in host.def.
  *
  */
 
 #ifndef HasSunC
-# if (HasCenterLineC || HasGcc || HasGcc2 || OSMajorVersion < 5)
+# if (HasGcc || HasGcc2 || OSMajorVersion < 5)
 #  define HasSunC NO
 # else
 #  define HasSunC YES
@@ -89,22 +87,44 @@ XCOMM SunPro C CCompilerMajorVersion./**/CCompilerMinorVersion
 XCOMM SunPro C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 #endif
 
-#if HasCenterLineC
-# ifndef CcCmd
-#  define CcCmd clcc
+#if HasGcc2
+# ifndef CCompilerMajorVersion
+#  define CCompilerMajorVersion DefaultGnuCCompilerMajorVersion
 # endif
+# ifndef CCompilerMinorVersion
+#  define CCompilerMinorVersion DefaultGnuCCompilerMinorVersion
+# endif
+XCOMM Gnu C CCompilerMajorVersion./**/CCompilerMinorVersion
 #endif
 
-#if HasCenterLineCplusplus
+#if HasGcc2ForCplusplus
 # ifndef HasCplusplus
 #  define HasCplusplus YES
 # endif
-# ifndef DefaultCplusplusOptions
-#  define DefaultCplusplusOptions -Xa
+# ifndef CplusplusCompilerMajorVersion
+#  ifdef DefaultGnuCplusplusCompilerMajorVersion
+#   define CplusplusCompilerMajorVersion DefaultGnuCplusplusCompilerMajorVersion
+#  else
+#   define CplusplusCompilerMajorVersion 4
+#  endif
 # endif
-# ifndef CplusplusOptions
-#  define CplusplusOptions -Xa
+# ifndef CplusplusCompilerMinorVersion
+#  ifdef DefaultGnuCplusplusCompilerMinorVersion
+#   define CplusplusCompilerMinorVersion DefaultGnuCplusplusCompilerMinorVersion
+#  else
+#   define CplusplusCompilerMinorVersion 6
+#  endif
 # endif
+XCOMM Gnu C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
+#endif
+
+
+#if OSMajorVersion > 4
+#define MkdirHierCmd		mkdir -p
+#endif
+
+#ifndef OptimizedCDebugFlags
+# define OptimizedCDebugFlags	-O2
 #endif
 
 #if OSMajorVersion < 4 || (OSMajorVersion == 4 && OSMinorVersion < 1)
@@ -144,20 +164,23 @@ XCOMM SunPro C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 #define ConnectionFlags		-DTCPCONN -DUNIXCONN -DLOCALCONN
 #if HasSunC
 /* 
- * Assume /opt/SUNWspro/bin/ contains symlinks to the appropriate tools
+ * Assume /opt/solarisstudio/bin/ contains symlinks to the appropriate tools
  */
 #ifndef  CcCmd
-# define CcCmd			/opt/SUNWspro/bin/cc
+# define CcCmd			/opt/solarisstudio/bin/cc
 #endif
 #ifndef  CplusplusCmd
-# define CplusplusCmd		/opt/SUNWspro/bin/CC
+# define CplusplusCmd		/opt/solarisstudio/bin/CC
 #endif
 #ifndef  CplusplusFilt
-#  define CplusplusFilt 	/opt/SUNWspro/bin/c++filt
+#  define CplusplusFilt 	/opt/solarisstudio/bin/c++filt
+#endif
+#ifndef CplusplusLibC
+#define CplusplusLibC		-L/opt/solarisstudio/lib -lCrun
 #endif
 #ifndef  CplusplusDependIncludes
 #if CplusplusCompilerMajorVersion > 3
-# define CplusplusDependIncludes	-I/opt/SUNWspro/SC4.0/include/CC
+# define CplusplusDependIncludes	-I/opt/solarisstudio/prod/include/CC -I/opt/solarisstudio/prod/include/CC/Cstd
 #elif CplusplusCompilerMajorVersion > 2
 # define CplusplusDependIncludes	-I/opt/SUNWspro/SC3.0/include/CC
 #else
@@ -165,7 +188,6 @@ XCOMM SunPro C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 #endif
 #endif
 #endif
-
 # if HasSunC && (CCompilerMajorVersion < 3)
 #  define BootstrapCFlags	-DSVR4
 # else
@@ -208,7 +230,7 @@ XCOMM SunPro C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 #  endif
 # endif 		/* OSMinorVersion > 1 */
 # ifndef UseExportLists
-#  define UseExportLists YES
+#  define UseExportLists   NO
 # endif
 # define HasVFork          NO
 # define InstKmemFlags	  -g sys -m 2711
@@ -217,11 +239,11 @@ XCOMM SunPro C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
  * Set flags for position independent code before including sv4Lib.rules
  * if the compiler in use doesn't use standard SVR4 flags
  */
-# if HasSunC || HasCenterLineC
+# if HasSunC
 #  define PositionIndependentCFlags -Kpic
 #  define LargePositionIndependentCFlags -KPIC
 # endif
-# if HasSunCplusplus || HasCenterLineCplusplus
+# if HasSunCplusplus
 #  define PositionIndependentCplusplusFlags -pic
 #  define LargePositionIndependentCplusplusFlags -PIC
 # endif
@@ -255,12 +277,10 @@ XCOMM SunPro C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 #  endif
 # endif
 # if HasGcc2
-#  ifndef OptimizedCDebugFlags
-#   ifdef i386Architecture
-#    define OptimizedCDebugFlags -m486 DefaultGcc2i386Opt
-#   else
-#    define OptimizedCDebugFlags -O2
-#   endif
+#  define SharedLibraryLoadFlags -shared
+#  define ExtraLoadFlags -Wl,-rpath,$(USRLIBDIRPATH)
+#  ifdef i386Architecture
+#   define CcCmd		gcc
 #  endif
 # else
 #  define SharedLibraryCcCmd cc
@@ -296,27 +316,23 @@ XCOMM SunPro C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 #  endif	
 # endif
 
-/* Set compiler-dependent options for CenterLine C */
-
-# if HasCenterLineC
-#  ifndef DefaultCCOptions
-#   define DefaultCCOptions -Xt -w1 -DANSICPP -U__HIGHC__
-#  endif
-#  ifndef NeedConstPrototypes
-#   define NeedConstPrototypes YES
-#  endif
-#  ifndef NeedNestedPrototypes
-#   define NeedNestedPrototypes YES
-#  endif
-#  ifndef NeedVarargsPrototypes
-#   define NeedVarargsPrototypes YES
-#  endif
-# endif
-
-
 # define PexCCOptions DefaultCCOptions
 
 #endif /* HasGcc || HasGcc2 (else) */
+
+#if HasGcc2
+CXXDEPENDINCLUDE :sh = CcCmd -v -x c++ /dev/null -fsyntax-only \
+		       2>&1 | sed -n 's/^ \(\/.*[cg]++.*\)/-I\1/p'
+#define CplusplusDependIncludes	$(CXXDEPENDINCLUDE)
+#endif
+
+#if HasGcc2ForCplusplus
+#define CplusplusCmd	g++
+#ifndef CplusplusLibC
+#define CplusplusLibC	-L/usr/gnu/lib -lstdc++
+#endif
+#endif /* HasGcc2ForCplusplus */
+
 
 #if OSMajorVersion < 5
 # define SharedAllocateLocalDefines -DINCLUDE_ALLOCA_H
@@ -346,14 +362,23 @@ man_keywords::								@@\
 #define SharedXdmcpRev 6
 #endif
 
-#define MotifDefines			\
-	-DNO_ISDIR -DNO_REGCOMP -DNO_ALLOCA -DBOGUS_MB_MAX -DNO_CONST
+#define DependFileName		.depend
+#if HasSunC
+#define DependDefines		-D__BUILTIN_VA_ARG_INCR
+#endif
+
+#define LdPreLib		-L/usr/X11/lib -L$(BUILDLIBDIR)
 #define PamUnixDefines		-DPAM_NIS
 #define TtLargePICTable		YES
 #define DtSvcDefines		-DMULTIBYTE -DNO_REGCOMP
 #define DtSearchDefines		-DI18N_MSG DtSvcDefines
 #define DtWidgetDefines		DtSearchDefines
 #define DtPrintDefines		DtSearchDefines
+
+/* For DtHelp TIFF processing routines. */
+#if defined(AMD64Architecture) || defined(i386Architecture)
+#define LSBBitOrder             YES
+#endif
 
 #define baseDtMailDefines	\
 	-DSunOS=OSMajorVersion\#\#OSMinorVersion -DMMAP_NORESERVE -DSPRO_V2
@@ -367,10 +392,15 @@ man_keywords::								@@\
 
 #define TtClientExtraLibs	ExtraLibraries -ldl -lintl
 
-#define ExportListGenSource	elistgen.sun
+#ifndef TopMotifInclude
+# define TopMotifInclude	/usr/X11/include
+#endif
+
 #define ShlibExportListOpt(filename)	-M filename
 
+#define TtClientLibs $(TTLIB) $(XTOOLLIB) $(XLIB)
+#define TtClientDepLibs $(DEPTTLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+
 #define CdeProjectDefines \
-	-DMULTIBYTE -DNLS16 -DMESSAGE_CAT -D_XOPEN_VERSION=4 \
-	-D_XOPEN_SOURCE -D__EXTENSIONS__ \
+	-DMULTIBYTE -DNLS16 -DMESSAGE_CAT -D__EXTENSIONS__ \
 	-DOSMAJORVERSION=OSMajorVersion -DOSMINORVERSION=OSMinorVersion

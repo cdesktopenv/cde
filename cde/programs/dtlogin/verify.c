@@ -360,8 +360,10 @@ userEnv(
 	env = setEnv (env, "USER", user);
 
 #ifdef sun
- 	if ((Def_path = login_defaults(p,d)) != NULL) 
+	if ((Def_path = login_defaults(p,d)) != NULL) {
  	  env = setEnv (env, "PATH", Def_path);
+	  free(Def_path);
+	}
 #else
         if (d->userPath && strlen(d->userPath) > 0)
           env = setEnv (env, "PATH", d->userPath);
@@ -457,7 +459,7 @@ login_defaults(
         register int  flags;
         register char *ptr;
 	char *Def_path;
-	char final_path[MAXPATHLEN];
+	char *final_path = malloc(MAXPATHLEN);
 	char *element;
  
 
@@ -474,13 +476,13 @@ login_defaults(
                 if ((Def_path = defread("SUPATH=")) != NULL)
                         Def_path = strdup(Def_path);
 		else
-			Def_path = DEF_SUPATH;
+                        Def_path = strdup(DEF_SUPATH);
 	      }
 	      else {
                 if ((Def_path = defread("PATH=")) != NULL)
                         Def_path = strdup(Def_path);
 		else
-			Def_path = DEF_PATH;
+			Def_path = strdup(DEF_PATH);
 	      }
 	 }
 

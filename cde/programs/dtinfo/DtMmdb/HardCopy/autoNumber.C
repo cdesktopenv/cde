@@ -237,7 +237,7 @@ int autoNumberAlphabetic::alphaToInt(const char* alpha, enum CaseType a_case)
       expansionFactor *= base;
    }
 
-   x += int((pow(base, digits)-1) / (base-1)) - 1;
+   x += int((pow((double)base, digits)-1) / (base-1)) - 1;
   
    return x;
 }
@@ -270,7 +270,7 @@ const char* autoNumberAlphabetic::intToAlpha(int x, enum CaseType a_case)
      throw(CASTHCREXCEPT hardCopyRendererException());
    }
 
-   int digits = int(log((base-1)*x + base) / log(base));
+   int digits = int(log((double)(base-1)*x + base) / log((double)base));
 
    if ( digits > 50 ) {
      MESSAGE(cerr, "alphabetic autonumber value too large");
@@ -280,7 +280,7 @@ const char* autoNumberAlphabetic::intToAlpha(int x, enum CaseType a_case)
    //debug(cerr, digits);   
    //debug(cerr, (pow(base, digits)-1) / (25) -1);
 
-   x -= int((pow(base, digits)-1) / (base-1)) - 1;
+   x -= int((pow((double)base, digits)-1) / (base-1)) - 1;
 
    char* letters = 
 	(a_case == UPPER ) ? f_upperCaseLetters : f_lowerCaseLetters; 

@@ -60,6 +60,7 @@ add_include(filep, file, file_red, include, dot, failOK)
 	struct inclist	*file, *file_red;
 	char	*include;
 	boolean	dot;
+	boolean	failOK;
 {
 	register struct inclist	*newfile;
 	register struct filepointer	*content;

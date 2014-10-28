@@ -566,7 +566,7 @@ int i;
     }
 }
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 std::ostream & operator<<
 	(
 	std::ostream &       os,

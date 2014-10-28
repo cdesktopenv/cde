@@ -156,6 +156,10 @@
 #endif
 #endif /* __cplusplus */
 
+#if defined(sun)
+#define _FILEDEFED	/**/
+#endif
+
 typedef struct _sfio_	Sfile_t, Sfio_t, SFIO;
 typedef struct _sfdc_	Sfdisc_t;
 typedef int		(*Sfread_f)_ARG_((Sfio_t*, Void_t*, int, Sfdisc_t*));

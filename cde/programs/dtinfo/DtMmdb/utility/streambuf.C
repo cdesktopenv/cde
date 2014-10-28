@@ -23,7 +23,8 @@
 /* $XConsortium: streambuf.C /main/8 1996/08/21 15:55:14 drk $ */
 #include "utility/c_streambuf.h"
 
-#if defined(USL) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(USL) || defined(__osf__) || defined(linux) || \
+    defined(CSRG_BASED) || defined(sun)
 #include <stdlib.h>
 #else
 #include <libc.h>

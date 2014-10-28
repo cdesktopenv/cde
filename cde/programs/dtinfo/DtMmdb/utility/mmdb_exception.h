@@ -72,7 +72,7 @@ extern int errno;
 class mmdbException : public Exception
 {
 public:
-   DECLARE_EXCEPTION(mmdbException, Exception);
+   DECLARE_EXCEPTION(mmdbException, Exception)
 
    virtual ~mmdbException() {};
 
@@ -90,7 +90,7 @@ protected:
    char* msg;
 
 public:
-   DECLARE_EXCEPTION(stringException, mmdbException);
+   DECLARE_EXCEPTION(stringException, mmdbException)
 
    stringException(char const* m) : msg((char*)m) {};
    ~stringException() {};
@@ -104,7 +104,7 @@ class formatException : public stringException
 protected:
 
 public:
-   DECLARE_EXCEPTION(formatException, stringException);
+   DECLARE_EXCEPTION(formatException, stringException)
 
    formatException(char const* m) : stringException(m) {};
    ~formatException() {};
@@ -118,7 +118,7 @@ protected:
    int v_code;
 
 public:
-   DECLARE_EXCEPTION(intException, mmdbException);
+   DECLARE_EXCEPTION(intException, mmdbException)
 
    intException(int c) : v_code(c) {};
    ~intException() {};
@@ -133,7 +133,7 @@ class systemException : public intException
 {
 
 public:
-   DECLARE_EXCEPTION(systemException, intException);
+   DECLARE_EXCEPTION(systemException, intException)
 
    systemException(int c) : intException(c) {};
    ~systemException() {};
@@ -145,7 +145,7 @@ class streamException : public intException
 protected:
 
 public:
-   DECLARE_EXCEPTION(streamException, intException);
+   DECLARE_EXCEPTION(streamException, intException)
 
    streamException(int c) : intException(c) {};
    ~streamException() {};
@@ -160,7 +160,7 @@ protected:
    long mindex;
 
 public:
-   DECLARE_EXCEPTION(boundaryException, mmdbException);
+   DECLARE_EXCEPTION(boundaryException, mmdbException)
 
    boundaryException(long l, long h, long i) : 
      low(l), high(h), mindex(i) {};
@@ -173,7 +173,7 @@ public:
 class beginTransException: public mmdbException
 {
 public:
-   DECLARE_EXCEPTION(beginTransException, mmdbException);
+   DECLARE_EXCEPTION(beginTransException, mmdbException)
    beginTransException() {};
    ~beginTransException() {};
 };
@@ -181,7 +181,7 @@ public:
 class commitTransException: public mmdbException
 {
 public:
-   DECLARE_EXCEPTION(commitTransException, mmdbException);
+   DECLARE_EXCEPTION(commitTransException, mmdbException)
    commitTransException() {};
    ~commitTransException() {};
 };
@@ -189,7 +189,7 @@ public:
 class rollbackTransException: public mmdbException
 {
 public:
-   DECLARE_EXCEPTION(rollbackTransException, mmdbException);
+   DECLARE_EXCEPTION(rollbackTransException, mmdbException)
    rollbackTransException() {};
    ~rollbackTransException() {};
 };
@@ -202,7 +202,7 @@ protected:
    const char* f_name;
 
 public:
-   DECLARE_EXCEPTION(demoException, mmdbException);
+   DECLARE_EXCEPTION(demoException, mmdbException)
 
    demoException(const char* p, const char* n) : f_path(p), f_name(n) {};
    virtual ~demoException() {};

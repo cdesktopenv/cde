@@ -1,6 +1,6 @@
 XCOMM $TOG: Imakefile /main/27 1997/09/05 11:29:30 samborn $
 
-DEPEND_DEFINES = $(CXXDEPENDINCLUDES) $(DEPENDDEFINES)
+DEPEND_DEFINES = $(DEPENDDEFINES)
 CXXEXTRA_INCLUDES = -DEXPAND_TEMPLATES
 
 NormalCplusplusObjectRule()
@@ -22,7 +22,7 @@ INCLUDES=-I/VOB/olias/control/rogue
 ROGUE_LIBS=$(RW_LIBDIR) $(RW_LIB)
 #endif
 
-INCLUDES=$(MMDB_INCLUDES) $(EXCEPTIONS_INCLUDES) \
+INCLUDES=$(CXXDEPENDINCLUDES) $(MMDB_INCLUDES) $(EXCEPTIONS_INCLUDES) \
          $(MISC_INCLUDES) $(GLOBAL_INCLUDES) $(DBUG_INCLUDES) \
 	 $(COMMON_CLASS_INCLUDES) $(LIC_INCLUDES)
 
@@ -158,7 +158,7 @@ DTI_CC_OBJS = \
 	$(MMDB_DIR)/dti_cc/CC_String.o		$(MMDB_DIR)/dti_cc/CC_Tokenizer.o \
 	$(MMDB_DIR)/dti_cc/CC_Stack.o		$(MMDB_DIR)/dti_cc/CC_Slist.o
 
-#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion < 4)
 EXTRA_HARDCOPY_OBJS = $(MMDB_DIR)/HardCopy/TemplatesAutoNumber.o
 #endif
 
@@ -167,7 +167,7 @@ HARDCOPY_OBJS = \
 	$(MMDB_DIR)/HardCopy/autoNumber.o		$(MMDB_DIR)/HardCopy/autoNumberFP.o \
 	$(EXTRA_HARDCOPY_OBJS)
 
-#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion != 4)
+#if defined(HPArchitecture) || !defined(CplusplusCompilerMajorVersion) || (CplusplusCompilerMajorVersion < 4)
 EXTRA_STYLESHEET_OBJS = $(MMDB_DIR)/StyleSheet/SSTemplates.o
 #endif
 
@@ -283,14 +283,15 @@ CMD_OBJS = $(CMD_SRCS:.C=.o)
 XCOMM #######################################
 XCOMM Template handling
 XCOMM #######################################
-#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 3
+#if defined(SunArchitecture) && CplusplusCompilerMajorVersion > 5
 all::$(CMD_OBJS)
 SimpleLibraryT(OLAFParse,$(OBJS),$(LIBDIR))
 SimpleCPlusPlusProgram(NodeParser, NodeParser.o libOLAFParse.a libOLAFParseT.a,$(Libs))
 SimpleCPlusPlusProgram(NCFGen, NCFGen.o libOLAFParse.a libOLAFParseT.a,$(Libs) $(DTSVCLIB) $(TTLIB))
 SimpleCPlusPlusProgram(MixedGen, MixedGen.o RemoteId.o libOLAFParse.a libOLAFParseT.a,$(Libs) $(DTSVCLIB) $(TTLIB))
 SimpleCPlusPlusProgram(StyleUpdate, StyleUpdate.o libOLAFParse.a libOLAFParseT.a,$(Libs) $(DTSVCLIB) $(TTLIB))
-#elif defined(LinuxArchitecture) || defined(BSDArchitecture)
+#elif defined(LinuxArchitecture) || defined(BSDArchitecture) || \
+      defined(SunArchitecture)
 TEMPLATE_OBJS = TKTemplate.o
 RealLibrary(OLAFParse,$(OBJS),$(LIBDIR))
 SimpleCPlusPlusProgram(NodeParser, NodeParser.o $(TEMPLATE_OBJS) libOLAFParse.a,$(Libs))

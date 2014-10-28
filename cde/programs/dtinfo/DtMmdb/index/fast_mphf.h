@@ -119,6 +119,7 @@ public:
    Boolean init_map_tbls();
 
 // load the MPHF from files
+   using pstring::asciiIn;
    virtual io_status asciiIn(istream&);
 
 // compute a hash value for a key.

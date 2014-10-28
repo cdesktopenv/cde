@@ -578,7 +578,7 @@ RFCMailBox::alterPageMappingAdvice(MapRegion *map, int advice)
   for (int m = 0; m < me; m++) {
     MapRegion *map_t = _mappings[m];
 
-#if !defined(USL) && !defined(__uxp__) && !defined(linux)
+#if !defined(USL) && !defined(__uxp__) && !defined(linux) && !defined(sun)
     // no madvise on these systems
     if (map_t == map || map == (MapRegion *)-1)
       madvise(map_t->map_region, (size_t) map_t->map_size, advice);
@@ -2261,7 +2261,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     //
     unsigned long pagelimit = _mappings[map_slot]->map_size;
 
-#if !defined(USL) && !defined(__uxp__) && !defined(linux)
+#if !defined(USL) && !defined(__uxp__) && !defined(linux) && !defined(sun)
     // no madvise; dont use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,
@@ -2352,7 +2352,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     // At this point we most likely will see random behavior. We will
     // tell the kernel to pull in the minimum number of extra pages.
     //
-#if !defined(USL) && !defined(__uxp__) && !defined(linux)
+#if !defined(USL) && !defined(__uxp__) && !defined(linux) && !defined(sun)
     // no madvise; dont use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,

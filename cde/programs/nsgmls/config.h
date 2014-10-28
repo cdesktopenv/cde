@@ -30,9 +30,9 @@
 #define SP_INCLUDE_UNISTD_H
 #define SP_POSIX_FILENAMES
 
-#ifdef __GNUG__
+#if defined(__GNUG__) || defined(__SunOS)
 // It's not missing, but it pulls in libg++
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #define SP_NEW_H_MISSING
 // set_new_handler() has to be declared extern "C"
 #define SP_SET_NEW_HANDLER_EXTERN_C

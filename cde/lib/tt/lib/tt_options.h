@@ -296,13 +296,8 @@
 
 # undef  OPT_UNIX_SOCKET_RPC 
 # define OPT_TLI 
-# if defined(PROF) /* can't use dlopen if profiling. */
-#  undef  OPT_DLOPEN_X11 
-#  undef  OPT_DLOPEN_CE 
-# else
-#  define OPT_DLOPEN_X11 
-#  define OPT_DLOPEN_CE 
-# endif
+# undef  OPT_DLOPEN_X11
+# undef  OPT_DLOPEN_CE
 # undef  OPT_ADDMSG_DIRECT 
 # define OPT_SECURE_RPC 
 # undef  OPT_CLASSING_ENGINE
@@ -321,8 +316,6 @@
 # define OPT_LOCAL_MOUNT_TYPE	MNTTYPE_UFS
 # undef  OPT_DEFINE_SIG_PF
 # define OPT_TAR_HAS_EXCLUDE_OPTION
-
-# define OPT_BUG_SUNOS_5
 
 # define OPT_HAS_REALPATH
 # undef  OPT_AUTOMOUNT_PATH_FIX

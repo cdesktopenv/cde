@@ -257,9 +257,13 @@ RestartInetd()
 
   OLDPWD=`pwd`
   cd /
-  if [ "$PLATFORM" = "sun" -o "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ]
+  if [ "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ]
   then
     /usr/sbin/inetd -s
+  elif [ "$PLATFORM" = "sun" ]
+  then
+    /usr/sbin/svcadm refresh svc:/network/inetd:default
+    /usr/sbin/svcadm restart svc:/network/inetd:default
   elif [ "$PLATFORM" = "aix" ]
   then
     startsrc -s inetd >>$LOGFILE 2>&1
@@ -601,7 +605,7 @@ XCOMM
   if [ "$PLATFORM" = "aix" ];
   then
     USER=`/bin/whoami`
-  elif [ "$PLATFORM" = "sun" -o "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ];
+  elif [ "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ];
   then
     USER=`/usr/ucb/whoami`
   else
