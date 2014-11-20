@@ -354,7 +354,7 @@ char *cpp_argv[ARGUMENTS] = {
         {"-D__powerpc64__", "1"},
 # endif
 
-# ifdef __GNUC__
+# if defined(__GNUC__) && !defined(__llvm__)
 	"-traditional",
 # endif
 # ifdef __llvm__

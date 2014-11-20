@@ -50,7 +50,7 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
     else if (patterns == NULL || *patterns == '\0')
 	return NULL;
 
-    if (! n_of_pats > 0)
+    if (! (n_of_pats > 0))
 	return NULL;
 
     char** pat_tbl = new char*[n_of_pats + 1];

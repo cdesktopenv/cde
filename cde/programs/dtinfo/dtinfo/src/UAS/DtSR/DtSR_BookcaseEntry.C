@@ -116,7 +116,7 @@ DtSR_BookcaseSearchEntry::~DtSR_BookcaseSearchEntry()
 void
 DtSR_BookcaseSearchEntry::search_zones(UAS_SearchZones& search_zones)
 {
-    if (! bcases().length() > 0) {
+    if (! (bcases().length() > 0)) {
 #ifdef DEBUG
 	fprintf(stderr, "search_zones tried on empty BookcaseEntry list\n");
 #endif

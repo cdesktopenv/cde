@@ -33,6 +33,7 @@ static char rcs_id[] = "$XConsortium: TermPrimRenderLineDraw.c /main/1 1996/04/2
  * (c) Copyright 1993, 1994 Novell, Inc.                                *
  */
 
+#include <stdlib.h>
 #include <wchar.h>
 
 #include "TermHeader.h"

@@ -51,6 +51,7 @@
 */
 
 #include <ctype.h>
+#include <stdlib.h>
 
 #if defined(__hpux) || defined(__osf__) || defined(USL)
 # include <wchar.h> 

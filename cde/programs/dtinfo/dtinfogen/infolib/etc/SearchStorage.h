@@ -23,7 +23,7 @@
 /* $XConsortium: SearchStorage.h /main/3 1996/07/18 16:49:38 drk $ */
 
 #ifndef SRCH_STOR_HDR
-#define SCRH_STOR_HDR
+#define SRCH_STOR_HDR
 
 #include <stdio.h>
 
