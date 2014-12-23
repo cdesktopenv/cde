@@ -49,8 +49,8 @@ char * qualifyWithFirst
   char * searchPath
   )
 {
-char * paths = strdup(searchPath);
-char * savepaths = paths;
+char * paths = NULL;
+char * savepaths = NULL;
 char * path;
 char * chance;
 FILE * f;
@@ -59,6 +59,9 @@ FILE * f;
 
   if (filename == NULL || searchPath == NULL)
     return NULL;
+
+  paths = strdup(searchPath);
+  savepaths = paths;
 
   while (1) {
 

@@ -371,6 +371,7 @@ ScanServers( void )
     {
 	ParseDisplay (servers, acceptableTypes, NumTypes, &puser);
     }
+    return 1;
 }
 
 static void 
@@ -1204,6 +1205,7 @@ StartDisplay(
 	d->status = running;
 	break;
     }
+    return 1;
 }
 
 static void
@@ -1484,6 +1486,7 @@ SetTitle( char *name, char *ptr )
 
     free(p);
 #endif
+    return 1;
 }
 
 

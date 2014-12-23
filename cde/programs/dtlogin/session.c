@@ -693,8 +693,7 @@ LoadXloginResources( struct display *d )
 	    *p = '_';
 	}
 		    
-	if ( strlen(language) > 0 )
-	    free(language);
+	free(language);
 
 
 	Debug("LoadXloginResources - loading resource db from %s\n", resources);
@@ -1761,6 +1760,7 @@ AbortClient( int pid )
 	    signal (SIGALRM, SIG_DFL);
 	sig = SIGKILL;
     }
+    return 1;
 }
 
 int 
@@ -1797,6 +1797,7 @@ source( struct verify_info *verify, char *file )
     return 0;
 }
 
+/* returns 0 on failure, -1 on out of mem, and 1 on success */
 int 
 execute(char **argv, char **environ )
 {
@@ -1877,6 +1878,8 @@ execute(char **argv, char **environ )
 	    ;
 	session_execve (newargv[0], newargv, environ);
     }
+
+    return 1;
 }
 
 

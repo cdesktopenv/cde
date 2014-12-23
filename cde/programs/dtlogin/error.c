@@ -213,6 +213,12 @@ TrimErrorFile( void )
 	     (f2 = open(errorLogFile, O_RDWR)) < 0    ) {
 	    Debug("TrimErrorLog(): Cannot open file %s, error number = %d\n",
 	    	   errorLogFile, errno);
+	    if(f1 >= 0) {
+       	        close(f1);
+            }
+	    if(f2 >= 0) {
+                close(f2);
+            }
 	    return;
 	}
 	    		    
@@ -225,6 +231,8 @@ TrimErrorFile( void )
 	if ( (status = lseek(f2, deleteBytes, SEEK_SET)) < 0 ) {
 	    Debug("TrimErrorLog(): Cannot lseek() in file %s, error number = %d\n",
 	    	   errorLogFile, errno);
+	    close(f1);
+	    close(f2);
 	    return;
 	}
 

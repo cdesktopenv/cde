@@ -372,6 +372,8 @@ ParseDisplay( char *source,
 
 
     freeSomeArgs (args, argv - args);
+
+    return 1;
 }
 
 static struct displayMatch {

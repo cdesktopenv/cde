@@ -480,6 +480,8 @@ GetResource( char *name, char *class, int valueType, char **valuep,
         break;
 
     }
+
+    return 1;
 }
 
 XrmOptionDescRec configTable [] = {
@@ -863,9 +865,14 @@ char * newname;
                     strncpy(newname, tempName, tempLen);
                     strcpy(newname+tempLen, name);
                     free (langString);
+                    free (tempName);
                     return(newname);
                 }
             }
+
+        default:
+          /* special is of an unknown value */
+          return(NULL);
     }
 }
 

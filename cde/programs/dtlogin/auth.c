@@ -199,9 +199,7 @@ static struct AuthProtocol AuthProtocols[] = {
 #define NUM_AUTHORIZATION (sizeof (AuthProtocols) / sizeof (AuthProtocols[0]))
 
 static struct AuthProtocol *
-findProtocol (name_length, name)
-    unsigned short  name_length;
-    char	    *name;
+findProtocol (unsigned short name_length, const char *name)
 {
     int	i;
 
@@ -214,13 +212,14 @@ findProtocol (name_length, name)
     return (struct AuthProtocol *) 0;
 }
 
-ValidAuthorization (name_length, name)
+
 #if NeedWidePrototypes
-    unsigned int  name_length;
+int
+ValidAuthorization (unsigned int name_length, char *name)
 #else
-    unsigned short  name_length;
+int
+ValidAuthorization (unsigned short name_length, char *name)
 #endif /* NeedWidePrototypes */
-    char	    *name;
 {
     if (findProtocol (name_length, name))
 	return TRUE;
@@ -228,9 +227,7 @@ ValidAuthorization (name_length, name)
 }
 
 static Xauth *
-GenerateAuthorization (name_length, name)
-unsigned short	name_length;
-char		*name;
+GenerateAuthorization (unsigned short name_length, char	*name)
 {
     struct AuthProtocol	*a;
     Xauth   *auth = 0;
@@ -266,16 +263,13 @@ char		*name;
     return auth;
 }
 
-void
-SetProtoDisplayAuthorization (pdpy,
-    authorizationNameLen, authorizationName)
-    struct protoDisplay	*pdpy;
 #if NeedWidePrototypes
-    unsigned int	authorizationNameLen;
+void
+SetProtoDisplayAuthorization (struct protoDisplay *pdpy, unsigned int authorizationNameLen, char *authorizationName)
 #else
-    unsigned short	authorizationNameLen;
+void
+SetProtoDisplayAuthorization (struct protoDisplay *pdpy, unsigned short	authorizationNameLen, char *authorizationName)
 #endif /* NeedWidePrototypes */
-    char		*authorizationName;
 {
     struct AuthProtocol	*a;
     Xauth   *auth;
@@ -310,9 +304,7 @@ SetProtoDisplayAuthorization (pdpy,
 }
 
 void
-CleanUpFileName (src, dst, len)
-    char *src, *dst;
-    int	 len;
+CleanUpFileName (char *src, char *dst, int len)
 {
     while (*src) {
 	if (--len <= 0)
@@ -336,9 +328,8 @@ CleanUpFileName (src, dst, len)
 static char authdir1[] = "authdir";
 static char authdir2[] = "authfiles";
 
-static
-MakeServerAuthFile (d)
-    struct display  *d;
+static int
+MakeServerAuthFile (struct display *d)
 {
     int len;
 #ifdef SYSV
@@ -397,10 +388,8 @@ MakeServerAuthFile (d)
     return TRUE;
 }
 
-SaveServerAuthorizations (d, auths, count)
-    struct display  *d;
-    Xauth	    **auths;
-    int		    count;
+int
+SaveServerAuthorizations (struct display *d, Xauth **auths, int count)
 {
     FILE	*auth_file;
     int		mask;
@@ -450,8 +439,7 @@ SaveServerAuthorizations (d, auths, count)
 }
 
 void
-SetLocalAuthorization (d)
-    struct display	*d;
+SetLocalAuthorization (struct display *d)
 {
     Xauth	*auth, **auths;
     int		i, j;
@@ -509,8 +497,7 @@ SetLocalAuthorization (d)
  * to allow root in.  This is bogus and should be fixed.
  */
 void 
-SetAuthorization (d)
-    struct display  *d;
+SetAuthorization (struct display *d)
 {
     register Xauth **auth = d->authorizations;
     int i;
@@ -528,10 +515,8 @@ SetAuthorization (d)
     }
 }
 
-static
-openFiles (name, new_name, oldp, newp)
-char	*name, *new_name;
-FILE	**oldp, **newp;
+static int
+openFiles (char *name, char *new_name, FILE **oldp, FILE **newp)
 {
 	int	mask;
 	int	null_data = 0;
@@ -563,10 +548,8 @@ FILE	**oldp, **newp;
 	return 1;
 }
 
-static
-binaryEqual (a, b, len)
-char	*a, *b;
-unsigned short	len;
+int
+binaryEqual (char *a, char *b, unsigned short len)
 {
 	while (len-- > 0)
 		if (*a++ != *b++)
@@ -574,10 +557,8 @@ unsigned short	len;
 	return 1;
 }
 
-static
-dumpBytes (len, data)
-unsigned short	len;
-char	*data;
+int
+dumpBytes (unsigned short len, char *data)
 {
 	unsigned short	i;
 
@@ -587,9 +568,8 @@ char	*data;
 	Debug ("\n");
 }
 
-static
-dumpAuth (auth)
-    Xauth	*auth;
+static void
+dumpAuth (Xauth	*auth)
 {
 	Debug ("family: %d\n", auth->family);
 	Debug ("addr:   ");
@@ -615,14 +595,14 @@ struct addrList {
 
 static struct addrList	*addrs;
 
-static
-initAddrs ()
+static void
+initAddrs (void)
 {
 	addrs = 0;
 }
 
-static
-doneAddrs ()
+static void
+doneAddrs (void)
 {
 	struct addrList	*a, *n;
 	for (a = addrs; a; a = n) {
@@ -635,11 +615,10 @@ doneAddrs ()
 	}
 }
 
-static checkEntry ();
+static int checkEntry (Xauth *auth);
 
 static void
-saveEntry (auth)
-    Xauth	*auth;
+saveEntry (Xauth *auth)
 {
 	struct addrList	*new;
 
@@ -690,9 +669,8 @@ saveEntry (auth)
 	addrs = new;
 }
 
-static
-checkEntry (auth)
-    Xauth	*auth;
+static int
+checkEntry (Xauth *auth)
 {
 	struct addrList	*a;
 
@@ -734,13 +712,8 @@ writeAuth (file, auth)
                 return 1;
 }
 
-static
-writeAddr (family, addr_length, addr, file, auth)
-    int		family;
-    int		addr_length;
-    char	*addr;
-    FILE	*file;
-    Xauth	*auth;
+static void
+writeAddr (int family, int addr_length, char *addr, FILE *file, Xauth *auth)
 {
 	auth->family = (unsigned short) family;
 	auth->address_length = addr_length;
@@ -750,10 +723,8 @@ writeAddr (family, addr_length, addr, file, auth)
 	saveEntry (auth);
 }
 
-static
-DefineLocal (file, auth)
-    FILE	*file;
-    Xauth	*auth;
+static void
+DefineLocal (FILE *file, Xauth *auth)
 {
 	char	displayname[100];
 
@@ -804,10 +775,7 @@ DefineLocal (file, auth)
 #ifdef USL
 /* Deal with different SIOCGIFCONF ioctl semantics on UnixWare */
 static int
-ifioctl (fd, cmd, arg)
-    int fd;
-    int cmd;
-    char *arg;
+ifioctl (int fd, int cmd, char *arg)
 {
     struct strioctl ioc;
     int ret;
@@ -846,11 +814,8 @@ ifioctl (fd, cmd, arg)
 #include <netinet/in.h>
 #include <netinet/in_var.h>
 
-static
-DefineSelf (fd, file, auth)
-    int fd;
-    FILE	*file;
-    Xauth	*auth;
+static void
+DefineSelf (int fd, FILE *file, Xauth *auth)
 {
     /*
      * The Wolongong drivers used by NCR SVR4/MP-RAS don't understand the
@@ -922,7 +887,7 @@ DefineSelf (fd, file, auth)
 /* Define this host for access control.  Find all the hosts the OS knows about 
  * for this fd and add them to the selfhosts list.
  */
-static
+static void
 #ifdef __osf__
 DefineSelf (fd, file, auth, addr_family)
 #else
@@ -1026,7 +991,7 @@ DefineSelf (fd, file, auth)
 /* Define this host for access control.  Find all the hosts the OS knows about 
  * for this fd and add them to the selfhosts list.
  */
-static
+static void
 DefineSelf (fd, file, auth)
     int fd;
 {
@@ -1070,7 +1035,7 @@ DefineSelf (fd, file, auth)
 #endif /* WINTCP */
 
 
-static
+static void
 setAuthNumber (auth, name)
     Xauth   *auth;
     char    *name;
@@ -1101,11 +1066,8 @@ setAuthNumber (auth, name)
     }
 }
 
-static
-writeLocalAuth (file, auth, name)
-    FILE	*file;
-    Xauth	*auth;
-    char	*name;
+static void
+writeLocalAuth (FILE *file, Xauth *auth, char *name)
 {
     int	fd;
 
@@ -1134,12 +1096,7 @@ writeLocalAuth (file, auth, name)
 #ifdef XDMCP
 
 static void
-writeRemoteAuth (file, auth, peer, peerlen, name)
-    FILE	    *file;
-    Xauth	    *auth;
-    XdmcpNetaddr    peer;
-    int		    peerlen;
-    char	    *name;
+writeRemoteAuth (FILE *file, Xauth *auth, XdmcpNetaddr peer, int peerlen, char *name)
 {
     int	    family = FamilyLocal;
     char    *addr;
@@ -1165,9 +1122,7 @@ writeRemoteAuth (file, auth, peer, peerlen, name)
 #endif /* XDMCP */
 
 void
-SetUserAuthorization (d, verify)
-    struct display		*d;
-    struct verify_info	*verify;
+SetUserAuthorization (struct display *d, struct verify_info *verify)
 {
     FILE	*old, *new;
     char	home_name[1024], backup_name[1024], new_name[1024];
@@ -1341,9 +1296,7 @@ SetUserAuthorization (d, verify)
 }
 
 void
-RemoveUserAuthorization (d, verify)
-    struct display	*d;
-    struct verify_info	*verify;
+RemoveUserAuthorization (struct display *d, struct verify_info *verify)
 {
     char    *home;
     Xauth   **auths, *entry;
