@@ -44,13 +44,15 @@
 #include "isam_impl.h"
 
 extern int _iskeycmp();
-static remove_entry();
+
+static void remove_entry(Btree *, char *, int);
+static void move_from_right(Btree *, char *, char *, int);
+static void move_from_left(Btree *, char *, char *, int);
 
 /* _isbtree_remove() - Remove entry from B-tree ----------------------------*/
 
 void
-_isbtree_remove(btree)
-    register Btree	 *btree;
+_isbtree_remove(Btree *btree)
 {
     struct keydesc2	*pkeydesc2 = btree->keydesc2;
     int			nkeys;		     /* Number of keys in the page */
@@ -244,10 +246,8 @@ _isbtree_remove(btree)
 
 /*--------- remove supporting local functions -------------------------------*/
 
-static remove_entry(btree, pkp, pos)
-    register Btree	*btree;
-    char		*pkp;
-    int			pos;
+static void
+remove_entry(Btree *btree, char *pkp, int pos)
 {
     int    		keylength = btree->keydesc2->k2_len;
     int			nkeys = ldshort(pkp + BT_NKEYS_OFF);
@@ -272,10 +272,8 @@ static remove_entry(btree, pkp, pos)
     stshort((short) (nkeys - 1), pkp + BT_NKEYS_OFF);
 }
 
-move_from_right(btree, l, r, move_keys)
-    Btree	 *btree;
-    char	*l, *r;
-    int		move_keys;
+static void
+move_from_right(Btree *btree, char *l, char *r, int move_keys)
 {
     int    	keylength = btree->keydesc2->k2_len;
     int		lnkeys = ldshort(l + BT_NKEYS_OFF);
@@ -308,10 +306,8 @@ move_from_right(btree, l, r, move_keys)
     stshort((short) rnkeys, r + BT_NKEYS_OFF);
 }
 
-move_from_left(btree, l, r, move_keys)
-    Btree	*btree;
-    char	*l, *r;
-    int		move_keys;
+static void
+move_from_left(Btree *btree, char *l, char *r, int move_keys)
 {
     int    	keylength = btree->keydesc2->k2_len;
     int		lnkeys = ldshort(l + BT_NKEYS_OFF);

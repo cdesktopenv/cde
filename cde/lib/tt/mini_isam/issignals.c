@@ -76,7 +76,8 @@ _issignals_cntl(opt)
     return (oldmask);
 }
 
-_issignals_mask()
+void
+_issignals_mask(void)
 {
     if (do_mask && !already_masked) {
         (void) sigfillset(&allsignals);
@@ -89,7 +90,8 @@ _issignals_mask()
     }
 }
 
-_issignals_unmask()
+void
+_issignals_unmask(void)
 {
     if (do_mask) {
 	(void)sigprocmask(SIG_SETMASK, &oldmask, NULL);

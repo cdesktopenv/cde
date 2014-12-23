@@ -457,4 +457,5 @@ _Tt_string _tt_entrypt_to_string(_Tt_entry_pt fun)
 	case TT_API_CALL_LAST: return NULL; 
 #endif
 	}
+	return (const char *) NULL;
 }

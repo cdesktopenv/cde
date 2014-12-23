@@ -63,11 +63,12 @@
  */
 
 Static	char *rp_readrecord_v(), *rp_readrecord_f();
-Static printkey();
-Static cmd_error();
+Static int printkey(int, struct keydesc *, int (*)(const char *, ...));
+Static void cmd_error(const char *, int (*)(const char *, ...));
 Static int typeletter();
 Static rp_readcntlpg();
 static int  isnoprintf(const char *, ...);
+
 isrepair(isfname, verbose)
     char	*isfname;
     int		verbose;
@@ -400,11 +401,8 @@ isnoprintf(const char *s, ...)
     return(0);
 }
 
-static
-printkey(n, pkdesc, print)
-    int		n;
-    struct keydesc *pkdesc;
-    int		(*print)();
+static int
+printkey(int n, struct keydesc *pkdesc, int (*print)(const char *, ...))
 {
     int		i;
     struct keypart *pk;
@@ -429,12 +427,11 @@ printkey(n, pkdesc, print)
 	       (pk->kp_type & ISDESC)?"D":" ");
     }
     print("\n");
+    return 1;
 }
 
-static
-cmd_error(str,print)
-    char	*str;
-    int		(*print)();
+static void
+cmd_error(const char *str, int (*print)(const char *, ...))
 {
     (void)print("%s: ISAM error %d\n", str, iserrno);
 }

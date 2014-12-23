@@ -47,11 +47,12 @@ static char sccsid[] = "@(#)iskeyconv.c 1.4 89/07/17 Copyr 1988 Sun Micro";
  * _iskey_itox(pikdesc,pxkdesc) 
  *
  * Convert internal key desc. to X/OPEN key descriptor. 
+ *
+ * @param pikdesc NetISAM internal format
+ * @param pxkdesc X/OPEN format
  */
-
-_iskey_itox(pikdesc,pxkdesc)
-    register struct keydesc2	*pikdesc;    /* NetISAM internal format */
-    register struct keydesc	*pxkdesc;    /* X/OPEN format */
+void
+_iskey_itox(struct keydesc2 *pikdesc, struct keydesc *pxkdesc)
 {
     int 		nparts;
     register int 	i;
@@ -74,11 +75,11 @@ _iskey_itox(pikdesc,pxkdesc)
  *
  * Convert X/OPEN key descriptor to internal key descriptor.
  *
+ * @param pikdesc NetISAM internal format
+ * @param pxkdesc X/OPEN format
  */
-
-_iskey_xtoi(pikdesc,pxkdesc)
-    register struct keydesc2	*pikdesc;    /* NetISAM internal format */
-    register struct keydesc	*pxkdesc;    /* X/OPEN format */
+void
+_iskey_xtoi(struct keydesc2 *pikdesc, struct keydesc *pxkdesc)
 {
     int 		nparts;
     register int 	i;

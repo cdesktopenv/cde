@@ -56,8 +56,7 @@ static char sccsid[] = "@(#)iserror.c 1.10 89/07/17 Copyr 1988 Sun Micro";
 static int (*fatal_error_user_handler)();    /* set by iscntl(..,ISCNTL_FATAL,..) */
 
 void 
-_isfatal_error(msg)
-    char	*msg;
+_isfatal_error(char *msg)
 {
   int		logerr;
 
@@ -83,8 +82,7 @@ _isfatal_error(msg)
 }
 
 void 
-_isfatal_error1(msg)
-    char	*msg;
+_isfatal_error1(char *msg)
 {
   extern int	_is_rpcnetisamd; /* is 1 if this is rpc.netisamd */
   extern int	_is_netisamlockd; /* is 1 if this is netisamlockd */
@@ -110,8 +108,8 @@ _isfatal_error1(msg)
   }
 }
 
-_isam_warning(msg)
-    char	*msg;
+void
+_isam_warning(char *msg)
 {
     openlog("NetISAM", LOG_PID, LOG_USER);
     syslog(LOG_ERR, "%s", msg);
@@ -136,9 +134,7 @@ int  (*_isfatal_error_set_func(func))()
  */
 
 void
-_setiserrno2(error, is1, is2)
-    int		error;
-    int		is1, is2;
+_setiserrno2(int error, int is1, int is2)
 {
     iserrno = error;
     isstat1 = is1;
@@ -152,8 +148,7 @@ _setiserrno2(error, is1, is2)
  */
 
 void
-_seterr_errcode(errcode)
-    register struct errcode	*errcode;
+_seterr_errcode(struct errcode *errcode)
 {
     iserrno = errcode->iserrno;
     isstat1 = errcode->isstat[0];

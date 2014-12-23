@@ -50,7 +50,7 @@ extern int _iskeycmp();
 static void _readallrecords(), _attach_dups_serial();
 static Blkno _buildbtree();
 static int _duplicate_exist();
-static checkavailfd();
+static void checkavailfd(void);
 
 /*
  * _amaddindex(isfhandle, keydesc,  errcode)
@@ -649,8 +649,8 @@ Static int _duplicate_exist(srt, keylength)
 
 
 
-Static
-checkavailfd()
+static void
+checkavailfd(void)
 {
     Fcb			*fcb;
     Bytearray		*isfhandle2;

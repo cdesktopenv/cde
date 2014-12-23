@@ -154,6 +154,7 @@ ldchar(src, len, dst)
     }
 
     *++p = '\0';
+    return 0;
 }
 
 int
@@ -177,6 +178,7 @@ stchar(src, dst, len)
     /* Pad with blanks. */
     if (len > 0)
 	(void) memset((void *) dst, BLANK, len);
+    return 0;
 }
 
 /* ldchar2() - Load character field (C style, NULL padded) */
@@ -195,6 +197,7 @@ ldchar2(src, len, dst)
     /* Load the entire string. */
     memcpy((void *) dst, (const void *) src, len);
     *(dst + len) = '\0';
+    return 0;
 }
  
 int
@@ -218,6 +221,7 @@ stchar2(src, dst, len)
     /* Pad with NULLs. */
     if (len > 0)
         memset(dst, 0, len);
+    return 0;
 }
 
 /* ldfloat() - Load a float number from a potentially  unaligned address */
@@ -288,6 +292,7 @@ stdbl(val, p)
     register char     	*p;
 {
     memcpy ( p,(char *)&val, DOUBLESIZE);
+    return 0;
 }
 
 #else      /* 386i -- do it the long way round....  */

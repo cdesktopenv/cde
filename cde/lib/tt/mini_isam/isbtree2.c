@@ -44,15 +44,17 @@
 #include "isam_impl.h"
 
 extern int _iskeycmp();
-Static insert_key();
+
+void leftkey_up(Btree *, int);
+
+static void insert_key(Btree *, char *, int, char *, Blkno);
+static void splitblock(Btree *, char *, char *, int);
 
 
 /* _isbtree_insert() - Insert entry into B-tree ----------------------------*/
 
 void
-_isbtree_insert(btree, key)
-    register Btree	 *btree;
-    char		   *key;
+_isbtree_insert(Btree *btree, char *key)
 {
     Keydesc2		*pkeydesc2 = btree->keydesc2;
     int			keylength = pkeydesc2->k2_len;
@@ -185,9 +187,8 @@ _isbtree_insert(btree, key)
 /*--------- insert supporting local functions -------------------------------*/
 
 /* leftkey_up() - Update upper levels with new leftmost entry -----------*/
-leftkey_up(btree, level)
-    register Btree	 *btree;
-    int			   level;
+void
+leftkey_up(Btree *btree, int level)
 {
     int    		keylength = btree->keydesc2->k2_len;
     char   	 	*pkp;
@@ -210,12 +211,8 @@ leftkey_up(btree, level)
 }
 
 /* insert_key - Insert key into block ------------------------*/
-Static insert_key(btree, pkp, pos, key, blkno)
-    register Btree	 *btree;
-    char	*pkp;
-    int		pos;
-    char	*key;
-    Blkno	blkno;
+static void
+insert_key(Btree *btree, char *pkp, int pos, char *key, Blkno blkno)
 {
     int    	keylength = btree->keydesc2->k2_len;
     int		nkeys = ldshort(pkp + BT_NKEYS_OFF);
@@ -248,10 +245,8 @@ Static insert_key(btree, pkp, pos, key, blkno)
 }
 
 /* splitblock() - Split block into two -----------------------------*/
-splitblock(btree, fullpage,  newpage, pos)
-    register Btree	*btree;
-    register char	*fullpage, *newpage;
-    int			pos;
+static void
+splitblock(Btree *btree, char *fullpage, char *newpage, int pos)
 {
     int    		keylength = btree->keydesc2->k2_len;
     int			nkeys, capac, level;
