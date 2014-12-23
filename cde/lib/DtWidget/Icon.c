@@ -3088,7 +3088,7 @@ Draw(
 	else if (fill_mode == XmFILL_PARENT)
 		gc = G_ParentBackgroundGC (g);
 
-	if ((fill_mode != XmFILL_NONE) && (fill_mode != XmFILL_TRANSPARENT))
+	if ((fill_mode == XmFILL_SELF) || (fill_mode == XmFILL_PARENT))
 		XFillRectangle (d, drawable, gc, x + h_t, y + h_t,
 				w - 2 * h_t, h - 2 * h_t);
 
@@ -3197,6 +3197,10 @@ Draw(
 		      	      ? 0 : Min ((unsigned)G_StringHeight (g),
 					 G_Height (g) - s_y);
                       break;
+                   default:
+                     /* Unknown alignment */
+                     clip.width = 0;
+                     clip.height = 0;
                  }
 		if (clip.width > 0 && clip.height > 0)
                 {

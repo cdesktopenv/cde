@@ -508,6 +508,10 @@ CheckFile(
       else
 	file_changed = False;
       break;
+
+    default:
+      /* unsupported control type */
+      return;
     }
   
   G_FileSize (g) = file_size;
