@@ -220,7 +220,7 @@ FreeDisplayEntry(
 	free (d->entry.displayPattern);
 	break;
     case DISPLAY_ADDRESS:
-	XdmcpDisposeARRAY8 (&d->entry.displayAddress);
+	XdmcpDisposeARRAY8 (&d->entry.displayAddress.clientAddress);
 	break;
     }
     for (h = d->hosts; h; h = next) {

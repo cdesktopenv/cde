@@ -262,7 +262,9 @@ WillingMsg( void )
 
 	strcat(tmpbuf,tmpfilename);
 
-	system(tmpbuf);
+	if(-1 == system(tmpbuf)) {
+            perror(strerror(errno));
+        }
 
 	if ((f = fopen(tmpfilename,"r")) != (FILE *) NULL) {
 	    fgets(tmpbuf,LINEBUFSIZE,f);

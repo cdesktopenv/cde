@@ -331,7 +331,7 @@ static int
 IOErrorHandler( Display *dpy )
 {
 
-    char *s = ((errno >= 0 && errno < sys_nerr) ? sys_errlist[errno]
+    const char *s = ((errno >= 0 && errno < sys_nerr) ? sys_errlist[errno]
 						: "unknown error");
 
     LogError(ReadCatalog(
@@ -712,7 +712,10 @@ LoadXloginResources( struct display *d )
 			auth_key, authority, d->xrdb, d->name, tmpname);
 	Debug ("Loading resource file: %s\n", cmd);
 
-	system (cmd);  
+	if(-1 == system (cmd)) {
+	    Debug ("system() failed on cmd '%s'\n", cmd);
+            return -1;
+        }
 
 	if (debugLevel <= 10)
 	  if (unlink (tmpname) == -1)
@@ -1518,7 +1521,9 @@ StartClient( struct verify_info *verify, struct display *d, int *pidp )
 
 /* setpenv() will set gid for AIX */
 #if !defined (_AIX)
-	setgid (verify->groups[0]);
+	if(-1 == setgid (verify->groups[0])) {
+            perror(strerror(errno));
+        }
 #endif
 
 #    else  /* ! NGROUPS */
@@ -1570,7 +1575,9 @@ StartClient( struct verify_info *verify, struct display *d, int *pidp )
 			LogError (ReadCatalog(
 				MC_LOG_SET,MC_LOG_NO_HMDIR,MC_DEF_LOG_NO_HMDIR),
 				home, getEnv (verify->userEnviron, "USER"));
-			chdir ("/");
+			if(-1 == chdir ("/")) {
+                                perror(strerror(errno));
+                        }
 			verify->userEnviron = setEnv(verify->userEnviron, 
 						     "HOME", "/");
 		}
@@ -1986,8 +1993,12 @@ RunGreeter( struct display *d, struct greet_info *greet,
 	 *  set up communication pipes...
 	 */
 	 
-	pipe(response);
-	pipe(request);
+	if(-1 == pipe(response)) {
+            perror(strerror(errno));
+        }
+	if(-1 == pipe(request)) {
+            perror(strerror(errno));
+        }
 	rbytes = 0;
 
 
@@ -2115,7 +2126,9 @@ RunGreeter( struct display *d, struct greet_info *greet,
 	    * Writing to file descriptor 1 goes to response pipe instead.
 	    */
 	    close(1);
-	    dup(response[1]);
+	    if(-1 == dup(response[1])) {
+                perror(strerror(errno));
+            }
 	    close(response[0]);
 	    close(response[1]);
 
@@ -2123,7 +2136,9 @@ RunGreeter( struct display *d, struct greet_info *greet,
 	    * Reading from file descriptor 0 reads from request pipe instead.
 	    */
 	    close(0);
-	    dup(request[0]);
+	    if(-1 == dup(request[0])) {
+                perror(strerror(errno));
+            }
 	    close(request[0]);
 	    close(request[1]);
 
@@ -2138,7 +2153,7 @@ RunGreeter( struct display *d, struct greet_info *greet,
 	    if ((p = (char *) strrchr(msg, '/')) == NULL)
 		strcpy(msg,"./");
 	    else
-		*(++p) = NULL;
+		*(++p) = '\0';
 
 	    strcat(msg,"dtgreet");
 
@@ -2934,7 +2949,9 @@ static void
 TellGreeter(
   RequestHeader *phdr)
 {
-  write(request[1], phdr, phdr->length);
+  if(-1 == write(request[1], phdr, phdr->length)) {
+    perror(strerror(errno));
+  }
 }
 
 static int

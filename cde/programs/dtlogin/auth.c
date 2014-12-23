@@ -361,10 +361,18 @@ MakeServerAuthFile (struct display *d)
 	sprintf (d->authFile, "%s/%s", authDir, authdir1);
 	r = stat(d->authFile, &statb);
 	if (r == 0) {
-	    if (statb.st_uid != 0)
-		(void) chown(d->authFile, 0, statb.st_gid);
-	    if ((statb.st_mode & 0077) != 0)
-		(void) chmod(d->authFile, statb.st_mode & 0700);
+	    if (statb.st_uid != 0) {
+		if(-1 == chown(d->authFile, 0, statb.st_gid)) {
+                    perror(strerror(errno));
+                    return FALSE;
+                }
+            }
+	    if ((statb.st_mode & 0077) != 0) {
+		if(-1 == chmod(d->authFile, statb.st_mode & 0700)) {
+                    perror(strerror(errno));
+                    return FALSE;
+                }
+            }
 	} else {
 	    if (errno == ENOENT)
 		r = mkdir(d->authFile, 0700);
@@ -1284,11 +1292,15 @@ SetUserAuthorization (struct display *d, struct verify_info *verify)
 #ifdef NGROUPS
             Debug ("SetUserAuthorization: chown(%s,%d,%d)\n",
 		   envname, verify->uid, verify->groups[0]);
-	    chown (envname, verify->uid, verify->groups[0]);
+	    if(-1 == chown (envname, verify->uid, verify->groups[0])) {
+                perror(strerror(errno));
+            }
 #else
             Debug ("SetUserAuthorization: chown(%s,%d,%d)\n",
 		   envname, verify->uid, verify->gid);
-	    chown (envname, verify->uid, verify->gid);
+	    if(-1 == chown (envname, verify->uid, verify->gid)) {
+                perror(strerror(errno));
+            }
 #endif /* NGROUPS */
         }
     }

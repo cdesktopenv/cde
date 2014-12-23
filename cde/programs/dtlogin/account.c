@@ -291,7 +291,9 @@ Account( struct display *d, char *user, char *line, pid_t pid,
      */
 
     if ((fd = open(WTMP_FILE, O_WRONLY | O_APPEND)) >= 0) {
-	write(fd, u, sizeof(utmp));
+	if(-1 == write(fd, u, sizeof(utmp))) {
+          perror(strerror(errno));
+        }
 	close(fd);
     }
 

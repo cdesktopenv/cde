@@ -252,16 +252,23 @@ TrimErrorFile( void )
 	 *  shift bytes to be saved to the beginning of the file...
 	 */
 	 
-	write (f1, p, n);
+	if(-1 == write (f1, p, n)) {
+            perror(strerror(errno));
+        }
 	
-	while ( (n = read(f2, buf, BUFSIZ)) > 0 )
-	    write(f1, buf, n);
+	while ( (n = read(f2, buf, BUFSIZ)) > 0 ) {
+	    if(-1 == write(f1, buf, n)) {
+                perror(strerror(errno));
+            }
+        }
 
 	/*
 	 *  truncate file to new length and close file pointers...
 	 */
 	 
-	truncate(errorLogFile, statb.st_size - deleteBytes);
+	if(-1 == truncate(errorLogFile, statb.st_size - deleteBytes)) {
+            perror(strerror(errno));
+        }
 	close(f1);
 	close(f2);
     }

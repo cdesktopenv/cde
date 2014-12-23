@@ -119,13 +119,18 @@ extern ARRAY8Ptr	ChooseAuthentication ();
 extern int		SelectConnectionTypeIndex ();
 
 void query_respond (from, fromlen, length);
+void broadcast_respond (struct sockaddr *from, int fromlen, int length);
 void forward_respond (struct sockaddr *from, int fromlen, int length);
 void request_respond (struct sockaddr *from, int fromlen, int length);
 void send_willing (struct sockaddr *from, int fromlen, ARRAY8Ptr authenticationName, ARRAY8Ptr status);
 void send_unwilling (struct sockaddr *from, int fromlen, ARRAY8Ptr authenticationName, ARRAY8Ptr status);
 void send_accept (struct sockaddr *to, int tolen, CARD32 sessionID, ARRAY8Ptr authenticationName, ARRAY8Ptr authenticationData, ARRAY8Ptr authorizationName, ARRAY8Ptr authorizationData);
 void manage (struct sockaddr *from, int fromlen, int length);
-void send_decline (struct sockaddr *to, int tolen, ARRAY8Ptr authenticationName, ARRAY8Ptr authenticationData, ARRAY8Ptr status); 
+void send_decline (struct sockaddr *to, int tolen, ARRAY8Ptr authenticationName, ARRAY8Ptr authenticationData, ARRAY8Ptr status);
+void send_failed (struct sockaddr *from, int fromlen, char *name, CARD32 sessionID, char *reason);
+void send_refuse (struct sockaddr *from, int fromlen, CARD32 sessionID);
+void send_alive (struct sockaddr *from, int fromlen, int length);
+
 
 
 int	xdmcpFd = -1;

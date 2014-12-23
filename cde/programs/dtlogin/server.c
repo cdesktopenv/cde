@@ -63,7 +63,7 @@ static receivedUsr1;
  *
  ***************************************************************************/
 
-static char * _SysErrorMsg( int n) ;
+static const char * _SysErrorMsg( int n) ;
 static SIGVAL CatchUsr1( int arg ) ;
 static void   GetRemoteAddress( struct display *d, int fd) ;
 static SIGVAL PingBlocked( int arg ) ;
@@ -97,11 +97,11 @@ CatchUsr1( int arg )
     ++receivedUsr1;
 }
 
-static char * 
+static const char * 
 _SysErrorMsg( int n )
 {
 
-    char *s = ((n >= 0 && n < sys_nerr) ? sys_errlist[n] : "unknown error");
+    const char *s = ((n >= 0 && n < sys_nerr) ? sys_errlist[n] : "unknown error");
 
     return (s ? s : "no such error");
 }
@@ -146,8 +146,12 @@ StartServerOnce( struct display *d )
              Debug ("Unable to set permissions on console devices ..\n");
         else {
 #endif
-             setgid (puser.pw_gid);
-             setuid (puser.pw_uid);
+             if(-1 == setgid (puser.pw_gid)) {
+                  Debug ("setgid() failed setting %d\n", puser.pw_gid);
+             }
+             if(-1 == setuid (puser.pw_uid)) {
+                  Debug ("setuid() failed setting %d\n", puser.pw_uid);
+             }
 #ifdef sun
         }
 #endif

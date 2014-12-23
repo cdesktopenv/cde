@@ -1941,5 +1941,7 @@ TellRequester(char * buf, size_t nbytes)
 #ifdef VG_TRACE
   vg_TRACE_EXECUTION("main:  entered TellRequester ...");
 #endif /* VG_TRACE */
-  write(1, buf, nbytes);
+  if(-1 == write(1, buf, nbytes)) {
+    perror(strerror(errno));
+  }
 }

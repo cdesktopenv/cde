@@ -2336,8 +2336,9 @@ Audit( struct passwd *p, char *msg, int errnum )
     /*
      * make sure program is back to super-user...
      */
-
-    seteuid(0);
+    if(-1 == seteuid(0)) {
+        perror(strerror(errno));
+    }
 
     return;
 }

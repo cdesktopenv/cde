@@ -777,7 +777,9 @@ Choose (HostName *h)
 	XdmcpWriteARRAY8 (&buffer, app_resources.clientAddress);
 	XdmcpWriteCARD16 (&buffer, (CARD16) app_resources.connectionType);
 	XdmcpWriteARRAY8 (&buffer, &h->hostaddr);
-	write (fd, (char *)buffer.data, buffer.pointer);
+	if(-1 == write (fd, (char *)buffer.data, buffer.pointer)) {
+            perror(strerror(errno));
+        }
 	close (fd);
     }
     else
