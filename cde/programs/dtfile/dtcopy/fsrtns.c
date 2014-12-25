@@ -387,7 +387,7 @@ static int
 EraseObject(char *nameP, int force)
 {
   struct stat src_stat;
-  int rc;
+  int rc = 0;
 
   if (periodicCallback)
     if (periodicCallback() != 0)
@@ -396,15 +396,15 @@ EraseObject(char *nameP, int force)
   if (lstat(nameP, &src_stat) < 0)
     rc = errno;
   else if ((src_stat.st_mode & S_IFMT) == S_IFDIR) {
-    if (! access(nameP, X_OK|W_OK))
+    if (access(nameP, X_OK|W_OK))
       return errno;
     rc = EmptyDir(nameP, 1, force);
   }
   else {
-    if (! (force || access(nameP, W_OK)))
+    if (!force && access(nameP, W_OK))
       return errno;
 
-    if (! unlink(nameP))
+    if (unlink(nameP))
       rc = errno;
   }
 
