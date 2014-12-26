@@ -300,7 +300,7 @@ _primBufferInsertWc
     short             overflowWidth;
     short             localCol;
     TermLine          line;
-    wchar_t          *pwc;
+    wchar_t          *pwc = NULL;
     TermCharInfoRec   charInfo;
 
     /*
