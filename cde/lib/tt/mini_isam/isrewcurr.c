@@ -203,14 +203,16 @@ _amrewcurr(isfhandle, record, reclen, curpos, recnum, errcode)
 	_amseterrcode(errcode, err);	
 	goto ERROR;
     }
-    _bytearr_free(curpos);
-    *curpos = newcurpos;
 
     /* 
      * This takes care of new record position if the physical order is in use.
      */
     *recnum = crp->recno;	
     
+    _bytearr_free(curpos);
+    crp = NULL;                 /* was aliased to freed curpos->data */
+    *curpos = newcurpos;
+
     _amseterrcode(errcode, ISOK);
     _issignals_mask();
     _isdisk_commit();
