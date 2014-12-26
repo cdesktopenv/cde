@@ -444,15 +444,15 @@ enumToName
 {
     int 		  i1;
     char		  buffer[BUFSIZ];
-    static char		 *retBuffer = (char *) 0;
+    static char		 *retBuffer = NULL;
 
     for (i1 = 0; list[i1].string; i1++) {
 	if (list[i1].value == value) {
 	    return(list[i1].string);
 	}
     }
-    (void) sprintf(buffer, "Unknown Value %d", value);
-    retBuffer = realloc(retBuffer, strlen(buffer));
+    snprintf(buffer, BUFSIZ, "Unknown Value %d", value);
+    retBuffer = realloc(retBuffer, strlen(buffer) + 1);
     (void) strcpy(retBuffer, buffer);
     return(retBuffer);
 }
@@ -467,14 +467,14 @@ _DtTermPrimDebugDumpEvent
 {
     _DtTermProcessLock();
     (void) fprintf(f, ">>  widget: name=\"%s\"  widget=0x%lx  window=0x%lx\n",
-	    XtName(w), w, XtWindow(w));
+                   XtName(w), (long)w, XtWindow(w));
     (void) fprintf(f, ">> event {\n");
     (void) fprintf(f, ">>     type=%s;\n",
 	    enumToName(eventTypes, ev->xany.type));
     (void) fprintf(f, ">>     serial=%lu\n", ev->xany.serial);
     (void) fprintf(f, ">>     send_event=%s\n",
 	    enumToName(boolTypes, ev->xany.send_event));
-    (void) fprintf(f, ">>     display=0x%lx\n", ev->xany.display);
+    (void) fprintf(f, ">>     display=0x%lx\n", (long)ev->xany.display);
     (void) fprintf(f, ">>     window=0x%lx\n", ev->xany.window);
     switch (ev->type) {
     case EnterNotify:
