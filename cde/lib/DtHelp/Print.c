@@ -1204,7 +1204,7 @@ void _DtHelpPrintJob(
     Boolean	printTocIndex,
     char *	topicTitle)
 {
-  char * argv[20];
+  char * argv[40];
   char * quotes="''";
   int	 i;
   int	 pid;
