@@ -54,6 +54,7 @@
 #ifdef _AIX
 #ifdef _POWER
 #include <stdio.h>
+#include <errno.h>
 #include <sys/file.h>
 #endif /* _POWER */
 # include <usersec.h>
@@ -331,8 +332,7 @@ static int
 IOErrorHandler( Display *dpy )
 {
 
-    const char *s = ((errno >= 0 && errno < sys_nerr) ? sys_errlist[errno]
-						: "unknown error");
+  const char *s = strerror(errno);
 
     LogError(ReadCatalog(
                        MC_LOG_SET,MC_LOG_FATAL_IO,MC_DEF_LOG_FATAL_IO),
@@ -657,14 +657,14 @@ LoadXloginResources( struct display *d )
         if (access (resources, R_OK) != 0) {
             /** fallback to the C locale for resources **/
 	    Debug("LoadXloginResources - cant access %s\n", resources);
-            Debug("\t %s.  Falling back to C.\n", sys_errlist[errno]);
+            Debug("\t %s.  Falling back to C.\n", strerror(errno));
             free(resources);
             resources = _ExpandLang(d->resources, "C");
             if (access (resources, R_OK) != 0) {
                 /** can't find a resource file, so bail **/
 	        Debug("LoadXloginResources - cant access %s.\n", resources);
                 Debug("\t %s.  Unable to find resource file.\n",
-		      sys_errlist[errno]);
+		      strerror(errno));
                 free(resources);
                 return(-1);
             }
@@ -775,7 +775,7 @@ LoadAltDtsResources(struct display *d)
         if (access (resources, R_OK) != 0)
 	{
             Debug("LoadAltDtsResources- cant access %s.\n", resources);
-            Debug("\t %s.  Falling back to C.\n", sys_errlist[errno]);
+            Debug("\t %s.  Falling back to C.\n", strerror(errno));
 
             if (resources)
 	    {
@@ -787,7 +787,7 @@ LoadAltDtsResources(struct display *d)
             if (access (resources, R_OK) != 0)
 	    {
                 Debug("LoadAltDtsResources- cant access %s.\n", resources);
-                Debug("\t %s.\n", sys_errlist[errno]);
+                Debug("\t %s.\n", strerror(errno));
 	    }
 	    else
               strcpy(dirname[j], resources);
@@ -828,7 +828,7 @@ LoadAltDtsResources(struct display *d)
 		    {
                         Debug("LoadAltDtsResources- cant access %s.\n",
 			      resources);
-                        Debug("\t %s.\n", sys_errlist[errno]);
+                        Debug("\t %s.\n", strerror(errno));
                         continue;
 		    }
 
@@ -1941,7 +1941,7 @@ RunGreeter( struct display *d, struct greet_info *greet,
     char	*p;
     char	**env;
     char	*path;
-    struct greet_state state;
+    struct greet_state state = {};
     int 	notify_dt;
 
 #ifdef __PASSWD_ETC
@@ -2441,7 +2441,11 @@ RunGreeter( struct display *d, struct greet_info *greet,
 		* the master struct. When the user logs out, the
 		* resource-specified language (if any) will reactivate.
 		*/
-		Debug("Greeter returned language '%s'\n", d->language);
+                if (d->language)
+                  Debug("Greeter returned language '%s'\n", d->language);
+                else
+                  Debug("Greeter returned language (NULL)\n");
+
 
 		if (strcmp(d->language, "default") == 0) {
 		    int len = strlen(defaultLanguage) + 1;

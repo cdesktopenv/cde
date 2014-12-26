@@ -582,7 +582,7 @@ forward_respond (struct sockaddr *from, int fromlen, int length)
 #ifdef AF_INET
 	    case AF_INET:
 		{
-		    struct sockaddr_in	in_addr;
+		    static struct sockaddr_in	in_addr;
 
 		    if (clientAddress.length != 4 ||
 		        clientPort.length != 2)
@@ -604,7 +604,7 @@ forward_respond (struct sockaddr *from, int fromlen, int length)
 #ifdef AF_UNIX
 	    case AF_UNIX:
 		{
-		    struct sockaddr_un	un_addr;
+		    static struct sockaddr_un	un_addr;
 
 		    if (clientAddress.length >= sizeof (un_addr.sun_path))
 			goto badAddress;

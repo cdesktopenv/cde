@@ -49,6 +49,7 @@
 # include	<sys/types.h>
 # include	<sys/signal.h>
 # include	<setjmp.h>
+# include       <errno.h>
 # include	<pwd.h>
 # include	"dm.h"
 # include	"vgmsg.h"
@@ -101,7 +102,7 @@ static const char *
 _SysErrorMsg( int n )
 {
 
-    const char *s = ((n >= 0 && n < sys_nerr) ? sys_errlist[n] : "unknown error");
+  const char *s = strerror(n);
 
     return (s ? s : "no such error");
 }

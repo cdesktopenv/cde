@@ -325,7 +325,7 @@ userEnv(
         char     *value;
         char    **exp;
         char     *Def_path;
-	char 	*langlist;
+	char 	*langlist = NULL;
 	
 #ifdef _AIX
        /*
@@ -525,7 +525,7 @@ systemEnv( struct display *d, char *user, char *home )
     char    **env;
     char     *value;
     char    **exp;
-    char     *langlist;
+    char     *langlist = NULL;
 	
     env = 0;
 
