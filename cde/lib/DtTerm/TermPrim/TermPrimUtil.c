@@ -510,8 +510,9 @@ ForceCloseLog(DtTermPrimitiveWidget tw)
 
     if (tw->term.log_on)
     {
-	(void) fclose(tpd->logStream);
 	(void) DeleteLogFileEntry(tpd->logStream);
+	(void) fclose(tpd->logStream);
+        tpd->logStream = NULL;
 	tw->term.log_on = False;
     }
 }
