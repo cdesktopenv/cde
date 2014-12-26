@@ -186,7 +186,7 @@ ParseDisplay( char *source,
 	      struct passwd *puser)
 {
     char		**args, **argv, **a;
-    char		*name, *class, *type;
+    char		*name = NULL, *class, *type;
     struct display	*d;
     int			usedDefaultType;
     int			parse_uid;
@@ -204,7 +204,7 @@ ParseDisplay( char *source,
 	freeArgs (args);
 	return 0;
     }
-    name = args[0];
+    name = strdup(args[0]);
     if (!args[1])
     {
 	LogError(ReadCatalog(MC_LOG_SET,MC_LOG_MISS_TYPE,MC_DEF_LOG_MISS_TYPE),
@@ -236,22 +236,19 @@ ParseDisplay( char *source,
 	char 		tname[128];
 	struct hostent	*hostent;
 
-	strcpy(tname,"");
-	gethostname(tname, sizeof(tname));
+        memset(tname, 0, 128);
+	gethostname(tname, 128 - 1);
 	if ( (hostent = gethostbyname(tname)) == NULL ) {
 	    LogError(
 		ReadCatalog(MC_LOG_SET,MC_LOG_INV_HOSTNM,MC_DEF_LOG_INV_HOSTNM),
 		      tname);
-	    strcpy(tname,"");
+	    tname[0] = 0;
 	}
-/*
-	else
-	    strcpy(tname,hostent->h_name);
-*/
 
-	strcat(tname, ":0");
+	strncat(tname, ":0", 128 - 1);
 	
-	name = tname;
+        free(name);
+	name = strdup(tname);
     }
 
     /*
@@ -372,6 +369,7 @@ ParseDisplay( char *source,
 
 
     freeSomeArgs (args, argv - args);
+    free(name);
 
     return 1;
 }

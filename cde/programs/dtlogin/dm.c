@@ -799,7 +799,7 @@ CheckDisplayStatus( struct display *d )
             Debug("Check %s: status=%d wakeupTime=%d\n", d->name,
                   d->status, wakeupTime);
 	    if (d->status == suspended && wakeupTime >= 0)
-		if ( GettyRunning(d) || (strcmp(d->gettyLine,"??") == 0))
+              if ( GettyRunning(d) || (d->gettyLine && (strcmp(d->gettyLine,"??") == 0)) )
 		    if ( wakeupTime == 0 ) {
 			Debug("Polling of suspended server %s started.\n",
 				d->name);
@@ -1120,7 +1120,7 @@ StartDisplay(
 	    
 	    p = DisplayName;
 	    
-	    strncpy(p, d->name, sizeof(DisplayName));
+	    strncpy(p, d->name, sizeof(DisplayName) - 1);
 	    DisplayName[sizeof(DisplayName)-1] = '\0';
 	    
 	    if ( (s = strchr(p,':')) != NULL )
@@ -1750,11 +1750,15 @@ GettyRunning( struct display *d )
         strcpy(utmp.ut_line,ttynm);
         close(fd);
     }
-    else
-        strncpy(utmp.ut_line, d->gettyLine, sizeof(utmp.ut_line));
+   else
+     {
+        strncpy(utmp.ut_line, d->gettyLine, sizeof(utmp.ut_line) - 1);
+        utmp.ut_line[sizeof(utmp.ut_line) - 1] = 0;
+     }
 
 #else
-    strncpy(utmp.ut_line, d->gettyLine, sizeof(utmp.ut_line));
+    strncpy(utmp.ut_line, d->gettyLine, sizeof(utmp.ut_line) - 1);
+    utmp.ut_line[sizeof(utmp.ut_line) - 1] = 0;
 #endif
     
     Debug("Checking for a getty on line %s.\n", utmp.ut_line);

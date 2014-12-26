@@ -187,7 +187,7 @@ Account( struct display *d, char *user, char *line, pid_t pid,
 #else
     bzero(&utmp, sizeof(struct utmp));
 
-    strncpy(utmp.ut_id, d->utmpId, sizeof(u->ut_id));
+    strncpy(utmp.ut_id, d->utmpId, sizeof(u->ut_id) - 1);
     utmp.ut_type = LOGIN_PROCESS;
     
     setutent();

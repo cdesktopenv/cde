@@ -273,7 +273,7 @@ RegisterIndirectChoice (
 {
     ChoicePtr	c;
     int		insert;
-    int		found;
+    int		found = 0;
 
     Debug ("Got indirect choice back (%s)\n", Print8Address(clientAddress));
     for (c = choices; c; c = c->next) {

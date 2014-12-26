@@ -236,7 +236,8 @@ TrimErrorFile( void )
 	    return;
 	}
 
-	n = read(f2, buf, BUFSIZ);
+        memset(buf, 0, BUFSIZ);
+	n = read(f2, buf, BUFSIZ - 1);
 
 	if ( (p = strchr(buf,'\n')) != NULL ) {
 	    p++; 
