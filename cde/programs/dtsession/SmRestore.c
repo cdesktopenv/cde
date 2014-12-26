@@ -914,7 +914,9 @@ RestoreResources( Boolean errorHandlerInstalled, ... )
 	{
             char   clientMessage[MAXPATHLEN + 256];
 
-	    sprintf(clientMessage, ((char *)GETMESSAGE(16, 1, "Unable to exec process %s.  No session resources will be restored.")), pgrm);
+            memset(clientMessage, 0, MAXPATHLEN + 256);
+	    snprintf(clientMessage, (MAXPATHLEN + 256) - 1,
+                     ((char *)GETMESSAGE(16, 1, "Unable to exec process %s.  No session resources will be restored.")), pgrm);
 	    PrintErrnoError(DtError, clientMessage);
 	    SM_EXIT(-1);
 	}
@@ -1637,8 +1639,10 @@ RestoreIndependentResources( void )
 	    sessionType = SM_CURRENT_FONT_DIRECTORY;
 	}
 
-	sprintf(fontPath, "%s/%s/%s/%s.%s", smGD.savePath, sessionType,
-		currentLangPtr, SM_FONT_FILE, sessionRes);
+        memset(fontPath, 0, MAXPATHLEN + 1);
+	snprintf(fontPath, MAXPATHLEN, "%s/%s/%s/%s.%s",
+                 smGD.savePath, sessionType,
+                 currentLangPtr, SM_FONT_FILE, sessionRes);
 	status = stat(fontPath, &buf);
 	if(status == -1)
 	{
@@ -1646,16 +1650,16 @@ RestoreIndependentResources( void )
 	     * User has nothing there - look in the system defaults
 	     * first in the language dep -then in lang independent
 	     */
-            fontPath[0] = '\0';
+            memset(fontPath, 0, MAXPATHLEN + 1);
 
             if((currentLangPtr != NULL) && (*currentLangPtr != 0))
             {
                 strcat(fontPath, "/");
-                strcat(fontPath, currentLangPtr);
+                strncat(fontPath, currentLangPtr, MAXPATHLEN);
             }
 
-            strcat(fontPath, "/");
-            strcat(fontPath, SM_SYSTEM_FONT_FILE);
+            strncat(fontPath, "/", MAXPATHLEN);
+            strncat(fontPath, SM_SYSTEM_FONT_FILE, MAXPATHLEN);
 
             FixPath(fontPath);
 
@@ -1665,8 +1669,9 @@ RestoreIndependentResources( void )
                 if((currentLangPtr != NULL) && (*currentLangPtr != 0) &&
                    (strcmp(currentLangPtr, "C")))
                 {
-                   strcpy(fontPath, "/C/");
-                    strcat(fontPath, SM_SYSTEM_FONT_FILE);
+                    memset(fontPath, 0, MAXPATHLEN + 1);
+                    strcpy(fontPath, "/C/");
+                    strncat(fontPath, SM_SYSTEM_FONT_FILE, MAXPATHLEN);
 
                     FixPath(fontPath);
 		
