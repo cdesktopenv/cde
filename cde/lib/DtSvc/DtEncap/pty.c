@@ -1016,7 +1016,6 @@ struct termios *SPC_Get_Current_Termio(void)
       spc_close(tty_fd);
 
       if(retval == ERROR) {
-	  XeFree((void *)termio_struct);
 	  SPC_Error(SPC_Bad_tc_Call,(XeString)"tcgetattr");
 
 	  /* Fall through and use default settings */
