@@ -170,7 +170,7 @@ static Boolean saveTimeout;
 Widget 
 CreateLockDialog( void )
 {
-    int 	i;
+  int 	i, slen;
     Widget	loginLabel, instructLabel, tmpLock, indFrame;
     Widget  	passwdLabel, passwdForm, picFrame, loginPic, loginFrame;
     Dimension	width;		/* width, height of login label    */
@@ -279,10 +279,10 @@ CreateLockDialog( void )
      */
     i = 0;
     envLog = getenv("LOGNAME");
-    lockMessage = XtMalloc(100 + strlen(envLog));
-    sprintf(
-	lockMessage,
-	(char*) GETMESSAGE(18, 1, "Display locked by user %s."), envLog);
+    slen = 100 + strlen(envLog) + 1;
+    lockMessage = XtCalloc(1, slen);
+    snprintf(lockMessage, slen - 1,
+             (char*) GETMESSAGE(18, 1, "Display locked by user %s."), envLog);
     lockString = XmStringCreateLocalized(lockMessage);
     XtSetArg(uiArgs[i], XmNtopAttachment, XmATTACH_POSITION); i++;
     XtSetArg(uiArgs[i], XmNtopPosition, 20); i++;
