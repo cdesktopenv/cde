@@ -206,19 +206,7 @@ static char	*language_name (DtSrINT16 langno)
 		"Japanese-comp"		/*  6 = DtSrLaJPN */
 		"Japanese-.knj"		/*  7 = DtSrLaJPN2 */
 		};
-#if TRACY
-    static char *language_names[10];
 
-    language_names[0] = catgets(dtsearch_catd, MS_lang, 50, "English-ASCII");
-    language_names[1] = catgets(dtsearch_catd, MS_lang, 51, "English-Latin1");
-    language_names[1] = catgets(dtsearch_catd, MS_lang, 52, "Spanish");
-    language_names[1] = catgets(dtsearch_catd, MS_lang, 53, "French");
-    language_names[1] = catgets(dtsearch_catd, MS_lang, 54, "Italian");
-    language_names[1] = catgets(dtsearch_catd, MS_lang, 54, "German");
-    language_names[1] = catgets(dtsearch_catd, MS_lang, 54, "Japanese-comp");
-    language_names[1] = catgets(dtsearch_catd, MS_lang, 54, "Japanese-.knj");
-
-#endif
     if (langno < 0)
 	return "INVALID!";
     else if (langno > DtSrLaLAST)
