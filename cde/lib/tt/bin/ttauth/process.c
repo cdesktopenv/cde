@@ -1252,7 +1252,7 @@ static int do_add (inputfilename, lineno, argc, argv)
     char *netid;
     char *authname;
     char *authdata_hex;
-    char *authdata;
+    char *authdata = NULL;
     int protodata_len, authdata_len;
     _tt_AuthFileEntry *entry;
     _tt_AuthFileEntryList *list;
@@ -1344,6 +1344,9 @@ static int do_add (inputfilename, lineno, argc, argv)
     entry->auth_name = copystring (authname);
     entry->auth_data_length = authdata_len;
     entry->auth_data = authdata;
+
+    /* Avoid a double free later on in the event of an error */
+    authdata = NULL;
 
     if (!entry->protocol_name ||
 	(!entry->protocol_data && entry->protocol_data_length > 0) ||
