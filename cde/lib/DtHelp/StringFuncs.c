@@ -891,7 +891,7 @@ int _DtHelpCeIconvStr(
       }
       else  /* reuse the buffer */
       {
-         int len = strlen(fromStr);
+         int len = strlen(fromStr) + 1;
          if (len > toStrBufLen)
             *ret_toStr = realloc(toStrBuf,len);
          else 
