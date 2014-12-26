@@ -178,7 +178,7 @@ ds_load_resources(Display *display)
 
   if ((ptr = getenv("DTCALCDEF")) == NULL)
     {
-      SPRINTF(name, "%s/.dtcalcdef", home) ;
+      snprintf(name, MAXPATHLEN - 1, "%s/.dtcalcdef", home) ;
       db = XrmGetFileDatabase(name) ;
     }
   else db = XrmGetFileDatabase(ptr) ;
