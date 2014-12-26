@@ -2120,7 +2120,7 @@ SetValues(
         Widget nw )
 {
   Boolean         redisplay_flag = False;
-  Arg		al[10];		/*  arg list            */
+  Arg		al[15];		/*  arg list            */
   register int    ac;		/*  arg count           */
 
   Boolean	resetSpellTitle = False,
