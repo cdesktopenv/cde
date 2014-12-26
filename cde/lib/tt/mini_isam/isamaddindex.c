@@ -555,6 +555,7 @@ _buildbtree(fcb, pkeydesc2, srt)
     for (i = 0; i < depth ; i++) {
 	curindex[i] = ISPAGESIZE;	     /* Any big number will do */
 	one_more[i]++;
+	nodebuf[i] = NULL;
 	nodebufhd[i] = NULL;
     }
 
