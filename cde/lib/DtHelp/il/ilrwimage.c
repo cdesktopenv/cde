@@ -441,7 +441,7 @@ IL_PRIVATE ilBool _ilAddThrottlePipeElement (
 {
 ilPipeInfo              info;
 ilSrcElementData        srcData;
-register ilThrottlePrivPtr  pPriv;
+ilThrottlePrivPtr  pPriv = NULL;
 
     ilGetPipeInfo (pipe, FALSE, &info, (ilImageDes *)NULL, (ilImageFormat *)NULL);
     srcData.consumerImage = (ilObject)NULL;
