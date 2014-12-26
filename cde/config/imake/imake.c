@@ -1015,20 +1015,20 @@ get_libc_version(FILE *inFile)
       int len;
       char *command;
 
-      memset(&aout, '\0', PATH_MAX);
+      memset(aout, '\0', PATH_MAX);
 
       if (!lstat(getenv("TMPDIR"), &sb) && S_ISDIR(sb.st_mode))
-	strncpy(aout, getenv("TMPDIR"), PATH_MAX);
+	strncpy(aout, getenv("TMPDIR"), PATH_MAX - 1);
 #ifdef P_tmpdir /* defined by XPG and XOPEN, but don't assume we have it */
       else if (!lstat(P_tmpdir, &sb) && S_ISDIR(sb.st_mode))
-	strncpy(aout, P_tmpdir, PATH_MAX);
+	strncpy(aout, P_tmpdir, PATH_MAX - 1);
 #endif
       else if (!lstat("/tmp", &sb) && S_ISDIR(sb.st_mode))
-	strncpy(aout, "/tmp", PATH_MAX);
+	strncpy(aout, "/tmp", PATH_MAX - 1);
       else
 	abort();
 
-      strncpy(aout+strlen(aout), "/imaketmp.XXXXXX", 16);
+      strncat(aout, "/imaketmp.XXXXXX", PATH_MAX - 1);
 
       if ((fd = mkstemp(aout)) == -1)
 	abort ();
@@ -1221,13 +1221,13 @@ get_gcc_incdir(FILE *inFile)
   char cmd[PATH_MAX];
   char* ptr;
 
-  buf[0] = '\0';
+  memset(buf, 0, PATH_MAX);
   for (i = 0; i < sizeof gcc_path / sizeof gcc_path[0]; i++) {
     if (lstat (gcc_path[i], &sb) == 0) {
-      strncpy (cmd, gcc_path[i], PATH_MAX - 25);
-      strncpy (cmd + strlen(cmd), " --print-libgcc-file-name", 25);
+      strncpy (cmd, gcc_path[i], PATH_MAX - 1 );
+      strncat (cmd, " --print-libgcc-file-name", PATH_MAX - 1);
       if ((gccproc = popen (cmd, "r")) != NULL) {
-	if (fgets (buf, PATH_MAX, gccproc) != NULL) {
+	if (fgets (buf, PATH_MAX - 1, gccproc) != NULL) {
 	  ptr = strstr (buf, "libgcc.a");
 	  if (ptr) strncpy (ptr, "include", 7);
 	}
