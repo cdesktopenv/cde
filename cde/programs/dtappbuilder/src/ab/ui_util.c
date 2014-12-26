@@ -1121,7 +1121,8 @@ sync_timeout_proc(
 	event.xclient.window = window;
 	event.xclient.message_type = 0;
 	event.xclient.format = 32;
-	for (i = 0; i < 8; ++i)
+        /* data.l[] can hold only 5 longs */
+	for (i = 0; i < 5; ++i)
 	{
 	    event.xclient.data.l[i] = sync_notify_value;
 	}
