@@ -1638,10 +1638,10 @@ read_rcfiles(void)   /* Read .dtcalcrc's from home and current directories. */
       if ((entry = getpwuid(getuid())) == NULL) return ;
       home = entry->pw_dir ;
     }
-  SPRINTF(name, "%s/%s", home, RCNAME) ;
+  snprintf(name, MAXPATHLEN, "%s/%s", home, RCNAME) ;
   get_rcfile(name) ;      /* Read .dtcalcrc from users home directory. */
  
-  SPRINTF(name, "%s/%s", getcwd(pathname, MAXPATHLEN+1), RCNAME) ;
+  snprintf(name, MAXPATHLEN, "%s/%s", getcwd(pathname, MAXPATHLEN+1), RCNAME) ;
   get_rcfile(name) ;      /* Read .dtcalcrc file from current directory. */
 }
 
