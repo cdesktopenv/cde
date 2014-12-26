@@ -890,7 +890,8 @@ sig_handler(int sig)
 		// session we print out the child session's id.
 		if ((background_mode) && (forked_pid > 0)) {
 			if (print_sessid) {
-				read(ds_fds[0], session_buf, 255);
+                                memset(session_buf, 0, 255);
+				read(ds_fds[0], session_buf, 255 - 1);
 				printf("%s", session_buf);
 			}
 			// this is the signal from the forked
