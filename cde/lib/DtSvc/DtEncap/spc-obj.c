@@ -198,7 +198,7 @@ SPC_Channel_Ptr SPC_Initialize_Channel(XeString hostname,
 				       int iomode)
 /*----------------------------------------------------------------------+*/
 {
-  SPC_Channel_Ptr channel;
+  SPC_Channel_Ptr channel = NULL;
   
   /* Check for local or remote machine.  If remote, create a 
      remote channel object */
@@ -468,7 +468,8 @@ SPC_Channel_Ptr open_channel_object(SPC_Channel_Ptr channel,
   else
     channel->read_filter=channel->class_ptr->read;
 
-  channel->cid=(int)channel;
+  /* this (cid) should probably just be a long... */
+  channel->cid=(int) ((long)channel & 0xffffffff);
   channel->identifier = Channel_Identifier;
   channel->IOMode     = iomode;
   channel->wires[STDIN] = (&dummy_wire);
