@@ -1254,7 +1254,7 @@ static int do_add (inputfilename, lineno, argc, argv)
     char *authdata_hex;
     char *authdata = NULL;
     int protodata_len, authdata_len;
-    _tt_AuthFileEntry *entry;
+    _tt_AuthFileEntry *entry = NULL;
     _tt_AuthFileEntryList *list;
     int status = 0;
 
