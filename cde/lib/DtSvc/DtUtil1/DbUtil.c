@@ -736,6 +736,7 @@ _DtDbGetDataBaseEnv( void )
    char *nwh_dir;
    char *temp_buf;
    char *temp_s;
+   int slen = 0;
 
    nwh_dir = getenv ("HOME");
    /* 
@@ -745,9 +746,10 @@ _DtDbGetDataBaseEnv( void )
    if (( temp_s = getenv ("DTDATABASESEARCHPATH")))
       if ( *temp_s != 0 ) return XtNewString(temp_s);
 
-   temp_buf =
-     XtMalloc((2*strlen(nwh_dir)) + strlen(DTDATABASESEARCHPATH_DEFAULT) + 1);
-   sprintf (temp_buf, DTDATABASESEARCHPATH_DEFAULT, nwh_dir, nwh_dir);
+   slen = (2 * strlen(nwh_dir)) + strlen(DTDATABASESEARCHPATH_DEFAULT) + 1;
+   temp_buf = XtCalloc(1, slen);
+   snprintf (temp_buf, slen - 1,
+             DTDATABASESEARCHPATH_DEFAULT, nwh_dir, nwh_dir);
    return temp_buf;
 
 }
