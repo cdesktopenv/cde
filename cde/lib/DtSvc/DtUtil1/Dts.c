@@ -654,7 +654,7 @@ get_link_info(type_info_t *info)
 		while((n = readlink(name, buff, MAXPATHLEN)) > 0)
 		{
 	
-			buff[n] = 0;
+			buff[n - 1] = 0;
 			free((void *)name);
 			name = strdup(buff);
 		}
