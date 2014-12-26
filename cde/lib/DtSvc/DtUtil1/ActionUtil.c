@@ -345,7 +345,7 @@ _DtGetDisplayHostName( Display *dp)
 		return XtNewString(displayHostName); 
 	      }
 
-	tmpName = XtMalloc(MAXHOSTNAMELEN + 5);
+	tmpName = XtMalloc(MAXHOSTNAMELEN + 5 + 1);
 	tmpName[0] = '\0';
 
 	if ( dp )
@@ -369,7 +369,8 @@ _DtGetDisplayHostName( Display *dp)
 		 * In the absence of a display pointer, use the
 		 * DISPLAY environment variable.
 		 */
-		strcpy(tmpName,getenv("DISPLAY"));
+                memset(tmpName, 0, (MAXHOSTNAMELEN + 5) + 1);
+                strncpy(tmpName, getenv("DISPLAY"), (MAXHOSTNAMELEN + 5));
 		if (( tmp = DtStrrchr(tmpName,':') ))
 		{
 			*tmp = '\0';
@@ -713,10 +714,9 @@ char *_DtGetDtTmpDir(void)
     else
     {
       /* RWV: is this the right HOME if we've changed user id? */
-      dirBuf = XtMalloc(MAXPATHLEN);
-      strcpy(dirBuf,getenv("HOME"));
-      strcat(dirBuf,"/");
-      strcat(dirBuf,DtACTION_DTTMPDIR_DEFAULT);
+      char *home = getenv("HOME");
+      dirBuf = XtCalloc(1, MAXPATHLEN + 1);
+      snprintf(dirBuf, MAXPATHLEN, "%s/%s", home, DtACTION_DTTMPDIR_DEFAULT);
       DtTmpDirPath = XtNewString(dirBuf);
       XtFree(dirBuf);
     }
