@@ -481,11 +481,13 @@ _DtCm_handle_callback()
 				prev->next = ptr->next;
 
 			_FreeCallbackInfo(ptr);
+                        ptr = NULL; /* freed by _FreeCallbackInfo() */
 
 		} else {
 			prev = ptr;
 		}
-		ptr = ptr->next;
+                if (ptr)
+                  ptr = ptr->next;
 	}
 	cb_tail = prev;
 }
