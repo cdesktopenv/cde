@@ -210,6 +210,7 @@ ParseDisplay( char *source,
 	LogError(ReadCatalog(MC_LOG_SET,MC_LOG_MISS_TYPE,MC_DEF_LOG_MISS_TYPE),
 		args[0]);
 	freeArgs (args);
+        free(name);
 	return 0;
     }
 

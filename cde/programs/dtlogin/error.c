@@ -171,7 +171,8 @@ void
 TrimErrorFile( void )
 {
 
-    int  f1, f2;
+    int  f1 = -1;
+    int  f2 = -1;
     int  deleteBytes;
     
     char buf[BUFSIZ];

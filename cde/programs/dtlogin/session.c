@@ -644,7 +644,7 @@ int
 LoadXloginResources( struct display *d )
 {
     char	cmd[1024];
-    char	*language="";
+    char	*language = NULL;
     char	*lang_key="";
     char	*authority="";
     char	*auth_key="";
@@ -1943,6 +1943,8 @@ RunGreeter( struct display *d, struct greet_info *greet,
     char	*path;
     struct greet_state state = {};
     int 	notify_dt;
+    int		dupfp = -1;
+    int		dupfp2 = -1;
 
 #ifdef __PASSWD_ETC
 #  ifndef U_NAMELEN
@@ -2126,7 +2128,8 @@ RunGreeter( struct display *d, struct greet_info *greet,
 	    * Writing to file descriptor 1 goes to response pipe instead.
 	    */
 	    close(1);
-	    if(-1 == dup(response[1])) {
+            dupfp = dup(response[1]);
+	    if(-1 == dupfp) {
                 perror(strerror(errno));
             }
 	    close(response[0]);
@@ -2136,7 +2139,8 @@ RunGreeter( struct display *d, struct greet_info *greet,
 	    * Reading from file descriptor 0 reads from request pipe instead.
 	    */
 	    close(0);
-	    if(-1 == dup(request[0])) {
+            dupfp2 = dup(request[0]);
+	    if(-1 == dupfp2) {
                 perror(strerror(errno));
             }
 	    close(request[0]);

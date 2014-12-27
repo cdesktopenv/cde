@@ -1242,6 +1242,8 @@ RequestCB(
                                       XmFONTLIST_DEFAULT_TAG));
               string = XmStringConcat(xmstr, XmStringSeparatorCreate());
             }
+
+            fclose(fp);
           }
           else
           {

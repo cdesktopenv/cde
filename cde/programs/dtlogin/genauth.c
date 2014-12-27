@@ -478,6 +478,8 @@ InitCryptoKey( void )
 
     }
     cryptoInited = 1;
+
+    return 1;
 }
 
 #endif /* HASXDMAUTH */

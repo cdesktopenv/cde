@@ -565,7 +565,7 @@ binaryEqual (char *a, char *b, unsigned short len)
 	return 1;
 }
 
-int
+static void
 dumpBytes (unsigned short len, char *data)
 {
 	unsigned short	i;
@@ -709,7 +709,7 @@ writeAuth (file, auth)
 	dumpAuth (auth);	/* does Debug only */
     }
     
-    if (doWrite)
+    if (doWrite) {
         if (!XauWriteAuth (file, auth) || fflush (file) == EOF)  {
                 LogError(
                     ReadCatalog(MC_LOG_SET,MC_LOG_SRV_WRT,MC_DEF_LOG_SRV_WRT),
@@ -717,7 +717,11 @@ writeAuth (file, auth)
                 return 0;
         }
         else
+        {
                 return 1;
+        }
+    }
+    return 1;
 }
 
 static void

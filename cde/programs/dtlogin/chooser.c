@@ -397,7 +397,6 @@ AddHostname (ARRAY8Ptr hostname, ARRAY8Ptr status, struct sockaddr *addr, int wi
 	}
     	if (!XdmcpAllocARRAY8 (&new->hostaddr, hostAddr.length))
     	{
-	    free ((char *) new->fullname);
 	    free ((char *) new);
 	    return 0;
     	}
@@ -759,6 +758,9 @@ Choose (HostName *h)
 	    addr = (struct sockaddr *) &in_addr;
 	    len = sizeof (in_addr);
 	    break;
+        default:
+	    fprintf (stderr, "Unhandled protocol family %d\n", family);
+	    exit (REMANAGE_DISPLAY);
 	}
 	if ((fd = socket (family, SOCK_STREAM, 0)) == -1)
 	{

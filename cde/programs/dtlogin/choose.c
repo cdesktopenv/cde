@@ -425,6 +425,7 @@ ProcessChooserSocket (
     }
 
     close (client_fd);
+    return 1;
 }
 
 void

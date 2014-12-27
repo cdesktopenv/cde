@@ -164,14 +164,16 @@ Willing(
 #endif
     ret = AcceptableDisplayAddress (addr, connectionType, type);
     if (!ret)
-	sprintf (statusBuf, "Display not authorized to connect");
+	snprintf (statusBuf, sizeof(statusBuf), "Display not authorized to connect");
     else
-	sprintf (statusBuf, "%s", WillingMsg());
+	snprintf (statusBuf, sizeof(statusBuf), "%s", WillingMsg());
 #if 0
-    	sprintf (statusBuf, "host %s", localHostname());
+    	snprintf (statusBuf, sizeof(statusBuf), "host %s", localHostname());
 #endif
+    /* enforce termination */
+    statusBuf[255] = '\0';
 
-    status->length = strlen (statusBuf);
+    status->length = strlen(statusBuf);
     status->data = (CARD8Ptr) malloc (status->length);
     if (!status->data)
 	status->length = 0;
