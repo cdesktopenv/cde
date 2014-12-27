@@ -786,7 +786,7 @@ ProcessClientMessage(
         _DtAddToResource(smGD.display, newRes);
       }
 
-      if (NULL != newRes) free(newRes);
+      free(newRes);
     }
   }
   else if (cEvent->message_type == XaDtSmSaverInfo)
