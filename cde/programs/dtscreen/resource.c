@@ -623,9 +623,9 @@ GetResources(argc, argv)
     if (!userpath) {
 	env = getenv("XAPPLRESDIR");
 	if (env)
-	    sprintf(userfile, "%s/%%N:%s/%%N", env, homeenv);
+          snprintf(userfile, 1024 - 1, "%s/%%N:%s/%%N", env, homeenv);
 	else
-	    sprintf(userfile, "%s/%%N", homeenv);
+          snprintf(userfile, 1024 - 1, "%s/%%N", homeenv);
 	userpath = userfile;
     }
     userDB = parsefilepath(userpath, "app-defaults", classname);
