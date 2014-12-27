@@ -794,7 +794,7 @@ MenuItemCB( Widget w, XtPointer client_data, XtPointer call_data )
 
     session_selected = True;
 
-    switch ( (int) client_data) {
+    switch ( (long) client_data) {
 
     case OB_RESTART_SERVER:
 	CleanupAndExit(NULL, NOTIFY_RESTART);
