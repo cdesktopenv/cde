@@ -745,8 +745,6 @@ WmPanelistShow (Widget w)
    int i;
    Arg al[20];
    int ac;
-   
-
 
    /*  Find the switch data for later processing  */
    
@@ -785,16 +783,15 @@ WmPanelistShow (Widget w)
    if (shell_geometry == NULL)
    {
       Position  x;
-      char      geometry_buffer[32];
 
       if (panel.element_values[PANEL_GEOMETRY].string_value != NULL)
       {
-         shell_geometry = panel.element_values[PANEL_GEOMETRY].parsed_value;
+        shell_geometry = panel.element_values[PANEL_GEOMETRY].parsed_value;
       }
       else
       {
          x = (screen_width > width) ? (Position)(screen_width - width) / 2 : 0;
-         sprintf (geometry_buffer, "+%d-0", x);
+         snprintf (geometry_buffer, 32 - 1, "+%d-0", x);
          shell_geometry = geometry_buffer;
       }
       
