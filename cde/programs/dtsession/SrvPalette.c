@@ -726,7 +726,7 @@ convert_selection(
         int *format )
 {
   char pixels[50];
-  int i, screen_number;
+  int i, screen_number = 0;
   char *temp;
   char *str_type_return;
   XrmValue value_return;

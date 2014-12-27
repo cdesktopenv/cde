@@ -1255,7 +1255,7 @@ SetFontSavePath(char *langPtr)
         sessionSaved = SM_HOME_FONT_DIRECTORY;
     }
 
-    sprintf(smGD.fontPath, "%s/%s", smGD.savePath, sessionSaved);
+    snprintf(smGD.fontPath, MAXPATHLEN, "%s/%s", smGD.savePath, sessionSaved);
     status = stat(smGD.fontPath, &buf);
     if(status == -1)
     {
@@ -1272,8 +1272,8 @@ SetFontSavePath(char *langPtr)
     /*
      * Now add the lang subdirectory and see if it exists
      */
-    strcat(smGD.fontPath, "/");
-    strcat(smGD.fontPath, langPtr);
+    strncat(smGD.fontPath, "/", MAXPATHLEN);
+    strncat(smGD.fontPath, langPtr, MAXPATHLEN);
     status = stat(smGD.fontPath, &buf);
     if(status == -1)
     {

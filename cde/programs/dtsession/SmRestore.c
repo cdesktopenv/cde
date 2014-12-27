@@ -1815,7 +1815,7 @@ static int
 RestoreClients( void )
 {
     unsigned char *lineP, *string;
-    char *pch, *dispPtr;
+    char *pch, *dispPtr = NULL;
     char *dispEnv, *dispSav, *dispEnvHelpview, *dispSavHelpview;
     unsigned char *hostPtr=NULL, *cmdPtr=NULL, *hintPtr = NULL;
     unsigned char *remoteDisplay;
