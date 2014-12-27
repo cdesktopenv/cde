@@ -36,6 +36,7 @@
 #include <fcntl.h>
 #include <unistd.h> // This is for the getuid function
 #include <stdlib.h> // This is for the getenv function
+#include <sys/param.h>
 #include <pwd.h>
 
 #include "dtprintinfomsg.h"
@@ -257,25 +258,25 @@ DtPrinterContainer *DtPrinterIcon::CreateContainer()
 
 char *DtPrinterIcon::CreateActionFile()
 {
-   static char filename[300];
+   static char filename[MAXPATHLEN + 1];
    FILE *fp;
    struct stat statbuff;
    boolean create_file;
 
-   char *buf = new char[300];
+   char *buf = new char[MAXPATHLEN + 1];
    char *lang = getenv("LANG");
    if (!(lang && *lang))
       lang = "C";
 
    if (app_mode == INITIALIZE_PRINTERS || app_mode == CONFIG_PRINTERS)
     {
-      sprintf(filename, "/etc/dt/appconfig/types/%s", lang);
+      snprintf(filename, MAXPATHLEN, "/etc/dt/appconfig/types/%s", lang);
       if (stat(filename, &statbuff) < 0)
        {
-         sprintf(buf, "mkdir -p %s", filename);
+         snprintf(buf, MAXPATHLEN, "/bin/mkdir -p %s", filename);
          system(buf);
        }
-      sprintf(filename, "/etc/dt/appconfig/types/%s/%s.dt", lang,
+      snprintf(filename, MAXPATHLEN, "/etc/dt/appconfig/types/%s/%s.dt", lang,
 	      queue->Name());
       if (stat(filename, &statbuff) < 0 || statbuff.st_size == 0)
          create_file = true;
@@ -284,13 +285,13 @@ char *DtPrinterIcon::CreateActionFile()
     }
    else
     {
-      sprintf(buf, "%s/.dt/types/%s.dt", homeDir, queue->Name());
+      snprintf(buf, MAXPATHLEN, "%s/.dt/types/%s.dt", homeDir, queue->Name());
       if (stat(buf, &statbuff) < 0 || statbuff.st_size == 0)
        {
-         sprintf(buf, "/etc/dt/appconfig/types/%s/%s.dt", lang, queue->Name());
+         snprintf(buf, MAXPATHLEN, "/etc/dt/appconfig/types/%s/%s.dt", lang, queue->Name());
          if (stat(buf, &statbuff) >= 0 && statbuff.st_size > 0)
 	  {
-            sprintf(buf, "cp /etc/dt/appconfig/types/%s/%s.dt %s/.dt/types",
+            snprintf(buf, MAXPATHLEN, "/bin/cp /etc/dt/appconfig/types/%s/%s.dt %s/.dt/types",
 		    lang, queue->Name(), homeDir);
 	    system(buf);
 	    create_file = false;
@@ -300,7 +301,7 @@ char *DtPrinterIcon::CreateActionFile()
        }
       else
          create_file = false;
-      sprintf(filename, "%s/.dt/types/%s.dt", homeDir, queue->Name());
+      snprintf(filename, MAXPATHLEN, "%s/.dt/types/%s.dt", homeDir, queue->Name());
     }
    if (create_file)
     {

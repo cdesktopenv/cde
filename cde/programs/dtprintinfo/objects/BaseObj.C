@@ -417,7 +417,7 @@ boolean BaseObj::SendAction(Action *action,
     {
       _lastActionStatus = -1;
       int len = strlen("'%s' is not an action of %s") +
-		strlen(ObjectClassName()) + strlen(action->ReferenceName);
+		strlen(ObjectClassName()) + strlen(action->ReferenceName) + 1;
       _lastActionOutput = new char [len];
       sprintf(_lastActionOutput, "'%s' is not an action of %s", 
 	      ObjectClassName(), action->ReferenceName);
