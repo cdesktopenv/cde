@@ -118,7 +118,7 @@ extern Time_t time ();
 extern ARRAY8Ptr	ChooseAuthentication ();
 extern int		SelectConnectionTypeIndex ();
 
-void query_respond (from, fromlen, length);
+void query_respond (struct sockaddr *from, int fromlen, int length);
 void broadcast_respond (struct sockaddr *from, int fromlen, int length);
 void forward_respond (struct sockaddr *from, int fromlen, int length);
 void request_respond (struct sockaddr *from, int fromlen, int length);
@@ -199,7 +199,7 @@ sendForward (CARD16 connectionType, ARRAY8Ptr address, char *closure)
     default:
 	return 0;
     }
-    XdmcpFlush (xdmcpFd, &buffer, addr, addrlen);
+    XdmcpFlush (xdmcpFd, &buffer, (XdmcpNetaddr)addr, addrlen);
     return 0;
 }
 
@@ -320,7 +320,7 @@ ProcessRequestSocket (void)
 
     Debug ("ProcessRequestSocket\n");
     bzero ((char *) &addr, sizeof (addr));
-    if (!XdmcpFill (xdmcpFd, &buffer, &addr, &addrlen)) {
+    if (!XdmcpFill (xdmcpFd, &buffer, (XdmcpNetaddr)&addr, &addrlen)) {
 	Debug ("XdmcpFill failed\n");
 	return;
     }
@@ -337,25 +337,25 @@ ProcessRequestSocket (void)
     switch (header.opcode)
     {
     case BROADCAST_QUERY:
-	broadcast_respond (&addr, addrlen, header.length);
+      broadcast_respond ((struct sockaddr *)&addr, addrlen, header.length);
 	break;
     case QUERY:
-	query_respond (&addr, addrlen, header.length);
+	query_respond ((struct sockaddr *)&addr, addrlen, header.length);
 	break;
     case INDIRECT_QUERY:
-	indirect_respond (&addr, addrlen, header.length);
+	indirect_respond ((struct sockaddr *)&addr, addrlen, header.length);
 	break;
     case FORWARD_QUERY:
-	forward_respond (&addr, addrlen, header.length);
+	forward_respond ((struct sockaddr *)&addr, addrlen, header.length);
 	break;
     case REQUEST:
-	request_respond (&addr, addrlen, header.length);
+	request_respond ((struct sockaddr *)&addr, addrlen, header.length);
 	break;
     case MANAGE:
-	manage (&addr, addrlen, header.length);
+	manage ((struct sockaddr *)&addr, addrlen, header.length);
 	break;
     case KEEPALIVE:
-	send_alive (&addr, addrlen, header.length);
+	send_alive ((struct sockaddr *)&addr, addrlen, header.length);
 	break;
     }
 }
@@ -664,7 +664,7 @@ send_willing (struct sockaddr *from, int fromlen, ARRAY8Ptr authenticationName, 
     XdmcpWriteARRAY8 (&buffer, authenticationName);
     XdmcpWriteARRAY8 (&buffer, &Hostname);
     XdmcpWriteARRAY8 (&buffer, status);
-    XdmcpFlush (xdmcpFd, &buffer, from, fromlen);
+    XdmcpFlush (xdmcpFd, &buffer, (XdmcpNetaddr)from, fromlen);
 }
 
 void
@@ -684,7 +684,7 @@ send_unwilling (struct sockaddr *from, int fromlen, ARRAY8Ptr authenticationName
     XdmcpWriteHeader (&buffer, &header);
     XdmcpWriteARRAY8 (&buffer, &Hostname);
     XdmcpWriteARRAY8 (&buffer, status);
-    XdmcpFlush (xdmcpFd, &buffer, from, fromlen);
+    XdmcpFlush (xdmcpFd, &buffer, (XdmcpNetaddr)from, fromlen);
 }
 
 static unsigned long	globalSessionID;
@@ -872,7 +872,7 @@ send_accept (struct sockaddr *to, int tolen, CARD32 sessionID, ARRAY8Ptr authent
     XdmcpWriteARRAY8 (&buffer, authenticationData);
     XdmcpWriteARRAY8 (&buffer, authorizationName);
     XdmcpWriteARRAY8 (&buffer, authorizationData);
-    XdmcpFlush (xdmcpFd, &buffer, to, tolen);
+    XdmcpFlush (xdmcpFd, &buffer, (XdmcpNetaddr)to, tolen);
 }
 
 void
@@ -891,7 +891,7 @@ send_decline (struct sockaddr *to, int tolen, ARRAY8Ptr authenticationName, ARRA
     XdmcpWriteARRAY8 (&buffer, status);
     XdmcpWriteARRAY8 (&buffer, authenticationName);
     XdmcpWriteARRAY8 (&buffer, authenticationData);
-    XdmcpFlush (xdmcpFd, &buffer, to, tolen);
+    XdmcpFlush (xdmcpFd, &buffer, (XdmcpNetaddr)to, tolen);
 }
 
 void
@@ -1071,7 +1071,7 @@ send_failed (struct sockaddr *from, int fromlen, char *name, CARD32 sessionID, c
     XdmcpWriteHeader (&buffer, &header);
     XdmcpWriteCARD32 (&buffer, sessionID);
     XdmcpWriteARRAY8 (&buffer, &status);
-    XdmcpFlush (xdmcpFd, &buffer, from, fromlen);
+    XdmcpFlush (xdmcpFd, &buffer, (XdmcpNetaddr)from, fromlen);
 }
 
 void
@@ -1085,7 +1085,7 @@ send_refuse (struct sockaddr *from, int fromlen, CARD32 sessionID)
     header.length = 4;
     XdmcpWriteHeader (&buffer, &header);
     XdmcpWriteCARD32 (&buffer, sessionID);
-    XdmcpFlush (xdmcpFd, &buffer, from, fromlen);
+    XdmcpFlush (xdmcpFd, &buffer, (XdmcpNetaddr)from, fromlen);
 }
 
 void
@@ -1123,7 +1123,7 @@ send_alive (struct sockaddr *from, int fromlen, int length)
 	    XdmcpWriteHeader (&buffer, &header);
 	    XdmcpWriteCARD8 (&buffer, sendRunning);
 	    XdmcpWriteCARD32 (&buffer, sendSessionID);
-	    XdmcpFlush (xdmcpFd, &buffer, from, fromlen);
+	    XdmcpFlush (xdmcpFd, &buffer, (XdmcpNetaddr)from, fromlen);
 	}
     }
 }

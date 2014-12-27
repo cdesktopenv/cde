@@ -709,7 +709,7 @@ ForEachMatchingIndirectHost(
 #else
         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-        int (*function)(),
+        int (*function)(CARD16,  struct _ARRAY8 *, char *),
         char *closure )
 {
     int		    haveLocalhost = 0;

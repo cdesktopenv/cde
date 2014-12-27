@@ -556,7 +556,7 @@ extern int  ForEachMatchingIndirectHost(
 #else
                         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-                        int (*function)(),
+                        int (*function)(CARD16,  struct _ARRAY8 *, char *),
                         char *closure) ;
 extern int  ScanAccessDatabase( void ) ;
 extern int  UseChooser( 
