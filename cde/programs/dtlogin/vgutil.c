@@ -774,7 +774,7 @@ OpenCatalog()
     if (NULL != langenv)
     {
 	nl_fd = catopen(NLS_CATALOG, NL_CAT_LOCALE);
-	if (0 > (int) nl_fd)
+	if (0 > (long) nl_fd)
 	  LogError((unsigned char*) MC_DEF_LOG_NO_MSGCAT, langenv);
     }
 }
@@ -791,7 +791,7 @@ unsigned char *
 ReadCatalog(int setn, int msgn, char *dflt)
 {
     OpenCatalog();
-    if ((0 > (int) nl_fd) || (NULL == langenv))
+    if ((0 > (long) nl_fd) || (NULL == langenv))
       return (unsigned char*) dflt;
     else
       return (unsigned char*) catgets(nl_fd, setn, msgn, dflt);
@@ -808,7 +808,7 @@ XmString
 ReadCatalogXms(int setn, int msgn, char *dflt)
 {
     OpenCatalog();
-    if (0 > (int) nl_fd)
+    if (0 > (long) nl_fd)
       return XmStringCreateLocalized(dflt);
     else
       return XmStringCreateLocalized((char*) ReadCatalog(setn, msgn, dflt));

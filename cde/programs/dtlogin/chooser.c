@@ -222,9 +222,9 @@ PingHosts (XtPointer closure, XtIntervalId *id)
     for (hosts = hostAddrdb; hosts; hosts = hosts->next)
     {
 	if (hosts->type == QUERY)
-	    XdmcpFlush (socketFD, &directBuffer, hosts->addr, hosts->addrlen);
+	    XdmcpFlush (socketFD, &directBuffer, (XdmcpNetaddr) hosts->addr, hosts->addrlen);
 	else
-	    XdmcpFlush (socketFD, &broadcastBuffer, hosts->addr, hosts->addrlen);
+	    XdmcpFlush (socketFD, &broadcastBuffer, (XdmcpNetaddr) hosts->addr, hosts->addrlen);
     }
     if (++pingTry < TRIES)
 	XtAddTimeOut (PING_INTERVAL, PingHosts, (XtPointer) 0);
@@ -501,7 +501,7 @@ ReceivePacket (XtPointer closure, int *source, XtInputId *id)
     int		    addrlen;
 
     addrlen = sizeof (addr);
-    if (!XdmcpFill (socketFD, &buffer, &addr, &addrlen))
+    if (!XdmcpFill (socketFD, &buffer, (XdmcpNetaddr) &addr, &addrlen))
 	return;
     if (!XdmcpReadHeader (&buffer, &header))
 	return;
