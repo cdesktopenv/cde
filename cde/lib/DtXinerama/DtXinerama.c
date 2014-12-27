@@ -83,7 +83,7 @@ Bool _DtXineramaGetScreen(DtXineramaInfo_t *DtXI, unsigned int screen,
   if (DtXI->numscreens == 0)
     return(False);		/* no screens or no Xinerama */
 
-  if (screen < 0 || screen >= DtXI->numscreens)
+  if (screen >= DtXI->numscreens)
     return(False);		/* invalid screen */
 
 				/* now get the info from the XinerInfo */
