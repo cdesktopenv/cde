@@ -220,18 +220,19 @@ AddWorkspaceCB (Widget    w,
 
 
 {
-   SwitchData * switch_data;
+   SwitchData * switch_data = NULL;
    char * switch_name;
    char * temp_name;
 
    int append;
    int i;
-   
+   int slen;
 
    /*  Get the beginning part of the new name  */
    
    temp_name = FPGETMESSAGE (82, 35, "New");
-   switch_name = XtMalloc (strlen (temp_name) + 5);
+   slen = strlen (temp_name) + 5 + 1;
+   switch_name = XtCalloc(1, slen);
    strcpy (switch_name, temp_name);
 
 
@@ -265,7 +266,7 @@ AddWorkspaceCB (Widget    w,
          if (strcmp (switch_name, switch_data->switch_names[i]) == 0)
          {
             good_name = False;
-            sprintf (switch_name, "%s_%d", temp_name, append);
+            snprintf (switch_name, slen - 1, "%s_%d", temp_name, append);
 	    continue;
          }
       }
