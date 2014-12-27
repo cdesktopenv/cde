@@ -684,7 +684,7 @@ SetRestorePath(
              */
             if (getenv("DISPLAY") == 0)
             {
-                sprintf(tmpDisplayName, "DISPLAY=%s", displayName);
+                snprintf(tmpDisplayName, MAXPATHLEN, "DISPLAY=%s", displayName);
                 putenv(tmpDisplayName);
             }
         }
