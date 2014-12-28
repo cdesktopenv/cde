@@ -665,7 +665,7 @@ convert_pixel_set(
   int i;
   char *converted;
   char *p;
-  int colormappingindex;
+  int colormappingindex = 0;
 
   const int colormapping [4][XmCO_MAX_NUM_COLORS] = {
     {0, 1, 2, 3, 4, 5, 6, 7}, /* XmCO_HIGH_COLOR */
