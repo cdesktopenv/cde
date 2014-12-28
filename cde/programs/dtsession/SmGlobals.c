@@ -1113,10 +1113,13 @@ SetSavePath(
 
                 strcpy(savedOldDir, smGD.etcPath);
 
-                len = strlen(smGD.restoreSession) + strlen("XXXXXX") + 2;
+                len = strlen(smGD.savePath) + strlen(smGD.restoreSession) 
+                  + strlen("XXXXXX") + 3;
 		tmpName = (char *) XtCalloc(1, len);
 
-		sprintf(tmpName, "%s.XXXXXX", smGD.restoreSession);
+		sprintf(tmpName, "%s/%s.XXXXXX", smGD.savePath, 
+                        smGD.restoreSession);
+
                 if ((tfd = mkstemp(tmpName)) == -1)
                   {
                     PrintErrnoError(DtError, smNLS.cantCreateDirsString);
@@ -1178,9 +1181,11 @@ SetSavePath(
 	    {
               int len, tfd;
 
-              len = strlen(smGD.restoreSession) + strlen("XXXXXX") + 2;
+              len = strlen(smGD.savePath) + strlen(smGD.restoreSession) 
+                + strlen("XXXXXX") + 3;
               tmpName = (char *) XtCalloc(1, len);
-              sprintf(tmpName, "%s.XXXXXX", smGD.restoreSession);
+              sprintf(tmpName, "%s/%s.XXXXXX", smGD.savePath, 
+                      smGD.restoreSession);
 
               strcpy (savedOldDir, smGD.etcPath);
 
