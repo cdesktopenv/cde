@@ -58,6 +58,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #ifdef _SUN_OS   /* to get the define for NOFILE */
 #include <sys/param.h>
 #endif /* _SUN_OS */
@@ -3503,14 +3504,20 @@ StartClient(
 					smRes.ignoreEnvironment, ',');
 	}
 
-	if (!defaultCwd) {
-		if (getenv ("HOME"))
-                        defaultCwd = strndup (getenv("HOME"), MAXPATHLEN);
-		else
-			defaultCwd = getcwd (NULL, MAXPATHLEN + 1);
-
-		(void) gethostname (localHost, MAXHOSTNAMELEN);
-	}
+	if (!defaultCwd) 
+          {
+            char *tstr = getenv("HOME");
+            if (tstr)
+              {
+                int slen = strlen(tstr) + 1;
+                defaultCwd = XtCalloc(1, slen);
+                strncpy(defaultCwd, tstr, slen - 1);
+              }
+            else
+              defaultCwd = getcwd (NULL, MAXPATHLEN + 1);
+            
+            (void) gethostname (localHost, MAXHOSTNAMELEN);
+          }
 
 	if (!cwd) {
 		cwdNull = True;
