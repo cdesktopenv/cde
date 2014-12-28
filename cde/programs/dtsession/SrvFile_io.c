@@ -228,10 +228,8 @@ char    *palette)
                                                         DEFAULT_PALETTE);
     }
 
-    if (path != NULL)
-        SRV_FREE(path);
-    if (palettePath != NULL)
-        SRV_FREE(palettePath);
+    SRV_FREE(path);
+    SRV_FREE(palettePath);
 
     return (paletteDef);
 
@@ -372,6 +370,7 @@ ReadPaletteFile(
          error_value = 1;
          unlink(palettePath);
          SRV_FREE(fullPath);
+         close(fd);
          return((struct _palette *) NULL);
       }
    }
