@@ -907,9 +907,8 @@ CreateLockDialogWithCover(
      */
     i = 0;
     envLog = getenv("LOGNAME");
-    lockMessage = XtMalloc(100 + strlen(envLog));
-    sprintf(
-	lockMessage,
+    lockMessage = XtCalloc(1, 100 + strlen(envLog));
+    snprintf(lockMessage, 100 + strlen(envLog) - 1,
 	((char *)GETMESSAGE(18, 1, "Display locked by user %s.")), envLog);
     lockString = XmStringCreateLocalized(lockMessage);
     XtSetArg(uiArgs[i], XmNtopAttachment, XmATTACH_POSITION); i++;

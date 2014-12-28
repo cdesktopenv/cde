@@ -498,7 +498,8 @@ OpenOutputClientDB(char *fileName,
     /* Open fileName for writing. */
     if ((outputDB->xrmDBFile = fopen(fileName, "w")) == (FILE *)NULL)
     {
-	rename(outputDB->tmpDBFileName, fileName);
+        int rv;
+	rv = rename(outputDB->tmpDBFileName, fileName);
 	XtFree(outputDB->xrmDBFileName);
 	XtFree(outputDB->tmpDBFileName);
 	XtFree((char *)outputDB);
@@ -705,9 +706,10 @@ CloseClientDB(ClientDB clientDBPtr, Boolean writeDB)
     }
     else
     {
+      int rv;
 	/* Close file and remove it; restore original DB. */
 	fclose(clientDB->xrmDBFile);
-	rename(clientDB->tmpDBFileName, clientDB->xrmDBFileName);
+	rv = rename(clientDB->tmpDBFileName, clientDB->xrmDBFileName);
     }
 
     XtFree(clientDB->xrmDBFileName);

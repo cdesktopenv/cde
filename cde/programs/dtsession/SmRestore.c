@@ -58,6 +58,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #ifdef _SUN_OS   /* to get the define for NOFILE */
 #include <sys/param.h>
 #endif /* _SUN_OS */
@@ -590,7 +591,7 @@ RestoreState( void )
 	      fileSize = MAXLINE + 1;
 	  }
 
-	  line = (unsigned char *) malloc ((fileSize + 1) * sizeof(char *));
+	  line = malloc(fileSize + 1);
 	  if (line == NULL)
 	  {
 	      line = fallBackLine;
@@ -828,6 +829,8 @@ RestoreResources( Boolean errorHandlerInstalled, ... )
     char *argv[20]; 
     va_list  args;
 
+#if 0
+    /* JET - this seems like a bad (and unused) idea */
     /*
      * Check for alternate resource loader.
      */
@@ -835,6 +838,9 @@ RestoreResources( Boolean errorHandlerInstalled, ... )
      {
        pgrm = CDE_INSTALLATION_TOP "/bin/dtsession_res";
      }
+#else
+       pgrm = CDE_INSTALLATION_TOP "/bin/dtsession_res";
+#endif
 
     /*
      * By convention, exec() wants arg0 to be the program name. Ex: if pgrm
@@ -1286,7 +1292,7 @@ RestoreSettings( void )
 	    ptrSize += 50;
 	    restorePtrArray = (char **)SM_REALLOC((char *)
 						  restorePtrArray, ptrSize *
-						  sizeof(char **));
+						  sizeof(char *));
 	    if(restorePtrArray == NULL)
 	    {
 		PrintErrnoError(DtError, smNLS.cantMallocErrorString);
@@ -2065,6 +2071,7 @@ RestoreClients( void )
 				SM_FREE((char *) remoteBuf[i]);
 			    }
 			}
+                        free(displayName);
 			return(-1);
 		    }
 		    cmdPtr = NULL;
@@ -3497,14 +3504,20 @@ StartClient(
 					smRes.ignoreEnvironment, ',');
 	}
 
-	if (!defaultCwd) {
-		if (getenv ("HOME"))
-			defaultCwd = strdup (getenv ("HOME"));
-		else
-			defaultCwd = getcwd (NULL, MAXPATHLEN + 1);
-
-		(void) gethostname (localHost, MAXHOSTNAMELEN);
-	}
+	if (!defaultCwd) 
+          {
+            char *tstr = getenv("HOME");
+            if (tstr)
+              {
+                int slen = strlen(tstr) + 1;
+                defaultCwd = XtCalloc(1, slen);
+                strncpy(defaultCwd, tstr, slen - 1);
+              }
+            else
+              defaultCwd = getcwd (NULL, MAXPATHLEN + 1);
+            
+            (void) gethostname (localHost, MAXHOSTNAMELEN);
+          }
 
 	if (!cwd) {
 		cwdNull = True;

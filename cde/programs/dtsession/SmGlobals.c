@@ -476,7 +476,7 @@ InitSMGlobals( void )
      /*
       * Pull screen saver resources from Dtsession*<name>.
       */
-      smGD.SmNextension = smGD.SmNextension = smGD.extensionSpec = "";
+      smGD.SmNextension = smGD.SmCextension = smGD.extensionSpec = "";
     }
 
     XtGetSubresources(smGD.topLevelWid, (XtPointer) &smSaverRes,
@@ -684,7 +684,7 @@ SetRestorePath(
              */
             if (getenv("DISPLAY") == 0)
             {
-                sprintf(tmpDisplayName, "DISPLAY=%s", displayName);
+                snprintf(tmpDisplayName, MAXPATHLEN, "DISPLAY=%s", displayName);
                 putenv(tmpDisplayName);
             }
         }
@@ -703,7 +703,7 @@ SetRestorePath(
 
 		pch = strdup ((char *) GETMESSAGE (40, 15,
 			" No session name was provided for the -session command line option."));
-	      	if (!pch) 
+	      	if (pch) 
 		{ 
 		    DtMsgLogMessage (argv[0], DtMsgLogWarning, pch);
 		    free (pch);
@@ -1109,22 +1109,31 @@ SetSavePath(
             if(status == 0)
 	    {
 		char 		* tmpName;
-		char		* tmpDir;
+                int len, tfd;
 
-                strcpy (savedOldDir, smGD.etcPath);
+                strcpy(savedOldDir, smGD.etcPath);
 
-		tmpName = (char *) XtMalloc (strlen (smGD.restoreSession) + 2);
-		sprintf (tmpName, "%s.", smGD.restoreSession);
-		if (strlen (tmpName) > 5) {
-			tmpName[4] = '.';
-			tmpName[5] = '\000';
-		}
-		tmpDir = (char *) tempnam (smGD.savePath, tmpName);
-                MoveDirectory (smGD.etcPath, tmpDir, False);
+                len = strlen(smGD.savePath) + strlen(smGD.restoreSession) 
+                  + strlen("XXXXXX") + 3;
+		tmpName = (char *) XtCalloc(1, len);
 
-		strcpy (savedTmpDir, tmpDir);
-		free (tmpDir);
-		XtFree ((char *) tmpName);
+		sprintf(tmpName, "%s/%s.XXXXXX", smGD.savePath, 
+                        smGD.restoreSession);
+
+                if ((tfd = mkstemp(tmpName)) == -1)
+                  {
+                    PrintErrnoError(DtError, smNLS.cantCreateDirsString);
+                  }
+                else
+                  {
+                    close(tfd);
+                    unlink(tmpName);
+
+                    MoveDirectory(smGD.etcPath, tmpName, False);
+                    
+                    strncpy(savedTmpDir, tmpName, len - 1);
+                  }
+                XtFree((char *) tmpName);
 	    }
 	    MoveDirectory(smGD.clientPath, smGD.etcPath, False);
         }
@@ -1165,25 +1174,35 @@ SetSavePath(
 	     * save is complete.
 	     */
 	    char 		* tmpName;
-	    char		* tmpDir;
 
             sprintf(smGD.etcPath, "%s.%s", smGD.clientPath, SM_OLD_EXTENSION);
             status = stat(smGD.etcPath, &buf);
             if(status == 0)
 	    {
-		tmpName = (char *) XtMalloc (strlen (smGD.restoreSession) + 2);
-		sprintf (tmpName, "%s.", smGD.restoreSession);
-                strcpy (savedOldDir, smGD.etcPath);
-		if (strlen (tmpName) > 5) {
-			tmpName[4] = '.';
-			tmpName[5] = '\000';
-		}
-		tmpDir = (char *) tempnam (smGD.savePath, tmpName);
-		MoveDirectory (smGD.etcPath, tmpDir, False);
+              int len, tfd;
 
-		strcpy (savedTmpDir, tmpDir);
-		free (tmpDir);
-		XtFree ((char *) tmpName);
+              len = strlen(smGD.savePath) + strlen(smGD.restoreSession) 
+                + strlen("XXXXXX") + 3;
+              tmpName = (char *) XtCalloc(1, len);
+              sprintf(tmpName, "%s/%s.XXXXXX", smGD.savePath, 
+                      smGD.restoreSession);
+
+              strcpy (savedOldDir, smGD.etcPath);
+
+              if ((tfd = mkstemp(tmpName)) == -1)
+                {
+                  PrintErrnoError(DtError, smNLS.cantCreateDirsString);
+                }
+              else
+                {
+                  close(tfd);
+                  unlink(tmpName);
+
+                  MoveDirectory (smGD.etcPath, tmpName, False);
+              
+                  strcpy (savedTmpDir, tmpName);
+                }
+              XtFree((char *) tmpName);
 	    }
 
             MoveDirectory(smGD.clientPath, smGD.etcPath, False);
@@ -1194,13 +1213,21 @@ SetSavePath(
 	       status = mkdir(smGD.clientPath, 0000);
 	       if(status == -1)
 	       {
+                 PrintErrnoError(DtError, smNLS.cantCreateDirsString);
+                 smGD.clientPath[0] = 0;
+                 smGD.settingPath[0] = 0;
+                 smGD.resourcePath[0] = 0;
+                 return(-1);
+               }
+            status = chmod(smGD.clientPath, 0755);
+            if(status == -1)
+              {
                 PrintErrnoError(DtError, smNLS.cantCreateDirsString);
                 smGD.clientPath[0] = 0;
                 smGD.settingPath[0] = 0;
                 smGD.resourcePath[0] = 0;
                 return(-1);
-            }
-            chmod(smGD.clientPath, 0755);
+              }
         }
         
         strcat(smGD.clientPath, "/");
@@ -1284,7 +1311,13 @@ SetFontSavePath(char *langPtr)
             smGD.fontPath[0] = 0;
             return(-1);
         }
-        chmod(smGD.fontPath, 0755);
+        status = chmod(smGD.fontPath, 0755);
+        if(status == -1)
+          {
+            PrintErrnoError(DtError, smNLS.cantCreateDirsString);
+            smGD.fontPath[0] = 0;
+            return(-1);
+          }
     }
 
     return(0);
@@ -1632,7 +1665,7 @@ TrimErrorlog( void )
     
     len = strlen(home) + strlen(DtPERSONAL_CONFIG_DIRECTORY) + 2;
     if (len > MAXPATHLEN) savePath = SM_REALLOC(savePath, len);
-    sprintf(savePath, "%s/%s", home, DtPERSONAL_CONFIG_DIRECTORY);
+    snprintf(savePath, len - 1, "%s/%s", home, DtPERSONAL_CONFIG_DIRECTORY);
     
     /*
      * If errorlog.old exists and it is not empty, delete
@@ -2352,11 +2385,11 @@ InitializeSpecificSession (
 				if (len > MAXPATHLEN)
 				  alt_dir = XtRealloc(alt_dir, len + 1);
 
-				(void) sprintf (alt_dir, "%s/%s/%s/%s",
-						home,
-						DtPERSONAL_CONFIG_DIRECTORY,
-						DtSM_SESSION_DIRECTORY,
-						SM_HOME_DIRECTORY);
+				snprintf(alt_dir, len, "%s/%s/%s/%s",
+                                         home,
+                                         DtPERSONAL_CONFIG_DIRECTORY,
+                                         DtSM_SESSION_DIRECTORY,
+                                         SM_HOME_DIRECTORY);
 
 				if (!SetAlternateSession (session_dir, 
 							  alt_dir, 
@@ -2412,6 +2445,12 @@ InitializePaths (
 	char		*db_file = (char *) XtMalloc(MAXPATHLEN);
 	struct stat 	buf;
 
+        if (!db_file)
+          {
+            PrintError(DtError, smNLS.cantMallocErrorString);
+            return;
+          }
+
 	smGD.savePath = _DtCreateDtDirs(disp);
 
 	(void) sprintf (smGD.settingPath, "%s/%s/%s", 
@@ -2434,7 +2473,7 @@ InitializePaths (
 		if ((stat(db_file, &buf)) == 0)
 			(void) strcpy (smGD.clientPath, db_file);
 	}
-	if (db_file) XtFree(db_file);
+	XtFree(db_file);
 }
 
 
@@ -2471,6 +2510,13 @@ SetAlternateSession (
 	char		*db_file1 = (char *) XtMalloc(MAXPATHLEN);
 	char		*db_file2 = (char *) XtMalloc(MAXPATHLEN);
 	struct stat 	buf;
+
+        if (!db_file1 || !db_file2)
+          {
+            PrintError(DtError, smNLS.cantMallocErrorString);
+            return False;
+          }
+
 
 	if ((stat (session_dir, &buf)) != 0) {
 		/*
@@ -2560,8 +2606,8 @@ SetAlternateSession (
 		SetSysDefaults ();
 	}
 
-	if (db_file1) XtFree(db_file1);
-	if (db_file2) XtFree(db_file2);
+	XtFree(db_file1);
+	XtFree(db_file2);
 	return (True);
 }
 

@@ -504,29 +504,36 @@ PruneSessionDirectory ()
 		 */ 
 
 		char		* tmpName;
-		char		* tmp;
+                int len, tfd;
 
-		tmpName = (char *) XtMalloc (strlen (smGD.restoreSession) + 2);
-		sprintf (tmpName, "%s.", smGD.restoreSession);
-		if (strlen (tmpName) > 5) {
-			tmpName[4] = '.';
-			tmpName[5] = '\000';
-		}
-		tmp = (char *) tempnam (smGD.savePath, tmpName);
+                len = strlen(smGD.savePath) + strlen(smGD.restoreSession) 
+                  + strlen("XXXXXX") + 3;
+		tmpName = XtCalloc (1, len);
+		sprintf(tmpName, "%s/%s.XXXXXX", smGD.savePath, 
+                        smGD.restoreSession);
 
-		sprintf (saveDir, "%s/%s", smGD.savePath, smGD.restoreSession);
+                if ((tfd = mkstemp(tmpName)) == -1)
+                  {
+                    PrintErrnoError(DtError, smNLS.cantCreateDirsString);
+                  }
+                else
+                  {
+                    close(tfd);
+                    unlink(tmpName);
 
-		MoveDirectory (saveDir, tmp, False);
-		MoveDirectory (oldestDir, saveDir, False);
+                    sprintf (saveDir, "%s/%s", 
+                             smGD.savePath, smGD.restoreSession);
 
-		sprintf (clientDB, "%s/%s/%s", smGD.savePath, 
-				smGD.restoreSession, SM_CLIENT_FILE2);
+                    MoveDirectory (saveDir, tmpName, False);
+                    MoveDirectory (oldestDir, saveDir, False);
 
-		ExecuteDiscardCommands (clientDB);
+                    sprintf (clientDB, "%s/%s/%s", smGD.savePath, 
+                             smGD.restoreSession, SM_CLIENT_FILE2);
 
-		MoveDirectory (tmp, saveDir, True);
+                    ExecuteDiscardCommands (clientDB);
 
-		free (tmp);
+                    MoveDirectory (tmpName, saveDir, True);
+                  }
 		XtFree (tmpName);
 	}
 
@@ -551,7 +558,7 @@ PruneSessionDirectory ()
                 	if (((stat (saveDir, &buf)) == 0) && 
 					S_ISDIR (buf.st_mode)) {
 
-				sprintf (clientDB, "rm -rf %s", saveDir);
+				sprintf (clientDB, "/bin/rm -rf %s", saveDir);
 				SystemCmd (clientDB);
 
 				sprintf (oldestDir, "%s/%s", smGD.savePath, 
