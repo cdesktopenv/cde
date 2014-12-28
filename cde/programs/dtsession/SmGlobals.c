@@ -1124,6 +1124,8 @@ SetSavePath(
                 else
                   {
                     close(tfd);
+                    unlink(tmpName);
+
                     MoveDirectory(smGD.etcPath, tmpName, False);
                     
                     strncpy(savedTmpDir, tmpName, len - 1);
@@ -1189,6 +1191,8 @@ SetSavePath(
               else
                 {
                   close(tfd);
+                  unlink(tmpName);
+
                   MoveDirectory (smGD.etcPath, tmpName, False);
               
                   strcpy (savedTmpDir, tmpName);
