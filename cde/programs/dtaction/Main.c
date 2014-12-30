@@ -404,7 +404,9 @@ SetGidUid ( unsigned short rgid, unsigned short ruid )
 #if defined(SVR4) || defined(_AIX)
     setgid(rgid);
 #elif defined(__osf__) || defined(linux) || defined(CSRG_BASED)
-    setregid(rgid, rgid);
+    if(-1 == setregid(rgid, rgid)) {
+        fprintf(stderr, "SetGidUid: setregid failed on %d\n", rgid);
+    }
 #elif defined(__hpux)
     setresgid(rgid, rgid, rgid);
 #else
@@ -415,7 +417,9 @@ SetGidUid ( unsigned short rgid, unsigned short ruid )
 #if defined (SVR4) || defined (_AIX)
     setuid(ruid);
 #elif defined(__osf__) || defined(linux) || defined(CSRG_BASED)
-    setreuid(ruid, ruid);
+    if(-1 == setreuid(ruid, ruid)) {
+        fprintf(stderr, "SetGidUid: setreuid failed on %d\n", ruid);
+    }
 #elif defined(__hpux)
     setresuid(ruid, ruid, ruid);
 #else
