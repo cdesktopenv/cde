@@ -625,12 +625,12 @@ WorkspaceModifyCB (Widget    w,
          /*  When adding a switch buttons, keep the row columns row count  */
 	 /*  equal to the requested value with small number of buttons     */
 
-         if (switch_data->switch_count <= (int)
+         if (switch_data->switch_count <= (intptr_t)
 	     (switch_data->element_values[SWITCH_NUMBER_OF_ROWS].parsed_value))
 	 {
             Arg al[1];
 
-            panel.switch_row_count = (int)
+            panel.switch_row_count = (intptr_t)
 	      (switch_data->element_values[SWITCH_NUMBER_OF_ROWS].parsed_value);
 
             XtSetArg (al[0], XmNnumColumns, panel.switch_row_count);
@@ -710,7 +710,7 @@ WorkspaceModifyCB (Widget    w,
          /*  When deleting a switch button, keep trying to decrease the  */
          /*  row count to the requested value.                           */
 
-         if (panel.switch_row_count > (int)
+         if (panel.switch_row_count > (intptr_t)
               (switch_data->element_values[SWITCH_NUMBER_OF_ROWS].parsed_value))
          {
             button_width = XtWidth (switch_data->buttons[0]);
@@ -1237,7 +1237,7 @@ CheckControlTypeFile (ControlData * control_data)
    char   * message;
    
 
-   if ((int) control_data->element_values[CONTROL_TYPE].parsed_value != CONTROL_FILE)
+   if ((intptr_t) control_data->element_values[CONTROL_TYPE].parsed_value != CONTROL_FILE)
       return (True);
       
    file_name = 
@@ -1372,7 +1372,7 @@ PushCB (Widget    w,
    int i, j;
    
 
-   control_behavior = (int) (panel.element_values[PANEL_CONTROL_BEHAVIOR].parsed_value);
+   control_behavior = (intptr_t) (panel.element_values[PANEL_CONTROL_BEHAVIOR].parsed_value);
 
 
    /*  See if the workspace name is being edited.  If so, call the  */
@@ -1563,9 +1563,9 @@ PushCB (Widget    w,
 	     (callback->reason == XmCR_DEFAULT_ACTION || 
 	      callback->reason == XmCR_SINGLE_SELECT)))
    {
-      control_type = (int) (control_data->element_values[CONTROL_TYPE].parsed_value);
+      control_type = (intptr_t) (control_data->element_values[CONTROL_TYPE].parsed_value);
       push_action = (PanelActionData *) (control_data->element_values[CONTROL_PUSH_ACTION].parsed_value);
-      push_recall = (Boolean) (control_data->element_values[CONTROL_PUSH_RECALL].parsed_value);
+      push_recall = (Boolean) (intptr_t) (control_data->element_values[CONTROL_PUSH_RECALL].parsed_value);
 
       switch (control_type)
       {
@@ -1577,7 +1577,7 @@ PushCB (Widget    w,
       
             /*  Turn off the subpanel control monitor indicator  */
 
-            if ((char) control_data->element_values[CONTROL_MONITOR_TYPE].
+            if ((char) (intptr_t) control_data->element_values[CONTROL_MONITOR_TYPE].
 	               parsed_value != MONITOR_NONE)
 	    {
                if (subpanel_data != NULL)
@@ -1731,7 +1731,7 @@ PushCB (Widget    w,
       /*  action occured out of a subpanel.                                */
 
       if (subpanel_data != NULL && unpost_subpanel &&
-          (Boolean) panel.element_values[PANEL_SUBPANEL_UNPOST].parsed_value &&
+          (Boolean) (intptr_t) panel.element_values[PANEL_SUBPANEL_UNPOST].parsed_value &&
           subpanel_data->torn == False)
          ArrowCB (main_control_data->arrow,
 		  (XtPointer)main_control_data, (XtPointer)NULL);
@@ -1774,8 +1774,8 @@ DropCB (Widget    w,
         animate_data->dropData->protocol == DtDND_BUFFER_TRANSFER))
    {
       int numItems;
-      int control_type =
-         (int)control_data->element_values[CONTROL_TYPE].parsed_value;
+      intptr_t control_type =
+         (intptr_t)control_data->element_values[CONTROL_TYPE].parsed_value;
       char * control_name =
          (char *)control_data->element_values[CONTROL_FILE_NAME].parsed_value;
       Boolean send_control_name = False;
@@ -2291,7 +2291,7 @@ CustomizeDropCB (Widget    w,
    Boolean drop_of_fp;
    Boolean bad_control;
    Boolean control_monitor;
-   int     position_hints;
+   intptr_t position_hints;
    int     count;
 
    char  * new_control_name;
@@ -2456,18 +2456,18 @@ CustomizeDropCB (Widget    w,
       if (bad_control) continue;
 
 
-      if ((int) element_values[CONTROL_MONITOR_TYPE].parsed_value != MONITOR_NONE)
+      if ((intptr_t) element_values[CONTROL_MONITOR_TYPE].parsed_value != MONITOR_NONE)
          control_monitor = True;
       else
          control_monitor = False;
 
 
-      position_hints = (int)element_values[CONTROL_POSITION_HINTS].parsed_value;
+      position_hints = (intptr_t) element_values[CONTROL_POSITION_HINTS].parsed_value;
 
 
       /*  Initialize the subpanel layout and processing attributes.  */
 
-      if ((int) main_control_data->
+      if ((intptr_t) main_control_data->
            element_values[CONTROL_MONITOR_TYPE].parsed_value != MONITOR_NONE)
       {
          control_monitor = True;
@@ -2476,7 +2476,7 @@ CustomizeDropCB (Widget    w,
 
       for (j = 0; j < subpanel_data->control_data_count; j++)
       {
-         if ((int) subpanel_data->control_data[j]->
+         if ((intptr_t) subpanel_data->control_data[j]->
              element_values[CONTROL_MONITOR_TYPE].parsed_value != MONITOR_NONE)
          {
             control_monitor = True;
@@ -2517,7 +2517,7 @@ CustomizeDropCB (Widget    w,
       for (j = count - 2; j >= 0; j--)
       {
          if (position_hints >= 
-             (int) subpanel_data->control_data[j]->element_values[CONTROL_POSITION_HINTS].parsed_value)
+             (intptr_t) subpanel_data->control_data[j]->element_values[CONTROL_POSITION_HINTS].parsed_value)
             break;
       }
 

@@ -607,7 +607,7 @@ _DtPerfChkpntMsgSend("End   Front panel database read");
    
    for (i = panel_count - 1; i > 0; i--)
    {
-      if ((Boolean)(panel_data[i].element_values[PANEL_LOCKED].parsed_value))
+      if ((intptr_t)(panel_data[i].element_values[PANEL_LOCKED].parsed_value))
          break;
    }
 
@@ -680,7 +680,7 @@ _DtPerfChkpntMsgSend("End   Front panel database read");
    if (switch_count != 0) {
      for (i = switch_count - 1; i > 0; i--)
      {
-       if ((Boolean)(switch_data[i].element_values[SWITCH_LOCKED].parsed_value))
+       if ((intptr_t)(switch_data[i].element_values[SWITCH_LOCKED].parsed_value))
             break;
      }
 
@@ -1149,7 +1149,7 @@ AnimationParseCB (DtDtsDbField  * fields,
 	   if ((string = _DtWmParseNextTokenC(&source, False)) != NULL)
 	   {
 	      StringToInt((char *)string, &val_rtn);
-	      panel.animation_data[count].items[i].delay = (int) val_rtn;
+	      panel.animation_data[count].items[i].delay = (int) (intptr_t) val_rtn;
 	   }
 	   else
 	   {
@@ -1495,8 +1495,8 @@ BubbleSort (RecordData * rec_data,
         }
         else
         {
-           if ((int) rec_data[j].element_values[elem_index].parsed_value >
-               (int) rec_data[j+1].element_values[elem_index].parsed_value)
+           if ((intptr_t) rec_data[j].element_values[elem_index].parsed_value >
+               (intptr_t) rec_data[j+1].element_values[elem_index].parsed_value)
            {
               SwapEntries(rec_data, j, j+1);
               t = j;
@@ -1559,9 +1559,9 @@ ReorderByContainerName (RecordData * rec_data,
    
    while (i < rec_count)
    {
-       cont_type = (int)
+       cont_type = (int) (intptr_t)
 		   (rec_data[start].element_values[elem_type].parsed_value);
-       while ((int)(rec_data[i].element_values[elem_type].parsed_value) ==
+       while ((intptr_t)(rec_data[i].element_values[elem_type].parsed_value) ==
 	      cont_type)
        {
            i++;
@@ -1653,9 +1653,9 @@ ReorderByPosition(RecordData *rec_data,
        }
        else
        {
-          container_type = (int)
+          container_type = (int) (intptr_t)
                   (rec_data[start].element_values[cont_type].parsed_value);
-          while (((int)rec_data[i].element_values[cont_type].parsed_value ==
+          while (((intptr_t)rec_data[i].element_values[cont_type].parsed_value ==
                                                            container_type) &&
                  (strcmp((char *)
 		 	 rec_data[i].element_values[cont_name].parsed_value,
@@ -1809,12 +1809,12 @@ ResolveDuplicates (RecordData * record_data,
       element_values = record_data[i].element_values;
       if (ANY_CONTAINER_TYPE != container_type)
       {
-         cont_type = (int) (element_values[container_type].parsed_value);
+         cont_type = (int) (intptr_t) (element_values[container_type].parsed_value);
          cont_name = (char *) (element_values[container_name].parsed_value);
       }
       record_name = (char *) (element_values[name_type].parsed_value);
 
-      locked = (Boolean)(element_values[lock_type].parsed_value);
+      locked = (Boolean) (intptr_t) (element_values[lock_type].parsed_value);
       if (locked)
       {
          i--;
@@ -1834,7 +1834,7 @@ ResolveDuplicates (RecordData * record_data,
          }
          else
          { 
-            while (((int)(element_values[container_type].parsed_value)
+            while (((intptr_t)(element_values[container_type].parsed_value)
 	                  == cont_type) &&
                   (strcmp((char *)(element_values[container_name].parsed_value),
 	                   cont_name) == 0) &&
@@ -1864,7 +1864,7 @@ ResolveDuplicates (RecordData * record_data,
             while ((strcmp((char *) (element_values[name_type].parsed_value),
                            record_name) == 0))
             {
-                locked = (Boolean)(element_values[lock_type].parsed_value);
+                locked = (Boolean) (intptr_t) (element_values[lock_type].parsed_value);
                 if (locked && start_index == lock_index)
                    lock_index = i;
                 last_index = i;
@@ -1875,14 +1875,14 @@ ResolveDuplicates (RecordData * record_data,
          }
          else
          {
-            while (((int)(element_values[container_type].parsed_value)
+            while (((intptr_t)(element_values[container_type].parsed_value)
 	                   == cont_type) &&
                   (strcmp((char *)(element_values[container_name].parsed_value),
 	                   cont_name) == 0) &&
                   (strcmp((char *)(element_values[name_type].parsed_value),
                            record_name) == 0))
             {
-                locked = (Boolean)(element_values[lock_type].parsed_value);
+                locked = (Boolean) (intptr_t) (element_values[lock_type].parsed_value);
                 if (locked && start_index == lock_index)
                    lock_index = i;
                 last_index = i;
@@ -1942,7 +1942,7 @@ GetNameList (RecordData * record_data,
    for (i = 0; i < record_count; i++)
    {
       if (ANY_CONTAINER_TYPE == container_type ||
-          (int)(record_data[i].element_values[container_type].parsed_value) == 
+          (intptr_t)(record_data[i].element_values[container_type].parsed_value) == 
           container)
       {
 	 if (found_count >= name_list_count)
@@ -1999,7 +1999,7 @@ EliminateUnused (RecordData    * record_data,
    {
        element_values = record_data[i].element_values;
        if (cont_type == ANY_CONTAINER_TYPE ||
-           (int)(element_values[cont_type].parsed_value) == container)
+           (intptr_t)(element_values[cont_type].parsed_value) == container)
        {
           if (cont_name_list != NULL)
           {
@@ -2069,15 +2069,15 @@ EliminateDeleted (RecordData    * record_data,
    {
        start = i;
        element_values = record_data[i].element_values;
-       if ((Boolean)element_values[delete_type].parsed_value)
+       if ((intptr_t)element_values[delete_type].parsed_value)
        {
           Boolean delete_rest = False;
 
           if (record_type == CONTROL)
           {
-             rec_type = (int)element_values[CONTROL_TYPE].parsed_value;
+             rec_type = (intptr_t)element_values[CONTROL_TYPE].parsed_value;
              container_type =
-		       (int)element_values[CONTROL_CONTAINER_TYPE].parsed_value;
+		       (intptr_t)element_values[CONTROL_CONTAINER_TYPE].parsed_value;
           }
           container_name = 
              XtNewString ((char *)element_values[cont_name].parsed_value);
@@ -2088,18 +2088,18 @@ EliminateDeleted (RecordData    * record_data,
           {
              other_element_values = record_data[j].element_values;
              if ((record_type != CONTROL ||
-                 ((int)other_element_values[CONTROL_CONTAINER_TYPE].parsed_value
+                 ((intptr_t)other_element_values[CONTROL_CONTAINER_TYPE].parsed_value
 		   == container_type &&
-                  (int) other_element_values[CONTROL_TYPE].parsed_value
+                  (intptr_t) other_element_values[CONTROL_TYPE].parsed_value
 		   == rec_type)) &&
 	         strcmp((char *)other_element_values[cont_name].parsed_value,
 		        container_name) == 0 &&
 	         strcmp((char *)other_element_values[record_name].parsed_value,
                         rec_name) == 0)
              {
-	        if ((Boolean)other_element_values[lock_type].parsed_value)
+	        if ((intptr_t)other_element_values[lock_type].parsed_value)
                 {
-                   if ((Boolean)other_element_values[delete_type].parsed_value)
+                   if ((intptr_t)other_element_values[delete_type].parsed_value)
                    {
                        EliminateEntries(record_data, record_count, j, j, &dummy,
                                         &count, record_type);
@@ -2194,7 +2194,7 @@ CountElements (RecordData * record_data,
    for (i = 0; i < record_count; i++)
    {
       if (ANY_CONTAINER_TYPE == container_type ||
-          (int)(record_data[i].element_values[container_type].parsed_value) == 
+          (intptr_t)(record_data[i].element_values[container_type].parsed_value) == 
           container)
       {
          if (strcmp (container_name, 
@@ -2273,7 +2273,7 @@ AddControlActionList (ControlData * control_data)
    int j = 0;
 
 
-   if ((int)control_data->element_values[CONTROL_TYPE].parsed_value ==
+   if ((intptr_t)control_data->element_values[CONTROL_TYPE].parsed_value ==
 								 CONTROL_FILE)
    {
       file_name = (char *)
@@ -2450,7 +2450,7 @@ ProcessBox (BoxData * box_data)
    {
       element_values = control_data[i].element_values;
 
-      if ((int) element_values[CONTROL_CONTAINER_TYPE].parsed_value == BOX &&
+      if ((intptr_t) element_values[CONTROL_CONTAINER_TYPE].parsed_value == BOX &&
           strcmp ((char *) box_data->element_values[BOX_NAME].parsed_value,
 	          (char *) element_values[CONTROL_CONTAINER_NAME].parsed_value) == 0)
       {
@@ -2619,7 +2619,7 @@ ProcessSubpanel (SubpanelData * subpanel_data)
    {
       element_values = control_data[i].element_values;
 
-      if ((int) element_values[CONTROL_CONTAINER_TYPE].parsed_value == SUBPANEL &&
+      if ((intptr_t) element_values[CONTROL_CONTAINER_TYPE].parsed_value == SUBPANEL &&
           strcmp ((char *) subpanel_data->element_values[SUBPANEL_NAME].parsed_value,
 	          (char *) element_values[CONTROL_CONTAINER_NAME].parsed_value) == 0)
       {
@@ -2664,7 +2664,7 @@ ProcessSwitch (SwitchData * switch_data)
    {
       element_values = control_data[i].element_values;
 
-      if ((int) element_values[CONTROL_CONTAINER_TYPE].parsed_value == SWITCH &&
+      if ((intptr_t) element_values[CONTROL_CONTAINER_TYPE].parsed_value == SWITCH &&
           strcmp ((char *) switch_data->element_values[SWITCH_NAME].parsed_value,
 	          (char *) element_values[CONTROL_CONTAINER_NAME].parsed_value) == 0)
       {
@@ -2784,7 +2784,7 @@ WriteComponentToFile (RecordData * record_data,
 		 record_data->element_values[k].use_default == False)
              {
                 if (record_type == CONTROL &&
-		    (int) record_data->element_values[CONTROL_TYPE].parsed_value == CONTROL_FILE &&
+		    (intptr_t) record_data->element_values[CONTROL_TYPE].parsed_value == CONTROL_FILE &&
                     (k == CONTROL_PUSH_ACTION ||
                      k == CONTROL_LABEL || k == CONTROL_DROP_ACTION))
 	           continue;
@@ -2880,7 +2880,7 @@ WriteControlComponentFile (ControlData * control_data)
    
    WriteComponentToFile ((RecordData *) control_data, CONTROL, control_keywords,
                          (char *) element_values[CONTROL_CONTAINER_NAME].parsed_value,
-                         (int) element_values[CONTROL_CONTAINER_TYPE].parsed_value,
+                         (int) (intptr_t) element_values[CONTROL_CONTAINER_TYPE].parsed_value,
 			 False);
 }
 
@@ -2932,7 +2932,7 @@ RemoveControlComponentFile (ControlData * control_data)
 
    RemoveComponentFile ((RecordData *) control_data, CONTROL, control_keywords,
                         (char *) element_values[CONTROL_CONTAINER_NAME].parsed_value,
-                        (int) element_values[CONTROL_CONTAINER_TYPE].parsed_value);
+                        (int) (intptr_t) element_values[CONTROL_CONTAINER_TYPE].parsed_value);
 }
 
 
@@ -3193,7 +3193,7 @@ InitializeFileControlFields (ElementValue * element_values,
 
 
 {
-   if ((int)element_values[CONTROL_TYPE].parsed_value == CONTROL_FILE)
+   if ((intptr_t)element_values[CONTROL_TYPE].parsed_value == CONTROL_FILE)
    {
       Boolean free_data_type = False;
       char * act_list;
@@ -3377,7 +3377,7 @@ UpdateFileType (ControlData * control_data)
    icon_name =
 	 (char *)control_data->element_values[CONTROL_NORMAL_ICON].parsed_value;
 
-   if ((int)control_data->element_values[CONTROL_CONTAINER_TYPE].parsed_value ==
+   if ((intptr_t)control_data->element_values[CONTROL_CONTAINER_TYPE].parsed_value ==
 							               SUBPANEL)
    {
       icon_name = GetIconName (icon_name, panel.sub_icon_size);
@@ -3431,7 +3431,7 @@ UpdateFileTypeControlFields (void)
       {
          control_data = box_data->control_data[j];
 
-         if ((int)control_data->element_values[CONTROL_TYPE].parsed_value ==
+         if ((intptr_t)control_data->element_values[CONTROL_TYPE].parsed_value ==
 								 CONTROL_FILE)
             UpdateFileType(control_data);
 
@@ -3443,7 +3443,7 @@ UpdateFileTypeControlFields (void)
             {
                control_data = subpanel_data->control_data[k];
 
-               if ((int)control_data->element_values[CONTROL_TYPE].parsed_value
+               if ((intptr_t)control_data->element_values[CONTROL_TYPE].parsed_value
 							        == CONTROL_FILE)
                   UpdateFileType(control_data);
             }
@@ -3457,7 +3457,7 @@ UpdateFileTypeControlFields (void)
          {
             control_data = switch_data->control_data[j];
 
-            if ((int)control_data->element_values[CONTROL_TYPE].parsed_value ==
+            if ((intptr_t)control_data->element_values[CONTROL_TYPE].parsed_value ==
 	  						           CONTROL_FILE)
                UpdateFileType(control_data);
          }

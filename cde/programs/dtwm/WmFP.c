@@ -224,7 +224,7 @@ EmbeddedClientRegister (ControlData * control_data,
 
    WmFpEmbeddedClientData * embedded_client = NULL;
 
-   if ((char) control_data->
+   if ((intptr_t) control_data->
                   element_values[CONTROL_TYPE].parsed_value != CONTROL_CLIENT)
       return;
 

@@ -222,7 +222,7 @@ FrontPanelCreate (Widget toplevel)
    
    /*  Create the handles, menu and iconify  */
    
-   if ((Boolean) panel.element_values[PANEL_DISPLAY_HANDLES].parsed_value)
+   if ((intptr_t) panel.element_values[PANEL_DISPLAY_HANDLES].parsed_value)
    {
       XtTranslations handle_translations = HandleInputTranslations();
 
@@ -241,7 +241,7 @@ FrontPanelCreate (Widget toplevel)
       XtAddCallback (panel.right_handle, XmNhelpCallback,
                      (XtCallbackProc) GeneralTopicHelpCB, PANEL_HANDLE);
 
-      if ((Boolean) panel.element_values[PANEL_DISPLAY_MENU].parsed_value)
+      if ((intptr_t) panel.element_values[PANEL_DISPLAY_MENU].parsed_value)
       {
          panel.menu = PanelControlCreate (panel.form, "menu", menu_normal_image);
 
@@ -297,7 +297,7 @@ FrontPanelCreate (Widget toplevel)
          XtSetValues (panel.left_handle, al, ac);
       }
 
-      if ((Boolean) panel.element_values[PANEL_DISPLAY_MINIMIZE].parsed_value)
+      if ((intptr_t) panel.element_values[PANEL_DISPLAY_MINIMIZE].parsed_value)
       {
          panel.iconify = 
 	    PanelControlCreate (panel.form, "minimize", minimize_normal_image);
@@ -430,7 +430,7 @@ Initialize (DtPanelShellWidget panel_shell)
    XFreePixmap (display, busy_pixmap_mask);
 
    
-   panel.resolution = (int) panel.element_values[PANEL_RESOLUTION].parsed_value;
+   panel.resolution = (int) (intptr_t) panel.element_values[PANEL_RESOLUTION].parsed_value;
 
    /*   Extract and validate resolution.  */
    
@@ -802,7 +802,7 @@ BoxCreate ()
 	 XtSetArg (al[ac], XmNbottomOffset, 0);  ac++;
 
          switch_position = 
-	    (int) box_data->switch_data->element_values[SWITCH_POSITION_HINTS].parsed_value;
+	    (intptr_t) box_data->switch_data->element_values[SWITCH_POSITION_HINTS].parsed_value;
 
 
          /*  Determine if the defined switch position is actually the  */
@@ -812,7 +812,7 @@ BoxCreate ()
          {
 	    for (j = 0; j < box_data->control_data_count; j++)
             {
-	       if (switch_position < (int) ((box_data->control_data[j])->element_values[CONTROL_POSITION_HINTS].parsed_value))
+	       if (switch_position < (intptr_t) ((box_data->control_data[j])->element_values[CONTROL_POSITION_HINTS].parsed_value))
                   break;
             }
 
@@ -1369,7 +1369,7 @@ MainControlCreate (int switch_position)
 	 for (j = 0; j < box_data->control_data_count; j++)
 	 {
 	    if (switch_position <
- 	        (int) ((box_data->control_data[j])->element_values[CONTROL_POSITION_HINTS].parsed_value))
+ 	        (intptr_t) ((box_data->control_data[j])->element_values[CONTROL_POSITION_HINTS].parsed_value))
             {
                ControlCreate (box_data->left_control_form, 
 		              &box_data->control_data[0], j);
@@ -1439,7 +1439,7 @@ ControlSetVisualData (ControlData * control_data,
    else
    {
       if (control_data != NULL &&
-        (char) control_data->element_values[CONTROL_TYPE].parsed_value ==
+        (intptr_t) control_data->element_values[CONTROL_TYPE].parsed_value ==
                                                                CONTROL_CLOCK)
       {
          if (panel.color_use != XmCO_BLACK_WHITE)
@@ -1470,7 +1470,7 @@ ControlSetVisualData (ControlData * control_data,
    XtSetArg (al[*ac], XmNbottomShadowColor, panel.primary_pixel_set->bs);(*ac)++;
    XtSetArg (al[*ac], XmNselectColor, panel.primary_pixel_set->sc);	(*ac)++;
 
-   if ((char) control_data->element_values[CONTROL_TYPE].parsed_value ==
+   if ((intptr_t) control_data->element_values[CONTROL_TYPE].parsed_value ==
 								 CONTROL_DATE)
    {
 /*
@@ -1564,7 +1564,7 @@ ControlSetIconData (Widget        parent,
    /*  If this is not a subpanel control and the keyword is is set so that  */
    /*  labels are not to be displayed, set the string resource to NULL.     */
 
-   if (container_type != SUBPANEL && (Boolean) 
+   if (container_type != SUBPANEL && (intptr_t) 
        panel.element_values[PANEL_DISPLAY_CONTROL_LABELS].parsed_value == False)
    {
       XtSetArg (al[*ac], XmNstring, NULL);				(*ac)++;
@@ -1575,7 +1575,7 @@ ControlSetIconData (Widget        parent,
          (char *) control_data->element_values[CONTROL_LABEL].parsed_value;
 
 
-      if ((int) control_data->element_values[CONTROL_TYPE].parsed_value
+      if ((intptr_t) control_data->element_values[CONTROL_TYPE].parsed_value
 							 != CONTROL_BLANK)
       {
          if (control_label != NULL)
@@ -1655,7 +1655,7 @@ ControlSetBehavior (ControlData * control_data,
    }
 
    if (panel.resolution == HIGH &&
-       (char) control_data->element_values[CONTROL_CONTAINER_TYPE].parsed_value == BOX &&
+       (intptr_t) control_data->element_values[CONTROL_CONTAINER_TYPE].parsed_value == BOX &&
        in_subpanel == False)
       margin_width = 5;
    else
@@ -1672,7 +1672,7 @@ ControlSetBehavior (ControlData * control_data,
    /*  Switch on the controls control type to set the behaviors  */
    /*  specific to the individual control types.                 */
    
-   switch ((char) control_data->element_values[CONTROL_TYPE].parsed_value)
+   switch ((intptr_t) control_data->element_values[CONTROL_TYPE].parsed_value)
    {
       case CONTROL_BLANK:
       {
@@ -1704,11 +1704,11 @@ ControlSetBehavior (ControlData * control_data,
          XtSetArg (al[*ac], XmNmarginWidth, margin_width);         (*ac)++;
 
 
-         if ((char) control_data->element_values[CONTROL_MONITOR_TYPE].parsed_value == MONITOR_NONE)
+         if ((intptr_t) control_data->element_values[CONTROL_MONITOR_TYPE].parsed_value == MONITOR_NONE)
          {
 	    XtSetArg (al[*ac], XmNcontrolType, XmCONTROL_BUTTON);  (*ac)++;
 	 }
-         else if ((char) control_data->element_values[CONTROL_MONITOR_TYPE].parsed_value == MONITOR_FILE)
+         else if ((intptr_t) control_data->element_values[CONTROL_MONITOR_TYPE].parsed_value == MONITOR_FILE)
          {
             String file_name;
 	 
@@ -1718,7 +1718,7 @@ ControlSetBehavior (ControlData * control_data,
             XtSetArg (al[*ac], XmNfileName, *expanded_file_name);    (*ac)++;
 	    XtSetArg (al[*ac], XmNcontrolType, XmCONTROL_MONITOR);  (*ac)++;
 	 }
-         else if ((char) control_data->element_values[CONTROL_MONITOR_TYPE].parsed_value == MONITOR_MAIL)
+         else if ((intptr_t) control_data->element_values[CONTROL_MONITOR_TYPE].parsed_value == MONITOR_MAIL)
          {
             String file_name;
 	 
@@ -1869,17 +1869,17 @@ ControlCreateAndRegister (Widget        parent,
 
    /*  Create either a normal control or a clock  */
    
-   if ((int) control_data->element_values[CONTROL_TYPE].parsed_value
+   if ((intptr_t) control_data->element_values[CONTROL_TYPE].parsed_value
 							 == CONTROL_CLOCK)
       icon = DtCreateClock (parent, "icon", al, ac);
    else
       icon = _DtCreateControl (parent, "icon", al, ac);
 
-   if ((int)control_data->element_values[CONTROL_TYPE].parsed_value
+   if ((intptr_t)control_data->element_values[CONTROL_TYPE].parsed_value
  	                                             == CONTROL_DATE &&
        (control_data->subpanel_data == NULL || main_copy) &&
        (main_copy ||
-	(int)control_data->element_values[CONTROL_CONTAINER_TYPE].parsed_value
+	(intptr_t)control_data->element_values[CONTROL_CONTAINER_TYPE].parsed_value
  	                                             == SUBPANEL))
    {
          format = nl_langinfo(D_FMT);
@@ -1916,7 +1916,7 @@ ControlCreateAndRegister (Widget        parent,
    if (control_data->element_values[CONTROL_DROP_ACTION].parsed_value
                                                                    != NULL)
    {
-      if ((int)control_data->element_values[CONTROL_TYPE].parsed_value ==
+      if ((intptr_t)control_data->element_values[CONTROL_TYPE].parsed_value ==
                                                              CONTROL_FILE)
       {
          if (control_data->is_action)
@@ -1969,10 +1969,10 @@ ControlCreateAndRegister (Widget        parent,
    
    if (!main_copy)
    {
-      if ((Boolean) control_data->element_values[CONTROL_PUSH_RECALL].parsed_value)
+      if ((intptr_t) control_data->element_values[CONTROL_PUSH_RECALL].parsed_value)
          PushRecallRegister (control_data, True);
 
-      if ((char) control_data->element_values[CONTROL_TYPE].parsed_value == CONTROL_CLIENT)
+      if ((intptr_t) control_data->element_values[CONTROL_TYPE].parsed_value == CONTROL_CLIENT)
          EmbeddedClientRegister (control_data, True);
    }
 
@@ -2075,7 +2075,7 @@ SwitchCreate (BoxData * box_data)
    }
 
    panel.switch_row_count =
-      (int) (switch_data->element_values[SWITCH_NUMBER_OF_ROWS].parsed_value);
+      (int) (intptr_t) (switch_data->element_values[SWITCH_NUMBER_OF_ROWS].parsed_value);
    switch_data->buttons = 
       (Widget *) XtMalloc (sizeof (Widget *) * switch_count);
 
@@ -2643,7 +2643,7 @@ ArrowCreate (Widget         parent,
       }
       else
       {
-         if ((int) (control_data[i]-> 
+         if ((intptr_t) (control_data[i]-> 
              element_values[CONTROL_MONITOR_TYPE].parsed_value) != MONITOR_NONE)
          {
             if (CheckOtherMonitorsOn(control_data[i]->subpanel_data))
@@ -2820,7 +2820,7 @@ SubpanelCreate (ControlData  * main_control_data,
    /*  the drop zone as the top child of the form                 */
 
    control_install = 
-      (Boolean) subpanel_data->element_values[SUBPANEL_CONTROL_INSTALL].parsed_value;
+      (Boolean) (intptr_t) subpanel_data->element_values[SUBPANEL_CONTROL_INSTALL].parsed_value;
 
    if (control_install)
    {
@@ -2897,7 +2897,7 @@ SubpanelCreate (ControlData  * main_control_data,
    /*  have monitor files attached to them.  If so, the constraints  */
    /*  for the form need to be set appropriately.  		     */
 
-   if ((int) (main_control_data->
+   if ((intptr_t) (main_control_data->
        element_values[CONTROL_MONITOR_TYPE].parsed_value) != MONITOR_NONE)
       monitor = True;
 
@@ -2905,7 +2905,7 @@ SubpanelCreate (ControlData  * main_control_data,
    {
       for (i = 0; i < subpanel_data->control_data_count; i++)
       {
-         if ((int) (subpanel_data->control_data[i]->
+         if ((intptr_t) (subpanel_data->control_data[i]->
              element_values[CONTROL_MONITOR_TYPE].parsed_value) != MONITOR_NONE)
          {
             monitor = True;
@@ -3085,7 +3085,7 @@ SubpanelControlCreate (SubpanelData * subpanel_data,
 
    /*  If there is a monitor file, create the indicator  */
 
-   if ((int) (control_data->
+   if ((intptr_t) (control_data->
        element_values[CONTROL_MONITOR_TYPE].parsed_value) != MONITOR_NONE)
    {
       ac = ac_save;
@@ -3792,7 +3792,7 @@ DeleteSubpanelControl (SubpanelData * subpanel_data,
 
    for (j = 0; j < subpanel_data->control_data_count; j++)
    {
-      if ((int) subpanel_data->control_data[j]->
+      if ((intptr_t) subpanel_data->control_data[j]->
           element_values[CONTROL_MONITOR_TYPE].parsed_value != MONITOR_NONE)
       {
          control_monitor = True;
@@ -3800,7 +3800,7 @@ DeleteSubpanelControl (SubpanelData * subpanel_data,
       }
    }
 
-   if ((int) main_control_data->
+   if ((intptr_t) main_control_data->
        element_values[CONTROL_MONITOR_TYPE].parsed_value != MONITOR_NONE)
    {
       control_monitor = True;
@@ -3901,15 +3901,15 @@ ToggleDefaultControl (ControlData  * main_control_data,
       control_icon = main_control_data->icon;
       main_control_data->icon = subpanel_data->main_panel_icon_copy;
 
-      if ((Boolean) main_control_data->element_values[CONTROL_PUSH_RECALL].parsed_value)
+      if ((intptr_t) main_control_data->element_values[CONTROL_PUSH_RECALL].parsed_value)
          PushRecallRegister (main_control_data, True);
 
-      if ((char) main_control_data->element_values[CONTROL_TYPE].parsed_value == CONTROL_CLIENT)
+      if ((intptr_t) main_control_data->element_values[CONTROL_TYPE].parsed_value == CONTROL_CLIENT)
          EmbeddedClientRegister (main_control_data, True);
 
       main_control_data->icon = control_icon;
 
-      if ((char) main_control_data->
+      if ((intptr_t) main_control_data->
           element_values[CONTROL_TYPE].parsed_value == CONTROL_CLIENT)
       {
          EmbeddedClientReparent ((char *) main_control_data->
@@ -3919,13 +3919,13 @@ ToggleDefaultControl (ControlData  * main_control_data,
    }
    else
    {
-      if ((Boolean) subpanel_data->default_control->element_values[CONTROL_PUSH_RECALL].parsed_value)
+      if ((intptr_t) subpanel_data->default_control->element_values[CONTROL_PUSH_RECALL].parsed_value)
          PushRecallRegister (subpanel_data->default_control, True);
 
-      if ((char) subpanel_data->default_control->element_values[CONTROL_TYPE].parsed_value == CONTROL_CLIENT)
+      if ((intptr_t) subpanel_data->default_control->element_values[CONTROL_TYPE].parsed_value == CONTROL_CLIENT)
          EmbeddedClientRegister (subpanel_data->default_control, True);
 
-      if ((char) subpanel_data->default_control->
+      if ((intptr_t) subpanel_data->default_control->
           element_values[CONTROL_TYPE].parsed_value == CONTROL_CLIENT)
       {
          EmbeddedClientReparent ((char *) subpanel_data->default_control->
@@ -4037,7 +4037,7 @@ ToggleDefaultControl (ControlData  * main_control_data,
    /*  If this is a toggle of a client control from the subpanel to  */
    /*  the main panel, call the reparenting function.                */
 
-   if ((char) control_data->
+   if ((intptr_t) control_data->
        element_values[CONTROL_TYPE].parsed_value == CONTROL_CLIENT)
    {
       EmbeddedClientReparent ((char *) control_data->

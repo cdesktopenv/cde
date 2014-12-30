@@ -161,7 +161,7 @@ PrintFrontPanelContents(void)
       if (box_data->switch_data != NULL)
       {
          switch_data = box_data->switch_data;
-         switch_position = (int) box_data->switch_data->element_values[SWITCH_POSITION_HINTS].parsed_value;
+         switch_position = (int) (intptr_t) box_data->switch_data->element_values[SWITCH_POSITION_HINTS].parsed_value;
       }
       else
          switch_data = NULL;
@@ -175,7 +175,7 @@ PrintFrontPanelContents(void)
          control_data = box_data->control_data[j];
 
          if (switch_data != NULL &&
-             switch_position < (int) (control_data->element_values[CONTROL_POSITION_HINTS].parsed_value))
+             switch_position < (int) (intptr_t) (control_data->element_values[CONTROL_POSITION_HINTS].parsed_value))
          {
             printf ("      SWITCH	%s\n",
                  (char *) switch_data->element_values[0].parsed_value);
