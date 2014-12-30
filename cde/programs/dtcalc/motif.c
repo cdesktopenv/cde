@@ -401,7 +401,7 @@ static Widget
 button_create(Widget owner, int row, int column, int maxrows, int maxcols)
 {
   int n = row * maxcols + column ;
-  int val ;
+  intptr_t val ;
   enum menu_type mtype = buttons[n].mtype ;
   Widget button ;
   XmString lstr ;
@@ -577,7 +577,7 @@ dtcalc_initialize_rframe(Widget owner, int type)
      button = XmCreatePushButton(form, "button", args, 11);
      XmStringFree(label_string);
 
-     XtAddCallback(button, XmNactivateCallback, close_reg, (XtPointer)type) ;
+     XtAddCallback(button, XmNactivateCallback, close_reg, (XtPointer) (intptr_t) type) ;
 
      XtSetArg (args[0], XmNcancelButton, button);
      XtSetArg (args[1], XmNdefaultButton, button);
@@ -1340,7 +1340,8 @@ static void
 create_menu(enum menu_type mtype, Widget button, int n)
 {
   char *mstr, *tmpStr, *ptr ;
-  int i, invalid, val ;
+  int i, invalid ;
+  intptr_t val ;
   Widget menu, mi ;
   Boolean isAFunction = False;
 
@@ -1409,7 +1410,7 @@ do_button(Widget widget, XtPointer client_data, XtPointer call_data)
   char *str;
   XmString cstr ;
   Arg args[3];
-  int n = ((int) client_data) & 0xFFFF ;
+  intptr_t n = ((intptr_t) client_data) & 0xFFFF ;
 
   XtSetArg(args[0], XmNlabelString, &cstr);
   XtGetValues(X->modevals[OPITEM], args, 1);
@@ -1426,7 +1427,7 @@ do_button(Widget widget, XtPointer client_data, XtPointer call_data)
   }
 
   ProcessMotifSelection(X->modevals[(int) DISPLAYITEM]);
-  v->curwin = ((int) client_data) >> 16 ;
+  v->curwin = ((intptr_t) client_data) >> 16 ;
   if (v->pending)
     {
       v->current = buttons[n].value ;
@@ -1511,7 +1512,7 @@ do_confirm_notice(Widget parent, char *str)
 static void
 close_reg(Widget widget, XtPointer client_data, XtPointer call_data)
 {
-  int type = (int)client_data;
+  intptr_t type = (intptr_t)client_data;
 
   if(type == MEM)
   {
@@ -2344,9 +2345,9 @@ menu_handler(Widget widget, XtPointer client_data, XEvent *event, Boolean *conti
 void
 menu_proc(Widget widget, XtPointer client_data, XtPointer call_data)
 {
-  int choice = ((int) client_data) & 0xFFFF ;
+  intptr_t choice = ((intptr_t) client_data) & 0xFFFF ;
 
-  v->curwin = ((int) client_data) >> 16 ;
+  v->curwin = ((intptr_t) client_data) >> 16 ;
   handle_menu_selection(X->mrec[(int) X->mtype], choice) ;
 }
 
@@ -3584,7 +3585,7 @@ init_colors(void)
 static void
 do_memory(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  int type = (int)client_data;
+  intptr_t type = (intptr_t)client_data;
 
   if(type == MEM)
   {
@@ -3739,7 +3740,7 @@ void
 move_cf(Widget widget, XtPointer client_data, XtPointer call_data)
 {
   char *input;
-  int value;
+  intptr_t value;
   Arg args[3];
 
   value = 0;
