@@ -213,14 +213,14 @@ main(int argc, char** argv, char **envp)
 	char *progname;
 	void install_signal_handler();
 	SVCXPRT *transp;
- 	struct sockaddr_in saddr;
+	struct sockaddr_in saddr;
 #if defined(DEC) || defined(HPUX)
- 	int asize = sizeof(struct sockaddr);
+	int asize = sizeof(saddr);
 #else
 # if defined(linux) || defined(CSRG_BASED) || defined(sun)
- 	socklen_t asize;
+	socklen_t asize = sizeof(saddr);
 # else
- 	size_t asize = sizeof(struct sockaddr);
+	size_t asize = sizeof(saddr);
 # endif
 #endif
 	int is_aix = 0;
@@ -232,7 +232,7 @@ main(int argc, char** argv, char **envp)
 	struct t_info info;
 #endif
 
-	memset((char *)&saddr,0,sizeof(struct sockaddr));
+	memset(&saddr, 0, sizeof(saddr));
 
 #if defined(OPT_TLI)
 	memset((char *)&info,0,sizeof info);

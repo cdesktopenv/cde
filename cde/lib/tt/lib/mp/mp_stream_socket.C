@@ -178,7 +178,8 @@ init(int init_as_source)
 #else
 	int		len;
 #endif
-	int		optval;
+	int		optval = 1;
+
 	_sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (_sock < 0) {
 		_tt_syslog( 0, LOG_ERR,
@@ -194,7 +195,6 @@ init(int init_as_source)
 	_is_source = init_as_source;
 	if (init_as_source) { /* 'from' end of socket */
 #if !defined(OPT_TLI)
-		optval = 1;
 #ifndef linux
 		if (setsockopt(_sock, SOL_SOCKET, SO_USELOOPBACK,
 			       (char *)&optval, sizeof(int)) == -1) {

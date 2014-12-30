@@ -1159,7 +1159,7 @@ _tt_pattern_context_add(Tt_pattern p, const char *slotname, const char *value)
 {
 	_Tt_pattern_ptr		pat = _tt_htab->lookup_pat(p);
 	_Tt_pat_context_ptr	cntxt;
-	Tt_status		status;
+	Tt_status		status = TT_OK;
 
 	int add = 0;
 	cntxt = pat->context(slotname);
@@ -1175,7 +1175,7 @@ _tt_pattern_context_add(Tt_pattern p, const char *slotname, const char *value)
 		add = 1;
 	}
 	// NULL value means leave value unset (which matches everything)
-	if (value != (char *)0) {
+	if (value != NULL) {
 		_Tt_string valString(value);
 		status = cntxt->addValue(valString);
 		if (status != TT_OK) {
@@ -1277,7 +1277,7 @@ _tt_pattern_bcontext_add(Tt_pattern p, const char *slotname,
 {
 	_Tt_pattern_ptr		pat = _tt_htab->lookup_pat(p);
 	_Tt_pat_context_ptr	cntxt;
-	Tt_status		status;
+	Tt_status		status = TT_OK;
 
 
 	int add = 0;
@@ -1294,7 +1294,7 @@ _tt_pattern_bcontext_add(Tt_pattern p, const char *slotname,
 		add = 1;
 	}
 	// NULL value means leave value unset (which matches everything)
-	if (value != (unsigned char *)0) {
+	if (value != NULL) {
 		_Tt_string valString( value, len );
 
 		status = cntxt->addValue( valString );

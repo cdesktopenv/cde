@@ -206,7 +206,7 @@ _ambuild(isfname, openmode, varflag, minlen, maxlen, primkey,
 {
     Fcb			*fcb = NULL;
     Bytearray		*isfhandle2;
-    Bytearray		isfhandle0;
+    Bytearray		isfhandle0 = _bytearr_getempty();
     Keydesc2		keydesc2;
     int			err;
     Crp			*crp;
