@@ -157,10 +157,7 @@ typedef struct {
  * Flash the visible region.  Useful for debugging.
  */
 void
-FlashRegion(dpy, s, gc)
-    Display *dpy;
-    int s;
-    GC gc;
+FlashRegion(Display *dpy, int s, GC gc)
 {
     XEvent e;
     Bool done = False;
@@ -193,8 +190,7 @@ FlashRegion(dpy, s, gc)
 
 
 void
-FlashDropSites(dpy)
-    Display *dpy;
+FlashDropSites(Display *dpy)
 {
     drop_site_t *site = MasterSiteList;
     XGCValues gcv;
@@ -234,16 +230,10 @@ FlashDropSites(dpy)
  */
 #ifdef oldcode
 void *
+GetInterestProperty(Display *dpy, Window win, int *nitems)
 #else
 unsigned char *
-#endif
-GetInterestProperty(dpy, win, nitems)
-    Display *dpy;
-    Window win;
-#ifdef oldcode
-    int *nitems;
-#else
-    unsigned long *nitems;
+GetInterestProperty(Display *dpy, Window win, unsigned long *nitems)
 #endif
 {
     Status s;
@@ -306,12 +296,7 @@ GetInterestProperty(dpy, win, nitems)
  * children of this window are searched.
  */
 Bool
-FindRecursively(dpy, root, win, pwin, psite, plen, px, py)
-    Display *dpy;
-    Window root, win, *pwin;
-    void **psite;
-    unsigned long *plen;
-    int *px, *py;
+FindRecursively(Display *dpy, Window root, Window win, Window *pwin, void **psite, unsigned long *plen, int *px, int *py)
 {
     XWindowAttributes attr;
     Window junk;
@@ -437,20 +422,9 @@ FindRecursively(dpy, root, win, pwin, psite, plen, px, py)
  */
 Bool
 #ifdef oldcode
-SearchChildren(dpy, root, win, pwin, psite, plen, px, py)
-    Display *dpy;
-    Window root, win, *pwin;
-    void **psite;
-    unsigned long *plen;
-    int *px, *py;
+SearchChildren(Display *dpy, Window root, Window win, Window *pwin, void **psite, unsigned long *plen, int *px, int *py)
 #else
-SearchChildren(dpy, root, win, pwin, psite, plen, px, py, from_FindRec)
-    Display *dpy;
-    Window root, win, *pwin;
-    void **psite;
-    unsigned long *plen;
-    int *px, *py;
-    Bool from_FindRec;
+SearchChildren(Display *dpy, Window root, Window win, Window *pwin, void **psite, unsigned long *plen, int *px, int *py, Bool from_FindRec)
 #endif
 {
     Window junk;
@@ -488,9 +462,7 @@ SearchChildren(dpy, root, win, pwin, psite, plen, px, py, from_FindRec)
  * Create and return a region that contains a given rectangle.
  */
 Region
-MakeRegionFromRect(x, y, w, h)
-    int x, y;
-    unsigned int w, h;
+MakeRegionFromRect(int x, int y, unsigned int w, unsigned int h)
 {
     XRectangle r;
     Region reg;
@@ -513,10 +485,7 @@ MakeRegionFromRect(x, y, w, h)
  * corner is at (0,0).
  */
 Region
-GetWindowRegion(dpy, win, offset)
-    Display *dpy;
-    Window win;
-    Bool offset;
+GetWindowRegion(Display *dpy, Window win, Bool offset)
 {
     Window wjunk;
     int x, y;
@@ -543,10 +512,7 @@ GetWindowRegion(dpy, win, offset)
  * Subtract the area of a window from the current visible region.
  */
 void
-SubtractWindowFromVisibleRegion(dpy, win, visrgn)
-    Display *dpy;
-    Window win;
-    Region visrgn;
+SubtractWindowFromVisibleRegion(Display *dpy, Window win, Region visrgn)
 {
     Region winrgn = GetWindowRegion(dpy, win, True);
     XSubtractRegion(visrgn, winrgn, visrgn);
@@ -698,8 +664,7 @@ ProcessInterestProperty(dpy, win, screen, data, datalen, visrgn, xoff, yoff)
  * forwarding information to the site database.
  */
 void
-FindDropSites(dpy)
-    Display *dpy;
+FindDropSites(Display *dpy)
 {
 #ifdef oldcode
     int s, i, nchildren;
@@ -808,7 +773,7 @@ FindDropSites(dpy)
 
 
 void
-FreeDropSites()
+FreeDropSites(void)
 {
     drop_site_t *next, *temp;
 
@@ -843,10 +808,7 @@ FreeDropSites()
  *	8k+7	flags
  */
 void
-WriteSiteRectList(dpy, win, prop)
-    Display *dpy;
-    Window win;
-    Atom prop;
+WriteSiteRectList(Display *dpy, Window win, Atom prop)
 {
     unsigned long *cur;
     unsigned long *array;
@@ -911,9 +873,7 @@ WriteSiteRectList(dpy, win, prop)
  * site database.  REMIND: more robust error handling is called for.
  */
 int
-ErrorHandler(dpy, error)
-    Display *dpy;
-    XErrorEvent *error;
+ErrorHandler(Display *dpy, XErrorEvent *error)
 {
     if (    (error->error_code == BadWindow ||
 	     error->error_code == BadDrawable) &&
@@ -936,9 +896,8 @@ ErrorHandler(dpy, error)
 } /* end of ErrorHandler */
 
 
-main(argc, argv)
-    int argc;
-    char **argv;
+int
+main(int argc, char **argv)
 {
     enum { XA_SUN_DRAGDROP_DSDM, XA_SUN_DRAGDROP_INTEREST,
 	   XA_SUN_DRAGDROP_SITE_RECTS, XAWM_STATE, NUM_ATOMS };
@@ -1082,3 +1041,4 @@ main(argc, argv)
 #endif
     }
 } /* end of main */
+

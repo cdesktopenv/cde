@@ -207,7 +207,7 @@ Window motif_drag_win;
 char motif_byte_order;
 
 void 
-InitializeByteOrder()
+InitializeByteOrder(void)
 {
     unsigned int		endian = 1;
 
@@ -219,9 +219,8 @@ InitializeByteOrder()
 }
 
 /* swap 2 bytes of data if the byte order is different */
-Swap2Bytes(byte_order, data)
-    char byte_order;
-    CARD16 data;
+int
+Swap2Bytes(char byte_order, CARD16 data)
 {
     static CARD16 ret_data;
     char *old_p = (char *) &data;
@@ -236,9 +235,8 @@ Swap2Bytes(byte_order, data)
 }
 	
 /* swap 4 bytes of data if the byte order is different */
-Swap4Bytes(byte_order, data)
-    char byte_order;
-    CARD32 data;
+int
+Swap4Bytes(char byte_order, CARD32 data)
 {
     static CARD32 ret_data;
     char *old_p = (char *) &data;
@@ -258,7 +256,7 @@ Swap4Bytes(byte_order, data)
 /* Get a new drop record */
 /* use source_handle to indicate whether record is free or in use */
 static drop_info_t *
-NewDropInfo()
+NewDropInfo(void)
 {
     int i, oldest_index=0;
 
@@ -278,8 +276,7 @@ NewDropInfo()
 /* Search for a drop record */
 /* use source_handle as the key to the drop_info record */
 static drop_info_t *
-GetDropInfo(proxy_sel_req_win)
-    Window proxy_sel_req_win;
+GetDropInfo(Window proxy_sel_req_win)
 {
     int i;
 
@@ -292,8 +289,7 @@ GetDropInfo(proxy_sel_req_win)
 
 /* Search for a drop record using the proxy_handle as the key */
 static drop_info_t *
-GetDropInfoUsingProxyHandle(proxy_handle)
-    Atom proxy_handle;
+GetDropInfoUsingProxyHandle(Atom proxy_handle)
 {
     int i;
 
@@ -306,8 +302,7 @@ GetDropInfoUsingProxyHandle(proxy_handle)
 
 /* Delete a drop record */
 static void
-ClearDropInfo(proxy_handle)
-    Atom proxy_handle;
+ClearDropInfo(Atom proxy_handle)
 {
     int i;
     for(i=0; i<DROP_TABLE_MAX; i++)
@@ -319,10 +314,7 @@ ClearDropInfo(proxy_handle)
 	    
 /* get the window that has the atom associated with it */
 Window 
-GetAtomWindow(dpy, win, atom)
-        Display *dpy;
-        Window win;
-        Atom atom;
+GetAtomWindow(Display *dpy, Window win, Atom atom)
 {
     Window 		root, parent;
     Window 		*children;
@@ -352,10 +344,7 @@ GetAtomWindow(dpy, win, atom)
 
 /* get the window that is a property of the inputed window */
 Window
-GetPropertyWindow(dpy, in_win, atom)
-    Display *dpy;
-    Window in_win;
-    Atom atom;
+GetPropertyWindow(Display *dpy, Window in_win, Atom atom)
 {
     Atom            type;
     int             format;
@@ -389,9 +378,7 @@ GetPropertyWindow(dpy, in_win, atom)
 
 /* startup initialization */
 void
-ProxyInit(dpy, dsdm_win)
-    Display *dpy;
-    Window dsdm_win;
+ProxyInit(Display *dpy, Window dsdm_win)
 {
     enum { XA_MOTIF_DRAG_WINDOW, XA_MOTIF_DRAG_PROXY_WINDOW,
 	   XA_MOTIF_DRAG_AND_DROP_MESSAGE,
@@ -499,9 +486,7 @@ ProxyInit(dpy, dsdm_win)
 /* Place the motif receiver property on the Openlook receiver's top
    level window */
 int
-AdvertiseMotifDropSite(dpy, win)
-    Display *dpy;
-    Window win;
+AdvertiseMotifDropSite(Display *dpy, Window win)
 {
     motif_receiver_t receiver_info;
     unsigned long nitems;
@@ -546,9 +531,7 @@ AdvertiseMotifDropSite(dpy, win)
 
 /* Determine if the drop coordinate is within a rectangle */
 static char
-InRect(drop_x, drop_y, x, y, width, height)
-    int drop_x, drop_y, x, y;
-    unsigned int width, height;
+InRect(int drop_x, int drop_y, int x, int y, unsigned int width, unsigned int height)
 {
     if ((drop_x >= x) && (drop_x <= (x+width)) &&
 	(drop_y >= y) && (drop_y <= (y+height)))
@@ -568,12 +551,8 @@ InRect(drop_x, drop_y, x, y, width, height)
 
 /* get the drop site given the window and coordinate */
 static void
-GetOlitDropSite(dpy, top_level_win, drop_x, drop_y, ret_site_id, ret_event_win)
-    Display *dpy;
-	    Window top_level_win;
-    INT16 drop_x, drop_y;
-    unsigned long *ret_site_id;
-    Window *ret_event_win;
+GetOlitDropSite(Display *dpy, Window top_level_win, INT16 drop_x, INT16 drop_y,
+                unsigned long *ret_site_id, Window *ret_event_win)
 {
     unsigned long *data, nitems, version, nsites, event_win, site_id, flags;
     unsigned long areatype, nrects, areawin;
@@ -659,8 +638,7 @@ GetOlitDropSite(dpy, top_level_win, drop_x, drop_y, ret_site_id, ret_event_win)
 
 /* translate an OLIT operation to a Motif operation */
 static CARD16
-ConvertOlitAction(olit_action)
-    CARD32 olit_action;
+ConvertOlitAction(CARD32 olit_action)
 {
     CARD16 motif_action;
 
@@ -676,8 +654,7 @@ ConvertOlitAction(olit_action)
 
 /* translate a Motif operation to an OLIT operation */
 static CARD32
-ConvertMotifAction(motif_action)
-    CARD16 motif_action;
+ConvertMotifAction(CARD16 motif_action)
 {
     CARD32 olit_action;
 
@@ -695,9 +672,7 @@ ConvertMotifAction(motif_action)
 
 /* Process Motif ClientMessage */
 void
-HandleMotifMessage(dpy, event)
-    Display *dpy;
-    XClientMessageEvent *event;
+HandleMotifMessage(Display *dpy, XClientMessageEvent *event)
 {
     motif_drop_start_t info;
     drop_info_t *drop_info;
@@ -791,9 +766,7 @@ HandleMotifMessage(dpy, event)
 
 /* Process OLIT ClientMessage */
 static void
-HandleOlitTrigger(dpy, event)
-    Display *dpy;
-    XClientMessageEvent *event;
+HandleOlitTrigger(Display *dpy, XClientMessageEvent *event)
 {
     drop_site_t *site;
     char success = False;
@@ -852,11 +825,7 @@ HandleOlitTrigger(dpy, event)
 
 /* Place the Motif initiator property on the initiator's top level window */
 static void
-UpdateInitiatorAtom(dpy, win, channel, targets_index)
-    Display *dpy;
-    Window win;
-    Atom channel;
-    CARD16	targets_index;
+UpdateInitiatorAtom(Display *dpy, Window win, Atom channel, CARD16 targets_index)
 {
     motif_initiator_t initiator_info;
 
@@ -877,10 +846,7 @@ UpdateInitiatorAtom(dpy, win, channel, targets_index)
 
 /* Send Motif DROP_START ClientMessage to receiver */
 void
-SendStartDrop(dpy, src_win, drop_info)
-    Display *dpy;
-    Window src_win;
-    drop_info_t *drop_info;
+SendStartDrop(Display *dpy, Window src_win, drop_info_t *drop_info)
 {
     motif_drop_start_t info;
     XClientMessageEvent	event;
@@ -906,17 +872,17 @@ SendStartDrop(dpy, src_win, drop_info)
 
 /* Compare data of type Atom */
 static int
-AtomCompare(atom1, atom2)
-    Atom *atom1, *atom2;
+AtomCompare(const void *a1, const void *a2)
 {
+    const Atom *atom1 = a1;
+    const Atom *atom2 = a2;
+
     return(*atom1 - *atom2);
 }
 
 /* Get the Motif TARGETS */
 static void
-GetTargetsList(dpy, targets_list_p)
-    Display *dpy;
-    motif_targets_t 	**targets_list_p;
+GetTargetsList(Display *dpy, motif_targets_t **targets_list_p)
 {
     motif_targets_t 	*targets_list;
     Atom type;
@@ -946,11 +912,7 @@ GetTargetsList(dpy, targets_list_p)
 }
 
 static void
-MatchTargets(targets_list, atoms, atom_cnt, targets_index_p)
-    motif_targets_t	*targets_list;
-    Atom		*atoms;
-    unsigned long	atom_cnt;
-    CARD16		*targets_index_p;
+MatchTargets(motif_targets_t *targets_list, Atom *atoms, unsigned long atom_cnt, CARD16 *targets_index_p)
 {
     int target_index;
     CARD32	*data;
@@ -989,11 +951,7 @@ MatchTargets(targets_list, atoms, atom_cnt, targets_index_p)
 
 /* Put OLIT targets on the Motif TARGETS targets list */
 static void
-GetTargetsIndex(dpy, in_data, atom_cnt, targets_index_p)
-    Display		*dpy;
-    unsigned char *in_data;
-    unsigned long atom_cnt;
-    CARD16		*targets_index_p;  /* RETURN */
+GetTargetsIndex(Display *dpy, unsigned char *in_data, unsigned long atom_cnt, CARD16 *targets_index_p)
 {
     Atom 		*atoms = (Atom *) in_data;
     motif_targets_t 	*new_list, *targets_list;
@@ -1056,11 +1014,7 @@ GetTargetsIndex(dpy, in_data, atom_cnt, targets_index_p)
   * send DROP_START message to motif receiver
   */
 static void
-ContinueHandleOlitTrigger(dpy, data, length, drop_info)
-    Display *dpy;
-    unsigned char *data;
-    unsigned long length;
-    drop_info_t		*drop_info;
+ContinueHandleOlitTrigger(Display *dpy, unsigned char *data, unsigned long length, drop_info_t *drop_info)
 {
     CARD16		targets_index;
     Window psuedo_motif_initiator_win;
@@ -1074,9 +1028,7 @@ ContinueHandleOlitTrigger(dpy, data, length, drop_info)
 
 /* Get OLIT initiator's TARGETS */
 void
-ProcessOlitInitiatorConversion(event, drop_info)
-    XSelectionEvent *event;
-    drop_info_t		*drop_info;
+ProcessOlitInitiatorConversion(XSelectionEvent *event, drop_info_t *drop_info)
 {
     Atom type;
     int format;
@@ -1114,10 +1066,7 @@ ProcessOlitInitiatorConversion(event, drop_info)
 /* copy a property and the associated data from one window to another.
    Returns True if successful else returns False */
 static int
-CopyProperty(dpy, property, old_win, new_win)
-    Display *dpy;
-    Atom property;
-    Window old_win, new_win;
+CopyProperty(Display *dpy, Atom property, Window old_win, Window new_win)
 {
     Atom type;
     int format;
@@ -1147,10 +1096,7 @@ CopyProperty(dpy, property, old_win, new_win)
    from one window to another.
    Returns True if we get ATOM_SUN_DND_DONE or ATOM_SUN_SELECTION_END */
 static int
-CopyTargets(dpy, prop, old_win, new_win)
-    Display *dpy;
-    Atom prop;
-    Window old_win, new_win;
+CopyTargets(Display *dpy, Atom prop, Window old_win, Window new_win)
 {
     Atom type;
     int format;
@@ -1186,9 +1132,7 @@ CopyTargets(dpy, prop, old_win, new_win)
 /* Forward the SelectionNotify to the receiver.
    Returns True if we get ATOM_SUN_DND_DONE or ATOM_SUN_SELECTION_END */
 static
-ForwardConversion(event, drop_info)
-    XSelectionEvent *event;
-    drop_info_t		*drop_info;
+ForwardConversion(XSelectionEvent *event, drop_info_t *drop_info)
 {
     int ol_done = False;
 
@@ -1254,9 +1198,7 @@ ForwardConversion(event, drop_info)
       the target data and places this info in a property on window A.
 */
 void
-ForwardMultpleSelectionRequest(event, drop_info)
-    XSelectionRequestEvent *event;
-    drop_info_t *drop_info;
+ForwardMultpleSelectionRequest(XSelectionRequestEvent *event, drop_info_t *drop_info)
 {
     int format, status;
     unsigned long length, bytes_after;
@@ -1285,10 +1227,7 @@ ForwardMultpleSelectionRequest(event, drop_info)
 
 /* tell the initiator to clean up and do internal cleanup */
 void
-DndDone(dpy, status, drop_info)
-    Display *dpy;
-    Atom status;
-    drop_info_t *drop_info;
+DndDone(Display *dpy, Atom status, drop_info_t *drop_info)
 {
     XConvertSelection(dpy,
 		      drop_info->source_handle,
@@ -1308,9 +1247,7 @@ DndDone(dpy, status, drop_info)
 }
 
 void
-ProxyMain(dpy, event)
-    Display *dpy;
-    XEvent *event;
+ProxyMain(Display *dpy, XEvent *event)
 {
     switch(event->type) {
     case ClientMessage:
@@ -1478,7 +1415,7 @@ ProxyMain(dpy, event)
 	    (event->xselection.property == ATOM_SUN_DND_ACK)) {
 	    ProcessOlitInitiatorConversion(&event->xselection, drop_info);
 	} else {
-	    if (ForwardConversion(event, drop_info)) {
+	    if (ForwardConversion(&event->xselection, drop_info)) {
 
 			/* We are here ONLY if the target is ATOM_MULTIPLE and
 			 * the target list contains either _SUN_DRAGDROP_DONE or
@@ -1490,3 +1427,4 @@ ProxyMain(dpy, event)
     }	/* end of case SelectionNotify */
     }	/* end of switch */
 }
+
