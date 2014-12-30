@@ -305,7 +305,7 @@ GetDropInfoUsingProxyHandle(proxy_handle)
 }
 
 /* Delete a drop record */
-static
+static void
 ClearDropInfo(proxy_handle)
     Atom proxy_handle;
 {
@@ -388,6 +388,7 @@ GetPropertyWindow(dpy, in_win, atom)
 }
 
 /* startup initialization */
+void
 ProxyInit(dpy, dsdm_win)
     Display *dpy;
     Window dsdm_win;
@@ -497,6 +498,7 @@ ProxyInit(dpy, dsdm_win)
 
 /* Place the motif receiver property on the Openlook receiver's top
    level window */
+int
 AdvertiseMotifDropSite(dpy, win)
     Display *dpy;
     Window win;
@@ -539,6 +541,7 @@ AdvertiseMotifDropSite(dpy, win)
 		    (unsigned char *) &receiver_info, /* data */
 		    sizeof(motif_receiver_t)  /* size of data in bytes */
 		    );
+    return 1;
 }
 
 /* Determine if the drop coordinate is within a rectangle */
@@ -691,6 +694,7 @@ ConvertMotifAction(motif_action)
 }
 
 /* Process Motif ClientMessage */
+void
 HandleMotifMessage(dpy, event)
     Display *dpy;
     XClientMessageEvent *event;
@@ -786,7 +790,7 @@ HandleMotifMessage(dpy, event)
 }
 
 /* Process OLIT ClientMessage */
-static
+static void
 HandleOlitTrigger(dpy, event)
     Display *dpy;
     XClientMessageEvent *event;
@@ -872,6 +876,7 @@ UpdateInitiatorAtom(dpy, win, channel, targets_index)
 }
 
 /* Send Motif DROP_START ClientMessage to receiver */
+void
 SendStartDrop(dpy, src_win, drop_info)
     Display *dpy;
     Window src_win;
@@ -1068,6 +1073,7 @@ ContinueHandleOlitTrigger(dpy, data, length, drop_info)
 }
 
 /* Get OLIT initiator's TARGETS */
+void
 ProcessOlitInitiatorConversion(event, drop_info)
     XSelectionEvent *event;
     drop_info_t		*drop_info;
@@ -1247,6 +1253,7 @@ ForwardConversion(event, drop_info)
    Proxy agent reads the target names and the properties holding
       the target data and places this info in a property on window A.
 */
+void
 ForwardMultpleSelectionRequest(event, drop_info)
     XSelectionRequestEvent *event;
     drop_info_t *drop_info;
@@ -1277,6 +1284,7 @@ ForwardMultpleSelectionRequest(event, drop_info)
 
 
 /* tell the initiator to clean up and do internal cleanup */
+void
 DndDone(dpy, status, drop_info)
     Display *dpy;
     Atom status;
@@ -1299,7 +1307,7 @@ DndDone(dpy, status, drop_info)
 		      drop_info->time_stamp);
 }
 
-
+void
 ProxyMain(dpy, event)
     Display *dpy;
     XEvent *event;
