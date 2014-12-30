@@ -73,7 +73,8 @@ static char *defsource = "(stdin)";
 /*
  * utility routines
  */
-static void usage ()
+static void
+usage(void)
 {
     static char *prefixmsg[] = {
 "",
@@ -111,9 +112,8 @@ NULL };
 /*
  * The main routine - parses command line and calls action procedures
  */
-main (argc, argv)
-    int argc;
-    char *argv[];
+int
+main(int argc, char *argv[])
 {
     int i;
     char *sourcename = defsource;
