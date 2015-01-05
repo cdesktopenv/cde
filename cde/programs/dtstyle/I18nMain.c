@@ -46,6 +46,7 @@
 /*+++++++++++++++++++++++++++++++++++++++*/
 
 #include <X11/Xlib.h>
+#include <errno.h>
 #include <Xm/MwmUtil.h>
 
 #include <Xm/XmP.h>
@@ -509,7 +510,7 @@ BuildI18nDlg(
     n = 0;
     XtSetArg(args[n], XmNcomboBoxType, XmDROP_DOWN_COMBO_BOX); n++;
     i18n.serverHostCB =
-  	(Widget) XmCreateComboBox(inputMethodForm, "serverHostCB", args, n);
+  	(Widget) (intptr_t) XmCreateComboBox(inputMethodForm, "serverHostCB", args, n);
 
     XtAddCallback(XtNameToWidget(i18n.serverHostCB, "Text"),
 		  XmNactivateCallback, ServerHostCB, NULL);
@@ -560,7 +561,7 @@ BuildI18nDlg(
     n = 0;
     XtSetArg(args[n], XmNselectionPolicy, XmBROWSE_SELECT); n++;
     i18n.preeditTypeList =
-	(Widget) XmCreateList(preeditTypeForm, "preeditTypeList", args, n);
+	(Widget) (intptr_t) XmCreateList(preeditTypeForm, "preeditTypeList", args, n);
 
     n = 0;
     string = CMPSTR((char *)GETMESSAGE(19, 10, "Move Up"));
@@ -1205,7 +1206,9 @@ saveI18n(
 	sprintf(bufr, "%s*i18nDlg.y: %d\n", bufr, y);
 	sprintf(bufr, "%s*i18nDlg.width: %d\n", bufr, width);
 	sprintf(bufr, "%s*i18nDlg.height: %d\n", bufr, height);
-	write (fd, bufr, strlen(bufr));
+	if(-1 == write (fd, bufr, strlen(bufr))) {
+		perror(strerror(errno));
+	}
     }
 }
 

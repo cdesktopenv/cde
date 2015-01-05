@@ -57,6 +57,7 @@
 
 #include <stdio.h>
 #include <signal.h>
+#include <errno.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/Xutil.h>
@@ -2912,7 +2913,9 @@ saveScreen(
 	sprintf(bufr, "%s*Screen.x: %d\n", bufr, x);
 	sprintf(bufr, "%s*Screen.y: %d\n", bufr, y);
        
-	write (fd, bufr, strlen(bufr));
+        if(-1 == write (fd, bufr, strlen(bufr))) {
+            perror(strerror(errno));
+        }
     }
 }
 

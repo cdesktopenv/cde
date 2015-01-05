@@ -42,6 +42,7 @@
 /*+++++++++++++++++++++++++++++++++++++++*/
 
 #include <X11/Xlib.h>
+#include <errno.h>
 #include <Xm/MwmUtil.h>
 
 #include <Xm/XmP.h>
@@ -714,7 +715,9 @@ saveAudio(
 
 	sprintf(bufr, "%s*audioDlg.x: %d\n", bufr, x);
 	sprintf(bufr, "%s*audioDlg.y: %d\n", bufr, y);
-	write (fd, bufr, strlen(bufr));
+	if(-1 == write (fd, bufr, strlen(bufr))) {
+		perror(strerror(errno));	
+	}
     }
 }
 

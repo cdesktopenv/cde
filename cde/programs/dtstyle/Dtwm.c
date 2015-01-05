@@ -42,6 +42,7 @@
 /*+++++++++++++++++++++++++++++++++++++++*/
 
 #include <X11/Xlib.h>
+#include <errno.h>
 #include <Xm/MwmUtil.h>
 
 #include <Xm/XmP.h>
@@ -981,7 +982,9 @@ saveDtwm(
 	sprintf(bufr, "%s*dtwmDlg.y: %d\n", bufr, y);
 	sprintf(bufr, "%s*dtwmDlg.width: %d\n", bufr, width);
 	sprintf(bufr, "%s*dtwmDlg.height: %d\n", bufr, height);
-	write (fd, bufr, strlen(bufr));
+	if(-1 == write (fd, bufr, strlen(bufr))) {
+		perror(strerror(errno));
+	}
     }
 }
 

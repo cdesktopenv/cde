@@ -253,7 +253,7 @@ WorkspaceStartupTimer(
 	XtIntervalId *id)
 {
     Atom	     aWS;
-    int count = (int) client_data;
+    intptr_t count = (intptr_t) client_data;
 
     if (DtWsmGetCurrentWorkspace (style.display, style.root, &aWS) 
 	 	== Success)

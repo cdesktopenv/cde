@@ -39,6 +39,7 @@
 /*$XConsortium: Mouse.c /main/5 1996/07/19 13:45:42 pascale $*/
 
 #include <X11/Xlib.h>
+#include <errno.h>
 
 #include <Xm/Xm.h>
 #include <Xm/Form.h>
@@ -1188,7 +1189,7 @@ midwarnToggleCB(
   XtUnmanageChild (XmMessageBoxGetChild(midwarnDialog, XmDIALOG_HELP_BUTTON)); 
   
   
-  if ((Boolean)client_data == TRANSFER)
+  if ((intptr_t)client_data == TRANSFER)
     {
       warnstring = CMPSTR(MID_WARN_MSG_T);
       XtVaSetValues(midwarnDialog, XmNmessageString, warnstring, NULL); n++; 
@@ -1286,7 +1287,7 @@ reverseToggleCB(
   Boolean          set;
   Boolean          toggle;
   
-  toggle = (Boolean) client_data;
+  toggle = (Boolean) (intptr_t) client_data;
   
   if(mouse.type == POINTER3B)
     {
@@ -1370,7 +1371,7 @@ midreverseToggleCB(
     Boolean          set;
     Boolean          toggle;
 
-     toggle = (Boolean) client_data;
+     toggle = (Boolean) (intptr_t) client_data;
 
     if (toggle == ADJUST)
       {
@@ -1771,7 +1772,9 @@ saveMouse(
 	sprintf(bufr, "%s*Mouse.x: %d\n", bufr, x);
 	sprintf(bufr, "%s*Mouse.y: %d\n", bufr, y);
 
-	write (fd, bufr, strlen(bufr));
+	if(-1 == write (fd, bufr, strlen(bufr))) {
+		perror(strerror(errno));
+	}
     }
 }
     

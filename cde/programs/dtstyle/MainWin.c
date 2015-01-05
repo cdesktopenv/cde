@@ -50,6 +50,7 @@
 #include <X11/Xlib.h>
 #include <Xm/MwmUtil.h>
 #include <signal.h>
+#include <errno.h>
 
 #include <Xm/Xm.h>
 #include <Xm/XmP.h>
@@ -553,7 +554,7 @@ ProcessComponentList(
       XtManageChild (componentWidget);
       XtAddCallback(componentWidget, XmNcallback, activateCB, string);
       XtAddCallback(componentWidget, XmNhelpCallback,
-             (XtCallbackProc)HelpRequestCB, (XtPointer)helpTag);
+             (XtCallbackProc)HelpRequestCB, (XtPointer) (intptr_t) helpTag);
       XmStringFree(cmp_string);
       XtFree(dtIcon);
       
@@ -776,7 +777,9 @@ saveMain(
         sprintf(bufr, "%s*mainWindow.x: %d\n", bufr, x);
         sprintf(bufr, "%s*mainWindow.y: %d\n", bufr, y);
 
-        write (fd, bufr, strlen(bufr));
+        if(-1 == write (fd, bufr, strlen(bufr))) {
+		     perror(strerror(errno));
+	    }
     }
 }
 

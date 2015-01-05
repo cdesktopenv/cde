@@ -43,6 +43,7 @@
 
 #include <stdio.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #include <X11/Xlib.h>
 
@@ -482,7 +483,10 @@ WriteOutPalette(
                                    pCurrentPalette->color[i].bg.red,
                                    pCurrentPalette->color[i].bg.green,
                                    pCurrentPalette->color[i].bg.blue);
-           write(fd, temp, strlen(temp));
+           if(-1 == write(fd, temp, strlen(temp))) {
+		   perror(strerror(errno));
+		   return(-1);
+	   }
        }
        XtFree(temp);
    }

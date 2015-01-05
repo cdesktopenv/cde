@@ -45,6 +45,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <errno.h>
 
 #if defined(_AIX) || defined(__apollo)
 #include <sys/dir.h>
@@ -1235,7 +1236,9 @@ saveBackdrop(
                 backdrops.selected);
         sprintf(bufr, "%s*backdropsDialog.selectedItem: %s\n", bufr, 
                 backdrops.bitmapNames[backdrops.selected]);
-        write (fd, bufr, strlen(bufr));
+        if(-1 == write (fd, bufr, strlen(bufr))) {
+			perror(strerror(errno));
+		}
     }
 }
 

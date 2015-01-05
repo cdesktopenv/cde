@@ -42,6 +42,7 @@
 /* include files                         */
 /*+++++++++++++++++++++++++++++++++++++++*/
 
+#include <errno.h>
 #include <X11/Xlib.h>
 #include <Xm/MwmUtil.h>
 
@@ -634,7 +635,9 @@ saveKeybd(
         sprintf(bufr, "%s*keyboardDlg.x: %d\n", bufr, x);
         sprintf(bufr, "%s*keyboardDlg.y: %d\n", bufr, y);
 
-        write (fd, bufr, strlen(bufr));
+        if(-1 == write (fd, bufr, strlen(bufr))) {
+	    perror(strerror(errno));
+	}
     }
 }
 

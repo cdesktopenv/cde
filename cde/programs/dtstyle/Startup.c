@@ -43,6 +43,7 @@
 
 #include <X11/Xlib.h>
 #include <Xm/MwmUtil.h>
+#include <errno.h>
 
 #include <Xm/Xm.h>
 #include <Xm/XmP.h>
@@ -726,7 +727,9 @@ saveStartup(
         sprintf(bufr, "%s*startupDlg.x: %d\n", bufr, x);
         sprintf(bufr, "%s*startupDlg.y: %d\n", bufr, y);
 
-        write (fd, bufr, strlen(bufr));
+        if(-1 == write (fd, bufr, strlen(bufr))) {
+		perror(strerror(errno));
+	}
     }
 }
 

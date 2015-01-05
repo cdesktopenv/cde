@@ -54,9 +54,9 @@ HelpRequestCB(
         caddr_t call_data )
 {
     char *helpVolume, *locationId;
-    int topic;
+    intptr_t topic;
     
-    topic = (int) client_data;
+    topic = (intptr_t) client_data;
     helpVolume = HELP_VOLUME;
 
     switch (topic)

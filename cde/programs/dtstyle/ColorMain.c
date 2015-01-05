@@ -48,6 +48,7 @@
 
 #include <locale.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <X11/Intrinsic.h>
 #include <X11/Xlib.h>
 #include <Xm/MwmUtil.h>
@@ -600,7 +601,7 @@ CreatePaletteButtons(
        if (style.dynamicColor || style.visualClass==TrueColor
 			|| style.visualClass==DirectColor)
            XtAddCallback(colorButton[i], XmNactivateCallback, selectColorCB, 
-                         (XtPointer)i);  
+                         (XtPointer) (intptr_t) i);  
        XmStringFree(string);
     }
     XtManageChildren(colorButton,pCurrentPalette->num_of_colors);
@@ -986,12 +987,13 @@ selectColorCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    int              i,n;
+    intptr_t         i;
+    int              n;
     Arg              args[4];
     ColorSet *color_set;
     XmPushButtonCallbackStruct *cb = (XmPushButtonCallbackStruct *)call_data;
 
-    i = (int) client_data;
+    i = (intptr_t) client_data;
 
     /* if click_count == 1 .. first button press, set time out */
     if(cb->click_count == 1)
@@ -1061,14 +1063,14 @@ timeoutCB(
         XtIntervalId *id )
 {
     register int     n;
-    int              i;
+    intptr_t         i;
     Arg              args[2];
 	Pixel	bg_pixel;
 
     if (TypeOfMonitor == XmCO_BLACK_WHITE)
         return;
 
-    i = (int)client_data;
+    i = (intptr_t) client_data;
 
     if ((edit.DialogShell == NULL) || (!XtIsManaged(edit.DialogShell)))
     {
@@ -1747,7 +1749,7 @@ colorUseCB(
     XmToggleButtonCallbackStruct *cb = 
             (XmToggleButtonCallbackStruct *)call_data;
 
-    colorDialog.currentColorUse = (int) client_data;
+    colorDialog.currentColorUse = (int) (intptr_t) client_data;
     switch (colorDialog.currentColorUse)
     {
         case XmCO_HIGH_COLOR:
@@ -2327,7 +2329,7 @@ show_selection(
     style.colorSrv = True;
     if(value != NULL)
     {
-       if((int)client_data == GET_TYPE_MONITOR)
+       if((intptr_t) client_data == GET_TYPE_MONITOR)
        {
           sscanf ((char *)value, "%x_%x_%x_%x", (unsigned int *) &(TypeOfMonitor),
                                      (unsigned int *) &(UsePixmaps), (unsigned int *) &(FgColor), (unsigned int *) &dynamic_color);
@@ -2456,7 +2458,9 @@ saveColor(
 		pCurrentPalette->name);
 	sprintf(bufr, "%s*paletteDlg.selected_button: %d\n", bufr, 
 		selected_button);
-	write (fd, bufr, strlen(bufr));
+	if(-1 == write (fd, bufr, strlen(bufr))) {
+		perror(strerror(errno));
+	}
     }
 }
 

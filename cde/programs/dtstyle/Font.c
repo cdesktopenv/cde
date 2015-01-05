@@ -66,6 +66,7 @@
 #include <Dt/HourGlass.h>
 
 #include <string.h>
+#include <errno.h>
 #include "Help.h"
 #include "Main.h"
 #include "SaveRestore.h"
@@ -753,7 +754,9 @@ saveFonts(
         sprintf(bufr, "%s*Fonts.x: %d\n", bufr, x);
         sprintf(bufr, "%s*Fonts.y: %d\n", bufr, y);
 
-        write (fd, bufr, strlen(bufr));
+        if(-1 == write (fd, bufr, strlen(bufr))) {
+		perror(strerror(errno));
+	}
     }
 }
 

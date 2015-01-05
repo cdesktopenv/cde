@@ -44,6 +44,7 @@
 #include <X11/keysym.h>
 
 #include <math.h>
+#include <errno.h>
 
 #include <X11/Xlib.h>
 #include <Xm/MwmUtil.h>
@@ -1041,7 +1042,7 @@ changRGB_CB(
     reason_code = ((XmAnyCallbackStruct *)call_data)->reason;
     if ( reason_code == XmCR_VALUE_CHANGED || reason_code == XmCR_DRAG )
     {
-	color = (int) client_data;
+	color = (int) (intptr_t) client_data;
 	value = ((XmScaleCallbackStruct *)call_data)->value;
 
 	if (edit.current_scale == NONE)
@@ -1093,7 +1094,7 @@ changHSV_CB(
     reason_code = ((XmAnyCallbackStruct *)call_data)->reason;
     if ( reason_code == XmCR_VALUE_CHANGED || reason_code == XmCR_DRAG )
     {
-	scale = (int) client_data;
+	scale = (int) (intptr_t) client_data;
 	value = ((XmScaleCallbackStruct *)call_data)->value;
 
 	if (edit.current_scale == NONE)
@@ -1730,7 +1731,9 @@ saveColorEdit(
         sprintf(bufr, "%s*colorEditDlg.x: %d\n", bufr, x);
         sprintf(bufr, "%s*colorEditDlg.y: %d\n", bufr, y);
         /*any other parameter you want to save goes here*/
-        write (fd, bufr, strlen(bufr));
+        if(-1 == write (fd, bufr, strlen(bufr))) {
+		perror(strerror(errno));
+	}
     }
 }
 
