@@ -1089,7 +1089,7 @@ void            write_new_word_2_dtbs (void)
 	got_word.or_hwoffset = ftell (dtbs_addr_fp);
 	got_word.or_hwfree = 0;
 	if (debugging & (DEBUG_n  | DEBUG_N))
-	    printf ("APPEND ofs=%ld, fre=0\n", got_word.or_hwoffset);
+	    printf ("APPEND ofs=%ld, fre=0\n", (long int) got_word.or_hwoffset);
     }
     else {
 	ret_fseek = fseek (dtbs_addr_fp,
@@ -1099,7 +1099,7 @@ void            write_new_word_2_dtbs (void)
 	    num_addrs_for_word;
 	if (debugging & (DEBUG_n  | DEBUG_N))
 	    printf (" REUSE slot ofs=%ld, fre=%ld\n",
-		got_word.or_hwoffset, got_word.or_hwfree);
+		(long int) got_word.or_hwoffset, (long int) got_word.or_hwfree);
     }
 
     /***** Write new database addresses to d99 file *********/

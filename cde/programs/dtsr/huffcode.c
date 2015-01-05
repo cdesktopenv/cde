@@ -467,7 +467,10 @@ static void     init_treebase (void)
      */
     else {
 	no_huffcode_file = FALSE;
-	fgets (filebuf, sizeof (filebuf) - 1, instream_huf);
+	if(NULL == fgets (filebuf, sizeof (filebuf) - 1, instream_huf)) {
+		fprintf (stderr, "No first line in file\n");
+		exit(2);
+	}
 	/* discard this first line (don't need id stamp) */
 	while (fgets (filebuf, sizeof (filebuf) - 1, instream_huf)
 	    != NULL) {

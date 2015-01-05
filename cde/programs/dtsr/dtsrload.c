@@ -703,7 +703,7 @@ static void     create_object (char *key)
     UPDATE_MAXDBA (objdba);
     if (debug_mode)
 	printf ("---> new rec: inrecno %6ld, slot %6ld, key '%s'\n",
-	    input_reccount, objdba & 0xffffff, objrec.or_objkey);
+	    (long int) input_reccount, (long int) objdba & 0xffffff, objrec.or_objkey);
 
     /* Make current object record the owner of all its sets */
     SETOR (PROGNAME "376", OR_OBJ_BLOBS, 0);
@@ -762,7 +762,7 @@ static void     update_object (char *key)
     UPDATE_MAXDBA (objdba);
     if (debug_mode)
 	printf ("----> update: inrecno %6ld, slot %6ld, key '%s'\n",
-	    input_reccount, objdba & 0xffffff, key);
+	    (long int) input_reccount, (long int) objdba & 0xffffff, key);
 
     /* Reinit certain fields.
      * Objsize will be rewritten after new text size determined.

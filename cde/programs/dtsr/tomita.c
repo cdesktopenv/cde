@@ -89,6 +89,7 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <locale.h>
+#include <stdlib.h>
 
 #define PRINT_MESSAGES \
     { puts (DtSearchGetMessages()); DtSearchFreeMessages(); }
@@ -475,7 +476,10 @@ DISPLAY_RECORD:
 			"\n...push ENTER to continue... ") );
 
 		    *userbuf = '\0';
-		    fgets (userbuf, sizeof (userbuf), stdin);
+		    if(NULL == fgets (userbuf, sizeof (userbuf), stdin)) {
+			fprintf(stderr, "Failed to read from stdin\n");
+			exit(EXIT_FAILURE);    
+		    }
     		    if (strlen(userbuf) && userbuf[strlen(userbuf)-1] == '\n')
       		      userbuf[strlen(userbuf)-1] = '\0';
 
@@ -504,8 +508,12 @@ DISPLAY_RECORD:
 				"\n...push ENTER to continue... ") );
 
 		            *userbuf = '\0';
-		            fgets (userbuf, sizeof (userbuf), stdin);
-    		            if (strlen(userbuf) &&
+		            if(NULL == fgets (userbuf, sizeof (userbuf), stdin)) {
+				fprintf(stderr, "Failed to read from stdin 2\n");
+				exit(EXIT_FAILURE);    
+			    }
+			
+			    if (strlen(userbuf) &&
 				userbuf[strlen(userbuf)-1] == '\n')
       		              userbuf[strlen(userbuf)-1] = '\0';
 
@@ -677,7 +685,10 @@ static void     deleter (char *infname)
     "If you are sure you are ready to start deleting, enter 'y' now... ") ,
 	    infname, OE_prodname);
 
-	fgets (buf, sizeof(buf)-1, stdin);
+	if(NULL == fgets (buf, sizeof(buf)-1, stdin)) {
+		fprintf(stderr, "no input\n");
+		return;
+	}
 	if (tolower (*buf) != 'y')
 	    return;
     }

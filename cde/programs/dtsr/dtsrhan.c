@@ -578,9 +578,10 @@ void            process_profile ()
     }
     /*-- Get next line --*/
     do {
-	fgets (prof_line, 200, prof);
+	char *ret = NULL;
+	ret = fgets (prof_line, 200, prof);
 	line_num++;
-	if (feof (prof))
+	if (ret == NULL || feof (prof) )
 	    break;
 	if (prof_line[0] == '#' || is_blank (prof_line))
 	    continue;

@@ -691,6 +691,8 @@ static void     copy_new_d99 (long keyfield)
 	 */
 	done = FALSE;
 	while (!done) {	/* loop on each block in this word */
+	    int ret = 0;
+
 	    if (num_holes > MAX_REC_READ) {
 		num_reads = MAX_REC_READ;
 		num_holes -= MAX_REC_READ;
@@ -700,8 +702,8 @@ static void     copy_new_d99 (long keyfield)
 		num_reads = num_holes;
 	    }
 	    errno = 0;
-	    fread (word_addrs, sizeof(DB_ADDR), (size_t)num_reads, fp_d99_old);
-	    if (errno) {
+	    ret = fread (word_addrs, sizeof(DB_ADDR), (size_t)num_reads, fp_d99_old);
+	    if (errno || -1 == ret) {
 		TERMINATE_LINE ();
 		fprintf (aa_stderr, catgets(dtsearch_catd, MS_dtsrclean, 657,
 		    "%s Read error on %s: %s.\n"),
@@ -1138,7 +1140,10 @@ int             main (int argc, char *argv[])
 		aa_stderr);
 
             *readbuf = '\0';
-            fgets (readbuf, sizeof(readbuf), stdin);
+            if(NULL == fgets (readbuf, sizeof(readbuf), stdin)) {
+		  fprintf (aa_stderr, "Failed to read from stdin\n");
+		  end_of_job (2, SHOW_EXITCODE);
+            }
             if (strlen(readbuf) && readbuf[strlen(readbuf)-1] == '\n')
               readbuf[strlen(readbuf)-1] = '\0';
 
