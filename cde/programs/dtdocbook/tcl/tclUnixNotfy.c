@@ -101,7 +101,7 @@ Tcl_WatchFile(file, mask)
     int fd, type, index;
     fd_mask bit;
 
-    fd = (int) Tcl_GetFileInfo(file, &type);
+    fd = (int) (intptr_t) Tcl_GetFileInfo(file, &type);
 
     if (type != TCL_UNIX_FD) {
 	panic("Tcl_WatchFile: unexpected file type");
@@ -159,7 +159,7 @@ Tcl_FileReady(file, mask)
     int index, result, type, fd;
     fd_mask bit;
 
-    fd = (int) Tcl_GetFileInfo(file, &type);
+    fd = (int) (intptr_t) Tcl_GetFileInfo(file, &type);
     if (type != TCL_UNIX_FD) {
 	panic("Tcl_FileReady: unexpected file type");
     }

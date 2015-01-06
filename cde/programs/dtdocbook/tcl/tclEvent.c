@@ -671,7 +671,7 @@ Tcl_CreateTimerHandler(milliseconds, proc, clientData)
     timerHandlerPtr->proc = proc;
     timerHandlerPtr->clientData = clientData;
     id++;
-    timerHandlerPtr->token = (Tcl_TimerToken) id;
+    timerHandlerPtr->token = (Tcl_TimerToken) (intptr_t) id;
 
     /*
      * Add the event to the queue in the correct position

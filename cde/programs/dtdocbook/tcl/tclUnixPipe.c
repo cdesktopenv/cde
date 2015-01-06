@@ -170,7 +170,7 @@ SetupStdFile(file, type)
 	}
     }
     if (file) {
-	fd = (int)Tcl_GetFileInfo(file, NULL);
+	fd = (int) (intptr_t) Tcl_GetFileInfo(file, NULL);
 	if (fd != targetFd) {
 	    if (dup2(fd, targetFd) == -1) {
 		return 0;
@@ -450,8 +450,8 @@ TclCreatePipe(readPipe, writePipe)
     fcntl(pipeIds[0], F_SETFD, FD_CLOEXEC);
     fcntl(pipeIds[1], F_SETFD, FD_CLOEXEC);
 
-    *readPipe = Tcl_GetFile((ClientData)pipeIds[0], TCL_UNIX_FD);
-    *writePipe = Tcl_GetFile((ClientData)pipeIds[1], TCL_UNIX_FD);
+    *readPipe = Tcl_GetFile((ClientData) (intptr_t) pipeIds[0], TCL_UNIX_FD);
+    *writePipe = Tcl_GetFile((ClientData) (intptr_t) pipeIds[1], TCL_UNIX_FD);
     return 1;
 }
 
@@ -494,7 +494,7 @@ Tcl_CreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
 
     if (inPipePtr) {
 	if (inFile) {
-	    *inPipePtr = (int) Tcl_GetFileInfo(inFile, NULL);
+	    *inPipePtr = (int) (intptr_t) Tcl_GetFileInfo(inFile, NULL);
 	    Tcl_FreeFile(inFile);
 	} else {
 	    *inPipePtr = -1;
@@ -502,7 +502,7 @@ Tcl_CreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
     }
     if (outPipePtr) {
 	if (outFile) {
-	    *outPipePtr = (int) Tcl_GetFileInfo(outFile, NULL);
+	    *outPipePtr = (int) (intptr_t) Tcl_GetFileInfo(outFile, NULL);
 	    Tcl_FreeFile(outFile);
 	} else {
 	    *outPipePtr = -1;
@@ -510,7 +510,7 @@ Tcl_CreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
     }
     if (errFilePtr) {
 	if (errFile) {
-	    *errFilePtr = (int) Tcl_GetFileInfo(errFile, NULL);
+	    *errFilePtr = (int) (intptr_t) Tcl_GetFileInfo(errFile, NULL);
 	    Tcl_FreeFile(errFile);
 	} else {
 	    *errFilePtr = -1;

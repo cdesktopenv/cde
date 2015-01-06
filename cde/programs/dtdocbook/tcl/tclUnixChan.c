@@ -201,7 +201,7 @@ CommonBlockModeProc(instanceData, inFile, outFile, mode)
     int fd;
 
     if (inFile != NULL) {
-        fd = (int) Tcl_GetFileInfo(inFile, NULL);
+        fd = (int) (intptr_t) Tcl_GetFileInfo(inFile, NULL);
         curStatus = fcntl(fd, F_GETFL);
         if (mode == TCL_MODE_BLOCKING) {
             curStatus &= (~(O_NONBLOCK));
@@ -214,7 +214,7 @@ CommonBlockModeProc(instanceData, inFile, outFile, mode)
         curStatus = fcntl(fd, F_GETFL);
     }
     if (outFile != NULL) {
-        fd = (int) Tcl_GetFileInfo(outFile, NULL);
+        fd = (int) (intptr_t) Tcl_GetFileInfo(outFile, NULL);
         curStatus = fcntl(fd, F_GETFL);
         if (mode == TCL_MODE_BLOCKING) {
             curStatus &= (~(O_NONBLOCK));
@@ -262,7 +262,7 @@ FilePipeInputProc(instanceData, inFile, buf, toRead, errorCodePtr)
                                          * read from the input device? */
 
     *errorCodePtr = 0;
-    fd = (int) Tcl_GetFileInfo(inFile, NULL);
+    fd = (int) (intptr_t) Tcl_GetFileInfo(inFile, NULL);
     
     /*
      * Assume there is always enough input available. This will block
@@ -311,7 +311,7 @@ FilePipeOutputProc(instanceData, outFile, buf, toWrite, errorCodePtr)
     int fd;
 
     *errorCodePtr = 0;
-    fd = (int) Tcl_GetFileInfo(outFile, NULL);
+    fd = (int) (intptr_t) Tcl_GetFileInfo(outFile, NULL);
     written = write(fd, buf, (size_t) toWrite);
     if (written > -1) {
         return written;
@@ -356,7 +356,7 @@ FileCloseProc(instanceData, interp, inFile, outFile)
 	if (inFile == outFile) {
 	    outFile = NULL;
 	}
-        fd = (int) Tcl_GetFileInfo(inFile, NULL);
+        fd = (int) (intptr_t) Tcl_GetFileInfo(inFile, NULL);
         Tcl_FreeFile(inFile);
 
 	if (close(fd) < 0) {
@@ -365,7 +365,7 @@ FileCloseProc(instanceData, interp, inFile, outFile)
     }
 
     if (outFile != NULL) {
-        fd = (int) Tcl_GetFileInfo(outFile, NULL);
+        fd = (int) (intptr_t) Tcl_GetFileInfo(outFile, NULL);
         Tcl_FreeFile(outFile);        
 	if ((close(fd) < 0) && (errorCode == 0)) {
 	    errorCode = errno;
@@ -412,9 +412,9 @@ FileSeekProc(instanceData, inFile, outFile, offset, mode, errorCodePtr)
 
     *errorCodePtr = 0;
     if (inFile != (Tcl_File) NULL) {
-        fd = (int) Tcl_GetFileInfo(inFile, NULL);
+        fd = (int) (intptr_t) Tcl_GetFileInfo(inFile, NULL);
     } else if (outFile != (Tcl_File) NULL) {
-        fd = (int) Tcl_GetFileInfo(outFile, NULL);
+        fd = (int) (intptr_t) Tcl_GetFileInfo(outFile, NULL);
     } else {
         *errorCodePtr = EFAULT;
         return -1;
@@ -509,14 +509,14 @@ PipeCloseProc(instanceData, interp, inFile, outFile)
     errorCode = 0;
     pipePtr = (PipeState *) instanceData;
     if (pipePtr->readFile != NULL) {
-        fd = (int) Tcl_GetFileInfo(pipePtr->readFile, NULL);
+        fd = (int) (intptr_t) Tcl_GetFileInfo(pipePtr->readFile, NULL);
         Tcl_FreeFile(pipePtr->readFile);
 	if (close(fd) < 0) {
 	    errorCode = errno;
 	}
     }
     if (pipePtr->writeFile != NULL) {
-        fd = (int) Tcl_GetFileInfo(pipePtr->writeFile, NULL);
+        fd = (int) (intptr_t) Tcl_GetFileInfo(pipePtr->writeFile, NULL);
         Tcl_FreeFile(pipePtr->writeFile);
 	if ((close(fd) < 0) && (errorCode == 0)) {
 	    errorCode = errno;
@@ -626,7 +626,7 @@ Tcl_OpenFileChannel(interp, fileName, modeString, permissions)
     }
     
     sprintf(channelName, "file%d", fd);
-    file = Tcl_GetFile((ClientData) fd, TCL_UNIX_FD);
+    file = Tcl_GetFile((ClientData) (intptr_t) fd, TCL_UNIX_FD);
     
     chan = Tcl_CreateChannel(&fileChannelType, channelName,
             (channelPermissions & TCL_READABLE) ? file : NULL,
@@ -698,12 +698,12 @@ Tcl_MakeFileChannel(inFd, outFd, mode)
     outFile = (Tcl_File) NULL;
     
     if (mode & TCL_READABLE) {
-	sprintf(channelName, "file%d", (int) inFd);
+	sprintf(channelName, "file%d", (int) (intptr_t) inFd);
         inFile = Tcl_GetFile(inFd, TCL_UNIX_FD);
     }
     
     if (mode & TCL_WRITABLE) {
-	sprintf(channelName, "file%d", (int) outFd);
+	sprintf(channelName, "file%d", (int) (intptr_t) outFd);
         outFile = Tcl_GetFile(outFd, TCL_UNIX_FD);
     }
 
@@ -758,11 +758,11 @@ TclCreateCommandChannel(readFile, writeFile, errorFile, numPids, pidPtr)
      */
 
     if (readFile) {
-	channelId = (int) Tcl_GetFileInfo(readFile, NULL);
+	channelId = (int) (intptr_t) Tcl_GetFileInfo(readFile, NULL);
     } else if (writeFile) {
-	channelId = (int) Tcl_GetFileInfo(writeFile, NULL);
+	channelId = (int) (intptr_t) Tcl_GetFileInfo(writeFile, NULL);
     } else if (errorFile) {
-	channelId = (int) Tcl_GetFileInfo(errorFile, NULL);
+	channelId = (int) (intptr_t) Tcl_GetFileInfo(errorFile, NULL);
     } else {
 	channelId = 0;
     }
@@ -926,7 +926,7 @@ WaitForConnect(statePtr, fileToWaitFor, errorCodePtr)
         state = TclWaitForFile(fileToWaitFor, TCL_WRITABLE | TCL_EXCEPTION,
                 timeOut);
         if (!(statePtr->flags & TCP_ASYNC_SOCKET)) {
-            sock = (int) Tcl_GetFileInfo(statePtr->sock, NULL);
+            sock = (int) (intptr_t) Tcl_GetFileInfo(statePtr->sock, NULL);
             flags = fcntl(sock, F_GETFL);
             flags &= (~(O_NONBLOCK));
             (void) fcntl(sock, F_SETFL, flags);
@@ -982,7 +982,7 @@ TcpInputProc(instanceData, inFile, buf, bufSize, errorCodePtr)
     int state;				/* Of waiting for connection. */
 
     *errorCodePtr = 0;
-    sock = (int) Tcl_GetFileInfo(inFile, NULL);
+    sock = (int) (intptr_t) Tcl_GetFileInfo(inFile, NULL);
     statePtr = (TcpState *) instanceData;
 
     state = WaitForConnect(statePtr, inFile, errorCodePtr);
@@ -1040,7 +1040,7 @@ TcpOutputProc(instanceData, outFile, buf, toWrite, errorCodePtr)
     int state;				/* Of waiting for connection. */
 
     *errorCodePtr = 0;
-    sock = (int) Tcl_GetFileInfo(outFile, NULL);
+    sock = (int) (intptr_t) Tcl_GetFileInfo(outFile, NULL);
     statePtr = (TcpState *) instanceData;
     state = WaitForConnect(statePtr, outFile, errorCodePtr);
     if (state != 0) {
@@ -1086,7 +1086,7 @@ TcpCloseProc(instanceData, interp, inFile, outFile)
 
     statePtr = (TcpState *) instanceData;
     sockFile = statePtr->sock;
-    sock = (int) Tcl_GetFileInfo(sockFile, NULL);
+    sock = (int) (intptr_t) Tcl_GetFileInfo(sockFile, NULL);
     
     /*
      * Delete a file handler that may be active for this socket if this
@@ -1156,7 +1156,7 @@ TcpGetOptionProc(instanceData, optionName, dsPtr)
     char buf[128];
 
     statePtr = (TcpState *) instanceData;
-    sock = (int) Tcl_GetFileInfo(statePtr->sock, NULL);
+    sock = (int) (intptr_t) Tcl_GetFileInfo(statePtr->sock, NULL);
     if (optionName != (char *) NULL) {
         len = strlen(optionName);
     }
@@ -1355,7 +1355,7 @@ bindError:
     if (asyncConnect) {
         statePtr->flags = TCP_ASYNC_CONNECT;
     }
-    statePtr->sock = Tcl_GetFile((ClientData) sock, TCL_UNIX_FD);
+    statePtr->sock = Tcl_GetFile((ClientData) (intptr_t) sock, TCL_UNIX_FD);
     
     return statePtr;
 
@@ -1478,7 +1478,7 @@ Tcl_OpenTcpClient(interp, port, host, myaddr, myport, async)
     statePtr->acceptProcData = (ClientData) NULL;
 
     sprintf(channelName, "sock%d",
-	    (int) Tcl_GetFileInfo(statePtr->sock, NULL));
+	    (int) (intptr_t) Tcl_GetFileInfo(statePtr->sock, NULL));
 
     chan = Tcl_CreateChannel(&tcpChannelType, channelName, statePtr->sock,
 	    statePtr->sock, (ClientData) statePtr);
@@ -1521,7 +1521,7 @@ Tcl_MakeTcpClientChannel(sock)
     statePtr->acceptProc = NULL;
     statePtr->acceptProcData = (ClientData) NULL;
 
-    sprintf(channelName, "sock%d", (int) sock);
+    sprintf(channelName, "sock%d", (int) (intptr_t) sock);
     
     chan = Tcl_CreateChannel(&tcpChannelType, channelName, sockFile, sockFile,
             (ClientData) statePtr);
@@ -1585,7 +1585,7 @@ Tcl_OpenTcpServer(interp, port, myHost, acceptProc, acceptProcData)
     Tcl_CreateFileHandler(statePtr->sock, TCL_READABLE, TcpAccept,
             (ClientData) statePtr);
     sprintf(channelName, "sock%d",
-	    (int) Tcl_GetFileInfo(statePtr->sock, NULL));
+	    (int) (intptr_t) Tcl_GetFileInfo(statePtr->sock, NULL));
     chan = Tcl_CreateChannel(&tcpChannelType, channelName, NULL, NULL,
             (ClientData) statePtr);
     return chan;
@@ -1625,13 +1625,13 @@ TcpAccept(data, mask)
     sockState = (TcpState *) data;
 
     len = sizeof(struct sockaddr_in);
-    newsock = accept((int) Tcl_GetFileInfo(sockState->sock, NULL),
+    newsock = accept((int) (intptr_t) Tcl_GetFileInfo(sockState->sock, NULL),
 	    (struct sockaddr *)&addr, &len);
     if (newsock < 0) {
         return;
     }
     
-    newFile = Tcl_GetFile((ClientData) newsock, TCL_UNIX_FD);
+    newFile = Tcl_GetFile((ClientData) (intptr_t) newsock, TCL_UNIX_FD);
     if (newFile) {
         newSockState = (TcpState *) ckalloc((unsigned) sizeof(TcpState));
 
@@ -1713,7 +1713,7 @@ TclGetDefaultStdChannel(type)
 	    break;
     }
 
-    channel = Tcl_MakeFileChannel((ClientData) fd, (ClientData) fd, mode);
+    channel = Tcl_MakeFileChannel((ClientData) (intptr_t) fd, (ClientData) (intptr_t) fd, mode);
 
     /*
      * Set up the normal channel options for stdio handles.
@@ -1755,7 +1755,7 @@ void
 TclClosePipeFile(file)
     Tcl_File file;
 {
-    int fd = (int) Tcl_GetFileInfo(file, NULL);
+    int fd = (int) (intptr_t) Tcl_GetFileInfo(file, NULL);
     close(fd);
     Tcl_FreeFile(file);
 }
@@ -1827,7 +1827,7 @@ Tcl_GetOpenFile(interp, string, forWriting, checkUsage, filePtr)
             || (chanTypePtr == &tcpChannelType)) {
         tf = Tcl_GetChannelFile(chan,
                 (forWriting ? TCL_WRITABLE : TCL_READABLE));
-        fd = (int) Tcl_GetFileInfo(tf, NULL);
+        fd = (int) (intptr_t) Tcl_GetFileInfo(tf, NULL);
 
         /*
          * The call to fdopen below is probably dangerous, since it will

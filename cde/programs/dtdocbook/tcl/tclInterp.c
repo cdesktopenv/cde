@@ -880,7 +880,7 @@ AliasHelper(curInterp, slaveInterp, masterInterp, masterPtr,
 
     do {
         hPtr = Tcl_CreateHashEntry(&(masterPtr->targetTable),
-                (char *) aliasCounter, &new);
+                (char *) (intptr_t) aliasCounter, &new);
 	aliasCounter++;
     } while (new == 0);
 

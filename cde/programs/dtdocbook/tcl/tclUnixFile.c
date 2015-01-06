@@ -269,7 +269,7 @@ TclOpenFile(fname, mode)
     fd = open(fname, mode, 0600);
     if (fd != -1) {
         fcntl(fd, F_SETFD, FD_CLOEXEC);
-        return Tcl_GetFile((ClientData)fd, TCL_UNIX_FD);
+        return Tcl_GetFile((ClientData) (intptr_t) fd, TCL_UNIX_FD);
     }
     return NULL;
 }
@@ -298,7 +298,7 @@ TclCloseFile(file)
     int fd;
     int result;
 
-    fd = (int) Tcl_GetFileInfo(file, &type);
+    fd = (int) (intptr_t) Tcl_GetFileInfo(file, &type);
     if (type != TCL_UNIX_FD) {
 	panic("Tcl_CloseFile: unexpected file type");
     }
@@ -343,7 +343,7 @@ TclReadFile(file, shouldBlock, buf, toRead)
 {
     int type, fd;
 
-    fd = (int) Tcl_GetFileInfo(file, &type);
+    fd = (int) (intptr_t) Tcl_GetFileInfo(file, &type);
     if (type != TCL_UNIX_FD) {
 	panic("Tcl_ReadFile: unexpected file type");
     }
@@ -377,7 +377,7 @@ TclWriteFile(file, shouldBlock, buf, toWrite)
 {
     int type, fd;
 
-    fd = (int) Tcl_GetFileInfo(file, &type);
+    fd = (int) (intptr_t) Tcl_GetFileInfo(file, &type);
     if (type != TCL_UNIX_FD) {
 	panic("Tcl_WriteFile: unexpected file type");
     }
@@ -410,7 +410,7 @@ TclSeekFile(file, offset, whence)
 {
     int type, fd;
 
-    fd = (int) Tcl_GetFileInfo(file, &type);
+    fd = (int) (intptr_t) Tcl_GetFileInfo(file, &type);
     if (type != TCL_UNIX_FD) {
 	panic("Tcl_SeekFile: unexpected file type");
     }
@@ -449,7 +449,7 @@ TclCreateTempFile(contents)
     unlink(fileName);
 
     if ((file != NULL) && (length > 0)) {
-	int fd = (int)Tcl_GetFileInfo(file, NULL);
+	int fd = (int) (intptr_t) Tcl_GetFileInfo(file, NULL);
 	while (1) {
 	    if (write(fd, contents, length) != -1) {
 		break;
