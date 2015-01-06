@@ -317,7 +317,7 @@ DmxPrintOptions::DmxPrintOptions (
 					_FROM_MAILRC,
 					margin_keys[j].key,
 					DmxPrintOptions::isValidMarginSpec,
-					(void*) margin_keys[j].which);
+					(void*) (intptr_t) margin_keys[j].which);
         _propui_array->append(pui);
     }
 

@@ -417,7 +417,7 @@ DmxMsg::display (void)
 			name = "(name)";
 
 		printf ("[%d] \"%s\"%s, ", i, name, description);
-		printf ("%s, %d bytes\n", type, length);
+		printf ("%s, %lu bytes\n", type, length);
 
 		if (attbuf != NULL)
 			delete [] attbuf;

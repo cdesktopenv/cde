@@ -2427,7 +2427,7 @@ Check file permissions and retry."),
     if (NULL == _roam_menu_window)
     {
 	char	*text_buf = _text_editor->get_contents();
-	writeText((XtPointer) fd, text_buf);
+	writeText((XtPointer) (intptr_t) fd, text_buf);
         XtFree((char*) text_buf);
     }
     else
@@ -2492,8 +2492,8 @@ SaveAsTextCmd::writeTextFromScrolledList(int fd)
 	next_msg->display(
 			visible_headers,
 			&SaveAsTextCmd::writeText,
-			(XtPointer) fd);
-	writeText((XtPointer) fd, "\n\n");
+			(XtPointer) (intptr_t) fd);
+	writeText((XtPointer) (intptr_t) fd, "\n\n");
     } while ((next_msg = mailbox->nextMessage()) != (DmxMsg *) NULL);
     delete mailbox;
 
@@ -2725,7 +2725,7 @@ void RenameAttachCmd::doit()
     
     renameDialog = aa->getRenameDialog();
     
-    sprintf(buf, GETMSG(DT_catd, 3, 57, "Rename attachment as"));
+    sprintf(buf, "%s", GETMSG(DT_catd, 3, 57, "Rename attachment as"));
     
     message = XmStringCreateLocalized(buf);
     
@@ -3473,7 +3473,7 @@ VacationCmd::handleForwardFile()
 	else
 	  dialog = theRoamApp.genDialog();
 
-	sprintf(error_buf, GETMSG(DT_catd, 1, 102, "You are already using the forwarding facility for\nsomething other than Vacation.  While Vacation is\nrunning, Vacation will be appended to this other\nforwarding activity. Is it still OK to start Vacation?\0"));
+	sprintf(error_buf, "%s", GETMSG(DT_catd, 1, 102, "You are already using the forwarding facility for\nsomething other than Vacation.  While Vacation is\nrunning, Vacation will be appended to this other\nforwarding activity. Is it still OK to start Vacation?\0"));
 
 	dialog->setToQuestionDialog(GETMSG(DT_catd, 1, 103, "Mailer"), 
 				    error_buf);
@@ -3521,7 +3521,7 @@ VacationCmd::handleForwardFile()
 	else
 	  dialog = theRoamApp.genDialog();
 
- 	sprintf(error_buf, GETMSG(DT_catd, 1, 104, "You are already running the vacation program in your .forward file.\nConsult documentation on how to stop it and remove it from your .forward file.\nTry this command after fixing that problem.\0"));
+ 	sprintf(error_buf, "%s", GETMSG(DT_catd, 1, 104, "You are already running the vacation program in your .forward file.\nConsult documentation on how to stop it and remove it from your .forward file.\nTry this command after fixing that problem.\0"));
  	
  	dialog->setToErrorDialog("Error", error_buf);
  	helpId = DTMAILHELPREMOVEVACATION;
@@ -3791,7 +3791,7 @@ VacationCmd::recoverForwardFile(
 	char *buf = new char[BUFSIZ+1];
 	int  fd;
 
-	sprintf(buf, file);
+	sprintf(buf, "%s", file);
 	strcat(buf, _backupSuffix);
 
 	if (rename(buf, file) < 0) {
@@ -3898,7 +3898,7 @@ VacationCmd::parseVacationMessage()
     struct stat buf;
     if (SafeFStat(fd, &buf) < 0) {
 
-	sprintf(dialog_text, 
+	sprintf(dialog_text, "%s",
 		GETMSG(DT_catd, 1, 105, "Cannot open .vacation.msg file -- No write permission."));
 	dialog->setToQuestionDialog("Mailer", dialog_text);
 	helpId = DTMAILHELPNOWRITEVACATION;
@@ -4086,7 +4086,7 @@ VacationCmd::handleMessageFile(
     }
 
     if (msg_file_exists >= 0 &&  text_changed) {
-	sprintf(dialog_text, 
+	sprintf(dialog_text, "%s",
 		GETMSG(DT_catd, 1, 106, ".vacation.msg file exists.  Replace with new text?"));
 	dialog->setToQuestionDialog("Mailer", dialog_text);
 	helpId = DTMAILHELPEXISTSVACATION;
@@ -4104,7 +4104,7 @@ VacationCmd::handleMessageFile(
 
 	fd = SafeOpen(messagefile, O_WRONLY | O_CREAT);
 	if (fd < 0) {
-	    sprintf(dialog_text, 
+	    sprintf(dialog_text, "%s",
 		GETMSG(DT_catd, 1, 107, "Cannot open .vacation.msg file -- No write permission."));
 	    dialog->setToQuestionDialog("Mailer", dialog_text);
 	    helpId = DTMAILHELPERROR;

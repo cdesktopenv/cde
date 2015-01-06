@@ -606,7 +606,7 @@ DtMailEnv::logError(DtMailBoolean criticalError, const char *format, ...) const
   va_end(var_args);
 
   syslog(criticalError == DTM_TRUE ? LOG_CRIT|LOG_ERR : LOG_ERR,
-	 messageBuffer);
+	 "%s", messageBuffer);
   
   _DtSimpleError("libDtMail", criticalError  == DTM_TRUE ? DtError : DtWarning,
 		NULL, messageBuffer);

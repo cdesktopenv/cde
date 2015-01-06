@@ -101,7 +101,7 @@ options_radiobox_init(
 	XtAddCallback(items[i], XmNvalueChangedCallback, 
 			options_setting_chgCB, (XtPointer)dirty_bit);
 	XtAddCallback(items[i], XmNvalueChangedCallback, 
-			options_radiobox_itemCB, (XtPointer)item_values[i]);
+			options_radiobox_itemCB, (XtPointer) (intptr_t) item_values[i]);
 
 	/* Ensure Radiobox has a default Value set */
 	if (i == 0)

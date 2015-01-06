@@ -228,7 +228,7 @@ void HexDump(FILE *pfp, char *pmsg, unsigned char *pbufr, int plen, int plimit)
     delete [] dumpfilename;
   }
 
-  (void) fprintf(pfp_r, "--> %s (%d bytes at 0x%08lx):\n", pmsg, plen, pbufr);
+  (void) fprintf(pfp_r, "--> %s (%d bytes at %p):\n", pmsg, plen, pbufr);
   fflush(pfp_r);
   memset((char *)save, 0, sizeof(save));
   save[0] = ~pbufr[0];
@@ -236,7 +236,7 @@ void HexDump(FILE *pfp, char *pmsg, unsigned char *pbufr, int plen, int plimit)
   cnt = plen;
   for (x = 0; cnt > 0; x++, z += 16)
   {
-    (void) fprintf(pfp_r, "0x%08lx(+%6.6ld) ", pbufr + z, z);
+    (void) fprintf(pfp_r, "%p(+%6.6ld) ", pbufr + z, z);
     for (y = 0; y < 16; y++)
     {
       save[y] = pbufr[x * 16 + y];
@@ -901,7 +901,10 @@ RFCMailBox::open(DtMailEnv & error,
 	  pread(_fd, (void *)inbuf, 5, 0);
 #else
 	  lseek(_fd, (off_t) 0L, SEEK_SET);
-	  read(_fd, (void *)inbuf, 5);
+	  if(-1 == read(_fd, (void *)inbuf, 5)) {
+	    error.setError(DTME_NotMailBox);
+	    return;
+          }
 	  lseek(_fd, (off_t) 0L, SEEK_SET);
 #endif
 	  inbuf[5] = (char)0;
@@ -4588,21 +4591,21 @@ RFCMailBox::dumpMaps(const char *str)
     memset((void*) &ctime_buf, 0, sizeof(_Xctimeparams));
     fprintf(df, "--------------------- pid=%ld %s", 
 	    (long)getpid(), _XCtime(&clockTime, ctime_buf));
-    fprintf(df, str);
+    fprintf(df, "%s", str);
     fprintf(df, "---------------------\n");
     fprintf(df, "Mappings = %d\n", _mappings.length());
     fprintf(df, "Map Entries:\n");
     for (int m = 0; m < _mappings.length(); m++) {
       MapRegion *map = _mappings[m];
-      fprintf(df, "map[%d]: map_region = 0x%08lx, map_size = 0x%08lx(%08ld)\n",
+      fprintf(df, "map[%d]: map_region = %p, map_size = 0x%08lx(%08ld)\n",
 	      m, map->map_region, map->map_size, map->map_size);
       if (map->map_size % memoryPageSize()) {
-	fprintf(df, "ERROR! map->map_size not mod %d\n", memoryPageSize());
+	fprintf(df, "ERROR! map->map_size not mod %lu\n", memoryPageSize());
       }
       HexDump(df, "map_region", (unsigned char *)map->map_region,
 	      (int) map->file_size, _errorLogging ? 0 : 10);
       fprintf(df,
-	      "map[%d]: file_region = 0x%08lx, file_size = 0x%08lx(%08ld)\n",
+	      "map[%d]: file_region = %p, file_size = 0x%08lx(%08ld)\n",
 	      m, map->file_region, map->file_size, map->file_size);
       fprintf(df, "map[%d]: offset = 0x%08lx(%08ld)\n",
 	      m, map->offset, map->offset);
@@ -4621,12 +4624,12 @@ RFCMailBox::dumpMaps(const char *str)
       total_file_size += (off_t) map->file_size;
       if ((total_file_size % 4096) == 0) {
 	fprintf(df,
-		"Total file size falls on page boundary, totalsize = %d\n",
+		"Total file size falls on page boundary, totalsize = %lu\n",
 		total_file_size);
       }
     }
   
-    fprintf(df, "\nstat buffer entries: st_ino = %d, st_dev = %d, st_nlink = %d, st_size = %ld\n",
+    fprintf(df, "\nstat buffer entries: st_ino = %lu, st_dev = %lu, st_nlink = %lu, st_size = %ld\n",
 	    buf.st_ino, buf.st_dev, buf.st_nlink, buf.st_size);
   
     fprintf(df, "\n\n");

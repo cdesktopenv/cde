@@ -655,7 +655,7 @@ RoamMenuWindow::initialize()
     if (!this->baseWidget())
     {
 	fprintf(
-		stderr, 
+		stderr, "%s",
 		GETMSG(DT_catd, 2, 3,
 		  "Unable to initialize windows. Exiting.\n"));
 	exit(1);
@@ -1615,7 +1615,7 @@ RoamMenuWindow::open(
 	else if ((DTMailError_t)error == DTME_BadRunGroup)
 	{
 
-	    sprintf(buf, GETMSG(DT_catd, 2, 4,
+	    sprintf(buf, "%s", GETMSG(DT_catd, 2, 4,
 		   "Mailer has not been properly installed,\n\
 and cannot run because the execution group\n\
 is incorrectly set."));
@@ -1796,7 +1796,7 @@ RoamMenuWindow::propsChanged(void)
 	    //
 	    displayInCurrentWorkspace();
 	    sprintf(
-		buf,
+		buf, "%s",
 		GETMSG(DT_catd, 99, 99,"The INBOX path has changed.\nReopen?"));
 	    _genDialog->setToQuestionDialog(
 					GETMSG(DT_catd, 3, 22, "Mailer"),
@@ -2240,7 +2240,7 @@ RoamMenuWindow::message( char *text )
     }
     else {
 	buf = new char[2];
-	sprintf(buf, "");
+	sprintf(buf, "%s", "");
 	labelStr = XmStringCreateLocalized(buf);
 	_clear_message_p = FALSE;
     }

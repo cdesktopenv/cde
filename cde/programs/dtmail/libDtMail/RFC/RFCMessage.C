@@ -995,7 +995,7 @@ RFCMessage::findMsgEnd(DtMailEnv & error, const char * eof)
     content_length = content_length < 0 ? 0 : content_length;
 
     char buf[20];
-    sprintf(buf, "%d", content_length);
+    sprintf(buf, "%lu", content_length);
     _envelope->setHeader(error, "Content-Length", DTM_TRUE, buf);
 
     return(real_end);
@@ -1607,7 +1607,7 @@ RFCMessage::extractBoundary(const char * content_type)
 
     if (!content_type) {
 	char * new_bdry = (char *)malloc(78);
-	sprintf(new_bdry, "%08lx-%08lx-%08lx", new_bdry, (long)time(NULL), &new_bdry);
+	sprintf(new_bdry, "%p-%08lx-%p", new_bdry, (long)time(NULL), &new_bdry);
     }
 
     // We will need the boundary to find the message boundaries.

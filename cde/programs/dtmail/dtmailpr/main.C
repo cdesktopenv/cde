@@ -49,13 +49,17 @@ gid_t       _originalRgid;    // startup real gid
 void   
 enableGroupPrivileges(void *)
 {
-    (void) setgid(_originalEgid);
+    if(-1 == setgid(_originalEgid)) {
+        fprintf(stderr, "Failed to enable group priviledges\n");
+    }
 }
 
 void   
 disableGroupPrivileges(void *)
 {
-    (void) setgid(_originalRgid);
+    if(-1 == setgid(_originalRgid)) {
+        fprintf(stderr, "Failed to disable group priviledges\n");
+    }
 }
 
 int

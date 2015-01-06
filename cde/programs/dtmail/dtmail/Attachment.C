@@ -439,7 +439,7 @@ Attachment::invokeAction(int index)
 	int answer;
 	char *buf = new char[2048];
 
-	sprintf(buf,
+	sprintf(buf, "%s",
 		GETMSG(DT_catd, 3, 81, "This attachment may contain commands that can cause serious\ndamage.  It is recommended that you only execute it after you\nare certain it is safe to do so.\n\nPress OK if you are certain it is safe,\nCancel to cancel execution."));
 
 	answer = parent()->handleQuestionDialog(
@@ -868,7 +868,7 @@ Attachment::action(
 	/* NL_COMMENT
 	 * Post a dialog explaining that the action was invalid
 	 */
-	sprintf(buf, 
+	sprintf(buf, "%s",
 		GETMSG(
 			DT_catd, 3, 91, "Cannot execute invalid action."));
 
@@ -883,7 +883,7 @@ Attachment::action(
 	/* NL_COMMENT 
 	 * Post a dialog explaining that the action failed.
 	 */
-	sprintf(buf, 
+	sprintf(buf, "%s",
 		GETMSG(DT_catd, 3, 92, "Executing action failed!"));
 
 	answer = parent()->handleErrorDialog(GETMSG(DT_catd, 1, 86, "Mailer"),

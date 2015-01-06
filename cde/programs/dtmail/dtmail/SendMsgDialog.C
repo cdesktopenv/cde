@@ -1062,7 +1062,7 @@ SendMsgDialog::sendmailErrorProc (int, int status, void *data)
 	     * There was an error in one or more of the email addresses.  
 	     * Ask the user to type in a valid address and try again.
 	     */
-	    sprintf(buf, GETMSG(DT_catd, 5, 5, 
+	    sprintf(buf, "%s", GETMSG(DT_catd, 5, 5, 
 "Some of the addresses in the message are incorrect,\n\
 and do not refer to any known users in the system.\n\
 Please make sure all of the addresses are valid and try again."));
@@ -1076,7 +1076,7 @@ Please make sure all of the addresses are valid and try again."));
 	     * applications so there will be more memory available.
 	     */
  
-            sprintf(buf, GETMSG(DT_catd, 5, 6,
+            sprintf(buf, "%s", GETMSG(DT_catd, 5, 6,
 "Mailer does not have enough memory\n\
 available to send this message.\n\
 Try quitting other applications and\n\
@@ -1091,7 +1091,7 @@ resend this message."));
 	     * There was an error from the mail transport (sendmail).
 	     */
 
-	    sprintf(buf, GETMSG(DT_catd, 5, 7,
+	    sprintf(buf, "%s", GETMSG(DT_catd, 5, 7,
 "An error occurred while trying to send your message.\n\
 Check to make sure the message was received.  If not,\n\
 you may have to resend this message."));
@@ -1153,7 +1153,7 @@ SendMsgDialog::send_message(const char * trans_impl, int trans_type)
     if (!this->hasAddressee()) {
 	// Message has no valid addressee.  Pop up error dialog.
 
- 	sprintf(buf, GETMSG(DT_catd, 5, 8,
+ 	sprintf(buf, "%s", GETMSG(DT_catd, 5, 8,
 		 "Try Send after specifying  recipient(s) of the message in \nthe To:, Cc:, or Bcc: fields."));
 
 	helpId = DTMAILHELPNEEDADDRESSEE;
@@ -1197,7 +1197,7 @@ SendMsgDialog::send_message(const char * trans_impl, int trans_type)
     
     
     numPendingActions = attachArea->getNumPendingActions();
-    sprintf(buf, GETMSG(
+    sprintf(buf, "%s", GETMSG(
 	                DT_catd, 
 	                3, 
 	                77, 
@@ -1330,7 +1330,7 @@ SendMsgDialog::popupMemoryError(DtMailEnv &error)
 	     * Mailer ran out of memory.  Ask the user to quit some other
 	     * applications so there will be more memory available.
 	     */
-	    sprintf(buf, GETMSG(DT_catd, 5, 6,
+	    sprintf(buf, "%s", GETMSG(DT_catd, 5, 6,
 "Mailer does not have enough memory\n\
 available to send this message.\n\
 Try quitting other applications and\n\
@@ -3409,7 +3409,7 @@ SendMsgDialog::renameAttachmentOK()
     if (attachArea->getIconSelectedCount() > 1) {
        char *buf = new char[512];
 	
-       sprintf(buf, GETMSG(DT_catd, 5, 4, "Select only one attachment\n\
+       sprintf(buf, "%s", GETMSG(DT_catd, 5, 4, "Select only one attachment\n\
 and then choose rename"));
 	
 	_genDialog->setToQuestionDialog(

@@ -1373,7 +1373,7 @@ DtMail::MailRc::nalias(char * key, void * data, void * client_data)
 		 + strlen((char *)data) + strlen(" = ") + 1;
 	new_alias = (char *)malloc(m_size);
     
-	sprintf(new_alias, "%s%s = %s",key, white_space, data);
+	sprintf(new_alias, "%s%s = %s",key, white_space, (char *) data);
 
       }
     else
@@ -1382,7 +1382,7 @@ DtMail::MailRc::nalias(char * key, void * data, void * client_data)
 	m_size = key_len + strlen((char *)data) + strlen(" = ") + 1;
 	new_alias = (char *)malloc(m_size);
     
-	sprintf(new_alias, "%s = %s",key, data);
+	sprintf(new_alias, "%s = %s",key, (char *) data);
 
       }
     

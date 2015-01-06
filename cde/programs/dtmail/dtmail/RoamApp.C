@@ -1334,7 +1334,7 @@ void RoamApp::initialize(int *argcp, char **argv)
 
     	    DtMailGenDialog *install_errDialog =
 		new DtMailGenDialog("Dialog", theApplication->baseWidget());
-            sprintf(buf, GETMSG(DT_catd, 2, 4,
+            sprintf(buf, "%s", GETMSG(DT_catd, 2, 4,
                 "Mailer has not been properly installed,\n\
 and cannot run because the execution group\n\
 is incorrectly set."));
@@ -2008,7 +2008,7 @@ RoamApp::vacation()
     return (_vacation);
 }
 
-char *formatPropPair(char * key, void * data)
+char *formatPropPair(char * key, const void * data)
 {
     char *formatted_str = NULL;
     char *white_space = NULL;
@@ -2036,18 +2036,18 @@ char *formatPropPair(char * key, void * data)
 		 + strlen((char *)data) + strlen(" = ") + 1;
 	formatted_str = (char *)malloc(m_size);
 
-	sprintf(formatted_str, "%s%s = %s",key, white_space, data);
+	sprintf(formatted_str, "%s%s = %s",key, white_space, (const char *) data);
 
       }
     else
       {
 		/* make an alias string */
-	formatted_str = (char *)malloc(key_len + strlen((char *)data) + 2);
+	formatted_str = (char *)malloc(key_len + strlen((const char *)data) + 2);
     
-	m_size = key_len + strlen((char *)data) + strlen(" = ") + 1;
+	m_size = key_len + strlen((const char *)data) + strlen(" = ") + 1;
 	formatted_str = (char *)malloc(m_size);
 
-	sprintf(formatted_str, "%s = %s",key, data);
+	sprintf(formatted_str, "%s = %s",key, (const char *) data);
 
       }
     

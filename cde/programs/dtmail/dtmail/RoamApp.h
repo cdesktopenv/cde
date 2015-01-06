@@ -184,7 +184,7 @@ struct PropStringPair {
     ~PropStringPair(void);
 };
 
-char *formatPropPair(char * key, void * data);
+char *formatPropPair(char * key, const void * data);
 void parsePropString(const char * input, DtVirtArray<PropStringPair *> & result);
 char* getPropStringValue(DtVirtArray<PropStringPair *> &result, const char *value);
 

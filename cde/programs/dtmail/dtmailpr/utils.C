@@ -122,7 +122,7 @@ formatHeader (DtMailHeaderLine &info, enum DmxHeaderType htype)
 	{
 		case MSGLIST:
 			sprintf (fbuf,
-			"%-18.18s %-16.16s %4ld/%-5s %-.25s",
+			"%-18.18s %-16.16s %4d/%-5s %-.25s",
 				dispname (header [DMXFROM]),
 				header [DMXDATE],
 				atoi (header [DMXCLENGTH]) / 40,
