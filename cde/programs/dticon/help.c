@@ -59,6 +59,7 @@
  **
  ******************************************************************************/
 #include <stdio.h>
+#include <stdint.h>
 #include <Xm/DialogS.h>
 #include <Xm/Form.h>
 #include <Xm/MwmUtil.h>
@@ -332,7 +333,7 @@ HelpTriggerCB(
     stat_out("Entering HelpTriggerCB: help-tag=%d\n", (int) client_data);
 #endif
 
-  HelpSetVolAndLocation((int) client_data);
+  HelpSetVolAndLocation((int) (intptr_t) client_data);
 
 #ifdef DEBUG
   if (debug)

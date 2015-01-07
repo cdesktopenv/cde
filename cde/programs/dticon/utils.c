@@ -2341,7 +2341,12 @@ SaveSession( void )
     if (last_fname[0] != '\0')
         sprintf(bufr, "%s*file: %s\n", bufr, last_fname);
 
-    write (fd, bufr, strlen(bufr));
+    if(-1 == write (fd, bufr, strlen(bufr))) {
+	fprintf(stderr, "write() to session failed\n");
+        XtFree ((char *)path);
+        XtFree ((char *)name);
+        return;    
+    }
 
 
     n = 0;

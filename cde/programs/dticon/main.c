@@ -363,7 +363,7 @@ main(
 static void
 ExitCB (Widget dialog, XtPointer client_data, XtPointer call_data)
 {
-    exit((int) client_data);
+    exit((int) (intptr_t) client_data);
 }
 
 void
