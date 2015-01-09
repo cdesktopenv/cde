@@ -23,6 +23,7 @@
 /* $TOG: options_util.C /main/8 1999/07/07 13:20:04 mgreess $ */
 #include <ctype.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <X11/Intrinsic.h>
 #include <Xm/DialogS.h>
 #include <Xm/Form.h>
