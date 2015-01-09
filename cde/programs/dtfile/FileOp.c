@@ -460,7 +460,7 @@ FileOpError(
         char *message1,
         char *message2 )
 {
-  int pipe_fd = (int)w;   /* @@@ Hack! @@@
+  int pipe_fd = (int) (intptr_t) w;   /* @@@ Hack! @@@
                              In the background process we call FileManip with
                              the file descriptor for the pipe instead of a
                              widget id.  We rely on the fact that FileManip
@@ -950,11 +950,11 @@ FileMoveCopyProcess(
       else
       {
         if (strncmp(directory, desktop_dir, strlen(desktop_dir)) == 0)
-            return_val = FileManip((Widget)pipe_s2m, mode, from, to,
+            return_val = FileManip((Widget) (intptr_t) pipe_s2m, mode, from, to,
                                     isContainer,
                                     FileOpError, True, DESKTOP);
         else
-            return_val = FileManip((Widget)pipe_s2m, mode, from, to,
+            return_val = FileManip((Widget) (intptr_t) pipe_s2m, mode, from, to,
                                     isContainer,
                                     FileOpError, True, NOT_DESKTOP);
         XtFree( (char *) from );
@@ -1155,11 +1155,11 @@ FileMoveCopyProcess(
                 case PIPEMSG_MERGE:
 
                     if (strncmp(directory, desktop_dir, strlen(desktop_dir)) == 0)
-                      return_val = FileManip((Widget)pipe_s2m, MERGE_DIR, from,
+                      return_val = FileManip((Widget) (intptr_t) pipe_s2m, MERGE_DIR, from,
                                              to, isContainer,
                                              FileOpError, True, DESKTOP);
                     else
-                      return_val = FileManip((Widget)pipe_s2m, MERGE_DIR, from,
+                      return_val = FileManip((Widget) (intptr_t) pipe_s2m, MERGE_DIR, from,
                                              to, isContainer,
                                              FileOpError, True, NOT_DESKTOP);
                     break;
@@ -1197,7 +1197,7 @@ FileMoveCopyProcess(
                     break;
                 default:
                     if (strncmp(directory, desktop_dir, strlen(desktop_dir)) == 0)
-                      return_val = FileManip((Widget)pipe_s2m, mode, from, to,
+                      return_val = FileManip((Widget) (intptr_t) pipe_s2m, mode, from, to,
                                              isContainer,FileOpError, True,
                                              DESKTOP);
                     else
@@ -1222,14 +1222,14 @@ FileMoveCopyProcess(
                             strcat(toFile, "/");
                             strcat(toFile, newFile);
 
-                            return_val = FileManip((Widget)pipe_s2m, mode, from,
+                            return_val = FileManip((Widget) (intptr_t) pipe_s2m, mode, from,
                                                    toFile, False, FileOpError,
                                                    True, NOT_DESKTOP);
                             XtFree(path);
                             XtFree(toFile);
                         }
                         else
-                            return_val = FileManip((Widget)pipe_s2m, mode, from,
+                            return_val = FileManip((Widget) (intptr_t) pipe_s2m, mode, from,
                                                    to, isContainer, FileOpError,
                                                    True, NOT_DESKTOP);
                     }
@@ -1377,7 +1377,7 @@ FileMoveCopyProcessDesktop(
       }
       else
       {
-        return_val = FileManip((Widget)pipe_s2m, mode, from, to, TRUE,
+        return_val = FileManip((Widget) (intptr_t) pipe_s2m, mode, from, to, TRUE,
                                FileOpError, True, DESKTOP);
         XtFree (from);
         from = NULL;
@@ -2455,7 +2455,7 @@ ChangeIconNameProcess(
      XtFree(new_name);
      return 1;
    }
-   success = FileManip((Widget)pipe_fd, MOVE_FILE, old_full_name, full_name, TRUE,
+   success = FileManip((Widget) (intptr_t) pipe_fd, MOVE_FILE, old_full_name, full_name, TRUE,
                        FileOpError, True, NOT_DESKTOP);
    XtFree( old_full_name );
    /* send a 'done' msg through the pipe */

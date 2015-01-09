@@ -5074,7 +5074,7 @@ ShowChangeDirField (
 
    if (w)
    {
-      if((int)client_data == FM_POPUP)
+      if((intptr_t) client_data == FM_POPUP)
          mbar = XtParent(w);
       else
          mbar = XmGetPostedFromWidget(XtParent(w));

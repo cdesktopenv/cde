@@ -792,7 +792,7 @@ GetStatusMsg(
        file_mgr_data->busy_status == busy_readdir)
    {
       if (file_mgr_data->busy_detail == 0)
-         sprintf (buf, (GETMESSAGE(3,5, "Reading ...")));
+         sprintf (buf, "%s", (GETMESSAGE(3,5, "Reading ...")));
       else if (file_mgr_data->busy_detail == 1)
         sprintf (buf, (GETMESSAGE(3,11, "%d Item(s)...")),
                  file_mgr_data->busy_detail);
