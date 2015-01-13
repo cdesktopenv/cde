@@ -485,6 +485,8 @@ WriteOutPalette(
                                    pCurrentPalette->color[i].bg.blue);
            if(-1 == write(fd, temp, strlen(temp))) {
 		   perror(strerror(errno));
+		   XtFree(temp);
+		   close(fd);
 		   return(-1);
 	   }
        }
