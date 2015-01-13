@@ -539,7 +539,7 @@ _DtCmsDoUpdateEntryCallback(
 	if (newid > 0)
 		sprintf(nbuf, "%ld", newid);
 	else
-		nbuf[0] = NULL;
+		nbuf[0] = '\0';
 	udata.newid = nbuf;
 	udata.scope = scope;
 	udata.time = time;

@@ -1239,7 +1239,7 @@ _DtCmsCreateCallog(char *user, cms_create_args *args, _DtCmsCalendar **newcal)
 
 	/* use passed in char set if client does not supply one */
 	if (cal->attrs[CSA_CAL_ATTR_CHARACTER_SET_I].value == NULL &&
-	     args->char_set && *args->char_set != NULL) {
+	     args->char_set && *args->char_set != '\0') {
 		if ((stat = _DtCm_set_string_attrval(args->char_set,
 		    &cal->attrs[CSA_CAL_ATTR_CHARACTER_SET_I].value,
 		    CSA_VALUE_STRING)) != CSA_SUCCESS) {
@@ -1335,7 +1335,7 @@ _grow_char_array(void *ptr, uint oldcount, uint newcount)
 	void *nptr;
 
 	if (nptr = realloc(ptr, newcount)) {
-		memset((void *)((char *)nptr + oldcount), NULL,
+		memset((void *)((char *)nptr + oldcount), 0,
 			newcount - oldcount);
 		return (nptr);
 	} else

@@ -275,12 +275,12 @@ load_app_font(
 	 * version available.
 	 */
 	if (!strcmp(cal->app_data->app_font_family, "application")) {
-		sprintf (font_name, "-dt-%s-%s-r-normal-sans-%d-*-*-*-p-*",
+		sprintf (font_name, "-dt-%s-%s-r-normal-sans-%lu-*-*-*-p-*",
 				cal->app_data->app_font_family,
 				(weight == BOLD)?"bold":"medium",
 				pixel_size);
 	} else {
-		sprintf (font_name, "-dt-%s-%s-r-normal--%d-*-*-*-*-*",
+		sprintf (font_name, "-dt-%s-%s-r-normal--%lu-*-*-*-*-*",
 				cal->app_data->app_font_family,
 				(weight == BOLD)?"bold":"medium",
 				pixel_size);

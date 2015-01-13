@@ -1210,7 +1210,7 @@ build_editor_list(Editor *e, Tick date, Glance glance,
 	}
 
 	setup_range(&range_attr, &ops, &range_count, start, stop,
-		    CSA_TYPE_EVENT, NULL, B_FALSE, e->cal->general->version);
+		    CSA_TYPE_EVENT, 0, B_FALSE, e->cal->general->version);
 
 	status = csa_list_entries(e->cal->cal_handle, range_count, range_attr, ops, count, entry_list, NULL);
 	backend_err_msg(e->frame, e->cal->view->current_calendar, status,
@@ -1409,7 +1409,7 @@ trim_end_date_from_rule(char *rule, char *newrule)
 	if (ptr = strchr(rule, 'Z')) {
 		while (*ptr != ' ')
 			ptr--;
-		*ptr = NULL;
+		*ptr = '\0';
 	}
 	strcpy(newrule, rule);
 

@@ -146,7 +146,7 @@ cm_def_printer()
 	}
 #else
 	tmp = (char*)getenv("PRINTER");
-	if (tmp != NULL && *tmp != NULL) {
+	if (tmp != NULL && *tmp != '\0') {
 		printer_name = (char*)malloc(strlen(tmp)+1);
 		strcpy(printer_name, tmp);
 	}
@@ -187,7 +187,7 @@ cm_strlen(register char *s)
 {
         register int n;
  
-	if (s==NULL) return NULL;
+	if (s==NULL) return 0;
 	return (strlen(s));
 }
 
@@ -246,7 +246,7 @@ str_to_cr(char *s)
                 }
                 k++;
         }
-        newstr[k] = NULL;
+        newstr[k] = '\0';
         return(newstr);
 }
 
@@ -286,7 +286,7 @@ cr_to_str(char *s)
 			k++;
 		}
 	}
-	newstr[k] = NULL;
+	newstr[k] = '\0';
 	return(newstr);
 }
 
@@ -504,7 +504,7 @@ get_head(char *str, char sep)
         if (ptr == buf)
                 return(NULL);
         else {
-                *ptr = NULL;
+                *ptr = '\0';
                 return(cm_strdup(buf));
         }
 }
@@ -584,7 +584,10 @@ cm_get_local_domain()
 #if defined(sun) || defined(USL) || defined(__uxp__)
                 sysinfo(SI_SRPC_DOMAIN, local_domain, DOM_NM_LN);
 #else
-		(void) getdomainname(local_domain, BUFSIZ);
+		if(-1 == getdomainname(local_domain, BUFSIZ)) {
+			fprintf(stderr, "getdomainname() failed %d '%s'\n", errno, strerror(errno));
+		}
+		
 #endif /* sun || USL || __uxp__ */
 	}
         return(local_domain);
@@ -733,10 +736,10 @@ match_forward(char *str1, char *str2)
 		get_component(&str2, com2, '.');
 
 		if (*com1) {
-			if (*com2 == NULL)
+			if (*com2 == '\0')
 				return (B_TRUE);
 		} else {
-			if (*com2 == NULL)
+			if (*com2 == '\0')
 				return (B_TRUE);
 			else
 				return (B_FALSE);
@@ -747,18 +750,18 @@ match_forward(char *str1, char *str2)
 
 		/* take care of case: a.b a. */
 		if (strcmp(str2, ".") == 0
-		    && (strcmp(str1, ".") != 0 || *str1 != NULL))
+		    && (strcmp(str1, ".") != 0 || *str1 != '\0'))
 			return (B_FALSE);
 
 		/* skip "." */
 		if (*str1 == '.') {
-			if (*str2 == NULL)
+			if (*str2 == '\0')
 				return (B_TRUE);
 			else {
 				str1++;
 				str2++;
 			}
-		} else if (strcmp(str2, ".") == 0 || *str2 == NULL)
+		} else if (strcmp(str2, ".") == 0 || *str2 == '\0')
 			return (B_TRUE);
 		else
 			return (B_FALSE);
@@ -796,10 +799,10 @@ match_backward(char *str1, char *str2)
 		get_last_component(str2, &ptr2, com2, '.');
 
 		if (*com1) {
-			if (*com2 == NULL)
+			if (*com2 == '\0')
 				return (B_TRUE);
 		} else {
-			if (*com2 == NULL)
+			if (*com2 == '\0')
 				return (B_TRUE);
 			else
 				return (B_FALSE);
@@ -1041,9 +1044,9 @@ parse_date(OrderingType order, SeparatorType sep, char *datestr, char *m,
         char *tmp_date, *str = separator_str(sep);
 	_Xstrtokparams strtok_buf;
  
-        m[0] = NULL;
-        d[0] = NULL;
-        y[0] = NULL;
+        m[0] = '\0';
+        d[0] = '\0';
+        y[0] = '\0';
  
         if (datestr == NULL)
                 return 0;
@@ -1098,7 +1101,7 @@ extern int
 datestr2mdy(char *datestr, OrderingType order, SeparatorType sep, char *buf) {
         char m[3], d[3], y[5];
  
-        buf[0] = NULL;
+        buf[0] = '\0';
         if (datestr == NULL)
                 return 0;
  
@@ -1124,7 +1127,7 @@ format_tick(Tick tick, OrderingType order, SeparatorType sep, char *buff) {
         struct tm	*tm;
 	_Xltimeparams	localtime_buf;
  
-        buff[0] = NULL;
+        buff[0] = '\0';
         tm = _XLocaltime(&tick, localtime_buf);
  
         switch (order) {
@@ -1150,7 +1153,7 @@ format_time(Tick t, DisplayType dt, char *buffer) {
 	boolean_t	am;
 
 	if (t == 0) {
-		sprintf(buffer, "\0");
+		buffer[0] = '\0';
 
 	} else if (dt == HOUR12) {
 		am = adjust_hour(&hr);
@@ -1234,7 +1237,7 @@ Dtcm_appointment *allocate_appt_struct (Allocation_reason reason, int version, .
 	 */
 	idx = sizeof(Dtcm_appointment);
 	appt = (Dtcm_appointment *)ckalloc(idx);
-	memset(appt, NULL, idx);
+	memset(appt, 0, idx);
 	appt->reason = reason;
 	appt->version = version;
 
@@ -1246,7 +1249,7 @@ Dtcm_appointment *allocate_appt_struct (Allocation_reason reason, int version, .
 	api_idx = va_arg(pvar, int);
 	while (api_idx) {
 		if ((reason == appt_read) || !entry_ident_index_ro(api_idx, version))
-			CmDataListAdd(api_ids, (void *)api_idx, 0);
+			CmDataListAdd(api_ids, (void *) (intptr_t) api_idx, 0);
 		api_idx = va_arg(pvar, int);
 	}
 	va_end(pvar);
@@ -1268,7 +1271,7 @@ Dtcm_appointment *allocate_appt_struct (Allocation_reason reason, int version, .
 		for (idx = 0; idx < def_attr_count; idx++) {
 			if ((reason == appt_write) && entry_ident_index_ro(default_appt_attrs[idx], version))
 				continue;
-			CmDataListAdd(api_ids, (void *)default_appt_attrs[idx], 0);
+			CmDataListAdd(api_ids, (void *) (intptr_t) default_appt_attrs[idx], 0);
 		}
 	}
 
@@ -1281,20 +1284,20 @@ Dtcm_appointment *allocate_appt_struct (Allocation_reason reason, int version, .
 	appt->num_names = api_ids->count;
 	idx = sizeof(CSA_attribute_reference *) * appt->num_names;
 	appt->names = (CSA_attribute_reference *)ckalloc(idx);
-	memset(appt->names, NULL, idx);
+	memset(appt->names, 0, idx);
 
 	appt->count = api_ids->count;
 	if (reason == appt_write) {
 		idx = sizeof(CSA_attribute) * appt->count;
 		appt->attrs = (CSA_attribute *)ckalloc(idx);
-		memset(appt->attrs, NULL, idx);
+		memset(appt->attrs, 0, idx);
 	}
 
 	/*
 	 * Now loop through and set the names and initialize the attributes
 	 */
 	for (idx = 0; idx < appt->count; idx++) {
-		api_idx = (int)CmDataListGetData(api_ids, idx + 1);
+		api_idx = (int) (intptr_t) CmDataListGetData(api_ids, idx + 1);
 		appt->names[idx] = strdup(_CSA_entry_attribute_names[api_idx]);
 		if (reason == appt_write)
 			initialize_entry_attr(api_idx, &appt->attrs[idx], reason, version);
@@ -1303,7 +1306,7 @@ Dtcm_appointment *allocate_appt_struct (Allocation_reason reason, int version, .
 	if (reason == appt_write)
 		set_appt_links(appt);
 
-	CmDataListDestroy(api_ids, NULL);
+	CmDataListDestroy(api_ids, 0);
 	return appt;
 }
 
@@ -1356,7 +1359,7 @@ allocate_cal_struct(Allocation_reason reason, int version, ...) {
 	 */
 	idx = sizeof(Dtcm_calendar);
 	cal = (Dtcm_calendar *)ckalloc(idx);
-	memset(cal, NULL, idx);
+	memset(cal, 0, idx);
 	cal->reason = reason;
 	cal->version = version;
 
@@ -1368,7 +1371,7 @@ allocate_cal_struct(Allocation_reason reason, int version, ...) {
 	api_idx = va_arg(pvar, int);
 	while (api_idx) {
 		if ((reason == appt_read) || !cal_ident_index_ro(api_idx, version))
-			CmDataListAdd(api_ids, (void *)api_idx, 0);
+			CmDataListAdd(api_ids, (void *) (intptr_t) api_idx, 0);
 		api_idx = va_arg(pvar, int);
 	}
 	va_end(pvar);
@@ -1380,7 +1383,7 @@ allocate_cal_struct(Allocation_reason reason, int version, ...) {
 		for (idx = 0; idx < DEF_CAL_ATTR_COUNT; idx++) {
 			if ((reason == appt_write) && cal_ident_index_ro(default_cal_attrs[idx], version))
 				continue;
-			CmDataListAdd(api_ids, (void *)default_cal_attrs[idx], 0);
+			CmDataListAdd(api_ids, (void *) (intptr_t) default_cal_attrs[idx], 0);
 		}
 	}
 
@@ -1393,20 +1396,20 @@ allocate_cal_struct(Allocation_reason reason, int version, ...) {
 	cal->num_names = api_ids->count;
 	idx = sizeof(CSA_attribute_reference) * cal->num_names;
 	cal->names = (CSA_attribute_reference *)ckalloc(idx);
-	memset(cal->names, NULL, idx);
+	memset(cal->names, 0, idx);
 
 	cal->count = api_ids->count;
 	if (reason == appt_write) {
 		idx = sizeof(CSA_attribute) * cal->count;
 		cal->attrs = (CSA_attribute *)ckalloc(idx);
-		memset(cal->attrs, NULL, idx);
+		memset(cal->attrs, 0, idx);
 	}
 
 	/*
 	 * Now loop through and set the names and initialize the attributes
 	 */
 	for (idx = 0; idx < cal->count; idx++) {
-		api_idx = (int)CmDataListGetData(api_ids, idx + 1);
+		api_idx = (int) (intptr_t) CmDataListGetData(api_ids, idx + 1);
 		cal->names[idx] = strdup(_CSA_calendar_attribute_names[api_idx]);
 		if (reason == appt_write)
 			initialize_cal_attr(api_idx, &cal->attrs[idx], reason, version);
@@ -1415,7 +1418,7 @@ allocate_cal_struct(Allocation_reason reason, int version, ...) {
 	if (reason == appt_write) 
 		set_cal_links(cal);
 
-	CmDataListDestroy(api_ids, NULL);
+	CmDataListDestroy(api_ids, 0);
 
 
 	return cal;
@@ -1455,7 +1458,7 @@ scrub_cal_attr_list(Dtcm_calendar *cal) {
 	for (i = 0; i < cal->count; i++) {
 		if (cal->attrs[i].value->type == CSA_VALUE_REMINDER) {
 			if ((cal->attrs[i].value->item.reminder_value->lead_time == NULL) || 
-			     (cal->attrs[i].value->item.reminder_value->lead_time[0] == NULL)) {
+			     (cal->attrs[i].value->item.reminder_value->lead_time[0] == '\0')) {
 				free(cal->attrs[i].name);
 				cal->attrs[i].name = NULL;
 			}
@@ -1665,7 +1668,7 @@ initialize_cal_attr(int id, CSA_attribute *attrs, Allocation_reason reason, int 
 	if ((reason == appt_write) && !cal_ident_index_ro(id, version)) {
 		size = sizeof(CSA_attribute_value);
 		attrs->value = (CSA_attribute_value *)ckalloc(size);
-		memset(attrs->value, NULL, size);
+		memset(attrs->value, 0, size);
 		attrs->value->type = cal_ident_index_tag(id);
 		if (attrs->value->type == CSA_VALUE_REMINDER)
 			attrs->value->item.reminder_value = (CSA_reminder *) calloc(sizeof(CSA_reminder), 1);
@@ -1709,7 +1712,7 @@ initialize_entry_attr(int id, CSA_attribute *attrs, Allocation_reason reason, in
 	if ((reason == appt_write) && !entry_ident_index_ro(id, version)) {
 		size = sizeof(CSA_attribute_value);
 		attrs->value = (CSA_attribute_value *)ckalloc(size);
-		memset(attrs->value, NULL, size);
+		memset(attrs->value, 0, size);
 		attrs->value->type = entry_ident_index_tag(id);
 		if (attrs->value->type == CSA_VALUE_REMINDER)
 			attrs->value->item.reminder_value = (CSA_reminder *) calloc(sizeof(CSA_reminder), 1);
@@ -1900,11 +1903,11 @@ setup_range(CSA_attribute **attrs, CSA_enum **ops, int *count, time_t start,
 
 	a_size = sizeof(CSA_attribute) * (*count);
 	attr_ptr = (CSA_attribute *)ckalloc(a_size);
-	memset(attr_ptr, NULL, a_size);
+	memset(attr_ptr, 0, a_size);
 
 	o_size = sizeof(CSA_enum) * (*count);
 	op_ptr = (CSA_enum *)ckalloc(o_size);
-	memset(op_ptr, NULL, o_size);
+	memset(op_ptr, 0, o_size);
 
 	initialize_entry_attr(CSA_ENTRY_ATTR_START_DATE_I, &attr_ptr[0], appt_write, version);
 	attr_ptr[0].value->item.string_value = malloc(BUFSIZ);

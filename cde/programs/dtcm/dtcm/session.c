@@ -176,7 +176,7 @@ CMSaveSessionCB (
 	if (save_session) {
 		memcpy(command + command_len, "-session", 8);
 		command_len += 8;
-		command[command_len] = NULL;
+		command[command_len] = '\0';
 		command_len++;
 		memcpy(command + command_len, name, strlen(name));
 		command_len += strlen(name);
@@ -234,7 +234,7 @@ GetSessionInfo(
 
     if (path) XtFree(path);
 
-    xrm_name[1] = NULL;
+    xrm_name[1] = '\0';
  
     /* get default view */
     xrm_name[0] = XrmStringToQuark ("defaultView");

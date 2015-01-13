@@ -315,7 +315,7 @@ get_mail_address_list(Calendar *c) {
 	}
 
 	address = calloc(address_len+1, 1);
-	memset(address, NULL, address_len);
+	memset(address, 0, address_len);
 
 	for (i = 0; i < pos_cnt; i++) {
 		ad = (Access_data *)CmDataListGetData(ge->access_data,
@@ -1803,7 +1803,7 @@ add_all_gappt(GEditor *ge) {
 			continue;
 
 		setup_range(&range_attr, &ops, &range_count, start, stop,
-		    	CSA_TYPE_EVENT, NULL, B_FALSE, step->version);
+		    	CSA_TYPE_EVENT, 0, B_FALSE, step->version);
 	        csa_list_entries(step->cal_handle, range_count, range_attr,
 			ops, &entry_count, &entry_list, NULL);
 		free_range(&range_attr, &ops, range_count);

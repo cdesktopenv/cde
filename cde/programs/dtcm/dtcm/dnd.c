@@ -178,7 +178,7 @@ handle_animate_cb(
 			drag_load_proc(dnd_filename, c);
 	
 			unlink(dnd_filename);
-			dnd_filename[0] = NULL;
+			dnd_filename[0] = '\0';
 			break;
 		default:
 			return;
@@ -257,7 +257,7 @@ handle_drop_cb(
 	
 			if (validate_dropped_appt(dnd_filename, c) == False) {
 				unlink(dnd_filename);
-				dnd_filename[0] = NULL;	
+				dnd_filename[0] = '\0';	
 				transfer_info->status = DtDND_FAILURE;
 			}
 #ifdef NOT
@@ -547,7 +547,7 @@ get_appt_struct(DragContext *context) {
 		XtFree(ident);
 		XtFree(text);
 		XtFree(title);
-                return(NULL);
+                return(0);
         }
  
 
@@ -577,7 +577,7 @@ get_appt_struct(DragContext *context) {
 		XtFree(ident);
 		XtFree(title);
                 XtFree((XtPointer)item_list);
-                return(NULL);
+                return(0);
         }
 
 	return entry;
@@ -630,11 +630,11 @@ GetIcon(Calendar *calendar)
         Editor          *e = (Editor *) calendar->editor;
         GEditor         *ge = (GEditor *) calendar->geditor;
  
-        if (e->drag_bitmap == NULL) {
+        if (e->drag_bitmap == 0) {
                 e->drag_bitmap = XCreateBitmapFromData(display,
                         window, (char *) drag_xbm_bits,
                         drag_xbm_width, drag_xbm_height);
-                if (e->drag_bitmap == NULL) {
+                if (e->drag_bitmap == 0) {
 
                         printf("%s", catgets(calendar->DT_catd, 1, 237, "XCreateBitmapFromData() failed for bitmap.\n"));
                         return;
@@ -642,11 +642,11 @@ GetIcon(Calendar *calendar)
                 else
                         ge->drag_bitmap = e->drag_bitmap;
         }
-        if (e->drag_mask == NULL) {
+        if (e->drag_mask == 0) {
                 e->drag_mask = XCreateBitmapFromData(display,
                         window, (char *) drag_mask_xbm_bits,
                         drag_mask_xbm_width, drag_mask_xbm_height);
-                if (e->drag_mask == NULL) {
+                if (e->drag_mask == 0) {
                         printf("%s", catgets(calendar->DT_catd, 1, 238, "XCreateBitmapFromData() failed for mask.\n"));
                         return;
                 }

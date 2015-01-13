@@ -352,7 +352,7 @@ DoWeek(
 	if (_target_time) {
 		if (!(unused = InitRepeatEventState(re)))
 			return (Tick)NULL;
-		start_time = DoWeek(NULL, _start_time, re, unused);
+		start_time = DoWeek(0, _start_time, re, unused);
 		free(unused);
 		if (_target_time < start_time)
 			target_time = start_time;
@@ -677,7 +677,7 @@ DoYearByMonth(
 	if (_target_time) {
 		if (!(unused = InitRepeatEventState(re)))
 			return (Tick)NULL;
-		start_time = DoYearByMonth(NULL, _start_time, re, unused);
+		start_time = DoYearByMonth(0, _start_time, re, unused);
 		free(unused);
 		if (_target_time < start_time)
 			target_time = start_time;
@@ -781,7 +781,7 @@ DoYearByDay(
 	if (_target_time) {
 		if (!(unused = InitRepeatEventState(re)))
 			return (Tick)NULL;
-		start_time = DoYearByDay(NULL, _start_time, re, unused);
+		start_time = DoYearByDay(0, _start_time, re, unused);
 		free(unused);
 		if (_target_time < start_time)
 			target_time = start_time;

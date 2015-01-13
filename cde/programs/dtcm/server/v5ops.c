@@ -319,14 +319,14 @@ _DtCmsUpdateDurationInRule(cms_entry *entry, uint remain)
 
 	sprintf(buf, "#%d", remain);
 	if (ptr = strchr(vptr->item.string_value, '#')) {
-		*ptr = NULL;
+		*ptr = '\0';
 		strcpy(newrule, vptr->item.string_value);
 		strcat(newrule, buf);
 		if (ptr = strchr(ptr + 1, ' '))
 			strcat(newrule, ptr);
 	} else {
 		if (ptr = strchr(vptr->item.string_value, ' ')) {
-			*ptr = NULL;
+			*ptr = '\0';
 			sprintf(newrule, "%s %s %s", vptr->item.string_value,
 				buf, ptr+1);
 		} else

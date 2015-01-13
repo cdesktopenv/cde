@@ -629,7 +629,7 @@ gr_create_stipple(new_XContext *xc, unsigned char *data, int datawidth, int data
         if ((*stipple = XCreateBitmapFromData(xc->display,
                 xc->xid,
         /*      RootWindow(xc->display, DefaultScreen(xc->display)),  */
-                (char *)data, datawidth, dataheight)) == NULL) {
+                (char *)data, datawidth, dataheight)) == 0) {
                         ok = False;
                 }
         else {

@@ -160,8 +160,8 @@ load_icons(
 
 	/* See if the resolution size we have chosen is acceptable by the WM */
 	if (!(size = wm_icon_preference(XtDisplay(c->frame), screen, size))) {
-		c->icon->icon = NULL;
-		c->icon_inverted->icon = NULL;
+		c->icon->icon = 0;
+		c->icon_inverted->icon = 0;
 		return (FALSE);
 	}
 
@@ -205,22 +205,22 @@ load_icon(
 
 	if (!(icon_filename = XmGetIconFileName(screen, NULL, icon_name, 
 								NULL, size))) {
-		icon->icon = NULL;
+		icon->icon = 0;
 		return (FALSE);
 	}
 
 	if ((icon->icon = XmGetPixmap(screen, icon_filename, fg, bg)) ==
 							XmUNSPECIFIED_PIXMAP) {
 		free(icon_filename);
-		icon->icon = NULL;
+		icon->icon = 0;
 		return (FALSE);
 	}
 
 	if ((icon->icon_mask = _DtGetMask(screen, icon_filename)) ==
 							XmUNSPECIFIED_PIXMAP) {
 		free(icon_filename);
-		icon->icon = NULL;
-		icon->icon_mask = NULL;
+		icon->icon = 0;
+		icon->icon_mask = 0;
 		return (FALSE);
 	}
 
@@ -247,12 +247,12 @@ free_icon(
 	if (icon->icon)
 		XmDestroyPixmap(XtScreen(c->frame), icon->icon);
 
-	icon->icon = NULL;
+	icon->icon = 0;
 
 	if (icon->icon_mask)
 		XmDestroyPixmap(XtScreen(c->frame), icon->icon_mask);
 
-	icon->icon_mask = NULL;
+	icon->icon_mask = 0;
 }
 
 static void

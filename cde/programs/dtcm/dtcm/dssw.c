@@ -116,8 +116,8 @@ dssw_set_start_hour(Widget w, XtPointer client_data, XtPointer cbs) {
 	XtVaGetValues(w, XmNuserData, &user_data, NULL);
 
 	if (user_data == NO_TIME) {
-		sprintf(dssw->start_val.val, "\0");
-		sprintf(dssw->stop_val.val, "\0");
+		dssw->start_val.val[0] = '\0';
+		dssw->stop_val.val[0]  = '\0';
 		dssw->start_val.block = dssw->stop_val.block = TIME_AM;
         } else if (user_data == ALL_DAY) {
 		if (dt == HOUR12) {
@@ -172,7 +172,7 @@ dssw_set_stop_hour(Widget w, XtPointer client_data, XtPointer cbs) {
 	XtVaGetValues(w, XmNuserData, &user_data, NULL);
 
 	if (user_data == NO_TIME) {
-		sprintf(dssw->stop_val.val, "\0");
+		dssw->stop_val.val[0] = '\0';
 		dssw->stop_val.block = TIME_AM;
 	} else {
 		hrs = user_data / hrsec;
@@ -693,7 +693,7 @@ dssw_form_to_todo(DSSW *dssw, Dtcm_appointment *a, char *name, Tick t)
 	 * Todo does not have end time.  So to distinguish between this
 	 * and the editor, zero this out.
 	 */
-	sprintf(dssw->stop_val.val, "\0");
+	dssw->stop_val.val[0] = '\0';
 	if (blank_buf(dssw->date_val)) {
 		editor_err_msg(dssw->parent, name, MISSING_DATE,
 			       pu->xm_error_pixmap);
@@ -833,7 +833,7 @@ dssw_attrs_to_form(DSSW *dssw, Dtcm_appointment *appt) {
 					minute(end_tick));
 		} else {
 			/* no end time */
-			sprintf(dssw->stop_val.val, "\0");
+			dssw->stop_val.val[0] = '\0';
 			dssw->stop_val.block = TIME_AM;
 		}
 	}
@@ -842,7 +842,7 @@ dssw_attrs_to_form(DSSW *dssw, Dtcm_appointment *appt) {
 
 	if (what) {
 		strncpy(dssw->what_val, what, WHAT_LEN - 1);
-		dssw->what_val[WHAT_LEN-1] = NULL;
+		dssw->what_val[WHAT_LEN-1] = '\0';
 	}
 
 	set_dssw_vals(dssw, tick);

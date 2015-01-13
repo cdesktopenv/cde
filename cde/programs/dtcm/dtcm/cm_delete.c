@@ -118,7 +118,7 @@ cm_args(int argc, char **argv)
 			argv = grab(++argv,cm_view,'-');
 			break;
 		default:
-			fprintf(stderr,catgets(DT_catd, 1, 187, "Usage:\n\tdtcm_delete [-c calendar] [-d <mm/dd/yy>] [-v view]\n"));
+			fprintf(stderr, "%s", catgets(DT_catd, 1, 187, "Usage:\n\tdtcm_delete [-c calendar] [-d <mm/dd/yy>] [-v view]\n"));
 			exit(1);
 		}
 	}
@@ -186,7 +186,7 @@ int main(int argc, char **argv)
 			free(loc);
 			exit(0);
 		}
-		fprintf(stdout, catgets(DT_catd, 1, 190,
+		fprintf(stdout, "%s", catgets(DT_catd, 1, 190,
 				       "Item to delete (number)? "));
 		fgets(index, 9, stdin);
 		fprintf(stdout,"\n\n");

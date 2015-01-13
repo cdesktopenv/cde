@@ -376,7 +376,7 @@ make_browser(Calendar *c)
 	 * remember - this returns a RowColumn widget!
 	 */
 	b->gotomenu = XmVaCreateSimpleOptionMenu(b->upper_form,
-                "goToOptionMenu", goto_label, NULL, 0, gotomenu_cb,
+                "goToOptionMenu", goto_label, 0, 0, gotomenu_cb,
                 XmVaPUSHBUTTON, prev_week, NULL, NULL, NULL,
                 XmVaPUSHBUTTON, this_week, NULL, NULL, NULL,
                 XmVaPUSHBUTTON, next_week, NULL, NULL, NULL,
@@ -749,7 +749,7 @@ void mb_update_busystatus(Browser *b, Calendar *c)
 
 		if (bd->cache == NULL) {
 			setup_range(&range_attrs, &ops, &r_cnt, start, stop, 
-					CSA_TYPE_EVENT, NULL, B_FALSE, bd->version);
+					CSA_TYPE_EVENT, 0, B_FALSE, bd->version);
 	        	stat = csa_list_entries(bd->cal_handle, r_cnt, range_attrs, ops, &num_entries, &entries, NULL);
         			free_range(&range_attrs, &ops, r_cnt);
         		backend_err_msg(b->frame, bd->name, stat,
@@ -884,7 +884,7 @@ get_mail_address_list(Calendar *c) {
 	}
 
 	address = calloc(address_len+1, 1);
-	address[0] = NULL;
+	address[0] = '\0';
 
 	for (i = 0; i < pos_cnt; i++) {
 		bd = (BlistData *)CmDataListGetData(bl->blist_data,
@@ -972,7 +972,7 @@ nt */
 static void
 gotomenu_cb(Widget w, XtPointer data, XtPointer cbs) 
 {
-	int	item_no = (int) data;
+	int	item_no = (int) (intptr_t) data;
 	/* should really be getting this from the widget */
 	Calendar *c = calendar;
 
@@ -1061,7 +1061,7 @@ mb_update_array(char *entry_text, Calendar *c)
 	if (bd->cache == NULL) {
 		setup_range(&range_attrs, &ops, &r_cnt, start, 
 		    	stop, CSA_TYPE_EVENT,
-		    	NULL, B_FALSE, bd->version);
+		    	0, B_FALSE, bd->version);
         	stat = csa_list_entries(bd->cal_handle, r_cnt, range_attrs, 
 					ops, &num_entries, &entries, NULL);
 		free_range(&range_attrs, &ops, r_cnt);
@@ -1216,7 +1216,7 @@ mb_deregister_names(char *name, Calendar *c)
 			backend_err_msg(b->frame, bd->name, stat,
 					p->xm_error_pixmap);
 		}
-		bd->cal_handle = NULL;
+		bd->cal_handle = '\0';
 		blist_clean(bl, False);
         }
 }

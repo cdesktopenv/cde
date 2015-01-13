@@ -76,7 +76,7 @@ static int monthsecs[12] = {
 	31*daysec,	30*daysec,	31*daysec
 };
 
-extern int monthdays[12] = {
+int monthdays[12] = {
 	31,     28,     31,
 	30,     31,     30,
 	31,     31,     30,

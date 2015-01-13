@@ -258,7 +258,7 @@ goto_date(Widget widget, XtPointer client_data, XmPushButtonCallbackStruct *cbs)
         g = (Goto*)c->goTo;
  
 	date = XmTextGetString(g->datetext);
-	if ((*date == NULL) || (date == NULL)) {
+	if ((date == NULL) || (*date == '\0')) {
 		sprintf(message, "%s", catgets(c->DT_catd, 1, 297, "Please type in a date"));
 		set_message(g->goto_message, message);
                 return;

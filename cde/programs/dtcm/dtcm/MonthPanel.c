@@ -389,7 +389,7 @@ Initialize( Widget rw, Widget nw, ArgList args, Cardinal *num_args )
 	   if (new_w->month_panel.active_days) {
 		btn = XmCreatePushButtonGadget((Widget)new_w, buf, wargs, 1);
 		XtAddCallback(btn, XmNactivateCallback, DayCallback,
-			(XtPointer)(i+1));
+			(XtPointer) (intptr_t) (i+1));
 	   }
 	   else {
 		btn = XmCreateLabelGadget((Widget) new_w, buf, wargs, 1);
@@ -906,7 +906,7 @@ static void DayCallback(Widget w, XtPointer client, XtPointer call)
    XmMonthPanelCallbackStruct data;
 
    data.type = DAY_SELECTION;
-   data.day = (int) client;
+   data.day = (intptr_t) client;
 
    XtCallCallbackList((Widget) mp, mp->month_panel.callback, &data);
 }

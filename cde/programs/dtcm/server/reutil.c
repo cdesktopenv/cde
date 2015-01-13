@@ -305,7 +305,7 @@ DeriveNewStartTime(
 	 * time should be.
 	 */
 	while (--num_events &&
-	       (an_event = PrevTick(an_event, NULL, new_re, res))) {
+	       (an_event = PrevTick(an_event, 0, new_re, res))) {
 	       ;
 	}
 

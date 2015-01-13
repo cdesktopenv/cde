@@ -211,7 +211,7 @@ paint_dayview_appts(Calendar *c, Paint_cache *cache, int a_total, void *rect)
 	for (i = begin_time - 1; i < end_time; i++) {
 		hr = i;
 		if (i < begin_time)
-			(void) sprintf(buf, "");
+			buf[0] = '\0';
 		else if (disp_t == HOUR12) {
 			am = adjust_hour(&hr);
 			(void) sprintf(buf, "%d%s", hr, am ? "a" : "p");
@@ -267,7 +267,7 @@ paint_dayview_appts(Calendar *c, Paint_cache *cache, int a_total, void *rect)
 						appt_str, end_tick, 
 						cache[i].show_time, disp_t);
 				}
-				appt_str[cm_strlen(appt_str)]=NULL;
+				appt_str[cm_strlen(appt_str)] = '\0';
 
 /* REVISIT: unclear why we're still distinguishing between gr_text[_rgb]
 				if (c->xcontext->screen_depth >= 8) 
@@ -337,7 +337,7 @@ paint_dayview_appts(Calendar *c, Paint_cache *cache, int a_total, void *rect)
 						appt_str, end_tick, 
 						cache[i].show_time, disp_t);
 				}
-				appt_str[cm_strlen(appt_str)]=NULL;
+				appt_str[cm_strlen(appt_str)] = '\0';
 
 /* REVISIT: unclear why we're still distinguishing between gr_text[_rgb]
 				if (c->xcontext->screen_depth >= 8) 
@@ -620,7 +620,7 @@ paint_dayview(Calendar *c, Boolean repaint, XRectangle *rect, Boolean update_mon
 	if (c->paint_cache == NULL) {
 		start = (time_t) lower_bound(0, c->view->date);
         	stop = (time_t) next_nhours(start, end+1) - 1;
-		setup_range(&range_attrs, &ops, &j, start, stop, CSA_TYPE_EVENT, NULL,
+		setup_range(&range_attrs, &ops, &j, start, stop, CSA_TYPE_EVENT, 0,
 		    	B_FALSE, c->general->version);
         	csa_list_entries(c->cal_handle, j, range_attrs, ops, &a_total, &list, NULL);
 	
@@ -811,7 +811,7 @@ count_day_pages(Calendar *c, int lines_per_page, Tick tick)
 		start = (time_t) lower_bound(i, tick);
 		end = (time_t) next_nhours(start+1, 1) - 1;
 		setup_range(&range_attrs, &ops, &j, start, end,
-			    CSA_TYPE_EVENT, NULL, B_FALSE, c->general->version);
+			    CSA_TYPE_EVENT, 0, B_FALSE, c->general->version);
         	csa_list_entries(c->cal_handle, j, range_attrs, ops, &a_total, &list, NULL);
 		free_range(&range_attrs, &ops, j);
 
@@ -888,7 +888,7 @@ _print_day(Calendar *c,
       start = (time_t) lower_bound(i, tick);
       stop = (time_t) next_nhours(start+1, 1) - 1;
       setup_range(&range_attrs, &ops, &j, start, stop,
-		  CSA_TYPE_EVENT, NULL, B_FALSE, c->general->version);
+		  CSA_TYPE_EVENT, 0, B_FALSE, c->general->version);
 
       csa_list_entries(c->cal_handle, j, range_attrs,
 		       ops, &a_total, &list, NULL);

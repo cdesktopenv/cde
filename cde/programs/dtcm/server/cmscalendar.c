@@ -292,7 +292,7 @@ _DtCmsSetFileVersion(_DtCmsCalendar *cal, int version)
 		if ((cal->types = (int *)calloc(1, sizeof(int) *
 		    (_DtCm_entry_name_tbl->size + 1))) == NULL) {
 			_DtCmsFreeCalendar(cal);
-			return (NULL);
+			return (0);
 		} else
 			_DtCm_get_attribute_types(_DtCm_entry_name_tbl->size,
 				cal->types);
@@ -476,7 +476,7 @@ _DtCmsGetCalendarByName(char *target, boolean_t load, _DtCmsCalendar **cal)
 	_DtCmsCalendar *clist = calendar_list;
 
 	if ((name = get_calname(target)) == NULL)
-		return (NULL);
+		return (0);
 
 	while (clist != NULL) {
 		if (strcmp (name, clist->calendar) == 0) {
@@ -1033,7 +1033,7 @@ get_calname(char *target)
 	if (ptr == NULL) {
 		return (strdup(target));
 	} else {
-		*ptr = NULL;
+		*ptr = '\0';
 		name = strdup(target);
 		*ptr = '@';
 		return (name);

@@ -112,7 +112,7 @@ static u_int  sendit_value[255];
 #define TVAL(a,b) { #a,-1, -1, &externTag.tag,b,TAGSVAL }
 #define SVAL(a,b) { #a,-1, -1, &externPrivacy,b,PRIVACYVAL}
 
-#define EMP(a,b) {#a,-1, -1, NULL,NULL,b}
+#define EMP(a,b) {#a,-1, -1, 0, 0,b}
 
 token_data_t tokens[] = {
   PVAL(single, single_4),
@@ -305,7 +305,7 @@ yyylex()
 
       unput_char();
 
-      *ptr = NULL;
+      *ptr = '\0';
 
       externNumberVal=atoi((char *)parse_buffer); 
       return(NUMBER);
@@ -320,7 +320,7 @@ yyylex()
 
 	unput_char();
 
-	*ptr = NULL;
+	*ptr = '\0';
 
 	if ((bucket = tokens[hash_string((char *) parse_buffer)].first_token)
 	    == -1) {

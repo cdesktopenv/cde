@@ -157,7 +157,7 @@ count_week_pages (Calendar *c, int lines_per_page, Tick start_date)
                 start = (time_t) lowerbound (start_date);
                 stop = (time_t) next_ndays(start_date, 1) - 1;
 		setup_range(&range_attrs, &ops, &j, start, stop,
-			    CSA_TYPE_EVENT, NULL, B_FALSE, c->general->version);
+			    CSA_TYPE_EVENT, 0, B_FALSE, c->general->version);
 		csa_list_entries(c->cal_handle, j, range_attrs, ops, &a_total, &list, NULL);
 		free_range(&range_attrs, &ops, j);
 
@@ -250,7 +250,7 @@ print_week (Calendar *c,
 	  start = (time_t) lowerbound (start_date);
 	  stop = (time_t) next_ndays(start_date, 1) - 1;
 	  setup_range(&range_attrs, &ops, &j, start, stop,
-		      CSA_TYPE_EVENT, NULL, B_FALSE, c->general->version);
+		      CSA_TYPE_EVENT, 0, B_FALSE, c->general->version);
 	  csa_list_entries(c->cal_handle, j, range_attrs,
 			   ops, &a_total, &list, NULL);
 	  free_range(&range_attrs, &ops, j);
@@ -459,7 +459,7 @@ allocator(Calendar *c)
 		w->hot_button[n] =
 			XmCreatePushButton(c->canvas, "week2day", args, 1);
 		XtAddCallback(w->hot_button[n],XmNactivateCallback, 
-			quick_button_cb, (XtPointer)n);
+			quick_button_cb, (XtPointer) (intptr_t) n);
 	}
 
 	/* selection info (and init its permanent attributes) */
@@ -864,7 +864,7 @@ draw_week(Calendar *c, XRectangle *rect, Boundary boundary)
 
         if (c->paint_cache == NULL) {
 		setup_range(&range_attrs, &ops, &i, start, stop, CSA_TYPE_EVENT,
-	    		NULL, B_FALSE, c->general->version);
+	    		0, B_FALSE, c->general->version);
 		csa_list_entries(c->cal_handle, i, range_attrs, ops, 
 				 &a_total, &list, NULL);
 		free_range(&range_attrs, &ops, i);
@@ -1031,7 +1031,7 @@ format_entry(Paint_cache *cache_entry, char *buf1, char *buf2,
          * Extract an appointment and format it into 2 lines of no more
          * then maxchars
          */
-        *buf1 = *buf2 = NULL;
+        *buf1 = *buf2 = '\0';
         if (cache_entry == NULL || cache_entry->summary == NULL) return;
         tm = _XLocaltime(&tick, localtime_buf);
         hour1 = tm->tm_hour;
@@ -1076,7 +1076,7 @@ format_entry(Paint_cache *cache_entry, char *buf1, char *buf2,
          
         if (lines == NULL || lines->s == NULL ||                        
                 (cm_strlen(lines->s) == 1 && lines->s[0] == ' '))
-                buf2[0] = NULL;
+                buf2[0] = '\0';
         else
                 sprintf(buf2, " %s", lines->s);
         destroy_lines(lines);
@@ -1100,15 +1100,15 @@ paint_entry(Calendar *c, int x, int y, int maxchars, Paint_cache *cache_entry, X
         if (maxchars >= 40)             /* maxed out possible=40 */
                 maxchars = 40;
                  
-        buf1[0]=NULL; buf2[0]=NULL;
+        buf1[0] = '\0'; buf2[0] = '\0';
  
         format_entry(cache_entry, buf1, buf2, dt);
 
 	tick = cache_entry->start_time;
  
-        if (cache_entry->show_time && !magic_time(tick) && (buf1[0] != NULL)) {
+        if (cache_entry->show_time && !magic_time(tick) && (buf1[0] != '\0')) {
                 maxchars = gr_nchars(w->day_width - 5, buf1,c->fonts->boldfont); 
-                buf1[min(cm_strlen(buf1), maxchars)]=NULL;
+                buf1[min(cm_strlen(buf1), maxchars)] = '\0';
                 gr_text(xc, x, y, c->fonts->boldfont, buf1, rect);
                 nlines++;
 		CalFontExtents(c->fonts->boldfont, &fontextents);
@@ -1117,7 +1117,7 @@ paint_entry(Calendar *c, int x, int y, int maxchars, Paint_cache *cache_entry, X
         if (buf2[0] != '\0') {
                 maxchars = gr_nchars(w->day_width - 5, buf2, 
 						c->fonts->viewfont);
-		buf2[min(cm_strlen(buf2), maxchars)]=NULL;
+		buf2[min(cm_strlen(buf2), maxchars)] = '\0';
                 gr_text(xc, x, y, c->fonts->viewfont, buf2, rect);
                 nlines++;
         }
@@ -1391,7 +1391,7 @@ quick_button_cb(Widget widget, XtPointer client, XtPointer call)
 {
         Calendar *c = calendar;
         Week    *w = (Week *)c->view->week_info;
-	int dow = (int) client;
+	int dow = (int) (intptr_t) client;
 	char buf[BUFSIZ];
 
 	if (c->view->date != get_bot()) {

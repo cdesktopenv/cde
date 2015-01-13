@@ -85,7 +85,7 @@ format_date(Tick t, OrderingType order, char *buf, int day_and_date,
 	struct tm *tm;
 	_Xltimeparams localtime_buf;
 
-	buf[0]=NULL;
+	buf[0] = '\0';
 	tm = _XLocaltime(&t, localtime_buf);
 	m = tm->tm_mon+1;
 	d = tm->tm_mday;
@@ -157,7 +157,7 @@ format_date3(Tick t, OrderingType order, SeparatorType sep, char *buf)
 	char *str = (char *) separator_str(sep);
 	_Xltimeparams localtime_buf;
 
-	buf[0]=NULL;
+	buf[0] = '\0';
 	tm = _XLocaltime(&t, localtime_buf); 
 
 	m = tm->tm_mon+1; 
@@ -194,7 +194,7 @@ format_line(Tick tick,
 	_Xltimeparams localtime_buf;
 
         if (buf==NULL) return pad;
-        buf[0]=NULL;
+        buf[0] = '\0';
 	tm = _XLocaltime(&tick, localtime_buf);
         hr = tm->tm_hour;
         mn = tm->tm_min;
@@ -227,16 +227,16 @@ format_line(Tick tick,
                    	width, so I have to line it up myself.. */
 			if (display == HOUR12) {
                         	if (hr > 9)
-                               		(char *)sprintf(buf, "%2d:%.2d%s ", 
+                               		sprintf(buf, "%2d:%.2d%s ", 
 							hr, mn, am ? "a" : "p");
                         	else {
-                               		(char *)sprintf(buf, "%d:%.2d%s ", 
+                               		sprintf(buf, "%d:%.2d%s ", 
 							hr, mn, am ? "a" : "p");
 					pad = TRUE;
 				}
 			}
 			else
-				 (char *)sprintf(buf, "%02d%02d ", hr, mn);
+				 sprintf(buf, "%02d%02d ", hr, mn);
                 }
         }
 	if (what)
@@ -262,7 +262,7 @@ format_maxchars(Dtcm_appointment *appt, char *buf1, int maxchars,
 	if (appt->end_time)
 		_csa_iso8601_to_tick(appt->end_time->value->item.string_value,
 			&end_tick);
-        *buf1 = NULL;
+        *buf1 = '\0';
         if (appt == NULL || appt->what->value->item.string_value == NULL) return;
         tm = _XLocaltime(&tick, localtime_buf);
         hour1 = tm->tm_hour;
@@ -336,7 +336,7 @@ format_line2(Dtcm_appointment *appt, char *buf1, char *buf2,
          * Extract an appointment and format it into 2 lines of no more
          * then maxchars
          */
-        *buf1 = *buf2 = NULL;
+        *buf1 = *buf2 = '\0';
         if (appt == NULL || appt->what->value->item.string_value == NULL) return;
         tm = _XLocaltime(&tick, localtime_buf);
         hour1 = tm->tm_hour;
@@ -382,7 +382,7 @@ format_line2(Dtcm_appointment *appt, char *buf1, char *buf2,
          
         if (lines == NULL || lines->s == NULL ||                        
                 (cm_strlen(lines->s) == 1 && lines->s[0] == ' '))
-                buf2[0] = NULL;
+                buf2[0] = '\0';
         else
                 sprintf(buf2, " %s", lines->s);
         destroy_lines(lines);

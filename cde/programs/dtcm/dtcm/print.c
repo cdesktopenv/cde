@@ -29,6 +29,7 @@
  */
 
 #include <EUSCompat.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -984,7 +985,7 @@ create_print_dialog(Calendar *c)
 	   */
 	  pd->report_type = PR_DAY_VIEW;
 	  pd->report_type_option = XmVaCreateSimpleOptionMenu(pd->form,
-		"TypeOptionMenu", view, NULL,
+		"TypeOptionMenu", view, 0,
 		pd->report_type, report_option_cb,
 		XmVaPUSHBUTTON, 	day_view, NULL, NULL, NULL,
 		XmVaPUSHBUTTON, 	week_view, NULL, NULL, NULL,
@@ -1489,7 +1490,7 @@ print_report(Calendar *c)
 static void
 report_option_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  int choice = (int) client_data;
+  int choice = (int) (intptr_t) client_data;
   Calendar *c = calendar;
 
   pd_set_report_managed(c, choice);

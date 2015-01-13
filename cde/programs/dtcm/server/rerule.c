@@ -106,7 +106,7 @@ ReToString(
 			strcat (cmd_buf, subcommand);
 		}
 
-		memset (subcommand, NULL, 1024);
+		memset (subcommand, 0, 1024);
 
 		re = re->re_next;
 	}

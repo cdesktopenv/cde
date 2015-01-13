@@ -583,7 +583,7 @@ create_all_pixmaps(Props_pu *p, Widget w)
 
         if ((p->drag_icon_xbm = XmGetPixmap(s, "DtCMdnd.m.pm", fg, bg)) ==
 							XmUNSPECIFIED_PIXMAP) {
-		p->drag_icon_xbm = NULL;
+		p->drag_icon_xbm = 0;
 	}
 }
 
@@ -663,10 +663,10 @@ cm_mbchar(char *str) {
 static void
 response(Widget w, XtPointer client_data, XtPointer cbs) {
 	XtPointer userData = (XtPointer)0;
-	int *answerP = (int *)client_data;
+	int *answerP = (int *) (intptr_t)client_data;
 
 	XtVaGetValues(w, XmNuserData, &userData, NULL);
-	*answerP = (int)userData;
+	*answerP = (intptr_t)userData;
 }
 
 /*

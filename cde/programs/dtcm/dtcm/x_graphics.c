@@ -2887,7 +2887,7 @@ x_print_multi_appts(void *gInfoP,
     /* HH:MM xm - HH:MM xm format */
     format_line2(appt, buf1, buf2, dt);
 
-    indented = (*buf1 != NULL);
+    indented = (*buf1 != '\0');
     indentAmt = (view == dayGlance) ? 0 : 1;
     if (indented)
       indentAmt += 2;
@@ -2992,7 +2992,7 @@ x_print_list_range(Calendar *c, CSA_sint32 appt_type, int item_data,
 				     "Appt List Beginning: %s"), buf2);
 
 	setup_range(&range_attrs, &ops, &i, start, end, appt_type,
-		    NULL, B_FALSE, c->general->version);
+		    0, B_FALSE, c->general->version);
 	stat = csa_list_entries(c->cal_handle, i, range_attrs,
 				ops, &a_total, &list, NULL);
 	if (stat != CSA_SUCCESS) {
@@ -3939,7 +3939,7 @@ x_print_month_appts(void *gInfoP, CSA_entry_handle *list,
     {
       get_time_str(appt, buf1);
 
-      indented = (*buf1 != NULL);
+      indented = (*buf1 != '\0');
 
       lines = text_to_lines(appt->what->value->item.string_value, 1);
       line_counter++;

@@ -923,7 +923,7 @@ xytoclock(int x, int y, Tick t)
 	Tick tick;
 	_Xltimeparams localtime_buf;
 
-	memset(&timestruct, NULL, sizeof(struct tm));
+	memset(&timestruct, 0, sizeof(struct tm));
 
 	tm	= *_XLocaltime(&t, localtime_buf);
 	mn	= tm.tm_mon + 1;
@@ -1094,7 +1094,7 @@ monthdayyear(int m, int d, int y)
 
 	struct tm timestruct;
 
-	memset(&timestruct, NULL, sizeof(struct tm));
+	memset(&timestruct, 0, sizeof(struct tm));
 	timestruct.tm_mon = m - 1;
 	timestruct.tm_mday = d;
 	timestruct.tm_year = y - 1900;

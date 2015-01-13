@@ -54,6 +54,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <sys/wait.h>
 #include <LocaleXlate.h>
 #include <RFCMIME.h>
@@ -372,7 +373,10 @@ deliver(char ** addrs, char * msg)
     }
     argv[cp + 1] = NULL;
 
-    pipe(fd);
+    if(-1 == pipe(fd)) {
+	fprintf(stderr, "pipe() failed %d '%s'\n", errno, strerror(errno));
+	exit(EXIT_FAILURE);    
+    }
 
     c_pid = fork();
     if (c_pid < 0) {
@@ -386,7 +390,10 @@ deliver(char ** addrs, char * msg)
 	_exit(1); /* This had better never happen! */
     }
     else { /* The parent. */
-	write(fd[1], msg, strlen(msg));
+	if(-1 == write(fd[1], msg, strlen(msg))) {
+	    fprintf(stderr, "write() failed %d '%s'\n", errno, strerror(errno));
+	    exit(EXIT_FAILURE);    
+	}
 	close(fd[0]);
 	close(fd[1]);
 

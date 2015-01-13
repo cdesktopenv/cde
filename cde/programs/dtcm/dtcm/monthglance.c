@@ -209,14 +209,14 @@ paint_day_entries(
 								w - pad_width, 
 								buf, pf);
 	                                	if (cm_strlen(buf) > maxchars)
-							buf[maxchars] = NULL;
+							buf[maxchars] = '\0';
 	                                	(void)gr_text(xc, x + pad_width,
 							      y, pf, buf, rect);
 					} else {
 	                                	maxchars = gr_nchars(w, buf, 
 								     pf);
 	                                	if (cm_strlen(buf) > maxchars)
-							buf[maxchars] = NULL;
+							buf[maxchars] = '\0';
 	                                	(void)gr_text(xc, x, y, pf, 
 							      buf, rect);
 					}
@@ -306,7 +306,7 @@ paint_month(Calendar *c, Tick key, XRectangle *rect)
         	start = (time_t) lowerbound(day);
         	stop = (time_t) last_dom(day);
 		setup_range(&range_attrs, &ops, &j, start, stop, CSA_TYPE_EVENT,
-		    	NULL, B_FALSE, c->general->version);
+		    	0, B_FALSE, c->general->version);
 		csa_list_entries(c->cal_handle, j, range_attrs, ops, &a_total, &list, NULL);
 	
 		free_range(&range_attrs, &ops, j);
@@ -571,7 +571,7 @@ get_time_str (Dtcm_appointment *appt, char *buf)
 	_Xltimeparams	localtime_buf;
 
 	_csa_iso8601_to_tick(appt->time->value->item.date_time_value, &start_tick);
-	buf[0] = NULL;
+	buf[0] = '\0';
 
         if (appt==NULL || !showtime_set(appt) || magic_time(start_tick))
                 return;
@@ -724,7 +724,7 @@ count_month_pages(Calendar *c, Tick start_date, int lines_per_box)
                 start = (time_t) lowerbound (day);
                 stop = (time_t) next_ndays(day, 1) - 1;
 		setup_range(&range_attrs, &ops, &j, start, stop,
-			    CSA_TYPE_EVENT, NULL, B_FALSE,
+			    CSA_TYPE_EVENT, 0, B_FALSE,
 			    c->general->version);
 		csa_list_entries(c->cal_handle, j, range_attrs, ops,
 				 &a_total, &list, NULL);
@@ -804,7 +804,7 @@ print_month ( Calendar *c,
 	  lo_hour = (time_t)lowerbound (day);
 	  hi_hour = (time_t) next_ndays(day, 1) - 1;
 	  setup_range(&range_attrs, &ops, &j, lo_hour, hi_hour,
-		      CSA_TYPE_EVENT, NULL, B_FALSE, c->general->version);
+		      CSA_TYPE_EVENT, 0, B_FALSE, c->general->version);
 	  csa_list_entries(c->cal_handle, j, range_attrs,
 			   ops, &a_total, &list, NULL);
 	  free_range(&range_attrs, &ops, j);
@@ -924,7 +924,7 @@ static void
 quick_button_cb(Widget widget, XtPointer client, XtPointer call)
 {
         Calendar *c = calendar;
-	int	 dom = (int) client;
+	int	 dom = (int) (intptr_t) client;
 
 	c->view->olddate = c->view->date;
 	c->view->date = next_ndays(first_dom(c->view->date), dom);
@@ -1059,7 +1059,7 @@ allocator(Calendar *c)
 			XmCreatePushButton(c->canvas, buf, NULL, 0);
 		XtVaSetValues(m->hot_button[n], XmNlabelString, str, NULL);
 		XtAddCallback(m->hot_button[n],XmNactivateCallback, 
-			quick_button_cb, (XtPointer)n);
+			quick_button_cb, (XtPointer) (intptr_t) n);
 		XmStringFree(str);
 	}
 }

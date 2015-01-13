@@ -587,7 +587,7 @@ XmPushButtonCallbackStruct *cbs;
 
 	astr = XmTextGetString(f->apptstr);
 
-        if (astr == NULL || *astr == NULL) {
+        if (astr == NULL || *astr == '\0') {
 		sprintf(message, "%s", catgets(c->DT_catd, 1, 290, "Specify Appt String to Match."));
 		set_message(f->find_message, message);
                 return;
@@ -666,7 +666,7 @@ XmPushButtonCallbackStruct *cbs;
 	_DtTurnOnHourGlass(f->frame);
         for (; stop <= end_of_time;) {
 		setup_range(&range_attrs, &ops, &range_count, start, stop,
-			    CSA_TYPE_EVENT, NULL, B_FALSE, c->general->version);
+			    CSA_TYPE_EVENT, 0, B_FALSE, c->general->version);
 	        stat = csa_list_entries(c->cal_handle, range_count, range_attrs, ops, &num_entries, &entries, NULL);
 
         	if (stat != CSA_SUCCESS) {
@@ -684,7 +684,7 @@ XmPushButtonCallbackStruct *cbs;
                         	return;
                 	}
 
-			for (j = 0; appt->what->value->item.string_value[j] != NULL; j++)
+			for (j = 0; appt->what->value->item.string_value[j] != '\0'; j++)
 				if (strncasecmp(astr, &(appt->what->value->item.string_value[j]),
 			     		comparison_length) == 0) {
 					new_tick = (Tick_list *) ckalloc(sizeof(Tick_list));

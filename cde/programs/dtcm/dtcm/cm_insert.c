@@ -225,7 +225,7 @@ prompt_for_insert(Props *p) {
 
 	printf("%s", catgets(DT_catd, 1, 205, 
 		"What (you may enter up to 5 lines, use ^D to finish):\n"));
-	cm_what[0] = NULL;
+	cm_what[0] = '\0';
 	for (index = 0; index < 5; index++)
 	{
         	*what_buffer = '\0';

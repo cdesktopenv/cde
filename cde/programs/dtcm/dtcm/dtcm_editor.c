@@ -244,22 +244,22 @@ GetIcon(DTCM_editor *de)
         Window          window = XtWindow(calendar->frame);
         unsigned char  *bitmapData, *bitmapMask;
  
-        if (de->drag_bitmap == NULL) {
+        if (de->drag_bitmap == 0) {
                 de->drag_bitmap = XCreateBitmapFromData(display,
                         window, (char *) drag_xbm_bits,
                         drag_xbm_width, drag_xbm_height);
-                if (de->drag_bitmap == NULL) {
+                if (de->drag_bitmap == 0) {
 
-                        printf(catgets(calendar->DT_catd, 1, 237, "XCreateBitmapFromData() failed for bitmap.\n"));
+                        printf("%s", catgets(calendar->DT_catd, 1, 237, "XCreateBitmapFromData() failed for bitmap.\n"));
                         return;
                 }
         }
-        if (de->drag_mask == NULL) {
+        if (de->drag_mask == 0) {
                 de->drag_mask = XCreateBitmapFromData(display,
                         window, (char *) drag_mask_xbm_bits,
                         drag_mask_xbm_width, drag_mask_xbm_height);
-                if (de->drag_mask == NULL) {
-                        printf(catgets(calendar->DT_catd, 1, 238, "XCreateBitmapFromData() failed for mask.\n"));
+                if (de->drag_mask == 0) {
+                        printf("%s", catgets(calendar->DT_catd, 1, 238, "XCreateBitmapFromData() failed for mask.\n"));
                         return;
                 }
         }
@@ -394,7 +394,7 @@ StandaloneApptDragStart(
 		NULL)
             == NULL) {
  
-                printf(catgets(c->DT_catd, 1, 239, "DragStart returned NULL.\n"));
+                printf("%s", catgets(c->DT_catd, 1, 239, "DragStart returned NULL.\n"));
         }
 }
 

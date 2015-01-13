@@ -196,13 +196,13 @@ mini_err_msg(
 	char	*buf, *ptr;
 
 	if (type == TTY_Insert)
-		fprintf(stderr, "%s %s", 
+		fprintf(stderr, "%s", 
 			catgets(catd, 1, 1042, "Insert Access Denied: "));
 	else if (type == TTY_Delete)
-		fprintf(stderr, "%s %s", 
+		fprintf(stderr, "%s", 
 			catgets(catd, 1, 1043, "Delete Access Denied: "));
 	else
-		fprintf(stderr, "%s %s", 
+		fprintf(stderr, "%s", 
 			catgets(catd, 1, 1044, "Lookup Access Denied: "));
 
 	if (appt_what && appt_what[0] != '\0') {
@@ -398,7 +398,7 @@ scrub_attr_list(Dtcm_appointment *appt) {
 	for (i = 0; i < appt->count; i++) {
 		if (appt->attrs[i].value->type == CSA_VALUE_REMINDER) {
 			if ((appt->attrs[i].value->item.reminder_value->lead_time == NULL) || 
-			     (appt->attrs[i].value->item.reminder_value->lead_time[0] == NULL)) {
+			     (appt->attrs[i].value->item.reminder_value->lead_time[0] == '\0')) {
 				free(appt->attrs[i].name);
 				appt->attrs[i].name = NULL;
 			}
@@ -613,7 +613,7 @@ cm_tty_lookup(nl_catd catd, CSA_session_handle target, int version, char *date, 
 	start = lowerbound(tick - (day * daysec));
 	stop = next_ndays(start, span) - 1;
 	setup_range(&range_attrs, &ops, &i, start, stop, CSA_TYPE_EVENT,
-		    NULL, B_FALSE, version);
+		    0, B_FALSE, version);
 	status = csa_list_entries(target, i, range_attrs, ops, &a_total, list, NULL);
 	free_range(&range_attrs, &ops, i);
 
@@ -653,7 +653,7 @@ cm_tty_lookup(nl_catd catd, CSA_session_handle target, int version, char *date, 
 			if (appt->end_time)
 				format_time(end_tick, dt, end_buf);
 			else
-				*end_buf = NULL;
+				*end_buf = '\0';
 			sprintf(buf, "%s%c%7s ", start_buf,
 				(*end_buf ? '-' : ' '), end_buf);
 		}
@@ -964,7 +964,7 @@ build_new_attrval(CSA_attribute *attrval, char *name, char *tag, char *value)
 	if (!strcmp(tag, "caluser")) {
 		vptr->type = CSA_VALUE_CALENDAR_USER;
 		s_ptr = strchr(value, ':');
-		*s_ptr = NULL;
+		*s_ptr = '\0';
 		vptr->item.calendar_user_value = calloc(sizeof(CSA_calendar_user), 1);
 		vptr->item.calendar_user_value->user_name = cm_strdup(s_ptr + 1);
 		vptr->item.calendar_user_value->user_type = atoi(value);
@@ -983,7 +983,7 @@ build_new_attrval(CSA_attribute *attrval, char *name, char *tag, char *value)
 	if (!strcmp(tag, "reminder")) {
 		vptr->type = CSA_VALUE_REMINDER;
 		s_ptr = strchr(value, ':');
-		*s_ptr = NULL;
+		*s_ptr = '\0';
 		
 		vptr->item.reminder_value = calloc(sizeof(CSA_reminder), 1);
 		
@@ -1012,13 +1012,13 @@ build_new_attrval(CSA_attribute *attrval, char *name, char *tag, char *value)
 				l_ptr = calloc(sizeof(CSA_access_rights), 1);
 
 				s_ptr = strchr(b_ptr, ':');
-				*s_ptr = NULL;
+				*s_ptr = '\0';
 
 				l_ptr->rights = atoi(b_ptr);
 
 				b_ptr = s_ptr + 1;
 				if (s_ptr = strchr(b_ptr, '\n'))
-					*s_ptr = NULL;
+					*s_ptr = '\0';
 
 				l_ptr->user->user_name = cm_strdup(b_ptr);
 
@@ -1112,7 +1112,7 @@ read_new_appt(FILE *fp, Dtcm_appointment **appt, Props *p, int version)
 			strcat(a_value, "\n");
 			strcat(a_value, b_ptr);
 
-			a_value[strlen(a_value) - 1] = NULL;
+			a_value[strlen(a_value) - 1] = '\0';
 
 			continue;
 		}
@@ -1161,7 +1161,7 @@ read_new_appt(FILE *fp, Dtcm_appointment **appt, Props *p, int version)
 		b_ptr = line;
 		if (c_ptr = strchr(line, ':'))
 		{
-			*c_ptr = NULL;
+			*c_ptr = '\0';
 			a_name = cm_strdup(b_ptr);
 		}
 		else
@@ -1175,7 +1175,7 @@ read_new_appt(FILE *fp, Dtcm_appointment **appt, Props *p, int version)
 
 		if (c_ptr = strchr(b_ptr, ':'))
                 {       
-                        *c_ptr = NULL;
+                        *c_ptr = '\0';
                         a_tag = cm_strdup(b_ptr);
                 }
                 else
@@ -1187,7 +1187,7 @@ read_new_appt(FILE *fp, Dtcm_appointment **appt, Props *p, int version)
 		if (!*b_ptr)
 			break;
 		else
-			b_ptr[strlen(b_ptr) - 1] = NULL;
+			b_ptr[strlen(b_ptr) - 1] = '\0';
 
 		a_value =  cm_strdup(b_ptr);
 	}
@@ -1667,7 +1667,7 @@ cat_indented_string(char **catbuf, char *string)
 			*b_ptr++ = '\t';
 		p_str++;
 	}
-	*b_ptr = NULL;
+	*b_ptr = '\0';
 
 	growcat(catbuf, buf);
 
@@ -1683,12 +1683,12 @@ attrs_to_string(CSA_attribute * attrs, int num_attrs)
 	char		tmp_buf[MAXNAMELEN];
 	int		advance_time;
 
-	buffer[0] = NULL;
+	buffer[0] = '\0';
         for (i = 0; i < num_attrs; i++) {
 		if (!attrs[i].name || (attrs[i].value == NULL))
 			continue;
 
-		tmp_buf[0] = NULL;
+		tmp_buf[0] = '\0';
                 sprintf(tmp_buf, "%s:", attrs[i].name);
 		switch (attrs[i].value->type) {
 		case CSA_VALUE_SINT32: 
@@ -1765,7 +1765,7 @@ attrs_to_string(CSA_attribute * attrs, int num_attrs)
 				a_ptr = attrs[i].value->item.access_list_value;
 				while (a_ptr) {
 					sprintf(tmp_buf, "\t%d:%s\n",
-						a_ptr->rights, a_ptr->user->user_name);
+						(int) a_ptr->rights, a_ptr->user->user_name);
 					growcat(&buffer, tmp_buf);
 					a_ptr = a_ptr->next;
 				}
@@ -1865,11 +1865,11 @@ parse_attrs_to_string(Dtcm_appointment *appt, Props *p, char *attr_string) {
 	CSA_uint32	repeat_times;
         static char *format_string = "\n\n\t** Calendar Appointment **\n%s:string:begin\n%s%s:string:end\n\tDate: %s\n\tStart: %s\n\tEnd: %s\n\tRepeat: %s\n\tFor: %s\n\tWhat: %s";
 
-	s_buf[0] = NULL;
-	e_buf[0] = NULL;
-	w_buf[0] = NULL;
-	r_buf[0] = NULL;
-	f_buf[0] = NULL;
+	s_buf[0] = '\0';
+	e_buf[0] = '\0';
+	w_buf[0] = '\0';
+	r_buf[0] = '\0';
+	f_buf[0] = '\0';
 
 	_csa_iso8601_to_tick(appt->time->value->item.date_time_value, &tick);
 	if (appt->end_time) 
@@ -2144,7 +2144,7 @@ str_to_period(char *ps, CSA_sint32 *repeat_type, int *repeat_nth) {
 	boolean_t	compute_times = B_FALSE;
 	char		*ps2, *ptr, *ptr2, *unit;
  
-	*repeat_type = NULL;
+	*repeat_type = '\0';
 	*repeat_nth = 0;
         if (ps == NULL)
 		return;
@@ -2186,7 +2186,7 @@ str_to_period(char *ps, CSA_sint32 *repeat_type, int *repeat_nth) {
                 ps2 = cm_strdup(unit);
                 ptr = strchr(ps2, ' ');
 		if (ptr != NULL)
-                	*ptr = NULL;
+                	*ptr = '\0';
 		else
 			return;
 
@@ -2235,13 +2235,13 @@ periodstr_from_period(CSA_sint32 repeat_type, int repeat_nth) {
 		sprintf(pstr, "%s", periodstrings[6]);
 		break;
         case CSA_X_DT_REPEAT_EVERY_NDAY:
-		sprintf(pstr, "Every %ld %s", repeat_nth, periodstrings[7]);
+		sprintf(pstr, "Every %d %s", repeat_nth, periodstrings[7]);
 		break;
         case CSA_X_DT_REPEAT_EVERY_NWEEK:
-		sprintf(pstr, "Every %ld %s", repeat_nth, periodstrings[8]);
+		sprintf(pstr, "Every %d %s", repeat_nth, periodstrings[8]);
 		break;
         case CSA_X_DT_REPEAT_EVERY_NMONTH:
-		sprintf(pstr, "Every %ld %s", repeat_nth, periodstrings[9]);
+		sprintf(pstr, "Every %d %s", repeat_nth, periodstrings[9]);
 		break;
         case CSA_X_DT_REPEAT_OTHER:
 		sprintf(pstr, "%s", periodstrings[10]);

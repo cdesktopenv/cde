@@ -115,7 +115,7 @@ cm_args(int argc, char **argv)
 			argv = grab(++argv,cm_view,'-');
 			break;
 		default:
-			fprintf(stderr,catgets(DT_catd, 1, 207, "Usage:\n\tdtcm_lookup [ -c calendar ][ -d <mm/dd/yy> ] [ -v view ]\n"));
+			fprintf(stderr, "%s", catgets(DT_catd, 1, 207, "Usage:\n\tdtcm_lookup [ -c calendar ][ -d <mm/dd/yy> ] [ -v view ]\n"));
 			exit(1);
 		}
 	}

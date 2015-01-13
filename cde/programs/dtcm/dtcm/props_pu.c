@@ -2404,7 +2404,7 @@ p_make_props_pu(Calendar *c) {
 
 	p->category_menu = widgets[0] = 
 		XmVaCreateSimpleOptionMenu(p->base_form_mgr,
-		"category_menu",  label, NULL, 0, p_category_notify,
+		"category_menu",  label, 0, 0, p_category_notify,
 		XmVaPUSHBUTTON, Pane_XmStrs[EDITOR_PANE], NULL, NULL, NULL,
 		XmVaPUSHBUTTON, Pane_XmStrs[DISPLAY_PANE], NULL, NULL, NULL,
 		XmVaPUSHBUTTON, Pane_XmStrs[GROUP_ACCESS_PANE], NULL, NULL,NULL,

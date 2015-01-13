@@ -248,7 +248,7 @@ blist_name_append(Calendar *c, char *name, BlistTag t) {
         bd = (BlistData *)ckalloc(sizeof(BlistData));
         bd->name = cm_strdup(name);
         bd->tag = t;
-        bd->cal_handle = NULL;
+        bd->cal_handle = 0;
         CmDataListAdd(bl->blist_data, (void *)bd, location);
  
         return location;
@@ -290,7 +290,7 @@ blist_addname(Widget widget, XtPointer client_data, XtPointer cbs) {
 	       ((*(end_ptr - 1) == ' ') || (*(end_ptr - 1) == '\t')))
 		end_ptr--;
 
-	*end_ptr = NULL;
+	*end_ptr = '\0';
 
 
 	if (blank_buf(new_name)) {
@@ -453,7 +453,7 @@ blist_init_names(Calendar *c) {
 	blist_name_append(c, get_char_prop(p, CP_DEFAULTCAL), BLIST_ACTIVE);
 
         namelist = cm_strdup(get_char_prop(p, CP_DAYCALLIST));
-        if (namelist == NULL || *namelist == NULL )
+        if (namelist == NULL || *namelist == '\0' )
 		return;
 
 	name = strtok(namelist, " ");
@@ -496,7 +496,7 @@ blist_clean(Browselist *bl, Boolean clean_all) {
 	cnt = bl->blist_data->count;
 	for (i = 1; i <= cnt; i++) {
 		bd = (BlistData *)CmDataListGetData(bl->blist_data, left_cnt);
-		if (bd && bd->cal_handle == NULL &&
+		if (bd && bd->cal_handle == 0 &&
 		    (clean_all || bd->tag != BLIST_ACTIVE)) {
 			if (bd->name)
 				free(bd->name);

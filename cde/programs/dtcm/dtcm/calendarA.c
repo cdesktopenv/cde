@@ -964,25 +964,25 @@ set_default_view(Calendar *c)
  */
 void view_day_cb(Widget w, XtPointer data, XtPointer cbs)
 {
-	if ((int) data == 0)
+	if ((intptr_t) data == 0)
 		day_button(w, data, cbs);
 }
 
 void view_week_cb(Widget w, XtPointer data, XtPointer cbs)
 {
-	if ((int) data == 0)
+	if ((intptr_t) data == 0)
 		week_button(w, data, cbs);
 }
 
 void view_month_cb(Widget w, XtPointer data, XtPointer cbs)
 {
-	if ((int) data == 0)
+	if ((intptr_t) data == 0)
 		month_button(w, data, cbs);
 }
 
 void view_year_cb( Widget w, XtPointer data, XtPointer cbs)
 {
-	if ((int) data == 0)
+	if ((intptr_t) data == 0)
 		(void) year_button(w, data, cbs);
 }
 
@@ -1112,9 +1112,9 @@ edit_cb( Widget w, XtPointer item_no, XtPointer cbs)
 	Calendar *c = calendar;
 
 	_DtTurnOnHourGlass(c->frame);
-	if ((int) item_no == 1)
+	if ((intptr_t) item_no == 1)
 		show_props_pu(c);
-	else if ((int) item_no == 3)
+	else if ((intptr_t) item_no == 3)
 		make_find(c);
 	_DtTurnOffHourGlass(c->frame);
 }
@@ -1175,7 +1175,7 @@ appt_cb(Widget w, XtPointer item_no, XtPointer cbs)
 	Calendar *c = calendar;
 
 	_DtTurnOnHourGlass(c->frame);
-	switch((int) item_no) {
+	switch((intptr_t) item_no) {
 	case 0:
 		show_editor(c, 0, 0, False);
 		break;
@@ -1223,7 +1223,7 @@ edit_menu_cb(Widget w, XtPointer cl_data, XtPointer cbs)
 
 static void 
 browse_cb(Widget w, XtPointer client_data, XtPointer cbs) {
-	int		rcode, idx = (int)client_data;
+	int		rcode, idx = (int) (intptr_t) client_data;
 	char		buf[MAXNAMELEN];
 	Calendar	*c = calendar;
 	Props_pu	*p = (Props_pu *)c->properties_pu;
@@ -1556,7 +1556,7 @@ update_browse_menu_names(Calendar *c) {
 		str = (!strcmp(bd->name, c->calname)) ? "calName" : "myName";
 		item = XmCreatePushButtonGadget(c->browse_menu, str, al, ac);
 		XtAddCallback(item, XmNactivateCallback, browse_cb,
-			      (XtPointer)i);
+			      (XtPointer) (intptr_t) i);
 		XmStringFree(xmstr);
 	}
 
@@ -2160,12 +2160,12 @@ open_user_calendar(Calendar *c, Boolean retry)
 			NULL, NULL);
 
 		/* create the calendar */
-		if ((status = csa_add_calendar(NULL, &csa_user, 1, &attr, NULL))
+		if ((status = csa_add_calendar(0, &csa_user, 1, &attr, NULL))
 		    == CSA_E_UNSUPPORTED_ATTRIBUTE) {
 			/* server with version 4 or less does not support
 			 * the CSA_CAL_ATTR_CHARACTER_SET cal attribute
 			 */
-			status = csa_add_calendar(NULL, &csa_user, 0, NULL,
+			status = csa_add_calendar(0, &csa_user, 0, NULL,
 					NULL);
 		}
 		if (val.item.string_value) free(val.item.string_value);
@@ -2294,7 +2294,7 @@ logon_retry(XtPointer data, XtIntervalId *dummy)
 {
 	Calendar	*c = (Calendar *)data;
 	/* retry once */
-	if (c->my_cal_handle == NULL && (open_user_calendar(c, False) == True))
+	if (c->my_cal_handle == 0 && (open_user_calendar(c, False) == True))
 	{
 		_DtTurnOnHourGlass(c->frame);
 		reset_timer(c);
@@ -2461,7 +2461,7 @@ get_user_calendar()
 
 	uname = cm_get_uname();
 	if ((loc = get_char_prop((Props *)calendar->properties, CP_CALLOC)) &&
-	    *loc != NULL) {
+	    *loc != '\0') {
 		loc = strdup(loc);
 		needfree = True;
 	} else
@@ -2559,7 +2559,7 @@ init_calendar(argc, argv)
 		
 		while (*s_ptr)
 			*d_ptr++ = *s_ptr++;
-		*d_ptr++ = NULL;
+		*d_ptr++ = '\0';
 	}
 	d_ptr = NULL;
 

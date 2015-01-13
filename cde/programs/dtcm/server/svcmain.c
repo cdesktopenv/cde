@@ -112,7 +112,7 @@ _GetGtime(char *timestr)
 	}
 
 	minute = atoi(&timestr[len - 2]);
-	timestr[len - 2] = NULL;
+	timestr[len - 2] = '\0';
 	hour = atoi(timestr);
 
 	if (hour > 23 || minute > 59)
@@ -273,7 +273,9 @@ init_dir()
 	}
 
 	/* Change current directory, so core file can be dumped. */
-	chdir (dir);
+	if(-1 == chdir (dir)) {
+	        perror(strerror(errno));
+	}
 }
 
 /*
@@ -754,8 +756,12 @@ main(int argc, char **argv)
 	setgid (daemon_gid);
 	setuid (daemon_uid);
 #else
-	setegid (daemon_gid);
-	seteuid (daemon_uid);
+	if(-1 == setegid (daemon_gid)) {
+	        perror(strerror(errno));
+	}
+	if(-1 == seteuid (daemon_uid)) {
+	        perror(strerror(errno));
+	}
 #endif /* HPUX */
 #endif /* AIX */
 
