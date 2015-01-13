@@ -57,13 +57,13 @@
 
 /* definitions from tttk/tttkutils.h */
 char _TTKeys[7];
-#define _TTCBKey		((int)&_TTKeys[0])
-#define _TTClientCBKey		((int)&_TTKeys[1])
-#define _TTClientDataKey	((int)&_TTKeys[2])
-#define _TTDepositPatKey	((int)&_TTKeys[3])
-#define _TTJoinInfoKey		((int)&_TTKeys[4])
-#define _TTContractKey		((int)&_TTKeys[5])
-#define _TTSubContractKey	((int)&_TTKeys[6])
+#define _TTCBKey		((int)(intptr_t)&_TTKeys[0])
+#define _TTClientCBKey		((int)(intptr_t)&_TTKeys[1])
+#define _TTClientDataKey	((int)(intptr_t)&_TTKeys[2])
+#define _TTDepositPatKey	((int)(intptr_t)&_TTKeys[3])
+#define _TTJoinInfoKey		((int)(intptr_t)&_TTKeys[4])
+#define _TTContractKey		((int)(intptr_t)&_TTKeys[5])
+#define _TTSubContractKey	((int)(intptr_t)&_TTKeys[6])
 
 extern Editor *pPadList;  /*  list of Editor instances - declared in main.c */
 

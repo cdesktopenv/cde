@@ -1822,7 +1822,7 @@ Usage(
 
    template = (GETMESSAGE(7,10, message_string2));
 
-   fprintf (stderr, template);
+   fprintf (stderr, "%s", template);
 
    exit (0);
 }
