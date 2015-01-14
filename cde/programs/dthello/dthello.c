@@ -67,6 +67,7 @@ static char rcsid[] = "$TOG: dthello.c /main/9 1998/04/20 12:52:17 mgreess $";
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -222,6 +223,7 @@ Usage(void)
  *           [-timeout <seconds>]
  * 
  *************************************<->***********************************/
+int
 main (int argc, char **argv)
 {
     Window      wmwin;		/* Window ID for wm */
@@ -238,9 +240,6 @@ main (int argc, char **argv)
     int 	i;		/* loop index */
     char	*default_string;	/* default message */
     XtAppContext appcontext;
-    int         n;              /* for Arglist processing */
-    Arg         args[10];
-    Widget              	topLevelWid;
     char        *def_str;
     char        **missing_clist;
     int         missing_count;
@@ -902,7 +901,7 @@ SeparateTextLines (unsigned char *pchIn)
 {
     unsigned char *pch, *pch1, *pch2;
     unsigned char *pchInEnd;
-    int i, chlen;
+    int i, chlen = 0;
 
     /* count the number of new line characters in the string */
 
@@ -1074,7 +1073,6 @@ Cursor GetHourGlass (Display *dpy)
     Pixmap       pixmap;
     Pixmap       maskPixmap;
     XColor       xcolors[2];
-    int          scr;
     unsigned int cWidth;
     unsigned int cHeight;
     int		 useLargeCursors = 0;
