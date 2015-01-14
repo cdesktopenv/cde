@@ -72,8 +72,7 @@ typedef struct {
 }           imagestruct;
 
 void
-drawimage(pwin)
-    perwindow *pwin;
+drawimage(perwindow *pwin)
 {
     imagestruct *ip;
     int         i;
@@ -106,8 +105,7 @@ drawimage(pwin)
 }
 
 void
-initimage(pwin)
-    perwindow *pwin;
+initimage(perwindow *pwin)
 {
     XWindowAttributes xgwa;
     imagestruct *ip;

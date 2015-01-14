@@ -239,8 +239,7 @@ static argtype modevars[] = {
 
 
 static void
-Syntax(badOption)
-    char       *badOption;
+Syntax(char *badOption)
 {
     int         col, len, i;
 
@@ -295,7 +294,7 @@ Syntax(badOption)
 }
 
 static void
-Help()
+Help(void)
 {
     int         i;
 
@@ -331,7 +330,7 @@ Help()
 }
 
 static void
-DumpResources()
+DumpResources(void)
 {
     int         i;
 
@@ -354,8 +353,7 @@ DumpResources()
 
 
 static void
-LowerString(s)
-    char       *s;
+LowerString(char *s)
 {
 
     while (*s) {
@@ -366,16 +364,9 @@ LowerString(s)
 }
 
 static void
-GetResource(database, parentname, parentclass,
-	    name, class, valueType, def, valuep)
-    XrmDatabase database;
-    char       *parentname;
-    char       *parentclass;
-    char       *name;
-    char       *class;
-    int         valueType;
-    char       *def;
-    caddr_t    *valuep;		/* RETURN */
+GetResource(XrmDatabase database, char *parentname, char *parentclass,
+            char *name, char *class, int valueType, char *def,
+            caddr_t *valuep /* RETURN */)
 {
     char       *type;
     XrmValue    value;
@@ -435,10 +426,7 @@ GetResource(database, parentname, parentclass,
 
 
 static      XrmDatabase
-parsefilepath(xfilesearchpath, TypeName, ClassName)
-    char       *xfilesearchpath;
-    char       *TypeName;
-    char       *ClassName;
+parsefilepath(char *xfilesearchpath, char *TypeName, char *ClassName)
 {
     XrmDatabase database = NULL;
     char        appdefaults[1024];
@@ -497,15 +485,14 @@ parsefilepath(xfilesearchpath, TypeName, ClassName)
 /**                                                               **/
 /** this function will exit cleanly when the connection is broken **/
 /*******************************************************************/
-static int screenIOErrorHandler(dpy)
-	Display *dpy;
+static int screenIOErrorHandler(Display *dpy)
 {
 	exit(1);
 	return 1;
 }
 
 static void
-open_display()
+open_display(void)
 {
     if (display != NULL) {
 	char       *colon = strchr(display, ':');
@@ -538,9 +525,7 @@ open_display()
 }
 
 void
-printvar(class, var)
-    char       *class;
-    argtype     var;
+printvar(char *class, argtype var)
 {
     switch (var.type) {
     case t_String:
@@ -565,9 +550,7 @@ printvar(class, var)
 
 
 void
-GetResources(argc, argv)
-    int         argc;
-    char       *argv[];
+GetResources(int argc, char *argv[])
 {
     XrmDatabase RDB = NULL;
     XrmDatabase modeDB = NULL;

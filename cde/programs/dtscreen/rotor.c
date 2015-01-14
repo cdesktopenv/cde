@@ -101,8 +101,7 @@ typedef struct flightstruct {
 
 
 void
-initrotor(pwin)
-    perwindow *pwin;
+initrotor(perwindow *pwin)
 {
     flightstruct *fs;
     XWindowAttributes xgwa;
@@ -167,8 +166,7 @@ initrotor(pwin)
 }
 
 void
-drawrotor(pwin)
-    perwindow *pwin;
+drawrotor(perwindow *pwin)
 {
     register flightstruct *fs;
     register struct elem *pelem;

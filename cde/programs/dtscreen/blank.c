@@ -44,14 +44,12 @@
 
 /*ARGSUSED*/
 void
-drawblank(pwin)
-    perwindow  *pwin;
+drawblank(perwindow *pwin)
 {
 }
 
 void
-initblank(pwin)
-    perwindow  *pwin;
+initblank(perwindow *pwin)
 {
     XClearWindow(dsp, pwin->w);
 }

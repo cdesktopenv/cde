@@ -321,9 +321,7 @@ const int  patterns[][128] = {
 
 
 static void
-drawcell(pwin, row, col)
-    perwindow *pwin;
-    int         row, col;
+drawcell(perwindow *pwin, int row, int col)
 {
     lifestruct *lp;
 
@@ -352,9 +350,7 @@ drawcell(pwin, row, col)
 
 
 static void
-erasecell(pwin, row, col)
-    perwindow *pwin;
-    int         row, col;
+erasecell(perwindow *pwin, int row, int col)
 {
     lifestruct *lp = (lifestruct *)pwin->data;
     XSetForeground(dsp, pwin->gc, BlackPixelOfScreen(pwin->perscreen->screen));
@@ -364,9 +360,7 @@ erasecell(pwin, row, col)
 
 
 static void
-spawn(pwin, loc)
-    perwindow *pwin;
-    unsigned char *loc;
+spawn(perwindow *pwin, unsigned char *loc)
 {
     lifestruct *lp = (lifestruct *)pwin->data;
     unsigned char *ulloc, *ucloc, *urloc, *clloc, *crloc, *llloc, *lcloc, *lrloc,
@@ -421,9 +415,7 @@ spawn(pwin, loc)
 
 
 static void
-life_kill(pwin, loc)
-    perwindow *pwin;
-    unsigned char *loc;
+life_kill(perwindow *pwin, unsigned char *loc)
 {
     lifestruct *lp = (lifestruct *)pwin->data;
 
@@ -478,10 +470,7 @@ life_kill(pwin, loc)
 
 
 static void
-setcell(pwin, row, col)
-    perwindow *pwin;
-    int         row;
-    int         col;
+setcell(perwindow *pwin, int row, int col)
 {
     lifestruct *lp = (lifestruct *)pwin->data;
     unsigned char *loc;
@@ -493,7 +482,7 @@ setcell(pwin, row, col)
 
 
 static void
-init_fates()
+init_fates(void)
 {
     int         i, bits, neighbors;
 
@@ -512,8 +501,7 @@ init_fates()
 
 
 void
-initlife(pwin)
-    perwindow *pwin;
+initlife(perwindow *pwin)
 {
     int         row, col;
     int        *patptr;
@@ -580,8 +568,7 @@ initlife(pwin)
 
 
 void
-drawlife(pwin)
-    perwindow *pwin;
+drawlife(perwindow *pwin)
 {
     unsigned char *loc, *temploc, *lastloc;
     int         row, col;

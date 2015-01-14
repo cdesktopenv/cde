@@ -90,8 +90,7 @@ typedef struct {
 
 #if !defined(CSRG_BASED) && !defined(sun)
 int
-round(x)
-    float       x;
+round(float x)
 {
     return ((int) floor((double) x));
 }
@@ -99,11 +98,7 @@ round(x)
 
 
 void
-worm_doit(pwin, wp, which, color)
-    perwindow *pwin;
-    wormstruct *wp;
-    int         which;
-    unsigned long color;
+worm_doit(perwindow *pwin, wormstruct *wp, int which, unsigned long color)
 {
     wormstuff  *ws = &wp->worm[which];
     int         x, y;
@@ -137,8 +132,7 @@ worm_doit(pwin, wp, which, color)
 
 
 void
-initworm(pwin)
-    perwindow *pwin;
+initworm(perwindow *pwin)
 {
     int         i, j;
     wormstruct *wp;
@@ -199,8 +193,7 @@ initworm(pwin)
 
 
 void
-drawworm(pwin)
-    perwindow *pwin;
+drawworm(perwindow *pwin)
 {
     int         i;
     wormstruct *wp = (wormstruct *)pwin->data;

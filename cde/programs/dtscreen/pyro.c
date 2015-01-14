@@ -143,8 +143,7 @@ static int  orig_p_ignite;
 static int  just_started = True;/* Greet the user right away */
 
 void
-initpyro(pwin)
-    perwindow *pwin;
+initpyro(perwindow *pwin)
 {
     pyrostruct *pp;
     rocket     *rp;
@@ -210,8 +209,7 @@ initpyro(pwin)
 
 /*ARGSUSED*/
 void
-drawpyro(pwin)
-    perwindow *pwin;
+drawpyro(perwindow *pwin)
 {
     pyrostruct *pp;
     rocket     *rp;
@@ -239,9 +237,7 @@ drawpyro(pwin)
 }
 
 static void
-ignite(pwin, pp)
-    perwindow *pwin;
-    pyrostruct *pp;
+ignite(perwindow *pwin, pyrostruct *pp)
 {
     rocket     *rp;
     int         multi, shelltype, nstars, fuse, npix, pix, color1, color2;
@@ -292,10 +288,7 @@ ignite(pwin, pp)
 }
 
 static void
-animate(pwin, pp, rp)
-    perwindow *pwin;
-    pyrostruct *pp;
-    rocket     *rp;
+animate(perwindow *pwin, pyrostruct *pp, rocket *rp)
 {
     int         starn;
     float       r, theta;
@@ -329,10 +322,7 @@ animate(pwin, pp, rp)
 }
 
 static void
-shootup(pwin, pp, rp)
-    perwindow *pwin;
-    pyrostruct *pp;
-    rocket     *rp;
+shootup(perwindow *pwin, pyrostruct *pp, rocket *rp)
 {
     XFillRectangle(dsp, pwin->w, pp->bgGC, (int) (rp->x), (int) (rp->y),
 		   ROCKETW, ROCKETH + 3);
@@ -350,10 +340,7 @@ shootup(pwin, pp, rp)
 }
 
 static void
-burst(pwin, pp, rp)
-    perwindow *pwin;
-    pyrostruct *pp;
-    rocket     *rp;
+burst(perwindow *pwin, pyrostruct *pp, rocket *rp)
 {
     register int starn;
     register int nstars, stype;

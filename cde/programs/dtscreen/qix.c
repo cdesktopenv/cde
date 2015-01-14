@@ -78,8 +78,7 @@ typedef struct {
 }           qixstruct;
 
 void
-initqix(pwin)
-    perwindow *pwin;
+initqix(perwindow *pwin)
 {
     XWindowAttributes xgwa;
     qixstruct  *qp;
@@ -128,8 +127,7 @@ initqix(pwin)
 }
 
 void
-drawqix(pwin)
-    perwindow *pwin;
+drawqix(perwindow *pwin)
 {
     qixstruct  *qp = (qixstruct  *)pwin->data;
 

@@ -62,7 +62,7 @@ usleep(unsigned long usec)
  * This is used to control rate and timeout in many of the animations.
  */
 long
-seconds()
+seconds(void)
 {
     struct timeval now;
 

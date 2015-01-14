@@ -72,8 +72,7 @@ static XPoint *pointBuffer = 0;	/* pointer for XDrawPoints */
 #define TIMEOUT 30
 
 void
-inithop(pwin)
-    perwindow *pwin;
+inithop(perwindow *pwin)
 {
     double      range;
     XWindowAttributes xgwa;
@@ -112,8 +111,7 @@ inithop(pwin)
 
 
 void
-drawhop(pwin)
-    perwindow *pwin;
+drawhop(perwindow *pwin)
 {
     double      oldj;
     int         k = batchcount;

@@ -150,7 +150,7 @@ error(s1, s2)
  * Restore all grabs, reset screensaver, restore colormap, close connection.
  */
 static void
-finish()
+finish(void)
 {
     XSync(dsp, False);
     if (winprop) 
@@ -161,7 +161,7 @@ finish()
 
 
 static void
-justDisplay()
+justDisplay(void)
 {
     XEvent      event;
     int window;
@@ -186,10 +186,7 @@ justDisplay()
 
 
 long
-allocpixel(cmap, name, def)
-    Colormap    cmap;
-    char       *name;
-    char       *def;
+allocpixel(Colormap cmap, char *name, char *def)
 {
     XColor      col;
     XColor      tmp;
@@ -214,9 +211,7 @@ allocpixel(cmap, name, def)
 
 
 int
-main(argc, argv)
-    int         argc;
-    char       *argv[];
+main(int argc, char *argv[])
 {
     XSetWindowAttributes xswa;
     XGCValues   xgcv;

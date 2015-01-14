@@ -72,8 +72,7 @@ typedef struct {
 }           swarmstruct;
 
 void
-initswarm(pwin)
-    perwindow *pwin;
+initswarm(perwindow *pwin)
 {
     XWindowAttributes xgwa;
     swarmstruct *sp;
@@ -127,8 +126,7 @@ initswarm(pwin)
 
 
 void
-drawswarm(pwin)
-    perwindow *pwin;
+drawswarm(perwindow *pwin)
 {
     swarmstruct *sp;
     int         b;

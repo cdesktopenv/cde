@@ -65,8 +65,7 @@ typedef struct {
 }           flamestruct;
 
 static short
-halfrandom(mv)
-    int         mv;
+halfrandom(int mv)
 {
     static short lasthalf = 0;
     unsigned long r;
@@ -82,8 +81,7 @@ halfrandom(mv)
 }
 
 void
-initflame(pwin)
-    perwindow      *pwin;
+initflame(perwindow *pwin)
 {
     XWindowAttributes xwa;
     flamestruct *fs;
@@ -113,11 +111,8 @@ initflame(pwin)
     }
 }
 
-static      Bool
-recurse(fs, x, y, l)
-    flamestruct *fs;
-    register double x, y;
-    register int l;
+static Bool
+recurse(flamestruct *fs, double x, double y, int l)
 {
     int         i;
     double      nx, ny;
@@ -154,8 +149,7 @@ recurse(fs, x, y, l)
 
 
 void
-drawflame(pwin)
-    perwindow *pwin;
+drawflame(perwindow *pwin)
 {
     flamestruct *fs = (flamestruct *)pwin->data;
 
