@@ -53,6 +53,7 @@
 #include <values.h>
 #endif
 #include <stdio.h>
+#include <stdint.h>
 
 #include <Xm/XmAll.h>
 #include <Xm/ActivatableT.h>
@@ -1465,7 +1466,7 @@ DestinationChangedCallback(
 	 * button
 	 */
 	XtVaGetValues(w, XmNuserData, &user_data, NULL);
-	PSUB_PrintDestination(psub) = (XtEnum)user_data;
+	PSUB_PrintDestination(psub) = (XtEnum) (intptr_t) user_data;
 	/*
 	 * Update the print setup box controls sensitivity accordingly
 	 */
