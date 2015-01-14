@@ -731,5 +731,5 @@ _DtActionCompareRecordBoson(
 	if (results)
 		return(results);
 
-	return((int)record1 - (int)record2);
+	return((intptr_t)record1 - (intptr_t)record2);
 }

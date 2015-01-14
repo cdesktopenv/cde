@@ -1197,7 +1197,7 @@ type_path(const char *path, char *attr)
 	char	*c;
 	int	match = 0;
 
-	if(path && (int)path != -1)
+	if(path && (intptr_t)path != -1)
 	{
 #ifdef USE_FNMATCH
 		match = !fnmatch(attr, path, 0);

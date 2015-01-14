@@ -36,6 +36,7 @@
 #include <bms/sbport.h> /* NOTE: sbport.h must be the first include. */
 
 #include <signal.h>
+#include <stdint.h>
 
 #include <bms/bms.h>
 #include <bms/Symbolic.h>
@@ -50,7 +51,7 @@ static void Xe_addsig(XeString name, int value)
 /*-------------------------------------------------------------------------+*/
 {
     XeSymbol sym = Xe_intern(Xe_sig_table, name);
-    sym->value = (void *)value;
+    sym->value = (void *) (intptr_t) value;
 }
 
 /*-------------------------------------------------------------------------+*/
@@ -162,7 +163,7 @@ int XeNameToSignal(XeString name)
     sym = Xe_lookup(Xe_sig_table, name);
 
     _DtSvcProcessUnlock();
-    return (sym) ? (int) sym->value : XE_SIG_NOT_IN_TABLE;
+    return (sym) ? (intptr_t) sym->value : XE_SIG_NOT_IN_TABLE;
 }
 
 /*-------------------------------------------------------------------------+*/

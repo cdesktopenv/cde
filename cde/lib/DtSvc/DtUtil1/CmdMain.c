@@ -951,13 +951,19 @@ _DtCmdCommandInvokerExecute (
        * Save the current directory and then "chdir" to the directory
        * to do the execution.  If the chdir fails, return.
        */
-      (void) getcwd (tmpDir, MAXPATHLEN);
+      if(NULL == getcwd (tmpDir, MAXPATHLEN))
+      {
+	 perror(strerror(errno));
+	 return (_CMD_EXECUTE_FAILURE);  
+      }
 
       if (!_DtCmdValidDir (_cmdClientHost, contextDir, contextHost)) 
       {
 	 Cmd_FreeAllocatedStringVector (commandArray);
 	 (void) sprintf (errorMessage, errorChdir, contextDir, execHost);
-	 (void) chdir (tmpDir);
+	 if(-1 == chdir (tmpDir)) {
+            perror(strerror(errno));
+         }
 	 return (_CMD_EXECUTE_FAILURE);
       }
 
@@ -981,7 +987,9 @@ _DtCmdCommandInvokerExecute (
       if (commandPid < 0) 
       {
 	 Cmd_FreeAllocatedStringVector (commandArray);
-	 (void) chdir (tmpDir);
+	 if(-1 == chdir (tmpDir)) {
+	     perror(strerror(errno)); 
+         }
          (void) sprintf(errorMessage, errorFork, execHost);
          (void) _DtEnvControl (DT_ENV_RESTORE_POST_DT);
 	 return (_CMD_EXECUTE_FAILURE);

@@ -41,6 +41,7 @@
 #include <stdarg.h>
 #include <sys/utsname.h>
 #include <limits.h>
+#include <stdint.h>
 
 #define X_INCLUDE_PWD_H
 #define XOS_USE_XT_LOCKING
@@ -652,7 +653,7 @@ int print_protocol_request(XeString name, protocol_request_ptr proto)
   dptr->data[dptr->offset+dptr->len]=0;
   
   fprintf(SPC_Print_Protocol,
-	  "%s channel: %x, request: %d, length: %d, seq: %d data: %s\n",
+	  "%s channel: %p, request: %d, length: %d, seq: %d data: %s\n",
 	  name, proto->channel, proto->request_type, dptr->len, proto->seqno,
 	  dptr->data+dptr->offset);
 
@@ -691,7 +692,7 @@ int SPC_Write_Protocol_Request (SPC_Connection_Ptr connection,
   /* We are overloading the "channel" field.  We put the cid rather  */
   /* than the actual channel pointer in when we pass it to the other */
   /* side of the connection.					     */
-  prot_request->channel=(SPC_Channel_Ptr)(channel ? channel->cid : 0);
+  prot_request->channel=(SPC_Channel_Ptr) (intptr_t) (channel ? channel->cid : 0);
   
   switch (request) {
 

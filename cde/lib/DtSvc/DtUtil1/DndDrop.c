@@ -53,6 +53,7 @@
 
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <X11/Intrinsic.h> 
 #include <Xm/AtomMgr.h> 
 #include <Xm/DragDrop.h>
@@ -428,7 +429,7 @@ DtDndDropUnregister(
 			dndDropSiteDestroy, NULL);
 
 	XDeleteContext(display, dndGetContextXID(display), 
-		(XContext)dropReceiver);
+		(XContext)(intptr_t)dropReceiver);
 
 	_DtDndDestroyTransfers(dtDropInfo->transfers, dtDropInfo->numTransfers);
 
@@ -1020,7 +1021,7 @@ dndSaveDropInfo(
 	int		status;
 
 	status = XSaveContext(display, dndGetContextXID(display),
-		(XContext)dropReceiver, (XPointer)dtDropInfo);
+		(XContext)(intptr_t)dropReceiver, (XPointer)dtDropInfo);
 
 	return (status == 0);
 }
@@ -1039,7 +1040,7 @@ dndFindDropInfo(
 	DtDropInfo *	dtDropInfo;
 
 	status = XFindContext(display, dndGetContextXID(display), 
-		(XContext)dropReceiver, (XPointer *)&dtDropInfo);
+		(XContext)(intptr_t)dropReceiver, (XPointer *)&dtDropInfo);
 
 	if (status != 0)
 		dtDropInfo = (DtDropInfo *)NULL;

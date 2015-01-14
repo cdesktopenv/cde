@@ -498,7 +498,7 @@ getDragCollection(
 	int		status;
 
 	_DtSvcProcessLock();
-	if (dragCollectionContext == (XContext)NULL) {
+	if (dragCollectionContext == (XContext)0) {
 		dragCollectionContext = XUniqueContext();
 	}
 	_DtSvcProcessUnlock();

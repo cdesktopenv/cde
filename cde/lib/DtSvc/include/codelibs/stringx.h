@@ -140,7 +140,7 @@ inline void  strfree(const char *s)
 #if defined(__hpux) || defined(__osf__) || defined(CSRG_BASED)
 	{ if (s != NULL) free((void *)s); }
 #else
-	{ if (s != NULL) free((const void *)s); }
+	{ if (s != NULL) free((void *)s); }
 #endif /* __hpux */
 #endif
 #if defined(bsd)
