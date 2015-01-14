@@ -1074,7 +1074,7 @@ done:
    }
    /* WARNING: depends on pointers and integers the same size */
 #ifdef __LP64__
-   return (NULL == ((int64_t)hit|(int64_t)posFile|(int64_t)locationIdList)) ? -1 : 0;
+   return (0 == ((int64_t)hit|(int64_t)posFile|(int64_t)locationIdList)) ? -1 : 0;
 #else
    return (0 == ((int)hit|(int)posFile|(int)locationIdList)) ? -1 : 0;
 #endif

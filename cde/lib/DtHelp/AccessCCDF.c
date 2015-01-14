@@ -1377,7 +1377,7 @@ _DtHelpCeGetCcdfDocStamp (
 	    *ret_time = (char *) malloc (sizeof(time_t) * 3 + 1);
 	    if (*ret_time != NULL)
 	      {
-		sprintf(*ret_time, "%u", buf.st_mtime);
+		sprintf(*ret_time, "%u", (unsigned) buf.st_mtime);
 		return -2;
 	      }
 	  }

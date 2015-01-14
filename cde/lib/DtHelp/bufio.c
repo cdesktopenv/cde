@@ -50,6 +50,7 @@
 #include    <errno.h>
 #include    <stdio.h>
 #include    <stdlib.h>
+#include    <stdint.h>
 #include    <unistd.h>
 #include    "bufioI.h"
 
@@ -62,7 +63,7 @@ extern int errno;
 #define MIN(a,b) (((a) < (b)) ? (a) : (b))
 #endif
 
-#define FileDes(f)		((int) (f)->hidden)
+#define FileDes(f)		((intptr_t) (f)->hidden)
 #define CompressFileDes(f)	(((CECompressInfoPtr) (f)->hidden)->fd)
 #define CompressSize(f)		(((CECompressInfoPtr) (f)->hidden)->size)
 
@@ -122,7 +123,7 @@ _DtHelpCeBufFileOpenWr (int fd)
 {
     BufFilePtr	f;
 
-    f = _DtHelpCeBufFileCreate ((char *) fd, BufFileRawFlush, NULL, _DtHelpCeBufFileFlush);
+    f = _DtHelpCeBufFileCreate ((char *) (intptr_t) fd, BufFileRawFlush, NULL, _DtHelpCeBufFileFlush);
     f->bufp = f->buffer;
     f->left = BUFFILESIZE;
     return f;
@@ -316,7 +317,7 @@ _DtHelpCeBufFileCreate (
 BufFilePtr
 _DtHelpCeBufFileRdWithFd (int fd)
 {
-    return _DtHelpCeBufFileCreate ((char *) fd, FdRawRead, BufFileRawSkip, FdClose);
+    return _DtHelpCeBufFileCreate ((char *) (intptr_t) fd, FdRawRead, BufFileRawSkip, FdClose);
 }
 
 /*****************************************************************************

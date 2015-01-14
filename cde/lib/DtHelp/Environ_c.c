@@ -88,7 +88,10 @@ char * _DtCliSrvGetDtUserSession()
 	  return NULL;
 	}
 	*display = 0;
-	fgets(display, BUFSIZ, pp);
+	if(NULL == fgets(display, BUFSIZ, pp)) {
+	   perror("fgets() failed to read");
+	   return NULL;	
+	}
 	while (isspace(display[strlen(display)-1]))
 	  display[strlen(display)-1] = 0;
 	pclose(pp);
