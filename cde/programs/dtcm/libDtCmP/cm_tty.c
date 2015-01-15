@@ -2112,7 +2112,7 @@ appointments_to_file(CSA_session_handle target, CSA_entry_handle *appointment_li
 
 	fclose(f_ptr);
 
-
+	return(B_TRUE);
 }
 
 /*
