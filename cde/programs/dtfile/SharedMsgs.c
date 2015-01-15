@@ -66,7 +66,7 @@
 #include "SharedMsgs.h"
 
 
-
+static char unknownmessage[] = "***Unknown shared message***";
 
 /************************************************************************
  *
@@ -150,5 +150,8 @@ GetSharedMessage(
          return GETMESSAGE(30,21, "File Move Error");
       case FILE_LINK_ERROR_TITLE:
          return GETMESSAGE(30,22, "File Link Error");
+      default:
+         fprintf(stderr, "GetSharedMessage: unknown message %d\n", id);
+         return unknownmessage;
    }
 }
