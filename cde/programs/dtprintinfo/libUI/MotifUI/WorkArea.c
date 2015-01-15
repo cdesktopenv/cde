@@ -85,7 +85,7 @@ static void ChangeManaged(WorkAreaWidget);
 static void Redisplay(WorkAreaWidget, XEvent *, Region);
 static void CreateGC(WorkAreaWidget);
 static void NewLayout(WorkAreaWidget);
-static int ComputePositions(WorkAreaWidget, Widget, Dimension *, Dimension *,
+static void ComputePositions(WorkAreaWidget, Widget, Dimension *, Dimension *,
                             Dimension, Dimension, int *, int *, int, int *);
 static void SetPositions(WorkAreaWidget, Widget);
 static int OpenedSubnodes(Widget);
@@ -1042,7 +1042,7 @@ NewLayout(
  *   FUNCTION: 
  *   RETURNS:  
  */
-static int
+static void
 ComputePositions(
    WorkAreaWidget workArea,
    Widget w,
