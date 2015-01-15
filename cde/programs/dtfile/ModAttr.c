@@ -201,7 +201,7 @@ static void WriteResourceValues(
                         char **name_list) ;
 static void FreeValues(
                         ModAttrData *modAttr_data) ;
-static XtCallbackProc OkCallback(
+static void OkCallback(
                         Widget w,
                         ModAttrApply *apply_data,
                         XtPointer call_data) ;
@@ -1854,7 +1854,7 @@ FreeValues(
  *
  ************************************************************************/
 
-static XtCallbackProc
+static void
 OkCallback(
         Widget w,
         ModAttrApply *apply_data,
@@ -1873,9 +1873,9 @@ OkCallback(
   old = (ModAttrData *) old_dialog->data;
 
   if(RecheckFlag(NULL,w))
-    return None;
+    return;
   else if(RecheckFlag(NULL,close))
-    return None;
+    return;
 
   new_attr_data = (ModAttrData *) XtCalloc (1, sizeof (ModAttrData));
   new_attr_data->displayed = True;
