@@ -1629,4 +1629,6 @@ pd_get_bad_alloc_error(Calendar *c)
 
   if (pd != (_DtCmPrintData *)NULL)
       return pd->badAllocError;
+      
+  return False;
 }
