@@ -275,7 +275,7 @@ AttrChangeProcess(
 {
   char *path;
   struct stat stat_buf;
-  long modify_time;
+  long modify_time = 0;
   short pipe_msg;
   int rc = -1;
   Tt_status tt_status;
