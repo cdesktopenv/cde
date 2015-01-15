@@ -342,7 +342,7 @@ _DtCmsClassToViewAccess(cms_entry *entry)
 		return (CSA_VIEW_CONFIDENTIAL_ENTRIES);
 	}
 	
-	fprintf(stderr, "_DtCmsClassToInsertAccess: Unsupported Class %u\n", val->item.uint32_value);
+	fprintf(stderr, "_DtCmsClassToInsertAccess: Unsupported Class %lu\n", val->item.uint32_value);
 	exit(EXIT_FAILURE);
 }
 
@@ -361,6 +361,9 @@ _DtCmsClassToInsertAccess(cms_entry *entry)
 	case CSA_CLASS_CONFIDENTIAL:
 		return (CSA_INSERT_CONFIDENTIAL_ENTRIES);
 	}
+
+	fprintf(stderr, "_DtCmsClassToInsertAccess: Unsupported Class %lu\n", val->item.uint32_value);
+	exit(EXIT_FAILURE);
 }
 
 extern uint
