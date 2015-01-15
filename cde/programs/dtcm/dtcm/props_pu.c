@@ -2312,6 +2312,7 @@ p_flush_changes(Calendar *c) {
 		else if (answer == 3) {
 			return(False);
 		}
+		return(True);
 	}
 	else
 		return(True);
