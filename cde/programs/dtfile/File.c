@@ -1744,7 +1744,7 @@ GetSelectedCount(
         DesktopRec * desktopRec,
         int * dt)
 {
-   int selectedCount;
+   int selectedCount = 0;
    char * wsName;
    Atom pCurrent;
 
