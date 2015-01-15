@@ -4934,7 +4934,7 @@ DropOnRootCB (
    int numFiles;
    int effScreenWidth;
    int effScreenHeight;
-   int start_x, start_y;
+   int start_x = 0, start_y = 0;
    int root_x, root_y;
    int step, dstep;
 
