@@ -597,5 +597,7 @@ time_t cm_getdate(char *p, struct timeb *now)
 	return sdate;
 }
 
-yyerror(s) char *s;
-{}
+void
+yyerror(char *s)
+{
+}
