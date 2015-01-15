@@ -4936,7 +4936,7 @@ DropOnRootCB (
    int effScreenHeight;
    int start_x = 0, start_y = 0;
    int root_x, root_y;
-   int step, dstep;
+   int step = 0, dstep;
 
    /* Check the protocol, set to failure if not the */
    /* File Transfer protocol                        */
