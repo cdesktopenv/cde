@@ -1465,6 +1465,11 @@ GetSelectionRectangle(
                         else
                            pixmap_x = x + highlightThickness;
                      }
+                     else
+                     {
+                        fprintf(stderr, "GetSelectionRectangle: unsupported alignment %d , defaulting to Beginning\n", alignment);
+                        pixmap_x = x + highlightThickness;
+                     }
                      break;
                   case XmPIXMAP_LEFT:
                   default:
