@@ -751,6 +751,8 @@ get_month(char *month)
 		return (10);
 	if (strncmp(month, "Dec", 3) == 0)
 		return (11);
+		
+	return (-1);
 }
 
 time_t
