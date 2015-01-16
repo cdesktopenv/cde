@@ -400,6 +400,7 @@ int num;
 */
 }
 
+void
 dmpscope(name,sc,num)
 FontScope sc;
 int num;
