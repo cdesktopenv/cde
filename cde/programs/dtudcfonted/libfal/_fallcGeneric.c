@@ -576,7 +576,8 @@ XLCdGenericPart *gen;
     return (&new_list[num]);
 
 }
-static read_segmentconversion(lcd,gen)
+static int
+read_segmentconversion(lcd,gen)
 XLCd lcd;
 XLCdGenericPart *gen;
 {
@@ -674,6 +675,8 @@ XLCdGenericPart *gen;
                 falparse_scopemaps(value[0],&conversion->conv_num);
         }
     }  /* loop end */
+
+    return 1;
 }
 
 static ExtdSegment create_ctextseg(value,num)
