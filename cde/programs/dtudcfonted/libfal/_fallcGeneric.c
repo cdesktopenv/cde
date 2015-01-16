@@ -434,7 +434,8 @@ int *new;
     return(charset);
 }
 
-static read_charset_define(lcd,gen)
+static int
+read_charset_define(lcd,gen)
 XLCd lcd;
 XLCdGenericPart *gen;
 {
@@ -551,7 +552,7 @@ XLCdGenericPart *gen;
                 falrmStringToQuark(tmp);
         }
     }
-
+    return 1;
 }
 
 SegConv
