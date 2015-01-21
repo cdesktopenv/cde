@@ -119,7 +119,7 @@ static	Bool	seekToType() ;
 static	void	getMetric() ;
 static	Bool	getAccel() ;
 static	Bool	getProperties() ;
-static	int	putPtn() ;
+static	void	putPtn() ;
 static	void	ByteSwap() ;
 static	int	invertBits() ;
 
@@ -1197,7 +1197,7 @@ unsigned int	glyphPad;
 }
 
 
-static	
+static void
 putPtn( bits, width, height)
 unsigned char   *bits;          /* 1 byte boundary , no byte swap data */
 int     width, height;
