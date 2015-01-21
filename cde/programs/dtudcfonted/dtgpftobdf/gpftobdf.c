@@ -116,7 +116,7 @@ static	void	pfixCHARS();
 static	int 	getarg();
 
 static	Bool	seekToType() ;
-static	int	getMetric() ;
+static	void	getMetric() ;
 static	Bool	getAccel() ;
 static	Bool	getProperties() ;
 static	int	putPtn() ;
@@ -483,7 +483,7 @@ CARD32	*offsetp;
 }
 
 
-static
+static void
 getMetric( buf, format, metric )
 caddr_t 	buf;
 CARD32	format;
