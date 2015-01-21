@@ -121,7 +121,7 @@ static	Bool	getAccel() ;
 static	Bool	getProperties() ;
 static	void	putPtn() ;
 static	void	ByteSwap() ;
-static	int	invertBits() ;
+static	void	invertBits() ;
 
 static	int	getINT16() ;
 static	int	getINT32() ;
@@ -1288,7 +1288,7 @@ register int nbytes;
 		*buf = rev[*buf];
 }
 
-static
+static void
 invertBits( src, format, width, height, dest)
 char    *src;
 CARD32  format;
