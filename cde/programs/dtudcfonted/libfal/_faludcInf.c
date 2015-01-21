@@ -366,6 +366,8 @@ XlcCharSet 	charset;
 	}
     }
 }
+
+void
 falmake_none_standard(from,charset,src)
 char *from;
 XlcCharSet 	charset;
