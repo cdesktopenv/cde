@@ -120,7 +120,7 @@ static	void	getMetric() ;
 static	Bool	getAccel() ;
 static	Bool	getProperties() ;
 static	int	putPtn() ;
-static	int	ByteSwap() ;
+static	void	ByteSwap() ;
 static	int	invertBits() ;
 
 static	int	getINT16() ;
@@ -1216,7 +1216,7 @@ int     width, height;
 
 }
 
-static
+static void
 ByteSwap( p, scan)
 char    *p;
 int     scan;
