@@ -387,6 +387,7 @@ int *size;
         return (scope);
 }
 
+void
 dbg_printValue(str,value,num)
 char *str;
 char **value;

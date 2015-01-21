@@ -81,7 +81,7 @@ extern Status _falmbGenericTextPerCharExtents(), _falwcGenericTextPerCharExtents
 extern int _falmbGenericDrawString(), _falwcGenericDrawString();
 extern void _falmbGenericDrawImageString(), _falwcGenericDrawImageString();
 
-extern dbg_printValue();
+extern void dbg_printValue(char *str, char **value, int num);
 
 /* For VW/UDC start */
 
