@@ -1717,7 +1717,8 @@ int *vrotate_num;
     }
 }
 
-static read_vw(lcd,font_set,num)
+static void
+read_vw(lcd,font_set,num)
 XLCd    lcd;
 OMData  font_set;
 int num;
