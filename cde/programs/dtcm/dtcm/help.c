@@ -52,6 +52,7 @@ static char sccsid[] = "@(#)help.c 1.19 95/03/28 Copyr 1991 Sun Microsystems, In
 #endif
 
 #include <EUSCompat.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>

@@ -202,7 +202,7 @@
  ***************************************************************************/
 
 /*#if defined(SYSV) && !defined(hpux)*/
-#if defined(SYSV) || defined(SVR4) || defined(linux) || defined(__FreeBSD__)
+#if defined(SYSV) || defined(SVR4) || defined(linux) || defined(__FreeBSD__) || defined(OpenBSD)
 #   include	<sys/wait.h>
 # define waitCode(w)	WEXITSTATUS(w)
 # define waitSig(w)	WTERMSIG(w)
