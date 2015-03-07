@@ -1,3 +1,4 @@
+#!/bin/sh
 ### BEGIN INIT INFO
 # Provides:		lsb-dtlogin
 # Required-Start:	$all
@@ -8,38 +9,36 @@
 # Description:		Dtlogin
 ### END INIT INFO
 
+export PATH="/usr/dt/bin:$PATH"
+OPTIONS="-quiet -daemon"
+
+start(){
+	if [ -z "$(pgrep /usr/dt/bin/dtlogin)" ];
+	then
+		echo " * Starting dtlogin..."
+		export LANG=C
+		/usr/dt/bin/dtlogin $OPTIONS
+	fi
+}
+
+stop(){
+	if [ -n "$(pgrep /usr/dt/bin/dtlogin)" ];
+	then
+		echo " * Stopping dtlogin..."
+		killall /usr/dt/bin/dtlogin
+	fi
+}
+
 case "$1" in
 	'start')
-		if [ -z "$(pgrep dtlogin)" ];
-		then
-			echo " * Starting dtlogin..."
-			export LANG=C
-			exec /usr/dt/bin/dtlogin
-		else
-			echo "DTlogin already running..."
-			exit 0
-		fi
+		start
 	;;
 	'stop')
-		if [ -z "$(pgrep dtlogin)" ];
-		then
-			exit 0
-		else
-			echo " * Stopping dtlogin..."
-			killall /usr/dt/bin/dtlogin
-		fi
+		stop
 	;;
 	'restart')
-		if [ -z "$(pgrep dtlogin)" ];
-		then
-			export LANG=C
-			exec /usr/dt/bin/dtlogin
-		else
-			echo " * Restarting dtlogin..."
-			killall /usr/dt/bin/dtlogin
-			export LANG=C
-			exec /usr/dt/bin/dtlogin	
-		fi
+		stop
+		start
 	;;
 	'status')
 		if [ -z "$(pgrep dtlogin)" ];
