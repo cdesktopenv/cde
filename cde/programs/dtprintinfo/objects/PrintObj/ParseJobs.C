@@ -709,7 +709,7 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
    static char *job_list = NULL;
    static int prev_buf_size = 0;
 
-   sprintf(buf, "lpstat -i -o%s", printer);
+   sprintf(buf, "LANG=C lpstat -i -o%s", printer);
    Invoke *_thread = new Invoke(buf, &output);
 
    if (prev_buf_size == 0)
@@ -868,12 +868,12 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
    static int prev_buf_size = 0;
 
 #if defined(__osf__)
-   sprintf(buf, "lpstat -o%s", printer);
+   sprintf(buf, "LANG=C lpstat -o%s", printer);
 #endif
 #if defined(linux) || defined(__OpenBSD__)
-   snprintf(buf, 1000, "lpq -P%s", printer);
+   snprintf(buf, 1000, "LANG=C lpq -P%s", printer);
 #elif defined(__FreeBSD__)
-   snprintf(buf, 1000, "/usr/local/bin/lpq -P%s", printer);
+   snprintf(buf, 1000, "LANG=C /usr/local/bin/lpq -P%s", printer);
 #endif
 
    Invoke *_thread = new Invoke(buf, &output);
