@@ -854,6 +854,9 @@ _DtTermPrimFillScreenGap(Widget w)
 					    eCol, eIndex, eValues[eIndex]);
 				    }
 
+				    c1 = _DtTermPrimBufferGetCharacterPointer(
+					    tBuffer, i1, eCol);
+
 				    (void) _DtTermPrimBufferInsert(
 					    tpd->historyBuffer,
 					    tpd->lastUsedHistoryRow,
@@ -879,6 +882,10 @@ _DtTermPrimFillScreenGap(Widget w)
 					    eCol, eIndex, 0);
 				    }
 				}
+
+				c1 = _DtTermPrimBufferGetCharacterPointer(
+					tBuffer, i1, eCol);
+
 				(void) _DtTermPrimBufferInsert(
 					tpd->historyBuffer,
 					tpd->lastUsedHistoryRow,
