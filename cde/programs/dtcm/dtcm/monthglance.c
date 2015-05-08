@@ -54,6 +54,7 @@ static  char sccsid[] = "@(#)monthglance.c 1.82 95/07/27 Copyr 1994 Sun Microsys
 #include <EUSCompat.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/param.h> /* MAXPATHLEN defined here */

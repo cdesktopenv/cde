@@ -40,6 +40,7 @@
 #include <Dt/Wsm.h>
 #include <Dt/HelpDialog.h>
 
+#include <stdint.h>
 #include "calctool.h"
 #include "motif.h"
 

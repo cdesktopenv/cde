@@ -37,6 +37,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include <stdint.h>
 
 #ifdef NLS16
 #include <limits.h>

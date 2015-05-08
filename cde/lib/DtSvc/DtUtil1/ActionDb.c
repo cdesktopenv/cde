@@ -43,6 +43,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <ctype.h>
+#include <stdint.h>
 #include <string.h>
 #include <X11/Intrinsic.h>
 

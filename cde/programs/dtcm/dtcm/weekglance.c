@@ -31,6 +31,7 @@
 #include <EUSCompat.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/param.h> /* MAXPATHLEN defined here */

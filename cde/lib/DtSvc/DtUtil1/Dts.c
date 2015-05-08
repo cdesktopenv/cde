@@ -48,6 +48,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <ctype.h>
 #include <sys/mman.h>
 #include <stdio.h>

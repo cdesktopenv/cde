@@ -31,6 +31,7 @@
 #include <EUSCompat.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <ctype.h>

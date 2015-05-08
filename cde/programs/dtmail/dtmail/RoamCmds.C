@@ -76,6 +76,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <pwd.h>
 #include <X11/Intrinsic.h>
 #include <Xm/Text.h>

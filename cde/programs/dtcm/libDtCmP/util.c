@@ -54,6 +54,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <pwd.h> 
 #include <netdb.h> 

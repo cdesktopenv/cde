@@ -70,6 +70,7 @@
 
 
 #include <stdio.h>
+#include <stdint.h>
 #include <X11/Intrinsic.h>
 #include <Xm/Xm.h>
 #include <Xm/DialogS.h>

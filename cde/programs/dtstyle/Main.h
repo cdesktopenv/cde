@@ -50,6 +50,7 @@
  *  #include statements 
  */
 
+#include <stdint.h>
 #include <Xm/Xm.h>
 #include <Xm/XmP.h>
 #include "Font.h"

@@ -54,6 +54,7 @@ static  char sccsid[] = "@(#)calendarA.c 1.196 95/04/12 Copyr 1991 Sun Microsyst
 #include <EUSCompat.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <sys/stat.h>
 #include <sys/param.h> /* MAXPATHLEN defined here */
 #ifdef SVR4

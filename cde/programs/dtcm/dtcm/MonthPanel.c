@@ -59,6 +59,7 @@
  */
 #include <EUSCompat.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <Xm/ManagerP.h>
 #include <Xm/PushBG.h>
 #include <Xm/SeparatoG.h>

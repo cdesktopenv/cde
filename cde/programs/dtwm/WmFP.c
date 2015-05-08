@@ -71,6 +71,7 @@
 
 #include <pwd.h>
 #include <fcntl.h>
+#include <stdint.h>
 #include <sys/stat.h>
 
 

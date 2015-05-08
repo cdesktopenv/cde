@@ -56,6 +56,7 @@
 #define DTPAD_H
 
 #include <stdio.h>
+#include <stdint.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <limits.h>

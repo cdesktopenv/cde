@@ -94,6 +94,7 @@ Author:  Bart Smaalders 1/89
 #include "DtHash.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include <unistd.h>
 
 static int hash_string(const unsigned char * s, int modulo);

@@ -101,6 +101,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdint.h>
 #if defined(CSRG_BASED)
 #include <sys/param.h>
 #include <sys/mount.h>

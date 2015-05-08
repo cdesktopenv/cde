@@ -65,6 +65,7 @@
 #include <X11/keysymdef.h>
 
 #include <langinfo.h>
+#include <stdint.h>
 
 #define MWM_NEED_TIME16
 #include "WmBitmap.h"

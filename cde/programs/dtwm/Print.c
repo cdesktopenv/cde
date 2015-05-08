@@ -45,6 +45,7 @@
 #include <Dt/Dt.h>
 #include "DataBaseLoad.h"
 #include "Parse.h"
+#include <stdint.h>
 
 #ifdef __STDC__
 const char *szWM_TOOL_CLASS = DtWM_TOOL_CLASS;

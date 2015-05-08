@@ -105,6 +105,7 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include <string.h>
+#include <stdint.h>
 #include <sys/stat.h>
 #include <ctype.h>
 
