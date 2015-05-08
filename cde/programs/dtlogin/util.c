@@ -951,48 +951,6 @@ ScanNLSDir(char *dirname)
 }
 #endif /* __osf__obsoleted__ */
 
-#elif defined(sun)
-/*
- * Scan for installed locales on Sun platform.
- */
-{
-    DIR *dirp;
-    struct dirent *dp;
-    char* filename; 
-    char path1[MAXPATHLEN], path2[MAXPATHLEN];
-    struct stat stat1, stat2;
-    int retval1, retval2;
-
-    /* 
-     * To determin the fully installed locale list, check several locations.
-     */
-    if((dirp = opendir(DEF_X11_NLS_SHARE_DIR)) != NULL)
-    {
-        while((dp = readdir(dirp)) != NULL)
-	{
-	    filename = dp->d_name;
-
-	    if  ( filename[0] != '.' &&
-                 (int)(strlen(languageList) +
-		       strlen(filename) + 2) < LANGLISTSIZE)
-	    {
-		(void) sprintf(path1, "%s/%s", DEF_X11_NLS_LIB_DIR, filename);
-		(void) sprintf(path2, "%s/%s", dirname, filename);
-	        retval1 = stat(path1, &stat1);
-	        retval2 = stat(path2, &stat2);
-
-	    	if ( retval1==0 && retval2==0 &&
-		     S_ISDIR(stat1.st_mode) && S_ISDIR(stat2.st_mode) )
-		{
-		    strcat(languageList, " ");
-		    strcat(languageList, filename);
-		}
-            }
-        }
-        closedir(dirp);
-    }
-}
-
 #elif defined(__uxp__) || defined(USL)
 
 #define LC_COLLATE	"LC_COLLATE"

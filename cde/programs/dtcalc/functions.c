@@ -1729,7 +1729,7 @@ do_round(double result, int ndigits)
     int temp;
 
     if (isnan(result)) return result;
-#if defined(_AIX) || defined(__aix) || defined(__osf__)
+#if defined(_AIX) || defined(__aix) || defined(__osf__) || defined(__sparc)
     temp = finite(result);
     if (!temp)
        return (temp > 0) ? HUGE : -HUGE;
@@ -1849,7 +1849,7 @@ try_compute_i(double guess, double *result, int method)
 
 	new_w = w - f / f_prime;
 
-#if defined(_AIX) || defined(__aix) || defined (__osf__)
+#if defined(_AIX) || defined(__aix) || defined (__osf__) || defined(__sparc)
 	if (!(!isnan(new_w) && finite(new_w)))
 	    return FALSE;
 #else

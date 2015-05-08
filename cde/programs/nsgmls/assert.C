@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include "macros.h"
 
-#ifdef __GNUG__
+#if defined(__GNUG__) && !defined(sun)
 void exit(int) __attribute__((noreturn));
 #endif
 

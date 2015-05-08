@@ -117,7 +117,7 @@
   #define DEF_NLS_DIR	"/usr/lib/nls/loc"
 #elif defined(hpV4)
   #define DEF_NLS_DIR	"/usr/lib/nls/msg"
-#elif defined(sun) || defined(__uxp__) || defined(USL)
+#elif defined(__uxp__) || defined(USL)
   #define DEF_NLS_DIR 	 "/usr/lib/locale"
 #else
   #define DEF_NLS_DIR	CDE_INSTALLATION_TOP "/lib/nls/msg"

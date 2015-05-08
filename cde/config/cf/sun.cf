@@ -205,11 +205,14 @@ XCOMM Gnu C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 # elif OSMinorVersion > 3
 #  define InstallCmd	    /usr/ucb/install
 # endif
-# ifdef i386Architecture
-#  define StandardDefines	  -Dsun -Di386 -DSVR4 -D__i386
+# if defined(i386Architecture)
+#  define StandardDefines		-Dsun -Di386 -DSVR4 -D__i386
 #  define ToolkitStringsABIOptions	-intelabi
+# elif defined(SparcArchitecture)
+#  define StandardDefines		-Dsun -Dsparc -DSVR4 -D__sparc
+#  define ToolkitStringsABIOptions	-sparcabi
 # else
-#  define StandardDefines	  -Dsun -DSVR4
+#  define StandardDefines		-Dsun -DSVR4
 #  define ToolkitStringsABIOptions	-sparcabi
 # endif
 # define ExtraLibraries    -lsocket -lnsl
@@ -279,7 +282,7 @@ XCOMM Gnu C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 # if HasGcc2
 #  define SharedLibraryLoadFlags -shared
 #  define ExtraLoadFlags -Wl,-rpath,$(USRLIBDIRPATH)
-#  ifdef i386Architecture
+#  if defined(i386Architecture) || defined(SparcArchitecture)
 #   define CcCmd		gcc
 #  endif
 # else
@@ -374,6 +377,10 @@ man_keywords::								@@\
 #define DtSearchDefines		-DI18N_MSG DtSvcDefines
 #define DtWidgetDefines		DtSearchDefines
 #define DtPrintDefines		DtSearchDefines
+
+#ifndef CompressAllFonts
+#define CompressAllFonts	YES
+#endif
 
 /* For DtHelp TIFF processing routines. */
 #if defined(AMD64Architecture) || defined(i386Architecture)
