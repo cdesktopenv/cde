@@ -88,7 +88,7 @@ typedef struct {
     int         size[MAXCOLORS];
 }           wormstruct;
 
-#if !defined(CSRG_BASED) && !defined(sun)
+#if !defined(CSRG_BASED) && !defined(sun) && !defined(linux)
 int
 round(float x)
 {
