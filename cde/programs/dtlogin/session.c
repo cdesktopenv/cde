@@ -644,8 +644,6 @@ int
 LoadXloginResources( struct display *d )
 {
     char	cmd[1024];
-    char	*language = NULL;
-    char	*lang_key="";
     char	*authority="";
     char	*auth_key="";
     char        *resources = NULL;
@@ -674,27 +672,6 @@ LoadXloginResources( struct display *d )
 		authority = d->authFile;
 		auth_key = "XAUTHORITY=";
 	}
-
-	if (d->language && strlen(d->language) > 0 ) {
-		language = strdup(d->language);
-		lang_key = "-D";
-	}
-
-	/*
-	 *  replace any "-" or "." in the language name with "_". The C
-	 *  preprocessor used by xrdb does not accept "-" or "." in a name.
-	 */
-	 
-	while ( (p = strchr(language, '-')) != NULL ) {
-	    *p = '_';
-	}
-	 
-	while ( (p = strchr(language, '.')) != NULL ) {
-	    *p = '_';
-	}
-		    
-	free(language);
-
 
 	Debug("LoadXloginResources - loading resource db from %s\n", resources);
 	if((XresourceDB = XrmGetFileDatabase(resources)) == NULL)

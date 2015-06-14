@@ -123,6 +123,9 @@ extern int errno;
 #  ifdef __FreeBSD__
 #   define USE_CRYPT
 #  endif
+#  ifdef __OpenBSD__
+#   define USE_CRYPT
+#  endif
 #  ifdef sun
 #   define USE_CRYPT
 #   if (OSMAJORVERSION >= 4)

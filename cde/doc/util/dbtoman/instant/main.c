@@ -585,7 +585,7 @@ ReadESIS(
 		stripNL(buf);
 		if (do_DATAhack && (buf[0] == '\\') && (buf[1] == 'n') )	{
 			buf[0] = -1;		/* simulate "^" command */
-			memcpy(&buf[1], &buf[2], strlen(buf)-1);
+			memmove(&buf[1], &buf[2], strlen(buf)-1);
 		}
 		cont[ncont].ch.data = strdup(buf);
 		cont[ncont].type = CMD_DATA;
