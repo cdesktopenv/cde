@@ -1969,7 +1969,7 @@ _DtTermPrimBufferDeleteLine
     copyLength = MAX(0, MIN(ROWS(tb), lastUsedRow) - source - length);
     if (copyLength > 0) {
 #ifdef	USE_MEMCPY
-	(void) memcpy(&(LINE_OF_TBUF(tb, source)),
+	(void) memmove(&(LINE_OF_TBUF(tb, source)),
                       &(LINE_OF_TBUF(tb, source + length)),
 		      copyLength * sizeof(TermLine));
 #else	/* USE_MEMCPY */
