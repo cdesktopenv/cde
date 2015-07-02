@@ -1523,7 +1523,7 @@ create_multicollide_dialog(Widget           parent_widget,
     s1 = (char *)XtCalloc( 1, 1 );
   else if ( nChanged == 1 )
   {
-    s1 = eMsgOne;
+    s1 = XtNewString(eMsgOne);
   }
   else
   {
