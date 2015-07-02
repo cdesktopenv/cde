@@ -1665,7 +1665,7 @@ TrimErrorlog( void )
     
     len = strlen(home) + strlen(DtPERSONAL_CONFIG_DIRECTORY) + 2;
     if (len > MAXPATHLEN) savePath = SM_REALLOC(savePath, len);
-    snprintf(savePath, len - 1, "%s/%s", home, DtPERSONAL_CONFIG_DIRECTORY);
+    snprintf(savePath, len, "%s/%s", home, DtPERSONAL_CONFIG_DIRECTORY);
     
     /*
      * If errorlog.old exists and it is not empty, delete
