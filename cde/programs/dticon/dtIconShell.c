@@ -889,7 +889,7 @@ build_dtIconShell( void )
         /* GETSTR uses a static buffer which may be overwritten */
         /* on subsequent calls, so save character in mnemonic   */
         char *        mnemonicStr;
-        char          mnemonic;
+        KeySym        mnemonic;
 
         /* use tmpStr as tmp string holder so GETSTR won't trash string */
         tmpStr2 = GETSTR(12,3, "Icon Editor - (UNTITLED)");
