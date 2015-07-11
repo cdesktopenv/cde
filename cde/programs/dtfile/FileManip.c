@@ -545,10 +545,10 @@ MoveDir(
          /* pass in geometry, and other command lines params when available */
 	 if(type == TRASH_DIRECTORY)
            rc = execlp(DTCOPY, "dtfile_copy", "-move", "-confirmReplace",
-		 "-confirmErrors", "-popDown","-checkPerms", source, target, 0);
+		 "-confirmErrors", "-popDown","-checkPerms", source, target, NULL);
 	 else
            rc = execlp(DTCOPY, "dtfile_copy", "-move", "-confirmReplace",
-		 "-confirmErrors", "-popDown", source, target, 0);
+		 "-confirmErrors", "-popDown", source, target, NULL);
 
          /* call errorhandler */
          perror ("Could not exec child process \"dtfile_copy\"");
