@@ -508,8 +508,7 @@ char translations_da[] = "\
 :<Key>osfPageUp:FMInput(@)\n\
 :<Key>F1:DrawingAreaInput() ManagerGadgetHelp()\n\
 s c a <Key>c: ActivateClist(@)\n\
-~s ~m ~a <Key>Return:DrawingAreaInput() ManagerParentActivate()\n\
-<Key>Return:DrawingAreaInput() ManagerGadgetSelect()\n\
+~s ~m ~a <Key>Return:DrawingAreaInput() ManagerParentActivate() ManagerGadgetSelect()\n\
 <Key>space:DrawingAreaInput() ManagerGadgetSelect()\n\
 :<Key>plus:DrawingAreaInput() ManagerGadgetSelect()\n\
 :<Key>minus:DrawingAreaInput() ManagerGadgetSelect()\n\
