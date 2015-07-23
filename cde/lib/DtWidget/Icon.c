@@ -1088,17 +1088,22 @@ IconActivate(
 		}
 		else
 		{
-			delay = (unsigned long)
-				XtGetMultiClickTime (XtDisplay (g)); 
-			G_ClickEvent (g) = (XButtonEvent *)
-				XtMalloc (sizeof (XButtonEvent));
-			*(G_ClickEvent (g)) = *b_event;
-			G_Sync (g) = True;
-			G_ClickTimerID (g) = 
-				XtAppAddTimeOut (
-					XtWidgetToApplicationContext ((Widget)g),
-					delay, (XtTimerCallbackProc)ClickTimeout, 
-					(XtPointer) g);
+			if(event->type==KeyPress){
+				G_Armed(g)=False;
+				(*call_callback)(g,G_Callback(g),XmCR_SELECT,event);
+			}else{
+				delay = (unsigned long)
+					XtGetMultiClickTime (XtDisplay (g));
+				G_ClickEvent (g) = (XButtonEvent *)
+					XtMalloc (sizeof (XButtonEvent));
+				*(G_ClickEvent (g)) = *b_event;
+				G_Sync (g) = True;
+				G_ClickTimerID (g) =
+					XtAppAddTimeOut (
+						XtWidgetToApplicationContext ((Widget)g),
+						delay, (XtTimerCallbackProc)ClickTimeout,
+						(XtPointer) g);
+			}
 		}
 
                 if (G_ShadowThickness (g) > 0)
