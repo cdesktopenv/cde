@@ -776,15 +776,10 @@ FileWindowInputCallback(
                               file_mgr_rec->vertical_scroll_bar,
                               file_mgr_rec->scroll_window))
                   {
- 		    String p;
- 
- 		    p = (String) XtMalloc(sizeof(char *));
- 		    *p = (char) 0;
-		    XtCallActionProc( file_mgr_rec->vertical_scroll_bar,
-				      "PageUpOrLeft", new_event,
-				      (char **) &p, 1 );
- 		    XtFree(p);
-		  }
+                       String p = "up";
+                       XtCallActionProc( file_mgr_rec->vertical_scroll_bar,
+                       "PageUpOrLeft", new_event,&p, 1 );
+                  }
                 }
                 break;
               case osfXK_PageDown:
@@ -794,13 +789,9 @@ FileWindowInputCallback(
                               file_mgr_rec->vertical_scroll_bar,
                               file_mgr_rec->scroll_window))
                   {
- 		    String p;
- 
- 		    p = (String) XtMalloc(sizeof(char *));
- 		    *p = (char)0;
-		    XtCallActionProc( file_mgr_rec->vertical_scroll_bar,
-				      "PageDownOrRight", new_event, &p, 1 );
- 		    XtFree(p);
+                      String p = "down";
+                      XtCallActionProc( file_mgr_rec->vertical_scroll_bar,
+                      "PageDownOrRight", new_event, &p, 1 );
                   }
                 }
                 break;
