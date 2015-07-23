@@ -117,6 +117,9 @@ express or implied warranty.
 /* some unpublished Motif interfaces */
 #include <Xm/XmPrivate.h>
 
+/* From MenuUtilP.h */
+extern int _XmGrabKeyboard(Widget widget, int owner_events, int pointer_mode,
+                        int keyboard_mode, Time time) ;
 /*
  * MotifBc
  */
@@ -2286,7 +2289,7 @@ list_event_handler(	Widget widget,
 	if ( ShellPoppedUp(((ShellWidget)(Shell(combo_w)))) ) {
 	    _XmGrabKeyboard(widget, False, GrabModeAsync, GrabModeAsync, 
 			    CurrentTime);
-	    XtSetKeyboardFocus(List(combo_w), RevertToNone);
+	    XtSetKeyboardFocus(List(combo_w), None);
 	}
 	break;
     case EnterNotify:

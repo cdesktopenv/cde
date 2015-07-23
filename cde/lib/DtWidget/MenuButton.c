@@ -369,7 +369,7 @@ static void
 DrawMenuGlyph(
     DtMenuButtonWidget mb )
 {
-	if ((MB_GLYPH_WIDTH(mb) != 0))  
+	if ((MB_GLYPH_WIDTH(mb) != 0)){
 		if(MB_PIXMAP(mb) != XmUNSPECIFIED_PIXMAP) 
 	 		XCopyArea (XtDisplay(mb), 
 	 			MB_PIXMAP(mb), 
@@ -378,7 +378,8 @@ DrawMenuGlyph(
 	 			MB_GLYPH_WIDTH(mb), MB_GLYPH_HEIGHT(mb),
 	 			MB_GLYPH_X(mb), MB_GLYPH_Y(mb));
 		else 
-			DrawArrow((Widget)mb);	
+			DrawArrow((Widget)mb);
+	}
 }
 	
 /*

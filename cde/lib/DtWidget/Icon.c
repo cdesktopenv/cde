@@ -85,6 +85,10 @@ extern void 	_DtRegisterNewConverters ( void );
 extern char *	_XmExtObjAlloc(int size);
 extern void	_XmExtObjFree(XtPointer element);
 extern void	_XmSelectColorDefault ( Widget, int, XrmValue * );
+/* From XmP.h */
+extern void _XmExtImportArgs( Widget w, ArgList args, Cardinal *num_args);
+/* From TravActI.h */
+extern void _XmEnterGadget( Widget wid, XEvent *event, String*,Cardinal*);
 
 #define SPACING_DEFAULT		2
 #define MARGIN_DEFAULT		2
@@ -1860,10 +1864,10 @@ Initialize(
 	{
 		G_MarginWidth (new) = 
 			XmeToHorizontalPixels ((Widget)new, G_UnitType (new),
-					(XtArgVal *)G_MarginWidth (new));
+					(XtArgVal *)((long)G_MarginWidth (new)));
 		G_MarginHeight (new) = 
 			XmeToVerticalPixels ((Widget)new, G_UnitType (new),
-					(XtArgVal *)G_MarginHeight (new));
+					(XtArgVal *)((long)G_MarginHeight (new)));
 	}
 
 /*	Check for unspecified margins.
@@ -1887,9 +1891,9 @@ Initialize(
 			(G_PixmapPosition (new) == XmPIXMAP_LEFT ||
 			 G_PixmapPosition (new) == XmPIXMAP_RIGHT)
 			? XmeToHorizontalPixels ((Widget)new, G_UnitType (new),
-					(XtArgVal *)G_Spacing (new))
+					(XtArgVal *)((long)G_Spacing (new)))
 			: XmeToVerticalPixels ((Widget)new, G_UnitType (new),
-					(XtArgVal *)G_Spacing (new));
+					(XtArgVal *)((long)G_Spacing (new)));
 	}
 
 /*	Set width and height.
@@ -2402,10 +2406,10 @@ SetValues(
 	{
 		G_MarginWidth (new) = 
 			XmeToHorizontalPixels ((Widget)new, G_UnitType (new),
-					(XtArgVal *)G_MarginWidth (new));
+					(XtArgVal *)((long)G_MarginWidth (new)));
 		G_MarginHeight (new) = 
 			XmeToVerticalPixels ((Widget)new, G_UnitType (new),
-					(XtArgVal *)G_MarginHeight (new));
+					(XtArgVal *)((long)G_MarginHeight (new)));
 	}
 
 /*	Convert spacing.
@@ -2417,9 +2421,9 @@ SetValues(
 			(G_PixmapPosition (new) == XmPIXMAP_LEFT ||
 			 G_PixmapPosition (new) == XmPIXMAP_RIGHT)
 			? XmeToHorizontalPixels ((Widget)new, G_UnitType (new),
-					(XtArgVal *)G_Spacing (new))
+					(XtArgVal *)((long)G_Spacing (new)))
 			: XmeToVerticalPixels ((Widget)new, G_UnitType (new),
-					(XtArgVal *)G_Spacing (new));
+					(XtArgVal *)((long)G_Spacing (new)));
 	}
 
 /*	Process change in string or font list.
@@ -2771,18 +2775,15 @@ InputDispatch(
 			IconDisarm (w, (XEvent*) event);
 	}
 	else if (event_mask & XmHELP_EVENT)
-		_XmSocorro (w, (XEvent *)event,
-                                     (String *)NULL,(Cardinal)0);
+		_XmSocorro (w, (XEvent *)event,NULL,NULL);
 	else if (event_mask & XmENTER_EVENT)
 		IconEnter (w, (XEvent *)event);
 	else if (event_mask & XmLEAVE_EVENT)
 		IconLeave (w, (XEvent *)event);
 	else if (event_mask & XmFOCUS_IN_EVENT)
-		_XmFocusInGadget (w, (XEvent *)event,
-                                    (String *)NULL,(Cardinal)0);
+		_XmFocusInGadget (w, (XEvent *)event,NULL,NULL);
 	else if (event_mask & XmFOCUS_OUT_EVENT)
-		_XmFocusOutGadget (w, (XEvent *)event,
-                                    (String *)NULL,(Cardinal)0);
+		_XmFocusOutGadget (w, (XEvent *)event,NULL,NULL);
 }
 
 
@@ -3331,7 +3332,7 @@ Draw(
 
 /*	Draw shadow.
 */
-	if (G_ShadowThickness (g) > 0 && G_DrawShadow(g)) 
+	if (G_ShadowThickness (g) > 0 && G_DrawShadow(g)){
            if(G_BorderType(g) == DtRECTANGLE || !G_Pixmap(g))
 		{
 		  unsigned char shadow_type;
@@ -3358,6 +3359,7 @@ Draw(
 	       _DtProcessUnlock();
 	       (*call_callback) (g, G_Callback (g), XmCR_SHADOW, NULL);
 	     }
+	}
 }
 
 

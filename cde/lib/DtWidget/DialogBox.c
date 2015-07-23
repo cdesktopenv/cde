@@ -784,7 +784,7 @@ CreateChildren(
 		XtManageChild (btn);
  		XtAddCallback (btn, XmNactivateCallback,
 				(XtCallbackProc)ButtonCallback,
-				(XtPointer)(i+1));
+				(XtPointer)((long)(i+1)));
 
 		button[i] = btn;
 		l_p += b_delta;
