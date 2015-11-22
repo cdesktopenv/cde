@@ -64,6 +64,9 @@ case $- in
 	;;
 esac
 
+# disable the builtin wc because ksh may hang during the execution later of "wc pic.o"
+builtin -d wc
+
 #
 # this script may be overwritten while it is being executed
 # so copy it and exec from the copy
@@ -569,7 +572,8 @@ do	case $1 in
 		eval _ship${_cmd_}_=
 		continue
 	fi
-	if	test "$new" -gt "$old"
+	# the variable "old" can be empty, to avoid "arithmetic syntax error" from ksh, set it to 0
+	if	test "$new" -gt "${old:-0}"
 	then	case $_suf_ in
 		?*)	cp ship$_cmd_$_suf_ SHIP$_cmd_$_suf_ ;;
 		esac
@@ -583,7 +587,8 @@ do	case $1 in
 		case $_suf_ in
 		.c)	test -f $f && ./$f </dev/null >/dev/null 2>&1 || old=0 ;;
 		esac
-		if	test "$new" -gt "$old"
+		# the variable "old" can be empty, to avoid "arithmetic syntax error" from ksh, set it to 0
+		if	test "$new" -gt "${old:-0}"
 		then	case $old in
 			""|0)	;;
 			*)	cp ship$_cmd_ SHIP$_cmd_ ;;
@@ -612,7 +617,8 @@ do	case $1 in
 	esac
 	case $_flg_ in
 	*B*)	f=$BIN/$_cmd_; eval old=$_stamp_
-		if	test "$new" -gt "$old"
+		# the variable "old" can be empty, to avoid "arithmetic syntax error" from ksh, set it to 0
+		if	test "$new" -gt "${old:-0}"
 		then	if	test ! -d $BIN
 			then	mkdir $BIN
 			fi
