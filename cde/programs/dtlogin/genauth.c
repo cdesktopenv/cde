@@ -124,7 +124,7 @@ extern int errno;
 #   define USE_CRYPT
 #  endif
 #  ifdef __OpenBSD__
-#   define USE_CRYPT
+#   define DONT_USE_DES
 #  endif
 #  ifdef sun
 #   define USE_CRYPT
