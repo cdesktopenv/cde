@@ -398,7 +398,7 @@ CALStable(
 		av[1], av[2]);
 	}
 	else	{
-		fprintf(stderr, "Incomplete %s table instruction\n");
+          fprintf(stderr, "Incomplete %s table instruction\n", av[1]);
 	}
     }
 
