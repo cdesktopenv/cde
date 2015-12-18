@@ -235,8 +235,8 @@ write_func_as_strings(FILE *file, FileFuncInfo funcInfo)
     {
 	funcNamePtr += 4;
     }
-    sprintf(recVarName, "%abmfP_lrc_%s", funcNamePtr);
-    sprintf(ptrVarName, "%abmfP_lib_%s", funcNamePtr);
+    sprintf(recVarName, "%%abmfP_lrc_%s", funcNamePtr);
+    sprintf(ptrVarName, "%%abmfP_lib_%s", funcNamePtr);
 
     abio_puts(file, "\n");
     abio_puts(file,   "/*\n");
