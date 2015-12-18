@@ -270,7 +270,7 @@ do_ttcp()
 	} else {
 		fprintf( stderr,
 			 "%s: system(\"%s\"): %d\n",
-			 (char *)_process_name, sys_status );
+			 (char *)_process_name, (char *)cmd, sys_status );
 		return TT_ERR_INTERNAL;
 	}
 
