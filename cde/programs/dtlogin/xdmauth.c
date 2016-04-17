@@ -208,7 +208,7 @@ XdmGetAuth (namelen, name)
 
 #ifdef XDMCP
 
-XdmGetXdmcpAuth (pdpy,authorizationNameLen, authorizationName)
+void XdmGetXdmcpAuth (pdpy,authorizationNameLen, authorizationName)
     struct protoDisplay	*pdpy;
 #if NeedWidePrototypes
     unsigned int authorizationNameLen;

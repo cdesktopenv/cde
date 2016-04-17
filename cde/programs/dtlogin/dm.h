@@ -1007,7 +1007,7 @@ extern Xauth * XdmGetAuth(
 #endif /* NeedWidePrototypes */
                         char *name) ;
 
-extern int XdmGetXdmcpAuth( 
+extern void XdmGetXdmcpAuth(
                         struct protoDisplay *pdpy,
 #if NeedWidePrototypes
                         unsigned int authorizationNameLen,
