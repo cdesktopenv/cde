@@ -1089,12 +1089,12 @@ Boolean F_Exec (String args, ClientData *pCD, XEvent *event)
 		directory, then we must call execlp and not execl
 		*/
 		shellname = shell;
-		execlp (shell, shellname, "-c", args, 0);
+		execlp (shell, shellname, "-c", args, NULL);
 	    }
 	    else
 	    {
 		shellname++;
-		execl (shell, shellname, "-c", args, 0);
+		execl (shell, shellname, "-c", args, NULL);
 	    }
 	}
 
@@ -1103,9 +1103,9 @@ Boolean F_Exec (String args, ClientData *pCD, XEvent *event)
 	 * Try /bin/sh .
 	 */
 #ifdef SVR4
-        execl ("/usr/bin/sh", "sh", "-c", args, 0);
+        execl ("/usr/bin/sh", "sh", "-c", args, NULL);
 #else
-        execl ("/bin/sh", "sh", "-c", args, 0);
+        execl ("/bin/sh", "sh", "-c", args, NULL);
 #endif
 
 
