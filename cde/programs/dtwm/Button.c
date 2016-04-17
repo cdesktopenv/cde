@@ -757,7 +757,7 @@ InputDispatch(
             event_mask & XmMULTI_ARM_EVENT)
         {
            if (event->button == Button1)
-             Arm (w, (XEvent*) event, (String *)NULL, (Cardinal)0);
+             Arm (w, (XEvent*) event, (String *)NULL, (Cardinal*)NULL);
         }
         else if (event_mask & XmACTIVATE_EVENT ||
                  event_mask & XmMULTI_ACTIVATE_EVENT)
@@ -770,28 +770,28 @@ InputDispatch(
                          event->y <= (Position)(G_Y (bg) + G_Height (bg)))
                    {
                         Activate (w, (XEvent*) event,
-                                  (String *)NULL, (Cardinal)0);
+                                  (String *)NULL, (Cardinal*)NULL);
                         Disarm (w, (XEvent*) event,
-				  (String *)NULL, (Cardinal)0);
+				  (String *)NULL, (Cardinal*)NULL);
                    }
                    else
                         Disarm (w, (XEvent*) event,
-				  (String *)NULL, (Cardinal)0);
+				  (String *)NULL, (Cardinal*)NULL);
                 }
         }
         else if (event_mask & XmHELP_EVENT)
                 _XmSocorro (w, (XEvent *)event,
-                                     (String *)NULL,(Cardinal)0);
+                                     (String *)NULL,(Cardinal*)NULL);
         else if (event_mask & XmENTER_EVENT)
-                Enter (w, (XEvent *)event, (String *)NULL,(Cardinal)0);
+                Enter (w, (XEvent *)event, (String *)NULL,(Cardinal*)NULL);
         else if (event_mask & XmLEAVE_EVENT)
-                Leave (w, (XEvent *)event, (String *)NULL,(Cardinal)0);
+                Leave (w, (XEvent *)event, (String *)NULL,(Cardinal*)NULL);
         else if (event_mask & XmFOCUS_IN_EVENT)
                 _XmFocusInGadget (w, (XEvent *)event,
-                                    (String *)NULL,(Cardinal)0);
+                                    (String *)NULL,(Cardinal*)NULL);
         else if (event_mask & XmFOCUS_OUT_EVENT)
                 _XmFocusOutGadget (w, (XEvent *)event,
-                                    (String *)NULL,(Cardinal)0);
+                                    (String *)NULL,(Cardinal*)NULL);
 }
 
 
@@ -860,7 +860,7 @@ Enter(
 {
    DtButtonGadget bg = (DtButtonGadget) wid ;
 
-   _XmEnterGadget (wid, (XEvent *)event, (String *)NULL,(Cardinal *)0);
+   _XmEnterGadget (wid, (XEvent *)event, (String *)NULL,(Cardinal *)NULL);
 
    if (B_Armed (bg))
       B_Expose (wid, event, NULL);

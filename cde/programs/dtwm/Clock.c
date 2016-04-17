@@ -933,7 +933,7 @@ Draw(
 	   if (g->clock.numseg != 0)
 		   EraseHands (g, (struct tm *) 0);
 
-	   ClockTick ((XtPointer)g, (XtIntervalId)0);
+	   ClockTick ((XtPointer)g, (XtIntervalId*)NULL);
 
    /*	Draw shadow.
    */

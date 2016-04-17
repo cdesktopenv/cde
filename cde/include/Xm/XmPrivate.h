@@ -131,6 +131,11 @@ extern void _XmPrimitiveFocusIn(
                         XEvent *event,
                         String *params,
                         Cardinal *num_params) ;
+extern void _XmEnterGadget(
+                        Widget wid,
+                        XEvent *event,
+                        String *params,
+                        Cardinal *num_params);
 extern void _XmLeaveGadget(
                         Widget wid,
                         XEvent *event,
@@ -192,6 +197,15 @@ extern XtPointer _XmStringUngenerate (XmString string,
 			XmStringTag tag,
 			XmTextType tag_type,
 			XmTextType output_type);
+
+/* Extracted from VirtKeysI.h */
+extern Boolean _XmVirtKeysLoadFileBindings(
+                        char *fileName,
+                        String *binding) ;
+extern int _XmVirtKeysLoadFallbackBindings(
+			Display *display,
+			String *binding) ;
+
 #ifdef __cplusplus
 }
 #endif

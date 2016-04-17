@@ -35,6 +35,7 @@ static char rcsid[] = "$XConsortium: WmOL.c /main/4 1995/11/01 11:45:08 rswiston
 /*
  * Included Files:
  */
+#include <stdlib.h>
 #include "WmGlobal.h"
 #include "WmOL.h"
 #include "WmProperty.h"
