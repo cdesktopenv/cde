@@ -39,7 +39,9 @@
 #define _DtPrint_h
 
 #include <Xm/Xm.h>
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <X11/extensions/Print.h> 
+#endif /* PRINTING_SUPPORTED */
 
 #ifdef __cplusplus
 extern "C" {
@@ -182,7 +184,9 @@ typedef struct _DtPrintSetupData
 {
     String printer_name;
     Display *print_display;
+#ifdef PRINTING_SUPPORT
     XPContext print_context;
+#endif /* PRINTING_SUPPORTED */
     XtEnum destination;
     String dest_info;
     XtEnum messages_hint;

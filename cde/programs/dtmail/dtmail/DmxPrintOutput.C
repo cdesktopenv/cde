@@ -77,7 +77,9 @@
 #include <Xm/DialogS.h>
 #include <Xm/Form.h>
 #include <Xm/Label.h>
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <Xm/Print.h>
+#endif /* PRINTING_SUPPORTED */
 #include <Xm/Text.h>
 #include <Dt/Editor.h>
 

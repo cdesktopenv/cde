@@ -172,7 +172,9 @@ typedef struct _DtPrintDefaultProcData
     int* printer_counts;
     int selected_printer;
     Display* select_printer_info_display;
+#if 0 && defined(PRINTING_SUPPORTED)
     XPContext select_printer_info_context;
+#endif /* PRINTING_SUPPORT */
     /*
      * printer info proc
      */
@@ -272,7 +274,9 @@ typedef struct
      */
     String modal_printer_spec;
     Display* print_display;
+#if 0 && defined(PRINTING_SUPPORTED)
     XPContext print_context;
+#endif /* PRINTING_SUPPORTED */
     XtIntervalId timeout_id;
     /*
      * descendents
@@ -344,8 +348,10 @@ typedef struct _DtPrintSetupBoxRec
     (((DtPrintSetupBoxWidget) (w))->print_setup_box.cancel_callback)
 #define PSUB_CloseDisplayCallback(w) \
     (((DtPrintSetupBoxWidget) (w))->print_setup_box.close_display_callback)
+#if 0 && defined(PRINTING_SUPPORTED)
 #define PSUB_Context(w) \
     (((DtPrintSetupBoxWidget) (w))->print_setup_box.print_context)
+#endif /* PRINTING_SUPPORTED */
 #define PSUB_Copies(w) \
     (((DtPrintSetupBoxWidget) (w))->print_setup_box.copies)
 #define PSUB_CopiesControl(w) \

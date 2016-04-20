@@ -76,7 +76,9 @@
 #include <Xm/DialogS.h>
 #include <Xm/Form.h>
 #include <Xm/Label.h>
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <Xm/Print.h>
+#endif /* PRINTING_SUPPORTED */
 #include <Dt/Editor.h>
 #include <Dt/Print.h>
 
@@ -91,11 +93,13 @@ static void	_pjUpdatePageHeaders(
 				PrintStringTypeEnum,
 				PrintStringTypeEnum,
 				PrintStringTypeEnum);
+#if 0 && defined(PRINTING_SUPPORTED)
 static void	_pjFinishedPrintToFile(
 				Display*,
 				XPContext,
 				XPGetDocStatus,
 				XPointer);
+#endif /* PRINTING_SUPPORTED */
 static char *	_pjGetPageHeaderString(PrintJob*, PrintStringTypeEnum);
 
 static void	_pjCancelCB (Widget, XtPointer client_data, XtPointer);
@@ -374,7 +378,7 @@ _pjCreatePrintShell(PrintJob *pJob)
 	pJob->parentShell == NULL ||
 	pJob->pSetup == NULL) return;
 
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     
     /*
      * Create the print shell and
@@ -589,7 +593,7 @@ _pjCreateOutputWidgets(PrintJob *pJob)
 static void
 _pjDoPrint(PrintJob *pJob)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
 
     static char		buf[1024];
     static char 	*format;
@@ -796,6 +800,7 @@ _pjGetPageHeaderString(PrintJob *pJob, PrintStringTypeEnum type)
  *     App-specific print data holder allocate function.
  *
  */
+#if 0 && defined(PRINTING_SUPPORTED)
 static void _pjFinishedPrintToFile(
 			Display		*display,
 			XPContext	context,
@@ -824,6 +829,7 @@ static void _pjFinishedPrintToFile(
     }
     PrintJobDestroy(pJob);
 }
+#endif /* PRINTING_SUPPORTED */
 
 
 /*
@@ -887,7 +893,7 @@ _pjPrintCB (Widget widget, XtPointer client_data, XtPointer call_data)
 static void
 _pjPdmSetupCB(Widget print_setup, XtPointer client_data, XtPointer call_data)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     char	*pname = "_pjPdmSetupCB";
     PrintJob	*pJob = (PrintJob *) client_data;
     DtPrintSetupCallbackStruct
@@ -920,7 +926,7 @@ _pjPdmSetupCB(Widget print_setup, XtPointer client_data, XtPointer call_data)
 static void
 _pjPdmNotificationCB (Widget widget, XtPointer client_data, XtPointer call_data)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     PrintJob			*pJob = (PrintJob*) client_data;
     XmPrintShellCallbackStruct	*pscbs = (XmPrintShellCallbackStruct*)call_data;
     char			*message = NULL;
@@ -959,7 +965,7 @@ _pjPrintOnePageCB(
 		XtPointer call_data
 		)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     PrintJob	*pJob = (PrintJob *) client_data;
 
     XmPrintShellCallbackStruct  *pscbs = (XmPrintShellCallbackStruct*)call_data;

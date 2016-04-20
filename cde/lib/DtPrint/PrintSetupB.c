@@ -670,7 +670,9 @@ ClosePrintConnection(
     cbs.reason = DtPRINT_CR_CLOSE_PRINT_DISPLAY;
     psd.printer_name = old_printer_name;
     psd.print_display = PSUB_Display(psub);
+#if 0 && defined(PRINTING_SUPPORTED)
     psd.print_context = PSUB_Context(psub);
+#endif /* PRINTING_SUPPORTED */
     XtCallCallbackList((Widget)psub,
 		       PSUB_CloseDisplayCallback(psub),
 		       (XtPointer)&cbs);
@@ -706,8 +708,10 @@ ClosePrintConnection(
     /*
      * destroy the print context
      */
+#if 0 && defined(PRINTING_SUPPORTED)
     XpDestroyContext(PSUB_Display(psub), PSUB_Context(psub));
     PSUB_Context(psub) = (XPContext)NULL;
+#endif /* PRINTING_SUPPORTED */
     /*
      * close the print display
      */
@@ -1595,7 +1599,9 @@ EstablishPrinter(
 		 * set the new display and context in the widget
 		 */
 		PSUB_Display(psub) = psd->print_display;
+#if 0 && defined(PRINTING_SUPPORTED)
 		PSUB_Context(psub) = psd->print_context;
+#endif /* PRINTING_SUPPORTED */
 		/*
 		 * initialize the display for use with Xt
 		 */
@@ -1672,7 +1678,9 @@ EstablishPrinter(
 	if(PSUB_PrintSetupMode(psub) == DtPRINT_SETUP_XP)
 	{
 	    psd->print_display = PSUB_Display(psub);
+#if 0 && defined(PRINTING_SUPPORTED)
 	    psd->print_context = PSUB_Context(psub);
+#endif /* PRINTING_SUPPORTED */
 	}
 	break;
 
@@ -1705,6 +1713,7 @@ static void
 GetPrintAttributes(
 		   DtPrintSetupBoxWidget psub)
 {
+#if 0 && defined(PRINTING_SUPPORTED)
     char* attr_value;
     XTextProperty text_prop;
     char** list;
@@ -1802,6 +1811,7 @@ GetPrintAttributes(
 	    XtSetSensitive(copies_label, False);
 	}
     }
+#endif /* PRINTING_SUPPORTED */
 }
 
 /*
@@ -1866,7 +1876,9 @@ Initialize(
      */
     PSUB_ModalPrinterSpec(new_w) = (String)NULL;
     PSUB_Display(new_w) = (Display*)NULL;
+#if 0 && defined(PRINTING_SUPPORTED)
     PSUB_Context(new_w) = (XPContext)NULL;
+#endif /* PRINTING_SUPPORTED */
     PSUB_TimeoutId(new_w) = (XtIntervalId)NULL;
     /*
      * retrieve the XpPrinterNameMode application resource for this
@@ -2035,9 +2047,12 @@ static Boolean
 IsSetupRequired(
 		DtPrintSetupBoxWidget psub)
 {
+#if 0 && defined(PRINTING_SUPPORTED)
     char* setup_proviso;
+#endif /* PRINTING_SUPPORTED */
     Boolean required = False;
 
+#if 0 && defined(PRINTING_SUPPORTED)
     setup_proviso = XpGetOneAttribute(PSUB_Display(psub),
 				      PSUB_Context(psub),
 				      XPPrinterAttr,
@@ -2081,6 +2096,7 @@ IsSetupRequired(
 	}
 	XFree(setup_proviso);
     }
+#endif /* PRINTING_SUPPORTED */
     return required;
 }
 
@@ -2482,8 +2498,10 @@ SetPrintAttributes(
 		      XmNposition, &PSUB_Copies(psub),
 		      NULL);
 	sprintf(str, "*%s: %d\n", XpATTR_COPY_COUNT, PSUB_Copies(psub));
+#if 0 && defined(PRINTING_SUPPORTED)
 	XpSetAttributes(PSUB_Display(psub), PSUB_Context(psub),
 			XPDocAttr, str, XPAttrMerge);
+#endif /* PRINTING_SUPPORTED */
     }
 }
 
@@ -4440,7 +4458,9 @@ DtPrintCopySetupData(
 	}
 
 	target->print_display = source->print_display;
+#if 0 && defined(PRINTING_SUPPORTED)
 	target->print_context = source->print_context;
+#endif /* PRINTING_SUPPORTED */
 	target->destination = source->destination;
 	target->messages_hint = source->messages_hint;
 
@@ -4524,7 +4544,9 @@ XtEnum DtPrintFillSetupData(
 	XtEnum status;
 	String new_printer_spec;
 	Display* new_display;
+#if 0 && defined(PRINTING_SUPPORTED)
 	XPContext new_context;
+#endif /* PRINTING_SUPPORTED */
 	/*
 	 * GUI-less printing; verify the printer name and establish the
 	 * print connection without involving the print setup box.
@@ -4532,12 +4554,17 @@ XtEnum DtPrintFillSetupData(
 	status = _DtPrintVerifyXPrinter(NULL,
 					print_data->printer_name,
 					&new_printer_spec,
-					&new_display,
-					&new_context);
+					&new_display
+#if 0 && defined(PRINTING_SUPPORTED)
+					,&new_context
+#endif /* PRINTING_SUPPORTED */
+                                        );
 	if(status == DtPRINT_SUCCESS)
 	{
 	    print_data->print_display = new_display;
+#if 0 && defined(PRINTING_SUPPORTED)
 	    print_data->print_context = new_context;
+#endif /* PRINTING_SUPPORTED */
 	}
 	if(new_printer_spec != (String)NULL)
 	{
@@ -4743,7 +4770,9 @@ DtPrintResetConnection(
 	 * simply disavow knowledge of the X print connection
 	 */
 	PSUB_Display(psub) = (Display*)NULL;
+#if 0 && defined(PRINTING_SUPPORTED)
 	PSUB_Context(psub) = (XPContext)NULL;
+#endif /* PRINTING_SUPPORTED */
 	break;
 	
     case DtPRINT_CLOSE_CONNECTION:

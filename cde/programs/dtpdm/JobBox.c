@@ -235,14 +235,16 @@ static void
 PdmJobBoxGetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
 {
     PdmJobBoxData* data = (PdmJobBoxData*)me->subclass_data;
-    PdmOidList* job_attrs_supported;
-    const char* strval;
+    PdmOidList* job_attrs_supported = NULL;
+    const char* strval = NULL;
     
     /*
      * job attributes supported
      */
+#if 0 && defined(PRINTING_SUPPORTED)
     strval = PdmXpGetStringValue(pdm_xp, XPPrinterAttr,
 				 pdmoid_att_job_attributes_supported);
+#endif /* PRINTING_SUPPORTED */
     job_attrs_supported = PdmOidListNew(strval);
     /*
      * job options
@@ -251,9 +253,11 @@ PdmJobBoxGetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
 			pdmoid_att_xp_spooler_command_options))
     {
 	data->job_options_supported = True;
+#if 0 && defined(PRINTING_SUPPORTED)
 	data->job_options =
 	    PdmXpGetStringValue(pdm_xp, XPJobAttr,
 				pdmoid_att_xp_spooler_command_options);
+#endif /* PRINTING_SUPPORTED */
     }
     /*
      * job name (banner)
@@ -261,16 +265,20 @@ PdmJobBoxGetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
     if(PdmOidListHasOid(job_attrs_supported, pdmoid_att_job_name))
     {
 	data->job_name_supported = True;
+#if 0 && defined(PRINTING_SUPPORTED)
 	data->job_name =
 	    PdmXpGetStringValue(pdm_xp, XPJobAttr, pdmoid_att_job_name);
+#endif /* PRINTING_SUPPORTED */
     }
     /*
      * notification profile (send mail)
      */
     if(PdmOidListHasOid(job_attrs_supported, pdmoid_att_notification_profile))
     {
+#if 0 && defined(PRINTING_SUPPORTED)
 	strval = PdmXpGetStringValue(pdm_xp, XPJobAttr,
 				     pdmoid_att_notification_profile);
+#endif /* PRINTING_SUPPORTED */
 	data->notification_profile = PdmOidNotifyParse(strval);
 	if(data->notification_profile != PDMOID_NOTIFY_UNSUPPORTED)
 	    data->notification_profile_supported = True;
@@ -301,15 +309,19 @@ PdmJobBoxSetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
     {
 	String value;
 	XtVaGetValues(data->job_options_text, XmNvalue, &value, NULL);
+#if 0 && defined(PRINTING_SUPPORTED)
 	PdmXpSetStringValue(pdm_xp, XPJobAttr,
 			    pdmoid_att_xp_spooler_command_options, value);
+#endif /* PRINTING_SUPPORTED */
 	XtFree(value);
     }
     if(data->job_name_supported)
     {
 	String value;
 	XtVaGetValues(data->job_name_text, XmNvalue, &value, NULL);
+#if 0 && defined(PRINTING_SUPPORTED)
 	PdmXpSetStringValue(pdm_xp, XPJobAttr, pdmoid_att_job_name, value);
+#endif /* PRINTING_SUPPORTED */
 	XtFree(value);
     }
     if(data->notification_profile_supported)
@@ -317,11 +329,13 @@ PdmJobBoxSetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
 	Boolean set;
 	
 	set = XmToggleButtonGadgetGetState(data->notify_toggle);
+#if 0 && defined(PRINTING_SUPPORTED)
 	PdmXpSetStringValue(pdm_xp, XPJobAttr,
 			    pdmoid_att_notification_profile,
 			    PdmOidNotifyString(set
 					       ? PDMOID_NOTIFY_EMAIL
 					       : PDMOID_NOTIFY_NONE));
+#endif /* PRINTING_SUPPORTED */
     }
 }
 

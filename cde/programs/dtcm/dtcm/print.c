@@ -38,7 +38,9 @@
 #include <Xm/Form.h>
 #include <Xm/LabelG.h>
 #include <Xm/DialogS.h>
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <Xm/Print.h>
+#endif /* PRINTING_SUPPORTED */
 #include <Xm/Protocols.h>
 #include <Xm/PushBG.h>
 #include <Xm/SeparatoG.h>
@@ -872,7 +874,7 @@ clearSetupData(_DtCmPrintData *pd)
 static void
 createPrintShell(Calendar *c)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
   _DtCmPrintData *pd = (_DtCmPrintData *)c->print_data;
 
 #ifdef GR_DEBUG
@@ -1254,7 +1256,7 @@ report_error(Calendar *c, char *title, char *errText)
 static void
 pdm_notify_cb(Widget w, XtPointer uData, XtPointer cbData)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
   XmPrintShellCallbackStruct *cbStruct =
     (XmPrintShellCallbackStruct *)cbData;
   Calendar *c = (Calendar *)uData;
@@ -1332,7 +1334,7 @@ print_cb(Widget w, XtPointer data, XtPointer cbDataP)
 static void
 print_setup_cb(Widget w, XtPointer uData, XtPointer cbData)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
   Calendar *c = (Calendar *)uData;
   _DtCmPrintData *pd = (_DtCmPrintData *)c->print_data;
   DtPrintSetupCallbackStruct *cbStruct =

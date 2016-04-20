@@ -220,15 +220,17 @@ _DtHelpCreatePrintArea(Widget parent,
     extern AppPrintData * l_AppPrintData;
     DtHelpDispAreaStruct * DisplayArea;
     String string_resolution;
-    int resolution;
+    int resolution = 0;
 
     //  get print resolution from default-printer-resolution
     
+#if 0 && defined(PRINTING_SUPPORTED)
     string_resolution =  
 	XpGetOneAttribute(XtDisplay(parent), l_AppPrintData->f_print_data->print_context,
 			  XPDocAttr, (char*)"default-printer-resolution");
     resolution = atoi(string_resolution);
     XFree(string_resolution);
+#endif /* PRINTING_SUPPORTED */
 
     // if not printing, or default-printer-resolution not defined, calcuate from 
     // the X screen resolution

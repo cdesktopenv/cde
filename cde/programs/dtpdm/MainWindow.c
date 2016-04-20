@@ -289,12 +289,14 @@ PdmMainWinGetAttributes(PdmMainWin* me)
     /*
      * get attributes for the main window
      */
+#if 0 && defined(PRINTING_SUPPORTED)
     me->printer_descriptor = PdmXpGetStringValue(me->pdm_xp,
 						 XPPrinterAttr,
 						 pdmoid_att_descriptor);
     me->printer_name = PdmXpGetStringValue(me->pdm_xp,
 					   XPPrinterAttr,
 					   pdmoid_att_printer_name);
+#endif /* PRINTING_SUPPORTED */
     /*
      * call the get attributes proc for each setup box child
      */

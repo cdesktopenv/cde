@@ -530,7 +530,8 @@ PdmPrinterBoxGetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
     PdmPrinterBoxData* data = (PdmPrinterBoxData*)me->subclass_data;
     const char* strval;
     PdmOidMediumSS* medium_ss_supported;
-    PdmOidTrayMediumList* input_trays_medium;
+    PdmOidTrayMediumList* input_trays_medium = NULL;
+#if 0 && defined(PRINTING_SUPPORTED)
     /*
      * printer model description
      */
@@ -542,19 +543,23 @@ PdmPrinterBoxGetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
     strval = PdmXpGetStringValue(pdm_xp, XPDocAttr,
 				 pdmoid_att_document_format);
     data->document_format = PdmOidDocumentFormatParse(strval);
+#endif /* PRINTING_SUPPORTED */
     if((char*)NULL == data->document_format)
     {
 	/*
 	 * document format not specified, try to obtain
 	 * document-formats-supported, and obtain up the default from it
 	 */
+#if 0 && defined(PRINTING_SUPPORTED)
 	strval = PdmXpGetStringValue(pdm_xp, XPPrinterAttr,
 				     pdmoid_att_document_formats_supported);
 	data->document_format = PdmOidDocumentFormatDefault(strval);
+#endif /* PRINTING_SUPPORTED */
     }
     /*
      * document attributes supported
      */
+#if 0 && defined(PRINTING_SUPPORTED)
     strval = PdmXpGetStringValue(pdm_xp, XPPrinterAttr,
 				 pdmoid_att_document_attributes_supported);
     data->document_attrs_supported = PdmOidListNew(strval);
@@ -612,6 +617,7 @@ PdmPrinterBoxGetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
      */
     PdmOidMediumSSDelete(medium_ss_supported);
     PdmOidTrayMediumListDelete(input_trays_medium);
+#endif /* PRINTING_SUPPORTED */
 }
 
 /*
@@ -630,6 +636,7 @@ PdmPrinterBoxGetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
 static void
 PdmPrinterBoxSetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
 {
+#if 0 && defined(PRINTING_SUPPORTED)
     PdmPrinterBoxData* data = (PdmPrinterBoxData*)me->subclass_data;
     /*
      * orientation
@@ -651,6 +658,7 @@ PdmPrinterBoxSetAttr(PdmSetupBox* me, PdmXp* pdm_xp)
      */
     PdmXpSetValue(pdm_xp, XPDocAttr, pdmoid_att_default_input_tray,
 		  TrayCtlGetTray(data->tray_ctl));
+#endif /* PRINTING_SUPPORTED */
 }
 
 /*

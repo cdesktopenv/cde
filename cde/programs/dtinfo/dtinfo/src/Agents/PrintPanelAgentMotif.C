@@ -149,7 +149,7 @@ static  WXmToggleButton	        f_print_hierarchy;
 
 static Boolean print_hierarchy;  // keep track of hierarchy vs section
 
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
 static void PrintEverything(AppPrintData *p);
 #endif  /* PRINTING_SUPPORTED */
 
@@ -435,7 +435,7 @@ PdmNotifyCB(Widget pr_shell, XtPointer client_data, XtPointer call_data)
 {
     RCS_DEBUG("PdmNotifyCB called.\n");   
 
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     char *msg;
 
     XmPrintShellCallbackStruct* pr_cbs = 
@@ -469,7 +469,7 @@ CreatePrintShell(Widget widget, AppPrintData* p)
 {
     RCS_DEBUG("CreatePrintShell called.\n");   
 
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     char buf[BUFSIZ];
 
     /*
@@ -529,7 +529,7 @@ PrintSetupCB(Widget print_dialog, XtPointer client_data, XtPointer call_data)
 {
     RCS_DEBUG("PrintSetupCB called.\n");   
 
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     char *msg;
 
     AppPrintData *p = (AppPrintData*)client_data;
@@ -770,9 +770,9 @@ QuickPrintCB(Widget pr_button, XtPointer client_data, XtPointer call_data)
  *     App-specific print data holder allocate function.
  *
  */
+#if 0 && defined(PRINTING_SUPPORTED)
 void 
 FinishPrintToFile(Display *display,
-		  XPContext context,
 		  XPGetDocStatus status,
 		  XPointer client_data)
 {
@@ -800,6 +800,7 @@ FinishPrintToFile(Display *display,
     return;
 
 }
+#endif /* PRINTING_SUPPORTED */
 
 /*
  * ------------------------------------------------------------------------
@@ -814,7 +815,7 @@ FinishPrintToFile(Display *display,
 void 
 DoPrint(Widget widget, AppPrintData * p) 
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     int save_data = XPSpool;
     char *msg;
 
@@ -825,7 +826,7 @@ DoPrint(Widget widget, AppPrintData * p)
 
     RCS_DEBUG("DoPrint called.\n");   
 
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     // create print shell, if not done yet 
     CreatePrintShell(widget, p);
 
@@ -928,7 +929,7 @@ DoPrint(Widget widget, AppPrintData * p)
 
 }
 
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
 /*
  * ------------------------------------------------------------------------
  * Name: PrintEverything
@@ -980,12 +981,14 @@ PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP)
 
     // set print orientation to either landscape or portrait (if set)
 
+#if 0 && defined(PRINTING_SUPPORTED)
     if (f_printOrientation != NULL) {
 	snprintf(buf, sizeof(buf),
 			"*content-orientation: %s\n", f_printOrientation);
 	XpSetAttributes(XtDisplay(pshell), XpGetContext(XtDisplay(pshell)),
 			XPPageAttr, buf, XPAttrMerge);
     }
+#endif /* PRINTING_SUPPORTED */
     
     for (gHelpDisplayArea->firstVisible = gHelpDisplayArea->nextNonVisible = 0;
 	 gHelpDisplayArea->nextNonVisible >= 0;
@@ -993,7 +996,9 @@ PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP)
     {
 	(*cur_pageP)++;
 
+#if 0 && defined(PRINTING_SUPPORTED)
 	XpStartPage(XtDisplay(pshell), XtWindow(pshell));
+#endif /* PRINTING_SUPPORTED */
 
 	snprintf(buf, sizeof(buf), "%d", *cur_pageP);
 	label = XmStringCreateLocalized(buf);
@@ -1008,7 +1013,9 @@ PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP)
 
 	// _DtHelpCleanAndDrawWholeCanvas((XtPointer)gHelpDisplayArea);
 
+#if 0 && defined(PRINTING_SUPPORTED)
 	XpEndPage(XtDisplay(pshell));
+#endif /* PRINTING_SUPPORTED */
     }
 
     // Print chidren if appropriate

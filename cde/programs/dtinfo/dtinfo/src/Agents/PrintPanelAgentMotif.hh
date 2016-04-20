@@ -26,7 +26,9 @@
  */
 
 #include <Xm/XmAll.h>
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <Xm/Print.h>
+#endif /* PRINTING_SUPPORTED */
 #include <Dt/Print.h>
 
 #include "UAS.hh"
@@ -77,7 +79,9 @@ void customizePrintSetupBox(AppPrintData * p);
 void DoPrint(Widget widget, AppPrintData * p);
 void Print(AppPrintData *p);
 void PrintCloseDisplayCB(Widget, XtPointer, XtPointer);
-void FinishPrintToFile(Display*, XPContext, XPGetDocStatus, XPointer);
+#if 0 && defined(PRINTING_SUPPORTED)
+void FinishPrintToFile(Display*, XPointer);
+#endif /* PRINTING_SUPPORTED */
 void CreatePrintShell(Widget, AppPrintData*);
 void CreatePrintSetup(Widget parent, AppPrintData* p);
 

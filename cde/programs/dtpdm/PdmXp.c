@@ -50,7 +50,9 @@ typedef enum {
  */
 static const char* PdmXpGetQualifier(PdmXp* me);
 static char* PdmXpBuildResourceName(PdmXp* me, PdmOid id_att);
+#if 0 && defined(PRINTING_SUPPORTED)
 static XrmDatabase PdmXpLoadPool(PdmXp* me, XPAttributes type);
+#endif /* PRINTING_SUPPORTED */
 
 
 /*
@@ -129,6 +131,7 @@ PdmXpOpen(PdmXp* me,
 	/*
 	 * check to see if the display is a print server
 	 */
+#if 0 && defined(PRINTING_SUPPORTED)
 	if(XpQueryExtension(me->display, &event_base, &error_base))
 	{
 	    /*
@@ -142,9 +145,12 @@ PdmXpOpen(PdmXp* me,
 	}
 	else
 	{
+#endif /* PRINTING_SUPPORTED */
 	    XCloseDisplay(me->display);
 	    me->display = (Display*)NULL;
+#if 0 && defined(PRINTING_SUPPORTED)
 	}
+#endif /* PRINTING_SUPPORTED */
     }
 
     return me->display;
@@ -180,7 +186,9 @@ PdmXpClose(PdmXp* me)
 	}
 	XCloseDisplay(me->display);
 	me->display = NULL;
+#if 0 && defined(PRINTING_SUPPORTED)
 	me->context = (XPContext)NULL;
+#endif /* PRINTING_SUPPORTED */
     }
 }
 
@@ -197,6 +205,7 @@ PdmXpClose(PdmXp* me)
  *     
  *
  */
+#if 0 && defined(PRINTING_SUPPORTED)
 static XrmDatabase
 PdmXpLoadPool(PdmXp* me, XPAttributes type)
 {
@@ -248,6 +257,7 @@ PdmXpLoadPool(PdmXp* me, XPAttributes type)
 
     return me->pool[i];
 }
+#endif /* PRINTING_SUPPORTED */
 
 /*
  * ------------------------------------------------------------------------
@@ -266,6 +276,7 @@ PdmXpGetQualifier(PdmXp* me)
 {
     if(me->qualifier == (char*)NULL)
     {
+#if 0 && defined(PRINTING_SUPPORTED)
 	if(PdmXpLoadPool(me, XPPrinterAttr) != (XrmDatabase)NULL)
 	{
 	    char* str_type;
@@ -278,6 +289,7 @@ PdmXpGetQualifier(PdmXp* me)
 		me->qualifier_len = strlen(me->qualifier);
 	    }
 	}
+#endif /* PRINTING_SUPPORTED */
     }
     return me->qualifier;
 }
@@ -341,6 +353,7 @@ PdmXpBuildResourceName(PdmXp* me, PdmOid id_att)
  *     pdmoid_none if the attribute value is not found.
  *
  */
+#if 0 && defined(PRINTING_SUPPORTED)
 PdmOid
 PdmXpGetValue(PdmXp* me,
 	      XPAttributes type,
@@ -352,6 +365,7 @@ PdmXpGetValue(PdmXp* me,
 
     return PdmOidFromString(value);
 }
+#endif /* PRINTING_SUPPORTED */
 
 /*
  * ------------------------------------------------------------------------
@@ -367,6 +381,7 @@ PdmXpGetValue(PdmXp* me,
  *     representation type is not a string.
  *
  */
+#if 0 && defined(PRINTING_SUPPORTED)
 const char*
 PdmXpGetStringValue(PdmXp* me,
 		    XPAttributes type,
@@ -395,6 +410,7 @@ PdmXpGetStringValue(PdmXp* me,
     else
 	return (const char*)NULL;
 }
+#endif /* PRINTING_SUPPORTED */
 
 /*
  * ------------------------------------------------------------------------
@@ -409,6 +425,7 @@ PdmXpGetStringValue(PdmXp* me,
  *     
  *
  */
+#if 0 && defined(PRINTING_SUPPORTED)
 void
 PdmXpSetValue(PdmXp* me,
 	      XPAttributes type,
@@ -417,6 +434,7 @@ PdmXpSetValue(PdmXp* me,
 {
     PdmXpSetStringValue(me, type, id_att, PdmOidString(id_val));
 }
+#endif /* PRINTING_SUPPORTED */
 
 /*
  * ------------------------------------------------------------------------
@@ -431,6 +449,7 @@ PdmXpSetValue(PdmXp* me,
  *     
  *
  */
+#if 0 && defined(PRINTING_SUPPORTED)
 void
 PdmXpSetStringValue(PdmXp* me,
 		    XPAttributes type,
@@ -449,6 +468,8 @@ PdmXpSetStringValue(PdmXp* me,
     XrmPutStringResource(&pool, res_name, (char*)str_val);
     XtFree(res_name);
 }
+#endif /* PRINTING_SUPPORTED */
+
 
 /*
  * ------------------------------------------------------------------------
@@ -466,6 +487,7 @@ PdmXpSetStringValue(PdmXp* me,
 void
 PdmXpUpdateAttributes(PdmXp* me)
 {
+#if 0 && defined(PRINTING_SUPPORTED)
     char fname[L_tmpnam];
     
     if(tmpnam(fname))
@@ -541,4 +563,5 @@ PdmXpUpdateAttributes(PdmXp* me)
 	}
 	XtFree(data);
     }
+#endif /* PRINTING_SUPPORTED */
 }

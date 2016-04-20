@@ -82,7 +82,9 @@
 #include <X11/Shell.h>
 #include <Xm/Xm.h>
 #include <Xm/PushB.h>
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <Xm/Print.h>
+#endif /* PRINTING_SUPPORTED */
 #include "Dmx.h"
 #include "DmxPrintJob.h"
 #include "DmxPrintOptions.h"
@@ -310,7 +312,7 @@ DmxPrintJob::execute (void)
 void
 DmxPrintJob::createPrintShell (void)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     DtMailEnv		dmxenv;
     DtMail::Session	*d_session = theRoamApp.session()->session();
 
@@ -459,7 +461,7 @@ ok_cb(DtMailGenDialog *genDialog)
 void
 DmxPrintJob::doPrint (void)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     DtMailEnv		dmxenv;
     DtMail::Session	*d_session = theRoamApp.session()->session();
     XPSaveData		dest = XPSpool;
@@ -670,7 +672,7 @@ DmxPrintJob::printOnePageCB(
 			XtPointer client_data,
 			XtPointer call_data)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     DmxPrintJob		*thisJob = (DmxPrintJob *) client_data;
 
     XmPrintShellCallbackStruct	*pscbs = (XmPrintShellCallbackStruct*)call_data;
@@ -978,6 +980,7 @@ DmxPrintJob::getPageHeaderString(
  * Name: DmxPrintJob::finishedPrintToFile
  * Description:
  */
+#if 0 && defined(PRINTING_SUPPORTED)
 void
 DmxPrintJob::finishedPrintToFile(
 			Display		*display,
@@ -1023,6 +1026,7 @@ DmxPrintJob::finishedPrintToFile(
     }
     thisJob->cancel();
 }
+#endif /* PRINTING_SUPPORTED */
 
 /*
  * Name: DmxPrintJob::cancelCB
@@ -1069,7 +1073,7 @@ DmxPrintJob::pdmNotificationCB(
 			XtPointer client_data,
 			XtPointer call_data)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     DmxPrintJob			*thisJob = (DmxPrintJob *) client_data;
     XmPrintShellCallbackStruct  *pscbs = (XmPrintShellCallbackStruct*)call_data;
     char			*message = NULL;
@@ -1118,7 +1122,7 @@ DmxPrintJob::pdmSetupCB(
 		XtPointer client_data,
 		XtPointer call_data)
 {
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
     DmxPrintJob *thisJob = (DmxPrintJob *) client_data;
     DtPrintSetupCallbackStruct *pbs = (DtPrintSetupCallbackStruct *) call_data;
 

@@ -109,6 +109,7 @@ GraphicsMgr::get_graphic (UAS_Pointer<Graphic> &gr)
 
     // if printing, get print resolution from default-printer-resolution
 
+#if 0 && defined(PRINTING_SUPPORTED)
     if (window_system().printing()) {
 	string_resolution = XpGetOneAttribute(window_system().printDisplay(), 
 					      l_AppPrintData->f_print_data->print_context,
@@ -116,6 +117,7 @@ GraphicsMgr::get_graphic (UAS_Pointer<Graphic> &gr)
 	resolution = atoi(string_resolution);
 	XFree(string_resolution);	
     }
+#endif /* PRINTING_SUPPORTED */
 
     // if not printing, or default-printer-resolution not defined, calcuate from 
     // the X screen resolution

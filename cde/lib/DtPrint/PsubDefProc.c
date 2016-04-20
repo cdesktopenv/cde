@@ -213,7 +213,9 @@ BuildPrinterLists(
     Display* display;
     int error_base;
     int event_base;
+#if 0 && defined(PRINTING_SUPPORTED)
     XPPrinterList xp_printer_list;
+#endif /* PRINTING_SUPPORTED */
     DtPrintSelectPrinterList printer_list;
     /*
      * clean up previous lists if needed
@@ -245,11 +247,15 @@ BuildPrinterLists(
 	display = XOpenDisplay(server_list[i]);
 	if((Display*)NULL == display)
 	    continue;
+#if 0 && defined(PRINTING_SUPPORTED)
 	if(!XpQueryExtension(display, &event_base, &error_base))
 	{
+#endif /* PRINTING_SUPPORTED */
 	    XCloseDisplay(display);
 	    continue;
+#if 0 && defined(PRINTING_SUPPORTED)
 	}
+#endif /* PRINTING_SUPPORTED */
 	/*
 	 * add the server to the xp server list
 	 */
@@ -258,9 +264,11 @@ BuildPrinterLists(
 	/*
 	 * get the printer list for the server
 	 */
+#if 0 && defined(PRINTING_SUPPORTED)
 	xp_printer_list =
 	    XpGetPrinterList(display, (char*)NULL,
 			     &dpd->printer_counts[dpd->xp_server_count]);
+#endif /* PRINTING_SUPPORTED */
 	/*
 	 * save a copy of the compound text printer name and
 	 * string versions of the name and description for
@@ -270,6 +278,7 @@ BuildPrinterLists(
 	    XtCalloc(dpd->printer_counts[dpd->xp_server_count],
 		     sizeof(DtPrintSelectPrinterRec));
 	printer_list = dpd->printer_lists[dpd->xp_server_count];
+#if 0 && defined(PRINTING_SUPPORTED)
 	for(j = 0; j < dpd->printer_counts[dpd->xp_server_count]; j++)
 	{
 	    printer_list[j].printer_name_ct =
@@ -282,6 +291,7 @@ BuildPrinterLists(
 				     (unsigned char*)xp_printer_list[j].desc);
 	}
 	XpFreePrinterList(xp_printer_list);
+#endif /* PRINTING_SUPPORTED */
 	/*
 	 * sort the printer list
 	 */
@@ -424,12 +434,14 @@ CloseSelectPrinterInfoConnection(
 {
     if((Display*)NULL != dpd->select_printer_info_display)
     {
+#if 0 && defined(PRINTING_SUPPORTED)
 	if((XPContext)None != dpd->select_printer_info_context)
 	{
 	    XpDestroyContext(dpd->select_printer_info_display,
 			     dpd->select_printer_info_context);
 	    dpd->select_printer_info_context = (XPContext)None;
 	}
+#endif /* PRINTING_SUPPORTED */
 	XCloseDisplay(dpd->select_printer_info_display);
 	dpd->select_printer_info_display = (Display*)NULL;
     }
@@ -1800,8 +1812,11 @@ SelectPrinterInfoCB(
 		_DtPrintVerifyXPrinter(psub,
 				       printer_spec,
 				       &new_printer_spec,
-				       &dpd->select_printer_info_display,
-				       &dpd->select_printer_info_context);
+				       &dpd->select_printer_info_display
+#if 0 && defined(PRINTING_SUPPORTED)
+                                       ,&dpd->select_printer_info_context
+#endif /* PRINTING_SUPPORTED */
+                                       );
 	    if(status == DtPRINT_SUCCESS)
 	    {
 		DtPrintSetupData psd;
@@ -1809,7 +1824,9 @@ SelectPrinterInfoCB(
 		memset(&psd, 0, sizeof(DtPrintSetupData));
 		psd.printer_name = printer_spec;
 		psd.print_display = dpd->select_printer_info_display;
+#if 0 && defined(PRINTING_SUPPORTED)
 		psd.print_context = dpd->select_printer_info_context;
+#endif /* PRINTING_SUPPORTED */
 		(*info_proc)(psub, &psd);
 	    }
 	    else
@@ -1988,7 +2005,9 @@ _DtPrintDefProcInitialize(Widget w)
     dpd->printer_lists = (DtPrintSelectPrinterList*)NULL;
     dpd->selected_printer = 0;
     dpd->select_printer_info_display = (Display*)NULL;
+#if 0 && defined(PRINTING_SUPPORTED)
     dpd->select_printer_info_context = (XPContext)None;
+#endif /* PRINTING_SUPPORTED */
     dpd->printer_info_box = (Widget)NULL;
 
     XtAddCallback(w, XmNdestroyCallback,
@@ -2036,8 +2055,8 @@ _DtPrintSetupBoxXPrinterInfoProc(
     Widget wmshell_ancestor;
     Widget ctl;
     XmString label;
-    char* attr_value_ct;
-    String attr_value;
+    char* attr_value_ct = NULL;
+    String attr_value = NULL;
     XmString empty_label;
     Widget name_label_top;
     Position max_y, y;
@@ -2077,10 +2096,12 @@ _DtPrintSetupBoxXPrinterInfoProc(
      */
     ctl = XtNameToWidget(dpd->printer_info_box, "*Description");
     XtVaSetValues(ctl, XmNlabelString, empty_label, NULL);
+#if 0 && defined(PRINTING_SUPPORTED)
     attr_value_ct = XpGetOneAttribute(print_data->print_display,
 				      print_data->print_context,
 				      XPPrinterAttr,
 				      "descriptor");
+#endif /* PRINTING_SUPPORTED */
     if((char*)NULL != attr_value_ct)
     {
 	attr_value =
@@ -2119,10 +2140,12 @@ _DtPrintSetupBoxXPrinterInfoProc(
      */
     ctl = XtNameToWidget(dpd->printer_info_box, "*Format");
     XtVaSetValues(ctl, XmNlabelString, empty_label, NULL);
+#if 0 && defined(PRINTING_SUPPORTED)
     attr_value = XpGetOneAttribute(print_data->print_display,
 				   print_data->print_context,
 				   XPDocAttr,
 				   "document-format");
+#endif /* PRINTING_SUPPORTED */
     if((String)NULL != attr_value)
     {
 	char* format_start;
@@ -2147,10 +2170,12 @@ _DtPrintSetupBoxXPrinterInfoProc(
      */
     ctl = XtNameToWidget(dpd->printer_info_box, "*Model");
     XtVaSetValues(ctl, XmNlabelString, empty_label, NULL);
+#if 0 && defined(PRINTING_SUPPORTED)
     attr_value_ct = XpGetOneAttribute(print_data->print_display,
 				      print_data->print_context,
 				      XPPrinterAttr,
 				      "printer-model");
+#endif /* PRINTING_SUPPORTED */
     if((char*)NULL != attr_value_ct)
     {
 	attr_value =
@@ -2471,7 +2496,9 @@ _DtPrintSetupBoxVerifyXPrinterProc(
     XtEnum status;
     String new_printer_spec;
     Display* new_display;
+#if 0 && defined(PRINTING_SUPPORTED)
     XPContext new_context;
+#endif /* PRINTING_SUPPORTED */
     Widget wmshell_ancestor;
     
     wmshell_ancestor = GetWMShellAncestor(w);
@@ -2482,8 +2509,11 @@ _DtPrintSetupBoxVerifyXPrinterProc(
     status = _DtPrintVerifyXPrinter(w,
 				    psd->printer_name,
 				    &new_printer_spec,
-				    &new_display,
-				    &new_context);
+				    &new_display
+#if 0 && defined(PRINTING_SUPPORTED)
+				    ,&new_context
+#endif /* PRINTING_SUPPORTED */
+                                    );
     if(status == DtPRINT_SUCCESS)
     {
 	/*
@@ -2491,7 +2521,9 @@ _DtPrintSetupBoxVerifyXPrinterProc(
 	 * context
 	 */
 	psd->print_display = new_display;
+#if 0 && defined(PRINTING_SUPPORTED)
 	psd->print_context = new_context;
+#endif /* PRINTING_SUPPORTED */
     }
     else
     {

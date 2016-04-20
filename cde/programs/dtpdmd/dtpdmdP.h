@@ -44,7 +44,9 @@
 #include "X11/Xlibint.h"
 #include "X11/Intrinsic.h"
 #include "X11/Xatom.h"
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <X11/extensions/Print.h>
+#endif /* PRINTING_SUPPORTED */
 #include <X11/Xauth.h>
 
 
@@ -72,7 +74,9 @@ typedef struct
 
     char        *print_display_str;	/* Print Server Connection Info */
     Window      print_window;
+#if 0 && defined(PRINTING_SUPPORTED)
     XPContext   print_context;
+#endif /* PRINTING_SUPPORTED */
     char        *locale_hint;
 
     Display     *selection_display;	/* Selection & Property Connection */

@@ -14,7 +14,9 @@
 #define _AppPrintData_hh
 
 #include <Xm/XmAll.h>
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <Xm/Print.h>
+#endif /* PRINTING_SUPPORTED */
 #include <Dt/Print.h>
 
 #include "UAS.hh"

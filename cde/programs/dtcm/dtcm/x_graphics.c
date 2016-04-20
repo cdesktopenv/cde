@@ -57,12 +57,16 @@
 #include "print.h"
 
 #include <X11/Intrinsic.h>
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <X11/extensions/Print.h>
+#endif /* PRINTING_SUPPORTED */
 
 #include <Xm/Xm.h>
 #include <Xm/DialogS.h>
 #include <Xm/DrawingA.h>
+#if 0 && defined(PRINTING_SUPPORTED)
 #include <Xm/Print.h>
+#endif /* PRINTING_SUPPORTED */
 
 #define XOS_USE_XT_LOCKING
 #define X_INCLUDE_TIME_H
@@ -497,8 +501,10 @@ typedef struct _CMGraphicsInfo
 static void local_dayname(Calendar *, char **, int);
 static void local_dayname3(Calendar *, char **, int);
 static char *get_report_type_string(CMGraphicsInfo *);
+#if 0 && defined(PRINTING_SUPPORTED)
 static void filePrintDoneCB(Display *, XPContext, XPGetDocStatus,
 			    XPointer);
+#endif /* PRINTING_SUPPORTED */
 static void filePrintReportStatus(Calendar *, Boolean);
 static void showBadAllocError(Calendar *);
 
@@ -2089,6 +2095,7 @@ get_report_type_string(CMGraphicsInfo *gInfo)
   return reportStrs[reportType];
 }
 
+#if 0 && defined(PRINTING_SUPPORTED)
 static void
 filePrintDoneCB(Display *dsp, XPContext context, XPGetDocStatus status,
 		XPointer uData)
@@ -2103,6 +2110,7 @@ filePrintDoneCB(Display *dsp, XPContext context, XPGetDocStatus status,
   else
       filePrintReportStatus(c, (status == XPGetDocFinished));
 }
+#endif /* PRINTING_SUPPORTED */
 
 static void
 filePrintReportStatus(Calendar *c, Boolean ok)
@@ -2228,7 +2236,7 @@ x_open_file(Calendar *c)
 			    NULL, 0);
 #endif
 
-#if defined(PRINTING_SUPPORTED)
+#if 0 && defined(PRINTING_SUPPORTED)
 
 #ifdef GR_DEBUG
   if (!inDebugMode(c))
@@ -2372,7 +2380,9 @@ x_print_file(void *gInfoP, Calendar *c)
   if (!inDebugMode(c))
 #endif
   {
+#if 0 && defined(PRINTING_SUPPORTED)
     XpEndJob(dsp);
+#endif /* PRINTING_SUPPORTED */
 
     /* Make sure we know about a BadAlloc if it happens. */
     XSync(XtDisplay(gInfo->drawingArea), FALSE);
@@ -2410,6 +2420,7 @@ x_init_printer(void *gInfoP, short orientation)
   int inchWd;
   Dimension daWd, daHt;
 
+#if 0 && defined(PRINTING_SUPPORTED)
 #ifdef GR_DEBUG
   if (inDebugMode(gInfo->c))
   {
@@ -2419,6 +2430,7 @@ x_init_printer(void *gInfoP, short orientation)
   else
 #endif
     XpStartPage(XtDisplay(w), XtWindow(XtParent(w)));
+#endif /* PRINTING_SUPPORTED */
 
   /* XpStartPage() sets the shell width/height correctly. */
   nargs = 0;
@@ -2943,7 +2955,9 @@ x_finish_printer(void *gInfoP)
     tmpSpin(w);
   else
 #endif
+#if 0 && defined(PRINTING_SUPPORTED)
     XpEndPage(XtDisplay(w));
+#endif /* PRINTING_SUPPORTED */
 }
 
 void

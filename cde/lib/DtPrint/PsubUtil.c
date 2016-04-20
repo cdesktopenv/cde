@@ -183,6 +183,7 @@ OpenXPrinterOnDisplay(
 		      Display** new_display,
 		      char** ct_printer_name)
 {
+#if 0 && defined(PRINTING_SUPPORTED)
     Display* print_display;
     XPPrinterList printer_list;
     int error_base;
@@ -242,6 +243,9 @@ OpenXPrinterOnDisplay(
     {
 	return DtPRINT_INVALID_DISPLAY;
     }
+#else
+    return DtPRINT_NO_PRINTER;
+#endif
 }
 
 /*
@@ -692,6 +696,7 @@ _DtPrintGetXpServerList(
     /*
      * convert to a list of strings
      */
+#if 0 && defined(PRINTING_SUPPORTED)
     if((Widget)NULL != w
        &&
        XpQueryExtension(XtDisplay(w), &event_base, &error_base))
@@ -708,6 +713,7 @@ _DtPrintGetXpServerList(
 	server_list = BuildStringList(xp_server_list, 0);
     }
     else
+#endif /* PRINTING_SUPPORTED */
 	server_list = (String*)NULL;
     /*
      * default the display number to ":0" if needed
@@ -1014,8 +1020,11 @@ _DtPrintVerifyXPrinter(
 		       Widget w,
 		       String printer_spec,
 		       String* new_printer_spec,
-		       Display** new_display,
-		       XPContext* new_context)
+		       Display** new_display
+#if 0 && defined(PRINTING_SUPPORTED)
+		       ,XPContext* new_context
+#endif /* PRINTING_SUPPORTED */
+                       )
 {
     String default_printer;
     String printer_name;
@@ -1156,6 +1165,7 @@ _DtPrintVerifyXPrinter(
 	/*
 	 * initialize the print context
 	 */
+#if 0 && defined(PRINTING_SUPPORTED)
 	if((char*)NULL != ct_printer_name)
 	{
 	    *new_context = XpCreateContext(print_display, ct_printer_name);
@@ -1164,6 +1174,7 @@ _DtPrintVerifyXPrinter(
 	else
 	    *new_context = XpCreateContext(print_display, printer_name);
 	XpSetContext(print_display, *new_context);
+#endif /* PRINTING_SUPPORTED */
 	/*
 	 * update the display return parm
 	 */
