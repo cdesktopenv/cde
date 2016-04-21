@@ -737,12 +737,21 @@ ReadBitmapDirectory(
             filep = readdir(dirp);
             continue; 
         }
-
 	
-        /* strip suffix off filename */
         name = (char *) XtMalloc(strlen(filep->d_name) + 1);
         strcpy (name, filep->d_name);
-        (void)strtok(name, ".");
+
+        /* strip suffix off filename if it's a .pm or .bm
+         * motif requires other formats like jpg, png etc to
+         * have the extension on to work with the XmGetPixmap() calls */
+        if(strlen(name) > 3
+           && (0 == strcmp(name + strlen(name) - 3, ".pm")
+               || 0 == strcmp(name + strlen(name) - 3, ".bm")))
+        {
+          (void)strtok(name, ".");
+	    }
+
+        fprintf(stderr, "'%s'\n", name);
 
         /* check for duplicates */
         duplicate = 0;
