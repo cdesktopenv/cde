@@ -749,9 +749,8 @@ ReadBitmapDirectory(
                || 0 == strcmp(name + strlen(name) - 3, ".bm")))
         {
           (void)strtok(name, ".");
-	    }
+        }
 
-        fprintf(stderr, "'%s'\n", name);
 
         /* check for duplicates */
         duplicate = 0;
