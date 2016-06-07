@@ -1263,9 +1263,9 @@ int             main (int argc, char *argv[])
 
     }	/* end main record loop */
 
-    fclose (infile);
     if (need_final_progress_msg)
 	print_progress ();
+    fclose (infile);
     write_dbrec ();
 
     /* If all input records were discarded, complete processing
