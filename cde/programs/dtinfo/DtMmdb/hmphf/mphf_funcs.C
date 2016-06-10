@@ -235,16 +235,6 @@ int write_spec(buckets& bs, params& pms, buffer& mphf_buffer)
 
    mphf_buffer.expand_chunk(spec_bytes);
 
-/*
-   mphf_buffer.put(pms.v_n);		mphf_buffer.put('\n');
-   mphf_buffer.put(pms.v_b);		mphf_buffer.put('\n');
-   mphf_buffer.put(pms.v_p1);		mphf_buffer.put('\n');
-   mphf_buffer.put(pms.v_p2);		mphf_buffer.put('\n');
-   mphf_buffer.put(pms.v_r);		mphf_buffer.put('\n');
-   mphf_buffer.put(pms.v_seed);		mphf_buffer.put('\n');
-   mphf_buffer.put(g_array_bytes);	mphf_buffer.put('\t');
-   mphf_buffer.put((char*)c_array, g_array_bytes); mphf_buffer.put('\n');
-*/
 
    ostringstream fout(mphf_buffer.get_base(), ios::out);
 
@@ -252,13 +242,7 @@ int write_spec(buckets& bs, params& pms, buffer& mphf_buffer)
    fout << pms.v_b << "\n";
    fout << pms.v_p1 << "\n";
    fout << pms.v_p2 << "\n";
-
-/*
-   int new_v_r = pms.v_r; SET_BIT(new_v_r, 0x80000000);
-   fout << new_v_r << "\n";
-*/
    fout << pms.v_r << "\n";
-
    fout << pms.v_seed << "\n";
 
    fout << g_array_bytes << '\t';
@@ -266,8 +250,9 @@ int write_spec(buckets& bs, params& pms, buffer& mphf_buffer)
    fout << '\n';
 
 
-   mphf_buffer.set_content_sz(spec_bytes);
-   memcpy(mphf_buffer.get_base(), fout.str().c_str(), spec_bytes);
+   int fout_len = fout.str().size();
+   mphf_buffer.set_content_sz(fout_len);
+   memcpy(mphf_buffer.get_base(), fout.str().c_str(), fout_len);
 
    delete c_array;
 

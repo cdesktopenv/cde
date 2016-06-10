@@ -217,9 +217,11 @@ _DtHelpCreatePrintArea(Widget parent,
 		       Dimension width,
 		       Dimension height)
 {
-    extern AppPrintData * l_AppPrintData;
     DtHelpDispAreaStruct * DisplayArea;
+#if 0 && defined(PRINTING_SUPPORTED)
+    extern AppPrintData * l_AppPrintData;
     String string_resolution;
+#endif /* PRINTING_SUPPORTED */
     int resolution = 0;
 
     //  get print resolution from default-printer-resolution

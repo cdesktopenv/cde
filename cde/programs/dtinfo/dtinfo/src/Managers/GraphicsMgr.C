@@ -103,9 +103,11 @@ GraphicsMgr::~GraphicsMgr ()
 PixmapGraphic *
 GraphicsMgr::get_graphic (UAS_Pointer<Graphic> &gr)
 {    
+#if 0 && defined(PRINTING_SUPPORTED)
     extern AppPrintData * l_AppPrintData;
-    int resolution = 0;
     String string_resolution ;
+#endif /* PRINTING_SUPPORTED */
+    int resolution = 0;
 
     // if printing, get print resolution from default-printer-resolution
 
