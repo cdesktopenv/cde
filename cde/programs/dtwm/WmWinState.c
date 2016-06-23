@@ -50,6 +50,7 @@ static char rcsid[] = "$XConsortium: WmWinState.c /main/6 1996/06/20 09:39:39 rs
  */
 
 #include "WmCDecor.h"
+#include "WmCDInfo.h"
 #include "WmFunction.h"
 #include "WmIDecor.h"
 #include "WmIPlace.h"
@@ -71,6 +72,7 @@ static char rcsid[] = "$XConsortium: WmWinState.c /main/6 1996/06/20 09:39:39 rs
  * Function Declarations:
  */
 
+#include "WmMultiHead.h"
 #include "WmWinState.h"
 #ifdef PANELIST
 static void SlideWindowOut (ClientData *pCD);
@@ -655,6 +657,8 @@ static void SetupWindowStateWithEventMask (ClientData *pCD, int newState,
 
 void ConfigureNewState (ClientData *pcd)
 {
+    WmHeadInfo_t *WmHI = NULL;
+
     if (pcd->maxConfig)
     {
 	pcd->maxConfig = FALSE;
@@ -665,6 +669,18 @@ void ConfigureNewState (ClientData *pcd)
     }
     else
     {
+    /*
+     * Update client config to reflect underlying head, if MultiHead is active
+     */
+    if (WmHI = GetHeadInfo(pcd)) {
+        FrameToClient(pcd, &WmHI->x_org, &WmHI->y_org,
+                &WmHI->width, &WmHI->height);
+        pcd->maxX = WmHI->x_org;
+        pcd->maxY = WmHI->y_org;
+        pcd->maxWidth = WmHI->width;
+        pcd->maxHeight = WmHI->height;
+    }
+
 	XResizeWindow (DISPLAY, pcd->client,
 			   (unsigned int) pcd->maxWidth, 
 			   (unsigned int) pcd->maxHeight);

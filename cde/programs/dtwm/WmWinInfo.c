@@ -80,6 +80,7 @@ static char rcsid[] = "$TOG: WmWinInfo.c /main/18 1999/02/04 15:17:25 mgreess $"
 #include "WmPresence.h"
 #endif /* WSM */
 #include "WmXSMP.h"
+#include "WmMultiHead.h"
 
 #ifdef PANELIST
 static void AdjustSlideOutGeometry (ClientData *pCD);
@@ -3676,11 +3677,14 @@ FindClientPlacement (ClientData *pCD)
     Boolean placed = False;
     int frameWidth;
     int frameHeight;
+    int screenX;
+    int screenY;
     int screenWidth;
     int screenHeight;
     int borderWidth = 0;
     Boolean offScreenX;
     Boolean offScreenY;
+    WmHeadInfo_t *WmHI = NULL;
 
 
     if (!clientPlacementInitialized)
@@ -3704,8 +3708,22 @@ FindClientPlacement (ClientData *pCD)
 
     frameWidth = pCD->clientWidth + (2 * pCD->clientOffset.x);
     frameHeight = pCD->clientHeight + pCD->clientOffset.y + pCD->clientOffset.x;
-    screenWidth = DisplayWidth (DISPLAY, SCREEN_FOR_CLIENT(pCD));
-    screenHeight = DisplayHeight (DISPLAY, SCREEN_FOR_CLIENT(pCD));
+
+    if (WmHI = GetHeadInfo(wmGD.keyboardFocus)) {
+        /* Use Head metrics for placeable area */
+        screenX = WmHI->x_org;
+        screenY = WmHI->y_org;
+        screenWidth = WmHI->width;
+        screenHeight = WmHI->height;
+
+        free(WmHI);
+    } else {
+        /* Use X Screen metrics for placeable area */
+        screenX = 0;
+        screenY = 0;
+        screenWidth = DisplayWidth (DISPLAY, SCREEN_FOR_CLIENT(pCD));
+        screenHeight = DisplayHeight (DISPLAY, SCREEN_FOR_CLIENT(pCD));
+    }
 
     while (!placed)
     {
@@ -3796,8 +3814,8 @@ FindClientPlacement (ClientData *pCD)
      * The window has been placed, now update the placement information.
      */
 
-    pCD->clientX = clientPlacementX;
-    pCD->clientY = clientPlacementY;
+    pCD->clientX = clientPlacementX + screenX;
+    pCD->clientY = clientPlacementY + screenY;
     clientPlacementX += clientPlacementOffset;
 
     if (clientPlacementX >= screenWidth)
