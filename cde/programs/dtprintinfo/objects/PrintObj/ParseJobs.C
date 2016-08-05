@@ -870,7 +870,7 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
 #if defined(__osf__)
    sprintf(buf, "LANG=C lpstat -o%s", printer);
 #endif
-#if defined(linux) || defined(__OpenBSD__)
+#if defined(linux) || defined(__OpenBSD__) || defined(__NetBSD__)
    snprintf(buf, 1000, "LANG=C lpq -P%s", printer);
 #elif defined(__FreeBSD__)
    snprintf(buf, 1000, "LANG=C /usr/local/bin/lpq -P%s", printer);

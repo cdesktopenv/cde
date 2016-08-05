@@ -39,6 +39,7 @@ $END$
 #include <stdlib.h>
 #include <string.h>
 #include <sys/param.h>        /* MAXPATHLEN */
+#include <time.h>
 
 /* for Xrm */
 #include <X11/Intrinsic.h>

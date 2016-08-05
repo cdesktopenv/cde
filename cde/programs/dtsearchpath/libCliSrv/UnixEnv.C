@@ -85,7 +85,7 @@ UnixEnvironment::UnixEnvironment()
 #elif defined(__FreeBSD__)
 	manpath = "/usr/share/man:/usr/local/man";
 #elif defined(__NetBSD__)
-	manpath = "/usr/share/man:/usr/X11R6/man:/usr/X11R7/man";
+	manpath = "/usr/share/man:/usr/X11R6/man:/usr/X11R7/man:/usr/local/man:/usr/pkg/man";
 #endif
     else
 	manpath = temp;

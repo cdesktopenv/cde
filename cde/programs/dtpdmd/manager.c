@@ -648,7 +648,7 @@ void mgr_launch_reply( XpPdmServiceRec *rec )
     XEvent reply;
     Status status;
     FILE   *errlog;
-    long   now;
+    time_t now;
     char   *eec;
 
     Atom    tmpa;
@@ -897,7 +897,7 @@ Bool has_exec_token( XpPdmServiceRec *rec )
 void mgr_shutdown_scan()
 {
     int        i;
-    long       now;
+    time_t     now;
     FILE       *errlog;
     static int errlog_problem_notice = 0;
     Bool       shutdown_time;

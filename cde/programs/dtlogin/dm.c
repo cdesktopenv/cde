@@ -62,8 +62,7 @@
 # include	<time.h>
 # include	<utime.h>
 # include	<pwd.h>
-#if defined(linux) || defined(__FreeBSD__) || defined(__NetBSD__) || \
-    defined(sun)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 # include	<stdarg.h>
 #else
 # include	<varargs.h>
