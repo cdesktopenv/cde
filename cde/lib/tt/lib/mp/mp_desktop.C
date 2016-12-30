@@ -416,7 +416,10 @@ parse_Xdisplay_string(_Tt_string display, _Tt_string &host, pid_t &svnum,_Tt_str
 	if (offset == 0) {
 
 		// use local host
-		(void)_tt_global->get_local_host(h);
+		if(!_tt_global->get_local_host(h)){
+			_tt_syslog(0,LOG_ERR,"get_local_host(): 0");
+			return 0;
+		}
 		host = h->stringaddr();
 		hostname = h->name();
 		status = 2;
@@ -427,7 +430,10 @@ parse_Xdisplay_string(_Tt_string display, _Tt_string &host, pid_t &svnum,_Tt_str
 		host = display.mid(0, offset);
 
 		if (host == "unix") {
-			(void)_tt_global->get_local_host(h);
+			if(!_tt_global->get_local_host(h)){
+				_tt_syslog(0,LOG_ERR,"get_local_host(): 0");
+				return 0;
+			}
 			host = h->stringaddr();
 			hostname = h->name();
 			status = 3;
