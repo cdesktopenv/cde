@@ -99,7 +99,9 @@
 #include "FileMgr.h"
 #include "Main.h"
 #include "ModAttr.h"
-
+#ifdef USE_XINERAMA
+#include <DtXinerama.h>
+#endif
 
 #define MAX_NAME_LIST_SIZE	25
 #define MAX_RESOURCE_LENGTH	256
@@ -232,6 +234,10 @@ static void IntDialogPutResources(
                         char *dialogName,
                         char *base,
                         DialogResource *resource) ;
+#ifdef USE_XINERAMA
+static Boolean GetXineramaScreenDimensions(
+	Widget w,int *xorg, int *yorg, int *width,int *height);
+#endif /* USE_XINERAMA */
 
 /********    End Static Function Declarations    ********/
 
@@ -1872,6 +1878,7 @@ _DtChildPosition(
    int pWidth, myWidth, sWidth;
    enum { posRight, posBelow, posLeft, posAbove } pos;
    int space;
+   int xOrg=0, yOrg=0; /* Xinerama screen origin */
 
    /* get x, y offsets for the parent's window frame */
    extData = _XmGetWidgetExtData(parent, XmSHELL_EXTENSION);
@@ -1884,11 +1891,19 @@ _DtChildPosition(
    else
      xOffset = yOffset = 0;
 
+   #ifdef USE_XINERAMA
+   if(!GetXineramaScreenDimensions(parent,&xOrg,&yOrg,&sWidth,&sHeight)){
+      sHeight = HeightOfScreen(XtScreen(parent));
+      sWidth = WidthOfScreen(XtScreen(parent));
+   }
+   #else
    /* get size/position of screen, parent, and widget */
-   sHeight = HeightOfScreen(XtScreen(parent));;
+   sHeight = HeightOfScreen(XtScreen(parent));
    sWidth = WidthOfScreen(XtScreen(parent));
-   pX = XtX(parent) - xOffset;
-   pY = XtY(parent) - yOffset;
+   #endif /* USE_XINERAMA */
+
+   pX = XtX(parent) - xOffset - xOrg;
+   pY = XtY(parent) - yOffset - yOrg;
    pHeight = XtHeight(parent) + yOffset + xOffset;
    pWidth = XtWidth(parent) + 2*xOffset;
    myHeight = XtHeight(w) + yOffset + xOffset;
@@ -1958,6 +1973,8 @@ _DtChildPosition(
    if ((*newY >= (sHeight - 10)) || (*newY < 0))
       *newY = (sHeight - myHeight) / 2;
 
+	*newX+=xOrg;
+	*newY+=yOrg;
 }
 
 
@@ -2457,3 +2474,36 @@ _DtFreeDialog(
    }
 }
 
+#ifdef USE_XINERAMA
+/*
+ * Retrieve dimensions of the Xinerama screen the given widget resides on.
+ * Returns True on success, False otherwise.
+ */
+static Boolean GetXineramaScreenDimensions(
+	Widget w, int *org_x, int *org_y, int *s_width, int *s_height)
+{
+	DtXineramaInfo_t *dt_xi;
+	unsigned int wx, wy;
+	unsigned int i, sx, sy, sw, sh;
+
+	while(w && !XtIsShell(w)) w=XtParent (w);
+
+	wx=XtX(w);
+	wy=XtY(w);
+
+	if(!(dt_xi=_DtXineramaInit(XtDisplay(w)))) return False;
+
+	for(i=0; i<dt_xi->numscreens; i++){
+		if(!_DtXineramaGetScreen(dt_xi,i,&sw,&sh,&sx,&sy))break;
+
+		if(wx>=sx && wx<(sx+sw) && wy>=sy && wy<(sy+sh)){
+			*s_width=(int)sw;
+			*s_height=(int)sh;
+			*org_x=(int)sx;
+			*org_y=(int)sy;
+			return True;
+		}
+	}
+	return False;
+}
+#endif /* USE_XINERAMA */
