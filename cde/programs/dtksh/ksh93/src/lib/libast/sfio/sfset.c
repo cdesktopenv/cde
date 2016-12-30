@@ -62,7 +62,7 @@ reg int		set;
 	reg int	oflags;
 
 	if(flags == 0)
-		return (f->flags&SF_FLAGS);
+		return (f->flags&SFIO_FLAGS);
 
 	if((oflags = (f->mode&SF_RDWR)) != f->mode && _sfmode(f,oflags,0) < 0)
 		return 0;
@@ -98,5 +98,5 @@ reg int		set;
 		f->flags &= ~SF_PUBLIC;
 
 	SFOPEN(f,0);
-	return (oflags&SF_FLAGS);
+	return (oflags&SFIO_FLAGS);
 }

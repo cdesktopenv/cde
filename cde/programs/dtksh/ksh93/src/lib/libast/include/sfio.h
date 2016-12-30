@@ -224,7 +224,7 @@ struct _sfio_
 #define SF_IOCHECK	0002000	/* call exceptf before doing IO		*/
 #define SF_PUBLIC	0004000	/* SF_SHARE and follow physical seek	*/
 
-#define SF_FLAGS	0005177	/* PUBLIC FLAGS PASSABLE TO SFNEW()	*/
+#define SFIO_FLAGS	0005177	/* PUBLIC FLAGS PASSABLE TO SFNEW()	*/
 #define SF_SETS		0007163	/* flags passable to sfset()		*/
 
 /* exception events: SF_NEW(0), SF_READ(1), SF_WRITE(2) and the below 	*/

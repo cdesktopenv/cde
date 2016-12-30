@@ -66,7 +66,7 @@ reg Sfio_t	*f;
 	f->flags &= ~(SF_ERROR|SF_EOF);
 
 	if(!(f->mode&(SF_LOCK|SF_PEEK)) )
-		return (f->flags&SF_FLAGS);
+		return (f->flags&SFIO_FLAGS);
 
 	/* clear peek locks */
 	f->mode &= ~SF_PEEK;
@@ -78,5 +78,5 @@ reg Sfio_t	*f;
 
 	f->mode &= (SF_RDWR|SF_INIT|SF_POOL|SF_PUSH|SF_SYNCED|SF_STDIO);
 
-	return _sfmode(f,0,0) < 0 ? 0 : (f->flags&SF_FLAGS);
+	return _sfmode(f,0,0) < 0 ? 0 : (f->flags&SFIO_FLAGS);
 }

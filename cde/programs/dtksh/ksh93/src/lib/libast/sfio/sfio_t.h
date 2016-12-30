@@ -82,7 +82,7 @@
 	  (unsigned char*)(data),			/* endr		*/ \
 	  (unsigned char*)(data),			/* endb		*/ \
 	  (struct _sfio_*)0,				/* push		*/ \
-	  (unsigned short)((type)&SF_FLAGS),		/* flags	*/ \
+	  (unsigned short)((type)&SFIO_FLAGS),		/* flags	*/ \
 	  (short)(file),				/* file		*/ \
 	  (unsigned char*)(data),			/* data		*/ \
 	  (int)(size),					/* size		*/ \
