@@ -1236,6 +1236,7 @@ MakeDialog( DialogType dtype )
 	xorg = yorg = 0;
       }
 				/* else, should be setup properly */
+    XWarpPointer(dpyinfo.dpy,None,dpyinfo.root,0,0,0,0,dpwidth/2,dpheight/2);
 #else  /* no Xinerama */
     dpwidth = dpyinfo.width;
     dpheight = dpyinfo.height;
