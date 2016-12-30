@@ -65,7 +65,9 @@
 #include <Dt/DtP.h>
 #include <Dt/Connect.h>
 #include <Dt/DtNlUtils.h>
-
+#ifdef USE_XINERAMA
+#include <DtXinerama.h>
+#endif
 #include "SharedProcs.h"
 
 
@@ -74,7 +76,8 @@
 
 
 /********    Static Function Declarations    ********/
-
+static void MessageDialogPopupCB(Widget w, XtPointer client_data,
+	XtPointer call_data);
 
 /********    End Static Function Declarations    ********/
 
@@ -247,17 +250,15 @@ _DtMessageDialog(
    else
       attributes.map_state = IsUnmapped;
 
+   /*
+    * If parent widget isn't mapped, attach a callback
+    * procedure that'll center the message dialog on screen.
+	*/
    if (attributes.map_state == IsUnmapped)
-   {
-      XtSetArg(args[0], XmNx, (WidthOfScreen(XtScreen (w)) - 350) / 2);
-      XtSetArg(args[1], XmNy, (HeightOfScreen(XtScreen (w)) - 200) / 2);
-      XtSetArg(args[2], XmNdefaultPosition, False);
-      XtSetValues(message, args, 3);
-   }
-
+        XtAddCallback(XtParent(message),XmNpopupCallback,
+			MessageDialogPopupCB,(XtPointer)w);
 
    /*  Adjust the decorations and title for the dialog shell of the dialog  */
-
    XtSetArg(args[0], XmNtitle, title);
    XtSetArg(args[1], XmNmwmFunctions, MWM_FUNC_MOVE);
    XtSetArg(args[2], XmNmwmDecorations, MWM_DECOR_BORDER | MWM_DECOR_TITLE);
@@ -365,4 +366,52 @@ _DtMessageClose(
    }
 }
 
+/*
+ * Center a message dialog on screen once it is managed.
+ * client_data is expected to contain the parent shell widget handle.
+ */
+static void MessageDialogPopupCB(Widget w, XtPointer client_data,
+	XtPointer call_data)
+{
+	Position msg_x, msg_y;
+	unsigned int scr_w, scr_h, off_x=0, off_y=0;
+	Dimension msg_w=0, msg_h=0;
+	Arg args[2];
+	#ifdef USE_XINERAMA
+	DtXineramaInfo_t *dt_xi;
+	#endif
 
+	msg_w=XtWidth(w);
+	msg_h=XtHeight(w);
+
+	scr_w=WidthOfScreen(XtScreen(w));
+	scr_h=HeightOfScreen(XtScreen(w));
+
+	#ifdef USE_XINERAMA
+	/* determine xinerama screen number the parent shell resides on,
+	 * and override scr_w/scr_h and off_x/off_y on success */
+	if((dt_xi=_DtXineramaInit(XtDisplay(w)))){
+		int i;
+		unsigned int pw_x=XtX((Widget)client_data);
+		unsigned int pw_y=XtY((Widget)client_data);
+
+		for(i=0; i<dt_xi->numscreens; i++){
+			unsigned int sw,sh,sx,sy;
+			_DtXineramaGetScreen(dt_xi,i,&sw,&sh,&sx,&sy);
+			if(pw_x>=sx && pw_x<(sx+sw) && pw_y>=sy && pw_y<(sy+sh)){
+				off_x=sx; off_y=sy;
+				scr_w=sw; scr_h=sh;
+				break;
+			}
+		}
+	}
+	#endif /* USE_XINERAMA */
+
+	msg_x=off_x+(scr_w-msg_w)/2;
+	msg_y=off_y+(scr_h-msg_h)/2;
+
+	XtSetArg(args[0],XmNx,msg_x);
+	XtSetArg(args[1],XmNy,msg_y);
+	XtSetValues(w,args,2);
+	XtRemoveCallback(w,XmNpopupCallback,MessageDialogPopupCB,client_data);
+}

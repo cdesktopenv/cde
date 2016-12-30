@@ -2,6 +2,11 @@ XCOMM $TOG: Imakefile /main/16 1998/08/10 18:02:14 mgreess $
 #define IHaveSubdirs
 #define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)' 'CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)'
 
+#if CDE_USEXINERAMA
+XINOPT = -DUSE_XINERAMA
+XINLIB = -lDtXinerama -lXinerama
+#endif
+
 SUBDIRS = include DtUtil1 DtUtil2 DtEncap DtCodelibs DtXpm
 DONES = DtUtil1/DONE DtUtil2/DONE DtEncap/DONE DtCodelibs/DONE DtXpm/DONE
 EXTRALIBRARYDEPS = $(DONES)
@@ -24,18 +29,18 @@ DependSubdirs($(SUBDIRS))
 #ifndef DtSvcDefines
 # define DtSvcDefines	-DMULTIBYTE
 #endif
-DEFINES = DtSvcDefines
+DEFINES = DtSvcDefines $(XINOPT)
 
 INCLUDES = -I.
 
 #ifdef SharedDtSvcReqs
 #ifdef SunArchitecture
-REQUIREDLIBS = SharedDtSvcReqs
+REQUIREDLIBS = SharedDtSvcReqs $(XINLIB)
 #ifndef HasGcc2
 SHLIBLDFLAGS = -G
 #endif
 #else
-REQUIREDLIBS = SharedDtSvcReqs
+REQUIREDLIBS = SharedDtSvcReqs $(XINLIB)
 #endif
 #endif
 
