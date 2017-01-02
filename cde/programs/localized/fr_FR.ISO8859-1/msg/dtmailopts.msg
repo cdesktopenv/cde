@@ -27,9 +27,9 @@ $ ** You can edit this comment and add comments below each message.
 
 4 "Vue message"
 
-5 "Composition fenêtre"
+5 "Fenêtre de composition"
 
-6 "Archivage messages"
+6 "Archivage des messages"
 
 7 "Congés"
 
@@ -192,12 +192,12 @@ $	"Category" option menu in the "Mailer - Options" dialog.
 $	This menu button is used to select printing options pane.
 $	This message is in the same menu as messages 4 - 10 above.
 $ "NEW-"
-93 "Mail Retrieval"
+93 "Récupération Courrier"
 
 $ 
 $	Used to construct the label on the confirm attachment in the
 $	compose pane.
 $ "NEW-"
-94 "Confirm attachments over:"
+94 "Confirmer pièces-jointes après:"
 $ "NEW-"
-95 "kilobytes"
+95 "kilooctets"

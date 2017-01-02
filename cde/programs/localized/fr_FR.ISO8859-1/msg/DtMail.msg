@@ -726,7 +726,7 @@ $ "-NEW"
 262 "lettre morte message"
 
 $ "-NEW"
-263 "The attachment '%s' is %d kilobytes.\nAdd as attachment?"
+263 "La pièce jointe '%s' prend %d kilooctets.\nAjouter la p.-j. ?"
 
 
 
@@ -1414,20 +1414,20 @@ $set 27
 4 "IMAP"
 5 "POP2"
 
-6 "Automatic (system) delivery"
+6 "Distribution (système) automatique"
 
-7 "Mail server retrieval"
-8 "Server Protocol:"
-9 "Server Name:"
-10 "User Name:"
-11 "Password:"
-12 "Remember password"
-13 "Delete from server after retrieval"
-14 "Retrieve old messages"
+7 "Récupération sur serveur distant"
+8 "Protocole du serveur:"
+9 "Nom du Serveur:"
+10 "Nom Utilisateur:"
+11 "Mot de Passe:"
+12 "Retenir le mot de passe"
+13 "Effacer du serveur après récupération"
+14 "Récupérer les anciens messages"
 
-15 "Custom retrieval"
-16 "User Getmail command:"
+15 "Récupération personnalisée"
+16 "commande à éxécuter:"
 
-17 "Null INBOX path."
-18 "INBOX folder path:"
+17 "Pas de chemin pour la boîte aux lettres."
+18 "Chemin de la boîte aux lettres locale :"
 

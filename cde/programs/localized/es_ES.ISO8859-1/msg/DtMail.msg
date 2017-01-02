@@ -1413,20 +1413,20 @@ $set 27
 4 "IMAP"
 5 "POP2"
 
-6 "Automatic (system) delivery"
+6 "Distribucion Automatica (sistemo)"
 
-7 "Mail server retrieval"
-8 "Server Protocol:"
-9 "Server Name:"
-10 "User Name:"
-11 "Password:"
-12 "Remember password"
-13 "Delete from server after retrieval"
-14 "Retrieve old messages"
+7 "Recoger del servidor de correo"
+8 "Protocolo del Servidor:"
+9 "Nombre del Servidor:"
+10 "Nombre del Usuario:"
+11 "Frase de Paso:"
+12 "Recordacion de la Frase de Paso"
+13 "Borrar del servidor despuès del recogimento"
+14 "Recoger viejos mensajes"
 
-15 "Custom retrieval"
-16 "User Getmail command:"
+15 "Recogimento Personal"
+16 "Mandamiento per recoger correo del usuario:"
 
-17 "Null INBOX path."
-18 "INBOX folder path:"
+17 "Ningun ruta por buzón."
+18 "ruta por buzón local:"
 

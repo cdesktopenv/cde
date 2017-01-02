@@ -191,13 +191,13 @@ $	Used to construct the label on the "Mail Retrieval" menu button in the
 $	"Category" option menu in the "Mailer - Options" dialog.
 $	This menu button is used to select printing options pane.
 $	This message is in the same menu as messages 4 - 10 above.
-$ "NEW-"
-93 "Mail Retrieval"
+$ "NEW-" (Recobrar is also possible)
+93 "Recoger el Correo"
 
 $ 
 $	Used to construct the label on the confirm attachment in the
 $	compose pane.
 $ "NEW-"
-94 "Confirm attachments over:"
+94 "Confirmar archivos adjuntos despuès:"
 $ "NEW-"
 95 "kilobytes"

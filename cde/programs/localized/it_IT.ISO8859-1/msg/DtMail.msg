@@ -1104,20 +1104,19 @@ $set 27
 4 "IMAP"
 5 "POP2"
 
-6 "Automatic (system) delivery"
+6 "Distribuzione (sistemo) automatica"
 
-7 "Mail server retrieval"
-8 "Server Protocol:"
-9 "Server Name:"
-10 "User Name:"
-11 "Password:"
-12 "Remember password"
-13 "Delete from server after retrieval"
-14 "Retrieve old messages"
+7 "ricupero dal Mailserver"
+8 "Protocollo del Server:"
+9 "Nome Server:"
+10 "Nome Utento:"
+11 "Passaparola:"
+12 "Ricorda passaparola"
+13 "Cancellare dal server dopo ricupero"
+14 "Ricupera vecchi messagi"
 
-15 "Custom retrieval"
-16 "User Getmail command:"
+15 "Ricupero personalizzato"
+16 "Utento Getmail commanda:"
 
-17 "Null INBOX path."
-18 "INBOX folder path:"
-
+17 "Nessun percorso per la casella postale."
+18 "percorso della casella postale:"

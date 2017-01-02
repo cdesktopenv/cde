@@ -22,7 +22,7 @@ $
 1 Le processus de la session tt n'est pas lancé et le service ToolTalk\n\
 ne peut pas le relancer.
 2 L'identificateur courant du processus par défaut est périmé ou incorrect.
-3 La session ToolTalk sécifiée est périmée ou incorrecte.
+3 La session ToolTalk spécifiée est périmée ou incorrecte.
 
 $ 
 $ Message 4: Do not localize the word DtInfo_Start.

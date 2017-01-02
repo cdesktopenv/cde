@@ -97,7 +97,7 @@ $ Do not Translate
 32 "zone rec_info incorrecte dans l'option -w\n"
 $ do not translate "rec_info" or "-w"  
 
-33 "Option introuvabel dans -w ou -l\n"
+33 "Option introuvable dans -w ou -l\n"
 $ do not translate "-w" or "-l"  
 
 34 "Option inconnue\n"

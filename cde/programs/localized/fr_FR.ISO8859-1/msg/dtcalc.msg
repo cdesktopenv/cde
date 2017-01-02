@@ -1251,7 +1251,7 @@ $
 $ Message 465 - the square root key
 $ 
 
-466 "a"
+466 "w"
 $ 
 $ Message 467 - the Bsp (backspace) key.
 $  \010 is "Control h"
