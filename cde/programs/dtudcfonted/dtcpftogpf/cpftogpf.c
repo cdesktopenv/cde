@@ -102,7 +102,7 @@ char	*argv[];
 	char	*style ;	/* style */
 	int 	chk_fd;
 	pid_t	chld_pid = 0;
-#if defined( SVR4 ) || defined( SYSV ) || defined(CSRG_BASED)
+#if defined( SVR4 ) || defined( SYSV ) || defined(CSRG_BASED) || defined(linux)
 	int	chld_stat ;
 #else
 	union	wait	chld_stat ;
