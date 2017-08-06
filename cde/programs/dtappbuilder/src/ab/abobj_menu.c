@@ -694,7 +694,7 @@ set_menu_state(
 {
     WidgetList	items;
     int		num_items;
-    unsigned int item_flag;
+    unsigned long item_flag;
     int		i;
 
     XtVaGetValues(menu,

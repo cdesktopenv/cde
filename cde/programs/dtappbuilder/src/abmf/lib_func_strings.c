@@ -1847,7 +1847,7 @@ static LibFuncRec abmfP_lrc_MessageBoxGetActionButton =
     "    int			i, numChildren = 0;\n"
     "    WidgetList		children = NULL;\n"
     "    Widget		action_button = 0;\n"
-    "    int			button = -1;\n"
+    "    long			button = -1;\n"
     "    Boolean		Found = False;\n"
     "\n"
     "    XtVaGetValues(msg_dlg,\n"
