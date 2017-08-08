@@ -1038,7 +1038,7 @@ void display_nofindicon_message (Widget parent)
 
   /*********  WARNING - this needs to be translated !!! ***********/
   strcpy(buffer, "There is no set of icons with that filename in the icon folders.\n");
-  strcat(buffer, "Move the icons into one of the icon folers, then select \"Name OK\".\n");
+  strcat(buffer, "Move the icons into one of the icon folders, then select \"Name OK\".\n");
   strcat(buffer, "Or, to select a different set of icons, select \"Change Name\".\n");
   strcat(buffer, "\nIf you are a software developer creating a registration package,\n");
   strcat(buffer, "ignore this message and select \"Name OK\".");
