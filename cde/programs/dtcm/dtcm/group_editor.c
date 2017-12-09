@@ -315,7 +315,6 @@ get_mail_address_list(Calendar *c) {
 	}
 
 	address = calloc(address_len+1, 1);
-	memset(address, 0, address_len);
 
 	for (i = 0; i < pos_cnt; i++) {
 		ad = (Access_data *)CmDataListGetData(ge->access_data,
