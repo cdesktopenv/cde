@@ -594,10 +594,12 @@ static
   
   /* read the directory $HOME/.dt/backdrops */
   string = (char *)XtMalloc(strlen(style.home) + strlen("/.dt/backdrops") + 1);
-  sprintf(string, "%s/.dt/backdrops", style.home);
-  ReadBitmapDirectory(string);
   if (string != NULL)
+  {
+    sprintf(string, "%s/.dt/backdrops", style.home);
+    ReadBitmapDirectory(string);
     XtFree(string);
+  }
 
   if (backdrops.tmpNumBitmaps == 0)
     {

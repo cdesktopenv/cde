@@ -926,8 +926,10 @@ DeriveDailyEvent(
 		/* Convert from list to array, sort */
 	dd->dd_time = (Time *)ConvertNumList(time_list, &(dd->dd_ntime));
 
-	if (interval < 1)
+	if (interval < 1) {
+		free(dd);
 		return NULL;
+	}
 
 	re = (RepeatEvent *)calloc(1, sizeof(RepeatEvent));
 				
@@ -963,8 +965,10 @@ DeriveWeeklyEvent(
 		/* Convert from list to array, sort */
 	wd->wd_daytime = ConvertDayTime(dtl, &(wd->wd_ndaytime));
 
-	if (interval < 1)
+	if (interval < 1) {
+		free(wd);
 		return NULL;
+	}
 
 	re = (RepeatEvent *)calloc(1, sizeof(RepeatEvent));
 				
@@ -1006,8 +1010,10 @@ DeriveMonthlyEvent(
 			(NumberList *)data_list, &(md->md_nitems));
 	}
 
-	if (interval < 1)
+	if (interval < 1) {
+		free(md);
 		return NULL;
+	}
 
 	re = (RepeatEvent *)calloc(1, sizeof(RepeatEvent));
 				
@@ -1044,8 +1050,10 @@ DeriveYearlyEvent(
 			/* Convert from list to array, sort */
 	yd->yd_items = ConvertNumList(nl, &(yd->yd_nitems));
 
-	if (interval < 1)
+	if (interval < 1) {
+		free(yd);
 		return NULL;
+	}
 
 	re = (RepeatEvent *)calloc(1, sizeof(RepeatEvent));
 				

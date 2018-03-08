@@ -85,8 +85,11 @@ _DtCmIsSameUser(char *user1, char *user2)
 	str1 = _DtCmGetPrefix(user1, '@');
 	str2 = _DtCmGetPrefix(user2, '@');
 
-	if (str1 == NULL || str2 == NULL)
+	if (str1 == NULL || str2 == NULL) {
+		free(str1);
+		free(str2);
 		return (B_FALSE);
+	}
 
 	if (strcmp(str1, str2)) {
 		free(str1);

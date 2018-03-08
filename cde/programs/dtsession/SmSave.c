@@ -1620,12 +1620,12 @@ OutputResource( void )
     langPtr = getenv("LANG");
     if((langPtr != NULL) && (*langPtr != 0))
     {
-	sprintf(resSpec, "%s*%s: %s\n", SM_RESOURCE_NAME, SmNsessionLang,
+	snprintf(resSpec, resSize, "%s*%s: %s\n", SM_RESOURCE_NAME, SmNsessionLang,
 		langPtr);
     }
     else
     {
-	sprintf(resSpec, "%s*%s:   \n", SM_RESOURCE_NAME, SmNsessionLang);
+	snprintf(resSpec, resSize, "%s*%s:   \n", SM_RESOURCE_NAME, SmNsessionLang);
     }
 
     fltYRes = ((float) DisplayHeight(smGD.display, 0) /

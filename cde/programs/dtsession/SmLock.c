@@ -161,8 +161,8 @@ static Boolean CanReAuthenticate(char *name, uid_t uid, char *passwd,
 {
   Boolean fail = False;
 
-  *pwent = (name == NULL) ? getpwuid(uid) : getpwnam(name);
   if (pwent)
+    *pwent = (name == NULL) ? getpwuid(uid) : getpwnam(name);
     *spent = getspnam((*pwent)->pw_name);
 
 #ifdef JET_AUTHDEBUG

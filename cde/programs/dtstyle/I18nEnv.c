@@ -243,12 +243,13 @@ GetUserIMSelectionFile(
 
     ret = GetUserFileName(env);
     
-    if (ret == NoError) {
-	/* Look if this file is readable */
-	if ((fp = fopen(env->file_sel->fname, "r")) == NULL)
-	    env->file_sel->start_mode = -1;
-	    return ErrNoSelectionFile;
-    }
+	if (ret == NoError) {
+		/* Look if this file is readable */
+		if ((fp = fopen(env->file_sel->fname, "r")) == NULL) {
+			env->file_sel->start_mode = -1;
+			return ErrNoSelectionFile;
+		}
+	}
 
     start_tag_line(env->file_sel->fname);
     ret = ReadImSelectionFile(env->file_sel, fp);
@@ -314,31 +315,33 @@ ReadImSelectionFile(
 
     imsname = hostname = NULL;
 
-    while ((line_num = read_tag_line(fp, &lp, &valp)) > 0) {
-	if (!valp) {
-	    continue;
+	while ((line_num = read_tag_line(fp, &lp, &valp)) > 0) {
+		if (!valp) {
+			continue;
+		}
+		if (lp[0] != STR_PREFIX_CHAR) {
+			continue;
+		}
+		if (strncmp(lp + 1, STR_SELECTMODE, 3) == 0) {
+			if (str_to_int(valp, &i) && i >= 0) {
+				select_mode = i;
+			}
+		} else if (strncmp(lp + 1, STR_IMSNAME, 4) == 0) {
+			vp = valp; cut_field(valp);
+			if (*vp) {
+				XtFree(imsname);
+				imsname = XtNewString(vp);
+			}
+		} else if (strncmp(lp + 1, STR_HOSTNAME, 4) == 0) {
+			vp = valp; cut_field(valp);
+			if (*vp) {
+				XtFree(hostname);
+				if (strcmp(vp, NAME_LOCAL)) {
+					hostname = XtNewString(vp);
+				}
+			}
+		}
 	}
-	if (lp[0] != STR_PREFIX_CHAR) {
-	    continue;
-	}
-	if (strncmp(lp + 1, STR_SELECTMODE, 3) == 0) {
-	    if (str_to_int(valp, &i) && i >= 0)
-		select_mode = i;
-	} else if (strncmp(lp + 1, STR_IMSNAME, 4) == 0) {
-	    vp = valp; cut_field(valp);
-	    if (*vp) {
-		XtFree(imsname);
-		imsname = XtNewString(vp);
-	    }
-	} else if (strncmp(lp + 1, STR_HOSTNAME, 4) == 0) {
-	    vp = valp; cut_field(valp);
-	    if (*vp) {
-		XtFree(hostname);
-		if (strcmp(vp, NAME_LOCAL))
-		    hostname = XtNewString(vp);
-	    }
-	}
-    }
 
     fsel->im_name = imsname;
     fsel->hostname = hostname;
@@ -372,7 +375,7 @@ _DtI18nGetImList(
 
 	case HOST_LOCAL:
 	    if (hostname && strcasecmp(hostname, "local") != 0)
-		env->ims_sel->host_name = hostname;		
+		env->ims_sel->host_name = hostname;
 	    ret = GetImsList(env, env->user_env->localhostname);
 	    break;
     }
@@ -631,6 +634,8 @@ _DtI18nWriteImSelectionFile(
     
     /* Close the file */
     fclose(fp);
+
+	return NoError;
 }
 
 static void

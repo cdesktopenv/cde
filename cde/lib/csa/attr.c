@@ -313,8 +313,10 @@ _DtCm_check_cal_csa_attributes(
 	    &realnum)) != CSA_SUCCESS)
 		return (stat);
 
-	if (checkattrnum == B_TRUE && realnum == 0)
+	if (checkattrnum == B_TRUE && realnum == 0) {
+		free(hattrs);
 		return (CSA_E_INVALID_PARAMETER);
+	}
 
 	stat = _DtCm_check_hashed_cal_attributes(fvers, hnum, hattrs,
 		NULL, cname, checkreadonly, firsttime, B_TRUE);
@@ -344,8 +346,10 @@ _DtCm_check_cal_cms_attributes(
 	    &realnum)) != CSA_SUCCESS)
 		return (stat);
 
-	if (checkattrnum == B_TRUE && realnum == 0)
+	if (checkattrnum == B_TRUE && realnum == 0) {
+		free(hattrs);
 		return (CSA_E_INVALID_PARAMETER);
+	}
 
 	stat = _DtCm_check_hashed_cal_attributes(fvers, hnum, hattrs,
 		owner, cname, checkreadonly, firsttime, B_FALSE);
@@ -372,8 +376,10 @@ _DtCm_check_entry_attributes(
 	    &realnum)) != CSA_SUCCESS)
 		return (stat);
 
-	if (checkattrnum == B_TRUE && realnum == 0)
+	if (checkattrnum == B_TRUE && realnum == 0) {
+		free(hattrs);
 		return (CSA_E_INVALID_PARAMETER);
+	}
 
 	stat = _DtCm_check_hashed_entry_attributes(fvers, hnum, hattrs,
 		utype);
@@ -400,8 +406,10 @@ _DtCm_check_entry_cms_attributes(
 	    &realnum)) != CSA_SUCCESS)
 		return (stat);
 
-	if (checkattrnum == B_TRUE && realnum == 0)
+	if (checkattrnum == B_TRUE && realnum == 0) {
+		free(hattrs);
 		return (CSA_E_INVALID_PARAMETER);
+	}
 
 	stat = _DtCm_check_hashed_entry_attributes(fvers, hnum, hattrs,
 		utype);
@@ -1184,10 +1192,12 @@ _DtCm_free_csa_access_list(CSA_access_list alist)
 		nptr = alist->next;
 
 		if (alist->user) {
-			if (alist->user->user_name)
+			if (alist->user->user_name) {
 				free(alist->user->user_name);
-			if (alist->user->calendar_address);
+			}
+			if (alist->user->calendar_address) {
 				free(alist->user->calendar_address);
+			}
 			free(alist->user);
 		}
 

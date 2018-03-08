@@ -2013,6 +2013,7 @@ RestoreClients( void )
 			    SM_FREE((char *) remoteBuf[i]);
 			}
 		    }
+		    free(displayName);
 		    return(-1);
 		}
 		hintPtr = NULL;

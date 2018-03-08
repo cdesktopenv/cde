@@ -57,6 +57,8 @@
  *****************************************************************************
  *************************************<+>*************************************/
 #include <stdio.h>
+#include <errno.h>
+#include <string.h>
 #include <ctype.h>
 #include <sys/wait.h>
 #include <sys/types.h>
@@ -1161,7 +1163,10 @@ SetSavePath(
                 smGD.resourcePath[0] = 0;
                 return(-1);
             }
-            chmod(smGD.clientPath, 0755);
+            if(-1 == chmod(smGD.clientPath, 0755))
+            {
+				fprintf(stderr, "%s chmod error %s\n", smGD.clientPath, strerror(errno));
+			}
         }
         else
         {
@@ -1293,7 +1298,10 @@ SetFontSavePath(char *langPtr)
             smGD.fontPath[0] = 0;
             return(-1);
         }
-        chmod(smGD.fontPath, 0755);
+        if(-1 == chmod(smGD.fontPath, 0755))
+        {
+			fprintf(stderr, "%s chmod error %s\n", smGD.fontPath, strerror(errno)); 
+		}
     }
 
     /*

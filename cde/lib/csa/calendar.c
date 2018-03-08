@@ -299,8 +299,10 @@ _DtCm_list_old_cal_attr_names(
 		return (CSA_E_INSUFFICIENT_MEMORY);
 
 	/* find out whether we know the owner of the calendar */
-	if ((stat = _get_owner_from_old_cal(cal, buf)) != CSA_SUCCESS)
+	if ((stat = _get_owner_from_old_cal(cal, buf)) != CSA_SUCCESS) {
+		_DtCm_free(names);
 		return (stat);
+	}
 
 	for (i = 1, j = 0; i <= _DtCM_DEFINED_CAL_ATTR_SIZE; i++) {
 		if (_CSA_cal_attr_info[i].fst_vers > 0 &&
