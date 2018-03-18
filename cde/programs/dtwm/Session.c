@@ -556,7 +556,7 @@ WmFrontPanelSessionSaveData ()
          {
             if (XtIsManaged (subpanel_data[i]->shell))
                fprintf (fd, "%s %d %d %d\n",
-	                 subpanel_data[i]->
+	                 (char *) subpanel_data[i]->
                          element_values[SUBPANEL_NAME].parsed_value,
                          XtX (subpanel_data[i]->shell),
                          XtY (subpanel_data[i]->shell),
@@ -578,9 +578,9 @@ WmFrontPanelSessionSaveData ()
                 subpanel_data[i]->parent_control_data)
             {
                fprintf (fd, "%s	%s\n", 
-	                  subpanel_data[i]->
+	                  (char *) subpanel_data[i]->
 	                            element_values[SUBPANEL_NAME].parsed_value,
-	                  subpanel_data[i]->default_control->
+	                  (char *) subpanel_data[i]->default_control->
 	                            element_values[CONTROL_NAME].parsed_value);
 	       
 	    }

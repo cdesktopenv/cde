@@ -34,4 +34,4 @@ typedef struct _WmHeadInfo {
 
 WmHeadInfo_t *GetHeadInfo(const ClientData *pcd);
 
-#endif _WmMultiHead_h
+#endif /* _WmMultiHead_h */

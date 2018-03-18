@@ -1704,7 +1704,7 @@ GenerateWorkspaceName(
         int wsnum )
 
 {
-    static unsigned char nameReturned[10];
+    static unsigned char nameReturned[13];
     int i, j;
 
     /*
