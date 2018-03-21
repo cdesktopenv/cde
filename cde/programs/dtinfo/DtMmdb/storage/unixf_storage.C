@@ -208,12 +208,14 @@ unixf_storage::readString(mmdb_pos_t loc, char* base, int len, int str_off)
      
    int offset = int(loc) + str_off;
 
-   if ( seekg( offset, ios::beg ) == 0 ) {
+   seekg( offset, ios::beg );
+   if ( bad() ) {
       MESSAGE(cerr, "seekg failed");
       throw(streamException(fstream::rdstate()));
    }
 
-   if ( read( base, len ) == 0 || len != fstream::gcount() ) {
+   read( base, len );
+   if ( bad() || len != fstream::gcount() ) {
       MESSAGE(cerr, "read() failed");
       throw(streamException(fstream::rdstate()));
    }

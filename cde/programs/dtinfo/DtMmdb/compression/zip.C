@@ -67,7 +67,8 @@ void zip::compress(const buffer& uncompressed, buffer& compressed)
    if ( !out )
       throw(streamException(out.rdstate()));
 
-   if ( out.write(uncompressed.get_base(), uncompressed.content_sz()) == 0 )
+   out.write(uncompressed.get_base(), uncompressed.content_sz());
+   if ( out.bad() )
       throw(streamException(out.rdstate()));
 
    out.close();
@@ -84,7 +85,8 @@ void zip::compress(const buffer& uncompressed, buffer& compressed)
 
    compressed.expand_chunk(x);
 
-   if ( in.read(compressed.get_base(), x) == 0 || x != in.gcount() )
+   in.read(compressed.get_base(), x);
+   if ( in.bad() || x != in.gcount() )
       throw(streamException(in.rdstate()));
 
    compressed.set_content_sz(x);
@@ -102,7 +104,8 @@ void zip::decompress(buffer& compressed, buffer& uncompressed)
    if ( !out )
       throw(streamException(out.rdstate()));
 
-   if ( out.write(compressed.get_base(), compressed.content_sz()) == 0 )
+   out.write(compressed.get_base(), compressed.content_sz());
+   if ( out.bad() )
       throw(streamException(out.rdstate()));
 
    out.close();
@@ -119,7 +122,8 @@ void zip::decompress(buffer& compressed, buffer& uncompressed)
 
    uncompressed.expand_chunk(x);
 
-   if ( in.read(uncompressed.get_base(), x) == 0 || x != in.gcount() )
+   in.read(uncompressed.get_base(), x);
+   if ( in.bad() || x != in.gcount() )
       throw(streamException(in.rdstate()));
 
    uncompressed.set_content_sz(x);
