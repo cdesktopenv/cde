@@ -63,7 +63,7 @@
 // The locator class
 /*************************************/
 
-class olias_locator : public tuple
+class olias_locator : public mmdb_tuple
 {
 
 public:

@@ -63,11 +63,11 @@
 // The toc class
 /*************************************/
 
-class toc : public tuple
+class toc : public mmdb_tuple
 {
 
 public:
-   toc() : tuple(NUM_TOC_FIELDS, TOC_CODE) {};
+   toc() : mmdb_tuple(NUM_TOC_FIELDS, TOC_CODE) {};
    virtual ~toc() {};
 
    MMDB_SIGNATURES(toc);

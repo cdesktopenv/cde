@@ -67,10 +67,10 @@
 #endif
 
 
-class pref : public tuple 
+class pref : public mmdb_tuple 
 {
 public:
-   pref() : tuple(2, USER_CONFIG_CODE) {};
+   pref() : mmdb_tuple(2, USER_CONFIG_CODE) {};
    virtual ~pref() {};
 
    MMDB_SIGNATURES(pref);

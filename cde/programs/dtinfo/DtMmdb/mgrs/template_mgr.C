@@ -101,7 +101,7 @@ template_mgr_t::template_mgr_t() : v_template_objs(32801, 20)
    template_obj_table[1] = ::new oid;
    template_obj_table[2] = ::new integer;
    template_obj_table[3] = ::new pstring;
-   template_obj_table[4] = ::new tuple;
+   template_obj_table[4] = ::new mmdb_tuple;
    template_obj_table[5] = ::new oid_list;
    template_obj_table[6] = ::new fast_mphf;
    template_obj_table[7] = ::new inv_lists;

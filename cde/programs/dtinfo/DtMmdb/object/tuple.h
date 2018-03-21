@@ -48,8 +48,8 @@
  */
 
 
-#ifndef _tuple_h
-#define _tuple_h 1
+#ifndef _mmdb_tuple_h
+#define _mmdb_tuple_h 1
 
 #include "object/oid_list.h"
 
@@ -57,17 +57,17 @@
 * tuple class.
 ****************************************/
 
-class tuple: public oid_list
+class mmdb_tuple: public oid_list
 {
 protected:
 
 public:
-   tuple(c_code_t = TUPLE_CODE);
-   tuple(int num_comps, c_code_t);
-   tuple(tuple&);
-   virtual ~tuple();
+   mmdb_tuple(c_code_t = TUPLE_CODE);
+   mmdb_tuple(int num_comps, c_code_t);
+   mmdb_tuple(mmdb_tuple&);
+   virtual ~mmdb_tuple();
 
-   MMDB_SIGNATURES(tuple);
+   MMDB_SIGNATURES(mmdb_tuple);
 
 /*
 // value comparison functions
@@ -87,6 +87,6 @@ public:
    virtual io_status asciiIn(istream&) ;
 };
    
-HANDLER_SIGNATURES(tuple)
+HANDLER_SIGNATURES(mmdb_tuple)
    
 #endif

@@ -52,7 +52,7 @@
 
 MMDB_BODIES(olias_locator)
 
-olias_locator::olias_locator() : tuple(2, LOCATOR_CODE) 
+olias_locator::olias_locator() : mmdb_tuple(2, LOCATOR_CODE) 
 {
 }
 

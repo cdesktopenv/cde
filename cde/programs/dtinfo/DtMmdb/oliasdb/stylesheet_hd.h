@@ -62,11 +62,11 @@
 // The stylesheet class
 /*************************************/
 
-class stylesheet : public tuple
+class stylesheet : public mmdb_tuple
 {
 
 public:
-   stylesheet() : tuple(NUM_STYLESHEET_FIELDS, STYLESHEET_CODE) {};
+   stylesheet() : mmdb_tuple(NUM_STYLESHEET_FIELDS, STYLESHEET_CODE) {};
    virtual ~stylesheet() {};
 
    MMDB_SIGNATURES(stylesheet);

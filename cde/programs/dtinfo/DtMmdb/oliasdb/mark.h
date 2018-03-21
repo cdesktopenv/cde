@@ -62,7 +62,7 @@
 #define mark_smart_ptr user_mark_smart_ptr
 #define umark user_mark
 
-class umark : public tuple
+class umark : public mmdb_tuple
 {
 
 public:

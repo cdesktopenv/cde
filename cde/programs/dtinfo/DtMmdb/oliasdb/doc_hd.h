@@ -67,10 +67,10 @@
 // The doc class
 /*************************************/
 
-class doc : public tuple
+class doc : public mmdb_tuple
 {
 public:
-   doc() : tuple(NUM_DOC_FIELDS, DOC_CODE) {};
+   doc() : mmdb_tuple(NUM_DOC_FIELDS, DOC_CODE) {};
    virtual ~doc() {};
 
    MMDB_SIGNATURES(doc);

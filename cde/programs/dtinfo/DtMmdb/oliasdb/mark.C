@@ -51,7 +51,7 @@
 
 #include "oliasdb/mark.h"
 
-umark::umark() : tuple(2, USER_MARK_CODE) 
+umark::umark() : mmdb_tuple(2, USER_MARK_CODE) 
 {
 }
 
@@ -80,7 +80,7 @@ debug(cerr, node_locator);
    // init tuple part
    /////////////////////
 
-      tuple_handler* x = (tuple_handler*)
+      mmdb_tuple_handler* x = (mmdb_tuple_handler*)
         (new handler(USER_MARK_CODE, marks_store));
 
    

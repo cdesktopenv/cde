@@ -62,11 +62,11 @@
 // The graphic class
 /*************************************/
 
-class graphic : public tuple
+class graphic : public mmdb_tuple
 {
 
 public:
-   graphic() : tuple(NUM_GRAPHIC_FIELDS, GRAPHIC_CODE) {};
+   graphic() : mmdb_tuple(NUM_GRAPHIC_FIELDS, GRAPHIC_CODE) {};
    virtual ~graphic() {};
 
    MMDB_SIGNATURES(graphic);

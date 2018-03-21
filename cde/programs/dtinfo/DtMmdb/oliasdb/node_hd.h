@@ -67,11 +67,11 @@
 // The node class
 /*************************************/
 
-class olias_node : public tuple
+class olias_node : public mmdb_tuple
 {
 
 public:
-   olias_node() : tuple(NUM_OLIAS_NODE_FIELDS, OLIAS_NODE_CODE) {};
+   olias_node() : mmdb_tuple(NUM_OLIAS_NODE_FIELDS, OLIAS_NODE_CODE) {};
    virtual ~olias_node() {};
 
    MMDB_SIGNATURES(olias_node);

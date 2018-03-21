@@ -52,33 +52,33 @@
 
 #define MAX_COMPS 50
 
-tuple::tuple(c_code_t c_cd) : oid_list(c_cd)
+mmdb_tuple::mmdb_tuple(c_code_t c_cd) : oid_list(c_cd)
 {
 }
 
-tuple::tuple(int comps, c_code_t c_cd) : oid_list(comps, c_cd)
+mmdb_tuple::mmdb_tuple(int comps, c_code_t c_cd) : oid_list(comps, c_cd)
 {
 }
 
-tuple::tuple(tuple& x) : oid_list(x)
+mmdb_tuple::mmdb_tuple(mmdb_tuple& x) : oid_list(x)
 {
 }
 
-tuple::~tuple()
+mmdb_tuple::~mmdb_tuple()
 {
 }
 
-handler* tuple::get_component(int index) 
+handler* mmdb_tuple::get_component(int index) 
 {
 
-//MESSAGE(cerr, "in tuple():: get_component()");
+//MESSAGE(cerr, "in mmdb_tuple():: get_component()");
 //debug(cerr, index);
 //debug(cerr, my_oid());
 //debug(cerr, int(storage_ptr));
 
 
    if (!INRANGE(index, 1, (int) v_sz)) {
-      MESSAGE(cerr, "out of range in tuple::get_component()");
+      MESSAGE(cerr, "out of range in mmdb_tuple::get_component()");
       throw( boundaryException(1, v_sz, index) );
    }
 
@@ -97,15 +97,15 @@ handler* tuple::get_component(int index)
    return y;
 }
 
-Boolean tuple::pinned_insert(int index, const oid_t& val) 
+Boolean mmdb_tuple::pinned_insert(int index, const oid_t& val) 
 {
-//MESSAGE(cerr, "in tuple():: pinned_component()");
+//MESSAGE(cerr, "in mmdb_tuple():: pinned_component()");
 //debug(cerr, index);
 //debug(cerr, val);
       return oid_list::update_component(index, val);
 }
 
-io_status tuple::asciiOut(ostream& out) 
+io_status mmdb_tuple::asciiOut(ostream& out) 
 {
    out << "OID_T:\n";
    my_oid().asciiOut(out); 
@@ -130,11 +130,11 @@ io_status tuple::asciiOut(ostream& out)
    return done;
 }
 
-io_status tuple::asciiIn(istream& in)
+io_status mmdb_tuple::asciiIn(istream& in)
 {
 
 /*
-MESSAGE(cerr, "in tuple asciiIn()");
+MESSAGE(cerr, "in mmdb_tuple asciiIn()");
 my_oid().asciiOut(cerr);
 MESSAGE(cerr, "\n");
 */
@@ -155,7 +155,7 @@ MESSAGE(cerr, "\n");
    }
 
    if ( comps > (int) v_sz ) {
-MESSAGE(cerr, "tuple asciiIn(): to expand space");
+MESSAGE(cerr, "mmdb_tuple asciiIn(): to expand space");
 debug(cerr, comps);
 debug(cerr, v_sz);
      oid_list::expand_space(comps - v_sz);
@@ -188,5 +188,5 @@ debug(cerr, v_sz);
    return done;
 }
 
-MMDB_BODIES(tuple)
-HANDLER_BODIES(tuple)
+MMDB_BODIES(mmdb_tuple)
+HANDLER_BODIES(mmdb_tuple)
