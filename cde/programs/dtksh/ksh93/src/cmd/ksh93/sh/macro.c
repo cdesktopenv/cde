@@ -94,6 +94,12 @@
 #endif
 #include	"defs.h"
 #include	<fcin.h>
+/* on linux pwd.h can include FILE without stdio.h which clashes with sfio_t */
+#if defined(linux)
+ #ifndef __FILE_defined
+  #define __FILE_defined 1
+ #endif
+#endif
 #include	<pwd.h>
 #include	"name.h"
 #include	"variables.h"

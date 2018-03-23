@@ -108,6 +108,12 @@
 #include	"national.h"
 
 #if _hdr_wchar && _lib_wctype && _lib_iswctype
+/* on linux wchar.h can include FILE without stdio.h which clashes with sfio_t */
+#if defined(linux)
+ #ifndef __FILE_defined
+  #define __FILE_defined 1
+ #endif
+#endif
 #   include <wchar.h>
 #   undef  isalpha
 #   define isalpha(x)      iswalpha(x)

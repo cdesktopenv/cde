@@ -149,7 +149,7 @@
 #define _STDIO_INCLUDED	1
 #endif
 
-#if !defined(CSRG_BASED)
+#if !defined(CSRG_BASED) && !defined(linux)
 #ifndef FILE
 #define FILE	Sfio_t
 #endif
@@ -161,6 +161,9 @@
 #endif
 
 typedef struct _sfio_	Sfile_t, Sfio_t, SFIO;
+#if defined(linux)
+typedef struct _sfio_	FILE;
+#endif
 typedef struct _sfdc_	Sfdisc_t;
 typedef int		(*Sfread_f)_ARG_((Sfio_t*, Void_t*, int, Sfdisc_t*));
 typedef int		(*Sfwrite_f)_ARG_((Sfio_t*, const Void_t*, int, Sfdisc_t*));

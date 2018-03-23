@@ -50,10 +50,12 @@
 #define stdout		sfstdout
 #define stderr		sfstderr
 #define BUFSIZ		SF_BUFSIZE
+#if !defined(linux)
 #ifdef FILE
 #undef FILE
 #endif
 #define FILE		Sfio_t
+#endif
 
 #include	<sfio.h>
 

@@ -121,13 +121,7 @@
  * workaround botched headers that assume <stdio.h>
  */
 
-#if defined(linux)
-#ifndef __FILE
-#define __FILE	FILE
-#endif
-#endif
-
-#if !defined(CSRG_BASED)
+#if !defined(CSRG_BASED) && !defined(linux)
 #ifndef FILE
 #define FILE	Sfio_t
 #endif

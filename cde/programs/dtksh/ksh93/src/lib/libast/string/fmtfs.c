@@ -120,6 +120,12 @@ __STDPP__directive pragma pp:hide endmntent getmntent
 #define getmntent	______getmntent
 #endif
 
+/* on linux mntent.h can include FILE without stdio.h which clashes with sfio_t */
+#if defined(linux)
+ #ifndef __FILE_defined
+  #define __FILE_defined 1
+ #endif
+#endif
 #include <mntent.h>
 
 #if defined(__STDPP__directive) && defined(__STDPP__hide)

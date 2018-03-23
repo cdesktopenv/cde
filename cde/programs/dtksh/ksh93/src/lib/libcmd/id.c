@@ -96,6 +96,12 @@ static const char id[] = "\n@(#)id (AT&T Bell Laboratories) 07/17/94\0\n";
 
 #include "FEATURE/ids"
 
+/* on linux grp.h pwd.h can include FILE without stdio.h which clashes with sfio_t */
+#if defined(linux)
+ #ifndef __FILE_defined
+  #define __FILE_defined 1
+ #endif
+#endif
 #include <grp.h>
 #include <pwd.h>
 
