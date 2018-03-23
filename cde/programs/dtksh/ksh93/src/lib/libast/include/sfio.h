@@ -163,6 +163,7 @@
 typedef struct _sfio_	Sfile_t, Sfio_t, SFIO;
 #if defined(linux)
 typedef struct _sfio_	FILE;
+typedef struct _sfio_	__FILE;
 #endif
 typedef struct _sfdc_	Sfdisc_t;
 typedef int		(*Sfread_f)_ARG_((Sfio_t*, Void_t*, int, Sfdisc_t*));
