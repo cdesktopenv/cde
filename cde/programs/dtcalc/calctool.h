@@ -32,6 +32,8 @@
  * (c) Copyright 1993, 1994 Novell, Inc. 				*
  */
 
+#include <float.h>
+
 #include <locale.h>
 #include <X11/Intrinsic.h>
 #include <Dt/UserMsg.h>
@@ -93,7 +95,7 @@ extern char *_DtGetMessage(char *filename, int set, int n, char *s);
 #define PLOSS      6
 #endif
 #ifndef HUGE
-#define HUGE       MAXFLOAT
+#define HUGE       FLT_MAX
 #endif
 #endif  /* sun */
 
