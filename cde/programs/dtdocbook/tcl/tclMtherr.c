@@ -65,6 +65,13 @@ extern int tcl_MathInProgress;
  * that don't really support it.  The compiled procedure is bogus,
  * but it will never be executed on these systems anyway.
  */
+#if defined(linux) && defined(__GLIBC__)
+# include <features.h>
+/* glibc removed matherr() support between 2.26 and 2.27 */
+# if (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 27) || __GLIBC__ >= 3
+#  undef NEED_MATHERR
+# endif
+#endif /* linux */
 
 #ifndef NEED_MATHERR
 struct exception {
