@@ -46,6 +46,12 @@
 #ifndef _SFIO_H
 #define _SFIO_H	1
 
+#if defined(linux)
+/* HACK On linux prevent inclusion of __FILE.h that contains a conflicting
+   definition of __FILE that we define later */
+# define ____FILE_defined 1
+#endif /* linux */
+
 /*	Public header file for the safe fast io package.
 **
 **	Written by Kiem-Phong Vo, kpv@research.att.com.
