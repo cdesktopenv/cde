@@ -34,6 +34,9 @@
 
 #include <bms/sbport.h>
 
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <time.h>			/* ctime() */
 #include <pwd.h>
 #include <errno.h>
@@ -98,7 +101,7 @@ int Client_Send_EOF(protocol_request_ptr prot);
 int Client_Channel_Termios(protocol_request_ptr prot);
 int Client_Enhanced_Spawn(protocol_request_ptr prot);
 
-#if defined(_AIX) || defined(DEC)
+#if defined(_AIX) || defined(DEC) || defined(linux)
 # define SA_HANDLER_INT_ARG
 #endif /* _AIX || DEC */
 
@@ -206,7 +209,10 @@ int main(int argc, XeString *argv)
   /* set up log file path */
   log_path = XeSBTempPath((XeString)"DTSPCD.log");
 
-  freopen("/dev/null", "w", stderr);
+  if(NULL == freopen("/dev/null", "w", stderr)) {
+    fprintf(stderr, "Unable to open /dev/null\n");
+    exit(EXIT_FAILURE);
+  }
   
   /* Process arguments and set flags.  */
   for (i=1; i < argc; i++) {
@@ -222,7 +228,10 @@ int main(int argc, XeString *argv)
       /* Open an error log with whatever name the library wants to use */
       SPC_Open_Log(log_path, FALSE);
       SPC_Print_Protocol = spc_logF;
-      freopen(log_path, "a", stderr);
+      if(NULL == (stderr = freopen(log_path, "a", stderr))) {
+        fprintf(stderr, "Unable to reopen '%s' as stderr\n", log_path);
+        exit(EXIT_FAILURE);
+      }
       setbuf(stderr, NULL);
     }
 
@@ -244,7 +253,7 @@ int main(int argc, XeString *argv)
        */
       i++;
       if (i != argc) {
-	(void) sprintf (tmp, "%s=%s", MOUNT_POINT, argv[i]);
+	(void) snprintf (tmp, sizeof(tmp), "%s=%s", MOUNT_POINT, argv[i]);
 	if (putenv (tmp) == 0) {
 	  SPC_Format_Log((XeString)"Mount point set to '%s'.", argv[i]);
 	  SPC_mount_point_env_var = (char *) malloc (strlen (tmp) + 1);
@@ -306,6 +315,7 @@ int main(int argc, XeString *argv)
 		 SPC_Client);
   
   if (exit_timeout != SPCD_NO_TIMER) {
+    memset(&alarm_vector, 0, sizeof(struct sigaction));
     alarm_vector.sa_handler = SPCD_Alarm_Handler;
     alarm_vector.sa_flags = 0;
     (void) sigaction (SIGALRM, &alarm_vector, (struct sigaction *)NULL);
@@ -353,6 +363,7 @@ void SPCD_Handle_Client_Data(void      *channel,
     if (exit_timeout != SPCD_NO_TIMER)
       (void) alarm (exit_timeout * 60);
     request_pending = SPCD_REQUEST_PENDING;
+    SPC_Free_Protocol_Ptr(prot);
     return;
   }
 
@@ -525,6 +536,7 @@ int Client_Register(protocol_request_ptr prot)
 			           FAILED_FILE_NAME, NULL, NULL);
 	FREE_USER_PASS(username, passwd);
 	SPC_Error(SPC_Bad_Username);
+	free(hostinfo);
 	return(SPC_ERROR);
       }
       else {
@@ -553,7 +565,9 @@ int Client_Register(protocol_request_ptr prot)
     /* Allocate space for tmppath, spc_prefix, and spc_suffix. */
     tmpfile = (char *)malloc((strlen(tmppath) + strlen(spc_prefix) +
 			      strlen(spc_suffix) + 1) * sizeof(char));
-    sprintf(tmpfile, "%s%s%s", tmppath, spc_prefix, spc_suffix);
+    if(tmpfile) {
+        snprintf(tmpfile, sizeof(tmpfile), "%s%s%s", tmppath, spc_prefix, spc_suffix);
+    }
   }
   else {
 #if 0
@@ -574,6 +588,7 @@ int Client_Register(protocol_request_ptr prot)
 			       FAILED_FILE_NAME, NULL, NULL);
     FREE_USER_PASS(username, passwd);
     SPC_Error(SPC_Bad_Username);
+    free(hostinfo);
     return(SPC_ERROR);
 
   }
@@ -583,6 +598,7 @@ int Client_Register(protocol_request_ptr prot)
 			       FAILED_FILE_NAME, NULL, NULL);
     SPC_Format_Log("+++> FAILURE: cannot malloc.");
     SPC_Error(SPC_Out_Of_Memory);
+    free(hostinfo);
     return(SPC_ERROR);
   }
 
@@ -797,7 +813,7 @@ int Client_Channel_Open(protocol_request_ptr prot)
   XeSPCAddInput(channel, SPCD_Handle_Application_Data, channel);
   XeSPCRegisterTerminator(channel, SPCD_Termination_Handler, channel);
 
-  return((int) channel);
+  return((int) (intptr_t) channel);
 }
 
 /*----------------------------------------------------------------------+*/
@@ -1247,7 +1263,7 @@ void SPCD_Alarm_Handler()
     return;
 
   if (SPC_pid_list != NULL) 
-    for (i=0; SPC_pid_list[i] != NULL; i++) {
+    for (i=0; SPC_pid_list[i] != 0; i++) {
       if (SPC_pid_list[i] != SPCD_DEAD_PROCESS) {
 	/*
 	 * Have at least one sub- process running so reset the 
