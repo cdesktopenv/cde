@@ -1760,10 +1760,12 @@ event_proc(Widget widget, XtPointer client_data, XEvent *event, Boolean *continu
               v->cur_ch == KEY_6 ||
               v->cur_ch == KEY_7)
                return;
+               /* intentional fall through */
         case OCT:
            if(v->cur_ch == KEY_8 ||
               v->cur_ch == KEY_9)
                return;
+               /* intentional fall through */
         case DEC:
            if(v->cur_ch == KEY_A ||
               v->cur_ch == KEY_B ||
@@ -1772,6 +1774,7 @@ event_proc(Widget widget, XtPointer client_data, XEvent *event, Boolean *continu
               v->cur_ch == KEY_E ||
               v->cur_ch == KEY_F)
                return;
+               /* intentional fall through */
         default: /* HEX, allow all keys */
           break;
       }
@@ -1977,8 +1980,8 @@ get_next_event(Widget widget, int ev_action, XEvent *xevent)
       else if (ksym == XK_Control_R  && down) return(CONTROL);
       else if (ksym == XK_Control_R  && up) return(CONTROL);
       else if (ksym == XK_Meta_L  && down) return(META);
-      else if (ksym == XK_Meta_R  && up) return(META);
-      else if (ksym == XK_Meta_L  && down) return(META);
+      else if (ksym == XK_Meta_L  && up) return(META);
+      else if (ksym == XK_Meta_R  && down) return(META);
       else if (ksym == XK_Meta_R  && up) return(META);
       else if (ksym == XK_Alt_L  && down) return(ALT);
       else if (ksym == XK_Alt_R  && up) return(ALT);
@@ -2477,7 +2480,7 @@ set_item(enum item_type itemno, char *str)
 {
   Widget w ;
   XmString cstr ;
-  char *tmpStr, *ptr, displayStr[50];
+  char *tmpStr, *ptr, displayStr[50] = "";
 
   if (itemno == DISPLAYITEM)
     {

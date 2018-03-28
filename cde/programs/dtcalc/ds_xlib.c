@@ -95,14 +95,14 @@ ds_get_resource(XrmDatabase rDB, char *appname, char *resource)
   char *str_type[20] ;
   XrmValue value ;
 
-  STRCPY(app, appname) ;
-  STRCPY(res, resource) ;
+  snprintf(app, sizeof(app), "%s", appname) ;
+  snprintf(res, sizeof(res), "%s", resource) ;
   if (isupper(app[0])) app[0] = tolower(app[0]) ;
-  SPRINTF(nstr, "%s.%s", app, res) ;
+  snprintf(nstr, sizeof(nstr), "%s.%s", app, res) ;
 
   if (islower(res[0])) res[0] = toupper(res[0]) ;
   if (islower(app[0])) app[0] = toupper(app[0]) ;
-  SPRINTF(cstr, "%s.%s", app, res) ;
+  snprintf(cstr, sizeof(cstr), "%s.%s", app, res) ;
 
   if (XrmGetResource(rDB, nstr, cstr, str_type, &value) == 0)
     return((char *) NULL) ;
@@ -164,7 +164,7 @@ ds_load_resources(Display *display)
 
   if ((ptr = getenv("XENVIRONMENT")) == NULL)
     {
-      SPRINTF(name, "%s/.Xdefaults-", home) ;
+      snprintf(name, sizeof(name), "%s/.Xdefaults-", home) ;
       len = strlen(name) ;
       GETHOSTNAME(name+len, 1024-len) ;
       db = XrmGetFileDatabase(name) ;
@@ -211,9 +211,9 @@ ds_put_resource(XrmDatabase *rDB, char *appname, char *rstr, char *rval)
 {
   char app[MAXLINE], resource[MAXLINE] ;
 
-  STRCPY(app, appname) ;
+  snprintf(app, sizeof(app), "%s", appname) ;
   if (isupper(app[0])) app[0] = tolower(app[0]) ;
-  SPRINTF(resource, "%s.%s", app, rstr) ;
+  snprintf(resource, sizeof(resource), "%s.%s", app, rstr) ;
 
   XrmPutStringResource(rDB, resource, rval) ;
 }
