@@ -24,6 +24,8 @@
 /*   Copyright (c) 1986, 1987, 1988, 1989 Hewlett-Packard Co. */
 /* Miscellaneous Procedures for HP Tag/TeX translator */
 
+#include <stdint.h>
+
 #include "userinc.h"
 #include "globdec.h"
 
@@ -307,7 +309,7 @@ while (TRUE)
     node[n] = current->next;
     if (! id[n])
 	{
-	if ((int) current->data >= 0)
+	if ((intptr_t) current->data >= 0)
 	    m_err1("No glossary definition for %s", id);
 	current = current->next;
 	while (! current)
@@ -2194,13 +2196,13 @@ if (vgloss(gloss) == GLOSS)
 	*(termp-1) = M_EOS;
 	}
 
-    idn = (int) m_lookfortrie(base ? base : dterm, &gtree);
+    idn = (intptr_t) m_lookfortrie(base ? base : dterm, &gtree);
     if (idn < 0)
 	idn = -idn;
     if (!idn)
 	{
 	idn = NextId();
-	m_ntrtrie(base ? base : dterm, &gtree, (void *) idn);
+	m_ntrtrie(base ? base : dterm, &gtree, (void *) (intptr_t) idn);
 	}
     }
 

@@ -204,7 +204,7 @@ int _DtHPrGenFileOrPrint(
    }
 
    /* put the shell print script in there */
-   sprintf(printCommand,"%s", options->shCommand,True);
+   sprintf(printCommand,"%s", options->shCommand);
 
    /* set all the options that are IPC to the print script */
    PutOpt(printCommand,OPT_LPDEST,options->printer,True);
@@ -221,7 +221,7 @@ int _DtHPrGenFileOrPrint(
 
    /* unlink(tmpfile);  ** NOTE: don't unlink; let the printCommand do it */
                         /* note the DTPRINTFILEREMOVE env var setting above */
-      
+   free(tmpfile);
    return(status);
 } /*$END$*/
 

@@ -241,4 +241,4 @@
  248, "fraction 1/2",                    UNSUPP, NULL, 0,
  251, "French double open quote",        UNSUPP, NULL, 0,
  252, "Solid square",                    UNSUPP, NULL, 0,
- 253, "French double close quote",       UNSUPP, NULL, NULL
+ 253, "French double close quote",       UNSUPP, NULL, 0

@@ -87,6 +87,7 @@ int _DtHPrPrintStringData(
    char cmdFormat[100];
    char prOffsetArg[30];
    int status;
+   int retval;
 
     if ( NULL == options->stringData )
     {
@@ -120,7 +121,9 @@ int _DtHPrPrintStringData(
              options->colsTextWidth, EMPTY_STR,		     /* fold */
              options->topicTitle, options->rowsHeight, EMPTY_STR); /* pr */
 
-   return _DtHPrGenFileOrPrint(options,"String",printCommand);
+   retval = _DtHPrGenFileOrPrint(options,"String",printCommand);
+   free(printCommand);
+   return retval;
 } /*$END$*/
 
 
@@ -144,6 +147,7 @@ int _DtHPrPrintDynamicStringData(
    char cmdFormat[100];
    char prOffsetArg[30];
    int status;
+   int retval;
 
     if ( NULL == options->stringData )
     {
@@ -177,8 +181,9 @@ int _DtHPrPrintDynamicStringData(
              options->colsTextWidth, EMPTY_STR,		     /* fold */
              options->topicTitle, options->rowsHeight, EMPTY_STR); /* pr */
 
-
-   return _DtHPrGenFileOrPrint(options,"String",printCommand);
+   retval = _DtHPrGenFileOrPrint(options,"String",printCommand);
+   free(printCommand);
+   return retval;
 } /*$END$*/
 
 
@@ -200,6 +205,7 @@ int _DtHPrPrintManPage(
    char *printCommand;
    char cmdFormat[100];
    int status;
+   int retval;
 
     if ( NULL == options->manPage )
     {
@@ -223,13 +229,15 @@ int _DtHPrPrintManPage(
    }
    
    /** generate the command **/
-    sprintf(cmdFormat, "%s %s",         /* man */
+    snprintf(cmdFormat, sizeof(cmdFormat), "%s %s",         /* man */
              options->manCommand, options->manArgs);
-    sprintf(printCommand, cmdFormat,
+    snprintf(printCommand, sizeof(MAX_COMMAND_LENGTH*sizeof(char)), cmdFormat,
              options->manPage);         /* man */
 
+  retval = _DtHPrGenFileOrPrint(options,options->manPage,printCommand);
+  free(printCommand);
 
-   return _DtHPrGenFileOrPrint(options,options->manPage,printCommand);
+   return retval;
 } /*$END$*/
    
 
@@ -253,6 +261,7 @@ int _DtHPrPrintHelpFile(
    char  cmdFormat[100];
    char prOffsetArg[30];
    int status;
+   int retval;
 
     if ( NULL == options->helpFile )
     {
@@ -284,6 +293,8 @@ int _DtHPrPrintHelpFile(
              options->colsTextWidth, options->helpFile,	     /* fold */
              options->topicTitle, options->rowsHeight, EMPTY_STR); /* pr */
 
-   return _DtHPrGenFileOrPrint(options,options->helpFile,printCommand);
+   retval = _DtHPrGenFileOrPrint(options,options->helpFile,printCommand);
+   free(printCommand);
+   return retval;
 } /*$END$*/
    

@@ -341,7 +341,7 @@ CreateVolumeLink (
 	 * put the abstract information about this
 	 * family in the header file
 	 */
-	fprintf (outTopic, GetMessage (3, 3, "<P before 1 first 1 left 1>\n"));
+	fprintf (outTopic, "%s", GetMessage (3, 3, "<P before 1 first 1 left 1>\n"));
 
 	if (abstract != NULL)
 	  {
@@ -489,7 +489,7 @@ CreateFamily (
 	     */
 	    fprintf (out_topic, (GetMessage (3, 2, (char*)defaultTitle14)),
 								title);
-	    fprintf (out_topic, (GetMessage (3, 3, "<P before 1 first 1 left 1>\n")));
+	    fprintf (out_topic, "%s", (GetMessage (3, 3, "<P before 1 first 1 left 1>\n")));
 	    fprintf (out_topic, "%s\n", abstract);
 	    fprintf (out_topic, "</P>\n");
 
@@ -549,7 +549,7 @@ CreateFamily (
 			bitmap, familyName);
 		  }
 		else
-		    fprintf (out_header, GetMessage (3, 3, "<P before 1 first 1 left 1>\n"));
+		    fprintf (out_header, "%s", GetMessage (3, 3, "<P before 1 first 1 left 1>\n"));
 		fprintf (out_header, "%s\n", abstract);
 		fprintf (out_header, "</P></CHARACTERSET>\n");
 
@@ -579,6 +579,8 @@ CreateFamily (
 	  }
 	XrmDestroyDatabase (db);
       }
+      
+    free (token);
     return result;
 }
 

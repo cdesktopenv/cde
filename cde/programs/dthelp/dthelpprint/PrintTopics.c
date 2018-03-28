@@ -1012,6 +1012,8 @@ int DoStrColsWidth(
       wcstr[--wclen] = EOS;
    wcstombs(str,wcstr,len+1);
 
+   free(wcstr);
+
    return wclen;
 }       /*$END$*/
 
@@ -1091,6 +1093,9 @@ void GenHeadFootFormatArgs(
        /* put into state data */
        state->hffArgs.volumeDate = strdup(buf);
        state->hffArgs.volumeDateColsWidth = width;
+       
+       free(locDocId);
+       free(locDateStamp);
     }
 
     /* get today's date */
@@ -1749,6 +1754,8 @@ int ProcessSubTopics(
    /* if processing subtopics, reset subsection number */
    if(subSectNumIndex > 1) state->sectNums[subSectNumIndex] = 0;
    state->level = level;	/* state->level was modified by the FOR loop */
+
+   free(children);
    return ret;
 }
 

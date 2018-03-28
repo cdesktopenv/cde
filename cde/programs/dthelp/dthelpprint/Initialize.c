@@ -702,7 +702,7 @@ void Usage(void)
    };
     int i;
     for (i=0; usage[i]; i++)
-       printf(_DTGETMESSAGE(INSET,i,usage[i]));
+       printf("%s", _DTGETMESSAGE(INSET,i,usage[i]));
 }       /*$END$*/
 
 
@@ -726,7 +726,7 @@ void CalculatePageSize(
    char *          appclass)
 {       /*$CODE$*/
 
-   static struct unprintableMargins
+   struct unprintableMargins
    {
       int leftUnprintableMargin;
       int rightUnprintableMargin;
@@ -744,7 +744,7 @@ void CalculatePageSize(
 #define	MAXVALIDSIZE	4
 
    /* page size info */
-   static struct page 
+   struct page 
    {
       int width;
       int height;
@@ -1469,10 +1469,10 @@ void _DtHPrGetResources(
       if (debugHelpPrint)
       {
          if (*XtRefOffset(options,rsrc->resource_offset))
-             printf("options%s: %s\n", rsrc->resource_name, 
-             		*XtRefOffset(options,rsrc->resource_offset));
+             printf("options%s: %s\n",  (char *) rsrc->resource_name, 
+             		 (char *) *XtRefOffset(options,rsrc->resource_offset));
          else
-             printf("options%s: <NULL>\n", rsrc->resource_name);
+             printf("options%s: <NULL>\n", (char *) rsrc->resource_name);
       }
    }
    /* and calculate the page sizes */
@@ -1530,12 +1530,12 @@ char * _DtHPrCreateTmpFile(
    newtmpfile=malloc((strlen(dirname) + FILENAMELEN + 2) * sizeof(char));
    if (NULL == newtmpfile)
    {
-      fprintf(stderr, _DTGETMESSAGE(INSET,45,
+      fprintf(stderr, "%s", _DTGETMESSAGE(INSET,45,
                      "Error: Unable to allocate memory for temporary file\n"));
    }
    else
    {
-      sprintf(newtmpfile,_DTGETMESSAGE(INSET,50,"%1$s/%2$s%3$d_%4$d%5$s"), 
+      sprintf(newtmpfile, _DTGETMESSAGE(INSET,50,"%1$s/%2$s%3$d_%4$d%5$s"), 
 		dirname, prefix, getpid(), filecnt++, suffix );
    }
 
