@@ -343,6 +343,10 @@ int	lockflag;
 	if ( !(finf->fname = (char *)strdup( openfontfile )) ) {
 	    fal_seterrcode( _FAL_MALOC_ER, 0,
 			    FAL_ERR_MALLOC , FAL_FUNCNUM_OPNFNT ) ;
+	    free( openfontfile );
+	    free( finf );
+	    free( buf );
+	    close( fd );
 	    return	(FalFontID)FAL_ERROR;
 	}
 
@@ -501,9 +505,7 @@ int 	lockflag;
 	}
 
 	set_errfile_str( fal_err_file_buf, finf->fname ) ;
-	if ( finf->fname ) {
-		free( finf->fname );
-	}
+	free( finf->fname );
 	if ( finf->buf != NULL ) {
 #if	defined( SVR4 )
 		if ( finf->ismmap == TRUE ) {
@@ -520,15 +522,10 @@ int 	lockflag;
 		close( finf->fd );
 #endif
 
-		if ( finf->sptnBuf ) {
-			free( finf->sptnBuf );
-		}
-		if ( finf->dptnBuf ){
-			free( finf->dptnBuf );
-		}
-		if ( finf->dbuf ) {
-			free( finf->dbuf );
-		}
+		free( finf->sptnBuf );
+		free( finf->dptnBuf );
+		free( finf->dbuf );
+
 		free ( finf );
 	}
 	if ( lockflag == 1 ) {
@@ -1069,15 +1066,9 @@ FalFontDataList *list;
 	if ( list->list != NULL ) {
 		for ( i = 0;  i < list->num; i++ ) {
 			/* free a structure's character of "FalFontData()" */
-			if ( list->list[i].xlfdname ) {
-				free( list->list[i].xlfdname );
-			}
-			if ( list->list[i].style.name ) {
-				free( list->list[i].style.name );
-			}
-			if ( list->list[i].shape.name ) {
-				free( list->list[i].shape.name );
-			}
+			free( list->list[i].xlfdname );
+			free( list->list[i].style.name );
+			free( list->list[i].shape.name );
 			FAL_FREE_FONTLIST_OPTION( list ) ;
 		}
 		/* free a structure's array of "FalFontData()" */
@@ -1143,15 +1134,9 @@ fal_clear_data(tmp)
 FalFontData     *tmp;
 {
 	/* search a character */
-	if ( tmp->xlfdname != NULL ) {
-		free(tmp->xlfdname);
-	}
-	if (tmp->style.name != NULL) {
-		free(tmp->style.name);
-	}
-	if (tmp->shape.name != NULL) {
-		free(tmp->shape.name);
-	}
+	free(tmp->xlfdname);
+	free(tmp->style.name);
+	free(tmp->shape.name);
 	FAL_CLEAR_DATA_OPTION( tmp ) ;
 	memset(tmp, 0, sizeof(*tmp));
 	return 0  ;
@@ -2296,6 +2281,7 @@ FalFontPath	*pathlist ;
 		fal_clear_font_path( pathlist );
 		fal_utyerror = _FAL_MALOC_ER;
 		fal_utyerrno = FAL_ERR_MALLOC ;
+		free(path);
 		return FAL_ERROR ;
 	    }
 	    pathlist->path = plist;
@@ -2982,6 +2968,7 @@ int		islock ;
 	    if( (flist[cnt] = (FontIDInfo *)malloc( sizeof(FontIDInfo) )) == NULL ) {
 		fal_utyerror = _FAL_MALOC_ER ;
 		fal_utyerrno = FAL_ERR_MALLOC ;
+		free(flist);
 		return FAL_ERROR ;
 	    }
 	    flist[cnt]->fid 	= fid ;

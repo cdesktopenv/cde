@@ -460,10 +460,10 @@ Widget owner;
 	AddLeftAttachWidget( wgeStaT_disp[i], wgeStaT_list[i], 0 ) ;
 	XtAddEventHandler( wgeStaT_list[i],
 		ButtonPressMask|ButtonReleaseMask,
-		False, EHeStaT_list, (XtPointer)i );
+		False, EHeStaT_list, (XtPointer) (intptr_t) i );
 	XtAddEventHandler( wgeStaT_disp[i],
 		ButtonPressMask|ButtonReleaseMask,
-		False, EHeStaT_list, (XtPointer)i );
+		False, EHeStaT_list, (XtPointer) (intptr_t) i );
 
 	if (i==0){
 	    XtVaGetValues(wgeStaT_disp[i],
@@ -579,7 +579,7 @@ int code;
     char str[8];
 
     if (! code){
-	str[0] = NULL;
+	str[0] = '\0';
     }
     else{
 	sprintf( str, "%4x:", code );

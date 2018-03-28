@@ -350,7 +350,7 @@ static	char	*readfontfile( fname )
 char	*fname;
 {
 	int 	fd;
-	char	*fp;
+	char	*fp = NULL;
 	struct stat stat;
 
 	fd = open( fname,O_RDONLY );
@@ -390,6 +390,7 @@ char	*fname;
 		if ( read( fd, fp, stat.st_size ) < 0 ) {
 			USAGE("dtgpftobdf: can't read file.\n" );
 			close( fd );
+			free(fp);
 			return	( char * )-1;
 		}
 	} else {
@@ -864,9 +865,9 @@ unsigned int	*fplistNum;
 				res->value = wkp->value;
 			}
 		}
-		wklp->name = (CARD32)fpropvnPtr + wkp->name;
+		wklp->name = (CARD32) (intptr_t) fpropvnPtr + wkp->name;
 		if (wkp->indirect == TRUE) {
-			wklp->value = (INT32)fpropvnPtr + wkp->value;
+			wklp->value = (INT32) (intptr_t) fpropvnPtr + wkp->value;
 		} else {
 			wklp->value = wkp->value;
 		}
@@ -942,12 +943,12 @@ PropTmp 	*proptmp;
 
 	f = proptmp->psize.value / 10.0;
 	if ( ( proptmp->psize.value % 10 ) != 0 ) {
-		sprintf( buf1,"%.1f",f );
+		snprintf( buf1, sizeof(buf1), "%.1f",f );
 	} else {
-		sprintf(buf1,"%.0f",f);
+		snprintf( buf1, sizeof(buf1), "%.0f",f);
 	}
 	k = ( ( proptmp->resolution.value * 72.27 ) / 100.0 ) + 1;
-	sprintf( buf2, "%d %d", k, k );
+	snprintf( buf2, sizeof(buf2), "%d %d", k, k );
 	fprintf( stdout,"SIZE %s %s\n", buf1, buf2 );
 	return;
 }
@@ -964,26 +965,26 @@ unsigned int 	fplistNum;
 	int 	i, k;
 
 	bufp = buf;
-	k = sprintf( bufp,"STARTPROPERTIES %d\n", fplistNum+3 );
+	k = snprintf( bufp, sizeof(buf), "STARTPROPERTIES %d\n", fplistNum+3 );
 	bufp += k;
-	k = sprintf( bufp, "FONT_ASCENT %d\n", fip->fontAscent );
+	k = snprintf( bufp, sizeof(buf) - (bufp - buf), "FONT_ASCENT %d\n", fip->fontAscent );
 	bufp += k;
-	k = sprintf( bufp, "FONT_DESCENT %d\n", fip->fontDescent );
+	k = snprintf( bufp, sizeof(buf) - (bufp - buf), "FONT_DESCENT %d\n", fip->fontDescent );
 	bufp += k;
-	k = sprintf( bufp, "DEFAULT_CHAR %d\n", fip->chDefault );
+	k = snprintf( bufp, sizeof(buf) - (bufp - buf), "DEFAULT_CHAR %d\n", fip->chDefault );
 	bufp += k;
 	wkp = fplistPtr;
 	for ( i = 0; i < fplistNum; i++ ) {
 		if ( wkp->indirect == TRUE ) {
-			k = sprintf( bufp, "%s \"%s\"\n", wkp->name, wkp->value );
+			k = snprintf( bufp, sizeof(buf) - (bufp - buf), "%s \"%s\"\n", (char *) (intptr_t) wkp->name, (char *) (intptr_t) wkp->value );
 			bufp += k;
 		} else {
-			k = sprintf( bufp, "%s %d\n", wkp->name, wkp->value );
+			k = snprintf( bufp, sizeof(buf) - (bufp - buf), "%s %d\n", (char *) (intptr_t) wkp->name, wkp->value );
 			bufp += k;
 		}
 		wkp++;
 	}
-	k = sprintf( bufp, "ENDPROPERTIES\n" );
+	k = snprintf( bufp, sizeof(buf) - (bufp - buf), "ENDPROPERTIES\n" );
 	bufp += k;
 	*bufp = '\0';
 	fprintf( stdout, "%s", buf );
@@ -1094,7 +1095,7 @@ unsigned int	glyphPad;
 			for ( i = 0; i < bbh; i++ ) {
 				bufp = buf;
 				for ( j = 0; j < bml; j++ ) {
-					sprintf( bufp, "%s", cvtp[(unsigned char)glyph[j]] );
+					sprintf( bufp, "%s", (char *) cvtp[(unsigned char)glyph[j]] );
 					bufp += 2;
 				}
 				fprintf( stdout, "%.*s\n", bml*2, buf );

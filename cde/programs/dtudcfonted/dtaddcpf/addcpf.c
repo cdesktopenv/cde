@@ -220,7 +220,7 @@ char	*argv[];
 		exit( 1 );
 	}
 
-	if ( ReadSnf.in_file == '\0' && xlfdname == '\0' ) {
+	if ( ReadSnf.in_file == NULL && xlfdname == NULL ) {
 		if ( code_area & SYSTM ) {
                         USAGE1("%s : The GPF output file name cannot be omitted.\n", argv[0] );
 		} else {	/* string of charcter size */
@@ -526,6 +526,7 @@ int		init_all;
 		close( pfd[1] );
 		close( 1 );
 		if( dup( ofd ) < 0 ) {
+			close( ofd );
 			return	DUP_ERROR;
 		}
 		close( ofd );

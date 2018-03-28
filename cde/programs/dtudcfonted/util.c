@@ -345,7 +345,7 @@ int		buttons_cnt;
 		if (strchr(LABEL(i), NMNIC(i))){
 		    sprintf(buf, "%s", LABEL(i));
 		}else{
-		    sprintf(buf, "%s(%c)", LABEL(i), NMNIC(i));
+		    sprintf(buf, "%s(%ld)", LABEL(i), NMNIC(i));
 		}
 		xms = XmStringCreateLocalized(buf);
 		XtSetArg(args[n],XmNlabelString, xms); n++;
@@ -515,7 +515,7 @@ int val;
 	XtSetArg(arg[n], XmNleftOffset, (XtArgVal)resource.draw_lftoff); n++;
 	drawarea = XmCreateDrawingArea(owner, name, arg, n);
 	XtManageChild( drawarea );
-	XtAddEventHandler(drawarea, ExposureMask, FALSE, proc, (XtPointer)val);
+	XtAddEventHandler(drawarea, ExposureMask, FALSE, proc, (XtPointer) (intptr_t) val);
 	return(drawarea);
 }
 

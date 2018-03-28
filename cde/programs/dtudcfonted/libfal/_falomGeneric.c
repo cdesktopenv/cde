@@ -625,19 +625,20 @@ static char
 	}
     }
 
-    if(field_num < CHARSET_ENCODING_FIELD)
+    if(field_num < CHARSET_ENCODING_FIELD) {
+	Xfree(pattern);
 	return NULL;
+    }
 
     /* Pixel Size field : fields[6] */
     for(ptr = fields[PIXEL_SIZE_FIELD - 1] ; ptr && *ptr; ptr++) {
 	if(!isdigit(*ptr)) {
-	    if(pattern)
-		Xfree(pattern);
+	    Xfree(pattern);
 	    return NULL;
 	}
     }
     pixel_size = atoi(fields[PIXEL_SIZE_FIELD - 1]);
-    sprintf(str_pixel, "[ 0 ~%d %d 0 ]", pixel_size, pixel_size);
+    snprintf(str_pixel, sizeof(str_pixel), "[ 0 ~%d %d 0 ]", pixel_size, pixel_size);
     fields[6] = str_pixel;
 
     /* Point Size field : fields[7] */
@@ -647,7 +648,7 @@ static char
     rotate_font[0] = '\0';
     for(field_num = 0 ; field_num < CHARSET_ENCODING_FIELD &&
 			fields[field_num] ; field_num++) {
-	sprintf(rotate_font, "%s-%s", rotate_font, fields[field_num]);
+	snprintf(rotate_font, sizeof(rotate_font), "%s-%s", rotate_font, fields[field_num]);
     }
 
     if(pattern)
@@ -713,7 +714,6 @@ parse_omit_name(oc, font_data, pattern)
 
     if(is_match_charset(font_data, pattern) == True) {
 	strcpy(buf, pattern);
-	length = strlen(pattern);
 	if (font_name = get_font_name(oc, buf)) {
 	    font_data->xlfd_name = (char *)Xmalloc(strlen(font_name) + 1);
 	    if(font_data->xlfd_name == NULL) {
@@ -1674,8 +1674,10 @@ char **value;
             bufptr++ ;
 	}
         font_data->name = (char *) Xmalloc(len + 1);
-        if (font_data->name == NULL)
+        if (font_data->name == NULL) {
+            XFree(font_data);
             return NULL;
+        }
         strncpy(font_data->name, buf,len);
 	font_data->name[len] = 0;
         if (bufptr && _fallcCompareISOLatin1(bufptr, "GL") == 0)
@@ -1726,7 +1728,7 @@ int num;
     char **value, buf[BUFSIZ], *bufptr;
     int count,i;
 
-    sprintf(buf, "fs%d.font.vertical_map", num);
+    snprintf(buf, sizeof(buf), "fs%d.font.vertical_map", num);
     _fallcGetResource(lcd, "XLC_FONTSET", buf, &value, &count);
     if (count > 0){
         dbg_printValue(buf,value,count);
@@ -1734,7 +1736,7 @@ int num;
         font_set->vmap = falread_EncodingInfo(count,value);
     }
 
-    sprintf(buf, "fs%d.font.vertical_rotate", num);
+    snprintf(buf, sizeof(buf), "fs%d.font.vertical_rotate", num);
     _fallcGetResource(lcd, "XLC_FONTSET", buf, &value, &count);
     if (count > 0){
         dbg_printValue(buf,value,count);
@@ -1771,11 +1773,11 @@ init_om(om)
 
     for (num = 0; ; num++) {
 
-        sprintf(buf, "fs%d.charset.name", num);
+        snprintf(buf, sizeof(buf), "fs%d.charset.name", num);
         _fallcGetResource(lcd, "XLC_FONTSET", buf, &value, &count);
 
         if( count < 1){
-            sprintf(buf, "fs%d.charset", num);
+            snprintf(buf, sizeof(buf), "fs%d.charset", num);
             _fallcGetResource(lcd, "XLC_FONTSET", buf, &value, &count);
             if (count < 1)
                 break;
@@ -1794,7 +1796,7 @@ init_om(om)
 	while (count-- > 0){
 	    *charset_list++ = _fallcGetCharSet(*value++);
         }
-        sprintf(buf, "fs%d.charset.udc_area", num);
+        snprintf(buf, sizeof(buf), "fs%d.charset.udc_area", num);
         _fallcGetResource(lcd, "XLC_FONTSET", buf, &value, &count);
         if( count > 0){
             UDCArea udc;
@@ -1817,10 +1819,10 @@ init_om(om)
 	    }
         }
 
-        sprintf(buf, "fs%d.font.primary", num);
+        snprintf(buf, sizeof(buf), "fs%d.font.primary", num);
         _fallcGetResource(lcd, "XLC_FONTSET", buf, &value, &count);
         if (count < 1){
-            sprintf(buf, "fs%d.font", num);
+            snprintf(buf, sizeof(buf), "fs%d.font", num);
             _fallcGetResource(lcd, "XLC_FONTSET", buf, &value, &count);
             if (count < 1)
                 return False;
@@ -1833,7 +1835,7 @@ init_om(om)
 	data->font_data = font_data;
 	data->font_data_count = count;
 
-        sprintf(buf, "fs%d.font.substitute", num);
+        snprintf(buf, sizeof(buf), "fs%d.font.substitute", num);
         _fallcGetResource(lcd, "XLC_FONTSET", buf, &value, &count);
         if (count > 0){
             font_data = falread_EncodingInfo(count,value);
@@ -1842,7 +1844,7 @@ init_om(om)
             data->substitute      = font_data;
             data->substitute_num = count;
         } else {
-            sprintf(buf, "fs%d.font", num);
+            snprintf(buf, sizeof(buf), "fs%d.font", num);
             _fallcGetResource(lcd, "XLC_FONTSET", buf, &value, &count);
             if (count < 1) {
                 data->substitute      = NULL;

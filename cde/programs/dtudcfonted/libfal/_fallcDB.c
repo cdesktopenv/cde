@@ -623,6 +623,7 @@ store_to_database(db)
 	if(new->name){
 	    Xfree(new->name);
 	}
+	Xfree(new);
     }
     if(parse_info.value){
 	if(*parse_info.value){

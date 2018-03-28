@@ -549,7 +549,7 @@ char	*style ;
 {
 
 
-	if ( gpfinf->in_file == '\0' && xlfdname == '\0' ) {
+	if ( gpfinf->in_file == NULL && xlfdname == NULL ) {
 	    if ( code_area & SYSTM ) {
 		USAGE1("%s : The GPF output file name cannot be omitted.\n", com );
 	    } else {	/* string of charcter size */
@@ -703,6 +703,7 @@ int		type ;
 	    close( pfd[1] );
 	    close( 1 );
 	    if( dup( out_fd ) < 0 ) {
+		close( out_fd );
 		return	DUP_ERROR;
 	    }
 	    close( out_fd );

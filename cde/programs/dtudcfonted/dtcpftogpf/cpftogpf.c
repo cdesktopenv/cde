@@ -204,7 +204,7 @@ char	*argv[];
 		exit( 1 );
 	}
 
-	if ( Head.snf_file == NULL && xlfdname == '\0' ) {
+	if ( Head.snf_file == NULL && xlfdname == NULL ) {
 		if ( code_area & SYSTM ) {
 			USAGE1("%s : The SNF output file name cannot be omitted.\n", argv[0] );
 		} else {

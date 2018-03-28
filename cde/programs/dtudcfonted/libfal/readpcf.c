@@ -778,7 +778,7 @@ char		*propname;
 			if ( *buffer) { 	/* isStringProp */
 				return( propstr + getINT32( (unsigned char *)(buffer + 1), (CARD32)format) );
 			}else{
-				return((char *)getINT32( (unsigned char *)(buffer + 1), (CARD32)format) );
+				return((char *)(intptr_t)getINT32( (unsigned char *)(buffer + 1), (CARD32)format) );
 			}
 		}
 		buffer += 5 ;	/* isStringProp + value */
@@ -800,7 +800,7 @@ FalFontData		*databuff ;
 	caddr_t	stprop ;
 	int	lb, rb, as, ds ;
 	char	*propptr ;
-	char	*fnt, *fam ;
+	char	*fnt = NULL, *fam ;
 	int	nprops, bitmapSize, num_chars ;
 
 
@@ -863,6 +863,7 @@ FalFontData		*databuff ;
 
 	return 0;
 Bail:
+	free(fnt);
 	return -1;
 }
 
@@ -890,7 +891,7 @@ char		*propname;
 			if( ProcRec->indirect ){
 			    return( propstr + ProcRec->value ) ;
 			}else{
-			    return( (char *)ProcRec->value ) ;
+			    return( (char *) (intptr_t) ProcRec->value ) ;
 			}
 		}
 	}

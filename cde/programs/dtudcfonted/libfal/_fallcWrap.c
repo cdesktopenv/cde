@@ -79,6 +79,7 @@ from the X Consortium.
  *		 Katsuhisa Yano		TOSHIBA Corp.
  */				
 
+#include <stdint.h>
 #include "_fallibint.h"
 #include "_fallcint.h"
 #if defined(linux)
@@ -499,12 +500,12 @@ _fallcCopyFromArg(src, dst, size)
 	*((long *) dst) = (long) src;
 #ifdef LONG64
     else if (size == sizeof(int))
-	*((int *) dst) = (int) src;
+	*((int *) dst) = (int) (intptr_t) src;
 #endif
     else if (size == sizeof(short))
-	*((short *) dst) = (short) src;
+	*((short *) dst) = (short) (intptr_t) src;
     else if (size == sizeof(char))
-	*((char *) dst) = (char) src;
+	*((char *) dst) = (char) (intptr_t) src;
     else if (size == sizeof(XPointer))
 	*((XPointer *) dst) = (XPointer) src;
     else if (size > sizeof(XPointer))

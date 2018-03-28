@@ -250,7 +250,7 @@ char	*argv[];
 		}
 	}
 
-	if ( Head.in_file == NULL && xlfdname == '\0' ) {
+	if ( Head.in_file == NULL && xlfdname == NULL ) {
 		if ( code_area & SYSTM ) {
 			USAGE1("%s : The GPF output file name cannot be omitted.\n", argv[0] );
 		} else {
@@ -605,23 +605,20 @@ FalGlyphRegion	*gr ;
 		if( (code_num >= gr[i].start) && (code_num <= gr[i].end) )
 		    return( code_num );
 	    }
-	    err_flg = 1 ;
 	}
-	if (err_flg) {
-	    switch( mode ) {
-	    case 0:
+	
+	switch( mode ) {
+	case 0:
 		USAGE2("%s : The specification of the extract start code is improper.\"%s\"бе\n",
 		    prog_name, code_str);
 		break;
-	    case 1:
+	case 1:
 		USAGE2("%s : The specification of the extract end code is improper.\"%s\"бе\n",
 		    prog_name, code_str);
 		break;
-	    default:
+	default:
 		USAGE2("%s : The specification of the extract code is improper.\"%s\"бе\n",
 		    prog_name, code_str);
-	    }
-	    return(-1);
 	}
 	return(-1);
 }

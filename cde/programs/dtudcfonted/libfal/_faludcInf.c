@@ -32,6 +32,7 @@
  *
  */
 #include <stdio.h>
+#include <stdint.h>
 #include <locale.h>
 #include "syncx.h"
 #include "_fallibint.h"
@@ -410,7 +411,7 @@ unsigned long 	*codepoint;
 
     memset(dst,0,25);
 	
-    lcd = (XLCd)_fallcGenericLoader(locale);
+    lcd = (XLCd) (uintptr_t) _fallcGenericLoader(locale);
 
     fal_gi_to_vgi(lcd,locale,charset_str,codeset,
 	glyph_index,&glyph_index,charsetname);
@@ -439,9 +440,9 @@ unsigned long 	*codepoint;
     if( falnon_standard(lcd,charset)) {
         falmake_none_standard(from,charset,src);
     } else if(charset->ct_sequence){
-        sprintf((char *)from,"%s%s",charset->ct_sequence,src);
+        snprintf((char *)from, sizeof(from32), "%s%s", charset->ct_sequence,src);
     } else {
-        sprintf((char *)from,"%s\0",src);
+        snprintf((char *)from, sizeof(from32), "%s", src);
     }
     /* compound text -> multi byte */
     conv = _fallcOpenConverter(lcd, XlcNCompoundText, lcd, XlcNMultiByte);
@@ -640,7 +641,7 @@ int 		*num_gi;
     dst  = (unsigned char *)to32;
     memset(dst,0,25);
 
-    lcd = (XLCd)_fallcGenericLoader(locale);
+    lcd = (XLCd) (uintptr_t) _fallcGenericLoader(locale);
 
     for(i=0,j=0;i<4;i++){
 	byte = getbyte(codepoint,i);
@@ -650,7 +651,7 @@ int 		*num_gi;
 	}
     }
     src[j] = 0;
-    sprintf((char *)from,"%s\0",src);
+    snprintf((char *)from, sizeof(from32), "%s", src);
     /* multi byte -> vgi */
     conv = _fallcOpenConverter(lcd, XlcNMultiByte, lcd, XlcNCharSet);
     from_left = strlen((char *)from);
@@ -674,13 +675,14 @@ int 		*num_gi;
     _fallcDestroyLC(lcd);
 
     *gi = (FalGIInf *)Xmalloc(sizeof(FalGIInf));
-    (*gi)->charset_str = (char *)Xmalloc(strlen(charsetname)+1);
-    strcpy((*gi)->charset_str,charsetname);
-    (*gi)->glyph_index = glyph;
     if(*gi == NULL){
 	fal_utyerrno = 0x03 ;
         return(FAL_ERROR);
     }
+    (*gi)->charset_str = (char *)Xmalloc(strlen(charsetname)+1);
+    strcpy((*gi)->charset_str,charsetname);
+    (*gi)->glyph_index = glyph;
+
     *num_gi = 1;
     return(0);
 }

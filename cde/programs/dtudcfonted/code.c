@@ -104,7 +104,7 @@ Widget w;
 int low_code;
 {
     int hi_code;
-    char *f;
+    char *f = NULL;
     XImage image;
     GC gc = XDefaultGC(display, 0);
 
@@ -124,8 +124,9 @@ int low_code;
 
     if (open_font) {
 	f = (char *)FalReadFont(fid, hi_code | low_code, font_w, font_h);
-	if(f == (char *)FAL_ERROR)
+	if(f == NULL || f == (char *)FAL_ERROR) {
 	    return;
+	}
 	if( EXISTS_FLAG == 0 ) {
 	    memcpy(ptn, f, len);
 	    image.data = (char *)ptn;
@@ -147,7 +148,7 @@ static void
 SetPixmap(start_code)
 {
     int hi_code, low_code;
-    char *f;
+    char *f = NULL;
     XImage image;
     GC gc = XDefaultGC(display, 0);
 
@@ -168,8 +169,9 @@ SetPixmap(start_code)
     if (open_font) {
 	for (low_code=0; low_code < NUM; low_code++) {
 	    f = (char *)FalReadFont(fid, hi_code | low_code, font_w, font_h);
-	    if(f == (char *)FAL_ERROR)
+	    if(f == NULL || f == (char *)FAL_ERROR) {
 		return;
+	    }
 	    if( EXISTS_FLAG == 0 ) {
 		memcpy(ptn, f, len);
 		image.data = (char *)ptn;
@@ -316,7 +318,7 @@ Widget w;
     XmString item[128];
     XmString xcs;
     int item_count, start_code, add_c;
-    char add[3];
+    char add[9];
 
     n = 0;
     XtSetArg(args[n], XmNmwmFunctions, MWM_FUNC_ALL | MWM_FUNC_CLOSE |
@@ -342,9 +344,9 @@ Widget w;
     scroll = XmCreateScrolledList(base2, "scroll", args, n);
     XtManageChild(scroll);
     XtAddCallback(scroll, XmNbrowseSelectionCallback,
-			(XtCallbackProc)Code1Call, (XtPointer)start_code);
+			(XtCallbackProc)Code1Call, (XtPointer) (intptr_t) start_code);
     XtAddCallback(scroll, XmNdefaultActionCallback,
-			(XtCallbackProc)Code1Call, (XtPointer)start_code);
+			(XtCallbackProc)Code1Call, (XtPointer) (intptr_t) start_code);
     XmListSelectPos(scroll, 1, False);
 
     base3 = XtVaCreateManagedWidget("base3", xmRowColumnWidgetClass, base2,
@@ -377,7 +379,7 @@ Widget w;
 	add_c = 0;
     for (i=0; i < NUM; i++) {
 	if ((i % 16) == 0) {
-	    sprintf(add, "%2.1X", add_c++);
+	    snprintf(add, sizeof(add), "%2.1X", add_c++);
 	    XtVaCreateManagedWidget(add, xmLabelWidgetClass, base3, NULL);
 	}
 	toggle[i] = XtVaCreateWidget("toggle",
@@ -387,13 +389,13 @@ Widget w;
 					XmNlabelType, XmPIXMAP,
 					XmNlabelPixmap, no_pix, NULL);
 	XtAddCallback(toggle[i], XmNactivateCallback,
-				(XtCallbackProc)Code2Call, (XtPointer)i);
+				(XtCallbackProc)Code2Call, (XtPointer) (intptr_t) i);
 	XtAddCallback(toggle[i], XmNarmCallback,
-				(XtCallbackProc)DrawCode, (XtPointer)i);
+				(XtCallbackProc)DrawCode, (XtPointer) (intptr_t) i);
 	XtAddCallback(toggle[i], XmNdisarmCallback,
-				(XtCallbackProc)DrawCode, (XtPointer)i);
+				(XtCallbackProc)DrawCode, (XtPointer) (intptr_t) i);
 	XtAddEventHandler(toggle[i], ExposureMask, False,
-				(XtEventHandler)DrawCode, (XtPointer)i);
+				(XtEventHandler)DrawCode, (XtPointer) (intptr_t) i);
     }
     XtManageChildren(toggle, NUM);
 

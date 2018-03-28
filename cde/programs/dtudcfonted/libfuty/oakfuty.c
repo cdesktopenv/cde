@@ -86,7 +86,9 @@ char	*buf;
 	char *p;
 	unsigned int	getstat = 0;
 
-	fgets(buf, BUFSIZE, head->input);
+	if (NULL == fgets(buf, BUFSIZE, head->input)) {
+		return(BDF_INVAL);
+	}
 	p = buf;
 	SCAN_TO_NONSP(p)
 
@@ -1151,6 +1153,7 @@ char	*wr_file ;
 	    if( read(rfd, buf, statbuf.st_size) != statbuf.st_size ){
 		close(wfd) ; 
 		close(rfd) ; 
+		free(buf) ;
 		return -1 ;
 	    }
 #if	defined( SVR4 )
@@ -1474,6 +1477,7 @@ char	*com;
 							save_name, com );
 		Unlink_Tmpfile ( save_name, com );
 		Unlink_Tmpfile ( tmp_name, com );
+		free(save_name);
 		return( (put_file_create_err_msg == DEVICE_FAIL)?
 			put_file_create_err_msg : rtn );
 	}
@@ -1490,6 +1494,7 @@ char	*com;
 			Unlink_Tmpfile ( tmp_name, com );
 			Unlink_Tmpfile ( save_name, com );
 		}
+		free(save_name);
 		return( (put_file_create_err_msg == DEVICE_FAIL)?
 			put_file_create_err_msg : rtn );
 	}
@@ -1498,6 +1503,7 @@ char	*com;
 	ret_val += Unlink_Tmpfile ( tmp_name,  com );
 	ret_val += Unlink_Tmpfile ( save_name, com );
 
+	free(save_name);
 	return( (ret_val)? 1 : 0 );
 }
 
@@ -1658,6 +1664,7 @@ char	*cmd;
 		}
 		FreeString( cmd_path ) ;
 	}
+	free(cmd_path);
 	AllocString( cmd_path, path, NULL ) ;
 	AddString( cmd_path, "/", NULL ) ;
 	AddString( cmd_path, cmd, NULL ) ;
@@ -1697,10 +1704,12 @@ char	*cmd ;
 	    }
 	    if( stat( pbuf, &statbuf ) ){
 		USAGE2("%s: There is not \"%s\" command.\n", com, cmd ) ;
+		free(pbuf);
 		return STAT_ERROR ;
 	    }
 	    if( !(statbuf.st_mode & S_IXUSR) ){
 		USAGE2("%s: \"%s\" command don't have permission to execute.\n", com, cmd ) ;
+		free(pbuf);
 		return STAT_ERROR ;
 	    }
 	}else{

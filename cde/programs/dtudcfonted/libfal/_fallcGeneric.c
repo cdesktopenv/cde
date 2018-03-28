@@ -457,8 +457,8 @@ XLCdGenericPart *gen;
         _fallcGetResource(lcd, "XLC_CHARSET_DEFINE", name, &value, &num);
         dbg_printValue(name,value,num);
         if (num > 0) {
-            strcpy(cset_name,value[0]);
-            sprintf(name, "%s.%s", csd , "side");
+            snprintf(cset_name, sizeof(cset_name), "%s", value[0]);
+            snprintf(name, sizeof(name), "%s.%s", csd , "side");
             _fallcGetResource(lcd, "XLC_CHARSET_DEFINE", name, &value, &num);
             if (num > 0) {
                 dbg_printValue(name,value,num);
@@ -495,21 +495,21 @@ XLCdGenericPart *gen;
         /* side   */
         charsetd->side =  side ;
         /* length */
-        sprintf(name, "%s.%s", csd , "length");
+        snprintf(name, sizeof(name), "%s.%s", csd , "length");
         _fallcGetResource(lcd, "XLC_CHARSET_DEFINE", name, &value, &num);
         if (num > 0) {
             dbg_printValue(name,value,num);
             charsetd->char_size = atoi(value[0]);
         }
         /* gc_number */
-        sprintf(name, "%s.%s", csd , "gc_number");
+        snprintf(name, sizeof(name), "%s.%s", csd , "gc_number");
         _fallcGetResource(lcd, "XLC_CHARSET_DEFINE", name, &value, &num);
         if (num > 0) {
             dbg_printValue(name,value,num);
             charsetd->set_size = atoi(value[0]);
         }
         /* string_encoding */
-        sprintf(name, "%s.%s", csd , "string_encoding");
+        snprintf(name, sizeof(name), "%s.%s", csd , "string_encoding");
         _fallcGetResource(lcd, "XLC_CHARSET_DEFINE", name, &value, &num);
         if (num > 0) {
             dbg_printValue(name,value,num);
@@ -520,7 +520,7 @@ XLCdGenericPart *gen;
             }
         }
         /* sequence */
-        sprintf(name, "%s.%s", csd , "sequence");
+        snprintf(name, sizeof(name), "%s.%s", csd , "sequence");
         _fallcGetResource(lcd, "XLC_CHARSET_DEFINE", name, &value, &num);
         if (num > 0) {
             dbg_printValue(name,value,num);
@@ -537,7 +537,7 @@ XLCdGenericPart *gen;
             string_to_encoding(value[0],tmp);
         }
         /* encoding_name */
-        sprintf(name, "%s.%s", csd , "encoding_name");
+        snprintf(name, sizeof(name), "%s.%s", csd , "encoding_name");
         _fallcGetResource(lcd, "XLC_CHARSET_DEFINE", name, &value, &num);
         if (num > 0) {
             dbg_printValue(name,value,num);
@@ -698,6 +698,7 @@ int num;
     if(strchr(value[0],':')){
         ret->name = (char *)Xmalloc(strlen(value[0])+1);
         if(ret->name == NULL){
+            XFree(ret);
             return(NULL);
         }
         strcpy(ret->name,value[0]);
@@ -706,24 +707,27 @@ int num;
         ptr++;
         if( !_fallcNCompareISOLatin1(ptr, "none", 4) ){
             ret->side =  XlcNONE ;
-            sprintf(cset_name,"%s:%s",ret->name,"none");
+            snprintf(cset_name,sizeof(cset_name),"%s:%s",ret->name,"none");
         } else
         if( !_fallcNCompareISOLatin1(ptr, "GL", 2) ){
             ret->side =  XlcGL ;
-            sprintf(cset_name,"%s:%s",ret->name,"GL");
+            snprintf(cset_name,sizeof(cset_name),"%s:%s",ret->name,"GL");
         } else {
             ret->side =  XlcGR ;
-            sprintf(cset_name,"%s:%s",ret->name,"GR");
+            snprintf(cset_name,sizeof(cset_name),"%s:%s",ret->name,"GR");
         }
     } else {
         ret->name = (char *)Xmalloc(strlen(value[0])+1);
         if(ret->name == NULL){
+            XFree(ret);
             return(NULL);
         }
         strcpy(ret->name,value[0]);
     }
     ret->area = (FontScope)Xmalloc((num - 1)*sizeof(FontScopeRec));
     if(ret->area == NULL){
+        XFree(ret->name);
+        XFree(ret);
         return(NULL);
     }
     ret->area_num  = num - 1;
@@ -735,7 +739,10 @@ int num;
     if(new){
         tmp = (char *)Xmalloc(strlen(cset_name)+1);
         if(tmp == NULL){
-            return 0;
+            XFree(ret->area);
+            XFree(ret->name);
+            XFree(ret);
+            return NULL;
         }
         strcpy(tmp,cset_name);
         ret->charset->name = tmp;
