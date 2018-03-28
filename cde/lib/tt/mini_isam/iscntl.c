@@ -90,7 +90,7 @@ iscntl(isfd, func, va_alist)
     va_dcl
 #endif
 {
-    extern int		(*_isfatal_error_set_func())();
+    extern 		int ( *_isfatal_error_set_func)();
     va_list		pvar;
     int			ret;
 
@@ -106,7 +106,7 @@ iscntl(isfd, func, va_alist)
 	    break;
 
 	  case ISCNTL_FATAL:
-	    ret =  (int)_isfatal_error_set_func(va_arg(pvar,  intfunc));
+	    ret =  _isfatal_error_set_func(va_arg(pvar,  intfunc));
 	    break;
 
 	  case ISCNTL_FDLIMIT_SET:

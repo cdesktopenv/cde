@@ -552,6 +552,7 @@
 # define OPT_AUTOMOUNT_PATH_FIX
 # define OPT_BUG_RPCINTR
 # undef  OPT_XTHREADS 
+# define OPT_CONST_CORRECT
 
 #elif defined(__OpenBSD__)
 
