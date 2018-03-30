@@ -44,11 +44,6 @@
 #include <Xm/Xm.h>
 #include <Xm/Protocols.h>
 
-#define  FREE         (void) free
-#define  FPRINTF      (void) fprintf
-#define  GETHOSTNAME  (void) gethostname
-#define  SPRINTF      (void) sprintf
-#define  STRCPY       (void) strcpy
 
 #define  EQUAL(a, b)  !strncmp(a, b, strlen(b))
 #define  MAXLINE      120        /* Maximum length for character strings. */
@@ -153,7 +148,7 @@ ds_load_resources(Display *display)
     db = XrmGetStringDatabase(XResourceManagerString(display)) ;
   else
     { 
-      SPRINTF(name, "%s/.Xdefaults", home) ;
+      snprintf(name, sizeof(name), "%s/.Xdefaults", home) ;
       db = XrmGetFileDatabase(name) ;
     }
   XrmMergeDatabases(db, &rDB) ;
@@ -166,7 +161,7 @@ ds_load_resources(Display *display)
     {
       snprintf(name, sizeof(name), "%s/.Xdefaults-", home) ;
       len = strlen(name) ;
-      GETHOSTNAME(name+len, 1024-len) ;
+      gethostname(name+len, 1024-len) ;
       db = XrmGetFileDatabase(name) ;
     }
   else db = XrmGetFileDatabase(ptr) ;
@@ -267,7 +262,7 @@ ds_save_resources(XrmDatabase rDB, char *filename)
       {
         home = getenv("HOME") ;
         filename = (char*) calloc(1, strlen(home) + 18) ;
-        SPRINTF(filename, "%s/.dtcalcdef", home) ;
+        snprintf(filename, sizeof(filename), "%s/.dtcalcdef", home) ;
       }
   }
 
@@ -275,14 +270,14 @@ ds_save_resources(XrmDatabase rDB, char *filename)
 
   if (stat(filename, &statbuf) != -1 && access(filename, W_OK) != 0)
     { 
-      FREE(filename) ;
+      free(filename) ;
       return(1) ;
     }
 
 /* If file does not exist this call will create it. */
 
   XrmPutFileDatabase(rDB, filename) ;
-  FREE(filename) ;
+  free(filename) ;
   return(0) ;
 }
 

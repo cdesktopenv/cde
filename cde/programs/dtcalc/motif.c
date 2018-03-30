@@ -1984,8 +1984,8 @@ get_next_event(Widget widget, int ev_action, XEvent *xevent)
       else if (ksym == XK_Meta_R  && down) return(META);
       else if (ksym == XK_Meta_R  && up) return(META);
       else if (ksym == XK_Alt_L  && down) return(ALT);
-      else if (ksym == XK_Alt_R  && up) return(ALT);
-      else if (ksym == XK_Alt_L  && down) return(ALT);
+      else if (ksym == XK_Alt_L  && up) return(ALT);
+      else if (ksym == XK_Alt_R  && down) return(ALT);
       else if (ksym == XK_Alt_R  && up) return(ALT);
       else if (ksym == XK_Select  && down) return(SPACE);
       else if (ksym == XK_Select  && up) return(SPACE);
