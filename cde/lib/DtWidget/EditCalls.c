@@ -304,8 +304,7 @@ SetUndoDeletionState(
 	    strcat(M_deletedText(pPriv), oldUndo);
 	    M_deletionStart(pPriv) = cb->startPos;
         }
-        if(oldUndo != (char *)NULL)
-	    XtFree(oldUndo);
+        XtFree(oldUndo);
     }
     else 
     {
@@ -323,8 +322,7 @@ SetUndoDeletionState(
 	M_insertionLength(pPriv) = 0;
     }
 
-    if( pDeletedText != (char *)NULL )
-      XtFree( pDeletedText );
+    XtFree( pDeletedText );
 } /* SetUndoDeletionState */
 
 /*

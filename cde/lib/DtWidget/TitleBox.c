@@ -762,7 +762,7 @@ Redisplay(
 
 /*	Redisplay work area.
 */
-	if (work_area && XmIsGadget (work_area) && XtIsManaged (work_area))
+	if (XmIsGadget (work_area) && XtIsManaged (work_area))
 	{
 		XtExposeProc expose;
 		_DtProcessLock();

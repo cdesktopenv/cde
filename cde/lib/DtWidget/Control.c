@@ -2085,7 +2085,7 @@ ReplaceJPDate(char *date, char *jpstr, int wday)
         free(s);
         return;
     }
-    strcpy(abday, nl_langinfo(ABDAY_1 + wday));
+    snprintf(abday, sizeof(abday), "%s", nl_langinfo(ABDAY_1 + wday));
     if((rp = strstr(date, abday)) != NULL) {
         for(i = 0, j = 0, sp = date; date[j] != '\0'; sp++) {
             if(sp == rp) {

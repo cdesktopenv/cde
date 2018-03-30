@@ -482,8 +482,7 @@ SearchForString(
 	    return (int)pos;
 	}
 
-	if (word  != (char *)NULL)
-	  XtFree(word);
+	XtFree(word);
     }
 
     return -1;
@@ -812,8 +811,7 @@ _DtEditorDialogSearchCB(
         * Find/Change mode
         * Free the existing search string and get the new one.
         */
-       if (M_search_string(pPriv)) 
-           XtFree(M_search_string(pPriv));
+       XtFree(M_search_string(pPriv));
        M_search_string(pPriv) = XmTextFieldGetString( M_findText(pPriv) );
 
        /*
@@ -869,8 +867,7 @@ _DtEditorDialogSearchCB(
           if( pString != (char *)NULL && *pString != (char)'\0' ) 
              _DtEditorSetReplaceSensitivity( pPriv, True );
 
-          if(pString != (char *)NULL)
-   	     XtFree(pString);
+          XtFree(pString);
        }
        else {
 	 /* 
@@ -918,8 +915,7 @@ _DtEditorDialogReplaceCB(
         * Find/Change mode
         * Free the existing Change To string and get the new one.
         */
-       if (M_replace_string(pPriv)) 
-           XtFree(M_replace_string(pPriv));
+       XtFree(M_replace_string(pPriv));
        M_replace_string(pPriv) = XmTextFieldGetString(M_replaceText(pPriv));
 
        DtEditorChange( (Widget)pPriv, (DtEditorChangeValues *)NULL, 
@@ -979,15 +975,13 @@ _DtEditorDialogReplaceAllCB(
         * Find/Change mode
         * Free any existing search string before getting the current one.
         */
-       if (M_search_string(pPriv)) 
-           XtFree(M_search_string(pPriv));
+       XtFree(M_search_string(pPriv));
        M_search_string(pPriv) = XmTextFieldGetString(M_findText(pPriv));
 
        /*
         * Free the existing Change To string and get the new one.
         */
-       if (M_replace_string(pPriv)) 
-           XtFree(M_replace_string(pPriv));
+       XtFree(M_replace_string(pPriv));
        M_replace_string(pPriv) = XmTextFieldGetString(M_replaceText(pPriv));
 
        /* 
@@ -1018,8 +1012,7 @@ _DtEditorDialogReplaceAllCB(
        changeValues.changeTo = XmTextFieldGetString(M_replaceText(pPriv));
        DtEditorChange((Widget)pPriv, &changeValues, DtEDITOR_ALL_OCCURRENCES);
 
-       if( changeValues.changeTo != (char *)NULL )
-	  XtFree( changeValues.changeTo );
+       XtFree( changeValues.changeTo );
 
     }
 
@@ -1061,8 +1054,7 @@ _DtEditorMisspelledSelectCB(
      * Get the selected word for use when the Find or Replace All button
      * is pressed.
      */
-    if (M_misspelled_string(editor)) 
-      XtFree(M_misspelled_string(editor));
+    XtFree(M_misspelled_string(editor));
 
     M_misspelled_string(editor) = 
 	_XmStringUngenerate(cb->item, NULL, XmCHARSET_TEXT, XmCHARSET_TEXT);
@@ -1181,8 +1173,7 @@ _DtEditorFindTextChangedCB(
          */
         defaultButton = M_search_findBtn(editor);
     }
-    if(pString != (char *)NULL)
-	XtFree(pString);
+    XtFree(pString);
 
     /*
      * Set the default button 
@@ -1247,8 +1238,7 @@ _DtEditorReplaceTextChangedCB(
 	  if ( M_misspelled_found(editor) )
             _DtEditorSetReplaceSensitivity(editor, True );
 
-       if(pString != (char *)NULL)
-   	  XtFree(pString);
+       XtFree(pString);
 
       }
 

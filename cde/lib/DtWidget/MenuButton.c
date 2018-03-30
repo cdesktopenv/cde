@@ -961,7 +961,7 @@ Initialize(
 				PopupCallback, (XtPointer)new_w);
 	}
 
-	if (name) XtFree(name);
+	XtFree(name);
 }
 
 
