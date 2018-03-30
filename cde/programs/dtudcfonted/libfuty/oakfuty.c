@@ -1638,7 +1638,7 @@ char	*path;
 char	*cmd;
 #endif
 {
-	char	*cmd_path;
+	char	*cmd_path = NULL;
 	struct stat	st;
 	char	*end;
 	char	chr_sv;
@@ -1660,7 +1660,7 @@ char	*cmd;
 		    if( st.st_mode & S_IFREG ) {
 			cmd_path = realloc( cmd_path, strlen( cmd_path ) + 1 );
 			return	cmd_path;
-		    } else	continue ;
+		    }
 		}
 		FreeString( cmd_path ) ;
 	}

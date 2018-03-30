@@ -413,7 +413,7 @@ _fallcParseCharSet(charset)
     if (charset->name) {
 	charset->xrm_name = falrmStringToQuark(charset->name);
 
-	strcpy(buf, charset->name);
+	snprintf(buf, sizeof(buf), "%s", charset->name);
 	if (ptr = strchr(buf, ':'))
 	    *ptr = '\0';
 	charset->xrm_encoding_name = falrmStringToQuark(buf);

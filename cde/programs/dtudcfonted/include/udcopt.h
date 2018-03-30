@@ -42,8 +42,8 @@
 #define FONT_FILE_PARM	0
 
 #define	COMM_SNF_POPEN( permission, snf_file, out_file, ep, buf, command ) { \
-	strcpy( (buf), " -i " ) ; \
-	sprintf( (command), "%s %s > %s", bdftosnf, (buf), (out_file) ); \
+	snprintf( (buf), sizeof((buf)), " -i " ) ; \
+	snprintf( (command), sizeof((command)), "%s %s > %s", bdftosnf, (buf), (out_file) ); \
 }
 #define	COMM_SNF_FILEVERSION( snf_fd, finf, buf, permission ) { \
 	read( (snf_fd), (buf), sizeof(FontInfoRec) ); \
@@ -142,7 +142,7 @@
 #define	COMM_SETSTYLE_TO_FONTDATA( style, key, mask ) { \
 	if( style ) { \
 	    char	stylebuf[ BUFSIZE ] ; \
-	    strcpy( stylebuf, style ) ; \
+	    snprintf( stylebuf, sizeof(stylebuf), "%s", style ) ; \
 	    key.style.name = stylebuf ; \
 	    mask |= FAL_FONT_MASK_STYLE_NAME ; \
 	} \
@@ -244,13 +244,13 @@
 	    }\
 	} \
 	if ( ( (srch_path) = getenv( DTUDCFONTS ) ) == NULL ) { \
-	    sprintf( (list_d), "%s/%s", DTUDCFONTSLISTDIR, (list_file) ); \
-	    sprintf( (list_c), "%s/C/%s", DTUDCFONTSLISTDIR, (list_file) ); \
-	    sprintf( (list_l), "%s/%s/%s", DTUDCFONTSLISTDIR, (locale), (list_file) ); \
+	    snprintf( (list_d), sizeof(list_d), "%s/%s", DTUDCFONTSLISTDIR, (list_file) ); \
+	    snprintf( (list_c), sizeof(list_c), "%s/C/%s", DTUDCFONTSLISTDIR, (list_file) ); \
+	    snprintf( (list_l), sizeof(list_l), "%s/%s/%s", DTUDCFONTSLISTDIR, (locale), (list_file) ); \
 	} else { \
-	    sprintf( (list_d), "%s/%s", (srch_path), (list_file) ); \
-	    sprintf( (list_c), "%s/C/%s", (srch_path), (list_file) ); \
-	    sprintf( (list_l), "%s/%s/%s", (srch_path), (locale), (list_file) ); \
+	    snprintf( (list_d), sizeof(list_d), "%s/%s", (srch_path), (list_file) ); \
+	    snprintf( (list_c), sizeof(list_c), "%s/C/%s", (srch_path), (list_file) ); \
+	    snprintf( (list_l), sizeof(list_l), "%s/%s/%s", (srch_path), (locale), (list_file) ); \
 	} \
 }
 

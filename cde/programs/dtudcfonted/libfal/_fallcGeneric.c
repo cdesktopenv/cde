@@ -546,7 +546,7 @@ XLCdGenericPart *gen;
                 Xfree(charsetd->encoding_name);
             }
 */
-            tmp = (char *)Xmalloc(strlen(value[0]+1));
+            tmp = (char *)Xmalloc(strlen(value[0]) + 1);
             strcpy(tmp,value[0]);
             charsetd->encoding_name = tmp;
             charsetd->xrm_encoding_name =

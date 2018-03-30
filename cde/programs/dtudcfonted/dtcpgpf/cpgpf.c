@@ -1153,8 +1153,8 @@ char		*output;
 	char	fbuf[BUFSIZE], split[BUFSIZE] ;
 	char	*ep, *pix_sz, *point_sz, *rsl_x, *av_width, *char_set ;
 
-	strcpy( fbuf, font ) ;
-	strcpy( split, font ) ;
+	snprintf( fbuf, sizeof(fbuf), "%s", font ) ;
+	snprintf( split, sizeof(split), "%s", font ) ;
 	ep = fbuf ;
 	ep += strlen( fbuf ) ;
 	ep-- ;

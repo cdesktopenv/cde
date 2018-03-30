@@ -1489,7 +1489,7 @@ mbtocs(conv, from, from_left, to, to_left, args, num_args)
     XlcSide side;
 
     CodeSet codeset = NULL;
-    XlcCharSet charset;
+    XlcCharSet charset = NULL;
     ParseInfo parse_info;
     XPointer p;
 

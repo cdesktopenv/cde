@@ -289,10 +289,10 @@ _fallcResolveLocaleName(lc_name, full_name, language, territory, codeset)
     }
 
     if(name != NULL){
-	strcpy(buf, name);
+	snprintf(buf, sizeof(buf), "%s", name);
 	Xfree(name);
     }else{
-	strcpy(buf, lc_name);
+	snprintf(buf, sizeof(buf), "%s", lc_name);
     }
     if(full_name != NULL){
 	strcpy(full_name, buf);

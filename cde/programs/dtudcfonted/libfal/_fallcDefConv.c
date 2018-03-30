@@ -271,6 +271,8 @@ create_conv(methods)
     if (conv == NULL)
 	return (XlcConv) NULL;
 
+    conv->state = NULL;
+
     state = (State) Xmalloc(sizeof(StateRec));
     if (state == NULL)
 	goto err;

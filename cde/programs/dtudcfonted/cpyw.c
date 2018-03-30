@@ -137,8 +137,7 @@ String message;
     };
     static NButton BTN = NBUTTONS( buttons );
 
-    strcpy( bmsg, resource.mn_cpy_lost );
-    strcat( bmsg, message );
+    snprintf(bmsg, sizeof(bmsg), "%s%s", resource.mn_cpy_lost, message);
     SetItemLabel(&BTN, 0, resource.l_ok);
     SetItemLabel(&BTN, 1, resource.l_cancel);
     PopupNotice( cpyPtnW, bmsg, D_WARNING, &BTN, False, resource.l_warning_title);

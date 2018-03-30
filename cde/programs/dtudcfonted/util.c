@@ -954,10 +954,7 @@ Widget *footer;
 	if (strchr(buttons->items[i].label, buttons->items[i].mnemonic)){
 	    sprintf(buf, "%s", buttons->items[i].label);
 	}else{
-	    strcpy(buf, buttons->items[i].label);
-	    strcat(buf, "(");
-	    strcat(buf, &(buttons->items[i].mnemonic));
-	    strcat(buf, ")");
+	    snprintf(buf, sizeof(buf), "%s(%s)", buttons->items[i].label, &(buttons->items[i].mnemonic));
 	}
 	cs = XmStringCreateLocalized(buf);
 	XtSetArg(arg[n],XmNmnemonic, buttons->items[i].mnemonic ); n++;

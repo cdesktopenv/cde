@@ -1142,7 +1142,7 @@ char	**fontname ;
 		    ep++ ;
 		}
 		*ep = '\0' ;
-		strcpy(fntbuf, sp) ;
+		snprintf(fntbuf, sizeof(fntbuf), "%s", sp) ;
 		getstat |= 0x01 ;
 		fclose( fp );
 		if (head.snf_file != NULL) {

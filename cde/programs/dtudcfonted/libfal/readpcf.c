@@ -848,6 +848,7 @@ FalFontData		*databuff ;
 	}else{
 		set_errfile_str( fal_err_file, finf->fname ) ;
 		fal_utyerrno = FAL_ERR_PROP_FNAME ;
+		free(fnt);
 		return( _FAL_TRY_NEXT ) ;
 	}
 

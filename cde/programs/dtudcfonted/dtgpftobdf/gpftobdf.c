@@ -289,7 +289,7 @@ char	*argv[];
 	time(&clock);
 	tm = localtime(&clock);
 
-	strcpy( tmbuf, asctime(tm) ) ;
+	snprintf( tmbuf, sizeof(tmbuf), "%s", asctime(tm) ) ;
 
 	k = sprintf(bufp,"COMMENT    Created date : %s\n",tmbuf );
 	bufp += k-1;

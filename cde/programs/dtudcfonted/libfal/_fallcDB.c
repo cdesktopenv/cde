@@ -478,7 +478,7 @@ static int
 append_value_list()
 {
     char **value_list = parse_info.value;
-    char *value;
+    char *value = NULL;
     int value_num = parse_info.value_num;
     int value_len = parse_info.value_len;
     char *str = parse_info.buf;
@@ -533,9 +533,9 @@ append_value_list()
     if(value_list){
 	Xfree((char **)value_list);
     }
-    if(value){
-	Xfree(value);
-    }
+
+    Xfree(value);
+
     parse_info.value = (char **)NULL;
     parse_info.value_num = 0;
     parse_info.value_len = 0;

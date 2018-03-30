@@ -331,6 +331,7 @@ char    *charsetname;
             if( !_fallcCompareISOLatin1(font_data[i].name,charset_str)){
                 for(k=0;k<font_data[i].scopes_num;k++){
 	            if( gi_to_vgi(gi,vgi,&(font_data[i].scopes[k])) == True){
+			XFree(font_data);
 			return(True);
                     }
 	        }
@@ -341,6 +342,7 @@ char    *charsetname;
     free_fontdata(font_data);
 */
     *vgi = gi;
+    XFree(font_data);
     return(True);
 }
 
@@ -607,12 +609,14 @@ char    *charsetname;
             for(k=0;k<font_data[i].scopes_num;k++){
 	        if( vgi_to_gi(glyph,vglyph,&(font_data[i].scopes[k])) == True){
 		    strcpy(charsetname,font_data[i].name);
+		    XFree(font_data);
 		    return(True);
                 }
 	    }
         }
     }
     *glyph = vglyph;
+    XFree(font_data);
     return(True);
 }
 int

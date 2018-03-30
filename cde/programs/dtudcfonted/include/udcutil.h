@@ -114,7 +114,7 @@ static	char	*udc_font_sp ;
 }
 
 #define GETXLFDELMSTR( sp, xlfdname, elm_num ) { \
-	strcpy( udc_font_str_buffer, (xlfdname) ) ; \
+	snprintf( udc_font_str_buffer, sizeof(udc_font_str_buffer), "%s", (xlfdname) ) ; \
 	udc_font_sp = udc_font_str_buffer ; \
 	udc_font_elm_cnt = 0 ;\
 	while(*udc_font_sp){\
@@ -137,7 +137,7 @@ static	char	*udc_font_sp ;
 }
 
 #define GETCHARSETSTR( char_set, xlfdname ) { \
-	strcpy( udc_font_str_buffer, (xlfdname) ) ; \
+	snprintf( udc_font_str_buffer, sizeof(udc_font_str_buffer), "%s", (xlfdname) ) ; \
 	POINTXLFDELM( (char_set), udc_font_str_buffer, XLFD_ELM_CHARSET_REGISTRY ) ; \
 	(char_set)++ ; \
 }

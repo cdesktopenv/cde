@@ -570,7 +570,7 @@ FalGlyphRegion	*gr ;
 	int		err_flg = 0;
 	int		code_num;
 	char	*tmp;
-	FalGIInf	*gi ;
+	FalGIInf	*gi = NULL;
 	int		num_gi ;
 	int		i, code ;
 
@@ -600,6 +600,9 @@ FalGlyphRegion	*gr ;
 		}
 	    }	
 	}
+
+	XFree(gi);
+
 	if( !err_flg ) {
 	    for( i=0; i<num_gr; i++ ) {
 		if( (code_num >= gr[i].start) && (code_num <= gr[i].end) )

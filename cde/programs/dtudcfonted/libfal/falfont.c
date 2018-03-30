@@ -274,6 +274,7 @@ int	lockflag;
 		    fal_utyerror = _FAL_OPEN_ER;
 		    fal_utyderror = errno;
 		    fal_utyerrno |= (FAL_FUNCNUM_OPNFNT<<8) ;
+		    close( fd );
 		    return (FalFontID)FAL_ERROR;
 		}
 	} else {
@@ -3086,7 +3087,7 @@ unsigned int	*glidx ;
 			    return	FAL_ERROR;
 		    }
 		    GETCHARSETSTR( char_set, tmp_data.xlfdname ) ;
-		    strcpy( charset_name, char_set ) ;
+		    snprintf( charset_name, sizeof(charset_name), "%s", char_set ) ;
 		}
 
 		/*

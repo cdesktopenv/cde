@@ -548,13 +548,13 @@ font_init()
 	xlf_count = udc_count = sty_count = wls_count = hls_count = 0;
 	if (FalGetFontList(NULL, FAL_FONT_MASK_DEFINED |
 	    		FAL_FONT_MASK_UNDEFINED, &fontlist) == FAL_ERROR) {
-		strcpy(err, FAL_ERROR_STR);
+		snprintf(err, sizeof(err), "%s", FAL_ERROR_STR);
 		Error_message((Widget)NULL, err);
 		return;
 	}
 	if(fontlist->num == 0) {
 	        FalFreeFontList(fontlist);
-		strcpy(err, resource.mn_no_font);
+		snprintf(err, sizeof(err), "%s", resource.mn_no_font);
 		Error_message((Widget)NULL, err);
 		return;
 	}
@@ -622,15 +622,15 @@ font_init()
 						(XtCallbackProc)udc_call, NULL);
 	for (i=0; i < udc_count; i++) {
 		if(udc[i] == FAL_FONT_CS0)
-			sprintf(tmp, CS0);
+			snprintf(tmp, sizeof(tmp), "%s", CS0);
 		else if(udc[i] == FAL_FONT_CS1)
-			sprintf(tmp, CS1);
+			snprintf(tmp, sizeof(tmp), "%s", CS1);
 		else if(udc[i] == FAL_FONT_CS2)
-			sprintf(tmp, CS2);
+			snprintf(tmp, sizeof(tmp), "%s", CS2);
 		else if(udc[i] == FAL_FONT_CS3)
-			sprintf(tmp, CS3);
+			snprintf(tmp, sizeof(tmp), "%s", CS3);
 		else
-			sprintf(tmp, "Codeset %x?", udc[i]);
+			snprintf(tmp, sizeof(tmp), "Codeset %x?", udc[i]);
 		button1[i] = XmCreatePushButton(pull1, tmp, NULL, 0);
 		XtManageChild(button1[i]);
 		XtAddCallback(button1[i], XmNactivateCallback,
@@ -653,7 +653,7 @@ font_init()
 	XtAddCallback(button, XmNactivateCallback,
 						(XtCallbackProc)wls_call, NULL);
 	for (i=0; i < wls_count; i++) {
-		sprintf(tmp, "%d", wls[i]);
+		snprintf(tmp, sizeof(tmp), "%d", wls[i]);
 		button3[i] = XmCreatePushButton(pull3, tmp, NULL, 0);
 		XtManageChild(button3[i]);
 		XtAddCallback(button3[i], XmNactivateCallback,
@@ -665,7 +665,7 @@ font_init()
 	XtAddCallback(button, XmNactivateCallback,
 						(XtCallbackProc)hls_call, NULL);
 	for (i=0; i < hls_count; i++) {
-		sprintf(tmp, "%d", hls[i]);
+		snprintf(tmp, sizeof(tmp), "%d", hls[i]);
 		button4[i] = XmCreatePushButton(pull4, tmp, NULL, 0);
 		XtManageChild(button4[i]);
 		XtAddCallback(button4[i], XmNactivateCallback,

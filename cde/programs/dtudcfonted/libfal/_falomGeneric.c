@@ -726,7 +726,7 @@ parse_omit_name(oc, font_data, pattern)
 	}
     }
 
-    strcpy(buf, pattern);
+    snprintf(buf, sizeof(buf), "%s", pattern);
     length = strlen(pattern);
     last = buf + length - 1;
     if (length > 1 && *last == '*' && *(last - 1) == '-') {
