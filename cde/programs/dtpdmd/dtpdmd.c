@@ -162,6 +162,8 @@ static int generic_error_handler( edpy, eevent )
     g.xerrno  = eevent->error_code;
     g.xerrreq = eevent->request_code;
     g.xerrmin = eevent->minor_code;
+
+    return 0; /* XSetErrorHandler handlers return values are ignored */
 }
 
 /******************************************************************************

@@ -475,7 +475,7 @@ void mgr_launch_pdm( XpPdmServiceRec *rec )
 	/*
 	 * Set XAUTHORITY env var if needed.
 	 */
-	if ((rec->cookie_cnt) && (rec->auth_filename) && (rec->auth_file)) {
+	if ((rec->cookie_cnt) && (rec->auth_file)) {
 	    envstr = Xmalloc( strlen(rec->auth_filename) + 12 );
 	    sprintf( envstr, "XAUTHORITY=%s", rec->auth_filename );
 	    putenv( envstr );
@@ -513,7 +513,7 @@ void mgr_launch_pdm( XpPdmServiceRec *rec )
  */
 void mgr_fetch_pdm( XpPdmServiceRec *rec )
 {
-    char tstr[1024], *tptr1, *tptr2, *tptr3;
+    char tstr[1024], *tptr1 = NULL, *tptr2, *tptr3;
     int  firstTime;
     long now;
     Display *tdpy;
