@@ -77,7 +77,7 @@ static  void    okCallback_OpenFile( Widget UxWidget,
         _UxCOpenFile                     *UxSaveCtx, *UxContext;
         XmFileSelectionBoxCallbackStruct *cbs;
         /*char        *text;*/
-        int         rc;
+        int         rc = 1; /* 1 = OpenDefinitionFile() failure */
         ActionData  ADTmp;
 
         UxSaveCtx = UxOpenFileContext;

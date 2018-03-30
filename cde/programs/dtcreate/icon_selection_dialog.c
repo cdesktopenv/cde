@@ -790,7 +790,7 @@ void  update_container_contents (char *filter)
     XmeFlushIconFileCache(NULL);
 
     for (lcv = 0; lcv < count; lcv++) {
-       sprintf (iconfile, "%s%s", path, filelist[lcv]->d_name);
+       snprintf(iconfile, sizeof(iconfile), "%s%s", path, filelist[lcv]->d_name);
        ptr = strstr(filelist[lcv]->d_name, ".m.");
        if (ptr) {
           *ptr = '\0';
@@ -813,7 +813,7 @@ void  update_container_contents (char *filter)
   /* This is the empty directory case                               */
   /******************************************************************/
   } else {
-       strcpy(iconfile, GETMESSAGE(11, 60, "[Empty]"));
+       snprintf(iconfile, sizeof(iconfile), "%s", GETMESSAGE(11, 60, "[Empty]"));
        xmstring = XmStringCreateLocalized(iconfile);
        XtVaSetValues ((Widget) icons_in_container[0],
                              XmNstring,        xmstring,
@@ -841,6 +841,7 @@ void  update_container_contents (char *filter)
   }
 
   XtManageChild (icon_scrolled_container);
+  free(path);
   return;
 
 }
@@ -1261,6 +1262,7 @@ static  void    defaultActionCB_dir_scrolled_list( Widget UxWidget,
     filter = (char *)XmStringToText (listcb->item);
     apply_filter (filter);
  /* XtManageChild (icon_scrolled_win);  */
+    free(filter);
   }
   UxIcon_selection_dialogContext = UxSaveCtx;
 }

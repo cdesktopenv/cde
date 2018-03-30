@@ -614,7 +614,9 @@ ushort WriteDefinitionFile(char *pszFile, ActionData *pAD)
   }
   SetCookie(fp);
   if (fp) fclose(fp);
-  chmod(pszFile, 0644);
+  if(pszFile) {
+    chmod(pszFile, 0644);
+  }
   return(0);
 }
 
@@ -655,7 +657,7 @@ ushort WriteActionFile(ActionData *pAD)
   /***************************************************************************/
   /* Open action file for writing.                                           */
   /***************************************************************************/
-  if (pszFile && (fp = fopen(pszFile, "w")) == NULL) {
+  if (pszFile == NULL || (fp = fopen(pszFile, "w")) == NULL) {
 #ifdef DEBUG
     printf("Can not open file.\n"); /* debug */
 #endif
@@ -694,7 +696,7 @@ ushort WriteActionFile(ActionData *pAD)
   fprintf(fp, "echo \"Common Desktop Environment Dt action\"\n");
   fprintf(fp, "\n");
 
-  if (fp) fclose(fp);
+  fclose(fp);
   chmod(pszFile, 0755);
   return(0);
 }
@@ -746,7 +748,7 @@ int OpenDefinitionFile(char *pszFile, ActionData *pAD)
 
 {
   FILE       *fp = (FILE *)NULL;
-  int        rc;
+  int        rc = 1;
   char       *msgPtr, *fmtPtr, *errPtr;
 
   /***************************************************************************/
@@ -789,10 +791,11 @@ int OpenDefinitionFile(char *pszFile, ActionData *pAD)
 	sprintf(errPtr, fmtPtr, msgPtr, pszFile);
         display_error_message(CreateActionAppShell, errPtr);
 	XtFree(errPtr);
+	fclose(fp);
         return(1);
      }
   }
-  if (fp) fclose(fp);
+  fclose(fp);
   return(rc);
 }
 

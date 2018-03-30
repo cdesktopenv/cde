@@ -647,6 +647,7 @@ FiletypeData  **ppFiletypeData,**ppnewFiletypeData;
                 ppFiletypeData[nfiletypes] = 0;
             /* return number of filetypes */
             *nftypes = nfiletypes+1;
+            free(execstr);
             return ppFiletypeData;
 
         }
@@ -707,8 +708,7 @@ GetKeywordValuePairs(char *s, int *id, int table)
         if (!args[1])
         {
 	    int szArgs1 = strlen(s) + 1;
-            if(s)
-               args[1] = (char *)malloc (szArgs1);
+            args[1] = (char *)malloc (szArgs1);
             if (!args[1])
             {
                 if(args[0])
@@ -881,7 +881,7 @@ int  done=FALSE, argfound=FALSE,promptfound=FALSE;
                            continue;
                       }
                 }
-                else if (s1 && *s1)
+                else if (*s1)
                 {
                      strcat(exec_args[0],s1);
                      if(argbuf)   { free(argbuf); argbuf = NULL; }
@@ -1018,8 +1018,10 @@ char    *s1,*tmp,*s2,buf[10],*cts;
                pFtD->fsFlags|=CA_FT_CNTLONG;
            else if ( !strcmp(buf,"short") )
                pFtD->fsFlags|=CA_FT_CNTSHORT;
-           else
+           else {
+               free(cts);
                return (-1);
+           }
         }
         while( *tmp && isspace(*tmp) )  tmp++;
         s2=tmp;

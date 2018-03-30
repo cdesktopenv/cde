@@ -319,7 +319,6 @@ What do you want to do?";
                               "Cancel Save", questionCB_CancelSave,
                               (char *)NULL, (XtCallbackProc)NULL);
 	  XtFree(bufPtr);
-	  XtFree(pszActionFile);
           bHaveError = True;
        }
 
@@ -337,6 +336,8 @@ What do you want to do?";
     }
 
   }
+
+  XtFree(pszActionFile);
 }
 
 static  void    activateCB_CA_FiletypesDelete( Widget UxWidget,
@@ -540,7 +541,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
             _UxParent = UxTopLevel;
         }
 
-	strcpy(titleBuf, GETMESSAGE(3, 10, "Create Action"));
+	snprintf(titleBuf, sizeof(titleBuf), "%s", GETMESSAGE(3, 10, "Create Action"));
         CreateActionAppShell = XtVaCreatePopupShell( "CreateActionAppShell",
                         applicationShellWidgetClass,
                         _UxParent,
@@ -624,7 +625,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
         mnemonic = GETMESSAGE(2, 21, "N");
         */
-        strcpy(mnemonic, GETMESSAGE(2, 21, "N"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 21, "N"));
         CA_MB_FileNew = XtVaCreateManagedWidget( "CA_MB_FileNew",
                         xmPushButtonWidgetClass,
                         CA_MB_FileOption,
@@ -639,7 +640,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
         mnemonic = GETMESSAGE(2, 16, "O");
         */
-        strcpy(mnemonic, GETMESSAGE(2, 16, "O"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 16, "O"));
         CA_MB_FileOpen = XtVaCreateManagedWidget( "CA_MB_FileOpen",
                         xmPushButtonWidgetClass,
                         CA_MB_FileOption,
@@ -654,7 +655,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
         mnemonic = GETMESSAGE(2, 26, "S");
         */
-        strcpy(mnemonic, GETMESSAGE(2, 26, "S"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 26, "S"));
         CA_MB_FileSave = XtVaCreateManagedWidget( "CA_MB_FileSave",
                         xmPushButtonWidgetClass,
                         CA_MB_FileOption,
@@ -675,7 +676,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
         mnemonic = GETMESSAGE(2, 31, "x");
         */
-        strcpy(mnemonic, GETMESSAGE(2, 31, "x"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 31, "x"));
         CA_MB_FileExit = XtVaCreateManagedWidget( "CA_MB_FileExit",
                         xmPushButtonWidgetClass,
                         CA_MB_FileOption,
@@ -690,7 +691,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
         mnemonic = GETMESSAGE(2, 11, "F");
         */
-        strcpy(mnemonic, GETMESSAGE(2, 11, "F"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 11, "F"));
         CA_MB_FileTop = XtVaCreateManagedWidget( "CA_MB_FileTop",
                         xmCascadeButtonWidgetClass,
                         CA_MenuBar,
@@ -717,7 +718,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
          * Creation of CA_MB_HelpOverview
         */
-        strcpy(mnemonic, GETMESSAGE(2, 61, "v"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 61, "v"));
         CA_MB_HelpOverview = XtVaCreateManagedWidget( "CA_MB_HelpOverview",
                         xmPushButtonWidgetClass,
                         CA_MB_HelpOption,
@@ -732,7 +733,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
          * Creation of CA_MB_HelpTasks
         */
-        strcpy(mnemonic, GETMESSAGE(2, 71, "T"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 71, "T"));
         CA_MB_HelpTasks = XtVaCreateManagedWidget( "CA_MB_HelpTasks",
                         xmPushButtonWidgetClass,
                         CA_MB_HelpOption,
@@ -749,7 +750,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
         mnemonic = GETMESSAGE(2, 66, "T");
         */
-        strcpy(mnemonic, GETMESSAGE(2, 66, "T"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 66, "T"));
         CA_MB_HelpTOC = XtVaCreateManagedWidget( "CA_MB_HelpTOC",
                         xmPushButtonWidgetClass,
                         CA_MB_HelpOption,
@@ -761,7 +762,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
         * Creation of CA_MB_HelpReference
         */
-        strcpy(mnemonic, GETMESSAGE(2, 76, "R"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 76, "R"));
         CA_MB_HelpReference = XtVaCreateManagedWidget( "CA_MB_HelpReference",
                         xmPushButtonWidgetClass,
                         CA_MB_HelpOption,
@@ -784,7 +785,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
          * Creation of CA_MB_HelpUsing
          */
-        strcpy(mnemonic, GETMESSAGE(2, 81, "U"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 81, "U"));
         CA_MB_HelpUsing = XtVaCreateManagedWidget( "CA_MB_HelpUsing",
                         xmPushButtonWidgetClass,
                         CA_MB_HelpOption,
@@ -807,7 +808,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
          * Creation of CA_MB_HelpAbout
          */
-        strcpy(mnemonic, GETMESSAGE(2, 86, "A"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 86, "A"));
         CA_MB_HelpAbout = XtVaCreateManagedWidget( "CA_MB_HelpAbout",
                         xmPushButtonWidgetClass,
                         CA_MB_HelpOption,
@@ -822,7 +823,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
         /*
          * Creation of CA_MB_HelpTop
          */
-        strcpy(mnemonic, GETMESSAGE(2, 54, "H"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 54, "H"));
         CA_MB_HelpTop = XtVaCreateManagedWidget( "CA_MB_HelpTop",
                         xmCascadeButtonWidgetClass,
                         CA_MenuBar,
@@ -848,7 +849,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
                         NULL );
 
         /* Creation of ColorMonoOption */
-        strcpy(mnemonic, GETMESSAGE(2, 50, "M"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 50, "M"));
         ColorMonoOption = XtVaCreateManagedWidget( "ColorMonoOption",
                         xmToggleButtonWidgetClass,
                         CA_MB_OptionsOption,
@@ -864,7 +865,7 @@ static Widget   _Uxbuild_CreateActionAppShell(void)
 
 
         /* Creation of CA_MB_OptionTop */
-        strcpy(mnemonic, GETMESSAGE(2, 36, "O"));
+        snprintf(mnemonic, sizeof(mnemonic), "%s", GETMESSAGE(2, 36, "O"));
         CA_MB_OptionTop = XtVaCreateManagedWidget( "CA_MB_OptionTop",
                         xmCascadeButtonWidgetClass,
                         CA_MenuBar,

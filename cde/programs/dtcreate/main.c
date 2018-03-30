@@ -514,7 +514,6 @@ void RemoveTmpIconFiles( void )
         unlink(maskFile);
      }
      if ( (IconDataList[i]->bmDirtyBit) &&
-          (IconDataList[i]->bmFileName) &&
           (strlen(IconDataList[i]->bmFileName)) ) {
 #ifdef DEBUG
         printf("RemoveTmpIconFiles: unlink '%s'\n", IconDataList[i]->bmFileName);  /* debug */
@@ -863,7 +862,7 @@ Tt_callback_action IconEdit_tt_handler( Tt_message m, Tt_pattern p )
            if (tmp) {
               tmp1 = strstr(tmp, "};");
            }
-           sprintf(tmpbuf, "%s_m", tmpIconFile);
+           snprintf(tmpbuf, sizeof(tmpbuf), "%s_m", tmpIconFile);
            if (tmp1) {
               tmp1 += 2;                       /* Go one char past the ";" */
 #ifdef DEBUG
@@ -1067,6 +1066,7 @@ void UxDoEditPixmap(Widget wid, char *fname)
                  display_error_message(XtParent(wid), errPtr);
 		 XtFree(errPtr);
                  XtFree(mname);
+                 if (fd1 > -1) close(fd1);
                  return;
               } else {
                  /***************************************/
@@ -1103,6 +1103,8 @@ void UxDoEditPixmap(Widget wid, char *fname)
 	      XtFree(errPtr);
               if (mname) XtFree(mname);
               XtFree((char *) buffer);
+              if (fd1 > -1) close(fd1);
+              if (fd2 > -1) close(fd2);
               return;
            }
            if (lenFile2) {
@@ -1127,11 +1129,13 @@ void UxDoEditPixmap(Widget wid, char *fname)
 		 XtFree(errPtr);
                  XtFree((char *) buffer);
                  if (mname) XtFree(mname);
+                 if (fd1 > -1) close(fd1);
+                 if (fd2 > -1) close(fd2);
                  return;
               }
            }
-           if (fd1 > -1) close(fd1);
-           if (fd2 > -1) close(fd2);
+           if (fd1 > -1) close(fd1); fd1 = -1;
+           if (fd2 > -1) close(fd2); fd2 = -1;
 
 #ifdef DEBUG
            printf("final buffer = '%s'\n", buffer); /* debug */
@@ -1171,6 +1175,9 @@ void UxDoEditPixmap(Widget wid, char *fname)
   TurnOnHourGlassAllWindows();
   ttRc = tt_message_send( m );
   DieFromToolTalkError( UxTopLevel, "tt_message_send", ttRc );
+
+  if (fd1 > -1) close(fd1);
+  if (fd2 > -1) close(fd2);
 }
 #endif  /* __TOOLTALK */
 

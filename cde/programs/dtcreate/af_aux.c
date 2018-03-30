@@ -263,7 +263,6 @@ void getAF_Icons(FiletypeData *pFiletypedata)
   /* Tiny Bitmap                                                 */
   /***************************************************************/
   if ( (pIconData->bmDirtyBit) &&
-       (pIconData->bmFileName) &&
        (strlen(pIconData->bmFileName)) ) {
      pFiletypedata->pszTinyBmIcon = XtMalloc(strlen(pIconData->bmFileName) + 1);
      if (pFiletypedata->pszTinyBmIcon) {

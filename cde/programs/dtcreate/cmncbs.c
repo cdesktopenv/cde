@@ -271,8 +271,7 @@ void DisplayHelpDialog(Widget wid, XtPointer client_data, XtPointer cbs)
   sprintf(pszTitle, "%s  -  %s", GETMESSAGE(3, 10, "Create Action"),
           GETMESSAGE(2, 53, "Help"));
   */
-  sprintf(pszTitle, "%s  -  ", GETMESSAGE(3, 10, "Create Action"));
-  strcat(pszTitle, GETMESSAGE(2, 53, "Help"));
+  snprintf(pszTitle, sizeof(pszTitle), "%s  -  %s", GETMESSAGE(3, 10, "Create Action"), GETMESSAGE(2, 53, "Help"));
   XtSetArg(args[i], XmNtitle, pszTitle); i++;
 
   /***********************************************************************/

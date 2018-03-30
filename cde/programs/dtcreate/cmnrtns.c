@@ -292,7 +292,7 @@ void load_icons (Widget wid, XtPointer client_data,
 /******************************************************************************/
 void GetWidgetTextString (Widget wid, char **ppszText)
 {
-  char *pszTmp;
+  char *pszTmp = NULL;
 
   if (*ppszText) {
      XtFree(*ppszText);
@@ -690,12 +690,12 @@ void SetIconData(Widget wid, char *pszIconFile, enum icon_size_range enumIconSiz
 #endif
 
   pszName = CreateIconName((char *)NULL, pszIconFile, enumIconSize, PIXMAP_EXT, FALSE);
-  strcpy(pmFileName, pszName);
-  if (pszName) XtFree(pszName);
+  snprintf(pmFileName, sizeof(pmFileName), "%s", pszName);
+  XtFree(pszName);
 
   pszName = CreateIconName((char *)NULL, pszIconFile, enumIconSize, BITMAP_EXT, FALSE);
-  strcpy(bmFileName, pszName);
-  if (pszName) XtFree(pszName);
+  snprintf(bmFileName, sizeof(bmFileName), "%s", pszName);
+  XtFree(pszName);
 
   pIconData = GetIconDataFromWid(wid);
   if (pIconData) {
@@ -711,7 +711,6 @@ void SetIconData(Widget wid, char *pszIconFile, enum icon_size_range enumIconSiz
      strcpy(pIconData->pmFileName, pmFileName);
 
      if ( (pIconData->bmDirtyBit) &&
-          (pIconData->bmFileName) &&
           (strlen(pIconData->bmFileName)) ) {
 #ifdef DEBUG
         printf("SetIconData: unlink '%s'\n", pIconData->bmFileName);  /* debug */
