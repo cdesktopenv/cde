@@ -210,7 +210,7 @@ int main(int argc, XeString *argv)
   log_path = XeSBTempPath((XeString)"DTSPCD.log");
 
   if(NULL == freopen("/dev/null", "w", stderr)) {
-    fprintf(stderr, "Unable to open /dev/null\n");
+    printf("Unable to open /dev/null\n");
     exit(EXIT_FAILURE);
   }
   
@@ -229,7 +229,7 @@ int main(int argc, XeString *argv)
       SPC_Open_Log(log_path, FALSE);
       SPC_Print_Protocol = spc_logF;
       if(NULL == (stderr = freopen(log_path, "a", stderr))) {
-        fprintf(stderr, "Unable to reopen '%s' as stderr\n", log_path);
+        printf("Unable to reopen '%s' as stderr\n", log_path);
         exit(EXIT_FAILURE);
       }
       setbuf(stderr, NULL);
