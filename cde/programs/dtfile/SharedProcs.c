@@ -787,9 +787,10 @@ _DtCheckAndFreePixmapData(
       XtFree( tmp );
     }
 
-	
+
 
     DtDtsFreeAttributeValue(pixmapData->instanceIconName);
+    pixmapData->instanceIconName = NULL;
 
     if (iconGadget->icon.pixmap == 0                     ||
         iconGadget->icon.pixmap_width == 0               ||
@@ -824,15 +825,17 @@ _DtCheckAndFreePixmapData(
 
 
 
-       XtSetArg(args[0], XmNimageName, pixmapData->iconFileName);
-       XtSetValues((Widget) iconGadget, args, 1);
+      XtSetArg(args[0], XmNimageName, pixmapData->iconFileName);
+      XtSetValues((Widget) iconGadget, args, 1);
 
-       DtDtsFreeAttributeValue(pixmapData->iconName);
+      DtDtsFreeAttributeValue(pixmapData->iconName);
+      pixmapData->iconName = NULL;
     }
   }
   else
   {
      DtDtsFreeAttributeValue(pixmapData->iconName);
+     pixmapData->iconName = NULL;
   }
 
   DtDtsFreeAttributeValue(pixmapData->hostPrefix);
