@@ -3420,17 +3420,16 @@ static void
 GetPWD(
         char current_directory[] )
 {
-   FILE * pwd_file;
-   register int i;
+   FILE * pwd_file = NULL;
+   int i = 0;
 
     /*  Open a pwd process and read the current working directory  */
     /*  from it.  If the open fails or a read fails, then display  */
     /*  the users home directory.                                  */
 
       pwd_file = popen ("pwd", "r");
-      i = 0;
 
-      if (pwd_file != NULL)
+      if (pwd_file)
       {
          while (1)
          {
@@ -3449,9 +3448,11 @@ GetPWD(
             i++;
          }
       }
-    (void) pclose (pwd_file);
-    current_directory[i] = '\0';
 
+      if (pwd_file)
+          pclose (pwd_file);
+
+      current_directory[i] = '\0';
 }
 
 /************************************************************************
