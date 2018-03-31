@@ -160,9 +160,6 @@ create_node_dict( hashTable<CC_String,BTCollectable> &dict,
     }
     else {
       
-      delete key;
-      delete value;
-
       throw_exception = 1;
       cerr << "(ERROR) Duplicate section ID = " << (const char *)*key << endl
 	   << "            found in file    = " << filename << endl
@@ -172,6 +169,8 @@ create_node_dict( hashTable<CC_String,BTCollectable> &dict,
 	   << "            found in file    = " << val->filename() << endl
 	   << "                  at line    = " << val->linenum() << "\n\n";
 
+      delete key;
+      delete value;
     }
   }
 
