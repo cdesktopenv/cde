@@ -2015,6 +2015,7 @@ DtMail::MailRc::expand(char *name)
 	register char *cp, *Shell;
 	int s, pivec[2];
 	struct stat sbuf;
+        char *retchr = NULL;
 
 	if (name[0] == '+' && getfolderdir(cmdbuf) >= 0) {
 		sprintf(xname, "%s/%s", cmdbuf, name + 1);
@@ -2084,9 +2085,10 @@ DtMail::MailRc::expand(char *name)
 		goto err;
 	}
 
+        retchr = strdup(xname);
 	delete [] xname;
 	delete [] cmdbuf;
-	return(strdup(xname));
+	return(retchr);
 
 err:
 	fflush(stderr);
