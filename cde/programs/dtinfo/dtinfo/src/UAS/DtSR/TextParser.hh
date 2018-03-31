@@ -9,13 +9,13 @@ class StringParser {
 
 public:
 
-  static char *
+  static const char *
 	hilite(const char* text, int n, const char* pats);
 
   static char *
 	brute_force(const char* text, int, const char* pats, int sensitive = 0);
 
-  static char *
+  static const char *
 	project_textrun(const char *);
 
 };

@@ -252,7 +252,7 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
 
 }
 
-char *
+const char *
 StringParser::project_textrun(const char* org_textrun)
 {
     if (org_textrun == NULL || *org_textrun == '\0')
@@ -325,11 +325,11 @@ StringParser::project_textrun(const char* org_textrun)
 
     ret_text << off << '\t' << len << '\n' << '\0';
 
-    string rettstr = ret_text.str();
-    return (char *)rettstr.c_str();
+    static string rettstr = ret_text.str();
+    return rettstr.c_str();
 }
 
-char *
+const char *
 StringParser::hilite(const char* text, int n, const char* pats)
 {
     char* textrun = brute_force(text, n, pats);
@@ -337,8 +337,9 @@ StringParser::hilite(const char* text, int n, const char* pats)
     if (textrun == NULL)
 	return NULL;
 
-    char* prjed_textrun = project_textrun(textrun);
     delete[] textrun;
+
+    const char* prjed_textrun = project_textrun(textrun);
 
     return prjed_textrun;
 }
