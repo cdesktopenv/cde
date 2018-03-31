@@ -333,7 +333,7 @@ DtSR_SearchResultsEntry::create_matches()
     DtSrHitword* kwics = NULL;
     long n_kwics = 0;
 
-    char* parseout = NULL;
+    const char* parseout = NULL;
 
     // hack! overwrite f_language, since austext's value is wrong
     // In future, the next lines should be removed.

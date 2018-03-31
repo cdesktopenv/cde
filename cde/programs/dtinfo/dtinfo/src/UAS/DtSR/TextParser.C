@@ -41,7 +41,7 @@ using namespace std;
 #define True	1
 #endif
 
-char *
+const char *
 StringParser::brute_force(const char* text_in, int n_of_pats,
 				const char* patterns, int sensitive)
 {
@@ -238,18 +238,12 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
     if (caped_text)
 	delete[] caped_text;
 
-    string trunstr = text_run.str();
-    char* ret_text = (char *)trunstr.c_str();
+    static string trunstr = text_run.str();
 
-    if (ret_text == NULL)
-	return NULL;
-    else if (*ret_text == '\0') {
-	delete[] ret_text;
-	return NULL;
-    }
-    else
-	return ret_text;
+    if (!trunstr.size())
+        return NULL;
 
+    return trunstr.c_str();
 }
 
 const char *
@@ -332,16 +326,12 @@ StringParser::project_textrun(const char* org_textrun)
 const char *
 StringParser::hilite(const char* text, int n, const char* pats)
 {
-    char* textrun = brute_force(text, n, pats);
+    const char* textrun = brute_force(text, n, pats);
 
     if (textrun == NULL)
 	return NULL;
 
-    delete[] textrun;
-
-    const char* prjed_textrun = project_textrun(textrun);
-
-    return prjed_textrun;
+    return project_textrun(textrun);
 }
 
 
