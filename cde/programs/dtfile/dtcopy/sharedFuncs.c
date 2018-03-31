@@ -732,7 +732,6 @@ _DtCopyChangeTildeToHome (input_string)
         /* NOTE: users_home_dir has trailing '/' */
         full_path = (char *) XtMalloc(strlen(homedir) + strlen(input_string+2) + 1);
         sprintf(full_path, "%s%s", homedir, (input_string + 2));
-        free(homedir);
     }
     else
     {
