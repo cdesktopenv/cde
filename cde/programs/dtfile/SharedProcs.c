@@ -1656,7 +1656,7 @@ _DtPathFromInput(
 
 	 if (read_ok) 
 	 {
-             command[strlen(command)-1] = '\0';
+             command[MAXPATHLEN-1] = '\0';
              XtFree(path);
              path = XtNewString(command);
              pclose(pfp);
