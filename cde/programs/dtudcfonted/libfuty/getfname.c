@@ -733,7 +733,7 @@ char	*name;
 				return	NULL;
 			}
 		}
-		link_name[len] = '\0';
+		link_name[len-1] = 0;
 		if ( link_name[0] == '/' ) {
 			/* strcpy( ret_name, link_name ) ; */
 		    	FreeString( ret_name ) ;
