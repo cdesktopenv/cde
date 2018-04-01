@@ -443,7 +443,7 @@ updateFileSystemEntries ()
 	// XXX Due to bug #1126575 - MNTTAB temporarily goes to
 	//     size 0 during automounter updates.  The file stats
 	//     OK, but has no data in it.
-	pollfd poll_fd;
+	struct pollfd poll_fd;
 	while (mount_table_stat.st_size == 0) {
 		(void)poll (&poll_fd, 0, 100);
 		// Must use lstat here; mtab is often a symlink
