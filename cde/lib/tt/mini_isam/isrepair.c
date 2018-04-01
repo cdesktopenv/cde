@@ -94,7 +94,7 @@ isrepair(isfname, verbose)
   sigset_t    oldmask;
   sigset_t    allsignals;
   char	      Buffer[BUFSIZ];
-  char	      *buffer;
+  char	      *buffer = NULL;
 
 
   print = verbose ? printf : isnoprintf;
