@@ -1332,17 +1332,17 @@ pCHARS_pcf (pcf, fix)
 PcfTmp  *pcf;
 int	fix ;
 {
-	char    *bmp_ptn;
-	char    *bitmap;
-	int     ptn_width, ptn_height;
-	int     bmp_width, bmp_height;
-	int     cpy_height;
+	char    *bmp_ptn = NULL;
+	char    *bitmap = NULL;
+	int     ptn_width = 0, ptn_height = 0;
+	int     bmp_width = 0, bmp_height = 0;
+	int     cpy_height = 0;
 	int     row, col;
 	int     row_width;
 	int     encoding;
 	int     encodingOffset;
 	int     nencoding;
-	int     bmp_adj, ptn_adj;
+	int     bmp_adj = 0, ptn_adj = 0;
 	int     adj_hi;
 	int     width_bytes;
 	INT16	bl, br, ba, bd, bdw ;
