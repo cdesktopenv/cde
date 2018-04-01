@@ -473,7 +473,7 @@ MapFileTypeToHelpString(
    char * desc;
    Boolean isAction;
    char * tmpStr;
-   char * label;
+   char * label = NULL;
 
    /* Special case for the 2 built in directory commands */
    if (strcmp(filetype, openNewView) == 0)
@@ -536,6 +536,7 @@ MapFileTypeToHelpString(
        buf = XtMalloc(strlen(label) + strlen(helpPattern) + 100);
        sprintf(buf, helpPattern, label);
        DtDtsFreeAttributeValue(label);
+       label = NULL;
    }
    else
    {
