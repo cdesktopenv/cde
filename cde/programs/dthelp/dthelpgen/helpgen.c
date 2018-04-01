@@ -384,7 +384,7 @@ CreateFamily (
     char	*title = NULL;
     char	*abstract = NULL;
     char	*list = NULL;
-    char	*token;
+    char	*token = NULL;
     char	*ptr;
     char	*bitmap = NULL;
     char	 familyName [20];	/* FAMILY%d */
@@ -501,8 +501,11 @@ CreateFamily (
 				CreateVolumeLink (canvas,out_topic, token) == 0)
 		    count++;
 
-		if (token && *token != '\0' && *token != '\n')
+		if (token)
+                {
 		    free ((void *) token);
+                    token = NULL;
+                }
 
 	      } while (list && *list != '\0');
 
@@ -579,8 +582,7 @@ CreateFamily (
 	  }
 	XrmDestroyDatabase (db);
       }
-      
-    free (token);
+
     return result;
 }
 
