@@ -56,6 +56,7 @@ static char sccsid[] = "@(#)props.c 1.13 94/11/07 Copyr 1991 Sun Microsystems, I
 #include <nl_types.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "props.h"
 #include "util.h"
 
@@ -435,12 +436,13 @@ save_props(Props *p)
 	}
 
 	if (ds_def)
-		sprintf(buf, "%s", ds_def);
+		snprintf(buf, MAXPATHLEN, "%s", ds_def);
 	else
 		if (getenv("HOME") != NULL)
-			sprintf(buf, "%s%s", getenv("HOME"), DS_FILENAME);
+                    snprintf(buf, MAXPATHLEN, "%s%s",
+                             getenv("HOME"), DS_FILENAME);
 		else
-			sprintf(buf, "/%s", DS_FILENAME);
+                    snprintf(buf, MAXPATHLEN, "/%s", DS_FILENAME);
 
 	return (save_resources(p->rdb, buf));
 }        
