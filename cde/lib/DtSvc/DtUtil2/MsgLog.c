@@ -141,7 +141,7 @@ static char * get_file_name (
 	const char	* format,
 	... )
 {
-	char		*file, *rtn;
+	char		*file;
 	va_list		args;
 
 	file = malloc(MAXPATHLEN+1);
@@ -153,11 +153,12 @@ static char * get_file_name (
 	va_end (args);
 
 	if ((*fp = fopen (file, type)) == NULL)
-		return (NULL);
-	       
-	rtn = strdup (file);
-	free(file);
-	return rtn;
+        {
+            free(file);
+            return (NULL);
+        }
+
+	return file;
 }
 
 
