@@ -825,7 +825,7 @@ ReadFileData(
    {
      while ((link_len = readlink(link_file_name, link_path, MAX_PATH)) > 0)
      {
-       link_path[link_len] = '\0';
+       link_path[link_len-1] = 0;
        link_list = (char **)XtRealloc((char *)link_list, sizeof(char *) *
                                       (link_count + 2));
 
@@ -1071,7 +1071,7 @@ ReadFileData2(
    {
      while ((link_len = readlink(link_file_name, link_path, MAX_PATH)) > 0)
      {
-       link_path[link_len] = NILL;
+       link_path[link_len - 1] = 0;
        link_list = (char **)XtRealloc((char *)link_list, sizeof(char *) *
                                       (link_count + 2));
 

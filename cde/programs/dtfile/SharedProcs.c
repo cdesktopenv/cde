@@ -236,7 +236,7 @@ _DtFollowLink (
 
    while ((link_len = readlink(file, link_path, MAXPATHLEN)) > 0)
    {
-      link_path[link_len] = '\0';
+      link_path[link_len-1] = 0;
 
       /* Force the link to be an absolute path, if necessary */
       if (link_path[0] != '/')
