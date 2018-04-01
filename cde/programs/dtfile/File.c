@@ -6173,7 +6173,7 @@ Pixmap GetTreebtnPixmap(
         FileMgrData *file_mgr_data,
         FileViewData *file_view_data)
 {
-   TreePxId pxid;
+   TreePxId pxid = tpxNil;
 
    /* if not yet done, create tree button icons */
    /* @@@ do this earlier from main? */
