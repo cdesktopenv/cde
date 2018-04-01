@@ -1302,11 +1302,12 @@ do_add(char *inputfilename, int lineno, int argc, char *argv[])
     entry->protocol_name = copystring (protoname);
     entry->protocol_data_length = protodata_len;
     entry->protocol_data = protodata;
+    /* Avoid a double free later on in the event of an error */
+    protodata = NULL;
     entry->network_id = copystring (netid);
     entry->auth_name = copystring (authname);
     entry->auth_data_length = authdata_len;
     entry->auth_data = authdata;
-
     /* Avoid a double free later on in the event of an error */
     authdata = NULL;
 
