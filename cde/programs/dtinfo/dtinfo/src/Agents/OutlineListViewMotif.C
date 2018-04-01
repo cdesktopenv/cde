@@ -334,7 +334,7 @@ OutlineListView::create_xm_string (OutlineElement *oe, int base_level,
 	  }
 	p++ ;
       }
-    memset (p, OLIAS_PLACEHOLDER_ICON, oe->level() - base_level);
+    memset (p, (unsigned char)OLIAS_PLACEHOLDER_ICON, oe->level() - base_level);
 
     unsigned int pos = oe->level() - base_level + track;
 
