@@ -34,15 +34,17 @@ $COPYRIGHT$:
    (c) Copyright 1993, 1994 Unix System Labs, Inc., a subsidiary of Novell, Inc.
 ==$END$==============================================================*/
 #endif /*DOC*/
- 
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <pwd.h>
 #include <ctype.h>
 #include <unistd.h>
 #include <sys/param.h> /* MAXPATHLEN */
 #include <sys/stat.h>  /* mkdir */
+#include <sys/types.h>
 
 
 #include <X11/Xlibint.h>  /* _XGetHostname() */
@@ -623,29 +625,30 @@ static char *GetHomeDir (
 	char *dest)
 {       /*$CODE$*/
 	uid_t uid;
-	extern char *getenv();
-	extern uid_t getuid();
-	extern struct passwd *getpwuid(), *getpwnam();
 	struct passwd *pw;
-	register char *ptr;
+	char *ptr;
 
-	if((ptr = getenv("HOME")) != NULL) 
+	if((ptr = getenv("HOME")) != NULL)
         {
-		(void) strcpy(dest, ptr);
-	} 
-        else 
+            snprintf(dest, MAXPATHLEN, "%s", ptr);
+	}
+        else
         {
-		if((ptr = getenv("USER")) != NULL) 
-		{
-			pw = getpwnam(ptr);
-		} 
-                else 
-		{
-			uid = getuid();
-			pw = getpwuid(uid);
-		}
-		if (pw) (void) strcpy(dest, pw->pw_dir);
-		else    *dest = '\0';
+            if((ptr = getenv("USER")) != NULL)
+            {
+                char user[MAXPATHLEN];
+                snprintf(user, MAXPATHLEN, "%s", ptr);
+                pw = getpwnam(user);
+            }
+            else
+            {
+                uid = getuid();
+                pw = getpwuid(uid);
+            }
+            if (pw)
+                snprintf(dest, MAXPATHLEN, "%s", pw->pw_dir);
+            else
+                *dest = '\0';
 	}
 	return dest;
 }   /*$END$*/
