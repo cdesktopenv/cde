@@ -2414,7 +2414,7 @@ MsgScrollingList::updateListItems(int current,
 
     nmsgs = _msgs->length();
     newList = new XmString[nmsgs];
-    memset (newList, '0', nmsgs * sizeof (XmString *));
+    memset (newList, 0, nmsgs * sizeof (XmString *));
 
     // Loop through _msgs and create new strings to display in the
     // scrolling list. This is inefficient and dominates the time
