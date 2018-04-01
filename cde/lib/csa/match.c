@@ -220,6 +220,7 @@ _DtCmHashCriteria(
 		}
 
 		if (keep == B_TRUE) {
+                        void *savedHattrs = NULL;
 			if (*hattrs == NULL) {
 				if ((*hattrs = (cms_attribute *)calloc(1,
 				    sizeof(cms_attribute)*(num_attrs-i)+
@@ -231,14 +232,15 @@ _DtCmHashCriteria(
 					free(*hattrs);
 					return (CSA_E_INSUFFICIENT_MEMORY);
 				} else {
+                                        savedHattrs = (void *)*hattrs;
 					*((char**)(*hattrs)) = (char *)&hval[0];
 					*hattrs = (cms_attribute *)\
 						((char *)(*hattrs)+sizeof(char*));
 				}
 				if (ops && (*hops = (CSA_enum *)calloc(1,
 				    sizeof(CSA_enum)*(num_attrs-i))) == NULL) {
-					free(*hattrs);
 					free(hval);
+					free(savedHattrs);
 					return (CSA_E_INSUFFICIENT_MEMORY);
 				}
 			}
