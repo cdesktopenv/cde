@@ -155,7 +155,7 @@ extern int	optind;
 
 void sig_handler(int sig);
 
-enum {STARTED_FROM_INETD, STARTED_FROM_SHELL} start_mode;
+static enum {STARTED_FROM_INETD, STARTED_FROM_SHELL} start_mode;
 
 //
 // This is used to hold the next time the automatic garbage
@@ -632,7 +632,7 @@ _tt_process_transaction()
 		UNLOCK_RPC();
 		return;
 	}
-	strcpy(_tt_target_db, _tt_log_buf);
+        snprintf(_tt_target_db, MAXPATHLEN, "%s", _tt_log_buf);
 	/* open the NetISAM transaction target database */
 	int isfd = cached_isopen(_tt_target_db, ISINOUT+ISFIXLEN+ISMANULOCK);
 	if (isfd == -1) {
