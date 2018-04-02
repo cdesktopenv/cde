@@ -4138,7 +4138,7 @@ save_state(Widget widget, XtPointer client_data, XtPointer call_data)
    else
    {
      XtFree( (char *)full_path);
-     full_path = (char *) XtMalloc (sizeof (char) * MAX_PATH);
+     full_path = (char *) XtMalloc (sizeof (char) * PATH_MAX);
      sprintf( full_path, "%s/%s", dt_path, DTCALC_CLASS_NAME);
      sessionFileName = full_path;
    }
