@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -174,7 +175,7 @@ _DtShmProtoAddStrtab(DtShmProtoStrtab strlist, const char * string, int * isnew)
     unsigned char ** sptr;
     *isnew = 1;
     *bucket = ret = ptr->sl_charcount;
-    sptr = (unsigned char**)_DtUtilGetHash(ptr->sl_bosons, (const unsigned char *)ret);
+    sptr = (unsigned char**)_DtUtilGetHash(ptr->sl_bosons, (const unsigned char *) (intptr_t) ret);
     *sptr = (unsigned char*)strdup(string);
     ptr->sl_charcount += strlen(string) + 1;
   } 
@@ -193,7 +194,7 @@ _DtShmProtoLookUpStrtab (DtShmProtoStrtab prototab, DtShmBoson boson)
   strlist_t * ptr = (strlist_t *) prototab;
   unsigned char ** sptr;
   
-  sptr = (unsigned char **) _DtUtilFindHash(ptr->sl_bosons, (const unsigned char *) boson);
+  sptr = (unsigned char **) _DtUtilFindHash(ptr->sl_bosons, (const unsigned char *) (intptr_t) boson);
 
   return(sptr?((const char *)*sptr):NULL);
 }

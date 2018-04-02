@@ -34,6 +34,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
@@ -103,7 +104,7 @@ _DtShmProtoAddInttab(DtShmProtoInttab intlist, unsigned int keyin, int datain)
   intlist_t * ptr = (intlist_t *) intlist;
   int ** data;
 
-  data = (int**)_DtUtilGetHash(ptr->tbl, (unsigned char *)keyin);
+  data = (int**)_DtUtilGetHash(ptr->tbl, (unsigned char *) (intptr_t) keyin);
 
   if(!*data) /* new */ {
     *data = (int *) malloc(sizeof(int));

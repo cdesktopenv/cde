@@ -681,9 +681,10 @@ _DtActCheckRecord(
 	int 	i;
 	char	*s;
 	char argnFieldName[
-		sizeof(_DtACTION_TTN_ARG) +  	 /* ARGn prefix */
+		sizeof(_DtACTION_TTN_ARG) +  	/* ARGn prefix */
 		3 +				/* space for 3 decimal digits */
-		sizeof(_DtACTION_TTN_REP_TYPE)]; /* space for longest suffix */
+		sizeof(_DtACTION_TTN_REP_TYPE)	/* space for longest suffix */
+		+ 8]; 				/* addition space for warning prevention incase the digits are more than 3 */
 	char *buf;
 
 	myassert(actionType);	/* actionType should never be NULL */
