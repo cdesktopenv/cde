@@ -412,6 +412,9 @@ ushort WriteDefinitionFile(char *pszFile, ActionData *pAD)
   char            *ptr;
   char            *msgPtr, *fmtPtr, *errPtr;
 
+  if (!pszFile)
+      return 1;
+
   /***************************************************************************/
   /* Open action and filetypes definition file for writing.                  */
   /***************************************************************************/
@@ -613,10 +616,11 @@ ushort WriteDefinitionFile(char *pszFile, ActionData *pAD)
     }
   }
   SetCookie(fp);
-  if (fp) fclose(fp);
-  if(pszFile) {
-    chmod(pszFile, 0644);
-  }
+  if (fp)
+      fclose(fp);
+
+  chmod(pszFile, 0644);
+
   return(0);
 }
 
