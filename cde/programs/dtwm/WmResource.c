@@ -398,7 +398,7 @@ void InitBuiltinSystemMenu(void)
     else
     {
         /* put it together */
-        snprintf(dsm, sizeof(dsm), "%s\n{\n%s)\n%s\n%s\n%s\n%s\n%s\n no-label  f.separator\n",
+        snprintf(dsm, sizeof(dsm), "%s\n{\n%s\n%s\n%s\n%s\n%s\n%s\n no-label  f.separator\n",
                  defaultSystemMenuName, ResString, MovString,
                  SizString, MinString, MaxString, LowString);
 #ifdef WSM
