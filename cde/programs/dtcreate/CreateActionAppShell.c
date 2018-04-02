@@ -249,7 +249,7 @@ void  activateCB_CA_MB_FileSave(Widget UxWidget,
 
 {
   ushort   usRc = 0;
-  char     *pszActionFile;
+  char     *pszActionFile = NULL;
   char     *msgPtr, *bufPtr;
   Boolean  bHaveError = FALSE;
   struct   stat statbuf;
