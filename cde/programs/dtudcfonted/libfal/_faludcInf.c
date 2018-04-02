@@ -315,7 +315,7 @@ char    *charsetname;
     int num = 0,count,num_ret=0;
     int i,j,k;
     char **value,buf[128],ptr;
-    FontData font_data;
+    FontData font_data = NULL;
 
 
     sprintf(buf, "fs%d.charset.name", codeset-1);
@@ -577,7 +577,7 @@ char    *charsetname;
     int num = 0,count,num_ret=0;
     int i,j,k;
     char **value,buf[128],ptr;
-    FontData font_data;
+    FontData font_data = NULL;
     CodeSet cs;
 
     
