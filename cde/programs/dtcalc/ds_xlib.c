@@ -35,6 +35,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <ctype.h>
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -254,15 +256,24 @@ int
 ds_save_resources(XrmDatabase rDB, char *filename)
 {
   char *home;
-  struct stat statbuf ;
+  struct stat statbuf;
+  bool needsFree = false;
 
-  if(filename == NULL)
+  if (filename == NULL)
   {
     if ((filename = getenv("DTCALCDEF")) == NULL)
       {
-        home = getenv("HOME") ;
-        filename = (char*) calloc(1, strlen(home) + 18) ;
-        snprintf(filename, sizeof(filename), "%s/.dtcalcdef", home) ;
+          size_t fileLen = strlen(home) + 18;
+          home = getenv("HOME");
+          if ( (filename = calloc(1, fileLen)) != NULL )
+          {
+              needsFree = true;
+              snprintf(filename, fileLen, "%s/.dtcalcdef", home);
+          }
+          else
+          {
+              return 1;
+          }
       }
   }
 
@@ -270,14 +281,18 @@ ds_save_resources(XrmDatabase rDB, char *filename)
 
   if (stat(filename, &statbuf) != -1 && access(filename, W_OK) != 0)
     { 
-      free(filename) ;
-      return(1) ;
+        if (needsFree)
+            free(filename);
+
+        return(1);
     }
 
 /* If file does not exist this call will create it. */
 
-  XrmPutFileDatabase(rDB, filename) ;
-  free(filename) ;
-  return(0) ;
+  XrmPutFileDatabase(rDB, filename);
+  if (needsFree)
+      free(filename);
+
+  return(0);
 }
 

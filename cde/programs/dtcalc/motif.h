@@ -177,4 +177,4 @@ XVars X ;
 #define HOME_RESTORE    1
 #define CURRENT_RESTORE    2
 
-#define MAX_PATH 1024
+#define MAX_PATH PATH_MAX
