@@ -1081,7 +1081,7 @@ char *BitmapPathName (string)
             strncat (fileName, &wmGD.bitmapDirectory[1],
 		     MAXWMPATH - strlen (fileName));
 	} else {
-	    strcpy (fileName, wmGD.bitmapDirectory);
+	    snprintf(fileName, sizeof(fileName), "%s", wmGD.bitmapDirectory);
 	}
         strncat (fileName, "/", MAXWMPATH - strlen (fileName));
         strncat (fileName, string, MAXWMPATH - strlen (fileName));

@@ -398,35 +398,17 @@ void InitBuiltinSystemMenu(void)
     else
     {
         /* put it together */
-        strcpy(dsm, defaultSystemMenuName);
-        strcat(dsm, "\n{\n");
-        strcat(dsm, ResString);
-        strcat(dsm, "\n");
-        strcat(dsm, MovString);
-        strcat(dsm, "\n");
-        strcat(dsm, SizString);
-        strcat(dsm, "\n");
-        strcat(dsm, MinString);
-        strcat(dsm, "\n");
-        strcat(dsm, MaxString);
-        strcat(dsm, "\n");
-        strcat(dsm, LowString);
-        strcat(dsm, "\n");
-        strcat(dsm, " no-label  f.separator\n");
+        snprintf(dsm, sizeof(dsm), "%s\n{\n%s)\n%s\n%s\n%s\n%s\n%s\n no-label  f.separator\n",
+                 defaultSystemMenuName, ResString, MovString,
+                 SizString, MinString, MaxString, LowString);
 #ifdef WSM
 	if (DtwmBehavior)
 	{
-	    strcat(dsm, OcpString);
-	    strcat(dsm, "\n");
-	    strcat(dsm, OcaString);
-	    strcat(dsm, "\n");
-	    strcat(dsm, RemString);
-	    strcat(dsm, "\n");
-	    strcat(dsm, " no-label  f.separator\n");
+	    snprintf(dsm, sizeof(dsm), "%s%s\n%s\n%s\n no-label  f.separator\n",
+	             dsm, OcpString, OcaString, RemString);
 	}
 #endif /* WSM */
-        strcat(dsm, CloString);
-        strcat(dsm, "\n}");
+        snprintf(dsm, sizeof(dsm), "%s%s\n}", dsm, CloString);
 	
 	if ((builtinSystemMenu =
 	     (char *)XtMalloc ((unsigned int) (strlen(dsm) + 1))) == NULL)

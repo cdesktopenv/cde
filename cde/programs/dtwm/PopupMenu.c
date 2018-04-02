@@ -179,7 +179,7 @@ RenameWorkspaceCB (Widget    w,
 
 {
    long rename_ws = (long) client_data;
-   SwitchData * switch_data;
+   SwitchData * switch_data = NULL;
    int i;
    
 
@@ -195,7 +195,9 @@ RenameWorkspaceCB (Widget    w,
       }
    }
    
-   SwitchRenameLabel (switch_data->buttons[rename_ws], panel.box_data[i]);
+   if(switch_data) {
+      SwitchRenameLabel (switch_data->buttons[rename_ws], panel.box_data[i]);
+   }
 }
 
 

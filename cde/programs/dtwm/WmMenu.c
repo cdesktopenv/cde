@@ -4050,7 +4050,7 @@ void PostMenu (MenuSpec *menuSpec, ClientData *pCD, int x, int y, unsigned int b
      *  Compute position if necessary (system menu).
      */
 
-    if (!(flags & POST_AT_XY))
+    if (pCD && !(flags & POST_AT_XY))
     /* compute the position */
     {
 	GetSystemMenuPosition (pCD, &x, &y, menuSpec->height, newContext);

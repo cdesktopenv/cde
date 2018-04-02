@@ -292,7 +292,7 @@ EmbeddedClientRegister (ControlData * control_data,
 	 if (embedded_client_list[i].wControl == control_data->icon)
 	 {
             Position remove_y;
-            Dimension adjust_y;
+            Dimension adjust_y = 0;
 
 
             /*  This block will reparent the client window, move it  */
@@ -312,7 +312,9 @@ EmbeddedClientRegister (ControlData * control_data,
 
             /* deleted control height plus 5 pixels of form offset */
 
-            adjust_y = XtHeight (control_data->icon) + 5;
+            if(control_data->icon) {
+               adjust_y = XtHeight (control_data->icon) + 5;
+            }
             
             panel.embedded_client_count--;
 

@@ -290,6 +290,7 @@ StringToAction (char * parse_source,
    {
       _DtSimpleError (panel.app_name, DtError, NULL, 
                      "Invalid Action -- %s", parse_source);
+      free (head_ptr);
       return (False);
    }
 

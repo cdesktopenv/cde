@@ -440,14 +440,8 @@ ProcessBackdropResources(
 		}
 		pch = NULL;
 	    }
-	    if (pchImageName)
-	    {
-		free (pchImageName);	/* temporary string */
-	    }
-	    if (pchL)
-	    {
-		free (pchL);	/* temporary string */
-	    }
+	    free (pchImageName);	/* temporary string */
+	    free (pchL);	/* temporary string */
 	}
     }
 }

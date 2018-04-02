@@ -4202,7 +4202,7 @@ StartMarqueeSelect(WmScreenData *pSD, XEvent *pev)
     /* 
      * Set up static variables for succeeding events 
      */
-    if ((pev->type == ButtonPress) || (pev->type == ButtonRelease))
+    if (pev && (pev->type == ButtonPress) || (pev->type == ButtonRelease))
     {
 	pointerX = pev->xbutton.x_root;
 	pointerY = pev->xbutton.y_root;

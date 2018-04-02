@@ -3857,10 +3857,7 @@ SaveWorkspaceResources(
        XtFree(data);
    }
 
-   if (buffer)
-   {
-       XtFree(buffer);
-   }
+   XtFree(buffer);
 
 } /* END OF FUNCTION SaveWorkspaceResources */
 

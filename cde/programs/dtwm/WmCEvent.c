@@ -1239,7 +1239,7 @@ void CheckButtonPressBuiltin (XButtonEvent *buttonEvent, Context context, Contex
  *                the resources or the user has specifically requested
  *                that "move" not be one of them.
  */
-            if (pCD->clientFunctions & MWM_FUNC_MOVE)
+            if (pCD && (pCD->clientFunctions & MWM_FUNC_MOVE))
             {
 	      wmGD.preMove = True;
 	      wmGD.preMoveX = buttonEvent->x_root;

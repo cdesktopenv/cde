@@ -991,7 +991,9 @@ void WmDtHelpOnVersion (
     Widget helpButton = NULL;
     Widget backButton = NULL;
     Widget closeButton = NULL;
+#ifdef NO_MESSAGE_CATALOG
     XmString    label = NULL;
+#endif
 
    if((versionWidget != NULL) &&
        (XtIsManaged(versionWidget)))
@@ -1035,7 +1037,9 @@ void WmDtHelpOnVersion (
 #endif
 
 	XtSetValues(closeButton, setArgs2, n2);
+#ifdef NO_MESSAGE_CATALOG
 	if(label)XmStringFree(label);
+#endif
 
 	printButton = DtHelpQuickDialogGetChild( versionWidget, 
 					     DtHELP_QUICK_PRINT_BUTTON );
@@ -1664,7 +1668,7 @@ RestoreHelpDialogs(
     int wsCnt;    
     int cCount;
     int cachedCount=0;		
-    char dialogName[10];
+    char dialogName[18];
 
     ClientData *pCD = NULL;
     char *tTitle = NULL;
@@ -2787,7 +2791,9 @@ wmDtErrorDialog(
 
     if (pSD->dtHelp.errorDialog == NULL)
     {
+#ifdef NO_MESSAGE_CATALOG
 	XmString tmpXmString = (XmString)NULL;
+#endif
 
 	ac = 0;
 	XtSetArg (al[ac], XmNmessageString, xmsMessage);	ac++;
@@ -2815,8 +2821,10 @@ wmDtErrorDialog(
         pSD->dtHelp.errorDialog =
 	    XmCreateErrorDialog (wParent, "Error Dialog", al, ac);
 
+#ifdef NO_MESSAGE_CATALOG
 	if (tmpXmString)
 	    XmStringFree(tmpXmString);
+#endif
 
 	wTemp = XmMessageBoxGetChild (pSD->dtHelp.errorDialog, 
 			XmDIALOG_HELP_BUTTON);

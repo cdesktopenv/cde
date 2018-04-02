@@ -108,6 +108,8 @@ WmHeadInfo_t *GetHeadInfo(const ClientData *pcd) {
             return WmHI;
     }
 
+    free(WmHI);
+
     /* No valid screen */
     return NULL;
 }

@@ -832,5 +832,7 @@ SessionDeleteAll(void)
       strcpy(srcname + srclen, entry->d_name);
       remove (srcname);
    }
+   
+   closedir(dir);
 }
 

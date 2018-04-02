@@ -2512,8 +2512,11 @@ FILE *FopenConfigFile (void)
 	 *  Run the file through the C-preprocessor
 	 */
 	PreprocessConfigFile ();
-	if (pConfigStackTop->cppName)
+	if (pConfigStackTop && pConfigStackTop->cppName)
 	{
+	    if(fileP) {
+		fclose(fileP);
+	    }
 	    /* open the result */
 	    fileP = fopen (pConfigStackTop->cppName, "r");
 	}
