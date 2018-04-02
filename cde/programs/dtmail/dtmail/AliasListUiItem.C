@@ -217,8 +217,7 @@ void AliasListUiItem::writeFromSourceToUi()
       for (i = 0; i < list_len; i++)
 	list_items->append(prop_pairs[i]);
 
-      if (NULL != prop_pairs)
-        XtFree((char*) prop_pairs);
+      XtFree((char*) prop_pairs);
   }
 
   for (i = 0; i < list_len; i++)

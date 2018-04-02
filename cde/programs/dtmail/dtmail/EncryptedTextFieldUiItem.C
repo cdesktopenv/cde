@@ -138,7 +138,7 @@ void EncryptedTextFieldUiItem::writeFromSourceToUi()
 
     _loading = DTM_TRUE;
     options_field_set_value(w, value, this->dirty_bit);
-    if (NULL != value) free((void*) value);
+    free((void*) value);
     _loading = DTM_FALSE;
 }
 

@@ -85,7 +85,7 @@ void InboxTextFieldUiItem::writeFromUiToSource()
     else
       prop_source->setValue(value);
 
-    if (NULL != mailspool_file) free((void*) mailspool_file);
+    free((void*) mailspool_file);
 }
 
 // Takes values in the UI and puts them into the source DB
@@ -114,6 +114,6 @@ void InboxTextFieldUiItem::writeFromSourceToUi()
     else
       options_field_set_value(w, value, this->dirty_bit);
 
-    if (NULL != value) free((void*) value);
+    free((void*) value);
     if (NULL != mailspool_file) free((void*) mailspool_file);
 }

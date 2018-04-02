@@ -822,7 +822,7 @@ MailRetrievalOptions::isValidInboxPath(PropUiItem* pui, void* data)
       errmsg = NULL;
 
     if (inbox_path) free(inbox_path);
-    if (expanded_path) free(expanded_path);
+    free(expanded_path);
     return (char*) errmsg;
 }
 

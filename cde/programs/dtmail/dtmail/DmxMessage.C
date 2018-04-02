@@ -394,8 +394,7 @@ DmxMsg::display (
 	strcpy(v3_cs, "DEFAULT");
 	strcat(v3_cs, ".");
 	strcat(v3_cs, ret);
-	if (ret)
-	  free(ret);
+	free(ret);
     }
 
     // Get iconv from and to codeset and do conversion.

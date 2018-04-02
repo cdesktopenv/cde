@@ -1597,8 +1597,7 @@ DtMail::Session::targetTagName(char *special)
       NULL,
       &ret_codeset);
  
-   if (ret_locale)
-     free(ret_locale);
+   free(ret_locale);
    if (ret_lang)
      free(ret_lang);
    if (ret_target)

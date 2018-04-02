@@ -915,9 +915,7 @@ SendMsgDialog::storeHeaders(DtMail::Message * input)
 	else {
 	    env->removeHeader(error, hl->header);
 	}
-	if (value) {
-		XtFree(value);
-        }
+	XtFree(value);
     }
 }
 
@@ -1727,9 +1725,7 @@ SendMsgDialog::include_file_cb( void *client_data, char *selection )
 {
     SendMsgDialog *obj = (SendMsgDialog *)client_data;
     obj->include_file(selection);
-    if (NULL != selection)
-      XtFree(selection);
-    
+    XtFree(selection);
 }
 
 void

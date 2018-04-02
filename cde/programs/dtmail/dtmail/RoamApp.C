@@ -723,7 +723,7 @@ tooltalk_msg_handler(
 			         	&file);
 		}
 
-		if (str) free(str);
+		free(str);
 
 		if (NULL == file)
 		{

@@ -590,8 +590,7 @@ V3BodyPart::loadBody(DtMailEnv &)
 	   strcpy(cs, "DEFAULT");
 	   strcat(cs, ".");
 	   strcat(cs, ret);
-           if ( ret )
-	     free( ret );
+           free( ret );
 	}
 	}  // If cstmp is NULL
 

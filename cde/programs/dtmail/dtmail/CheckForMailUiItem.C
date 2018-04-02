@@ -115,5 +115,5 @@ void CheckForMailUiItem::writeFromSourceToUi()
     options_spinbox_set_value(w, atoi(value), this->dirty_bit);
     _valueChanged = FALSE;
 
-    if (NULL != value) free((void*) value);
+    free((void*) value);
 }

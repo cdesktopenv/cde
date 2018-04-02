@@ -435,8 +435,7 @@ Editor::update_display_from_props(void)
     mailrc->getValue(error, "toolcols", &value);
     if (!error.isSet()){
         cols = (int) strtol(value, NULL, 10);      
-        if (NULL != value)
-          free((void*) value);
+        free((void*) value);
     } else {
 	/*
 	 * MB_CUR_MAX == 1 : SingleByteLanguage

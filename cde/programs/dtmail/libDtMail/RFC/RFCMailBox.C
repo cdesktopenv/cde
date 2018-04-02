@@ -4963,7 +4963,7 @@ RFCMailBox::createMailRetrievalAgent(char *password)
 					appendCB, (void*) this);
 
         if (NULL != _mra_server) _mra_server->set_password(_mra_serverpw);
-        if (NULL != protocol) free(protocol);
+        free(protocol);
     }
     else if (True == DtMailServer::get_mailrc_value(
 					      _session, DTMAS_INBOX,

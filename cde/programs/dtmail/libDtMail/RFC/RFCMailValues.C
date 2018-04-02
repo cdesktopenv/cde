@@ -170,8 +170,7 @@ decode1522(const char * enc_start, const char * max_end, char **output, DtMail::
 	free( from_cs );
     if (NULL != to_cs)
 	free ( to_cs );
-    if (NULL != cs_name)
-	free(cs_name);
+    free(cs_name);
 
     return(enc_end);
 }

@@ -421,8 +421,7 @@ RoamMenuWindow::RoamMenuWindow (char *name) : MenuWindow ("dtmail", True)
     else
       _inbox = FALSE;
 
-    if (NULL != mail_file)
-      free((void*)mail_file);
+    free((void*)mail_file);
 
     _list	= NULL;
     _genDialog  = NULL;
@@ -465,7 +464,7 @@ RoamMenuWindow::RoamMenuWindow (char *name) : MenuWindow ("dtmail", True)
     else
       _last_sorted_by = (SortBy) atoi(value);
 
-    if (NULL != value) free((void*) value);
+    free((void*) value);
     if (NULL != buffer) XtFree(buffer);
 
 }
@@ -788,7 +787,7 @@ RoamMenuWindow::createWorkArea(Widget parent)
 
     int header_lines = (int) strtol(value, NULL, 10);
     _list->visibleItems(header_lines);
-    if (NULL != value) free((void*) value);
+    free((void*) value);
 
     XtAddCallback(
 	_list->get_scrolling_list(), XmNhelpCallback, 
@@ -1863,8 +1862,7 @@ RoamMenuWindow::propsChanged(void)
     if (header_lines != _list->visibleItems())
 	_list->visibleItems(header_lines);
 
-    if (NULL != value)
-      free((void*) value);
+    free((void*) value);
 
     _list->checkDisplayProp();
     _my_editor->textEditor()->update_display_from_props();
@@ -2788,7 +2786,7 @@ RoamMenuWindow::create_container_callback(void *client_data, char *selection)
 {
     RoamMenuWindow *obj = (RoamMenuWindow*) client_data;
     obj->create_new_container(selection);
-    if (NULL != selection) XtFree(selection);
+    XtFree(selection);
 }
 
 void
@@ -5152,8 +5150,7 @@ RoamMenuWindow::addToCachedContainerList(char *filename)
 			&mail_file);
 
         is_inbox = (0 == strcmp(mail_file, filename));
-	if (NULL != mail_file)
-	  free((void*) mail_file);
+	free((void*) mail_file);
 	if (is_inbox)
 	  return;
 

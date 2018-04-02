@@ -312,8 +312,8 @@ options_spinbox_modCB(
          cbs->doit = FALSE;
 	 XBell(dpy, 50);
      }
-     if (NULL != text) XtFree(text);
-     if (NULL != textvalue) XtFree(textvalue);
+     XtFree(text);
+     XtFree(textvalue);
 }
 
 void

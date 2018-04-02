@@ -630,8 +630,7 @@ DmxPrintJob::loadOutputWidgets(void)
 	        _print_output->appendNewLine();
 
 		XtFree(buffer);
-		if (NULL != separator_string)
-		  free((void*) separator_string);
+		free((void*) separator_string);
 	        
 		break;
 	    }

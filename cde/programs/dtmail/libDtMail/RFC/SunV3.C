@@ -375,14 +375,12 @@ SunV3::formatBodies(DtMailEnv & error,
 		delete [] cbuf;
 		delete rd;
 	    }
- 	    if (bp_contents) {
-		free(bp_contents);
-		bp_contents = NULL;
- 	    }
-	    if (name) {
-		free(name);
-		name = NULL;
-	    }
+
+	    free(bp_contents);
+	    bp_contents = NULL;
+	    
+	    free(name);
+	    name = NULL;
 	}
     }
 

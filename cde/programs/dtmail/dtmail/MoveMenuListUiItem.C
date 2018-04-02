@@ -228,8 +228,7 @@ void MoveMenuListUiItem::writeFromSourceToUi()
 
   delete char_list;
   
-  if(list_str != NULL)
-      free((void*) list_str);
+  free((void*) list_str);
 
   if(buf != NULL)
       free((void *)buf);

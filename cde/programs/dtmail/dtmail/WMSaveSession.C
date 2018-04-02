@@ -181,8 +181,7 @@ RoamApp::openSessionFile(char *filename)
 
     LOG_FPRINTF(log, (log,"Opened session file: %s\n",pathname));
     LOG_CLOSEFILEPTR(log);
-    if (pathname != NULL)
-      XtFree((char *)pathname);
+    XtFree((char *)pathname);
 }
 
 /*

@@ -85,6 +85,5 @@ void ScaleUiItem::writeFromSourceToUi()
 
   options_scale_set_value(w, value, this->dirty_bit);
 
-  if (NULL != value)
-    free((void*) value);
+  free((void*) value);
 }

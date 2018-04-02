@@ -382,8 +382,7 @@ MIMEBodyPart::getDtType(DtMailEnv & error)
       error.clear();
     if (type)
       DtDtsFreeDataType(type);
-    if (mime_type)
-      free(mime_type);
+    free(mime_type);
     if (name)
       free(name);
 }
@@ -510,7 +509,6 @@ MIMEBodyPart::loadBody(DtMailEnv & error)
 	  }
 	  }
 	}
-	if ( cs )
 	free ( cs );
 	if ( from_cs )
 	    free( from_cs );

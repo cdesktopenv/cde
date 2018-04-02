@@ -101,8 +101,7 @@ get_font(
 		    do_break = True;
 		}
 
-		if (fl_entry_font_tag != NULL)
-		  XtFree((char*) fl_entry_font_tag);
+		XtFree((char*) fl_entry_font_tag);
 
 		if (do_break)
 		  break;
