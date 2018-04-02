@@ -275,7 +275,7 @@ _DtPerfChkpntInit(Display      *display,
 	XStringListToTextProperty(array, 1, &text_prop);
 	XSetWMName(tmpdisplay, dtcp_info.window, &text_prop);
 	XFree(text_prop.value);
-	if (buffer) free(buffer);
+	free(buffer);
     }
 
     XCloseDisplay(tmpdisplay);

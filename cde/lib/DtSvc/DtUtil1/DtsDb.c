@@ -255,8 +255,8 @@ _DtDtsDbDeleteDb(DtDtsDbDatabase *db)
 
 	_DtSvcProcessLock();
 	_DtDtsDbDeleteRecords(db);
-	if(db->databaseName) free(db->databaseName);
-	if(db) free(db);
+	free(db->databaseName);
+	free(db);
 
 	for(i = 0; db_list[i]; i++)
 	{
@@ -272,7 +272,7 @@ _DtDtsDbDeleteDb(DtDtsDbDatabase *db)
 	}
 	if(db_list[0] == 0)
 	{
-		if(db_list)free(db_list);
+		free(db_list);
 		db_list = 0;
 	}
 	_DtSvcProcessUnlock();
@@ -439,7 +439,7 @@ _DtDtsDbAddRecord(DtDtsDbDatabase *db)
 		{
 			memmove(newlist, db->recordList,
 				rec*sizeof(DtDtsDbRecord *));
-			if(db->recordList) free(db->recordList);
+			free(db->recordList);
 		}
 		db->recordList = newlist;
 	}
@@ -455,7 +455,7 @@ _DtDtsDbDeleteRecord(DtDtsDbRecord *rec, DtDtsDbDatabase *db)
 	int	i;
 
 	_DtDtsDbDeleteFields(rec);
-	if(rec) free(rec);
+	free(rec);
 
 	for(i = 0; i < db->recordCount; i++)
 	{
@@ -481,11 +481,9 @@ _DtDtsDbDeleteRecords(DtDtsDbDatabase *db)
 	for(i = 0; i < db->recordCount; i++)
 	{
 		_DtDtsDbDeleteFields(db->recordList[i]);
-		if(db->recordList[i])
-			free(db->recordList[i]);
+		free(db->recordList[i]);
 	}
-	if(db->recordList)
-		free(db->recordList);
+	free(db->recordList);
 	db->recordList = 0;
 	return(0);
 }
@@ -504,8 +502,7 @@ _DtDtsDbAddField(DtDtsDbRecord *rec)
 		{
 			memmove(newlist, rec->fieldList,
 				flds*sizeof(DtDtsDbField *));
-			if(rec->fieldList)
-				free(rec->fieldList);
+			free(rec->fieldList);
 		}
 		rec->fieldList = newlist;
 	}
@@ -520,7 +517,7 @@ _DtDtsDbDeleteField(DtDtsDbField *fld, DtDtsDbRecord *rec)
 {
 	int	i;
 
-	if(fld) free(fld);
+	free(fld);
 	for(i = 0; i < rec->fieldCount; i++)
 	{
 		if(rec->fieldList[i] == fld)
@@ -544,12 +541,10 @@ _DtDtsDbDeleteFields(DtDtsDbRecord *rec)
 
 	for(i = 0; i < rec->fieldCount; i++)
 	{
-		if(rec->fieldList[i]->fieldValue)
-			free(rec->fieldList[i]->fieldValue);
-		if(rec->fieldList[i])
-			free(rec->fieldList[i]);
+		free(rec->fieldList[i]->fieldValue);
+		free(rec->fieldList[i]);
 	}
-	if(rec->fieldList) free(rec->fieldList);
+	free(rec->fieldList);
 	rec->fieldList = 0;
 	return(0);
 }

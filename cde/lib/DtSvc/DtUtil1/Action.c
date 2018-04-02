@@ -1091,7 +1091,7 @@ NoActionError(
 
    _DtCreateErrorDialog(w, actionName, msg);
    XmStringFree(msg);
-   if (msgbuf) XtFree(msgbuf);
+   XtFree(msgbuf);
    XtFree(name);
 }
 
@@ -1158,7 +1158,7 @@ TmpFileCreateError( Widget w, char *actionName, char *dirName)
 	msg  = XmStringCreateLocalized(msgbuf);
         _DtCreateErrorDialog(w, actionName, msg);
         XmStringFree(msg);
-        if (msgbuf) XtFree(msgbuf);
+        XtFree(msgbuf);
 }
 
 static void
@@ -1173,7 +1173,7 @@ TmpFileOpenError( Widget w, char *actionName, char *fileName)
 	msg  = XmStringCreateLocalized(msgbuf);
         _DtCreateErrorDialog(w, actionName, msg);
         XmStringFree(msg);
-        if (msgbuf) XtFree(msgbuf);
+        XtFree(msgbuf);
 }
 
 static void
@@ -1188,7 +1188,7 @@ TmpFileWriteError( Widget w, char *actionName, char *fileName)
 	msg  = XmStringCreateLocalized(msgbuf);
         _DtCreateErrorDialog(w, actionName, msg);
         XmStringFree(msg);
-        if (msgbuf) XtFree(msgbuf);
+        XtFree(msgbuf);
 }
 
 static void
@@ -1202,7 +1202,7 @@ UnSupportedObject( Widget w, char *actionName, int objClass)
 	msg  = XmStringCreateLocalized(msgbuf);
         _DtCreateErrorDialog(w, actionName, msg);
         XmStringFree(msg);
-        if (msgbuf) XtFree(msgbuf);
+        XtFree(msgbuf);
 }
 
 

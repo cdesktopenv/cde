@@ -1034,7 +1034,7 @@ ReadNextEntry(
                sprintf(error_buffer, invalidVersion, file_name);
                _DtSimpleError(DtProgName, DtError, NULL, "%s", error_buffer);
                XtFree(version);
-	       if (error_buffer) XtFree(error_buffer);
+	       XtFree(error_buffer);
                return(False);
             }
 
@@ -1107,7 +1107,7 @@ ReadNextEntry(
 	       (void) sprintf (error_buffer, incompleteDefn, errorName, 
 			       file_name);
 	       _DtSimpleError (DtProgName, DtError, NULL, "%s", error_buffer);
-	       if (error_buffer) XtFree(error_buffer);
+	       XtFree(error_buffer);
 	       remove_defn = True;
 	    }
 	    break;
@@ -1167,7 +1167,7 @@ ReadNextEntry(
 	       (void) sprintf (error_buffer, invalidStartSymbol, errorName, 
 			       file_name);
 	       _DtSimpleError (DtProgName, DtError, NULL, "%s", error_buffer);
-	       if (error_buffer) XtFree(error_buffer);
+	       XtFree(error_buffer);
                remove_defn = True;
                break;
 	    }
@@ -1186,7 +1186,7 @@ ReadNextEntry(
 	    (void) sprintf (error_buffer, missingStartSymbol, errorName, 
 	                    file_name);
 	    _DtSimpleError (DtProgName, DtError, NULL, "%s", error_buffer);
-	    if (error_buffer) XtFree(error_buffer);
+	    XtFree(error_buffer);
             remove_defn = True;
             break;
 	 }
@@ -1203,7 +1203,7 @@ ReadNextEntry(
 	       (void) sprintf (error_buffer, multiLineDefn, errorName, 
 			       file_name);
 	       _DtSimpleError (DtProgName, DtError, NULL, "%s", error_buffer);
-	       if (error_buffer) XtFree(error_buffer);
+	       XtFree(error_buffer);
 	       remove_defn = True;
 	    }
 	    /* if '}' end found with no starting '{', ignore defn */
@@ -1216,7 +1216,7 @@ ReadNextEntry(
 	       (void) sprintf (error_buffer, noStartSymbol, errorName, 
 			       file_name);
 	       _DtSimpleError (DtProgName, DtError, NULL, "%s", error_buffer);
-	       if (error_buffer) XtFree(error_buffer);
+	       XtFree(error_buffer);
 	       remove_defn = True;
 	    }
 	    break;
@@ -1239,7 +1239,7 @@ ReadNextEntry(
 		   XrmQuarkToString ((*fieldPtr)[0].fieldName);
             (void)sprintf (error_buffer, tooManyFields, errorName, file_name);
             _DtSimpleError (DtProgName, DtError, NULL, "%s", error_buffer);
-	    if (error_buffer) XtFree(error_buffer);
+	    XtFree(error_buffer);
 	    remove_defn = True;
 	    break;
 	 }
@@ -1336,8 +1336,7 @@ ReadNextEntry(
       {
 	 for (i = 0; i < indx; i++) 
          {
-	    if ((*fieldPtr)[i].fieldValue) 
-	       XtFree ((char *) (*fieldPtr)[i].fieldValue);
+	    XtFree ((char *) (*fieldPtr)[i].fieldValue);
          }
       }
       else 
@@ -1631,7 +1630,7 @@ DefineVariable(
 	 errorBuffer = XtMalloc(MAXPATHLEN);
          sprintf(errorBuffer, cantSetVersion, fileName);
          _DtSimpleError(DtProgName, DtError, NULL, "%s", errorBuffer);
-	 if (errorBuffer) XtFree(errorBuffer);
+	 XtFree(errorBuffer);
          return(False);
       }
    }
@@ -1827,8 +1826,7 @@ FreeDbField(
 
    while (fields[i].fieldName || fields[i].fieldValue)
    {
-      if (fields[i].fieldValue)
-         XtFree(fields[i].fieldValue);
+      XtFree(fields[i].fieldValue);
 
       i++;
    }

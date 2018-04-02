@@ -418,7 +418,7 @@ Xegetcwd(char *buf, int size)
       env = XeMalloc(MAXPATHLEN+10);
       sprintf(env, "PWD=%s", buf);
       copying_putenv(env);	/* set PWD if necessary for later cache use */
-      if (env) XeFree(env);
+      XeFree(env);
    }
    return current_dir;
 }
@@ -448,7 +448,7 @@ Xechdir (const char *path)
       }
       
       copying_putenv(env); /* update PWD if directory changed */
-      if (env) XeFree(env);
+      XeFree(env);
    }
    return status;
 }

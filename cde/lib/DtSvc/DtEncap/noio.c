@@ -234,8 +234,7 @@ SPC_Channel_Ptr open_noio_channel_object(SPC_Channel_Ptr channel,
     else {
       temp_dir_name = get_tmp_dir ();
       channel->logfile=tempnam(temp_dir_name,"SPC");
-      if (temp_dir_name != NULL)
-        free(temp_dir_name);
+      free(temp_dir_name);
     }
 
     /*

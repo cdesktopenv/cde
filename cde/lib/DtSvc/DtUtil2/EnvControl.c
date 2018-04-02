@@ -934,8 +934,7 @@ _DtEnvRemove(
 		     rather than try to do it ourselves.  
 		     */
 
-		  if (str)
-		    unsetenv(str);
+		  unsetenv(str);
 #else
 
 		    freeMe = pEnviron2[index];
@@ -1021,11 +1020,11 @@ _AddToPath (
 
     if (sPath != NULL)
     {
-	sNew = XtRealloc (sPath, 1+strlen(sPath)+1+strlen(sDir));
+	sNew = XtRealloc (sPath, strlen(sPath) + 1 + strlen(sDir) + 1);
     }
     else
     {
-	sNew = XtMalloc (1+strlen(sPath)+1+strlen(sDir));
+	sNew = XtMalloc (1 + strlen(sDir) + 1);
     }
 
     strcat (sNew, ":");
@@ -1187,7 +1186,7 @@ _DtWsmSetBackdropSearchPath (
 
 	    if (postDtEnvironmentString != postDtEnvironmentStringBuf)
 	    {
-	        if (postDtEnvironmentString) XtFree(postDtEnvironmentString);
+	        XtFree(postDtEnvironmentString);
 		postDtEnvironmentString = NULL;
 	    }
 

@@ -379,8 +379,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 			(void) sprintf(buf, unrecogMsgType, actName, filename,
 					val, _DtACTION_TYPE);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-			if ( val ) free(val);
-			if (buf) free(buf);
+			free(val);
+			free(buf);
 			return NULL;
 		}
 		break;
@@ -411,8 +411,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 				(void) sprintf(buf, unrecogMsgType, actName, filename,
 						start, _DtACTION_ARG_CLASS);
 				_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-				if ( val ) free(val);
-				if (buf) free(buf);
+				free(val);
+				free(buf);
 				return NULL;
 			}
 			*p = _DtACT_LIST_SEPARATOR_CHAR;
@@ -429,8 +429,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 			(void) sprintf(buf, unrecogMsgType, actName, filename,
 					start, _DtACTION_ARG_CLASS);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-			if ( val ) free(val);
-			if (buf) free(buf);
+			free(val);
+			free(buf);
 			return NULL;
 		}
 		break;
@@ -445,7 +445,7 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 			(void) sprintf(buf, unrecogMsgType, actName, filename,
 					val, _DtACTION_ARG_MODE);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-			if ( val ) free(val);
+			free(val);
 			buf = malloc(_DtAct_MAX_BUF_SIZE);
 			return NULL;
                 }
@@ -474,8 +474,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 						filename, val,
 						_DtACTION_ARG_COUNT);
 				_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-				if ( val ) free(val);
-				if (buf) free(buf);
+				free(val);
+				free(buf);
 				return NULL;
 			}
 		}
@@ -492,8 +492,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 			(void) sprintf(buf, unrecogMsgType, actName, filename,
 					val, _DtACTION_WINDOW_TYPE);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-			if (val) free(val);
-			if (buf) free(buf);
+			free(val);
+			free(buf);
 			return NULL;
 		}
 		break;
@@ -534,8 +534,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 				(void) sprintf(buf, unrecogMsgType, actName,
 						filename, val, _DtACTION_CWD);
 				_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-				if ( val ) free(val);
-				if (buf) free(buf);
+				free(val);
+				free(buf);
 				/*********************
 				  reject the entire record containing this field
 				*********************/
@@ -549,8 +549,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 			(void) sprintf(buf, unrecogMsgType, actName,
 					filename, val, _DtACTION_CWD);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-			if (val) free(val);
-			if (buf) free(buf);
+			free(val);
+			free(buf);
 			/*********************
 			  reject the entire record containing this field
 			*********************/
@@ -568,8 +568,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 			(void) sprintf(buf, unrecogMsgType, actName, filename,
 					val, _DtACTION_TT_CLASS);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-			if ( val ) free(val);
-			if (buf) free(buf);
+			free(val);
+			free(buf);
 			return NULL;
 		}
 		break;
@@ -586,8 +586,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 			(void) sprintf(buf, unrecogMsgType, actName, filename,
 					val, _DtACTION_TT_SCOPE);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-			if ( val ) free(val);
-			if (buf) free(buf);
+			free(val);
+			free(buf);
 			return NULL;
 		}
 		break;
@@ -616,8 +616,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 					val, _DtACTION_TTN_ARG,
 					"n", _DtACTION_TTN_MODE);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-			if ( val ) free(val);
-			if (buf) free(buf);
+			free(val);
+			free(buf);
 			return NULL;
 		}
 		break;
@@ -647,8 +647,8 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 					val, _DtACTION_TTN_ARG,
 					"n", _DtACTION_TTN_REP_TYPE);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
-			if ( val ) free(val);
-			if (buf) free(buf);
+			free(val);
+			free(buf);
 			return NULL;
 		}
 		break;
@@ -1038,7 +1038,7 @@ _DtActionConverter(DtDtsDbField * fields,
 		(void) sprintf (buf, noFields, fields[0].fieldValue, fileName);
 		_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
 		XtFree(fileName);
-		if (buf) XtFree(buf);
+		XtFree(buf);
 		_DtSvcProcessUnlock();
 		return(True);
 	}
@@ -1128,7 +1128,7 @@ _DtActionConverter(DtDtsDbField * fields,
 			 * code which follows the continue statement.
 			 *************************************************/
 			_DtSimpleError(DtProgName,DtWarning, NULL, "%s", buf);
-			if (buf) XtFree(buf);
+			XtFree(buf);
 			continue;
 		}
 
@@ -1156,7 +1156,7 @@ _DtActionConverter(DtDtsDbField * fields,
 				_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
 				_DtDtsDbDeleteRecord(act_rec,act_db);
 				XtFree(fileName);
-				if (buf) XtFree(buf);
+				XtFree(buf);
                                 free(fieldVal);
 				_DtSvcProcessUnlock();
 				return True;

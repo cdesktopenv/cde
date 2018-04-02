@@ -1062,8 +1062,8 @@ _DtDtsGetDataType(const char *file)
 		}
 		close(fd);
 	}
-	if(buff)free(buff);
-	if(name)free(name);
+	free(buff);
+	free(name);
 	return(dt);
 }
 
@@ -1566,7 +1566,7 @@ expand_keyword(const char *attr_in, const char *in_pathname)
 				continue;
 			}
 		}
-		if(netPath)free(netPath);
+		free(netPath);
 		return(buf);
 	}
 	else
@@ -1635,8 +1635,8 @@ expand_shell(const char *attr)
 			_DtSimpleError(
 				DtProgName, DtError, NULL,
 				(char*) &start[1], NULL);
-			if(nattr)free(nattr);
-			if(results)free(results);
+			free(nattr);
+			free(results);
 			return(NULL);
 		}
 
@@ -1650,7 +1650,7 @@ expand_shell(const char *attr)
 		srch = end+1;
 	}
 	results = append(results, srch);
-	if(nattr) free(nattr);
+	free(nattr);
 	return(results);
 }
 
@@ -1773,9 +1773,9 @@ DtDtsFreeAttributeList(DtDtsAttribute **list)
 	{
 		while(list[i] && list[i]->name)
 		{
-			if(list[i]->name)free(list[i]->name);
-			if(list[i]->value)free(list[i]->value);
-			if(list[i]) free(list[i]);
+			free(list[i]->name);
+			free(list[i]->value);
+			free(list[i]);
 			i++;
 		}
 		free(list);
@@ -1825,13 +1825,13 @@ DtDtsBufferToAttributeValue(const void *buffer, const int size, const char *attr
 void
 DtDtsFreeAttributeValue(char *value)
 {
-	if(value) free(value);
+	free(value);
 }
 
 void
 DtDtsFreeDataType(char *datatype)
 {
-	if(datatype) free(datatype);
+	free(datatype);
 }
 
 int

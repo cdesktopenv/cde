@@ -176,7 +176,7 @@ build_file_list(DtShmProtoIntList int_handle, DtDirPaths *dirs,
 				mtime_list[count-1] = buf.st_mtime;
 				boson_list[count-1] = _DtShmProtoAddStrtab(shm_handle,
 					pathname, &isnew);
-				if (pathname) free(pathname);
+				free(pathname);
 				continue;
 			}
 		}
@@ -188,8 +188,8 @@ build_file_list(DtShmProtoIntList int_handle, DtDirPaths *dirs,
 	data = _DtShmProtoAddIntLst(int_handle, count*sizeof(time_t)/sizeof(int), &header->mtimes_offset);
 	memcpy(data, mtime_list, count*sizeof(time_t));
 	header->files_count = count;
-	if(boson_list)free(boson_list);
-	if(mtime_list)free(mtime_list);
+	free(boson_list);
+	free(mtime_list);
 	return;
 }
 
@@ -662,9 +662,9 @@ printf("head->buffer_start_index = %d\n", head->buffer_start_index);
 				&head->name_list_offset);
 	_DtShmProtoCopyInttab(indexList, space);
 	_DtShmProtoDestroyInttab(indexList);
-	if(name_index)free(name_index);
-	if(list_of_recs)free(list_of_recs);
-	if(other)free(other);
+	free(name_index);
+	free(list_of_recs);
+	free(other);
 	return(index);
 }
 
