@@ -1466,9 +1466,19 @@ int	fix ;
 
 		bitmap = pcf->bitmaps + getINT32( (unsigned char *)(pcf->offsets + encodingOffset),
 		    pcf->bmp_fmt);
-		invertBits( bitmap + bmp_adj, pcf->bmp_fmt, ptn_width, cpy_height, bmp_ptn + ptn_adj);
-		putPtn( (unsigned char *)bmp_ptn, ptn_width, ptn_height );
-		fprintf(stdout,"ENDCHAR\n");
+                /* Only do this if non-NULL... */
+                if (bmp_ptn)
+                {
+                    invertBits( bitmap + bmp_adj, pcf->bmp_fmt,
+                                ptn_width, cpy_height, bmp_ptn + ptn_adj);
+                    putPtn( (unsigned char *)bmp_ptn, ptn_width, ptn_height );
+                }
+                else
+                {
+                    fprintf(stderr, "%s: bmp_ptn is NULL", __FUNCTION__);
+                }
+
+                fprintf(stdout,"ENDCHAR\n");
 		if( fix == FALSE )	free(bmp_ptn);
 	}
 	if( fix == TRUE )	free(bmp_ptn);
