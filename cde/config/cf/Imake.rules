@@ -134,6 +134,7 @@ XCOMM rules:  $TOG: Imake.rules /main/227 1998/02/02 12:07:57 kaleb $
  * NormalLintTarget		(srclist)
  * LintTarget			()
  * LinkSourceFile		(src,dir)
+ * CopySourceFile		(src,dir)
  * LinkFile			(tofile,fromfile)
  * MakeSubincludesForBuild	(step,dir,srclist)
  * LangNamedTargetSubdirs	(lang,name,dirs,verb,flags,subname)
@@ -2063,6 +2064,26 @@ NormalLintTarget($(SRCS))
 src:  dir/src								@@\
 	RemoveFile($@)							@@\
 	$(LN) $? $@							@@\
+									@@\
+NoConfigRec(src)							@@\
+									@@\
+includes:: src								@@\
+									@@\
+depend:: src								@@\
+									@@\
+clean::									@@\
+	RemoveFile(src)
+#endif
+
+
+/*
+ * CopySourceFile - snag source file from some other directory
+ */
+#ifndef CopySourceFile
+#define CopySourceFile(src,dir)						@@\
+src:  dir/src								@@\
+	RemoveFile($@)							@@\
+	$(CP) $? $@							@@\
 									@@\
 NoConfigRec(src)							@@\
 									@@\
