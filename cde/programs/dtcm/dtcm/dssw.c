@@ -945,7 +945,7 @@ load_dssw_times(DSSW *dssw, Tick start, Tick stop, Boolean set_no_time) {
 			dssw->stop_val.block = (buf[5] == 'a') ?
 				TIME_AM : TIME_PM;
 		} else {
-                        snprinf(dssw->stop_val.val, START_STOP_LEN, "%s", buf);
+                        snprintf(dssw->stop_val.val, START_STOP_LEN, "%s", buf);
 			dssw->stop_val.block = TIME_AM;
 		}
 	}
