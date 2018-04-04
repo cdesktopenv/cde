@@ -329,7 +329,7 @@ EmbeddedClientRegister (ControlData * control_data,
                {
                   embedded_client->pCD->pECD = (void *) embedded_client;
 
-                  if (XtParent(control_data->icon) == 
+                  if (control_data->icon && XtParent(control_data->icon) == 
                       XtParent(embedded_client->wControl) &&
                       remove_y < embedded_client->y)
                   {
