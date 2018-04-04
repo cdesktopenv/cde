@@ -976,8 +976,10 @@ GetTargetsIndex(Display *dpy, unsigned char *in_data, unsigned long atom_cnt, CA
     MatchTargets(targets_list, atoms, atom_cnt, targets_index_p);
     byte_order = targets_list->byte_order;
     num_target_lists = Swap2Bytes(byte_order,targets_list->num_target_lists);
-    if (*targets_index_p < num_target_lists)
+    if (*targets_index_p < num_target_lists) {
+	free(targets_list);
 	return;
+    }
 
     /* no match, add our targets to the list */
     old_size = Swap4Bytes(byte_order, targets_list->size);
