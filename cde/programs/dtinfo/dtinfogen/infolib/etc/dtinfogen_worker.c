@@ -828,8 +828,7 @@ makeAbsPathEnv(char *var)
     snprintf(newVar, pathlen, "%s=%s", var, newPath);
     putenv(newVar);
 
-    if (newPath)
-	XtFree(newPath);
+    XtFree(newPath);
 
     return newVar;
 }

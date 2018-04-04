@@ -129,8 +129,7 @@ build_bc_url(UAS_String bookcase_path)
     fprintf(stderr, "(DEBUG) URL=\"%s\"\n", (char*)bc_locator);
 #endif
 
-    if (bc_path)
-	free(bc_path);
+    free(bc_path);
 
     return bc_locator;
 }

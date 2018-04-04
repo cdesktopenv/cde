@@ -530,8 +530,7 @@ highlight_search_hit(_DtCvSegment* seg, unsigned int vcc, unsigned int len)
 		}
 		DtCvStrVcLenSync(seg);
 
-		if (sibling->handle.string.string)
-		    free (sibling->handle.string.string);
+		free (sibling->handle.string.string);
 		if (sibling->client_use) {
 		    delete (SegClientData*)sibling->client_use;
 		    sibling->client_use = NULL;

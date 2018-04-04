@@ -72,11 +72,12 @@ debug(cerr, base_dir);
 debug(cerr, base_nm);
 debug(cerr, base_ds);
 */
-   int len = MIN(strlen(base_locale), PATHSIZ - 1);
-   if (base_locale)
+   if (base_locale) {
+     int len = MIN(strlen(base_locale), PATHSIZ - 1);
      *((char *) memcpy (info_base_locale, base_locale, len) + len) = '\0';
-   else
+   } else {
      *info_base_locale = 0;
+   }
 
    char* nm ;
    int i;

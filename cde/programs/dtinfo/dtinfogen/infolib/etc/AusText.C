@@ -77,7 +77,7 @@ AusText::~AusText()
 {
   store->deActivateZone ( f_base );
 
-  if ( store ) { delete store; }
+  delete store;
   if ( f_search_store ) { delete f_search_store; }
 }
 
