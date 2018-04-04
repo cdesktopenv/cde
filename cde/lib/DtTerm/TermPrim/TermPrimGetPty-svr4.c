@@ -283,8 +283,16 @@ SetupPty(char *ptySlave, int ptyFd)
 
 #else /* linux */
 
-    chown(ptySlave, getuid(), getgid());
-    chmod(ptySlave, 0622);
+    if(chown(ptySlave, getuid(), getgid()) == -1) {
+	    (void) perror("Error performing chown()");
+	    /* exit the subprocess */
+	    return(1);
+    }
+    if(chmod(ptySlave, 0622) == -1) {
+	    (void) perror("Error performing chmod()");
+	    /* exit the subprocess */
+	    return(1);
+    }
 #endif /* linux */
 
     /* success... */

@@ -367,7 +367,7 @@ createSizeMenu
     }
 
     /* get a mnemonic for "Default"... */
-    (void) strcpy(buffer, (GETMESSAGE(NL_SETN_ViewMenu,1, "Default")));
+    snprintf(buffer, sizeof(buffer), "%s", (GETMESSAGE(NL_SETN_ViewMenu,1, "Default")));
 #ifdef NOTDEF
     for (c2 = buffer; *c2; c2++) {
 	if (!strchr(mnemonics, *c2) && !isspace(*c2))
@@ -575,7 +575,7 @@ createFontMenu
 		0, NULL, NULL, fontChangeCallback, (XtPointer) i1);
     }
 
-    (void) strcpy(buffer, (GETMESSAGE(NL_SETN_ViewMenu,9, "Default")));
+    snprintf(buffer, sizeof(buffer), "%s", (GETMESSAGE(NL_SETN_ViewMenu,9, "Default")));
     fontSizeToggles[i1] = _DtTermViewCreateToggleButton(submenu, buffer,
 	    0, NULL, NULL, defaultFontCallback, NULL);
     fontSizeTogglesDefault = i1;

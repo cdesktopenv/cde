@@ -411,8 +411,8 @@ UtmpEntryCreate(Widget w, pid_t pid, char *utmpLine)
     utPtr->ut_exit.e_exit = 2;
 #endif
 		
-    (void) strncpy(utPtr->ut_user, (userName && *userName) ? userName : "????",
-	    sizeof(utPtr->ut_user));
+    snprintf(utPtr->ut_user, sizeof(utPtr->ut_user),
+             "%s", (userName && *userName) ? userName : "????");
     (void) strncpy(utPtr->ut_line, utmpLine, sizeof(utPtr->ut_line));
     utPtr->ut_pid = pid;
     (void) time(&now);
@@ -529,7 +529,7 @@ UtmpEntryDestroy(Widget w, char *utmpLine)
     time_t now;
 
     ut.ut_type = USER_PROCESS;
-    (void) strncpy(ut.ut_line, utmpLine, sizeof(ut.ut_line));
+    snprintf(ut.ut_line, sizeof(ut.ut_line), "%s", utmpLine);
     (void) setutent();
     if (utPtr = getutline(&ut)) {
 	utPtr->ut_type = DEAD_PROCESS;

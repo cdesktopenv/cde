@@ -1696,7 +1696,7 @@ GeometryManager(Widget child, XtWidgetGeometry *desired,
 	c = "<unknown>";
     }
 
-    (void) printf("GeometryManager: %s widget (0x%lx) requesting geo change\n",
+    (void) printf("GeometryManager: %s widget (%p) requesting geo change\n",
 	    c, child);
 
     return(XtGeometryNo);

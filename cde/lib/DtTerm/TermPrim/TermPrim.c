@@ -1227,7 +1227,7 @@ Initialize(Widget ref_w, Widget w, Arg *args, Cardinal *num_args)
 		    tpd->boldTermFont =
 			    _DtTermPrimRenderFontCreate(w, tw->term.boldFont);
 		}
-                if (fontName) XFree(fontName) ;
+                XFree(fontName) ;
 	    }
 	}
     }
@@ -1569,7 +1569,7 @@ InitOrResizeTermBuffer(Widget w)
 		    ** we ran out of memory, no need try and resize the
 		    ** term buffer
 		    */
-		    resizeTermBuffer == False;
+		    resizeTermBuffer = False;
 		}
 	    }
 
@@ -1893,7 +1893,6 @@ handleNonMaskableEvents(Widget w, XtPointer eventData, XEvent *event,
 {
     DtTermPrimitiveWidget tw = (DtTermPrimitiveWidget) w;
     DtTermPrimData tpd = tw->term.tpd;
-    unsigned char *buffer = (unsigned char *) 0;
     int fd = tw->term.pty;
 
     switch (event->type) {
@@ -1925,11 +1924,6 @@ handleNonMaskableEvents(Widget w, XtPointer eventData, XEvent *event,
 
 	/* reinstall the pty input select... */
 	(void) _DtTermPrimStartOrStopPtyInput(w);
-	    
-	/* free the old buffer... */
-	if (buffer) {
-	    (void) XtFree((char *) buffer);
-	}
 
 	if ((tpd->scroll.nojump.pendingScroll == 0) &&
 		!moreInput(tw->term.pty)) {
@@ -2306,6 +2300,7 @@ _mergeEnv
     if (newEnv == NULL)
     {
 	printf("L10n MALLOC ERROR\n");
+	return NULL;
     }
 
     /*
@@ -3749,8 +3744,7 @@ _DtTermPrimPutEnv(char *c1, char *c2)
     char buffer[BUFSIZ];
     char *c;
 
-    (void) strcpy(buffer, c1);
-    (void) strcat(buffer, c2);
+    snprintf(buffer, sizeof(buffer), "%s%s", c1, c2);
     c = XtMalloc(strlen(buffer) + 1);
     (void) strcpy(c, buffer);
     (void) putenv(c);

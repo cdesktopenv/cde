@@ -620,7 +620,7 @@ _DtTermPrimLogFileCleanup
     for (logInfoTmp = logInfoHead->next; logInfoTmp;
 	    logInfoTmp = logInfoTmp->next) {
 	DebugF('s', 10, fprintf(stderr,
-		">>flushing logfile 0x%lx\n", logInfoTmp->logFile));
+		">>flushing logfile %p\n", logInfoTmp->logFile));
 	(void) fflush(logInfoTmp->logFile);
     }
     _DtTermProcessUnlock();

@@ -131,7 +131,7 @@ char **argv;
 	}
 
 	/* back up buffer... */
-	(void) strncpy(orig, buffer, BUFSIZ);
+	(void) strncpy(orig, buffer, BUFSIZ - 1);
 
 	bufPtr = buffer;
 

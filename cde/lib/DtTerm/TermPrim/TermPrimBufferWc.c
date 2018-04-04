@@ -257,7 +257,7 @@ _countWidth
             ** its a null character, but is still has a width for our
             ** purposes...
             */
-            charWidth == 1;
+            charWidth = 1;
 	    break;
           default:
             break;

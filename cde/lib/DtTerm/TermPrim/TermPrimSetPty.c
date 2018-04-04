@@ -380,7 +380,6 @@ _DtTermPrimPtyGetDefaultModes()
 		/* we got a valid reference tty... */
 		DebugF('p', 3, fprintf(stderr,
 			">>_DtTermPrimPtyGetDefaultModes() valid reference \"/dev/tty\"\n"));
-		refTty = tty;
 		refValid = 1;
 	    }
 	}

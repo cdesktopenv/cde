@@ -787,7 +787,7 @@ setSelection
     selectColEnd = (selectInfo->end - 1) % (selectInfo->columns + 1);
 
     DebugF('c', 1,
-	    fprintf(stderr, "set selection units: %d-%d  lines: %d-%d\n",
+	    fprintf(stderr, "set selection units: %ld-%ld  lines: %d-%d\n",
 	    selectInfo->begin, selectInfo->end,
 	    selectLineBegin,
 	    selectLineEnd));
@@ -2952,6 +2952,8 @@ _DtTermPrimSelectPasteClipboard
      if (malloc_size != 0) XtFree(total_tmp_value);
 
      (void) _DtTermPrimCursorOn(w);
+     
+     return True;
 }
 
 /* This is the event interface for paste clipboard */
