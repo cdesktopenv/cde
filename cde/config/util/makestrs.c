@@ -298,10 +298,12 @@ static void WriteHeader (tagline, phile, abi)
 
     (*headerproc[abi])(f, phile);
 
-    if (phile->tmpl) CopyTmplEpilog (phile->tmpl, f);
+    if (phile->tmpl) {
+	    CopyTmplEpilog (phile->tmpl, f);
+	    (void) fclose (phile->tmpl);
+    }
 
     (void) free (fileprotstr);
-    (void) fclose (phile->tmpl);
     (void) fclose (f);
 }
 
@@ -465,7 +467,10 @@ static void WriteSource(tagline, abi)
 
     (*sourceproc[abi])(abi);
 
-    if (tmpl) CopyTmplEpilog (tmpl, stdout);
+    if (tmpl) {
+	    CopyTmplEpilog (tmpl, stdout);
+	    fclose(tmpl);
+    }
 }
 
 static void DoLine(buf)
@@ -613,8 +618,7 @@ static void DoLine(buf)
 	    else
 		right = buf + 1;
 	    if (buf[0] == 'H') {
-		strncpy (lbuf, prefixstr, 1024);
-		strncat (lbuf, right, strlen(right));
+		snprintf(lbuf, sizeof(lbuf), "%s%s", prefixstr, right);
 		right = lbuf;
 	    }
 

@@ -179,7 +179,7 @@ int equivalent(lname, rname)
 	return 1;
     for (s = lname; *s && (s = strchr(s, '/')); s++) {
 	while (s[1] == '/')
-	    strcpy(s+1, s+2);
+	    memmove(s + 1, s + 2, strlen(s + 2) + 1);
     }
     return !strcmp(lname, rname);
 }
@@ -210,12 +210,12 @@ int rel;			/* if true, prepend "../" to fn before using */
 	return 1;
     }
 
-    if (rel)
-	strcpy (buf, "../");
-    else
-	buf[0] = '\0';
-    strcat (buf, fn);
-    
+    if (rel) {
+	snprintf(buf, sizeof(buf), "../%s", fn);
+    } else {
+	snprintf(buf, sizeof(buf), "%s", fn);
+    }
+
     if (!(df = opendir (buf))) {
 	msg ("%s: Cannot opendir", buf);
 	return 1;
