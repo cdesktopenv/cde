@@ -1967,6 +1967,9 @@ LibraryAgent::transferCB(Widget w, XtPointer client_data, XtPointer call_data)
 	    file = strdup(netfile);
 
 	if (file == NULL || *file == '\0') {
+		if(file) {
+			tt_free(file);
+		}
 		XtFree(netfile);
 		XmTransferDone(cs->transfer_id, XmTRANSFER_DONE_FAIL);
 		return;

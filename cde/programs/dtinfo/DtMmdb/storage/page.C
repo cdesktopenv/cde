@@ -413,15 +413,17 @@ Boolean page::_alloc_slot( int slot_num, int size, char*& str_ptr )
 
     int new_blank_len = slot_info -> string_leng() ;
 
-    if ( new_blank_len < size ) 
+    if ( new_blank_len < size ) {
+        delete slot_info;
         return false;
+    }
 
     slot_info -> set_string_ofst( end_ptr );
     slot_info -> set_string_leng( size );
     slot_info -> set_mode(spointer_t::DELETED, false);
     slot_info -> set_forward_ptr(0);
 
-   delete slot_info;
+    delete slot_info;
 
     if ( slot_num == count() ) {
 

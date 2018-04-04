@@ -38,6 +38,7 @@ string::string(char* str, int size)
 
 string::~string()
 {
+   delete sbuf;
 }
 
 char* string::c_str()

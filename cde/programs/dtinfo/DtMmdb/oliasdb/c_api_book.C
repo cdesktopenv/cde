@@ -191,8 +191,10 @@ DtMmdbHandle** DtMmdbBookGetTabList(DtMmdbInfoRequest* request, unsigned int* le
 
          while (*desc != '\0' && *desc != '\t') desc++;
 
-         if (*desc != '\t')
+         if (*desc != '\t') {
+           free(u);
            return 0;
+         }
 
          desc++;
 

@@ -398,6 +398,7 @@ pattern_done:
 	printf("pattern = %s.\n", pattern);
 #endif
 	xlfd = strdup(pattern);
+	free(dupfallback);
 	return(xlfd);
     }
     
@@ -456,6 +457,8 @@ pattern_done:
 #ifdef FONT_DEBUG
     printf("xlfd = %s.\n", xlfd);
 #endif
+
+    free(dupfallback);
     return(xlfd);
 			      
 }

@@ -818,10 +818,11 @@ a human readable character string.
 static void
 OutputAnAtomName(Widget w, Atom target)
 {
-    char  *AtomName = (char *)malloc(sizeof(char *) * 34);
+    char  *AtomName = NULL;
     
     AtomName = XGetAtomName(XtDisplay(w), target);
     printf("\t%s\n", AtomName);
+    XFree(AtomName);
 }
 
 // /////////////////////////////////////////////////////////////////
@@ -934,12 +935,14 @@ OutlineListView::printConvertCallback(WCallback *wcb)
 	    // write out the locator
 	    if (fputs(((TOC_Element *)te)->toc()->locator(), fp) == EOF) {
 		fprintf(stderr, "Cannot write file %s in current directory.\n", filepath);
+		fclose(fp);
 		return;
 	    }
 
 	    // write out eol
 	    if (fputs("\n", fp) == EOF) {
 		fprintf(stderr, "Cannot write file %s in current directory.\n", filepath);
+		fclose(fp);
 		return;
 	    }
 	    

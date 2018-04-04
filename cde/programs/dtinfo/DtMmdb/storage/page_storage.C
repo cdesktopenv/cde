@@ -698,8 +698,10 @@ int page_storage::deleteString(mmdb_pos_t loc, Boolean flush_opt)
 
       spointer_t *x = y -> get_spointer(slot_num);
 
-      if ( x -> get_mode(spointer_t::DELETED) == true )
+      if ( x -> get_mode(spointer_t::DELETED) == true ) {
+          delete x;
           return 0;
+      }
 
       loc = x -> forward_ptr();
 //debug(cerr, loc);

@@ -172,8 +172,10 @@ __bt_sync(dbp, flags)
 	if (ISSET(t, B_DELCRSR)) {
 		if ((p = (void*)malloc(t->bt_psize)) == NULL)
 			return (RET_ERROR);
-		if ((h = mpool_get(t->bt_mp, t->bt_bcursor.pgno, 0)) == NULL)
+		if ((h = mpool_get(t->bt_mp, t->bt_bcursor.pgno, 0)) == NULL) {
+			free(p);
 			return (RET_ERROR);
+		}
 		memmove(p, h, t->bt_psize);
 		if ((status =
 		    __bt_dleaf(t, h, t->bt_bcursor.index)) == RET_ERROR)
@@ -185,8 +187,10 @@ __bt_sync(dbp, flags)
 		CLR(t, B_MODIFIED);
 
 ecrsr:	if (ISSET(t, B_DELCRSR)) {
-		if ((h = mpool_get(t->bt_mp, t->bt_bcursor.pgno, 0)) == NULL)
+		if ((h = mpool_get(t->bt_mp, t->bt_bcursor.pgno, 0)) == NULL) {
+			free(p);
 			return (RET_ERROR);
+		}
 		memmove(h, p, t->bt_psize);
 		free(p);
 		mpool_put(t->bt_mp, h, MPOOL_DIRTY);

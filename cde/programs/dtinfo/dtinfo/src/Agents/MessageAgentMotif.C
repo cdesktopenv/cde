@@ -202,8 +202,10 @@ void
 MessageAgent::displayMessage (char *message_text)
 {
     char *message_string = strdup(message_text);
-  if(f_dialog == NULL)
+  if(f_dialog == NULL) {
+    free(message_string);
     return;
+  }
 
   XmStringLocalized mtfstring;
 
@@ -245,8 +247,10 @@ MessageAgent::displayError (char *message_text, Widget parent)
     char *message_string = strdup(message_text);
   if (f_dialog == NULL)
     create_ui(parent);
-  if (g_active)
+  if (g_active) {
+    free(message_string);
     return;
+  }
   g_active = TRUE;
 
   // Set the window title
@@ -282,8 +286,10 @@ MessageAgent::displayWarning (char *message_text, Widget parent)
     char *message_string = strdup(message_text);
   if (f_dialog == NULL)
     create_ui(parent);
-  if (g_active)
+  if (g_active) {
+    free(message_string);
     return;
+  }
   g_active = TRUE;
 
   // Set the window title
@@ -319,8 +325,10 @@ MessageAgent::displayInformation (char *message_text, Widget parent)
 
   if (f_dialog == NULL)
     create_ui(parent);
-  if (g_active)
+  if (g_active) {
+    free(message_string);
     return;
+  }
   g_active = TRUE;
 
   // Set the window title
@@ -433,8 +441,10 @@ MessageAgent::displayQuestion (char *message_text, Widget parent)
 
   if (f_dialog == NULL)
     create_ui(parent);
-  if (g_active)
+  if (g_active) {
+    free(message_string);
     return (FALSE);
+  }
   g_active = TRUE;
 
   // Set the window title
@@ -485,8 +495,10 @@ MessageAgent::displayQuit (char *message_text, Widget parent)
 
   if (f_dialog == NULL)
     create_ui(parent);
-  if (g_active)
+  if (g_active) {
+    free(message_string);
     return;
+  }
   g_active = TRUE;
 
   // Set the window title

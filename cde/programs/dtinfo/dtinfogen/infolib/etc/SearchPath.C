@@ -149,6 +149,7 @@ SearchPath::get_real_path( const char *file_name )
       fclose( fp );
       return ( full_path_name );
     }
+    fclose( fp );
   }
 
   return NULL;

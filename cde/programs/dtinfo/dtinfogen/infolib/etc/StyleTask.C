@@ -533,6 +533,7 @@ void StyleTask::write_record( void )
    else {
      Token::signalError(Token::User, Token::Continuable, 0, 0,
 			"Duplicate stylesheet id `%s'", localstr);
+     delete bogus;
      return;
    }
    
