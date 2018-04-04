@@ -610,14 +610,14 @@ void            read_d2x (struct or_hwordrec * glob_word, long field)
 static void     write_d2x (struct or_hwordrec * glob_word, long field)
 {
     if (field == OR_SWORDKEY) {
-	strcpy (d21new.or_swordkey, glob_word->or_hwordkey);
+	snprintf(d21new.or_swordkey, 16, "%s", glob_word->or_hwordkey);
 	d21new.or_swoffset =	htonl (glob_word->or_hwoffset);
 	d21new.or_swfree =	htonl (glob_word->or_hwfree);
 	d21new.or_swaddrs =	htonl (glob_word->or_hwaddrs);
 	RECWRITE (PROGNAME "102", &d21new, 0);
     }
     else if (field == OR_LWORDKEY) {
-	strcpy (d22new.or_lwordkey, glob_word->or_hwordkey);
+	snprintf(d22new.or_lwordkey, 40, "%s", glob_word->or_hwordkey);
 	d22new.or_lwoffset =	htonl (glob_word->or_hwoffset);
 	d22new.or_lwfree =	htonl (glob_word->or_hwfree);
 	d22new.or_lwaddrs =	htonl (glob_word->or_hwaddrs);

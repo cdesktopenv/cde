@@ -543,7 +543,8 @@ int             DtSearchQuery (
     LLIST          *llp;
     enum { TEXT, NAVSTRING, FZKEYI }
                     qryarg;
-    char            date1str[24];
+# define _DATE1STR_LEN (24)
+    char            date1str[_DATE1STR_LEN];
 
     if (!valid_dbname (dbname))
 	return DtSrREINIT;
@@ -621,7 +622,8 @@ QUERY_ERROR:
 	    *ptr++ = ' ';
 	}
 	*(--ptr) = 0;
-	strcpy (date1str, objdate2fzkstr (usrblk.objdate1));
+	strncpy(date1str, objdate2fzkstr (usrblk.objdate1), _DATE1STR_LEN);
+        date1str[_DATE1STR_LEN - 1] = 0;
 	fprintf (aa_stderr,
 	    PROGNAME "353 DtSearchQuery(): dbname='%s' srchtype='%c'\n"
 	    "  maxhits=%d keytypes='%s'\n"

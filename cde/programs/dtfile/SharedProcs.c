@@ -1631,6 +1631,7 @@ _DtPathFromInput(
       FILE *pfp;
       char command[MAXPATHLEN];
 
+      memset(command, 0, sizeof(command));
       sprintf(command,"echo %s",path);
 
       if((pfp=popen(command,"r")) != NULL)
@@ -1654,9 +1655,13 @@ _DtPathFromInput(
 		 read_ok = 0;
 	 }
 
-	 if (read_ok) 
+	 if (read_ok)
 	 {
-             command[MAXPATHLEN-1] = '\0';
+             int slen = strlen(command);
+             /* need to remove the trailing newline safely*/
+             if (slen >= 1)
+                 command[slen-1] = '\0';
+
              XtFree(path);
              path = XtNewString(command);
              pclose(pfp);

@@ -263,8 +263,10 @@ ds_save_resources(XrmDatabase rDB, char *filename)
   {
     if ((filename = getenv("DTCALCDEF")) == NULL)
       {
+          if ( !(home = getenv("HOME")) )
+              return 1;
+
           size_t fileLen = strlen(home) + 18;
-          home = getenv("HOME");
           if ( (filename = calloc(1, fileLen)) != NULL )
           {
               needsFree = true;
