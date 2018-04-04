@@ -507,6 +507,7 @@ int Client_Register(protocol_request_ptr prot)
   char *spc_prefix = "/.SPC_";
   char *spc_suffix;
   char tmpnam_buf[L_tmpnam + 1];
+  size_t buffsize;
 
   print_protocol_request((XeString)"--> REGISTER", prot);
   prot->channel=0;
@@ -563,10 +564,10 @@ int Client_Register(protocol_request_ptr prot)
     spc_suffix = basename(tmpnam_buf); /* Don't free result - not alloc'd! */
 
     /* Allocate space for tmppath, spc_prefix, and spc_suffix. */
-    tmpfile = (char *)malloc((strlen(tmppath) + strlen(spc_prefix) +
-			      strlen(spc_suffix) + 1) * sizeof(char));
+    buffsize = strlen(tmppath) + strlen(spc_prefix) + strlen(spc_suffix) + 1;
+    tmpfile = (char *)malloc(buffsize);
     if(tmpfile) {
-        snprintf(tmpfile, sizeof(tmpfile), "%s%s%s", tmppath, spc_prefix, spc_suffix);
+        snprintf(tmpfile, buffsize, "%s%s%s", tmppath, spc_prefix, spc_suffix);
     }
   }
   else {
@@ -653,8 +654,10 @@ int Client_Register(protocol_request_ptr prot)
 		             SPC_LocalHostinfo());
 
   prot=SPC_Filter_Connection(client_connection, NULL, REGISTER, TRUE);
-  if(prot==SPC_ERROR)
+  if(prot==SPC_ERROR) {
+    XeFree(tmpfile);
     return(SPC_ERROR);
+  }
   sprintf(buffer, (XeString)"--> REGISTER (%s)", netfile);
   print_protocol_request(buffer, prot);
   SPC_Free_Protocol_Ptr(prot);
