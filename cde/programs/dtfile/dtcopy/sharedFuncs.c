@@ -481,9 +481,11 @@ CopyCheckDeletePermission(
 #endif
     {
        char *tmpfile;
-       tmpfile = tempnam(parentdir,"quang");
-       if (creat(tmpfile,O_RDONLY)< 0)         /* Create a temporary file */
+       int rv;
+       tmpfile = tempnam(parentdir,"dtfile");
+       if ( (rv = creat(tmpfile,O_RDONLY)) < 0)  /* Create a temporary file */
           return -1;
+       close(rv);
        if (remove(tmpfile) < 0)                /* Delete the created file */
           return -1;
     }
