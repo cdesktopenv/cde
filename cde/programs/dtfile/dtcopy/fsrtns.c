@@ -187,7 +187,7 @@ CopyLink(char *sourceP, char *targetP, int repl, struct stat *statP)
   } while (l < 0 && errno == EINTR);
   if (l < 0)
     return errno;
-  buf[l-1] = 0;
+  buf[l] = 0;
   if (symlink(buf, targetP) == 0)
     return 0;
   else if (errno != EEXIST || !repl)
