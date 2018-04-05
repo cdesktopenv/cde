@@ -128,7 +128,7 @@ char *
 SearchPath::get_real_path( const char *file_name )
 {
   CC_TPtrSlistIterator<CC_String> path_it( *search_path_table );
-  FILE *fp;
+  FILE *fp = NULL;
 
   if (file_name == NULL || *file_name == '\0')
     return NULL;
@@ -149,7 +149,9 @@ SearchPath::get_real_path( const char *file_name )
       fclose( fp );
       return ( full_path_name );
     }
-    fclose( fp );
+    if(fp) {
+      fclose( fp );
+    }
   }
 
   return NULL;
