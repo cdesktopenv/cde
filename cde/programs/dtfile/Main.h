@@ -75,7 +75,7 @@
 
 /*  Generally used defines  */
 
-#define MAX_PATH        1024
+#define MAX_PATH        PATH_MAX
 #define BLOCK_SIZE      1024
 #define BUF_SIZE        256
 

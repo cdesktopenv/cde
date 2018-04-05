@@ -106,7 +106,7 @@
 #include "SharedMsgs.h"
 
 
-#define MAX_PATH 1024
+#define MAX_PATH PATH_MAX
 
 static char * CHANGEDIRECTORY = "ChangeDirectory";
 

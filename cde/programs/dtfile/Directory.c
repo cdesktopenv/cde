@@ -2857,11 +2857,14 @@ _ReadDir(
     /* read subdirectory */
     if (fp->is_subdir)
     {
-      /* construct sub directory name */
-      strcpy(subdir_name, directory_name);
-      if (subdir_name[strlen(subdir_name) - 1] != '/')
-        strcat(subdir_name, "/");
-      strcat(subdir_name, fp->file_name);
+        /* construct sub directory name */
+        strncpy(subdir_name, directory_name, MAX_PATH - 1);
+        if (strlen(subdir_name) > 0
+            && subdir_name[strlen(subdir_name) - 1] != '/')
+            strncat(subdir_name, "/", MAX_PATH - 1);
+
+        strncat(subdir_name, fp->file_name, MAX_PATH - 1);
+        subdir_name[MAX_PATH - 1] = 0;
 
       /* see if we know this entry from branch_list */
       if (!QueryBranchList(file_mgr_data, branch_list, subdir_name, &ts))

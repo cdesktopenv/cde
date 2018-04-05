@@ -39,7 +39,7 @@
  ************************************<+>*************************************/
 
 /* Macros */
-#define MAX_PATH      1024
+#define MAX_PATH      PATH_MAX
 
 #define G_OVERWRITE_EXISTING		0
 #define G_SKIP      			1

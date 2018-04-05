@@ -49,7 +49,8 @@
 
 #define TIGHTNESS 20   /* button spacing in Create_Action_Area */
 
-#define MAX_PATH  1024   /* Maximum path length */
+#include <limits.h>
+#define MAX_PATH  PATH_MAX   /* Maximum path length */
 
 /* Types  */
 
