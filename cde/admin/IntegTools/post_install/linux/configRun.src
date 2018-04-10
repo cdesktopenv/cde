@@ -24,9 +24,9 @@ XCOMM
 XCOMM check for existence of /etc/inetd.conf
 XCOMM
 
-    if [ ! -f $FILE ]	# highly unlikely
+    if [ ! -f $FILE ]	# highly unlikely (in the 1990s, quite likely in 2018)
     then
-	echo "" >$FILE
+	return
     fi
 
 XCOMM
@@ -90,6 +90,11 @@ UnfixInetdDotConf()
 FILE=/etc/inetd.conf
 TMPFILE=/tmp/inetd.conf
 CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
+
+    if [ ! -f $FILE ]	# highly unlikely (in the 1990s, quite likely in 2018)
+    then
+	return
+    fi
 
     HASH first remove the CDE rpc.cmsd entry
 
