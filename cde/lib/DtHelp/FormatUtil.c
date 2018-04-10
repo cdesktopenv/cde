@@ -583,13 +583,11 @@ _DtHelpGetNxtToken (
     /* Str is pointing at the start of the next token.  Depending on the
        type of token, malloc the memory and copy the token value. */
     if (*str == '\0')
-        token = str;
-
+        token = strdup(str);
     else if (*str == '\n') {
-        token = str;
+        token = strdup(str);
         str++;
     }
-
     else {
         /* We have some non-whitespace characters.  Find the end of */
         /* them and copy them into new memory. */
