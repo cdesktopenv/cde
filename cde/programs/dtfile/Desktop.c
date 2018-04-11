@@ -987,9 +987,9 @@ LoadDesktopInfo(
      char *session)
 {
    static char * desktopFileName = NULL;
-   char *fileName, *full_path, *ptr;
-   char *workSpace;
-   char *message;
+   char *fileName = NULL, *full_path = NULL, *ptr = NULL;
+   char *workSpace = NULL;
+   char *message = NULL;
    int i, j,  numWindows, count, index, bufferSize;
    int rX, rY;
    FILE * fptr;
@@ -1073,21 +1073,33 @@ LoadDesktopInfo(
    /* read the data for each Window, then popup that window */
    for (i = count; i < numWindows + count; i++)
    {
-      int len, toolbox, view, order, direction, positionEnabled;
+      int len = 0, toolbox, view, order, direction, positionEnabled;
 
       desktopWindow = desktop_data->desktopWindows[index];
 
-      fgets(message, bufferSize, fptr);
-      len = strlen(message); message[len-1] = 0x0;
-      desktopWindow->file_name = XtNewString(message);
+      if (fgets(message, bufferSize, fptr))
+      {
+          len = strlen(message); message[len-1] = 0x0;
+          desktopWindow->file_name = XtNewString(message);
+      }
+      else
+          desktopWindow->file_name = NULL;
 
-      fgets(message, bufferSize, fptr);
-      len = strlen(message); message[len-1] = 0x0;
-      workSpace = XtNewString(message);
+      if (fgets(message, bufferSize, fptr))
+      {
+          len = strlen(message); message[len-1] = 0x0;
+          workSpace = XtNewString(message);
+      }
+      else
+          workSpace = NULL;
 
-      fgets(message, bufferSize, fptr);
-      len = strlen(message); message[len-1] = 0x0;
-      desktopWindow->dir_linked_to = XtNewString(message);
+      if (fgets(message, bufferSize, fptr))
+      {
+          len = strlen(message); message[len-1] = 0x0;
+          desktopWindow->dir_linked_to = XtNewString(message);
+      }
+      else
+          desktopWindow->dir_linked_to = NULL;
 
       { /* Construct the full path and check for the file or link
            existence.
@@ -1130,30 +1142,46 @@ LoadDesktopInfo(
         path = NULL;
       }
 
-      fgets(message, bufferSize, fptr);
-      len = strlen(message); message[len-1] = 0x0;
-      if( strcmp(message, NULL_STRING) == 0 )
-        desktopWindow->restricted_directory = NULL;
+      if (fgets(message, bufferSize, fptr))
+      {
+          len = strlen(message); message[len-1] = 0x0;
+          if( strcmp(message, NULL_STRING) == 0 )
+              desktopWindow->restricted_directory = NULL;
+          else
+              desktopWindow->restricted_directory = XtNewString(message);
+      }
       else
-        desktopWindow->restricted_directory = XtNewString(message);
+          desktopWindow->restricted_directory = NULL;
 
-      fgets(message, bufferSize, fptr);
-      len = strlen(message); message[len-1] = 0x0;
-      if( strcmp(message, NULL_STRING) == 0 )
-        desktopWindow->title = NULL;
+      if (fgets(message, bufferSize, fptr))
+      {
+          len = strlen(message); message[len-1] = 0x0;
+          if( strcmp(message, NULL_STRING) == 0 )
+              desktopWindow->title = NULL;
+          else
+              desktopWindow->title = XtNewString(message);
+      }
       else
-        desktopWindow->title = XtNewString(message);
+          desktopWindow->title = NULL;
 
-      fgets(message, bufferSize, fptr);
-      len = strlen(message); message[len-1] = 0x0;
-      if( strcmp(message, NULL_STRING) == 0 )
-        desktopWindow->helpVol = NULL;
+      if (fgets(message, bufferSize, fptr))
+      {
+          len = strlen(message); message[len-1] = 0x0;
+          if( strcmp(message, NULL_STRING) == 0 )
+              desktopWindow->helpVol = NULL;
+          else
+              desktopWindow->helpVol = XtNewString(message);
+      }
       else
-        desktopWindow->helpVol = XtNewString(message);
+          desktopWindow->helpVol = NULL;
 
-      fgets(message, bufferSize, fptr);
-      sscanf( message, "%d %d %d %d %d %d %d\n",
-              &toolbox, &view, &order, &direction, &positionEnabled, &rX, &rY );
+      if (fgets(message, bufferSize, fptr))
+      {
+          sscanf( message, "%d %d %d %d %d %d %d\n",
+                  &toolbox, &view, &order, &direction, &positionEnabled, &rX, &rY );
+      }
+      else
+          message = NULL;
 
       desktopWindow->toolbox = (char)toolbox;
       desktopWindow->view = (char)view;
@@ -2707,8 +2735,8 @@ CalculateRootCoordinates (
      int *root_x,
      int *root_y)
 {
-   int      row, column;
-   Boolean  rDirection, cDirection, whichFirst;
+   int      row = 0, column = 0;
+   Boolean  rDirection = False, cDirection = False, whichFirst = False;
    Boolean  error = False;
    int      numGridsR, numGridsC, i, j;
 
@@ -3759,7 +3787,7 @@ CheckDesktopMarquee(
    XRectangle incoming_rect;
    unsigned char pixmapPosition;
    DtIconGadget g;
-   WorkspaceRec *workspaceData;
+   WorkspaceRec *workspaceData = NULL;
    unsigned char flags;
    Region region;
    Display *display;
@@ -3798,6 +3826,13 @@ CheckDesktopMarquee(
          workspaceData = desktop_data->workspaceData[i];
          break;
       }
+   }
+
+   /* This shouldn't happen, but... */
+   if (!workspaceData)
+   {
+       fprintf(stderr, "%s: workspaceData == NULL!\n", __FUNCTION__);
+       return;
    }
 
    /* now lets loop through the icons used, first check to see if they are
