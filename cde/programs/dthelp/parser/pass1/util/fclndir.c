@@ -144,6 +144,7 @@ void copyfile(pfile1,pfile2)
 	ret = system(pcmd);
 	ret = snprintf(pcmd, slen, "touch %s",pfile2);
 	ret = system(pcmd);
+	free(pcmd);
 }
 
 int nextchar(file, data)

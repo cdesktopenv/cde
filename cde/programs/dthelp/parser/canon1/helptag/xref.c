@@ -155,6 +155,7 @@ strcpy(helpext, ".xrh");
 tex = fopen(helpbase, "w");
 fprintf(tex, "\\gobble\001%s\002%%\n", m_signon);
 fputs("% Generated Cross-Reference Macros (for a particular document)\n", tex);
+fclose(tex);
 if (! xtree.data) return;
 
 n = 0;

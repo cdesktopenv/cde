@@ -192,6 +192,7 @@ int _DtHPrGenFileOrPrint(
    if ( (status = system(printCommand))!= 0)
    {
       unlink(tmpfile);
+      free(tmpfile);
       return status;                           /* RETURN */
    }
 

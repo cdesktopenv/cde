@@ -75,7 +75,7 @@ int main(argc, argv)
       fprintf(stderr, "**** Specify interface file ****\n") ;
       exit(TRUE) ;
       }
-    strncpy(iffile, argv[1], IFLEN) ;
+    strncpy(iffile, argv[1], IFLEN - 1) ;
     initialize() ;
     while (TRUE) {
       m_token = scan() ;

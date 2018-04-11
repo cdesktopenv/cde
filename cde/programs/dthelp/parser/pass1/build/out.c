@@ -483,7 +483,7 @@ char *partype(n)
 void srefout(M_NOPAR)
   {
     LOGICAL first = TRUE ;
-    int *mapbysref ;
+    int *mapbysref = NULL;
     SREFSTRUCT *srefp ;
     SREFDATA *data ;
     int count = 0 ;
@@ -544,6 +544,7 @@ void srefout(M_NOPAR)
       fputs(ndif, dtd) ;
       }
     SUBONE
+    free(mapbysref);
     }
 
 /* Output one element block in a template */

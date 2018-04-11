@@ -1610,6 +1610,7 @@ else
 	{
 	strcpy(pCharset, charset);
 	mb_free(&charset);
+	free(charset);
 	}
     else
 	strcpy(pCharset, isoString);
@@ -2809,7 +2810,7 @@ int	 tryleng = sizeof(pathbuf);
 int	 pathleng;
 int	 fileleng;
 SEARCH	*thispath;
-char	*mb_inputname;
+char	*mb_inputname = NULL;
 M_WCHAR *wc_try, *wc_outputname;
 int	 tossfile;
 char	 filebuf[BIGBUF];
@@ -2876,6 +2877,8 @@ else
     }
 
 if (try != pathbuf) mb_free(&try);
+
+mb_free(&mb_inputname);
 }
 
 /* Below is a modified version of m_cyclent() that returns a pointer

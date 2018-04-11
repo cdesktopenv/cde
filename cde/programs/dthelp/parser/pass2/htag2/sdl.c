@@ -6395,7 +6395,7 @@ while (incr)
  * the amount of padding needed in between the vstruct and the first
  * virpage to make everything work
 */
-static int CompressVstruct()
+static void CompressVstruct()
 {
 #define COMPRESS_PAD_LENGTH 10
 char      buffer[BUFSIZ], zTemp[4];
