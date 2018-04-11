@@ -991,7 +991,7 @@ main(
    struct timeval update_time_fs;
 #endif
    struct passwd * pw;
-   char current_directory[MAX_PATH];
+   char current_directory[MAX_PATH] = {0};
    struct passwd * pwInfo;
    char * homeDir;
    XEvent event;
