@@ -179,15 +179,18 @@ CopyLink(char *sourceP, char *targetP, int repl, struct stat *statP)
 /* copy a symbolic link */
 {
   int l, rc;
-  char buf[1024];
+  char buf[PATH_MAX];
 
   do {
     errno = 0;
-    l = readlink(sourceP, buf, sizeof(buf));
+    l = readlink(sourceP, buf, PATH_MAX - 1);
   } while (l < 0 && errno == EINTR);
+
   if (l < 0)
     return errno;
+
   buf[l] = 0;
+
   if (symlink(buf, targetP) == 0)
     return 0;
   else if (errno != EEXIST || !repl)

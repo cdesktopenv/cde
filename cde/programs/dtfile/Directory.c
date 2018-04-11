@@ -823,9 +823,9 @@ ReadFileData(
    stat_result = lstat (link_file_name, &stat_buf);
    if (stat_result == 0 && (stat_buf.st_mode & S_IFMT) == S_IFLNK)
    {
-     while ((link_len = readlink(link_file_name, link_path, MAX_PATH)) > 0)
+     while ((link_len = readlink(link_file_name, link_path, MAX_PATH - 1)) > 0)
      {
-       link_path[link_len] = '\0';
+       link_path[link_len] = 0;
        link_list = (char **)XtRealloc((char *)link_list, sizeof(char *) *
                                       (link_count + 2));
 
@@ -1069,9 +1069,9 @@ ReadFileData2(
    stat_result = lstat (link_file_name, &stat_buf);
    if ((stat_buf.st_mode & S_IFMT) == S_IFLNK)
    {
-     while ((link_len = readlink(link_file_name, link_path, MAX_PATH)) > 0)
+     while ((link_len = readlink(link_file_name, link_path, MAX_PATH - 1)) > 0)
      {
-       link_path[link_len] = NILL;
+       link_path[link_len] = 0;
        link_list = (char **)XtRealloc((char *)link_list, sizeof(char *) *
                                       (link_count + 2));
 
