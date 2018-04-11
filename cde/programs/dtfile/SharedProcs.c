@@ -393,7 +393,7 @@ _DtLoadSubdialogArray (
 
 {
    int i;
-   char number[10];
+   static char number[10];
 
    /* Load sub-dialogs */
    nameList[nameCount] = number;
@@ -404,7 +404,7 @@ _DtLoadSubdialogArray (
 
    for (i = 0; i < dialogCount; i++)
    {
-      sprintf(number, "%d", firstId);
+      snprintf(number, 10, "%d", firstId);
       (*dialogArray)[i] = _DtGetResourceDialogData(dialogId, dataBase, nameList);
       firstId++;
    }
@@ -423,14 +423,14 @@ _DtSaveSubdialogArray (
 
 {
    int i;
-   char number[10];
+   static char number[10];
 
    nameList[nameCount] = number;
    nameList[nameCount + 1] = NULL;
 
    for (i = 0; i < dialogCount; i++)
    {
-      sprintf(number, "%d", firstId);
+      snprintf(number, 10, "%d", firstId);
       _DtWriteDialogData(dialogArray[i], fd, nameList);
       firstId++;
    }
@@ -1374,10 +1374,12 @@ RetrieveAndUseNameTemplateInfo(
       sprintf(buffer_name, name_template, template_input);
       DtDtsFreeAttributeValue(name_template);
       XtFree(template_input);
+      XtFree(name_template);
       return(buffer_name);
    }
    else
    {
+      XtFree(name_template);
       return(template_input);
    }
 }
@@ -1628,7 +1630,7 @@ _DtPathFromInput(
 
    /* Resolve, if there're any, environment variables */
    {
-      FILE *pfp;
+      FILE *pfp = NULL;
       char command[MAXPATHLEN];
 
       memset(command, 0, sizeof(command));
@@ -1650,7 +1652,7 @@ _DtPathFromInput(
 	 	  sleep (1);
  		  if (NULL != (fgets(command,MAXPATHLEN,pfp))) 
 		      break;
-	     }
+              }
 	     if (i >= 5)
 		 read_ok = 0;
 	 }
@@ -1665,7 +1667,13 @@ _DtPathFromInput(
              XtFree(path);
              path = XtNewString(command);
              pclose(pfp);
+             pfp = NULL;
 	 }
+      }
+      if (pfp)
+      {
+          pclose(pfp);
+          pfp = NULL;
       }
    }
 
