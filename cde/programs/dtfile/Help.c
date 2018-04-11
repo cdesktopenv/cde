@@ -498,22 +498,21 @@ MapFileTypeToHelpString(
       return(buf);
    }
 
-#ifdef old
-   if (miscData)
-      /* The DtGetActionDescription function must be modified to
-         accept a non-integral second parameter.  (Filetypes are no
-         longer expressed as integers. */
-      desc = DtGetActionDescription(filetype, -1);
-   else
-#endif
-      desc = DtDtsDataTypeToAttributeValue(filetype,
-                                           DtDTS_DA_DESCRIPTION,
-                                           NULL);
+   desc = DtDtsDataTypeToAttributeValue(filetype,
+                                        DtDTS_DA_DESCRIPTION,
+                                        NULL);
 
    isAction = DtDtsDataTypeIsAction(filetype);
 
    if (desc)
-      return(XtNewString(desc));
+   {
+      char *descptr = XtNewString(desc);
+      XtFree((char *)desc);
+      if (descptr)
+         return descptr;
+      else
+         return NULL;
+   }
 
    /* No description found for this filetype */
    if (isAction)
