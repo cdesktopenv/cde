@@ -2713,7 +2713,7 @@ MoveToTrashProcess(
    DIR * dirp;
    struct dirent * entry;
    Boolean success;
-   int i, rc;
+   int i, rc, rv;
    char savechar;
 
    for (i = 0; i < file_count; i++)
@@ -2728,8 +2728,8 @@ MoveToTrashProcess(
          pipe_msg = PIPEMSG_OTHER_ERROR;
          rc = BAD_FILE_ERROR;
          DPRINTF(("MoveToTrashProcess: sending BAD_FILE_ERROR\n"));
-         write(pipe_fd, &pipe_msg, sizeof(short));
-         write(pipe_fd, &rc, sizeof(int));
+         rv = write(pipe_fd, &pipe_msg, sizeof(short));
+         rv = write(pipe_fd, &rc, sizeof(int));
          continue;
       }
       if (path && MatchesSacredDirectory(path))
@@ -2739,8 +2739,8 @@ MoveToTrashProcess(
          pipe_msg = PIPEMSG_OTHER_ERROR;
          rc = BAD_FILE_SACRED;
          DPRINTF(("MoveToTrashProcess: sending BAD_FILE_SACRED\n"));
-         write(pipe_fd, &pipe_msg, sizeof(short));
-         write(pipe_fd, &rc, sizeof(int));
+         rv = write(pipe_fd, &pipe_msg, sizeof(short));
+         rv = write(pipe_fd, &rc, sizeof(int));
          continue;
       }
 
@@ -2778,8 +2778,8 @@ MoveToTrashProcess(
            XtFree(path);
            pipe_msg = PIPEMSG_OTHER_ERROR;
            DPRINTF(("MoveToTrashProcess: sending BAD_TRASH message\n"));
-           write(pipe_fd, &pipe_msg, sizeof(short));
-           write(pipe_fd, &rc, sizeof(int));
+           rv = write(pipe_fd, &pipe_msg, sizeof(short));
+           rv = write(pipe_fd, &rc, sizeof(int));
            continue;
          }
          else if (CheckAccess(path, W_OK) != 0 && !S_ISLNK(s1.st_mode))
@@ -2789,8 +2789,8 @@ MoveToTrashProcess(
             pipe_msg = PIPEMSG_OTHER_ERROR;
             rc = VERIFY_FILE;
             DPRINTF(("MoveToTrashProcess: sending VERIFY_FILE\n"));
-            write(pipe_fd, &pipe_msg, sizeof(short));
-            write(pipe_fd, &rc, sizeof(int));
+            rv = write(pipe_fd, &pipe_msg, sizeof(short));
+            rv = write(pipe_fd, &rc, sizeof(int));
             continue;
          }
 
@@ -2824,8 +2824,8 @@ MoveToTrashProcess(
                pipe_msg = PIPEMSG_OTHER_ERROR;
                rc = VERIFY_DIR;
                DPRINTF(("MoveToTrashProcess: sending VERIFY_DIR\n"));
-               write(pipe_fd, &pipe_msg, sizeof(short));
-               write(pipe_fd, &rc, sizeof(int));
+               rv = write(pipe_fd, &pipe_msg, sizeof(short));
+               rv = write(pipe_fd, &rc, sizeof(int));
                continue;
             }
          }
@@ -2841,7 +2841,7 @@ MoveToTrashProcess(
       {
          pipe_msg = PIPEMSG_DONE;
          DPRINTF(("MoveToTrashProcess: sending DONE\n"));
-         write(pipe_fd, &pipe_msg, sizeof(short));
+         rv = write(pipe_fd, &pipe_msg, sizeof(short));
          PipeWriteString(pipe_fd, path);
          PipeWriteString(pipe_fd, to);
       }
@@ -3448,7 +3448,7 @@ RestoreProcess(
 	int *rc,
 	Boolean CheckedAlready)
 {
-   int i, j;
+   int i, j, rv;
    char *full_dirname;
    char *from, *to;
    char *ptr;
@@ -3469,8 +3469,8 @@ RestoreProcess(
         pipe_msg = PIPEMSG_DONE;
         rc[0] = -1;
         DPRINTF(("RestoreProcess: Unable to Resolve local path name\n"));
-        write(pipe_fd, &pipe_msg, sizeof(short));
-        write(pipe_fd, rc, sizeof(int));
+        rv = write(pipe_fd, &pipe_msg, sizeof(short));
+        rv = write(pipe_fd, rc, sizeof(int));
         return;
       }
    }
@@ -3540,8 +3540,8 @@ RestoreProcess(
    /* send return codes back trough the pipe */
    pipe_msg = PIPEMSG_DONE;
    DPRINTF(("RestoreProcess: sending DONE\n"));
-   write(pipe_fd, &pipe_msg, sizeof(short));
-   write(pipe_fd, rc, file_count * sizeof(int));
+   rv = write(pipe_fd, &pipe_msg, sizeof(short));
+   rv = write(pipe_fd, rc, file_count * sizeof(int));
 
    XtFree(full_dirname);
 }
@@ -3832,7 +3832,7 @@ EmptyTrashProcess(
 	int del_count,
 	int *rc)
 {
-   int i;
+   int i, rv;
    short pipe_msg;
 
    /*
@@ -3848,8 +3848,8 @@ EmptyTrashProcess(
    /* send return codes back trough the pipe */
    pipe_msg = PIPEMSG_DONE;
    DPRINTF(("EmptyTrashProcess: sending DONE\n"));
-   write(pipe_fd, &pipe_msg, sizeof(short));
-   write(pipe_fd, rc, del_count * sizeof(int));
+   rv = write(pipe_fd, &pipe_msg, sizeof(short));
+   rv = write(pipe_fd, rc, del_count * sizeof(int));
 }
 
 
@@ -4169,11 +4169,20 @@ CheckDeletePermission(
 #endif
     {
        char *tmpfile;
-       tmpfile = tempnam(parentdir,"quang");
-       if (creat(tmpfile,O_RDONLY)< 0)         /* Create a temporary file */
-          return -1;
+       tmpfile = tempnam(parentdir,"dtfile");
+       if (!tmpfile)
+           return -1;
+       if (creat(tmpfile,O_RDONLY) < 0)  /* Create a temporary file */
+       {
+           free(tmpfile);
+           return -1;
+       }
        if (remove(tmpfile) < 0)                /* Delete the created file */
-          return -1;
+       {
+           free(tmpfile);
+           return -1;
+       }
+       free(tmpfile);
     }
 
     /* root user can delete anything */
@@ -4238,9 +4247,15 @@ CheckDeletePermissionRecur(
 
       /* recursively check permission on this file */
       if (CheckDeletePermissionRecur(destinationPath))
-        return -1;
+      {
+          closedir(dirp);
+          return -1;
+      }
+
     }
   }
+
+  closedir(dirp);
 
   return 0;
 }
@@ -4271,7 +4286,8 @@ RestoreObject(
 {
   struct stat statsrc,stattar;
   Boolean status;
-  char *localdir,*chrptr;
+  char *localdir = NULL,*chrptr;
+  int rv;
 
   if(!CheckedAlready)
   {
@@ -4297,8 +4313,10 @@ RestoreObject(
          return SKIP_FILE;
     }
   }
+
+  free(localdir);
   return ((int )FileManip((Widget)w, MOVE_FILE, source, target, TRUE,
-                                  FileOpError, False, NOT_DESKTOP));
+                          FileOpError, False, NOT_DESKTOP));
 }
 static void
 CreateRestoreDialog(
