@@ -1003,7 +1003,7 @@ ProcessBufferDropOnFolder (
       {
          DirectorySet * directory_data;
          char * directory_name;
-         FileViewData * file_view_data;
+         FileViewData * file_view_data = NULL;
          int j;
 
          DeselectAllFiles (file_mgr_data);
@@ -1024,7 +1024,8 @@ ProcessBufferDropOnFolder (
                }
             }
          }
-         PositionFileView(file_view_data, file_mgr_data);
+         if (file_view_data)
+             PositionFileView(file_view_data, file_mgr_data);
       }
    } /* endif for Tree View */
 
