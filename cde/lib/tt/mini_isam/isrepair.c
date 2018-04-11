@@ -75,7 +75,7 @@ isrepair(isfname, verbose)
 {
   extern      char *rp_readrecord_v(), *rp_readrecord_f();
   char	      cntlpg[ISCNTLSIZE];
-  int	      datfd, indfd, varfd;
+  int	      datfd = -1, indfd = -1, varfd = -1;
   int	      minreclen, maxreclen;
   int	      nrecords_fromcntl;
   int	      varflag;
@@ -225,9 +225,18 @@ isrepair(isfname, verbose)
   /*
    * Close all file descriptors.
    */
-  (void)close(datfd);
-  (void)close(indfd);
-  (void)close(varfd);
+  if(datfd != -1) {
+    close(datfd);
+    datfd = -1;
+  }
+  if(indfd != -1) {
+    close(indfd);
+    indfd = -1;
+  }
+  if(varfd != -1) {
+    close(varfd);
+    varfd = -1;
+  }
   (void)isclose(isfd);
 
   (void) sigfillset(&allsignals);
@@ -304,9 +313,15 @@ isrepair(isfname, verbose)
 
  ERROR:
   (void)print("\007Didn't repair ISAM file '%s'\n", isfname);
-  (void)close(datfd);
-  (void)close(indfd);
-  (void)close(varfd);
+  if(datfd != -1) {
+    close(datfd);
+  }
+  if(indfd != -1) {
+    close(indfd);
+  }
+  if(varfd != -1) {
+    close(varfd);
+  }
   (void)isclose(isfd);
   if (namebuf != nameBuf) free(namebuf);
   if (buffer != Buffer) free(buffer);
