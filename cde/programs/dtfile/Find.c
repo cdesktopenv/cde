@@ -948,6 +948,8 @@ GetDefaultValues( void )
    /*  Allocate and initialize the default find file dialog data.  */
 
    find_data = (FindData *) XtMalloc (sizeof (FindData));
+   if (!find_data)
+       return NULL;
 
    find_data->displayed = False;
    find_data->x = 0;
@@ -955,7 +957,11 @@ GetDefaultValues( void )
    find_data->height = 0;
    find_data->width = 0;
 
-   (void)getcwd((char *)dirbuf, (unsigned int)MAX_DIR_PATH_LEN);
+   if (!getcwd((char *)dirbuf, (unsigned int)MAX_DIR_PATH_LEN))
+   {
+       XtFree((char *)find_data);
+       return NULL;
+   }
    if(restrictMode &&
            strncmp(users_home_dir, dirbuf, strlen(users_home_dir)) != 0)
    {
@@ -1322,14 +1328,14 @@ InvalidFindMessage(
         int messageIndex,
         String extra_string )
 {
-   String string;
-   String new_string;
-   char * title;
+   String string = NULL;
+   String new_string = NULL;
+   char * title = NULL;
    static String badDirectoryNameMessage = NULL;
    static String noDirectoryAccessMessage = NULL;
    static String noSearchArgumentMessage = NULL;
    static String noExistanceMessage = NULL;
-   char * tmpStr;
+   char * tmpStr = NULL;
 
    if (noExistanceMessage == NULL)
    {
@@ -1363,7 +1369,7 @@ InvalidFindMessage(
            break;
    }
 
-   if (extra_string)
+   if (extra_string && string)
    {
       new_string = XtMalloc (strlen(string) + strlen(extra_string) + 1);
       (void) sprintf(new_string, string, extra_string);
@@ -1732,6 +1738,7 @@ ExecuteFind(
 #ifdef __osf__
    extern void sigchld_handler(int);
 #endif /* __osf__ */
+   int rv;
 
    if(strcmp(find_data->content, "") == 0)
    {
@@ -1794,34 +1801,36 @@ ExecuteFind(
 /* needed for getaccess () call */
    save_ruid = getuid();
 #if !defined(SVR4) && ! defined(sco)
-   setreuid(geteuid(),-1);
+   rv = setreuid(geteuid(),-1);
 #else
-   setuid(geteuid());
+   rv = setuid(geteuid());
 #endif
    save_rgid = getgid();
 #if !defined(SVR4) && !defined(sco)
-   setregid(getegid(),-1);
+   rv = setregid(getegid(),-1);
 #else
-   setgid(getegid());
+   rv = setgid(getegid());
 #endif
    access_priv = access (path, R_OK);
 #if !defined(SVR4) && !defined(sco)
-   setreuid(save_ruid,-1);
-   setregid(save_rgid,-1);
+   rv = setreuid(save_ruid,-1);
+   rv = setregid(save_rgid,-1);
 #else
-   setuid(save_ruid);
-   setgid(save_rgid);
+   rv = setuid(save_ruid);
+   rv = setgid(save_rgid);
 #endif
+
+
    if (access_priv == -1 && geteuid() != root_user)
    {
 #else
 #  if defined(__hp_osf) || defined(__ultrix) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
-   setreuid(geteuid(),-1);
+   rv = setreuid(geteuid(),-1);
    if (access ((char *) path, R_OK) == -1)
    {
 #  else
 #    ifdef BLS
-   setresuid(geteuid(),-1,-1);
+   rv =setresuid(geteuid(),-1,-1);
    if (access ((char *) path, R_OK) == -1)
    {
 #    else
