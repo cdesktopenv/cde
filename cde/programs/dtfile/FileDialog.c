@@ -1478,10 +1478,10 @@ RenameOk(
         XtPointer call_data )
 {
    DialogCallbackStruct * call_struct = (DialogCallbackStruct *)client_data;
-   char *title;
+   char *title = NULL;
    char *msg = NULL;
    char *new_name = NULL, *new_dir = NULL, new[MAX_PATH];
-   unsigned int btnMask;
+   unsigned int btnMask = 0;
    RenameDoneData *data;
    char to_host[256];
    char to_dir[MAX_PATH];
@@ -1937,7 +1937,7 @@ ShowMakeFileDialog(
    DialogData * dialog_data;
    FileMgrData * file_mgr_data;
 
-   Widget shell;
+   Widget shell = NULL;
    Widget form;
    Widget new_name;
    Widget new_text;
@@ -1952,7 +1952,7 @@ ShowMakeFileDialog(
    int flag=FLAG_RESET;
 
    DialogCallbackStruct * call_struct;
-   char * tmpStr, *tempStr;
+   char * tmpStr = NULL, *tempStr = NULL;
    XmString label_string;
 
    Arg args[20];
