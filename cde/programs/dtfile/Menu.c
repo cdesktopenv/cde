@@ -1333,7 +1333,7 @@ SetMenuSensitivity(
    FileMgrRec * file_mgr_rec;
    XmMenuShellWidget mshell = (XmMenuShellWidget) w;
    DialogData * dialog_data;
-   FileMgrData * file_mgr_data;
+   FileMgrData * file_mgr_data = NULL;
 
    _XmGetActiveTopLevelMenu(mshell->composite.children[0], &mbar);
    XtSetArg(args[0], XmNuserData, &file_mgr_rec);
@@ -1518,6 +1518,9 @@ SetMenuSensitivity(
         }
       }
    }
+
+   if (!file_mgr_data)
+       return;
 
    if(showFilesystem )
    {
