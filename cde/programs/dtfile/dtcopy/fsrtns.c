@@ -211,7 +211,7 @@ CopyDir(char *sourceP, char *targetP, int repl, int link, struct stat *statP)
 {
   DIR *dirP;                      /* open directory */
   struct dirent *entryP;          /* directory entry */
-  char srcname[1024], tgtname[1024];
+  char srcname[PATH_MAX], tgtname[PATH_MAX];
   int srclen, tgtlen;
   int rc;
 
@@ -225,7 +225,10 @@ CopyDir(char *sourceP, char *targetP, int repl, int link, struct stat *statP)
   if (rc < 0 && errno == EEXIST && repl) {
     rc = EraseObject(targetP, repl);
     if (rc)
-      return rc;
+    {
+        closedir(dirP);
+        return rc;
+    }
     rc = mkdir(targetP, statP->st_mode & 0777);
   }
   if (rc < 0) {
@@ -247,11 +250,11 @@ CopyDir(char *sourceP, char *targetP, int repl, int link, struct stat *statP)
   }
 
   /* prepare source and target names */
-  strcpy(srcname, sourceP);
+  snprintf(srcname, PATH_MAX, "%s", sourceP);
   srclen = strlen(srcname);
   if (srcname[srclen - 1] != '/')
     srcname[srclen++] = '/';
-  strcpy(tgtname, targetP);
+  snprintf(tgtname, PATH_MAX, "%s", targetP);
   tgtlen = strlen(tgtname);
   if (tgtname[tgtlen - 1] != '/')
     tgtname[tgtlen++] = '/';
