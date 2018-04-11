@@ -2157,7 +2157,7 @@ _FileMoveCopy(
 	}
 	else
 	{
-	    source_dir = strdup(".");
+	    source_dir = ".";
 	    source_file = file_set[i];
 	}
 
@@ -3364,7 +3364,7 @@ CreateFileFromBuffer(int    pipe_s2m,
 	             void   *buffer,
 	             int    size)
 {
-  int fnew;
+  int fnew = -1;
   int rc=0;
   unsigned int mode;
   Boolean BufferIsExecutable=FALSE;
@@ -3411,12 +3411,16 @@ CreateFileFromBuffer(int    pipe_s2m,
     else
     {
       close(fnew);
+      fnew = -1;
       DPRINTF (("CreateBuffeFromFile: Target file %s created\n",
 	         fully_qualified_name));
     }
   }
 
-  /* Handle errors */
+  if (fnew >= 0)
+      close(fnew);
+
+/* Handle errors */
   if (rc < 0)
   {
     switch (savedError)
@@ -3462,7 +3466,7 @@ DisplayDuplicateOpError(
     int index)
 
 {
-  char *msgptr,*err_msg,*title,*tchar;
+  char *msgptr,*err_msg = NULL,*title,*tchar;
   Widget dialogwidget;
 
   if (cb_data->mode == MOVE_FILE)
