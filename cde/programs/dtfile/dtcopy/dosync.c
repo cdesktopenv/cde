@@ -299,7 +299,7 @@ GetDirEntry(char *fname, FileOp *op, int *rc)
 static int
 GetDir(char *dirname, PatternList *xl, PatternList *sl, DirEntry **listPP)
 {
-  DIR *dirP;                      /* open directory */
+  DIR *dirP = NULL;                      /* open directory */
   struct dirent *entryP;          /* directory entry */
   DirEntry *deP, *firstP, **linkPP;
   char fname[1024], *fnP;
@@ -345,6 +345,7 @@ GetDir(char *dirname, PatternList *xl, PatternList *sl, DirEntry **listPP)
 
     /* if error occurred, call error callback function */
     if (rc != 0 && syncErrorCallback && syncErrorCallback(op, fname, rc) < 0) {
+      closedir(dirP);
       FreeDir(firstP);
       return -1;
     }
