@@ -2414,6 +2414,7 @@ GetSessionDir(
          char *user_session_str;
          char *toolbox_dir;
          char *current_dir;
+         size_t len = 0;
 
          root_toolbox = (file_mgr_data->host);
 
@@ -2425,19 +2426,26 @@ GetSessionDir(
          toolbox_dir = file_mgr_data->current_directory;
          toolbox_dir += strlen(file_mgr_data->restricted_directory);
 
-         current_dir = XtMalloc(strlen(root_toolbox) +
-                                strlen(user_session_str) +
-                                strlen(toolbox_dir) + 1);
-         sprintf(current_dir, "%s%s%s", root_toolbox,
-                                        user_session_str,
-                                        toolbox_dir);
-         file_mgr_data->current_directory = current_dir;
+         len = strlen(root_toolbox) +
+             strlen(user_session_str) +
+             strlen(toolbox_dir) + 1;
+         current_dir = XtMalloc(len);
+         if (current_dir)
+         {
+             snprintf(current_dir, len, "%s%s%s", root_toolbox,
+                      user_session_str,
+                      toolbox_dir);
+             file_mgr_data->current_directory = current_dir;
+         }
 
-         file_mgr_data->restricted_directory = XtMalloc(strlen(root_toolbox) +
-                                                 strlen(user_session_str) +
-                                                 1);
-         sprintf(file_mgr_data->restricted_directory, "%s%s", root_toolbox,
-                                                              user_session_str);
+         len = strlen(root_toolbox) + strlen(user_session_str) + 1;
+         file_mgr_data->restricted_directory = XtMalloc(len);
+         if (file_mgr_data->restricted_directory)
+         {
+             snprintf(file_mgr_data->restricted_directory, len, "%s%s",
+                      root_toolbox,
+                      user_session_str);
+         }
       }
       else
       {
@@ -2536,10 +2544,11 @@ BranchListToString(
    int i;
    Boolean first = True;
    char * branch_name;
+   int rv;
 
    if (*value != NULL)
    {
-      (void) write (fd, out_buf, strlen (out_buf));
+      rv = write (fd, out_buf, strlen (out_buf));
 
       i = 0;
       branch_name = (*value)[i];
@@ -2547,17 +2556,17 @@ BranchListToString(
       while (branch_name != NULL)
       {
          if (!first)
-            (void) write (fd, ", ", strlen (", "));
+            rv = write (fd, ", ", strlen (", "));
          else
             first = False;
 
-         (void) write (fd, branch_name, strlen (branch_name));
+         rv = write (fd, branch_name, strlen (branch_name));
 
          i++;
          branch_name = (*value)[i];
       }
 
-      (void) write (fd, "\n", strlen ("\n"));
+      rv = write (fd, "\n", strlen ("\n"));
    }
 }
 
@@ -2580,10 +2589,11 @@ SelectionListToString(
    Boolean first = True;
    FileViewData * file_view_data;
    DirectorySet * directory_set;
+   int rv; /* probably should actually check this... */
 
    if (*value != NULL)
    {
-      (void) write (fd, out_buf, strlen (out_buf));
+      rv = write (fd, out_buf, strlen (out_buf));
 
       i = 0;
       file_view_data = (*value)[i];
@@ -2594,24 +2604,24 @@ SelectionListToString(
          directory_set  = (DirectorySet *) file_view_data->directory_set;
 
          if (!first)
-            (void) write (fd, ", ", strlen (", "));
+             rv =  write (fd, ", ", strlen (", "));
          else
             first = False;
 
 
-         (void) write (fd, directory_set->name, strlen (directory_set->name));
+         rv = write (fd, directory_set->name, strlen (directory_set->name));
 
          if (strcmp (directory_set->name, "/") != 0)
-            (void) write (fd, "/", strlen ("/"));
+            rv = write (fd, "/", strlen ("/"));
 
-         (void) write (fd, file_view_data->file_data->file_name,
-                strlen (file_view_data->file_data->file_name));
+         rv = write (fd, file_view_data->file_data->file_name,
+                     strlen (file_view_data->file_data->file_name));
 
          i++;
          file_view_data = (*value)[i];
       }
 
-      (void) write (fd, "\n", strlen ("\n"));
+      rv = write (fd, "\n", strlen ("\n"));
    }
 
 }
@@ -5519,7 +5529,7 @@ CheckMoveType(
    Atom     pCurrent;
    Screen   *currentScreen;
    int      screen;
-   char * workspace_name;
+   char * workspace_name = NULL;
    Display  *display;
    Boolean value;
 
@@ -5719,7 +5729,7 @@ CheckMoveType(
       {
         int len = strlen(to);
         char notHere = 0x0;
-        int workspace_num;
+        int workspace_num = 1;
 
         for( i = 0; i < desktop_data->numWorkspaces; ++i )
         {
