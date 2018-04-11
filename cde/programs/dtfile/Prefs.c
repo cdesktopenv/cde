@@ -1743,7 +1743,7 @@ ShowTypeToString(
         unsigned char *value,
         char *out_buf )
 {
-   char * buf;
+   char * buf = NULL;
 
    if (*value == SINGLE_DIRECTORY)
       buf = Single_directory;
@@ -1804,7 +1804,7 @@ TreeFilesToString(
         unsigned char *value,
         char *out_buf )
 {
-   char * buf;
+   char * buf = NULL;
 
    if (*value == TREE_FILES_NEVER)
       buf = Tree_files_never;
@@ -1869,7 +1869,7 @@ ViewToString(
         unsigned char *value,
         char *out_buf )
 {
-   char * buf;
+   char * buf = NULL;
 
    if (*value == BY_NAME)
       buf = By_name;
@@ -1939,7 +1939,7 @@ OrderToString(
         unsigned char *value,
         char *out_buf )
 {
-   char * buf;
+   char * buf = NULL;
 
    if (*value == ORDER_BY_FILE_TYPE)
       buf = Order_by_file_type;
@@ -2008,7 +2008,7 @@ DirectionToString(
         unsigned char *value,
         char *out_buf )
 {
-   char * buf;
+   char * buf = NULL;
 
    if (*value == DIRECTION_ASCENDING)
       buf = Direction_ascending;
@@ -2032,7 +2032,7 @@ RandomToString(
         unsigned char *value,
         char *out_buf )
 {
-   char * buf;
+   char * buf = NULL;
 
    if (*value == RANDOM_ON)
       buf = Random_on;
