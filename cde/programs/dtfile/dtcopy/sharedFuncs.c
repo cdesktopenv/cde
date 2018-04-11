@@ -197,7 +197,8 @@ get_path(char *path)
 {
     char *rpath, tmppath[MAX_PATH];
     char * _DtCopyPathFromInput();
-    getcwd(tmppath,MAX_PATH);
+    if (!getcwd(tmppath,MAX_PATH))
+        return NULL;
     rpath = _DtCopyPathFromInput(path,tmppath);
     return rpath;
 }
@@ -426,7 +427,10 @@ CopyCheckDeletePermissionRecur(
       {
         /* check for write permission in this directory */
         if (access(destinationPath, 04|02|01) < 0)
-          return -1;
+        {
+            closedir(dirp);
+            return -1;
+        }
 
         /* append a '/' to the end of directory name */
         fnamep = destinationPath + strlen(destinationPath);
@@ -440,10 +444,14 @@ CopyCheckDeletePermissionRecur(
 
       /* recursively check permission on this file */
       if (CopyCheckDeletePermissionRecur(destinationPath))
-        return -1;
+        {
+            closedir(dirp);
+            return -1;
+        }
     }
   }
 
+  closedir(dirp);
   return 0;
 }
 
@@ -459,7 +467,7 @@ CopyCheckDeletePermission(
 #else
   struct stat statbuf;
 #endif
-  char fname[1024];
+  char fname[PATH_MAX];
 
 #if defined(__FreeBSD__) || defined(__OpenBSD__)
   if (statfs(parentdir,&statbuf) < 0)  /* does not exist */
@@ -483,19 +491,34 @@ CopyCheckDeletePermission(
        char *tmpfile;
        int rv;
        tmpfile = tempnam(parentdir,"dtfile");
-       if ( (rv = creat(tmpfile,O_RDONLY)) < 0)  /* Create a temporary file */
-          return -1;
-       close(rv);
-       if (remove(tmpfile) < 0)                /* Delete the created file */
-          return -1;
+       if (tmpfile)
+       {
+           /* Create a temporary file */
+           if ( (rv = creat(tmpfile,O_RDONLY)) < 0)
+           {
+               free(tmpfile);
+               return -1;
+           }
+           close(rv);
+           /* Delete the created file */
+           if (remove(tmpfile) < 0)
+           {
+               free(tmpfile);
+               return -1;
+           }
+
+           free(tmpfile);
+       }
+       else
+           return -1;
     }
 
     /* root user can delete anything */
     return 0;
   }
 
-  /* check for write and execute permisssion on parent dir */
-  if (access(parentdir, 04|02 | 01) < 0)
+  /* check for read/write and execute permission on parent dir */
+  if (access(parentdir, R_OK | W_OK | X_OK) < 0)
       return -1;
 
   /* copy destinationPath to tmp buffer */
@@ -531,7 +554,7 @@ CheckDeleteAccess(
 
      delay = 10000;
      tmpptr = strrchr(tmpstring,'/');
-     if(!tmpptr)                               /* Error */
+     if(!tmpstring || !tmpptr)                               /* Error */
        perm_status = 1;
      else
      {
@@ -546,7 +569,10 @@ CheckDeleteAccess(
        free(tmpstring);
      }
      if(!perm_status)  /* Everything is fine just return */
-          return;
+     {
+         free(tmpstring);
+         return;
+     }
 
      strcpy(title,GETMESSAGE(4,7,"Object Trash - Error"));
      tmpmsg =  GETMESSAGE(4,8,"You do not have permission to put the object \n\n%s\n\ninto trash.\n\nUse the Change Permissions choice from the object's\npopup menu or from the Selected menu to turn on your\nRead permission on the object.\n\nNote: If this object is a folder, you must also have\nRead permission for each of the objects inside the\nfolder before you can put the folder in the trash.");
@@ -566,6 +592,8 @@ CheckDeleteAccess(
          XtAppNextEvent(app_context, &event);
          XtDispatchEvent(&event);
      }
+
+     free(tmpstring);
   }
 }
 
@@ -580,18 +608,9 @@ TimeoutHandler(XtPointer client_data, XtIntervalId *id)
  */
 
 char *
-#ifdef _NO_PROTO
-_DtCopyPathFromInput(input_string, current_dir)
-    char *input_string;
-    char *current_dir;
-#else
-    _DtCopyPathFromInput(
-    char *input_string,
-    char *current_dir)
-#endif /* _NO_PROTO */
-
+_DtCopyPathFromInput(char *input_string, char *current_dir)
 {
-    char *path;
+    char *path = NULL;
     char *tmp_path = NULL;
     int dir_len;
     char *_DtCopyChangeTildeToHome();
@@ -616,12 +635,20 @@ _DtCopyPathFromInput(input_string, current_dir)
         }
         else
         {
-            fscanf(pfp,"%s",command);
-            XtFree(path);
-            path = XtNewString(command);
+            if (fscanf(pfp,"%s",command) >= 1)
+            {
+                XtFree(path);
+                path = XtNewString(command);
+            }
+            else
+                path = NULL;
+
             pclose(pfp);
         }
     }
+
+    if (!path)
+        return NULL;
 
     /* Resolve '~' -- new memory is allocated, old memory is freed */
     if (*path == '~')
@@ -750,19 +777,9 @@ _DtCopyChangeTildeToHome (input_string)
 }
 
 int
-#ifdef _NO_PROTO
-Check(  spth,dpth, mode)
-    register char *spth ;
-    register char *dpth ;
-    int mode ;
-#else
-    Check(
-    register char *spth,
-    register char *dpth,
-    int mode)
-#endif /* _NO_PROTO */
+Check(char *spth, char *dpth, int mode)
 {
-    struct stat sbuf,dbuf;
+    struct stat sbuf, dbuf;
     char filename [MAX_PATH];
     char * msg;
     char * tmpStr;
@@ -784,6 +801,8 @@ Check(  spth,dpth, mode)
         strcpy(title,GETMESSAGE(4,5,"Object Move - Error"));
     else
         strcpy(title,GETMESSAGE(4,6,"Object Copy - Error"));
+
+    dbuf.st_ino = 0;
     while (dbuf.st_ino != ROOTINO)
     {
         /* Destination may not be available, in which case we need to
