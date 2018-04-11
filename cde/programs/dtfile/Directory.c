@@ -2016,6 +2016,9 @@ UpdateAllProcess(
    pipe_msg = PIPEMSG_DONE;
    write(pipe_fd, &pipe_msg, sizeof(short));
    write(pipe_fd, &modify_time, sizeof(long));
+
+   if (dirp)
+       closedir(dirp);
    return 0;
 }
 
@@ -2145,7 +2148,7 @@ ReaddirPipeCallback(
    char *err_msg;
    int i, n;
    int rc;
-   long modify_time;
+   long modify_time = 0;
    char dirname[MAX_PATH];
    short file_data_count;
 
@@ -4787,13 +4790,13 @@ ScheduleDirectoryActivity(
    Boolean this_view_active;
    int i, j, k;
    int n_active, n_checking;
-   int save_last_check;
+   int save_last_check = 0;
    FileMgrData *file_mgr_data;
    Boolean sticky;
    StickyProcDesc *p;
-   int pipe_s2m_fd[2];  /* for msgs from backgroundnd proc (slave to master) */
-   int pipe_m2s_fd[2];  /* for msgs to backgroundnd proc (master to slave) */
-   pid_t pid;
+   int pipe_s2m_fd[2] = {-1, -1};  /* for msgs from backgroundnd proc (slave to master) */
+   int pipe_m2s_fd[2] = {-1, -1};  /* for msgs to backgroundnd proc (master to slave) */
+   pid_t pid = 0;
    char *s;
    int rc;
 
