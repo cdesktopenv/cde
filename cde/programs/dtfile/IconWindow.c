@@ -296,7 +296,7 @@ FileWindowInputCallback(
    FileViewData * fileViewData = NULL;
    Arg args[10];
    DesktopRec * desktopRec;
-   KeySym keysym;
+   KeySym keysym = 0;
    Modifiers modif;
    int offset;
    Boolean found;
@@ -624,8 +624,8 @@ FileWindowInputCallback(
             {
               case osfXK_Delete:
                 {
-                  DtActionArg * action_args;
-                  int arg_count;
+                  DtActionArg * action_args = NULL;
+                  int arg_count = 0;
 
                   if( desktopRec == NULL
                       && file_mgr_rec != NULL )
@@ -669,7 +669,8 @@ FileWindowInputCallback(
                                     action_args, arg_count, NULL, NULL,
                                     trash_dir, True, NULL, NULL );
                   }
-                  _DtFreeActionArgs( action_args, arg_count );
+                  if (action_args && arg_count)
+                      _DtFreeActionArgs( action_args, arg_count );
                 }
                 break;
               case osfXK_Menu:
