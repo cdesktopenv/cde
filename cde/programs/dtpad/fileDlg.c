@@ -225,8 +225,8 @@ SetSaveAsDirAndFile(Editor *pPad)
 	    strcpy(dirbuf, pPad->fileStuff.pathDir);
 	/* -----> make sure dir ends in '/' */
 	if (dirbuf[0] != (char )'\0') {
-	    if (dirbuf[strlen(dirbuf) - 1] != (char)'/')
-		strcat(dirbuf, "/");
+	    if (strlen(dirbuf) && dirbuf[strlen(dirbuf) - 1] != (char)'/')
+		  strcat(dirbuf, "/");
 	} else {
 	    getcwd(dirbuf, MAX_DIR_PATH_LEN - 16);
 	    strcat(dirbuf, "/");

@@ -430,8 +430,8 @@ _psGetResourceFileName(PrintSetup *pSetup)
     saveFile = PS_DEFAULT_RESOURCE_FILE;
     if (! DtSessionSavePath(topLevelWithWmCommand, &savePath, &saveFile))
     {
-	sprintf(
-		buffer, "%s/%s/%s",
+	snprintf(
+		buffer, sizeof(buffer), "%s/%s/%s",
 		getenv(PS_HOME_ENV_VARIABLE),
 		DtPERSONAL_TMP_DIRECTORY,
 		PS_DEFAULT_RESOURCE_FILE);
@@ -853,7 +853,7 @@ _psAttachPrintSetupDialog(PrintSetup *pSetup, Editor *pPad)
 	      filename = pSetup->docName;
 	    else
 	      filename++;
-            sprintf(path, "%s/%s.ps", dirname, filename);
+            snprintf(path, sizeof(path), "%s/%s.ps", dirname, filename);
             XtVaSetValues(pSetup->dtprintSetup, DtNfileName, path, NULL);
         }
     }

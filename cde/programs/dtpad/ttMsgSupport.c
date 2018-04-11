@@ -248,7 +248,6 @@ TTmedia_ptype_declareCB(
     DtEditorErrorCode   errorCode;
     Boolean foundPad = False;
     char *context = (char *)NULL;
-    char *oldFileName = (char *)NULL;
     Boolean  isCurrentlyVisible = False;
     int mark = tt_mark();
     char *localPath = tt_message_file(m);
@@ -428,14 +427,9 @@ TTmedia_ptype_declareCB(
     /* -----> Create GUI components of Editor instance, set resouces,
      *        map window and load file (if specified). */
     if (!foundPad) {
-      if (oldFileName != (char *)NULL)
-	XtFree(oldFileName);
-
       RealizeNewPad(pPad);		/* pPad->mainWindow is created here */
     } else {
-	if (oldFileName != (char *)NULL)
-	  XtFree(oldFileName);
-	ManageOldPad(pPad, isCurrentlyVisible);
+      ManageOldPad(pPad, isCurrentlyVisible);
     }
 				
     /* -----> Accept the message.

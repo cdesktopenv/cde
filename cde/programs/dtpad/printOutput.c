@@ -804,7 +804,10 @@ _poGetFileContents(char **contents, char *file)
     if( (fp = fopen(file, "r")) == NULL )
       return DtEDITOR_UNREADABLE_FILE;
 
-    stat(file, &statbuf);
+    if(stat(file, &statbuf) == -1) {
+      fclose(fp);
+      return DtEDITOR_UNREADABLE_FILE;
+    }
     nbytes = statbuf.st_size;
 
     /* 
@@ -814,8 +817,10 @@ _poGetFileContents(char **contents, char *file)
      * copy of the data before actually putting it into the widget.
      */
     buf = (char *) malloc(nbytes + 1);
-    if (buf == NULL)
+    if (buf == NULL) {
+	  fclose(fp);
       return DtEDITOR_INSUFFICIENT_MEMORY;
+    }
 
     nbytes = fread(buf, sizeof(char), nbytes, fp);
     buf[nbytes] = '\0';

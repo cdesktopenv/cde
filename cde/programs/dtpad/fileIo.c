@@ -314,7 +314,7 @@ AddPound(
 		    strcat(returnBuf, "#");
 	} else {
 	    sprintf(returnBuf, "#%s", tempBuf);
-	    if(returnBuf[strlen(returnBuf) - 1] != (char)'#')
+	    if(strlen(returnBuf) && returnBuf[strlen(returnBuf) - 1] != (char)'#')
 		strcat(returnBuf, "#");
 	}
     } else {
