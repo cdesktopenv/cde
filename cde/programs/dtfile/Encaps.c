@@ -2486,24 +2486,30 @@ static Boolean GetXineramaScreenDimensions(
 	unsigned int wx, wy;
 	unsigned int i, sx, sy, sw, sh;
 
-	while(w && !XtIsShell(w)) w=XtParent (w);
+	while (w && !XtIsShell(w))
+            w=XtParent (w);
 
 	wx=XtX(w);
 	wy=XtY(w);
 
-	if(!(dt_xi=_DtXineramaInit(XtDisplay(w)))) return False;
+	if (!(dt_xi=_DtXineramaInit(XtDisplay(w)))) return False;
 
-	for(i=0; i<dt_xi->numscreens; i++){
-		if(!_DtXineramaGetScreen(dt_xi,i,&sw,&sh,&sx,&sy))break;
+	for (i=0; i<dt_xi->numscreens; i++){
+		if (!_DtXineramaGetScreen(dt_xi,i,&sw,&sh,&sx,&sy))
+                    break;
 
-		if(wx>=sx && wx<(sx+sw) && wy>=sy && wy<(sy+sh)){
+		if (wx>=sx && wx<(sx+sw) && wy>=sy && wy<(sy+sh))
+                {
 			*s_width=(int)sw;
 			*s_height=(int)sh;
 			*org_x=(int)sx;
 			*org_y=(int)sy;
+                        free(dt_xi);
 			return True;
 		}
 	}
-	return False;
+
+        free(dt_xi);
+        return False;
 }
 #endif /* USE_XINERAMA */
