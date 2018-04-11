@@ -2476,7 +2476,7 @@ _tt_message_context_bval(Tt_message m, const char *slotname,
 	}
 	*len = value.len();
 	*val = (unsigned char *)_tt_strdup( value, *len );
-	if (val == 0) {
+	if (*val == NULL) {
 		return TT_ERR_NOMEM;
 	}
 	return TT_OK;

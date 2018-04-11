@@ -197,8 +197,11 @@ _isfcb_open(isfname, errcode)
      *  Open the UNIX file for .rec file.
      */
     if ((dat_fd = _open_datfile (isfname, &rdonly)) == -1 || errno == EMFILE) {
-	_amseterrcode(errcode, errno);
-	return (NULL);
+        _amseterrcode(errcode, errno);
+        if(dat_fd != -1) {
+            close(dat_fd);
+        }
+        return (NULL);
     }
 
     /*
@@ -640,7 +643,7 @@ _create_datfile(isfname)
 	int	fd;
 	char	namebuf[MAXPATHLEN];
 
-	(void) strcpy(namebuf, isfname);
+	snprintf(namebuf, sizeof(namebuf), "%s", isfname);
 	_makedat_isfname(namebuf);
 	
 	fd = open (namebuf, O_CREAT | O_EXCL | O_RDWR, 0666);
@@ -663,7 +666,7 @@ _create_indfile(isfname)
 	int	fd;
 	char	namebuf[MAXPATHLEN];
 
-	(void) strcpy(namebuf, isfname);
+	snprintf(namebuf, sizeof(namebuf), "%s", isfname);
 	_makeind_isfname(namebuf);
 
 	fd = open (namebuf, O_CREAT | O_EXCL | O_RDWR, 0666);
@@ -686,7 +689,7 @@ _create_varfile(isfname)
 	int	fd;
 	char	namebuf[MAXPATHLEN];
 
-	(void) strcpy(namebuf, isfname);
+	snprintf(namebuf, sizeof(namebuf), "%s", isfname);
 	_makevar_isfname(namebuf);
 
 	fd = open (namebuf, O_CREAT | O_EXCL | O_RDWR, 0666);
@@ -709,7 +712,7 @@ _remove_datfile(isfname)
 {
     char	namebuf[MAXPATHLEN];
 
-    (void) strcpy(namebuf, isfname);
+    snprintf(namebuf, sizeof(namebuf), "%s", isfname);
     _makedat_isfname(namebuf);
 
     (void) unlink(namebuf);
@@ -727,7 +730,7 @@ _remove_indfile(isfname)
 {
     char	namebuf[MAXPATHLEN];
 
-    (void) strcpy(namebuf, isfname);
+    snprintf(namebuf, sizeof(namebuf), "%s", isfname);
     _makeind_isfname(namebuf);
 
     (void) unlink(namebuf);
@@ -745,7 +748,7 @@ _remove_varfile(isfname)
 {
     char	namebuf[MAXPATHLEN];
 
-    (void) strcpy(namebuf, isfname);
+    snprintf(namebuf, sizeof(namebuf), "%s", isfname);
     _makevar_isfname(namebuf);
 
     (void) unlink(namebuf);
@@ -766,7 +769,7 @@ _open_datfile(isfname, rdonly)
     char	namebuf[MAXPATHLEN];
     int		ret;
 
-    (void) strcpy(namebuf, isfname);
+    snprintf(namebuf, sizeof(namebuf), "%s", isfname);
     _makedat_isfname(namebuf);
 
     if ((ret = open (namebuf, O_RDWR)) != -1) {
@@ -797,7 +800,7 @@ _open_indfile(isfname, rdonly)
 	int	fd;
 	char	namebuf[MAXPATHLEN];
 
-	(void) strcpy(namebuf, isfname);
+	snprintf(namebuf, sizeof(namebuf), "%s", isfname);
 	_makeind_isfname(namebuf);
 
 	fd = open (namebuf, (rdonly==TRUE)?O_RDONLY:O_RDWR);
@@ -821,7 +824,7 @@ _open_varfile(isfname, rdonly)
 	int	fd;
 	char	namebuf[MAXPATHLEN];
 
-	(void) strcpy(namebuf, isfname);
+	snprintf(namebuf, sizeof(namebuf), "%s", isfname);
 	_makevar_isfname(namebuf);
 
 	fd = open (namebuf, (rdonly==TRUE)?O_RDONLY:O_RDWR);
@@ -867,7 +870,7 @@ _open2_indfile(fcb)
     if (fcb->indfd != -1)
 	return (ISOK);
 
-    (void) strcpy(namebuf, fcb->isfname);
+    snprintf(namebuf, sizeof(namebuf), "%s", fcb->isfname);
     _makeind_isfname(namebuf);
 
     (void)fstat(fcb->datfd, &buf);

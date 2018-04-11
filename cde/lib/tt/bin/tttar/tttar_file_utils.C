@@ -248,6 +248,7 @@ realtrees( _Tt_string_list_ptr paths, bool_t follow_symlinks )
 					strncat( resolved_path_buf,
 						 base, MAXPATHLEN - len );
 				}
+				free(dir);
 			}
 		} else {
 			resolved_path = _tt_get_realpath( (char *)path,

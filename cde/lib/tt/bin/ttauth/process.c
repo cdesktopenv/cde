@@ -231,10 +231,12 @@ static int original_umask = 0;		/* for restoring */
 static char *
 copystring(const char *src)
 {
-    int len = strlen (src);
+    int len;
     char *cp;
 
     if (!src) return NULL;
+    
+    len = strlen (src);
     cp = malloc (len + 1);
     if (cp)
 	strcpy (cp, src);
@@ -1256,6 +1258,7 @@ do_add(char *inputfilename, int lineno, int argc, char *argv[])
 		prefix (inputfilename, lineno);
 		fprintf (stderr,
 	       "protodata_hex contains odd number of or non-hex characters\n");
+		free(protodata);
 		return (1);
 	    }
 	}
@@ -1290,6 +1293,7 @@ do_add(char *inputfilename, int lineno, int argc, char *argv[])
 	    fprintf (stderr,
 	       "authdata_hex contains odd number of or non-hex characters\n");
 	    free (protodata);
+	    free (authdata);
 	    return (1);
 	}
     }

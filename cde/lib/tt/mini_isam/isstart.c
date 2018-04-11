@@ -591,8 +591,7 @@ _amstart(isfhandle, record, reclen, readmode,
     _amseterrcode(errcode, ISOK);
 
     /* Clean-up work. */
-    if (newcrp != NULL)
-	free(newcrp);
+    free(newcrp);
 
     _isdisk_commit();			     /* This will only check
 					      * that we unfixed all fixed

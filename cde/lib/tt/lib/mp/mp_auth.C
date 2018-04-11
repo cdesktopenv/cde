@@ -291,6 +291,8 @@ write_auth_file(char *filename)
     else
       (void) unlink(tmpnam);
 
+    free(tmpnam);
+
     return TT_OK;
 }
 Tt_status _Tt_auth::
@@ -306,7 +308,10 @@ retrieve_auth_cookie()
       return TT_AUTHFILE_ENTRY_MISSING;
 
     buff = (char*) malloc(entry->auth_data_length + 1);
-    if (NULL == buff) return TT_ERR_NOMEM;
+    if (NULL == buff) {
+        _tt_FreeAuthFileEntry(entry);
+        return TT_ERR_NOMEM;
+    }
 
     strncpy(buff, entry->auth_data, entry->auth_data_length);
     buff[entry->auth_data_length] = '\0';

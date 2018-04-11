@@ -42,8 +42,7 @@ isgarbage(char * isfname)
 	struct stat		statbuf;
 	int			count = 0,i;
 
-	(void)strcpy(isfname2, isfname);
-	(void)strcat(isfname2, "~");
+	snprintf(isfname2, sizeof(isfname2), "%s~", isfname);
 
 	if ((isfd = isopen(isfname, ISEXCLLOCK + ISINPUT)) == ISERROR) {
 		goto ERROR;

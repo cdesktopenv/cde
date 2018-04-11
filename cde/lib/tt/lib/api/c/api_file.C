@@ -426,9 +426,8 @@ _ttds_file_server(const char *filename, const char **hostname)
 	_Tt_string	hostname_s;
 	_Tt_string	partition;
 	_Tt_string	network_path;
-	
-	*hostname = "";
-	if (filename==0 || hostname==0) {
+
+	if (filename == NULL || hostname == NULL) {
 		return TT_ERR_POINTER;
 	}
 	filename_s = filename;

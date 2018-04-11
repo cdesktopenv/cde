@@ -239,6 +239,7 @@ _tt_get_record(int prefix_len, const char *prefix, const char *db_name, char *re
 	isfd = stat(dblong,&statbuf);
 	if (-1==isfd) {
 		_tt_syslog(errstr, LOG_ERR, "%s: %m", dblong);
+		free(db);
 		free(dblong);
 		return 0;
 	}
@@ -300,6 +301,7 @@ _tt_write_record(int prefix_len, const char *prefix, const char *db_name,
 	isfd = stat(dblong,&statbuf);
 	if (-1==isfd) {
 		_tt_syslog(errstr, LOG_ERR, "%s: %m", dblong);
+		free(db);
 		free(dblong);
 		return 0;
 	}

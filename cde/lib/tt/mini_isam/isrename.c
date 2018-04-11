@@ -130,7 +130,7 @@ isrename(oldname, newname)
      * still thinks that the file exists for a few seconds.
      */
 
-    (void)strcpy(datfname, oldname);
+    snprintf(datfname, sizeof(datfname), "%s", oldname);
     _makedat_isfname(datfname);
     (void)unlink(datfname);
 
@@ -218,16 +218,16 @@ _rename_datfile(isfname, newname)
     char	namebuf[MAXPATHLEN];
     char	newbuf[MAXPATHLEN];
 
-    (void) strcpy(namebuf, isfname);
-    (void) strcpy(newbuf, isfname);
+    snprintf(namebuf, sizeof(namebuf), "%s", isfname);
+    snprintf(newbuf, sizeof(newbuf), "%s", isfname);
 
     /*
      * Replace the last element of the old path with newname.
      */
     _removelast(newbuf);
     if (strcmp(newbuf, "/") != 0)
-	(void) strcat(newbuf, "/");
-    (void)strcat(newbuf, newname);
+        snprintf(newbuf, sizeof(newbuf),  "%s/", newbuf);
+    snprintf(newbuf, sizeof(newbuf), "%s%s", newbuf, newname);
 
     _makedat_isfname(namebuf);
     _makedat_isfname(newbuf);
@@ -243,16 +243,16 @@ _rename_indfile(isfname, newname)
     char	namebuf[MAXPATHLEN];
     char	newbuf[MAXPATHLEN];
 
-    (void) strcpy(namebuf, isfname);
-    (void) strcpy(newbuf, isfname);
+    snprintf(namebuf, sizeof(namebuf), "%s", isfname);
+    snprintf(newbuf, sizeof(newbuf), "%s", isfname);
 
     /*
      * Replace the last element of the old path with newname.
      */
     _removelast(newbuf);
     if (strcmp(newbuf, "/") != 0)
-	(void) strcat(newbuf, "/");
-    (void)strcat(newbuf, newname);
+        snprintf(newbuf, sizeof(newbuf), "%s/", newbuf);
+    snprintf(newbuf, sizeof(newbuf), "%s%s", newbuf, newname);
 
     _makeind_isfname(namebuf);
     _makeind_isfname(newbuf);
@@ -268,16 +268,16 @@ _rename_varfile(isfname, newname)
     char	namebuf[MAXPATHLEN];
     char	newbuf[MAXPATHLEN];
 
-    (void) strcpy(namebuf, isfname);
-    (void) strcpy(newbuf, isfname);
+    snprintf(namebuf, sizeof(namebuf), "%s", isfname);
+    snprintf(newbuf, sizeof(newbuf), "%s", isfname);
 
     /*
      * Replace the last element of the old path with newname.
      */
     _removelast(newbuf);
     if (strcmp(newbuf, "/") != 0)
-	(void) strcat(newbuf, "/");
-    (void)strcat(newbuf, newname);
+        snprintf(newbuf, sizeof(newbuf), "%s/", newbuf);
+    snprintf(newbuf, sizeof(newbuf), "%s%s", newbuf, newname);
 
     _makevar_isfname(namebuf);
     _makevar_isfname(newbuf);
