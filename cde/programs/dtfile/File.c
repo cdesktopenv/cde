@@ -3464,6 +3464,8 @@ SavePositionalData (
    FILE * fd_stream = fdopen(fd, "w");
    ObjectPosition * ptr;
 
+   if (!fd_stream)
+       return;
 
    if(file_mgr_data->positionEnabled == RANDOM_ON &&
                   file_mgr_data->object_positions &&
@@ -3492,7 +3494,7 @@ SavePositionalData (
                name, "num_positions", 0);
    }
 
-   fflush(fd_stream);
+   fclose(fd_stream);
 }
 
 
@@ -3932,7 +3934,7 @@ RepositionUpInStack (
 
 {
    ObjectPtr ptr, ptr2, savePtr;
-   register int i, j;
+   int i, j;
    XmManagerWidget file_window;
 
    if (oldPos == newPos)
@@ -4932,8 +4934,8 @@ DropOnRootCB (
    String end;
    String tmpStr;
    int numFiles;
-   int effScreenWidth;
-   int effScreenHeight;
+   int effScreenWidth = 0;
+   int effScreenHeight = 0;
    int start_x = 0, start_y = 0;
    int root_x, root_y;
    int step = 0, dstep = 0;
@@ -8141,7 +8143,7 @@ LayoutDesktopIcons (
 {
    XmManagerWidget file_window;
    int directory_count, largest_x, largest_y;
-   int value, size, increment, page;
+   int value = 0, size, increment, page;
    Dimension current_wd;
    Dimension current_ht;
    Dimension file_window_width;
