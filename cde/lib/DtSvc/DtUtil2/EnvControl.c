@@ -1293,7 +1293,7 @@ _DtWsmSetBackdropSearchPath (
 
 	    if (postDtEnvironmentString != postDtEnvironmentStringBuf)
 	    {
-	        if (postDtEnvironmentString) XtFree(postDtEnvironmentString);
+	        XtFree(postDtEnvironmentString);
 		postDtEnvironmentString = NULL;
 	    }
 

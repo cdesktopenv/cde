@@ -1393,7 +1393,7 @@ static void
 _DtActMMGetTtMsgInfo(DtDtsMMRecord *actRecp, ActionPtr actp)
 {
 	char argNname[ sizeof(_DtACTION_TTN_ARG) /* space for prefix */
-		+ 3	/* enough space for three decimal digits */
+		+ 9	/* enough space for three decimal digits */
 		+ sizeof(_DtACTION_TTN_REP_TYPE)]; /* space for longest suffix */
 	int  i;
 	char *s;
@@ -2165,6 +2165,7 @@ _DtActionFindDBEntry(	ActionRequest *reqp,
 			if ( reqp )
 				SET_TOO_MANY_MAPS(reqp->mask);
 			_DtSvcProcessUnlock();
+			free(mapto);
 			return NULL;
 		}
 	}

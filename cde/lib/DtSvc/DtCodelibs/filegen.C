@@ -28,6 +28,7 @@
  * (c) Copyright 1993, 1994 Sun Microsystems, Inc.
  * (c) Copyright 1993, 1994 Novell, Inc.
  */
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -274,7 +275,7 @@ _SHXbuf::filegen()
     {
 	long i;
 	// compare all entries to a copy of the first entry
-	strcpy(filebuf, &bufptr[long(vec[0])]);
+	snprintf(filebuf, sizeof(filebuf), "%s", &bufptr[long(vec[0])]);
 
 	for (i = 1; i < vec.size(); i++)
 	{

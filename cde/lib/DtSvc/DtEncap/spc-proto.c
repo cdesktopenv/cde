@@ -768,8 +768,10 @@ int SPC_Write_Protocol_Request (SPC_Connection_Ptr connection,
     envp=va_arg(ap, XeString *);
     va_end(ap);
     pdata->len=WRITE_APPLICATION_SPAWN(pdata, path, dir, argv, envp);
-    if(pdata->len == SPC_ERROR)
+    if(pdata->len == SPC_ERROR) {
+      SPC_Free_Protocol_Ptr(prot_request);
       return(SPC_ERROR);
+    }
     prot_name=(XeString)"  <-- APPLICATION_SPAWN";
     break;
     }
@@ -929,6 +931,7 @@ int SPC_Write_Protocol_Request (SPC_Connection_Ptr connection,
     if(connection->protocol_version < 3) {
       SPC_Error(SPC_Protocol_Version_Error,
 		3, channel->connection->protocol_version);
+      SPC_Free_Protocol_Ptr(prot_request);
       return(SPC_ERROR);
     }
   
@@ -940,6 +943,7 @@ int SPC_Write_Protocol_Request (SPC_Connection_Ptr connection,
     if(connection->protocol_version < 3) {
       SPC_Error(SPC_Protocol_Version_Error,
 		3, channel->connection->protocol_version);
+      SPC_Free_Protocol_Ptr(prot_request);
       return(SPC_ERROR);
     }
   
@@ -958,6 +962,7 @@ int SPC_Write_Protocol_Request (SPC_Connection_Ptr connection,
       buffer = SPC_Decode_Termios(termios_ptr);
       pdata->len=WRITE_TERMIOS(pdata, connector, side, buffer);
       prot_name=(XeString)"  <-- CHANNEL_TERMIOS";
+      free(buffer);
       break;
     }
 
@@ -965,6 +970,7 @@ int SPC_Write_Protocol_Request (SPC_Connection_Ptr connection,
     if(connection->protocol_version < 3) {
       SPC_Error(SPC_Protocol_Version_Error,
 		3, channel->connection->protocol_version);
+      SPC_Free_Protocol_Ptr(prot_request);
       return(SPC_ERROR);
     }
 
@@ -1229,8 +1235,10 @@ char **SPC_Get_Multi_Packet(SPC_Connection_Ptr connection,
       if(localprot)
 	SPC_Free_Protocol_Ptr(localprot);
       prot=SPC_Filter_Connection(connection, NULL, request, TRUE);
-      if(prot==SPC_ERROR)
-	return(SPC_ERROR);
+      if(prot==SPC_ERROR) {
+        free(out);
+        return(SPC_ERROR);
+      }
       print_protocol_request(name, prot);
       localprot=prot;
       bufptr=PDRP(prot->dataptr);
@@ -1442,6 +1450,8 @@ sscan_application_data(XeString buf,
   *envp=sscan_counted_string(bufptr, &bufptr);
   if(*envp==SPC_ERROR)
     return(SPC_ERROR);
+    
+  return(TRUE);
 }
 
 /*----------------------------------------------------------------------+*/
@@ -1657,7 +1667,7 @@ int SPC_Query_Logfile(SPC_Channel_Ptr channel)
   
   READ_LOGFILE_REPLY(prot->dataptr, &channel->logfile, &junk1, &junk2);
   if (junk1) XeFree(junk1);
-  if (junk1) XeFree(junk2);
+  if (junk2) XeFree(junk2);
 		     
   SPC_Free_Protocol_Ptr(prot);
   return (TRUE);
@@ -1811,6 +1821,7 @@ SPC_Validate_User(XeString hostname,
     tt_free (path);
     XeFree(connection_hostname);
     if (logfile) XeFree(logfile);
+    close(open_status);
     return(SPC_ERROR);
   }
   

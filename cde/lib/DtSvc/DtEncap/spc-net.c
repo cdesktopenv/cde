@@ -344,8 +344,10 @@ SPC_Contact_Server(SPC_Connection_Ptr connection)
   memcpy(&saddr.sin_addr, remote->h_addr, remote->h_length);
 
   if(connect(connection->sid, (struct sockaddr *)&saddr, sizeof(saddr)) == ERROR) {
-    SPC_Error(SPC_Bad_Connect,
-	      XeFindShortHost(remote->h_name));
+    XeString shorthost = XeFindShortHost(remote->h_name);
+    SPC_Error(SPC_Bad_Connect, shorthost);
+    XeFree(shorthost);
+    
     return(SPC_ERROR);
   }
 

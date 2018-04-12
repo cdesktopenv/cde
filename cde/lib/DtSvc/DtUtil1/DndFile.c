@@ -484,6 +484,7 @@ dndFileContentsToSelectionValue(
 	buf = (void *)XtMalloc(bufLen + 1);
 
 	bytesRead = read(fd, buf, bufLen);
+	close(fd);
 
 	if (bytesRead == -1 || bytesRead != bufLen) {
 		XtFree((char *)buf);

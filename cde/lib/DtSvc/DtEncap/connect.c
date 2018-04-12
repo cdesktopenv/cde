@@ -74,6 +74,7 @@ XeCreateContextString(XeString host,
 
    if ((strequal(directory, (XeString)"")) || (directory == NULL)){
       if ((strequal(file, (XeString)"")) || (file == NULL)){
+         Xe_release_str(host);
 	 return((XeString) NULL);
       } else {
 	 context_string = XeMalloc (strlen(host) + strlen(file) + 2);

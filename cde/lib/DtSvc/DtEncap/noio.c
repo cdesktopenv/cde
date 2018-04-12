@@ -197,6 +197,7 @@ static char * get_tmp_dir (
    if (is_dir_usable (dir))
       return (dir);
 
+   free(dir);
    return (NULL);
 }
 

@@ -446,7 +446,7 @@ _DtActValidateFieldValue( long bit, char *value, char *actName, char *filename)
 					val, _DtACTION_ARG_MODE);
 			_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
 			free(val);
-			buf = malloc(_DtAct_MAX_BUF_SIZE);
+			free(buf);
 			return NULL;
                 }
 		break;	/* valid value */
@@ -1027,7 +1027,7 @@ _DtActionConverter(DtDtsDbField * fields,
 		sprintf (buf, missingName, _DtACTION_NAME, fileName);
 		_DtSimpleError(DtProgName,DtError, NULL, "%s", buf);
 		XtFree(fileName);
-		if (buf) XtFree(buf);
+		XtFree(buf);
 		_DtSvcProcessUnlock();
 		return(True);
 	}

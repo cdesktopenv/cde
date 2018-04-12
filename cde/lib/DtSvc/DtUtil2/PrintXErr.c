@@ -55,6 +55,9 @@ _DtPrintDefaultError(
 {
     _DtPrintDefaultErrorSafe(dpy, event, msg, BUFSIZ);
     /* XXX retval? */
+    
+    /* COV: 87468 nothing actually checks this return value */
+    return(1);
 }
 
 #define _DTP_STRNCAT(s1, s2, nb, ec) \

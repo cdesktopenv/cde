@@ -89,6 +89,7 @@ Wire *getpipe(Wire *prevwire)
   /* Get file descriptors for pipe */
   if (pipe(wire_ptr->fd) < OK) {
     SPC_Error(SPC_No_Pipe);
+    XeFree(wire_ptr);
     return(SPC_ERROR);
   }
   return(wire_ptr);

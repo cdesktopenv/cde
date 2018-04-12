@@ -69,6 +69,7 @@ typedef	int	(*genfunc)(const void *, const void *);
 static	DtDtsDbDatabase	**db_list;
 static	int	num_db = 0;
 
+void
 _DtDtsDbPrintFields(DtDtsDbRecord  *rec_ptr, FILE *fd)
 {
 	int		fld;
@@ -84,6 +85,7 @@ _DtDtsDbPrintFields(DtDtsDbRecord  *rec_ptr, FILE *fd)
 	}
 }
 
+void
 _DtDtsDbPrintRecords(DtDtsDbDatabase  *db_ptr, FILE *fd)
 {
 	int		rec;

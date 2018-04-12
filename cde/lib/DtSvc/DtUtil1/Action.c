@@ -1598,6 +1598,7 @@ CreateInvocationRecord(
 		SET_INV_ERROR(invp->state);
 		SET_INV_CANCEL(invp->state);
 
+                close(fd);
                 return invp;
            }    
 

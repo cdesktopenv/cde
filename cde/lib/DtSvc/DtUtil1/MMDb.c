@@ -691,6 +691,7 @@ write_db(DtDtsMMHeader *header, void *index, int size, const char *CacheFile)
 		_DtSimpleError(
 			DtProgName, DtError, NULL,
 			(char*) tmpfile, NULL);
+		free(tmpfile);
 		return(0);
 	}
 

@@ -155,7 +155,8 @@ extern	int	cde_da_compare(DtDtsMMRecord **entry1, DtDtsMMRecord **entry2);
 extern	int	cde_dc_field_compare(DtDtsMMField **entry1, DtDtsMMField **entry2);
 
 
-_DtDtsClear()
+void
+_DtDtsClear(void)
 {
         _DtSvcProcessLock();
 	dtdts_path_pattern = 0;

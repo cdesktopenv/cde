@@ -33,6 +33,7 @@
  *
  *****************************************************************************/
 
+#include <stdio.h>
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -322,8 +323,8 @@ GetDisplayName (
     /*
      * Create the display name and append it to the current path.
      */
-    (void)strcpy(hostName, display->display_name);
-    (void)strcpy(displayName, display->display_name);
+    snprintf(hostName, sizeof(hostName), "%s", display->display_name);
+    snprintf(displayName, sizeof(displayName), "%s", display->display_name);
     
     /*
      * If this is run to unix or local get the host name - otherwise

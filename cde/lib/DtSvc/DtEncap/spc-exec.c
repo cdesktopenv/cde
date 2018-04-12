@@ -441,9 +441,11 @@ int exec_proc_local_channel_object(SPC_Channel_Ptr channel)
 	}
     }
 
-    if(mempf0(channel, pre_fork)==SPC_ERROR)
-	return(SPC_ERROR);
-    
+    if(mempf0(channel, pre_fork)==SPC_ERROR) {
+        XeFree(dir);
+        return(SPC_ERROR);
+    }
+
     /* When using HP NLIO (xj0input) we have a problem.  Namely,  */
     /* the xj0 processs uses signal() to deal with SIGCLD which   */	
     /* is incompatible with sigaction/sigprogmask/etc.  Even      */
@@ -458,9 +460,11 @@ int exec_proc_local_channel_object(SPC_Channel_Ptr channel)
     sigemptyset(&oldsigmask);
     sigaddset(&newsigmask, SIGCHLD);
     
-    if (sigprocmask(SIG_BLOCK, &newsigmask, &oldsigmask) == ERROR)
-	return(SPC_ERROR);
-    
+    if (sigprocmask(SIG_BLOCK, &newsigmask, &oldsigmask) == ERROR) {
+        XeFree(dir);
+        return(SPC_ERROR);
+    }
+
     pid = channel->pid = fork();
     
     /*
