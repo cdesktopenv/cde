@@ -3466,7 +3466,7 @@ DisplayDuplicateOpError(
     int index)
 
 {
-  char *msgptr,*err_msg = NULL,*title,*tchar;
+  char *msgptr = NULL,*err_msg = NULL,*title = NULL,*tchar;
   Widget dialogwidget;
 
   if (cb_data->mode == MOVE_FILE)
@@ -3521,6 +3521,12 @@ DisplayDuplicateOpError(
     {
       err_msg = GETMESSAGE(11,46,"No Link Operation performed on object %s.\nYou must change either the Destination Folder\nor the Name for Copy before a link can be created");
     }
+  }
+
+  if (!err_msg)
+  {
+      XtFree(title);
+      return;
   }
 
   msgptr = XtCalloc(1,strlen(err_msg)+strlen(cb_data->updates[index].file)+10);
