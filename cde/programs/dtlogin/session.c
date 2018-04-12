@@ -739,7 +739,7 @@ LoadAltDtsResources(struct display *d)
     if ( XrmGetResource(XresourceDB,
                    "Dtlogin*altDts",  "Dtlogin*AltDts",
                    &rmtype, &rmvalue ) ) {
-		strcpy(tempbuf,rmvalue.addr);
+		snprintf(tempbuf, sizeof(tempbuf), "%s", rmvalue.addr);
 		i = atoi(tempbuf);
     }
 
@@ -767,18 +767,15 @@ LoadAltDtsResources(struct display *d)
                 Debug("\t %s.\n", strerror(errno));
 	    }
 	    else
-              strcpy(dirname[j], resources);
+              snprintf(dirname[j], sizeof(dirname[j]), "%s", resources);
 	}
 	else {
-            strcpy(dirname[j],resources);
+            snprintf(dirname[j], sizeof(dirname[j]), "%s", resources);
             Debug("LoadAltDtsResources- found resource dir %s\n", dirname[j]);
 	}
 
-        if (resources)
-	{
-	    free (resources);
-	    resources = NULL;
-	}
+	free (resources);
+	resources = NULL;
     }
 
 
@@ -810,13 +807,13 @@ LoadAltDtsResources(struct display *d)
 		    }
 
                     if (file_count == 0) {
-                        file_list = malloc (list_incr * sizeof(char **));
+                        file_list = malloc (list_incr * sizeof(char *));
                         num_allocated += list_incr;
                     }
                     if (file_count + 1 > num_allocated) {
                         num_allocated += list_incr;
                         file_list = realloc (file_list,
-                                             num_allocated * sizeof(char **));
+                                             num_allocated * sizeof(char *));
                     }
                     file_list[file_count] = strdup (res_file);
                     file_count++;
@@ -841,9 +838,9 @@ LoadAltDtsResources(struct display *d)
 	     * remove the trailing spaces 
 	     */
 	    if(strchr(rmvalue.addr,' '))
-	        strcpy(tempbuf, strtok(rmvalue.addr," "));
+	        snprintf(tempbuf, sizeof(tempbuf), "%s", strtok(rmvalue.addr," "));
 	    else
-		strcpy(tempbuf, rmvalue.addr);
+	        snprintf(tempbuf, sizeof(tempbuf), "%s", rmvalue.addr);
 
 	    if ((strcmp(tempbuf, "True") == 0) || 
                 (strcmp(tempbuf, "TRUE") == 0))  {
@@ -2065,7 +2062,7 @@ RunGreeter( struct display *d, struct greet_info *greet,
 	    if ( d->langList && strlen(d->langList) > 0 )
 		env = setEnv(env, LANGLIST,  d->langList);
 #if !defined (ENABLE_DYNAMIC_LANGLIST)
-	    else if (languageList && strlen(languageList) > 0 )
+	    else if (strlen(languageList) > 0 )
 		env = setEnv(env, LANGLIST, languageList);
 #endif /* ENABLE_DYNAMIC_LANGLIST */
 
@@ -2129,7 +2126,7 @@ RunGreeter( struct display *d, struct greet_info *greet,
 	     * figure out path to dtgreet...
 	     */
 
-	    strcpy(msg, progName);
+	    snprintf(msg, sizeof(msg), "%s", progName);
     
 	    if ((p = (char *) strrchr(msg, '/')) == NULL)
 		strcpy(msg,"./");

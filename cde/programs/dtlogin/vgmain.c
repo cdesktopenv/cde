@@ -960,9 +960,7 @@ char 	    *temp_p;
 		char  *host;
 
 		host = GetDisplayName();
-		strcpy(temp, host);
-		strcat(temp, " - ");
-		strcat(temp, rmvalue.addr + strlen(DISPLAYNAME));
+		snprintf(temp, sizeof(temp), "%s - %s", host, rmvalue.addr + strlen(DISPLAYNAME));
 		xmstr = XmStringCreateLocalized(temp);
 	      }
 	      else {

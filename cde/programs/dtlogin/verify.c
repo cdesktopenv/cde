@@ -192,8 +192,7 @@ Verify(
 	       }
             break;
         case NOTIFY_LAST_DT:
-	    strcpy(last_sess,home);
-            strcat(last_sess,LAST_SESSION_FILE);
+            snprintf(last_sess, sizeof(last_sess), "%s%s", home, LAST_SESSION_FILE);
 
             if((lastsession = fopen(last_sess,"r")) == NULL)  {
 	    /* 
@@ -380,7 +379,7 @@ userEnv(
         if (d->language && strlen(d->language) > 0)
 	  langlist = d->language;
 #else
-        else if (languageList && strlen(languageList) > 0 )
+        else if ( strlen(languageList) > 0 )
 	  langlist = languageList;
 #endif /* ENABLE_DYNAMIC_LANGLIST */
 
@@ -556,7 +555,7 @@ systemEnv( struct display *d, char *user, char *home )
     else if (d->language && strlen(d->language) > 0 )
       langlist = d->language;
 #else
-    else if (languageList && strlen(languageList) > 0 )
+    else if ( strlen(languageList) > 0 )
       langlist = languageList;
 #endif /* ENABLE_DYNAMIC_LANGLIST */
  

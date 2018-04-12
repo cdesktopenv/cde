@@ -874,7 +874,7 @@ StartDisplay(
 
       bkup[0] = '\0';
       if (d->authFile)
-	strcpy(bkup ,d->authFile);
+        snprintf(bkup, sizeof(bkup), "%s", d->authFile);
 
       LoadDisplayResources (d);
 
@@ -1340,7 +1340,9 @@ StorePid( void )
 	     * open it Read/Write.  This will be transparent to HP-UX.
 	     */
 	    pidFd = creat (pidFile, 0644);
-	    close( pidFd );
+	    if(pidFd != -1) {
+	        close( pidFd );
+	    }
 	    pidFd = open (pidFile, 2);
 	}
 	if (pidFd == -1 || !(pidFilePtr = fdopen (pidFd, "r+")))
@@ -1623,8 +1625,7 @@ GettyMessage( struct display *d, int msgnum )
 
     if (quiet) return;
 
-    strcpy(buf,"/dev/");
-    strcat(buf,d->gettyLine);
+    snprintf(buf, sizeof(buf), "/dev/%s", d->gettyLine);
     
     if ( (tf = fopen (buf, "a")) != NULL) {
 	fprintf (tf, 

@@ -262,7 +262,7 @@ Account( struct display *d, char *user, char *line, pid_t pid,
 
  	if (type == LOGIN_PROCESS && d->displayType.location != Local ) {
 #ifndef SVR4
- 	    strncpy(u->ut_host, d->name, sizeof(u->ut_host));
+ 	    snprintf(u->ut_host, sizeof(u->ut_host), "%s", d->name);
 #endif
 #ifdef __hpux
  	    u->ut_addr = 0;

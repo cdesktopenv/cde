@@ -156,10 +156,8 @@ typedef struct auth_ks_struct { auth_cblock _; } auth_wrapper_schedule[16];
 
 extern void _XdmcpWrapperToOddParity();
 
-static
-longtochars (l, c)
-    long	    l;
-    unsigned char    *c;
+static void
+longtochars (long l, unsigned char *c)
 {
     c[0] = (l >> 24) & 0xff;
     c[1] = (l >> 16) & 0xff;

@@ -466,7 +466,7 @@ RunChooser (
             env = setEnv(env, LANGLIST,  d->langList);
 #if !defined (ENABLE_DYNAMIC_LANGLIST)
     else
-            if (languageList && strlen(languageList) > 0 )
+            if ( strlen(languageList) > 0 )
                  env = setEnv(env, LANGLIST, languageList);
 #endif /* ENABLE_DYNAMIC_LANGLIST */
     if ( d->setup)

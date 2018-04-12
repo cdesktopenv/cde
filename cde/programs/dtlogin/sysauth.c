@@ -2471,15 +2471,13 @@ Authenticate( struct display *d, char *name, char *passwd, char **msg )
      */
 
 
-    if ((p->pw_gid < 0)      || 
-	(setgid(p->pw_gid) == -1)) {
+    if (setgid(p->pw_gid) == -1) {
 
 	Audit(p, " attempted to login - bad group id", 1);
 	return(VF_BAD_GID);
     }
 
-    if ((p->pw_uid < 0)      || 
-	(seteuid(p->pw_uid) == -1)) {
+    if (seteuid(p->pw_uid) == -1) {
 
 	Audit(p, " attempted to login - bad user id", 1);
 	return(VF_BAD_UID);

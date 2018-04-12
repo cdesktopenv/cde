@@ -663,7 +663,7 @@ MakeDialog( DialogType dtype )
 
     int		width;
     
-    FILE	*fp, *fopen();
+    FILE	*fp = NULL, *fopen();
     char	buffer[128];
     char	*str;
 
@@ -772,7 +772,9 @@ MakeDialog( DialogType dtype )
 	    }	    
 	}
 
-	fclose(fp);
+	if(fp) {
+		fclose(fp);
+	}
 	XtSetArg(argt[i], XmNmessageString,		xmstr		); i++;
 
 	w = XmCreateInformationDialog(tlev, "copyright_msg", argt, i);

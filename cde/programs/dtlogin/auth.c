@@ -1094,8 +1094,10 @@ writeLocalAuth (FILE *file, Xauth *auth, char *name)
 #endif
 #ifdef TCPCONN
     fd = socket (AF_INET, SOCK_STREAM, 0);
-    DefineSelf (fd, file, auth);
-    close (fd);
+    if(fd != -1) {
+        DefineSelf (fd, file, auth);
+        close (fd);
+    }
 #endif
 #ifdef DNETCONN
     fd = socket (AF_DECnet, SOCK_STREAM, 0);
@@ -1156,10 +1158,10 @@ SetUserAuthorization (struct display *d, struct verify_info *verify)
 	home = getEnv (verify->userEnviron, "HOME");
 	lockStatus = LOCK_ERROR;
 	if (home) {
-	    strcpy (home_name, home);
+	    snprintf(home_name, sizeof(home_name), "%s", home);
 	    if (home[strlen(home) - 1] != '/')
-		strcat (home_name, "/");
-	    strcat (home_name, ".Xauthority");
+	        snprintf(home_name, sizeof(home_name), "%s/", home_name);
+	    snprintf(home_name, sizeof(home_name), "%s.Xauthority", home_name);
 	    Debug ("XauLockAuth %s\n", home_name);
 	    lockStatus = XauLockAuth (home_name, 1, 2, 10);
 	    Debug ("Lock is %d\n", lockStatus);
@@ -1329,10 +1331,10 @@ RemoveUserAuthorization (struct display *d, struct verify_info *verify)
     if (!home)
 	return;
     Debug ("RemoveUserAuthorization\n");
-    strcpy (name, home);
+    snprintf(name, sizeof(name), "%s", home);
     if (home[strlen(home) - 1] != '/')
-	strcat (name, "/");
-    strcat (name, ".Xauthority");
+        snprintf(name, sizeof(name), "%s/", name);
+    snprintf(name, sizeof(name), "%s.Xauthority", name);
     Debug ("XauLockAuth %s\n", name);
     lockStatus = XauLockAuth (name, 1, 2, 10);
     Debug ("Lock is %d\n", lockStatus);

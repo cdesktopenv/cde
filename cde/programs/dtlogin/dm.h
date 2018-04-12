@@ -991,7 +991,7 @@ extern  char *  login_defaults(struct passwd *p,
 /*******************************     version.c	  **************************/
 /*******************************     xdmauth.c	  **************************/
 #ifdef HASXDMAUTH
-extern int XdmInitAuth( 
+extern void XdmInitAuth( 
 #if NeedWidePrototypes
                         unsigned int name_len,
 #else

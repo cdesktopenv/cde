@@ -448,7 +448,7 @@ EditPasswdCB(Widget w, XtPointer client, XtPointer call_data)
 
     if (cbs->text->ptr)
     {
-        strcpy(s, cbs->text->ptr);
+        snprintf(s, sizeof(buffer) - (s - buffer), "%s", cbs->text->ptr);
 	s += cbs->text->length;
     }
     else
@@ -1501,8 +1501,7 @@ RespondLangCB( Widget w, XtPointer client, XtPointer call)
 	/** beginning of main.                            **/
 	char buff[128];
 	if (XmToggleButtonGadgetGetState(w)) {
-	    strcpy(buff, "LANG="); 
-	    strcat(buff, client);
+	    snprintf(buff, sizeof(buff), "LANG=%s", (char *) client);
 	    putenv(buff);
 	    execv(orig_argv[0], orig_argv);
 	}

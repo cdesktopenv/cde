@@ -94,10 +94,8 @@ from the X Consortium.
 static char	auth_name[256];
 static int	auth_name_len;
 
-XdmPrintDataHex (s, a, l)
-    char	    *s;
-    char	    *a;
-    int		    l;
+void
+XdmPrintDataHex(const char *s, const char *a, int l)
 {
     int	i;
 
@@ -117,14 +115,14 @@ XdmPrintKey (s, k)
 #endif
 
 #ifdef XDMCP
-XdmPrintArray8Hex (s, a)
-    char	*s;
-    ARRAY8Ptr	a;
+void
+XdmPrintArray8Hex(const char *s, ARRAY8Ptr a)
 {
     XdmPrintDataHex (s, (char *) a->data, a->length);
 }
 #endif
 
+void
 XdmInitAuth (name_len, name)
 #if NeedWidePrototypes
     unsigned int name_len;

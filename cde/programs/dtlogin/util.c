@@ -201,7 +201,7 @@ makeEnv( char *name, char *value )
 		return 0;
 	}
 
-        if (value && *value) {
+        if (*value) {
 	           sprintf (result, "%s=%s", name, value);
         }
         else {
@@ -1144,11 +1144,11 @@ setLang( struct display *d, char **env , char *langptr)
       Debug("setLang():  langlist = NULL\n");
 
     if (langptr)
-      strcpy(langlist, langptr);
+      snprintf(langlist, sizeof(langlist), "%s", langptr);
     else
-      strcpy(langlist, getEnv(env, "LANGLIST"));
+      snprintf(langlist, sizeof(langlist), "%s", getEnv(env, "LANGLIST"));
 
-    if (langlist && (int) strlen(langlist) > 0) {
+    if (strlen(langlist) > 0) {
         element = strtok(langlist, DELIM);
         while(element) {
             set_def_lang = FALSE;
