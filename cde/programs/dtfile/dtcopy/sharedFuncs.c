@@ -550,7 +550,7 @@ CheckDeleteAccess(
      char title[200],*msg,*tmpmsg;
      char *tmpstring = strdup(source_name),*tmpptr;
      XEvent event;
-     int perm_status;
+     int perm_status = 0;
 
      delay = 10000;
      tmpptr = strrchr(tmpstring,'/');
@@ -567,12 +567,14 @@ CheckDeleteAccess(
        }
        perm_status = CopyCheckDeletePermission(tmpptr,source_name);
        free(tmpstring);
+       tmpstring = NULL;
      }
      if(!perm_status)  /* Everything is fine just return */
      {
-         free(tmpstring);
          return;
      }
+
+     free(tmpstring);
 
      strcpy(title,GETMESSAGE(4,7,"Object Trash - Error"));
      tmpmsg =  GETMESSAGE(4,8,"You do not have permission to put the object \n\n%s\n\ninto trash.\n\nUse the Change Permissions choice from the object's\npopup menu or from the Selected menu to turn on your\nRead permission on the object.\n\nNote: If this object is a folder, you must also have\nRead permission for each of the objects inside the\nfolder before you can put the folder in the trash.");
@@ -592,8 +594,6 @@ CheckDeleteAccess(
          XtAppNextEvent(app_context, &event);
          XtDispatchEvent(&event);
      }
-
-     free(tmpstring);
   }
 }
 
