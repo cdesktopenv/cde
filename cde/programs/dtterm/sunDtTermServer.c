@@ -28,6 +28,8 @@
  * (c) Copyright 1993, 1994 Novell, Inc.                                *
  */
 
+#include <stdint.h>
+
 #include "TermHeader.h"
 #include "TermPrimDebug.h"
 #include "TermView.h"
@@ -188,7 +190,7 @@ FinishToolTalkInit(Widget topLevel)
 	displayString = DisplayString(XtDisplay(refWidget));
     }
 
-
+    return(1);
 }
 
 Tt_callback_action
@@ -233,7 +235,7 @@ dttermNewHandler(
     char                  *msgFile;
     char                  numArgs;
     int                   i, j, k;
-    char                  *displayEnv, *newDisplayString;
+    char                  *displayEnv, *newDisplayString = NULL;
 
     msgFile = tt_message_file(msg);
     if (tt_is_err(tt_ptr_error(msgFile))) msgFile = 0;
@@ -342,7 +344,7 @@ TimeOut(
 static void
 ExitCB (Widget dialog, XtPointer client_data, XtPointer call_data)
 {
-    exit((int) client_data);
+    exit((int) (intptr_t) client_data);
 }
 
 void

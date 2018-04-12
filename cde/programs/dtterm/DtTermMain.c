@@ -142,7 +142,7 @@ static void SetWorkSpaceHints(
         Widget shell,
         char *workspaces );
 
-static XtEventHandler TestProbeHandler(
+static void TestProbeHandler(
  	Widget	w,
 	XtPointer	client_data,
 	XEvent		*event,
@@ -420,7 +420,7 @@ DecrementInstanceCountAndExit(Widget w, XtPointer client_data,
     InstanceCount--;
     if (InstanceCount > 0)
     {
-        new_instance_list = (DtTermViewWidget *)XtMalloc(sizeof(DtTermViewWidget *)*InstanceCount);
+        new_instance_list = (DtTermViewWidget *)XtMalloc(sizeof(DtTermViewWidget) * InstanceCount);
 	for (j = 0,i = 0; i < (InstanceCount+1); i++)
 	    if (instance_list[i] != (DtTermViewWidget )w)
 	    {
@@ -505,7 +505,7 @@ static void RegisterTestProbe(
  * TestProbeHandler - handle the client message for test probes		   *
  *									   *
  ***************************************************************************/
-static XtEventHandler TestProbeHandler(
+static void TestProbeHandler(
  	Widget	w,
 	XtPointer	client_data,
 	XEvent		*event,
@@ -535,8 +535,8 @@ static XtEventHandler TestProbeHandler(
     Arg   al[5];
     
     *ctd = True;
-    if (cm->send_event == False) return 0;
-    if (cm->message_type != xa_DTTERM_REMOTE_PROBE_REQUEST) return 0;
+    if (cm->send_event == False) return;
+    if (cm->message_type != xa_DTTERM_REMOTE_PROBE_REQUEST) return;
     
     reply = (unsigned char*) malloc(sizeof(unsigned char) * 1024);
 
@@ -758,7 +758,7 @@ CloneCallback(Widget wid, XtPointer client_data, XtPointer call_data)
     (void) XtAddCallback(termWidget, DtNnewCallback,
 	    CloneCallback, (XtPointer) 0);
     instance_list = (DtTermViewWidget *)XtRealloc((char *)instance_list,
-         					(sizeof(DtTermViewWidget *)*InstanceCount));
+         					(sizeof(DtTermViewWidget) * InstanceCount));
     instance_list[InstanceCount - 1] = (DtTermViewWidget )termWidget;
 
     (void) XtRealizeWidget(shellWidget);
@@ -825,11 +825,15 @@ CreateInstance
 	    DecrementInstanceCountAndExit, (XtPointer) topLevelWidget);
     (void) _DtTermPrimAddDeleteWindowCallback(topLevelWidget, DestroyDtTerm,
 	    (XtPointer) topLevelWidget);
-    instance_list = (DtTermViewWidget * )XtRealloc((char *)instance_list,(sizeof(DtTermViewWidget *)*InstanceCount));
+    instance_list = (DtTermViewWidget * ) XtRealloc((char *)instance_list, (sizeof(DtTermViewWidget) * InstanceCount));
     instance_list[InstanceCount - 1] = (DtTermViewWidget )termViewWidget;
     if (enableCloneCallback)
 	(void) XtAddCallback(termViewWidget, DtNnewCallback,
 		CloneCallback, (XtPointer) 0);
+
+#ifdef SUN_TERMINAL_SERVER
+    return(True);
+#endif
 }
 
 void
@@ -1061,7 +1065,7 @@ FixOSFBindings
   /* changed from XtFree to free as it was allocated with malloc to avoid FMM */
     if (freeOrigBindings) free(origDisplayBindings);
 
-    if (ignoredKeysymList) XtFree((char *)ignoredKeysymList);
+    XtFree((char *)ignoredKeysymList);
 
     /* and finally, reparse the string... */
     _XmVirtKeysInitialize(w);
@@ -1375,9 +1379,10 @@ main(int argc, char **argv)
 
 	/* realize the interface... */
 	i = 0;
-        (void) XtSetArg(arglist[i], XmNtitle, attrs.title); i++;
-	if ((!attrs.icon_name) && (!attrs.dtterm_name))
+    (void) XtSetArg(arglist[i], XmNtitle, attrs.title); i++;
+	if ((!attrs.icon_name) && (!attrs.dtterm_name)) {
 	  (void) XtSetArg(arglist[i], XmNiconName, attrs.title); i++;
+	}
 	(void) XtSetArg(arglist[i], XmNmappedWhenManaged, False); i++;
 	(void) XtSetArg(arglist[i], XmNgeometry, NULL); i++;
 	(void) XtSetValues(topShell, arglist, i);
