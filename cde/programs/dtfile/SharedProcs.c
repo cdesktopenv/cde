@@ -1348,7 +1348,7 @@ BuildBufferFileName (char   *file_name,
 /*
  * This is a function for building a buffer name using predfined input
  * and name template information from the types database.
- * WARNING: template_input will be freed. It must point to a char *.
+ * WARNING: template_input MAY be freed. It must point to a char *.
  */
 
 static char *
@@ -1374,12 +1374,11 @@ RetrieveAndUseNameTemplateInfo(
       sprintf(buffer_name, name_template, template_input);
       DtDtsFreeAttributeValue(name_template);
       XtFree(template_input);
-      XtFree(name_template);
       return(buffer_name);
    }
    else
    {
-      XtFree(name_template);
+      DtDtsFreeAttributeValue(name_template);
       return(template_input);
    }
 }
