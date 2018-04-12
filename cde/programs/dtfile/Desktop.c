@@ -1073,7 +1073,9 @@ LoadDesktopInfo(
    /* read the data for each Window, then popup that window */
    for (i = count; i < numWindows + count; i++)
    {
-      int len = 0, toolbox, view, order, direction, positionEnabled;
+      int len = 0, toolbox = False, view = UNSET_VALUE,
+          order = UNSET_VALUE, direction = UNSET_VALUE,
+          positionEnabled = UNSET_VALUE;
 
       desktopWindow = desktop_data->desktopWindows[index];
 
