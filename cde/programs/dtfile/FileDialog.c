@@ -1953,7 +1953,7 @@ ShowMakeFileDialog(
 
    DialogCallbackStruct * call_struct;
    char * tmpStr = NULL, *tempStr = NULL;
-   XmString label_string;
+   XmString label_string = NULL;
 
    Arg args[20];
    int n;
@@ -2043,6 +2043,14 @@ ShowMakeFileDialog(
       label_string = XmStringCreateLocalized (((char *)GETMESSAGE(10, 7, "New File Name: ")));
    }
    XtFree(tempStr);
+
+   if (!shell)
+   {
+       /* shouldn't happen, but... */
+       if (label_string)
+           XmStringFree(label_string);
+       return;
+   }
 
    /* Set the useAsyncGeo on the shell */
    XtSetArg (args[0], XmNuseAsyncGeometry, True);
