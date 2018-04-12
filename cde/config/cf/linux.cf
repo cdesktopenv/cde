@@ -143,20 +143,23 @@ XCOMM binutils:  (LinuxBinUtilsMajorVersion)
 XCOMM Lets try XdmAuth instead of the ancient MIT/DES auth
 #define HasXdmAuth  YES
 
-XCOMM If you have the tirpc library on your system, and you have the
-XCOMM libtirpc-dev installed, then define HasTIRPCLib to YES in either
-XCOMM your host.def or site.def file.  Using the tirpc lib should
-XCOMM allow running rpcbind in secure mode (ie: without the -i option).
-XCOMM The default is NO.
+XCOMM TIRPC is enabled by default now on Linux.  The libtirpc-dev package is
+XCOMM required for this support.  If you cannot use tirpc for some reason,
+XCOMM can disable it by defining HasTIRPCLib to NO in either
+XCOMM your host.def or site.def file.  Not using the TIRPC lib will require
+XCOMM that you run rpcbind in insecure mode (ie: with the -i option).
+XCOMM The default is YES.
 
 #ifndef HasTIRPCLib
-# define HasTIRPCLib NO
+# define HasTIRPCLib YES
 #endif
 
 #if HasTIRPCLib
 TIRPCLIB = -ltirpc
+TIRPCINC = -I/usr/include/tirpc
 #else
-TIRPCLIB = 
+TIRPCLIB =
+TIRPCINC =
 #endif
 
 #if !defined(DefaultGcc2i386Opt)
@@ -288,7 +291,8 @@ XCOMM This is needed for CDE currently
 #define ArchitectureDefines	-DLINUX_ARCHITECTURE
 
 #define TtClientLibs $(TTLIB) $(TIRPCLIB) $(XTOOLLIB) $(XLIB)
-#define TtClientDepLibs $(DEPTTLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+
+#define SharedTtReqs $(TIRPCLIB) $(LDPRELIBS) SharedXReqs $(CXXLIB)
 
 #include <lnxDep.rules>
 #include <lnxLib.rules>

@@ -2105,12 +2105,13 @@ bool_t msg_q_lock(int isfd, const char *record, int length, SVCXPRT *transp)
   // (with a 16 byte key, the rec length must be at least 31)
   if ((length > 30) && !memcmp(record+16, "_TT_QUEUED_MSGS", 15)) {
     // Get the address of the client
-#if defined(OPT_TLI)
+#if defined(OPT_TLI) || defined(OPT_TIRPC)
     netbuf *client_address = svc_getrpccaller(transp);
     _Tt_string client_id(client_address->len);
     memcpy((char *)client_id, client_address->buf, client_address->len);
 #else
     struct sockaddr_in *client_address = svc_getcaller(transp);
+
     _Tt_string client_id(sizeof(struct in_addr));
     memcpy( (char *)client_id, &client_address->sin_addr,
 	    sizeof(struct in_addr) );
@@ -2129,7 +2130,7 @@ bool_t msg_q_lock(int isfd, const char *record, int length, SVCXPRT *transp)
   // (with a 16 byte key, the rec length must be at least 27)
   else if ((length > 26) && !memcmp(record+16, "_TT_MSG_", 8)) {
     // Get the address of the client
-#if defined(OPT_TLI)
+#if defined(OPT_TLI) || defined(OPT_TIRPC)
     netbuf *client_address = svc_getrpccaller(transp);
     _Tt_string client_id(client_address->len);
     (void)memcpy((char *)client_id, client_address->buf, client_address->len);

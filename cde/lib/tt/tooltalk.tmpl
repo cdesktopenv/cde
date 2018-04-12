@@ -19,6 +19,17 @@ DEPTTLIB_AND_MAYBE_XLIB = $(DEPTTLIB)
 
 
 /* put EXTRA_DEFINES and EXTRA_INCLUDES below */
+
+/* For linux with TIRPC, set this so the right bits can/will be used. */
+XCOMM Enable TIRPC for linux hosts with the option enabled
+#ifdef LinuxArchitecture
+# if HasTIRPCLib
+TIRPC_DEFINES = -DOPT_TIRPC
+# else
+TIRPC_DEFINES =
+# endif
+#endif
+
 #ifdef SunArchitecture
 LAST_LOAD_FLAGS = -Bstatic -lC -Bdynamic -lm -lc -Bstatic
 #endif
