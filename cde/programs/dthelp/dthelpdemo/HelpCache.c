@@ -194,7 +194,7 @@ static void CloseHelpCB (
   pTemp = pCacheListHead;
   
   /* Search our Cache List for the closed help dialog */
-  while ((pTemp->helpDialog != helpDialog) && (pTemp != NULL))
+  while ((pTemp != NULL) && (pTemp->helpDialog != helpDialog))
      pTemp = pTemp->pNext;
  
 

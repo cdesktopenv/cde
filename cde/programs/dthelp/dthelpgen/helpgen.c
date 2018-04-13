@@ -531,13 +531,13 @@ CreateFamily (
 		 */
 		if (NULL != bitmap && *bitmap != '/')
 		  {
-		    strcpy (bitmapName, family_name);
+		    snprintf(bitmapName, sizeof(bitmapName), "%s", family_name);
 		    ptr = strrchr (bitmapName, '/');
 		    if (ptr)
 		      {
 			ptr++;
 			*ptr = '\0';
-			strcat (bitmapName, bitmap);
+			snprintf(bitmapName, sizeof(bitmapName), "%s%s", bitmapName, bitmap);
 			bitmap = bitmapName;
 		      }
 		    else
@@ -652,8 +652,7 @@ ScanDirectory (
     if (pDir == NULL)
 	return;
 
-    strcpy (fullName, directory);
-    strcat (fullName, SlashString);
+    snprintf(fullName, sizeof(fullName), "%s%s", directory, SlashString);
     ptr = fullName + strlen (fullName);
 
     /*
@@ -1058,11 +1057,10 @@ main(
 				myName, errno);
 	    exit (1);
 	  }
-	strcat (baseName, "/");
-	strcat (baseName, App_args.dir);
+        snprintf(baseName, sizeof(baseName), "%s/%s", baseName, App_args.dir);
       }
     else
-	strcpy (baseName, App_args.dir);
+        snprintf(baseName, sizeof(baseName), "%s", App_args.dir);
 
     /*
      * make sure the directory exists
@@ -1077,9 +1075,9 @@ main(
 	exit (1);
       }
 
-    (void) strcpy (tmpVolume, ptr);
+    snprintf(tmpVolume, sizeof(tmpVolume), "%s", ptr);
     if (tmpVolume[strlen (tmpVolume) - 1] != '/')
-	strcat(tmpVolume, SlashString);
+        snprintf(tmpVolume, sizeof(tmpVolume), "%s", SlashString);
 
     free (ptr);
 
@@ -1101,7 +1099,7 @@ main(
 	 * remember the rest of the string (including the slash)
 	 * and strip the trailing slash from the directory path.
 	 */
-	strcpy (tmpVolume2, endDir);
+	snprintf(tmpVolume2, sizeof(tmpVolume2), "%s", endDir);
 	*endDir = '\0';
 
 	/*
@@ -1110,7 +1108,7 @@ main(
 	ptr = _DtHelpCeTracePathName(tmpVolume);
 	if (ptr != NULL)
 	  {
-	    strcpy (tmpVolume, ptr);
+	    snprintf(tmpVolume, sizeof(tmpVolume), "%s", ptr);
 	    free (ptr);
 	  }
 
@@ -1187,12 +1185,12 @@ main(
     /*
      * get temporary files for the volume and topic file.
      */
-    (void) strcat (tmpVolume, App_args.file);
+    snprintf(tmpVolume, sizeof(tmpVolume), "%s%s", tmpVolume, App_args.file);
 
     (void) strcpy (tmpHeader, tmpVolume);
     (void) strcpy (tmpTopic, tmpVolume);
 
-    (void) strcat (tmpVolume, Ext_Hv);
+    snprintf(tmpVolume, sizeof(tmpVolume), "%s%s", tmpVolume, Ext_Hv);
     (void) strcat (tmpHeader, "00.ht");
     (void) strcat (tmpTopic , "01.ht");
 

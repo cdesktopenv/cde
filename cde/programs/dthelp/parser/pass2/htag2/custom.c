@@ -231,7 +231,10 @@ SEARCH *searchp;
 char *mb_entcontent;
 
 mb_entcontent = MakeMByteString(entcontent);
-if (!mb_entcontent || !*mb_entcontent) return NULL; /* null file name, don't open a directory */
+if (!mb_entcontent || !*mb_entcontent) {
+    m_free(mb_entcontent, "multi-byte string");
+    return NULL; /* null file name, don't open a directory */
+}
 
 open = fopen(mb_entcontent, "r");
 if (open)

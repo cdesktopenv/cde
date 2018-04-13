@@ -810,30 +810,23 @@ static float dphm = 300.*2540.;
    int i;
    
    /* build printer resource name and class */
-   strcpy(name_prefix, appname);            /* e.g. dthelpprint */
-   strcat(name_prefix, RN_printer);         /* e.g. dthelpprint.printer */
-   
-   strcpy(class_prefix, appclass);          /* e.g. Dthelpprint */
-   strcat(class_prefix, RC_printer);        /* e.g. Dthelpprint.Printer */
+   snprintf(name_prefix, sizeof(name_prefix), "%s%s", appname, RN_printer);    /* e.g. dthelpprint.printer */
+   snprintf(class_prefix, sizeof(class_prefix), "%s%s", appclass, RC_printer); /* e.g. Dthelpprint.Printer */
    
    /********************/
    /* Get printer name */
    /********************/
    
-   strcpy(resource_name, name_prefix);   /* e.g. dthelpprint.printer */
-   strcat(resource_name, RN_rsrcname);   /* e.g. dthelpprint.printer.name */
-   strcpy(resource_class, class_prefix); /* e.g. Dthelpprint.Printer */
-   strcat(resource_class, RC_rsrcname);  /* e.g. Dthelpprint.Printer.Name */
+   snprintf(resource_name, sizeof(resource_name), "%s%s", name_prefix, RN_rsrcname);    /* e.g. dthelpprint.printer.name */
+   snprintf(resource_class, sizeof(resource_class), "%s%s", class_prefix, RC_rsrcname); /* e.g. Dthelpprint.Printer.Name */
    if (XrmGetResource(appDB, resource_name, resource_class,
                       str_type, &value) == True)
       name = value.addr;
    else name = EMPTY_STR;
    if (name[0] != EOS)
    {
-      strcat(name_prefix, DOT_STR);
-      strcat(name_prefix, name);         /* e.g. dthelpprint.printer.<name> */
-      strcat(class_prefix, DOT_STR);
-      strcat(class_prefix, name);        /* e.g. Dthelpprint.Printer.<name> */
+      snprintf(name_prefix, sizeof(name_prefix), "%s%s%s", name_prefix, DOT_STR, name);    /* e.g. dthelpprint.printer.<name> */
+      snprintf(class_prefix, sizeof(class_prefix), "%s%s%s", class_prefix, DOT_STR, name); /* e.g. Dthelpprint.Printer.<name> */
    }
    
    /**************************/
@@ -1459,10 +1452,8 @@ void _DtHPrGetResources(
          cnt > 0; 
          cnt--, rsrc++ )
    {
-      strcpy(resource_name, name_prefix);
-      strcat(resource_name, rsrc->resource_name);
-      strcpy(resource_class, class_prefix);
-      strcat(resource_class, rsrc->resource_class);
+      snprintf(resource_name, sizeof(resource_name), "%s%s", name_prefix, rsrc->resource_name);
+      snprintf(resource_class, sizeof(resource_class), "%s%s", class_prefix, rsrc->resource_class);
       if (XrmGetResource(db, resource_name,
                       resource_class, str_type, &value) == True)
          *XtRefOffset(options,rsrc->resource_offset) = value.addr;

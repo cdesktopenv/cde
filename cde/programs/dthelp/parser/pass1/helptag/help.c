@@ -125,7 +125,7 @@ if ( *(m_argv[0]) == '/' )
 else
     {
     /* not fully specified, check each component of path for ourself */
-    strcpy(patbuf, getenv("PATH"));
+    snprintf(patbuf, sizeof(patbuf), "%s", getenv("PATH"));
     path = patbuf;
     cp = path;
 
@@ -822,9 +822,7 @@ if (listtype == ORDER)
     switch (lastlist->lastlist->order)
 	{
 	case UROMAN:
-	    strcpy(orderString, ROMAN100[count / 100]);
-	    strcat(orderString, ROMAN10[(count / 10) % 10]);
-	    strcat(orderString, ROMAN0[count % 10]);
+	    snprintf(orderString, sizeof(orderString), "%s%s%s", ROMAN100[count / 100], ROMAN10[(count / 10) % 10], ROMAN0[count % 10]);
 	    type = romanString;
 	    break;
 	case UALPHA:
@@ -846,9 +844,7 @@ if (listtype == ORDER)
 	    type = arabicString;
 	    break;
 	case LROMAN:
-	    strcpy(orderString, roman100[count / 100]);
-	    strcat(orderString, roman10[(count / 10) % 10]);
-	    strcat(orderString, roman0[count % 10]);
+	    snprintf(orderString, sizeof(orderString), "%s%s%s", roman100[count / 100], roman10[(count / 10) % 10], roman0[count % 10]);
 	    type = romanString;
 	    break;
 	case LALPHA:
@@ -1512,11 +1508,10 @@ int         execVer;
 int         compVer;
 int         isStd;
 
-strcpy(myLocale, pLang);
+snprintf(myLocale, sizeof(myLocale), "%s", pLang);
 if (*pCharset)
     {
-    strcat(myLocale, ".");
-    strcat(myLocale, pCharset);
+    snprintf(myLocale, sizeof(myLocale), "%s.%s", myLocale, pCharset);
     }
 
 if ((_DtLcxOpenAllDbs(&myDb) != 0) ||
@@ -1604,14 +1599,14 @@ else
     else
 	strcpy(pLang, cString);
 
-    if (*charset)
+    if ( *charset)
 	{
 	strcpy(pCharset, charset);
-	mb_free(&charset);
 	}
     else
 	strcpy(pCharset, isoString);
     }
+	mb_free(&charset);
 
 _DtLcxCloseDb(&myDb);
 free(charset);
@@ -1772,9 +1767,9 @@ if (!charset)
 if (dotPtr)
     *dotPtr = '\0';
 
-strcpy(stdLang, locale);
+snprintf(stdLang, sizeof(stdLang), "%s", locale);
 if (charset)
-    strcpy(stdCharset, charset);
+    snprintf(stdCharset, sizeof(stdCharset), "%s", charset);
 SetStdLocale(stdLang, stdCharset);
 
 if (*stdCharset)
@@ -2751,7 +2746,7 @@ if (! notehead)
     }
 
 icon = GetDefaultHeaderString(iconFile, M_SYSTEM, "");
-if (*icon)
+if (icon && *icon)
     {
     char id[32];
 
@@ -2762,8 +2757,8 @@ if (*icon)
     fputs("CLASS=\"ICON\" SSI=\"NCW-ICON\">", outfile);
     fputs("</REFITEM>\n</SNREF></HEAD>\n", outfile);
     AddToSNB(id, icon);
-    m_free(icon, "icon name");
     }
+m_free(icon, "icon name");
 }
 
 
@@ -2876,6 +2871,7 @@ else
     }
 
 if (try != pathbuf) mb_free(&try);
+mb_free(&mb_inputname);
 }
 
 /* Below is a modified version of m_cyclent() that returns a pointer

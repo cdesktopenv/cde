@@ -198,7 +198,7 @@ if (bufflen == 1)
 	exLineNum++;
     if (special[index])
 	{
-	strcpy(exbuff, special[index]);
+	snprintf(exbuff, sizeof(exbuff), "%s", special[index]);
 	bufflen = strlen(exbuff);
 	}
     }
@@ -230,7 +230,7 @@ if (bufflen == 1)
     index = (unsigned char) imbuff[0];
     if (special[index])
 	{
-	strcpy(imbuff, special[index]);
+	snprintf(imbuff, sizeof(imbuff), "%s", special[index]);
 	bufflen = strlen(imbuff);
 	}
     mb_strcode(imbuff, outfile);

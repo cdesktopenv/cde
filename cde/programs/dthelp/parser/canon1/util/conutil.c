@@ -424,8 +424,13 @@ if (loading) newdlm = (char **) calloc(trysize, sizeof(M_WCHAR *));
 if (! newtransit || (loading && ! newdlm))
     {
     trysize = NUMDELIM + 1;
+    free(newtransit);
     newtransit = (int *) calloc(NUMCON * trysize, sizeof(int));
-    if (loading) newdlm = (char **) calloc(trysize, sizeof(M_WCHAR *));
+    if (loading)
+        {
+        free(newdlm);
+        newdlm = (char **) calloc(trysize, sizeof(M_WCHAR *));
+        }
     }
 if (! newtransit || (loading && ! newdlm))
     {
