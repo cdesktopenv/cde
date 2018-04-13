@@ -202,6 +202,7 @@ void InitBuiltinSystemMenu(void)
 #endif /* WSM */
     char *CloString = NULL;
     char dsm[2048];
+    char dsmtemp[sizeof(dsm)];
     Boolean gotItAll;
     gotItAll = True;
     if(gotItAll)
@@ -404,11 +405,13 @@ void InitBuiltinSystemMenu(void)
 #ifdef WSM
 	if (DtwmBehavior)
 	{
-	    snprintf(dsm, sizeof(dsm), "%s%s\n%s\n%s\n no-label  f.separator\n",
+	    snprintf(dsmtemp, sizeof(dsmtemp), "%s%s\n%s\n%s\n no-label  f.separator\n",
 	             dsm, OcpString, OcaString, RemString);
+	    strcpy(dsm, dsmtemp);
 	}
 #endif /* WSM */
-        snprintf(dsm, sizeof(dsm), "%s%s\n}", dsm, CloString);
+        snprintf(dsmtemp, sizeof(dsmtemp), "%s%s\n}", dsm, CloString);
+        strcpy(dsm, dsmtemp);
 	
 	if ((builtinSystemMenu =
 	     (char *)XtMalloc ((unsigned int) (strlen(dsm) + 1))) == NULL)
