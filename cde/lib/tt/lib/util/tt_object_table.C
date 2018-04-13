@@ -53,7 +53,8 @@ _Tt_object_table(int n)
 	num_buckets = n;						      
 	buckets = (_Tt_object_list_ptr *)calloc(n,
 						sizeof(_Tt_object_list_ptr));
-	_count = 0;							      
+	_count = 0;
+	_getkey = NULL;
 }									      
 									      
 _Tt_object_table::							      

@@ -58,6 +58,7 @@ _Tt_procid()
 	_version = 0;
 	_flags = 0;
 	_mxdr_stream = (XDR *)0;
+	_program = 0;
 }
 
      

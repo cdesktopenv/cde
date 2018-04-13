@@ -44,6 +44,7 @@ const int Tt_trace_buf_len = 4096;
 
 _Tt_trace_stream::_Tt_trace_stream()
 {
+	_is_entered = 0;
 }
 
 _Tt_trace_stream::_Tt_trace_stream(

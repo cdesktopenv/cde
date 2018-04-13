@@ -79,6 +79,7 @@ _Tt_signature()
 	_mangled_args = 0;
 	ce_entry = 0;
 	_timestamp = 0;
+	ce_entry = NULL;
 }
 
 _Tt_signature::

@@ -80,6 +80,8 @@ _Tt_rpc_server(int program, int version, int Rsocket, _Tt_auth &auth)
 	_socket = Rsocket;
 	_program = program;
 	_auth = auth;
+	_rpc_fd = 0;
+	_transp = NULL;
 }
 
 

@@ -55,6 +55,7 @@ _Tt_api_handle_table::
 _Tt_api_handle_table()
 {	
 	content = new _Tt_api_handle_list;
+	last_phandle = NULL;
 }
 
 /*
@@ -615,6 +616,7 @@ print(FILE *f) const
 _Tt_api_callback::
 _Tt_api_callback()
 {
+	callback = NULL;
 }
 
 _Tt_api_callback::
@@ -631,6 +633,8 @@ _Tt_api_handle_table::
 _Tt_api_userdata::
 _Tt_api_userdata()
 {
+	key = 0;
+	userdata = NULL;
 }
 
 _Tt_api_userdata::

@@ -82,6 +82,7 @@ _Tt_desktop()
 {
 	priv = (_Tt_desktop_private *)malloc(sizeof(_Tt_desktop_private));
 	priv->xd = (Display *)0;
+	user_io_handler = NULL;
 }
 
 

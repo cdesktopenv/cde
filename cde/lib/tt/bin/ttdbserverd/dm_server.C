@@ -1101,7 +1101,7 @@ _tt_isopen_1(_Tt_isopen_args *args, SVCXPRT * /* transp */)
 
 
 	memcpy(_tt_log_file, (char *)db_path, prefix_len);
-	strcpy(_tt_log_file+prefix_len, _TT_LOG_FILE);
+	snprintf(_tt_log_file + prefix_len, MAXPATHLEN - prefix_len, "%s", _TT_LOG_FILE);
 	if (access(_tt_log_file, F_OK) == 0) {
 		_tt_process_transaction();
 	}
@@ -1533,7 +1533,7 @@ _tt_transaction_1(_Tt_transaction_args* args, SVCXPRT * /* transp */)
 			return _tt_transaction_error(fd);
 		}
 		memcpy(_tt_log_file, db_path, prefix_len);
-		strcpy(_tt_log_file+prefix_len, _TT_LOG_FILE);
+		snprintf(_tt_log_file + prefix_len, MAXPATHLEN - prefix_len, "%s", _TT_LOG_FILE);
 		if (access(_tt_log_file, F_OK) == 0) {
 			_tt_process_transaction();
 		}
@@ -1791,7 +1791,7 @@ _tt_addsession_1(_Tt_session_args *argp, SVCXPRT * /* transp */)
 	// zero out _tt_record, which is where tp points
 	memset(_tt_record, 0, sizeof(_tt_record));
 	memcpy(tp->objkey, argp->oidkey.oidkey_val, argp->oidkey.oidkey_len);
-	strcpy(tp->propname, filejoin_prop);
+	snprintf(tp->propname, sizeof(tp->propname), "%s", (char *) filejoin_prop);
 	memcpy(tp->propval, (char *) sessionid, sessionid.len());
 	isreclen = OID_KEY_LENGTH+MAX_PROP_LENGTH+sessionid.len();
 	res.result = iswrite(isfd, _tt_record);

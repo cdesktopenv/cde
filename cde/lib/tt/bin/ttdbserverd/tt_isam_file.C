@@ -82,6 +82,9 @@ _Tt_isam_file
     currentRecordLength = -1;
     currentRecordNumber = -1;
   }
+  
+  maxRecordLength = 0;
+  minRecordLength = 0;
 }
 
 void _Tt_isam_file::setTtISAMFileDefaults ()

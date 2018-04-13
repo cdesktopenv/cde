@@ -80,9 +80,9 @@ isrename(oldname, newname)
     /*
      * Check that the odl and new filename are in the same directory.
      */
-    (void)strcpy(olddir, oldname);
+    snprintf(olddir, sizeof(olddir), "%s", oldname);
     _removelast2(olddir);
-    (void)strcpy(newdir, newname);
+    snprintf(newdir, sizeof(newdir), "%s", newname);
     _removelast2(newdir);
 
     if (strcmp(newdir, olddir) != 0) {

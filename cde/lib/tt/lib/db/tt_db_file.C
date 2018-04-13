@@ -45,6 +45,12 @@
 _Tt_db_file::
 _Tt_db_file()
 {
+  dbResults = TT_DB_ERR_ILLEGAL_FILE;
+  checkedDatabase = FALSE;
+  directoryFlag = FALSE;
+  dbFileObjectsCacheLevel = -1;
+  dbFilePropertiesCacheLevel = -1;
+  dbResults = TT_DB_OK;
 }
 
 _Tt_db_file::_Tt_db_file (const _Tt_string &file)

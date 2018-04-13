@@ -46,6 +46,10 @@ _Tt_auth(_Tt_auth_level auth_level)
 {
     _auth_level = auth_level;
     _auth_cookie = "";
+    _rpc_program = 0;
+    _rpc_version = 0;
+    _entries_head = NULL;
+    _entries_tail = NULL;
 }
 
 

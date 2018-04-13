@@ -51,6 +51,8 @@ _Tt_trace_parser::_Tt_trace_parser()
     : trace_stream()
 {
 	tracer_init();
+
+	mode = 0; // Technically this is openmode O_RDONLY but will be overwritten 
 }
 
 _Tt_trace_parser::_Tt_trace_parser(_Tt_trace_parser& templ)
@@ -94,12 +96,16 @@ _Tt_trace_parser::_Tt_trace_parser(int fd)
 	trace_stream[trace_stream.len()] = '\0';
 
 	tracer_init();
+	
+	mode = 0; // Technically this is openmode O_RDONLY but will be overwritten 
 }
 
 _Tt_trace_parser::_Tt_trace_parser(const char* script)
 {
 	trace_stream = script;
 	tracer_init();
+
+	mode = 0; // Technically this is openmode O_RDONLY but will be overwritten 
 }
 
 void

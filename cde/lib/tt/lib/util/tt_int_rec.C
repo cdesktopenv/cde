@@ -40,6 +40,7 @@
 _Tt_int_rec::
 _Tt_int_rec()
 {
+	val = 0;
 }
 
 

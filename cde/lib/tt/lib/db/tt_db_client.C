@@ -93,6 +93,14 @@ _Tt_db_client::_Tt_db_client (_Tt_db_results & status)
   setTtDBDefaults();
   connectToDB(db_hostname);
   status = dbConnectionResults;
+  
+  iserrno = 0;
+  isrecnum = 0;
+  isreclen = 0;
+#if !defined(OPT_TLI)
+  dbSocket.sin_family = 0;
+  dbSocket.sin_port = 0;
+#endif
 }
 
 _Tt_db_client::_Tt_db_client (const _Tt_string &hostname, _Tt_db_results & status)
