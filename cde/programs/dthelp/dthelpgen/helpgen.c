@@ -389,6 +389,7 @@ CreateFamily (
     char	*bitmap = NULL;
     char	 familyName [20];	/* FAMILY%d */
     char	 bitmapName [MAXPATHLEN + 2];
+    char	 bitmapNameTemp [sizeof(bitmapName)];
 
     XrmDatabase	db;
     char	*resType;
@@ -537,7 +538,8 @@ CreateFamily (
 		      {
 			ptr++;
 			*ptr = '\0';
-			snprintf(bitmapName, sizeof(bitmapName), "%s%s", bitmapName, bitmap);
+			snprintf(bitmapNameTemp, sizeof(bitmapNameTemp), "%s%s", bitmapName, bitmap);
+			strcpy(bitmapName, bitmapNameTemp);
 			bitmap = bitmapName;
 		      }
 		    else
@@ -948,11 +950,13 @@ main(
     int      doGen    = 0;
 
     char     tmpVolume  [MAXPATHLEN + 2];
+    char     tmpVolumeTemp[sizeof(tmpVolume)];
     char     tmpVolume2 [MAXPATHLEN + 2];
     char     tmpTopic   [MAXPATHLEN + 2];
     char     tmpHeader  [MAXPATHLEN + 2];
     char     headerName [MAXPATHLEN + 2];
     char     baseName   [MAXPATHLEN + 2];
+    char     baseNameTemp[sizeof(baseName)];
     char     tempName   [MAXPATHLEN + 2];
     char   **next;
     char    *charSet;
@@ -1057,7 +1061,8 @@ main(
 				myName, errno);
 	    exit (1);
 	  }
-        snprintf(baseName, sizeof(baseName), "%s/%s", baseName, App_args.dir);
+        snprintf(baseNameTemp, sizeof(baseNameTemp), "%s/%s", baseName, App_args.dir);
+        strcpy(baseName, baseNameTemp);
       }
     else
         snprintf(baseName, sizeof(baseName), "%s", App_args.dir);
@@ -1076,8 +1081,10 @@ main(
       }
 
     snprintf(tmpVolume, sizeof(tmpVolume), "%s", ptr);
-    if (tmpVolume[strlen (tmpVolume) - 1] != '/')
-        snprintf(tmpVolume, sizeof(tmpVolume), "%s", SlashString);
+    if (tmpVolume[strlen (tmpVolume) - 1] != '/') {
+        snprintf(tmpVolumeTemp, sizeof(tmpVolumeTemp), "%s%s", tmpVolume, SlashString);
+        strcpy(tmpVolume, tmpVolumeTemp);
+    }
 
     free (ptr);
 
@@ -1185,12 +1192,14 @@ main(
     /*
      * get temporary files for the volume and topic file.
      */
-    snprintf(tmpVolume, sizeof(tmpVolume), "%s%s", tmpVolume, App_args.file);
+    snprintf(tmpVolumeTemp, sizeof(tmpVolumeTemp), "%s%s", tmpVolume, App_args.file);
+    strcpy(tmpVolume, tmpVolumeTemp);
 
     (void) strcpy (tmpHeader, tmpVolume);
     (void) strcpy (tmpTopic, tmpVolume);
 
-    snprintf(tmpVolume, sizeof(tmpVolume), "%s%s", tmpVolume, Ext_Hv);
+    snprintf(tmpVolumeTemp, sizeof(tmpVolumeTemp), "%s%s", tmpVolume, Ext_Hv);
+    strcpy(tmpVolume, tmpVolumeTemp);
     (void) strcat (tmpHeader, "00.ht");
     (void) strcat (tmpTopic , "01.ht");
 

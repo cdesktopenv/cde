@@ -1501,6 +1501,7 @@ static const char *isoString = "ISO-8859-1";
 _DtXlateDb  myDb = NULL;
 char        myPlatform[_DtPLATFORM_MAX_LEN+1];
 char        myLocale[256]; /* arbitrarily large */
+char        myLocaleTemp[sizeof(myLocale)]; /* non-arbitrarily the same */
 char       *locale;
 char       *lang;
 char       *charset;
@@ -1511,7 +1512,8 @@ int         isStd;
 snprintf(myLocale, sizeof(myLocale), "%s", pLang);
 if (*pCharset)
     {
-    snprintf(myLocale, sizeof(myLocale), "%s.%s", myLocale, pCharset);
+    snprintf(myLocaleTemp, sizeof(myLocaleTemp), "%s.%s", myLocale, pCharset);
+    strcpy(myLocale, myLocaleTemp);
     }
 
 if ((_DtLcxOpenAllDbs(&myDb) != 0) ||

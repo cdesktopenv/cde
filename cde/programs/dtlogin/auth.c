@@ -1140,6 +1140,7 @@ SetUserAuthorization (struct display *d, struct verify_info *verify)
 {
     FILE	*old, *new;
     char	home_name[1024], backup_name[1024], new_name[1024];
+    char	home_name_temp[sizeof(home_name)];
     char	*name;
     char	*home;
     char	*envname = 0;
@@ -1159,9 +1160,12 @@ SetUserAuthorization (struct display *d, struct verify_info *verify)
 	lockStatus = LOCK_ERROR;
 	if (home) {
 	    snprintf(home_name, sizeof(home_name), "%s", home);
-	    if (home[strlen(home) - 1] != '/')
-	        snprintf(home_name, sizeof(home_name), "%s/", home_name);
-	    snprintf(home_name, sizeof(home_name), "%s.Xauthority", home_name);
+	    if (home[strlen(home) - 1] != '/') {
+	        snprintf(home_name_temp, sizeof(home_name_temp), "%s/", home_name);
+	        strcpy(home_name, home_name_temp);
+	    }
+	    snprintf(home_name_temp, sizeof(home_name_temp), "%s.Xauthority", home_name);
+        strcpy(home_name, home_name_temp);
 	    Debug ("XauLockAuth %s\n", home_name);
 	    lockStatus = XauLockAuth (home_name, 1, 2, 10);
 	    Debug ("Lock is %d\n", lockStatus);
@@ -1319,6 +1323,7 @@ RemoveUserAuthorization (struct display *d, struct verify_info *verify)
     char    *home;
     Xauth   **auths, *entry;
     char    name[1024], new_name[1024];
+    char    name_temp[sizeof(name)];
     int	    lockStatus;
     FILE    *old, *new;
     struct stat	statb;
@@ -1332,9 +1337,12 @@ RemoveUserAuthorization (struct display *d, struct verify_info *verify)
 	return;
     Debug ("RemoveUserAuthorization\n");
     snprintf(name, sizeof(name), "%s", home);
-    if (home[strlen(home) - 1] != '/')
-        snprintf(name, sizeof(name), "%s/", name);
-    snprintf(name, sizeof(name), "%s.Xauthority", name);
+    if (home[strlen(home) - 1] != '/') {
+        snprintf(name_temp, sizeof(name_temp), "%s/", name);
+        strcpy(name, name_temp);
+    }
+    snprintf(name_temp, sizeof(name_temp), "%s.Xauthority", name);
+    strcpy(name, name_temp);
     Debug ("XauLockAuth %s\n", name);
     lockStatus = XauLockAuth (name, 1, 2, 10);
     Debug ("Lock is %d\n", lockStatus);

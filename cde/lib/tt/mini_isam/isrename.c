@@ -217,6 +217,7 @@ _rename_datfile(isfname, newname)
 {
     char	namebuf[MAXPATHLEN];
     char	newbuf[MAXPATHLEN];
+    char	newbuftemp[sizeof(newbuf)];
 
     snprintf(namebuf, sizeof(namebuf), "%s", isfname);
     snprintf(newbuf, sizeof(newbuf), "%s", isfname);
@@ -225,9 +226,12 @@ _rename_datfile(isfname, newname)
      * Replace the last element of the old path with newname.
      */
     _removelast(newbuf);
-    if (strcmp(newbuf, "/") != 0)
-        snprintf(newbuf, sizeof(newbuf),  "%s/", newbuf);
-    snprintf(newbuf, sizeof(newbuf), "%s%s", newbuf, newname);
+    if (strcmp(newbuf, "/") != 0) {
+        snprintf(newbuftemp, sizeof(newbuftemp),  "%s/", newbuf);
+        strcpy(newbuf, newbuftemp);
+    }
+    snprintf(newbuftemp, sizeof(newbuftemp), "%s%s", newbuf, newname);
+    strcpy(newbuf, newbuftemp);
 
     _makedat_isfname(namebuf);
     _makedat_isfname(newbuf);
@@ -242,6 +246,7 @@ _rename_indfile(isfname, newname)
 {
     char	namebuf[MAXPATHLEN];
     char	newbuf[MAXPATHLEN];
+    char	newbuftemp[MAXPATHLEN];
 
     snprintf(namebuf, sizeof(namebuf), "%s", isfname);
     snprintf(newbuf, sizeof(newbuf), "%s", isfname);
@@ -250,9 +255,12 @@ _rename_indfile(isfname, newname)
      * Replace the last element of the old path with newname.
      */
     _removelast(newbuf);
-    if (strcmp(newbuf, "/") != 0)
-        snprintf(newbuf, sizeof(newbuf), "%s/", newbuf);
-    snprintf(newbuf, sizeof(newbuf), "%s%s", newbuf, newname);
+    if (strcmp(newbuf, "/") != 0) {
+        snprintf(newbuftemp, sizeof(newbuftemp), "%s/", newbuf);
+        strcpy(newbuf, newbuftemp);
+    }
+    snprintf(newbuftemp, sizeof(newbuftemp), "%s%s", newbuf, newname);
+    strcpy(newbuf, newbuftemp);
 
     _makeind_isfname(namebuf);
     _makeind_isfname(newbuf);
@@ -267,6 +275,7 @@ _rename_varfile(isfname, newname)
 {
     char	namebuf[MAXPATHLEN];
     char	newbuf[MAXPATHLEN];
+    char	newbuftemp[MAXPATHLEN];
 
     snprintf(namebuf, sizeof(namebuf), "%s", isfname);
     snprintf(newbuf, sizeof(newbuf), "%s", isfname);
@@ -275,9 +284,12 @@ _rename_varfile(isfname, newname)
      * Replace the last element of the old path with newname.
      */
     _removelast(newbuf);
-    if (strcmp(newbuf, "/") != 0)
-        snprintf(newbuf, sizeof(newbuf), "%s/", newbuf);
-    snprintf(newbuf, sizeof(newbuf), "%s%s", newbuf, newname);
+    if (strcmp(newbuf, "/") != 0) {
+        snprintf(newbuftemp, sizeof(newbuftemp), "%s/", newbuf);
+        strcpy(newbuf, newbuftemp);
+    }
+    snprintf(newbuftemp, sizeof(newbuftemp), "%s%s", newbuf, newname);
+    strcpy(newbuf, newbuftemp);
 
     _makevar_isfname(namebuf);
     _makevar_isfname(newbuf);

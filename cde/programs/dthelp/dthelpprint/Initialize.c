@@ -796,7 +796,9 @@ static float dphm = 300.*2540.;
    int  (*stricmp)(const char *,const char *);
    char *name;
    char name_prefix[RSRCSPECLEN];
+   char name_prefix_temp[sizeof(name_prefix)];
    char class_prefix[RSRCSPECLEN];
+   char class_prefix_temp[sizeof(class_prefix)];
    char resource_name[RSRCSPECLEN];
    char resource_class[RSRCSPECLEN];
    char *str_type[20];
@@ -825,8 +827,10 @@ static float dphm = 300.*2540.;
    else name = EMPTY_STR;
    if (name[0] != EOS)
    {
-      snprintf(name_prefix, sizeof(name_prefix), "%s%s%s", name_prefix, DOT_STR, name);    /* e.g. dthelpprint.printer.<name> */
-      snprintf(class_prefix, sizeof(class_prefix), "%s%s%s", class_prefix, DOT_STR, name); /* e.g. Dthelpprint.Printer.<name> */
+      snprintf(name_prefix_temp, sizeof(name_prefix_temp), "%s%s%s", name_prefix, DOT_STR, name);    /* e.g. dthelpprint.printer.<name> */
+      strcpy(name_prefix, name_prefix_temp);
+      snprintf(class_prefix_temp, sizeof(class_prefix_temp), "%s%s%s", class_prefix, DOT_STR, name); /* e.g. Dthelpprint.Printer.<name> */
+      strcpy(class_prefix, class_prefix_temp);
    }
    
    /**************************/
