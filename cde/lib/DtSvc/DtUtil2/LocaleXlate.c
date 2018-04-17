@@ -144,7 +144,7 @@ refer to the _DtXlatedocumentation.
 <operations> : a CDE-standardized identifier for the operation(s) to
 which the value applies.  The operation(s) need not be supported by every
 platform, but CDE must have standardized an identifier for the operation
-in order for it to be used.  More than one identifer may be included by
+in order for it to be used.  More than one identifier may be included by
 concatenating them using the ',' separator, eg. "iconv1,iconv3".
 
 _DtLcx defines a number of standard operation strings that use

@@ -199,7 +199,7 @@ inherit		:	FROM otid
  * 
  * args		::=  '(' argspec {, argspec}* ')' | '(void)' | '()'
  *
- * cxtdcl	::=  'context' '(' identifier {, identifer }* ')'
+ * cxtdcl	::=  'context' '(' identifier {, identifier }* ')'
  * 
  * argspec	::=  mode type name
  * 

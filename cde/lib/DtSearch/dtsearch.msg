@@ -190,7 +190,7 @@ $ Msg 46 should not translate "delblanklines."
 53 "Error - delimiter defined as '%1$s' references a physical line in the record.\n\
    Since the delimiter defines the physical lines\n\
   it cannot be referenced as a physical line.\n"
-54 "Error - for field '%1$s', no line identifer matches '%2$s'.\n"
+54 "Error - for field '%1$s', no line identifier matches '%2$s'.\n"
 55 "Error - field include/exclude list included\n\
   the field '%1$s', which was never defined.\n"
 56 "Error - image include/exclude list included\n\

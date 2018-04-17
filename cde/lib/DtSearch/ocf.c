@@ -745,7 +745,7 @@ static int      add_a_keytype (char ktchar)
  * For example if how_many == 1, only 1 keytype will be added
  * and the balance of the line will be ignored.
  * We also quit adding keytypes when the total reaches
- * MAX_KTCOUNT or when we hit end of line or commments.
+ * MAX_KTCOUNT or when we hit end of line or comments.
  */
 static void     read_keytypes (int how_many, _Xstrtokparams *strtok_buf)
 {
