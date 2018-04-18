@@ -348,7 +348,7 @@ Warning (char *message)
  *
  *  Description:
  *  -----------
- *  This function lists several messages to stderr using fprinf()
+ *  This function lists several messages to stderr using fprintf()
  *  formatting capabilities.
  *
  *  Inputs:

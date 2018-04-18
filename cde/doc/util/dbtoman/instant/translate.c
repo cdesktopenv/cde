@@ -333,7 +333,7 @@ ExpandVariables(
 /*  Process an "output" translation spec - one of StartText, EndText,
  *  Replace, Message.  (These are the ones that produce output.)
  *  Steps done:
- *	Expand attributes and regular varaibles in input string.
+ *	Expand attributes and regular variables in input string.
  *	Pass thru string, accumulating chars to be sent to output stream.
  *	If we find the start of a special variable, output what we've
  *	  accumulated, then find the special variable's "bounds" (ie, the
