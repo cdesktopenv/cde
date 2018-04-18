@@ -63,7 +63,7 @@ _Tt_s_message()
 	// The active message count is just to enforce the limit
 	// on the number of active messages.  Doing this in the
 	// constructor was expedient, but because we construct
-	// a message before _tt_mp is initialised, we have
+	// a message before _tt_mp is initialized, we have
 	// to omit it in that case.
 	if (_tt_s_mp) {
 		_tt_s_mp->active_messages++;

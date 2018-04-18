@@ -631,7 +631,7 @@ MIMEBodyPart::loadBody(DtMailEnv & error)
 // March 25, 1997
 // The Content-Disposition field has been designated as the primary 
 // header field for transmitting file names.  See RFC 1806.  Therefore
-// the algorithm has bee updated as follows.
+// the algorithm has been updated as follows.
 //
 // 1. DtMail checks the following headers for the "filename" for a body part:
 //	o The "filename" parameter of the "Content-Disposition" header field.

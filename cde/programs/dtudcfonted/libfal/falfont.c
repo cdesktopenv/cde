@@ -1905,7 +1905,7 @@ FalFontData	*choose;
 		return	0; 
 	}
 
-	/* letter size hieght */
+	/* letter size height */
 	if ( diff.letter.h < 0 ) { 
 		return	1; 
 	}

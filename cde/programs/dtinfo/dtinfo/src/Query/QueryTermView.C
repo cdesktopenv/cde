@@ -386,7 +386,7 @@ QueryTermView::register_actions()
 		 XmNbottomShadowColor, bottom_shadow, \
 		 NULL);
 
-// TODO: set colors for text fields seperately (for when bg is different)
+// TODO: set colors for text fields separately (for when bg is different)
 
 void
 QueryTermView::invert_colors()

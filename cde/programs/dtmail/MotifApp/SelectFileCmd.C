@@ -262,7 +262,7 @@ void SelectFileCmd::fileSelectedCB(
            return;
          }
 
-	// If a string was succesfully extracted, call
+	// If a string was successfully extracted, call
 	// fileSelected to handle the file.
 
         XtUnmanageChild ( w );   // Bring the file selection dialog down.

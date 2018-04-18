@@ -219,7 +219,7 @@ static void	WriteBtmp( char *name) ;
 #ifdef AUDIT
   struct s_passwd *s_pwd;
   struct stat	s_pfile;
-  int		secure;	/* flag to denote existance of secure passwd file */
+  int		secure;	/* flag to denote existence of secure passwd file */
   Boolean	selfAuditOn;
 #endif
 

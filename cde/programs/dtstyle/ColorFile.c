@@ -540,7 +540,7 @@ WriteOutDesc(
 /*
 ** This routine removes a palette.  
 ** It actually creates a file in the users home palette directory with 
-** the current palette name preceeded by a '~'.
+** the current palette name preceded by a '~'.
 ** If the current palette is from the users home palette directory, that
 ** file is removed.
 */

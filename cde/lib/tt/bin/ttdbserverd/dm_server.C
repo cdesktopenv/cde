@@ -502,7 +502,7 @@ _tt_oid_accessp(int _isfd, char *rec, int mode)
 		/* check access request against permissions */
 		switch (category) {
 		      case DM_USER:
-			// The owner is allowed all priviledges
+			// The owner is allowed all privileges
 			return 1;
 /*			this left here in case we want to check someday
  *			switch (mode) {

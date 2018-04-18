@@ -134,7 +134,7 @@ static XmGadget InputForGadget(
 /************************************************************************
  *
  *  FileWindowExposeCallback
- *	Callback function invoked upon an exposure event occuring
+ *	Callback function invoked upon an exposure event occurring
  *	in the file display area.
  *
  ************************************************************************/
@@ -266,7 +266,7 @@ FileWindowMapCallback(
 /************************************************************************
  *
  *  FileWindowInputCallback
- *	Callback function invoked upon input occuring in the 
+ *	Callback function invoked upon input occurring in the
  *	file display area, file icon, or within a desktop icon.
  *
  ************************************************************************/

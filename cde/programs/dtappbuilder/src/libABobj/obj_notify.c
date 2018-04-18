@@ -497,7 +497,7 @@ objP_dispatch_event(OBJ_EVENT *event)
     if (ignoreEvents)
     {
 	/*
-	 * A critical error has occured (e.g., an event loop).  Just
+	 * A critical error has occurred (e.g., an event loop).  Just
 	 * pretend everything is hunky-dory and ignore dispatch requests.
 	 */
 	iReturn= OK;

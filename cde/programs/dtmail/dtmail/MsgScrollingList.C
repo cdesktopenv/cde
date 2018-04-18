@@ -698,12 +698,12 @@ void MsgScrollingList::do_list_vis_adjustment()
         if (winM <= 0) { //[There is no scope of adjustment
             return;
         }
-        //[All the new messages can be accomodated w/o scrolling curr selection
+        //[All the new messages can be accommodated w/o scrolling curr selection
         if (numNew <= winM) {
             XmListSetBottomPos(list, cItmCnt);
             return;
         }
-        //[All the new messages cannot be accomodated, but we will do best fit
+        //[All the new messages cannot be accommodated, but we will do best fit
         else {
             int numNotShow = numNew - winM;
             XmListSetBottomPos(list, cItmCnt - numNotShow);

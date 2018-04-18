@@ -103,7 +103,7 @@ struct MarkSelectionChanged
   Data for positional restore:
     (for now just offset and length for simplicity)
 
-  preceeding locator
+  preceding locator
   offset
   first n characters
   length

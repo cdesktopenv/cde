@@ -206,7 +206,7 @@ resfixup_t fileselbox_fixups[] = {
 
 
 /*
- * The following shell resources are 'fixed' to allow them to be refered
+ * The following shell resources are 'fixed' to allow them to be referred
  * to in a shell script by their symbolic names, as opposed to their
  * integer values.  These also need to be force onto any subclasses.
  */

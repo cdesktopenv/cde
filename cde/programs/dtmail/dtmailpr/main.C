@@ -50,7 +50,7 @@ void
 enableGroupPrivileges(void *)
 {
     if(-1 == setgid(_originalEgid)) {
-        fprintf(stderr, "Failed to enable group priviledges\n");
+        fprintf(stderr, "Failed to enable group privileges\n");
     }
 }
 
@@ -58,7 +58,7 @@ void
 disableGroupPrivileges(void *)
 {
     if(-1 == setgid(_originalRgid)) {
-        fprintf(stderr, "Failed to disable group priviledges\n");
+        fprintf(stderr, "Failed to disable group privileges\n");
     }
 }
 

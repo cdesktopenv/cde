@@ -376,7 +376,7 @@ static char * pathsSet[_DtHELP_FILE_NUM_PATHS];
  *
  * Purpose:	Scans all paths of given type looking for a matching file
  *              If file contains a valid absolute path, that is also
- *              acceptible.
+ *              acceptable.
  * 
  * FIX: merge _DtHelpFileLocate() and _DtHelpFileListScanPaths()
  *****************************************************************************/

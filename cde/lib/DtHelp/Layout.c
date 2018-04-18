@@ -2576,7 +2576,7 @@ ProcessTable(
 	  }
 
         /*
-         * Now, double check that the row heights will accomodate
+         * Now, double check that the row heights will accommodate
 	 * all the cells.
          */
         for (row = 0; row < maxRows; row++)

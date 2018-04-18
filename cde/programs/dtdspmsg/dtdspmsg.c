@@ -305,7 +305,7 @@ void parse_args(int argc, char *argv[], struct arguments *args)
 	argv++ ; 
 	argc--;				/* Skip the program name */
 	if (!strcmp(*argv,"-s")) {	/* check for a set number */
-		if (argc < 4) 		/* check for sufficient arguements */
+		if (argc < 4) 		/* check for sufficient arguments */
 		die(catgets(catderr,MS_DSPMSG,M_DSPMSG, "Usage: dtdspmsg [-s setno] <catname> <msgno> ['default' arg ... ]"));
 		argv++; 
 		argc--;				/* skip past the '-s' */
@@ -316,7 +316,7 @@ void parse_args(int argc, char *argv[], struct arguments *args)
 	args->catname = *argv++;		/* get the cat name */
 	argc--;
 	if (!strcmp(*argv,"-s")) {		/* check for a set number */
-		if (argc < 3) 		/* check for sufficient arguements */
+		if (argc < 3) 		/* check for sufficient arguments */
 		die(catgets(catderr,MS_DSPMSG,M_DSPMSG, "Usage: dtdspmsg [-s setno] <catname> <msgno> ['default' arg ... ]"));
 
 		argv++; 

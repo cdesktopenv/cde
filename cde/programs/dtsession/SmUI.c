@@ -1663,7 +1663,7 @@ SimpleOK(
  *
  *  Description:
  *  -----------
- *  Give the visual feedback neccessary when the user is entering a password
+ *  Give the visual feedback necessary when the user is entering a password
  *
  *
  *  Inputs:

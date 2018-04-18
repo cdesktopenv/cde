@@ -462,7 +462,7 @@ MigrateResources(char * inputfile, char * outputfile)
                           /* if entire line was read but it ends
                              with a continuation character
                              then, remove the ending continuation character or
-                             spaces preceeded by an ending
+                             spaces preceded by an ending
                              continuation character.
                           */
                           realend=DtPrevChar(inputbuffer1,realend);
@@ -567,7 +567,7 @@ MigrateResources(char * inputfile, char * outputfile)
                          number_fields = i-1;
                          /* check for each type of resource
                             that should be retained in the output file.
-                            See comments preceeding the definition
+                            See comments preceding the definition
                             of each array near the start of this file
                             for a description and example of each type.
                          */

@@ -535,7 +535,7 @@ xevent_error_aborter(Display *display, XErrorEvent* error_event)
     _DtPrintDefaultErrorSafe(display, error_event, error_msg, _DTINFO_BUFSIZE);
     _DtSimpleError((char*)"dtinfo", DtWarning, NULL, error_msg, NULL);
     
-    // if the error occured on the print display we're going to set 
+    // if the error occurred on the print display we're going to set
     // a variable so that and when the job is done, right before calling
     // XpEndJob, we call XpCancelJob, and notify the user.
 

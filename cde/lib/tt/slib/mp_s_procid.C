@@ -1303,7 +1303,7 @@ set_timeout_for_message(const _Tt_message &m)
 
 
 // 
-// Called by _Tt_mp::service_timeout when a timeout event happend with
+// Called by _Tt_mp::service_timeout when a timeout event happened with
 // the given timeout. This function checks to see whether the timeout is
 // equal to or greater than the internal timeout (which is only set if we
 // signalled the client procid for a new message). If the timeout exceeds

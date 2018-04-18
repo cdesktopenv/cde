@@ -1075,7 +1075,7 @@ int IdentifyFramePart (ClientData *pCD, int x, int y)
  *
  *  Description:
  *  -----------
- *  returns the id of the gadget in the list that the event occured in
+ *  returns the id of the gadget in the list that the event occurred in
  *
  *
  *  Inputs:

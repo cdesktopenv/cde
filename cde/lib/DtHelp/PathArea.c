@@ -363,7 +363,7 @@ void _DtHelpUpdatePathArea(
       if (retState == -1) 
         {
 
-          /* Some error occured while processing the new toc, 
+          /* Some error occurred while processing the new toc,
            * error out or something ??? 
            */
         }

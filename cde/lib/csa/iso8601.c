@@ -268,7 +268,7 @@ _csa_range_to_iso8601(time_t start, time_t end, char *buf)
 {
     char tmpstr1[BUFSIZ], tmpstr2[BUFSIZ];
 
-    /* validate: ticks must be +ve, and end can't preceed start */
+    /* validate: ticks must be +ve, and end can't precede start */
     if ((start < 0) || (end < 0) || (end < start)) {
         return(-1);
     }

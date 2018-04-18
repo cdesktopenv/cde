@@ -788,7 +788,7 @@ Display_XPMFile(
   icon_height = height;
   fileFormat = FORMAT_XPM;
   XmToggleButtonGadgetSetState(formatMenu_xpm_tb, True, True);
-/* This line is not realy needed since an Exposed event will be generated */
+/* This line is not really needed since an Exposed event will be generated */
   Repaint_Exposed_Tablet();
   XDestroyImage(scratch_img);
   XFreePixmap(dpy, pix_ret);
@@ -869,7 +869,7 @@ Display_XBMFile(
   icon_height = height;
   fileFormat = FORMAT_XBM;
   XmToggleButtonGadgetSetState(formatMenu_xbm_tb, True, True);
-/* This line is not realy needed since an Exposed event will be generated */
+/* This line is not really needed since an Exposed event will be generated */
   Repaint_Exposed_Tablet();
   if (mask_ret) {
     XDestroyImage(test_img);

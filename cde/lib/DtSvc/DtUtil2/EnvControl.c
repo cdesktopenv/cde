@@ -73,7 +73,7 @@ static void _EnvAdd (char *, char *, unsigned int);
 * NOTES on an application's environ(5):
 * 
 * The environment variable is an array of NULL-terminated strings.
-* char **environ is defined in crt.o and is publically extern-ed to
+* char **environ is defined in crt.o and is publicly extern-ed to
 * all applications.  There is one such variable per UN*X application.
 * 
 * To deference an environment string, as in the debugger, use:

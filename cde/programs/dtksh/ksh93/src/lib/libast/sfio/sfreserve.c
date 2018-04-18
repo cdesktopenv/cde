@@ -124,7 +124,7 @@ int		lock;	/* 1 to lock stream and not advance pointer */
 			break;
 	}
 
-	/* try to accomodate request size */	
+	/* try to accommodate request size */
 	if(n > 0 && n < size && (f->mode&mode) != 0 )
 	{
 		if(f->flags&SF_STRING)

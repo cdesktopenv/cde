@@ -100,7 +100,7 @@ int fopencheck(char *file, char *dir, char *mode)
 	    }
 	}
     } else
-	fprintf(stderr, "Unanticipatable error occured in fopencheck.\n");
+	fprintf(stderr, "Unanticipatable error occurred in fopencheck.\n");
     return -1;
 }
 

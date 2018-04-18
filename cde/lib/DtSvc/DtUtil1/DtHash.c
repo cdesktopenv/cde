@@ -252,7 +252,7 @@ void * _DtUtilDelHash(DtHashTbl t, const unsigned char * key)
 	return(NULL); /* not found */
     }
       /* tmp now points to entry marked for deletion, prev to 
-         item preceeding in bucket chain or NULL if tmp is first.
+         item preceding in bucket chain or NULL if tmp is first.
 	 
 	 remove from bucket chain first....
 

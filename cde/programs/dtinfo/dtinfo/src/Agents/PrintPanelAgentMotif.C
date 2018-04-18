@@ -879,7 +879,7 @@ DoPrint(Widget widget, AppPrintData * p)
 
     XSync(XtDisplay(p->f_print_shell), False);
 
-    // if a print server error occured then notify the user
+    // if a print server error occurred then notify the user
 
     if (print_server_error) {
 

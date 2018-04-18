@@ -909,7 +909,7 @@ typedef enum { SINGLE, ROOT, ALL } OpRange;
 typedef struct _CmdTree {
   CARD32           commandID;   /* unique identifier for this command. */
   CARD32           notifyWindow;/* window to receive InvokeCommand request. */
-  char            *name;        /* name of command refered to in .mwmrc. */
+  char            *name;        /* name of command referred to in .mwmrc. */
   char            *defaultName; /* default label of menu. */
   struct _CmdTree *subTrees;    /* list of child commands or command sets. */
   struct _CmdTree *next;

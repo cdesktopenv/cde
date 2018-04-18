@@ -598,7 +598,7 @@ Tcl_OpenFileChannel(interp, fileName, modeString, permissions)
 	    break;
 	default:
             /*
-             * This may occurr if modeString was "", for example.
+             * This may occur if modeString was "", for example.
              */
 	    panic("Tcl_OpenFileChannel: invalid mode value");
 	    return NULL;

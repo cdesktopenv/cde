@@ -843,7 +843,7 @@ char		*fname ;
 			return(-2) ;
 		    }
 		case _FAL_MALOC_ER :
-		    USAGE("System call error occured.\n" ) ;
+		    USAGE("System call error occurred.\n" ) ;
 		    return(-2) ;
 		default :
 		    USAGE3("There is no font file correspond to specified font.\n(%s)\n fal_utyerror = %d fal_utyderror = %d\n",

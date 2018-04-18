@@ -582,7 +582,7 @@ read_line (
  * Description:
  *
  *	This function removes the slashes from a string unless the slash 
- *      is preceeded by a slash.  It also remove whitespace from the end
+ *      is preceded by a slash.  It also remove whitespace from the end
  *	of the string.
  *
  * Synopsis:

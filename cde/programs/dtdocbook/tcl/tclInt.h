@@ -625,7 +625,7 @@ typedef struct Interp {
  *			Tcl_Eval are done.
  * ERR_IN_PROGRESS:	Non-zero means an error unwind is already in progress.
  *			Zero means a command proc has been invoked since last
- *			error occured.
+ *			error occurred.
  * ERR_ALREADY_LOGGED:	Non-zero means information has already been logged
  *			in $errorInfo for the current Tcl_Eval instance,
  *			so Tcl_Eval needn't log it (used to implement the

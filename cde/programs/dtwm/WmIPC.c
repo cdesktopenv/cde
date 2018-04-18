@@ -524,7 +524,7 @@ dtSendWorkspaceModifyNotification(
  *  x		- x position of UL corner of rectangle
  *  y		- y position of UL corner of rectangle
  *  width	- width of rectangle
- *  heigth	- height of rectangle
+ *  height	- height of rectangle
  * 
  *  Outputs:
  *  -------

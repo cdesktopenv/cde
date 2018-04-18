@@ -167,7 +167,7 @@ struct Ufunction
 #define NV_NOEXPAND	NV_RJUST		/* do not expand alias */
 #define NV_BLTIN	(NV_NOPRINT|NV_EXPORT)
 #define BLT_ENV		(NV_RDONLY)		/* non-stoppable,
-						 * can modify enviornment */
+						 * can modify environment */
 #define BLT_SPC		(NV_LJUST)		/* special built-ins */
 #define BLT_EXIT	(NV_RJUST)		/* exit value can be > 255 */
 #define BLT_DCL		(NV_TAGGED)		/* declaration command */

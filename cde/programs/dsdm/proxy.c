@@ -406,7 +406,7 @@ ProxyInit(Display *dpy, Window dsdm_win)
 
     InitializeByteOrder();
 
-    /* make motif_drag_win and proxy_win persistant */
+    /* make motif_drag_win and proxy_win persistent */
     XSetCloseDownMode(dpy, RetainPermanent);
     XInternAtoms(dpy, atom_names, NUM_ATOMS, False, atoms);
 

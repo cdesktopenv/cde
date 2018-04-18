@@ -752,7 +752,7 @@ static void Initialize(
   VariableInitialize(hw);
 
 
-  /* Validate the incomming arguments to make sure they are ok */
+  /* Validate the incoming arguments to make sure they are ok */
 
 
   /* Build the Menus bar */
@@ -879,7 +879,7 @@ static Boolean SetValues(
   Boolean updateRequest=FALSE;
   Boolean newTitle=FALSE;
 
-  /* Validate the incomming arguments to make sure they are ok */
+  /* Validate the incoming arguments to make sure they are ok */
 
 
 

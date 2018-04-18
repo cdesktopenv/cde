@@ -2036,7 +2036,7 @@ RestoreSettingsFile( void )
   else
   {
     XtFree(dtPath);
-    return;  /* we are comming up in a system mode (e.g. default) */
+    return;  /* we are coming up in a system mode (e.g. default) */
   }
 
 

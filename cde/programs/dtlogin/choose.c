@@ -412,7 +412,7 @@ ProcessChooserSocket (
 	    XdmcpReadCARD16 (&buffer, &connectionType) &&
 	    XdmcpReadARRAY8 (&buffer, &choice))
 	{
-	    Debug ("Read from chooser succesfully\n");
+	    Debug ("Read from chooser successfully\n");
 	    if (!RegisterIndirectChoice (&clientAddress, connectionType, &choice))
 		Debug ("Invalid chooser reply\n");
 	}

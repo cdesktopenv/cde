@@ -279,7 +279,7 @@ PrintJobCancel(PrintJob *pJob)
 
 /************************************************************************
  * PrintJobGetErrorPrintDisplay
- *	Returns the last print display on which an error occured.
+ *	Returns the last print display on which an error occurred.
  ************************************************************************/
 Display *
 PrintJobGetErrorPrintDisplay()
@@ -289,7 +289,7 @@ PrintJobGetErrorPrintDisplay()
 
 /************************************************************************
  * PrintJobSetErrorPrintDisplay
- *	Save a pointer to the print display on which an error occured.
+ *	Save a pointer to the print display on which an error occurred.
  ************************************************************************/
 void
 PrintJobSetErrorPrintDisplay(Display *display)
@@ -299,7 +299,7 @@ PrintJobSetErrorPrintDisplay(Display *display)
 
 /************************************************************************
  * PrintJobIsActivePrintDisplay
- *	Save a pointer to the print display on which an error occured.
+ *	Save a pointer to the print display on which an error occurred.
  ************************************************************************/
 Boolean
 PrintJobIsActivePrintDisplay(Display *display)

@@ -221,7 +221,7 @@ ab_position_window(
 		NULL);
 
     /* 
-     * Adjust geometry values to accomodate window-frame 
+     * Adjust geometry values to accommodate window-frame
      *
      * Also, if this routine is called before a window's contents have
      * been managed, its current available dimensions may be misleadingly

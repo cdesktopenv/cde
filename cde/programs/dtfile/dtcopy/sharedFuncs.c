@@ -157,7 +157,7 @@ int    G_dialog_closed = FALSE;
  *  for object and folder.
  *
  *  This function simply searches for the last slash (/) in
- *  the path and returns the characters preceeding the slash
+ *  the path and returns the characters preceding the slash
  *  as folder and the characters after the last slash as
  *  object. Thus, object could be a directory/folder or a
  *  file.

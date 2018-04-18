@@ -947,10 +947,10 @@ DADrawLine (
  *		box_x,box_y	Specifies the upper left hand corner of
  *				the bounding box for this string. This
  *				includes any traversal and/or link offsets
- *				relevent for the line this segment occupies.
+ *				relevant for the line this segment occupies.
  *		box_height	Specifies the maximum height of the bounding
  *				box for this string. This includes any
- *				traversal and/or offsets relevent to this
+ *				traversal and/or offsets relevant to this
  *				line.
  *		old_flags	Specifies .............
  *		new_flags	Specifies .............
@@ -1336,10 +1336,10 @@ DADrawString (
  *		box_x,box_y	Specifies the upper left hand corner of
  *				the bounding box for this string. This
  *				includes any traversal and/or link offsets
- *				relevent for the line this segment occupies.
+ *				relevant for the line this segment occupies.
  *		box_height	Specifies the maximum height of the bounding
  *				box for this string. This includes any
- *				traversal and/or offsets relevent to this
+ *				traversal and/or offsets relevant to this
  *				line.
  *		link_type	Specifies the link type if this spc is
  *				part of a link.

@@ -381,7 +381,7 @@ ilSrcElementData        srcData;
     if (!pPriv)
         return FALSE;
 
-        /*  Element succesfully added; setup private data.
+        /*  Element successfully added; setup private data.
             Increment the refCount in the image; see notes for ilImageDestroy().
         */
     pPriv->pImage = pImage;

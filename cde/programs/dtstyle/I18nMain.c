@@ -1404,7 +1404,7 @@ MoveUpCB(
 	    XtVaGetValues(i18n.preeditTypeList, XmNitems, &list_items, NULL);
 
 	    /* makes an array of two XmStrings by reversing the selected
-	       one and the item preceeding it */
+	       one and the item preceding it */
 	    items[0] = list_items[sel_index];
 	    items[1] = list_items[sel_index - 1];
 

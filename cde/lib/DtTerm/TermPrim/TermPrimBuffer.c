@@ -248,7 +248,7 @@ _DtTermPrimBufferFreeBuffer
 **
 ** NOTE:
 **    Given this implementation, the memory allocated to the buffer will 
-**    never decrease it simply increases to accomodate the largest size
+**    never decrease it simply increases to accommodate the largest size
 **    that has ever been requested.
 */
 void

@@ -2156,7 +2156,7 @@ _tt_garbage_collect_1(void	* /*NOTUSED*/,
 
 	//
 	// Collect the garbage and delete old sessions in
-	// a seperate thread. As soon as the thread is started
+	// a separate thread. As soon as the thread is started
 	// this function returns and the dbserver is again
 	// processing user requests.
 	id = _tt_run_garbage_collect(OPT_GARBAGE_IN_PARALLEL);

@@ -159,7 +159,7 @@ isrepair(isfname, verbose)
   maxreclen = ldint(cntlpg + CP_MAXRECLEN_OFF);	
 
   /*
-   *  Check for maxreclen field value of -1. This could have occured due to
+   *  Check for maxreclen field value of -1. This could have occurred due to
    *  ISMAXRECLEN being incorrectly set to 65535 in an earlier version. If
    *  this field is -1 and it's a variable length record, reset to the new
    *  value of MAXRECLEN. This means that this field will be repaired when

@@ -181,7 +181,7 @@ init(_Tt_string dt_handle, _Tt_dt_type /* t */)
 }
 
 
-// I/O error handler. Longjmp back to before the error occured.
+// I/O error handler. Longjmp back to before the error occurred.
 int _Tt_desktop::
 io_error_proc(void *)
 {

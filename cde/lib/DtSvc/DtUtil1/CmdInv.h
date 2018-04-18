@@ -162,7 +162,7 @@ _DtInitializeCommandInvoker(
  *
  * Notes:
  *
- *      This function must be preceeded by a call to 
+ *      This function must be preceded by a call to
  *	"_DtInitializeCommandInvoker".
  *			
  *****************************************************************************/

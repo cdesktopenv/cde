@@ -1553,7 +1553,7 @@ abio_close_block(FILE * outFile)
 }
 
 /*
- * Write a character to the output file, preceeded by the indent string if we
+ * Write a character to the output file, preceded by the indent string if we
  * are on a new line.
  */
 int
@@ -1567,7 +1567,7 @@ abio_putc(FILE * outFile, char c)
 }
 
 /*
- * Write characters to the output file, preceeded by the indent string if we
+ * Write characters to the output file, preceded by the indent string if we
  * are on a new line.
  */
 int

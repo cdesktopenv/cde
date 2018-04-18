@@ -1317,7 +1317,7 @@ char *ksh_getenv __PARAM__((const char *name), (name)) __OTORP__(const char *nam
  *
  * The original ksh93 code had this routine called "putenv".  This hid
  * the libc version of putenv, which caused problems for dtksh on systems
- * with shared libraries, as it caused the existance of two separate and
+ * with shared libraries, as it caused the existence of two separate and
  * non-overlapping environments.  To the best of my knowledge there are
  * no calls to this routine. - harry phinney  8/15/1994.
  */

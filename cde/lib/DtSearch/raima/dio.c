@@ -855,7 +855,7 @@ F_ADDR page_no;
 #endif
 #ifndef SINGLE_USER
    if ( dbopen == 1 ) { 
-      /* check shared access priviledges */
+      /* check shared access privileges */
       if ( !trans_id && !excl_locks[working_file] )  
 	 return( dberr(S_NOTRANS) );
       if ( app_locks[working_file] >= 0 && !excl_locks[working_file] )
@@ -913,7 +913,7 @@ int hold;
 
 #ifndef SINGLE_USER
    if ( dbopen == 1 ) {
-      /* check shared access priviledges */
+      /* check shared access privileges */
       if (!app_locks[file] &&
 	  !excl_locks[file] &&
 	  !(file_ptr->ft_flags & STATIC))
@@ -974,7 +974,7 @@ int release;
       if (!trans_id && !excl_locks[file])  
 	 return( dberr(S_NOTRANS) );
 
-      /* check shared access priviledges */
+      /* check shared access privileges */
       if ( app_locks[file] >= 0 && !excl_locks[file] )
 	 return( dberr(S_NOTLOCKED) );
    }
@@ -1794,7 +1794,7 @@ F_ADDR *loc;    /* pointer to allocated location */
    PGZERO FAR *pgzero_ptr;
 
 #ifndef SINGLE_USER
-   /* check shared access priviledges */
+   /* check shared access privileges */
    if ( dbopen == 1 && !trans_id && !excl_locks[fno] )
       return( dberr(S_NOTRANS) );
 #endif
@@ -1862,7 +1862,7 @@ F_ADDR  loc;  /* location to be freed */
    PGZERO FAR *pgzero_ptr;
 
 #ifndef SINGLE_USER
-   /* check shared access priviledges */
+   /* check shared access privileges */
    if ( dbopen == 1 && !trans_id && !excl_locks[fno] )
       return( dberr(S_NOTRANS) );
 #endif

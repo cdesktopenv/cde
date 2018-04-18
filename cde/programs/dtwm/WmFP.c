@@ -144,7 +144,7 @@ EmbeddedClientReposition (Widget    icon,
 /************************************************************************
  *
  *  EmbeddedClientReparent
- *      This function sets of the data neccessary to call the window
+ *      This function sets of the data necessary to call the window
  *      manager function which reparents an embedded client to a new
  *      control.
  *

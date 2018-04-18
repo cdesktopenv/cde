@@ -21,7 +21,7 @@ $quote "
 
 $set 1 libDtMail API set
 $ // DTME_NoError
-1 "No error occured."
+1 "No error occurred."
 
 $ // DTME_AlreadyLocked
 2 "The folder is locked by another session."

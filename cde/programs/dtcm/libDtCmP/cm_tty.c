@@ -1396,7 +1396,7 @@ generate_recurrence_rule(Dtcm_appointment *appt, int version) {
  * This function will scan for X number of appointments in the file and add
  * each to the linked list unless the validation routine returns an error.
  * If this happens, the invalid appointment is still added to the list so the
- * calling routine can do further processing if neccessary, but the remaining
+ * calling routine can do further processing if necessary, but the remaining
  * appointments in the file (if any) are not read.
  */
 extern Validate_op

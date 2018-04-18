@@ -337,7 +337,7 @@ register ilBool         bigEndian;
             }       /* END tag found */
         }           /* END each caller's tag */
 
-        /*  Tags read succesfully: free pFileTags (local buffer); return pTagAlloc.
+        /*  Tags read successfully: free pFileTags (local buffer); return pTagAlloc.
         */
     IL_FREE (pFileTags);
     pFileImage->context->error = IL_OK;

@@ -450,7 +450,7 @@ static MsgStr allmsgs[] = {
 	{"is a shell builtin version of", 25, 181},
 	{"is a tracked alias for", 25, 182},
 	{"kill", 25, 183},
-	{"line %d: $ not preceeded by \\", 25, 184},
+	{"line %d: $ not preceded by \\", 25, 184},
 	{"line %d: %c within ${} should be quoted", 25, 185},
 	{"line %d: %s unknown label", 25, 186},
 	{"line %d: %s within [[...]] obsolete, use ((...))", 25, 187},

@@ -1305,7 +1305,7 @@ FileManip(
                  break;
          }
 
-         /* If catmsg is NULL then one of the miscellanous error's occured.
+         /* If catmsg is NULL then one of the miscellanous error's occurred.
           * Set up a generic error message which will output the internal
           * error message.
           */

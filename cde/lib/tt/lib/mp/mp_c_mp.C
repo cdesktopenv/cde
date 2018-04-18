@@ -64,7 +64,7 @@ _Tt_c_mp::
 // 
 // Returns:
 //	TT_OK
-//	TT_ERR_NOMP - the initial session could not be initialised.
+//	TT_ERR_NOMP - the initial session could not be initialized.
 
 Tt_status _Tt_c_mp::
 c_init()

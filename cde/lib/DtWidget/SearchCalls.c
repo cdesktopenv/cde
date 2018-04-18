@@ -149,7 +149,7 @@ DtEditorInvokeSpellDialog(
 	    /* 
 	     * The filter was started successfully. 
 	     * Initialize the Spell dialog and get ready to receive 
-	     * the list of mispelled words.
+	     * the list of misspelled words.
 	     */
             _DtEditorSearch(pPriv, True, True);
             _DtTurnOnHourGlass(M_search_dialog(pPriv));

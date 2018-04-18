@@ -117,7 +117,7 @@ ReToString(
 /*
  * Takes an array of numbers, converts them back into their string
  * type (e.g. SU 1W etc) and puts them into a string buffer with end
- * marks as necessary, seperated by spaces.
+ * marks as necessary, separated by spaces.
  */
 static void
 NumsToBuf(

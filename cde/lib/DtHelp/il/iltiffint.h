@@ -161,7 +161,7 @@ typedef struct _ilFileRec {
 
     /*  Seek to the given offset within the given file, taking into
         account the offset at which the logical file begins.
-        Returns true if seek succesful, else false.
+        Returns true if seek successful, else false.
     */
 #ifdef DTLIB
 /* Used when this header is compiled into the DtHelp library */

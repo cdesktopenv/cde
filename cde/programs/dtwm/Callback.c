@@ -374,7 +374,7 @@ MinimizeInputCB (Widget    w,
 
    /*  On the BSelect button press, change the image to the selected
     *  minimize image.  On the release, check to see if the release
-    *  occured within the minimize button before minimizing.
+    *  occurred within the minimize button before minimizing.
     *  On BMenu button press, post the front panel menu.
     */
    
@@ -841,13 +841,13 @@ SwitchButtonCB (Widget    w,
    old_switch_button = switch_data->buttons[switch_data->active_switch];
 
 
-   /*   If the selection occured on a non-selected button, find the atom  */
+   /*   If the selection occurred on a non-selected button, find the atom  */
    /*   representing the workspace name of the button that was selected   */
    /*   and use it to call the workspace manager API to switch the        */
    /*   workspace.  The indication on the buttons occurs out of the       */
    /*   called from the workspace manager API.                            */
    /*                                                                     */
-   /*  If the selection occured on the current button, set up the name    */
+   /*  If the selection occurred on the current button, set up the name    */
    /*  change editing functions.                                          */
    
    if (switch_button != old_switch_button)
@@ -1729,7 +1729,7 @@ PushCB (Widget    w,
 
 
       /*  Call the unposting function and reset the arrow behavior if the  */
-      /*  action occured out of a subpanel.                                */
+      /*  action occurred out of a subpanel.                                */
 
       if (subpanel_data != NULL && unpost_subpanel &&
           (Boolean) (intptr_t) panel.element_values[PANEL_SUBPANEL_UNPOST].parsed_value &&

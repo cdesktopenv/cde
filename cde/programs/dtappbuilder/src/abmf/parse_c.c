@@ -284,7 +284,7 @@ abmfP_parse_c_file(FILE *cFile, CSegArray *segmentsOutPtr)
 
     if ((rc < 0) && (rc != ERR_EOF))
     {
-	/* failure occured */
+	/* failure occurred */
 	segArray->numSegs = 0;
 	return_code(rc);
     }

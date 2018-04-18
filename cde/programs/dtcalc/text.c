@@ -46,7 +46,7 @@ extern Vars v ;                 /* Calctool variables and options. */
 void init_mess             P(()) ;
 
 /*  The following are all the strings used by the dtcalc program.
- *  They are initialised in init_text() to the local language equivalents.
+ *  They are initialized in init_text() to the local language equivalents.
  */
 
 char *base_str[MAXBASES] ;

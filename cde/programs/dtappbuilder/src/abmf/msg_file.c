@@ -1192,7 +1192,7 @@ in_str_dup(
 }
 
 /* 
-** Transform a literal internal (byte-correct) string into a form acceptible
+** Transform a literal internal (byte-correct) string into a form acceptable
 ** to gencat 
 */
 static void

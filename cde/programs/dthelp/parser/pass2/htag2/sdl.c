@@ -5620,7 +5620,7 @@ while (size ||
     remnant = 0;
 
     /* First split out the "sort", "text" and "rid" fields.  They are
-       seperated by an ASCII Record Seperator (036) character */
+       separated by an ASCII Record Seperator (036) character */
     pTo = sort;
     pRestart = pFrom;
     found = 0;
@@ -5748,7 +5748,7 @@ while (size ||
     remnant = 0;
 
     /* First split out the "sort", "text" and "rid" fields.  They are
-       seperated by an ASCII Record Seperator (036) character */
+       separated by an ASCII Record Seperator (036) character */
     pTo = sort;
     pRestart = pFrom;
     found = 0;

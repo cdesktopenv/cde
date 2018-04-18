@@ -59,7 +59,7 @@ static void remove_from_chain();	     /* used by _flrec_wrrec() */
  * Output params:
  *	recnum	record number of the new record
  *
- * Returns 0 if record was written succesfully, or -1 if any error.
+ * Returns 0 if record was written successfully, or -1 if any error.
  */
 
 /*ARGSUSED*/
@@ -127,7 +127,7 @@ _flrec_write(fcb, record, recnum, reclen)
  * Output params:
  *	record	record buffer is filled with data
  *
- * Returns 0 if record was read succesfully, or error code if any error.
+ * Returns 0 if record was read successfully, or error code if any error.
  */
 
 int
@@ -191,7 +191,7 @@ _fl_getpos(fcb, recnum)
  *	record	new record
  *	int	reclen (NOT USED)
  *
- * Returns 0 if record was rewritten succesfully, or error code if any error.
+ * Returns 0 if record was rewritten successfully, or error code if any error.
  */
 
 /*ARGSUSED*/
@@ -238,7 +238,7 @@ _flrec_rewrite(fcb, record, recnum, reclen)
  *	FCB	File Control Block
  *	recnum	record number of the record
  *
- * Returns 0 if record was rewritten succesfully, or error code if any error.
+ * Returns 0 if record was rewritten successfully, or error code if any error.
  */
 
 int
@@ -293,7 +293,7 @@ _flrec_delete(fcb, recnum)
  *	record	record buffer
  *	int	reclen (NOT USED)
  *
- * Returns 0 if record was written succesfully, or error code if any error.
+ * Returns 0 if record was written successfully, or error code if any error.
  *
  * Note that _flrec_wrrec() commits updates and syncs the FCB to avoid
  * 	buffer pool overflow.

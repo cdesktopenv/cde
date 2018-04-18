@@ -1628,7 +1628,7 @@ Tcl_DStringInit(dsPtr)
  * Side effects:
  *	Length bytes from string (or all of string if length is less
  *	than zero) are added to the current value of the string.  Memory
- *	gets reallocated if needed to accomodate the string's new size.
+ *	gets reallocated if needed to accommodate the string's new size.
  *
  *----------------------------------------------------------------------
  */
@@ -1696,7 +1696,7 @@ Tcl_DStringAppend(dsPtr, string, length)
  * Side effects:
  *	String is reformatted as a list element and added to the current
  *	value of the string.  Memory gets reallocated if needed to
- *	accomodate the string's new size.
+ *	accommodate the string's new size.
  *
  *----------------------------------------------------------------------
  */

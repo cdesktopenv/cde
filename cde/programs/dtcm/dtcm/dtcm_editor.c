@@ -171,7 +171,7 @@ merge_old_values(Dtcm_appointment *original, Dtcm_appointment *new) {
 	if (new_attrs == 0)
 		return;
 
-	/* realloc the attrs array to be large enough to accomodate the new 
+	/* realloc the attrs array to be large enough to accommodate the new
 	   attibutes */
 
 	new->attrs = (CSA_attribute *) realloc(new->attrs, (dest_attr_num + new_attrs) * sizeof(CSA_attribute));

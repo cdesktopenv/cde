@@ -564,11 +564,11 @@ do_calc(void)      /* Perform arithmetic calculation and display result. */
 
 
 void
-do_clear(void)       /* Clear the calculator display and re-initialise. */
+do_clear(void)       /* Clear the calculator display and re-initialize. */
 {
   clear_display() ;
   if (v->error) set_item(DISPLAYITEM, "") ;
-  initialise() ;
+  initialize() ;
 }
 
 

@@ -581,7 +581,7 @@ SetValues(
 /************************************************************************
  *
  *  arm
- *     This function processes button 1 down occuring on the button.
+ *     This function processes button 1 down occurring on the button.
  *
  ************************************************************************/
 
@@ -610,7 +610,7 @@ Arm(
 /************************************************************************
  *
  *  disarm
- *     This function processes button 1 up occuring on the button.
+ *     This function processes button 1 up occurring on the button.
  *
  ************************************************************************/
 
@@ -632,7 +632,7 @@ Disarm(
 /************************************************************************
  *
  *  activate
- *     This function processes button 1 up occuring on the button.
+ *     This function processes button 1 up occurring on the button.
  *     If the button 1 up occurred inside the button the activate
  *     callbacks are called.
  *

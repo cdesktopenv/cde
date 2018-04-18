@@ -788,7 +788,7 @@ _DtHelpCeGetSdlCdata (
  * Purpose:	Parses the CDATA value for an element attribute. Expects the
  *		pointer to be after the equals sign of the attribute.  The
  *		CDATA must be included in quotes (either single or double)
- *		and can have white space (spaces, newlines or tabs) preceeding
+ *		and can have white space (spaces, newlines or tabs) preceding
  *		it.  Any newline encountered within the CDATA value is turned
  *		into a space.  Any quote enclosed in the CDATA must not be the
  *		same type as what is used to delimit the CDATA value.  I.E.

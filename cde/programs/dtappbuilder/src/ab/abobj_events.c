@@ -1194,7 +1194,7 @@ interpose_button_event(
 	{
 	    /* Check to see if the drag occurred while we are waiting for hte
 	     * double-click interval to expire. If so, then if the drag is
-	     * outside the threshhold, cancel the double-click and initiate
+	     * outside the threshold, cancel the double-click and initiate
 	     * a move or resize.
 	     */
 	    if (d_click->waiting)

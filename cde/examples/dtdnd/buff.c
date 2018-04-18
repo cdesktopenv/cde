@@ -277,7 +277,7 @@ apptTransferCallback(
 	}
 
 	/*
-	 * Use abbreviated method of refering to the data buffers.
+	 * Use abbreviated method of reffering to the data buffers.
 	 */
 
 	if (transferInfo != NULL && transferInfo->dropData != NULL) {

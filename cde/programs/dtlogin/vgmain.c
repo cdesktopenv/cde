@@ -1651,7 +1651,7 @@ MakeGreeting( void )
     XtSetArg(argt[i], XmNleftAttachment, XmATTACH_FORM); i++;
     XtSetArg(argt[i], XmNtopAttachment, XmATTACH_POSITION); i++; 
    /* XtSetArg(argt[i], XmNtopPosition, 15); i++; */
-   /* Changed this to accomodate desktop label */
+   /* Changed this to accommodate desktop label */
     XtSetArg(argt[i], XmNtopPosition, 9); i++; 
     XtSetArg(argt[i], XmNrightAttachment, XmATTACH_FORM); i++;
 

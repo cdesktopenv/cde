@@ -871,7 +871,7 @@ RecolorCursor( void )
  *
  *  Inputs:
  *  ------
- *  w = widget where event occured
+ *  w = widget where event occurred
  *  client_data = client specific data sent to callback
  *  event = event that triggered callback
  *
@@ -1360,7 +1360,7 @@ TakeDownLogin(
  *
  *  Description:
  *  -----------
- *  Redisplays the cover and the login when neccessary.
+ *  Redisplays the cover and the login when necessary.
  *
  *
  *  Inputs:

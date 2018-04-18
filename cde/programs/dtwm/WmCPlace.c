@@ -492,7 +492,7 @@ void HandlePlacementMotionEvent (ClientData *pcd, XMotionEvent *pev)
     int diffx, diffy;
 
     /*
-     * If in pre-resize mode, check for motion crossing threshhold before 
+     * If in pre-resize mode, check for motion crossing threshold before
      * switching modes
      */
     if (wmGD.preMove) {

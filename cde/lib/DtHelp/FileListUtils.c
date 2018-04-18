@@ -488,7 +488,7 @@ Boolean _DtHelpFileListAddFile (
       nameKey = _DtHelpCeStrHashToKey(fileName);
    }
 
-   /* look for prior existance and position */
+   /* look for prior existence and position */
    next = prev = NULL;
    while ( (next = _DtHelpFileListGetNext(*in_out_list, next)) != NULL )
    {

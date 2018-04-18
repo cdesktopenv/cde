@@ -488,7 +488,7 @@ GetMbLen (
     if (_DtHelpCeStrchr(font_str, ".", 1, &ptr) == 0)
       {
 	/*
-	 * make font_str two seperate strings by replacing
+	 * make font_str two separate strings by replacing
 	 * the dot with a end of line.
 	 */
 	*ptr++ = '\0';

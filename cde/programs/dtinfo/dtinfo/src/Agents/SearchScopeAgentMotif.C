@@ -1798,7 +1798,7 @@ SearchScopeAgent::update_current_scope()
 
 // Rebuild the scope list after an infolib is added or removed.
 // Then update the option menu to reflect changes that may
-// have occured in the scope list.
+// have occurred in the scope list.
 // 
 void
 SearchScopeAgent::rebuild_scope_list()
@@ -1846,7 +1846,7 @@ SearchScopeAgent::rebuild_scope_list()
 }
 
 // Update the option menu to reflect any changes
-// that may have occured in the list of named scopes due
+// that may have occurred in the list of named scopes due
 // to addition or removal of infolibs.
 // Update current scope.
 void

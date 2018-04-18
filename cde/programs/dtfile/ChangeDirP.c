@@ -604,7 +604,7 @@ CurrentDirDropCallback(
 /************************************************************************
  *
  *  CurrentDirIconCallback
- *	Callback function invoked upon an action occuring on an icon.
+ *	Callback function invoked upon an action occurring on an icon.
  *
  ************************************************************************/
 

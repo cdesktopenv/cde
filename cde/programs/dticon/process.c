@@ -821,7 +821,7 @@ ConvertDropName( char *objects)
  *                                                                         *
  * Routine:   Process_DropCheckOp                                          *
  *                                                                         *
- * Purpose:   Validate the drag-n-drop operation that just occured on the  *
+ * Purpose:   Validate the drag-n-drop operation that just occurred on the  *
  *            tablet window.                                               *
  *                                                                         *
  ***************************************************************************/
@@ -866,7 +866,7 @@ extern unsigned int width_ret, height_ret;
  *                                                                         *
  * Routine:   Do_DropCheckOp                                               *
  *                                                                         *
- * Purpose:   Verify the drag-n-drop operation that just occured on the    *
+ * Purpose:   Verify the drag-n-drop operation that just occurred on the    *
  *            tablet window.                                               *
  *                                                                         *
  ***************************************************************************/

@@ -1220,7 +1220,7 @@ Boolean HandleKeyPress (XKeyEvent *keyEvent,
 	       * A matching key binding has been found.
 	       * Determine the client to which the key binding function is to
 	       *   apply.
-	       * Unpost any active menu and specify that no futher key binding 
+	       * Unpost any active menu and specify that no further key binding
 	       *   processing should be done.
 	       * Do the function associated with the matching key binding.
 	       * Stop if onlyFirst == TRUE
@@ -1589,7 +1589,7 @@ Boolean CheckForButtonAction (XButtonEvent *buttonEvent, Context context, Contex
  *
  *  Description:
  *  -----------
- *  This function identifies the context in which an event occured.  The 
+ *  This function identifies the context in which an event occurred.  The
  *  pointer position is used to identify the context if the event is a
  *  button event.  If the context and the window state are incompatible
  *  (e.g., the context is window and the window is minimized) then the
@@ -1729,7 +1729,7 @@ void IdentifyEventContext (XButtonEvent *event, ClientData *pCD, Context *pConte
  *  -------
  *  (wmGD.clickData) = click processing information
  *
- *  (wmGD.clickData.doubleClickContext) = set if double click occured
+ *  (wmGD.clickData.doubleClickContext) = set if double click occurred
  *
  *************************************<->***********************************/
 
@@ -1850,7 +1850,7 @@ void ProcessClickBPress (XButtonEvent *buttonEvent, ClientData *pCD, Context con
  *  -------
  *  (wmGD.clickData) = click processing information
  *
- *  (wmGD.clickData.clickContext) = set if click occured
+ *  (wmGD.clickData.clickContext) = set if click occurred
  * 
  *************************************<->***********************************/
 

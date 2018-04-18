@@ -764,7 +764,7 @@ _DtHelpVertScrollCB(
     if (pDAS->firstVisible == callBack->value)
 	return;
 
-    /* If a drag occured, reset the reason to increment, decrement, page    */
+    /* If a drag occurred, reset the reason to increment, decrement, page    */
     /* increment, or page decrement depending on the distance and direction */
     /* dragged. */
     if (callBack->reason == XmCR_DRAG || callBack->reason == XmCR_VALUE_CHANGED)
@@ -900,7 +900,7 @@ _DtHelpHorzScrollCB(
     if (pDAS->virtualX == callBack->value)
 	return;
 
-    /* If a drag occured, reset the reason to increment, decrement, page    */
+    /* If a drag occurred, reset the reason to increment, decrement, page    */
     /* increment, or page decrement depending on the distance and direction */
     /* dragged. */
     if (callBack->reason == XmCR_DRAG || callBack->reason == XmCR_VALUE_CHANGED)

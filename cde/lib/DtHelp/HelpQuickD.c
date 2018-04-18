@@ -868,7 +868,7 @@ static void Initialize(
                                    defaultList);
 
   
-  /* Now Validate our incomming help requests topics */
+  /* Now Validate our incoming help requests topics */
   SetupDisplayType((Widget)qw ,DtJUMP_UPDATE);
 
   /* Just for fun, lets make sure our sizes are correct */

@@ -401,7 +401,7 @@ ActivateCommon (Widget w, XEvent *event, String *params, Cardinal *num_params)
   internal_expose = True;
   (*(XtClass(w))->core_class.expose) (w, event, (Region) NULL);
   
-  /* If the event was a button event, make sure it occured within
+  /* If the event was a button event, make sure it occurred within
      the tab.  (The user could have released outside the tab.) */
   if (event->type != ButtonRelease ||
       (event->xbutton.x >= (int) -bw &&

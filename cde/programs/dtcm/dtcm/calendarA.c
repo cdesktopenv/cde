@@ -1496,7 +1496,7 @@ map_browse_menu(Widget menu, XtPointer client_data, XtPointer call_data)
 
 
 /*
- * This a seperate routine so that it may be called when a new name is added
+ * This a separate routine so that it may be called when a new name is added
  * from the edit list
  */
 extern void
@@ -1573,7 +1573,7 @@ make_browse_menu(Calendar *c) {
 	XmString	xmstr;
 
 	/*
-	 * This needs to be a seperate routine so it can be called when the
+	 * This needs to be a separate routine so it can be called when the
 	 * edit list changes the browse menu
 	 */
 	update_browse_menu_names(c);

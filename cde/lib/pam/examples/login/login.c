@@ -1875,7 +1875,7 @@ process_chroot_logins(void)
 }
 
 /*
- * establish_user_environment	- Set up the new users enviornment
+ * establish_user_environment	- Set up the new users environment
  */
 
 static void

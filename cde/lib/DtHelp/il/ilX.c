@@ -994,7 +994,7 @@ static unsigned int rawWriteMethodTable [(IL_X_MAX_VISUAL_TYPE + 1)] = {
     IL_XWC_WRITE_COLOR                /* IL_XWC_COLOR_24 */ };
 
     /*  Table indexed by [image type, dst visual type], yielding writeType,
-	assuming best case: colors/grays alloc'd succesfully; else writeType 
+	assuming best case: colors/grays alloc'd successfully; else writeType
 	degrades.
     */
 static unsigned int writeTypeTable [(IL_MAX_TYPE + 1) * 

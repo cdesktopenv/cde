@@ -3887,7 +3887,7 @@ ToggleDefaultControl (ControlData  * main_control_data,
    int i;
 
 
-   /*  If the selection occured on the currently selected toggle   */
+   /*  If the selection occurred on the currently selected toggle   */
    /*  do nothing.                                                 */
 
    if (subpanel_data->default_control == control_data)

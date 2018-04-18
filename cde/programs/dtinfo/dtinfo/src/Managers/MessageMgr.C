@@ -549,7 +549,7 @@ MessageMgr::assert_failed (char *statement, char *file,
   char buffer[512];
 
   snprintf (buffer, sizeof(buffer),
-"An internal error has occured.\n\
+"An internal error has occurred.\n\
 The current operation cannot be completed.\n\
 Please file a bug report with this information:\n\
 Assertion failed: %s\n\

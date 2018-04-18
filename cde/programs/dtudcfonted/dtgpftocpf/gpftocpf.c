@@ -291,7 +291,7 @@ char	*argv[];
 	} else {
 	    num_gr = 1 ;
 	    if( (gr = (FalGlyphRegion *)malloc( sizeof(FalGlyphRegion) * num_gr )) == NULL ) {
-		USAGE1("%s : malloc error occured. Terminates abnormally.\n", argv[0]);
+		USAGE1("%s : malloc error occurred. Terminates abnormally.\n", argv[0]);
 		exit(1) ;
 	    }
 	    gr[0].start = MIN_CODE ;

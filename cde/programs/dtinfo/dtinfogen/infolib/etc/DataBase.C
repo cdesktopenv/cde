@@ -439,7 +439,7 @@ void DBCursor::string_field(FILE *fp, char **out, int *lenOut)
   int len = 0;
   int io;
 
-  /* fscanf is wierd, so we do it ourselves... */
+  /* fscanf is weird, so we do it ourselves... */
   while(isdigit(io = fgetc(fp))){
     len = len * 10 + (io - '0');
   }

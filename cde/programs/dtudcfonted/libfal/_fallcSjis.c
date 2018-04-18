@@ -832,7 +832,7 @@ static CTDataRec ctdata[] =
 };
 
 /* Note on above table:  sjis_ctstombs() and sjis_ctstowcs() parser depends on
- * certain table entries occuring in decreasing string length--
+ * certain table entries occurring in decreasing string length--
  *   1.  CT_EXT2 and CT_EXT0 entries must occur after CT_NSTD entries.
  *   2.  CT_DIR and CT_EXT1 entries must occur after CT_DIR entries.
  */

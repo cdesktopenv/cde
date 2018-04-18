@@ -1318,7 +1318,7 @@ buildDangleBuffer
     *dangleBufferLen = bufferLen + *mbPartialCharLen - writeLen;
     *dangleBuffer = (unsigned char *) XtMalloc(*dangleBufferLen);
 
-    /* copy over the unwritten part of the orignal buffer... */
+    /* copy over the unwritten part of the original buffer... */
     (void) memmove(*dangleBuffer, buffer + writeLen, bufferLen - writeLen);
     if (*mbPartialCharLen) {
 	(void) memmove(*dangleBuffer + bufferLen - writeLen, mbPartialChar,

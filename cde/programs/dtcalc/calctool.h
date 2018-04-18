@@ -524,7 +524,7 @@ struct calcVars {                     /* Calctool variables and options. */
   int MPtresults[3][MP_SIZE] ;        /* Current trigonometric results. */
 
   enum base_type base ;            /* Current base: BIN, OCT, DEC or HEX. */
-  enum fcp_type curwin ;           /* Window current event occured in. */
+  enum fcp_type curwin ;           /* Window current event occurred in. */
   enum fcp_type pending_win ;      /* Window that pending op came from. */
   enum mode_type modetype ;        /* Current calculator mode. */
   enum mode_type pending_mode ;    /* Mode for pending op. */
@@ -660,7 +660,7 @@ void grey_button           P((int, int, int)) ;
 void grey_buttons          P((enum base_type)) ;
 void handle_menu_selection P((int, int)) ;
 void handle_selection      P(()) ;
-void initialise            P(()) ;
+void initialize            P(()) ;
 void init_cmdline_opts     P(()) ;
 void init_graphics         P(()) ;
 void init_options          P(()) ;

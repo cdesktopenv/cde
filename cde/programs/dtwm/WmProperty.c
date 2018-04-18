@@ -548,7 +548,7 @@ void SetMwmSaveSessionInfo (Window wmWindow)
  *
  *  Comments:
  *  --------
- *  This function will eventually be superceded when WM_STATE support is
+ *  This function will eventually be superseded when WM_STATE support is
  *  added to the official X release.
  * 
  *************************************<->***********************************/
@@ -618,7 +618,7 @@ GetWMState(
  *
  *  Comments:
  *  --------
- *  This function will eventually be superceded when WM_STATE support is
+ *  This function will eventually be superseded when WM_STATE support is
  *  added to the official X release.
  * 
  *************************************<->***********************************/

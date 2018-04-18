@@ -396,7 +396,7 @@ TclSpawnPipeline(interp, pidPtr, numPids, argc, argv, inputFile,
     return 1;
 
     /*
-     * An error occured, so we need to clean up any open pipes.
+     * An error occurred, so we need to clean up any open pipes.
      */
 
 error:

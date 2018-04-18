@@ -564,7 +564,7 @@ ProcessEntry (
 						(void **) vol->keywordTopics,
 						(void *) topics);
 	    /*
-	     * If we just malloc'ed ourselves out of existance...
+	     * If we just malloc'ed ourselves out of existence...
 	     * stop here.
 	     */
 	    if (vol->keywords == 0 || vol->keywordTopics == 0)

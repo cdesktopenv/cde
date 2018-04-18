@@ -138,7 +138,7 @@ static const char *Period = ".";
  *
  * errno Values:
  *
- * Purpose:	To check for the existance of a volume.
+ * Purpose:	To check for the existence of a volume.
  *
  ******************************************************************************/
 static	int

@@ -234,13 +234,13 @@ RFCBodyPart::getContents(DtMailEnv & error,
     if (description) {
 	// getDescription should not be passed a DtMailEnv object.
 	// Neither implementation of getDescription (MIME or V3)
-	// sets the error before returning.  Besides being unneccessary,
+	// sets the error before returning.  Besides being unnecessary,
 	// it requires the caller of getDescription to check the error
 	// status upon its return.
 	//
 	*description = getDescription(error);
 	if (error.isSet()) {
-	    // don't care about the error condition returned by getDescription
+	    // Don't care about the error condition returned by getDescription
 	    // because it returns a valid string no matter what error
 	    // condition occurs.
 	    error.clear();

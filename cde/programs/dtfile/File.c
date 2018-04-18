@@ -1306,7 +1306,7 @@ FlattenTree(
 /************************************************************************
  *
  *  IconCallback
- *      Callback function invoked upon an action occuring on an icon.
+ *      Callback function invoked upon an action occurring on an icon.
  *
  ************************************************************************/
 
@@ -1748,7 +1748,7 @@ GetSelectedCount(
    char * wsName;
    Atom pCurrent;
 
-   /*  If the initiation of the drag occured upon an      */
+   /*  If the initiation of the drag occurred upon an      */
    /*  already selected icon, check for a multiple drag.  */
 
    if ((desktopRec == NULL) && FileIsSelected(fileMgrData, fileViewData))

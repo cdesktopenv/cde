@@ -1362,7 +1362,7 @@ main (
 	    }
 	    /*
 	     * So that select() errors cannot dominate, now behave as
-	     * though only a timeout had occured.
+	     * though only a timeout had occurred.
 	     */
 	    nfound = 0;
 	}
@@ -1495,7 +1495,7 @@ main (
 	    }
 	    /*
 	     * So that select() data cannot dominate, now behave as
-	     * though only a timeout had occured.
+	     * though only a timeout had occurred.
 	     */
 	    nfound = 0;
 	}

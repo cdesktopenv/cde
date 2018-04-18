@@ -578,7 +578,7 @@ insertWcharValue(
  *		data - the data, the size of the data
  *
  *      Returns  0 - contents were set sucessfully
- *		!0 - an error occured while setting the contents
+ *		!0 - an error occurred while setting the contents
  *
  ***************************************************************************/
 
@@ -641,7 +641,7 @@ DtEditorSetContents(
  *		filename - name of the file to read 
  *
  *      Returns  0 - contents were loaded sucessfully
- *		!0 - an error occured while loading the contents
+ *		!0 - an error occurred while loading the contents
  *
  ***************************************************************************/
 
@@ -675,7 +675,7 @@ DtEditorSetContentsFromFile(
  *		data - the data, the size of the data
  *
  *      Returns  0 - contents were set sucessfully
- *		!0 - an error occured while setting the contents
+ *		!0 - an error occurred while setting the contents
  *
  ***************************************************************************/
 
@@ -734,7 +734,7 @@ DtEditorAppend(
  *		filename - name of the file to read 
  *
  *      Returns  0 - contents were appended sucessfully
- *		!0 - an error occured while appending the contents
+ *		!0 - an error occurred while appending the contents
  *
  ***************************************************************************/
 
@@ -768,7 +768,7 @@ DtEditorAppendFromFile(
  *		data - the data, the size of the data
  *
  *      Returns  0 - contents were set sucessfully
- *		!0 - an error occured while setting the contents
+ *		!0 - an error occurred while setting the contents
  *
  ***************************************************************************/
 
@@ -827,7 +827,7 @@ DtEditorInsert(
  *		filename - name of the file to read 
  *
  *      Returns  0 - contents were inserted sucessfully
- *		!0 - an error occured while inserting the contents
+ *		!0 - an error occurred while inserting the contents
  *
  ***************************************************************************/
 
@@ -867,7 +867,7 @@ DtEditorInsertFromFile(
  *
  *
  *      Returns  0 - the portion was replaced sucessfully
- *		!0 - an error occured while replacing the portion 
+ *		!0 - an error occurred while replacing the portion
  *
  ***************************************************************************/
 
@@ -955,7 +955,7 @@ DtEditorReplace(
  *		filename - local name of the file to read 
  *
  *      Returns  0 - contents were inserted sucessfully
- *		!0 - an error occured while inserting the contents
+ *		!0 - an error occurred while inserting the contents
  *
  ***************************************************************************/
 
@@ -1647,7 +1647,7 @@ getWcharValue(
  *		  reports there are unsaved changes.
  *
  *      Returns  0 - contents were retrieved sucessfully
- *		!0 - an error occured while retrieving the contents
+ *		!0 - an error occurred while retrieving the contents
  *
  *		The structure passed in will be set according to the
  *		  requested format:

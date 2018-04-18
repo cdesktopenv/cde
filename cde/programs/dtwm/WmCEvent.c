@@ -1840,7 +1840,7 @@ void HandleCMotionNotify (ClientData *pCD, XMotionEvent *motionEvent)
 	if ((diffX >= wmGD.moveThreshold) || (diffY >= wmGD.moveThreshold)) 
 	{
 	    /*
-	     * The move threshold has been exceded; start the config action.
+	     * The move threshold has been exceeded; start the config action.
 	     */
 
 	    wmGD.clickData.clickPending = False;

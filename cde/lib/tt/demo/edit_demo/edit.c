@@ -442,7 +442,7 @@ edit_hilite_obj(msg)
 
 /* 
  * Make a ToolTalk spec out of the selected text in this textpane. Once
- * the spec is succesfully created and written to a database, wrap the
+ * the spec is successfully created and written to a database, wrap the
  * text with C-style comments in order to delimit the object and send out
  * a notification that an object has been created in this file.
  */

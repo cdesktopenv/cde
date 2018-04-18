@@ -404,7 +404,7 @@ pal_get_editable_obj_info(
 	 *  "editable" object, else directly compare the type & subtype.
 	 *
 	 * Note: the palitem structure test has precedence in order to
-	 *       accomodate the high-level types which map to multiple
+	 *       accommodate the high-level types which map to multiple
 	 *	 subtypes. i.e. If we have a "Radio Box", we want to map to
 	 * 	 the "Choice" editable object 'super' type.
 	 */
