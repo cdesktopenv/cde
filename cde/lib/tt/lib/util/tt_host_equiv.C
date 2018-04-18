@@ -53,6 +53,7 @@ _Tt_hostname_cache::
 _Tt_hostname_cache()
 {
 	hostname = (_Tt_string) 0;
+	addr_length = 0;
 }
 
 _Tt_hostname_cache::

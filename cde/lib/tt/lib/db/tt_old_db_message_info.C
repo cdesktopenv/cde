@@ -37,6 +37,9 @@
 _Tt_old_db_message_info::
 _Tt_old_db_message_info ()
 {
+	messageID = 0;
+	numParts = 0;
+	messageSize = 0;
 }
 
 _Tt_old_db_message_info::

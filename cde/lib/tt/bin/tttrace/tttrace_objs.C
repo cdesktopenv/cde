@@ -53,6 +53,9 @@ _Tt_trace_optobj::_Tt_trace_optobj()
 	_has_session = 2;		// 1 -> -S option, 2 -> set by default
 	_has_command = 0;
 	_form = NO_FORM;
+	for(int i = 0; i < MAXARGS; i++) {
+		_cargv[i] = NULL;
+	}
 }
 
 int

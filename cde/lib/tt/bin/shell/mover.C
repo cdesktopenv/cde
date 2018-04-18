@@ -83,6 +83,7 @@ mover( char *arg0 )
 	_should_mv = TRUE;
 	_force = FALSE;
 	_tt_opened = FALSE;
+	_to_path_is_dir = FALSE;
 }
 
 mover::

@@ -56,7 +56,7 @@
 
 class _Tt_oid_access : public _Tt_object {
       public:
-	_Tt_oid_access() {}
+	_Tt_oid_access() { _user = 0; _group = 0; _mode = 0; }
 	_Tt_oid_access(const char *key, uid_t user, gid_t group, mode_t mode);
 	_Tt_oid_access(char *ku);
 	~_Tt_oid_access();
@@ -126,7 +126,7 @@ declare_ptr_to(_Tt_oid_access_queue)
 
 class _Tt_link_access : public _Tt_object {
       public:
-	_Tt_link_access() {}
+	_Tt_link_access() { _user = 0; _group = 0; _mode = 0; }
 	_Tt_link_access(const char *key, uid_t user, gid_t group, mode_t mode);
 	_Tt_link_access(char *ku);
 	~_Tt_link_access();

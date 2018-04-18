@@ -75,6 +75,7 @@ copier( char *arg0 )
 	_preserve = FALSE;
 	_clonedir_mode = FALSE;
 	_tt_opened = FALSE;
+	_to_path_is_dir = 0;
 }
 
 copier::

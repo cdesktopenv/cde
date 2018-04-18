@@ -52,6 +52,9 @@ _Tt_isam_file::_Tt_isam_file (const _Tt_string &file, int mode)
   else {
     getStatusInfo();
   }
+
+  maxRecordLength = 0;
+  minRecordLength = 0;
 }
 
 _Tt_isam_file
@@ -82,7 +85,7 @@ _Tt_isam_file
     currentRecordLength = -1;
     currentRecordNumber = -1;
   }
-  
+
   maxRecordLength = 0;
   minRecordLength = 0;
 }

@@ -66,6 +66,10 @@ _Tt_session()
 	_is_server = 0;		// default server mode
 	_is_dead = 0;
 	_rpc_version = 0;
+	_pid = 0;
+	_rpc_program = 0;
+	_server_num = 0;
+	_server_uid = 0;
 }
 
 

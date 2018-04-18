@@ -63,6 +63,11 @@ _Tt_db_file::_Tt_db_file (const _Tt_string &file)
     _Tt_db_access_ptr access;
     dbResults = setTtDBFileDefaults(file, properties, access);
   }
+
+  checkedDatabase = FALSE;
+  directoryFlag = FALSE;
+  dbFileObjectsCacheLevel = -1;
+  dbFilePropertiesCacheLevel = -1;
 }
 
 _Tt_db_file::_Tt_db_file (const _Tt_string               &file,
@@ -75,6 +80,11 @@ _Tt_db_file::_Tt_db_file (const _Tt_string               &file,
   else {
     dbResults = setTtDBFileDefaults(file, properties, access);
   }
+  
+  checkedDatabase = 0;
+  directoryFlag = 0;
+  dbFileObjectsCacheLevel = -1;
+  dbFilePropertiesCacheLevel = -1;
 }
 
 _Tt_db_results

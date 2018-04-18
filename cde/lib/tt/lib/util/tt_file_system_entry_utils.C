@@ -42,6 +42,8 @@ implement_list_of(_Tt_file_system_entry)
 _Tt_file_system_entry::
 _Tt_file_system_entry ()
 {
+	localFlag = 0;
+	loopBackFlag = 0;
 }
 
 _Tt_file_system_entry::

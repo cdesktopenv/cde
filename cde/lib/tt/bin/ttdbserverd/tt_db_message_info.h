@@ -44,7 +44,7 @@
 
 class _Tt_db_message_info : public _Tt_object {
 public:
-  _Tt_db_message_info () {}
+  _Tt_db_message_info () { messageID = 0; numParts = 0; messageSize = 0; }
   ~_Tt_db_message_info () {}
 
   int                 messageID;

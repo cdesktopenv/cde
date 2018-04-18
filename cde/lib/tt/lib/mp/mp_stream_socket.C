@@ -83,6 +83,11 @@ char *t_strerror(int t_errno)
 _Tt_stream_socket::
 _Tt_stream_socket()
 {
+	_is_source = 0;
+	_msgsock = -1;
+	_sock = -1;
+	_hostaddr.sin_port = 0;
+	_hostaddr.sin_family = 0;
 }
 
 _Tt_stream_socket::
@@ -94,6 +99,8 @@ _Tt_stream_socket(_Tt_host_ptr &host, int portnum)
         _hostaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	_hostaddr.sin_port = htons(portnum);
 	_hostaddr.sin_family = AF_INET;
+	_is_source = 0;
+	_sock = -1;
 }
 
 

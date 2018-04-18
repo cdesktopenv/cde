@@ -160,6 +160,7 @@ _Tt_s_message(_Tt_s_message *m, _Tt_observer_ptr &o)
 	_rsessions	= m->_rsessions;
 	_when_last_matched = m->_when_last_matched;
 	_original	= m;
+	_num_recipients_yet_to_vote = 0;
 }
 
 // 

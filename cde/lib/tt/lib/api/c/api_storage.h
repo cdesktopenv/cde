@@ -45,7 +45,7 @@ declare_ptr_to(_Tt_api_stg_stack)
 
 class _Tt_api_stg_stack_elm : public _Tt_object {
       public:
-	_Tt_api_stg_stack_elm() {};
+	_Tt_api_stg_stack_elm() { addr = NULL; };
 	~_Tt_api_stg_stack_elm();
 	enum {STACK_MARK, STACK_STORAGE}	entry_type;
 	caddr_t					addr;

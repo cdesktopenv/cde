@@ -48,6 +48,9 @@ _Tt_observer()
 	_ptid = (char *)0;
 	_reliability = TT_DISCARD;
 	_opnum = -1;
+
+	_scope = NULL;
+	_state = TT_STATE_LAST; // BUG This class member is not set anywhere, but a getter function exists
 }
 
 
@@ -59,7 +62,7 @@ _Tt_observer(_Tt_string ptid, int opnum,
 	_reliability = reliability;
 	_opnum = opnum;
 	_scope = s;
-	
+
 	_state = TT_STATE_LAST; // BUG This class member is not set anywhere, but a getter function exists
 }
 

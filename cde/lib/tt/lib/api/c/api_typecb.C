@@ -44,6 +44,7 @@ _Tt_typecb::
 _Tt_typecb()
 {
 	clientdata = 0;
+	_opnum = 0;
 }
 
 _Tt_typecb::

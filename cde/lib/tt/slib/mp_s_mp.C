@@ -94,6 +94,11 @@ _Tt_s_mp() : _Tt_mp()
 	when_last_observer_registered = 1;
 	update_args.message = new _Tt_s_message();
 	_self = (_Tt_s_procid *)new _Tt_self_procid();
+
+	map_ptypes = 0;
+	unix_cred_chk_flag = 0;
+	garbage_collector_pid = 0;
+	_next_garbage_run = 0;
 }
 
 

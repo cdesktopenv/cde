@@ -1857,7 +1857,7 @@ printf("DEBUG: SERVER: _tt_file_netfile_1: _tt_file_netfile(%s) returned %s\n",
 
 	if (_tt_pointer_error(canonical_path) != TT_OK) {
 		results.results = TT_DB_ERR_ILLEGAL_FILE;
-		results.result_string = '\0';
+		results.result_string = NULL;
 	} else {
 		results.results = TT_DB_OK;
 		results.result_string = canonical_path;
@@ -1897,7 +1897,7 @@ printf("DEBUG: SERVER: _tt_netfile_file_1: _tt_netfile_file(%s) returned %s\n",
 
 	if (_tt_pointer_error(canonical_path) != TT_OK) {
 		results.results = TT_DB_ERR_ILLEGAL_FILE;
-		results.result_string = '\0';
+		results.result_string = NULL;
 	} else {
 		results.results = TT_DB_OK;
 		results.result_string = canonical_path;

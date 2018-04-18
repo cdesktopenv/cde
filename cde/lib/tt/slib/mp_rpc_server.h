@@ -43,7 +43,7 @@
 
 class _Tt_rpc_server : public _Tt_object {
       public:
-	_Tt_rpc_server() {};
+	_Tt_rpc_server() { _version = 0; _socket = 0; _program = 0; _rpc_fd = 0; _transp = NULL; };
 	_Tt_rpc_server(int program, int version, int Rsocket, _Tt_auth &auth);
 	virtual ~_Tt_rpc_server();
 	int			init(void (*service_fn)(svc_req *, SVCXPRT *));

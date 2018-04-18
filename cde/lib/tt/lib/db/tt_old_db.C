@@ -50,7 +50,9 @@
 _Tt_old_db::
 _Tt_old_db()
 {
-}	
+  propertyTableFD = 0;
+  dbResults = NULL;
+}
 
 _Tt_old_db::_Tt_old_db (const _Tt_string        &partition,
 			const _Tt_db_client_ptr &db_conn)

@@ -49,6 +49,11 @@ _Tt_qmsg_info::_Tt_qmsg_info()
 	categories = new _Tt_int_rec_list;
 	ptypes = new _Tt_string_list;
 	version = TT_QMSG_INFO_VERSION;
+	
+	id = 0;
+	nparts = 0;
+	size = 0;
+	m_id = 0;
 }
 
 _Tt_qmsg_info::~_Tt_qmsg_info()

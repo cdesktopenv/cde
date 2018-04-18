@@ -40,6 +40,12 @@ _Tt_isam_key_descriptor::_Tt_isam_key_descriptor ()
 {
   keyDescriptor.k_flags = 0;
   keyDescriptor.k_nparts = 0;
+  
+  for(int i = 0; i < NPARTS; i++) {
+    keyDescriptor.k_part[i].kp_start = -1;
+    keyDescriptor.k_part[i].kp_leng = -1;
+    keyDescriptor.k_part[i].kp_type = -1;
+  }
 }
 
 _Tt_isam_key_descriptor::~_Tt_isam_key_descriptor ()

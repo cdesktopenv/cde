@@ -43,7 +43,7 @@
 class _Tt_isam_record : public _Tt_object {
 public:
   // Dummy constructor needed to make tt_isam_record_utils.cc happy
-  _Tt_isam_record () {}
+  _Tt_isam_record () { currentLength = 0; maxLength = 0; minLength = 0; }
 
   // Real constructor
   _Tt_isam_record (const _Tt_isam_key_descriptor_list_ptr &key_descriptor_list,

@@ -66,7 +66,7 @@ _Tt_s_procid(const _Tt_s_procid_ptr &p)
 	_proc_host_ipaddr = p->_proc_host_ipaddr;
 	_pid = p->_pid;
 	_id = p->_id;
-
+	_itimeout = -1;
 }
 
 _Tt_s_procid::

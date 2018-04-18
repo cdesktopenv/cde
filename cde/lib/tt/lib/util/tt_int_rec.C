@@ -76,6 +76,7 @@ implement_list_of(_Tt_int_rec)
 _Tt_pid_t_rec::
 _Tt_pid_t_rec()
 {
+	val = 0;
 }
 
 

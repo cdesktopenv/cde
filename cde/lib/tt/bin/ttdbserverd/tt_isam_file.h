@@ -45,7 +45,8 @@ typedef int (*FatalErrorHandlerFunction) (char *);
 class _Tt_isam_file : public _Tt_object {
 public:
   // Dummy constructor needed to make _tt_isam_file_utils.cc happy
-  _Tt_isam_file () {}
+  _Tt_isam_file () { currentRecordLength = 0; currentRecordNumber = 0; eraseFlag = 0; errorStatus = 0;
+                     fileDescriptor = 0; fileMode = 0; maxRecordLength = 0; minRecordLength = 0; newFlag = 0; }
 
   // Real constructors
   _Tt_isam_file (const _Tt_string &file, int mode);
