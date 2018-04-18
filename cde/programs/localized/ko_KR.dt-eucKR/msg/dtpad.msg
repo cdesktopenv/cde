@@ -229,7 +229,7 @@ $ Be sure to end this message with a space character.
 2 문서 편집기 - 
 
 $ Default file name used in the main window title.
-$ ***UNUSED*** This mesage has been replaced by message 6 of this set and
+$ ***UNUSED*** This message has been replaced by message 6 of this set and
 $          need not be localized.
 3 (이름없음)
 

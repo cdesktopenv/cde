@@ -1784,7 +1784,7 @@ static void  ProcessJumpReuse(
        
      }
  
-    /* Free old copy fisrt ??? */
+    /* Free old copy first ??? */
     pTempLocationId = _DtHelpParseIdString(hyperData->specification);
     XtFree(qw->qhelp_dialog.display.locationId);
     qw->qhelp_dialog.display.locationId = pTempLocationId;

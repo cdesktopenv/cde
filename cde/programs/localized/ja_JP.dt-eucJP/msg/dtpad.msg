@@ -248,7 +248,7 @@ $ Be sure to end this message with a space character.
 2 テキスト・エディタ -
 
 $ Default file name used in the main window title.
-$ ***UNUSED***	This mesage has been replaced by message 6 of this set and
+$ ***UNUSED***	This message has been replaced by message 6 of this set and
 $		need not be localized.
 3 (unnamed)
 

@@ -982,7 +982,7 @@ RFCMessage::findMsgEnd(DtMailEnv & error, const char * eof)
 	_msg_end = eof;
     }
     else {
-        // Again, protect against NULL mesages with 1 blank line
+        // Again, protect against NULL messages with 1 blank line
         // before next message.  Size was < 0 and crashed in "memcpy".
         if ( _msg_end >= _body_start )
 	    _msg_end = backcrlf(_msg_end);

@@ -2820,7 +2820,7 @@ static void  ProcessJumpReuse(
        hw->help_dialog.ghelp.volumeFlag = FALSE;
      }
  
-    /* Free old copy fisrt ??? */
+    /* Free old copy first ??? */
     pTempLocationId = _DtHelpParseIdString(hyperData->specification);
     XtFree(hw->help_dialog.display.locationId);
     hw->help_dialog.display.locationId = pTempLocationId;

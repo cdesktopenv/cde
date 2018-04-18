@@ -830,7 +830,7 @@ int Client_Channel_Close(protocol_request_ptr prot)
   if(IS_ACTIVE(channel)) {
 
     /*
-      Uh-oh.  We have recieved a close request, but the channel is
+      Uh-oh.  We have received a close request, but the channel is
       active.  We kill the process, and explicitly wait for the
       process to terminate.
       */

@@ -1825,7 +1825,7 @@ _DtInitializeToolTalk(Widget w)
       }
 
       /*
-       * Register to recieve interesting messages from dtexec
+       * Register to receive interesting messages from dtexec
        */
       pat = tt_pattern_create();
 

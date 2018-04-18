@@ -2199,7 +2199,7 @@ void _DtHelpDisplayFormatError(
    /* Set the string to the current help dialog */
    (void) _DtHelpFormatAsciiStringDynamic(displayArea, userError, &topicHandle);
          
-   /* We ignor the status return here, because if we error out here we are
+   /* We ignore the status return here, because if we error out here we are
     * in big trouble because this is an error routine
     */
    

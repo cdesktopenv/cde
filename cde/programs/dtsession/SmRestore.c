@@ -4063,7 +4063,7 @@ WaitWMTimeout(
  *
  *  Description:
  *  -----------
- *  This is the event handler registered to recieve the client message
+ *  This is the event handler registered to receive the client message
  *  from dtwm when dtwm is ready for business
  *
  *

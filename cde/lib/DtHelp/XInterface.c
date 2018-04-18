@@ -29,7 +29,7 @@
  **   Project:     Cde Help System
  **
  **   Description: This is the UI dependant layer to the Help System.
- **		   It recieves requests from the Core Engine for
+ **		   It receives requests from the Core Engine for
  **		   information or to do rendering.  It does the
  **		   appropriate work based on a Motif and X Lib
  **		   interface.

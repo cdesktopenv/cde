@@ -1985,7 +1985,7 @@ create_rfc_message(char *address_list,
 	boolean_t  done = B_FALSE;
 	char *return_buffer;
 
-	/* A MIME mesage is a rather specialized beast.  It consists of
+	/* A MIME message is a rather specialized beast.  It consists of
 	   a series of headers describing the mail message, followed by 
 	   the message, and then followed by a set of attachments.   
 	   Each attachments is separated by a magic unique string 
