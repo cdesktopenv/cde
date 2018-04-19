@@ -32,7 +32,7 @@
 #include "StyleSheet/FeatureValue.h"
 
 Tml_TextRenderer::Tml_TextRenderer(ostringstream &ostr, UAS_SearchZones &zones) :
-	f_ostr(ostr), f_zones(zones)
+	f_ostr(ostr), f_zones(zones), f_current_level(0)
 {
 }
 

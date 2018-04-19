@@ -136,6 +136,21 @@ LibraryAgent::LibraryAgent()
   f_tracking_hierarchy (NULL),
   f_popped_down (TRUE),
   f_close (NULL),
-  f_close_sensitive (FALSE)
+  f_close_sensitive (FALSE),
+  f_doc_tree_view(),
+  f_copy(NULL),
+  f_detach(NULL),
+  f_detach2(NULL),
+  f_view(NULL),
+  f_view2(NULL),
+  f_print(NULL),
+  f_print2(NULL),
+  f_print_as(NULL),
+  f_remove(NULL),
+  f_remove2(NULL),
+  f_auto_track(NULL),
+  f_status_text(NULL),
+  f_scope_menu(NULL)
+  
 {
 }

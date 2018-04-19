@@ -62,6 +62,7 @@ mphf_index::mphf_index() : c_index(MPHF_INDEX_CODE), f_key_file_name(0)
 
    v_mphf = 0;
    v_inv_lists_hd = 0;
+   v_key_loc_pair_out = NULL;
 }
 
 void mphf_index::init_data_member(fast_mphf_handler* mp, 

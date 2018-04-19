@@ -95,7 +95,8 @@ EnvMgr::EnvMgr() : f_argc(0),
 		   f_lang(NULL),
                    f_secondary(False),
                    f_verbose(False),
-                   f_debug(False)
+                   f_debug(False),
+                   f_autohelp(False)
 {
   const char* lang;
   if ((lang = getenv("LC_ALL")) == NULL)

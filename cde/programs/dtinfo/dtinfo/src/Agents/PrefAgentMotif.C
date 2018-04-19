@@ -259,7 +259,7 @@ public:
 
 
 PrefAgent::PrefAgent()
-: f_shell(NULL)
+: f_shell(NULL), f_top_panel(NULL), f_timeout(NULL)
 {
 }
 

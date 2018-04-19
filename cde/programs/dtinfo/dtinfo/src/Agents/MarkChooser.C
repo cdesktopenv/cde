@@ -84,7 +84,8 @@
 MarkChooser::MarkChooser (Widget parent, xList<MarkCanvas *> &marks,
 			  const char *title_key, const char *ok_key)
 : f_selected_item (-1),
-  f_mark_list (&marks)
+  f_mark_list (&marks),
+  f_done(FALSE)
 {
     create_ui (parent, title_key, ok_key);
     update_list();

@@ -77,6 +77,7 @@ extern char g_top_locator[];
 UrlAgent::UrlAgent () {
     fShell = NULL;
     fPrefWindow = 0;
+    fPoppedUp = FALSE;
 }
 
 UrlAgent::~UrlAgent () {

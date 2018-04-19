@@ -72,6 +72,10 @@ private: // variables
 inline
 MessageAgent::MessageAgent()
 : f_dialog (NULL),
-  f_exit_flag (False)
+  f_exit_flag (False),
+  f_text(NULL),
+  f_real_parent(NULL),
+  f_popped_up(FALSE),
+  f_pressed_ok(FALSE)
 {
 }

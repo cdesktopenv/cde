@@ -40,7 +40,16 @@ class WXmPanedWindow;
 class NodeListAgent : public Agent
 {
 public: // functions
-  NodeListAgent() {}
+  NodeListAgent() :
+    f_shell(NULL),
+    f_form(NULL),
+    f_menu_bar(NULL),
+    f_list_form(NULL),
+    f_list(NULL),
+    f_panel(NULL),
+    f_pane(NULL),
+    f_wm_delete_callback(NULL)
+  {}
   ~NodeListAgent();
 
   void init ();

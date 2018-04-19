@@ -63,6 +63,8 @@ btree::btree(const char* store_name)
    btree_info.prefix = NULL;
    btree_info.lorder = 0;
 
+   key_DBT.data = 0;
+   key_DBT.size = 0;
 
    int mode = O_CREAT|O_RDWR;
 

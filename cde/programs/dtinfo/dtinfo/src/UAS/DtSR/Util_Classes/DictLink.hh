@@ -17,7 +17,7 @@ template<class K, class V> class DictLink
     DictLink<K,V>* pre;
     DictLink<K,V>* suc;
 
-    DictLink(const K& k, const V& v) : key(k), value(v) { };
+    DictLink(const K& k, const V& v) : key(k), value(v), pre(NULL), suc(NULL) { };
     ~DictLink() { if (suc) delete suc; } // delete all links recursively
 };
 

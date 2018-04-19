@@ -64,6 +64,8 @@ AppPrintData::AppPrintData()
     f_print_shell = NULL;
     f_print_only = FALSE;
     f_outline_element = NULL;
+    f_print_list = NULL;
+    f_pshell_parent = NULL;
 };
 
 //--------- Destructors ----------------------------------

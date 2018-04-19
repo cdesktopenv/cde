@@ -78,6 +78,7 @@ StyleTask::StyleTask()
    f_buffer = NULL;
    f_pathbuf = NULL;
    f_locator = NULL;
+   f_dataMode = inPath;
 
    feature_depth = new Stack<int>;
 

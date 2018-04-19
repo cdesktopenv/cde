@@ -76,6 +76,8 @@ store_desc::store_desc(const char* name) : desc(name)
 
    if ( order_str == 0 )
       throw(stringException("machine type not supported"));
+
+   v_store_ptr = NULL;
 }
 
 store_desc::store_desc(int tp, const char* comment): 
@@ -95,6 +97,8 @@ store_desc::store_desc(int tp, const char* comment):
 
    if ( order_str == 0 )
       throw(stringException("machine type not supported"));
+
+   v_store_ptr = NULL;
 }
 
 store_desc::~store_desc()

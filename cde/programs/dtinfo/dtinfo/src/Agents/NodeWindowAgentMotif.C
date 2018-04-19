@@ -787,7 +787,34 @@ NodeWindowAgent::NodeWindowAgent (u_int serial_no)
   f_hscrollbar_offset(0),
   f_graphic_segment(NULL),
   f_graphics_handler(NULL),
-  f_close_sensitive(FALSE)
+  f_close_sensitive(FALSE),
+  f_frame(NULL),
+  f_create_bmrk(NULL),
+  f_create_anno(NULL),
+  f_create_link(NULL),
+  f_move_mark(NULL),
+  f_edit_mark(NULL),
+  f_delete_mark(NULL),
+  f_detach_graphic(NULL),
+  f_detach_menu(NULL),
+  f_detach_button(NULL),
+  f_attach_button(NULL),
+  f_raise_button(NULL),
+  f_preview_menu(NULL),
+  f_preview_label(NULL),
+  f_default_menu(NULL),
+  f_clear_search_hits(NULL),
+  f_graphical_map(NULL),
+  f_search_form(NULL),
+  f_search_menu_button(NULL),
+  f_print(NULL),
+  f_print2(NULL),
+  f_print_as(NULL),
+  f_move_mark_sensitive(0),
+  f_last_access_time(0),
+  f_locked(FALSE),
+  f_wm_delete_callback(NULL)
+  
 {
     UAS_Common::request ((UAS_Receiver<UAS_LibraryDestroyedMsg> *) this);
 

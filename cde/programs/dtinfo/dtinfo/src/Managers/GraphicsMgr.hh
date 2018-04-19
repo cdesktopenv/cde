@@ -98,7 +98,8 @@ class Graphic: public UAS_Base {
 		fPixmap (0),
 		fDetachedPixmap (0),
 		fDetached (0),
-		fObj (doc->create_embedded_object (locator)) {
+		fObj (doc->create_embedded_object (locator)),
+                fagent(NULL) {
 	}
 
 	~Graphic () {

@@ -66,6 +66,7 @@
 LocalHistoryMgr::LocalHistoryMgr()
 {
   f_current = NULL;
+  f_first = NULL;
 }
 
 

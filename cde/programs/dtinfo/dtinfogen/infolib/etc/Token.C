@@ -56,6 +56,9 @@ Token::Token()
   entity_defn = NULL;
   tokType=TK_INVALID;
   f_olaf = -1;
+  f_level = 0;
+  f_file = NULL;
+  f_line = 0;
   
 #ifdef FISH_DEBUG
   DBUG_VOID_RETURN;

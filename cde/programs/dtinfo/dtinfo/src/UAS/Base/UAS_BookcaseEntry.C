@@ -52,7 +52,8 @@ UAS_BookcaseEntry::UAS_BookcaseEntry(UAS_Pointer<UAS_Common> &bookcase,
                                      int searchable) 
 : f_searchable(searchable),
   f_name(0),
-  f_base_num(-1)
+  f_base_num(-1),
+  f_infolib_num(0)
 {
     int len;
 

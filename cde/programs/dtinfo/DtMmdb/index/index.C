@@ -63,7 +63,7 @@ void c_index::init_persistent_info(persistent_info* x)
    set_mode(SWAP_ALLOWED, false);
 }
 
-c_index::c_index(c_code_t c_cd) : composite(c_cd)
+c_index::c_index(c_code_t c_cd) : composite(c_cd), v_inv_lists_hd(NULL)
 { 
    v_cmp_selector = 0;
 }

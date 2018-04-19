@@ -33,7 +33,7 @@ class LocalHistoryEntry
 {
 private:  // functions
   LocalHistoryEntry (UAS_Pointer<UAS_Common> &doc_ptr)
-    : f_doc_ptr (doc_ptr), f_anchor (NULL) { }
+    : f_doc_ptr (doc_ptr), f_anchor (NULL), f_previous(NULL), f_next(NULL) { }
   LocalHistoryEntry()
     { }
   ~LocalHistoryEntry();

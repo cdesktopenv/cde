@@ -59,6 +59,8 @@ xtime::xtime() :
 
 v_cpu_stamp(0), v_elapsed_stamp(0)
 {
+   memset(&v_time_regs, 0, sizeof(struct tms));
+   memset(&v_tv, 0, sizeof(struct timeval));
 }
 
 void xtime::stop(float &cpu_time, long &elp_time)

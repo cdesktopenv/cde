@@ -46,6 +46,9 @@ public:
     if ( this != &t ) { 
       this->level = t.level;
       this->Buf = t.Buf;
+    } else {
+      this->level = -1;
+      this->Buf = NULL;
     }
   }
   Rec & operator=( Rec &t ) {

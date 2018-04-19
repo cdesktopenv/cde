@@ -133,7 +133,8 @@ HelpAgent *HelpAgent::g_help_agent;
 // /////////////////////////////////////////////////////////////////
 
 HelpAgent::HelpAgent()
-: f_helper (NULL)
+: f_helper (NULL),
+  f_appXrmDb(NULL)
 {
   Widget app_shell = window_system().toplevel();
   f_cursor = create_help_cursor(app_shell);

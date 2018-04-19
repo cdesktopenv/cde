@@ -236,7 +236,11 @@ CanvasRenderer::CanvasRenderer(int font_scale)
   f_link_idx (-1),
   f_font_scale(font_scale),
   fBogusSymbol(gElemSymTab->intern("%BOGUS")),
-  f_level(0)
+  f_level(0),
+  f_vcc(0),
+  f_current_container(NULL),
+  f_current_displayable(NULL),
+  f_default_features(NULL)
 {
   // make symbols 
   for ( int i=0; i < REND_SYMBOLS; i++)

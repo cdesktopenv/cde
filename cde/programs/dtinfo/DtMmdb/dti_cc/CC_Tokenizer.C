@@ -32,6 +32,7 @@ CC_Tokenizer::CC_Tokenizer( const CC_String &s )
   *((char *) memcpy(str_, s.data(), len) + len) = '\0';
   current_ptr = str_;
   touched = FALSE;
+  strtok_buf = 0;
 }
 
 

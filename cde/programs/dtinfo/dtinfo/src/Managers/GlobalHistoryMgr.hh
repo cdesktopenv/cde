@@ -70,7 +70,7 @@ struct HistoryDelete : public Destructable
 struct HistoryAdd : public Destructable
 {
   HistoryAdd (UAS_Pointer<UAS_Common> &node_ptr)
-    : f_new_entry(node_ptr) { }
+    : f_new_entry(node_ptr), f_moving(false) { }
 
   UAS_Pointer<UAS_Common> f_new_entry;      // UAS_Pointer to UAS_Common displayed.
   bool f_moving;                  // True if a moved entry.

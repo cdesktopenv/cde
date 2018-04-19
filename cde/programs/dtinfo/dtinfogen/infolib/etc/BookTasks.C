@@ -89,12 +89,15 @@ BookCaseTask::BookCaseTask(const char *infolib)
   if ( !Dispatch::RunTocGenOnly() ) {
     style = new StyleTaskDB(this);
     addSubTask(style);
+  } else {
+    style = NULL;
   }
 
   book = new BookTask(this);
   addSubTask(book);
 
   f_style = NULL;
+  f_search_storage = NULL;
 }
 
 

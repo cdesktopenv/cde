@@ -269,6 +269,8 @@ NodeData::NodeData( NodeTask *parent, const Token &t)
 #endif
 
   write_start_tag ( t, NodeBuffer );
+  
+  internal_buffer = NULL;
 }
 
 //---------------------------------------------------------------------

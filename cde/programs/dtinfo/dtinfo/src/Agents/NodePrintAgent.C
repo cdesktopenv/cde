@@ -278,7 +278,7 @@ _DtHelpCreatePrintArea(Widget parent,
 // /////////////////////////////////////////////////////////////////
 
 NodePrintAgent::NodePrintAgent()
-    :  f_node_view_info (NULL), f_help_dsp_area(NULL)
+    :  f_node_view_info (NULL), f_help_dsp_area(NULL), f_form(NULL)
 {
 }
 

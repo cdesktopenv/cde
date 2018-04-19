@@ -93,6 +93,9 @@ protected: // variables
 
 inline
 SearchResultsAgent::SearchResultsAgent()
-: f_work_proc_id (0), f_popped_up(FALSE)
+: f_work_proc_id (0), f_popped_up(FALSE), f_my_ale(NULL), f_retain(FALSE),
+  f_results(NULL), f_selected_item(0), f_retain_toggle(NULL), f_query_text(NULL),
+  f_hits_label(NULL), f_scope_label(NULL), f_docs_to_display(0), f_count(0),
+  f_scale(0), f_header_indent(0)
 {
 }

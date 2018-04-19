@@ -38,7 +38,7 @@ class NodeHistoryAgent : public WWL,
 {
 public: // functions
   NodeHistoryAgent()
-    : f_shell (NULL), f_selected_item (0)
+    : f_shell (NULL), f_selected_item (0), f_popped_up(FALSE)
     { }
   virtual ~NodeHistoryAgent();
   void display();

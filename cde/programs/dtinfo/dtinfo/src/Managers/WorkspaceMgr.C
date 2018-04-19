@@ -64,6 +64,8 @@ WorkspaceMgr::WorkspaceMgr()
 
     DtWsmAddCurrentWorkspaceCallback( window_system().toplevel(),
                   (DtWsmWsChangeProc) PrimaryWorkspace_cb, this );
+                  
+    f_actual = 0;
 }
 
 

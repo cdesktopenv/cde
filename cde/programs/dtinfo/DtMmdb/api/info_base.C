@@ -121,6 +121,10 @@ debug(cerr, base_ds);
           }
       end_try;
    }
+   
+#ifdef C_API
+   f_index_id = 0;
+#endif
 
    MESSAGE(cerr, form("info base %s in %s available.", base_name, base_dir));
 }
