@@ -38,7 +38,8 @@ namespace SP_NAMESPACE {
 InputSource::InputSource(InputSourceOrigin *origin, const Char *start,
 			 const Char *end)
 : origin_(origin), start_(start), end_(end), cur_(start), accessError_(0),
-  startLocation_(origin, 0), multicode_(0), scanSuppress_(0)
+  startLocation_(origin, 0), multicode_(0), scanSuppress_(0),
+  scanSuppressSingle_(false), scanSuppressIndex_(0)
 {
 }
 

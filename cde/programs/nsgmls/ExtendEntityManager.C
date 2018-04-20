@@ -500,7 +500,11 @@ ExternalInputSource::ExternalInputSource(ParsedSystemId &parsedSysid,
 : InputSource(origin, 0, 0),
   mayRewind_(mayRewind),
   mayNotExist_(mayNotExist),
-  sov_(parsedSysid.size())
+  sov_(parsedSysid.size()),
+  readSize_(0),
+  decoder_(NULL),
+  recordType_(unknown),
+  zapEof_(false)
 {
   init();
   info_ = new ExternalInfoImpl(parsedSysid);
@@ -921,8 +925,11 @@ ExternalInfoImpl::ExternalInfoImpl(ParsedSystemId &parsedSysid)
 : currentIndex_(0), position_(parsedSysid.size())
 {
   parsedSysid.swap(parsedSysid_);
-  if (parsedSysid_.size() > 0)
+  if (parsedSysid_.size() > 0) {
     notrack_ = parsedSysid_[0].notrack;
+  } else {
+    notrack_ = false;
+  }
 }
 
 StringC &ExternalInfoImpl::id(size_t i)

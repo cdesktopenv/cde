@@ -208,7 +208,7 @@ class AndState;
 
 class SP_API AndInfo {
 public:
-  AndInfo() { }
+  AndInfo() : andAncestor(NULL), andGroupIndex(0) { }
   const AndModelGroup *andAncestor;
   unsigned andGroupIndex;
   Vector<Transition> follow;

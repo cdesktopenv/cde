@@ -35,6 +35,7 @@ namespace SP_NAMESPACE {
 #endif
 
 SdText::SdText()
+: lita_(false)
 {
 }
 
@@ -78,6 +79,7 @@ Location SdText::endDelimLocation() const
 }
 
 SdTextItem::SdTextItem()
+: index(0)
 {
 }
 

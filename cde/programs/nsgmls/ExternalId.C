@@ -61,7 +61,7 @@ void ExternalId::setLocation(const Location &loc)
 }
 
 PublicId::PublicId()
-: formal_(0)
+: formal_(0), ownerType_(ISO), textClass_(CAPACITY), unavailable_(false), haveDisplayVersion_(false)
 {
 }
 

@@ -45,7 +45,11 @@ typedef IListIter<OpenElement> Dummy_IListIter_OpenElement;
 #endif
 
 ContentState::ContentState()
-: documentElementContainer_(StringC(), size_t(-1))
+: documentElementContainer_(StringC(), size_t(-1)),
+totalExcludeCount_(0),
+tagLevel_(0),
+netEnablingCount_(0),
+lastEndedElementType_(NULL)
 {
 }
 

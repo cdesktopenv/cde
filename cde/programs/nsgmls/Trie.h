@@ -42,7 +42,7 @@ class BlankTrie;
 
 class Trie {
 public:
-  Trie() : next_(0), nCodes_(0) { }
+  Trie() : next_(0), nCodes_(0), token_(0), tokenLength_(0), priority_(Priority::data) { }
   Trie(const Trie &);
   ~Trie();
   Trie &operator=(const Trie &);
@@ -66,7 +66,7 @@ private:
 
 class BlankTrie : public Trie {
 public:
-  BlankTrie() { }
+  BlankTrie() : additionalLength_(0), maxBlanksToScan_(0) { }
   Boolean codeIsBlank(EquivCode c) const { return codeIsBlank_[c]; }
   // maximum number of blanks to scan (minimum is 0)
   size_t maxBlanksToScan() const { return maxBlanksToScan_; }

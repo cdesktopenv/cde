@@ -94,7 +94,7 @@ OutputCharStream &OutputCharStream::operator<<(int n)
 
 
 IosOutputCharStream::IosOutputCharStream()
-: buf_(0), byteStream_(0)
+: buf_(0), byteStream_(0), encoder_(NULL)
 {
 }
 

@@ -44,7 +44,7 @@ namespace SP_NAMESPACE {
 
 class GroupToken {
 public:
-  GroupToken() { }
+  GroupToken() : type(invalid) { }
   enum Type {
     invalid,
     nameToken,

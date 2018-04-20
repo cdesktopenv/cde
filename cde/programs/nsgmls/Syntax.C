@@ -64,7 +64,9 @@ Syntax::Syntax(const Sd &sd)
   categoryTable_(otherCategory),
   shuncharControls_(0),
   multicode_(0),
-  markupScanTable_(MarkupScan::normal)
+  markupScanTable_(MarkupScan::normal),
+  namecaseGeneral_(false),
+  namecaseEntity_(false)
 {
   static const char lcletter[] = "abcdefghijklmnopqrstuvwxyz";
   static const char ucletter[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

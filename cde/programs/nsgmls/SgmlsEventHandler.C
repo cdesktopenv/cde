@@ -102,7 +102,7 @@ SgmlsEventHandler::SgmlsEventHandler(const SgmlParser *parser,
   outputId_((outputFlags & outputId) != 0),
   outputNotationSysid_((outputFlags & outputNotationSysid) != 0),
   outputIncluded_((outputFlags & outputIncluded) != 0),
-  haveData_(0), lastSos_(0)
+  haveData_(0), lastSos_(0), lastLineno_(0)
 {
   os_->setEscaper(escape);
 }

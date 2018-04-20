@@ -35,6 +35,7 @@ namespace SP_NAMESPACE {
 #endif
 
 Location::Location()
+: index_(0)
 {
 }
 
@@ -272,6 +273,7 @@ ExternalInfo::~ExternalInfo()
 RTTI_DEF0(ExternalInfo)
 
 NamedCharRef::NamedCharRef()
+: refStartIndex_(0), refEndType_(endOmitted)
 {
 }
 

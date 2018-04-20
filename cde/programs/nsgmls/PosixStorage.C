@@ -108,7 +108,8 @@ private:
 
 PosixBaseStorageObject::PosixBaseStorageObject(int fd, Boolean mayRewind)
 : fd_(fd), eof_(0),
-  RewindStorageObject(mayRewind, mayRewind && canSeek(fd))
+  RewindStorageObject(mayRewind, mayRewind && canSeek(fd)),
+  startOffset_(0)
 {
 }
 
@@ -391,7 +392,10 @@ PosixStorageObject::PosixStorageObject(int fd,
   PosixBaseStorageObject(fd, mayRewind),
   suspended_(0),
   filename_(filename),
-  cfilename_(cfilename)
+  cfilename_(cfilename),
+  suspendPos_(0),
+  suspendFailedMessage_(NULL),
+  suspendErrno_(0)
 {
 }
 

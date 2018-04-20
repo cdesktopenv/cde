@@ -53,7 +53,7 @@ class ElementType;
 
 class Param {
 public:
-  Param() { }
+  Param() : type(invalid), lita(false) { }
   typedef unsigned char Type;
   enum {
     invalid,

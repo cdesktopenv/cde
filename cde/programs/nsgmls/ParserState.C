@@ -97,7 +97,10 @@ ParserState::ParserState(const Ptr<EntityManager> &em,
   currentMarkup_(0),
   cancelPtr_(&dummyCancel_),
   finalPhase_(finalPhase),
-  hadAfdrDecl_(0)
+  hadAfdrDecl_(0),
+  pass2StartOffset_(0),
+  phase_(noPhase),
+  specialParseMode_()
 {
 }
 

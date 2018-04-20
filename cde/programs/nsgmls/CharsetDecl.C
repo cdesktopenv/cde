@@ -38,6 +38,10 @@ namespace SP_NAMESPACE {
 #endif
 
 CharsetDeclRange::CharsetDeclRange()
+: descMin_(0),
+  count_(0),
+  type_(unused),
+  baseMin_(0)
 {
 }
 
@@ -53,8 +57,8 @@ CharsetDeclRange::CharsetDeclRange(WideChar descMin, Number count,
 CharsetDeclRange::CharsetDeclRange(WideChar descMin, Number count)
 : descMin_(descMin),
   count_(count),
-  type_(unused)
-     
+  type_(unused),
+  baseMin_(0)
 {
 }
 
@@ -63,7 +67,8 @@ CharsetDeclRange::CharsetDeclRange(WideChar descMin, Number count,
 : descMin_(descMin),
   count_(count),
   type_(string),
-  str_(str)
+  str_(str),
+  baseMin_(0)
 {
 }
 

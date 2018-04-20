@@ -208,7 +208,7 @@ ArcEngineImpl::ArcEngineImpl(Messenger &mgr,
   parser_(parser), stage_(0),
   gatheringContent_(0), startAgain_(0), haveLinkProcess_(0),
   allocator_(maxSize(sizes, SIZEOF(sizes)), 50),
-  nullHandler_(mgr), docName_(docName)
+  nullHandler_(mgr), docName_(docName), linkAttributes_(NULL)
 {
   eventHandler_ = director.arcEventHandler(notation, docName, table);
   if (!eventHandler_)
@@ -544,7 +544,7 @@ void ArcEngineImpl::initMessage(Message &msg)
 
 ArcProcessor::ArcProcessor()
 : errorIdref_(1), notationSetArch_(0), docHandler_(0), arcAuto_(1),
-  arcDtdIsParam_(0)
+  arcDtdIsParam_(0), valid_(false), mgr_(NULL), director_(NULL), docIndex_(0)
 {
 }
 
@@ -1817,6 +1817,7 @@ ArcProcessor::MetaMapCache::MetaMapCache()
   for (int i = 0; i < nNoSpec; i++)
     noSpec[i] = invalidAtt;
   linkAtts = 0;
+  suppressFlags = 0;
 }
 
 void ArcProcessor::MetaMapCache::clear()
@@ -1828,7 +1829,7 @@ void ArcProcessor::MetaMapCache::clear()
 }
 
 ArcProcessor::MetaMap::MetaMap()
-: attributed(0)
+: attributed(0), suppressFlags(0)
 {
 }
 

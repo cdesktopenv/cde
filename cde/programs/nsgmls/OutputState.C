@@ -37,6 +37,7 @@ namespace SP_NAMESPACE {
 #endif
 
 OutputState::OutputState()
+: re_(0)
 {
   init();
 }
@@ -49,7 +50,7 @@ void OutputState::init()
 }
 
 OutputStateLevel::OutputStateLevel()
-: state(OutputState::afterStartTag)
+: state(OutputState::afterStartTag), reSerial(0)
 {
 }
 

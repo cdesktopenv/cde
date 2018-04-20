@@ -400,7 +400,7 @@ void SOCatalogManagerImpl::addCatalogsForDocument(CatalogParser &parser,
 
 SOEntityCatalog::SOEntityCatalog(Ptr<ExtendEntityManager> em)
 : em_(em), catalogNumber_(0), haveSgmlDecl_(0), haveDocument_(0),
-  haveCurrentBase_(0)
+  haveCurrentBase_(0), sgmlDeclBaseNumber_(0), documentBaseNumber_(0)
 {
 }
 

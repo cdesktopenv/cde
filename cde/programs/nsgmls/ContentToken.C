@@ -42,7 +42,8 @@ namespace SP_NAMESPACE {
 
 AndModelGroup::AndModelGroup(NCVector<Owner<ContentToken> > &v,
 			     ContentToken::OccurrenceIndicator oi)
-: ModelGroup(v, oi)
+: ModelGroup(v, oi), andDepth_(0), andIndex_(0), andGroupIndex_(0),
+  andAncestor_(NULL)
 {
 }
 
@@ -108,7 +109,8 @@ ElementToken::ElementToken(const ElementType *element, OccurrenceIndicator oi)
 }
 
 ContentToken::ContentToken(OccurrenceIndicator oi)
-: occurrenceIndicator_(oi)
+: occurrenceIndicator_(oi),
+inherentlyOptional_(0)
 {
 }
 
@@ -134,7 +136,8 @@ const LeafContentToken *ContentToken::asLeafContentToken() const
 LeafContentToken::LeafContentToken(const ElementType *element,
 				   OccurrenceIndicator oi)
 : element_(element), ContentToken(oi), isFinal_(0), orGroupMember_(0),
-  requiredIndex_(size_t(-1))
+  requiredIndex_(size_t(-1)), leafIndex_(0), typeIndex_(0), pcdataTransitionType_(0),
+  simplePcdataTransition_(NULL)
 {
 }
 
@@ -211,7 +214,7 @@ GroupInfo::GroupInfo(size_t nType)
 }
 
 CompiledModelGroup::CompiledModelGroup(Owner<ModelGroup> &modelGroup)
-: modelGroup_(modelGroup.extract())
+: modelGroup_(modelGroup.extract()), andStateSize_(0), containsPcdata_(false)
 {
 }
 
@@ -611,7 +614,7 @@ void AndState::clearFrom1(unsigned i)
 }
 
 MatchState::MatchState()
-: andState_(0)
+: andState_(0), pos_(NULL), minAndDepth_(0)
 {
 }
 

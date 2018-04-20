@@ -248,6 +248,7 @@ Boolean Text::delimType(Boolean &lita) const
 }
 
 TextItem::TextItem()
+: type(data), c(0), index(0)
 {
 }
 

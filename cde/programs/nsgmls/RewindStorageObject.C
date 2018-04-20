@@ -38,7 +38,8 @@ namespace SP_NAMESPACE {
 
 RewindStorageObject::RewindStorageObject(Boolean mayRewind, Boolean canSeek)
 : mayRewind_(mayRewind), canSeek_(canSeek),
-  savingBytes_(mayRewind && canSeek), readingSaved_(0)
+  savingBytes_(mayRewind && canSeek), readingSaved_(0),
+  nBytesRead_(0)
 {
 }
 

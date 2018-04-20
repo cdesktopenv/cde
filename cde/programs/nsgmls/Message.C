@@ -45,7 +45,8 @@ MessageFragment::MessageFragment(unsigned module, unsigned number, const char *
 #ifndef SP_NO_MESSAGE_TEXT
   text_(text),
 #endif
-  number_(number)
+  number_(number),
+  spare_(0)
 {
 }
 
@@ -124,11 +125,12 @@ OpenElementInfo::OpenElementInfo()
 }
 
 Message::Message()
+: type(NULL)
 {
 }
 
 Message::Message(int nArgs)
-: args(nArgs)
+: args(nArgs), type(NULL)
 {
 }
 

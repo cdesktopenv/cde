@@ -41,7 +41,7 @@ ShortReferenceMap::ShortReferenceMap()
 }
 
 ShortReferenceMap::ShortReferenceMap(const StringC &name)
-: Named(name)
+: Named(name), used_(false)
 {
 }
 

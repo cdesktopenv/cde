@@ -1069,7 +1069,7 @@ AttributeList::AttributeList(const ConstPtr<AttributeDefinitionList> &def)
 }
 
 AttributeList::AttributeList()
-: nSpec_(0), conref_(0)
+: nSpec_(0), conref_(0), nIdrefs_(0), nEntityNames_(0)
 {
 }
 
