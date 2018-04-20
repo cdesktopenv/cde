@@ -1516,6 +1516,33 @@ RoamApp::RoamApp(char *name) : Application (name), _activePrintDisplays(5)
 {
     DebugPrintf(2, "RoamApp::RoamApp(%p \"%s\")\n", name, name);
     theRoamApp = *this;
+    
+    _busy_count = 0;
+    _dialog = NULL;
+    _errorPrintDisplay = NULL;
+    _firstSaveYourselfArrived = false;
+    _options = NULL;
+    _optionsHandle = NULL;
+    _mailview = NULL;
+    _quitSilently = false;
+    _quitQuickly = false;
+    _vacation = NULL;
+    session_fp = NULL;
+    _shutdownWorkprocID = 0;
+    _appTimeoutId = 0;
+    _default_mailbox = NULL;
+    _glyph_font = NULL;
+    _glyph_name = NULL;
+    _mailfiles_folder = NULL;
+    _mail_session = NULL;
+    _mail_transport = NULL;
+    _print_script = NULL;
+    _system_font = NULL;
+    _system_fontlist = NULL;
+    _tt_fd = 0;
+    _user_font = NULL;
+    _user_fontlist = NULL;
+    _default_x_error_handler = NULL;
 }
 
 // Let the destructor of parent Application class handle the

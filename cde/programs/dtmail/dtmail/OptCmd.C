@@ -147,6 +147,21 @@ OptCmd::OptCmd ( char *name, char *label, int active, Widget parent) :
     catstr = NULL;
     CurrentPane = NULL;
 
+    mh_pane_list = NULL;
+    msg_view_pane_list = NULL;
+    compose_pane_list = NULL;
+    msg_filing_pane_list = NULL;
+    vacation_pane_list = NULL;
+    template_pane_list = NULL;
+    aliases_pane_list = NULL;
+    advanced_pane_list = NULL;
+    mailretrieval_pane_list = NULL;
+    vaca_sub = NULL;
+    vaca_msg = NULL;
+    generalDialog = NULL;
+    _PrintingOptions = NULL;
+    _MailRetrievalOptions = NULL;
+    
 }
 
 void

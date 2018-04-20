@@ -107,6 +107,10 @@ MainWindow::MainWindow( char *name, Boolean allowResize ) : UIComponent ( name )
     _window_invert = NULL;
     _icon = 0;
     _allow_resize = allowResize;
+    _last_state = 0;
+    _flash_owin = 0;
+    _flash_iwin = 0;
+    memset(&_window_attributes, 0, sizeof(XWindowAttributes));
 
     assert ( theApplication != NULL ); // Application object must exist
     // before any MainWindow object

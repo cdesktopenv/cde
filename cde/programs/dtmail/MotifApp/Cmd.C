@@ -82,6 +82,7 @@ Cmd::Cmd ( char *name, char *label, int active )
     _activationList    = NULL;
     _deactivationList  = NULL;
     _hasUndo           = TRUE;
+    _previouslyActive  = 0;
 
     if (label) {
 	_label         = strdup(label);

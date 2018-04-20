@@ -158,6 +158,7 @@ SendMsgDialog::HeaderList::HeaderList(const HeaderList & other)
 {
     label = NULL;
     header = NULL;
+    value = NULL;
     show = other.show;
     form_widget = other.form_widget;
     label_widget = other.label_widget;

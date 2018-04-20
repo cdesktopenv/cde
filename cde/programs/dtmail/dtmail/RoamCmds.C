@@ -318,6 +318,8 @@ OpenContainerCmd::OpenContainerCmd (
 				) : RoamInterruptibleCmd (name, label, active)
 {
     _menuWindow = window;
+    _open_create_flag = DTM_FALSE;
+    _open_lock_flag = DTM_FALSE;
 }
 
 // Parent's execute() ends up calling derived class's doit()
@@ -423,6 +425,10 @@ ConvertContainerCmd::ConvertContainerCmd(
     _num_converted = 0;
     _num_to_be_converted = 0;
     _dialog = NULL;
+    _criteria = NULL;
+    _conv_cb = NULL;
+    _src = NULL;
+    _dest = NULL;
 }
 
 void
@@ -615,6 +621,7 @@ ChooseCmd::ChooseCmd(
 		      ) :  NoUndoCmd( name, label, active )
 {
     _menuwindow = window;
+    _msgno = NULL;
 }
 
 void
@@ -655,6 +662,7 @@ DeleteCmd::DeleteCmd(
 		      ) :  Cmd ( name, label, active )
 {
     _menuwindow = window;
+    _msgno = NULL;
 }
 
 void
@@ -892,6 +900,8 @@ UnifiedSelectMailboxCmd::UnifiedSelectMailboxCmd (
 		this,
 		parent)
 {
+   _only_show_mailboxes = DTM_FALSE;
+
    if (! _is_initialized)
    {
        FORCE_SEGV_DECL(DtMail::Session, m_session);
@@ -1393,6 +1403,8 @@ UndeleteCmd::UndeleteCmd (
     _menuwindow = window;
     _undelFromList = NULL;
     _fromList = viaDeleteList;
+    _clientData = NULL;
+    _num_deleted = 0;
 }
 
 UndeleteCmd::~UndeleteCmd()
@@ -1496,6 +1508,9 @@ MoveCopyCmd::MoveCopyCmd( char *name,
     _menuwindow = menu_window;
     _copy_button = NULL;
     _move_button = NULL;
+    _file_list = NULL;
+    _file_text = NULL;
+    _default_button = NULL;
 }
 
 MoveCopyCmd::~MoveCopyCmd()
@@ -2240,6 +2255,7 @@ SaveAttachCmd::SaveAttachCmd ( char *name,
 		       parent)
 {
    _parent = clientData;
+   _name = NULL;
 }
 
 SaveAttachCmd::SaveAttachCmd ( 
@@ -2261,6 +2277,7 @@ SaveAttachCmd::SaveAttachCmd (
 		       parent )
 {
    _parent = clientData;
+   _name = NULL;
 }
 
 SaveAttachCmd::SaveAttachCmd ( 
@@ -2282,6 +2299,7 @@ SaveAttachCmd::SaveAttachCmd (
 		       parent )
 {
     _parent = clientData;
+    _name = NULL;
 }
 
 void
@@ -3240,6 +3258,7 @@ OtherAliasesCmd::OtherAliasesCmd(
     int active)
     : NoUndoCmd (name, label, active)
 {
+        _header = NULL;
 }
 
 void

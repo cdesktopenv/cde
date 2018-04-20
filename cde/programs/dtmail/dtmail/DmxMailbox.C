@@ -82,6 +82,7 @@ DmxMailbox::DmxMailbox (char *filename)
 	_mbox = NULL;
 	_messageCount = 0;
 	_fileName = strdup_n(filename);
+        _message = NULL;
 }
 
 DmxMailbox::~DmxMailbox (void)

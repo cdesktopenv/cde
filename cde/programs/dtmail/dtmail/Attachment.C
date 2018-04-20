@@ -183,6 +183,24 @@ Attachment::Attachment(
 	_label = XmStringCreateLocalized(strrchr(name, '/')+1);
 
     _key = theRoamApp.session()->session()->newObjectKey();
+    
+    myIcon = NULL;
+    _background = 0;
+    _foreground = 0;
+    _attachmentWidth = 0;
+    _attachmentHeight = 0;
+    _positionX = 0;
+    _positionY = 0;
+    _deleted = false;
+    _selected = false;
+    _row = 0;
+    _saveAsFilename = NULL;
+    _ce_name = NULL;
+    _ce_type = NULL;
+    _type = 0;
+    _binary = false;
+    _executable = false;
+    
 }
 
 Attachment::~Attachment(

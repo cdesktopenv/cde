@@ -149,6 +149,10 @@ Application::Application ( char *appClassName ) :
     _numWindows = 0;
     _shutdownEnabled = 1;
     _applicationClass = strdup ( appClassName );
+    _appWorkspaceList = NULL;
+    _lastInteractiveEventTime = 0;
+    _originalEgid = 0;
+    _originalRgid = 0;
 }
 
 void Application::initialize ( int *argcp, char **argv )

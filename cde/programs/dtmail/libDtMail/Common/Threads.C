@@ -246,8 +246,11 @@ Condition::Condition(void)
 #if defined(POSIX_THREADS)
     _condition = malloc(sizeof(cond_t));
     cond_init((cond_t *)_condition, USYNC_THREAD, NULL);
+#else
+    _condition = NULL;
 #endif
 
+    _state = 0;
 }
 
 Condition::~Condition(void)

@@ -397,6 +397,7 @@ DtMailEnv::DtMailEnv()
   _client = NULL;
   _implClearFunc = NULL;
   _fatal = DTM_FALSE;
+  _error_minor_code = DTME_NoError;
 }
 
 #ifdef hpV4

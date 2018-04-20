@@ -337,6 +337,7 @@ ComposeCmd::ComposeCmd(
 			RoamMenuWindow *window
 			) : ComposeFamily( name, label, active, window )
 {
+    _parent = NULL;
 }
 
 // Put up a blank compose window.
@@ -367,6 +368,7 @@ ForwardCmd::ForwardCmd(
 			) : ComposeFamily(name, label, active, window)
 {
     _forward = forward;
+    _parent = NULL;
 }
 
 // Forward or Include selected messages.
@@ -439,6 +441,7 @@ ReplyCmd::ReplyCmd (
 		     ) : ComposeFamily ( name, label, active, window )
 {
     _include = include;
+    _parent = NULL;
 }
 
 // For each message selected, reply to sender.
@@ -574,6 +577,7 @@ ReplyAllCmd::ReplyAllCmd(
 			  ) : ComposeFamily( name, label, active, window )
 {
     _include = include;
+    _parent = NULL;
 }
 
 // For each message selected, reply to everybody.

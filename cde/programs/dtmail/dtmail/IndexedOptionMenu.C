@@ -96,6 +96,9 @@ IndexedOptionMenu::IndexedOptionMenu (
     Widget	menu;
     XmString	xms;
 
+    _strings = NULL;
+    _data = NULL;
+
     _nmenu_items = nmenu_items;
     if (nmenu_items && strings != NULL)
     {

@@ -53,6 +53,7 @@ RFCFormat::RFCFormat(DtMail::Session * session)
 {
     _session = session;
     _is_write_bcc = DTM_FALSE;
+    _use_cr = DTM_FALSE;
 }
 
 RFCFormat::~RFCFormat(void)

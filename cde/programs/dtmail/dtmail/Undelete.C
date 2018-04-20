@@ -236,6 +236,13 @@ UndelFromListDialog::UndelFromListDialog (
 {
     assert (theApplication != NULL);
     _list = NULL;
+    _undelete_button = NULL;
+    _close_button = NULL;
+    _undel_list_button = NULL;
+    rowOfLabels = NULL;
+    rowOfButtons = NULL;
+    rowOfMessageStatus = NULL;
+    my_owner = NULL;
 }
 
 UndelFromListDialog::~UndelFromListDialog()

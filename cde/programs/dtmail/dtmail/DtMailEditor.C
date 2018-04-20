@@ -107,6 +107,7 @@ DtMailEditor::DtMailEditor(
     _dragX = -1;
     _dragY = -1;
     _editable = FALSE;
+    _container = NULL;
 
 }
 

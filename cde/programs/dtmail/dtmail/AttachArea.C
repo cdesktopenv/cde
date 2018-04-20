@@ -162,6 +162,34 @@ AttachArea::AttachArea (
     _attach_area_selection_state = AA_SEL_NONE;
     _cache_single_attachment = NULL;
 
+    _no_selected_label = NULL;
+    _selected_label = NULL;
+    rowOfAttachmentsStatus = NULL;
+    _attachments_status = NULL;
+    _attachments_summary = NULL;
+    _mailbox = NULL;
+    _attachAreaWidth = 0;
+    _attachAreaHeight = 0;
+    _rc = NULL;
+    _sw = NULL;
+    _vsb = NULL;
+    _message = NULL;
+    _clipWindow = NULL;
+    _open = NULL;
+    _saveas = NULL;
+    _selectall = NULL;
+    _unselectall = NULL;
+    _menuBar = NULL;
+    _background = 0;
+    _foreground = 0;
+    _appBackground = 0;
+    _appForeground = 0;
+    _fileCmdList = NULL;
+    _editCmdList = NULL;
+    _size_selected_label = NULL;
+    _format_button = NULL;
+    
+    
 }
 
 void

@@ -68,6 +68,8 @@ DtMail::MailBox::MailBox(DtMailEnv & error,
     _callback = cb;
     _cb_data = clientData;
     _obj_mutex = MutexInit();
+    _mail_box_writable = DTM_FALSE;
+    _default_mode = 0;
 }
 
 DtMail::MailBox::~MailBox(void)

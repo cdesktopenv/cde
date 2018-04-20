@@ -217,6 +217,7 @@ DmxPrintOptions::DmxPrintOptions (
     _propui_array = new DtVirtArray<PropUiItem *>(10);
     _propui_array_iterator = 0;
     _parent = parent;
+    _prop_source = NULL;
 
     //
     //  Create form to hold the printing options

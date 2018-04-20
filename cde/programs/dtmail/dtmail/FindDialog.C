@@ -133,6 +133,7 @@ FindDialog::FindDialog(RoamMenuWindow *parent) : Dialog("find", parent)
   _roamWindow = parent;
   _num_text_fields = 4;
   _num_buttons = 5;
+  _status_text = NULL;
 
   //
   // Allocate storage for labels, widgets, and data.

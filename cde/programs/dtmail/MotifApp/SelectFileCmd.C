@@ -108,6 +108,8 @@ SelectFileCmd::SelectFileCmd (const char * name,
     _cancel_clientData = NULL;
     _fileBrowser       = NULL;
     _parentWidget      = parent;
+    _hidden_button     = NULL;
+    _directory         = NULL;
 }
 
 SelectFileCmd::SelectFileCmd (const char * name, 
@@ -130,6 +132,8 @@ SelectFileCmd::SelectFileCmd (const char * name,
     _cancel_clientData = cancel_clientData;
     _fileBrowser       = NULL;
     _parentWidget      = parent;
+    _hidden_button     = NULL;
+    _directory         = NULL;
 }
 
 SelectFileCmd::~SelectFileCmd()

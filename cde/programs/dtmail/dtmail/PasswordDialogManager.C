@@ -55,6 +55,8 @@ PasswordDialogManager::PasswordDialogManager ( char   *name ) :
 {
     // Empty
     _pwd[0] = 0;
+    _user = NULL;
+    _password = NULL;
 }
 
 Widget PasswordDialogManager::createDialog ( Widget parent )

@@ -33,7 +33,7 @@ extern "C" {
 
 class MsgStruct {
   public:
-    MsgStruct() {};
+    MsgStruct() : indexNumber(0), sessionNumber(0), message_handle(NULL), is_deleted(false) {};
     ~MsgStruct() {};
     
     int indexNumber;

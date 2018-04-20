@@ -98,6 +98,16 @@ DialogShell ("DtMail_SecWin", parent, wc)
     _attachmentPopupMenuList = NULL;
     _textPopupMenuList = NULL;
 
+    _main = NULL;
+    _overview = NULL;
+    _tasks = NULL;
+    _reference = NULL;
+    _on_item = NULL;
+    _using_help = NULL;
+    _about_mailer = NULL;
+    _text = NULL;
+    _msgno = NULL;
+
     assert( theApplication != NULL );
 
 }

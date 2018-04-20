@@ -82,6 +82,7 @@ CmdList::CmdList(char *name, char *label ) : Cmd(name, label, 1)
     
     _contents    = 0;
     _numElements = 0;
+    _pane        = NULL;
 }
 
 CmdList::~CmdList()

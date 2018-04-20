@@ -129,6 +129,9 @@ RFCTransport::RFCTransport(DtMailEnv & error,
     // Set up the handlers so that we are notified when a child
     // process exits and do the right thing.
     signalRegister();
+    
+    _error_proc = NULL;
+    _smd = NULL;
 }
 
 RFCTransport::~RFCTransport(void)

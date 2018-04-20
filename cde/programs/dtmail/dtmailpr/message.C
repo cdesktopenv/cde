@@ -69,6 +69,10 @@ DmxMsg::DmxMsg (void)
 	isCurrent = B_FALSE;
 	hasAttachments = B_FALSE;
 	isNew = B_FALSE;
+        msgHandle = NULL;
+        msgHeader.header_values = NULL;
+        msgHeader.number_of_names = 0;
+        bodyParts = NULL;
 
 	return;
 }

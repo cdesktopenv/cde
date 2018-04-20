@@ -130,6 +130,33 @@ MailRetrievalOptions::MailRetrievalOptions (
     XmString		xms;
     char		*propkey = new char[MAXPATHLEN];
 
+    _password_pui = NULL;
+    _inboxpath_label = NULL;
+    _inboxpath_tf = NULL;
+    _checkfornewmail_label = NULL;
+    _checkfornewmail_sb = NULL;
+    _system_tb = NULL;
+    _server_frame = NULL;
+    _server_tb = NULL;
+    _serverframe_form = NULL;
+    _serverprotocol_label = NULL;
+    _serverprotocol_iom = NULL;
+    _servername_label = NULL;
+    _servername_tf = NULL;
+    _username_label = NULL;
+    _username_tf = NULL;
+    _password_label = NULL;
+    _password_tf = NULL;
+    _rememberpassword_tb = NULL;
+    _removeafterdelivery_tb = NULL;
+    _retrieveold_tb = NULL;
+    _custom_frame = NULL;
+    _custom_tb = NULL;
+    _customframe_form = NULL;
+    _customcommand_label = NULL;
+    _customcommand_tf = NULL;
+    
+
     _propui_array = new DtVirtArray<PropUiItem *>(10);
     _propui_array_iterator = 0;
     _parent = parent;

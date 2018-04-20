@@ -69,7 +69,9 @@
 #define PIXMAPSIZE  50
 
 BusyPixmap::BusyPixmap ( Widget w ) : 
-        PixmapCycler ( NUMPIXMAPS, PIXMAPSIZE, PIXMAPSIZE )
+        PixmapCycler ( NUMPIXMAPS, PIXMAPSIZE, PIXMAPSIZE ),
+        _gc(NULL),
+        _inverseGC(NULL)
 {
     _w = w;
 }

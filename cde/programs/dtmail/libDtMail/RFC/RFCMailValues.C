@@ -71,6 +71,7 @@ RFCValue::RFCValue(const char * str, int size) : DtMailValue(NULL)
     _value[size] = 0;
 
     _decoded = NULL;
+    _session = NULL;
 }
 
 RFCValue::RFCValue(const char * str, int size, DtMail::Session *s) : DtMailValue(NULL)

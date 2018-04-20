@@ -88,6 +88,7 @@ DtMailGenDialog::DtMailGenDialog(char *name, Widget parent, int style)
     _textField = (Widget) NULL;
     _maxTextlen = 0;
     _clearText = NULL;
+    _shroudText = 0;
 
     _parentshell = parent;
     while (_parentshell && !XtIsShell(_parentshell))
