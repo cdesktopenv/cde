@@ -1561,7 +1561,10 @@ _tt_transaction_1(_Tt_transaction_args* args, SVCXPRT * /* transp */)
 			return _tt_transaction_error(fd);
 		}
 		/* Turn on close-on-exec */
-		fcntl(fd, F_SETFD, 1);
+		if(fcntl(fd, F_SETFD, 1) == -1) {
+			res.iserrno = DM_WRITE_FAILED;
+			return _tt_transaction_error(fd);
+		}
 
 		/* reset to beginning of file */
 		off_t offset;

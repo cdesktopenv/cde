@@ -173,6 +173,7 @@ read_auth_entries(FILE *fp, _tt_AuthFileEntryList **headp)
 	    _tt_syslog(0, LOG_ERR,
 		       "%s:  memory error.  New entry not written.\n",
                        funcname);
+	    free(entry);
 	    return TT_ERR_NOMEM;
 	}
 

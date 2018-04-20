@@ -88,6 +88,8 @@ _Tt_stream_socket()
 	_sock = -1;
 	_hostaddr.sin_port = 0;
 	_hostaddr.sin_family = 0;
+        memset(&_hostaddr.sin_addr, 0, sizeof(struct in_addr));
+
 }
 
 _Tt_stream_socket::
@@ -557,7 +559,7 @@ recv(char *msg, int msglen)
 {
 	int rval;
 	
-	if (_msgsock == -1 && accept() == -1) {
+	if (_msgsock == -1 || accept() == -1) {
 		return(-1);
 	}
 	

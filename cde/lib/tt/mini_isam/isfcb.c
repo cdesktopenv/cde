@@ -649,6 +649,11 @@ _create_datfile(isfname)
 	fd = open (namebuf, O_CREAT | O_EXCL | O_RDWR, 0666);
 	if (fd > -1) {
 		fcntl(fd, F_SETFD, 1);	/* Close on exec */
+		/* Close on exec */
+		if(fcntl(fd, F_SETFD, 1) == -1) {
+			close(fd);
+			return(-1);
+		}
 	}
 	return (fd);
 }
@@ -671,7 +676,11 @@ _create_indfile(isfname)
 
 	fd = open (namebuf, O_CREAT | O_EXCL | O_RDWR, 0666);
 	if (fd > -1) {
-		fcntl(fd, F_SETFD, 1);	/* Close on exec */
+		/* Close on exec */
+		if(fcntl(fd, F_SETFD, 1) == -1) {
+			close(fd);
+			return(-1);
+		}
 	}
 	return (fd);
 }
@@ -694,7 +703,11 @@ _create_varfile(isfname)
 
 	fd = open (namebuf, O_CREAT | O_EXCL | O_RDWR, 0666);
 	if (fd > -1) {
-		fcntl(fd, F_SETFD, 1);	/* Close on exec */
+		/* Close on exec */
+		if(fcntl(fd, F_SETFD, 1) == -1) {
+			close(fd);
+			return(-1);
+		}
 	}
 	return (fd);
 }
@@ -774,14 +787,22 @@ _open_datfile(isfname, rdonly)
 
     if ((ret = open (namebuf, O_RDWR)) != -1) {
 	*rdonly = FALSE;
-	fcntl(ret, F_SETFD, 1);		/* Close on exec */
-	return (ret);
+        /* Close on exec */
+        if(fcntl(ret, F_SETFD, 1) == -1) {
+            close(ret);
+            ret = -1;
+        }
+        return (ret);
     }
 
     *rdonly = TRUE;
     ret = open (namebuf, O_RDONLY);
     if (ret > -1) {
-	    fcntl(ret, F_SETFD, 1);	/* Close on exec */
+        /* Close on exec */
+        if(fcntl(ret, F_SETFD, 1) == -1) {
+            close(ret);
+            return(-1);
+        }
     }
     return (ret);
 }
@@ -805,7 +826,11 @@ _open_indfile(isfname, rdonly)
 
 	fd = open (namebuf, (rdonly==TRUE)?O_RDONLY:O_RDWR);
 	if (fd > -1) {
-	    fcntl(fd, F_SETFD, 1);	/* Close on exec */
+		/* Close on exec */
+		if(fcntl(fd, F_SETFD, 1) == -1) {
+			close(fd);
+			return(-1);
+		}
 	}
 	return (fd);
 }
@@ -829,7 +854,11 @@ _open_varfile(isfname, rdonly)
 
 	fd = open (namebuf, (rdonly==TRUE)?O_RDONLY:O_RDWR);
 	if (fd > -1) {
-		fcntl(fd, F_SETFD, 1);	/* Close on exec */
+		/* Close on exec */
+		if(fcntl(fd, F_SETFD, 1) == -1) {
+			close(fd);
+			return(-1);
+		}
 	}
 	return (fd);
 }
@@ -882,7 +911,11 @@ _open2_indfile(fcb)
 
     fcb->indfd =  open(namebuf, openmode, buf.st_mode);
     if (fcb->indfd > -1) {
-	    fcntl(fcb->indfd, F_SETFD, 1);	/* Close on exec */
+        /* Close on exec */
+        if(fcntl(fcb->indfd, F_SETFD, 1) == -1) {
+            close(fcb->indfd);
+            fcb->indfd = -1;
+        }
     }
 
     if(fcb->indfd == -1 && (openmode & O_CREAT)) {

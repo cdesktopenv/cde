@@ -112,21 +112,30 @@ isrepair(isfname, verbose)
   _makedat_isfname(namebuf);
   datfd = open(namebuf, O_RDONLY);
   if (datfd > -1) {
-	  fcntl(datfd, F_SETFD, 1);
+    if(fcntl(datfd, F_SETFD, 1) == -1) {
+      close(datfd);
+      datfd = -1;
+    }
   }
 
   (void)strcpy(namebuf, isfname);
   _makeind_isfname(namebuf);
   indfd = open(namebuf, O_RDONLY);
   if (indfd > -1) {
-	  fcntl(indfd, F_SETFD, 1);
+    if(fcntl(indfd, F_SETFD, 1) == -1) {
+      close(indfd);
+      indfd = -1;
+    }
   }
 
   (void)strcpy(namebuf, isfname);
   _makevar_isfname(namebuf);
   varfd = open(namebuf, O_RDONLY);
   if (varfd > -1) {
-	  fcntl(varfd, F_SETFD, 1);
+    if(fcntl(varfd, F_SETFD, 1) == -1) {
+       close(varfd);
+       varfd = -1;         
+    }
   }
 
   (void)print("Reading control page from %s.rec file...\n",

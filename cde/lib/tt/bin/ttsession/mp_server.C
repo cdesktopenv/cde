@@ -251,12 +251,12 @@ int main(int argc, char **argv)
 				_tt_syslog( errstr, LOG_ERR, "%m" );
 				exit(1);
 			}
-			cargv[i] = '\0';
+			cargv[i] = NULL;
 
 			// if no program given then use $SHELL
 			if (! cargv[0]) {
 				cargv[0] = getenv("SHELL");
-				cargv[1] = '\0';
+				cargv[1] = NULL;
 			}
 			cmd = cargv[0];
 			background_mode = 0;

@@ -271,6 +271,7 @@ ttdt_session_join(
 	if (join) {
 		status = tt_session_join( sessid );
 		if (status != TT_OK) {
+			free(pats);
 			return (Tt_pattern *)tt_error_pointer( status );
 		}
 	}

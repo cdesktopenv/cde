@@ -533,6 +533,7 @@ entry(const char *argskey, _Tt_entry_pt func, ...)
 					_tt_syslog(0, LOG_ERR,
 						   "_Tt_audit::entry(): ARG_INTEGER: func==%s",
 						   _tt_enumname(func));
+					va_end(ap);
 					return TT_ERR_INTERNAL;
 				}
 			} break;

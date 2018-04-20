@@ -391,7 +391,10 @@ gettransient(int proto, int vers, int *sockp)
         addr.sin_port = htons(0);
         addr.sin_family = AF_INET;
 	len = sizeof(addr);
-	bind(s, (sockaddr *)&addr, len);
+	if(bind(s, (sockaddr *)&addr, len) == -1) {
+		_tt_syslog(0, LOG_ERR, "bind(): %m");
+		return(0);
+	}
 #if defined (_AIX) && (OSMAJORVERSION==4) && (OSMINORVERSION==2)
 	if (getsockname(s, (sockaddr *)&addr, (size_t *)&len) < 0) {
 #else

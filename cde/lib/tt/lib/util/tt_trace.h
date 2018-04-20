@@ -102,7 +102,7 @@ class _Tt_trace_stream;
 class _Tt_trace : public _Tt_allocated {
     public:
 	// suppresses "used but not set" warnings
-				_Tt_trace() {};
+				_Tt_trace() : _funcname(TT_X_SESSION), _tracing(0) {};
 	// Initializes tracing (if necessary)
 	static int		init(
 					int even_if_no_envariable = 0

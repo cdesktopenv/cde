@@ -76,7 +76,10 @@ _tt_log_error(int errno, int line, char *file, char *msg)
 	if (fl == (FILE *)0) {
 		return;
 	}
-	fcntl(fileno(fl), F_SETFD, 1);	/* Close on exec */
+	/* Close on exec */
+	if(fcntl(fileno(fl), F_SETFD, 1) == -1) {
+		return;
+	}
 
 	time(&clock);
 	timestamp = _XCtime(&clock, ctime_buf);

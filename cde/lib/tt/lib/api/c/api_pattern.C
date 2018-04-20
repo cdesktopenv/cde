@@ -1540,7 +1540,11 @@ _tt_session_types_load(const char *filename)
 	if (-1==(fd=open(filename, O_RDONLY))) {
 		return TT_ERR_FILE;
 	}
-	fcntl(fd, F_SETFD, 1);	/* Close on exec */
+	/* Close on exec */
+	if (-1==fcntl(fd, F_SETFD, 1)) {
+		close(fd);
+		return TT_ERR_FILE;
+	}
 
 	if (-1==fstat(fd, &typefile_stat)) {
 		close(fd);
