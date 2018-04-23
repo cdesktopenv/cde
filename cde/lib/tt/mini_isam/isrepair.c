@@ -318,6 +318,7 @@ isrepair(isfname, verbose)
   (void)sigprocmask(SIG_SETMASK, &oldmask, NULL);
 
   print("...File repaired\n");
+  if (buffer != Buffer) free(buffer);
   return (ISOK);
 
  ERROR:

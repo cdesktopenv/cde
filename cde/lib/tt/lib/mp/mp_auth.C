@@ -280,6 +280,7 @@ write_auth_file(char *filename)
         _tt_syslog(0, LOG_ERR,
 		 "%s:  unable to open tmp file \"%s\"\n",
                  funcname, tmpnam);
+        free(tmpnam);
         return TT_AUTHFILE_ACCESS;
     }
 

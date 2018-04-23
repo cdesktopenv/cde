@@ -78,6 +78,7 @@ _tt_log_error(int errno, int line, char *file, char *msg)
 	}
 	/* Close on exec */
 	if(fcntl(fileno(fl), F_SETFD, 1) == -1) {
+		fclose(fl);
 		return;
 	}
 

@@ -97,6 +97,7 @@ _Tt_signature(_Tt_signature_ptr sig)
 	_otid = sig->_otid;
 	_super_otid = sig->_super_otid;
 	_timestamp = sig->_timestamp;
+	ce_entry = NULL;
 }
 
 bool_t _Tt_signature::

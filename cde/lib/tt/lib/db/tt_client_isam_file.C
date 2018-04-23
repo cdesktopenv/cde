@@ -52,6 +52,9 @@ _Tt_client_isam_file::_Tt_client_isam_file (const _Tt_string        &file,
   else {
     getStatusInfo();
   }
+
+  maxRecordLength = 0;
+  minRecordLength = 0;
 }
 
 _Tt_client_isam_file
@@ -82,6 +85,8 @@ _Tt_client_isam_file
   }
   
   if (fileDescriptor != -1) {
+    currentRecordLength = 0;
+    currentRecordNumber = 0;
     getISAMFileInfo();
   }
   else {

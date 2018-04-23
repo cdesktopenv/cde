@@ -527,6 +527,7 @@ entry(const char *argskey, _Tt_entry_pt func, ...)
 
 				    if (arg_index < 0 || msg_args.is_null() ||
 					 msg_args->count() <= arg_index) {
+					    va_end(ap);
 					    return TT_ERR_NUM;
 				    }
 				} else {

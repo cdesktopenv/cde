@@ -648,7 +648,6 @@ _create_datfile(isfname)
 	
 	fd = open (namebuf, O_CREAT | O_EXCL | O_RDWR, 0666);
 	if (fd > -1) {
-		fcntl(fd, F_SETFD, 1);	/* Close on exec */
 		/* Close on exec */
 		if(fcntl(fd, F_SETFD, 1) == -1) {
 			close(fd);
