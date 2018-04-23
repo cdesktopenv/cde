@@ -3225,7 +3225,7 @@ PdmPixmapListGetPixmap(PdmPixmapList* me, int i)
 				    me->foreground, me->background);
 	if(me->pixmap[i] == XmUNSPECIFIED_PIXMAP)
 	{
-	    me->pixmap[i] == None;
+	    me->pixmap[i] = None;
 	}
 	else if(me->stipple != None)
 	{

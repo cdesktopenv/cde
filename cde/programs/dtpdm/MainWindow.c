@@ -156,7 +156,7 @@ PdmMainWinDelete(PdmMainWin* me)
  *     The passed PdmSetupBox pointer.
  *
  */
-PdmSetupBox*
+void
 PdmMainWinAddSetupBox(PdmMainWin* me, PdmSetupBox* box)
 {
     /*

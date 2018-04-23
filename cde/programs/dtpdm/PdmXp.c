@@ -181,7 +181,7 @@ PdmXpClose(PdmXp* me)
 	    if(me->pool[i] != (XrmDatabase)NULL)
 	    {
 		XrmDestroyDatabase(me->pool[i]);
-		me->pool[i] == (XrmDatabase)NULL;
+		me->pool[i] = (XrmDatabase)NULL;
 	    }
 	}
 	XCloseDisplay(me->display);

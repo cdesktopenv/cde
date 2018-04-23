@@ -139,7 +139,7 @@ PdmMainWin* PdmMainWinCreate(
 			     String print_display_spec,
 			     String print_context_str);
 void PdmMainWinDelete(PdmMainWin* me);
-PdmSetupBox* PdmMainWinAddSetupBox(PdmMainWin* me, PdmSetupBox* box);
+void PdmMainWinAddSetupBox(PdmMainWin* me, PdmSetupBox* box);
 String* PdmMainWinMergeFallbacks(PdmMainWin* me,
 				 const String* app_fallbacks,
 				 int count);
