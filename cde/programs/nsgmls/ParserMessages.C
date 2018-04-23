@@ -645,7 +645,7 @@ MessageFragment::appModule,
 51
 #ifndef SP_NO_MESSAGE_TEXT
 ,"invalid comment declaration: found %1 outside comment but inside comment declaration"
-,"commment declaration started here"
+,"comment declaration started here"
 #endif
 );
 const MessageType1 ParserMessages::instanceDeclaration(
@@ -1922,7 +1922,7 @@ MessageFragment::appModule,
 #endif
 163
 #ifndef SP_NO_MESSAGE_TEXT
-,"invalid formal public identifer %1: public text display version not permitted with this text class"
+,"invalid formal public identifier %1: public text display version not permitted with this text class"
 #endif
 );
 const MessageType1 ParserMessages::fpiExtraField(

@@ -231,7 +231,7 @@ _DtHelpFileTraceLinks (
 
            /* get last slash in the current file path */
            if(_DtHelpCeStrrchr(filePath,DirSlashStr,MB_CUR_MAX,&slash) == 0)
-           { /* there is a path comonent in filePath; use it with linkPath */
+           { /* there is a path component in filePath; use it with linkPath */
               strcpy(++slash,linkPath);
               strcpy(linkPath,filePath);       /* leave result in linkPath */
            }

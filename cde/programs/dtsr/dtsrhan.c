@@ -1417,7 +1417,7 @@ BAD_ABSTR:
 	}
 	if (!found && !field_current->constant) {
 	    printf ( catgets(dtsearch_catd, MS_chandel, 54,
-		"Error - for field '%s', no line identifer matches '%s'.\n") ,
+		"Error - for field '%s', no line identifier matches '%s'.\n") ,
 		field_current->name, field_current->line_id);
 	    bad_profile = TRUE;
 	}
