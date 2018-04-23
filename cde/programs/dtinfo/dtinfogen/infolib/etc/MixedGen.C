@@ -117,7 +117,7 @@ checkTocLink( const char *toc_file_name,
     }
   }
   
-  delete ToCFileName;
+  free(ToCFileName);
 
   if ( flag ) {
     throw(Unexpected("TOC validation failed\n"));
@@ -618,7 +618,7 @@ lookahead( char * bufptr, char * currentgi, char * indpos)
     }
     // otherwise the next start tag is the same as the current one, so no
     // change to the indicator is needed.
-    delete nextgi;
+    free(nextgi);
   }
   return;
 }
@@ -654,7 +654,7 @@ parse4last( char * bufptr )
 	} else {
 	  lookahead(bufptr, startname, indicator);
 	}
-	delete startname;
+	free(startname);
       } else {
 	// END TAG
 	for ( ; *bufptr != '>'; bufptr++) {

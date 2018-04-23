@@ -178,7 +178,7 @@ int TOCTask::write_tree(DBTable *tbl)
 	      INTEGER_CODE, qty,
 	      NULL);
 
-  delete children;
+  delete [] children;
   return qty;
 }
 

@@ -64,9 +64,9 @@ v_no_slots(params_ptr.v_n), v_num_filled_slots(0)
 
 mphf_hash_table::~mphf_hash_table()
 {
-   delete v_rep ;
-   delete v_random_table ;
-   delete v_map_table ;
+   delete [] v_rep ;
+   delete [] v_random_table ;
+   delete [] v_map_table ;
 }
 
 void mphf_hash_table::clear()

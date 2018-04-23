@@ -192,7 +192,7 @@ Dispatch::file(const char *f)
     }
     
     search_path_table->replace_file_scope( dirname );
-    delete dirname;
+    free(dirname);
   }
 }
 

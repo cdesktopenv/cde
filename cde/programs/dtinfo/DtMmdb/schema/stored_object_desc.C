@@ -64,12 +64,12 @@ stored_object_desc::stored_object_desc(int class_code, const char* _type)
 
 stored_object_desc::~stored_object_desc() 
 { 
-   delete store_nm; 
+   free(store_nm); 
 }
 
 void stored_object_desc::set_store_nm(const char* str) 
 { 
-     delete store_nm;
+     free(store_nm);
      store_nm = strdup(str); 
 }
 

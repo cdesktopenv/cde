@@ -37,7 +37,7 @@ StringList::StringList()
 StringList::~StringList()
 {
   reset();
-  delete items;
+  delete [] items;
 }
 
 void StringList::grow(size_t total)
@@ -47,7 +47,7 @@ void StringList::grow(size_t total)
     
     if(used > 0){
       memcpy(born, items, used *sizeof(items[0]));
-      delete items;
+      delete [] items;
     }
 
     items = born;

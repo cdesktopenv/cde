@@ -240,7 +240,7 @@ NodeHistoryAgent::refresh_list()
   // Free up memory used to make the list.
   for (i = hist_list.length() - 1; i >= 0; i--)
     XmStringFree (table[i]);
-  delete table;
+  delete [] table;
 }
 
 

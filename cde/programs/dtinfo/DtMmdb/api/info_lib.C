@@ -215,8 +215,8 @@ f_bad_info_base_names(0), f_bad_info_base_paths(0), f_descriptor(des)
                     memcpy(y, f_bad_info_base_paths, sizeof(charPtr)*f_bad_base_array_size);
                     f_bad_base_array_size *= 2;
 
-                    delete f_bad_info_base_names;
-                    delete f_bad_info_base_paths;
+                    delete [] f_bad_info_base_names;
+                    delete [] f_bad_info_base_paths;
 
                     f_bad_info_base_names = x;
                     f_bad_info_base_paths = y;

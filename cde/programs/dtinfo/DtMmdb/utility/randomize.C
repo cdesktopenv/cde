@@ -53,5 +53,5 @@ void randomize::restore(buffer& scrambled)
       char_swap(buf[i], buf[pos[i]]);
    }
 
-   delete pos;
+   delete [] pos;
 }

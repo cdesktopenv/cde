@@ -4668,7 +4668,7 @@ NodeWindowAgent::create_canvas_mark(_DtCvHandle  canvas,
   for (i = 0; i < markinfo.length(); i++)
     delete segs[i];
 
-  delete segs ;
+  delete [] segs ;
       
 #ifdef BOOKMARK_DEBUG
   if (status == _DtCvSTATUS_BAD)

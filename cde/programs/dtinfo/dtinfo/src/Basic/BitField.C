@@ -103,7 +103,7 @@ BitField::BitField(unsigned long initial_bits)
 
 BitField::~BitField()
 {
-  delete f_words ;
+  delete [] f_words ;
   delete f_bits_in_use ;
 }
 
@@ -123,7 +123,7 @@ BitField::check_allocation (unsigned long word)
 	  new_use[i] = f_bits_in_use[i];
 	}
 
-      delete f_words;
+      delete [] f_words;
       f_words = new_words;
       delete f_bits_in_use;
       f_bits_in_use = new_use;
@@ -169,7 +169,7 @@ BitField::get_handle()
     new_words[f_num_words] = 0 ;
     new_use[f_num_words] = 0 ;
 
-    delete f_words ;
+    delete [] f_words ;
     f_words = new_words ;
     delete f_bits_in_use ;
     f_bits_in_use = new_use ;

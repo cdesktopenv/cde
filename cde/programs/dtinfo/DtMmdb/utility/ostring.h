@@ -54,7 +54,7 @@ public:
    ostring(const int chunk_size);
    ostring(char* str, const int str_sz = -1); // -1 means take strlen(str)
    ostring(const ostring&);
-   virtual ~ostring() { delete v_p; };
+   virtual ~ostring() { delete [] v_p; };
 
 // length of the string
    int size() const { return v_sz; };                

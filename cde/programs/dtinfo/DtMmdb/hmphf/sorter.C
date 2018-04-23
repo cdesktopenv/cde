@@ -111,7 +111,7 @@ sorter::~sorter()
    delete v_bucket_array;
 
    for ( i=0; i<v_no_unique_keys; delete v_unique_keys[i++] );
-   delete v_unique_keys;
+   delete [] v_unique_keys;
 }
 
 void sorter::filter_by_hash()
@@ -137,10 +137,10 @@ void sorter::filter_by_hash()
          filter_a_bucket(v_bucket_array[i]);
    }
 
-   delete v_map_table;
-   delete v_check_table;
-   delete v_index_table;
-   delete v_dup_table;
+   delete [] v_map_table;
+   delete [] v_check_table;
+   delete [] v_index_table;
+   delete [] v_dup_table;
 }
 
 void sorter::filter_a_bucket(bucketPtr bkt)

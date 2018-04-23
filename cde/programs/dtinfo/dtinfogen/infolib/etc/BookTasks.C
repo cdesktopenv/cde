@@ -550,7 +550,7 @@ void BookTask::write_record(void)
     snprintf(p, plen, "%s\t%s\t%s\t%s", name, loc, line, file);
     tablines.append(p);
 
-    delete p;
+    delete [] p;
   }
 
   const char *bk_title;
@@ -600,7 +600,7 @@ void BookTask::reset()
   delete tabLines; tabLines = new StringList();
   delete tabFiles; tabFiles = new StringList();
 
-  delete tocLocator; tocLocator = NULL;
+  delete [] tocLocator; tocLocator = NULL;
 
  
   f_seq_no ++;

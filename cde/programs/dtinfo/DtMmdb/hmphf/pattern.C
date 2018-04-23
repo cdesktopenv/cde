@@ -58,7 +58,7 @@ int_pattern::int_pattern(int i): v_rep_size(i), v_count(0)
 
 int_pattern::~int_pattern()
 {
-   delete v_rep;
+   delete [] v_rep;
 }
 
 int int_pattern::duplicate()

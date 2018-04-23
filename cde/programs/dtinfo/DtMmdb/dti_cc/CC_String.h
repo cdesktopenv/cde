@@ -44,7 +44,7 @@ public: // functions
     f_string = NULL;
   }
 
-  virtual ~CC_String () { delete f_string; }
+  virtual ~CC_String () { delete [] f_string; }
 
   CC_Boolean isNull() const { 
     return( f_string[0] == '\0' );

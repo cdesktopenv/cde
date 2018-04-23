@@ -154,7 +154,7 @@ DBTable::file(DB::Access access)
 	throw(PosixError(errno, path));
       }
 
-      delete path;
+      delete [] path;
     }
   }
 
@@ -458,7 +458,7 @@ void DBCursor::string_field(FILE *fp, char **out, int *lenOut)
 
     if(lenOut) *lenOut = len;
   }else{
-    delete str;
+    delete [] str;
   }
 }
 

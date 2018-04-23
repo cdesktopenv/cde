@@ -57,14 +57,14 @@ void BitVector::setAllBitsTo(unsigned int initValue)
 
 BitVector::~BitVector()
 {
-   delete f_array;
+   delete [] f_array;
    delete f_positionArray;
 }
 
 void BitVector::setTo(BitVector& v)
 {
    if ( f_words != v.f_words ) {
-     delete f_array;
+     delete [] f_array;
      f_array = new unsigned int[v.f_words];
    }
    f_bits = v.f_bits;

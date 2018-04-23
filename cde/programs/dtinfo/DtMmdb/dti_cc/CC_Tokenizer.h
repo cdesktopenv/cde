@@ -40,7 +40,7 @@ private:
 
 public:
   CC_Tokenizer(const CC_String & );
-  ~CC_Tokenizer() { delete str_; }
+  ~CC_Tokenizer() { delete [] str_; }
 
 
   /* Here is an example to use the code 

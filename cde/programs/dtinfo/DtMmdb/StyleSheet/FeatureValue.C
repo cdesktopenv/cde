@@ -532,7 +532,7 @@ FeatureValueString::operator+(const FeatureValue& x) const
      newString[len1+len2] = 0;
 
      FeatureValueString *z = new FeatureValueString(newString);
-     delete newString;
+     delete [] newString;
 
      return z;
    }

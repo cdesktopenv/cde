@@ -234,7 +234,7 @@ Boolean write_lock(char* lock_file_path,
 
       if ( ok == true ) {
    
-         delete ai_info;
+         delete [] ai_info;
 /////////////////////////////////////////
 // create the access info file
 /////////////////////////////////////////

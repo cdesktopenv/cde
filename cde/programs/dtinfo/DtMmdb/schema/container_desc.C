@@ -215,7 +215,7 @@ container_desc::init_index_array(object_dict& dict,
       index_array[pos] = tmp_index_array[ind];
    }
 
-   delete tmp_index_array;
+   delete [] tmp_index_array;
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -139,7 +139,7 @@ DtMmdbGetBookCaseByLocs(int infolib_descriptor, const char** locators,
       for ( int i=0; i<count; i++ )
          ds[i] = bases[i] -> index_id();
 
-      delete bases;
+      delete [] bases;
 
       if (count_ptr) *count_ptr = count;
 

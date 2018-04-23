@@ -233,7 +233,7 @@ StringParser::brute_force(const char* text_in, int n_of_pats,
 
     for (i = 0; i < npat; i++)
 	free (pat_tbl[i]);
-    free (pat_tbl);
+    delete[] pat_tbl;
 
     if (caped_text)
 	delete[] caped_text;

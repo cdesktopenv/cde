@@ -156,7 +156,7 @@ desc* object_dict::init_a_base(char* db_path, char* db_name)
    ////////////////
       x = parse(orig);
 
-      delete buf;
+      delete [] buf;
 
    }
 
@@ -268,7 +268,7 @@ desc* object_dict::init_a_base(char* define_desc_path, char* db_path,
 
    out.close();
 
-   delete schema_buf;
+   delete [] schema_buf;
 
 
    return x;

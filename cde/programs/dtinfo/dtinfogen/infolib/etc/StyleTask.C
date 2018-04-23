@@ -146,7 +146,7 @@ write_array(FlexBuffer *buffer, const char *tokens, int quotes)
         if (quotes) buffer->put( '\"' );
       }
     }
-    delete str;
+    free(str);
   } /*@# else out of memory... */
   
   buffer->put(']');

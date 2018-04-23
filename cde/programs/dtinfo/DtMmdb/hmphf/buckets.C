@@ -171,7 +171,7 @@ buckets::~buckets()
    for ( int i=0; i<v_no_buckets; i++ ) 
       delete v_bucket_array[i];
    
-   delete v_bucket_array;
+   delete [] v_bucket_array;
 }
 
 void buckets::set_control_bit(int cb)
@@ -284,10 +284,10 @@ void buckets::sort_by_size()
 
    for ( ; j<v_no_buckets; new_bkt_array[j++] = 0 );
 
-   delete sizes;
-   delete links;
+   delete [] sizes;
+   delete [] links;
 
-   delete v_bucket_array;
+   delete [] v_bucket_array;
    v_bucket_array = new_bkt_array;
 }
 

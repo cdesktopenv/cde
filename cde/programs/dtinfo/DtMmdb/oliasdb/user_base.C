@@ -192,7 +192,7 @@ user_base::checking_status_t user_base::check_lock()
            ) {
             if ( ai_info ) {
               debug(cerr, ai_info); 
-              delete ai_info;
+              delete [] ai_info;
             }
             return user_base::RLOCK_FAIL;
         } else
@@ -220,7 +220,7 @@ user_base::checking_status_t user_base::check_lock()
 //                   return ok;
 //                }
 
-                delete ai_info;
+                delete [] ai_info;
              }
              return user_base::WLOCK_FAIL;
          } else {

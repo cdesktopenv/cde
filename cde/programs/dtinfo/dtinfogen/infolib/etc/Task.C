@@ -48,7 +48,7 @@ ComplexTask::~ComplexTask()
     delete subtasks[i];
   }
 
-  if ( subtasks ) delete subtasks;
+  if ( subtasks ) delete [] subtasks;
 }
 
 void ComplexTask::removeAllSubTasks()
@@ -57,7 +57,7 @@ void ComplexTask::removeAllSubTasks()
     delete subtasks[i];
   }
 
-  if ( subtasks ) { delete subtasks; subtasks = 0; }
+  if ( subtasks ) { delete [] subtasks; subtasks = NULL; }
   used = alloc = 0;
 }
 
@@ -98,7 +98,7 @@ ComplexTask::grow(int needed)
 
     if(used){
       memcpy(born, subtasks, sizeof(Task*) * used);
-      delete subtasks; subtasks = 0;
+      delete [] subtasks; subtasks = NULL;
     }
 
     subtasks = born;

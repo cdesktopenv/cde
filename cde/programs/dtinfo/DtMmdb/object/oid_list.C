@@ -138,7 +138,7 @@ void oid_list::init_data_member(int leng)
 //debug(cerr, (void*)this);
 //debug(cerr, (void*)list_ptr.p);
 
-   delete ptr;
+   delete [] ptr;
    v_sz = leng;
    set_mode(UPDATE, true);
 }
@@ -188,7 +188,7 @@ debug(cerr, int(&list_ptr.loc));
          storage_ptr -> appendString(list_ptr.loc, ptr, total_char_leng);
       }
 
-      delete ptr;
+      delete [] ptr;
 
       ok = true;
 

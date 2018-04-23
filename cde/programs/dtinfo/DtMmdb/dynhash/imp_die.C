@@ -100,8 +100,8 @@ imp_die::~imp_die()
       x = y ;
    }
 
-   delete hash_table;
-   delete bucket_array ;
+   delete [] hash_table;
+   delete [] bucket_array ;
 }
 
 //**********************************************************
@@ -113,14 +113,14 @@ void imp_die::alloc_table(int new_H)
 {
    if ( bucket_array ) {
       for ( int i = 0; i<B; delete bucket_array[i++] );
-      delete bucket_array ;
+      delete [] bucket_array ;
    }
 
    B = new_H/2;
    bucket_array = new imp_bucketPtr[B];
 
    if ( hash_table ) {
-      delete hash_table;
+      delete [] hash_table;
    }
 
    hash_table = new data_tPtr[new_H];

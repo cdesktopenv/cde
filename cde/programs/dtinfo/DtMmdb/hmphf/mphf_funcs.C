@@ -254,7 +254,7 @@ int write_spec(buckets& bs, params& pms, buffer& mphf_buffer)
    mphf_buffer.set_content_sz(fout_len);
    memcpy(mphf_buffer.get_base(), fout.str().c_str(), fout_len);
 
-   delete c_array;
+   delete [] c_array;
 
    return 0;
 }
@@ -350,7 +350,7 @@ debug(cerr, k+1);
 cerr << "=======\n";
 */
 
-   delete y;
+   delete [] y;
    return 0;
 }
 

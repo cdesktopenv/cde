@@ -118,7 +118,7 @@ debug(cerr, vector[i] -> str_offset);
 
 
    binary_insert(vector, 0, vector_sz-1);
-   delete vector;
+   delete [] vector;
 }
 
 chunks_index::~chunks_index() 

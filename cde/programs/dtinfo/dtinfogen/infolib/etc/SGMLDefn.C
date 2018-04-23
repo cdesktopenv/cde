@@ -49,16 +49,16 @@ SGMLDefn::SGMLDefn()
 
 SGMLDefn::~SGMLDefn()
 {
-  delete sys_id;
-  delete pub_id;
-  delete file_name;
+  delete [] sys_id;
+  delete [] pub_id;
+  delete [] file_name;
 }
 
 void
 SGMLDefn::store_sys_id( char *sid )
 {
   if ( sid ) {
-    delete sys_id;
+    delete [] sys_id;
 
     int len = strlen(sid);
     sys_id = new char [len + 1];
@@ -72,7 +72,7 @@ void
 SGMLDefn::store_pub_id( char *pid )
 {
   if ( pid ) {
-    delete pub_id;
+    delete [] pub_id;
 
     int len = strlen(pid);
     pub_id = new char [len + 1];
@@ -98,7 +98,7 @@ void
 SGMLDefn::store_file_name( char *fname )
 {
   if ( fname ) {
-    delete file_name;
+    delete [] file_name;
 
     int len = strlen(fname);
     file_name = new char [len + 1];

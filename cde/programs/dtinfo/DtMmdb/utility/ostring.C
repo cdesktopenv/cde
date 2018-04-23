@@ -134,7 +134,7 @@ Boolean ostring::expand(const int new_alloc_sz, Boolean pre_zero)
   
       if ( v_p ) {
          memcpy(new_p, v_p, v_sz);
-         delete v_p;
+         delete [] v_p;
       }
 
       v_p = new_p;

@@ -93,7 +93,7 @@ void quit_store(page_storage** st, unsigned int ct)
    for ( unsigned int i=0; i<ct; i++) {
      delete st[i];
    }
-   delete st;
+   delete [] st;
 }
 
 int page_cache_test_1(int argc, char** argv)
