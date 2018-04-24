@@ -44,7 +44,7 @@ static char rcsid[] = "$XConsortium: DNDDemo.c /main/4 1995/10/27 10:43:34 rswis
 
 
 /*
- * The folowing character arrays are for use with the drop help
+ * The following character arrays are for use with the drop help
  * dialogs.  For internationalization, message catalogs should
  * replace these static declarations.
  */

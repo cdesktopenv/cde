@@ -417,7 +417,7 @@ parseCoord(char **str, char *val, signed char *offset)
 	    sign = -1;
 	/* skip over sign... */
 	(void) c++;
-	/* skip over shitespace... */
+	/* skip over whitespace... */
 	while (*c && strchr(" \t", *c))
 	    c++;
 

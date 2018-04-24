@@ -192,7 +192,7 @@ extern unsigned char SMALL_STATE_ICON_BITS[];
 extern unsigned char SMALL_STATE_ICON_MASK[];
 extern unsigned char SMALL_INVALID_ICON_BITS[];
 
-/* The folowing character arrays are for use with the drop help
+/* The following character arrays are for use with the drop help
  * dialogs.  For internationalization, message catalogs should
  * replace these static declarations.
  */

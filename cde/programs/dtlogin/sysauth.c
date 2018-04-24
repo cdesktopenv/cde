@@ -2250,7 +2250,7 @@ Authenticate( struct display *d, char *name, char *passwd, char **msg )
 			return(VF_PASSWD_AGED);
 
 		/* These 3 cases should allow user to select a new password */
-		/* after displaying a warrning, but current implementation  */
+		/* after displaying a warning, but current implementation  */
 		/* only displays the warning.				    */
 
 		case MANDATORY:
