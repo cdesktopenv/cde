@@ -1986,16 +1986,16 @@ void DtMail::MailRc::add_alternates(char *name)
  * Determine the current folder directory name.
  */
 int
-DtMail::MailRc::getfolderdir(char *name)
+DtMail::MailRc::getfolderdir(char *name, size_t buffsize)
 {
 	char *folder;
 
 	if ((folder = mt_value("folder")) == NOSTR)
 		return(-1);
 	if (*folder == '/')
-		strcpy(name, folder);
+		snprintf(name, buffsize, "%s", folder);
 	else
-		sprintf(name, "%s/%s", mt_value("HOME"), folder);
+		snprintf(name, buffsize, "%s/%s", mt_value("HOME"), folder);
 	return(0);
 }
 
@@ -2017,7 +2017,7 @@ DtMail::MailRc::expand(char *name)
 	struct stat sbuf;
         char *retchr = NULL;
 
-	if (name[0] == '+' && getfolderdir(cmdbuf) >= 0) {
+	if (name[0] == '+' && getfolderdir(cmdbuf, LINESIZE) >= 0) {
 		sprintf(xname, "%s/%s", cmdbuf, name + 1);
 		str = expand(xname);
 		delete [] xname;

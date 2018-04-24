@@ -540,7 +540,7 @@ ConvertContainerCmd::post_dialog()
     
     char * buf = new char[25];
     
-    sprintf(buf, "Converted: %3d%", 0);
+    sprintf(buf, "Converted: %3d%%", 0);
     
     _dialog->post ("Mailer",
 		   buf,
@@ -1660,7 +1660,7 @@ MoveCopyCmd::fileSelectedCallback2 (
 	// If a string was successfully extracted, call
 	// unifiedMailboxSelected to handle the file.
 	*selected = '\0';
-	if (NULL != dname) strcat(selected, dname);
+	if (NULL != dname) snprintf(selected, sizeof(selected), "%s", dname);
 	strcat(selected, fname);
         obj->updateUnifiedData();
 	obj->unifiedMailboxSelected(
@@ -1852,7 +1852,7 @@ PrintCmd::printit( int silent )
     DebugPrintf(1, "%s: printit\n", name());
     
     // Create tmp file.
-    sprintf(tmpdir, "%s/%s", getenv("HOME"), DtPERSONAL_TMP_DIRECTORY);
+    snprintf(tmpdir, MAXPATHLEN+1, "%s/%s", getenv("HOME"), DtPERSONAL_TMP_DIRECTORY);
     if ((p = tempnam(tmpdir, "dtmail")) == NULL) {
 	delete [] tmpdir;
 	return;
@@ -2471,9 +2471,9 @@ SaveAsTextCmd::writeTextFromScrolledList(int fd)
     // Create temp file.
     //
     char *tmpdir = new char[MAXPATHLEN+1];
-    sprintf(tmpdir, "%s/%s", getenv("HOME"), DtPERSONAL_TMP_DIRECTORY);
+    snprintf(tmpdir, MAXPATHLEN+1, "%s/%s", getenv("HOME"), DtPERSONAL_TMP_DIRECTORY);
     if ((tmppath = tempnam(tmpdir, "dtmail")) == NULL) {
-	sprintf(buf, GETMSG(DT_catd, 3, 51, "Unable to create %s."), tmpdir);
+	snprintf(buf, sizeof(buf), GETMSG(DT_catd, 3, 51, "Unable to create %s."), tmpdir);
 	_genDialog->setToErrorDialog(GETMSG(DT_catd, 3, 52, "Mailer"), buf);
         helpId = DTMAILHELPNOCREATE;        
 	_genDialog->post_and_return(helpId);
@@ -3393,7 +3393,7 @@ VacationCmd::stopVacation()
 {
     char *forwardfile = new char[MAXPATHLEN+1];
     
-    sprintf(forwardfile, "%s/%s", getenv("HOME"), _forwardFile);
+    snprintf(forwardfile, MAXPATHLEN+1, "%s/%s", getenv("HOME"), _forwardFile);
 
     // Remove the current .forward file (it has vacation in it)
     // Recover and replace the original backup forward file, if 
@@ -3414,7 +3414,7 @@ VacationCmd::priorVacationRunning()
     Boolean	retval = FALSE;
     char *forwardfile = new char[MAXPATHLEN+1];
 
-    sprintf(forwardfile, "%s/%s", getenv("HOME"), _forwardFile);
+    snprintf(forwardfile, MAXPATHLEN+1, "%s/%s", getenv("HOME"), _forwardFile);
 
     if (SafeAccess(forwardfile, F_OK) != 0) {
 	delete [] forwardfile;
@@ -3732,6 +3732,7 @@ VacationCmd::handleForwardFile()
     	    delete [] messagefile;
 	    delete [] error_buf;
     	    delete [] forwardfile;
+	    SafeClose(bkup_fd);
 	    SafeClose(fwd_fd);
 	    return 1;
 	}
@@ -3754,6 +3755,7 @@ VacationCmd::handleForwardFile()
 	    strlen(append_buf2)) {
 	    // error
 	    SafeClose(bkup_fd);
+	    SafeClose(fwd_fd);
 	    delete [] buf;
     	    delete [] messagefile;
 	    delete [] error_buf;
@@ -3831,7 +3833,7 @@ VacationCmd::recoverForwardFile(
 	    return(-1);
 	}	
 
-	if ((fd = SafeOpen(file, O_RDONLY)) == 0) {
+	if ((fd = SafeOpen(file, O_RDONLY)) == -1) {
 	    delete [] buf;
 	    return(-1);
 	}
@@ -3935,8 +3937,10 @@ VacationCmd::parseVacationMessage()
     size_t map_size = (int) (buf.st_size + 
 			    (page_size - (buf.st_size % page_size)));
 
-    if (buf.st_size == 0)
+    if (buf.st_size == 0) {
+      SafeClose(fd);
       return;
+   }
 
     int free_buf = 0;
     mbuf.size = buf.st_size;

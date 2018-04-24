@@ -464,7 +464,7 @@ class DtMail {
 	    void freerawlist(char **argv);
 	    char *mt_value(char name[]);
             char *expand(char *);
-            int getfolderdir(char *);
+            int getfolderdir(char *, size_t);
 	    static int hash(char *name);
 	    static void vfree(char *cp);
 	    

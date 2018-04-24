@@ -486,8 +486,9 @@ POP3Server::uidlist_read(DtVirtArray<char*> *uidlist)
 	while (NULL != fgets(uidliststr, DTMAS_POPBUFSIZE, fp))
  	  if (sscanf(uidliststr, "%d %s", &curmsg, curuidstr) == 2)
 	    uidlist->append(strdup(uidliststr));
+
+	fclose(fp);
     }
-    fclose(fp);
 }
 
 void
@@ -506,7 +507,6 @@ POP3Server::uidlist_write(DtVirtArray<char*> *uidlist)
 	    uidliststr = (*uidlist)[i];
 	    fprintf(fp, "%s\n", uidliststr);
         }
+        fclose(fp);
     }
-    fclose(fp);
-
 }

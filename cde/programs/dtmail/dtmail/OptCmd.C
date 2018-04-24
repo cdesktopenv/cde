@@ -161,7 +161,7 @@ OptCmd::OptCmd ( char *name, char *label, int active, Widget parent) :
     generalDialog = NULL;
     _PrintingOptions = NULL;
     _MailRetrievalOptions = NULL;
-    
+    printing_pane_list = NULL;
 }
 
 void

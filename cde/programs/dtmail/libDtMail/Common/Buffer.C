@@ -236,6 +236,8 @@ BufferMemory::iterate(Buffer::CallBack callback, ...)
 	// check for problems
         if (ret) break;
     }
+    
+    va_end(va);
  
     return (ret);
 }

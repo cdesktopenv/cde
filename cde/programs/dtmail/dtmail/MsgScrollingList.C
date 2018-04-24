@@ -2436,7 +2436,7 @@ MsgScrollingList::updateListItems(int current,
 	  fprintf(stderr,
 	   "dtmail: getMessageSummary: Couldn't get summary for msg # %d\n", m);
 
-	if ((msg == NULL) || (mbox == NULL))
+	if (msg == NULL)
 	{
 		// Error
 		;

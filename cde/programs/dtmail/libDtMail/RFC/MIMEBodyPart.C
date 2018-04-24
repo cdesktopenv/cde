@@ -267,24 +267,24 @@ MIMEBodyPart::getContentType(DtMailEnv &error, char **mime_type)
 {
     DtMailValueSeq value;
 
-    if (mime_type)
-      *mime_type = (char *)0;
+    if (mime_type) {
+        *mime_type = (char *)0;
 
-    if (_body_env)
-      _body_env->getHeader(error, "Content-Type", DTM_FALSE, value);
+        if (_body_env) {
+            _body_env->getHeader(error, "Content-Type", DTM_FALSE, value);
+        }
 
-    if (_body_env && !error.isSet())
-    {
-        // Handle "Content-Type: text" problem with /usr/lib/mail.local
-        if (strcasecmp(*(value[0]), "text")==0)
-	  *mime_type = strdup("text/plain");
-	else
-	  *mime_type = strdup(*(value[0]));
-    }
-    else
-    {
-	error.clear();
-	*mime_type = strdup("text/plain");
+        if (_body_env && !error.isSet()) {
+            // Handle "Content-Type: text" problem with /usr/lib/mail.local
+            if (strcasecmp(*(value[0]), "text")==0) {
+                *mime_type = strdup("text/plain");
+            } else {
+                *mime_type = strdup(*(value[0]));
+            }
+        } else {
+            error.clear();
+            *mime_type = strdup("text/plain");
+        }
     }
 }
 

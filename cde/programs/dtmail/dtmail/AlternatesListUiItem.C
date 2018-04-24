@@ -179,8 +179,10 @@ void AlternatesListUiItem::writeFromSourceToUi()
 	list_str = strdup("");
   }
   
-  if ((buf = (char *) malloc(strlen(list_str) + 1)) == NULL)
+  if ((buf = (char *) malloc(strlen(list_str) + 1)) == NULL) {
+    free((void *) list_str);
     return;
+  }
   strcpy(buf, (char *)list_str);
   
   if((token = (char *) strtok(buf, " "))) 

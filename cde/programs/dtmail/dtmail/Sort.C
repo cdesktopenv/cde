@@ -355,7 +355,7 @@ Sort::sortMessages(MsgScrollingList	*displayList,
       }
 
       // Now cleanup.
-      delete messages;
+      delete [] messages;
     }
 
     //

@@ -511,7 +511,7 @@ static char *tooltalk_save_buffer_to_file(
     char *tmpdir = new char[MAXPATHLEN+1];
 
     // 1. Get buffer content into file.
-    sprintf(tmpdir, "%s/%s", getenv("HOME"), DtPERSONAL_TMP_DIRECTORY);
+    snprintf(tmpdir, MAXPATHLEN+1, "%s/%s", getenv("HOME"), DtPERSONAL_TMP_DIRECTORY);
     p = tempnam(tmpdir, "mail");
     if (p == NULL)
     {

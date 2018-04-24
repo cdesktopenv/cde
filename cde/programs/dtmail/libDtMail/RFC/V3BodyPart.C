@@ -346,24 +346,23 @@ V3BodyPart::getContentType(DtMailEnv &error, char **v3_type)
     MutexLock dt_lib_lock(_DtMutex);
     DtMailValueSeq value;
 
-    if (v3_type)
-      *v3_type = (char *)0;
+    if (v3_type) {
+        *v3_type = (char *)0;
 
-    _body_env->getHeader(error, "Content-Type", DTM_FALSE, value);
-    if (error.isNotSet())
-      *v3_type = strdup(*(value[0]));
-    else
-    {
-	error.clear();
-	value.clear();
-	_body_env->getHeader(error, "X-Sun-Data-Type", DTM_FALSE, value);
-	if (error.isNotSet())
-	  *v3_type = strdup(*(value[0]));
-	else
-	{
-	    error.clear();
-	    *v3_type = strdup("text");
-	}
+        _body_env->getHeader(error, "Content-Type", DTM_FALSE, value);
+        if (error.isNotSet()) {
+            *v3_type = strdup(*(value[0]));
+        } else {
+            error.clear();
+            value.clear();
+            _body_env->getHeader(error, "X-Sun-Data-Type", DTM_FALSE, value);
+            if (error.isNotSet()) {
+                *v3_type = strdup(*(value[0]));
+            } else {
+                error.clear();
+                *v3_type = strdup("text");
+            }
+        }
     }
 }
 

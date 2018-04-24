@@ -140,6 +140,7 @@ formatHeader (DtMailHeaderLine &info, enum DmxHeaderType htype)
 			break;
 		case NUMHDRTYPES:
 		default:
+			delete [] fbuf;
 			return "";
 	}
     	return (fbuf); //need to free this after using it

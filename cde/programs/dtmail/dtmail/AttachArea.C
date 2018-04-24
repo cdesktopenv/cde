@@ -188,6 +188,10 @@ AttachArea::AttachArea (
     _editCmdList = NULL;
     _size_selected_label = NULL;
     _format_button = NULL;
+    _descriptionDialog = NULL;
+    _no_attachments_label = NULL;
+    _attachments_label = NULL;
+    _size_attachments_label = NULL;
     
     
 }
@@ -702,6 +706,9 @@ AttachArea::addAttachment(
 
 	if (read(fd, buffer, (unsigned int) s.st_size) < 0) {
 	    SafeClose(fd);
+	    delete [] buf;
+	    delete [] buffer;
+	    delete [] errormsg;
 	    return(NULL);
 	}
 	buffer[s.st_size] = 0;

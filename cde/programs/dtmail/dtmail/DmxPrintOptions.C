@@ -218,6 +218,11 @@ DmxPrintOptions::DmxPrintOptions (
     _propui_array_iterator = 0;
     _parent = parent;
     _prop_source = NULL;
+    _hdrftr_frame = NULL;
+    _margin_frame = NULL;
+    _msgsep_iom = NULL;
+    _prthdr_iom = NULL;
+
 
     //
     //  Create form to hold the printing options

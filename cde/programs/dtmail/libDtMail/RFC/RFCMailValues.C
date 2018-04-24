@@ -153,7 +153,7 @@ decode1522(const char * enc_start, const char * max_end, char **output, DtMail::
 
       default:
 	  // Invalid encoding.  Assume a false match.
-	  if (cs_name != NULL) free(cs_name);
+	  free(cs_name);
 	  return (enc_start);
     }
 

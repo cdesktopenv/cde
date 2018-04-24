@@ -254,10 +254,10 @@ Editor::set_message(DtMail::Message * msg,
 	    }
 	    bp->unlockContents(error);
 	    firstBPHandled = DTM_TRUE;
-	    if (attr) {
-		DtDtsFreeAttributeValue(attr);
-		attr = NULL;
-	    }
+	}
+	if (attr) {
+	    DtDtsFreeAttributeValue(attr);
+	    attr = NULL;
 	}
 	free(type);
 
@@ -424,8 +424,7 @@ Editor::update_display_from_props(void)
 	value = strdup("24");
     }
     rows = (int) strtol(value, NULL, 10);
-    if (NULL != value)
-      free((void*) value);
+    free((void*) value);
     set_rows(rows);
 
     // If toolcols is set, overwrite the column width with "toolcols" value.

@@ -92,10 +92,10 @@ void CheckBoxUiItem::writeFromSourceToUi()
   //
   // This assumes that a non-null value means that the 
   // value is set and that a non-null means turn on the CB
-  if (strcmp(value, "") == 0)
-    options_checkbox_set_value(w, TRUE, this->dirty_bit);
-  else if (NULL == value || strcmp(value, "f") == 0)
+  if (NULL == value || strcmp(value, "f") == 0)
     options_checkbox_set_value(w, FALSE, this->dirty_bit);
+  else if (strcmp(value, "") == 0)
+    options_checkbox_set_value(w, TRUE, this->dirty_bit);
   
   free((void*) value);
 }

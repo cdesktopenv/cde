@@ -461,7 +461,7 @@ SendMsgDialog::updateMsgHnd()
 {
     DtMailEnv error;
     DtMail::Envelope * env;
-    int textLen;
+    int textLen = 0;
 
     env = _msgHandle->getEnvelope(error);
     storeHeaders();
@@ -472,9 +472,9 @@ SendMsgDialog::updateMsgHnd()
 	XtFree(widget_text);
 	widget_text = NULL;
     }
-    else
-    	textLen = strlen(widget_text);
-    
+    else if(widget_text) {
+	textLen = strlen(widget_text);
+    }
     // Even if textlen is 0 because user has cleared all previous text,
     // need to setContents again to clear first BP.  Otherwise, deleted
     // text will show up. 
@@ -3150,7 +3150,7 @@ SendMsgDialog::parseNplace(const char * path)
     
     if (SafeRead(fd, _dead_letter_buf, 
 		 (unsigned int) buf.st_size) != buf.st_size) {
-	delete _dead_letter_buf;
+	delete [] _dead_letter_buf;
 	close(fd);
 	return;
     }

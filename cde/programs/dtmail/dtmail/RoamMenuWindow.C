@@ -465,7 +465,7 @@ RoamMenuWindow::RoamMenuWindow (char *name) : MenuWindow ("dtmail", True)
       _last_sorted_by = (SortBy) atoi(value);
 
     free((void*) value);
-    if (NULL != buffer) XtFree(buffer);
+    XtFree(buffer);
 
 }
 
@@ -4248,6 +4248,8 @@ RoamMenuWindow::syncViewAndStoreCallback(
     RoamMenuWindow * rmw = (RoamMenuWindow *)client_data;
 
     bval = rmw->syncViewAndStore(op, path, args);
+    
+    va_end(args);
     return(bval);
 }
 
@@ -5113,7 +5115,7 @@ RoamMenuWindow::inList(char *filename, DtVirtArray<ContainerMenuCmd *> *list)
     for (int i=0; i < list->length(); i++)
     {
 	cmd = (*list)[i];
-	if (strcmp(filename, cmd->containerName()) == 0)
+	if (filename && strcmp(filename, cmd->containerName()) == 0)
 	  return(i);
     }
     return(-1);

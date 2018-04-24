@@ -95,6 +95,11 @@ DmxMsg::DmxMsg (void)
 	addlInfo = NULL;
 	numBPs = 0;
 	cachedValues = DTM_FALSE;
+	msgHandle = NULL;
+	msgHeader.header_values = 0;
+	msgHeader.number_of_names = 0;
+	bodyParts = NULL;
+	isNew = DTM_FALSE;
 
 	return;
 }

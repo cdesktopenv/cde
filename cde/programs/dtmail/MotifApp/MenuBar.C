@@ -260,7 +260,7 @@ MenuBar::createPulldown (
     }
 
     XtManageChildren ( head_wl, num_wl );
-    delete head_wl;
+    delete [] head_wl;
 
     return(pulldown);
 }

@@ -168,7 +168,7 @@ extern "C" ssize_t  pread(int, void *, size_t, off_t);
 #endif
 
 #define GET_DUMPFILE_NAME(dfn) \
-    sprintf(dfn, "%s/%s/dtmail.dump", getenv("HOME"), DtPERSONAL_TMP_DIRECTORY)
+    snprintf(dfn, sizeof(dfn), "%s/%s/dtmail.dump", getenv("HOME"), DtPERSONAL_TMP_DIRECTORY)
 
 /*
  * Local Data Definitions
@@ -216,7 +216,7 @@ void HexDump(FILE *pfp, char *pmsg, unsigned char *pbufr, int plen, int plimit)
     return;
   
   if (pfp_r == (FILE*) NULL) {
-    char	*dumpfilename = new char [MAXPATHLEN+1];
+    char	dumpfilename[MAXPATHLEN+1];
     _Xctimeparams ctime_buf;
 
     GET_DUMPFILE_NAME(dumpfilename);
@@ -225,7 +225,6 @@ void HexDump(FILE *pfp, char *pmsg, unsigned char *pbufr, int plen, int plimit)
     memset((void*) &ctime_buf, 0, sizeof(_Xctimeparams));
     fprintf(pfp_r, "--------------------- pid=%ld %s",
 	    (long)getpid(), _XCtime(&clockTime, ctime_buf));
-    delete [] dumpfilename;
   }
 
   (void) fprintf(pfp_r, "--> %s (%d bytes at %p):\n", pmsg, plen, pbufr);
@@ -2042,6 +2041,9 @@ RFCMailBox::mapFile(DtMailEnv & error,
       }
       error.setError(DTME_NoMemory);
       delete map;
+#if !defined(DO_ANONYMOUS_MAP)
+      SafeClose(fd);
+#endif
       return(-1);
     }
     
@@ -4506,7 +4508,7 @@ void
 RFCMailBox::writeToDumpFile(const char *format, ...)
 {
   DtMailEnv error;
-  char	*dumpfilename = new char[MAXPATHLEN+1];
+  char	dumpfilename[MAXPATHLEN+1];
   _Xctimeparams ctime_buf;
 
   GET_DUMPFILE_NAME(dumpfilename);
@@ -4524,8 +4526,7 @@ RFCMailBox::writeToDumpFile(const char *format, ...)
   
   fprintf(df, "---------------------\n");
   fprintf(df, "\n\n");
-  
-  delete [] dumpfilename;
+
   fclose(df);
 }
 
@@ -4558,7 +4559,7 @@ RFCMailBox::dumpMaps(const char *str)
   DtMailEnv error;
   off_t total_file_size = 0;
   struct sigaction sig_act, old_sig_act;
-  char	*dumpfilename = new char[MAXPATHLEN+1];
+  char	dumpfilename[MAXPATHLEN+1];
 
   GET_DUMPFILE_NAME(dumpfilename);
   FILE *df = fopen(dumpfilename, "a");
@@ -4567,7 +4568,6 @@ RFCMailBox::dumpMaps(const char *str)
     error.logError(
 		DTM_FALSE,
 		"dumpMaps():  Cant open dump file %s\n", dumpfilename);
-  delete [] dumpfilename;
 
   if (SafeFStat(_fd, &buf) < 0) {
     fprintf(df, "dumpMaps(): fstat(%d) failed errno=%d\n", _fd, errno);

@@ -116,7 +116,7 @@ DmxPrintSetup::DmxPrintSetup (
 
     _filename = (char*) malloc(MAXPATHLEN+1);
     if (NULL != _filename)
-      sprintf(_filename, "%s/dtmail_messages.ps", getenv("HOME"));
+      snprintf(_filename, MAXPATHLEN+1, "%s/dtmail_messages.ps", getenv("HOME"));
 
     _printCB = printCB;
     _cancelCB = cancelCB;

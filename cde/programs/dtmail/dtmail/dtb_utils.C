@@ -3054,11 +3054,10 @@ determine_exe_dir(
 	if (path_prefix != NULL)
 	{
 	    char *abs_exe_dir = new char[MAXPATHLEN+1];
-	    strcpy(abs_exe_dir, path_prefix);
-	    if (strcmp(buf, ".") != 0)
-	    {
-		strcat(abs_exe_dir, "/");
-		strcat(abs_exe_dir, buf);
+	    if (strcmp(buf, ".") != 0) {
+		snprintf(abs_exe_dir, MAXPATHLEN+1, "%s/%s", path_prefix, buf);
+	    } else {
+		snprintf(abs_exe_dir, MAXPATHLEN+1, "%s", path_prefix);
 	    }
 	    strcpy(buf, abs_exe_dir);
 	    delete [] abs_exe_dir;
