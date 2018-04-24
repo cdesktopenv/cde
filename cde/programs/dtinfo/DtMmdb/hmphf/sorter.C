@@ -108,7 +108,7 @@ sorter::~sorter()
 {
    int i;
    for ( i=0; i<NUM_BUCKETS; delete v_bucket_array[i++] );
-   delete v_bucket_array;
+   delete [] v_bucket_array;
 
    for ( i=0; i<v_no_unique_keys; delete v_unique_keys[i++] );
    delete [] v_unique_keys;

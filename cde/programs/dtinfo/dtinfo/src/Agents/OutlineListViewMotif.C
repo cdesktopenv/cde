@@ -786,7 +786,7 @@ OutlineListView::update_list(OutlineList *list, BitHandle handle)
   ItemCount (visible_count, args);
   Set (args);
 
-  delete table;
+  delete [] table;
   delete [] selected_list;
 }
 
@@ -1151,7 +1151,7 @@ OutlineListView::activate (WCallback *wcb)
                           table, sel_list,
                           oe->level() + 1);
           AddItemsUnselected (table, subcount, lcs->item_position + 1);
-          delete table;
+          delete [] table;
           delete [] sel_list;
 
           // Turn the wait cursor off if it was on.
