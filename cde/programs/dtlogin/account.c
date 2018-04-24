@@ -243,10 +243,10 @@ Account( struct display *d, char *user, char *line, pid_t pid,
              close(fd);
         }
 	else
-             strncpy(u->ut_line, line, sizeof(u->ut_line));
+             snprintf(u->ut_line, sizeof(u->ut_line), "%s", line);
 	     
 #else
-             strncpy(u->ut_line, line, sizeof(u->ut_line));
+             snprintf(u->ut_line, sizeof(u->ut_line), "%s", line);
 #endif
     }
     if (pid ) u->ut_pid = pid;

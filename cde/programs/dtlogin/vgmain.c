@@ -940,9 +940,9 @@ char 	    *temp_p;
 	       * remove trailing spaces 
 	       */
 	       if (strchr(startup_value.addr, ' ')) 
-		   strcpy(temp, strtok(startup_value.addr," "));
+		   snprintf(temp, sizeof(temp), "%s", strtok(startup_value.addr, " "));
                else
-	           strcpy(temp, startup_value.addr);
+	           snprintf(temp, sizeof(temp), "%s", startup_value.addr);
 
 	       if (default_is_custom_dt)
 		 if (strcmp(session, temp) == 0)    {
@@ -1207,7 +1207,7 @@ MakeDialog( DialogType dtype )
     FILE	*fp, *fopen();
     char	buffer[128];
 
-    Widget	w, text;
+    Widget	w = NULL, text;
     Dimension txt_width, txt_height;
     XmString	ok, cancel, nw, sv;
 
@@ -1401,7 +1401,9 @@ MakeDialog( DialogType dtype )
 
 
     XtSetArg(argt[0], XmNdialogStyle,	XmDIALOG_APPLICATION_MODAL	); i++;
-    XtSetValues(w, argt, 1);
+    if(w) {
+        XtSetValues(w, argt, 1);
+    }
 
     XmStringFree(xmstr);
     XmStringFree(ok);
