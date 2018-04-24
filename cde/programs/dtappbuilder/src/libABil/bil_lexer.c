@@ -465,5 +465,5 @@ sprint(char *s)
 void
 bilP_reset_token_text(void)
 {
-    sprintf(tokenText, "");
+    sprintf(tokenText, "%s", "");
 }

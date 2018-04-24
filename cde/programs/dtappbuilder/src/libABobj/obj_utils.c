@@ -1197,7 +1197,7 @@ obj_verify(ABObj obj)
 	if (ok)
 	{
 	    obj_str_ptr_name = istr_string(obj->name);
-	    sprintf((STRING)obj_name, "(ABObj %#lx", obj);
+	    sprintf((STRING)obj_name, "(ABObj %#lx", (unsigned long) obj);
 	    if (obj_str_ptr_name != NULL)
 	    {
 	        strcat((STRING)obj_name, " = ");
@@ -1212,7 +1212,7 @@ obj_verify(ABObj obj)
     }
     else
     {
-	sprintf((STRING)obj_name, "(ABObj %#lx)", obj);
+	sprintf((STRING)obj_name, "(ABObj %#lx)", (unsigned long) obj);
 	field_err("name");
     }
 

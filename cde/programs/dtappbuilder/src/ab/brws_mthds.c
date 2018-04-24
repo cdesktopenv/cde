@@ -689,7 +689,7 @@ init_glyph_elm(
 )
 {
     AB_OBJ		*obj = (AB_OBJ *)client_data;
-    Pixmap		image = NULL;	/* gotta set to NULL!!! */
+    Pixmap		image = 0;
 
     /*
      * Object glyph
@@ -1882,12 +1882,12 @@ get_toplevel_drawarea(
     BrowserUiObj	ui;
 
     if (!v)
-	return (NULL);
+	return 0;
 
     ui = (BrowserUiObj)v->ui_handle;
 
     if (!ui)
-	return (NULL);
+	return 0;
 
     instance = (DtbBrwsMainwindowInfo)ui->ip;
 
@@ -1904,12 +1904,12 @@ get_detailed_drawarea(
     BrowserUiObj	ui;
 
     if (!v)
-	return (NULL);
+	return 0;
 
     ui = (BrowserUiObj)v->ui_handle;
 
     if (!ui)
-	return (NULL);
+	return 0;
 
     instance = (DtbBrwsMainwindowInfo)(ui->ip);
 
@@ -1926,12 +1926,12 @@ get_proj_drawarea(
     BrowserUiObj	ui;
 
     if (!v)
-	return (NULL);
+	return 0;
 
     ui = (BrowserUiObj)v->ui_handle;
 
     if (!ui)
-	return (NULL);
+	return 0;
 
     proj_d = (DtbProjProjMainInfo)ui->ip;
 

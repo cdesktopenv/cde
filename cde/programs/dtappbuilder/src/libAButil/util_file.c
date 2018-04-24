@@ -432,7 +432,7 @@ util_cvt_path_to_relative(
 	}
 	else
 	{
-	    while ((*rightmost_slash == '/') && (*rightmost_slash != NULL))
+	    while ((*rightmost_slash == '/') && (*rightmost_slash != 0))
 	    {
 	        ++rightmost_slash;
 	    }

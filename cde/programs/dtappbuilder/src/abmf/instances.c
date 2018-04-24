@@ -190,7 +190,7 @@ write_assign_local_vars_for_icon(GenCodeInfo genCodeInfo, ABObj obj)
         else
 	*/
         {
-	    sprintf(parentName, abmfP_get_widget_parent_name(genCodeInfo, obj));
+	    sprintf(parentName, "%s", abmfP_get_widget_parent_name(genCodeInfo, obj));
 	}
     }
 

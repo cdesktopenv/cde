@@ -49,6 +49,7 @@
 
 #include <assert.h>		/* assert() */
 #include <stdio.h>		/* FILE*, BUFSIZ */
+#include <stdint.h>
 #include <sys/param.h>		/* MAXPATHLEN, ... */
 #include <nl_types.h>
 #include <X11/Intrinsic.h>
@@ -174,7 +175,7 @@ typedef CGenAnyData	CGenData;
 
 #define mfobj_set_module_data(_obj,_data) \
 	( mfobj_set_flags(_obj, CGenFlagDataIsModule), \
-	  ((int)(mfobj_data(_obj)->info.module = (_data))) \
+	  ((int)(intptr_t)(mfobj_data(_obj)->info.module = (_data))) \
 	)
 
 #define mfobj_get_module_data(obj) \

@@ -38,6 +38,7 @@
  *  ** DELETE THE GENERATED COMMENTS!                                 **
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include "dtb_utils.h"
@@ -194,7 +195,7 @@ appfw_editor_init(
 	/* Primary Main Window */
         n = 0;
         item[n] = appfw_cgen->rootwin_opmenu_items.None_item;
-        item_val[n] = NULL; n++;
+        item_val[n] = 0; n++;
         prop_obj_options_init(&(afs->rootwin), appfw_cgen->rootwin_label,
                 appfw_cgen->rootwin_opmenu, appfw_cgen->rootwin_opmenu_menu,
                 n, item, (XtPointer*)item_val,

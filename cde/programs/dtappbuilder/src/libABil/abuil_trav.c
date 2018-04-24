@@ -46,6 +46,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 #include <ab_private/UilDef.h>
 #include <uil/UilDBDef.h>
@@ -340,10 +341,10 @@ print_uil_symbol(
 	    int	i;
 
 	    printf("%lx  unknown type: %d  size: %d  byte: 0x%x\n",
-			  az_symbol_entry,
+			  (unsigned long) az_symbol_entry,
 			  az_symbol_entry->header.b_tag,
 			  az_symbol_entry->header.w_node_size,
-			  az_symbol_entry->header.b_type);
+			  (unsigned) az_symbol_entry->header.b_type);
 
 	    l_array = (int *) az_symbol_entry->b_value;
 
@@ -385,20 +386,20 @@ print_uil_widget(
     "%s %s(0x%lx) name: %s\n",
 		  get_object_text(az_widget_entry->header.b_type),
 		  get_tag_text(az_widget_entry->header.b_tag),
-		  az_widget_entry,
+		  (unsigned long) az_widget_entry,
 		  wid_name);
 
     printf(
     "  controls: 0x%lx  callbacks: 0x%lx  arguments: 0x%lx  parent_list: 0x%lx\n",
-		  az_widget_entry->az_controls,
-		  az_widget_entry->az_callbacks,
-		  az_widget_entry->az_arguments,
-		  az_widget_entry->parent_list);
+		  (unsigned long) az_widget_entry->az_controls,
+		  (unsigned long) az_widget_entry->az_callbacks,
+		  (unsigned long) az_widget_entry->az_arguments,
+		  (unsigned long) az_widget_entry->parent_list);
 
     if (az_widget_entry->az_create_proc != NULL)
     {
 	printf("  create proc: 0x%lx\n",
-		      az_widget_entry->az_create_proc);
+		      (unsigned long) az_widget_entry->az_create_proc);
     }
 }
 
@@ -520,8 +521,8 @@ print_uil_callback(
     printf(
     "  CALLBACK name: %s  proc ref: 0x%lx  proc ref list: 0x%lx\n",
 		  name_str,
-		  az_callback_entry->az_call_proc_ref,
-		  az_callback_entry->az_call_proc_ref_list);
+		  (unsigned long) az_callback_entry->az_call_proc_ref,
+		  (unsigned long) az_callback_entry->az_call_proc_ref_list);
 }
 
 /*
@@ -538,7 +539,7 @@ print_uil_list(
 
     printf("%s LIST(0x%lx)  count: %d  gadget count: %d\n",
 		  get_tag_text(az_list_entry->header.b_type),
-		  az_list_entry,
+		  (unsigned long) az_list_entry,
 		  az_list_entry->w_count,
 		  az_list_entry->w_gadget_count);
 }
@@ -552,10 +553,10 @@ print_uil_name(
 )
 {
     printf("NAME(0x%lx)  size: %d  next name: 0x%lx  object: 0x%lx",
-     az_name_entry,
+     (unsigned long) az_name_entry,
      az_name_entry->header.w_node_size,
-     az_name_entry->az_next_name_entry,
-     az_name_entry->az_object);
+     (unsigned long) az_name_entry->az_next_name_entry,
+     (unsigned long) az_name_entry->az_object);
 
     if (az_name_entry->b_flags & sym_m_referenced)
     {
@@ -575,8 +576,8 @@ print_uil_module(
 {
     printf("%s MODULE(0x%lx)  version: 0x%lx \n",
      az_module_entry->obj_header.az_name->c_text,
-     az_module_entry,
-     az_module_entry->az_version);
+     (unsigned long) az_module_entry,
+     (unsigned long) az_module_entry->az_version);
 }
 
 /*
@@ -589,12 +590,12 @@ print_uil_color_item(
 {
     printf(
     "COLOR ITEM(0x%lx)  size: %d  letter: %c  index: %d  color: 0x%lx  next: 0x%lx\n",
-     az_color_item_entry,
+     (unsigned long) az_color_item_entry,
      az_color_item_entry->header.w_node_size,
      az_color_item_entry->b_letter,
      az_color_item_entry->b_index,
-     az_color_item_entry->az_color,
-     az_color_item_entry->az_next);
+     (unsigned long) az_color_item_entry->az_color,
+     (unsigned long) az_color_item_entry->az_next);
 }
 
 /*
@@ -606,9 +607,9 @@ print_uil_parent_list_item(
 )
 {
     printf("PARENT LIST(0x%lx)  parent: 0x%lx  next: 0x%lx \n",
-     az_parent_list_item,
-     az_parent_list_item->parent,
-     az_parent_list_item->next);
+     (unsigned long) az_parent_list_item,
+     (unsigned long) az_parent_list_item->parent,
+     (unsigned long) az_parent_list_item->next);
 }
 
 /*
@@ -620,9 +621,9 @@ print_uil_external_def(
 )
 {
     printf("EXTERNAL DEF(0x%lx)  next external: 0x%lx  object: 0x%lx \n",
-     az_external_def_entry,
-     az_external_def_entry->az_next_object,
-     az_external_def_entry->az_name);
+     (unsigned long) az_external_def_entry,
+     (unsigned long) az_external_def_entry->az_next_object,
+     (unsigned long) az_external_def_entry->az_name);
 }
 
 /*
@@ -653,8 +654,8 @@ print_uil_proc_def(
 	imported_flag = " imported";
 
     printf("PROC DEF(0x%lx)  name: 0x%lx %s%s%s%s  count: %d  %s\n",
-	 az_proc_def_entry,
-	 az_proc_def_entry->obj_header.az_name,
+	 (unsigned long) az_proc_def_entry,
+	 (unsigned long) az_proc_def_entry->obj_header.az_name,
 	 checking_flag,
 	 private_flag,
 	 exported_flag,
@@ -676,9 +677,9 @@ print_uil_proc_ref(
      */
 
     printf("PROC REF(0x%lx)  proc def: 0x%lx  value: 0x%lx\n",
-	 az_proc_ref_entry,
-	 az_proc_ref_entry->az_proc_def,
-	 az_proc_ref_entry->az_arg_value);
+	 (unsigned long) az_proc_ref_entry,
+	 (unsigned long) az_proc_ref_entry->az_proc_def,
+	 (unsigned long) az_proc_ref_entry->az_arg_value);
 }
 
 /*
@@ -691,14 +692,14 @@ print_uil_forward_ref(
 {
     printf(
     "FORWARD REF(0x%lx)  next ref: 0x%lx  location: 0x%lx  %s  parent: 0x%lx\n",
-     az_forward_ref_entry,
-     az_forward_ref_entry->az_next_ref,
-     az_forward_ref_entry->a_update_location,
+     (unsigned long) az_forward_ref_entry,
+     (unsigned long) az_forward_ref_entry->az_next_ref,
+     (unsigned long) az_forward_ref_entry->a_update_location,
      get_object_text(az_forward_ref_entry->header.b_type),
-     az_forward_ref_entry->parent);
+     (unsigned long) az_forward_ref_entry->parent);
 
     printf("  name: 0x%lx %s\n",
-	 az_forward_ref_entry->az_name,
+	 (unsigned long) az_forward_ref_entry->az_name,
 	 az_forward_ref_entry->az_name->c_text);
 }
 
@@ -732,9 +733,9 @@ print_uil_value(
 	imported_flag = " imported";
 
     printf("  VALUE(0x%lx)  size: %d  name: 0x%lx  %s%s%s%s",
-	 az_value_entry,
+	 (unsigned long) az_value_entry,
 	 az_value_entry->header.w_node_size,
-	 az_value_entry->obj_header.az_name,
+	 (unsigned long) az_value_entry->obj_header.az_name,
 	 builtin_flag, private_flag, exported_flag, imported_flag);
 
     if (az_value_entry->obj_header.b_flags & sym_m_imported)
@@ -747,12 +748,12 @@ print_uil_value(
     {
       case sym_k_integer_value:
 	printf("  integer: %d \n",
-		      az_value_entry->value.l_integer);
+		      (int)az_value_entry->value.l_integer);
 	break;
 
       case sym_k_bool_value:
 	printf("  boolean: %d \n",
-		      az_value_entry->value.l_integer);
+		      (int)az_value_entry->value.l_integer);
 	break;
 
       case sym_k_float_value:
@@ -808,12 +809,12 @@ common_special_type:
 
       case sym_k_compound_string_value:
 	printf("  compound string\n  first component: 0x%lx\n",
-		      az_value_entry->az_first_table_value);
+		      (unsigned long) az_value_entry->az_first_table_value);
 
 	if ((az_value_entry->b_aux_flags & sym_m_table_entry) != 0)
 	{
 	    printf("  next table entry: 0x%lx",
-			  az_value_entry->az_next_table_value);
+			  (unsigned long) az_value_entry->az_next_table_value);
 	}
 
 	break;
@@ -826,7 +827,7 @@ common_special_type:
 			  get_charset_text(az_value_entry->b_charset));
 	else
 	    printf("  font  charset: userdefined(%x)",
-		 get_charset_text((long) az_value_entry->az_charset_value));
+		 (unsigned) (uintptr_t) get_charset_text((long) az_value_entry->az_charset_value));
 
 	goto check_for_table_value;
 
@@ -855,13 +856,13 @@ common_special_type:
 		printf(
 		"  string length: %d\n  charset: userdefined(%x)  L_TO_R",
 		     az_value_entry->w_length,
-		     az_value_entry->az_charset_value);
+		     (unsigned) (uintptr_t) az_value_entry->az_charset_value);
 		break;
 	      case XmSTRING_DIRECTION_R_TO_L:
 		printf(
 		"  string length: %d\n  charset: userdefined(%x)  R_TO_L",
 		     az_value_entry->w_length,
-		     az_value_entry->az_charset_value);
+		     (unsigned) (uintptr_t) az_value_entry->az_charset_value);
 		break;
 	    }
 
@@ -873,7 +874,7 @@ check_for_table_value:
 	if ((az_value_entry->b_aux_flags & sym_m_table_entry) != 0)
 	{
 	    printf("  next table entry: 0x%lx",
-			  az_value_entry->az_next_table_value);
+			  (unsigned long) az_value_entry->az_next_table_value);
 	}
 
 	output_text
@@ -890,8 +891,8 @@ check_for_table_value:
 	printf("  icon  width: %d  height: %d  colors: 0x%lx  rows: 0x%lx \n",
 		      az_value_entry->value.z_icon->w_width,
 		      az_value_entry->value.z_icon->w_height,
-		      az_value_entry->value.z_icon->az_color_table,
-		      az_value_entry->value.z_icon->az_rows);
+		      (unsigned long) az_value_entry->value.z_icon->az_color_table,
+		      (unsigned long) az_value_entry->value.z_icon->az_rows);
 
 	break;
 
@@ -909,7 +910,7 @@ check_for_table_value:
 common_table:
 
 	printf("  %s  first table entry: 0x%lx\n",
-		      table_type, az_value_entry->az_first_table_value);
+		      table_type, (unsigned long) az_value_entry->az_first_table_value);
 
 	break;
 
@@ -928,7 +929,7 @@ common_table:
 		printf("    letter: %c  index: %d  color: 0x%lx\n",
 			      az_value_entry->value.z_color[index].b_letter,
 			      az_value_entry->value.z_color[index].b_index,
-			      az_value_entry->value.z_color[index].az_color);
+			      (unsigned long) az_value_entry->value.z_color[index].az_color);
 	    }
 
 	    break;
@@ -1009,22 +1010,22 @@ print_uil_obj_header(
 {
     printf("%s(0x%lx)",
      get_tag_text(az_obj_entry->header.b_tag),
-     az_obj_entry);
+     (unsigned long) az_obj_entry);
 
     if (az_obj_entry->obj_header.az_name != NULL)
     {
-	printf("  name: 0x%lx", az_obj_entry->obj_header.az_name);
+	printf("  name: 0x%lx", (unsigned long) az_obj_entry->obj_header.az_name);
     }
 
     if (az_obj_entry->obj_header.az_reference != NULL)
     {
 	printf("  reference: 0x%lx",
-		      az_obj_entry->obj_header.az_reference);
+		      (unsigned long) az_obj_entry->obj_header.az_reference);
     }
 
     if (az_obj_entry->obj_header.az_next != NULL)
     {
-	printf("  next: 0x%lx", az_obj_entry->obj_header.az_next);
+	printf("  next: 0x%lx", (unsigned long) az_obj_entry->obj_header.az_next);
     }
 
     if (az_obj_entry->obj_header.b_flags & sym_m_private)
@@ -1052,7 +1053,7 @@ print_uil_include_file(
 )
 {
     printf("INCLUDE FILE(0x%lx)  file name: %s  full file name: %s\n",
-	       az_symbol_entry,
+	       (unsigned long) az_symbol_entry,
 	       az_symbol_entry->file_name, az_symbol_entry->full_file_name);
 }
 
@@ -1064,8 +1065,8 @@ print_uil_section(
 {
     printf("%s SECTION(0x%lx)  entries: 0x%lx\n",
 		  get_sym_section_text(az_symbol_entry->header.b_type),
-		  az_symbol_entry,
-		  az_symbol_entry->entries);
+		  (unsigned long) az_symbol_entry,
+		  (unsigned long) az_symbol_entry->entries);
 }
 
 static void
@@ -1075,8 +1076,8 @@ print_uil_object_variant(
 {
     printf(
     "DEFAULT OBJ VAR(0x%lx)  next: 0x%lx  object info: %d, variant_info: %d\n",
-		  az_symbol_entry,
-		  az_symbol_entry->next, az_symbol_entry->b_object_info,
+		  (unsigned long) az_symbol_entry,
+		  (unsigned long) az_symbol_entry->next, az_symbol_entry->b_object_info,
 		  az_symbol_entry->b_variant_info);
 }
 
@@ -1086,10 +1087,10 @@ print_uil_root_entry(
 )
 {
     printf("ROOT(0x%lx)  tag: %d  module: 0x%lx  sections: 0x%lx\n  module tail: ",
-		  az_symbol_entry,
+		  (unsigned long) az_symbol_entry,
 		  az_symbol_entry->header.b_tag,
-		  az_symbol_entry->module_hdr,
-		  az_symbol_entry->sections);
+		  (unsigned long) az_symbol_entry->module_hdr,
+		  (unsigned long) az_symbol_entry->sections);
 }
 
 static char *

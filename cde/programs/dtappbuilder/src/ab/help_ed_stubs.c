@@ -38,6 +38,7 @@
  *  ** DELETE THE GENERATED COMMENTS!                                 **
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include "dtb_utils.h"
@@ -102,7 +103,7 @@ typedef struct HELP_OBJ_TYPE_INFO_REC {
 	int		subtype;
 } HelpObjTypeInfoRec;
 static HelpObjTypeInfoRec HelpObjTypeInfo = {
-	((AB_OBJECT_TYPE)NULL), ((int) NULL),
+	((AB_OBJECT_TYPE)NULL), 0,
 };
 
 typedef struct HELP_EDITOR_SETTINGS {
@@ -897,8 +898,8 @@ help_dispatchCB(Widget widget, XtPointer clientData, XtPointer callData)
     ** Checking the status of the more-help info also lets us decide whether
     ** the "More..." button should be enabled on the dialog.
     */
-    if( help_volume     ==0 || *(help_volume) == NULL ||
-	help_location   ==0 || *(help_location)== NULL){
+    if( help_volume     ==0 || *(help_volume) == 0 ||
+	help_location   ==0 || *(help_location)== 0){
 		buffer[0] = '\0';
     }
     else {
@@ -1373,7 +1374,7 @@ help_back_hdlr(Widget widget, XtPointer clientData, XtPointer callData)
     ** Parse the combined volume/locationID string.  Disable the "More..."
     ** button if there isn't any help info, and enable it if there is.
     */
-    if( buffer == 0 || (*buffer == NULL) ||
+    if( buffer == 0 || (*buffer == 0) ||
 	(cp=strrchr(buffer,'/')) == (char *)NULL) {
 		XtSetSensitive(more_button,False);
     }

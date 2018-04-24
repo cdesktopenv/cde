@@ -207,7 +207,7 @@ static UiObjPixmap	object_pixmaps[] =
 /*
  * Default pixmap
  */
-static	Pixmap		default_pixmap = NULL;
+static	Pixmap		default_pixmap = 0;
 static	unsigned int	default_pixmap_width = 0;
 static	unsigned int	default_pixmap_height = 0;
 
@@ -472,8 +472,8 @@ ui_set_label_glyph(
     STRING      fileName
 )
 {
-    Pixmap    labelPixmap            = NULL;
-    Pixmap    labelInsensitivePixmap = NULL;
+    Pixmap    labelPixmap            = 0;
+    Pixmap    labelInsensitivePixmap = 0;
     
     XtVaGetValues(widget,
 	XmNlabelPixmap,            &labelPixmap,
@@ -797,14 +797,14 @@ ui_set_busy_cursor(
     BOOL	on
 )
 {
-    static Cursor  busy_cursor = NULL;
+    static Cursor  busy_cursor = 0;
     static Display *dpy        = NULL;
 
     if (on) /* Turn ON busy cursor */
     {
 	dpy = XtDisplay(AB_toplevel);
 
-	if (busy_cursor == NULL)
+	if (busy_cursor == 0)
 	    busy_cursor = XCreateFontCursor(dpy, XC_watch);
 
         XDefineCursor(dpy, window, busy_cursor);
@@ -920,7 +920,7 @@ ui_get_obj_pixmap
     int			i;
     AB_OBJECT_TYPE	type;
     int			subtype;
-    Pixmap		p = NULL;
+    Pixmap		p = 0;
     BOOL		found = FALSE;
 
     if (!obj || !pixmap || !width || !height)
@@ -1164,7 +1164,7 @@ ui_sync_display_of_widget(Widget widget)
     syncData.last_expose_ticks = 0;
     syncData.timeout_ticks = 0;
     syncData.display = NULL;
-    syncData.window = NULL;
+    syncData.window = 0;
 #define last_expose_ticks (syncData.last_expose_ticks)
 #define synced (syncData.synced)
 #define timeout_ticks (syncData.timeout_ticks)
@@ -1351,7 +1351,7 @@ ui_initiate_rubberband(
         ButtonReleaseMask | ButtonMotionMask | PointerMotionMask,
         GrabModeAsync, GrabModeAsync,  
 	confine_to_window ? XtWindow(widget) : None,
-            NULL, CurrentTime) == GrabSuccess)
+            0, CurrentTime) == GrabSuccess)
     {
 	rband_in_progress = True;
         rubberband_func = rb_func;

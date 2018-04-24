@@ -644,53 +644,53 @@ write_define_display_var(GenCodeInfo genCodeInfo)
 
 
 /*
- * var: Drawable drawable = NULL;
+ * var: Drawable drawable = 0;
  */
 static int
 write_define_drawable_var(GenCodeInfo genCodeInfo)
 {
     make_istr_var_name(varDrawable, "drawable");
 	write_define_var(genCodeInfo, &abmfP_drawable_var(genCodeInfo),
-		"Drawable", varDrawable, abmfP_str_null);
+		"Drawable", varDrawable, abmfP_str_zero);
     return 0;
 }
 
 
 /*
- * var: Pixmap icon_pixmap = NULL;
+ * var: Pixmap icon_pixmap = 0;
  */
 static int
 write_define_icon_pixmap_var(GenCodeInfo genCodeInfo)
 {
     make_istr_var_name(varIconPixmap, "icon_pixmap");
 	write_define_var(genCodeInfo, &abmfP_icon_pixmap_var(genCodeInfo),
-		"Pixmap", varIconPixmap, abmfP_str_null);
+		"Pixmap", varIconPixmap, abmfP_str_zero);
     return 0;
 }
 
 
 /*
- * var: Pixmap icon_mask_pixmap = NULL;
+ * var: Pixmap icon_mask_pixmap = 0;
  */
 static int
 write_define_icon_mask_pixmap_var(GenCodeInfo genCodeInfo)
 {
     make_istr_var_name(varIconPixmap, "icon_mask_pixmap");
 	write_define_var(genCodeInfo, &abmfP_icon_mask_pixmap_var(genCodeInfo),
-		"Pixmap", varIconPixmap, abmfP_str_null);
+		"Pixmap", varIconPixmap, abmfP_str_zero);
     return 0;
 }
 
 
 /*
- * var: Pixmap label_pixmap = NULL;
+ * var: Pixmap label_pixmap = 0;
  */
 static int
 write_define_label_pixmap_var(GenCodeInfo genCodeInfo)
 {
     make_istr_var_name(varLabelPixmap, "label_pixmap");
 	write_define_var(genCodeInfo, &abmfP_label_pixmap_var(genCodeInfo),
-		"Pixmap", varLabelPixmap, abmfP_str_null);
+		"Pixmap", varLabelPixmap, abmfP_str_zero);
     return 0;
 }
 

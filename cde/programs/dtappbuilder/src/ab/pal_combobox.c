@@ -44,6 +44,7 @@
 /*
  * pal_combobox.c - Implements Palette ComboBox object functionality
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <ab_private/obj_notify.h>
@@ -527,7 +528,7 @@ combo_box_prop_load(
 
 	/* Load Read Only */
 	prop_radiobox_set_value(&(pcs->combobox_type),
-				(XtPointer)obj_get_read_only(obj), False);
+				(XtPointer)(intptr_t) obj_get_read_only(obj), False);
 
 	/* Load Initial State */
 	prop_checkbox_set_value(&(pcs->init_state), AB_STATE_VISIBLE,

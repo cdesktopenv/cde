@@ -950,6 +950,7 @@ abmfP_write_stubs_c_file(
      * Write includes.
      */
     strcpy(moduleHeaderFileName, abmfP_get_ui_header_file_name(module));
+    abmfP_write_c_system_include(genCodeInfo, "stdint.h");
     abmfP_write_c_system_include(genCodeInfo, "stdio.h");
     abmfP_write_c_system_include(genCodeInfo, "Xm/Xm.h");
     abmfP_write_c_local_include(genCodeInfo, 

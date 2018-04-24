@@ -44,6 +44,7 @@
  * pal_menu.c - Implements Palette Menu object functionality
  * 		NOTE: menu not actually ON the main palette
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <ab_private/obj_notify.h>
@@ -577,7 +578,7 @@ menu_prop_load(
     {
 	/* Load Tearoff */
 	prop_radiobox_set_value(&(pms->tearoff),
-		(XtPointer)(obj->info.menu.tear_off), False);
+		(XtPointer)(intptr_t) (obj->info.menu.tear_off), False);
 
 	/* Load Color */
 	prop_colorfield_set_value(&(pms->bg_color), obj_get_bg_color(obj), False);

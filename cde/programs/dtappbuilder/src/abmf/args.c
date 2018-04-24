@@ -44,6 +44,7 @@
  */
 
 #include <stdio.h>
+#include <stdint.h>
 #include <assert.h>
 #include <Xm/Xm.h>
 #include <Xm/XmStrDefs.h>
@@ -213,10 +214,10 @@ abmfP_args_init(void)
 /* INT VALUES */
 #define dump_int_resource(inst,name,value) \
 	(wroteResource = TRUE, \
-	 fprintf(fp,"%s.%s:\t%d\n", inst, name, value))
+	 fprintf(fp,"%s.%s:\t%d\n", inst, name, (int)(intptr_t)value))
 
 #define write_int_resource(name,value) \
-	(wroteResource = TRUE, abio_printf(fp,"%s, %d", name, (int)(value)))
+	(wroteResource = TRUE, abio_printf(fp,"%s, %d", name, (int)(intptr_t)(value)))
 
 /* STRING values */
 #define dump_str_resource(inst,name,value) \

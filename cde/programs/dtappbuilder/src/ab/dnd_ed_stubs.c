@@ -38,6 +38,7 @@
  *  ** DELETE THE GENERATED COMMENTS!                                 **
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include "dtb_utils.h"
@@ -832,7 +833,7 @@ dnd_fetch_attrs(
 	obj_get_drag_cursor_mask(obj), False);
     if (dragOps != 0)
     	prop_radiobox_set_value(&(dds->drag_types_radiobox),
-		(XtPointer)dragType, False);
+		(XtPointer)(uintptr_t) dragType, False);
     
     prop_checkbox_set_value(&(dds->drop_ops_checkbox),
 	ABDndOpCopy, ((dropOps & ABDndOpCopy) != 0), False);

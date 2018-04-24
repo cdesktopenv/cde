@@ -38,6 +38,7 @@
  *  ** DELETE THE GENERATED COMMENTS!                                 **
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include "dtb_utils.h"
@@ -227,15 +228,15 @@ register_palette_info(
     {
         case AB_TYPE_BASE_WINDOW:
                 pal_register_item_info(palitem_w, ab_mainwin_palitem, 
-			(int)AB_NO_SUBTYPE, NULL, NULL);
+			(int)AB_NO_SUBTYPE, NULL, 0);
                 break;
         case AB_TYPE_BUTTON:
                 if (strcmp(subtypestr, "AB_BUT_PUSH") == 0)
                     pal_register_item_info(palitem_w, ab_button_palitem,
-			(int)AB_BUT_PUSH, ab_button_palitem->name, NULL);
+			(int)AB_BUT_PUSH, ab_button_palitem->name, 0);
                 else if (strcmp(subtypestr, "AB_BUT_MENU") == 0)
                     pal_register_item_info(palitem_w, ab_button_palitem,
-			(int)AB_BUT_MENU, "Menu Button", NULL);
+			(int)AB_BUT_MENU, "Menu Button", 0);
                 break;
         case AB_TYPE_COMBO_BOX:
         {
@@ -243,7 +244,7 @@ register_palette_info(
                 WidgetList  children = NULL;
  
                 pal_register_item_info(palitem_w, ab_combo_box_palitem,
-			(int)AB_NO_SUBTYPE, NULL, NULL);
+			(int)AB_NO_SUBTYPE, NULL, 0);
  
                 num_children = 0;
                 XtVaGetValues(palitem_w,
@@ -265,53 +266,53 @@ register_palette_info(
         case AB_TYPE_CONTAINER:
                 if (strcmp(subtypestr, "AB_CONT_RELATIVE") == 0)
                     pal_register_item_info(palitem_w, ab_cpanel_palitem,
-			(int)AB_CONT_RELATIVE, ab_cpanel_palitem->name, NULL);
+			(int)AB_CONT_RELATIVE, ab_cpanel_palitem->name, 0);
                 else if (strcmp(subtypestr, "AB_CONT_MENU_BAR") == 0)
                     pal_register_item_info(palitem_w, ab_menubar_palitem,
-			(int)AB_CONT_MENU_BAR, ab_menubar_palitem->name, NULL);
+			(int)AB_CONT_MENU_BAR, ab_menubar_palitem->name, 0);
                 break;
         case AB_TYPE_DIALOG:
                 pal_register_item_info(palitem_w, ab_custdlg_palitem,
-			(int)AB_NO_SUBTYPE, ab_custdlg_palitem->name, NULL);
+			(int)AB_NO_SUBTYPE, ab_custdlg_palitem->name, 0);
                 break;
         case AB_TYPE_LABEL:
                 pal_register_item_info(palitem_w, ab_label_palitem,
-			(int)AB_NO_SUBTYPE, NULL, NULL);
+			(int)AB_NO_SUBTYPE, NULL, 0);
                 break;
         case AB_TYPE_TERM_PANE:
                 pal_register_item_info(palitem_w, ab_termp_palitem,
-			(int)AB_NO_SUBTYPE, NULL, NULL);
+			(int)AB_NO_SUBTYPE, NULL, 0);
                 break;
         case AB_TYPE_TEXT_FIELD:
                 pal_register_item_info(palitem_w, ab_textf_palitem,
-			(int)AB_NO_SUBTYPE, NULL, NULL);
+			(int)AB_NO_SUBTYPE, NULL, 0);
                 break;
         case AB_TYPE_TEXT_PANE:
                 pal_register_item_info(palitem_w, ab_textp_palitem,
-			(int)AB_NO_SUBTYPE, NULL, NULL);
+			(int)AB_NO_SUBTYPE, NULL, 0);
                 break;
         case AB_TYPE_LIST:
                 pal_register_item_info(palitem_w, ab_list_palitem,
-			(int)AB_NO_SUBTYPE, NULL, NULL);
+			(int)AB_NO_SUBTYPE, NULL, 0);
                 break;
         case AB_TYPE_CHOICE:
                 if (strcmp(subtypestr, "AB_CHOICE_EXCLUSIVE") == 0)
                     pal_register_item_info(palitem_w, ab_choice_palitem,
-			(int)AB_CHOICE_EXCLUSIVE, "Radio Box", NULL);
+			(int)AB_CHOICE_EXCLUSIVE, "Radio Box", 0);
                 else if (strcmp(subtypestr, "AB_CHOICE_OPTION_MENU") == 0)
                     pal_register_item_info(palitem_w, ab_choice_palitem,
-			(int)AB_CHOICE_OPTION_MENU, "Option Menu", NULL);
+			(int)AB_CHOICE_OPTION_MENU, "Option Menu", 0);
                 else     
                     pal_register_item_info(palitem_w, ab_choice_palitem,
-			(int)AB_CHOICE_NONEXCLUSIVE, "Check Box", NULL);
+			(int)AB_CHOICE_NONEXCLUSIVE, "Check Box", 0);
                 break;    
         case AB_TYPE_DRAWING_AREA:
                 pal_register_item_info(palitem_w, ab_drawp_palitem,
-			(int)AB_NO_SUBTYPE, NULL, NULL);
+			(int)AB_NO_SUBTYPE, NULL, 0);
                 break;
         case AB_TYPE_SEPARATOR:
                 pal_register_item_info(palitem_w, ab_separator_palitem,
-			(int)AB_NO_SUBTYPE, NULL, NULL);
+			(int)AB_NO_SUBTYPE, NULL, 0);
                 break;
         case AB_TYPE_SPIN_BOX:
         {
@@ -319,7 +320,7 @@ register_palette_info(
                 WidgetList  children = NULL;
  
                 pal_register_item_info(palitem_w, ab_spinbox_palitem,
-                        (int)AB_NO_SUBTYPE, NULL, NULL);
+                        (int)AB_NO_SUBTYPE, NULL, 0);
         
                 XtVaGetValues(palitem_w,
                         XtNnumChildren,    &num_children,
@@ -357,7 +358,7 @@ register_palette_info(
                 {
  
                     pal_register_item_info(palitem_w, ab_scale_palitem,
-			(int)False, "Scale", NULL);
+			(int)False, "Scale", 0);
                     /*
                      * Register sub-widgets of scale as well
                      */
@@ -371,7 +372,7 @@ register_palette_info(
                 else
                 {
                     pal_register_item_info(palitem_w, ab_scale_palitem,
-			(int)True, "Gauge", NULL);
+			(int)True, "Gauge", 0);
                     /*
                      * Register sub-widgets of gauge as well
                      */
@@ -386,7 +387,7 @@ register_palette_info(
         }
         case AB_TYPE_FILE_CHOOSER: 
                 pal_register_item_info(palitem_w, ab_fchooser_palitem,
-                        (int)AB_NO_SUBTYPE, NULL, NULL);
+                        (int)AB_NO_SUBTYPE, NULL, 0);
                 break;
     }
 }

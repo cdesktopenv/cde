@@ -709,7 +709,7 @@ obj_get_safe_name(ABObj obj, STRING name, int name_size)
     else if (obj_get_name(obj) == NULL)
     {
 	char                buf[256];
-	sprintf(buf, "(ABObj:0x%08lx)", obj);
+	sprintf(buf, "(ABObj:0x%08lx)", (unsigned long) obj);
 	strncpy(name, buf, name_size);
     }
     else

@@ -1119,8 +1119,8 @@ dtb_help_dispatch(
     ** Checking the status of the more-help info also lets us decide whether
     ** the "More..." button should be enabled on the dialog.
     */
-    if( help_data->help_volume     ==0 || *(help_data->help_volume) == NULL ||
-	help_data->help_locationID ==0 || *(help_data->help_locationID)== NULL){
+    if( help_data->help_volume     ==0 || *(help_data->help_volume) == 0 ||
+	help_data->help_locationID ==0 || *(help_data->help_locationID)== 0){
 		buffer[0] = '\0';
     }
     else {

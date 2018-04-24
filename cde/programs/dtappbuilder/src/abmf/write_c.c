@@ -74,20 +74,20 @@ static int write_func_def_params(
 **                                                                      **
 **************************************************************************/
 
-extern STRING	abmfP_str_bool= "Boolean";
-extern STRING	abmfP_str_int= "int";
-extern STRING	abmfP_str_string= "String";
-extern STRING	abmfP_str_void= "void";
-extern STRING	abmfP_str_widget = "Widget";
-extern STRING	abmfP_str_xtpointer = "XtPointer";
-extern STRING	abmfP_str_tt_msg= "Tt_message";
-extern STRING	abmfP_str_voidpointer= "void *";
-extern STRING	abmfP_str_intpointer= "int *";
-extern STRING	abmfP_str_argvpointer= "char ***";
+STRING	abmfP_str_bool= "Boolean";
+STRING	abmfP_str_int= "int";
+STRING	abmfP_str_string= "String";
+STRING	abmfP_str_void= "void";
+STRING	abmfP_str_widget = "Widget";
+STRING	abmfP_str_xtpointer = "XtPointer";
+STRING	abmfP_str_tt_msg= "Tt_message";
+STRING	abmfP_str_voidpointer= "void *";
+STRING	abmfP_str_intpointer= "int *";
+STRING	abmfP_str_argvpointer= "char ***";
 
-extern STRING	abmfP_str_empty = "";
-extern STRING	abmfP_str_null = "NULL";
-extern STRING	abmfP_str_zero = "0";
+STRING	abmfP_str_empty = "";
+STRING	abmfP_str_null = "NULL";
+STRING	abmfP_str_zero = "0";
 
 
 /*************************************************************************

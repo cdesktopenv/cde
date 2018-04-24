@@ -179,7 +179,7 @@ pal_register_item_info(
 		newsub[i] = sub[i];
 
 	    newsub[i].subtype = subtype;
-	    newsub[i].pixmap  = NULL;
+	    newsub[i].pixmap  = 0;
 	    newsub[i].subname = XtNewString(subname);
 	    XtFree((char *)(palitem->subinfo));
 	    palitem->subinfo = newsub;
@@ -297,7 +297,7 @@ pal_get_item_pixmap(
     }
 
     *p_width  = *p_height = 0;
-    return NULL;
+    return 0;
 
 }
 STRING

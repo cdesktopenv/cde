@@ -49,6 +49,7 @@
 #define _POSIX_SOURCE 1
 #endif
 
+#include <stdint.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -703,7 +704,7 @@ term_execute_command(CG_SUBCOMMAND cmd_code, STRING cmd, STRING argv[])
 	    int		putenv_var_size = 0;
 
 	    setpgid(0,0);		/* make process group leader */
-	    write_to_status_pipe(CG_STATUS_STARTED, cmd_code, (void*)getpgrp());
+	    write_to_status_pipe(CG_STATUS_STARTED, cmd_code, (void*)(intptr_t) getpgrp());
 
 	    for (i = 0; i < num_env_vars; ++i)
 	    {
@@ -833,7 +834,7 @@ term_execute_command(CG_SUBCOMMAND cmd_code, STRING cmd, STRING argv[])
 
 	    if (status_pipe_write >= 0)
 	    {
-	        write_to_status_pipe(status_code, cmd_code, (void*)exit_code);
+	        write_to_status_pipe(status_code, cmd_code, (void*)(intptr_t) exit_code);
                 util_fdclose(status_pipe_write);
 	    }
             subprocess_exit(exit_code);
@@ -1583,12 +1584,12 @@ pipe_data_ready_proc(
     switch (status_code)
     {
 	case CG_STATUS_STARTED:
-	    actual_process_pgid = (pid_t)status_data;
+	    actual_process_pgid = (pid_t)(intptr_t) status_data;
 	    /*util_dprintf(2,"rcv started: %ld\n", (long)actual_process_pgid);*/
 	break;
 
 	case CG_STATUS_EXITED:
-	    exit_code = (int)status_data;
+	    exit_code = (int)(intptr_t) status_data;
 	    actual_process_pgid = INVALID_PID;
 	    /*util_dprintf(2,"rcv exit(%d)\n", exit_code);*/
 	    if (aborted)
@@ -1607,7 +1608,7 @@ pipe_data_ready_proc(
 	break;
 
 	case CG_STATUS_SIGNALLED:
-	    kill_signal = (int)status_data;
+	    kill_signal = (int)(intptr_t) status_data;
 	    /*util_dprintf(2,"rcv signalled(%d)\n", kill_signal);*/
 	    actual_process_pgid = INVALID_PID;
 	    goto_ready_state();

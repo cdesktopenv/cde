@@ -1839,7 +1839,7 @@ setup_vwr_graphics(
 
     if (!ui_handle->bg_font) 
     {
-	Font	font = NULL;
+	Font	font = 0;
 
         XtVaGetValues(draw_area, XtNfont, &font, NULL);
         ui_handle->bg_font = (XFontStruct *)XQueryFont(dpy, font);
@@ -2306,8 +2306,8 @@ aob_create_ui_obj
     ui->line_gc = NULL;
     ui->sm_font = NULL;
     ui->bg_font = NULL;
-    ui->fg_color = NULL;
-    ui->bg_color = NULL;
+    ui->fg_color = 0;
+    ui->bg_color = 0;
     
     return(ui);
 }

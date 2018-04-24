@@ -44,6 +44,7 @@
 /*
  * pal_custdlg.c - Implements Palette CustomDialog object functionality
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <ab_private/util.h>
@@ -300,7 +301,7 @@ custdlg_prop_init(
         /* Window Parent */
         n = 0;
         item[n] = cgen->winparent_opmenu_items.None_item;
-        item_val[n] = NULL; n++;
+        item_val[n] = 0; n++;
         prop_obj_options_init(&(pcs->win_parent), cgen->winparent_opmenu_label,
                 cgen->winparent_opmenu, cgen->winparent_opmenu_menu,
                 n, item, (XtPointer*)item_val,
@@ -335,7 +336,7 @@ custdlg_prop_init(
  	/* Default Button */
         n = 0;
         item[n] = cgen->defaultb_opmenu_items.None_item;
-        item_val[n] = NULL; n++;
+        item_val[n] = 0; n++;
 	prop_obj_options_init(&(pcs->default_but), cgen->defaultb_opmenu_label,
 		cgen->defaultb_opmenu, cgen->defaultb_opmenu_menu,
 		n, item, (XtPointer*)item_val,
@@ -345,7 +346,7 @@ custdlg_prop_init(
  	/* Help Button */
         n = 0;
         item[n] = cgen->helpb_opmenu_items.None_item;
-        item_val[n] = NULL; n++;
+        item_val[n] = 0; n++;
 	prop_obj_options_init(&(pcs->help_but), cgen->helpb_opmenu_label,
 		cgen->helpb_opmenu, cgen->helpb_opmenu_menu,
 		n, item, (XtPointer*)item_val,
@@ -506,7 +507,7 @@ custdlg_prop_load(
 
 	/* Load Resize Mode */
 	prop_radiobox_set_value(&(pcs->resize_mode),
-                                (XtPointer)obj_get_resizable(obj), False);
+                                (XtPointer)(intptr_t) obj_get_resizable(obj), False);
 
 	/* Load Window Areas */
 	area = objxm_comp_custdlg_get_area(obj, AB_CONT_BUTTON_PANEL);
@@ -867,10 +868,10 @@ custdlg_create_buttons(
         obj_set_is_initially_visible(bobj, True);
         obj_set_is_initially_active(bobj, True);
         startpos = endpos + 10;
-        obj_set_attachment(bobj, AB_CP_WEST, AB_ATTACH_GRIDLINE, (void*)startpos, 0);
+        obj_set_attachment(bobj, AB_CP_WEST, AB_ATTACH_GRIDLINE, (void*)(intptr_t) startpos, 0);
         endpos = startpos + 20;
-        obj_set_attachment(bobj, AB_CP_EAST, AB_ATTACH_GRIDLINE, (void*)endpos, 0);
-	obj_set_attachment(bobj, AB_CP_NORTH, AB_ATTACH_POINT, (void*)0, 5);
+        obj_set_attachment(bobj, AB_CP_EAST, AB_ATTACH_GRIDLINE, (void*)(intptr_t) endpos, 0);
+	obj_set_attachment(bobj, AB_CP_NORTH, AB_ATTACH_POINT, NULL, 5);
     }
 
 }

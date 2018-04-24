@@ -547,7 +547,7 @@ output_ui_arg(FILE *fp, ABObj obj, Arg *arg)
 	    break;
 	case AB_ARG_STRING:
 	    indent(fp,DBLSP); 
-	    fprintf(fp,"XmN%s = \"%s\" ;\n",arg->name,arg->value);
+	    fprintf(fp,"XmN%s = \"%s\" ;\n",arg->name, (char *) arg->value);
 	    break;
 	case AB_ARG_BOOLEAN:
 	    /* REMIND: handle item obj's XmNset resource for an array */
@@ -568,7 +568,7 @@ output_ui_arg(FILE *fp, ABObj obj, Arg *arg)
 	    break;
 	case AB_ARG_FONT:
 	    indent(fp,DBLSP);
-	    fprintf(fp,"XmN%s = \"%s\" ;\n",arg->name,arg->value);
+	    fprintf(fp,"XmN%s = \"%s\" ;\n",arg->name, (char *) arg->value);
 	    break;
 	case AB_ARG_LITERAL:	/* istring, but not quoted in output */
 	    indent(fp,DBLSP);

@@ -45,6 +45,7 @@
  * pal_group.c - Implements Group object functionality
  */
 
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <X11/Xlib.h>
@@ -1943,7 +1944,7 @@ group_align_hcenters(
 		int		height = abobj_get_actual_height(child);
 
 	        attach.type = AB_ATTACH_GRIDLINE;
-	        attach.value = (void *)gridline;
+	        attach.value = (void *)(intptr_t) gridline;
 	        attach.offset = -(height/2);
 	    }
 
@@ -2360,7 +2361,7 @@ group_align_vcenters(
 		int		width = abobj_get_actual_width(child);
 
 	        attach.type = AB_ATTACH_GRIDLINE;
-	        attach.value = (void *)gridline;
+	        attach.value = (void *)(intptr_t) gridline;
 	        attach.offset = -(width/2);
 	    }
 

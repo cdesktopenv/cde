@@ -308,7 +308,7 @@ xm_configure_tree(
 
     if (configCount!= numSalientObjs)
     {
-	fprintf(stderr, 
+	fprintf(stderr, "%s",
 	    catgets(OBJXM_MESSAGE_CATD, OBJXM_MESSAGE_SET, 8,
 	       "INTERNAL ERROR: salient counts don't match.\n") );
 	iRetVal= -1;

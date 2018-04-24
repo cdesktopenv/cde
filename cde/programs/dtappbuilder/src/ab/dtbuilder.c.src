@@ -38,6 +38,7 @@
  *  ** DELETE THE GENERATED COMMENTS!                                 **
  */
 
+#include <stdint.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -1068,8 +1069,8 @@ import_change_modeCB(
 {
     XmToggleButtonCallbackStruct *state =
                 (XmToggleButtonCallbackStruct *)callData;
-    int			ImportMode = (int) clientData;
-    ChooserInfo		info = NULL;
+    int			ImportMode = (int)(intptr_t) clientData;
+    ChooserInfo		info = 0;
 
     if (state->set)
     {
@@ -1098,7 +1099,7 @@ import_formatCB(
 {
     XmToggleButtonCallbackStruct *state =
                 (XmToggleButtonCallbackStruct *)callData;
-    int         	ImportFormat = (int) clientData;
+    int         	ImportFormat = (int)(intptr_t) clientData;
     ChooserInfo    	info = NULL;
     Widget		method_rbox = NULL;
 
@@ -1231,7 +1232,7 @@ main(int argc, char **argv)
 			layout_menu = (Widget) NULL;
     ABInitProcInfo      init_proc_info = NULL;
     int			status = 0;
-    Pixmap		xpm_pixmap = NULL;
+    Pixmap		xpm_pixmap = 0;
     int			num_mouse_buttons = 0;
 
 #ifdef DEBUG	/* performance testing */
@@ -1569,18 +1570,18 @@ main(int argc, char **argv)
 
     /* Register Menu Palette Obj */
     pal_register_item_info(NULL, ab_menu_palitem, (int)AB_NO_SUBTYPE,
-		NULL, NULL);
+		NULL, 0);
 
     /* Register Group Palette Obj */
     pal_register_item_info(NULL, ab_group_palitem, (int)AB_CONT_GROUP,
-		"Group", NULL);
+		"Group", 0);
 
     /* Register Paned Window Palette Obj */
     pal_register_item_info(NULL, ab_panedwin_palitem, (int)AB_CONT_PANED,
-		NULL, NULL);
+		NULL, 0);
 
     pal_register_item_info(NULL, ab_button_palitem, (int)AB_BUT_DRAWN,
-		"Drawn Button", NULL);
+		"Drawn Button", 0);
 
     /* Register All Editable objects which are not Palette Items */
     pal_register_editable_obj(AB_TYPE_PROJECT, (int)AB_NO_SUBTYPE,

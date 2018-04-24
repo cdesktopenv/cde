@@ -1018,7 +1018,7 @@ event_print(OBJ_EVENT *event, FILE *outFile, BOOL addNewline, STRING name)
 	    sprintf(eventParams, "(%s %d 0x%08lx)",
 		obj_get_safe_name(obj, buf1, 256),
 		event->info.update_with_data.update_code,
-		event->info.update_with_data.update_data);
+		(unsigned long) event->info.update_with_data.update_data);
 	break;
 
 	default:
@@ -1030,7 +1030,7 @@ event_print(OBJ_EVENT *event, FILE *outFile, BOOL addNewline, STRING name)
     if (*eventParams == 0)
     {
 	char	objName[1024];
-	sprintf(objName, "(%#lx", obj);
+	sprintf(objName, "(%#lx", (unsigned long) obj);
 	if (obj_get_name(obj) != NULL)
 	{
 	    strcat(objName, " = ");

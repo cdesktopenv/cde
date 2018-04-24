@@ -38,6 +38,7 @@
  *  ** DELETE THE GENERATED COMMENTS!                                 **
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include "dtb_utils.h"
@@ -240,7 +241,7 @@ cgenP_cancel_envCB(
     DtbCgenEnvDialogInfo        env_dlg = (DtbCgenEnvDialogInfo)clientData;
     char buf[10];
 
-    sprintf(buf, "");
+    sprintf(buf, "%s", "");
     XmTextFieldSetString(env_dlg->name_textf, buf);
     XmTextSetString(env_dlg->textpane, buf);
     

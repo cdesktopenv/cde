@@ -42,6 +42,7 @@
 /*
  * This file contains the mapping between uil resources and ABObj attributes
  */
+#include <stdint.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -3950,11 +3951,11 @@ val_proc_debug(
     {
       case AB_ARG_STRING:
       case AB_ARG_LITERAL:
-	  fprintf(stderr,", value = %s\n",res_value); break;
+	  fprintf(stderr,", value = %s\n", (char*) res_value); break;
       case AB_ARG_INT:
-	  fprintf(stderr,", value = %d\n",res_value); break;
+	  fprintf(stderr,", value = %d\n", (int)(intptr_t) res_value); break;
       case AB_ARG_FLOAT:
-	  fprintf(stderr,", value = %g\n",res_value); break;
+	  fprintf(stderr,", value = %g\n", (double)(uintptr_t) res_value); break;
       case AB_ARG_BOOLEAN:
 	  if(res_value) fprintf(stderr,", value = TRUE\n");
 	  else          fprintf(stderr,", value = FALSE\n");

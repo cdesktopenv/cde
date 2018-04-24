@@ -43,6 +43,7 @@
  * This file contains the implementation of the uil load
  * component
  */
+#include <stdint.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
@@ -911,7 +912,7 @@ resource_value_for_uil_arg(
 	ret_val = (XtPointer)uil_child;
 
 
-	abobj_ref = (ABObj)uil_child->header.user_data;
+	abobj_ref = (ABObj)(uintptr_t) uil_child->header.user_data;
 
 	if (abobj_ref == NULL)
 	{
@@ -1425,7 +1426,7 @@ object_for_widget(
 	obj_get_attach_value(rr->obj, rr->dir);
     if (field_widget == NULL)
 	return;
-    obj_ref = (ABObj)field_widget->header.user_data;
+    obj_ref = (ABObj)(uintptr_t) field_widget->header.user_data;
     obj_set_attach_value(rr->obj, rr->dir, obj_ref);
     XtFree((char *)rr);
 }

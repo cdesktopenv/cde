@@ -44,6 +44,7 @@
 /*
  * pal_termp.c - Implements Palette TermPane object functionality
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <Dt/TermPrim.h>
@@ -545,7 +546,7 @@ termp_prop_apply(
     }
     if (prop_changed(pts->size.changebar))
     {
-	metric = (int)prop_options_get_value(&(pts->size_metric));
+	metric = (int)(intptr_t) prop_options_get_value(&(pts->size_metric));
 	new_w = prop_geomfield_get_value(&(pts->size), GEOM_WIDTH);
 	new_h = prop_geomfield_get_value(&(pts->size), GEOM_HEIGHT);
 

@@ -44,6 +44,7 @@
 /*
  * pal_list.c - Implements Palette List object functionality
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <ab_private/obj_notify.h>
@@ -706,7 +707,7 @@ list_prop_apply(
     }
     if (prop_changed(pls->hgt.changebar))
     {
-	metric = (int)prop_options_get_value(&(pls->hgt_metric));
+	metric = (int)(intptr_t) prop_options_get_value(&(pls->hgt_metric));
 	new_h = prop_geomfield_get_value(&(pls->hgt), GEOM_HEIGHT);
 
         abobj_set_num_rows(pls->current_obj,

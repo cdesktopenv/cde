@@ -44,6 +44,7 @@
 /*
  * pal_textf.c - Implements Palette TextField object functionality
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <ab_private/pal.h>
@@ -466,7 +467,7 @@ textf_prop_load(
 				obj->label_type, obj_get_label(obj), AB_LINE_UNDEF);
 	/* Load Operation */
 	prop_radiobox_set_value(&(pts->op),
-                                (XtPointer)obj_get_read_only(obj), False);
+                                (XtPointer)(intptr_t) obj_get_read_only(obj), False);
 
 	/* Load Maximum Chars */
 	prop_field_set_numeric_value(&(pts->max_chars), obj_get_max_length(obj), False);
@@ -580,7 +581,7 @@ textf_prop_apply(
     }
     if (prop_changed(pts->size.changebar))
     {
-	metric = (int)prop_options_get_value(&(pts->size_metric));
+	metric = (int)(intptr_t) prop_options_get_value(&(pts->size_metric));
 	new_w = prop_geomfield_get_value(&(pts->size), GEOM_WIDTH);
 
         abobj_set_num_columns(pts->current_obj,

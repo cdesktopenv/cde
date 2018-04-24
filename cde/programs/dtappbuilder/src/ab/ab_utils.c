@@ -786,12 +786,12 @@ ab_set_busy_cursor(
     ABWindow	*win;
     ABObj       module;
     ABObj       winobj;
-    static      Cursor busy_cursor = NULL;
-    Cursor      new_cursor = NULL;
+    static      Cursor busy_cursor = 0;
+    Cursor      new_cursor = 0;
     int         num_wins;
     int         i;
 
-    if (busy_cursor == NULL)
+    if (busy_cursor == 0)
         busy_cursor = XCreateFontCursor(XtDisplay(AB_toplevel), XC_watch);
 
     if (on)
@@ -1001,7 +1001,7 @@ ab_is_cur_dir(STRING dir)
         ab_get_cur_dir();       /* initialize it! */
     }
  
-    if ((dir == NULL) || (*dir == NULL) || (*dir == '.'))
+    if ((dir == NULL) || (*dir == 0) || (*dir == '.'))
     {
         return TRUE;
     }

@@ -290,8 +290,8 @@ abobjP_get_resize_cursor(
 )
 {
     static Cursor    resize_cursor[10] = 
-                	{ NULL, NULL, NULL, NULL, NULL, 
-                          NULL, NULL, NULL, NULL, NULL };
+                	{ 0, 0, 0, 0, 0, 
+                          0, 0, 0, 0, 0 };
     unsigned int     shape;
 
     if (!resize_cursor[dir])
@@ -332,7 +332,7 @@ abobjP_get_resize_cursor(
 		    break;
 	    	case NONE:
                 default:
-		    return NULL;
+		    return 0;
 	    }
             resize_cursor[dir] = XCreateFontCursor(XtDisplay(w), shape);
 	}

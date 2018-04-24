@@ -38,6 +38,7 @@
  *  ** DELETE THE GENERATED COMMENTS!                                 **
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include "dtb_utils.h"
@@ -877,7 +878,7 @@ typeCB(
 	    }
 
 	    /* Set the default button to be Action1 */
-	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != AB_DEFAULT_BTN_ACTION1)	
+	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != (XtPointer) AB_DEFAULT_BTN_ACTION1)	
 	    {
 		prop_options_set_value(&(mes->default_btn), 
 				(XtPointer)AB_DEFAULT_BTN_ACTION1, True);
@@ -928,7 +929,7 @@ typeCB(
 	    }
 
             /* Set the default button to be Cancel */ 
-	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != AB_DEFAULT_BTN_CANCEL)	
+	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != (XtPointer) AB_DEFAULT_BTN_CANCEL)	
 	    {
 		prop_options_set_value(&(mes->default_btn), 
                                 (XtPointer)AB_DEFAULT_BTN_CANCEL, True);
@@ -979,7 +980,7 @@ typeCB(
 	    }
 
             /* Set the default button to be Action2 */ 
-	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != AB_DEFAULT_BTN_ACTION2)	
+	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != (XtPointer) AB_DEFAULT_BTN_ACTION2)	
 	    {
 		prop_options_set_value(&(mes->default_btn), 
                                 (XtPointer)AB_DEFAULT_BTN_ACTION2, True);
@@ -1031,7 +1032,7 @@ typeCB(
 	    }
 
             /* Set the default button to be Action1 */ 
-	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != AB_DEFAULT_BTN_ACTION1)	
+	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != (XtPointer) AB_DEFAULT_BTN_ACTION1)	
 	    {
 		prop_options_set_value(&(mes->default_btn), 
                                 (XtPointer)AB_DEFAULT_BTN_ACTION1, True);
@@ -1079,7 +1080,7 @@ typeCB(
 	    }
 
             /* Set the default button to be Action1 */ 
-	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != AB_DEFAULT_BTN_ACTION1)	
+	    if ((XtPointer)prop_options_get_value(&(mes->default_btn)) != (XtPointer) AB_DEFAULT_BTN_ACTION1)	
 	    {
 		prop_options_set_value(&(mes->default_btn), 
                                 (XtPointer)AB_DEFAULT_BTN_ACTION1, True);

@@ -43,6 +43,7 @@
 /*
  * pal_mainwin.c - Implements Palette Main Window object functionality
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <ab_private/ab.h>
@@ -455,7 +456,7 @@ mainwin_prop_load(
 
 	/* Load Resize Mode */
 	prop_radiobox_set_value(&(pms->resize_mode),
-                                (XtPointer)obj_get_resizable(obj), False);
+                                (XtPointer)(intptr_t) obj_get_resizable(obj), False);
 
 	/* Load Icon Filename */
 	prop_field_set_value(&(pms->icon), obj_get_icon(obj), False);

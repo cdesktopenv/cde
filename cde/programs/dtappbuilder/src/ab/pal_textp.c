@@ -44,6 +44,7 @@
 /*
  * pal_textp.c - Implements Palette TextPane object functionality
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <ab_private/util.h>
@@ -488,7 +489,7 @@ textp_prop_load(
 
 	/* Load Operation */
 	prop_radiobox_set_value(&(pts->op),
-                                (XtPointer)obj_get_read_only(obj), False);
+                                (XtPointer)(intptr_t) obj_get_read_only(obj), False);
 
 	/* Load Menu Name/Title */
 	prop_menuname_set_value(&(pts->menuname), obj_get_menu_name(obj), False);
@@ -581,7 +582,7 @@ textp_prop_apply(
     }
     if (prop_changed(pts->size.changebar))
     {
-	metric = (int)prop_options_get_value(&(pts->size_metric));
+	metric = (int)(intptr_t) prop_options_get_value(&(pts->size_metric));
         new_w = prop_geomfield_get_value(&(pts->size), GEOM_WIDTH);
         new_h = prop_geomfield_get_value(&(pts->size), GEOM_HEIGHT);
 

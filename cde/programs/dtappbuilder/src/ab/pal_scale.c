@@ -44,6 +44,7 @@
 /*
  * pal_scale.c - Implements Palette Scale/Gauge object functionality
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <ab_private/ab.h>
@@ -531,7 +532,7 @@ scale_prop_load(
 
 	/* Load Scale Type */
 	prop_radiobox_set_value(&(pss->scale_type),
-                                (XtPointer)obj_get_read_only(obj), False);
+                                (XtPointer)(intptr_t) obj_get_read_only(obj), False);
 
 	/* Load Orientation */
 	orient = obj_get_orientation(obj);

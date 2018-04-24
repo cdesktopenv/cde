@@ -209,7 +209,7 @@ bil_load_file(
     if (bilP_load.project == NULL)
     {
 	LoadErr = TRUE;
-	sprintf(Buf, catgets(ABIL_MESSAGE_CATD, ABIL_MESSAGE_SET, 39,
+	sprintf(Buf, "%s", catgets(ABIL_MESSAGE_CATD, ABIL_MESSAGE_SET, 39,
 		"Unable to load project."));
 	errmsg = Buf;
 	goto epilogue;

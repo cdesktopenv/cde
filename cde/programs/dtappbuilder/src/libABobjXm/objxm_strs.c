@@ -1052,7 +1052,7 @@ load_res_table(
 }
 
 
-static long
+static int
 xm_res_table_entry_xmname_compare(const void *leftEntry, const void *rightEntry)
 {
     return 

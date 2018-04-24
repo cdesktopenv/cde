@@ -48,6 +48,7 @@
  *
  ***********************************************************************
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include <Xm/MessageB.h>
@@ -361,7 +362,7 @@ destroyCB(
     XtPointer	call_data
 )
 {
-    int    yes = (int)client_data;
+    int    yes = (int)(intptr_t) client_data;
 
    /* REMIND: aim,1/29/94 - temp. fix for prompt dialog crashing */
     if (yes == 1)

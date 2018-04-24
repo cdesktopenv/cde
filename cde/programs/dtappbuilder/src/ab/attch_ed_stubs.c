@@ -38,6 +38,7 @@
  *  ** DELETE THE GENERATED COMMENTS!                                 **
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <Xm/Xm.h>
 #include "dtb_utils.h"
@@ -853,7 +854,7 @@ load_attch_obj(
 	&(ats->left_attach_obj), 
 	left_offset, 
 	left_position, 
-	(int)left_obj);
+	left_obj);
 
     set_attach_values(right_attach_type, 
 	&(ats->right_attach_offset), 
@@ -861,7 +862,7 @@ load_attch_obj(
 	&(ats->right_attach_obj), 
 	right_offset, 
 	right_position, 
-	(int)right_obj);
+	right_obj);
 
     set_attach_values(top_attach_type, 
 	&(ats->top_attach_offset), 
@@ -869,7 +870,7 @@ load_attch_obj(
 	&(ats->top_attach_obj), 
 	top_offset, 
 	top_position, 
-	(int)top_obj);
+	top_obj);
 
     set_attach_values(bottom_attach_type, 
 	&(ats->bottom_attach_offset), 
@@ -877,7 +878,7 @@ load_attch_obj(
 	&(ats->bottom_attach_obj), 
 	bottom_offset, 
 	bottom_position, 
-	(int)bottom_obj);
+	bottom_obj);
 
     /*
      * Set object name
@@ -1281,12 +1282,12 @@ get_attach_info(
         case AB_ATTACH_GRIDLINE:
 	    *type = ATTCH_ED_GRIDLINE;
             *offset = attachment->offset;
-            *position = (int)attachment->value;
+            *position = (int)(intptr_t) attachment->value;
         break;
 
         case AB_ATTACH_CENTER_GRIDLINE:
 	    *type = ATTCH_ED_CENTER_GRIDLINE;
-            *position = (int)attachment->value;
+            *position = (int)(intptr_t) attachment->value;
             *offset = 0;
         break;
 
@@ -1343,13 +1344,13 @@ set_attach_info(
 
     case ATTCH_ED_GRIDLINE:
 	attachment->type = AB_ATTACH_GRIDLINE;
-        attachment->value = (void *)position;
+        attachment->value = (void *)(intptr_t) position;
         attachment->offset = offset;
     break;
 
     case ATTCH_ED_CENTER_GRIDLINE:
 	attachment->type = AB_ATTACH_CENTER_GRIDLINE;
-        attachment->value = (void *)position;
+        attachment->value = (void *)(intptr_t) position;
         attachment->offset = 0;
     break;
 
@@ -1572,7 +1573,7 @@ create_obj_menu_dir(
     				menu,
     				changebar,
     				*item = NULL;
-    int				item_values = NULL,
+    int				item_values = 0,
     				*item_val = NULL, 
 				n = 0;
 
@@ -1636,7 +1637,7 @@ create_obj_menu_dir(
      * first one
      */
     if (n > 0)
-        prop_options_set_value(option_setting, (XtPointer)item_val[0], False);
+        prop_options_set_value(option_setting, (XtPointer)(uintptr_t) item_val[0], False);
 
     if (item)
 	util_free(item);
@@ -2353,7 +2354,7 @@ change_attype_from_sib_to_point(
         		&offset, &position);
 	
         obj_set_attachment(obj, dir, AB_ATTACH_POINT, 
-			    (void *)position, offset);
+			    (void *)(uintptr_t) position, offset);
         objxm_obj_set_attachment_args(obj, OBJXM_CONFIG_BUILD);
     }
 }

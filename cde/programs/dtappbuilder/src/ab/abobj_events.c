@@ -901,7 +901,7 @@ initiate_move(
     ABObj        	geomObj;
     Widget        	geomWidget;
     Widget        	parent;
-    static Cursor     	move_cursor = NULL;
+    static Cursor     	move_cursor = 0;
 
     rootObj = obj_get_root(obj);
 
@@ -963,7 +963,7 @@ initiate_resize(
  
     if (XtGrabPointer(widget, False,
         ButtonReleaseMask | ButtonMotionMask | PointerMotionMask,
-        GrabModeAsync, GrabModeAsync,  NULL,
+        GrabModeAsync, GrabModeAsync,  0,
             resize_cursor, CurrentTime) == GrabSuccess)
  
         return OK;
@@ -1098,7 +1098,7 @@ interpose_button_event(
     XMotionEvent        	*mevent;
     static XEvent		event_cpy;
     static DoubleClickInfo	*d_click = NULL;
-    static XtIntervalId		timer_id = NULL;
+    static XtIntervalId		timer_id = 0;
     ABObj               	obj = (ABObj)client_data;
     ABObj               	moveObj;
     

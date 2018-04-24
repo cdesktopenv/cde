@@ -457,7 +457,7 @@ initiate_drag(
 
     static unsigned int	  max_c_width = 0; /* The maximum cursor size */
     static unsigned int	  max_c_height = 0;
-    static Pixmap 	  item_pixmap = NULL;/* pixmap for cursor */
+    static Pixmap 	  item_pixmap = 0;/* pixmap for cursor */
     static GC     	  p_gc = NULL;       /* GC used for pixmap creation */
     char		  *server_vendor = NULL;
     PalItemInfo   	  *palitem;            /* palette obj */

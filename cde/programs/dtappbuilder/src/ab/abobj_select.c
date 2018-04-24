@@ -48,6 +48,7 @@
  *
  ***********************************************************************
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <X11/Intrinsic.h>
 #include <X11/cursorfont.h>
@@ -452,7 +453,7 @@ turnon_select_feedback(
     draw_select_feedback(selObj, resizable);
 
     XtAddEventHandler(selWidget, StructureNotifyMask | ExposureMask, FALSE,
-        	select_feedback_redraw, (XtPointer)resizable);
+        	select_feedback_redraw, (XtPointer)(uintptr_t) resizable);
 
     XtAddEventHandler(selWidget, PointerMotionMask, FALSE,
                 monitor_cursor, (XtPointer)selObj);
@@ -480,7 +481,7 @@ turnoff_select_feedback(
     x_get_widget_rect(selWidget, &w_rect);
 
     XtRemoveEventHandler(selWidget, StructureNotifyMask | ExposureMask, FALSE,
-                select_feedback_redraw, (XtPointer)resizable);
+                select_feedback_redraw, (XtPointer)(uintptr_t) resizable);
 
     XtRemoveEventHandler(selWidget, PointerMotionMask, FALSE,
                 monitor_cursor, (XtPointer)selObj);
@@ -667,7 +668,7 @@ monitor_cursor(
     }
     else
     {
-	if ((resize_cursor = abobjP_get_resize_cursor(selWidget, dir)) != NULL)
+	if ((resize_cursor = abobjP_get_resize_cursor(selWidget, dir)) != 0)
 	{
     	    XDefineCursor(dpy, win, resize_cursor);
     	    cursor_changed = TRUE;
@@ -688,7 +689,7 @@ select_feedback_redraw(
 )
 {
     ABObj	selObj = NULL;
-    BOOL	resizable = (BOOL)((unsigned int)clientdata);
+    BOOL	resizable = (BOOL)((uintptr_t) clientdata);
     Boolean     redraw = FALSE;
 
     selObj = objxm_get_obj_from_widget(selWidget);

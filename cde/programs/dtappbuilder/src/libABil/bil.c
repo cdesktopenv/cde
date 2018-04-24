@@ -1275,7 +1275,7 @@ static BOOL             	bil_token_table_inited = FALSE;
 /* 
  * Compares to entries (for qsort)
  */
-static long
+static int
 bil_token_entry_compare(const void *leftEntry, const void *rightEntry)
 {
     return ((long)(((BilTokenIndexEntry)leftEntry)->string))
