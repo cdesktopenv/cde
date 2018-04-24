@@ -795,7 +795,7 @@ void            process_profile ()
 			bad_profile = TRUE;
 			continue;
 		    }
-		    strcpy (field_current->text, tok);
+		    snprintf(field_current->text, sizeof(field_current->text), "%s", tok);
 		    field_current->text_length = strlen (field_current->text);
 
 		    /*-- get offset --*/

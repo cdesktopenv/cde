@@ -387,11 +387,11 @@ static char    *char_label (int x)
 	    if (x > 256)
 		return "";
 	    else if (x < 32) {
-		sprintf (buf, "'CTRL-%c'", 0x40 | x);
+		snprintf(buf, sizeof(buf), "'CTRL-%c'", 0x40 | x);
 		return buf;
 	    }
 	    else if (x >= 128) {
-		strcpy (buf, catgets(dtsearch_catd, MS_huff, 32,
+		snprintf(buf, sizeof(buf), "%s", catgets(dtsearch_catd, MS_huff, 32,
 		    "(nonascii char, high bit set)"));
 		return buf;
 	    }

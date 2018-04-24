@@ -319,7 +319,7 @@ int	main (int argc, char *argv[])
 		"USAGE: %s <dbname>\n"), aa_argv0);
 	return 2;
     }
-    sprintf (renamebuf, "%s.d00", argv[1]);
+    snprintf(renamebuf, sizeof(renamebuf), "%s.d00", argv[1]);
     db_oflag = O_RDONLY;	/* db files may be read-only */
     d_open (argv[1], "o");
     if (db_status != S_OKAY) {

@@ -1044,7 +1044,7 @@ int             main (int argc, char *argv[])
 	    fprintf (aa_stderr,  catgets(dtsearch_catd, MS_dtsrclean, 13,
 		"%s: Using DBFPATH = '%s'.\n") ,
 		aa_argv0, ptr);
-	    strcpy (full_dbname_old, ptr);
+	    snprintf(full_dbname_old, sizeof(full_dbname_old), "%s", ptr);
 
 	    /* Ensure that DBFPATH ends in a slash. */
 	    ptr = strchr (full_dbname_old, '\0');

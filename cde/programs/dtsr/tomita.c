@@ -247,7 +247,7 @@ static int      parse_infbuf (char *infbuf)
 	    return FALSE;
 	}
 
-    strcpy (parsed_dbname, ptr);
+    snprintf(parsed_dbname, sizeof(parsed_dbname), "%s", ptr);
     parsed_dblk = usrblk.dblk;
 
     /* Hop over to beginning of 2nd token */
