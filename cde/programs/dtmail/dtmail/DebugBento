@@ -1,17 +1,19 @@
-#!/bin/csh
+#!/bin/sh
 #
 # A script that aids in debugging and testing dtmail
 #
-if ( `uname -s` != SunOS ) then
+if [ `uname -s` != SunOS ]
+ then
 	echo "Only support SunOS"
 	exit 1
 endif
-set echo
-setenv DT_MAIL /home/dougr/INBOX
-setenv DEFAULT_BACKEND Bento
-setenv LD_LIBRARY_PATH ../libDtMail:../../../lib/Bento:../../../binstall/lib:$LD_LIBRARY_PATH
+
+export DT_MAIL=$HOME/INBOX
+export DEFAULT_BACKEND=Bento
+export LD_LIBRARY_PATH=../libDtMail:../../../lib/Bento:../../../binstall/lib:$LD_LIBRARY_PATH
 ldd -r dtmail
-if ( -f core ) then
+if [ -f core ]
+ then
 	exec debugger dtmail core &
 else
 	exec debugger dtmail &

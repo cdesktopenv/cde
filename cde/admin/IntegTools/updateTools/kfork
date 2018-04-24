@@ -17,17 +17,17 @@ fi
 ps ${PS_ALL_FLAG} | grep $1 > /tmp/tmp.$$
 if  [ -s /tmp/tmp.$$ ]
 then
-	awk '{print "kill", $1}' /tmp/tmp.$$ | /bin/csh
+	awk '{print "kill", $1}' /tmp/tmp.$$ | /bin/sh
 	sleep $die_time			 # wait for it to die
 	ps ${PS_ALL_FLAG} | grep $1  > /tmp/tmp.$$
 	if  [ -s /tmp/tmp.$$ ]
 	then
-		awk '{print "kill -3", $1}' /tmp/tmp.$$ | /bin/csh
+		awk '{print "kill -3", $1}' /tmp/tmp.$$ | /bin/sh
 		sleep $die_time			# wait for it to die
 		ps ${PS_ALL_FLAG} | grep $1  > /tmp/tmp.$$
 		if [ -s /tmp/tmp.$$ ]
 		then
-			awk '{print "kill -9", $1}' /tmp/tmp.$$ | /bin/csh
+			awk '{print "kill -9", $1}' /tmp/tmp.$$ | /bin/sh
 		fi
 		rm /tmp/tmp.$$
 	fi
