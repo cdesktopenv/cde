@@ -788,7 +788,7 @@ prop_colorfield_init(
     /* Determine whether this is a foreground or background color field
      * and store the corresponding color-default in user-data.
      */
-    strcpy(swatch_name, XtName(swatch));
+    snprintf(swatch_name, sizeof(swatch_name), "%s", XtName(swatch));
     if (strstr(swatch_name, "bg"))
 	default_pix = WhitePixelOfScreen(XtScreen(swatch));
     else
@@ -805,7 +805,7 @@ prop_colorfield_init(
 		XmNrecomputeSize, (XtArgVal)False,
 		NULL);
 
-    strcpy(swatch_name, XtName(swatch));
+    snprintf(swatch_name, sizeof(swatch_name), "%s", XtName(swatch));
 
     /* Setup Prop Sheet changebar mechanism */
     propP_changebar_init(changebar, menubutton);
@@ -1987,7 +1987,7 @@ prop_graphic_filename_ok(
     }
     else
     {
-	strcpy(filebase, filename);
+	snprintf(filebase, sizeof(filebase), "%s", filename);
 	/* Look to see if user typed in the full filename for the Graphic.
 	 * If so, strip off the extension and mark stripped to be True.
 	 */

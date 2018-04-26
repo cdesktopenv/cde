@@ -279,6 +279,8 @@ ui_list_replace_item_prefix(
 	    new_xmitem_array[0] = NULL;
 	}
     }
+
+    return OK;
 }
 
 

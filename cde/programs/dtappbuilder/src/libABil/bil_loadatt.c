@@ -1067,7 +1067,7 @@ bilP_load_att_label(BIL_TOKEN valueToken)
         char            filename[512];
         STRING          ext;
  
-        strcpy(filename, istr_string(value)); 
+        snprintf(filename, sizeof(filename), "%s", istr_string(value)); 
         if (util_file_name_has_extension(filename, "pm") || 
             util_file_name_has_extension(filename, "xpm") || 
             util_file_name_has_extension(filename, "bm") || 

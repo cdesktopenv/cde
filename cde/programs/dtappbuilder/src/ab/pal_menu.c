@@ -891,7 +891,7 @@ menu_editCB(
 		/* store off original clipboard menu name and temporarily
 		 * set it to a dummy string.
 		 */
-		strcpy(namebuf, obj_get_name(pms->clipboard_menu));
+		snprintf(namebuf, sizeof(namebuf), "%s", obj_get_name(pms->clipboard_menu));
 		obj_set_name(pms->clipboard_menu, "MENU_DUMMY");
 
 		/* duplicate clipboard menu & menu-items */

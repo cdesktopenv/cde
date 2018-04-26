@@ -206,7 +206,7 @@ abmfP_get_c_field_name(ABObj obj)
 	goto epilogue;
     }
 
-    strcpy(fieldNameBuf, obj_get_name(obj));
+    snprintf(fieldNameBuf, sizeof(fieldNameBuf), "%s", obj_get_name(obj));
     abmfP_uncapitalize_first_char(fieldNameBuf);
 
     if (substructObj != NULL)
@@ -520,8 +520,7 @@ abmfP_get_c_struct_type_name(ABObj obj)
     {
 	return NULL;
     }
-    strcpy(name, abmfP_get_c_struct_ptr_type_name(obj));
-    strcat(name, "Rec");
+    snprintf(name, sizeof(name), "%sRec", abmfP_get_c_struct_ptr_type_name(obj));
     return_c_ident(name);
 }
 
@@ -538,9 +537,7 @@ abmfP_get_c_struct_ptr_type_name(ABObj obj)
     {
 	return NULL;
     }
-    strcpy(name, typePrefixString);
-    strcat(name, abmfP_capitalize_first_char(varName));
-    strcat(name, "Info");
+    snprintf(name, sizeof(name), "%s%sInfo", typePrefixString, abmfP_capitalize_first_char(varName));
     cvt_ident_to_type(name);
 
     return_c_ident(name);
@@ -674,8 +671,7 @@ STRING
 abmfP_get_c_substruct_field_name(ABObj obj)
 {
     static char		fieldName[MAX_NAME_SIZE];
-    strcpy(fieldName, abmfP_uncapitalize_first_char(obj_get_name(obj)));
-    strcat(fieldName, "_items");
+    snprintf(fieldName, sizeof(fieldName), "%s_items", abmfP_uncapitalize_first_char(obj_get_name(obj)));
     return_c_ident(fieldName);
 }
 
@@ -690,8 +686,7 @@ abmfP_get_c_substruct_type_name(ABObj obj)
     {
 	return NULL;
     }
-    strcpy(typeName, ptrTypeName);
-    strcat(typeName, "Rec");
+    snprintf(typeName, sizeof(typeName), "%sRec", ptrTypeName);
     return_c_ident(typeName);
 }
 
@@ -729,7 +724,7 @@ abmfP_get_c_substruct_ptr_type_name(ABObj obj)
     {
 	strcpy(ptrTypeName, typePrefixString);
 	strcat(ptrTypeName,
-			abmfP_capitalize_first_char(obj_get_name(module)));
+		        abmfP_capitalize_first_char(obj_get_name(module)));
 	strcat(ptrTypeName, abmfP_capitalize_first_char(varName));
 	strcat(ptrTypeName, "Items");
 	cvt_ident_to_type(ptrTypeName);
@@ -751,9 +746,7 @@ abmfP_get_clear_proc_name(ABObj obj)
     {
 	return NULL;
     }
-    strcpy(name, ptrTypeName);
-    strcat(name, "_");
-    strcat(name, "clear");
+    snprintf(name, sizeof(name), "%s_clear", ptrTypeName);
 
     return_c_ident(abmfP_uncapitalize_first_char(name));
 }
@@ -823,7 +816,7 @@ abmfP_get_widget_name(ABObj obj)
 	name =abmfP_get_widget_name(objectObj);
 	if ((name != NULL) && (name != nameBuf))
 	{
-	    strcpy(nameBuf, name);
+	    snprintf(nameBuf, sizeof(nameBuf), "%s", name);
 	}
 	if ((*nameBuf) != 0)
 	{
@@ -861,6 +854,7 @@ STRING
 abmfP_get_widget_name_for_res_file(ABObj obj)
 {
     static char	name[MAX_NAME_SIZE];
+    char	nameTemp[sizeof(MAX_NAME_SIZE)];
     *name = 0;
     assert(abmfP_parent(obj) != NULL);
 
@@ -912,11 +906,12 @@ abmfP_get_widget_name_for_res_file(ABObj obj)
 	/* we can't use abmfP_get_widget_name twice in the same printf,
 	 * because of the static string buffer.
 	 */
-	strcpy(name, abmfP_get_app_class_name(obj));
-	strcat(name, "*");
-	strcat(name, abmfP_get_widget_name(container));
-	strcat(name, "*");
-	strcat(name, abmfP_get_widget_name(obj));
+	snprintf(nameTemp, sizeof(nameTemp), "%s*%s*",
+	         abmfP_get_app_class_name(obj),
+	         abmfP_get_widget_name(container));
+	snprintf(name, sizeof(name), "%s%s",
+	         nameTemp,
+	         abmfP_get_widget_name(obj));
     }
     return name;
 }
@@ -1042,6 +1037,7 @@ static STRING
 abmfP_build_instance_prefix(ABObj obj, STRING prefixBuf, int prefixBufSize)
 {
     char	tmpBuf[1024] = "";
+    char	tmpBuf2[1024] = "";
     ABObj	module= obj_get_module(obj);
 
     if (module == NULL)
@@ -1050,10 +1046,12 @@ abmfP_build_instance_prefix(ABObj obj, STRING prefixBuf, int prefixBufSize)
     }
     else
     {
-	strcpy(tmpBuf, identPrefixString);
-        strcat(tmpBuf, obj_get_name(module));
-	strcat(tmpBuf, "_");
-	strcat(tmpBuf, obj_get_name(obj));
+	/* Warning: Due to obj_get_name() returning a pointer to
+	 * static data this cannot be one snprintf() */
+	snprintf(tmpBuf2, sizeof(tmpBuf2), "%s%s_",
+	         identPrefixString, obj_get_name(module));
+	snprintf(tmpBuf, sizeof(tmpBuf), "%s%s",
+	         tmpBuf2, obj_get_name(obj));
 	cvt_type_to_ident(tmpBuf, prefixBuf, prefixBufSize);
     }
 
@@ -1070,8 +1068,7 @@ abmfP_get_c_app_root_win_name(ABObj obj)
     ABObj	root_window= abmfP_get_root_window(project);
     *root_widget_name = 0;
 
-    strcpy(root_widget_name, abmfP_lib_get_toplevel_widget->name);
-    strcat(root_widget_name, "()");
+    snprintf(root_widget_name, sizeof(root_widget_name), "%s()", abmfP_lib_get_toplevel_widget->name);
 
     return root_widget_name;
 }
@@ -1285,8 +1282,7 @@ abmfP_get_msg_clear_proc_name(ABObj msgObj)
 {
     static char name[MAX_NAME_SIZE];
 
-    strcpy(name, abmfP_get_c_struct_global_name(msgObj));
-    strcat(name, "_initialize");    
+    snprintf(name, sizeof(name), "%s_initialize", abmfP_get_c_struct_global_name(msgObj));
 
     return_c_ident(name);
 }

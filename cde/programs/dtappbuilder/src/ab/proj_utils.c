@@ -458,8 +458,7 @@ proj_show_save_proj_as_chooser(
     XtFree(title);
     textf = XmFileSelectionBoxGetChild(AB_generic_chooser,
                         XmDIALOG_TEXT);
-    strcpy(init_name, (char *)obj_get_name(proj_get_project()));
-    strcat(init_name, ".bip");
+    snprintf(init_name, sizeof(init_name), "%s.bip", (char *)obj_get_name(proj_get_project()));
     XmTextFieldSetString(textf, init_name);
     XtManageChild(AB_generic_chooser);
     ui_win_front(AB_generic_chooser);
@@ -644,12 +643,12 @@ save_proj_as_bip(
     /* Save the old project directory before chdir'ing 
      * to the new one.
      */
-    strcpy(old_proj_dir, ab_get_cur_dir());
+    snprintf(old_proj_dir, sizeof(old_proj_dir), "%s", ab_get_cur_dir());
 
     /* 
      * Compose the project file name.
      */
-    strcpy(new_filename, file);
+    snprintf(new_filename, sizeof(new_filename), "%s", file);
     abio_expand_bil_proj_path(new_filename);
 
     /*
@@ -969,8 +968,7 @@ proj_show_export_bil_chooser(
     XtFree(title);
     textf = XmFileSelectionBoxGetChild(AB_generic_chooser,
                         XmDIALOG_TEXT);
-    strcpy(init_name, (char *)obj_get_name(obj));
-    strcat(init_name, ".bil");
+    snprintf(init_name, sizeof(init_name), "%s.bil", (char *)obj_get_name(obj));
     XmTextFieldSetString(textf, init_name);
     XtManageChild(AB_generic_chooser);
     ui_win_front(AB_generic_chooser);
@@ -1464,7 +1462,7 @@ proj_save_exploded(
          */
         if ((obj_get_file(module) == NULL) || encap_file)
         {
-            strcpy(tmp_path, obj_get_name(module));
+            snprintf(tmp_path, sizeof(tmp_path), "%s", obj_get_name(module));
             abio_expand_file(tmp_path, mod_exp_file);
             if ( !util_file_exists(mod_exp_file) )
             {
@@ -2043,7 +2041,7 @@ save_as_encap(
     filename = XmTextFieldGetString(textf);    
 
     if (util_strempty(filename))
-	strcpy(init_name, (char *)obj_get_name(proj_get_project()));
+	snprintf(init_name, sizeof(init_name), "%s", (char *)obj_get_name(proj_get_project()));
     else
 	util_check_name(filename, init_name);
 
@@ -2089,7 +2087,7 @@ export_format_changed(
     ** exported.  If a filename is specified, it might be either .bil or .uil.
     */
     if (util_strempty(filename))
-	strcpy(init_name, (char *)obj_get_name(module_obj));
+	snprintf(init_name, sizeof(init_name), "%s", (char *)obj_get_name(module_obj));
     else
 	proj_get_file_basename(filename, init_name);
 
@@ -2122,7 +2120,7 @@ save_proj_as_bix(
     ab_set_busy_cursor(TRUE);
 
     *bix_file = 0;
-    strcpy(bix_file, file);
+    snprintf(bix_file, sizeof(bix_file), "%s", file);
     if( abio_expand_bil_encapsulated_path(bix_file) != -1 )
     {   
         if( !util_file_exists(bix_file) )

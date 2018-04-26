@@ -134,7 +134,7 @@ strip_spaces_and_dots(char *mname)
     static char         new_name[MAXPATHLEN];
     char               *p;
 
-    strcpy(new_name, mname);
+    snprintf(new_name, sizeof(new_name), "%s", mname);
     p = (char *) strrchr(new_name, '.');
     if (p)
 	p = (char *) strrchr(p, '.');
@@ -1046,7 +1046,7 @@ write_call_user_post_create_procs(GenCodeInfo genCodeInfo, ABObj subObj)
 
 		if (targetObj == NULL)
 		{
-		    strcpy(targetStructPtrName, abmfP_str_null);
+		    snprintf(targetStructPtrName, sizeof(targetStructPtrName), "%s", abmfP_str_null);
 		}
 		else
 		{

@@ -431,7 +431,8 @@ objxm_xmstr_to_str(
         while(XmStringGetNextSegment(context, &seg,
                         &char_set_tag, &dir, &sep))
 	{
-	    p += (strlen(strcpy(p, seg)));
+	    snprintf(p, sizeof(buf), "%s", seg);
+	    p += (strlen(p));
 	    if (sep == TRUE)
 	    {
 		*p++ = '\n';

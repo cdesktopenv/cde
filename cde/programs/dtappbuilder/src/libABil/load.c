@@ -218,11 +218,9 @@ int
 abil_print_load_err(int errmsg)
 {
     static BOOL	errmsg_tbl_init = FALSE;
-    char	msg[1024];
+    char	msg[1024] = "";
     int		msgLen = 0;
-    *msg = 0;
 
-    *msg = 0;
     /*
     ** Load up the error message table if this is the first time we've 
     ** needed to output an error message.
@@ -240,11 +238,11 @@ abil_print_load_err(int errmsg)
     if (!abil_loadmsg_err_printed())
     {
 	if(Errormsg[errmsg].msg_id < 0) {
-	    strcat(msg, catgets(ABIL_MESSAGE_CATD, ABIL_MESSAGE_SET, 33, 
+	    snprintf(msg, sizeof(msg), "%s", catgets(ABIL_MESSAGE_CATD, ABIL_MESSAGE_SET, 33, 
 		"syntax error"));
 	}
 	else {
-	    strcat(msg, 
+	    snprintf(msg, sizeof(msg), "%s", 
 		catgets(ABIL_MESSAGE_CATD, ABIL_MESSAGE_SET, 
 		Errormsg[errmsg].msg_id,
 		Errormsg[errmsg].def_str));

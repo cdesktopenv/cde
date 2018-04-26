@@ -227,8 +227,7 @@ suffixed(
     if (widget_instance_name == NULL)
 	return(util_strsafe(widget_instance_name));
     
-    strcpy(buf, widget_instance_name);
-    strcat(buf, INSTANCE_SUFFIX);
+    snprintf(buf, sizeof(buf), "%s%s", widget_instance_name, INSTANCE_SUFFIX);
     return(buf);
 }
 

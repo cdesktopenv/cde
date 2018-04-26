@@ -90,7 +90,7 @@ abio_expand_file(
         /*                           
          * Expand the file name and store to it.
          */
-        strcpy(Buf, file);
+        snprintf(Buf, sizeof(Buf), "%s", file);
         if (abio_expand_bil_module_path(Buf) == -1)
 	    return -1;
 

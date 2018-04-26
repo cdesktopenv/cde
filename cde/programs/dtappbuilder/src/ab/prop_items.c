@@ -874,7 +874,7 @@ prop_item_get_namebase(
     switch(iobj->label_type)
     {
  	case AB_LABEL_SEPARATOR:
-            strcpy(namebuf, obj_get_name(iobj));
+            snprintf(namebuf, sizeof(namebuf), "%s", obj_get_name(iobj));
             starts = strstr(namebuf, SeparatorNamebase);
             namebase = strtok(starts, "_");
 	    break;

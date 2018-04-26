@@ -287,9 +287,7 @@ abobj_list_obj_reparented(
     if (obj_get_parent(obj) == NULL)
     {
 	module = obj_get_name(obj_get_module(info->old_parent));
-	strcpy(full_name, module);
-	strcat(full_name, " :: ");
-	strcat(full_name, obj_get_name(obj));
+	snprintf(full_name, sizeof(full_name), "%s :: %s", module, obj_get_name(obj));
 	name = full_name;
     }
     else

@@ -1702,7 +1702,7 @@ store_attribute(
      * Assume: indent char is tab
      */
     assert(abio_get_indent_char(outFile) == '\t');
-    strcpy(attrbuf, bilP_token_to_string(attr));
+    snprintf(attrbuf, sizeof(attrbuf), "%s", bilP_token_to_string(attr));
     attrLen = strlen(attrbuf);
     attrWidth = (abio_get_indent(outFile) * 8) + attrLen;
     firstWidthIter = TRUE;	/* go through at least once */

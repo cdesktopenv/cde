@@ -715,9 +715,9 @@ ab_ident_from_file_name(STRING filename)
     if (filename != NULL)
     {
 	if (p = (char *) strrchr(filename, '/'))
-	    strcpy(buf, p + 1);
+	    snprintf(buf, sizeof(buf), "%s", p + 1);
 	else
-	    strcpy(buf, filename);
+	    snprintf(buf, sizeof(buf), "%s", filename);
 
 	if (p = (char *) strrchr(buf, '.'))
 	    *p = '\0';

@@ -1351,7 +1351,7 @@ static STRING
 cvt_to_obj(STRING fileName)
 {
     static char	buf[MAXPATHLEN] = "";
-    strcpy(buf, fileName);
+    snprintf(buf, sizeof(buf), "%s", fileName);
     buf[strlen(buf)-1] = 'o';
     return buf;
 }

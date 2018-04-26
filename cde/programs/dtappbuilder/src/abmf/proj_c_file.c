@@ -471,7 +471,7 @@ write_map_window(
     }
     else
     {
-        strcpy(winParentName, abmfP_get_c_name(genCodeInfo, winParent));
+        snprintf(winParentName, sizeof(winParentName), "%s", abmfP_get_c_name(genCodeInfo, winParent));
     }
     abio_printf(codeFile, "%s(%s, %s);\n",
 	abmfP_get_init_proc_name(window),

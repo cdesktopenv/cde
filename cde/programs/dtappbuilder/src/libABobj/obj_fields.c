@@ -3939,6 +3939,8 @@ obj_get_pane_min( ABObj obj)
         return (obj->info.container.pane_min);
     if (obj_is_layers(obj))
 	return (obj->info.layer.pane_min);
+
+    return -1; 
 }
 
 int
@@ -3978,6 +3980,8 @@ obj_get_pane_max( ABObj obj)
         return (obj->info.container.pane_max);
     if (obj_is_layers(obj))
 	return (obj->info.layer.pane_max);
+
+    return -1;
 }
 
 int

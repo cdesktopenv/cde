@@ -800,8 +800,7 @@ parse_args(int argc, char *argv[], CmdlineArgs cmdline)
                 else
                 {
                     char                fileName[MAX_PATH_SIZE];
-                    strcpy(fileName, arg);
-                    strcat(fileName, ".bil");
+                    snprintf(fileName, sizeof(fileName), "%s.bil", arg);
                     newFile = istr_create(fileName);
                 }
 
@@ -1088,11 +1087,11 @@ load_module(ABObj module)
 
 	if (obj_get_file(module) != NULL)
 	{
-	    strcpy(fileName, obj_get_file(module));
+	    snprintf(fileName, sizeof(fileName), "%s", obj_get_file(module));
 	}
 	else
 	{
-	    strcpy(fileName, obj_get_name(module));
+	    snprintf(fileName, sizeof(fileName), "%s", obj_get_name(module));
 	    if (!util_file_name_has_ab_extension(fileName))
 	    {
 	        strcat(fileName, ".bil");

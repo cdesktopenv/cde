@@ -202,8 +202,7 @@ build_export_menu(
             /* Use the name of the module as the string
              * for the dynamic menu.
              */
-            strcpy(name, obj_get_name(module));
-            strcat(name, "...");
+            snprintf(name, sizeof(name), "%s...", obj_get_name(module));
             label = XmStringCreateLocalized(name);
             mpb = XtVaCreateManagedWidget(name,
                 xmPushButtonWidgetClass,

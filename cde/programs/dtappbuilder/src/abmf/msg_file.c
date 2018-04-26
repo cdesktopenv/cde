@@ -388,8 +388,7 @@ MsgFile_create(
         ret_val = (MsgFile)NULL;
     }
 
-    strcpy(proj_name_suffixed, project_name);
-    strcat(proj_name_suffixed, "_project");
+    snprintf(proj_name_suffixed, sizeof(proj_name_suffixed), "%s_project", project_name);
     
     if (MsgFile_sure_find_msg_set(new_msg_file, strdup(proj_name_suffixed))
         == (MsgSet)NULL)

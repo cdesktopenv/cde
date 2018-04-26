@@ -401,7 +401,7 @@ set_up_user_type_variables(GenCodeInfo genCodeInfo, ABObj toObj)
     }
     else
     {
-        strcpy(winParentName, abmfP_get_c_name(genCodeInfo, winParent));
+        snprintf(winParentName, sizeof(winParentName), "%s", abmfP_get_c_name(genCodeInfo, winParent));
     }
 
     /*

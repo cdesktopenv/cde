@@ -184,8 +184,7 @@ projP_show_save_as_bil_chooser(
     XtFree(title);
     textf = XmFileSelectionBoxGetChild(AB_generic_chooser,
                         XmDIALOG_TEXT);
-    strcpy(init_name, (char *)obj_get_name(obj));
-    strcat(init_name, ".bil");
+    snprintf(init_name, sizeof(init_name), "%s.bil", (char *)obj_get_name(obj));
     XmTextFieldSetString(textf, init_name);
     XtManageChild(AB_generic_chooser);
     ui_win_front(AB_generic_chooser);

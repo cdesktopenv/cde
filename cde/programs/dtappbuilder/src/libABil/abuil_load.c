@@ -598,7 +598,7 @@ widget_into_module(
 
 	obj_set_name(ab_widget, ab_name);
 
-	strcpy(class_name, ab_map_entry->widget_name);
+	snprintf(class_name, sizeof(class_name), "%s", ab_map_entry->widget_name);
 	class_name[0] = tolower(class_name[0]);
 	strcat(class_name, CLASS_SUFFIX);
 	obj_set_class_name(ab_widget, class_name);

@@ -145,8 +145,7 @@ get_cached_msg_set(
 	char	*project_name = obj_get_name(obj);
 	char	proj_suffixed_name[BUFSIZ];
 
-	strcpy(proj_suffixed_name, project_name);
-	strcat(proj_suffixed_name, "_project");
+	snprintf(proj_suffixed_name, sizeof(proj_suffixed_name), "%s_project", project_name);
 
 	msg_set = MsgFile_sure_find_msg_set(msg_file, proj_suffixed_name);
 	prev_msg_set = msg_set;

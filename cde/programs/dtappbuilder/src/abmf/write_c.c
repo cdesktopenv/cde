@@ -809,7 +809,7 @@ abmfP_write_create_proc_begin(
 }
 
 
-
+int
 abmfP_write_clear_proc_begin(
 		GenCodeInfo	genCodeInfo,
 		ABObj		obj
@@ -827,6 +827,7 @@ abmfP_write_clear_proc_begin(
 }
 
 
+int
 abmfP_write_init_proc_decl(
 		GenCodeInfo	genCodeInfo,
 		ABObj		obj
@@ -857,9 +858,10 @@ abmfP_write_init_proc_decl(
 	    NULL				   /* Argument name */
 	   );
     }
+    return 0;
 }
 
-
+int
 abmfP_write_init_proc_begin(
 		GenCodeInfo	genCodeInfo,
 		ABObj		obj

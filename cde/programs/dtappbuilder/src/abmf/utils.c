@@ -108,7 +108,7 @@ abmfP_capitalize_first_char(STRING str)
 
     if (str != name)	/* if we get called w/our own buffer, don't copy */
     {
-        strcpy(name, str);
+        snprintf(name, sizeof(name), "%s", str);
     }
     name[0] = toupper(str[0]);
 
@@ -132,7 +132,7 @@ abmfP_uncapitalize_first_char(STRING str)
 
     if (str != name)	/* if we get called w/our own buffer, don't copy */
     {
-        strcpy(name, str);
+        snprintf(name, sizeof(name), "%s", str);
     }
     name[0] = tolower(str[0]);
 
@@ -1295,6 +1295,8 @@ abmfP_obj_get_centering_type(ABObj obj)
     if ((left_attach_type == AB_ATTACH_CENTER_GRIDLINE) && 
 	(top_attach_type == AB_ATTACH_CENTER_GRIDLINE))
 	return("DTB_CENTER_POSITION_BOTH");
+
+    return("DTB_CENTER_NONE");
 }
 
 BOOL
@@ -1335,6 +1337,8 @@ abmfP_obj_get_group_type(ABObj obj)
 	case AB_GROUP_ROWSCOLUMNS:
 	    return("DTB_GROUP_ROWSCOLUMNS");
     }
+
+    return("DTB_GROUP_NONE");
 }
 
 STRING

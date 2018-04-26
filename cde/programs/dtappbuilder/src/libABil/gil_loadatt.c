@@ -2291,6 +2291,8 @@ load_att_stored_length(FILE * inFile, ABObj obj, ABObj root_obj)
     {
 	obj_set_max_length(obj, tmp_int);
     }
+    
+    return 0;
 }
 
 /*
