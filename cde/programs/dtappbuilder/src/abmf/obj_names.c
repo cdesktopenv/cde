@@ -854,7 +854,7 @@ STRING
 abmfP_get_widget_name_for_res_file(ABObj obj)
 {
     static char	name[MAX_NAME_SIZE];
-    char	nameTemp[sizeof(MAX_NAME_SIZE)];
+    char	nameTemp[sizeof(name)];
     *name = 0;
     assert(abmfP_parent(obj) != NULL);
 
