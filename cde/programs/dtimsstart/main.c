@@ -699,7 +699,9 @@ static int	set_locale_env(locale)
 	bp = strcpyx(bp, ":");
     }
     bp = strcpyx(bp, ENV_XFILESEARCHPATH_STRING);
-    putenv(NEWSTR(buf));
+    if(*buf) {
+        putenv(XtNewString(buf));
+    }
 
     /* set NLSPATH */
     vp = getenv(ENV_NLSPATH);
@@ -710,7 +712,10 @@ static int	set_locale_env(locale)
 	bp = strcpyx(bp, ":");
     }
     bp = strcpyx(bp, ENV_NLSPATH_STRING);
-    putenv(NEWSTR(buf));
+    /* BUG should this be putenv(bp) ? */
+    if(*buf) {
+        putenv(XtNewString(buf));
+    }
 
 #ifdef	NLS
     if (catd != (nl_catd) -1)	(void) catclose(catd);

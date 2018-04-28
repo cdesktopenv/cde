@@ -99,7 +99,7 @@ int	get_user_environ()
     if ((p = Opt.DisplayName) && *p) {
 	strcpy(buf, "DISPLAY=");
 	strcat(buf, p);
-	putenv(NEWSTR(buf));
+	putenv(XtNewString(buf));
     } else
 	p = getenv("DISPLAY");
     if (p && *p)
@@ -286,7 +286,7 @@ int	make_new_environ(oenv, sel)
     ep = oenv->set = ALLOC(num + 2 + 1, EnvEnt);
 
     for (i = 0; i < num && (p = setp[i]); i++)
-	if (strcmp(p, xmod) && strcmp(p, xinput)) {
+	if (strcmp(p, xmod) && (!xinput || strcmp(p, xinput))) {
 	    ep->name = NEWSTR(p);
 	    ep++;
 	}
@@ -335,7 +335,7 @@ int	make_new_environ(oenv, sel)
     }
 # endif	/* old_hpux */
     for (i = 0; i < num && (p = unsetp[i]); i++) {
-	if (strcmp(p, xmod) == 0 || strcmp(p, xinput) == 0)
+	if (strcmp(p, xmod) == 0 || (xinput && strcmp(p, xinput)) == 0)
 	    continue;
 	if (oenv->set) {
 	    for (ep2 = oenv->set; ep2->name; ep2++)

@@ -30,8 +30,8 @@
 
 static void	DbReloadProc(/* cd */);
 static bool	init_action_env(/*  */);
-static void	action_cb(DtActionInvocationID id, XtPointer cd,
-			  DtActionArg *args, int argcnt, int status);
+static void	action_cb(long unsigned id, XtPointer cd,
+			  DtActionArg *args, int argcnt, DtActionStatus status);
 static void	wait_action_done(/*  */);
 
 static bool			actionEnabled = False;
@@ -69,11 +69,11 @@ static bool	init_action_env()
 }
 
 static void	action_cb(id, cd, args, argcnt, status)
-    DtActionInvocationID	id;
+    long unsigned	id;
     XtPointer	cd;	/* unused */
     DtActionArg	*args;
     int		argcnt;
-    int  	status;
+    DtActionStatus	status;
 {
     if (actionId == 0) {
 	DPR(("action_cb(): invalid id %d != %d\n", id, actionId));

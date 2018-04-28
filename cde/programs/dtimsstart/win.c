@@ -22,6 +22,8 @@
  */
 /* @(#)$TOG: win.c /main/9 1997/06/18 17:33:01 samborn $ */
 
+#include	<stdint.h>
+
 #include	<X11/X.h>
 #include	<X11/Xlib.h>
 #include	<X11/Xatom.h>
@@ -583,7 +585,7 @@ static void	done_cb(w, client_data, call_data)
     Widget	w;
     XtPointer	client_data, call_data;
 {
-    int		canceled = (int)client_data == CANCEL_BTN;
+    int		canceled = (int)(intptr_t) client_data == CANCEL_BTN;
     int		idx;
     UserSelection	*sel = &userSel;
 
@@ -619,7 +621,7 @@ static void	select_cb(w, client_data, call_data)
     Widget	w;
     XtPointer	client_data, call_data;
 {
-    int		new_idx = (int) client_data;
+    int		new_idx = (int)(intptr_t) client_data;
 
     if (new_idx < 0 || new_idx >= curList->num_ent) {
 	DPR(("select_cb():\tinvalid index (%d)\n", new_idx));
@@ -856,7 +858,7 @@ static void	change_ims_list(last_ims_name, init_idx)
 	    XtSetValues(tb[j], args, i);
 	} else {
 	    tb[j] = createTB(SelRC, "ims", args, i);
-	    XtAddCallback(tb[j], XmNvalueChangedCallback, select_cb, (XtPointer)j);
+	    XtAddCallback(tb[j], XmNvalueChangedCallback, select_cb, (XtPointer)(intptr_t) j);
 	    add_btn_trans(tb[j]);
 	}
 	XmStringFree(str);
@@ -1038,7 +1040,7 @@ static void	host_done_cb(w, client_data, call_data)
     Widget	w;
     XtPointer	client_data, call_data;
 {
-    int		cancel = (int)client_data == CANCEL_BTN;
+    int		cancel = (int)(intptr_t) client_data == CANCEL_BTN;
     int		ret = NoError;
     char	*new_host, *txt, *p;
     bool	host_changed = False;
@@ -1281,7 +1283,7 @@ static void	mode_done_cb(w, client_data, call_data)
     XtPointer	client_data, call_data;
 {
     int		ret = NoError;
-    int		canceled = (int)client_data == CANCEL_BTN;
+    int		canceled = (int)(intptr_t) client_data == CANCEL_BTN;
 
     DPR(("mode_done(%s):\torg=%d  cur=%d\n",
 				canceled ? "Cancel" : "OK", OrgMode, CurMode));
@@ -1313,7 +1315,7 @@ static void	mode_cb(w, client_data, call_data)
     XtPointer	client_data, call_data;
 {
     int		is_set = (int)((XmToggleButtonCallbackStruct *)call_data)->set;
-    int		is_auto = (int)client_data;
+    int		is_auto = (int)(intptr_t) client_data;
 
     CurMode = (is_auto && is_set) ? SEL_MODE_AUTO : SEL_MODE_NOAUTO;
 }
@@ -1378,7 +1380,7 @@ static int	create_mode_window(cur_mode)
 	tb[1] = createTB(mode_rc, "button_1", bargs, k);
 	for (k = 0; k < NUM_SEL_MODE; k++) {
 	    XtVaSetValues(tb[k], XmNset, k == set_idx ? True : False, NULL);
-	    XtAddCallback(tb[k], XmNvalueChangedCallback, mode_cb, (XtPointer)k);
+	    XtAddCallback(tb[k], XmNvalueChangedCallback, mode_cb, (XtPointer)(intptr_t) k);
 	    add_btn_trans(tb[k]);
 	}
 	XtManageChildren(tb, NUM_SEL_MODE);
