@@ -1643,7 +1643,7 @@ int	put_msg_win(type, msg)
 	WaitingDialogReply = True;
     }
 
-    return reply = XmCR_OK ? True : False;
+    return (reply == XmCR_OK) ? True : False;
 }
 
 
