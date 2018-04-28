@@ -214,7 +214,9 @@ Process_Save( void )
   if (tmp1) {
      c = tmp1[1];
      tmp2 = strchr(tmp1, c);
-     strcpy(newName, tmp2);
+     if(tmp2) {
+       snprintf(newName, sizeof(newName), "%s", tmp2);
+     }
   }
   if (strncmp(newName, untitledStr, 8) == 0 || last_fname[0] == '\0') Process_SaveAs();
   else
@@ -520,16 +522,13 @@ Process_Resize( void )
 
   if ( DialogFlag == NEW ) {
     strcpy(undo_file, last_fname);
-    last_fname[0] = '\0';
     SavedOnce = False;
     Backup_Icons();    /* for undo */
     flag = DO_NOT_SAVE;
     Init_Icons(icon_width, icon_height, flag);
     if (!untitledStr)
       untitledStr = GETSTR(2,20, "UNTITLED");
-    strcpy(last_fname, untitledStr);
-    strcat(last_fname, ".m.pm");
-    last_fname[strlen(last_fname)] = '\0';
+    snprintf(last_fname, sizeof(last_fname), "%s.m.pm", untitledStr);
     ChangeTitle();
     Repaint_Exposed_Tablet();
     Dirty = False;
@@ -800,8 +799,14 @@ ConvertDropName( char *objects)
     tmp[0] = '\0';
     if ((Boolean)XeIsLocalHostP(host))
     {
+        char *slash = NULL;
         tmp[0] = ' ';
-        return (strdup(strchr(objects, '/')));
+        slash = strchr(objects, '/');
+        if(slash) {
+            return strdup(slash);
+        } else {
+            return NULL;
+        }
     }
 
     /* different host... get full path name */
@@ -842,8 +847,7 @@ Process_DropCheckOp(
    */
   if (transferInfo->dropData->numItems > 0)
   {
-    strncpy (dropFileName, transferInfo->dropData->data.files[0],
-      MAX_FNAME);
+    snprintf(dropFileName, sizeof(dropFileName), "%s", transferInfo->dropData->data.files[0]);
   }
   else
     dropFileName[0] = '\0';

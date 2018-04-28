@@ -1728,7 +1728,7 @@ Switch_FillSolids( void )
  *                                                                         *
  *X11***********************************************************************/
 
-int
+void
 Select_New_Pen(
         int n )
 {
@@ -1755,7 +1755,7 @@ Select_New_Pen(
       XmToggleButtonSetState(StaticWid[new_pen], True, False);
     else
       XmToggleButtonSetState(DynamicWid[new_pen], True, False);
-    return 0;
+    return;
    }
 
 /*** un-set the previous choice ***/
@@ -2296,7 +2296,7 @@ SaveSession( void )
     {
         tmpStr = GETSTR(16,24, "Couldn't save session to file");
         tmpStr2 = (char *)XtMalloc(strlen(tmpStr) + strlen(path)+ 3);
-        sprintf(tmpStr2, "%s: %s\n", tmpStr, path);
+        snprintf(tmpStr2, sizeof(strlen(tmpStr) + strlen(path)+ 3), "%s: %s\n", tmpStr, path);
         _DtSimpleErrnoError(progName, DtError, NULL, tmpStr2, NULL);
         XtFree(tmpStr2);
         XtFree ((char *)path);
@@ -2357,6 +2357,8 @@ SaveSession( void )
     XSetCommand(dpy, XtWindow(dtIconShell), xa_CommandStr, n);
     XtFree ((char *)path);
     XtFree ((char *)name);
+
+    close(fd);
 
     /*  Don't exit yet, SM needs time to get the new commandStr.*/
 }

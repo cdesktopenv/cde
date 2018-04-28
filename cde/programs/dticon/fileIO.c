@@ -254,7 +254,7 @@ Read_File(
   }
   else     /* wasn't in form "<host>:/<path>" so use name as is... */
   {
-    strcpy(fname, fnameIn);
+    snprintf(fname, sizeof(fname), "%s", fnameIn);
   }
 
   /*** - if we got a NULL base_name, return FALSE             ***/
@@ -277,7 +277,7 @@ Read_File(
     {
       Process_Clear();
       Process_Resize();
-      strcpy(last_fname, fname);
+      snprintf(last_fname, sizeof(last_fname), "%s", fname);
       ChangeTitle();
       successFormat = FORMAT_NONE;
       return True;
@@ -399,8 +399,7 @@ Read_File(
 #endif
      }
     else {
-         strcpy(dummy, fname);
-         strcat(dummy, "_m");
+         snprintf(dummy, sizeof(dummy), "%s_m", fname);
     }
 #ifdef DEBUG
   if (debug)
@@ -419,7 +418,7 @@ Read_File(
       mask_ret = 0;
    }
 
-  strcpy(last_fname, fname);
+  snprintf(last_fname, sizeof(last_fname), "%s", fname);
   ChangeTitle();
 
 #ifdef DEBUG
@@ -487,7 +486,7 @@ Write_File(
   }
   else     /* wasn't in form "<host>:/<path>" so use name as is... */
   {
-    strcpy(fname, fnameIn);
+    snprintf(fname, sizeof(fname), "%s", fnameIn);
   }
 
 
@@ -496,7 +495,7 @@ Write_File(
     base_name = (base_name ? base_name + 1 : fname);
   }
 
-  strcpy(last_fname, fname);
+  snprintf(last_fname, sizeof(last_fname), "%s", fname);
   ChangeTitle();
 
 #ifdef DEBUG
@@ -556,8 +555,7 @@ Write_File(
       strcat(dummy, suffix);
     }
     else {
-      strcpy(dummy, fname);
-      strcat(dummy, "_m");
+      snprintf(dummy, sizeof(dummy), "%s_m", fname);
     }
 /*** FOURTH, construct XImages for the shape and mask bitmaps ***/
     mask_needed = False;
@@ -977,26 +975,25 @@ SetFileIODialogInfo( void )
     /* prepare to test */
     tmp1 = strrchr(strOrig, '.');
 
-    strcat(tmpStr, untitledStr);
-    strcat(tmpStr, ".m.pm");
+    snprintf(tmpStr, sizeof(tmpStr), "%s.m.pm", untitledStr);
     tst=strcmp(last_fname, tmpStr);
 
     if ( tst==0 ) {/* untitled */
        if ( tmp1 ) { /* previous string exists */
-          if (currentTitle != SAVE_AS) strcat(newName, strOrig);
-          else {
-               strcat(newName, untitledStr);
-               strcat(newName, ".m.pm");}
+          if (currentTitle != SAVE_AS) {
+              snprintf(newName, sizeof(newName), "%s", strOrig);
+          } else {
+              snprintf(newName, sizeof(newName), "%s.m.pm", untitledStr);
+          }
 	       /* Update the FSB */
 	       XmFileSelectionDoSearch(fileIODialog,(XmString)NULL);
 
        }
        else { /* First time arownd */
           if (strOrig && strOrig[0]!='\0')
-             strcat(newName, strOrig);
+             snprintf(newName, sizeof(newName), "%s", strOrig);
           else {
-             strcat(newName, untitledStr);
-             strcat(newName, ".m.pm");
+             snprintf(newName, sizeof(newName), "%s.m.pm", untitledStr);
           }
 
     XSync(dpy, 0);
@@ -1019,7 +1016,9 @@ SetFileIODialogInfo( void )
 	      */
              c = tmp1[1];
              tmp2 = strchr(tmp1, c);
-             strcpy(newName, tmp2);
+             if(tmp2) {
+               snprintf(newName, sizeof(newName), "%s", tmp2);
+             }
 
              /* make and insert the directory name */
              ln = strlen(last_fname) - strlen(tmp1);

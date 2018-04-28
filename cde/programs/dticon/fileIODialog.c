@@ -177,7 +177,7 @@ create_fileIODialog( void )
 	char	*home;
 
 	home = getenv("HOME");
-	sprintf(buf, "%s/%s/icons", home, DtPERSONAL_CONFIG_DIRECTORY);
+	snprintf(buf, sizeof(buf), "%s/%s/icons", home, DtPERSONAL_CONFIG_DIRECTORY);
 
         if (0 == stat(buf, &sbuf) &&
 	    S_IFDIR & sbuf.st_mode &&
