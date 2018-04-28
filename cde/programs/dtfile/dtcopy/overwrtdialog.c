@@ -278,7 +278,7 @@ create_overwrite_dialog(
 
 
   /* save the target name for possible rename in ok_callback */
-  strcpy(G_rename_oldname,tname);
+  snprintf(G_rename_oldname, sizeof(G_rename_oldname), "%s", tname);
 
 
   if (G_move)

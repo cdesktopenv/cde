@@ -4168,15 +4168,17 @@ CheckDeletePermission(
     if (FileSysType(statbuf.st_dev) < 0)  /* Root user and nfs */
 #endif
     {
+       int fd = -1;
        char *tmpfile;
        tmpfile = tempnam(parentdir,"dtfile");
        if (!tmpfile)
            return -1;
-       if (creat(tmpfile,O_RDONLY) < 0)  /* Create a temporary file */
+       if ((fd = creat(tmpfile,O_RDONLY)) < 0)  /* Create a temporary file */
        {
            free(tmpfile);
            return -1;
        }
+       close(fd);
        if (remove(tmpfile) < 0)                /* Delete the created file */
        {
            free(tmpfile);
@@ -4232,8 +4234,10 @@ CheckDeletePermissionRecur(
       if (first_file)
       {
         /* check for write permission in this directory */
-        if (CheckAccess(destinationPath, W_OK|X_OK) < 0)
+        if (CheckAccess(destinationPath, W_OK|X_OK) < 0) {
+          closedir(dirp);
           return -1;
+        }
 
         /* append a '/' to the end of directory name */
         fnamep = destinationPath + strlen(destinationPath);
@@ -4307,10 +4311,13 @@ RestoreObject(
     }
     if(stat(target,&stattar) >= 0)  /* Target exists  */
     {
-       if(CheckDeletePermission(localdir,target))
+       if(CheckDeletePermission(localdir,target)) {
+         free(localdir);
          return ((int)False);
-       else
+       } else {
+         free(localdir);
          return SKIP_FILE;
+       }
     }
   }
 

@@ -254,9 +254,9 @@ GetDirEntry(char *fname, FileOp *op, int *rc)
   /* get file name */
   p = strrchr(fname, '/');
   if (p && p > fname)
-    strcpy(deP->name, p + 1);
+    snprintf(deP->name, sizeof(deP->name), "%s", p + 1);
   else
-    strcpy(deP->name, fname);
+    snprintf(deP->name, sizeof(deP->name), "%s", fname);
 
   /* assume everything is fine */
   *op = 0;
@@ -321,7 +321,7 @@ GetDir(char *dirname, PatternList *xl, PatternList *sl, DirEntry **listPP)
   }
 
   /* copy dirname to file name buffer */
-  strcpy(fname, dirname);
+  snprintf(fname, sizeof(fname), "%s", dirname);
   fnP = fname + strlen(fname);
   *fnP++ = '/';
 
@@ -410,8 +410,7 @@ doUnlink(char *fname, DirEntry *fP, int confirm)
   else if (SP->keepold) {
     char newname[1024];
 
-    strcpy(newname, fname);
-    strcat(newname, SP->keepold);
+    snprintf(newname, sizeof(newname), "%s%s", fname, SP->keepold);
     fsMove(fname, newname, 1, &rc);
 
   } else if ((fP->ftype & ft_isdir) && !(fP->ftype & ft_islnk)) {
@@ -941,8 +940,8 @@ SyncDirectory(SyncParams *p)
 
   /* save pointer to params; copy source & target names */
   SP = p;
-  strcpy(sbuf, SP->source);
-  strcpy(tbuf, SP->target);
+  snprintf(sbuf, sizeof(sbuf), "%s", SP->source);
+  snprintf(tbuf, sizeof(tbuf), "%s", SP->target);
 
   /* get info about the source */
   sP = GetDirEntry(sbuf, &op, &rc);

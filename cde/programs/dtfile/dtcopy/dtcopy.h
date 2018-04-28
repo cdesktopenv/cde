@@ -38,6 +38,8 @@
  ****************************************************************************
  ************************************<+>*************************************/
 
+#include <limits.h>
+
 /* Macros */
 #define MAX_PATH      PATH_MAX
 
@@ -93,8 +95,8 @@ extern Widget G_rename_text;
 extern Widget G_toggle_main;
 extern Widget G_toggle_error;
 
-extern char  G_rename_oldname[];
-extern char  G_source_dir[];
+extern char  G_rename_oldname[MAX_PATH];
+extern char  G_source_dir[MAX_PATH];
 extern int G_move;
 extern int G_do_copy;
 extern int G_pause_copy;

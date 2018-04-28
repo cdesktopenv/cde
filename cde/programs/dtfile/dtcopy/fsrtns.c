@@ -366,7 +366,7 @@ EmptyDir(char *sourceP, int rm, int force)
     return errno;
 
   /* prepare source name */
-  strcpy(srcname, sourceP);
+  snprintf(srcname, sizeof(srcname), "%s", sourceP);
   srclen = strlen(srcname);
   if (srcname[srclen - 1] != '/')
     srcname[srclen++] = '/';
@@ -486,7 +486,7 @@ fsMove(char *sourceP, char *targetP, int replace, int *rcP)
     /* first check if we have write permission in the source directory */
     char dir[1024], *p;
 
-    strcpy(dir, sourceP);
+    snprintf(dir, sizeof(dir), "%s", sourceP);
     p = strrchr(dir, '/');
     if (p == 0)
       strcpy(dir, ".");

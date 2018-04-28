@@ -2584,9 +2584,9 @@ SaveSession(
 {
    static char * name_list[] = { DTFILE_CLASS_NAME, NULL, NULL, NULL,
                                  NULL, NULL};
-   char view_number[5];
+   char view_number[11];
    char number[5];
-   char workspaceNumber[5];
+   char workspaceNumber[11];
    int fd;
    Atom * ws_presence = NULL;
    char * workspace_name=NULL;
@@ -2991,8 +2991,8 @@ RestoreSession(
    char * full_path = NULL;
    Boolean status=False;
    char * temp = NULL;
-   char wsNum[5];
-   char dialogNum[5];
+   char wsNum[11];
+   char dialogNum[11];
    int num_sec_help_dialogs;
    int i;
    int j;
@@ -3226,7 +3226,7 @@ LoadViews (
    XrmRepresentation rep_type;
    XrmValue value;
    static char * name_list[] = { DTFILE_CLASS_NAME, NULL, NULL };
-   char view_number[5];
+   char view_number[11];
    DialogData * dialog_data;
    FileMgrData * file_mgr_data;
    char * workspaces;

@@ -484,7 +484,7 @@ create_copydir_dialog(
 
   /* Save the name of the source directory in order to truncate the pathname */
   /* displayed as the copy proceeds ... see function UpdateStatus.           */
-  strcpy(G_source_dir,source);
+  snprintf(G_source_dir, sizeof(G_source_dir), "%s", source);
 
   tsource = (char * )get_path(source);
   ttarget = (char * )get_path(target);
