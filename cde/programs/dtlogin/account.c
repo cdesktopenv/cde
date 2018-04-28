@@ -215,7 +215,7 @@ Account( struct display *d, char *user, char *line, pid_t pid,
      *	      Currently, an unlimited number of foreign displays can log in.
      */
      
-    if (user) strncpy(u->ut_user, user, sizeof(u->ut_user));
+    if (user) snprintf(u->ut_user, sizeof(u->ut_user), "%s", user);
     if (line) {
 #ifdef _AIX
 /*

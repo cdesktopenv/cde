@@ -1557,7 +1557,8 @@ MakeGreeting( void )
 	 */
 	 
 
-	if ( strlen(greetInfo.labelString) == 0 	||
+	if ( !greetInfo.labelString			||
+	     strlen(greetInfo.labelString) == 0 	||
 	     strcmp(greetInfo.labelString, "None") == 0	||
 	     strcmp(greetInfo.labelString, "none") == 0	)
 	     

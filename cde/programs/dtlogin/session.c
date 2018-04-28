@@ -754,11 +754,8 @@ LoadAltDtsResources(struct display *d)
             Debug("LoadAltDtsResources- cant access %s.\n", resources);
             Debug("\t %s.  Falling back to C.\n", strerror(errno));
 
-            if (resources)
-	    {
-	        free (resources);
-	        resources = NULL;
-	    }
+	    free (resources);
+	    resources = NULL;
 
             resources = _ExpandLang(dirname[j], "C");
             if (access (resources, R_OK) != 0)
@@ -2073,7 +2070,7 @@ RunGreeter( struct display *d, struct greet_info *greet,
                 language = d->language;
 #endif /* ENABLE_DYNAMIC_LANGLIST */
 
-	        if ( d->language && strlen(d->language) > 0 )
+	        if (env && d->language && strlen(d->language) > 0 )
 		  env = setLang(d, env, language);
 	    }
 

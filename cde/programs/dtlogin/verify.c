@@ -383,7 +383,7 @@ userEnv(
 	  langlist = languageList;
 #endif /* ENABLE_DYNAMIC_LANGLIST */
 
-        if (d->language && strlen(d->language) > 0)
+        if (env && d->language && strlen(d->language) > 0)
 	  env = setLang(d, env, langlist);
 
 #if 0 /* setting LC_ALL can cause undesirable side effects -- bf@hp */

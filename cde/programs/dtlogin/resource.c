@@ -409,6 +409,7 @@ GetResource( char *name, char *class, int valueType, char **valuep,
     char	*type;
     XrmValue	value;
     char	*string, *new_string;
+    char	empty[] = "";
     char	str_buf[50];
     int	len;
 
@@ -422,8 +423,13 @@ GetResource( char *name, char *class, int valueType, char **valuep,
     }
     else
     {
-	string = default_value;
-	len = (string == NULL ? 0 : strlen (string));
+	if(default_value) {
+		string = default_value;
+		len = strlen (string);
+	} else {
+		string = empty;
+		len = 0;
+	}
     }
 
     Debug ("%s/%s value %*.*s\n", name, class, len, len, string);
