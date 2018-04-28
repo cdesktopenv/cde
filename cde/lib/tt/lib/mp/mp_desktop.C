@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -181,7 +181,7 @@ init(_Tt_string dt_handle, _Tt_dt_type /* t */)
 }
 
 
-// I/O error handler. Longjmp back to before the error occured.
+// I/O error handler. Longjmp back to before the error occurred.
 int _Tt_desktop::
 io_error_proc(void *)
 {

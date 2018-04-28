@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -149,7 +149,7 @@ DtEditorInvokeSpellDialog(
 	    /* 
 	     * The filter was started successfully. 
 	     * Initialize the Spell dialog and get ready to receive 
-	     * the list of mispelled words.
+	     * the list of misspelled words.
 	     */
             _DtEditorSearch(pPriv, True, True);
             _DtTurnOnHourGlass(M_search_dialog(pPriv));

@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -3887,7 +3887,7 @@ ToggleDefaultControl (ControlData  * main_control_data,
    int i;
 
 
-   /*  If the selection occured on the currently selected toggle   */
+   /*  If the selection occurred on the currently selected toggle   */
    /*  do nothing.                                                 */
 
    if (subpanel_data->default_control == control_data)

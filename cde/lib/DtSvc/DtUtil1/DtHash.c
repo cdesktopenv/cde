@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -252,7 +252,7 @@ void * _DtUtilDelHash(DtHashTbl t, const unsigned char * key)
 	return(NULL); /* not found */
     }
       /* tmp now points to entry marked for deletion, prev to 
-         item preceeding in bucket chain or NULL if tmp is first.
+         item preceding in bucket chain or NULL if tmp is first.
 	 
 	 remove from bucket chain first....
 

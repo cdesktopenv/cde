@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -497,7 +497,7 @@ objP_dispatch_event(OBJ_EVENT *event)
     if (ignoreEvents)
     {
 	/*
-	 * A critical error has occured (e.g., an event loop).  Just
+	 * A critical error has occurred (e.g., an event loop).  Just
 	 * pretend everything is hunky-dory and ignore dispatch requests.
 	 */
 	iReturn= OK;

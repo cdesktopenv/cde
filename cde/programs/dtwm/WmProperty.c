@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -548,7 +548,7 @@ void SetMwmSaveSessionInfo (Window wmWindow)
  *
  *  Comments:
  *  --------
- *  This function will eventually be superceded when WM_STATE support is
+ *  This function will eventually be superseded when WM_STATE support is
  *  added to the official X release.
  * 
  *************************************<->***********************************/
@@ -618,7 +618,7 @@ GetWMState(
  *
  *  Comments:
  *  --------
- *  This function will eventually be superceded when WM_STATE support is
+ *  This function will eventually be superseded when WM_STATE support is
  *  added to the official X release.
  * 
  *************************************<->***********************************/

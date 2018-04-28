@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -162,7 +162,7 @@ _DtInitializeCommandInvoker(
  *
  * Notes:
  *
- *      This function must be preceeded by a call to 
+ *      This function must be preceded by a call to
  *	"_DtInitializeCommandInvoker".
  *			
  *****************************************************************************/

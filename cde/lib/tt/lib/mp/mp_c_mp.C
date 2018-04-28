@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -64,7 +64,7 @@ _Tt_c_mp::
 // 
 // Returns:
 //	TT_OK
-//	TT_ERR_NOMP - the initial session could not be initialised.
+//	TT_ERR_NOMP - the initial session could not be initialized.
 
 Tt_status _Tt_c_mp::
 c_init()

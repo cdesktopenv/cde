@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -117,7 +117,7 @@ ReToString(
 /*
  * Takes an array of numbers, converts them back into their string
  * type (e.g. SU 1W etc) and puts them into a string buffer with end
- * marks as necessary, seperated by spaces.
+ * marks as necessary, separated by spaces.
  */
 static void
 NumsToBuf(

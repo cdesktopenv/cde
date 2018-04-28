@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -29,7 +29,7 @@
  **   Project:     Cde Help System
  **
  **   Description: This is the UI dependant layer to the Help System.
- **		   It recieves requests from the Core Engine for
+ **		   It receives requests from the Core Engine for
  **		   information or to do rendering.  It does the
  **		   appropriate work based on a Motif and X Lib
  **		   interface.
@@ -947,10 +947,10 @@ DADrawLine (
  *		box_x,box_y	Specifies the upper left hand corner of
  *				the bounding box for this string. This
  *				includes any traversal and/or link offsets
- *				relevent for the line this segment occupies.
+ *				relevant for the line this segment occupies.
  *		box_height	Specifies the maximum height of the bounding
  *				box for this string. This includes any
- *				traversal and/or offsets relevent to this
+ *				traversal and/or offsets relevant to this
  *				line.
  *		old_flags	Specifies .............
  *		new_flags	Specifies .............
@@ -1336,10 +1336,10 @@ DADrawString (
  *		box_x,box_y	Specifies the upper left hand corner of
  *				the bounding box for this string. This
  *				includes any traversal and/or link offsets
- *				relevent for the line this segment occupies.
+ *				relevant for the line this segment occupies.
  *		box_height	Specifies the maximum height of the bounding
  *				box for this string. This includes any
- *				traversal and/or offsets relevent to this
+ *				traversal and/or offsets relevant to this
  *				line.
  *		link_type	Specifies the link type if this spc is
  *				part of a link.

@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -206,7 +206,7 @@ resfixup_t fileselbox_fixups[] = {
 
 
 /*
- * The following shell resources are 'fixed' to allow them to be refered
+ * The following shell resources are 'fixed' to allow them to be referred
  * to in a shell script by their symbolic names, as opposed to their
  * integer values.  These also need to be force onto any subclasses.
  */

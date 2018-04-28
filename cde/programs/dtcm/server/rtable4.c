@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1186,7 +1186,7 @@ _DtCm_deregister_callback_4_svc(Registration_4 *r, struct svc_req *svcrq)
 		 * 2) if the (transient) program, version, & procnum match
 		 * the original registration, and
 		 * 3) if the process id of the client matches the
-		 *  orignal registration 
+		 *  original registration
 		 *  
 		 *  ... only then is it ok to decommission the ticket.
 		 */

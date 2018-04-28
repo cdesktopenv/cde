@@ -487,7 +487,7 @@ $set 25
 181 is a shell builtin version of
 182 is a tracked alias for
 183 kill
-184 line %d: $ not preceeded by \\
+184 line %d: $ not preceded by \\
 185 line %d: %c within ${} should be quoted
 186 line %d: %s unknown label
 187 line %d: %s within [[...]] obsolete, use ((...))

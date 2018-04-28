@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1553,7 +1553,7 @@ abio_close_block(FILE * outFile)
 }
 
 /*
- * Write a character to the output file, preceeded by the indent string if we
+ * Write a character to the output file, preceded by the indent string if we
  * are on a new line.
  */
 int
@@ -1567,7 +1567,7 @@ abio_putc(FILE * outFile, char c)
 }
 
 /*
- * Write characters to the output file, preceeded by the indent string if we
+ * Write characters to the output file, preceded by the indent string if we
  * are on a new line.
  */
 int

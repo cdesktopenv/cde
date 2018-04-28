@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1895,7 +1895,7 @@ OkCallback(
     {
       /* It is the current directory, now we need to test the cases where
        * by changing permissions the user would no should be in this 
-       * directory because lack of priviledges.
+       * directory because lack of privileges.
        * Cases where this is true:
        *   1. If the execute bit for owner has been changed to off and the 
        *      user is the owner.

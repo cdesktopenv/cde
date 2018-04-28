@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -524,7 +524,7 @@ dtSendWorkspaceModifyNotification(
  *  x		- x position of UL corner of rectangle
  *  y		- y position of UL corner of rectangle
  *  width	- width of rectangle
- *  heigth	- height of rectangle
+ *  height	- height of rectangle
  * 
  *  Outputs:
  *  -------

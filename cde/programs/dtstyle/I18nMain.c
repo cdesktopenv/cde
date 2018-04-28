@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1404,7 +1404,7 @@ MoveUpCB(
 	    XtVaGetValues(i18n.preeditTypeList, XmNitems, &list_items, NULL);
 
 	    /* makes an array of two XmStrings by reversing the selected
-	       one and the item preceeding it */
+	       one and the item preceding it */
 	    items[0] = list_items[sel_index];
 	    items[1] = list_items[sel_index - 1];
 

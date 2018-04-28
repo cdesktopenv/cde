@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -843,7 +843,7 @@ char		*fname ;
 			return(-2) ;
 		    }
 		case _FAL_MALOC_ER :
-		    USAGE("System call error occured.\n" ) ;
+		    USAGE("System call error occurred.\n" ) ;
 		    return(-2) ;
 		default :
 		    USAGE3("There is no font file correspond to specified font.\n(%s)\n fal_utyerror = %d fal_utyderror = %d\n",

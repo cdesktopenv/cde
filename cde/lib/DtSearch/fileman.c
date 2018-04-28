@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -212,7 +212,7 @@ FREE_SPACE_STR *find_free_space (DtSrINT32 req_size, FILE_HEADER * flh)
 	(flh->hole_count[k])--;
     }
     else {
-	/* Hole size CAN NOT excede global batch_size in borodin */
+	/* Hole size CAN NOT exceed global batch_size in borodin */
 	hole_check_size = (req_size * coeff < batch_size) ?
 	    req_size * coeff : batch_size;
 	if (hole_check_size >= flh->hole_array[k][j].hole_size) {

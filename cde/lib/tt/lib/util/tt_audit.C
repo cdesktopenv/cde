@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -506,7 +506,7 @@ entry(const char *argskey, _Tt_entry_pt func, ...)
 			} break;
 
 			// this is an index for a particular argument
-			// We have a seperate case for this in order to
+			// We have a separate case for this in order to
 			// factor out the test below.
 			case ARG_INTEGER: {
 				int arg_index;

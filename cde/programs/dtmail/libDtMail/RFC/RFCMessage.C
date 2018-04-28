@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -982,7 +982,7 @@ RFCMessage::findMsgEnd(DtMailEnv & error, const char * eof)
 	_msg_end = eof;
     }
     else {
-        // Again, protect against NULL mesages with 1 blank line
+        // Again, protect against NULL messages with 1 blank line
         // before next message.  Size was < 0 and crashed in "memcpy".
         if ( _msg_end >= _body_start )
 	    _msg_end = backcrlf(_msg_end);

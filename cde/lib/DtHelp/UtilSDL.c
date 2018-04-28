@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -788,7 +788,7 @@ _DtHelpCeGetSdlCdata (
  * Purpose:	Parses the CDATA value for an element attribute. Expects the
  *		pointer to be after the equals sign of the attribute.  The
  *		CDATA must be included in quotes (either single or double)
- *		and can have white space (spaces, newlines or tabs) preceeding
+ *		and can have white space (spaces, newlines or tabs) preceding
  *		it.  Any newline encountered within the CDATA value is turned
  *		into a space.  Any quote enclosed in the CDATA must not be the
  *		same type as what is used to delimit the CDATA value.  I.E.

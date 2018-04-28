@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -408,7 +408,7 @@ GetResourceStringArray (
 	        valArray = (char **) _DtHelpCeAddPtrToArray (
 					(void **) valArray, (void *) token);
 	        /*
-	         * If we malloc'ed ourselves out of existance...stop processing.
+	         * If we malloc'ed ourselves out of existence...stop processing.
 	         */
 	        if (!valArray)
 		    break;
@@ -1146,7 +1146,7 @@ _DtHelpCeGetCcdfKeywordList (
 					(void **) vol->keywordTopics,
 					(void *) topics);
 		    /*
-		     * If we just malloc'ed ourselves out of existance...
+		     * If we just malloc'ed ourselves out of existence...
 		     * stop here.
 		     */
 		    if (vol->keywords == 0 || vol->keywordTopics == 0)
@@ -1177,7 +1177,7 @@ _DtHelpCeGetCcdfKeywordList (
 		topics = (char **) _DtHelpCeAddPtrToArray ((void **) topics, 
 						(void *) token);
 		/*
-		 * If we just malloc'ed ourselves out of existance
+		 * If we just malloc'ed ourselves out of existence
 		 * stop here.
 		 */
 		if (topics == NULL)

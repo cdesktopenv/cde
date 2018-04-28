@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -73,7 +73,7 @@ static void _EnvAdd (char *, char *, unsigned int);
 * NOTES on an application's environ(5):
 * 
 * The environment variable is an array of NULL-terminated strings.
-* char **environ is defined in crt.o and is publically extern-ed to
+* char **environ is defined in crt.o and is publicly extern-ed to
 * all applications.  There is one such variable per UN*X application.
 * 
 * To deference an environment string, as in the debugger, use:

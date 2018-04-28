@@ -281,7 +281,7 @@ $ Be sure to end this message with a space character.
 
 2 "Editor de textos -"
 $ Default file name used in the main window title. 
-$ ***UNUSED***\tThis mesage has been replaced by message 6 of this set and 
+$ ***UNUSED***\tThis message has been replaced by message 6 of this set and
 $ \tneed not be localized. 
 
 3 "(sin nombre)"

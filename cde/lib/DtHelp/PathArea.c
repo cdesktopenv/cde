@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -363,7 +363,7 @@ void _DtHelpUpdatePathArea(
       if (retState == -1) 
         {
 
-          /* Some error occured while processing the new toc, 
+          /* Some error occurred while processing the new toc,
            * error out or something ??? 
            */
         }

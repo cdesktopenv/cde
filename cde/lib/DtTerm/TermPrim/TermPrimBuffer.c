@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -248,7 +248,7 @@ _DtTermPrimBufferFreeBuffer
 **
 ** NOTE:
 **    Given this implementation, the memory allocated to the buffer will 
-**    never decrease it simply increases to accomodate the largest size
+**    never decrease it simply increases to accommodate the largest size
 **    that has ever been requested.
 */
 void

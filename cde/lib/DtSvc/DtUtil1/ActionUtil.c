@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -157,7 +157,7 @@ _DtBasename( const char *s )
 /*******************************************************************************
  * _DtPathString -- returns the path portion of the "host:/path" string
  * passed in as a parameter.  
- * The incomming string is assumed to be in : "[host:]/path format.
+ * The incoming string is assumed to be in : "[host:]/path format.
  * NOTE: a FULL path name is required.
  ******************************************************************************/
 char *
@@ -192,7 +192,7 @@ _DtPathname( const char *s)
  * _DtDirname -- returns the directory portion of the file
  * path string passed in as a parameter.  The original string
  * may be modified to remove trailing slashes.  
- * The incomming string is assumed to be in : "[host:/]dir/file" format.
+ * The incoming string is assumed to be in : "[host:/]dir/file" format.
  ******************************************************************************/
 char *
 _DtDirname( const char *s)
@@ -1102,7 +1102,7 @@ _DtActInvRecT *_DtActAllocInvRec()
  *
  * _DtActFreeChildRec()
  *
- * Completely free the contents of, and free the existance of a childRec.
+ * Completely free the contents of, and free the existence of a childRec.
  *
  *****************************************************************************/
 

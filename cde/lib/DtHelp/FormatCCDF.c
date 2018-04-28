@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -488,7 +488,7 @@ GetMbLen (
     if (_DtHelpCeStrchr(font_str, ".", 1, &ptr) == 0)
       {
 	/*
-	 * make font_str two seperate strings by replacing
+	 * make font_str two separate strings by replacing
 	 * the dot with a end of line.
 	 */
 	*ptr++ = '\0';

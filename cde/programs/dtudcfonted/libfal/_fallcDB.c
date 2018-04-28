@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1175,7 +1175,7 @@ _fallcGetLocaleDataBase(lcd, category, name, value, count)
 /*	_fallcDestroyLocaleDataBase(lcd)					*/
 /*----------------------------------------------------------------------*/
 /*	This function destroy the XLocale Database that bound to the 	*/
-/*	specified lcd.  If the XLocale Database is refered from some 	*/
+/*	specified lcd.  If the XLocale Database is referred from some 	*/
 /*	other lcd, this function just decreases reference count of 	*/
 /*	the database.  If no locale refers the database, this function	*/
 /*	remove it from the cache list and free work area.		*/

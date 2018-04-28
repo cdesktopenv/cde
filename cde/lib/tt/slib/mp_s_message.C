@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -63,7 +63,7 @@ _Tt_s_message()
 	// The active message count is just to enforce the limit
 	// on the number of active messages.  Doing this in the
 	// constructor was expedient, but because we construct
-	// a message before _tt_mp is initialised, we have
+	// a message before _tt_mp is initialized, we have
 	// to omit it in that case.
 	if (_tt_s_mp) {
 		_tt_s_mp->active_messages++;

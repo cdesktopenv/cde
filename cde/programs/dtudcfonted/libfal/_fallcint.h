@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -744,7 +744,7 @@ typedef struct {
 
 /*
  * An X Input Manager (IM).  Implementations may need to extend this data 
- * structure to accomodate additional data, state information etc.
+ * structure to accommodate additional data, state information etc.
  */
 typedef struct _XIM {
     XIMMethods		methods;		/* method list of this IM */
@@ -840,7 +840,7 @@ typedef struct {
 
 /*
  * an Input Context.  Implementations may need to extend this data 
- * structure to accomodate additional data, state information etc.
+ * structure to accommodate additional data, state information etc.
  */
 typedef struct _XIC {
     XICMethods		methods;		/* method list of this IC */

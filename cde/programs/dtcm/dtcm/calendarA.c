@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1496,7 +1496,7 @@ map_browse_menu(Widget menu, XtPointer client_data, XtPointer call_data)
 
 
 /*
- * This a seperate routine so that it may be called when a new name is added
+ * This a separate routine so that it may be called when a new name is added
  * from the edit list
  */
 extern void
@@ -1573,7 +1573,7 @@ make_browse_menu(Calendar *c) {
 	XmString	xmstr;
 
 	/*
-	 * This needs to be a seperate routine so it can be called when the
+	 * This needs to be a separate routine so it can be called when the
 	 * edit list changes the browse menu
 	 */
 	update_browse_menu_names(c);

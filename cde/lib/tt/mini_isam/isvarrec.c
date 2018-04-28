@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -62,7 +62,7 @@ static _istail_read();
  * Output params:
  *	recnum	record number of the new record
  *
- * Returns 0 if record was written succesfully, or -1 if any error.
+ * Returns 0 if record was written successfully, or -1 if any error.
  */
 
 /*ARGSUSED*/
@@ -137,7 +137,7 @@ _vlrec_write(fcb, record, recnum, reclen)
  * Output params:
  *	record	record buffer is filled with data
  *
- * Returns 0 if record was read succesfully, or error code if any error.
+ * Returns 0 if record was read successfully, or error code if any error.
  */
 
 int
@@ -211,7 +211,7 @@ _vl_getpos(fcb, recnum)
  *	record	new record
  *	int	reclen (NOT USED)
  *
- * Returns 0 if record was rewritten succesfully, or error code if any error.
+ * Returns 0 if record was rewritten successfully, or error code if any error.
  */
 
 /*ARGSUSED*/
@@ -268,7 +268,7 @@ _vlrec_rewrite(fcb, record, recnum, reclen)
  *	FCB	File Control Block
  *	recnum	record number of the record
  *
- * Returns 0 if record was rewritten succesfully, or error code if any error.
+ * Returns 0 if record was rewritten successfully, or error code if any error.
  */
 
 int
@@ -330,7 +330,7 @@ _vlrec_delete(fcb, recnum)
  *	record	record buffer
  *	int	reclen (NOT USED)
  *
- * Returns 0 if record was written succesfully, or error code if any error.
+ * Returns 0 if record was written successfully, or error code if any error.
  *
  * Note that _vlrec_wrrec() commits updates and syncs the FCB to avoid
  * 	buffer pool overflow.

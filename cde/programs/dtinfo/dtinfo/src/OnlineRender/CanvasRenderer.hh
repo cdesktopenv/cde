@@ -343,7 +343,7 @@ Highlight::underline(unsigned int v)
 
 class PartialElementFeatures
 {
-  // element features acceptible by prefix and suffix
+  // element features acceptable by prefix and suffix
 public:
   PartialElementFeatures(CanvasRenderer *);
   PartialElementFeatures (PartialElementFeatures &);

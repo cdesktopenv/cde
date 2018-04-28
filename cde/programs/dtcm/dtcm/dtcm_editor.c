@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -171,7 +171,7 @@ merge_old_values(Dtcm_appointment *original, Dtcm_appointment *new) {
 	if (new_attrs == 0)
 		return;
 
-	/* realloc the attrs array to be large enough to accomodate the new 
+	/* realloc the attrs array to be large enough to accommodate the new
 	   attibutes */
 
 	new->attrs = (CSA_attribute *) realloc(new->attrs, (dest_attr_num + new_attrs) * sizeof(CSA_attribute));

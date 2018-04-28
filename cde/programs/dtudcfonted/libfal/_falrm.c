@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -112,7 +112,7 @@ information is kept on a per-level basis.
 
 (3) Sometimes the widget instance tree is structured such that you get the same
 class name repeated on the fully qualified widget name.  This can result in the
-same database level occuring multiple times on the search list.  The code below
+same database level occurring multiple times on the search list.  The code below
 only checks to see if you get two identical search lists in a row, rather than
 look back through all database levels, but in practice this removes all
 duplicates I've ever observed.
@@ -1282,7 +1282,7 @@ static void GetDatabase(db, str, filename, doall)
 	    char oldc;
 
 	    /*
-	     * A parsing error has occured, toss everything on the line
+	     * A parsing error has occurred, toss everything on the line
 	     * a new_line can still be escaped with a '\'.
 	     */
 
@@ -1448,7 +1448,7 @@ static void GetDatabase(db, str, filename, doall)
 	    /* 
 	     * It is important to make sure that there is room for at least
 	     * four more characters in the buffer, since I can add that
-	     * many characters into the buffer after a backslash has occured.
+	     * many characters into the buffer after a backslash has occurred.
 	     */
 
 	    if (ptr + len > ptr_max) {

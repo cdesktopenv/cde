@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -378,7 +378,7 @@ RFCValue::toDate(void)
     }
 
     // There are usually no more than 6 tokens in an RFC date. We will
-    // have a few extras just in case we are given a wierd string.
+    // have a few extras just in case we are given a weird string.
     const char *token_begin[12];
     const char *token_end[12];
     int	n_tokens = 0;

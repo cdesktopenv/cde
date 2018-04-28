@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -396,7 +396,7 @@ TclSpawnPipeline(interp, pidPtr, numPids, argc, argv, inputFile,
     return 1;
 
     /*
-     * An error occured, so we need to clean up any open pipes.
+     * An error occurred, so we need to clean up any open pipes.
      */
 
 error:

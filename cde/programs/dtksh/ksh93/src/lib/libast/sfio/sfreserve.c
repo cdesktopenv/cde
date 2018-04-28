@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -124,7 +124,7 @@ int		lock;	/* 1 to lock stream and not advance pointer */
 			break;
 	}
 
-	/* try to accomodate request size */	
+	/* try to accommodate request size */
 	if(n > 0 && n < size && (f->mode&mode) != 0 )
 	{
 		if(f->flags&SF_STRING)

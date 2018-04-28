@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -404,7 +404,7 @@ pal_get_editable_obj_info(
 	 *  "editable" object, else directly compare the type & subtype.
 	 *
 	 * Note: the palitem structure test has precedence in order to
-	 *       accomodate the high-level types which map to multiple
+	 *       accommodate the high-level types which map to multiple
 	 *	 subtypes. i.e. If we have a "Radio Box", we want to map to
 	 * 	 the "Choice" editable object 'super' type.
 	 */

@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -157,7 +157,7 @@ int    G_dialog_closed = FALSE;
  *  for object and folder.
  *
  *  This function simply searches for the last slash (/) in
- *  the path and returns the characters preceeding the slash
+ *  the path and returns the characters preceding the slash
  *  as folder and the characters after the last slash as
  *  object. Thus, object could be a directory/folder or a
  *  file.

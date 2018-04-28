@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -581,7 +581,7 @@ SetValues(
 /************************************************************************
  *
  *  arm
- *     This function processes button 1 down occuring on the button.
+ *     This function processes button 1 down occurring on the button.
  *
  ************************************************************************/
 
@@ -610,7 +610,7 @@ Arm(
 /************************************************************************
  *
  *  disarm
- *     This function processes button 1 up occuring on the button.
+ *     This function processes button 1 up occurring on the button.
  *
  ************************************************************************/
 
@@ -632,7 +632,7 @@ Disarm(
 /************************************************************************
  *
  *  activate
- *     This function processes button 1 up occuring on the button.
+ *     This function processes button 1 up occurring on the button.
  *     If the button 1 up occurred inside the button the activate
  *     callbacks are called.
  *

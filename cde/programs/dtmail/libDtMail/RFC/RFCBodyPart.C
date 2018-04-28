@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -234,13 +234,13 @@ RFCBodyPart::getContents(DtMailEnv & error,
     if (description) {
 	// getDescription should not be passed a DtMailEnv object.
 	// Neither implementation of getDescription (MIME or V3)
-	// sets the error before returning.  Besides being unneccessary,
+	// sets the error before returning.  Besides being unnecessary,
 	// it requires the caller of getDescription to check the error
 	// status upon its return.
 	//
 	*description = getDescription(error);
 	if (error.isSet()) {
-	    // don't care about the error condition returned by getDescription
+	    // Don't care about the error condition returned by getDescription
 	    // because it returns a valid string no matter what error
 	    // condition occurs.
 	    error.clear();

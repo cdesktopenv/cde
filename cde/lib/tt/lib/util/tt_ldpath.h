@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -37,7 +37,7 @@
 
 /* 
  * Attempts to find the best path to a dynamic library named by libname.
- * If succesful then 1 is returned and path will be set to the path to
+ * If successful then 1 is returned and path will be set to the path to
  * the library. Otherwise 0 is returned. This function will use the
  * appropiate combination of LD_LIBRARY_PATH and the required hardcoded
  * paths to perform the search.

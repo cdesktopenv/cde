@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -598,7 +598,7 @@ Tcl_OpenFileChannel(interp, fileName, modeString, permissions)
 	    break;
 	default:
             /*
-             * This may occurr if modeString was "", for example.
+             * This may occur if modeString was "", for example.
              */
 	    panic("Tcl_OpenFileChannel: invalid mode value");
 	    return NULL;

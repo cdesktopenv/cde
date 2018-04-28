@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -752,7 +752,7 @@ static void Initialize(
   VariableInitialize(hw);
 
 
-  /* Validate the incomming arguments to make sure they are ok */
+  /* Validate the incoming arguments to make sure they are ok */
 
 
   /* Build the Menus bar */
@@ -879,7 +879,7 @@ static Boolean SetValues(
   Boolean updateRequest=FALSE;
   Boolean newTitle=FALSE;
 
-  /* Validate the incomming arguments to make sure they are ok */
+  /* Validate the incoming arguments to make sure they are ok */
 
 
 
@@ -2820,7 +2820,7 @@ static void  ProcessJumpReuse(
        hw->help_dialog.ghelp.volumeFlag = FALSE;
      }
  
-    /* Free old copy fisrt ??? */
+    /* Free old copy first ??? */
     pTempLocationId = _DtHelpParseIdString(hyperData->specification);
     XtFree(hw->help_dialog.display.locationId);
     hw->help_dialog.display.locationId = pTempLocationId;

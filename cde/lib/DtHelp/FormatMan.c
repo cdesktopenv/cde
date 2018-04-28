@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -300,12 +300,12 @@ GetNextState (
  *		a two-byte character would be be followed by two backspaces
  *		and the same two-bytes to indicate that the character is to
  *		be a bold character.
- *	Italic characters can either be preceeded by a backspace/underline
+ *	Italic characters can either be preceded by a backspace/underline
  *		or followed by a backspace/underline. I.E. _bsAB<bs_
  *		would be an italic capitol A, a regular capital B and
  *		an italic less than sign.
  *	All backslashes and less than signs are output with a backslash
- *		preceeding them.
+ *		preceding them.
  *
  * The following characters have special meaning in the state table:
  *	<c>	indicates a character.

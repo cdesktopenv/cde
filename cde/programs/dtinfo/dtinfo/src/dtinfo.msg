@@ -438,7 +438,7 @@ $	238	Boolean operator AND
 
 
 $       270  "..." is a button label indicating a list from which an
-$            entry may be selected to fill a preceeding text field.
+$            entry may be selected to fill a preceding text field.
 $            In this case, the user may enter a path into a text field
 $            or activate the button with "..." to be presented with
 $            a File Selection Box. The object is to select an Infolib

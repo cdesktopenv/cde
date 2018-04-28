@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -826,7 +826,7 @@ ConvertDropName( char *objects)
  *                                                                         *
  * Routine:   Process_DropCheckOp                                          *
  *                                                                         *
- * Purpose:   Validate the drag-n-drop operation that just occured on the  *
+ * Purpose:   Validate the drag-n-drop operation that just occurred on the  *
  *            tablet window.                                               *
  *                                                                         *
  ***************************************************************************/
@@ -870,7 +870,7 @@ extern unsigned int width_ret, height_ret;
  *                                                                         *
  * Routine:   Do_DropCheckOp                                               *
  *                                                                         *
- * Purpose:   Verify the drag-n-drop operation that just occured on the    *
+ * Purpose:   Verify the drag-n-drop operation that just occurred on the    *
  *            tablet window.                                               *
  *                                                                         *
  ***************************************************************************/

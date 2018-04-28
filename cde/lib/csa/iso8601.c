@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -268,7 +268,7 @@ _csa_range_to_iso8601(time_t start, time_t end, char *buf)
 {
     char tmpstr1[BUFSIZ], tmpstr2[BUFSIZ];
 
-    /* validate: ticks must be +ve, and end can't preceed start */
+    /* validate: ticks must be +ve, and end can't precede start */
     if ((start < 0) || (end < 0) || (end < start)) {
         return(-1);
     }

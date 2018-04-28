@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1473,7 +1473,7 @@ void ResetWithdrawnFocii (ClientData *pCD)
 	    /*
 	     * Set the focus to the default state if the focus is not in
 	     * the process of being set (i.e. a FocusIn event will be 
-	     * comming along shortly.
+	     * coming along shortly.
 	     */
 
 	    if (wmGD.nextKeyboardFocus == wmGD.keyboardFocus)

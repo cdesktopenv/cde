@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -144,7 +144,7 @@
  * OPT_AUTOMOUNT_PATH_FIX - set for systems with autmounters that do
  *   not treat /tmp_mnt/nfs/... the same as /nfs/... in terms of which
  *   can tickle the automounter.  For many systems, a mount can only be
- *   tickled into existance using /nfs/...   This is bad since calls to
+ *   tickled into existence using /nfs/...   This is bad since calls to
  *   say realpath() will hand back /tmp_mnt/nfs/... which is for all
  *   practical purposes temporary.
  *
@@ -174,7 +174,7 @@
  *			files prior to exiting.
  *
  * OPT_GARBAGE_IN_PARALLEL - If TRUE, enables garbage collection
- *			in a seperate thread (or process). If FALSE
+ *			in a separate thread (or process). If FALSE
  *			perform garbage collection in the same
  *			thread (or process).
  */

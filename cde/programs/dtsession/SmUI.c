@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1663,7 +1663,7 @@ SimpleOK(
  *
  *  Description:
  *  -----------
- *  Give the visual feedback neccessary when the user is entering a password
+ *  Give the visual feedback necessary when the user is entering a password
  *
  *
  *  Inputs:

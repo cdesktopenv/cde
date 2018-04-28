@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -167,7 +167,7 @@ struct Ufunction
 #define NV_NOEXPAND	NV_RJUST		/* do not expand alias */
 #define NV_BLTIN	(NV_NOPRINT|NV_EXPORT)
 #define BLT_ENV		(NV_RDONLY)		/* non-stoppable,
-						 * can modify enviornment */
+						 * can modify environment */
 #define BLT_SPC		(NV_LJUST)		/* special built-ins */
 #define BLT_EXIT	(NV_RJUST)		/* exit value can be > 255 */
 #define BLT_DCL		(NV_TAGGED)		/* declaration command */

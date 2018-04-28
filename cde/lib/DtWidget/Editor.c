@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -5858,13 +5858,13 @@ Center (FormatData *data,
  * and manipulation needed to do the job.
  *
  * Words are kept in wordbuf[] without trailing nulls.  It is large enough
- * to accomodate two lines' worth of words plus wrap around to start a new
+ * to accommodate two lines' worth of words plus wrap around to start a new
  * word (which might be as big as a line) without overwriting old words
  * not yet dumped.  wordcp -> next free location in wordbuf[];
  * wordcpwrap -> last place a new word is allowed to start.
  *
  * Words are pointed to and described by word[] structures.  The array is
- * big enough to accomodate two lines' worth of words, assuming each word
+ * big enough to accommodate two lines' worth of words, assuming each word
  * takes at least two characters (including separator).  wordbase and
  * wordlimit are the bounds of the array.  wordfirst remembers the first
  * word in the array not yet printed.  wordat is the word being worked on

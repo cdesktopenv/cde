@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -582,7 +582,7 @@ read_line (
  * Description:
  *
  *	This function removes the slashes from a string unless the slash 
- *      is preceeded by a slash.  It also remove whitespace from the end
+ *      is preceded by a slash.  It also remove whitespace from the end
  *	of the string.
  *
  * Synopsis:

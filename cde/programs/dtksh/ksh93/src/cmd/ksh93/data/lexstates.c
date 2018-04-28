@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -454,7 +454,7 @@ const char *sh_lexrstates[ST_NONE] =
 
 const char e_lexversion[]	= "%d: invalid binary script version";
 const char e_lexspace[]		= "line %d: use space or tab to separate operators %c and %c";
-const char e_lexslash[]		= "line %d: $ not preceeded by \\";
+const char e_lexslash[]		= "line %d: $ not preceded by \\";
 const char e_lexsyntax1[]	= "syntax error at line %d: `%s' %s";
 const char e_lexsyntax2[]	= "syntax error: `%s' %s";
 const char e_lexsyntax3[]	= "syntax error at line %d: duplicate label %s";

@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -305,7 +305,7 @@ void parse_args(int argc, char *argv[], struct arguments *args)
 	argv++ ; 
 	argc--;				/* Skip the program name */
 	if (!strcmp(*argv,"-s")) {	/* check for a set number */
-		if (argc < 4) 		/* check for sufficient arguements */
+		if (argc < 4) 		/* check for sufficient arguments */
 		die(catgets(catderr,MS_DSPMSG,M_DSPMSG, "Usage: dtdspmsg [-s setno] <catname> <msgno> ['default' arg ... ]"));
 		argv++; 
 		argc--;				/* skip past the '-s' */
@@ -316,7 +316,7 @@ void parse_args(int argc, char *argv[], struct arguments *args)
 	args->catname = *argv++;		/* get the cat name */
 	argc--;
 	if (!strcmp(*argv,"-s")) {		/* check for a set number */
-		if (argc < 3) 		/* check for sufficient arguements */
+		if (argc < 3) 		/* check for sufficient arguments */
 		die(catgets(catderr,MS_DSPMSG,M_DSPMSG, "Usage: dtdspmsg [-s setno] <catname> <msgno> ['default' arg ... ]"));
 
 		argv++; 

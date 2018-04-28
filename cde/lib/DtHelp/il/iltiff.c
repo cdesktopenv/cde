@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -337,7 +337,7 @@ register ilBool         bigEndian;
             }       /* END tag found */
         }           /* END each caller's tag */
 
-        /*  Tags read succesfully: free pFileTags (local buffer); return pTagAlloc.
+        /*  Tags read successfully: free pFileTags (local buffer); return pTagAlloc.
         */
     IL_FREE (pFileTags);
     pFileImage->context->error = IL_OK;

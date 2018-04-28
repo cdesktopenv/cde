@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1396,7 +1396,7 @@ generate_recurrence_rule(Dtcm_appointment *appt, int version) {
  * This function will scan for X number of appointments in the file and add
  * each to the linked list unless the validation routine returns an error.
  * If this happens, the invalid appointment is still added to the list so the
- * calling routine can do further processing if neccessary, but the remaining
+ * calling routine can do further processing if necessary, but the remaining
  * appointments in the file (if any) are not read.
  */
 extern Validate_op
@@ -1985,7 +1985,7 @@ create_rfc_message(char *address_list,
 	boolean_t  done = B_FALSE;
 	char *return_buffer;
 
-	/* A MIME mesage is a rather specialized beast.  It consists of
+	/* A MIME message is a rather specialized beast.  It consists of
 	   a series of headers describing the mail message, followed by 
 	   the message, and then followed by a set of attachments.   
 	   Each attachments is separated by a magic unique string 

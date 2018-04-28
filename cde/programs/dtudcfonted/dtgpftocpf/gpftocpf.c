@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -291,7 +291,7 @@ char	*argv[];
 	} else {
 	    num_gr = 1 ;
 	    if( (gr = (FalGlyphRegion *)malloc( sizeof(FalGlyphRegion) * num_gr )) == NULL ) {
-		USAGE1("%s : malloc error occured. Terminates abnormally.\n", argv[0]);
+		USAGE1("%s : malloc error occurred. Terminates abnormally.\n", argv[0]);
 		exit(1) ;
 	    }
 	    gr[0].start = MIN_CODE ;

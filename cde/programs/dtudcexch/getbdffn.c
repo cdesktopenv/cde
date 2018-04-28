@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -100,7 +100,7 @@ int fopencheck(char *file, char *dir, char *mode)
 	    }
 	}
     } else
-	fprintf(stderr, "Unanticipatable error occured in fopencheck.\n");
+	fprintf(stderr, "Unanticipatable error occurred in fopencheck.\n");
     return -1;
 }
 

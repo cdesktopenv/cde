@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -160,7 +160,7 @@ static int x_error_handler(Display *display, XErrorEvent* error_event)
     _DtPrintDefaultErrorSafe(display, error_event, error_msg, _DTMAIL_BUFSIZE);
     _DtSimpleError("dtmail", DtWarning, NULL, error_msg, NULL);
     
-    // if the error occured on the print display we're going to set 
+    // if the error occurred on the print display we're going to set
     // a variable so that and when the job is done, right before calling
     // XpEndJob, we call XpCancelJob, and notify the user.
 

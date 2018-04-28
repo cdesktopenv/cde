@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -123,7 +123,7 @@ int basevals[4] = { 2, 8, 10, 16 } ;
 int left_pos[BCOLS]  = { 3, 2, 1, 0 } ;  /* Left positions. */
 int right_pos[BCOLS] = { 0, 1, 2, 3 } ;  /* "Right" positions. */
 
-/* Valid keys when an error condition has occured. */
+/* Valid keys when an error condition has occurred. */
 /*                            MEM  KEYS clr     clr     QUIT REDRAW */
 char validkeys[MAXVKEYS]  = { 'm', 'k', '\177', '\013', 'q', '\f' } ;
 
@@ -378,7 +378,7 @@ do_dtcalc(int argc, char **argv)
 
   v->progname = argv[0] ;     /* Save programs name. */
   v->appname  = NULL ;
-  init_cmdline_opts() ;       /* Initialise command line option strings. */
+  init_cmdline_opts() ;       /* Initialize command line option strings. */
 
   if ((ptr = strrchr(argv[0], '/')) != NULL)
     read_str(&v->appname, ptr+1) ;
@@ -412,7 +412,7 @@ do_dtcalc(int argc, char **argv)
 
   make_items() ;              /* Create server images and fir frames. */
   if(v->display[0] == 0)
-     do_clear() ;                /* Initialise and clear display. */
+     do_clear() ;                /* Initialize and clear display. */
 
   if (v->rstate == TRUE)      /* Show the memory register window? */
     {
@@ -949,7 +949,7 @@ init_vars(void)
 
 
 void
-initialise(void)
+initialize(void)
 {
   int i ;
 

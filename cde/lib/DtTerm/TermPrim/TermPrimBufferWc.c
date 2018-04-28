@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1009,7 +1009,7 @@ _DtTermPrimBufferEraseWc
     ** at this point, startCharInfo points to the first character
     ** to erase, and stopCharInfo points to the last character
     ** we want to erase, make sure there is enough space between
-    ** the two to accomodate the replacement spaces...
+    ** the two to accommodate the replacement spaces...
     */
     lengthErase = stopCol - startCol + 1;
     lengthInc   = lengthErase - (stopCharInfo.u.pwc - startCharInfo.u.pwc + 1);

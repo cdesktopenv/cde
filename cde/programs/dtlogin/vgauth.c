@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -219,7 +219,7 @@ static void	WriteBtmp( char *name) ;
 #ifdef AUDIT
   struct s_passwd *s_pwd;
   struct stat	s_pfile;
-  int		secure;	/* flag to denote existance of secure passwd file */
+  int		secure;	/* flag to denote existence of secure passwd file */
   Boolean	selfAuditOn;
 #endif
 

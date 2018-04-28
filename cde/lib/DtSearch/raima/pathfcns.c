@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -94,8 +94,8 @@ static char FAR * remfile(P1(char FAR *));
 int con_dbd(path_str,dbname,dbdpath)
 char FAR *path_str;	/* (output) string to receive the full path to the
 			   dictionary */
-char FAR *dbname;	/* contains the filename of the dictionary preceeded
-			   optionally by a path preceeded optionally (DOS only)
+char FAR *dbname;	/* contains the filename of the dictionary preceded
+			   optionally by a path preceded optionally (DOS only)
 			   by a drive spec. */
 char FAR *dbdpath;	/* contains one element of the environment variable
 			   DBDPATH.  NULL means no DBDPATH defined. */

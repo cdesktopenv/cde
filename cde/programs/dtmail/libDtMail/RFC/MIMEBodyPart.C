@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -631,7 +631,7 @@ MIMEBodyPart::loadBody(DtMailEnv & error)
 // March 25, 1997
 // The Content-Disposition field has been designated as the primary 
 // header field for transmitting file names.  See RFC 1806.  Therefore
-// the algorithm has bee updated as follows.
+// the algorithm has been updated as follows.
 //
 // 1. DtMail checks the following headers for the "filename" for a body part:
 //	o The "filename" parameter of the "Content-Disposition" header field.

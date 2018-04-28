@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -766,7 +766,7 @@ int		*errflg ;
 			    }
 			    return(-1) ;
 			default :
-			    USAGE2("System call error occured. fal_utyerror = %d fal_utyderror = %d\n", fal_utyerror, fal_utyderror ) ;
+			    USAGE2("System call error occurred. fal_utyerror = %d fal_utyderror = %d\n", fal_utyerror, fal_utyderror ) ;
 			    return(-2) ;
 			}
 		   case _FAL_FONT_ER :
@@ -778,7 +778,7 @@ int		*errflg ;
 			}
 			return(-1) ;
 		   case _FAL_MALOC_ER :
-			USAGE("malloc error occured.\n" ) ;
+			USAGE("malloc error occurred.\n" ) ;
 			return(-2) ;
 		   default :
 			USAGE1("%s : cannot get font information list.\n", command_name ) ;
@@ -885,7 +885,7 @@ FalFontData	*choose;
 	if ( diff.size.h < 0 ) 		return	1; 
 	if ( diff.size.h > 0 ) 		return	0; 
 
-	/* letter size hieght */
+	/* letter size height */
 	if ( diff.letter.h < 0 ) 	return	1; 
 	if ( diff.letter.h > 0 ) 	return	0; 
 

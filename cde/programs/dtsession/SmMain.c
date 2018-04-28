@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -206,14 +206,14 @@ main (int argc, char **argv)
 
     /*
      * Set uid up according to whether this is a secure system
-     * Secure systems need root priviledges to read the /etc/passwd file
+     * Secure systems need root privileges to read the /etc/passwd file
      */
     smGD.runningUID = getuid();
 
 #ifdef linux			/* linux always needs to be setup as secure */
 
     /*
-     * Save the root priviledge to be restored when trying to unlock
+     * Save the root privilege to be restored when trying to unlock
      */
     smGD.unLockUID = geteuid();
     smGD.secureSystem = True;
@@ -230,7 +230,7 @@ main (int argc, char **argv)
     if(status == -1)
     {
         /*
-         * this is not a secure system - remove all suid priviledges
+         * this is not a secure system - remove all suid privileges
          */
         smGD.unLockUID = smGD.runningUID;
         smGD.secureSystem = False;
@@ -239,7 +239,7 @@ main (int argc, char **argv)
     else
     {
        /*
-        * Save the root priviledge to be restored when trying to unlock
+        * Save the root privilege to be restored when trying to unlock
         */
         smGD.unLockUID = geteuid();
         smGD.secureSystem = True;

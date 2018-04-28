@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -909,7 +909,7 @@ typedef enum { SINGLE, ROOT, ALL } OpRange;
 typedef struct _CmdTree {
   CARD32           commandID;   /* unique identifier for this command. */
   CARD32           notifyWindow;/* window to receive InvokeCommand request. */
-  char            *name;        /* name of command refered to in .mwmrc. */
+  char            *name;        /* name of command referred to in .mwmrc. */
   char            *defaultName; /* default label of menu. */
   struct _CmdTree *subTrees;    /* list of child commands or command sets. */
   struct _CmdTree *next;

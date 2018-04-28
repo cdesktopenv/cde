@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -401,7 +401,7 @@ ActivateCommon (Widget w, XEvent *event, String *params, Cardinal *num_params)
   internal_expose = True;
   (*(XtClass(w))->core_class.expose) (w, event, (Region) NULL);
   
-  /* If the event was a button event, make sure it occured within
+  /* If the event was a button event, make sure it occurred within
      the tab.  (The user could have released outside the tab.) */
   if (event->type != ButtonRelease ||
       (event->xbutton.x >= (int) -bw &&

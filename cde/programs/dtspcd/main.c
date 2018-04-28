@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -830,7 +830,7 @@ int Client_Channel_Close(protocol_request_ptr prot)
   if(IS_ACTIVE(channel)) {
 
     /*
-      Uh-oh.  We have recieved a close request, but the channel is
+      Uh-oh.  We have received a close request, but the channel is
       active.  We kill the process, and explicitly wait for the
       process to terminate.
       */

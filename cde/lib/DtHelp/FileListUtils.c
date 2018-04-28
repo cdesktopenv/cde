@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -488,7 +488,7 @@ Boolean _DtHelpFileListAddFile (
       nameKey = _DtHelpCeStrHashToKey(fileName);
    }
 
-   /* look for prior existance and position */
+   /* look for prior existence and position */
    next = prev = NULL;
    while ( (next = _DtHelpFileListGetNext(*in_out_list, next)) != NULL )
    {

@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -806,7 +806,7 @@ int post_fork_pty_channel_object(SPC_Channel_Ptr channel,
     }
     
     if(IS_SPCIO_STDERR(iomode)) {
-      /* If we want seperate STDOUT/STDERR, open a new FD */
+      /* If we want separate STDOUT/STDERR, open a new FD */
       if(IS_SPCIO_SEPARATE(iomode)) {
 	if((stderrfd=open(channel->wires[STDERR]->slave_name, O_RDWR))<0) {
 	  SPC_Error(SPC_Cannot_Open_Slave,

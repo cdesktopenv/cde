@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -134,7 +134,7 @@ static XmGadget InputForGadget(
 /************************************************************************
  *
  *  FileWindowExposeCallback
- *	Callback function invoked upon an exposure event occuring
+ *	Callback function invoked upon an exposure event occurring
  *	in the file display area.
  *
  ************************************************************************/
@@ -266,7 +266,7 @@ FileWindowMapCallback(
 /************************************************************************
  *
  *  FileWindowInputCallback
- *	Callback function invoked upon input occuring in the 
+ *	Callback function invoked upon input occurring in the
  *	file display area, file icon, or within a desktop icon.
  *
  ************************************************************************/

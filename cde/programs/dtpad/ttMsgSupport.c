@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -35,7 +35,7 @@
 **  Provides support for the Tool Talk "Desktop" and "Document and Media
 **  Exchange" message sets.
 **  
-**  XXX - Need to use mesage catalogs for error messages and not write to
+**  XXX - Need to use message catalogs for error messages and not write to
 **	  stdout or stderr.
 **
 *******************************************************************

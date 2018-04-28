@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1362,7 +1362,7 @@ main (
 	    }
 	    /*
 	     * So that select() errors cannot dominate, now behave as
-	     * though only a timeout had occured.
+	     * though only a timeout had occurred.
 	     */
 	    nfound = 0;
 	}
@@ -1495,7 +1495,7 @@ main (
 	    }
 	    /*
 	     * So that select() data cannot dominate, now behave as
-	     * though only a timeout had occured.
+	     * though only a timeout had occurred.
 	     */
 	    nfound = 0;
 	}

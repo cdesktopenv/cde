@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -979,7 +979,7 @@ Create(
    XtSetValues (file_mgr_rec->vertical_scroll_bar, args, 2);
 
 
-   /*  Add an event handler to catch resizes occuring on the scrolled  */
+   /*  Add an event handler to catch resizes occurring on the scrolled  */
    /*  window, in order to force a relayout of the icons.              */
 
    XtAddEventHandler (file_mgr_rec->scroll_window, StructureNotifyMask,

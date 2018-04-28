@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -879,7 +879,7 @@ DoPrint(Widget widget, AppPrintData * p)
 
     XSync(XtDisplay(p->f_print_shell), False);
 
-    // if a print server error occured then notify the user
+    // if a print server error occurred then notify the user
 
     if (print_server_error) {
 

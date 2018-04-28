@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -348,7 +348,7 @@ char *_DtEnv_tt_file_netfile(
 	    ttfreeAndNull( fragList[hitIdx].pathFragMapped );
 
 	    /*
-	     * Since the cache is 100% full, ocassionally reset
+	     * Since the cache is 100% full, occasionally reset
 	     * everyone's cacheHit rate so entries that were only
 	     * popular long ago don't get locked in.
 	     */
@@ -574,7 +574,7 @@ char *_DtEnv_tt_host_netfile_file(
 	    ttfreeAndNull( fragList[hitIdx].pathFragMapped );
 
 	    /*
-	     * Since the cache is 100% full, ocassionally reset
+	     * Since the cache is 100% full, occasionally reset
 	     * everyone's cacheHit rate so entries that were only
 	     * popular long ago don't get locked in.
 	     */
@@ -701,7 +701,7 @@ static char **_DtEnvGetMapList(
     mapList = (char **) malloc( sizeof(char *) * (availListSize) );
 
     /*
-     * Break up the colon seperated string into an indexable array.
+     * Break up the colon separated string into an indexable array.
      */
     tmpPtr = strdup(mapListStr);		/* work copy for strtok */
 

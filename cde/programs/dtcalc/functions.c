@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -564,11 +564,11 @@ do_calc(void)      /* Perform arithmetic calculation and display result. */
 
 
 void
-do_clear(void)       /* Clear the calculator display and re-initialise. */
+do_clear(void)       /* Clear the calculator display and re-initialize. */
 {
   clear_display() ;
   if (v->error) set_item(DISPLAYITEM, "") ;
-  initialise() ;
+  initialize() ;
 }
 
 

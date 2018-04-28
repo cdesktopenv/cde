@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -161,7 +161,7 @@ typedef struct _ilFileRec {
 
     /*  Seek to the given offset within the given file, taking into
         account the offset at which the logical file begins.
-        Returns true if seek succesful, else false.
+        Returns true if seek successful, else false.
     */
 #ifdef DTLIB
 /* Used when this header is compiled into the DtHelp library */

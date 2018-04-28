@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -386,7 +386,7 @@ QueryTermView::register_actions()
 		 XmNbottomShadowColor, bottom_shadow, \
 		 NULL);
 
-// TODO: set colors for text fields seperately (for when bg is different)
+// TODO: set colors for text fields separately (for when bg is different)
 
 void
 QueryTermView::invert_colors()

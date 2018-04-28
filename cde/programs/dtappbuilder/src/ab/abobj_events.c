@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1194,7 +1194,7 @@ interpose_button_event(
 	{
 	    /* Check to see if the drag occurred while we are waiting for hte
 	     * double-click interval to expire. If so, then if the drag is
-	     * outside the threshhold, cancel the double-click and initiate
+	     * outside the threshold, cancel the double-click and initiate
 	     * a move or resize.
 	     */
 	    if (d_click->waiting)

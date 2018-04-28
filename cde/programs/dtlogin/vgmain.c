@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -1651,7 +1651,7 @@ MakeGreeting( void )
     XtSetArg(argt[i], XmNleftAttachment, XmATTACH_FORM); i++;
     XtSetArg(argt[i], XmNtopAttachment, XmATTACH_POSITION); i++; 
    /* XtSetArg(argt[i], XmNtopPosition, 15); i++; */
-   /* Changed this to accomodate desktop label */
+   /* Changed this to accommodate desktop label */
     XtSetArg(argt[i], XmNtopPosition, 9); i++; 
     XtSetArg(argt[i], XmNrightAttachment, XmATTACH_FORM); i++;
 

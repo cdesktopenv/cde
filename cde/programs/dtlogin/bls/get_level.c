@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -262,7 +262,7 @@ set_sec_privs(struct verify_info *verify)
 	prpwd = verify->prpwd;
 	pwd = verify->pwd;
 
-	/* kernal authorizations */
+	/* kernel authorizations */
 	if (prpwd->uflg.fg_sprivs) {
 	    maxprivs = &prpwd->ufld.fd_sprivs[0];
 	}else if(prpwd->sflg.fg_sprivs) { 
@@ -270,7 +270,7 @@ set_sec_privs(struct verify_info *verify)
 	    Debug("Using default kernel priv's\n");
 	}else {
 	    audit_login(prpwd, pwd, verify->terminal, 
-		"Unable to find kernal priv set for user",
+		"Unable to find kernel priv set for user",
 		ES_LOGIN_FAILED);
 	    Debug("Can't find max. priv set for user-quitting\n");
 	    return 0;
@@ -325,8 +325,8 @@ set_sec_privs(struct verify_info *verify)
 		break;
 	  }
 	  audit_login(prpwd, pwd, verify->terminal,
-		"Unable to set Kernal privs", ES_LOGIN_FAILED);
-	  Debug("Unable to set Kernal privs (error %d): aborting\n",errno);
+		"Unable to set Kernel privs", ES_LOGIN_FAILED);
+	  Debug("Unable to set Kernel privs (error %d): aborting\n",errno);
 	  return 0;
 	}
 

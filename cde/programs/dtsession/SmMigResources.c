@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -462,7 +462,7 @@ MigrateResources(char * inputfile, char * outputfile)
                           /* if entire line was read but it ends
                              with a continuation character
                              then, remove the ending continuation character or
-                             spaces preceeded by an ending
+                             spaces preceded by an ending
                              continuation character.
                           */
                           realend=DtPrevChar(inputbuffer1,realend);
@@ -567,7 +567,7 @@ MigrateResources(char * inputfile, char * outputfile)
                          number_fields = i-1;
                          /* check for each type of resource
                             that should be retained in the output file.
-                            See comments preceeding the definition
+                            See comments preceding the definition
                             of each array near the start of this file
                             for a description and example of each type.
                          */

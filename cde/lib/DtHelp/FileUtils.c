@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -376,7 +376,7 @@ static char * pathsSet[_DtHELP_FILE_NUM_PATHS];
  *
  * Purpose:	Scans all paths of given type looking for a matching file
  *              If file contains a valid absolute path, that is also
- *              acceptible.
+ *              acceptable.
  * 
  * FIX: merge _DtHelpFileLocate() and _DtHelpFileListScanPaths()
  *****************************************************************************/

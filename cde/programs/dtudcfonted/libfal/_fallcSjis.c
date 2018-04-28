@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -832,7 +832,7 @@ static CTDataRec ctdata[] =
 };
 
 /* Note on above table:  sjis_ctstombs() and sjis_ctstowcs() parser depends on
- * certain table entries occuring in decreasing string length--
+ * certain table entries occurring in decreasing string length--
  *   1.  CT_EXT2 and CT_EXT0 entries must occur after CT_NSTD entries.
  *   2.  CT_DIR and CT_EXT1 entries must occur after CT_DIR entries.
  */

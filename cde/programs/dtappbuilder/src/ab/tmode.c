@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -145,7 +145,7 @@ tmode_enable(
     
     /*
     ** Attach a focus handler to each window in the project. When the window
-    ** recieves focus, it gets marked dirty.
+    ** receives focus, it gets marked dirty.
     */
     if (tmodeP_window_list_add_handler(EnterWindowMask, False,
 	    track_win_focus) != OK)
@@ -207,7 +207,7 @@ tmode_disable(
 	}
     trav_close(&trav);
     
-    /* detach the recieve focus handler */
+    /* detach the receive focus handler */
     if (tmodeP_window_list_remove_handler(EnterWindowMask, False,
 	    track_win_focus) != OK)
     {
@@ -329,7 +329,7 @@ win_get_geometry(
 }
 
 /*
-** Track when a window recieves focus and mark the window dirty
+** Track when a window receives focus and mark the window dirty
 */
 static void
 track_win_focus(

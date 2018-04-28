@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -786,7 +786,7 @@ Display_XPMFile(
   icon_height = height;
   fileFormat = FORMAT_XPM;
   XmToggleButtonGadgetSetState(formatMenu_xpm_tb, True, True);
-/* This line is not realy needed since an Exposed event will be generated */
+/* This line is not really needed since an Exposed event will be generated */
   Repaint_Exposed_Tablet();
   XDestroyImage(scratch_img);
   XFreePixmap(dpy, pix_ret);
@@ -867,7 +867,7 @@ Display_XBMFile(
   icon_height = height;
   fileFormat = FORMAT_XBM;
   XmToggleButtonGadgetSetState(formatMenu_xbm_tb, True, True);
-/* This line is not realy needed since an Exposed event will be generated */
+/* This line is not really needed since an Exposed event will be generated */
   Repaint_Exposed_Tablet();
   if (mask_ret) {
     XDestroyImage(test_img);

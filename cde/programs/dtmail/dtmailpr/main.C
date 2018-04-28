@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -50,7 +50,7 @@ void
 enableGroupPrivileges(void *)
 {
     if(-1 == setgid(_originalEgid)) {
-        fprintf(stderr, "Failed to enable group priviledges\n");
+        fprintf(stderr, "Failed to enable group privileges\n");
     }
 }
 
@@ -58,7 +58,7 @@ void
 disableGroupPrivileges(void *)
 {
     if(-1 == setgid(_originalRgid)) {
-        fprintf(stderr, "Failed to disable group priviledges\n");
+        fprintf(stderr, "Failed to disable group privileges\n");
     }
 }
 

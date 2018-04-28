@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -502,7 +502,7 @@ _tt_oid_accessp(int _isfd, char *rec, int mode)
 		/* check access request against permissions */
 		switch (category) {
 		      case DM_USER:
-			// The owner is allowed all priviledges
+			// The owner is allowed all privileges
 			return 1;
 /*			this left here in case we want to check someday
  *			switch (mode) {

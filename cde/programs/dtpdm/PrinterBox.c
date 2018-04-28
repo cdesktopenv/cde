@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -905,7 +905,7 @@ PdmPrinterBoxResizeCB(Widget w,
 		  XmNheight, r2.height,
 		  NULL);
     /*
-     * resize the drawing area to accomodate the new layout
+     * resize the drawing area to accommodate the new layout
      */
     XtVaSetValues(w,
 		  XmNwidth, r1.width,
@@ -2529,7 +2529,7 @@ SizeCtlCreateWindow(SizeCtl* me, Widget parent)
 		  SizeCtlSelectCB, (XtPointer)me);
     /*
      * hide the horizontal scroll bar, since the width of the list has
-     * been set to accomodate the widest item.
+     * been set to accommodate the widest item.
      */
     hscroll = XtNameToWidget(XtParent(me->list_box), "*HorScrollBar");
     XtVaSetValues(hscroll,

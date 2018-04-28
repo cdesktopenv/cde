@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -2199,7 +2199,7 @@ void _DtHelpDisplayFormatError(
    /* Set the string to the current help dialog */
    (void) _DtHelpFormatAsciiStringDynamic(displayArea, userError, &topicHandle);
          
-   /* We ignor the status return here, because if we error out here we are
+   /* We ignore the status return here, because if we error out here we are
     * in big trouble because this is an error routine
     */
    

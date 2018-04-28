@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -103,7 +103,7 @@ int main ( int argc, char **argv )
     // please set // _ILS_DEBUG_ environment variable on, like
     //     export _ILS_DEBUG_=:
     //     dtmail
-    // and do the same operation as that of when coredump will have occured.
+    // and do the same operation as that of when coredump will have occurred.
     // If the signal will be received, dtmail generates full core dump image.
     // Note: This core file size will be big. So be aware of "ulimit" of sh.
     //

@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -144,7 +144,7 @@ EmbeddedClientReposition (Widget    icon,
 /************************************************************************
  *
  *  EmbeddedClientReparent
- *      This function sets of the data neccessary to call the window
+ *      This function sets of the data necessary to call the window
  *      manager function which reparents an embedded client to a new
  *      control.
  *

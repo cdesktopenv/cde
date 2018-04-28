@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -868,7 +868,7 @@ static void Initialize(
                                    defaultList);
 
   
-  /* Now Validate our incomming help requests topics */
+  /* Now Validate our incoming help requests topics */
   SetupDisplayType((Widget)qw ,DtJUMP_UPDATE);
 
   /* Just for fun, lets make sure our sizes are correct */
@@ -1784,7 +1784,7 @@ static void  ProcessJumpReuse(
        
      }
  
-    /* Free old copy fisrt ??? */
+    /* Free old copy first ??? */
     pTempLocationId = _DtHelpParseIdString(hyperData->specification);
     XtFree(qw->qhelp_dialog.display.locationId);
     qw->qhelp_dialog.display.locationId = pTempLocationId;

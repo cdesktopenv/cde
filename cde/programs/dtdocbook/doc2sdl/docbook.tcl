@@ -936,7 +936,7 @@ proc EndSimpleList {columns type parent} {
 # Horiz(ontal) list, don't put the BLOCK's id on the list's FORM
 # yet - we need to collect them all and lay them out afterward in
 # EndSimpleList; if we're an Inline list, don't create a BLOCK, we'll
-# add punctuation to seperate them in EndMember
+# add punctuation to separate them in EndMember
 proc StartMember {id type} {
     global nextId listStack firstString listMembers
 

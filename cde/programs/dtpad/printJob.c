@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -279,7 +279,7 @@ PrintJobCancel(PrintJob *pJob)
 
 /************************************************************************
  * PrintJobGetErrorPrintDisplay
- *	Returns the last print display on which an error occured.
+ *	Returns the last print display on which an error occurred.
  ************************************************************************/
 Display *
 PrintJobGetErrorPrintDisplay()
@@ -289,7 +289,7 @@ PrintJobGetErrorPrintDisplay()
 
 /************************************************************************
  * PrintJobSetErrorPrintDisplay
- *	Save a pointer to the print display on which an error occured.
+ *	Save a pointer to the print display on which an error occurred.
  ************************************************************************/
 void
 PrintJobSetErrorPrintDisplay(Display *display)
@@ -299,7 +299,7 @@ PrintJobSetErrorPrintDisplay(Display *display)
 
 /************************************************************************
  * PrintJobIsActivePrintDisplay
- *	Save a pointer to the print display on which an error occured.
+ *	Save a pointer to the print display on which an error occurred.
  ************************************************************************/
 Boolean
 PrintJobIsActivePrintDisplay(Display *display)

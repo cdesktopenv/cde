@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -2036,7 +2036,7 @@ RestoreSettingsFile( void )
   else
   {
     XtFree(dtPath);
-    return;  /* we are comming up in a system mode (e.g. default) */
+    return;  /* we are coming up in a system mode (e.g. default) */
   }
 
 

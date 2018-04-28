@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -2482,7 +2482,7 @@ RFCMailBox::ThreadNewMailEntry(void * client_data)
     //
     while(info->object_valid->state()) {
 
-	// The following sequence is a little wierd, but here is why.
+	// The following sequence is a little weird, but here is why.
 	// We need to sleep for the ping interval. We can be awaken
 	// early however if the thread catches a signal. The main
 	// thread will send a SIGTERM from the mail box destructor

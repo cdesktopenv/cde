@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -442,7 +442,7 @@ edit_hilite_obj(msg)
 
 /* 
  * Make a ToolTalk spec out of the selected text in this textpane. Once
- * the spec is succesfully created and written to a database, wrap the
+ * the spec is successfully created and written to a database, wrap the
  * text with C-style comments in order to delimit the object and send out
  * a notification that an object has been created in this file.
  */

@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -931,7 +931,7 @@ struct vmount   **vmountpp)     /* place to tell where buffer is */
 /*
  * perform the QUERY mntctl - if it returns > 0, that is the
  * number of vmount structures in the buffer.  If it returns
- * -1, an error occured.  If it returned 0, then look in
+ * -1, an error occurred.  If it returned 0, then look in
  * first word of buffer for needed size.
  */
         if ((nmounts = mntctl(MCTL_QUERY, size, (caddr_t)vm)) > 0) {

@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with these librararies and programs; if not, write
+ * License along with these libraries and programs; if not, write
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
@@ -540,7 +540,7 @@ WriteOutDesc(
 /*
 ** This routine removes a palette.  
 ** It actually creates a file in the users home palette directory with 
-** the current palette name preceeded by a '~'.
+** the current palette name preceded by a '~'.
 ** If the current palette is from the users home palette directory, that
 ** file is removed.
 */
