@@ -166,7 +166,7 @@ int	read_cmd_conf()
 	if (!(path = getenv("DTIMS_STARTCONF")) || !*path) {
 	    if ((p = getenv("DTIMS_CONFDIR")) && *p)
 		conf_dir = p;
-	    sprintf(path = buf, "%s/%s", conf_dir, DTIMS_CONFFILE);
+	    snprintf(path = buf, sizeof(buf), "%s/%s", conf_dir, DTIMS_CONFFILE);
 	}
     }
     DPR3(("read_cmd_conf(): path=%s\n", path));

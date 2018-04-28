@@ -260,7 +260,7 @@ bool	parse_dpy_str(display_str, host, dnum, snum, dnet)
     char	buf[BUFSIZ], hostbuf[BUFSIZ], *p, *hp, *pdnum, *psnum;
     int		isdnet = 0;
 
-    strcpy(buf, display_str);
+    snprintf(buf, sizeof(buf), "%s", display_str);
 
 	/* extract host name */
     if (!(p = strchr(buf, ':')))	return False;

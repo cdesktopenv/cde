@@ -110,7 +110,7 @@ Extern char		*errFuncName;
 #define	setErrArg1(arg)		_setErrArg(0, arg)
 #define	setErrArg2(arg)		_setErrArg(1, arg)
 #define	setErrArg3(arg)		_setErrArg(2, arg)
-#define	setErrFile(path)	strcpy(errFilePath, (path))
+#define	setErrFile(path)	snprintf(errFilePath, sizeof(errFilePath), "%s", (path))
 #define	setErrFunc(name)	errFuncName = (name)
 
 #undef	Extern

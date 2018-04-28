@@ -270,10 +270,11 @@ int	make_new_environ(oenv, sel)
     xmod_done = False;
 # ifdef	old_hpux
     xinput = xhp_xinput_name(NULL);
+    xinput_done = (xinput) ? False : True;
 # else
     xinput = NULL;
+    xinput_done = True;
 # endif	/* old_hpux */
-    xinput_done = (xinput) ? False : True;
     proto = renv ? renv->proto : default_protocol(ims);
 
     setp = unsetp = 0;

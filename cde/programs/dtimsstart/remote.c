@@ -624,18 +624,11 @@ int	exec_remote_ims(sel)
 
     if (ret != NoError)	return ret;
 
-    if (ret == NoError) {
-	ac = 0; av = NULL;
-	ret = get_window_data(&ac, &av);
-	ret = NoError;
-
-	if (ret != NoError) return ret;
-    }
-
-    if (ret == NoError) {
-	put_xims_log("'%s' started for %s on %s.",
-				sel->name, userEnv.displayname, sel->hostname);
-    }
+    ac = 0;
+    av = NULL;
+    ret = get_window_data(&ac, &av);
+    put_xims_log("'%s' started for %s on %s.",
+                 sel->name, userEnv.displayname, sel->hostname);
 
     DPR2(("exec_remote_ims(): ret=%s[%d]\n", error_name(ret), ret));
 

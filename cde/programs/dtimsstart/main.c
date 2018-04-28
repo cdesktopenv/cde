@@ -662,7 +662,7 @@ static int	set_locale_env(locale)
     env_name = "LANG";
     env_value = getenv(env_name);
     if (env_value)
-	strcpy(buf, env_value);
+	snprintf(buf, sizeof(buf), "%s", env_value);
     if (locale && *locale) {
 	if (!*buf || strcmp(locale, buf)) {
 	    bp = strcpyx(buf, env_name); *bp++ = '=';
@@ -679,7 +679,7 @@ static int	set_locale_env(locale)
     env_name = "LC_ALL";
     env_value = getenv(env_name);
     if (env_value)
-	strcpy(buf2, env_value);
+	snprintf(buf2, sizeof(buf2), "%s", env_value);
     if (!*buf2 || strcmp(locale, buf2)) {
 	bp = strcpyx(buf2, env_name); *bp++ = '=';
 	strcpyx(bp, locale);

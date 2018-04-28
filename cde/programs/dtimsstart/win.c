@@ -545,6 +545,7 @@ int	start_selection_window()
     XtRealizeWidget(TopW);
     XtAppMainLoop(appC);
     /* not reached */
+    return NoError;
 }
 
 static void	finish_selection_window(end_window)
@@ -1259,6 +1260,7 @@ int	start_mode_window(cur_mode)
 
     XtAppMainLoop(appC);
     /* not rearched */
+    return NoError;
 }
 
 static void	finish_mode_window(end_window)
@@ -1641,7 +1643,7 @@ int	put_msg_win(type, msg)
 	WaitingDialogReply = True;
     }
 
-    return reply == XmCR_OK ? True : False;
+    return reply = XmCR_OK ? True : False;
 }
 
 
