@@ -1197,13 +1197,14 @@ obj_verify(ABObj obj)
 	if (ok)
 	{
 	    obj_str_ptr_name = istr_string(obj->name);
-	    sprintf((STRING)obj_name, "(ABObj %#lx", (unsigned long) obj);
 	    if (obj_str_ptr_name != NULL)
 	    {
-	        strcat((STRING)obj_name, " = ");
-	        strcat((STRING)obj_name, obj_str_ptr_name);
+	        snprintf((STRING)obj_name, sizeof(obj_name),
+	                 "(ABObj %#lx = %s)", (unsigned long) obj, obj_str_ptr_name);
+	    } else {
+	        snprintf((STRING)obj_name, sizeof(obj_name),
+	                 "(ABObj %#lx)", (unsigned long) obj);
 	    }
-	    strcat((STRING)obj_name, ")");
 	    if (!ok)
 	    {
 	        field_err("name");

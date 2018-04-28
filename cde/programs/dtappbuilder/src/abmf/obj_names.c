@@ -147,14 +147,12 @@ abmfP_get_c_name_global(ABObj obj)
     }
     fieldName = abmfP_get_c_field_name(obj);
 
-    strcpy(name, structName);
-    strcat(name, ".");
     if (substructName != NULL)
     {
-	strcat(name, substructName);
-	strcat(name, ".");
+	snprintf(name, sizeof(name), "%s.%s.%s", structName, substructName, fieldName);
+    } else {
+	snprintf(name, sizeof(name), "%s.%s", structName, fieldName);
     }
-    strcat(name, fieldName);
     return name;
 }
 
@@ -275,14 +273,16 @@ abmfP_get_c_name_in_inst(ABObj obj)
     }
     fieldName = abmfP_get_c_field_name(obj);
 
-    strcpy(name, abmfP_instance_ptr_var_name);
-    strcat(name, "->");
     if (substructName != NULL)
     {
-	strcat(name, substructName);
-	strcat(name, ".");
+	snprintf(name, sizeof(name), "%s->%s.%s",
+	         abmfP_instance_ptr_var_name,
+	         substructName, fieldName);
+    } else {
+	snprintf(name, sizeof(name), "%s->%s",
+	         abmfP_instance_ptr_var_name,
+	         fieldName);
     }
-    strcat(name, fieldName);
     return name;
 }
 
@@ -695,6 +695,7 @@ STRING
 abmfP_get_c_substruct_ptr_type_name(ABObj obj)
 {
     static char		ptrTypeName[MAX_NAME_SIZE];
+    char		ptrTypeNameTmp[sizeof(ptrTypeName)];
     STRING		varName = NULL;
     ABObj		module = NULL;
     
@@ -722,11 +723,12 @@ abmfP_get_c_substruct_ptr_type_name(ABObj obj)
 	return NULL;
     else
     {
-	strcpy(ptrTypeName, typePrefixString);
-	strcat(ptrTypeName,
-		        abmfP_capitalize_first_char(obj_get_name(module)));
-	strcat(ptrTypeName, abmfP_capitalize_first_char(varName));
-	strcat(ptrTypeName, "Items");
+	/* Warning: Due to abmfP_capitalize_first_char() returning a pointer
+	 * to static data this cannot be one snprintf() */
+	snprintf(ptrTypeNameTmp, sizeof(ptrTypeNameTmp), "%s%s",
+	         typePrefixString, abmfP_capitalize_first_char(obj_get_name(module)));
+	snprintf(ptrTypeName, sizeof(ptrTypeName), "%s%sItems",
+	         ptrTypeNameTmp, abmfP_capitalize_first_char(varName));
 	cvt_ident_to_type(ptrTypeName);
     }
 
@@ -1119,13 +1121,12 @@ ensure_unique_comp_field_names(ABObj obj)
 	}
         {
 	    char	newObjName[1024];
-	    *newObjName = 0;
 	    if (compRootName != NULL)
 	    {
-	        strcat(newObjName, compRootName);
+	        snprintf(newObjName, sizeof(newObjName), "%s_%s", compRootName, ext);
+	    } else {
+	        snprintf(newObjName, sizeof(newObjName), "_%s", ext);
 	    }
-	    strcat(newObjName, "_");
-	    strcat(newObjName, ext);
     
 	    util_dprintf(2, "changing field name %s -> %s\n",
 		    util_strsafe(obj_get_name(compRoot)), newObjName);

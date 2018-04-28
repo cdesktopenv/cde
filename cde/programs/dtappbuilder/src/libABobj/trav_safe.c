@@ -102,6 +102,7 @@ travP_open_safe(
     /* don't call travP_close(trav) - keep the traversal open */
     if (iRet < 0)
     {
+	util_free(objArray);
 	return iRet;
     }
 

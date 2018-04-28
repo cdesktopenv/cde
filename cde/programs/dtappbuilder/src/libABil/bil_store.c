@@ -3008,7 +3008,7 @@ create_bil_file_list(
 	    first = 0;
 	    if (strcpy(bil_list, file) == NULL)
 	    {
-		if (bil_list) util_free(bil_list);
+		util_free(bil_list);
 	  	return NULL;
 	    }
 	}

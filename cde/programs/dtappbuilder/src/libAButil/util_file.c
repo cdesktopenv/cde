@@ -563,6 +563,7 @@ util_derive_name_from_path(
         len = strlen(name) - (AB_EXT_LENGTH + 1);
         strncpy(objname, name, len);
         objname[len] = '\0';
+        free(name);
     }
     else
     {

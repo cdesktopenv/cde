@@ -446,6 +446,7 @@ istrP_create_alloced_impl(
                 fprintf(stderr, "%s",
 		    catgets(UTIL_MESSAGE_CATD, UTIL_MESSAGE_SET, 2,
 		    "ISTR: error in allocating space for string\n") );
+		free(new_bucket);
                 return NULL;
             }
             new_bucket->values[0] = freelist[freecount-1];
@@ -625,6 +626,7 @@ istr_create_const(
                 fprintf(stderr, "%s",
 		    catgets(UTIL_MESSAGE_CATD, UTIL_MESSAGE_SET, 2,
 		    "ISTR: error in allocating space for string\n") );
+		free(new_bucket);
                 return NULL;
             }
             new_bucket->values[0] = freelist[freecount-1];

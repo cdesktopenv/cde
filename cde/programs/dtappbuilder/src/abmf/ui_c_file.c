@@ -1328,10 +1328,12 @@ abmfP_get_msg_action_list(
     ABObj       action = NULL;
     ABObj       fromObj = NULL; 
     AB_TRAVERSAL        trav;
-    StringList	callback_funcs = strlist_create();
+    StringList	callback_funcs = NULL;
 
     if (!obj_is_message(msg_obj))
 	return NULL;
+
+    callback_funcs = strlist_create();
 
     module = obj_get_module(msg_obj);
     for (trav_open(&trav, module, AB_TRAV_ACTIONS);

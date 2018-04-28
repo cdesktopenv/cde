@@ -1695,9 +1695,9 @@ proj_save_exploded(
             { 
 		util_print_error(rc, new_filename);
 		obj_set_name(project, old_name);
-    if (old_name != NULL) util_free(old_name);
-    if (old_file != NULL) util_free(old_file);
-    if (old_proj_dir != NULL) util_free(old_proj_dir);
+		util_free(old_name);
+		util_free(old_file);
+		util_free(old_proj_dir);
 		return rc;
             }
             obj_set_file(project, new_filename);
@@ -2391,6 +2391,7 @@ proj_set_menus(
      */
     vwr_get_cond(proj_vwr->current_tree, &selected_nodes,
                         &num_selected, select_fn);
+    free(selected_nodes); /* Unused variable */
 
     switch (chooser_type)
     {

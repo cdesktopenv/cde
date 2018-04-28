@@ -566,6 +566,8 @@ objlistP_grow_array(ABObjList list, int sizeDiff)
     if (   (new_objs == NULL) 
 	|| (user_datas_valid && (new_user_datas == NULL)) )
     {
+	free(new_objs);
+	free(new_user_datas);
 	return_value = ERR_NO_MEMORY;
 	goto epilogue;
     }

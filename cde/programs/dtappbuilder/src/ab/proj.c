@@ -1523,8 +1523,10 @@ project_rband(
     /*
      * Return if no selected nodes
      */
-    if (num_selected == 0)
+    if (num_selected == 0) {
+	free(selected_nodes);
 	return;
+    }
 
     /*
      * For each object enclosed in rubber band rectangle

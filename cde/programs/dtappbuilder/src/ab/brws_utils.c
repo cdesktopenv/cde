@@ -1420,8 +1420,10 @@ brwsP_collapse_selected(
     /*
      * Return if no selected nodes
      */
-    if (num_selected == 0)
+    if (num_selected == 0) {
+	util_free(selected_nodes);
 	return;
+    }
 
     for (i=0; i < num_selected; ++i)
     {
@@ -1480,8 +1482,10 @@ brwsP_expand_selected(
     /*
      * Return if no selected nodes
      */
-    if (num_selected == 0)
+    if (num_selected == 0) {
+	util_free(selected_nodes);
 	return;
+    }
 
     for (i=0; i < num_selected; ++i)
     {
@@ -1540,8 +1544,10 @@ brwsP_expand_collapsed(
     /*
      * Return if no collapsed nodes
      */
-    if (num_collapsed == 0)
+    if (num_collapsed == 0) {
+	free(collapsed_nodes);
 	return;
+    }
 
     for (i=0; i < num_collapsed; ++i)
     {

@@ -641,6 +641,8 @@ strlistP_grow_array(StringList list, int sizeDiff)
     if ((new_strings == NULL) || (new_user_datas == NULL))
     {
 	return_value = -1;
+	free(new_strings);
+	free(new_user_datas);
 	goto epilogue;
     }
     else

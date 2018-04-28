@@ -2711,12 +2711,14 @@ destroy_links_to_file(STRING fileName)
     strlist_add_str(doomedFiles, fileName, NULL);
     if (stat(fileName, &doomedFileInfo) != 0)
     {
+	util_free(doomedFiles);
 	return ERR_OPEN;
     }
 
     dir = opendir(".");
     if (dir == NULL)
     {
+	util_free(doomedFiles);
         return ERR_INTERNAL;
     }
 

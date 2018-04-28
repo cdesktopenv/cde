@@ -811,6 +811,7 @@ abobj_update_proj_name(
 	catgets(Dtb_project_catd, 10, 1, "Project Organizer"));
     strcat(new_title, " - "); 
     strcat(new_title, proj_win_title); 
+    util_free(proj_win_title);
 
     XtVaSetValues(XtParent(AB_proj_window), XmNtitle,  new_title, NULL);
     
@@ -873,6 +874,7 @@ abobj_update_palette_title(
 	catgets(Dtb_project_catd, 10, 5, "Application Builder"));
     strcat(new_title, " - ");
     strcat(new_title, proj_win_title); 
+    util_free(proj_win_title);
 
     if (SaveNeeded)
     {

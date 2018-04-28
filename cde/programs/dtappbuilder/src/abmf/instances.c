@@ -514,6 +514,8 @@ write_assign_local_vars_for_fchooser(GenCodeInfo genCodeInfo, ABObj obj)
             abmfP_pattern_xmstr_var_has_value(genCodeInfo) = TRUE;
         }
     }
+
+    return 0;
 }
 
 static int 
@@ -692,7 +694,7 @@ abmfP_strip_item_name(char *item_name)
     static char         new_name[MAX_NAME_SIZE];
     char               *p;
 
-    strcpy(new_name, item_name);
+    snprintf(new_name, sizeof(new_name), "%s", item_name);
     p = (char *) strrchr(new_name, '_');
     if (p != NULL)
         *p = '\0';
@@ -2461,7 +2463,7 @@ abmfP_get_widget_parent_name(GenCodeInfo genCodeInfo, ABObj obj)
                 }
                 if (widgetParent != NULL)
                 {
-                    strcpy(parentName, 
+                    snprintf(parentName, sizeof(parentName), "%s", 
                         abmfP_get_c_name(genCodeInfo, widgetParent));
                     parentFound = TRUE;
                 }

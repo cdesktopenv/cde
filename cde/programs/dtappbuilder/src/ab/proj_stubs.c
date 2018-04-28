@@ -218,8 +218,10 @@ projP_save_mod_proc(
     vwr_get_cond(v->current_tree, &selected_nodes, 
 			&num_selected, select_fn);
     
-    if (num_selected == 0)
+    if (num_selected == 0) {
+	free(selected_nodes);
 	return;
+    }
 
     obj = (AB_OBJ *)selected_nodes[0]->obj_data;
 
@@ -292,8 +294,7 @@ projP_save_mod_proc(
     /*
      * Free up node list if it contained anything
      */
-    if (selected_nodes)
-	free((char *)selected_nodes);
+    free(selected_nodes);
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     
@@ -331,15 +332,16 @@ projP_save_as_mod_proc(
      */
     vwr_get_cond(v->current_tree, &selected_nodes,
                         &num_selected, select_fn);
-    if (num_selected == 0)
+    if (num_selected == 0) {
+        free(selected_nodes);
         return;
+    }
 
     obj = (AB_OBJ *)selected_nodes[0]->obj_data;
 
     projP_show_save_as_bil_chooser(AB_toplevel, obj);
 
-    if (selected_nodes)
-        free((char *)selected_nodes);
+    free((char *)selected_nodes);
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     
@@ -517,8 +519,10 @@ projP_browse_proc(
     vwr_get_cond(v->current_tree, &selected_nodes,
                         &num_selected, select_fn);
 
-    if (num_selected == 0)
+    if (num_selected == 0) {
+	free(selected_nodes);
 	return;
+    }
 
     for (i = 0; i < num_selected; ++i)
     {
@@ -777,11 +781,15 @@ projP_export_mod_proc(
     vwr_get_cond(v->current_tree, &selected_nodes,
                         &num_selected, select_fn);
 
-    if (num_selected == 0)                         
+    if (num_selected == 0) {
+        free(selected_nodes);
         return;
+    }
  
     obj = (AB_OBJ *)selected_nodes[0]->obj_data;
     proj_show_export_bil_chooser(AB_proj_window, obj);
+
+    free(selected_nodes);
 
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }

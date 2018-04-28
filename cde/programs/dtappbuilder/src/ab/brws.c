@@ -705,8 +705,10 @@ browser_rband(
     /*
      * Return if no selected nodes
      */
-    if (num_selected == 0)
+    if (num_selected == 0) {
+	util_free(selected_nodes);
 	return;
+    }
 
     new_sel.list = (ABObj *)util_malloc(num_selected * sizeof(ABObj));
     new_sel.count = 0;
