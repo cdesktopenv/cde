@@ -1106,7 +1106,7 @@ SetSavePath(
 	     * runs a Current session and saves the session.
 	     */
 	    strcpy (savedDir, smGD.clientPath);
-            sprintf(smGD.etcPath, "%s.%s", smGD.clientPath, SM_OLD_EXTENSION);
+            snprintf(smGD.etcPath, sizeof(smGD.etcPath), "%s.%s", smGD.clientPath, SM_OLD_EXTENSION);
             status = stat(smGD.etcPath, &buf);
             if(status == 0)
 	    {
@@ -1180,7 +1180,7 @@ SetSavePath(
 	     */
 	    char 		* tmpName;
 
-            sprintf(smGD.etcPath, "%s.%s", smGD.clientPath, SM_OLD_EXTENSION);
+            snprintf(smGD.etcPath, sizeof(smGD.etcPath), "%s.%s", smGD.clientPath, SM_OLD_EXTENSION);
             status = stat(smGD.etcPath, &buf);
             if(status == 0)
 	    {
@@ -1189,7 +1189,7 @@ SetSavePath(
               len = strlen(smGD.savePath) + strlen(smGD.restoreSession) 
                 + strlen("XXXXXX") + 3;
               tmpName = (char *) XtCalloc(1, len);
-              sprintf(tmpName, "%s/%s.XXXXXX", smGD.savePath, 
+              snprintf(tmpName, len, "%s/%s.XXXXXX", smGD.savePath, 
                       smGD.restoreSession);
 
               strcpy (savedOldDir, smGD.etcPath);
@@ -1702,7 +1702,7 @@ TrimErrorlog( void )
      */
     if (len + strlen(DtERRORLOG_FILE) > MAXPATHLEN)
       checkPath1 = SM_REALLOC(savePath, len + strlen(DtERRORLOG_FILE));
-    sprintf(checkPath1, "%s/%s", savePath, DtERRORLOG_FILE);
+    snprintf(checkPath1, len + strlen(DtERRORLOG_FILE), "%s/%s", savePath, DtERRORLOG_FILE);
 
     status = stat(checkPath1, &buf);
     if((status != -1) && (buf.st_size > 0))

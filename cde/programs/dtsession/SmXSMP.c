@@ -238,10 +238,10 @@ Boolean InitXSMP ( )
 	if (!env) {
 		free (networkIds);
 		PostXSMPFailureDialog (XSMP_FAILURE_MALLOC, False);
+	} else {
+		(void) sprintf (env, "%s=%s", SM_SESSION_MANAGER, networkIds);
+		(void) putenv (env);
 	}
-	
-	(void) sprintf (env, "%s=%s", SM_SESSION_MANAGER, networkIds);
-	(void) putenv (env);
 
 	PutSessionManagerOnRootWindow (networkIds);
 

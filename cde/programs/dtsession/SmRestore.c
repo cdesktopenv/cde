@@ -3512,7 +3512,7 @@ StartClient(
               {
                 int slen = strlen(tstr) + 1;
                 defaultCwd = XtCalloc(1, slen);
-                strncpy(defaultCwd, tstr, slen - 1);
+                snprintf(defaultCwd, slen, "%s", tstr);
               }
             else
               defaultCwd = getcwd (NULL, MAXPATHLEN + 1);
