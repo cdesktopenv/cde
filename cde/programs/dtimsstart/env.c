@@ -336,7 +336,7 @@ int	make_new_environ(oenv, sel)
     }
 # endif	/* old_hpux */
     for (i = 0; i < num && (p = unsetp[i]); i++) {
-	if (strcmp(p, xmod) == 0 || (xinput && strcmp(p, xinput)) == 0)
+	if (strcmp(p, xmod) == 0 || (xinput && (strcmp(p, xinput) == 0)))
 	    continue;
 	if (oenv->set) {
 	    for (ep2 = oenv->set; ep2->name; ep2++)
