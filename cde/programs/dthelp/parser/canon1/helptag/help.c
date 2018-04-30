@@ -126,7 +126,7 @@ if ( *(m_argv[0]) == '/' )
 else
     {
     /* not fully specified, check each component of path for ourself */
-    strcpy(patbuf, getenv("PATH"));
+    snprintf(patbuf, sizeof(patbuf), "%s", getenv("PATH"));
     path = patbuf;
     cp = path;
 
@@ -538,8 +538,10 @@ M_WCHAR *parent, *gentity, *gposition, *ghyperlink, *glinktype, *gdescription;
 {
 unsigned char etype, wheredef;
 char *mb_content, *ssi, id[32];
-static M_WCHAR empty = M_EOS;
+static M_WCHAR empty[1];
 char *leftright;
+empty[0] = M_EOS;
+
 
 /* handle graphic specific code */
 /* initialize some stuff first:
@@ -627,7 +629,7 @@ if (gentity)
 		   gentity);
 	    }
 	}
-    if (!f_content) f_content = &empty;
+    if (!f_content) f_content = empty;
 
     mb_content = MakeMByteString(f_content);
     sprintf(id, "%s%d", sdlReservedName, NextId());
@@ -718,7 +720,7 @@ int	 count, metaCount;
 char	*item_id;
 char	 label_id[SDLNAMESIZ+10];
 int	 listtype;
-char	*type;
+char	*type = NULL;
 char	*loose;
 char	*first;
 LOGICAL  isBullet, isLoose, isFirst;
@@ -824,9 +826,10 @@ if (listtype == ORDER)
     switch (lastlist->lastlist->order)
 	{
 	case UROMAN:
-	    strcpy(orderString, ROMAN100[count / 100]);
-	    strcat(orderString, ROMAN10[(count / 10) % 10]);
-	    strcat(orderString, ROMAN0[count % 10]);
+	    snprintf(orderString, sizeof(orderString), "%s%s%s",
+	             ROMAN100[count / 100],
+	             ROMAN10[(count / 10) % 10],
+	             ROMAN0[count % 10]);
 	    type = romanString;
 	    break;
 	case UALPHA:
@@ -848,9 +851,10 @@ if (listtype == ORDER)
 	    type = arabicString;
 	    break;
 	case LROMAN:
-	    strcpy(orderString, roman100[count / 100]);
-	    strcat(orderString, roman10[(count / 10) % 10]);
-	    strcat(orderString, roman0[count % 10]);
+	    snprintf(orderString, sizeof(orderString), "%s%s%s",
+	             roman100[count / 100],
+	             roman10[(count / 10) % 10],
+	             roman0[count % 10]);
 	    type = romanString;
 	    break;
 	case LALPHA:
@@ -868,7 +872,7 @@ if (listtype == ORDER)
 	    "%s%s-%s\">\n<P>%s%c",
 	    first,
 	    loose,
-	    type,
+	    type ? type : "",
 	    orderString, 
 	    lastlist->lastlist->punct == DOTPUNCT ? '.' : ')' );
     if (id)
@@ -1508,17 +1512,19 @@ _DtXlateDb  myDb = NULL;
 char        myPlatform[_DtPLATFORM_MAX_LEN+1];
 char        myLocale[256]; /* arbitrarily large */
 char       *locale;
-char       *lang;
-char       *charset;
+char       *lang = NULL;
+char       *charset = NULL;
 int         execVer;
 int         compVer;
 int         isStd;
 
-strcpy(myLocale, pLang);
 if (*pCharset)
     {
-    strcat(myLocale, ".");
-    strcat(myLocale, pCharset);
+    snprintf(myLocale, sizeof(myLocale), "%s.%s", pLang, pCharset);
+    }
+else
+    {
+    snprintf(myLocale, sizeof(myLocale), "%s", pLang);
     }
 
 if ((_DtLcxOpenAllDbs(&myDb) != 0) ||
@@ -1601,7 +1607,6 @@ else
     if (*lang)
 	{
 	strcpy(pLang, lang);
-	mb_free(&lang);
 	}
     else
 	strcpy(pLang, cString);
@@ -1609,12 +1614,15 @@ else
     if (*charset)
 	{
 	strcpy(pCharset, charset);
-	mb_free(&charset);
-	free(charset);
 	}
     else
 	strcpy(pCharset, isoString);
     }
+
+    mb_free(&lang);
+    mb_free(&charset);
+    free(charset);
+
 
 _DtLcxCloseDb(&myDb);
 }
@@ -1773,9 +1781,9 @@ if (!charset)
 if (dotPtr)
     *dotPtr = 0;
 
-strcpy(stdLang, locale);
+snprintf(stdLang, sizeof(stdLang), "%s", locale);
 if (charset)
-    strcpy(stdCharset, charset);
+    snprintf(stdCharset, sizeof(stdCharset), "%s", charset);
 SetStdLocale(stdLang, stdCharset);
 
 if (*stdCharset)
@@ -2049,10 +2057,12 @@ if (file)
 sprintf(snb_id, "%s%d", sdlReservedName, NextId());
 
 {
-static M_WCHAR empty = M_EOS;
+static M_WCHAR empty[1];
 char *mb_content;
+empty[0] = M_EOS;
 
-if (!f_content) f_content = &empty;
+
+if (!f_content) f_content = empty;
 
 mb_content = MakeMByteString(f_content);
 AddToSNB(snb_id, mb_content);
@@ -2763,8 +2773,8 @@ if (*icon)
     fputs("CLASS=\"ICON\" SSI=\"NCW-ICON\">", outfile);
     fputs("</REFITEM>\n</SNREF></HEAD>\n", outfile);
     AddToSNB(id, icon);
-    m_free(icon, "icon name");
     }
+m_free(icon, "icon name");
 }
 
 
@@ -2838,8 +2848,7 @@ while (thispath)
 	else
 	    try = mb_realloc(try, tryleng);
 	}
-    strcpy(try, thispath->directory);
-    strcpy(try + pathleng, mb_inputname);
+    sprintf(try, "%s%s", thispath->directory, mb_inputname);
     tossfile = open(try, O_RDONLY);
     if (tossfile >= 0) break;
     thispath = thispath->next;

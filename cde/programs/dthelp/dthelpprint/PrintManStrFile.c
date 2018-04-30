@@ -218,10 +218,11 @@ int _DtHPrPrintManPage(
     }
 
    /* Alloc max shell command line len */
-   printCommand = malloc(MAX_COMMAND_LENGTH*sizeof(char));
+   printCommand = malloc(MAX_COMMAND_LENGTH);
    if (printCommand == NULL)
    {
          fprintf(stderr, _DTGETMESSAGE(PMSET,5,
+         
                             "%s: Error: memory allocation failed\n"),
                              options->programName );
 
@@ -231,7 +232,7 @@ int _DtHPrPrintManPage(
    /** generate the command **/
     snprintf(cmdFormat, sizeof(cmdFormat), "%s %s",         /* man */
              options->manCommand, options->manArgs);
-    snprintf(printCommand, sizeof(MAX_COMMAND_LENGTH*sizeof(char)), cmdFormat,
+    snprintf(printCommand, MAX_COMMAND_LENGTH, cmdFormat,
              options->manPage);         /* man */
 
   retval = _DtHPrGenFileOrPrint(options,options->manPage,printCommand);

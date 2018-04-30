@@ -870,9 +870,10 @@ static char ident6[]="@(#) (c) Copyright 1993, 1994 Unix System Labs, Inc., a su
     {
     char *mb_content, snb_id[32];
     char buffer[BIGBUF];
-    static M_WCHAR empty = M_EOS;
+    static M_WCHAR empty[1];
+    empty[0] = M_EOS;
 
-    if (!f_content) f_content = &empty;
+    if (!f_content) f_content = empty;
 
     mb_content = MakeMByteString(f_content);
     sprintf(snb_id, "%s%d", sdlReservedName, NextId());

@@ -305,7 +305,6 @@ CreateVolumeLink (
     char	*title      = NULL;
     char	*charSet    = (char *) DefCharSet;
     char	*abstract   = NULL;
-    char	*filename   = NULL;
     char        *pathName   = NULL;
     VolumeHandle volume = NULL;
 
@@ -359,8 +358,6 @@ CreateVolumeLink (
 
     if (title)
 	free ((void *) title);
-    if (filename)
-	free ((void *) filename);
 
     return result;
 }

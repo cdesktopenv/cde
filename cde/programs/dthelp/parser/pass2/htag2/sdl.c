@@ -1563,7 +1563,7 @@ static void MarkUsedStyle(level, class, ssi)
 #endif
 {
 ElementPtr  pThis;
-M_WCHAR    *rlevel, *rclass, *rssi;
+M_WCHAR    *rlevel = NULL, *rclass = NULL, *rssi = NULL;
 LOGICAL    *pBeenUsed;
 
 pThis = pTossChain;

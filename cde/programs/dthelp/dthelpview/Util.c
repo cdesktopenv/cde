@@ -166,13 +166,16 @@ void CloseHelpCB (
   pTemp = pCacheListHead;
   
   /* Search our Cache List for the closed help dialog */
-  while ((pTemp->helpDialog != helpDialog) && (pTemp != NULL))
+  while ((pTemp != NULL) && (pTemp->helpDialog != helpDialog))
      pTemp = pTemp->pNext;
  
 
-  if (pTemp == NULL)
+  if (pTemp == NULL) {
     /* ERROR */
     printf("We did not find our help dialog widget in the cache list??? /n");
+    /* TODO what error handling here? */
+    return;
+  }
 
   /* Un Map and Clean up the help widget */
   XtUnmanageChild(helpDialog);

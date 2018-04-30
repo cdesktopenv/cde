@@ -2273,13 +2273,11 @@ int ProcessTopics(
    /* if processing subtopics, start processing at the top */
    if ( processSubTopics )
    {
-      char * name = NULL;
       int    offset;
 
       /* get the top topic of the volume */
       ret = _DtHelpCeGetTopTopicId(state->volHandle, &state->currentLocId);
       if (ret != True) state->currentLocId = strdup("_HOMETOPIC");
-      if(name) free(name);
    }
    else
    {   /* otherwise, process only where needed */
@@ -2413,7 +2411,7 @@ int DoHelpTopicsProcessing(
    char *      buf;
    char *      start;
    char *      next;
-   char *      pgbrkFile;
+   char *      pgbrkFile = NULL;
    char *      partFiles[NUMPARTS];
    Boolean     validFile = False;
 
@@ -2514,7 +2512,10 @@ cleanup:
         unlink(partFiles[i]); 
         free(partFiles[i]);
      }
-   unlink(pgbrkFile);
+
+   if(pgbrkFile) { 
+     unlink(pgbrkFile);
+   }
 
    /* NOTE: should free Toc here if interested in no leaks */
 

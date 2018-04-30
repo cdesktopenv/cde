@@ -72,8 +72,7 @@ void entout(fname)
     int nameindex ;
     LOGICAL start ;
 
-    strncpy(efilename, fname, ENTFILENAME) ;
-    strncpy(&efilename[strlen(efilename)], ".h", 2) ;
+    snprintf(efilename, sizeof(efilename), "%s.h", fname) ;
     m_openchk(&entfile, efilename, "w") ;
 
     fprintf(entfile, "#include \"entdef.h\"\n") ;

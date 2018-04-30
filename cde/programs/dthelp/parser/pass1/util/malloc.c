@@ -93,7 +93,6 @@ void m_free(block, msg)
 #if defined(MSDOS)
     if (m_heapchk) m_heapdump() ;
 #endif
-    free(block) ;
     if (m_malftrace) {
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)
       snprintf(buffer, 32, "%5x:%5x",
@@ -107,6 +106,7 @@ void m_free(block, msg)
       m_trace(msg) ;
       m_trace("\n") ;
       }      
+    free(block) ;
 #if defined(MSDOS)
     if (m_heapchk) m_heapdump() ;
 #endif

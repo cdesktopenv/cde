@@ -210,7 +210,11 @@ SEARCH *searchp;
 char *mb_entcontent;
 
 mb_entcontent = MakeMByteString(entcontent);
-if (!*mb_entcontent) return NULL; /* null file name, don't open a directory */
+if (!*mb_entcontent)  /* null file name, don't open a directory */
+    {
+    m_free(mb_entcontent, "multi-byte string");
+    return NULL;
+    }
 
 open = fopen(mb_entcontent, "r");
 if (open)
@@ -301,7 +305,9 @@ void m_signmsg(p)
     if (q = strstr(p, VERSION)) {
       pCopy = strdup(p);
       q = strstr(pCopy, VERSION);
-      *q = M_EOS;
+      if(q) {
+        *q = M_EOS;
+      }
       m_errline(pCopy);
       free(pCopy);
       return;
