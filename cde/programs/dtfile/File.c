@@ -6131,6 +6131,19 @@ CreateTreeIcons(Widget w)
   XtSetArg (args[1], XmNforeground, &foreground_color);
   XtGetValues (w, args, 2);
 
+  /* JET - 4/29/18, It seems for some reason that no matter what
+   * background is specified for these pixmaps, it will always be
+   * black when drawn.  This seems like a Motif issue.  The problem
+   * arises when earlier on, depending on what Palette has been
+   * selected for the user, the foreground can also be black.  In
+   * those cases, instead of seeing the pixmap, you see a black square
+   * since both the fg and bg colors are black now. We "fix" this by
+   * always forcing the foreground to be white.  This is a
+   * "workaround" - the real problem still needs to be located and
+   * fixed. in motif.
+   */
+  foreground_color = 0x00ffffff;
+
   for (i = 0; i < 3; i++)
   {
     TreeBtnWd[i] = 5;
