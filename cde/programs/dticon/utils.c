@@ -2296,7 +2296,7 @@ SaveSession( void )
     {
         tmpStr = GETSTR(16,24, "Couldn't save session to file");
         tmpStr2 = (char *)XtMalloc(strlen(tmpStr) + strlen(path)+ 3);
-        snprintf(tmpStr2, sizeof(strlen(tmpStr) + strlen(path)+ 3), "%s: %s\n", tmpStr, path);
+        snprintf(tmpStr2, strlen(tmpStr) + strlen(path) + 3, "%s: %s\n", tmpStr, path);
         _DtSimpleErrnoError(progName, DtError, NULL, tmpStr2, NULL);
         XtFree(tmpStr2);
         XtFree ((char *)path);
