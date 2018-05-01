@@ -525,7 +525,7 @@ prop_load_obj(
 {
     PalItemInfo *palitem;
     PalItemInfo *viz_palitem;
-    Widget      dialog;
+    Widget      dialog = NULL;
     PropStateInfo *pstate;
     STRING	modname = NULL;
 
@@ -3819,7 +3819,7 @@ close_propsCB(
 )
 {
     AB_PROP_TYPE 	type = (AB_PROP_TYPE)client_data;
-    DTB_MODAL_ANSWER	answer;
+    DTB_MODAL_ANSWER	answer = DTB_ANSWER_NONE;
     PalItemInfo		*palitem = NULL;
     PropStateInfo	*pstate;
     WidgetList		shell_child;

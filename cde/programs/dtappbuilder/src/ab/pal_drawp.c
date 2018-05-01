@@ -427,7 +427,7 @@ drawp_prop_load(
 )
 {
     PropDrawpSettingsRec 	*pds = &(prop_drawp_settings_rec[type]);
-    AB_SCROLLBAR_POLICY		sb_policy;
+    AB_SCROLLBAR_POLICY		sb_policy = AB_SCROLLBAR_UNDEF;
     BOOL			load_all = (loadkey & LoadAll);
  
     if (obj == NULL)

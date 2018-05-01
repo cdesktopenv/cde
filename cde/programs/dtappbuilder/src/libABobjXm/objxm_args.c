@@ -1629,6 +1629,8 @@ objxmP_set_attachment_arg(
 	    att_offset_resource = XmNbottomOffset;
 	    att_pos_resource    = XmNbottomPosition;
 	    break;
+	default:
+	    return OK;
     }
     type   = obj_get_attach_type(obj, dir);
     value  = obj_get_attach_value(obj, dir);

@@ -530,7 +530,7 @@ ui_build_menu(
 )
 {
     Widget	menu,
-   		cascade,
+   		cascade = NULL,
 		widget;
     Arg		args[4];
     int 	i;
@@ -1647,7 +1647,7 @@ ui_obj_set_label_string(
 			Widget       parent = objxm_get_widget(p_obj);
 			AB_ITEM_TYPE itype = (AB_ITEM_TYPE)obj_get_subtype(obj);
 			int          pos;
-			int          num_items;
+			int          num_items = 0;
 			XmString     xmitem;
 	    
 			if (parent != NULL)

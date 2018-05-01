@@ -340,7 +340,7 @@ root_into_project(
 {
     sym_root_entry_type	*root_node;
     ABObjPtr		ab_module;
-    ABObjPtr		ret_val;
+    ABObjPtr		ret_val = NULL;
 
     if (uil_root == (sym_entry_type *)NULL ||
 	uil_root->header.b_tag != sym_k_root_entry)
@@ -424,7 +424,7 @@ sections_into_module(
     sym_entry_type		*next_node;
     sym_section_entry_type	*section_node;
     short int			done;
-    ABObjPtr			ret_val;
+    ABObjPtr			ret_val = NULL;
 
     /*
      * populate module;

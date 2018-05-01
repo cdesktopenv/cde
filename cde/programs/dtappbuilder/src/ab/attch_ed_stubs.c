@@ -1567,11 +1567,11 @@ create_obj_menu_dir(
 {
     DtbAttchEdAttchEdDialogInfo	attch_ed_cgen = &dtb_attch_ed_attch_ed_dialog;
     AttchEditorSettingsRec	*ats = &attch_editor_settings_rec;
-    PropOptionsSetting		option_setting;
+    PropOptionsSetting		option_setting = NULL;
     Widget			label = NULL,
-    				optionbox,
-    				menu,
-    				changebar,
+    				optionbox = NULL,
+    				menu = NULL,
+    				changebar = NULL,
     				*item = NULL;
     int				item_values = 0,
     				*item_val = NULL, 
@@ -3090,15 +3090,15 @@ change_opp_attach_type(
     int				offset = 0,
 				position = 0;
     ABObj			attach_obj = NULL;
-    AB_COMPASS_POINT		opp_dir;
+    AB_COMPASS_POINT		opp_dir = AB_CP_UNDEF;
     ATTCH_ED_ATTACH_TYPE	opp_attach_type;
-    PropOptionsSetting		opp_attach_type_setting,
-        			opp_objlist_setting;
-    PropFieldSetting		opp_offset_setting,
-        			opp_position_setting;
-    Widget			opp_objlist_w,
-        			opp_offset_w,
-        			opp_position_w;
+    PropOptionsSetting		opp_attach_type_setting = NULL,
+        			opp_objlist_setting = NULL;
+    PropFieldSetting		opp_offset_setting = NULL,
+        			opp_position_setting = NULL;
+    Widget			opp_objlist_w = NULL,
+        			opp_offset_w = NULL,
+        			opp_position_w = NULL;
     BOOL			set_opp_attach = FALSE;
 
     /*
@@ -3279,10 +3279,10 @@ attach_obj_changed(
     DtbAttchEdAttchEdDialogInfo	attch_ed_cgen
 			    = &dtb_attch_ed_attch_ed_dialog;
     AttchEditorSettingsRec	*ats = &attch_editor_settings_rec;
-    PropFieldSetting		offset_setting,
+    PropFieldSetting		offset_setting = NULL,
     				position_setting;
-    PropOptionsSetting		objlist_setting,
-    				attach_type_setting;
+    PropOptionsSetting		objlist_setting = NULL,
+    				attach_type_setting = NULL;
     AB_COMPASS_POINT		dir = (AB_COMPASS_POINT)client_data;
     ATTCH_ED_ATTACH_TYPE	attach_type = ATTCH_ED_NONE;
     ABObj			attach_obj = NULL;
@@ -3323,6 +3323,9 @@ attach_obj_changed(
 	    position_setting = &(ats->bottom_attach_position);
 	    objlist_setting = &(ats->bottom_attach_obj);
 	break;
+	
+	default:
+	    return;
 
     }
 

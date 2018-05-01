@@ -979,7 +979,7 @@ STRING
 bilP_load_att_hspacing(BIL_TOKEN valueToken)
 {
     ABObj               obj = bilP_load.obj;
-    int                 tmp_int;
+    int                 tmp_int = 0;
     int                 type;
 
     nset_att(AB_BIL_HSPACING);
@@ -1000,7 +1000,7 @@ STRING
 bilP_load_att_hoffset(BIL_TOKEN valueToken)
 {
     ABObj               obj = bilP_load.obj;
-    int                 tmp_int;
+    int                 tmp_int = 0;
     int                 type;
 
     set_att(":hoffset");
@@ -1688,7 +1688,7 @@ STRING
 bilP_load_att_max_length(BIL_TOKEN valueToken)
 {
     ABObj               obj = bilP_load.obj;
-    int                 tmp_int;
+    int                 tmp_int = 0;
     int                 type;
 
     set_att(":max-length");
@@ -1710,7 +1710,7 @@ bilP_load_att_tear_off(BIL_TOKEN valueToken)
     ABObj               obj = bilP_load.obj;
     int                 type = AB_BIL_UNDEF;
     STRING              value = NULL;
-    BOOL                tear_off;
+    BOOL                tear_off = FALSE;
 
     set_att(":tear-off");
     if (!bilP_token_is_bool(valueToken))
@@ -1855,7 +1855,7 @@ STRING
 bilP_load_att_voffset(BIL_TOKEN valueToken)
 {
     ABObj               obj = bilP_load.obj;
-    int                 tmp_int;
+    int                 tmp_int = 0;
     int                 type;
 
     set_att(":voffset");
@@ -1908,7 +1908,7 @@ STRING
 bilP_load_att_vspacing(BIL_TOKEN valueToken)
 {
     ABObj               obj = bilP_load.obj;
-    int                 tmp_int;
+    int                 tmp_int = 0;
     int                 type;
 
     set_att(":vspacing");

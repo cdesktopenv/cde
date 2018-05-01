@@ -1121,7 +1121,7 @@ select_connection(
 {
     XmListCallbackStruct	*list_cl = (XmListCallbackStruct *)call_data;
     ABObj			*obj_list = (ABObj *)NULL;
-    ABObj			cur_action;
+    ABObj			cur_action = NULL;
     AB_ACTION_INFO		*cur_info;
 
     if (list_cl->reason != XmCR_BROWSE_SELECT)
@@ -1353,19 +1353,20 @@ get_cur_when(
 {
     Widget	label_wid = XmOptionButtonGadget(when_menu);
     XmString	xm_when_label	= (XmString)NULL;
-    char	*when_label;
+    char	*when_label = NULL;
     register int	i;
 
     XtVaGetValues(label_wid, XmNlabelString, &xm_when_label, NULL);
-    if (xm_when_label != NULL)
+    if (xm_when_label != NULL) {
 	when_label = objxm_xmstr_to_str(xm_when_label);
 
-    for (i = 0; i < ConnP_num_conn_whens; i++)
-	if (!strcmp(when_label, ConnP_conn_whens[i].label))
-	{
-	    XtFree(when_label);
-	    return((int)ConnP_conn_whens[i].when_type);
+	for (i = 0; i < ConnP_num_conn_whens; i++) {
+	    if (!strcmp(when_label, ConnP_conn_whens[i].label)) {
+		XtFree(when_label);
+		return((int)ConnP_conn_whens[i].when_type);
+	    }
 	}
+    }
 
     /*
      * Should never happen
@@ -1381,19 +1382,20 @@ get_cur_act(
 {
     Widget	label_wid = XmOptionButtonGadget(action_menu);
     XmString	xm_act_label	= (XmString)NULL;
-    char	*act_label;
+    char	*act_label = NULL;
     register int	i;
 
     XtVaGetValues(label_wid, XmNlabelString, &xm_act_label, NULL);
-    if (xm_act_label != NULL)
+    if (xm_act_label != NULL) {
 	act_label = objxm_xmstr_to_str(xm_act_label);
 
-    for (i = 0; i < ConnP_num_conn_acts; i++)
-	if (!strcmp(act_label, ConnP_conn_acts[i].label))
-	{
-	    XtFree(act_label);
-	    return(ConnP_conn_acts[i].act_type);
+	for (i = 0; i < ConnP_num_conn_acts; i++) {
+	    if (!strcmp(act_label, ConnP_conn_acts[i].label)) {
+		XtFree(act_label);
+		return(ConnP_conn_acts[i].act_type);
+	    }
 	}
+    }
 
     /*
      * Should never happen
@@ -3870,17 +3872,20 @@ get_cur_func_type(void)
 {
     Widget      label_wid = XmOptionButtonGadget(action_type_opmenu);
     XmString    xm_act_label    = (XmString)NULL;
-    char        *act_label;
+    char        *act_label = NULL;
     register int        i;
     AB_FUNC_TYPE	func_type = AB_FUNC_UNDEF;
  
     XtVaGetValues(label_wid, XmNlabelString, &xm_act_label, NULL);
-    if (xm_act_label != NULL)
-        act_label = objxm_xmstr_to_str(xm_act_label);
+    if (xm_act_label != NULL) {
+	act_label = objxm_xmstr_to_str(xm_act_label);
  
-    for (i = 0; i < ACTION_TYPE_NUM_VALUES; i++)
-        if (!strcmp(act_label, action_type_labels[i]))
-	    break;
+	for (i = 0; i < ACTION_TYPE_NUM_VALUES; i++) {
+	    if (!strcmp(act_label, action_type_labels[i])) {
+		break;
+	    }
+	}
+    }
 
     switch (i)
     {

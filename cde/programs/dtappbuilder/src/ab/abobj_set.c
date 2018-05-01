@@ -2139,7 +2139,7 @@ abobj_set_pattern_type(
 )
 {
     ABObj			subObj;
-    unsigned char		value;
+    unsigned char		value = 0;
     AB_FILE_TYPE_MASK old_fmtype = obj_get_file_type_mask(obj);
 
     if (old_fmtype != fmtype)

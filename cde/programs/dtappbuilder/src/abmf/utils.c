@@ -348,7 +348,7 @@ find_longest_label(STRING * label)
 {
     int                 len1,
                         len2,
-                        longest,
+                        longest = 0,
                         i = 0;
 
     len1 = len2 = 0;

@@ -3355,7 +3355,7 @@ attach_context_store(
 {
     AttachmentContext	*attach_context = (AttachmentContext *)context;
     STRING		attach_str;
-    AB_ATTACH_TYPE	att_type;
+    AB_ATTACH_TYPE	att_type = AB_ATTACH_UNDEF;
     long		att_pos = 0, att_off = 0, offset = 0;
     void		*value  = NULL;
     BOOL		need_val = TRUE;

@@ -1925,7 +1925,7 @@ msgEdP_show_msgCB(
     ABObj			project = obj_get_project(mes->current_obj);
     STRING			str = (STRING) NULL;
     DTB_BUTTON			default_btn = DTB_NONE;
-    unsigned char		dialogType;
+    unsigned char		dialogType = 0;
 
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     

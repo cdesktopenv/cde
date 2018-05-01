@@ -411,7 +411,7 @@ config_attachment(
 )
 {
     ABObj        attobj;
-    ABAttachment *attachment;
+    ABAttachment *attachment = NULL;
 
     switch(dir)
     {
@@ -427,6 +427,8 @@ config_attachment(
         case AB_CP_SOUTH:
             attachment = &(obj->attachments->south);
             break;
+        default:
+            return;
     }
     if (attachment->type == AB_ATTACH_OBJ)
     {

@@ -679,7 +679,7 @@ prop_item_change(
 )  
 {  
     ABObj	 current_obj;
-    STRING	 newlabel, basename, graphic_path;
+    STRING	 newlabel = NULL, basename = NULL, graphic_path;
     BOOL	 label_type_chg = False;
     AB_LABEL_TYPE new_label_type;
     XmString	 xmitem;
@@ -902,7 +902,7 @@ prop_item_insert(
                 *new_iobj_list;
     int         num_items;
     int         select_pos;
-    int         pos;
+    int         pos = 0;
     int         i, j;
 
     XtVaGetValues(pis->item_list,

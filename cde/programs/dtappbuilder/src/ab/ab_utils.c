@@ -722,7 +722,7 @@ ab_update_stat_region(
     static Widget       obj_size = NULL;
     static Widget       curs_pos = NULL;
     static Widget       cur_module = NULL;
-    Widget              widget;
+    Widget              widget = NULL;
     String              nullstr = "        ";
 
     switch(type)

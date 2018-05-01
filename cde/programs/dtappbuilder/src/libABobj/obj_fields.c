@@ -2992,7 +2992,7 @@ obj_set_attachment(
 		   int offset
 )
 {
-    ABAttachment       *attachment;
+    ABAttachment       *attachment = NULL;
     verify_for_write(obj);
 
     if (obj->attachments == NULL)
@@ -3012,6 +3012,8 @@ obj_set_attachment(
     case AB_CP_EAST:
 	attachment = &(obj->attachments->east);
 	break;
+    default:
+	return 0;
     }
     attachment->type = type;
     attachment->value = value;

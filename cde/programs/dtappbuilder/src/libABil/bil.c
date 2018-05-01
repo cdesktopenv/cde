@@ -267,7 +267,7 @@ bilP_label_style_to_token(AB_LABEL_STYLE type)
 AB_LABEL_STYLE
 bilP_token_to_label_style(int type)
 {
-    AB_LABEL_STYLE      obj_type;
+    AB_LABEL_STYLE      obj_type = AB_STYLE_UNDEF;
 
     switch (type)
     {

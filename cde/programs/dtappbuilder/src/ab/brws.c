@@ -1751,7 +1751,7 @@ destroy_browser_ui_handles(
 )
 {
     BrowserUiObjects	*ui;
-    DtbBrwsMainwindowInfo	instance;
+    DtbBrwsMainwindowInfo	instance = NULL;
 
     if (!b)
 	return;
@@ -1811,8 +1811,7 @@ destroy_browser_ui_handles(
     /*
      * Free the ip structure
      */
-    if (instance)
-	free(instance);
+    free(instance);
 }
 
 
