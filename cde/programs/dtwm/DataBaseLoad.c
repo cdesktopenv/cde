@@ -1219,7 +1219,7 @@ ProcessRecord (DtDtsDbField   * fields,
    int i, j;
    int entry;
 
-   int keyword_count;
+   int keyword_count = 0;
    char ** field_keywords;
 
 
@@ -2318,6 +2318,7 @@ AddControlActionList (ControlData * control_data)
             {
                /* DtDTS_DA_ACTION_LIST */
                case 0:
+                  free(act_list); /* Remove any previous loop run through */
                   act_list = (char *) strdup(attr_list[i]->value);
                break;
 

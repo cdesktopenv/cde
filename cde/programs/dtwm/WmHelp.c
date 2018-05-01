@@ -2044,6 +2044,8 @@ RestoreHelpDialogs(
 	XrmDestroyDatabase(db);
     }
 #endif /* NO_DT */
+
+    return True;
 } /* END OF FUNCTION  RestoreHelpDialogs */
 
 /*************************************<->*************************************

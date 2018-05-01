@@ -973,7 +973,7 @@ SwitchRenameCB (Widget    w,
    SwitchData * switch_data;
 
    Boolean valid;
-   int     current_switch;
+   int     current_switch = 0;
    int     i;
 	 
    int ac;

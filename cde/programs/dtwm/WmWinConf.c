@@ -688,7 +688,7 @@ Boolean HandleResizeKeyPress (ClientData *pcd, XEvent *pev)
 {
     KeySym keysym;
     Boolean control;
-    int warpX, warpY, currentX, currentY, newX, newY;
+    int warpX, warpY, currentX = 0, currentY = 0, newX, newY;
     int junk, keyMult;
     Window junk_win;
     XEvent KeyEvent;

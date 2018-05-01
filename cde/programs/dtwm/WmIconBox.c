@@ -2887,7 +2887,7 @@ void PackIconBox (IconBoxData *pIBD, Boolean packVert, Boolean packHorz, int pas
     int ix1, ix2;
     int count;
     int newX, newY;
-    ClientData *pCD_tmp, *pMyCD;
+    ClientData *pCD_tmp = NULL, *pMyCD;
     int hasActiveText = 1;
     Arg args[4];
     Dimension majorDimension, minorDimension;

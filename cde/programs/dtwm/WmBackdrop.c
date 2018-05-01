@@ -441,9 +441,12 @@ ProcessBackdropResources(
 		pch = NULL;
 	    }
 	    free (pchImageName);	/* temporary string */
+	    pchImageName = NULL;
 	    free (pchL);	/* temporary string */
 	}
     }
+
+    free (pchImageName);
 }
 
 

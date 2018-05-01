@@ -2004,7 +2004,7 @@ SwitchCreate (BoxData * box_data)
    int     switch_count = 1;
    Atom  * atom_names;
    Atom    current_workspace_atom;
-   int     current_workspace;
+   int     current_workspace = 0;
 
    Widget switch_button;
 
@@ -3186,7 +3186,7 @@ AddSubpanel (ControlData * control_data)
 
 {
    ElementValue * element_values;
-   SubpanelData * subpanel_data;
+   SubpanelData * subpanel_data = NULL;
    BoxData * box_data = (BoxData *)control_data->parent_data;
 
    DtWmHints vHints;
@@ -3259,7 +3259,9 @@ AddSubpanel (ControlData * control_data)
 
    box_data->subpanel_count++;
 
-   SubpanelCreate (control_data, subpanel_data);
+   if(subpanel_data) {
+      SubpanelCreate (control_data, subpanel_data);
+   }
 
 
    XtSetArg (al[0], XmNimageName, post_arrow_image);

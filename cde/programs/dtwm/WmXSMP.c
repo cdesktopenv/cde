@@ -485,7 +485,7 @@ getClientWorkspaces(ClientData *pCD)
     /* Easy but slow way to do this would be to use XGetAtomName(). */
     /* To avoid XServer round trips (and to weed out invalid WS names) */
     /* we look through workspaces attached to this screen for ID matches. */
-    char *cwsP, *tmpP, *wsNameP;
+    char *cwsP = NULL, *tmpP, *wsNameP;
     int pLen = 0;
     int i;
 

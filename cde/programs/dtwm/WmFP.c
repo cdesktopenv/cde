@@ -610,6 +610,9 @@ PushRecallGetData (char * client_name)
    for (i = 0; i < panel.push_recall_count; i++)
       if (strcmp (client_name, push_recall_list[i].pchResName) == 0)
          return (i);
+
+   /* Should never get here */
+   return 0;
 }
    
  

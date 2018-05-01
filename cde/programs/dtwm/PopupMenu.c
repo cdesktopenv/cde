@@ -137,7 +137,7 @@ DeleteWorkspaceCB (Widget    w,
 
 {
    long delete_workspace = (long) client_data;
-   SwitchData * switch_data;
+   SwitchData * switch_data = NULL;
    int i;
    
 
@@ -152,9 +152,12 @@ DeleteWorkspaceCB (Widget    w,
          break;
       }
    }
-   
-   _DtWsmDeleteWorkspace (panel.shell, 
-                          switch_data->atom_names[delete_workspace]);
+
+   if(switch_data)
+   {
+      _DtWsmDeleteWorkspace (panel.shell, 
+                             switch_data->atom_names[delete_workspace]);
+   }
 }
 
 

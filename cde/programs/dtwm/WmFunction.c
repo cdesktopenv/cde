@@ -2285,7 +2285,7 @@ F_Push_Recall (String args, ClientData *pCD, XEvent *event)
 
 	    if (!bWaiting)
 	    {
-		long clientTimeout;
+		long clientTimeout = 0;
 		Arg al[5];
 		int ac;
 		WmPanelistObject  pPanelist;

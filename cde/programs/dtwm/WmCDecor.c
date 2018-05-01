@@ -566,9 +566,9 @@ void GenerateFrameDisplayLists (ClientData *pcd)
     int insideBevel, inset, diffBevel;
     unsigned int nTitleBevel, sTitleBevel, eTitleBevel, wTitleBevel;
     unsigned int meTitleBevel, inWidth;
-    int x, y, xAdj, yAdj;
+    int x, y, xAdj = 0, yAdj = 0;
     unsigned int width, height;
-    RList *prlTop, *prlBot;
+    RList *prlTop = NULL, *prlBot = NULL;
 
     int jX, jY;
     unsigned int jW, jH;

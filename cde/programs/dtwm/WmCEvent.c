@@ -2569,7 +2569,7 @@ void HandleCColormapNotify (ClientData *pCD, XColormapEvent *colorEvent)
 
 void HandleClientMessage (ClientData *pCD, XClientMessageEvent *clientEvent)
 {
-    unsigned int newState;
+    unsigned int newState = WITHDRAWN_STATE;
 
     /*
      * Process the client message event based on the message_type.
