@@ -258,8 +258,7 @@ in this Software without prior written authorization from The Open Group.
 #if defined(sun) && (defined(SVR4) || defined(__svr4__) || defined(__SVR4) || defined(__sol__))
 #define DEFAULT_CPP "/usr/ccs/lib/cpp"
 #endif
-#if defined(__bsdi__) || defined(__NetBSD__) \
-	|| (defined(__FreeBSD__) && !defined(CPP_IN_LIBEXEC))
+#if defined(__NetBSD__) || (defined(__FreeBSD__) && !defined(CPP_IN_LIBEXEC))
 #define DEFAULT_CPP "/usr/bin/cpp"
 #endif
 #ifdef __uxp__
@@ -316,7 +315,7 @@ char *cpp_argv[ARGUMENTS] = {
 #ifdef unix
 	"-Uunix",	/* remove unix symbol so that filename unix.c okay */
 #endif
-#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH) || defined(USL) || defined(sco) || defined(ISC) || defined(__bsdi__) || defined(linux) || defined(__hpux__) || defined(__vxworks)
+#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH) || defined(USL) || defined(sco) || defined(ISC) || defined(linux) || defined(__hpux__) || defined(__vxworks)
 # ifdef __i386__
 	"-D__i386__",
 # endif
@@ -851,9 +850,6 @@ struct symtab	predefs[] = {
 #ifdef _SEQUENT_
 	{"_SEQUENT_", "1"},
 	{"__STDC__", "1"},
-#endif
-#ifdef __bsdi__
-	{"__bsdi__", "1"},
 #endif
 #ifdef nec_ews_svr2
 	{"nec_ews_svr2", "1"},

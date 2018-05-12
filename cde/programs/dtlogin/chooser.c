@@ -594,7 +594,7 @@ RegisterHostname (char *name)
 	if (ioctl (socketFD, (int) SIOCGIFCONF, (char *) &ifc) < 0)
 	    return 0;
 	for (ifr = ifc.ifc_req
-#if defined (__bsdi__) || defined(__NetBSD__)
+#if defined(__NetBSD__)
 	     ; (char *)ifr < ifc.ifc_buf + ifc.ifc_len;
 	     ifr = (struct ifreq *)((char *)ifr + sizeof (struct ifreq) +
 		(ifr->ifr_addr.sa_len > sizeof (ifr->ifr_addr) ?
