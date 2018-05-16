@@ -154,8 +154,6 @@ struct cmd cmdtab[] = {
 #define SYSTEM_MAILRC	"/usr/share/lib/Mail.rc"
 #elif defined(USL) || defined(__hpux)
 #define SYSTEM_MAILRC	"/usr/share/lib/mailx.rc"
-#elif defined(__uxp__)
-#define SYSTEM_MAILRC	"/etc/mail/mailx.rc"
 #elif defined(CSRG_BASED)
 #define SYSTEM_MAILRC	"/etc/mail.rc"
 #endif

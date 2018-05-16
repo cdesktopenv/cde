@@ -314,7 +314,7 @@ all:: Prelude.h dfiles messages Dtinfo
 includes:: Prelude.h dfiles messages
 
 #if defined(HPArchitecture) ||defined (AIXArchitecture) || \
-    defined(UXPArchitecture) || defined(AlphaArchitecture) || \
+    defined(AlphaArchitecture) || \
     (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 6) || \
     defined(USLArchitecture) || defined(BSDArchitecture)
 # ifndef Dont_Use_Templates_Repository
@@ -330,7 +330,7 @@ SpecialCPlusPlusObjectRule(Templates.o,,+pti all_tmpls $(SUBDIR_TEMPL_INCLUDES))
 SpecialCPlusPlusObjectRule(Templates.o,,+Tall $(SUBDIR_TEMPL_INCLUDES))
 SpecialCPlusPlusObjectRule(Templates2.o,,+Tall $(SUBDIR_TEMPL_INCLUDES))
 SpecialCPlusPlusObjectRule(Templates3.o,,+Tall $(SUBDIR_TEMPL_INCLUDES))
-#elif defined(UXPArchitecture) || (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4) 
+#elif (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4)
 SpecialCPlusPlusObjectRule(Templates.o,,+Tall_tmpls $(SUBDIR_TEMPL_INCLUDES))
 #elif defined(AlphaArchitecture) 
 SpecialCPlusPlusObjectRule(Templates.o,,-ptf $(SUBDIR_TEMPL_INCLUDES))
@@ -400,10 +400,6 @@ XCOMM Eventually could replace the following rule with r6 rule:
 XCOMM "ComplexCplusplusProgramTarget"
 XCOMM for the time being, i added the below hack - rCs
 
-#if defined(UXPArchitecture)
-PRE_LD = LD_RUN_PATH=/usr/dt/lib:/X11/lib
-#endif
-
 ComplexCPlusPlusProgram($(PROGRAM_NAME))
 
 RESFILES = Macros.res Strings.res \
@@ -437,7 +433,7 @@ clean::
 dfiles::
 	foreach_subdirs(dfiles, $(CLASSLIBS))
 
-#if defined(UXPArchitecture) || defined(USLArchitecture)
+#if defined(USLArchitecture)
 GENCAT=gencat -m
 #else
 GENCAT=gencat

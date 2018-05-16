@@ -59,7 +59,7 @@ extern "C" {
 ** System V R4 based systems define the stuff we need in
 ** sys/types.h. Include that and then we are done.
 */
-#if defined(HPUX) || defined(linux) || defined(SunOS) || defined(UNIX_SV) || defined(USL) || defined(__uxp__)
+#if defined(HPUX) || defined(linux) || defined(SunOS) || defined(UNIX_SV) || defined(USL)
 #include <sys/types.h>
 #endif
 
@@ -162,7 +162,7 @@ typedef enum {B_FALSE, B_TRUE} boolean_t;
 
 #endif /* AIX */
 
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
 
 #include <sys/param.h>
 

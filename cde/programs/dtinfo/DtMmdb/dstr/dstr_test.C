@@ -26,9 +26,7 @@
 #include "utility/pm_random.h"
 #include "utility/funcs.h"
 
-#if defined(__uxp__) 
-#include <sys/times.h>
-#elif __osf__
+#if defined(__osf__)
 #include <sys/time.h>
 #endif
 
@@ -55,17 +53,11 @@ int dstr_test(int argc, char** argv)
       int out_cts = atoi(argv[3]);
       int cycles = atoi(argv[4]);
 
-#ifdef __uxp__
-      int seed;
-      struct tms tp;
-      if ((seed = (int)times(&tp)) < 0)
-	seed = 19;
-#else
       struct timeval tp;
       struct timezone tzp;
 
       int seed = ( gettimeofday(&tp, &tzp) == 0 ) ? int(tp.tv_sec) : 19;
-#endif
+
       pm_random rand_gen;
       rand_gen.seed(seed);
 

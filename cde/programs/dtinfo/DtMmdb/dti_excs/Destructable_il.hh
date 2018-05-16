@@ -98,7 +98,7 @@ Destructable::~Destructable()
 // This code relies on the fact that in cfront 2.1 this qualified
 // call to the destructor will actually call the virtual destructor. 
 
-#if (!defined(hpux)) && (!defined(__uxp__)) && (CC_VERSION < 30)
+#if !defined(hpux) && (CC_VERSION < 30)
 inline void
 Destructable::destruct()
 {

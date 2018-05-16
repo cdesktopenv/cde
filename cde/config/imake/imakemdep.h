@@ -156,10 +156,6 @@ in this Software without prior written authorization from The Open Group.
 #endif
 #endif
 
-#ifdef __uxp__
-#define imake_ccflags "-DSVR4 -DANSICPP"
-#endif
-
 #ifdef __sxg__
 #define imake_ccflags "-DSYSV -DUSG -DNOSTDHDRS"
 #endif
@@ -260,9 +256,6 @@ in this Software without prior written authorization from The Open Group.
 #endif
 #if defined(__NetBSD__) || (defined(__FreeBSD__) && !defined(CPP_IN_LIBEXEC))
 #define DEFAULT_CPP "/usr/bin/cpp"
-#endif
-#ifdef __uxp__
-#define DEFAULT_CPP "/usr/ccs/lib/cpp"
 #endif
 #ifdef __sxg__
 #define DEFAULT_CPP "/usr/lib/cpp"
@@ -555,9 +548,6 @@ char *cpp_argv[ARGUMENTS] = {
         "-traditional",
         "-Dlinux",
 #endif
-#ifdef __uxp__
-	"-D__uxp__",
-#endif
 #ifdef __sxg__
 	"-D__sxg__",
 #endif
@@ -621,7 +611,7 @@ char *cpp_argv[ARGUMENTS] = {
 # define DEFAULT_OS_MINOR_REV	"r %[0-9]"
 /* No information available to generate default OSTeenyVersion value. */
 # define DEFAULT_OS_NAME	"srvm %[^\n]"
-#elif defined(sun) || defined(sgi) || defined(ultrix) || defined(__uxp__) || defined(linux) || defined(sony)
+#elif defined(sun) || defined(sgi) || defined(ultrix) || defined(linux) || defined(sony)
 /* uname -r returns "x.y[.z]", e.g. "5.4" or "4.1.3" */
 # define DEFAULT_OS_MAJOR_REV	"r %[0-9]"
 # define DEFAULT_OS_MINOR_REV	"r %*d.%[0-9]"
@@ -643,12 +633,6 @@ char *cpp_argv[ARGUMENTS] = {
 /* uname -r returns "Wx.y", e.g. "V3.2" or "T4.0" */
 # define DEFAULT_OS_MAJOR_REV	"r %*[^0-9]%[0-9]"
 # define DEFAULT_OS_MINOR_REV	"r %*[^.].%[0-9]"
-# define DEFAULT_OS_NAME	"srvm %[^\n]"
-#elif defined(__uxp__)
-/* NOTE: "x.y[.z]" above handles UXP/DF.  This is a sample alternative. */
-/* uname -v returns "VxLy Yzzzzz ....", e.g. "V20L10 Y95021 Increment 5 ..." */
-# define DEFAULT_OS_MAJOR_REV	"v V%[0-9]"
-# define DEFAULT_OS_MINOR_REV	"v V%*dL%[0-9]"
 # define DEFAULT_OS_NAME	"srvm %[^\n]"
 #elif defined(__FreeBSD__)
 /* uname -r returns "x.y[.z]-mumble", e.g. "9.0-RELEASE" or "11.0-CURRENT" */
@@ -840,9 +824,6 @@ struct symtab	predefs[] = {
 #endif
 #ifdef __unix__
 	{"__unix__", "1"},
-#endif
-#ifdef __uxp__
-	{"__uxp__", "1"},
 #endif
 #ifdef __sxg__
 	{"__sxg__", "1"},

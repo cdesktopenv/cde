@@ -1734,13 +1734,13 @@ do_round(double result, int ndigits)
     if (!temp)
        return (temp > 0) ? HUGE : -HUGE;
 #else
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
     temp = finite(result);
     if (!temp)
        return (temp > 0) ? HUGE : -HUGE;
 #else
     if ((temp = isinf(result))) return (temp > 0) ? HUGE : -HUGE;
-#endif /* USL or __uxp__ */
+#endif /* USL */
 #endif /* _AIX or __osf__ */
 
     if (ndigits >= 0 && ndigits < MAX_DIGITS)
@@ -1853,7 +1853,7 @@ try_compute_i(double guess, double *result, int method)
 	if (!(!isnan(new_w) && finite(new_w)))
 	    return FALSE;
 #else
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
 	if (!(!isnan(new_w) && finite(new_w)))
 	    return FALSE;
 #else

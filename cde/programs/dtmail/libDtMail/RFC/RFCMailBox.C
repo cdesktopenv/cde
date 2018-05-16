@@ -103,19 +103,12 @@ extern "C" {
 #define MAIL_SPOOL_PATH "/var/mail/%s"
 #endif
 
-#ifdef __uxp__
-extern "C" int madvise(caddr_t, size_t, int);
-extern "C" ssize_t  pread(int, void *, size_t, off_t);
-#endif
-
 #if defined(sun) || defined(USL)
 #define	LCL_SIG_HANDLER_SIGNATURE	
 #elif defined(__hpux)
 #define	LCL_SIG_HANDLER_SIGNATURE	__harg
 #elif defined(__aix) || defined(__alpha) || defined(linux) || defined(CSRG_BASED)
 #define	LCL_SIG_HANDLER_SIGNATURE	int
-#elif defined(__uxp__)
-#define	LCL_SIG_HANDLER_SIGNATURE
 #endif
 
 //
@@ -577,7 +570,7 @@ RFCMailBox::alterPageMappingAdvice(MapRegion *map, int advice)
   for (int m = 0; m < me; m++) {
     MapRegion *map_t = _mappings[m];
 
-#if !defined(USL) && !defined(__uxp__) && !defined(linux) && !defined(sun)
+#if !defined(USL) && !defined(linux) && !defined(sun)
     // no madvise on these systems
     if (map_t == map || map == (MapRegion *)-1)
       madvise(map_t->map_region, (size_t) map_t->map_size, advice);
@@ -896,7 +889,7 @@ RFCMailBox::open(DtMailEnv & error,
 	  // five characters are "From "
 	  char inbuf[6];
 
-#if defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(sun) || defined(USL)
 	  pread(_fd, (void *)inbuf, 5, 0);
 #else
 	  lseek(_fd, (off_t) 0L, SEEK_SET);
@@ -2266,7 +2259,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     //
     unsigned long pagelimit = _mappings[map_slot]->map_size;
 
-#if !defined(USL) && !defined(__uxp__) && !defined(linux) && !defined(sun)
+#if !defined(USL) && !defined(linux) && !defined(sun)
     // no madvise; dont use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,
@@ -2357,7 +2350,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     // At this point we most likely will see random behavior. We will
     // tell the kernel to pull in the minimum number of extra pages.
     //
-#if !defined(USL) && !defined(__uxp__) && !defined(linux) && !defined(sun)
+#if !defined(USL) && !defined(linux) && !defined(sun)
     // no madvise; dont use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,

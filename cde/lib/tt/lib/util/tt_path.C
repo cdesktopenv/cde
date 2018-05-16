@@ -59,7 +59,7 @@
 #undef rindex
 #endif
 
-#if defined(OPT_BUG_USL) || defined(OPT_BUG_UXP)
+#if defined(OPT_BUG_USL)
 #define S_ISLNK(mode)   ((mode & 0xF000) == S_IFLNK)
 #endif
 

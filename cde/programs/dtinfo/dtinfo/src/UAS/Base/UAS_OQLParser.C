@@ -24,7 +24,7 @@
 /*	Copyright (c) 1995 FUJITSU LIMITED	*/
 /*	All Rights Reserved			*/
 
-#if defined(__uxp__) || defined(USL) || defined(linux) || defined(CSRG_BASED)
+#if  defined(USL) || defined(linux) || defined(CSRG_BASED)
 #include <string.h>
 #else
 #include <strings.h>

@@ -27,7 +27,7 @@
 #define L_Basic
 #include <Prelude.h>
 
-#if !defined(__uxp__) && !defined(USL)
+#if !defined(USL)
 #include <strings.h>
 #endif
 

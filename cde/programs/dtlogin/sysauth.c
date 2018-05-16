@@ -71,7 +71,6 @@
  **     SVR4        SUN OS and USL
  **     _AIX        AIX only
  **     _POWER      AIX version 4 only
- **	__uxp__     Fujitsu UXP/DS
  **
  ****************************************************************************
  ************************************<+>*************************************/
@@ -105,7 +104,7 @@
 /* necessary for bzero */
 #ifdef SVR4
 #include        <X11/Xfuncs.h>
-#if defined(sun) || defined(__uxp__)
+#if defined(sun)
 #include        <shadow.h>
 #endif
 #endif
@@ -126,7 +125,6 @@
       defined(__apollo) || \
       defined(_AIX)     || \
       defined(sun) 	|| \
-      defined(__uxp__)  || \
       defined(USL))
 #define generic
 #endif
@@ -1067,262 +1065,6 @@ WriteBtmp( char *name )
  ***************************************************************************/
 #endif /* __hpux */
 
-
-/***************************************************************************
- ***************************************************************************
- ***************************************************************************
- ***************************************************************************
- ***************************************************************************
- ***************************************************************************
- ***************************************************************************
- ***************************************************************************/
-
-
-#if defined(__uxp__) 
-
-/***************************************************************************
- *
- *  Start authentication routines (UXP)
- *
- ***************************************************************************/
-
-
-
-
-/***************************************************************************
- *
- *  External declarations (UXP)
- *
- ***************************************************************************/
-
-
-
-
-/***************************************************************************
- *
- *  Procedure declarations (UXP)
- *
- ***************************************************************************/
-
-static void Audit( struct passwd *p, char *msg, int errnum) ;
-static int  PasswordAged( register struct passwd *pw) ;
-static void WriteBtmp( char *name) ;
-
-
-
-
-/***************************************************************************
- *
- *  Global variables (UXP)
- *
- ***************************************************************************/
-
-
-
-
-/***************************************************************************
- *
- *  Audit (UXP)
- *
- ***************************************************************************/
-
-static void 
-Audit( struct passwd *p, char *msg, int errnum )
-{
-
-    /*
-     * make sure program is back to super-user...
-     */
-
-    seteuid(0);
-
-    return;
-}
-
-
-
-
-/***************************************************************************
- *
- *  WriteBtmp (UXP)
- *
- *  log bad login attempts
- *  
- ***************************************************************************/
-
-static void 
-WriteBtmp( char *name )
-{
-    return;
-}
-
-
-
-
-/***************************************************************************
- *
- *  PasswordAged (UXP)
- *
- *  see if password has aged
- ***************************************************************************/
-#define SECONDS_IN_WEEK		604800L
-
-static int 
-PasswordAged( register struct passwd *pw )
-{
-    long change_week;	/* week password was changed (1/1/70 = Week 0) */
-    long last_week;	/* week after which password must change */
-    long first_week;	/* week before which password can't change */
-    long this_week;	/* this week derived from time() */
-    char *file;		/* help file name */
-    char *command;	/* the /bin/passwd command string */
-
-    if (*pw->pw_age == NULL)
-	return(0);
-
-    first_week = last_week = change_week = (long) a64l(pw->pw_age);
-    last_week &= 0x3f;				/* first six bits */
-    first_week = (first_week >> 6) & 0x3f;	/* next six bits */
-    change_week >>= 12;				/* everything else */
-
-    this_week = (long) time((long *) 0) / SECONDS_IN_WEEK;
-
-/*
-**	Password aging conditions:
-**	*   if the last week is less than the first week (e.g., the aging
-**	    field looks like "./"), only the superuser can change the
-**	    password.  We don't request a new password.
-**	*   if the week the password was last changed is after this week,
-**	    we have a problem, and request a new password.
-**	*   if this week is after the specified aging time, we request
-**	    a new password.
-*/
-    if (last_week < first_week)
-	return(0);
-
-    if (change_week <= this_week && this_week <= (change_week + last_week))
-	return(0);
-
-    return(1);
-}
-
-
-    
-
-/***************************************************************************
- *
- *  Authenticate (UXP)
- *
- *  verify the user
- *
- *  return codes indicate authentication results.
- ***************************************************************************/
-
-#define MAXATTEMPTS	3
-
-struct  passwd nouser = {"", "nope"};	/* invalid user password struct	   */
-
-int 
-Authenticate( struct display *d, char *name, char *passwd, char **msg )
-{
-
-    static int		login_attempts = 0; /* # failed authentications	   */
-    
-    struct passwd	*p;		/* password structure */
-    struct spwd         *sp;            /* shadow info */
-    char 		*crypt();
-
-    int			n;
-
-    char               *origpw;
-
-   /*
-    * Nothing to do if no name provided.
-    */
-    if (!name)
-      return(VF_INVALID);
-
-   /*
-    * Save provided password.
-    */
-    origpw = passwd;
-    if (!passwd) passwd = "";
-
-
-    p = getpwnam(name);
-    sp = getspnam(name);
-    
-    if (!p || strlen(name) == 0 ||
-        strcmp (crypt (passwd, sp->sp_pwdp), sp->sp_pwdp)) {
-
-	    WriteBtmp(name);
-
-	    if ((++login_attempts % MAXATTEMPTS) == 0 ) {
-
-		if (p == NULL )
-		    p = &nouser;
-
-		Audit(p, " Failed login (bailout)", 1);
-
-	    }
-	
-	return(origpw ? VF_INVALID : VF_CHALLENGE);
-    }
-
-
-    /*
-     *  check password aging...
-     */
-
-     if ( PasswordAged(p) ) return(VF_PASSWD_AGED);
-
-    /*
-     *  verify home directory exists...
-     */
-
-    if(chdir(p->pw_dir) < 0) {
-	Audit(p, " attempted to login - no home directory", 1);
-        return(VF_HOME);
-    }
-
-
-    /*
-     *  validate uid and gid...
-     */
-
-
-    if ((p->pw_gid < 0)      || 
-	(setgid(p->pw_gid) == -1)) {
-
-	Audit(p, " attempted to login - bad group id", 1);
-	return(VF_BAD_GID);
-    }
-
-    if ((p->pw_uid < 0)      || 
-	(seteuid(p->pw_uid) == -1)) {
-
-	Audit(p, " attempted to login - bad user id", 1);
-	return(VF_BAD_UID);
-    }
-
-
-
-    /*
-     * verify ok...
-     */
-
-    Audit(p, " Successful login", 0);
-    return(VF_OK);
-}
-
-
-
-/***************************************************************************
- *
- *  End authentication routines (UXP)
- *
- ***************************************************************************/
-#endif
 
 /***************************************************************************
  ***************************************************************************

@@ -109,7 +109,7 @@ static unsigned int GetEventInverseMask(XEvent *event);
 
 #ifdef WSM
 
-#if (defined(USL) || defined(__uxp__) || defined(linux) || \
+#if (defined(USL) || defined(linux) || \
      defined(sun) || defined(CSRG_BASED)) && !defined(_NFILE)
 #define _NFILE FOPEN_MAX
 #endif

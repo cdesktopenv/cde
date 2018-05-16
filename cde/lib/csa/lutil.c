@@ -36,7 +36,7 @@
 #include <string.h>
 #include <rpc/rpc.h>
 #include <unistd.h>
-#if defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(sun) || defined(USL)
 #include <netdb.h>
 #include <sys/systeminfo.h>
 #endif
@@ -81,11 +81,11 @@ _DtCmGetLocalHost()
 
 	if (host == NULL) {
 		host = (char *)malloc(MAXHOSTNAMELEN+1);
-#if defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(sun) || defined(USL)
 		(void)sysinfo(SI_HOSTNAME, host, MAXHOSTNAMELEN);
 #else
 		(void)gethostname(host, MAXHOSTNAMELEN);
-#endif /* sun || USL || __uxp__ */
+#endif /* sun || USL */
 	}
 
 	return (host);
@@ -100,11 +100,11 @@ _DtCmGetLocalDomain(char *hostname)
 
 	if (domain == NULL) {
 		domain = (char *)malloc(BUFSIZ);
-#if defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(sun) || defined(USL)
 		sysinfo(SI_SRPC_DOMAIN, domain, BUFSIZ - 1);
 #else
 		getdomainname(domain, BUFSIZ - 1);
-#endif /* sun || USL || __uxp__ */
+#endif /* sun || USL */
 
 		/* check domain name */
 		/* this is a hack to find out the domain name that

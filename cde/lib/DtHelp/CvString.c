@@ -355,7 +355,7 @@ _DtCvFreeArray (void **array)
     return (0);
 }
 
-#if defined(_AIX) || defined (USL) || defined(__uxp__)
+#if defined(_AIX) || defined (USL)
 /*****************************************************************************
  * Function: _DtCvStrCaseCmp
  *

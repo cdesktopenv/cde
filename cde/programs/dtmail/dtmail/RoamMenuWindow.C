@@ -72,11 +72,7 @@
 #include <unistd.h>
 #include <sys/param.h>
 
-#ifdef __uxp__
-#include <string.h>
-#endif
-
-#if !defined(USL) && !defined(__uxp__)
+#if !defined(USL)
 #include <strings.h>
 #endif
 #include <errno.h>

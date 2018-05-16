@@ -46,7 +46,7 @@ typedef wchar_t M_WCHAR;
 
 /* For function prototypes */
 typedef char * M_POINTER;
-#if defined(hpux) || defined(__aix) || defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(hpux) || defined(__aix) || defined(sun) || defined(USL)
 /* Old unix stuff
  *#define void int
  *#define M_NOPAR

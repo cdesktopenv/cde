@@ -33,7 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <rpc/rpc.h>
-#if defined(SunOS) || defined(USL) || defined(__uxp__)
+#if defined(SunOS) || defined(USL)
 #include <netdb.h>
 #include <sys/systeminfo.h>
 #endif

@@ -33,7 +33,7 @@
 
 #include <Xm/Xm.h>
 
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
 #undef STRDUP  /* get rid of memutil.h definition. Use def in BaseUI.h. */
 #endif
 

@@ -158,6 +158,8 @@ QueryEditor::edit_query (QueryGroup *query)
   // You must not destroy and re-create the Restraint widget.
   // Instead keep the same Restraint widget forever. - 10/22/94 kamiya
 
+  // This restriction no longer applies, remove this code safely - 05/15/18 - C
+
   // Create a group with a single term if none provided.
   if (query == NULL)
     {

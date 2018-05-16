@@ -46,7 +46,7 @@
 
 #if defined(SVR4) || defined(sco)
 
-#if defined(USL) || defined(sco) || defined(__uxp__)
+#if defined(USL) || defined(sco)
 #  include <sys/param.h>
 #  include <sys/types.h>
 #endif
@@ -62,11 +62,6 @@
 #if defined(DEC)
 #  include <rpc/key_prot.h>
 #  define ROOTINO PROOT
-#endif
-
-#if defined(__uxp__)
-#  include <sys/fs/ufs_fs.h>
-#  define ROOTINO UFSROOTINO
 #endif
 
 #if defined(linux) || defined(CSRG_BASED)

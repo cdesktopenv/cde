@@ -428,7 +428,7 @@ setinput (FILE* f)
 	return(-1);
       }
 
-#if !defined(USL) && !defined(__uxp__) && !defined(linux)
+#if !defined(USL) && !defined(linux)
   /* no madvise so we lose this optimization */
   madvise(start_of_mmapped_area, len, MADV_SEQUENTIAL);
 #endif

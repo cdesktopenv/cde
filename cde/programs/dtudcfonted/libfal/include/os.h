@@ -65,7 +65,7 @@ This is unpublished proprietary source code of FUJITSU LIMITED
 #define SCREEN_SAVER_OFF  1
 #define SCREEN_SAVER_FORCER 2
 
-#if defined(stellar) || defined(__uxp__)
+#if defined(stellar)
 #define MAX_REQUEST_SIZE 65535
 #else
 #define MAX_REQUEST_SIZE 16384
@@ -97,13 +97,13 @@ pragma on(alloca);
 #endif /* defined(__HIGHC__) */
 
 
-#if defined(__GNUC__) || defined(__uxp__)
+#if defined(__GNUC__)
 #if !defined(linux)
 #define alloca ___builtin_alloca
 #endif
 #define ALLOCATE_LOCAL(size) alloca((int)(size))
 #define DEALLOCATE_LOCAL(ptr)  /* as nothing */
-#else /* ! __GNUC__ ! __uxp__ */
+#else /* ! __GNUC__ */
 /*
  * warning: mips alloca is unsuitable in the server, do not use.
  */

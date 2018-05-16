@@ -71,7 +71,7 @@ private:
 };
 
 template <class T>
-#if defined(__uxp__) || defined(_IBMR2) || defined(__osf__) || \
+#if defined(_IBMR2) || defined(__osf__) || \
     defined(USL) || defined(linux) || defined(CSRG_BASED) || defined(sun)
 class xList : public List_base
 #else

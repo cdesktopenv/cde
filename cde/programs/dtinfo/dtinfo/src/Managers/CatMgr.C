@@ -130,29 +130,9 @@ CatMgr::catgets(int set_num, int msg_num, const char* def)
 	    msg = ::catgets(f_catd, set_num, msg_num, def);
 	else
 	    msg = ::catgets(f_catd, set_num, msg_num, f_default);
-#if defined(UXPDS) && defined(GENCAT_BUG)
-	for (; *msg == ' ' || *msg == '\t'; msg++);
-#endif
 	int msglen = strlen(msg);
 	len = msglen;
 	f_msg = new char[msglen + 1];
-#if defined(UXPDS) && defined(GENCAT_BUG)
-#ifdef DEBUG
-    cerr << "(DEBUG) catgets msg=<" << msg << ">\n" << flush;
-#endif
-	// trim embracing double quotes on uxpds
-	if (msglen > 1 && *(msg + msglen - 1) == '"') {
-	    if (*msg == *(msg + msglen - 1)) {
-		*(msg + msglen - 1) = '\0';
-		msg++;
-		msglen -= 2;
-	    }
-	}
-	else if (*msg == '"') {
-	    msg++;
-	    msglen--;
-	}
-#endif
 	*((char *) memcpy(f_msg, msg, len) + len) = '\0';
     }
     else {

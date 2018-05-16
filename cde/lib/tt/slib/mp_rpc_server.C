@@ -48,10 +48,10 @@
 #if defined(OPT_TLI)
 #include <netdir.h>
 static int	gettransient(int, netconfig *, netbuf *);
-#if defined(OPT_BUG_SUNOS_5) || defined(OPT_BUG_UXP)
+#if defined(OPT_BUG_SUNOS_5)
 extern "C" { char *	nc_sperror(); }
 #endif
-# if defined(OPT_BUG_USL) || defined(OPT_BUG_UXP)
+# if defined(OPT_BUG_USL)
     extern int   t_errno;
     extern char *t_strerror(int t_errno);
 # endif

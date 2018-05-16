@@ -69,7 +69,7 @@ typedef Stack<FeatureSet*,dlist_array<FeatureSet> > _stack_fs_orvec_fs_;
 // the largest ID used in f's: 59
 //
 
-#if defined(sun) || defined(hpux) || defined (__uxp__) || defined (USL)
+#if defined(sun) || defined(hpux) || defined (USL)
 typedef CC_TPtrSlist<Attribute> _f4_;
 typedef CC_TPtrSlist<Feature>   _f5_;
 typedef CC_TPtrSlist<PathFeature> _f2_;

@@ -64,14 +64,14 @@ extern "C" in_addr_t inet_addr(const char *);
   #include <regex.h>
 #endif
 
-#if defined(aix) || defined(__osf__) || defined(USL) || defined(__uxp__)
+#if defined(aix) || defined(__osf__) || defined(USL)
 extern "C" { int rresvport(int *); }
 #endif
 
 #ifdef hpux
   #define SETEUID(id) setresuid(getuid(), (uid_t)id, (uid_t)0);
 #else
-  #if defined(aix) || defined(USL) || defined(__uxp__)
+  #if defined(aix) || defined(USL)
     extern "C" { extern int seteuid(uid_t); }
   #endif
   #define SETEUID(id) seteuid((uid_t)id)
@@ -177,7 +177,7 @@ int ConnectToPrintServer(const char *rhost, int timeout)
    int s, lport = IPPORT_RESERVED - 1;
 
    // Get the host address and port number to connect to.
-#if defined(__uxp__) || (defined(USL) && (OSMAJORVERSION > 1))
+#if defined(USL) && OSMAJORVERSION > 1
    if (!(hp = gethostbyname((char *) rhost)))
     {
       unsigned long tmpaddr = inet_addr((char *) rhost);
@@ -338,7 +338,7 @@ void LocalPrintJobs(char *printer, char **job_list, int *n_jobs)
 }
 #endif
 
-#if defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(sun) || defined(USL)
 
 // SUN LOCAL PARSER, actually this gets the local information from the file
 // system, it should have the good performance since no processes (lpstat)

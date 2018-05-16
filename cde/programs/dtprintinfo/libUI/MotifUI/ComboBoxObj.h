@@ -52,7 +52,7 @@ class ComboBoxObj : public MotifUI {
 
  public:
 
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
    ComboBoxObj(MotifUI * parent, void (*)(ComboBoxObj *, char *, int),
 	       char *name, char **items, int n_items);
 #else

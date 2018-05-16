@@ -63,7 +63,7 @@
 	typedef void (*SIG_PF)(int);
 #endif
 
-#if defined(OPT_BUG_USL) ||  defined(OPT_BUG_UXP)
+#if defined(OPT_BUG_USL)
 #if !defined(MNTTYPE_NFS)
 #define MNTTYPE_NFS "nfs"
 #endif

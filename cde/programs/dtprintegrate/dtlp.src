@@ -541,9 +541,6 @@ GetDefaultPrinter()
 #if defined(_AIX)
     prfld=1
     flddelim=' '
-#elif defined(__uxp__)
-    prfld=5
-    flddelim=':'
 #else
     prfld=2
     flddelim=':'
@@ -1058,10 +1055,6 @@ GetAvailPrinters()
 #elif defined(_AIX)
     LANG=C lpstat -p | \
            grep READY   | cut -f1 -d" " | \
-	   sort | uniq > $tmpfile 2>&1
-#elif defined(__uxp__)
-    LANG=C lpstat -p | \
-           grep enabled | cut -f4 -d" " | \
 	   sort | uniq > $tmpfile 2>&1
 #else
     LANG=C lpstat -p | \

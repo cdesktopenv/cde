@@ -92,7 +92,7 @@ void m_free(void *block, char *msg)
     if (m_heapchk) m_heapdump() ;
 #endif
     if (m_malftrace) {
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL)
       snprintf(buffer, 32, "%5x:%5x",
         (unsigned int) ((unsigned long) block >> 16),
         (unsigned int) block) ;
@@ -168,7 +168,7 @@ void *m_malloc(size, msg)
       m_exit(TRUE) ;
       }
     if (m_malftrace) {
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL)
       snprintf(buffer, 32, "%5x:%5x",
         (unsigned int) ((unsigned long) p >> 16), (unsigned int) p) ;
 #else
@@ -209,7 +209,7 @@ void *m_realloc(ptr, size, msg)
       m_exit(TRUE) ;
       }
     if (m_malftrace) {
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL)
       snprintf(buffer, 32, "%5x:%5x",
         (unsigned int) ((unsigned long) p >> 16), (unsigned int) p) ;
 #else

@@ -52,15 +52,6 @@ const char *LIST_QUEUES = "LANG=C lpstat -v | "
                             "   { print $10 }' "
                             "   | sort";
 #else
-#ifdef __uxp__
-const char *LIST_QUEUES = "LANG=C lpstat -v | "
-			    "nawk '"
-			    " $4 == \"for\" "
-			    "   { "
-			    "      x = match($5, /:/); "
-			    "      print substr($5, 1, x-1)"
-			    "   }' | sort";
-#else
 const char *LIST_QUEUES = "LANG=C lpstat -v | "
 			    "nawk '"
 			    " $2 == \"for\" "
@@ -68,7 +59,6 @@ const char *LIST_QUEUES = "LANG=C lpstat -v | "
 			    "      x = match($3, /:/); "
 			    "      print substr($3, 1, x-1)"
 			    "   }' | sort";
-#endif
 #endif
 #endif
 #endif

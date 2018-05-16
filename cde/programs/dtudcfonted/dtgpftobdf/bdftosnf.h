@@ -137,14 +137,6 @@ typedef struct _TempFont {
 #	  define DEFAULTSCANUNIT  1		/* default bitmap scan unit */
 #        endif
 
-#       else
-#	 ifdef __uxp__
-
-#	  define DEFAULTGLPAD 	  4		/* default padding for glyphs */
-#	  define DEFAULTBITORDER  MSBFirst	/* default bitmap bit order */
-#	  define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
-#	  define DEFAULTSCANUNIT  1		/* default bitmap scan unit */
-
 #	 else
 #	  define DEFAULTGLPAD     1		/* default padding for glyphs */
 #	  define DEFAULTBITORDER  MSBFirst	/* default bitmap bit order */
@@ -159,7 +151,6 @@ typedef struct _TempFont {
 #   endif
 #  endif
 # endif
-#endif
 
 #define GLWIDTHBYTESPADDED(bits,nbytes) \
 	((nbytes) == 1 ? (((bits)+7)>>3)	/* pad to 1 byte */ \

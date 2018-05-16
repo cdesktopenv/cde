@@ -310,7 +310,7 @@ call(int procnum, xdrproc_t inproc, char *in,
 		}
 	}
 
-#if defined(OPT_BUG_USL) || defined(OPT_BUG_UXP)
+#if defined(OPT_BUG_USL)
 	if (timeout <= 0)
 	{
 		outproc = (xdrproc_t) NULL;
@@ -328,7 +328,7 @@ call(int procnum, xdrproc_t inproc, char *in,
 #if defined(OPT_BUG_SUNOS_5) || defined(OPT_BUG_UW_1)
 	if ((SIG_TYP)curr_action.sa_handler == SIG_DFL)
 #else
-#if defined(OPT_BUG_UW_2) || defined(OPT_BUG_UXP)
+#if defined(OPT_BUG_UW_2)
 	if ((void(*)(int))curr_action.sa_handler == SIG_DFL)
 #else
 	if (curr_action.sa_handler == SIG_DFL)
@@ -357,7 +357,7 @@ call(int procnum, xdrproc_t inproc, char *in,
 			           outproc, out,
 			           total_timeout);
 	}
-#if defined(OPT_BUG_USL) || defined(OPT_BUG_UXP)
+#if defined(OPT_BUG_USL)
 	if (timeout <= 0)
 	{
 		total_timeout.tv_sec = 10;

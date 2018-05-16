@@ -37,7 +37,7 @@
 #ifdef __osf__
 #include <unistd.h>
 #else
-#if !defined (USL) && !defined(__uxp__) && !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
+#if !defined (USL) && !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <osfcn.h>
 #endif
 #endif /* __osf__ */
@@ -46,9 +46,9 @@
 #define XOS_USE_XT_LOCKING
 #include <X11/Xos_r.h>
 
-#if defined (USL) || defined(__uxp__)
+#if defined (USL)
 #include <tt_options.h>
-#if defined(OPT_BUG_UW_2) || defined(OPT_BUG_UXP)
+#if defined(OPT_BUG_UW_2)
 #include <unistd.h>
 #endif
 #endif

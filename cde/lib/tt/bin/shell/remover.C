@@ -38,7 +38,7 @@
 #if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #include <unistd.h>
 #else
-#if !defined(USL) && !defined(__uxp__) && !defined(sun)
+#if !defined(USL) && !defined(sun)
 #include <osfcn.h>
 #endif
 #endif
@@ -49,7 +49,7 @@
 #define S_ISLNK(m)     (((m)&IFMT) == IFLNK)
 #endif
 #include <sys/stat.h>
-#if defined(OPT_BUG_USL) || defined(OPT_BUG_UXP) 
+#if defined(OPT_BUG_USL)
 #define S_ISLNK(mode)     (((mode) & S_IFMT) == S_IFLNK)
 #endif
 #include <sys/wait.h>

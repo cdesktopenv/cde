@@ -29,7 +29,7 @@
 # define MMDB_LITTLE_ENDIAN  // i386
 #else
 # ifdef OLIAS_BIG_ENDIAN
-#  define MMDB_BIG_ENDIAN     // sun, rs/6000, hp, uxpds
+#  define MMDB_BIG_ENDIAN     // sun, rs/6000, hp
 # else
 #  ifdef OLIAS_DEFAULT_ENDIAN
 #   ifdef MMDB_BIG_ENDIAN

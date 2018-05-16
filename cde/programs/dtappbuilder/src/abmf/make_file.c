@@ -102,7 +102,6 @@ static int write_aix_stuff(File makeFile, AbmfLibs libs);
 static int write_hpux_stuff(File makeFile, AbmfLibs libs);
 static int write_sunos_params(File makeFile, AbmfLibs libs);
 static int write_unixware_params(File makeFile, AbmfLibs libs);
-static int write_uxp_params(File makeFile, AbmfLibs libs);
 static int write_osf1_stuff(File makeFile, AbmfLibs libs);
 static int write_lnx_params(File makeFile, AbmfLibs libs);
 static int write_fbsd_params(File makeFile, AbmfLibs libs);
@@ -113,7 +112,6 @@ static int	determine_aix_libs(AbmfLibs libs, ABObj project);
 static int	determine_hpux_libs(AbmfLibs libs, ABObj project);
 static int	determine_sunos_libs(AbmfLibs libs, ABObj project);
 static int	determine_unixware_libs(AbmfLibs libs, ABObj project);
-static int	determine_uxp_libs(AbmfLibs libs, ABObj project);
 static int      determine_osf1_libs(AbmfLibs libs, ABObj project);
 static int      determine_lnx_libs(AbmfLibs libs, ABObj project);
 static int      determine_fbsd_libs(AbmfLibs libs, ABObj project);
@@ -215,7 +213,7 @@ determine_libs(AbmfLibs libs, ABObj project, AB_OS_TYPE osType)
 	lib_add(libs, LibDtTerm, ABMF_LIB_PREPEND, ABMF_LIB_REJECT_DUP);
     }
 
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
     if (1) /* Workaround because tooltalk not being used when needed */
 #else
     if (obj_get_tooltalk_level(project) != AB_TOOLTALK_NONE)
@@ -240,9 +238,6 @@ determine_libs(AbmfLibs libs, ABObj project, AB_OS_TYPE osType)
                 break;
 	case AB_OS_UNIXWARE:
 		return_value = determine_unixware_libs(libs, project);
-		break;
-	case AB_OS_UXP:
-		return_value = determine_uxp_libs(libs, project);
 		break;
 	case AB_OS_LNX:
 		return_value = determine_lnx_libs(libs, project);
@@ -281,12 +276,6 @@ determine_hpux_libs(AbmfLibs libs, ABObj project)
 
 static int
 determine_sunos_libs(AbmfLibs libs, ABObj project)
-{
-    return 0;
-}
-
-static int
-determine_uxp_libs(AbmfLibs libs, ABObj project)
 {
     return 0;
 }
@@ -526,10 +515,6 @@ write_os_params(
                 return_value = write_unixware_params(makeFile, libs);
                 break;
 
-	case AB_OS_UXP:
-                return_value = write_uxp_params(makeFile, libs);
-                break;
-
         case AB_OS_OSF1:
                 return_value = write_osf1_stuff(makeFile, libs);
                 break;
@@ -683,47 +668,6 @@ write_sunos_params(File makeFile, AbmfLibs libs)
     abio_puts(makeFile, 
 "\n"
 "        CFLAGS = $(CDEBUGFLAGS) $(INCLUDES) $(STD_DEFINES)"
-            " $(ANSI_DEFINES)\n"
-"        LDLIBS = $(SYS_LIBRARIES)\n"
-"        LDOPTIONS = $(CDE_LDFLAGS) $(ALLX_LDFLAGS)\n"
-"\n"
-);
-
-    return 0;
-}
-
-static int
-write_uxp_params(File makeFile, AbmfLibs libs)
-{
-    STRING	osName = util_os_type_to_string(AB_OS_UXP);
-
-    abio_printf(makeFile, 
-    "\n"
-"###########################################################################\n"
-"# These are the %s-dependent configuration parameters that must be\n"
-"# set in order for any application to build.\n"
-"###########################################################################\n",
-	osName);
-
-     abio_puts(makeFile, "\n");
-     abio_puts(makeFile,
-"        RM = rm -f\n"
-"        INCLUDES = -I/usr/dt/include -I/X11/include\n"
-"\n"
-"        STD_DEFINES = \n"
-"        ANSI_DEFINES = \n"
-"\n"
-"        CDEBUGFLAGS = -O\n"
-"        SYS_LIBRARIES = -lnsl -lsocket -lm -ldl -lgen -lresolv -lw\n"
-"        CDE_LIBPATH = /usr/dt/lib\n"
-"        CDE_LDFLAGS = -L$(CDE_LIBPATH)\n"
-"        ALLX_LIBPATH = /X11/lib\n"
-"        ALLX_LDFLAGS = -L$(ALLX_LIBPATH)\n");
-
-    write_local_libraries(makeFile, libs, AB_OS_UXP);
-
-     abio_puts(makeFile,
-"        CFLAGS = $(CDEBUGFLAGS) -D_POSIX_SOURCE=1 $(INCLUDES) $(STD_DEFINES)"
             " $(ANSI_DEFINES)\n"
 "        LDLIBS = $(SYS_LIBRARIES)\n"
 "        LDOPTIONS = $(CDE_LDFLAGS) $(ALLX_LDFLAGS)\n"
@@ -1336,7 +1280,7 @@ write_targets(
 "scour:\n"
 "	$(RM) $(CLEAN_FILES) $(TARGETS.h.merged) $(TARGETS.c.merged) \\\n"
 "	      Makefile Makefile.aix Makefile.hpux Makefile.sunos \\\n"
-"	      Makefile.osf1 Makefile.uxp Makefile.unixware Makefile.linux \\\n"
+"	      Makefile.osf1 Makefile.unixware Makefile.linux \\\n"
 "	      Makefile.freebsd Makefile.netbsd Makefile.openbsd\n"
 );
 

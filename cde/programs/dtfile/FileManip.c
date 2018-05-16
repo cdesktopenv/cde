@@ -52,7 +52,7 @@
  ************************************<+>*************************************/
 
 #if defined(SVR4) || defined(sco)
-#  if defined(USL) || defined(sco) || defined(__uxp__)
+#  if defined(USL) || defined(sco)
 #    include <sys/param.h>
 #    include <sys/types.h>
 #  endif

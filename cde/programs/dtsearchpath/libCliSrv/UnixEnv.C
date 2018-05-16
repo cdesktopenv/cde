@@ -32,7 +32,7 @@
 #include "Environ.h"
 #include "DirIterator.h"
 #include <sys/stat.h>
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
 #define S_ISLNK(mode) ((mode & S_IFMT) == S_IFLNK)
 #endif
 #include <stdlib.h>
@@ -46,14 +46,14 @@
 #include <unistd.h>
 #include <grp.h>
 #include <pwd.h>
-#if defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(sun) || defined(USL)
 #include <regexpr.h>
 #else
 #include <regex.h>
 #endif
 #include <errno.h>
 
-#if defined(sun) || defined(_AIX) || defined(__osf__) || defined(USL) || defined(__uxp__) || defined(linux) || defined(CSRG_BASED)
+#if defined(sun) || defined(_AIX) || defined(__osf__) || defined(USL) || defined(linux) || defined(CSRG_BASED)
 #define UID_NO_CHANGE ((uid_t) -1)
 #define GID_NO_CHANGE ((gid_t) -1)
 #endif
@@ -62,7 +62,7 @@ UnixEnvironment::UnixEnvironment()
 {
     dtMountPoint = getEnvironmentVariable("DTMOUNTPOINT");
     if (dtMountPoint.isNull())
-#if defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(sun) || defined(USL)
 	dtMountPoint = "/net/";
 #else
 	dtMountPoint = "/nfs/";
@@ -70,7 +70,7 @@ UnixEnvironment::UnixEnvironment()
 
     CString temp = getEnvironmentVariable("MANPATH");
     if (temp.isNull())
-#if defined(sun) || defined(USL) || defined(__uxp__)
+#if defined(sun) || defined(USL)
 	manpath = "/usr/share/man";
 #elif defined(_AIX)
 	manpath = "/usr/share/man:/usr/lpp/info";
@@ -298,7 +298,7 @@ void UnixEnvironment::removeFiles
 	const CString & filespec
 	)
 {
-#if defined(sun) || defined(__uxp__)
+#if defined(sun)
 char buffer[100];
     sprintf(buffer,"rm -f %s/%s", dirspec.data(),filespec.data());
     system(buffer);

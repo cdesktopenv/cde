@@ -54,10 +54,7 @@
 #include <stdlib.h>
 
 #if defined(__hpux) || defined(__osf__) || defined(USL)
-# include <wchar.h> 
-#elif defined(__uxp__)
-# include <widec.h>
-# include <wctype.h>
+# include <wchar.h>
 #elif defined(sun)
 # if (_XOPEN_VERSION==3)
 #  include <wctype.h>
@@ -787,23 +784,11 @@ static XtActionsRec EditorActionTable[] = {
    static wctype_t _DtEditor_blankClass;
 #else
 #  define wctype_t 	int
-#   if defined(__uxp__)
-#      if (OSMAJORVERSION < 2)
-         typedef long wint_t ;
-#      endif
-#      define WEOF (-1)
-#   endif /* uxp */
 
 #  define iswblank(a)	iswspace(a)
-#     if !defined(__uxp__) 
-#         define	iswctype(a,b)	_iswctype(a,b)
-#     endif
-#     if defined(__uxp__)
-#	  define wcwidth(a)	scrwidth(a)
-#     else
-#	  define wcwidth(a)	sun_wcwidth(a)
-#     endif 
-#endif /* not sun and not uxp */
+#  define iswctype(a,b)	_iswctype(a,b)
+#  define wcwidth(a)	sun_wcwidth(a)
+#endif /* not sun */
 
 #define	MAXTABSIZE 100			/* max legal tabsize	*/
 
@@ -1390,7 +1375,7 @@ WidgetClass dtEditorWidgetClass = (WidgetClass) &dtEditorClassRec;
 static void
 ClassInitialize(void)
 {
-#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL) && !defined(__uxp__)
+#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL)
   _DtEditor_blankClass = wctype(blankString);
 
   /*
@@ -5260,7 +5245,7 @@ lineBlank(
 	byteNum += mblen(&pLine[byteNum], mbCurMax), charNum++)
     {
 	(void) mbtowc(&wc, &pLine[byteNum], mbCurMax);
-#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL) && !defined(__uxp__)
+#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL)
 	if( !iswctype(wc, _DtEditor_blankClass) )
 	    return False;
 #else
@@ -5284,7 +5269,7 @@ findNonBlank(
 	byteNum += mblen(&pLine[byteNum], mbCurMax), charNum++)
     {
 	(void) mbtowc(&wc, &pLine[byteNum], mbCurMax);
-#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL) && !defined(__uxp__)
+#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL)
 	if( !iswctype(wc, _DtEditor_blankClass) )
             return &pLine[byteNum];
 #else
@@ -5341,7 +5326,7 @@ countBlanks(
 	        count++; /* multibyte control chars??? */
 	    continue;
 	}
-#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL) && !defined(__uxp__)
+#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL)
 	if(!iswctype(wc, _DtEditor_blankClass))
             return count;
 #else

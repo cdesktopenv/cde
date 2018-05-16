@@ -242,7 +242,7 @@ void cat_open ()
 
     if(pfile != NULL)
     {
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
         sprintf(line,"/usr/bin/gencat -m ./.dt_pfile.cat %s",pfile);
 #else
         sprintf(line,"/usr/bin/gencat ./.dt_pfile.cat %s",pfile);
@@ -257,7 +257,7 @@ void cat_open ()
 
     if(dfile != NULL)
     {
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
         sprintf(line,"/usr/bin/gencat -m ./.dt_dfile.cat %s",dfile);
 #else
         sprintf(line,"/usr/bin/gencat ./.dt_dfile.cat %s",dfile);

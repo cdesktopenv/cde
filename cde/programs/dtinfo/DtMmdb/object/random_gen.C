@@ -33,17 +33,10 @@ random_gen::~random_gen()
 
 random_gen::random_gen()
 {
-#ifdef __uxp__
-   int seed;
-   struct tms tp;
-   if ((seed = (int)times(&tp)) < 0)
-      seed = 19;
-#else
    struct timeval tp;
    struct timezone tzp;
 
    int seed = ( gettimeofday(&tp, &tzp) == 0 ) ? int(tp.tv_sec) : 19;
-#endif
 
 #ifdef CONTROLLED_SEED
 if ( getenv("SEED") )

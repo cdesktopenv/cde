@@ -459,7 +459,7 @@ obj_alloc_unique_name_for_child(
     {
 	maxlen = 8192;
     }
-#if defined (USL) || defined(__uxp__)
+#if defined (USL)
 	/*
          * The USL specific changes were added ifdef due to time constraints
 	 * They should be removed in the next release
@@ -494,7 +494,7 @@ obj_alloc_unique_name_istr_for_child(
     {
 	maxlen = 8192;
     }
-#if defined (USL) || defined(__uxp__)
+#if defined (USL)
     maxlen = util_min(8191,maxlen);
 #else
     maxlen = util_min(8192,maxlen);

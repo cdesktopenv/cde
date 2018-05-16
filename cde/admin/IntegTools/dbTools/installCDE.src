@@ -62,7 +62,7 @@ MakeTarball()
     HASH
     Log "Creating tarball..."
 
-    if [ $PLATFORM = "usl" -o "$PLATFORM" = "uxp" ]
+    if [ $PLATFORM = "usl" ]
     then
       ulimit -f unlimited
     fi
@@ -257,7 +257,7 @@ RestartInetd()
 
   OLDPWD=`pwd`
   cd /
-  if [ "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ]
+  if [ "$PLATFORM" = "usl" ]
   then
     /usr/sbin/inetd -s
   elif [ "$PLATFORM" = "sun" ]
@@ -573,10 +573,6 @@ XCOMM
   then
     PLATFORM=usl
     PLATFORM_SCRIPT_DIR=usl
-  elif [ $BUILDSYSTEM = "UNIX_System_V" ];
-  then
-    PLATFORM=uxp
-    PLATFORM_SCRIPT_DIR=uxp
   elif [ $BUILDSYSTEM = "OSF1" ];
   then
     PLATFORM=dec
@@ -605,7 +601,7 @@ XCOMM
   if [ "$PLATFORM" = "aix" ];
   then
     USER=`/bin/whoami`
-  elif [ "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ];
+  elif [ "$PLATFORM" = "usl" ];
   then
     USER=`/usr/ucb/whoami`
   else
@@ -619,7 +615,7 @@ XCOMM
     echo ""
   fi
 
-  if [ "$PLATFORM" = "usl" -o "$PLATFORM" = "uxp" ]
+  if [ "$PLATFORM" = "usl" ]
   then
     umask 000
   fi

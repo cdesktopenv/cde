@@ -43,7 +43,7 @@
 #endif
 #include <ctype.h>
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__uxp__) || defined(linux) || defined(CSRG_BASED)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(linux) || defined(CSRG_BASED)
 #include <unistd.h>
 #include <locale.h>
 #include <fcntl.h>

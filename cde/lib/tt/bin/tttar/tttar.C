@@ -40,7 +40,7 @@
 #if defined(__osf__) || defined(linux) || defined(sun) || defined(CSRG_BASED)
 #include <unistd.h>
 #else
-#if !defined(USL) && !defined(__uxp__) && !defined(sun)
+#if !defined(USL) && !defined(sun)
 #include <osfcn.h>
 #endif
 #endif
@@ -52,7 +52,7 @@
 #include "tt_options.h"
 #include "archiver.h"
 
-#if defined(OPT_BUG_USL) || defined(OPT_BUG_UXP) 
+#if defined(OPT_BUG_USL)
 #include <unistd.h>
 #endif
 

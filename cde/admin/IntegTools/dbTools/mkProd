@@ -95,9 +95,6 @@ then
 elif [ $BUILDSYSTEM = "UNIX_SV" ];
 then
 	PLATFORM=usl
-elif [ $BUILDSYSTEM = "UNIX_System_V" ];
-then
-	PLATFORM=uxp
 elif [ $BUILDSYSTEM = "OSF1" ];
 then
 	PLATFORM=dec
@@ -108,7 +105,7 @@ fi
 if [ $PLATFORM = "aix" ];
 then
         USER=`/bin/whoami`
-elif [ $PLATFORM = "usl" -o $PLATFORM = "uxp" ];
+elif [ $PLATFORM = "usl" ];
 then
         USER=`/usr/ucb/whoami`
 else
@@ -638,13 +635,7 @@ TOOL_DIR=$SRCTREE/admin/IntegTools/dbTools
 # Avoid making duplicate entries
 # make sure links are referred to AFTER the files to which they point.
 #
-if [ $PLATFORM = "uxp" ]; then
-  $TOOL_DIR/uncomment $files | sort | uniq | $TOOL_DIR/linksLast - > /tmp/awk.in
-  cat /tmp/awk.in | awkit > /tmp/awk.out
-  cat /tmp/awk.out | doit
-else
-  $TOOL_DIR/uncomment $files | sort | uniq | $TOOL_DIR/linksLast - | awkit | doit
-fi
+$TOOL_DIR/uncomment $files | sort | uniq | $TOOL_DIR/linksLast - | awkit | doit
 
 echo ""
 echo "#-------------- $(date) --------------"

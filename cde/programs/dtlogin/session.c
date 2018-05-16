@@ -1625,7 +1625,7 @@ StartClient( struct verify_info *verify, struct display *d, int *pidp )
 	    failsafeArgv[i++] = "/usr/bin/X11/aixterm";
 #elif defined(sun)
 	    failsafeArgv[i++] = "/usr/openwin/bin/xterm";
-#elif defined (USL) || defined(__uxp__)
+#elif defined (USL)
             failsafeArgv[i++] = "/usr/X/bin/xterm";
 #elif defined(__hpux)
 	    failsafeArgv[i++] = "/usr/bin/X11/hpterm";

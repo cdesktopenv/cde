@@ -146,20 +146,6 @@ This is unpublished proprietary source code of FUJITSU LIMITED
 
 #endif /* vax */
 
-#ifdef __uxp__
-
-#define IMAGE_BYTE_ORDER       MSBFirst
-#define BITMAP_BIT_ORDER       MSBFirst
-
-#define AVOID_MEMORY_READ
-#define LARGE_INSTRUCTION_CACHE
-#define FAST_CONSTANT_OFFSET_MODE
-
-#define GLYPHPADBYTES		4   
-#define GETLEFTBITS_ALIGNMENT   1
-
-#endif /* __uxp__ */
-
 #ifdef sun
 
 #if defined(sun386) || defined(sun5)

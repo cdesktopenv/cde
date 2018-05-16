@@ -189,7 +189,7 @@ HashTableImpl::remove(ObjectKey & key)
     return(removed_val);
 }
 
-#if !defined(HPUX) && !defined(__uxp__)
+#if !defined(HPUX)
 void
 HashTableImpl::forEach(HashImplIterator iterator, void * client_data)
 {

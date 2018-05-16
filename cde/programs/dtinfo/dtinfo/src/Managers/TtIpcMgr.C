@@ -201,7 +201,8 @@ TtIpcMgr::TtIpcMgr()
   if( (tt_state = tt_default_session_set( xsession )) == TT_OK )
   {
       procid = ttdt_open( &ttfd, "Dtinfo", "Fujitsu", "CDE", True ) ;
-      
+      //why is fujitsu mentioned here? 05/15/18 - C
+
       if( (tt_state = tt_pointer_error( procid ))
           == TT_OK )
       {

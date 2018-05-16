@@ -31,7 +31,7 @@
 
 #include	<stdio.h>      /* just so file isn't empty	  */
 
-#if defined (USL) || defined(__uxp__)
+#if defined (USL)
 
 #include <sys/byteorder.h>
 #include <termio.h>
@@ -157,4 +157,4 @@ makepttypair()
 	return(0);
 }
 
-#endif /* USL || __uxp__ */
+#endif /* USL */

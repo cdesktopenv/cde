@@ -51,7 +51,7 @@
 // For CHARSET
 #include <DtHelp/LocaleXlate.h>
 #include <locale.h>
-#if !defined(USL) && !defined(__uxp__)
+#if !defined(USL)
 #include <strings.h>
 #else 
 #include <EUSCompat.h>

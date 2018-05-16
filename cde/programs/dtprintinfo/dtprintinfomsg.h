@@ -24,7 +24,7 @@
 #ifndef DTPRINTINFOMSG_H
 #define DTPRINTINFOMSG_H
 
-#if !defined(USL) && !defined(__uxp__)
+#if !defined(USL)
 /*
  * if __cplusplus is defined, the system header files take care
  * of themselves and putting this "extern C" here causes inconsistent linkage
@@ -38,7 +38,7 @@ extern "C" {
 #include <nl_types.h> 
 #include <locale.h> 
 
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
 #ifdef __cplusplus
 extern "C" {
 #endif

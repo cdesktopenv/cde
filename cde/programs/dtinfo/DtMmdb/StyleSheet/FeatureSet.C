@@ -81,11 +81,7 @@ FeatureSet::evaluate(FeatureSet *result_set) const
 	  result_set->append(new Feature(next.key()->name(),
 					 value));
 	}
-#ifdef UXPDS
-      mcatch_any()
-#else
       mcatch_noarg(badEvaluationException)
-#endif
 	{
 	  /* do nothing...we just ignore any that will not evaluate */
 	}

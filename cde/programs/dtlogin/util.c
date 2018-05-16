@@ -349,7 +349,7 @@ CleanUpChild( void )
         sigsetmask(0);
 #else
 #if defined (SYSV) || defined (SVR4) || defined(linux)
-#if !defined (USL) && !defined(__uxp__)
+#if !defined (USL)
 	setpgrp ();
 #endif  /* USL */
 #else
@@ -951,7 +951,7 @@ ScanNLSDir(char *dirname)
 }
 #endif /* __osf__obsoleted__ */
 
-#elif defined(__uxp__) || defined(USL)
+#elif defined(USL)
 
 #define LC_COLLATE	"LC_COLLATE"
 #define LC_CTYPE	"LC_CTYPE"
@@ -961,7 +961,7 @@ ScanNLSDir(char *dirname)
 #define LC_TIME		"LC_TIME"
 
 /*
- * Scan for installed locales on Fujitsu and Novell/SCO platforms.
+ * Scan for installed locales on Novell/SCO platforms.
  */
 {
     DIR *nls_dirp, *locale_dirp;
@@ -1027,7 +1027,7 @@ ScanNLSDir(char *dirname)
     }
 }
 
-#else /* !_AIX && !hpV4 && !__osf__ !sun && !USL && !__uxp__ */
+#else /* !_AIX && !hpV4 && !__osf__ !sun && !USL */
 /*
  * Scan for installed locales on generic platform
  */

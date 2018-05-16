@@ -46,12 +46,12 @@
 #endif /* _NETINET_IN_H */
 #endif
 
-#if defined(SunOS) || defined(USL) || defined(__uxp__)
+#if defined(SunOS) || defined(USL)
 #include <netconfig.h>
 #include <netdir.h>
 #include <sys/stropts.h>
 #include <tiuser.h>
-#endif /* SunOS || USL || __uxp__ */
+#endif /* SunOS || USL */
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -521,7 +521,7 @@ main(int argc, char **argv)
 	SVCXPRT *udp_transp = (SVCXPRT *)-1;
 	int	fd, error;
 
-#if defined(SunOS) || defined(USL) || defined(__uxp__)
+#if defined(SunOS) || defined(USL)
 	struct netconfig *nconf_udp;
 	struct netconfig *nconf_tcp;
 	struct t_info info;
@@ -548,7 +548,7 @@ main(int argc, char **argv)
 
 		standalone = 0;
 
-#if defined(SunOS) || defined(USL) || defined(__uxp__)
+#if defined(SunOS) || defined(USL)
 #if !defined(USL) || (defined(USL) && (OSMAJORVERSION > 1))
 		/* we need a TLI endpoint rather than a socket */
 		if (ioctl(0, I_LOOK, mname) != 0) {
@@ -621,7 +621,7 @@ main(int argc, char **argv)
 	signal(SIGHUP, sighup_handler);
 
 
-#if defined(SunOS) || defined(USL) || defined(__uxp__)
+#if defined(SunOS) || defined(USL)
 	/* raise the soft limit of number of file descriptor */
 	/* this is to prevent the backend from running out of open file des */
 	getrlimit(RLIMIT_NOFILE, &rl);
@@ -629,7 +629,7 @@ main(int argc, char **argv)
 	setrlimit(RLIMIT_NOFILE, &rl);
 #endif
 
-#if defined(SunOS) || defined(USL) || defined(__uxp__)
+#if defined(SunOS) || defined(USL)
 	nconf_udp = getnetconfigent("udp");
 	nconf_tcp = getnetconfigent("tcp");
 

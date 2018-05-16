@@ -254,7 +254,7 @@ Application::~Application()
     delete []_windows;
 
 #ifdef CDExc21492
-  #if defined(__hpux) || defined(USL) || defined(__uxp__)
+  #if defined(__hpux) || defined(USL)
     this->BasicComponent::~BasicComponent();
   #elif  __osf__
     BasicComponent * The_End = this;

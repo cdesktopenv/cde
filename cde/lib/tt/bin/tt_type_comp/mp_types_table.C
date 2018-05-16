@@ -50,11 +50,9 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#if defined(OPT_BUG_UW_2) || defined(OPT_BUG_UXP)
+#if defined(OPT_BUG_UW_2)
 extern "C" {
-#ifndef __uxp__
 int   putenv(char *);
-#endif
 FILE *popen(const char *, const char *);
 FILE *fdopen(int, const char *);
 int   pclose(FILE *);

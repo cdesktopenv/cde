@@ -109,17 +109,11 @@ int page_cache_test_1(int argc, char** argv)
       return 1;
    }
 
-#ifdef __uxp__
-   int seed;
-   struct tms tp;
-   if ((seed = (int)times(&tp)) < 0)
-      seed = 19;
-#else
    struct timeval tp;
    struct timezone tzp;
 
    int seed = ( gettimeofday(&tp, &tzp) == 0 ) ? int(tp.tv_sec) : 19;
-#endif
+
    pm_random rand_gen;
    rand_gen.seed(seed);
 

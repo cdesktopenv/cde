@@ -108,7 +108,7 @@ protected:
 friend class Jump_Environment;
 friend class Exceptions;
 
-#if defined(hpux)||defined(__uxp__)
+#if defined(hpux)
 #define MakeOperatorNewPublic
 #endif
 

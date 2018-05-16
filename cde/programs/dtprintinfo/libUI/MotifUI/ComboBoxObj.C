@@ -36,7 +36,7 @@
 #include <Xm/ComboBox.h>
 
 ComboBoxObj::ComboBoxObj(MotifUI *parent,
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
 			 void (*callback)(ComboBoxObj *, char *, int),
 #else
 			 ComboBoxCallback callback, 

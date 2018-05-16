@@ -80,9 +80,6 @@
  * OPT_BUG_SGI -- used to flag special hacks only needed because of
  *   bugs or quirks in SGI IRIX.
  *
- * OPT_BUG_UXP -- used to flag special hacks only needed because of
- *   bugs or quirks in Fujitsu's UXP.
- *
  * OPT_BUG_USL -- used to flag special hacks only needed because of
  *   bugs or quirks in UnixWare, etc.
  *
@@ -452,44 +449,6 @@
 # else
 #  define OPT_BUG_UW_1
 # endif
-# define OPT_LOCAL_MOUNT_TYPE	"vxfs"
-# define OPT_DEFINE_SIG_PF
-# define OPT_TAR_HAS_EXCLUDE_OPTION
-# define OPT_HAS_REALPATH
-
-#elif defined(__uxp__)
-# if !defined(__STDIO_H)
-#  include <stdio.h>
-# endif
-# undef  OPT_UNIX_SOCKET_RPC 
-# define OPT_TLI 
-# if defined(PROF) /* can't use dlopen if profiling. */
-#  undef  OPT_DLOPEN_X11 
-#  undef  OPT_DLOPEN_CE 
-# else
-#  define OPT_DLOPEN_X11 
-#  define OPT_DLOPEN_CE 
-# endif
-# undef  OPT_ADDMSG_DIRECT 
-# undef  OPT_SECURE_RPC 
-# undef  OPT_CLASSING_ENGINE
-# undef  OPT_BSD_SIGNAL
-# define OPT_POSIX_SIGNAL
-# undef  OPT_BSD_WAIT
-# undef  OPT_DGETTEXT
-# define OPT_CATGETS
-# undef  OPT_GETDTABLESIZE
-# define OPT_SYSINFO
-# define OPT_STRERROR
-# define OPT_CPP_PATH		"/usr/ccs/lib/cpp"
-# define OPT_CPP_OPTIONS	""
-# define OPT_SVR4_GETMNTENT
-/* the reason for locking MNTENT is to sync with the Solaris automounter,
- * which doesn't apply on UnixWare.  It probably wouldn't hurt to
- * do the lockf there, but things seem to be working without it...
- */
-# undef  OPT_LOCKF_MNTENT
-# define OPT_BUG_UXP
 # define OPT_LOCAL_MOUNT_TYPE	"vxfs"
 # define OPT_DEFINE_SIG_PF
 # define OPT_TAR_HAS_EXCLUDE_OPTION

@@ -32,7 +32,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
 #define S_ISLNK(mode) ((mode & S_IFMT) == S_IFLNK)
 #endif
 

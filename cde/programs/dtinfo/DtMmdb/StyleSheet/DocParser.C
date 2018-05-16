@@ -245,7 +245,6 @@ DocParser::process(istream &input, ostringstream &output,
 #if !defined(SC3) && \
     !defined(__osf__) && \
     !defined(_IBMR2) && \
-    !defined(__uxp__) && \
     !defined(USL) && \
     !defined(linux) && \
     !defined(CSRG_BASED) && \
@@ -256,7 +255,6 @@ DocParser::process(istream &input, ostringstream &output,
 #if !defined(SC3) &&  \
     !defined(__osf__) && \
     !defined(_IBMR2) && \
-    !defined(__uxp__) && \
     !defined(USL) && \
     !defined(linux) && \
     !defined(CSRG_BASED) && \

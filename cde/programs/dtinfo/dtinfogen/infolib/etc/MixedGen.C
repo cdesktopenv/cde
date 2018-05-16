@@ -34,7 +34,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if !defined(__uxp__) && !defined(USL)
+#if !defined(USL)
 #include <strings.h>
 #endif
 

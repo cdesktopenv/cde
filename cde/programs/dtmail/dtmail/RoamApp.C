@@ -70,7 +70,7 @@
 
 #include <unistd.h>
 #include <wchar.h>
-#if defined(USL) || defined(__uxp__) || defined(linux) || defined(CSRG_BASED)
+#if defined(USL) || defined(linux) || defined(CSRG_BASED)
 #define wcswcs wcsstr
 #include <wctype.h>  // iswspace is defined in this header on USL */
 #endif

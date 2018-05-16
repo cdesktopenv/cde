@@ -200,6 +200,8 @@ void mirror_env __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;)
 	 * that should be researched, but for now, we simply
 	 * protect against using putenv/getenv if environ is
 	 * NULL.  rswiston@x.org 11/07/96
+	 *
+	 * Safe for removal? Fujitsu is no longer supported 05/15/18 - C
 	 */
         if((name != (char *)NULL) && (environ != (char **)NULL))
         {

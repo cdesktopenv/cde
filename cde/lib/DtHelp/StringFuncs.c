@@ -51,7 +51,7 @@
 #include <errno.h>
 #include <locale.h>  /* getlocale(), LOCALE_STATUS, LC_xxx */
 
-#if defined(_AIX) || defined(USL) || defined(__uxp__) || defined(CSRG_BASED)
+#if defined(_AIX) || defined(USL) || defined(CSRG_BASED)
 #include <ctype.h>
 #endif
 
@@ -533,7 +533,7 @@ int _DtHelpCeStrHashToKey(
 #endif
 
    extern int strcoll(const char *,const char *);
-#if defined(_AIX) || defined(USL) || defined(__uxp__)
+#if defined(_AIX) || defined(USL)
    extern int _DtHelpCeStrCaseCmp(const char *,const char *);
 #else
    extern int strcasecmp(const char *,const char *);
@@ -553,7 +553,7 @@ int _DtHelpCeStrHashToKey(
 #endif
 
    if (Clang)
-#if defined(_AIX) || defined(USL) || defined(__uxp__)
+#if defined(_AIX) || defined(USL)
      return _DtHelpCeStrCaseCmp;
 #else
      return strcasecmp; 
@@ -1048,7 +1048,7 @@ int _DtHelpCeIconvContextSuitable(
 }
 
 
-#if defined(_AIX) || defined (USL) || defined(__uxp__)
+#if defined(_AIX) || defined (USL)
 /*****************************************************************************
  * Function: _DtHelpCeStrCaseCmp
  *

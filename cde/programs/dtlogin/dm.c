@@ -92,7 +92,7 @@
  *
  ***************************************************************************/
 
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
 extern  int  makepttypair ();
 #endif
 
@@ -182,7 +182,7 @@ main( int argc, char **argv )
     if ( (progName = malloc(strlen(argv[0]) + 1)) != NULL )
 	strcpy(progName, argv[0]);
 
-#if defined(USL) || defined(__uxp__)
+#if defined(USL)
     /* create master slave pair for use in login */
     if (makepttypair () < 0)
         {
@@ -294,7 +294,7 @@ main( int argc, char **argv )
     ScanServers ();
     StartDisplays ();
     (void) signal (SIGHUP, RescanNotify);
-#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined(__uxp__)|| defined (__osf__) || defined(linux)
+#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined (__osf__) || defined(linux)
     (void) signal (SIGCHLD, ChildNotify);
 #endif
     while (AnyWellKnownSockets() || AnyDisplaysLeft ())
@@ -307,7 +307,7 @@ main( int argc, char **argv )
 
 	TrimErrorFile();
 
-#if defined(SYSV) && !defined(hpux) && !defined(_AIX) && !defined(__uxp__)  && !defined (__osf__) && !defined(linux)
+#if defined(SYSV) && !defined(hpux) && !defined(_AIX) && !defined (__osf__) && !defined(linux)
 	WaitForChild ();
 #else
 	WaitForSomething ();
@@ -521,7 +521,7 @@ StopAll( int arg )
 
 int	ChildReady = 0;
 
-#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined(__uxp__) || defined (__osf__) || defined(linux) || defined(CSRG_BASED)
+#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined (__osf__) || defined(linux) || defined(CSRG_BASED)
 static SIGVAL
 ChildNotify( int arg )
 {

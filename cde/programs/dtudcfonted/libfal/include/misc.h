@@ -68,11 +68,7 @@ extern unsigned long serverGeneration;
 #endif
 #endif
 
-#ifdef __uxp__
-#define MAXSCREENS	5
-#else /* !__uxp__ */
 #define MAXSCREENS	3
-#endif /* !__uxp__ */
 #define MAXCLIENTS	128
 #define MAXFORMATS	8
 #define MAXVISUALS_PER_SCREEN 50

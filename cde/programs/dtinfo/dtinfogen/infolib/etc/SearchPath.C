@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#if !defined(__uxp__) && !defined(USL)
+#if !defined(USL)
 #include <strings.h>
 #endif
 #include <sys/stat.h>
