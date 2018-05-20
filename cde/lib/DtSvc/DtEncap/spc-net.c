@@ -388,12 +388,7 @@ SPC_Connection_Ptr SPC_Init_Child(SPC_Connection_Ptr conn,
 SPC_Connection_Ptr SPC_Standalone_Daemon(SPC_Connection_Ptr conn)
 {
   struct sockaddr_in saddr, client_saddr;
-#ifdef USL
-  /* Only UnixWare 2.02 uses the Spec1170 parameter profile for accept(). */
-  size_t len=sizeof(client_saddr);
-#else
   int len=sizeof(client_saddr);
-#endif
   int server_bind_attempts      = MAX_SERVER_BIND_ATTEMPTS;
   int server_bind_pause         = SERVER_PAUSE_INTERVAL;
   int pid, from;

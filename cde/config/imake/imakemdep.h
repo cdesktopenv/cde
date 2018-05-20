@@ -73,16 +73,8 @@ in this Software without prior written authorization from The Open Group.
 #define imake_ccflags "-DSYSV"
 #endif
 
-#if defined(USL) || defined(__USLC__) || defined(Oki) || defined(NCR)
+#if defined(Oki) || defined(NCR)
 #define imake_ccflags "-Xa -DSVR4"
-#endif
-
-/* SCO may define __USLC__ so put this after the USL check */
-#if defined(M_UNIX) || defined(_SCO_DS)
-#ifdef imake_ccflags
-#undef imake_ccflags
-#endif
-#define imake_ccflags "-Dsco"
 #endif
 
 #ifdef sony
@@ -208,7 +200,7 @@ in this Software without prior written authorization from The Open Group.
  *     descriptor onto another, define such a mechanism here (if you don't
  *     already fall under the existing category(ies).
  */
-#if defined(SYSV) && !defined(_CRAY) && !defined(Mips) && !defined(_SEQUENT_) && !defined(sco)
+#if defined(SYSV) && !defined(_CRAY) && !defined(Mips) && !defined(_SEQUENT_)
 #define	dup2(fd1,fd2)	((fd1 == fd2) ? fd1 : (close(fd2), \
 					       fcntl(fd1, F_DUPFD, fd2)))
 #endif
@@ -223,7 +215,7 @@ in this Software without prior written authorization from The Open Group.
  *     all colons).  One way to tell if you need this is to see whether or not
  *     your Makefiles have no tabs in them and lots of @@ strings.
  */
-#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(sco) || defined(__llvm__) || (defined(AMOEBA) && defined(CROSS_COMPILE))
+#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(__llvm__) || (defined(AMOEBA) && defined(CROSS_COMPILE))
 #define FIXUP_CPP_WHITESPACE
 #endif
 #ifdef WIN32
@@ -308,7 +300,7 @@ char *cpp_argv[ARGUMENTS] = {
 #ifdef unix
 	"-Uunix",	/* remove unix symbol so that filename unix.c okay */
 #endif
-#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH) || defined(USL) || defined(sco) || defined(ISC) || defined(linux) || defined(__hpux__) || defined(__vxworks)
+#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH) || defined(ISC) || defined(linux) || defined(__hpux__) || defined(__vxworks)
 # ifdef __i386__
 	"-D__i386__",
 # endif
@@ -364,9 +356,6 @@ char *cpp_argv[ARGUMENTS] = {
 #endif
 #if defined(macII) || defined(_AUX_SOURCE)
 	"-DmacII",	/* Apple A/UX */
-#endif
-#if defined(USL) || defined(__USLC__)
-	"-DUSL",	/* USL */
 #endif
 #ifdef sony
 	"-Dsony",	/* Sony */
@@ -424,12 +413,6 @@ char *cpp_argv[ARGUMENTS] = {
 	"-DSVR4",
 # endif
 #endif /* MOTOROLA */
-#if defined(M_UNIX) || defined(sco)
-	"-Dsco",
-# if defined(sco324)
-	"-Dsco324",
-# endif
-#endif
 #ifdef i386
 	"-Di386",
 # ifdef SVR4
@@ -451,12 +434,6 @@ char *cpp_argv[ARGUMENTS] = {
 	"-DISC22",       /* ISC 2.2.1 */
 #     endif
 #    endif
-#   endif
-#  endif
-#  ifdef SCO
-	"-DSCO",
-#   ifdef SCO324
-	"-DSCO324",
 #   endif
 #  endif
 #  ifdef ESIX
@@ -491,12 +468,6 @@ char *cpp_argv[ARGUMENTS] = {
 	"-DISC22",       /* ISC 2.2.1 */
 #     endif
 #    endif
-#   endif
-#  endif
-#  ifdef SCO
-	"-DSCO",
-#   ifdef SCO324
-	"-DSCO324",
 #   endif
 #  endif
 #  ifdef ESIX
@@ -622,12 +593,6 @@ char *cpp_argv[ARGUMENTS] = {
 # define DEFAULT_OS_MAJOR_REV	"r %*[^.].%[0-9]"
 # define DEFAULT_OS_MINOR_REV	"r %*[^.].%*d.%1s"
 # define DEFAULT_OS_TEENY_REV	"r %*[^.].%*d.%*c%[0-9]"
-# define DEFAULT_OS_NAME	"srvm %[^\n]"
-#elif defined(USL) || defined(__USLC__)
-/* uname -v returns "x.yz" or "x.y.z", e.g. "2.02" or "2.1.2". */
-# define DEFAULT_OS_MAJOR_REV	"v %[0-9]"
-# define DEFAULT_OS_MINOR_REV	"v %*d.%1s"
-# define DEFAULT_OS_TEENY_REV	"v %*d.%*c%[.0-9]"
 # define DEFAULT_OS_NAME	"srvm %[^\n]"
 #elif defined(__osf__)
 /* uname -r returns "Wx.y", e.g. "V3.2" or "T4.0" */

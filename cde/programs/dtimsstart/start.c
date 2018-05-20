@@ -28,7 +28,7 @@
 #include	<setjmp.h>
 #include	<unistd.h>
 
-#if (defined(USL) || defined(linux) || defined(CSRG_BASED)) && !defined(_NFILE)
+#if (defined(linux) || defined(CSRG_BASED)) && !defined(_NFILE)
 #define _NFILE FOPEN_MAX
 #endif
 

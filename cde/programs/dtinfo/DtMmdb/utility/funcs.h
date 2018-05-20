@@ -52,11 +52,11 @@
 #ifndef _funcs_h
 #define _funcs_h 1
 
-#if !defined(USL) && !defined(__osf__) && !defined(linux) && \
+#if !defined(__osf__) && !defined(linux) && \
     !defined(CSRG_BASED) && !defined(sun)
 #include <libc.h>
 #endif
-#if defined(hpux) || defined(sgi) || defined(USL) ||defined(__osf__) || \
+#if defined(hpux) || defined(sgi) ||defined(__osf__) || \
     defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <unistd.h>
 #else
@@ -95,12 +95,6 @@ using namespace std;
 #include "utility/macro.h"
 #include "utility/mmdb_exception.h"
 
-#ifdef USL
-int _DtMmdbStrcasecmp(const char *s1, const char *s2);
-int _DtMmdbStrncasecmp(const char *s1, const char *s2, int n);
-#define strcasecmp(s1,s2) _DtMmdbStrcasecmp(s1,s2)
-#define strncasecmp(s1,s2,n) _DtMmdbStrncasecmp(s1,s2,n)
-#endif
 #ifdef _IBMR2
 /* no C++ version of <strings.h>, C version causes conflicts */
 extern "C" {

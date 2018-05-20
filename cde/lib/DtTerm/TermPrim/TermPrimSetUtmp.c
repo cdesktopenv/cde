@@ -390,14 +390,14 @@ UtmpEntryCreate(Widget w, pid_t pid, char *utmpLine)
 	(void) strncpy(utPtr->ut_id, utmpLine,
 		sizeof(utPtr->ut_id));
 #else	/* __AIX || __osf__ */
-#if defined(linux) || defined(sun) || defined(USL)
+#if defined(linux) || defined(sun)
 	if (c = strchr(utmpLine, '/')) {
 	    c++;
 	} else {
 	    c = utmpLine;
 	}
 	(void) strncpy(utPtr->ut_id, c, sizeof(utPtr->ut_id));
-#else	/* linux || sun  || USL */
+#else	/* linux || sun */
 	error out -- missing code for utPtr->ut_id
 #endif	/* sun */
 #endif	/* __AIX || __osf__ */

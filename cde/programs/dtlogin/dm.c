@@ -85,18 +85,6 @@
 #define sigmask(m)  (1 << (( m-1)))
 #endif
 
-
-/***************************************************************************
- *
- *  External variable declarations
- *
- ***************************************************************************/
-
-#if defined(USL)
-extern  int  makepttypair ();
-#endif
-
-
 /***************************************************************************
  *
  *  Local procedure declarations
@@ -181,15 +169,6 @@ main( int argc, char **argv )
      
     if ( (progName = malloc(strlen(argv[0]) + 1)) != NULL )
 	strcpy(progName, argv[0]);
-
-#if defined(USL)
-    /* create master slave pair for use in login */
-    if (makepttypair () < 0)
-        {
-        Debug ("Could not create pty for use in login");
-        exit (1);
-        }
-#endif
 
      
     /*

@@ -80,12 +80,7 @@ char				**global_envp;
 // This is the PID or TID of the procedure that is
 // performing the garbage collection.
 //
-#if defined(USL)
-int		_tt_garbage_id = 0;	// TID or PID.
-#else
 int		_tt_garbage_id = -1;	// TID or PID.
-#endif
-
 int		_tt_run_garbage_collect(int in_parallel);
 
 static	const char		* sesProp = _TT_FILEJOIN_PROPNAME;
@@ -2737,7 +2732,7 @@ _tt_run_garbage_collect(int in_parallel)
 		//
 		// FORK and EXEC ourself '-G'.
 		//
-#if defined(OPT_BUG_AIX) || defined(OPT_BUG_USL)
+#if defined(OPT_BUG_AIX)
 #define vfork fork
 #endif
 		switch (_tt_garbage_id = (int)vfork()) {

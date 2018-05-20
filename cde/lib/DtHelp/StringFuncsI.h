@@ -56,9 +56,9 @@ typedef struct _DtHelpCeIconvContextRec * _DtHelpCeIconvContext;
 /****************************************************************************
  *			Semi Public Re-defines
  ****************************************************************************/
-#if !defined(_AIX) && !defined(USL)
+#if !defined(_AIX)
 #define	_DtHelpCeStrCaseCmp(s1,s2)	strcasecmp(s1,s2)
-#endif /* _AIX  or USL */
+#endif /* _AIX */
 
 /****************************************************************************
  *			Semi Public Routines
@@ -223,11 +223,11 @@ extern	int	_DtHelpCeCountChars (
 			int		 max_len,
 			int		*ret_len );
 extern  int	_DtHelpCeFreeStringArray ( char **array);
-#if	defined(_AIX) || defined(USL)
+#if	defined(_AIX)
 extern	int	_DtHelpCeStrCaseCmp(
 			const char	*s1,
 			const char	*s2);
-#endif /* _AIX or USL */
+#endif /* _AIX */
 extern	int	_DtHelpCeStrCaseCmpLatin1(
 			const char	*s1,
 			const char	*s2);

@@ -44,7 +44,7 @@
 #include <stdlib.h>
 #ifdef hpux
   #include <time.h>
-#elif defined(USL) || defined(__osf__) || defined(linux)
+#elif defined(__osf__) || defined(linux)
   #include <sys/time.h>
 #else
   #include <sys/select.h>
@@ -53,7 +53,7 @@
 #include <strings.h>            /* need to get bzero defined */
 #endif /* _AIX */
 
-#if defined(aix) || defined(USL)
+#if defined(aix)
 extern "C"
 {
 extern int strcasecmp(const char *,  const char *);

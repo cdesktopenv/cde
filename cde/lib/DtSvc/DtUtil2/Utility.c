@@ -38,7 +38,7 @@
 #ifdef __hpux
 #include <ndir.h>
 #else
-#if defined(sun) || defined(USL) || defined(sco)
+#if defined(sun)
 #include <dirent.h>
 #else
 #include <sys/dir.h>

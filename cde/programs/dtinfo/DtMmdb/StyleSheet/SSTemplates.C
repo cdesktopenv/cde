@@ -69,7 +69,7 @@ typedef Stack<FeatureSet*,dlist_array<FeatureSet> > _stack_fs_orvec_fs_;
 // the largest ID used in f's: 59
 //
 
-#if defined(sun) || defined(hpux) || defined (USL)
+#if defined(sun) || defined(hpux)
 typedef CC_TPtrSlist<Attribute> _f4_;
 typedef CC_TPtrSlist<Feature>   _f5_;
 typedef CC_TPtrSlist<PathFeature> _f2_;
@@ -231,77 +231,4 @@ typedef pointer_vector<FeatureValue> _pointer_vector_FeatureValue_;
 #pragma define_template kv_pair<unsigned int, BitVector>
 #pragma define_template kv_pair<FeatureDef, FeatureDef>
 #pragma define_template CC_TPtrSlist<PathTerm>
-#endif
-
-#ifdef USL
-
-#pragma instantiate CC_TPtrSlist<CC_String> 
-#pragma instantiate CC_TPtrDlist<CC_String> 
-
-#pragma instantiate CC_TPtrSlist<Attribute> 
-#pragma instantiate CC_TPtrSlist<Feature>   
-#pragma instantiate CC_TPtrSlist<PathFeature> 
-#pragma instantiate CC_TPtrSlist<FeatureValue> 
-#pragma instantiate CC_TPtrSlist<FeatureDef> 
-#pragma instantiate CC_TPtrSlist<TypeValues> 
-#pragma instantiate CC_TPtrSlist<char> 
-
-#pragma instantiate CC_TPtrDlist<PathFeature> 
-#pragma instantiate CC_TPtrDlist<Symbol>    
-#pragma instantiate CC_TPtrDlist<ResolverStackElement> 
-#pragma instantiate CC_TPtrDlist<char>    
-
-#pragma instantiate hashTable<SymbolName, unsigned int> 
-#pragma instantiate hashTable<Symbol, Expression> 
-#pragma instantiate hashTable<unsigned int,BitVector> 
-
-#pragma instantiate hashTableIterator<SymbolName,unsigned int> 
-#pragma instantiate hashTableIterator<unsigned int,BitVector> 
-#pragma instantiate hashTableIterator<Symbol, Expression> 
-#pragma instantiate hashTableIterator<FeatureDef, FeatureDef> 
-
-
-#ifndef CDE_NEXT
-#pragma instantiate CC_TPtrSlistDictionary<SymbolName,unsigned int> 
-#pragma instantiate CC_TPtrSlistDictionary<unsigned int,BitVector> 
-#pragma instantiate CC_TPtrSlistDictionary<Symbol,Expression> 
-#pragma instantiate CC_TPtrSlistDictionary<SymbolName,unsigned int> 
-#endif
-
-typedef dlist_array<CC_String> _ordvec_cstring_ ;
-typedef CC_TValSlist<posRecord> _f54_;
-typedef value_vector<PathTermPtr> _PathTermPtrvalue_vector_;
-typedef pointer_vector<FeatureValue> _pointer_vector_FeatureValue_;
-
-#pragma instantiate dlist_array<CC_String> 
-#pragma instantiate CC_TValSlist<posRecord> 
-#pragma instantiate value_vector<PathTermPtr> 
-#pragma instantiate pointer_vector<FeatureValue> 
-
-// unresolved references
-
-#pragma instantiate CC_TPtrDlist<PathTerm> 
-#pragma instantiate CC_TPtrDlistIterator<PathTerm>
-#pragma instantiate CC_TValSlistIterator<posRecord>
-#pragma instantiate CC_TPtrSlist<Symbol>
-#pragma instantiate dlist_array<Symbol>
-#pragma instantiate CC_TPtrSlist<ResolverStackElement>
-#pragma instantiate kv_pair<SymbolName, unsigned int>
-#pragma instantiate CC_TPtrSlist<kv_pair<SymbolName, unsigned int> >
-#pragma instantiate pointer_vector<CC_TPtrSlist<kv_pair<SymbolName, unsigned int> > >
-#pragma instantiate CC_TPtrSlist<kv_pair<unsigned int, BitVector> >
-#pragma instantiate pointer_vector<CC_TPtrSlist<kv_pair<unsigned int, BitVector> > >
-#pragma instantiate CC_TPtrSlist<Symbol>
-#pragma instantiate kv_pair<Symbol, Expression>
-#pragma instantiate CC_TPtrSlist<kv_pair<Symbol, Expression> >
-#pragma instantiate pointer_vector<CC_TPtrSlist<kv_pair<Symbol, Expression> > >
-#pragma instantiate CC_TPtrSlist<kv_pair<FeatureDef, FeatureDef> >
-#pragma instantiate pointer_vector<CC_TPtrSlist<kv_pair<FeatureDef, FeatureDef> > > 
-#pragma instantiate CC_TValSlist<int>
-#pragma instantiate CC_TValSlistIterator<int>
-#pragma instantiate CC_TValSlistIterator<char>
-
-#pragma instantiate kv_pair<unsigned int, BitVector>
-#pragma instantiate kv_pair<FeatureDef, FeatureDef>
-#pragma instantiate CC_TPtrSlist<PathTerm>
 #endif

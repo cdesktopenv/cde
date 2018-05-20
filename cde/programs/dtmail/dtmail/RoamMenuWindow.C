@@ -72,9 +72,7 @@
 #include <unistd.h>
 #include <sys/param.h>
 
-#if !defined(USL)
 #include <strings.h>
-#endif
 #include <errno.h>
 #include <unistd.h>
 #include <sys/utsname.h>

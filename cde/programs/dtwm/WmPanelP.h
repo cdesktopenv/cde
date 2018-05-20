@@ -62,7 +62,7 @@ typedef struct PanelData * WmPanelistObject;
 
 
 #include <time.h>
-#if defined(_AIX) || defined(USL)
+#if defined(_AIX)
 #include <sys/time.h> /* needed for timeval */
 #endif
 

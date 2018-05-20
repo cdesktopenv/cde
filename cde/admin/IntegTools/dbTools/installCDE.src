@@ -62,11 +62,6 @@ MakeTarball()
     HASH
     Log "Creating tarball..."
 
-    if [ $PLATFORM = "usl" ]
-    then
-      ulimit -f unlimited
-    fi
-
     DIRNAME=build.$DATE
     mkdir -p $TARBALL_LOCATION/$DIRNAME
     cd /
@@ -257,10 +252,7 @@ RestartInetd()
 
   OLDPWD=`pwd`
   cd /
-  if [ "$PLATFORM" = "usl" ]
-  then
-    /usr/sbin/inetd -s
-  elif [ "$PLATFORM" = "sun" ]
+  if [ "$PLATFORM" = "sun" ]
   then
     /usr/sbin/svcadm refresh svc:/network/inetd:default
     /usr/sbin/svcadm restart svc:/network/inetd:default
@@ -569,10 +561,6 @@ XCOMM
   then
     PLATFORM=sun
     PLATFORM_SCRIPT_DIR=sun
-  elif [ $BUILDSYSTEM = "UNIX_SV" ];
-  then
-    PLATFORM=usl
-    PLATFORM_SCRIPT_DIR=usl
   elif [ $BUILDSYSTEM = "OSF1" ];
   then
     PLATFORM=dec
@@ -601,9 +589,6 @@ XCOMM
   if [ "$PLATFORM" = "aix" ];
   then
     USER=`/bin/whoami`
-  elif [ "$PLATFORM" = "usl" ];
-  then
-    USER=`/usr/ucb/whoami`
   else
     USER=`/usr/bin/whoami`
   fi
@@ -613,11 +598,6 @@ XCOMM
     echo ""
     echo "You should be root to run this script.  Continuing anyway."
     echo ""
-  fi
-
-  if [ "$PLATFORM" = "usl" ]
-  then
-    umask 000
   fi
 
   unset TMPDIR

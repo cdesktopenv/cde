@@ -41,7 +41,7 @@
 #include <Dt/ActionUtilP.h>
 #include "myassertP.h"
 
-#if defined(sun) || defined(USL)
+#if defined(sun)
 #include <limits.h>
 #endif 
 

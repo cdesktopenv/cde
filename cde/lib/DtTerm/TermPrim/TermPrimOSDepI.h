@@ -125,12 +125,5 @@
 # define USE_TCSENDBREAK	/* use tiocbreak()		*/
 #endif /* IBM_ARCHITECTURE */
 
-#ifdef	USL_ARCHITECTURE
-# define XOR_CAPS_LOCK		/* xor caps lock and shift	*/
-# define USE_STREAMS		/* use streams			*/
-# define USE_STREAMS_TTCOMPAT	/* use ttcompat streams mod	*/
-# define USE_TCSENDBREAK	/* use tiocbreak()		*/
-#endif	/* USL_ARCHITECTURE */
-
 #endif	/* _Dt_TermPrimOSDepI_h */
 /* DON'T ADD ANYTHING AFTER THIS #endif... */

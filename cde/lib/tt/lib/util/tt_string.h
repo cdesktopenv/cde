@@ -48,7 +48,7 @@
 extern "C" {
 #include <wchar.h>
 };
-#elif defined(OPT_BUG_SUNOS_5) || defined(OPT_BUG_USL)
+#elif defined(OPT_BUG_SUNOS_5)
 #include <widec.h>
 #include <wctype.h>
 #elif defined(OPT_BUG_AIX)

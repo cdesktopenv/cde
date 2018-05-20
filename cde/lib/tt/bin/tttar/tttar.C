@@ -40,7 +40,7 @@
 #if defined(__osf__) || defined(linux) || defined(sun) || defined(CSRG_BASED)
 #include <unistd.h>
 #else
-#if !defined(USL) && !defined(sun)
+#if !defined(sun)
 #include <osfcn.h>
 #endif
 #endif
@@ -51,10 +51,6 @@
 #include "util/copyright.h"
 #include "tt_options.h"
 #include "archiver.h"
-
-#if defined(OPT_BUG_USL)
-#include <unistd.h>
-#endif
 
 TT_INSERT_COPYRIGHT
 

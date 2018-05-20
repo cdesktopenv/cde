@@ -230,9 +230,6 @@
 #   ifdef __sun
 #      include <sys/time.h>
 #   endif
-#if defined(USL)
-#      include <sys/time.h>
-#   endif
 #   ifdef __apollo
 #      include <sys/time.h>
 #   endif
@@ -254,11 +251,6 @@
 #   ifdef _AIX
 #       include <sys/select.h>
 #   endif
-/*
-#   if defined(USL)
-#       include <sys/select.h>
-#   endif
-*/
 #endif /* __need_fd_st */
 
 
@@ -293,7 +285,7 @@
 /* about above.  So, declare them only if we don't already have them */
 /* ----------------------------------------------------------------- */
 
-#if defined(_HPUX_SOURCE) || defined(__sun) || defined(USL) || defined(_INCLUDE_BSD_SOURCE) || defined(_OSF_SOURCE) || defined(__aix) || defined(__osf__) || defined(linux)
+#if defined(_HPUX_SOURCE) || defined(__sun) || defined(_INCLUDE_BSD_SOURCE) || defined(_OSF_SOURCE) || defined(__aix) || defined(__osf__) || defined(linux)
        /* the "u_types" are defined in standard files */
 #      undef _INCLUDE_BSD_SOURCE
 #else

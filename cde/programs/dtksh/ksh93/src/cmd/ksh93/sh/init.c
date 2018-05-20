@@ -120,9 +120,6 @@
 #   undef  isblank
 #   define isblank(x)      iswblank(x)
 #   if !_lib_iswblank
-#if defined(USL)
-#include <wctype.h>
-#endif
 
 	static int
 	iswblank __PARAM__((wint_t wc), (wc)) __OTORP__(wint_t wc;){

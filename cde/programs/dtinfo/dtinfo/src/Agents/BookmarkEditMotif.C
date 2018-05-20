@@ -93,9 +93,7 @@ using namespace std;
 int BookmarkEdit::g_modified_count = 0;
 
 #ifdef SVR4
-#ifndef USL
 #include <libintl.h>
-#endif
 #endif
 
 #define THIS_CLASS BookmarkEdit

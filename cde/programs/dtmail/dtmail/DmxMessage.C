@@ -74,11 +74,7 @@
 // For CHARSET
 #include <LocaleXlate.h>
 #include <locale.h>
-#if !defined(USL)
 #include <strings.h>
-#else 
-#include <EUSCompat.h>
-#endif 
 
 #include "Application.h"
 #include "DtMail/DtMail.hh"

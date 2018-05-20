@@ -76,9 +76,7 @@
 #include <string.h>
 
 #ifdef SVR4
-#ifndef USL
 #include <libintl.h>
-#endif
 #endif
 
 #include <string.h>

@@ -67,8 +67,7 @@
  **	__apollo    Domain OS only
  **	__hp_osf    HP OSF/1 OS only
  **     sun         SUN OS only
- **     USL         USL OS only
- **     SVR4        SUN OS and USL
+ **     SVR4        SUN OS et al.
  **     _AIX        AIX only
  **     _POWER      AIX version 4 only
  **
@@ -109,10 +108,6 @@
 #endif
 #endif
 
-#if defined(USL) 
-#include <iaf.h>
-#endif
-
 #include	"dm.h"
 #include	"vg.h" 
 #include	"vgmsg.h"
@@ -124,8 +119,7 @@
 #if !(defined(__hpux)   || \
       defined(__apollo) || \
       defined(_AIX)     || \
-      defined(sun) 	|| \
-      defined(USL))
+      defined(sun))
 #define generic
 #endif
 
@@ -1808,209 +1802,6 @@ tsm_check_login(uid_t uid)
  ***************************************************************************
  ***************************************************************************/
 
-
-#if defined(USL) 
-/***************************************************************************
- *
- *  Start authentication routines (USL)
- *
- ***************************************************************************/
-
-
-#define LOGIN_SUCCESS   0
-#define LOGIN_FAIL      1
-#define INACTIVE        2
-#define EXPIRED         3
-#define IDLEWEEKS       4
-#define MANDATORY       5
-#define AGED            6
-#define BADSHELL        7
-#define NOHOME          8
-#define PFLAG           11
-
-/***************************************************************************
- *
- *  External declarations (USL)
- *
- ***************************************************************************/
-
-
-
-/***************************************************************************
- *
- *  Procedure declarations (USL)
- *
- ***************************************************************************/
-
-
-static void Audit( struct passwd *p, char *msg, int errnum) ;
-static int  PasswordAged( register struct passwd *pw) ;
-static void WriteBtmp( char *name) ;
-
-
-
-/***************************************************************************
- *
- *  Global variables (USL)
- *
- ***************************************************************************/
-
-extern int      Slaveptty_fd;
-
-
-/***************************************************************************
- *
- *  Audit (USL)
- *
- ***************************************************************************/
-
-static void 
-Audit( struct passwd *p, char *msg, int errnum )
-{
-
-    /*
-     * make sure program is back to super-user...
-     */
-
-    seteuid(0);
-
-    return;
-}
-
-
-
-
-/***************************************************************************
- *
- *  WriteBtmp (USL)
- *
- *  log bad login attempts
- *  
- ***************************************************************************/
-
-static void 
-WriteBtmp( char *name )
-{
-    return;
-}
-
-
-
-
-/***************************************************************************
- *
- *  Authenticate (USL)
- *
- *  verify the user
- *
- *  return codes indicate authentication results.
- ***************************************************************************/
-
-#define MAXATTEMPTS	3
-
-int 
-Authenticate( struct display *d, char *name, char *passwd, char **msg )
-{
-
-    int			ret;
-    char                **ava, *tty;
-    char                *p;
-    char                xlogname[137];
-    char                xpasswd[137];
-    char                xtty[137];
-
-    char               *origpw;
-
-   /*
-    * Nothing to do if no name provided.
-    */
-    if (!name)
-      return(VF_INVALID);
-
-   /*
-    * Save provided password.
-    */
-    origpw = passwd;
-    if (!passwd) passwd = "";
-
-	/*
-	 * Put the logname and the passwd on the ava stream
-	 */
-	if ((ret = dup2 (Slaveptty_fd, 0)) == -1)
-		Debug ("Problem with dup2\n");
-
-	ava = retava(Slaveptty_fd);
-
-	(void) bzero (xlogname, strlen (xlogname));
-	(void) sprintf (xlogname, "XLOGNAME=%s", name);
-	if ((ava = putava (xlogname, ava)) == NULL)
-		{
-		Debug ("Could not set logname ava\n");
-		}
-
-	(void) bzero (xpasswd, strlen (xpasswd));
-	(void) sprintf (xpasswd, "XPASSWD=%s", passwd);
-	if ((ava = putava (xpasswd, ava)) == NULL)
-		{
-		Debug ("Could not set passwd ava\n");
-		}
-
-	(void) bzero (xtty, strlen (xtty));
-	(void) sprintf (xtty, "XTTY=%s", ttyname(Slaveptty_fd));
-	if ((ava = putava (xtty, ava)) == NULL)
-		{
-		Debug ("Could not set tty ava\n");
-		}
-
-	if (setava (Slaveptty_fd, ava) != 0)
-		{
-		Debug ("Could not do setava\n");
-		}
-
-	/*
-	 * invoke identification and authorizarion scheme
-	 */
-
-	switch (ret = invoke (Slaveptty_fd, "login"))
-		{
-
-		case LOGIN_SUCCESS:
-			Audit(p, " Successful login", 0);
-    			return(VF_OK);
-		case LOGIN_FAIL:
-			return(origpw ? VF_INVALID : VF_CHALLENGE);
-
-		/* The next three cases need to define special return values */
-		/* for the aged passwords and accounts.			     */
-
-		case INACTIVE:
-		case IDLEWEEKS:
-			/* PasswdAged (linfo); */
-			return(VF_PASSWD_AGED);
-		case EXPIRED:  /* SS */
-			/* AccountAged (linfo); */
-			return(VF_PASSWD_AGED);
-
-		/* These 3 cases should allow user to select a new password */
-		/* after displaying a warning, but current implementation  */
-		/* only displays the warning.				    */
-
-		case MANDATORY:
-		case PFLAG:
-		case AGED:
-			return(VF_PASSWD_AGED);
-		default:
-			return(VF_INVALID);  /* SS */
-		}
-}
-
-
-/***************************************************************************
- *
- *  End authentication routines (USL)
- *
- ***************************************************************************/
-#endif /* USL */
 
 #ifdef generic
 /***************************************************************************

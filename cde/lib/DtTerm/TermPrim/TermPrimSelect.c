@@ -53,7 +53,7 @@ static char rcs_id[] = "$TOG: TermPrimSelect.c /main/6 1999/10/14 16:22:53 mgree
 #include <Xm/DropSMgr.h>
 #include <Xm/DropTrans.h>
 
-#if defined(USL) || defined(OPENBSD_ARCHITECTURE)
+#if defined(OPENBSD_ARCHITECTURE)
 #include <ctype.h>
 #include <wctype.h>
 #endif

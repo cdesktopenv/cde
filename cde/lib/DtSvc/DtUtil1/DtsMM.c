@@ -601,7 +601,7 @@ _DtDtsMMapDB(const char *CacheFile)
 			mmaped_db = (char *)mmap(NULL,
 					buf.st_size,
 					PROT_READ,
-#if defined(sun) || defined(USL)
+#if defined(sun)
 					/* MAP_NORESERVE is only supported
 					   on sun and novell platforms */
 					MAP_SHARED|MAP_NORESERVE,

@@ -53,9 +53,9 @@
 /*****************************************************************************
  *           Extern defines
  *****************************************************************************/
-#if !defined(_AIX) && !defined(USL)
+#if !defined(_AIX)
 #define _DtCvStrCaseCmp(s1,s2)      strcasecmp(s1,s2)
-#endif /* _AIX  or USL */
+#endif /* _AIX */
 
 extern	void	 **_DtCvAddPtrToArray (
 			void		**array,
@@ -78,11 +78,11 @@ extern	void	 *_DtCvStrPtr (
 			int		 type,
 			int		 count);
 
-#if     defined(_AIX) || defined(USL)
+#if     defined(_AIX)
 extern  int     _DtCvStrCaseCmp(
 			const char      *s1,
 			const char      *s2);
-#endif /* _AIX or USL */
+#endif /* _AIX */
 extern  int     _DtCvStrCaseCmpLatin1(
 			const char      *s1,
 			const char      *s2);

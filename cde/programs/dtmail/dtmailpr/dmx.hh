@@ -96,7 +96,7 @@ enum DmxHeaders
 };
 
 // This is undoubtedly illegal, unethical, and immoral.  So sue me.
-#if !defined(SunOS) && !defined(USL) && !defined(_AIX)
+#if !defined(SunOS) && !defined(_AIX)
 #undef boolean_t
 typedef enum { B_FALSE, B_TRUE } boolean_t;
 #endif // SunOS

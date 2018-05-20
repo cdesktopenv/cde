@@ -51,7 +51,7 @@
 #include <errno.h>
 #include <locale.h>  /* getlocale(), LOCALE_STATUS, LC_xxx */
 
-#if defined(_AIX) || defined(USL) || defined(CSRG_BASED)
+#if defined(_AIX) || defined(CSRG_BASED)
 #include <ctype.h>
 #endif
 
@@ -533,7 +533,7 @@ int _DtHelpCeStrHashToKey(
 #endif
 
    extern int strcoll(const char *,const char *);
-#if defined(_AIX) || defined(USL)
+#if defined(_AIX)
    extern int _DtHelpCeStrCaseCmp(const char *,const char *);
 #else
    extern int strcasecmp(const char *,const char *);
@@ -553,7 +553,7 @@ int _DtHelpCeStrHashToKey(
 #endif
 
    if (Clang)
-#if defined(_AIX) || defined(USL)
+#if defined(_AIX)
      return _DtHelpCeStrCaseCmp;
 #else
      return strcasecmp; 
@@ -1048,7 +1048,7 @@ int _DtHelpCeIconvContextSuitable(
 }
 
 
-#if defined(_AIX) || defined (USL)
+#if defined(_AIX)
 /*****************************************************************************
  * Function: _DtHelpCeStrCaseCmp
  *
@@ -1056,7 +1056,7 @@ int _DtHelpCeIconvContextSuitable(
  *
  * Return Value:
  *
- * Purpose: IBM and USL do not support the 'strcasecmp' routine. This takes it's
+ * Purpose: IBM does not support the 'strcasecmp' routine. This takes it's
  *          place.
  *****************************************************************************/
 int
@@ -1066,7 +1066,7 @@ _DtHelpCeStrCaseCmp (
 {
     return (_DtCvStrCaseCmp(s1, s2));
 }
-#endif /* _AIX or USL */
+#endif /* _AIX */
 
 /******************************************************************************
  * Function:     int _DtHelpCeFreeStringArray (char **array)

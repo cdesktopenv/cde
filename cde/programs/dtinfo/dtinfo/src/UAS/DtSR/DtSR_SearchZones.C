@@ -28,12 +28,6 @@
 #include <strings.h>		// strcasecmp()
 #endif
 
-#if defined(USL)
-extern "C" {
-   extern char *strcasecmp (const char*, const char *);
-}
-#endif
-
 #include "DtSR_SearchZones.hh"
 
 DtSR_SearchZones::uas_zones

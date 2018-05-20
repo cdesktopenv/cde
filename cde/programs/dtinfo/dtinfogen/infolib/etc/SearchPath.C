@@ -24,9 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#if !defined(USL)
 #include <strings.h>
-#endif
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sstream>

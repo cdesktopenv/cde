@@ -349,9 +349,7 @@ CleanUpChild( void )
         sigsetmask(0);
 #else
 #if defined (SYSV) || defined (SVR4) || defined(linux)
-#if !defined (USL)
 	setpgrp ();
-#endif  /* USL */
 #else
 	setpgrp (0, getpid ());
 	sigsetmask (0);
@@ -951,83 +949,7 @@ ScanNLSDir(char *dirname)
 }
 #endif /* __osf__obsoleted__ */
 
-#elif defined(USL)
-
-#define LC_COLLATE	"LC_COLLATE"
-#define LC_CTYPE	"LC_CTYPE"
-#define LC_MESSAGES	"LC_MESSAGES"
-#define LC_MONETARY	"LC_MONETARY"
-#define LC_NUMERIC	"LC_NUMERIC"
-#define LC_TIME		"LC_TIME"
-
-/*
- * Scan for installed locales on Novell/SCO platforms.
- */
-{
-    DIR *nls_dirp, *locale_dirp;
-    struct dirent *dp;
-    char* locale; 
-    char locale_path[MAXPATHLEN];
-    struct stat locale_stat;
-    int retval;
-
-    /* 
-     * To determin the fully installed locale list, check several locations.
-     */
-    if((nls_dirp = opendir(dirname)) != NULL)
-    {
-        while((dp = readdir(nls_dirp)) != NULL)
-	{
-	    int	is_locale = 0;
-
-	    locale = dp->d_name;
-
-	    /*
-	     * A locale is indicated by a directory which has one or more
-	     * of the following subdirectories:
-	     *		LC_COLLATE
-	     *		LC_CTYPE
-	     *		LC_MESSAGES
-	     *		LC_MONETARY
-	     *		LC_NUMERIC
-	     *		LC_TIME
-	     */
-	    (void) sprintf(locale_path, "%s/%s", dirname, locale);
-	    retval = stat(locale_path, &locale_stat);
-	    if ( (0 != retval) || (! S_ISDIR(locale_stat.st_mode)) )
-	      continue;
-
-	    if (NULL == (locale_dirp = opendir(locale_path)) )
-	      continue;
-	    
-	    is_locale = FALSE;
-            while (NULL != (dp = readdir(locale_dirp)) &&
-		   FALSE == is_locale)
-	    {
-		if ((0 == strcmp(dp->d_name, LC_COLLATE)) ||
-		    (0 == strcmp(dp->d_name, LC_CTYPE)) ||
-		    (0 == strcmp(dp->d_name, LC_MESSAGES)) ||
-		    (0 == strcmp(dp->d_name, LC_MONETARY)) ||
-		    (0 == strcmp(dp->d_name, LC_NUMERIC)) ||
-		    (0 == strcmp(dp->d_name, LC_TIME)) )
-		  is_locale = 1;
-	    }
-
-            closedir(locale_dirp);
-
-	    if (is_locale &&
-                LANGLISTSIZE > (int) (strlen(languageList)+strlen(locale)+2) )
-	    {
-		strcat(languageList, " ");
-		strcat(languageList, locale);
-            }
-        }
-
-        closedir(nls_dirp);
-    }
-}
-
-#else /* !_AIX && !hpV4 && !__osf__ !sun && !USL */
+#else /* !_AIX && !hpV4 && !__osf__ !sun */
 /*
  * Scan for installed locales on generic platform
  */

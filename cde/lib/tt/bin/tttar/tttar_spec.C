@@ -35,16 +35,7 @@
 #if defined(__osf__) || defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <unistd.h>
 #else
-#if defined (USL)
-#include "tt_options.h"
-#if defined(OPT_BUG_USL)
-#include <unistd.h>
-#else
 #include <osfcn.h>
-#endif /* if defined(OPT_BUG_USL) */
-#else
-#include <osfcn.h>
-#endif
 #endif /* __osf__ */
 #include "api/c/tt_c.h"
 #include "util/tt_iostream.h"

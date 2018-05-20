@@ -623,9 +623,7 @@ extern double	frexp _ARG_((double, int*));
 extern double	ldexp _ARG_((double,int));
 
 extern int	getpagesize _ARG_((void));
-#ifndef __USLC__
 extern Void_t*	memccpy _ARG_((Void_t*, const Void_t*, int, size_t));
-#endif
 
 #if !_PACKAGE_ast
 extern void	bcopy _ARG_((const Void_t*, Void_t*, int));

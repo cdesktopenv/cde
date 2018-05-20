@@ -50,15 +50,6 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#if defined(OPT_BUG_UW_2)
-extern "C" {
-int   putenv(char *);
-FILE *popen(const char *, const char *);
-FILE *fdopen(int, const char *);
-int   pclose(FILE *);
-}
-#endif
-
 #define  TT_TYPE_TABLE_BUCKETS  19
 
 static int use_cpp;

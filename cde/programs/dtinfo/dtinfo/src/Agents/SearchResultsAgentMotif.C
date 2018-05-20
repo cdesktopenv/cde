@@ -88,9 +88,7 @@ using namespace std;
 #include <WWL/WXmPanedWindow.h>
 
 #ifdef SVR4
-#ifndef USL
 #include <libintl.h>
-#endif
 #endif
 
 static Boolean g_allow_query_text_change;

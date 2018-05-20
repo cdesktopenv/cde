@@ -1068,13 +1068,11 @@ int SPC_Setpgrp(int read_current_termio)
     return(SPC_ERROR);
   }
 
-#if !defined(USL)
   if(tcsetattr(setpgrp_wire->fd[SLAVE_SIDE], TCSANOW, XeTermioStruct)==ERROR) {
     SPC_Error(SPC_Bad_tc_Call,(XeString)"tcsetattr");
     _DtSvcProcessUnlock();
     return(SPC_ERROR);
   }
-#endif
 
   _DtSvcProcessUnlock();
   return(TRUE);  

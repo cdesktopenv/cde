@@ -1030,7 +1030,7 @@ _DtCmdCommandInvokerExecute (
 #ifdef _SUN_OS
              open_max = NOFILE;
 #else
-#if defined(USL) || defined(_AIX)
+#if defined(_AIX)
              open_max = FOPEN_MAX;
 #else
              open_max = FD_SETSIZE;

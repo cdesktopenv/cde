@@ -59,7 +59,7 @@ extern "C" {
 ** System V R4 based systems define the stuff we need in
 ** sys/types.h. Include that and then we are done.
 */
-#if defined(HPUX) || defined(linux) || defined(SunOS) || defined(UNIX_SV) || defined(USL)
+#if defined(HPUX) || defined(linux) || defined(SunOS)
 #include <sys/types.h>
 #endif
 
@@ -161,16 +161,6 @@ typedef enum {B_FALSE, B_TRUE} boolean_t;
 #undef BIG_ENDIAN
 
 #endif /* AIX */
-
-#if defined(USL)
-
-#include <sys/param.h>
-
-#define STRCASECMP_NOT_DEFINED
-#if !defined(S_ISLNK)
-#define S_ISLNK(mode)     (((mode) & S_IFMT) == S_IFLNK)
-#endif
-#endif
 
 /*
  * A bug in Solaris 2.1 and the GNU compilers, these are not defined.

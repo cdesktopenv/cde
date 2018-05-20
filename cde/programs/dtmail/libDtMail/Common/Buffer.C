@@ -46,13 +46,6 @@
 #include <string.h>
 #ifdef __osf__
 #include <stdlib.h>
-#else
-#if defined(USL) && (OSMAJORVERSION == 2)
-extern "C" {
-#endif
-#if defined(USL) && (OSMAJORVERSION == 2)
-};
-#endif
 #endif // __osf__
 #include <stdio.h>
 #include <stdlib.h>

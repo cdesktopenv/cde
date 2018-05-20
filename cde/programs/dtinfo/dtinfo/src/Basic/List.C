@@ -46,28 +46,6 @@
 
 #include "Prelude.h"
 
-
-#ifdef USL
-
-strcasecmp(register const char *s1,
-	   register const char *s2)
-{
-    register int c1, c2;
-
-    while (*s1 && *s2) {
-	c1 = isupper(*s1) ? tolower(*s1) : *s1;
-	c2 = isupper(*s2) ? tolower(*s2) : *s2;
-	if (c1 != c2)
-	    return (c1 - c2);
-	s1++;
-	s2++;
-    }
-    return (int) (*s1 - *s2);
-}
-
-#endif
-
-
 // /////////////////////////////////////////////////////////////////
 // class constructor
 // /////////////////////////////////////////////////////////////////

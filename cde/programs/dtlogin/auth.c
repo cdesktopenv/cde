@@ -131,9 +131,6 @@ extern int errno;
 #ifdef SVR4
 # include <netdb.h>
 # include <sys/sockio.h>
-#ifdef USL
-# include <sys/stropts.h>
-#endif
 #endif
 #ifdef __convex__
 # include <sync/queue.h>
@@ -784,35 +781,6 @@ DefineLocal (FILE *file, Xauth *auth)
 #endif
 }
 
-#ifdef USL
-/* Deal with different SIOCGIFCONF ioctl semantics on UnixWare */
-static int
-ifioctl (int fd, int cmd, char *arg)
-{
-    struct strioctl ioc;
-    int ret;
-
-    bzero((char *) &ioc, sizeof(ioc));
-    ioc.ic_cmd = cmd;
-    ioc.ic_timout = 0;
-    if (cmd == SIOCGIFCONF)
-    {
-	ioc.ic_len = ((struct ifconf *) arg)->ifc_len;
-	ioc.ic_dp = ((struct ifconf *) arg)->ifc_buf;
-    }
-    else
-    {
-	ioc.ic_len = sizeof(struct ifreq);
-	ioc.ic_dp = arg;
-    }
-    ret = ioctl(fd, I_STR, (char *) &ioc);
-    if (ret >= 0 && cmd == SIOCGIFCONF)
-	((struct ifconf *) arg)->ifc_len = ioc.ic_len;
-    return(ret);
-}
-#endif /* USL */
-
-
 #ifdef WINTCP /* NCR with Wollongong TCP */
 
 #include <sys/un.h>
@@ -920,11 +888,7 @@ DefineSelf (fd, file, auth)
     ifc.ifc_len = sizeof (buf);
     ifc.ifc_buf = buf;
 
-#ifdef USL
-    if (ifioctl (fd, SIOCGIFCONF, (char *) &ifc) < 0)
-#else
     if (ioctl (fd, SIOCGIFCONF, (char *) &ifc) < 0)
-#endif
 #ifdef __osf__
 	switch (addr_family)
 	    {

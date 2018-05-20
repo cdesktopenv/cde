@@ -81,7 +81,7 @@
 #endif
 
 #include <wchar.h>
-#if defined(USL) || defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED)
 #include <wctype.h>
 #endif
 

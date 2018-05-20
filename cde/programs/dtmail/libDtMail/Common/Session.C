@@ -86,12 +86,6 @@
 
 #include <stdlib.h>
 #include <unistd.h>
-#if defined(USL) && (OSMAJORVERSION == 2)
-extern "C" {
-#endif
-#if defined(USL) && (OSMAJORVERSION == 2)
-};
-#endif
 #include <string.h>
 #include <pwd.h>
 #include <sys/socket.h>

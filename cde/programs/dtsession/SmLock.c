@@ -74,13 +74,7 @@
 #include <Dt/Indicator.h>
 #include <Tt/tttk.h>
 #ifdef SVR4
-# ifdef USL
-#  include <iaf.h>
-#  include <sys/types.h>
-#  include <ia.h>
-# else
 #  include <shadow.h>
-#endif
 #endif
 
 #if defined(linux)
@@ -1770,12 +1764,7 @@ localAuthenticate(
 
 
 #ifdef SVR4
-# ifdef USL
-    uinfo_t uinfo;
-    char *upasswd, *newname = NULL;
-# else
     struct spwd *sp=NULL;
-# endif
 #endif
 
     if(smGD.secureSystem)
@@ -1792,20 +1781,12 @@ localAuthenticate(
       pwent = getpwuid(uid);
       if (pwent != NULL) 
       {
-# ifdef USL
-	name = newname = strdup(pwent->pw_name);
-# else
         name = pwent->pw_name;
-#endif
       }
     }
 
     if (name == NULL ||
-# ifdef USL
-	ia_openinfo(name, &uinfo)
-# else
 	(sp = getspnam(name)) == NULL
-# endif
 	)
     {
      /*
@@ -1835,18 +1816,11 @@ localAuthenticate(
 
     if (done == False)
     {
-#ifdef USL
-	ia_get_logpwd(uinfo, &upasswd);
-#endif
       if (
           pwent->pw_passwd == NULL 
           || pwent->pw_passwd[0] == '*'
 #ifdef SVR4
-# ifdef USL
-	  || upasswd == NULL
-# else
           || sp == NULL
-# endif
 #endif
           )
       {
@@ -1877,11 +1851,7 @@ localAuthenticate(
       * Check password.
       */
 #ifdef SVR4
-# ifdef USL
-      if (strcmp(crypt(passwd, upasswd), upasswd) != 0)
-# else
       if (strcmp(crypt(passwd,sp->sp_pwdp),sp->sp_pwdp) != 0)
-# endif
 #else
       if (strcmp(pwent->pw_passwd, crypt(passwd, pwent->pw_passwd)) != 0)
 #endif
@@ -1896,12 +1866,7 @@ localAuthenticate(
 
     endpwent();
 #ifdef SVR4
-# ifdef USL
-    ia_closeinfo(uinfo);
-    if (newname) free(newname);
-# else
     endspent();
-# endif
 #endif
 
     return(rc);

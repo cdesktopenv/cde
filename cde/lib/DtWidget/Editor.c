@@ -53,7 +53,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#if defined(__hpux) || defined(__osf__) || defined(USL)
+#if defined(__hpux) || defined(__osf__)
 # include <wchar.h>
 #elif defined(sun)
 # if (_XOPEN_VERSION==3)
@@ -776,8 +776,6 @@ static XtActionsRec EditorActionTable[] = {
 /* digital compiler flagged warning */
 /* IBM defines wctype to get_wctype above - don't use const. */
          static char *blankString = "space";
-#elif defined(USL)
-#   define wctype_t	int
 #else  /* __osf__ || _AIX */
    static const char *blankString = "space";
 #endif /* __osf__ || _AIX */
@@ -1375,7 +1373,7 @@ WidgetClass dtEditorWidgetClass = (WidgetClass) &dtEditorClassRec;
 static void
 ClassInitialize(void)
 {
-#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL)
+#if !(defined(sun) && (_XOPEN_VERSION==3))
   _DtEditor_blankClass = wctype(blankString);
 
   /*
@@ -5245,7 +5243,7 @@ lineBlank(
 	byteNum += mblen(&pLine[byteNum], mbCurMax), charNum++)
     {
 	(void) mbtowc(&wc, &pLine[byteNum], mbCurMax);
-#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL)
+#if !(defined(sun) && (_XOPEN_VERSION==3))
 	if( !iswctype(wc, _DtEditor_blankClass) )
 	    return False;
 #else
@@ -5269,7 +5267,7 @@ findNonBlank(
 	byteNum += mblen(&pLine[byteNum], mbCurMax), charNum++)
     {
 	(void) mbtowc(&wc, &pLine[byteNum], mbCurMax);
-#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL)
+#if !(defined(sun) && (_XOPEN_VERSION==3))
 	if( !iswctype(wc, _DtEditor_blankClass) )
             return &pLine[byteNum];
 #else
@@ -5326,7 +5324,7 @@ countBlanks(
 	        count++; /* multibyte control chars??? */
 	    continue;
 	}
-#if !(defined(sun) && (_XOPEN_VERSION==3)) && !defined(USL)
+#if !(defined(sun) && (_XOPEN_VERSION==3))
 	if(!iswctype(wc, _DtEditor_blankClass))
             return count;
 #else

@@ -1727,7 +1727,7 @@ ExecuteFind(
    XmString label_string;
    char *tmpStr;
    Arg args[1];
-#if defined (SVR4)  || defined(_AIX) || defined(sco)
+#if defined (SVR4)  || defined(_AIX)
 /* needed for getaccess () call */
    int save_ruid;
    int save_rgid;
@@ -1797,22 +1797,22 @@ ExecuteFind(
       return False;
    }
    /* Verify that the path exists and is accessible */
-#if defined (SVR4)  || defined(_AIX) || defined(sco)
+#if defined (SVR4)  || defined(_AIX)
 /* needed for getaccess () call */
    save_ruid = getuid();
-#if !defined(SVR4) && ! defined(sco)
+#if !defined(SVR4)
    rv = setreuid(geteuid(),-1);
 #else
    rv = setuid(geteuid());
 #endif
    save_rgid = getgid();
-#if !defined(SVR4) && !defined(sco)
+#if !defined(SVR4)
    rv = setregid(getegid(),-1);
 #else
    rv = setgid(getegid());
 #endif
    access_priv = access (path, R_OK);
-#if !defined(SVR4) && !defined(sco)
+#if !defined(SVR4)
    rv = setreuid(save_ruid,-1);
    rv = setregid(save_rgid,-1);
 #else

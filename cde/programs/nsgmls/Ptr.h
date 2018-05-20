@@ -73,22 +73,15 @@ private:
 };
 
 template<class T>
-#if defined (USL)
-class ConstPtr : public Ptr<T> {
-#else
 class ConstPtr : private Ptr<T> {
-#endif
 public:
   ConstPtr() { }
   ConstPtr(T *ptr) : Ptr<T>(ptr) { }
   ConstPtr(const Ptr<T> &p) : Ptr<T>(p) { }
   ConstPtr(const ConstPtr<T> &p) : Ptr<T>(p) { }
-#if defined (USL)
-#else
   ConstPtr<T> &operator=(const Ptr<T> &p) {
     Ptr<T>::operator=(p); return *this;
   }
-#endif
   ConstPtr<T> &operator=(const ConstPtr<T> &p) {
     Ptr<T>::operator=(p); return *this;
   }

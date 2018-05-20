@@ -55,7 +55,7 @@
 /*
 ** file included for INFTIM
 */ 
-#if defined(SunOS) || defined (USL)
+#if defined(SunOS)
 #include <stropts.h>
 #elif defined(HPUX)
 #include <sys/poll.h>

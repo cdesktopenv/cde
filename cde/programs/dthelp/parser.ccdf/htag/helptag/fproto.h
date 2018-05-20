@@ -706,7 +706,7 @@ void mb_strcode(
 #endif
   ) ;
 
-#if defined(hpux) || defined(__aix) || defined(sun) || defined(USL)
+#if defined(hpux) || defined(__aix) || defined(sun)
 char *strstr(
 #if defined(M_PROTO)
   const char *s1, const char *s2

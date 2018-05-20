@@ -879,7 +879,7 @@ static float dphm = 300.*2540.;
    strcat(resource_class, RC_paperSize); 
                          /* e.g. Dthelpprint.Printer{.<name>}.PaperSize */
    
-#if defined(_AIX) || defined (USL)
+#if defined(_AIX)
    stricmp = strcmp;	/* AIX and USL dont have strcasecmp */
 #else
    stricmp = strcasecmp;

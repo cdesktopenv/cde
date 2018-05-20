@@ -33,7 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <rpc/rpc.h>
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 #include <netdb.h>
 #include <sys/systeminfo.h>
 #endif

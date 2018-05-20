@@ -67,8 +67,7 @@
  **	__apollo    Domain OS only
  **	__hp_osf    HP OSF/1 OS only
  **     sun         SUN OS only
- **     USL         USL OS only
- **     SVR4        SUN OS and USL
+ **     SVR4        SUN OS et al.
  **     _AIX        AIX only
  **
  ****************************************************************************

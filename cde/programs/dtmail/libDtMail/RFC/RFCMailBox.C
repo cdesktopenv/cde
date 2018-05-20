@@ -103,7 +103,7 @@ extern "C" {
 #define MAIL_SPOOL_PATH "/var/mail/%s"
 #endif
 
-#if defined(sun) || defined(USL)
+#if defined(sun)
 #define	LCL_SIG_HANDLER_SIGNATURE	
 #elif defined(__hpux)
 #define	LCL_SIG_HANDLER_SIGNATURE	__harg
@@ -570,7 +570,7 @@ RFCMailBox::alterPageMappingAdvice(MapRegion *map, int advice)
   for (int m = 0; m < me; m++) {
     MapRegion *map_t = _mappings[m];
 
-#if !defined(USL) && !defined(linux) && !defined(sun)
+#if !defined(linux) && !defined(sun)
     // no madvise on these systems
     if (map_t == map || map == (MapRegion *)-1)
       madvise(map_t->map_region, (size_t) map_t->map_size, advice);
@@ -889,7 +889,7 @@ RFCMailBox::open(DtMailEnv & error,
 	  // five characters are "From "
 	  char inbuf[6];
 
-#if defined(sun) || defined(USL)
+#if defined(sun)
 	  pread(_fd, (void *)inbuf, 5, 0);
 #else
 	  lseek(_fd, (off_t) 0L, SEEK_SET);
@@ -2259,7 +2259,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     //
     unsigned long pagelimit = _mappings[map_slot]->map_size;
 
-#if !defined(USL) && !defined(linux) && !defined(sun)
+#if !defined(linux) && !defined(sun)
     // no madvise; dont use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,
@@ -2350,7 +2350,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     // At this point we most likely will see random behavior. We will
     // tell the kernel to pull in the minimum number of extra pages.
     //
-#if !defined(USL) && !defined(linux) && !defined(sun)
+#if !defined(linux) && !defined(sun)
     // no madvise; dont use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,
@@ -4539,7 +4539,7 @@ RFCMailBox::startAutoSave(DtMailEnv & error,
 	_session->removeEventRoutine(error, PollEntry, this);
 }
 
-#if defined(reallyoldsun) || defined(USL)
+#if defined(reallyoldsun)
 #define SA_HANDLER_TYPE void (*)(void)
 #else
 #define SA_HANDLER_TYPE void (*)(int)

@@ -63,12 +63,6 @@
 	typedef void (*SIG_PF)(int);
 #endif
 
-#if defined(OPT_BUG_USL)
-#if !defined(MNTTYPE_NFS)
-#define MNTTYPE_NFS "nfs"
-#endif
-#endif
-
 _Tt_string	_tt_gethostname(void);
 int	_tt_getdtablesize(void);
 int	_tt_zoomdtablesize(void);

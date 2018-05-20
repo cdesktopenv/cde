@@ -45,9 +45,6 @@
 #include <dirent.h>
 #include "tttar_utils.h"
 #include "tttar_file_utils.h"
-#if defined(OPT_BUG_USL)
-#define S_ISLNK(mode)  (((mode) & S_IFMT) == S_IFLNK)
-#endif
 
 extern char *_tt_get_realpath(char  *, char *);
 

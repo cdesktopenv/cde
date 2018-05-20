@@ -38,8 +38,6 @@ DependSubdirs($(SUBDIRS))
 SYS_LIBRARIES=-L/usr/lib/X11/Metro/lib  -lnsl -lsocked -lgen
 #elif defined(RsArchitecture) || defined(AIXArchitecture)
 SYS_LIBRARIES=-lm -liconv /usr/lib/libpthreads.a -blibpath:/usr/dt/lib:/X11/lib:/usr/lib/threads:/usr/lib:/lib
-#elif defined(USLArchitecture)
-SYS_LIBRARIES=-lm -lfs
 #elif defined(HPArchitecture)
 SYS_LIBRARIES=$(DYNAMIC) -lm
 #elif defined(LinuxArchitecture)
@@ -316,7 +314,7 @@ includes:: Prelude.h dfiles messages
 #if defined(HPArchitecture) ||defined (AIXArchitecture) || \
     defined(AlphaArchitecture) || \
     (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 6) || \
-    defined(USLArchitecture) || defined(BSDArchitecture)
+    defined(BSDArchitecture)
 # ifndef Dont_Use_Templates_Repository
 #  define Dont_Use_Templates_Repository
 UAS_INCLUDES=-I./UAS/Base
@@ -326,10 +324,6 @@ SUBDIR_TEMPL_INCLUDES=$(UAS_INCLUDES) $(DTSEARCH_INCLUDES) $(COMMON_CLASS_INCLUD
  
 #if defined(HPArchitecture)
 SpecialCPlusPlusObjectRule(Templates.o,,+pti all_tmpls $(SUBDIR_TEMPL_INCLUDES))
-#elif defined(USLArchitecture)
-SpecialCPlusPlusObjectRule(Templates.o,,+Tall $(SUBDIR_TEMPL_INCLUDES))
-SpecialCPlusPlusObjectRule(Templates2.o,,+Tall $(SUBDIR_TEMPL_INCLUDES))
-SpecialCPlusPlusObjectRule(Templates3.o,,+Tall $(SUBDIR_TEMPL_INCLUDES))
 #elif (defined(SunArchitecture) && CplusplusCompilerMajorVersion < 4)
 SpecialCPlusPlusObjectRule(Templates.o,,+Tall_tmpls $(SUBDIR_TEMPL_INCLUDES))
 #elif defined(AlphaArchitecture) 
@@ -381,7 +375,7 @@ makelibTsubsubdir(UAS,MMDB)
 #endif
 
 
-#if defined(Dont_Use_Templates_Repository) && (defined(AlphaArchitecture) || defined(USLArchitecture))
+#if defined(Dont_Use_Templates_Repository) && defined(AlphaArchitecture)
 DEPLIBS=$(OLIASLIBS) $(UAS_TEMPLATES) $(OLIAS)/mmdb/libMMDB.a Templates.o Templates2.o Templates3.o
 LOCAL_LIBRARIES=$(Libs) Templates.o Templates2.o Templates3.o
 #elif defined (AIXArchitecture)
@@ -433,11 +427,7 @@ clean::
 dfiles::
 	foreach_subdirs(dfiles, $(CLASSLIBS))
 
-#if defined(USLArchitecture)
-GENCAT=gencat -m
-#else
 GENCAT=gencat
-#endif
 
 #define MACRO_Messages @(messages=; \					@@\
 		for i in $(MSGS) ; \					@@\

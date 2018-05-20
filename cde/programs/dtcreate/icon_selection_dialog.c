@@ -32,10 +32,6 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#if defined(USL)
-#define S_ISLNK(mode) ((mode & S_IFMT) == S_IFLNK)
-#endif
-
 #include <Xm/Xm.h>
 #include <Xm/MwmUtil.h>
 #include <Xm/DialogS.h>

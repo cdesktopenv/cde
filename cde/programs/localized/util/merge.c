@@ -242,11 +242,7 @@ void cat_open ()
 
     if(pfile != NULL)
     {
-#if defined(USL)
-        sprintf(line,"/usr/bin/gencat -m ./.dt_pfile.cat %s",pfile);
-#else
         sprintf(line,"/usr/bin/gencat ./.dt_pfile.cat %s",pfile);
-#endif
         if ( system(line) != 0 )
 	{
            fatal("primary .tmsg file would not gencat\n",0,9);
@@ -257,11 +253,7 @@ void cat_open ()
 
     if(dfile != NULL)
     {
-#if defined(USL)
-        sprintf(line,"/usr/bin/gencat -m ./.dt_dfile.cat %s",dfile);
-#else
         sprintf(line,"/usr/bin/gencat ./.dt_dfile.cat %s",dfile);
-#endif
         if ( system(line) != 0 )
 	{
            fatal("default .tmsg file would not gencat\n",0,9);

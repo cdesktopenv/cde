@@ -82,10 +82,8 @@ public:
   // Need to provide a plain operator new definition because we
   // have a definition of the other one below.  (See the ARM.) 
 
-#ifndef USL    
   static void *operator new (size_t size)
     { return (::operator new (size)); }
-#endif
 
   static void operator delete (void *place);
 

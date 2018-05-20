@@ -36,7 +36,7 @@
 
 #ifndef _BOOLEAN_
 #define _BOOLEAN_
-#if (defined(sun) && OSMAJORVERSION <= 5 && OSMINORVERSION <= 3)|| defined(USL)
+#if (defined(sun) && OSMAJORVERSION <= 5 && OSMINORVERSION <= 3)
   #include <sys/types.h>
   #define boolean boolean_t
   #define true B_TRUE

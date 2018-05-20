@@ -113,7 +113,7 @@ _DtCm_create_udp_client(
 		return (CSA_SUCCESS);
 	}
 
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 	cl = clnt_create_vers(host, TABLEPROG, 
 		&vers_out, TABLEVERS_2, version, "udp");
 	if (cl==NULL) {
@@ -208,7 +208,7 @@ _DtCm_create_tcp_client(
 		return (CSA_SUCCESS);
 	} else {
 		/* create tcp connection */
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 		cl = clnt_create_vers(host, TABLEPROG, &vers_out,
 			TABLEVERS_2, version, "tcp");
 #else
@@ -438,7 +438,7 @@ extern CSA_return_code
 _DtCm_clntstat_to_csastat(enum clnt_stat clntstat)
 {
 	switch (clntstat) {
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 	case RPC_N2AXLATEFAILURE:
 #endif
 	case RPC_UNKNOWNHOST:
@@ -461,7 +461,7 @@ create_auth(CLIENT *cl)
 {
 	/* Always cache the Unix style credentials. */
 	if (unix_credential == NULL)
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 		unix_credential = authsys_create_default ();
 #else
 		unix_credential = authunix_create_default ();
@@ -732,7 +732,7 @@ get_new_client_handle(_DtCm_Connection *conn)
 	oldver = conn->ci->vers_out;
 
 	/* always get a udp client handle first */
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 	cl = clnt_create_vers(conn->ci->host, TABLEPROG, &(conn->ci->vers_out),
 			TABLEVERS_2, oldver, "udp");
 	if (cl == NULL) {
@@ -788,7 +788,7 @@ get_new_client_handle(_DtCm_Connection *conn)
 
 		/* get a tcp client handle */
 		oldver = conn->ci->vers_out;
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 		cl = clnt_create_vers(conn->ci->host, TABLEPROG,
 			&(conn->ci->vers_out), TABLEVERS_2, oldver, "tcp");
 		if (cl == NULL)

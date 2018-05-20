@@ -45,11 +45,6 @@
 #include	<langinfo.h>
 #include	<Dt/Collate.h>
 
-#ifdef sco /* XPG4isms coming soon */
-#ifndef _NL_DIRECT
-#define _NL_DIRECT
-typedef int nl_direct;
-#endif
 #ifndef _NL_ORDER
 #define _NL_ORDER
 typedef int nl_order;

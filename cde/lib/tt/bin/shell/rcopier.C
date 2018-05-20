@@ -37,9 +37,7 @@
 #ifdef __osf__
 #include <unistd.h>
 #else
-#ifndef USL
 #include <osfcn.h>
-#endif
 #endif
 #if defined(OPT_BUG_SUNOS_4)
 #	include <stdlib.h>

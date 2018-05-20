@@ -45,7 +45,7 @@ nl_catd dtprintinfo_cat = NULL;
 #include <string.h> 
 #include <errno.h> 
 
-#if defined(aix) || defined(USL)
+#if defined(aix)
 extern "C" { extern int seteuid(uid_t); }
 #endif
 

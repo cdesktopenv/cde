@@ -45,12 +45,6 @@
 #if defined(sgi) || defined(CSRG_BASED)
 #include <getopt.h>
 #endif
-#if defined(USL)
-#include "tt_options.h"
-#if defined(OPT_BUG_USL)
-extern "C" int getopt(int, char *const *, const char *);
-#endif
-#endif
 #include "mp/mp_global.h"
 #include "mp/mp_mp.h"
 #include "mp_otype.h"

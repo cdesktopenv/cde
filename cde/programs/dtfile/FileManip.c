@@ -51,24 +51,15 @@
  ****************************************************************************
  ************************************<+>*************************************/
 
-#if defined(SVR4) || defined(sco)
-#  if defined(USL) || defined(sco)
-#    include <sys/param.h>
-#    include <sys/types.h>
-#  endif
-#  ifdef sco
-#    include <sys/fs/s5param.h>
-#    define ROOTINO S5ROOTINO
-#  else
+#if defined(SVR4)
 #    include <sys/fs/ufs_fs.h>
 #    define ROOTINO UFSROOTINO
-#  endif	/* sco */
 #else
 #  if defined(linux) || defined(CSRG_BASED)
 #    define ROOTINO 2
 #  endif
 #  include <sys/param.h>
-#endif	/* SVR4 || sco */
+#endif	/* SVR4 */
 
 #include <sys/types.h>
 
@@ -1000,7 +991,7 @@ FileManip(
            (((s3.st_mode & S_IFMT) == S_IFDIR)          /* if is a directory */
            || ((s3.st_mode & S_IFMT) == S_IFSOCK)) )    /* or a net special */
 #else
-#if defined(SVR4) || defined(_AIX) || defined(sco)
+#if defined(SVR4) || defined(_AIX)
            ((s3.st_mode & S_IFMT) == S_IFDIR) )         /* if is a directory */
 #else  /* (__hpux) */
            (((s3.st_mode & S_IFMT) == S_IFDIR)          /* if is a directory */

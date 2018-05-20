@@ -126,8 +126,6 @@ platforms as part of a translation.
 #define _DtPLATFORM_AIX     "AIX"
 #define _DtPLATFORM_SUNOS   "SunOS"
 #define _DtPLATFORM_SOLARIS "Solaris"      /* verify */
-#define _DtPLATFORM_USL     "USL"          /* verify */
-#define _DtPLATFORM_SCO     "SCO"          /* verify */
 #define _DtPLATFORM_XENIX   "Xenix"        /* verify */
 /*$END$*/
 

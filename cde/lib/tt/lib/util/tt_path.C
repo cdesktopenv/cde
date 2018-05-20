@@ -59,10 +59,6 @@
 #undef rindex
 #endif
 
-#if defined(OPT_BUG_USL)
-#define S_ISLNK(mode)   ((mode & 0xF000) == S_IFLNK)
-#endif
-
 // Not everybody has realpath() in libc, sometimes we have to define
 // it ourselves, see realpath*.c in tt/lib
 

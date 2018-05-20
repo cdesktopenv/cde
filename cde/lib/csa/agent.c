@@ -37,14 +37,14 @@
 #if !defined(linux) && !defined(CSRG_BASED)
 # include <poll.h>
 #endif
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 #include <netconfig.h>
 #include <netdir.h>
 #else
 #include <sys/signal.h>
 #include <sys/socket.h>
 #include <sys/errno.h>
-#endif /* SunOS || USL */
+#endif /* SunOS */
 #include <X11/Intrinsic.h>
 
 #include "agent.h"
@@ -78,7 +78,7 @@ static int	mapped = 0;
 /******************************************************************************
  * forward declaration of static functions used within the file
  ******************************************************************************/
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 static u_long gettransient (u_long version);
 #else
 static u_long gettransient (int proto, u_long vers, int *sockp);
@@ -104,13 +104,13 @@ _DtCm_init_agent()
 {
 	int 		s = RPC_ANYSOCK;
 
-#if defined(SunOS) && SunOS < 55 || defined(USL)
+#if defined(SunOS) && SunOS < 55
 	extern boolean_t rpc_reg(const u_long, const u_long, const u_long,
 		const char *(*)(), const xdrproc_t, const xdrproc_t,
 		const char *);
 #endif
 
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 	extern void (*sigset(int, void (*)(int)))(int);
 #else
 	extern void (*sigset())();
@@ -122,7 +122,7 @@ _DtCm_init_agent()
 
 	DP(("libdtcm: _DtCm_init_agent\n"));
 
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 	(void)rpcb_unset(_DtCm_transient, AGENTVERS, NULL);
 	if ((_DtCm_transient = gettransient((u_long)1)) == 0) {
 		_DtCm_print_errmsg("Cannot get transient program number\n");
@@ -168,7 +168,7 @@ _DtCm_init_agent()
 		_DtCm_print_errmsg("Callback cannot be enabled.\n");
 	}
 
-#endif /* SunOS || USL */
+#endif /* SunOS */
  
 	/* locking candidate for MT-safe purpose */
 	mapped = 1;
@@ -185,13 +185,13 @@ _DtCm_destroy_agent()
 
 	DP(("libdtcm: _DtCm_destroy_agent\n"));
 
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
         (void) rpcb_unset(_DtCm_transient, AGENTVERS, NULL);
         (void) rpcb_unset(_DtCm_transient, AGENTVERS_2, NULL);
 #else
         (void) pmap_unset(_DtCm_transient, AGENTVERS);
         (void) pmap_unset(_DtCm_transient, AGENTVERS_2);
-#endif /* SunOS || USL */
+#endif /* SunOS */
 
 	/* locking candidate for MT-safe purpose */
 	mapped = 0;
@@ -362,7 +362,7 @@ cmcb_update_callback_2_svc(cmcb_update_callback_args *args, struct svc_req *d)
 /*
  * get transient program number for callbacks.
  */
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 static u_long
 gettransient (u_long version)
 {
@@ -406,7 +406,7 @@ gettransient (u_long version)
 	return prognum;
 }
 
-#else /* SunOS || USL */
+#else /* SunOS */
 
 static u_long
 gettransient (int proto, u_long vers, int *sockp)
@@ -457,7 +457,7 @@ gettransient (int proto, u_long vers, int *sockp)
 	return (prognum-1);
 }
 
-#endif /* not SunOS || USL */
+#endif /* not SunOS */
 
 static void
 _DtCm_handle_callback()

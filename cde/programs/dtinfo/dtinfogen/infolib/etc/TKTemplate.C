@@ -77,26 +77,6 @@ CC_Boolean kv_pair<CC_String, int>::f_needRemove = FALSE;
 
 #endif
 
-#ifdef USL
-#pragma instantiate Stack<int>
-#pragma instantiate CC_TPtrSlist<CC_String>
-#pragma instantiate hashTable<CC_String, BTCollectable>
-#pragma instantiate hashTable<CC_String, int>
-#pragma instantiate hashTableIterator<CC_String, BTCollectable>
-#pragma instantiate hashTableIterator<CC_String, int>
-#pragma instantiate Stack<Rec>
-#pragma instantiate CC_TValSlist<int>
-#pragma instantiate CC_TPtrSlist<kv_pair<CC_String, BTCollectable> >
-#pragma instantiate CC_TPtrSlist<kv_pair<CC_String, int> >
-#pragma instantiate CC_TValSlist<Rec>
-#pragma instantiate CC_TValSlistIterator<int>
-#pragma instantiate CC_TValSlistIterator<Rec>
-#pragma instantiate kv_pair<CC_String, BTCollectable>
-#pragma instantiate pointer_vector<CC_TPtrSlist<kv_pair<CC_String, BTCollectable> > >
-#pragma instantiate kv_pair<CC_String, int>
-#pragma instantiate pointer_vector<CC_TPtrSlist<kv_pair<CC_String, int> > >
-#endif
-
 #if !defined(__osf__) && !defined(IBMR2)
 typedef Stack<int> _f1_;
 typedef CC_TPtrSlist<CC_String> _f2_;

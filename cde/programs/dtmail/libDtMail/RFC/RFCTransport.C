@@ -741,9 +741,7 @@ RFCTransport::launchSendmail(DtMailEnv & error,
     const char * mailer;
     _session->mailRc(error)->getValue(error, "sendmail", &mailer);
     if (error.isSet()) {
-#if defined(USL)
-        mailer = "/usr/ucblib/sendmail";
-#elif defined(__OpenBSD__)
+#if defined(__OpenBSD__)
 	mailer = "/usr/sbin/sendmail";
 #else
         mailer = "/usr/lib/sendmail";

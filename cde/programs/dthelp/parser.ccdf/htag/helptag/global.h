@@ -42,7 +42,7 @@
 #endif
 #include <ctype.h>
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(linux) || defined(CSRG_BASED)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux) || defined(CSRG_BASED)
 #include <unistd.h>
 #include <locale.h>
 #endif
@@ -168,9 +168,6 @@ EXTERN char driver[20]
 #if defined(sun)
   INIT("SUN")
 #endif
-#if defined(USL)
-  INIT("USL")
-#endif
 #endif
   ;
 
@@ -197,7 +194,7 @@ EXTERN char dirsep
 #if defined(MSDOS)
 INIT('\\')
 #else
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL)
+#if defined(hpux) || defined(_AIX) || defined(sun)
 INIT('/')
 #else
 ****define directory separator here****
@@ -205,7 +202,7 @@ INIT('/')
 #endif
   ;
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL)
+#if defined(hpux) || defined(_AIX) || defined(sun)
 #define CSEP '/'
 #define SSEP "/"
 #else

@@ -45,12 +45,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#if defined(USL) && (OSMAJORVERSION == 2)
-extern "C" {
-#endif
-#if defined(USL) && (OSMAJORVERSION == 2)
-};
-#endif
 #include <DtMail/DtMail.hh>
 
 class MsgStruct {

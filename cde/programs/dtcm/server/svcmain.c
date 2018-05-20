@@ -46,12 +46,12 @@
 #endif /* _NETINET_IN_H */
 #endif
 
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 #include <netconfig.h>
 #include <netdir.h>
 #include <sys/stropts.h>
 #include <tiuser.h>
-#endif /* SunOS || USL */
+#endif /* SunOS */
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -521,14 +521,12 @@ main(int argc, char **argv)
 	SVCXPRT *udp_transp = (SVCXPRT *)-1;
 	int	fd, error;
 
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 	struct netconfig *nconf_udp;
 	struct netconfig *nconf_tcp;
 	struct t_info info;
-#if !defined(USL) || (defined(USL) && (OSMAJORVERSION > 1))
 	char mname[FMNAMESZ+1];
-#endif
-#endif /* SunOS || USL */
+#endif /* SunOS */
 
 	pw = (struct passwd *)getpwnam("daemon");
 	gr = (struct group *)getgrnam("daemon");
@@ -548,8 +546,7 @@ main(int argc, char **argv)
 
 		standalone = 0;
 
-#if defined(SunOS) || defined(USL)
-#if !defined(USL) || (defined(USL) && (OSMAJORVERSION > 1))
+#if defined(SunOS)
 		/* we need a TLI endpoint rather than a socket */
 		if (ioctl(0, I_LOOK, mname) != 0) {
 			perror("rpc.cmsd: ioctl failed to get module name");
@@ -565,17 +562,11 @@ main(int argc, char **argv)
 			fprintf(stderr, "rpc.cmsd: fd 0 is not timod\n");
 			exit(1);
 		}
-#else  /* !USL || (USL && OSMAJORVERSION > 1) */
-		if (ioctl(0, I_POP, 0) || ioctl(0, I_PUSH, "timod")) {
-			perror("rpc.cmsd: ioctl I_POP/I_PUSH failed");
-			exit(1);
-		}
-#endif /* !USL || (USL && OSMAJORVERSION > 1) */
 
 	} else if (t_getinfo(0, &info) == 0) {
 		standalone = 0;
 
-#endif /* SunOS || USL */
+#endif /* SunOS */
 
 	} else
 		standalone = 1;
@@ -621,7 +612,7 @@ main(int argc, char **argv)
 	signal(SIGHUP, sighup_handler);
 
 
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 	/* raise the soft limit of number of file descriptor */
 	/* this is to prevent the backend from running out of open file des */
 	getrlimit(RLIMIT_NOFILE, &rl);
@@ -629,7 +620,7 @@ main(int argc, char **argv)
 	setrlimit(RLIMIT_NOFILE, &rl);
 #endif
 
-#if defined(SunOS) || defined(USL)
+#if defined(SunOS)
 	nconf_udp = getnetconfigent("udp");
 	nconf_tcp = getnetconfigent("tcp");
 
@@ -749,7 +740,7 @@ main(int argc, char **argv)
 		}
 	}
 
-#endif /* SunOS || USL */
+#endif /* SunOS */
 
 #ifndef AIX
 #ifdef HPUX

@@ -42,7 +42,7 @@
 #ifdef __cplusplus
 
 #include <stdlib.h>
-#if !defined(__DECCXX) && !defined(USL) && !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
+#if !defined(__DECCXX) && !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <osfcn.h>
 #else
 #include <unistd.h>

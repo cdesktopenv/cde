@@ -43,7 +43,7 @@ $COPYRIGHT$:
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>    /* for stat() */
-#if defined(sun) || defined(USL)
+#if defined(sun)
 #include <widec.h>
 #else
 #include <wchar.h>

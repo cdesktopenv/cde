@@ -21,8 +21,6 @@ define(`__instantiate',`#if defined(__DECCXX)
   #pragma define_template $1
 #elif defined(AIXV3)
   #pragma define($1)
-#elif defined(USL)
-  #pragma instantiate $1
 #elif defined(SP_ANSI_CLASS_INST)
   template class $1;
 #else

@@ -151,7 +151,7 @@ void basename(M_NOPAR)
     *p = save;
 
 #else
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux)
 #define CONTRIB "/usr/hphelp/bin/"
 
     /* get our path if we can */
@@ -996,7 +996,7 @@ int mb_getqualified ( qualname, unqualname )
 char *qualname;
 char *unqualname;
 {
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux)
 FILE *f;
 #endif
 char fn[FNAMELEN];
@@ -1020,7 +1020,7 @@ else
 
 fnp = fn;
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux)
 qualname[0] = '\0';
 gp = qualname + strlen(qualname);
 roomleft = roomleft - strlen(qualname);
@@ -1134,7 +1134,7 @@ do  {
 while (1);
 *strrchr(qualname, CSEP) = '\0';
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux)
 #else
 strupr ( qualname );
 #endif
@@ -2249,7 +2249,7 @@ while (name = m_cyclent(init, &type, &content, &wheredef))
 #if defined(MSDOS)
 m_openchk(&nullfile, "NUL", "w");
 #else
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux)
 m_openchk(&nullfile, "/dev/null", "w");
 #else
 m_openchk(&nullfile, "nullfile", "w");

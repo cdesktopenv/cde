@@ -88,9 +88,7 @@
 #include <X11/cursorfont.h>
 
 #ifdef SVR4
-#ifndef USL
 #include <libintl.h>	// 1/21/94 yuji
-#endif
 #endif
 
 /* Update time in milliseconds when arrow button held down. */

@@ -60,21 +60,15 @@
  * (2) intersect them with the visible region
  * (3) append them to the master list
  * (4) subtract this top-level frame from the visible region
- *
- * USL changes are #ifdef'd with "oldcode" or commented with *USL* - Sam Chang
  */
 
 #include <stdio.h>
 #include <stdlib.h>
-#if defined(SVR4) || defined(SYSV)
-#include <string.h>			/*USL*/
-#else	/* SVR4 or SYSV */
+#if defined(SVR4)
+#include <string.h>
+#else	/* SVR4 */
 #include <strings.h>
-#endif	/* SVR4 or SYSV */
-
-#if !defined(__STDC__) && !defined(__cplusplus) && !defined(c_plusplus) /*USL*/
-#define void	char
-#endif
+#endif	/* SVR4 */
 
 #define XFreeDefn	char *
 
@@ -150,102 +144,19 @@ typedef struct {
 
 #define REGION_NUMRECTS(r) (((REGION *)(r))->numRects)
 
-
-
-#ifdef DEBUG	/*USL*/
-/*
- * Flash the visible region.  Useful for debugging.
- */
-void
-FlashRegion(Display *dpy, int s, GC gc)
-{
-    XEvent e;
-    Bool done = False;
-    Window root = RootWindow(dpy, s);
-
-    if (GrabSuccess != XGrabPointer(dpy, root, False,
-	ButtonPressMask, GrabModeAsync, GrabModeAsync,
-	None, None, CurrentTime)) {
-	    fputs("can't grab the pointer\n", stderr);
-	    return;
-    }
-
-    do {
-	XFillRectangle(dpy, root, gc, 0, 0,
-		       DisplayWidth(dpy, s),
-		       DisplayHeight(dpy, s));
-	XFlush(dpy);
-
-	XMaskEvent(dpy, ButtonPressMask, &e);
-	if (e.xbutton.button == Button3)
-	    done = True;
-
-	XFillRectangle(dpy, root, gc, 0, 0,
-		       DisplayWidth(dpy, s),
-		       DisplayHeight(dpy, s));
-	XFlush(dpy);
-    } while (!done);
-    XUngrabPointer(dpy, CurrentTime);
-} /* end of FlashRegion */
-
-
-void
-FlashDropSites(Display *dpy)
-{
-    drop_site_t *site = MasterSiteList;
-    XGCValues gcv;
-    GC *gcs;
-    int s;
-    GC gc;
-
-    gcv.function = GXinvert;
-    gcv.subwindow_mode = IncludeInferiors;
-
-    gcs = (GC *) malloc(sizeof(GC)*ScreenCount(dpy));
-    for (s=0; s<ScreenCount(dpy); ++s)
-	gcs[s] = XCreateGC(dpy, RootWindow(dpy, s),
-			   GCFunction|GCSubwindowMode, &gcv);
-
-    while (site != NULL) {
-	printf("sid %ld   wid 0x%lx   flags 0x%lx\n",
-	       site->site_id, site->window_id, site->flags);
-	gc = gcs[site->screen];
-	XSetRegion(dpy, gc, site->region);
-	FlashRegion(dpy, site->screen, gc);
-	site = site->next;
-    }
-
-    for (s=0; s<ScreenCount(dpy); ++s)
-	XFreeGC(dpy, gcs[s]);
-    free(gcs);
-} /* end of FlashDropSites */
-
-#endif /* DEBUG */
-
-
 /*
  * Get the interest property from this window.  If a valid interest property
  * was found, a pointer to the data is returned.  This data must be freed with
  * XFree().  If no valid property is found, NULL is returned.
  */
-#ifdef oldcode
-void *
-GetInterestProperty(Display *dpy, Window win, int *nitems)
-#else
 unsigned char *
 GetInterestProperty(Display *dpy, Window win, unsigned long *nitems)
-#endif
 {
     Status s;
     Atom acttype;
-#ifdef oldcode
-    int actfmt, remain;
-    void *data;
-#else
     	int		actfmt;
 	unsigned long	remain;
 	unsigned char *	data;
-#endif
 
     s = XGetWindowProperty(dpy, win, ATOM_DRAGDROP_INTEREST, 0L, INTEREST_MAX,
 			   False, ATOM_DRAGDROP_INTEREST, &acttype, &actfmt,
@@ -265,22 +176,14 @@ GetInterestProperty(Display *dpy, Window win, unsigned long *nitems)
 
     if (actfmt != 32) {
 	fputs("dsdm: interest property has wrong format\n", stderr);
-#ifdef oldcode
-	XFree(data);
-#else
 	XFree((XFreeDefn) data);
-#endif
 	return NULL;
     }
 
     if (remain > 0) {
 	/* XXX didn't read it all, punt */
 	fputs("dsdm: interest property too long\n", stderr);
-#ifdef oldcode
-	XFree(data);
-#else
 	XFree((XFreeDefn) data);
-#endif
 	return NULL;
     }
     return data;
@@ -304,11 +207,7 @@ FindRecursively(Display *dpy, Window root, Window win, Window *pwin, void **psit
     int actfmt;
     unsigned long nitems;
     unsigned long remain;
-#ifdef oldcode
-    void *data;
-#else
-	unsigned char *	data;
-#endif
+    unsigned char *	data;
     Status s;
     
     if (XGetWindowAttributes(dpy, win, &attr) == 0) {
@@ -327,11 +226,7 @@ FindRecursively(Display *dpy, Window root, Window win, Window *pwin, void **psit
 	if (!XTranslateCoordinates(dpy, win, root, 0, 0, px, py, &junk)) {
 	    fprintf(stderr, "%s: window 0x%lx isn't on the same root!\n",
 		    ProgramName, win);
-#ifdef oldcode
-	    XFree(data);
-#else
 	    XFree((XFreeDefn) data);
-#endif
 	    return False;
 	}
 	*psite = (void *) data;
@@ -353,11 +248,7 @@ FindRecursively(Display *dpy, Window root, Window win, Window *pwin, void **psit
 	/* found it! */
 	DPRINTF(("%s: found top-level window 0x%lx with no interest\n",
 		 ProgramName, win));
-#ifdef oldcode
-	XFree(data);
-#else
 	XFree((XFreeDefn) data);
-#endif
 	*psite = NULL;
 	*plen = 0;
 
@@ -408,11 +299,7 @@ FindRecursively(Display *dpy, Window root, Window win, Window *pwin, void **psit
 	return True;
     }
 
-#ifdef oldcode
-    return(SearchChildren(dpy, root, win, pwin, psite, plen, px, py));
-#else
     return(SearchChildren(dpy, root, win, pwin, psite, plen, px, py, True));
-#endif
 } /* end of FindRecursively */
 
 
@@ -421,19 +308,11 @@ FindRecursively(Display *dpy, Window root, Window win, Window *pwin, void **psit
  * Look through all the children of window win for a top-level window.
  */
 Bool
-#ifdef oldcode
-SearchChildren(Display *dpy, Window root, Window win, Window *pwin, void **psite, unsigned long *plen, int *px, int *py)
-#else
 SearchChildren(Display *dpy, Window root, Window win, Window *pwin, void **psite, unsigned long *plen, int *px, int *py, Bool from_FindRec)
-#endif
 {
     Window junk;
     Window *children;
-#ifdef oldcode
-    int nchildren;
-#else
     unsigned int nchildren;
-#endif
     int i;
 
     if (XQueryTree(dpy, win, &junk, &junk, &children, &nchildren) == 0)
@@ -441,20 +320,14 @@ SearchChildren(Display *dpy, Window root, Window win, Window *pwin, void **psite
 
     for (i=0; i<nchildren; ++i) {
 	if (FindRecursively(dpy, root, children[i], pwin, psite, plen, px, py))
-#ifdef oldcode
-	    return True;
-#else
 	{
 		XFree((XFreeDefn)children);
 	    return True;
 	}
-#endif
     }
-#ifndef oldcode
 	if (from_FindRec == False && nchildren)
 		XFree((XFreeDefn)children);
-#endif
-    return False;
+	    return False;
 } /* end of SearchChildren */
 
 
@@ -492,16 +365,11 @@ GetWindowRegion(Display *dpy, Window win, Bool offset)
     unsigned int width, height, junk;
     Region winrgn;
 
-#ifdef oldcode
-    winrgn = XCreateRegion();
-#endif
     if (0 == XGetGeometry(dpy, win, &wjunk, &x, &y, &width, &height,
 			  &junk, &junk)) {
 	fprintf(stderr, "%s: XGetGeometry failed on window 0x%lx\n",
 		ProgramName, win);
-#ifndef oldcode
 	    winrgn = XCreateRegion();
-#endif
 	return winrgn;
     }
     return MakeRegionFromRect(offset ? x : 0, offset ? y: 0, width, height);
@@ -541,9 +409,7 @@ SubtractWindowFromVisibleRegion(Display *dpy, Window win, Region visrgn)
 
 void
 ProcessInterestProperty(dpy, win, screen, data, datalen, visrgn, xoff, yoff)
-#ifndef oldcode
 	Display *	dpy;
-#endif
     Window win;
     int screen;
     void *data;
@@ -567,9 +433,7 @@ ProcessInterestProperty(dpy, win, screen, data, datalen, visrgn, xoff, yoff)
     drop_site_t *site;
     int x, y;
     unsigned int width, height, junk, border;
-#ifndef oldcode
-	int	ignore;
-#endif
+    int ignore;
 
     if (array[cur] != DRAGDROP_VERSION) {
 	fprintf(stderr,
@@ -608,11 +472,7 @@ ProcessInterestProperty(dpy, win, screen, data, datalen, visrgn, xoff, yoff)
 	    for (j=0; j<nrects; ++j) {
 		NEXTWORD(areawin);
 		/* REMIND need to make sure areawin isn't bogus */
-#ifdef oldcode
-		if (0 == XGetGeometry(dpy, areawin, &wjunk, &junk, &junk,
-#else
 		if (0 == XGetGeometry(dpy, areawin, &wjunk, &ignore, &ignore,
-#endif
 				      &width, &height, &border, &junk)) {
 		    fprintf(stderr,
 			    "%s: XGetGeometry failed on window 0x%lx\n",
@@ -650,9 +510,7 @@ ProcessInterestProperty(dpy, win, screen, data, datalen, visrgn, xoff, yoff)
 	++SitesFound;
 	region = NULL;
     }
-#ifndef oldcode
     XDestroyRegion(toprgn);
-#endif
 } /* end of ProcessInterestProperty */
 
 
@@ -666,12 +524,8 @@ ProcessInterestProperty(dpy, win, screen, data, datalen, visrgn, xoff, yoff)
 void
 FindDropSites(Display *dpy)
 {
-#ifdef oldcode
-    int s, i, nchildren;
-#else
     	int		s, i;
 	unsigned int	nchildren;
-#endif
     Window root, junk, *children, topwin;
     void *sitedata;
     Region visrgn, framergn, toprgn;
@@ -716,22 +570,13 @@ FindDropSites(Display *dpy)
 
 	    fwdsitedata = GetInterestProperty(dpy, children[i], &fwdlen);
 
-#ifdef oldcode
-	    foundtoplevel = SearchChildren(dpy, root, children[i], &topwin,
-					   &sitedata, &datalen, &xoff, &yoff);
-#else
 	    foundtoplevel = SearchChildren(dpy, root, children[i], &topwin,
 				   &sitedata, &datalen, &xoff, &yoff, False);
-#endif
 	    if (foundtoplevel && sitedata != NULL) {
 		/* we found a valid drop interest */
 		ProcessInterestProperty(dpy, topwin, s, sitedata,
 					datalen, visrgn, xoff, yoff);
-#ifdef oldcode
-		XFree(sitedata);
-#else
 		XFree((XFreeDefn)sitedata);
-#endif
 		if (fwdsitedata != NULL) {
 		    framergn = MakeRegionFromRect(attr.x, attr.y,
 						  attr.width, attr.height);
@@ -743,31 +588,21 @@ FindDropSites(Display *dpy)
 					    fwdlen, framergn, attr.x, attr.y);
 		    XDestroyRegion(framergn);
 		    XDestroyRegion(toprgn);
-#ifdef oldcode
-		    XFree(fwdsitedata);
-#else
 		    XFree((XFreeDefn)fwdsitedata);
-#endif
 		}
 	    } else {
 		if (fwdsitedata != NULL) {
 		    ProcessInterestProperty(dpy, children[i], s, fwdsitedata,
 					    fwdlen, visrgn, attr.x, attr.y);
-#ifdef oldcode
-		    XFree(fwdsitedata);
-#else
 		    XFree((XFreeDefn)fwdsitedata);
-#endif
 		}
 	    }
 
 	    SubtractWindowFromVisibleRegion(dpy, children[i], visrgn);
 	}
 	XDestroyRegion(visrgn);
-#ifndef oldcode
 		if (nchildren)
 			XFree((XFreeDefn)children);
-#endif
     }
 } /* end of FindDropSites */
 
@@ -780,13 +615,9 @@ FreeDropSites(void)
     next = MasterSiteList;
     while (next != NULL) {
 	temp = next->next;
-#ifdef oldcode
-	free(next);
-#else
 	if (next->region)
 		XDestroyRegion(next->region);
 	XFree((XFreeDefn)next);
-#endif
 	next = temp;
     }
     MasterSiteList = NULL;
@@ -824,11 +655,7 @@ WriteSiteRectList(Display *dpy, Window win, Atom prop)
     }
 
     /* XXX beware of malloc(0) */
-#ifdef oldcode
-    array = (unsigned long *) malloc(8*numrects*sizeof(int));
-#else
     array = (unsigned long *) malloc(8*numrects*sizeof(unsigned long));
-#endif
     cur = array;
     site = MasterSiteList;
     while (site != NULL) {
@@ -857,13 +684,8 @@ WriteSiteRectList(Display *dpy, Window win, Atom prop)
     }
 
     XChangeProperty(dpy, win, prop, XA_INTEGER, 32, PropModeReplace,
-#ifdef oldcode
-		    (char *)array, cur - array);
-    free(array);
-#else
 		    (unsigned char *)array, cur - array);
     XFree((XFreeDefn)array);
-#endif
 } /* end of WriteSiteRectList */
 
 

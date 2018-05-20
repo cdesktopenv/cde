@@ -47,9 +47,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/stat.h>
-#if defined(USL)
-#define S_ISSOCK(mode) ((mode & S_IFMT) == S_IFSOCK)
-#endif
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>

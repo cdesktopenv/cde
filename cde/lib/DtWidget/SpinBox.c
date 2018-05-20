@@ -88,6 +88,11 @@ express or implied warranty.
  *
  */
 
+/*Support for a legacy operating system has resulted in some leftover cruft
+ * code which wasn't ifdefed out, this needs to be cleaned, such code is
+ * marked Legacy: - 05/19/18 - C
+ */
+
 #include <Dt/DtMsgsP.h>
 #include <Xm/DrawP.h>
 #include <Xm/XmP.h>
@@ -263,12 +268,13 @@ static XmString InitLabel = NULL;
 #define SPIN_MARGIN_W(w)    MarginWidth(w)
 #define SPIN_MARGIN_H(w)    MarginHeight(w)
 #define MAXINT 2147483647  /* Taken from TextF.c */
-#define DEFAULT_COL 20 
+#define DEFAULT_COL 20
 
-/* USL: Label get Focus */
+/* Legacy: Label get Focus */
 static XtTranslations child_trans_label;
-/* USL: Keyboard only for Text */
+/* Legacy: Keyboard only for Text */
 static XtTranslations child_trans_text;
+
 static XtTranslations child_trans_arrow;
 
 static XtTranslations child_trans;
@@ -309,7 +315,7 @@ static char const SpinBoxLabelTranslationTable[] = "\
 	~s ~m ~a <Key>space:  SpinBoxGetFocus() \n\
 ";
 
-/* USL: Keyboard Only Traversing During Editable-Mode */
+/* Legacy: Keyboard Only Traversing During Editable-Mode */
 static char const SpinBoxTextTranslationTable[] = "\
         <Key>osfUp:             SpinBoxUp(child) SpinBoxRight(child)\n\
         <Key>osfDown:           SpinBoxDown(child) SpinBoxLeft(child)\n\
@@ -617,9 +623,7 @@ Initialize(	DtSpinBoxWidget request,
 		      text_activate_cb, (XtPointer)new);
 	XtAddCallback(Text(new), XmNfocusCallback, 
 		      text_focus_cb, (XtPointer)new);
-	/* USL */
-	XtOverrideTranslations((Widget)Text(new), child_trans_text);
-	n = 0;
+
 	if (TextColumns(request) == DEFAULT_COL && Width(request)) {
 		Dimension width;
 		CalculateSizes(new, &width, NULL, NULL);
@@ -649,9 +653,7 @@ Initialize(	DtSpinBoxWidget request,
         }
 	Label(new) = XtCreateManagedWidget(widget_name, xmLabelWidgetClass,
 					      (Widget)new, args, n);
-	/* USL */
-	XtOverrideTranslations((Widget)Label(new), child_trans_label);
-	n = 0;
+
         if (unit_type != XmPIXELS) {
                 XtSetArg(args[n], XmNunitType, unit_type); n++;
         }                
@@ -1003,9 +1005,8 @@ _SpinBoxEndLine(	DtSpinBoxWidget spin,
 			   Current(spin), FALSE);
     }
 }
-
 /*
- * USL: Get Focus for SpinBox when hit its label part
+ * Legacy: Get Focus for SpinBox when hit its label part
  */
 static void
 _SpinBoxGetFocus(     DtSpinBoxWidget spin,
@@ -1018,7 +1019,7 @@ _SpinBoxGetFocus(     DtSpinBoxWidget spin,
 }
 
 /*
- * USL: Process Focus Traversal for SpinBox when cursor is in its arrow part
+ * Legacy: Process Focus Traversal for SpinBox when cursor is in its arrow part
  */
 static void
 _SpinBoxPrevTabGroup(DtSpinBoxWidget spin,

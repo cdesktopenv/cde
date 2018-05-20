@@ -53,11 +53,11 @@
 #include <ndir.h>
 #else
 
-#if defined(sun) || defined(USL) || defined(sco)
+#if defined(sun)
 #include <dirent.h>
 #else
 #include <sys/dir.h>
-#endif				/* sun || USL */
+#endif				/* sun */
 
 #endif				/* __hpux */
 

@@ -51,9 +51,6 @@
 #if defined(OPT_TLI)
 #	include <mp/mp_rpc_fns.h>
 #	include <tiuser.h>
-#  if defined(OPT_BUG_USL)
-   extern int t_errno;
-#  endif
 #else
 #	include <netinet/tcp.h>
 #endif
@@ -65,15 +62,6 @@ extern "C" unsigned long inet_addr(char *);
 #endif
 
 #include <arpa/inet.h>
-
-#if defined(OPT_BUG_USL)
-extern char *t_errlist[];
-
-char *t_strerror(int t_errno)
-{
-	return(t_errlist[t_errno]);
-}
-#endif
 
 /* 
  * Constructs a socket object. Using (char *)0 for host means use the
@@ -431,9 +419,6 @@ send(char *msg, int len)
 		return(0);
 	}
 #else
-#if defined(OPT_BUG_USL)
-	t_sync(_sock);
-#endif
 	if ((rval = t_snd(_sock, msg, len, 0)) == len) {
 		return(rval);
 	} else {

@@ -59,16 +59,12 @@
 #include <pwd.h> 
 #include <netdb.h> 
 #include <sys/utsname.h> /* SYS_NMLN */
-#if defined(sun) || defined(USL)
+#if defined(sun)
 #include <sys/systeminfo.h>
 #else
 #include <sys/dir.h>
-#endif /* sun || USL */
+#endif /* sun */
 #include <sys/param.h>
-
-#if defined(USL) && !defined(DOM_NM_LN)
-#define DOM_NM_LN  BUFSIZ
-#endif
 
 #define X_INCLUDE_STRING_H
 #define X_INCLUDE_TIME_H
@@ -548,13 +544,13 @@ cm_get_local_host()
 	static char *local_host;
 
         if (local_host == NULL) {
-#if defined(sun) || defined(USL)
+#if defined(sun)
                 local_host = (char *)ckalloc(MAXHOSTNAMELEN);
                 (void) sysinfo(SI_HOSTNAME, local_host, MAXHOSTNAMELEN);
 #else
                 local_host = (char *)ckalloc(MAXHOSTNAMELEN);
                 (void) gethostname(local_host, MAXHOSTNAMELEN);
-#endif /* sun || USL */
+#endif /* sun */
         }
         return local_host;
 }
@@ -582,14 +578,14 @@ cm_get_local_domain()
 
         if (local_domain == NULL) {
                 local_domain = ckalloc(BUFSIZ);
-#if defined(sun) || defined(USL)
+#if defined(sun)
                 sysinfo(SI_SRPC_DOMAIN, local_domain, DOM_NM_LN);
 #else
 		if(-1 == getdomainname(local_domain, BUFSIZ)) {
 			fprintf(stderr, "getdomainname() failed %d '%s'\n", errno, strerror(errno));
 		}
 		
-#endif /* sun || USL */
+#endif /* sun */
 	}
         return(local_domain);
 }

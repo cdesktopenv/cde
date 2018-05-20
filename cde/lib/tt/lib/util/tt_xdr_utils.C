@@ -147,14 +147,6 @@ _Tt_xdr_size_stream() {
 	ops.x_putlong = tt_x_putlong;
 	ops.x_putbytes = tt_x_putbytes;
 	ops.x_inline = (inline_t *(*)(...))tt_x_inline;
-#elif defined(OPT_BUG_USL)
-	ops.x_putlong = tt_x_putlong;
-	ops.x_putbytes = (bool_t (*)(XDR *, caddr_t, u_int))  tt_x_putbytes;
-#if defined(OPT_BUG_UW_1)
-	ops.x_inline = (long *(*)(struct __XDR *, const int)) tt_x_inline;
-#else
-	ops.x_inline = (long *(*)(struct XDR *, int)) tt_x_inline;
-#endif /* OPT_BUG_UW1 */
 #else
 	ops.x_putlong = tt_x_putlong;
 	ops.x_putbytes = tt_x_putbytes;

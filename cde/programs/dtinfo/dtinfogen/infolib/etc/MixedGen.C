@@ -34,9 +34,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if !defined(USL)
 #include <strings.h>
-#endif
 
 #include "Exceptions.hh"
 #include "FlexBuffer.h"

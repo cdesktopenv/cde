@@ -33,10 +33,6 @@
 
 #include <Xm/Xm.h>
 
-#if defined(USL)
-#undef STRDUP  /* get rid of memutil.h definition. Use def in BaseUI.h. */
-#endif
-
 #include "BaseUI.h"
 #include "MotifThread.h"
 

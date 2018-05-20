@@ -32,9 +32,6 @@
 #include "Environ.h"
 #include "DirIterator.h"
 #include <sys/stat.h>
-#if defined(USL)
-#define S_ISLNK(mode) ((mode & S_IFMT) == S_IFLNK)
-#endif
 #include <stdlib.h>
 #include <string.h>
 #if defined(linux) || defined(CSRG_BASED) || defined(sun)
@@ -46,14 +43,14 @@
 #include <unistd.h>
 #include <grp.h>
 #include <pwd.h>
-#if defined(sun) || defined(USL)
+#if defined(sun)
 #include <regexpr.h>
 #else
 #include <regex.h>
 #endif
 #include <errno.h>
 
-#if defined(sun) || defined(_AIX) || defined(__osf__) || defined(USL) || defined(linux) || defined(CSRG_BASED)
+#if defined(sun) || defined(_AIX) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #define UID_NO_CHANGE ((uid_t) -1)
 #define GID_NO_CHANGE ((gid_t) -1)
 #endif
@@ -62,7 +59,7 @@ UnixEnvironment::UnixEnvironment()
 {
     dtMountPoint = getEnvironmentVariable("DTMOUNTPOINT");
     if (dtMountPoint.isNull())
-#if defined(sun) || defined(USL)
+#if defined(sun)
 	dtMountPoint = "/net/";
 #else
 	dtMountPoint = "/nfs/";
@@ -70,7 +67,7 @@ UnixEnvironment::UnixEnvironment()
 
     CString temp = getEnvironmentVariable("MANPATH");
     if (temp.isNull())
-#if defined(sun) || defined(USL)
+#if defined(sun)
 	manpath = "/usr/share/man";
 #elif defined(_AIX)
 	manpath = "/usr/share/man:/usr/lpp/info";
@@ -308,15 +305,9 @@ char buffer[100];
     struct dirent * direntry;
     while (direntry = dir()) {
         /*# ifdef should_be_sun_but_this_dont_work*/
-#if defined(USL)
-	char * re = NULL;
-	re = compile (filespec.data(), NULL, NULL);
-	if (step (direntry->d_name,re)) {
-# else
 	regex_t re;
 	regcomp (&re, filespec.data(), 0);
 	if (regexec (&re, direntry->d_name, 0, NULL, 0) == 0) {
-# endif
 	    if (strcmp(direntry->d_name,".") == 0 ||
 		strcmp(direntry->d_name,"..") == 0)
 		continue;

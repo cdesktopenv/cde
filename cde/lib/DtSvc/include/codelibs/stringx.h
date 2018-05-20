@@ -125,14 +125,14 @@ extern size_t     nl_strlen();		/* __OBSOLETE */
 #if defined(__cplusplus)
 }
 
-#if defined(apollo) || defined(__aix) || defined(USL) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(apollo) || defined(__aix) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
 #include <stdlib.h>
 #else
 #include <malloc.h>
 #endif /* apollo */
 
 inline char *strnew(size_t len) { return (char*)malloc(len + 1); }
-#if defined(sun) || defined(__sun) || defined(USL)
+#if defined(sun) || defined(__sun)
 inline void  strfree(const char *s)
 	{ if (s != NULL) free((char *)s); }
 #else

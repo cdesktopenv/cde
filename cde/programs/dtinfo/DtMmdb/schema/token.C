@@ -46,9 +46,7 @@
 #if defined(__osf__) || defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <unistd.h>
 #else
-#if !defined(USL)
 #include <osfcn.h>
-#endif
 #endif
 
 /* use prototypes in function declarations */

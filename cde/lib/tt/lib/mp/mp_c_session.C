@@ -268,7 +268,7 @@ startup_ttsession(_Tt_string &start_ttcmd)
 #endif
 	SIG_PF istat, qstat, cstat;
 
-#if defined(_AIX) || defined(OPT_BUG_USL)
+#if defined(_AIX)
 #define vfork fork
 #endif
 	if((pid = vfork()) == 0) {

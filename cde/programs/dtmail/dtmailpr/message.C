@@ -51,11 +51,7 @@
 // For CHARSET
 #include <DtHelp/LocaleXlate.h>
 #include <locale.h>
-#if !defined(USL)
 #include <strings.h>
-#else 
-#include <EUSCompat.h>
-#endif 
 #include "utils/str_utils.h"
 
 

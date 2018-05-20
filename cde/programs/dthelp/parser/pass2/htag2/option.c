@@ -26,7 +26,7 @@
 #include "userinc.h"
 #include "globdec.h"
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL)
+#if defined(hpux) || defined(_AIX) || defined(sun)
 /* get definition of getenv(3c) for getting of environment variables */
 #include <stdlib.h>
 #endif
@@ -62,7 +62,7 @@ if (optfile = fopen(nameofoptfile, "r"))
     }
 m_free(nameofoptfile, "installation helptag.opt");
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(USL) || defined(__osf__)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(__osf__)
 {
 char *opts;
 

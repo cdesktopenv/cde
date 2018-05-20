@@ -44,20 +44,10 @@
  ****************************************************************************
  ************************************<+>*************************************/
 
-#if defined(SVR4) || defined(sco)
-
-#if defined(USL) || defined(sco)
-#  include <sys/param.h>
-#  include <sys/types.h>
-#endif
-#ifdef sco
-#  include <sys/fs/s5param.h>
-#  define ROOTINO S5ROOTINO
-#else
+#if defined(SVR4)
 #  include <sys/fs/ufs_fs.h>
 #  define ROOTINO UFSROOTINO
-#endif	/* ! sco */
-#endif	/* SVR4 || sco */
+#endif	/* SVR4 */
 
 #if defined(DEC)
 #  include <rpc/key_prot.h>

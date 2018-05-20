@@ -61,7 +61,7 @@
 
 #include <string.h>
 
-#if defined(AIX) || defined(USL)
+#if defined(AIX)
 /* For strcasecmp() */
 #include <strings.h>
 #endif

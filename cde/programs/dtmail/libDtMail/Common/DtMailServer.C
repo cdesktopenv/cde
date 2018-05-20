@@ -160,7 +160,7 @@ DtMailServer::set_password(char *password)
 //
 //	len	- Length of message.
 //
-#if defined(reallyoldsun) || defined(USL)
+#if defined(reallyoldsun)
 #define SA_HANDLER_TYPE void (*)(void)
 #else
 #define SA_HANDLER_TYPE void (*)(int)

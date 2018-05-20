@@ -103,9 +103,6 @@ using namespace std;
 #endif
 
 #include <wchar.h>
-#ifdef USL
-#include <wctype.h>
-#endif
 
 LONG_LIVED_CC (MarkMgr,mark_mgr)
 

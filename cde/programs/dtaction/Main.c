@@ -1006,9 +1006,7 @@ LogSuccess( void )
 
    /* Set up the user's new id's */
    SetGidUid(basegid,newuid);
-#ifndef sco
    initgroups(appArgs.user, basegid);
-#endif
 
 }
 

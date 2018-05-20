@@ -51,19 +51,13 @@ static int	gettransient(int, netconfig *, netbuf *);
 #if defined(OPT_BUG_SUNOS_5)
 extern "C" { char *	nc_sperror(); }
 #endif
-# if defined(OPT_BUG_USL)
-    extern int   t_errno;
-    extern char *t_strerror(int t_errno);
-# endif
 #else 
 #include <rpc/pmap_clnt.h>
 #include <netinet/tcp.h>
 static int	gettransient(int,int,int *);
 #endif /* OPT_TLI */
 
-#if defined(OPT_BUG_USL)
-     typedef void (*SERVICE_FN_TYPE)(const struct svc_req *, const SVCXPRT*);
-#elif defined(OPT_BUG_AIX)
+#if defined(OPT_BUG_AIX)
      typedef void (*SERVICE_FN_TYPE)();
 #else
      typedef void (*SERVICE_FN_TYPE)(struct svc_req *, SVCXPRT*);

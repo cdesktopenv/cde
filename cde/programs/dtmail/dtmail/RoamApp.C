@@ -70,9 +70,9 @@
 
 #include <unistd.h>
 #include <wchar.h>
-#if defined(USL) || defined(linux) || defined(CSRG_BASED)
+#if defined(linux) || defined(CSRG_BASED)
 #define wcswcs wcsstr
-#include <wctype.h>  // iswspace is defined in this header on USL */
+#include <wctype.h>
 #endif
 
 #ifdef DTMAIL_TOOLTALK
@@ -957,7 +957,7 @@ Usage(char *progname)
 
 nl_catd DT_catd = (nl_catd) -1;    // catgets file descriptor
 
-#if defined(reallyoldsun) || defined(USL)
+#if defined(reallyoldsun)
 #define SA_HANDLER_TYPE void (*)(void)
 #else
 #define SA_HANDLER_TYPE void (*)(int)

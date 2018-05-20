@@ -48,7 +48,7 @@
 #ifdef SVR4
 #include <sys/time.h>
 
-#if !defined (_IBMR2) && !defined(sun) && !defined(USL)
+#if !defined (_IBMR2) && !defined(sun)
 extern "C" { extern int gettimeofday(struct timeval *tp); }
 #endif
 
@@ -78,7 +78,7 @@ void xtime::stop(float &cpu_time, long &elp_time)
 
 void xtime::start()
 {
-#if defined (SVR4) && !defined (_IBMR2) && !defined(sun) && !defined(__osf__) && !defined(USL)
+#if defined (SVR4) && !defined (_IBMR2) && !defined(sun) && !defined(__osf__)
    if ( gettimeofday(&v_tv) != 0 ) {
 #else
    if ( gettimeofday(&v_tv, &v_tz) != 0 ) {

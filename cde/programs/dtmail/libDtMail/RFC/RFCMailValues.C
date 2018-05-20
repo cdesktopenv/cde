@@ -47,9 +47,7 @@
 #include <EUSCompat.h>
 #include <stdlib.h>
 #include <string.h>
-#if !defined(USL)
 #include <strings.h>
-#endif
 #include <ctype.h>
 #include <stdint.h>
 

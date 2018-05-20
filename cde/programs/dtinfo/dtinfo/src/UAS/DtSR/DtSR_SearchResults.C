@@ -64,13 +64,6 @@ DtSR_SearchResults::sort(UAS_Pointer<UAS_List<UAS_SearchResultsEntry> > res)
     for (unsigned int i = 0; i < list_length; i++) {
 	for (unsigned int j = i+1; j < list_length; j++) {
 
-#ifdef USL
-	    // this line does nothing, but if you remove it
-	    // this code will not compile on novell.  go figure.  rCs
-
-	    UAS_Pointer<UAS_SearchResultsEntry> reflisti = Ref_list[i];
-#endif
-
 	    if (Ref_list[i]->relevance() < Ref_list[j]->relevance()) {
 		UAS_Pointer<UAS_SearchResultsEntry> temp = Ref_list[i];
 		Ref_list[i] = Ref_list[j];

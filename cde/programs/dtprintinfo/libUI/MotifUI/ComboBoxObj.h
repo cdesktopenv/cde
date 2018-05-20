@@ -52,13 +52,8 @@ class ComboBoxObj : public MotifUI {
 
  public:
 
-#if defined(USL)
-   ComboBoxObj(MotifUI * parent, void (*)(ComboBoxObj *, char *, int),
-	       char *name, char **items, int n_items);
-#else
    ComboBoxObj(MotifUI * parent, ComboBoxCallback, char *name, 
 	       char **items, int n_items);
-#endif
 
    void Add(char *item);
    void Delete(char *item);

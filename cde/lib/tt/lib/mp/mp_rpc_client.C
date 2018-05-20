@@ -310,13 +310,6 @@ call(int procnum, xdrproc_t inproc, char *in,
 		}
 	}
 
-#if defined(OPT_BUG_USL)
-	if (timeout <= 0)
-	{
-		outproc = (xdrproc_t) NULL;
-	}
-#endif
-
 	//
 	// tcp write errors (when the rpc_server on the other end dies)
 	// cause a SIGPIPE.  We need to make sure the SIGPIPE is caught,
@@ -325,14 +318,10 @@ call(int procnum, xdrproc_t inproc, char *in,
 	if (sigaction(SIGPIPE, 0, &curr_action) != 0) {
 		_tt_syslog( 0, LOG_ERR, "sigaction(): %m" );
 	}
-#if defined(OPT_BUG_SUNOS_5) || defined(OPT_BUG_UW_1)
+#if defined(OPT_BUG_SUNOS_5)
 	if ((SIG_TYP)curr_action.sa_handler == SIG_DFL)
 #else
-#if defined(OPT_BUG_UW_2)
-	if ((void(*)(int))curr_action.sa_handler == SIG_DFL)
-#else
 	if (curr_action.sa_handler == SIG_DFL)
-#endif
 #endif
 	{
 		need2reset_sigpipe = 1;
@@ -357,16 +346,6 @@ call(int procnum, xdrproc_t inproc, char *in,
 			           outproc, out,
 			           total_timeout);
 	}
-#if defined(OPT_BUG_USL)
-	if (timeout <= 0)
-	{
-		total_timeout.tv_sec = 10;
-		total_timeout.tv_usec = 0;
-		clnt_control(_client, CLSET_TIMEOUT, (char *) &total_timeout);
-		clnt_call(_client, NULLPROC, (xdrproc_t) xdr_void, (char *)NULL,
-		(xdrproc_t) xdr_void, (char *) NULL, total_timeout);
-	}
-#endif
 	if (need2reset_sigpipe) {
 		signal(SIGPIPE, SIG_DFL);
 	}

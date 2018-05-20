@@ -32,10 +32,6 @@
 #ifndef	__MBSTRING_H_
 #define	__MBSTRING_H_
 
-#if defined(USL)
-#include <stdlib.h>
-#endif
-
 #include <stddef.h>
 
 #ifdef apollo

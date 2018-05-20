@@ -115,10 +115,6 @@ SYS_LIBRARIES = -lm -ldl -lgen -lresolv -lbsm -lcmd $(PAM_LIB)
 #  endif
 #endif
 
-#if defined(USLArchitecture)
-SYS_LIBRARIES = -lm -ldl -lgen -lresolv
-#endif
-
 #if defined(RsArchitecture)
 SYS_LIBRARIES = -ls
 #endif
@@ -167,14 +163,14 @@ INCLUDES = -I$(XPROJECTROOT)/include/freetype2
                   dpylist.c error.c file.c mitauth.c protodpy.c policy.c \
                   reset.c resource.c server.c session.c socket.c util.c \
                   verify.c version.c apollo.c sysauth.c fontpath.c $(DESSRCS) \
-		  qualify.c usl_ptty.c choose.c netaddr.c xdmcp.c \
+		  qualify.c choose.c netaddr.c xdmcp.c \
 		  $(PAM_SRCS) $(SOLARIS_SRCS)
 
           OBJS1 = access.o account.o auth.o genauth.o daemon.o dm.o \
                   dpylist.o error.o file.o mitauth.o protodpy.o policy.o \
                   reset.o resource.o server.o session.o socket.o util.o \
                   verify.o version.o apollo.o sysauth.o fontpath.o $(DESOBJS) \
-		  qualify.o usl_ptty.o choose.o netaddr.o xdmcp.o \
+		  qualify.o choose.o netaddr.o xdmcp.o \
 		  $(PAM_OBJS) $(SOLARIS_OBJS) 
 
           PROG2 = dtgreet
@@ -321,22 +317,6 @@ EXTRA_RES_DEFINES = \
     LOCAL_LIBRARIES1 = $(BASE_LIBS1) $(IAFSYSLIB)
     LOCAL_LIBRARIES2 = $(BASE_LIBS2)
     LOCAL_LIBRARIES3 = $(BASE_LIBS3)
-
-
-/* USL needs to resolve all Xt symbols invoked by Xmu at shared
- * library link time.
- * Likewise for the BMS references from libDt for vuegreet.
- */
-#if defined(USLArchitecture)
-# if HasSharedLibraries
-    BASE_LIBS1  = $(XAUTHLIB) $(LOGINXMULIB) $(XDMCPLIB) $(XTOOLLIB) \
-		  $(LOGINXLIB)
-    BASE_LIBS2  = $(DTWIDGETLIB) $(DTSVCLIB) $(TTLIB) \
-		  $(XMLIB) $(XTOOLLIB) $(XLIB)
-# endif
-#endif
-
-
 
 /**************************************************************************
  *

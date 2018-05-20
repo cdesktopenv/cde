@@ -67,11 +67,6 @@ static char rcs_id[] = "$TOG: TermParse.c /main/3 1999/10/15 12:25:13 mgreess $"
 #include  <values.h>
 #endif
 
-#if defined(USL)
-#include <ctype.h>
-#include <wctype.h>
-#endif
-
 /*****************************************************************************/
 
 #define NPARAM  16

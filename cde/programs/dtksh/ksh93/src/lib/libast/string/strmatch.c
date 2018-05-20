@@ -130,10 +130,6 @@
 
 #if !_lib_iswblank
 
-#ifdef USL
-#include <wctype.h>
-#endif
-
 static int
 iswblank __PARAM__((wint_t wc), (wc)) __OTORP__(wint_t wc;){
 	static int	initialized;

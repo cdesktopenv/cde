@@ -25,11 +25,6 @@ DEFINES = -DDTLIB $(LOCAL_DEFINES) \
 	  -DOSMINORVERSION=OSMinorVersion \
 	  $(ICONV_INBUF_DEFINE) $(BIT_ORDER_DEFINES)
 
-#ifdef SCOArchitecture
-/* ilscalesample.o breaks the MS loader.  Remove it for now */
-all:: ilscalesample.o libXvh.a
-#endif
-
 SRCS =  ilX.c                ilbigray.c           ilcodec.c \
         ilcontext.c          ilconvert.c          ilcrop.c \
         ildata.c             ildecompg3.c         ildecompg4.c \
@@ -63,10 +58,5 @@ OBJS =  ilX.o                ilbigray.o           ilcodec.o \
 #include <Library.tmpl>
 
 SubdirLibraryRule($(OBJS))
-
-/* MS Compiler bug, remove when we go to USL compiler */
-#ifdef SCOArchitecture
-SpecialFlagsObjectRule(iltiff,-Oi -DUSE_INLINE_CODE)
-#endif
 
 DependTarget()

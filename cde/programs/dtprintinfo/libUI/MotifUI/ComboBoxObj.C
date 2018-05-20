@@ -35,12 +35,7 @@
 #include <Xm/List.h>
 #include <Xm/ComboBox.h>
 
-ComboBoxObj::ComboBoxObj(MotifUI *parent,
-#if defined(USL)
-			 void (*callback)(ComboBoxObj *, char *, int),
-#else
-			 ComboBoxCallback callback, 
-#endif
+ComboBoxObj::ComboBoxObj(MotifUI *parent, ComboBoxCallback callback,
                          char *name, 
 			 char **items, 
 			 int n_items)

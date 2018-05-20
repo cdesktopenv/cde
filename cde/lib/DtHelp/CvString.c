@@ -355,7 +355,7 @@ _DtCvFreeArray (void **array)
     return (0);
 }
 
-#if defined(_AIX) || defined (USL)
+#if defined(_AIX)
 /*****************************************************************************
  * Function: _DtCvStrCaseCmp
  *
@@ -363,7 +363,7 @@ _DtCvFreeArray (void **array)
  *
  * Return Value:
  *
- * Purpose: IBM and USL do not support the 'strcasecmp' routine. This takes it's
+ * Purpose: IBM does not support the 'strcasecmp' routine. This takes it's
  *          place.
  *****************************************************************************/
 int
@@ -410,7 +410,7 @@ _DtCvStrCaseCmp (
 
     return result;
 }
-#endif /* _AIX or USL */
+#endif /* _AIX */
 
 /*****************************************************************************
  * Function: _DtCvStrNCaseCmpLatin1()

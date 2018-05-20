@@ -459,15 +459,8 @@ obj_alloc_unique_name_for_child(
     {
 	maxlen = 8192;
     }
-#if defined (USL)
-	/*
-         * The USL specific changes were added ifdef due to time constraints
-	 * They should be removed in the next release
-	 */
-    maxlen = util_min(8191,maxlen);	/* don't overrun buf */
-#else
+
     maxlen = util_min(8192,maxlen);	/* don't overrun buf */
-#endif
 
     /*
      * Alloc space and copy-in the unique name
@@ -494,11 +487,7 @@ obj_alloc_unique_name_istr_for_child(
     {
 	maxlen = 8192;
     }
-#if defined (USL)
-    maxlen = util_min(8191,maxlen);
-#else
     maxlen = util_min(8192,maxlen);
-#endif
     unique_name = istr_create(
 	obj_get_unique_name_for_child(obj, istr_string(name), maxlen-1, nameBuf));
 

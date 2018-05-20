@@ -130,7 +130,7 @@ extern "C" {
 
 // This works if OBJ is an object or a pointer since Exception objects
 // overload operator ->.
-#if !defined(hpux) && !defined(USL)
+#if !defined(hpux)
 #define mthrow(OBJ) \
   (OBJ)->throw_it (__LINE__, __FILE__, DEBUG_THROW_FLAG)
 #else

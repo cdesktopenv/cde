@@ -24,9 +24,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#if !defined(USL)
 #include <strings.h>
-#endif
 #include <sstream>
 using namespace std;
 

@@ -1161,7 +1161,7 @@ ImmediateExit(
      * Turn off SIGTERM so we don't catch one in the middle of shutting
      * down
      */
-#if !defined(SVR4) && !defined(sco)
+#if !defined(SVR4)
     old = sigblock(sigmask(SIGTERM));
     sigblock(sigmask(SIGHUP));
     sigblock(sigmask(SIGPIPE));

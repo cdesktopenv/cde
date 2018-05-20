@@ -36,9 +36,7 @@
 #if defined(__osf__) || defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <unistd.h>
 #else
-#ifndef USL
 #include <osfcn.h>
-#endif
 #endif
 #include <sys/param.h>
 #include "api/c/api_api.h"

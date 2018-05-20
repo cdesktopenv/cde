@@ -201,17 +201,6 @@ sun_wcwidth
 );
 #endif /*  USE_SUN_WCWIDTH_PATCH */
 
-#ifdef USE_USL_WCWIDTH_PATCH
-/* 
-**  A small workaround for systems that don't have wcwidth...
-*/
-int
-usl_wcwidth
-(
-    const wchar_t wc
-);
-#endif /*  USE_USL_WCWIDTH_PATCH */
-
 
 /* 
 ** Truncate the specified line to the desired width, return 

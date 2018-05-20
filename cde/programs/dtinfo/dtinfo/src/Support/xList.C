@@ -99,15 +99,7 @@ xList<T>::append (const T &element)
 template<class T> void
 xList<T>::remove (List_Iterator<T> &it)
 {
-
-#ifndef USL
    delete (Link<T> *) List_base::remove (it);
-#else
-   // this is obviously a memory leak on novell, but
-   // i can't get the novell compiler to allow this delete
-   // "argument of delete too complicated (must be simple identifier)"
-   List_base::remove (it);
-#endif
 }
 
 #endif /* _xList_cc */

@@ -54,7 +54,7 @@ $END$
 #endif
 #include <langinfo.h>       
 
-#if defined(sun) || defined(USL)
+#if defined(sun)
 #include <regexpr.h>          /* for compile,advance */
 #else
 #include <regex.h>            /* for regcomp,regexec */
@@ -125,7 +125,7 @@ typedef enum {
    __DtXLATE_TYPE_CONTAINS = 4
 } __DtXlateType;
 
-#if defined(sun) || defined(USL)
+#if defined(sun)
 /* Sun doesn't support regcomp() and regexec() yet, so
    define this here and fill it will the results of advance() */
 typedef struct regmatch_t {
@@ -1127,7 +1127,7 @@ Boolean CheckSearchOpValueMatchesSpec(
        value or do a pure match */
     if (srchData->curTransType == __DtXLATE_TYPE_REGEX)
     {
-#if defined(sun) || defined(USL)
+#if defined(sun)
         char *     ex = NULL;
 
         /* True: leave escape char in place */
@@ -2199,7 +2199,7 @@ int _DtXlateGetXlateEnv(
    /* then look up version number of execution host */
    if (ret_AppExecEnvVersion) 
    {
-#if defined(sun) || defined(_AIX) || defined(USL) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(sun) || defined(_AIX) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
       char version[SYS_NMLN+SYS_NMLN+2];
 #else
       char version[UTSLEN+UTSLEN+2];

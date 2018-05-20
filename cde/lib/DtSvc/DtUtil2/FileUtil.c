@@ -40,11 +40,11 @@
 #ifdef __hpux
 #include <ndir.h>		/* opendir(), directory(3C) */
 #else
-#if defined(sun) || defined(USL) || defined(sco)
+#if defined(sun)
 #include <dirent.h>		/* opendir(), directory(3C) */
 #else
 #include <sys/dir.h>
-#endif /* sun || USL */
+#endif /* sun */
 #endif /* __hpux */
 
 #include <X11/Xlib.h>

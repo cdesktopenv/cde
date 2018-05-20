@@ -35,7 +35,7 @@
 
 #endif /* end of CDE_NEXT */
 
-#if defined(sun) || defined(hpux) || defined(USL)
+#if defined(sun) || defined(hpux)
 
 #ifndef CDE_NEXT /* { */
 
@@ -116,33 +116,5 @@ typedef Stack<int> _Stack_int_;
 
 CC_Boolean kv_pair<CC_String, autoNumberListT>::f_needRemove = FALSE; 
 CC_Boolean kv_pair<CC_String, autoNumber>::f_needRemove = FALSE; 
-
-#endif
-
-#ifdef USL
-
-#pragma instantiate hashTable<CC_String,autoNumberListT>
-#pragma instantiate hashTable<CC_String,autoNumber>
-
-#ifndef CDE_NEXT
-#pragma instantiate CC_TPtrSlistDictionary<CC_String,autoNumberListT>
-#pragma instantiate CC_TPtrSlistDictionary<CC_String,autoNumber>
-#endif
-
-#pragma instantiate CC_TPtrSlist<autoNumber>
- 
-#pragma instantiate hashTableIterator<CC_String,autoNumber>
-#pragma instantiate hashTableIterator<CC_String,autoNumberListT> 
-
-#pragma instantiate Stack<int>
-
-// still unresolved
-
-#pragma instantiate CC_TPtrSlist<kv_pair<CC_String, autoNumberListT> >
-#pragma instantiate kv_pair<CC_String, autoNumber>
-#pragma instantiate kv_pair<CC_String, autoNumberListT>
-#pragma instantiate CC_TPtrSlist<kv_pair<CC_String, autoNumber> >
-#pragma instantiate pointer_vector<CC_TPtrSlist<kv_pair<CC_String, autoNumber> > >
-#pragma instantiate pointer_vector<CC_TPtrSlist<kv_pair<CC_String, autoNumberListT> > >
 
 #endif

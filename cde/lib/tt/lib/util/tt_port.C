@@ -253,14 +253,11 @@ _tt_sigset(
  * arguments anyway.  sa_sigaction is, fortunately, the same on all
  * Solaris versions.
  * Once the requirement to compile on Solaris 2.4 goes away, we can
- * simply remove the OPT_BUG_SUNOS_5 ifdefs here, leaving only the
- * UnixWare one.
+ * simply remove the OPT_BUG_SUNOS_5 ifdefs here.
  */
         struct sigaction act;
 #if defined(OPT_BUG_SUNOS_5)	
 	act.sa_sigaction = (void (*)(int, siginfo_t *, void *)) handler;
-#elif defined(OPT_BUG_USL)
-	act.sa_handler = (void (*)()) handler;
 #else
         act.sa_handler = handler;
 #endif	
@@ -377,7 +374,7 @@ _tt_vsyslog(
 		return;
 	}
 
-#if defined(OPT_BUG_AIX) || defined(OPT_BUG_HPUX) || defined(OPT_BUG_USL) || defined(__osf__)
+#if defined(OPT_BUG_AIX) || defined(OPT_BUG_HPUX) || defined(__osf__)
 	char buf[5000];
 	vsprintf( buf, _format, args );
 	syslog( priority, buf );

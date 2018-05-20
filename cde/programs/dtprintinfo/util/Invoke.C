@@ -116,8 +116,7 @@ Invoke::Invoke(const char *command,   // Command to Run
 
 #if defined(__OSF1__) || defined(__osf__) 
    action.sa_handler = (void (*)(int))SIG_IGN;
-#elif defined(USL) || \
-      ( defined(sun) && OSMAJORVERSION == 5 && OSMINORVERSION <= 4)
+#elif (defined(sun) && OSMAJORVERSION == 5 && OSMINORVERSION <= 4)
    action.sa_handler = (void (*)())SIG_IGN;
 #else
    action.sa_handler = SIG_IGN;

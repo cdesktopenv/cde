@@ -49,13 +49,13 @@ extern "C" {
 #endif
 
 /********    Public Re-defines   ********/
-#if !defined(_AIX) && !defined(USL)
+#if !defined(_AIX)
 #define _DtCvStrCaseCmp(s1,s2)		strcasecmp(s1,s2)
 #define _DtCvStrNCaseCmp(s1,s2, n)	strncasecmp(s1,s2,n)
 #else
 #define _DtCvStrCaseCmp(s1,s2)		_DtHelpCeStrCaseCmp(s1,s2)
 #define _DtCvStrNCaseCmp(s1,s2,n)	_DtHelpCeStrNCaseCmp(s1,s2, n)
-#endif /* _AIX  or USL */
+#endif /* _AIX */
 
 /********    Public Defines Declarations    ********/
 /*
