@@ -238,7 +238,7 @@ const char e_stdprompt[]	= "$ ";
 const char e_profile[]		= "${HOME:-.}/.profile";
 const char e_sysprofile[]	= PROFILEPATH;
 const char e_suidprofile[]	= SUIDPROFILEPATH;
-const char e_crondir[]		= "/usr/spool/cron/atjobs";
+const char e_crondir[]		= "/var/spool/cron/atjobs";
 const char e_prohibited[]	= "login setuid/setgid shells prohibited";
 #ifdef SHOPT_SUID_EXEC
    const char e_suidexec[]	= SUIDEXECPATH;

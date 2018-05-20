@@ -165,13 +165,7 @@ WidgetClass	dtControlGadgetClass;
 #define UNSPECIFIED_DIMENSION	9999
 #define UNSPECIFIED_CHAR	255
 
-#ifdef _SUN_OS
 static const char _DtMsgIndicator_0000[] = "/var/mail/";
-#elif defined(__osf__)
-static const char _DtMsgIndicator_0000[] = "/usr/spool/mail/";
-#else
-static const char _DtMsgIndicator_0000[] = "/usr/mail/";
-#endif
 
 #define	MAIL_DIR	_DtMsgIndicator_0000
 #define Min(x, y)    (((x) < (y)) ? (x) : (y))

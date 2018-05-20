@@ -345,8 +345,8 @@ typedef struct
    char *line;
 } StatusLineStruct, *StatusLine, **StatusLineList;
 
-#define TMP_DIR "/usr/spool/lp/tmp"
-#define REQ_DIR "/usr/spool/lp/requests/%s/"
+#define TMP_DIR "/var/spool/lp/tmp"
+#define REQ_DIR "/var/spool/lp/requests/%s/"
 #define SPOOL_DIR "/var/spool/lp/tmp/%s/"
 
 static void check_dir(char *printer, char *tmp_dir, StatusLineList *job_list,

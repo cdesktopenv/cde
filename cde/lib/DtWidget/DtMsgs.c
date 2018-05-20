@@ -229,13 +229,8 @@ CONST char _DtMsgIcon_0005[] =
 
 
 /*** Indicator.c ***/
-#ifdef _SUN_OS
 CONST char _DtMsgIndicator_0000[] =
-   "/usr/spool/mail/";
-#else
-CONST char _DtMsgIndicator_0000[] =
-   "/usr/mail/";
-#endif
+   "/var/mail/";
 
 /*** MenuButton.c ***/
 CONST char _DtMsgMenuButton_0000[] =

@@ -41,11 +41,7 @@
 #define _DtCMS_DEFAULT_BAK	".calbak"
 #define _DtCMS_DEFAULT_TMP	".caltmp"
 #define _DtCMS_DEFAULT_DEL	".caldel"
-#if defined(CSRG_BASED) || defined (linux)
 #define	_DtCMS_DEFAULT_DIR	"/var/spool/calendar"
-#else
-#define	_DtCMS_DEFAULT_DIR	"/usr/spool/calendar"
-#endif
 #define	_DtCMS_DEFAULT_MODE	(S_IRUSR|S_IRGRP|S_IWGRP)
 
 typedef enum {
