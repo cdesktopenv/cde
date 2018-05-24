@@ -221,7 +221,6 @@ main()
 	printf("#define UCHAR_MAX	%lu\n", val);
 	printf("#endif\n");
 
-#ifndef __osf__
 #ifdef SCHAR_MIN
 	val = -(SCHAR_MIN);
 	printf("#undef	SCHAR_MIN\n");
@@ -229,7 +228,6 @@ main()
 	val = (unsigned char)(uc >> 1) + 1;
 #endif
 	printf("#define SCHAR_MIN	-%lu\n", val);
-#endif
 
 #ifdef SCHAR_MAX
 	val = SCHAR_MAX;
@@ -239,7 +237,6 @@ main()
 #endif
 	printf("#define SCHAR_MAX	%lu\n", val);
 
-#ifndef __osf__
 	if (c < 0)
 	{
 #ifdef CHAR_MIN
@@ -264,7 +261,6 @@ main()
 #endif
 		printf("#define CHAR_MAX	UCHAR_MAX\n");
 	}
-#endif /* __osf__ */
 
 #ifdef USHRT_MAX
 	val = USHRT_MAX;
@@ -278,7 +274,6 @@ main()
 	printf("#define USHRT_MAX	%lu\n", val);
 	printf("#endif\n");
 
-#ifndef __osf__
 #ifdef SHRT_MIN
 	val = -(SHRT_MIN);
 	printf("#undef	SHRT_MIN\n");
@@ -286,7 +281,6 @@ main()
 	val = (unsigned short)(us >> 1) + 1;
 #endif
 	printf("#define SHRT_MIN	-%lu\n", val);
-#endif
 
 #ifdef SHRT_MAX
 	val = SHRT_MAX;
@@ -303,12 +297,10 @@ main()
 #endif
 		printf("#define UINT_MAX	USHRT_MAX\n");
 
-#ifndef __osf__
 #ifdef INT_MIN
 		printf("#undef	INT_MIN\n");
 #endif
 		printf("#define INT_MIN		SHRT_MIN\n");
-#endif
 
 #ifdef INT_MAX
 		printf("#undef	INT_MAX\n");
@@ -329,7 +321,6 @@ main()
 		printf("#define UINT_MAX	%lu\n", val);
 		printf("#endif\n");
 
-#ifndef __osf__
 #ifdef INT_MIN
 		val = -(INT_MIN);
 		printf("#undef	INT_MIN\n");
@@ -338,7 +329,6 @@ main()
 #endif
 		if (ui == ul) printf("#define INT_MIN		(-%lu-1)\n", val - 1);
 		else printf("#define INT_MIN		-%lu\n", val);
-#endif
 
 #ifdef INT_MAX
 		val = INT_MAX;
@@ -356,12 +346,10 @@ main()
 #endif
 		printf("#define ULONG_MAX	UINT_MAX\n");
 
-#ifndef __osf__
 #ifdef LONG_MIN
 		printf("#undef	LONG_MIN\n");
 #endif
 		printf("#define LONG_MIN	INT_MIN\n");
-#endif
 
 #ifdef LONG_MAX
 		printf("#undef	LONG_MAX\n");
@@ -382,7 +370,6 @@ main()
 		printf("#define ULONG_MAX	%lu\n", val);
 		printf("#endif\n");
 
-#ifndef __osf__
 #ifdef LONG_MIN
 		val = -(LONG_MIN);
 		printf("#undef	LONG_MIN\n");
@@ -390,7 +377,6 @@ main()
 		val = (unsigned long)(ul >> 1) + 1;
 #endif
 		printf("#define LONG_MIN	(-%lu-1)\n", val - 1);
-#endif
 
 #ifdef LONG_MAX
 		val = LONG_MAX;
@@ -498,10 +484,8 @@ main()
 	val = (unsigned short)(us >> 1);
 #endif
 #endif
-#endif
 	printf("#define LINK_MAX	%lu\n", val);
 
-#ifndef __osf__
 #ifdef MAX_CANON
 	val = MAX_CANON;
 	printf("#undef  MAX_CANON\n");
@@ -514,9 +498,7 @@ main()
 #endif
 	if (val == _POSIX_MAX_CANON) printf("#define MAX_CANON	_POSIX_MAX_CANON\n");
 	else printf("#define MAX_CANON	%lu\n", val);
-#endif
 
-#ifndef __osf__
 #ifdef MAX_INPUT
 	val = MAX_INPUT;
 	printf("#undef  MAX_INPUT\n");
@@ -524,7 +506,6 @@ main()
 	else printf("#define MAX_INPUT	%lu\n", val);
 #else
 	printf("#define MAX_INPUT	MAX_CANON\n");
-#endif
 #endif
 
 #ifdef NAME_MAX
@@ -627,7 +608,6 @@ main()
 	if (val == _POSIX_TZNAME_MAX) printf("#define TZNAME_MAX	_POSIX_TZNAME_MAX\n");
 	else printf("#define TZNAME_MAX	%lu\n", val);
 
-#ifndef __osf__
 #ifdef SSIZE_MAX
 	val = SSIZE_MAX;
 	printf("#undef  SSIZE_MAX\n");
@@ -636,7 +616,6 @@ main()
 #endif
 	if (val == _POSIX_SSIZE_MAX) printf("#define SSIZE_MAX	_POSIX_SSIZE_MAX\n");
 	else printf("#define SSIZE_MAX	%lu\n", val);
-#endif
 
 #ifdef CLK_TCK
 	val = CLK_TCK;

@@ -85,9 +85,6 @@ typedef struct
     XmString            okString, cancelString, helpString;
     XmString            okLogoutString, cancelLogoutString;
     Widget              noStart;                /* Cant start dt dialog */
-#ifdef __osf__
-    Widget              newProfile;             /* new dtprofile dialog */
-#endif
     Widget              smHelpDialog;   /* Help dialog for all topics */
 } DialogData;
 
@@ -112,9 +109,6 @@ extern Boolean InitCursorInfo( void ) ;
 extern void UpdatePasswdField( int );
 extern int WarnNoStartup( void );
 extern void DialogUp( Widget, XtPointer, XtPointer ) ;
-#ifdef __osf__
-extern int WarnNewProfile( void );
-#endif
 void PostSaveSessionErrorDialog ( void );
 extern int ConfirmExit( Tt_message, Boolean );
 

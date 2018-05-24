@@ -99,7 +99,7 @@ int BookmarkEdit::g_modified_count = 0;
 #define THIS_CLASS BookmarkEdit
 #define ON_ACTIVATE(WOBJ,FUNC) \
   (WOBJ).SetActivateCallback (this, (WWL_FUN) &THIS_CLASS::FUNC)
-#if defined(__STDC__) || defined(hpux) || defined(__osf__)
+#if defined(__STDC__) || defined(hpux)
 #define BUTTON(PARENT,NAME) \
   WXmPushButtonGadget NAME (PARENT, #NAME, WAutoManage); \
   ON_ACTIVATE (NAME, NAME)

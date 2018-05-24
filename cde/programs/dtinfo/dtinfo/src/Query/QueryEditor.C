@@ -579,24 +579,7 @@ QueryEditor::fill_menu()
 
   // Do not want first item (Current Section)
 
-#ifdef __osf__
-#if 1
-  Widget w = f_scope_option.SubMenuId();
-  WComposite temp_composite(w);
-  WXmPushButton(temp_composite.Children()[0]).Unmanage();
-#else
-  int i = 0;
-  Widget w = f_scope_option.SubMenuId();;
-  Arg args[1];
-  WidgetList wl;
-  
-  XtSetArg(args[i], XmNchildren, &wl); i++;
-  XtGetValues(w, args, i);
-  XtUnmanageChild(wl[0]);
-#endif
-#else
   WXmPushButton(WComposite(f_scope_option.SubMenuId()).Children()[0]).Unmanage();
-#endif
 
   f_scope_option.
       MenuHistory (WComposite(f_scope_option.SubMenuId()).Children()[1]);

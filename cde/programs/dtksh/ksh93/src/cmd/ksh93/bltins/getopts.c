@@ -92,9 +92,6 @@
 #define __VA_START__(p,a)	va_start(p)
 #endif
 #endif
-#ifdef __osf__
-#include	<machine/machlimits.h>
-#endif
 #include	"defs.h"
 #include	"variables.h"
 #include	<error.h>

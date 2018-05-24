@@ -69,16 +69,6 @@
 #include <sys/wait.h>
 #include <Dt/DtPStrings.h>
 
-#ifdef __osf__
-#ifndef sysinfo
-#ifdef __cplusplus
-extern "C" {
-int sysinfo(int, char *, long);
-}
-#endif // __cplusplus
-#endif // sysinfo
-#endif // __osf__
-
 #include <assert.h>
 
 #if defined(NEED_MMAP_WRAPPER)
@@ -666,7 +656,7 @@ RFCMailBox::append(DtMailEnv &error, char *buf, int len)
 			path, errno, error.errnoMessage(errno));
               break;
 
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
             case ENOTDIR:
 #else
             case ENOLINK:
@@ -1884,23 +1874,10 @@ RFCMailBox::mapFile(DtMailEnv & error,
   
   if (   (_use_dot_lock == DTM_TRUE)
       && (_mail_box_writable == DTM_TRUE)
-#if defined(__osf__)
-      && (_long_lock_active == DTM_TRUE)
-#endif
      ) {
-
-#if defined(__osf__) && OSMAJORVERSION < 4
-        // This version of mmap does NOT allow requested length to be
-	// greater than the file size ... in contradiction to the
-	// documentation (don't round up).
-    map->map_region = (char *) mmap(
-				0, (statbuf.st_size - map->offset),
-                                PROT_READ, flags, _fd, (off_t) map->offset);
-#else
     map->map_region = (char *)mmap(
 				0, (unsigned int) map->map_size,
                                 PROT_READ, flags, _fd, (off_t) map->offset);
-#endif
 
     // ERROR/CONSISTENCY CHECKING: if the region was not mapped,
     // or the first or last byte of the region is a null, then
@@ -3009,7 +2986,7 @@ RFCMailBox::createTemporaryMailboxFile(DtMailEnv & error, char *tmp_name)
       error.setError(DTME_CannotCreateTemporaryMailboxFile_NoSuchFile);
       break;
 
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
     case ENOTDIR:
 #else
     case ENOLINK:
@@ -3334,7 +3311,7 @@ RFCMailBox::writeMailBox(DtMailEnv &error, DtMailBoolean hide_access)
 	DTME_CannotWriteToTemporaryMailboxFile_ProcessLimitsExceeded);
       break;
 
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
     case ENOTDIR:
 #else
     case ENOLINK:
@@ -3694,7 +3671,7 @@ RFCMailBox::generateUniqueLockId(void)
   char theId[128];
   char hwserialbuf[64];
 
-#if !defined(__aix) && !defined(__hpux) && !defined(__osf__) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__aix) && !defined(__hpux) && !defined(linux) && !defined(CSRG_BASED)
   if (sysinfo(SI_HW_SERIAL, (char *)hwserialbuf, sizeof(hwserialbuf)-1) == -1)
 #endif
     strcpy(hwserialbuf, "dtmail");
@@ -3830,7 +3807,7 @@ RFCMailBox::linkLockFile(DtMailEnv & error, char *tempLockFileName)
       error.setError(DTME_CannotCreateMailboxLockFile_NoSuchFile);
       break;
       
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
     case ENOTDIR:
 #else
     case ENOLINK:
@@ -4198,7 +4175,7 @@ RFCMailBox::dotDtmailLock(DtMailEnv & error)
     case ENOENT:
       error.setError(DTME_CannotCreateMailboxLockFile_NoSuchFile);
       break;
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
     case ENOTDIR:
 #else
     case ENOLINK:
@@ -4409,14 +4386,7 @@ RFCMailBox::mapNewRegion(DtMailEnv & error, int fd, unsigned long size)
   map->file_size = size;
   long page_size = memoryPageSize();
 
-#if defined(__osf__) && OSMAJORVERSION < 4
-  // Problem with mapping. You can not round up to the nearest 
-  // memory block size when mapping a file. You need the exact
-  // file size of less. - ff
-  map->map_size = map->file_size;
-#else
   map->map_size = map->file_size + (page_size - (map->file_size % page_size)) + page_size;
-#endif
   
   int flags = MAP_PRIVATE;
   

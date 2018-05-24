@@ -161,7 +161,7 @@ _fallcMapOSLocaleName(osname, siname)
     char *osname;
     char *siname;
 {
-#if defined(hpux) || defined(CSRG_BASED) || defined(sun) || defined(SVR4) || defined(sgi) || defined(__osf__) || defined(AIXV3) || defined(ultrix) || defined(WIN32)
+#if defined(hpux) || defined(CSRG_BASED) || defined(sun) || defined(SVR4) || defined(sgi) || defined(AIXV3) || defined(ultrix) || defined(WIN32)
 #ifdef hpux
 #define SKIPCOUNT 2
 #define STARTCHAR ':'
@@ -178,7 +178,7 @@ _fallcMapOSLocaleName(osname, siname)
 #define ENDCHAR ';'
 #define WHITEFILL
 #else
-#if defined(__osf__) || defined(AIXV3)
+#if defined(AIXV3)
 #define STARTCHAR ' '
 #define ENDCHAR ' '
 #else

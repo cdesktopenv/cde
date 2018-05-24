@@ -122,15 +122,6 @@ _tt_gethostname()
 	}
 #endif /* OPT_GETHOSTNAME */
 
-#ifdef __osf__
-// An environment variable will be created by /usr/dt/bin/Xsession if
-// we have started the system without a network configured. This will
-// be true during an initial system installation.
-
-    if (getenv("DTNONETWORK"))
-        result = default_hostname;
-#endif
-
 	return result;
 }
 
@@ -209,11 +200,11 @@ _tt_gethostid(void)
 			sscanf(serial_num, "%12lx", &_hostid);
 		}
 	}
-#elif defined(hpux) || defined(_AIX) || defined(__osf__)
+#elif defined(hpux) || defined(_AIX)
 	struct utsname uts_name;
 	
 	uname(&uts_name);
-#	if defined(_AIX) || defined(__osf__)
+#	if defined(_AIX)
 		_hostid = atol(uts_name.machine);
 #	else
 		_hostid = atol(uts_name.idnumber);
@@ -374,7 +365,7 @@ _tt_vsyslog(
 		return;
 	}
 
-#if defined(OPT_BUG_AIX) || defined(OPT_BUG_HPUX) || defined(__osf__)
+#if defined(OPT_BUG_AIX) || defined(OPT_BUG_HPUX)
 	char buf[5000];
 	vsprintf( buf, _format, args );
 	syslog( priority, buf );

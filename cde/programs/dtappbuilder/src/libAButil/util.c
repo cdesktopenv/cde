@@ -225,7 +225,7 @@ extern "C" {
 #endif
 #if defined(__hpux) || (defined(sun) && OSMAJORVERSION >= 5 && OSMINORVERSION >= 4 && OSMINORVERSION <=10 )
     extern int putenv(const char *string);
-#elif !(defined(__osf__) || defined(__aix) || defined(__NetBSD__))
+#elif !(defined(__aix) || defined(__NetBSD__))
     extern int putenv(char *string);
 #endif
 #ifdef __cplusplus
@@ -250,7 +250,6 @@ util_get_os_type(void)
     int				aixIndex = -1;
     int				hpIndex = -1;
     int				sunIndex = -1;
-    int                         osf1Index = -1;
     int                         lnxIndex = -1;
     int                         fbsdIndex = -1;
     int                         nbsdIndex = -1;
@@ -268,7 +267,6 @@ util_get_os_type(void)
     aixIndex = util_strcasestr(sysInfo.sysname, "aix");
     hpIndex = util_strcasestr(sysInfo.sysname, "hp");
     sunIndex = util_strcasestr(sysInfo.sysname, "sun");
-    osf1Index = util_strcasestr(sysInfo.sysname, "osf1");
     lnxIndex = util_strcasestr(sysInfo.sysname, "linux");
     fbsdIndex = util_strcasestr(sysInfo.sysname, "freebsd");
     nbsdIndex = util_strcasestr(sysInfo.sysname, "netbsd");
@@ -277,53 +275,47 @@ util_get_os_type(void)
     if (aixIndex < 0) aixIndex = INT_MAX;
     if (hpIndex < 0) hpIndex = INT_MAX;
     if (sunIndex < 0) sunIndex = INT_MAX;
-    if (osf1Index < 0) osf1Index = INT_MAX;
     if (lnxIndex < 0) lnxIndex = INT_MAX;
     if (fbsdIndex < 0) fbsdIndex = INT_MAX;
     if (nbsdIndex < 0) nbsdIndex = INT_MAX;
     if (obsdIndex < 0) obsdIndex = INT_MAX;
 
-#define IS_MATCH(a,b,c,d,e,f,g,h)	\
+#define IS_MATCH(a,b,c,d,e,f,g)	\
   (((a) < (b)) && ((a) < (c)) && ((a) < (d)) && ((a) < (e)) && ((a) < (f)) && \
-   ((a) < (g)) && ((a) < (h)))
+   ((a) < (g)))
 
-    if (IS_MATCH(aixIndex, hpIndex, sunIndex, osf1Index,
-		  lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
+    if (IS_MATCH(aixIndex, hpIndex, sunIndex, lnxIndex, fbsdIndex, nbsdIndex,
+		 obsdIndex))
     {
 	return AB_OS_AIX;
     }
-    if (IS_MATCH(hpIndex, aixIndex, sunIndex, osf1Index,
-		  lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
+    if (IS_MATCH(hpIndex, aixIndex, sunIndex, lnxIndex, fbsdIndex, nbsdIndex,
+		 obsdIndex))
     {
 	return AB_OS_HPUX;
     }
-    if (IS_MATCH(sunIndex, aixIndex, hpIndex, osf1Index,
-		 lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
+    if (IS_MATCH(sunIndex, aixIndex, hpIndex, lnxIndex, fbsdIndex, nbsdIndex,
+		 obsdIndex))
     {
 	return AB_OS_SUNOS;
     }
-    if (IS_MATCH(osf1Index, aixIndex, hpIndex, sunIndex,
-		 lnxIndex, fbsdIndex, nbsdIndex, obsdIndex))
-    {
-        return AB_OS_OSF1;
-    }
-    if (IS_MATCH(lnxIndex, aixIndex, hpIndex, sunIndex, osf1Index,
-		 fbsdIndex, nbsdIndex, obsdIndex))
+    if (IS_MATCH(lnxIndex, aixIndex, hpIndex, sunIndex, fbsdIndex, nbsdIndex,
+		 obsdIndex))
     {
 	return AB_OS_LNX;
     }
-    if (IS_MATCH(fbsdIndex, aixIndex, hpIndex, sunIndex, osf1Index,
-		 lnxIndex, nbsdIndex, obsdIndex))
+    if (IS_MATCH(fbsdIndex, aixIndex, hpIndex, sunIndex, lnxIndex, nbsdIndex,
+		 obsdIndex))
     {
 	return AB_OS_FBSD;
     }
-    if (IS_MATCH(nbsdIndex, aixIndex, hpIndex, sunIndex, osf1Index,
-		 lnxIndex, fbsdIndex, obsdIndex))
+    if (IS_MATCH(nbsdIndex, aixIndex, hpIndex, sunIndex, lnxIndex, fbsdIndex,
+		 obsdIndex))
     {
 	return AB_OS_NBSD;
     }
-    if (IS_MATCH(obsdIndex, aixIndex, hpIndex, sunIndex, osf1Index,
-		 lnxIndex, fbsdIndex, nbsdIndex))
+    if (IS_MATCH(obsdIndex, aixIndex, hpIndex, sunIndex, lnxIndex, fbsdIndex,
+		 nbsdIndex))
     {
 	return AB_OS_OBSD;
     }

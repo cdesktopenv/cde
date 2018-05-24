@@ -81,7 +81,6 @@ typedef enum
     AB_OS_HPUX,
     AB_OS_AIX,
     AB_OS_SUNOS,
-    AB_OS_OSF1,
     AB_OS_LNX,
     AB_OS_FBSD,
     AB_OS_NBSD,

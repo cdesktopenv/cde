@@ -136,7 +136,7 @@ main (argc, argv)
 
 	case MODE_START:
 #ifndef	DEBUG2
-# if defined(__osf__) || defined(CSRG_BASED)
+# if defined(CSRG_BASED)
 				setsid();
 # else
 				setpgrp();

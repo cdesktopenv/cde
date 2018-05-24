@@ -34,13 +34,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef __osf__
-#include <unistd.h>
-#else
 #if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <osfcn.h>
 #endif
-#endif /* __osf__ */
 
 #define X_INCLUDE_TIME_H
 #define XOS_USE_XT_LOCKING

@@ -54,8 +54,7 @@
 
 #include <stdlib.h>
 
-#if !defined(__osf__) && !defined(linux) && \
-    !defined(CSRG_BASED) && !defined(sun)
+#if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 # include <osfcn.h>
 #else
 # include <unistd.h>

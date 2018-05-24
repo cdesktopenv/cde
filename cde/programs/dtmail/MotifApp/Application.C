@@ -256,9 +256,6 @@ Application::~Application()
 #ifdef CDExc21492
   #if defined(__hpux)
     this->BasicComponent::~BasicComponent();
-  #elif  __osf__
-    BasicComponent * The_End = this;
-    The_End->BasicComponent::~BasicComponent();
   #else
     BasicComponent::~BasicComponent();
   #endif

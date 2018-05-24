@@ -40,7 +40,7 @@
 #include "db/tt_db_hostname_global_map_ref.h"
 #include "db/tt_db_access_utils.h"
 #include "db/tt_db_property_utils.h"
-#if defined(OPT_BUG_HPUX) || defined(OPT_BUG_AIX) || defined(__osf__)
+#if defined(OPT_BUG_HPUX) || defined(OPT_BUG_AIX)
 #	undef copy
 #endif
 

@@ -50,7 +50,7 @@
 #endif
 #include <errno.h>
 
-#if defined(sun) || defined(_AIX) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(sun) || defined(_AIX) || defined(linux) || defined(CSRG_BASED)
 #define UID_NO_CHANGE ((uid_t) -1)
 #define GID_NO_CHANGE ((gid_t) -1)
 #endif
@@ -73,8 +73,6 @@ UnixEnvironment::UnixEnvironment()
 	manpath = "/usr/share/man:/usr/lpp/info";
 #elif defined(hpux)
 	manpath = "/usr/man:/usr/contrib/man:/usr/local/man";
-#elif defined(__osf__)
-        manpath = "/usr/share/%L/man:/usr/share/man:/usr/local/man";
 #elif defined(linux)
         manpath = "/usr/share/man/%L:/usr/share/man:/usr/contrib/man/%L:/usr/contrib/man:/usr/local/man/%L:/usr/local/man";
 #elif defined(__OpenBSD__)

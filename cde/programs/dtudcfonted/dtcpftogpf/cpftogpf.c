@@ -38,13 +38,7 @@
 #if !defined( SYSV )
 #include 	<sys/resource.h>
 #endif
-#ifdef __osf__
-#define _BSD
-#endif
 #include	<sys/wait.h>
-#ifdef __osf__
-#undef _BSD
-#endif
 #else
 #include	<wait.h>
 #endif

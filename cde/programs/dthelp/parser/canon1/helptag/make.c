@@ -36,14 +36,14 @@
 #include <sys\stat.h>
 #endif
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(__osf__)
+#if defined(hpux) || defined(_AIX) || defined(sun)
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif
 
 #include <math.h>
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(__osf__)
+#if defined(hpux) || defined(_AIX) || defined(sun)
 #undef M_PI  /* M_PI is used by markup, we don't need the math PI */
 #endif
 

@@ -975,7 +975,7 @@ RFCTransport::signalRegister(void)
     if (initialized) return;
     initialized = 1;
 
-#if defined(hpux) || defined(_aix) || defined(__osf__) || defined(linux) || \
+#if defined(hpux) || defined(_aix) || defined(linux) || \
     (defined(sun) && OSMAJORVERSION>=5 && OSMINORVERSION>4) || defined(CSRG_BASED)
     // SunOS 5.5 and above defined prototype for signal handler
     act.sa_handler = (void (*)(int))&RFCTransport::childHandler;

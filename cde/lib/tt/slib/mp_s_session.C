@@ -115,7 +115,7 @@ s_open_unix_socket(char *socket_name)
 	server_addr.sun_family = AF_UNIX;
 	(void)unlink(socket_name);
 	strcpy(server_addr.sun_path, socket_name);
-#if defined(ultrix) || defined(_AIX)  || defined(hpux) || defined(__osf__)
+#if defined(ultrix) || defined(_AIX)  || defined(hpux)
         int servlen = strlen(server_addr.sun_path) + sizeof(server_addr.sun_fam\
 ily);
         if (bind(sock, (struct sockaddr *)&server_addr,servlen) < 0) {

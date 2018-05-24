@@ -91,11 +91,7 @@ oid_t::oid_t(const char* source, Boolean ascii_format, Boolean swap_order)
       memcpy((char*)&v_i_code, source, sizeof(v_i_code));
 
       if ( swap_order == true )
-#ifdef __osf__
-         ORDER_SWAP_INT(v_i_code);
-#else
          ORDER_SWAP_LONG(v_i_code);
-#endif
 
    } else {
       istringstream in((char*)source);
@@ -252,11 +248,7 @@ void oid_t::to_char_string(char* sink, Boolean swap_order) const
 
    if ( swap_order == true ) {
       i_code_t x = v_i_code;
-#ifdef __osf__
-      ORDER_SWAP_INT(x);
-#else
       ORDER_SWAP_LONG(x);
-#endif
       memcpy(sink, (char*)&x, sizeof(x));
    } else 
       memcpy(sink, (char*)&v_i_code, sizeof(v_i_code));

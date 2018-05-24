@@ -61,7 +61,6 @@ m_free(string, "GetDefaultHeaderString return");
 
 /* Determine base name for files (i.e., input name without extension).
    Open output and error files */
-/* osf has the same function defined, change the routine name to fbasename() */
 void fbasename(M_NOPAR)
 {
 char *p, *q;
@@ -358,7 +357,7 @@ char *qualname;
 char *unqualname;
 #endif
 {
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux) || defined(CSRG_BASED)
 
 FILE *f;
 #endif
@@ -383,7 +382,7 @@ else
 
 fnp = fn;
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux) || defined(CSRG_BASED)
 qualname[0] = '\0';
 gp = qualname + strlen(qualname);
 roomleft = roomleft - strlen(qualname);
@@ -497,7 +496,7 @@ do  {
 while (1);
 *strrchr(qualname, CSEP) = '\0';
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux) || defined(CSRG_BASED)
 #else
 strupr ( qualname );
 #endif

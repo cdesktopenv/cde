@@ -620,7 +620,7 @@ static int	invoke_ims(sel)
 	for (i = 0; i < _NFILE; i++)
 	    (void) close(i);
 
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
 	setsid();
 #else
 	setpgrp();

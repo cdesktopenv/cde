@@ -372,24 +372,16 @@ IcccmAgent::own_selection(Widget w, Atom selection, IcccmAgent* ia,
 		f_selection_owner = this;
 		f_owning_selection = selection;
 		f_owning_widget = w;
-#if defined(__osf__)
-		if (fs != NULL)
-#else
 		if (fs)
-#endif /* __osf__ */
-#if defined(SC3) || defined (__osf__)
+#if defined(SC3)
 		    (ia->*fs)();
 #else
 		    (((IcccmAgent*)f_real_object)->*fs)();
 #endif
 	}
 	else {
-#if defined(__osf__)
-	    if (ff != NULL)
-#else
 	    if (ff)
-#endif /* __osf__ */
-#if defined(SC3) || defined (__osf__)
+#if defined(SC3)
 		(ia->*ff)();
 #else
 		(((IcccmAgent*)f_real_object)->*ff)();

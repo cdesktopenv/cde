@@ -1035,7 +1035,7 @@ Boolean F_Exec (String args, ClientData *pCD, XEvent *event)
     {
 
 #ifndef NO_SETPGRP
-#if defined(SVR4) || defined(__OSF1__) || defined(__osf__) || defined(linux)
+#if defined(SVR4) || defined(linux)
 	setsid();
 #else
 #ifdef SYSV

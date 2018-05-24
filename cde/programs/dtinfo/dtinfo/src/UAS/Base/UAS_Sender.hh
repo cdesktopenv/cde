@@ -36,17 +36,6 @@
 #endif
 #endif
 
-#if defined(__osf__)
-#if defined(CONCAT)
-#undef CONCAT
-#define CONCAT(A,B) A##B
-#endif
-#if defined(CONCAT3)
-#undef CONCAT3
-#define CONCAT3(A,B,C) A##B##C
-#endif
-#endif
-
 template <class T> class UAS_Receiver;
 
 template <class T>

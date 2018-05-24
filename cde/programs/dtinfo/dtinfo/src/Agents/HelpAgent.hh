@@ -95,11 +95,7 @@ private:
   Cursor f_cursor;
   XrmDatabase f_appXrmDb;
 
-#if defined(__osf__)
-  friend inline HelpAgent &help_agent();
-#else
   friend HelpAgent &help_agent();
-#endif
 
   static HelpAgent *g_help_agent;
 };

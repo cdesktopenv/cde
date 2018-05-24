@@ -323,11 +323,11 @@ Help(
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined (__osf__) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
 PanicSignal(int s)
 #else
 PanicSignal(void)
-#endif /* __aix || __osf__ */
+#endif /* __aix */
 {
     int i;
 
@@ -360,11 +360,11 @@ PanicSignal(void)
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined (__osf__) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
 IgnoreSignal(int i)
 #else
 IgnoreSignal(void)
-#endif /* __aix || __osf__ */
+#endif /* __aix */
 {
     /*
      * If the child is still in the same process group, it should be
@@ -402,11 +402,11 @@ IgnoreSignal(void)
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined (__osf__) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
 UrgentSignal(int i)
 #else
 UrgentSignal(void)
-#endif /* __aix || __osf__ */
+#endif /* __aix */
 {
     /*
      * Set global so the central control point ( select() ) will
@@ -453,11 +453,11 @@ UrgentSignal(void)
  *
  *****************************************************************************/
 static void
-#if defined(__aix) || defined (__osf__) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
 SigCld(int i)
 #else
 SigCld(void)
-#endif /* __aix || __osf__ */
+#endif /* __aix */
 {
     int exitStatus;
     pid_t pid;
@@ -1539,7 +1539,7 @@ main (
 		 * a SIGCLD, give up and exit.
 		 */
 		if (rediscoverUrgentSigG > ((1000/SHORT_SELECT_TIMEOUT)*5) ) {
-#if defined(__aix) || defined (__osf__) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
 		    PanicSignal(0);
 #else
 		    PanicSignal();

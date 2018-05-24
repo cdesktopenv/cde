@@ -55,9 +55,6 @@
 
 #include <stdio.h>
 #include <locale.h>
-#ifdef __osf__
-#include <sys/access.h>
-#endif
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 
@@ -145,30 +142,6 @@ main (int argc, char **argv)
     Display                     *srvDisplay;
     struct sigaction            stopvec;
     char		 	*lang;
-
-#ifdef __osf__
-
-# include <sys/sysinfo.h>
-# include <sys/proc.h>
-
-    unsigned long        op;
-    int                  buffer[2];
-    unsigned long        nbytes = 1;
-    char*                arg = 0;
-    unsigned long        flag = 0;
-
-    int                  ssi_status;
-
-    op = SSI_NVPAIRS;
-
-    buffer[0] = SSIN_UACPROC;
-    buffer[1] =  UAC_NOPRINT;
-# ifdef DEBUG_UAC
-    buffer[1] |= UAC_SIGBUS;
-# endif
-
-    ssi_status = setsysinfo ( op, buffer, nbytes, arg, flag );
-#endif
 
     setlocale( LC_ALL, "" );
     XtSetLanguageProc( NULL, NULL, NULL );
@@ -550,17 +523,6 @@ main (int argc, char **argv)
                       True, ProcessEvent, NULL);
 
     smGD.smState = READY;
-
-#ifdef __osf__
-    /* If we've just populated a new .dtprofile into the user's home
-     * directory, put up a popup dialog explaining the need to edit it
-     * to allow .login/.profile to work properly
-     */
-
-    arg = getenv("DTNEWPROFILE");
-    if (arg)
-        WarnNewProfile();
-#endif
 
     while(1)
     {

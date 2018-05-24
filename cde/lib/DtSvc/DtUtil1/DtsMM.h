@@ -47,11 +47,7 @@
  * file, and therefore affects the Xsession.src, Xreset.src, and
  * Xstartup.src scripts in dtlogin/config.
  */
-#ifdef __osf__
-# define _DTDTSMMTEMPDIR	"/var/tmp"
-#else
-# define _DTDTSMMTEMPDIR	"/tmp"
-#endif
+#define _DTDTSMMTEMPDIR	"/tmp"
 
 typedef	int	DtDtsMMSeqNo;		/* the order it occures in db */
 typedef	int	DtDtsMMFieldCount;	/* number of fields in record */

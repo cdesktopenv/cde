@@ -403,7 +403,7 @@ SetGidUid ( unsigned short rgid, unsigned short ruid )
 	/* fix process gid */
 #if defined(SVR4) || defined(_AIX)
     setgid(rgid);
-#elif defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#elif defined(linux) || defined(CSRG_BASED)
     if(-1 == setregid(rgid, rgid)) {
         fprintf(stderr, "SetGidUid: setregid failed on %d\n", rgid);
     }
@@ -416,7 +416,7 @@ SetGidUid ( unsigned short rgid, unsigned short ruid )
 	/* fix process uid */
 #if defined (SVR4) || defined (_AIX)
     setuid(ruid);
-#elif defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#elif defined(linux) || defined(CSRG_BASED)
     if(-1 == setreuid(ruid, ruid)) {
         fprintf(stderr, "SetGidUid: setreuid failed on %d\n", ruid);
     }

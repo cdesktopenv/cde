@@ -120,8 +120,6 @@ int PrintJob::CancelJob(BaseObj *obj, char **output, BaseObj * /*requestor*/)
 
 #ifdef aix
    sprintf(command, "enq -P%s -x%s", me->Parent()->Name(), me->_jobNumber);
-#elif __osf__
-   sprintf(command, "lprm -P%s %s", me->Parent()->Name(), me->_jobNumber);
 #else
    sprintf(command, "cancel %s-%s", me->Parent()->Name(), me->_jobNumber);
 #endif

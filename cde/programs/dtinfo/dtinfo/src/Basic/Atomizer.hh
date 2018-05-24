@@ -58,11 +58,9 @@ public: // functions
 // a char * as an int.  hopefully, no one calls
 // them and they can be eliminated.
 
-#ifndef __osf__
   size_t value() { return ((size_t) f_value); }
   operator int () 
     { return ((size_t) f_value); }
-#endif
 
   operator const char * ()
     { return (f_value); }

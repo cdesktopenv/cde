@@ -52,11 +52,10 @@
 #ifndef _funcs_h
 #define _funcs_h 1
 
-#if !defined(__osf__) && !defined(linux) && \
-    !defined(CSRG_BASED) && !defined(sun)
+#if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <libc.h>
 #endif
-#if defined(hpux) || defined(sgi) ||defined(__osf__) || \
+#if defined(hpux) || defined(sgi) || \
     defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <unistd.h>
 #else
@@ -113,35 +112,19 @@ char * cuserid(char *s);
 
 inline float flog2(unsigned int x) {
    return (float)(log((double)x) / log((double)2));
-#if defined(__osf__)
-}     // return log_2(x) 
-#else
-};     // return log_2(x) 
-#endif /* (__osf__) */
+};     // return log_2(x)
 
 inline float flog2(const float x) {
    return (float)log((double)x) / (float)log((float)2);
-#if defined(__osf__)
-}
-#else
 };
-#endif /* (__osf__) */
 
 inline int pow2(const int x) {
    return (int)pow((double)2, (double)x);
-#if defined(__osf__)
-}     // x's power of 2
-#else
 };     // x's power of 2
-#endif /* (__osf__) */
 
 inline int pow2(const float x) {
    return (int)pow((double)2, (double)x);
-#if defined(__osf__)
-}    // x's power of 2
-#else
 };    // x's power of 2
-#endif /* (__osf__) */
 
 int pos_of_LSB(const unsigned int x); // position of the MSB
 
@@ -150,27 +133,15 @@ unsigned getbits(unsigned, unsigned, unsigned);
 
 inline void char_swap(char& c1, char& c2) {
    char tmp = c1; c1 = c2; c2 = tmp;
-#if defined(__osf__)
-}  // switch two chars
-#else
 };  // switch two chars
-#endif /* (__osf__) */
 
 inline void short_swap(short& s1, short& s2) {
    short tmp = s1; s1 = s2; s2 = tmp;
-#if defined(__osf__)
-}// switch two shorts
-#else
 };// switch two shorts
-#endif /* (__osf__) */
 
 inline void int_swap(int& i1, int& i2) {
    int tmp = i1; i1 = i2; i2 = tmp;
-#if defined(__osf__)
-}     // switch two ints
-#else
 };     // switch two ints
-#endif /* (__osf__) */
 
 // file functions
 

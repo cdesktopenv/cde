@@ -65,7 +65,6 @@
  **
  **	__hpux	    HP-UX OS only
  **	__apollo    Domain OS only
- **	__hp_osf    HP OSF/1 OS only
  **     sun         SUN OS only
  **     SVR4        SUN OS et al.
  **     _AIX        AIX only

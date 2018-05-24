@@ -408,34 +408,6 @@
 # undef  OPT_TAR_HAS_EXCLUDE_OPTION
 # define OPT_BUG_RPCINTR
 
-#elif defined(__osf__)
-# define OPT_UNIX_SOCKET_RPC
-# undef  OPT_TLI
-# undef  OPT_DLOPEN_X11
-# undef  OPT_DLOPEN_CE
-# undef  OPT_ADDMSG_DIRECT
-# undef  OPT_SECURE_RPC
-# undef  OPT_CLASSING_ENGINE
-# undef  OPT_BSD_SIGNAL
-# define OPT_POSIX_SIGNAL
-# undef  OPT_BSD_WAIT
-# undef  OPT_PATCH
-# undef  OPT_I18N
-# define OPT_CATGETS
-# undef  OPT_GETDTABLESIZE
-# undef  OPT_SYSINFO
-# define OPT_CPP_PATH		"/usr/ccs/lib/cpp"
-# define OPT_CPP_OPTIONS	""
-# define OPT_STRERROR
-# undef  OPT_SVR4_GETMNTENT
-# define OPT_LOCAL_MOUNT_TYPE	MNTTYPE_UFS
-# define OPT_DEFINE_SIG_PF
-# undef  OPT_TAR_HAS_EXCLUDE_OPTION
-# undef  OPT_HAS_REALPATH 
-# if defined(OSMAJORVERSION) && (OSMAJORVERSION >= 4)
-#  define OPT_XDR_LONG_TYPE	int
-# endif
-
 #elif defined(linux)
 
 # undef  OPT_UNIX_SOCKET_RPC 

@@ -998,7 +998,7 @@ _DtCmdCommandInvokerExecute (
       if (commandPid == 0) 
       {
 
-#if defined(__hp_osf) || defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
          setsid() ;
 #else
          (void) setpgrp ();

@@ -45,12 +45,8 @@
 #include <limits.h>
 #endif 
 
-#if defined(__hp_osf) || defined (__osf__)
-#include <sys/access.h>
-#else
 #if defined(__hpux)
 #include <sys/getaccess.h>
-#endif
 #endif
 
 #include <sys/socket.h>

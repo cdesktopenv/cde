@@ -113,7 +113,7 @@
 /*
  * Default directories containing locale information.
  */
-#if defined(_AIX) || defined (__osf__)
+#if defined(_AIX)
   #define DEF_NLS_DIR	"/usr/lib/nls/loc"
 #elif defined(hpV4)
   #define DEF_NLS_DIR	"/usr/lib/nls/msg"
@@ -507,9 +507,6 @@ extern char	*fpTail;
 extern int      langListTimeout;
 #ifdef DEF_NETWORK_DEV
 extern char	*networkDev;
-#endif
-#if defined(__osf__)
-extern char	*ignoreLocales;
 #endif
 
 #if !defined (ENABLE_DYNAMIC_LANGLIST)

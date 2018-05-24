@@ -36,7 +36,7 @@
 
 #define DATA_BUF_SIZ 4096
 
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 static ostrstream& terminate(ostrstream& ost)
 {
     char* pstring = ost.str();
@@ -48,7 +48,7 @@ static ostrstream& terminate(ostrstream& ost)
 
 DocParser::DocParser(Resolver &r)
 : f_resolver(r), f_ignoring_element(0),
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
   f_buffer(new char[DATA_BUF_SIZ]),
   f_output(f_buffer, DATA_BUF_SIZ)
 #else
@@ -60,7 +60,7 @@ DocParser::DocParser(Resolver &r)
 
 DocParser::~DocParser()
 {
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
   if (f_buffer) delete[] f_buffer;
 #else
   // this causes a free memory read when f_output is deleted as part of this
@@ -91,7 +91,7 @@ DocParser::rawParse(istream &input)
     {
     case StartTag:
       {
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 	Symbol name(gElemSymTab->intern(terminate(f_output).str()));
 	f_output.rdbuf()->freeze(0);
 #else
@@ -150,7 +150,7 @@ DocParser::process(istream &input, ostringstream &output,
 
   unsigned int child = 1 ;	// sibling numbers for child elements 
 
-#if !defined(SC3) && !defined(__osf__)
+#if !defined(SC3)
   string pstring;
 #endif
   string data;
@@ -187,7 +187,7 @@ DocParser::process(istream &input, ostringstream &output,
 /////////////////////////////
 // first child of this node
 /////////////////////////////
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 	    Symbol name(gElemSymTab->intern(terminate(f_output).str()));
 
 	    update_last_seen_child_name(last_seen_child_name, 
@@ -198,7 +198,7 @@ DocParser::process(istream &input, ostringstream &output,
 	    process(input, output, name, child++, child_relative_sibling_number);
 #else
 	    data = f_output.str().c_str();
-//#if !defined(SC3)  && !defined(__osf__)
+//#if !defined(SC3)
 //	    data[f_output.str().size()] = '\0';
 //#endif
 	    Symbol name(gElemSymTab->intern(data.c_str()));
@@ -214,13 +214,13 @@ DocParser::process(istream &input, ostringstream &output,
 	  // hit an end tag right after start tag 
 #ifdef DEBUG
 	  {
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 	    data = terminate(f_output).str();
 	    f_output.rdbuf()->freeze(0);
 #else
 	    data = f_output.str().c_str();
 //#ifdef _IBMR2
-//#if !defined(SC3)  && !defined(__osf__)
+//#if !defined(SC3)
 //	    data[f_output.str().size()] = '\0';
 //#endif
 #endif
@@ -242,21 +242,13 @@ DocParser::process(istream &input, ostringstream &output,
 	  break;
 	case AttributeSection:
 	  {
-#if !defined(SC3) && \
-    !defined(__osf__) && \
-    !defined(_IBMR2) && \
-    !defined(linux) && \
-    !defined(CSRG_BASED) && \
-    !defined(sun)
+#if !defined(SC3) && !defined(_IBMR2) && !defined(linux) && \
+    !defined(CSRG_BASED) && !defined(sun)
 	    volatile
 #endif
 	    AttributeList *attrs = 0;
-#if !defined(SC3) &&  \
-    !defined(__osf__) && \
-    !defined(_IBMR2) && \
-    !defined(linux) && \
-    !defined(CSRG_BASED) && \
-    !defined(sun)
+#if !defined(SC3) && !defined(_IBMR2) && !defined(linux) && \
+    !defined(CSRG_BASED) && !defined(sun)
 	    volatile
 #endif
 	    AttributeList *olias_attrs = 0;
@@ -313,7 +305,7 @@ DocParser::process(istream &input, ostringstream &output,
 		//  the str() call seems to add the null byte to the stream
 		//  and increment the pcount, so we must make sure it gets
 		//  called first
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 		char *pstring = terminate(f_output).str();
 		int   size = f_output.pcount();
 		f_resolver.data(pstring, size);
@@ -337,7 +329,7 @@ DocParser::process(istream &input, ostringstream &output,
 // second child and beyond.
 /////////////////////////////
 	      data = f_output.str().c_str();
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 	      f_output.rdbuf()->freeze(0);
 #endif
 
@@ -370,7 +362,7 @@ debug(cerr, f_output.str().size());
 		  //  the str() call seems to add the null byte to the stream
 		  //  and increment the pcount, so we must make sure it gets
 		  //  called first
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 		  char *pstring = f_output.str();
 		  int   size = f_output.pcount();
 		  *(pstring + size) = 0;
@@ -386,7 +378,7 @@ debug(cerr, f_output.str().size());
 	  }
 #ifdef DEBUG
       {
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 	data = terminate(f_output).str();
 	f_output.rdbuf()->freeze(0);
 #else
@@ -419,7 +411,7 @@ DocParser::process_attributes(istream &input, ostringstream &output,
 			      AttributeList *&attrs,
 			      AttributeList *&olias_attrs)
 {
-#if !defined(SC3) && !defined(__osf__)
+#if !defined(SC3)
   string theData;
 #endif
   TagType tt ;
@@ -436,7 +428,7 @@ DocParser::process_attributes(istream &input, ostringstream &output,
    	{
    	case StartTag:
           {
-#if !defined(SC3) && !defined(__osf__)
+#if !defined(SC3)
 	  theData = f_output.str().c_str();
 #endif
    	  if (!attrs)
@@ -444,7 +436,7 @@ DocParser::process_attributes(istream &input, ostringstream &output,
 
           newAttribute = 
    		process_attribute(input, output,
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 				  gSymTab->intern(terminate(f_output).str()),
    				  gSymTab->intern(f_streambuf->str()),
 #else
@@ -462,7 +454,7 @@ DocParser::process_attributes(istream &input, ostringstream &output,
    	  throw(CASTDPUTEXCEPT docParserUnexpectedTag());
    	  break;
    	case OliasAttribute:
-#if !defined(SC3) && !defined(__osf__)
+#if !defined(SC3)
 	  theData = f_output.str().c_str();
 #endif
    	  // mirrors attribute 
@@ -471,7 +463,7 @@ DocParser::process_attributes(istream &input, ostringstream &output,
 
           newAttribute = 
    		process_attribute(input, output,
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
 				  gSymTab->intern(terminate(f_output).str()),
    				  gSymTab->intern(f_streambuf->str()),
 #else
@@ -528,7 +520,7 @@ DocParser::process_attribute(istream &input, ostringstream &output,
     DocParser::read_data(input, output);
   } else 
     (void)read_data(input, output);
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
   char *data = f_output.str();
   *(data + f_output.pcount()) = 0;
   f_output.rdbuf()->freeze(0);

@@ -82,7 +82,7 @@ private:
 private:
   unsigned int	f_ignoring_element ;
   Resolver      &f_resolver;
-#if defined(SC3) || defined(__osf__)
+#if defined(SC3)
   char* const	f_buffer;
   ostrstream	f_output;
 #else

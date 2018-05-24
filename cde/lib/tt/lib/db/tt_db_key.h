@@ -46,16 +46,9 @@
 struct _Tt_key_data {
   unsigned short version;
   unsigned short padding;
-#ifdef __osf__
-  /* These fields need to be: <host id:4> <time sec:4> <counter:4> */
-  unsigned int hostid;
-  unsigned int time_sec;
-  unsigned int counter;
-#else
   unsigned long hostid;
   unsigned long time_sec;
   unsigned long counter;
-#endif /* __osf__ */
 };
 
 const int TT_DB_KEY_LENGTH = sizeof(_Tt_key_data);

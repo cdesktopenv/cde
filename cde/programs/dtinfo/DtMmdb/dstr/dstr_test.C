@@ -26,10 +26,6 @@
 #include "utility/pm_random.h"
 #include "utility/funcs.h"
 
-#if defined(__osf__)
-#include <sys/time.h>
-#endif
-
 #ifdef REGRESSION_TEST
 
 extern

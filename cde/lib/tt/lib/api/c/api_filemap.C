@@ -242,19 +242,6 @@ printf("DEBUG _tt_host_netfile_file: resolving locally.\n");
                 return _tt_netfile_file(netfilename);
         }
 
-#ifdef __osf__
-// hostname and localhost were not the same, so make one more check
-// of the environment variable created by /usr/dt/bin/Xsession. If
-// we have started the system without a network configured, this will
-// be true during an initial system installation.
-
-	if (getenv("DTNONETWORK")) {
-	    // strdup already done in _tt_netfile_file()
-	    return _tt_file_netfile(netfilename);
-	}
- 
-#endif /* __osf__ */
-
 	_Tt_string	path(netfilename);
 	_Tt_string	file;
 

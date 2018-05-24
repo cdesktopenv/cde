@@ -3944,11 +3944,7 @@ VacationCmd::parseVacationMessage()
 
     int free_buf = 0;
     mbuf.size = buf.st_size;
-#ifdef __osf__
-    mbuf.buffer = (char *)mmap(0, map_size, PROT_READ, MAP_PRIVATE, fd, 0);
-#else
     mbuf.buffer = mmap(0, map_size, PROT_READ, MAP_PRIVATE, fd, 0);
-#endif
     if (mbuf.buffer == (char *)-1) {
 	free_buf = 1;
 	mbuf.buffer = new char[mbuf.size];

@@ -647,15 +647,7 @@ XmTextEditor::loadFile(const char * path, const int pos)
 				(page_size - (info.st_size % page_size)));
     char * map;
 
-#if defined(__osf__)
-    // Need the (char *) for compile to work in ALL cases ... for the
-    // POSIX "mmap" is (void *).  Also, this version of mmap does NOT
-    // allow requested length to be greater than the file size ...
-    // in contradiction to the documentation (don't round up).
-    map = (char *) mmap(0, info.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-#else
     map = (char *) mmap(0, map_size, PROT_READ, MAP_PRIVATE, fd, 0);
-#endif
 
     if (map == (char *)-1) {
 	// We could not map it for some reason. Let's just read it into

@@ -59,7 +59,7 @@
 #define desc_print3(s, n, x)  s << "	" << n << "=" << (x) << ":\\" << endl
 #define desc_print_end3(s, n, x)  s << "	" << n << "=" << (x) << endl
 
-#if !defined ( __STDC__) && !defined (hpux) && !defined(__osf__)
+#if !defined ( __STDC__) && !defined (hpux)
 #define desc_print(s, x)  s << "	" << "x" << "=" << (x) << ":\\\n"
 #define desc_print_end(s, x)  s << "	" << "x" << "=" << (x) << "\n"
 #else

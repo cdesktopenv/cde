@@ -439,11 +439,6 @@ main(
       
     } else {
 
-#ifdef __osf__
-/* Temporary work around for action database problem(platinum BL5 03/29/95). */
-      StartDbUpdate((XtPointer) NULL);
-#endif
-
 	/*--------------------------------------------------------
 	 * Requestor Mode
 	 *

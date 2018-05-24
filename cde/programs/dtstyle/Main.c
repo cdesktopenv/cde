@@ -467,10 +467,6 @@ malloc_trace(0);
     style.shell = 
         XtInitialize(argv[0], XMCLASS, option_list, 1, (int *)&argc, argv);
 
-#ifdef __osf__
-    _XmColorObjCreate(style.shell, NULL, NULL);
-#endif
-
     /* Allow all WS manipulation functions except resize and maximize */
     mwmFunc = MWM_FUNC_ALL ^ (MWM_FUNC_RESIZE | MWM_FUNC_MAXIMIZE); 
 

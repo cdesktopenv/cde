@@ -54,9 +54,7 @@ extern "C"
 {
 #endif
 #if defined(__cplusplus) || defined(__STDC__)
-#if !defined(__osf__) && !defined(sun)
-    /* The DEC C++ compiler rejects this, claiming it has both */
-    /* internal and external linkage. */
+#if !defined(sun)
     char *strnew(size_t len);
     void strfree(const char *s);
 #endif
@@ -75,12 +73,10 @@ extern "C"
 
 #ifdef __cplusplus
     char *strtokx(char *&ptr, const char *sep);
-# if !defined(__osf__) && !defined(linux) && !defined(sun) && !defined(CSRG_BASED)
+# if !defined(linux) && !defined(sun) && !defined(CSRG_BASED)
     char **strsep(const char *str, const char *sep,
 	boolean whsp = TRUE, int *num = NULL);
-#  if !defined(__osf__)
     const char *strcmbn(const char **vec, const char *sep = " ");
-#  endif
 # endif
 
 #else /* __STDC__ */
@@ -89,9 +85,7 @@ extern "C"
     char **strsep(const char *str, const char *sep,
 	boolean whsp, int *num);
 #endif
-#ifndef __osf__
     const char *strcmbn(const char **vec, const char *sep);
-#endif
 
 #endif /* __STDC__ */
 
@@ -125,7 +119,7 @@ extern size_t     nl_strlen();		/* __OBSOLETE */
 #if defined(__cplusplus)
 }
 
-#if defined(apollo) || defined(__aix) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(apollo) || defined(__aix) || defined(linux) || defined(CSRG_BASED)
 #include <stdlib.h>
 #else
 #include <malloc.h>
@@ -137,7 +131,7 @@ inline void  strfree(const char *s)
 	{ if (s != NULL) free((char *)s); }
 #else
 inline void  strfree(const char *s)
-#if defined(__hpux) || defined(__osf__) || defined(CSRG_BASED)
+#if defined(__hpux) || defined(CSRG_BASED)
 	{ if (s != NULL) free((void *)s); }
 #else
 	{ if (s != NULL) free((void *)s); }

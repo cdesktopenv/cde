@@ -749,13 +749,8 @@ MakeDialog( DialogType dtype )
 
     case copyright:
 	if ((fp = fopen(COPYRIGHT,"r")) == NULL)
-#if defined( __hp_osf )
-	    xmstr = XmStringCreate("Cannot open copyright file '/usr/X11/copyright'.",
-				XmFONTLIST_DEFAULT_TAG);
-#else
 	    xmstr = XmStringCreate("Cannot open copyright file '/etc/copyright'.",
 				XmFONTLIST_DEFAULT_TAG);
-#endif
 	else {
 	    xmstr = (XmString) NULL;
 	

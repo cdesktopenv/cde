@@ -273,7 +273,7 @@ main( int argc, char **argv )
     ScanServers ();
     StartDisplays ();
     (void) signal (SIGHUP, RescanNotify);
-#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined (__osf__) || defined(linux)
+#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined(linux)
     (void) signal (SIGCHLD, ChildNotify);
 #endif
     while (AnyWellKnownSockets() || AnyDisplaysLeft ())
@@ -286,7 +286,7 @@ main( int argc, char **argv )
 
 	TrimErrorFile();
 
-#if defined(SYSV) && !defined(hpux) && !defined(_AIX) && !defined (__osf__) && !defined(linux)
+#if defined(SYSV) && !defined(hpux) && !defined(_AIX) && !defined(linux)
 	WaitForChild ();
 #else
 	WaitForSomething ();
@@ -500,7 +500,7 @@ StopAll( int arg )
 
 int	ChildReady = 0;
 
-#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined (__osf__) || defined(linux) || defined(CSRG_BASED)
+#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined(linux) || defined(CSRG_BASED)
 static SIGVAL
 ChildNotify( int arg )
 {
@@ -1313,10 +1313,11 @@ StorePid( void )
 	if (pidFd == -1 && errno == ENOENT)
 	{
 	    /*
-	     * HP OSF/1 will not allow an fdopen 
+	     * A Legacy OS wouldn't allow an fdopen
 	     * of a file descriptor handed back by creat(2).
 	     *  The workaround is to close the created file, and 
 	     * open it Read/Write.  This will be transparent to HP-UX.
+	     * This code needs to be cleaned up - 05/22/18 - C
 	     */
 	    pidFd = creat (pidFile, 0644);
 	    if(pidFd != -1) {
@@ -1477,7 +1478,7 @@ SetTitle( char *name, char *ptr )
 *
 *****************************************************************************/
 
-#if defined (_AIX) && defined (_POWER) || defined (__osf__)
+#if defined (_AIX) && defined (_POWER)
 #define GETTYPATH "/usr/sbin/getty"
 #elif defined(__OpenBSD__)
 #define GETTYPATH "/usr/libexec/getty"

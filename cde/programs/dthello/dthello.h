@@ -51,11 +51,7 @@ struct globalStruct {
 #endif
 
 #define DEFAULT_FONT_LARGE	"-dt-interface system-medium-r-normal-xl*-*-*-*-*-*-*-*-*"
-#ifdef __osf__
-#define DEFAULT_FONT_MEDIUM	"-dt-interface system-medium-r-normal-xl*-*-*-*-*-*-*-*-*"
-#else
 #define DEFAULT_FONT_MEDIUM	"-dt-interface system-medium-r-normal-l*-*-*-*-*-*-*-*-*"
-#endif
 #define DEFAULT_FONT_SMALL	"-dt-interface system-medium-r-normal-m*-*-*-*-*-*-*-*-*"
 #define DEFAULT_FONT		"-*-*-*-R-*-*-*-120-*-*-*-*"
  

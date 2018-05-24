@@ -77,7 +77,6 @@
 
 /* little endian to/from big endian swap macros. */
 
-#ifndef __osf__
 #define ORDER_SWAP_LONG(x) 			\
 { 						\
    long tmp_long = x; 				\
@@ -85,21 +84,7 @@
    ((unsigned char*)&x)[1] = ((unsigned char*)&tmp_long)[2];	\
    ((unsigned char*)&x)[2] = ((unsigned char*)&tmp_long)[1];	\
    ((unsigned char*)&x)[3] = ((unsigned char*)&tmp_long)[0];	\
-} 
-#else
-#define ORDER_SWAP_LONG(x)                      \
-{                                               \
-   long tmp_long = x;                           \
-   ((unsigned char*)&x)[0] = ((unsigned char*)&tmp_long)[7];    \
-   ((unsigned char*)&x)[1] = ((unsigned char*)&tmp_long)[6];    \
-   ((unsigned char*)&x)[2] = ((unsigned char*)&tmp_long)[5];    \
-   ((unsigned char*)&x)[3] = ((unsigned char*)&tmp_long)[4];    \
-   ((unsigned char*)&x)[4] = ((unsigned char*)&tmp_long)[3];    \
-   ((unsigned char*)&x)[5] = ((unsigned char*)&tmp_long)[2];    \
-   ((unsigned char*)&x)[6] = ((unsigned char*)&tmp_long)[1];    \
-   ((unsigned char*)&x)[7] = ((unsigned char*)&tmp_long)[0];    \
 }
-#endif
 
 #define ORDER_SWAP_FLOAT(x) 			\
 { 						\

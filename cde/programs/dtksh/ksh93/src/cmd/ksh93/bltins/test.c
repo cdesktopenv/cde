@@ -106,7 +106,7 @@
 #   undef _lib_setreuid
 #endif /* _lib_setregid */
 
-#if defined(_lib_setreuid) && ! defined(_AIX) && ! defined(__osf__)
+#if defined(_lib_setreuid) && !defined(_AIX)
     extern __MANGLE__ int setreuid __PROTO__((uid_t,uid_t));
     extern __MANGLE__ int setregid __PROTO__((uid_t,uid_t));
 #endif /* _lib_setreuid */

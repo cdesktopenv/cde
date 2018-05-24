@@ -2,9 +2,7 @@
 
 #include "dti_cc/cc_exceptions.h"
 
-#if !defined(__osf__)
 template <class K, class V> CC_Boolean kv_pair<K, V>::f_needRemove = FALSE;
-#endif
 
 template <class K, class V>
 kv_pair<K, V>::~kv_pair()

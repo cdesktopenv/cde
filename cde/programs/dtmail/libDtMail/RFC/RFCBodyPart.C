@@ -44,41 +44,6 @@
 #ifndef I_HAVE_NO_IDENT
 #endif
 
-#if defined (__osf__) && OSMAJORVERSION < 4
-
-#include <iconv.h>
-
-// Workaround for CDExc19308
-//
-// This ifdef was added as a workaround for the
-// bug in the OSF1 V3.2 148 /usr/include/sys/localedef.h
-// header file, and should be removed as soon as the bug is 
-// fixed.
-#include <locale.h>
-#include <time.h>
-#include <DtHelp/LocaleXlate.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <Dt/Dts.h>
-#include <DtMail/DtMail.hh>
-#include "RFCImpl.hh"
-#include <DtMail/Threads.hh>
-
-#ifndef True
-#define True 1
-#endif
-#ifndef False
-#define False 0
-#endif
-
-#else
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -129,7 +94,6 @@ extern "C" {
 #endif
 
 // End of For CHARSET
-#endif // defined (__osf__) && OSMAJORVERSION < 4
 
 RFCBodyPart::RFCBodyPart(DtMailEnv & error,
 			 DtMail::Message * parent,

@@ -32,11 +32,6 @@
  * (c) Copyright 1993, 1994 Novell, Inc.				*
  */
 
-#ifdef __osf__
-/* #define SBSTDINC_H_NO_INCLUDE */
-#define SBSTDINC_H_NO_REDEFINE
-#endif
-
 #include <bms/sbport.h>
 #include <bms/bms.h>
 

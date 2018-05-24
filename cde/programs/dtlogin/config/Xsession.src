@@ -239,25 +239,6 @@ then
   unset LC_MESSAGES
 fi
 #endif
-
-#if defined (__osf__)
-  HASH
-  HASH Set XFILESEARCHPATH if necessary
-  HASH
-  if [ -z "$XFILESEARCHPATH" ]
-  then
-      export XFILESEARCHPATH="%D"
-  fi
-  HASH
-  HASH check if network is configured. If not, set environment variable
-  HASH so that tooltalk will use localhost/loopback rather than system
-  HASH name
-  RCMGR=/usr/sbin/rcmgr
-  NUM_NETCONFIG=`$RCMGR get NUM_NETCONFIG`
-  if [ "$NUM_NETCONFIG" = '' -o "$NUM_NETCONFIG" = 0 ]; then
-        export DTNONETWORK=true
-  fi
-#endif
  
 #if defined (__hpux)
   HASH
@@ -346,11 +327,7 @@ XCOMM ##########################################################################
   HASH dtdbcache file's directory should match
   HASH _DTDTSMMTEMPDIR in DtSvc/DtUtil1/DtsMM.h
   HASH
-#ifdef __osf__
-  dtdbcacherm="rm -f /var/tmp/dtdbcache_$DISPLAY"
-#else
   dtdbcacherm="rm -f /tmp/dtdbcache_$DISPLAY"
-#endif
   dtstart_appgather="$DT_BINPATH/dtappgather &"
 #if defined(sun)
   dtstart_dsdm="$DT_BINPATH/dsdm &"
@@ -398,17 +375,6 @@ XCOMM ##########################################################################
 #define cpp_Xsession
 #include "_common.ksh.src"
 #undef cpp_Xsession
-
-#if defined (__osf__)
-XCOMM
-XCOMM Bring up the sysman checklist if it hasn't been run before
-XCOMM
-  if [ -f /usr/sbin/start_checklist ]
-  then
-      Log "Starting the checklist setup"
-      /usr/sbin/start_checklist&
-  fi
-#endif
 
 XCOMM ##########################################################################
 XCOMM 

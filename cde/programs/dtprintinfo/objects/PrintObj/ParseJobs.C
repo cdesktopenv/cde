@@ -64,7 +64,7 @@ extern "C" in_addr_t inet_addr(const char *);
   #include <regex.h>
 #endif
 
-#if defined(aix) || defined(__osf__)
+#if defined(aix)
 extern "C" { int rresvport(int *); }
 #endif
 
@@ -768,66 +768,9 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
 }
 #endif // HP LOCAL PARSER
 
-#if defined(__osf__) || defined(linux) || defined(CSRG_BASED)
-//
-// DEC/OSF1 PARSER - Output from "lpstat -o<printer>
-//
-// Remote:
-// 
-// everest.unx.dec.com: Tue Nov 29 18:44:33 1994:
-// lps20 is ready and printing via network
-// Rank   Owner      Job  Files                                 Total Size
-// active vsp        231  /etc/printcap                         845 bytes
-// Requests on lps20:
-// 
-// Local:
-// 
-// Wed Nov 30 12:20:24 1994: Attempting to print dfA000globe.unx.dec.com
-// Rank   Pri Owner      Job  Files                                 Total Size
-// active 0   root       0    /etc/printcap                        407 bytes
-// Requests on la75:
-// 
+#if defined(linux) || defined(CSRG_BASED)
 
-//
-// DEC/OSF1 PARSER - Output from "lpq -p<printer>
-//
-// No Jobs in progress:
-//
-//  build-dec.qte.x.org: Thu Oct  3 11:17:18 1996: 
-//  no entries
-//
-//
-// Jobs in progress:
-//   build-dec.qte.x.org: Fri Oct  4 09:08:48 1996: 
-//   federal is ready and printing via dev
-//   Rank   Owner      Job  Files                                 Total Size
-//   active mgreess     65  (standard input)                      13482 bytes
-//   1st    mgreess     66  (standard input)                      13482 bytes
-//   2nd    mgreess     67  (standard input)                      13482 bytes
-//
-
-
-//
-// DEC/OSF1 V4.0 386 alpha PARSER - Output from "lpstat -o<printer>
-//
-// No Jobs in progress:
-//
-// Requests on ansel:
-// build-dec.osf.org: Wed Jul  2 11:29:53 1997: 
-// no entries
-//
-//
-//
-// Jobs in progress:
-//
-// Requests on ansel:
-// build-dec.osf.org: Wed Jul  2 11:31:12 1997: 
-// Rank   Pri Owner      Job  Files                                 Total Size
-// 1st    0   mgreess    7    ParseJobs.C                          33367 bytes
-// no entries
-//
-//
-
+//Linux local parser
 
 #define NEXT_OUTPUT_LINE(line,rest) \
 do \
@@ -861,9 +804,6 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
    static char *job_list = NULL;
    static int prev_buf_size = 0;
 
-#if defined(__osf__)
-   sprintf(buf, "LANG=C lpstat -o%s", printer);
-#endif
 #if defined(linux) || defined(__OpenBSD__) || defined(__NetBSD__)
    snprintf(buf, 1000, "LANG=C lpq -P%s", printer);
 #elif defined(__FreeBSD__)
@@ -909,7 +849,7 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
 
    //
    // Parse the host/date line of output to collect host, date, and time.
-   //   "build-dec.qte.x.org: Fri Oct  4 09:08:48 1996: "
+   //   "Fri Oct  4 09:08:48 1996: "
    //
    {
        hostname = strtok(s, ":");
@@ -1056,7 +996,7 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
    free(output);
    delete [] buf;
 }
-#endif        // DEC local parser
+#endif        // Linux local parser
 
 
 /* BSD PARSER - have to parse the following

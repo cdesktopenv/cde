@@ -44,9 +44,6 @@
 #include <DtMail/Buffer.hh>
 
 #include <string.h>
-#ifdef __osf__
-#include <stdlib.h>
-#endif // __osf__
 #include <stdio.h>
 #include <stdlib.h>
 #include <DtMail/Threads.hh>

@@ -50,11 +50,7 @@
 
 class WObject {
 
-#ifdef __osf__
-  public:
-#else
   protected :
-#endif
 	Widget	widget;
 public :
 inline          WObject () { widget = NULL; }

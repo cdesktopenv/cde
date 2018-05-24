@@ -34,11 +34,7 @@
 
 #include "tt_options.h"
 #include <string.h>
-#ifdef __osf__
-#include <unistd.h>
-#else
 #include <osfcn.h>
-#endif
 #if defined(OPT_BUG_SUNOS_4)
 #	include <stdlib.h>
 #endif

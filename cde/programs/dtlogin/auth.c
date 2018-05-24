@@ -857,22 +857,14 @@ DefineSelf (int fd, FILE *file, Xauth *auth)
 #else /* WINTCP */
 
 #ifdef SIOCGIFCONF
-#ifdef __osf__
-#define DECnetInstalled (0 == access("/usr/shlib/libdnet.so", F_OK))
-#else
     /* think of something... */
 #define DECnetInstalled True
-#endif /* __osf __ */
 
 /* Define this host for access control.  Find all the hosts the OS knows about 
  * for this fd and add them to the selfhosts list.
  */
 static void
-#ifdef __osf__
-DefineSelf (fd, file, auth, addr_family)
-#else
 DefineSelf (fd, file, auth)
-#endif /* __osf__*/
     int fd;
     FILE	*file;
     Xauth	*auth;
@@ -889,27 +881,7 @@ DefineSelf (fd, file, auth)
     ifc.ifc_buf = buf;
 
     if (ioctl (fd, SIOCGIFCONF, (char *) &ifc) < 0)
-#ifdef __osf__
-	switch (addr_family)
-	    {
-#ifdef TCPCONN
-	    case AF_INET:
-		perror("xdm");
-		LogError ((unsigned char *)"Trouble getting Internet network interface configuration\n");
-		break;
-#endif
-#ifdef DNETCONN
-	    case AF_DECnet:
-		if (DECnetInstalled)
-		    LogError ((unsigned char *)"Trouble getting DECnet network interface configuration\n");
-		break;
-#endif
-	    default:
-		LogError ((unsigned char *)"Trouble getting network interface configuration\n");
-	    }
-#else
         LogError ((unsigned char *)"Trouble getting network interface configuration");
-#endif /* __osf__ */
 
     for (ifr = ifc.ifc_req
 #if defined(BSD44SOCKETS) || defined(CSRG_BASED)

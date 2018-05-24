@@ -39,11 +39,6 @@ static char rcs_id[] = "$TOG: TermPrimPendingText.c /main/3 1997/07/03 15:40:05 
 #include "TermPrimDebug.h"
 #include "TermPrimPendingTextP.h"
 
-#ifdef __osf__
-#include <termios.h>
-#include <poll.h>
-#endif /* __osf__ */
-
 static
 PendingTextChunk
 mallocChunk(int len);

@@ -1373,14 +1373,7 @@ void DtApp::UpdateQueues()
 #ifdef aix
 	 char *cmd = "lsallq | grep -v ^bsh\\$ | head -1";
 #else
-#ifdef __osf__
-	 /* resolve possible alias using lpstat -v<name> */
-	 char *cmd = "env LANG=C lpstat -v"
-	     "`env LANG=C lpstat -d | awk '$1 != \"no\" {print $NF}'`"
-	     "| awk '{ print $10 }'";
-#else
 	 char *cmd = "env LANG=C lpstat -d | awk '$1 != \"no\" {print $NF}'";
-#endif
 #endif
 	 char *output;
 	 Invoke *_thread = new Invoke(cmd, &output);

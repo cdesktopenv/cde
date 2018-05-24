@@ -106,7 +106,7 @@
 #ifdef __aix
 #endif
 
-#if defined(sun) || defined(__osf__)
+#if defined(sun)
 #include <sys/types.h>
 #include <sys/statvfs.h>
 #endif
@@ -269,17 +269,6 @@ static void getFSType(const String  path,
    else
       strncpy(fsType,"",MAXLINELENGTH);
 #endif /* __hpux */
-
- #ifdef __osf__
-#define GETFSTYPE
-   struct statvfs buf;
-
-   strncpy(platform,"decunix",MAXLINELENGTH);
-   if (statvfs(path, &buf) == 0)
-       strncpy(fsType,buf.f_basetype,MAXLINELENGTH);
-   else
-       strncpy(fsType,"",MAXLINELENGTH);
-#endif /* DEC Unix */
 
 #ifndef GETFSTYPE
    strncpy(platform,"unknown",MAXLINELENGTH);

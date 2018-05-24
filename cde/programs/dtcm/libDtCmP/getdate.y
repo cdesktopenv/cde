@@ -465,11 +465,7 @@ static char *lptr;
 
 yylex()
 {
-#if defined(__osf__)
-	extern long yylval;
-#else /* __osf__ */
 	extern int yylval;
-#endif /* __osf__ */
 	int sign;
 	register char c;
 	register char *p;

@@ -2337,11 +2337,7 @@ ActivateClist(
         (( isalpha( tmp[i] ) ) ? (message[i] = (int)(tmp[i]) - 1) : (message[i] = tmp[i]));
       };
 
-#ifdef __osf__
-      sscanf( params[0], "%lx", &fileMgrRec );
-#else
       sscanf( params[0], "%p", (void **) &fileMgrRec );
-#endif
       _DtMessage(toplevel, title, message, NULL, HelpRequestCB);
       XtFree( title );
       XtFree( message );
@@ -6398,11 +6394,7 @@ FMInput(
 
     if( *(params[0]) != '@' )
     {
-#ifdef __osf__
-        sscanf( params[0], "%lx", &fileMgrRec );
-#else
         sscanf( params[0], "%p", (void **) &fileMgrRec );
-#endif
       FileWindowInputCallback( wid, (XtPointer)fileMgrRec, (XtPointer)&cb );
     }
 

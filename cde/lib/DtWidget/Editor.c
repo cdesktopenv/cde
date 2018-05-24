@@ -53,7 +53,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#if defined(__hpux) || defined(__osf__)
+#if defined(__hpux)
 # include <wchar.h>
 #elif defined(sun)
 # if (_XOPEN_VERSION==3)
@@ -771,14 +771,12 @@ static XtActionsRec EditorActionTable[] = {
 #  define iswblank(wc)	iswctype((wc),blnkclass)
 #  undef getwc				/* Use the libc function */
 #endif
-#if defined(__osf__) || defined(_AIX) /* __osf__ || _AIX */
-/* function prototype for wctype() was changed to meet spec1170 */
-/* digital compiler flagged warning */
+#if defined(_AIX) /* _AIX */
 /* IBM defines wctype to get_wctype above - don't use const. */
          static char *blankString = "space";
-#else  /* __osf__ || _AIX */
+#else  /* _AIX */
    static const char *blankString = "space";
-#endif /* __osf__ || _AIX */
+#endif /* _AIX */
    static wctype_t _DtEditor_blankClass;
 #else
 #  define wctype_t 	int

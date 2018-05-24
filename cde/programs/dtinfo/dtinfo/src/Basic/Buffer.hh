@@ -75,13 +75,8 @@ public:
 
   void write (const int integer);
 
-#ifndef __osf__
   void write (const size_t integer)
     { write ((size_t) ((void *) integer)); }
-#else
-  void write (const unsigned int integer)
-    { write ((int) integer); }
-#endif
 
   void write (const char *string);
   void write (const char *bytes, u_int size, u_int length);

@@ -37,9 +37,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-#ifndef __osf__
-# include <libgen.h> /* for dirname(); DEC has prototype in string.h */
-#endif
+# include <libgen.h> /* for dirname() */
 #include <ctype.h>
 #include <signal.h>
 #if !defined(CSRG_BASED)

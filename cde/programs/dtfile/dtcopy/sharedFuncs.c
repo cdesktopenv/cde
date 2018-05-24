@@ -49,11 +49,6 @@
 #  define ROOTINO UFSROOTINO
 #endif	/* SVR4 */
 
-#if defined(DEC)
-#  include <rpc/key_prot.h>
-#  define ROOTINO PROOT
-#endif
-
 #if defined(linux) || defined(CSRG_BASED)
 #  include <sys/param.h>
 #  define ROOTINO 2

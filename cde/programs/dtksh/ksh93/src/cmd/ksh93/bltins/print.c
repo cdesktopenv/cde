@@ -275,7 +275,6 @@ skip2:
 	}
 	else if(!(n=sh.fdstatus[fd]))
 		n = sh_iocheckfd(fd);
-#ifndef __osf__
 	if(!(n&IOWRITE))
 	{
 		/* don't print error message for stdout for compatibility */
@@ -283,7 +282,6 @@ skip2:
 			return(1);
 		error(ERROR_system(1),msg);
 	}
-#endif
 	if(!(outfile=sh.sftable[fd]))
 	{
 		Sfdisc_t *dp;

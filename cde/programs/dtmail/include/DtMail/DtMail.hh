@@ -73,11 +73,6 @@ typedef void SubProcessFinishedProc (int pid, int status, void *data);
                                 /* and will be removed in a     */
                                 /* later release                */
 
-#ifdef __osf__
-    struct hash;
-    struct var;
-#endif
-
 // enums cannot be declared inside of classes because the enum scope rules
 // changed from V2 to V3 compilers causing incompatibilities
 //

@@ -53,8 +53,6 @@ extern "C" {
 #include <wctype.h>
 #elif defined(OPT_BUG_AIX)
 #include <string.h>
-#elif defined(__osf__)
-#include <wchar.h>
 #endif
 
 #include <rpc/rpc.h>

@@ -90,11 +90,7 @@ extern int errno;
 #if defined( _SUN_OS )
 #  define COPYRIGHT		"/usr/lib/X11/dt/etc/copyright"
 #else
-#  if defined( __hp_osf )
-#     define COPYRIGHT		"/usr/X11/copyright"
-#  else
-#     define COPYRIGHT		"/etc/copyright"
-#  endif
+#  define COPYRIGHT		"/etc/copyright"
 #endif
 
 #define NO_LOGIN_FILE		"/etc/nologin"

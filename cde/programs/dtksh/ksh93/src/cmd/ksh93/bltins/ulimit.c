@@ -96,9 +96,6 @@
 #include	<sfio.h>
 #include	<error.h>
 #include	<shell.h>
-#ifdef __osf__
-#include	<sys/resource.h>
-#endif
 #include	"builtins.h"
 #include	"ulimit.h"
 

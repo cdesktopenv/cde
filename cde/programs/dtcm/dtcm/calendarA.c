@@ -168,9 +168,6 @@ extern void quit_handler(Widget, XtPointer, XtPointer);
 static void sig_int_handler(int sig);
 extern void find_cb(Widget, XtPointer, XtPointer);
 extern void goto_cb(Widget, XtPointer, XtPointer);
-#ifdef __osf__
-extern void sigchld_handler(int);
-#endif /* __osf__ */
 extern void timezone_cb(Widget, XtPointer, XtPointer);
 extern void print_cb(Widget, XtPointer, XtPointer);
 
@@ -2834,18 +2831,6 @@ init_calendar(argc, argv)
 	}
 }
 
-#ifdef __osf__
-extern void
-sigchld_handler(int signo)      /* Do not use the arg signo at the moment */
-{
-        pid_t   pid;
-        int     stat_loc;
-
-        pid = waitpid(-1, &stat_loc, WNOHANG);
-        /* Child exit handling code follows, if any */
-}
-#endif /* __osf__ */
-
 static int
 newXErrorHandler(Display *dsp, XErrorEvent *event)
 {
@@ -2865,17 +2850,12 @@ main(int argc, char **argv) {
 
         struct sigaction sa, osa;
 
-#ifdef __osf__
-        sa.sa_handler = sigchld_handler;
-        sa.sa_flags   =  0;
-#else
 	sa.sa_handler = SIG_IGN;
 # ifdef SA_NOCLDWAIT
 	sa.sa_flags   =  SA_NOCLDWAIT;
 # else
         sa.sa_flags   =  0;
 # endif
-#endif
         sigemptyset(&sa.sa_mask);
 
         sigaction(SIGCHLD, &sa, &osa);

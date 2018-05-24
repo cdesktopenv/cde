@@ -44,13 +44,8 @@
 bool_t
 xdr_time_t(register XDR *xdrs, time_t *objp)
 {
-#ifdef __osf__
-	if (!xdr_int(xdrs, objp))
-		return (FALSE);
-#else
 	if (!xdr_long(xdrs, objp))
 		return (FALSE);
-#endif
 	return (TRUE);
 }
  

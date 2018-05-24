@@ -54,9 +54,6 @@
  **  implied warranty.
  **
  ******************************************************************************/
-#ifdef __osf__
-#include <stdlib.h>   /* for getenv() function prototype */
-#endif
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <Xm/Xm.h>

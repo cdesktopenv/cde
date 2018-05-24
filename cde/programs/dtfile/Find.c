@@ -1735,9 +1735,6 @@ ExecuteFind(
    char *link_path;
    void (*oldSig)();
    Tt_status tt_status;
-#ifdef __osf__
-   extern void sigchld_handler(int);
-#endif /* __osf__ */
    int rv;
 
    if(strcmp(find_data->content, "") == 0)
@@ -1824,7 +1821,7 @@ ExecuteFind(
    if (access_priv == -1 && geteuid() != root_user)
    {
 #else
-#  if defined(__hp_osf) || defined(__ultrix) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#  if defined(__ultrix) || defined(linux) || defined(CSRG_BASED)
    rv = setreuid(geteuid(),-1);
    if (access ((char *) path, R_OK) == -1)
    {
@@ -1839,7 +1836,7 @@ ExecuteFind(
              !(access_priv & R_OK)) && (geteuid () != root_user))
    {
 #    endif /* BLS */
-#  endif /* Apollo & OSF */
+#  endif /* Apollo */
 #endif /* SVR4 */
       /* Post an error dialog, and then terminate the request */
 
@@ -1918,11 +1915,7 @@ ExecuteFind(
 
    /* Start the 'find' process */
 
-#ifdef __osf__
-   oldSig = signal(SIGCHLD, sigchld_handler);
-#else
    oldSig = signal(SIGCHLD, SIG_DFL);
-#endif /* __osf__ */
    find_rec->popenId = findpopen(command, "r",&(find_rec->childpid));
    signal (SIGCHLD, oldSig);
 

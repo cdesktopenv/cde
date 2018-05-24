@@ -40,13 +40,8 @@
 
 #include "util/tt_string.h"
 
-#ifdef __osf__
-unsigned int _tt_base64_decode(const char *s);
-_Tt_string _tt_base64_encode(unsigned int n);
-#else  /* __osf__ */
 unsigned long _tt_base64_decode(const char *s);
 _Tt_string _tt_base64_encode(unsigned long n);
-#endif /* __osf__ */
 
 #endif /* _TT_BASE64_H */
 

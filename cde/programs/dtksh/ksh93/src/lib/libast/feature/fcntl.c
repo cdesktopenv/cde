@@ -276,7 +276,7 @@ main()
 #ifndef	F_SETLKW
 	printf("#define F_SETLKW	%d\n", ++f_local);
 #endif
-#if	NEED_LCK && !defined(__osf__)
+#if	NEED_LCK
 	printf("\n");
 #ifndef	F_RDLCK
 	printf("#define F_RDLCK		%d\n", f_lck++);
@@ -291,7 +291,7 @@ main()
 	printf("\n");
 	if (f_lck == 3)
 	{
-#if !defined(_AIX) && !defined(__osf__)
+#if !defined(_AIX)
 		printf("struct flock\n");
 		printf("{\n");
 		printf("	short	l_type;\n");

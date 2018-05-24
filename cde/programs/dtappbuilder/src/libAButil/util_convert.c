@@ -854,7 +854,6 @@ util_os_type_to_ident(AB_OS_TYPE osType)
 	case AB_OS_AIX: typeString = "aix"; break;
 	case AB_OS_HPUX: typeString = "hpux"; break;
 	case AB_OS_SUNOS: typeString = "sunos"; break;
-        case AB_OS_OSF1: typeString = "osf1"; break;
         case AB_OS_LNX: typeString = "linux"; break;
         case AB_OS_FBSD: typeString = "freebsd"; break;
         case AB_OS_NBSD: typeString = "netbsd"; break;
@@ -878,7 +877,6 @@ util_os_type_to_string(AB_OS_TYPE osType)
 	case AB_OS_AIX: nameString = "AIX"; break;
 	case AB_OS_HPUX: nameString = "HP-UX"; break;
 	case AB_OS_SUNOS: nameString = "SunOS"; break;
-        case AB_OS_OSF1: nameString = "OSF/1"; break;
         case AB_OS_LNX: nameString = "Linux"; break;
         case AB_OS_FBSD: nameString = "FreeBSD"; break;
         case AB_OS_NBSD: nameString = "NetBSD"; break;

@@ -235,10 +235,6 @@ typedef	struct	_dtCvLine {
 	_DtCvPointer	data;
 } _DtCvLine;
 
-#ifdef __osf__
-typedef struct _dtCvSegment  * _DtCvSegmentPointer; 
-#endif
-
 typedef struct  _dtCvContainer {
 	char            *id;
 	char            *justify_char;
@@ -257,11 +253,7 @@ typedef struct  _dtCvContainer {
 	_DtCvUnit        tmargin;
 	_DtCvUnit        bmargin;
 	_DtCvLine	 bdr_info;
-#ifdef __osf__
-	_DtCvSegmentPointer seg_list;
-#else
         struct _dtCvSegment    *seg_list;
-#endif
 } _DtCvContainer;
 
 typedef struct  _DtCvString {
@@ -310,19 +302,11 @@ struct	_dtCvSegPts {
 	int			 len;
 };
 
-#ifdef __osf__
-typedef struct _dtCvLinkDb * _DtCvLinkDbPointer;
-#endif
-
 typedef struct	_dtCvTopicInfo {
 	char			 *id_str;
 	struct _dtCvSegment	 *seg_list;
 	_DtCvPointInfo		**mark_list;
-#ifdef __osf__
-	_DtCvLinkDbPointer        link_data;
-#else
         struct _dtCvLinkDb       *link_data;
-#endif
 } _DtCvTopicInfo;
 
 typedef struct _dtCvStringClientData {

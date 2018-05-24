@@ -63,8 +63,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <unistd.h>
-#if !defined(hpux) && !defined(__osf__) && \
-    !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
+#if !defined(hpux) && !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <sysent.h>
 #endif
 #include <sys/types.h>

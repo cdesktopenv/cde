@@ -81,7 +81,7 @@ tt_x_putbytes(XDR *xp, caddr_t, int len)
     return TRUE;
 }
 
-#if defined(ultrix) || defined(__osf__)
+#if defined(ultrix)
 static int*
 #elif defined(CSRG_BASED)
 static int32_t*
@@ -104,7 +104,7 @@ tt_x_inline(XDR *xp, int len)
     */
     if (len > 0 && (caddr_t) (intptr_t) len < xp->x_base) {
 	xp->x_handy += RNDUP (len);
-#if defined(ultrix) || defined(__osf__)
+#if defined(ultrix)
 	return (int *) xp->x_private;
 #elif defined(CSRG_BASED)
 	return (int32_t *) xp->x_private;

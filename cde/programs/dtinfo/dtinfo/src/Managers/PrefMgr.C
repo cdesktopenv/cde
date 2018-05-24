@@ -80,7 +80,7 @@ pref_mgr()
 }
 #endif
 
-#if defined(__STDC__) || defined(hpux) || defined(__osf__)
+#if defined(__STDC__) || defined(hpux)
 # define DEFSYM(S) PrefSymbol PrefMgr::S = (PrefSymbol) #S
 #else
 # define DEFSYM(S) PrefSymbol PrefMgr::S = (PrefSymbol) "S"

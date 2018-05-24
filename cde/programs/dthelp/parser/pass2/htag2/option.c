@@ -62,7 +62,7 @@ if (optfile = fopen(nameofoptfile, "r"))
     }
 m_free(nameofoptfile, "installation helptag.opt");
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(__osf__)
+#if defined(hpux) || defined(_AIX) || defined(sun)
 {
 char *opts;
 
@@ -79,7 +79,7 @@ if (opts)
 	}
     }
 }
-#endif /* hpux or _AIX or sun or __osf__ */
+#endif /* hpux or _AIX or sun */
 
 /* Check helptag.opt in input directory */
 if (indir)

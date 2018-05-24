@@ -2372,18 +2372,6 @@ SendMsgDialog::construct_text_popup(void)
     _textPopupMenuList->add( _edit_cut );
     _textPopupMenuList->add( _edit_copy );
     _textPopupMenuList->add( _edit_paste );
-#ifdef __osf__
-    // Work in progress from Mike. This adds the Paste Special to the
-    // third mouse button in the compose area of a compose window.
-    // Begin Paste Special submenu
-    CmdList * subcmdList1 = new CmdList ( "Paste Special", GETMSG(DT_catd, 1, 135 , "Paste Special") );
-    subcmdList1->add(_edit_paste_special[0]);
-    subcmdList1->add(_edit_paste_special[1]);
-    // End Paste Special submenu
-    _textPopupMenuList->add( subcmdList1 ); // Add Paste Special submenu
-    // (Either way) _textPopupMenuList->add( separator );
-    _textPopupMenuList->add( _edit_clear );
-#endif
     _textPopupMenuList->add( _edit_delete );
     _textPopupMenuList->add( _edit_select_all );
 

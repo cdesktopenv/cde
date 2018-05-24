@@ -78,7 +78,7 @@ void xtime::stop(float &cpu_time, long &elp_time)
 
 void xtime::start()
 {
-#if defined (SVR4) && !defined (_IBMR2) && !defined(sun) && !defined(__osf__)
+#if defined (SVR4) && !defined (_IBMR2) && !defined(sun)
    if ( gettimeofday(&v_tv) != 0 ) {
 #else
    if ( gettimeofday(&v_tv, &v_tz) != 0 ) {
@@ -89,7 +89,7 @@ void xtime::start()
 
    v_elapsed_stamp = v_tv.tv_sec;
 
-#if defined(SVR4) || defined(__osf__)
+#if defined(SVR4)
    if ( times(&v_time_regs) == -1 ) 
 #else
    if ( times(&v_time_regs) != 0 ) 

@@ -39,13 +39,6 @@
 #include <Dt/UserMsg.h>
 #include <Dt/DtNlUtils.h>
 
-#ifdef __osf__
-/* Undefine DEC so the enum value DEC works */
-#ifdef DEC
-#undef DEC
-#endif /* DEC */
-#endif /* __osf__ */
- 
 #ifdef XGETTEXT
 #define  MSGFILE_LABEL    "dtcalc.label"
 #define  MSGFILE_MESSAGE  "dtcalc.message"

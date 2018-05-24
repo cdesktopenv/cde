@@ -695,8 +695,7 @@ main(int argc, char **argv)
 
 		if (udp_transp == (SVCXPRT *)-1) {
 			udp_transp = svcudp_create(standalone ? RPC_ANYSOCK : 0
-#if defined(_AIX) || defined(hpV4) || defined(__osf__) || defined(linux) || \
-	defined(CSRG_BASED)
+#if defined(_AIX) || defined(hpV4) || defined(linux) || defined(CSRG_BASED)
 					);
 #else
 					,0,0);

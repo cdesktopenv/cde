@@ -97,10 +97,6 @@ extern "C" { int lockf(int, int, off_t); }
 #endif
 #endif /* _AIX */
 
-#ifdef __osf__
-extern "C" { int statvfs(const char *, struct statvfs *); }
-#endif /* __osf__ */
-
 #include <DtMail/DtMail.hh>
 #include <DtMail/DtMailError.hh>
 #include <DtMail/IO.hh>
@@ -623,11 +619,7 @@ SafeStrftime(char * buf, size_t buf_size,
 void *SockOpen(char *host, int clientPort, char **errorstring)
 {
     int sockfd;
-#if defined(__osf__)
-    in_addr_t inaddr;
-#else
     unsigned long inaddr;
-#endif
     struct sockaddr_in ad;
     struct hostent *hp;
     DtMailEnv error;
@@ -820,9 +812,7 @@ GetPasswordEntry(passwd & result)
     passwordEntry.pw_name = strdup(passwordEntry.pw_name);
     passwordEntry.pw_passwd = strdup(passwordEntry.pw_passwd);
 #if !defined(_AIX) && !defined(linux) && !defined(CSRG_BASED)
-#ifndef __osf__
     passwordEntry.pw_age = strdup(passwordEntry.pw_age);
-#endif
     passwordEntry.pw_comment = strdup(passwordEntry.pw_comment);
 #endif
     passwordEntry.pw_gecos = strdup(passwordEntry.pw_gecos);

@@ -67,12 +67,6 @@
 #include <fcntl.h>
 #endif
 
-#ifdef __osf__
-/* Suppress unaligned access message */
-#include <sys/types.h>
-#include <sys/sysinfo.h>
-#endif /* __osf__ */
-
 #define C_WindowSystem
 #define L_Other
 
@@ -252,27 +246,6 @@ main(int argc, char **argv)
     
 #ifdef MONITOR
     monitor(0);
-#endif
-
-#ifdef __osf__
-/* Code to suppress unaligned access message. */
-   unsigned long        op;
-   int                  buffer[2];
-   unsigned long        nbytes = 1;
-   char*                arg = 0;
-   unsigned long        flag = 0;
-
-   int                  ssi_status;
-
-   op = SSI_NVPAIRS;
-
-   buffer[0] = SSIN_UACPROC;
-   buffer[1] =  0x00000001;
-#ifdef DEBUG_UAC
-   buffer[1] |= 0x00000004;
-#endif
-
-   ssi_status = setsysinfo ( op, (caddr_t) buffer, nbytes, arg, flag );
 #endif
     
     WindowSystem window_system (argc, argv);

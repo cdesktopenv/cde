@@ -53,31 +53,7 @@
 #pragma define (Stack<Rec>)
 #endif
 
-#ifdef __osf__
-#pragma define_template Stack<int>
-#pragma define_template CC_TPtrSlist<CC_String>
-#pragma define_template hashTable<CC_String, BTCollectable>
-#pragma define_template hashTable<CC_String, int>
-#pragma define_template hashTableIterator<CC_String, BTCollectable>
-#pragma define_template hashTableIterator<CC_String, int>
-#pragma define_template Stack<Rec>
-#pragma define_template CC_TValSlist<int>
-#pragma define_template CC_TPtrSlist<kv_pair<CC_String, BTCollectable> >
-#pragma define_template CC_TPtrSlist<kv_pair<CC_String, int> >
-#pragma define_template CC_TValSlist<Rec>
-#pragma define_template CC_TValSlistIterator<int>
-#pragma define_template CC_TValSlistIterator<Rec>
-#pragma define_template kv_pair<CC_String, BTCollectable>
-#pragma define_template pointer_vector<CC_TPtrSlist<kv_pair<CC_String, BTCollectable> > >
-#pragma define_template kv_pair<CC_String, int>
-#pragma define_template pointer_vector<CC_TPtrSlist<kv_pair<CC_String, int> > >
-
-CC_Boolean kv_pair<CC_String, BTCollectable>::f_needRemove = FALSE;
-CC_Boolean kv_pair<CC_String, int>::f_needRemove = FALSE;
-
-#endif
-
-#if !defined(__osf__) && !defined(IBMR2)
+#if !defined(IBMR2)
 typedef Stack<int> _f1_;
 typedef CC_TPtrSlist<CC_String> _f2_;
 typedef hashTable<CC_String, BTCollectable> _f3_;

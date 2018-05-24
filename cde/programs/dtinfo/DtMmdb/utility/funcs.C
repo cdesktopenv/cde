@@ -71,13 +71,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 #endif
-#ifdef __osf__
-extern "C"
-{
-int statvfs(const char *, struct statvfs *);
-int getdomainname(char *, int);
-}
-#endif /* __osf__ */
 #include <sys/stat.h>
 
 #define BUFLEN 512
@@ -748,7 +741,7 @@ Boolean cc_is_digit(istream& in)
 
 unsigned long disk_space(const char* path)
 {
-#if defined(__osf__) || defined (hpux) || defined (SVR4) || defined(CSRG_BASED)
+#if defined (hpux) || defined (SVR4) || defined(CSRG_BASED)
    struct statvfs statfs_buf;
 #else
    struct statfs statfs_buf;
@@ -756,7 +749,7 @@ unsigned long disk_space(const char* path)
 
    long free_bytes;
 
-#if defined(__osf__) || defined (hpux) || defined (SVR4) || defined(CSRG_BASED)
+#if defined (hpux) || defined (SVR4) || defined(CSRG_BASED)
    if ( statvfs(path, &statfs_buf) == 0 ) {
       free_bytes = statfs_buf.f_bavail * statfs_buf.f_frsize ;
 #else

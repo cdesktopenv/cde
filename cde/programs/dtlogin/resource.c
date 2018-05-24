@@ -90,9 +90,6 @@ int 	langListTimeout;
 #ifdef DEF_NETWORK_DEV
 char    *networkDev;
 #endif
-#if defined(__osf__)
-char	*ignoreLocales;
-#endif
 
 /*
  * Dtlogin will accept both Dtlogin and XDM resources. The string variable
@@ -222,12 +219,6 @@ static	char	AppName[16] = DTLOGIN;
 #  ifdef __apollo
 #    define DEF_LANG	"C"
 #  endif
-#  ifdef __osf__
-#    define DEF_LANG    "C"
-#  endif
-#  ifdef __hp_osf
-#    define DEF_LANG	"en_US.88591"
-#  endif
 #  ifdef sun	/* default language under Solaris */
 #    define DEF_LANG    "C" 
 #  endif
@@ -289,10 +280,6 @@ struct dmResources {
 #ifdef DEF_NETWORK_DEV
 "networkDevice","NetworkDevice",DM_STRING,      &networkDev,
                                 DEF_NETWORK_DEV,
-#endif
-#if defined(__osf__)
-"ignoreLocales", "IgnoreLocales", DM_STRING,    &ignoreLocales,
-				"",
 #endif
 };
 

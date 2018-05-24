@@ -85,11 +85,6 @@ static char rcs_id[] = "$TOG: TermPrimSetUtmp.c /main/10 1998/04/03 17:11:42 mgr
 #define	UT_NO_pututline
 #endif	/* __AIX */
 
-#ifdef __osf__
-#define UT_HOST         ut_host
-#define UT_NO_pututline
-#endif /* __osf__ */
-
 
 /* /etc/utmp include files... */
 #ifdef	UT_UTMPX
@@ -386,10 +381,10 @@ UtmpEntryCreate(Widget w, pid_t pid, char *utmpLine)
 	}
 	(void) strncpy(utPtr->ut_id, c, sizeof(utPtr->ut_id));
 #else	/* __hpux */
-#if defined(__AIX) || defined(__osf__)
+#if defined(__AIX)
 	(void) strncpy(utPtr->ut_id, utmpLine,
 		sizeof(utPtr->ut_id));
-#else	/* __AIX || __osf__ */
+#else	/* __AIX */
 #if defined(linux) || defined(sun)
 	if (c = strchr(utmpLine, '/')) {
 	    c++;
@@ -400,7 +395,7 @@ UtmpEntryCreate(Widget w, pid_t pid, char *utmpLine)
 #else	/* linux || sun */
 	error out -- missing code for utPtr->ut_id
 #endif	/* sun */
-#endif	/* __AIX || __osf__ */
+#endif	/* __AIX */
 #endif	/* __hpux */
     }
 

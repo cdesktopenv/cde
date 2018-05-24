@@ -237,7 +237,7 @@ public:
 #define IS_CHANGED(X) (((Value *) (X).UserData())->changed)
 #define SET_CHANGED(X,V) ((Value *) (X).UserData())->changed = V
 
-#if defined(__STDC__) || defined(hpux) || defined(__osf__)
+#if defined(__STDC__) || defined(hpux)
 #define ATTACH_VALUE(X,T,V) (X).UserData ((void *) new T##Value(V))
 #define SET_VALUE(X,T,V) ((T##Value *) (X).UserData())->set_value(V)
 #define ORIGINAL_VALUE(X,T) ((T##Value *) (X).UserData())->original

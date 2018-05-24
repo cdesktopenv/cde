@@ -1399,11 +1399,11 @@ RemoveFiles(
 
         _DtEnvControl(DT_ENV_RESTORE_PRE_DT);
         
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
         setsid();
 #else
         (void) setpgrp();
-#endif /* __osf__ */
+#endif /* CSRG_BASED */
          
         execStatus = execlp("rm","rm", "-rf", path, (char *) 0);
         if(execStatus != 0)
@@ -1504,11 +1504,11 @@ MoveDirectory(
 
         _DtEnvControl(DT_ENV_RESTORE_PRE_DT);
         
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
         setsid();
 #else
         (void) setpgrp();
-#endif /* __osf__ */
+#endif /* CSRG_BASED */
         
         execStatus = execlp("mv","mv", pathFrom, pathTo, (char *) 0);
         if(execStatus != 0)

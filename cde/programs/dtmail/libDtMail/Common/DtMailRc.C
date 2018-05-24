@@ -69,12 +69,7 @@ struct cmd {
 };
 
 struct var *DtMail::MailRc::variables[HSHSIZE]; /* Pointer to active var list */
-#ifdef __osf__
-typedef DtMail::MailRc::globals DtMailRc_globals;
-DtMailRc_globals  DtMail::MailRc::glob;
-#else
 struct DtMail::MailRc::globals DtMail::MailRc::glob;
-#endif
 char *DtMail::MailRc::nullfield;
 Boolean DtMail::MailRc::clearAliases;
 
@@ -150,7 +145,7 @@ struct cmd cmdtab[] = {
 
 #if defined(sun)
 #define SYSTEM_MAILRC	"/etc/mail/mail.rc"
-#elif defined(_AIX) || defined(__osf__) || defined(linux)
+#elif defined(_AIX) || defined(linux)
 #define SYSTEM_MAILRC	"/usr/share/lib/Mail.rc"
 #elif defined(__hpux)
 #define SYSTEM_MAILRC	"/usr/share/lib/mailx.rc"

@@ -214,7 +214,7 @@ main(int argc, char** argv, char **envp)
 	void install_signal_handler();
 	SVCXPRT *transp;
 	struct sockaddr_in saddr;
-#if defined(DEC) || defined(HPUX)
+#if defined(HPUX)
 	int asize = sizeof(saddr);
 #else
 # if defined(linux) || defined(CSRG_BASED) || defined(sun)
@@ -484,11 +484,11 @@ main(int argc, char** argv, char **envp)
 		if (!_tt_debug_mode) {
 			if (0!=fork()) exit(0);
 
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
 			setsid();
 #else
  			setpgrp();
-#endif // __osf__
+#endif //CSRG_BASED
 
 			close(0); close(1); close(2);
 

@@ -26,13 +26,10 @@
 
 #include <sys/stat.h>
 #include <sys/wait.h>
-#if defined(__osf__) || defined(linux)
+#if defined(linux)
 #  include <sys/fcntl.h>
 #endif
-#if defined(__osf__)
-#  include <sys/access.h>
-#  include <locale.h>
-#endif /* __osf__ */
+
 #include <errno.h>
 
 #if defined(linux)

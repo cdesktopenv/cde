@@ -344,17 +344,12 @@ CleanUpChild( void )
  *  has also gotten rid of the controlling terminal there is no great
  *  harm in not making the sub-daemons as leaders.
  */
-#ifdef __osf__
-        setsid();
-        sigsetmask(0);
-#else
 #if defined (SYSV) || defined (SVR4) || defined(linux)
 	setpgrp ();
 #else
 	setpgrp (0, getpid ());
 	sigsetmask (0);
 #endif
-#endif /* __osf__ */
 #ifdef SIGCHLD
 	(void) signal (SIGCHLD, SIG_DFL);
 #endif
@@ -675,8 +670,7 @@ static int
 MatchesFileSuffix(const char *filename, const char *suffix)
 {
     int		retval = 0;
-#if defined(_AIX) || defined(SVR4) || defined (__osf__) || defined(linux) || \
-	defined(CSRG_BASED)
+#if defined(_AIX) || defined(SVR4) || defined(linux) || defined(CSRG_BASED)
     int		different = 1;
 	     
     /*
@@ -837,119 +831,7 @@ ScanNLSDir(char *dirname)
     }
 }
 
-#elif defined(__osf__)
-
-#if defined(__osf__obsoleted)
-#define LANGUAGE_LIST_CMD	"/bin/locale -a"
-/*
- * Scan for installed locales on DEC platform
- */
-{
-    FILE	*f;
-    char	locale[MAXPATHLEN];
-
-    if (NULL == (f = popen(LANGUAGE_LIST_CMD, "r")))
-      return;
-
-    while (NULL != fgets(locale, sizeof(locale), f))
-    {
-	if  (locale[0] != '.' &&
-             LANGLISTSIZE > (int) (strlen(languageList) + strlen(locale) + 2))
-	{
-	    int	len = strlen(locale);
-
-	    if ('\n' == locale[len-1])
-	      locale[len-1] = '\0';
-	    strcat(languageList, " ");
-	    strcat(languageList, locale);
-	}
-    }
-
-    pclose(f);
-}
-
-#else
-
-{
-#include <fnmatch.h>
-    char *str, *p;
-    char **ignore = NULL;
-    int num_ignore = 0;
-    int max_ignore = 0;
-    int listlen = 0;
-    const char *delim = " \t";
-    DIR *dirp;
-    struct dirent *entp;
-
-    /*
-     * Convert the string of locale patterns to an array.  It will
-     * be easier to loop through when we start matching locales.
-     */
-
-    if (!(str = strdup(ignoreLocales)))
-	return;
-
-    for (p = strtok(str, delim); p; p = strtok(NULL, delim)) {
-	if (num_ignore >= max_ignore) {
-	    max_ignore += 16;
-	    if (!(ignore = realloc(ignore, max_ignore * sizeof(char *)))) {
-		free(str);
-		return;
-	    }
-	}
-
-	ignore[num_ignore++] = p;
-    }
-
-    /*
-     * Assume that each file of the form ??_??* is a locale.  If
-     * the locale doesn't match any of the ignore patterns, add it
-     * to the language list with a space separator.
-     *
-     * Seed the list with C and POSIX.  They're built into libc
-     * and don't have locale files.  Checking ignoreLocales for them
-     * isn't worth the effort.
-     */
-
-    strcpy(languageList, "C POSIX");
-    listlen = strlen(languageList);
-
-    if (dirp = opendir(dirname)) {
-	while (entp = readdir(dirp)) {
-	    int namelen = strlen(entp->d_name);
-	    if (namelen >= 5 && entp->d_name[2] == '_') {
-		int  i, match = 0;
-		for (i = 0; i < num_ignore; i++) {
-		    if (!fnmatch(ignore[i], entp->d_name, 0)) {
-			match = 1;
-			break;
-		    }
-		}
-
-		if (match)
-		    continue;
-
-		/* 1 for space-separator, 1 for null-terminator */
-		if (listlen + 1 + namelen + 1 > LANGLISTSIZE)
-		    break;
-
-		languageList[listlen++] = ' ';
-
-		strcpy(&languageList[listlen], entp->d_name);
-		listlen += namelen;
-	    }
-	}
-
-	languageList[listlen++] = '\0';
-	closedir(dirp);
-    }
-
-    free(ignore);
-    free(str);
-}
-#endif /* __osf__obsoleted__ */
-
-#else /* !_AIX && !hpV4 && !__osf__ !sun */
+#else /* !_AIX && !hpV4 */
 /*
  * Scan for installed locales on generic platform
  */

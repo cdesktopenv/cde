@@ -143,7 +143,6 @@ XCOMM Return
 XCOMM   "hpux"
 XCOMM   "aix"
 XCOMM   "sun"
-XCOMM   "dec"
 XCOMM ==========================================================================
 
 GetPlatform()
@@ -154,7 +153,6 @@ GetPlatform()
         *HP-UX*)    getPlatform=hp;;
         *AIX*)      getPlatform=ibm;;
         *SunOS*)    getPlatform=sun;;
-	*OSF1*)     getPlatform=dec;;
     esac
   fi
   DtiReturn $getPlatform
@@ -172,14 +170,13 @@ XCOMM Return
 XCOMM   "hpux"
 XCOMM   "aix"
 XCOMM   "sun"
-XCOMM   "dec"
 XCOMM ==========================================================================
 
 ValidOS()
 {
     platform=$(GetPlatform)
     case "$platform"  in
-         hp|ibm|sun|dec)
+         hp|ibm|sun)
                          DtiReturn $platform
                          ;;
                       *) Exit $INVALID_OS_MSG 1
@@ -671,8 +668,6 @@ XCOMM set up the path for whoami command
       ibm) WHOAMI_PATH=/bin
           ;;
       sun) WHOAMI_PATH=/usr/ucb
-          ;;
-      dec) WHOAMI_PATH=/usr/bin
           ;;
  esac
 

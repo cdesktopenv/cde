@@ -32,10 +32,6 @@
  * (c) Copyright 1993, 1994 Novell, Inc.				*
  */
 
-#ifdef __osf__
-#define SBSTDINC_H_NO_REDEFINE
-#endif
-
 #include <Dt/UserMsg.h>
 
 #include <bms/sbport.h>		/* NOTE: sbport.h must be the first include. */

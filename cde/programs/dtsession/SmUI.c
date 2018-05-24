@@ -1764,22 +1764,6 @@ WarnNoStartup( void )
     XmString 	bmsNoStartString;
     String	tmpString;
 
-#ifdef __osf__
-
-    bmsNoStartString = XmStringCreateLocalized(((char *)GETMESSAGE(18, 76,
-        "The DT messaging system could not be started.\n\n\
-To correct the problem:\n\n\
-1.  Choose [OK] to return to the login screen.\n\n\
-2.  Select Failsafe Session from the login screen's option\n\
-         menu and log in.\n\n\
-3.  Check to see that your hostname exists correctly in /etc/hosts if your\n\
-     network has already been configured.\n\
-4.  If your network has not yet been configured, make sure that /etc/hosts\n\
-     has the following entry in it:\n\
-     127.0.0.1 localhost \n\n\
-For additional information, see the CDE User's Guide.")));
-#else
-
     bmsNoStartString = XmStringCreateLocalized(((char *)GETMESSAGE(18, 36,
         "The desktop messaging system could not be started.\n\n\
 To correct the problem:\n\n\
@@ -1790,7 +1774,6 @@ To correct the problem:\n\n\
 	 the hostname is correct (/etc/hosts) and that the\n\
 	 network is properly configured.\n\n\
 For additional information, see the CDE User's Guide.")));
-#endif
 
     /*
      * Now create the dialog box
@@ -1828,93 +1811,6 @@ For additional information, see the CDE User's Guide.")));
 
     return(0);
 } /* END OF FUNCTION WarnNoStartup */
-
-
-#ifdef __osf__
-
-/*************************************<->*************************************
- *
- *  WarnNewProfile()
- *
- *
- *  Description:
- *  -----------
- *  Warn the user that a new .dtprofile has just been added to their $HOME
- *  directory, indicating a need to edit it and their .login/.profile files.
- *
- *
- *  Inputs:
- *  ------
- *
- * 
- *  Outputs:
- *  -------
- *  None.
- *
- *
- *  Comments:
- *  --------
- * 
- *************************************<->***********************************/
-int 
-WarnNewProfile( void )
-{
-    int       i;
-    XmString  newProfileString;
-    String    tmpString;
-
-    newProfileString = XmStringCreateLocalized(((char *)GETMESSAGE(18, 99,
-   "The new file '.dtprofile' has been added to your home directory.\n\
-\n\
-   Follow the instructions in this file to ensure that when you log in\n\
-   again your '.login' or '.profile' file will be activated and \n\
-   that it will interact correctly with CDE. \n\
-\n\
-   For additional information, see the CDE Advanced User's and System\n\
-   Administrator's Guide.")));
-
-
-    /*
-     * Now create the dialog box
-     */
-    i = 0;
-    tmpString = GETMESSAGE(18, 37, "Action Required");
-    XtSetArg(uiArgs[i], XmNmessageString, newProfileString);i++;
-    XtSetArg(uiArgs[i], XmNallowShellResize, True);  i++;
-    XtSetArg(uiArgs[i], XmNdialogStyle, XmDIALOG_SYSTEM_MODAL); i++;
-    XtSetArg(uiArgs[i], XmNmessageAlignment, XmALIGNMENT_BEGINNING); i++;
-    XtSetArg(uiArgs[i], XmNtitle, tmpString); i++;
-    XtSetArg(uiArgs[i], XmNokLabelString, smDD.okString); i++;
-    XtSetArg(uiArgs[i], XmNautoUnmanage, False); i++;
-    smDD.newProfile = XmCreateWarningDialog(smGD.topLevelWid, 
-					    "newProfileDialog",
-					    uiArgs, i);
-
-    XtSetArg(uiArgs[i], XmNuseAsyncGeometry, True);i++;
-    XtSetValues(XtParent(smDD.newProfile), uiArgs, i);
-
-    XtAddCallback (XtParent(smDD.newProfile),
-		   XmNpopupCallback, DialogUp, NULL);
-    XtUnmanageChild(XmMessageBoxGetChild(smDD.newProfile,
-					 XmDIALOG_HELP_BUTTON));
-    XtUnmanageChild(XmMessageBoxGetChild(smDD.newProfile,
-					 XmDIALOG_CANCEL_BUTTON));
-
-    /*
-     * Now add in the callback and get out of here
-     */
-    XtAddCallback (smDD.newProfile, XmNokCallback,
-		   SimpleOK, smDD.newProfile);
-    XmStringFree(newProfileString);
-
-    XtManageChild(smDD.newProfile);
-
-    return(0);
-} /* END OF FUNCTION WarnNewProfile */
-
-
-#endif
-
 
 /*************************************<->*************************************
  *

@@ -32,11 +32,11 @@
  *
  */
 
-#if defined(__osf__) || defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(linux) || defined(CSRG_BASED) || defined(sun)
 #include <unistd.h>
 #else
 #include <osfcn.h>
-#endif /* __osf__ */
+#endif
 #include "api/c/tt_c.h"
 #include "util/tt_iostream.h"
 #include "tttar_utils.h"

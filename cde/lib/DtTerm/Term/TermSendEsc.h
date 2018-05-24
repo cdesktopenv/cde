@@ -70,12 +70,7 @@
 #define F8_VT                  "\033[19~"
 #define F9_VT                  "\033[20~"
 #define F10_VT                 "\033[21~"
-#ifdef __osf__
-/* Temporary work around */
-#define F11_VT                 "\033"
-#else
 #define F11_VT                 "\033[23~"
-#endif /* __osf__ */
 #define F12_VT                 "\033[24~"
 #define F13_VT                 "\033[25~"
 #define F14_VT                 "\033[26~"

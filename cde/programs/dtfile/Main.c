@@ -116,9 +116,9 @@
 #include <sys/stat.h>
 #include <signal.h>
 
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
 #include <sys/wait.h>
-#endif /* __osf__ */
+#endif /* CSRG_BASED */
 
 #include <errno.h>
 #include <pwd.h>
@@ -975,9 +975,9 @@ XtActionsRec actionTable[] = {
 
 extern XtInputId ProcessToolTalkInputId;
 
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
 extern void sigchld_handler(int);
-#endif /* __osf__ */
+#endif /* CSRG_BASED */
 
 int
 main(
@@ -1019,9 +1019,9 @@ main(
    Tt_pattern requests2Handle;
    Tt_message msg;
    Tt_status status;
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
    struct sigaction sa, osa;
-#endif /* __osf__ */
+#endif /* CSRG_BASED */
    int session_flag = 0;
 
 #ifdef DT_PERFORMANCE
@@ -1031,7 +1031,7 @@ main(
    (void) signal (SIGINT, (void (*)())Stop);
 
    /* We don't want any zombie children, do we? */
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
     sa.sa_handler = sigchld_handler;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags   =  0;
@@ -1041,7 +1041,7 @@ main(
         ;
 #else
    (void) signal (SIGCHLD, SIG_IGN);
-#endif /* __osf__ */
+#endif /* CSRG_BASED */
    XtSetLanguageProc( NULL, NULL, NULL );
 
 #ifdef DT_PERFORMANCE
@@ -1068,12 +1068,6 @@ _DtPerfChkpntMsgSend("Begin XtInitialize");
    toplevel = XtInitialize (argv[0], DTFILE_CLASS_NAME,
                             option_list, XtNumber(option_list),
                             (int *)&argc, argv);
-
-/* MERGE START: May not need
-#ifdef __osf__
-   _XmColorObjCreate ( toplevel, NULL, NULL );
-#endif
-*/
 
 #ifdef DT_PERFORMANCE
    gettimeofday(&update_time_f, NULL);
@@ -6293,7 +6287,7 @@ FinalizeToolTalkSession();
 exit (1);
 }
 
-#if defined(__osf__) || defined(CSRG_BASED)
+#if defined(CSRG_BASED)
 extern void
 sigchld_handler(int signo)      /* Do not use the arg signo at the moment */
 {
@@ -6308,4 +6302,4 @@ sigchld_handler(int signo)      /* Do not use the arg signo at the moment */
     pid = waitpid(-1, &stat_loc, WNOHANG);
     /* Child exit handling code follows, if any */
 }
-#endif /* __osf__ */
+#endif /* CSRG_BASED */

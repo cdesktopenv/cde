@@ -42,10 +42,8 @@
 #include <errno.h>
 #include <signal.h>
 #include <unistd.h>			/* initgroups() */
-#include <string.h>			/* basename() on DEC */
-#ifndef __osf__
-# include <libgen.h>			/* basename() everywhere else. */
-#endif
+#include <string.h>
+#include <libgen.h>			/* basename() */
 #include <sys/param.h>			/* MAXPATHLEN */
 
 #include <bms/bms.h>
@@ -101,9 +99,9 @@ int Client_Send_EOF(protocol_request_ptr prot);
 int Client_Channel_Termios(protocol_request_ptr prot);
 int Client_Enhanced_Spawn(protocol_request_ptr prot);
 
-#if defined(_AIX) || defined(DEC) || defined(linux)
+#if defined(_AIX) || defined(linux)
 # define SA_HANDLER_INT_ARG
-#endif /* _AIX || DEC */
+#endif /* _AIX */
 
 void conditional_putenv(XeString env_str);
 void SPCD_Reply(SPC_Connection_Ptr connection, protocol_request_ptr prot, int retval, int errval );

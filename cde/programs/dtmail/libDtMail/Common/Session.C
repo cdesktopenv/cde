@@ -41,49 +41,6 @@
  *+ENOTICE
  */
 
-#if defined (__osf__)
-
-// Workaround for CDExc19308
-//
-// This ifdef was added as a workaround for the
-// bug in the OSF1 V3.2 148 /usr/include/sys/localedef.h
-// header file, and should be removed as soon as the bug is
-// fixed.
-
-#include <iconv.h>
-#include <locale.h>
-#include <time.h>
-#include <DtHelp/LocaleXlate.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <pwd.h>
-#include <sys/socket.h>
-#include <ctype.h>
-
-#include <DtMail/DtMail.hh>
-#include <EUSDebug.hh>
-#include "DynamicLib.hh"
-#include <DtMail/Threads.hh>
-#include <DtMail/ImplDriver.hh>
-#include "ImplConfigTable.hh"
-#include "SigChldImpl.hh"
-#include <DtMail/IO.hh>
-#include <DtMail/Common.h>
-
-#ifndef True
-#define True 1
-#endif
-#ifndef False
-#define False 0
-#endif
-
-#else
-
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -140,8 +97,7 @@ extern "C" {
 }
 #endif
 
-// End of For CHARSET
-#endif	// ! defined(__osf__)
+//End of CHARSET
 
 DtVirtArray<SigChldInfo *>	*DtMailSigChldList;
 void *				_DtMutex;

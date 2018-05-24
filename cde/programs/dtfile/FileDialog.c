@@ -67,10 +67,6 @@
 #endif
 #endif
 
-#ifdef __osf__
-#include <unistd.h>
-#endif
-
 #include <Xm/DialogS.h>
 #include <Xm/Frame.h>
 #include <Xm/Form.h>

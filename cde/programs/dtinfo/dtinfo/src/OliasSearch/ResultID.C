@@ -44,12 +44,7 @@ ResultID::sq () {
 
 const char *
 ResultID::display_as () {
-#ifdef __osf__
-    UAS_String& temp_string =  *(UAS_String*)fResults->query();
-    return (char *) temp_string;
-#else
     return (char *)*(UAS_String *) fResults->query();
-#endif
 }
 
 UAS_Pointer<UAS_SearchResults>

@@ -286,9 +286,6 @@ main(int argc, char **argv)
   XtSetLanguageProc(NULL, NULL, NULL);
   _DtEnvControl(DT_ENV_SET);
   signal (SIGHUP, SIG_IGN);
-#ifdef __osf__
-  signal (SIGFPE, SIG_IGN);
-#endif /* __osf__ */
 
   X       = (XVars) LINT_CAST(calloc(1, sizeof(XObject))) ;
   X->home = getenv("HOME") ;

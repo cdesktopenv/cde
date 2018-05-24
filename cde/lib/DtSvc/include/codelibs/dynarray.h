@@ -39,7 +39,7 @@
 #if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <generic.h>
 #endif
-#if defined(__osf__) || defined(sun) || defined(linux) || defined(CSRG_BASED)
+#if defined(sun) || defined(linux) || defined(CSRG_BASED)
 #define _DELETE_ARRAY(sz) delete[]
 #else
 #define _DELETE_ARRAY(sz) delete[(sz)]

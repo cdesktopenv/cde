@@ -80,17 +80,10 @@ static void delete_client_info(_DtCm_Client_Info *oldci);
 static void cleanup_some_connection(_DtCm_Client_Info *dontclose);
 static void check_registration(_DtCm_Connection *conn);
 static _DtCm_Client_Info * get_new_client_handle(_DtCm_Connection *conn);
-#ifdef __osf__
-static CSA_return_code get_client_handle(const char *host, const u_int prognum,
-                        u_long *vers_outp, const u_long vers_low,
-                        const u_long vers_high, char *nettype,
-                        CLIENT **clnt);
-#else
 static CSA_return_code get_client_handle(const char *host, const u_long prognum,
 			u_long *vers_outp, const u_long vers_low,
 			const u_long vers_high, char *nettype,
 			CLIENT **clnt);
-#endif
 static CSA_return_code regstat4_to_dtcmstatus(Registration_Status_4 stat4);
 
 extern CSA_return_code
@@ -824,11 +817,7 @@ get_new_client_handle(_DtCm_Connection *conn)
 static CSA_return_code
 get_client_handle(
 	const char *host,
-#ifdef __osf__
-	const u_int prognum,
-#else
 	const u_long prognum,
-#endif	
 	u_long *vers_outp,
 	const u_long vers_low,
 	const u_long vers_high,
@@ -854,23 +843,12 @@ get_client_handle(
 	}
 #endif
 
-#ifdef __osf__
-	/*
-	 * A longer timeout value may be necessay - for example if
-	 * the system is bogged down and/or rpc.cmsd is not running.
-	 *
-	 * The value below is the same value used when a ToolTalk app connects
-	 * to the ToolTalk database server (lib/tt/lib/db/tt_db_client.C).
-	 */
-	tv.tv_sec = 4;
-#else
 	tv.tv_sec = 1;
-#endif
 	tv.tv_usec = 0;
 
 	*clnt = NULL;
 	for (vers = vers_high; vers >= vers_low; vers--) {
-#if defined(__osf__) || defined(__hpux)
+#if defined(__hpux)
 	        if ((cl = clnt_create((char *)host, prognum, vers, nettype)) != NULL) {
 #else
 
@@ -884,13 +862,6 @@ get_client_handle(
 			if (status == RPC_SUCCESS) {
 				*vers_outp = vers;
 				*clnt = cl;
-#ifdef __osf__
-				/*
-				 * Set the timeout back to the original.
-				 */
-				tv.tv_sec = 1;
-				clnt_control(cl, CLSET_TIMEOUT, (char *)&tv);
-#endif
 				return (CSA_SUCCESS);
 			} else if (status != RPC_PROGVERSMISMATCH) {
 				return (_DtCm_clntstat_to_csastat(status));

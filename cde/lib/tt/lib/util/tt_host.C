@@ -45,13 +45,9 @@ extern "C" in_addr_t inet_addr(const char *);
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
-#ifdef __osf__
-#include <unistd.h>
-#else
 #if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
 #include <osfcn.h>
 #endif
-#endif /* __osf */
 
 #define X_INCLUDE_NETDB_H
 #define XOS_USE_XT_LOCKING
@@ -162,14 +158,8 @@ init_byaddr(_Tt_string addr)
 int _Tt_host::
 init_bystringaddr(_Tt_string addr)
 {
-	
-#ifdef __osf__
-        unsigned int    *ip_address;
-        unsigned int    ip_address_buf;
-#else
 	unsigned long	*ip_address;
 	unsigned long 	ip_address_buf;
-#endif
 	struct hostent		*addr_ret;
 	_Xgethostbynameparams	addr_buf;
 

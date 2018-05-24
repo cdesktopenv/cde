@@ -1045,14 +1045,7 @@ GetAvailPrinters()
     HASH
     tmpfile=$DTLPDIR/printers$$
 
-#if defined(__osf__)
-    LANG=C lpstat -p | \
-	   awk -F":" \
-	     '/^.*:/ { PTRNAME = $1; QUEUING = 0 } \
-	      /^Queuing is enabled/ { QUEUING = 1 } \
-	      /^Printing is enabled/ {if (QUEUING == 1) print PTRNAME}' | \
-	   sort | uniq > $tmpfile 2>&1
-#elif defined(_AIX)
+#if defined(_AIX)
     LANG=C lpstat -p | \
            grep READY   | cut -f1 -d" " | \
 	   sort | uniq > $tmpfile 2>&1

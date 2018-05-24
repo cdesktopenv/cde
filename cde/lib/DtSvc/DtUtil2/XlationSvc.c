@@ -2199,7 +2199,7 @@ int _DtXlateGetXlateEnv(
    /* then look up version number of execution host */
    if (ret_AppExecEnvVersion) 
    {
-#if defined(sun) || defined(_AIX) || defined(__osf__) || defined(linux) || defined(CSRG_BASED)
+#if defined(sun) || defined(_AIX) || defined(linux) || defined(CSRG_BASED)
       char version[SYS_NMLN+SYS_NMLN+2];
 #else
       char version[UTSLEN+UTSLEN+2];

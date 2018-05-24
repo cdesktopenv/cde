@@ -481,21 +481,6 @@ char *cpp_argv[ARGUMENTS] = {
 #  endif
 # endif
 #endif
-#ifdef __osf__
-	"-D__osf__",
-# ifdef __mips__
-	"-D__mips__",
-# endif
-# ifdef __alpha
-	"-D__alpha",
-# endif
-# ifdef __i386__
-	"-D__i386__",
-# endif
-# ifdef __GNUC__
-	"-traditional",
-# endif
-#endif
 #ifdef Oki
 	"-DOki",
 #endif
@@ -593,11 +578,6 @@ char *cpp_argv[ARGUMENTS] = {
 # define DEFAULT_OS_MAJOR_REV	"r %*[^.].%[0-9]"
 # define DEFAULT_OS_MINOR_REV	"r %*[^.].%*d.%1s"
 # define DEFAULT_OS_TEENY_REV	"r %*[^.].%*d.%*c%[0-9]"
-# define DEFAULT_OS_NAME	"srvm %[^\n]"
-#elif defined(__osf__)
-/* uname -r returns "Wx.y", e.g. "V3.2" or "T4.0" */
-# define DEFAULT_OS_MAJOR_REV	"r %*[^0-9]%[0-9]"
-# define DEFAULT_OS_MINOR_REV	"r %*[^.].%[0-9]"
 # define DEFAULT_OS_NAME	"srvm %[^\n]"
 #elif defined(__FreeBSD__)
 /* uname -r returns "x.y[.z]-mumble", e.g. "9.0-RELEASE" or "11.0-CURRENT" */
@@ -772,20 +752,8 @@ struct symtab	predefs[] = {
 	{"_SYSTYPE_SYSV", "1"},
 #endif
 #endif
-#ifdef __OSF__
-	{"__OSF__", "1"},
-#endif
-#ifdef __osf__
-	{"__osf__", "1"},
-#endif
 #ifdef __alpha
 	{"__alpha", "1"},
-#endif
-#ifdef __DECC
-	{"__DECC",  "1"},
-#endif
-#ifdef __decc
-	{"__decc",  "1"},
 #endif
 #ifdef __unix__
 	{"__unix__", "1"},

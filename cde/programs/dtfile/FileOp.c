@@ -80,10 +80,6 @@
 #include <time.h>
 #include <utime.h>
 
-#ifdef __osf__
-#include <unistd.h>
-#endif
-
 #ifdef _AIX
 #include <sys/select.h>
 #endif
@@ -2252,9 +2248,6 @@ _FileMoveCopy(
    cb_data->pipe_m2s = pipe_m2s[1];
    cb_data->pipe_s2m = pipe_s2m[0];
    cb_data->mode = mode;
-#ifdef __osf__
-   cb_data->child = pid;
-#endif
 
    /*
     * We wait a certain amount of time for the background process to finish.

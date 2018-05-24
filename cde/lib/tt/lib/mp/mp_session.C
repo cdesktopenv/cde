@@ -149,7 +149,7 @@ c_open_unix_socket(char *socket_name)
 	memset(&server_addr, 0, sizeof(server_addr));
 	server_addr.sun_family = AF_UNIX;
 	strcpy(server_addr.sun_path, socket_name);
-#if defined(ultrix) || defined(_AIX) || defined(hpux) || defined(__osf__)
+#if defined(ultrix) || defined(_AIX) || defined(hpux)
         int servlen = strlen(server_addr.sun_path) + sizeof(server_addr.sun_fam\
 ily);
         if (connect(sock, (sockaddr *)&server_addr, servlen) < 0) {
