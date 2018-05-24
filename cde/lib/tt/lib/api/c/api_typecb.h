@@ -44,7 +44,7 @@
 #include "api/c/tt_c.h"
 #include "api/c/api_handle.h"
 
-#if defined(linux)
+#if defined(__linux__)
 // Avoid g++ compiler errors on linux.
 #define typename typenm
 #endif

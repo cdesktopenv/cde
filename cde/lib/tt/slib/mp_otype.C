@@ -31,7 +31,7 @@
  * Copyright (c) 1990 by Sun Microsystems, Inc.
  */
 #include <stdlib.h>
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 /*# include <g++/minmax.h>*/
 #else
 # include <macros.h>

@@ -62,7 +62,7 @@
 # include	<time.h>
 # include	<utime.h>
 # include	<pwd.h>
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 # include	<stdarg.h>
 #else
 # include	<varargs.h>
@@ -273,7 +273,7 @@ main( int argc, char **argv )
     ScanServers ();
     StartDisplays ();
     (void) signal (SIGHUP, RescanNotify);
-#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined(linux)
+#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined(__linux__)
     (void) signal (SIGCHLD, ChildNotify);
 #endif
     while (AnyWellKnownSockets() || AnyDisplaysLeft ())
@@ -286,7 +286,7 @@ main( int argc, char **argv )
 
 	TrimErrorFile();
 
-#if defined(SYSV) && !defined(hpux) && !defined(_AIX) && !defined(linux)
+#if defined(SYSV) && !defined(hpux) && !defined(_AIX) && !defined(__linux__)
 	WaitForChild ();
 #else
 	WaitForSomething ();
@@ -500,7 +500,7 @@ StopAll( int arg )
 
 int	ChildReady = 0;
 
-#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined(linux) || defined(CSRG_BASED)
+#if !defined(SYSV) || defined(hpux) || defined(_AIX) || defined(__linux__) || defined(CSRG_BASED)
 static SIGVAL
 ChildNotify( int arg )
 {
@@ -1482,7 +1482,7 @@ SetTitle( char *name, char *ptr )
 #define GETTYPATH "/usr/sbin/getty"
 #elif defined(__OpenBSD__)
 #define GETTYPATH "/usr/libexec/getty"
-#elif defined(__linux)
+#elif defined(__linux__)
 #define GETTYPATH "/sbin/getty"
 #elif !defined (__apollo)
 #define GETTYPATH "/etc/getty"

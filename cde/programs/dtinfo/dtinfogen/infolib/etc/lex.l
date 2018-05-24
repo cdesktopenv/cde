@@ -1,7 +1,7 @@
 %{ /* -*- c++ -*- */
 /* $XConsortium: lex.l /main/5 1996/11/19 16:55:12 drk $ */
 
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__linux__) && !defined(CSRG_BASED)
 #include <osfcn.h>
 #else
 #include <unistd.h>

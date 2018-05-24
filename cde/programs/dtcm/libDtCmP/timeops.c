@@ -58,11 +58,11 @@ static char sccsid[] = "@(#)timeops.c 1.13 95/05/02 Copyr 1991 Sun Microsystems,
 
 #define XOS_USE_NO_LOCKING
 #define X_INCLUDE_TIME_H
-#if defined(linux)
+#if defined(__linux__)
 #undef SVR4
 #endif
 #include <X11/Xos_r.h>
-#if defined(linux)
+#if defined(__linux__)
 #define SVR4
 #endif
 

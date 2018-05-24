@@ -71,7 +71,7 @@
 // END Order dependent for AIX
 //
 #include <sys/stat.h>
-#if !defined(linux)
+#if !defined(__linux__)
 #  include <sys/statvfs.h>
 #endif
 #include <sys/types.h>
@@ -103,7 +103,7 @@ extern "C" { int lockf(int, int, off_t); }
 #include <DtMail/Threads.hh>
 
 #if !defined(IOV_MAX)
-  #if !defined(linux)
+  #if !defined(__linux__)
     #include <sys/stream.h>
   #endif
   #if !defined(DEF_IOV_MAX)
@@ -811,7 +811,7 @@ GetPasswordEntry(passwd & result)
     memcpy(&passwordEntry, tresult, sizeof(struct passwd));
     passwordEntry.pw_name = strdup(passwordEntry.pw_name);
     passwordEntry.pw_passwd = strdup(passwordEntry.pw_passwd);
-#if !defined(_AIX) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined(_AIX) && !defined(__linux__) && !defined(CSRG_BASED)
     passwordEntry.pw_age = strdup(passwordEntry.pw_age);
     passwordEntry.pw_comment = strdup(passwordEntry.pw_comment);
 #endif
@@ -984,12 +984,12 @@ int FileSystemSpace(const char *file_path, size_t bytes, char **fsname)
     int			fserror=FALSE;
     struct stat		stat_buf;
     size_t		req_space = 0;
-#if !defined(linux)
+#if !defined(__linux__)
     struct statvfs	statvfs_buf;
 #endif
 
     if (stat(file_path,&stat_buf) < 0) return 0;
-#if !defined(linux)
+#if !defined(__linux__)
     if (statvfs(file_path,&statvfs_buf) < 0) return 0;
 #endif
 
@@ -1026,7 +1026,7 @@ int FileSystemSpace(const char *file_path, size_t bytes, char **fsname)
             req_space = (size_t) ((bytes > stat_buf.st_size) ?
 				  (bytes-stat_buf.st_size) :
 				  0);
-#if !defined(linux)
+#if !defined(__linux__)
             if ( (statvfs_buf.f_bfree*statvfs_buf.f_bsize) >
 	         (req_space + statvfs_buf.f_bsize) )
 	      return 1;

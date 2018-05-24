@@ -57,7 +57,7 @@ static char sccsid[] = "$TOG: RFCMIME.c /main/11 1999/06/30 12:08:55 mgreess $";
 #include <RFCMIME.h>
 
 /* Iconv not defined for linux.  Use the EUSCompat stubs instead. */
-#if !defined(linux)
+#if !defined(__linux__)
 #  include <iconv.h>
 #endif
 #include <EUSCompat.h>

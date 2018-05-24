@@ -34,7 +34,7 @@
 #include "tt_options.h"
 #include <stdio.h>
 #include "mp/mp_stream_socket.h"
-#if defined(linux)
+#if defined(__linux__)
 #include <sys/poll.h>
 #else
 #include <poll.h>
@@ -170,7 +170,7 @@ init(int init_as_source)
 		return 0;
 	}
 #else
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 	socklen_t	len;
 #else
 	int		len;
@@ -437,7 +437,7 @@ accept()
 {
 	if (_msgsock == -1) {
 #ifndef OPT_TLI
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 		socklen_t		addrlen = sizeof(sockaddr_in);
 #else
 		int			addrlen = sizeof(sockaddr_in);

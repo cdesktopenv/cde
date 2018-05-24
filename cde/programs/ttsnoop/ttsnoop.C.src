@@ -63,7 +63,7 @@
 #include <sys/stat.h>
 #include <time.h>
 
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <iostream>
 #include <strstream>
 #include <fstream>
@@ -196,7 +196,7 @@ signalHandler(
 	}
 }
 
-#if defined(SVR4) || defined(aix) || defined(hpux) || defined(linux) || defined(CSRG_BASED)
+#if defined(SVR4) || defined(aix) || defined(hpux) || defined(__linux__) || defined(CSRG_BASED)
 #if !defined(SIG_PF)
 typedef void (*sig_pf_t)(int);
 #define SIG_PF sig_pf_t
@@ -208,7 +208,7 @@ _tt_sigset(
 	int     sig,
 	SIG_PF  handler )
 {
-#if defined(hpux) || defined(linux) || defined(CSRG_BASED)
+#if defined(hpux) || defined(__linux__) || defined(CSRG_BASED)
 	struct sigaction act;
 	act.sa_handler = handler;
 	sigemptyset(&act.sa_mask);

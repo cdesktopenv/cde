@@ -48,7 +48,7 @@ typedef void (*privbuf_func)(void *v);
 #include <stddef.h>
 #include <stdlib.h>
 
-#if defined(sun) || defined(linux) || defined(CSRG_BASED)
+#if defined(sun) || defined(__linux__) || defined(CSRG_BASED)
 // Rejects valid inline declarations, claiming they have both internal and
 // external linkage.
 #else

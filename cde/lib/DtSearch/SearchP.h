@@ -871,7 +871,7 @@ extern LLIST	*sort_llist (LLIST *list_header);
 extern char	*teskey_parser (PARG *parg);
 extern DtSrObjdate
 		tm2objdate (struct tm *tmptr);
-#if !defined(linux)
+#if !defined(__linux__)
 #ifndef _ALL_SOURCE
 extern char	*strdup (const char *s);
 #endif

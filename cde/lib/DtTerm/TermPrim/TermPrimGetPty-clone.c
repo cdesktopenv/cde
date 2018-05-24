@@ -49,7 +49,7 @@ static char rcs_id[] = "$TOG: TermPrimGetPty-clone.c /main/7 1998/04/03 17:11:08
 
 #if defined(__AIX)
 # define	PTY_CLONE_DEVICE	"/dev/ptc"
-#elif defined(linux)
+#elif defined(__linux__)
 # define	PTY_CLONE_DEVICE	"/dev/ptyc"
 #endif	/* __AIX */
 
@@ -72,7 +72,7 @@ GetPty(char **ptySlave, char **ptyMaster)
 
     if ((ptyFd = open(*ptyMaster, O_RDWR, 0))) {
         _Xttynameparams tty_buf;
-#if defined(linux)
+#if defined(__linux__)
 	if (c = _XTtyname(ptyFd)) {
 #else
 	if (c = _XTtyname(ptyFd, tty_buf)) {

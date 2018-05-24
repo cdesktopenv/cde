@@ -35,7 +35,7 @@
 #include	<stdlib.h>
 #define XOS_USE_NO_LOCKING
 #define X_INCLUDE_TIME_H
-#if defined(linux)
+#if defined(__linux__)
 #undef SVR4
 #endif
 #include <X11/Xos_r.h>

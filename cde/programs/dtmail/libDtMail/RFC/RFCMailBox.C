@@ -63,7 +63,7 @@
 #include <sys/stat.h>
 #include <sys/param.h>
 #include <sys/uio.h>
-#if !defined(__aix) && !defined(__hpux) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__aix) && !defined(__hpux) && !defined(__linux__) && !defined(CSRG_BASED)
 #include <sys/systeminfo.h>
 #endif
 #include <sys/wait.h>
@@ -97,7 +97,7 @@ extern "C" {
 #define	LCL_SIG_HANDLER_SIGNATURE	
 #elif defined(__hpux)
 #define	LCL_SIG_HANDLER_SIGNATURE	__harg
-#elif defined(__aix) || defined(__alpha) || defined(linux) || defined(CSRG_BASED)
+#elif defined(__aix) || defined(__alpha) || defined(__linux__) || defined(CSRG_BASED)
 #define	LCL_SIG_HANDLER_SIGNATURE	int
 #endif
 
@@ -560,7 +560,7 @@ RFCMailBox::alterPageMappingAdvice(MapRegion *map, int advice)
   for (int m = 0; m < me; m++) {
     MapRegion *map_t = _mappings[m];
 
-#if !defined(linux) && !defined(sun)
+#if !defined(__linux__) && !defined(sun)
     // no madvise on these systems
     if (map_t == map || map == (MapRegion *)-1)
       madvise(map_t->map_region, (size_t) map_t->map_size, advice);
@@ -2236,7 +2236,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     //
     unsigned long pagelimit = _mappings[map_slot]->map_size;
 
-#if !defined(linux) && !defined(sun)
+#if !defined(__linux__) && !defined(sun)
     // no madvise; dont use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,
@@ -2327,7 +2327,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     // At this point we most likely will see random behavior. We will
     // tell the kernel to pull in the minimum number of extra pages.
     //
-#if !defined(linux) && !defined(sun)
+#if !defined(__linux__) && !defined(sun)
     // no madvise; dont use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,
@@ -3671,7 +3671,7 @@ RFCMailBox::generateUniqueLockId(void)
   char theId[128];
   char hwserialbuf[64];
 
-#if !defined(__aix) && !defined(__hpux) && !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__aix) && !defined(__hpux) && !defined(__linux__) && !defined(CSRG_BASED)
   if (sysinfo(SI_HW_SERIAL, (char *)hwserialbuf, sizeof(hwserialbuf)-1) == -1)
 #endif
     strcpy(hwserialbuf, "dtmail");

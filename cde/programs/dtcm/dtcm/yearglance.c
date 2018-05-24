@@ -88,7 +88,7 @@ static char sccsid[] = "@(#)yearglance.c 1.37 95/07/27 Copyr 1991 Sun Microsyste
 
 #define XOS_USE_XT_LOCKING
 #define X_INCLUDE_TIME_H
-#if defined(linux)
+#if defined(__linux__)
 #undef SVR4
 #endif
 #include <X11/Xos_r.h>

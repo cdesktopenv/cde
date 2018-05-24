@@ -28,11 +28,11 @@
 #include	<setjmp.h>
 #include	<unistd.h>
 
-#if (defined(linux) || defined(CSRG_BASED)) && !defined(_NFILE)
+#if (defined(__linux__) || defined(CSRG_BASED)) && !defined(_NFILE)
 #define _NFILE FOPEN_MAX
 #endif
 
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__linux__) && !defined(CSRG_BASED)
 extern char	*sys_errlist[];
 extern int	sys_nerr;
 #endif

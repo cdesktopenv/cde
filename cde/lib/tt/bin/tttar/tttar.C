@@ -37,7 +37,7 @@
 #include <stdlib.h>
 #include <sys/param.h>
 #include <sys/stat.h>
-#if defined(linux) || defined(sun) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(sun) || defined(CSRG_BASED)
 #include <unistd.h>
 #else
 #if !defined(sun)

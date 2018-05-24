@@ -41,7 +41,7 @@
 #include "utility.h"
 #include "lutil.h"
 
-#if !defined(linux)
+#if !defined(__linux__)
 extern char * strdup(const char *);
 #endif
 

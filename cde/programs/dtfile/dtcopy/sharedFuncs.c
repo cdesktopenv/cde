@@ -49,7 +49,7 @@
 #  define ROOTINO UFSROOTINO
 #endif	/* SVR4 */
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 #  include <sys/param.h>
 #  define ROOTINO 2
 #endif

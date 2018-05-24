@@ -38,7 +38,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
-#if defined(linux)
+#if defined(__linux__)
 # include <sys/poll.h>
 #else
 # include <poll.h>

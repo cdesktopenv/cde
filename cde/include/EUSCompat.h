@@ -59,7 +59,7 @@ extern "C" {
 ** System V R4 based systems define the stuff we need in
 ** sys/types.h. Include that and then we are done.
 */
-#if defined(HPUX) || defined(linux) || defined(SunOS)
+#if defined(HPUX) || defined(__linux__) || defined(SunOS)
 #include <sys/types.h>
 #endif
 
@@ -110,7 +110,7 @@ typedef enum {B_FALSE, B_TRUE} boolean_t;
 
 #endif	/* HPUX */
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 typedef enum {B_FALSE, B_TRUE} boolean_t;
 #define MAXNAMELEN      	256
 

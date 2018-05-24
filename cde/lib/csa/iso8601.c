@@ -174,7 +174,7 @@ _csa_tick_to_iso8601(time_t tick, char *buf_out)
 	}
 
 	/* JET.  This is horrible. */
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__linux__) && !defined(CSRG_BASED)
 
 	if (getenv("TZ")) {
 		strncpy(tz_orig, getenv("TZ"), sizeof(tz_orig));

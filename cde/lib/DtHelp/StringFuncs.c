@@ -58,7 +58,7 @@
 #include "CvStringI.h"        /* for string functions used by Canvas Engine */
 #include "StringFuncsI.h"     /* for _CEStrcollProc */
 
-#if !defined(linux)
+#if !defined(__linux__)
 # include <iconv.h>
 #else
 # define iconv_t		int

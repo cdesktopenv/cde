@@ -408,7 +408,7 @@
 # undef  OPT_TAR_HAS_EXCLUDE_OPTION
 # define OPT_BUG_RPCINTR
 
-#elif defined(linux)
+#elif defined(__linux__)
 
 # undef  OPT_UNIX_SOCKET_RPC 
 # undef  OPT_TLI 

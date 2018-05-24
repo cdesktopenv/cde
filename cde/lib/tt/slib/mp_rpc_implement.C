@@ -49,7 +49,7 @@
 #include <sys/uio.h>
 #include <fcntl.h>
 #include <unistd.h>
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 /*# include <g++/minmax.h>*/
 #else
 # include <macros.h>

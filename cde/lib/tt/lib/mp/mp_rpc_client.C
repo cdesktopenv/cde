@@ -212,7 +212,7 @@ init(_Tt_host_ptr &host, int program, int version,
 	// Set close-on-exec bit so a libtt client which forks and execs won't
 	// be short some fd's in the child.
 
-#if defined(linux)
+#if defined(__linux__)
         // JET - for linux, we need to do this properly - I don't know
         // how the original code below can be correct, so we'll do it
         // differently.

@@ -109,7 +109,7 @@ static unsigned int GetEventInverseMask(XEvent *event);
 
 #ifdef WSM
 
-#if (defined(linux) || defined(sun) || defined(CSRG_BASED)) && !defined(_NFILE)
+#if (defined(__linux__) || defined(sun) || defined(CSRG_BASED)) && !defined(_NFILE)
 #define _NFILE FOPEN_MAX
 #endif
 #define CLOSE_FILES_ON_EXEC() \
@@ -1035,7 +1035,7 @@ Boolean F_Exec (String args, ClientData *pCD, XEvent *event)
     {
 
 #ifndef NO_SETPGRP
-#if defined(SVR4) || defined(linux)
+#if defined(SVR4) || defined(__linux__)
 	setsid();
 #else
 #ifdef SYSV

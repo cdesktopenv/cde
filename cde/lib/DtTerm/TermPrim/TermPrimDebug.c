@@ -39,7 +39,7 @@ static char rcs_id[] = "$XConsortium: TermPrimDebug.c /main/4 1996/11/21 19:58:1
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 # include <stdarg.h>
 #else
 # include <varargs.h>

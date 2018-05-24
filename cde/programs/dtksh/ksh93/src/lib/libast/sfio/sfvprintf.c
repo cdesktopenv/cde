@@ -302,7 +302,7 @@ loop_fa :
 			if(!form)
 				form = "";
 #if (defined(CSRG_BASED) && !defined(__LP64__)) || \
-    (defined(linux) && !defined(__LP64__)) || defined(sun)
+    (defined(__linux__) && !defined(__LP64__)) || defined(sun)
 			GETARG(argsp,argsp,argf,args,va_list*,va_list*,'2',t_user,n_user);
 			memcpy((Void_t*)(&(fa->args)), (Void_t*)(&args), sizeof(va_list));
 			memcpy((Void_t*)(&args), (Void_t*)argsp, sizeof(va_list));

@@ -59,7 +59,7 @@
 #include <sys/utsname.h>
 #endif
 
-#if defined(linux)
+#if defined(__linux__)
 #include <sys/vfs.h>
 #include <stdarg.h>
 #elif defined(_AIX)

@@ -42,7 +42,7 @@
 #endif
 #include <ctype.h>
 
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux) || defined(CSRG_BASED)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(__linux__) || defined(CSRG_BASED)
 #include <unistd.h>
 #include <locale.h>
 #endif
@@ -162,7 +162,7 @@ EXTERN char driver[20]
 #if defined(_AIX)
   INIT("AIX")
 #endif
-#if defined(linux)
+#if defined(__linux__)
   INIT("LINUX")
 #endif
 #if defined(sun)

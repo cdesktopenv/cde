@@ -768,7 +768,7 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
 }
 #endif // HP LOCAL PARSER
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 
 //Linux local parser
 
@@ -804,7 +804,7 @@ void LocalPrintJobs(char *printer, char **return_job_list, int *return_n_jobs)
    static char *job_list = NULL;
    static int prev_buf_size = 0;
 
-#if defined(linux) || defined(__OpenBSD__) || defined(__NetBSD__)
+#if defined(__linux__) || defined(__OpenBSD__) || defined(__NetBSD__)
    snprintf(buf, 1000, "LANG=C lpq -P%s", printer);
 #elif defined(__FreeBSD__)
    snprintf(buf, 1000, "LANG=C /usr/local/bin/lpq -P%s", printer);

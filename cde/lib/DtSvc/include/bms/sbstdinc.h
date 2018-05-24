@@ -62,7 +62,7 @@
 #if !(defined(apollo) && defined(__bsd)) && !defined(CSRG_BASED)
 
 #if defined(__STDC__)
-#if !defined(linux) && !defined(_XFUNCS_H_) && !defined(sun)
+#if !defined(__linux__) && !defined(_XFUNCS_H_) && !defined(sun)
 extern void bcopy(char *b1, char *b2, int length);
 extern int  bcmp(char *b1, char *b2, int length);
 extern void bzero(char *b, int length);
@@ -70,7 +70,7 @@ extern void bzero(char *b, int length);
 
 extern char *mktemp(char *tmplate);
 #elif ! defined(__cplusplus)
-#if !defined(linux) && !defined(_XFUNCS_H_)
+#if !defined(__linux__) && !defined(_XFUNCS_H_)
 extern void bcopy();
 extern int  bcmp();
 extern void bzero();

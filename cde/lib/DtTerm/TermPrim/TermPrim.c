@@ -81,7 +81,7 @@ extern char * _DtTermPrimGetMessage( char *filename, int set, int n, char *s );
 #include <ctype.h>
 #include <nl_types.h>
 #include <wchar.h>
-#if defined(linux) || defined(hpV4)
+#if defined(__linux__) || defined(hpV4)
 # include <sys/types.h> /* For FD_* macros. */
 # include <sys/time.h> /* For select() prototype. */
 #else

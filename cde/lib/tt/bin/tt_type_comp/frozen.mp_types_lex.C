@@ -68,7 +68,7 @@ extern "C" {
 #ifdef __cplusplus
 extern "C" {
 #endif
-#if !defined(linux)
+#if !defined(__linux__)
 	void exit(int);
 #endif
 #ifdef __cplusplus

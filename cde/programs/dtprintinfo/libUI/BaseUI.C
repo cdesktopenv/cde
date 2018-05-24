@@ -44,7 +44,7 @@
 #include <stdlib.h>
 #ifdef hpux
   #include <time.h>
-#elif defined(linux)
+#elif defined(__linux__)
   #include <sys/time.h>
 #else
   #include <sys/select.h>

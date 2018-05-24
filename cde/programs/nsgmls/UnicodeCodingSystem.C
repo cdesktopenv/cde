@@ -39,7 +39,7 @@ extern "C" {
   void *memmove(void *, const void *, size_t);
 }
 #endif
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <iostream>
 #else
 #include <iostream.h>

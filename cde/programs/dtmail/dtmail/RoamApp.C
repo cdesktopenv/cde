@@ -70,7 +70,7 @@
 
 #include <unistd.h>
 #include <wchar.h>
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 #define wcswcs wcsstr
 #include <wctype.h>
 #endif

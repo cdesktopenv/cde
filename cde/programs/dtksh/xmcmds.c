@@ -3738,7 +3738,7 @@ do_catopen(
    nl_catd nlmsg_fd = (nl_catd)-1;
    char * errmsg;
 #if defined(SVR4) || defined (_AIX) || defined(CSRG_BASED) || \
-    defined(linux) || defined(sun)
+    defined(__linux__) || defined(sun)
    char * nextMatch;
 #endif
 
@@ -3763,7 +3763,7 @@ do_catopen(
 
       altCatName = XtMalloc(strlen(catName) + 10);
 #if defined(SVR4) || defined (_AIX) || defined(CSRG_BASED) || \
-    defined(linux) || defined(sun)
+    defined(__linux__) || defined(sun)
       /* These platforms don't have strrstr() */
       ptr = NULL;
       nextMatch = catName;

@@ -4484,7 +4484,7 @@ MakeAppearanceResources (WmScreenData *pSD, AppearanceData *pAData, Boolean make
     {
 	sprintf((char *)wmGD.tmpBuffer, ((char *)GETMESSAGE(62, 23, "failed to load font: %.100s\0")), (char*) pAData->fontList);
 	Warning((char *)wmGD.tmpBuffer);
-#if defined(CSRG_BASED) || defined(linux)
+#if defined(CSRG_BASED) || defined(__linux__)
 	/* HACK to try get _some_ font anyway (fontList seems to end up as an empty list on
 	 * some modern systems; investigate) */
 	pAData->font = XLoadQueryFont(wmGD.display, "fixed");

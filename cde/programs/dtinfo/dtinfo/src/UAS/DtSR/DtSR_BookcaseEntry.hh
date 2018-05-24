@@ -66,7 +66,7 @@ class DtSR_BookcaseSearchEntry : public DtSR_BookcaseEntry
     UAS_Pointer<UAS_Common> bcase() { return uas_bcase; }
 
 
-#if !defined(SC3) && !defined(linux)
+#if !defined(SC3) && !defined(__linux__)
 
   protected:
     template <class T> friend class UAS_Pointer;

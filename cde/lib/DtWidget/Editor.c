@@ -62,7 +62,7 @@
 #  include <wchar.h>
 # endif
 # include <libintl.h>
-#elif defined(linux)
+#elif defined(__linux__)
 # include <wctype.h>
 # define NO_putwc
 #elif defined(CSRG_BASED)

@@ -39,7 +39,7 @@ void set_new_handler(VFP);
 
 #else /* not SP_NEW_H_MISSING */
 
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <new>
 #else
 #include <new.h>

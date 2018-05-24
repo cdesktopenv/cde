@@ -39,7 +39,7 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
-#if defined(linux)
+#if defined(__linux__)
 #include <unistd.h>
 #endif
 #if defined(sgi) || defined(CSRG_BASED)

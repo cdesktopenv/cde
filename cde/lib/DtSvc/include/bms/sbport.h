@@ -255,7 +255,7 @@
 /* about above.  So, declare them only if we don't already have them */
 /* ----------------------------------------------------------------- */
 
-#if defined(_HPUX_SOURCE) || defined(__sun) || defined(_INCLUDE_BSD_SOURCE) || defined(__aix) || defined(linux)
+#if defined(_HPUX_SOURCE) || defined(__sun) || defined(_INCLUDE_BSD_SOURCE) || defined(__aix) || defined(__linux__)
        /* the "u_types" are defined in standard files */
 #      undef _INCLUDE_BSD_SOURCE
 #else

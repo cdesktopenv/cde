@@ -30,7 +30,7 @@
 
 #include "UTF8CodingSystem.h"
 #include "constant.h"
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <iostream>
 #else
 #include <iostream.h>

@@ -41,7 +41,7 @@
 
 #include <stddef.h>
 
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <streambuf>
 using namespace std;
 #else

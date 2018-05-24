@@ -71,7 +71,7 @@ should be fixed in the future.
 
 #include <langinfo.h>
 /* Iconv not defined for linux.  Use the EUSCompat stubs instead. */
-#if !defined(linux)
+#if !defined(__linux__)
 #  include <iconv.h>
 #endif
 #include <EUSCompat.h>

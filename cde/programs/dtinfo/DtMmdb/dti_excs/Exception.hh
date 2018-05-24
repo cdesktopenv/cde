@@ -38,7 +38,7 @@ public:
 #else
   Exception();
 
-#if defined(linux) && defined(EXC_DEBUG)
+#if defined(__linux__) && defined(EXC_DEBUG)
 ~Exception()
 {
     PRINTF (("Destroying Exception @ %p\n", this));

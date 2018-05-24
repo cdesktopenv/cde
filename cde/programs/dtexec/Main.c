@@ -323,7 +323,7 @@ Help(
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(__linux__)
 PanicSignal(int s)
 #else
 PanicSignal(void)
@@ -360,7 +360,7 @@ PanicSignal(void)
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(__linux__)
 IgnoreSignal(int i)
 #else
 IgnoreSignal(void)
@@ -402,7 +402,7 @@ IgnoreSignal(void)
  *****************************************************************************/
 
 static void
-#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(__linux__)
 UrgentSignal(int i)
 #else
 UrgentSignal(void)
@@ -453,7 +453,7 @@ UrgentSignal(void)
  *
  *****************************************************************************/
 static void
-#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(__linux__)
 SigCld(int i)
 #else
 SigCld(void)
@@ -1295,7 +1295,7 @@ main (
 	COPYBITS(allactivefdsG, readfds);
 	COPYBITS(allactivefdsG, exceptfds);
 
-#if defined(linux)
+#if defined(__linux__)
        /* JET 9/1/98 - linux select will actually modify the timeout struct -
         *  if a select exits early then the timeout struct will contain the
         *  amount remaining.  When this gets to 0,0, an infinite loop
@@ -1539,7 +1539,7 @@ main (
 		 * a SIGCLD, give up and exit.
 		 */
 		if (rediscoverUrgentSigG > ((1000/SHORT_SELECT_TIMEOUT)*5) ) {
-#if defined(__aix) || defined(CSRG_BASED) || defined(linux)
+#if defined(__aix) || defined(CSRG_BASED) || defined(__linux__)
 		    PanicSignal(0);
 #else
 		    PanicSignal();

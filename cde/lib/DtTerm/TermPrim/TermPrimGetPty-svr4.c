@@ -43,14 +43,14 @@ static char rcs_id[] = "$XConsortium: TermPrimGetPty-svr4.c /main/1 1996/04/21 1
 #include "TermPrimOSDepI.h"
 #include "TermPrimDebug.h"
 #include "TermHeader.h"
-#if !defined(linux)
+#if !defined(__linux__)
 #include <stropts.h>
 #include <sys/conf.h>
 #include <sys/stream.h>
 #endif
 #include <sys/termios.h>
 
-#if defined(linux)
+#if defined(__linux__)
 #undef USE_STREAMS_BUFMOD
 #endif
 
@@ -260,7 +260,7 @@ SetupPty(char *ptySlave, int ptyFd)
      * they don't seem to stick after the file is closed on
      * SVR4.2.  Not sure where else this applies.
      */
-#if !defined(linux)
+#if !defined(__linux__)
     if (ioctl(ptyFd, I_PUSH, "ptem") == -1) {
 	    (void) perror("Error pushing ptem");
 	    /* exit the subprocess */

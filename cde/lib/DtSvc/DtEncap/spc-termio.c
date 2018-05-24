@@ -36,7 +36,7 @@
 #include <bms/stringbuf.h>
 
 #include <termios.h>
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__linux__) && !defined(CSRG_BASED)
 #include <sys/termio.h>
 #endif
 #include <codelibs/stringx.h>

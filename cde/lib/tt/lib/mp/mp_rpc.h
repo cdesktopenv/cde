@@ -37,11 +37,11 @@
 #define _TT_MP_RPC
 #include "tt_options.h"
 
-#if defined(linux)
+#if defined(__linux__)
 # define __SVR4_I386_ABI_L1__
 #endif
 #include <rpc/rpc.h>
-#if defined(linux)
+#if defined(__linux__)
 # undef __SVR4_I386_ABI_L1__
 #endif
 

@@ -167,7 +167,7 @@ _DtSaverStart(
   */
   if (saver_list.serial == 0)
   {
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__linux__) && !defined(CSRG_BASED)
     /* JET - how can this ever work anyway? */
     putenv(envdata);
     envdata[0] = '\0';
@@ -214,7 +214,7 @@ _DtSaverStart(
     sprintf(pe, " %lx", XtWindow(drawArea[i]));
   }
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
   putenv(envdata);
 #endif
 

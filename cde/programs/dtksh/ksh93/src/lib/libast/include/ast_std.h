@@ -137,7 +137,7 @@
 #define _SKIP_SFSTDIO_H
 #else
 #define _SFSTDIO_H
-#if !defined(linux)
+#if !defined(__linux__)
 #define FILE	int
 #endif
 #if defined(__STDPP__directive) && defined(__STDPP__hide)

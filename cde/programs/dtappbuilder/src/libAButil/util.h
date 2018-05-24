@@ -66,7 +66,7 @@
 extern "C" {
 #endif
 
-#if !defined(linux)
+#if !defined(__linux__)
 extern char	*strdup(const char *);
 #endif
 

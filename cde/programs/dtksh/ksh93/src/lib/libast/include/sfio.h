@@ -46,7 +46,7 @@
 #ifndef _SFIO_H
 #define _SFIO_H	1
 
-#if defined(linux)
+#if defined(__linux__)
 /* HACK On linux prevent inclusion of __FILE.h that contains a conflicting
    definition of __FILE that we define later */
 # define ____FILE_defined 1
@@ -155,7 +155,7 @@
 #define _STDIO_INCLUDED	1
 #endif
 
-#if !defined(CSRG_BASED) && !defined(linux)
+#if !defined(CSRG_BASED) && !defined(__linux__)
 #ifndef FILE
 #define FILE	Sfio_t
 #endif
@@ -167,7 +167,7 @@
 #endif
 
 typedef struct _sfio_	Sfile_t, Sfio_t, SFIO;
-#if defined(linux)
+#if defined(__linux__)
 typedef struct _sfio_	FILE;
 typedef struct _sfio_	__FILE;
 #endif

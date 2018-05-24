@@ -141,17 +141,17 @@ BinaryOperatorNode::evaluate() const
 {
   // calculate children trees and then have feature value do the operation 
 
-#if !defined(SC3) && !defined(_IBMR2) && !defined(linux) && \
+#if !defined(SC3) && !defined(_IBMR2) && !defined(__linux__) && \
     !defined(CSRG_BASED) && !defined(sun)
   volatile
 #endif
   FeatureValue *left =  0;
-#if !defined(SC3) && !defined(_IBMR2) && !defined(linux) && \
+#if !defined(SC3) && !defined(_IBMR2) && !defined(__linux__) && \
     !defined(CSRG_BASED) && !defined(sun)
   volatile
 #endif
   FeatureValue *right = 0;
-#if !defined(SC3) && !defined(_IBMR2) && !defined(linux) && \
+#if !defined(SC3) && !defined(_IBMR2) && !defined(__linux__) && \
     !defined(CSRG_BASED) && !defined(sun)
   volatile
 #endif

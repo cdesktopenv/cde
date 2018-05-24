@@ -48,7 +48,7 @@
 #if defined(AIXV3)
 #    include <sys/dir.h>
 #else
-#  if defined(linux)
+#  if defined(__linux__)
 #    include <dirent.h>
 #  else
 #    include <sys/dirent.h>

@@ -41,7 +41,7 @@
 #include "util/tt_trace_parser.h"
 #include "util/tt_entry_pt_names.h"
 
-#if defined (_AIX) || defined(hpux) || defined(linux) || defined(CSRG_BASED)
+#if defined (_AIX) || defined(hpux) || defined(__linux__) || defined(CSRG_BASED)
 #include <fcntl.h>
 #endif
 

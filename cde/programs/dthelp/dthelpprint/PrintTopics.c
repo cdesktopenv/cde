@@ -54,7 +54,7 @@ $COPYRIGHT$:
 #endif
 
 /* Iconv not defined for linux.  Use the EUSCompat stubs instead. */
-#if !defined(linux)
+#if !defined(__linux__)
 #  include <iconv.h>
 #else
 #  include <EUSCompat.h>

@@ -79,7 +79,7 @@ typedef void (*print_func_ptr_t)(ostream&, const void*);
 
 //enum Boolean { true, false };
 
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__linux__) && !defined(CSRG_BASED)
 typedef long mmdb_pos_t;
 #else
 typedef int mmdb_pos_t;

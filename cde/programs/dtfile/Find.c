@@ -1821,7 +1821,7 @@ ExecuteFind(
    if (access_priv == -1 && geteuid() != root_user)
    {
 #else
-#  if defined(__ultrix) || defined(linux) || defined(CSRG_BASED)
+#  if defined(__ultrix) || defined(__linux__) || defined(CSRG_BASED)
    rv = setreuid(geteuid(),-1);
    if (access ((char *) path, R_OK) == -1)
    {

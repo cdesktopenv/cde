@@ -26,13 +26,13 @@
 
 #include <sys/stat.h>
 #include <sys/wait.h>
-#if defined(linux)
+#if defined(__linux__)
 #  include <sys/fcntl.h>
 #endif
 
 #include <errno.h>
 
-#if defined(linux)
+#if defined(__linux__)
 #include <getopt.h>
 #endif
 

@@ -52,11 +52,11 @@
 #ifndef _funcs_h
 #define _funcs_h 1
 
-#if !defined(linux) && !defined(CSRG_BASED) && !defined(sun)
+#if !defined(__linux__) && !defined(CSRG_BASED) && !defined(sun)
 #include <libc.h>
 #endif
 #if defined(hpux) || defined(sgi) || \
-    defined(linux) || defined(CSRG_BASED) || defined(sun)
+    defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <unistd.h>
 #else
 #include <sysent.h>

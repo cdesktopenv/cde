@@ -172,7 +172,7 @@ static int generic_error_handler( edpy, eevent )
  *
  *****************************************************************************/
 static void
-#if defined(__aix) || defined(linux)
+#if defined(__aix) || defined(__linux__)
 handle_SIGCLD(int sigNum)
 #else
 handle_SIGCLD(void)

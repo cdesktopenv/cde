@@ -300,7 +300,7 @@ char *cpp_argv[ARGUMENTS] = {
 #ifdef unix
 	"-Uunix",	/* remove unix symbol so that filename unix.c okay */
 #endif
-#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH) || defined(ISC) || defined(linux) || defined(__hpux__) || defined(__vxworks)
+#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH) || defined(ISC) || defined(__linux__) || defined(__hpux__) || defined(__vxworks)
 # ifdef __i386__
 	"-D__i386__",
 # endif
@@ -502,7 +502,7 @@ char *cpp_argv[ARGUMENTS] = {
 #endif
 #ifdef linux
         "-traditional",
-        "-Dlinux",
+        "-D__linux__",
 #endif
 #ifdef __sxg__
 	"-D__sxg__",
@@ -567,7 +567,7 @@ char *cpp_argv[ARGUMENTS] = {
 # define DEFAULT_OS_MINOR_REV	"r %[0-9]"
 /* No information available to generate default OSTeenyVersion value. */
 # define DEFAULT_OS_NAME	"srvm %[^\n]"
-#elif defined(sun) || defined(sgi) || defined(ultrix) || defined(linux) || defined(sony)
+#elif defined(sun) || defined(sgi) || defined(ultrix) || defined(__linux__) || defined(sony)
 /* uname -r returns "x.y[.z]", e.g. "5.4" or "4.1.3" */
 # define DEFAULT_OS_MAJOR_REV	"r %[0-9]"
 # define DEFAULT_OS_MINOR_REV	"r %*d.%[0-9]"
@@ -689,7 +689,7 @@ struct symtab	predefs[] = {
 #ifdef mc68020
 	{"mc68020", "1"},
 #endif
-#if defined(__GNUC__) && !defined(linux)
+#if defined(__GNUC__) && !defined(__linux__)
 	{"__GNUC__", DEF_STRINGIFY(__GNUC__)},
 #endif
 #ifdef __GNUC_MINOR__

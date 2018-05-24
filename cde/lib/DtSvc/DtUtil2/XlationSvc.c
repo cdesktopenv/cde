@@ -49,7 +49,7 @@ $END$
 #include <sys/param.h>        /* MAXPATHLEN */
 
 /* for RADIXCHAR and nl_langinfo */
-#if defined(linux)
+#if defined(__linux__)
 # define RADIXCHAR MON_DECIMAL_POINT
 #endif
 #include <langinfo.h>       
@@ -2199,7 +2199,7 @@ int _DtXlateGetXlateEnv(
    /* then look up version number of execution host */
    if (ret_AppExecEnvVersion) 
    {
-#if defined(sun) || defined(_AIX) || defined(linux) || defined(CSRG_BASED)
+#if defined(sun) || defined(_AIX) || defined(__linux__) || defined(CSRG_BASED)
       char version[SYS_NMLN+SYS_NMLN+2];
 #else
       char version[UTSLEN+UTSLEN+2];
@@ -2252,7 +2252,7 @@ int _DtXlateGetXlateEnv(
 #error OSMAJORVERSION and/or OSMINORVERSION not defined
 #endif
 
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
       sprintf(buf,"%s%s%s", STR(OSMAJORVERSION), 
                      nl_langinfo('.'), STR(OSMINORVERSION));
 #else

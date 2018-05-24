@@ -69,7 +69,7 @@
 #define X_INCLUDE_STRING_H
 #define X_INCLUDE_TIME_H
 #define XOS_USE_NO_LOCKING
-#if defined(linux)
+#if defined(__linux__)
 #undef SVR4
 #endif
 #include <X11/Xos_r.h>

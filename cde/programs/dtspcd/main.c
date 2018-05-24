@@ -99,7 +99,7 @@ int Client_Send_EOF(protocol_request_ptr prot);
 int Client_Channel_Termios(protocol_request_ptr prot);
 int Client_Enhanced_Spawn(protocol_request_ptr prot);
 
-#if defined(_AIX) || defined(linux)
+#if defined(_AIX) || defined(__linux__)
 # define SA_HANDLER_INT_ARG
 #endif /* _AIX */
 

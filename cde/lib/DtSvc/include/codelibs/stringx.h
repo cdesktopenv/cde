@@ -73,7 +73,7 @@ extern "C"
 
 #ifdef __cplusplus
     char *strtokx(char *&ptr, const char *sep);
-# if !defined(linux) && !defined(sun) && !defined(CSRG_BASED)
+# if !defined(__linux__) && !defined(sun) && !defined(CSRG_BASED)
     char **strsep(const char *str, const char *sep,
 	boolean whsp = TRUE, int *num = NULL);
     const char *strcmbn(const char **vec, const char *sep = " ");
@@ -81,7 +81,7 @@ extern "C"
 
 #else /* __STDC__ */
     char *strtokx(char **ptr, const char *sep);
-# if !defined(linux) && !defined(sun) && !defined(CSRG_BASED)
+# if !defined(__linux__) && !defined(sun) && !defined(CSRG_BASED)
     char **strsep(const char *str, const char *sep,
 	boolean whsp, int *num);
 #endif
@@ -119,7 +119,7 @@ extern size_t     nl_strlen();		/* __OBSOLETE */
 #if defined(__cplusplus)
 }
 
-#if defined(apollo) || defined(__aix) || defined(linux) || defined(CSRG_BASED)
+#if defined(apollo) || defined(__aix) || defined(__linux__) || defined(CSRG_BASED)
 #include <stdlib.h>
 #else
 #include <malloc.h>

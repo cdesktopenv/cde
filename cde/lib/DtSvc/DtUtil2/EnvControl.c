@@ -426,7 +426,7 @@ _DtEnvControl(
 			if ((ptr = strstr(tempString, "/usr/openwin/bin")))
 #elif defined(CSRG_BASED)
 			if ((ptr = strstr(tempString, "/usr/X11R6/bin")))
-#elif defined(linux)
+#elif defined(__linux__)
 			if ((ptr = strstr(tempString, "/usr/bin")))
 #else
 			if ((ptr = strstr(tempString, "/usr/bin/X11")))
@@ -821,7 +821,7 @@ static void _EnvAdd
 {
   _DtSvcProcessLock();
   if (envBitVector & bv_flag) {
-#if defined(CSRG_BASED) || defined(linux)
+#if defined(CSRG_BASED) || defined(__linux__)
       setenv(envVar, envVarSetting + strlen(envVar) + 1, 1);
 #else
 
@@ -928,7 +928,7 @@ _DtEnvRemove(
                       && ( p[len] == '=' )
                       && !strncmp(p, str, len))
 		{
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 		  /* JET - 2/19/99
 		     It seems much safer to let libc worry about this
 		     rather than try to do it ourselves.  

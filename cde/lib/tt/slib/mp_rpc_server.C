@@ -350,7 +350,7 @@ gettransient(int proto, int vers, int *sockp)
 #ifndef OPT_TLI
 	int			found;
 	int			s;
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 	socklen_t		len;
 #else
 	int			len;
@@ -399,7 +399,7 @@ gettransient(int proto, int vers, int *sockp)
 	}
 
 	int optval = 0;
-#if !defined(linux)
+#if !defined(__linux__)
 	if (setsockopt(s, SOL_SOCKET, SO_USELOOPBACK,
 		       (char *)&optval, sizeof(optval)) == -1) {
 	}

@@ -360,7 +360,7 @@ append_real_subtrees( _Tt_string_list_ptr realtrees, _Tt_string path )
 /*
  * basename() - Return the last component of a pathname.
  */
-#if !defined(linux)
+#if !defined(__linux__)
 char *basename( char *pathname ) {
 	char *the_basename;
 	

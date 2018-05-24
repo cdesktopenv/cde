@@ -69,7 +69,7 @@ static char sccsid[] = "@(#)format.c 1.27 95/01/19 Copyr 1991 Sun Microsystems, 
 
 #define XOS_USE_XT_LOCKING
 #define X_INCLUDE_TIME_H
-#if defined(linux)
+#if defined(__linux__)
 #undef SVR4
 #endif
 #include <X11/Xos_r.h>

@@ -171,7 +171,7 @@ static unsigned char anno_double_bits[] = {
    0x0a, 0x20, 0xea, 0x2f, 0x0a, 0x20, 0xea, 0x2f, 0x0a, 0x20, 0xfa, 0x3f,
    0x02, 0x08, 0xfe, 0x0f, 0x00, 0x00};
 
-#if defined(SVR4) || defined(linux) || defined(CSRG_BASED)
+#if defined(SVR4) || defined(__linux__) || defined(CSRG_BASED)
 #include <signal.h>
 #else
 #include <sys/signal.h>

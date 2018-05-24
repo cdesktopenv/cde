@@ -82,11 +82,11 @@
  * - Prefix all vista utility names with "dt...", also to deconfuse.
  *
  */
-#if defined(linux)
+#if defined(__linux__)
 # define __SVR4_I386_ABI_L1__
 #endif
 #include <limits.h>	/* pickup WORD_BIT, LONG_BIT */
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 # undef __SVR4_I386_ABI_L1__
 # ifndef WORD_BIT
 # define WORD_BIT 32

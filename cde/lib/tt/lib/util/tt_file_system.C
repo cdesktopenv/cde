@@ -47,7 +47,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#if defined(linux)
+#if defined(__linux__)
 # include <sys/poll.h>
 #else
 # include <poll.h>

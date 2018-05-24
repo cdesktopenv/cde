@@ -73,7 +73,7 @@
 #include <Dt/Dts.h>
 #include "DtSvcLock.h"
 
-#if !defined(linux)
+#if !defined(__linux__)
 extern char	*strdup(const char *);
 #endif
 

@@ -242,12 +242,12 @@ DocParser::process(istream &input, ostringstream &output,
 	  break;
 	case AttributeSection:
 	  {
-#if !defined(SC3) && !defined(_IBMR2) && !defined(linux) && \
+#if !defined(SC3) && !defined(_IBMR2) && !defined(__linux__) && \
     !defined(CSRG_BASED) && !defined(sun)
 	    volatile
 #endif
 	    AttributeList *attrs = 0;
-#if !defined(SC3) && !defined(_IBMR2) && !defined(linux) && \
+#if !defined(SC3) && !defined(_IBMR2) && !defined(__linux__) && \
     !defined(CSRG_BASED) && !defined(sun)
 	    volatile
 #endif

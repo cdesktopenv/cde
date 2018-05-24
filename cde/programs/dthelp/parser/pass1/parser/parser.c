@@ -45,7 +45,7 @@ int main(argc, argv)
       "prevcon=%d,token=%d,curcon=%d,scanval='%c'(%d),line=%d,netlevel=%d\n" ;
     static char name[] = "m_name = '%s'\n" ;
     static char literal[] = "m_literal = '%s'\n" ;
-#if defined(hpux) || defined(_AIX) || defined(sun) || defined(linux)
+#if defined(hpux) || defined(_AIX) || defined(sun) || defined(__linux__)
     char buffer[M_LITLEN + 80] ;
 #else
 #define max4(a,b,c,d) (a>b&&a>c&&a>d) ? a : ((b>c&&b>d) ? b : (c>d ? c : d))
@@ -55,7 +55,7 @@ int main(argc, argv)
                      sizeof(literal) + M_LITLEN - 2)] ;
 #endif
 
-#if defined(linux)
+#if defined(__linux__)
     m_outfile = stdout;
     m_errfile = stderr;
 #endif

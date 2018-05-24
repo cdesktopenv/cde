@@ -72,7 +72,7 @@
 
 static Bool lookForButton(Display *, XEvent *, XPointer);
 
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__linux__) && !defined(CSRG_BASED)
 extern char	*sys_errlist[];
 #endif
 

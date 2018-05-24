@@ -77,7 +77,7 @@
 #  include <shadow.h>
 #endif
 
-#if defined(linux)
+#if defined(__linux__)
 # include <shadow.h>
 #endif
 #if defined(CSRG_BASED)
@@ -144,7 +144,7 @@ static void RequirePassword( XtPointer, XtIntervalId *) ;
 static void CycleSaver( XtPointer, XtIntervalId *) ;
 static void BlinkCaret( XtPointer, XtIntervalId *) ;
 
-#if defined(linux)
+#if defined(__linux__)
 /* #define JET_AUTHDEBUG */
 
 /* Test for re-auth ability - see if we can re-authenticate via pwd,
@@ -1661,7 +1661,7 @@ localAuthenticate(
       return FALSE;
 }
     
-#elif defined(linux)
+#elif defined(__linux__)
 
 {
     struct passwd *pwent = NULL;

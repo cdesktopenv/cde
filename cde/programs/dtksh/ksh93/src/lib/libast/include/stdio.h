@@ -50,7 +50,7 @@
 #define stdout		sfstdout
 #define stderr		sfstderr
 #define BUFSIZ		SF_BUFSIZE
-#if !defined(linux)
+#if !defined(__linux__)
 #ifdef FILE
 #undef FILE
 #endif

@@ -385,7 +385,7 @@ UtmpEntryCreate(Widget w, pid_t pid, char *utmpLine)
 	(void) strncpy(utPtr->ut_id, utmpLine,
 		sizeof(utPtr->ut_id));
 #else	/* __AIX */
-#if defined(linux) || defined(sun)
+#if defined(__linux__) || defined(sun)
 	if (c = strchr(utmpLine, '/')) {
 	    c++;
 	} else {
@@ -401,7 +401,7 @@ UtmpEntryCreate(Widget w, pid_t pid, char *utmpLine)
 
     /* set up the new entry... */
     utPtr->ut_type = USER_PROCESS;
-#if !defined(linux)
+#if !defined(__linux__)
     utPtr->ut_exit.e_termination = 0;
     utPtr->ut_exit.e_exit = 2;
 #endif
@@ -528,7 +528,7 @@ UtmpEntryDestroy(Widget w, char *utmpLine)
     (void) setutent();
     if (utPtr = getutline(&ut)) {
 	utPtr->ut_type = DEAD_PROCESS;
-#if !defined(linux)
+#if !defined(__linux__)
 	utPtr->ut_exit.e_termination = 0;
 	utPtr->ut_exit.e_exit = 0;
 #endif

@@ -119,7 +119,7 @@
 #define generic
 #endif
 
-#if defined(linux)
+#if defined(__linux__)
 #    include <shadow.h>
 #endif
 
@@ -1944,7 +1944,7 @@ Authenticate( struct display *d, char *name, char *passwd, char **msg )
 
     p = getpwnam(name);
     
-#if defined(linux)
+#if defined(__linux__)
     /*
      * Use the Linux Shadow Password system to get the crypt()ed password
      */

@@ -34,7 +34,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <rpc/rpc.h>
-#if !defined(linux) && !defined(CSRG_BASED)
+#if !defined(__linux__) && !defined(CSRG_BASED)
 # include <poll.h>
 #endif
 #if defined(SunOS)
@@ -200,7 +200,7 @@ _DtCm_destroy_agent()
 extern void
 _DtCm_process_updates()
 {
-#if defined(CSRG_BASED) || defined(linux) 
+#if defined(CSRG_BASED) || defined(__linux__)
         int     i, nfd;
         fd_set  rpc_bits;
 

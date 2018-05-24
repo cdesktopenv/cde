@@ -217,7 +217,7 @@ main(int argc, char** argv, char **envp)
 #if defined(HPUX)
 	int asize = sizeof(saddr);
 #else
-# if defined(linux) || defined(CSRG_BASED) || defined(sun)
+# if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 	socklen_t asize = sizeof(saddr);
 # else
 	size_t asize = sizeof(saddr);

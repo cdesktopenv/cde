@@ -445,7 +445,7 @@ WriteOutPalette(
    strcat(filename, PALETTE_SUFFIX);
 
    /* open the file for writing */
-#if defined(linux)
+#if defined(__linux__)
    if( (fd = open( filename, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
 #else
    if( (fd = open( filename, O_RDWR | O_CREAT)) == -1)
@@ -1128,7 +1128,7 @@ CheckFileType( void )
    strcat(tmpfile1, DT_PAL_DIR);
    strcat(tmpfile1, filename1);
 
-#if defined(linux)
+#if defined(__linux__)
    if( (fd = open( tmpfile1, O_CREAT, S_IRUSR | S_IWUSR)) == -1)
 #else
    if( (fd = open( tmpfile1, O_CREAT)) == -1)
@@ -1148,7 +1148,7 @@ CheckFileType( void )
    strcat(tmpfile2, DT_PAL_DIR);
    strcat(tmpfile2, filename2);
 
-#if defined(linux)
+#if defined(__linux__)
    if( (fd1 = open(tmpfile2, O_CREAT | O_EXCL, S_IRUSR | S_IWUSR)) == -1)
 #else
    if( (fd1 = open(tmpfile2, O_CREAT | O_EXCL)) == -1)

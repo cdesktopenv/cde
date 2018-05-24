@@ -145,7 +145,7 @@ struct cmd cmdtab[] = {
 
 #if defined(sun)
 #define SYSTEM_MAILRC	"/etc/mail/mail.rc"
-#elif defined(_AIX) || defined(linux)
+#elif defined(_AIX) || defined(__linux__)
 #define SYSTEM_MAILRC	"/usr/share/lib/Mail.rc"
 #elif defined(__hpux)
 #define SYSTEM_MAILRC	"/usr/share/lib/mailx.rc"

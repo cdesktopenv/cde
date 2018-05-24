@@ -95,7 +95,7 @@
 #include	"defs.h"
 #include	<fcin.h>
 /* on linux pwd.h can include FILE without stdio.h which clashes with sfio_t */
-#if defined(linux)
+#if defined(__linux__)
  #ifndef __FILE_defined
   #define __FILE_defined 1
  #endif

@@ -28,7 +28,7 @@
  *  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
  */
 
-#if defined(linux)
+#if defined(__linux__)
 #define _POSIX_C_SOURCE 2
 #endif
 
@@ -493,7 +493,7 @@ init_alarm()
 	extern void garbage_collect();
 	extern void debug_switch();
 
-#if defined(SVR4) && !defined(linux)
+#if defined(SVR4) && !defined(__linux__)
 	extern void (*sigset(int, void (*)(int)))(int);
 	sigset(SIGUSR1, garbage_collect);
 	sigset(SIGALRM, garbage_collect);
@@ -695,7 +695,7 @@ main(int argc, char **argv)
 
 		if (udp_transp == (SVCXPRT *)-1) {
 			udp_transp = svcudp_create(standalone ? RPC_ANYSOCK : 0
-#if defined(_AIX) || defined(hpV4) || defined(linux) || defined(CSRG_BASED)
+#if defined(_AIX) || defined(hpV4) || defined(__linux__) || defined(CSRG_BASED)
 					);
 #else
 					,0,0);

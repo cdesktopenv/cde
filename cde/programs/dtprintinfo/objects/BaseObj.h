@@ -51,7 +51,7 @@
   #define true B_TRUE
   #define false B_FALSE
 #endif
-#elif defined(linux)
+#elif defined(__linux__)
   #define false 0
   #define true 1
   #define boolean int

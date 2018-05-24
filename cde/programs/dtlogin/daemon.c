@@ -77,7 +77,7 @@ BecomeDaemon( void )
      * Close standard file descriptors and get rid of controlling tty
      */
 
-#if defined(SYSV) || defined (SVR4) || defined(linux)
+#if defined(SYSV) || defined (SVR4) || defined(__linux__)
     setpgrp ();
 #else
     setpgrp (0, getpid());

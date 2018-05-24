@@ -97,7 +97,7 @@ typedef struct {
 #define min(a, b)	((a < b) ? a : b)
 #define max(a, b)	((a > b) ? a : b)
 #ifndef abs
-#if !defined(linux)
+#if !defined(__linux__)
 #define abs(a)		(((a) < 0) ? -(a) : (a))
 #endif
 #endif

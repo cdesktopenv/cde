@@ -43,7 +43,7 @@
 
 #include <stdlib.h>
 
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <unistd.h>
 #else
 #include <osfcn.h>

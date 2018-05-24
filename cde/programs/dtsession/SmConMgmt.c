@@ -55,7 +55,7 @@
 
 #include <stdio.h>
 #include <fcntl.h>
-#if !defined(linux)
+#if !defined(__linux__)
 #include <nlist.h>
 #endif
 #include <X11/Intrinsic.h>
@@ -109,7 +109,7 @@ int clientRunning;
 /*
  * Variables global to this module only
  */
-#if !defined(linux)
+#if !defined(__linux__)
 static struct nlist namelist[3];
 #endif
 static int freemem_loc, gpgslim_loc, gpgslim, freemem;
@@ -160,7 +160,7 @@ static void WaitClientTimeout(XtPointer, XtIntervalId *);
 int 
 GetMemoryUtilization(void)
 {
-#if !defined(linux)
+#if !defined(__linux__)
     static int init = 0;
     static int kmem;
 #if !defined(SVR4) && !defined(hpV4) && !defined(_POWER) && !defined(CSRG_BASED)

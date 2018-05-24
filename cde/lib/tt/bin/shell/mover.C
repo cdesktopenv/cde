@@ -35,7 +35,7 @@
 #include "tt_options.h"
 #include <errno.h>
 #include <string.h>
-#if defined(linux) || defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
 #include <unistd.h>
 #else
 #if !defined(sun)

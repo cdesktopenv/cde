@@ -48,11 +48,11 @@
 # endif
 
 #elif defined(OPT_CATGETS)
-# if defined(linux)
+# if defined(__linux__)
     extern "C" {
 # endif
 # include <nl_types.h>
-# if defined(linux)
+# if defined(__linux__)
     }
 # endif
 # if !defined(NL_CAT_LOCALE)

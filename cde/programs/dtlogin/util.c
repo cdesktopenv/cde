@@ -344,7 +344,7 @@ CleanUpChild( void )
  *  has also gotten rid of the controlling terminal there is no great
  *  harm in not making the sub-daemons as leaders.
  */
-#if defined (SYSV) || defined (SVR4) || defined(linux)
+#if defined (SYSV) || defined (SVR4) || defined(__linux__)
 	setpgrp ();
 #else
 	setpgrp (0, getpid ());
@@ -670,7 +670,7 @@ static int
 MatchesFileSuffix(const char *filename, const char *suffix)
 {
     int		retval = 0;
-#if defined(_AIX) || defined(SVR4) || defined(linux) || defined(CSRG_BASED)
+#if defined(_AIX) || defined(SVR4) || defined(__linux__) || defined(CSRG_BASED)
     int		different = 1;
 	     
     /*

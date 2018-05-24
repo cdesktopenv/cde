@@ -34,7 +34,7 @@
   HASH
 #if defined(__OpenBSD__) || defined(__NetBSD__)
   pexec=$(LC_TIME=C ps -p $PPID | awk 'NR==2 {print $5}')
-#elif defined(linux)
+#elif defined(__linux__)
   pexec=$(LC_TIME=C /bin/ps -p $PPID 2>/dev/null | awk 'NR==2 {print $4}')
 #elif defined(__FreeBSD__)
   pexec=$(LC_TIME=C /bin/ps -o comm= -p $PPID 2>/dev/null)
@@ -304,7 +304,7 @@ SetKeyboardMap()
 #endif
 #endif
 
-#if defined(linux)
+#if defined(__linux__)
 #ifdef cpp_Xsetup
     if [ "$DTXSERVERLOCATION" != "remote" ]; then
       fontpath=

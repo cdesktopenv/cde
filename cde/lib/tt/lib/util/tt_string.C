@@ -54,7 +54,7 @@
 #endif
 #include <stdlib.h>
 #include <ctype.h>
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <wctype.h>
 #endif
 #include "util/tt_string.h"

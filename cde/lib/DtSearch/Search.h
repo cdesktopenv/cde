@@ -62,11 +62,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#if defined(linux)
+#if defined(__linux__)
 # define __SVR4_I386_ABI_L1__
 #endif
 #include <limits.h>
-#if defined(linux)
+#if defined(__linux__)
 # undef __SVR4_I386_ABI_L1__
 # ifndef WORD_BIT
 # define WORD_BIT 32

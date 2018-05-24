@@ -756,7 +756,7 @@ class RFCMailBox : public DtMail::MailBox
 		_isPartial(DtMailEnv &error, RFCMessage	*message);
     DtMailBoolean
 		addressIsMapped(void *addressToCheck);
-#if defined(linux)
+#if defined(__linux__)
     void	alterPageMappingAdvice(MapRegion *map, int advice = 0);
 #else
     void	alterPageMappingAdvice(

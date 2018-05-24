@@ -82,7 +82,7 @@ from the X Consortium.
 #include <stdint.h>
 #include "_fallibint.h"
 #include "_fallcint.h"
-#if defined(linux)
+#if defined(__linux__)
 #include <locale.h>
 #else
 #include <X11/Xlocale.h>

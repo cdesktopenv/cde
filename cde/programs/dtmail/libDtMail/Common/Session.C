@@ -86,7 +86,7 @@
 extern "C" {
 #endif
 
-#if !defined(linux)
+#if !defined(__linux__)
 #  include <iconv.h>
 #else
    // Iconv not defined for linux.  Use the EUSCompat stubs instead.

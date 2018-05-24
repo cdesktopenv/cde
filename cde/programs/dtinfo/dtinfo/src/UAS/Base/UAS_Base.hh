@@ -32,7 +32,7 @@ class UAS_Base: public Destructable {
 	UAS_Base ();
 	virtual ~UAS_Base ();
 	int operator == (const UAS_Base &);
-#if (defined(sparc) && defined(SC3)) || defined(linux)
+#if (defined(sparc) && defined(SC3)) || defined(__linux__)
 	/* SC++ 4.0.1 does not like these being protected  */
 #else
     protected:

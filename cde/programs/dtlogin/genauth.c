@@ -228,7 +228,7 @@ bitsToBytes (unsigned long bits[2], char bytes[64])
  *  the OS's random number device.
  */
 
-#if defined(linux) || defined(CSRG_BASED) || defined(sun)
+#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #define READ_LIMIT (sizeof (long) * 2)
 
 static int
@@ -440,7 +440,7 @@ static int  cryptoInited = 0;
 int 
 InitCryptoKey( void )
 {
-#if defined(linux) 
+#if defined(__linux__)
     /* non-blocking */
     char    *key_file = "/dev/urandom";
 #elif defined(CSRG_BASED) || defined(sun)
