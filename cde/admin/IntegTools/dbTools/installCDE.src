@@ -493,6 +493,7 @@ echo -e "\t\t\t\t\tthen exit"
 echo -e "\t[-DontRunScripts]\t\tstop after installation"
 echo -e "\t[-RunScriptsOnly]\t\tonly execute the scripts"
 echo -e "\t[-configureOnly]\t\tonly configure the desktop"
+echo -e "\t[-destdir dir]\t\tInstall all files under dir/"
 echo -e ""
 echo -e "\tExamples:"
 echo -e ""
@@ -527,7 +528,7 @@ XCOMM don't bother if the fileset doesn't exist
   KORNSHELL $TOOL_DIR/udbToAny.ksh  -toLst -ReleaseStream $PLATFORM \
             $DATABASE_DIR/${2}.udb >  /tmp/${2}.lst
   Log "      - installing ... "
-  KORNSHELL $TOOL_DIR/mkProd -D / -S $BUILD_TREE /tmp/${2}.lst \
+  KORNSHELL $TOOL_DIR/mkProd -D $DESTINATION_DIR -S $BUILD_TREE /tmp/${2}.lst \
             2>/tmp/${2}.err 1>/tmp/${2}.good
   Log "        done."
 
@@ -623,6 +624,8 @@ XCOMM
   CLEAN_DAEMONS="yes"
   theLang=""
   CONFIGURE_ONLY="no"
+  DESTINATION_DIR="/"
+
 
   rm -f $LOGFILE
 
@@ -788,6 +791,15 @@ XCOMM
             CLEAN_DAEMONS="yes"
             shift;
             ;;
+        -destdir) Log "  - Destination Directory"
+	    shift;
+	    [ $# -ne 0 ] || {
+		USAGE
+		exit 1;
+	    }
+	    DESTINATION_DIR="$1"
+	    shift;
+            ;;
 	*) Log "  - unknown option"
 	    USAGE
 	    exit 1;
@@ -813,6 +825,18 @@ XCOMM
   then
     Log "Tar tree does not exist."
     exit 1
+  fi
+
+  if [ "$DESTINATION_DIR" != "" -a ! -d "$DESTINATION_DIR" ]
+  then
+    Log "Creating $DESTINATION_DIR"
+    mkdir $DESTINATION_DIR
+
+    if [ $? -ne 0 ]
+    then
+        Log "mkdir $DESTINATION_DIR failed"
+        exit 1
+    fi
   fi
 
   CDEPACKAGE=dt.pkg
@@ -983,7 +1007,7 @@ XCOMM
   fi
 
   Log " "
-  Log "Desktop installed in $INSTALL_LOCATION"
+  Log "Desktop installed in $DESTINATION_DIR/$INSTALL_LOCATION"
 
   if [ "$DO_INSTALL_ONLY" = "yes" ]
   then
