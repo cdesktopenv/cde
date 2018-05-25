@@ -20,11 +20,11 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-//%%  (c) Copyright 1993, 1994 Hewlett-Packard Company			
-//%%  (c) Copyright 1993, 1994 International Business Machines Corp.	
-//%%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			
-//%%  (c) Copyright 1993, 1994 Novell, Inc. 				
-//%%  $XConsortium: tt_xdr_utils.C /main/6 1996/08/29 18:08:20 drk $ 			 				
+//%%  (c) Copyright 1993, 1994 Hewlett-Packard Company
+//%%  (c) Copyright 1993, 1994 International Business Machines Corp.
+//%%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.
+//%%  (c) Copyright 1993, 1994 Novell, Inc.
+//%%  $XConsortium: tt_xdr_utils.C /main/6 1996/08/29 18:08:20 drk $
 /*
  *
  * tt_xdr_utils.cc
@@ -67,7 +67,7 @@ static bool_t
  * The third agrument is also wrong. Both SUN and DEC system header files
  * expect int instead of u_int.
  */
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(__linux__)
 #if defined(OPT_CONST_CORRECT)
 tt_x_putbytes(XDR *xp, const char *, unsigned int len)
 #else
@@ -83,12 +83,12 @@ tt_x_putbytes(XDR *xp, caddr_t, int len)
 
 #if defined(ultrix)
 static int*
-#elif defined(CSRG_BASED)
+#elif defined(CSRG_BASED) || defined(__linux__)
 static int32_t*
 #else
 static long *
 #endif
-#if defined(CSRG_BASED)
+#if defined(CSRG_BASED) || defined(__linux__)
 tt_x_inline(XDR *xp, unsigned int len)
 #else
 tt_x_inline(XDR *xp, int len)
@@ -106,7 +106,7 @@ tt_x_inline(XDR *xp, int len)
 	xp->x_handy += RNDUP (len);
 #if defined(ultrix)
 	return (int *) xp->x_private;
-#elif defined(CSRG_BASED)
+#elif defined(CSRG_BASED) || defined(__linux__)
 	return (int32_t *) xp->x_private;
 #else
 	return (long *) xp->x_private;
@@ -151,7 +151,7 @@ _Tt_xdr_size_stream() {
 	ops.x_putlong = tt_x_putlong;
 	ops.x_putbytes = tt_x_putbytes;
 	ops.x_inline = tt_x_inline;
-#endif	
+#endif
 	xdrstream.x_op = XDR_ENCODE;
 	xdrstream.x_ops = &ops;
 	xdrstream.x_handy = 0;
