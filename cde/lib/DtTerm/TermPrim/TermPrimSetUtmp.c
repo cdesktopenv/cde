@@ -56,7 +56,7 @@ static char rcs_id[] = "$TOG: TermPrimSetUtmp.c /main/10 1998/04/03 17:11:42 mgr
 #define XOS_USE_XT_LOCKING
 #include <X11/Xos_r.h>
 
-#ifdef	linux
+#ifdef	__linux__
 #define	UT_NO_pututline
 #endif	/* sun */
 
