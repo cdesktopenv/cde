@@ -51,7 +51,7 @@ _Tt_old_db::
 _Tt_old_db()
 {
   propertyTableFD = 0;
-  dbResults = NULL;
+  dbResults = TT_DB_OK;
 }
 
 _Tt_old_db::_Tt_old_db (const _Tt_string        &partition,
