@@ -69,7 +69,7 @@ ilError                     error;
             If not the same, do ilConvert() to that format (recurse!), exit if error.
         */
     switch (pCvtData->srcFormatCode) {
-        case IL_DONT_CHECK_STD_FORMAT:      /* filter converts format: dont check */
+        case IL_DONT_CHECK_STD_FORMAT:      /* filter converts format: don't check */
             break;
 
         case IL_STD_FORMAT_BIT:

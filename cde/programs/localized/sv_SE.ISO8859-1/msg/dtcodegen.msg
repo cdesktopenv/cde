@@ -25,7 +25,7 @@ $set 1
 15 "file is specified, a project file containing the specified module(s) is\n"
 16 "searched for in the current directory.\n\n"
 17 "Files with extension .bip are assumend to be BIL project files, files with\n"
-18 ".bix extenstion are assumed to be encapsulated BIL files, and files\n"
+18 ".bix extension are assumed to be encapsulated BIL files, and files\n"
 19 "with a .bil extension are assumed to be BIL module files.\n"
 20 "Options (* = default, + = default with no project file):\n"
 21 "  -help (-h)        Print out this help message\n"

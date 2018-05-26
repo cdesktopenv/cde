@@ -1934,7 +1934,7 @@ establish_user_environment(char **renvp)
 	 * /etc/profile.  We are doing the "sourcing" prematurely in
 	 * init.c.  Additionally, a login C shell doesn't source the
 	 * file /etc/profile thus not sourcing /etc/TIMEZONE thus not
-	 * allowing an adminstrator to globally set TZ for all users
+	 * allowing an administrator to globally set TZ for all users
 	 */
 	if (Def_tz != NULL)	/* Is there a TZ from defaults/login? */
 		tmp_tz = Def_tz;

@@ -797,7 +797,7 @@ repository_to_string(int repository)
 /*
  * Prints an error message if a ':' or a newline is found in the string.
  * A message is also printed if the input string is too long.
- * The password sources use :'s as seperators, and are not allowed in the "gcos"
+ * The password sources use :'s as separators, and are not allowed in the "gcos"
  * field.  Newlines serve as delimiters between users in the password source,
  * and so, those too, are checked for.  (I don't think that it is possible to
  * type them in, but better safe than sorry)

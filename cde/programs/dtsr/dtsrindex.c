@@ -327,8 +327,8 @@ static void     print_exit_code (int exit_code)
  * scaled to range 0 to 255.
  * Fundamentally it's a word count of that word in the doc,
  * but adjusted as follows:
- * 1) Large occurrances in small documents weigh more than 
- *    the same number of occurrances in large documents.
+ * 1) Large occurrences in small documents weigh more than
+ *    the same number of occurrences in large documents.
  * 2) Taking the log skews the ratio to be more linear,
  *    ie take advantage of higher ranges of the 'weight'.
  *    For example a word that occurs in 10% of the document,

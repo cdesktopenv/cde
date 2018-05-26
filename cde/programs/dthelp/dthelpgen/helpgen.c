@@ -1517,9 +1517,9 @@ main(
     fprintf (outVolume, "*.topTopic:  %s\n", ParentName);
 
     /*
-     * topic heirarchy
+     * topic hierarchy
      */
-    fprintf (outVolume, "\n\n!# Topic Heirarchy\n");
+    fprintf (outVolume, "\n\n!# Topic Hierarchy\n");
     fprintf (outVolume, "*.%s.parent:  \n", ParentName);
     for (next = TopicList; next && *next; next++)
         fprintf (outVolume, "*.%s.parent: %s\n", *next, ParentName);

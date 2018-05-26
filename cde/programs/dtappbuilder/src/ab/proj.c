@@ -1088,7 +1088,7 @@ import_uil(
         return;
     }
     else
-        fprintf(stderr, "Succesfully imported %s.\n", uil_file_name);
+        fprintf(stderr, "Successfully imported %s.\n", uil_file_name);
  
     obj_set_flag(project, SaveNeededFlag);
  

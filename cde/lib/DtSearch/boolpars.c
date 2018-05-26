@@ -472,7 +472,7 @@ TRUTHTAB	*boolyac_NOT (TRUTHTAB *oldtt) {
  * generated dynamically.  At the parse level it is equivalent
  * to a separate 'word' with its own (undetermined) record set.
  * So it's given its own slot in saveusr.stems.  The word
- * in saveusr.stems is formated "@ssttv[v...]" where ss and tt are
+ * in saveusr.stems is formatted "@ssttv[v...]" where ss and tt are
  * ascii numbers that index the original collocated words
  * in saveusr.stems, and v... is the collocation value integer.
  * For example, "@03005" represents the collocation of stem

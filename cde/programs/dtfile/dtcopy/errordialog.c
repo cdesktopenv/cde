@@ -222,7 +222,7 @@ create_error_dialog(
       action_area = Create_Action_Area(form, copyActions, NULL);
 
    /* create the separator widget */
-   separator  =  XtVaCreateManagedWidget("seperator",
+   separator  =  XtVaCreateManagedWidget("separator",
                               xmSeparatorWidgetClass,
                               form,
                               XmNbottomAttachment,  XmATTACH_WIDGET,

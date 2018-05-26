@@ -50,7 +50,7 @@ $COPYRIGHT$:
 #include <X11/Xlibint.h>  /* _XGetHostname() */
 #include <X11/Xos.h>     /* FIX: remove? */
 #include <X11/Intrinsic.h>   /* for Xt macros */
-/* dont use X11/StringDefs.h because it brings in the _XtStrings global */
+/* don't use X11/StringDefs.h because it brings in the _XtStrings global */
 
 #include "HelpPrintI.h"
 
@@ -880,7 +880,7 @@ static float dphm = 300.*2540.;
                          /* e.g. Dthelpprint.Printer{.<name>}.PaperSize */
    
 #if defined(_AIX)
-   stricmp = strcmp;	/* AIX and USL dont have strcasecmp */
+   stricmp = strcmp;	/* AIX and USL don't have strcasecmp */
 #else
    stricmp = strcasecmp;
 #endif
@@ -1168,7 +1168,7 @@ void _DtHPrBuildResourceDb(
    char *      tmp_string;
    
    /** n.b.: If *appDB == NULL, the first XrmPutResource() call
-       creates a database and stored its ref in appDB.  We dont
+       creates a database and stored its ref in appDB.  We don't
        need to explicitly create the db.  **/
 
    str_type[0] = NULL;

@@ -273,7 +273,7 @@ class BaseObj {
    // Dumps object to stdout
    void Dump(boolean verbose = false,
 	     int level = 0);
-   // Dumps object heirarchy to stdout
+   // Dumps object hierarchy to stdout
    void DumpHierarchy(boolean verbose = false,
 		      int level = 0);
 

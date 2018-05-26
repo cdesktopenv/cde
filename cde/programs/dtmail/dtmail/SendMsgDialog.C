@@ -861,7 +861,7 @@ SendMsgDialog::loadHeaders(DtMail::Message * input,
 
 	int slot = lookupHeader(name);
 	if (slot < 0) {
-	    // We dont have a place for this information. We may need
+	    // We don't have a place for this information. We may need
 	    // to create a new header.
 	    //
 	    if (load_all) {
@@ -3905,7 +3905,7 @@ SendMsgDialog::resetHeaders(void)
     for (i=0, j=results.length(); i < j; i++) {
 	PropStringPair * psp = results[i];
     	int slot = lookupHeader(psp->label);
-	// dont allow removal of default headers.
+	// don't allow removal of default headers.
 	HeaderList * hl = _header_list[slot];
 	if (!reservedHeader(hl->label)) {
     		if (slot != -1) 

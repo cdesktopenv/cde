@@ -1395,7 +1395,7 @@ ProxyMain(Display *dpy, XEvent *event)
 
 			/* Currently, in both olit dnd protocol and
 			 * motif dnd protocol, the destination side
-			 * DONT check the value from the source side!
+			 * DON'T check the value from the source side!
 			 *
 			 * We will have to copy xe->property to
 			 * drop_info->receiver_win if this is no longer

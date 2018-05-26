@@ -954,7 +954,7 @@ _DtEditorDialogReplaceCB(
 
 /*
  * _DtEditorDialogReplaceAllCB is attached to the "Change All" button
- * in the Find/Change dialog.  It replaces all occurances of the "Find"
+ * in the Find/Change dialog.  It replaces all occurrences of the "Find"
  * string with the "Change To" string.
  */
 

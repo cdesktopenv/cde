@@ -1072,7 +1072,7 @@ AccumElemInfo(
 
 	    case CMD_LINE:	/* Llineno */
 		/* These lines come in 2 forms: "L123" and "L123 file.sgml".
-		 * Filename is given only at 1st occurance. Remember it.
+		 * Filename is given only at 1st occurrence. Remember it.
 		 */
 		if ((cp = strchr(i18nBuf, ' '))) {
 		    cp++;

@@ -471,7 +471,7 @@ $
 
 1 "Insufficient memory for session geometry item"
 
-2 "Insufficient memory for workspaces list in sesssion item"
+2 "Insufficient memory for workspaces list in session item"
 
 3 "Insufficient memory for commandArgv array"
 
@@ -539,7 +539,7 @@ $
 
 37 "Expected '{' "
 
-38 "Insufficient memory for host name in sesssion item"
+38 "Insufficient memory for host name in session item"
 
 39 "Could not reopen configuration file %s"
 $ Message 40 is used to remap the menu accelerator

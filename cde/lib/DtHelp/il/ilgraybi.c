@@ -205,7 +205,7 @@ CARD32			    outLong;
             errorAcc += 3 * *pPrevError;        /* 3 * error above right */
             errorAcc >>= 4;                     /* /16 */
             errorAcc += *pSrc++ ^ invert;       /* + "x"; w/ blackIsZero handled */
-            if (errorAcc >= 128)                /* output white: dont set out bit */
+            if (errorAcc >= 128)                /* output white: don't set out bit */
                 errorAcc -= 255;                /* sub value of white from errorAcc */
             else                                /* output black: errorAcc -= 0 */
                 outLong |= mask;

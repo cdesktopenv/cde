@@ -111,7 +111,7 @@ typedef struct _old_OLWinAttr {
 #define OLDecorFooter		(1L<<1)
 #define OLDecorPushPin		(1L<<2)
 #define OLDecorCloseButton	(1L<<3)
-#define OLDecorResizeable	(1L<<4)
+#define OLDecorResizable	(1L<<4)
 #define OLDecorIconName		(1L<<5)
 #define OLDecorWarpToPin	(1L<<6)
 

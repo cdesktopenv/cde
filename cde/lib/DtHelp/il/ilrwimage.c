@@ -240,7 +240,7 @@ register ilError            returnCode;
             }
         }
     else {
-            /*  Dont have a strip's worth in buffer.  If beingRecalled, then some lines
+            /*  Don't have a strip's worth in buffer.  If beingRecalled, then some lines
                 have been read out from beginning of buffer by next element.  Copy the
                 the lines above that point down to the beginning of the buffer, and
                 set srcLine to the line past them.
@@ -285,7 +285,7 @@ register ilError            returnCode;
             }
         else pData->srcLine += nLines;
 
-            /*  Dont have strip's worth, need more lines: if all lines read, write a 
+            /*  Don't have strip's worth, need more lines: if all lines read, write a
                 short final strip, otherwise write 0 lines and wait for more lines to 
                 come in, written to pData->srcLine.
             */

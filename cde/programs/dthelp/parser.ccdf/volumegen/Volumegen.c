@@ -91,7 +91,7 @@ static char *GetNextToken(
 /* Volumegen Input file suffixes */
 
 #define HEIR_FILE_SUFFIX ".tpc"  /* The input filename suffix used for topic */
-                                 /* heirarchy files. */
+                                 /* hierarchy files. */
 #define TLOC_FILE_SUFFIX ".idt"  /* The input filename suffix used for topic */
                                  /* location files. */
 
@@ -136,13 +136,13 @@ void main (
         exit (1);
     }
 
-    /* Construct the name of the heirarchy file and open it. */
+    /* Construct the name of the hierarchy file and open it. */
     fName = malloc (strlen (*(argv+1)) + strlen (HEIR_FILE_SUFFIX) + 1);
     strcpy (fName, *(argv+1));
     strcat (fName, HEIR_FILE_SUFFIX);
     if ((heirFile = fopen (fName, "r")) == NULL) {
         fprintf (stderr, 
-                 "%s: error opening heirarchy file %s for reading\n", 
+                 "%s: error opening hierarchy file %s for reading\n",
                  *argv, fName);
         perror (NULL);
         exit (1);
@@ -211,7 +211,7 @@ void main (
     }
 
 
-    /* Generate topic list and heirarchy */
+    /* Generate topic list and hierarchy */
     GenTopicList (heirFile, volFile);
     GenTopicHeir (heirFile, volFile);
 
@@ -298,7 +298,7 @@ static void GenTopicHeir(
     topicStack = PStackCreate();
     fseek (infile, 0, SEEK_SET);
 
-    fprintf (outfile, "# Topic Heirarchy\n");
+    fprintf (outfile, "# Topic Hierarchy\n");
     prevToken = NULL;
     while ((token = GetNextToken (infile, TRUE)) != NULL) {
 

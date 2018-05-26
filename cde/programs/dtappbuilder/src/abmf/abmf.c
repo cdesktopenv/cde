@@ -1152,7 +1152,7 @@ abmf_usage(void)
     fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 17,
 "Files with extension .bip are assumend to be BIL project files, files with\n"));
     fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 18,
-".bix extenstion are assumed to be encapsulated BIL files, and files\n"));
+".bix extension are assumed to be encapsulated BIL files, and files\n"));
     fprintf(stderr, "%s", catgets(Dtb_project_catd, 1, 19,
 "With a .bil extension are assumed to be BIL module files.\n\n"));
 

@@ -944,7 +944,7 @@ Initialize(Widget ref_w, Widget w, Arg *args, Cardinal *num_args)
 
 
     /* initialize... */
-    /* we need to insure that everthing is initialized.  Let's do a
+    /* we need to insure that everything is initialized.  Let's do a
      * checklist...
      */
     /* lower euid */

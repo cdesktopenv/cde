@@ -1189,7 +1189,7 @@ void RoamApp::initialize(int *argcp, char **argv)
 	// Create a fontlist that contains the glyph and user fonts
 	strcpy(buf, _user_font);
 #if 0
-	// Never refer to the "plain" tag so dont add it.
+	// Never refer to the "plain" tag so don't add it.
 	if (strchr(_user_font, '=') == NULL) {
 	    // No tag.  Add one
 	    strcat(buf, "=plain, ");

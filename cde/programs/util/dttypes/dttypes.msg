@@ -8,7 +8,7 @@ $set 1
 $ Do not Translate
 2	"Dttype"
 $ Do not Translate
-3	"couldn't initialize everthing\n"
+3	"couldn't initialize everything\n"
 4	"NULL"
 $ this should mean a "Empty string".
 5	"=============== %s ===============\n"

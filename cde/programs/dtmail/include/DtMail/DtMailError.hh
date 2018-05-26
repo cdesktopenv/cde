@@ -177,7 +177,7 @@ public:
   //
   // logError() and logFatalError():
   //
-  // This will print out in a formated way all of the error information
+  // This will print out in a formatted way all of the error information
   // that it can. it also sends the results to the system log device for
   // bug tracking.
   //

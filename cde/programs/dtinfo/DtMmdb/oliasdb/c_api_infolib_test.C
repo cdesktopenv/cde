@@ -70,7 +70,7 @@ int test0(int argc, char** argv)
           showBookCaseInfo(DtMmdbGetBookCaseByIndex(i, j));
        break;
      default:
-       fprintf(stderr, "bad argment list\n");
+       fprintf(stderr, "bad argument list\n");
    }
 
    fprintf(stderr, "infolib desc=%d\n", i);
@@ -91,7 +91,7 @@ int test1(int argc, char** argv)
           showBookCaseInfo(DtMmdbGetBookCaseByLoc(i, argv[4]));
        break;
      default:
-       fprintf(stderr, "bad argment list\n");
+       fprintf(stderr, "bad argument list\n");
    }
 
    fprintf(stderr, "infolib desc=%d\n", i);

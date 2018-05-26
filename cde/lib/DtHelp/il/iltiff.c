@@ -635,7 +635,7 @@ ilYCbCrInfo                *pYCbCr;     /* null if not YCbCr ; else -> des...YCb
             break;
 
                 /*  Parse group 3 TIFF options, assumed to be 0 if not present.
-                    As per TIFF spec, dont support if any unrecognized bits are not 0.
+                    As per TIFF spec, don't support if any unrecognized bits are not 0.
                     Note that "group3CompData" is set to 0 below if comp = 2 (TIFF G3).
                 */
           case GROUP_3_OPTIONS:
@@ -1000,7 +1000,7 @@ register ilBool         bigEndian;
 
     ilFreeFileList (pFile);                 /* remove potential invalid image list */
 
-        /*  Dont have image list - read file and build the list.  When done, 
+        /*  Don't have image list - read file and build the list.  When done,
             pFile->IFDTailPtrOffset points to the "next IFD" ptr which is null, i.e.
             the next IFD ptr for the last image in the file.  For a file with no images
             that would be the ptr in the file header.

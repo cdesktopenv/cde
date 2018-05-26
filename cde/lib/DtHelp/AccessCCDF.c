@@ -950,7 +950,7 @@ _DtHelpCeFindCcdfId (
  *		retParent	Returns a string with the locationID for the
  *				topic which is the parent of the current
  *				topic.  If the current topic is at the top of
- *				the heirarchy, a NULL string is returned.
+ *				the hierarchy, a NULL string is returned.
  *				This string is NOT owned by the caller and
  *				should only be read or copied.
  *
@@ -1392,7 +1392,7 @@ _DtHelpCeGetCcdfDocStamp (
  *
  * Parameters:	vol	Specifies the loaded volume.
  *		topic	Returns the locationID for the top topic in
- *			the volume heirarchy.  This string is NOT
+ *			the volume hierarchy.  This string is NOT
  *			owned by the caller and should only be read or
  *			copied.
  *

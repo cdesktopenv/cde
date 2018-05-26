@@ -3729,7 +3729,7 @@ MatchParamsToAction(
 	 *	 "termOpts".  This situation arises because
 	 * 	 the existing prompt data structures do NOT identify the
 	 *	 location of the prompt and hence where to put the
-	 *	 user-supplied value; except by order of occurance.  
+	 *	 user-supplied value; except by order of occurrence.
 	 */
       ProcessOneSegment(request, &(action->u.cmd.execHosts), prompts, 
                         numPrompts, &argsOptionFound, &lastArgReferenced,
@@ -4734,7 +4734,7 @@ ResolveCommandInvokerMessagePieces(
 	 *	 "termOpts".  This situation arises because
 	 * 	 the existing prompt data structures do NOT identify the
 	 *	 location of the prompt and hence where to put the
-	 *	 user-supplied value; except by order of occurance.  
+	 *	 user-supplied value; except by order of occurrence.
 	 */
 
    /* Set up the next host to execute on */

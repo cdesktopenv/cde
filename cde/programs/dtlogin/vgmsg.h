@@ -379,7 +379,7 @@ screen unreadable.\n\
 #define MC_DEF_LOG_ACC_FILE	"Access file \"%1$s\", host \"%2$s\" not found\n"
 #define MC_DEF_LOG_HOST_ENT	"ReadHostEntry\n"
 #define MC_DEF_LOG_ACC_DPY	"Access file %1$2s, display %1$2s unknown\n"
-#define MC_DEF_LOG_ACC_CTL	"Cannot open access control file %1$s, no XDMCP reqeusts will be granted\n"
+#define MC_DEF_LOG_ACC_CTL	"Cannot open access control file %1$s, no XDMCP requests will be granted\n"
 #define MC_DEF_LOG_DOMAIN	"Domain/OS authentication error: %1$s (%2$s/%3$s)"
 #define MC_DEF_LOG_SRV_OPEN	"Can not open server authorization file %1$s\n"
 #define MC_DEF_LOG_SRV_WRT	"Cannot write server authorization file %1$s\n"

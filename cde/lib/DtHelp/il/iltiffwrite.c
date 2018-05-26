@@ -1071,7 +1071,7 @@ char                    versionName [VERSION_LENGTH];
 
         /*  JPEG: write JIF with restart markers between strips.
             For JIF-in-TIFF: add tags for a file ptr and length of the JIF image,
-            and the restart interval, but dont know value until JIF image received.
+            and the restart interval, but don't know value until JIF image received.
         */
       case IL_JPEG:
         jpegProc = 1;           /* baseline sequential process */

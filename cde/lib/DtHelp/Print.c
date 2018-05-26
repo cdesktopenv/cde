@@ -591,7 +591,7 @@ void _DtHelpUpdatePrintDialog(
          fontList = XmFontListCopy (fontList);
 #endif
 
-         /* get formated volume title; volumeString is owned by caller */
+         /* get formatted volume title; volumeString is owned by caller */
          _DtHelpFormatVolumeTitle(help->pDisplayArea,display->volumeHandle,
                                     &volumeString,&fontList,&mod);
  
@@ -706,7 +706,7 @@ void _DtHelpDisplayPrintDialog(
    }
    else
    {
-      /* update the variable contents of the dialog; dont set defaults */
+      /* update the variable contents of the dialog; don't set defaults */
       _DtHelpUpdatePrintDialog(print,display,help,False);
    }
 

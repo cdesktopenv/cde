@@ -1867,7 +1867,7 @@ _DtActReadTmpFileToBuffer( char *fname, int *sizep )
  *
  * _DtActRetCmdChildArgs(childp, aargv)
  *
- *	Create an argment vector containing the returnable arguments for
+ *	Create an argument vector containing the returnable arguments for
  *	a command action child.  The vector pointer is passed in "aargv"
  *      space for it should already have been allocated by the caller.
  *      The number of returned arguments is returned by the function.

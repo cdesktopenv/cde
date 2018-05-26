@@ -224,7 +224,7 @@ _DtCm_create_tcp_client(
 		timeout_tv.tv_usec = 0;
 		clnt_control(cl, CLSET_TIMEOUT, (char*)&timeout_tv);		
 
-		/* dont need to set vers_out since it should
+		/* don't need to set vers_out since it should
 		 * be the same as that of the udp transport
 		 */
 		ci->tcpcl = cl;
@@ -529,7 +529,7 @@ destroy_client_info(_DtCm_Client_Info *ci)
 }
 
 /*
- * Dont limit the number of cached connections right now.
+ * Don't limit the number of cached connections right now.
  * Udp client handle does not use up file descriptor only space.
  * Tcp client handle is kept open only when there's at least one
  * calendar registered with the host and the user probably won't

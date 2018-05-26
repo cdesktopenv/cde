@@ -1997,7 +1997,7 @@ prop_graphic_filename_ok(
 	    util_file_name_has_extension(filename, "xbm"))
 	{
 	    ext = strrchr(filebase, '.');
-	    ext[0] = '\0'; /* strip off extenstion */
+	    ext[0] = '\0'; /* strip off extension */
 
             util_set_help_data(catgets(Dtb_project_catd, 100, 117,
 		"The graphic file name extension should not be included\nwhen it is specified in the Graphic Filename field."), NULL, NULL);

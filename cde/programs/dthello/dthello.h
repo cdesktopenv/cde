@@ -44,7 +44,7 @@ struct globalStruct {
 };
 
 /*
- * Defintions and Macros
+ * Definitions and Macros
  */
 #if 0
 #define DEFAULT_FILE	        "/etc/copyright"

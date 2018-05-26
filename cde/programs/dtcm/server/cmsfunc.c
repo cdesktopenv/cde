@@ -1210,7 +1210,7 @@ _DtCmsCreateCallog(char *user, cms_create_args *args, _DtCmsCalendar **newcal)
 		return (stat);
 	}
 
-	/* we dont use the values specified by client */
+	/* we don't use the values specified by client */
 	for (i = 0; i < args->num_attrs; i++) {
 		if (strcmp(args->attrs[i].name.name,
 		    CSA_CAL_ATTR_CALENDAR_NAME) == 0) {

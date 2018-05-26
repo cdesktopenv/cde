@@ -463,13 +463,13 @@ RFCBodyPart::adjustBodyPartsLocation(char * start)
 
     if (_body_env && _my_env == DTM_TRUE) {
 	// CMVC bug 2807
-	// start points at the body part seperator.  Need to 
-	// Skip seperator.  Put in a sanity check until we know
+	// start points at the body part separator.  Need to
+	// Skip separator.  Put in a sanity check until we know
 	// this is the right fix
 	if (*start != '-' && *(start + 1) != '-') {
 	  fprintf(
 		stderr,
-		"RFCBodyPart::adjustBodyPartLocation(%.20s): Not a seperator\n",
+		"RFCBodyPart::adjustBodyPartLocation(%.20s): Not a separator\n",
 		start);
 	} else {
 		while (*start != '\n')

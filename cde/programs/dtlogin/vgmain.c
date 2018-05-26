@@ -1587,7 +1587,7 @@ MakeGreeting( void )
 	    }
 	    
 	    /*
-	     *  replace all occurrances of %LocalHost% and %DisplayName%
+	     *  replace all occurrences of %LocalHost% and %DisplayName%
              *  in the current substring...
 	     */
 	     
@@ -1624,7 +1624,7 @@ MakeGreeting( void )
 				   XmFONTLIST_DEFAULT_TAG));
 
 	    /*
-	     *  add a line seperator if this is a multi-line greeting...
+	     *  add a line separator if this is a multi-line greeting...
 	     */
 	     
 	    if ( newLine == True ) {

@@ -1463,7 +1463,7 @@ void ParseSessionWorkspaces (WmScreenData *pSD,  int count,
     if ((pSD->pDtSessionItems[count].workspaces =
          (String)XtMalloc ((unsigned int) (strlen((char *)string) + 1))) == NULL)
     {
-        Warning (((char *)GETMESSAGE(60, 2, "Insufficient memory for workspaces list in sesssion item")));
+        Warning (((char *)GETMESSAGE(60, 2, "Insufficient memory for workspaces list in session item")));
         return;
 
     }
@@ -1584,7 +1584,7 @@ void ParseSessionHost (WmScreenData *pSD,  int count,
 	NULL)
     {
         Warning (((char *)GETMESSAGE(60, 38, 
-		"Insufficient memory for host name in sesssion item")));
+		"Insufficient memory for host name in session item")));
         return;
     }
 

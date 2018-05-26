@@ -32,7 +32,7 @@
  */
 /*-----------------------------------------------------------------------
 
-   reclast.c - find last record occurance in database
+   reclast.c - find last record occurrence in database
 
    reclast is used to setup a scan of a database by database number
    backwards, and is complementary to recfrst.
@@ -71,10 +71,10 @@
 /* ********************** LOCAL FUNCTION DECLARATIONS **************** */
 
 /* ======================================================================
-   d_reclast - find last record occurance in database
+   d_reclast - find last record occurrence in database
 */
 int d_reclast( rec TASK_PARM DBN_PARM )
-int rec;			/* record # to find last occurance of */
+int rec;			/* record # to find last occurrence of */
 TASK_DECL
 DBN_DECL			/* optional database number */
 {

@@ -1081,7 +1081,7 @@ _DtHelpCeGetCcdfValueParam(
  *		CEErrorReadEmpty
  *		CEErrorIllegalInfo
  *
- * Purpose:	Move 'src_ptr' to the next occurrance of a > character
+ * Purpose:	Move 'src_ptr' to the next occurrence of a > character
  *		or the first character after the next space.
  *
  *****************************************************************************/

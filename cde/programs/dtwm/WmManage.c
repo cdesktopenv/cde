@@ -782,7 +782,7 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
      * Set the keyboard input focus to the newly managed window if appropriate:
      * - focus is automatically set only if the focus policy is explicit
      * - if there is a system modal window active then set the focus only
-     *   if the new window is in the system modal heirarchy
+     *   if the new window is in the system modal hierarchy
      * - focus is automatically set if startupKeyFocus is selected or
      *   the new window is a system modal window or the current focus window
      *   has the new window as an application modal subordinate

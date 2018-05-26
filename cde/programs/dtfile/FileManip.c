@@ -1296,7 +1296,7 @@ FileManip(
            else
              tmpStr = (GETMESSAGE(11,54, "The move of the file/folder failed\ndue to some internal error. The internal\nerror given is:"));
            catmsg = XtNewString(tmpStr);
-           tmpStr = (GETMESSAGE(11,55, "Please see your System Adminstrator"));
+           tmpStr = (GETMESSAGE(11,55, "Please see your System Administrator"));
            samsg = XtNewString(tmpStr);
          }
 

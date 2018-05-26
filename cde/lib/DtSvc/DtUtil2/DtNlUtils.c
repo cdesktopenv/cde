@@ -130,7 +130,7 @@ Dt_strtok(
    ptr += (len + offset);
 
   /* 
-   * In preparation for the next pass, skip any other occurrances of
+   * In preparation for the next pass, skip any other occurrences of
    * the terminator characters which were joined with the terminator
    * we first encountered.
    */
@@ -190,7 +190,7 @@ Dt_strtok_r(
    *ptr += (len + offset);
 
   /* 
-   * In preparation for the next pass, skip any other occurrances of
+   * In preparation for the next pass, skip any other occurrences of
    * the terminator characters which were joined with the terminator
    * we first encountered.
    */
@@ -330,7 +330,7 @@ Dt_strcspn(
 
 /*
  * Dt version of strchr(s, c).
- *    Returns a pointer to the first occurance of 'c' in 's'.
+ *    Returns a pointer to the first occurrence of 'c' in 's'.
  */
 
 char * 
@@ -374,7 +374,7 @@ Dt_strchr(
 
 /*
  * Dt version of strrchr(s, c).
- *    Returns a pointer to the last occurance of 'c' in 's'.
+ *    Returns a pointer to the last occurrence of 'c' in 's'.
  */
 
 char * 

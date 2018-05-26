@@ -886,7 +886,7 @@ static int	load_include_list (DBLK *dblk, DBLK *dblist)
 	    PROGNAME"1350 Include list file name = '%s'.\n",
 	    dblk->fname_inc);
 
-    /* Dont reload the same file if it's already
+    /* Don't reload the same file if it's already
      * been loaded into a previous dblk in a list.
      * Code works just fine if dblist == NULL.
      */
@@ -989,7 +989,7 @@ static int	load_stop_list (DBLK *dblk, DBLK *dblist)
 	    PROGNAME"1448 Stoplist file name = '%s'.\n",
 	    dblk->fname_stp);
 
-    /* Dont reload the same file if it's already
+    /* Don't reload the same file if it's already
      * been loaded into a previous dblk in a list.
      * Code works just fine if dblist == NULL.
      */
@@ -1127,7 +1127,7 @@ static int      load_paice_suffixes (DBLK *dblk, DBLK *dblist)
 	    PROGNAME"1740 Paice suffix file name = '%s'.\n",
 	    dblk->fname_sfx);
 
-    /* Dont reload the same file if it's already
+    /* Don't reload the same file if it's already
      * been loaded into a previous dblk in a list,
      * but flag it so it won't be freed at unload_language/REINIT.
      * Code works just fine if dblist == NULL.

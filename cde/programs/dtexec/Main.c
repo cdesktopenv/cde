@@ -763,7 +763,7 @@ ParseCommandLine(
 #endif /* _DTEXEC_NLS16 */
 
 	    /*
-	     * Search from the end for underscore seperators.
+	     * Search from the end for underscore separators.
 	     */
 #ifdef _DTEXEC_NLS16
 	    tick2 = (char *) Dt_strrchr( dtSvcProcIdG, '_' );
@@ -798,7 +798,7 @@ ParseCommandLine(
 	    }
 	    else {
 		/*
-		 * Unable to find _ (underscore) seperators.
+		 * Unable to find _ (underscore) separators.
 		 */
 		free(dtSvcProcIdG);
 		dtSvcProcIdG = (char *) NULL;

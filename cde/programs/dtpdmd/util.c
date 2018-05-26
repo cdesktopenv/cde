@@ -242,7 +242,7 @@ xpstrtok(
    ptr += (len + offset);
 
   /*
-   * In preparation for the next pass, skip any other occurrances of
+   * In preparation for the next pass, skip any other occurrences of
    * the terminator characters which were joined with the terminator
    * we first encountered.
    */

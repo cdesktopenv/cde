@@ -231,7 +231,7 @@ SunV3::formatBodies(DtMailEnv & error,
 	    if (bp->flagIsSet(error, DtMailBodyPartDeletePending))
 		continue;
 
-	    // First, put out the message seperator. It is a very
+	    // First, put out the message separator. It is a very
 	    // weak line of 10 dashes.
 	    //
 	    buf.appendData("----------", 10);
@@ -437,7 +437,7 @@ SunV3::formatHeaders(DtMailEnv & error,
 //  const unsigned long inputLen -- number of bytes in encoded source text
 // Outputs:
 //  **outputBp	-- will contain a -> a newly allocated buffer containing
-//		the decoded message - dont forget to deallocate when done
+//		the decoded message - don't forget to deallocate when done
 //  off		-- contains the number of bytes in the decoded message at **buf
 // Description
 //  This function will decode the specified source message according to the
@@ -727,7 +727,7 @@ SunV3::uncompress(char ** outputBp, int & outputLen, const char * inputBp, const
 	long maxOpenFiles = sysconf(_SC_OPEN_MAX);
 
 	if (maxOpenFiles < 32)		// less than 32 descriptors?
-	  maxOpenFiles = 1024;		// dont believe it--assume lots
+	  maxOpenFiles = 1024;		// don't believe it--assume lots
 	for (int sig = 1; sig < NSIG; sig++)
 	  (void) signal(sig, SIG_DFL);			// reset all signal handlers
 	if (SafeDup2 (inputPipe[pipeReader], STDIN_FILENO) == -1)	// input pipe reader is stdin
@@ -751,9 +751,9 @@ SunV3::uncompress(char ** outputBp, int & outputLen, const char * inputBp, const
     (void) SafeClose(outputPipe[pipeWriter]);		// output pipe writer n/a
 
 #if defined(O_NONBLOCK)
-    fcntl(inputPipe[pipeWriter], F_SETFL, O_NONBLOCK);	// we dont want to block writing to child
+    fcntl(inputPipe[pipeWriter], F_SETFL, O_NONBLOCK);	// we don't want to block writing to child
 #elif defined(FNBIO)
-    (void) fcntl(inputPipe[pipeWriter], F_SETFL, FNBIO);	// we dont want to block writing to child
+    (void) fcntl(inputPipe[pipeWriter], F_SETFL, FNBIO);	// we don't want to block writing to child
 #endif
 
     // Ok, uncompress is out there spinning its wheels waiting for us

@@ -2294,7 +2294,7 @@ int ProcessTopics(
    state->curPageNumber = 1;
    state->curLineNumber = 1;
 
-   /* output topics but dont inhibit */
+   /* output topics but don't inhibit */
    if ( processSubTopics )
    {
       state->sectNums[0] = 1;      /* support section num printing */

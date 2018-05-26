@@ -701,7 +701,7 @@ error given is:
 54 The move of the file/folder failed\n\
 due to some internal error. The internal\n\
 error given is:
-55 Please see your System Adminstrator
+55 Please see your System Administrator
 56 (Unknown):
 57 You do not have permission to move the folder\n\
 %s\n\

@@ -583,7 +583,7 @@ TTstartDesktopMediaExchange(
 	}
 
 	/*
-	 * Join the default sesssion, 
+	 * Join the default session,
 	 * and register to deal with standard Desktop requests in the following
 	 * manner (controlled by the Ttdt_contract_cb and shell arguments): 
 	 *
@@ -816,7 +816,7 @@ TTmediaReply(
 
 
 /************************************************************************
- * TTresetQuitArgs - resets TTDT_QUIT argments set in TTdt_message_acceptCB()
+ * TTresetQuitArgs - resets TTDT_QUIT arguments set in TTdt_message_acceptCB()
  ************************************************************************/
 void
 TTresetQuitArgs(

@@ -267,7 +267,7 @@ register ilTapPrivPtr   pPriv;
     imageInfo.pCompData = info.pCompData;
     imageInfo.width = info.width;
     imageInfo.height = info.height;
-    imageInfo.clientPalette = TRUE;                 /* dont allocate anything */
+    imageInfo.clientPalette = TRUE;                 /* don't allocate anything */
     imageInfo.clientCompData = TRUE;
     imageInfo.clientPixels = TRUE;
     if (!(feedImage = ilCreateClientImage (context, &imageInfo, 0))

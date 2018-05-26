@@ -74,7 +74,7 @@ startup(int argc, char **argv)
 	if( DtInitialize(XtDisplay(toplevel), toplevel, argv[0],
 			  "Dt_TYPE") == False)
 	{
-		printf(" couldn't initialize everthing\n");
+		printf(" couldn't initialize everything\n");
 		exit(1);
 	}
 

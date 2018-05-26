@@ -111,7 +111,7 @@ ilError                 error;
         }
     else error = IL_OK;
 
-        /*  If aborting, free up pixels if they dont belong to client */
+        /*  If aborting, free up pixels if they don't belong to client */
     if (aborting) {
         if (!pImage->i.clientPixels && pImagePlane->pPixels) {
             IL_FREE (pImagePlane->pPixels);
@@ -203,7 +203,7 @@ ilSrcElementData        srcData;
 long                    stripHeight;
 ilPtr                   pCompData;
 
-        /* Get pipe info, dont force decompression (yet). */
+        /* Get pipe info, don't force decompression (yet). */
     ilGetPipeInfo (pipe, FALSE, &info, &des, &format);
 
         /*  Convert (and decompress) as necessary to dest image des */

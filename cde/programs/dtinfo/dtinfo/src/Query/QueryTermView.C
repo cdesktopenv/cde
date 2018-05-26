@@ -335,7 +335,7 @@ QueryTermView::select_toggle (WCallback *wcb)
 
 
 // /////////////////////////////////////////////////////////////////
-// _select - beep if insensitve, call normal select action otherwise
+// _select - beep if insensitive, call normal select action otherwise
 // /////////////////////////////////////////////////////////////////
 
 void

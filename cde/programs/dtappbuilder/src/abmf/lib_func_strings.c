@@ -261,7 +261,7 @@ static LibFuncRec abmfP_lrc_set_label_pixmaps =
     "    }\n"
     "\n"
     "    /*\n"
-    "     * Set the approriate resources.\n"
+    "     * Set the appropriate resources.\n"
     "     */\n"
     "    XtVaSetValues(widget, XmNlabelType,	XmPIXMAP, NULL);\n"
     "    if (labelPixmap != 0)\n"
@@ -508,7 +508,7 @@ static LibFuncRec abmfP_lrc_set_label_from_bitmap_data =
     
     /* def */
     "/*\n"
-    " * Sets both the sensitive and insensitve pixmaps\n"
+    " * Sets both the sensitive and insensitive pixmaps\n"
     " */\n"
     "int\n"
     "dtb_set_label_from_bitmap_data(\n"
@@ -599,7 +599,7 @@ static LibFuncRec abmfP_lrc_set_label_from_xpm_data =
     
     /* def */
     "/*\n"
-    " * Sets both the sensitive and insensitve pixmaps\n"
+    " * Sets both the sensitive and insensitive pixmaps\n"
     " */\n"
     "int\n"
     "dtb_set_label_from_xpm_data(\n"

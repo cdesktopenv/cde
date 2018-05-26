@@ -642,7 +642,7 @@ dtb_set_label_pixmaps(
     }
 
     /*
-     * Set the approriate resources.
+     * Set the appropriate resources.
      */
     XtVaSetValues(widget, XmNlabelType,	XmPIXMAP, NULL);
     if (labelPixmap != NULL)
@@ -802,7 +802,7 @@ dtb_set_label_from_image_file(
 
 
 /*
- * Sets both the sensitive and insensitve pixmaps
+ * Sets both the sensitive and insensitive pixmaps
  */
 int
 dtb_set_label_from_bitmap_data(
@@ -877,7 +877,7 @@ dtb_set_label_from_bitmap_data(
 
 
 /*
- * Sets both the sensitive and insensitve pixmaps
+ * Sets both the sensitive and insensitive pixmaps
  */
 int
 dtb_set_label_from_xpm_data(

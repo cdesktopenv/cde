@@ -81,7 +81,7 @@ typedef struct _Trans {
     char	*gi;		/* element name of tag under consideration */
     char	**gilist;	/* list of element names (multiple gi's) */
     char	*context;	/* context in tree - looking depth levels up */
-    regexp	*context_re;	/* tree heirarchy looking depth levels up */
+    regexp	*context_re;	/* tree hierarchy looking depth levels up */
     int		depth;		/* number of levels to look up the tree */
     AttPair_t	*attpair;	/* attr name-value pairs */
     int		nattpairs;	/* number of name-value pairs */

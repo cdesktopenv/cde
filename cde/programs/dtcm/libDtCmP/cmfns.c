@@ -149,7 +149,7 @@ cmfns_description(
 	buf[size - 1] = '\0';
 	tmp_buf = strdup(name);
 	head = tmp_buf;
-	if ((tail = strchr(head, DTFNS_SEPERATOR)) == NULL) {
+	if ((tail = strchr(head, DTFNS_SEPARATOR)) == NULL) {
 		/*
 		 * No colon.  Either one of the special FNS names or
 		 * it is not an FNS name
@@ -174,7 +174,7 @@ cmfns_description(
 	if (strcmp(head, DTFNS_ORG_NAME) == 0) {
 		/* Starts with org:.  Get org */
 		head = tail;
-		if ((tail = strchr(head, DTFNS_SEPERATOR)) == NULL) {
+		if ((tail = strchr(head, DTFNS_SEPARATOR)) == NULL) {
 			/* just org:orgname */
 			strncpy(buf, head, size);
 			size -= strlen(buf);
@@ -186,7 +186,7 @@ cmfns_description(
 		org = head;
 		head = tail + 1;
 
-		if ((tail = strchr(head, DTFNS_SEPERATOR)) == NULL) {
+		if ((tail = strchr(head, DTFNS_SEPARATOR)) == NULL) {
 			/*
 		 	 * Hmmm... We have "org:orgname:something" 
 			 * Just return the description for an organization

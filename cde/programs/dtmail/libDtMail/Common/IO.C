@@ -297,7 +297,7 @@ SafeWriteStrip(int fd, const void * buf, size_t bytes)
     int i, j;
     char *ptr = (char*)buf, *writebuf; 
     
-    // bug 5856: dont write out control M 
+    // bug 5856: don't write out control M
     // make a finite size buffer for writing
     writebuf = (char*) malloc(bytes < SWS_BUFFERSIZE ? bytes : SWS_BUFFERSIZE); 
 

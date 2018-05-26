@@ -11,7 +11,7 @@ Introduction:
    The files in this directory contain the DT 3.0 action and 
    filetype definitions.
 
-   The syntax for the DT 3.0 defintions is much different than the
+   The syntax for the DT 3.0 definitions is much different than the
    DT 2.0 syntax.  The most significant change is that the each 
    field in a definition is on a separate line and each field is
    identified by a keyword.  Other important changes are:  filetype

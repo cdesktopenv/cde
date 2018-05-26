@@ -770,7 +770,7 @@ int	read_selection_file(fsel, fp)
 		RENEWSTR(com_opt, valp);
 	    }
 	} else {
-	    DPR3(("\t[line=%d] unknow name '%s'\n", line_num, lp));
+	    DPR3(("\t[line=%d] unknown name '%s'\n", line_num, lp));
 	}
     }
 

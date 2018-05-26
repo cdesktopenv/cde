@@ -738,7 +738,7 @@ all platforms.
 $ARGS$:
 $RETURNS$:
 True:  strings match
-False: they dont
+False: they don't
 /*================================================$SKIP$==*/
 #endif
 
@@ -1777,7 +1777,7 @@ int  _DtXlateOpenAllDbs(
        _DtMBStrchr (workStart, PATH_SEPARATOR, -1, &separator);
        if (NULL == separator) _DtMBStrchr (workStart, EOS, -1, &separator);
        if (NULL == separator) break;           /* BREAK */
-       workLen = separator - workStart;  /* dont include +1 for EOS */
+       workLen = separator - workStart;  /* don't include +1 for EOS */
 
        /* copy over the path component */
        strncpy(dbFile,workStart,workLen);
@@ -2299,7 +2299,7 @@ _DtXlateOpenDb() opens a particular translation database
 _DtXlateOpenAndMergeDb() opens a particular database and
   merges it with an already opened one, overriding any
   repeated specifications.
-_DtXlateOpenAllDbs() opens all occurances of a translation
+_DtXlateOpenAllDbs() opens all occurrences of a translation
    database found in a search path and cumulatively merges 
    the contents, allowing for the override of existing 
    specifications as well as the addition of new ones.
@@ -2509,7 +2509,7 @@ as the matchall, Xrm does not restrict enumeration as needed.
 The matchall character may be followed by a number when the <transtype>
 is '>'.  When this occurs, the string that matches the matchall
 character may be referenced in the <opvalue> by using the sequence
-\<number>, as in "\1".  The occurance is replaced with the matched
+\<number>, as in "\1".  The occurrence is replaced with the matched
 string.
 /*=$END$================================================*/
 #endif

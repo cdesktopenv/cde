@@ -1124,7 +1124,7 @@ obj_set_resizable(ABObj obj, BOOL resizable)
 	obj->info.window.resizable = resizable;
 	return 0;
     }
-    member_error(obj, "resizeable");
+    member_error(obj, "resizable");
     return -1;
 }
 

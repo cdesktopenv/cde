@@ -398,7 +398,7 @@ TTCreateSavePattern(
 
 
 /************************************************************************
- * TTresetSaveArgs - resets TTDT_SAVE argments set in TTSaveContractCB()
+ * TTresetSaveArgs - resets TTDT_SAVE arguments set in TTSaveContractCB()
  ************************************************************************/
 void
 TTresetSaveArgs(

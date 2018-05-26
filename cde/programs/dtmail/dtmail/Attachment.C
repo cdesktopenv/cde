@@ -1247,7 +1247,7 @@ Attachment::setContents()
 	    size = strlen(from_hdr) + int(_myContentsSize) + 3;
 	    buffer = new char[size];
 
-	    // Look for the first occurance of a colon or a newline.
+	    // Look for the first occurrence of a colon or a newline.
 	    char *sptr;
 	    for (sptr = (char*) _myContents;
 		 *sptr && *sptr != '\n' && *sptr != ':';

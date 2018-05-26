@@ -120,7 +120,7 @@ init(int *argc, char **argv)
 	if (DtInitialize(XtDisplay(toplevel), toplevel, argv[0],
 			  "Dttype") == False)
 	{
-		fprintf(stderr, "couldn't initialize everthing\n");
+		fprintf(stderr, "couldn't initialize everything\n");
 		return(0);
 	}
 

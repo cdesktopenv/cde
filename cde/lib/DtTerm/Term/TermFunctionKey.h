@@ -78,5 +78,5 @@ extern void _DtTermFunctionKeyInit(
 } /* close scope of 'extern "C"'.... */
 #endif	/* __cplusplus */
 
-/* DONT'T ADD ANYTHING AFTER THIS #endif... */
+/* DON'T ADD ANYTHING AFTER THIS #endif... */
 #endif	/* _Dt_TermFunctionKey_h */

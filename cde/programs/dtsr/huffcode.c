@@ -45,7 +45,7 @@
 /************************** HUFFCODE.C ******************************
  * $XConsortium: huffcode.c /main/9 1996/11/14 15:31:05 rcs $
  * 12/90.
- * Counts frequency of occurrance of every possible byte value of input text.
+ * Counts frequency of occurrence of every possible byte value of input text.
  * Creates Huffman Code Table based on byte frequencies and writes it
  * in 2 formats to 2 different output files.
  * The encode table (.huf) maintains the frequency counts and explicitly
@@ -167,7 +167,7 @@
 typedef struct {
     char            bit;	/* '0' or '1' (assoc with link to
 				 * father) */
-    long            count;	/* freq of occurrance of char */
+    long            count;	/* freq of occurrence of char */
     int             sort;	/* specifies output sort order */
     int             father;	/* index points UP toward root of
 				 * tree */

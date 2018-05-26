@@ -947,7 +947,7 @@ Fehler fehlgeschlagen. Der interne Fehler ist:"
 interner Fehler fehlgeschlagen. \n\
 Der interne Fehler ist:"
 
-55 "Den Systemadminstrator benachrichtigen"
+55 "Den Systemadministrator benachrichtigen"
 
 56 "(Unbekannt):"
 

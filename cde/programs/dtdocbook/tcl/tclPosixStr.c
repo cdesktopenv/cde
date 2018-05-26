@@ -834,7 +834,7 @@ Tcl_ErrnoMsg(err)
 	case EPROTO: return "protocol error";
 #endif
 #ifdef EPROTONOSUPPORT
-	case EPROTONOSUPPORT: return "protocol not suppored";
+	case EPROTONOSUPPORT: return "protocol not supported";
 #endif
 #ifdef EPROTOTYPE
 	case EPROTOTYPE: return "protocol wrong type for socket";
@@ -870,7 +870,7 @@ Tcl_ErrnoMsg(err)
 	case ERREMOTE: return "object is remote";
 #endif
 #ifdef ESHUTDOWN
-	case ESHUTDOWN: return "can't send afer socket shutdown";
+	case ESHUTDOWN: return "can't send after socket shutdown";
 #endif
 #ifdef ESOCKTNOSUPPORT
 	case ESOCKTNOSUPPORT: return "socket type not supported";

@@ -331,7 +331,7 @@ MIMEBodyPart::getDtType(DtMailEnv & error)
 
     // We must have an exact 1:1 mapping between the mime type and the
     // CDE type to use this inverse mapping. If we have no hits then we
-    // dont have any thing to use. If we have several hits, then we have
+    // don't have any thing to use. If we have several hits, then we have
     // no idea which type is the correct type.
     //
     if (NULL != types) {
@@ -649,7 +649,7 @@ MIMEBodyPart::loadBody(DtMailEnv & error)
 char *
 MIMEBodyPart::getDescription(DtMailEnv &)
 {
-  // Dont have this return anything without checking
+  // Don't have this return anything without checking
   // ramifications with getNameHeaderValue
 
 // No need to clear error object here because we assume it has already

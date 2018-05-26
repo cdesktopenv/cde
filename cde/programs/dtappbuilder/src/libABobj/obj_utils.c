@@ -1609,7 +1609,7 @@ sig_fault_handler()
 	/* We should have cleared this to prepare for a mem fault */
 	/* If not, then something has gone haywire */
         static STRING msg = NULL;
-	msg = "MEMORY ACCESS VIOLATION OCCURED. ABORTING.\n";
+	msg = "MEMORY ACCESS VIOLATION OCCURRED. ABORTING.\n";
 	write(2, msg, strlen(msg));
 	abort();
     }

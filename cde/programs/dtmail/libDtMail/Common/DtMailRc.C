@@ -714,7 +714,7 @@ DtMail::MailRc::outputLine(const char * verbatim,
 
     struct cmd * com = (struct cmd *)lex(word);
     if (com == NONE) {
-	// We dont know the command, so just copy the line.
+	// We don't know the command, so just copy the line.
 	//
 	fwrite(verbatim, 1, strlen(verbatim), outf);
 	return;
@@ -1299,7 +1299,7 @@ DtMail::MailRc::wgroup(const char * verbatim, char ** argv, FILE * outf)
     char * cur = (char *)hm_test((struct hash **)glob.g_alias, argv[0]);
     if (!cur || (!clearAliases && hm_ismarked((struct hash **)glob.g_alias, 
 			argv[0]))) {
-	// Its been removed or written. Dont write it to the file.
+	// Its been removed or written. Don't write it to the file.
 	free(buf);
 	return;
     }
@@ -1869,7 +1869,7 @@ DtMail::MailRc::wigfield(const char * verbatim, char ** list, FILE * outf)
     }
 
     // Create a new ignore line, leaving out the ignores that have
-    // been removed. Also, dont write any ignores that have been
+    // been removed. Also, don't write any ignores that have been
     // previously written.
     //
     for (ap = list; *ap; ap++) {

@@ -784,7 +784,7 @@ RFCTransport::launchSendmail(DtMailEnv & error,
         long maxOpenFiles = sysconf(_SC_OPEN_MAX);
  
         if (maxOpenFiles < 32)          // less than 32 descriptors?
-          maxOpenFiles = 1024;          // dont believe it--assume lots
+          maxOpenFiles = 1024;          // don't believe it--assume lots
  
         for (int sig = 1; sig < NSIG; sig++)
           (void) signal(sig, SIG_DFL);  // REset all signal handlers
@@ -1035,7 +1035,7 @@ RFCTransport::startSubprocess(DtMailEnv &error, char * cmd,
 		// less than 32 descriptors?
 		if (maxOpenFiles < 32)		
 		{
-		    // dont believe it--assume lots
+		    // don't believe it--assume lots
 		    maxOpenFiles = 1024;		
 		}
 

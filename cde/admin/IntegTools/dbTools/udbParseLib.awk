@@ -330,7 +330,7 @@ function tokenize() {
                 Str=Str substr($0,last,RSTART) " " substr($0,last+RSTART,1) " "
                 last = last + RSTART + 1;
 		#
-		# Test remaining part of input line for additional occurances
+		# Test remaining part of input line for additional occurrences
 		# of syntactically significant characters.
 		#
                 tstStr=substr($0,last)
@@ -538,7 +538,7 @@ function fillRecord(rec) {
 			if ( rec[SrcDefault] != "" )
 				syntaxError(SrcDefault " \"" rec[SrcDefault] "\" specified for a directory.")
 			if ( rec[LnkDefault] != "" )
-				syntaxError(LnkDefault " \"" rec[LnkDefault] "\" specfied for a directory.")
+				syntaxError(LnkDefault " \"" rec[LnkDefault] "\" specified for a directory.")
    
 			rec[SrcDefault] = src;
 		} else if ( rec["status"] == "---cu-" ) {

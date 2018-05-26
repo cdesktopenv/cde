@@ -574,7 +574,7 @@ register long               nPixelsM1;
       case 1: {
         register ilPtr  pDst, pSrc1, pSrc2;
 
-        nLines--;                       /* dont count first line already in buffer */
+        nLines--;                       /* don't count first line already in buffer */
         while (nLines >= 2) {           /* two src lines, line between to interpolate */
             nLines -= 2;
             pSrc1 = pLine;
@@ -605,7 +605,7 @@ register long               nPixelsM1;
         register int    pixel, delta;
         long            rowBytesTimes4 = rowBytes << 2;
 
-        nLines--;                       /* dont count first line already in buffer */
+        nLines--;                       /* don't count first line already in buffer */
         while (nLines >= 4) {           /* four src lines, line between to interpolate */
             nLines -= 4;
             pSrc = pLine;

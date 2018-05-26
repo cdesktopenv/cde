@@ -4827,7 +4827,7 @@ NodeWindowAgent::layout_mark_icons()
     }
   free(return_positions);
   
-  // The list of MarkCanvas objects is already in order of occurance
+  // The list of MarkCanvas objects is already in order of occurrence
   // in the node, so we can just process them in order to create
   // the revised set of MarkIcons.
   

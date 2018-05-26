@@ -268,7 +268,7 @@ RFCMIME::getEncodingType(const char * body,
     
   }
   
-  // Deal with buffers that dont end with a new line.
+  // Deal with buffers that don't end with a new line.
   //
   if ((cur - last_nl) > 76) {
     encode = DTM_TRUE;
@@ -378,7 +378,7 @@ RFCMIME::getEncodingType(const char * body,
 	}
     }
 
-    // Deal with buffers that dont end with a new line.
+    // Deal with buffers that don't end with a new line.
     //
     if (strict_mime && ((cur - last_nl) > 76)) {
 	qprint_growth += 2;
@@ -1303,7 +1303,7 @@ RFCMIME::formatBodies(DtMailEnv & error,
   	const void *tmp_ptr;
 	error.clear();
 	bp->getContents(error, &tmp_ptr, &bp_len, NULL, &name, NULL, NULL);
-	// We dont want to change the contents of the msg.
+	// We don't want to change the contents of the msg.
 	if (bp_len > 0) {
         	bp_contents = (char*)malloc((unsigned int)bp_len);
 		memcpy(bp_contents, (char*)tmp_ptr, (size_t)bp_len);
@@ -1663,7 +1663,7 @@ RFCMIME::getHdrEncodingType(const char * body,
     
   }
   
-  // Deal with buffers that dont end with a new line.
+  // Deal with buffers that don't end with a new line.
   //
   if ((cur - last_nl) > 76) {
     encode = DTM_TRUE;

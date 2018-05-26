@@ -397,7 +397,7 @@ $    message 40 so that these labels match the keycaps on your
 $    local keyboard.
 $ 
 1 Insufficient memory for session geometry item
-2 Insufficient memory for workspaces list in sesssion item
+2 Insufficient memory for workspaces list in session item
 3 Insufficient memory for commandArgv array
 4 Insufficient memory for commandArgv item
 5 Insufficient memory for Dt Session Hints
@@ -434,7 +434,7 @@ $
 35 Insufficient memory for config file conversion
 36 Insufficient memory to process included file: %s
 37 Expected '{' 
-38 Insufficient memory for host name in sesssion item
+38 Insufficient memory for host name in session item
 39 Could not reopen configuration file %s
 
 $ Message 40 is used to remap the menu accelerator

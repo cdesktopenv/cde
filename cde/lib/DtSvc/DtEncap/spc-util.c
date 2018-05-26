@@ -242,7 +242,7 @@ Boolean _path_search (XeString path, XeString filename, path_search_predicate p)
   XeChar path_component[MAXPATHLEN+1];
   int path_component_len;
   int filename_len;
-  int component_seperator=(int)':';  /* this is here because strchr takes an in */
+  int component_separator=(int)':';  /* this is here because strchr takes an in */
   
   if(!filename)
     return(FALSE);
@@ -255,9 +255,9 @@ Boolean _path_search (XeString path, XeString filename, path_search_predicate p)
     path=getenv("PATH");
 
   for( (path_rest=path ,
-	next_colon=strchr(path_rest, component_seperator));
+	next_colon=strchr(path_rest, component_separator));
       path_rest && *path_rest;
-      next_colon=strchr(path_rest, component_seperator)) {
+      next_colon=strchr(path_rest, component_separator)) {
     
     /*
      ** Copy path component into buffer

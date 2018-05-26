@@ -174,7 +174,7 @@ static void ilInitEncodeTable (
         /*  Operation:
                 If this is the first character in the string the current node is set
                 to the top level of the tree.  Otherwise we will transition to the next
-                level in the tree and search for an occurance of the character there.
+                level in the tree and search for an occurrence of the character there.
                 if one is found we return with TRUE.  If not the new node will be
                 added to the tree and FALSE will be returned.
             Return:

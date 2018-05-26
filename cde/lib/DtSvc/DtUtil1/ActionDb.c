@@ -1266,7 +1266,7 @@ InitializeLocalizedStrings ( void )
 
    missingField = XtNewString (((char *) Dt11GETMESSAGE (6, 14, "The action definition \"%s\" in the file\n  \"%s\"\n  is missing the required field, \"%s\"\n for \"%s\" type actions.\n")));
 
-   missingName = XtNewString (((char *) Dt11GETMESSAGE (4, 1, "A \"%s\" definition in the file:\n  \"%s\"\n  is missing a name.  Add the name\n  to the defintion.\n")));
+   missingName = XtNewString (((char *) Dt11GETMESSAGE (4, 1, "A \"%s\" definition in the file:\n  \"%s\"\n  is missing a name.  Add the name\n  to the definition.\n")));
 
    unrecogMsgType2 = XtNewString (((char *) Dt11GETMESSAGE (6, 16, "The action definition \"%s\" in the file\n  \"%s\"\n  has the illegal value \"%s\" in the \"%s%s%s\" field.\n")));
 }

@@ -64,7 +64,7 @@ typedef struct {
     ilPtr               pRGBMapPixels;      /* ptr to pixels in rgbMapImage if non-null */
     ilRect              rect;               /* piece of X image to read */
     long                stripHeight;        /* height of each piece of drawable to read */
-    int                 copyPixmapDepth;    /* depth for copyPixmap, or 0 => dont create */
+    int                 copyPixmapDepth;    /* depth for copyPixmap, or 0 => don't create */
     Pixmap              copyPixmap;         /* pixmap to copy to/GetImage() from or null */
     GC                  copyGC;             /* GC to use to copy to "copyPixmap" */
     int                 nRedOnes;

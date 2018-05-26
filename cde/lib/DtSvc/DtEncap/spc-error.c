@@ -530,7 +530,7 @@ SPCError *SPC_Lookup_Error(int errornum)
 
   case SPC_Connection_EOF:
     if (SPC_who_am_i == SPC_I_AM_A_DAEMON)
-      spc_error_struct.format    = (XeString) "><Client has disconneted (received EOF).";
+      spc_error_struct.format    = (XeString) "><Client has disconnected (received EOF).";
     else
       spc_error_struct.format    = (XeString) "><The dtspcd process on host '%s' has terminated.";
     spc_error_struct.severity  = XeError;

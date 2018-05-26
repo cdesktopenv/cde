@@ -1481,7 +1481,7 @@ RFCMailBox::openRealFile(DtMailEnv & error, int open_mode, mode_t create_mode)
 	    break;
 	  default:
 	    //
-	    // locality otherwise -- assume remote dont lock
+	    // locality otherwise -- assume remote don't lock
 	    //
 	    break;      
 	}
@@ -2237,7 +2237,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     unsigned long pagelimit = _mappings[map_slot]->map_size;
 
 #if !defined(__linux__) && !defined(sun)
-    // no madvise; dont use optimization
+    // no madvise; don't use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,
 	(size_t) pagelimit, MADV_SEQUENTIAL);
@@ -2328,7 +2328,7 @@ RFCMailBox::parseFile(DtMailEnv & error, int map_slot)
     // tell the kernel to pull in the minimum number of extra pages.
     //
 #if !defined(__linux__) && !defined(sun)
-    // no madvise; dont use optimization
+    // no madvise; don't use optimization
     madvise(
 	(char *)_mappings[map_slot]->map_region,
 	(size_t) pagelimit, MADV_RANDOM);
@@ -2730,7 +2730,7 @@ RFCMailBox::NewMailEvent(
     //    that new mail has arrived.
     //
     // 3. The file size is either smaller, or it is larger and the first
-    //    few bytes dont match #2. This is the worse possible case. This
+    //    few bytes don't match #2. This is the worse possible case. This
     //    means that somebody has modified the object from beneath us.
     //    We will turn on our "lost state" mode and refuse to do any
     //	  further processing. This thread exits immediately.
@@ -4048,7 +4048,7 @@ RFCMailBox::lockFile(DtMailEnv & error)
 // lockNewMailboxFile -- before renaming a new mailbox file over an old
 // mailbox file, we need to establish a lock on the new mailbox file is
 // a lock was established on the old mailbox file. Since the .lock protocol
-// works on a file name basis we dont have to worry here, but if this
+// works on a file name basis we don't have to worry here, but if this
 // system uses lockf() to lock the files we need to establish that lock
 // on the new file first before renaming it over the old mailbox file.
 //

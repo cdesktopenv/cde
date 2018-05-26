@@ -1268,7 +1268,7 @@ done:
  * SkipToChar --
  *
  *	This function traverses a glob pattern looking for the next
- *	unquoted occurance of the specified character at the same braces
+ *	unquoted occurrence of the specified character at the same braces
  *	nesting level.
  *
  * Results:

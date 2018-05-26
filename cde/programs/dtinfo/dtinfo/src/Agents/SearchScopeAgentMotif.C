@@ -379,7 +379,7 @@ SearchScopeAgent::SearchScopeAgent()
 SearchScopeAgent::~SearchScopeAgent()
 {
 #if 0
-  // dont need to delete these because not called anyway - jbm
+  // don't need to delete these because not called anyway - jbm
 
   // NOTE: Destroy should destroy & delete! 
   f_shell->Destroy();

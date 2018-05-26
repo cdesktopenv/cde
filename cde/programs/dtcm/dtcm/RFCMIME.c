@@ -1039,7 +1039,7 @@ getEncodingType(const char * body,
         }
     }
 
-    /* Deal with buffers that dont end with a new line. */
+    /* Deal with buffers that don't end with a new line. */
 
     if ((cur - last_nl) > 76) {
         encode = B_TRUE;

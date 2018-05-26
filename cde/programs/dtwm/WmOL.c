@@ -290,7 +290,7 @@ GetOLDecorFlags(
 	 */
 	for (i = 0; i < nitems; i++) {
 		if (pAtoms[i] == wmGD.xa_OL_DECOR_RESIZE)
-			*pDecor |= OLDecorResizeable;
+			*pDecor |= OLDecorResizable;
 		else if (pAtoms[i] == wmGD.xa_OL_DECOR_HEADER)
 			*pDecor |= OLDecorHeader;
 		else if (pAtoms[i] == wmGD.xa_OL_DECOR_CLOSE)
@@ -384,7 +384,7 @@ ProcessOLDecoration(
 
 	if (GetOLDecorAdd(pCD,&OLdecor))
 	{
-	    if (OLdecor & OLDecorResizeable)
+	    if (OLdecor & OLDecorResizable)
 	    {
 		decorMask |= WM_DECOR_RESIZEH;
 	    }
@@ -409,7 +409,7 @@ ProcessOLDecoration(
 
 	if (GetOLDecorDel(pCD,&OLdecor))
 	{
-	    if (OLdecor & OLDecorResizeable)
+	    if (OLdecor & OLDecorResizable)
 	    {
 		decorMask &= ~MWM_DECOR_RESIZEH;
 	    }

@@ -1772,7 +1772,7 @@ SelectPrinterHelpCB(
  *     the list. The connection is not closed until a selection is made
  *     in the list, or the printer selection dialog is dismissed. This is
  *     because no assumptions about the Printer Info dialog's widget
- *     heirarchy can be made.
+ *     hierarchy can be made.
  *
  * Return value:
  *

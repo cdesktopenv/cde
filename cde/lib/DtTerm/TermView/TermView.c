@@ -848,7 +848,7 @@ Initialize(Widget rw, Widget w, Arg *args, Cardinal *num_args)
 
     Debug('T', timeStamp("DtTermView Initialize() starting"));
 
-    /* we need to insure that everthing is initialized.  Let's do a
+    /* we need to insure that everything is initialized.  Let's do a
      * checklist...
      */
     /* Widget term			created below			*/
@@ -1038,7 +1038,7 @@ Initialize(Widget rw, Widget w, Arg *args, Cardinal *num_args)
     /* create the Term widget...
      */
     i = 0;
-    /* Checklist.  Let's make sure we are setting everthing that term
+    /* Checklist.  Let's make sure we are setting everything that term
      * needs...
      */
 

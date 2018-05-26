@@ -220,7 +220,7 @@ Notifier::addInterval(int interval_ms,
 void
 Notifier::removeInterval(IntervalId id)
 {
-    // The Id is really the TimerEvent structure pointer. We dont have
+    // The Id is really the TimerEvent structure pointer. We don't have
     // a key for these objects so we will have to enumerate the entire
     // list of timer events until we find the appropriate key.
     //

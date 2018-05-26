@@ -1145,7 +1145,7 @@ SessionExit( struct display *d, int status )
 
     /* make sure the server gets reset after the session is over */
     if (d->serverPid >= 2) {
-        Debug("Reseting server:  pid %d signal %d\n",
+        Debug("Resetting server:  pid %d signal %d\n",
 	      d->serverPid, d->resetSignal);
 
         if (d->terminateServer == 0 && d->resetSignal)

@@ -3459,7 +3459,7 @@ FixWindowSize (ClientData *pCD, unsigned int *pWidth, unsigned int *pHeight, uns
     WmScreenData *pSD = pCD->pSD;
 
     /*
-     * All occurances of maxHeight and maxWidth in this routing has been
+     * All occurrences of maxHeight and maxWidth in this routing has been
      * hacked to use maxHeightLimit and maxWidthLimit as the real max when
      * maximumClientSize is set to 'horizontal' or 'vertical', since
      * pCD->maxHeight and pCD->maxWidth is fiddle to on reconfiguration.

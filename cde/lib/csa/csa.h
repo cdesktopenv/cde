@@ -1093,7 +1093,7 @@ extern char *_CSA_entry_subtype_values[];
 
 /* COMMON EXTENSIONS DECLARATIONS */
 
-/* EXTENSTION SET ID */
+/* EXTENSION SET ID */
 
 /* Common Extension Set */
 #define	CSA_XS_COM			((CSA_uint32)0)

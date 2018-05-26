@@ -260,7 +260,7 @@ _DtTermPrimCursorOn(Widget w)
 	DebugF('F', 1, fprintf(stderr,
 		"%s() %s calling %s\n",
 		"_DtTermPrimCursorOn",
-		"dont care",
+		"don't care",
 		"XmImVaSetValues()"));
 	(void) XmImVaSetValues(w,
 		XmNspotLocation, &point,

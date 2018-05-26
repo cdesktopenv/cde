@@ -285,7 +285,7 @@ STRLEN(Char *S)
 
 
 /* this function only supports returning position of one char (not
-   a string).  "num" is the occurance of the character's position to
+   a string).  "num" is the occurrence of the character's position to
    return.                                                         */
 Static short
 strpos2(Char *S1, Char *S2, short num)

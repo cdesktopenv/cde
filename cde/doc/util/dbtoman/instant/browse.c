@@ -289,7 +289,7 @@ Browse()
 	else if (!strcmp(cmd, "quit")) break;
 
 	else
-	    fprintf(stderr, "Unknown command '%s' - ingored.\n", cmd);
+	    fprintf(stderr, "Unknown command '%s' - ignored.\n", cmd);
     }
     putc(NL, stdout);
 }

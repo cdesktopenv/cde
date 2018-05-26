@@ -915,7 +915,7 @@ static void HitListFree(
     vol->startPosition = 1;
     vol->nextVolPosition = 1;
 
-    /* dont free indexXmStrsList here because they
+    /* don't free indexXmStrsList here because they
        are reused for every search on this volume */
     vol->curIndexXmStr = vol->indexXmStrsList;
 
@@ -1269,7 +1269,7 @@ static _DtHelpFileEntry GetNextSearchFileAndDisplayCompleted(
           {
              VolHitsDisplay(hw,curFile);
 
-             /* update the volume label to show state; False--dont insert */
+             /* update the volume label to show state; False--don't insert */
              VolNameDisplay(hw,curFile,False);
           }
        }
@@ -2016,7 +2016,7 @@ static void PrepSearchSourceData(
              && NULL != hw->help_dialog.srch.volListHead )
             return;                       /* RETURN: continue with search */
 
-        /* if searching full index, False=dont free vol with full index */
+        /* if searching full index, False=don't free vol with full index */
         if (hw->help_dialog.srch.fullIndex)
             HitListFreeAllVolHits(hw,False);
         /* else we're searching on the same word, but completed 
@@ -2156,7 +2156,7 @@ static void CloseSearchCB (
       srch->workProcId = 0;
    }
 
-   /* unmanage the srchForm dialog but dont destroy it */
+   /* unmanage the srchForm dialog but don't destroy it */
    if (NULL != srch->srchForm)
      {
        XtUnmanageChild(srch->srchForm);
@@ -2257,7 +2257,7 @@ static void StatusLabelUpdate(
        break;                                              /* BREAK */
    case SEARCH_RESULTS_STATUS:
        /* if no hits found */
-       if (hw->help_dialog.srch.hitsFound == False) /*dont use == True*/
+       if (hw->help_dialog.srch.hitsFound == False) /*don't use == True*/
        {
           if (hw->help_dialog.srch.fullIndex)
           {
@@ -3079,9 +3079,9 @@ searchComplete:
  *           will always be the help widget.
  *****************************************************************************/
 static void StartSearchCB(
-    Widget w,                     /* dont use */
+    Widget w,                     /* don't use */
     XtPointer clientData,
-    XtPointer callData)           /* dont use */
+    XtPointer callData)           /* don't use */
 {
    char       *srchWord = NULL;
    DtHelpDialogWidget hw = (DtHelpDialogWidget) clientData;
@@ -3141,7 +3141,7 @@ static void StartSearchCB(
 
      hw->help_dialog.srch.searchInProgress = True;
 
-     /* dont free srchWord */
+     /* don't free srchWord */
 
      /* turn on "Stop" label */
      UpdateActionButtonLabel(hw,NULL,False);
@@ -3604,7 +3604,7 @@ static void ProcessResultSelectionCB(
                  vol->showHitsWithVol = False;
               }
               /* update the volume label to show the state */
-              /* False: dont insert hw item */
+              /* False: don't insert hw item */
               VolNameDisplay(hw,file,False);
            }
            /* else don't otherwise handle a 0-hits volume */
@@ -3624,7 +3624,7 @@ static void ProcessResultSelectionCB(
               topicCnt = - HitTopicsUndisplay(hw,file,hit,topicPosition+1);
               hit->showTopicsWithHit = False;
            }
-           /* update the hit label to show the state; False--dont insert */
+           /* update the hit label to show the state; False--don't insert */
            HitNameDisplay(hw,file,hit,topicPosition,False);
        
            /* add to all the following */

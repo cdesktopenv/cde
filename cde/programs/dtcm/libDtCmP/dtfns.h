@@ -38,7 +38,7 @@
 
 #include <fns/fns.h>
 
-#define DTFNS_SEPERATOR		':'
+#define DTFNS_SEPARATOR		':'
 
 #define DTFNS_ORG_NAME		"org"
 #define DTFNS_ORG_LEN		3

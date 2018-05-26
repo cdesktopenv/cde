@@ -271,7 +271,7 @@ PrintStats(
     int		dif_el=0, tot_el=0, tot_data=0, nchars, max_depth=0;
     float	pct;
 
-    fprintf(outfp, "%-22s %s   %s\n", "Element name",    "Occurrances", "Character Content");
+    fprintf(outfp, "%-22s %s   %s\n", "Element name",    "Occurrences", "Character Content");
     fprintf(outfp, "%-22s %s   %s\n", "---------------", "-----------", "-----------------");
 
     acc_tots(top, &tot_el, &tot_data, &max_depth);

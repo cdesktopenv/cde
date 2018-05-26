@@ -2607,7 +2607,7 @@ SetAlternateSession (
 		/*
 		 * The directory for the specified session exists
 		 * but it doesn't have any client databases.  Start
-		 * a new user session.  If a user wants a sesssion
+		 * a new user session.  If a user wants a session
 		 * with no apps, they should create a zero-length
 		 * session database.
 		 */

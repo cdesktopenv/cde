@@ -420,7 +420,7 @@ SPC_Input_Handler(SPC_Channel_Ptr channel,
     nchars=(*channel->read_filter)
       (channel, connector, spc_iobuffer, SPC_BUFSIZ);
     
-    /* Check nchars.  If it is EXCEPT_FLAG, we had a special occurance (such
+    /* Check nchars.  If it is EXCEPT_FLAG, we had a special occurrence (such
        as an ioctl on a PTY).  In any case, don't do any more processing */
     
     if(nchars==EXCEPT_FLAG)

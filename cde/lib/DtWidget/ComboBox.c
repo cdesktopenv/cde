@@ -1281,7 +1281,7 @@ ForceChildSizes(DtComboBoxWidget combo)
 	full_available_height = available_height = 1;
     }
     else {
-	/* Seperator need available_height plus the vertical_spacing */
+	/* Separator need available_height plus the vertical_spacing */
 	full_available_height = (available_height + 
 				 (COMBO_V_SPACING(combo) * 2));
     }

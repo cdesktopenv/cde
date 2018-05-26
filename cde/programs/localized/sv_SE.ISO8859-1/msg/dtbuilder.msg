@@ -1378,7 +1378,7 @@ $	** You can edit this comment and add comments below each message.
 31 "Cancel"
 32 "None"
 33 " "
-34 "The Action3 button is specified as the\ndefault button, but it is not specfied\nto exist in the message dialog."
+34 "The Action3 button is specified as the\ndefault button, but it is not specified\nto exist in the message dialog."
 35 "A string must be entered for the Action3 button."
 36 "Apply Changes"
 37 "No buttons are specified to exist in\nthe message dialog.  There must be \nat least one button in the message."

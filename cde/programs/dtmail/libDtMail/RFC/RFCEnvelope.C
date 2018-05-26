@@ -354,7 +354,7 @@ RFCEnvelope::setHeader(DtMailEnv & error,
     error.clear();
 
     // First we need to see if we have this header. We are
-    // only interested in the first occurance.
+    // only interested in the first occurrence.
     //
     ParsedHeader * hdr;
     const char * real_name;
@@ -498,7 +498,7 @@ RFCEnvelope::adjustHeaderLocation(char * headerStart, int headerLength)
     else {
       // We must adjust the offset of every header in the parsed header
       // structure. For those headers values that have been malloc()ed
-      // (e.g. NAME_MASK or VALUE_MASK are set), dont have to do anything
+      // (e.g. NAME_MASK or VALUE_MASK are set), don't have to do anything
       // as they are deallocated only when the header is destroyed.
       //
       for (int hdr = 0; hdr < _parsed_headers.length(); hdr++) {

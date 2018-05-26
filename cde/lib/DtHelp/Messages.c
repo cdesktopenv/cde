@@ -52,7 +52,7 @@ const char _DtHelpMsg_0000[] =
    "String data could not be formatted.";
 
 const char _DtHelpMsg_0001[] =
-   "Dymamic string data could not be formated.";
+   "Dymamic string data could not be formatted.";
 
 const char _DtHelpMsg_0002[] =
    "Man Page could not be formatted.  The requested Man Page is either not present, or corrupt.";

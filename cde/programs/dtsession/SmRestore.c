@@ -1384,7 +1384,7 @@ RestoreSettings( void )
 		/*
 		 * This is only involked when there is auto repeats set for
 		 * specific keys only.  It is VERY SLOW code so unless you
-		 * have to save off auto repeats for single keys - DONT
+		 * have to save off auto repeats for single keys - DON'T
 		 */
 		while(tmpKey != NULL)
 		{
@@ -1795,7 +1795,7 @@ RestoreIndependentResources( void )
  *  If this is the first DT 3.0 session for a DT 2.0 user then we will
  *  also launch the helpviewer. If this is the first DT 3.0 session for a
  *  DT 2.0 user then we will also run convertVS.sh to change all
- *  occurances of /usr/bin/X11/hpterm to .../dt/bin/hpterm,
+ *  occurrences of /usr/bin/X11/hpterm to .../dt/bin/hpterm,
  *  /usr/bin/X11/xterm to .../dt/bin/xterm and
  *  /usr/bin/X11/xload to .../dt/bin/xload.
  *

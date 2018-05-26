@@ -170,7 +170,7 @@ char    *palette)
     if (path != NULL)
     {
         /* Loop through paletteDirectories looking in each directory
-         * till we find the palette file. Take first occurrance.
+         * till we find the palette file. Take first occurrence.
          * Copy directory name into dir.  Look for NULL or space 
          */
 

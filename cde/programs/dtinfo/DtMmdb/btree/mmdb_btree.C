@@ -107,7 +107,7 @@ void btree::data_t_2_DBT(data_t& w)
       break;
 
      case data_t::VOID:
-        throw(stringException("btree data_t_2_DBT: unknow key type"));
+        throw(stringException("btree data_t_2_DBT: unknown key type"));
    }
 }
 

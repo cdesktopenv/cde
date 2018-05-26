@@ -321,7 +321,7 @@ $
 1 Access file "%1$s", host "%2$s" not found\n
 2 ReadHostEntry\n
 3 Access file %1$s, display %2$s unknown\n
-4 Cannot open access control file %1$s, no XDMCP reqeusts will be granted\n
+4 Cannot open access control file %1$s, no XDMCP requests will be granted\n
 5 Domain/OS authentication error: %1$s (%2$s/%3$s)
 6 Can not open server authorization file %1$s\n
 7 Cannot write server authorization file %1$s\n
