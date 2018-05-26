@@ -170,10 +170,10 @@ static unsigned char gray_data_25[] = {
         0x11
 };
 
-static Pixmap black_data_pixmap = NULL;
-static Pixmap gray_data_75_pixmap = NULL;
-static Pixmap gray_data_50_pixmap = NULL;
-static Pixmap gray_data_25_pixmap = NULL;
+static Pixmap black_data_pixmap = 0;
+static Pixmap gray_data_75_pixmap = 0;
+static Pixmap gray_data_50_pixmap = 0;
+static Pixmap gray_data_25_pixmap = 0;
  
 static unsigned char solid[solid_list_length] = {1, 0};
 static unsigned char short_dotted[short_dotted_list_length] = {1, 1};
@@ -513,7 +513,7 @@ gr_create_xcontext(Calendar *c, Widget widget, GR_depth depth, XtAppContext app)
 {
 
         new_XContext	*xc;
-        Colormap	cms = NULL;
+        Colormap	cms = 0;
         XGCValues	gc_vals, tmp_vals;
 	GC		hilight_gc;
 	XColor		exact_color;
