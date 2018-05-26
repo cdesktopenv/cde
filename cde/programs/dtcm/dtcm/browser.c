@@ -1098,10 +1098,10 @@ register_names(char *name, Calendar *c)
 	BlistData	*bd = NULL;
         Browselist	*bl = (Browselist *)c->browselist;
         CSA_return_code	stat;
-	CSA_session_handle	cal = NULL;
+	CSA_session_handle	cal = 0;
 	unsigned int		user_access;
 	CSA_calendar_user	csa_user;
-	CSA_flags		flags = NULL;
+	CSA_flags		flags = 0;
 	CSA_extension   	cb_ext;
 	CSA_extension		logon_ext;
 	char			buf[BUFSIZ];

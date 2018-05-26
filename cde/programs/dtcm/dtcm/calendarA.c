@@ -2224,7 +2224,7 @@ open_initial_calendar(
 	CSA_return_code *status)
 {
 	char		buf[MAXNAMELEN], *loc, *user;
-	CSA_flags	flags = NULL;
+	CSA_flags	flags = 0;
 	CSA_extension	cb_ext;
 	CSA_extension	logon_ext;
 	CSA_calendar_user csa_user;
@@ -3196,7 +3196,7 @@ switch_it(Calendar *c, char *new_calendar, WindowType win)
 	if (new_cal_handle != c->my_cal_handle) {
 
 
-		CSA_flags	flags = NULL;
+		CSA_flags	flags = 0;
 		CSA_extension	cb_ext;
 
 		flags = CSA_CB_ENTRY_ADDED | CSA_CB_ENTRY_DELETED |

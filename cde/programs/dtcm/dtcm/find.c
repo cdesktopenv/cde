@@ -574,7 +574,7 @@ XmPushButtonCallbackStruct *cbs;
         pr_pos xy;
 	Tick end_of_time, start, stop;
 	Tick_list *ptr, *next_ptr, *tail_ptr, *new_tick;
-	CSA_session_handle cal = NULL;
+	CSA_session_handle cal = 0;
 	CSA_return_code stat;
         CSA_entry_handle *entries = NULL;
 	CSA_enum *ops;
