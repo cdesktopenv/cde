@@ -1014,7 +1014,7 @@ init_time()
 	if (getenv("TZ") == NULL){
 		char *tzptr;
 		tzptr = malloc(strlen(tzname[0]) + strlen(tzname[1]) + 10);
-		sprintf (tzptr,"TZ=%s%d%s", tzname[0], timezone/3600, tzname[1]);
+		sprintf (tzptr,"TZ=%s%ld%s", tzname[0], timezone/3600, tzname[1]);
 		putenv(tzptr);
 		tzset();
 	}
