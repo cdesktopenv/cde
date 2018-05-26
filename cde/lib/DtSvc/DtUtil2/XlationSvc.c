@@ -738,7 +738,7 @@ all platforms.
 $ARGS$:
 $RETURNS$:
 True:  strings match
-False: they don't
+False: they do not
 /*================================================$SKIP$==*/
 #endif
 
