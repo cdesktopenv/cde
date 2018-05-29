@@ -95,7 +95,7 @@ static int RegisterX11ScreenSaver(Display *display, int *ssEventType);
 #ifdef _AIX
 #define SECURE_SYS_PATH "/etc/security/passwd"
 #endif
-#ifdef SVR4
+#if defined(SVR4) || defined(__linux__)
 #define SECURE_SYS_PATH "/etc/shadow"
 #endif
 #ifdef CSRG_BASED
@@ -159,7 +159,7 @@ main (int argc, char **argv)
      * prepended with <unknown program name> in the error log.
      */
     DtProgName = SM_RESOURCE_NAME ;
-    
+
 #ifdef DEBUG
     if(argc > 5)
     {
@@ -182,17 +182,6 @@ main (int argc, char **argv)
      * Secure systems need root privileges to read the /etc/passwd file
      */
     smGD.runningUID = getuid();
-
-#ifdef linux			/* linux always needs to be setup as secure */
-
-    /*
-     * Save the root privilege to be restored when trying to unlock
-     */
-    smGD.unLockUID = geteuid();
-    smGD.secureSystem = True;
-    SM_SETEUID(smGD.runningUID);
-    
-#else
 
 # ifdef SECURE_SYS_PATH
     status = stat(SECURE_SYS_PATH, &buf);
@@ -218,8 +207,6 @@ main (int argc, char **argv)
         smGD.secureSystem = True;
         SM_SETEUID(smGD.runningUID);
     }
-
-#endif /* linux */
 
     /*
      * Initialize LANG if it isn't defined.
@@ -260,7 +247,7 @@ main (int argc, char **argv)
     stopvec.sa_handler = StopAll;
     sigemptyset(&stopvec.sa_mask);
     stopvec.sa_flags = 0;
- 
+
     smGD.childvec.sa_handler = WaitChildDeath;
     sigemptyset(&smGD.childvec.sa_mask);
     smGD.childvec.sa_flags = 0;
@@ -322,9 +309,9 @@ main (int argc, char **argv)
      * Create one display connection for dtsession, and one for
      * the color server. We cannot share a display connection since
      * motif creates a display object for the color server's display during
-     * color server initialization. Since the color server is not yet 
+     * color server initialization. Since the color server is not yet
      * operational, any dialogs (ie the dtsession logout confirmation
-     * dialogs) created on that display do not get the color server colors. 
+     * dialogs) created on that display do not get the color server colors.
      * The dtsession display object is created after color server
      * initialization is complete.
      */
@@ -335,7 +322,7 @@ main (int argc, char **argv)
 	 */
         XtToolkitInitialize();
         smGD.appCon = XtCreateApplicationContext();
-        smGD.display = XtOpenDisplay(smGD.appCon, NULL, argv[0], 
+        smGD.display = XtOpenDisplay(smGD.appCon, NULL, argv[0],
 				SM_RESOURCE_CLASS,
 				NULL, 0, &argc, argv);
     }
@@ -344,7 +331,7 @@ main (int argc, char **argv)
                                  NULL, 0, &argc, argv);
 
     /*
-     * Initialize XSMP 
+     * Initialize XSMP
      */
     if (!InitXSMP (argv[0]))
         SM_EXIT(-1);
@@ -483,7 +470,7 @@ main (int argc, char **argv)
 	StartWM();
     }
 
-    /* 
+    /*
      * Run the user's startup script if there is one
      */
 
@@ -594,7 +581,7 @@ StopAll(int i)
  *
  *  Description:
  *  -----------
- *  Register with X11 screen saver server extension for screen saver events. 
+ *  Register with X11 screen saver server extension for screen saver events.
  *
  *  Inputs:
  *  ------
@@ -642,11 +629,11 @@ RegisterX11ScreenSaver(
     */
     screen = DefaultScreen(display);
     root = DefaultRootWindow(display);
-   
+
     XGrabServer(display);
     if (!XScreenSaverGetRegistered(display, screen, &xid, &type))
     {
-     /* 
+     /*
       * No other clients registered with this server so register this one.
       */
       XScreenSaverRegister(display, screen, XtWindow(smGD.topLevelWid), XA_WINDOW);
@@ -658,10 +645,10 @@ RegisterX11ScreenSaver(
     {
       XSetWindowAttributes attr;
 
-     /* 
+     /*
       * Registration successful.
       */
-      XScreenSaverSelectInput(display, root, 
+      XScreenSaverSelectInput(display, root,
                               ScreenSaverNotifyMask|ScreenSaverCycleMask);
 
       /* Even though OverrideRedirect is the default attribute in this
@@ -674,7 +661,6 @@ RegisterX11ScreenSaver(
                           CopyFromParent, CopyFromParent, CWOverrideRedirect, &attr);
     }
   }
-  return(result);   
+  return(result);
 }
 #endif /* USE_X11SSEXT */
-

@@ -153,14 +153,20 @@ static void BlinkCaret( XtPointer, XtIntervalId *) ;
 static Boolean CanReAuthenticate(char *name, uid_t uid, char *passwd,
 				 struct passwd **pwent, struct spwd **spent)
 {
-  Boolean fail = False;
+  if (!pwent)
+      return False;
 
-  if (pwent)
-    *pwent = (name == NULL) ? getpwuid(uid) : getpwnam(name);
-    *spent = getspnam((*pwent)->pw_name);
+  *pwent = (name == NULL) ? getpwuid(uid) : getpwnam(name);
+  if (!*pwent)
+      return False;
+
+  *spent = getspnam((*pwent)->pw_name);
 
 #ifdef JET_AUTHDEBUG
-  fprintf(stderr, "CanReAuthenticate(): %s %s %s\n",
+  fprintf(stderr, "CanReAuthenticate(): uid: %d name: '%s' errno %d %s %s %s\n",
+          uid,
+          (name) ? name : "NULL",
+          errno,
 	  (*pwent) ? "PWENT" : "NULL",
 	  (*spent) ? "SPENT" : "NULL",
 	  (name) ? name : "NULL");
