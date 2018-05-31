@@ -97,7 +97,7 @@ OrderList::add(ListEntry *node, AddCode where, bool mvcursor)
     else
         return OLIST_ERROR;
 
-	f_size++;
+    f_size++;
 
     return OLIST_OK;
 }

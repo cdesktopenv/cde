@@ -28,6 +28,7 @@
 
 %{
 #ifndef lint
+__attribute__((unused))
 static  char sccsid[] = "@(#)getdate.y 1.10 94/11/07 Copyr 1993 Sun Microsystems, Inc.";
 #endif
 %}
@@ -112,8 +113,8 @@ dyspec:	DAY
 		{dayord = 1; dayreq = $1;}
 	| DAY ','
 		{dayord = 1; dayreq = $1;}
-	| NUMBER DAY
-		{dayord = $1; dayreq = $2;};
+	| NUMBER ' ' DAY
+		{dayord = $1; dayreq = $3;};
 
 dtspec:	NUMBER '/' NUMBER
 		{month = $1; day = $3; noyear = 1;}
@@ -127,17 +128,17 @@ dtspec:	NUMBER '/' NUMBER
 		{month = $1; day = $2; noyear = 1;}
 	| MONTH NUMBER ',' NUMBER
 		{month = $1; day = $2; year = $4;}
-	| NUMBER MONTH
-		{month = $2; day = $1; noyear = 1;}
-	| NUMBER MONTH NUMBER
-		{month = $2; day = $1; year = $3;};
+	| NUMBER ' ' MONTH
+		{month = $3; day = $1; noyear = 1;}
+	| NUMBER ' ' MONTH ' ' NUMBER
+		{month = $3; day = $1; year = $5;};
 
 
-rspec:	NUMBER UNIT
-		{relsec +=  60L * $1 * $2;}
-	| NUMBER MUNIT
-		{relmonth += $1 * $2;}
-	| NUMBER SUNIT
+rspec:	NUMBER ' ' UNIT
+		{relsec +=  60L * $1 * $3;}
+	| NUMBER ' ' MUNIT
+		{relmonth += $1 * $3;}
+	| NUMBER ' ' SUNIT
 		{relsec += $1;}
 	| UNIT
 		{relsec +=  60L * $1;}
@@ -406,7 +407,7 @@ static int
 lookup(char *id)
 {
 #define gotit (yylval=i->value,  i->type)
-#define getid for(j=idvar, k=id; *j++ = *k++; )
+#define getid for(j=idvar, k=id; (*j++ = *k++); )
 
 	char idvar[20];
 	register char *j, *k;
@@ -463,7 +464,7 @@ lookup(char *id)
 
 static char *lptr;
 
-yylex()
+int yylex()
 {
 	extern int yylval;
 	int sign;
@@ -550,7 +551,7 @@ time_t cm_getdate(char *p, struct timeb *now)
 	hh = mm = ss = 0;
 	merid = 24;
 
-	if (err = yyparse()) return (-1);
+	if ((err = yyparse())) return (-1);
 
 	mcheck(timeflag);
 	mcheck(zoneflag);

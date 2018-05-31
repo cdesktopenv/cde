@@ -996,11 +996,11 @@ get_libc_version(FILE *inFile)
         */
       if (readlink (libcso, buf, PATH_MAX) >= 0) {
 	for (ptr = buf; *ptr && !isdigit (*ptr); ptr++);
-	  int ret = sscanf (ptr, "%d.%d.%d", &libcmajor, &libcminor, &libcteeny);
-	  (void) ret;
-	  fprintf(inFile, "#define DefaultLinuxCLibMajorVersion %d\n", libcmajor);    
-	  fprintf(inFile, "#define DefaultLinuxCLibMinorVersion %d\n", libcminor);    
-	  fprintf(inFile, "#define DefaultLinuxCLibTeenyVersion %d\n", libcteeny);    
+	int ret = sscanf (ptr, "%d.%d.%d", &libcmajor, &libcminor, &libcteeny);
+	(void) ret;
+	fprintf(inFile, "#define DefaultLinuxCLibMajorVersion %d\n", libcmajor);
+	fprintf(inFile, "#define DefaultLinuxCLibMinorVersion %d\n", libcminor);
+	fprintf(inFile, "#define DefaultLinuxCLibTeenyVersion %d\n", libcteeny);
       }
     } else {
       /* 
@@ -1229,7 +1229,7 @@ get_gcc_incdir(FILE *inFile)
       if ((gccproc = popen (cmd, "r")) != NULL) {
 	if (fgets (buf, PATH_MAX - 1, gccproc) != NULL) {
 	  ptr = strstr (buf, "libgcc.a");
-	  if (ptr) strncpy (ptr, "include", 7);
+	  if (ptr) strncpy (ptr, "include", 8);
 	}
 	(void) pclose (gccproc);
 	break;
@@ -1720,6 +1720,6 @@ Strdup(const char *cp)
 {
 	char *new = Emalloc(strlen(cp) + 1);
 
-	strncpy(new, cp, strlen(cp) + 1);
+	memcpy(new, cp, strlen(cp) + 1);
 	return new;
 }

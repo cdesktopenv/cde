@@ -136,7 +136,11 @@ void DtMmdbQuit()
 
 }
 
+#if __cplusplus < 201103L
 void* operator new( size_t sz ) throw(std::bad_alloc)
+#else
+void* operator new( size_t sz )
+#endif
 {
    void* p = (void*)malloc(sz);
    //printf("a::operator new called(). sz= %d, allo=%x\n", sz, p);

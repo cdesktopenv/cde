@@ -75,12 +75,12 @@ Boolean fbytes_t_eq(const void* x, const void* y)
 void* fbytes_t::operator new( size_t x )
 {
    //return (void*)heap_cell_space_pool.alloc(x);
-   return (void*)g_memory_pool.alloc(x);
+   return (void*)(g_memory_pool).alloc(x);
 }
 
 void fbytes_t::operator delete( void* ptr )
 {
    //heap_cell_space_pool.free((char*)ptr);
-   g_memory_pool.free((char*)ptr);
+   (g_memory_pool).free((char*)ptr);
 }
 

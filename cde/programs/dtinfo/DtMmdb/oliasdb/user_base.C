@@ -160,7 +160,7 @@ user_base::checking_status_t user_base::check_mode()
 
 user_base::checking_status_t user_base::check_lock()
 {
-   char lock_dir[PATHSIZ];
+   char lock_dir[PATHSIZ+5];
    int len;
 
    snprintf(lock_dir, sizeof(lock_dir), "%s/%s", base_path, LOCK_DIR);

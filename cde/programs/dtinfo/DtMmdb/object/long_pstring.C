@@ -96,15 +96,15 @@ long_pstring::extract(int left, int right, char* sink)
       )
       v_str_index = new chunks_index(storage_ptr, v_str_ptr.loc);
 
-      if ( v_str_index ) {
+   if ( v_str_index ) {
 
-         str_index_record_t* anchor = v_str_index -> chunk_location(left);
+      str_index_record_t* anchor = v_str_index -> chunk_location(left);
 
 //debug(cerr, left - anchor -> str_offset);
-         storage_ptr -> 
-             readString(anchor -> loc, sink, 
-                        right-left, left - anchor -> str_offset
-                       );
+      storage_ptr ->
+          readString(anchor -> loc, sink,
+                     right-left, left - anchor -> str_offset
+                    );
 
       } else 
 

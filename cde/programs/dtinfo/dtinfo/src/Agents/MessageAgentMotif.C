@@ -587,7 +587,7 @@ MessageAgent::get_integer (const char *message, const char* title,
 {
   if (f_dialog == NULL)
     create_ui(parent);
-    if (g_active)
+  if (g_active)
     return (100);
   g_active = TRUE;
 

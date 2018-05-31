@@ -81,7 +81,7 @@ FeatureSet::evaluate(FeatureSet *result_set) const
 	  result_set->append(new Feature(next.key()->name(),
 					 value));
 	}
-      mcatch_noarg(badEvaluationException)
+      mcatch_noarg(badEvaluationException&)
 	{
 	  /* do nothing...we just ignore any that will not evaluate */
 	}

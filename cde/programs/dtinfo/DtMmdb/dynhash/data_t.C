@@ -349,12 +349,12 @@ int data_t::slot_num(int k, int rotate, int prime, int M )
 void* data_t::operator new( size_t x )
 {
    //return (void*)data_t_space_pool.alloc(x);
-   return (void*)g_memory_pool.alloc(x);
+   return (void*)(g_memory_pool).alloc(x);
 }
 
 void data_t::operator delete( void* ptr )
 {
    //data_t_space_pool.free((char*)ptr);
-   g_memory_pool.free((char*)ptr);
+   (g_memory_pool).free((char*)ptr);
 }
 

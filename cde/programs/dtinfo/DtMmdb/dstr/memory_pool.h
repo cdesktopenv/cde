@@ -139,7 +139,7 @@ protected:
 };
 
 #ifdef C_API
-#define g_memory_pool (*g_memory_pool_ptr)
+#define g_memory_pool *g_memory_pool_ptr
 extern memory_pool* g_memory_pool_ptr;
 #endif
 

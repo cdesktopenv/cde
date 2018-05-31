@@ -345,7 +345,7 @@ NodeMgr::load(UAS_Pointer<UAS_Common> &node_ptr)
     {
       style_sheet_mgr().initOnlineStyleSheet(node_ptr);
     }
-  mcatch_noarg (StyleSheetSyntaxError)
+  mcatch_noarg (StyleSheetSyntaxError&)
     {
       message_mgr().error_dialog(
 		(char*)UAS_String(CATGETS(Set_Messages, 39, "File a Bug")));

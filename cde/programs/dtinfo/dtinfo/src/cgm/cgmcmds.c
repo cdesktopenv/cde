@@ -930,7 +930,7 @@ static int auxcolr(dat_ptr, cmd_ptr, cgm_s)
   case I_C_M:	cgm_s->auxcolr[3] = b_guint(&dat_ptr, cgm_s->cindprec);
     break;
   case D_C_M:	for (i=0; i<3; ++i) 
-    cgm_s->auxcolr[i] = b_gsint(&dat_ptr, cgm_s->colprec);
+		  cgm_s->auxcolr[i] = b_gsint(&dat_ptr, cgm_s->colprec);
     break;
   }
   return 1;
@@ -2334,10 +2334,10 @@ static int corient(unsigned char *dat_ptr,struct cmd_info_s *cmd_ptr,
   /* just 4 VDC's to grab */
   switch (cgm_s->vdctype) {
   case VDC_INT:	for (i=0; i<4; ++i) 
-    cgm_s->corient[i].i = b_gsint(&dat_ptr, cgm_s->vdcintprec);
+		  cgm_s->corient[i].i = b_gsint(&dat_ptr, cgm_s->vdcintprec);
     break;
-  case VDC_REAL:	for (i=0; i<4; ++i) 
-    cgm_s->corient[i].r = b_real(&dat_ptr, &(cgm_s->vdcrprec));
+  case VDC_REAL: for (i=0; i<4; ++i)
+		   cgm_s->corient[i].r = b_real(&dat_ptr, &(cgm_s->vdcrprec));
     break;
   }
   return 1;

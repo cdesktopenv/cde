@@ -163,7 +163,7 @@ StyleSheetMgr::initOnlineStyleSheet (UAS_Pointer<UAS_Common> &doc) {
     mtry {
 	styleparse ();
     }
-    mcatch_noarg (StyleSheetSyntaxError) {
+    mcatch_noarg (StyleSheetSyntaxError&) {
 	fLastSS = 0;
 	delete fCurrent;
 	{ //  Don't remove these curlies. For destructors before rethrow
@@ -221,7 +221,7 @@ StyleSheetMgr::initPrintStyleSheet (UAS_Pointer<UAS_Common> &doc) {
     mtry {
 	styleparse ();
     }
-    mcatch_noarg (StyleSheetSyntaxError) {
+    mcatch_noarg (StyleSheetSyntaxError&) {
 	fLastSS = 0;
 	delete fCurrent;
 	{ //  Don't remove these curlies. For destructors before rethrow
