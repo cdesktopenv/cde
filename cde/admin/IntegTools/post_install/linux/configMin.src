@@ -36,7 +36,7 @@ XCOMM
 
     if [ ! -f /tmp/dtspc-already-there ]
     then
-        echo "dtspc\t6112/tcp\t#subprocess control" >>$FILE
+        echo -e "dtspc\t6112/tcp\t#subprocess control" >>$FILE
     else
 	rm /tmp/dtspc-already-there
     fi
@@ -68,111 +68,6 @@ TMPFILE=/tmp/services
 
     cp $TMPFILE $FILE
     rm $TMPFILE
-}
-
-FixEtcInetdDotConf()
-{
-FILE=/etc/inetd.conf
-TMPFILE=/tmp/inetd.conf
-
-XCOMM
-XCOMM check for existence of /etc/inetd.conf
-XCOMM
-
-    if [ ! -f $FILE ]	# highly unlikely (in the 1990s, quite likely in 2018)
-    then
-	return
-    fi
-
-XCOMM
-XCOMM see if it already exists
-XCOMM
-
-    awk '{if ($1 == "dtspc")
-		print $0 > "/tmp/dtspc-already-there"
-	 }' $FILE >/dev/null
-
-    DTSPCD=CDE_INSTALLATION_TOP/bin/dtspcd
-
-    if [ ! -f /tmp/dtspc-already-there ]
-    then
-        echo "dtspc stream tcp nowait root $DTSPCD $DTSPCD" >>$FILE
-    else
-	rm /tmp/dtspc-already-there
-    fi
-
-XCOMM
-XCOMM remove legacy entries like dtspcd
-XCOMM
-
-    awk '{if ($1 == "dtspcd" || $1 == "#dtspcd")
-		;
-	  else
-		print $0
-	 }' $FILE >$TMPFILE
-
-    cp $TMPFILE $FILE
-    rm $TMPFILE
-}
-
-UnfixEtcInetdDotConf()
-{
-FILE=/etc/inetd.conf
-TMPFILE=/tmp/inetd.conf
-
-    if [ ! -f $FILE ]	# highly unlikely (in the 1990s, quite likely in 2018)
-    then
-	return
-    fi
-
-    awk '{if ($1 == "dtspc")
-		;
-	  else
-		print $0
-	 }' $FILE >$TMPFILE
-
-    cp $TMPFILE $FILE
-    rm $TMPFILE
-}
-
-FixEtcPamDotConf()
-{
-FILE=/etc/pam.conf
-ORIGFILE=/etc/pam.conf.preCDE
-
-XCOMM
-XCOMM check for existence of /etc/pam.conf
-XCOMM
-
-    if [ -f $FILE ]
-    then
-	echo "" > $ORIGFILE
-	cp CDE_INSTALLATION_TOP/config/sys.pam.conf $FILE
-	chmod 644 $FILE
-    else
-	echo "Warning: $FILE already exists.  Leaving it alone." 1>&2
-	cp CDE_INSTALLATION_TOP/config/sys.pam.conf $ORIGFILE
-    fi
-
-}
-
-UnfixEtcPamDotConf()
-{
-FILE=/etc/pam.conf
-TMPFILE=/etc/pam.conf.CDE
-ORIGFILE=/etc/pam.conf.preCDE
-
-    if [ ! -f $FILE ]
-    then
-	echo "Warning: $FILE does not exist." 1>&2
-    elif [ ! -f $ORIGFILE ]
-    then
-	echo "Warning: $ORIGFILE does not exist.  Leaving $FILE alone." 1>&2
-    else
-	mv $FILE $TMPFILE
-	cp $ORIGFILE $FILE
-	chmod 664 $FILE
-    fi
 }
 
 RemoveMinFiles()
@@ -230,10 +125,6 @@ XCOMM ###############################################################
 
     FixEtcServices
 
-    FixEtcInetdDotConf
-
-    HASH FixEtcPamDotConf
-
     HASH
     HASH  create the /var/dt/tmp directory for the dtspcd
     HASH
@@ -248,10 +139,6 @@ XCOMM ###############################################################
 
     UnfixEtcServices
 
-    UnfixEtcInetdDotConf
-
-    UnfixEtcPamDotConf
-
     RemoveMinFiles
 
     VerifyInstalledFiles
@@ -261,20 +148,6 @@ XCOMM ###############################################################
 
     VerifyInstalledFiles
 
-  fi
-
-  if [ "$OPERATION" != "verify" ]
-  then
-
-    HASH issue a SIGHUP to the inetd process
-
-    ps -ef | grep inetd | grep -v grep >/tmp/tmppsout
-    if [ -s /tmp/tmppsout ]
-    then
-	awk '{print "kill -1 " $2}' /tmp/tmppsout | /bin/sh
-    else
-	[ -x /usr/sbin/inetd ] && /usr/sbin/inetd
-    fi
   fi
 
   return $retval
