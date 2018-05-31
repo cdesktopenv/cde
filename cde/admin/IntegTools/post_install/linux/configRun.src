@@ -14,115 +14,6 @@ FILESET=CDE-RUN
 DO_CONFIGURATION=""
 retval=0
 
-FixInetdDotConf()
-{
-FILE=/etc/inetd.conf
-TMPFILE=/tmp/inetd.conf
-CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
-
-XCOMM
-XCOMM check for existence of /etc/inetd.conf
-XCOMM
-
-    if [ ! -f $FILE ]	# highly unlikely (in the 1990s, quite likely in 2018)
-    then
-	return
-    fi
-
-XCOMM
-XCOMM desired inetd.conf entry:
-XCOMM 100068/2-4 dgram rpc/udp wait root CDE_INSTALLATION_TOP/bin/rpc.cmsd rpc.cmsd
-XCOMM
-
-XCOMM first make an awk script and put it in a file.
-XCOMM
-
-XCOMM comment out any non-cde rpc.cmsd lines
-XCOMM
-
-    awk -v cmsd=$CMSD \
-	'{if ($1 == "100068/2-4" && $6 != cmsd)
-		print "#cde " $0;
-	  else
-		print $0
-	 }' $FILE >$TMPFILE
-
-    cp $TMPFILE $FILE
-    rm $TMPFILE
-
-XCOMM remove any cde 2-4 cmsd
-XCOMM
-
-    awk -v cmsd=$CMSD \
-	'{if ($1 == "100068/2-4" && $6 == cmsd)
-		;
-	  else
-		print $0
-	 }' $FILE >$TMPFILE
-
-    cp $TMPFILE $FILE
-    rm $TMPFILE
-
-XCOMM
-XCOMM now run an awk script to see if there is an occurrence of 2-5 cmsd
-XCOMM
-
-    awk -v cmsd=$CMSD \
-	'{if ($6 == cmsd && $1 == "100068/2-5")
-		print $0 > "/tmp/cmsd-already-there"
-	 }' $FILE >/dev/null
-
-XCOMM
-XCOMM if it is not there, add it
-XCOMM
-
-    if [ ! -f /tmp/cmsd-already-there ]
-    then
-        echo "100068/2-5 dgram rpc/udp wait root $CMSD rpc.cmsd" >>$FILE
-    else
-	rm /tmp/cmsd-already-there
-    fi
-
-}
-
-UnfixInetdDotConf()
-{
-FILE=/etc/inetd.conf
-TMPFILE=/tmp/inetd.conf
-CMSD=CDE_INSTALLATION_TOP/bin/rpc.cmsd
-
-    if [ ! -f $FILE ]	# highly unlikely (in the 1990s, quite likely in 2018)
-    then
-	return
-    fi
-
-    HASH first remove the CDE rpc.cmsd entry
-
-    awk -v cmsd=$CMSD \
-	'{if (($1 == "100068/2-4" || $1 == "100068/2-5") && $6 == cmsd)
-		;
-	  else
-		print $0
-	 }' $FILE >$TMPFILE
-
-    cp $TMPFILE $FILE
-    rm $TMPFILE
-
-    HASH now uncomment any previously existing 100068 entry
-
-    awk '{if ($1 == "#cde") {
-		if ($2 == "100068/2-4") {
-			$1 = $2;
-			$2 = ""
-		}
-	  }
-	  print $0
-	 }' $FILE >$TMPFILE
-
-    cp $TMPFILE $FILE
-    rm $TMPFILE
-}
-
 CreateAppConfigDirectory()
 {
   HASH
@@ -327,14 +218,10 @@ DEFAULT_PRINTER="DtPrint"
     cd $DT_CONFIG_TOP
     chmod -R 755 *
 
-    FixInetdDotConf
-
     doDttermTerminfo
 
   elif [ "$OPERATION" = "deconfigure" ]
   then
-
-    UnfixInetdDotConf
 
     RemoveRunFiles
 
@@ -347,18 +234,5 @@ DEFAULT_PRINTER="DtPrint"
 
   fi
 
-  if [ "$OPERATION" != "verify" ]
-  then
-
-    HASH issue a SIGHUP to the inetd process
-
-    ps -ef | grep inetd | grep -v grep >/tmp/tmppsout
-    if [ -s /tmp/tmppsout ]
-    then
-	awk '{print "kill -1 " $2}' /tmp/tmppsout | /bin/sh
-    else
-	[ -x /usr/sbin/inetd ] && /usr/sbin/inetd
-    fi
-  fi
 
   return $retval
