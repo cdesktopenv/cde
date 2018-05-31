@@ -428,7 +428,7 @@ config_attachment(
             attachment = &(obj->attachments->south);
             break;
         default:
-            return;
+            return OK;
     }
     if (attachment->type == AB_ATTACH_OBJ)
     {

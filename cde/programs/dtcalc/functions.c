@@ -37,6 +37,9 @@
 #include <errno.h>
 #include <string.h>
 #include <math.h>
+#if defined(sun)
+#include <ieeefp.h>
+#endif
 #include "calctool.h"
 
 extern char *base_str[] ;       /* Strings for each base value. */
@@ -1729,13 +1732,13 @@ do_round(double result, int ndigits)
     int temp;
 
     if (isnan(result)) return result;
-#if defined(_AIX) || defined(__aix) || defined(__sparc)
+#if defined(_AIX) || defined(__aix) || defined(sun)
     temp = finite(result);
     if (!temp)
        return (temp > 0) ? HUGE : -HUGE;
 #else
     if ((temp = isinf(result))) return (temp > 0) ? HUGE : -HUGE;
-#endif /* _AIX or sparc*/
+#endif /* _AIX or sun */
 
     if (ndigits >= 0 && ndigits < MAX_DIGITS)
     {
@@ -1843,13 +1846,13 @@ try_compute_i(double guess, double *result, int method)
 
 	new_w = w - f / f_prime;
 
-#if defined(_AIX) || defined(__aix) || defined(__sparc)
+#if defined(_AIX) || defined(__aix) || defined(sun)
 	if (!(!isnan(new_w) && finite(new_w)))
 	    return FALSE;
 #else
 	if (!(!isnan(new_w) && !isinf(new_w)))
 	    return FALSE;
-#endif /* _AIX or sparc */
+#endif /* _AIX or sun */
 
 	if (new_w == w || (w != 0.0 && fabs((new_w - w) / w) < FIN_EPSILON))
            break;

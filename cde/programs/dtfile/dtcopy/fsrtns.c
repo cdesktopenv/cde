@@ -62,6 +62,7 @@
 #include <dirent.h>
 #include <sys/file.h>
 #include <string.h>
+#include <limits.h>
 #include "fsrtns.h"
 
 

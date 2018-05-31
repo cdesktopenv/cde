@@ -77,11 +77,15 @@ btree::btree(const char* store_name)
 
 btree::~btree()
 {
-   if ( btree_DB->sync(btree_DB, 0) == RET_ERROR )
-      throw(stringException("btree sync failed"));
+   if ( btree_DB->sync(btree_DB, 0) == RET_ERROR ) {
+      cerr << "btree sync failed";
+      std::exit(1);
+   }
 
-   if ( btree_DB->close(btree_DB) == RET_ERROR )
-      throw(stringException("btree close failed"));
+   if ( btree_DB->close(btree_DB) == RET_ERROR ) {
+      cerr << "btree close failed";
+      std::exit(1);
+   }
 }
 
 void btree::clean()

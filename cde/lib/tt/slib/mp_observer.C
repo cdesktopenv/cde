@@ -49,7 +49,7 @@ _Tt_observer()
 	_reliability = TT_DISCARD;
 	_opnum = -1;
 
-	_scope = NULL;
+	_scope = TT_SCOPE_NONE;
 	_state = TT_STATE_LAST; // BUG This class member is not set anywhere, but a getter function exists
 }
 

@@ -68,6 +68,8 @@
 
 #endif
 
+#include <cstdlib>
+
 #include "dstr/index_agent.h"
 #include "btree_berkeley/db.h"
 

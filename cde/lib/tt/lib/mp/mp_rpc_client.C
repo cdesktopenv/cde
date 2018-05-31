@@ -91,9 +91,13 @@ _Tt_rpc_client(int conn_socket)
 	_program = 0;
 	_version = 0;
 	_server_uid = 0;
-	_clnt_stat = NULL;
+	_clnt_stat = RPC_SUCCESS;
+#if defined(OPT_TLI)
+	_server_addr = 0;
+#else
 	_server_addr.sin_family = 0;
 	_server_addr.sin_port = 0;
+#endif
 }
 
 

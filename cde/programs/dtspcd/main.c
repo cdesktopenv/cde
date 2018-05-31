@@ -226,7 +226,7 @@ int main(int argc, XeString *argv)
       /* Open an error log with whatever name the library wants to use */
       SPC_Open_Log(log_path, FALSE);
       SPC_Print_Protocol = spc_logF;
-      if(NULL == (stderr = freopen(log_path, "a", stderr))) {
+      if(NULL == freopen(log_path, "a", stderr)) {
         printf("Unable to reopen '%s' as stderr\n", log_path);
         exit(EXIT_FAILURE);
       }

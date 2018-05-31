@@ -554,7 +554,6 @@ esc_P_table[] =
  {  '0',  '9', &_DtTermStateP,  _DtTermEnterNum,     /* enter number */ },
  {  '|',  '|',  &_DtTermStateUserKey, _DtTermParseUserKeyClear, /* DECUDK  */ },
  {  '{',  '{',  &_DtTermStateDLCharSet, _DtTermPrimParserNextState, },
- {                                                /* down-line-load char set */ },
  {  0x00, 0xFF, &stateStart   ,      _DtTermPrintState   /* end of table */ },
 };
 StateTableRec _DtTermStateP  = {False, esc_P_table, pre_parse_table};

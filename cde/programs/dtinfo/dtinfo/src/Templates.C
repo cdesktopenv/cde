@@ -421,7 +421,6 @@ typedef Stack<NTerminal*> _stkNTPtr_;
 typedef CC_TPtrDlist<sr_DtCvSegment> _ccTPtrDLstCvSegmnt_;
 
 #endif
-#endif
 
 #if defined(sun) | defined(hpux)
 

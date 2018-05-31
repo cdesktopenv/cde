@@ -1910,7 +1910,7 @@ RunGreeter( struct display *d, struct greet_info *greet,
     char	*p;
     char	**env;
     char	*path;
-    struct greet_state state = {};
+    struct greet_state state;
     int 	notify_dt;
     int		dupfp = -1;
     int		dupfp2 = -1;
