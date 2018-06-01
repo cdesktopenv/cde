@@ -105,8 +105,8 @@ QueryEditor::QueryEditor(UAS_SearchEngine& search_engine)
 : f_query (NULL),
   f_query_view (NULL),
   f_shell (NULL),
-  f_null_terms (0),
-  f_min_term_width(0)
+  f_min_term_width(0),
+  f_null_terms (0)
 {
   f_query_editor = this;
 

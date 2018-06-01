@@ -219,15 +219,15 @@ MapButton::destroy()
 // /////////////////////////////////////////////////////////////////
 
 MapAgent::MapAgent()
-: f_shell (NULL),
-  f_onscreen (FALSE),
-  f_locked(FALSE),
+: f_locked(FALSE),
   f_map_mode(LOCAL_MODE),
+  f_shell (NULL),
   f_porthole(NULL),
   f_panner(NULL),
   f_tree(NULL),
   f_wm_delete_callback(NULL),
   f_lock(NULL),
+  f_onscreen (FALSE),
   f_min_tree_width(0),
   f_min_tree_height(0)
 {

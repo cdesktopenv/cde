@@ -263,7 +263,7 @@ void addToQstringBuf(const unsigned char* str, int size)
       qstring_buf_size = 2*(size+qstring_buf_content_size);
       unsigned char* x = new unsigned char[qstring_buf_size];
       memcpy(x, qstring_buf, qstring_buf_content_size);
-      delete qstring_buf;
+      delete [] qstring_buf;
       qstring_buf = x;
    }
 
@@ -699,7 +699,7 @@ case 2:
 # line 99 "tokenStyle.l"
 {
 	   if ( commentBufferSize < styleleng ) {
-              delete commentBuffer;
+              delete [] commentBuffer;
               commentBufferSize = 2 * styleleng ;
               commentBuffer = new char [commentBufferSize];
            } 

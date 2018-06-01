@@ -2222,7 +2222,6 @@ DebugWidgetResources(Widget w)
     XtGetValues(w, argt, i);
 }
 
-/*
 /***************************************************************************
  *
  * GetDisplayName (void) - transform the display name into a "short"

@@ -37,7 +37,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-# include <libgen.h> /* for dirname() */
+#include <libgen.h> /* for dirname() */
 #include <ctype.h>
 #include <signal.h>
 #if !defined(CSRG_BASED)
@@ -235,7 +235,7 @@ static char *buildSpec(void);
 static void defaultGlobals(void);
 static void checkGlobals(void);
 static int parseArgs(int argc, char *argv[]);
-static char *parseDocument(Boolean runCmd, ...);
+static char *parseDocument(int runCmd, ...);
 static void buildBookcase(char *cmdSrc, char *dirName);
 static char *storeBookCase(char *cmdSrc, char *tocOpt, char *dbName,
 			   char *dirName);
@@ -1355,7 +1355,7 @@ parseArgs(int argc, char *argv[])
 }
 
 static char *
-parseDocument(Boolean runCmd, ...)
+parseDocument(int runCmd, ...)
 {
     va_list ap;
     char *ptr;

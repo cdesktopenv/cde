@@ -121,8 +121,6 @@ List::append (FolioObject &element)
   check_space();
 
   /* -------- Add the element. -------- */
-  if (&element == NULL)
-    abort();
   f_list_element[f_length] = &element;
   f_length++;
   notify (APPENDED, (void *)(size_t) (f_length - 1));

@@ -40,11 +40,11 @@
 #ifdef __hpux
 #include <ndir.h>		/* opendir(), directory(3C) */
 #else
-#if defined(sun)
+#if defined(sun) || defined(CSRG_BASED)
 #include <dirent.h>		/* opendir(), directory(3C) */
 #else
 #include <sys/dir.h>
-#endif /* sun */
+#endif /* sun || CSRG_BASED */
 #endif /* __hpux */
 
 #include <X11/Xlib.h>

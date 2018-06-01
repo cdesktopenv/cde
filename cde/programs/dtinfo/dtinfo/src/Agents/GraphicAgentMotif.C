@@ -118,15 +118,15 @@ GraphicAgent::GraphicAgent (UAS_Pointer<UAS_Common> &node_ptr,
 : f_shell (NULL),
   f_node_ptr(node_ptr),
   f_graphic (gr),
-  f_panner_state (PANNER_NONE),
-  f_current_scale (100),
-  f_scale_button(NULL),
-  f_setcustom(0),
   f_panner(NULL),
   f_pixmap_widget(NULL),
+  f_panner_state (PANNER_NONE),
+  f_current_scale (100),
   f_view_menu(NULL),
   f_message_area(NULL),
-  f_custom_scale(NULL)
+  f_scale_button(NULL),
+  f_custom_scale(NULL),
+  f_setcustom(0)
 
 {
   f_graphic->pixmap_graphic()->agent(this);

@@ -429,7 +429,7 @@ olias_send_event (Widget, OliasEvent *event)
 		    if (locator == NULL)
 		      return (OLIAS_TIMEOUT);
 		    ON_DEBUG(printf(">>> g_top_locator = %p\n", g_top_locator));
-		    if (g_top_locator == NULL)
+		    if (g_top_locator[0] == '\0')
 		      return (OLIAS_TIMEOUT);
                     g_scroll_to_locator = TRUE;
                     len = MIN(strlen(locator), 4096 - 1);

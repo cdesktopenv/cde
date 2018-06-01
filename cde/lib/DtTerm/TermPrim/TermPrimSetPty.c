@@ -111,6 +111,12 @@ static char rcs_id[] = "$TOG: TermPrimSetPty.c /main/2 1998/04/03 17:11:24 mgree
 #define NXTTYMODES      16
 
 #if defined(CSRG_BASED)
+#ifdef TAB3
+#undef TAB3
+#endif
+#ifdef TABDLY
+#undef TABDLY
+#endif
 #define TAB3	0x00000000
 #define NLDLY	0x00000000
 #define CRDLY	0x00000000
@@ -158,7 +164,7 @@ parseTtyModes
 )
 {
     ttyMode    *pMode;
-    int         c, i;
+    int         c;
     int         modeCount = 0;
 
     /*

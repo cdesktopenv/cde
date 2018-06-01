@@ -43,7 +43,7 @@
 /*
  * obj_namesP.h - C/Widget/other names for objects
  */
-#ifndef _ABMF_OBJ_NAMES__H_
+#ifndef _ABMF_OBJ_NAMESP_H_
 #define _ABMF_OBJ_NAMESP_H_
 
 #include "write_codeP.h"

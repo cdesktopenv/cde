@@ -152,14 +152,13 @@ private: // variables
 inline
 LibraryAgent::LibraryAgent()
 : f_shell (NULL),
+  f_doc_tree_view(),
   f_oe (NULL),
   f_keep_forever (FALSE),
   f_wm_delete_callback (NULL),
   f_tracking_hierarchy (NULL),
   f_popped_down (TRUE),
   f_close (NULL),
-  f_close_sensitive (FALSE),
-  f_doc_tree_view(),
   f_copy(NULL),
   f_detach(NULL),
   f_detach2(NULL),
@@ -171,6 +170,7 @@ LibraryAgent::LibraryAgent()
   f_remove(NULL),
   f_remove2(NULL),
   f_auto_track(NULL),
+  f_close_sensitive (FALSE),
   f_status_text(NULL),
   f_scope_menu(NULL)
   

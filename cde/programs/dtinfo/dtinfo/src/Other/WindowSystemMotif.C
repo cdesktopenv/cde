@@ -226,8 +226,8 @@ public:
   Shell_Info (Widget w)
     : f_shell (w),
       f_size_hints (NULL),
-      f_restore (False),
       f_has_size_hints(False),
+      f_restore (False),
       f_iconic(False),
       f_has_wm_state(False)
     { }
@@ -247,22 +247,22 @@ public:
 // /////////////////////////////////////////////////////////////////
 
 WindowSystem::WindowSystem (int &argc, char *argv[])
-: f_printing(False),
+: f_print_display(NULL),
+  f_printing(False),
   f_default_pixmap (0),
+  f_default_print_pixmap(0),
   f_defpix_width (0),
   f_defpix_height (0),
-  f_detached_pixmap(0),
-  f_shell_list (20),
-  f_cursor_stack_pos(-1),
-  f_dtinfo_font(NULL),
-  f_dtinfo_space_font(NULL),
-  f_print_display(NULL),
-  f_default_print_pixmap(0),
   f_print_defpix_width(0),
   f_print_defpix_height(0),
+  f_detached_pixmap(0),
   f_detached_width(0),
   f_detached_height(0),
-  f_print_screen(NULL)
+  f_shell_list (20),
+  f_cursor_stack_pos(-1),
+  f_print_screen(NULL),
+  f_dtinfo_font(NULL),
+  f_dtinfo_space_font(NULL)
 {
   f_argc = &argc;
   f_argv = argv;

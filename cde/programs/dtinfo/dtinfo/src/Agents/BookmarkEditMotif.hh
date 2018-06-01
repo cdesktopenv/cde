@@ -57,9 +57,9 @@ public:
   BookmarkEdit (UAS_Pointer<Mark> &mark)
     : f_mark_ptr (mark),
       f_shell (NULL),
-      f_modified (FALSE),
       f_name_text(NULL),
       f_notes_text(NULL),
+      f_modified (FALSE),
       f_wm_delete_callback(NULL)
     {
       MarkMgr::request ((UAS_Receiver<MarkMoved> *) this);

@@ -99,6 +99,9 @@ pragma on(alloca);
 
 #if defined(__GNUC__)
 #if !defined(__linux__)
+#ifdef alloca
+#undef alloca
+#endif
 #define alloca ___builtin_alloca
 #endif
 #define ALLOCATE_LOCAL(size) alloca((int)(size))

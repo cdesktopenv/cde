@@ -63,7 +63,7 @@ const char* loutFeatureProcessor::convertToLiteral(const char* str)
         if ( literalBufferSize < 2*size + 3 ) {
            literalBufferSize = 2*size + 3;
            literalBufferSize *= 2;
-           delete literalBuffer;
+           delete [] literalBuffer;
            literalBuffer = new  char[literalBufferSize];
         }    
 

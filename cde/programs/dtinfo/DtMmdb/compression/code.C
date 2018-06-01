@@ -51,7 +51,7 @@
 #include "compression/code.h"
 
 encoding_unit::encoding_unit(ostring* w, unsigned int f) :
-   word(w), freq(f), code(0), bits(0), leaf_htr_node(NULL)
+   word(w), bits(0), freq(f), code(0), leaf_htr_node(NULL)
 {
 }
 

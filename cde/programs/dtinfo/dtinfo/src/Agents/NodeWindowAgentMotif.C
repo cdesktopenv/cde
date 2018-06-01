@@ -778,16 +778,6 @@ NodeWindowAgent::NodeWindowAgent (u_int serial_no)
   f_shell (NULL),
   f_help_dsp_area (NULL),
   f_close(NULL),
-  f_current_ancestor (NULL),
-  f_form(NULL),
-  f_preview_timeout (NULL),
-  f_serial_number(serial_no),
-  f_history_display (FALSE),
-  f_vscrollbar_offset(0),
-  f_hscrollbar_offset(0),
-  f_graphic_segment(NULL),
-  f_graphics_handler(NULL),
-  f_close_sensitive(FALSE),
   f_frame(NULL),
   f_create_bmrk(NULL),
   f_create_anno(NULL),
@@ -810,10 +800,20 @@ NodeWindowAgent::NodeWindowAgent (u_int serial_no)
   f_print(NULL),
   f_print2(NULL),
   f_print_as(NULL),
+  f_current_ancestor (NULL),
+  f_form(NULL),
   f_move_mark_sensitive(0),
   f_last_access_time(0),
   f_locked(FALSE),
-  f_wm_delete_callback(NULL)
+  f_wm_delete_callback(NULL),
+  f_preview_timeout (NULL),
+  f_serial_number(serial_no),
+  f_history_display (FALSE),
+  f_vscrollbar_offset(0),
+  f_hscrollbar_offset(0),
+  f_graphic_segment(NULL),
+  f_graphics_handler(NULL),
+  f_close_sensitive(FALSE)
   
 {
     UAS_Common::request ((UAS_Receiver<UAS_LibraryDestroyedMsg> *) this);

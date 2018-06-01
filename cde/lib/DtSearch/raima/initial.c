@@ -51,6 +51,7 @@
 
 #include <stdio.h>
 #include <fcntl.h>
+#include <time.h>
 #include "vista.h"
 #include "dbtype.h"
 #include "dbswab.h"

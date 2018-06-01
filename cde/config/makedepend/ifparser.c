@@ -81,6 +81,7 @@
 
 #include "ifparser.h"
 #include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 #include <limits.h>
 
@@ -201,7 +202,7 @@ parse_value (g, cp, valp)
     const char *cp;
     long *valp;
 {
-    const char *var;
+    const char *var, *varend;
 
     *valp = 0;
 
@@ -226,6 +227,16 @@ parse_value (g, cp, valp)
       case '-':
 	DO (cp = parse_value (g, cp + 1, valp));
 	*valp = -(*valp);
+	return cp;
+
+      case '+':
+	DO (cp = parse_value (g, cp + 1, valp));
+	*valp = +(*valp);
+	return cp;
+
+      case '~':
+	DO (cp = parse_value (g, cp + 1, valp));
+	*valp = ~(*valp);
 	return cp;
 
       case '#':
@@ -276,7 +287,24 @@ parse_value (g, cp, valp)
 	return CALLFUNC(g, handle_error) (g, cp, "variable or number");
     else {
 	DO (cp = parse_variable (g, cp, &var));
-	*valp = (*(g->funcs.eval_variable)) (g, var, cp - var);
+	varend = cp;
+	SKIPSPACE(cp);
+	if (*cp != '(') {
+	    *valp = (*(g->funcs.eval_variable)) (g, var, varend - var);
+	} else {
+	    do {
+		long dummy;
+		DO (cp = ParseIfExpression (g, cp + 1, &dummy));
+		SKIPSPACE(cp);
+		if (*cp == ')')
+		    break;
+		if (*cp != ',')
+		    return CALLFUNC(g, handle_error) (g, cp, ",");
+	    } while (1);
+
+	    *valp = 1;  /* XXX */
+	    cp++;
+	}
     }
     
     return cp;
@@ -464,7 +492,7 @@ parse_band (g, cp, valp)
 
 
 static const char *
-parse_bor (g, cp, valp)
+parse_bxor (g, cp, valp)
     IfParser *g;
     const char *cp;
     long *valp;
@@ -472,6 +500,27 @@ parse_bor (g, cp, valp)
     long rightval;
 
     DO (cp = parse_band (g, cp, valp));
+    SKIPSPACE (cp);
+
+    switch (*cp) {
+      case '^':
+	DO (cp = parse_bxor (g, cp + 1, &rightval));
+	*valp = (*valp ^ rightval);
+	break;
+    }
+    return cp;
+}
+
+
+static const char *
+parse_bor (g, cp, valp)
+    IfParser *g;
+    const char *cp;
+    long *valp;
+{
+    long rightval;
+
+    DO (cp = parse_bxor (g, cp, valp));
     SKIPSPACE (cp);
 
     switch (*cp) {

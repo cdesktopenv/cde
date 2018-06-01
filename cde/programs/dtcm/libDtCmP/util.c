@@ -61,6 +61,8 @@
 #include <sys/utsname.h> /* SYS_NMLN */
 #if defined(sun)
 #include <sys/systeminfo.h>
+#elif defined(CSRG_BASED)
+#include <sys/dirent.h>
 #else
 #include <sys/dir.h>
 #endif /* sun */

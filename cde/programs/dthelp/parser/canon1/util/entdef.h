@@ -30,6 +30,9 @@
 #define M_ENDTAG 3
 #define M_MD 4
 #define M_MS 5
+#ifdef  M_PI
+#undef  M_PI
+#endif
 #define M_PI 6
 #define M_CDATAENT 7
 #define M_SDATA 8

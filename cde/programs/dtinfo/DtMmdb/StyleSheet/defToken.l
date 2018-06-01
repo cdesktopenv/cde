@@ -51,7 +51,7 @@ void addToDefTokenStringBuf(const unsigned char* str, int size)
       defToken_string_buf_size = 2*(size+defToken_string_buf_content_size);
       unsigned char* x = new unsigned char[defToken_string_buf_size];
       memcpy(x, defToken_string_buf, defToken_string_buf_content_size);
-      delete defToken_string_buf;
+      delete [] defToken_string_buf;
       defToken_string_buf = x;
    }
 

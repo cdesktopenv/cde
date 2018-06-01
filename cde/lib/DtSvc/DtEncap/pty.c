@@ -61,10 +61,6 @@
 #include <sys/ptyio.h>
 #endif
 
-#if defined(__cplusplus)
-#include <osfcn.h>
-#endif
-
 #if defined(__apollo) && !defined(ONLCR) 
 # define ONLCR 0		/* This guy (XPG3), not on apollo yet */
 #endif

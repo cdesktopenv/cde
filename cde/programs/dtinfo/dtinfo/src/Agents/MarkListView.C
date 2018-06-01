@@ -81,9 +81,9 @@
 // /////////////////////////////////////////////////////////////////
 
 MarkListView::MarkListView()
-: f_shell (NULL),
-  f_popped_up (FALSE),
-  f_selected_item(0)
+: f_selected_item(0),
+  f_shell (NULL),
+  f_popped_up (FALSE)
 {
 }
 

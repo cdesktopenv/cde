@@ -337,7 +337,7 @@ static	SpecialSymbolTable SpcTable[] =
  {"[spades]", {'\252','\0'}, SymbolString}, /*ISOpub , spades suit symbol    */ 
  {"[sub   ]", {'\314','\0'}, SymbolString}, /*ISOtech, subset/is implied by  */ 
  {"[sube  ]", {'\315','\0'}, SymbolString}, /*ISOtech, subset, equals        */ 
-/*"[sung  ]", { ??   ,'\0'},             }, /*ISOnum , musical note(sung txt)*/ 
+/*"[sung  ]", { ??   ,'\0'},             },  *ISOnum , musical note(sung txt)*/
  {"[sup   ]", {'\311','\0'}, SymbolString}, /*ISOtech, superset or implies   */ 
  {"[sup1  ]", {'\271','\0'}, IsoString   }, /*ISOnum , superscript one       */ 
  {"[sup2  ]", {'\262','\0'}, IsoString   }, /*ISOnum , superscript two       */ 

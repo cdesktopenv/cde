@@ -77,7 +77,7 @@ void addToQstringBuf(const unsigned char* str, int size)
       qstring_buf_size = 2*(size+qstring_buf_content_size);
       unsigned char* x = new unsigned char[qstring_buf_size];
       memcpy(x, qstring_buf, qstring_buf_content_size);
-      delete qstring_buf;
+      delete [] qstring_buf;
       qstring_buf = x;
    }
 
@@ -98,7 +98,7 @@ unit ([Ii][Nn]|[Ii][Nn][Cc][Hh]|[Pp][Cc]|[Pp][Ii][Cc][Aa]|[Pp][Tt]|[Pp][Oo][Ii][
 
 ^"#".*	{
 	   if ( commentBufferSize < yyleng ) {
-              delete commentBuffer;
+              delete [] commentBuffer;
               commentBufferSize = 2 * yyleng ;
               commentBuffer = new char [commentBufferSize];
            } 

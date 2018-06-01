@@ -20,7 +20,7 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $TOG: InfoLibSearchPath.C /main/5 1998/08/17 10:33:55 mgreess $
+/* $TOG: InfoLibSearchPath.C /main/5 1998/08/17 10:33:55 mgreess $ */
 /*
  * (c) Copyright 1996 Digital Equipment Corporation.
  * (c) Copyright 1996 Hewlett-Packard Company.

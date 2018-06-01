@@ -22,6 +22,7 @@
  */
 // $TOG: defParser.C /main/5 1997/12/23 11:16:25 bill $
 #ifndef lint
+__attribute__((unused))
 static const char defParsersccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 #endif
 #define defParserBYACC 1

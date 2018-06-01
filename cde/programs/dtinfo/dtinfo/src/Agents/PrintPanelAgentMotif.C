@@ -151,9 +151,8 @@ static Boolean print_hierarchy;  // keep track of hierarchy vs section
 
 #if 0 && defined(PRINTING_SUPPORTED)
 static void PrintEverything(AppPrintData *p);
-#endif  /* PRINTING_SUPPORTED */
-
 static void PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP);
+#endif  /* PRINTING_SUPPORTED */
 
 PrintPanelAgent::PrintPanelAgent()
 {
@@ -963,7 +962,6 @@ PrintEverything(AppPrintData *p)
 
     RCS_DEBUG("PrintEverything exiting.\n");
 }
-#endif  /* PRINTING_SUPPORTED */
 
 static void
 PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP)
@@ -1030,6 +1028,7 @@ PrintOneUASCommon(UAS_Pointer<UAS_Common> &doc, Widget pshell, int *cur_pageP)
 	}
     }
 }
+#endif  /* PRINTING_SUPPORTED */
 
 /*
  * ------------------------------------------------------------------------

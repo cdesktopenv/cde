@@ -439,7 +439,7 @@ io_status oid_list::asciiIn(istream& in)
       list_ptr.p -> set(oid_array, v_sz);
    }
 
-   delete oid_array;
+   delete [] oid_array;
 
    return done;
 }

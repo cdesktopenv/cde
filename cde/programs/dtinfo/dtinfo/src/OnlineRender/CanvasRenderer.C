@@ -231,16 +231,16 @@ print_justify (unsigned value)
 
 CanvasRenderer::CanvasRenderer(int font_scale)
 : Renderer(),
+  f_vcc(0),
+  f_current_container(NULL),
+  f_current_displayable(NULL),
   f_current_tgroup (0),
   f_font (0),
   f_link_idx (-1),
   f_font_scale(font_scale),
+  f_default_features(NULL),
   fBogusSymbol(gElemSymTab->intern("%BOGUS")),
-  f_level(0),
-  f_vcc(0),
-  f_current_container(NULL),
-  f_current_displayable(NULL),
-  f_default_features(NULL)
+  f_level(0)
 {
   // make symbols 
   for ( int i=0; i < REND_SYMBOLS; i++)
@@ -2534,7 +2534,7 @@ TGDefn::build()
       delete grid[r] ;		// clean up column memory
     }
 
-  delete grid ;			
+  delete [] grid ;
 
   // now  apply the formats to the _DtCvTable
   { 

@@ -45,7 +45,7 @@
  *
   * Internal files - defines internal data structures, et cetera
  */
-#ifndef _ABOBJ_NOTIFYP_H
+#ifndef _ABOBJ_NOTIFYP_H_
 #define _ABOBJ_NOTIFYP_H_
 
 #include "objP.h"		/* include before obj.h! */

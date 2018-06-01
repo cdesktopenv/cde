@@ -22,6 +22,7 @@
  */
 // $TOG: style.C /main/6 1998/04/17 11:51:49 mgreess $
 #ifndef lint
+__attribute__((unused))
 static const char stylesccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 #endif
 #define styleBYACC 1

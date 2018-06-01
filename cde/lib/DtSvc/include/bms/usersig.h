@@ -33,7 +33,7 @@
  */
 
 #ifndef _usersig_h
-#define _usesig_h
+#define _usersig_h
 
 /* -------------------------------------------- */
 /* Requires:					*/

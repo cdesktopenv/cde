@@ -150,6 +150,9 @@ static char SCCSID[] = "OSF/Motif: @(#)_DtosP.h	4.16 91/09/12";
 
 
 # ifdef __GNUC__
+#  ifdef alloca
+#  undef alloca
+#  endif
 #  define alloca __builtin_alloca
 #  define ALLOCATE_LOCAL(size) alloca((int)(size))
 #  define DEALLOCATE_LOCAL(ptr)  /* as nothing */

@@ -22,6 +22,7 @@
  */
 // $TOG: sheet.C /main/4 1997/12/23 11:20:35 bill $
 #ifndef lint
+__attribute__((unused))
 static const char schemasccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
 #endif
 #define  schemaBYACC 1

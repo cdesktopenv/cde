@@ -60,12 +60,14 @@ using namespace std;
 #include "dbug.h"  /* ala Fred Fish's dbug package from uunet */
 #endif
 
+#ifdef LICENSE_MANAGEMENT
 const int A_FEATURE = OLAF::Feature;
 const int A_VEN_CODE = OLAF::VenCode;
 const int A_VERSION  = OLAF::Version;
 const int A_GROUPING = OLAF::Grouping;
 const int A_DEMO_TERMS = OLAF::DemoTerms;
 const int A_DEFAULT_SECTION = OLAF::DefaultSection;
+#endif
 
 /***********************************
  *

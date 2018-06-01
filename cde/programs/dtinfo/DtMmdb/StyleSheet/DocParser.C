@@ -47,7 +47,7 @@ static ostrstream& terminate(ostrstream& ost)
 #endif
 
 DocParser::DocParser(Resolver &r)
-: f_resolver(r), f_ignoring_element(0),
+: f_ignoring_element(0), f_resolver(r),
 #if defined(SC3)
   f_buffer(new char[DATA_BUF_SIZ]),
   f_output(f_buffer, DATA_BUF_SIZ)

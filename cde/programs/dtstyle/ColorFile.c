@@ -50,7 +50,7 @@
 #ifdef __hpux
 #include <ndir.h>               /*   opendir(), directory(3C) */
 #else
-#if SVR4 || sco
+#if defined(SVR4) || defined(sco) || defined(CSRG_BASED)
 #include <dirent.h>             /* opendir(), directory(3C) */
 #else
 #include <sys/dir.h>

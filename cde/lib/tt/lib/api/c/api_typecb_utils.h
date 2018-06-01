@@ -33,7 +33,7 @@
  * 
  * Utilities declarations for _Tt_typecb
  */
-#ifndef _API_TYPECB__UTILS_H
+#ifndef _API_TYPECB_UTILS_H
 #define _API_TYPECB_UTILS_H
 #include "util/tt_object.h"
 #include "util/tt_list.h"

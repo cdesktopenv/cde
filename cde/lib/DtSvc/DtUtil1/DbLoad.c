@@ -53,11 +53,11 @@
 #include <ndir.h>
 #else
 
-#if defined(sun)
+#if defined(sun) || defined(CSRG_BASED)
 #include <dirent.h>
 #else
 #include <sys/dir.h>
-#endif				/* sun */
+#endif				/* sun || CSRD_BASED */
 
 #endif				/* __hpux */
 
