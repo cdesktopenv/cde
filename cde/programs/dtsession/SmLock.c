@@ -1799,7 +1799,12 @@ localAuthenticate(
    /*
     * Get password entry for 'name' or 'uid'.
     */
+#if defined(__OpenBSD__) && OSMAJORVERSION > 5
+    if ((pwent = (name == NULL ?
+            getpwuid_shadow(uid) : getpwnam_shadow(name))) == NULL)
+#else
     if ((pwent = (name == NULL ? getpwuid(uid) : getpwnam(name))) == NULL)
+#endif
     {
      /*
       * Can't get entry.

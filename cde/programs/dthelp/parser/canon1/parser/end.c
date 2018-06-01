@@ -29,6 +29,8 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 /* End.c executes end-code specified in the interface. */
 
+#include <stdint.h>
+
 #include "userinc.h"
 #include "globdec.h"
 

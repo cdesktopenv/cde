@@ -48,7 +48,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#if defined(sun) || defined(__FreeBSD__)
+#if defined(sun) || defined(CSRG_BASED)
 #include <iconv.h>
 #endif
 #include <sys/stat.h>
@@ -931,7 +931,7 @@ friend class Session;
 			DTMailError_t minor_code);
 };
 
-#if defined(sun) || defined(__FreeBSD__)
+#if defined(sun) || defined(CSRG_BASED)
 template <typename T>
 size_t iconv (iconv_t i, const T inbuf, size_t* inleft,
 	       char** outbuf, size_t* outleft)

@@ -103,6 +103,7 @@ static int	write_map_window(
  */
 static char        *Includes[] =
 {
+    "<stdint.h>",
     "<unistd.h>",
     "<stdlib.h>",
     "<stdio.h>",
@@ -542,7 +543,7 @@ write_main(GenCodeInfo genCodeInfo, ABObj project)
     /*
      * Local variables
      */
-    abio_puts(codeFile, "Widget\t\ttoplevel = 0;\n");
+    abio_puts(codeFile, "Widget\t\ttoplevel = (Widget)NULL;\n");
     abio_puts(codeFile, "Display\t\t*display = (Display*)NULL;\n");
     abio_puts(codeFile, "XtAppContext\tapp = (XtAppContext)NULL;\n");
     abio_puts(codeFile, "String\t\t*fallback_resources = (String*)NULL;\n");
@@ -673,7 +674,7 @@ write_main(GenCodeInfo genCodeInfo, ABObj project)
     {
 	abmfP_write_c_comment(genCodeInfo, FALSE,
 		"Set up the application's root window.");
-        abio_printf(codeFile, "%s = toplevel;\n",
+        abio_printf(codeFile, "%s = toplevel;\n\n",
 	    abmfP_get_c_name_global(main_window));
 
 	if (obj_get_icon(main_window) != NULL)

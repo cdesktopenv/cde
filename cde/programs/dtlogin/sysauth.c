@@ -1956,6 +1956,13 @@ Authenticate( struct display *d, char *name, char *passwd, char **msg )
     }
 #endif
 
+#if defined(__OpenBSD__) && OSMAJORVERSION > 5
+    /*
+     * Use the OpenBSD getpwnam_shadow function to get the crypt()ed password
+     */
+     p = getpwnam_shadow(name);
+#endif
+
     if (!p || strlen(name) == 0 ||
         strcmp (crypt (passwd, p->pw_passwd), p->pw_passwd)) {
 

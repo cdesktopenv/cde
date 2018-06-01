@@ -172,13 +172,23 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define CppCmd          	/usr/libexec/cpp -traditional
 #endif
 #define StandardCppOptions	-traditional
-#define StandardCppDefines	/**/
 #define PreProcessCmd   	CppCmd
 #define PreIncDir		DefaultGccIncludeDir
 
-#ifndef CcCmd
-#define CcCmd 			cc
+#if OSMajorVersion > 6 || (OSMajorVersion == 6 && OSMinorVersion >= 2)
+#define CcCmd			cc
+#define CplusplusCmd		c++
+#define CppArgs			-Wno-invalid-pp-token
+#else
+#define CcCmd			gcc
+#define CplusplusCmd		g++
+#define CppArgs			/**/
 #endif
+
+#ifndef StandardCppDefines
+#define StandardCppDefines	-traditional CppArgs
+#endif
+
 #ifndef AsCmd
 #define AsCmd			cc -c -x assembler
 #endif
@@ -914,8 +924,8 @@ install:: fonts.alias							@@\
  */
 
 #ifdef HasGcc2ForCplusplus
-CXXDEPENDINCLUDE != echo | `CcCmd -print-prog-name=cc1plus` -v 2>&1 | \
-		    sed -n 's/ \(.*[cg]++.*\)/-I\1/p'; rm -f gccdump.s
+CXXDEPENDINCLUDE != CcCmd -v -x c++ /dev/null -fsyntax-only \
+		    2>&1 | sed -n 's/^ \(\/.*[cg]++.*\)/-I\1/p'
 #define CplusplusDependIncludes $(CXXDEPENDINCLUDE)
 #endif
 
