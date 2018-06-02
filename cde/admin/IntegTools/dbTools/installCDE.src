@@ -33,7 +33,7 @@ XCOMM       -pack    -- create packing list
 XCOMM       -pseudo  -- don't configure the desktop
 XCOMM       -nocompress -- don't compress the tarball (-t only)
 XCOMM
-XCOMM       -Lang           -- load the localized filesets
+XCOMM       -lang           -- load the localized filesets
 XCOMM       -LinkStepOnly   -- set up the -pI, -pC, and -pV links
 XCOMM                          then exit
 XCOMM       -DontRunScripts -- stop after installation
@@ -487,8 +487,8 @@ echo -e "\t[-relative]\t\t\trun the relative-located config scripts"
 echo -e "\t[-pack]\t\t\t\tcreate a packing list"
 echo -e "\t[-pseudo]\t\t\tdo not configure desktop when installing"
 echo -e "\t[-nocompress]\t\t\tdo not compress tarball when creating package"
-echo -e "\t[-lang LANG]\t\t\tspecify LANG to load appropriate localized"
-echo -e "\t\t\t\t\tfilesets"
+echo -e "\t[-lang LANG]\t\t\tspecify LANG to load only appropriate localized"
+echo -e "\t\t\t\t\tfilesets for LANG"
 echo -e "\t[-LeaveLinks]\t\t\t\tdo not delete the links after cleaning"
 echo -e ""
 echo -e "\t[-LinkStepOnly]\t\t\tset up the -pI, -pC, and -pV links"
@@ -545,7 +545,6 @@ XCOMM don't bother if the fileset doesn't exist
     cat /tmp/${2}.missing | tee -a $LOGFILE
   fi
 }
-
 ORIGINAL_COMMAND_LINE="$*"
 
 XCOMM Set which system we are on
@@ -628,7 +627,8 @@ XCOMM
   theLang=""
   CONFIGURE_ONLY="no"
   DESTINATION_DIR="/"
-
+  BUILT_LOCALES=builtLocales
+  Log "Built locales: $BUILT_LOCALES"
 
   rm -f $LOGFILE
 
@@ -901,31 +901,48 @@ XCOMM
                       CDE-PRG CDE-INC CDE-DEMOS CDE-MAN-DEV CDE-ICONS \
 		      CDE-FONTS CDE-INFO CDE-INFOLIB-C"
     fi
-
     HASH now load any localized filesets
     if [ "$DEVELOP_ENV" != "yes" ]
     then
+
       if [ "$theLang" != "" ]
       then
         DATABASE_FILES="$DATABASE_FILES CDE-$theLang CDE-MSG-$theLang \
 			CDE-HELP-$theLang"
       else
-        HASH load all current (working) languages
-        DATABASE_FILES="$DATABASE_FILES \
-                                        CDE-DE \
-                                        CDE-MSG-DE \
-                                        CDE-HELP-DE \
-                                        CDE-ES \
-                                        CDE-MSG-ES \
-                                        CDE-HELP-ES \
-                                        CDE-FR \
-                                        CDE-MSG-FR \
-                                        CDE-HELP-FR \
-                                        CDE-IT \
-                                        CDE-MSG-IT \
-                                        CDE-HELP-IT "
+        HASH load all current (working) languages in $BUILT_LOCALES
+
+        HASH German
+        if [ "${BUILT_LOCALES#*_DE}" != "$BUILT_LOCALES" ]
+        then
+            DATABASE_FILES="$DATABASE_FILES CDE-DE CDE-MSG-DE \
+			CDE-HELP-DE"
+        fi
+
+        HASH French
+        if [ "${BUILT_LOCALES#*_FR}" != "$BUILT_LOCALES" ]
+        then
+            DATABASE_FILES="$DATABASE_FILES CDE-FR CDE-MSG-FR \
+			CDE-HELP-FR"
+        fi
+
+        HASH Italian
+        if [ "${BUILT_LOCALES#*_IT}" != "$BUILT_LOCALES" ]
+        then
+            DATABASE_FILES="$DATABASE_FILES CDE-IT CDE-MSG-IT \
+			CDE-HELP-IT"
+        fi
+
+        HASH Spanish
+        if [ "${BUILT_LOCALES#*_ES}" != "$BUILT_LOCALES" ]
+        then
+            DATABASE_FILES="$DATABASE_FILES CDE-ES CDE-MSG-ES \
+			CDE-HELP-ES"
+        fi
+
       fi
     fi
+
   fi
 
   [ -z "$INSTALL_LOCATION" ] && INSTALL_LOCATION=CDE_INSTALLATION_TOP
@@ -1010,7 +1027,7 @@ XCOMM
   fi
 
   Log " "
-  Log "Desktop installed in $DESTINATION_DIR/$INSTALL_LOCATION"
+  Log "Desktop installed in ${DESTINATION_DIR}${INSTALL_LOCATION}"
 
   if [ "$DO_INSTALL_ONLY" = "yes" ]
   then
