@@ -1157,7 +1157,7 @@ get_sun_compiler_versions(FILE *inFile)
     strncat (cmd, " --version 2>&1", 15);
     if ((ccproc = popen (cmd, "r")) != NULL) {
       if (fgets (buf, PATH_MAX, ccproc) != NULL) {
-	vptr = strrchr (buf, 'G');
+	vptr = strrchr (buf, ')');
 	for (; !isdigit(*vptr); vptr++);
 	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
 	fprintf (inFile,
@@ -1182,7 +1182,7 @@ get_sun_compiler_versions(FILE *inFile)
     strncat (cmd, " --version 2>&1", 15);
     if ((ccproc = popen (cmd, "r")) != NULL) {
       if (fgets (buf, PATH_MAX, ccproc) != NULL) {
-	vptr = strrchr (buf, 'G');
+	vptr = strrchr (buf, ')');
 	for (; !isdigit(*vptr); vptr++);
 	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
 	fprintf (inFile,
