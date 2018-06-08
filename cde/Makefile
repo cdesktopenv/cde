@@ -1,5 +1,5 @@
 # $TOG: Makefile /main/15 1999/10/12 09:33:30 mgreess $
-     RELEASE = Release 2.2.4
+     RELEASE = Release 2.2.4a
      PRODUCT = CDE
        SHELL = /bin/sh
           RM = rm -f
