@@ -160,11 +160,7 @@ DtMailServer::set_password(char *password)
 //
 //	len	- Length of message.
 //
-#if defined(reallyoldsun)
-#define SA_HANDLER_TYPE void (*)(void)
-#else
 #define SA_HANDLER_TYPE void (*)(int)
-#endif
 
 DTMailError_t
 DtMailServer::ptrans_retrieve_readandappend(

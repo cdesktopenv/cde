@@ -957,11 +957,7 @@ Usage(char *progname)
 
 nl_catd DT_catd = (nl_catd) -1;    // catgets file descriptor
 
-#if defined(reallyoldsun)
-#define SA_HANDLER_TYPE void (*)(void)
-#else
 #define SA_HANDLER_TYPE void (*)(int)
-#endif
 
 void RoamApp::initialize(int *argcp, char **argv)
 {

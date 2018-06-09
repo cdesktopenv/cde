@@ -4509,11 +4509,7 @@ RFCMailBox::startAutoSave(DtMailEnv & error,
 	_session->removeEventRoutine(error, PollEntry, this);
 }
 
-#if defined(reallyoldsun)
-#define SA_HANDLER_TYPE void (*)(void)
-#else
 #define SA_HANDLER_TYPE void (*)(int)
-#endif
 
 void
 RFCMailBox::dumpMaps(const char *str)
