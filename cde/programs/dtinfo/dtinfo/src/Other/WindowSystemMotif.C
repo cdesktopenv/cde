@@ -1115,7 +1115,7 @@ WindowSystem::default_pixmap (Dimension *width, Dimension *height)
 	XpmAttributes xpm_attr ;
 	xpm_attr.valuemask = 0 ;
 	
-	XmeXpmCreatePixmapFromData(f_display,
+	XpmCreatePixmapFromData(f_display,
 					    XtWindow((Widget)toplevel()),
 					    (char**)graphic_unavailable_data,
 					    &temp_pixmap,
@@ -1175,7 +1175,7 @@ WindowSystem::detached_pixmap(Dimension *width, Dimension *height)
       XpmAttributes xpm_attr;
       xpm_attr.valuemask = 0 ;
 
-      int status = XmeXpmCreatePixmapFromData(f_display,
+      int status = XpmCreatePixmapFromData(f_display,
 					   XtWindow((Widget)toplevel()),
 					   (char**)detached_pixmap_data,
 					   &f_detached_pixmap,
@@ -1217,7 +1217,7 @@ WindowSystem::read_pixmap(const char *pname,
   status = xpm_lib().ReadFileToPixmap (f_display, XtWindow ((Widget)toplevel()),
 				fname, &pixmap, NULL, &xpm_attributes);
 #else
-  status = XmeXpmReadFileToPixmap (f_display, XtWindow ((Widget)toplevel()),
+  status = XpmReadFileToPixmap (f_display, XtWindow ((Widget)toplevel()),
 				fname, &pixmap, NULL, &xpm_attributes);
 #endif
 

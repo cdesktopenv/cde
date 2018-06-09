@@ -49,7 +49,7 @@ int _DtXpmCreatePixmapFromData(Display *display,
 			       Pixmap *shapemask_return,
 			       XpmAttributes *attributes)
 {
-    return XmeXpmCreatePixmapFromData(display, d, data,
+    return XpmCreatePixmapFromData(display, d, data,
 				      pixmap_return, shapemask_return,
 				      attributes);
 }
@@ -61,7 +61,7 @@ int _DtXpmReadFileToPixmap(Display *display,
 			   Pixmap *shapemask_return,
 			   XpmAttributes *attributes)
 {
-    return XmeXpmReadFileToPixmap(display, d, filename,
+    return XpmReadFileToPixmap(display, d, filename,
 				  pixmap_return, shapemask_return,
 				  attributes);
 }
@@ -72,7 +72,7 @@ int _DtXpmWriteFileFromPixmap(Display *display,
 			      Pixmap shapemask,
 			      XpmAttributes *attributes)
 {
-    return XmeXpmWriteFileFromPixmap(display, filename,
+    return XpmWriteFileFromPixmap(display, filename,
 				     pixmap, shapemask,
 				     attributes);
 }
@@ -83,7 +83,7 @@ int _DtXpmReadFileToImage(Display *display,
 			  XImage **shapeimage_return,
 			  XpmAttributes *attributes)
 {
-    return XmeXpmReadFileToImage(display, filename,
+    return XpmReadFileToImage(display, filename,
 				 image_return, shapeimage_return,
 				 attributes);
 }
@@ -94,12 +94,12 @@ int _DtXpmWriteFileFromImage(Display *display,
 			     XImage *shapeimage,
 			     XpmAttributes *attributes)
 {
-    return XmeXpmWriteFileFromImage(display, filename,
+    return XpmWriteFileFromImage(display, filename,
 				    image, shapeimage,
 				    attributes);
 }
 
 void _DtXpmFreeAttributes(XpmAttributes *attributes)
 {
-    XmeXpmFreeAttributes(attributes);
+    XpmFreeAttributes(attributes);
 }
