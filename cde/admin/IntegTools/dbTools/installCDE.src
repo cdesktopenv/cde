@@ -205,31 +205,7 @@ CleanDaemons()
       then
         stopsrc -s inetd >>$LOGFILE 2>&1
       fi
-    elif [ "$PLATFORM" = "openbsd" ]
-    then
-      ps axo pid,comm | grep $i > /tmp/tmppsout
-      if [ -s /tmp/tmppsout ]
-      then
-        awk '{print "kill " $1}' /tmp/tmppsout | /bin/csh -f
-        sleep 2
-      fi
-    elif [ "$PLATFORM" = "freebsd" ]
-    then
-      ps axo pid,comm | grep $i > /tmp/tmppsout
-      if [ -s /tmp/tmppsout ]
-      then
-        awk '{print "kill " $1}' /tmp/tmppsout | /bin/csh -f
-        sleep 2
-      fi
-    elif [ "$PLATFORM" = "netbsd" ]
-    then
-      ps axo pid,comm | grep $i > /tmp/tmppsout
-      if [ -s /tmp/tmppsout ]
-      then
-        awk '{print "kill " $1}' /tmp/tmppsout | /bin/csh -f
-        sleep 2
-      fi
-    elif [ "$PLATFORM" = "linux" ]
+    elif [ "$PLATFORM" = "openbsd" -o "$PLATFORM" = "freebsd" -o "$PLATFORM" = "netbsd" -o "$PLATFORM" = "linux" ]
     then
       ps axo pid,comm | grep $i > /tmp/tmppsout
       if [ -s /tmp/tmppsout ]
@@ -241,7 +217,7 @@ CleanDaemons()
       ps -ef | grep $i | grep -v grep >/tmp/tmppsout
       if [ -s /tmp/tmppsout ]
       then
-        awk '{print "kill " $2}' /tmp/tmppsout | /bin/csh -f
+        awk '{print "kill " $2}' /tmp/tmppsout | /bin/sh -f
         sleep 2
       fi
     fi
@@ -262,18 +238,12 @@ RestartInetd()
   elif [ "$PLATFORM" = "aix" ]
   then
     startsrc -s inetd >>$LOGFILE 2>&1
-  elif [ "$PLATFORM" = "dec" ]
-  then
-    /usr/sbin/inetd
-  elif [ "$PLATFORM" = "openbsd" ]
+  elif [ "$PLATFORM" = "openbsd" -o "$PLATFORM" = "netbsd" ]
   then
     /etc/rc.d/inetd start >/dev/null
   elif [ "$PLATFORM" = "freebsd" ]
   then
     /etc/rc.d/inetd onestart
-  elif [ "$PLATFORM" = "netbsd" ]
-  then
-    /etc/rc.d/inetd start >/dev/null
   elif [ "$PLATFORM" = "linux" ]
   then
     /etc/init.d/openbsd-inetd start >/dev/null 2>&1
