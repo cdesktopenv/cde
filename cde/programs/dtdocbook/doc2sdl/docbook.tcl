@@ -1,3 +1,4 @@
+#!/usr/bin/tclsh
 # set the global variables
 set nextId        0  ;# gets incremented before each use
 
