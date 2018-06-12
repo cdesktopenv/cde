@@ -29,8 +29,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
  *    configuration varibles used here.
  * 
  * If you don't tell us which C compiler you have, we assume you have 
- * the Gcc C compiler under Solaris 5.x.
- * under SunOS 4.1.x
+ * the Gcc C compiler under Solaris 2.x.
  *
  * === C++ Compiler Setup ==========================================
  *
@@ -43,8 +42,8 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
  * In any case, you may also need to set CplusplusDependIncludes.
  *
  * If you say you have the SunPro C++ compiler, we assume you have 
- * version 5.0.x of the compiler.  If you have version 4.0.x instead,
- * define CplusplusCompilerMajorVersion as 4 in host.def.
+ * version 5.0.x of the compiler.  If you have an earlier version
+ * instead, define CplusplusCompilerMajorVersion in host.def.
  *
  */
 
@@ -182,8 +181,10 @@ XCOMM Gnu C++ CplusplusCompilerMajorVersion./**/CplusplusCompilerMinorVersion
 # define OptimizedCplusplusDebugFlags	-O2 -erroff=attrskipunsup
 #endif
 #ifndef  CplusplusDependIncludes
-#if CplusplusCompilerMajorVersion > 3
+#if CplusplusCompilerMajorVersion > 4
 # define CplusplusDependIncludes	-I/opt/solarisstudio/prod/include/CC -I/opt/solarisstudio/prod/include/CC/Cstd -I/opt/solarisstudio/prod/include/CC/std
+#elif CplusplusCompilerMajorVersion > 3
+# define CplusplusDependIncludes       -I/opt/SUNWspro/SC4.0/include/CC
 #elif CplusplusCompilerMajorVersion > 2
 # define CplusplusDependIncludes	-I/opt/SUNWspro/SC3.0/include/CC
 #else
