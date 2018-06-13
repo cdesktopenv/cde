@@ -378,6 +378,9 @@ static void	get_libc_version(FILE *);
 static void	get_ld_version(FILE *);
 #endif
 #if defined(sun) && defined(__SVR4)
+static char     *get_full_path(const char *program);
+static int      get_sun_compiler_version(const char *fspec, const char *product,
+					 int *cmajor, int *cminor);
 static void	get_sun_compiler_versions(FILE *);
 #endif
 static void	get_gcc_incdir(FILE *);
@@ -1091,113 +1094,105 @@ get_ld_version(FILE *inFile)
 #endif
 
 #if defined(sun) && defined(__SVR4)
-static void
-get_sun_compiler_versions(FILE *inFile)
+
+static char *
+get_full_path(const char *program)
+{
+  char *buf;
+  char *cmd;
+  FILE *proc;
+
+  buf = calloc(1, PATH_MAX);
+  asprintf(&cmd, "command -v %s", program);
+
+  if ((proc = popen (cmd, "r")) != NULL)
+    fgets (buf, PATH_MAX, proc);
+
+  pclose (proc);
+
+  return strtok (buf, "\n");    /* strip newline */
+}
+
+static int
+get_sun_compiler_version(const char *fspec, const char *product,
+                         int *cmajor, int *cminor)
 {
   char buf[PATH_MAX];
   char cmd[PATH_MAX];
-  static char* sunpro_cc = "/opt/solarisstudio/bin/cc";
-  static char* sunpro_CC = "/opt/solarisstudio/bin/CC";
-  static char* gnu_cc1 = "/usr/bin/gcc";
-  static char* gnu_cc2 = "/usr/gnu/bin/gcc";
-  static char* gnu_CC1 = "/usr/bin/g++";
-  static char* gnu_CC2 = "/usr/gnu/bin/g++";
-  int cmajor, cminor;
-  char* vptr;
+  char *vptr;
   struct stat sb;
-  FILE* ccproc;
+  FILE *ccproc;
+  int ret;
+  char vendor[4];
+
+  if (lstat (fspec, &sb) != 0)
+    return ENOENT;
+
+  strncpy (cmd, fspec, PATH_MAX);
+  strlcpy (vendor, product, 4);
+
+  if (strcmp (vendor, "Sun") == 0)
+    strncat (cmd, " -V 2>&1", 8);
+  else if (strcmp (vendor, "Gnu") == 0)
+    strncat (cmd, " --version 2>&1", 15);
+  else
+    return EINVAL;
+
+  if ((ccproc = popen (cmd, "r")) != NULL) {
+    if (fgets (buf, PATH_MAX, ccproc) != NULL) {
+      for (vptr = buf; !isdigit(*vptr) && *vptr != NULL; vptr++);
+      if (*vptr == NULL) {
+        pclose (ccproc);
+        return EINVAL;
+      } else {
+        ret = sscanf (vptr, "%d.%d", cmajor, cminor);
+      }
+    }
+    pclose (ccproc);
+  } else {
+    return EIO;
+  }
+
+  return 0;
+}
+
+static void
+get_sun_compiler_versions(FILE *inFile)
+{
+  static const char *compilers[][2] =
+    {{"SunProC",         "/opt/solarisstudio/bin/cc"},
+     {"SunProCplusplus", "/opt/solarisstudio/bin/CC"},
+     {"GnuC",            "gcc"},
+     {"GnuCplusplus",    "g++"}};
+  int cmajor, cminor;
+  int i;
   int ret;
 
-  if (lstat (sunpro_cc, &sb) == 0) {
-    strncpy (cmd, sunpro_cc, PATH_MAX);
-    strncat (cmd, " -V 2>&1", 8);
-    if ((ccproc = popen (cmd, "r")) != NULL) {
-      if (fgets (buf, PATH_MAX, ccproc) != NULL) {
-	vptr = strrchr (buf, 'C');
-	for (; !isdigit(*vptr); vptr++);
-	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
-	fprintf (inFile, 
-		 "#define DefaultSunProCCompilerMajorVersion %d\n",
-		 cmajor);
-	fprintf (inFile, 
-		 "#define DefaultSunProCCompilerMinorVersion %d\n",
-		 cminor);
-      }
-      while (fgets (buf, PATH_MAX, ccproc) != NULL) {};
-      pclose (ccproc);
+  for (i = 0; i < sizeof compilers / sizeof compilers[0]; i++) {
+    const char *product = compilers[i][0];
+    char *fspec = get_full_path (compilers[i][1]);
+
+    ret = get_sun_compiler_version (fspec, product, &cmajor, &cminor);
+    free (fspec);
+
+    if (ret == 0) {
+      fprintf (inFile,
+               "#define Default%sCompilerMajorVersion %d\n",
+               product,
+               cmajor);
+      fprintf (inFile,
+               "#define Default%sCompilerMinorVersion %d\n",
+               product,
+               cminor);
+    } else if (ret == EINVAL) {
+      printf ("Failed to detect version of compiler: %s\n", product);
+      exit (EINVAL);
     }
   }
-  if (lstat (sunpro_CC, &sb) == 0) {
-    strncpy (cmd, sunpro_CC, PATH_MAX);
-    strncat (cmd, " -V 2>&1", 8);
-    if ((ccproc = popen (cmd, "r")) != NULL) {
-      if (fgets (buf, PATH_MAX, ccproc) != NULL) {
-	vptr = strrchr (buf, 'C');
-	for (; !isdigit(*vptr); vptr++);
-	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
-	fprintf (inFile, 
-		 "#define DefaultSunProCplusplusCompilerMajorVersion %d\n",
-		 cmajor);
-	fprintf (inFile, 
-		 "#define DefaultSunProCplusplusCompilerMinorVersion %d\n",
-		 cminor);
-      }
-      while (fgets (buf, PATH_MAX, ccproc) != NULL) {};
-      pclose (ccproc);
-    }
-  }
-  cmd[0] = '\0';
-  if (lstat (gnu_cc1, &sb) == 0) {
-    strncpy (cmd, gnu_cc1, PATH_MAX);
-  }
-  else if (lstat (gnu_cc2, &sb) == 0) {
-    strncpy (cmd, gnu_cc2, PATH_MAX);
-  }
-  if (cmd[0] != '\0') {
-    strncat (cmd, " --version 2>&1", 15);
-    if ((ccproc = popen (cmd, "r")) != NULL) {
-      if (fgets (buf, PATH_MAX, ccproc) != NULL) {
-	vptr = strrchr (buf, ')');
-	for (; !isdigit(*vptr); vptr++);
-	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
-	fprintf (inFile,
-		 "#define DefaultGnuCCompilerMajorVersion %d\n",
-		 cmajor);
-	fprintf (inFile,
-		 "#define DefaultGnuCCompilerMinorVersion %d\n",
-		 cminor);
-      }
-      while (fgets (buf, PATH_MAX, ccproc) != NULL) {};
-      pclose (ccproc);
-    }
-  }
-  cmd[0] = '\0';
-  if (lstat (gnu_CC1, &sb) == 0) {
-    strncpy (cmd, gnu_CC1, PATH_MAX);
-  }
-  else if (lstat (gnu_CC2, &sb) == 0) {
-    strncpy (cmd, gnu_CC2, PATH_MAX);
-  }
-  if (cmd[0] != '\0') {
-    strncat (cmd, " --version 2>&1", 15);
-    if ((ccproc = popen (cmd, "r")) != NULL) {
-      if (fgets (buf, PATH_MAX, ccproc) != NULL) {
-	vptr = strrchr (buf, ')');
-	for (; !isdigit(*vptr); vptr++);
-	ret = sscanf (vptr, "%d.%d", &cmajor, &cminor);
-	fprintf (inFile,
-		 "#define DefaultGnuCplusplusCompilerMajorVersion %d\n",
-		 cmajor);
-	fprintf (inFile,
-		 "#define DefaultGnuCplusplusCompilerMinorVersion %d\n",
-		 cminor);
-      }
-      while (fgets (buf, PATH_MAX, ccproc) != NULL) {};
-      pclose (ccproc);
-    }
-  }
+
   (void) ret;
 }
+
 #endif
 
 static void
@@ -1208,8 +1203,7 @@ get_gcc_incdir(FILE *inFile)
     "/usr/bin/cc",	/* for Linux PostIncDir */
 #endif
 #ifdef sun
-    "/usr/bin/gcc",
-    "/usr/gnu/bin/gcc",
+    "gcc",
 #endif
     "/usr/local/bin/gcc",
     "/opt/gnu/bin/gcc"
@@ -1223,7 +1217,13 @@ get_gcc_incdir(FILE *inFile)
 
   memset(buf, 0, PATH_MAX);
   for (i = 0; i < sizeof gcc_path / sizeof gcc_path[0]; i++) {
+#ifdef sun
+    gcc_path[i] = get_full_path (gcc_path[i]);
+#endif
     if (lstat (gcc_path[i], &sb) == 0) {
+#ifdef sun
+      free (gcc_path[i]);
+#endif
       strncpy (cmd, gcc_path[i], PATH_MAX - 1 );
       strncat (cmd, " --print-libgcc-file-name", PATH_MAX - 1);
       if ((gccproc = popen (cmd, "r")) != NULL) {
