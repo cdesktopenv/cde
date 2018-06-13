@@ -658,7 +658,7 @@ DtSR_SearchEngine::search(UAS_String oql, UAS_SearchScope& scope,
 	    for (i = 0; i < books.numItems(); i++) {
 		UAS_Pointer<UAS_Common> bcase(bookcases[index]->bcase());
 		UAS_String bookid = resolve_bookid(bcase, books[i]);
-		if ((char*)bookid == (int)NULL || *(char*)bookid == '\0')
+		if ((char*)bookid == NULL || *(char*)bookid == '\0')
 		    continue;
 
 		bookid_dict[bookid] = True;
