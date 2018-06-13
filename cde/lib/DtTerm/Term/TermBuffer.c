@@ -639,8 +639,8 @@ _DtTermDeleteEnhancement
     ** end of the line to col
     */
     copyCount = WIDTH(line) - (col + width);
-    memcpy(enh + col , enh + col + width,
-           copyCount * sizeof(DtTermEnhPart));
+    memmove(enh + col , enh + col + width,
+            copyCount * sizeof(DtTermEnhPart));
 
 }
 
