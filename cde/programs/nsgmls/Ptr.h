@@ -93,7 +93,14 @@ public:
   const T &operator*() const { return *Ptr<T>::pointer(); }
   void swap(ConstPtr<T> &p) { Ptr<T>::swap(p); }
   using Ptr<T>::isNull;
+
+#if defined(__SUNPRO_CC) && __SUNPRO_CC == 0x5100
+  /* Needed to avoid symbol export collision */
+  void clear() { Ptr<T>::clear(); }
+#else
   using Ptr<T>::clear;
+#endif
+
   Boolean operator==(const Ptr<T> &p) const { return Ptr<T>::operator==(p); }
   Boolean operator!=(const Ptr<T> &p) const { return Ptr<T>::operator!=(p); }
   Boolean operator==(const ConstPtr<T> &p) const {
