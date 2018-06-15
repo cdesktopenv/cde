@@ -65,16 +65,6 @@ extern "C" {
 }
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-#if !defined(__linux__)
-	void exit(int);
-#endif
-#ifdef __cplusplus
-}
-#endif
-
 #endif
 # define yymore() (yymorfg=1)
 #ifndef __cplusplus
@@ -1109,8 +1099,8 @@ int _Tt_types_table::yylook(void)
 int _Tt_types_table::yylook()
 #endif
 {
-	register struct yysvf *yystate, **lsp;
-	register struct yywork *yyt;
+	struct yysvf *yystate, **lsp;
+	struct yywork *yyt;
 	struct yysvf *yyz;
 	int yych, yyfirst;
 	struct yywork *yyr;

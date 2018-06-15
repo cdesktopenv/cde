@@ -353,7 +353,7 @@ FileShare::lockFile(DtMailEnv & error)
 	if (isModified(error) == DTM_FALSE) {
 	  break;
 	} else {
-	  if (time((time_t)NULL) - t_start > FileShareTimeout) {
+	  if (time(NULL) - t_start > FileShareTimeout) {
 	    // time out!
 	    error.setError(DTME_OtherOwnsWrite);
 	    return;

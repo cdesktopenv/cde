@@ -204,7 +204,7 @@ void HexDump(FILE *pfp, char *pmsg, unsigned char *pbufr, int plen, int plimit)
 
     GET_DUMPFILE_NAME(dumpfilename);
     pfp_r = fopen(dumpfilename, "a");
-    const time_t clockTime = (const time_t) time((time_t *)0);
+    const time_t clockTime = (const time_t) time(NULL);
     memset((void*) &ctime_buf, 0, sizeof(_Xctimeparams));
     fprintf(pfp_r, "--------------------- pid=%ld %s",
 	    (long)getpid(), _XCtime(&clockTime, ctime_buf));
@@ -684,7 +684,7 @@ RFCMailBox::append(DtMailEnv &error, char *buf, int len)
       mailboxAccessHide("append");
     else
     {
-        time_t	now = time((time_t) NULL);
+        time_t	now = time(NULL);
         mailboxAccessShow(now, "append");
     }
 
@@ -3675,7 +3675,7 @@ RFCMailBox::generateUniqueLockId(void)
   if (sysinfo(SI_HW_SERIAL, (char *)hwserialbuf, sizeof(hwserialbuf)-1) == -1)
 #endif
     strcpy(hwserialbuf, "dtmail");
-  (void) sprintf(theId, "%08ld%08ld%s\0", (long)getpid(), (long)time((time_t *)0), hwserialbuf);
+  (void) sprintf(theId, "%08ld%08ld%s\0", (long)getpid(), (long)time(NULL), hwserialbuf);
   assert(strlen(theId)<sizeof(theId));
   return(strdup(theId));
 }
@@ -3820,7 +3820,7 @@ RFCMailBox::linkLockFile(DtMailEnv & error, char *tempLockFileName)
 		      DTM_FALSE, NULL, tempLockFileName, error.errnoMessage());
       break;
     }
-    return(time(0));
+    return(time(NULL));
   }
 
   // Get creation time of temporary file *on remote system*
@@ -3833,7 +3833,7 @@ RFCMailBox::linkLockFile(DtMailEnv & error, char *tempLockFileName)
     error.vSetError(DTME_CannotCreateMailboxLockFile,
 		    DTM_FALSE, NULL, tempLockFileName, error.errnoMessage());
     (void) SafeClose(lock_fd);
-    return(time(0));
+    return(time(NULL));
   }
 
   // Write proper contents to lock file:
@@ -3857,7 +3857,7 @@ RFCMailBox::linkLockFile(DtMailEnv & error, char *tempLockFileName)
     error.vSetError(DTME_CannotCreateMailboxLockFile,
 		    DTM_FALSE, NULL, tempLockFileName, error.errnoMessage());
     (void) SafeClose(lock_fd);
-    return(time(0));
+    return(time(NULL));
   }
 
   // sync up the lock file with the ultimate storage device
@@ -3870,7 +3870,7 @@ RFCMailBox::linkLockFile(DtMailEnv & error, char *tempLockFileName)
     error.vSetError(DTME_CannotCreateMailboxLockFile,
 		    DTM_FALSE, NULL, tempLockFileName, error.errnoMessage());
     (void) SafeClose(lock_fd);
-    return(time(0));
+    return(time(NULL));
   }
 
   // close the file
@@ -3883,7 +3883,7 @@ RFCMailBox::linkLockFile(DtMailEnv & error, char *tempLockFileName)
 	tempLockFileName, errno);
     error.vSetError(DTME_CannotCreateMailboxLockFile,
 		    DTM_FALSE, NULL, tempLockFileName, error.errnoMessage());
-    return(time(0));
+    return(time(NULL));
   }
          
   // The temporary lock file has been created - now try and link it to the
@@ -4477,7 +4477,7 @@ RFCMailBox::writeToDumpFile(const char *format, ...)
   GET_DUMPFILE_NAME(dumpfilename);
   FILE *df = fopen(dumpfilename, "a");
   
-  const time_t clockTime = (const time_t) time((time_t *)0);
+  const time_t clockTime = (const time_t) time(NULL);
   memset((void*) &ctime_buf, 0, sizeof(_Xctimeparams));
   fprintf(df, "--------------------- pid=%ld %s", 
 	  (long)getpid(), _XCtime(&clockTime, ctime_buf));
@@ -4545,7 +4545,7 @@ RFCMailBox::dumpMaps(const char *str)
   sigaction(SIGBUS, &sig_act, &old_sig_act);
   sigbus_env_valid = 1;
   if (setjmp(sigbus_env) == 0) {
-    const time_t clockTime = (const time_t) time((time_t *)0);
+    const time_t clockTime = (const time_t) time(NULL);
     _Xctimeparams ctime_buf;
     memset((void*) &ctime_buf, 0, sizeof(_Xctimeparams));
     fprintf(df, "--------------------- pid=%ld %s", 
