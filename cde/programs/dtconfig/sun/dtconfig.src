@@ -69,6 +69,20 @@ fi
 
 RC_COPY=/etc/init.d/dtlogin
 
+XCOMM
+XCOMM Allow for configured and factory versions of dtlogin.xml
+XCOMM
+
+if [ -f CDE_CONFIGURATION_TOP/config/dtlogin.xml ]
+then
+  SVC_MASTER=CDE_CONFIGURATION_TOP/config/dtlogin.xml
+elif [ -f CDE_INSTALLATION_TOP/config/dtlogin.xml ]
+then
+  SVC_MASTER=CDE_INSTALLATION_TOP/config/dtlogin.xml
+fi
+
+SVC_COPY=application/graphical-login/dtlogin
+
 LEVEL_0_KILL=/etc/rc0.d/K10dtlogin
 LEVEL_1_KILL=/etc/rc1.d/K10dtlogin
 LEVEL_2_START=/etc/rc2.d/S99dtlogin
@@ -399,12 +413,23 @@ XCOMM
 
 case "$mode" in
 '-d')
-	/usr/bin/rm -f $LEVEL_2_START
+	if [ -f /usr/sbin/svcadm ]; then
+	  if svcs $SVC_COPY >/dev/null 2>&1; then
+	    if ! svcadm disable $SVC_COPY >/dev/null; then
+	      Message 12 "disable failed"
+	      Message 13 "could not disable dtlogin service" "svc-dtlogin"
+	      exit 1
+	    fi
+	  fi
+	else
 
-	if [ -f $LEVEL_2_START ]; then
-	   Message 12 "disable failed"
-	   Message 13 "could not remove $LEVEL_2_START" $LEVEL_2_START
-	   exit 1
+	  /usr/bin/rm -f $LEVEL_2_START
+
+	  if [ -f $LEVEL_2_START ]; then
+	    Message 12 "disable failed"
+	    Message 13 "could not remove $LEVEL_2_START" $LEVEL_2_START
+	    exit 1
+	  fi
 	fi
 
 	Message 14 "done"
@@ -412,42 +437,56 @@ case "$mode" in
 	;;
 
 '-e')
-	if [ -f $RC_MASTER ]; then
+	if [ -f /usr/sbin/svcadm ]; then
+	  if ! svcs $SVC_COPY >/dev/null 2>&1; then
+	    if ! svccfg import $SVC_MASTER; then
+	      Message 16 "Enable Failed"
+	      Message 17 "could not import $SVC_MASTER" $SVC_MASTER
+	      exit 1
+	    fi
+	  elif ! svcadm enable $SVC_COPY >/dev/null; then
+	    Message 16 "enable failed"
+	    Message 17 "could not enable dtlogin service" svc-dtlogin
+	    exit 1
+	  fi
+	else
+	  if [ -f $RC_MASTER ]; then
 	    /usr/bin/rm -f $RC_COPY
-	fi
+	  fi
 
-	if [ ! -x $RC_COPY ]; then
-	   if [ ! -f $RC_MASTER ]; then
+	  if [ ! -x $RC_COPY ]; then
+	    if [ ! -f $RC_MASTER ]; then
 	      Message 16 "enable failed"
 	      Message 17 "could not find $RC_MASTER" $RC_MASTER
 	      exit 1
-	   fi
+	    fi
 
-	   /usr/bin/cp $RC_MASTER $RC_COPY	
-	   /usr/bin/chmod 0555 $RC_COPY
+	    /usr/bin/cp $RC_MASTER $RC_COPY
+	    /usr/bin/chmod 0555 $RC_COPY
 	
-	   if [ ! -x $RC_COPY ]; then
+	    if [ ! -x $RC_COPY ]; then
 	      Message 16 "enable failed"
 	      Message 18 "could not create $RC_COPY" $RC_COPY
 	      exit 1
-	   fi
+	    fi
+	  fi
+
+	  /usr/bin/rm -f $LEVEL_0_KILL
+	  /usr/bin/ln $RC_COPY $LEVEL_0_KILL
+
+	  /usr/bin/rm -f $LEVEL_1_KILL
+	  /usr/bin/ln $RC_COPY $LEVEL_1_KILL
+
+	  /usr/bin/rm -f $LEVEL_2_START
+	  /usr/bin/ln $RC_COPY $LEVEL_2_START
+
+	  if [ ! -f $LEVEL_2_START ]; then
+	    Message 16 "enable failed"
+	    Message 19 "could not create $LEVEL_2_START" $LEVEL_2_START
+	    exit 1
+	  fi
+
 	fi
-
-	/usr/bin/rm -f $LEVEL_0_KILL
-	/usr/bin/ln $RC_COPY $LEVEL_0_KILL 
-
-	/usr/bin/rm -f $LEVEL_1_KILL
-	/usr/bin/ln $RC_COPY $LEVEL_1_KILL 
-
-	/usr/bin/rm -f $LEVEL_2_START
-	/usr/bin/ln $RC_COPY $LEVEL_2_START
-
-	if [ ! -f $LEVEL_2_START ]; then
-	   Message 16 "enable failed"
-	   Message 19 "could not create $LEVEL_2_START" $LEVEL_2_START
-	   exit 1
-	fi
-
 	Message 14 "done"
 	Message 20 "desktop auto-start enabled."
 	;;
@@ -475,6 +514,10 @@ case "$mode" in
     ;;
 
 '-kill')
+	if [ -f /usr/sbin/svcadm ]; then
+	   svcadm disable -t $SVC_COPY
+	fi
+
 	rc_master_check
 
 	$RC_MASTER stop

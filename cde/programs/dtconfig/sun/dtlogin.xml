@@ -1,0 +1,54 @@
+<?xml version='1.0'?>
+<!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'>
+<service_bundle type='manifest' name='export'>
+  <service name='application/graphical-login/dtlogin' type='service' version='0'>
+    <dependency name='filesystem' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/system/filesystem/local'/>
+    </dependency>
+    <dependency name='multi-user' grouping='require_all' restart_on='error' type='service'>
+      <service_fmri value='svc:/milestone/multi-user:default'/>
+    </dependency>
+    <dependency name='sysconfig' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/milestone/sysconfig'/>
+    </dependency>
+    <dependency name='fc-cache' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/application/font/fc-cache'/>
+    </dependency>
+    <dependency name='utmpx' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/system/utmp'/>
+    </dependency>
+    <dependency name='hal' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/system/hal'/>
+    </dependency>
+    <dependency name='dbus' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/system/dbus'/>
+    </dependency>
+    <dependency name='graphical-login' grouping='exclude_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/application/graphical-login/lightdm'/>
+      <service_fmri value='svc:/application/graphical-login/gdm'/>
+      <service_fmri value='svc:/application/graphical-login/xdm'/>
+    </dependency>
+    <instance name='default' enabled='true'>
+      <exec_method name='start' type='method' exec='/usr/dt/bin/dtlogin -daemon' timeout_seconds='60'/>
+      <exec_method name='stop' type='method' exec='/usr/dt/bin/dtconfig -kill' timeout_seconds='60'/>
+      <exec_method name='refresh' type='method' exec='/usr/dt/bin/dtconfig -reset' timeout_seconds='60'/>
+      <property_group name='dtlogin' type='application'>
+        <propval name='args' type='astring' value=''/>
+      </property_group>
+      <property_group name='general' type='framework'>
+        <propval name='action_authorization' type='astring' value='solaris.smf.manage.dt.login'/>
+      </property_group>
+    </instance>
+    <template>
+      <common_name>
+        <loctext xml:lang='C'>Desktop Login Manager</loctext>
+      </common_name>
+      <description>
+        <loctext xml:lang='C'>Desktop Login Manager</loctext>
+      </description>
+      <documentation>
+        <manpage title='dtlogin' section='1' manpath='/usr/dt/man'/>
+      </documentation>
+    </template>
+  </service>
+</service_bundle>
