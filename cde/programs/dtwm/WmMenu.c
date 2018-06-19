@@ -519,7 +519,6 @@ DuplicateMenuItems (MenuItem *menuItems)
 	if ((curMenuItem->wmFunction == F_Send_Msg)
 #ifdef WSM
 	    || (curMenuItem->wmFunction == F_Set_Context)
-# ifdef PANELIST
 	    /*
 	     * NOTE: For now, in dtwm this function is used only
 	     * to copy the FrontPanel menu.  So, we know that
@@ -530,7 +529,6 @@ DuplicateMenuItems (MenuItem *menuItems)
 	     * the WmActionArg.  11/20/96
 	     */
 	    || (curMenuItem->wmFunction == F_Action)
-# endif /* PANELIST */
 #endif /* WSM */
 	    )
 	  newMenuItem->wmFuncArgs = curMenuItem->wmFuncArgs;

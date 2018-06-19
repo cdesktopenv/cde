@@ -115,11 +115,9 @@ extern void RemoveSubtreeFromWorkspaces(
                         ClientData *pCD,
                         WorkspaceID *pIDs,
                         unsigned int numIDs) ;
-#ifdef PANELIST
 extern WorkspaceID * GetListOfOccupiedWorkspaces( 
 			ClientData *pCD,
                         int *numIDs) ;
-#endif /* PANELIST */
 extern void HonorAbsentMapBehavior(
 			ClientData *pCD) ;
 extern void RemoveClientFromWorkspaces( 
@@ -188,12 +186,10 @@ extern void AddStringToResourceData(
                         char *string,
                         char **pdata,
                         int *plen) ;
-#ifdef PANELIST
 extern void SetCurrentWorkspaceButton(
 			WmScreenData *pSD);
 extern void SetFrontPanelTitle( 
 			WmScreenData *pSD);
-#endif /* PANELIST */
 
 /********    End Public Function Declarations    ********/
 #endif /* WSM */

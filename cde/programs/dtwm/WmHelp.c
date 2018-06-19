@@ -48,9 +48,7 @@ static char rcsid[] = ""
 #include "WmHelp.h"
 #include "WmCDecor.h"
 #include "WmResParse.h"
-#ifdef PANELIST
 #include "WmPanelP.h"
-#endif /* PANELIST */
 #include "WmResNames.h"
 #include "WmWrkspace.h"
 #include "DataBaseLoad.h"
@@ -2782,9 +2780,7 @@ wmDtErrorDialog(
     unsigned int mask;
     Dimension dWidth, dHeight;
     Position x, y;
-#ifdef PANELIST
     WmPanelistObject  pPanelist;
-#endif /* PANELIST */
 
     xmsMessage = 
 	    XmStringCreateLocalized (sMessage);

@@ -217,7 +217,6 @@ static unsigned char slant2_bits[] = {
 #endif /* MWM_NEED_SLANT2 */
 
 
-#ifdef PANELIST
 #ifdef DTWM_NEED_FNTPL
 #define fntpl_i_bm_width 50
 #define fntpl_i_bm_height 50
@@ -256,7 +255,7 @@ static unsigned char fntpl_i_bm_bits[] = {
    0x00, 0x00};
 #endif /* DTWM_NEED_FNTPL */
 
-#endif /* PANELIST */
+
 #ifdef WSM
 /*
  * Backdrop bitmap patterns
@@ -300,7 +299,6 @@ static unsigned char bits6_bits[] = {
 #endif /* DTWM_NEED_BACKBITS */
 
 #endif /* WSM */
-#ifdef PANELIST
 /*
  *
  *  Used to define the small hourglass and mask used to indicate
@@ -326,7 +324,6 @@ static unsigned char time16m_bits[] = {
    0xfe, 0x1f, 0xff, 0x3f, 0xff, 0x3f};
 #endif  /* DTWM_NEED_TIME16 */
 
-#endif /* PANELIST */
 #ifdef WSM
 /****************************   eof    ***************************/
 #endif /* WSM */

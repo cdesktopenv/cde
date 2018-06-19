@@ -227,12 +227,8 @@ Boolean MakeIcon (WmWorkspaceData *pWS, ClientData *pcd)
      * Don't adjust the icon for the icon box itself
      */
 
-#ifdef PANELIST
     if (pWS->pIconBox && (pWS->pIconBox->pCD_iconBox != pcd) &&
 	!(pcd->clientFlags & FRONT_PANEL_BOX))
-#else /* PANELIST */
-    if (pWS->pIconBox && (pWS->pIconBox->pCD_iconBox != pcd))
-#endif /* PANELIST */
     {
 	xOffset = IB_MARGIN_WIDTH;
 	yOffset = IB_MARGIN_HEIGHT;
@@ -870,13 +866,9 @@ void DrawIconTitle (ClientData *pcd)
 
     /* get appropriate GCs */
 #ifdef WSM
-#ifdef PANELIST
     if ((ACTIVE_PSD->useIconBox && 
 	!((pcd->dtwmBehaviors & (DtWM_BEHAVIOR_PANEL)) ||
           (pcd->clientFlags & CLIENT_WM_CLIENTS))) ||
-#else /* PANELIST */
-    if ((ACTIVE_PSD->useIconBox && !(pcd->clientFlags & CLIENT_WM_CLIENTS)) || 
-#endif /* PANELIST */
 #else
     if ((ACTIVE_PSD->useIconBox && !(pcd->clientFlags & ICON_BOX)) || 
 #endif /* WSM */
@@ -1519,10 +1511,8 @@ void ReparentIconWindow (ClientData *pcd, int xOffset, int yOffset)
     XWindowChanges windowChanges;
     unsigned int mask;
 
-#ifdef PANELIST
     if (!pcd->pECD)
     {
-#endif /* PANELIST */
     /*
      * Check if window size is too big
      */
@@ -1590,9 +1580,7 @@ void ReparentIconWindow (ClientData *pcd, int xOffset, int yOffset)
     /*
      * Map the icon window when the icon frame is mapped.
      */
-#ifdef PANELIST
     } /* END if (!pcd->pECD) */
-#endif /* PANELIST */
 } /* END OF FUNCTION ReparentIconWindow */
 
 

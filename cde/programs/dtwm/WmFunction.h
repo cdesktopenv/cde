@@ -69,10 +69,8 @@ extern Boolean F_Normalize_And_Raise (String args, ClientData *pCD,
 				      XEvent *event);
 extern Boolean F_Pack_Icons (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Post_SMenu (String args, ClientData *pCD, XEvent *event);
-#ifdef PANELIST
 extern Boolean F_Post_FpMenu (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Push_Recall (String args, ClientData *pCD, XEvent *event);
-#endif /* PANELIST */
 extern Boolean F_Kill (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Refresh (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Resize (String args, ClientData *pCD, XEvent *event);
@@ -99,11 +97,9 @@ extern Boolean F_Set_Context (String args, ClientData *pCD, XEvent *event);
 extern void Do_Set_Behavior (Boolean dummy);
 extern Boolean F_Title (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Screen (String args, ClientData *pCD, XEvent *event);
-#if defined(PANELIST)
 extern Boolean F_Toggle_Front_Panel (String args, ClientData *pCD, 
 				     XEvent *event);
 extern Boolean F_Version (String args, ClientData *pCD, XEvent *event);
-#endif /* PANELIST */
 #ifdef WSM
 extern Boolean F_Next_Workspace (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Prev_Workspace (String args, ClientData *pCD, XEvent *event);
@@ -121,7 +117,6 @@ extern Time GetFunctionTimestamp (XButtonEvent *pEvent);
 extern void ReBorderClient (ClientData *pCD, Boolean reMapClient);
 extern void ClearDirtyStackEntry (ClientData *pCD);	/* Fix for 5325 */
 
-#ifdef PANELIST
 
 typedef struct _WmPushRecallArg {
     int ixReg;
@@ -129,5 +124,3 @@ typedef struct _WmPushRecallArg {
     void *pArgs;
 } WmPushRecallArg;
 
-
-#endif /* PANELIST */

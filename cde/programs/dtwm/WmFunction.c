@@ -57,12 +57,10 @@ static char rcsid[] = "$TOG: WmFunction.c /main/19 1998/04/20 13:00:48 mgreess $
 #include <Dt/Message.h>
 #include <Dt/Help.h>
 #endif /* WSM */
-#ifdef PANELIST
 #include <Dt/DtStrDefs.h>
 #include "WmPanelP.h"
 #include "WmSignal.h"
 #include "WmManage.h"
-#endif /* PANELIST */
 
 /*
  * include extern functions
@@ -504,7 +502,6 @@ void Do_Lower (ClientData *pCD, ClientListEntry *pStackEntry, int flags)
     Boolean bLeaderRestacked;
 #endif /* WSM */
 
-#ifdef PANELIST
     if (pCD->pECD)
     {
 	/*
@@ -514,8 +511,6 @@ void Do_Lower (ClientData *pCD, ClientListEntry *pStackEntry, int flags)
 	return;
     }
     else 
-#else /* PANELIST */
-#endif /* PANELIST */
 #ifdef WSM
     if (ClientInWorkspace(pWS, pCD)  && 
 	(!pStackEntry || ClientInWorkspace (pWS, pStackEntry->pCD)))
@@ -1012,7 +1007,6 @@ Boolean F_Exec (String args, ClientData *pCD, XEvent *event)
 	putenv(wmGD.pActiveSD->displayString);
       }
     
-#ifdef PANELIST
     if (wmGD.dtSD)
     {
 	/*
@@ -1021,7 +1015,6 @@ Boolean F_Exec (String args, ClientData *pCD, XEvent *event)
 	 */
        WmFrontPanelSetBusy (True);
     }
-#endif /* PANELIST */
 
     /*
      * Fork a process to exec a shell to run the specified command:
@@ -1240,9 +1233,7 @@ void Do_Quit_Mwm (Boolean diedOnRestart)
 		    }
 		    pNextEntry = pNextEntry->prevSibling;
 		}
-#if defined(PANELIST)
 	        UnParentControls (&wmGD.Screens[scr], False);
-#endif /* PANELIST */
 
 #ifndef WSM
 		XDeleteProperty(DISPLAY, wmGD.Screens[scr].rootWindow,
@@ -1894,14 +1885,10 @@ F_Goto_Workspace (String args, ClientData *pCD, XEvent *event)
 Boolean
 F_Help (String args, ClientData *pCD, XEvent *event)
 {
-#ifdef PANELIST
     Boolean rval;
 
     rval = WmDtHelp(args);
     return (rval);
-#endif /* PANELIST */    
-    
-
 }  /* END OF FUNCTION F_Help */
 
 
@@ -1930,7 +1917,6 @@ F_Help (String args, ClientData *pCD, XEvent *event)
 Boolean
 F_Help_Mode (String args, ClientData *pCD, XEvent *event)
 {
-#ifdef PANELIST
     /*
      * Help mode event processing interferes
      * with slide up windows. Don't continue
@@ -1941,8 +1927,6 @@ F_Help_Mode (String args, ClientData *pCD, XEvent *event)
 	(void) WmDtHelpMode();
     }
     return (False);
-#endif /* PANELIST */    
-
 }  /* END OF FUNCTION F_Help_Mode */
 
 #endif /* WSM */
@@ -2105,8 +2089,6 @@ Boolean F_Prev_Key (String args, ClientData *pCD, XEvent *event)
 
 } /* END OF FUNCTION F_Prev_Key */
 
-#ifdef PANELIST
-
 /***********************<->*************************************
  *
  *  F_Post_FpMenu (args, pCD, event)
@@ -2322,7 +2304,6 @@ F_Push_Recall (String args, ClientData *pCD, XEvent *event)
     return (True);
 
 } /* END OF FUNCTION F_Push_Recall */
-#endif /* PANELIST */
 
 
 /*************************************<->*************************************
@@ -2702,7 +2683,6 @@ Boolean F_Normalize (String args, ClientData *pCD, XEvent *event)
 
 Boolean F_Normalize_And_Raise (String args, ClientData *pCD, XEvent *event)
 {
-#ifdef PANELIST
     WmScreenData 	*pSD;
     WmWorkspaceData 	*pWS;
 
@@ -2728,7 +2708,7 @@ Boolean F_Normalize_And_Raise (String args, ClientData *pCD, XEvent *event)
 	    return (False);
 	}
     }
-#endif /* PANELIST */
+
     if (pCD)
     {
         if (pCD->clientState == MINIMIZED_STATE)
@@ -3143,7 +3123,6 @@ Boolean F_Kill (String args, ClientData *pCD, XEvent *event)
 	Boolean do_save_yourself =
 		pCD->protocolFlags & PROTOCOL_WM_SAVE_YOURSELF;
 
-#ifdef PANELIST
 	if (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL)
 	{
 	    Widget 		wPanel;
@@ -3172,9 +3151,7 @@ Boolean F_Kill (String args, ClientData *pCD, XEvent *event)
 		IconBoxPopUp (pCD->pSD->pActiveWS, False);
 	    }
 	}
-	else
-#endif /* PANELIST */
-	if (!do_delete_window && !do_save_yourself)
+	else if (!do_delete_window && !do_save_yourself)
 	{
 	    XKillClient (DISPLAY, pCD->client);
 	}
@@ -3490,9 +3467,7 @@ void RestartWm (long startupFlags)
 		}
 		pNextEntry = pNextEntry->prevSibling;
 	    }
-#if defined(PANELIST)
 	    UnParentControls (&wmGD.Screens[scr], True);
-#endif /* PANELIST */
 	}
 	
     }
@@ -3640,8 +3615,6 @@ void DeFrameClient (ClientData *pCD)
 
 } /* END OF FUNCTION DeFrameClient */
 
-#if defined(PANELIST)
-
 /******************************<->*************************************
  *
  *  F_Toggle_Front_Panel (args, pCD, event)
@@ -3739,7 +3712,6 @@ F_Version (String args, ClientData *pCD, XEvent *event)
     return (True);
 
 }  /* END OF FUNCTION F_Version */
-#endif /* PANELIST */
 
 
 /******************************<->*************************************
@@ -3973,7 +3945,6 @@ void Do_Raise (ClientData *pCD, ClientListEntry *pStackEntry, int flags)
     Boolean bLeaderRestacked;
 #endif /* WSM */
 
-#ifdef PANELIST
     if (pCD->pECD)
     {
 	/*
@@ -3983,8 +3954,6 @@ void Do_Raise (ClientData *pCD, ClientListEntry *pStackEntry, int flags)
 	return;
     }
     else 
-#else /* PANELIST */
-#endif /* PANELIST */
 #ifdef WSM
     if (ClientInWorkspace(pWS, pCD)  && 
 	(!pStackEntry || ClientInWorkspace (pWS, pStackEntry->pCD)))

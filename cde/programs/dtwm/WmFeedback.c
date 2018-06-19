@@ -64,9 +64,7 @@ static char rcsid[] = "$XConsortium: WmFeedback.c /main/6 1996/10/23 17:20:55 rs
 #include "WmFeedback.h"
 #include "WmFunction.h"
 #include "WmGraphics.h"
-#ifdef PANELIST
 #include "WmPanelP.h"  /* for typedef in WmManage.h */
-#endif /* PANELIST */
 #include "WmManage.h"
 #include "WmColormap.h"
 #include "stdio.h"

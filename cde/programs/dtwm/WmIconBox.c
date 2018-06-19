@@ -88,9 +88,7 @@ static char rcsid[] = "$TOG: WmIconBox.c /main/7 1999/05/20 16:35:12 mgreess $"
 #include "WmIDecor.h"
 #include "WmIPlace.h"
 #include "WmImage.h"
-#ifdef PANELIST
 #include "WmPanelP.h"  /* for typedef in WmManage.h */
-#endif /* PANELIST */
 #include "WmManage.h"
 #include "WmMenu.h"
 #include "WmResParse.h"
@@ -1784,8 +1782,6 @@ void UnmapIconBoxes (WmWorkspaceData *pWS)
 } /* END OF FUNCTION UnmapIconBoxes */
 #endif /* WSM */
 
-#if defined(PANELIST)
-
 /******************************<->*************************************
  *
  *  IconBoxShowing ()
@@ -1810,30 +1806,16 @@ void UnmapIconBoxes (WmWorkspaceData *pWS)
  ******************************<->***********************************/
 
     
-#ifdef PANELIST
 Boolean
 IconBoxShowing (WmWorkspaceData *pWS)
-#else /* PANELIST */
-Boolean
-IconBoxShowing (WmWorkspaceData *pWS, ControlWindowStruct *pCW)
-#endif /* PANELIST */
 {
     Boolean rval = False;
     
-#ifdef PANELIST
     if (pWS->pIconBox &&
 	ClientInWorkspace (pWS, pWS->pIconBox->pCD_iconBox))
     {
 	rval = True;
     }
-#else /* PANELIST */
-    if (pWS->pIconBox &&
-	ClientInWorkspace (pWS, pWS->pIconBox->pCD_iconBox) &&
-	(pCW->pWsStatus[wsIndex].wsClientStatus == CLIENT_WINDOW_OPEN))
-    {
-	rval = True;
-    }
-#endif /* PANELIST */
 
     return (rval);
     
@@ -1864,14 +1846,8 @@ IconBoxShowing (WmWorkspaceData *pWS, ControlWindowStruct *pCW)
  * 
  ******************************<->***********************************/
     
-#ifdef PANELIST
 void
 IconBoxPopUp (WmWorkspaceData *pWS, Boolean up)
-#else /* PANELIST */
-void
-IconBoxPopUp (WmWorkspaceData *pWS, 
-    ControlWindowStruct *pCW, Boolean up)
-#endif /* PANELIST */
 {
     
     IconBoxData *pibd;
@@ -1907,7 +1883,6 @@ IconBoxPopUp (WmWorkspaceData *pWS,
     }
     
 } /* END OF FUNCTION IconBoxPopUp */
-#endif /* PANELIST */
 
 
 

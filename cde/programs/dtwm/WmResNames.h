@@ -146,17 +146,13 @@
 #define WmNshowNames			"showNames"
 #endif /* WSM */
 #define WmNstartupKeyFocus		"startupKeyFocus"
-#ifdef PANELIST
 #define WmNsubpanelDecoration		"subpanelDecoration"
 #define WmNsubpanelResources            "subpanelResources"
-#endif /* PANELIST */
 #define WmNsystemButtonClick		"wMenuButtonClick"
 #define WmNsystemButtonClick2		"wMenuButtonClick2"
 #define WmNtransientDecoration		"transientDecoration"
 #define WmNtransientFunctions		"transientFunctions"
-#ifdef PANELIST
 #define WmNuseFrontPanel		"useFrontPanel"
-#endif /* PANELIST */
 #define WmNuseIconBox			"useIconBox"
 #ifdef WSM
 #define WmNuseWindowOutline		"useWindowOutline"
@@ -357,17 +353,13 @@
 #define WmCShowNames			"ShowNames"
 #endif /* WSM */
 #define WmCStartupKeyFocus		"StartupKeyFocus"
-#ifdef PANELIST
 #define WmCSubpanelDecoration		"SubpanelDecoration"
 #define WmCSubpanelResources            "SubpanelResources"
-#endif /* PANELIST */
 #define WmCSystemButtonClick		"WMenuButtonClick"
 #define WmCSystemButtonClick2		"WMenuButtonClick2"
 #define WmCTransientDecoration		"TransientDecoration"
 #define WmCTransientFunctions		"TransientFunctions"
-#ifdef PANELIST
 #define WmCUseFrontPanel		"UseFrontPanel"
-#endif /* PANELIST */
 #define WmCUseIconBox			"UseIconBox"
 #ifdef WSM
 #define WmCUseWindowOutline		"UseWindowOutline"
@@ -520,11 +512,10 @@
 #define CRS_ACCEL		(1L << 3)
 #define CRS_ANY			(CRS_BUTTON | CRS_KEY | CRS_MENU | CRS_ACCEL)
 
-#ifdef PANELIST
 #define WmNhelpDirectory		     "helpDirectory"
 
 #define WmCHelpDirectory		     "HelpDirectory"
-#endif /* PANELIST */
+
 #ifdef WSM
 /**************************    eof  ************************/
 #endif /* WSM */

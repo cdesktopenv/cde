@@ -56,9 +56,7 @@ static char rcsid[] = "$XConsortium: WmWinState.c /main/6 1996/06/20 09:39:39 rs
 #include "WmIPlace.h"
 #include "WmIconBox.h"
 #include "WmKeyFocus.h"
-#ifdef PANELIST
 #include "WmPanelP.h"  /* for typedef in WmManage.h */
-#endif /* PANELIST */
 #include "WmManage.h"
 #include "WmProperty.h"
 #include "WmWinInfo.h"
@@ -74,9 +72,7 @@ static char rcsid[] = "$XConsortium: WmWinState.c /main/6 1996/06/20 09:39:39 rs
 
 #include "WmMultiHead.h"
 #include "WmWinState.h"
-#ifdef PANELIST
 static void SlideWindowOut (ClientData *pCD);
-#endif /* PANELIST */
 static void UnmapClients (ClientData *pCD, unsigned int event_mask);
 static void SetupWindowStateWithEventMask (ClientData *pCD, int newState, Time setTime, unsigned int event_mask);
 
@@ -217,9 +213,7 @@ void SetClientStateWithEventMask (ClientData *pCD, int newState, Time setTime, u
 #ifdef WSM
 	    XMapWindow (DISPLAY, pCD->client);
 	    XMapWindow (DISPLAY, pCD->clientFrameWin);
-#if defined(PANELIST)
             WmStopWaiting();   /* in WmIPC.c */
-#endif /* PANELIST */
 #endif /* WSM */
 	    break;
 	}
@@ -569,7 +563,6 @@ static void SetupWindowStateWithEventMask (ClientData *pCD, int newState,
 	if ( (!(pCD->clientFlags & ICON_BOX)) || 
 	     ((pCD->clientFlags & ICON_BOX) && (!(firstTime))) )
 	{
-#ifdef PANELIST
 	  if ((currentState == WITHDRAWN_STATE) && 
 	      (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL) &&
 	      !(pCD->transientChildren))
@@ -587,7 +580,6 @@ static void SetupWindowStateWithEventMask (ClientData *pCD, int newState,
 	      }
 	  }
 	  else
-#endif /* PANELIST */
 	    MapClientWindows (pCD);
 	}
 
@@ -839,8 +831,6 @@ void SetClientWMState (ClientData *pCD, int wmState, int mwmState)
 
 } /* END OF FUNCTION SetClientWMState */
 
-#ifdef PANELIST
-
 #define SLIDE_UP_PERCENTAGE	5
 #define SLIDE_UP_DIVISOR	(100/SLIDE_UP_PERCENTAGE)
 #define SLIDE_UP_INTERVAL	15
@@ -1307,7 +1297,6 @@ SlideSubpanelBackIn (ClientData *pCD, Widget wSubpanel)
     }
 
 } /* END OF FUNCTION SlideOutWindow */
-#endif /* PANELIST */
 
 
 /*************************************<->*************************************

@@ -56,11 +56,9 @@ static char rcsid[] = "$TOG: WmManage.c /main/11 1998/01/12 16:45:48 cshi $"
 #include "WmIconBox.h"
 #include "WmImage.h"
 #include "WmKeyFocus.h"
-#ifdef PANELIST
 #include "WmPanelP.h"	/* typedef needed in WmManage.h */
 #include <Dt/Message.h>
 #include "WmIPC.h"
-#endif /* PANELIST */
 #include "WmManage.h"
 #include "WmMenu.h"
 #include "WmProperty.h"
@@ -79,8 +77,6 @@ static char rcsid[] = "$TOG: WmManage.c /main/11 1998/01/12 16:45:48 cshi $"
 /*
  * Function Declarations:
  */
-
-#ifdef PANELIST
 
 Boolean IsEmbeddedClient (
     ClientData *pCD, 
@@ -101,8 +97,6 @@ Boolean UpdateEmbeddedClientsProperty(
 static void ForceSubpanelWMState(Window win);
 static void ReManageWindow (ClientData *pCD);
 static void CheckPushRecallClient (ClientData *pCD);
-
-#endif /* PANELIST */
 
 
 /*
@@ -331,9 +325,7 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 #ifdef WSM
     WmWorkspaceData *pwsi;
 #endif /* WSM */
-#ifdef PANELIST 
     WmFpEmbeddedClientData *pECD;
-#endif /* PANELIST */
 
     /*
      * Get client information including window attributes and window
@@ -347,8 +339,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	return;
     }
 
-
-#ifdef PANELIST
     /*
      *  Handle case of transients that derive from embedded clients.
      */
@@ -403,7 +393,7 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	    pCD->transientLeader->pAccessPanel->pCD_accessPanel;
     }
 #endif 
-#endif /* PANELIST */
+
 #ifdef WSM
     if (pCD->inputMode == MWM_INPUT_SYSTEM_MODAL)
     {
@@ -829,9 +819,7 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
     DiscardInitialPropertyList (pCD);
 
 #endif /* WSM */
-#ifdef PANELIST
     CheckPushRecallClient (pCD);
-#endif /* PANELIST */
 
 } /* END OF FUNCTION ManageWindow */
 
@@ -856,7 +844,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 
 void UnManageWindow (ClientData *pCD)
 {
-#ifdef PANELIST
     if (pCD->pECD)
     {
 	WmFpEmbeddedClientData *pECD;
@@ -896,7 +883,7 @@ void UnManageWindow (ClientData *pCD)
 	}
 	pCD->pPRCD = NULL;
     }
-#endif /* PANELIST */
+
     /*
      * Withdraw all the transient children of this window.
      */
@@ -1779,8 +1766,7 @@ void ReManageDialog (WmScreenData *pSD, Widget dialogboxW)
 
 } /* END OF FUNCTION ReManageDialog */
 
-#ifdef PANELIST
-
+
 /*************************************<->*************************************
  *
  *  RegisterEmbeddedClients (wPanelist, pECD, count)
@@ -3034,4 +3020,4 @@ RegisterIconBoxControl (Widget wPanelist)
 
 } /* END OF FUNCTION RegisterIconBoxControl */
 
-#endif /* PANELIST */
+

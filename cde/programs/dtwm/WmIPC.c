@@ -428,12 +428,10 @@ dtReadyNotification( void )
 void 
 WmStopWaiting( void )
 {
-#ifdef PANELIST 
      if (wmGD.dtSD)
      {
 	 WmFrontPanelSetBusy (False);
      }
-#endif /* PANELIST */
 } /* END OF FUNCTION WmStopWaiting */
 
 
@@ -646,7 +644,6 @@ NoticeMsgCB(Tt_message m, Tt_pattern p)
 	/* CDExc21081 */
 	tt_message_destroy(m);
     }
-#ifdef PANELIST 
     else if (!strcmp(op, "DtActivity_Beginning")) {
 	if (wmGD.dtSD) {
 	   WmFrontPanelSetBusy (True);
@@ -655,7 +652,6 @@ NoticeMsgCB(Tt_message m, Tt_pattern p)
 	/* CDExc21081 */
 	tt_message_destroy(m);
     }
-#endif /* PANELIST */
     else if (!strcmp(op, "DtTypes_Reloaded")) {
 	/*
 	 * Blink busy light during reload.

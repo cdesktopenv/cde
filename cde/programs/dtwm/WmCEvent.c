@@ -55,9 +55,7 @@ static char rcsid[] = "$XConsortium: WmCEvent.c /main/10 1996/08/09 15:05:39 rsw
 #include "WmFunction.h"
 #include "WmIDecor.h"
 #include "WmKeyFocus.h"
-#ifdef PANELIST
 #include "WmPanelP.h"
-#endif /* PANELIST */
 #include "WmManage.h"
 #include "WmMenu.h"
 #include "WmProperty.h"
@@ -339,7 +337,6 @@ Boolean WmDispatchClientEvent (XEvent *event)
 			BaseWinExposureProc (pCD);
 		    }
 		}
-#ifdef PANELIST
 		else if (pCD->clientFlags & FRONT_PANEL_BOX)
 		{
 	        /*
@@ -351,7 +348,6 @@ Boolean WmDispatchClientEvent (XEvent *event)
 		 */
 		    dispatchEvent = True;
 		}
-#endif /* PANELIST */
 	    }
 	    break;
 	}

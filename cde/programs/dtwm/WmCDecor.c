@@ -751,13 +751,11 @@ void GenerateFrameDisplayLists (ClientData *pcd)
 	}
 	else 
 	{
-#ifdef PANELIST
             if((pcd->dtwmBehaviors & DtWM_BEHAVIOR_PANEL) &&
                (pcd->clientDecoration == WM_DECOR_BORDER))
             {
                 insideBevel = 0;
             }
-#endif /* PANELIST */
 	    BevelRectangle (pcd->pclientBottomShadows, 	/* inside */
 			    pcd->pclientTopShadows, 
 			    (int)(pcd->frameInfo.lowerBorderWidth-insideBevel), 
@@ -2276,7 +2274,6 @@ ShowInactiveClientFrame (ClientData *pcd)
 void RegenerateClientFrame (ClientData *pcd)
 {
     unsigned long decor = pcd->decor;
-#ifdef PANELIST
     /* 
      * If an embedded client, there is no frame.
      */
@@ -2287,7 +2284,6 @@ void RegenerateClientFrame (ClientData *pcd)
 	    return;
 	}
     }
-#endif /* PANELIST */
 
     /* recompute frame information */
     SetFrameInfo (pcd);

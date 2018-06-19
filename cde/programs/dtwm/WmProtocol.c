@@ -54,9 +54,7 @@ static char rcsid[] = "$TOG: WmProtocol.c /main/8 1997/06/18 17:31:34 samborn $"
 #ifndef NO_WMQUERY 
 #include "WmEvent.h"
 #endif /* NO_WMQUERY */
-#ifdef PANELIST
 #include "WmPanelP.h"
-#endif /* PANELIST */
 
 #if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
 # include "WmCmd.h"
@@ -339,7 +337,6 @@ void SendConfigureNotify (ClientData *pCD)
     notifyEvent.display = DISPLAY;
     notifyEvent.event = pCD->client;
     notifyEvent.window = pCD->client;
-#ifdef PANELIST
     if (pCD->pECD)
     {
 	int rootX, rootY;
@@ -362,8 +359,6 @@ void SendConfigureNotify (ClientData *pCD)
 	notifyEvent.height = pCD->clientHeight;
     }
     else
-#else /* PANELIST */
-#endif /* PANELIST */
     if (pCD->maxConfig)
     {
 	notifyEvent.x = pCD->maxX;

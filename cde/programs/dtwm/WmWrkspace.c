@@ -50,9 +50,7 @@ static char rcsid[] = "$XConsortium: WmWrkspace.c /main/7 1996/10/23 17:26:33 rs
 #include <Dt/DtP.h>
 #include <Dt/WsmM.h>
 #include <stdio.h>
-#ifdef PANELIST
 #include "WmPanelP.h"
-#endif /* PANELIST */
 #include "WmIPC.h"		/* must be after DtP.h */
 #ifdef WSM
 #include "WmPresence.h"
@@ -262,8 +260,6 @@ ChangeToWorkspace(
 
 } /* END OF FUNCTION ChangeToWorkspace */
 
-#ifdef PANELIST
-
 /******************************<->*************************************
  *
  *  ChangeWorkspaceTitle (pWS, pchTitle)
@@ -328,7 +324,6 @@ ChangeWorkspaceTitle(
     dtSendWorkspaceModifyNotification(pWS->pSD, pWS->id, DtWSM_REASON_TITLE);
 
 } /* END OF FUNCTION ChangeWorkspaceTitle */
-#endif /* PANELIST */
 
 
 /*************************************<->*************************************
@@ -864,9 +859,7 @@ ProcessDtWmHints (ClientData *pCD)
 #ifdef HP_VUE
     Atom	propertyVUE;
 #endif /* HP_VUE */
-#ifdef PANELIST
     long	saveFunctions;
-#endif /* PANELIST */
 
     /*
      * Retrieve the _DT_WM_HINTS property if it exists.
@@ -919,7 +912,6 @@ ProcessDtWmHints (ClientData *pCD)
 
 	XFree ((char*)pHints);
     }
-#ifdef PANELIST
 
     if (pCD->dtwmBehaviors & DtWM_BEHAVIOR_PANEL)
     {
@@ -932,7 +924,6 @@ ProcessDtWmHints (ClientData *pCD)
 	pCD->dtwmFunctions = saveFunctions;
 	pCD->clientFlags |= FRONT_PANEL_BOX ;
     }
-#endif /* PANELIST */
 } /* END OF ProcessDtWmHints */
 
 
@@ -2355,7 +2346,6 @@ RemoveSubtreeFromWorkspaces(
 }   /* END OF FUNCTION RemoveSubtreeFromWorkspaces */
 
 
-#ifdef PANELIST
 
 /******************************<->*************************************
  *
@@ -2414,7 +2404,6 @@ GetListOfOccupiedWorkspaces(
     return(pLocalIDs);
 
 }   /* END OF FUNCTION GetListOfOccupiedWorkspaces */
-#endif /* PANELIST */
 
 
 /******************************<->*************************************
@@ -3429,9 +3418,7 @@ void
 SaveResources( WmScreenData *pSD)
 {
     int wsCnt;
-#ifdef PANELIST
     WmPanelistObject  pPanelist;
-#endif /* PANELIST */
 
     if(pSD)
     {
@@ -3442,7 +3429,6 @@ SaveResources( WmScreenData *pSD)
 				    WM_RES_WORKSPACE_COUNT));
 	}
 
-#ifdef PANELIST
 	pPanelist = (WmPanelistObject) pSD->wPanelist;
 	if (pPanelist && O_Shell(pPanelist))
 	{
@@ -3455,7 +3441,6 @@ SaveResources( WmScreenData *pSD)
 	    
 	    WmFrontPanelSessionSaveData();
 	}
-#endif /*  PANELIST */
 
 
 
@@ -3515,11 +3500,9 @@ SaveWorkspaceResources(
     Dimension clientWidth;
     Dimension clientHeight;
     int xoff, yoff;
-#ifdef PANELIST
     WmPanelistObject  pPanelist = (WmPanelistObject) pWS->pSD->wPanelist;
     ClientData *pCD_Panel ;
     char tmpBuffer[MAXWMPATH+1];
-#endif /* PANELIST */
     int iLen;
 
     /* allocate initial data space */
@@ -3678,7 +3661,6 @@ SaveWorkspaceResources(
 	AddStringToResourceData (buffer, &data, &cum_len);
     }
 
-#ifdef PANELIST
     if ((flags & WM_RES_FP_POSITION) &&
 	(O_Shell(pPanelist)) && 
         (!wmGD.useStandardBehavior) &&
@@ -3791,7 +3773,6 @@ SaveWorkspaceResources(
 
 	AddStringToResourceData (buffer, &data, &cum_len);
     }
-#endif /* PANELIST */
 
     if ((flags & WM_RES_ICONBOX_GEOMETRY) &&
         (!wmGD.useStandardBehavior))

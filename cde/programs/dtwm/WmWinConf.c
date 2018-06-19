@@ -2172,13 +2172,11 @@ void ProcessNewConfiguration (ClientData *pCD, int x, int y, unsigned int width,
             }
 	}
 	SetFrameInfo (pCD);
-#ifdef PANELIST
 	if (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL)
 	{
 	    /* turn off subpanel behavior if moved */
 	    pCD->dtwmBehaviors &= ~DtWM_BEHAVIOR_SUBPANEL;
 	}
-#endif /* PANELIST */
     }
 
     /*

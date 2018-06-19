@@ -54,11 +54,9 @@ static char rcsid[] = "$XConsortium: WmResParse.c /main/9 1996/11/01 10:17:34 dr
 #include <Dt/Connect.h>
 #include <Tt/tt_c.h>
 #endif /* WSM */
-#ifdef PANELIST
 #include "WmParse.h"
 #include "WmParseP.h"
 #include "WmPanelP.h"
-#endif /* PANELIST */
 #include "WmResource.h"
 
 #include <codelibs/shellutils.h>    /* shellscan */
@@ -124,7 +122,6 @@ static char rcsid[] = "$XConsortium: WmResParse.c /main/9 1996/11/01 10:17:34 dr
 #ifdef MOTIF_ONE_DOT_ONE
 extern char   *getenv ();
 #endif
-#ifdef PANELIST
 # include <errno.h>
 # ifdef X_NOT_STDC_ENV
 extern int errno;
@@ -132,7 +129,6 @@ extern int errno;
 # define HOME_DT_WMRC    "/.dt/dtwmrc"
 # define LANG_DT_WMRC    "/dtwmrc"
 # define SYS_DT_WMRC     CDE_CONFIGURATION_TOP "/sys.dtwmrc"
-#endif /* PANELIST */
 
 /*
  * Global Variables And Tables:
@@ -252,16 +248,8 @@ static void ParseWmMnemonic (unsigned char **linePP, MenuItem *menuItem);
 static Boolean ParseWmAccelerator (unsigned char **linePP, MenuItem *menuItem);
 int ParseWmFunction (unsigned char **linePP, unsigned int res_spec, 
 			    WmFunction *pWmFunction);
-#ifndef PANELIST
-static Boolean ParseWmFuncMaybeStrArg (unsigned char **linePP, 
-				       WmFunction wmFunction, String *pArgs);
-#endif /* PANELIST */
 static Boolean ParseWmFuncNoArg (unsigned char **linePP, WmFunction wmFunction,
 				 String *pArgs);
-#ifndef PANELIST
-static Boolean ParseWmFuncStrArg (unsigned char **linePP, 
-				  WmFunction wmFunction, String *pArgs);
-#endif /* PANELIST */
 void FreeMenuItem (MenuItem *menuItem);
 static Boolean ParseWmFuncGrpArg (unsigned char **linePP, 
 				  WmFunction wmFunction, GroupArg *pGroup);
@@ -307,7 +295,6 @@ void ProcessCommandLine (int argc,  char *argv[]);
 static void ParseScreensArgument (int argc, char *argv[], int *pArgnum,
 				  unsigned char *lineP);
 void ProcessMotifBindings (void);
-#ifdef PANELIST
 static void ParseIncludeSet (WmScreenData *pSD, unsigned char *lineP);
 static void ConfigStackInit (char *pchFileName);
 static FILE *ConfigStackPush (unsigned char *pchFileName);
@@ -315,7 +302,6 @@ static void ConfigStackPop (void);
 Boolean ParseWmFuncActionArg (unsigned char **linePP, 
 				  WmFunction wmFunction, String *pArgs);
 static void PreprocessConfigFile (void);
-#endif /* PANELIST */
 
 static EventTableEntry buttonEvents[] = {
 
@@ -349,7 +335,6 @@ static EventTableEntry keyEvents[] = {
     { NULL,         0,    (Boolean(*)())NULL,    0,  FALSE}
 };
 
-#ifdef PANELIST
 typedef struct _ConfigFileStackEntry {
     char		*fileName;
     char 		*tempName;
@@ -364,7 +349,6 @@ typedef struct _ConfigFileStackEntry {
 static ConfigFileStackEntry *pConfigStack = NULL;
 static ConfigFileStackEntry *pConfigStackTop = NULL;
 
-#endif /* PANELIST */
 
 unsigned int buttonModifierMasks[] = {
     0,
@@ -396,19 +380,11 @@ typedef struct {
 
 FunctionTableEntry functionTable[] = {
 #ifdef WSM
-#ifdef PANELIST
     {"f.action",	0,
 			CRS_ANY,
 			0,
 			F_Action,
 			ParseWmFuncActionArg},
-#else /* PANELIST */
-    {"f.action",	0,
-			CRS_ANY,
-			0,
-			F_Action,
-			ParseWmFuncStrArg},
-#endif  /* PANELIST */
 #endif /* WSM */
     {"f.beep",		0,
 			CRS_ANY,
@@ -552,21 +528,12 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Normalize,
 			ParseWmFuncNoArg},
-#ifdef PANELIST
     {"f.normalize_and_raise",
 	                F_CONTEXT_ROOT|F_CONTEXT_NORMAL,
 			CRS_ANY,
 			0,
 			F_Normalize_And_Raise,
 			ParseWmFuncMaybeStrArg},
-#else /* PANELIST */
-    {"f.normalize_and_raise",
-	                F_CONTEXT_ROOT|F_CONTEXT_NORMAL,
-			CRS_ANY,
-			0,
-			F_Normalize_And_Raise,
-			ParseWmFuncNoArg},
-#endif /* PANELIST */
 #ifdef WSM
     {"f.occupy_all", F_CONTEXT_ICONBOX|F_CONTEXT_ROOT,
 			CRS_ANY,
@@ -708,7 +675,6 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Title,
 			ParseWmFuncNoArg},
-#if defined(PANELIST)
     {"f.toggle_frontpanel", 0,
 			CRS_ANY,
 			0,
@@ -720,7 +686,6 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Version,
 			ParseWmFuncNoArg},
-#endif /* PANELIST */
 #ifdef WSM
 
 #ifdef OLD
@@ -1878,7 +1843,6 @@ void SyncModifierStrings(void)
 #define MENU_SPEC	"menu"
 #define BUTTON_SPEC	"buttons"
 #define KEY_SPEC	"keys"
-#ifdef PANELIST
 #define FRONT_PANEL_SPEC DTWM_FP_PANEL_OLD
 #define DROP_EFFECTS_SPEC   DTWM_FP_DROP_EFFECTS
 #define PANEL_SPEC	DTWM_FP_PANEL
@@ -1890,19 +1854,14 @@ void SyncModifierStrings(void)
 
 void ProcessWmFile (WmScreenData *pSD, Boolean bNested)
 
-#else /* PANELIST */
-void ProcessWmFile (WmScreenData *pSD)
-#endif /* PANELIST */
 {
     unsigned char *lineP;
     unsigned char *string;
     unsigned int   n;
     MenuSpec      *menuSpec;
-#ifdef PANELIST
 
     if (!bNested)
     {
-#endif /* PANELIST */
 
     /*
      * Initialize global data values that are set based on data in
@@ -1937,13 +1896,11 @@ void ProcessWmFile (WmScreenData *pSD)
 	lineP = line;
         ParseMenuSet (pSD, lineP);
     }
-#ifdef PANELIST
     if (wmGD.useFrontPanel &&  !wmGD.dtSD &&
 	(XDefaultScreen (wmGD.display) == pSD->screen))
     {
         wmGD.dtSD = pSD;  /* only one per display */
     }
-#endif /* PANELIST */
 
     /*
      * Find and associate a stream with the window manager resource 
@@ -1957,9 +1914,7 @@ void ProcessWmFile (WmScreenData *pSD)
 	return;
     }
 
-#ifdef PANELIST 
     }  /* end if (!bNested) */
-#endif /* PANELIST */
     /*
      * Parse the information in the configuration file.
      * If there are more than MAXLINE characters on a line the excess are
@@ -1989,12 +1944,10 @@ void ProcessWmFile (WmScreenData *pSD)
 	{
 	    ParseKeySet (pSD, lineP);
 	}
-#ifdef PANELIST
         else if (!strcmp ((char *)string, INCLUDE_SPEC))
         {
             ParseIncludeSet (pSD, lineP);
         }
-#endif /* PANELIST */
     }
 
     fclose (cfileP);
@@ -2104,9 +2057,7 @@ FILE *FopenConfigFile (void)
 #ifndef MOTIF_ONE_DOT_ONE
     char *homeDir = XmeGetHomeDirName();
 #endif
-#ifdef PANELIST
     Boolean stackPushed;
-#endif /* PANELIST */
 
     /*
      * Get the LANG environment variable
@@ -2142,7 +2093,6 @@ FILE *FopenConfigFile (void)
      * Use the LANG variable if set and .mwmrc is in $HOME/$LANG/.mwmrc  
      */
 
-#ifdef PANELIST
     if (pConfigStackTop && pConfigStackTop->tempName)
     {
 	fileP = fopen (pConfigStackTop->tempName, "r");
@@ -2151,7 +2101,7 @@ FILE *FopenConfigFile (void)
     stackPushed = (pConfigStackTop && (pConfigStackTop != pConfigStack));
     fileP = NULL;
     cfileName[0] = '\0';
-#endif /* PANELIST */
+
     if ((wmGD.configFile != NULL) && (wmGD.configFile[0] != '\0'))
     /* pointer to nonNULL string */
     {
@@ -2175,9 +2125,6 @@ FILE *FopenConfigFile (void)
 		    XtFree(LANG); 
 		    LANG = NULL; 
 		}
-#ifndef PANELIST
-		return (fileP);
-#endif /* PANELIST */
 	    }
 	    else
 	    {
@@ -2197,9 +2144,6 @@ FILE *FopenConfigFile (void)
 		      XtFree(LANG);
 		      LANG = NULL;
 		  }
-#ifndef PANELIST
-		  return (fileP);
-#endif /* PANELIST */
 		}
 	    }
 
@@ -2208,7 +2152,6 @@ FILE *FopenConfigFile (void)
 	else
 	/* relative to current directory or absolute */
 	{
-#ifdef PANELIST
 	    char *pch;
 
             pch = (char *) GetNetworkFileName (wmGD.configFile);
@@ -2221,7 +2164,6 @@ FILE *FopenConfigFile (void)
   
   	  if ((fileP == NULL) && !stackPushed)
 	  {
-#endif  /* PANELIST  */
             if ((fileP = fopen (wmGD.configFile, "r")) != NULL)
 	      {
 		if (LANG != NULL) {
@@ -2230,19 +2172,16 @@ FILE *FopenConfigFile (void)
 		}
 		return(fileP);
 	      }
-#ifdef PANELIST 
 	  }
 	  else if ((fileP == NULL) && stackPushed)
 	  {
 		strcpy (cfileName, wmGD.configFile);
 	  }
-#endif /* PANELIST */
 	}
     }
-#ifdef PANELIST 
+
   if ((fileP == NULL) && !stackPushed)
   {
-#endif /* PANELIST */
 
     /*
      * The configFile resource didn't do it for us.
@@ -2308,9 +2247,6 @@ FILE *FopenConfigFile (void)
 	    XtFree(LANG);
 	    LANG = NULL;
 	}
-#ifndef PANELIST
-        return (fileP);
-#endif /* PANELIST */
     }
     else
     {
@@ -2346,12 +2282,8 @@ FILE *FopenConfigFile (void)
 	      XtFree(LANG);
 	      LANG = NULL;
 	  }
-#ifndef PANELIST
-	  return (fileP);
-#endif /* PANELIST */
 	}
     }
-#ifdef PANELIST
   }
 
 #define DTLIBDIR  CDE_INSTALLATION_TOP
@@ -2385,7 +2317,6 @@ FILE *FopenConfigFile (void)
 
   if ((fileP == NULL) && !stackPushed)
   {
-#endif /* PANELIST */
 
 #ifndef LIBDIR
 #define LIBDIR "/usr/lib/X11"
@@ -2420,26 +2351,17 @@ FILE *FopenConfigFile (void)
 	{
 	  XtFree(LANG);
 	  LANG = NULL;
-#ifndef PANELIST
-	  return (fileP);
-#endif /* PANELIST */
 	}
     }
 
-#ifdef PANELIST
     if ((fileP == NULL) && !stackPushed)
     {
-#endif /* PANELIST */
 #ifdef WSM
     if (MwmBehavior)
     {
 	strcpy(cfileName, LIBDIR);
 	strncat(cfileName, SLASH_MWMRC, MAXWMPATH - strlen(cfileName));
-#ifdef PANELIST
 	fileP = fopen (cfileName, "r");
-#else /* PANELIST */
-	return (fopen (cfileName, "r"));
-#endif /* PANELIST */
     }
     else
     {
@@ -2447,11 +2369,7 @@ FILE *FopenConfigFile (void)
 	strncat(cfileName, RC_DEFAULT_CONFIG_SUBDIR, 
 					MAXWMPATH - strlen(cfileName));
 	strncat(cfileName, SLASH_DT_WMRC, MAXWMPATH - strlen(cfileName));
-#ifdef PANELIST
 	fileP = fopen (cfileName, "r");
-#else /* PANELIST */
-	return (fopen (cfileName, "r"));
-#endif /* PANELIST */
     }
 #else /* WSM */
     /*
@@ -2465,14 +2383,9 @@ FILE *FopenConfigFile (void)
        XtFree(LANG);
        LANG = NULL;
     }
-#ifdef PANELIST
     strcpy(cfileName, cfileName);
     fileP = fopen (cfileName, "r");
-#else /* PANELIST */
-    return (fopen (cfileName, "r"));
-#endif /* PANELIST */
 #endif /* WSM */
-#ifdef PANELIST
     }
   }
 
@@ -2528,7 +2441,6 @@ FILE *FopenConfigFile (void)
 	LANG = NULL;
     }
     return (fileP);
-#endif /* PANELIST */
 
 } /* END OF FUNCTION FopenConfigFile */
 
@@ -2941,7 +2853,6 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 
 	menuItem->greyedContext = functionTable[ix].greyedContext;
 	menuItem->mgtMask = functionTable[ix].mgtMask;
-#ifdef PANELIST
         if ((menuItem->wmFunction == F_Toggle_Front_Panel) &&
 	    ((wmGD.useFrontPanel == False) ||
 	     (wmGD.dtSD != pSD)))
@@ -2954,7 +2865,6 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 				       F_SUBCONTEXT_IB_WICON 	| 
 				       F_SUBCONTEXT_IB_IICON);
 	}
-#endif /* PANELIST */
 
         /* 
 	 * Apply the function argument parser.
@@ -3927,9 +3837,6 @@ int ParseWmFunction (unsigned char **linePP, unsigned int res_spec,
  * 
  *************************************<->***********************************/
 
-#ifndef PANELIST
-static
-#endif 
 Boolean ParseWmFuncMaybeStrArg (unsigned char **linePP, 
 				       WmFunction wmFunction, String *pArgs)
 {
@@ -3944,7 +3851,6 @@ Boolean ParseWmFuncMaybeStrArg (unsigned char **linePP,
 	return (ParseWmFuncStrArg (linePP, wmFunction, pArgs));
     }
 */
-#ifdef PANELIST
 #if 0
     else if (*lineP == '"' && *(lineP+1) == '-')
     {
@@ -3953,7 +3859,6 @@ Boolean ParseWmFuncMaybeStrArg (unsigned char **linePP,
 	return (ParseWmFuncStrArg (linePP, wmFunction, pArgs));
     }
 #endif
-#endif /* PANELIST */
     if ((len = strlen ((char *)string)) != 0)
     {
 	if ((*pArgs = (String)XtMalloc (len + 1)) == NULL)
@@ -4047,9 +3952,6 @@ static Boolean ParseWmFuncNoArg (unsigned char **linePP, WmFunction wmFunction,
  * 
  *************************************<->***********************************/
 
-#ifndef PANELIST
-static
-#endif
 Boolean ParseWmFuncStrArg (unsigned char **linePP, 
 				  WmFunction wmFunction, String *pArgs)
 {
@@ -5296,425 +5198,7 @@ GetNextLine (void)
 } /* END OF FUNCTION GetNextLine */
 #endif /* WSM */
 
-#ifndef PANELIST
-
-#ifdef WSM
-/*************************************<->*************************************
- *
- *  GetStringC (linePP, SmBehavior)
- *
- *
- *  Description:
- *  -----------
- *  Returns the next quoted or whitespace-terminated nonquoted string in the
- *  line buffer.
- *  Additional functionality added to GetString in that anything in a
- *  quoted string is considered sacred and nothing will be stripped from
- *  the middle of a quoted string.
- *
- *
- *  Inputs:
- *  ------
- *  linePP =  pointer to current line buffer pointer.
- *  SmBehavior = flag that enables parsing session manager hints
- *               if True.
- *
- * 
- *  Outputs:
- *  -------
- *  linePP =  pointer to revised line buffer pointer.
- *  Return =  string 
- *
- *
- *  Comments:
- *  --------
- *  May alter the line buffer contents.
- *  Handles quoted strings and characters, removing trailing whitespace from
- *  quoted strings.
- *  Returns NULL string if the line is empty or is a comment.
- *  Code stolen from dtmwm.
- * 
- *************************************<->***********************************/
-#else /* WSM */
-/*************************************<->*************************************
- *
- *  GetString (linePP)
- *
- *
- *  Description:
- *  -----------
- *  Returns the next quoted or whitespace-terminated nonquoted string in the
- *  line buffer.
- *
- *
- *  Inputs:
- *  ------
- *  linePP =  pointer to current line buffer pointer.
- *
- * 
- *  Outputs:
- *  -------
- *  linePP =  pointer to revised line buffer pointer.
- *  Return =  string 
- *
- *
- *  Comments:
- *  --------
- *  May alter the line buffer contents.
- *  Handles quoted strings and characters, removing trailing whitespace from
- *  quoted strings.
- *  Returns NULL string if the line is empty or is a comment.
- * 
- *************************************<->***********************************/
-#endif /* WSM */
 
-#ifdef WSM
-unsigned char *GetStringC (unsigned char **linePP, Boolean SmBehavior)
-#else /* WSM */
-unsigned char *GetString (unsigned char **linePP)
-#endif /* WSM */
-{
-    unsigned char *lineP = *linePP;
-    unsigned char *endP;
-    unsigned char *curP;
-    unsigned char *lnwsP;
-#ifdef WSM
-    unsigned int  level = 0, checkLev, i, quoteLevel[10];
-#endif /* WSM */
-#ifndef NO_MULTIBYTE
-    int            chlen;
-
-    /* get rid of leading white space */
-    ScanWhitespace (&lineP);
-
-    /*
-     * Return NULL if line is empty, a comment, or invalid.
-     */
-#ifdef WSM
-    if (
-	*lineP == '\0' ||
-	((chlen = mblen ((char *)lineP, MB_CUR_MAX)) < 1) ||
-        ((chlen == 1) && ((*lineP == '!') || 
-			  ((!SmBehavior) && (*lineP == '#'))))
-       )
-#else /* WSM */
-    if (
-	*lineP == '\0' ||
-	((chlen = mblen ((char *)lineP, MB_CUR_MAX)) < 1) ||
-        ((chlen > 0) && ((*lineP == '!') || (*lineP == '#')))
-       )
-#endif /* WSM */
-    {
-        *linePP = lineP;
-        return (NULL);
-    }
-
-    if ((chlen == 1) && (*lineP == '"'))
-    /* Quoted string */
-    {
-#ifdef WSM
-	quoteLevel[level] = 1;	
-#endif /* WSM */
-	/*
-	 * Start beyond double quote and find the end of the quoted string.
-	 * '\' quotes the next character.
-	 * Otherwise,  matching double quote or NULL terminates the string.
-	 *
-	 * We use lnwsP to point to the last non-whitespace character in the
-	 * quoted string.  When we have found the end of the quoted string,
-	 * increment lnwsP and if lnwsP < endP, write NULL into *lnwsP.
-	 * This removes any trailing whitespace without overwriting the 
-	 * matching quote, needed later.  If the quoted string was all 
-	 * whitespace, then this will write a NULL at the beginning of the 
-	 * string that will be returned -- OK.
-	 */
-	lnwsP = lineP++;                /* lnwsP points to first '"' */
-	curP = endP = lineP;            /* other pointers point beyond */
-
-        while ((*endP = *curP) &&
-               ((chlen = mblen ((char *)curP, MB_CUR_MAX)) > 0) &&
-	       ((chlen > 1) || (*curP != '"')))
-	/* Haven't found matching quote yet.
-	 * First byte of next character has been copied to endP.
-	 */
-        {
-	    curP++;
-	    if ((chlen == 1) && (*endP == '\\') && 
-		((chlen = mblen ((char *)curP, MB_CUR_MAX)) > 0))
-	    /* character quote:
-	     * copy first byte of quoted nonNULL character down.
-	     * point curP to next byte
-	     */
-	    {
-#ifdef WSM
-		if (SmBehavior)
-		{
-		    /*
-		     * Check to see if this is a quoted quote - if it is
-		     * strip off a level - if not - it's sacred leave it alone
-		     */
-		    checkLev = PeekAhead((curP - 1), quoteLevel[level]);
-		    if(checkLev > 0)
-		    {
-			if(quoteLevel[level] <= checkLev)
-			{
-			    level--;
-			}
-			else
-			{
-			    level++;
-			    quoteLevel[level] = checkLev;
-			}
-			
-			for(i = 0;i < (checkLev - 2);i++)
-			{
-			    *endP++ = *curP++;curP++;
-			}
-			*endP = *curP++;
-		    }
-		}
-		else 
-		{
-#endif /* WSM */
-		*endP = *curP++;
-#ifdef WSM
-		}
-#endif /* WSM */
-            }
-
-	    if (chlen == 1)
-	    /* Singlebyte character:  character copy finished. */
-	    {
-	        if (isspace (*endP))
-	        /* whitespace character:  leave lnwsP unchanged. */
-	        {
-	            endP++;
-	        }
-	        else
-	        /* non-whitespace character:  point lnwsP to it. */
-	        {
-	            lnwsP = endP++;
-	        }
-	    }
-	    else if (chlen > 1)
-	    /* Multibyte (nonwhitespace) character:  point lnwsP to it.
-	     * Finish character byte copy.
-	     */
-	    {
-	        lnwsP = endP++;
-		while (--chlen)
-		{
-		    *endP++ = *curP++;
-		    lnwsP++;
-		}
-	    }
-        }
-#else
-
-    /* get rid of leading white space */
-    ScanWhitespace (&lineP);
-
-#ifdef WSM
-    /* Return NULL if line is empty, whitespace, or begins with a comment. */
-    if ((lineP == NULL || *lineP == '\0') ||
-	(!SmBehavior && (*lineP == '#')))
-#else /* WSM */
-    /* Return NULL if line is empty, whitespace, or begins with a comment. */
-    if ((lineP == NULL) || (*lineP == '\0') || (*lineP == '#'))
-#endif /* WSM */
-    {
-        *linePP = lineP;
-        return (NULL);
-    }
-
-    if (*lineP == '"')
-    /* Quoted string */
-    {
-#ifdef WSM
-	quoteLevel[level] = 1;	
-#endif /* WSM */
-	/*
-	 * Start beyond double quote and find the end of the quoted string.
-	 * '\' quotes the next character.
-	 * Otherwise,  matching double quote or NULL terminates the string.
-	 *
-	 * We use lnwsP to point to the last non-whitespace character in the
-	 * quoted string.  When we have found the end of the quoted string,
-	 * increment lnwsP and if lnwsP < endP, write NULL into *lnwsP.
-	 * This removes any trailing whitespace without overwriting the 
-	 * matching quote, needed later.  If the quoted string was all 
-	 * whitespace, then this will write a NULL at the beginning of the 
-	 * string that will be returned -- OK.
-	 */
-	lnwsP = lineP++;                /* lnwsP points to first '"' */
-	curP = endP = lineP;            /* other pointers point beyond */
-
-        while ((*endP = *curP) && (*endP != '"'))
-	/* haven't found matching quote yet */
-        {
-	    /* point curP to next character */
-	    curP++;
-	    if ((*endP == '\\') && (*curP != '\0'))
-	    /* shift quoted nonNULL character down and curP ahead */
-	    {
-#ifdef WSM
-		if (SmBehavior)
-		{
-		    /*
-		     * Check to see if this is a quoted quote - if it is
-		     * strip off a level - if not - it's sacred leave it alone
-		     */
-		    checkLev = PeekAhead((curP - 1), quoteLevel[level]);
-		    if(checkLev > 0)
-		    {
-			if(quoteLevel[level] <= checkLev)
-			{
-			    level--;
-			}
-			else
-			{
-			    level++;
-			    quoteLevel[level] = checkLev;
-			}
-			
-			for(i = 0;i < (checkLev - 2);i++)
-			{
-			    *endP++ = *curP++;curP++;
-			}
-			*endP = *curP++;
-		    }
-		}
-		else 
-		{
-#endif /* WSM */
-		*endP = *curP++;
-#ifdef WSM
-		}
-#endif /* WSM */
-            }
-	    if (isspace (*endP))
-	    /* whitespace character:  leave lnwsP unchanged. */
-	    {
-	        endP++;
-	    }
-	    else
-	    /* non-whitespace character:  point lnwsP to it. */
-	    {
-	        lnwsP = endP++;
-	    }
-        }
-#endif
-
-	/*
-	 *  Found matching quote or NULL.  
-	 *  NULL out any trailing whitespace.
-	 */
-
-	lnwsP++;
-	if (lnwsP < endP)
-        {
-	    *lnwsP = '\0';
-        }
-    }
-
-    else
-    /* Unquoted string */
-    {
-        /* 
-	 * Find the end of the nonquoted string.
-	 * '\' quotes the next character.
-	 * Otherwise,  whitespace, end-of-line, or '#' terminates the string.
-	 */
-        curP = endP = lineP;
-
-#ifndef NO_MULTIBYTE
-#ifdef WSM
-        while ((*endP = *curP) &&
-               ((chlen = mblen ((char *)curP, MB_CUR_MAX)) > 0) &&
-               ((chlen > 1) || (!isspace (*curP) && 
-			        (SmBehavior || (*curP != '#')))))
-#else /* WSM */
-        while ((*endP = *curP) &&
-               ((chlen = mblen ((char *)curP, MB_CUR_MAX)) > 0) &&
-               ((chlen > 1) || (!isspace (*curP) && (*curP != '#'))))
-#endif /* WSM */
-	/* Haven't found whitespace or '#' yet.
-	 * First byte of next character has been copied to endP.
-	 */
-        {
-	    curP++;
-	    if ((chlen == 1) && (*endP == '\\') && 
-		((chlen = mblen ((char *)curP, MB_CUR_MAX)) > 0))
-	    /* character quote:
-	     * copy first byte of quoted nonNULL character down.
-	     * point curP to next byte
-	     */
-	    {
-		*endP = *curP++;
-            }
-	    endP++;
-	    if (chlen > 1)
-	    /* Multibyte character:  finish character copy. */
-	    {
-		while (--chlen)
-		{
-		    *endP++ = *curP++;
-		}
-	    }
-        }
-#else
-#ifdef WSM
-        while ((*endP = *curP) && !isspace (*endP) && 
-					(SmBehavior || (*endP != '#')))
-#else /* WSM */
-        while ((*endP = *curP) && !isspace (*endP) && (*endP != '#'))
-#endif /* WSM */
-        {
-	    /* point curP to next character */
-	    curP++;
-	    if ((*endP == '\\') && (*curP != '\0'))
-	    /* shift quoted nonNULL character down and curP ahead */
-	    {
-		*endP = *curP++;
-            }
-	    endP++;
-        }
-#endif
-    }
-
-    /*
-     * Three cases for *endP:
-     *   '#' --> write NULL over # and point to NULL
-     *   whitespace or
-     *     matching quote -> write end-of-line over char and point beyond
-     *   NULL -> point to NULL 
-     */
-
-#ifdef WSM
-    if (!SmBehavior && (*endP == '#'))
-#else /* WSM */
-    if (*endP == '#')
-#endif /* WSM */
-    {
-	*endP = '\0';       /* write '\0' over '#' */
-	*linePP = endP;     /* point to '\0' */
-    }
-    else if (*endP != '\0')
-    {
-	*endP = '\0';       /* write NULL over terminator */
-	*linePP = ++curP;   /* point beyond terminator */
-    }
-    else
-    {
-	*linePP = endP;
-    }
-    return ((unsigned char *)lineP);
-
-} /* END OF FUNCTION GetString */
-#endif /* PANELIST */
-
-
-
 /*************************************<->*************************************
  *
  *  ParseBtnEvent (linePP, eventType, button, state, fClick)
@@ -7333,8 +6817,7 @@ void ProcessMotifBindings (void)
 #endif
 } /* END OF FUNCTION ProcessMotifBindings */
 
-#ifdef PANELIST
-
+
 /*************************************<->*************************************
  *
  *  void
@@ -7989,7 +7472,6 @@ Boolean ParseWmFuncActionArg (unsigned char **linePP,
 } /* END OF FUNCTION ParseWmFuncActionArg */
 
 
-#endif /* PANELIST */
 #ifdef WSM
 
 /*************************************<->*************************************

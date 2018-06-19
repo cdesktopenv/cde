@@ -59,9 +59,7 @@ static char rcsid[] = "$XConsortium: WmEvent.c /main/7 1996/11/20 15:27:47 rswis
 #include "WmColormap.h"
 #include "WmFunction.h"
 #include "WmKeyFocus.h"
-#ifdef PANELIST
 #include "WmPanelP.h"  /* for typedef in WmManage.h */
-#endif /* PANELIST */
 #include "WmManage.h"
 #include "WmMenu.h"
 #ifdef WSM
@@ -70,12 +68,10 @@ static char rcsid[] = "$XConsortium: WmEvent.c /main/7 1996/11/20 15:27:47 rswis
 #endif /* WSM */
 #include "WmWinInfo.h"
 #include "WmWinState.h"
-#ifdef PANELIST
 #include "WmResNames.h"
 #include "WmResParse.h"
 #include "WmParse.h"
 #include "WmParseP.h"
-#endif /* PANELIST */
 
 #include <Xm/RowColumnP.h> /* for MS_LastManagedMenuTime */
 extern XmMenuState _XmGetMenuState();

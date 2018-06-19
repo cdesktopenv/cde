@@ -34,11 +34,7 @@
 #include <stdio.h>
 
 
-#ifdef PANELIST
 extern void            ProcessWmFile (WmScreenData *pSD, Boolean bNested);
-#else /* PANELIST */
-extern void ProcessWmFile (WmScreenData *pSD);
-#endif /* PANELIST */
 extern void ProcessCommandLine (int argc,  char *argv[]);
 extern void ProcessMotifBindings (void);
 #ifdef WSM
@@ -104,7 +100,6 @@ extern void            ScanWhitespace(unsigned char  **linePP);
 #endif /* not WSM */
 extern void            ToLower (unsigned char  *string);
 extern void		SyncModifierStrings(void);
-#ifdef PANELIST
 extern void DeleteTempConfigFileIfAny (void);
 extern Boolean ParseWmFunctionArg (
 		unsigned char **linePP,
@@ -119,7 +114,6 @@ extern Boolean ParseWmFuncStrArg (unsigned char **linePP,
 				       WmFunction wmFunction, String *pArgs);
 extern Boolean ParseWmFuncActionArg (unsigned char **linePP, 
 				  WmFunction wmFunction, String *pArgs);
-#endif /* PANELIST */
 #ifdef WSM
 #define ToLower(s)		(_DtWmParseToLower (s))
 #define GetNextLine()		(_DtWmParseNextLine (wmGD.pWmPB))

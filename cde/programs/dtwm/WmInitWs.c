@@ -49,10 +49,8 @@ static char rcsid[] = "$TOG: WmInitWs.c /main/18 1999/09/20 15:18:22 mgreess $"
 #include "WmHelp.h"
 #endif /* WSM */
 #include "WmICCC.h"
-#ifdef PANELIST
 #define DTWM_NEED_FNTPL
 #include "WmIBitmap.h"
-#endif /* PANELIST */
 #ifndef NO_OL_COMPAT
 #include "WmOL.h"
 #endif /* NO_OL_COMPAT */
@@ -115,9 +113,7 @@ typedef struct
 #include "WmIPlace.h"
 #include "WmIconBox.h"
 #include "WmKeyFocus.h"
-#ifdef PANELIST
 #include "WmPanelP.h"  /* for typedef in WmManage.h */
-#endif /* PANELIST */
 #include "WmManage.h"
 #include "WmMenu.h"
 #ifdef WSM
@@ -163,9 +159,6 @@ Boolean VirtKeys4DIN(Display *dpy);
 #define UNSPECIFIED_SCREEN_NAME		"fbk"
 char        **dpy2Argv;    /* copy  for second display */
 int           dpy2Argc;
-#ifndef PANELIST
-WmScreenData *dtSD;       /* for the "DT screen" of the display */
-#endif /* PANELIST */
 #endif  /* WSM */
 /*
  * Global Variables:
@@ -440,12 +433,8 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 
     wmGD.errorFlag = False;
 #ifdef WSM
-#ifndef PANELIST
-    dtSD = NULL; 
-#else /* PANELIST  */
     wmGD.dtSD = NULL;
     wmGD.iSlideUpsInProgress = 0;
-#endif /*PANELIST  */
 #endif  /* WSM */
 
     SetupWmSignalHandlers (0); /* dummy paramater */
@@ -1027,13 +1016,7 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 	     * Process the window manager resource description file (.mwmrc):
 	     */
 
-#ifdef PANELIST
 	    ProcessWmFile (pSD, False /* not nested */);
-
-#else /* PANELIST */
-	    ProcessWmFile (pSD);
-#endif /* PANELIST */
-
 
 	    /*
 	     * Setup default resources for the system menu and key bindings:
@@ -1062,13 +1045,11 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 	}
 
     }
-#ifdef PANELIST
     /*
      * Remove any temp config file we created if we needed to
      * convert DT 2.0 syntax to DT 3.0
      */
     DeleteTempConfigFileIfAny();
-#endif /* PANELIST */
 #ifdef WSM
     /*
      * Point second display's resource data base
@@ -1189,7 +1170,6 @@ XFlush (DISPLAY);
 
                 /* MapWorkspaceBox (); */
 
-#ifdef PANELIST
 		/*
 		 * Allocate front panel widgets
 		 */
@@ -1240,7 +1220,6 @@ XFlush (DISPLAY);
 		    ScanForPushRecallClients (pSD);
 		    ScanForEmbeddedClients (pSD);
 		}
-#endif /* PANELIST */
 		
 		RestoreHelpDialogs(pSD);
 #else /* WSM */
@@ -1390,14 +1369,12 @@ InitWmScreen (WmScreenData *pSD, int sNum)
     pSD->woE = (Window) 0L;
     pSD->woW = (Window) 0L;
 #endif /* WSM */
-#ifdef PANELIST
     pSD->wPanelist = NULL;
     pSD->pECD = NULL;
     pSD->numPushRecallClients = 0;
     pSD->numEmbeddedClients = 0;
     pSD->pPRCD = NULL;
     pSD->iconBoxControl = False;
-#endif /* PANELIST */
 #ifdef WSM
     pSD->displayResolutionType = _DtGetDisplayResolution(DISPLAY, sNum);
 

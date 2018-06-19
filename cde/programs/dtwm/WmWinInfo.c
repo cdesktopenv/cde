@@ -49,9 +49,7 @@ static char rcsid[] = "$TOG: WmWinInfo.c /main/18 1999/02/04 15:17:25 mgreess $"
 
 #include <Xm/Xm.h>
 #include <locale.h>
-#ifdef PANELIST
 #include "WmPanelP.h"
-#endif /* PANELIST */
 
 #define makemult(a, b) ((b==1) ? (a) : (((int)((a) / (b))) * (b)) )
 
@@ -82,10 +80,8 @@ static char rcsid[] = "$TOG: WmWinInfo.c /main/18 1999/02/04 15:17:25 mgreess $"
 #include "WmXSMP.h"
 #include "WmMultiHead.h"
 
-#ifdef PANELIST
 static void AdjustSlideOutGeometry (ClientData *pCD);
 static void FixSubpanelEmbeddedClientGeometry (ClientData *pCD);
-#endif /* PANELIST */
 
 #ifndef NO_MESSAGE_CATALOG
 # define LOCALE_MSG GETMESSAGE(70, 7, "[XmbTextPropertyToTextList]:\n     Locale (%.100s) not supported. (Check $LANG).")
@@ -161,11 +157,9 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
     pCD->pIconBox = NULL;
 #endif /* WSM */
     pCD->thisIconBox = NULL;
-#ifdef PANELIST
     pCD->pECD = NULL;
     pCD->pPRCD = NULL;
     pCD->pSOR = NULL;
-#endif /* PANELIST */
     pCD->wmUnmapCount = 0;
     pCD->transientFor = (Window)0L;
     pCD->transientLeader = NULL;
@@ -655,7 +649,6 @@ int i;
 #ifdef WSM
 	    pCD->dtwmFunctions &= ~DtWM_FUNCTION_OCCUPY_WS;
 #endif /* WSM */
-#ifdef PANELIST
 	    if (wmGD.useFrontPanel && pCD->pSD->iconBoxControl) 
 	    { 
 		/*
@@ -665,8 +658,6 @@ int i;
 		pCD->clientFunctions &= ~MWM_FUNC_MINIMIZE;
 		pCD->clientFunctions |= MWM_FUNC_CLOSE;
 	    }
-#else /* PANELIST */
-#endif /* PANELIST */
         }
 
 
@@ -2371,12 +2362,8 @@ ProcessWmWindowTitle (ClientData *pCD, Boolean firstTime)
      * If this is a tear-off menu, then make sure title text is not clipped
      */
 
-#ifdef PANELIST
     if ((pCD->window_status & MWM_TEAROFF_WINDOW) ||
         (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL))
-#else /* PANELIST */
-    if (pCD->window_status & MWM_TEAROFF_WINDOW)
-#endif /* PANELIST */
     {
 	unsigned int boxdim = TitleBarHeight (pCD);
 	unsigned long decor = pCD->decor;
@@ -2392,9 +2379,7 @@ ProcessWmWindowTitle (ClientData *pCD, Boolean firstTime)
 	 * Calculations derived from GetTextBox() and GetFramePartInfo()
 	 */
 	minWidth = XmStringWidth(fontList, pCD->clientTitle) +
-#ifdef PANELIST
 	    ((pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL) ? 4 : 0) +
-#endif /* PANELIST */
 			    ((decor & MWM_DECOR_MENU) ? boxdim : 0) +
 			    ((decor & MWM_DECOR_MINIMIZE) ? boxdim : 0) +
 			    ((decor & MWM_DECOR_MAXIMIZE) ? boxdim : 0) +
@@ -2405,19 +2390,15 @@ ProcessWmWindowTitle (ClientData *pCD, Boolean firstTime)
 	{
 	    pCD->minWidth = minWidth;
 	}
-#ifdef PANELIST
 	if ((pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL) &&
             (pCD->clientWidth < pCD->minWidth))
 	{
 	    FixSubpanelEmbeddedClientGeometry (pCD);
 	}
-#endif /* PANELIST */
     }
 
 } /* END OF FUNCTION ProcessWmWindowTitle */
 
-#ifdef PANELIST
-
 /*************************************<->*************************************
  *
  *  FixSubpanelEmbeddedClientGeometry ( pCD )
@@ -2506,9 +2487,7 @@ FixSubpanelEmbeddedClientGeometry (ClientData *pCD)
     }
 } /* END OF FUNCTION FixEmbeddedClientGeometry */
 
-#endif /* PANELIST */
 
-
 /*************************************<->*************************************
  *
  *  ProcessWmIconTitle (pCD, firstTime)
@@ -3058,7 +3037,6 @@ InitClientPlacement (ClientData *pCD, long manageFlags)
 
 
 #ifdef WSM
-#ifdef PANELIST
     if (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL)
     {
 	if (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUB_RESTORED)
@@ -3071,7 +3049,6 @@ InitClientPlacement (ClientData *pCD, long manageFlags)
 	}
     }
     else
-#endif /* PANELIST */
 #endif /* WSM */
     if (((wmGD.positionOnScreen) && !interactivelyPlaced) &&
 	(!(pCD->clientFlags & (SM_X | SM_Y))))
@@ -3128,8 +3105,6 @@ InitClientPlacement (ClientData *pCD, long manageFlags)
 
 } /* END OF FUNCTION InitClientPlacement */
 
-#ifdef PANELIST
-
 /******************************<->*************************************
  *
  * void AdjustSlideOutGeometry (pCD)
@@ -3217,9 +3192,7 @@ AdjustSlideOutGeometry ( ClientData *pCD)
 	SetFrameInfo (pCD);
     }
 }
-#endif  /* PANELIST */
 
-
 /*************************************<->*************************************
  *
  *  PlaceFrameOnScreen (pCD, pX, pY, w, h)
@@ -4011,7 +3984,6 @@ ProcessMwmHints (ClientData *pCD)
 	{
 	    pCD->clientFunctions = WM_FUNC_ALL;
 	}
-#ifdef PANELIST
         if (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL)
 	{
 	    pCD->clientFunctions &= WM_FUNC_SUBPANEL_DEFAULT;   
@@ -4022,7 +3994,6 @@ ProcessMwmHints (ClientData *pCD)
 	    pCD->clientFunctions &= WM_FUNC_PANEL_DEFAULT;   
 	    pCD->dtwmFunctions &= ~DtWM_FUNCTION_OCCUPY_WS;
 	}
-#endif /* PANELIST */
     }
 
     if (pCD->clientDecoration & WM_DECOR_DEFAULT)
@@ -4035,7 +4006,6 @@ ProcessMwmHints (ClientData *pCD)
 	{
 	    pCD->clientDecoration = WM_DECOR_ALL;
 	}
-#ifdef PANELIST
         if (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL)
 	{
 	    pCD->clientDecoration = pCD->pSD->subpanelDecoration;
@@ -4044,7 +4014,6 @@ ProcessMwmHints (ClientData *pCD)
 	{
 	    pCD->clientDecoration &= WM_DECOR_PANEL_DEFAULT;   
 	}
-#endif /* PANELIST */
     }
 
 

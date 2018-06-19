@@ -42,7 +42,6 @@ extern void FreeClientFrame (ClientData *pCD);
 extern void FreeIcon (ClientData *pCD);
 extern void WithdrawDialog (Widget dialogboxW);
 extern void ReManageDialog (WmScreenData *pSD, Widget dialogboxW);
-#ifdef PANELIST
 extern void RegisterEmbeddedClients (
 	Widget wPanelist, 
 	WmFpEmbeddedClientList pECD, 
@@ -63,4 +62,3 @@ extern Boolean ReparentEmbeddedClient (
 	unsigned int height);
 extern void ScanForEmbeddedClients (WmScreenData *pSD);
 extern void ScanForPushRecallClients (WmScreenData *pSD);
-#endif /* PANELIST */

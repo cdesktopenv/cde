@@ -40,6 +40,4 @@ extern void ShowIconForMinimizedClient (WmWorkspaceData *pWS, ClientData *pCD);
 #ifdef WSM
 extern void ShowAllIconsForMinimizedClient (ClientData *pCD);
 #endif /* WSM */
-#ifdef PANELIST
 extern void SlideSubpanelBackIn (ClientData *pCD, Widget wSubpanel);
-#endif /* PANELIST */

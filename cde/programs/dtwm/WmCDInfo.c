@@ -185,13 +185,11 @@ unsigned int UpperBorderWidth (ClientData *pcd)
     else if (decoration & MWM_DECOR_BORDER)
     {
 	uswidth = FRAME_BORDER_WIDTH(pcd);
-#ifdef PANELIST
 	if((pcd->clientFlags & FRONT_PANEL_BOX) &&
 	   (uswidth > 0))
 	{
 	    uswidth -= 1;
 	}
-#endif /* PANELIST */
     }
     else if ((decoration & MWM_DECOR_TITLE) ||
 	     (pcd->matteWidth > 0))

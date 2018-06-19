@@ -53,9 +53,6 @@ static char rcsid[] = "$XConsortium: WmPresence.c /main/7 1996/10/23 17:24:56 rs
 #include <Xm/List.h>
 #include <Xm/SeparatoG.h>
 #include <Xm/ToggleB.h>
-#ifndef  PANELIST
-#include <Dt/Help.h>
-#endif /* PANELIST */
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
@@ -130,9 +127,7 @@ static Dimension wspCharWidth (
 #include "WmCDecor.h"
 #include "WmCDInfo.h"
 #include "WmIconBox.h"
-#ifdef PANELIST
 #include "WmPanelP.h"  /* for typedef in WmManage.h */
-#endif /* PANELIST */
 #include "WmManage.h"
 #include "WmResParse.h"
 #include "WmResource.h"
@@ -203,9 +198,7 @@ MakePresenceBox(
 	 * Set the ClientData fields.
 	 */   
 	XtRealizeWidget (pPres->shellW);
-#ifdef PANELIST
 	DtWsmRemoveWorkspaceFunctions (DISPLAY1, XtWindow(pPres->shellW));
-#endif /* PANELIST */
 
 	ProcessPresenceResources (pSD);
 
@@ -547,14 +540,9 @@ wspCreateWidgets(
 	XmStringFree(tmpXmString);
 #endif
 
-#ifdef  PANELIST
 	XtAddCallback (pPres->HelpW, XmNactivateCallback, 
 		       WmDtWmTopicHelpCB, 
 		       WM_DT_WSPRESENCE_TOPIC);
-#else /* PANELIST */
-	XtAddCallback (pPres->HelpW, XmNactivateCallback, 
-		(XtCallbackProc) wspHelpCB, (XtPointer)pSD); 
-#endif /* PANELIST */
     }
 
     return(rval);
@@ -1490,46 +1478,6 @@ wspOkCB(
     wspCancelCB (buttonW, (XtPointer)pSD, call_data);
 } /* END OF FUNCTION   */
 
-
-/*************************************<->*************************************
- *
- *  static void
- *  wspHelpCB (w, client_data, call_data)
- *
- *
- *  Description:
- *  -----------
- *  Help callback.
- *
- *
- *  Inputs:
- *  ------
- *  None.
- *
- * 
- *  Outputs:
- *  -------
- *  None.
- *
- *
- *  Comments:
- *  --------
- *  None.
- * 
- *************************************<->***********************************/
-
-#ifndef	PANELIST
-static void 
-wspHelpCB(
-        Widget buttonW,
-        XtPointer client_data,
-        XtPointer call_data )
-{
-
-    DtHelpOnTopic (XtParent(buttonW), "vw_pres");
-} /* END OF FUNCTION   */
-#endif	/* PANELIST */
-
 /*************************************<->*************************************
  *
  *  static void

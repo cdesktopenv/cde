@@ -1009,7 +1009,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)True
     },
-#if defined(PANELIST)
     {
 	WmNuseFrontPanel,
 	WmCUseFrontPanel,
@@ -1019,7 +1018,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)True
     },
-#endif /* PANELIST */
 #ifdef WSM
     {
 	WmNhelpDirectory,
@@ -1464,7 +1462,6 @@ XtResource wmScreenResources[] =
 	(XtPointer)(WM_FUNC_ALL & ~(MWM_FUNC_MAXIMIZE | MWM_FUNC_MINIMIZE))
     },
 
-#ifdef PANELIST
     {
 	WmNsubpanelDecoration,
 	WmCSubpanelDecoration,
@@ -1484,7 +1481,6 @@ XtResource wmScreenResources[] =
 	XtRString,
 	(XtPointer)NULL
     },
-#endif /* PANELIST */
 
     {
 	WmNuseIconBox,
@@ -3263,9 +3259,7 @@ SetStdGlobalResourceValues (void)
     wmGD.startupKeyFocus = True;
     wmGD.systemButtonClick = True;
     wmGD.systemButtonClick2 = True;
-#if defined(PANELIST)
     wmGD.useFrontPanel=False;
-#endif /* PANELIST */
 
 } /* END OF FUNCTION SetStdGlobalResourceValues */
 
