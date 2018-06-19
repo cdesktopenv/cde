@@ -648,7 +648,6 @@ XtResource wmGlobalResources[] =
 	XtRString,
 	(XtPointer)BITMAPDIR
     },
-#ifdef MINIMAL_DT
     {
 	WmNblinkOnExec,
 	WmCBlinkOnExec,
@@ -658,7 +657,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)False
     },
-#endif /* MINIMAL_DT */
     {
 	WmNframeStyle,
 	WmCFrameStyle,
@@ -1025,7 +1023,6 @@ XtResource wmGlobalResources[] =
     },
 
 #endif /* WSM */
-#ifdef MINIMAL_DT
     {
 	WmNdtLite,
 	WmCDtLite,
@@ -1035,7 +1032,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)False
     }
-#endif /* MINIMAL_DT */
 }; /* END OF wmGlobalResources[] */
 
 

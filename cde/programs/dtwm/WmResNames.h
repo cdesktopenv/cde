@@ -61,9 +61,7 @@
 #define WmNbackdropDirectories		"backdropDirectories"
 #endif /* WSM */
 #define WmNbitmapDirectory		"bitmapDirectory"
-#ifdef MINIMAL_DT
 #define WmNblinkOnExec			"blinkOnExec"
-#endif /* MINIMAL_DT */
 #define WmNbuttonBindings		"buttonBindings"
 #define WmNcleanText			"cleanText"
 #define WmNclientAutoPlace		"clientAutoPlace"
@@ -156,9 +154,7 @@
 #ifdef WSM
 #define WmNuseWindowOutline		"useWindowOutline"
 #endif /* WSM */
-#ifdef MINIMAL_DT
 #define WmNdtLite			"useDtLite"
-#endif /* MINIMAL_DT */
 #define WmNmoveOpaque                   "moveOpaque"
 #define WmNframeStyle			"frameStyle"
 
@@ -266,9 +262,7 @@
 #define WmCBackdropDirectories		"BackdropDirectories"
 #endif /* WSM */
 #define WmCBitmapDirectory		"BitmapDirectory"
-#ifdef MINIMAL_DT
 #define WmCBlinkOnExec			"BlinkOnExec"
-#endif /* MINIMAL_DT */
 #define WmCButtonBindings		"ButtonBindings"
 #define WmCCleanText			"CleanText"
 #define WmCClientAutoPlace		"ClientAutoPlace"
@@ -363,9 +357,7 @@
 #ifdef WSM
 #define WmCUseWindowOutline		"UseWindowOutline"
 #endif /* WSM */
-#ifdef MINIMAL_DT
 #define WmCDtLite			"UseDtLite"
-#endif /* MINIMAL_DT */
 #define WmCMoveOpaque                   "MoveOpaque"
 #define WmCFrameStyle			"FrameStyle"
 #ifdef WSM

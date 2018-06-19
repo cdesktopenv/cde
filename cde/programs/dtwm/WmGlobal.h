@@ -2282,10 +2282,8 @@ typedef struct _WmGlobalData
     String      helpDirectory;		        /* resource */
     Window	requestContextWin;		/* for WmRequest f.fcns */
 #endif /* WSM */
-#ifdef MINIMAL_DT
     Boolean     dtLite;                        /* resource */
     Boolean     blinkOnExec;                    /* resource */
-#endif /* MINIMAL_DT */
     WmScreenData *dtSD; /* screen for front panel */
     int         iSlideUpsInProgress;
     Boolean	waitForClicks;			/* resource */

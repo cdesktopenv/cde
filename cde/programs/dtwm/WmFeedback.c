@@ -148,7 +148,6 @@ initMesg()
     }
     else
     {
-#ifdef MINIMAL_DT
 	if (wmGD.dtLite)
 	{
 	    tmpString = ((char *)GETMESSAGE(22, 9, "Log out?"));
@@ -157,9 +156,6 @@ initMesg()
 	{
 	    tmpString = ((char *)GETMESSAGE(22, 11, "QUIT Workspace Manager?"));
 	}
-#else /* MINIMAL_DT */
-	tmpString = ((char *)GETMESSAGE(22, 11, "QUIT Workspace Manager?"));
-#endif /* MINIMAL_DT */
     }
     
     if ((confirm_mesg[3] =
@@ -171,7 +167,6 @@ initMesg()
 	    confirm_mesg[3] = "QUIT Mwm?";
 	}
 	else
-#ifdef MINIMAL_DT
 	if (wmGD.dtLite)
 	{
 	    confirm_mesg[3] = "Log out?";
@@ -180,9 +175,6 @@ initMesg()
 	{
 	    confirm_mesg[3] = "QUIT Workspace Manager?";
 	}
-#else /* MINIMAL_DT */
-	tmpString = ((char *)GETMESSAGE(22, 11, "QUIT Workspace Manager?"));
-#endif /* MINIMAL_DT */
     }
     else
     {
