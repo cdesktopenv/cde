@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-#ifdef WSM
 /* 
  * (c) Copyright 1987, 1988, 1989, 1990, 1992 HEWLETT-PACKARD COMPANY 
  * ALL RIGHTS RESERVED 
@@ -41,4 +40,3 @@ extern MenuItem * GetPresenceBoxMenuItems(
 extern void UpdatePresenceWorkspaces( WmScreenData *pSD );
 
 /********    End Public Function Declarations    ********/
-#endif /* WSM */

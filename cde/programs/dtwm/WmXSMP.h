@@ -46,9 +46,7 @@
 #define WMSAVE_WIDTH		(1L << 2)
 #define WMSAVE_HEIGHT		(1L << 3)
 #define WMSAVE_STATE		(1L << 4)
-#ifdef WSM
-# define WMSAVE_WORKSPACES	(1L << 5)
-#endif
+#define WMSAVE_WORKSPACES	(1L << 5)
 #define WMSAVE_ICON_X		(1L << 6)
 #define WMSAVE_ICON_Y		(1L << 7)
 
@@ -60,8 +58,6 @@ extern XrmDatabase SaveClientResourceDB(void);
 extern Boolean FindClientDBMatch(ClientData *, char **);
 extern Boolean GetSmClientIdClientList(ClientData ***, int *);
 extern void SortClientListByWorkspace(ClientData **, int);
-#ifdef WSM
 extern void LoadClientIconPositions(ClientData *);
-#endif
 
 #endif /* _WmXSMP_h */

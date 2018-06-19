@@ -59,7 +59,6 @@
  */
 
 
-#ifdef WSM
 
 /*************************************<->*************************************
  *
@@ -146,7 +145,6 @@ RestoreDefaultSignalHandlers (void)
     (void) sigaction (SIGSYS, &sa, (struct sigaction *) 0);
 #endif
 }
-#endif /* WSM */
 
 
 /*************************************<->*************************************
@@ -162,11 +160,6 @@ RestoreDefaultSignalHandlers (void)
 
 void SetupWmSignalHandlers (int dummy)
 {
-#ifndef WSM
-    void (*signalHandler) ();
-#endif
-
-#ifdef WSM
     struct sigaction 	sa;
     struct sigaction 	osa;
 
@@ -219,26 +212,6 @@ void SetupWmSignalHandlers (int dummy)
 #ifdef SIGSYS
     (void) sigaction (SIGSYS, &sa, (struct sigaction *) 0);
 #endif
-
-#else /* not WSM - original mwm code*/
-
-    signalHandler = (void (*)())signal (SIGINT, SIG_IGN);
-    if (signalHandler != (void (*)())SIG_IGN)
-    {
-	signal (SIGINT, QuitWmSignalHandler);
-    }
-
-    signalHandler = (void (*)())signal (SIGHUP, SIG_IGN);
-    if (signalHandler != (void (*)())SIG_IGN)
-    {
-	signal (SIGHUP, QuitWmSignalHandler);
-    }
-
-    signal (SIGQUIT, QuitWmSignalHandler);
-
-    signal (SIGTERM, QuitWmSignalHandler);
-#endif /* WSM */
-
 
 } /* END OF FUNCTION SetupWmSignalHandlers */
 

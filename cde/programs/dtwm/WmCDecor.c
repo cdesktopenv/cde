@@ -695,7 +695,6 @@ void GenerateFrameDisplayLists (ClientData *pcd)
 
     /* produce default border with no resizing functions */
 
-#ifdef WSM
 	BevelRectangle (pcd->pclientTopShadows, 	/* outside */
 		    pcd->pclientBottomShadows, 
 		    0, 0, 
@@ -704,13 +703,6 @@ void GenerateFrameDisplayLists (ClientData *pcd)
 		    FRAME_EXTERNAL_SHADOW_WIDTH,
 		    FRAME_EXTERNAL_SHADOW_WIDTH,
 		    FRAME_EXTERNAL_SHADOW_WIDTH);
-#else /* WSM */
-	BevelRectangle (pcd->pclientTopShadows, 	/* outside */
-		    pcd->pclientBottomShadows, 
-		    0, 0, 
-		    pcd->frameInfo.width, pcd->frameInfo.height,
-		    2, 2, 2, 2);
-#endif /* WSM */
 
 	if ((pcd->internalBevel > 1) &&
 	    !matte_width && 
@@ -1100,11 +1092,11 @@ void GetTextBox (ClientData *pcd, XRectangle *pBox)
 {
     int x,y;
     unsigned int width,height;
-#if defined(WSM) && defined(DT_LEFT_JUSTIFIED_TITLE)
+#if defined(DT_LEFT_JUSTIFIED_TITLE)
     Dimension textWidth;
     Dimension offset;
     XmFontList  fontList;
-#endif /* WSM */
+#endif
 
     /* get size of title area */
 
@@ -1261,14 +1253,9 @@ void DrawWindowTitle (ClientData *pcd, Boolean eraseFirst)
 		   textBox.x, textBox.y, textBox.width, &textBox,
 		   ((wmGD.frameStyle == WmSLAB) ? False : True));
 #else /* DT_LEFT_JUSTIFIED_TITLE */
-#ifdef WSM
     WmDrawXmString(DISPLAY, win, fontList, pcd->clientTitle, clientGC,
 		   textBox.x, textBox.y, textBox.width, &textBox,
 		   True);
-#else
-    WmDrawXmString(DISPLAY, win, fontList, pcd->clientTitle, clientGC,
-		   textBox.x, textBox.y, textBox.width, &textBox);
-#endif
 #endif /* DT_LEFT_JUSTIFIED_TITLE */
 		     
 

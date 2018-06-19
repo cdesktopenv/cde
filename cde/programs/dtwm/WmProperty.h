@@ -35,9 +35,7 @@ extern SizeHints * GetNormalHints (ClientData *pCD);
 extern void ProcessWmProtocols (ClientData *pCD);
 extern void ProcessMwmMessages (ClientData *pCD);
 extern void SetMwmInfo (Window propWindow, long flags, Window wmWindow);
-#ifdef WSM
 void SetMwmSaveSessionInfo (Window wmWindow);
-#endif /* WSM */
 extern void GetDtWmRequest (WmScreenData *pSD, char **pszReq, Boolean *pmore);
 extern void GetDtSessionHints (WmScreenData *pSD, int sNum);
 
@@ -49,7 +47,6 @@ extern void ProcessWmColormapWindows (ClientData *pCD);
 extern Colormap FindColormap (ClientData *pCD, Window window);
 extern MenuItem * GetMwmMenuItems (ClientData *pCD);
 extern void SetEmbeddedClientsProperty (Window propWindow, Window *pEmbeddedClients, unsigned long cEmbeddedClients);
-#ifdef WSM
 extern void GetInitialPropertyList (ClientData *pCD);
 extern Status GetWorkspaceHints (Display *display, Window window, Atom **ppWsAtoms, unsigned int *pCount, Boolean *pbAll);
 #ifdef HP_VUE
@@ -64,4 +61,4 @@ extern void SetCurrentWorkspaceProperty (WmScreenData *pSD);
 extern void SetWorkspaceInfoProperty (WmWorkspaceData *pWS);
 extern void DeleteWorkspaceInfoProperty (WmWorkspaceData *pWS);
 extern char *WorkspacePropertyName (WmWorkspaceData *pWS);
-#endif /* WSM */
+

@@ -40,9 +40,7 @@
 
 #include "WmGlobal.h"
 #include "WmResNames.h"
-#ifdef WSM
 #include "WmHelp.h"
-#endif /* WSM */
 #include "WmICCC.h"
 #define DTWM_NEED_FNTPL
 #include "WmIBitmap.h"
@@ -59,9 +57,9 @@
 #ifndef NO_HP_KEY_REMAP
 #include <Xm/VirtKeysP.h>
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 # include <Xm/DrawingA.h>
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 typedef struct
   {
@@ -69,7 +67,6 @@ typedef struct
     String new_name ;
   } str_xref_rec, *str_xref ;
 #endif /* NO_HP_KEY_REMAP */
-#ifdef WSM
 #include <Dt/GetDispRes.h>
 #include <Dt/SessionP.h>
 #include <Dt/SessionM.h>
@@ -77,7 +74,6 @@ typedef struct
 #include <Dt/Message.h>
 #include <Dt/WsmM.h>
 #include <Dt/EnvControlP.h>
-#endif /* WSM */
 
 /* Busy is also defined in the BMS  -> bms.h. This conflicts with
  * /usr/include/X11/Xasync.h on ibm.
@@ -92,9 +88,7 @@ typedef struct
 /*
  * include extern functions
  */
-#ifdef WSM
 #include "WmBackdrop.h"
-#endif /* WSM */
 #include "WmCDInfo.h"
 #include "WmColormap.h"
 #include "WmError.h"
@@ -102,18 +96,14 @@ typedef struct
 #include "WmFeedback.h"
 #include "WmFunction.h"
 #include "WmIDecor.h"
-#ifdef WSM
 #include "WmIPC.h"
-#endif /* WSM */
 #include "WmIPlace.h"
 #include "WmIconBox.h"
 #include "WmKeyFocus.h"
 #include "WmPanelP.h"  /* for typedef in WmManage.h */
 #include "WmManage.h"
 #include "WmMenu.h"
-#ifdef WSM
 #include "WmPresence.h"
-#endif /* WSM */
 #include "WmProperty.h"
 #include "WmResCvt.h"
 #include "WmResource.h"
@@ -122,9 +112,7 @@ typedef struct
 #include "WmCDecor.h"
 #include "stdio.h"
 #include "WmResParse.h"
-#ifdef WSM
 #include <stdlib.h>
-#endif /* WSM */
 #include "WmXSMP.h"
 
 /*
@@ -133,14 +121,12 @@ typedef struct
 
 #include "WmInitWs.h"
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 # include "WmWsmLib/wsm_proto.h"
 # include "WmWsmLib/utm_send.h"
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
-#ifdef WSM
 static void InsureDefaultBackdropDir(char **ppchBackdropDirs);
-#endif /* WSM */
 void InitWmDisplayEnv (void);
 #ifndef NO_MESSAGE_CATALOG
 void InitNlsStrings (void);
@@ -149,12 +135,10 @@ void InitNlsStrings (void);
 Boolean VirtKeys4DIN(Display *dpy); 
 #endif /* NO_HP_KEY_REMAP */
 
-#ifdef WSM
 /* limited to 3 chars max */
 #define UNSPECIFIED_SCREEN_NAME		"fbk"
 char        **dpy2Argv;    /* copy  for second display */
 int           dpy2Argc;
-#endif  /* WSM */
 /*
  * Global Variables:
  */
@@ -427,10 +411,8 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
     int savedArgc;
 
     wmGD.errorFlag = False;
-#ifdef WSM
     wmGD.dtSD = NULL;
     wmGD.iSlideUpsInProgress = 0;
-#endif  /* WSM */
 
     SetupWmSignalHandlers (0); /* dummy paramater */
 
@@ -444,9 +426,7 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 #ifndef	IBM_169380
     wmGD.cmapWindowContextType = XUniqueContext ();
 #endif
-#ifdef WSM
     wmGD.mwmWindowContextType = XUniqueContext ();
-#endif /* WSM */
 
     /* copy argv (the XtInititalize changes the original) for use in restart */
     savedArgc = argc;
@@ -454,9 +434,7 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 
     wmGD.environ = environ;
 
-#ifdef WSM
     wmGD.pWmPB = _DtWmParseNewBuf();
-#endif /* WSM */
 
 
 
@@ -469,7 +447,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
     {
         wmGD.mwmName = wmGD.argv[0];
     }
-#ifdef WSM
     if (MwmBehavior)
     {
 	res_class = WM_RESOURCE_CLASS;
@@ -479,10 +456,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 	res_class = DT_WM_RESOURCE_CLASS;
     }
     wmGD.statusColorServer = CSERVE_NOT_AVAILABLE;
-
-#else /* WSM */
-    res_class = WM_RESOURCE_CLASS;
-#endif /* WSM */
 
     wmGD.display = (Display *)NULL;
     wmGD.topLevelW = (Widget)NULL;
@@ -531,9 +504,7 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
      */
     
     InitCursorInfo ();
-#ifdef WSM
     InitWmDisplayEnv ();
-#endif
     ShowWaitState (TRUE);
 
     /*
@@ -603,11 +574,7 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
     XtSetArg (args[argnum], XtNheight, 10);	argnum++;
     XtSetArg (args[argnum], XtNmappedWhenManaged, False);	argnum++;
     XtSetArg (args[argnum], XtNjoinSession, True);		argnum++;
-#ifdef WSM
     XtSetArg (args[argnum], XtNrestartStyle, SmRestartNever);	argnum++;
-#else
-    XtSetArg (args[argnum], XtNrestartStyle, SmRestartIfRunning); argnum++;
-#endif
     XtSetArg (args[argnum], XtNargc, savedArgc); argnum++;
     XtSetArg (args[argnum], XtNargv, wmGD.argv); argnum++;
 
@@ -636,7 +603,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
     ProcessGlobalScreenResources ();
     ProcessCommandLine (argc, argv);
 
-#ifdef WSM
     /*
      * Make sure backdrops are in our icon search path. 
      * This call MUST occur before ANY icons are looked up either
@@ -664,7 +630,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 
         XtFree(sBdPath);
     }
-#endif /* WSM */
 
     /*
      * Allocate data and initialize for screens we manage:
@@ -714,7 +679,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 	    {
 		if (!processedGlobalResources)
 		{
-#ifdef WSM
 		    enum { 
 		      XA_DT_SESSION_HINTS, XA_DT_SM_WM_PROTOCOL,
 		      XA_DT_SM_START_ACK_WINDOWS, XA_DT_SM_STOP_ACK_WINDOWS,
@@ -740,7 +704,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 		    wmGD.xa_DT_WM_EXIT_SESSION = atoms[XA_DT_WM_EXIT_SESSION];
                     wmGD.xa_DT_WM_LOCK_DISPLAY = atoms[XA_DT_WM_LOCK_DISPLAY];
                     wmGD.xa_DT_WM_READY = atoms[XA_DT_WM_READY];
-#endif /* WSM */
 #ifndef NO_OL_COMPAT
 		    InitOLCompat();
 #endif /* NO_OL_COMPAT */
@@ -780,7 +743,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 
 		    wmGD.pLockMaskSequence = NULL;
 		    SetupLockingModifierMask ();
-#ifdef WSM
 		    wmGD.requestContextWin = (Window) 0L;
 		    wmGD.cppCommand = NULL;
 		    wmGD.evLastButton.button = 0;
@@ -840,7 +802,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 					  args,
 					  argnum);
 
-#endif /* WSM */
 		    
 
 		    /* 
@@ -871,9 +832,7 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 		InitWmScreen (&(wmGD.Screens[scr]), sNum);
 		wmGD.Screens[scr].managed = True;
 		managed++;
-#ifdef WSM
 		GetDtSessionHints(&(wmGD.Screens[scr]), sNum);
-#endif /* WSM */
 
 		if (!activeSet) 
 		{
@@ -893,7 +852,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 	    ExitWM (WM_ERROR_EXIT_VALUE);
 	}
     }
-#ifdef WSM
     /*  
      * Initialize the IPC mechanism
      */
@@ -917,8 +875,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
     XtSetValues (wmGD.topLevelW, args, argnum);
     XtSetValues (wmGD.topLevelW1, args, argnum);
 
-#endif /* WSM */
-    
 
     /*
      * Prepare to have child processes (e.g., exec'ed commands).
@@ -933,7 +889,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 	ExitWM (WM_ERROR_EXIT_VALUE);
     }
 
-#ifdef WSM
 
     {
       enum { XA_DT_WORKSPACE_HINTS, XA_DT_WORKSPACE_PRESENCE,
@@ -959,7 +914,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
       wmGD.xa_DT_WORKSPACE_CURRENT = atoms[XA_DT_WORKSPACE_CURRENT];
     }
 
-#endif /* WSM */
 
     /* Initialize properties used in session management. */
     wmGD.xa_SM_CLIENT_ID =
@@ -994,13 +948,11 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 
 	if (pSD->managed)
 	{
-#ifdef WSM
 	    if (XDefaultScreen (wmGD.display) == pSD->screen)
 	    {
 		wmGD.commandWindow = wmGD.Screens[scr].wmWorkspaceWin;
 	    }
 
-#endif /* WSM */
 	    /*
 	     * Initialize workspace colormap data.
 	     */
@@ -1045,7 +997,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
      * convert DT 2.0 syntax to DT 3.0
      */
     DeleteTempConfigFileIfAny();
-#ifdef WSM
     /*
      * Point second display's resource data base
      * to the first display's resource data base
@@ -1054,7 +1005,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
      *  NEW LOCATION
      */
       wmGD.display1->db = wmGD.display->db;
-#endif /*  WSM */
 
     /*
      * Realize the top level widget, make the window override
@@ -1062,7 +1012,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
      */
 
     XtRealizeWidget (wmGD.topLevelW);
-#ifdef WSM
     XtRealizeWidget (wmGD.topLevelW1);
 
     /*
@@ -1071,7 +1020,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
      *  is required for ICCCM-style messaging).
      */
     dtInitializeMessaging (wmGD.topLevelW);
-#endif /* WSM */
 
     sAttributes.override_redirect = True;
     XChangeWindowAttributes (DISPLAY, XtWindow (wmGD.topLevelW),
@@ -1085,9 +1033,7 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
      * Use the WM_SAVE_YOURSELF protocol
      * for notification of when to save ourself
      */
-#ifdef WSM
     SetMwmSaveSessionInfo(wmGD.commandWindow);
-#endif
     /*
      * Initialize window manager event handling:
      */
@@ -1133,15 +1079,12 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 
         for (scr = 0; scr < wmGD.numScreens; scr++)
         {
-#ifdef WSM
 	    int iws;
-#endif /* WSM */
             pSD = &(wmGD.Screens[scr]);
 	    
             if (pSD->managed)
             {
                 ACTIVE_PSD = &wmGD.Screens[scr];
-#ifdef WSM
                 MapIconBoxes (pSD->pActiveWS);
 
 		ChangeBackdrop (pSD->pActiveWS);
@@ -1217,9 +1160,6 @@ XFlush (DISPLAY);
 		}
 		
 		RestoreHelpDialogs(pSD);
-#else /* WSM */
-                MapIconBoxes (pSD->pActiveWS);
-#endif /* WSM */
             }
         }
         firstTime = 0;
@@ -1227,17 +1167,12 @@ XFlush (DISPLAY);
     
     InitKeyboardFocus ();
 
-#ifndef WSM
-    InitWmDisplayEnv ();
-#endif
     ShowWaitState (FALSE);
 
-#ifdef WSM
     /*
      * Tell the rest of DT that we're up
      */
     dtReadyNotification();
-#endif /* WSM */
 
 #ifdef DEBUG_RESOURCE_DATABASE
     XrmPutFileDatabase(wmGD.display->db, "/tmp/dtwm.resDB");
@@ -1271,12 +1206,10 @@ InitWmScreen (WmScreenData *pSD, int sNum)
     Arg args[12];
     int argnum;
 
-#ifdef WSM
     int wsnum;
     WmWorkspaceData *pwsI;
     int buf_size;
     int iwsx;
-#endif /* WSM */
 
     char *pDisplayName;
 #define LENCBUFFER 256
@@ -1330,11 +1263,10 @@ InitWmScreen (WmScreenData *pSD, int sNum)
     pSD->bitmapCacheCount = 0;
     pSD->dataType = SCREEN_DATA_TYPE;
     pSD->managed = False;
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     pSD->cciTree = NULL;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
-#ifdef WSM
     pSD->initialWorkspace=NULL;
     pSD->presence.shellW = NULL;
     pSD->presence.onScreen = False;
@@ -1363,14 +1295,12 @@ InitWmScreen (WmScreenData *pSD, int sNum)
     pSD->woS = (Window) 0L;
     pSD->woE = (Window) 0L;
     pSD->woW = (Window) 0L;
-#endif /* WSM */
     pSD->wPanelist = NULL;
     pSD->pECD = NULL;
     pSD->numPushRecallClients = 0;
     pSD->numEmbeddedClients = 0;
     pSD->pPRCD = NULL;
     pSD->iconBoxControl = False;
-#ifdef WSM
     pSD->displayResolutionType = _DtGetDisplayResolution(DISPLAY, sNum);
 
     /*
@@ -1398,7 +1328,6 @@ InitWmScreen (WmScreenData *pSD, int sNum)
 	}
     } /* if wmGD.screenNames[sNum] == UNSPECIFIED_SCREEN_NAME */
 
-#endif /* WSM */
     /*
      * Save screen context
      */
@@ -1429,7 +1358,7 @@ InitWmScreen (WmScreenData *pSD, int sNum)
 					       args,
 					       argnum);
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     /* Create a DrawingArea as a child of the popupShell.  This will be used
      * to handle UTM traffic relating to cci.  We need this
      * particular widget to get the callbacks from conversion requests made
@@ -1449,9 +1378,8 @@ InitWmScreen (WmScreenData *pSD, int sNum)
     /* Must realize to own WM_i if unmapped, causes mwm to
        freeze when menu is displayed. */
     XtPopup(pSD->screenTopLevelW, XtGrabNone);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
-#ifdef WSM
     argnum = 0;
     XtSetArg (args[argnum], XtNgeometry, NULL);			argnum++;
     XtSetArg (args[argnum], XtNx, 10000);			argnum++;
@@ -1474,7 +1402,7 @@ InitWmScreen (WmScreenData *pSD, int sNum)
 					       args,
 					       argnum);
     XtRealizeWidget (pSD->screenTopLevelW1);
-#endif /* WSM */
+
     /*
      * Fetch screen based resources
      */
@@ -1486,7 +1414,6 @@ InitWmScreen (WmScreenData *pSD, int sNum)
     MakeXorGC (pSD);
     InitIconSize(pSD);
 
-#ifdef WSM
     /*
      *  Complete initialization of workspace structures
      */
@@ -1535,24 +1462,6 @@ InitWmScreen (WmScreenData *pSD, int sNum)
 	/* make first workspace in list the active one to start with */
 	pSD->pActiveWS = pSD->pWS;
     }
-#else /* WSM */
-    /*
-     *  Allocate and initialize a workspace structure
-     */
-    
-    if (!(pSD->pWS = (WmWorkspaceData *) XtMalloc (sizeof(WmWorkspaceData))))
-    {
-	ShowWaitState (FALSE);
-	Warning (((char *)GETMESSAGE(40, 8, "Insufficient memory for Workspace data")));
-	ExitWM (WM_ERROR_EXIT_VALUE);
-    }
-
-    /*
-     * Set up workspace for this screen
-     */
-    InitWmWorkspace (pSD->pWS, pSD);
-    pSD->pActiveWS = pSD->pWS;
-#endif /* WSM */
 
 
     pDisplayName = DisplayString (DISPLAY);
@@ -1627,14 +1536,10 @@ void InitWmWorkspace (WmWorkspaceData *pWS, WmScreenData *pSD)
     Arg args[10];
     int argnum;
 
-#ifndef WSM
-#define DEFAULT_WS_NAME "workspace"
-#endif /* not WSM */
 
     pWS->pSD = pSD;
     pWS->pIconBox = NULL;
     pWS->dataType = WORKSPACE_DATA_TYPE;
-#ifdef WSM
     pWS->backdrop.window = 0;
     pWS->backdrop.nameAtom = 0;
     pWS->backdrop.image = NULL;
@@ -1642,16 +1547,6 @@ void InitWmWorkspace (WmWorkspaceData *pWS, WmScreenData *pSD)
     pWS->sizeClientList = 0;
     pWS->ppClients = 0;
     pWS->buttonW = NULL;
-#else /* WSM */
-
-    if ((pWS->name = (char *) 
-	    XtMalloc ((1+strlen(DEFAULT_WS_NAME)) * sizeof (char))) == NULL)
-    {
-	ShowWaitState (FALSE);
-	ExitWM (WM_ERROR_EXIT_VALUE);
-    }
-    strcpy (pWS->name, DEFAULT_WS_NAME);
-#endif /* WSM */
 
     /*
      * Create widget for workspace resource hierarchy
@@ -1672,10 +1567,8 @@ void InitWmWorkspace (WmWorkspaceData *pWS, WmScreenData *pSD)
 					   	args,
 						argnum);
 
-#ifdef WSM
     /* internalize the workspace name */
     pWS->id = XInternAtom (DISPLAY, pWS->name, False);
-#endif /* WSM */
 
     /*
      * Process workspace based resources
@@ -1690,8 +1583,7 @@ void InitWmWorkspace (WmWorkspaceData *pWS, WmScreenData *pSD)
 
 } /* END OF FUNCTION  InitWmWorkspace */
 
-#ifdef WSM
-
+
 /******************************<->*************************************
  *
  *  InsureDefaultBackdropDir(char **ppchBackdropDirs)
@@ -1815,7 +1707,6 @@ InsureDefaultBackdropDir(char **ppchBackdropDirs)
     }
   
 } /* END OF FUNCTION InsureDefaultBackdropDirs */
-#endif /* WSM */
 
 
 /*************************************<->*************************************
@@ -1903,10 +1794,8 @@ void SetupWmWorkspaceWindows (void)
 			(long) ((wmGD.useStandardBehavior) ?
                         MWM_INFO_STARTUP_STANDARD : MWM_INFO_STARTUP_CUSTOM), 
 			pSD->wmWorkspaceWin);
-#ifdef WSM
 	    XSaveContext (DISPLAY, pSD->wmWorkspaceWin, 
 		    wmGD.mwmWindowContextType, (caddr_t)pSD);
-#endif /* WSM */
 	}
     }
 
@@ -2181,9 +2070,7 @@ void CopyArgv (int argc, char *argv [])
     {
 	Warning (((char *)GETMESSAGE(40, 10, "Insufficient memory for window manager data")));
 	wmGD.argv = argv;
-#ifdef WSM
 	dpy2Argv = argv;
-#endif /* WSM */
     }
     else
     {
@@ -2192,7 +2079,6 @@ void CopyArgv (int argc, char *argv [])
 	    wmGD.argv[i] = argv[i];
 	}
 	wmGD.argv[i] = NULL;
-#ifdef WSM
 	if ((dpy2Argv = (char **)XtMalloc((argc + 1) * sizeof(char *))) == NULL)
 	{
 	    Warning (((char *)GETMESSAGE(40, 11, "Insufficient memory for window manager data")));
@@ -2207,7 +2093,6 @@ void CopyArgv (int argc, char *argv [])
 	    dpy2Argc = argc;
 	    dpy2Argv[i] = NULL;
 	}
-#endif /* WSM */
     }
     
 } /* END OF FUNCTION CopyArgv */
@@ -2257,11 +2142,7 @@ void InitScreenNames (void)
 	    ExitWM (WM_ERROR_EXIT_VALUE);
 	}
 	/* default name is left justified, 3-chars max, zero terminated */
-#ifdef WSM
 	sprintf((char *)wmGD.screenNames[num], UNSPECIFIED_SCREEN_NAME);
-#else  /* WSM */
-	sprintf((char *)wmGD.screenNames[num],"%d",num%1000);
-#endif /* WSM */
     }
 }
 #ifndef NO_MESSAGE_CATALOG
@@ -2271,14 +2152,12 @@ void InitNlsStrings (void)
 {
     char * tmpString;
 
-#ifdef WSM
     /*
      * Initialize messages
      */
     wmGD.okLabel=XmStringCreateLocalized((String)_DtOkString);
     wmGD.cancelLabel=XmStringCreateLocalized((String)_DtCancelString);
     wmGD.helpLabel=XmStringCreateLocalized((String)_DtHelpString);
-#endif /* WSM */    
 
     /*
      * catgets returns a pointer to an area that is over written
@@ -2297,7 +2176,6 @@ void InitNlsStrings (void)
 	strcpy(wmNLS.default_icon_box_title, tmpString);
     }
 
-#ifdef WSM
     tmpString = ((char *)GETMESSAGE(40, 20, "%s: %s on line %d of configuration file %s\n"));
     if ((pWarningStringFile =
 	 (char *)XtMalloc ((unsigned int) (strlen(tmpString) + 1))) == NULL)
@@ -2358,7 +2236,6 @@ void InitNlsStrings (void)
     {
 	strcpy(wmNLS.defaultHelpTitle, tmpString);
     }
-#endif /* WSM */
 
 } /* InitNlsStrings  */
 #endif
@@ -2409,9 +2286,7 @@ InitWmDisplayEnv (void)
     else
     {
 	strcpy(wmGD.displayString, buffer);
-#ifdef WSM
 	putenv(wmGD.displayString);
-#endif /* WSM */
     }
     
 } /* END OF FUNCTION  InitWmDisplayEnv */
@@ -2654,6 +2529,4 @@ VirtKeys4DIN(
 }
 #endif /* NO_HP_KEY_REMAP */
 
-#ifdef WSM
 /****************************   eof    ***************************/
-#endif /* WSM */

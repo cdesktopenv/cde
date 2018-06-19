@@ -31,13 +31,9 @@
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 
 extern char  *BitmapPathName (char *string);
-#ifdef WSM
 extern int    GetBitmapIndex (WmScreenData *pSD, 
 				char *name, 
 				Boolean bReportError);
-#else /* WSM */
-extern int    GetBitmapIndex (WmScreenData *pSD, char *name);
-#endif /* WSM */
 extern Pixmap MakeCachedIconPixmap (ClientData *pCD, int bitmapIndex, Pixmap mask);
 extern Pixmap MakeCachedLabelPixmap (WmScreenData *pSD, Widget menuW, int bitmapIndex);
 extern Pixmap MakeClientIconPixmap (ClientData *pCD, Pixmap iconBitmap, Pixmap iconMask);

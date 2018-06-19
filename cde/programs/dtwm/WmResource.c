@@ -60,13 +60,11 @@
 #include "WmGraphics.h"
 #include "WmMenu.h"
 #include "WmResParse.h"
-#ifdef WSM
 #include "WmBackdrop.h"
 #include "WmIconBox.h"
 #include "WmWrkspace.h"
 #include <Dt/GetDispRes.h>
 #define cfileP 	(wmGD.pWmPB->pFile) /* fopen'ed configuration file or NULL */
-#endif /* WSM */
 #include "WmXSMP.h"
 
 /*
@@ -113,10 +111,7 @@ void ProcessClientResources (ClientData *pCD);
 void SetStdClientResourceValues (ClientData *pCD);
 void SetStdScreenResourceValues (WmScreenData *pSD);
 GC GetHighlightGC (WmScreenData *pSD, Pixel fg, Pixel bg, Pixmap pixmap);
-#ifdef WSM
 static void WriteOutXrmColors (WmScreenData *pSD);
-#endif /* WSM */
-#ifdef WSM
 void ProcessPresenceResources (WmScreenData *pSD);
 void ProcessDefaultBackdropImages (WmScreenData *pSD);
 void _WmBackdropBgDefault (Widget widget, int offset, XrmValue *value);
@@ -125,7 +120,6 @@ void _WmBackdropColorSetDefault (Widget widget, int offset, XrmValue *value);
 void _WmIconImageMaximumDefault (Widget widget, int offset, XrmValue *value);
 void _WmSecondariesOnTopDefault (Widget widget, int offset, XrmValue *value);
 int DefaultWsColorSetId (WmWorkspaceData *pWS);
-#endif /* WSM */
 void _WmGetDynamicDefault (Widget widget, unsigned char type, String defaultColor, Pixel newBackground, XrmValue *value);
 Boolean SimilarAppearanceData (AppearanceData *pAD1, AppearanceData *pAD2);
 
@@ -163,7 +157,7 @@ char builtinSystemMenuName[] = "_MwmWindowMenu_";
 char builtinSystemMenu[] = BUILTINSYSTEMMENU;
 #else /* !defined(NO_MESSAGE_CATALOG)*/
 char *builtinSystemMenu = BUILTINSYSTEMMENU;
-#ifdef WSM
+
 #define DEFAULT_DTWM_SYSTEMMENU "_MwmWindowMenu_\n\
 {\n\
 	Restore		_R	f.restore\n\
@@ -179,7 +173,6 @@ char *builtinSystemMenu = BUILTINSYSTEMMENU;
 	no-label			f.separator\n\
 	Close	_C	Alt<Key>F4	f.kill\n\
 }"
-#endif /* WSM */
 
 void InitBuiltinSystemMenu(void)
 {
@@ -190,11 +183,9 @@ void InitBuiltinSystemMenu(void)
     char *MinString = NULL;
     char *MaxString = NULL;
     char *LowString = NULL;
-#ifdef WSM
     char *OcpString = NULL;
     char *OcaString = NULL;
     char *RemString = NULL;
-#endif /* WSM */
     char *CloString = NULL;
     char dsm[2048];
     char dsmtemp[sizeof(dsm)];
@@ -308,7 +299,7 @@ void InitBuiltinSystemMenu(void)
             strcpy(LowString, tmpString);
         }
     }
-#ifdef WSM
+
     if (DtwmBehavior)
     {
 	if(gotItAll)
@@ -357,7 +348,7 @@ void InitBuiltinSystemMenu(void)
 	    }
 	}
     } /* if DTWM */
-#endif /* WSM */
+
     if(gotItAll)
     {
         tmpString = ((char *)GETMESSAGE(62, 48, "Close _C Alt<Key>F4 f.kill"));
@@ -375,7 +366,6 @@ void InitBuiltinSystemMenu(void)
 
     if (!gotItAll)
     {
-#ifdef WSM
 	if (DtwmBehavior)
 	{
 	    builtinSystemMenu = (char *) 
@@ -386,10 +376,6 @@ void InitBuiltinSystemMenu(void)
 	    builtinSystemMenu = (char *) 
 			XtNewString((String)BUILTINSYSTEMMENU);
 	}
-#else /* WSM */
-	builtinSystemMenu = (char *)
-			XtNewString((String)BUILTINSYSTEMMENU);
-#endif /* WSM */
     }
     else
     {
@@ -397,14 +383,12 @@ void InitBuiltinSystemMenu(void)
         snprintf(dsm, sizeof(dsm), "%s\n{\n%s\n%s\n%s\n%s\n%s\n%s\n no-label  f.separator\n",
                  defaultSystemMenuName, ResString, MovString,
                  SizString, MinString, MaxString, LowString);
-#ifdef WSM
 	if (DtwmBehavior)
 	{
 	    snprintf(dsmtemp, sizeof(dsmtemp), "%s%s\n%s\n%s\n no-label  f.separator\n",
 	             dsm, OcpString, OcaString, RemString);
 	    strcpy(dsm, dsmtemp);
 	}
-#endif /* WSM */
         snprintf(dsmtemp, sizeof(dsmtemp), "%s%s\n}", dsm, CloString);
         strcpy(dsm, dsmtemp);
 	
@@ -412,7 +396,6 @@ void InitBuiltinSystemMenu(void)
 	     (char *)XtMalloc ((unsigned int) (strlen(dsm) + 1))) == NULL)
 	{
 	   Warning (((char *)GETMESSAGE(62, 21, "Insufficient memory for localized default system menu")));
-#ifdef WSM
 	    if (DtwmBehavior)
 	    {
 		builtinSystemMenu = (char *) 
@@ -423,10 +406,6 @@ void InitBuiltinSystemMenu(void)
 		builtinSystemMenu = (char *) 
 			XtNewString((String)BUILTINSYSTEMMENU);
 	    }
-#else /* WSM */
-	    builtinSystemMenu = (char *) 
-			XtNewString((String)BUILTINSYSTEMMENU);
-#endif /* WSM */
 	}
 	else
 	{
@@ -446,14 +425,12 @@ void InitBuiltinSystemMenu(void)
        XtFree(MaxString);
     if (LowString != NULL)
        XtFree(LowString);
-#ifdef WSM
     if (OcpString != NULL)
        XtFree(OcpString);
     if (OcaString != NULL)
        XtFree(OcaString);
     if (RemString != NULL)
        XtFree(RemString);
-#endif /* WSM */
     if (CloString != NULL)
        XtFree(CloString);
     
@@ -463,9 +440,7 @@ void InitBuiltinSystemMenu(void)
 char builtinSystemMenu[];
 #endif /* MCCABE */
 
-#ifdef WSM
 #define HARD_CODED_PRIMARY   3
-#endif /* WSM */
 char defaultRootMenuName[] = "DefaultRootMenu";
 char builtinRootMenuName[] = "_MwmRootMenu_";
 #ifndef MCCABE
@@ -537,7 +512,7 @@ char behaviorKeyBindings[];
 char defaultButtonBindingsName[] = "DefaultButtonBindings";
 char builtinButtonBindingsName[] = "_MwmButtonBindings_";
 #ifndef MCCABE
-# if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+# if (defined(MWM_QATS_PROTOCOL))
 #  define BUILTINBUTTONBINDINGS "_MwmButtonBindings_\n\
 {\n\
 	<Btn1Down>	icon|frame	f.raise\n\
@@ -551,7 +526,7 @@ char builtinButtonBindingsName[] = "_MwmButtonBindings_";
 	<Btn3Down>	icon|frame	f.post_wmenu\n\
 	<Btn3Down>	root		f.menu DefaultRootMenu\n\
 }";
-# endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+# endif /* defined(MWM_QATS_PROTOCOL) */
 char builtinButtonBindings[] = BUILTINBUTTONBINDINGS
 
 #else
@@ -563,10 +538,8 @@ static ClientData *_pCD;
 static String _defaultBackground;
 static String _defaultActiveBackground;
 static AppearanceData *_pAppearanceData;
-#ifdef WSM
 static WmWorkspaceData *pResWS;
 static WmScreenData *pResSD;
-#endif /* WSM */
 
 static char _defaultColor1HEX[] = "#A8A8A8A8A8A8";
 static char _defaultColor2HEX[] = "#5F5F92929E9E";
@@ -579,14 +552,12 @@ Const char _foreground[]    = "foreground";
 Const char _75_foreground[] = "75_foreground";
 Const char _50_foreground[] = "50_foreground";
 Const char _25_foreground[] = "25_foreground";
-#ifdef WSM
 Const char *_Dither = XmCO_DITHER;
 Const char *_NoDither = XmCO_NO_DITHER;
 Const char CLIENT_FRAME_PART[] = "client";
 Const char ICON_FRAME_PART[] = "icon";
 Const char FEEDBACK_FRAME_PART[] = "feedback";
 Const char MENU_ITEM_PART[] = "menu";
-#endif /* WSM */
 
 #define WmBGC          XmBACKGROUND
 #define WmFGC          XmFOREGROUND
@@ -696,7 +667,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)NULL
     },
-#ifdef WSM
 
     {
 	WmNcppCommand,
@@ -707,7 +677,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)NULL
     },
-#endif /* WSM */
 
     {
 	WmNdeiconifyKeyFocus,
@@ -748,7 +717,7 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)True
     },
-#ifdef WSM
+
     {
 	WmNframeExternalShadowWidth,
 	WmCFrameExternalShadowWidth,
@@ -758,7 +727,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)2
     },
-#endif /* WSM */
 
     {
 	WmNfreezeOnConfig,
@@ -769,7 +737,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)True
     },
-#ifdef WSM
 
     {
 	WmNuseWindowOutline,
@@ -780,7 +747,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)False
     },
-#endif /* WSM */
 
     {
 	WmNiconAutoPlace,
@@ -791,7 +757,7 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)True
     },
-#ifdef WSM
+
     {
 	WmNiconExternalShadowWidth,
 	WmCIconExternalShadowWidth,
@@ -801,7 +767,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)2
     },
-#endif /* WSM */
 
     {
 	WmNiconClick,
@@ -846,7 +811,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)True
     },
-#ifdef WSM
 
     {
 	WmNmarqueeSelectGranularity,
@@ -857,7 +821,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)0
     },
-#endif /* WSM */
 
     {
 	WmNmoveThreshold,
@@ -928,7 +891,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)False
     },
-#ifdef WSM
 
     {
 	WmNrefreshByClearing,
@@ -949,19 +911,6 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)True
     },
-#endif /* WSM */
-
-#ifndef WSM
-    {
-        WmNsessionClientDB,
-	WmCSessionClientDB,
-	XtRString,
-	sizeof(String),
-	XtOffsetOf(WmGlobalData, sessionClientDB),
-	XtRImmediate,
-	(XtPointer)NULL
-    },
-#endif /* ! WSM */
 
     {
 	WmNshowFeedback,
@@ -1011,7 +960,7 @@ XtResource wmGlobalResources[] =
 	XtRImmediate,
 	(XtPointer)True
     },
-#ifdef WSM
+
     {
 	WmNhelpDirectory,
 	WmCHelpDirectory,
@@ -1022,7 +971,6 @@ XtResource wmGlobalResources[] =
 	(XtPointer)"DT/Dtwm/"
     },
 
-#endif /* WSM */
     {
 	WmNdtLite,
 	WmCDtLite,
@@ -1048,11 +996,7 @@ XtResource wmGlobalScreenResources[] =
 	sizeof (Boolean),
         XtOffsetOf(WmGlobalData, multiScreen),
 	XtRImmediate,
-#ifdef WSM
 	(XtPointer)True
-#else /* WSM */
-	(XtPointer)False
-#endif /* WSM */
     },
 
     {
@@ -1064,7 +1008,7 @@ XtResource wmGlobalScreenResources[] =
 	XtRImmediate,
 	(XtPointer)NULL
     },
-#ifdef WSM
+
     {   WmNbackdropDirectories, 
 	WmCBackdropDirectories, 
 	XmRString, 
@@ -1073,7 +1017,6 @@ XtResource wmGlobalScreenResources[] =
 	XmRString,
 	DEFAULT_BACKDROP_DIR
     },
-#endif /* WSM */
 };
 
 
@@ -1257,7 +1200,6 @@ XtResource wmScreenResources[] =
 	(XtPointer)USE_ICON_DEFAULT_APPEARANCE
     },
 
-#ifdef WSM
     {
 	WmNiconImageMaximum,
 	WmCIconImageMaximum,
@@ -1267,17 +1209,6 @@ XtResource wmScreenResources[] =
 	XtRCallProc,
 	(XtPointer) _WmIconImageMaximumDefault
     },
-#else /* WSM */
-    {
-	WmNiconImageMaximum,
-	WmCIconImageMaximum,
-	WmRSize,
-	sizeof (WHSize),
-	XtOffsetOf (WmScreenData, iconImageMaximum),
-	XtRString,
-	"50x50"
-    },
-#endif /* WSM */
 
     {
 	WmNiconImageMinimum,
@@ -1328,18 +1259,6 @@ XtResource wmScreenResources[] =
 	XtRImmediate,
 	(XtPointer) BIGSIZE
     },
-#ifndef WSM
-
-    {
-	WmNiconBoxGeometry,
-	WmCIconBoxGeometry,
-	XtRString,
-	sizeof (String),
-	XtOffsetOf (WmScreenData, iconBoxGeometry),
-	XtRString,
-	(XtPointer)NULL
-    },
-#endif /* WSM */
 
     {
 	WmNiconBoxName,
@@ -1421,7 +1340,7 @@ XtResource wmScreenResources[] =
 	(XtPointer)True
     },
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     {
 	WmNrootMenu,
 	WmCRootMenu,
@@ -1431,7 +1350,7 @@ XtResource wmScreenResources[] =
 	XtRString,
 	(XtPointer)builtinRootMenuName
     },
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
     {
 	WmNtransientDecoration,
@@ -1492,7 +1411,6 @@ XtResource wmScreenResources[] =
 	XtRImmediate,
 	(XtPointer)False
 
-#ifdef WSM
     },
 
     {
@@ -1533,7 +1451,6 @@ XtResource wmScreenResources[] =
         XtOffsetOf (WmScreenData, numWorkspaces),
 	XtRImmediate,
 	(XtPointer)0
-#endif /* WSM */
     }
 
 };
@@ -1567,7 +1484,6 @@ XtResource wmStdScreenResources[] =
 	(XtPointer) BIGSIZE
     },
 
-#ifdef WSM
     {
 	WmNiconImageMaximum,
 	WmCIconImageMaximum,
@@ -1577,17 +1493,6 @@ XtResource wmStdScreenResources[] =
 	XtRCallProc,
 	(XtPointer) _WmIconImageMaximumDefault
     },
-#else /* WSM */
-    {
-	WmNiconImageMaximum,
-	WmCIconImageMaximum,
-	WmRSize,
-	sizeof (WHSize),
-	XtOffsetOf (WmScreenData, iconImageMaximum),
-	XtRString,
-	"50x50"
-    },
-#endif /* WSM */
 
     {
 	WmNiconImageMinimum,
@@ -1646,7 +1551,6 @@ XtResource wmStdScreenResources[] =
  *      "Mwm*[screen<#>*]<workspace>*<resource_identifier>".
  *
  ******************************<->***********************************/
-#ifdef WSM
 XtResource wmWorkspaceResources[] =
 {
     {
@@ -1670,9 +1574,6 @@ XtResource wmWorkspaceResources[] =
     }
 
 };
-#else /* WSM */
-XtResource *wmWorkspaceResources = NULL;
-#endif /* WSM */
 
 
 
@@ -1692,7 +1593,6 @@ XtResource *wmWorkspaceResources = NULL;
  *
  *************************************<->***********************************/
 
-#ifdef WSM
 XtResource wmStdWorkspaceResources[] =
 {
     {
@@ -1705,12 +1605,8 @@ XtResource wmStdWorkspaceResources[] =
 	(XtPointer)NULL
     }
 };
-#else /* WSM */
-XtResource *wmStdWorkspaceResources = NULL;
-#endif /* WSM */
 
-#ifdef WSM
-
+
 /*************************************<->*************************************
  *
  *  wmBackdropResources
@@ -1803,9 +1699,7 @@ XtResource wmWsPresenceResources[] =
 	(XtPointer)NULL
     }
 };
-#endif /* WSM */
 
-
 /*************************************<->*************************************
  *
  *  wmClientResources
@@ -1824,7 +1718,6 @@ XtResource wmWsPresenceResources[] =
 XtResource wmClientResources[] =
 {
 
-#ifdef WSM
     {
 	WmNabsentMapBehavior,
 	WmCAbsentMapBehavior,
@@ -1834,7 +1727,7 @@ XtResource wmClientResources[] =
 	XtRImmediate,
 	(XtPointer)(AMAP_BEHAVIOR_ADD)
     },
-#endif /* WSM */
+
     {
 	WmNclientDecoration,
 	WmCClientDecoration,
@@ -1964,7 +1857,6 @@ XtResource wmClientResources[] =
 	XtRString,
 	"0x0"
     },
-#ifdef WSM
 
     {
 	WmNsecondariesOnTop,
@@ -1975,7 +1867,6 @@ XtResource wmClientResources[] =
 	XtRCallProc,
 	(XtPointer)_WmSecondariesOnTopDefault
     },
-#endif /* WSM */
 
     {
 	WmNsystemMenu,
@@ -1994,11 +1885,7 @@ XtResource wmClientResources[] =
 	sizeof (Boolean),
         XtOffsetOf (ClientData, useClientIcon),
 	XtRImmediate,
-#ifdef WSM
 	(XtPointer)True
-#else
-	(XtPointer)False
-#endif /* WSM */
     },
 
     {
@@ -2123,7 +2010,7 @@ XtResource wmStdClientResources[] =
 	XtRString,
 	"0x0"
     },
-#ifdef WSM
+
     {
 	WmNsecondariesOnTop,
 	WmCSecondariesOnTop,
@@ -2133,7 +2020,6 @@ XtResource wmStdClientResources[] =
 	XtRCallProc,
 	(XtPointer)_WmSecondariesOnTopDefault
     },
-#endif /* WSM */
 
     {
 	WmNuseClientIcon,
@@ -2781,7 +2667,6 @@ _WmATopShadowPixmapDefault (Widget widget, int offset, XrmValue *value)
 } /* END OF FUNCTION _WmATopShadowPixmapDefault */
 
 
-#ifdef WSM
 void 
 _WmBackdropBgDefault (Widget widget, int offset, XrmValue *value)
 {
@@ -2975,7 +2860,6 @@ DefaultWsColorSetId (WmWorkspaceData *pWS)
 
 } /* END OF FUNCTION DefaultWsColorSetId */
 
-#endif /* WSM */
 
 
 
@@ -3060,8 +2944,7 @@ _WmMultiClickTimeDefault (Widget widget, int offset, XrmValue *value)
 
 } /* END OF FUNCTION _WmMultiClickTimeDefault */
 
-#ifdef WSM
-
+
 /*************************************<->*************************************
  *
  *  _WmSecondariesOnTopDefault (widget, offset, value)
@@ -3105,7 +2988,6 @@ _WmSecondariesOnTopDefault (Widget widget, int offset, XrmValue *value)
     value->size = sizeof (Boolean);
 
 } /* END OF FUNCTION _WmSecondariesOnTopDefault */
-#endif /* WSM */
 
 
 
@@ -3333,8 +3215,7 @@ ProcessScreenListResource (void)
 	
 } /* END OF FUNCTION ProcessScreenListResource */
 
-#ifdef WSM
-
+
 /******************************<->*************************************
  *
  *  ProcessWmColors ()
@@ -4200,7 +4081,6 @@ CheckForNoDither (AppearanceData *pAD)
 
 } /* END OF FUNCTION CheckForNoDither */
 
-#endif /* WSM */
 
 
 
@@ -4252,9 +4132,7 @@ ProcessAppearanceResources (WmScreenData *pSD)
 	      (XtPointer) &(pSD->clientAppearance),
 	      WmNclient, WmCClient, wmAppearanceResources, 
 	      XtNumber (wmAppearanceResources), NULL, 0);
-#ifdef WSM
     CheckForNoDither (&(pSD->clientAppearance));
-#endif /* WSM */
 
 
     /*
@@ -4284,9 +4162,7 @@ ProcessAppearanceResources (WmScreenData *pSD)
     (void)XtGetSubresources (clientW, (XtPointer) &(pSD->clientTitleAppearance),
 	      WmNtitle, WmCTitle, wmAppearanceResources, 
 	      XtNumber (wmAppearanceResources), NULL, 0);
-#ifdef WSM
     CheckForNoDither (&(pSD->clientTitleAppearance));
-#endif /* WSM */
 
 
     /*
@@ -4323,9 +4199,7 @@ ProcessAppearanceResources (WmScreenData *pSD)
 	      (XtPointer) &(pSD->iconAppearance),
 	      WmNicon, WmCIcon, wmAppearanceResources, 
 	      XtNumber (wmAppearanceResources), NULL, 0);
-#ifdef WSM
     CheckForNoDither (&(pSD->iconAppearance));
-#endif /* WSM */
 
 
     /*
@@ -4350,9 +4224,7 @@ ProcessAppearanceResources (WmScreenData *pSD)
 	      (XtPointer) &(pSD->feedbackAppearance),
 	      WmNfeedback, WmCFeedback, wmAppearanceResources, 
 	      XtNumber (wmAppearanceResources), NULL, 0);
-#ifdef WSM
     CheckForNoDither (&(pSD->feedbackAppearance));
-#endif /* WSM */
 
     /*
      * Process the feedback resource values:
@@ -4806,7 +4678,6 @@ GetAppearanceGCs (WmScreenData *pSD, Pixel fg, Pixel bg, XFontStruct *font, Pixm
 void 
 ProcessScreenResources (WmScreenData *pSD, unsigned char *screenName)
 {
-#ifdef WSM
     pResSD = pSD;	/* save current screen data for default processing */
     /*
      * Use the screen name (e.g., "0") as the default resource name.
@@ -4839,35 +4710,6 @@ ProcessScreenResources (WmScreenData *pSD, unsigned char *screenName)
 #endif
     }
 
-#else /* WSM */
-    /*
-     * Retrieve screen specific resources.
-     */
-
-    if (wmGD.useStandardBehavior)
-    {
-	XtGetSubresources (wmGD.topLevelW, (XtPointer) pSD, 
-	    (String) screenName, (String)screenName, wmStdScreenResources, 
-	    XtNumber (wmStdScreenResources), NULL, 0);
-
-	/*
-	 * Fill in the standard resource values.
-	 */
-
-	SetStdScreenResourceValues (pSD);
-    }
-    else
-    {
-	XtGetSubresources (wmGD.topLevelW, (XtPointer) pSD, 
-	    (String)screenName, (String)screenName, wmScreenResources, 
-	    XtNumber (wmScreenResources), NULL, 0);
-
-#ifndef MOTIF_ONE_DOT_ONE
-	pSD->moveOpaque =(((XmScreen) XmGetXmScreen(XtScreen(pSD->screenTopLevelW)))
-			  -> screen.moveOpaque);
-#endif
-    }
-#endif /* WSM */
 
     /*
      * Do some additional processing on the window manager resource values.
@@ -4967,18 +4809,7 @@ ProcessScreenResources (WmScreenData *pSD, unsigned char *screenName)
 	    pSD->resizeBorderWidth = (int) (avg_res * 2.2);
 
 	    /* limit size because big borders look ugly */
-#ifndef WSM
-	    if (wmGD.frameStyle == WmSLAB)
-	    {
-#endif /* WSM */
 		if (pSD->resizeBorderWidth > 6) pSD->resizeBorderWidth = 6;
-#ifndef WSM
-	    }
-	    else
-	    {
-		if (pSD->resizeBorderWidth > 7) pSD->resizeBorderWidth = 7;
-	    }
-#endif /* WSM */
 	}
 
 	/* Multiply times width in mm (avg. 5-6 pixels) */
@@ -5022,14 +4853,11 @@ ProcessScreenResources (WmScreenData *pSD, unsigned char *screenName)
     {
 	pSD->resizeBorderWidth = MAXIMUM_FRAME_BORDER_WIDTH;
     }
-#ifdef WSM
 
     /*
      * Update the resource database.
      */
     WriteOutXrmColors (pSD);
-
-#endif /* WSM */
 
     /*
      * Process the component appearance resources for client, 
@@ -5038,7 +4866,6 @@ ProcessScreenResources (WmScreenData *pSD, unsigned char *screenName)
 
      ProcessAppearanceResources (pSD);
 
-#ifdef WSM
     /* 
      * Process the workspace list and name the initial
      * workspaces
@@ -5052,7 +4879,6 @@ ProcessScreenResources (WmScreenData *pSD, unsigned char *screenName)
       */
      ProcessDefaultBackdropImages (pSD);
     
-#endif /* WSM */
     /*
      * Save the default icon pixmap in global data. We'll use it only
      * as a last resort.
@@ -5064,8 +4890,6 @@ ProcessScreenResources (WmScreenData *pSD, unsigned char *screenName)
 
 } /* END OF FUNCTION ProcessScreenResources */
 
-#ifdef WSM
-
 /*************************************<->*************************************
  *
  *  ProcessDefaultBackdropImages (pSD)
@@ -5242,7 +5066,6 @@ ProcessWorkspaceList (WmScreenData *pSD)
 
 } /* END OF FUNCTION ProcessWorkspaceList */
 
-#endif /* WSM */
 
 
 /******************************<->*************************************
@@ -5281,9 +5104,7 @@ ProcessWorkspaceResources (WmWorkspaceData *pWS)
     /*
      * Retrieve workspace specific resources.
      */
-#ifdef WSM
     pResWS = pWS;	/* save current ws for default processing */
-#endif /* WSM */
 
     if (wmGD.useStandardBehavior)
     {
@@ -5296,9 +5117,7 @@ ProcessWorkspaceResources (WmWorkspaceData *pWS)
 	 *
 	 * (no code for this right now)
 	 */
-#ifdef WSM
         pWS->iconBoxGeometry = NULL;
-#endif /* WSM */
     }
     else
     {
@@ -5306,17 +5125,14 @@ ProcessWorkspaceResources (WmWorkspaceData *pWS)
 	    pWS->name, pWS->name, wmWorkspaceResources, 
 	    XtNumber (wmWorkspaceResources), NULL, 0);
 
-#ifdef WSM
         /*  Dup iconbox geometry, it may be free'd later on.  */
 
         if (pWS->iconBoxGeometry)
         {
             pWS->iconBoxGeometry = XtNewString (pWS->iconBoxGeometry);
         }
-#endif /* WSM */
     }
 
-#ifdef WSM
     if (pWS->title == NULL)
     {
 	/*
@@ -5352,12 +5168,9 @@ ProcessWorkspaceResources (WmWorkspaceData *pWS)
 	XtNumber (wmBackdropResources), NULL, 0);
 
     ProcessBackdropResources (pWS, 0);
-#endif /* WSM */
 
 } /* END OF FUNCTION ProcessWorkspaceResources */
 
-#ifdef WSM
-
 /******************************<->*************************************
  *
  *  ProcessPresenceResources (pSD)
@@ -5454,7 +5267,6 @@ ProcessPresenceResources (WmScreenData *pSD)
     }
 
 } /* END OF FUNCTION ProcessPresenceResources */
-#endif /* WSM */
 
 
 /*************************************<->*************************************
@@ -5624,13 +5436,12 @@ ProcessClientResources (ClientData *pCD)
 
         /* make top and bottom shadow pixmaps */
 
-#ifdef WSM
 	if (pCD->matteBottomShadowPStr &&
 	    (!strcmp(pCD->matteBottomShadowPStr, _NoDither)))
 	{
 	    pCD->matteBottomShadowPStr = NULL;
 	}
-#endif /* WSM */
+
         if (pCD->matteBottomShadowPStr)
         {
 	    if ((pCD->matteBottomShadowPStr ==
@@ -5662,13 +5473,12 @@ ProcessClientResources (ClientData *pCD)
 	    pCD->matteBottomShadowPixmap = (Pixmap)NULL;
         }
 
-#ifdef WSM
 	if (pCD->matteTopShadowPStr &&
 	    (!strcmp(pCD->matteTopShadowPStr, _NoDither)))
 	{
 	    pCD->matteTopShadowPStr = NULL;
 	}
-#endif /* WSM */
+
         if (pCD->matteTopShadowPStr)
         {
 	    if ((pCD->matteTopShadowPStr ==
@@ -5779,9 +5589,9 @@ SetStdClientResourceValues (ClientData *pCD)
 void 
 SetStdScreenResourceValues (WmScreenData *pSD)
 {
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     pSD->rootMenu = builtinRootMenuName;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     pSD->buttonBindings = builtinButtonBindingsName;
     pSD->cleanText = True;
     pSD->iconDecoration =
@@ -5919,7 +5729,6 @@ _WmGetDynamicDefault (Widget widget, unsigned char type, String defaultColor, Pi
 
     if (Monochrome (newScreen))
     {
-#ifdef WSM
     Boolean ok = False;
     /*
      * Check color server sets for this screen.
@@ -5962,7 +5771,6 @@ _WmGetDynamicDefault (Widget widget, unsigned char type, String defaultColor, Pi
     }
     if (!ok)
     {
-#endif /* WSM */
         switch (type)
 	  {
 	  case WmFGC: newValue = BlackPixelOfScreen (newScreen); break;
@@ -5970,9 +5778,7 @@ _WmGetDynamicDefault (Widget widget, unsigned char type, String defaultColor, Pi
 	  case WmTSC: newValue = WhitePixelOfScreen (newScreen); break;
 	  case WmBSC: newValue = BlackPixelOfScreen (newScreen); break;
 	  }
-#ifdef WSM
     }
-#endif /* WSM */
 	return;
     }
 
@@ -6355,7 +6161,7 @@ WmScreenData *pSD;
 	 * set.
 	 */
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
         /*
 	 * Before parsing the string, substitute the real name for
 	 * the default rootmenu using the resource rootMenu
@@ -6371,7 +6177,7 @@ WmScreenData *pSD;
 	ParseKeyStr (pSD, (unsigned char *)buffer);
 #else
 	ParseKeyStr (pSD, (unsigned char *)builtinKeyBindings);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     }
     else
     {
@@ -6407,7 +6213,7 @@ WmScreenData *pSD;
 	 * set.
 	 */
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
         /*
 	 * Before parsing the string, substitute the real name for
 	 * the default rootmenu using the resource rootMenu
@@ -6423,7 +6229,7 @@ WmScreenData *pSD;
 	ParseButtonStr (pSD, (unsigned char *)buffer);
 #else
 	ParseButtonStr (pSD, (unsigned char *)builtinButtonBindings);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     }
 
 #ifdef NO_MESSAGE_CATALOG
@@ -6535,8 +6341,6 @@ Boolean SimilarAppearanceData (AppearanceData *pAD1, AppearanceData *pAD2)
 
 } /* END OF FUNCTION SimilarAppearanceData */
 
-#ifdef WSM
-
 /*************************************<->*************************************
  *
  *  Monochrome (screen)
@@ -6596,7 +6400,5 @@ Monochrome (Screen *screen)
 
     return ((DefaultDepthOfScreen(screen) == 1));
 } /* END OF FUNCTION Monochrome */
-#endif /* WSM */
-#ifdef WSM
+
 /****************************   eof    ***************************/
-#endif /* WSM */

@@ -44,9 +44,7 @@
 #include "WmIDecor.h"
 #include "WmIconBox.h"
 #include "WmWinConf.h"
-#ifdef WSM
 #include "WmWrkspace.h"
-#endif /* WSM */
 
 
 /*
@@ -802,9 +800,7 @@ void PackRootIcons (void)
     ClientData *pCD;
     ClientData *pCD_active;
     int hasActiveText = 1;
-#ifdef WSM
     WsClientData *pWsc;
-#endif /* WSM */
 
     /* 
      * find context of the activeIconTextWin to get pCD and then 
@@ -841,39 +837,23 @@ void PackRootIcons (void)
 		MoveIconInfo (&ACTIVE_WS->IPData, iOld, iNew);
 
 		pCD = ACTIVE_WS->IPData.placeList[iNew].pCD;
-#ifdef WSM
 		pWsc = GetWsClientData (ACTIVE_WS, pCD);
 		pWsc->iconPlace = iNew;
 		CvtIconPlaceToPosition (&ACTIVE_WS->IPData, 
 		    pWsc->iconPlace, &pWsc->iconX, &pWsc->iconY);
-#else /* WSM */
-		pCD->iconPlace = iNew;
-		CvtIconPlaceToPosition (&ACTIVE_WS->IPData, 
-		    pCD->iconPlace, &pCD->iconX, &pCD->iconY);
-#endif /* WSM */
 
 		if (hasActiveText && (pCD == pCD_active))
 		{
 		    /* hide activeIconTextWin first */
 		    HideActiveIconText ((WmScreenData *)NULL);
-#ifdef WSM
 		    XMoveWindow (DISPLAY, pWsc->iconFrameWin, pWsc->iconX, 
 			     pWsc->iconY);
-#else /* WSM */
-		    XMoveWindow (DISPLAY, ICON_FRAME_WIN(pCD), pCD->iconX, 
-			     pCD->iconY);
-#endif /* WSM */
 		    ShowActiveIconText (pCD);
 		}
 		else
 		{
-#ifdef WSM
 		    XMoveWindow (DISPLAY, pWsc->iconFrameWin, pWsc->iconX, 
 			     pWsc->iconY);
-#else /* WSM */
-		    XMoveWindow (DISPLAY, ICON_FRAME_WIN(pCD), pCD->iconX, 
-			     pCD->iconY);
-#endif /* WSM */
 		}
 	    }
 	}
@@ -908,28 +888,21 @@ void PackRootIcons (void)
 
 void MoveIconInfo (IconPlacementData *pIPD, int p1, int p2)
 {
-#ifdef WSM
     WsClientData *pWsc;
-#endif /* WSM */
 
     /* only move if destination is empty */
     if (pIPD->placeList[p2].pCD == NULL)
     {
 	pIPD->placeList[p2].pCD = pIPD->placeList[p1].pCD;
 	pIPD->placeList[p2].theWidget = pIPD->placeList[p1].theWidget;
-#ifdef WSM
 
 	pWsc = GetWsClientData (pIPD->placeList[p2].pCD->pSD->pActiveWS,
 				pIPD->placeList[p2].pCD);
 	pWsc->iconPlace = p2;
-#else /* WSM */
-	pIPD->placeList[p2].pCD->iconPlace = p2;
-#endif /* WSM */
 
 	pIPD->placeList[p1].pCD =  NULL;
 	pIPD->placeList[p1].theWidget = NULL;
     }
 }
-#ifdef WSM
+
 /****************************   eof    ***************************/
-#endif /* WSM */

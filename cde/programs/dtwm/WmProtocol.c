@@ -51,10 +51,10 @@
 #endif /* NO_WMQUERY */
 #include "WmPanelP.h"
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 # include "WmCmd.h"
 # include "WmDebug.h"
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 /*
  * Function Declarations:
@@ -75,13 +75,13 @@ static void wmq_lose (Widget w, Atom *pSelection);
 static void wmq_bump_xids(void);
 #endif /* NO_WMQUERY */
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 static void    OwnWMSelections      (Time timestamp);
 static Boolean WMiConvert           (Widget, Atom, Atom,
 				     XtPointer, unsigned long, int, Atom *,
 				     XtPointer *, unsigned long *, int *);
 static void    WMiConvertCB         (Widget, XtPointer, XtPointer);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 /*
  * Global Variables:
@@ -118,18 +118,18 @@ int curXids = 0;
 void SetupWmICCC (void)
 {
     enum { 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
       	   XA_TARGETS, XA_MULTIPLE, XA_TIMESTAMP, 
 #endif
 	   XA_WM_STATE, XA_WM_PROTOCOLS, XA_WM_CHANGE_STATE,
 	   XA_WM_SAVE_YOURSELF, XA_WM_DELETE_WINDOW,
 	   XA_WM_COLORMAP_WINDOWS, XA_WM_TAKE_FOCUS, XA_MWM_HINTS,
 	   XA_MWM_MENU, XA_MWM_MESSAGES, XA_MOTIF_WM_OFFSET,
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL) || !defined(NO_WMQUERY))
+#if (defined(MWM_QATS_PROTOCOL) || !defined(NO_WMQUERY))
 	   XA_MOTIF_WM_CLIENT_WINDOW, XA_MOTIF_WM_POINTER_WINDOW,
 	   XA_MOTIF_WM_ALL_CLIENTS,
 #endif
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	   XA_MOTIF_WM_DEFINE_COMMAND, XA_MOTIF_WM_INCLUDE_COMMAND,
 	   XA_MOTIF_WM_REMOVE_COMMAND, XA_MOTIF_WM_ENABLE_COMMAND,
 	   XA_MOTIF_WM_DISABLE_COMMAND, XA_MOTIF_WM_RENAME_COMMAND,
@@ -139,14 +139,14 @@ void SetupWmICCC (void)
 	   XA_COMPOUND_TEXT, NUM_ATOMS };
 
     static char *atom_names[] = {
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
       	   _XA_TARGETS, _XA_MULTIPLE, _XA_TIMESTAMP, 
 #endif
 	   _XA_WM_STATE, _XA_WM_PROTOCOLS, _XA_WM_CHANGE_STATE,
 	   _XA_WM_SAVE_YOURSELF, _XA_WM_DELETE_WINDOW,
 	   _XA_WM_COLORMAP_WINDOWS, _XA_WM_TAKE_FOCUS, _XA_MWM_HINTS,
 	   _XA_MWM_MENU, _XA_MWM_MESSAGES, _XA_MOTIF_WM_OFFSET,
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL) || !defined(NO_WMQUERY))
+#if (defined(MWM_QATS_PROTOCOL) || !defined(NO_WMQUERY))
 # ifdef _XA_MOTIF_WM_CLIENT_WINDOW
 	   _XA_MOTIF_WM_CLIENT_WINDOW, _XA_MOTIF_WM_POINTER_WINDOW,
 	   _XA_MOTIF_WM_ALL_CLIENTS, 
@@ -155,7 +155,7 @@ void SetupWmICCC (void)
 	   "_MOTIF_WM_ALL_CLIENTS"
 # endif
 #endif
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	   _XA_MOTIF_WM_DEFINE_COMMAND, _XA_MOTIF_WM_INCLUDE_COMMAND,
 	   _XA_MOTIF_WM_REMOVE_COMMAND, _XA_MOTIF_WM_ENABLE_COMMAND,
 	   _XA_MOTIF_WM_DISABLE_COMMAND, _XA_MOTIF_WM_RENAME_COMMAND,
@@ -176,12 +176,12 @@ void SetupWmICCC (void)
     XInternAtoms(DISPLAY, atom_names, XtNumber(atom_names), False, atoms);
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     wmGD.xa_TARGETS			= atoms[XA_TARGETS];
 
     wmGD.xa_MULTIPLE			= atoms[XA_MULTIPLE];
     wmGD.xa_TIMESTAMP			= atoms[XA_TIMESTAMP];
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
     wmGD.xa_WM_STATE			= atoms[XA_WM_STATE];
     wmGD.xa_WM_PROTOCOLS		= atoms[XA_WM_PROTOCOLS];
@@ -195,7 +195,7 @@ void SetupWmICCC (void)
     wmGD.xa_MWM_MESSAGES		= atoms[XA_MWM_MESSAGES];
     wmGD.xa_MWM_OFFSET			= atoms[XA_MOTIF_WM_OFFSET];
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     /* wm query targets */
     wmGD._MOTIF_WM_CLIENT_WINDOW  = atoms[XA_MOTIF_WM_CLIENT_WINDOW];
     wmGD._MOTIF_WM_POINTER_WINDOW = atoms[XA_MOTIF_WM_POINTER_WINDOW];
@@ -213,17 +213,17 @@ void SetupWmICCC (void)
     wmGD._MOTIF_WM_WINDOW_FLAGS	  = atoms[XA_MOTIF_WM_WINDOW_FLAGS];
 
     wmGD._MOTIF_WM_AUTOMATION	  = atoms[XA_MOTIF_WM_AUTOMATION];
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     /*
      * Assert ownership of the WINDOW_MANAGER selection
      * on each screen that the window manager controls.
      * these use the format WM_Si.
      */
     OwnWMSelections(GetTimestamp());
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
     wmGD.xa_COMPOUND_TEXT = atoms[XA_COMPOUND_TEXT];
 
@@ -1144,7 +1144,7 @@ wmq_bump_xids ( void )
 
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  static void OwnWMSelections ()
@@ -1504,4 +1504,4 @@ WMiConvertCB (
 		  &(cnv->type), &(cnv->value), &(cnv->length), &(cnv->format));
     }
 }
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */

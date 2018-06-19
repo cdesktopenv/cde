@@ -44,10 +44,8 @@
  */
 #include "WmEvent.h"
 #include "WmError.h"
-#ifdef WSM
 #include "WmBackdrop.h"
 #include "WmWrkspace.h"
-#endif /* WSM */
 #include "WmCDInfo.h"
 #include "WmCDecor.h"
 #include "WmCEvent.h"
@@ -57,10 +55,8 @@
 #include "WmPanelP.h"  /* for typedef in WmManage.h */
 #include "WmManage.h"
 #include "WmMenu.h"
-#ifdef WSM
 #include "WmICCC.h"
 #include "WmProperty.h"
-#endif /* WSM */
 #include "WmWinInfo.h"
 #include "WmWinState.h"
 #include "WmResNames.h"
@@ -71,7 +67,6 @@
 #include <Xm/RowColumnP.h> /* for MS_LastManagedMenuTime */
 extern XmMenuState _XmGetMenuState();
 
-#ifdef WSM
 /*
  * FUNCTION PARSER TABLE
  */
@@ -85,7 +80,6 @@ typedef struct {
    Boolean       (*parseProc)();
 } FunctionTableEntry;
 
-#endif /* WSM */
 
 
 /*
@@ -93,11 +87,9 @@ typedef struct {
  */
 
 extern unsigned int buttonModifierMasks[];
-#ifdef WSM
 int smAckState = SM_UNITIALIZED;
 extern FunctionTableEntry functionTable[];
 extern int F_NOP_INDEX;
-#endif /* WSM */
 
 #ifndef MOTIF_ONE_DOT_ONE
 #include <Xm/MenuShellP.h>
@@ -675,12 +667,8 @@ Boolean WmDispatchMenuEvent (XButtonEvent *event)
 	                       (short) wmGD.hotspotRectangle.width)) &&
 	     (event->y_root < (wmGD.hotspotRectangle.y + 
 	                       (short) wmGD.hotspotRectangle.height))&&
-#ifdef WSM
 	     (pCD || 
 	      (wmGD.rootButtonClick && wmGD.clickData.clickPending)))
-#else /* WSM */
-	     pCD)
-#endif /* WSM */
     {
 	/*   ^^^
 	 * Added check for NULL pCD in the above condition.
@@ -698,10 +686,8 @@ Boolean WmDispatchMenuEvent (XButtonEvent *event)
 
 	if (event->type == ButtonRelease)
 	{
-#ifdef WSM
           if (pCD)
 	  {
-#endif /* WSM */
 	    /*
 	     * The system menu is posted from a system menu button or an
 	     * icon.  By doing a button release over the system menu button
@@ -724,7 +710,6 @@ Boolean WmDispatchMenuEvent (XButtonEvent *event)
 		->MS_LastManagedMenuTime = ((XButtonEvent *)event)->time;
 	    doXtDispatchEvent = True;
 #endif
-#ifdef WSM
           }
 	  else if ((!wmGD.clickData.pCD) && 
 	      (((XButtonEvent *)event)->button == wmGD.clickData.button) &&
@@ -768,7 +753,6 @@ Boolean WmDispatchMenuEvent (XButtonEvent *event)
 		 }
 	    wmGD.clickData.clickPending = False;
 	    }
-#endif /* WSM */
 	}
 	else
 	{
@@ -1238,9 +1222,9 @@ Boolean HandleKeyPress (XKeyEvent *keyEvent,
 		}
 
 	      if ((keySpecs->wmFunction == F_Menu) ||
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 		  (keySpecs->wmFunction == F_Post_RMenu) ||
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 		  (keySpecs->wmFunction == F_Post_SMenu))
 		{
 		  wmGD.menuUnpostKeySpec = keySpecs;  /* menu unpost key spec */
@@ -1801,9 +1785,7 @@ void ProcessClickBPress (XButtonEvent *buttonEvent, ClientData *pCD, Context con
         wmGD.clickData.time = buttonEvent->time;
         wmGD.clickData.clickPending = True;
         wmGD.clickData.doubleClickPending = True;
-#ifdef WSM
         wmGD.clickData.bReplayed = wmGD.bReplayedButton;
-#endif /* WSM */
     }
 
 
@@ -1882,9 +1864,6 @@ void ProcessClickBRelease (XButtonEvent *buttonEvent, ClientData *pCD, Context c
 
 } /* END OF FUNCTION ProcessClickBRelease */
 
-
-#ifdef WSM
-
 /*************************************<->*************************************
  *
  *  HandleDtWmClientMessage (clientEvent)
@@ -2132,9 +2111,6 @@ HandleDtWmRequest (WmScreenData *pSD, XEvent *pev)
 } /* END OF FUNCTION HandleDtWmRequest */
 
 
-#endif /* WSM */
-
-
 /*************************************<->*************************************
  *
  *  HandleWsEnterNotify (enterEvent)
@@ -2592,7 +2568,7 @@ Time GetTimestamp (void)
 
 } /* END OF FUNCTION GetTimestamp */
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  LastTime ()
@@ -2624,7 +2600,7 @@ Time LastTime ()
 
   return (evTime);
 }
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 
 /*************************************<->*************************************
@@ -2657,20 +2633,14 @@ void PullExposureEvents (void)
      * Force the exposure events into the queue
      */
     XSync (DISPLAY, False);
-#ifdef WSM
     XSync (DISPLAY1, False);
-#endif /* WSM */
     /*
      * Selectively extract the exposure events
      */
-#ifdef WSM
     while (XCheckMaskEvent (DISPLAY, 
 	       ExposureMask|VisibilityChangeMask, &event) ||
 	   XCheckMaskEvent (DISPLAY1, 
 	       ExposureMask|VisibilityChangeMask, &event))
-#else /* WSM */
-    while (XCheckMaskEvent (DISPLAY, ExposureMask, &event))
-#endif /* WSM */
     {
         /*
 	 * Check for, and process non-widget events.  The events may be
@@ -2678,11 +2648,9 @@ void PullExposureEvents (void)
 	 * to an icon window, or to a "special" window management window.
 	 */
 
-#ifdef WSM
       switch (event.type)
       {
        case Expose:
-#endif /* WSM */
 	if (event.xany.window == ACTIVE_ROOT)
 	{
 	    dispatchEvent = WmDispatchWsEvent (&event);
@@ -2691,11 +2659,9 @@ void PullExposureEvents (void)
 	{
 	    dispatchEvent = WmDispatchClientEvent (&event);
 	}
-#ifdef WSM
        default:
 	dispatchEvent = True;
       }
-#endif /* WSM */
 
 	if (dispatchEvent)
 	{
@@ -2709,8 +2675,6 @@ void PullExposureEvents (void)
 
 } /* END OF FUNCTION PullExposureEvents */
 
-#ifdef WSM
-
 /*************************************<->*************************************
  *
  *  ReplayedButtonEvent ()
@@ -2761,4 +2725,3 @@ ReplayedButtonEvent (
 
     return (rval);
 }
-#endif /* WSM */

@@ -30,19 +30,17 @@
 /*
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 
-#ifdef WSM
 /* Shared Variables */
 extern int smAckState;
 
-#endif /* WSM */
 
 extern Boolean CheckForButtonAction (XButtonEvent *buttonEvent, 
 				     Context context, Context subContext, 
 				     ClientData *pCD);
 extern Time GetTimestamp (void);
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 extern Time LastTime (void);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 extern Boolean HandleKeyPress (XKeyEvent *keyEvent, KeySpec *keySpecs, 
 			       Boolean checkContext, Context context, 
 			       Boolean onlyFirst, ClientData *pCD);
@@ -74,8 +72,6 @@ extern void WmGrabKey (Display *display, int keycode, unsigned int modifiers,
 		int keyboard_mode);
 extern void WmUngrabButton (Display *display, unsigned int button,
 		unsigned int modifiers, Window grab_window);
-#ifdef WSM
 extern void HandleDtWmClientMessage (XClientMessageEvent *clientEvent);
 extern void HandleDtWmRequest (WmScreenData *pSD, XEvent *pev);
 extern Boolean ReplayedButtonEvent (XButtonEvent *pevB1, XButtonEvent *pevB2);
-#endif /* WSM */

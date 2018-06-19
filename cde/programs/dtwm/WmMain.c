@@ -39,10 +39,8 @@
 #ifndef NO_MULTIBYTE
 #include <locale.h>
 #endif
-#ifdef WSM
 #include <Dt/Message.h>
 #include <Dt/EnvControlP.h>
-#endif /* WSM */
 /*
  * include extern functions
  */
@@ -51,24 +49,17 @@
 #include "WmEvent.h"
 #include "WmInitWs.h"
 #include "WmError.h"
-#ifdef WSM
 #include "WmIPC.h"
 #include "WmBackdrop.h"
-#endif /* WSM */
 
 
 /*
  * Function Declarations:
  */
-#ifdef WSM
 int WmReturnIdentity (int argc, char *argv[], char *environ[]);
 #define ManagedRoot(w) (!XFindContext (DISPLAY, (w), wmGD.screenContextType, \
 (caddr_t *)&pSD) ? (SetActiveScreen (pSD), True) : \
 (IsBackdropWindow (ACTIVE_PSD, (w))))
-#else /* WSM */
-#define ManagedRoot(w) (!XFindContext (DISPLAY, (w), wmGD.screenContextType, \
-(caddr_t *)&pSD) ? (SetActiveScreen (pSD), True) : False)
-#endif /* WSM */
 
 WmScreenData *pSD;
 
@@ -80,9 +71,7 @@ WmGlobalData wmGD;
 #ifndef NO_MESSAGE_CATALOG
 NlsStrings wmNLS;
 #endif
-#ifdef WSM
 int WmIdentity;
-#endif /* WSM */
 
 
 
@@ -116,7 +105,6 @@ main (int argc, char *argv [], char *environ [])
     setlocale(LC_ALL, "");
 
 #ifndef NO_MULTIBYTE
-#ifdef WSM
     /*
      * Set up environment variables for this HP DT client
      */
@@ -130,22 +118,18 @@ main (int argc, char *argv [], char *environ [])
      {
 	 char * foo = ((char *)GETMESSAGE(44, 1, ""));
      }
-#endif /* WSM */
     XtSetLanguageProc (NULL, (XtLanguageProc)NULL, NULL);
 #endif
-#ifdef WSM
     /*  
      * Get Identity
      */
     WmIdentity = WmReturnIdentity(argc, argv, environ);
-#endif /* WSM */
 
     /*
      * Initialize the workspace:
      */
 
     InitWmGlobal (argc, argv, environ);
-#ifdef WSM
 
     /*
      * Set up PATH variable if it must run as standalone command
@@ -155,7 +139,6 @@ main (int argc, char *argv [], char *environ [])
     {
 	_DtEnvControl(DT_ENV_SET_BIN);
     }
-#endif /* WSM */
     
     /*
      * MAIN EVENT HANDLING LOOP:
@@ -175,7 +158,6 @@ main (int argc, char *argv [], char *environ [])
 
 	wmGD.attributesWindow = 0L;
 
-#ifdef WSM
 	if ((event.type == ButtonPress) || 
 	    (event.type == ButtonRelease))
 	{
@@ -192,7 +174,6 @@ main (int argc, char *argv [], char *environ [])
 		wmGD.bReplayedButton = False;
 	    }
 	}
-#endif /* WSM */
 	dispatchEvent = True;
 	if (wmGD.menuActive)
 	{
@@ -231,7 +212,6 @@ main (int argc, char *argv [], char *environ [])
 
 } /* END OF FUNCTION main */
 
-#ifdef WSM
 /******************************<->*************************************
  *
  *  WmReturnIdentity (argc, argv, environ)
@@ -296,7 +276,5 @@ int WmReturnIdentity ( int argc, char *argv[], char *environ[])
 	return(retVal);
 
 } /* END OF FUNCTION WmReturnIdentity */
-#endif /* WSM */
-#ifdef WSM
+
 /*************************     eof   ******************************/
-#endif /* WSM */

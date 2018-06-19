@@ -61,10 +61,8 @@
 #include "WmWinInfo.h"
 #include "WmWinList.h"
 #include "WmWinState.h"
-#ifdef WSM
 #include "WmPresence.h"
 #include "WmWrkspace.h"
-#endif /* WSM */
 #include "WmXSMP.h"
 
 
@@ -122,11 +120,9 @@ void AdoptInitialClients (WmScreenData *pSD)
     Window  root;
     Window  parent;
     Window *clients;
-#ifdef WSM
     int nAncillaries, iAnc;
     Window *pAncillaryWindows, *pWin1;
     WmWorkspaceData *pWS0;
-#endif /* WSM */
     unsigned int     nclients;
     ClientData *pcd = NULL;
     PropWMState *wmStateProp;
@@ -134,7 +130,6 @@ void AdoptInitialClients (WmScreenData *pSD)
     int i,j;
     long manageFlags;
 
-#ifdef WSM
     /* 
      * Generate list of ancillary windows (not to be managed)
      */
@@ -156,7 +151,6 @@ void AdoptInitialClients (WmScreenData *pSD)
     *pWin1++ = XtWindow (pSD->screenTopLevelW);
     *pWin1 = pSD->activeIconTextWin;
 
-#endif /* WSM */
 
     /*
      * Look for mapped top-level windows and start managing them:
@@ -192,21 +186,11 @@ void AdoptInitialClients (WmScreenData *pSD)
 	for (i = 0; i < nclients; i++)
 	{
 	    /* determine if the client window should be managed by wm */
-#ifdef WSM
             if (InWindowList (clients[i], pAncillaryWindows, nAncillaries))
             {
 		/* don't manage ancillary window manager windows */
                 continue;
 	    }
-#else /* WSM */
-            if ((clients[i] == XtWindow (pSD->screenTopLevelW)) ||
-		(clients[i] == XtWindow (pSD->pActiveWS->workspaceTopLevelW)) ||
-		(clients[i] == pSD->activeIconTextWin))
-            {
-		/* don't manage ancillary window manager windows */
-                continue;
-	    }
-#endif /* WSM */
 	    if (!XFindContext (DISPLAY, clients[i], wmGD.windowContextType,
 	        (caddr_t *)&pcd)) 
 	    {
@@ -271,12 +255,10 @@ void AdoptInitialClients (WmScreenData *pSD)
 	}
     }
 
-#ifdef WSM
     if (pAncillaryWindows)
     {
 	XtFree ((char *) pAncillaryWindows);
     }
-#endif /* WSM  */
 
 } /* END OF FUNCTION AdoptInitialClients */
 
@@ -317,9 +299,7 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
     int initialState;
     int i;
     Boolean sendConfigNotify;
-#ifdef WSM
     WmWorkspaceData *pwsi;
-#endif /* WSM */
     WmFpEmbeddedClientData *pECD;
 
     /*
@@ -364,7 +344,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	     *   ...then we've embedded it in the front
 	     *   panel--no further processing required.
 	     */
-#ifdef WSM
 	    if (smAckState == SM_START_ACK)
 	    {
 		SendClientMsg( wmGD.dtSmWindow, 
@@ -372,7 +351,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 			      (long) wmGD.xa_DT_WM_WINDOW_ACK,
 			      CurrentTime, NULL, 0);
 	    }
-#endif /* WSM */
 	    return;
 	}
     }
@@ -389,7 +367,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
     }
 #endif 
 
-#ifdef WSM
     if (pCD->inputMode == MWM_INPUT_SYSTEM_MODAL)
     {
 	/*
@@ -401,7 +378,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	F_AddToAllWorkspaces(0, pCD, 0);
 	pCD->dtwmFunctions &= ~DtWM_FUNCTION_OCCUPY_WS;
     }
-#endif /* WSM */
     if (manageFlags & MANAGEW_WM_RESTART)
     {
 	if (manageFlags & MANAGEW_WM_RESTART_ICON)
@@ -469,7 +445,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
      * window.
      */
 
-#ifdef WSM
     if ((pCD->clientFunctions & MWM_FUNC_MINIMIZE) &&
 	(pCD->transientLeader == NULL))
     {
@@ -550,21 +525,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	    }
 	}
     }
-#else /* WSM */
-    if ((pCD->clientFunctions & MWM_FUNC_MINIMIZE) &&
-        (pCD->transientLeader == NULL) && 
-	  !MakeIcon (pCD->pSD->pActiveWS, pCD))
-    {
-	/*
-	 * Error in making an icon for the client window; clean up the wm
-	 * resources; do not manage the client window.
-	 */
-
-	UnManageWindow (pCD);
-	return;
-    }
-#endif /* WSM */
-
 
     /*
      * Register window contexts to facilitate event handling:
@@ -584,13 +544,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	XSaveContext (DISPLAY, pCD->clientTitleWin, wmGD.windowContextType,
 	    (caddr_t)pCD);
     }
-#ifndef WSM
-    if (pCD->iconFrameWin)
-    {
-	XSaveContext (DISPLAY, pCD->iconFrameWin, wmGD.windowContextType,
-	    (caddr_t)pCD);
-    }
-#endif /* WSM */
 
     if (pCD->clientCmapCount > 0)
     {
@@ -621,15 +574,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	SetupCButtonBindings (pCD->clientBaseWin, BUTTON_SPECS(pCD));
     }
 
-#ifndef WSM
-    if (pCD->iconWindow && pCD->iconFrameWin)
-    {
-	XGrabButton (DISPLAY, AnyButton, AnyModifier, pCD->iconFrameWin, True,
-	    ButtonPressMask | ButtonReleaseMask | ButtonMotionMask,
-	    GrabModeAsync, GrabModeAsync, None, wmGD.workspaceCursor);
-    }
-#endif /* WSM */
-
     /*
      * Setup key binding handling for system menu accelerators.
      */
@@ -639,7 +583,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
     {
 	SetupKeyBindings (pCD->systemMenuSpec->accelKeySpecs,
 			  pCD->clientFrameWin, GrabModeSync, F_CONTEXT_ALL);
-#ifdef WSM
 	for (i = 0; i < pCD->numInhabited; i++)
 	{
 	    if (!pCD->pWsList[i].pIconBox && pCD->pWsList[i].iconFrameWin)
@@ -649,36 +592,20 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 			      F_CONTEXT_ALL);
 	    }
 	}
-#else /* WSM */
-	if (!pCD->pIconBox && pCD->iconFrameWin)
-	{
-	    SetupKeyBindings (pCD->systemMenuSpec->accelKeySpecs,
-			      pCD->iconFrameWin, GrabModeSync, F_CONTEXT_ALL);
-	}
-#endif /* WSM */
     }
 
-#ifdef WSM
   for (i = 0; i < pCD->numInhabited; i++)
   {
     if (!pCD->pWsList[i].pIconBox && pCD->pWsList[i].iconFrameWin)
-#else /* WSM */
-    if (!pCD->pIconBox && pCD->iconFrameWin)
-#endif /* WSM */
     {
 	static int iconKeySpec = 1;
 	static int iconAccelSpec = 1;
 
         if ((iconKeySpec != 0) && KEY_SPECS(pCD))
         {
-#ifdef WSM
 	    iconKeySpec = SetupKeyBindings (KEY_SPECS(pCD), 
 				pCD->pWsList[i].iconFrameWin,
 				GrabModeSync, F_CONTEXT_ICON);
-#else /* WSM */
-	    iconKeySpec = SetupKeyBindings (KEY_SPECS(pCD), pCD->iconFrameWin,
-				GrabModeSync, F_CONTEXT_ICON);
-#endif /* WSM */
         }
 
         if ((iconAccelSpec != 0) && ACCELERATOR_MENU_COUNT(pCD))
@@ -688,23 +615,14 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	    iconAccelSpec = 0;
 	    for (n= 0; n < pSD->acceleratorMenuCount; n++)
 	    {
-#ifdef WSM
 	        iconAccelSpec += SetupKeyBindings (
 			    ACCELERATOR_MENU_SPECS(pCD)[n]->accelKeySpecs,
 			    pCD->pWsList[i].iconFrameWin, GrabModeSync,
 			    F_CONTEXT_ICON);
-#else /* WSM */
-	        iconAccelSpec += SetupKeyBindings (
-			    ACCELERATOR_MENU_SPECS(pCD)[n]->accelKeySpecs,
-			    pCD->iconFrameWin, GrabModeSync,
-			    F_CONTEXT_ICON);
-#endif /* WSM */
 	    }
 	}
     }
-#ifdef WSM
   }
-#endif /* WSM */
 
 
     /*
@@ -716,9 +634,7 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	DoExplicitSelectGrab (pCD->clientBaseWin);
     }
 
-#ifdef WSM
     UpdateWorkspacePresenceProperty(pCD);
-#endif /* WSM */
 
 
     /*
@@ -741,16 +657,13 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
      */
 
     initialState = pCD->clientState;
-#ifdef WSM
     if (!ClientInWorkspace (pSD->pActiveWS, pCD))
     {
 	initialState |= UNSEEN_STATE;
     }
-#endif /* WSM */
     pCD->clientState = WITHDRAWN_STATE;
     pCD->clientFlags &= ~WM_INITIALIZATION;
 
-#ifdef WSM
     /* 
      * Add to stacking list using the client's zero'th workspace
      * instead of the current one because it may not be in 
@@ -758,9 +671,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
      */
     AddClientToList (GetWorkspaceData (pSD, pCD->pWsList[0].wsID),
 	pCD, True /*on top*/);
-#else /* WSM */
-    AddClientToList (pSD->pActiveWS, pCD, True /*on top*/);
-#endif /* WSM */
     SetClientState (pCD, initialState, GetTimestamp());
 
     /*
@@ -784,9 +694,7 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	  !(manageFlags &
 	    (MANAGEW_WM_STARTUP | MANAGEW_WM_RESTART | MANAGEW_WM_CLIENTS)) &&
 	  (pCD->clientState != MINIMIZED_STATE) &&
-#ifdef WSM
           !(pCD->clientState & UNSEEN_STATE) &&
-#endif /* WSM */
 	  (pCD->inputFocusModel ||
 	   (pCD->protocolFlags & PROTOCOL_WM_TAKE_FOCUS)))))
     {
@@ -798,7 +706,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	Do_Focus_Key ((ClientData *)NULL, GetTimestamp() , ALWAYS_SET_FOCUS);
     }
 
-#ifdef WSM
     if (smAckState == SM_START_ACK)
     {
 	SendClientMsg( wmGD.dtSmWindow, (long) wmGD.xa_DT_SM_WM_PROTOCOL,
@@ -813,7 +720,6 @@ ManageWindow (WmScreenData *pSD, Window clientWindow, long manageFlags)
      */
     DiscardInitialPropertyList (pCD);
 
-#endif /* WSM */
     CheckPushRecallClient (pCD);
 
 } /* END OF FUNCTION ManageWindow */
@@ -991,9 +897,7 @@ void WithdrawWindow (ClientData *pCD)
      * - make sure the input focus no longer is associted with the window
      * - free the icon placement (if necessary)
      */
-#ifdef WSM
     SetClientWsIndex (pCD);
-#endif /* WSM */
 
     if (!(pCD->clientFlags & WM_INITIALIZATION))
     {
@@ -1004,7 +908,6 @@ void WithdrawWindow (ClientData *pCD)
 	ResetWithdrawnFocii (pCD);
 	if (pCD->clientState & MINIMIZED_STATE)
 	{
-#ifdef WSM
 	    if (wmGD.iconAutoPlace && (!(P_ICON_BOX(pCD))))
 	    {
 		WmWorkspaceData *pWsTmp;
@@ -1029,16 +932,6 @@ void WithdrawWindow (ClientData *pCD)
 		    }
 		}
 	    }
-#else /* WSM */
-	    if (wmGD.iconAutoPlace && (!(P_ICON_BOX(pCD))))
-	    {
-		if (ICON_PLACE(pCD) != NO_ICON_PLACE)
-		{
-		pCD->pSD->pActiveWS->IPData.placeList[ICON_PLACE(pCD)].pCD 
-		    = NULL;
-		}
-	    }
-#endif /* WSM */
 	    if (ICON_FRAME_WIN(pCD))
 	    {
 		XUnmapWindow (DISPLAY, ICON_FRAME_WIN(pCD));
@@ -1052,7 +945,6 @@ void WithdrawWindow (ClientData *pCD)
 	    XFlush (DISPLAY);
 	}
     }
-#ifdef WSM
     /* 
      * Clean up the workspace presence dialog if it's
      * connected to this client.
@@ -1066,7 +958,6 @@ void WithdrawWindow (ClientData *pCD)
 	}
 	pCD->pSD->presence.pCDforClient = NULL;
     }
-#endif /* WSM */
 
     /*
      * Check to see if the window is being unmanaged because the window
@@ -1094,12 +985,8 @@ void WithdrawWindow (ClientData *pCD)
     if ((pCD->clientFlags & CLIENT_REPARENTED) &&
         !(pCD->clientFlags & CLIENT_DESTROYED))
     {
-#ifdef WSM
 	SetWMState (pCD->client, WithdrawnSTATE, 
 		pCD->pWsList[0].iconFrameWin);
-#else /* WSM */
-	SetWMState (pCD->client, WithdrawnSTATE, ICON_FRAME_WIN(pCD));
-#endif /* WSM */
 
 	if (pCD->maxConfig)
 	{
@@ -1133,13 +1020,8 @@ void WithdrawWindow (ClientData *pCD)
 	if (pCD->iconWindow && (pCD->clientFlags & ICON_REPARENTED))
 	{
 	    XUnmapWindow (DISPLAY, pCD->iconWindow);
-#ifdef WSM
 	    XReparentWindow (DISPLAY, pCD->iconWindow, ROOT_FOR_CLIENT(pCD), 
 			     pCD->pWsList[0].iconX, pCD->pWsList[0].iconY);
-#else /* WSM */
-	    XReparentWindow (DISPLAY, pCD->iconWindow, ROOT_FOR_CLIENT(pCD), 
-			     ICON_X(pCD), ICON_Y(pCD));
-#endif /* WSM */
 	}
     }
 
@@ -1180,11 +1062,7 @@ void WithdrawWindow (ClientData *pCD)
 	XFreePixmap (DISPLAY, pCD->iconPixmap);
     }
 
-#ifdef WSM
     if ((pCD->numInhabited > 0) && ICON_FRAME_WIN(pCD))
-#else /* WSM */
-    if (ICON_FRAME_WIN(pCD))
-#endif /* WSM */
     {
         FreeIcon (pCD);
     }
@@ -1222,8 +1100,6 @@ void WithdrawWindow (ClientData *pCD)
      */
     DeleteClientContext (pCD);
 
-
-#ifdef WSM
     /* 
      * Count backward for efficiency  --  
      *     removes from end of list.
@@ -1234,7 +1110,6 @@ void WithdrawWindow (ClientData *pCD)
 	    GetWorkspaceData(pCD->pSD, pCD->pWsList[i].wsID),
 	    pCD);
     }
-#endif /* WSM */
 
     /*
      * Free up window manager resources:
@@ -1283,7 +1158,6 @@ void WithdrawWindow (ClientData *pCD)
 #endif
     }
 
-#ifdef WSM
     /*
      * Insure list of initial properties has been freed.
      */
@@ -1304,7 +1178,6 @@ void WithdrawWindow (ClientData *pCD)
     {
 	XtFree ((char *)pCD->pWorkspaceHints);
     }
-#endif /* WSM */
 
     if (pCD->smClientID)
 	XFree (pCD->smClientID);
@@ -1383,7 +1256,6 @@ void DeleteClientContext (ClientData *pCD)
 	}
 	if (ICON_FRAME_WIN(pCD)) 
 	{
-#ifdef WSM
             int k;
 
 	    for (k=0; k < pCD->numInhabited; k++)
@@ -1391,10 +1263,6 @@ void DeleteClientContext (ClientData *pCD)
 		XDeleteContext (DISPLAY, pCD->pWsList[k].iconFrameWin, 
 				 wmGD.windowContextType);
 	    }
-#else /* WSM */
-	    XDeleteContext (DISPLAY, pCD->iconFrameWin, 
-	                     wmGD.windowContextType);
-#endif /* WSM */
 	}
 	pCD->clientFlags &= ~CLIENT_CONTEXT_SAVED;
     }
@@ -1570,10 +1438,8 @@ void FreeClientFrame (ClientData *pCD)
 
 void FreeIcon (ClientData *pCD)
 {
-#ifdef WSM
     WmWorkspaceData *pWsTmp;
     int i;
-#endif /* WSM */
 
     if (pCD->piconTopShadows) {
 	FreeRList (pCD->piconTopShadows);
@@ -1588,7 +1454,6 @@ void FreeIcon (ClientData *pCD)
      * destroy frame window & all children 
      */
 
-#ifdef WSM
     if ((pCD->pSD->useIconBox) && pCD->pWsList[0].pIconBox)
     {
 	/* 
@@ -1613,16 +1478,6 @@ void FreeIcon (ClientData *pCD)
 	    XDestroyWindow (DISPLAY, pCD->pWsList[0].iconFrameWin);
 	}
     }
-#else /* WSM */
-    if (pCD->pSD->useIconBox && P_ICON_BOX(pCD))
-    {
-	DeleteIconFromBox (pCD->pSD->pActiveWS->pIconBox, pCD);
-    }
-    else
-    {
-	XDestroyWindow (DISPLAY, pCD->iconFrameWin);
-    }
-#endif /* WSM */
 
 } /* END OF FUNCTION FreeIcon */
 
@@ -1652,9 +1507,7 @@ void FreeIcon (ClientData *pCD)
 
 void WithdrawDialog (Widget dialogboxW)
 {
-#ifdef WSM
     int i;
-#endif /* WSM */
     ClientData *pCD = NULL;
 
     /*
@@ -1667,7 +1520,6 @@ void WithdrawDialog (Widget dialogboxW)
 
     XtUnmanageChild (dialogboxW);
     DeleteClientFromList (ACTIVE_WS, pCD);
-#ifdef WSM
     /* TakeClientOutOfWorkspace (ACTIVE_WS, pCD); */
 
     /* 
@@ -1680,7 +1532,7 @@ void WithdrawDialog (Widget dialogboxW)
 	    GetWorkspaceData(pCD->pSD, pCD->pWsList[i].wsID),
 	    pCD);
     }
-#endif /* WSM */
+
     ResetWithdrawnFocii (pCD);
     XUnmapWindow (DISPLAY, pCD->clientFrameWin);
 
@@ -1727,7 +1579,6 @@ void ReManageDialog (WmScreenData *pSD, Widget dialogboxW)
      * The order is important here:
      */
 
-#ifdef WSM
     /*
      * Put system modal windows in all workspaces to
      * avoid the race condition of the window coming up
@@ -1742,7 +1593,6 @@ void ReManageDialog (WmScreenData *pSD, Widget dialogboxW)
     pCD->dtwmFunctions |= DtWM_FUNCTION_OCCUPY_WS;
     F_AddToAllWorkspaces(0, pCD, 0);
     pCD->dtwmFunctions &= ~DtWM_FUNCTION_OCCUPY_WS;
-#endif /* WSM */
 
     if (pSD->clientList)
     {
@@ -2276,9 +2126,7 @@ ManageEmbeddedClient (
     pECD->pCD = pCD;
     pCD->pECD = (void *) pECD;
 
-#ifdef WSM
     SetClientWsIndex(pCD);
-#endif
     SetClientWMState (pCD, NormalState, NORMAL_STATE);
 
     /*

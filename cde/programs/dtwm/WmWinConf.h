@@ -71,9 +71,9 @@ extern void ProcessNewConfiguration (ClientData *pCD, int x, int y,
 				     unsigned int width, unsigned int height, 
 				     Boolean clientRequest);
 extern void ReGrabPointer (Window grab_win, Time grabTime);
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 extern void SetGrabServer (void);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 extern void SetOutline (XSegment *pOutline, int x, int y, unsigned int width, 
 			unsigned int height, int fatness);
 extern void SetPointerPosition (int newX, int newY, int *actualX, 
@@ -84,12 +84,10 @@ extern void StartClientResize (ClientData *pcd, XEvent *pev);
 extern Boolean StartResizeConfig (ClientData *pcd, XEvent *pev);
 extern int ResizeType (ClientData *pcd, XEvent *pev);
 extern void UndoGrabs (void);
-#ifdef WSM
 extern void HandleMarqueeSelect (WmScreenData *pSD, XEvent *pev);
 extern void StartMarqueeSelect(WmScreenData *pSD, XEvent *pev);
 extern void UpdateMarqueeSelectData (WmScreenData *pSD);
 extern Boolean HandleMarqueeKeyPress (WmScreenData *pSD, XEvent *pev);
 extern void WindowOutline (int x, int y, unsigned int width, 
 			 unsigned int height);
-#endif /* WSM */
 

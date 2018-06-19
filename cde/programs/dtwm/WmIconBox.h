@@ -31,9 +31,7 @@
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 
 
-#ifdef WSM
 extern void AddIconBoxForWorkspace (WmWorkspaceData *pWS);
-#endif /* WSM */
 extern void AddNewBox (WmWorkspaceData *pWS, IconBoxData *pIBD);
 extern void ChangeActiveIconboxIconText (Widget icon, caddr_t dummy, 
 					 XFocusChangeEvent *event);
@@ -94,9 +92,7 @@ extern void SetGranularity (WmWorkspaceData *pWS, ClientData *pCD,
 extern void SetIconBoxInfo (WmWorkspaceData *pWS, ClientData *pCD);
 extern void SetNewBounds (IconBoxData *pIBD);
 extern void ShowClientIconState (ClientData *pCD, int newState);
-#ifdef WSM
 extern void UnmapIconBoxes (WmWorkspaceData *pWS);
-#endif /* WSM */
 extern void UpdateIncrements (Widget sWidget, IconBoxData *pIBD, 
 			      XConfigureEvent *event);
 extern String WmXmStringToString (XmString xmString);

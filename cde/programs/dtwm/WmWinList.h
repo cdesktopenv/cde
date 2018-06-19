@@ -36,10 +36,8 @@ extern void AddClientToList (WmWorkspaceData *pWS, ClientData *pCD,
 extern void AddEntryToList (WmWorkspaceData *pWS, ClientListEntry *pEntry, 
 			    Boolean onTop, ClientListEntry *pStackEntry);
 extern void AddTransient (WmWorkspaceData *pWS, ClientData *pCD);
-#ifdef WSM
 extern Boolean BumpPrimaryToBottom (ClientData *pcdLeader);
 extern Boolean BumpPrimaryToTop (ClientData *pcdLeader);
-#endif /* WSM */
 extern Boolean CheckIfClientObscuredByAny (ClientData *pcd);
 extern Boolean CheckIfClientObscuring (ClientData *pcdTop, ClientData *pcd);
 extern Boolean CheckIfClientObscuringAny (ClientData *pcd);
@@ -55,28 +53,22 @@ extern ClientListEntry *FindClientNameMatch (ClientListEntry *pEntry,
 					     Boolean toNext, 
 					     String clientName,
 					     unsigned long types);
-#ifdef WSM
 extern ClientData *FindSubLeaderToTop (ClientData *pcd);
-#endif /* WSM */
 extern ClientData *FindTransientFocus (ClientData *pcd);
 extern ClientData *FindTransientOnTop (ClientData *pcd);
 extern ClientData *FindTransientTreeLeader (ClientData *pcd);
 extern void FixupFullAppModalCounts (ClientData *pcdLeader, 
 				     ClientData *pcdDelete);
-#ifdef WSM
 extern Boolean LeaderOnTop (ClientData *pcdLeader);
 extern Window LowestWindowInTransientFamily (ClientData *pcdLeader);
 extern void MakeTransientFamilyStackingList (Window *windows, 
 					    ClientData *pcdLeader);
-#endif /* WSM */
 extern Window *MakeTransientWindowList (Window *windows, ClientData *pcd);
 extern void MarkModalSubtree (ClientData *pcdTree, ClientData *pcdAvoid);
 extern void MarkModalTransient (ClientData *pcdLeader, ClientData *pCD);
 extern void MoveEntryInList (WmWorkspaceData *pWS, ClientListEntry *pEntry, 
 			     Boolean onTop, ClientListEntry *pStackEntry);
-#ifdef WSM
 extern Boolean NormalizeTransientTreeStacking (ClientData *pcdLeader);
-#endif /* WSM */
 extern Boolean PutTransientBelowSiblings (ClientData *pcd);
 extern Boolean PutTransientOnTop (ClientData *pcd);
 extern void RestackTransients (ClientData *pcd);

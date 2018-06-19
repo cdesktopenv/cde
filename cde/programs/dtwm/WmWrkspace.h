@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-#ifdef WSM
 /* 
  * (c) Copyright 1987,1988,1989,1990,1992,1993,1994 HEWLETT-PACKARD COMPANY 
  * (c) Copyright 1993, 1994 International Business Machines Corp.
@@ -186,6 +185,4 @@ extern void SetFrontPanelTitle(
 			WmScreenData *pSD);
 
 /********    End Public Function Declarations    ********/
-#endif /* WSM */
-
 

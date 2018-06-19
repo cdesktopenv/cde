@@ -31,9 +31,7 @@
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 
 
-#ifdef WSM
 extern Boolean F_Action (String actionName, ClientData *pCD, XEvent *event);
-#endif /* WSM */
 extern Boolean F_Beep (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Lower (String args, ClientData *pCD, XEvent *event);
 extern void Do_Lower (ClientData *pCD, ClientListEntry *pStackEntry, int flags);
@@ -45,18 +43,14 @@ extern Boolean F_Quit_Mwm (String args, ClientData *pCD, XEvent *event);
 extern void Do_Quit_Mwm (Boolean diedOnRestart);
 extern Boolean F_Focus_Key (String args, ClientData *pCD, XEvent *event);
 extern void Do_Focus_Key (ClientData *pCD, Time focusTime, long flags);
-#ifdef WSM
 extern Boolean F_Goto_Workspace (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Help (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Help_Mode (String args, ClientData *pCD, XEvent *event);
-#endif /* WSM */
 extern Boolean F_Next_Key (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Prev_Cmap (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Prev_Key (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Pass_Key (String args, ClientData *pCD, XEvent *event);
-#ifdef WSM
 extern Boolean F_Marquee_Selection (String args, ClientData *pCD, XEvent *event);
-#endif /* WSM */
 extern Boolean F_Maximize (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Menu (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Minimize (String args, ClientData *pCD, XEvent *event);
@@ -80,9 +74,7 @@ extern Boolean F_Restore_And_Raise (String args, ClientData *pCD,
 extern void Do_Restart (Boolean dummy);
 extern void RestartWm (long startupFlags);
 extern void DeFrameClient (ClientData *pCD);
-#ifdef WSM
 extern Boolean F_Send (String args, ClientData *pCD, XEvent *event);
-#endif /* WSM */
 extern Boolean F_Send_Msg (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Separator (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Raise (String args, ClientData *pCD, XEvent *event);
@@ -90,16 +82,13 @@ extern void Do_Raise (ClientData *pCD, ClientListEntry *pStackEntry, int flags);
 extern Boolean F_Raise_Lower (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Refresh_Win (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Set_Behavior (String args, ClientData *pCD, XEvent *event);
-#ifdef WSM
 extern Boolean F_Set_Context (String args, ClientData *pCD, XEvent *event);
-#endif
 extern void Do_Set_Behavior (Boolean dummy);
 extern Boolean F_Title (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Screen (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Toggle_Front_Panel (String args, ClientData *pCD, 
 				     XEvent *event);
 extern Boolean F_Version (String args, ClientData *pCD, XEvent *event);
-#ifdef WSM
 extern Boolean F_Next_Workspace (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Prev_Workspace (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Workspace_Presence (String args, ClientData *pCD, 
@@ -107,11 +96,10 @@ extern Boolean F_Workspace_Presence (String args, ClientData *pCD,
 #if defined(DEBUG)
 extern Boolean F_ZZ_Debug (String, ClientData *, XEvent *);
 #endif /* DEBUG */
-#endif /* WSM */
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 extern Boolean F_InvokeCommand (String args, ClientData *pCD, XEvent *event);
 extern Boolean F_Post_RMenu (String args, ClientData *pCD, XEvent *event);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 extern Time GetFunctionTimestamp (XButtonEvent *pEvent);
 extern void ReBorderClient (ClientData *pCD, Boolean reMapClient);
 extern void ClearDirtyStackEntry (ClientData *pCD);	/* Fix for 5325 */

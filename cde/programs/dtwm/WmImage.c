@@ -51,10 +51,8 @@ extern String _XmOSInitPath(
                         String env_pathname,
                         Boolean *user_path) ;
 #endif
-#ifdef WSM
 #include <Xm/IconFile.h>
 #include <Dt/GetDispRes.h>
-#endif
 
 #define MATCH_XBM 'B'		/* .xbm character: see XmGetPixmap */
 #define MATCH_PATH "XBMLANGPATH"
@@ -131,11 +129,7 @@ Pixmap MakeClientIconPixmap (
 	/*
 	 * The bitmap was not made with usable parameters.
 	 */
-#ifdef WSM
 	Warning (((char *)GETMESSAGE(38, 9, "Icon bitmap cannot be used on this screen")));
-#else /* WSM */
-	Warning ("Invalid root for icon bitmap");
-#endif /* WSM */
 	return ((Pixmap)NULL);
     }
 
@@ -185,28 +179,21 @@ Pixmap MakeClientIconPixmap (
 Pixmap MakeNamedIconPixmap (ClientData *pCD, String iconName)
 {
     int          bitmapIndex;
-#ifdef WSM
     Pixmap	pixmap, pixmap_r, mask;
     Window	root;
     int		x, y;
     unsigned int	width, height, border_width, depth;
     String	sIconFileName;
     int		iconSizeDesired;
-#endif /* WSM */
 
     /*
      * Get the bitmap cache entry (will read data from file if necessary).
      * If unable to find the iconName file return NULL.
      */
 
-#ifdef WSM
     if ((bitmapIndex = GetBitmapIndex (PSD_FOR_CLIENT(pCD), iconName,
 			False)) < 0)
-#else /* WSM */
-    if ((bitmapIndex = GetBitmapIndex (PSD_FOR_CLIENT(pCD), iconName)) < 0)
-#endif /* WSM */
     {
-#ifdef WSM
        if ((PSD_FOR_CLIENT(pCD)->displayResolutionType == LOW_RES_DISPLAY) ||
            (PSD_FOR_CLIENT(pCD)->displayResolutionType == VGA_RES_DISPLAY))
        {
@@ -286,7 +273,6 @@ Pixmap MakeNamedIconPixmap (ClientData *pCD, String iconName)
 
        if (sIconFileName != NULL)
 	   XtFree (sIconFileName);
-#endif /* WSM */
 	return ((Pixmap)NULL);
     }
 
@@ -421,10 +407,8 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
     Pixmap       iconPixmap;
     GC           imageGC, topGC, botGC;
     XGCValues    gcv;
-#ifdef WSM
     unsigned long gc_mask;
     XmPixelSet   *pPS = NULL;
-#endif /* WSM */
     unsigned int imageWidth;
     unsigned int imageHeight;
     int          dest_x, dest_y;
@@ -527,7 +511,6 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
     }
 
     /* create a GC to use */
-#ifdef WSM
     gc_mask = GCForeground | GCBackground | GCGraphicsExposures;
     if (mask)
     {
@@ -553,14 +536,6 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
     gcv.graphics_exposures = False;
 
     imageGC = XCreateGC (DISPLAY, iconPixmap, gc_mask, &gcv);
-#else /* WSM */
-    gcv.foreground = bg;	/* clear it first! */
-    gcv.background = bg;
-    gcv.graphics_exposures = False;
-
-    imageGC = XCreateGC (DISPLAY, iconPixmap, (GCForeground|GCBackground),
-		  &gcv);
-#endif /* WSM */
 
     /*
      * Format the image. 
@@ -586,7 +561,6 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
     dest_x = (imageWidth - width) / 2;
     dest_y = (imageHeight - height) / 2;
 
-#ifdef WSM
     if (mask)
     {
 	if (pPS != NULL)
@@ -617,10 +591,6 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
     } 
 
     XChangeGC (DISPLAY, imageGC, gc_mask, &gcv);
-#else /* WSM */
-    /* set the foreground */
-    XSetForeground (DISPLAY, imageGC, fg);
-#endif /* WSM */
 
     /* copy the bitmap to the pixmap */
 #ifndef DISALLOW_DEEP_ICONS
@@ -654,7 +624,6 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
 	 * Shadowing
 	 */
 
-#ifdef WSM
         if (mask && (pPS != NULL))
 	{
 	topGC = GetHighlightGC (pSD, pPS->ts, pPS->bg,
@@ -665,7 +634,6 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
 	}
 	else
 	{
-#endif /* WSM */
 	topGC = GetHighlightGC (pSD, pCD->iconImageTopShadowColor, 
 				  pCD->iconImageBackground,
 				  pCD->iconImageTopShadowPixmap);
@@ -673,9 +641,7 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
 	botGC = GetHighlightGC (pSD, pCD->iconImageBottomShadowColor, 
 				  pCD->iconImageBackground,
 				  pCD->iconImageBottomShadowPixmap);
-#ifdef WSM
 	}
-#endif /* WSM */
 
        /*
         *  CR5208 - Better fix than from OSF!
@@ -871,11 +837,7 @@ Pixmap MakeCachedLabelPixmap (WmScreenData *pSD, Widget menuW, int bitmapIndex)
 
 #define BITMAP_CACHE_INC 5
 
-#ifdef WSM
 int GetBitmapIndex (WmScreenData *pSD, char *name, Boolean bReportError)
-#else /* WSM */
-int GetBitmapIndex (WmScreenData *pSD, char *name)
-#endif /* WSM */
 {
     char         *path;
     BitmapCache  *bitmapc;
@@ -950,9 +912,7 @@ int GetBitmapIndex (WmScreenData *pSD, char *name)
 			     &bitmapc->bitmap, &x, &y)
             != BitmapSuccess)
         {
-#ifdef WSM
 	  if (bReportError)
-#endif /* WSM */
             MWarning (((char *)GETMESSAGE(38, 7, "Unable to read bitmap file %s\n")), path);
 	    XtFree ((char *)bitmapc->path);
 	    return (-1);
@@ -960,9 +920,7 @@ int GetBitmapIndex (WmScreenData *pSD, char *name)
 
         if (bitmapc->width == 0 || bitmapc->height == 0)
         {
-#ifdef WSM
 	  if (bReportError)
-#endif /* WSM */
             MWarning (((char *)GETMESSAGE(38, 8, "Invalid bitmap file %s\n")), path);
 	    XtFree ((char *)bitmapc->path);
 	    return (-1);
@@ -1119,6 +1077,4 @@ char *BitmapPathName (string)
 
 } /* END OF FUNCTION BitmapPathName */
 
-#ifdef WSM
 /****************************   eof    ***************************/
-#endif /* WSM */

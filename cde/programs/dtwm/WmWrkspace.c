@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-#ifdef WSM
 /* 
  * (c) Copyright 1987,1988,1989,1990,1992,1993,1994 HEWLETT-PACKARD COMPANY 
  * (c) Copyright 1993, 1994 International Business Machines Corp.
@@ -47,9 +46,7 @@
 #include <stdio.h>
 #include "WmPanelP.h"
 #include "WmIPC.h"		/* must be after DtP.h */
-#ifdef WSM
 #include "WmPresence.h"
-#endif /* WSM */
 
 /* local macros */
 #ifndef MIN
@@ -3979,5 +3976,3 @@ int PrintWorkspaceList (pSD)
 } /* END OF FUNCTION PrintWorkspaceList */
 #endif /* DEBUG */
 
-/* DO NOT ADD ANYTHING AFTER THE FOLLOWING #ENDIF !!! */
-#endif /* WSM */

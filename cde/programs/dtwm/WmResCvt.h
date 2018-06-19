@@ -31,10 +31,8 @@
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 
 extern void AddWmResourceConverters (void);
-#ifdef WSM
 extern void WmCvtStringToAMBehavior (XrmValue *args, Cardinal numArgs, 
 				 XrmValue *fromVal, XrmValue *toVal);
-#endif /* WSM */
 extern void WmCvtStringToCFocus (XrmValue *args, Cardinal numArgs, XrmValue *fromVal, XrmValue *toVal);
 extern void WmCvtStringToCDecor (XrmValue *args, Cardinal numArgs, XrmValue *fromVal, XrmValue *toVal);
 extern void WmCvtStringToCFunc (XrmValue *args, Cardinal numArgs, XrmValue *fromVal, XrmValue *toVal);

@@ -36,9 +36,7 @@
 
 #include "WmGlobal.h"
 #include <stdio.h>
-#ifdef WSM
 #include <Dt/UserMsg.h>
-#endif /* WSM */
 #include "WmXSMP.h"
 
 /*
@@ -319,21 +317,15 @@ WmXtWarningHandler (char *message)
 void
 Warning (char *message)
 {
-#ifdef WSM
     char pch[MAXWMPATH+1];
 
     sprintf (pch, "%s: %s\n", 
 	GETMESSAGE(20, 1, "Workspace Manager"), message);
 
     _DtSimpleError (wmGD.mwmName, DtIgnore, NULL, pch, NULL);
-#else /* WSM */
-    fprintf (stderr, "%s: %s\n", wmGD.mwmName, message);
-    fflush (stderr);
-#endif /* WSM */
 
 } /* END OF FUNCTION Warning */
 
-#ifdef WSM
 #ifdef DEBUGGER
 
 /******************************<->*************************************
@@ -366,4 +358,3 @@ PrintFormatted(char *f, char *s0, char *s1, char *s2, char *s3, char *s4, char *
 
 /************************    eof   **************************/
 #endif /* DEBUGGER */
-#endif /* WSM */

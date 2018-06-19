@@ -47,9 +47,7 @@
 #include "WmIconBox.h"
 #include "WmMenu.h"
 #include "WmWinInfo.h"
-#ifdef WSM
 #include "WmWrkspace.h"
-#endif /* WSM */
 
 
 
@@ -100,9 +98,7 @@ Boolean MakeIcon (WmWorkspaceData *pWS, ClientData *pcd)
     unsigned long attr_mask;
     int xOffset;
     int yOffset;
-#ifdef WSM
     WsClientData *pWsc = GetWsClientData (pWS, pcd);
-#endif /* WSM */
 
 
     /*
@@ -145,24 +141,13 @@ Boolean MakeIcon (WmWorkspaceData *pWS, ClientData *pcd)
 				ICON_APPEARANCE(pcd).background;
     }
    
-#ifdef WSM
     if ((!pcd->pSD->useIconBox) || 
 	(pcd->clientFlags & (CLIENT_WM_CLIENTS | FRONT_PANEL_BOX)))
-#else
-    if ((!pcd->pSD->useIconBox) || (pcd->clientFlags & ICON_BOX))
-#endif /* WSM */
     {
-#ifdef WSM
 	pWsc->iconFrameWin = XCreateWindow (DISPLAY,
 			       ROOT_FOR_CLIENT(pcd),	/* parent */
 			       pWsc->iconX,
 			       pWsc->iconY,
-#else /* WSM */
-	pcd->iconFrameWin = XCreateWindow (DISPLAY,
-			       ROOT_FOR_CLIENT(pcd),	/* parent */
-			       pcd->iconX,
-			       pcd->iconY,
-#endif /* WSM */
 			       (unsigned int) ICON_WIDTH(pcd),
 			       (unsigned int) ICON_HEIGHT(pcd),
 			       0,		/* border width */
@@ -183,11 +168,7 @@ Boolean MakeIcon (WmWorkspaceData *pWS, ClientData *pcd)
          */
 
         if ((pcd->pSD->useIconBox) && 
-#ifdef WSM
 	    (!(pcd->clientFlags & CLIENT_WM_CLIENTS)) &&
-#else
-	    (!(pcd->clientFlags & ICON_BOX)) &&
-#endif /* WSM */
 	    (pcd->clientFunctions & MWM_FUNC_MINIMIZE) )
         {
             if (!InsertIconIntoBox(pWS->pIconBox, pcd))
@@ -244,9 +225,7 @@ Boolean MakeIcon (WmWorkspaceData *pWS, ClientData *pcd)
 	ReparentIconWindow (pcd, xOffset, yOffset);
     }
 
-#ifdef WSM
     if (pcd->piconTopShadows->used == 0)
-#endif /* WSM */
     MakeIconShadows (pcd, xOffset, yOffset);
 
     return(TRUE);
@@ -860,13 +839,9 @@ void DrawIconTitle (ClientData *pcd)
     GetIconTitleBox (pcd, &textBox);
 
     /* get appropriate GCs */
-#ifdef WSM
     if ((ACTIVE_PSD->useIconBox && 
 	!((pcd->dtwmBehaviors & (DtWM_BEHAVIOR_PANEL)) ||
           (pcd->clientFlags & CLIENT_WM_CLIENTS))) ||
-#else
-    if ((ACTIVE_PSD->useIconBox && !(pcd->clientFlags & ICON_BOX)) || 
-#endif /* WSM */
 	!(wmGD.keyboardFocus == pcd)) 
     {
 	iconGC = ICON_APPEARANCE(pcd).inactiveGC;
@@ -892,15 +867,9 @@ void DrawIconTitle (ClientData *pcd)
 
 
     /* paint the text */
-#ifdef WSM
     WmDrawXmString(DISPLAY, ICON_FRAME_WIN(pcd), ICON_APPEARANCE(pcd).fontList,
 		   pcd->iconTitle, iconGC, 
 		   textBox.x, textBox.y, textBox.width, &textBox, True);
-#else /* WSM */
-    WmDrawXmString(DISPLAY, ICON_FRAME_WIN(pcd), ICON_APPEARANCE(pcd).fontList,
-		   pcd->iconTitle, iconGC, 
-		   textBox.x, textBox.y, textBox.width, &textBox);
-#endif /* WSM */
 
 } /* END OF FUNCTION DrawIconTitle */
 
@@ -952,13 +921,8 @@ void RedisplayIconTitle (ClientData *pcd)
 	 * Get appropriate GCs 
 	 * Dim text if this is in the icon box and the client is mapped 
 	 */
-#ifdef WSM
 	if ((ACTIVE_PSD->useIconBox && (P_ICON_BOX(pcd)) &&
 	    !(pcd->clientFlags & CLIENT_WM_CLIENTS)) || 
-#else
-	if ((ACTIVE_PSD->useIconBox && (P_ICON_BOX(pcd)) &&
-	    !(pcd->clientFlags & ICON_BOX)) || 
-#endif /* WSM */
 	    !(wmGD.keyboardFocus == pcd)) 
 	{
 	    iconGC = ICON_APPEARANCE(pcd).inactiveGC;
@@ -984,18 +948,11 @@ void RedisplayIconTitle (ClientData *pcd)
 	    FALSE);
 
 	/* in with the new */
-#ifdef WSM
 	WmDrawXmString(DISPLAY, ICON_FRAME_WIN(pcd), 
 		       ICON_APPEARANCE(pcd).fontList,
 		       pcd->iconTitle, iconGC, 
 		       textBox.x, textBox.y, textBox.width, &textBox,
 		       True);
-#else /* WSM */
-	WmDrawXmString(DISPLAY, ICON_FRAME_WIN(pcd), 
-		       ICON_APPEARANCE(pcd).fontList,
-		       pcd->iconTitle, iconGC, 
-		       textBox.x, textBox.y, textBox.width, &textBox);
-#endif /* WSM */
 
 	/* 
 	 * Erase & paint text in the active icon text window
@@ -1825,17 +1782,10 @@ void PaintActiveIconText (ClientData *pcd, Boolean erase)
 		    FALSE);
     }
 
-#ifdef WSM
     WmDrawXmString(DISPLAY, pcd->pSD->activeIconTextWin, 
 		   ICON_APPEARANCE(pcd).fontList,
 		   pcd->iconTitle, iconGC, 
 		   textBox.x, textBox.y, textBox.width, &textBox, True);
-#else /* WSM */
-    WmDrawXmString(DISPLAY, pcd->pSD->activeIconTextWin, 
-		   ICON_APPEARANCE(pcd).fontList,
-		   pcd->iconTitle, iconGC, 
-		   textBox.x, textBox.y, textBox.width, &textBox);
-#endif /* WSM */
 
 
 } /* END OF FUNCTION PaintActiveIconText */

@@ -41,10 +41,8 @@
 #include <Xm/XmP.h>
 #include "WmGlobal.h"
 #include "WmXSMP.h"
-#ifdef WSM
-# include "WmWrkspace.h"
-# include <Dt/Session.h>
-#endif
+#include "WmWrkspace.h"
+#include <Dt/Session.h>
 
 typedef struct _ProxyClientInfo
 {
@@ -60,12 +58,7 @@ typedef struct _ProxyClientInfo
 
 #define MAX_RESOURCE_LEN 1024
 
-#ifdef WSM
 static char *dtwmFileName = "dtwm.db";
-#else
-static char *dtwmFileName = ".mwmclientdb";
-# define EXTRA_FN_CHARS 20
-#endif
 
 /* Fully-qualified resource names/classes. */
 static char *xPositionStr = "%s.position.x";
@@ -76,14 +69,9 @@ static char *initialStateStr = "%s.initialState";
 static char *wmCommandStr = "%s.wmCommand";
 static char *wmClientMachineStr = "%s.wmClientMachine";
 static char *screenStr = "%s.screen";
-#ifdef WSM
 static char *workspacesStr = "%s.workspaces";
 static char *iconXPosStr = "%s.iconPos.x.%s";
 static char *iconYPosStr = "%s.iconPos.y.%s";
-#else
-static char *iconXPosStr = "%s.iconPos.x";
-static char *iconYPosStr = "%s.iconPos.y";
-#endif
 
 /* Header for private database. */
 static char *dbHeader = "\
@@ -105,10 +93,6 @@ static char *iconicStateStr = "IconicState";
 static char *XSMPClientStr = "Client";
 static char *proxyClientStr = "ProxyClient";
 
-#ifndef WSM
-static char *dbFileArgStr = "-session";
-#endif
-
 /* Flag to tell us how to treat ProxyClient info. */
 static Boolean smClientDBCheckpointed = False;
 
@@ -121,20 +105,9 @@ static void smDieCallback(Widget, XtPointer, XtPointer);
 
 /* Build client database file name. */
 static void buildDBFileName(char [MAXPATHLEN], Boolean);
-#ifndef WSM
-/*
- *Get clientDB name according to argv; set according to dbFileName.
- */
-static void getClientDBName(void);
-static void setClientDBName(void);
-static char **getNewRestartCmd(void);
-static void freeNewRestartCmd(char **);
-#endif /* ! WSM */
 
-#ifdef WSM
 /* Get string of client's workspaces. */
 static char *getClientWorkspaces(ClientData *);
-#endif
 
 /* List-of-clients utilities. */
 static Boolean addClientToList(ClientData ***, int *, ClientData *);
@@ -193,7 +166,6 @@ smSaveYourselfCallback(Widget w, XtPointer clientData, XtPointer callData)
 	return;
     }
 
-#ifdef WSM
     /* Second phase: all other clients saved; now I can save myself. */
     /* Copied from WmEvent.c. */
     for (scr = 0; scr < wmGD.numScreens; scr++)
@@ -207,7 +179,6 @@ smSaveYourselfCallback(Widget w, XtPointer clientData, XtPointer callData)
 	    SaveResources(&wmGD.Screens[scr]);
 	}
     }
-#endif
 
     /*
      *  NEW FOR SESSION MANAGEMENT: Write private client resource database.
@@ -221,30 +192,6 @@ smSaveYourselfCallback(Widget w, XtPointer clientData, XtPointer callData)
 	wmGD.clientResourceDB = newClientDB;
 	smClientDBCheckpointed = True;
 
-#ifndef WSM
-	/* Set new session properties if wmGD.dbFileName is valid. */
-	if (wmGD.dbFileName != (char *)NULL)
-	{
-	    char **newRestartCmd, **ptr;
-	    char *newDiscardCmd[4];
-	    Arg args[10];
-	    int nargs;
-
-	    newDiscardCmd[0] = "rm";
-	    newDiscardCmd[1] = "-f";
-	    newDiscardCmd[2] = wmGD.dbFileName;
-	    newDiscardCmd[3] = (char *)NULL;
-
-	    newRestartCmd = getNewRestartCmd();
-
-	    nargs = 0;
-	    XtSetArg(args[nargs], XtNrestartCommand, newRestartCmd); nargs++;
-	    XtSetArg(args[nargs], XtNdiscardCommand, newDiscardCmd); nargs++;
-	    XtSetValues(wmGD.topLevelW, args, nargs);
-
-	    freeNewRestartCmd(newRestartCmd);
-	}
-#endif /* ! WSM */
     }
 }
 
@@ -258,8 +205,6 @@ smDieCallback(Widget w, XtPointer clientData, XtPointer callData)
 static void
 buildDBFileName(char fileNameBuf[MAXPATHLEN], Boolean doingSave)
 {
-#ifdef WSM
-
     char *savePath = (char *)NULL;
 
     fileNameBuf[0] = '\0';
@@ -295,182 +240,7 @@ buildDBFileName(char fileNameBuf[MAXPATHLEN], Boolean doingSave)
     if (fileNameBuf[0] == '\0')
 	strcpy(fileNameBuf, dtwmFileName);
 
-#else
-
-    strcpy(fileNameBuf, (wmGD.dbFileName == (char *)NULL) ?
-	   dtwmFileName : wmGD.dbFileName);
-
-#endif
 }
-
-#ifndef WSM
-
-/*
- *  See if dbFileArgStr specified on command line.  Save subsequent arg;
- *  if not, see if resource set; if not, put files in user's home directory.
- *  NOTE: we allocate extra space for the filename so we can append numbers
- *  without reallocating in setClientDBName.
- */
-static void
-getClientDBName(void)
-{
-    char **argP;
-
-    /* See if DB filename specified on command line. */
-    wmGD.dbFileName = (char *)NULL;
-
-    if (wmGD.argv != (char **)NULL)
-    {
-	for (argP = wmGD.argv; *argP != (char *)NULL; argP++)
-	{
-	    if (strcmp(*argP, dbFileArgStr) == 0)
-	    {
-		if (*(++argP) != (char *)NULL)
-		{
-		    if ((wmGD.dbFileName =
-			 (char *)XtMalloc((strlen(*argP) + 1 +
-					   EXTRA_FN_CHARS) *
-					  sizeof(char)))
-			!= (char *)NULL)
-			strcpy(wmGD.dbFileName, *argP);
-		}
-		break;
-	    }
-	}
-    }
-
-    /* Check resource if necessary. */
-    if (wmGD.dbFileName == (char *)NULL)
-    {
-	if (wmGD.sessionClientDB != (String)NULL)
-	{
-	    if ((wmGD.dbFileName =
-		 (char *)XtMalloc((strlen(wmGD.sessionClientDB) + 1 +
-				   EXTRA_FN_CHARS) *
-				  sizeof(char)))
-		!= (char *)NULL)
-		strcpy(wmGD.dbFileName, wmGD.sessionClientDB);
-	}
-    }
-
-    if (wmGD.dbFileName == (char *)NULL)
-    {
-	char *homeDir = XmeGetHomeDirName();
-
-	if ((wmGD.dbFileName =
-	     (char *)XtMalloc((strlen(homeDir) + strlen(dtwmFileName) + 2 +
-			       EXTRA_FN_CHARS) * sizeof(char)))
-	    != (char *)NULL)
-	    sprintf(wmGD.dbFileName, "%s/%s", homeDir, dtwmFileName);
-    }
-}
-
-/*
- *  See comments above in getClientDBName.
- */
-static void
-setClientDBName(void)
-{
-    char *ptr;
-
-    if (wmGD.dbFileName == (char *)NULL)
-	return;
-
-    /* Change trailing ".<number>" to ".<number+1>" */
-    if ((ptr = strrchr(wmGD.dbFileName, '.')) != (char *)NULL)
-    {
-	char *p1;
-
-	for (p1 = ++ptr; *p1 != '\0'; p1++)
-	{
-	    if (!isdigit(*p1))
-		break;
-	}
-
-	if (*p1 == '\0')
-	{
-	    int numSuffix;
-
-	    numSuffix = atoi(ptr) + 1;
-	    sprintf(ptr, "%d", numSuffix);
-
-	    /* Success!  We're all done here. */
-	    return;
-	}
-    }
-
-    /* Otherwise, append ".0" to filename. */
-    strcat(wmGD.dbFileName, ".0");
-}
-
-static char **
-getNewRestartCmd(void)
-{
-    char **argP;
-    int argc, i;
-    int fileArgIndex = -1;
-    Arg args[10];
-    int nargs;
-    char **restartCmd;
-    char **newRestartCmd;
-
-    nargs = 0;
-    XtSetArg(args[nargs], XtNrestartCommand, &restartCmd); nargs++;
-    XtGetValues(wmGD.topLevelW, args, nargs);
-
-    if (restartCmd == (char **)NULL)
-	return (char **)NULL;
-
-    for (argc = 0, argP = restartCmd; *argP != (char *)NULL; argP++, argc++)
-    {
-	if (strcmp(*argP, dbFileArgStr) == 0)
-	{
-	    if (*(++argP) == (char *)NULL)
-		break;
-
-	    fileArgIndex = argc++; /* Point at dbFileArgStr, not filename */
-	}
-    }
-
-    if (fileArgIndex < 0)
-    {
-	fileArgIndex = argc;
-	argc += 2;
-    }
-
-    if ((newRestartCmd = (char **)XtMalloc((argc + 1) * sizeof(char *)))
-	== (char **)NULL)
-	return (char **)NULL;
-
-    for (i = 0; i < argc; i++)
-    {
-	if (i != fileArgIndex)
-	{
-	    newRestartCmd[i] = XtNewString(restartCmd[i]);
-	}
-	else
-	{
-	    newRestartCmd[i++] = XtNewString(dbFileArgStr);
-	    newRestartCmd[i] = XtNewString(wmGD.dbFileName);
-	}
-    }
-    newRestartCmd[i] = (char *)NULL;
-
-    return newRestartCmd;
-}
-
-static void
-freeNewRestartCmd(char **restartCmd)
-{
-    while (*restartCmd != (char *)NULL)
-	XtFree(*(restartCmd++));
-
-    XtFree((char *)restartCmd);
-}
-
-#endif /* ! WSM */
-
-#ifdef WSM
 
 static char *
 getClientWorkspaces(ClientData *pCD)
@@ -522,8 +292,6 @@ getClientWorkspaces(ClientData *pCD)
     return cwsP;
 }
 
-#endif /* WSM */
-
 static Boolean
 addClientToList(ClientData ***cdList, int *nClients, ClientData *pCD)
 {
@@ -555,21 +323,12 @@ clientWorkspaceCompare(const void *ppCD1, const void *ppCD2)
     if ((screenDiff = pCD1->pSD->screen - pCD2->pSD->screen) != 0)
 	return screenDiff;
 
-#ifdef WSM
-
     /* If same screen, sort by workspace id. */
     /* How do we handle clients that live in more than one workspace? */
     /* For now, pick the "current" one - if not in active workspace, */
     /* this will simply be the first one in the client's list. */
     return (int)(pCD1->pWsList[pCD1->currentWsc].wsID -
 		 pCD2->pWsList[pCD2->currentWsc].wsID);
-
-#else
-
-    /* If no WSM, must be in same workspace if screen is same! */
-    return 0;
-
-#endif
 }
 
 /*
@@ -629,24 +388,6 @@ findXSMPClientDBMatch(ClientData *pCD, char **workSpaceNamesP)
 		pCD->clientFlags |= SM_Y;
 	    }
 
-#ifndef WSM
-	    if ((resourcePtr =
-		 getXSMPResource(pCD, WMSAVE_ICON_X, iconXPosStr))
-		!= (char *)NULL)
-	    {
-		ICON_X(pCD) = atoi(resourcePtr);
-		pCD->clientFlags |= SM_ICON_X;
-	    }
-
-	    if ((resourcePtr =
-		 getXSMPResource(pCD, WMSAVE_ICON_Y, iconYPosStr))
-		!= (char *)NULL)
-	    {
-		ICON_Y(pCD) = atoi(resourcePtr);
-		pCD->clientFlags |= SM_ICON_Y;
-	    }
-#endif
-
 	    if ((resourcePtr = getXSMPResource(pCD, WMSAVE_WIDTH,
 					       widthSizeStr))
 		!= (char *)NULL)
@@ -673,7 +414,6 @@ findXSMPClientDBMatch(ClientData *pCD, char **workSpaceNamesP)
 		pCD->clientFlags |= SM_CLIENT_STATE;
 	    }
 
-#ifdef WSM
 	    if ((workSpaceNamesP != (char **)NULL) &&
 		((resourcePtr = getXSMPResource(pCD, WMSAVE_WORKSPACES,
 						workspacesStr))
@@ -681,7 +421,6 @@ findXSMPClientDBMatch(ClientData *pCD, char **workSpaceNamesP)
 	    {
 		*workSpaceNamesP = XtNewString(resourcePtr);
 	    }
-#endif
 	}
 
 	/* Always return True for XSMP clients. */
@@ -838,24 +577,6 @@ findProxyClientDBMatch(ClientData *pCD, char **workSpaceNamesP)
 		pCD->clientFlags |= SM_Y;
 	    }
 
-#ifndef WSM
-	    if ((resourcePtr =
-		 getClientResource(proxyClientID, iconXPosStr))
-		!= (char *)NULL)
-	    {
-		ICON_X(pCD) = atoi(resourcePtr);
-		pCD->clientFlags |= SM_ICON_X;
-	    }
-
-	    if ((resourcePtr =
-		 getClientResource(proxyClientID, iconYPosStr))
-		!= (char *)NULL)
-	    {
-		ICON_Y(pCD) = atoi(resourcePtr);
-		pCD->clientFlags |= SM_ICON_Y;
-	    }
-#endif
-
 	    if ((resourcePtr =
 		 getClientResource(proxyClientID, widthSizeStr))
 		!= (char *)NULL)
@@ -882,7 +603,6 @@ findProxyClientDBMatch(ClientData *pCD, char **workSpaceNamesP)
 		pCD->clientFlags |= SM_CLIENT_STATE;
 	    }
 
-#ifdef WSM
 	    if ((workSpaceNamesP != (char **)NULL) &&
 		((resourcePtr =
 		  getClientResource(proxyClientID, workspacesStr))
@@ -890,12 +610,6 @@ findProxyClientDBMatch(ClientData *pCD, char **workSpaceNamesP)
 	    {
 		*workSpaceNamesP = XtNewString(resourcePtr);
 	    }
-#endif
-
-#ifndef WSM
-	    /* This is done in LoadClientIconPositions() if WSM defined. */
-	    dbRemoveProxyClientEntry(proxyClientID);
-#endif
 
 	    return True;
 	}
@@ -949,7 +663,6 @@ saveXSMPClient(FILE *fp, ClientData *pCD)
 
     if (!pCD->pSD->useIconBox)
     {
-#ifdef WSM
 	WmScreenData *pSD = pCD->pSD;
 	WmWorkspaceData *pWS;
 	int i;
@@ -972,19 +685,6 @@ saveXSMPClient(FILE *fp, ClientData *pCD)
 		}
 	    }
 	}
-#else
-	if (SAVE_RESOURCE(pCD, WMSAVE_ICON_X))
-	{
-	    fprintf(fp, iconXPosStr, clientID);
-	    fprintf(fp, intArg, ICON_X(pCD));
-	}
-
-	if (SAVE_RESOURCE(pCD, WMSAVE_ICON_Y))
-	{
-	    fprintf(fp, iconYPosStr, clientID);
-	    fprintf(fp, intArg, ICON_Y(pCD));
-	}
-#endif
     }
 
     if (SAVE_RESOURCE(pCD, WMSAVE_WIDTH))
@@ -1003,18 +703,13 @@ saveXSMPClient(FILE *fp, ClientData *pCD)
     {
 	int clientState;
 
-#ifdef WSM
 	clientState = pCD->clientState & ~UNSEEN_STATE;
-#else
-	clientState = pCD->clientState;
-#endif
 
 	fprintf(fp, initialStateStr, clientID);
 	fprintf(fp, strArg, (clientState == NORMAL_STATE) ?
 		normalStateStr : iconicStateStr);
     }
 
-#ifdef WSM
     if (SAVE_RESOURCE(pCD, WMSAVE_WORKSPACES))
     {
 	char *clientWorkspaces = getClientWorkspaces(pCD);
@@ -1026,7 +721,6 @@ saveXSMPClient(FILE *fp, ClientData *pCD)
 	    XtFree(clientWorkspaces);
 	}
     }
-#endif
 
     return True;
 }
@@ -1042,9 +736,7 @@ saveProxyClient(FILE *fp, ClientData *pCD, int clientIDNum)
     ProxyClientInfo proxyClientInfo;
     int clientX, clientY;
     unsigned int clientWd, clientHt;
-#ifdef WSM
     char *clientWorkspaces;
-#endif
 
     if (!getProxyClientInfo(pCD, &proxyClientInfo))
 	return False;
@@ -1076,7 +768,6 @@ saveProxyClient(FILE *fp, ClientData *pCD, int clientIDNum)
 
     if (!pCD->pSD->useIconBox)
     {
-#ifdef WSM
 	WmScreenData *pSD = pCD->pSD;
 	WmWorkspaceData *pWS;
 	int i;
@@ -1093,13 +784,6 @@ saveProxyClient(FILE *fp, ClientData *pCD, int clientIDNum)
 		fprintf(fp, intArg, pCD->pWsList[i].iconY);
 	    }
 	}
-#else
-	fprintf(fp, iconXPosStr, clientID);
-	fprintf(fp, intArg, ICON_X(pCD));
-
-	fprintf(fp, iconYPosStr, clientID);
-	fprintf(fp, intArg, ICON_Y(pCD));
-#endif
     }
 
     fprintf(fp, widthSizeStr, clientID);
@@ -1108,17 +792,12 @@ saveProxyClient(FILE *fp, ClientData *pCD, int clientIDNum)
     fprintf(fp, heightSizeStr, clientID);
     fprintf(fp, intArg, clientHt);
 
-#ifdef WSM
     clientState = pCD->clientState & ~UNSEEN_STATE;
-#else
-    clientState = pCD->clientState;
-#endif
 
     fprintf(fp, initialStateStr, clientID);
     fprintf(fp, strArg, (clientState == NORMAL_STATE) ?
 	    normalStateStr : iconicStateStr);
 
-#ifdef WSM
     clientWorkspaces = getClientWorkspaces(pCD);
     if (clientWorkspaces != (char *)NULL)
     {
@@ -1126,7 +805,6 @@ saveProxyClient(FILE *fp, ClientData *pCD, int clientIDNum)
 	fprintf(fp, strArg, clientWorkspaces);
 	XtFree(clientWorkspaces);
     }
-#endif
 
     return True;
 }
@@ -1187,9 +865,6 @@ LoadClientResourceDB(void)
 {
     char dbFileName[MAXPATHLEN];
 
-#ifndef WSM
-    getClientDBName();
-#endif
     buildDBFileName(dbFileName, False);
 
     return XrmGetFileDatabase(dbFileName);
@@ -1212,9 +887,6 @@ SaveClientResourceDB(void)
 
     /* Iterate through client list, saving */
     /* appropriate resources for each. */
-#ifndef WSM
-    setClientDBName();
-#endif
     buildDBFileName(dbFileName, True);
     if ((fp = fopen(dbFileName, "w")) == (FILE *)NULL)
 	return (XrmDatabase)NULL;
@@ -1315,9 +987,6 @@ SortClientListByWorkspace(ClientData **clients, int nClients)
     }
 }
 
-#ifdef WSM
-/* This needs to be called if WSM defined; if WSM not defined, icon */
-/* positions are read at the same time as other resources. */
 void
 LoadClientIconPositions(ClientData *pCD)
 {
@@ -1394,4 +1063,3 @@ LoadClientIconPositions(ClientData *pCD)
 	}
     }
 }
-#endif /* WSM */

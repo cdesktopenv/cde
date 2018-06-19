@@ -36,7 +36,6 @@
 extern void            ProcessWmFile (WmScreenData *pSD, Boolean bNested);
 extern void ProcessCommandLine (int argc,  char *argv[]);
 extern void ProcessMotifBindings (void);
-#ifdef WSM
 extern Boolean         FindDtSessionMatch(int commandArgc, 
 					   char **commandArgv, 
 					   ClientData *pCD, 
@@ -53,18 +52,10 @@ extern void            GetFunctionTableValues (int *execIndex, int *nopIndex,
 extern void GetNopIndex (int tableSize, int *nopIndex);
 extern void GetExecIndex (int tableSize, int *execIndex);
 extern Boolean GetSessionHintsInfo (WmScreenData *pSD, long numItems);
-#endif /* WSM */
 extern FILE          * FopenConfigFile (void);
 extern void            FreeMenuItem (MenuItem *menuItem);
-#ifndef WSM
-extern unsigned char * GetNextLine (void);
-#endif /* not WSM */
-#ifdef WSM
 extern unsigned char * GetStringC (unsigned char **linePP, Boolean SmBehavior);
 extern void SystemCmd (char *pchCmd);
-#else /* WSM */
-extern unsigned char * GetString (unsigned char **linePP);
-#endif /* WSM */
 extern Boolean ParseBtnEvent (unsigned char  **linePP,
                               unsigned int *eventType,
                               unsigned int *button,
@@ -76,7 +67,6 @@ extern void            ParseKeyStr (WmScreenData *pSD, unsigned char *keyStr);
 extern Boolean ParseKeyEvent (unsigned char **linePP, unsigned int *eventType,
 		       KeyCode *keyCode,  unsigned int *state);
 extern MenuItem      * ParseMwmMenuStr (WmScreenData *pSD, unsigned char *menuStr);
-#ifdef WSM
 extern void ParseSessionClientState (WmScreenData *pSD, int count,
 			      unsigned char *string);
 extern void ParseSessionCommand (WmScreenData *pSD,  int count,
@@ -89,14 +79,10 @@ extern void ParseSessionWorkspaces (WmScreenData *pSD,  int count,
 extern void ParseSessionHost (WmScreenData *pSD,  int count,
 			     unsigned char *string);
 extern void ParseDtSessionHints (WmScreenData *pSD, unsigned char *property);
-#endif /* WSM */
 extern int             ParseWmFunction (unsigned char **linePP, unsigned int res_spec, WmFunction *pWmFunction);
 extern void            PWarning (char *message);
 extern void            SaveMenuAccelerators (WmScreenData *pSD, MenuSpec *newMenuSpec);
 extern void      ScanAlphanumeric (unsigned char **linePP);
-#ifndef WSM
-extern void            ScanWhitespace(unsigned char  **linePP);
-#endif /* not WSM */
 extern void            ToLower (unsigned char  *string);
 extern void		SyncModifierStrings(void);
 extern void DeleteTempConfigFileIfAny (void);
@@ -113,17 +99,15 @@ extern Boolean ParseWmFuncStrArg (unsigned char **linePP,
 				       WmFunction wmFunction, String *pArgs);
 extern Boolean ParseWmFuncActionArg (unsigned char **linePP, 
 				  WmFunction wmFunction, String *pArgs);
-#ifdef WSM
 #define ToLower(s)		(_DtWmParseToLower (s))
 #define GetNextLine()		(_DtWmParseNextLine (wmGD.pWmPB))
 #define GetSmartSMString(s)	(_DtWmParseNextTokenC (s, True))
 #define GetSmartString(s)	(_DtWmParseNextTokenC (s, False))
 #define GetString(s)		(_DtWmParseNextTokenC (s, False))
 #define ScanWhitespace(s)	(_DtWmParseSkipWhitespaceC (s))
-#endif /* WSM */
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 extern Boolean IsClientCommand (String);
 extern Boolean SetGreyedContextAndMgtMask (MenuItem *menuItem,
 					   WmFunction wmFunction);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */

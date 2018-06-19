@@ -44,11 +44,9 @@
 
 #include "WmGlobal.h"
 #include "WmResNames.h"
-#ifdef WSM
 #include <Dt/UserMsg.h>
 #include <Dt/Connect.h>
 #include <Tt/tt_c.h>
-#endif /* WSM */
 #include "WmParse.h"
 #include "WmParseP.h"
 #include "WmPanelP.h"
@@ -78,9 +76,7 @@
 #else
 #include <Xm/XmP.h>             /* for XmeGetHomeDirName */
 #endif
-#ifdef WSM
 #include <signal.h>
-#endif /* WSM */
 
 /* maximum string lengths */
 
@@ -96,19 +92,17 @@
 
 #define MBBSIZ	    4096
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 # define PARSE_MENU_ITEMS(pSD, mSpec) ParseMenuItems(pSD, mSpec)
 #else
 # define PARSE_MENU_ITEMS(pSD, mSpec) ParseMenuItems(pSD)
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 /*
  * include extern functions
  */
 #include "WmResParse.h"
-#ifdef WSM
 #include "WmWrkspace.h"
-#endif /* WSM */
 #include "WmError.h"
 #include "WmFunction.h"
 #include "WmImage.h"
@@ -129,7 +123,6 @@ extern int errno;
  * Global Variables And Tables:
  */
 static char cfileName[MAXWMPATH+1];
-#ifdef WSM
 #ifndef NO_MESSAGE_CATALOG
 char * pWarningStringFile;
 char * pWarningStringLine;
@@ -141,12 +134,6 @@ char pWarningStringLine[] = "%s: %s on line %d of specification string\n";
 #define parseP	(wmGD.pWmPB->pchNext)
 #define line	(wmGD.pWmPB->pchLine)
 #define linec	(wmGD.pWmPB->lineNumber)
-#else  /* WSM */
-static FILE *cfileP = NULL;   /* fopen'ed configuration file or NULL */
-static unsigned char  line[MAXLINE+1]; /* line buffer */
-static int   linec = 0;       /* line counter for parser */
-static unsigned char *parseP = NULL;   /* pointer to parse string */
-#endif /* WSM */
 
 
 typedef struct {
@@ -181,7 +168,7 @@ typedef struct {
    Boolean       fClick;
 } EventTableEntry;
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 
 # define CCI_USE_DEFAULT_NAME_TAG "DEFAULT_NAME"
 
@@ -209,15 +196,13 @@ typedef struct _CCIFuncArg {
   CCIEntryModifier mod;
   String           cciEntry;
 } CCIFuncArg;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 #ifdef MOTIF_ONE_DOT_ONE
 void GetHomeDirName(String  fileName);
 #endif
-#ifdef WSM
 static String GetNetworkFileName (char *pchFile);
-#endif /* WSM */
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 static MenuItem	       *MakeSeparatorTemplate  (int);
 static void ParseMenuItemName (unsigned char **linePP, MenuItem *menuItem);
 static Boolean ParseClientCommand (unsigned char **linePP, MenuSpec *menuSpec,
@@ -227,15 +212,15 @@ static void FixMenuItem (MenuSpec *menuSpec, MenuItem *menuItem);
 static Boolean GetCCIModifier (String modString, CCIEntryModifier *mod);
 static Boolean ParseWmFuncCCIArgs (unsigned char **linePP, 
 				   WmFunction wmFunction, String *pArgs);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 FILE *FopenConfigFile (void);
 void SaveMenuAccelerators (WmScreenData *pSD, MenuSpec *newMenuSpec);
 static void ParseMenuSet (WmScreenData *pSD, unsigned char *lineP);
 MenuItem *ParseMwmMenuStr (WmScreenData *pSD, unsigned char *menuStr);
 static MenuItem *ParseMenuItems (WmScreenData *pSD
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 				 , MenuSpec *menuSpec
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 				);
 static Boolean ParseWmLabel (WmScreenData *pSD, MenuItem *menuItem, 
 			     unsigned char *string);
@@ -374,25 +359,23 @@ typedef struct {
  */
 
 FunctionTableEntry functionTable[] = {
-#ifdef WSM
     {"f.action",	0,
 			CRS_ANY,
 			0,
 			F_Action,
 			ParseWmFuncActionArg},
-#endif /* WSM */
     {"f.beep",		0,
 			CRS_ANY,
 			0,
 			F_Beep,
 			ParseWmFuncNoArg},
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     {"f.cci",		0,
 	        	CRS_ANY,
 			0,
 			F_Nop,
 			ParseWmFuncCCIArgs},
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     {"f.circle_down",	F_SUBCONTEXT_IB_IICON|F_SUBCONTEXT_IB_WICON,
 			CRS_ANY,
 			0,
@@ -403,7 +386,6 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Circle_Up,
 			ParseWmFuncGrpArg},
-#ifdef WSM
     {"f.create_workspace", 0,
 			CRS_ANY,
 			0,
@@ -414,7 +396,6 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_DeleteWorkspace,
 			ParseWmFuncNoArg},
-#endif /* WSM */
     {"f.exec",		0,
 			CRS_ANY,
 			0,
@@ -430,14 +411,11 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Focus_Key,
 			ParseWmFuncNoArg},
-#ifdef WSM
     {"f.goto_workspace", 0,
 			CRS_ANY,
 			0,
 			F_Goto_Workspace,
 			ParseWmFuncStrArg},
-#endif /* WSM */
-#ifdef WSM
     {"f.help",          0,
 			CRS_ANY,
 			0,
@@ -448,14 +426,13 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Help_Mode,
 			ParseWmFuncNoArg},  /* for now */
-#endif /* WSM */
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     {"f.invoke_command",
 	        	0, CRS_ANY,
 			0,
 			F_InvokeCommand,
 			ParseWmFuncStrArg},
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     {"f.kill",		F_CONTEXT_ROOT,
 			CRS_ANY,
 			MWM_FUNC_CLOSE,
@@ -466,14 +443,12 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Lower,
                         ParseWmFuncMaybeStrArg},
-#ifdef WSM
     {"f.marquee_selection",	
 			F_CONTEXT_WINDOW|F_CONTEXT_ICON|F_SUBCONTEXT_IB_IICON,
 			CRS_ANY,
 			0,
 			F_Marquee_Selection,
 			ParseWmFuncNoArg},
-#endif /* WSM */
     {"f.maximize",	F_CONTEXT_ROOT|F_CONTEXT_MAXIMIZE|
 	                               F_SUBCONTEXT_IB_WICON,
 			CRS_ANY,
@@ -505,13 +480,11 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Next_Key,
 			ParseWmFuncGrpArg},
-#ifdef WSM
     {"f.next_workspace",	0,
 			CRS_ANY,
 			0,
 			F_Next_Workspace,
 			ParseWmFuncNoArg},
-#endif /* WSM */
     {"f.nop",	        F_CONTEXT_ROOT|F_CONTEXT_ICON|F_CONTEXT_WINDOW|
 	                    F_SUBCONTEXT_IB_WICON | F_SUBCONTEXT_IB_IICON,
 			CRS_ANY,
@@ -529,13 +502,11 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Normalize_And_Raise,
 			ParseWmFuncMaybeStrArg},
-#ifdef WSM
     {"f.occupy_all", F_CONTEXT_ICONBOX|F_CONTEXT_ROOT,
 			CRS_ANY,
                         DtWM_FUNC_OCCUPY_WS,
  			F_AddToAllWorkspaces,
                         ParseWmFuncNoArg},
-#endif /* WSM */
     {"f.pack_icons",	0,
 			CRS_ANY,
 			0,
@@ -546,13 +517,13 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Pass_Key,
 			ParseWmFuncNoArg},
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     {"f.post_rmenu",	0,
 	        	CRS_KEY,
 			0,
 			F_Post_RMenu,
 			ParseWmFuncNoArg},
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     {"f.post_wmenu",	0,
 			CRS_BUTTON|CRS_KEY,
 			0,
@@ -568,13 +539,11 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Prev_Key,
 			ParseWmFuncGrpArg},
-#ifdef WSM
     {"f.prev_workspace",	0,
 			CRS_ANY,
 			0,
 			F_Prev_Workspace,
 			ParseWmFuncNoArg},
-#endif /* WSM */
     {"f.quit_mwm",	F_CONTEXT_ICON|F_CONTEXT_WINDOW,
 			CRS_ANY,
 			0,
@@ -601,32 +570,22 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Refresh_Win,
 			ParseWmFuncNoArg},
-#ifdef WSM
     {"f.remove",	F_CONTEXT_ROOT,
 			CRS_ANY,
 			DtWM_FUNC_OCCUPY_WS,
 			F_Remove,
 			ParseWmFuncNoArg},
-#endif /* WSM */
     {"f.resize",	F_CONTEXT_ICON|F_CONTEXT_ROOT|
                                  F_SUBCONTEXT_IB_IICON|F_SUBCONTEXT_IB_WICON,
 			CRS_ANY,
 			MWM_FUNC_RESIZE,
 			F_Resize,
 			ParseWmFuncNoArg},
-#ifdef WSM
     {"f.restart",	F_CONTEXT_ICON|F_CONTEXT_WINDOW,
 			CRS_ANY,
 			0,
 			F_Restart,
 			ParseWmFuncStrArg},
-#else /* WSM */
-    {"f.restart",	F_CONTEXT_ICON|F_CONTEXT_WINDOW,
-			CRS_ANY,
-			0,
-			F_Restart,
-			ParseWmFuncNoArg},
-#endif /* WSM */
     {"f.restore",	F_CONTEXT_ROOT|F_CONTEXT_NORMAL|F_SUBCONTEXT_IB_WICON,
 			CRS_ANY,
 			0,
@@ -658,13 +617,11 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Set_Behavior,
 			ParseWmFuncNoArg},
-#ifdef WSM
     {"f.set_context",	0,
 			CRS_ANY,
 			0,
 			F_Set_Context,
 			ParseWmFuncNbrArg},
-#endif /* WSM */
     {"f.title",		0,
 			CRS_MENU,
 			0,
@@ -681,7 +638,6 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Version,
 			ParseWmFuncNoArg},
-#ifdef WSM
 
 #ifdef OLD
     {"f.workspace_presence",F_CONTEXT_ICON|F_CONTEXT_ROOT|F_CONTEXT_ICONBOX|
@@ -693,8 +649,7 @@ FunctionTableEntry functionTable[] = {
 			DtWM_FUNC_OCCUPY_WS,
  			F_Workspace_Presence,
                  	ParseWmFuncNoArg},
-#endif /* WSM */
-#if defined(DEBUG) && defined(WSM)
+#if defined(DEBUG)
     {"f.zz_debug",	0,
 			CRS_ANY,
 			0,
@@ -713,25 +668,13 @@ FunctionTableEntry functionTable[] = {
 /*
  * Be sure to update these define, whenever adding/deleting a function.
  */
-#ifdef WSM
-# if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
-#  define F_CCI_INDEX  2
-# endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#if (defined(MWM_QATS_PROTOCOL))
+# define F_CCI_INDEX  2
+#endif /* defined(MWM_QATS_PROTOCOL) */
 int F_ACTION_INDEX;
 int F_EXEC_INDEX;
 int F_NOP_INDEX;
-#else  /* WSM */
-# if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
-#  define F_CCI_INDEX  1
-#  define F_EXEC_INDEX 4
-#  define F_NOP_INDEX 16
-# else
-#  define F_EXEC_INDEX 3
-#  define F_NOP_INDEX 14
-# endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
-#endif /* WSM */
-#ifdef WSM
-
+
 /******************************<->*************************************
  *
  *  void GetFunctionTableValues (int *execIndex, int *nopIndex, 
@@ -1682,9 +1625,7 @@ unsigned int PeekAhead(unsigned char *currentChar,
 	return(0);
     }
 } /* END OF FUNCTION PeekAhead */
-    
-    
-#endif /* WSM */
+
 
 
 
@@ -1867,10 +1808,8 @@ void ProcessWmFile (WmScreenData *pSD, Boolean bNested)
     pSD->keySpecs = NULL;
     pSD->menuSpecs = NULL;
 
-#ifdef WSM
     /**** hhhhhhhhhhhh   ******/
     GetFunctionTableValues (&F_EXEC_INDEX, &F_NOP_INDEX, &F_ACTION_INDEX);
-#endif /* WSM */
     /*
      * Find and parse the default system menu string, if it exists.
      */
@@ -2010,11 +1949,9 @@ static char *ExtractLocaleName(lang)
     return lang;
 }
 
-#ifdef WSM
 #define RC_CONFIG_SUBDIR		"/config/"
 #define RC_DEFAULT_CONFIG_SUBDIR	"/config/C"
-#endif /* WSM */
-
+
 /*************************************<->*************************************
  *
  *  FopenConfigFile ()
@@ -2192,7 +2129,6 @@ FILE *FopenConfigFile (void)
     strcpy (cfileName, homeDir);
 #endif
 
-#ifdef WSM
     if (MwmBehavior)
     {
 	/*
@@ -2228,14 +2164,6 @@ FILE *FopenConfigFile (void)
 	}
 	strncat(cfileName, LANG_DT_WMRC, MAXWMPATH - strlen(cfileName));
     }
-#else /* WSM */
-    if (LANG != NULL)
-    {
-	strncat(cfileName, "/", MAXWMPATH-strlen(cfileName));
-	strncat(cfileName, LANG, MAXWMPATH-strlen(cfileName));
-    }
-    strncat(cfileName, HOME_MWMRC, MAXWMPATH - strlen(cfileName));
-#endif /* WSM */
     if ((fileP = fopen (cfileName, "r")) != NULL)
     {
         if (LANG != NULL) {
@@ -2253,7 +2181,6 @@ FILE *FopenConfigFile (void)
 #else
     strcpy (cfileName, homeDir);
 #endif
-#ifdef WSM
 	if (MwmBehavior)
 	{
 	    /* 
@@ -2268,9 +2195,6 @@ FILE *FopenConfigFile (void)
 	     */
 	    strncat(cfileName, HOME_DT_WMRC, MAXWMPATH - strlen(cfileName));
 	}
-#else /* WSM */
-        strncat(cfileName, HOME_MWMRC, MAXWMPATH - strlen(cfileName));
-#endif /* WSM */
 	if ((fileP = fopen (cfileName, "r")) != NULL)
 	{
 	  if (LANG != NULL) {
@@ -2318,7 +2242,6 @@ FILE *FopenConfigFile (void)
 #endif
     if (LANG != NULL)
     {
-#ifdef WSM
 	if (MwmBehavior)
 	{
 	    strcpy(cfileName, LIBDIR);
@@ -2333,15 +2256,6 @@ FILE *FopenConfigFile (void)
 	    strncat(cfileName, LANG, MAXWMPATH-strlen(cfileName));
 	    strncat(cfileName, SLASH_DT_WMRC, MAXWMPATH - strlen(cfileName));
 	}
-#else /* WSM */
-       /*
-	* Try /$LANG/system.mwmrc within the install tree
-	*/
-	strcpy(cfileName, LIBDIR);
-	strncat(cfileName, "/", MAXWMPATH-strlen(cfileName));
-	strncat(cfileName, LANG, MAXWMPATH-strlen(cfileName));
-	strncat(cfileName, SLASH_MWMRC, MAXWMPATH - strlen(cfileName));
-#endif /* WSM */
 	if ((fileP = fopen (cfileName, "r")) != NULL)
 	{
 	  XtFree(LANG);
@@ -2351,7 +2265,6 @@ FILE *FopenConfigFile (void)
 
     if ((fileP == NULL) && !stackPushed)
     {
-#ifdef WSM
     if (MwmBehavior)
     {
 	strcpy(cfileName, LIBDIR);
@@ -2366,21 +2279,6 @@ FILE *FopenConfigFile (void)
 	strncat(cfileName, SLASH_DT_WMRC, MAXWMPATH - strlen(cfileName));
 	fileP = fopen (cfileName, "r");
     }
-#else /* WSM */
-    /*
-     * Try /system.mwmrc within the install tree
-     */
-    strcpy(cfileName, LIBDIR);
-    strncat(cfileName, SLASH_MWMRC, MAXWMPATH - strlen(cfileName));
-
-    if (LANG != NULL) 
-    {
-       XtFree(LANG);
-       LANG = NULL;
-    }
-    strcpy(cfileName, cfileName);
-    fileP = fopen (cfileName, "r");
-#endif /* WSM */
     }
   }
 
@@ -2567,10 +2465,10 @@ static void ParseMenuSet (WmScreenData *pSD, unsigned char *lineP)
     menuSpec->menuItems = NULL;
     menuSpec->accelContext = 0;
     menuSpec->accelKeySpecs = NULL;
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     menuSpec->exclusions = NULL;
     menuSpec->clientLocal = FALSE;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     menuSpec->nextMenuSpec = NULL;
 
     /*
@@ -2722,9 +2620,9 @@ MenuItem *ParseMwmMenuStr (WmScreenData *pSD, unsigned char *menuStr)
  *************************************<->***********************************/
 
 static MenuItem *ParseMenuItems (WmScreenData *pSD
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 				 , MenuSpec *menuSpec
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 				)
 {
     unsigned char *string;
@@ -2733,9 +2631,9 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
     MenuItem      *lastMenuItem;
     MenuItem      *menuItem;
     register int   ix;
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     Boolean        use_separators = False;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     
     /*
      * Parse "label [mnemonic] [accelerator] function" or
@@ -2769,12 +2667,12 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	menuItem->nextMenuItem = NULL;
 	menuItem->wmFunction = (WmFunction)NULL;
 	menuItem->wmFuncArgs = NULL;
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	menuItem->clientCommandName = NULL;
 	menuItem->clientCommandID = 0;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	/*
 	 * Is this a simple menu item label or is it a
 	 * client command specification.
@@ -2801,7 +2699,7 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	    else menuItem->wmFunction = F_InvokeCommand;
 	}
 	else /* It must be a menu item label */
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 	{
 	    /*
 	     * Parse the menu item label.
@@ -2835,11 +2733,11 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	 * but we do want to search for a menu item name that occupies
 	 * the same place as the function does for normal menu items.
 	 */
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	if (menuItem->wmFunction != NULL)
 	  ParseMenuItemName(&lineP, menuItem);
 	else
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 	  ix = ParseWmFunction (&lineP, CRS_MENU, &menuItem->wmFunction);
 
 	/*
@@ -2871,7 +2769,7 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	    continue;  /* skip this menu item */
         }
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	/*
 	 * If we're working on the f.cci function, this will fix-up
 	 * the menuItem entries so that it appears that we read-in
@@ -2910,7 +2808,7 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	    else 		      firstMenuItem = separator;
 	    lastMenuItem = separator;
 	}
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 	/*
 	 * Add this item to the menu specification.
@@ -2926,7 +2824,7 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	}
 	lastMenuItem = menuItem;
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	/* If this menu item is supposed to be wrapped in separators
 	 * then create a separator template after the menu item
 	 */
@@ -2939,7 +2837,7 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	}
 
 	use_separators = FALSE;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     }
 
     return (firstMenuItem);
@@ -2948,7 +2846,7 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  StoreExclusion (menuSpec, string)
@@ -3338,7 +3236,7 @@ static Boolean ParseClientCommand (unsigned char **linePP, MenuSpec *menuSpec,
 
     return(return_val);
 }
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 
 /*************************************<->*************************************
@@ -3402,13 +3300,8 @@ static Boolean ParseWmLabel (WmScreenData *pSD, MenuItem *menuItem,
      */
     {
         string++;  /* skip "@" */
-#ifdef WSM
         if ((menuItem->labelBitmapIndex = GetBitmapIndex (pSD, 
 					   (char *)string, True)) >= 0)
-#else /* WSM */
-        if ((menuItem->labelBitmapIndex = GetBitmapIndex (pSD, 
-					       (char *)string)) >= 0)
-#endif /* WSM */
 	{
 	    menuItem->labelType = XmPIXMAP;
 	}
@@ -3560,10 +3453,10 @@ static Boolean ParseWmAccelerator (unsigned char **linePP, MenuItem *menuItem)
 
     if ((*lineP != '\0') &&     /* something follows */
 	(*lineP != '!')  &&     /* skip if we have the ! WmFunction */
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	 /* skip label name for client command */
 	((*lineP != '"') || (menuItem->wmFunction != F_InvokeCommand)) &&
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 	(*lineP != 'f')  &&
 	(*(lineP+1) != '.'))    /* skip if we have f.xxx WmFunction */
     {
@@ -3601,7 +3494,7 @@ static Boolean ParseWmAccelerator (unsigned char **linePP, MenuItem *menuItem)
 } /* END OF FUNCTION ParseWmAccelerator */
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  ParseMenuItemName (linePP, menuItem)
@@ -3680,7 +3573,7 @@ static void ParseMenuItemName (unsigned char **linePP, MenuItem *menuItem)
 	*linePP = lineP;
     }
 }
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 
 /*************************************<->*************************************
@@ -4245,7 +4138,7 @@ static Boolean ParseWmFuncNbrArg (unsigned char **linePP,
 } /* END OF FUNCTION ParseWmFuncNbrArg */
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  ParseWmFuncCCIArgs (linePP, wmFunction, pArgs)
@@ -4346,7 +4239,7 @@ static Boolean ParseWmFuncCCIArgs (unsigned char **linePP,
 
   return(TRUE);
 } /* END OF FUNCTION ParseWmFuncCCIArgs */
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 
 /*************************************<->*************************************
@@ -4726,12 +4619,10 @@ static Boolean ParseContext (unsigned char **linePP, Context *context,
             *context |= F_CONTEXT_WINDOW;
 	    *subContext |= F_SUBCONTEXT_W_APP;
         }
-#ifdef WSM
         else if (!strcmp ("ifkey", (char *)ctxStr))
         {
             *context |= F_CONTEXT_IFKEY;
         }
-#endif /* WSM */
         else 
         /* Unknown context name */
         {
@@ -4853,9 +4744,7 @@ static void ParseKeySet (WmScreenData *pSD, unsigned char *lineP)
     KeySpec      *lastKeySpec;
     unsigned int  eventType;
     int           ix;
-#ifdef WSM
     Boolean 	bBadKey;
-#endif /* WSM */
     
     /*
      * Parse the key set bindings from the configuration file.
@@ -4946,21 +4835,13 @@ static void ParseKeySet (WmScreenData *pSD, unsigned char *lineP)
 	/*
 	 * Parse the key specification.
 	 */
-#ifdef WSM
 	bBadKey = False;
-#endif /* WSM */
 	if (!ParseKeyEvent(&lineP,
 			   &eventType,
 			   &keySpec->keycode,
 	                   &keySpec->state))
 	{
-#ifdef WSM
 	    bBadKey = True;
-#else /* WSM */
-            PWarning (((char *)GETMESSAGE(60, 27, "Invalid key specification")));
-	    XtFree ((char *)keySpec);
-	    continue;  /* skip this key specification */
-#endif /* WSM */
 	}
 
 	/*
@@ -4971,15 +4852,12 @@ static void ParseKeySet (WmScreenData *pSD, unsigned char *lineP)
 	if (!ParseContext(&lineP, &keySpec->context, 
 			  &keySpec->subContext))
 	{
-#ifdef WSM
 	    if (bBadKey)
 		PWarning (((char *)GETMESSAGE(60, 27, "Invalid key specification")));
-#endif /* WSM */
             PWarning (((char *)GETMESSAGE(60, 28, "Invalid key context")));
 	    XtFree ((char *)keySpec);
 	    continue;  /* skip this key specification */
 	}
-#ifdef WSM
 	if (bBadKey)
 	{
 	    /*
@@ -4997,7 +4875,6 @@ static void ParseKeySet (WmScreenData *pSD, unsigned char *lineP)
 	 * rest of the program doesn't see it.
 	 */
 	keySpec->context &= ~F_CONTEXT_IFKEY;
-#endif /* WSM */
 
 
         /*
@@ -5047,151 +4924,6 @@ static void ParseKeySet (WmScreenData *pSD, unsigned char *lineP)
     }
 
 } /* END OF FUNCTION ParseKeySet */
-
-#ifndef WSM
-
-/*************************************<->*************************************
- *
- *  GetNextLine ()
- *
- *
- *  Description:
- *  -----------
- *  Returns the next line from an fopened configuration file or a newline-
- *  embedded configuration string.
- *
- *
- *  Inputs:
- *  ------
- *  cfileP = (global) file pointer to fopened configuration file or NULL
- *  line   = (global) line buffer
- *  linec  = (global) line count
- *  parseP = (global) parse string pointer if cfileP == NULL
- *
- * 
- *  Outputs:
- *  -------
- *  line =    (global) next line 
- *  linec =   (global) line count incremented
- *  parseP =  (global) parse string pointer incremented
- *  Return =  line or NULL if file or string is exhausted.
- *
- *
- *  Comments:
- *  --------
- *  If there are more than MAXLINE characters on a line in the file cfileP the
- *  excess are truncated.  
- *  Assumes the line buffer is long enough for any parse string line.
- * 
- *************************************<->***********************************/
-
-unsigned char *
-GetNextLine (void)
-{
-    register unsigned char	*string;
-    int				len;
-
-#ifndef NO_MULTIBYTE
-    int   chlen;
-    wchar_t last;
-    wchar_t wdelim;
-    char delim;
-    int lastlen;
-#endif
-
-    if (cfileP != NULL)
-    /* read fopened file */
-    {
-	if ((string = (unsigned char *) 
-		      fgets ((char *)line, MAXLINE, cfileP)) != NULL)
-	{
-#ifndef NO_MULTIBYTE
-
-	    lastlen = 0;
-	    while (*string &&
-		   ((len = mblen((char *)string, MB_CUR_MAX)) > 0))
-	    {
-		mbtowc(&last, (char *)string, MB_CUR_MAX);
-		lastlen = len;
-		string += len;
-	    }
-	    delim = '\\';
-	    mbtowc(&wdelim, &delim, MB_CUR_MAX);
-	    if (lastlen == 1 && last == wdelim)
-	    {
-		do
-		{
-		    if (!fgets((char *)string, MAXLINE - (string - line), cfileP))
-			break;
-
-		    lastlen = 0;
-		    while (*string &&
-			   ((len = mblen((char *)string, MB_CUR_MAX)) > 0))
-		    {
-			mbtowc(&last, (char *)string, MB_CUR_MAX);
-			lastlen = len;
-			string += len;
-		    }
-		    linec++;
-		}
-		while (lastlen == 1 && last == wdelim);
-	    }
-	    string = line;
-#else
-	    len = strlen((char *)string) - 2;
-	    if ((len > 0) && string[len] == '\\')
-	    {
-		do {
-		    string = &string[len];
-		    if (fgets((char *)string, 
-		 	      MAXLINE - (string-line), cfileP) == NULL)
-		       break;
-		    len = strlen((char *)string) - 2;
-		    linec++;
-		} while ((len >= 0) && string[len] == '\\');
-		string = line;
-	    }
-#endif
-	}
-    }
-    else if ((parseP != NULL) && (*parseP != '\0'))
-    /* read parse string */
-    {
-	string = line;
-#ifndef NO_MULTIBYTE
-	while ((*parseP != '\0') &&
-               ((chlen = mblen ((char *)parseP, MB_CUR_MAX)) > 0) &&
-	       (*parseP != '\n'))
-	/* copy all but NULL and newlines to line buffer */
-	{
-	    while (chlen--)
-	    {
-	        *(string++) = *(parseP++);
-	    }
-        }
-#else
-	while ((*parseP != '\0') && (*parseP != '\n'))
-	/* copy all but end-of-line and newlines to line buffer */
-	{
-	    *(string++) = *(parseP++);
-        }
-#endif
-	*string = '\0';
-	if (*parseP == '\n')
-	{
-	    parseP++;
-	}
-    }
-    else
-    {
-	string = NULL;
-    }
-
-    linec++;
-    return (string);
-
-} /* END OF FUNCTION GetNextLine */
-#endif /* WSM */
 
 
 /*************************************<->*************************************
@@ -5548,7 +5280,7 @@ static Boolean LookupModifier (unsigned char *name, unsigned int *valueP)
 } /* END OF FUNCTION LookupModifier */
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  GetCCIModifier (modString, mod)
@@ -5691,7 +5423,7 @@ static void FixMenuItem (MenuSpec *menuSpec, MenuItem *menuItem)
       break;
     }
 }
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 
 /*************************************<->*************************************
@@ -6093,103 +5825,7 @@ void ScanAlphanumeric (unsigned char **linePP)
 } /* END OF FUNCTION ScanAlphanumeric */
 
 
-#ifndef WSM
-
-/*************************************<->*************************************
- *
- *  ScanWhitespace(linePP)
- *
- *
- *  Description:
- *  -----------
- *  Scan the string, skipping over all white space characters.
- *
- *
- *  Inputs:
- *  ------
- *  linePP = nonNULL pointer to current line buffer pointer
- *
- * 
- *  Outputs:
- *  -------
- *  linePP = nonNULL pointer to revised line buffer pointer
- *
- *
- *  Comments:
- *  --------
- *  Assumes linePP is nonNULL
- * 
- *************************************<->***********************************/
 
-void ScanWhitespace(unsigned char  **linePP)
-{
-#ifndef NO_MULTIBYTE
-    while (*linePP && (mblen ((char *)*linePP, MB_CUR_MAX) == 1) && isspace (**linePP))
-#else
-    while (*linePP && isspace (**linePP))
-#endif
-    {
-        (*linePP)++;
-    }
-
-} /* END OF FUNCTION ScanWhitespace */
-#endif /* not WSM */
-
-#ifndef WSM
-
-/*************************************<->*************************************
- *
- *  ToLower (string)
- *
- *
- *  Description:
- *  -----------
- *  Lower all characters in a string.
- *
- *
- *  Inputs:
- *  ------
- *  string = NULL-terminated character string or NULL
- *
- * 
- *  Outputs:
- *  -------
- *  string = NULL-terminated lower case character string or NULL
- *
- *
- *  Comments:
- *  --------
- *  None.
- * 
- *************************************<->***********************************/
-
-void ToLower (char  *string)
-{
-    char *pch = string;
-#ifndef NO_MULTIBYTE
-    int            chlen;
-
-    while (*pch && ((chlen = mblen (pch, MB_CUR_MAX)) > 0))
-    {
-        if ((chlen == 1) && (isupper (*pch)))
-	{
-	    *pch = tolower(*pch);
-	}
-	pch += chlen;
-    }
-#else
-    while (*pch != '\0')
-    {
-        if (isupper (*pch))
-	{
-	    *pch = tolower(*pch);
-	}
-	pch++;
-    }
-#endif
-
-} /* END OF FUNCTION ToLower */
-#endif  /* WSM */
 
 
 /*************************************<->*************************************
@@ -6214,7 +5850,6 @@ void
 PWarning (char *message)
 {
 
-#ifdef WSM
     char pch[MAXWMPATH+1];
     String sMessage;
     char *pchFile;
@@ -6243,25 +5878,10 @@ PWarning (char *message)
     }
     _DtSimpleError (wmGD.mwmName, DtIgnore, NULL, pch, NULL);
     XtFree (sMessage);
-#else /* WSM */
-    if (cfileP != NULL)
-    {
-        fprintf (stderr, ((char *)GETMESSAGE(60, 33, "%s: %s on line %d of configuration file %s\n")),
-		 wmGD.mwmName, message, linec,
-		 wmGD.configFile ? wmGD.configFile : cfileName);
-    }
-    else
-    {
-        fprintf (stderr, ((char *)GETMESSAGE(60, 34, "%s: %s on line %d of specification string\n")),
-                     wmGD.mwmName, message, linec);
-    }
-    fflush (stderr);
-#endif /* WSM */
 
 
 } /* END OF FUNCTION PWarning */
 
-#ifdef WSM
 /*
  * Key substitution table entry
  */
@@ -6414,8 +6034,7 @@ static void InitKeySubs (
     *pNumKeySubs = numKS;
 }
 
-#endif /* WSM */
-
+
 /*************************************<->*************************************
  *
  *  ProcessAccelText (startP, endP, destP)
@@ -6449,7 +6068,6 @@ static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
 #ifndef NO_MULTIBYTE
     int   chlen;
 #endif
-#ifdef WSM
     static Boolean	bAccelInit = False;
     static KeySub	*pKeySub;
     static int		numKeySubs;
@@ -6463,7 +6081,6 @@ static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
 	InitKeySubs (&pKeySub, &numKeySubs);
 	bAccelInit = True;
     }
-#endif /* WSM */
 
     /*
      * Copy modifiers
@@ -6477,9 +6094,7 @@ static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
 	{
             *destP++ = *startP++;
         }
-#ifdef WSM
 	pchFirst = startP;
-#endif /* WSM */
 
 #ifndef NO_MULTIBYTE
         while (*startP &&
@@ -6488,25 +6103,15 @@ static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
         {
 	    while (chlen--)
 	    {
-#ifdef WSM
 	        startP++;
-
-#else /* WSM */
-	        *destP++ = *startP++;
-#endif /* WSM */
 	    }
 	}
 #else
         while (isalnum (*startP))
         {
-#ifdef WSM
 	        startP++;
-#else /* WSM */
-	    *destP++ = *startP++;
-#endif /* WSM */
 	}
 #endif
-#ifdef WSM
 	/* find substitution */
 	pchSub = NULL;
 	lenSub = 0;
@@ -6534,7 +6139,6 @@ static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
 	    memcpy (destP, pchFirst, startP-pchFirst);
 	    destP += startP-pchFirst;
 	}
-#endif /* WSM */
 	*destP++ = '+';
 
         ScanWhitespace (&startP);
@@ -7467,8 +7071,6 @@ Boolean ParseWmFuncActionArg (unsigned char **linePP,
 } /* END OF FUNCTION ParseWmFuncActionArg */
 
 
-#ifdef WSM
-
 /*************************************<->*************************************
  *
  *  PreprocessConfigFile (pSD)
@@ -7706,10 +7308,8 @@ GetNetworkFileName (char *pchFile)
     return (sReturn);
 }
 /****************************   eof    ***************************/
-#endif /* WSM */
 
-
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  SetGreyedContextAndMgtMask (menuItem, wmFunction)
@@ -7804,4 +7404,4 @@ MenuItem *MakeSeparatorTemplate (int position)
 
     return(item);
 }
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */

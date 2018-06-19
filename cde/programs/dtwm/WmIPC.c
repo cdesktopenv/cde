@@ -859,11 +859,7 @@ RequestMsgCB(Tt_message m, Tt_pattern p)
 			pCD = clients[i];
 			strcpy(ptr, pCD->smClientID);
 			clientWorkspaces[i] =
-#ifdef WSM
 			    pCD->pWsList[pCD->currentWsc].wsID;
-#else
-			    pCD->pSD->pWS->id;
-#endif
 		    }
 		}
 	    }

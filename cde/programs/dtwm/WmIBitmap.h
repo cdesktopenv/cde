@@ -255,7 +255,6 @@ static unsigned char fntpl_i_bm_bits[] = {
 #endif /* DTWM_NEED_FNTPL */
 
 
-#ifdef WSM
 /*
  * Backdrop bitmap patterns
  */
@@ -297,7 +296,6 @@ static unsigned char bits6_bits[] = {
    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 #endif /* DTWM_NEED_BACKBITS */
 
-#endif /* WSM */
 /*
  *
  *  Used to define the small hourglass and mask used to indicate
@@ -323,6 +321,4 @@ static unsigned char time16m_bits[] = {
    0xfe, 0x1f, 0xff, 0x3f, 0xff, 0x3f};
 #endif  /* DTWM_NEED_TIME16 */
 
-#ifdef WSM
 /****************************   eof    ***************************/
-#endif /* WSM */

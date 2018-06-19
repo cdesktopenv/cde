@@ -52,7 +52,6 @@
 #define NotGrabbed	0
 #define ResizeGrab	1
 #define MoveGrab	2
-#ifdef WSM
 
 /* Anchors */
 #define ANCHOR_NONE	0
@@ -64,7 +63,6 @@
 #ifndef ABS
 #define ABS(x) ((x)>0?(x):(-(x)))
 #endif /* ABS */
-#endif /* WSM */
 
 /* number of times to poll before blocking on a config event */
 
@@ -113,12 +111,10 @@ static unsigned int resizeBigWidthInc, resizeBigHeightInc;
 static int startX, startY; 
 static unsigned int startWidth, startHeight;
 static unsigned int minWidth, minHeight, maxHeight, maxWidth;
-#ifdef WSM
 static int marqueeX, marqueeY;	/* root coords of UL corner of are */
 static long marqueeWidth, marqueeHeight;	/* size of area */
 static unsigned int marqueeAnchor;	/* id of anchor corner */
 static long marqueeWidth0, marqueeHeight0;	/* old size of area */
-#endif /* WSM */
 
 static int opaqueMoveX = 0;    /* for cancel request on opaque moves */
 static int opaqueMoveY = 0;
@@ -133,9 +129,9 @@ static int moveLastPointerY= 0;
 
 static Boolean anyMotion = FALSE;
 static Boolean configGrab = FALSE;
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 static Boolean grabServer = TRUE;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 Dimension clipWidth = 0;
 Dimension clipHeight = 0;
@@ -1307,7 +1303,6 @@ void CompleteFrameConfig (ClientData *pcd, XEvent *pev)
 				     FALSE);
 	}
     }
-#ifdef WSM
     else if (wmGD.configAction == MARQUEE_SELECT)
     {
 	WmScreenData *pSD;
@@ -1319,7 +1314,6 @@ void CompleteFrameConfig (ClientData *pcd, XEvent *pev)
 	dtSendMarqueeSelectionNotification(pSD, DT_MARQUEE_SELECT_END, 
 			marqueeX, marqueeY, marqueeWidth, marqueeHeight);
     }
-#endif /* WSM */
 
     /*
      * Clear configuration flags and data.
@@ -1332,10 +1326,8 @@ void CompleteFrameConfig (ClientData *pcd, XEvent *pev)
     anyMotion = FALSE;
     wmGD.movingIcon = FALSE;
 
-#ifdef WSM
     if (pcd)
     {
-#endif /* WSM */
     /* hide the move/resize config data */
     HideFeedbackWindow(pcd->pSD);
 
@@ -1343,9 +1335,7 @@ void CompleteFrameConfig (ClientData *pcd, XEvent *pev)
      * Set the focus back to something reasonable
      */
     RepairFocus ();	
-#ifdef WSM
     }
-#endif /* WSM */
 
 } /* END OF FUNCTION CompleteFrameConfig */
 
@@ -1500,11 +1490,9 @@ void MoveOutline (int x, int y, unsigned int width, unsigned int height)
     }
     else
     {
-#ifdef WSM
       if (wmGD.useWindowOutline)
 	WindowOutline(x,y,width,height);
       else
-#endif
 	FlashOutline(x, y, width, height);
     }
 } /* END OF FUNCTION  MoveOutline */
@@ -1571,7 +1559,6 @@ void FlashOutline (int x, int y, unsigned int width, unsigned int height)
     }
 } /* END OF FUNCTION  FlashOutline */
 
-#ifdef WSM
 
 /*************************************<->*************************************
  *
@@ -1773,7 +1760,6 @@ void WindowOutline (int x, int y, unsigned int width, unsigned int height)
 
 } /* END OF FUNCTION  WindowOutline */
 
-#endif /* WSM */
 
 
 /*************************************<->*************************************
@@ -2586,7 +2572,7 @@ Boolean StartClientMove (ClientData *pcd, XEvent *pev)
 } /* END OF FUNCTION StartClientMove */
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  SetGrabServer ()
@@ -2615,7 +2601,7 @@ void SetGrabServer (void)
 {
     grabServer = FALSE;
 }
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 
 /*************************************<->*************************************
@@ -2647,7 +2633,6 @@ void SetGrabServer (void)
 Boolean DoGrabs (Window grab_win, Cursor cursor, unsigned int pmask, Time grabTime, ClientData *pCD, Boolean alwaysGrab)
 {
 
-#ifdef WSM
     Window root;
 
     if (pCD)
@@ -2656,9 +2641,6 @@ Boolean DoGrabs (Window grab_win, Cursor cursor, unsigned int pmask, Time grabTi
 	root = RootWindow (DISPLAY, ACTIVE_PSD->screen);
 
     if (pCD && pCD->pSD->useIconBox && wmGD.movingIcon && P_ICON_BOX(pCD))
-#else
-    if (pCD->pSD->useIconBox && wmGD.movingIcon && P_ICON_BOX(pCD))
-#endif
     {
 	/*
 	 * Confine the pointer to the icon box clip window
@@ -2688,11 +2670,7 @@ Boolean DoGrabs (Window grab_win, Cursor cursor, unsigned int pmask, Time grabTi
 			 pmask,
 			 GrabModeAsync,		/* pointer_mode */
 			 GrabModeAsync,		/* keyboard_mode */
-#ifdef WSM
 			 root,
-#else
-			 ROOT_FOR_CLIENT(pCD),		/* confine_to window */
-#endif
 			 cursor,
 			 grabTime) != GrabSuccess)
 	{
@@ -2723,20 +2701,15 @@ Boolean DoGrabs (Window grab_win, Cursor cursor, unsigned int pmask, Time grabTi
 	 * If running automation version of mwm, do not grab the server, since
 	 * this will confuse the automation input synthesis code.
 	 */
-# if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+# if (defined(MWM_QATS_PROTOCOL))
 if (grabServer == TRUE)
-# endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+# endif /* defined(MWM_QATS_PROTOCOL) */
 
     if (wmGD.freezeOnConfig) 
 	
     {
-#ifdef WSM
 	if (!pCD || ((pCD->pSD->moveOpaque && alwaysGrab) ||
 	           (!(pCD->pSD->moveOpaque))))
-#else /* WSM */
-	if ((pCD->pSD->moveOpaque && alwaysGrab) ||
-	    (!(pCD->pSD->moveOpaque)))
-#endif /* WSM */
 	{
 	    XGrabServer(DISPLAY);
         }
@@ -2822,10 +2795,8 @@ void CancelFrameConfig (ClientData *pcd)
     UndoGrabs();
 
     /* turn off feedback window */
-#ifdef WSM
     if (pcd)
     {
-#endif /* WSM */
     HideFeedbackWindow(pcd->pSD);
 
     /* make sure title bar is popped out */
@@ -2859,19 +2830,15 @@ void CancelFrameConfig (ClientData *pcd)
 			 opaqueMoveX, opaqueMoveY);
 	}
     }
-#ifdef WSM
     }
     if (wmGD.configAction == MARQUEE_SELECT)
     {
        dtSendMarqueeSelectionNotification(ACTIVE_PSD, DT_MARQUEE_SELECT_CANCEL, 
 			    marqueeX, marqueeY, 0, 0);
     }
-#endif /* WSM */
 
     /* replace pointer if no motion events received */
-#ifdef WSM
     if (pcd)
-#endif /* WSM */
     if (!anyMotion && wmGD.enableWarp) {
 	XWarpPointer(DISPLAY, None, ROOT_FOR_CLIENT(pcd), 
 			 0, 0, 0, 0, wmGD.preMoveX, wmGD.preMoveY);
@@ -2919,21 +2886,17 @@ void
 CheckEatButtonRelease (ClientData *pcd, XEvent *pev)
 {
     Window grab_win;
-#ifdef WSM
     Window root;
 
     if (pcd != (ClientData *)NULL)
 	root = ROOT_FOR_CLIENT(pcd);
     else
 	root = RootWindow (DISPLAY, ACTIVE_PSD->screen);
-#endif /* WSM */
 
-#ifdef WSM
     if (pcd == (ClientData *) NULL)
 	grab_win = root;
     else
-#endif /* WSM */
-    grab_win = GrabWin(pcd, pev);
+	grab_win = GrabWin(pcd, pev);
 
     if ((pev->type == KeyPress || pev->type == KeyRelease) &&
 	(pev->xbutton.state & ButtonMask))
@@ -2948,11 +2911,7 @@ CheckEatButtonRelease (ClientData *pcd, XEvent *pev)
 			 ButtonReleaseMask,
 			 GrabModeAsync,		/* pointer_mode */
 			 GrabModeAsync,		/* keyboard_mode */
-#ifdef WSM
 			 root,			/* confine_to window */
-#else /* WSM */
-			 ROOT_FOR_CLIENT(pcd),	/* confine_to window */
-#endif /* WSM */
 			 wmGD.configCursor,
 			 pev->xbutton.time) == GrabSuccess)
 	{
@@ -2993,9 +2952,7 @@ EatButtonRelease (unsigned int releaseButtons)
 
     while (releaseButtons)
     {
-#ifdef WSM
 	PullExposureEvents ();
-#endif /* WSM */
 	XMaskEvent (DISPLAY, ButtonReleaseMask, &event);
 
 	if (event.type == ButtonRelease)
@@ -4034,8 +3991,7 @@ Window GrabWin (ClientData *pcd, XEvent *pev)
     return (grab_win);
 
 } /* END OF FUNCTION GrabWin */
-#ifdef WSM
-
+
 /*************************************<->*************************************
  *
  *  HandleMarqueeSelect (pSD, event)
@@ -4447,4 +4403,3 @@ Boolean HandleMarqueeKeyPress (WmScreenData *pSD, XEvent *pev)
     } /* end switch(keysym) */
 
 } /* END OF FUNCTION HandleResizeKeyPress */
-#endif /* WSM */

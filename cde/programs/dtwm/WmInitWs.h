@@ -43,6 +43,4 @@ extern void InitScreenNames (void);
 #ifndef NO_MESSAGE_CATALOG
 extern void InitNlsStrings( void ) ;
 #endif
-#ifdef WSM
 extern void InitWmDisplayEnv( void ) ;
-#endif /* WSM */

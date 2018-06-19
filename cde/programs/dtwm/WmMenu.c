@@ -42,9 +42,9 @@
 #include "WmCEvent.h"
 #include "WmResource.h"
 #include "WmResParse.h"
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 # include "WmDebug.h"
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 #include <stdio.h>
 
 #include <X11/Shell.h>
@@ -83,16 +83,14 @@
 #include "WmIconBox.h"
 #include "WmImage.h"
 #include "WmError.h"
-#ifdef WSM
 #include "WmWrkspace.h"
-#endif /* WSM */
 
 
 static void UnmapCallback (Widget w, XtPointer client_data,
 			   XtPointer call_data);
 static MenuItem *DuplicateMenuItems (MenuItem *menuItems);
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 static MenuExclusion *DuplicateMenuExclusions(MenuExclusion *exclusions);
 static Boolean FindClientCommandMatch (MenuSpec *menuSpec,
 				       String clientCommand,
@@ -108,7 +106,7 @@ static void InsertTreeOnClient (WmScreenData *pSD, ClientData *pCD,
 static MenuSpec *MakeMenuSpec (String menuName, CARD32 commandID);
 static void UnmapPulldownCallback (Widget w, XtPointer client_data,
 				   XtPointer call_data);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 
 
@@ -151,9 +149,9 @@ static void UnmapPulldownCallback (Widget w, XtPointer client_data,
  * 
  *************************************<->***********************************/
 MenuSpec *MakeMenu (WmScreenData *pSD,
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 		    ClientData *pCD,
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 		    String menuName, Context initialContext,
 		    Context accelContext, MenuItem *moreMenuItems,
 		    Boolean fSystemMenu)
@@ -215,7 +213,7 @@ MenuSpec *MakeMenu (WmScreenData *pSD,
 
     if (moreMenuItems != NULL)
     {
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	if ((newMenuSpec = DuplicateMenuSpec(menuSpec)) == (MenuSpec *)NULL)
 	    return NULL;
 #else
@@ -384,7 +382,7 @@ void CheckTerminalSeparator(menuSpec, buttonWidget, manage)
 
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  MakeMenuSpec (menuName, commandID)
@@ -512,7 +510,6 @@ DuplicateMenuItems (MenuItem *menuItems)
 	newMenuItem->wmFunction = curMenuItem->wmFunction;
 
 	if ((curMenuItem->wmFunction == F_Send_Msg)
-#ifdef WSM
 	    || (curMenuItem->wmFunction == F_Set_Context)
 	    /*
 	     * NOTE: For now, in dtwm this function is used only
@@ -524,7 +521,6 @@ DuplicateMenuItems (MenuItem *menuItems)
 	     * the WmActionArg.  11/20/96
 	     */
 	    || (curMenuItem->wmFunction == F_Action)
-#endif /* WSM */
 	    )
 	  newMenuItem->wmFuncArgs = curMenuItem->wmFuncArgs;
 	else if (curMenuItem->wmFuncArgs != (String) NULL)
@@ -534,7 +530,7 @@ DuplicateMenuItems (MenuItem *menuItems)
 
 	newMenuItem->greyedContext = curMenuItem->greyedContext;
 	newMenuItem->mgtMask = curMenuItem->mgtMask;
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	newMenuItem->clientCommandName = 
 	  XtNewString(curMenuItem->clientCommandName);
 	newMenuItem->clientCommandID = curMenuItem->clientCommandID;
@@ -546,7 +542,7 @@ DuplicateMenuItems (MenuItem *menuItems)
 }
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  DuplicateMenuExclusions (exclusions)
@@ -665,7 +661,7 @@ DuplicateMenuSpec (MenuSpec *menuSpec)
     newMenuSpec->menuButtonCount = 0;
     newMenuSpec->accelContext = menuSpec->accelContext;
     newMenuSpec->accelKeySpecs = (KeySpec *) NULL;
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     newMenuSpec->exclusions = DuplicateMenuExclusions(menuSpec->exclusions);
     newMenuSpec->clientLocal = TRUE;
     newMenuSpec->commandID = menuSpec->commandID;
@@ -676,7 +672,7 @@ DuplicateMenuSpec (MenuSpec *menuSpec)
 }
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  MakeMenuItem (label, wmFunction, funcArgs, mnemonic, accelText)
@@ -2867,7 +2863,7 @@ void ModifyClientCommandTree (WmScreenData *pSD,
 				  modifier, context, newname);
     }
 }
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 /*************************************<->*************************************
  *
@@ -2983,7 +2979,7 @@ static Boolean AdjustPBs (MenuSpec *menuSpec, ClientData  *pCD,
 	            XtSetSensitive (menuButton->buttonWidget, FALSE);
 	        }
 	    }
-#ifdef WSM
+
 	    if (menuItem->wmFunction == F_Remove)
 	    {
 		/*
@@ -2993,17 +2989,12 @@ static Boolean AdjustPBs (MenuSpec *menuSpec, ClientData  *pCD,
 		fSupported = (pCD && (pCD->numInhabited > 1));
 		XtSetSensitive (menuButton->buttonWidget, fSupported);
 	    }
-#endif /* WSM */
 
 	    if ((menuItem->mgtMask) && pCD)
 	    /* PushButton might not apply */
 	    {
-#ifdef WSM
 	        if ((pCD->clientFunctions & menuItem->mgtMask & MWM_MGT_MASK) ||
 		    (pCD->dtwmFunctions & menuItem->mgtMask & DTWM_MGT_MASK))
-#else /* WSM */
-	        if (pCD->clientFunctions & menuItem->mgtMask)
-#endif /* WSM */
 	        /* function applies -- manage it */
 	        {
 	            if (!menuButton->managed)
@@ -3147,7 +3138,7 @@ static Boolean SavePBInfo (MenuSpec *topMenuSpec, MenuItem *menuItem,
 
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  * AdjustTearOffControl (cascade, closure, cbackdata) 
@@ -3348,7 +3339,7 @@ static Boolean CreateClientCommandSeparator (MenuItem *menuItem,
     /* Well, nothing failed so let's create it. */
     return(TRUE);
 }
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 /*************************************<->*************************************
  *
@@ -3394,9 +3385,9 @@ typedef struct _StrList
 } StrList;
 
 Widget CreateMenuWidget (WmScreenData *pSD,
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 			 ClientData *pCD,
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 			 String menuName, Widget parent,
 			 Boolean fTopLevelPane, MenuSpec *topMenuSpec,
 			 MenuItem *moreMenuItems)
@@ -3414,9 +3405,9 @@ Widget CreateMenuWidget (WmScreenData *pSD,
     KeySpec    *accelKeySpec;
     Dimension   menuHeight;
     Boolean     fUseTitleSep = False;
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     Boolean     labelIsClientCommand = False;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     StrList    *stringsToFree = NULL, *sPtr;
     XmString    tmpstr;
 #ifndef	IBM_151913
@@ -3551,9 +3542,9 @@ Widget CreateMenuWidget (WmScreenData *pSD,
     {
         i = 0;
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	labelIsClientCommand = IsClientCommand(menuItem->label);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 	if (menuItem->wmFunction == F_Separator)
 	/* 
@@ -3561,7 +3552,7 @@ Widget CreateMenuWidget (WmScreenData *pSD,
 	 * An immediately following title will not have a top separator.
 	 */
 	{
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	    /* If it is a client command, then we only want to create the
 	     * separator under particular circumstances. Specifically, we
 	     * want to make sure that:
@@ -3586,7 +3577,7 @@ Widget CreateMenuWidget (WmScreenData *pSD,
 		}
 	    }
 	    else
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 	    {
 		children[n] =
 		  XmCreateSeparatorGadget (menuW, SEPARATOR_NAME, 
@@ -3596,9 +3587,9 @@ Widget CreateMenuWidget (WmScreenData *pSD,
 	} /* F_Separator */
 
 	else
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	    if (!labelIsClientCommand)
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 	/*
          * We will use one of:
 	 *
@@ -3713,11 +3704,11 @@ Widget CreateMenuWidget (WmScreenData *pSD,
 			    i++;
 	                children[n] = XmCreateCascadeButtonGadget (menuW,
 					  CASCADE_BTN_NAME, (ArgList) args, i);
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 			XtAddCallback(children[n], XmNcascadingCallback,
 				      (XtCallbackProc)AdjustTearOffControl,
 				      (XtPointer)subMenuW);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 		    }
 		    else
 		    /*
@@ -3835,9 +3826,9 @@ Widget CreateMenuWidget (WmScreenData *pSD,
 	 * Increment the children array count if we actually
 	 * created a new child.
 	 */
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	if (!labelIsClientCommand)
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 	    n++;
 
 	/*
@@ -3957,9 +3948,9 @@ void PostMenu (MenuSpec *menuSpec, ClientData *pCD, int x, int y, unsigned int b
     XButtonPressedEvent event;
     Window           saveWindow;
     Display          *saveDisplay;
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     Boolean          menuAdjusted;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     
     if ((menuSpec == NULL) || (menuSpec->menuWidget == NULL))
     {
@@ -3999,22 +3990,20 @@ void PostMenu (MenuSpec *menuSpec, ClientData *pCD, int x, int y, unsigned int b
      *  change, we may need to remeasure things. (CR 9316)
      */
     
-#ifdef WSM
     if(pCD && pCD->clientFlags & ICON_BOX)
     {
         newContext |= F_CONTEXT_ICONBOX;
     }
 
-#endif /* WSM */
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     menuAdjusted =
       AdjustTearOffControl(NULL, (XtPointer) (menuSpec->menuWidget), NULL);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     if (AdjustPBs (menuSpec, pCD, newContext)
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	|| menuAdjusted
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 	)
     {
         i = 0;
@@ -4293,7 +4282,7 @@ void MWarning (char *format, char *message)
 
 
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 /*************************************<->*************************************
  *
  *  UnmapPulldownCallback (w, client_data, call_data)
@@ -4319,7 +4308,7 @@ static void UnmapPulldownCallback (Widget w, XtPointer client_data,
 {
     wmGD.menuActive = (MenuSpec *) NULL;
 } /* END OF FUNCTION UnmapPulldownCallback */
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
 
 /*************************************<->*************************************

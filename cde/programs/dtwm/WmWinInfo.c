@@ -65,13 +65,9 @@
 #include "WmOL.h"
 #include "WmProperty.h" 
 #include "WmResource.h"
-#ifdef WSM
 #include "WmWrkspace.h"
-#endif /* WSM */
 #include "WmWinList.h"
-#ifdef WSM
 #include "WmPresence.h"
-#endif /* WSM */
 #include "WmXSMP.h"
 #include "WmMultiHead.h"
 
@@ -87,9 +83,7 @@ static void FixSubpanelEmbeddedClientGeometry (ClientData *pCD);
 /*
  * Global Variables:
  */
-#ifdef WSM
 WmWorkspaceData *pIconBoxInitialWS;
-#endif /* WSM */
 
 
 
@@ -148,9 +142,6 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
     pCD->clientID = ++(pSD->clientCounter);
     pCD->clientFlags = WM_INITIALIZATION;
     pCD->iconFlags = 0;
-#ifndef WSM
-    pCD->pIconBox = NULL;
-#endif /* WSM */
     pCD->thisIconBox = NULL;
     pCD->pECD = NULL;
     pCD->pPRCD = NULL;
@@ -160,9 +151,7 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
     pCD->transientLeader = NULL;
     pCD->transientChildren = NULL;
     pCD->transientSiblings = NULL;
-#ifdef WSM
     pCD->primaryStackPosition = 0;
-#endif /* WSM */
     pCD->fullModalCount = 0;
     pCD->primaryModalCount = 0;
     pCD->focusPriority = 0;
@@ -172,14 +161,8 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
     pCD->clientClass = NULL;
     pCD->clientName = NULL;
     pCD->clientFrameWin = (Window)0L;
-#ifndef WSM
-    pCD->iconFrameWin = (Window)0L;
-#endif /* WSM */
     pCD->iconWindow = (Window)0L;
     pCD->iconPixmap = (Pixmap)0L;
-#ifndef WSM
-    pCD->iconPlace = NO_ICON_PLACE;
-#endif /* WSM */
     pCD->clientProtocols = NULL;
     pCD->clientProtocolCount = 0;
     pCD->mwmMessages = NULL;
@@ -188,7 +171,6 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
     pCD->clientCmapIndex = 0;
     pCD->clientCmapFlagsInitialized = FALSE;
     pCD->systemMenuSpec = NULL;
-#ifdef WSM
     pCD->putInAll = False;
     pCD->pWorkspaceHints = NULL;
     pCD->numInhabited = 0;
@@ -197,7 +179,6 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
     pCD->dtwmBehaviors = 0L;
     pCD->paInitialProperties = NULL;
     pCD->numInitialProperties = 0;
-#endif /* WSM */
 
     pCD->decorFlags = 0L;
     pCD->pTitleGadgets = NULL;
@@ -238,7 +219,6 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
 
     if (manageFlags & MANAGEW_WM_CLIENTS)
     {
-#ifdef WSM
         WmWorkspaceData *pWS;
 
 	if (manageFlags & MANAGEW_ICON_BOX)
@@ -250,9 +230,6 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
 	    pWS = pSD->pActiveWS;
 	}
 	return (GetWmClientInfo (pWS, pCD, manageFlags));
-#else /* WSM */
-	return (GetWmClientInfo (pSD->pActiveWS, pCD, manageFlags));
-#endif /* WSM */
     }
 
 
@@ -289,13 +266,11 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
     }
     pCD->xBorderWidth = wmGD.windowAttributes.border_width;
 
-#ifdef WSM
     /*
      * Get the initial list of properties on this window. 
      * Save it to optimize subsequent property fetching.
      */
     GetInitialPropertyList (pCD);
-#endif /* WSM */
 
     /*
      * Retrieve and process WM_CLASS hints client window property info:
@@ -326,7 +301,6 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
     ProcessSmClientID (pCD);
     ProcessWmSaveHint (pCD);
 
-#ifdef WSM
     /*
      *  Set client's workspace information.  NOTE: this also may
      *  set the geometry, initial state, etc.  For Sm-aware clients,
@@ -349,15 +323,6 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
      * (results are used in ProcessMwmHints)
      */
     ProcessDtWmHints (pCD);
-#else
-
-    /*
-     * For Sm-aware clients, retrieve geometry and initial state
-     * from private DB.
-     */
-    FindClientDBMatch(pCD, (char **)NULL);
-
-#endif /* WSM */
 
     /*
      * Retrieve and process M_CLIENT_DECOR client window property info:
@@ -486,9 +451,7 @@ GetWmClientInfo (WmWorkspaceData *pWS,
 
 {
     Pixmap 	iconBitmap;
-#ifdef WSM
-int i;
-#endif /* WSM */
+    int i;
 
     /*
      * Set up the client class and name for resource retrieval.
@@ -574,7 +537,6 @@ int i;
         }
     }
 
-#ifdef WSM
     /* 
      * Allocate initial workspace ID list 
      * fill with NULL IDs
@@ -601,11 +563,6 @@ int i;
      * PutClientIntoWorkspace.
      */
     pCD->numInhabited = 0;
-#else /* WSM */
-    pCD->iconPlace = NO_ICON_PLACE;
-    pCD->iconX = 0;
-    pCD->iconY = 0;
-#endif /* WSM */
     pCD->windowGroup = 0L;
 #ifndef NO_OL_COMPAT
     pCD->bPseudoTransient = False;
@@ -641,9 +598,7 @@ int i;
         if (manageFlags & MANAGEW_ICON_BOX)
         {
             pCD->clientFunctions &= ICON_BOX_FUNCTIONS;
-#ifdef WSM
 	    pCD->dtwmFunctions &= ~DtWM_FUNCTION_OCCUPY_WS;
-#endif /* WSM */
 	    if (wmGD.useFrontPanel && pCD->pSD->iconBoxControl) 
 	    { 
 		/*
@@ -732,9 +687,7 @@ int i;
             Warning (((char *)GETMESSAGE(70, 3, "Couldn't make icon box")));
 	    return (NULL);
         }
-#ifdef WSM
 	PutClientIntoWorkspace (pWS, pCD);
-#endif /* WSM */
     }
     else if (manageFlags & MANAGEW_CONFIRM_BOX)
     {
@@ -756,9 +709,7 @@ int i;
         pCD->widthInc = 1;
         pCD->heightInc = 1;
         pCD->clientFlags |= CONFIRM_BOX;
-#ifdef WSM
 	PutClientIntoWorkspace (ACTIVE_WS, pCD);
-#endif /* WSM */
     }
 
     /*
@@ -789,7 +740,7 @@ int i;
 
     if (manageFlags & MANAGEW_ICON_BOX)
     {
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
 	/** BEGIN FIX CR 6941 **/
 	MenuItem *iconBoxMenuItems, *lastItem;
 
@@ -827,7 +778,7 @@ int i;
 		       F_CONTEXT_WINDOW, F_CONTEXT_WINDOW|F_CONTEXT_ICON,
 		       GetIconBoxMenuItems(PSD_FOR_CLIENT(pCD)),
 		       TRUE);
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
     }
 
 
@@ -887,12 +838,8 @@ ProcessWmClass (ClientData *pCD)
     classHint.res_name = "";
     XGetClassHint (DISPLAY, pCD->client, &classHint);
 #else
-#ifdef WSM
     if ((HasProperty (pCD, XA_WM_CLASS)) &&
 	(XGetClassHint (DISPLAY, pCD->client, &classHint)))
-#else /* WSM */
-    if (XGetClassHint (DISPLAY, pCD->client, &classHint))
-#endif /* WSM */
 #endif
     {
 	/* the WM_CLASS property exists for the client window */
@@ -1044,11 +991,9 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
     register long flags;
     Pixmap iconPixmap;
     Pixmap iconMask;
-#ifdef WSM
     WmWorkspaceData *pWsTmp;
     WsClientData *pWsc;
     int iws;
-#endif /* WSM */
     int tmpIconX, tmpIconY;
 
 
@@ -1058,12 +1003,10 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
      * since they may be none.
      */
 
-#ifdef WSM
     if (firstTime && !HasProperty (pCD, XA_WM_HINTS))
 	pXWMHints = NULL;
     else
-#endif /* WSM */
-    pXWMHints = XGetWMHints (DISPLAY, pCD->client);
+	pXWMHints = XGetWMHints (DISPLAY, pCD->client);
 
     if (pXWMHints)
     {
@@ -1177,12 +1120,10 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
         }
 
 
-#ifdef WSM
 	if (!ClientInWorkspace (PSD_FOR_CLIENT(pCD)->pActiveWS, pCD))
 	{
 	    pCD->clientState |= UNSEEN_STATE;
 	}
-#endif /* WSM */
 
 
         /*
@@ -1286,7 +1227,6 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
             {
 	        pCD->iconFlags |= ICON_HINTS_POSITION;
 	        if (wmGD.iconAutoPlace)
-#ifdef WSM
 	        {
 		    /* 
 		     * Initialize icon placement data in all inhabited
@@ -1328,35 +1268,11 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
 			}
 		    }
                 }
-#else /* WSM */
-	        {
-		    tmpIconX = (pCD->clientFlags & SM_ICON_X) ?
-		      pCD->iconX : pXWMHints->icon_x;
-		    tmpIconY = (pCD->clientFlags & SM_ICON_Y) ?
-		      pCD->iconY : pXWMHints->icon_y;
-		    pCD->iconPlace = 
-			FindIconPlace (pCD, &(pCD->pSD->pActiveWS->IPData),
-				       tmpIconX, tmpIconY);
-		    if (pCD->iconPlace != NO_ICON_PLACE)
-		    {
-		        CvtIconPlaceToPosition (&(pCD->pSD->pActiveWS->IPData),
-			    pCD->iconPlace, &pCD->iconX, &pCD->iconY);
-		    }
-	        }
-	        else
-	        {
-		    if (!(pCD->clientFlags & SM_ICON_X))
-			pCD->iconX = pXWMHints->icon_x;
-		    if (!(pCD->clientFlags & SM_ICON_Y))
-			pCD->iconY = pXWMHints->icon_y;
-                }
-#endif /* WSM */
 	    }
 	    else
 	    {
 	        if (wmGD.iconAutoPlace)
 	        {
-#ifdef WSM
 		    /* 
 		     * Initialize icon placement data in all inhabited
 		     * workspaces
@@ -1368,11 +1284,6 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
 			pWsc->iconX = 0;
 			pWsc->iconY = 0;
 		    }
-#else /* WSM */
-		    pCD->iconPlace = NO_ICON_PLACE;
-		    pCD->iconX = 0;
-		    pCD->iconY = 0;
-#endif /* WSM */
 	        }
 	    }
 	}
@@ -2300,9 +2211,7 @@ ProcessWmWindowTitle (ClientData *pCD, Boolean firstTime)
     XmString title_xms = NULL;
 
     if ((pCD->clientDecoration & MWM_DECOR_TITLE) &&
-#ifdef WSM
 	(!firstTime || HasProperty (pCD, XA_WM_NAME)) &&
-#endif /* WSM */
 	XGetWMName(DISPLAY, pCD->client, &wmNameProp))
     {
       title_xms = WmICCCMToXmString(&wmNameProp);
@@ -2517,9 +2426,7 @@ ProcessWmIconTitle (ClientData *pCD, Boolean firstTime)
 
   if ((pCD->clientFunctions & MWM_FUNC_MINIMIZE) &&
       (pCD->transientLeader == NULL) &&
-#ifdef WSM
       (!firstTime || HasProperty(pCD, XA_WM_ICON_NAME)) &&
-#endif /* WSM */
       XGetWMIconName (DISPLAY, pCD->client, &wmIconNameProp))
   {
     icon_xms = WmICCCMToXmString(&wmIconNameProp);
@@ -2594,12 +2501,8 @@ ProcessWmTransientFor (ClientData *pCD)
     ClientData *leader;
 
 
-#ifdef WSM
     if ((HasProperty (pCD, XA_WM_TRANSIENT_FOR)) &&
 	(XGetTransientForHint (DISPLAY, pCD->client, &window)))
-#else /* WSM */
-    if (XGetTransientForHint (DISPLAY, pCD->client, &window))
-#endif /* WSM */
     {
 	pCD->clientFlags |= CLIENT_TRANSIENT;
 
@@ -2655,9 +2558,9 @@ ProcessWmTransientFor (ClientData *pCD)
 void 
 MakeSystemMenu (ClientData *pCD)
 {
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     MenuItem *lastItem;
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 
     pCD->mwmMenuItems = GetMwmMenuItems(pCD);
     pCD->systemMenuSpec = 
@@ -2692,7 +2595,7 @@ MakeSystemMenu (ClientData *pCD)
      * without any documentation.
      */
 
-#if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
+#if (defined(MWM_QATS_PROTOCOL))
     /** BEGIN FIX CR 6941 **/
 
     /* if we still don't have a menu spec, then just abort. */
@@ -2718,7 +2621,7 @@ MakeSystemMenu (ClientData *pCD)
 			PSD_FOR_CLIENT(pCD)->screenTopLevelW, TRUE,
 			pCD->systemMenuSpec, NULL);
     /** END FIX CR 6941 **/
-#endif /* !defined(WSM) || defined(MWM_QATS_PROTOCOL) */
+#endif /* defined(MWM_QATS_PROTOCOL) */
 #endif /* defined(MWM_QATS_PROTOCOL) */
 
 } /* END OF FUNCTION MakeSystemMenu */
@@ -2921,9 +2824,7 @@ InitClientPlacement (ClientData *pCD, long manageFlags)
     Boolean rval = False;
     int xoff, yoff;
     int origX, origY, origWidth, origHeight;
-#ifdef WSM
     int iwsc;
-#endif /* WSM */
 
 
     /*
@@ -2954,11 +2855,7 @@ InitClientPlacement (ClientData *pCD, long manageFlags)
         (manageFlags == MANAGEW_NORMAL) &&
 	!(pCD->clientFlags & CLIENT_TRANSIENT) &&
 	(pCD->inputMode != MWM_INPUT_SYSTEM_MODAL) &&
-#ifdef WSM
 	(ClientInWorkspace(PSD_FOR_CLIENT(pCD)->pActiveWS, pCD)))
-#else /* WSM */
-	(PSD_FOR_CLIENT(pCD) == ACTIVE_PSD))
-#endif /* WSM */
     {
 	/*
 	 * Interactively place the window on the screen.
@@ -3031,7 +2928,6 @@ InitClientPlacement (ClientData *pCD, long manageFlags)
      */
 
 
-#ifdef WSM
     if (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUBPANEL)
     {
 	if (pCD->dtwmBehaviors & DtWM_BEHAVIOR_SUB_RESTORED)
@@ -3043,9 +2939,7 @@ InitClientPlacement (ClientData *pCD, long manageFlags)
 	    AdjustSlideOutGeometry (pCD);
 	}
     }
-    else
-#endif /* WSM */
-    if (((wmGD.positionOnScreen) && !interactivelyPlaced) &&
+    else if (((wmGD.positionOnScreen) && !interactivelyPlaced) &&
 	(!(pCD->clientFlags & (SM_X | SM_Y))))
     {
 	PlaceFrameOnScreen (pCD, &pCD->clientX, &pCD->clientY,
@@ -3065,7 +2959,6 @@ InitClientPlacement (ClientData *pCD, long manageFlags)
 
     if (!wmGD.iconAutoPlace)
     {
-#ifdef WSM
 	if (!(pCD->iconFlags & ICON_HINTS_POSITION))
 	{
 	    for (iwsc=0; iwsc<pCD->numInhabited; iwsc++)
@@ -3076,14 +2969,6 @@ InitClientPlacement (ClientData *pCD, long manageFlags)
 					&pCD->pWsList[iwsc].iconY);
 	    }
 	}
-#else /* WSM */
-	if (!(pCD->iconFlags & ICON_HINTS_POSITION))
-	{
-	    pCD->iconX = pCD->clientX;
-	    pCD->iconY = pCD->clientY;
-	}
-	PlaceIconOnScreen (pCD, &pCD->iconX, &pCD->iconY);
-#endif /* WSM */
     }
 
     /* 
@@ -4120,7 +4005,6 @@ ProcessMwmHints (ClientData *pCD)
     }
 #endif /* NO_OL_COMPAT */
 
-#ifdef WSM
     /* 
      * If primary window can't move between workspaces, then
      * secondary window shouldn't either.
@@ -4130,7 +4014,6 @@ ProcessMwmHints (ClientData *pCD)
     {
 	pCD->dtwmFunctions &= ~DtWM_FUNCTION_OCCUPY_WS;
     }
-#endif /* WSM */
 
     /*
      * Fix up functions based on system modal settings.  System modal
