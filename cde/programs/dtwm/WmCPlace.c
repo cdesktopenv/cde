@@ -26,12 +26,7 @@
 */ 
 /* 
  * Motif Release 1.2
-*/ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = "$XConsortium: WmCPlace.c /main/5 1996/08/09 15:18:04 rswiston $"
-#endif
-#endif
+*/
 /*
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 

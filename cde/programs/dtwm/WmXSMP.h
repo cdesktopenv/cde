@@ -23,7 +23,6 @@
 #ifndef _WmXSMP_h
 #define _WmXSMP_h
 
-/* $XConsortium: WmXSMP.h /main/4 1996/04/19 11:22:40 rswiston $ */
 /*
  * (c) Copyright 1996 Digital Equipment Corporation.
  * (c) Copyright 1996 Hewlett-Packard Company.

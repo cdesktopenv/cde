@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: WmFP.c /main/4 1995/11/01 11:36:41 rswiston $ */
 /*****************************************************************************
  *
  *   File:         WmFP.c

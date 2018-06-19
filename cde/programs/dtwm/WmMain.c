@@ -26,12 +26,7 @@
 */ 
 /* 
  * Motif Release 1.2.1
-*/ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = "$TOG: WmMain.c /main/8 1998/04/20 13:01:09 mgreess $"
-#endif
-#endif
+*/
 /*
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 

@@ -27,11 +27,6 @@
 /* 
  * Motif Release 1.2.3
 */ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = "$TOG: WmResource.c /main/14 1997/04/15 10:30:02 dbl $"
-#endif
-#endif
 /*
  * (c) Copyright 1987, 1988, 1989, 1990, 1993, 1994 HEWLETT-PACKARD COMPANY 
  * (c) Copyright 1993, 1994 International Business Machines Corp.

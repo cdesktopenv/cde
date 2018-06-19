@@ -20,19 +20,13 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $TOG: WmBackdrop.c /main/5 1998/08/03 16:19:42 mgreess $ */
 #ifdef WSM 
 /* 
  * (c) Copyright 1987,1988,1989,1990,1992,1993,1994 HEWLETT-PACKARD COMPANY
  * (c) Copyright 1993, 1994 International Business Machines Corp.
  * (c) Copyright 1993, 1994 Sun Microsystems, Inc.
  * (c) Copyright 1993, 1994 Novell, Inc.
- */ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = ""
-#endif
-#endif
+ */
 
 #define	BANDWIDTH		16
 #define	BOTTOM			 0

@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: Callback.c /main/10 1996/10/30 11:14:26 drk $ */
 /*****************************************************************************
  *
  *   File:         Callback.c

@@ -26,12 +26,7 @@
 */ 
 /* 
  * Motif Release 1.2.4
-*/ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = "$TOG: WmManage.c /main/11 1998/01/12 16:45:48 cshi $"
-#endif
-#endif
+*/
 /*
  * (c) Copyright 1987, 1988, 1989, 1990, 1992, 1993 HEWLETT-PACKARD COMPANY 
  */

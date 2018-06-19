@@ -20,19 +20,13 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $TOG: WmIPC.c /main/11 1999/09/20 15:17:25 mgreess $ */
 /* 
  * (c) Copyright 1997, The Open Group 
  */
 /* 
  * (c) Copyright 1987, 1988, 1989, 1990, 1992, 1993 HEWLETT-PACKARD COMPANY 
  * ALL RIGHTS RESERVED 
-*/ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = ""
-#endif
-#endif
+*/
 
 /*
  * Included Files:

@@ -20,17 +20,11 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: WmPresence.h /main/4 1995/11/01 11:48:09 rswiston $ */
 #ifdef WSM
 /* 
  * (c) Copyright 1987, 1988, 1989, 1990, 1992 HEWLETT-PACKARD COMPANY 
  * ALL RIGHTS RESERVED 
 */ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = ""
-#endif
-#endif
 
 /********    Public Function Declarations    ********/
 

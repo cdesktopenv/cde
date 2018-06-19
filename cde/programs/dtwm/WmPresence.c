@@ -25,11 +25,6 @@
  * (c) Copyright 1987, 1988, 1989, 1990, 1992 HEWLETT-PACKARD COMPANY 
  * ALL RIGHTS RESERVED 
 */ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = "$XConsortium: WmPresence.c /main/7 1996/10/23 17:24:56 rswiston $"
-#endif
-#endif
 
 /*
  * Included Files:

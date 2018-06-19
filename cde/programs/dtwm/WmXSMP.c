@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: WmXSMP.c /main/12 1996/05/17 12:54:14 rswiston $ */
 /*
  * (c) Copyright 1996 Digital Equipment Corporation.
  * (c) Copyright 1996 Hewlett-Packard Company.

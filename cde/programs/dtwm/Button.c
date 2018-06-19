@@ -20,12 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: Button.c /main/7 1995/11/14 10:03:27 rswiston $ */
-#ifdef REV_INFO
-#ifndef lint
-static char SCCSID[] = "OSF/Motif: @(#)Button.c	1.19 95/05/01";
-#endif /* lint */
-#endif /* REV_INFO */
 /******************************************************************************
 *******************************************************************************
 *

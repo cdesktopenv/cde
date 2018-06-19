@@ -27,7 +27,6 @@
 /* 
  * Motif Release 1.2
 */ 
-/*   $XConsortium: WmResNames.h /main/6 1996/06/11 16:00:36 rswiston $ */
 /*
  * (c) Copyright 1987, 1988, 1989, 1990, 1993 HEWLETT-PACKARD COMPANY */
 

@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $TOG: Parse.c /main/5 1998/01/12 16:47:01 cshi $ */
 /*****************************************************************************
  *
  *   File:         Parse.c

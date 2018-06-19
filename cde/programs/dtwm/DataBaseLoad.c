@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $TOG: DataBaseLoad.c /main/9 1998/01/12 16:46:23 cshi $ */
 /*****************************************************************************
  *
  *   File:         DataBaseLoad.c

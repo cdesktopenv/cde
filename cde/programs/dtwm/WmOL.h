@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: WmOL.h /main/4 1995/11/01 11:45:27 rswiston $ */
 /* 
  * (c) Copyright 1989 Sun Microsystems, Inc.
  * (c) Copyright 1993 HEWLETT-PACKARD COMPANY 
@@ -30,12 +29,6 @@
 #ifndef _WM_OL_H
 #define _WM_OL_H
 #ifndef NO_OL_COMPAT
-
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = ""
-#endif
-#endif
 
 /*
  * Property Names 

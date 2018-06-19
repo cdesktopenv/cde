@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: PanelSP.h /main/3 1995/11/01 11:27:59 rswiston $ */
 
 #ifndef _DtPanelShellP_h
 #define _DtPanelShellP_h

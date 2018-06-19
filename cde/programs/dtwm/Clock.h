@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: Clock.h /main/4 1995/11/01 11:24:11 rswiston $ */
 /**---------------------------------------------------------------------
 ***	
 ***	file:		Clock.h

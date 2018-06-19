@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: Print.c /main/4 1995/11/01 11:29:33 rswiston $ */
 /*****************************************************************************
  *
  *   File:         Print.c

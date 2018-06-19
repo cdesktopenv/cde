@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $XConsortium: WmWrkspace.h /main/4 1995/11/01 11:56:28 rswiston $ */
 #ifdef WSM
 /* 
  * (c) Copyright 1987,1988,1989,1990,1992,1993,1994 HEWLETT-PACKARD COMPANY 
@@ -29,11 +28,6 @@
  * (c) Copyright 1993, 1994 Novell, Inc.
  * ALL RIGHTS RESERVED 
  */ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = ""
-#endif
-#endif
 
 /********    Public Function Declarations    ********/
 

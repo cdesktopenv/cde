@@ -20,18 +20,12 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $TOG: WmHelp.c /main/8 1997/06/18 17:30:51 samborn $ */
 #ifdef WSM
 /* 
  * (c) Copyright 1987, 1988, 1989, 1990, 1992, 1993 HEWLETT-PACKARD COMPANY 
  * (c) Copyright 1989, 1990, 1991, 1992 OPEN SOFTWARE FOUNDATION, INC. 
  * ALL RIGHTS RESERVED 
-*/ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = ""
-#endif
-#endif
+*/
 
 /*
  * Included Files:

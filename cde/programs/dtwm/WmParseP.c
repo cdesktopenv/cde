@@ -20,9 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-#ifdef VERBOSE_REV_INFO
-static char rcsid[] = "$XConsortium: WmParseP.c /main/3 1995/11/01 11:46:58 rswiston $";
-#endif /* VERBOSE_REV_INFO */
 /******************************<+>*************************************
  **********************************************************************
  **

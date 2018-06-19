@@ -20,9 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/*
- * $XConsortium: WmParseP.h /main/3 1995/11/01 11:47:17 rswiston $
- */
 /******************************<+>*************************************
  **********************************************************************
  **

@@ -20,17 +20,10 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $TOG: WmIPC.h /main/5 1999/09/20 15:17:55 mgreess $ */
 /* 
  * (c) Copyright 1987, 1988, 1989, 1990, 1992 HEWLETT-PACKARD COMPANY 
  * ALL RIGHTS RESERVED 
 */ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = ""
-#endif
-#endif
-
 
 /********    Public Function Declarations    ********/
 

@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* $TOG: Session.c /main/5 1997/05/20 08:20:18 samborn $ */
 /************************************************************************
  *
  *  File:	 Session.c

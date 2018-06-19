@@ -20,9 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-/* static char rcsid[] = 
-	"$XConsortium: PanelS.c /main/4 1995/11/01 11:27:29 rswiston $";
-*/
 /**---------------------------------------------------------------------
 ***	
 ***	file:		PanelS.c

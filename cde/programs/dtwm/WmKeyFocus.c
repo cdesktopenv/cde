@@ -26,12 +26,7 @@
 */ 
 /* 
  * Motif Release 1.2.3
-*/ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = "$XConsortium: WmKeyFocus.c /main/5 1996/05/17 12:53:16 rswiston $"
-#endif
-#endif
+*/
 /*
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 

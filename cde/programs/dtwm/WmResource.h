@@ -27,7 +27,6 @@
 /* 
  * Motif Release 1.2.3
 */ 
-/*   $TOG: WmResource.h /main/6 1997/04/14 12:52:19 dbl $ */
 /*
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 

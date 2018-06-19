@@ -28,11 +28,6 @@
  * (c) Copyright 1993, 1994 Novell, Inc.
  * ALL RIGHTS RESERVED 
 */ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = "$XConsortium: WmWrkspace.c /main/7 1996/10/23 17:26:33 rswiston $"
-#endif
-#endif
 
 /*
  * Included Files:

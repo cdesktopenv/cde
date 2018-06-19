@@ -27,7 +27,6 @@
 /* 
  * Motif Release 1.2.3
 */ 
-/*   $XConsortium: WmWinList.h /main/5 1996/05/17 12:54:05 rswiston $ */
 /*
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 

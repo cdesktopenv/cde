@@ -26,11 +26,6 @@
  * (c) Copyright 1993 HEWLETT-PACKARD COMPANY 
  * ALL RIGHTS RESERVED 
  */ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = "$XConsortium: WmOL.c /main/4 1995/11/01 11:45:08 rswiston $"
-#endif
-#endif
 
 /*
  * Included Files:

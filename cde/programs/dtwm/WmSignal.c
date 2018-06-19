@@ -27,11 +27,6 @@
 /* 
  * Motif Release 1.2
 */ 
-#ifdef REV_INFO
-#ifndef lint
-static char rcsid[] = "$XConsortium: WmSignal.c /main/6 1996/10/17 16:20:07 drk $"
-#endif
-#endif
 /*
  * (c) Copyright 1987, 1988, 1989, 1990 HEWLETT-PACKARD COMPANY */
 
