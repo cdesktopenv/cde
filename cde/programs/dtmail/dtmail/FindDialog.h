@@ -102,6 +102,11 @@ private:
 
   Boolean	compareMessage(DtMailMessageHandle	  handle);
 
+  #if !defined(CSRG_BASED) && !defined(__linux__)
+  static const char * strcasestr(const char *str,
+				 const char *toFind);
+  #endif
+
   Boolean	compareHeader(DtMailEnv		& error,
 		      DtMailValueSeq	& seq,
 		      const char	* cmpToString);
