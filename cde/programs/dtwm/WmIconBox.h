@@ -52,10 +52,8 @@ extern void HandleIconBoxButtonMotion (Widget icon, caddr_t client_data,
 				       XEvent *pev);
 extern void HandleIconBoxIconKeyPress (Widget icon, caddr_t dummy, 
 				       XKeyEvent *keyEvent);
-#ifndef MOTIF_ONE_DOT_ONE
 extern void IconScrollVisibleCallback (Widget w, caddr_t client_data, 
 				  XmAnyCallbackStruct *call_data);
-#endif
 extern void IconActivateCallback (Widget w, caddr_t client_data, 
 				  XmAnyCallbackStruct *call_data);
 extern void IconBoxPopUp (WmWorkspaceData *pWS, Boolean up);

@@ -2129,12 +2129,10 @@ WmICCCMToXmString (XTextProperty *wmNameProp)
       switch (status)
       {
       case XConverterNotFound:
-#ifndef MOTIF_ONE_DOT_ONE
 	  sprintf(msg, GETMESSAGE (70,5,
 		    "Window manager cannot convert property %.100s as clientTitle/iconTitle: XmbTextPropertyToTextList"), 
 		  XGetAtomName (DISPLAY,wmNameProp->encoding));
 	  Warning(msg);
-#endif /* MOTIF_ONE_DOT_ONE */
 	  break;
 
       case XNoMemory:

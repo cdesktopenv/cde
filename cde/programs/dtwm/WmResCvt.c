@@ -43,9 +43,7 @@
 #include <stdlib.h>
 #endif
 
-#ifndef MOTIF_ONE_DOT_ONE
 #include <Xm/XmosP.h>
-#endif
 
 /*
  * include extern functions

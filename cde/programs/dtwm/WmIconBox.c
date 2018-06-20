@@ -470,10 +470,8 @@ void MakeScrolledWindow (WmWorkspaceData *pWS, IconBoxData *pIBD)
 					pIBD->frameWidget,
 					(ArgList)setArgs, i);
 
-#ifndef MOTIF_ONE_DOT_ONE
     XtAddCallback(pIBD->scrolledWidget, XmNtraverseObscuredCallback,
 		  (XtCallbackProc) IconScrollVisibleCallback, (caddr_t)NULL);
-#endif
 
     XtAddEventHandler(pIBD->scrolledWidget, 
 			StructureNotifyMask, 
@@ -3101,8 +3099,6 @@ void ShowClientIconState (ClientData *pCD, int newState)
 } /* END FUNCTION ShowClientIconState */
 
 
-
-#ifndef MOTIF_ONE_DOT_ONE
 /*************************************<->*************************************
  *
  *  IconScrollVisibleCallback
@@ -3128,9 +3124,7 @@ void IconScrollVisibleCallback (Widget w, caddr_t client_data, XmAnyCallbackStru
 */
 } /* END OF FUNCTION IconScrollVisibleCallback */
 
-#endif
 
-
 /*************************************<->*************************************
  *
  *  IconActivateCallback

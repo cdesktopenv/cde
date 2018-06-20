@@ -911,7 +911,6 @@ Boolean HandleCButtonPress (ClientData *pCD, XButtonEvent *buttonEvent)
               (buttonEvent->time == baseWinTime)))
 	{
 
-#ifndef MOTIF_ONE_DOT_ONE
 	    /*
 	     * Motif 1.2, ignore replayed events UNPOST_AND_REPLAY events
 	     * generated from the menu system (time stamps are exactly
@@ -926,9 +925,6 @@ Boolean HandleCButtonPress (ClientData *pCD, XButtonEvent *buttonEvent)
 	    {
 		ProcessClickBPress (buttonEvent, pCD, context, subContext);
 	    }
-#else
-	    ProcessClickBPress (buttonEvent, pCD, context, subContext);
-#endif
 
 	    if (CheckForButtonAction (buttonEvent, context, subContext, pCD) 
 		&& pCD)

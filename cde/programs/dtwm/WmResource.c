@@ -48,9 +48,7 @@
 
 #include <Xm/XmP.h>
 #include <Xm/RowColumn.h>
-#ifndef MOTIF_ONE_DOT_ONE
 #include <Xm/ScreenP.h>		/* for XmGetXmScreen and screen.moveOpaque */
-#endif
 
 /*
  * include extern functions
@@ -4704,10 +4702,8 @@ ProcessScreenResources (WmScreenData *pSD, unsigned char *screenName)
 	    wmScreenResources, 
 	    XtNumber (wmScreenResources), NULL, 0);
 
-#ifndef MOTIF_ONE_DOT_ONE
 	pSD->moveOpaque = (((XmScreen) XmGetXmScreen(XtScreen(pSD->screenTopLevelW)))
 			   -> screen.moveOpaque);
-#endif
     }
 
 
