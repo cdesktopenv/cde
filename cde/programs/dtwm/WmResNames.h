@@ -109,9 +109,6 @@
 #define WmNrefreshByClearing		"refreshByClearing"
 #define WmNresizeBorderWidth		"resizeBorderWidth"
 #define WmNresizeCursors		"resizeCursors"
-#if (defined(MWM_QATS_PROTOCOL))
-# define WmNrootMenu			"rootMenu"
-#endif /* defined(MWM_QATS_PROTOCOL) */
 #define WmNrootButtonClick		"rootButtonClick"
 #define WmNsecondariesOnTop		"secondariesOnTop"
 #define WmNsessionVersion               "sessionVersion"
@@ -273,9 +270,6 @@
 #define WmCRefreshByClearing		"RefreshByClearing"
 #define WmCResizeBorderWidth		"ResizeBorderWidth"
 #define WmCResizeCursors		"ResizeCursors"
-#if (defined(MWM_QATS_PROTOCOL))
-# define WmCRootMenu			"RootMenu"
-#endif /* defined(MWM_QATS_PROTOCOL) */
 #define WmCRootButtonClick		"RootButtonClick"
 #define WmCSecondariesOnTop		"SecondariesOnTop"
 #define WmCSessionVersion               "SessionVersion"

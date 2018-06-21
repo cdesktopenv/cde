@@ -71,9 +71,6 @@ extern void ProcessNewConfiguration (ClientData *pCD, int x, int y,
 				     unsigned int width, unsigned int height, 
 				     Boolean clientRequest);
 extern void ReGrabPointer (Window grab_win, Time grabTime);
-#if (defined(MWM_QATS_PROTOCOL))
-extern void SetGrabServer (void);
-#endif /* defined(MWM_QATS_PROTOCOL) */
 extern void SetOutline (XSegment *pOutline, int x, int y, unsigned int width, 
 			unsigned int height, int fatness);
 extern void SetPointerPosition (int newX, int newY, int *actualX, 

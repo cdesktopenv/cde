@@ -87,11 +87,7 @@
 
 #define MBBSIZ	    4096
 
-#if (defined(MWM_QATS_PROTOCOL))
-# define PARSE_MENU_ITEMS(pSD, mSpec) ParseMenuItems(pSD, mSpec)
-#else
-# define PARSE_MENU_ITEMS(pSD, mSpec) ParseMenuItems(pSD)
-#endif /* defined(MWM_QATS_PROTOCOL) */
+#define PARSE_MENU_ITEMS(pSD, mSpec) ParseMenuItems(pSD)
 
 /*
  * include extern functions
@@ -160,57 +156,12 @@ typedef struct {
    Boolean       fClick;
 } EventTableEntry;
 
-#if (defined(MWM_QATS_PROTOCOL))
-
-# define CCI_USE_DEFAULT_NAME_TAG "DEFAULT_NAME"
-
-String CCIEntryModifierNames[] = {
-  "none",
-  "inline",
-  "cascade",
-  "delimit",
-  "delimit_inline",
-  "delimit_cascade",
-  "exclude"
-};
-
-typedef enum {
-  NONE,             /* internal only. */
-  INLINE,           /* not supported. */
-  CASCADE,
-  DELIMIT,
-  DELIMIT_INLINE,   /* not supported. */
-  DELIMIT_CASCADE,
-  EXCLUDE
-} CCIEntryModifier;
-
-typedef struct _CCIFuncArg {
-  CCIEntryModifier mod;
-  String           cciEntry;
-} CCIFuncArg;
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
 static String GetNetworkFileName (char *pchFile);
-#if (defined(MWM_QATS_PROTOCOL))
-static MenuItem	       *MakeSeparatorTemplate  (int);
-static void ParseMenuItemName (unsigned char **linePP, MenuItem *menuItem);
-static Boolean ParseClientCommand (unsigned char **linePP, MenuSpec *menuSpec,
-				   MenuItem *menuItem, unsigned char *string,
-				   Boolean *use_separators);
-static void FixMenuItem (MenuSpec *menuSpec, MenuItem *menuItem);
-static Boolean GetCCIModifier (String modString, CCIEntryModifier *mod);
-static Boolean ParseWmFuncCCIArgs (unsigned char **linePP, 
-				   WmFunction wmFunction, String *pArgs);
-#endif /* defined(MWM_QATS_PROTOCOL) */
 FILE *FopenConfigFile (void);
 void SaveMenuAccelerators (WmScreenData *pSD, MenuSpec *newMenuSpec);
 static void ParseMenuSet (WmScreenData *pSD, unsigned char *lineP);
 MenuItem *ParseMwmMenuStr (WmScreenData *pSD, unsigned char *menuStr);
-static MenuItem *ParseMenuItems (WmScreenData *pSD
-#if (defined(MWM_QATS_PROTOCOL))
-				 , MenuSpec *menuSpec
-#endif /* defined(MWM_QATS_PROTOCOL) */
-				);
+static MenuItem *ParseMenuItems (WmScreenData *pSD);
 static Boolean ParseWmLabel (WmScreenData *pSD, MenuItem *menuItem, 
 			     unsigned char *string);
 static void ParseWmMnemonic (unsigned char **linePP, MenuItem *menuItem);
@@ -358,13 +309,6 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Beep,
 			ParseWmFuncNoArg},
-#if (defined(MWM_QATS_PROTOCOL))
-    {"f.cci",		0,
-	        	CRS_ANY,
-			0,
-			F_Nop,
-			ParseWmFuncCCIArgs},
-#endif /* defined(MWM_QATS_PROTOCOL) */
     {"f.circle_down",	F_SUBCONTEXT_IB_IICON|F_SUBCONTEXT_IB_WICON,
 			CRS_ANY,
 			0,
@@ -415,13 +359,6 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Help_Mode,
 			ParseWmFuncNoArg},  /* for now */
-#if (defined(MWM_QATS_PROTOCOL))
-    {"f.invoke_command",
-	        	0, CRS_ANY,
-			0,
-			F_InvokeCommand,
-			ParseWmFuncStrArg},
-#endif /* defined(MWM_QATS_PROTOCOL) */
     {"f.kill",		F_CONTEXT_ROOT,
 			CRS_ANY,
 			MWM_FUNC_CLOSE,
@@ -506,13 +443,6 @@ FunctionTableEntry functionTable[] = {
 			0,
 			F_Pass_Key,
 			ParseWmFuncNoArg},
-#if (defined(MWM_QATS_PROTOCOL))
-    {"f.post_rmenu",	0,
-	        	CRS_KEY,
-			0,
-			F_Post_RMenu,
-			ParseWmFuncNoArg},
-#endif /* defined(MWM_QATS_PROTOCOL) */
     {"f.post_wmenu",	0,
 			CRS_BUTTON|CRS_KEY,
 			0,
@@ -657,9 +587,6 @@ FunctionTableEntry functionTable[] = {
 /*
  * Be sure to update these define, whenever adding/deleting a function.
  */
-#if (defined(MWM_QATS_PROTOCOL))
-# define F_CCI_INDEX  2
-#endif /* defined(MWM_QATS_PROTOCOL) */
 int F_ACTION_INDEX;
 int F_EXEC_INDEX;
 int F_NOP_INDEX;
@@ -2380,10 +2307,6 @@ static void ParseMenuSet (WmScreenData *pSD, unsigned char *lineP)
     menuSpec->menuItems = NULL;
     menuSpec->accelContext = 0;
     menuSpec->accelKeySpecs = NULL;
-#if (defined(MWM_QATS_PROTOCOL))
-    menuSpec->exclusions = NULL;
-    menuSpec->clientLocal = FALSE;
-#endif /* defined(MWM_QATS_PROTOCOL) */
     menuSpec->nextMenuSpec = NULL;
 
     /*
@@ -2534,11 +2457,7 @@ MenuItem *ParseMwmMenuStr (WmScreenData *pSD, unsigned char *menuStr)
  * 
  *************************************<->***********************************/
 
-static MenuItem *ParseMenuItems (WmScreenData *pSD
-#if (defined(MWM_QATS_PROTOCOL))
-				 , MenuSpec *menuSpec
-#endif /* defined(MWM_QATS_PROTOCOL) */
-				)
+static MenuItem *ParseMenuItems (WmScreenData *pSD)
 {
     unsigned char *string;
     unsigned char *lineP;
@@ -2546,9 +2465,6 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
     MenuItem      *lastMenuItem;
     MenuItem      *menuItem;
     register int   ix;
-#if (defined(MWM_QATS_PROTOCOL))
-    Boolean        use_separators = False;
-#endif /* defined(MWM_QATS_PROTOCOL) */
     
     /*
      * Parse "label [mnemonic] [accelerator] function" or
@@ -2582,39 +2498,7 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	menuItem->nextMenuItem = NULL;
 	menuItem->wmFunction = (WmFunction)NULL;
 	menuItem->wmFuncArgs = NULL;
-#if (defined(MWM_QATS_PROTOCOL))
-	menuItem->clientCommandName = NULL;
-	menuItem->clientCommandID = 0;
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
-#if (defined(MWM_QATS_PROTOCOL))
-	/*
-	 * Is this a simple menu item label or is it a
-	 * client command specification.
-	 */
-
-	if (IsClientCommand((String) string))
-	{
-	    if (!ParseClientCommand(&lineP, menuSpec, menuItem, string,
-				    &use_separators))
-	    {
-		XtFree ((char *)menuItem);
-		continue;
-	    }
-
-	    for (ix = 0; ix < WMFUNCTIONTABLESIZE - 1; ++ix)
-	      if (functionTable[ix].wmFunction == F_InvokeCommand)
-		break;
-
-	    if (ix == WMFUNCTIONTABLESIZE - 1)
-	    {
-		ix = F_NOP_INDEX;
-		menuItem->wmFunction = F_Nop;
-	    }
-	    else menuItem->wmFunction = F_InvokeCommand;
-	}
-	else /* It must be a menu item label */
-#endif /* defined(MWM_QATS_PROTOCOL) */
 	{
 	    /*
 	     * Parse the menu item label.
@@ -2648,12 +2532,7 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	 * but we do want to search for a menu item name that occupies
 	 * the same place as the function does for normal menu items.
 	 */
-#if (defined(MWM_QATS_PROTOCOL))
-	if (menuItem->wmFunction != NULL)
-	  ParseMenuItemName(&lineP, menuItem);
-	else
-#endif /* defined(MWM_QATS_PROTOCOL) */
-	  ix = ParseWmFunction (&lineP, CRS_MENU, &menuItem->wmFunction);
+	ix = ParseWmFunction (&lineP, CRS_MENU, &menuItem->wmFunction);
 
 	/*
 	 * Determine context sensitivity and applicability mask.
@@ -2684,47 +2563,6 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	    continue;  /* skip this menu item */
         }
 
-#if (defined(MWM_QATS_PROTOCOL))
-	/*
-	 * If we're working on the f.cci function, this will fix-up
-	 * the menuItem entries so that it appears that we read-in
-	 * an old-style client-command entry.  Eventually, the cci
-	 * handling should be changed to make use of the wmFuncArgs.
-	 * Note that if DEFAULT_NAME was specified as the label, it
-	 * is first set to NULL.
-	 * FixMenuItem needs menuSpec since this is when the EXCLUDE
-	 * items are stored.
-	 */
-	if (ix == F_CCI_INDEX)
-	  {
-	    CCIEntryModifier mod = ((CCIFuncArg *)menuItem->wmFuncArgs)->mod;
-
-	    /* first fix the label if needed. */
-	    if (!strcmp(menuItem->label, CCI_USE_DEFAULT_NAME_TAG))
-	      {
-		XtFree(menuItem->label);
-		menuItem->label = NULL;
-	      }
-
-	    FixMenuItem(menuSpec, menuItem);
-
-	    if (mod == DELIMIT || mod == DELIMIT_CASCADE || mod == DELIMIT_INLINE)
-	      use_separators = True;
-	  }
-
-	/*
-	 * If this menu item is supposed to be wrapped in separators,
-	 * then create a separator template before the menu item
-	 */
-	if (use_separators)
-	{
-	    MenuItem *separator = MakeSeparatorTemplate(TOP_SEPARATOR);
-	    if (lastMenuItem != NULL) lastMenuItem->nextMenuItem = separator;
-	    else 		      firstMenuItem = separator;
-	    lastMenuItem = separator;
-	}
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
 	/*
 	 * Add this item to the menu specification.
 	 */
@@ -2738,21 +2576,6 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 	    firstMenuItem = menuItem;
 	}
 	lastMenuItem = menuItem;
-
-#if (defined(MWM_QATS_PROTOCOL))
-	/* If this menu item is supposed to be wrapped in separators
-	 * then create a separator template after the menu item
-	 */
-	if (use_separators)
-	{
-	    MenuItem *separator = MakeSeparatorTemplate(BOTTOM_SEPARATOR);
-	    if (lastMenuItem != NULL) lastMenuItem->nextMenuItem = separator;
-	    else 		      firstMenuItem = separator;
-	    lastMenuItem = separator;
-	}
-
-	use_separators = FALSE;
-#endif /* defined(MWM_QATS_PROTOCOL) */
     }
 
     return (firstMenuItem);
@@ -2760,400 +2583,6 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD
 } /* END OF FUNCTION ParseMenuItems */
 
 
-
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  StoreExclusion (menuSpec, string)
- *
- *
- *  Description:
- *  -----------
- *  Store the exclusion string in the menuspec. The list of exclusion
- *  strings are used to determine whether an insertion should be disallowed.
- *
- *
- *  Inputs:
- *  ------
- *  menuSpec = the menu specification structure
- *  string   = exclusion client command string
- *
- * 
- *  Outputs:
- *  -------
- *  Return   = nothing
- *
- *  Comments:
- *  --------
- *
- *************************************<->***********************************/
-
-static void StoreExclusion (MenuSpec *menuSpec, String string)
-{
-    MenuExclusion *exclusion;
-
-    exclusion = (MenuExclusion *)XtMalloc(sizeof(MenuExclusion));
-    exclusion->command_string = XtNewString(string);
-
-    /* We don't care what order the exclusions are in so stick it
-       at the head of the list because it is easier. */
-    exclusion->nextExclusion = menuSpec->exclusions;
-    menuSpec->exclusions = exclusion;
-}
-
-
-/*************************************<->*************************************
- *
- *  IsClientCommand (string)
- *
- *
- *  Description:
- *  -----------
- *  Determine whether the string is a client command by the prefix
- *  characters.
- *
- *
- *  Inputs:
- *  ------
- *  string   = possible client command string
- *
- * 
- *  Outputs:
- *  -------
- *  Return   = (Boolean) TRUE iff the string is a client command.
- *	       Otherwise, FALSE is returned.
- *
- *
- *  Comments:
- *  --------
- *  This function simply checks what the first two or three characters of
- *  the string are. If they match the beginning of a client command
- *  specification, then TRUE is returned. This function does no go on to
- *  parse the rest of the specification. The legal client command beginning
- *  characters are:
- *
- *		characters:	meaning:
- *		-----------------------------------------------
- *		    <		simple client command beginning
- *		  -><		forced cascade menu
- *		   =<		client command with separators
- *		   ~<		exclusion operator
- * 
- *  Assumes:
- *  --------
- *  There is no leading whitespace on the string
- *
- *************************************<->***********************************/
-
-Boolean IsClientCommand (String string)
-{
-    if ((mblen ((char *)string, MB_CUR_MAX) == 1 && *string == '<') ||
-	(strncmp(string, "-><", 3) == 0) ||
-	(strncmp(string, "=<", 2) == 0)  ||
-	(strncmp(string, "=><", 3) == 0) ||
-	(strncmp(string, "~<", 2) == 0))
-      return(TRUE);
-
-    return(FALSE);
-}
-
-
-/*************************************<->*************************************
- *
- *  ParseClientCommand (linePP, menuSpec, menuitem, string, use_separators)
- *
- *
- *  Description:
- *  -----------
- *  Parse the string and whatever is left of the line to verify whether
- *  correct syntax was used for a client command. Store the client command
- *  string in the menuitem, unless it is an exclusion. If it is an
- *  exclusion, then store the exclusion string in the menuSpec and return
- *  FALSE to indicate that the menuitem is no longer needed.
- *
- *
- *  Inputs:
- *  ------
- *  linePP   = pointer to current line buffer pointer.
- *  menuItem = pointer to MenuItem structure
- *  string   = first token of client command
- *
- * 
- *  Outputs:
- *  -------
- *  Return   = (Boolean) TRUE iff the line is a valid client command 
- *	       that can used to match insertions.
- *	       Otherwise, FALSE is returned meaning that the client
- *	       command had incorrect syntax or it was an exclusion, in
- *	       which case any useful information was stored in the
- *	       menuSpec.
- *
- *
- *  Comments:
- *  --------
- *  This function parses the entire line to determine if correct
- *  syntax was used for the client command. We assume at this point
- *  that the line is a client command. We are just syntax checking.
- *  If the syntax is correct, the client command is stored in the
- *  menuitem structure, in the "label" field.
- *
- *  Valid syntax for a client command (single quoted characters are
- *  literals):
- *
- *  modifier  = { '->' | '=' | '~' }
- *  reference = '<' { name | '*' } '>'
- *  command   = [ modifier ] reference [ { modifier | '.' } reference ]*
- *  name      = alpha-numeric string, white space allowed
- *
- *  Assumes:
- *  --------
- *  There is no leading whitespace on the string argument
- *
- *************************************<->***********************************/
-
-enum { PRS_NO_STATE, PRS_BEGIN, PRS_MODIFIER, PRS_REFERENCE,
-       PRS_SEPARATOR, PRS_END, PRS_ERROR, PRS_MAX_STATES };
-
-/* This table lists for each parse state, the legal states that can
-   be moved to. Each list must end with a PRS_NO_STATE value to 
-   terminate the list. */
-static int cmd_parse_table[PRS_END][PRS_END] =
-{
-  /* PRS_NO_STATE */  { PRS_NO_STATE },
-  /* PRS_BEGIN */     { PRS_MODIFIER, PRS_REFERENCE, PRS_NO_STATE },
-  /* PRS_MODIFIER */  { PRS_REFERENCE, PRS_NO_STATE },
-  /* PRS_REFERENCE */ { PRS_SEPARATOR, PRS_END, PRS_NO_STATE },
-  /* PRS_SEPARATOR */ { PRS_REFERENCE, PRS_NO_STATE },
-};
-
-static Boolean ParseClientCommand (unsigned char **linePP, MenuSpec *menuSpec,
-				   MenuItem *menuItem, unsigned char *string,
-				   Boolean *use_separators)
-{
-    int token, linelen, i;
-    int state = PRS_BEGIN;
-    String stream, unchanged_stream, exclusion_text;
-    Boolean return_val = FALSE;
-    Boolean exclusion = FALSE; /* this will be set to TRUE if the client
-				  command was parsed to be an exclusion
-				  command. */
-
-    /* Construct one input stream out of the string and the linePP that
-       we were given. */
-    linelen = strlen((char *)string) + strlen((char *)*linePP) + 1;
-    if ((unchanged_stream = stream = (String)
-	 XtMalloc((unsigned int)(sizeof(unsigned char) * linelen))) == NULL)
-    {
-	PWarning (((char *)GETMESSAGE(60, 42,
-		    "Insufficient memory for menu item label")));
-        return (FALSE);
-    }
-    strcpy(stream, (char *) string);
-    strcat(stream, " ");
-    strcat(stream, (char *) *linePP);
-
-    for (;;)
-    {
-	token = PRS_NO_STATE;
-	while (token == PRS_NO_STATE)
-	{
-	    if (mblen ((char *)stream, MB_CUR_MAX) > 1) {
-	      token = PRS_ERROR;
-	      continue;
-	    }
-
-	    switch (*stream)
-	    {
-	      case '\0':
-	      case '\n':
-		/* We've reached the end of the stream. Return the
-		   PRS_END token. */
-		token = PRS_END;
-		break;
-	      case '-':
-		/* This should be a cascade-force modifier */
-		++stream;
-		if (mblen ((char *)stream, MB_CUR_MAX) > 1) {
-		  token = PRS_ERROR;
-		  continue;
-		}
-		if (*stream == '>')
-		{
-		    ++stream; token = PRS_MODIFIER;
-		}
-		else token = PRS_ERROR;
-		break;
-	      case '=':
-		/* This is either a separators modifier or
-		   a combination separators and cascade-force
-		   modifier */
-		++stream;
-		if (mblen ((char *)stream, MB_CUR_MAX) > 1) {
-		  token = PRS_ERROR;
-		  continue;
-		}
-		if (*stream == '>') ++stream;
-		token = PRS_MODIFIER;
-		*use_separators = TRUE;
-		break;
-	      case '~':
-		/* This is a exclude-command modifier */
-		++stream; token = PRS_MODIFIER;
-		exclusion = TRUE;
-		/* Setup a pointer to the text following the ~ so
-		   we can do matching later for exclusions. */
-		exclusion_text = stream;
-		break;
-	      case '<':
-		/* Skip the open bracket */
-		++stream;
-
-		/* This should be the beginning of a reference. First
-		   skip any leading whitespace. */
-		if (mblen ((char *)stream, MB_CUR_MAX) > 1) {
-		  token = PRS_ERROR;
-		  continue;
-		}
-		while (mblen ((char *)stream, MB_CUR_MAX) == 1 && 
-		       (*stream == ' ' || *stream == '\t')) 
-		  ++stream;
-
-		if (mblen ((char *)stream, MB_CUR_MAX) > 1) {
-		  token = PRS_ERROR;
-		  continue;
-		}
-		/* Now check for a reference name wild card or a
-		   full reference name */
-		if (*stream == '*')
-		  ++stream;
-		else
-		{
-		    while (mblen ((char *)stream, MB_CUR_MAX) == 1 && 
-			   (isalnum(*stream) || *stream == ' ' ||
-			    *stream == '\t'  || *stream == '_' ))
-		      ++stream;
-		}
-		
-		if (mblen ((char *)stream, MB_CUR_MAX) > 1) {
-		  token = PRS_ERROR;
-		  continue;
-		}
-
-		/* Now skip past any trailing white space */
-		while (mblen ((char *)stream, MB_CUR_MAX) == 1 && 
-		       (*stream == ' ' || *stream == '\t'))
-		  ++stream;
-
-		if (mblen ((char *)stream, MB_CUR_MAX) > 1) {
-		  token = PRS_ERROR;
-		  continue;
-		}
-		/* At this point, we should be looking at the close
-		   of the reference */
-		if (*stream == '>')
-		{
-		    token = PRS_REFERENCE;
-		    ++stream;
-		}
-		else token = PRS_ERROR;
-		break;
-	      case '.':
-		/* This is a reference separator */
-		++stream; token = PRS_SEPARATOR;
-		break;
-	      case ' ':
-	      case '\t':
-		/* The only place white space is allowed as at the
-		   beginning of the line, after all the client command
-		   text and within the delimiters of a REFERENCE. We
-		   are guaranteed not to have whitespace at the 
-		   beginning of the line by the time this function is
-		   called. Also, the REFERENCE parsing above handles
-		   all white space internal to the client command. Therefore,
-		   since we are seeing white space, we must be at the
-		   end of the client command. */
-		token = PRS_END;
-		break;
-	      default:
-		token = PRS_ERROR;
-
-	    } /* end switch (*stream) */
-	} /* end while (token == PRS_NO_STATE) */
-
-	/* If we got an error then just return an error */
-	if (token == PRS_ERROR)
-	{
-	    return_val = FALSE; break;
-	}
-	
-	/* Check whether the token we got is a valid transition */
-	for (i = 0; cmd_parse_table[state][i] != PRS_NO_STATE; ++i)
-	{
-	    if (token == cmd_parse_table[state][i]) 
-	    {
-		/* It is a valid transition, so break out of the loop */
-		break;
-	    }
-        }
-	
-	/* If i is not indexing the NO_STATE value in the parse_table,
-	   then the parse succeeded. Check if the new state is PRS_END.
-	   If so then we are done. If the state isn't the same as the
-	   current token, then we hit a parse error. */
-	if (cmd_parse_table[state][i] != PRS_NO_STATE)
-	{
-	    if (token == PRS_END)
-	    {
-		return_val = TRUE;
-		break;
-	    }
-	}
-	else 
-	{
-	    /* parse error */
-	    return_val = FALSE;
-	    break;
-	}
-	
-	/* The transition was valid so make the transition by
-	   setting the state to be the current token. */
-	state = token; 
-
-    } /* end for (;;) */
-
-    /* If the return_val is TRUE, then the parse succeeded and we
-       want to save the string we parsed into the label field of
-       the menu item. */
-    if (return_val == TRUE)
-    {
-	/* NULL terminate the string */
-	*stream = '\0';
-
-	/* Check whether this client command was an exclusion. If not,
-	   then store the client command string in the menu item. */
-	if (exclusion == TRUE)
-	{
-	    /* Since the command was an exclusion, store the command
-	       string in the menuSpec and change the return value to
-	       FALSE. */
-	    StoreExclusion(menuSpec, exclusion_text);
-	    return_val = FALSE;
-	}
-	else
-	{
-	    menuItem->label = XtNewString(unchanged_stream);
-	    menuItem->labelType = XmSTRING;
-	}
-    }
-
-    /* Free the string we allocated and return. */
-    XtFree((char *)unchanged_stream);
-
-    return(return_val);
-}
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
 /*************************************<->*************************************
  *
  *  ParseWmLabel (pSD, menuItem, string)
@@ -3368,10 +2797,6 @@ static Boolean ParseWmAccelerator (unsigned char **linePP, MenuItem *menuItem)
 
     if ((*lineP != '\0') &&     /* something follows */
 	(*lineP != '!')  &&     /* skip if we have the ! WmFunction */
-#if (defined(MWM_QATS_PROTOCOL))
-	 /* skip label name for client command */
-	((*lineP != '"') || (menuItem->wmFunction != F_InvokeCommand)) &&
-#endif /* defined(MWM_QATS_PROTOCOL) */
 	(*lineP != 'f')  &&
 	(*(lineP+1) != '.'))    /* skip if we have f.xxx WmFunction */
     {
@@ -3408,89 +2833,6 @@ static Boolean ParseWmAccelerator (unsigned char **linePP, MenuItem *menuItem)
 
 } /* END OF FUNCTION ParseWmAccelerator */
 
-
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  ParseMenuItemName (linePP, menuItem)
- *
- *
- *  Description:
- *  -----------
- *  Parse a user defined client command menu item
- *
- *
- *  Inputs:
- *  ------
- *  linePP   = pointer to current line buffer pointer.
- *  menuItem = pointer to MenuItem structure
- *
- * 
- *  Outputs:
- *  -------
- *  menuItem->label will have menu item name appended to it
- *
- *  Comments:
- *  --------
- *  This function attempts to find a menu item label string at the end
- *  of the client command specification line. A menu item label string
- *  must be delimited by double quotes. If found, the label string is
- *  appended to the menuItem->label field, after being reallocated to
- *  accommodate the new space requirement.
- * 
- *************************************<->***********************************/
-
-static void ParseMenuItemName (unsigned char **linePP, MenuItem *menuItem)
-{
-    unsigned char *lineP, *endquote;
-    int chlen;
-
-    /* Skip past any whitespace */
-    ScanWhitespace (linePP);
-    lineP = *linePP;
-
-    /* Look for a double quote */
-    if (mblen ((char *)lineP, MB_CUR_MAX) == 1 && *lineP == '"')
-    {
-	/* Move past the first quote. */
-	++lineP;
-
-	endquote = lineP;
-
-	/* Search for closing quote */
-	while (*endquote != '\0' &&
-	       (chlen = mblen ((char *)endquote, MB_CUR_MAX)) > 0 && 
-	       (chlen > 1 || *endquote != '"'))
-	{
-	    /* If we ran off the end of the line, then just abort. Bad
-	       syntax. */
-	    if ((chlen == 1 && *endquote == '\n') || *endquote == '\0') return;
-	    endquote += chlen;
-	}
-	if (chlen < 0) return; /* invalid character */
-
-	/* Well, we have a valid menu item name. Store it in the 
-	   client command name field. Don't include the double quotes. */
-	menuItem->clientCommandName =
-	  XtMalloc(sizeof(char) * (endquote - lineP) + 1);
-	strncpy(menuItem->clientCommandName, (char *) lineP,
-		endquote - lineP);
-	menuItem->clientCommandName[strlen(menuItem->clientCommandName)+1] = '\0';
-    }
-    else
-    {
-	/* If there was no double quote, then just advance to the end
-	   of the line. */
-	while (*lineP != '\0' && 
-	       ((chlen = mblen ((char *)lineP, MB_CUR_MAX)) > 1 ||
-		*lineP != '\n'))
-	  lineP += chlen > 0 ? chlen : 1;
-	*linePP = lineP;
-    }
-}
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
 /*************************************<->*************************************
  *
  *  int
@@ -4052,111 +3394,6 @@ static Boolean ParseWmFuncNbrArg (unsigned char **linePP,
 
 } /* END OF FUNCTION ParseWmFuncNbrArg */
 
-
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  ParseWmFuncCCIArgs (linePP, wmFunction, pArgs)
- *
- *
- *  Description:
- *  -----------
- *  Parses a Client-Command entry's arguments.
- *
- *
- *  Inputs:
- *  ------
- *  linePP   = pointer to current line buffer pointer.
- *  wmFunction = function for which the argument string is intended.
- *  pArgs = pointer to argument string destination.
- *
- * 
- *  Outputs:
- *  -------
- *  linePP   = pointer to revised line buffer pointer.
- *  pArgs    = pointer to parsed argument string.
- *  Return   = FALSE iff insufficient memory
- *
- *
- *  Comments:
- *  --------
- *  None.
- * 
- *************************************<->***********************************/
-
-static Boolean ParseWmFuncCCIArgs (unsigned char **linePP, 
-				   WmFunction wmFunction, String *pArgs)
-{
-  /*
-   * Format:
-   *    cci_func_args:
-   *         cci_entry
-   *         modifier cci_entry_list
-   *
-   *    cci_entry_list:
-   *         cci_entry
-   *         cci_entry . cci_entry
-   *
-   *    cci_entry:
-   *         '<' cci_label '>'
-   *
-   *    cci_label:
-   *         any combination of alpha and '_'
-   */
-
-  CCIEntryModifier  mod;
-  CCIFuncArg      *cciArg;
-  unsigned char   *string;
-
-
-  cciArg = XtNew(CCIFuncArg);
-
-  if ((string = GetString(linePP)) == NULL)
-    {
-      /* Error - no data for f.cci command. cci_entry_list is required. */
-      fprintf(stderr, "Incorrect format for f.cci command.\n");
-      return (FALSE);
-    }
-  else
-    {
-      /* check if no modifier was specified. */
-      if (string[0] == '<')
-	{
-	  cciArg->mod      = NONE;
-	  cciArg->cciEntry = XtNewString((char*)string);
-	}
-      else
-	{
-	  if (! GetCCIModifier((String)string, &mod))
-	    {
-	      cciArg->mod      = NONE;
-	      cciArg->cciEntry = XtNewString("");
-	    }
-	  else
-	    {
-	      cciArg->mod = mod;
-
-	      if ((string = GetString(linePP)) == NULL)
-		{
-		  /* Found a modifier, but there's no cci_entry_list. */
-		  fprintf(stderr, "Incorrect format for f.cci command.\n");
-		  return(FALSE);
-		}
-	      else
-		{
-		  cciArg->cciEntry = XtNewString((char*)string);
-		}
-	    }
-	}
-
-      *pArgs = (String)cciArg;
-    }
-
-  return(TRUE);
-} /* END OF FUNCTION ParseWmFuncCCIArgs */
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
 /*************************************<->*************************************
  *
  *  ParseButtonStr ()
@@ -5194,153 +4431,6 @@ static Boolean LookupModifier (unsigned char *name, unsigned int *valueP)
 
 } /* END OF FUNCTION LookupModifier */
 
-
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  GetCCIModifier (modString, mod)
- *
- *
- *  Description:
- *  -----------
- *  Return the cci modifier corresponding to the specified string
- *
- *
- *  Inputs:
- *  ------
- *  modString = cci modifier string; may be null
- *
- * 
- *  Outputs:
- *  -------
- *  mod    = cci modifier.
- *  Return = (Boolean) true iff valid modifier string
- *
- *
- *  Comments:
- *  --------
- *  None.
- * 
- *************************************<->***********************************/
-
-static Boolean GetCCIModifier (String modString, CCIEntryModifier *mod)
-{
-  CCIEntryModifier i;
-
-
-  if (modString != NULL)
-    {
-      ToLower (modString);
-      for (i=NONE; i<=EXCLUDE; i++)
-	{
-	  if (!strcmp (CCIEntryModifierNames[i], modString))
-            {
-	      *mod = i;
-	      return (TRUE);
-            }
-        }
-    }
-
-    return (FALSE);
-
-} /* END OF FUNCTION GetCCIModifier */
-
-
-/*************************************<->*************************************
- *
- *  FixMenuItem (menuSpec, menuItem)
- *
- *
- *  Description:
- *  -----------
- *  Fix-up the menuItem so that it appears an old-style cci command was
- *  read from the .mwmrc file
- *
- *
- *  Inputs:
- *  ------
- *  menuItem = the menu item structure
- *  menuSpec = the menu specification structure
- *
- * 
- *  Outputs:
- *  -------
- *  menuItem = the fixed-up menuitem
- *  menuSpec = the fixed-up menu specification structure if EXCLUDE found
- *  Return   = nothing
- *
- *  Comments:
- *  --------
- *
- *************************************<->***********************************/
-
-static void FixMenuItem (MenuSpec *menuSpec, MenuItem *menuItem)
-{
-  String      tmp;
-  CCIFuncArg *cciArg;
-  
-
-  if (menuItem == NULL)
-    return;
-
-  cciArg = (CCIFuncArg *)menuItem->wmFuncArgs;
-
-  menuItem->clientCommandName = menuItem->label;
-  menuItem->label = cciArg->cciEntry;
-
-  /*
-   * Fix-up the label to handle the modifier.
-   */
-
-  switch (cciArg->mod)
-    {
-    case NONE:
-      break;
-
-    case INLINE:
-      break;
-
-    case CASCADE:
-      /* -> */
-      tmp = (String) XtMalloc(strlen(menuItem->label) + 3);
-      sprintf(tmp, "->%s", menuItem->label);
-      XtFree(menuItem->label);
-      menuItem->label = tmp;
-      break;
-
-    case DELIMIT:
-      /* = */
-      tmp = (String) XtMalloc(strlen(menuItem->label) + 2);
-      sprintf(tmp, "=%s", menuItem->label);
-      XtFree(menuItem->label);
-      menuItem->label = tmp;
-      break;
-
-    case DELIMIT_INLINE:
-      break;
-
-    case DELIMIT_CASCADE:
-      /* => */
-      tmp = (String) XtMalloc(strlen(menuItem->label) + 3);
-      sprintf(tmp, "=>%s", menuItem->label);
-      XtFree(menuItem->label);
-      menuItem->label = tmp;
-      break;
-
-    case EXCLUDE:
-      /* ~ */
-      StoreExclusion(menuSpec, menuItem->label);
-
-      tmp = (String) XtMalloc(strlen(menuItem->label) + 2);
-      sprintf(tmp, "~%s", menuItem->label);
-      XtFree(menuItem->label);
-      menuItem->label = tmp;
-      break;
-    }
-}
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
 /*************************************<->*************************************
  *
  *  ParseEventType(linePP, table, eventType, ix)
@@ -7177,99 +6267,3 @@ GetNetworkFileName (char *pchFile)
 }
 /****************************   eof    ***************************/
 
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  SetGreyedContextAndMgtMask (menuItem, wmFunction)
- *
- *
- *  Description:
- *  -----------
- *  This function sets up the greyed context and management mask
- *  for a menu item based on the menu function passed in.
- *
- *  Inputs:
- *  ------
- *  menuItem   = the menu item to be set up 
- *  wmFunction = the menu function to find in the function table
- *		 to determine how to set up the relevant fields
- * 
- *  Outputs:
- *  -------
- *  The menuItem will have its greyed context and management mask fields
- *  set appropriately. If the given function cannot be found, the fields
- *  will be set to the appropriate values as if the function were F_Nop.
- *  Return = True if the function could be found. False otherwise.
- *
- *************************************<->***********************************/
-
-Boolean SetGreyedContextAndMgtMask (MenuItem *menuItem,
- 				    WmFunction wmFunction)
-{
-    int ix;
-
-    for (ix = 0; ix < WMFUNCTIONTABLESIZE - 1; ++ix)
-    {
-	if (functionTable[ix].wmFunction == wmFunction)
-	{
-	    /* Success! The function was found. Set up the
-	       values and get the heck out of here. */
-	    menuItem->greyedContext = functionTable[ix].greyedContext;
-	    menuItem->mgtMask = functionTable[ix].mgtMask;
-	    return(True);
-	}
-    }
-
-    /* We couldn't find the given command in the function table.
-       Set up the values as if the F_Nop function were found
-       and return False. */
-    menuItem->greyedContext = functionTable[F_NOP_INDEX].greyedContext;
-    menuItem->mgtMask = functionTable[F_NOP_INDEX].mgtMask;
-    return(False);
-}
-
-
-
-/*************************************<->*************************************
- *
- *  MakeSeparatorTemplate ()
- *
- *
- *  Description:
- *  -----------
- *
- *  Inputs:
- *  ------
- * 
- *  Outputs:
- *  -------
- *
- *************************************<->***********************************/
-static
-MenuItem *MakeSeparatorTemplate (int position)
-{
-    MenuItem *item;
-
-    item = (MenuItem *)XtMalloc(sizeof(MenuItem));
-
-    /* We use the labelType to determine where this separator is positioned
-       relative to the client command(s) it is surrounding, i.e. TOP or
-       BOTTOM */
-    item->labelType = position;
-    /* Make it look like a client command: */
-    item->label = XtNewString("<label-template>");
-    item->labelBitmapIndex = -1;
-    item->mnemonic = (KeySym) 0;
-    item->accelState = 0;
-    item->accelKeyCode = (KeyCode) NULL;
-    item->accelText = (String) NULL;
-    item->wmFunction = (WmFunction) F_Separator;
-    item->wmFuncArgs = (String) NULL;
-    item->greyedContext = 0;
-    item->mgtMask = 0;
-    item->clientCommandName = (String) NULL;
-    item->nextMenuItem = (MenuItem *) NULL;
-
-    return(item);
-}
-#endif /* defined(MWM_QATS_PROTOCOL) */

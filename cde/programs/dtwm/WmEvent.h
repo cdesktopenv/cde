@@ -38,9 +38,6 @@ extern Boolean CheckForButtonAction (XButtonEvent *buttonEvent,
 				     Context context, Context subContext, 
 				     ClientData *pCD);
 extern Time GetTimestamp (void);
-#if (defined(MWM_QATS_PROTOCOL))
-extern Time LastTime (void);
-#endif /* defined(MWM_QATS_PROTOCOL) */
 extern Boolean HandleKeyPress (XKeyEvent *keyEvent, KeySpec *keySpecs, 
 			       Boolean checkContext, Context context, 
 			       Boolean onlyFirst, ClientData *pCD);

@@ -510,21 +510,12 @@ char behaviorKeyBindings[];
 char defaultButtonBindingsName[] = "DefaultButtonBindings";
 char builtinButtonBindingsName[] = "_MwmButtonBindings_";
 #ifndef MCCABE
-# if (defined(MWM_QATS_PROTOCOL))
-#  define BUILTINBUTTONBINDINGS "_MwmButtonBindings_\n\
-{\n\
-	<Btn1Down>	icon|frame	f.raise\n\
-	<Btn3Down>	icon|frame	f.post_wmenu\n\
-	<Btn3Down>	root		f.menu %s\n\
-}";
-# else
-#  define BUILTINBUTTONBINDINGS "_MwmButtonBindings_\n\
+# define BUILTINBUTTONBINDINGS "_MwmButtonBindings_\n\
 {\n\
 	<Btn1Down>	icon|frame	f.raise\n\
 	<Btn3Down>	icon|frame	f.post_wmenu\n\
 	<Btn3Down>	root		f.menu DefaultRootMenu\n\
 }";
-# endif /* defined(MWM_QATS_PROTOCOL) */
 char builtinButtonBindings[] = BUILTINBUTTONBINDINGS
 
 #else
@@ -1337,18 +1328,6 @@ XtResource wmScreenResources[] =
 	XtRImmediate,
 	(XtPointer)True
     },
-
-#if (defined(MWM_QATS_PROTOCOL))
-    {
-	WmNrootMenu,
-	WmCRootMenu,
-	XtRString,
-	sizeof (String),
-	XtOffsetOf (WmScreenData, rootMenu),
-	XtRString,
-	(XtPointer)builtinRootMenuName
-    },
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
     {
 	WmNtransientDecoration,
@@ -5585,9 +5564,6 @@ SetStdClientResourceValues (ClientData *pCD)
 void 
 SetStdScreenResourceValues (WmScreenData *pSD)
 {
-#if (defined(MWM_QATS_PROTOCOL))
-    pSD->rootMenu = builtinRootMenuName;
-#endif /* defined(MWM_QATS_PROTOCOL) */
     pSD->buttonBindings = builtinButtonBindingsName;
     pSD->cleanText = True;
     pSD->iconDecoration =
@@ -6157,23 +6133,7 @@ WmScreenData *pSD;
 	 * set.
 	 */
 
-#if (defined(MWM_QATS_PROTOCOL))
-        /*
-	 * Before parsing the string, substitute the real name for
-	 * the default rootmenu using the resource rootMenu
-	 * for the %s in the string.
-	 */
-
-        char *buffer;
-
-	buffer = (char *) XtMalloc(strlen(builtinKeyBindings) +
-				   strlen(pSD->rootMenu) + 1);
-	sprintf(buffer, builtinKeyBindings, pSD->rootMenu);
-
-	ParseKeyStr (pSD, (unsigned char *)buffer);
-#else
 	ParseKeyStr (pSD, (unsigned char *)builtinKeyBindings);
-#endif /* defined(MWM_QATS_PROTOCOL) */
     }
     else
     {
@@ -6209,23 +6169,7 @@ WmScreenData *pSD;
 	 * set.
 	 */
 
-#if (defined(MWM_QATS_PROTOCOL))
-        /*
-	 * Before parsing the string, substitute the real name for
-	 * the default rootmenu using the resource rootMenu
-	 * for the %s in the string.
-	 */
-
-        char *buffer;
-
-	buffer = (char *) XtMalloc(strlen(builtinButtonBindings) +
-				   strlen(pSD->rootMenu) + 1);
-	sprintf(buffer, builtinButtonBindings, pSD->rootMenu);
-
-	ParseButtonStr (pSD, (unsigned char *)buffer);
-#else
 	ParseButtonStr (pSD, (unsigned char *)builtinButtonBindings);
-#endif /* defined(MWM_QATS_PROTOCOL) */
     }
 
 #ifdef NO_MESSAGE_CATALOG

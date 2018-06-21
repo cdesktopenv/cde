@@ -2791,64 +2791,6 @@ Boolean F_Pack_Icons (String args, ClientData *pCD, XEvent *event)
 
 } /* END OF FUNCTION F_Pack_Icons */
 
-
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  F_Post_RMenu (args, pCD, event)
- *
- *
- *  Description:
- *  -----------
- *  This is the window manager function handler for posting the
- *  root window menu.
- *  This function can only be invoked by a key event.
- *
- *************************************<->***********************************/
-
-Boolean F_Post_RMenu (String args, ClientData *pCD, XEvent *event)
-{
-    MenuSpec    *rootMenu;
-    unsigned int button = NoButton;
-    int          x, y;
-    long         flags = POST_AT_XY;
-    Window       rwin, cwin;
-    int          winx, winy;
-    unsigned int mask;
-
-
-    if ((event->type == KeyPress) || (event->type == KeyRelease))
-      {
-
-	/* Find the root menu spec */
-	for (rootMenu = ACTIVE_PSD->menuSpecs;
-	     rootMenu != (MenuSpec *) NULL;
-	     rootMenu = rootMenu->nextMenuSpec)
-	  {
-	    if (strcmp(rootMenu->name, ACTIVE_PSD->rootMenu) == 0)
-	      break;
-	  }
-    
-	/* If we couldn't find the root menu, then do nothing. */
-	if (rootMenu == (MenuSpec *) NULL)
-	  return (False);
-
-	else
-    	  {
-	    XQueryPointer(DISPLAY, ACTIVE_ROOT,
-			  &rwin, &cwin, &x, &y, &winx, &winy, &mask);
-
-	    PostMenu (rootMenu, NULL, x, y, NoButton, F_CONTEXT_ROOT,
-		      flags, event);
-	  }
-      }
-
-    return (False);
-
-} /* END OF FUNCTION F_Post_RMenu */
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
 /*************************************<->*************************************
  *
  *  F_Post_SMenu (args, pCD, event)
@@ -4352,41 +4294,6 @@ Boolean F_Screen (String args, ClientData *pCD, XEvent *event)
 }
 
 
-
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  F_InvokeCommand (args, pCD, event)
- *
- *
- *  Description:
- *  -----------
- *  This is the window manager function for invoking client inserted menu
- *  commands.
- *
- *************************************<->***********************************/
-
-Boolean F_InvokeCommand (String args, ClientData *pCD, XEvent *event)
-{
-    CARD32 commandID, clientWindow;
-    Atom notifySelection;
-
-    if (args == (String) NULL) return(FALSE);
-
-    if (sscanf(args, "%d %d %ld", &commandID, &clientWindow,
-	       &notifySelection) != 3)
-      return(FALSE);
-
-    SendInvokeMessage(commandID,
-		      (pCD == (ClientData *) NULL ? 0 : pCD->client),
-		      notifySelection,
-		      LastTime());
-
-    return (True);
-} /* END OF FUNCTION F_InvokeCommand */
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
 /*************************************<->*************************************
  *
  *  GetFunctionTimestamp (pEvent)

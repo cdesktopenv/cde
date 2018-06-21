@@ -1210,9 +1210,6 @@ Boolean HandleKeyPress (XKeyEvent *keyEvent,
 		}
 
 	      if ((keySpecs->wmFunction == F_Menu) ||
-#if (defined(MWM_QATS_PROTOCOL))
-		  (keySpecs->wmFunction == F_Post_RMenu) ||
-#endif /* defined(MWM_QATS_PROTOCOL) */
 		  (keySpecs->wmFunction == F_Post_SMenu))
 		{
 		  wmGD.menuUnpostKeySpec = keySpecs;  /* menu unpost key spec */
@@ -2556,41 +2553,6 @@ Time GetTimestamp (void)
 
 } /* END OF FUNCTION GetTimestamp */
 
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  LastTime ()
- *
- *
- *  Description:
- *  -----------
- *  This function is used to provide a timestamp for use with X calls that
- *  require a timestamp. It returns the last timestamp processed if one
- *  exists or it generates a new one.
- *
- *
- *  Inputs:
- *  ------
- *  none
- * 
- *  Outputs:
- *  -------
- *  Return = a timestamp value - NOT CurrentTime
- *
- *************************************<->***********************************/
-
-Time LastTime ()
-{
-  Time evTime;
-
-  if (! (evTime = XtLastTimestampProcessed(DISPLAY)) )
-    evTime = GetTimestamp();
-
-  return (evTime);
-}
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
 /*************************************<->*************************************
  *
  *  PullExposureEvents ()

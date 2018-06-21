@@ -129,9 +129,6 @@ static int moveLastPointerY= 0;
 
 static Boolean anyMotion = FALSE;
 static Boolean configGrab = FALSE;
-#if (defined(MWM_QATS_PROTOCOL))
-static Boolean grabServer = TRUE;
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
 Dimension clipWidth = 0;
 Dimension clipHeight = 0;
@@ -2572,38 +2569,6 @@ Boolean StartClientMove (ClientData *pcd, XEvent *pev)
 } /* END OF FUNCTION StartClientMove */
 
 
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  SetGrabServer ()
- *
- *
- *  Description:
- *  -----------
- *  Sets Boolean grabServer to False
- *
- *  Inputs:
- *  ------
- *  None
- *  
- *  Outputs:
- *  -------
- *  None
- *  
- *  Comments
- *  -------
- *  This will only get called when an automated test is running. The
- *  purpose of this is to prevent mwm from grbbing the server, since
- *  this confuses the automation input synthesis code
- *  
- *************************************<->***********************************/
-void SetGrabServer (void)
-{
-    grabServer = FALSE;
-}
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
 /*************************************<->*************************************
  *
  *  DoGrabs (grab_win, cursor, pmask, grabTime, alwaysGrab)
@@ -2697,14 +2662,6 @@ Boolean DoGrabs (Window grab_win, Cursor cursor, unsigned int pmask, Time grabTi
     }
     
     
-	/* 
-	 * If running automation version of mwm, do not grab the server, since
-	 * this will confuse the automation input synthesis code.
-	 */
-# if (defined(MWM_QATS_PROTOCOL))
-if (grabServer == TRUE)
-# endif /* defined(MWM_QATS_PROTOCOL) */
-
     if (wmGD.freezeOnConfig) 
 	
     {

@@ -740,45 +740,11 @@ GetWmClientInfo (WmWorkspaceData *pWS,
 
     if (manageFlags & MANAGEW_ICON_BOX)
     {
-#if (defined(MWM_QATS_PROTOCOL))
-	/** BEGIN FIX CR 6941 **/
-	MenuItem *iconBoxMenuItems, *lastItem;
-
-	/* This MenuSpec is not added to pSD->acceleratorMenuSpecs */
-	pCD->systemMenuSpec = 
-	    MAKE_MENU (PSD_FOR_CLIENT(pCD), pCD, pCD->systemMenu,
-		      F_CONTEXT_WINDOW, F_CONTEXT_WINDOW|F_CONTEXT_ICON,
-		      NULL, TRUE);
-	if (pCD->systemMenuSpec != (MenuSpec *) NULL)
-	{
-	    pCD->systemMenuSpec = DuplicateMenuSpec(pCD->systemMenuSpec);
-	    XtFree(pCD->systemMenuSpec->name);
-	    pCD->systemMenuSpec->name = XtNewString("IconBoxMenu");
-	    iconBoxMenuItems = GetIconBoxMenuItems (PSD_FOR_CLIENT(pCD));
-	    
-	    /* Find the last menu item in the menu spec's list. */
-	    for (lastItem = pCD->systemMenuSpec->menuItems;
-		 lastItem->nextMenuItem != (MenuItem *) NULL;
-		 lastItem = lastItem->nextMenuItem)
-	      /*EMPTY*/;
-	    lastItem->nextMenuItem = iconBoxMenuItems;
-	    
-	    /* Now recreate the menu widgets since we've appended the
-	       icon box menu items */
-	    DestroyMenuSpecWidgets(pCD->systemMenuSpec);
-	    pCD->systemMenuSpec->menuWidget =
-	      CreateMenuWidget (PSD_FOR_CLIENT(pCD), pCD, "IconBoxMenu",
-				PSD_FOR_CLIENT(pCD)->screenTopLevelW, TRUE,
-				pCD->systemMenuSpec, NULL);
-	}
-	/** END FIX CR 6941 **/
-#else
 	pCD->systemMenuSpec = 
 	    MAKE_MENU (PSD_FOR_CLIENT(pCD), pCD, pCD->systemMenu,
 		       F_CONTEXT_WINDOW, F_CONTEXT_WINDOW|F_CONTEXT_ICON,
 		       GetIconBoxMenuItems(PSD_FOR_CLIENT(pCD)),
 		       TRUE);
-#endif /* defined(MWM_QATS_PROTOCOL) */
     }
 
 
@@ -2556,10 +2522,6 @@ ProcessWmTransientFor (ClientData *pCD)
 void 
 MakeSystemMenu (ClientData *pCD)
 {
-#if (defined(MWM_QATS_PROTOCOL))
-    MenuItem *lastItem;
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
     pCD->mwmMenuItems = GetMwmMenuItems(pCD);
     pCD->systemMenuSpec = 
        MAKE_MENU (PSD_FOR_CLIENT(pCD), pCD, pCD->systemMenu, F_CONTEXT_WINDOW,
@@ -2579,48 +2541,6 @@ MakeSystemMenu (ClientData *pCD)
 		    F_CONTEXT_WINDOW|F_CONTEXT_ICON, pCD->mwmMenuItems, TRUE);
     }
 #endif
-
-#if defined(MWM_QATS_PROTOCOL)
-    /* Added to fix CDExc23338
-     * Not sure what the MWM_QATS_PROTOCOL is trying to accomplish here,
-     * but this code is causing the system menu to loose it's default
-     * actions whenever client defined actions are added.  I thought
-     * it prudent to minimize the changes.  It could be that the
-     * #if ((!defined(WSM)) || defined(MWM_QATS_PROTOCOL))
-     * should be
-     * #if ((!defined(WSM)) && defined(MWM_QATS_PROTOCOL))
-     * throughout the wm code, but I am loath to make such a change
-     * without any documentation.
-     */
-
-#if (defined(MWM_QATS_PROTOCOL))
-    /** BEGIN FIX CR 6941 **/
-
-    /* if we still don't have a menu spec, then just abort. */
-    if (pCD->systemMenuSpec == NULL)
-      return;
-
-    pCD->systemMenuSpec = DuplicateMenuSpec(pCD->systemMenuSpec);
-    XtFree(pCD->systemMenuSpec->name);
-    pCD->systemMenuSpec->name = XtNewString("ProtocolsMenu");
-
-    /* Find the last menu item in the menu spec's list. */
-    for (lastItem = pCD->systemMenuSpec->menuItems;
-	 lastItem->nextMenuItem != (MenuItem *) NULL;
-	 lastItem = lastItem->nextMenuItem)
-      /*EMPTY*/;
-    lastItem->nextMenuItem = pCD->mwmMenuItems;
-
-    /* Now recreate the menu widgets since we've appended the 
-       protocol menu items */
-    DestroyMenuSpecWidgets(pCD->systemMenuSpec);
-    pCD->systemMenuSpec->menuWidget =
-      CreateMenuWidget (PSD_FOR_CLIENT(pCD), pCD, "ProtocolsMenu",
-			PSD_FOR_CLIENT(pCD)->screenTopLevelW, TRUE,
-			pCD->systemMenuSpec, NULL);
-    /** END FIX CR 6941 **/
-#endif /* defined(MWM_QATS_PROTOCOL) */
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
 } /* END OF FUNCTION MakeSystemMenu */
 

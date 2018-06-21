@@ -51,11 +51,6 @@
 #endif /* NO_WMQUERY */
 #include "WmPanelP.h"
 
-#if (defined(MWM_QATS_PROTOCOL))
-# include "WmCmd.h"
-# include "WmDebug.h"
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
 /*
  * Function Declarations:
  */
@@ -75,13 +70,6 @@ static void wmq_lose (Widget w, Atom *pSelection);
 static void wmq_bump_xids(void);
 #endif /* NO_WMQUERY */
 
-#if (defined(MWM_QATS_PROTOCOL))
-static void    OwnWMSelections      (Time timestamp);
-static Boolean WMiConvert           (Widget, Atom, Atom,
-				     XtPointer, unsigned long, int, Atom *,
-				     XtPointer *, unsigned long *, int *);
-static void    WMiConvertCB         (Widget, XtPointer, XtPointer);
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
 /*
  * Global Variables:
@@ -118,35 +106,22 @@ int curXids = 0;
 void SetupWmICCC (void)
 {
     enum { 
-#if (defined(MWM_QATS_PROTOCOL))
-      	   XA_TARGETS, XA_MULTIPLE, XA_TIMESTAMP, 
-#endif
 	   XA_WM_STATE, XA_WM_PROTOCOLS, XA_WM_CHANGE_STATE,
 	   XA_WM_SAVE_YOURSELF, XA_WM_DELETE_WINDOW,
 	   XA_WM_COLORMAP_WINDOWS, XA_WM_TAKE_FOCUS, XA_MWM_HINTS,
 	   XA_MWM_MENU, XA_MWM_MESSAGES, XA_MOTIF_WM_OFFSET,
-#if (defined(MWM_QATS_PROTOCOL) || !defined(NO_WMQUERY))
+#if !defined(NO_WMQUERY)
 	   XA_MOTIF_WM_CLIENT_WINDOW, XA_MOTIF_WM_POINTER_WINDOW,
 	   XA_MOTIF_WM_ALL_CLIENTS,
-#endif
-#if (defined(MWM_QATS_PROTOCOL))
-	   XA_MOTIF_WM_DEFINE_COMMAND, XA_MOTIF_WM_INCLUDE_COMMAND,
-	   XA_MOTIF_WM_REMOVE_COMMAND, XA_MOTIF_WM_ENABLE_COMMAND,
-	   XA_MOTIF_WM_DISABLE_COMMAND, XA_MOTIF_WM_RENAME_COMMAND,
-	   XA_MOTIF_WM_INVOKE_COMMAND, XA_MOTIF_WM_REQUEST_COMMAND,
-	   XA_MOTIF_WM_WINDOW_FLAGS, XA_MOTIF_WM_AUTOMATION, 
 #endif
 	   XA_COMPOUND_TEXT, NUM_ATOMS };
 
     static char *atom_names[] = {
-#if (defined(MWM_QATS_PROTOCOL))
-      	   _XA_TARGETS, _XA_MULTIPLE, _XA_TIMESTAMP, 
-#endif
 	   _XA_WM_STATE, _XA_WM_PROTOCOLS, _XA_WM_CHANGE_STATE,
 	   _XA_WM_SAVE_YOURSELF, _XA_WM_DELETE_WINDOW,
 	   _XA_WM_COLORMAP_WINDOWS, _XA_WM_TAKE_FOCUS, _XA_MWM_HINTS,
 	   _XA_MWM_MENU, _XA_MWM_MESSAGES, _XA_MOTIF_WM_OFFSET,
-#if (defined(MWM_QATS_PROTOCOL) || !defined(NO_WMQUERY))
+#if !defined(NO_WMQUERY)
 # ifdef _XA_MOTIF_WM_CLIENT_WINDOW
 	   _XA_MOTIF_WM_CLIENT_WINDOW, _XA_MOTIF_WM_POINTER_WINDOW,
 	   _XA_MOTIF_WM_ALL_CLIENTS, 
@@ -154,13 +129,6 @@ void SetupWmICCC (void)
 	   "_MOTIF_WM_CLIENT_WINDOW", "_MOTIF_WM_POINTER_WINDOW",
 	   "_MOTIF_WM_ALL_CLIENTS"
 # endif
-#endif
-#if (defined(MWM_QATS_PROTOCOL))
-	   _XA_MOTIF_WM_DEFINE_COMMAND, _XA_MOTIF_WM_INCLUDE_COMMAND,
-	   _XA_MOTIF_WM_REMOVE_COMMAND, _XA_MOTIF_WM_ENABLE_COMMAND,
-	   _XA_MOTIF_WM_DISABLE_COMMAND, _XA_MOTIF_WM_RENAME_COMMAND,
-	   _XA_MOTIF_WM_INVOKE_COMMAND, _XA_MOTIF_WM_REQUEST_COMMAND,
-	   _XA_MOTIF_WM_WINDOW_FLAGS, _XA_MOTIF_WM_AUTOMATION, 
 #endif
 	   "COMPOUND_TEXT"
     };
@@ -175,14 +143,6 @@ void SetupWmICCC (void)
      */
     XInternAtoms(DISPLAY, atom_names, XtNumber(atom_names), False, atoms);
 
-
-#if (defined(MWM_QATS_PROTOCOL))
-    wmGD.xa_TARGETS			= atoms[XA_TARGETS];
-
-    wmGD.xa_MULTIPLE			= atoms[XA_MULTIPLE];
-    wmGD.xa_TIMESTAMP			= atoms[XA_TIMESTAMP];
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
     wmGD.xa_WM_STATE			= atoms[XA_WM_STATE];
     wmGD.xa_WM_PROTOCOLS		= atoms[XA_WM_PROTOCOLS];
     wmGD.xa_WM_CHANGE_STATE		= atoms[XA_WM_CHANGE_STATE];
@@ -194,36 +154,6 @@ void SetupWmICCC (void)
     wmGD.xa_MWM_MENU			= atoms[XA_MWM_MENU];
     wmGD.xa_MWM_MESSAGES		= atoms[XA_MWM_MESSAGES];
     wmGD.xa_MWM_OFFSET			= atoms[XA_MOTIF_WM_OFFSET];
-
-#if (defined(MWM_QATS_PROTOCOL))
-    /* wm query targets */
-    wmGD._MOTIF_WM_CLIENT_WINDOW  = atoms[XA_MOTIF_WM_CLIENT_WINDOW];
-    wmGD._MOTIF_WM_POINTER_WINDOW = atoms[XA_MOTIF_WM_POINTER_WINDOW];
-    wmGD._MOTIF_WM_ALL_CLIENTS	  = atoms[XA_MOTIF_WM_ALL_CLIENTS];
-
-    /* intern atoms for Client-Commmand Interface protocol. */
-    wmGD._MOTIF_WM_DEFINE_COMMAND = atoms[XA_MOTIF_WM_DEFINE_COMMAND];
-    wmGD._MOTIF_WM_INCLUDE_COMMAND= atoms[XA_MOTIF_WM_INCLUDE_COMMAND];
-    wmGD._MOTIF_WM_REMOVE_COMMAND = atoms[XA_MOTIF_WM_REMOVE_COMMAND];
-    wmGD._MOTIF_WM_ENABLE_COMMAND = atoms[XA_MOTIF_WM_ENABLE_COMMAND];
-    wmGD._MOTIF_WM_DISABLE_COMMAND= atoms[XA_MOTIF_WM_DISABLE_COMMAND];
-    wmGD._MOTIF_WM_RENAME_COMMAND = atoms[XA_MOTIF_WM_RENAME_COMMAND];
-    wmGD._MOTIF_WM_INVOKE_COMMAND = atoms[XA_MOTIF_WM_INVOKE_COMMAND];
-    wmGD._MOTIF_WM_REQUEST_COMMAND= atoms[XA_MOTIF_WM_REQUEST_COMMAND];
-    wmGD._MOTIF_WM_WINDOW_FLAGS	  = atoms[XA_MOTIF_WM_WINDOW_FLAGS];
-
-    wmGD._MOTIF_WM_AUTOMATION	  = atoms[XA_MOTIF_WM_AUTOMATION];
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
-#if (defined(MWM_QATS_PROTOCOL))
-    /*
-     * Assert ownership of the WINDOW_MANAGER selection
-     * on each screen that the window manager controls.
-     * these use the format WM_Si.
-     */
-    OwnWMSelections(GetTimestamp());
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
     wmGD.xa_COMPOUND_TEXT = atoms[XA_COMPOUND_TEXT];
 
@@ -1141,367 +1071,3 @@ wmq_bump_xids ( void )
 }
 
 #endif /* NO_WMQUERY */
-
-
-
-#if (defined(MWM_QATS_PROTOCOL))
-/*************************************<->*************************************
- *
- *  static void OwnWMSelections ()
- *
- *
- *  Description:
- *  -----------
- *  Get the selection ownership for each managed screen.  The selection mwm
- *  will own is WM_Si.
- *
- *  Inputs:
- *  ------
- *  
- *  
- *  
- *
- *  Outputs:
- *  ------
- *
- *  Comments:
- *  --------
- *  
- *
- *************************************<->***********************************/
-static void
-OwnWMSelections ( Time timestamp )
-{
-  int scr;
-  
-  
-  wmGD.xa_WM = (Atom *) XtMalloc (wmGD.numScreens * (sizeof (Atom)));
-  
-  for (scr = 0; scr < wmGD.numScreens; scr++)
-    {
-      if (wmGD.Screens[scr].managed)
-	{
-	  char wm_scr[8];
-	  
- 	  sprintf(wm_scr, "WM_S%d", DefaultScreen(DISPLAY));
-	  wmGD.xa_WM[scr] = XInternAtom (DISPLAY, wm_scr, False);
-	  
-#ifdef MWM_WSM
-	  /*
-	   * This registers the callback to be invoked when a request
-	   * is made against a WSM Protocol target.  The request
-	   * callback is stored by the WSM Protocol code and is
-	   * invoked in the convert routine (WMiConvert) below.
-	   * See WSMProcessProtoTargets().
-	   */
-
-	  WSMRegisterRequestCallback(DISPLAY, scr, HandleWsmConvertRequest,
-				     NULL);
-#endif
-
-	  /*
-	   * Own the selection through UTM.  This sets-up a convert function
-	   * that is invoked when a convert request is made on this selection.
-	   * The convert function is specified in the drawing area's
-	   * XmNconvertCallback resource.
-	   */
-
-	  XtAddCallback(wmGD.Screens[scr].utmShell, XmNconvertCallback,
-			WMiConvertCB, NULL);
-
-	  if (! XmeNamedSource(wmGD.Screens[scr].utmShell,
-			       wmGD.xa_WM[scr], timestamp))
-	    {
-	      Warning (((char *)GETMESSAGE(56, 6,
-					   "Failed to own WM_nn selection")));
-	    }
-	  else
-	    {
-	      PRINT("Owning selection %s\n", wm_scr);
-	    }
-	}
-    }
-}
-
-
-
-
-/*************************************<->*************************************
- *
- *  Boolean WMiConvert ( )
- *
- *
- *  Description:
- *  -----------
- *  This function converts WM_Si selections using the new param selections
- *
- *************************************<->***********************************/
-
-/*ARGSUSED*/
-static Boolean
-WMiConvert (
-     Widget         w,
-     Atom           selection,
-     Atom           target,
-     XtPointer      input,
-     unsigned long  inputLen,
-     int            inputFmt,
-     Atom          *outputType,
-     XtPointer     *output,
-     unsigned long *outputLen,
-     int           *outputFmt)
-{
-  int      scr;
-  Boolean  found = False;
-
-  
-  /* set up some defaults. selection code doesn't like garbage! */
-  *outputLen = 0;
-  *output    = NULL;
-  *outputFmt = 8;
-
-  scr = XScreenNumberOfScreen(XtScreen(w));
-  if (!wmGD.Screens[scr].managed)
-    {
-      Warning (((char *)GETMESSAGE(56, 7,
-		"Got convert request from unmanaged screen")));
-      found = False;
-    }
-  
-  else {
-    if (target == wmGD.xa_TARGETS) {
-      Atom *targs       = (Atom *)XtMalloc((unsigned) (28 * sizeof(Atom)));
-      int   targetCount = 0;
-      
-      *output = (XtPointer) targs;
-      
-      /* required targets */
-      *targs++ = wmGD.xa_TARGETS;				targetCount++;
-      *targs++ = wmGD.xa_MULTIPLE;				targetCount++;
-      *targs++ = wmGD.xa_TIMESTAMP;				targetCount++;
-
-#ifdef MWM_WSM
-      /* other targets */
-      *targs++ = _WSMReqTypeToTarget(DISPLAY, WSM_CONNECT);	targetCount++;
-      *targs++ = _WSMReqTypeToTarget(DISPLAY, WSM_EXTENSIONS);	targetCount++;
-      *targs++ = _WSMReqTypeToTarget(DISPLAY, WSM_CONFIG_FMT);	targetCount++;
-      *targs++ = _WSMReqTypeToTarget(DISPLAY, WSM_GET_STATE);	targetCount++;
-      *targs++ = _WSMReqTypeToTarget(DISPLAY, WSM_SET_STATE);	targetCount++;
-      *targs++ = _WSMReqTypeToTarget(DISPLAY, WSM_REG_WINDOW);	targetCount++;
-#endif
-      
-      /* menu command interface support */
-      *targs++ = wmGD._MOTIF_WM_DEFINE_COMMAND;			targetCount++;
-      *targs++ = wmGD._MOTIF_WM_INCLUDE_COMMAND;		targetCount++;
-      *targs++ = wmGD._MOTIF_WM_REMOVE_COMMAND;			targetCount++;
-      *targs++ = wmGD._MOTIF_WM_ENABLE_COMMAND;			targetCount++;
-      *targs++ = wmGD._MOTIF_WM_DISABLE_COMMAND;		targetCount++;
-      *targs++ = wmGD._MOTIF_WM_RENAME_COMMAND;			targetCount++;
-      *targs++ = wmGD._MOTIF_WM_INVOKE_COMMAND;			targetCount++;
-      *targs++ = wmGD._MOTIF_WM_REQUEST_COMMAND;		targetCount++;
-      *targs++ = wmGD._MOTIF_WM_WINDOW_FLAGS;			targetCount++;
-
-#ifdef MWM_WSM
-      /* virtual screen support */
-      *targs++ = wmGD._MOTIF_WM_PAN;				targetCount++;
-      *targs++ = wmGD._MOTIF_WM_GOTO;				targetCount++;
-#endif
-
-      /* automation support */
-
-      *targs++ = wmGD._MOTIF_WM_AUTOMATION;			 targetCount++;
-      
-      *outputType   = XA_ATOM;
-      *outputLen = (targetCount * sizeof(Atom)) >> 2;
-      *outputFmt = 32;
-      
-      found = True;
-    }
-
-#ifdef MWM_WSM    
-    /* virtual screen support */
-    else if (target == wmGD._MOTIF_WM_PAN)
-      {
-	int     dx, dy;
-	Boolean config;
-
-	dx     = (int) UnpackCARD32(&input);
-	dy     = (int) UnpackCARD32(&input);
-	config = (Boolean) UnpackCARD8(&input);
-
-	PanRoot(dx, dy, config);
-
-	/*
-	 * Update the root property
-	 */
-
-	SetPanPosition (ACTIVE_PSD->panDx, ACTIVE_PSD->panDy);
-	
-	found = True;
-      }
-    else if (target == wmGD._MOTIF_WM_GOTO)
-      {
-	int  x, y;
-
-	x = (int) UnpackCARD32(&input);
-	y = (int) UnpackCARD32(&input);
-
-	PanRoot(x - ACTIVE_PSD->panDx, y - ACTIVE_PSD->panDy, 1);
-
-	found = True;
-      }
-    
-    /*
-     * Handle the workspace manager protocol targets...
-     */
-    
-    else if (WSMIsKnownTarget(w, target))
-      {
-	/*
-	 * Unpack data send in request and invoke CB specified
-	 * in WSMRegisterRequestCallback.
-	 */
-	found = WSMProcessProtoTarget
-	                (w, target,
-			 input, inputLen, inputFmt,
-			 outputType, output, outputLen, outputFmt);
-      }
-#endif /* MWM_WSM */
-    
-    /*
-     *  Handle client-command interface targets.
-     */
-    
-    else if (target == wmGD._MOTIF_WM_DEFINE_COMMAND)
-      {
-	PRINT("Convert request made for _MOTIF_WM_DEFINE_COMMAND.\n");
-	DefineCommand(w, target, (MessageData)input, inputLen, inputFmt);
-	PRINT("Returning from _MOTIF_WM_DEFINE_COMMAND.\n");
-	
-	found = True;
-      }
-    else if (target == wmGD._MOTIF_WM_INCLUDE_COMMAND)
-      {
-	PRINT("Convert request made for _MOTIF_WM_INCLUDE_COMMAND.\n");
-	IncludeCommand(w, target, (MessageData)input, inputLen, inputFmt);
-	PRINT("Returning from _MOTIF_WM_INCLUDE_COMMAND.\n");
-	
-	found = True;
-      }
-    else if (target == wmGD._MOTIF_WM_REMOVE_COMMAND)
-      {
-	PRINT("Convert request made for _MOTIF_WM_REMOVE_COMMAND.\n");
-	RemoveCommand(w, target, (MessageData)input, inputLen, inputFmt);
-	
-	found = True;
-      }
-    else if (target == wmGD._MOTIF_WM_ENABLE_COMMAND)
-      {
-	PRINT("Convert request made for _MOTIF_WM_ENABLE_COMMAND.\n");
-	EnableCommand(w, target, (MessageData)input, inputLen, inputFmt);
-	
-	found = True;
-      }
-    else if (target == wmGD._MOTIF_WM_DISABLE_COMMAND)
-      {
-	PRINT("Convert request made for _MOTIF_WM_DISABLE_COMMAND.\n");
-	DisableCommand(w, target, (MessageData)input, inputLen, inputFmt);
-	
-	found = True;
-      }
-    else if (target == wmGD._MOTIF_WM_RENAME_COMMAND)
-      {
-	PRINT("Convert request made for _MOTIF_WM_RENAME_COMMAND.\n");
-	RenameCommand(w, target, (MessageData)input, inputLen, inputFmt);
-	
-	found = True;
-      }
-    else if (target == wmGD._MOTIF_WM_INVOKE_COMMAND)
-      {
-	/* Shouldn't get here! */
-      }
-    else if (target == wmGD._MOTIF_WM_REQUEST_COMMAND)
-      {
-      }
-    else if (target == wmGD._MOTIF_WM_WINDOW_FLAGS)
-      {
-      }
-    
-    else if (target == wmGD._MOTIF_WM_AUTOMATION)
-      {
-	/*
-	 * This function needs to pack the necessary info into the
-	 * output data variable to send back to the requesting
-	 */
-
-	GetAutomationData(input,outputType,output,outputLen,outputFmt);
-	found = True;
-      }
-
-    else
-      Warning (((char *)GETMESSAGE(56, 8,
-		"Conversion request made for unknown target type")));
-  }
-  
-  
-  return (found);
-}
-
-
-
-
-/*************************************<->*************************************
- *
- *  void WMiConvertCB ( )
- *
- *
- *  Description:
- *  -----------
- *  This function is invoked by UTM to handle the convert request
- *  made by a requesting application.
- *
- *
- *  Comments:
- *  --------
- *  This function is set-up as a callback on a drawing area kept on each
- *  screen.  This is done in WmInitWs.c
- *
- *************************************<->***********************************/
-
-/*ARGSUSED*/
-static void
-WMiConvertCB (
-     Widget    w,
-     XtPointer clientData,
-     XtPointer callData)
-{
-  XmConvertCallbackStruct *cnv = (XmConvertCallbackStruct *)callData;
-  Atom _MOTIF_LOSE_SELECTION =
-    XInternAtom(DISPLAY, "_MOTIF_LOSE_SELECTION", False);
-  int scr = XScreenNumberOfScreen(XtScreen(w));
-  
-
-  /* Check to make sure we're dealing with the right selection.
-   */
-  if (cnv->selection != wmGD.xa_WM[scr])
-    {
-      Warning (((char *)GETMESSAGE(56, 9,
-		"Conversion request received for unknown selection")));
-      return;
-    }
-
-  if (cnv->target == _MOTIF_LOSE_SELECTION)
-    {
-      /* Done with the conversion - free any data used. */
-    }
-
-  /* Handle a conversion request with parameter data.
-   */
-  else
-    {
-      WMiConvert (w, cnv->selection, cnv->target,
-		  cnv->parm, cnv->parm_length, cnv->parm_format,
-		  &(cnv->type), &(cnv->value), &(cnv->length), &(cnv->format));
-    }
-}
-#endif /* defined(MWM_QATS_PROTOCOL) */

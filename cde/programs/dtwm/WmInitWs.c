@@ -57,10 +57,6 @@
 #ifndef NO_HP_KEY_REMAP
 #include <Xm/VirtKeysP.h>
 
-#if (defined(MWM_QATS_PROTOCOL))
-# include <Xm/DrawingA.h>
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
 typedef struct
   {
     String default_name ;
@@ -120,11 +116,6 @@ typedef struct
  */
 
 #include "WmInitWs.h"
-
-#if (defined(MWM_QATS_PROTOCOL))
-# include "WmWsmLib/wsm_proto.h"
-# include "WmWsmLib/utm_send.h"
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
 static void InsureDefaultBackdropDir(char **ppchBackdropDirs);
 void InitWmDisplayEnv (void);
@@ -1263,9 +1254,6 @@ InitWmScreen (WmScreenData *pSD, int sNum)
     pSD->bitmapCacheCount = 0;
     pSD->dataType = SCREEN_DATA_TYPE;
     pSD->managed = False;
-#if (defined(MWM_QATS_PROTOCOL))
-    pSD->cciTree = NULL;
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
     pSD->initialWorkspace=NULL;
     pSD->presence.shellW = NULL;
@@ -1357,28 +1345,6 @@ InitWmScreen (WmScreenData *pSD, int sNum)
 					       wmGD.topLevelW,
 					       args,
 					       argnum);
-
-#if (defined(MWM_QATS_PROTOCOL))
-    /* Create a DrawingArea as a child of the popupShell.  This will be used
-     * to handle UTM traffic relating to cci.  We need this
-     * particular widget to get the callbacks from conversion requests made
-     * against Mwm and the requests Mwm makes against other clients.
-     */
-    pSD->utmShell = XmCreateDrawingArea(pSD->screenTopLevelW, "UTM_Shell",
-					NULL, 0);
-    XtManageChild(pSD->utmShell);
-
-    /*
-     * Setup the destinationCallback handler to handle conversion
-     * requests made by Mwm against other clients.
-     */
-    XtAddCallback(pSD->utmShell, XmNdestinationCallback, UTMDestinationProc,
-		  NULL);
-
-    /* Must realize to own WM_i if unmapped, causes mwm to
-       freeze when menu is displayed. */
-    XtPopup(pSD->screenTopLevelW, XtGrabNone);
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
     argnum = 0;
     XtSetArg (args[argnum], XtNgeometry, NULL);			argnum++;

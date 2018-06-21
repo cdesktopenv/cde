@@ -111,12 +111,6 @@ extern Pixel		FPselectcolor;
 
 /* ICCC atom names: */
 
-#if (defined(MWM_QATS_PROTOCOL))
-# define _XA_TARGETS		"TARGETS"
-# define _XA_MULTIPLE		"MULTIPLE"
-# define _XA_TIMESTAMP		"TIMESTAMP"
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
 #define _XA_WM_STATE		"WM_STATE"
 #define _XA_WM_PROTOCOLS	"WM_PROTOCOLS"
 #define _XA_WM_CHANGE_STATE	"WM_CHANGE_STATE"
@@ -124,27 +118,6 @@ extern Pixel		FPselectcolor;
 #define _XA_WM_DELETE_WINDOW	"WM_DELETE_WINDOW"
 #define _XA_WM_TAKE_FOCUS	"WM_TAKE_FOCUS"
 #define _XA_WM_COLORMAP_WINDOWS	"WM_COLORMAP_WINDOWS"
-
-#if (defined(MWM_QATS_PROTOCOL))
-/* original set of query targets */
-# define _XA_MOTIF_WM_CLIENT_WINDOW		"_MOTIF_WM_CLIENT_WINDOW"
-# define _XA_MOTIF_WM_POINTER_WINDOW		"_MOTIF_WM_POINTER_WINDOW"
-# define _XA_MOTIF_WM_ALL_CLIENTS		"_MOTIF_WM_ALL_CLIENTS"
-	  
-/* menu command interface support */
-# define _XA_MOTIF_WM_DEFINE_COMMAND		"_MOTIF_WM_DEFINE_COMMAND"
-# define _XA_MOTIF_WM_INCLUDE_COMMAND		"_MOTIF_WM_INCLUDE_COMMAND"
-# define _XA_MOTIF_WM_REMOVE_COMMAND		"_MOTIF_WM_REMOVE_COMMAND"
-# define _XA_MOTIF_WM_ENABLE_COMMAND		"_MOTIF_WM_ENABLE_COMMAND"
-# define _XA_MOTIF_WM_DISABLE_COMMAND		"_MOTIF_WM_DISABLE_COMMAND"
-# define _XA_MOTIF_WM_RENAME_COMMAND		"_MOTIF_WM_RENAME_COMMAND"
-# define _XA_MOTIF_WM_INVOKE_COMMAND		"_MOTIF_WM_INVOKE_COMMAND"
-# define _XA_MOTIF_WM_REQUEST_COMMAND		"_MOTIF_WM_REQUEST_COMMAND"
-# define _XA_MOTIF_WM_WINDOW_FLAGS		"_MOTIF_WM_WINDOW_FLAGS"
-
-/* automation support */
-# define _XA_MOTIF_WM_AUTOMATION 		"_MOTIF_WM_AUTOMATION"
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
 /* window manager exit value on fatal errors: */
 #define WM_ERROR_EXIT_VALUE	1
@@ -759,20 +732,6 @@ typedef struct _SessionGeom
  *
  *************************************<->***********************************/
 
-#if (defined(MWM_QATS_PROTOCOL))
-/*
- * Used to denote where the separators belong in a pair of separators
- * used to surround a client command.
- */
-
-enum { TOP_SEPARATOR, BOTTOM_SEPARATOR };
-
-/*
- * Used to denote what kind of change to make to a client command. 
- */
-typedef enum { ENABLE, DISABLE, REMOVE, RENAME } CmdModifier;
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
 typedef struct _MenuItem
 {
     int		 labelType;
@@ -786,11 +745,6 @@ typedef struct _MenuItem
     String	 wmFuncArgs;
     Context	 greyedContext;
     long         mgtMask;
-#if (defined(MWM_QATS_PROTOCOL))
-    String       clientCommandName; /* as specified by the user in
-				       his .mwmrc file. */
-    CARD32	 clientCommandID;
-#endif /* defined(MWM_QATS_PROTOCOL) */
     struct _MenuItem *nextMenuItem;
 
 } MenuItem;
@@ -814,14 +768,6 @@ typedef struct _MenuButton
 
 } MenuButton;
 
-#if (defined(MWM_QATS_PROTOCOL))
-typedef struct _MenuExclusion
-{
-  String                 command_string;
-  struct _MenuExclusion *nextExclusion;
-} MenuExclusion;
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
 typedef struct _MenuSpec
 {
     String	  name;
@@ -835,49 +781,10 @@ typedef struct _MenuSpec
     unsigned int  menuButtonCount; /* number of menuButtons elements in use */
     Context	  accelContext;    /* accelerator context */
     KeySpec	 *accelKeySpecs;   /* list of accelerator KeySpecs */
-
-#if (defined(MWM_QATS_PROTOCOL))
-    MenuExclusion *exclusions;      /* list of client commands to be
-				       excluded from this menu. */
-    Boolean        clientLocal;     /* this menu is owned by a client and not 
-				       shared with any other clients */
-    CARD32         commandID;       /* if this is a client command, then this
-				       its id value - globally unique. */
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
     struct _MenuSpec *nextMenuSpec;
 
 } MenuSpec;
 
-#if (defined(MWM_QATS_PROTOCOL))
-/* The range to which a client command operation should apply. */
-typedef enum { SINGLE, ROOT, ALL } OpRange;
-
-typedef struct _CmdTree {
-  CARD32           commandID;   /* unique identifier for this command. */
-  CARD32           notifyWindow;/* window to receive InvokeCommand request. */
-  char            *name;        /* name of command referred to in .mwmrc. */
-  char            *defaultName; /* default label of menu. */
-  struct _CmdTree *subTrees;    /* list of child commands or command sets. */
-  struct _CmdTree *next;
-
-} CmdTree;
-
-
-typedef struct _matchlist {
-    MenuSpec          *menuspec;
-    MenuItem          *menuitem;
-    String             command_string;
-    CmdTree           *treenode;
-    WmFunction         function;
-    String             funcargs;
-    Context            greyed_context;
-    struct _matchlist *next;
-
-} MatchList;
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
-
 /*************************************<->*************************************
  *
  *  Window and function specification data structures ...
@@ -1225,9 +1132,6 @@ typedef struct _WmScreenData
     Window	rootWindow;
     Widget	screenTopLevelW;
     Widget	screenTopLevelW1;       /* for internal WM components */
-#if (defined(MWM_QATS_PROTOCOL))
-    Widget	utmShell;		/* DrawingArea used for UTM */
-#endif /* defined(MWM_QATS_PROTOCOL) */
     Widget      confirmboxW[4];
     Widget	wPanelist;		/* panel object */
     WsPresenceData	presence;	/* workspace presence dialog*/
@@ -1254,9 +1158,6 @@ typedef struct _WmScreenData
     Colormap	lastInstalledColormap;
     struct _WmWorkspaceData	*pActiveWS;	/* for this screen */
     struct _WmWorkspaceData	*pLastWS;	/* previously active WS */
-#if (defined(MWM_QATS_PROTOCOL))
-    CmdTree     *cciTree;               /* pointer to cci definitions */
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
     /* per screen caches */
     BitmapCache *bitmapCache;
@@ -1304,9 +1205,6 @@ typedef struct _WmScreenData
     int     actionNbr;
 
     /* resource description file data: */
-#if (defined(MWM_QATS_PROTOCOL))
-    String	rootMenu;			/* resource */
-#endif /* defined(MWM_QATS_PROTOCOL) */
     String	buttonBindings;			/* resource */
     ButtonSpec	*buttonSpecs;
     String	keyBindings;			/* resource */
@@ -1823,12 +1721,6 @@ typedef struct _ClientData *PtrClientData;
 #define MAXIMIZED_STATE		3
 #define UNSEEN_STATE            8
 
-#if (defined(MWM_QATS_PROTOCOL))
-# define NO_CHANGE              -1
-# define UNSET                   0
-# define SET                     1
-#endif /* defined(MWM_QATS_PROTOCOL) */
-
 /* clientFlags field values: */
 #define CLIENT_HINTS_TITLE		(1L << 0)
 #define CLIENT_REPARENTED		(1L << 1)
@@ -2039,33 +1931,6 @@ typedef struct _WmGlobalData
     Atom	xa_MWM_MENU;
     Atom	xa_MWM_INFO;
     Atom	xa_MWM_OFFSET;
-
-#if (defined(MWM_QATS_PROTOCOL))
-    Atom       *xa_WM;
-
-    Atom	xa_TARGETS;
-    Atom	xa_MULTIPLE;
-    Atom	xa_TIMESTAMP;
-
-    /* original set of query targets */
-    Atom	_MOTIF_WM_CLIENT_WINDOW;
-    Atom	_MOTIF_WM_POINTER_WINDOW;
-    Atom	_MOTIF_WM_ALL_CLIENTS	;
-	  
-    /* menu command interface support */
-    Atom	_MOTIF_WM_DEFINE_COMMAND;
-    Atom	_MOTIF_WM_INCLUDE_COMMAND;
-    Atom	_MOTIF_WM_REMOVE_COMMAND;
-    Atom	_MOTIF_WM_ENABLE_COMMAND;
-    Atom	_MOTIF_WM_DISABLE_COMMAND;
-    Atom	_MOTIF_WM_RENAME_COMMAND;
-    Atom	_MOTIF_WM_INVOKE_COMMAND;
-    Atom	_MOTIF_WM_REQUEST_COMMAND;
-    Atom	_MOTIF_WM_WINDOW_FLAGS;
-
-    /* automation support */
-    Atom        _MOTIF_WM_AUTOMATION;
-#endif /* defined(MWM_QATS_PROTOCOL) */
 
     Atom	xa_MOTIF_BINDINGS;
     Atom	xa_COMPOUND_TEXT;
