@@ -27,11 +27,7 @@
 
 #include "basic.h"
 
-int m_lower(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+int m_lower(int c);
 
 
 

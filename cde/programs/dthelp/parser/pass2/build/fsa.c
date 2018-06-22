@@ -37,18 +37,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 /* Addarc adds an arc from FSA state <from> to state <to> setting other
    fields as indicated by the other parameters.*/
-#if defined(M_PROTO)
 int addarc(STATE *from, STATE *to, ELTSTRUCT *label, ANDGROUP *and, LOGICAL optional, int id, LOGICAL minim, ELTSTRUCT **errelt)
-#else
-int addarc(from, to, label, and, optional, id, minim, errelt)
-  STATE *from, *to ;
-  ELTSTRUCT *label ;
-  ANDGROUP *and ;
-  LOGICAL optional ;
-  int id ;
-  LOGICAL minim ;
-  ELTSTRUCT **errelt ;
-#endif
   {
     ARC *parc, *qarc ;
     int determ ;
@@ -630,12 +619,7 @@ LOGICAL samelabelarc(a, s)
 
 /* Saves the name of an element appearing on the left-hand side of a
    grammar rule */
-#if defined(M_PROTO)
 void savelhs(LOGICAL param)
-#else
-void savelhs(param)
-  LOGICAL param ;
-#endif
   {
     STATE *end ;
     ELTSTRUCT *errelt ;

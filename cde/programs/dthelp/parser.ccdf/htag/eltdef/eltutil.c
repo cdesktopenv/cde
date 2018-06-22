@@ -66,23 +66,14 @@ void actptrout(array, name)
 
 
 /* Close a code file and write jump table at the end */
-#if defined(M_PROTO)
 void closeiffile(LOGICAL flag, FILE *file, int count, char *table, char *proto)
-#else
-void closeiffile(flag, file, count, table, proto)
-  LOGICAL flag;
-  FILE *file;
-  int count;
-  char *table;
-  char *proto;
-#endif
   {
     int i;
 
     endcode(flag, file);
     if (count) {
       fprintf(file,
-        "void (*m_%stable[])(\n#if defined(M_PROTO)\n  %s\n#endif\n  ) = {\n",
+        "void (*m_%stable[])(%s) = {\n",
         table, proto);
       fprintf(file, "  m_%s1, /* Place holder for 1-based indexing */\n",
                     table);
@@ -94,7 +85,7 @@ void closeiffile(flag, file, count, table, proto)
       }
     else
       fprintf(file,
-        "void (*m_%stable[1])(\n#if defined(M_PROTO)\n  %s\n#endif\n  ) ;\n",
+        "void (*m_%stable[1])(%s) ;\n",
         table, proto);
     fclose(file);
     }
@@ -193,13 +184,7 @@ void done(M_NOPAR)
     }
 
 /* Called when finished reading a section of code from the input file */
-#if defined(M_PROTO)
 void endcode(LOGICAL flag, FILE *file)
-#else
-void endcode(flag, file)
-  LOGICAL flag;
-  FILE *file;
-#endif
   {
     if (flag) fprintf(file, "}}\n\n");
     }
@@ -563,21 +548,14 @@ endcode(*flag, file);
 *flag = TRUE;
 /* protoype */
 fprintf(file,
-	"void m_%s%d(\n#if defined(M_PROTO)\n  %s\n#endif\n  ) ;\n",
+	"void m_%s%d(%s) ;\n",
 	prefix,
 	caseno,
 	proto);
 
 /* ANSI defines */
-fputs("#if defined(M_PROTO)\n", file);
-fprintf(file, "void m_%s%d(%s)\n", prefix, caseno, proto);
-fputs("#else\n", file);
-fprintf(file,
-	"void m_%s%d(%s)\n%s\n#endif\n  {\n", /* balance the "}" */
-	prefix,
-	caseno,
-	formal,
-	formtype);
+fprintf(file, "void m_%s%d(%s)\n  {\n", prefix, caseno, proto);
+);
 
 for (cvarp = cvarlist ; cvarp ; cvarp = cvarp->next)
     {

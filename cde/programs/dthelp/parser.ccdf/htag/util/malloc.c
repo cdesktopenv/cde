@@ -36,53 +36,21 @@
 extern LOGICAL m_heapchk ;
 extern LOGICAL m_malftrace ;
 
-void m_errline(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void m_errline(char *text);
 
-void m_exit(
-#if defined(M_PROTO)
-  int status
-#endif
-  ) ;
+void m_exit(int status);
 
-void m_free(
-#if defined(M_PROTO)
-  void *block, char *msg
-#endif
-  ) ;
+void m_free(void *block, char *msg);
 
-void m_heapdump(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void m_heapdump(M_NOPAR);
 
-void *m_malloc(
-#if defined(M_PROTO)
-  int size, char *msg
-#endif
-  ) ;
+void *m_malloc(int size, char *msg);
 
-void *m_realloc(
-#if defined(M_PROTO)
-  void *ptr, int size, char *msg
-#endif
-  ) ;
+void *m_realloc(void *ptr, int size, char *msg);
 
-void *m_trace(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void *m_trace(char *text);
 
-void *m_wctrace(
-#if defined(M_PROTO)
-  M_WCHAR *text
-#endif
-  ) ;
+void *m_wctrace(M_WCHAR *text);
 
 void m_free(block, msg)
   void *block ;

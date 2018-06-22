@@ -27,18 +27,7 @@
 
 #include "basic.h"
 
-LOGICAL m_letter(
-#if defined(M_PROTO)
-  M_WCHAR c
-#endif
-  ) ;
-
-#if defined(M_PROTO)
 LOGICAL m_letter(M_WCHAR c)
-#else
-LOGICAL m_letter(c)
-  M_WCHAR c ;
-#endif
 {
 if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) return(TRUE) ;
 return(FALSE) ;

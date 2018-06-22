@@ -29,15 +29,7 @@
 #endif
 #include "basic.h"
 
-void main(
-#if defined(M_PROTO)
-  int argc, char **argv
-#endif
-  ) ;
-
-void main(argc, argv)
-  int argc ;
-  char **argv ;
+void main(int argc, char **argv)
   {
     if (argc != 2) {
       fprintf(stderr, "Usage: emptyfil filename\n") ;

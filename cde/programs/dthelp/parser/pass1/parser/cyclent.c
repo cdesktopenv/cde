@@ -36,15 +36,7 @@
 #include "parser.h"
 #include "entext.h"
 
-#if defined(M_PROTO)
 M_WCHAR *m_cyclent(LOGICAL init, unsigned char *type, M_WCHAR **content, unsigned char *wheredef)
-#else
-M_WCHAR *m_cyclent(init, type, content, wheredef)
-  LOGICAL init ;
-  unsigned char *type ;
-  M_WCHAR **content ;
-  unsigned char *wheredef ;
-#endif
 {
     static M_TRIE *current ;
     static M_TRIE *ancestor[M_NAMELEN + 1] ;

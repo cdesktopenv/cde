@@ -30,12 +30,7 @@ Copyright 1988, 1989, 1992 Hewlett-Packard Co.
 #include "userinc.h"
 #include "globdec.h"
 
-#if defined(M_PROTO)
 int vextextsize(const M_WCHAR *keyword)
-#else
-int vextextsize(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return NORMAL;
 
@@ -47,12 +42,7 @@ m_err1("Unexpected value for ex/vex textsize parameter: %s", keyword);
 return NORMAL;
 }
 
-#if defined(M_PROTO)
 int vgloss(const M_WCHAR *keyword)
-#else
-int vgloss(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return GLOSS;
 
@@ -63,12 +53,7 @@ m_err1("Unexpected value for gloss parameter: %s", keyword);
 return GLOSS;
 }
 
-#if defined(M_PROTO)
 int vcenter(const M_WCHAR *keyword)
-#else
-int vcenter(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return CENTER;
 
@@ -80,12 +65,7 @@ m_err1("Unexpected value for center parameter: %s", keyword);
 return CENTER;
 }
 
-#if defined(M_PROTO)
 int vnumber(const M_WCHAR *keyword)
-#else
-int vnumber(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return NONUMBER;
 
@@ -96,12 +76,7 @@ m_err1("Unexpected value for number parameter: %s", keyword);
 return NONUMBER;
 }
 
-#if defined(M_PROTO)
 LOGICAL vstack(const M_WCHAR *keyword)
-#else
-LOGICAL vnumber(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return FALSE;
 
@@ -112,12 +87,7 @@ m_err1("Unexpected value for number parameter: %s", keyword);
 return FALSE;
 }
 
-#if defined(M_PROTO)
 int vordertype(const M_WCHAR *keyword)
-#else
-int vordertype(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return ARABIC;
 
@@ -131,12 +101,7 @@ m_err1("Unexpected list order type: %s", keyword);
 return ARABIC;
 }
 
-#if defined(M_PROTO)
 int vrsectpage(const M_WCHAR *keyword)
-#else
-int vrsectpage(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return NEWPAGE;
 
@@ -147,12 +112,7 @@ m_err1("Unexpected value for rsectpage parameter: %s", keyword);
 return NEWPAGE;
 }
 
-#if defined(M_PROTO)
 int vlonglabel(const M_WCHAR *keyword)
-#else
-int vlonglabel(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return WRAP;
 
@@ -163,12 +123,7 @@ m_err1("Unexpected value for longlabel parameter: %s", keyword);
 return WRAP;
 }
 
-#if defined(M_PROTO)
 int vspacing(const M_WCHAR *keyword)
-#else
-int vspacing(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return LOOSE;
 
@@ -179,12 +134,7 @@ m_err1("Unexpected value for spacing parameter: %s", keyword);
 return LOOSE;
 }
 
-#if defined(M_PROTO)
 int vtype(const M_WCHAR *keyword)
-#else
-int vtype(keyword)
-M_WCHAR *keyword;
-#endif /* M_PROTO */
 {
 if (!keyword) return BULLET;
 

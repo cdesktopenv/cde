@@ -41,14 +41,7 @@
    Returns 0 if elt is not a valid element name, if param is specified
    but is not a valid parameter name, or if param is NULL and value is
    not a valid value of any of elt's parameters. */
-#if defined(M_PROTO)
 int m_findpar( const char *elt , const char *param , const M_WCHAR *value )
-#else
-int m_findpar(elt, param, value)
-char *elt ;
-char *param ;
-M_WCHAR *value ;
-#endif /* M_PROTO */
 {
 M_ELEMENT eltid ;
 int par ;

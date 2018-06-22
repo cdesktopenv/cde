@@ -33,13 +33,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Check to see if string is a valid value for parameter par.  If so
    return a pointer to the keyword if it's a keyword parameter and otherwise
    a pointer to string.  If not valid, return FALSE. */
-#if defined(M_PROTO)
 const M_WCHAR *m_partype(const int par , const M_WCHAR *string )
-#else
-M_WCHAR *m_partype(par, string)
-  int par ;
-  M_WCHAR *string ;
-#endif /* M_PROTO */
   {
     LOGICAL first = TRUE ;
     int kw ;

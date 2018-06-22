@@ -58,23 +58,11 @@ struct data {
 char linedir[] = "#line" ;
 char *p = linedir, *q = linedir + 1 ;
 
-int main(
-#if defined(M_PROTO)
-  int argc, char **argv
-#endif
-  ) ;
+int main(int argc, char **argv);
 
-void copyfile(
-#if defined(m_proto)
-  char *pfile1, char *pfile2
-#endif
-  ) ;
+void copyfile(char *pfile1, char *pfile2);
 
-int nextchar(
-#if defined (M_PROTO)
-  FILE *file, struct data *data
-#endif
-  ) ;
+int nextchar(FILE *file, struct data *data);
 
 int main(argc, argv)
   int argc ;

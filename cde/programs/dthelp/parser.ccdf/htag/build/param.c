@@ -124,12 +124,7 @@ newpar->ptypep = NULL ;
 
 
 /* Check that specified default value is legal parameter value */
-#if defined(M_PROTO)
 LOGICAL checkdefault( const M_WCHAR *string )
-#else
-LOGICAL checkdefault(string)
-M_WCHAR *string ;
-#endif /* M_PROTO */
 {
 const M_WCHAR *p ;
 int len ;
@@ -204,12 +199,7 @@ switch (newpar->type)
 
 /* Normalize parameter default.  Change tabs and RE's to spaces, capitalize
    all letters (unless type is CDATA), remove extra space in lists */
-#if defined(M_PROTO)
 void normdefault(M_WCHAR *string )
-#else
-void normdefault(string)
-M_WCHAR *string ;
-#endif /* M_PROTO */
 {
 M_WCHAR *p, *q ;
 int i ;
@@ -292,12 +282,7 @@ ruleinit() ;
 }
 
 /* Make string the default for the current parameter of the current element */
-#if defined(M_PROTO)
 void setdefault(const M_WCHAR *string)
-#else
-void setdefault()
-M_WCHAR *string;
-#endif /* M_PROTO */
 {
 PTYPE *kw ;
 int keycount ;

@@ -349,13 +349,7 @@ m_free(string, "GetDefaultHeaderString return");
 
 
 /* construct a qualified file name */
-#if defined(M_PROTO)
 static int mb_getqualified(char *qualname, char *unqualname)
-#else
-static int mb_getqualified(qualname, unqualname)
-char *qualname;
-char *unqualname;
-#endif
 {
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(__linux__) || defined(CSRG_BASED)
 FILE *f;
@@ -686,12 +680,7 @@ if (!ghyperlink && (glinktype || gdescription))
 }
 
 /* Process an item in a list */
-#if defined(M_PROTO)
 void Item(M_WCHAR *id)
-#else
-void Item(id)
-M_WCHAR *id;
-#endif
 {
 char orderString[32];
 static char *ROMAN0[] =
@@ -989,16 +978,9 @@ return(NULL);
 
 
 /* Start a new helpnode */
-#if defined(M_PROTO)
 void starthelpnode(M_WCHAR *ssi,
 		   M_WCHAR *id,
 		   int	    level)
-#else
-void starthelpnode(ssi, id, level)
-M_WCHAR *ssi;
-M_WCHAR *id;
-int	 level;
-#endif
 {
 int i;
 char *mbyte, *mb_ssi;
@@ -1052,16 +1034,9 @@ snbstart = ftell(outfile);
 } /* End starthelpnode(id) */
 
 
-#if defined(M_PROTO)
 void mb_starthelpnode(char   *ssi,
 		      char   *id,
 		      int     level)
-#else
-void mb_starthelpnode(ssi, id, level)
-char   *ssi;
-char   *id;
-int	level;
-#endif
 {
 M_WCHAR *wc_ssi, *wc_id;
 
@@ -1122,15 +1097,10 @@ if (list <= MAXLISTLEV)
 
 
 /* Start a list */
-#if defined(M_PROTO)
 void StartList(M_WCHAR *type,
 	       M_WCHAR *order,
 	       M_WCHAR *spacing,
 	       M_WCHAR *cont)
-#else
-void StartList(type, order, spacing, cont)
-M_WCHAR *type, *order, *spacing, *cont;
-#endif
 {
 LIST *nextlist;
 CONTCHAIN *chain;
@@ -1411,17 +1381,10 @@ postpreamble = ftell(outfile);
    the string returned must be m_free'd.
 */
 char *
-#if defined(M_PROTO)
 GetDefaultHeaderString(
     char          *elementName,
     unsigned char  desiredType,
     char          *defaultString )
-#else
-GetDefaultHeaderString(elementName, desiredType, defaultString)
-char	      *elementName;
-unsigned char  desiredType;
-char	      *defaultString;
-#endif
 {
 unsigned char type,wheredef;
 M_WCHAR *content;
@@ -1488,13 +1451,7 @@ return "";
  *			  standard versions.
 */
 static void
-#if defined(M_PROTO)
 SetStdLocale(char *pLang, char *pCharset)
-#else
-SetStdLocale(pLang, pCharset)
-char *pLang;
-char *pCharset;
-#endif
 {
 static const char *cString   = "C";
 static const char *isoString = "ISO-8859-1";
@@ -1621,11 +1578,7 @@ free(lang);
  * fashion.
 */
 static char *
-#if defined(M_PROTO)
-GetStdLocale()
-#else
-GetStdLocale()
-#endif
+GetStdLocale(void)
 {
 static char buffer[256];
 static char *cString   = "C";
@@ -1784,7 +1737,6 @@ if (charset && (charset != (dotPtr+1)))
 }
 
 
-#if defined(M_PROTO)
 void paragraph(M_WCHAR *indent,
 	       M_WCHAR *id,
 	       M_WCHAR *gentity,
@@ -1792,22 +1744,6 @@ void paragraph(M_WCHAR *indent,
 	       M_WCHAR *ghyperlink,
 	       M_WCHAR *glinktype,
 	       M_WCHAR *gdescription)
-#else
-void paragraph(indent,
-	       id,
-	       gentity,
-	       gposition,
-	       ghyperlink,
-	       glinktype,
-	       gdescription)
-M_WCHAR *indent;
-M_WCHAR *id;
-M_WCHAR *gentity;
-M_WCHAR *gposition;
-M_WCHAR *ghyperlink;
-M_WCHAR *glinktype;
-M_WCHAR *gdescription;
-#endif
 {
 char *firstString, *indentString;
 
@@ -1851,7 +1787,6 @@ handle_link_and_graphic(m_parent(0),
 
 }
 
-#if defined(M_PROTO)
 void figure(
        M_WCHAR *number,
        M_WCHAR *tonumber,
@@ -1862,28 +1797,6 @@ void figure(
        M_WCHAR *ghyperlink,
        M_WCHAR *glinktype,
        M_WCHAR *gdescription)
-#else
-void figure(
-       number,
-       tonumber,
-       id,
-       file,
-       figpos,
-       cappos,
-       ghyperlink,
-       glinktype,
-       gdescription)
-M_WCHAR *number;
-M_WCHAR *tonumber;
-M_WCHAR *id;
-M_WCHAR *file;
-M_WCHAR *figpos;
-M_WCHAR *cappos;
-M_WCHAR *border;
-M_WCHAR *ghyperlink;
-M_WCHAR *glinktype;
-M_WCHAR *gdescription;
-#endif
 {
 char snb_id[32];
 unsigned char etype,wheredef;
@@ -2113,14 +2026,7 @@ if (ftonumber)
 m_free(string, "default header string return");
 }
 
-#if defined(M_PROTO)
 void endterm(M_WCHAR *base, M_WCHAR *gloss, char *linktype)
-#else
-void endterm( base, gloss, linktype)
-M_WCHAR *base;
-M_WCHAR *gloss;
-char	*linktype;
-#endif
 {
 M_WCHAR *p;
 M_WCHAR  dterm[MAXTERM+1];
@@ -2240,12 +2146,7 @@ if (vgloss(gloss) == GLOSS)
 if (echo) mb_echohead("++");
 }
 
-#if defined(M_PROTO)
 M_WCHAR wc_toupper(M_WCHAR wc)
-#else
-M_WCHAR wc_toupper(wc)
-M_WCHAR wc;
-#endif
 {
 if ((wc >= 0) && (wc <= 255))
     {
@@ -2254,12 +2155,7 @@ if ((wc >= 0) && (wc <= 255))
 return wc;
 }
 
-#if defined(M_PROTO)
 M_WCHAR *wc_stringtoupper(M_WCHAR *wcp)
-#else
-M_WCHAR *wc_stringtoupper(wcp)
-M_WCHAR *wcp;
-#endif
 {
 M_WCHAR *newstring, *nsp;
 
@@ -2309,14 +2205,7 @@ return pCharset;
 }
 
 
-#if defined(M_PROTO)
 void HandleLink(M_WCHAR *hyperlink, M_WCHAR *type, M_WCHAR *description)
-#else
-void HandleLink(hyperlink, type, description)
-M_WCHAR *hyperlink;
-M_WCHAR *type;
-M_WCHAR *description;
-#endif
 {
 char *mb_hyperlink, mb_undefined[64];
 char buffer[BIGBUF];
@@ -2472,13 +2361,7 @@ mb_strcode(">", outfile);
 }
 
 
-#if defined(M_PROTO)
 char *mb_realloc(char *ptr, long size)
-#else
-char *mb_realloc(ptr, size)
-char *ptr;
-long  size;
-#endif
 {
 void   *vptr;
 size_t	ssize;
@@ -2498,12 +2381,7 @@ return (char *) vptr;
 }
 
 
-#if defined(M_PROTO)
 char *mb_malloc(long size)
-#else
-char *mb_malloc(size)
-long  size;
-#endif
 {
 char   *cptr;
 size_t	ssize;
@@ -2521,12 +2399,7 @@ return cptr;
 }
 
 
-#if defined(M_PROTO)
 void mb_free(char **pptr)
-#else
-void  *mb_free(pptr)
-char **pptr;
-#endif
 {
 
 #if DEBUG_MB_MALLOC
@@ -2538,14 +2411,7 @@ free((void *) *pptr);
 *pptr = NULL;
 }
 
-#if defined(M_PROTO)
 static void AddToRowVec(int *length, char **rowvec, char *id)
-#else
-static void AddToRowVec(length, rowvec, id)
-int   *length;
-char **rowvec;
-char  *id;
-#endif
 {
 char tempRowVec[BIGBUF];
 int  rowVecLen;
@@ -2558,14 +2424,7 @@ strcpy(*rowvec + *length - 1, tempRowVec);
 }
 
 
-#if defined(M_PROTO)
 void Add2ToRowVec(int *length, char **rowvec, char *id1, char *id2)
-#else
-void Add2ToRowVec(length, rowvec, id1, id2)
-int   *length;
-char **rowvec;
-char  *id1, *id2;
-#endif
 {
 char tempRowVec[BIGBUF];
 int  rowVecLen;
@@ -2578,14 +2437,7 @@ strcpy(*rowvec + *length - 1, tempRowVec);
 }
 
 
-#if defined(M_PROTO)
 void StartEx(M_WCHAR *notes, M_WCHAR *lines, M_WCHAR *textsize)
-#else
-void StartEx(*notes, *lines, *textsize)
-M_WCHAR *notes;
-M_WCHAR *lines;
-M_WCHAR *textsize;
-#endif
 {
 exTextSize = vextextsize(textsize);
 stackex = vstack(notes);
@@ -2601,11 +2453,7 @@ svexlen      = 1;
 }
 
 
-#if defined(M_PROTO)
-void EndEx()
-#else
-void EndEx()
-#endif
+void EndEx(void)
 {
 char *annotation;
 int   annotLen;
@@ -2670,24 +2518,14 @@ if (saveexseg)
 }
 
 
-#if defined(M_PROTO)
 void StartNCW(char *which)
-#else
-void StartNCW(which)
-char *which;
-#endif
 {
 notehead = FALSE;
 PushForm(NULL, which, NULL);
 }
 
 
-#if defined(M_PROTO)
 void StartBlock(char *pclass, char *ssi, char *id)
-#else
-void StartBlock(pclass, ssi, id)
-char *pclass, *ssi, *id;
-#endif
 {
 char  localId[32];
 char *realId;
@@ -2726,14 +2564,7 @@ firstPInBlock = TRUE;
 }
 
 
-#if defined(M_PROTO)
 void StartNCWtext(char *which, char *iconFile, char *headingString)
-#else
-void StartNCWtext(which, iconFile, headingString)
-char *which;
-char *iconFile;
-char *headingString;
-#endif
 {
 char *icon, *heading;
 
@@ -2764,13 +2595,7 @@ m_free(icon, "icon name");
 }
 
 
-#if defined(M_PROTO)
 void AddToSNB(char *id, char *xid)
-#else
-void AddToSNB(id, xid)
-char *id;
-char *xid;
-#endif
 {
 char tmpsnb[BIGBUF];
 int  snblen;
@@ -2794,11 +2619,7 @@ else
 }
 
 
-#if defined(M_PROTO)
-void IncludeToss()
-#else
-void IncludeToss()
-#endif
+void IncludeToss(void)
 {
 char	 pathbuf[BIGBUF];
 char	*try = pathbuf;
@@ -2883,18 +2704,10 @@ mb_free(&mb_inputname);
 /* Cyclent.c contains procedure m_cyclent(), callable by interface
    designers, to cycle through all defined entities, returning information
    about them */
-#if defined(M_PROTO)
 M_WCHAR *CycleEnt(LOGICAL init,
 		  unsigned char *type,
 		  M_WCHAR ***content,
 		  unsigned char *wheredef)
-#else
-M_WCHAR *m_cyclent(init, type, content, wheredef)
-  LOGICAL init ;
-  unsigned char *type ;
-  M_WCHAR ***content ;
-  unsigned char *wheredef ;
-#endif
 {
 static M_TRIE *current ;
 static M_TRIE *ancestor[M_NAMELEN + 1] ;
@@ -2977,14 +2790,7 @@ while (name = CycleEnt(FALSE, &type, &content, &wheredef));
 }
 
 
-#if defined(M_PROTO)
 void PushForm(char *class, char *ssi, char *id)
-#else
-void PushForm(class, ssi, id)
-     char *class;
-     char *ssi;
-     char *id;
-#endif
 {
 char  localId[SDLNAMESIZ+10];
 char *realId;
@@ -3048,15 +2854,7 @@ needFData = TRUE;
 }
 
 
-#if defined(M_PROTO)
 void PushForm2(char *class, char *ssi, char *id1, char *id2)
-#else
-void PushForm2(class, ssi, id1, id2)
-     char *class;
-     char *ssi;
-     char *id1;
-     char *id2;
-#endif
 {
 char id[32];
 int  stackSize;

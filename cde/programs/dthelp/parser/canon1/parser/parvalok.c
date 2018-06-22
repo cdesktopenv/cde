@@ -34,14 +34,7 @@
 /* Function callable by interface designers.  Returns TRUE if specified value
    is a legal value for the indicated parameter of the given element,
    FALSE otherwise. */
-#if defined(M_PROTO)
 LOGICAL m_parvalok( M_WCHAR *elt , M_WCHAR *param , const M_WCHAR *value )
-#else
-LOGICAL m_parvalok(elt, param, value)
-  M_WCHAR *elt ;
-  M_WCHAR *param ;
-  M_WCHAR *value ;
-#endif /* M_PROTO */
   {
     M_ELEMENT eltid ;
     int par ;

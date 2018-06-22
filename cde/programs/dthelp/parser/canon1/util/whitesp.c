@@ -27,19 +27,10 @@
 
 #include "basic.h"
 
-LOGICAL m_whitespace(
-#if defined(M_PROTO)
-  M_WCHAR c
-#endif
-  ) ;
+LOGICAL m_whitespace(M_WCHAR c);
 
 /* Test if character c is a blank, tab, or carriage return */
-#if defined(M_PROTO)
 LOGICAL m_whitespace(M_WCHAR c)
-#else
-LOGICAL m_whitespace(c)
-  M_WCHAR c ;
-#endif
 {
 char mb_c[32]; /* arbitrarily large */
 int  length;

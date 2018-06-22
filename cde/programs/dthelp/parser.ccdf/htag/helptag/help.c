@@ -877,15 +877,8 @@ m_free(string, "GetDefaultHeaderString return");
 
 		
 /* Verify that val is an acceptable real number value */
-#if defined(M_PROTO)
 M_WCHAR *
 checkreal (M_WCHAR *val, M_WCHAR *paramname, LOGICAL msgout, M_WCHAR *elt)
-#else
-M_WCHAR *checkreal (val, paramname, msgout, elt)
-M_WCHAR *val, *paramname;
-LOGICAL msgout;
-M_WCHAR *elt;
-#endif
 {
 /* returns val if a valid real number, else NULL */
 double num;
@@ -950,13 +943,7 @@ else
 
 
 /* Starting stuff for <EX> and <VEX> */
-#if defined(M_PROTO)
 void exvexstart (M_WCHAR *type, M_WCHAR *textsize, char *listinfo)
-#else
-void exvexstart (type, textsize, listinfo)
-M_WCHAR *type, *textsize;
-char *listinfo;
-#endif
 {
 int tsize;
 
@@ -1520,15 +1507,7 @@ fputs(">\n", outfile);
 
 
 /* Express a sequence number as a letter in an alpha list or appendix */
-#if defined(M_PROTO)
 void itoletter(int n, char start, char *dest, int length)
-#else
-void itoletter(n, start, dest, length)
-int n;
-char start;
-char *dest;
-int length;
-#endif
 {
 char invert[10];
 char *p, *q;
@@ -1837,13 +1816,7 @@ m_exit(0);
 }
 
 /* Start a new helpnode */
-#if defined(M_PROTO)
 void starthelpnode(M_WCHAR *id, LOGICAL suppress_topic_map)
-#else
-void starthelpnode(id, suppress_topic_map)
-M_WCHAR *id;
-LOGICAL suppress_topic_map;          /* should we suppress .tpc entry */
-#endif
 {
 int i;
 char *mbyte;
@@ -1944,13 +1917,7 @@ if (!suppress_topic_map)
 } /* End starthelpnode(id) */
 
 
-#if defined(M_PROTO)
 void mb_starthelpnode(char *id, LOGICAL suppress_topic_map)
-#else
-void mb_starthelpnode(id, suppress_topic_map)
-char *id;
-LOGICAL suppress_topic_map;          /* should we suppress .tpc entry */
-#endif
 {
 M_WCHAR *wc;
 
@@ -2372,17 +2339,10 @@ return((long) num );
    the string returned must be m_free'd.
 */
 char *
-#if defined(M_PROTO)
 GetDefaultHeaderString(
     char          *elementName,
     unsigned char  desiredType,
     char          *defaultString )
-#else
-GetDefaultHeaderString(elementName, desiredType, defaultString)
-char          *elementName;
-unsigned char  desiredType;
-char          *defaultString;
-#endif
 {
 unsigned char type,wheredef;
 M_WCHAR *content;
@@ -2484,7 +2444,6 @@ m_free(elementName,"wide character string");
 }
 
 
-#if defined(M_PROTO)
 void paragraph(M_WCHAR *indent,
 	       M_WCHAR *id,
 	       M_WCHAR *gentity,
@@ -2493,24 +2452,6 @@ void paragraph(M_WCHAR *indent,
 	       M_WCHAR *glinktype,
 	       M_WCHAR *gdescription,
 	       char    *listinfo)
-#else
-void paragraph(indent,
-	       id,
-	       gentity,
-	       gposition,
-	       ghyperlink,
-	       glinktype,
-	       gdescription,
-	       listinfo)
-M_WCHAR *indent;
-M_WCHAR *id;
-M_WCHAR *gentity;
-M_WCHAR *gposition;
-M_WCHAR *ghyperlink;
-M_WCHAR *glinktype;
-M_WCHAR *gdescription;
-char    *listinfo;
-#endif
 {
 if (id)
     {
@@ -2569,7 +2510,6 @@ fprintf(outfile, "%s>", listinfo);
 unleaded = FALSE;
 }
 
-#if defined(M_PROTO)
 void figure(
        M_WCHAR *number,
        M_WCHAR *tonumber,
@@ -2600,67 +2540,6 @@ void figure(
        M_WCHAR *glinktype,
        M_WCHAR *gdescription,
        char    *listinfo)
-#else
-void figure(
-       number,
-       tonumber,
-       id,
-       file,
-       figpos,
-       cappos,
-       oldtype,
-       xwidth,
-       xdepth,
-       xhadjust,
-       xvadjust,
-       border,
-       type,
-       xmagnify,
-       video,
-       strip,
-       mirror,
-       margin,
-       clip,
-       penwidth,
-       snap,
-       autoscale,
-       plottype,
-       callout,
-       textsize,
-       ghyperlink,
-       glinktype,
-       gdescription,
-       listinfo)
-M_WCHAR *number;
-M_WCHAR *tonumber;
-M_WCHAR *id;
-M_WCHAR *file;
-M_WCHAR *figpos;
-M_WCHAR *cappos;
-M_WCHAR *oldtype;
-M_WCHAR *xwidth;
-M_WCHAR *xdepth;
-M_WCHAR *xhadjust;
-M_WCHAR *xvadjust;
-M_WCHAR *border;
-M_WCHAR *type;
-M_WCHAR *xmagnify;
-M_WCHAR *video;
-M_WCHAR *strip;
-M_WCHAR *mirror;
-M_WCHAR *margin;
-M_WCHAR *clip;
-M_WCHAR *penwidth;
-M_WCHAR *snap;
-M_WCHAR *autoscale;
-M_WCHAR *plottype;
-M_WCHAR *callout;
-M_WCHAR *textsize;
-M_WCHAR *ghyperlink;
-M_WCHAR *glinktype;
-M_WCHAR *gdescription;
-char    *listinfo;
-#endif
 {
 unsigned char etype,wheredef;
 char *string = 
@@ -2919,14 +2798,7 @@ if (ftonumber)
 m_free(string, "default header string return");
 }
 
-#if defined(M_PROTO)
 void endterm( M_WCHAR *base, M_WCHAR *gloss, int linktype)
-#else
-void endterm( base, gloss, linktype)
-M_WCHAR *base;
-M_WCHAR *gloss;
-int     linktype;
-#endif
 {
 M_WCHAR *p;
 M_WCHAR wnl, wsp, wus;
@@ -3004,12 +2876,7 @@ if (vgloss(gloss) == GLOSS)
 if (echo) mb_echohead("++");
 }
 
-#if defined(M_PROTO)
 M_WCHAR wc_toupper(M_WCHAR wc)
-#else
-M_WCHAR wc_toupper(wc)
-M_WCHAR wc;
-#endif
 {
 if ((wc >= 0) && (wc <= 255))
     {

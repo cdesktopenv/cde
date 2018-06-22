@@ -55,12 +55,7 @@ void dumpdlmptr(M_NOPAR)
     }
 
 /* Output the generated data structures */
-#if defined(M_PROTO)
 void dumptree(LOGICAL sparse)
-#else
-void dumptree(sparse)
-  LOGICAL sparse;
-#endif
   {
     int i, count = 0;
 
@@ -574,12 +569,7 @@ loading = FALSE;
 }
 
 /* Output transition matrix */
-#if defined(M_PROTO)
 void nextcon(LOGICAL sparse)
-#else
-void nextcon(sparse)
-  LOGICAL sparse;
-#endif
   {
     int i, j;
     int firstinrow;
@@ -646,12 +636,7 @@ void prtctxt(column, value)
 
 
 /* Read the next input character */
-#if defined(M_PROTO)
 int readchar(LOGICAL cap)
-#else
-int readchar(cap)
-  LOGICAL cap;
-#endif
 {
 int c;
 M_WCHAR wnl;

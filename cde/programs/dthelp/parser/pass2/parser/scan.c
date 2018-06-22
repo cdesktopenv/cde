@@ -402,12 +402,7 @@ int m_getachar(dchar)
     }
 
 /* Reads a name token */
-#if defined(M_PROTO)
 void m_getname(M_WCHAR first)
-#else
-void m_getname(first)
-  M_WCHAR first ;
-#endif
 {
     M_WCHAR *p ;
     M_HOLDTYPE dchar ;
@@ -649,14 +644,7 @@ void m_litproc(delim)
     }
 
 /* Called when a missing tagc delimiter is detected */
-#if defined(M_PROTO)
 void m_missingtagc(int c, M_HOLDTYPE dchar, LOGICAL start)
-#else
-void m_missingtagc(c, dchar, start)
-  int c ;
-  M_HOLDTYPE dchar ;
-  LOGICAL start ;
-#endif
 {
     if (! m_wholetag) {
       if (start) m_mberr1("Invalid parameter or missing %s", m_tagc);
@@ -669,18 +657,8 @@ void m_missingtagc(c, dchar, start)
 
 /* Have found one character in a possible short reference delimiter.
    Prepare to look for the next one */
-#if defined(M_PROTO)
 void m_nextdelimchar(int *n, int i, LOGICAL *linestart, LOGICAL newlinestart,
 		     LOGICAL skipblank, unsigned char type)
-#else
-void m_nextdelimchar(n, i, linestart, newlinestart, skipblank, type)
-  int *n ;
-  int i ;
-  LOGICAL *linestart ;
-  LOGICAL newlinestart ;
-  LOGICAL skipblank ;
-  unsigned char type ;
-#endif
 {               
     int k ;
     char mb_re,mb_seqchar, mb_rschar;
@@ -863,13 +841,7 @@ int m_scan(M_NOPAR)
 
 
 /* Process explicit or implied USEMAP or ADDMAP */
-#if defined(M_PROTO)
 void m_setmap(int map, LOGICAL useoradd)
-#else
-void m_setmap(map, useoradd)
-  int map ;
-  LOGICAL useoradd ;
-#endif
 {
     int i ;
     int sref ;
@@ -1087,13 +1059,7 @@ void m_sigre(M_NOPAR)
 
 /* Returns a context-dependent delimiter string to input stream so
    characters can be reread one at a time in another context */
-#if defined(M_PROTO)
 void m_undodelim(M_WCHAR *delim, LOGICAL flag)
-#else
-void m_undodelim(delim, flag)
-  M_WCHAR *delim ;
-  LOGICAL flag ;
-#endif
 {
     M_WCHAR *p ;
 
@@ -1110,14 +1076,7 @@ void m_undodelim(delim, flag)
 /* Place a character on the current input stream.  The character may have
    been scanned and determined not to be part of the current token or it
    may be in the expansion of an entity*/
-#if defined(M_PROTO)
 void m_ungetachar(int c, M_HOLDTYPE dchar, LOGICAL preread)
-#else
-void m_ungetachar(c, dchar, preread)
-  int c ;
-  M_HOLDTYPE dchar ;
-  LOGICAL preread ;
-#endif
 {
     char buffer[10] ;
     int length;

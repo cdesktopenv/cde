@@ -46,87 +46,29 @@ typedef wchar_t M_WCHAR;
 
 /* For function prototypes */
 typedef char * M_POINTER;
-#if defined(hpux) || defined(__aix) || defined(sun)
-/* Old unix stuff
- *#define void int
- *#define M_NOPAR
- */
-/* New Ansi style */
-#define M_PROTO
+
 #define M_NOPAR void
-#else
-#define M_PROTO
-#define M_NOPAR void
-#endif
 
-char *MakeMByteString(
-#if defined(M_PROTO)
-  const M_WCHAR *from
-#endif
-  );
+char *MakeMByteString(const M_WCHAR *from);
 
-M_WCHAR *MakeWideCharString(
-#if defined(M_PROTO)
-  const char *from
-#endif
-  );
+M_WCHAR *MakeWideCharString(const char *from);
 
-int w_strcmp(
-#if defined(M_PROTO)
-  const M_WCHAR *string1, const M_WCHAR *string2
-#endif
-  );
+int w_strcmp(const M_WCHAR *string1, const M_WCHAR *string2);
 
-M_WCHAR *w_strcpy(
-#if defined(M_PROTO)
-  M_WCHAR *string1, const M_WCHAR *string2
-#endif
-  );
+M_WCHAR *w_strcpy(M_WCHAR *string1, const M_WCHAR *string2);
 
-M_WCHAR *w_strncpy(
-#if defined(M_PROTO)
-  M_WCHAR *string1, const M_WCHAR *string2, int max
-#endif
-  );
+M_WCHAR *w_strncpy(M_WCHAR *string1, const M_WCHAR *string2, int max);
 
-int w_strlen(
-#if defined(M_PROTO)
-  const M_WCHAR *string
-#endif
-  );
+int w_strlen(const M_WCHAR *string);
 
-M_WCHAR *w_strchr(
-#if defined(M_PROTO)
-  M_WCHAR *string, const M_WCHAR chr
-#endif
-  );
+M_WCHAR *w_strchr(M_WCHAR *string, const M_WCHAR chr);
 
-M_WCHAR *w_strstr(
-#if defined(M_PROTO)
-  M_WCHAR *string1, M_WCHAR *string2
-#endif
-  );
+M_WCHAR *w_strstr(M_WCHAR *string1, M_WCHAR *string2);
 
-void *m_malloc(
-#if defined(M_PROTO)
-  int size, char *msg
-#endif
-  ) ;
+void *m_malloc(int size, char *msg);
 
-void m_free(
-#if defined(M_PROTO)
-  void *block, char *msg
-#endif
-  ) ;
+void m_free(void *block, char *msg);
 
-void m_err2(
-#if defined(M_PROTO)
-  const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2
-#endif
-  ) ;
+void m_err2(const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2);
 
-int mb_getwc(
-#if defined(M_PROTO)
-  void *m_ptr
-#endif
-  ) ;
+int mb_getwc(void *m_ptr);

@@ -51,12 +51,7 @@ static int  nIds;
 static char wideCharacterString[] = "wide character string";
 
 
-#if defined(M_PROTO)
 char *mb_malloc(long size)
-#else
-char *mb_malloc(size)
-long  size;
-#endif
 {
 char   *cptr;
 size_t  ssize;
@@ -74,12 +69,7 @@ return cptr;
 }
 
 
-#if defined(M_PROTO)
 void mb_free(char **pptr)
-#else
-void  *mb_free(pptr)
-char **pptr;
-#endif
 {
 
 #if DEBUG_MB_MALLOC
@@ -92,13 +82,7 @@ free((void *) *pptr);
 }
 
 
-#if defined(M_PROTO)
 char *mb_realloc(char *ptr, long size)
-#else
-char *mb_realloc(ptr, size)
-char *ptr;
-long  size;
-#endif
 {
 void   *vptr;
 size_t  ssize;
@@ -118,13 +102,7 @@ return (char *) vptr;
 }
 
 
-#if defined(M_PROTO)
 void OpenTag(LOGICAL hasAttributes, LOGICAL newlineOK)
-#else
-void OpenTag(hasAttributes, newlineOK)
-  LOGICAL hasAttributes;
-  LOGICAL newlineOK;
-#endif
 {
 PutString("<");
 PutWString(m_parent(0));
@@ -137,14 +115,7 @@ if (!hasAttributes)
 }
 
 
-#if defined(M_PROTO)
 static void OpenNamedTag(char *name, LOGICAL hasAttributes, LOGICAL newlineOK)
-#else
-static void OpenNamedTag(name, hasAttributes, newlineOK)
-  LOGICAL  hasAttributes;
-  LOGICAL  newlineOK;
-  char    *name;
-#endif
 {
 PutString("<");
 PutString(name);
@@ -157,12 +128,7 @@ if (!hasAttributes)
 }
 
 
-#if defined(M_PROTO)
 void CloseTag(LOGICAL newlineOK)
-#else
-void CloseTag(newlineOK)
-  LOGICAL newlineOK;
-#endif
 {
 char *etagc;
 
@@ -176,13 +142,7 @@ PutString(etagc);
 }
 
 
-#if defined(M_PROTO)
 static void CloseNamedTag(char *name, LOGICAL newlineOK)
-#else
-static void CloseNamedTag(name, newlineOK)
-  LOGICAL newlineOK;
-  char *name; 
-#endif
 {
 char *etagc;
 
@@ -196,13 +156,7 @@ PutString(etagc);
 }
 
 
-#if defined(M_PROTO)
 void ImpliedAttribute(char *name, M_WCHAR *value)
-#else
-void ImpliedAttribute(name, value)
-  char    *name;
-  M_WCHAR *value;
-#endif
 {
 if (value)
     {
@@ -215,13 +169,7 @@ if (value)
 }
 
 
-#if defined(M_PROTO)
 void RequiredAttribute(char *name, M_WCHAR *value)
-#else
-void RequiredAttribute(name, value)
-  char    *name;
-  M_WCHAR *value;
-#endif
 {
 M_WCHAR  null;
 M_WCHAR *wc_name;
@@ -242,12 +190,7 @@ PutString("\"");
 }
 
 
-#if defined(M_PROTO)
 M_WCHAR *CopyWString(M_WCHAR *string)
-#else
-M_WCHAR *CopyWString(string)
-  M_WCHAR *string;
-#endif
 {
 M_WCHAR *retVal;
 
@@ -259,12 +202,7 @@ return retVal;
 }
 
 
-#if defined(M_PROTO)
 void MakeNewElement(ElementTypes type)
-#else
-void MakeNewElement(type)
-  ElementTypes type;
-#endif
 {
 pCurrentElement = (ElementPtr) mb_malloc(sizeof(Element));
 memset((void *) pCurrentElement, 0, sizeof(Element));
@@ -278,12 +216,7 @@ if (type == e_cdata)
 }
 
 
-#if defined(M_PROTO)
 void DeleteElement(ElementPtr pElement)
-#else
-void DeleteElement(pElement)
-  ElementPtr pElement;
-#endif
 {
 switch (pElement->type)
     {
@@ -952,12 +885,7 @@ static ElementPtr *thisElementStack;
 static int thisElementStackSize = 0;
 static int thisElementStackTop = -1;
 
-#if defined(M_PROTO)
 static void PushThisElement(ElementPtr pThis)
-#else
-static void PushThisElement(pThis)
-  ElementPtr pThis;
-#endif
 {
 thisElementStackTop++;
 if (thisElementStackSize == 0)
@@ -1017,12 +945,7 @@ return pThisElement;
  * the .sdl file.  These occurrences are an artifact of translation
  * and seem to be easier to get rid of here than in the first pass.
 */
-#if defined(M_PROTO)
 static void RemoveSuperfluousBlocks(ElementPtr *ppBlockOrForm)
-#else
-static void RemoveSuperfluousBlocks(ppBlockOrForm)
-  ElementPtr *ppBlockOrForm;
-#endif
 {
 ElementPtr  pElement, pFdata;
 ElementPtr *ppBack;
@@ -1061,12 +984,7 @@ while (pElement)
 }
 
 
-#if defined(M_PROTO)
 static void ReplaceFormWithBlock(ElementPtr *ppBlockOrForm)
-#else
-static void ReplaceFormWithBlock(ppBlockOrForm)
-  ElementPtr ppBlockOrForm;
-#endif
 {
 ElementPtr  pElement, pFstyle, pFrowvec, pFdata, pSubElement;
 ElementPtr *ppBack;
@@ -1250,12 +1168,7 @@ m_free(wc_quote1, wideCharacterString);
 }
 
 
-#if defined(M_PROTO)
 static void OptimizeSDL(ElementPtr *ppBlockOrForm)
-#else
-static void OptimizeSDL(ppBlockOrForm)
-  ElementPtr ppBlockOrForm;
-#endif
 {
 ReplaceFormWithBlock(ppBlockOrForm);
 RemoveSuperfluousBlocks(ppBlockOrForm);
@@ -1266,20 +1179,11 @@ RemoveSuperfluousBlocks(ppBlockOrForm);
  * update the offsets when adding the INDEX and LOIDS; also when
  * compressing the VSTRUCT
 */
-#if defined(M_PROTO)
 static void AddToLOIDS(char     *pElementName,
                        M_WCHAR  *pwcId,
                        M_WCHAR  *pwcSSI,
                        M_WCHAR  *pwcLevel,
 		       long int  virpageOffset)
-#else
-static void AddToLOIDS(pElementName, pwcId, pwcSSI, pwcLevel, virpageOffset)
-char     *pElementName;
-M_WCHAR  *pwcId;
-M_WCHAR  *pwcSSI;
-M_WCHAR  *pwcLevel;
-long int  virpageOffset;
-#endif
 {
 LoidsPtr pNewId;
 
@@ -1312,14 +1216,7 @@ pLoidsEnd = pNewId;
 
 /* compress or decompress a file; return the size after (de)compression
 */
-#if defined(M_PROTO)
 static int Compress(char *fileName, char *zFileName, LOGICAL doCompress)
-#else
-int Compress(fileName, zFileName, doCompress)
-  char    *fileName;
-  char    *zFileName;
-  LOGICAL  doCompress;
-#endif
 {
        char cmd[BUFSIZ];
        int  errStatus;
@@ -1550,14 +1447,7 @@ unlink(compZFileName);
 /* A function too lookup a TOSS element and mark it as used if the
  * lookup succeeds.
 */
-#if defined(M_PROTO)
 static void MarkUsedStyle(M_WCHAR *level, M_WCHAR *class, M_WCHAR *ssi)
-#else
-static void MarkUsedStyle(level, class, ssi)
-  M_WCHAR *level;
-  M_WCHAR *class;
-  M_WCHAR *ssi;
-#endif
 {
 ElementPtr  pThis;
 M_WCHAR    *rlevel = NULL, *rclass = NULL, *rssi = NULL;
@@ -1619,13 +1509,7 @@ while (pThis)
 /* Look for "rid" in the "pSnb" list.  Return the element if found,
  * NULL otherwise.
 */
-#if defined(M_PROTO)
 static ElementPtr LookupInSnb(ElementPtr pSnb, M_WCHAR *rid)
-#else
-static ElementPtr LookupInSnb(pSnb, rid)
-  ElementPtr pSnb;
-  M_WCHAR *rid;
-#endif
 {
 ElementPtr   pThis;
 M_WCHAR    **pId;
@@ -1694,12 +1578,7 @@ return NULL;
  * nodes in the sub-tree are either marked or all clear.  Once a clear
  * node is found, the tree is not descended further.
 */
-#if defined(M_PROTO)
 static void ClearTree(ElementPtr pRoot)
-#else
-static void ClearTree(pRoot)
-  ElementPtr pRoot;
-#endif
 {
 ElementPtr  pThis;
 static char errMess[] =
@@ -2351,12 +2230,7 @@ while (pThis)
 /* A function to mark all elements in the TOSS that have been used
  * by the document up to this point.
 */
-#if defined(M_PROTO)
 static void MarkUsedTOSS(ElementPtr pRoot)
-#else
-static void MarkUsedTOSS(pRoot)
-  ElementPtr pRoot;
-#endif
 {
 ElementPtr pParent, pSnb, pItem, pThis;
 static char errMess[] =
@@ -3374,12 +3248,7 @@ while (pThis)
 }
 
 
-#if defined(M_PROTO)
 void EmitSDL(ElementPtr pRoot)
-#else
-void EmitSDL(pRoot)
-  ElementPtr pRoot;
-#endif
 {
 ElementPtr     pThis, pThat;
 long int       virpageOffset;
@@ -4945,12 +4814,7 @@ if (doCompression)
 }
 
 
-#if defined(M_PROTO)
 void OptimizeAndEmit(ElementPtr pVirpage)
-#else
-void OptimizeAndEmit(pVirpage)
-  ElementPtr pVirpage;
-#endif
 {
 if (optimizeFlag)
     OptimizeSDL(&(pVirpage->u.u_virpage.pBlockOrForm));
@@ -5115,14 +4979,7 @@ strcat(vstructFileName, "vstr");
  * Of course, when using the unbuffered versions we attempt to read in
  * BUFSIZ characters at a time.
 */
-#if defined(M_PROTO)
 int OpenFile(char *name, int type, int code)
-#else
-int OpenFile(name, type, code)
-  char *name;
-  int type;
-  int code;
-#endif
 {
 int fd;
 int oflag, mode;
@@ -5157,16 +5014,7 @@ return fd;
 }
 
 
-#if defined(M_PROTO)
 int ReadFile(int fd, char *name, char *buffer, int amount, int code)
-#else
-int ReadFile(fd, name, buffer, amount, code)
-  int fd;
-  char *name;
-  char *buffer;
-  int amount;
-  int code;
-#endif
 {
 int length;
 
@@ -5185,16 +5033,7 @@ return length;
 }
 
 
-#if defined(M_PROTO)
 int WriteFile(int fd, char *name, char *buffer, int amount, int code)
-#else
-int WriteFile(fd, name, buffer, amount, code)
-int fd;
-  char *name;
-  char *buffer;
-  int amount;
-  int code;
-#endif
 {
 int length;
 
@@ -5213,25 +5052,14 @@ return length;
 }
 
 
-#if defined(M_PROTO)
 int FileExists(char *name)
-#else
-int FileExists(name)
-  char *name;
-#endif
 {
 if (access(name, F_OK) == 0) return 1;
 return 0;
 }
 
 
-#if defined(M_PROTO)
 void AssertFileIsReadable(char *name, int code)
-#else
-void AssertFileIsReadable(name, code)
-  char *name;
-  int code;
-#endif
 {
 if (access(name, R_OK) == -1)
     {
@@ -5250,13 +5078,7 @@ if (access(name, R_OK) == -1)
 }
 
 
-#if defined(M_PROTO)
 int FileSize(char *name, int code)
-#else
-int FileSize(name, code)
-  char *name;
-  int code;
-#endif
 {
 struct stat buf;
 
@@ -5279,14 +5101,7 @@ return buf.st_size;
 }
 
 
-#if defined(M_PROTO)
 void CloseFile(int fd, char *name, int code)
-#else
-void CloseFile(fd, name, code)
-  int fd;
-  char *name;
-  int code;
-#endif
 {
 if (close(fd) == -1)
     {
@@ -5302,14 +5117,7 @@ if (close(fd) == -1)
 }
 
 
-#if defined(M_PROTO)
 FILE * FopenFile(char *name, int type, int code)
-#else
-FILE * FopenFile(name, type, code)
-  char *name;
-  int type;
-  int code;
-#endif
 {
 FILE *file;
 char *mode;
@@ -5363,16 +5171,7 @@ return file;
 }
 
 
-#if defined(M_PROTO)
 int GetALine(FILE *file, char *name, char *line, int max, int code)
-#else
-int GetALine(file, name, line, max, code)
-  FILE *file;
-  char *name;
-  char *line;
-  int max;
-  int code;
-#endif
 {
 char *pc;
 int   length;
@@ -5425,16 +5224,7 @@ return length;
 }
 
 
-#if defined(M_PROTO)
 int FreadFile(FILE *file, char *name, char *buffer, int amount, int code)
-#else
-int FreadFile(file, name, buffer, amount, code)
-  FILE *file;
-  char *name;
-  char *buffer;
-  int amount;
-  int code;
-#endif
 {
 int length;
 
@@ -5453,16 +5243,7 @@ return length;
 }
 
 
-#if defined(M_PROTO)
 void FwriteFile(FILE *file, char *name, char *buffer, size_t amount, int code)
-#else
-void FwriteFile(file, name, buffer, amount, code)
-  FILE *file;
-  char *name;
-  char *buffer;
-  size_t amount;
-  int code;
-#endif
 {
 if (fwrite(buffer, 1, amount, file) != amount)
     {
@@ -5478,14 +5259,7 @@ if (fwrite(buffer, 1, amount, file) != amount)
 }
 
 
-#if defined(M_PROTO)
 void FcloseFile(FILE *file, char *name, int code)
-#else
-void FcloseFile(file, name, code)
-  FILE *file;
-  char *name;
-  int code;
-#endif
 {
 if (fclose(file) != 0)
     {
@@ -5501,12 +5275,7 @@ if (fclose(file) != 0)
 }
 
 
-#if defined(M_PROTO)
 int StringToUpper(char *string)
-#else
-int StringToUpper(string)
-  char *string;
-#endif
 {
 char *pc, c;
 
@@ -6691,18 +6460,10 @@ unlink(tempFileName);
 /* Cyclent.c contains procedure m_cyclent(), callable by interface
    designers, to cycle through all defined entities, returning information
    about them */
-#if defined(M_PROTO)
 static M_WCHAR *CycleEnt(LOGICAL init,
 		         unsigned char *type,
 		         M_WCHAR ***content,
 		         unsigned char *wheredef)
-#else
-static M_WCHAR *m_CycleEnt(init, type, content, wheredef)
-  LOGICAL init ;
-  unsigned char *type ;
-  M_WCHAR ***content ;
-  unsigned char *wheredef ;
-#endif
 {
 static M_TRIE *current ;
 static M_TRIE *ancestor[M_NAMELEN + 1] ;
@@ -6782,13 +6543,7 @@ while (name = CycleEnt(FALSE, &type, &content, &wheredef));
  *			  standard versions.
 */
 void
-#if defined(M_PROTO)
 SetLocale(M_WCHAR *pLang, M_WCHAR *pCharset)
-#else
-SetLocale(pLang, pCharset)
-M_WCHAR *pLang;
-M_WCHAR *pCharset;
-#endif
 {
 const char  cString[] = "C";
 _DtXlateDb  myDb = NULL;

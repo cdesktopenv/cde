@@ -29,11 +29,7 @@
 #include "common.h"
 extern char m_chartype[M_CHARSETLEN] ;
 
-void m_initctype(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void m_initctype(M_NOPAR);
 
 void m_initctype(M_NOPAR)
   {

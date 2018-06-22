@@ -38,12 +38,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #define M_BUFLEN (32)
 
 /* When a text character occurs */
-#if defined(M_PROTO)
 void m_textaction(M_WCHAR m_textchar)
-#else
-void m_textaction(m_textchar)
-  M_WCHAR m_textchar ;
-  #endif
 {
     char buffer[M_BUFLEN] ;
     char    mb_re;

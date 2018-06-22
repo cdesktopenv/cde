@@ -29,25 +29,13 @@
 #include "basic.h"
 #include "trie.h"
 
-void countdown(
-#if defined(M_PROTO)
-  M_TRIE *parent, int *count
-#endif
-  ) ;
+void countdown(M_TRIE *parent, int *count);
 
-void dumpnode(
-#if defined(M_PROTO)
-  LOGICAL *first, FILE *file, M_TRIE *trieptr, int *count,
-    void (*proc)(FILE *file, void *value)
-#endif
-  ) ;
+void dumpnode(LOGICAL *first, FILE *file, M_TRIE *trieptr, int *count,
+    void (*proc)(FILE *file, void *value));
 
-void dumpptrie(
-#if defined(M_PROTO)
-  M_TRIE *intname, char *extname, FILE *file, char *externdef, char *defdef,
-  void (*proc)(FILE *file, void *value)
-#endif
-  ) ;
+void dumpptrie(M_TRIE *intname, char *extname, FILE *file, char *externdef, char *defdef,
+  void (*proc)(FILE *file, void *value));
 
 /* Write the declaration of a packed trie to the specified files */
 void dumpptrie(intname, extname, file, externdef, defdef, proc)
@@ -56,12 +44,7 @@ void dumpptrie(intname, extname, file, externdef, defdef, proc)
   FILE *file ;
   char *externdef ;
   char *defdef ;
-  void (*proc) (
-#if defined (M_PROTO)
-    FILE *file,
-    void *value
-#endif
-    ) ;
+  void (*proc) (FILE *file, void *value) ;
   {
     LOGICAL first = TRUE ;
     int count = 0 ;

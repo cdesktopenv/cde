@@ -29,20 +29,9 @@
 
 #include "basic.h"
 
-int m_upper(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+int m_upper(int c);
 
-int m_upstrcmp(
-#if defined(M_PROTO)
-  char *p, char *q
-#endif
-  ) ;
-
-int m_upstrcmp(p, q)
-  char *p, *q ;
+int m_upstrcmp(char *p, char *q)
   {
     do {
       if (m_upper((int) *p) < m_upper((int) *q)) return(-1) ;

@@ -51,26 +51,10 @@ struct m_ptrie {
   } ;
 
 
-M_TRIE *m_gettrienode(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+M_TRIE *m_gettrienode(M_NOPAR);
 
-void *m_lookfortrie(
-#if defined(M_PROTO)
-  const M_WCHAR *p, const M_TRIE *xtrie
-#endif
-  ) ;
+void *m_lookfortrie(const M_WCHAR *p, const M_TRIE *xtrie);
 
-void *m_ntrtrie(
-#if defined(M_PROTO)
-  M_WCHAR *p, M_TRIE *xtrie, void *dataval
-#endif
-  ) ;
+void *m_ntrtrie(M_WCHAR *p, M_TRIE *xtrie, void *dataval);
 
-void *m_resettrie(
-#if defined(M_PROTO)
-  M_TRIE *xtrie, M_WCHAR *p, void *value
-#endif
-  ) ;
+void *m_resettrie(M_TRIE *xtrie, M_WCHAR *p, void *value);

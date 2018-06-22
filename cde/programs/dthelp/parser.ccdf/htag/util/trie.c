@@ -45,26 +45,12 @@ extern FILE *m_errfile ;
 
 extern M_CHARTYPE m_ctarray[M_CHARSETLEN] ;
 
-void *m_malloc(
-#if defined(M_PROTO)
-  int size, char *msg
-#endif
-  ) ;
+void *m_malloc(int size, char *msg);
 
-void m_entercharintrie(
-#if defined(M_PROTO)
-  M_TRIE **currentnode, M_WCHAR c
-#endif
-  ) ;
+void m_entercharintrie(M_TRIE **currentnode, M_WCHAR c);
 
 /* Enters the next character of a string into a trie */
-#if defined(M_PROTO)
 void m_entercharintrie(M_TRIE **currentnode, M_WCHAR c)
-#else
-void m_entercharintrie(currentnode, c)
-  M_TRIE **currentnode ;
-  M_WCHAR c ;
-#endif
   {
     M_TRIE *newnode ;
 
@@ -112,13 +98,7 @@ M_TRIE *m_gettrienode(M_NOPAR)
 
 /* M_lookfortrie(p, xtrie) looks for string p in the specified trie,
    returning its data value if found and otherwise FALSE */
-#if defined(M_PROTO)
 void *m_lookfortrie( const M_WCHAR *p , const M_TRIE *xtrie )
-#else
-void *m_lookfortrie(p, xtrie)
-  M_WCHAR *p ;
-  M_TRIE *xtrie ;
-#endif /* M_PROTO */
   {
     M_TRIE *currentnode ;
 
@@ -141,10 +121,7 @@ void *m_lookfortrie(p, xtrie)
     }
 
 /* Enters a string and associated data value into a trie */
-void *m_ntrtrie(p, xtrie, dataval)
-  M_WCHAR *p ;
-  M_TRIE *xtrie ;
-  void *dataval ;
+void *m_ntrtrie(M_WCHAR *p, M_TRIE *xtrie, void *dataval)
   {
     M_TRIE *currentnode ;
     void *n ;

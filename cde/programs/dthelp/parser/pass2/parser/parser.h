@@ -345,8 +345,6 @@ M_PAREXTERN int m_wsused ;
 /* Temporary pointers to parameter values.  Used while scanning start tag
    before element is placed on parse stack.*/
 M_PAREXTERN
-#if defined M_PROTO
-#endif
 M_WCHAR *m_poccur[
 #if defined(M_PARDEF)
 M_MAXPAR ? M_MAXPAR : 1

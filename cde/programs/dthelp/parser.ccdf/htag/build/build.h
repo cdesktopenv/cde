@@ -421,8 +421,4 @@ BUILDEXTERN LOGICAL entrule BUILDINIT(FALSE) ;
 
 BUILDEXTERN M_WCHAR genname[M_NAMELEN + sizeof(M_PREFIX)] ;
 
-M_WCHAR *MakeWideCharString(
-#if defined(M_PROTO)
-  const char *from
-#endif
-  );
+M_WCHAR *MakeWideCharString(const char *from);

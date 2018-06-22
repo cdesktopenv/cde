@@ -333,21 +333,9 @@ while (TRUE)
 
 
 /* Save a cross-reference ID and associated expansion */
-#if defined(M_PROTO)
 void setid(M_WCHAR *id, LOGICAL where, LOGICAL csensitive, LOGICAL inchapter,
 	   char *chapter, M_WCHAR *xrffile, int xrfline, LOGICAL xrefable)
-#else
-void setid(id, where, csensitive, inchapter, chapter, xrffile, xrfline, xrefable)
-M_WCHAR *id;
-LOGICAL where;
-LOGICAL csensitive;
-LOGICAL inchapter;
-char *chapter;
-M_WCHAR *xrffile;
-int xrfline;
-LOGICAL xrefable;
-#endif
-{
+s{
 struct xref *old;
 struct xref *xref;
 char *buffer;

@@ -29,18 +29,10 @@
 #include "basic.h"
 #include "trie.h"
 
-void countdown(
-#if defined(M_PROTO)
-  M_TRIE *parent, int *count
-#endif
-  ) ;
+void countdown(M_TRIE *parent, int *count);
 
-void m_dumptrie(
-#if defined(M_PROTO)
-  FILE *file, M_TRIE *xtrie, char *extname, int *count,
-  void (*proc)(void *value)
-#endif
-  ) ;
+void m_dumptrie(FILE *file, M_TRIE *xtrie, char *extname, int *count,
+  void (*proc)(void *value));
 
 /* Write the C declaration of a trie */
 void m_dumptrie(file, xtrie, extname, count, proc)
@@ -48,11 +40,7 @@ void m_dumptrie(file, xtrie, extname, count, proc)
   M_TRIE *xtrie ;
   char *extname ;
   int *count ;
-  void (*proc)(
-#if defined(M_PROTO)
-    void *value
-#endif
-    ) ;
+  void (*proc)(void *value) ;
   {
     int firstson ;
     M_TRIE *p ;

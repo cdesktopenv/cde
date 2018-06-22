@@ -29,11 +29,7 @@
 #endif
 #include "basic.h"
 
-void main(
-#if defined(M_PROTO)
-  int argc, char **argv
-#endif
-  ) ;
+void main(int argc, char **argv);
 
 void main(argc, argv)
   int argc ;

@@ -52,15 +52,7 @@ void m_error(text)
   }
 
 /* Issue error message (one argument) */
-#if defined(M_PROTO)
-void m_err1(
-  const char    *text,
-  const M_WCHAR *arg)
-#else
-void m_err1(text, arg)
-  char    *text;
-  M_WCHAR *arg;
-#endif
+void m_err1(const char *text, const M_WCHAR *arg)
 {
 char *buffer, *mb_arg;
 
@@ -77,15 +69,9 @@ m_esuffix();
 }
 
 
-#if defined(M_PROTO)
 void m_mberr1(
   const char *text,
   const char *arg)
-#else
-void m_err1(text, arg)
-  char    *text;
-  char *arg;
-#endif
   {
   M_WCHAR *wc_arg;
 
@@ -95,17 +81,10 @@ void m_err1(text, arg)
   }
 
 /* Issue error message (two arguments) */
-#if defined(M_PROTO)
 void m_err2(
   const char    *text,
   const M_WCHAR *arg1,
   const M_WCHAR *arg2)
-#else
-void m_err2(text, arg1, arg2)
-  char    *text;
-  M_WCHAR *arg1;
-  M_WCHAR *arg2;
-#endif
   {
     char *buffer;
     char *mb_arg1,*mb_arg2;
@@ -126,19 +105,11 @@ void m_err2(text, arg1, arg2)
   }
 
 /* Issue error message (three arguments) */
-#if defined(M_PROTO)
 void m_err3(
   char    *text,
   M_WCHAR *arg1,
   M_WCHAR *arg2,
   M_WCHAR *arg3)
-#else
-void m_err3(text, arg1, arg2, arg3)
-  char    *text;
-  M_WCHAR *arg1;
-  M_WCHAR *arg2;
-  M_WCHAR *arg3;
-#endif
   {
     char *buffer;
     char *mb_arg1, *mb_arg2, *mb_arg3;
@@ -164,21 +135,12 @@ void m_err3(text, arg1, arg2, arg3)
   }
 
 /* Issue error message (four arguments) */
-#if defined(M_PROTO)
 void m_err4(
   char    *text,
   M_WCHAR *arg1,
   M_WCHAR *arg2,
   M_WCHAR *arg3,
   M_WCHAR *arg4)
-#else
-void m_err4(text, arg1, arg2, arg3, arg4)
-  char    *text;
-  M_WCHAR *arg1;
-  M_WCHAR *arg2;
-  M_WCHAR *arg3;
-  M_WCHAR *arg4;
-#endif
   {
     char *buffer;
     char *mb_arg1, *mb_arg2,*mb_arg3,*mb_arg4;
@@ -207,7 +169,6 @@ void m_err4(text, arg1, arg2, arg3, arg4)
   }
 
 /* Issue error message (five arguments) */
-#if defined(M_PROTO)
 void m_err5(
   char    *text,
   M_WCHAR *arg1,
@@ -215,15 +176,6 @@ void m_err5(
   M_WCHAR *arg3,
   M_WCHAR *arg4,
   M_WCHAR *arg5)
-#else
-void m_err5(text, arg1, arg2, arg3, arg4, arg5)
-  char    *text;
-  M_WCHAR *arg1;
-  M_WCHAR *arg2;
-  M_WCHAR *arg3;
-  M_WCHAR *arg4;
-  M_WCHAR *arg5;
-#endif
   {
     char *buffer;
     char *mb_arg1, *mb_arg2, *mb_arg3, *mb_arg4, *mb_arg5;
@@ -261,7 +213,6 @@ void m_err5(text, arg1, arg2, arg3, arg4, arg5)
   }
 
 /* Issue error message (six arguments) */
-#if defined(M_PROTO)
 void m_err6(
   char    *text,
   M_WCHAR *arg1,
@@ -270,16 +221,6 @@ void m_err6(
   M_WCHAR *arg4,
   M_WCHAR *arg5,
   M_WCHAR *arg6)
-#else
-void m_err6(text, arg1, arg2, arg3, arg4, arg5, arg6)
-  char    *text;
-  M_WCHAR *arg1;
-  M_WCHAR *arg2;
-  M_WCHAR *arg3;
-  M_WCHAR *arg4;
-  M_WCHAR *arg5;
-  M_WCHAR *arg6;
-#endif
   {
     char *buffer;
     char *mb_arg1, *mb_arg2, *mb_arg3, *mb_arg4, *mb_arg5, *mb_arg6;
@@ -321,7 +262,6 @@ void m_err6(text, arg1, arg2, arg3, arg4, arg5, arg6)
   }
 
 /* Issue error message (seven arguments) */
-#if defined(M_PROTO)
 void m_err7(
   char    *text,
   M_WCHAR *arg1,
@@ -331,17 +271,6 @@ void m_err7(
   M_WCHAR *arg5,
   M_WCHAR *arg6,
   M_WCHAR *arg7)
-#else
-void m_err7(text, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
-  char    *text;
-  M_WCHAR *arg1;
-  M_WCHAR *arg2;
-  M_WCHAR *arg3;
-  M_WCHAR *arg4;
-  M_WCHAR *arg5;
-  M_WCHAR *arg6;
-  M_WCHAR *arg7;
-#endif
   {
     char *buffer;
     char *mb_arg1, *mb_arg2, *mb_arg3, *mb_arg4, *mb_arg5, *mb_arg6, *mb_arg7;

@@ -30,13 +30,7 @@
 
 
 /* compare two wide character strings */
-#if defined(M_PROTO)
 int w_strcmp(const M_WCHAR *string1, const M_WCHAR *string2)
-#else
-int w_strcmp(string1, string2)
-M_WCHAR *string1;
-M_WCHAR *string2;
-#endif
 {
 M_WCHAR c1, c2, null;
 
@@ -58,13 +52,7 @@ while (1)
 
 
 /* copy a wide character string */
-#if defined(M_PROTO)
 M_WCHAR *w_strcpy(M_WCHAR *string1, const M_WCHAR *string2)
-#else
-M_WCHAR *w_strcpy(string1, string2)
-M_WCHAR *string1;
-M_WCHAR *string2;
-#endif
 {
 M_WCHAR *string1start;
 
@@ -77,14 +65,7 @@ return string1start;
 
 
 /* copy a wide character string, stopping after "max" moves */
-#if defined(M_PROTO)
 M_WCHAR *w_strncpy(M_WCHAR *string1, const M_WCHAR *string2, int max)
-#else
-M_WCHAR *w_strncpy(string1, string2, max)
-M_WCHAR *string1;
-M_WCHAR *string2;
-int      max;
-#endif
 {
 M_WCHAR *string1start;
 
@@ -97,12 +78,7 @@ return string1start;
 
 
 /* get the length of a wide character string */
-#if defined(M_PROTO)
 int w_strlen(const M_WCHAR *string)
-#else
-int w_strlen(string)
-M_WCHAR *string;
-#endif
 {
 int length;
 
@@ -115,12 +91,7 @@ return length;
 
 
 /* find wide character "chr" in wide string "string" */
-#if defined(M_PROTO)
 M_WCHAR *w_strchr(M_WCHAR *string, const M_WCHAR chr)
-#else
-M_WCHAR *w_strchr(string, chr)
-M_WCHAR *string, chr;
-#endif
 {
 M_WCHAR *where;
 
@@ -140,12 +111,7 @@ else
 
 
 /* find wide character "chr" in wide string "string" */
-#if defined(M_PROTO)
 M_WCHAR *w_strstr(M_WCHAR *string1, M_WCHAR *string2)
-#else
-M_WCHAR *w_strstr(string1, string2)
-M_WCHAR *string1, *string2;
-#endif
 {
 M_WCHAR *where1, *where2;
 
@@ -180,12 +146,7 @@ return NULL;
 
 
 /* make a multi-byte string from a wide character string */
-#if defined(M_PROTO)
 char *MakeMByteString(const M_WCHAR *wc_string)
-#else
-char *MakeMByteString(wc_string)
-M_WCHAR *wc_string;
-#endif
 {
 char   *mb_string;
 int     length;
@@ -210,12 +171,7 @@ return mb_string;
 
 
 /* make a wide character string from a multi-byte string */
-#if defined(M_PROTO)
 M_WCHAR *MakeWideCharString(const char *mb_string)
-#else
-M_WCHAR *MakeWideCharString(mb_string)
-char *mb_string;
-#endif
 {
 M_WCHAR *wc_string, *wc_stringStart;
 int      length, incr;

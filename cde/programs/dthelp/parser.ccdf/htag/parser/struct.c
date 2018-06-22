@@ -88,13 +88,7 @@ int m_checkstart(val)
    If VAL is not the element at the top of the parse stack, m_ckend
    checks to see if the end of VAL can validly end nested
    elements as well. */
-#if defined(M_PROTO)
 LOGICAL m_ckend(M_ELEMENT val, LOGICAL neednet)
-#else
-LOGICAL m_ckend(val, neednet)
-  M_ELEMENT val ;
-  LOGICAL neednet ;
-  #endif
 {
     M_PARSE *stackptr ;
     M_OPENFSA *fsastack ;
@@ -423,14 +417,7 @@ void m_pop(M_NOPAR)
 
 /* Pushes a new item onto the parse stack, setting its element, current,
    and neednet fields as indicated by the parameters*/
-#if defined(M_PROTO)
 void m_push(M_ELEMENT elt, M_STATE current, LOGICAL need)
-#else
-void m_push(elt, current, need)
-  M_ELEMENT elt ;
-  M_STATE current ;
-  LOGICAL need ;
-  #endif
 {
     M_PARSE *newstack ;
 
@@ -651,13 +638,7 @@ LOGICAL m_strtproc(scanval)
     }
 
 /* Processes explicit or implied start tag*/
-#if defined(M_PROTO)
 void m_strttag(M_ELEMENT val, LOGICAL net)
-#else
-void m_strttag(val, net)
-  M_ELEMENT val ;
-  LOGICAL net ;
-#endif
 {
     m_transition(val, TRUE) ;
     if (val) {
@@ -723,13 +704,7 @@ LOGICAL m_textpermitted(M_NOPAR)
 /* Returns TRUE iff LABEL allowed in the current state of the current
    element (without expanding any minimization).  May result in changes
    to the stack of FSA's for this element if and-groups open or close. */
-#if defined(M_PROTO)
 LOGICAL m_transition(M_ELEMENT label, LOGICAL recur)
-#else
-LOGICAL m_transition(label, recur)
-  M_ELEMENT label ;
-  LOGICAL recur ;
-#endif
 {
     M_ARC parc ;
     M_OPENFSA *newfsa ;

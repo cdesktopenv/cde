@@ -107,17 +107,7 @@ int m_findact(elt, array)
     }
 
 /* Recursive procedure called by findact() to search m_action */
-#if defined(M_PROTO)
 void m_findchain(M_PARSE *stackptr, int start, int chainin, int *chainout, int *index, LOGICAL wild)
-#else
-void m_findchain(stackptr, start, chainin, chainout, index, wild)
-  M_PARSE *stackptr;
-  int start;
-  int chainin;
-  int *chainout;
-  int *index;
-  LOGICAL wild;
-#endif
 {
     int node;
     M_PARSE *stackp;
@@ -241,14 +231,7 @@ void m_strtaction(m_elt)
     }
 
 /* Output a start-string or end-string */
-#if defined(M_PROTO)
 void m_textout(char *format, LOGICAL start, LOGICAL end)
-#else
-void m_textout(format, start, end)
-  char *format;
-  LOGICAL start;
-  LOGICAL end;
-#endif
 {
 M_WCHAR name[M_NAMELEN + 1];
 int i, par;

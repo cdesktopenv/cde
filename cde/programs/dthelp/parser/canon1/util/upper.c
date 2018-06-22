@@ -29,14 +29,7 @@
 
 #include "basic.h"
 
-int m_upper(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
-
-int m_upper(c)
-  int c ;
+int m_upper(int c)
   {
     if (c >= 'a' && c <= 'z') c += 'A' - 'a' ;
     return(c) ;

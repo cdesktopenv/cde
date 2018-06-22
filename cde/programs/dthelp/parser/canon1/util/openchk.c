@@ -33,17 +33,9 @@
 
 extern FILE *m_errfile ;
 
-void m_exit(
-#if defined(M_PROTO)
-  int status
-#endif
-  ) ;
+void m_exit(int status);
 
-void m_openchk(
-#if defined(M_PROTO)
-  FILE **ptr, char *name, char *mode
-#endif
-  ) ;
+void m_openchk(FILE **ptr, char *name, char *mode);
 
 /* Open a file and check that the open succeeded */
 void m_openchk(ptr, name, mode)

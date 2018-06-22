@@ -37,12 +37,7 @@
 #define TAGDOTOPT "helptag.opt"
 #define DOTOPT ".opt"
 
-#if defined(M_PROTO)
 void options(LOGICAL filelenonly)
-#else
-void options(filelenonly)
-  LOGICAL filelenonly;
-#endif
 {
 int i;
 FILE *optfile;
@@ -149,13 +144,7 @@ optval = M_NULLVAL;
 
 /* Set a single option */
 /* Workonly parameter described with function options()*/
-#if defined(M_PROTO)
 void setopt(char *string, LOGICAL filelenonly)
-#else
-void setopt(string, filelenonly)
-char *string;
-LOGICAL filelenonly;
-#endif
 {
 char *p;
 int thisopt;
@@ -280,14 +269,7 @@ else switch(thisopt + 1)
 }
 
 /* Process a value for a command line option */
-#if defined(M_PROTO)
 LOGICAL setvalopt(int thisopt, char *string, LOGICAL filelenonly)
-#else
-LOGICAL setvalopt(thisopt, string, filelenonly)
-int thisopt;
-char *string;
-LOGICAL filelenonly;
-#endif
 {
 char *p;
 int i;

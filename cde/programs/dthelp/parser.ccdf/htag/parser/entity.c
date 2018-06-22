@@ -43,13 +43,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "entext.h"
 
 /* Process the name in a usemap delaration */
-#if defined(M_PROTO)
 void m_ckmap(M_WCHAR *name, LOGICAL useoradd)
-#else
-void m_ckmap(name, useoradd)
-  M_WCHAR *name ;
-  LOGICAL useoradd ;
-#endif
 {
     int mapid ;
 

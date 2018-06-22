@@ -37,179 +37,63 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #define CONTINIT(a)
 #endif
 
-void countdown(
-#if defined(M_PROTO)
-  M_TRIE *parent, int *count
-#endif
-  ) ;
+void countdown(M_TRIE *parent, int *count);
 
-void dumpdlmptr(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void dumpdlmptr(M_NOPAR);
 
-void dumpnode(
-#if defined(M_PROTO)
-  LOGICAL *first, FILE *file, M_TRIE *trieptr, int *count, void (*proc)
-#endif
-  ) ;
+void dumpnode(LOGICAL *first, FILE *file, M_TRIE *trieptr, int *count, void (*proc));
 
-void dumptree(
-#if defined(M_PROTO)
-  LOGICAL sparse
-#endif
-  ) ;
+void dumptree(LOGICAL sparse);
 
-void enterdelim(
-#if defined(M_PROTO)
-  int n
-#endif
-  ) ;
+void enterdelim(int n);
 
-void m_error(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void m_error(char *text);
 
-void m_err1(
-#if defined(M_PROTO)
-  char *text, char *arg
-#endif
-  ) ;
+void m_err1(char *text, char *arg);
 
-void getcode(
-#if defined(M_PROTO)
-  int n
-#endif
-  ) ;
+void getcode(int n);
 
-void getcolon(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void getcolon(M_NOPAR);
 
-int getcontext(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+int getcontext(M_NOPAR);
 
-LOGICAL getdname(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+LOGICAL getdname(M_NOPAR);
 
-void inccon(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void inccon(M_NOPAR);
 
-void incdelim(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void incdelim(M_NOPAR);
 
-void loaddelim(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void loaddelim(M_NOPAR);
 
-int m_lower(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+int m_lower(int c);
 
-void main(
-#if defined(M_PROTO)
-  int argc, char **argv
-#endif
-  ) ;
+void main(int argc, char **argv);
 
-void *m_malloc(
-#if defined(M_PROTO)
-  int size, char *msg
-#endif
-  ) ;
+void *m_malloc(int size, char *msg);
 
-void nextcon(
-#if defined(M_PROTO)
-  LOGICAL sparse
-#endif
-  ) ;
+void nextcon(LOGICAL sparse);
 
-void m_openchk(
-#if defined(M_PROTO)
-  FILE **ptr, char *name, char *mode
-#endif
-  ) ;
+void m_openchk(FILE **ptr, char *name, char *mode);
 
-void printval(
-#if defined(M_PROTO)
-  FILE *file, M_TRIE *value
-#endif
-  ) ;
+void printval(FILE *file, M_TRIE *value);
 
-void prtctxt(
-#if defined(M_PROTO)
-  int column, int value
-#endif
-  ) ;
+void prtctxt(int column, int value);
 
-int readchar(
-#if defined(M_PROTO)
-  LOGICAL cap
-#endif
-  ) ;
+int readchar(LOGICAL cap);
 
-void skiptoend(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void skiptoend(M_NOPAR);
 
-void unread(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+void unread(int c);
 
-int m_upper(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+int m_upper(int c);
 
-void warning(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void warning(char *text);
 
-void warning1(
-#if defined(M_PROTO)
-  char *text, char *arg
-#endif
-  ) ;
+void warning1(char *text, char *arg);
 
-void warning2(
-#if defined(M_PROTO)
-  char *text, char *arg1, char *arg2
-#endif
-  ) ;
+void warning2(char *text, char *arg1, char *arg2);
 
-LOGICAL m_whitespace(
-#if defined(M_PROTO)
-  M_WCHAR c
-#endif
-  ) ;
+LOGICAL m_whitespace(M_WCHAR c);
 
 
 #define NOMORE -1

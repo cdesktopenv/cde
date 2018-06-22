@@ -30,11 +30,7 @@ Copyright 1988, 1989 Hewlett-Packard Co.
 #endif
 #include "basic.h"
 
-void m_exit(
-#if defined(M_PROTO)
-  int status
-#endif
-  ) ;
+void m_exit(int status);
 
 /* Exit function called by utilities used in PARSER and other programs in
    the MARKUP system */

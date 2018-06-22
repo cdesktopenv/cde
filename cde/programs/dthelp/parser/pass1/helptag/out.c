@@ -121,12 +121,7 @@ if (savesnb)
 
 
 /* Process a character in an environment where spaces must be escaped */
-#if defined(M_PROTO)
 void esoutchar(M_WCHAR textchar)
-#else
-void esoutchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 static M_WCHAR wsp = 0;
 
@@ -147,12 +142,7 @@ outchar(textchar, outfile);
 }
 
 /* Process a character in a verbatim example */
-#if defined(M_PROTO)
 void vexoutchar(M_WCHAR textchar)
-#else
-void vexoutchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 static M_WCHAR  wla = 0;
        char    *holdSaveExSeg;
@@ -177,12 +167,7 @@ else
 }
 
 /* Process a character in an example */
-#if defined(M_PROTO)
 void exoutchar(M_WCHAR textchar)
-#else
-void exoutchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 char          exbuff[32]; /* arbitrarily large */
 int           bufflen;
@@ -212,12 +197,7 @@ savex = holdSavex;
 }
 
 /* Process a character in an image paragraph */
-#if defined(M_PROTO)
 void imoutchar(M_WCHAR textchar)
-#else
-void imoutchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 char           imbuff[32]; /* arbitrarily large */
 int            bufflen;
@@ -240,12 +220,7 @@ else
 }
 
 /* Write a character to be passed to the index file */
-#if defined(M_PROTO)
 void indexchar(M_WCHAR textchar)
-#else
-void indexchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 if (idxsavlen + 4 > (sizeof(idxsav) / sizeof(M_WCHAR)))
     {
@@ -257,13 +232,7 @@ idxsav[idxsavlen++] = textchar;
 
 
 /* Processes a data character */
-#if defined(M_PROTO)
 void outchar(M_WCHAR textchar, FILE *outfile)
-#else
-void outchar(textchar, outfile)
-M_WCHAR textchar;
-FILE *outfile;
-#endif
 {
 M_WCHAR buffer[2];
 static M_WCHAR wnl = 0;
@@ -333,13 +302,7 @@ if (echo)
 
 
 /* Really output a character */
-#if defined(M_PROTO)
 void realoutchar(M_WCHAR textchar, FILE *outfile)
-#else
-void realoutchar(textchar, outfile)
-M_WCHAR textchar;
-FILE *outfile;
-#endif
 {
 char mb_textchar[32]; /* arbitrarily large */
 int length, i;
@@ -379,22 +342,7 @@ if (savtc)
 
 /* Save a character in the array used to store table of contents entries
    when processing a head */
-#if defined(M_PROTO)
 void shchar(M_WCHAR textchar, int *len, int max, M_WCHAR *string, void (*proc)(M_WCHAR *string), char *msg, LOGICAL *errflg)
-#else
-void shchar(textchar, len, max, string, proc, msg, errflg)
-M_WCHAR textchar;
-int *len;
-int max;
-M_WCHAR *string;
-void (*proc)(
-#if defined(M_PROTO)
-             M_WCHAR *string
-#endif
-    );
-char *msg;
-LOGICAL *errflg;
-#endif
 {
 char mb_textchar[32]; /* arbitrarily large */
 unsigned char index;
@@ -427,27 +375,12 @@ else
 }
 
 
-#if defined(M_PROTO)
 void mb_shchar(char textchar,
 	       int *len,
 	       int max,
 	       M_WCHAR *string,
 	       void (*proc)(M_WCHAR *string),
 	       char *msg, LOGICAL *errflg)
-#else
-void mb_shchar(textchar, len, max, string, proc, msg, errflg)
-char textchar;
-int *len;
-int max;
-M_WCHAR *string;
-void (*proc)(
-#if defined(M_PROTO)
-    M_WCHAR *string
-#endif
-    );
-char *msg;
-LOGICAL *errflg;
-#endif
 {
 M_WCHAR wc_textchar;
 
@@ -611,12 +544,7 @@ svtclen += length;
 }
 
 /* Process a character in a term */
-#if defined(M_PROTO)
 void termchar(M_WCHAR textchar)
-#else
-void termchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 int length;
 char mb_textchar[32]; /* arbitrarily large */

@@ -36,12 +36,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "tfile.c"
 
 /* When a text character occurs */
-#if defined(M_PROTO)
 void m_textaction(M_WCHAR m_textchar)
-#else
-void m_textaction(m_textchar)
-  M_WCHAR m_textchar ;
-  #endif
 {
     char buffer[10] ;
     char    mb_re;

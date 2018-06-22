@@ -28,587 +28,203 @@
 /* Proto.h contains function prototypes for program BUILD. */
 
 
-int addarc(
-#if defined(M_PROTO)
-  STATE *from, STATE *to, ELTSTRUCT *label, ANDGROUP *and, LOGICAL optional, 
-  int id, LOGICAL minim, ELTSTRUCT **errelt
-#endif
-  ) ;
+int addarc(STATE *from, STATE *to, ELTSTRUCT *label, ANDGROUP *and, LOGICAL optional, 
+  int id, LOGICAL minim, ELTSTRUCT **errelt);
 
-void adddefent(
-#if defined(M_PROTO)
-  M_WCHAR *mapname
-#endif
-  ) ;
+void adddefent(M_WCHAR *mapname);
 
-LOGICAL addent(
-#if defined(M_PROTO)
-  M_WCHAR *name
-#endif
-  ) ;
+LOGICAL addent(M_WCHAR *name);
 
-void addex(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void addex(M_NOPAR);
 
-void addkeyword(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void addkeyword(M_NOPAR);
 
-LOGICAL addmapname(
-#if defined(M_PROTO)
-  M_WCHAR *p, LOGICAL define
-#endif
-  ) ;
+LOGICAL addmapname(M_WCHAR *p, LOGICAL define);
 
-void addndent(
-#if defined(M_PROTO)
-  M_WCHAR *p
-#endif
-  ) ;
+void addndent(M_WCHAR *p);
 
-void addpar(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void addpar(M_NOPAR);
 
-void addsref(
-#if defined(M_PROTO)
-  M_WCHAR *p
-#endif
-  ) ;
+void addsref(M_WCHAR *p);
 
-LOGICAL m_allwhite(
-#if defined(M_PROTO)
-  const M_WCHAR *string
-#endif
-  ) ;
+LOGICAL m_allwhite(const M_WCHAR *string);
 
-void checkand(
-#if defined(M_PROTO)
-  ANDGROUP *andstart, ANDGROUP *andptr, STATE *start, TREE *root, 
-  ELTSTRUCT **errelt
-#endif
-  ) ;
+void checkand(ANDGROUP *andstart, ANDGROUP *andptr, STATE *start, TREE *root, 
+  ELTSTRUCT **errelt);
 
-LOGICAL checkdefault(
-#if defined(M_PROTO)
-  const M_WCHAR *string
-#endif
-  ) ;
+LOGICAL checkdefault(const M_WCHAR *string);
 
-int checkdfsa(
-#if defined(M_PROTO)
-  STATE *from, ELTSTRUCT *label, ANDGROUP *and, int id, ELTSTRUCT **errelt
-#endif
-  ) ;
+int checkdfsa(STATE *from, ELTSTRUCT *label, ANDGROUP *and, int id, ELTSTRUCT **errelt);
 
-int checkrepeat(
-#if defined(M_PROTO)
-  STATE *from, ANDGROUP *and, ELTSTRUCT **errelt
-#endif
-  ) ;
+int checkrepeat(STATE *from, ANDGROUP *and, ELTSTRUCT **errelt);
 
-void copyintolist(
-#if defined(M_PROTO)
-  STATELIST *from, STATELIST **to
-#endif
-  ) ;
+void copyintolist(STATELIST *from, STATELIST **to);
 
-void countdown(
-#if defined(M_PROTO)
-  M_TRIE *parent, int *count
-#endif
-  ) ;
+void countdown(M_TRIE *parent, int *count);
 
-void defmapname(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void defmapname(M_NOPAR);
 
-char *deftype(
-#if defined(M_PROTO)
-  int n
-#endif
-  ) ;
+char *deftype(int n);
 
-void dellist(
-#if defined(M_PROTO)
-  STATELIST **list
-#endif
-  ) ;
+void dellist(STATELIST **list);
 
-void delstartarcs(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void delstartarcs(M_NOPAR);
 
-void done(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void done(M_NOPAR);
 
-void dumpentnode(
-#if defined(M_PROTO)
-  FILE *file, M_TRIE *value
-#endif
-  ) ;
+void dumpentnode(FILE *file, M_TRIE *value);
 
-void dumpmapnode(
-#if defined(M_PROTO)
-  FILE *file, M_TRIE *value
-#endif
-  ) ;
+void dumpmapnode(FILE *file, M_TRIE *value);
 
-void dumpsrefnode(
-#if defined(M_PROTO)
-  FILE *file,
-  M_TRIE *value
-#endif
-  ) ;
+void dumpsrefnode(FILE *file,
+  M_TRIE *value);
 
-void dumpptrie(
-#if defined(M_PROTO)
-  M_TRIE *intname, char *extname, FILE *file, char *externdef, char *defdef,
-  void (*proc)( FILE *, M_TRIE *)
-#endif
-  ) ;
+void dumpptrie(M_TRIE *intname, char *extname, FILE *file, char *externdef, char *defdef,
+  void (*proc)( FILE *, M_TRIE *));
 
-void m_dumptrie(
-#if defined(M_PROTO)
-  FILE   *file,
+void m_dumptrie(FILE   *file,
   M_TRIE *xtrie,
   char   *extname,
   int    *count,
-  void  (*proc)(M_ENTITY *)
-#endif
-  ) ;
-
-void eltblocks(
-#if defined(M_PROTO)
-  FILE *tempfile
-#endif
-  ) ;
-
-void eltreeout(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void endmodel(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void entout(
-#if defined(M_PROTO)
-  char *fname
-#endif
-  ) ;
-
-char *enttype(
-#if defined(M_PROTO)
-  int n
-#endif
-  ) ;
-
-void m_error(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
-
-void m_err1(
-#if defined(M_PROTO)
-  const char *text, const M_WCHAR *arg
-#endif
-  ) ;
-
-void m_mberr1(
-#if defined(M_PROTO)
-  char *text, const char *arg
-#endif
-  ) ;
-
-void m_err2(
-#if defined(M_PROTO)
-  const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2
-#endif
-  ) ;
-
-void exout(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_free(
-#if defined(M_PROTO)
-  void *block, char *msg
-#endif
-  ) ;
-
-void freetree(
-#if defined(M_PROTO)
-  TREE *ruletree
-#endif
-  ) ;
-
-void found(
-#if defined(M_PROTO)
-  LOGICAL *flag, char *delim
-#endif
-  ) ;
-
-void fsa(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-int getachar(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-ANDGROUP *getand(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-LOGICAL getname(
-#if defined(M_PROTO)
-  int first
-#endif
-  ) ;
-
-STATE *getstate(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-int gettoken(
-#if defined(M_PROTO)
-  int *c, int context
-#endif
-  ) ;
-
-TREE *gettreenode(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_initctype(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void initialize(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-LOGICAL litproc(
-#if defined(M_PROTO)
-  int delim
-#endif
-  ) ;
-
-int main(
-#if defined(M_PROTO)
-  int argc, char **argv
-#endif
-  ) ;
-
-void makeand(
-#if defined(M_PROTO)
-  LOGICAL *canbenull, TREE *root, int optional
-#endif
-  ) ;
-
-LOGICAL makefsa(
-#if defined(M_PROTO)
-  TREE *root, int optional
-#endif
-  ) ;
-
-void makeor(
-#if defined(M_PROTO)
-  LOGICAL *canbenull, TREE *root
-#endif
-  ) ;
-
-void makeseq(
-#if defined(M_PROTO)
-  LOGICAL *canbenull, TREE *root, int optional
-#endif
-  ) ;
-
-void *m_malloc(
-#if defined(M_PROTO)
-  int size, char *msg
-#endif
-  ) ;
-
-void msgline(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
-
-void msg1line(
-#if defined(M_PROTO)
-  char *text, char *arg1
-#endif
-  ) ;
-
-void nondeterm(
-#if defined(M_PROTO)
-  TREE *root, int c, ELTSTRUCT *eltp
-#endif
-  ) ;
-
-void normdefault(
-#if defined(M_PROTO)
-  M_WCHAR *string
-#endif
-  ) ;
-
-LOGICAL notinlist(
-#if defined(M_PROTO)
-  STATELIST *item, STATELIST *list
-#endif
-  ) ;
-
-ELTSTRUCT *ntrelt(
-#if defined(M_PROTO)
-  M_WCHAR *p
-#endif
-  ) ;
-
-void m_openchk(
-#if defined(M_PROTO)
-  FILE **ptr, char *name, char *mode
-#endif
-  ) ;
-
-void parout(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-char *partype(
-#if defined(M_PROTO)
-  int n
-#endif
-  ) ;
-
-LOGICAL permitspcd(
-#if defined(M_PROTO)
-  ARC *a
-#endif
-  ) ;
-
-void pop(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void prulend(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void push(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-LOGICAL regenerate(
-#if defined(M_PROTO)
-  TREE *start, TREE *stop
-#endif
-  ) ;
-
-void repeat(
-#if defined(M_PROTO)
-  TREE *root
-#endif
-  ) ;
-
-void ruleinit(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void rulend(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-LOGICAL samelabelarc(
-#if defined(M_PROTO)
-  ARC *a, STATE *s
-#endif
-  ) ;
-
-void savelhs(
-#if defined(M_PROTO)
-  LOGICAL param
-#endif
-  ) ;
-
-void savestartarcs(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-int scan(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void setdefault(
-#if defined(M_PROTO)
-  const M_WCHAR *string
-#endif
-  ) ;
-
-void simplebranch(
-#if defined(M_PROTO)
-  TREE *root, ELTSTRUCT *value, ANDGROUP *group, int optional
-#endif
-  ) ;
-
-void skiptoend(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-int m_sprscon(
-#if defined(M_PROTO)
-  int i, int j
-#endif
-  ) ;
-
-void srefout(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-STATE *startfsa(
-#if defined(M_PROTO)
-  TREE *root, LOGICAL *canbenull
-#endif
-  ) ;
-
-void tempelt(
-#if defined(M_PROTO)
-  ELTSTRUCT *eltp, FILE *tempfile
-#endif
-  ) ;
-
-void template(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-char *typecon(
-#if defined(M_PROTO)
-  int n
-#endif
-  ) ;
-
-void undodelim(
-#if defined(M_PROTO)
-  M_WCHAR *delim
-#endif
-  ) ;
-
-void ungetachar(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
-
-int m_wcupstrcmp(
-#if defined(M_PROTO)
-  const M_WCHAR *p, const M_WCHAR *q
-#endif
-  ) ;
-
-int m_wcmbupstrcmp(
-#if defined(M_PROTO)
-  const M_WCHAR *p, const char *q
-#endif
-  ) ;
-
-int m_mbmbupstrcmp(
-#if defined(M_PROTO)
-  const char *p, const char *q
-#endif
-  ) ;
-
-void warning(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
-
-void warning1(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg
-#endif
-  ) ;
-
-void warning2(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2
-#endif
-  ) ;
-
-void warning3(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3
-#endif
-  ) ;
-
-void warning4(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4
-#endif
-  ) ;
-
-LOGICAL m_whitespace(
-#if defined(M_PROTO)
-  M_WCHAR c
-#endif
-  ) ;
+  void  (*proc)(M_ENTITY *));
+
+void eltblocks(FILE *tempfile);
+
+void eltreeout(M_NOPAR);
+
+void endmodel(M_NOPAR);
+
+void entout(char *fname);
+
+char *enttype(int n);
+
+void m_error(char *text);
+
+void m_err1(const char *text, const M_WCHAR *arg);
+
+void m_mberr1(char *text, const char *arg);
+
+void m_err2(const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2);
+
+void exout(M_NOPAR);
+
+void m_free(void *block, char *msg);
+
+void freetree(TREE *ruletree);
+
+void found(LOGICAL *flag, char *delim);
+
+void fsa(M_NOPAR);
+
+int getachar(M_NOPAR);
+
+ANDGROUP *getand(M_NOPAR);
+
+LOGICAL getname(int first);
+
+STATE *getstate(M_NOPAR);
+
+int gettoken(int *c, int context);
+
+TREE *gettreenode(M_NOPAR);
+
+void m_initctype(M_NOPAR);
+
+void initialize(M_NOPAR);
+
+LOGICAL litproc(int delim);
+
+int main(int argc, char **argv);
+
+void makeand(LOGICAL *canbenull, TREE *root, int optional);
+
+LOGICAL makefsa(TREE *root, int optional);
+
+void makeor(LOGICAL *canbenull, TREE *root);
+
+void makeseq(LOGICAL *canbenull, TREE *root, int optional);
+
+void *m_malloc(int size, char *msg);
+
+void msgline(char *text);
+
+void msg1line(char *text, char *arg1);
+
+void nondeterm(TREE *root, int c, ELTSTRUCT *eltp);
+
+void normdefault(M_WCHAR *string);
+
+LOGICAL notinlist(STATELIST *item, STATELIST *list);
+
+ELTSTRUCT *ntrelt(M_WCHAR *p);
+
+void m_openchk(FILE **ptr, char *name, char *mode);
+
+void parout(M_NOPAR);
+
+char *partype(int n);
+
+LOGICAL permitspcd(ARC *a);
+
+void pop(M_NOPAR);
+
+void prulend(M_NOPAR);
+
+void push(M_NOPAR);
+
+LOGICAL regenerate(TREE *start, TREE *stop);
+
+void repeat(TREE *root);
+
+void ruleinit(M_NOPAR);
+
+void rulend(M_NOPAR);
+
+LOGICAL samelabelarc(ARC *a, STATE *s);
+
+void savelhs(LOGICAL param);
+
+void savestartarcs(M_NOPAR);
+
+int scan(M_NOPAR);
+
+void setdefault(const M_WCHAR *string);
+
+void simplebranch(TREE *root, ELTSTRUCT *value, ANDGROUP *group, int optional);
+
+void skiptoend(M_NOPAR);
+
+int m_sprscon(int i, int j);
+
+void srefout(M_NOPAR);
+
+STATE *startfsa(TREE *root, LOGICAL *canbenull);
+
+void tempelt(ELTSTRUCT *eltp, FILE *tempfile);
+
+void template(M_NOPAR);
+
+char *typecon(int n);
+
+void undodelim(M_WCHAR *delim);
+
+void ungetachar(int c);
+
+int m_wcupstrcmp(const M_WCHAR *p, const M_WCHAR *q);
+
+int m_wcmbupstrcmp(const M_WCHAR *p, const char *q);
+
+int m_mbmbupstrcmp(const char *p, const char *q);
+
+void warning(char *text);
+
+void warning1(char *text, M_WCHAR *arg);
+
+void warning2(char *text, M_WCHAR *arg1, M_WCHAR *arg2);
+
+void warning3(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3);
+
+void warning4(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4);
+
+LOGICAL m_whitespace(M_WCHAR c);
 

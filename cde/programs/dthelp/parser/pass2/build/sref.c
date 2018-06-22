@@ -101,13 +101,7 @@ return(TRUE);
 }
 
 /* Add a short reference map name */
-#if defined(M_PROTO)
 LOGICAL addmapname(M_WCHAR* p, LOGICAL define)
-#else
-LOGICAL addmapname(p, define)
-M_WCHAR *p;
-LOGICAL define;
-#endif
 {
 MAP *old;
 MAP *new;

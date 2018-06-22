@@ -27,17 +27,9 @@
 #include <string.h>
 #include "basic.h"
 
-char *m_itoa(
-#if defined(M_PROTO)
-  int n, char *s
-#endif
-  ) ;
+char *m_itoa(int n, char *s);
 
-void reverse(
-#if defined(M_PROTO)
-  char *s
-#endif
-  ) ;
+void reverse(char *s);
 
 char *m_itoa(n, s)  /* convert n to characters in s */
 char s[]; 

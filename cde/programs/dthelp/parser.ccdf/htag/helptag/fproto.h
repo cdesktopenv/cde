@@ -24,1031 +24,393 @@
 /* Copyright (c) 1988, 1989, 1990 Hewlett-Packard Co. */
 /* Function prototypes for HP Tag/TeX translator */
 
-void appstart(
-#if defined(M_PROTO)
-  M_WCHAR *id, M_WCHAR *letter 
-#endif
-  ) ;
+void appstart(M_WCHAR *id, M_WCHAR *letter);
 
-void assert_hometopic_exists(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void assert_hometopic_exists(M_NOPAR);
 
-void badgraphic(
-#if defined(M_PROTO)
-  int filestat
-#endif
-  ) ;
+void badgraphic(int filestat);
 
-void basename(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void basename(M_NOPAR);
 
-void calcdisp (
-#if defined(M_PROTO)
-  M_WCHAR *file, M_WCHAR *startrow, M_WCHAR *endrow,
-  M_WCHAR *clip, M_WCHAR *margin
-#endif
-  ) ;
+void calcdisp (M_WCHAR *file, M_WCHAR *startrow, M_WCHAR *endrow,
+  M_WCHAR *clip, M_WCHAR *margin);
 
-void callndbeg (
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void callndbeg (M_NOPAR);
 
-void callndend (
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void callndend (M_NOPAR);
 
 /* used by ccompspec(), cmenlspec(), and cwmenlspec() */
-char *ccharspec(
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+char *ccharspec(M_WCHAR textchar);
 
-void ccmpiooutchar (
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+void ccmpiooutchar (M_WCHAR textchar);
 
-void ccompesoutchar (
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile
-#endif
-  ) ;
+void ccompesoutchar (M_WCHAR textchar, FILE *outfile);
 
-void ccompexoutchar (
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile
-#endif
-  ) ;
+void ccompexoutchar (M_WCHAR textchar, FILE *outfile);
 
-void ccompoutchar (
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile
-#endif
-  ) ;
+void ccompoutchar (M_WCHAR textchar, FILE *outfile);
 
 /* special computer expansions for dot matrix(computer) in calculator style */
-char *ccompspec(
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+char *ccompspec(M_WCHAR textchar);
 
-void chapstart(
-#if defined(M_PROTO)
-  M_WCHAR *id, M_WCHAR *number, char type[] 
-#endif
-  ) ;
+void chapstart(M_WCHAR *id, M_WCHAR *number, char type[]);
 
-M_WCHAR *checkdimen(
-#if defined(M_PROTO)
-  M_WCHAR *val, M_WCHAR *paramname, M_WCHAR *elt
-#endif
-  ) ;
+M_WCHAR *checkdimen(M_WCHAR *val, M_WCHAR *paramname, M_WCHAR *elt);
 
-M_WCHAR *mb_checkdimen(
-#if defined(M_PROTO)
-  M_WCHAR *val, char *paramname, char *elt
-#endif
-  ) ;
+M_WCHAR *mb_checkdimen(M_WCHAR *val, char *paramname, char *elt);
 
-M_WCHAR *checkent(
-#if defined(M_PROTO)
-  M_WCHAR *entcontent
-#endif
-  ) ;
+M_WCHAR *checkent(M_WCHAR *entcontent);
 
-void checkgloss(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void checkgloss(M_NOPAR);
 
-M_WCHAR *checkid(
-#if defined(M_PROTO)
-  M_WCHAR *id
-#endif
-  ) ;
+M_WCHAR *checkid(M_WCHAR *id);
 
-void checkmsghead (
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void checkmsghead (M_NOPAR);
 
-M_WCHAR *checkreal (
-#if defined(M_PROTO)
-  M_WCHAR *val, M_WCHAR *paramname, LOGICAL msgout, M_WCHAR *elt
-#endif
-  ) ;
+M_WCHAR *checkreal (M_WCHAR *val, M_WCHAR *paramname, LOGICAL msgout, M_WCHAR *elt);
 
-LOGICAL chkplottype(
-#if defined(M_PROTO)
-  M_WCHAR *val, int *p1x, int *p1y, int *p2x, int *p2y, LOGICAL prnt 
-#endif
-  ) ;
+LOGICAL chkplottype(M_WCHAR *val, int *p1x, int *p1y, int *p2x, int *p2y, LOGICAL prnt );
 
-void cmloutchar (
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile
-#endif
-  ) ;
+void cmloutchar (M_WCHAR textchar, FILE *outfile);
 
 /* special menu lable character expansions */
-char *cmenlspec(
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+char *cmenlspec(M_WCHAR textchar);
 
-void cspotend(
-#if defined(M_PROTO)
-  M_WCHAR *file, int graphics, M_WCHAR *xwidth, M_WCHAR *xheight
-#endif
-  ) ;
+void cspotend(M_WCHAR *file, int graphics, M_WCHAR *xwidth, M_WCHAR *xheight);
 
-void cspotstart(
-#if defined(M_PROTO)
-  M_WCHAR *file, int graphics, M_WCHAR *xwidth, M_WCHAR *xheight
-#endif
-  ) ;
+void cspotstart(M_WCHAR *file, int graphics, M_WCHAR *xwidth, M_WCHAR *xheight);
 
-void csubtc (
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile, M_WCHAR *parent
-#endif
-  ) ;
+void csubtc (M_WCHAR textchar, FILE *outfile, M_WCHAR *parent);
 
-void csuptc (
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile, M_WCHAR *parent
-#endif
-  ) ;
+void csuptc (M_WCHAR textchar, FILE *outfile, M_WCHAR *parent);
 
 /* special white menu label character expansions */
-char *cwmenlspec(
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+char *cwmenlspec(M_WCHAR textchar);
 
-void cwmloutchar(
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile
-#endif
-  ) ;
+void cwmloutchar(M_WCHAR textchar, FILE *outfile);
 
-void defxref(
-#if defined(M_PROTO)
-  FILE *xfile, M_WCHAR *id, struct xref *xref
-#endif
-  ) ;
+void defxref(FILE *xfile, M_WCHAR *id, struct xref *xref);
 
-int do_esc_seq(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+int do_esc_seq(M_NOPAR);
 
-void dumpxref(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void dumpxref(M_NOPAR);
 
-void echohead(
-#if defined(M_PROTO)
-  M_WCHAR *p
-#endif
-  ) ;
+void echohead(M_WCHAR *p);
 
-void mb_echohead(
-#if defined(M_PROTO)
-  char *p
-#endif
-  ) ;
+void mb_echohead(char *p);
 
-void endhead(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void endhead(M_NOPAR);
 
-void endhelpnode(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void endhelpnode(M_NOPAR);
 
-void esoutchar(
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+void esoutchar(M_WCHAR textchar);
 
-void exoutchar(
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+void exoutchar(M_WCHAR textchar);
 
-void exvexend(
-#if defined(M_PROTO)
-  M_WCHAR *textsize
-#endif
-  ) ;
+void exvexend(M_WCHAR *textsize);
 
-void exvexstart(
-#if defined(M_PROTO)
-  M_WCHAR *type, M_WCHAR *textsize, char *listinfo
-#endif
-  ) ;
+void exvexstart(M_WCHAR *type, M_WCHAR *textsize, char *listinfo);
 
-void figend (
-#if defined(M_PROTO)
-  M_WCHAR *id
-#endif
-  ) ;
+void figend (M_WCHAR *id);
 
-int figext (
-#if defined(M_PROTO)
-  M_WCHAR *fname
-#endif
-  ) ;
+int figext (M_WCHAR *fname);
 
-int figlist (
-#if defined(M_PROTO)
-  char *fnin
-#endif
-  ) ;
+int figlist (char *fnin);
 
-void figraster(
-#if defined(M_PROTO)
-M_WCHAR *file,    M_WCHAR *magnify,
+void figraster(M_WCHAR *file,    M_WCHAR *magnify,
 M_WCHAR *width,   M_WCHAR *depth,        M_WCHAR *hadjust,  M_WCHAR *vadjust,
 M_WCHAR *mirror,  M_WCHAR *margin,       M_WCHAR *clip,
-M_WCHAR *penwidth,M_WCHAR *plottype,     M_WCHAR *callout,  M_WCHAR *textsize
-#endif
-  ) ;
+M_WCHAR *penwidth,M_WCHAR *plottype,     M_WCHAR *callout,  M_WCHAR *textsize);
 
-void figstart(
-#if defined(M_PROTO)
-M_WCHAR *number,  M_WCHAR *tonumber,  M_WCHAR *id,          M_WCHAR *file,
+void figstart(M_WCHAR *number,  M_WCHAR *tonumber,  M_WCHAR *id,          M_WCHAR *file,
 M_WCHAR *type,    M_WCHAR *oldtype,
 M_WCHAR *xmagnify,M_WCHAR *xwidth,    M_WCHAR *xdepth,      M_WCHAR *xhadjust,
 M_WCHAR *xvadjust,M_WCHAR *border,    M_WCHAR *video,       M_WCHAR *strip,
 M_WCHAR *mirror,  M_WCHAR *margin,      M_WCHAR *clip,
 M_WCHAR *penwidth,M_WCHAR *snap,      M_WCHAR *autoscale,   M_WCHAR *plottype,
-M_WCHAR *callout, M_WCHAR *textsize
-#endif
-  ) ;
+M_WCHAR *callout, M_WCHAR *textsize);
 
-void figvector(
-#if defined(M_PROTO)
-M_WCHAR *file,     M_WCHAR *magnify,
+void figvector(M_WCHAR *file,     M_WCHAR *magnify,
 M_WCHAR *width,    M_WCHAR *depth,        M_WCHAR *hadjust,  M_WCHAR *vadjust,
 M_WCHAR *mirror,   M_WCHAR *margin,       M_WCHAR *clip,
 M_WCHAR *penwidth, M_WCHAR *autoscale,    M_WCHAR *plottype, M_WCHAR *callout,
-M_WCHAR *textsize
-#endif
-  ) ;
+M_WCHAR *textsize);
 
-unsigned get2b(
-#if defined(M_PROTO)
-  FILE *fh
-#endif
-  ) ;
+unsigned get2b(FILE *fh);
 
-unsigned long get4b(
-#if defined(M_PROTO)
-  FILE *fh
-#endif
-  ) ;
+unsigned long get4b(FILE *fh);
 
-unsigned long getPCLdims (
-#if defined(M_PROTO)
-  char *fn
-#endif
-  ) ;
+unsigned long getPCLdims (char *fn);
 
-int getqualified (
-#if defined(M_PROTO)
-  M_WCHAR *qualname, M_WCHAR *unqualname
-#endif
-  ) ;
+int getqualified (M_WCHAR *qualname, M_WCHAR *unqualname);
 
-int mb_getqualified (
-#if defined(M_PROTO)
-  char *qualname, char *unqualname
-#endif
-  ) ;
+int mb_getqualified (char *qualname, char *unqualname);
 
-void handle_link_and_graphic(
-#if defined(M_PROTO)
-  M_WCHAR *parent, M_WCHAR *gentity, M_WCHAR *gposition, M_WCHAR *ghyperlink,
-  M_WCHAR *glinktype, M_WCHAR *gdescription
-#endif
-  );			     
+void handle_link_and_graphic(M_WCHAR *parent, M_WCHAR *gentity, M_WCHAR *gposition, M_WCHAR *ghyperlink,
+  M_WCHAR *glinktype, M_WCHAR *gdescription);     
 
-void keyesoutchar (
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+void keyesoutchar (M_WCHAR textchar);
 
-void idstring(
-#if defined(M_PROTO)
-  M_WCHAR *string
-#endif
-  ) ;
+void idstring(M_WCHAR *string);
 
-void indexchar(
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+void indexchar(M_WCHAR textchar);
 
-void item(
-#if defined(M_PROTO)
-  M_WCHAR *id
-#endif
-  ) ;
+void item(M_WCHAR *id);
 
-char *m_itoa(
-#if defined(M_PROTO)
-  int n, char *s
-#endif
-  ) ;
+char *m_itoa(int n, char *s);
 
-void itoletter(
-#if defined(M_PROTO)
-  int n, char start, char *dest, int length
-#endif
-  ) ;
+void itoletter(int n, char start, char *dest, int length);
 
-LOGICAL m_letter(
-#if defined(M_PROTO)
-  M_WCHAR c
-#endif
-  ) ;
+LOGICAL m_letter(M_WCHAR c);
 
-void loadxref(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void loadxref(M_NOPAR);
 
-int m_lower(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+int m_lower(int c);
 
-char *makecsname(
-#if defined(M_PROTO)
-  M_WCHAR *id
-#endif
-  ) ;
+char *makecsname(M_WCHAR *id);
 
-void manustart(
-#if defined(M_PROTO)
-  M_WCHAR *language, M_WCHAR *idxvol, M_WCHAR *status
-#endif
-  ) ;
+void manustart(M_WCHAR *language, M_WCHAR *idxvol, M_WCHAR *status);
 
-void notimp(
-#if defined(M_PROTO)
-  char *eltname, char *option
-#endif
-  ) ;
+void notimp(char *eltname, char *option);
 
-M_WCHAR *okdimen (
-#if defined(M_PROTO)
-  M_WCHAR *val
-#endif
-  ) ;
+M_WCHAR *okdimen (M_WCHAR *val);
 
-void onlygraphic(
-#if defined(M_PROTO)
-  char    *param,    M_WCHAR *magnify, M_WCHAR *video,     M_WCHAR *mirror,
+void onlygraphic(char    *param,    M_WCHAR *magnify, M_WCHAR *video,     M_WCHAR *mirror,
   M_WCHAR *margin,   M_WCHAR *clip,    M_WCHAR *penwidth,  M_WCHAR *autoscale,
-  M_WCHAR *plottype, M_WCHAR *hadjust, M_WCHAR *vadjust
-#endif
-  ) ;
+  M_WCHAR *plottype, M_WCHAR *hadjust, M_WCHAR *vadjust);
 
-void open_new_helpfile(
-#if defined(M_PROTO)   
-   M_NOPAR
-#endif
-);
+void open_new_helpfile(M_NOPAR);
 		       
-void notallow(
-#if defined(M_PROTO)
-  char *param1, char *param2
-#endif
-  ) ;
+void notallow(char *param1, char *param2);
 
-void options(
-#if defined(M_PROTO)
-  LOGICAL filelenonly
-#endif
-  ) ;
+void options(LOGICAL filelenonly);
 
-void outcall(
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile
-#endif
-  ) ;
+void outcall(M_WCHAR textchar, FILE *outfile);
 
-void outchar(
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile 
-#endif
-  ) ;
+void outchar(M_WCHAR textchar, FILE *outfile);
 
-void outpi(
-#if defined(M_PROTO)
-  int enttype, M_WCHAR *pi, M_WCHAR *entname
-#endif
-  ) ;
+void outpi(int enttype, M_WCHAR *pi, M_WCHAR *entname);
 
-void parspace(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void parspace(M_NOPAR);
 
-LOGICAL pushndok(
-#if defined(M_PROTO)
-  LOGICAL val
-#endif
-  ) ;
+LOGICAL pushndok(LOGICAL val);
 
-LOGICAL popndok(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+LOGICAL popndok(M_NOPAR);
 
-void prfigborder(
-#if defined(M_PROTO)
-  int val
-#endif
-  ) ;
+void prfigborder(int val);
 
-void prfigclip(
-#if defined(M_PROTO)
-  M_WCHAR figmargin [NFIGSIDES] [M_NAMELEN+1]
-#endif
-  ) ;
+void prfigclip(M_WCHAR figmargin [NFIGSIDES] [M_NAMELEN+1]);
 
-void prfigheight(
-#if defined(M_PROTO)
-  char *val
-#endif
-  ) ;
+void prfigheight(char *val);
 
-void prfigmagnify(
-#if defined(M_PROTO)
-  char *val
-#endif
-  ) ;
+void prfigmagnify(char *val);
 
-void prfigmargin(
-#if defined(M_PROTO)
-  M_WCHAR figmargin [NFIGSIDES] [M_NAMELEN+1]
-#endif
-  ) ;
+void prfigmargin(M_WCHAR figmargin [NFIGSIDES] [M_NAMELEN+1]);
 
-void prfigpenwds(
-#if defined(M_PROTO)
-  long penwdarray[MAXPENS]
-#endif
-  ) ;
+void prfigpenwds(long penwdarray[MAXPENS]);
 
-void prfigwidth(
-#if defined(M_PROTO)
-  char *val
-#endif
-  ) ;
+void prfigwidth(char *val);
 
-LOGICAL print_vectors(
-#if defined(M_PROTO)
-  FILE * hOutFile, PTWTXT **Points, int *maxcalltxt, FILE *hCalFile, int CalNo
-#endif
-  ) ;
+LOGICAL print_vectors(FILE * hOutFile, PTWTXT **Points, int *maxcalltxt, FILE *hCalFile, int CalNo);
 
-void prplottype(
-#if defined(M_PROTO)
-  int p1x, int p1y, int p2x, int p2y
-#endif
-  ) ;
+void prplottype(int p1x, int p1y, int p2x, int p2y);
 
-float readcoord(
-#if defined(M_PROTO)
-  FILE *fh
-#endif
-  ) ;
+float readcoord(FILE *fh);
 
-float readinches(
-#if defined(M_PROTO)
-  FILE *fh
-#endif
-  ) ;
+float readinches(FILE *fh);
 
-void realoutchar(
-#if defined(M_PROTO)
-  M_WCHAR textchar, FILE *outfile
-#endif
-  ) ;
+void realoutchar(M_WCHAR textchar, FILE *outfile);
 
-void rsectstart(
-#if defined(M_PROTO)
-  M_WCHAR *id, M_WCHAR *pagebreak
-#endif
-  ) ;
+void rsectstart(M_WCHAR *id, M_WCHAR *pagebreak);
 
-void rseqend(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void rseqend(M_NOPAR);
 
-void rshnewclear(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void rshnewclear(M_NOPAR);
 
-M_WCHAR *searchforfile(
-#if defined(M_PROTO)
-  M_WCHAR *file
-#endif
-  ) ;
+M_WCHAR *searchforfile(M_WCHAR *file);
 
-void setid(
-#if defined(M_PROTO)
-  M_WCHAR *id,
+void setid(M_WCHAR *id,
   LOGICAL where,
   LOGICAL csensitive,
   LOGICAL inchapter,
   char *chapter,
   M_WCHAR *xrffile,
   int xrfline,
-  LOGICAL xrefable	   
-#endif
-  ) ;
+  LOGICAL xrefable);
 
-void setopt(
-#if defined(M_PROTO)
-  char *string, LOGICAL filelenonly
-#endif
-  ) ;
+void setopt(char *string, LOGICAL filelenonly);
 
-LOGICAL setvalopt(
-#if defined(M_PROTO)
-  int thisopt, char *string, LOGICAL filelenonly
-#endif
-  ) ;
+LOGICAL setvalopt(int thisopt, char *string, LOGICAL filelenonly);
 
-void shchar(
-#if defined(M_PROTO)
-  M_WCHAR textchar,
+void shchar(M_WCHAR textchar,
   int *len,
   int max,
   M_WCHAR *string,
   void (*proc)(M_WCHAR *string),
   char *msg,
-  LOGICAL *errflg
-#endif
-  ) ;
+  LOGICAL *errflg);
 
-void mb_shchar(
-#if defined(M_PROTO)
-  char textchar,
+void mb_shchar(char textchar,
   int *len,
   int max,
   M_WCHAR *string,
   void (*proc)(M_WCHAR *string),
   char *msg,
-  LOGICAL *errflg
-#endif
-  ) ;
+  LOGICAL *errflg);
 
-void shstring(
-#if defined(M_PROTO)
-  M_WCHAR *addstring,
+void shstring(M_WCHAR *addstring,
   int *len,
   int max,
   M_WCHAR *storestring,
   char *msg,
-  LOGICAL *errflg
-#endif
-  ) ;
+  LOGICAL *errflg);
 
-void mb_shstring(
-#if defined(M_PROTO)
-  char *addstring,
+void mb_shstring(char *addstring,
   int *len,
   int max,
   M_WCHAR *storestring,
   char *msg,
-  LOGICAL *errflg
-#endif
-  ) ;
+  LOGICAL *errflg);
 
-void starthelpnode(
-#if defined(M_PROTO)
-  M_WCHAR *id,
-  LOGICAL suppress_topic_map
-#endif
-  ) ;
+void starthelpnode(M_WCHAR *id,
+  LOGICAL suppress_topic_map);
 
-void mb_starthelpnode(
-#if defined(M_PROTO)
-  char *id,
-  LOGICAL suppress_topic_map
-#endif
-  ) ;
+void mb_starthelpnode(char *id,
+  LOGICAL suppress_topic_map);
 
-void startlablist(
-#if defined(M_PROTO)
-  M_WCHAR *longlabel, M_WCHAR *width, M_WCHAR *spacing
-#endif
-  ) ;
+void startlablist(M_WCHAR *longlabel, M_WCHAR *width, M_WCHAR *spacing);
 
-void startlist(
-#if defined(M_PROTO)
-  M_WCHAR *type, M_WCHAR *order, M_WCHAR *spacing, M_WCHAR *cont
-#endif
-  ) ;
+void startlist(M_WCHAR *type, M_WCHAR *order, M_WCHAR *spacing, M_WCHAR *cont);
 
-void strcode(
-#if defined(M_PROTO)
-  M_WCHAR *string, FILE *outfile
-#endif
-  ) ;
+void strcode(M_WCHAR *string, FILE *outfile);
 
-void mb_strcode(
-#if defined(M_PROTO)
-  char *string, FILE *outfile
-#endif
-  ) ;
+void mb_strcode(char *string, FILE *outfile);
 
 #if defined(hpux) || defined(__aix) || defined(sun)
-char *strstr(
-#if defined(M_PROTO)
-  const char *s1, const char *s2
-#endif
-  ) ;
+char *strstr(const char *s1, const char *s2);
 #endif
 
-void svhdstring(
-#if defined(M_PROTO)
-  M_WCHAR *string
-#endif
-  ) ;
+void svhdstring(M_WCHAR *string);
 
-void svtcstring(
-#if defined(M_PROTO)
-  M_WCHAR *string
-#endif
-  ) ;
+void svtcstring(M_WCHAR *string);
 
-void taboutre(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void taboutre(M_NOPAR);
 
-void termchar(
-#if defined(M_PROTO)
-  M_WCHAR textchar
-#endif
-  ) ;
+void termchar(M_WCHAR textchar);
 
-void termpi(
-#if defined(M_PROTO)
-  int m_enttype, M_WCHAR *m_pi, M_WCHAR *m_entname
-#endif
-  ) ;
+void termpi(int m_enttype, M_WCHAR *m_pi, M_WCHAR *m_entname);
 
-void testindexfile(
-#if defined(M_PROTO)
-  FILE *first
-#endif
-  ) ;
+void testindexfile(FILE *first);
 
-void texinit(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void texinit(M_NOPAR);
 
-void unimp(
-#if defined(M_PROTO)
-  M_WCHAR *eltname
-#endif
-  ) ;
+void unimp(M_WCHAR *eltname);
 
-void mb_unimp(
-#if defined(M_PROTO)
-  char *eltname
-#endif
-  ) ;
+void mb_unimp(char *eltname);
 
-int m_upstrcmp(
-#if defined(M_PROTO)
-  char *p, char *q
-#endif
-  ) ;
+int m_upstrcmp(char *p, char *q);
 
-int vextextsize(
-#if defined(M_PROTO)
-  const M_WCHAR *keyword
-#endif
-  ) ;
+int vextextsize(const M_WCHAR *keyword);
 
-int vgloss(
-#if defined(M_PROTO)
-  const M_WCHAR *keyword
-#endif
-  ) ;
+int vgloss(const M_WCHAR *keyword);
 
-int vcenter(
-#if defined(M_PROTO)
-  const M_WCHAR *keyword
-#endif
-  ) ;
+int vcenter(const M_WCHAR *keyword);
 
-int vnumber(
-#if defined(M_PROTO)
-  const M_WCHAR *keyword
-#endif
-  ) ;
+int vnumber(const M_WCHAR *keyword);
 
-int vordertype(
-#if defined(M_PROTO)
-  const M_WCHAR *keyword
-#endif
-  ) ;
+int vordertype(const M_WCHAR *keyword);
 
-int vrsectpage(
-#if defined(M_PROTO)
-  const M_WCHAR *keyword
-#endif
-  ) ;
+int vrsectpage(const M_WCHAR *keyword);
 
-int vspacing(
-#if defined(M_PROTO)
-  const M_WCHAR *keyword
-#endif
-  ) ;
+int vspacing(const M_WCHAR *keyword);
 
-int vtype(
-#if defined(M_PROTO)
-  const M_WCHAR *keyword
-#endif
-  ) ;
+int vtype(const M_WCHAR *keyword);
 
-void xrefexpand(
-#if defined(M_PROTO)
-  M_WCHAR *id
-#endif
-  ) ;
+void xrefexpand(M_WCHAR *id);
 
-void rtrim(
-#if defined(M_PROTO)
-  char *s
-#endif
-  ) ;
+void rtrim(char *s);
 
-double usertopt(
-#if defined(M_PROTO)
-  M_WCHAR *s
-#endif
-  ) ;
+double usertopt(M_WCHAR *s);
 
-double mb_usertopt(
-#if defined(M_PROTO)
-  char *s
-#endif
-  ) ;
+double mb_usertopt(char *s);
 
-long usertosp(
-#if defined(M_PROTO)
-  char *s
-#endif
-  ) ;
+long usertosp(char *s);
 
-void whereneedused(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void whereneedused(M_NOPAR);
 
-void t_addnotes(
-#if defined(M_PROTO)
-  M_WCHAR *tnoteid
-#endif
-  ) ;
+void t_addnotes(M_WCHAR *tnoteid);
 
-void t_prntnotes(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_prntnotes(M_NOPAR);
 
-LOGICAL t_want_a_Q(
-#if defined(M_PROTO)
-  int span_count
-#endif
-  );		   
+LOGICAL t_want_a_Q(int span_count);   
 
 
-void t_xrefnotes(
-#if defined(M_PROTO)
-  M_WCHAR *tnoteid
-#endif
-  ) ;
+void t_xrefnotes(M_WCHAR *tnoteid);
 
-int t_getnum(
-#if defined(M_PROTO)
-  char *s
-#endif
-  ) ;
+int t_getnum(char *s);
 
-void t_insertcellmarkup(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_insertcellmarkup(M_NOPAR);
 
-void t_newpage(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_newpage(M_NOPAR);
 
-void t_startcolh(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_startcolh(M_NOPAR);
 
-void t_start_tabhead_colh(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_start_tabhead_colh(M_NOPAR);
 
-void t_nextcell(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_nextcell(M_NOPAR);
 
-void t_checkcaption(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_checkcaption(M_NOPAR);
 
-void t_preamble(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_preamble(M_NOPAR);
 
-void t_getstyle(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_getstyle(M_NOPAR);
 
-void t_dospan(
-#if defined(M_PROTO)
-  LOGICAL in_colh
-#endif
-  ) ;
+void t_dospan(LOGICAL in_colh);
 
-void t_startcell(
-#if defined(M_PROTO)
-  M_WCHAR *span, M_WCHAR *vspan, char *msg
-#endif
-  ) ;
+void t_startcell(M_WCHAR *span, M_WCHAR *vspan, char *msg);
 
-void t_endcell(
-#if defined(M_PROTO)
-  M_WCHAR *span, M_WCHAR *vspan
-#endif
-  ) ;
+void t_endcell(M_WCHAR *span, M_WCHAR *vspan);
 
-void t_startrow(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_startrow(M_NOPAR);
 
-void t_endrow(
-#if defined(M_PROTO)
-  M_WCHAR *taglevone
-#endif
-  ) ;
+void t_endrow(M_WCHAR *taglevone);
 
-void sizetofloat(
-#if defined(M_PROTO)
-  int column, char *s
-#endif
-  ) ;
+void sizetofloat(int column, char *s);
 
-void t_tabstart(
-#if defined(M_PROTO)
-  M_WCHAR *style, M_WCHAR *id, M_WCHAR *number, M_WCHAR *box, M_WCHAR *rule, 
+void t_tabstart(M_WCHAR *style, M_WCHAR *id, M_WCHAR *number, M_WCHAR *box, M_WCHAR *rule, 
   M_WCHAR *vrule, M_WCHAR *hrule, M_WCHAR *vcount, M_WCHAR *hcount,
   M_WCHAR *spacing, M_WCHAR *width, M_WCHAR *position, 
-  M_WCHAR *tonumber, M_WCHAR *divide, M_WCHAR *textsize
-#endif
-  ) ;
+  M_WCHAR *tonumber, M_WCHAR *divide, M_WCHAR *textsize);
 
-void t_tablebody(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_tablebody(M_NOPAR);
 
-void t_sendout_rowrule(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void t_sendout_rowrule(M_NOPAR);
 
-void showmemavail(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  );
+void showmemavail(M_NOPAR);
 
-int m_upper(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+int m_upper(int c);
 
-char *GetDefaultHeaderString(
-#if defined(M_PROTO)
-  char          *elementName,
+char *GetDefaultHeaderString(char          *elementName,
   unsigned char  desiredType,
-  char          *defaultString
-#endif
-  ) ;
+  char          *defaultString);
 
 
-void SetDefaultLocale(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  );
+void SetDefaultLocale(M_NOPAR);
 
-char *MakeMByteString(
-#if defined(M_PROTO)
-  const M_WCHAR *from
-#endif
-  );
+char *MakeMByteString(const M_WCHAR *from);
 
-M_WCHAR *MakeWideCharString(
-#if defined(M_PROTO)
-  const char *from
-#endif
-  );
+M_WCHAR *MakeWideCharString(const char *from);
 
-void paragraph(
-#if defined(M_PROTO)
-  M_WCHAR *indent,
+void paragraph(M_WCHAR *indent,
   M_WCHAR *id,
   M_WCHAR *gentity,
   M_WCHAR *gposition,
   M_WCHAR *ghyperlink,
   M_WCHAR *glinktype,
   M_WCHAR *gdescription,
-  char    *listinfo
-#endif
-  );
+  char    *listinfo);
 
-void figure(
-#if defined(M_PROTO)
-       M_WCHAR *number,
+void figure(M_WCHAR *number,
        M_WCHAR *tonumber,
        M_WCHAR *id,
        M_WCHAR *file,
@@ -1076,20 +438,10 @@ void figure(
        M_WCHAR *ghyperlink,
        M_WCHAR *glinktype,
        M_WCHAR *gdescription,
-       char    *listinfo
-#endif
-  );
+       char    *listinfo);
 
-void endterm(
-#if defined(M_PROTO)
-       M_WCHAR *base,
+void endterm(M_WCHAR *base,
        M_WCHAR *gloss,
-       int      linktype
-#endif
-  );
+       int      linktype);
 
-M_WCHAR wc_toupper(
-#if defined(M_PROTO)
-       M_WCHAR wc
-#endif
-  );
+M_WCHAR wc_toupper(M_WCHAR wc);

@@ -89,12 +89,7 @@ echo = savhd = FALSE;
 }
 
 /* Process a character in an environment where spaces must be escaped */
-#if defined(M_PROTO)
 void esoutchar(M_WCHAR textchar)
-#else
-void esoutchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 static M_WCHAR wsp = 0;
 
@@ -115,12 +110,7 @@ outchar(textchar, outfile);
 }
 
 /* Process a character in an example or an image paragraph */
-#if defined(M_PROTO)
 void exoutchar(M_WCHAR textchar)
-#else
-void exoutchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 static M_WCHAR wsp = 0, wre;
 
@@ -146,12 +136,7 @@ else outchar(textchar, outfile);
 }
 
 /* Write a character to be passed to the index file */
-#if defined(M_PROTO)
 void indexchar(M_WCHAR textchar)
-#else
-void indexchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 if (idxsavlen + 4 > (sizeof(idxsav) / sizeof(M_WCHAR)))
     {
@@ -163,26 +148,14 @@ idxsav[idxsavlen++] = textchar;
 
 
 /* Processes output for call out text */
-#if defined(M_PROTO)
 void outcall(M_WCHAR textchar, FILE *outfile)
-#else
-void outcall(textchar, outfile)
-M_WCHAR textchar;
-FILE *outfile;
-#endif
 {
 if (textchar != M_RE)
     outchar(textchar, outfile);
 }
 
 /* Processes a data character */
-#if defined(M_PROTO)
 void outchar(M_WCHAR textchar, FILE *outfile)
-#else
-void outchar(textchar, outfile)
-M_WCHAR textchar;
-FILE *outfile;
-#endif
 {
 M_WCHAR buffer[2];
 static M_WCHAR wnl = 0;
@@ -263,13 +236,7 @@ if (unleaded)  /* unleaded is a one-shot flag */
 }
 
 /* Really output a character */
-#if defined(M_PROTO)
 void realoutchar(M_WCHAR textchar, FILE *outfile)
-#else
-void realoutchar(textchar, outfile)
-M_WCHAR textchar;
-FILE *outfile;
-#endif
 {
 rshnewclear();
 if (! abbrev || fabbrev)
@@ -313,22 +280,7 @@ if (! abbrev || fabbrev)
 
 /* Save a character in the array used to store table of contents entries
    when processing a head */
-#if defined(M_PROTO)
 void shchar(M_WCHAR textchar, int *len, int max, M_WCHAR *string, void (*proc)(M_WCHAR *string), char *msg, LOGICAL *errflg)
-#else
-void shchar(textchar, len, max, string, proc, msg, errflg)
-M_WCHAR textchar;
-int *len;
-int max;
-M_WCHAR *string;
-void (*proc)(
-#if defined(M_PROTO)
-             M_WCHAR *string
-#endif
-    );
-char *msg;
-LOGICAL *errflg;
-#endif
 {
 char mb_textchar[32]; /* arbitrarily large */
 unsigned char index;
@@ -361,27 +313,12 @@ else
 }
 
 
-#if defined(M_PROTO)
 void mb_shchar(char textchar,
 	       int *len,
 	       int max,
 	       M_WCHAR *string,
 	       void (*proc)(M_WCHAR *string),
 	       char *msg, LOGICAL *errflg)
-#else
-void mb_shchar(textchar, len, max, string, proc, msg, errflg)
-char textchar;
-int *len;
-int max;
-M_WCHAR *string;
-void (*proc)(
-#if defined(M_PROTO)
-    M_WCHAR *string
-#endif
-    );
-char *msg;
-LOGICAL *errflg;
-#endif
 {
 M_WCHAR wc_textchar;
 
@@ -530,12 +467,7 @@ svtclen += length;
 }
 
 /* Process a character in a term */
-#if defined(M_PROTO)
 void termchar(M_WCHAR textchar)
-#else
-void termchar(textchar)
-M_WCHAR textchar;
-#endif
 {
 if (termp - term >= MAXTERM)
     {

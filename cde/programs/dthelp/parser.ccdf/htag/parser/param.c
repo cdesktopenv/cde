@@ -290,13 +290,7 @@ void m_stkparams(M_NOPAR)
     }
 
 /* Update the default of a parameter whose default is #CURRENT */
-#if defined(M_PROTO)
 void m_updatedefault(const int par , const M_WCHAR *string )
-#else
-void m_updatedefault(par, string)
-  int par ;
-  M_WCHAR *string ;
-#endif /* M_PROTO */
   {
     if (m_parameter[par - 1].deftype != M_CURRENT &&
         m_parameter[par - 1].deftype != M_CHANGEDCUR) return ;

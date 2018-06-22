@@ -29,11 +29,7 @@
 #if defined(sparse)
 #define m_newcon(i, j) m_sprscon(i, j)
 
-int m_sprscon(
-#if defined(M_PROTO)
-  int i, int j
-#endif
-  ) ;
+int m_sprscon(int i, int j);
 
 #else
 #define m_newcon(i, j) m_nextcon[i][j]

@@ -21,827 +21,283 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 /* $XConsortium: proto.h /main/3 1995/11/08 10:57:56 rswiston $ */
-int m_actgetc(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_adjuststate(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-LOGICAL m_allwhite(
-#if defined(M_PROTO)
-  const M_WCHAR *string
-#endif
-  ) ;
-
-void m_attval(
-#if defined(M_PROTO)
-  M_WCHAR *string
-#endif
-  ) ;
-
-LOGICAL m_attvonly(
-#if defined(M_PROTO)
-  M_WCHAR *string
-#endif
-  ) ;
-
-int m_checkstart(
-#if defined(M_PROTO)
-  M_ELEMENT val
-#endif
-  ) ;
-
-LOGICAL m_ckend(
-#if defined(M_PROTO)
-  M_ELEMENT val, LOGICAL neednet
-#endif
-  ) ;
-
-void m_ckmap(
-#if defined(M_PROTO)
-  M_WCHAR *name, LOGICAL useoradd
-#endif
-  ) ;
-
-void m_closent(
-#if defined(M_PROTO)
-  void *m_ptr
-#endif
-  ) ;
-
-void m_codeent(
-#if defined(M_PROTO)
-  int m_ent
-#endif
-  ) ;
-
-M_PARSE *m_copystackelt(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-M_WCHAR *m_cyclent(
-#if defined(M_PROTO)
-  LOGICAL init, unsigned char *type, M_WCHAR **content, 
-  unsigned char *wheredef
-#endif
-  ) ;
-
-void m_dispcurelt(
-#if defined(M_PROTO)
-  M_WCHAR *file, int line
-#endif
-  ) ;
-
-void m_done(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_dumpline(
-#if defined(M_PROTO)
-  M_WCHAR *file, int line
-#endif
-  ) ;
-
-void m_eduptype(
-#if defined(M_PROTO)
-  int type
-#endif
-  ) ;
-
-M_ELEMENT m_eltname(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_endaction(
-#if defined(M_PROTO)
-  M_ELEMENT m_elt
-#endif
-  ) ;
-
-void m_endcase(
-#if defined(M_PROTO)
-  int m_action
-#endif
-  ) ;
-
-void m_endtag(
-#if defined(M_PROTO)
-  M_ELEMENT c
-#endif
-  ) ;
-
-void m_entexpand(
-#if defined(M_PROTO)
-  M_ENTITY *openent
-#endif
-  ) ;
-
-void m_eprefix(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_err1(
-#if defined(M_PROTO)
-  const char *text, const M_WCHAR *arg
-#endif
-  ) ;
-
-void m_err2(
-#if defined(M_PROTO)
-  const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2
-#endif
-  ) ;
-
-void m_err3(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3
-#endif
-  ) ;
-
-void m_err4(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4
-#endif
-  ) ;
-
-void m_err5(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3,
-	      M_WCHAR *arg4, M_WCHAR *arg5
-#endif
-  ) ;
-
-void m_err6(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3,
-	      M_WCHAR *arg4, M_WCHAR *arg5, M_WCHAR *arg6
-#endif
-  ) ;
-
-void m_err7(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3,
-	      M_WCHAR *arg4, M_WCHAR *arg5, M_WCHAR *arg6, M_WCHAR *arg7
-#endif
-  ) ;
-
-void m_errline(
-#if defined(M_PROTO)
-  char *p
-#endif
-  ) ;
-
-void m_error(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
-
-void m_esuffix(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_exit(
-#if defined(M_PROTO)
-  int status
-#endif
-  ) ;
-
-void m_etcomplete(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-LOGICAL m_excluded(
-#if defined(M_PROTO)
-  M_ELEMENT elt
-#endif
-  ) ;
-
-void m_expecting(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_expexpand(
-#if defined(M_PROTO)
-  LOGICAL *expstart, M_STATE node, LOGICAL *required, LOGICAL *data
-#endif
-  ) ;
-
-void m_expline(
-#if defined(M_PROTO)
-  LOGICAL *expstart, LOGICAL *data, M_ELEMENT label
-#endif
-  ) ;
-
-void m_exptend(
-#if defined(M_PROTO)
-  LOGICAL *expstart, M_PARSE *stackptr
-#endif
-  ) ;
-
-int m_findact(
-#if defined(M_PROTO)
-  M_ELEMENT elt, int *array
-#endif
-  ) ;
-
-void m_findatt(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_findchain(
-#if defined(M_PROTO)
-  M_PARSE *stackptr, int start, int chainin, int *chainout, int *index, 
-  LOGICAL wild
-#endif
-  ) ;
-
-int m_findpar(
-#if defined(M_PROTO)
-  const char *elt, const char *param, const M_WCHAR *value
-#endif
-  ) ;
-
-M_ELEMENT m_findunique(
-#if defined(M_PROTO)
-  M_STATE from, int *newleft
-#endif
-  ) ;
-
-void m_frcend(
-#if defined(M_PROTO)
-  M_ELEMENT val
-#endif
-  ) ;
-
-void m_frcstart(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_free(
-#if defined(M_PROTO)
-  void *block, char *msg
-#endif
-  ) ;
-
-void m_freeFSA(
-#if defined(M_PROTO)
-  M_PARSE *stackelt
-#endif
-  ) ;
-
-void m_freemin(
-#if defined(M_PROTO)
-  M_MIN *min
-  , char *msg
-#endif
-  ) ;
-
-void m_freeparam(
-#if defined(M_PROTO)
-  M_PARSE *stackelt
-#endif
-  ) ;
-
-LOGICAL m_gendelim(
-#if defined(M_PROTO)
-  int srlen, int context
-#endif
-  ) ;
-
-int m_getachar(
-#if defined(M_PROTO)
-  M_HOLDTYPE *dchar
-#endif
-  ) ;
-
-int m_getc(
-#if defined(M_PROTO)
-  void *m_ptr
-#endif
-  ) ;
-
-int mb_getwc(
-#if defined(M_PROTO)
-  void *m_ptr
-#endif
-  ) ;
-
-void *m_getdata(
-#if defined(M_PROTO)
-  int n, LOGICAL *flag
-#endif
-  ) ;
-
-void m_getline(
-#if defined(M_PROTO)
-  M_WCHAR **file, int *line
-#endif
-  ) ;
-
-void m_getname(
-#if defined(M_PROTO)
-  M_WCHAR first
-#endif
-  ) ;
-
-void m_getsignon(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-int m_gettoken(
-#if defined(M_PROTO)
-  int *c, M_HOLDTYPE *dchar, int context
-#endif
-  ) ;
-
-void m_globes(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_globss(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_holdproc(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_inctest(
-#if defined(M_PROTO)
-  int *count, int limit, char *message
-#endif
-  ) ;
-
-void m_initctype(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_initialize(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_lastchars(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-int m_level(
-#if defined(M_PROTO)
-  M_WCHAR *elt
-#endif
-  ) ;
-
-int m_mblevel(
-#if defined(M_PROTO)
-  char *elt
-#endif
-  ) ;
-
-void m_litproc(
-#if defined(M_PROTO)
-  int delim
-#endif
-  ) ;
-
-void m_longent(
-#if defined(M_PROTO)
-  int context
-#endif
-  ) ;
-
-LOGICAL m_lookent(
-#if defined(M_PROTO)
-  M_WCHAR *name, unsigned char *type, M_WCHAR **content, 
-  unsigned char *wheredef
-#endif
-  ) ;
-
-void main(
-#if defined(M_PROTO)
-  int argc, char **argv
-#endif
-  ) ;
-
-void *m_malloc(
-#if defined(M_PROTO)
-  int size, char *msg
-#endif
-  ) ;
-
-void m_missingtagc(
-#if defined(M_PROTO)
-  int c, M_HOLDTYPE dchar, LOGICAL start
-#endif
-  ) ;
-
-LOGICAL m_nextand(
-#if defined(M_PROTO)
-  M_OPENFSA *thisfsa, M_ELEMENT label
-#endif
-  ) ;
-
-void m_nextdelimchar(
-#if defined(M_PROTO)
-  int *n, int i, LOGICAL *linestart, LOGICAL newlinestart, LOGICAL skipblank, 
-  unsigned char type
-#endif
-  ) ;
-
-void m_ntrent(
-#if defined(M_PROTO)
-  M_WCHAR *p
-#endif
-  ) ;
-
-void m_nullendtag(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-LOGICAL m_omitend(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-LOGICAL m_omitstart(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_openchk(
-#if defined(M_PROTO)
-  FILE **ptr, char *name, char *mode
-#endif
-  ) ;
-
-void *m_openent(
-#if defined(M_PROTO)
-  M_WCHAR *entcontent
-#endif
-  ) ;
-
-void *m_openfirst(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_optstring(
-#if defined(M_PROTO)
-  char *p
-#endif
-  ) ;
-
-int m_packedlook(
-#if defined(M_PROTO)
-  M_PTRIE *xptrie, M_WCHAR *name
-#endif
-  ) ;
-
-int m_parcount(
-#if defined(M_PROTO)
-  M_WCHAR *elt
-#endif
-  ) ;
-
-M_WCHAR *m_pardefault(
-#if defined(M_PROTO)
-  M_WCHAR *elt, M_WCHAR *param, unsigned char *type
-#endif
-  ) ;
-
-M_WCHAR *m_parent(
-#if defined(M_PROTO)
-  int n
-#endif
-  ) ;
-
-M_WCHAR *m_parname(
-#if defined(M_PROTO)
-  M_WCHAR *elt, int n
-#endif
-  ) ;
-
-M_WCHAR *m_mbparname(
-#if defined(M_PROTO)
-  char *elt, int n
-#endif
-  ) ;
-
-const M_WCHAR *m_partype(
-#if defined(M_PROTO)
-  const int par, const M_WCHAR *string
-#endif
-  ) ;
-
-void m_parupper(
-#if defined(M_PROTO)
-  int par, M_WCHAR *string
-#endif
-  ) ;
-
-LOGICAL m_parvalok(
-#if defined(M_PROTO)
-  M_WCHAR *elt, M_WCHAR *param, const M_WCHAR *value
-#endif
-  ) ;
-
-void m_piaction(
-#if defined(M_PROTO)
-  M_WCHAR *m_pi, M_WCHAR *m_entname, int m_enttype
-#endif
-  ) ;
-
-void m_pop(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_push(
-#if defined(M_PROTO)
-  M_ELEMENT elt, M_STATE current, LOGICAL need
-#endif
-  ) ;
-
-LOGICAL m_putdata(
-#if defined(M_PROTO)
-  void *data, int n
-#endif
-  ) ;
-
-void m_readcomments(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void *m_realloc(
-#if defined(M_PROTO)
-  void *ptr, int size, char *msg
-#endif
-  ) ;
-
-int m_scan(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_setmap(
-#if defined(M_PROTO)
-  int map, LOGICAL useoradd
-#endif
-  ) ;
-
-void m_setoptions(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_setparam(
-#if defined(M_PROTO)
-  M_WCHAR **cvar, int par
-#endif
-  ) ;
-
-void m_shortref(
-#if defined(M_PROTO)
-  int context
-#endif
-  ) ;
-
-void m_showcurelt(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_signmsg(
-#if defined(M_PROTO)
-  char *p
-#endif
-  ) ;
-
-void m_sigre(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_startdoc(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_startmsg(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_stcaction(
-#if defined(M_PROTO)
-  M_WCHAR *m_string, LOGICAL M_START, LOGICAL M_END
-#endif
-  ) ;
-
-void m_stcomplete(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_stkdefaultparams(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_stkonedef(
-#if defined(M_PROTO)
-  int par, M_ELEMENT scanel, M_WCHAR **poccur, int i
-#endif
-  ) ;
-
-void m_stkparams(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_strtaction(
-#if defined(M_PROTO)
-  M_ELEMENT m_elt
-#endif
-  ) ;
-
-void m_strtcase(
-#if defined(M_PROTO)
-  int m_action
-#endif
-  ) ;
-
-void m_strtcdata(
-#if defined(M_PROTO)
-  int scanval
-#endif
-  ) ;
-
-LOGICAL m_strtproc(
-#if defined(M_PROTO)
-  M_ELEMENT scanval
-#endif
-  ) ;
-
-void m_strttag(
-#if defined(M_PROTO)
-  M_ELEMENT val, LOGICAL net
-#endif
-  ) ;
-
-void m_textaction(
-#if defined(M_PROTO)
-  M_WCHAR m_textchar
-#endif
-  ) ;
-
-void m_textout(
-#if defined(M_PROTO)
-  char *format, LOGICAL start, LOGICAL end
-#endif
-  ) ;
-
-LOGICAL m_textpermitted(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-M_WCHAR *m_thisfile(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-int m_thisline(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-void m_trace(
-#if defined(M_PROTO)
-  char *p
-#endif
-  ) ;
-
-void m_wctrace(
-#if defined(M_PROTO)
-  M_WCHAR *p
-#endif
-  ) ;
-
-LOGICAL m_transition(
-#if defined(M_PROTO)
-  M_ELEMENT label, LOGICAL recur
-#endif
-  ) ;
-
-void m_undodelim(
-#if defined(M_PROTO)
-  M_WCHAR *delim, LOGICAL flag
-#endif
-  ) ;
-
-void m_ungetachar(
-#if defined(M_PROTO)
-  int c, M_HOLDTYPE dchar, LOGICAL preread
-#endif
-  ) ;
-
-void m_updatedefault(
-#if defined(M_PROTO)
-  const int par, const M_WCHAR *string
-#endif
-  ) ;
-
-int m_wcupstrcmp(
-#if defined(M_PROTO)
-  const M_WCHAR *p, const M_WCHAR *q
-#endif
-  ) ;
-
-int m_wcmbupstrcmp(
-#if defined(M_PROTO)
-  const M_WCHAR *p, const char *q
-#endif
-  ) ;
-
-int m_mbmbupstrcmp(
-#if defined(M_PROTO)
-  const char *p, const char *q
-#endif
-  ) ;
-
-LOGICAL m_validinpar(
-#if defined(M_PROTO)
-  M_WCHAR *string
-#endif
-  ) ;
-
-LOGICAL m_vldentref(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
-
-LOGICAL m_whitespace(
-#if defined(M_PROTO)
-  M_WCHAR c
-#endif
-  ) ;
+int m_actgetc(M_NOPAR);
+
+void m_adjuststate(M_NOPAR);
+
+LOGICAL m_allwhite(const M_WCHAR *string);
+
+void m_attval(M_WCHAR *string);
+
+LOGICAL m_attvonly(M_WCHAR *string);
+
+int m_checkstart(M_ELEMENT val);
+
+LOGICAL m_ckend(M_ELEMENT val, LOGICAL neednet);
+
+void m_ckmap(M_WCHAR *name, LOGICAL useoradd);
+
+void m_closent(void *m_ptr);
+
+void m_codeent(int m_ent);
+
+M_PARSE *m_copystackelt(M_NOPAR);
+
+M_WCHAR *m_cyclent(LOGICAL init, unsigned char *type, M_WCHAR **content, 
+  unsigned char *wheredef);
+
+void m_dispcurelt(M_WCHAR *file, int line);
+
+void m_done(M_NOPAR);
+
+void m_dumpline(M_WCHAR *file, int line);
+
+void m_eduptype(int type);
+
+M_ELEMENT m_eltname(M_NOPAR);
+
+void m_endaction(M_ELEMENT m_elt);
+
+void m_endcase(int m_action);
+
+void m_endtag(M_ELEMENT c);
+
+void m_entexpand(M_ENTITY *openent);
+
+void m_eprefix(M_NOPAR);
+
+void m_err1(const char *text, const M_WCHAR *arg);
+
+void m_err2(const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2);
+
+void m_err3(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3);
+
+void m_err4(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4);
+
+void m_err5(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3,
+	      M_WCHAR *arg4, M_WCHAR *arg5);
+
+void m_err6(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3,
+	      M_WCHAR *arg4, M_WCHAR *arg5, M_WCHAR *arg6);
+
+void m_err7(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3,
+	      M_WCHAR *arg4, M_WCHAR *arg5, M_WCHAR *arg6, M_WCHAR *arg7);
+
+void m_errline(char *p);
+
+void m_error(char *text);
+
+void m_esuffix(M_NOPAR);
+
+void m_exit(int status);
+
+void m_etcomplete(M_NOPAR);
+
+LOGICAL m_excluded(M_ELEMENT elt);
+
+void m_expecting(M_NOPAR);
+
+void m_expexpand(LOGICAL *expstart, M_STATE node, LOGICAL *required, LOGICAL *data);
+
+void m_expline(LOGICAL *expstart, LOGICAL *data, M_ELEMENT label);
+
+void m_exptend(LOGICAL *expstart, M_PARSE *stackptr);
+
+int m_findact(M_ELEMENT elt, int *array);
+
+void m_findatt(M_NOPAR);
+
+void m_findchain(M_PARSE *stackptr, int start, int chainin, int *chainout, int *index, 
+  LOGICAL wild);
+
+int m_findpar(const char *elt, const char *param, const M_WCHAR *value);
+
+M_ELEMENT m_findunique(M_STATE from, int *newleft);
+
+void m_frcend(M_ELEMENT val);
+
+void m_frcstart(M_NOPAR);
+
+void m_free(void *block, char *msg);
+
+void m_freeFSA(M_PARSE *stackelt);
+
+void m_freemin(M_MIN *min
+  , char *msg);
+
+void m_freeparam(M_PARSE *stackelt);
+
+LOGICAL m_gendelim(int srlen, int context);
+
+int m_getachar(M_HOLDTYPE *dchar);
+
+int m_getc(void *m_ptr);
+
+int mb_getwc(void *m_ptr);
+
+void *m_getdata(int n, LOGICAL *flag);
+
+void m_getline(M_WCHAR **file, int *line);
+
+void m_getname(M_WCHAR first);
+
+void m_getsignon(M_NOPAR);
+
+int m_gettoken(int *c, M_HOLDTYPE *dchar, int context);
+
+void m_globes(M_NOPAR);
+
+void m_globss(M_NOPAR);
+
+void m_holdproc(M_NOPAR);
+
+void m_inctest(int *count, int limit, char *message);
+
+void m_initctype(M_NOPAR);
+
+void m_initialize(M_NOPAR);
+
+void m_lastchars(M_NOPAR);
+
+int m_level(M_WCHAR *elt);
+
+int m_mblevel(char *elt);
+
+void m_litproc(int delim);
+
+void m_longent(int context);
+
+LOGICAL m_lookent(M_WCHAR *name, unsigned char *type, M_WCHAR **content, 
+  unsigned char *wheredef);
+
+void main(int argc, char **argv);
+
+void *m_malloc(int size, char *msg);
+
+void m_missingtagc(int c, M_HOLDTYPE dchar, LOGICAL start);
+
+LOGICAL m_nextand(M_OPENFSA *thisfsa, M_ELEMENT label);
+
+void m_nextdelimchar(int *n, int i, LOGICAL *linestart, LOGICAL newlinestart, LOGICAL skipblank, 
+  unsigned char type);
+
+void m_ntrent(M_WCHAR *p);
+
+void m_nullendtag(M_NOPAR);
+
+LOGICAL m_omitend(M_NOPAR);
+
+LOGICAL m_omitstart(M_NOPAR);
+
+void m_openchk(FILE **ptr, char *name, char *mode);
+
+void *m_openent(M_WCHAR *entcontent);
+
+void *m_openfirst(M_NOPAR);
+
+void m_optstring(char *p);
+
+int m_packedlook(M_PTRIE *xptrie, M_WCHAR *name);
+
+int m_parcount(M_WCHAR *elt);
+
+M_WCHAR *m_pardefault(M_WCHAR *elt, M_WCHAR *param, unsigned char *type);
+
+M_WCHAR *m_parent(int n);
+
+M_WCHAR *m_parname(M_WCHAR *elt, int n);
+
+M_WCHAR *m_mbparname(char *elt, int n);
+
+const M_WCHAR *m_partype(const int par, const M_WCHAR *string);
+
+void m_parupper(int par, M_WCHAR *string);
+
+LOGICAL m_parvalok(M_WCHAR *elt, M_WCHAR *param, const M_WCHAR *value);
+
+void m_piaction(M_WCHAR *m_pi, M_WCHAR *m_entname, int m_enttype);
+
+void m_pop(M_NOPAR);
+
+void m_push(M_ELEMENT elt, M_STATE current, LOGICAL need);
+
+LOGICAL m_putdata(void *data, int n);
+
+void m_readcomments(M_NOPAR);
+
+void *m_realloc(void *ptr, int size, char *msg);
+
+int m_scan(M_NOPAR);
+
+void m_setmap(int map, LOGICAL useoradd);
+
+void m_setoptions(M_NOPAR);
+
+void m_setparam(M_WCHAR **cvar, int par);
+
+void m_shortref(int context);
+
+void m_showcurelt(M_NOPAR);
+
+void m_signmsg(char *p);
+
+void m_sigre(M_NOPAR);
+
+void m_startdoc(M_NOPAR);
+
+void m_startmsg(M_NOPAR);
+
+void m_stcaction(M_WCHAR *m_string, LOGICAL M_START, LOGICAL M_END);
+
+void m_stcomplete(M_NOPAR);
+
+void m_stkdefaultparams(M_NOPAR);
+
+void m_stkonedef(int par, M_ELEMENT scanel, M_WCHAR **poccur, int i);
+
+void m_stkparams(M_NOPAR);
+
+void m_strtaction(M_ELEMENT m_elt);
+
+void m_strtcase(int m_action);
+
+void m_strtcdata(int scanval);
+
+LOGICAL m_strtproc(M_ELEMENT scanval);
+
+void m_strttag(M_ELEMENT val, LOGICAL net);
+
+void m_textaction(M_WCHAR m_textchar);
+
+void m_textout(char *format, LOGICAL start, LOGICAL end);
+
+LOGICAL m_textpermitted(M_NOPAR);
+
+M_WCHAR *m_thisfile(M_NOPAR);
+
+int m_thisline(M_NOPAR);
+
+void m_trace(char *p);
+
+void m_wctrace(M_WCHAR *p);
+
+LOGICAL m_transition(M_ELEMENT label, LOGICAL recur);
+
+void m_undodelim(M_WCHAR *delim, LOGICAL flag);
+
+void m_ungetachar(int c, M_HOLDTYPE dchar, LOGICAL preread);
+
+void m_updatedefault(const int par, const M_WCHAR *string);
+
+int m_wcupstrcmp(const M_WCHAR *p, const M_WCHAR *q);
+
+int m_wcmbupstrcmp(const M_WCHAR *p, const char *q);
+
+int m_mbmbupstrcmp(const char *p, const char *q);
+
+LOGICAL m_validinpar(M_WCHAR *string);
+
+LOGICAL m_vldentref(M_NOPAR);
+
+LOGICAL m_whitespace(M_WCHAR c);
 

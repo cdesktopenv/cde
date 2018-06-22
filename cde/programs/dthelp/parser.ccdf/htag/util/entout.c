@@ -25,23 +25,11 @@
 
 /* Entout has procedures to write generated entity TRIE */
 
-void entptr(
-#if defined(M_PROTO)
-  M_ENTITY *data
-#endif
-  ) ;
+void entptr(M_ENTITY *data);
 
-char *typetype(
-#if defined(M_PROTO)
-  int n
-#endif
-  ) ;
+char *typetype(int n);
 
-char *typewhere(
-#if defined(M_PROTO)
-  unsigned char n
-#endif
-  ) ;
+char *typewhere(unsigned char n);
 
 /* Macro names written to output file */
 char xdbuild[] = "M_DBUILD" ;
@@ -213,12 +201,7 @@ char *typetype(n)
     }
 
 /* Typewhere returns a string indicating where the nth entity was defined.*/
-#if defined(M_PROTO)
 char *typewhere(unsigned char n)
-#else
-char *typewhere(n)
-  unsigned char n ;
-#endif
   {
     switch(n) {
       case M_DBUILD: return(xdbuild) ;

@@ -27,22 +27,12 @@
 #include "userinc.h"
 #include "globdec.h"
 
-#if defined(M_PROTO)
 void PutString(char *string)
-#else
-void PutString(string)
-char *string;
-#endif
 {
 fputs(string, outFile);
 }
 
-#if defined(M_PROTO)
 void PutWString(M_WCHAR *string)
-#else
-void PutWString(string)
-M_WCHAR *string;
-#endif
 {
 char *mb_string;
 
@@ -51,12 +41,7 @@ fputs(mb_string, outFile);
 m_free(mb_string, "Multi-byte string");
 }
 
-#if defined(M_PROTO)
 void PutWChar(M_WCHAR wchar)
-#else
-void PutWChar(wchar)
-M_WCHAR wchar;
-#endif
 {
 M_WCHAR wc_string[2];
 char *mb_string;
@@ -68,12 +53,7 @@ fputs(mb_string, outFile);
 m_free(mb_string, "Multi-byte string");
 }
 
-#if defined(M_PROTO)
 void SaveWChar(M_WCHAR wchar)
-#else
-void SaveWChar(wchar)
-M_WCHAR wchar;
-#endif
 {
 CDATA_el *pCdata;
 

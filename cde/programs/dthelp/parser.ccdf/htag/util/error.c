@@ -33,128 +33,47 @@ extern FILE *m_errfile ;
 extern int m_line ;
 extern LOGICAL errexit ;
 
-void eprefix(
-#if defined(M_PROTO)
-  LOGICAL flag
-#endif
-  ) ;
+void eprefix(LOGICAL flag);
 
-void m_errline(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void m_errline(char *text);
 
-void m_error(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void m_error(char *text);
 
-void m_err1(
-#if defined(M_PROTO)
-  char *text, const M_WCHAR *arg
-#endif
-  ) ;
+void m_err1(char *text, const M_WCHAR *arg);
 
-void m_mberr1(
-#if defined(M_PROTO)
-  char *text, const char *arg
-#endif
-  ) ;
+void m_mberr1(char *text, const char *arg);
 
-void m_err2(
-#if defined(M_PROTO)
-  const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2
-#endif
-  ) ;
+void m_err2(const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2);
 
-void m_err3(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3
-#endif
-  ) ;
+void m_err3(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3);
 
-void m_err5(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4,
-	      M_WCHAR *arg5
-#endif
-  ) ;
+void m_err5(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4,
+	      M_WCHAR *arg5);
 
-void esuffix(
-#if defined(M_PROTO)
-  void
-#endif
-  ) ;
+void esuffix(void);
 
-void msgline(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void msgline(char *text);
 
-void msg1line(
-#if defined(M_PROTO)
-  char *text, char *arg1
-#endif
-  ) ;
+void msg1line(char *text, char *arg1);
 
-void skiptoend(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void skiptoend(M_NOPAR);
 
-void m_wctrace(
-#if defined(M_PROTO)
-  M_WCHAR *text
-#endif
-  ) ;
+void m_wctrace(M_WCHAR *text);
 
-void m_trace(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void m_trace(char *text);
 
-void warning(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void warning(char *text);
 
-void warning1(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg
-#endif
-  ) ;
+void warning1(char *text, M_WCHAR *arg);
 
-void warning2(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2
-#endif
-  ) ;
+void warning2(char *text, M_WCHAR *arg1, M_WCHAR *arg2);
 
-void warning3(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3
-#endif
-  ) ;
+void warning3(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3);
 
-void warning4(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4
-#endif
-  ) ;
+void warning4(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4);
 
 /* Write error message prefix */
-#if defined(M_PROTO)
 void eprefix(LOGICAL flag)
-#else
-void eprefix(flag)
-  LOGICAL flag ;
-#endif
   {
     if (flag) errexit = TRUE ;
     fprintf(stderr, "\n**** ") ;
@@ -184,13 +103,7 @@ void m_error(text)
 
 /* Writes an error message with one argument to standard error and file
    "error" */
-#if defined(M_PROTO)
 void m_err1(char *text, const M_WCHAR *arg)
-#else
-void m_err1(text, arg)
-  char *text;
-  M_WCHAR *arg ;
-#endif
 {
 char *mb_arg;
 
@@ -203,13 +116,7 @@ skiptoend() ;
 m_free(mb_arg,"multi-byte string");
 }
 
-#if defined(M_PROTO)
 void m_mberr1(char *text, const char *arg)
-#else
-void m_err1(text, arg)
-  char *text;
-  char *arg ;
-#endif
 {
 eprefix(TRUE) ;
 fprintf(stderr, text, arg) ;
@@ -220,13 +127,7 @@ skiptoend() ;
 
 /* Writes an error message with two arguments to standard error and file
    "error" */
-#if defined(M_PROTO)
 void m_err2( const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2)
-#else
-void m_err2(text, arg1, arg2)
-char *text;
-M_WCHAR *arg1, *arg2 ;
-#endif
 {
 char *mb_arg1, *mb_arg2;
 
@@ -243,13 +144,7 @@ m_free(mb_arg2,"multi-byte string");
 
 /* Writes an error message with three arguments to standard error and file
    "error" */
-#if defined(M_PROTO)
 void m_err3( char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3)
-#else
-void m_err3(text, arg1, arg2, arg3)
-char *text;
-M_WCHAR *arg1, *arg2, *arg3 ;
-#endif
 {
 char *mb_arg1, *mb_arg2, *mb_arg3;
 
@@ -268,14 +163,8 @@ m_free(mb_arg3,"multi-byte string");
 
 /* Writes an error message with five arguments to standard error and file
    "error" */
-#if defined(M_PROTO)
 void m_err5( char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3,
 	     M_WCHAR *arg4, M_WCHAR *arg5)
-#else
-void m_err5(text, arg1, arg2, arg3, arg4, arg5)
-char *text;
-M_WCHAR *arg1, *arg2, *arg3, *arg4, *arg5 ;
-#endif
 {
 char *mb_arg1, *mb_arg2, *mb_arg3, *mb_arg4, *mb_arg5;
 
@@ -347,13 +236,7 @@ void warning(text)
 
 /* Writes a nonfatal error message with one argument to standard error
    and file "error" */
-#if defined(M_PROTO)
 void warning1( char *text, M_WCHAR *arg)
-#else
-void warning1(text, arg)
-char *text;
-M_WCHAR *arg ;
-#endif
 {
 char *mb_arg;
 
@@ -367,13 +250,7 @@ m_free(mb_arg,"multi-byte string");
 
 /* Writes a nonfatal error message with two arguments to standard error
    and file "error" */
-#if defined(M_PROTO)
 void warning2(char *text, M_WCHAR *arg1, M_WCHAR *arg2)
-#else
-void warning2(text, arg1, arg2)
-char *text;
-M_WCHAR *arg1, *arg2 ;
-#endif
 {
 char *mb_arg1, *mb_arg2;
 
@@ -389,13 +266,7 @@ m_free(mb_arg2,"multi-byte string");
 
 /* Writes a nonfatal error message with three arguments to standard error
    and file "error" */
-#if defined(M_PROTO)
 void warning3(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3)
-#else
-void warning3(text, arg1, arg2, arg3)
-char *text;
-M_WCHAR *arg1, *arg2, *arg3 ;
-#endif
 {
 char *mb_arg1, *mb_arg2, *mb_arg3;
 
@@ -413,14 +284,8 @@ m_free(mb_arg3,"multi-byte string");
 
 /* Writes a nonfatal error message with four arguments to standard error
    and file "error" */
-#if defined(M_PROTO)
 void warning4(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3,
 	      M_WCHAR *arg4)
-#else
-void warning4(text, arg1, arg2, arg3, arg4)
-char *text;
-M_WCHAR *arg1, *arg2, *arg3, *arg4 ;
-#endif
 {
 char *mb_arg1, *mb_arg2, *mb_arg3, *mb_arg4;
 

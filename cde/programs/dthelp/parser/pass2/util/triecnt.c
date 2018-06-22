@@ -31,24 +31,12 @@
 #include "basic.h"
 #include "trie.h"
 
-void countdown(
-#if defined(M_PROTO)
-  M_TRIE *parent, int *count
-#endif
-  ) ;
+void countdown(M_TRIE *parent, int *count);
 
-void dumpnode(
-#if defined(M_PROTO)
-  LOGICAL *first, FILE *file, M_TRIE *trieptr, int *count,
-    void (*proc)(FILE *file, void *value)
-#endif
-  ) ;
+void dumpnode(LOGICAL *first, FILE *file, M_TRIE *trieptr, int *count,
+    void (*proc)(FILE *file, void *value));
 
-void printval(
-#if defined(M_PROTO)
-  FILE *file, void *value
-#endif
-  ) ;
+void printval(FILE *file, void *value);
 
 /* Count the descendants of a node in order to generate declarations for
    the packed form of a trie*/
@@ -71,12 +59,7 @@ void dumpnode(first, file, trieptr, count, proc)
   FILE *file ;
   M_TRIE *trieptr ;
   int *count ;
-  void (*proc) (
-#if defined (M_PROTO)
-    FILE *file, 
-    void *value
-#endif
-    ) ;
+  void (*proc) (FILE *file, void *value) ;
   {
     M_TRIE *p ;
     int savecount ;

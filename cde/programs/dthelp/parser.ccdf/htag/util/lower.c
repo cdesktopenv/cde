@@ -27,17 +27,8 @@
 
 #include "basic.h"
 
-int m_lower(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
-
-
-
 /* Force a letter to lowercase */
-int m_lower(c)
-  int c ;
+int m_lower(int c)
   {
     if (c >= 'A' && c <= 'Z') c += 'a' - 'A' ;
     return(c) ;

@@ -25,269 +25,93 @@
 /* Function prototypes for HP Tag/TeX translator */
 
 
-int m_lower(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+int m_lower(int c);
 
-void options(
-#if defined(M_PROTO)
-  LOGICAL filelenonly
-#endif
-  ) ;
+void options(LOGICAL filelenonly);
 
-void setopt(
-#if defined(M_PROTO)
-  char *string, LOGICAL filelenonly
-#endif
-  ) ;
+void setopt(char *string, LOGICAL filelenonly);
 
-LOGICAL setvalopt(
-#if defined(M_PROTO)
-  int thisopt, char *string, LOGICAL filelenonly
-#endif
-  ) ;
+LOGICAL setvalopt(int thisopt, char *string, LOGICAL filelenonly);
 
-char *strstr(
-#if defined(M_PROTO)
-  const char *s1, const char *s2
-#endif
-  ) ;
+char *strstr(const char *s1, const char *s2);
 
-int m_upper(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+int m_upper(int c);
 
-char *MakeMByteString(
-#if defined(M_PROTO)
-  const M_WCHAR *from
-#endif
-  );
+char *MakeMByteString(const M_WCHAR *from);
 
-M_WCHAR *MakeWideCharString(
-#if defined(M_PROTO)
-  const char *from
-#endif
-  );
+M_WCHAR *MakeWideCharString(const char *from);
 
-void PutString(
-#if defined(M_PROTO)
-  char *string
-#endif
-  ) ;
+void PutString(char *string);
 
-void PutWString(
-#if defined(M_PROTO)
-  M_WCHAR *string
-#endif
-  ) ;
+void PutWString(M_WCHAR *string);
 
-void PutWChar(
-#if defined(M_PROTO)
-  M_WCHAR wchar
-#endif
-  ) ;
+void PutWChar(M_WCHAR wchar);
 
-void SaveWChar(
-#if defined(M_PROTO)
-  M_WCHAR wchar
-#endif
-  ) ;
+void SaveWChar(M_WCHAR wchar);
 
-void OpenTag(
-#if defined(M_PROTO)
-  LOGICAL hasAttributes,
-  LOGICAL newlineOK
-#endif
-  ) ;
+void OpenTag(LOGICAL hasAttributes,
+  LOGICAL newlineOK);
 
-void CloseTag(
-#if defined(M_PROTO)
-  LOGICAL newlineOK
-#endif
-  ) ;
+void CloseTag(LOGICAL newlineOK);
 
-void ImpliedlAttribute(
-#if defined(M_PROTO)
-  char    *name,
-  M_WCHAR *value
-#endif
-  ) ;
+void ImpliedlAttribute(char    *name,
+  M_WCHAR *value);
 
-void RequiredAttribute(
-#if defined(M_PROTO)
-  char    *name,
-  M_WCHAR *value
-#endif
-  ) ;
+void RequiredAttribute(char    *name,
+  M_WCHAR *value);
 
-M_WCHAR *CopyWString(
-#if defined(M_PROTO)
-  M_WCHAR *string
-#endif
-  ) ;
+M_WCHAR *CopyWString(M_WCHAR *string);
 
-void MakeNewElement(
-#if defined(M_PROTO)
-  ElementTypes type
-#endif
-  ) ;
+void MakeNewElement(ElementTypes type);
 
-void DeleteElement(
-#if defined(M_PROTO)
-  ElementPtr pElement
-#endif
-  ) ;
+void DeleteElement(ElementPtr pElement);
 
-void OptimizeAndEmit(
-#if defined(M_PROTO)
-  ElementPtr pVirpage
-#endif
-  ) ;
+void OptimizeAndEmit(ElementPtr pVirpage);
 
-void PushCurrentElement(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void PushCurrentElement(M_NOPAR);
 
-void PopCurrentElement(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void PopCurrentElement(M_NOPAR);
 
-char *mb_realloc(
-#if defined(M_PROTO)
-    char *ptr, long size
-#endif
-  );
+char *mb_realloc(  char *ptr, long size);
 
-char *mb_malloc(
-#if defined(M_PROTO)
-    long size
-#endif
-  );
+char *mb_malloc(  long size);
 
-void mb_free(
-#if defined(M_PROTO)
-    char **pptr
-#endif
-  );
+void mb_free(  char **pptr);
 
-void EmitSDL(
-#if defined(M_PROTO)
-  ElementPtr pVirpage
-#endif
-  ) ;
+void EmitSDL(ElementPtr pVirpage);
 
-int OpenFile(
-#if defined(M_PROTO)
-  char *name, int type, int code
-#endif
-  ) ;
+int OpenFile(char *name, int type, int code);
 
-int ReadFile(
-#if defined(M_PROTO)
-  int fd, char *name, char *buffer, int amount, int code
-#endif
-  ) ;
+int ReadFile(int fd, char *name, char *buffer, int amount, int code);
 
-int WriteFile(
-#if defined(M_PROTO)
-  int fd, char *name, char *buffer, int amount, int code
-#endif
-  ) ;
+int WriteFile(int fd, char *name, char *buffer, int amount, int code);
 
-int FileExists(
-#if defined(M_PROTO)
-  char *name
-#endif
-  ) ;
+int FileExists(char *name);
 
-void AssertFileIsReadable(
-#if defined(M_PROTO)
-  char *name, int code
-#endif
-  ) ;
+void AssertFileIsReadable(char *name, int code);
 
-int FileSize(
-#if defined(M_PROTO)
-  char *name, int code
-#endif
-  ) ;
+int FileSize(char *name, int code);
 
-void CloseFile(
-#if defined(M_PROTO)
-  int fd, char *name, int code
-#endif
-  ) ;
+void CloseFile(int fd, char *name, int code);
 
-FILE *FopenFile(
-#if defined(M_PROTO)
-  char *name, int type, int code
-#endif
-  ) ;
+FILE *FopenFile(char *name, int type, int code);
 
-int GetALine(
-#if defined(M_PROTO)
-  FILE *file, char *name, char *line, int max, int code
-#endif
-  ) ;
+int GetALine(FILE *file, char *name, char *line, int max, int code);
 
-int FreadFile(
-#if defined(M_PROTO)
-  FILE *file, char *name, char *buffer, int amount, int code
-#endif
-  ) ;
+int FreadFile(FILE *file, char *name, char *buffer, int amount, int code);
 
-void FwriteFile(
-#if defined(M_PROTO)
-  FILE *file, char *name, char *buffer, size_t amount, int code
-#endif
-  ) ;
+void FwriteFile(FILE *file, char *name, char *buffer, size_t amount, int code);
 
-void FcloseFile(
-#if defined(M_PROTO)
-  FILE *file, char *name, int code
-#endif
-  ) ;
+void FcloseFile(FILE *file, char *name, int code);
 
-int StringToUpper(
-#if defined(M_PROTO)
-  char *string
-#endif
-  ) ;
+int StringToUpper(char *string);
 
-void BuildIndex(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void BuildIndex(M_NOPAR);
 
-void OpenDocument(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void OpenDocument(M_NOPAR);
 
-void CloseDocument(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void CloseDocument(M_NOPAR);
 
-void UpdateTossFileName(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void UpdateTossFileName(M_NOPAR);
 
-void SetLocale(
-#if defined(M_PROTO)
-  M_WCHAR *pLang, M_WCHAR *pCharset
-#endif
-  ) ;
+void SetLocale(M_WCHAR *pLang, M_WCHAR *pCharset);

@@ -28,334 +28,112 @@
 /* Proto.h contains function prototypes for program ELTDEF. */
 
 
-void actptrout(
-#if defined(M_PROTO)
-  ACTION **array, char *name
-#endif
-  ) ;
+void actptrout(ACTION **array, char *name);
 
-void addent(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void addent(M_NOPAR);
 
-LOGICAL m_allwhite(
-#if defined(M_PROTO)
-  const M_WCHAR *string
-#endif
-  ) ;
+LOGICAL m_allwhite(const M_WCHAR *string);
 
-void closeiffile(
-#if defined(M_PROTO)
-  LOGICAL flag, FILE *file, int count, char *table, char *proto
-#endif
-  ) ;
+void closeiffile(LOGICAL flag, FILE *file, int count, char *table, char *proto);
 
-void countdown(
-#if defined(M_PROTO)
-  M_TRIE *parent, int *count
-#endif
-  ) ;
+void countdown(M_TRIE *parent, int *count);
 
-void cvalue(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void cvalue(M_NOPAR);
 
+void done(M_NOPAR);
 
-void done(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void m_dumptrie(FILE *file, M_TRIE *xtrie, char *extname, int *count, void (*proc)(M_ENTITY *));
 
-void m_dumptrie(
-#if defined(M_PROTO)
-  FILE *file,
-  M_TRIE *xtrie,
-  char *extname,
-  int *count,
-  void (*proc)(M_ENTITY *)
-#endif
-  ) ;
+void endcode(LOGICAL flag, FILE *file);
 
-void endcode(
-#if defined(M_PROTO)
-  LOGICAL flag, FILE *file
-#endif
-  ) ;
+void endini(M_NOPAR);
 
-void endini(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void endsignon(M_NOPAR);
 
-void endsignon(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void endstring(M_NOPAR);
 
-void endstring(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void entout(char *fname);
 
-void entout(
-#if defined(M_PROTO)
-  char *fname
-#endif
-  ) ;
+void enttype(int type);
 
-void enttype(
-#if defined(M_PROTO)
-  int type
-#endif
-  ) ;
+void m_error(char *text);
 
-void m_error(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void m_err1(const char *text, const M_WCHAR *arg);
 
-void m_err1(
-#if defined(M_PROTO)
-  const char *text, const M_WCHAR *arg
-#endif
-  ) ;
+void m_mberr1(char *text, const char *arg);
 
-void m_mberr1(
-#if defined(M_PROTO)
-  char *text, const char *arg
-#endif
-  ) ;
+void m_err2(const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2);
 
-void m_err2(
-#if defined(M_PROTO)
-  const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2
-#endif
-  ) ;
+void m_err3(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3);
 
-void m_err3(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3
-#endif
-  ) ;
+void m_err5(char *text, M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4, M_WCHAR *arg5);
 
-void m_err5(
-#if defined(M_PROTO)
-  char *text,
-  M_WCHAR *arg1, M_WCHAR *arg2, M_WCHAR *arg3, M_WCHAR *arg4, M_WCHAR *arg5
-#endif
-  ) ;
+void m_exit(int status);
 
-void m_exit(
-#if defined(M_PROTO)
-  int status
-#endif
-  ) ;
+void m_free(void *block, char *msg);
 
-void m_free(
-#if defined(M_PROTO)
-  void *block, char *msg
-#endif
-  ) ;
+void freechain(M_NOPAR);
 
-void freechain(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+int getachar(M_NOPAR);
 
-int getachar(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+int *getaction(ACTION **array);
 
-int *getaction(
-#if defined(M_PROTO)
-  ACTION **array
-#endif
-  ) ;
+ACTION *getactstruct(M_NOPAR);
 
-ACTION *getactstruct(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void getname(int first);
 
-void getname(
-#if defined(M_PROTO)
-  int first
-#endif
-  ) ;
+int gettoken(int *c, int context);
 
-int gettoken(
-#if defined(M_PROTO)
-  int *c, int context
-#endif
-  ) ;
+void m_initctype(M_NOPAR);
 
-void m_initctype(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void initialize(M_NOPAR);
 
-void initialize(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+LOGICAL m_letter(M_WCHAR c);
 
-LOGICAL m_letter(
-#if defined(M_PROTO)
-  M_WCHAR c
-#endif
-  ) ;
+LOGICAL litproc(int delim);
 
-LOGICAL litproc(
-#if defined(M_PROTO)
-  int delim
-#endif
-  ) ;
+void main(int argc, char **argv);
 
-void main(
-#if defined(M_PROTO)
-  int argc, char **argv
-#endif
-  ) ;
+void *m_malloc(int size, char *msg);
 
-void *m_malloc(
-#if defined(M_PROTO)
-  int size, char *msg
-#endif
-  ) ;
+void m_openchk(FILE **ptr, char *name, char *mode);
 
-void m_openchk(
-#if defined(M_PROTO)
-  FILE **ptr, char *name, char *mode
-#endif
-  ) ;
+void outpval(M_TRIE *p);
 
-void outpval(
-#if defined(M_PROTO)
-  M_TRIE *p
-#endif
-  ) ;
+void outstring(M_NOPAR);
 
-void outstring(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+int m_packedlook(M_PTRIE *xptrie, M_WCHAR *name);
 
-int m_packedlook(
-#if defined(M_PROTO)
-  M_PTRIE *xptrie, M_WCHAR *name
-#endif
-  ) ;
+const M_WCHAR *m_partype(const int par, const M_WCHAR *string);
 
-const M_WCHAR *m_partype(
-#if defined(M_PROTO)
-  const int par, const M_WCHAR *string
-#endif
-  ) ;
+int scan(M_NOPAR);
 
-int scan(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void skiptoend(M_NOPAR);
 
-void skiptoend(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void startcode(int caseno, LOGICAL *flag, FILE *file, char *prefix, char *proto,
+  char *formal, char *formtype);
 
-void startcode(
-#if defined(M_PROTO)
-  int caseno, LOGICAL *flag, FILE *file, char *prefix, char *proto,
-  char *formal, char *formtype
-#endif
-  ) ;
+void startelement(M_NOPAR);
 
-void startelement(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void storecvar(M_NOPAR);
 
-void storecvar(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void storepname(M_NOPAR);
 
-void storepname(
-#if defined(M_PROTO)
-  M_NOPAR
-#endif
-  ) ;
+void undodelim(M_WCHAR *delim);
 
-void undodelim(
-#if defined(M_PROTO)
-  M_WCHAR *delim
-#endif
-  ) ;
+void ungetachar(int c);
 
-void ungetachar(
-#if defined(M_PROTO)
-  int c
-#endif
-  ) ;
+int m_wcupstrcmp(const M_WCHAR *p, const M_WCHAR *q);
 
-int m_wcupstrcmp(
-#if defined(M_PROTO)
-  const M_WCHAR *p, const M_WCHAR *q
-#endif
-  ) ;
+int m_wcmbupstrcmp(const M_WCHAR *p, const char *q);
 
-int m_wcmbupstrcmp(
-#if defined(M_PROTO)
-  const M_WCHAR *p, const char *q
-#endif
-  ) ;
+int m_mbmbupstrcmp(const char *p, const char *q);
 
-int m_mbmbupstrcmp(
-#if defined(M_PROTO)
-  const char *p, const char *q
-#endif
-  ) ;
+void value(M_WCHAR *p);
 
-void value(
-#if defined(M_PROTO)
-  M_WCHAR *p
-#endif
-  ) ;
+void warning(char *text);
 
-void warning(
-#if defined(M_PROTO)
-  char *text
-#endif
-  ) ;
+void warning1(char *text, M_WCHAR *arg);
 
-void warning1(
-#if defined(M_PROTO)
-  char *text, M_WCHAR *arg
-#endif
-  ) ;
-
-LOGICAL m_whitespace(
-#if defined(M_PROTO)
-  M_WCHAR c
-#endif
-  ) ;
+LOGICAL m_whitespace(M_WCHAR c);
 
