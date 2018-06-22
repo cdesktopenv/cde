@@ -39,7 +39,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 void countdown(M_TRIE *parent, int *count);
 
-void dumpdlmptr(M_NOPAR);
+void dumpdlmptr(void);
 
 void dumpnode(LOGICAL *first, FILE *file, M_TRIE *trieptr, int *count, void (*proc));
 
@@ -53,17 +53,17 @@ void m_err1(char *text, char *arg);
 
 void getcode(int n);
 
-void getcolon(M_NOPAR);
+void getcolon(void);
 
-int getContext(M_NOPAR);
+int getContext(void);
 
-LOGICAL getdname(M_NOPAR);
+LOGICAL getdname(void);
 
-void inccon(M_NOPAR);
+void inccon(void);
 
-void incdelim(M_NOPAR);
+void incdelim(void);
 
-void loaddelim(M_NOPAR);
+void loaddelim(void);
 
 int m_lower(int c);
 
@@ -81,7 +81,7 @@ void prtctxt(int column, int value);
 
 int readchar(LOGICAL cap);
 
-void skiptoend(M_NOPAR);
+void skiptoend(void);
 
 void unread(int c);
 

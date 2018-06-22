@@ -68,9 +68,9 @@ void DeleteElement(ElementPtr pElement);
 
 void OptimizeAndEmit(ElementPtr pVirpage);
 
-void PushCurrentElement(M_NOPAR);
+void PushCurrentElement(void);
 
-void PopCurrentElement(M_NOPAR);
+void PopCurrentElement(void);
 
 char *mb_realloc(  char *ptr, long size);
 
@@ -106,12 +106,12 @@ void FcloseFile(FILE *file, char *name, int code);
 
 int StringToUpper(char *string);
 
-void BuildIndex(M_NOPAR);
+void BuildIndex(void);
 
-void OpenDocument(M_NOPAR);
+void OpenDocument(void);
 
-void CloseDocument(M_NOPAR);
+void CloseDocument(void);
 
-void UpdateTossFileName(M_NOPAR);
+void UpdateTossFileName(void);
 
 void SetLocale(M_WCHAR *pLang, M_WCHAR *pCharset);

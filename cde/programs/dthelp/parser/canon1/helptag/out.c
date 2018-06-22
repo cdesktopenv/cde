@@ -67,7 +67,7 @@ m_free(wc,"wide character string");
 
 /* Called at end of a head in a chapter, appendix, section, or
    reference section */
-void endhead(M_NOPAR)
+void endhead(void)
 {
 if (savid)
     {

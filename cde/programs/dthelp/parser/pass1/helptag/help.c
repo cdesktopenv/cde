@@ -32,7 +32,7 @@
 #include "LocaleXlate.h"
 #include "XlationSvc.h"
 
-void assert_hometopic_exists(M_NOPAR)
+void assert_hometopic_exists(void)
 {
 static const char hometopic[] = "-HOMETOPIC";
 char id[SDLNAMESIZ + sizeof(hometopic)];
@@ -61,7 +61,7 @@ m_free(string, "GetDefaultHeaderString return");
 
 /* Determine base name for files (i.e., input name without extension).
    Open output and error files */
-void fbasename(M_NOPAR)
+void fbasename(void)
 {
 char *p, *q;
 int n;
@@ -292,7 +292,7 @@ if (*chapterSuffixString)
 
 /* Called at end of manual to report terms that occurred in the document
    but not entered in the glossary */
-void checkgloss(M_NOPAR)
+void checkgloss(void)
 {
 int n;
 M_WCHAR id[MAXTERM + 1];
@@ -329,7 +329,7 @@ while (TRUE)
 		
 /* End Error Message macro \starterrmsg call, check to see if Error Message
    head is user specified or default */
-void checkmsghead(M_NOPAR)
+void checkmsghead(void)
 {
 char *string =
     GetDefaultHeaderString("MessagesElementDefaultHeadingString",
@@ -924,7 +924,7 @@ chapst = TRUE;
 
 /* Called at the end of a chapter, appendix, or section to end an open
    sequence of rsects */
-void rseqend(M_NOPAR)
+void rseqend(void)
 {
 if (rsectseq)
     --thisnodelevel;
@@ -1275,7 +1275,7 @@ if (lastlist->type == BULLET) bulcount-- ;
 
 
 /* Open and initialize TeX file */
-void texinit(M_NOPAR)
+void texinit(void)
 {
 LOGICAL init = TRUE;
 unsigned char type;

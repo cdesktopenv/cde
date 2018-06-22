@@ -30,7 +30,7 @@
 
 void actptrout(ACTION **array, char *name);
 
-void addent(M_NOPAR);
+void addent(void);
 
 LOGICAL m_allwhite(const M_WCHAR *string);
 
@@ -38,19 +38,19 @@ void closeiffile(LOGICAL flag, FILE *file, int count, char *table, char *proto);
 
 void countdown(M_TRIE *parent, int *count);
 
-void cvalue(M_NOPAR);
+void cvalue(void);
 
-void done(M_NOPAR);
+void done(void);
 
 void m_dumptrie(FILE *file, M_TRIE *xtrie, char *extname, int *count, void (*proc)(M_ENTITY *));
 
 void endcode(LOGICAL flag, FILE *file);
 
-void endini(M_NOPAR);
+void endini(void);
 
-void endsignon(M_NOPAR);
+void endsignon(void);
 
-void endstring(M_NOPAR);
+void endstring(void);
 
 void entout(char *fname);
 
@@ -72,21 +72,21 @@ void m_exit(int status);
 
 void m_free(void *block, char *msg);
 
-void freechain(M_NOPAR);
+void freechain(void);
 
-int getachar(M_NOPAR);
+int getachar(void);
 
 int *getaction(ACTION **array);
 
-ACTION *getactstruct(M_NOPAR);
+ACTION *getactstruct(void);
 
 void getname(int first);
 
 int gettoken(int *c, int context);
 
-void m_initctype(M_NOPAR);
+void m_initctype(void);
 
-void initialize(M_NOPAR);
+void initialize(void);
 
 LOGICAL m_letter(M_WCHAR c);
 
@@ -100,24 +100,24 @@ void m_openchk(FILE **ptr, char *name, char *mode);
 
 void outpval(M_TRIE *p);
 
-void outstring(M_NOPAR);
+void outstring(void);
 
 int m_packedlook(M_PTRIE *xptrie, M_WCHAR *name);
 
 const M_WCHAR *m_partype(const int par, const M_WCHAR *string);
 
-int scan(M_NOPAR);
+int scan(void);
 
-void skiptoend(M_NOPAR);
+void skiptoend(void);
 
 void startcode(int caseno, LOGICAL *flag, FILE *file, char *prefix, char *proto,
   char *formal, char *formtype);
 
-void startelement(M_NOPAR);
+void startelement(void);
 
-void storecvar(M_NOPAR);
+void storecvar(void);
 
-void storepname(M_NOPAR);
+void storepname(void);
 
 void undodelim(M_WCHAR *delim);
 

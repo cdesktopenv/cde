@@ -29,9 +29,9 @@
 #include "common.h"
 extern char m_chartype[M_CHARSETLEN] ;
 
-void m_initctype(M_NOPAR);
+void m_initctype(void);
 
-void m_initctype(M_NOPAR)
+void m_initctype(void)
   {
     int i ;
 

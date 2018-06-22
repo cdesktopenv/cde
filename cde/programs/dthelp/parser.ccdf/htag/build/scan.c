@@ -74,7 +74,7 @@ return(TRUE);
 }
 
 /* Returns the next token to the main procedure */
-int scan(M_NOPAR)
+int scan(void)
 {
 int c;
 int n;

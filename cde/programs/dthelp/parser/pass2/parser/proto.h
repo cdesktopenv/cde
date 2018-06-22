@@ -21,9 +21,9 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 /* $XConsortium: proto.h /main/3 1995/11/08 10:57:56 rswiston $ */
-int m_actgetc(M_NOPAR);
+int m_actgetc(void);
 
-void m_adjuststate(M_NOPAR);
+void m_adjuststate(void);
 
 LOGICAL m_allwhite(const M_WCHAR *string);
 
@@ -41,20 +41,20 @@ void m_closent(void *m_ptr);
 
 void m_codeent(int m_ent);
 
-M_PARSE *m_copystackelt(M_NOPAR);
+M_PARSE *m_copystackelt(void);
 
 M_WCHAR *m_cyclent(LOGICAL init, unsigned char *type, M_WCHAR **content, 
   unsigned char *wheredef);
 
 void m_dispcurelt(M_WCHAR *file, int line);
 
-void m_done(M_NOPAR);
+void m_done(void);
 
 void m_dumpline(M_WCHAR *file, int line);
 
 void m_eduptype(int type);
 
-M_ELEMENT m_eltname(M_NOPAR);
+M_ELEMENT m_eltname(void);
 
 void m_endaction(M_ELEMENT m_elt);
 
@@ -64,7 +64,7 @@ void m_endtag(M_ELEMENT c);
 
 void m_entexpand(M_ENTITY *openent);
 
-void m_eprefix(M_NOPAR);
+void m_eprefix(void);
 
 void m_err1(const char *text, const M_WCHAR *arg);
 
@@ -87,15 +87,15 @@ void m_errline(char *p);
 
 void m_error(char *text);
 
-void m_esuffix(M_NOPAR);
+void m_esuffix(void);
 
 void m_exit(int status);
 
-void m_etcomplete(M_NOPAR);
+void m_etcomplete(void);
 
 LOGICAL m_excluded(M_ELEMENT elt);
 
-void m_expecting(M_NOPAR);
+void m_expecting(void);
 
 void m_expexpand(LOGICAL *expstart, M_STATE node, LOGICAL *required, LOGICAL *data);
 
@@ -105,7 +105,7 @@ void m_exptend(LOGICAL *expstart, M_PARSE *stackptr);
 
 int m_findact(M_ELEMENT elt, int *array);
 
-void m_findatt(M_NOPAR);
+void m_findatt(void);
 
 void m_findchain(M_PARSE *stackptr, int start, int chainin, int *chainout, int *index, 
   LOGICAL wild);
@@ -116,7 +116,7 @@ M_ELEMENT m_findunique(M_STATE from, int *newleft);
 
 void m_frcend(M_ELEMENT val);
 
-void m_frcstart(M_NOPAR);
+void m_frcstart(void);
 
 void m_free(void *block, char *msg);
 
@@ -141,23 +141,23 @@ void m_getline(M_WCHAR **file, int *line);
 
 void m_getname(M_WCHAR first);
 
-void m_getsignon(M_NOPAR);
+void m_getsignon(void);
 
 int m_gettoken(int *c, M_HOLDTYPE *dchar, int context);
 
-void m_globes(M_NOPAR);
+void m_globes(void);
 
-void m_globss(M_NOPAR);
+void m_globss(void);
 
-void m_holdproc(M_NOPAR);
+void m_holdproc(void);
 
 void m_inctest(int *count, int limit, char *message);
 
-void m_initctype(M_NOPAR);
+void m_initctype(void);
 
-void m_initialize(M_NOPAR);
+void m_initialize(void);
 
-void m_lastchars(M_NOPAR);
+void m_lastchars(void);
 
 int m_level(M_WCHAR *elt);
 
@@ -183,17 +183,17 @@ void m_nextdelimchar(int *n, int i, LOGICAL *linestart, LOGICAL newlinestart, LO
 
 void m_ntrent(M_WCHAR *p);
 
-void m_nullendtag(M_NOPAR);
+void m_nullendtag(void);
 
-LOGICAL m_omitend(M_NOPAR);
+LOGICAL m_omitend(void);
 
-LOGICAL m_omitstart(M_NOPAR);
+LOGICAL m_omitstart(void);
 
 void m_openchk(FILE **ptr, char *name, char *mode);
 
 void *m_openent(M_WCHAR *entcontent);
 
-void *m_openfirst(M_NOPAR);
+void *m_openfirst(void);
 
 void m_optstring(char *p);
 
@@ -217,45 +217,45 @@ LOGICAL m_parvalok(M_WCHAR *elt, M_WCHAR *param, const M_WCHAR *value);
 
 void m_piaction(M_WCHAR *m_pi, M_WCHAR *m_entname, int m_enttype);
 
-void m_pop(M_NOPAR);
+void m_pop(void);
 
 void m_push(M_ELEMENT elt, M_STATE current, LOGICAL need);
 
 LOGICAL m_putdata(void *data, int n);
 
-void m_readcomments(M_NOPAR);
+void m_readcomments(void);
 
 void *m_realloc(void *ptr, int size, char *msg);
 
-int m_scan(M_NOPAR);
+int m_scan(void);
 
 void m_setmap(int map, LOGICAL useoradd);
 
-void m_setoptions(M_NOPAR);
+void m_setoptions(void);
 
 void m_setparam(M_WCHAR **cvar, int par);
 
 void m_shortref(int context);
 
-void m_showcurelt(M_NOPAR);
+void m_showcurelt(void);
 
 void m_signmsg(char *p);
 
-void m_sigre(M_NOPAR);
+void m_sigre(void);
 
-void m_startdoc(M_NOPAR);
+void m_startdoc(void);
 
-void m_startmsg(M_NOPAR);
+void m_startmsg(void);
 
 void m_stcaction(M_WCHAR *m_string, LOGICAL M_START, LOGICAL M_END);
 
-void m_stcomplete(M_NOPAR);
+void m_stcomplete(void);
 
-void m_stkdefaultparams(M_NOPAR);
+void m_stkdefaultparams(void);
 
 void m_stkonedef(int par, M_ELEMENT scanel, M_WCHAR **poccur, int i);
 
-void m_stkparams(M_NOPAR);
+void m_stkparams(void);
 
 void m_strtaction(M_ELEMENT m_elt);
 
@@ -271,11 +271,11 @@ void m_textaction(M_WCHAR m_textchar);
 
 void m_textout(char *format, LOGICAL start, LOGICAL end);
 
-LOGICAL m_textpermitted(M_NOPAR);
+LOGICAL m_textpermitted(void);
 
-M_WCHAR *m_thisfile(M_NOPAR);
+M_WCHAR *m_thisfile(void);
 
-int m_thisline(M_NOPAR);
+int m_thisline(void);
 
 void m_trace(char *p);
 
@@ -297,7 +297,7 @@ int m_mbmbupstrcmp(const char *p, const char *q);
 
 LOGICAL m_validinpar(M_WCHAR *string);
 
-LOGICAL m_vldentref(M_NOPAR);
+LOGICAL m_vldentref(void);
 
 LOGICAL m_whitespace(M_WCHAR c);
 

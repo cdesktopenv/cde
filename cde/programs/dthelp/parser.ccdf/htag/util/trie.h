@@ -51,7 +51,7 @@ struct m_ptrie {
   } ;
 
 
-M_TRIE *m_gettrienode(M_NOPAR);
+M_TRIE *m_gettrienode(void);
 
 void *m_lookfortrie(const M_WCHAR *p, const M_TRIE *xtrie);
 

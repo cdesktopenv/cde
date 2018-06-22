@@ -28,7 +28,7 @@
 extern FILE *ifile;
 
 /* Getachar returns the next character from the input stream */
-int getachar(M_NOPAR)
+int getachar(void)
 {
 int  c;
 M_WCHAR wc,wnl;

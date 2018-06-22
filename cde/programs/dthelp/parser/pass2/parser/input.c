@@ -39,7 +39,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "parser.h"
 
 /* M_etcomplete is called when a complete end-tag has been read */
-void m_etcomplete(M_NOPAR)
+void m_etcomplete(void)
   {
     if (! m_scanel) {
       M_WCHAR *wc_etago, *wc_tagc;
@@ -91,7 +91,7 @@ void m_frcend(val)
 
 /* M_frcstart is called to force the start of an element when that element
    cannot legally occur in the current context but does appear in the text*/
-void m_frcstart(M_NOPAR)
+void m_frcstart(void)
   {
     m_push(m_scanel, m_element[m_scanel - 1].start, m_scannet) ;
     if (m_scannet) m_netlevel++ ;
@@ -108,7 +108,7 @@ void m_frcstart(M_NOPAR)
 
 /* M_holdproc processes a RE that was saved to test if it was the last
    RE in an element's content */
-void m_holdproc(M_NOPAR)
+void m_holdproc(void)
   {
     if (m_stacktop->holdre) {
       m_stacktop->holdre = FALSE ;
@@ -122,7 +122,7 @@ void m_holdproc(M_NOPAR)
     }
 
 /* M_stcomplete is called when a complete start tag has been recognized */
-void m_stcomplete(M_NOPAR)
+void m_stcomplete(void)
   {
     if (! m_scanel) return ;
     if (m_strtproc(m_scanel))

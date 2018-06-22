@@ -30,7 +30,7 @@ Copyright 1988, 1989 Hewlett-Packard Co.
 
 
 /* Set program options */
-void m_setoptions(M_NOPAR)
+void m_setoptions(void)
   {
     if (m_argc > 1) m_optstring(m_argv[1]) ;
     }

@@ -215,7 +215,6 @@ ELTEXTERN int restart ELTINIT(RENTITY) ;
 #define stproto "M_WCHAR *m_string, LOGICAL M_START, LOGICAL M_END"
 #define stformal "m_string, M_START, M_END"
 #define stft "  M_WCHAR *m_string ;\n  LOGICAL M_START ;\n  LOGICAL M_END ;\n"
-#define nopar "M_NOPAR"
 
 /* Structures for generating defines for parameter values */
 ELTEXTERN M_TRIE parval ;

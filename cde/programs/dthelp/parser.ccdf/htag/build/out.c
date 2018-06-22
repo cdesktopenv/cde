@@ -86,7 +86,7 @@ char *deftype(n)
     }
 
 /* Called after all input is read to generate output */
-void done(M_NOPAR)
+void done(void)
   {
 
     if (! eltree.data) {
@@ -166,7 +166,7 @@ void eltblocks(tempfile)
 
 
 /* Writes data about elements */
-void eltreeout(M_NOPAR)
+void eltreeout(void)
   {
     M_WCHAR *p ;
     int enameindex = 0 ;
@@ -244,7 +244,7 @@ char *enttype(n)
     }
 
 /* Outputs exception lists */
-void exout(M_NOPAR)
+void exout(void)
   {
     EXCEPTION *ex ;
     int exindex = 0 ;
@@ -267,7 +267,7 @@ void exout(M_NOPAR)
     }
 
 /* Outputs FSA definitions */
-void fsa(M_NOPAR)
+void fsa(void)
   {
     int arcount = 0 ;
     STATE *pstate ;
@@ -330,7 +330,7 @@ void fsa(M_NOPAR)
     }
 
 /* Writes data about parameters */
-void parout(M_NOPAR)
+void parout(void)
 {
 PARAMETER *paramp ;
 LOGICAL first = TRUE ;
@@ -479,7 +479,7 @@ char *partype(n)
     }
 
 /* Write short reference information */
-void srefout(M_NOPAR)
+void srefout(void)
   {
     LOGICAL first = TRUE ;
     int *mapbysref ;
@@ -626,7 +626,7 @@ fputs("  <END-STRING><\\END-STRING>\n", tempfile) ;
 }
 
 /* Write template */
-void template(M_NOPAR)
+void template(void)
   {
     FILE *tempfile ;
     M_ENTITY *ent ;

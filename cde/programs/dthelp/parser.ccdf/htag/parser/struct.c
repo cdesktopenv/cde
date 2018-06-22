@@ -191,7 +191,7 @@ LOGICAL m_ckend(M_ELEMENT val, LOGICAL neednet)
 
 /* Make a copy of the stack entry at the top of the parse stack in a scratch
    area */
-M_PARSE *m_copystackelt(M_NOPAR)
+M_PARSE *m_copystackelt(void)
   {
     M_OPENFSA *oldfsa ;
     M_OPENFSA **newfsa ;
@@ -219,7 +219,7 @@ M_PARSE *m_copystackelt(M_NOPAR)
     }
 
 /* End of document */
-void m_done(M_NOPAR)
+void m_done(void)
   {
     M_ELEMENT lastelt ;
 
@@ -395,7 +395,7 @@ LOGICAL m_nextand(thisfsa, label)
     }
 
 /* Pops the parse stack*/
-void m_pop(M_NOPAR)
+void m_pop(void)
   {
     M_PARSE *stackelt ;
 
@@ -661,7 +661,7 @@ void m_strttag(M_ELEMENT val, LOGICAL net)
    makes more sense, is used by MARKUP, and is under consideration by the
    Standards committee; the latter is the current definition in the Standard
    */
-LOGICAL m_textpermitted(M_NOPAR)
+LOGICAL m_textpermitted(void)
   {
     M_ANDGROUP pand ;
     M_OPENFSA *fsastack ;

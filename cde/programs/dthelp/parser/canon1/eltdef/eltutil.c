@@ -92,7 +92,7 @@ void closeiffile(LOGICAL flag, FILE *file, int count, char *table, char *proto)
 
 /* Called when the C identifier to be #define'd to a parameter value is
    scanned */
-void cvalue(M_NOPAR)
+void cvalue(void)
   {
     PARVAL *new;
 
@@ -111,18 +111,18 @@ void cvalue(M_NOPAR)
 
 /* Called after last input character is read to place closing punctuation
    at end of output files and close them */
-void done(M_NOPAR)
+void done(void)
   {
     M_ENTITY *ent;
     ACTION *actp;
     LOGICAL first;
     int i;
 
-    closeiffile(inent, entfile, codeent, "c", nopar);
+    closeiffile(inent, entfile, codeent, "c", "void");
     closeiffile(intext, tfile, tactions, "t", tproto);
     closeiffile(inpc, pfile, pactions, "p", pproto);
-    closeiffile(insc, sfile, sactions, "s", nopar);
-    closeiffile(inec, efile, eactions, "e", nopar);
+    closeiffile(insc, sfile, sactions, "s", "void");
+    closeiffile(inec, efile, eactions, "e", "void");
     closeiffile(instc, stfile, stactions, "st", stproto);
 
     endstring();
@@ -190,7 +190,7 @@ void endcode(LOGICAL flag, FILE *file)
     }
 
 /* Called at the end of all initial fields in the interface definition */
-void endini(M_NOPAR)
+void endini(void)
   {
     if (finitext) 
       fputs("    putc(m_textchar, m_outfile);\n", tfile);
@@ -209,7 +209,7 @@ void endini(M_NOPAR)
 
 /* End the sign-on message */
 #include <time.h>
-void endsignon(M_NOPAR)
+void endsignon(void)
   {
     time_t storetime;
     char *p;
@@ -255,7 +255,7 @@ void endsignon(M_NOPAR)
     }
 
 /* Closes a start-string or end-string */
-void endstring(M_NOPAR)
+void endstring(void)
   {
     if (instring) {
       if (stringstart) stringstart = FALSE;
@@ -282,7 +282,7 @@ void enttype(type)
     }
 
 /* Free storage used for a context-specification chain */
-void freechain(M_NOPAR)
+void freechain(void)
   {
     CHAIN *chainp, *dchainp;
 
@@ -333,7 +333,7 @@ int *getaction(array)
     }
 
 /* Allocate new action structure */
-ACTION *getactstruct(M_NOPAR)
+ACTION *getactstruct(void)
   {
     ACTION *new;
 
@@ -347,7 +347,7 @@ ACTION *getactstruct(M_NOPAR)
     }
 
 /* Program initialization */
-void initialize(M_NOPAR)
+void initialize(void)
 {
 char    **mb_delims;
 M_WCHAR **wc_delims;
@@ -411,13 +411,13 @@ fputs("#endif\n", ifh);
 
 startcode(pactions, &inpc, pfile, "p", pproto, pformal, pftype);
 startcode(tactions, &intext, tfile, "t", tproto, tformal, tftype);
-startcode(sactions, &insc, sfile, "s", nopar, nopar, "");
-startcode(eactions, &inec, efile, "e", nopar, nopar, "");
+startcode(sactions, &insc, sfile, "s", "void", "void", "");
+startcode(eactions, &inec, efile, "e", "void", "void", "");
 startcode(stactions, &instc, stfile, "st", stproto, stformal, stft);
 }
 
 /* Output definitions for strings */
-void outstring(M_NOPAR)
+void outstring(void)
   {
     int c;
 
@@ -480,7 +480,7 @@ for ( ; p ; p = p->next)
 }
 
 /* Skip rest of statement after an error */
-void skiptoend(M_NOPAR)
+void skiptoend(void)
   {
     int i;
     static int errlev = 0;
@@ -580,7 +580,7 @@ fprintf(file, "{\n/* line %d \"%s\" */\n", m_line, iffile); /* balance "}" */
 }
 
 /* Begins processing a new element */
-void startelement(M_NOPAR)
+void startelement(void)
   {
     CVARSTRUCT *cvarp;
     CVARSTRUCT *discard;
@@ -601,7 +601,7 @@ void startelement(M_NOPAR)
     }
 
 /* Stores the name of a C variable read from the input file */
-void storecvar(M_NOPAR)
+void storecvar(void)
   {
     CVARSTRUCT *new;
 
@@ -616,7 +616,7 @@ void storecvar(M_NOPAR)
 /* Compares the parameter name associated with a C variable in the input
    file with the names of all parameters of the current element.  Stores
    result for later output with code segments */
-void storepname(M_NOPAR)
+void storepname(void)
   {
     int i, par;
 

@@ -32,7 +32,7 @@ Copyright 1989 Hewlett-Packard Co.
    control after all entity declarations have been processed.  Not needed
    in valid documents (when it is called just prior to global start-code),
    but may be useful in some applications nevertheless. */
-void m_startdoc(M_NOPAR)
+void m_startdoc(void)
   {
     }
 

@@ -117,7 +117,7 @@ LOGICAL m_attvonly(string)
 
 /* Check a name previously saved in m_saveatt to see if it is the name of
    a valid parameter for the current start tag */
-void m_findatt(M_NOPAR)
+void m_findatt(void)
   {
     int par, i ;
 
@@ -220,7 +220,7 @@ void m_parupper(par, string)
 
 /* Set all parameters to their default values for an element included by
    tag minimization */
-void m_stkdefaultparams(M_NOPAR)
+void m_stkdefaultparams(void)
   {
     int i, par = 0 ;
 
@@ -272,7 +272,7 @@ void m_stkonedef(par, scanel, poccur, i)
     }
 
 /* Stack parameter values */
-void m_stkparams(M_NOPAR)
+void m_stkparams(void)
   {
     int i, par ;
 

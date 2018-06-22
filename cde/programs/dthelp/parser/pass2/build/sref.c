@@ -192,7 +192,7 @@ delim->data = thissref;
 
 /* Prefix left-hand side with "M-" to create default short reference map
    name, truncating to M_NAMELEN characters if necessary */
-void defmapname(M_NOPAR)
+void defmapname(void)
 {
 if (!wc_prefix)
     {

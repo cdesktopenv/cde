@@ -42,7 +42,7 @@ void m_exit(int status);
 
 void m_free(void *block, char *msg);
 
-void m_heapdump(M_NOPAR);
+void m_heapdump(void);
 
 void *m_malloc(int size, char *msg);
 
@@ -81,7 +81,7 @@ void m_free(block, msg)
     }
 
 #if defined(MSDOS)
-void m_heapdump(M_NOPAR)
+void m_heapdump(void)
   {
     struct _heapinfo hinfo ;
     int heapstatus ;

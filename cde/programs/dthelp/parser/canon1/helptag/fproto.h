@@ -24,28 +24,28 @@
 /* Copyright (c) 1988, 1989, 1990 Hewlett-Packard Co. */
 /* Function prototypes for HP Tag/TeX translator */
 
-void assert_hometopic_exists(M_NOPAR);
+void assert_hometopic_exists(void);
 
 /* osf has basename() defined in system header file, change
  * basename() to fbasename(). --XPG4 standard.
  */
-void fbasename(M_NOPAR);
+void fbasename(void);
 
 void chapstart(M_WCHAR *id);
 
-void checkgloss(M_NOPAR);
+void checkgloss(void);
 
 M_WCHAR *checkid(M_WCHAR *id);
 
-void checkmsghead (M_NOPAR);
+void checkmsghead (void);
 
-void dumpxref(M_NOPAR);
+void dumpxref(void);
 
 void echohead(M_WCHAR *p);
 
 void mb_echohead(char *p);
 
-void endhead(M_NOPAR);
+void endhead(void);
 
 void esoutchar(M_WCHAR textchar);
 
@@ -70,7 +70,7 @@ char *m_itoa(int n, char *s);
 
 LOGICAL m_letter(M_WCHAR c);
 
-void loadxref(M_NOPAR);
+void loadxref(void);
 
 int m_lower(int c);
 
@@ -84,7 +84,7 @@ void realoutchar(M_WCHAR textchar, FILE *outfile);
 
 void rsectstart(M_WCHAR *id);
 
-void rseqend(M_NOPAR);
+void rseqend(void);
 
 M_WCHAR *searchforfile(M_WCHAR *file);
 
@@ -144,7 +144,7 @@ void StartLabList(M_WCHAR *spacing,
 
 void StartList(M_WCHAR *type, M_WCHAR *order, M_WCHAR *spacing, M_WCHAR *cont);
 
-void EndList(M_NOPAR);
+void EndList(void);
 
 void strcode(M_WCHAR *string, FILE *outfile);
 
@@ -160,7 +160,7 @@ void termchar(M_WCHAR textchar);
 
 void termpi(int m_enttype, M_WCHAR *m_pi, M_WCHAR *m_entname);
 
-void texinit(M_NOPAR);
+void texinit(void);
 
 int vextextsize(const M_WCHAR *keyword);
 
@@ -189,7 +189,7 @@ char *GetDefaultHeaderString(char          *elementName,
   char          *defaultString);
 
 
-void SetDefaultLocale(M_NOPAR);
+void SetDefaultLocale(void);
 
 char *MakeMByteString(const M_WCHAR *from);
 
@@ -221,11 +221,11 @@ M_WCHAR wc_toupper(     M_WCHAR wc);
 
 M_WCHAR *wc_stringtoupper(     M_WCHAR *wcp);
 
-int NextId(M_NOPAR);
+int NextId(void);
 
-char *GetLanguage(M_NOPAR);
+char *GetLanguage(void);
 
-char *GetCharset(M_NOPAR);
+char *GetCharset(void);
 
 void HandleLink(  M_WCHAR *hyperlink,
     M_WCHAR *type,
@@ -241,7 +241,7 @@ void Add2ToRowVec(  int *length, char **rowvec, char *id1, char *id2);
 
 void StartEx(M_WCHAR *notes, M_WCHAR *lines, M_WCHAR *textsize);
 
-void EndEx(M_NOPAR);
+void EndEx(void);
 
 void StartNCW(char *which);
 
@@ -251,14 +251,14 @@ void AddToSNB(char *id, char *iconName);
 
 void StartNCWtext(char *which, char *iconFile, char *headingString);
 
-void IncludeToss(M_NOPAR);
+void IncludeToss(void);
 
 M_WCHAR *CycleEnt(  LOGICAL init,
     unsigned char *type,
     M_WCHAR ***content,
     unsigned char *wheredef);
 
-void ModifyEntities(M_NOPAR);
+void ModifyEntities(void);
 
 void PushForm(char *class,
   char *ssi,
@@ -269,12 +269,12 @@ void PushForm2(char *class,
   char *id1,
   char *id2);
 
-void PopForm(M_NOPAR);
+void PopForm(void);
 
-void PopForm2(M_NOPAR);
+void PopForm2(void);
 
-void PopFormMaybe(M_NOPAR);
+void PopFormMaybe(void);
 
-void EmitSavedAnchors(M_NOPAR);
+void EmitSavedAnchors(void);
 
-void CloseVirpage(M_NOPAR);
+void CloseVirpage(void);

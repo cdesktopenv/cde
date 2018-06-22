@@ -37,7 +37,7 @@ Copyright (c) 1988, 1989 Hewlett-Packard Co.
 /* Standard startup code doesn't have room to load inherited environments
    in some cases.  Since they're not used, don't bother.  (Using Microsoft
    C compiler).  */
-void _setenvp(M_NOPAR);
+void _setenvp(void);
 void _setenvp(){}
 #endif
 
@@ -72,7 +72,7 @@ else
 }
 
 /* Write error message prefix */
-void m_eprefix(M_NOPAR)
+void m_eprefix(void)
 {
 m_errline("\n*****\n");
 m_dumpline(m_thisfile(), m_thisline());
@@ -96,7 +96,7 @@ for ( ; *p ; p++)
 #include <process.h>
 #endif
 /* Write error message suffix */
-void m_esuffix(M_NOPAR)
+void m_esuffix(void)
 {
 m_errline(":\n");
 m_lastchars();
@@ -245,7 +245,7 @@ return(NULL);
 }
 
 /* Open input file */
-void *m_openfirst(M_NOPAR)
+void *m_openfirst(void)
 {
 FILE *first;
 char *input;

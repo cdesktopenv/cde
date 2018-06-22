@@ -38,7 +38,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Add a keyword to the list of possible values of a keyword parameter for
    the current element
 */
-void addkeyword(M_NOPAR)
+void addkeyword(void)
 {
 int length ;
 PARAMETER *par ;
@@ -87,7 +87,7 @@ ptypelen++ ;
 }
 
 /* Add a parameter to the current element */
-void addpar(M_NOPAR)
+void addpar(void)
 {
 PARAMETER *paramp, *last  = NULL ;
 int length ;
@@ -263,7 +263,7 @@ switch (newpar->type)
 }
 
 /* Called at end of parameter attribute list rule */
-void prulend(M_NOPAR)
+void prulend(void)
 {
 LHS *lhsp ;
 LHS *discard ;

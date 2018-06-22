@@ -36,7 +36,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 /* Called after a right parenthesis is read while scanning a content model.
    Resets curcon if it is the outermost submodel. */
-void endmodel(M_NOPAR)
+void endmodel(void)
   {
     curtree = curtree->parent ;
     if (! curtree->parent) curcon = LASTM ;
@@ -58,7 +58,7 @@ void freetree(treep)
     }
 
 /* Gettreenode obtains a node to use in the tree representation of a rule */
-TREE *gettreenode(M_NOPAR)
+TREE *gettreenode(void)
   {
     TREE *new ;
 

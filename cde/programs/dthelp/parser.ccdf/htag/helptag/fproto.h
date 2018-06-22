@@ -26,18 +26,18 @@
 
 void appstart(M_WCHAR *id, M_WCHAR *letter);
 
-void assert_hometopic_exists(M_NOPAR);
+void assert_hometopic_exists(void);
 
 void badgraphic(int filestat);
 
-void basename(M_NOPAR);
+void basename(void);
 
 void calcdisp (M_WCHAR *file, M_WCHAR *startrow, M_WCHAR *endrow,
   M_WCHAR *clip, M_WCHAR *margin);
 
-void callndbeg (M_NOPAR);
+void callndbeg (void);
 
-void callndend (M_NOPAR);
+void callndend (void);
 
 /* used by ccompspec(), cmenlspec(), and cwmenlspec() */
 char *ccharspec(M_WCHAR textchar);
@@ -61,11 +61,11 @@ M_WCHAR *mb_checkdimen(M_WCHAR *val, char *paramname, char *elt);
 
 M_WCHAR *checkent(M_WCHAR *entcontent);
 
-void checkgloss(M_NOPAR);
+void checkgloss(void);
 
 M_WCHAR *checkid(M_WCHAR *id);
 
-void checkmsghead (M_NOPAR);
+void checkmsghead (void);
 
 M_WCHAR *checkreal (M_WCHAR *val, M_WCHAR *paramname, LOGICAL msgout, M_WCHAR *elt);
 
@@ -91,17 +91,17 @@ void cwmloutchar(M_WCHAR textchar, FILE *outfile);
 
 void defxref(FILE *xfile, M_WCHAR *id, struct xref *xref);
 
-int do_esc_seq(M_NOPAR);
+int do_esc_seq(void);
 
-void dumpxref(M_NOPAR);
+void dumpxref(void);
 
 void echohead(M_WCHAR *p);
 
 void mb_echohead(char *p);
 
-void endhead(M_NOPAR);
+void endhead(void);
 
-void endhelpnode(M_NOPAR);
+void endhelpnode(void);
 
 void esoutchar(M_WCHAR textchar);
 
@@ -163,7 +163,7 @@ void itoletter(int n, char start, char *dest, int length);
 
 LOGICAL m_letter(M_WCHAR c);
 
-void loadxref(M_NOPAR);
+void loadxref(void);
 
 int m_lower(int c);
 
@@ -179,7 +179,7 @@ void onlygraphic(char    *param,    M_WCHAR *magnify, M_WCHAR *video,     M_WCHA
   M_WCHAR *margin,   M_WCHAR *clip,    M_WCHAR *penwidth,  M_WCHAR *autoscale,
   M_WCHAR *plottype, M_WCHAR *hadjust, M_WCHAR *vadjust);
 
-void open_new_helpfile(M_NOPAR);
+void open_new_helpfile(void);
 		       
 void notallow(char *param1, char *param2);
 
@@ -191,11 +191,11 @@ void outchar(M_WCHAR textchar, FILE *outfile);
 
 void outpi(int enttype, M_WCHAR *pi, M_WCHAR *entname);
 
-void parspace(M_NOPAR);
+void parspace(void);
 
 LOGICAL pushndok(LOGICAL val);
 
-LOGICAL popndok(M_NOPAR);
+LOGICAL popndok(void);
 
 void prfigborder(int val);
 
@@ -223,9 +223,9 @@ void realoutchar(M_WCHAR textchar, FILE *outfile);
 
 void rsectstart(M_WCHAR *id, M_WCHAR *pagebreak);
 
-void rseqend(M_NOPAR);
+void rseqend(void);
 
-void rshnewclear(M_NOPAR);
+void rshnewclear(void);
 
 M_WCHAR *searchforfile(M_WCHAR *file);
 
@@ -294,7 +294,7 @@ void svhdstring(M_WCHAR *string);
 
 void svtcstring(M_WCHAR *string);
 
-void taboutre(M_NOPAR);
+void taboutre(void);
 
 void termchar(M_WCHAR textchar);
 
@@ -302,7 +302,7 @@ void termpi(int m_enttype, M_WCHAR *m_pi, M_WCHAR *m_entname);
 
 void testindexfile(FILE *first);
 
-void texinit(M_NOPAR);
+void texinit(void);
 
 void unimp(M_WCHAR *eltname);
 
@@ -336,11 +336,11 @@ double mb_usertopt(char *s);
 
 long usertosp(char *s);
 
-void whereneedused(M_NOPAR);
+void whereneedused(void);
 
 void t_addnotes(M_WCHAR *tnoteid);
 
-void t_prntnotes(M_NOPAR);
+void t_prntnotes(void);
 
 LOGICAL t_want_a_Q(int span_count);   
 
@@ -349,21 +349,21 @@ void t_xrefnotes(M_WCHAR *tnoteid);
 
 int t_getnum(char *s);
 
-void t_insertcellmarkup(M_NOPAR);
+void t_insertcellmarkup(void);
 
-void t_newpage(M_NOPAR);
+void t_newpage(void);
 
-void t_startcolh(M_NOPAR);
+void t_startcolh(void);
 
-void t_start_tabhead_colh(M_NOPAR);
+void t_start_tabhead_colh(void);
 
-void t_nextcell(M_NOPAR);
+void t_nextcell(void);
 
-void t_checkcaption(M_NOPAR);
+void t_checkcaption(void);
 
-void t_preamble(M_NOPAR);
+void t_preamble(void);
 
-void t_getstyle(M_NOPAR);
+void t_getstyle(void);
 
 void t_dospan(LOGICAL in_colh);
 
@@ -371,7 +371,7 @@ void t_startcell(M_WCHAR *span, M_WCHAR *vspan, char *msg);
 
 void t_endcell(M_WCHAR *span, M_WCHAR *vspan);
 
-void t_startrow(M_NOPAR);
+void t_startrow(void);
 
 void t_endrow(M_WCHAR *taglevone);
 
@@ -382,11 +382,11 @@ void t_tabstart(M_WCHAR *style, M_WCHAR *id, M_WCHAR *number, M_WCHAR *box, M_WC
   M_WCHAR *spacing, M_WCHAR *width, M_WCHAR *position, 
   M_WCHAR *tonumber, M_WCHAR *divide, M_WCHAR *textsize);
 
-void t_tablebody(M_NOPAR);
+void t_tablebody(void);
 
-void t_sendout_rowrule(M_NOPAR);
+void t_sendout_rowrule(void);
 
-void showmemavail(M_NOPAR);
+void showmemavail(void);
 
 int m_upper(int c);
 
@@ -395,7 +395,7 @@ char *GetDefaultHeaderString(char          *elementName,
   char          *defaultString);
 
 
-void SetDefaultLocale(M_NOPAR);
+void SetDefaultLocale(void);
 
 char *MakeMByteString(const M_WCHAR *from);
 

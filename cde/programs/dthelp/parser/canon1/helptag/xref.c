@@ -143,7 +143,7 @@ m_free(csname, "csname");
 
 /* Write cross-reference file for next time document is processed
    and TeX macro file for post-processing this pass */
-void dumpxref(M_NOPAR)
+void dumpxref(void)
 {
 int n;
 M_WCHAR id[M_NAMELEN + 1];
@@ -214,7 +214,7 @@ xstrlen += length;
 
 /* Initializes cross-reference table reading in file output from previous
    pass through document */
-void loadxref(M_NOPAR)
+void loadxref(void)
 {
 M_WCHAR id[M_NAMELEN + 1];
 char c, d;

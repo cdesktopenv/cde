@@ -62,7 +62,7 @@ if (*flag)
 }
 
 /* Program initialization */
-void initialize(M_NOPAR)
+void initialize(void)
 {
 char    **mb_delims;
 M_WCHAR **wc_delims;
@@ -90,7 +90,7 @@ ruleinit() ;
 
 
 /* Initialization before starting a new rule */
-void ruleinit(M_NOPAR)
+void ruleinit(void)
   {
     /* Reinitialize for next rule */
     lhs = NULL ;
@@ -110,7 +110,7 @@ void ruleinit(M_NOPAR)
     }
 
 /* Rule end processing */
-void rulend(M_NOPAR)
+void rulend(void)
   {
     STATE *fsa = NULL ;
     LOGICAL canbenull ;
@@ -150,7 +150,7 @@ void rulend(M_NOPAR)
     }
 
 /* Skip rest of statement after an error */
-void skiptoend(M_NOPAR)
+void skiptoend(void)
   {
     int i ;
     static int errlev = 0 ;

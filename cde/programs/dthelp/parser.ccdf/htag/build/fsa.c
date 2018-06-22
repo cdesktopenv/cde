@@ -176,7 +176,7 @@ void dellist(list)
 
 /* Delstartarcs deletes the contents of the starta list of arcs from start
    states of a submodel */
-void delstartarcs(M_NOPAR)
+void delstartarcs(void)
   {
     ARC *arcptr ;
     ARC *discard ;
@@ -190,7 +190,7 @@ void delstartarcs(M_NOPAR)
     }
 
 /* Getand allocates and initializes a new andgroup structure */
-ANDGROUP *getand(M_NOPAR)
+ANDGROUP *getand(void)
   {
     ANDGROUP *new ;
 
@@ -203,7 +203,7 @@ ANDGROUP *getand(M_NOPAR)
     }    
 
 /* Getstate obtains an FSA state */
-STATE *getstate(M_NOPAR)
+STATE *getstate(void)
   {
     STATE *new ;
 
@@ -477,7 +477,7 @@ LOGICAL permitspcd(a)
 
 /* Pop pops the submodel stack when the end of the current submodel is
    encountered */
-void pop(M_NOPAR)
+void pop(void)
   {
     STACK *discard ;
 
@@ -493,7 +493,7 @@ void pop(M_NOPAR)
     }
 
 /* Push pushes the submodel stack when a new group is encountered */
-void push(M_NOPAR)
+void push(void)
   {
     STACK *new ;
 
@@ -647,7 +647,7 @@ void savelhs(LOGICAL param)
 /* Called when arcs are added to the start state of a submodel that is
    also a start state of the parent model to set the parent model's
    starta list */
-void savestartarcs(M_NOPAR)
+void savestartarcs(void)
   {
     ARC *carcptr, *parcptr ;
 

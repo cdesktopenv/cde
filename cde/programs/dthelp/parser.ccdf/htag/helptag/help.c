@@ -95,7 +95,7 @@ tableno = 0;
 footnoteno = 1;
 }
 
-void assert_hometopic_exists(M_NOPAR)
+void assert_hometopic_exists(void)
 {
 char *string =
     GetDefaultHeaderString("UntitledElementDefaultHeadingString",
@@ -123,7 +123,7 @@ m_free(string, "GetDefaultHeaderString return");
 
 /* Determine base name for files (i.e., input name without extension).
    Open output and error files */
-void basename(M_NOPAR)
+void basename(void)
   {
     char *p, *q;
     int n;
@@ -816,7 +816,7 @@ return(NULL);
 
 /* Called at end of manual to report terms that occurred in the document
    but not entered in the glossary */
-void checkgloss(M_NOPAR)
+void checkgloss(void)
 {
 int n;
 M_WCHAR id[MAXTERM + 1];
@@ -853,7 +853,7 @@ while (TRUE)
 		
 /* End Error _DtMessage macro \starterrmsg call, check to see if Error _DtMessage
    head is user specified or default */
-void checkmsghead(M_NOPAR)
+void checkmsghead(void)
 {
 char *string =
     GetDefaultHeaderString("MessagesElementDefaultHeadingString",
@@ -920,7 +920,7 @@ return ( valid );
 
 
 /* end a help node */
-void endhelpnode(M_NOPAR)
+void endhelpnode(void)
 {
 }
 
@@ -1735,7 +1735,7 @@ chapst = TRUE;
 
 /* Called at the end of a chapter, appendix, or section to end an open
    sequence of rsects */
-void rseqend(M_NOPAR)
+void rseqend(void)
 {
 if (rsectseq)
     {
@@ -1748,7 +1748,7 @@ if (rsectseq)
    sequence is not immediately followed by a new <rsect>.  Hence can output
    the \newpage macro call without concern about side effects on the
    page header */
-void rshnewclear(M_NOPAR)
+void rshnewclear(void)
 {
 if (rsectholdnew)
     {
@@ -1802,7 +1802,7 @@ return(NULL);
 
 
 /* show how much memory is available */
-void showmemavail(M_NOPAR)
+void showmemavail(void)
 {
 int amount=0;
 char *p;
@@ -2105,7 +2105,7 @@ m_entdupchk = FALSE;
 }
 
 /* Open and initialize TeX file */
-void texinit(M_NOPAR)
+void texinit(void)
 {
 LOGICAL init = TRUE;
 unsigned char type;

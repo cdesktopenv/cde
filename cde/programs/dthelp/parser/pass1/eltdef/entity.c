@@ -35,7 +35,7 @@
 #include "entext.h"
 
 /* Add an entity */
-void addent(M_NOPAR)
+void addent(void)
   {
     M_ENTITY *new ;
 

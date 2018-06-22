@@ -47,8 +47,6 @@ typedef wchar_t M_WCHAR;
 /* For function prototypes */
 typedef char * M_POINTER;
 
-#define M_NOPAR void
-
 char *MakeMByteString(const M_WCHAR *from);
 
 M_WCHAR *MakeWideCharString(const char *from);

@@ -48,7 +48,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "version.h"
 
 /* Adjust parsing state after each token if necessary */
-void m_adjuststate(M_NOPAR)
+void m_adjuststate(void)
   {
     if (m_curcon == START) {
       if (m_netlevel) {
@@ -79,7 +79,7 @@ void m_adjuststate(M_NOPAR)
 
 /* Tests whether the element named in a tag is defined; if so, returns its
    index; otherwise return FALSE */
-M_ELEMENT m_eltname(M_NOPAR)
+M_ELEMENT m_eltname(void)
   {
     M_ELEMENT eltid ;
 
@@ -103,7 +103,7 @@ return i;
 }
 
 /* Program initialization */
-void m_initialize(M_NOPAR)
+void m_initialize(void)
 {
 char    **mb_delims;
 M_WCHAR **wc_delims;

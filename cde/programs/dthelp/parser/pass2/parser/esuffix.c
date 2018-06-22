@@ -32,7 +32,7 @@ Copyright 1988, 1989 Hewlett-Packard Co.
 #endif
 
 /* Write error message suffix */
-void m_esuffix(M_NOPAR)
+void m_esuffix(void)
   {
     m_errline("\n") ;
     m_dumpline(m_thisfile(), m_thisline()) ;

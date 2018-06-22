@@ -51,7 +51,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "sref.h"
 
 /* Actually read a character from an input stream */
-int m_actgetc(M_NOPAR)
+int m_actgetc(void)
   {
     int c ;
 
@@ -689,7 +689,7 @@ void m_nextdelimchar(int *n, int i, LOGICAL *linestart, LOGICAL newlinestart,
     }
 
 /* Scans past a comment within a markup declaration */
-void m_readcomments(M_NOPAR)
+void m_readcomments(void)
   {
     int c ;
     M_HOLDTYPE dchar ;
@@ -702,7 +702,7 @@ void m_readcomments(M_NOPAR)
     }
 
 /* Scanner */
-int m_scan(M_NOPAR)
+int m_scan(void)
   {
     int c ;
     M_HOLDTYPE dchar ;
@@ -1035,7 +1035,7 @@ while (TRUE)
           or contextual end tag [linestat == M_SOMETHING]
       3)  If a record end might be the last one in an element, save it
 */
-void m_sigre(M_NOPAR)
+void m_sigre(void)
   {
     /* Check for first RE in content and no preceding content */
     if (m_start &&
@@ -1111,7 +1111,7 @@ void m_ungetachar(int c, M_HOLDTYPE dchar, LOGICAL preread)
     }
 
 /* Have encountered an M_ERO.  If the entity reference is valid, process it*/
-LOGICAL m_vldentref(M_NOPAR)
+LOGICAL m_vldentref(void)
   {
     M_HOLDTYPE dchar ;
     int next ;

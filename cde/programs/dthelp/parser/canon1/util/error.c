@@ -56,7 +56,7 @@ void msgline(char *text);
 
 void msg1line(char *text, char *arg1);
 
-void skiptoend(M_NOPAR);
+void skiptoend(void);
 
 void m_wctrace(M_WCHAR *text);
 
@@ -185,7 +185,7 @@ m_free(mb_arg5,"multi-byte string");
 }
 
 /* Write error message suffix */
-void esuffix(M_NOPAR)
+void esuffix(void)
   {
     fprintf(stderr, " (line %d) ****\n", m_line) ;
     fprintf(m_errfile, " (line %d) ****\n", m_line) ;

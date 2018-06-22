@@ -336,7 +336,7 @@ void m_getline(file, line)
 
 /* Dump last characters read from input stream to give context to
    an error message */
-void m_lastchars(M_NOPAR)
+void m_lastchars(void)
 {
 int i;
 M_WCHAR buffer[2];
@@ -385,14 +385,14 @@ if ((m_svlncnt[m_sysecnt] &&
 }
 
 /* Display information about the current element */
-void m_showcurelt(M_NOPAR)
+void m_showcurelt(void)
   {
     if (m_stacktop->oldtop)
       m_dispcurelt(m_stacktop->file, m_stacktop->line);
     }    
 
 /* Start an error message */
-void m_startmsg(M_NOPAR)
+void m_startmsg(void)
   {
     m_eprefix();
     m_errexit = TRUE;
@@ -400,7 +400,7 @@ void m_startmsg(M_NOPAR)
 
 /* Return the name of the current input file (most recently opened, but
    unclosed SYSTEM entity) */
-M_WCHAR *m_thisfile(M_NOPAR)
+M_WCHAR *m_thisfile(void)
   {
     int i;
 
@@ -413,7 +413,7 @@ M_WCHAR *m_thisfile(M_NOPAR)
     }
 
 /* Return the line number in the current input file */
-int m_thisline(M_NOPAR)
+int m_thisline(void)
   {
     return(m_line[m_sysecnt]);
     }

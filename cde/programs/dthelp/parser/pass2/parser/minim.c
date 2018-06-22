@@ -43,7 +43,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 /* M_expecting reports to the user the possible valid content at a particular
    state in the parse of the document */
-void m_expecting(M_NOPAR)
+void m_expecting(void)
   {
     LOGICAL expstart = TRUE ;
     M_PARSE *stackptr ;
@@ -276,7 +276,7 @@ M_ELEMENT m_findunique(from, newleft)
 
 /* M_nullendtag is called when a null end tag is encountered; i.e., at the
    end of a short element */
-void m_nullendtag(M_NOPAR)
+void m_nullendtag(void)
   {
     LOGICAL foundnet ;
 
@@ -307,7 +307,7 @@ void m_nullendtag(M_NOPAR)
 
 /* Tests to see if an end tag may have been omitted at this point in the
    parse.*/
-LOGICAL m_omitend(M_NOPAR)
+LOGICAL m_omitend(void)
   {
     M_ANDGROUP pand ;
     M_OPENFSA *fsastack ;

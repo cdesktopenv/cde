@@ -40,7 +40,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "cont.h"
 
 /* Output declaration of dlmptr */
-void dumpdlmptr(M_NOPAR)
+void dumpdlmptr(void)
   {
     int n;
 
@@ -216,7 +216,7 @@ while (TRUE)
 } /* End proc getcode() */
 
 /* Read the colon separating the two states in a transition pair */
-void getcolon(M_NOPAR)
+void getcolon(void)
 {
 int c ; /* c is int instead of char for use with ungetc */
 M_WCHAR wcl;
@@ -240,7 +240,7 @@ if (c != wcl)
 }
 
 /* Read a context name from an input line */
-int getContext(M_NOPAR)
+int getContext(void)
 {
 M_WCHAR name[CNAMELEN + 1];
 int c ; /* c is int instead of char for use with ungetc */
@@ -309,7 +309,7 @@ return(ccount - 1);
 }
 
 /* Read a delimiter name from the input line */
-LOGICAL getdname(M_NOPAR)
+LOGICAL getdname(void)
 {
 int c;
 M_WCHAR *p;
@@ -353,7 +353,7 @@ return(TRUE);
 }
 
 /* Out of context space.  Increase. */
-void inccon(M_NOPAR)
+void inccon(void)
   {
     M_TRIE **newtrie = NULL;
     int *newtransit = NULL;
@@ -400,7 +400,7 @@ void inccon(M_NOPAR)
     }
 
 /* Increase delimiter space. */
-void incdelim(M_NOPAR)
+void incdelim(void)
 {
 int *newtransit = NULL;
 char **newdlm = NULL;
@@ -444,7 +444,7 @@ dcount++;
 }
 
 /* Read delimiter definitions from delim.dat */
-void loaddelim(M_NOPAR)
+void loaddelim(void)
 {
 int c;
 M_WCHAR *p;
@@ -650,7 +650,7 @@ return(c);
 
 /* Called by utility procedure m_error() -- has content in other programs
    that use m_error() */
-void skiptoend(M_NOPAR)
+void skiptoend(void)
 {
 }
 

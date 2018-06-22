@@ -137,7 +137,7 @@ void m_findchain(M_PARSE *stackptr, int start, int chainin, int *chainout, int *
 /* Process global end string.  In separate procedure to keep all references
    to if.h in one source file and minimize recompilation if interface
    changes. */
-void m_globes(M_NOPAR)
+void m_globes(void)
 {
 M_WCHAR *wc_string;
 
@@ -149,7 +149,7 @@ m_free(wc_string,"wide character string");
 /* Process global start string.  In separate procedure to keep all references
    to if.h in one source file and minimize recompilation if interface
    changes. */
-void m_globss(M_NOPAR)
+void m_globss(void)
 {
 M_WCHAR *wc_string;
 

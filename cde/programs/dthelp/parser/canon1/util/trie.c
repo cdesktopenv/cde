@@ -85,7 +85,7 @@ void m_entercharintrie(M_TRIE **currentnode, M_WCHAR c)
    } /* end entertree */
 
 /* Gets a new node for a trie */
-M_TRIE *m_gettrienode(M_NOPAR)
+M_TRIE *m_gettrienode(void)
   {
     M_TRIE *new ;
 

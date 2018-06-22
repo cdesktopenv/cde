@@ -36,15 +36,15 @@ void adddefent(M_WCHAR *mapname);
 
 LOGICAL addent(M_WCHAR *name);
 
-void addex(M_NOPAR);
+void addex(void);
 
-void addkeyword(M_NOPAR);
+void addkeyword(void);
 
 LOGICAL addmapname(M_WCHAR *p, LOGICAL define);
 
 void addndent(M_WCHAR *p);
 
-void addpar(M_NOPAR);
+void addpar(void);
 
 void addsref(M_WCHAR *p);
 
@@ -63,15 +63,15 @@ void copyintolist(STATELIST *from, STATELIST **to);
 
 void countdown(M_TRIE *parent, int *count);
 
-void defmapname(M_NOPAR);
+void defmapname(void);
 
 char *deftype(int n);
 
 void dellist(STATELIST **list);
 
-void delstartarcs(M_NOPAR);
+void delstartarcs(void);
 
-void done(M_NOPAR);
+void done(void);
 
 void dumpentnode(FILE *file, M_TRIE *value);
 
@@ -91,9 +91,9 @@ void m_dumptrie(FILE   *file,
 
 void eltblocks(FILE *tempfile);
 
-void eltreeout(M_NOPAR);
+void eltreeout(void);
 
-void endmodel(M_NOPAR);
+void endmodel(void);
 
 void entout(char *fname);
 
@@ -107,7 +107,7 @@ void m_mberr1(char *text, const char *arg);
 
 void m_err2(const char *text, const M_WCHAR *arg1, const M_WCHAR *arg2);
 
-void exout(M_NOPAR);
+void exout(void);
 
 void m_free(void *block, char *msg);
 
@@ -115,23 +115,23 @@ void freetree(TREE *ruletree);
 
 void found(LOGICAL *flag, char *delim);
 
-void fsa(M_NOPAR);
+void fsa(void);
 
-int getachar(M_NOPAR);
+int getachar(void);
 
-ANDGROUP *getand(M_NOPAR);
+ANDGROUP *getand(void);
 
 LOGICAL getname(int first);
 
-STATE *getstate(M_NOPAR);
+STATE *getstate(void);
 
 int gettoken(int *c, int context);
 
-TREE *gettreenode(M_NOPAR);
+TREE *gettreenode(void);
 
-void m_initctype(M_NOPAR);
+void m_initctype(void);
 
-void initialize(M_NOPAR);
+void initialize(void);
 
 LOGICAL litproc(int delim);
 
@@ -161,49 +161,49 @@ ELTSTRUCT *ntrelt(M_WCHAR *p);
 
 void m_openchk(FILE **ptr, char *name, char *mode);
 
-void parout(M_NOPAR);
+void parout(void);
 
 char *partype(int n);
 
 LOGICAL permitspcd(ARC *a);
 
-void pop(M_NOPAR);
+void pop(void);
 
-void prulend(M_NOPAR);
+void prulend(void);
 
-void push(M_NOPAR);
+void push(void);
 
 LOGICAL regenerate(TREE *start, TREE *stop);
 
 void repeat(TREE *root);
 
-void ruleinit(M_NOPAR);
+void ruleinit(void);
 
-void rulend(M_NOPAR);
+void rulend(void);
 
 LOGICAL samelabelarc(ARC *a, STATE *s);
 
 void savelhs(LOGICAL param);
 
-void savestartarcs(M_NOPAR);
+void savestartarcs(void);
 
-int scan(M_NOPAR);
+int scan(void);
 
 void setdefault(const M_WCHAR *string);
 
 void simplebranch(TREE *root, ELTSTRUCT *value, ANDGROUP *group, int optional);
 
-void skiptoend(M_NOPAR);
+void skiptoend(void);
 
 int m_sprscon(int i, int j);
 
-void srefout(M_NOPAR);
+void srefout(void);
 
 STATE *startfsa(TREE *root, LOGICAL *canbenull);
 
 void tempelt(ELTSTRUCT *eltp, FILE *tempfile);
 
-void template(M_NOPAR);
+void template(void);
 
 char *typecon(int n);
 

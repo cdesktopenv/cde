@@ -86,7 +86,7 @@ ungetachar(c);
 }
 
 /* Reads the next token and returns it to the main procedure */
-int scan(M_NOPAR)
+int scan(void)
 {
 int c;
 int n;
