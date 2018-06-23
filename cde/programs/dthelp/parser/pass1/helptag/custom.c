@@ -32,15 +32,6 @@ Copyright (c) 1988, 1989 Hewlett-Packard Co.
 #include "globdec.h"
 #include <stdlib.h>
 
-
-#if defined(MSDOS)
-/* Standard startup code doesn't have room to load inherited environments
-   in some cases.  Since they're not used, don't bother.  (Using Microsoft
-   C compiler).  */
-void _setenvp(void);
-void _setenvp(){}
-#endif
-
 /* Write input file and line number for an error message */
 void m_dumpline(file, line)
 M_WCHAR *file;
@@ -92,9 +83,6 @@ for ( ; *p ; p++)
     }
 }
 
-#if defined(MSDOS)
-#include <process.h>
-#endif
 /* Write error message suffix */
 void m_esuffix(void)
 {

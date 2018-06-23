@@ -139,18 +139,6 @@ void basename(void)
        ) filelist = TRUE;
 
     /* Get installation directory */
-#if defined(MSDOS)
-    for (p = m_argv[0]; *p ; p++);
-    for (; ; p--)
-      if (*p == dirsep || *p == ':') break;
-    p++;
-    save = *p;
-    *p = M_EOS;
-    install = m_malloc(strlen(m_argv[0]) + 1, "installation directory");
-    strcpy(install, m_argv[0]);
-    *p = save;
-
-#else
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(__linux__)
 #define CONTRIB "/usr/hphelp/bin/"
 
@@ -231,15 +219,11 @@ void basename(void)
 #else
  Get installation directory
 #endif
-#endif
 
     /* Set default working directory (from input filename) */
     for (p = strchr(m_argv[1], M_EOS); p > m_argv[1] ; p--)
-      if (*(p - 1) == dirsep
-#if defined(MSDOS)
-          || *(p - 1) == ':'
-#endif
-          ) break;
+      if (*(p - 1) == dirsep)
+        break;
     if (p > m_argv[1]) {
       save = *p;
       *p = M_EOS;
@@ -2213,17 +2197,10 @@ while (name = m_cyclent(init, &type, &content, &wheredef))
 	}
     }
 
-#if defined(MSDOS)
-m_openchk(&nullfile, "NUL", "w");
-#else
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(__linux__)
 m_openchk(&nullfile, "/dev/null", "w");
 #else
 m_openchk(&nullfile, "nullfile", "w");
-#endif
-#endif
-#if defined(MSDOS)
-#else
 #endif
 
 idxupdate = ftell(outfile);

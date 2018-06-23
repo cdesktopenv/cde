@@ -32,9 +32,6 @@ in the interface definition.*/
 
 #include <stdio.h>
 #include <stdlib.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include <string.h>
 #include "basic.h"
 #include "trie.h"

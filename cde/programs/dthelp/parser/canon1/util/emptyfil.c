@@ -24,9 +24,6 @@
 /* Copyright (c) 1988, 1989 Hewlett-Packard Co. */
 /* Creates a file with nothing in it */
 #include <stdio.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "basic.h"
 
 void main(int argc, char **argv);

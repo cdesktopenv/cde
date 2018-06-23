@@ -31,9 +31,6 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 #include <string.h>
 #include <stdlib.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "context.h"
 #include "build.h"
 #include "delim.h"

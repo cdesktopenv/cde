@@ -35,11 +35,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#if defined(MSDOS)
-#include <io.h>
-#include <process.h>
-#include <direct.h>
-#endif
 #include <ctype.h>
 
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(__linux__) || defined(CSRG_BASED)
@@ -153,9 +148,6 @@ EXTERN LOGICAL filelist INIT(FALSE) ;
 
 /* NOTE: If driver is redimensioned, a change is needed in texinit() */
 EXTERN char driver[20]
-#if defined(MSDOS)
-  INIT("CDS") 
-#else
 #if defined(hpux)
   INIT("HPUX")
 #endif
@@ -167,7 +159,6 @@ EXTERN char driver[20]
 #endif
 #if defined(sun)
   INIT("SUN")
-#endif
 #endif
   ;
 
@@ -191,14 +182,10 @@ struct search {
 EXTERN SEARCH *path INIT(NULL) ;
 EXTERN SEARCH **endpath INIT(&path) ;
 EXTERN char dirsep
-#if defined(MSDOS)
-INIT('\\')
-#else
 #if defined(hpux) || defined(_AIX) || defined(sun)
 INIT('/')
 #else
 ****define directory separator here****
-#endif
 #endif
   ;
 
@@ -206,12 +193,7 @@ INIT('/')
 #define CSEP '/'
 #define SSEP "/"
 #else
-#if defined(MSDOS)
-#define CSEP '\\'
-#define SSEP "\\"
-#else
 ****define directory separator here****
-#endif
 #endif
 
 /* Location in .TEX file of two \wlog messages */

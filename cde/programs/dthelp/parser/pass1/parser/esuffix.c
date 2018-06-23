@@ -27,9 +27,6 @@ Copyright 1988, 1989 Hewlett-Packard Co.
 
 #include "userinc.h"
 #include "globdec.h"
-#if defined(MSDOS)
-#include <process.h>
-#endif
 
 /* Write error message suffix */
 void m_esuffix(void)

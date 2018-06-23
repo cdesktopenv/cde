@@ -24,12 +24,9 @@
 /* Copyright (c) 1988, 1989 Hewlett-Packard Co. */
 /* Creates a file with nothing in it */
 #include <stdio.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "basic.h"
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
   {
     if (argc != 2) {
       fprintf(stderr, "Usage: emptyfil filename\n") ;

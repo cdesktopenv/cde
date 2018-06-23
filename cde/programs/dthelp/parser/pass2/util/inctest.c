@@ -25,9 +25,6 @@
                    Copyright 1986, 1987, 1988, 1989 Hewlett-Packard Co.
 */
 
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "basic.h"
 
 void m_err1(const char *text, const char *arg);

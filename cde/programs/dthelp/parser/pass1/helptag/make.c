@@ -31,11 +31,6 @@
    or invoke function pointers should be in tex.c.
 */
 
-#if defined(MSDOS)
-#include <sys\types.h>
-#include <sys\stat.h>
-#endif
-
 #if defined(hpux) || defined(_AIX) || defined(sun)
 #include <sys/types.h>
 #include <sys/stat.h>

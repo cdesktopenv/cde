@@ -33,9 +33,6 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "basic.h"
 #include "trie.h"
 #include "dtdext.h"

@@ -36,11 +36,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#if defined(MSDOS)
-#include <io.h>
-#include <process.h>
-#include <direct.h>
-#endif
 #include <ctype.h>
 
 #include <unistd.h>

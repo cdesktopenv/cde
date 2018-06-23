@@ -32,9 +32,6 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "basic.h"
 #include "trie.h"
 #define M_CONDEF

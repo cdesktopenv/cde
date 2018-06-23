@@ -36,11 +36,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#if defined(MSDOS)
-#include <io.h>
-#include <process.h>
-#include <direct.h>
-#endif
 #include <ctype.h>
 
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(__linux__) || defined(CSRG_BASED)
@@ -175,14 +170,10 @@ struct search {
 EXTERN SEARCH *path INIT(NULL) ;
 EXTERN SEARCH **endpath INIT(&path) ;
 EXTERN char dirsep
-#if defined(MSDOS)
-INIT('\\')
-#else
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(__linux__) || defined(CSRG_BASED)
 INIT('/')
 #else
 ****define directory separator here****
-#endif
 #endif
   ;
 
@@ -190,12 +181,7 @@ INIT('/')
 #define CSEP '/'
 #define SSEP "/"
 #else
-#if defined(MSDOS)
-#define CSEP '\\'
-#define SSEP "\\"
-#else
 ****define directory separator here****
-#endif
 #endif
 
 /* Location in .TEX file of two \wlog messages */

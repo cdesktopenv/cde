@@ -31,10 +31,6 @@
 
 #include <stdio.h>
 
-#if defined(MSDOS)
-#include <stdlib.h>
-#endif
-
 #include "basic.h"
 #include "common.h"
 #include "trie.h"

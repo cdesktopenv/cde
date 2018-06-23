@@ -28,9 +28,6 @@
 /**/
 #include <stdlib.h>
 #include <stdio.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "basic.h"
 
 extern LOGICAL m_heapchk ;
@@ -58,9 +55,6 @@ void m_free(block, msg)
   {
     char buffer[32] ;
 
-#if defined(MSDOS)
-    if (m_heapchk) m_heapdump() ;
-#endif
     free(block) ;
     if (m_malftrace) {
 #if defined(hpux) || defined(_AIX) || defined(sun)
@@ -75,45 +69,7 @@ void m_free(block, msg)
       m_trace(msg) ;
       m_trace("\n") ;
       }      
-#if defined(MSDOS)
-    if (m_heapchk) m_heapdump() ;
-#endif
     }
-
-#if defined(MSDOS)
-void m_heapdump(void)
-  {
-    struct _heapinfo hinfo ;
-    int heapstatus ;
-
-    heapstatus = _heapchk() ;
-    if (heapstatus == _HEAPOK || heapstatus == _HEAPEMPTY) return ;
-    printf("\nDumping heap:\n") ;
-    hinfo._pentry = NULL ;
-    while ((heapstatus = _heapwalk(&hinfo)) == _HEAPOK) 
-      printf("%6s block at %p of size %4.4X\n",
-             hinfo._useflag == _USEDENTRY ? "USED" : "FREE",
-             hinfo._pentry, hinfo._size) ;
-    switch(heapstatus) {
-      case _HEAPEMPTY:
-        printf("OK - empty heap\n\n") ;
-        break ;
-      case _HEAPEND:
-        printf("OK - end of heap\n\n") ;
-        break ;
-      case _HEAPBADPTR:
-        printf("Error - bad pointer to heap\n\n") ;
-        break ;
-      case _HEAPBADBEGIN:
-        printf("Error - bad start of heap\n\n") ;
-        break ;
-      case _HEAPBADNODE:
-        printf("Error - bad node in heap\n\n") ;
-        break ;
-      }
-    m_exit(TRUE) ;
-    }
-#endif
 
 void *m_malloc(size, msg)
   int size ;
@@ -123,14 +79,8 @@ void *m_malloc(size, msg)
     void *p ;
 
     size *= sizeof(M_WCHAR);
-#if defined(MSDOS)
-    if (m_heapchk) m_heapdump() ;
-#endif
     if (! size) return(NULL) ;
     p = (void *) malloc(size) ;
-#if defined(MSDOS)
-    if (m_heapchk) m_heapdump() ;
-#endif
     if (! p) {
       m_errline("Unable to allocate space for ") ;
       m_errline(msg) ;
@@ -164,14 +114,8 @@ void *m_realloc(ptr, size, msg)
     void *p ;
 
     size *= sizeof(M_WCHAR);
-#if defined(MSDOS)
-    if (m_heapchk) m_heapdump() ;
-#endif
     if (! size) return(NULL) ;
     p = (void *) realloc(ptr, size) ;
-#if defined(MSDOS)
-    if (m_heapchk) m_heapdump() ;
-#endif
     if (! p) {
       m_errline("Unable to re-allocate space for ") ;
       m_errline(msg) ;

@@ -30,9 +30,6 @@ This product and information is proprietary of Tandem Computers Incorporated.
 /* Scan.c contains scanner procedures for program BUILD */
 
 #include <string.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "build.h"
 #define M_CONDEF
 #include "context.h"

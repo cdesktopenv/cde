@@ -294,11 +294,7 @@ if (! *string)
 switch (thisopt)
     {
     case SEARCHKEY:
-	if ( (parentsrch==TRUE) && (*string!=M_EOS) && (*string!=dirsep)
-#if defined(MSDOS)
-	 && ( *(string+1) != ':' )
-#endif
-      )
+	if ( (parentsrch==TRUE) && (*string!=M_EOS) && (*string!=dirsep) )
 	    {
 	    /* prepend "..", for index processing in temporary sub-directory */
 	    tempstr = (char *) m_malloc( strlen(string) + 4, "tempstr search");
@@ -314,11 +310,7 @@ switch (thisopt)
 
 	*endpath = (SEARCH *) m_malloc(sizeof(SEARCH), "search path");
 	p = strchr(tempstr, M_EOS);
-	if (p != tempstr && *(p - 1) != dirsep
-    #if defined(MSDOS)
-	      && *(p - 1) != ':'
-    #endif
-	   )
+	if (p != tempstr && *(p - 1) != dirsep)
 	    {
 	    i = strlen(tempstr);
 	    (*endpath)->directory = (char *) m_malloc(i + 2,

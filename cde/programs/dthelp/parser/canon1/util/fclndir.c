@@ -37,9 +37,6 @@ with an error code of 0 if the files are the same, 1 if they differ, and
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "basic.h"
 #define SAME 0
 /* different defined to be 0 as of 12-1-89, because fclndir now does
@@ -124,11 +121,7 @@ void copyfile(pfile1,pfile2)
    spaces, and the terminating null */
 	slen = strlen(pfile1) + strlen(pfile2) + 8;
 	pcmd = (char *) malloc(slen);
-#if defined(MSDOS)
-	ret = snprintf(pcmd, slen, "copy %s %s",pfile1,pfile2);
-#else
 	ret = snprintf(pcmd, slen, "cp %s %s",pfile1,pfile2);
-#endif
 	ret = system(pcmd);
 	ret = snprintf(pcmd, slen, "touch %s",pfile2);
 	ret = system(pcmd);

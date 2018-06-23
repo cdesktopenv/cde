@@ -26,9 +26,6 @@
 */
 
 #include <stdio.h>
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "basic.h"
 
 extern FILE *m_errfile ;

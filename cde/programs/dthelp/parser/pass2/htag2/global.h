@@ -36,11 +36,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#if defined(MSDOS)
-#include <io.h>
-#include <process.h>
-#include <direct.h>
-#endif
 #include <ctype.h>
 
 #if defined(hpux) || defined(_AIX) || defined(sun) || defined(__linux__) || defined(CSRG_BASED)

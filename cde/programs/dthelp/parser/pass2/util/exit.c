@@ -25,9 +25,6 @@
 Copyright 1988, 1989 Hewlett-Packard Co.
 */
 
-#if defined(MSDOS)
-#include <process.h>
-#endif
 #include "basic.h"
 
 void m_exit(int status);
