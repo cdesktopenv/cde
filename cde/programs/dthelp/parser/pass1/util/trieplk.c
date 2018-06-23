@@ -40,9 +40,7 @@ int m_packedlook(M_PTRIE *xptrie,
   M_WCHAR *name);
 
 /* Look for the string NAME in the packed trie PTRIE */
-int m_packedlook(xptrie, name)
-M_PTRIE *xptrie ;
-M_WCHAR *name ;
+int m_packedlook(M_PTRIE *xptrie, M_WCHAR *name)
 {
 int current = 0 ;
 int i ;

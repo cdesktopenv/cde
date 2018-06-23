@@ -861,7 +861,7 @@ static ElementPtr *currentElementStack;
 static int currentElementStackSize = 0;
 static int currentElementStackTop = -1;
 
-void PushCurrentElement()
+void PushCurrentElement(void)
 {
 currentElementStackTop++;
 if (currentElementStackSize == 0)
@@ -905,7 +905,7 @@ thisElementStack[thisElementStackTop] = pThis;
 }
 
 
-void PopCurrentElement()
+void PopCurrentElement(void)
 {
 pCurrentElement = currentElementStack[currentElementStackTop];
 if (currentElementStackTop < 0)
@@ -921,7 +921,7 @@ else
 }
 
 
-static ElementPtr PopThisElement()
+static ElementPtr PopThisElement(void)
 {
 ElementPtr pThisElement;
 
@@ -1302,7 +1302,7 @@ else
 
 
 /* decompress an SDL file */
-static void DecompressSDL()
+static void DecompressSDL(void)
 {
 int           outFd, zFd;
 FILE         *inFile;
@@ -4823,7 +4823,7 @@ EmitSDL(pVirpage);
 
 
 /* A routine to emit a help message and exit */
-static void Help()
+static void Help(void)
 {
 printf("The available options to %s are 'c', 'd', 'h', 'o' and 't'.\n\n",
        progName);
@@ -4843,7 +4843,7 @@ exit(0);
 
 
 /* A routine to emit a usage message and exit */
-static void Usage()
+static void Usage(void)
 {
 fprintf(stderr,
 	"Usage: %s [-cdhot] <inFileName> [<outFileName>]\n",
@@ -4862,7 +4862,7 @@ exit(1);
  * A routine to pre-build all the input, output and intermediate file
  * names that we'll need.
 */
-static void MakeFileNames()
+static void MakeFileNames(void)
 {
 int   argCount;
 int   length, c;
@@ -5292,7 +5292,7 @@ return pc - string;
 /*
  * A routine to build the index from the .idx file (if any).
 */
-void BuildIndex()
+void BuildIndex(void)
 {
 char  buffer[BUFSIZ+1], *pFrom, *pTo, *pRestart, thisChar;
 int   length, size;
@@ -5704,7 +5704,7 @@ FcloseFile(sdlIdxFile, sortedIdxFileName, xxx);
 }
 
 
-static void HandleSNB()
+static void HandleSNB(void)
 {
 int   oldOffset, newOffset;
 FILE *snbFile;
@@ -5775,7 +5775,7 @@ CloseFile(outFd, tempFileName, xxx);
 /* calculate the size of the TOSS if only the used elements are
  * emitted
 */
-static int RestrictedTossSize()
+static int RestrictedTossSize(void)
 {
 char       buffer[32];
 ElementPtr pThis;
@@ -6085,7 +6085,7 @@ return size;
 /* iterate over the LOIDS computing the offsets as we remove the old
  * LOIDS and INDEX and replace them with the new
 */ 
-void IterateLoids()
+void IterateLoids(void)
 {
 int       replacing, length, incr, tmp;
 int       loidsSize;
@@ -6161,7 +6161,7 @@ while (incr)
  * the amount of padding needed in between the vstruct and the first
  * virpage to make everything work
 */
-static void CompressVstruct()
+static void CompressVstruct(void)
 {
 #define COMPRESS_PAD_LENGTH 10
 char      buffer[BUFSIZ], zTemp[4];
@@ -6304,7 +6304,7 @@ while (pad >= 0)
 
 
 /* insert the new loids and index then close the output file */
-static void IncorporateVstructElements()
+static void IncorporateVstructElements(void)
 {
 char      buffer[BUFSIZ];
 int       length, delta;
@@ -6510,7 +6510,7 @@ return(name) ;
  * file and its name is "TOSSFILE", change its content to be the
  * current file name base plus ".tss".
 */
-void UpdateTossFileName()
+void UpdateTossFileName(void)
 {
 unsigned char type;
 unsigned char wheredef;
@@ -6652,7 +6652,7 @@ _DtLcxCloseDb(&myDb);
 /* a routine to do all the things we want to do before actually
  * parsing the SDL document.
 */
-void OpenDocument()
+void OpenDocument(void)
 {
 MakeFileNames();
 m_errfile = FopenFile(errFileName, O_WRONLY|O_APPEND, xxx);
@@ -6674,7 +6674,7 @@ outFile   = FopenFile(vstructFileName, O_WRONLY, xxx);
 /* a routine to do all those things we want to do after parsing the
  * document such as doing the fixups in the vstruct
 */
-void CloseDocument()
+void CloseDocument(void)
 {
 FcloseFile(outFile, tempFileName, xxx);
 BuildIndex();

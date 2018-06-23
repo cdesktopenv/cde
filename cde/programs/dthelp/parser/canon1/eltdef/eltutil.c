@@ -46,9 +46,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "version.h"
 
 /* Output indicated action pointer array to if.h */
-void actptrout(array, name)
-  ACTION **array;
-  char *name;
+void actptrout(ACTION **array, char *name)
   {
     int i;
 
@@ -267,8 +265,7 @@ void endstring(void)
 
 /* Set the type of an entity and check if different than declaration in
    BUILD */
-void enttype(type)
-  int type;
+void enttype(int type)
   {
     if ((entity->type == M_PI && type == M_CODEPI) ||
         (entity->type == M_SDATA && type == M_CODESDATA));
@@ -294,8 +291,7 @@ void freechain(void)
 
 /* Returns pointer to data field in action node for current chain of
    elements */
-int *getaction(array)
-  ACTION **array;
+int *getaction(ACTION **array)
   {
     ACTION *start, *node;
     CHAIN *chainp;
@@ -431,8 +427,7 @@ void outstring(void)
     }
 
 /* Output #define's for parameter values */
-void outpval(p)
-M_TRIE *p;
+void outpval(M_TRIE *p)
 {
 M_WCHAR *q;
 
@@ -530,14 +525,8 @@ void skiptoend(void)
   }
 
 /* Starts processing a code segment from the input file */
-void startcode(caseno, flag, file, prefix, proto, formal, formtype)
-int caseno;
-LOGICAL *flag;
-FILE *file;
-char *prefix;
-char *proto;
-char *formal;
-char *formtype;
+void startcode(int caseno, LOGICAL *flag, FILE *file, char *prefix,
+               char *proto, char *formal, char *formtype)
 {
 CVARSTRUCT *cvarp;
 
@@ -631,8 +620,7 @@ void storepname(void)
     }
 
 /* Called when a possible parameter value to be defined is encountered */
-void value(p)
-M_WCHAR *p;
+void value(M_WCHAR *p)
 {
 char buffer[5];
 

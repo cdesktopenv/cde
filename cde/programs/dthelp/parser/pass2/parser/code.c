@@ -37,8 +37,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "entfile.c"
 
 /* When a reference to a CODE entity is encountered */
-void m_codeent(m_ent)
-  int m_ent ;
+void m_codeent(int m_ent)
   {
     (*m_ctable[m_ent])() ;
   }

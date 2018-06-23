@@ -58,11 +58,7 @@ int addarc(STATE *from, STATE *to, ELTSTRUCT *label, ANDGROUP *and, LOGICAL opti
 
 /*checkand is used to verify nondeterminism from start and final states
   of FSA's generated from and groups*/
-void checkand(andstart, andptr, start, root, errelt)
-  ANDGROUP *andstart, *andptr ;
-  STATE *start ;
-  TREE *root ;
-  ELTSTRUCT **errelt ;    
+void checkand(ANDGROUP *andstart, ANDGROUP *andptr, STATE *start, TREE *root, ELTSTRUCT **errelt)
   {
     ARC *parc ;
     ANDGROUP *pand ;
@@ -86,12 +82,7 @@ void checkand(andstart, andptr, start, root, errelt)
 /*Checkdfsa is called when adding an arc to an FSA in order to verify that
 no existing arc from the same state (or from a start state of an and-group
 FSA labelling an arc from the same state) has the same label. */
-int checkdfsa(from, label, and, id, errelt)
-  STATE *from ;
-  ELTSTRUCT *label ;
-  ANDGROUP *and ;
-  int id ;
-  ELTSTRUCT **errelt ;
+int checkdfsa(STATE *from, ELTSTRUCT *label, ANDGROUP *and, int id, ELTSTRUCT **errelt)
   {
     int c ;
     ARC *parc ;
@@ -116,10 +107,7 @@ int checkdfsa(from, label, and, id, errelt)
     }
 
 /* Check use of repeated models with and groups */
-int checkrepeat(from, and, errelt)
-  STATE *from ;
-  ANDGROUP *and ;
-  ELTSTRUCT **errelt ;
+int checkrepeat(STATE *from, ANDGROUP *and, ELTSTRUCT **errelt)
   {
     ARC *parc ;
     int c ;
@@ -142,8 +130,7 @@ int checkrepeat(from, and, errelt)
     }
 
 /* Copyintolist copies one list of states into another */
-void copyintolist(from, to)
-  STATELIST *from, **to ;
+void copyintolist(STATELIST *from, STATELIST **to)
   {
     STATELIST **new, *old ;
 
@@ -161,8 +148,7 @@ void copyintolist(from, to)
     }
 
 /* Dellist deletes a list of states */
-void dellist(list)
-  STATELIST **list ;
+void dellist(STATELIST **list)
   {
     STATELIST *p, *q ;
 
@@ -220,10 +206,7 @@ STATE *getstate(void)
     }
 
 /* Makeand processes a submodel whose connector is & */
-void makeand(canbenull, root, optional)
-  LOGICAL *canbenull ;
-  TREE *root ;
-  int optional ;
+void makeand(LOGICAL *canbenull, TREE *root, int optional)
   {
     TREE *child ;
     STATELIST *start, *final ;
@@ -308,9 +291,7 @@ void makeand(canbenull, root, optional)
    allfinal is passed from model to submodel; information in newfinal
    goes from submodel to model.
    */
-LOGICAL makefsa(root, optional)
-  TREE *root ;
-  int optional ;
+LOGICAL makefsa(TREE *root, int optional)
   {
     LOGICAL canbenull ;
 
@@ -344,9 +325,7 @@ LOGICAL makefsa(root, optional)
     }
 
 /* Makeor processes a submodel whose connector is | */
-void makeor(canbenull, root)
-  LOGICAL *canbenull ;
-  TREE *root ;
+void makeor(LOGICAL *canbenull, TREE *root)
   {
     TREE *child ;
     STATELIST *final ;
@@ -368,10 +347,7 @@ void makeor(canbenull, root)
     }
 
 /* Makeseq processes a submodel whose connector is , */
-void makeseq(canbenull, root, optional)
-  LOGICAL *canbenull ;
-  TREE *root ;
-  int optional ;
+void makeseq(LOGICAL *canbenull, TREE *root, int optional)
   {
     LOGICAL branchnull ;
     STATELIST *keepfinal = NULL, *final ;
@@ -409,10 +385,7 @@ void makeseq(canbenull, root, optional)
 
 /* Nondeterm issues a diagnostic when a nondeterministic model is
    encountered */
-void nondeterm(root, c, eltp)
-  TREE *root ;
-  int c ;
-  ELTSTRUCT *eltp ;
+void nondeterm(TREE *root, int c, ELTSTRUCT *eltp)
   {
   M_WCHAR *wtemp;
 
@@ -443,8 +416,7 @@ void nondeterm(root, c, eltp)
 
 /* Notinlist returns TRUE iff item is not in list.  If item is in list,
    it makes sure that the stored nesting level is the smaller of the two */
-LOGICAL notinlist(item, list)
-  STATELIST *item, *list ;
+LOGICAL notinlist(STATELIST *item, STATELIST *list)
   {
     for ( ; list ; list = list->next)
       if (list->value == item->value) {
@@ -456,8 +428,7 @@ LOGICAL notinlist(item, list)
 
 /* Returns true if the arc is labeled #PCDATA or with an and-group that
    has an arc labelled #PCDATA from a start state */
-LOGICAL permitspcd(a)
-  ARC *a ;
+LOGICAL permitspcd(ARC *a)
   {
     ANDGROUP *pand ;
     ARC *b ;
@@ -507,8 +478,7 @@ void push(void)
 
 /* Regenerate is used in error processing to print the portion of a grammar
    rule preceding an error */
-LOGICAL regenerate(start, stop)
-TREE *start, *stop ;
+LOGICAL regenerate(TREE *start, TREE *stop)
 {
 TREE *child ;
 
@@ -554,8 +524,7 @@ return(FALSE) ;
    by adding arcs from all the final states to all the states reachable
    in one transition from a start state, labelling them as arcs from
    start states are labelled. */
-void repeat(root)
-  TREE *root ;
+void repeat(TREE *root)
   {
     STATELIST *final ;
     ARC *a ;
@@ -606,9 +575,7 @@ void repeat(root)
 
 /* Used during processing of occurrence indicators in content models such
    as (a+)+ to prohibit duplicate arcs */
-LOGICAL samelabelarc(a, s)
-  ARC *a ;
-  STATE *s ;
+LOGICAL samelabelarc(ARC *a, STATE *s)
   {
     ARC *b ;
 
@@ -666,11 +633,7 @@ void savestartarcs(void)
 
 /* Simplebranch adds a new state and transition to it in an FSA when a
    submodel consists of a single element or of an and group */
-void simplebranch(root, value, group, optional)
-  TREE *root ;
-  ELTSTRUCT *value ;
-  ANDGROUP *group ;
-  int optional ;
+void simplebranch(TREE *root, ELTSTRUCT *value, ANDGROUP *group, int optional)
   {
     STATE *new = NULL ;
     STATELIST *index ;
@@ -718,9 +681,7 @@ void simplebranch(root, value, group, optional)
    subtree in the tree representing the grammar rule being processed and
    the pointer to a flag that is set to indicate whether or not the
    submodel can be null. */
-STATE *startfsa(root, canbenull)
-  TREE *root ;
-  LOGICAL *canbenull ;
+STATE *startfsa(TREE *root, LOGICAL *canbenull)
   {
     STATELIST *item ;
     STATE *first ;

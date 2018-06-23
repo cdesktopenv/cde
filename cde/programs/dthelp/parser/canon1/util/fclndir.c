@@ -61,9 +61,7 @@ void copyfile(char *pfile1, char *pfile2);
 
 int nextchar(FILE *file, struct data *data);
 
-void main(argc, argv)
-  int argc ;
-  char **argv ;
+void main(int argc, char **argv)
   {
     FILE *one, *two ;
     int c1, c2 ;
@@ -110,8 +108,7 @@ void main(argc, argv)
     }
 
 /* copyfile inserted by ced, 12-1-89. */
-void copyfile(pfile1,pfile2)
-  char *pfile1, *pfile2; 
+void copyfile(char *pfile1, char *pfile2)
 {
 	int ret;
 	char *pcmd;
@@ -128,9 +125,7 @@ void copyfile(pfile1,pfile2)
 	free(pcmd);
 }
 
-int nextchar(file, data)
-  FILE *file ;
-  struct data *data ;
+int nextchar(FILE *file, struct data *data)
   {
     while (data->linestart) {
       data->linestart = FALSE ;

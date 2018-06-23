@@ -46,8 +46,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
    is valid input. It returns TRUE, FALSE, or M_NONCONTEXTUAL respectively
    if the element is allowed by content, not allowed, or allowed by an
    inclusion exception. */
-int m_checkstart(val)
-  M_ELEMENT val ;
+int m_checkstart(M_ELEMENT val)
   {
     M_PARSE *stackptr ;
     int except ;
@@ -238,8 +237,7 @@ void m_done(void)
     }
 
 /* Process the endtag (implied, abbreviated, or explicit) for element C*/
-void m_endtag(c)
-  M_ELEMENT c ;
+void m_endtag(M_ELEMENT c)
   {
     m_endaction(c) ;
     m_pop() ;
@@ -251,8 +249,7 @@ void m_endtag(c)
 
 /* Check that the identified element is not prohibited in the current context
    by an exclusion exception */
-LOGICAL m_excluded(elt)
-  M_ELEMENT elt ;
+LOGICAL m_excluded(M_ELEMENT elt)
   {
     M_PARSE *stackptr ;
     int except ;
@@ -270,8 +267,7 @@ LOGICAL m_excluded(elt)
 
 /* Free the OPEN FSA substructures associated with an element on
    the parse stack */
-void m_freeFSA(stackelt)
-  M_PARSE *stackelt ;
+void m_freeFSA(M_PARSE *stackelt)
   {
     M_OPENFSA *fsastack ;
     M_ANDLIST *usedand ;
@@ -290,9 +286,7 @@ void m_freeFSA(stackelt)
     }
 
 /* Free storage used for tentative chain of tag minimizations */
-void m_freemin(min, msg)
-  M_MIN *min ;
-  char *msg ;
+void m_freemin(M_MIN *min, char *msg)
   {
     M_MIN *discard ;
 
@@ -307,9 +301,7 @@ void m_freemin(min, msg)
    in the current content model by starting a new submodel of the and-group
    indicated by fsastack, or (if the and-group is within a seq-group) by
    continuing past the and-group */
-LOGICAL m_nextand(thisfsa, label)
-  M_OPENFSA *thisfsa ;
-  M_ELEMENT label ;
+LOGICAL m_nextand(M_OPENFSA *thisfsa, M_ELEMENT label)
   {
     M_ANDLIST *newgroup ;
     M_ANDGROUP pand ;
@@ -461,8 +453,7 @@ void m_push(M_ELEMENT elt, M_STATE current, LOGICAL need)
    character is treated differently so that if character data is not
    allowed in the current context, an error message is issued with the
    first character only and not with every character. */
-void m_strtcdata(scanval)
-  int scanval ;
+void m_strtcdata(int scanval)
   {
     if (! m_strtproc(M_NULLVAL))
       if (m_whitespace((M_WCHAR) scanval)) {
@@ -493,8 +484,7 @@ void m_strtcdata(scanval)
    to an element that was within #PCDATA, m_strtproc saves the current context
    and restores it after returning from the last call to m_endtag.)
 */
-LOGICAL m_strtproc(scanval)
-  M_ELEMENT scanval ;
+LOGICAL m_strtproc(M_ELEMENT scanval)
   {
     int check ;
     M_PARSE *original ;

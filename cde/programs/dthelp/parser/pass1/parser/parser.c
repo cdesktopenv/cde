@@ -36,9 +36,7 @@
 #include "entext.h"
 
 /* Main procedure */
-int main(argc, argv)
-  int argc ;
-  char **argv ;
+int main(int argc, char **argv)
   {
     static char parserr[] = "\nM_token=%d, m_prevcon=%d, m_scanval=%d\n" ;
     static char sopt[] =

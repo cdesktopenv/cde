@@ -49,8 +49,7 @@ char xerror[] = "ERROR" ;
 
 /* Outputs entity definitions */
 #define ENTFILENAME 12
-void entout(fname)
-  char *fname ;
+void entout(char *fname)
   {
     char efilename[ENTFILENAME] ;
     int count = 1 ;
@@ -173,15 +172,13 @@ void entout(fname)
 
 /* Entptr is called by m_dumptrie to output the value stored with a
    particular entity in the entity trie */
-void entptr(data)
-  M_ENTITY *data ;
+void entptr(M_ENTITY *data)
   {
     fprintf(entfile, "(M_TRIE *) &m_entities[%d]", data->index - 1) ;
     }
 
 /* Typetype returns a string indicating the type of the nth entity.*/
-char *typetype(n)
-  int n ;
+char *typetype(int n)
   {
     switch(n) {
       case M_GENERAL: return(xgeneral) ;

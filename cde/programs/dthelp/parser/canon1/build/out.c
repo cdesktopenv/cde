@@ -69,8 +69,7 @@ char mrequired[] = "M_REQUIRED" ;
 
 /* Deftype returns a string indicating the default type of the nth parameter.
    */
-char *deftype(n)
-  int n ;
+char *deftype(int n)
   {
     switch (n) {
       case NAME: return(mnamedef) ;
@@ -101,9 +100,7 @@ void done(void)
     }
 
 /* Prints data value of an entry in the element name tree */
-void dumpentnode(file, value)
-  FILE *file ;
-  M_TRIE *value ;
+void dumpentnode(FILE *file, M_TRIE *value)
   {
 
     fprintf(file, ", %d", ((ELTSTRUCT *) value)->eltno) ;
@@ -111,9 +108,7 @@ void dumpentnode(file, value)
 
 /* Prints data value of an entry in the trie of short reference map names,
    reporting any maps that are referenced but not defined */
-void dumpmapnode(file, value)
-  FILE *file ;
-  M_TRIE *value ;
+void dumpmapnode(FILE *file, M_TRIE *value)
   {
     fprintf(file, ", %d", ((MAP *) value)->map) ;
     if (! ((MAP *) value)->defined)
@@ -123,9 +118,7 @@ void dumpmapnode(file, value)
 
 
 /* Prints data value of an entry in the trie of short reference delimiters */
-void dumpsrefnode(file, value)
-  FILE *file ;
-  M_TRIE *value ;
+void dumpsrefnode(FILE *file, M_TRIE *value)
   {
     fprintf(file, ", %d", ((SREFSTRUCT *) value)->srefcnt) ;
     }
@@ -133,8 +126,7 @@ void dumpsrefnode(file, value)
 
 /* Controls printing of element blocks in alphabetical order to the
    template file */
-void eltblocks(tempfile)
-  FILE *tempfile ;
+void eltblocks(FILE *tempfile)
   {
     int n ;
     M_TRIE *node[M_NAMELEN + 1] ;
@@ -223,8 +215,7 @@ void eltreeout(void)
     }
 
 /* Enttype returns a string indicating the type of an entity */
-char *enttype(n)
-  int n ;
+char *enttype(int n)
   {
     switch(n) {
       case M_GENERAL: return(mgeneral) ;
@@ -452,8 +443,7 @@ fprintf(dtd, "#define M_MAXPAR %d\n\n", maxpar) ;
 }
 
 /* Partype returns a string indicating the type of the nth parameter. */
-char *partype(n)
-  int n ;
+char *partype(int n)
   {
     switch(n) {
       case GRPO: return(mkeyword) ;
@@ -546,9 +536,7 @@ void srefout(void)
     }
 
 /* Output one element block in a template */
-void tempelt(eltp, tempfile)
-ELTSTRUCT *eltp ;
-FILE *tempfile ;
+void tempelt(ELTSTRUCT *eltp, FILE *tempfile)
 {
 PARAMETER *paramp ;
 PTYPE *ptypep ;
@@ -654,8 +642,7 @@ void template(void)
     }
 
 /* Typecon returns a string indicating the content type of the nth element.*/
-char *typecon(n)
-  int n ;
+char *typecon(int n)
   {
     switch(n) {
       case GRPO: return(mregexp) ;

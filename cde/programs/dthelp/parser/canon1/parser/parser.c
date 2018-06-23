@@ -38,9 +38,7 @@
 static void scanloop(LOGICAL prolog);
 
 /* Main procedure */
-int main(argc, argv)
-  int argc ;
-  char **argv ;
+int main(int argc, char **argv)
 {
 M_WCHAR *wc_userdef;
 

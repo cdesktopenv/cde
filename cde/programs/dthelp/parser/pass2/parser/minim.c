@@ -99,11 +99,7 @@ void m_expecting(void)
 
 /* Recursive procedure first called from expecting() to display
    names of elements reachable from a particular node */
-void m_expexpand(expstart, node, required, data)
-  LOGICAL *expstart ;
-  M_STATE node ;
-  LOGICAL *required ;
-  LOGICAL *data ;
+void m_expexpand(LOGICAL *expstart, M_STATE node, LOGICAL *required, LOGICAL *data)
   {
     M_ARC parc ;
     M_ANDGROUP pand ;
@@ -125,10 +121,7 @@ void m_expexpand(expstart, node, required, data)
     }
 
 /* M_expline writes one line for m_expecting() */
-void m_expline(expstart, data, label)
-  LOGICAL *expstart ;
-  LOGICAL *data ;
-  M_ELEMENT label ;
+void m_expline(LOGICAL *expstart, LOGICAL *data, M_ELEMENT label)
   {
     char buffer[M_NAMELEN + 2*MAXD + 1] ;
 
@@ -165,9 +158,7 @@ void m_expline(expstart, data, label)
 
 /* M_exptend is called from m_expecting to inform the user after an
    error if an end tag is permitted */
-void m_exptend(expstart, stackptr)
-  LOGICAL *expstart ;
-  M_PARSE *stackptr ;
+void m_exptend(LOGICAL *expstart, M_PARSE *stackptr)
   {
     char buffer[M_NAMELEN + 2*MAXD + 1] ;
 
@@ -216,9 +207,7 @@ void m_exptend(expstart, stackptr)
    element, 1 if character data is expected, and 0 (FALSE) if there is
    no unique element. 
 */
-M_ELEMENT m_findunique(from, newleft)
-  M_STATE from ;
-  int *newleft ;
+M_ELEMENT m_findunique(M_STATE from, int *newleft)
   {
     M_ARC parc ;
     M_ELEMENT cr = 0, minim = 0;
@@ -339,7 +328,7 @@ LOGICAL m_omitend(void)
 
 /* Tests to see if a start tag may have been omitted at this point of
    the parse.  If so, saves the element name in the MINVAL array*/
-LOGICAL m_omitstart()
+LOGICAL m_omitstart(void)
   {
     M_ELEMENT c = M_NULLVAL ;
 
@@ -420,4 +409,3 @@ LOGICAL m_omitstart()
     m_nextms = &(*m_nextms)->next ;
     return(TRUE) ;
     }
-

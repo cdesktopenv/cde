@@ -31,8 +31,7 @@ Copyright 1988, 1989 Hewlett-Packard Co.
 #include "globdec.h"
 
 /* Chk for duplicate xref id's, called in TEST, S1, S2, S3, S4, and rsect. */
-M_WCHAR *checkid(id)
-M_WCHAR *id;
+M_WCHAR *checkid(M_WCHAR *id)
 {
 struct xref *xref;
 char *buffer;
@@ -80,10 +79,7 @@ return(NULL);
 }
 
 /* Write a single cross-reference macro definition */
-static void defxref(xfile, id, xref)
-FILE *xfile;
-M_WCHAR *id;
-struct xref *xref;
+static void defxref(FILE *xfile, M_WCHAR *id, struct xref *xref)
 {
 char *csname;
 char *p;
@@ -191,8 +187,7 @@ while (TRUE)
 }
 
 /* Copies string to end of current cross-reference string */
-void idstring(string)
-M_WCHAR *string;
+void idstring(M_WCHAR *string)
 {
 int length;
 
@@ -409,8 +404,7 @@ savid = NULL;
 }
 
 /* Generate a cross-reference */
-void xrefexpand(id)
-M_WCHAR *id;
+void xrefexpand(M_WCHAR *id)
 {
 struct xref *xref;
 struct xref *old;

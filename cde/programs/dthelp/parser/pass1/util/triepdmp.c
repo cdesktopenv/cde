@@ -38,13 +38,9 @@ void dumpptrie(M_TRIE *intname, char *extname, FILE *file, char *externdef, char
   void (*proc)(FILE *file, void *value));
 
 /* Write the declaration of a packed trie to the specified files */
-void dumpptrie(intname, extname, file, externdef, defdef, proc)
-  M_TRIE *intname ;
-  char *extname ;
-  FILE *file ;
-  char *externdef ;
-  char *defdef ;
-  void (*proc) (FILE *file, void *value);
+void dumpptrie(M_TRIE *intname, char *extname, FILE *file,
+               char *externdef, char *defdef,
+               void (*proc) (FILE *file, void *value))
   {
     LOGICAL first = TRUE ;
     int count = 0 ;

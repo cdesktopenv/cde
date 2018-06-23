@@ -34,8 +34,7 @@
 /* Procedure callable by interface designers.  Returns pointer to name
    of nth level parent of current element (0 is self, 1 is parent, 2
    is grandparent, etc.) */
-M_WCHAR *m_parent(n)
-  int n ;
+M_WCHAR *m_parent(int n)
   {
     M_PARSE *stackptr ;
 

@@ -31,8 +31,7 @@ void m_exit(int status);
 
 /* Exit function called by utilities used in PARSER and other programs in
    the MARKUP system */
-void m_exit(status)
-  int status ;
+void m_exit(int status)
   {
     exit(status) ;
     }

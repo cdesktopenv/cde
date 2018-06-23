@@ -170,7 +170,7 @@ static void ExpandVolume(
  * Purpose: 	    Initializes our global variables to valid starting values.
  *
  ****************************************************************************/
-static void GlobalInit()
+static void GlobalInit(void)
 
 {
 

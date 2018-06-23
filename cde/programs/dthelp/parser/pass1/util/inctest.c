@@ -34,10 +34,7 @@ void m_exit(int status);
 void m_inctest(int *count, int limit, char *message);
 
 /* Increment a count and test against a limit */
-void m_inctest(count, limit, message)
-  int *count ;
-  int limit ;
-  char *message ;
+void m_inctest(int *count, int limit, char *message)
   {
     if (++*count <= limit) return ;
     m_err1("Internal error: %s exceeded", message) ;

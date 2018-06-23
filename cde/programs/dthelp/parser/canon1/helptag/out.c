@@ -31,8 +31,7 @@
 
 /* Echo part of a head to the screen to indicate how much of the document
    has been processed */
-void echohead(p)
-M_WCHAR *p;
+void echohead(M_WCHAR *p)
 {
 char *mb_p,*mb_string;
 
@@ -54,8 +53,7 @@ m_free(mb_string,"multi-byte string");
 }
 
 /* call echohead with a literal string */
-void mb_echohead(p)
-char *p;
+void mb_echohead(char *p)
 {
 M_WCHAR *wc;
 
@@ -104,7 +102,7 @@ echo = savhd = FALSE;
  * location is placed in the snb file and the <snb> elements are
  * emitted there too.
 */
-void chksnb()
+void chksnb(void)
 {
 fputs("</HEAD>\n", outfile);
 snbstart = ftell(outfile);
@@ -276,10 +274,7 @@ else
 
 
 /* Called for processing instruction */
-void outpi(enttype, pi, entname)
-int enttype;
-M_WCHAR *pi;
-M_WCHAR *entname;
+void outpi(int enttype, M_WCHAR *pi, M_WCHAR *entname)
 {
 strcode(pi, outfile);
 
@@ -392,13 +387,8 @@ shchar(wc_textchar, len, max, string, proc, msg, errflg);
 
 /* Save a string in the array used to store table of contents entries
    when processing a head */
-void shstring(addstring, len, max, storestring, msg, errflg)
-M_WCHAR *addstring;
-int *len;
-int max;
-M_WCHAR *storestring;
-char *msg;
-LOGICAL *errflg;
+void shstring(M_WCHAR *addstring, int *len, int max,
+              M_WCHAR *storestring, char *msg, LOGICAL *errflg)
 {
 int addlength;
 
@@ -419,13 +409,8 @@ else
 }
 
 
-void mb_shstring(addstring, len, max, storestring, msg, errflg)
-char *addstring;
-int *len;
-int max;
-M_WCHAR *storestring;
-char *msg;
-LOGICAL *errflg;
+void mb_shstring(char *addstring, int *len, int max,
+                 M_WCHAR *storestring, char *msg, LOGICAL *errflg)
 {
 M_WCHAR *wc_addstring;
 
@@ -435,9 +420,7 @@ m_free(wc_addstring,"wide character string");
 }
 
 /* Writes a string to the output file, and if appropriate saves it */
-void strcode(string, outfile)
-M_WCHAR *string;
-FILE *outfile;
+void strcode(M_WCHAR *string, FILE *outfile)
 {
 char    exbuff[32]; /* arbitrarily large */
 int     bufflen;
@@ -492,9 +475,7 @@ if (savex)
 }
 
 
-void mb_strcode(string, outfile)
-char *string;
-FILE *outfile;
+void mb_strcode(char *string, FILE *outfile)
 {
 M_WCHAR *wc;
 
@@ -504,8 +485,7 @@ m_free(wc,"wide character string");
 }
 
 /* Copies string to end of buffer where saving head for table of contents */
-void svhdstring(string)
-M_WCHAR *string;
+void svhdstring(M_WCHAR *string)
 {
 int length;
 
@@ -524,8 +504,7 @@ svheadlen += length;
 }
 
 /* Copies string to end of buffer where saving table caption */
-void svtcstring(string)
-M_WCHAR *string;
+void svtcstring(M_WCHAR *string)
 {
 int length;
 
@@ -605,10 +584,7 @@ else
 }
 
 /* Process a PI in a term */
-void termpi(m_enttype, m_pi, m_entname)
-int m_enttype;
-M_WCHAR *m_pi;
-M_WCHAR *m_entname;
+void termpi(int m_enttype, M_WCHAR *m_pi, M_WCHAR *m_entname)
 {
 int length;
 

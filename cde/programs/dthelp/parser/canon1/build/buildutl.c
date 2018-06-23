@@ -38,9 +38,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 /* Verify that <PARAM>, <MIN> or <USEMAP> has not previously occurred in
    this rule */
-void found(flag, delim)
-LOGICAL *flag;
-char *delim;
+void found(LOGICAL *flag, char *delim)
 {
 M_WCHAR wcbuff[129];
 ssize_t  length;

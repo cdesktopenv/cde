@@ -36,8 +36,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "sfile.c"
 
 /* Perform the m_action-th start-code in the interface */
-void m_strtcase(m_action)
-  int m_action ;
+void m_strtcase(int m_action)
   {
     (*m_stable[m_action])() ;
     }

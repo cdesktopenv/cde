@@ -40,9 +40,7 @@ void printval(FILE *file, void *value);
 
 /* Count the descendants of a node in order to generate declarations for
    the packed form of a trie*/
-void countdown(parent, count)
-  M_TRIE *parent ;
-  int *count ;
+void countdown(M_TRIE *parent, int *count)
   {
     M_TRIE *child ;
 
@@ -54,12 +52,8 @@ void countdown(parent, count)
 
 /* Output descendants of a node for the declaration of a trie, in packed
    or normal format*/
-void dumpnode(first, file, trieptr, count, proc)
-  LOGICAL *first ;
-  FILE *file ;
-  M_TRIE *trieptr ;
-  int *count ;
-  void (*proc) (FILE *file, void *value);
+void dumpnode(LOGICAL *first, FILE *file, M_TRIE *trieptr, int *count,
+              void (*proc) (FILE *file, void *value))
   {
     M_TRIE *p ;
     int savecount ;
@@ -89,9 +83,7 @@ void dumpnode(first, file, trieptr, count, proc)
 
 
 /* Most common procedure passed to dumpptrie */
-void printval(file, value)
-  FILE *file ;
-  void *value ;
+void printval(FILE *file, void *value)
   {
     fprintf(file, ", %ld", (long) value) ;
     }

@@ -28,9 +28,7 @@
 
 void main(int argc, char **argv);
 
-void main(argc, argv)
-  int argc ;
-  char **argv ;
+void main(int argc, char **argv)
   {
     if (argc != 2) {
       fprintf(stderr, "Usage: emptyfil filename\n") ;

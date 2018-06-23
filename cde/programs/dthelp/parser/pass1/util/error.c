@@ -83,16 +83,14 @@ void eprefix(LOGICAL flag)
 /* Writes part of an error message.  Called from m_malloc instead of
    m_err1, since PARSER's version of m_err1 calls m_malloc and recursive
    calls are possible when the heap is exhausted */
-void m_errline(text)
-char *text ;
+void m_errline(char *text)
 {
 fputs(text, stderr) ;
 fputs(text, m_errfile) ;
 }
 
 /* Writes an error message to standard error and file "error" */
-void m_error(text)
-  char *text ;
+void m_error(char *text)
   {
     eprefix(TRUE) ;
     fprintf(stderr,"%s", text) ;
@@ -192,30 +190,26 @@ void esuffix(void)
     }
 
 /* Print something to both stderr and m_errfile */
-void msgline(text)
-  char *text ;
+void msgline(char *text)
   {
     fprintf(stderr, "%s", text) ;
     fprintf(m_errfile, "%s", text) ;
     }
 
 /* Print something to both stderr and m_errfile */
-void msg1line(text, arg1)
-  char *text, *arg1 ;
+void msg1line(char *text, char *arg1)
   {
     fprintf(stderr, text, arg1) ;
     fprintf(m_errfile, text, arg1) ;
     }
 
 /* Trace used for m_malloc trace output */
-void m_trace(text)
-char *text ;
+void m_trace(char *text)
 {
 m_errline(text) ;
 }
 
-void m_wctrace(text)
-M_WCHAR *text ;
+void m_wctrace(M_WCHAR *text)
 {
 char *mb_text;
 
@@ -225,8 +219,7 @@ m_free(mb_text,"multi-byte string");
 }
 
 /* Writes a nonfatal error message to standard error and file "error" */
-void warning(text)
-  char *text ;
+void warning(char *text)
   {
     eprefix(FALSE) ;
     fprintf(stderr,"%s", text) ;

@@ -87,7 +87,7 @@ M_ELEMENT m_eltname(void)
       }
     }
 
-int get_mb_cur_max()
+int get_mb_cur_max(void)
 {
 char *l;
 int   i;

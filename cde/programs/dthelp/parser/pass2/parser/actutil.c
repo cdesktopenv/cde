@@ -44,8 +44,7 @@ in the interface definition.*/
 #include "signon.h"
 
 /* When an explicit or implied end-tag occurs */
-void m_endaction(m_elt)
-  M_ELEMENT m_elt;
+void m_endaction(M_ELEMENT m_elt)
   {
     M_ELEMENT m_action;
     char buffer[2*MAXD+M_NAMELEN+1];
@@ -76,9 +75,7 @@ void m_endaction(m_elt)
     }
 
 /* Find appropriate action according to current stack */
-int m_findact(elt, array)
-  M_ELEMENT elt;
-  int *array;
+int m_findact(M_ELEMENT elt, int *array)
   {
     int chainlen = 0;
     int index;
@@ -156,8 +153,7 @@ m_free(wc_string,"wide character string");
 }    
 
 /* When an explicit or implied start-tag occurs */
-void m_strtaction(m_elt)
-  M_ELEMENT m_elt;
+void m_strtaction(M_ELEMENT m_elt)
   {
     int m_par, m_i;
     M_WCHAR *m_p;

@@ -33,9 +33,7 @@ Copyright (c) 1988, 1989 Hewlett-Packard Co.
 #include <stdlib.h>
 
 /* Write input file and line number for an error message */
-void m_dumpline(file, line)
-M_WCHAR *file;
-int line;
+void m_dumpline(M_WCHAR *file, int line)
 {
 char buffer[10];
 char *mbyte;
@@ -71,8 +69,7 @@ m_errline(",\n");
 }
 
 /* Process error message text */
-void m_errline(p)
-char *p;
+void m_errline(char *p)
 {
 char c;
 
@@ -96,8 +93,7 @@ if (++m_errcnt == m_errlim)
 }
 
 /* Exit procedure */
-void m_exit(status)
-int status;
+void m_exit(int status)
 {
 if (filefound)
     {
@@ -134,8 +130,7 @@ exit(0);
 }
 
 /* Get-char procedure */
-int m_getc(m_ptr)
-void *m_ptr;
+int m_getc(void *m_ptr)
 {
 int  c;
 M_WCHAR wc;
@@ -189,8 +184,7 @@ return((int) wc);
 }
 
 /* Open SYSTEM entity procedure */
-void *m_openent(entcontent)
-M_WCHAR *entcontent;
+void *m_openent(M_WCHAR *entcontent)
 {
 FILE *open;
 char *filename;
@@ -270,7 +264,7 @@ return((void *) first);
 }
 
 /* Set program options */
-void m_setoptions()
+void m_setoptions(void)
 {
 /* F option used for FILELIST (checking done in basename, which is
 called before this function is called) */
@@ -284,8 +278,7 @@ if (m_argc > 2)
 
 /* Process signon message text, stripping out MARKUP version number, so
    only one version number will appear */
-void m_signmsg(p)
-  char *p;
+void m_signmsg(char *p)
   {
     char *q;
     char *pCopy;
@@ -305,7 +298,7 @@ void m_signmsg(p)
 
 /* All entity declarations have been processed.  Can now check if .TEX
    file uptodate and open appropriate output file */
-void m_startdoc()
+void m_startdoc(void)
 {
 LOGICAL init = TRUE;
 unsigned char type;
@@ -345,16 +338,14 @@ else
 }
 
 /* Write debugging trace information */
-void m_trace(p)
-char *p;
+void m_trace(char *p)
 {
 if (tracetostd) fputs(p, stdout);
 else fputs(p, m_outfile);
 }
 
 
-void m_wctrace(p)
-M_WCHAR *p;
+void m_wctrace(M_WCHAR *p)
 {
 char *mb_p;
 

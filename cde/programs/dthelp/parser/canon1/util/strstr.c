@@ -21,8 +21,8 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 /* $XConsortium: strstr.c /main/3 1995/11/08 09:54:55 rswiston $ */
-char *strstr ( s1, s2 )
-char *s1, *s2 ; {
+char *strstr (char *s1, char *s2)
+{
 	
 	int x, y ;
 	

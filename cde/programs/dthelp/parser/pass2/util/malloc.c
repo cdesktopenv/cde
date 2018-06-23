@@ -69,9 +69,7 @@ void m_free(void *block, char *msg)
     free(block) ;
     }
 
-void *m_malloc(size, msg)
-  int size ;
-  char *msg ;
+void *m_malloc(int size, char *msg)
   {
     char buffer[32] ;
     void *p ;
@@ -103,10 +101,7 @@ void *m_malloc(size, msg)
     return(p) ;
     }
 
-void *m_realloc(ptr, size, msg)
-  void *ptr ;
-  int size ;
-  char *msg ;
+void *m_realloc(void *ptr, int size, char *msg)
   {
     char buffer[32] ;
     void *p ;

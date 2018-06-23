@@ -62,8 +62,7 @@ int m_actgetc(void)
     }
 
 /* Expand an entity reference */
-void m_entexpand(openent)
-  M_ENTITY *openent ;
+void m_entexpand(M_ENTITY *openent)
   {
     M_WCHAR *p ;
     M_HOLDTYPE dchar ;
@@ -231,9 +230,7 @@ void m_entexpand(openent)
 
 /* An srlen-character long short-reference delimiter has been found.  Verify
    that it is not the prefix of a general delimiter recognized in context*/
-LOGICAL m_gendelim(srlen, context)
-  int srlen ;
-  int context ;
+LOGICAL m_gendelim(int srlen, int context)
   {
     int ghold[MAXD + 1] ;
     int ucase ;
@@ -321,8 +318,7 @@ LOGICAL m_gendelim(srlen, context)
 
 /* Reads next input character from the current source file or from an
    entity expansion */
-int m_getachar(dchar)
-  M_HOLDTYPE *dchar ;
+int m_getachar(M_HOLDTYPE *dchar)
   {
     int c ;
     int i ;
@@ -427,10 +423,7 @@ void m_getname(M_WCHAR first)
     }
 
 /* Reads the next token */
-int m_gettoken(c, dchar, context)
-  int *c ;
-  M_HOLDTYPE *dchar ;
-  int context ;
+int m_gettoken(int *c, M_HOLDTYPE *dchar, int context)
   {
     int hold[MAXD + 1], next ;
     int ucase ;
@@ -554,8 +547,7 @@ int m_gettoken(c, dchar, context)
     }
 
 /* Reads a literal */
-void m_litproc(delim)
-  int delim ;
+void m_litproc(int delim)
   {
     int n, i ;
     M_HOLDTYPE dchar ;
@@ -886,8 +878,7 @@ void m_setmap(int map, LOGICAL useoradd)
     }
 
 /* Check for short reference delimiters */
-void m_shortref(context)
-int context ;
+void m_shortref(int context)
 {
 int n = 0 ;
 int i ;

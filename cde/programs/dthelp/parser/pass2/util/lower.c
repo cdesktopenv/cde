@@ -32,8 +32,7 @@ int m_lower(int c);
 
 
 /* Force a letter to lowercase */
-int m_lower(c)
-  int c ;
+int m_lower(int c)
   {
     if (c >= 'A' && c <= 'Z') c += 'a' - 'A' ;
     return(c) ;

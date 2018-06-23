@@ -33,10 +33,7 @@
 extern M_CHARTYPE m_ctarray[M_CHARSETLEN] ;
 
 /* Changes the value associated with an entry in a trie. */
-void *m_resettrie(xtrie, p, value)
-  M_TRIE *xtrie ;
-  M_WCHAR *p ;
-  void *value ;
+void *m_resettrie(M_TRIE *xtrie, M_WCHAR *p, void *value)
   {
     M_TRIE *currentnode ;
 

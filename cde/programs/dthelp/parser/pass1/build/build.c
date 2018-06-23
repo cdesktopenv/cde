@@ -38,9 +38,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "entdef.h"
 
 /* Main procedure */
-int main(argc, argv)
-int argc ;
-char **argv ;
+int main(int argc, char **argv)
 {
 int m_prevcon ;
 

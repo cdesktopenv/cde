@@ -38,8 +38,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "sref.h"
 
 /* Reads a name */
-LOGICAL getname(first)
-  int first;
+LOGICAL getname(int first)
 {
 M_WCHAR *p;
 int c;

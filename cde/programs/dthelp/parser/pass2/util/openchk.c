@@ -35,9 +35,7 @@ void m_exit(int status);
 void m_openchk(FILE **ptr, char *name, char *mode);
 
 /* Open a file and check that the open succeeded */
-void m_openchk(ptr, name, mode)
-  FILE **ptr ;
-  char *name, *mode ;
+void m_openchk(FILE **ptr, char *name, char *mode)
   {
     *ptr = fopen(name, mode) ;
     if (*ptr) return ;

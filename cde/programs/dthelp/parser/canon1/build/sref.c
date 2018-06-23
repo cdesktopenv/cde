@@ -36,8 +36,7 @@ static M_WCHAR *wc_prefix = NULL;
 /* Add an entity with the default name constructed by adding a suffix
    to the name of the short reference map in which it is invoked, and
    a prefix m- */
-void adddefent(mapname)
-M_WCHAR *mapname;
+void adddefent(M_WCHAR *mapname)
 {
 M_WCHAR *p;
 int n;
@@ -75,8 +74,7 @@ thissref->entidx = entity->index;
 
 /* Add an entity, return FALSE if already there, TRUE if adding it.
    Pointer to the entity structure is in global M_STRUCT *entity. */
-LOGICAL addent(name)
-M_WCHAR *name;
+LOGICAL addent(M_WCHAR *name)
 {
 M_ENTITY *new;
 
@@ -128,16 +126,14 @@ return(TRUE);
 }
 
 /* Add a named entity to a short reference map */
-void addndent(p)
-M_WCHAR *p;
+void addndent(M_WCHAR *p)
 {
 addent(p);
 thissref->entidx = entity->index;
 }
 
 /* Add a short reference delimiter */
-void addsref(p)
-M_WCHAR *p;
+void addsref(M_WCHAR *p)
 {
 SREFSTRUCT *delim;
 SREFSTRUCT *prevsr;

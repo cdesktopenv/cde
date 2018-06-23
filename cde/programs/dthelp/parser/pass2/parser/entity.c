@@ -52,8 +52,7 @@ void m_ckmap(M_WCHAR *name, LOGICAL useoradd)
 /* Check type specified in entity declaration for previously defined
    entity.  Testing to see if the new declaration is identical to the
    original one. */
-void m_eduptype(type)
-  int type ;
+void m_eduptype(int type)
   {
     if ((int) m_entity->type != type) {
       m_err1("Redefinition of entity %s ignored", m_entity->name) ;
@@ -63,8 +62,7 @@ void m_eduptype(type)
     }
 
 /* Tests if an entity is too long */
-void m_longent(context)
-  int context ;
+void m_longent(int context)
   {
     if (m_entclen >= M_LITLEN) {
       m_curcon = context ;
@@ -74,8 +72,7 @@ void m_longent(context)
     }
 
 /* Enters an entity name into the entity name tree */
-void m_ntrent(p)
-  M_WCHAR *p ;
+void m_ntrent(M_WCHAR *p)
   {
     M_ENTITY *new ;
 

@@ -31,9 +31,7 @@ char *m_itoa(int n, char *s);
 
 void reverse(char *s);
 
-char *m_itoa(n, s)  /* convert n to characters in s */
-char s[]; 
-int n;
+char *m_itoa(int n, char *s)  /* convert n to characters in s */
 {   
     int sign ;
     char *p = s ;
@@ -51,8 +49,7 @@ int n;
     return(s) ;
 }
 
-void reverse(s)
-char s[];
+void reverse(char s[])
 {
     int c, i, j;
 

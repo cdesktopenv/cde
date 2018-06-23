@@ -33,8 +33,7 @@ Copyright 1988, 1989 Hewlett-Packard Co.
 #include "parser.h"
 
 /* Get program options from a string */
-void m_optstring(p)
-  char *p ;
+void m_optstring(char *p)
   {
     if (strchr(p, 'a')) m_malftrace = TRUE ;
     if (strchr(p, 'c')) m_chtrace = TRUE ;

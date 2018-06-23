@@ -72,9 +72,7 @@ return((int) wc);
 }
 
 /* Reads the next token stored in a packed trie (as defined by context.dat) */
-int gettoken(c, context)
-int *c;
-int context;
+int gettoken(int *c, int context)
 {
 int hold[MAXD + 1];
 int ucase;
@@ -123,8 +121,7 @@ return(M_NULLVAL);
 }
 
 /* Reads a literal (called after the opening quotation mark is read) */
-LOGICAL litproc(delim)
-int delim;
+LOGICAL litproc(int delim)
 {
 int n, i, number;
 M_WCHAR *p, *pStart; /* bigger than wide versions of lit or lita */
@@ -215,8 +212,7 @@ return(FALSE);
 
 /* Returns a context-dependent delimiter string to input stream so
    characters can be reread one at a time in another context */
-void undodelim(delim)
-M_WCHAR *delim;
+void undodelim(M_WCHAR *delim)
 {
 M_WCHAR *p;
 
@@ -234,8 +230,7 @@ while (TRUE)
 /* Returns a character to the input stream to read again later. Unexplained
    problems occurred using standard ungetc procedure; hence
    explicit declaration of buffer for read-ahead characters */
-void ungetachar(c)
-int c;
+void ungetachar(int c)
 {
 M_WCHAR wnl;
 

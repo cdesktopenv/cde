@@ -64,8 +64,7 @@ void m_etcomplete(void)
 
 /* M_frcend is called after a syntax error to end element VAL even
    if more content for that element is expected */
-void m_frcend(val)
-  M_ELEMENT val ;
+void m_frcend(M_ELEMENT val)
   {
     M_PARSE *stackptr ;
     M_ELEMENT poppedval ;

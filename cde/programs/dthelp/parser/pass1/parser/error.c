@@ -40,8 +40,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 
 /* Issue error message (no arguments) */
-void m_error(text)
-  char *text;
+void m_error(char *text)
   {
     m_startmsg();
     m_errline(text);
@@ -316,9 +315,7 @@ void m_err7(
 
 /* Getline.c returns the name of the current input file and the number
    of the current line */
-void m_getline(file, line)
-  M_WCHAR **file;
-  int *line;
+void m_getline(M_WCHAR **file, int *line)
   {
     int i;
 

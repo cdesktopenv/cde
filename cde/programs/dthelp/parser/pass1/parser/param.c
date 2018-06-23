@@ -42,8 +42,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 
 /* Process the value for the parameter whose index number was previously
    saved in m_ppsave */
-void m_attval(string)
-  M_WCHAR *string ;
+void m_attval(M_WCHAR *string)
   {
     const M_WCHAR *p ;
 
@@ -65,8 +64,7 @@ void m_attval(string)
 
 /* Process a string that is a parameter value not prefixed by the parameter
    name and value indicator */
-LOGICAL m_attvonly(string)
-  M_WCHAR *string ;
+LOGICAL m_attvonly(M_WCHAR *string)
   {
     const M_WCHAR *p ;
     int par, i ;
@@ -152,8 +150,7 @@ void m_findatt(void)
     }
 
 /* Free the parameter storage associated with an element on the parse stack */
-void m_freeparam(stackelt)
-  M_PARSE *stackelt ;
+void m_freeparam(M_PARSE *stackelt)
   {
     int i ;
     int par ;
@@ -173,9 +170,7 @@ void m_freeparam(stackelt)
 /* Force a parameter value to uppercase, if appropriate for its type.
    Also, if list-valued attribute, remove leading and trailing spaces,
    and condense white-space sequences to a single blank*/
-void m_parupper(par, string)
-  int par ;
-  M_WCHAR *string ;
+void m_parupper(int par, M_WCHAR *string)
   {
     M_WCHAR *p ;
     M_WCHAR *q ;
@@ -233,11 +228,7 @@ void m_stkdefaultparams(void)
     }
 
 /* Stack one default parameter */
-void m_stkonedef(par, scanel, poccur, i)
-  int par ;
-  M_ELEMENT scanel ;
-  M_WCHAR **poccur ;
-  int i ;
+void m_stkonedef(int par, M_ELEMENT scanel, M_WCHAR **poccur, int i)
   {
     if (m_parameter[par - 1].deftype == M_REQUIRED ||
         (m_parameter[par - 1].deftype == M_CURRENT &&
@@ -313,8 +304,7 @@ void m_updatedefault(const int par , const M_WCHAR *string )
 
 /* Check to see if a string that occurs after the element name in a start
    tag is a valid parameter name or value; if not, assume tag is ended */
-LOGICAL m_validinpar(string)
-  M_WCHAR *string ;
+LOGICAL m_validinpar(M_WCHAR *string)
   {
     int par ;
     M_WCHAR *p ;

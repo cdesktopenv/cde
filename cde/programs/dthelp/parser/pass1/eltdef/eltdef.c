@@ -46,9 +46,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "entity.h"
 
 /* Main program */
-int main(argc, argv)
-  int argc ;
-  char **argv ;
+int main(int argc, char **argv)
   {
     int m_token ;
 

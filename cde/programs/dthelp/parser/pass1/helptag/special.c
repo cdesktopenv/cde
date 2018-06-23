@@ -138,9 +138,7 @@ struct {
 #define NO8BITCHARS 256
 int invert[NO8BITCHARS], emptycell;
 
-main(argc, argv)
-int argc;
-char *argv[];
+int main(int argc, char *argv[])
 {
 int i, both = FALSE, spec = FALSE, coll = FALSE, error = FALSE ;
 

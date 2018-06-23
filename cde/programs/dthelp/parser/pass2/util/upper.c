@@ -31,8 +31,7 @@
 
 int m_upper(int c);
 
-int m_upper(c)
-  int c ;
+int m_upper(int c)
   {
     if (c >= 'a' && c <= 'z') c += 'A' - 'a' ;
     return(c) ;

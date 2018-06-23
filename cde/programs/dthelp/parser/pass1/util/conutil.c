@@ -81,8 +81,7 @@ void dumptree(LOGICAL sparse)
     }
 
 /* Enter a delimiter into the delimiter tree for a particular context */
-void enterdelim(n)
-  int n;
+void enterdelim(int n)
 {
 if (! contree[n])
     {
@@ -107,8 +106,7 @@ if (m_ntrtrie(dstruct->string,
 }
 
 /* Read the code to be executed with a given state transition */
-void getcode(n)
-int n;
+void getcode(int n)
 {
 int c ; /* c is int instead of char for use with ungetc */
 int nested = 1;
@@ -616,8 +614,7 @@ void nextcon(LOGICAL sparse)
   
 /* If sparse matrix output option, generate a single element of transit
    array */
-void prtctxt(column, value)
-  int column, value;
+void prtctxt(int column, int value)
   {
     static LOGICAL first = TRUE;
 
@@ -652,8 +649,7 @@ void skiptoend(void)
 }
 
 /* Return a character to the input stream for re-reading */
-void unread(c)
-int c;
+void unread(int c)
 {
 M_WCHAR wnl;
 

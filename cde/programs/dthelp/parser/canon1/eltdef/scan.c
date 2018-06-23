@@ -43,8 +43,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "delim.h"
 
 /* Reads a name token */
-void getname(first)
-int first;
+void getname(int first)
 {
 M_WCHAR *p, wus;
 int c, cttype;

@@ -38,11 +38,8 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "parser.h"
 #include "entext.h"
 
-LOGICAL m_lookent(name, type, content, wheredef)
-  M_WCHAR *name ;
-  unsigned char *type ;
-  M_WCHAR **content ;
-  unsigned char *wheredef ;
+LOGICAL m_lookent(M_WCHAR *name, unsigned char *type,
+                  M_WCHAR **content, unsigned char *wheredef)
   {
     M_ENTITY *entity ;
 

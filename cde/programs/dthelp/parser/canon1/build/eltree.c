@@ -34,8 +34,7 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "build.h"
 
 /* Enters an element name into the element name tree */
-ELTSTRUCT *ntrelt(p)
-  M_WCHAR *p ;
+ELTSTRUCT *ntrelt(M_WCHAR *p)
   {
     ELTSTRUCT *new ;
     ELTSTRUCT *old ;

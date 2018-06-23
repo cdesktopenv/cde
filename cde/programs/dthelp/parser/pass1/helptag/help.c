@@ -250,8 +250,7 @@ else
 
 
 /* This procedure starts a CHAPTER */
-void chapstart(id)
-M_WCHAR *id;
+void chapstart(M_WCHAR *id)
 {
 M_WCHAR *p, *q, *wc;
 int i;
@@ -498,9 +497,7 @@ return ( 0 );
 }  /* end mb_getqualified */
 
 
-int getqualified (qualname, unqualname)
-M_WCHAR *qualname;
-M_WCHAR *unqualname;
+int getqualified(M_WCHAR *qualname, M_WCHAR *unqualname)
 {
 int retval;
 char mb_qualname[FNAMELEN],
@@ -520,13 +517,9 @@ return retval;
 
 /* handle the common link and graphic code for <p> and <image> */
 void
-handle_link_and_graphic(parent,
-			gentity,
-			gposition,
-			ghyperlink,
-			glinktype,
-			gdescription)
-M_WCHAR *parent, *gentity, *gposition, *ghyperlink, *glinktype, *gdescription;
+handle_link_and_graphic(M_WCHAR *parent, M_WCHAR *gentity,
+                        M_WCHAR *gposition, M_WCHAR *ghyperlink,
+                        M_WCHAR *glinktype, M_WCHAR *gdescription)
 {
 unsigned char etype, wheredef;
 char *mb_content, *ssi, id[32];
@@ -912,8 +905,7 @@ if (item_id)
 
 
 /* Start a rsect */
-void rsectstart(id)
-M_WCHAR *id;
+void rsectstart(M_WCHAR *id)
 {
 savid = checkid(id);
 iderr = FALSE;
@@ -933,8 +925,7 @@ rsectseq = FALSE;
 
 
 /* Follow search path to find a file, returning qualified name */
-M_WCHAR *searchforfile(file)
-M_WCHAR *file;
+M_WCHAR *searchforfile(M_WCHAR *file)
 {
 M_WCHAR *filename;
 SEARCH	*searchp;
@@ -1055,9 +1046,7 @@ if (wc_id)
 
 
 /* Start a labeled list */
-void StartLabList(spacing, longlabel)
-M_WCHAR *spacing;
-M_WCHAR *longlabel;
+void StartLabList(M_WCHAR *spacing, M_WCHAR *longlabel)
 {
        char *mb_spacing;
 static char  def_spacing[] = "LOOSE";
@@ -1240,7 +1229,7 @@ lastlist = nextlist;
 }
 
 
-void EndList()
+void EndList(void)
 {
 LIST *curlist ;
 CONTCHAIN *chain, *xchain ;
@@ -1658,7 +1647,7 @@ return buffer;
  * versions of the language and charset.
 */
 void
-SetDefaultLocale()
+SetDefaultLocale(void)
 {
 unsigned char type,wheredef;
 M_WCHAR *elementName;
@@ -2173,14 +2162,14 @@ while (*wcp)
 return(newstring);
 }
 
-int NextId()
+int NextId(void)
 {
 static id = 0;
 
 return ++id;
 }
 
-char *GetLanguage()
+char *GetLanguage(void)
 {
 static char *pLang = NULL;
 
@@ -2192,7 +2181,7 @@ if (!pLang)
 return pLang;
 }
 
-char *GetCharset()
+char *GetCharset(void)
 {
 static char *pCharset = NULL;
 
@@ -2755,7 +2744,7 @@ return(name) ;
  * content is modified to be <SPC NAME="[......]"> so that it may be
  * emitted into the SDL output.
 */
-void ModifyEntities()
+void ModifyEntities(void)
 {
 unsigned char type;
 unsigned char wheredef;
@@ -2918,7 +2907,7 @@ fputs(">\n", outfile);
 needFData = TRUE;
 }
 
-void PopForm()
+void PopForm(void)
 {
 if (inBlock)
     {
@@ -2934,7 +2923,7 @@ mb_free(&(formStackTop->rowVec));
 --formStackTop;
 }
 
-void PopForm2()
+void PopForm2(void)
 {
 if (inBlock)
     {
@@ -2955,7 +2944,7 @@ mb_free(&(formStackTop->rowVec));
  * is pushed but the source doesn't go to text either because the text
  * is explicitly optional or due to the fact that text can be null.
 */
-void PopFormMaybe()
+void PopFormMaybe(void)
 {
 if ((formStackTop >= formStackBase) && (formStackTop->vecLen == 1))
     {
@@ -2964,7 +2953,7 @@ if ((formStackTop >= formStackBase) && (formStackTop->vecLen == 1))
     }
 }
 
-void EmitSavedAnchors()
+void EmitSavedAnchors(void)
 {
 char buffer[BIGBUF];
 
@@ -2979,7 +2968,7 @@ if (parTextId)
     }
 }
 
-void CloseVirpage()
+void CloseVirpage(void)
 {
 if (parTextId)
     {

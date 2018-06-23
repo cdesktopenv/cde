@@ -33,8 +33,7 @@
 
 /* Procedure callable by interface designer.  Returns number of occurrences
    of element on parse stack */
-int m_level(elt)
-  M_WCHAR *elt ;
+int m_level(M_WCHAR *elt)
   {
     int i = 0 ;
     M_PARSE *stackptr ;
@@ -48,8 +47,7 @@ int m_level(elt)
     }
 
 
-int m_mblevel(elt)
-  char *elt ;
+int m_mblevel(char *elt)
   {
   int     retval;
   M_WCHAR *wc_elt;

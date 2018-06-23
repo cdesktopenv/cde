@@ -35,12 +35,8 @@ void m_dumptrie(FILE *file, M_TRIE *xtrie, char *extname, int *count,
   void (*proc)(void *value));
 
 /* Write the C declaration of a trie */
-void m_dumptrie(file, xtrie, extname, count, proc)
-  FILE *file ;
-  M_TRIE *xtrie ;
-  char *extname ;
-  int *count ;
-  void (*proc)(void *value) ;
+void m_dumptrie(FILE *file, M_TRIE *xtrie, char *extname, int *count,
+                void (*proc)(void *value))
   {
     int firstson ;
     M_TRIE *p ;

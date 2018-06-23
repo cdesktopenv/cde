@@ -238,8 +238,7 @@ return wc_stringStart;
 
 
 /* Get-wide-char procedure */
-int mb_getwc(m_ptr)
-void *m_ptr;
+int mb_getwc(void *m_ptr)
 {
 int  c;
 M_WCHAR wc;

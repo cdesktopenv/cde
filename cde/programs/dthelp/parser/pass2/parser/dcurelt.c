@@ -29,9 +29,7 @@ Copyright 1988, 1989 Hewlett-Packard Co.
 #include "globdec.h"
 
 /* Displays current element after some error messages */
-void m_dispcurelt(file, line)
-M_WCHAR *file ;
-int line ;
+void m_dispcurelt(M_WCHAR *file, int line)
 {
 char *mb_parent;
 

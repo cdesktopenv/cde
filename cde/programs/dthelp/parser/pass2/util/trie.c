@@ -117,10 +117,7 @@ void *m_lookfortrie( const M_WCHAR *p , const M_TRIE *xtrie )
     }
 
 /* Enters a string and associated data value into a trie */
-void *m_ntrtrie(p, xtrie, dataval)
-  M_WCHAR *p ;
-  M_TRIE *xtrie ;
-  void *dataval ;
+void *m_ntrtrie(M_WCHAR *p, M_TRIE *xtrie, void *dataval)
   {
     M_TRIE *currentnode ;
     void *n ;

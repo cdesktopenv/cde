@@ -44,8 +44,7 @@ void endmodel(void)
     }
 
 /* Release storage used for the tree representation of a rule */
-void freetree(treep)
-  TREE *treep ;
+void freetree(TREE *treep)
   {
     TREE *child, *discard ;
 
