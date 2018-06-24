@@ -117,9 +117,6 @@ static struct _m_ map[] =
 #ifdef SIGALRM
 "Alarm call",			"ALRM",		SIGALRM,
 #endif
-#ifdef SIGAPOLLO
-"Apollo",			"APOLLO",	SIGAPOLLO,
-#endif
 #ifdef SIGBUS
 "Bus error",			"BUS",		SIGBUS,
 #endif

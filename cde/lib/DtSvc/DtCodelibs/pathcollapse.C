@@ -31,9 +31,6 @@
  * (c) Copyright 1996 FUJITSU LIMITED.
  * (c) Copyright 1996 Hitachi.
  */
-#ifdef DOMAIN_ALLOW_MALLOC_OVERRIDE
-#include "/usr/include/apollo/shlib.h"
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,9 +57,6 @@ pathcollapse(const char *src, char *dst, boolean show_dir)
     char **comp = components;
     int length = src == NULL ? 0 : strlen(src);
     int dir_comp;		/* TRUE if last component was . or .. */
-#ifdef apollo
-    int double_slash = 0;
-#endif
     wchar_t __nlh_char[1];
 
     if (length == 0 || length > MAXPATHLEN)
@@ -74,19 +68,6 @@ pathcollapse(const char *src, char *dst, boolean show_dir)
     if (dst == NULL)
 	if ((dst = (char *)malloc(length + 1)) == NULL)
 	    return NULL;
-
-#ifdef apollo
-    /*
-     * On apollo, a leading double-slash must be preserved, so we
-     * copy the first slash and hide it from the rest of the code.
-     */
-    if (CHARAT(src) == '/' && CHARAT(src + 1) == '/')
-    {
-	*dst++ = '/';
-	src++;
-	double_slash = 1;
-    }
-#endif
 
     srcp = src;
     dstp = dst;
@@ -174,11 +155,6 @@ pathcollapse(const char *src, char *dst, boolean show_dir)
     }
     else if (sep > dst)
 	*sep = '\0';		/* remove trailing '/' */
-
-#ifdef apollo
-    if (double_slash)
-	dst--;
-#endif
 
     return dst;
 }

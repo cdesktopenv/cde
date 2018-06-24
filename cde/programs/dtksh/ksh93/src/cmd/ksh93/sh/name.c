@@ -101,11 +101,6 @@
 #include	"FEATURE/locale"
 #include	"national.h"
 
-#ifdef apollo
-    extern __MANGLE__ void	ev_$delete_var(__VARARG__);
-    extern __MANGLE__ void	ev_$set_var(__VARARG__);
-#endif	/* apollo */
-
 static void	attstore __PROTO__((Namval_t*));
 static void	pushnam __PROTO__((Namval_t*));
 static char	*staknam __PROTO__((Namval_t*, char*));
@@ -523,22 +518,7 @@ Namval_t	*nv_open __PARAM__((const char *name,Hashtab_t *root,int flags), (name,
 #endif /* SHOPT_BSH */
 			}
 			nv_onattr(np, flags&NV_ATTRIBUTES);
-#ifdef apollo
-			/*
-			 * Set environment variable defined in the underlying
-			 * DOMAIN_OS cache. This is done because dsee will only
-			 * process the path if it has changed since the last
-			 * time it looked.
-			 */
-			if(nv_isattr(np,NV_EXPORT) && !nv_isattr(np,NV_IMPORT) 
-				&& (flags&NV_ASSIGN) && !(flags&(NV_NOSCOPE|NV_ARRAY)))
-			{
-				short namlen,vallen;
-				namlen =strlen(nv_name(np));
-				vallen = strlen(cp);
-				ev_$set_var(nv_name(np),&namlen,cp,&vallen);
-			}
-#endif /* apollo */
+
                         /*
                          * Set environment variable defined in the underlying
                          * libc environ. This is done because routines within
@@ -657,21 +637,7 @@ void nv_putval __PARAM__((register Namval_t *np, const char *string, int flags),
 		const char *tofree=0;
 		if(flags&NV_INTEGER)
 			sp = sh_etos(*((double*)sp),12);
-#ifdef apollo
-		if(nv_isattr(np, NV_HOST)==NV_HOST && sp)
-		{
-			/*
-			 * return the host file name given the UNIX name
-			 * non-unix hosts that use file name mapping
-			 * should change this
-			 */
-			char pathname[1024];
-			short pathlen;
-			unix_fio_$get_name(sp,pathname,&pathlen);
-			pathname[pathlen] = 0;
-			sp = pathname;
-		}
-#endif	/* apollo */
+
 		if((nv_isattr(np, NV_RJUST|NV_ZFILL|NV_LJUST)) && sp)
 		{
 			for(;*sp == ' '|| *sp=='\t';sp++);
@@ -734,16 +700,6 @@ void nv_putval __PARAM__((register Namval_t *np, const char *string, int flags),
 		if(tofree)
 			free((__V_*)tofree);
 	}
-#ifdef apollo
-	if((flags&NV_RDONLY) && nv_isattr(np,NV_EXPORT))
-	{
-		short namlen, vallen;
-		char *vp = nv_getval(np);
-		namlen =strlen(nv_name(np));
-		vallen = strlen(vp);
-		ev_$set_var(nv_name(np),&namlen,vp,&vallen);
-	}
-#endif /* apollo */
         /*
          * Set environment variable defined in the underlying
          * libc environ. This is done because routines within
@@ -1200,21 +1156,7 @@ void nv_newattr  __PARAM__((register Namval_t *np, unsigned newatts, int size), 
 	if(newatts&NV_EXPORT)
 		nv_offattr(np,NV_IMPORT);
 #endif /* SHOPT_BSH */
-#ifdef apollo
-	if(((n^newatts)&NV_EXPORT))
-	/* record changes to the environment */
-	{
-		short namlen = strlen(nv_name(np));
-		if(n&NV_EXPORT)
-			ev_$delete_var(nv_name(np),&namlen);
-		else
-		{
-			char *vp = nv_getval(np);
-			short vallen = strlen(vp);
-			ev_$set_var(nv_name(np),&namlen,vp,&vallen);
-		}
-	}
-#endif /* apollo */
+
         /*
          * Set environment variable defined in the underlying
          * libc environ. This is done because routines within

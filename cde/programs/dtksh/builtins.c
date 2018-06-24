@@ -202,11 +202,6 @@ const struct shtable3 shtab_builtins[] =
 	"wait",		NV_BLTIN|BLT_ENV|BLT_EXIT,	bltin(wait),
         "type",         NV_BLTIN|BLT_ENV,               bltin(whence),
 	"whence",	NV_BLTIN|BLT_ENV,		bltin(whence),
-#ifdef apollo
-	"inlib",	NV_BLTIN|BLT_ENV,		bltin(inlib),
-	"rootnode",	NV_BLTIN,			bltin(rootnode),
-	"ver",		NV_BLTIN,			bltin(ver),
-#endif	/* apollo */
 	"/bin/basename",NV_BLTIN|NV_NOFREE,		bltin(basename),
 	"/bin/chmod",	NV_BLTIN|NV_NOFREE,		bltin(chmod),
 	"/bin/dirname",	NV_BLTIN|NV_NOFREE,		bltin(dirname),

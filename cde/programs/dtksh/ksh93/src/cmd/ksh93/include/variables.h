@@ -172,8 +172,5 @@
 #else
 #   define NMULTI       NVPIX
 #endif /* SHOPT_MULTIBYTE */
-#ifdef apollo
-#   define SYSTYPENOD	(sh.bltin_nodes+51+NMULTI)
-#endif /* apollo */
 
 #endif /* SH_VALNOD */

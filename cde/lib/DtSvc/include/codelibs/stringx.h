@@ -32,13 +32,6 @@
 #ifndef __STRINGX_H_
 #define __STRINGX_H_
 
-#ifdef DOMAIN_ALLOW_MALLOC_OVERRIDE
-#include "/usr/include/apollo/shlib.h"
-#endif
-#ifdef apollo
-#include <stdlib.h>
-#endif
-
 #include <stddef.h>
 #include <string.h>
 #include <codelibs/boolean.h>
@@ -119,11 +112,11 @@ extern size_t     nl_strlen();		/* __OBSOLETE */
 #if defined(__cplusplus)
 }
 
-#if defined(apollo) || defined(__aix) || defined(__linux__) || defined(CSRG_BASED)
+#if defined(__aix) || defined(__linux__) || defined(CSRG_BASED)
 #include <stdlib.h>
 #else
 #include <malloc.h>
-#endif /* apollo */
+#endif /* aix linux CSRG_BASED */
 
 inline char *strnew(size_t len) { return (char*)malloc(len + 1); }
 #if defined(sun) || defined(__sun)

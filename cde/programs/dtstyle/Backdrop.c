@@ -47,16 +47,11 @@
 #include <sys/types.h>
 #include <errno.h>
 
-#if defined(_AIX) || defined(__apollo)
+#if defined(_AIX)
 #include <sys/dir.h>
 #else
 #include <dirent.h>             /* opendir(), directory(3C) */
 #endif /* _AIX */
-
-#ifdef __apollo
-#include <X11/apollosys.h>      /* needed for S_ISDIR macro */
-#endif
-
 
 #include <locale.h>
 #include <X11/Xlib.h>

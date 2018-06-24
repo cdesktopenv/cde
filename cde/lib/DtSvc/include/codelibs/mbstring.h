@@ -34,11 +34,6 @@
 
 #include <stddef.h>
 
-#ifdef apollo
-#define _NEED_WCHAR_T
-#include <sys/stdtypes.h>
-#endif
-
 #ifdef __cplusplus
 extern "C"
 {

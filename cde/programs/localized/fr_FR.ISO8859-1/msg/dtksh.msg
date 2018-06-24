@@ -858,8 +858,6 @@ $set 25        Redefine set#
 
 127 "S [masque]"
 
-128 "SIGAPOLLO"
-
 129 "Libellé de sécurité modifié"
 
 130 "Interruption de prise"

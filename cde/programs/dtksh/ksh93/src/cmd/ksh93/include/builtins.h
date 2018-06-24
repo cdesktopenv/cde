@@ -185,13 +185,6 @@ extern __MANGLE__ int b_tty __PROTO__((int, char*[],__V_*));
 extern __MANGLE__ int b_uname __PROTO__((int, char*[],__V_*));
 extern __MANGLE__ int b_wc __PROTO__((int, char*[],__V_*));
 
-/* The following are extensions for apollo computers */
-#ifdef	 apollo
-    extern __MANGLE__ int b_rootnode __PROTO__((int, char*[],__V_*));
-    extern __MANGLE__ int b_inlib __PROTO__((int, char*[],__V_*));
-    extern __MANGLE__ int b_ver __PROTO__((int, char*[],__V_*));
-#endif	/* apollo */
-
 extern __MANGLE__ const char	e_alrm1[];
 extern __MANGLE__ const char	e_alrm2[];
 extern __MANGLE__ const char	e_badfun[];
@@ -228,12 +221,6 @@ extern __MANGLE__ const char	e_cneedsarg[];
     extern __MANGLE__ const char	e_mapping[];
     extern __MANGLE__ const char	e_versions[];
 #endif /* SHOPT_FS_3D */
-#ifdef apollo
-    extern __MANGLE__ const char	e_rootnode[];
-    extern __MANGLE__ const char	e_nover[];
-    extern __MANGLE__ const char	e_badver[];
-    extern __MANGLE__ const char	e_badinlib[];
-#endif /* apollo */
 
 /* for option parsing */
 extern __MANGLE__ const char sh_optalarm[];

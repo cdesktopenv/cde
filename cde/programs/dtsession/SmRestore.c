@@ -64,9 +64,6 @@
 #endif /* _SUN_OS */
 #include <sys/types.h>
 #include <stdlib.h>
-#ifdef __apollo
-#include <X11/apollosys.h>        /* for pid_t struct in hp-ux sys/types.h */
-#endif
 #include <sys/socket.h>
 #include <sys/wait.h>
 #include <netinet/in.h>

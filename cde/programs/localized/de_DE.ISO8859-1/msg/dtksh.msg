@@ -859,8 +859,6 @@ $set 25        Redefine set#
 
 127 "S [Maske]"
 
-128 "SIGAPOLLO"
-
 129 "Sicherheitsbezeichnung geändert"
 
 130 "Socket-Unterbrechung"

@@ -134,11 +134,6 @@ static int sia_exit_proc_reg = FALSE;
 
 #endif /* SIA */
 
-
-#ifdef __apollo
-  extern char *getenv();
-#endif	
-
 #define GREET_STATE_LOGIN             0
 #define GREET_STATE_AUTHENTICATE      1
 #define GREET_STATE_EXIT              2
@@ -1418,30 +1413,6 @@ StartClient( struct verify_info *verify, struct display *d, int *pidp )
 	Debug("BLS - Session setup complete.\n");
     } else {
 #endif /* BLS */
-			
-#ifdef __apollo
-
-	/* 
-	 * This should never fail since everything has been verified already.
-	 * If it does it must mean registry strangeness, so exit, and try
-	 * again...
-	 */
-
-	if (!DoLogin (user, greet.password, d->name)) exit (1);
-	
-	/*
-	 * extract the SYSTYPE and ISP environment values and set into user's 
-	 * environment. This is necessary since we do an execve below...
-	 */
-	 
-	verify->userEnviron = setEnv(verify->userEnviron, "SYSTYPE",
-				     getenv("SYSTYPE"));
-
-	verify->userEnviron = setEnv(verify->userEnviron, "ISP",
-				     getenv("ISP"));
-
-#else /* ! __apollo */
-
 
 #  ifdef __AFS
 	if ( IsVerifyName(VN_AFS) ) {
@@ -1524,8 +1495,6 @@ StartClient( struct verify_info *verify, struct display *d, int *pidp )
 	    exit (1);
 	}
 #endif
-
-#endif /* __apollo */
 
 #ifdef BLS
     }  /* ends the else clause of if ( ISSECURE ) */
@@ -1655,7 +1624,7 @@ StartClient( struct verify_info *verify, struct display *d, int *pidp )
 
 	    failsafeArgv[i++] = "-e";
 	    failsafeArgv[i++] = "/bin/passwd";
-#if defined (__apollo) || defined(__PASSWD_ETC)
+#if defined(__PASSWD_ETC)
 	    failsafeArgv[i++] = "-n";
 #endif
 	    failsafeArgv[i++] = getEnv (verify->userEnviron, "USER");
@@ -2076,15 +2045,6 @@ RunGreeter( struct display *d, struct greet_info *greet,
             if((path = getenv("OPENWINHOME")) != NULL)
                 env = setEnv(env, "OPENWINHOME", path);
 #endif
-
-#ifdef __apollo
-	    /*
-	     *  set environment for Domain machines...
-	     */
-	    env = setEnv(env, "ENVIRONMENT", "bsd");
-	    env = setEnv(env, "SYSTYPE", "bsd4.3");
-#endif
-		
 
 	    Debug ("Greeter environment:\n");
 	    printEnv(env);

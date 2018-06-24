@@ -37,11 +37,7 @@
 #include <string.h>
 #include <sys/param.h>
 
-#ifdef __apollo
-#include "/sys5/usr/include/unistd.h"
-#else
 #include <unistd.h>
-#endif
 #include <limits.h>
 #include <sys/stat.h>
 

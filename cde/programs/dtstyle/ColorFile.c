@@ -49,17 +49,11 @@
 
 #ifdef __hpux
 #include <ndir.h>               /*   opendir(), directory(3C) */
-#else
-#if defined(SVR4) || defined(sco) || defined(CSRG_BASED)
+#elif defined(SVR4) || defined(CSRG_BASED)
 #include <dirent.h>             /* opendir(), directory(3C) */
 #else
 #include <sys/dir.h>
-#ifdef __apollo
-#include <X11/apollosys.h>      /* needed for S_ISDIR macro */
 #endif
-#endif
-#endif
-
 
 #include <Xm/Xm.h>
 

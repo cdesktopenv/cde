@@ -43,14 +43,8 @@
  *
  ***************************************************************************/
 
-
-#ifdef __apollo
-#include <X11/apollosys.h>        /* for pid_t struct in hp-ux sys/types.h */
-#include	<sys/types.h>
-#else
 #include	<sys/types.h>
 #include	<sys/stat.h>
-#endif
 
 #ifdef AIXV3
 #include	<usersec.h>

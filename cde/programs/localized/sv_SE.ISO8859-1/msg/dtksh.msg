@@ -430,7 +430,6 @@ $set 25
 125 Resurser saknas
 126 Återgår till gammal tty-drivrutin...
 127 S [mask]
-128 SIGAPOLLO
 129 Säkerhetsnamnet har ändrats
 130 Avbrottssekvens för sockel
 131 Ljudet är färdigt

@@ -132,10 +132,6 @@ in this Software without prior written authorization from The Open Group.
 #define imake_ccflags "-fn -tm c1"
 #endif
 
-#ifdef apollo
-#define imake_ccflags "-DX_NOT_POSIX"
-#endif
-
 #ifdef WIN32
 #if _MSC_VER < 1000
 #define imake_ccflags "-nologo -batch -D__STDC__"
@@ -232,9 +228,6 @@ in this Software without prior written authorization from The Open Group.
 #ifdef WIN32
 #define USE_CC_E
 #define DEFAULT_CC "cl"
-#endif
-#ifdef apollo
-#define DEFAULT_CPP "/usr/lib/cpp"
 #endif
 #if defined(_IBMR2) && !defined(DEFAULT_CPP)
 #define DEFAULT_CPP "/usr/ccs/lib/cpp"
@@ -604,9 +597,6 @@ char *cpp_argv[ARGUMENTS] = {
 #define DEF_STRINGIFY(_x) DEF_EVALUATE(_x)
 
 struct symtab	predefs[] = {
-#ifdef apollo
-	{"apollo", "1"},
-#endif
 #ifdef ibm032
 	{"ibm032", "1"},
 #endif

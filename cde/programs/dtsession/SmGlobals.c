@@ -64,9 +64,6 @@
 #include <sys/types.h>
 #include <sys/utsname.h>
 #include <unistd.h>
-#ifdef __apollo
-#include <X11/apollosys.h>      /* for pid_t, in hp-ux sys/types.h */
-#endif
 #include <sys/stat.h>
 #include <sys/param.h>
 #include <X11/Intrinsic.h>

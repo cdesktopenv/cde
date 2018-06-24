@@ -431,7 +431,6 @@ $set 25
 125 Risorse perdute
 126 Ritorno al vecchio driver tty...
 127 S [maschera]
-128 SIGAPOLLO
 129 Etichetta di sicurezza modificata
 130 Interrupt del socket 
 131 Suono completato

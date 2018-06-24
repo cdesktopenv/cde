@@ -58,8 +58,8 @@
 /* Routines not defined in include files (yet).				*/
 /************************************************************************/
 
-/* Domain/OS BSD has bzero(), bcmp(), and bcopy() defined. */
-#if !(defined(apollo) && defined(__bsd)) && !defined(CSRG_BASED)
+/* BSD has bzero(), bcmp(), and bcopy() defined. */
+#if !defined(__bsd) && !defined(CSRG_BASED)
 
 #if defined(__STDC__)
 #if !defined(__linux__) && !defined(_XFUNCS_H_) && !defined(sun)

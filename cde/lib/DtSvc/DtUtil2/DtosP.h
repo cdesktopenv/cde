@@ -160,7 +160,7 @@ static char SCCSID[] = "OSF/Motif: @(#)_DtosP.h	4.16 91/09/12";
 /*
  * warning: mips alloca is unsuitable, do not use.
  */
-#  if defined(vax) || defined(sun) || defined(apollo) || defined(stellar)
+#  if defined(vax) || defined(sun) || defined(stellar)
 /*
  * Some System V boxes extract alloca.o from /lib/libPW.a; if you
  * decide that you don't want to use alloca, you might want to fix it here.

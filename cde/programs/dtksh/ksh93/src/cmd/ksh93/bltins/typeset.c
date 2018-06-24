@@ -767,15 +767,7 @@ static int b_unall __PARAM__((int argc, char **argv, register Hashtab_t *troot),
 					continue;
 				}
 			}
-#ifdef apollo
-			else
-			{
-				short namlen;
-				name = nv_name(np);
-				namlen =strlen(name);
-				ev_$delete_var(name,&namlen);
-			}
-#endif /* apollo */
+
 			if(sh.subshell)
 				np=sh_assignok(np,0);
 			nv_unset(np);

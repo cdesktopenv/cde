@@ -895,7 +895,6 @@ StartDisplay(
 		kill (d->serverPid, d->resetSignal);
     	}
 
-#ifndef __apollo
 	/*
 	 *  initialize d->utmpId. Check to see if anyone else is using
 	 *  the requested ID. Always allow the first request for "dt" to
@@ -932,7 +931,6 @@ StartDisplay(
 		return 0;
 	    }
 	}
-#endif
 
 	/*
 	 *  set d->gettyLine to "console" for display ":0" if it is not 
@@ -1484,7 +1482,7 @@ SetTitle( char *name, char *ptr )
 #define GETTYPATH "/usr/libexec/getty"
 #elif defined(__linux__)
 #define GETTYPATH "/sbin/getty"
-#elif !defined (__apollo)
+#else
 #define GETTYPATH "/etc/getty"
 #endif
 

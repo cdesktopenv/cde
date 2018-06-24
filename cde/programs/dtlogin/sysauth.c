@@ -64,7 +64,6 @@
  **     Platform identification:
  **
  **	__hpux	    HP-UX OS only
- **	__apollo    Domain OS only
  **     sun         SUN OS only
  **     SVR4        SUN OS et al.
  **     _AIX        AIX only
@@ -115,7 +114,7 @@
 /*
  * Define as generic those without platform specific code.
  */
-#if !(defined(__hpux) || defined(__apollo) || defined(_AIX) || defined(sun))
+#if !(defined(__hpux) || defined(_AIX) || defined(sun))
 #define generic
 #endif
 
@@ -704,7 +703,7 @@ CheckPassword( char *name, char	*passwd, struct passwd **ppwd )
 
 #ifdef __PASSWD_ETC
     /*
-     *   If regular passwd check fails, try old-style Apollo SR
+     *   If regular passwd check fails, try old-style SR
      */
 
     if (rgy_$is_des(passwd, strlen(passwd), p->pw_passwd) == TRUE)

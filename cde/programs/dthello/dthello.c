@@ -76,11 +76,7 @@ static char rcsid[] = "$TOG: dthello.c /main/9 1998/04/20 12:52:17 mgreess $";
 #include <sys/signal.h>
 #include <Xm/Xm.h>
 #include <Dt/GetDispRes.h>
-#ifdef __apollo
-#include </sys5/usr/include/limits.h>
-#else
 #include <limits.h>
-#endif
 #include <locale.h>
 #ifndef NO_MESSAGE_CATALOG
 # include <nl_types.h>

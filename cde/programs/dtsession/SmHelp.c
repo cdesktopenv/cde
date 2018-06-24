@@ -67,11 +67,6 @@
 #include "SmHelp.h"
 #include "SmGlobals.h"
 
-#ifdef __apollo
-#include <X11/apollosys.h>
-#endif  /* __apollo */
-
-
 /*
  * #define statements
  */

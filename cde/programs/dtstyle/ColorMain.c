@@ -40,11 +40,7 @@
 /*+++++++++++++++++++++++++++++++++++++++*/
 /* include files                         */
 /*+++++++++++++++++++++++++++++++++++++++*/
-#ifdef __apollo
-#include  "/sys5/usr/include/limits.h"
-#else  /* common default */
 #include <limits.h>
-#endif /* __apollo */
 
 #include <locale.h>
 #include <stdlib.h>

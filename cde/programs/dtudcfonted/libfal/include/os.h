@@ -110,7 +110,7 @@ pragma on(alloca);
 /*
  * warning: mips alloca is unsuitable in the server, do not use.
  */
-#if defined(vax) || defined(sun) || defined(apollo) || defined(stellar)
+#if defined(vax) || defined(sun) || defined(stellar)
 /*
  * Some System V boxes extract alloca.o from /lib/libPW.a; if you
  * decide that you don't want to use alloca, you might want to fix 

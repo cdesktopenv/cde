@@ -80,13 +80,6 @@ typedef struct _TempFont {
 #	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
 #  endif
 
-#elif defined(apollo)
-
-#	define DEFAULTGLPAD 	2		/* default padding for glyphs */
-#	define DEFAULTBITORDER 	MSBFirst	/* default bitmap bit order */
-#	define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
-#	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
-
 #elif defined(ibm032)
 
 #	define DEFAULTGLPAD 	1		/* default padding for glyphs */

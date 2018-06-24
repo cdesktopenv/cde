@@ -31,15 +31,6 @@
  * (c) Copyright 1996 FUJITSU LIMITED.
  * (c) Copyright 1996 Hitachi.
  */
-# if defined(apollo) && !defined(___GID_T)
-// This kludge is needed for the include conflicts mentioned below
-// Remove when no longer necessary
-#  define _NEED___PID_T
-# endif
-
-#ifdef DOMAIN_ALLOW_MALLOC_OVERRIDE
-#include "/usr/include/apollo/shlib.h"
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,20 +40,7 @@
 #include <X11/Xos_r.h>
 #include <codelibs/nl_hack.h>
 
-#ifdef apollo
-// This kludge because of include conflicts between stdlib.h and unistd.h
-// Remove when problem is fixed
-
-# ifdef __cplusplus
-    extern "C" {
-# endif
-    _DECL_FUNC(__pid_t,    getpid,   (void))
-# ifdef __cplusplus
-    }
-# endif
-#else /* not apollo */
 # include <unistd.h>
-#endif /* not apollo */
 
 #include "stringio.h"
 #include "buf.h"

@@ -47,11 +47,7 @@
 */
 
 #include <stdio.h>
-#ifdef __apollo
-#include <sys/types.h>           /* needed for sys/stat.h on bsd4.3 */
-#else
 #include <stdlib.h>
-#endif
 #include <sys/stat.h>
 #define X_INCLUDE_STRING_H
 #define X_INCLUDE_TIME_H

@@ -32,10 +32,6 @@
  * (c) Copyright 1993, 1994 Novell, Inc.				*
  */
 
-#ifdef DOMAIN_ALLOW_MALLOC_OVERRIDE
-#include "/usr/include/apollo/shlib.h"
-#endif
-
 #include <Dt/UserMsg.h>
 
 #include <bms/sbport.h> /* NOTE: sbport.h must be the first include. */

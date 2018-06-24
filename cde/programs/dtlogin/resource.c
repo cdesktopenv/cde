@@ -216,11 +216,8 @@ static	char	AppName[16] = DTLOGIN;
 #endif
 
 #ifndef DEF_LANG	/* LANG default settings for various architectures */
-#  ifdef __apollo
-#    define DEF_LANG	"C"
-#  endif
 #  ifdef sun	/* default language under Solaris */
-#    define DEF_LANG    "C" 
+#    define DEF_LANG    "C"
 #  endif
 #endif
 
@@ -614,7 +611,7 @@ LoadDMResources( void )
 	keyFile = getFullFileName(keyFile, 0, NULL);
 	accessFile = getFullFileName(accessFile, 0, NULL);
 
-#ifndef __apollo	/* set a TZ default for all OS except Domain */
+	/* set a TZ default */
         if (timeZone == NULL || strlen(timeZone) == 0)
         {
 	 /*
@@ -622,7 +619,6 @@ LoadDMResources( void )
           */
           GetSysParms(&timeZone,0,0);
         }
-#endif
 
 }
 

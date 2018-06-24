@@ -40,11 +40,7 @@
 #include <Dt/CmdInv.h>
 
 #include <fcntl.h>
-#ifdef __apollo
-#include "/sys5/usr/include/sys/termio.h"
-#else
 #include <termios.h>
-#endif
 #include <errno.h>
 #include <unistd.h>
 #include <sys/stat.h>

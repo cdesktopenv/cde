@@ -34,13 +34,6 @@
 #ifndef __PRIVBUF_H_
 #define __PRIVBUF_H_
 
-#ifdef DOMAIN_ALLOW_MALLOC_OVERRIDE
-#include "/usr/include/apollo/shlib.h"
-#endif
-#ifdef apollo
-#include <stdlib.h>
-#endif
-
 typedef void (*privbuf_func)(void *v);
 
 #ifdef __PRIVATE_

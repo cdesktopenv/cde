@@ -431,7 +431,6 @@ $set 25
 125 Resources lost
 126 Reverting to old tty driver...
 127 S [mask]
-128 SIGAPOLLO
 129 Security label changed
 130 Socket interrupt
 131 Sound completed

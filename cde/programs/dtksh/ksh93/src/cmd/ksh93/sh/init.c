@@ -236,15 +236,6 @@ static void put_restricted __PARAM__((register Namval_t* np,const char *val,int 
 	nv_putv(np, val, flags, fp);
 }
 
-#ifdef apollo
-    /* Trap for SYSTYPE variable */
-    static void put_systype __PARAM__((Namval_t* np,const char *val,int flags,Namfun_t *fp), (np, val, flags, fp)) __OTORP__(Namval_t* np;const char *val;int flags;Namfun_t *fp;){
-	sh.lastpath = 0;
-	nv_scan(sh.track_tree,rehash,NV_TAGGED,NV_TAGGED);
-	nv_putv(np, val, flags, fp);
-    }
-#endif
-
 #ifdef _hdr_locale
 
 /*
@@ -391,7 +382,6 @@ static MsgStr allmsgs[] = {
 	{"Resources lost", 25, 125},
 	{"Reverting to old tty driver...", 25, 126},
 	{"S [mask]", 25, 127},
-	{"SIGAPOLLO", 25, 128},
 	{"Security label changed", 25, 129},
 	{"Socket interrupt", 25, 130},
 	{"Sound completed", 25, 131},
@@ -1080,10 +1070,6 @@ static Namfun_t L_ARG_init	= {  &L_ARG_disc};
     static Namfun_t LC_ALL_init		= {  &LC_disc};
     static Namfun_t LANG_init		= {  &LC_disc};
 #endif /* _hdr_locale */
-#ifdef apollo
-    static const Namdisc_t SYSTYPE_disc	= {  0, put_systype };
-    static Namfun_t SYSTYPE_init	= {  &SYSTYPEdisc};
-#endif /* apollo */
 #ifdef SHOPT_MULTIBYTE
     static const Namdisc_t CSWIDTH_disc	= {  0, put_cswidth };
     static Namfun_t CSWIDTH_init	= {  &CSWIDTH_disc};
@@ -1294,9 +1280,6 @@ static void nv_init __PARAM__((void), ()){
 	nv_stack(LCNUMNOD, &LC_NUM_init);
 	nv_stack(LANGNOD, &LANG_init);
 #endif /* _hdr_locale */
-#ifdef apollo
-	nv_stack(SYSTYPENOD, &SYSTYPE_init);
-#endif /* apollo */
 #ifdef SHOPT_MULTIBYTE
 	nv_stack(CSWIDTHNOD, &CSWIDTH_init);
 #endif /* SHOPT_MULTIBYTE */

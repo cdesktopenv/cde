@@ -859,8 +859,6 @@ $set 25        Redefine set#
 
 127 "S [máscara]"
 
-128 "SIGAPOLLO"
-
 129 "Cambiado nivel de seguridad"
 
 130 "Interrupción de zócalo"

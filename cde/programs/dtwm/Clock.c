@@ -64,9 +64,6 @@ SOFTWARE.
 */
 
 #include <stdio.h>
-#ifdef __apollo
-#include <sys/types.h>
-#endif
 #include <sys/stat.h>
 #include <time.h>
 #include <Xm/GadgetP.h>

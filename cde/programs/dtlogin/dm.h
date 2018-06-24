@@ -582,14 +582,6 @@ extern int  UtmpIdOpen(
 			char *utmpId) ;
 
 
-/*******************************     apollo.c     **************************/
-
-extern int  DoLogin(
-			char *user, 
-			char *passwd, 
-			char *host) ;
-
-
 /*******************************     auth.c       **************************/
 
 extern int  ConvertAddr(

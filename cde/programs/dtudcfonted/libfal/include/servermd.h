@@ -171,15 +171,6 @@ This is unpublished proprietary source code of FUJITSU LIMITED
 
 #endif /* sun */
 
-#ifdef apollo
-
-#define IMAGE_BYTE_ORDER	MSBFirst        /* Values for the Apollo only*/
-#define BITMAP_BIT_ORDER	MSBFirst
-#define	GLYPHPADBYTES		2
-#define GETLEFTBITS_ALIGNMENT	4
-
-#endif /* apollo */
-
 #if defined(ibm032) || defined (ibm)
 
 #ifdef i386

@@ -119,9 +119,6 @@ static struct shtable2 _shtab_signals[] =
 #ifdef SIGALRM
 	"ALRM",		VAL(SIGALRM,SH_SIGFAULT),	"Alarm call",
 #endif /* SIGALRM */
-#ifdef SIGAPOLLO
-	"APOLLO",	VAL(SIGAPOLLO,0),		"SIGAPOLLO",
-#endif /* SIGAPOLLO */
 #ifdef SIGBUS
 	"BUS",		VAL(SIGBUS,SH_SIGDONE),		"Bus error",
 #endif /* SIGBUS */

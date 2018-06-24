@@ -46,7 +46,6 @@
 
  __hpux 		- Will be set for HP-UX systems
  __sun			- Will be set for SUN systems
- __apollo		- Will be set for APOLLO (domain) systems
  __aix                  - Will be set for IBM (AIX) systems
 
   __sysv		- Set when using SYSV semantics (e.g. HP, SUN)
@@ -61,13 +60,6 @@
 
  __sparc		- Set for SUN sparc machines
  __sun68k		- Set for SUN m68k machines
-
-
- __apollo88k		- Set for apollo (domain) risc (PRISM) machines
- __apollo68k		- Set for apollo (domain) m68k machines
- __apollo_null		- Set to allow null pointer dereferences on domain
-
- __apollo_paths		- Set to have "//<host>" converted to "host:" 
 
  __identification_strings - Set when RCS header strings are to be in code
  __recursive_includes	- Set to have .h files #includes prerequisite files
@@ -94,10 +86,6 @@
 
 #if defined(sun) && !defined(__sun)
 #   define __sun
-#endif
-
-#if defined(apollo) && !defined(__apollo)
-#   define __apollo
 #endif
 
 #if defined(hpux) && !defined(__hpux)
@@ -135,32 +123,6 @@
 #   define __c_callable         /* Set so VUE can link with libbms. */
 #endif
 
-#ifdef __apollo
-#   ifndef __bsd
-#       define __sysv	/* NOTE: not bsd!!! */
-#   endif
-#   ifndef __apollo_paths
-#       define __apollo_paths
-#   endif
-#   ifndef __apollo_null
-#       define __apollo_null
-#   endif
-#   if defined(a88k) && !defined(__apollo88k)
-#      define __apollo88k
-#   endif
-#   if defined(_ISP__A88K) && !defined(__apollo88k)
-#      define __apollo88k
-#   endif
-#   if defined(m68k) && !defined(__apollo68k)
-#      define __apollo68k
-#   endif
-#   if defined(_ISP__M68K) && !defined(__apollo68k)
-#      define __apollo68k
-#   endif
-#   define __hp_color_object
-#   define __unsigned_char_ptr_yytext
-#endif
-
 #ifdef __aix
 #       define __sysv
 #endif
@@ -172,11 +134,6 @@
 #ifndef KEEP_DEADWOOD			/* Setting this to "TRUE" will cause */
 #   define  KEEP_DEADWOOD FALSE		/* all sorts of unknown problems.    */
 #endif
-
-#ifndef __apollo_paths
-#   define __apollo_paths		/* We always want this feature */
-#endif
-
 
 #ifdef __cplusplus
 
@@ -207,48 +164,17 @@
 /* ----------------------------------------------------------------- */
 
 #if defined(__need_timeval)		/* Get "struct timeval" */
-#   ifdef __sun
-#      include <sys/time.h>
-#   endif
-#   ifdef __apollo
-#      include <sys/time.h>
-#   endif
-#   ifdef __aix
+#   if defined(__sun) || defined(__aix)
 #      include <sys/time.h>
 #   endif
 #endif /* __need_timeval */
 
 
 #if defined(__need_fd_set)		/* Get "typedef struct fd_set" */
-#   ifdef __apollo
-#       define _INCLUDE_BSD_SOURCE
-#       include "/bsd4.3/usr/include/sys/types.h"
-#   endif
 #   ifdef _AIX
 #       include <sys/select.h>
 #   endif
 #endif /* __need_fd_st */
-
-
-#if defined(__need_S_IF)		/* Get S_IFNWK, S_IFLNK */
-#   ifdef __apollo
-#      define _APOLLO_SOURCE
-#   endif
-#endif /* __need_S_IF */
-
-#if defined(__need_all_errors)
-#   ifdef __apollo
-#      define _APOLLO_SOURCE
-#      undef _SYS_STDSYMS_INCLUDED /* So we can include <sys/stdsyms.h> again */
-#   endif
-#endif
-
-#if defined(__need_all_signals)		/* Get all SIGxxx values */
-#   ifdef __apollo
-#      define _APOLLO_SOURCE
-#      include "/bsd4.3/usr/include/sys/types.h"
-#   endif
-#endif /* __need_all_signal */
 
 /* We also use the following non XPG3 types.  However, they may be   */
 /* defined when we relax the XPG3 compliance to get the stuff talked */

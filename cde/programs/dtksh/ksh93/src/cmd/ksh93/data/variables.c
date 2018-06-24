@@ -168,9 +168,6 @@ const struct shtable2 shtab_variables[] =
 #ifdef SHOPT_MULTIBYTE
 	"CSWIDTH",	0,				(char*)0,
 #endif /* SHOPT_MULTIBYTE */
-#ifdef apollo
-	"SYSTYPE",	0,				(char*)0,
-#endif /* apollo */
 	"",	0,					(char*)0
 };
 

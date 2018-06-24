@@ -47,9 +47,6 @@
 */
 
 #include <stdio.h>
-#ifdef __apollo
-#include <sys/types.h>
-#endif
 #include <sys/stat.h>
 #include <X11/Xatom.h>
 #include <Xm/XmP.h>

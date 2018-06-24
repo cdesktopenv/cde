@@ -1422,16 +1422,7 @@ static void job_free __PARAM__((register int n), (n)) __OTORP__(register int n;)
 
 static char *job_sigmsg __PARAM__((int sig), (sig)) __OTORP__(int sig;){
 	static char signo[] = "Signal xxxx";
-#ifdef apollo
-	/*
-	 * This code handles the formatting for the apollo specific signal
-	 * SIGAPOLLO. 
-	 */
-	extern __MANGLE__ char *apollo_error __PROTO__((void));
-	
-	if ( sig == SIGAPOLLO )
-		return( apollo_error() );
-#endif /* apollo */
+
 	if(sig<sh.sigmax && sh.sigmsg[sig])
 		return(sh.sigmsg[sig]);
 #if defined(SIGRTMIN) && defined(SIGRTMAX)

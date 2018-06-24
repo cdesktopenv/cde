@@ -745,18 +745,9 @@ static char *execs __PARAM__((const char *ap,const char *arg0,register char **ar
 #endif /* SHELLMAGIC */
 	switch(errno)
 	{
-#ifdef apollo
-	    /* 
-  	     * On apollo's execve will fail with eacces when
-	     * file has execute but not read permissions. So,
-	     * for now we will pretend that EACCES and ENOEXEC
- 	     * mean the same thing.
- 	     */
-	    case EACCES:
-#endif /* apollo */
 	    case ENOEXEC:
 		exscript(path,argv);
-#ifndef apollo
+
 	    case EACCES:
 	    {
 		struct stat statb;
@@ -764,7 +755,7 @@ static char *execs __PARAM__((const char *ap,const char *arg0,register char **ar
 			errno = EISDIR;
 	    }
 		/* FALL THROUGH */
-#endif /* !apollo */
+
 #ifdef ENAMETOOLONG
 	    case ENAMETOOLONG:
 #endif /* ENAMETOOLONG */
