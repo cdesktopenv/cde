@@ -214,17 +214,6 @@ This is unpublished proprietary source code of FUJITSU LIMITED
 
 #endif /* tektronix */
 
-#ifdef macII
-
-#define IMAGE_BYTE_ORDER      	MSBFirst        /* Values for the MacII only */
-#define BITMAP_BIT_ORDER      	MSBFirst
-#define GLYPHPADBYTES         	4
-#define GETLEFTBITS_ALIGNMENT 	1
-
-/* might want FAST_UNALIGNED_READS for frame buffers with < 1us latency */
-
-#endif /* macII */
-
 #ifdef mips
 
 #ifdef MIPSEL

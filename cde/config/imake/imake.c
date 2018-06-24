@@ -226,9 +226,6 @@ typedef union wait	waitType;
 char *malloc(), *realloc();
 void exit();
 #endif
-#if defined(macII) && !defined(__STDC__)  /* stdlib.h fails to define these */
-char *malloc(), *realloc();
-#endif /* macII */
 #ifdef X_NOT_STDC_ENV
 extern char	*getenv();
 #endif
@@ -263,7 +260,7 @@ extern int	errno;
  * This define of strerror is copied from (and should be identical to)
  * Xos.h, which we don't want to include here for bootstrapping reasons.
  */
-#if defined(X_NOT_STDC_ENV) || (defined(sun) && !defined(SVR4)) || defined(macII)
+#if defined(X_NOT_STDC_ENV) || (defined(sun) && !defined(SVR4))
 # ifndef strerror
 extern char *sys_errlist[];
 extern int sys_nerr;

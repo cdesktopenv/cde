@@ -140,9 +140,6 @@ struct filepointer {
 
 #ifndef X_NOT_STDC_ENV
 #include <stdlib.h>
-#if defined(macII) && !defined(__STDC__)  /* stdlib.h fails to define these */
-char *malloc(), *realloc();
-#endif /* macII */
 #else
 char			*malloc();
 char			*realloc();

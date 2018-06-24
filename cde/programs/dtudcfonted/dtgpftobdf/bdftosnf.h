@@ -61,13 +61,12 @@ typedef struct _TempFont {
 } TempFont; /* not called font since collides with type in X.h */
 
 #ifdef vax
-
 #	define DEFAULTGLPAD 	1		/* default padding for glyphs */
 #	define DEFAULTBITORDER 	LSBFirst	/* default bitmap bit order */
 #	define DEFAULTBYTEORDER LSBFirst	/* default bitmap byte order */
 #	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
-#else
-# ifdef sun
+
+#elif defined(sun)
 
 #  if (sun386 || sun5)
 #	define DEFAULTGLPAD 	4		/* default padding for glyphs */
@@ -81,76 +80,55 @@ typedef struct _TempFont {
 #	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
 #  endif
 
-# else
-#  ifdef apollo
+#elif defined(apollo)
 
 #	define DEFAULTGLPAD 	2		/* default padding for glyphs */
 #	define DEFAULTBITORDER 	MSBFirst	/* default bitmap bit order */
 #	define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
 #	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
 
-#  else
-#   ifdef ibm032
+#elif defined(ibm032)
 
 #	define DEFAULTGLPAD 	1		/* default padding for glyphs */
 #	define DEFAULTBITORDER 	MSBFirst	/* default bitmap bit order */
 #	define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
 #	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
 
-#   else
-#    ifdef hpux
+#elif defined(hpux)
 
 #	define DEFAULTGLPAD 	2		/* default padding for glyphs */
 #	define DEFAULTBITORDER 	MSBFirst	/* default bitmap bit order */
 #	define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
 #	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
 
-#    else
-#     ifdef pegasus
+#elif defined(pegasus)
 
 #	define DEFAULTGLPAD 	4		/* default padding for glyphs */
 #	define DEFAULTBITORDER 	MSBFirst	/* default bitmap bit order */
 #	define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
 #	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
 
-#     else
-#      ifdef macII
-
-#       define DEFAULTGLPAD     4               /* default padding for glyphs */
-#       define DEFAULTBITORDER  MSBFirst        /* default bitmap bit order */
-#	define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
-#	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
-
-#      else
-#       ifdef mips
-#        ifdef MIPSEL
+#elif defined(mips)
+#    ifdef MIPSEL
 
 #	  define DEFAULTGLPAD 	  4		/* default padding for glyphs */
 #	  define DEFAULTBITORDER  LSBFirst	/* default bitmap bit order */
 #	  define DEFAULTBYTEORDER LSBFirst	/* default bitmap byte order */
 #	  define DEFAULTSCANUNIT  1		/* default bitmap scan unit */
 
-#        else
+#     else
 #	  define DEFAULTGLPAD 	  4		/* default padding for glyphs */
 #	  define DEFAULTBITORDER  MSBFirst	/* default bitmap bit order */
 #	  define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
 #	  define DEFAULTSCANUNIT  1		/* default bitmap scan unit */
-#        endif
+#     endif
 
-#	 else
+#else
 #	  define DEFAULTGLPAD     1		/* default padding for glyphs */
 #	  define DEFAULTBITORDER  MSBFirst	/* default bitmap bit order */
 #	  define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
 #	  define DEFAULTSCANUNIT  1		/* default bitmap scan unit */
-
-#	 endif
-#       endif
-#      endif
-#     endif
-#    endif
-#   endif
-#  endif
-# endif
+#endif
 
 #define GLWIDTHBYTESPADDED(bits,nbytes) \
 	((nbytes) == 1 ? (((bits)+7)>>3)	/* pad to 1 byte */ \

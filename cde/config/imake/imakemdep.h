@@ -65,10 +65,6 @@ in this Software without prior written authorization from The Open Group.
 #endif
 #endif
 
-#if defined(macII) || defined(_AUX_SOURCE)
-#define imake_ccflags "-DmacII -DSYSV"
-#endif
-
 #ifdef stellar
 #define imake_ccflags "-DSYSV"
 #endif
@@ -353,9 +349,6 @@ char *cpp_argv[ARGUMENTS] = {
 #endif
 #ifdef M4310
 	"-DM4310",	/* Tektronix */
-#endif
-#if defined(macII) || defined(_AUX_SOURCE)
-	"-DmacII",	/* Apple A/UX */
 #endif
 #ifdef sony
 	"-Dsony",	/* Sony */
