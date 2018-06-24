@@ -66,9 +66,7 @@
 
 #include <locale.h>
 
-#ifndef NO_MULTIBYTE
 #include <stdlib.h>
-#endif
 
 #include <Xm/XmP.h>             /* for XmeGetHomeDirName */
 #include <signal.h>
@@ -1483,7 +1481,6 @@ unsigned int PeekAhead(unsigned char *currentChar,
 {
     Boolean		done = False;
     unsigned int 	tmpLev = 1;
-#ifndef NO_MULTIBYTE
     unsigned int	chlen;
 
     while (((chlen = mblen ((char *)currentChar, MB_CUR_MAX)) > 0) &&
@@ -1506,26 +1503,6 @@ unsigned int PeekAhead(unsigned char *currentChar,
 	    }
 	}
     }
-#else
-    while((*currentChar != NULL) && (done == False) &&
-	  ((*currentChar == '"') || (*currentChar == '\\')))
-    {
-	currentChar++;
-	if((*currentChar != NULL) &&
-	   ((*currentChar == '"') || (*currentChar == '\\')))
-	{
-	    tmpLev++;
-	    if(*currentChar == '"')
-	    {
-		done = True;
-	    }
-	    else
-	    {
-		currentChar++;
-	    }
-	}
-    }
-#endif /*NO_MULTIBYTE*/
 
     /*
      * Figure out if this is truly a new level of nesting - else ignore it
@@ -2708,7 +2685,6 @@ static void ParseWmMnemonic (unsigned char **linePP, MenuItem *menuItem)
         lineP++;
         mnemonic = GetString(&lineP);
 
-#ifndef NO_MULTIBYTE
 	if (menuItem->labelType == XmSTRING &&
 	    mnemonic != NULL &&
 	    (ks = XStringToKeysym((char *)mnemonic)) != NoSymbol &&
@@ -2716,16 +2692,6 @@ static void ParseWmMnemonic (unsigned char **linePP, MenuItem *menuItem)
 	{
 	    menuItem->mnemonic = ks;
 	}
-#else
-        if ((mnemonic != NULL) &&
-            (*mnemonic != '\0') &&
-            (menuItem->labelType == XmSTRING) &&
-	    (strchr (menuItem->label, *mnemonic) != NULL))
-        /* valid mnemonic */
-        {
-            menuItem->mnemonic = *mnemonic;
-        }
-#endif
 	else
 	{
             PWarning (((char *)GETMESSAGE(60, 14, "Invalid mnemonic specification")));
@@ -3102,13 +3068,11 @@ Boolean ParseWmFuncStrArg (unsigned char **linePP,
 {
     unsigned char *string;
     unsigned int  len;
-#ifndef NO_MULTIBYTE
     char *p;
     wchar_t last;
     char delim;
     wchar_t wdelim;
     int lastlen;
-#endif
 
     if ((string = GetString (linePP)) != NULL)
     /* nonNULL string argument */
@@ -3125,7 +3089,6 @@ Boolean ParseWmFuncStrArg (unsigned char **linePP,
          *  Insure that an argument for F_Exec ends in '&' .
          */
 
-#ifndef NO_MULTIBYTE
 	if (wmFunction == F_Exec)
 	{
 	    lastlen = 0;
@@ -3145,13 +3108,6 @@ Boolean ParseWmFuncStrArg (unsigned char **linePP,
 		*p   = '\0';
 	    }
 	}
-#else
-        if ((wmFunction == F_Exec) && ((*pArgs)[len - 1] != '&'))
-        {
-	    (*pArgs)[len] = '&';
-	    (*pArgs)[len + 1] = '\0';
-        }
-#endif
     }
     else
     /* NULL string argument */
@@ -4576,14 +4532,11 @@ static Boolean ParseKeySym (unsigned char **linePP, unsigned int closure,
     unsigned char *startP;
     char           keySymName[MAX_KEYSYM_STRLEN+1];
     int            len;
-#ifndef NO_MULTIBYTE
     int            chlen;
-#endif
 
     ScanWhitespace (&lineP);
     startP = lineP;
 
-#ifndef NO_MULTIBYTE
     while (*lineP &&
 	   ((chlen = mblen ((char *)lineP, MB_CUR_MAX)) > 0) &&
            ((chlen > 1) ||
@@ -4592,24 +4545,13 @@ static Boolean ParseKeySym (unsigned char **linePP, unsigned int closure,
 	/* Skip next character */
         lineP += chlen;
     }
-#else
-    while (*lineP && !isspace (*lineP) && *lineP != ',' && *lineP != ':' )
-    {
-	/* Skip next character */
-        lineP++;
-    }
-#endif
 
     len = min (lineP - startP, MAX_KEYSYM_STRLEN);
     (void) strncpy (keySymName, (char *)startP, len);
     keySymName[len] = '\0';
 
-#ifndef NO_MULTIBYTE
     if ((*detail = XStringToKeysym(keySymName)) == NoSymbol &&
 	 (mblen (keySymName, MB_CUR_MAX) == 1))
-#else
-    if ((*detail = XStringToKeysym(keySymName)) == NoSymbol)
-#endif
     {
         if (!isdigit (keySymName[0]) ||
             ((*detail = StrToNum ((unsigned char *)&keySymName[0])) == -1))
@@ -4811,7 +4753,6 @@ static unsigned int StrToOct(unsigned char *str)
 
 void ScanAlphanumeric (unsigned char **linePP)
 {
-#ifndef NO_MULTIBYTE
     int            chlen;
 
     while (*linePP &&
@@ -4820,13 +4761,6 @@ void ScanAlphanumeric (unsigned char **linePP)
     {
         (*linePP) += chlen;
     }
-#else
-    while (*linePP && isalnum (**linePP))
-    {
-        (*linePP)++;
-    }
-#endif
-
 } /* END OF FUNCTION ScanAlphanumeric */
 
 
@@ -4938,9 +4872,7 @@ static void InitKeySubs (
     unsigned char *pch0;
     unsigned char *pch1;
     int len;
-#ifndef NO_MULTIBYTE
     int		chlen;
-#endif 
 
     pch0 = (unsigned char *)GETMESSAGE(60, 40, "");
 
@@ -4975,7 +4907,6 @@ static void InitKeySubs (
 
 	/* get "from" string */
 	pch1 = pch0;
-#ifndef NO_MULTIBYTE
         while (*pch1 && ((chlen = mblen ((char *)pch1, MB_CUR_MAX)) > 0))
 	{
 	    if ((chlen == 1) && (*pch1 == ' '))
@@ -4984,9 +4915,6 @@ static void InitKeySubs (
 	    }
 	    pch1 += chlen;
 	}
-#else /* NO_MULTIBYTE */
-	while (*pch1 && (*pch1 != ' ')) pch1++;
-#endif /* NO_MULTIBYTE */
 	pKS->lenFrom = pch1 - pch0;
 	if (pKS->lenFrom < 1) 
 	{
@@ -5003,7 +4931,6 @@ static void InitKeySubs (
 	ScanWhitespace (&pch1);
 	pch0 = pch1;
 
-#ifndef NO_MULTIBYTE
         while (*pch1 && ((chlen = mblen ((char *)pch1, MB_CUR_MAX)) > 0))
 	{
 	    if ((chlen == 1) && (*pch1 == ' '))
@@ -5012,9 +4939,6 @@ static void InitKeySubs (
 	    }
 	    pch1 += chlen;
 	}
-#else /* NO_MULTIBYTE */
-	while (*pch1 && (*pch1 != ' ')) pch1++;
-#endif /* NO_MULTIBYTE */
 
 	len = pch1 - pch0;
 	if (len < 1)
@@ -5070,9 +4994,7 @@ static void InitKeySubs (
 static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
 			      unsigned char *destP)
 {
-#ifndef NO_MULTIBYTE
     int   chlen;
-#endif
     static Boolean	bAccelInit = False;
     static KeySub	*pKeySub;
     static int		numKeySubs;
@@ -5101,7 +5023,6 @@ static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
         }
 	pchFirst = startP;
 
-#ifndef NO_MULTIBYTE
         while (*startP &&
 	       (((chlen = mblen ((char *)startP, MB_CUR_MAX)) > 1)
 		|| isalnum (*startP)))
@@ -5111,12 +5032,7 @@ static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
 	        startP++;
 	    }
 	}
-#else
-        while (isalnum (*startP))
-        {
-	        startP++;
-	}
-#endif
+
 	/* find substitution */
 	pchSub = NULL;
 	lenSub = 0;
@@ -5155,11 +5071,7 @@ static void ProcessAccelText (unsigned char *startP, unsigned char *endP,
     startP++;  /* skip '<' */
     while (*startP != '>')
     {
-#ifndef NO_MULTIBYTE
         startP += mblen ((char *)startP, MB_CUR_MAX);
-#else
-        startP++;
-#endif
     }
     startP++;  /* skip '>' */
 

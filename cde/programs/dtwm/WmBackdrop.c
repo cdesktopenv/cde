@@ -55,9 +55,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#ifndef   NO_MULTIBYTE
 #include <stdlib.h>
-#endif
 #include "WmIPC.h"	/* must be after DtP.h */
 
 /**************************************
@@ -191,9 +189,7 @@ ProcessBackdropResources(
     static String none_string = NULL;
     static String no_backdrop_string = NULL;
     Boolean bNone = False;
-#ifndef NO_MULTIBYTE
     unsigned int chlen;
-#endif /* NO_MULTIBYTE */
     
     if (callFlags & CHANGE_BACKDROP)
     {
@@ -226,7 +222,6 @@ ProcessBackdropResources(
 	 * Strip off leading '@', if any
 	 */
 	pch = (unsigned char *) pWS->backdrop.image;
-#ifndef NO_MULTIBYTE
  	chlen = mblen ((char *)pch, MB_CUR_MAX);
 	if (chlen == 1 && *pch++ == '@')
 	{
@@ -244,19 +239,6 @@ ProcessBackdropResources(
 		}
 	    }
 	}
-#else /* NO_MULTIBYTE */
-	if (*pch++ == '@' && *pch)
-	{
-		int il = 1+strlen ((char *)pch);
-		unsigned char *pchD = (unsigned char *)pWS->backdrop.image;
-
-		while (il)
-		{
-		    *pchD++ = *pch++;
-		    il--;
-		}
-	}
-#endif /* NO_MULTIBYTE */
 
 	/*
 	 * Use a copy of the string because our parsing routines

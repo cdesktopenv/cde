@@ -891,9 +891,7 @@ typedef struct _AppearanceData
 {
     XmFontList	fontList;			/* resource */
     XFontStruct	*font;
-#ifndef NO_MULTIBYTE
     unsigned int	titleHeight;		/* title bar's height */
-#endif
     Boolean	saveUnder;			/* resource */
     Pixel	background;			/* resource */
     Pixel	foreground;			/* resource */

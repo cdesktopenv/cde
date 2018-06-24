@@ -36,9 +36,7 @@
 
 #include "WmGlobal.h"
 
-#ifndef NO_MULTIBYTE
 #include <locale.h>
-#endif
 #include <Dt/Message.h>
 #include <Dt/EnvControlP.h>
 /*
@@ -104,7 +102,6 @@ main (int argc, char *argv [], char *environ [])
 
     setlocale(LC_ALL, "");
 
-#ifndef NO_MULTIBYTE
     /*
      * Set up environment variables for this HP DT client
      */
@@ -119,7 +116,7 @@ main (int argc, char *argv [], char *environ [])
 	 char * foo = ((char *)GETMESSAGE(44, 1, ""));
      }
     XtSetLanguageProc (NULL, (XtLanguageProc)NULL, NULL);
-#endif
+
     /*  
      * Get Identity
      */

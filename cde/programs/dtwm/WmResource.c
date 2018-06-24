@@ -4340,13 +4340,11 @@ MakeAppearanceResources (WmScreenData *pSD, AppearanceData *pAData, Boolean make
 #endif
     } else {
 	/* got default font successfully, hack was not needed */
-#ifndef NO_MULTIBYTE
 	/*
 	 *  Calculate title bar's height (using selected font) and store it in pAData.
 	 */
 	pAData->titleHeight = (pAData->font)->ascent + (pAData->font)->descent
 	+ WM_TITLE_BAR_PADDING;
-#endif
     }
 
 

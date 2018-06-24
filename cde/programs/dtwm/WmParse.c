@@ -60,9 +60,7 @@
 #include "WmGlobal.h"
 #include "WmParse.h"
 #include "WmParseP.h"
-#ifdef MULTIBYTE
 #include <stdlib.h>
-#endif /* MULTIBYTE */
 #include <ctype.h>
 
 /*
@@ -271,7 +269,6 @@ _DtWmParseBackUp (
     if ((pchTok > pWmPB->pchLine) &&
 	(pchTok < (pWmPB->pchLine +  pWmPB->cLineSize)))
     {
-#ifdef MULTIBYTE
 	unsigned char *pch;
 	unsigned char *pchLast;
 	int chlen;
@@ -317,29 +314,6 @@ _DtWmParseBackUp (
 	}
 
 	pWmPB->pchNext = pchLast;
-#else /* MULTIBYTE */
-
-	/* 
-	 * Replace preceding NULL with a space.
-	 */
-        pchTok--;
-
-	if (*pchTok == '\0')
-	{
-	    *pchTok = DTWM_CHAR_SPACE;
-	}
-
-	/* 
-	 * Back up to next NULL or beginning of line.
-	 */
-	while ((pchTok >= pWmPB->pchLine) && *pchTok)
-	{
-	    pchTok--;
-	}
-
-	pWmPB->pchNext = pchTok + 1;
-
-#endif  /* MULTIBYTE */
     }
     return (pWmPB->pchNext);
 }
@@ -374,13 +348,9 @@ _DtWmParseBackUp (
 
 void _DtWmParseSkipWhitespaceC(unsigned char  **linePP)
 {
-#ifdef MULTIBYTE
     while (*linePP && 
 	   (mblen ((char *)*linePP, MB_CUR_MAX) == 1) && 
 	   isspace (**linePP))
-#else
-    while (*linePP && isspace (**linePP))
-#endif
     {
         (*linePP)++;
     }
@@ -446,7 +416,6 @@ _DtWmParseNextTokenC (
     unsigned char *curP;
     unsigned char *lnwsP;
     unsigned int  level = 0, checkLev, i, quoteLevel[MAX_QUOTE_DEPTH];
-#ifdef MULTIBYTE
     int            chlen;
 
     /* get rid of leading white space */
@@ -560,90 +529,6 @@ _DtWmParseNextTokenC (
 		}
 	    }
         }
-#else /* MULTIBYTE */
-
-    /* get rid of leading white space */
-    ScanWhitespace (&lineP);
-
-    /* Return NULL if line is empty, whitespace, or begins with a comment. */
-    if ((lineP == NULL || *lineP == '\0') ||
-	(!SmBehavior && (*lineP == '#')))
-    {
-        *linePP = lineP;
-        return (NULL);
-    }
-
-    if (*lineP == '"')
-    /* Quoted string */
-    {
-	quoteLevel[level] = 1;	
-	/*
-	 * Start beyond double quote and find the end of the quoted string.
-	 * '\' quotes the next character.
-	 * Otherwise,  matching double quote or NULL terminates the string.
-	 *
-	 * We use lnwsP to point to the last non-whitespace character in the
-	 * quoted string.  When we have found the end of the quoted string,
-	 * increment lnwsP and if lnwsP < endP, write NULL into *lnwsP.
-	 * This removes any trailing whitespace without overwriting the 
-	 * matching quote, needed later.  If the quoted string was all 
-	 * whitespace, then this will write a NULL at the beginning of the 
-	 * string that will be returned -- OK.
-	 */
-	lnwsP = lineP++;                /* lnwsP points to first '"' */
-	curP = endP = lineP;            /* other pointers point beyond */
-
-        while ((*endP = *curP) && (*endP != '"'))
-	/* haven't found matching quote yet */
-        {
-	    /* point curP to next character */
-	    curP++;
-	    if ((*endP == '\\') && (*curP != NULL))
-	    /* shift quoted nonNULL character down and curP ahead */
-	    {
-		if (SmBehavior)
-		{
-		    /*
-		     * Check to see if this is a quoted quote - if it is
-		     * strip off a level - if not - it's sacred leave it alone
-		     */
-		    checkLev = PeekAhead((curP - 1), quoteLevel[level]);
-		    if(checkLev > 0)
-		    {
-			if(quoteLevel[level] >= checkLev)
-			{
-			    if (level > 0) level--;
-			}
-			else if (level < MAX_QUOTE_DEPTH)
-			{
-			    level++;
-			    quoteLevel[level] = checkLev;
-			}
-			
-			for(i = 0;i < (checkLev - 2);i++)
-			{
-			    *endP++ = *curP++;curP++;
-			}
-			*endP = *curP++;
-		    }
-		}
-		else 
-		{
-		*endP = *curP++;
-		}
-            }
-	    if (isspace (*endP))
-	    /* whitespace character:  leave lnwsP unchanged. */
-	    {
-	        endP++;
-	    }
-	    else
-	    /* non-whitespace character:  point lnwsP to it. */
-	    {
-	        lnwsP = endP++;
-	    }
-        }
-#endif /* MULTIBYTE */
 
 	/*
 	 *  Found matching quote or NULL.  
@@ -667,7 +552,6 @@ _DtWmParseNextTokenC (
 	 */
         curP = endP = lineP;
 
-#ifdef MULTIBYTE
         while ((*endP = *curP) &&
                ((chlen = mblen ((char *)curP, MB_CUR_MAX)) > 0) &&
                ((chlen > 1) || (!isspace (*curP) && 
@@ -696,20 +580,6 @@ _DtWmParseNextTokenC (
 		}
 	    }
         }
-#else /* MULTIBYTE */
-        while ((*endP = *curP) && !isspace (*endP) && 
-					(SmBehavior || (*endP != '#')))
-        {
-	    /* point curP to next character */
-	    curP++;
-	    if ((*endP == '\\') && (*curP != '\0'))
-	    /* shift quoted nonNULL character down and curP ahead */
-	    {
-		*endP = *curP++;
-            }
-	    endP++;
-        }
-#endif /* MULTIBYTE */
     }
 
     /*
@@ -1040,14 +910,11 @@ _DtWmParseNextLine (
 
     register unsigned char	*string;
     int				len;
-
-#ifdef MULTIBYTE
     int   chlen;
     wchar_t last;
     wchar_t wdelim;
     char delim;
     int lastlen;
-#endif
 
     if (cfileP != NULL)
     /* read fopened file */
@@ -1067,7 +934,6 @@ _DtWmParseNextLine (
 			       (pWmPB->cLineSize));
 	    }
 #endif /* PARSE_LIB */
-#ifndef NO_MULTIBYTE
 
 	    lastlen = 0;
 	    while (*string &&
@@ -1099,21 +965,6 @@ _DtWmParseNextLine (
 		while (lastlen == 1 && last == wdelim);
 	    }
 	    string = line;
-#else
-	    len = strlen((char *)string) - 2;
-	    if ((len > 0) && string[len] == '\\')
-	    {
-		do {
-		    string = &string[len];
-		    if (fgets((char *)string, 
-		 	      MAXLINE - (string-line), cfileP) == NULL)
-		       break;
-		    len = strlen((char *)string) - 2;
-		    linec++;
-		} while ((len >= 0) && string[len] == '\\');
-		string = line;
-	    }
-#endif
 	}
     }
     else if ((parseP != NULL) && (*parseP != '\0'))
@@ -1132,7 +983,7 @@ _DtWmParseNextLine (
 	}
 #endif /* PARSE_LIB */
 	string = line;
-#ifdef MULTIBYTE
+
 	while ((*parseP != '\0') &&
                ((chlen = mblen ((char *)parseP, MB_CUR_MAX)) != 0) &&
 	       (*parseP != '\n'))
@@ -1148,13 +999,6 @@ _DtWmParseNextLine (
                 }
             }
         }
-#else
-	while ((*parseP != '\0') && (*parseP != '\n'))
-	/* copy all but end-of-line and newlines to line buffer */
-	{
-	    *(string++) = *(parseP++);
-        }
-#endif
 	*string = '\0';
 	if (*parseP == '\n')
 	{
@@ -1255,19 +1099,12 @@ _DtWmParseNextChar (
     unsigned char *pch = NULL;
     int chlen;
 
-#ifdef MULTIBYTE
     if (pWmPB &&
 	pWmPB->pchNext &&
 	(chlen = mblen((char *)pWmPB->pchNext, MB_CUR_MAX) > 0))
     {
 	pch = (pWmPB->pchNext += chlen);
     }
-#else /* MULTIBYTE */
-    if (pWmPB && pWmPB->pchNext && *pWmPB->pchNext)
-    {
-	pch = ++pWmPB->pchNext;
-    }
-#endif /* MULTIBYTE */
 
     return (pch);
 }
@@ -1341,7 +1178,6 @@ _DtWmParseLineNumber (
 void _DtWmParseToLower (char  *string)
 {
     char *pch = string;
-#ifdef MULTIBYTE
     int            chlen;
 
     while ((chlen = mblen (pch, MB_CUR_MAX)) > 0)
@@ -1352,16 +1188,6 @@ void _DtWmParseToLower (char  *string)
 	}
 	pch += chlen;
     }
-#else
-    while (*pch != NULL)
-    {
-        if (isupper (*pch))
-	{
-	    *pch = tolower(*pch);
-	}
-	pch++;
-    }
-#endif
 
 } /* END OF FUNCTION _DtWmParseToLower */
 
@@ -1400,7 +1226,6 @@ unsigned int _DtWmParsePeekAhead(unsigned char *currentChar,
 {
     Boolean		done = False;
     unsigned int 	tmpLev = 1;
-#ifdef MULTIBYTE
     unsigned int	chlen;
 
     while (((chlen = mblen ((char *)currentChar, MB_CUR_MAX)) > 0) &&
@@ -1424,26 +1249,6 @@ unsigned int _DtWmParsePeekAhead(unsigned char *currentChar,
 	    }
 	}
     }
-#else
-    while((*currentChar != NULL) && (done == False) &&
-	  ((*currentChar == '"') || (*currentChar == '\\')))
-    {
-	currentChar++;
-	if((*currentChar != NULL) &&
-	   ((*currentChar == '"') || (*currentChar == '\\')))
-	{
-	    tmpLev++;
-	    if(*currentChar == '"')
-	    {
-		done = True;
-	    }
-	    else
-	    {
-		currentChar++;
-	    }
-	}
-    }
-#endif /*MULTIBYTE*/
 
     /*
      * Figure out if this is truly a new level of nesting - else ignore it
@@ -1658,11 +1463,7 @@ _DtWmParseExpandEnvironmentVariables (
     )
 
 {
-#ifdef MULTIBYTE
     int chlen;
-#else /* MULTIBYTE */
-    int chlen = 1;	/* length of character is always '1' */
-#endif /* MULTIBYTE */
     unsigned char *pchStart;
     unsigned char chSave;
     unsigned char *pchEnvStart;
@@ -1699,9 +1500,7 @@ _DtWmParseExpandEnvironmentVariables (
 
     pchStart = pch;
     lenOriginal = strlen ((char *)pch);
-#ifdef MULTIBYTE
     chlen = mblen ((char *)pch, MB_CUR_MAX);
-#endif /* MULTIBYTE */
     chSave = '\0';
 
     while (*pch && (chlen > 0))
@@ -1732,18 +1531,14 @@ _DtWmParseExpandEnvironmentVariables (
 		     * The next character is "escaped", skip over it.
 		     */
 		    pchStart = pch += chlen;
-#ifdef MULTIBYTE
 		    chlen = mblen ((char *)pch, MB_CUR_MAX);
-#endif /* MULTIBYTE */
 		    break;
 
 		case DTWM_CHAR_ENVIRONMENT:
 		    /* save start of environment variable */
 		    pchEnvStart = pch;
 		    pch += chlen;
-#ifdef MULTIBYTE
 		    chlen = mblen ((char *)pch, MB_CUR_MAX);
-#endif /* MULTIBYTE */
 
 		    /*
 		     * Copy up to start of environment variable 
@@ -1773,9 +1568,7 @@ _DtWmParseExpandEnvironmentVariables (
 			(*pch == DTWM_CHAR_L_PAREN))
 		    {
 			pch += chlen;
-#ifdef MULTIBYTE
 			chlen = mblen ((char *)pch, MB_CUR_MAX);
-#endif /* MULTIBYTE */
 			pchBreak = pchParenBrk;
 			bEatBreak = True;
 		    }
@@ -1783,9 +1576,7 @@ _DtWmParseExpandEnvironmentVariables (
 			(*pch == DTWM_CHAR_L_BRACE))
 		    {
 			pch += chlen;
-#ifdef MULTIBYTE
 			chlen = mblen ((char *)pch, MB_CUR_MAX);
-#endif /* MULTIBYTE */
 			pchBreak = pchBraceBrk;
 			bEatBreak = True;
 		    }
@@ -1867,16 +1658,12 @@ _DtWmParseExpandEnvironmentVariables (
 			 */
 			if (bEatBreak)
 			{
-#ifdef MULTIBYTE
 			    chlen = mblen ((char *)pchNext, MB_CUR_MAX);
-#endif /* MULTIBYTE */
 			    pchNext += chlen;
 			}
 		    }
 		    pchStart = pch = pchNext;
-#ifdef MULTIBYTE
 		    chlen = mblen ((char *)pch, MB_CUR_MAX);
-#endif /* MULTIBYTE */
 		    /*
 		     * We're already pointing at the next character
 		     * to process, don't advance again!
@@ -1897,18 +1684,14 @@ _DtWmParseExpandEnvironmentVariables (
 	    if (!bAlreadyAdvanced)
 	    {
 		pch += chlen; 
-#ifdef MULTIBYTE
 		chlen = mblen ((char *)pch, MB_CUR_MAX);
-#endif /* MULTIBYTE */
 	    }
 	}
-#ifdef MULTIBYTE
 	else
 	{
 	    pch += chlen;
             chlen = mblen ((char *)pch, MB_CUR_MAX);
 	}
-#endif /* MULTIBYTE */
     }
 
     if (pchReturn && *pchStart)
@@ -1956,9 +1739,7 @@ _DtWmParseMakeQuotedString (unsigned char *pchLine)
     int iLen0, iLen1;
     int cSpecial;
     int i,j;
-#ifdef MULTIBYTE
     int   chlen;
-#endif
 
     iLen0 = strlen ((char *)pchLine);
     iLen1 = iLen0 + 2; /* for starting, ending quotes */
@@ -1968,7 +1749,6 @@ _DtWmParseMakeQuotedString (unsigned char *pchLine)
         /*
 	 * Count special chars to get estimate of new length
 	 */
-#ifdef MULTIBYTE
         chlen = mblen ((char *) &pchLine[i], MB_CUR_MAX);
 	if ((chlen == 1) &&
 	    ((pchLine[i] == '\\') ||
@@ -1984,13 +1764,6 @@ _DtWmParseMakeQuotedString (unsigned char *pchLine)
 	{
 	    i += chlen-1;
 	}
-#else /* MULTIBYTE */
-	if ((pchLine[i] == '\\') ||
-	    (pchLine[i] == '"'))
-	{
-	    iLen1++;
-	}
-#endif /* MULTIBYTE */
     }
 
     pchRet = (unsigned char *) XtMalloc (1+iLen1);
@@ -2003,7 +1776,6 @@ _DtWmParseMakeQuotedString (unsigned char *pchLine)
 	 */
 	for (i=0, j=1; i < iLen0; i++, j++)
 	{
-#ifdef MULTIBYTE
 	    chlen = mblen ((char *) &pchLine[i], MB_CUR_MAX);
 	    if ((chlen == 1) &&
 		((pchLine[i] == '\\') ||
@@ -2022,14 +1794,6 @@ _DtWmParseMakeQuotedString (unsigned char *pchLine)
 		pchRet[j++] = pchLine[i++];
 		chlen--;
 	    }
-#else /* MULTIBYTE */
-	    if ((pchLine[i] == '\\') ||
-		(pchLine[i] == '"'))
-	    {
-		/* quote next char */
-		pchRet[j++] = '\\';
-	    }
-#endif /* MULTIBYTE */
 	    /* copy char */
             pchRet[j] = pchLine[i];
 	}

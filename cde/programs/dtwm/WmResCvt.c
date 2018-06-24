@@ -39,9 +39,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-#ifndef NO_MULTIBYTE
 #include <stdlib.h>
-#endif
 
 #include <Xm/XmosP.h>
 
@@ -1501,7 +1499,6 @@ unsigned char *NextToken (unsigned char *pchIn, int *pLen,
     unsigned char *pchR = pchIn;
     register int   i;
 
-#ifndef NO_MULTIBYTE
     register int   chlen;
 
     for (i = 0;
@@ -1515,13 +1512,6 @@ unsigned char *NextToken (unsigned char *pchIn, int *pLen,
 	}
 	pchIn += chlen;
     }
-
-#else
-    for (i = 0; *pchIn && !isspace (*pchIn); i++, pchIn++)
-    /* find end of word */
-    {
-    }
-#endif
 
     /* skip to next word */
     ScanWhitespace (&pchIn);
@@ -1571,7 +1561,6 @@ unsigned char *NextToken (unsigned char *pchIn, int *pLen,
 
 Boolean StringsAreEqual (unsigned char *pch1, unsigned char *pch2, int len)
 {
-#ifndef NO_MULTIBYTE
     int       chlen1;
     int       chlen2;
     wchar_t   wch1;
@@ -1602,15 +1591,6 @@ Boolean StringsAreEqual (unsigned char *pch1, unsigned char *pch2, int len)
         pch2 += chlen2;
         len--;
     }
-
-#else
-    while (len  && *pch1 && *pch2 &&
-	   ((isupper (*pch1) ? tolower(*pch1++) : *pch1++) ==
-	    (isupper (*pch2) ? tolower(*pch2++) : *pch2++)))
-    {
-        len--;
-    }
-#endif
 
     return (len == 0);
 
@@ -1653,26 +1633,16 @@ long DecStrToL (unsigned char *str, unsigned char **ptr)
     long  val = 0;
 
     *ptr = str;
-#ifndef NO_MULTIBYTE
     while ((mblen ((char *)str, MB_CUR_MAX) == 1) && isspace (*str))
-#else
-    while (isspace (*str))
-#endif
     /* Ignore leading whitespace */
     {
         str++;
     }
 
     /* If we can start, we will reset *ptr */
-#ifndef NO_MULTIBYTE
     if ((mblen ((char *)str, MB_CUR_MAX) == 1) && isdigit (*str))
     {
         while ((mblen ((char *)str, MB_CUR_MAX) == 1) && isdigit (*str))
-#else
-    if (isdigit (*str))
-    {
-        while (isdigit (*str))
-#endif
         {
 	    val = val * 10 + (*str - '0');
 	    str++;
