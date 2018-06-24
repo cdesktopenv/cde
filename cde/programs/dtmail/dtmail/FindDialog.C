@@ -729,13 +729,13 @@ FindDialog::compareMessage(DtMailMessageHandle	  handle)
   return(found);
 }
 
-#if !defined(CSRG_BASED) && !defined(__linux__) && !defined(sun)
+#if !defined(CSRG_BASED) && !defined(__linux__)
 //
 // See if string 'toFind' is anyware in string 'str'.
 // A case-insensitive version of strstr().
 //
 static const char	*
-strcasestr(const char *str, const char *toFind)
+FindDialog::strcasestr(const char *str, const char *toFind)
 {
   const char	*result = NULL;		// Default to not found.
 

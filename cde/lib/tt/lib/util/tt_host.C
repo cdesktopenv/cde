@@ -207,7 +207,38 @@ init_byname(_Tt_string name)
 
 	memset((char*) &host_buf, 0, sizeof(_Xgethostbynameparams));
 	if (name.len() == 0) {
-		_name = _tt_gethostname();
+            /* JET - many machines in this modern era have a hostname
+             * that does not have an IP address associated with it.
+             * So, we do a quick check to see if XGethostbyname() is
+             * happy with the returned name.  If it isn't, then we set
+             * the name to "localhost", which should always exist on
+             * any machine with IP networking.  If your machine does
+             * not have IP networking, you shouldn't be running TT :)
+             *
+             * This should fix those cases, particularly on BSD
+             * machines, whereby TT fails to start.  They should no
+             * longer need to add their hostname manually to
+             * /etc/hosts (as an alias to localhost) in order to start
+             * CDE
+             */
+            _name = _tt_gethostname();
+            if(!_XGethostbyname((char *)_name, host_buf))
+            {
+                /* this gets a little verbose - you see one for every
+                 * client, so if-0 out.  Leave for future debugging
+                 * though...
+                 */
+#if 0
+                _tt_syslog(0, LOG_WARNING,  "_XGethostbyname(%s) failed,"
+                           " defaulting to localhost",
+                           (const char *)_name);
+#endif
+
+                /* fall back to localhost */
+                _name = "localhost";
+            }
+            /* clear host_buf again, for the final run below */
+            memset((char*) &host_buf, 0, sizeof(_Xgethostbynameparams));
 	} else {
 		qual = name.split(':',_name);
 		if (_name.len()== 0) {
