@@ -3612,10 +3612,8 @@ GetLongName(
    {
 #define ELLIPSIS " (...) "
 #define NAME_PRECISION 28
-#ifdef MULTIBYTE
      if (! is_multibyte)
      {
-#endif
        int len = strlen( file_data->file_name );
        if( len > NAME_PRECISION )
        {
@@ -3647,7 +3645,6 @@ GetLongName(
 		  user_name, group_name,
 		  link_path );
        }
-#ifdef MULTIBYTE
      } else {
        /* MULTIBYTE
 	*
@@ -3710,7 +3707,6 @@ GetLongName(
 		user_name, group_name,
 		link_path );
      } /* is_multibyte */
-#endif  /* MULTIBYTE */
    }
 
    return (long_name);

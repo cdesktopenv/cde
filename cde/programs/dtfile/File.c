@@ -3142,27 +3142,17 @@ GetInsertPosition( int x1, int x2, XmFontList fontList, char * name )
   int i, width, stringWidth;
   char * tmp;
   char savedChar;
-#ifdef MULTIBYTE
   int len;
-#endif /* MULTIBYTE */
 
   width = x2 - x1;
 
-#ifdef MULTIBYTE
   i = 0;
   tmp = name;
   while ((len = mblen(tmp, MB_CUR_MAX)) > 0)
-#else /* MULTIBYTE */
-  for( tmp = name + 1, i = 0;
-       *tmp != 0x0;
-       ++tmp, ++i )
-#endif /* MULTIBYTE */
   {
     XmString string;
 
-#ifdef MULTIBYTE
     tmp += len;
-#endif /* MULTIBYTE */
 
     savedChar = *tmp;
     *tmp = 0x0;
@@ -3172,10 +3162,8 @@ GetInsertPosition( int x1, int x2, XmFontList fontList, char * name )
     *tmp = savedChar;
     if( stringWidth > width )
       break;
-#ifdef MULTIBYTE
     else
       i++;
-#endif /* MULTIBYTE */
   }
 
   return( i );
@@ -6357,13 +6345,8 @@ EstimateIconSize(
    if (file_view_data == NULL) {
       label_len = 1;
    } else {
-#ifdef MULTIBYTE
       label_len = DtCharCount(file_view_data->label == NULL ?
 			file_view_data->file_data->file_name : file_view_data->label);
-#else
-      label_len = strlen(file_view_data->label == NULL ?
-			file_view_data->file_data->file_name : file_view_data->label);
-#endif
    }
 
    if (layout_data->pixmap_position == XmPIXMAP_TOP)

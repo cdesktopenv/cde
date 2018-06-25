@@ -5434,7 +5434,6 @@ static unsigned char
 {
     unsigned char *pchR = pchIn;
     register int   i;
-#ifdef MULTIBYTE
     register int   chlen;
 
     for (i = 0; ((chlen = mblen ((char *)pchIn, MB_CUR_MAX)) > 0); i++)
@@ -5447,19 +5446,8 @@ static unsigned char
         pchIn += chlen;
     }
 
-#else
-    for (i = 0; *pchIn && !isspace (*pchIn); i++, pchIn++)
-    /* find end of word */
-    {
-    }
-#endif
-
     /* skip to next word */
-#ifdef MULTIBYTE
     while (pchIn && (mblen ((char *)pchIn, MB_CUR_MAX) == 1) && isspace (*pchIn))
-#else
-    while (pchIn && isspace (*pchIn))
-#endif
     {
         *pchIn++;
     }
