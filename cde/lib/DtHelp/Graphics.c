@@ -322,11 +322,11 @@ static enum _DtGrLoadStatus processXwd(
 				int                   *ret_num_colors,
 			        _DtGrContext          *context);
 static void		_swaplong (
-				register char *bp,
-				register unsigned n );
+				char *bp,
+				unsigned n );
 static void		_swapshort (
-				register char *bp,
-				register unsigned n );
+				char *bp,
+				unsigned n );
 static	int		XwdFileToPixmap (
 				Display  *dpy,
 				int	  screen,
@@ -471,11 +471,11 @@ static int new_registry_count = 0;
 
 static void
 _swapshort (
-    register char *bp,
-    register unsigned n )
+    char *bp,
+    unsigned n )
 {
-    register char c;
-    register char *ep = bp + n;
+    char c;
+    char *ep = bp + n;
 
     while (bp < ep) {
 	c = *bp;
@@ -487,12 +487,12 @@ _swapshort (
 
 static void
 _swaplong (
-    register char *bp,
-    register unsigned n )
+    char *bp,
+    unsigned n )
 {
-    register char c;
-    register char *ep = bp + n;
-    register char *sp;
+    char c;
+    char *ep = bp + n;
+    char *sp;
 
     while (bp < ep) {
 	sp = bp + 3;
@@ -823,8 +823,8 @@ Do_Pseudo(
     unsigned long **ret_colors,
     int  *ret_number )
 {
-    register int i, x, y, colorCount = 0;
-    register XColor *color;
+    int i, x, y, colorCount = 0;
+    XColor *color;
     int      result = 0;
     Pixel    pixel;
 
@@ -921,7 +921,7 @@ Do_Direct(
     unsigned long **ret_colors,
     int  *ret_number )
 {
-    register int x, y;
+    int x, y;
     XColor color;
     unsigned long rmask, gmask, bmask;
     int   rshift = 0, gshift = 0, bshift = 0;
@@ -1092,9 +1092,9 @@ XwdFileToPixmap (
     int      *ret_number )
 {
     int result;
-    register int i;
+    int i;
     XImage in_image, *out_image;
-    register char *buffer;
+    char *buffer;
     unsigned long swaptest = 1;
     int count;
     unsigned buffer_size;

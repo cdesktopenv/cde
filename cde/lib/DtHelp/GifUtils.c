@@ -360,7 +360,7 @@ static int
 LWZReadByte(byte **inbuf, int flag, int input_code_size, GifState *g)
 {
     int        code, incode;
-    register int    i;
+    int    i;
 
     if (flag) {
         g->set_code_size = input_code_size;

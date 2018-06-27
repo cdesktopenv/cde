@@ -1680,7 +1680,7 @@ ResolveCell(
     int			 max_rows,
     CellInfo		*ret_info)
 {
-    register int i;
+    int i;
     char  *id;
     char  *idRefs;
     char  *ptr;
@@ -1909,7 +1909,7 @@ ResolveCell(
      */
     if (retWidth > cellWidth)
       {
-	register int j;
+	int j;
 	_DtCvUnit  cellMax;
 	_DtCvUnit  maxSlop;
 	_DtCvUnit  value;
@@ -2826,7 +2826,7 @@ DetermineMaxDims(
     _DtCvUnit	*bot_height,
     _DtCvUnit	*max_width)
 {
-    register int	j;
+    int	j;
     _DtCvUnit     topWidth;
     _DtCvUnit     botWidth;
 

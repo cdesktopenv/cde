@@ -1082,9 +1082,9 @@ static void MenuBarFix(
     XmGeoMajorLayout layoutPtr,
     XmKidGeometry rowPtr )
 {
-    register Dimension       marginW ;
-    register Dimension       marginH ;
-    register Dimension       twoMarginW ;
+    Dimension       marginW ;
+    Dimension       marginH ;
+    Dimension       twoMarginW ;
 
 
     marginW = geoSpec->margin_w ;
@@ -1146,8 +1146,8 @@ XmGeoMatrix _DtHelpDialogWidgetGeoMatrixCreate(
 
              DtHelpDialogWidget hw = (DtHelpDialogWidget) wid ;
              XmGeoMatrix     geoSpec ;
-    register XmGeoRowLayout  layoutPtr ;
-    register XmKidGeometry   boxPtr ;
+    XmGeoRowLayout  layoutPtr ;
+    XmKidGeometry   boxPtr ;
 
     geoSpec = _XmGeoMatrixAlloc( TB_MAX_WIDGETS_VERT, TB_MAX_NUM_WIDGETS, 0) ;
     geoSpec->composite = (Widget) hw ;

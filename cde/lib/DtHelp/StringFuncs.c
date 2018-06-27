@@ -487,9 +487,9 @@ _DtHelpCeUpperCase ( char *string )
 int _DtHelpCeStrHashToKey(
         const char * str)
 {
-    register char c;
-    register const char * tstr;
-    register int key = 0;
+    char c;
+    const char * tstr;
+    int key = 0;
 
     if (!str) return 0;                  /* RETURN */
 

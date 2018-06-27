@@ -87,7 +87,7 @@ _DtHelpResizeDisplayArea (
 	int			 columns )
 {
     int            count = 0;
-    register int   n;
+    int   n;
     unsigned long  char_width;
     Arg          args[5];
     Dimension    newWidth;

@@ -1820,7 +1820,7 @@ _DtHelpDAResolveSpc (
     _DtCvUnit		*ret_height,
     _DtCvUnit		*ret_ascent)
 {
-    register int          i = 0;
+    int          i = 0;
     int			  result = -1;
     long		  fontIdx;
     long		  spcTbIdx = 0;

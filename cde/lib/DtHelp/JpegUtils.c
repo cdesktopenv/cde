@@ -350,9 +350,9 @@ static void copy_pixels(
     djpeg_dest_ptr   dinfo,
     JDIMENSION       rows_supplied)
 {
-    register int pixval;
-    register JSAMPROW ptr;
-    register JDIMENSION col;
+    int pixval;
+    JSAMPROW ptr;
+    JDIMENSION col;
     ximg_dest_ptr dest = (ximg_dest_ptr) dinfo;
 
     ptr = dest->pub.buffer[0];

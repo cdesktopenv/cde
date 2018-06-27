@@ -1164,9 +1164,9 @@ static void MenuBarFix(
 #endif
     XmKidGeometry rowPtr )
 {
-    register Dimension       marginW ;
-    register Dimension       marginH ;
-    register Dimension       twoMarginW ;
+    Dimension       marginW ;
+    Dimension       marginH ;
+    Dimension       twoMarginW ;
 
 
     marginW = geoSpec->margin_w ;
@@ -1231,8 +1231,8 @@ SeparatorFix(
         XmGeoMajorLayout layoutPtr, /* unused */
         XmKidGeometry rowPtr )
 {
-    register Dimension       marginW ;
-    register Dimension       twoMarginW ;
+    Dimension       marginW ;
+    Dimension       twoMarginW ;
 
     marginW = geoSpec->margin_w ;
     twoMarginW = (marginW << 1) ;
@@ -1289,8 +1289,8 @@ XmGeoMatrix _DtHelpQuickDialogWidgetGeoMatrixCreate(
 
              DtHelpQuickDialogWidget qw = (DtHelpQuickDialogWidget) wid ;
              XmGeoMatrix     geoSpec ;
-    register XmGeoRowLayout  layoutPtr ;
-    register XmKidGeometry   boxPtr ;
+    XmGeoRowLayout  layoutPtr ;
+    XmKidGeometry   boxPtr ;
              XmKidGeometry   firstButtonBox ;
 #ifdef	NOTDONE
              int fix_menubar = False ;

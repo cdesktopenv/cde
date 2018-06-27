@@ -549,7 +549,7 @@ static void AdjustPositionValues(
             NULL != fileList;
             fileList = _DtHelpFileListGetNext(NULL,fileList) )
       {
-         register _DtHelpGlobSrchVol * vol=(_DtHelpGlobSrchVol *)fileList->clientData;
+         _DtHelpGlobSrchVol * vol=(_DtHelpGlobSrchVol *)fileList->clientData;
          if (vol->showVolInList && (vol->hitCnt > 0 || vol->zeroHitsOk) )
             break;                                   /* BREAK */
          vol->nextVolPosition += adjNextAmount;
@@ -564,7 +564,7 @@ static void AdjustPositionValues(
          NULL != fileList;
          fileList = _DtHelpFileListGetNext(NULL,fileList) )
    {
-      register _DtHelpGlobSrchVol * vol = (_DtHelpGlobSrchVol *) fileList->clientData;
+      _DtHelpGlobSrchVol * vol = (_DtHelpGlobSrchVol *) fileList->clientData;
       if (vol)
       {
          vol->startPosition += adjStartAmount;
@@ -888,7 +888,7 @@ static void HitListFree(
         _DtHelpGlobSrchVol * vol,
         Boolean           freeHitsThemselves)
 {
-   register _DtHelpGlobSrchHit * hit;
+   _DtHelpGlobSrchHit * hit;
 
    if (NULL == vol) return;                          /* RETURN */
 
@@ -1129,7 +1129,7 @@ static int HitListAddFound (
            NULL != next; 
            prev = next, next = next->next )
       {
-        register int ret;
+        int ret;
 
         /* do a NLS case insensitive compare using NLS collating */
         if ( (ret = (*strcollfn)(next->indexEntry,indexEntry)) >= 0 )
@@ -1209,7 +1209,7 @@ static int CountSelectedVolumes (
         NULL != volListHead;
         volListHead = _DtHelpFileListGetNext(NULL, volListHead) )
   {
-    register _DtHelpGlobSrchVol * vol;
+    _DtHelpGlobSrchVol * vol;
 
     /* get the volume info */
     vol = (_DtHelpGlobSrchVol *) volListHead->clientData;
@@ -1244,7 +1244,7 @@ static _DtHelpFileEntry GetNextSearchFileAndDisplayCompleted(
           NULL != curFile;
           curFile = _DtHelpFileListGetNext(NULL, curFile) )
     {
-       register _DtHelpGlobSrchVol * vol;
+       _DtHelpGlobSrchVol * vol;
 
        vol = (_DtHelpGlobSrchVol *) curFile->clientData;
        if (NULL == vol) continue;                  /* CONTINUE */
@@ -2187,7 +2187,7 @@ static void DeleteListContents(
          NULL != curFile;
          curFile = _DtHelpFileListGetNext(NULL,curFile) )
    {
-      register _DtHelpGlobSrchVol * vol = (_DtHelpGlobSrchVol *) curFile->clientData;
+      _DtHelpGlobSrchVol * vol = (_DtHelpGlobSrchVol *) curFile->clientData;
       if (NULL == vol) continue;                      /* CONTINUE */
 
       /* if any hits are displayed and any have open topics, 
@@ -2195,7 +2195,7 @@ static void DeleteListContents(
       if (    vol->hitsDisplayed 
            && ((vol->nextVolPosition - vol->startPosition) != vol->hitCnt) )
       {
-         register _DtHelpGlobSrchHit * hit;
+         _DtHelpGlobSrchHit * hit;
          for ( hit = vol->hitListHead;
                NULL != hit;
                hit = hit->next)
@@ -2375,7 +2375,7 @@ static void ResultsListUpdate(
          NULL != testFile;
          testFile = _DtHelpFileListGetNext(NULL,testFile) )
    {
-      register _DtHelpGlobSrchVol * vol;
+      _DtHelpGlobSrchVol * vol;
       vol = (_DtHelpGlobSrchVol *)testFile->clientData;
       if (vol && vol->showVolInList && (vol->hitCnt > 0  || vol->zeroHitsOk))
          break;                                            /* BREAK */
@@ -2923,7 +2923,7 @@ static void SearchFile(
    DtHelpDialogWidget      hw,
    _DtHelpFileEntry        file)
 {
-   register _DtHelpGlobSrchVol * vol;
+   _DtHelpGlobSrchVol * vol;
 
    /* get volume info, adding if necessary */
    vol = (_DtHelpGlobSrchVol *) file->clientData;
@@ -3213,7 +3213,7 @@ static void StartSelectedVolumeSearchCB(
           NULL != file;
           file = _DtHelpFileListGetNext(NULL,file) )
     {
-       register _DtHelpGlobSrchVol * vol;
+       _DtHelpGlobSrchVol * vol;
        vol = (_DtHelpGlobSrchVol *) file->clientData;
        if (NULL == vol) continue;
 

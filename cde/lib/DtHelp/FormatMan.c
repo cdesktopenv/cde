@@ -168,7 +168,7 @@ GetNextState (
     char	**ret_str_ptr,
     Boolean      *ret_flag )
 {
-    register int i = len;
+    int i = len;
 
     /* check to see if we have the pattern of a bold + followed by a bold _
        purpose is to eventually convert this to +/-

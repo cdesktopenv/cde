@@ -191,9 +191,9 @@ static int
 BufCompressedFill (BufFilePtr f)
 {
     CompressedFile  *file;
-    register char_type *stackp, *de_stack;
-    register char_type finchar;
-    register code_int code, oldcode, incode;
+    char_type *stackp, *de_stack;
+    char_type finchar;
+    code_int code, oldcode, incode;
     BufChar	    *buf, *bufend;
 
     file = (CompressedFile *) f->hidden;
@@ -286,10 +286,10 @@ static char_type rmask[9] = {0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xf
 static code_int
 getcode(CompressedFile  *file)
 {
-    register code_int code;
-    register int r_off, bits;
-    register char_type *bp = file->buf;
-    register BufFilePtr	raw;
+    code_int code;
+    int r_off, bits;
+    char_type *bp = file->buf;
+    BufFilePtr	raw;
 
     if ( file->clear_flg > 0 || file->offset >= file->size ||
 	file->free_ent > file->maxcode )

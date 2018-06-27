@@ -351,7 +351,7 @@ const char *
 _DtHelpCeResolveSpcToAscii (
     const char	*spc_symbol)
 {
-    register int          i = 0;
+    int          i = 0;
 
     if (NULL == spc_symbol)
       return NULL;

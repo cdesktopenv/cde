@@ -3297,23 +3297,23 @@ static	int MaxSDLElements = sizeof (SdlElementList) / sizeof (SDLElementInfo);
  *****************************************************************************/
 #define	MyFree(x)	if ((char *)(x) != NULL) free(x)
 #define	SaveRestoreMask(x,y) \
-		{ register int myI;\
+		{ int myI;\
 		  for (myI = 0; myI < SDL_MASK_LEN; myI++) \
 		      x[myI] = y[myI]; \
 		}
 #define	MergeMasks(x,y) \
-		{ register int myI;\
+		{ int myI;\
 		  for (myI = 0; myI < SDL_MASK_LEN; myI++) \
 		      x[myI] |= y[myI]; \
 		}
 #define	RemoveMasks(x,y) \
-		{ register int myI;\
+		{ int myI;\
 		  for (myI = 0; myI < SDL_MASK_LEN; myI++) \
 		      x[myI] &= (~(y[myI])); \
 		}
 #define	MaskToValue(x,y) \
-		{ register int myI;\
-		  register SDLMask myMask;\
+		{ int myI;\
+		  SDLMask myMask;\
 		  for (myI = 0, y = 0; myI < SDL_MASK_LEN; myI++) \
 		      if (x[myI] == 0) \
 		          y += SDL_MASK_SIZE; \
@@ -3475,7 +3475,7 @@ FreeAttributes(
     ElementInfo		*cur_info,
     _DtHelpFontHints	*font_specs)
 {
-    register int i = 0;
+    int i = 0;
     const SDLElementAttrList *myList;
     const SDLAttribute	*attrib;
     char		*varOffset;
