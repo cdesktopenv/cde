@@ -209,7 +209,7 @@ pushvar(_StringIO &in, char *buff)
 static boolean
 pushenv(_StringIO &in, char const *name)
 {
-    register char *str = getenv(name);
+    char *str = getenv(name);
     if (str == NULL || *str == '\0')
 	return FALSE;
     else

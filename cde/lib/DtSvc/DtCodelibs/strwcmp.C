@@ -63,9 +63,9 @@ static int match_class(const char *, char);
 
 /* INLINE */
 static int
-next_char(register const char *pattern, const char **cpp = NULL)
+next_char(const char *pattern, const char **cpp = NULL)
 {
-    register int ret;
+    int ret;
     wchar_t __nlh_char[1];
 
     ret = pattern ? (int)CHARAT(pattern) : '\0';
@@ -98,10 +98,10 @@ strwcmp(const char *pattern, const char *string)
 // stwpat returns a pointer to the first meta-character if the string
 // is a pattern, else NULL
 char *
-strwpat(register const char *pattern)
+strwpat(const char *pattern)
 {
-    register int ch;
-    register char *prev_pattern = (char *)pattern;
+    int ch;
+    char *prev_pattern = (char *)pattern;
     wchar_t __nlh_char[1];
 
     while ((ch = next_char(pattern, &pattern)) != '\0')
@@ -113,7 +113,7 @@ strwpat(register const char *pattern)
 	case '?': 
 	    return prev_pattern;
 	case '[': {
-	    register const char *eop = next_patt(prev_pattern, 0);
+	    const char *eop = next_patt(prev_pattern, 0);
 	    if (CHARAT(eop) == ']')
 		return prev_pattern;
 	    break;
@@ -131,7 +131,7 @@ strwpat(register const char *pattern)
  * the beginning of string.
  */
 static int 
-match(register const char *pattern, register const char *string, int depth)
+match(const char *pattern, const char *string, int depth)
 {
 #ifdef DEBUG
     printf("%smatch(\"%s\", \"%s\")\n", TABS, pattern, string);
@@ -143,7 +143,7 @@ match(register const char *pattern, register const char *string, int depth)
     while ((ch = next_char(pattern, &cp)) != '\0')
     {
 	const char *laststr = string;
-	register int testchar = (int)CHARADV(string);
+	int testchar = (int)CHARADV(string);
 
 	switch (ch)
 	{
@@ -184,7 +184,7 @@ match(register const char *pattern, register const char *string, int depth)
 }
 
 static int
-match_class(register const char *clss, register char testchar)
+match_class(const char *clss, char testchar)
 /*
  *	pattern is a pointer to the leading [ of
  *	a shell-type class.  testchar is the character to match against
@@ -195,7 +195,7 @@ match_class(register const char *clss, register char testchar)
     wchar_t __nlh_char[1];
 
     /* find end of class, ie an un-escaped ']' */
-    register const char *eop = next_patt(clss, 0);
+    const char *eop = next_patt(clss, 0);
     ADVANCE(clss);
 
     if (CHARAT(eop) != ']')
@@ -209,7 +209,7 @@ match_class(register const char *clss, register char testchar)
 
     while (clss < eop)
     {
-	register int ch = next_char(clss, &clss);
+	int ch = next_char(clss, &clss);
 	char const *clss_end = clss;
 	int sep = next_char(clss_end, &clss_end);
 	int ch2 = next_char(clss_end, &clss_end);
@@ -252,7 +252,7 @@ match_class(register const char *clss, register char testchar)
 }
 
 static const char *
-next_patt(register const char *pattern, int advance)
+next_patt(const char *pattern, int advance)
 {
     wchar_t __nlh_char[1];
 

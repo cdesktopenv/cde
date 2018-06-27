@@ -44,8 +44,8 @@ _mb_schr(const char *str, wchar_t ch)
 #else
 char *
 _mb_schr(str, ch)
-register unsigned char *str;
-register wchar_t ch;
+unsigned char *str;
+wchar_t ch;
 #endif
 {
     wchar_t __nlh_char[1];

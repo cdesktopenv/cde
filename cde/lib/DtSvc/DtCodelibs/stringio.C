@@ -32,11 +32,11 @@
 #include "stringio.h"
 
 int
-_StringIO::doit(register int commit)
+_StringIO::doit(int commit)
 {
-    register wchar_t ch;
-    register int cu = curr;
-    register char *ccp;
+    wchar_t ch;
+    int cu = curr;
+    char *ccp;
     wchar_t __nlh_char[1];
 
     for (; cu >= 0; cu--)

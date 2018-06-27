@@ -34,7 +34,7 @@
 #include <codelibs/stringx.h>
 
 char *
-strend(register const char *str)
+strend(const char *str)
 {
 	if (str == NULL)
 		return NULL;

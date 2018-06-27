@@ -36,18 +36,18 @@
 #include <codelibs/stringx.h>
 
 char *
-strtokx(register char *&ptr, register const char *sep)
+strtokx(char *&ptr, const char *sep)
 {
     if (ptr == NULL)
 	return NULL;
 
     // find the beginning of the token
-    register char *ret = ptr;
+    char *ret = ptr;
     while (*ret != '\0' && _mb_schr(sep, *ret) != NULL)
 	ADVANCE(ret);
 
     // find the end of the token
-    register char *end = ret;
+    char *end = ret;
     while (*end != '\0' && _mb_schr(sep, *end) == NULL)
 	ADVANCE(end);
 

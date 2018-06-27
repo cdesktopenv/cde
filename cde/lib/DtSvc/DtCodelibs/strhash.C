@@ -38,9 +38,9 @@
 
 /**************************************************
 // This is quick but does a pretty crummy job
-unsigned strhash(register const unsigned char *key)
+unsigned strhash(const unsigned char *key)
 {
-	register unsigned hash = 0;
+	unsigned hash = 0;
 	while (*key != '\0')
 		hash = (hash << 3) + *key++;
 	return hash;
@@ -55,10 +55,10 @@ unsigned strhash(register const unsigned char *key)
 // This is from the "dragon" Compilers book.
 // It is much better than the above but somewhat slower.
 //
-unsigned strhash(register const char *p)
+unsigned strhash(const char *p)
 {
-	register unsigned h = 0;
-	register unsigned g;
+	unsigned h = 0;
+	unsigned g;
 	wchar_t __nlh_char[1];
 
 	if (p != NULL)
@@ -77,10 +77,10 @@ unsigned strhash(register const char *p)
 // Same as above but case insensitive.  Returns the same value as the
 // above function if there are no upper case letters in the string.
 //
-unsigned strhashi(register const char *p)
+unsigned strhashi(const char *p)
 {
-	register unsigned h = 0;
-	register unsigned g;
+	unsigned h = 0;
+	unsigned g;
 	wchar_t __nlh_char[1];
 
 	if (p != NULL)
@@ -110,12 +110,12 @@ unsigned strhashi(register const char *p)
 
 unsigned int
 hashfunc(buf, len)
-register unsigned char *buf;
-register int len;
+unsigned char *buf;
+int len;
 {
-	register unsigned int in;
-	register unsigned int xor;
-	register unsigned int t;
+	unsigned int in;
+	unsigned int xor;
+	unsigned int t;
 
 	xor = len << 8;
 	in = 0;

@@ -279,8 +279,8 @@ _SHXbuf::filegen()
 
 	for (i = 1; i < vec.size(); i++)
 	{
-	    register char *ref = filebuf;
-	    register char *ptr = &bufptr[long(vec[i])];
+	    char *ref = filebuf;
+	    char *ptr = &bufptr[long(vec[i])];
 	    while (*ref == *ptr && *ref != '\0' && *ptr != '\0')
 		ref++, ptr++;
 
@@ -292,7 +292,7 @@ _SHXbuf::filegen()
 	// make room.
 	for (i = vec.size(); i > 0; --i)
 	{
-	    register char *val = vec[i - 1];
+	    char *val = vec[i - 1];
 	    vec[i] = val;
 	}
 	vec[0] = (char *)buf.size();
