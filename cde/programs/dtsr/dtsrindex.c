@@ -920,10 +920,10 @@ void            write_2_dtbs_addr_file (void)
     DtSrINT32		i_start, k, cur_ind;
     DtSrINT32		num_delete_addrs = 0;
     char		addrs_removed = FALSE;
-    register DtSrINT32	i;
-    register DtSrINT32	cur_byte;
-    register char	bit_addrs;
-    register DB_ADDR	temp1;
+    DtSrINT32	i;
+    DtSrINT32	cur_byte;
+    char	bit_addrs;
+    DB_ADDR	temp1;
 
     if (debugging & DEBUG_O)
 	printf ("  old vis '%s' ofs=%ld adr=%ld fre=%ld\n",
@@ -1370,7 +1370,7 @@ main (int argc, char **argv)
     char		temp_buf[40];
     char		db_key [DtSrMAX_DB_KEYSIZE + 2];
     int			oops = FALSE;
-    register DtSrINT32	cur_byte;
+    DtSrINT32	cur_byte;
     struct tm		*tmptr;
     DB_ADDR		dba, temp_dba;
     time_t		elapsed;
