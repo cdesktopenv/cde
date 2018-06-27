@@ -120,13 +120,13 @@ char           *bmhcore (
                     size_t		patlen,
                     size_t		*bmhtable)
 {
-    register unsigned char
+    unsigned char
 		lastchar = pattern[patlen - 1];
-    register unsigned char
+    unsigned char
 		textchar;
-    register unsigned char
+    unsigned char
 		*cp;
-    register unsigned char	
+    unsigned char
 		*last;
     int		savechar;
     int		savechar2;

@@ -122,7 +122,7 @@ void	hc_decode (
 #ifdef DEBUG_DECODE
     static int      first_time = TRUE;
 #endif
-    register int    bitreg;
+    int    bitreg;
     int             i;
     int             bitcount;
     int             tree_index;
