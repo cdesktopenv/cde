@@ -151,8 +151,8 @@ extern char *_DtGetMessage(char *filename, int set, int n, char *s);
 #endif
 
 Boolean _DtWmStringsAreEqual( 
-                        register char *in_str,
-                        register char *test_str) ;
+                        char *in_str,
+                        char *test_str) ;
 void CheckForDone( 
                         XtPointer clientData,
                         XtIntervalId id) ;
@@ -590,7 +590,7 @@ AddSuLog(
     char        *toString;
     struct tm  *localtime ();
 
-    register    FILE * f;
+       FILE * f;
     struct stat st;
     time_t    timenow;
     struct tm  *now;
@@ -658,8 +658,8 @@ CleanPath(
         char *Path )
 
 {
-    register char  *StrippedPath;
-    register char  *PathHead;
+    char  *StrippedPath;
+    char  *PathHead;
 
     StrippedPath = PathHead = Path;
 
