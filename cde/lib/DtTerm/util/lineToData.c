@@ -62,8 +62,8 @@ main(int argc, char **argv)
     char buffer[BUFSIZ];
     char *bufPtr;
     char orig[BUFSIZ];
-    register int i;
-    register char *c;
+    int i;
+    char *c;
     FILE *f;
     extern char *optarg;
     char *prefix = "_Term";
@@ -301,7 +301,7 @@ main(int argc, char **argv)
 int
 ParseChar(char **str)
 {
-    register char *c = *str;
+    char *c = *str;
     char *ptr;
     int ret = 0;
 
@@ -387,7 +387,7 @@ ParseChar(char **str)
 int
 parseCoord(char **str, char *val, signed char *offset)
 {
-    register char *c = *str;
+    char *c = *str;
     char *ptr;
     int sign = 1;
 
@@ -442,7 +442,7 @@ parseCoord(char **str, char *val, signed char *offset)
 char *
 parseToken(char **str)
 {
-    register char *c = *str;
+    char *c = *str;
     char *ret;
 
     /* skip white space... */
@@ -469,7 +469,7 @@ parseToken(char **str)
 void
 displayErrorString(FILE *f, char *orig, char *remain)
 {
-    register int col;
+    int col;
 
     (void) fprintf(f, "        %s\n", orig);
     if (!remain || !*remain) {
