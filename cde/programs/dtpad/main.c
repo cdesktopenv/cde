@@ -512,7 +512,7 @@ CreateFirstPad(
     char **argv_l, **c_argv_l;
     Editor *pPad;
     Arg al[10];
-    register int ac;
+    int ac;
     Widget foo;
     int i;
     /* Added for the argument fix*/
@@ -1007,7 +1007,7 @@ RealizeNewPad(
         Editor *pPad)
 {
     Arg al[5];			/* arg list */
-    register int ac;		/* arg count */
+    int ac;		/* arg count */
 
     /* Create the title */
     pPad->dialogTitle = DialogTitle(pPad);
@@ -1232,7 +1232,7 @@ GetAdjustedResizeHints(
         XSizeHints *pHints)
 {
     Arg al[2];			/* arg list */
-    register int ac;		/* arg count */
+    int ac;		/* arg count */
     Dimension MBheight;
 
     /* get Dt Editor widget size hints */
@@ -1357,7 +1357,7 @@ SetWindowSize(
         Editor *pPad)
 {
     Arg al[10];			/* arg list */
-    register int ac;		/* arg count */
+    int ac;		/* arg count */
     XSizeHints  size_hints;
     XWMHints   *wmhints;
     long supplied_return;

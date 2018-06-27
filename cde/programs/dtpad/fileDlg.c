@@ -182,7 +182,7 @@ SetSaveAsDirAndFile(Editor *pPad)
     int firstSelect = -1, lastSelect = -1;
     Widget textField;
     Arg args[5];
-    register int n;
+    int n;
     XmString dirString;
     dirbuf[0] = (char) '\0';
 
@@ -263,7 +263,7 @@ CreateNewLineToggles(
 	ToggleWidgets *pToggleWidgets)
 {
     Arg args[20];
-    register int n;
+    int n;
     XmString label_string;
 
     /* -----> Create Radio Box */
@@ -321,7 +321,7 @@ void
 CreateSaveAsDialog(Editor *pPad)
 {
     Arg args[20];
-    register int n;
+    int n;
     XmString label_string;
     char buf[256];
     SaveAs *pSaveAs = &pPad->fileStuff.fileWidgets.saveAs;
@@ -563,7 +563,7 @@ CreateFileSelectionDialog(
         Editor *pPad )
 {
     Arg al[10];             /* arg list */
-    register int ac;        /* arg count */
+    int ac;        /* arg count */
     XmString tmpStr;
     Select *pSelect = &pPad->fileStuff.fileWidgets.select;
 
@@ -618,7 +618,7 @@ CreateSaveWarning(
         Editor *pPad )
 {
     Arg al[10];			/* arg list */
-    register int ac;		/* arg count */
+    int ac;		/* arg count */
     char buf[256];
     Widget w, kid[5];
     Pixel foreground, background;
@@ -901,7 +901,7 @@ AskIfSave(
         Editor *pPad)
 {
     Arg al[10];             /* arg list */
-    register int ac;        /* arg count */
+    int ac;        /* arg count */
     char *tmp = NULL;
     XmString tmpStr;
     Select *pSelect = &pPad->fileStuff.fileWidgets.select;

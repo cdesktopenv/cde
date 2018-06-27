@@ -965,7 +965,7 @@ CreateEditorWidget(
 {
     Widget parent = pPad->mainWindow;
     Arg al[10];		/* arg list */
-    register int ac;	/* arg count */
+    int ac;	/* arg count */
     Pixel background, foreground, top_shadow, bottom_shadow, selectColor;
     Colormap colormap;
     XmString dialogTitleStr = XmStringCreateLocalized(DialogTitle(pPad));
@@ -1017,7 +1017,7 @@ FindOrCreatePad(
     Boolean foundPad = False;
     Editor *pPad;
     Arg al[10];
-    register int ac;
+    int ac;
 
     /* -----> Reuse unused entries (corresponding to closed editor windows)
      *        before creating new ones. */
