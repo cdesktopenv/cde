@@ -111,26 +111,26 @@ typedef struct _Entries {
 static Buffer * _DtAllocBuffer(const char **buff);
 static void _DtFreeBuffer(Buffer *b);
 static void _DtAppendToBuffer( 
-                        register Buffer *b,
+                        Buffer *b,
                         char *str,
-                        register int len) ;
+                        int len) ;
 static void _DtAppendEntryToBuffer( 
-                        register Buffer *buffer,
+                        Buffer *buffer,
                         Entry entry) ;
 
 static Entries * _DtAllocEntries( void) ;
 static  void _DtFreeEntries( Entries *) ;
 static void _DtAddEntry( 
-                        register Entries *e,
+                        Entries *e,
                         Entry entry) ;
 static int _DtCompareEntries( 
                         Entry *e1,
                         Entry *e2) ;
 static char * _DtFindFirst( 
-                        register char *string,
-                        register char dest) ;
+                        char *string,
+                        char dest) ;
 static void _DtGetEntries( 
-                        register Entries *entries,
+                        Entries *entries,
                         Buffer *buff,
                         int dosort) ;
 static void _DtMergeEntries( 
@@ -176,9 +176,9 @@ _DtFreeBuffer(
 
 static void 
 _DtAppendToBuffer(
-        register Buffer *b,
+        Buffer *b,
         char *str,
-        register int len )
+        int len )
 {
     while (b->used + len > b->room) {
         b->buff = (char *)realloc(b->buff, 2*b->room*(sizeof(char)));
@@ -216,10 +216,10 @@ _DtFreeEntries(
 
 static void 
 _DtAddEntry(
-        register Entries *e,
+        Entries *e,
         Entry entry )
 {
-    register int n;
+    int n;
 
     for (n = 0; n < e->used; n++)
     {
@@ -250,7 +250,7 @@ _DtCompareEntries(
 
 static void 
 _DtAppendEntryToBuffer(
-        register Buffer *buffer,
+        Buffer *buffer,
         Entry entry )
 {
     _DtAppendToBuffer(buffer, entry.tag, strlen(entry.tag));
@@ -261,8 +261,8 @@ _DtAppendEntryToBuffer(
 
 static char * 
 _DtFindFirst(
-        register char *string,
-        register char dest )
+        char *string,
+        char dest )
 {
     int len;
 
@@ -285,13 +285,13 @@ _DtFindFirst(
 
 static void 
 _DtGetEntries(
-        register Entries *entries,
+        Entries *entries,
         Buffer *buff,
         int dosort )
 {
-    register char *line, *colon, *temp, *str, *temp2;
+    char *line, *colon, *temp, *str, *temp2;
     Entry entry;
-    register int length;
+    int length;
     int lineno = 0;
 
     str = buff->buff;

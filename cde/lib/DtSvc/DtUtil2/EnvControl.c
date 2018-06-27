@@ -825,7 +825,7 @@ static void _EnvAdd
       setenv(envVar, envVarSetting + strlen(envVar) + 1, 1);
 #else
 
-      register int i;
+      int i;
       size_t envVarLen = strlen(envVar);
       char *envPtr = NULL;
 

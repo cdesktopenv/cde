@@ -57,15 +57,15 @@ SOFTWARE.
 /********    Static Function Declarations    ********/
 
 static unsigned int GetTableIndex( 
-                        register DtHashTable tab,
-                        register DtHashKey key,
+                        DtHashTable tab,
+                        DtHashKey key,
 #if NeedWidePrototypes
-                        register int new) ;
+                        int new) ;
 #else
-                        register Boolean new) ;
+                        Boolean new) ;
 #endif /* NeedWidePrototypes */
 static void ExpandHashTable( 
-                        register DtHashTable tab) ;
+                        DtHashTable tab) ;
 
 /********    End Static Function Declarations    ********/
 
@@ -101,19 +101,19 @@ static DtHashEntryRec DtHashfake;	/* placeholder for deletions */
 
 static unsigned int 
 GetTableIndex(
-	      register DtHashTable tab,
-	      register DtHashKey key,
+	      DtHashTable tab,
+	      DtHashKey key,
 #if NeedWidePrototypes
-	      register int new)
+	      int new)
 #else
-              register Boolean new)
+              Boolean new)
 #endif /* NeedWidePrototypes */
 {
-    register DtHashEntry	*entries = tab->entries;
-    register int		len, idx, i, rehash = 0;
-    register char 		c;
-    register Signature 		sig = 0;
-    register DtHashEntry	entry;
+    DtHashEntry	*entries = tab->entries;
+    int		len, idx, i, rehash = 0;
+    char 		c;
+    Signature 		sig = 0;
+    DtHashEntry	entry;
     String			s1, s2;
     DtHashKey			compKey;
 
@@ -168,9 +168,9 @@ nomatch:
 
 void 
 _DtRegisterHashEntry(
-        register DtHashTable tab,
-        register DtHashKey key,
-        register DtHashEntry entry )
+        DtHashTable tab,
+        DtHashKey key,
+        DtHashEntry entry )
 {
     unsigned int idx;
 
@@ -186,11 +186,11 @@ _DtRegisterHashEntry(
 
 void 
 _DtUnregisterHashEntry(
-        register DtHashTable tab,
-        register DtHashEntry entry )
+        DtHashTable tab,
+        DtHashEntry entry )
 {
-    register int 		idx, rehash;
-    register DtHashEntry	*entries = tab->entries;
+    int 		idx, rehash;
+    DtHashEntry	*entries = tab->entries;
     DtHashKey			key = KEY(tab, entry);
 
     idx = GetTableIndex(tab, key, False);
@@ -203,13 +203,13 @@ _DtUnregisterHashEntry(
 
 static void 
 ExpandHashTable(
-        register DtHashTable tab )
+        DtHashTable tab )
 {
     unsigned int oldmask;
-    register DtHashEntry *oldentries, *entries;
-    register int oldidx, newidx, rehash, len;
-    register DtHashEntry entry;
-    register DtHashKey key;
+    DtHashEntry *oldentries, *entries;
+    int oldidx, newidx, rehash, len;
+    DtHashEntry entry;
+    DtHashKey key;
 
     oldmask = tab->mask;
     oldentries = tab->entries;
@@ -232,11 +232,11 @@ ExpandHashTable(
 
 DtHashEntry 
 _DtEnumerateHashTable(
-        register DtHashTable tab,
-	register DtHashEnumerateFunc enumFunc,
-        register XtPointer clientData )
+        DtHashTable tab,
+	DtHashEnumerateFunc enumFunc,
+        XtPointer clientData )
 {
-    register unsigned int i;
+    unsigned int i;
 
     for (i = 0; i <= tab->mask; i++)
       if (tab->entries[i] && 
@@ -249,11 +249,11 @@ _DtEnumerateHashTable(
 
 DtHashEntry 
 _DtKeyToHashEntry(
-        register DtHashTable tab,
-        register DtHashKey key )
+        DtHashTable tab,
+        DtHashKey key )
 {
-    register int idx, rehash, len;
-    register DtHashEntry entry, *entries = tab->entries;
+    int idx, rehash, len;
+    DtHashEntry entry, *entries = tab->entries;
 
     if (!key) return NULL;
     idx = GetTableIndex(tab, key, False);
@@ -269,7 +269,7 @@ _DtAllocHashTable(DtHashEntryType	*hashEntryTypes,
                    Boolean 		keyIsString)
 #endif /* NeedWidePrototypes */
 {
-    register DtHashTable tab;
+    DtHashTable tab;
 
     tab = (DtHashTable) XtMalloc(sizeof(struct _DtHashTableRec));
     tab->types = hashEntryTypes;

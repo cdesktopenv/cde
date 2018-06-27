@@ -142,19 +142,19 @@ typedef struct _DtHashTableRec *DtHashTable;
 /********    Private Function Declarations for Hash.c    ********/
 
 extern void _DtRegisterHashEntry( 
-                        register DtHashTable tab,
-                        register DtHashKey key,
-                        register DtHashEntry entry) ;
+                        DtHashTable tab,
+                        DtHashKey key,
+                        DtHashEntry entry) ;
 extern void _DtUnregisterHashEntry( 
-                        register DtHashTable tab,
-                        register DtHashEntry entry) ;
+                        DtHashTable tab,
+                        DtHashEntry entry) ;
 extern DtHashEntry _DtEnumerateHashTable( 
-                        register DtHashTable tab,
-                        register DtHashEnumerateFunc enumFunc,
-                        register XtPointer clientData) ;
+                        DtHashTable tab,
+                        DtHashEnumerateFunc enumFunc,
+                        XtPointer clientData) ;
 extern DtHashEntry _DtKeyToHashEntry( 
-                        register DtHashTable tab,
-                        register DtHashKey key) ;
+                        DtHashTable tab,
+                        DtHashKey key) ;
 extern DtHashTable _DtAllocHashTable( 
                         DtHashEntryType *hashEntryTypes,
                         Cardinal numHashEntryTypes,

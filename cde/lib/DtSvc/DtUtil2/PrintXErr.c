@@ -81,7 +81,7 @@ _DtPrintDefaultErrorSafe(
     char number[32];
     char *mtype = "XlibMessage";
     int nbytes = bytes-1;
-    register _XExtension *ext = (_XExtension *)NULL;
+    _XExtension *ext = (_XExtension *)NULL;
 
     memset(msg, 0, bytes);
 
