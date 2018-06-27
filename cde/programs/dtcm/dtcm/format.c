@@ -435,7 +435,7 @@ format_appt(Dtcm_appointment *appt, char *b, DisplayType display, int max) {
         int		hr, mn, len, i = 0, j = 0;
 	Tick		tick;
 	struct tm	*tm;
-	register char		*what_ptr;
+	char		*what_ptr;
 	_Xltimeparams localtime_buf;
  
 	if (!appt || !b)

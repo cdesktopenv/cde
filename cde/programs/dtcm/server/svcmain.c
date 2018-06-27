@@ -377,7 +377,7 @@ lock_it(void)
 }
 
 static void
-program(struct svc_req *rqstp, register SVCXPRT *transp)
+program(struct svc_req *rqstp, SVCXPRT *transp)
 {
         char *result;
         char *argument = NULL;

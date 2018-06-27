@@ -765,7 +765,7 @@ extern void
 print_day_range(Calendar *c, Tick start_tick, Tick end_tick)
 {
 	int 		n;
-	register Tick 	first_date = start_tick;
+	Tick 	first_date = start_tick;
         Boolean 	done = False, first = True;
         int 		num_page = 1;
 	Props 		*pr = (Props*)c->properties;

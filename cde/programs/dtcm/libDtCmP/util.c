@@ -174,7 +174,7 @@ cm_def_printer(void)
  *--------------------------------------------------------------------------*/
 
 extern char *
-cm_strcpy(register char *s1, register char *s2)
+cm_strcpy(char *s1, char *s2)
 {
 	if (s1==NULL || s2==NULL) return(NULL);
 	strcpy(s1, s2); 
@@ -182,9 +182,9 @@ cm_strcpy(register char *s1, register char *s2)
 }
 
 extern int 
-cm_strlen(register char *s)
+cm_strlen(char *s)
 {
-        register int n;
+        int n;
  
 	if (s==NULL) return 0;
 	return (strlen(s));
@@ -328,7 +328,7 @@ syserr(char *msg, int a1, int a2, int a3)
 extern char *
 ckalloc(unsigned int size)
 {
-	register char *p;
+	char *p;
 
 	/* try to get the memory */
 	p = (char *)calloc(1, size);

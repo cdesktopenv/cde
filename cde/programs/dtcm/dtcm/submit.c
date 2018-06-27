@@ -64,8 +64,8 @@
 static char **
 arpaPhrase(const char * name)
 {
-    register char c;
-    register const char *cp;
+    char c;
+    const char *cp;
     char * cp2;
     int gotlt, lastsp, didq;
     int nesting;

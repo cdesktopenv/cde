@@ -2474,8 +2474,8 @@ static void
 init_calendar(int argc, char **argv)
 {
 	int start, stop;
-	register int i;
-	register char *s_ptr, *d_ptr;
+	int i;
+	char *s_ptr, *d_ptr;
 	Props *p;
 	Tick today;
 	char bind_home[MAXPATHLEN];

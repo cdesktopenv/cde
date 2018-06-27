@@ -291,7 +291,7 @@ print_week_range(Calendar * c, Tick start_tick, Tick end_tick)
 {
 
         Props 		*p = (Props *)c->properties;
-        register Tick 	first_date = start_tick;
+        Tick 	first_date = start_tick;
         int 		num_weeks;
         Boolean 	done = False, first = True;
         int 		num_page = 1;
@@ -793,8 +793,8 @@ resize_weekview(
 	Calendar	*c,
 	Boundary	*boundary)
 {
-        register int     x, y;
-	register int	 n;
+        int     x, y;
+	int	 n;
 	Week 		*w = (Week *)c->view->week_info;
 
 	/* allocate weekview storage if it's never been used before */
@@ -829,9 +829,9 @@ static void
 draw_week(Calendar *c, XRectangle *rect, Boundary boundary)
 {
         Week *w = (Week *)c->view->week_info;
-        register int    current_day;
-        register int    n;
-        register int    x, y;
+        int    current_day;
+        int    n;
+        int    x, y;
         int             char_height;
         int             start_date;
         char            **day_names;
@@ -1132,10 +1132,10 @@ fill_day(Calendar *c, Week *w, int x, int y, int day,
 {
 	CSA_return_code stat;
 	Dtcm_appointment *appt;
-        register int    lower = (int)lowerbound(day);
-        register int    upper = (int)next_ndays(day, 1);
-        register int    i, loop, n;
-        register int    nlines = 0;
+        int    lower = (int)lowerbound(day);
+        int    upper = (int)next_ndays(day, 1);
+        int    i, loop, n;
+        int    nlines = 0;
 	XFontSetExtents fontextents;
         int	char_width;
 	int 	char_height;
@@ -1180,9 +1180,9 @@ fill_day(Calendar *c, Week *w, int x, int y, int day,
 } 
  
 static void
-draw_chart(Calendar *c, register Week *w, XRectangle *rect)
+draw_chart(Calendar *c, Week *w, XRectangle *rect)
 {
-        register int    x, y;
+        int    x, y;
         int     n;
 	XFontSetExtents fontextents;
 	int 	char_height;

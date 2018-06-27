@@ -168,14 +168,14 @@ extern int _csa_duration_to_iso8601(int, char *);
 **
 *******************************************************************************/
 static void
-copy_and_pad_newlines(register char *dest, register char *source) {
+copy_and_pad_newlines(char *dest, char *source) {
 	while (*source)
 		if ((*dest++ = *source++) == '\n')
 			*dest++ =  '\t';
 }
 
 static int
-count_newlines(register char *string) {
+count_newlines(char *string) {
 	int count = 0;
 
 	if (string == NULL)
@@ -1652,10 +1652,10 @@ growcat(char **source, char *new)
 void
 cat_indented_string(char **catbuf, char *string)
 {
-	register char 	*p_str = string;
+	char 	*p_str = string;
 	int		nl_count = 0;
 	char		*buf;
-	register char	*b_ptr;
+	char	*b_ptr;
 
 	nl_count = count_newlines(string);
 
@@ -2417,7 +2417,7 @@ time_scope_str_i18n(
 extern boolean_t
 valid_time(Props *p, char *time_str) {
 	char		*ptr;
-	register int	num_minutes = 0, num_colons = 0;
+	int	num_minutes = 0, num_colons = 0;
 	boolean_t	after_colon = B_FALSE;
 	DisplayType	dt = get_int_prop(p, CP_DEFAULTDISP);
  

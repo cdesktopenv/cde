@@ -48,8 +48,8 @@ extern	List_node *
 hc_lookup_node (Hc_list	*hc_list, caddr_t key)
 {
 	Private		*private;
-	register List_node	*p_node;
-	register _DtCmsComparisonResult	result;
+	List_node	*p_node;
+	_DtCmsComparisonResult	result;
 
 	p_node = hc_list->root;
 	private = (Private *) hc_list->private;
@@ -87,7 +87,7 @@ extern	int
 hc_size (Hc_list *hc_list)
 {
 	int		n = 0;
-	register List_node	*p_node;
+	List_node	*p_node;
 
 	p_node = hc_list->root;
 	while (p_node != NULL)
@@ -145,10 +145,10 @@ hc_destroy(Hc_list *hc_list, Destroy_proc destroy_func)
 }
 
 extern Rb_Status
-hc_insert_node (Hc_list *hc_list, register List_node *p_node, caddr_t key)
+hc_insert_node (Hc_list *hc_list, List_node *p_node, caddr_t key)
 {
 	Private	*private;
-	register List_node	*p_curr;
+	List_node	*p_curr;
 
 	if (hc_list == NULL)
 		return (rb_notable);
@@ -229,8 +229,8 @@ hc_delete_node (Hc_list *hc_list, List_node	*p_node)
 extern List_node *
 hc_delete (Hc_list *hc_list, caddr_t key)
 {
-	register List_node	*p_node;
-	register Private *private;
+	List_node	*p_node;
+	Private *private;
 
 	p_node = hc_list->root;
 	private = (Private *) hc_list->private;
@@ -257,8 +257,8 @@ hc_lookup_smallest (Hc_list *hc_list)
 extern caddr_t
 hc_lookup_next_larger (Hc_list *hc_list, caddr_t key)
 {
-	register List_node	*p_node;
-	register Private *private;
+	List_node	*p_node;
+	Private *private;
 
 	p_node = hc_list->root;
 	private = (Private *) hc_list->private;
@@ -274,7 +274,7 @@ hc_lookup_next_larger (Hc_list *hc_list, caddr_t key)
 extern caddr_t
 hc_lookup_largest (Hc_list *hc_list)
 {
-	register List_node	*p_node;
+	List_node	*p_node;
 
 	if ((hc_list == NULL) || (hc_list->root == NULL))
 		return (NULL);
@@ -288,8 +288,8 @@ hc_lookup_largest (Hc_list *hc_list)
 extern caddr_t
 hc_lookup_next_smaller (Hc_list *hc_list, caddr_t key)
 {
-	register List_node	*p_node;
-	register Private *private;
+	List_node	*p_node;
+	Private *private;
 
 	p_node = hc_list->root;
 	private = (Private *) hc_list->private;
@@ -319,7 +319,7 @@ hc_check_list (Hc_list *hc_list)
 extern void
 hc_enumerate_down(Hc_list *hc_list, _DtCmsEnumerateProc doit)
 {
-	register List_node	*p_node;
+	List_node	*p_node;
 
 	p_node = hc_list->root;
 	while (p_node != NULL)
@@ -333,7 +333,7 @@ hc_enumerate_down(Hc_list *hc_list, _DtCmsEnumerateProc doit)
 extern Rb_Status
 hc_enumerate_up(Hc_list *hc_list, _DtCmsEnumerateProc doit)
 {
-	register List_node	*p_node;
+	List_node	*p_node;
 
 	p_node = hc_list->root;
 	while (p_node != NULL)

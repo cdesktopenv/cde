@@ -58,7 +58,7 @@ Appt_Status_4 externApptStatus;
 Tag_4 externTag;
 Privacy_Level_4 externPrivacy;
 
-static int 	hash_string	P((register char *));
+static int 	hash_string	P((char *));
 static char 	*strescapes	P((char *));
 
 static int len;
@@ -274,8 +274,8 @@ yyylex(void)
   }
 
   while(1) {
-    register u_char * ptr = parse_buffer;
-    register u_char c;
+    u_char * ptr = parse_buffer;
+    u_char c;
 
     switch(initial_mask[ *ptr = input_char()]) {
 
@@ -312,8 +312,8 @@ yyylex(void)
 
     case ALPHA:
       {
-	register int bucket;
-	register token_data_t * t;
+	int bucket;
+	token_data_t * t;
 
 	while(initial_mask[*(++ptr)=input_char()] == ALPHA)
 	  ;
@@ -443,10 +443,10 @@ setinput (FILE* f)
 
 
 static int 
-hash_string(register char *s)
+hash_string(char *s)
 {
-  register unsigned result = 0;
-  register int sum;
+  unsigned result = 0;
+  int sum;
   
   while(sum = *s++)
     result = (result << 4) + sum;
@@ -478,7 +478,7 @@ hash_string(register char *s)
 static char * 
 strescapes(char *s)
 {
-  register char * in=s, * out=s;
+  char * in=s, * out=s;
   
   while(*in)
     {
@@ -509,7 +509,7 @@ strescapes(char *s)
 	    break;
 	  case '0':  /* a octal constant */
 	    {
-	      register int i,result;
+	      int i,result;
 	      in++;
 	      for(result=i=0; (i<=3) && (*in >='0') && (*in <= '7') ; )
 		{

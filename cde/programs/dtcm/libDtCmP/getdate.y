@@ -166,7 +166,7 @@ time_t dateconv(int mm,
     int dayflag)
 {
 	time_t tod, jdate;
-	register int i;
+	int i;
 
 	if (yy < 0) yy = -yy;
 
@@ -203,7 +203,7 @@ time_t dateconv(int mm,
 
 time_t dayconv(int ord, int day, time_t now)
 {
-	register struct tm *loctime;
+	struct tm *loctime;
 	time_t tod;
 
 	tod = now;
@@ -213,7 +213,7 @@ time_t dayconv(int ord, int day, time_t now)
 	return daylcorr(tod, now);
 }
 
-time_t timeconv(register int hh, int mm, int ss, int mer)
+time_t timeconv(int hh, int mm, int ss, int mer)
 {
 	if (mm < 0 || mm > 59 || ss < 0 || ss > 59) return (DATE_BMIN);
 	switch (mer) {
@@ -410,8 +410,8 @@ lookup(char *id)
 #define getid for(j=idvar, k=id; (*j++ = *k++); )
 
 	char idvar[20];
-	register char *j, *k;
-	register struct table *i;
+	char *j, *k;
+	struct table *i;
 	int abbrev;
 
 	getid;
@@ -468,8 +468,8 @@ int yylex(void)
 {
 	extern int yylval;
 	int sign;
-	register char c;
-	register char *p;
+	char c;
+	char *p;
 	char idbuf[20];
 	int pcnt;
 

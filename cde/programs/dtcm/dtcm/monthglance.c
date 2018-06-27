@@ -844,7 +844,7 @@ extern void
 print_month_range(Calendar *c, Tick start_tick, Tick end_tick)
 {
         Props 		*p = (Props *)c->properties;
-        register Tick 	end, first_date = start_tick;
+        Tick 	end, first_date = start_tick;
         int 		n;
         Boolean 	done = False, first = True;
         int 		num_page = 1;
