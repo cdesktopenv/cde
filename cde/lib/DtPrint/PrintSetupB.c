@@ -2122,9 +2122,9 @@ MenuBarFixUp(
 	     XmGeoMajorLayout layoutPtr,
 	     XmKidGeometry rowPtr)
 {
-    register Dimension	     marginW ;
-    register Dimension	     marginH ;
-    register Dimension	     twoMarginW ;
+    Dimension	     marginW ;
+    Dimension	     marginH ;
+    Dimension	     twoMarginW ;
 
     marginW = geoSpec->margin_w ;
     twoMarginW = (marginW << 1) ;
@@ -2378,8 +2378,8 @@ SeparatorFixUp(
 	     XmGeoMajorLayout layoutPtr,
 	     XmKidGeometry rowPtr )
 {
-    register Dimension	     marginW ;
-    register Dimension	     twoMarginW ;
+    Dimension	     marginW ;
+    Dimension	     twoMarginW ;
 
     marginW = geoSpec->margin_w ;
     twoMarginW = (marginW << 1) ;
@@ -3138,7 +3138,7 @@ UpdateString(
 	     XmStringDirection direction)
 {
     Arg		al[3];
-    register int	ac = 0;
+    int	ac = 0;
 
     if (w)
     {
@@ -3242,7 +3242,7 @@ void
 _DtPrintSetupBoxCreateBottomSeparator(DtPrintSetupBoxWidget psub)
 {
     Arg al[10];
-    register int ac = 0;
+    int ac = 0;
 
     XtSetArg(al[ac], XmNhighlightThickness, 0);	 ac++;
     PSUB_BottomSeparator(psub) =
@@ -3268,7 +3268,7 @@ void
 _DtPrintSetupBoxCreateButtonSeparator(DtPrintSetupBoxWidget sel)
 {
     Arg al[10];
-    register int ac = 0;
+    int ac = 0;
 
     XtSetArg(al[ac], XmNhighlightThickness, 0);	 ac++;
     PSUB_ButtonSeparator(sel) =
@@ -3870,7 +3870,7 @@ void
 _DtPrintSetupBoxCreateTopSeparator(DtPrintSetupBoxWidget psub)
 {
     Arg al[10];
-    register int ac = 0;
+    int ac = 0;
 
     XtSetArg(al[ac], XmNhighlightThickness, 0);	 ac++;
     PSUB_TopSeparator(psub) =
@@ -3896,8 +3896,8 @@ _DtPrintSetupBoxGeoMatrixCreate(
 {
     DtPrintSetupBoxWidget psub = (DtPrintSetupBoxWidget) wid ;
     XmGeoMatrix	    geoSpec ;
-    register XmGeoRowLayout  layoutPtr ;
-    register XmKidGeometry   boxPtr ;
+    XmGeoRowLayout  layoutPtr ;
+    XmKidGeometry   boxPtr ;
     XmKidGeometry   firstButtonBox ;
     XmKidGeometry   boxMark;
     Dimension	    vspace = BB_MarginHeight(psub);
