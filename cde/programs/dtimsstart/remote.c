@@ -132,10 +132,10 @@ Procedure:
  * which does the trick.
  */
 static int
-strcasecmp(register const char *s1,
-	   register const char *s2)
+strcasecmp(const char *s1,
+	   const char *s2)
 {
-    register int c1, c2;
+    int c1, c2;
 
     while (*s1 && *s2) {
 	c1 = isupper(*s1) ? tolower(*s1) : *s1;
@@ -327,7 +327,7 @@ static int	mk_remote_conf(ImsList *list, char *locale,
     return NoError;
 }
 
-static char	*mk_ims_ent(register char *bp, int idx, ImsEnt *ent)
+static char	*mk_ims_ent(char *bp, int idx, ImsEnt *ent)
 {
     ImsConf	*ims = ent->ims;
     char        val[20];
@@ -369,7 +369,7 @@ static char	*mk_ims_ent(register char *bp, int idx, ImsEnt *ent)
 
 static int	parse_ims_list(char *ptr, ImsList *list)
 {
-    register char	*bp = ptr;
+    char	*bp = ptr;
     char	*np, *vp;
     char	*def_name;
     int		i, num_ent;
@@ -759,9 +759,9 @@ int	change_window_status(int status)
 
 int	set_window_data(int ac, char **av)
 {
-    register int i;
-    register int nbytes;
-    register char *buf, *bp;
+    int i;
+    int nbytes;
+    char *buf, *bp;
 
     if (winEnv.atom_data == None || winEnv.atom_owner == None)
 	return ErrInternal;

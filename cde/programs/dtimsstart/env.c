@@ -140,7 +140,7 @@ int	get_user_environ(void)
 
 int	expand_string(char *in_str, char *out_str, int out_len, ImsConf *ims)
 {
-    register char	*p, *q, *ep;
+    char	*p, *q, *ep;
     char        str[20];
     int		len = 0;
     UserEnv	*uenv = &userEnv;

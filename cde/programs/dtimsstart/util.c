@@ -92,14 +92,14 @@ char *find_system_locale_name(char *CDE_locale)
 
 	/* ********  string manupilation  ******** */
 
-char	*strcpyx(register char *dest, register char *src)
+char	*strcpyx(char *dest, char *src)
 {
     while (*dest++ = *src++) ;
     return(--dest);
 }
 
 #ifdef	unused
-char	*strcpy2(register char *dest, register char *src1, register char *src2)
+char	*strcpy2(char *dest, char *src1, char *src2)
 {
     while (*dest++ = *src1++) ;
     --dest;
@@ -107,9 +107,9 @@ char	*strcpy2(register char *dest, register char *src1, register char *src2)
     return(--dest);
 }
 
-char	*newstradded(register char *src1, register char *src2, register char *src3)
+char	*newstradded(char *src1, char *src2, char *src3)
 {
-    register char	*p;
+    char	*p;
     char	*dest;
 
     dest = p = ALLOC(strlen(src1) + strlen(src2) + strlen(src3) + 1, char);
@@ -162,7 +162,7 @@ bool	str_to_bool(char *ptr, bool def_val)
 
 char	*trim_line(char *ptr)
 {
-    register char	*lastp;
+    char	*lastp;
 
     skip_white(ptr);
     for (lastp = ptr + strlen(ptr) - 1;
@@ -171,7 +171,7 @@ char	*trim_line(char *ptr)
     return ptr;		/* return lastp > ptr ? ptr : NULL; */
 }
 
-char	**parse_strlist(register char *ptr, char sep_ch)
+char	**parse_strlist(char *ptr, char sep_ch)
 {
     char	*pbuf[100], **new, **bp;
     char	*sep, *p;
@@ -207,7 +207,7 @@ char	**parse_strlist(register char *ptr, char sep_ch)
 #ifdef	unused
 int	pack_strlist(char *ptr, char **listp, char sep_ch)
 {
-    register char	*bp = ptr, **lp = listp;
+    char	*bp = ptr, **lp = listp;
 
     /* if (!ptr)	return 0; */
     if (!lp || !*lp) {
@@ -229,7 +229,7 @@ int	pack_strlist(char *ptr, char **listp, char sep_ch)
 
 void	free_strlist(char **pp)
 {
-    register char	**ptr = pp;
+    char	**ptr = pp;
 
     if (!ptr)	return;
     for ( ; *ptr; ptr++)	FREE(*ptr);
@@ -327,7 +327,7 @@ int	make_user_dir(char *path)
 char	*dirname(char *path)
 {
     static char	dname[MAXPATHLEN];
-    register char	*p = path;
+    char	*p = path;
     int		dlen;
 
     /* if (!p || !p[0])		return NULL; */
@@ -905,7 +905,7 @@ void	pr_CmdConf(void)
 # ifdef	old_hpux
     LocaleAlias	**ap;
 # endif	/* old_hpux */
-    register char	**p;
+    char	**p;
 
     fprintf(LogFp, "CmdConf:\n");
     fprintf(LogFp, "\timsConfDir=%s\n", conf->imsConfDir);
