@@ -62,8 +62,8 @@ add_include(filep, file, file_red, include, dot, failOK)
 	boolean	dot;
 	boolean	failOK;
 {
-	register struct inclist	*newfile;
-	register struct filepointer	*content;
+	struct inclist	*newfile;
+	struct filepointer	*content;
 
 	/*
 	 * First decide what the pathname of this include file really is.
@@ -96,12 +96,12 @@ add_include(filep, file, file_red, include, dot, failOK)
 
 void
 pr(ip, file, base)
-	register struct inclist  *ip;
+	struct inclist  *ip;
 	char	*file, *base;
 {
 	static char	*lastfile;
 	static int	current_len;
-	register int	len, i;
+	int	len, i;
 	char	buf[ BUFSIZ ];
 
 	printed = TRUE;
@@ -133,10 +133,10 @@ pr(ip, file, base)
 
 void
 recursive_pr_include(head, file, base)
-	register struct inclist	*head;
-	register char	*file, *base;
+	struct inclist	*head;
+	char	*file, *base;
 {
-	register int	i;
+	int	i;
 
 	if (head->i_flags & MARKED)
 		return;

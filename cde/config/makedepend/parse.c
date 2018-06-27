@@ -54,11 +54,11 @@ extern struct inclist	maininclist;
 
 int
 gobble(filep, file, file_red)
-	register struct filepointer *filep;
+	struct filepointer *filep;
 	struct inclist		*file, *file_red;
 {
-	register char	*line;
-	register int	type;
+	char	*line;
+	int	type;
 
 	while ((line = our_getline(filep))) {
 		switch(type = deftype(line, filep, file_red, file, FALSE)) {
@@ -108,14 +108,14 @@ gobble(filep, file, file_red)
  * Decide what type of # directive this line is.
  */
 int deftype (line, filep, file_red, file, parse_it)
-	register char	*line;
-	register struct filepointer *filep;
-	register struct inclist *file_red, *file;
+	char	*line;
+	struct filepointer *filep;
+	struct inclist *file_red, *file;
 	int	parse_it;
 {
-	register char	*p;
+	char	*p;
 	char	*directive, savechar, *q;
-	register int	ret;
+	int	ret;
 
 	/*
 	 * Parse the directive...
@@ -257,13 +257,13 @@ int deftype (line, filep, file_red, file, parse_it)
 }
 
 struct symtab **fdefined(symbol, file, srcfile)
-	register char	*symbol;
+	char	*symbol;
 	struct inclist	*file;
 	struct inclist	**srcfile;
 {
-	register struct inclist	**ip;
-	register struct symtab	**val;
-	register int	i;
+	struct inclist	**ip;
+	struct symtab	**val;
+	int	i;
 	static int	recurse_lvl = 0;
 
 	if (file->i_flags & DEFCHECKED)
@@ -292,11 +292,11 @@ struct symtab **fdefined(symbol, file, srcfile)
 }
 
 struct symtab **isdefined(symbol, file, srcfile)
-	register char	*symbol;
+	char	*symbol;
 	struct inclist	*file;
 	struct inclist	**srcfile;
 {
-	register struct symtab	**val;
+	struct symtab	**val;
 
 	if ((val = slookup(symbol, &maininclist))) {
 		debug(1,("%s defined on command line\n", symbol));
@@ -314,9 +314,9 @@ struct symtab **isdefined(symbol, file, srcfile)
  */
 int
 zero_value(exp, filep, file_red)
-	register char	*exp;
-	register struct filepointer *filep;
-	register struct inclist *file_red;
+	char	*exp;
+	struct filepointer *filep;
+	struct inclist *file_red;
 {
 	if ((cppsetup(exp, filep, file_red)))
 	    return(IFFALSE);
@@ -330,7 +330,7 @@ define2(name, val, file)
 	struct inclist	*file;
 {
     int first, last, below;
-    register struct symtab **sp = NULL, **dest;
+    struct symtab **sp = NULL, **dest;
     struct symtab *stab;
 
     /* Make space if it's needed */
@@ -353,9 +353,9 @@ define2(name, val, file)
     while (last >= first)
     {
 	/* Fast inline binary search */
-	register char *s1;
-	register char *s2;
-	register int middle = (first + last) / 2;
+	char *s1;
+	char *s2;
+	int middle = (first + last) / 2;
 
 	/* Fast inline strchr() */
 	s1 = name;
@@ -430,18 +430,18 @@ define(def, file)
 }
 
 struct symtab **slookup(symbol, file)
-	register char	*symbol;
-	register struct inclist	*file;
+	char	*symbol;
+	struct inclist	*file;
 {
-	register int first = 0;
-	register int last = file->i_ndefs - 1;
+	int first = 0;
+	int last = file->i_ndefs - 1;
 
 	if (file) while (last >= first)
 	{
 	    /* Fast inline binary search */
-	    register char *s1;
-	    register char *s2;
-	    register int middle = (first + last) / 2;
+	    char *s1;
+	    char *s2;
+	    int middle = (first + last) / 2;
 
 	    /* Fast inline strchr() */
 	    s1 = symbol;
@@ -530,9 +530,9 @@ int merge2defines(file1, file2)
 void
 undefine(symbol, file)
 	char	*symbol;
-	register struct inclist	*file;
+	struct inclist	*file;
 {
-	register struct symtab **ptr;
+	struct symtab **ptr;
 	struct inclist *srcfile;
 	while ((ptr = isdefined(symbol, file, &srcfile)) != NULL)
 	{
@@ -549,8 +549,8 @@ find_includes(filep, file, file_red, recursion, failOK)
 	int			recursion;
 	boolean			failOK;
 {
-	register char	*line;
-	register int	type;
+	char	*line;
+	int	type;
 	boolean recfailOK;
 
 	while ((line = our_getline(filep))) {

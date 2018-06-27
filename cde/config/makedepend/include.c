@@ -55,7 +55,7 @@ extern boolean warn_multiple;
 
 boolean
 isdot(p)
-	register char	*p;
+	char	*p;
 {
 	if(p && *p++ == '.' && *p++ == '\0')
 		return(TRUE);
@@ -64,7 +64,7 @@ isdot(p)
 
 boolean
 isdotdot(p)
-	register char	*p;
+	char	*p;
 {
 	if(p && *p++ == '.' && *p++ == '.' && *p++ == '\0')
 		return(TRUE);
@@ -73,7 +73,7 @@ isdotdot(p)
 
 boolean
 issymbolic(dir, component)
-	register char	*dir, *component;
+	char	*dir, *component;
 {
 #ifdef S_IFLNK
 	struct stat	st;
@@ -103,7 +103,7 @@ void
 remove_dotdot(path)
 	char	*path;
 {
-	register char	*end, *from, *to, **cp;
+	char	*end, *from, *to, **cp;
 	char		*components[ MAXFILES ],
 			newpath[ BUFSIZ ];
 	boolean		component_copied;
@@ -173,9 +173,9 @@ remove_dotdot(path)
  * Add an include file to the list of those included by 'file'.
  */
 struct inclist *newinclude(newfile, incstring)
-	register char	*newfile, *incstring;
+	char	*newfile, *incstring;
 {
-	register struct inclist	*ip;
+	struct inclist	*ip;
 
 	/*
 	 * First, put this file on the global list of include files.
@@ -195,9 +195,9 @@ struct inclist *newinclude(newfile, incstring)
 
 void
 included_by(ip, newfile)
-	register struct inclist	*ip, *newfile;
+	struct inclist	*ip, *newfile;
 {
-	register int i;
+	int i;
 
 	if (ip == NULL)
 		return;
@@ -247,7 +247,7 @@ included_by(ip, newfile)
 void
 inc_clean ()
 {
-	register struct inclist *ip;
+	struct inclist *ip;
 
 	for (ip = inclist; ip < inclistp; ip++) {
 		ip->i_flags &= ~MARKED;
@@ -255,13 +255,13 @@ inc_clean ()
 }
 
 struct inclist *inc_path(file, include, dot)
-	register char	*file,
+	char	*file,
 			*include;
 	boolean	dot;
 {
 	static char	path[ BUFSIZ ];
-	register char		**pp, *p;
-	register struct inclist	*ip;
+	char		**pp, *p;
+	struct inclist	*ip;
 	struct stat	st;
 	boolean	found = FALSE;
 

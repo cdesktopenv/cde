@@ -77,11 +77,11 @@ struct filepointer	*currentfile;
 struct inclist		*currentinc;
 
 cppsetup(line, filep, inc)
-	register char	*line;
-	register struct filepointer	*filep;
-	register struct inclist		*inc;
+	char	*line;
+	struct filepointer	*filep;
+	struct inclist		*inc;
 {
-	register char *p, savec;
+	char *p, savec;
 	static boolean setupdone = FALSE;
 	boolean	value;
 
@@ -135,7 +135,7 @@ pperror(tag, x0,x1,x2,x3,x4)
 
 
 yyerror(s)
-	register char	*s;
+	char	*s;
 {
 	fatalerr("Fatal error: %s\n", s);
 }
@@ -236,9 +236,9 @@ my_eval_variable (ip, var, len)
 
 
 int cppsetup(line, filep, inc)
-	register char	*line;
-	register struct filepointer	*filep;
-	register struct inclist		*inc;
+	char	*line;
+	struct filepointer	*filep;
+	struct inclist		*inc;
 {
     IfParser ip;
     struct _parse_data pd;
