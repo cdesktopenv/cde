@@ -108,7 +108,7 @@ FIELD_ENTRY FAR *fld_ptr;
 CONST char FAR *fldval;
 char FAR *ckey;
 {
-   register int kt_lc;			/* loop control */
+   int kt_lc;			/* loop control */
 #ifndef	 NO_FLOAT
    float fv;
    double dv;
@@ -116,7 +116,7 @@ char FAR *ckey;
    char FAR *fptr;
    char FAR *tptr;
    FIELD_ENTRY FAR *kfld_ptr;
-   register KEY_ENTRY FAR *key_ptr;
+   KEY_ENTRY FAR *key_ptr;
 
    /* complement descending compound key values */
    for (kt_lc = size_kt - fld_ptr->fd_ptr,

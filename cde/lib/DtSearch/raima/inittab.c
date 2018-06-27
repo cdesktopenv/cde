@@ -97,8 +97,8 @@ static int initcurr(P0);
 int
 inittab()
 {
-   register int dbt_lc;			/* loop control */
-   register INT i, j;
+   int dbt_lc;			/* loop control */
+   INT i, j;
    int key_offset = 0, key_count;
    char dbfile[DtSrFILENMLEN], dbd_ver[DBD_COMPAT_LEN + 1];
    char dbname[FILENMLEN];	/* Temporary working space */
@@ -680,8 +680,8 @@ static int alloc_dict()
 */
 static int initcurr()
 {
-   register int dbt_lc;			/* loop control */
-   register int rec, i;
+   int dbt_lc;			/* loop control */
+   int rec, i;
    RECORD_ENTRY FAR *rec_ptr;
    SET_ENTRY FAR *set_ptr;
    DB_ADDR FAR *co_ptr;

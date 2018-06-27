@@ -59,8 +59,8 @@ d_destroy(dbname TASK_PARM)
 CONST char FAR *dbname;
 TASK_DECL
 {
-   register int ft_lc;			/* loop control */
-   register FILE_ENTRY FAR *file_ptr;
+   int ft_lc;			/* loop control */
+   FILE_ENTRY FAR *file_ptr;
 #ifndef NO_TRANS
    int ovfl_save;
 #endif

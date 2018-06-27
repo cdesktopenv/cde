@@ -274,7 +274,7 @@ dio_open( fno )
 FILE_NO fno;
 {
    FILE_ENTRY FAR *file_ptr, FAR *lru_file_ptr;
-   register int FAR *uf_ptr;
+   int FAR *uf_ptr;
 
    file_ptr = &file_table[fno];
    if ( file_ptr->ft_status == CLOSED ) {
@@ -458,7 +458,7 @@ LOOKUP_ENTRY FAR *  lu_ptr;
 PAGE_ENTRY FAR *    pg_ptr;
 int		    pgsize;
 {
-   register int pg_no;
+   int pg_no;
 
 #ifdef DEBUG_DIO
    if (debugging_dio_init) {
@@ -511,8 +511,8 @@ int		    pgsize;
 */
 void dio_free()
 {
-   register int pgt_lc;			/* loop control */
-   register PAGE_ENTRY FAR *pg_ptr;
+   int pgt_lc;			/* loop control */
+   PAGE_ENTRY FAR *pg_ptr;
 
 #ifdef MULTI_TASK
    if ( task_count > 1 ) {
@@ -557,7 +557,7 @@ void dio_free()
 */
 int
 dio_clrfile(fno )
-register FILE_NO fno;
+FILE_NO fno;
 {
    return( clear_cache(fno, fno+1) );
 }
@@ -593,7 +593,7 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
 {
    FILE_NO s_file;   /* start file to be cleared */
    FILE_NO e_file;   /* end file (+1) to be cleared */
-   register int i;
+   int i;
    LOOKUP_ENTRY FAR *lu_ptr, FAR *lu2_ptr;
    int pg_slot;
    PAGE_ENTRY FAR *pg_ptr;
@@ -707,7 +707,7 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
  */
 int dio_flush()
 {
-   register int pgt_lc;			/* loop control */
+   int pgt_lc;			/* loop control */
 #ifndef NO_TRANS
    int fno;
 #endif
@@ -1163,7 +1163,7 @@ LOOKUP_ENTRY FAR * FAR *xlu_ptr;/* pointer to lookup table slot for found page*/
    int pgtab_sz;          /* = db_pgtab_sz or ix_pgtab_sz */
    long cmp;
    int cnt;
-   register int lu_slot, l, u;
+   int lu_slot, l, u;
    LOOKUP_ENTRY FAR *lu_ptr, FAR *replu_ptr;
    PAGE_ENTRY FAR *pg_ptr;
    int *lru_ptr;
@@ -1631,7 +1631,7 @@ FILE_NO fno;
 */
 static int dio_pzinit()
 {
-   register FILE_NO i;
+   FILE_NO i;
    PGZERO FAR *pgzero_ptr;
 
 #ifdef DEBUG_DIO
@@ -1678,10 +1678,10 @@ static int dio_pzinit()
  */
 static int dio_pzflush()
 {
-   register FILE_NO i;
+   FILE_NO i;
    int desc;
-   register PGZERO FAR *pgzero_ptr;
-   register FILE_ENTRY FAR *file_ptr;
+   PGZERO FAR *pgzero_ptr;
+   FILE_ENTRY FAR *file_ptr;
    LONG		align_LONG;
    char		*cptr;
    int		j;
@@ -1931,8 +1931,8 @@ FILE_NO fno;
 */
 void dio_pzclr()
 {
-   register FILE_NO i;
-   register PGZERO FAR *pgzero_ptr;
+   FILE_NO i;
+   PGZERO FAR *pgzero_ptr;
 
    for (i = 0, pgzero_ptr = pgzero; i < size_ft; i++, pgzero_ptr++) {
       if (pgzero_ptr->pz_modified) {

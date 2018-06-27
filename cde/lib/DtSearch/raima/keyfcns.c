@@ -152,12 +152,12 @@ static int unique;
 int
 key_open()
 {
-   register int fd_lc;			/* loop control */
+   int fd_lc;			/* loop control */
    long t;               /* total keys thru level l */
    int  l;               /* level number */
-   register int i;       /* field subscript */
-   register FIELD_ENTRY FAR *fld_ptr;
-   register KEY_INFO FAR *ki_ptr;
+   int i;       /* field subscript */
+   FIELD_ENTRY FAR *fld_ptr;
+   KEY_INFO FAR *ki_ptr;
    FILE_ENTRY FAR *file_ptr;
 
    /*           child ptr      key number   */
@@ -216,7 +216,7 @@ key_open()
 */
 void key_close()
 {
-   register int k;
+   int k;
    KEY_INFO FAR *ki_ptr;
 
    if ( key_info ) {
@@ -273,8 +273,8 @@ int
 key_reset(fno )
 FILE_NO fno;
 {
-   register int i;
-   register KEY_INFO FAR *ki_ptr;
+   int i;
+   KEY_INFO FAR *ki_ptr;
 
    for (i = 0, ki_ptr = key_info; i < no_of_keys; ++i, ++ki_ptr) {
       if (((fno == size_ft) || (ki_ptr->keyfile == fno)) && 
@@ -389,7 +389,7 @@ int     *slotno; /* slot number of key position in node */
 int     *slot_offset; /* slot position offset */
 F_ADDR  *child;  /* child ptr of located key */
 {
-   register int cmp, i, l, u, slot_pos;
+   int cmp, i, l, u, slot_pos;
    char FAR *node_slot_ptr;
 
    /* perform binary search on node */
@@ -445,7 +445,7 @@ DB_ADDR FAR *dba;     /* database address included in comparison if not null */
 	   > 0 if key_val > slot
 	   = 0 if key_val == slot
 */
-   register int cmp;
+   int cmp;
 
    if (((cmp = INTcmp((char FAR *)&prefix, (char FAR *)&slot->keyno)) == 0) &&
        ((cmp = fldcmp(cfld_ptr, key_val, slot->data)) == 0) &&
@@ -585,10 +585,10 @@ DB_ADDR *dba; /* to get dba of first or last key */
    NODE FAR *node;        /* pointer to node contents in cache */
    int cmp;           /* keycmp result */
    int match_lvl;     /* lowest level containing matched key */
-   register int lvl;  /* node_path level variable */
-   register int slot; /* slot position in node */
-   register NODE_PATH FAR *np_ptr;
-   register char FAR *node_slot_ptr;
+   int lvl;  /* node_path level variable */
+   int slot; /* slot position in node */
+   NODE_PATH FAR *np_ptr;
+   char FAR *node_slot_ptr;
 
    if ( fcn == KEYFIND ) {
       curkey->lstat = KEYINIT;
@@ -711,7 +711,7 @@ F_ADDR brother;  /* page number of brother node */
    NODE FAR *node;
    NODE_PATH FAR *np_ptr;
    int slot_pos;
-   register char FAR *node_slot_ptr;
+   char FAR *node_slot_ptr;
 
    MEM_LOCK(&curkey->Node_path);
    np_ptr = &curkey->node_path[curkey->level];
@@ -814,7 +814,7 @@ NODE FAR *node;
 {
    F_ADDR l_pg, r_pg;
    NODE FAR *l_node, FAR *r_node;
-   register int slot_pos;
+   int slot_pos;
    char FAR *node_slot_ptr;
 
    /* allocate two new nodes */
@@ -1107,8 +1107,8 @@ NODE FAR *node;
 int slot_pos;
 int n;
 {
-   register char FAR *dst, FAR *src;
-   register int amt, w, nw;
+   char FAR *dst, FAR *src;
+   int amt, w, nw;
 
    nw = NODE_WIDTH(node);
    w = n*slot_len;
@@ -1130,8 +1130,8 @@ NODE FAR *node;
 int slot_pos;
 int n;
 {
-   register char FAR *dst, FAR *src;
-   register int w, amt;
+   char FAR *dst, FAR *src;
+   int w, amt;
 
    node->used_slots -= n;
 
@@ -1153,7 +1153,7 @@ d_keyread(key_val TASK_PARM)
 char FAR *key_val;
 TASK_DECL
 {
-   register int kt_lc;			/* loop control */
+   int kt_lc;			/* loop control */
 #ifndef	 NO_FLOAT
    float fv;
    double dv;
@@ -1161,7 +1161,7 @@ TASK_DECL
    char FAR *fptr;
    char FAR *kptr;
    FIELD_ENTRY FAR *fld_ptr;
-   register KEY_ENTRY FAR *key_ptr;
+   KEY_ENTRY FAR *key_ptr;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
@@ -1230,14 +1230,14 @@ char FAR *rec; /* ptr to record data */
 char FAR *key; /* ptr to array to recv constructed key */
 int cflag; /* TRUE to compliment compound descending keys */
 {
-   register int kt_lc;			/* loop control */
+   int kt_lc;			/* loop control */
 #ifndef	 NO_FLOAT
    float fv;
    double dv;
 #endif
    char FAR *fptr;
    FIELD_ENTRY FAR *fld_ptr, FAR *kfld_ptr;
-   register KEY_ENTRY FAR *key_ptr;
+   KEY_ENTRY FAR *key_ptr;
 
    /* clear key area */
    fld_ptr = &field_table[fld];
@@ -1289,9 +1289,9 @@ int cflag; /* TRUE to compliment compound descending keys */
 /* Complement and copy bytes
 */
 void key_cmpcpy(s1, s2, n)
-register char FAR *s1;
-register char FAR *s2;
-register INT n;
+char FAR *s1;
+char FAR *s2;
+INT n;
 {
    while ( n-- ) {
       *s1++ = ~(*s2++);

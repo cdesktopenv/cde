@@ -152,9 +152,9 @@ DB_ADDR db_addr;
 #endif
    FILE_NO fno;
    F_ADDR rno;
-   register int fld;
+   int fld;
    RECORD_ENTRY FAR *rec_ptr;
-   register FIELD_ENTRY FAR *fld_ptr;
+   FIELD_ENTRY FAR *fld_ptr;
 
    if ( dio_read( db_addr, (char FAR * FAR *)&rec, PGHOLD) != S_OKAY )
       return( db_status );
@@ -205,10 +205,10 @@ FIELD_ENTRY FAR *fld_ptr;
 char FAR *rec;  /* pointer to record */
 char FAR *data; /* pointer to data area to contain field contents */
 {
-   register int kt_lc;			/* loop control */
+   int kt_lc;			/* loop control */
    INT rn;
-   register FIELD_ENTRY FAR *kfld_ptr;
-   register KEY_ENTRY FAR *key_ptr;
+   FIELD_ENTRY FAR *kfld_ptr;
+   KEY_ENTRY FAR *key_ptr;
 
    bytecpy(&rn, rec, sizeof(INT));
    if ( rn < 0 )
@@ -260,9 +260,9 @@ char FAR *rec;  /* pointer to record */
 char FAR *mem_addr; /* pointer to member pointer */
 {
    INT rt;
-   register int mem, memtot;
+   int mem, memtot;
    SET_ENTRY FAR *set_ptr;
-   register MEMBER_ENTRY FAR *mem_ptr;
+   MEMBER_ENTRY FAR *mem_ptr;
 
    /* search member list of set for record */
    set_ptr = &set_table[set];
@@ -324,11 +324,11 @@ DB_ADDR FAR *db_addr;
    DB_ADDR mdba, odba, dba;
    int set, sn;
    char memp[MEMPSIZE];
-   register char FAR *fptr;
-   register CONST char FAR *tfptr;
-   register int s, i, strfld;
-   register FIELD_ENTRY FAR *sfld_ptr;
-   register SORT_ENTRY FAR *srt_ptr;
+   char FAR *fptr;
+   CONST char FAR *tfptr;
+   int s, i, strfld;
+   FIELD_ENTRY FAR *sfld_ptr;
+   SORT_ENTRY FAR *srt_ptr;
    DB_ADDR FAR *co_ptr, FAR *cm_ptr;
 
    db_status = S_OKAY;
@@ -444,9 +444,9 @@ char FAR *rec;  /* pointer to record */
 char FAR *mem_addr; /* pointer to member pointer */
 {
    INT rt;
-   register int mem, memtot;
+   int mem, memtot;
    SET_ENTRY FAR *set_ptr;
-   register MEMBER_ENTRY FAR *mem_ptr;
+   MEMBER_ENTRY FAR *mem_ptr;
 
    /* search member list of set for record */
    set_ptr = &set_table[set];

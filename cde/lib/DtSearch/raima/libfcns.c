@@ -96,7 +96,7 @@ int dbn;
 */
 int
 nset_check(nset, set, set_ptr )
-register int nset;
+int nset;
 int *set;
 SET_ENTRY FAR * FAR *set_ptr;
 {
@@ -154,7 +154,7 @@ RECORD_ENTRY FAR * FAR *rec_ptr;
 /* Internal record number check
 */
 static int rec_okay(nrec, rec, rec_ptr)
-register int nrec;
+int nrec;
 int *rec;
 RECORD_ENTRY FAR * FAR *rec_ptr;
 {
@@ -178,7 +178,7 @@ CONST char FAR *f2;   /* pointer to field 2 */
 	   > 0 if f1 > f2
 */
 {
-   register int kt_lc;			/* loop control */
+   int kt_lc;			/* loop control */
    int i, k, elt, result, len, cur_len, sub_len, entries;
 #ifdef DS
    int ui1, ui2;

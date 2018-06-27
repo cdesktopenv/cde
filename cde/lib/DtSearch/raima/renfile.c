@@ -90,7 +90,7 @@ TASK_DECL
 int
 renfiles()
 {
-   register int dbt_lc;			/* loop control */
+   int dbt_lc;			/* loop control */
    REN_ENTRY_P FAR *rp;
 #ifndef	 ONE_DB
    DB_ENTRY FAR *db_ptr;

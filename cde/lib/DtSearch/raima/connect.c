@@ -313,11 +313,11 @@ char FAR *mem2; /* member record 2 */
 {
    INT rn1, rn2;  /* record numbers for mem1 & mem2 */
    MEMBER_ENTRY FAR *mt1, FAR *mt2;
-   register MEMBER_ENTRY FAR *mt;
+   MEMBER_ENTRY FAR *mt;
    int mem, memtot;
    int cmp;       /* fldcmp result */
-   register int maxflds;
-   register SORT_ENTRY FAR *srt1_ptr, FAR *srt2_ptr;
+   int maxflds;
+   SORT_ENTRY FAR *srt1_ptr, FAR *srt2_ptr;
    FIELD_ENTRY FAR *fld_ptr;
 
    /* extract record numbers from record header */

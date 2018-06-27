@@ -65,9 +65,9 @@ DBN_DECL
    char ckey[256]; /* current compound key data */
    char nkey[256]; /* new compound key data */
    int stat;
-   register int fld;
+   int fld;
    RECORD_ENTRY FAR *rec_ptr;
-   register FIELD_ENTRY FAR *fld_ptr;
+   FIELD_ENTRY FAR *fld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 

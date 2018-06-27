@@ -447,12 +447,12 @@ int
 initdbt(dbnames )
 CONST char FAR *dbnames;
 {
-   register int dbt_lc;			/* loop control */
+   int dbt_lc;			/* loop control */
    char dbfile [DtSrFILENMLEN];
    char FAR *ptr;
 #ifndef	 ONE_DB
    CONST char FAR *cp;
-   register int i;
+   int i;
 #endif
 
 #ifndef	 ONE_DB
@@ -534,8 +534,8 @@ static recovery_check()
 #ifndef SINGLE_USER
    LM_TREND trend_pkt;
 #ifndef GENERAL
-   register int tn;     /* transaction number */
-   register int tc;     /* transaction count */
+   int tn;     /* transaction number */
+   int tc;     /* transaction count */
 #endif
 #endif
 
@@ -586,12 +586,12 @@ static int initses()
 {
    LM_DBOPEN_P Send_pkt;
    LR_DBOPEN_P Recv_pkt;
-   register int ft_lc;			/* loop control */
+   int ft_lc;			/* loop control */
    LM_TREND trend_pkt;
    int send_size, recv_size, recvd_sz;
    struct stat stbuf;
    LM_FILEID *fi_ptr;
-   register FILE_ENTRY FAR *file_ptr;
+   FILE_ENTRY FAR *file_ptr;
    FILE_NO FAR *fref_ptr;
    INT FAR *rcv_fref_ptr;
 
@@ -719,20 +719,20 @@ send_open:
 static int bld_lock_tables()
 {
 #ifndef SINGLE_USER
-   register int fd_lc;		/* loop control */
-   register int st_lc;		/* loop control */
+   int fd_lc;		/* loop control */
+   int st_lc;		/* loop control */
    INT_P File_used;
 #define file_used File_used.ptr
    int rec;
    int mem, memtot;
-   register FILE_NO i;
+   FILE_NO i;
    FILE_NO fl_cnt;
    struct lock_descr FAR *ld_ptr;
    RECORD_ENTRY FAR *rec_ptr;
    FIELD_ENTRY FAR *fld_ptr;
    SET_ENTRY FAR *set_ptr;
    MEMBER_ENTRY FAR *mem_ptr;
-   register int FAR *fu_ptr;
+   int FAR *fu_ptr;
    FILE_NO FAR *fl_ptr;
    unsigned new_size;
    unsigned old_size;
@@ -908,7 +908,7 @@ int
 d_close(TASK_ONLY)
 TASK_DECL
 {
-   register int i;
+   int i;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
 
@@ -1006,10 +1006,10 @@ TASK_DECL
 termses()
 {
    LM_DBCLOSE_P Send_pkt;
-   register int ft_lc;			/* loop control */
+   int ft_lc;			/* loop control */
    int send_size;
-   register FILE_NO FAR *fref_ptr;
-   register INT FAR *snd_fref_ptr;
+   FILE_NO FAR *fref_ptr;
+   INT FAR *snd_fref_ptr;
 
    if ( session_active ) {
       send_size = sizeof(LM_DBCLOSE) + (size_ft-1)*sizeof(INT);
@@ -1043,8 +1043,8 @@ termses()
 void termfree()
 {
 #ifndef SINGLE_USER
-   register int i;
-   register struct lock_descr FAR *ld_ptr;
+   int i;
+   struct lock_descr FAR *ld_ptr;
 #endif
 
    /* free all allocated memory */
@@ -1355,9 +1355,9 @@ DBN_DECL
 #ifdef SINGLE_USER
    return (db_status = S_OKAY);
 #else
-   register int item;
-   register int i;
-   register LOCK_REQUEST FAR *lrpkt_ptr;
+   int item;
+   int i;
+   LOCK_REQUEST FAR *lrpkt_ptr;
    struct lock_descr FAR *ld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(LOCK_IO));
@@ -1425,10 +1425,10 @@ static process_lock(ld_ptr, type )
 struct lock_descr FAR *ld_ptr;
 char type;
 {
-   register int fl_lc;			/* loop control */
+   int fl_lc;			/* loop control */
    int fno;
-   register int i;
-   register LM_LOCKREQ FAR *lockreq_ptr;
+   int i;
+   LM_LOCKREQ FAR *lockreq_ptr;
    FILE_NO FAR *fl_ptr, fref;
 
    db_status = S_OKAY;
@@ -1504,10 +1504,10 @@ int count;
 LOCK_REQUEST FAR *lrpkt;
 {
 #ifndef SINGLE_USER
-   register int fl_lc;			/* loop control */
+   int fl_lc;			/* loop control */
    struct lock_descr FAR *ld_ptr;
    FILE_NO fno;
-   register int item;
+   int item;
    int l;
    LOCK_REQUEST FAR *lrpkt_ptr;
    int FAR *appl_ptr, FAR *excl_ptr;
@@ -1689,8 +1689,8 @@ DBN_DECL
 static keep_locks( ld_ptr )
 struct lock_descr FAR *ld_ptr;      /* Lock descriptor */
 {
-   register int fl_lc;			/* loop control */
-   register FILE_NO FAR *fl_ptr;
+   int fl_lc;			/* loop control */
+   FILE_NO FAR *fl_ptr;
 
    /* Mark lock as kept */
    ld_ptr->fl_kept = TRUE;                
@@ -1788,12 +1788,12 @@ DBN_DECL
 static int free_files(ld_ptr)
 struct lock_descr FAR *ld_ptr;
 {
-   register int fl_lc;			/* loop control */
+   int fl_lc;			/* loop control */
    FILE_NO fno;
    LM_LOCKREQ FAR *lockreq_ptr;
    int FAR *appl_ptr;
    FILE_NO fref;
-   register FILE_NO FAR *fl_ptr;
+   FILE_NO FAR *fl_ptr;
 
    /* fill free packet */
    lock_pkt->nfiles = free_pkt->nfiles = 0; 
@@ -1853,9 +1853,9 @@ TASK_DECL
 #ifdef SINGLE_USER
    return (db_status = S_OKAY);
 #else
-   register int i;
-   register FILE_NO FAR *fref_ptr;
-   register int FAR *appl_ptr;
+   int i;
+   FILE_NO FAR *fref_ptr;
+   int FAR *appl_ptr;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_IO));
 
@@ -1899,8 +1899,8 @@ TASK_DECL
 static void reset_locks()
 {
    int beg, end;
-   register int i;
-   register struct lock_descr FAR *ld_ptr;
+   int i;
+   struct lock_descr FAR *ld_ptr;
 
    /* reset record lock descriptors */
    beg = 0;
@@ -2160,12 +2160,12 @@ d_trend(TASK_ONLY)
 TASK_DECL
 {
 #ifndef SINGLE_USER
-   register int ft_lc;			/* loop control */
+   int ft_lc;			/* loop control */
    LM_TRCOMMIT trcom_pkt;
    LM_TREND trend_pkt;
    LM_LOCKREQ FAR *lockreq_ptr;
-   register FILE_NO FAR *fref_ptr;
-   register int FAR *appl_ptr, FAR *keptl_ptr, FAR *excl_ptr;
+   FILE_NO FAR *fref_ptr;
+   int FAR *appl_ptr, FAR *keptl_ptr, FAR *excl_ptr;
 #endif
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_IO));
@@ -2283,9 +2283,9 @@ TASK_DECL
    dio_clear();				/*[353] clear cache */
    RETURN (db_status = S_OKAY);
 #else
-   register int i;
-   register int FAR *keptl_ptr;
-   register struct lock_descr FAR *ld_ptr;
+   int i;
+   int FAR *keptl_ptr;
+   struct lock_descr FAR *ld_ptr;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_IO));
 

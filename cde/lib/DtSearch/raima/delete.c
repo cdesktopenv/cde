@@ -57,7 +57,7 @@ d_delete(TASK_DBN_ONLY)
 TASK_DECL
 DBN_DECL
 {
-   register int st_lc, mt_lc;		/* loop control */
+   int st_lc, mt_lc;		/* loop control */
    INT i, rt;
    char FAR *ptr;
    SET_ENTRY FAR *set_ptr;

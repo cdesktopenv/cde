@@ -56,11 +56,11 @@ TASK_DECL
 DBN_DECL
 {
    int rectype, nset, cset;
-   register int set, mem;
+   int set, mem;
    DB_ADDR dba, odba, mdba;
    DB_ADDR FAR *co_ptr, FAR *cm_ptr;
-   register SET_ENTRY FAR *set_ptr;
-   register MEMBER_ENTRY FAR *mem_ptr;
+   SET_ENTRY FAR *set_ptr;
+   MEMBER_ENTRY FAR *mem_ptr;
    int memtot;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));

@@ -56,9 +56,9 @@ int seto;   /* set table entry number of owner */
 TASK_DECL
 DBN_DECL    /* database number */
 {
-   register int mem;
+   int mem;
    SET_ENTRY FAR *setm_ptr, FAR *seto_ptr;
-   register MEMBER_ENTRY FAR *mem_ptr;
+   MEMBER_ENTRY FAR *mem_ptr;
    int memtot;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
