@@ -99,9 +99,9 @@ static const char id[] = "\n@(#)comm (AT&T Bell Laboratories) 04/01/92\0\n";
 #define C_COMMON	4
 #define C_ALL		(C_FILE1|C_FILE2|C_COMMON)
 
-static int comm __PARAM__((Sfio_t *in1, Sfio_t *in2, register Sfio_t *out,register int mode), (in1, in2, out, mode)) __OTORP__(Sfio_t *in1; Sfio_t *in2; register Sfio_t *out;register int mode;){
-	register char *cp1, *cp2;
-	register int n1, n2, n, comp;
+static int comm __PARAM__((Sfio_t *in1, Sfio_t *in2, Sfio_t *out,int mode), (in1, in2, out, mode)) __OTORP__(Sfio_t *in1; Sfio_t *in2; Sfio_t *out;int mode;){
+	char *cp1, *cp2;
+	int n1, n2, n, comp;
 	if(cp1 = sfgetr(in1,'\n',0))
 		n1 = sfslen();
 	if(cp2 = sfgetr(in2,'\n',0))
@@ -181,9 +181,9 @@ static int comm __PARAM__((Sfio_t *in1, Sfio_t *in2, register Sfio_t *out,regist
 
 int
 b_comm __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
-	register int n;
-	register int mode = C_FILE1|C_FILE2|C_COMMON;
-	register char *cp;
+	int n;
+	int mode = C_FILE1|C_FILE2|C_COMMON;
+	char *cp;
 	Sfio_t *f1, *f2;
 
 	NoP(id[0]);

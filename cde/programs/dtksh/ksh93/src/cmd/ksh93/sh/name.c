@@ -230,9 +230,9 @@ void mirror_env __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;)
  * Perform parameter assignment for a linked list of parameters
  * <flags> contains attributes for the parameters
  */
-void nv_setlist __PARAM__((register struct argnod *arg,register int flags), (arg, flags)) __OTORP__(register struct argnod *arg;register int flags;){
-	register char *cp;
-	register Namval_t *np;
+void nv_setlist __PARAM__((struct argnod *arg,int flags), (arg, flags)) __OTORP__(struct argnod *arg;int flags;){
+	char *cp;
+	Namval_t *np;
 	int traceon = (sh_isoption(SH_XTRACE)!=0);
 	if(sh_isoption(SH_ALLEXPORT))
 		flags |= NV_EXPORT;
@@ -253,7 +253,7 @@ void nv_setlist __PARAM__((register struct argnod *arg,register int flags), (arg
 			{
 				int flag = (NV_VARNAME|NV_ARRAY|NV_ASSIGN);
 				struct fornod *fp=(struct fornod*)arg->argchn.ap;
-				register union anynode *tp=fp->fortre;
+				union anynode *tp=fp->fortre;
 				char *prefix = sh.prefix;
 				cp = fp->fornam;
 				error_info.line = fp->fortyp-sh.st.firstline;
@@ -303,7 +303,7 @@ void nv_setlist __PARAM__((register struct argnod *arg,register int flags), (arg
 			np->nvsize &= ~NV_PARAM;
 		if(traceon)
 		{
-			register char *sp=cp;
+			char *sp=cp;
 			sh_trace(NIL(char**),0);
 			sfputr(sfstderr,nv_name(np),-1);
 			if(nv_isattr(np,NV_ARRAY) && (cp=strchr(sp,'[')))
@@ -324,8 +324,8 @@ void nv_setlist __PARAM__((register struct argnod *arg,register int flags), (arg
 /*
  * construct a new name from a prefix and base name on the stack
  */
-static char *newname __PARAM__((register const char *prefix, register const char *name), (prefix, name)) __OTORP__(register const char *prefix; register const char *name;){
-	register int offset = staktell();
+static char *newname __PARAM__((const char *prefix, const char *name), (prefix, name)) __OTORP__(const char *prefix; const char *name;){
+	int offset = staktell();
 	stakputs(prefix);
 	if(*name!='[')
 		stakputc('.');
@@ -346,11 +346,11 @@ static char *newname __PARAM__((register const char *prefix, register const char
  * SH_INIT is only set while initializing the environment
  */
 Namval_t	*nv_open __PARAM__((const char *name,Hashtab_t *root,int flags), (name, root, flags)) __OTORP__(const char *name;Hashtab_t *root;int flags;){
-	register char *cp = (char*)name;
-	register Namval_t	*np=0;
-	register int sep = *cp;
-	register char *lastdot = 0;
-	register long mode = ((flags&NV_NOADD)?0:NV_ADD);
+	char *cp = (char*)name;
+	Namval_t	*np=0;
+	int sep = *cp;
+	char *lastdot = 0;
+	long mode = ((flags&NV_NOADD)?0:NV_ADD);
 	if(root==sh.alias_tree)
 	{
 		while((sep= *(unsigned char*)cp) && (sep!='=') && (sep!='/') && 
@@ -552,12 +552,12 @@ failed:
  * If <flags> contains NV_NOFREE, previous value is freed, and <string>
  * becomes value of node and <flags> becomes attributes
  */
-void nv_putval __PARAM__((register Namval_t *np, const char *string, int flags), (np, string, flags)) __OTORP__(register Namval_t *np; const char *string; int flags;){
-	register const char *sp=string;
-	register union Value *up;
-	register char *cp;
-	register int size = 0;
-	register int dot;
+void nv_putval __PARAM__((Namval_t *np, const char *string, int flags), (np, string, flags)) __OTORP__(Namval_t *np; const char *string; int flags;){
+	const char *sp=string;
+	union Value *up;
+	char *cp;
+	int size = 0;
+	int dot;
 	if(!(flags&NV_RDONLY) && nv_isattr (np, NV_RDONLY))
 		error(ERROR_exit(1),e_readonly, nv_name(np));
 	/* The following could cause the shell to fork if assignment
@@ -686,7 +686,7 @@ void nv_putval __PARAM__((register Namval_t *np, const char *string, int flags),
 				rightjust(cp,size,' ');
 			else if(nv_isattr(np, NV_LJUST))
 			{
-				register char *dp;
+				char *dp;
 				dp = strlen (cp) + cp;
 				*(cp = (cp + size)) = 0;
 				for (; dp < cp; *dp++ = ' ');
@@ -722,8 +722,8 @@ void nv_putval __PARAM__((register Namval_t *np, const char *string, int flags),
  *   will default to a blank.
  */
 static void rightjust __PARAM__((char *str, int size, int fill), (str, size, fill)) __OTORP__(char *str; int size; int fill;){
-	register int n;
-	register char *cp,*sp;
+	int n;
+	char *cp,*sp;
 	n = strlen(str);
 
 	/* ignore trailing blanks */
@@ -765,8 +765,8 @@ static void rightjust __PARAM__((char *str, int size, int fill), (str, size, fil
      */
 
     static int ja_size __PARAM__((char *str,int size,int type), (str, size, type)) __OTORP__(char *str;int size;int type;){
-	register char *cp = str;
-	register int c, n=size;
+	char *cp = str;
+	int c, n=size;
 	int oldn;
 	wchar_t w;
 	while(*cp)
@@ -774,7 +774,7 @@ static void rightjust __PARAM__((char *str, int size, int fill), (str, size, fil
 		oldn = n;
 		if((c=mbtowc(&w,cp,MB_CUR_MAX))>0)
 		{
-			register int outsize =  wcwidth(w);
+			int outsize =  wcwidth(w);
 			/* allow room for excess input bytes */
 			n += (c-outsize);
 			size -= outsize;
@@ -813,15 +813,15 @@ static void rightjust __PARAM__((char *str, int size, int fill), (str, size, fil
     }
 
     static void ja_restore __PARAM__((void), ()){
-	register char *cp = savechars;
+	char *cp = savechars;
 	while(*cp)
 		*savep++ = *cp++;
 	savep = 0;
     }
 #endif /* SHOPT_MULTIBYTE */
 
-static char *staknam __PARAM__((register Namval_t *np, char *value), (np, value)) __OTORP__(register Namval_t *np; char *value;){
-	register char *p,*q;
+static char *staknam __PARAM__((Namval_t *np, char *value), (np, value)) __OTORP__(Namval_t *np; char *value;){
+	char *p,*q;
 	q = stakalloc(strlen(nv_name(np))+(value?strlen(value):0)+2);
 	p=strcopy(q,nv_name(np));
 	if(value)
@@ -835,8 +835,8 @@ static char *staknam __PARAM__((register Namval_t *np, char *value), (np, value)
 /*
  * put the name and attribute into value of attributes variable
  */
-static void attstore __PARAM__((register Namval_t *np), (np)) __OTORP__(register Namval_t *np;){
-	register int flag = np->nvflag;
+static void attstore __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
+	int flag = np->nvflag;
 	if(!(flag&NV_EXPORT) || (flag&NV_FUNCT))
 		return;
 	flag &= (NV_RDONLY|NV_UTOL|NV_LTOU|NV_RJUST|NV_LJUST|NV_ZFILL|NV_INTEGER);
@@ -850,7 +850,7 @@ static void attstore __PARAM__((register Namval_t *np), (np)) __OTORP__(register
 }
 
 static void pushnam __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
-	register char *value;
+	char *value;
 	if(nv_isattr(np,NV_IMPORT))
 	{
 		if(np->nvenv)
@@ -867,9 +867,9 @@ static void pushnam __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
  */
 
 char **sh_envgen __PARAM__((void), ()){
-	register char **er;
-	register int namec;
-	register char *cp;
+	char **er;
+	int namec;
+	char *cp;
 	/* L_ARGNOD gets generated automatically as full path name of command */
 	nv_offattr(L_ARGNOD,NV_EXPORT);
 	attsize = 6;
@@ -893,8 +893,8 @@ static int scanflags;
 static int scancount = 0;
 
 static int scanfilter __PARAM__((const char *name, char *arg, __V_ *notused), (name, arg, notused)) __OTORP__(const char *name; char *arg; __V_ *notused;){
-	register Namval_t *np = (Namval_t*)arg;
-	register int k=np->nvflag;
+	Namval_t *np = (Namval_t*)arg;
+	int k=np->nvflag;
 	NOT_USED(name);
 	NOT_USED(notused);
 	if(scanmask?(k&scanmask)==scanflags:(!scanflags || (k&scanflags)))
@@ -935,7 +935,7 @@ int nv_scan __PARAM__((Hashtab_t *root, void (*fn)(Namval_t*), int mask, int fla
  * create a new environment scope
  */
 void nv_scope __PARAM__((struct argnod *envlist), (envlist)) __OTORP__(struct argnod *envlist;){
-	register Hashtab_t *newscope;
+	Hashtab_t *newscope;
 	newscope = hashalloc(sh.var_tree,HASH_set,HASH_SCOPE|HASH_ALLOCATE,0);
 	sh.var_tree = newscope;
 	nv_setlist(envlist,NV_EXPORT|NV_NOSCOPE|NV_IDENT|NV_ASSIGN);
@@ -947,7 +947,7 @@ void nv_scope __PARAM__((struct argnod *envlist), (envlist)) __OTORP__(struct ar
  * node, as well as its dope vector, if it is an array.
  */
 
-void	sh_envnolocal  __PARAM__((register Namval_t *np), (np)) __OTORP__(register Namval_t *np;){
+void	sh_envnolocal  __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
 	if(nv_isattr(np,NV_EXPORT|NV_NOFREE))
 	{
 		if(nv_isattr(np,NV_REF))
@@ -980,9 +980,9 @@ void	nv_close __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
  *   by the value of <np>.  If <np> denotes an array member, it
  *   will retain its attributes.
  */
-void	nv_unset __PARAM__((register Namval_t *np), (np)) __OTORP__(register Namval_t *np;){
-	register union Value *up = &np->nvalue;
-	register Namarr_t *ap;
+void	nv_unset __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
+	union Value *up = &np->nvalue;
+	Namarr_t *ap;
 	if(!forced && nv_isattr (np,NV_RDONLY))
 		error(ERROR_exit(1),e_readonly, nv_name(np));
 	if(sh.subshell && !nv_isnull(np))
@@ -1032,7 +1032,7 @@ void	nv_unset __PARAM__((register Namval_t *np), (np)) __OTORP__(register Namval
 /*
  * return the node pointer in the highest level scope
  */
-Namval_t *nv_scoped __PARAM__((register Namval_t *np), (np)) __OTORP__(register Namval_t *np;){
+Namval_t *nv_scoped __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
 	if(hashscope(sh.var_tree))
 		return(nv_search((char*)np,sh.var_tree,HASH_BUCKET));
 	else
@@ -1050,10 +1050,10 @@ Namval_t *nv_scoped __PARAM__((register Namval_t *np), (np)) __OTORP__(register 
  *   If <np> has no value, 0 is returned.
  */
 
-char *nv_getval __PARAM__((register Namval_t *np), (np)) __OTORP__(register Namval_t *np;){
-	register union Value *up= &np->nvalue;
-	register int numeric;
-	register Namarr_t *ap;
+char *nv_getval __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
+	union Value *up= &np->nvalue;
+	int numeric;
+	Namarr_t *ap;
 	if(!np->nvfun && !nv_isattr(np,NV_ARRAY|NV_INTEGER|NV_FUNCT|NV_REF))
 		goto done;
 	if(ap = nv_arrayptr(np))
@@ -1075,7 +1075,7 @@ char *nv_getval __PARAM__((register Namval_t *np), (np)) __OTORP__(register Namv
 	}
 	if(numeric)
 	{
-		register long l;
+		long l;
         	if(!up->cp || nv_isattr (np,NV_CPOINTER))
 			return((char*)up->cp);
 		else if(nv_isattr (np,NV_DOUBLE))
@@ -1105,10 +1105,10 @@ done:
 	return ((char*)up->cp);
 }
 
-double nv_getnum __PARAM__((register Namval_t *np), (np)) __OTORP__(register Namval_t *np;){
-	register union Value *up;
-	register double r=0;
-	register char *str;
+double nv_getnum __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
+	union Value *up;
+	double r=0;
+	char *str;
      	if(np->nvfun)
 	{
 		if(!local)
@@ -1140,10 +1140,10 @@ double nv_getnum __PARAM__((register Namval_t *np), (np)) __OTORP__(register Nam
  *   value to conform to <newatts>.  The <size> of left and right
  *   justified fields may be given.
  */
-void nv_newattr  __PARAM__((register Namval_t *np, unsigned newatts, int size), (np, newatts, size)) __OTORP__(register Namval_t *np; unsigned newatts; int size;){
-	register char *sp;
-	register char *cp = 0;
-	register unsigned int n;
+void nv_newattr  __PARAM__((Namval_t *np, unsigned newatts, int size), (np, newatts, size)) __OTORP__(Namval_t *np; unsigned newatts; int size;){
+	char *sp;
+	char *cp = 0;
+	unsigned int n;
 	Namarr_t *ap = 0;
 	int oldsize,oldatts;
 
@@ -1219,9 +1219,9 @@ void nv_newattr  __PARAM__((register Namval_t *np, unsigned newatts, int size), 
 #ifndef _NEXT_SOURCE
 static char *oldgetenv __PARAM__((const char *string), (string)) __OTORP__(const
  char *string;){
-        register char c0,c1;
-        register const char *cp, *sp;
-        register char **av = environ;
+        char c0,c1;
+        const char *cp, *sp;
+        char **av = environ;
         if(!string || (c0= *string)==0)
                 return(0);
         if((c1= *++string)==0)
@@ -1246,7 +1246,7 @@ static char *oldgetenv __PARAM__((const char *string), (string)) __OTORP__(const
  * around the problems, others don't.
  */
 char *ksh_getenv __PARAM__((const char *name), (name)) __OTORP__(const char *name;){
-        register Namval_t *np;
+        Namval_t *np;
         if(!sh.var_tree)
                 return(oldgetenv(name));
         if((np = nv_search(name,sh.var_tree,0)) && nv_isattr(np,NV_EXPORT))
@@ -1266,7 +1266,7 @@ char *ksh_getenv __PARAM__((const char *name), (name)) __OTORP__(const char *nam
  * no calls to this routine. - harry phinney  8/15/1994.
  */
 int ksh_putenv __PARAM__((const char *name), (name)) __OTORP__(const char *name;){
-	register Namval_t *np;
+	Namval_t *np;
 	if(name)
 	{
 		np = nv_open(name,sh.var_tree,NV_EXPORT|NV_IDENT|NV_ARRAY|NV_ASSIGN);
@@ -1281,7 +1281,7 @@ int ksh_putenv __PARAM__((const char *name), (name)) __OTORP__(const char *name;
  * Override libast setenv()
  */
 char* setenviron __PARAM__((const char *name), (name)) __OTORP__(const char *name;){
-	register Namval_t *np;
+	Namval_t *np;
 	if(name)
 	{
 		np = nv_open(name,sh.var_tree,NV_EXPORT|NV_IDENT|NV_ARRAY|NV_ASSIGN);
@@ -1298,8 +1298,8 @@ char* setenviron __PARAM__((const char *name), (name)) __OTORP__(const char *nam
  * <str1> and <str2> may point to the same place.
  */
 
-static void ltou __PARAM__((register char const *str1,register char *str2), (str1, str2)) __OTORP__(register char const *str1;register char *str2;){
-	register int c;
+static void ltou __PARAM__((char const *str1,char *str2), (str1, str2)) __OTORP__(char const *str1;char *str2;){
+	int c;
 	for(; c= *((unsigned char*)str1); str1++,str2++)
 	{
 		if(islower(c))
@@ -1316,8 +1316,8 @@ static void ltou __PARAM__((register char const *str1,register char *str2), (str
  * <str1> and <str2> may point to the same place.
  */
 
-static void utol __PARAM__((register char const *str1,register char *str2), (str1, str2)) __OTORP__(register char const *str1;register char *str2;){
-	register int c;
+static void utol __PARAM__((char const *str1,char *str2), (str1, str2)) __OTORP__(char const *str1;char *str2;){
+	int c;
 	for(; c= *((unsigned char*)str1); str1++,str2++)
 	{
 		if(isupper(c))
@@ -1333,8 +1333,8 @@ static void utol __PARAM__((register char const *str1,register char *str2), (str
  * <fp> is null to pop, otherwise, <fp> is pushed onto stack
  * The top of the stack is returned
  */
-Namfun_t *nv_stack __PARAM__((register Namval_t *np, register Namfun_t* fp), (np, fp)) __OTORP__(register Namval_t *np; register Namfun_t* fp;){
-        register Namfun_t *lp;
+Namfun_t *nv_stack __PARAM__((Namval_t *np, Namfun_t* fp), (np, fp)) __OTORP__(Namval_t *np; Namfun_t* fp;){
+        Namfun_t *lp;
         if(fp)
         {
                 if((lp=np->nvfun)==fp)
@@ -1364,8 +1364,8 @@ Namfun_t *nv_stack __PARAM__((register Namval_t *np, register Namfun_t* fp), (np
  * Special builtins cannot be replaced and return -1
  */
 int     sh_addbuiltin __PARAM__((const char *path, int (*bltin)(int, char*[],__V_*),__V_ *extra), (path, bltin, extra)) __OTORP__(const char *path; int (*bltin)();__V_ *extra;){
-        register const char *cp, *name = path_basename(path);
-        register Namval_t *np, *nq=0;
+        const char *cp, *name = path_basename(path);
+        Namval_t *np, *nq=0;
         if(name==path && (cp=strchr(name,'.')) && cp!=name)
         {
                 int offset = staktell();
@@ -1412,8 +1412,8 @@ static  char *curbuf;
  *   with <places> places after the decimal point.  The string
  *   will be stored within static variable <numbuf>.
  */
-char *sh_ftos __PARAM__((double val,register int places), (val, places)) __OTORP__(double val;register int places;){
-	register char *cp, *sp;
+char *sh_ftos __PARAM__((double val,int places), (val, places)) __OTORP__(double val;int places;){
+	char *cp, *sp;
 	int decpt,sign;
 
 	cp = sffcvt(val,places,&decpt,&sign);
@@ -1440,8 +1440,8 @@ char *sh_ftos __PARAM__((double val,register int places), (val, places)) __OTORP
  * convert <val> to a string with <places> significant figures
  * The result is placed in a local buffer and a pointer returned
  */
-char *sh_etos __PARAM__((double val,register int places), (val, places)) __OTORP__(double val;register int places;){
-	register int bufsize = places+8;
+char *sh_etos __PARAM__((double val,int places), (val, places)) __OTORP__(double val;int places;){
+	int bufsize = places+8;
 	if(!curbuf)
 		curbuf = (char*)malloc(maxbufsize=bufsize);
 	else if(bufsize > maxbufsize)
@@ -1453,9 +1453,9 @@ char *sh_etos __PARAM__((double val,register int places), (val, places)) __OTORP
 /*
  * call the next getval function in the chain
  */
-char *nv_getv __PARAM__((Namval_t *np, register Namfun_t *nfp), (np, nfp)) __OTORP__(Namval_t *np; register Namfun_t *nfp;){
-	register Namfun_t	*fp;
-	register char *cp;
+char *nv_getv __PARAM__((Namval_t *np, Namfun_t *nfp), (np, nfp)) __OTORP__(Namval_t *np; Namfun_t *nfp;){
+	Namfun_t	*fp;
+	char *cp;
 	if((fp = nfp) != NIL(Namfun_t*) && !local)
 		fp = nfp = nfp->next;
 	local=0;
@@ -1478,9 +1478,9 @@ char *nv_getv __PARAM__((Namval_t *np, register Namfun_t *nfp), (np, nfp)) __OTO
 /*
  * call the next getnum function in the chain
  */
-double nv_getn __PARAM__((Namval_t *np, register Namfun_t *nfp), (np, nfp)) __OTORP__(Namval_t *np; register Namfun_t *nfp;){
-	register Namfun_t	*fp;
-	register double d=0;
+double nv_getn __PARAM__((Namval_t *np, Namfun_t *nfp), (np, nfp)) __OTORP__(Namval_t *np; Namfun_t *nfp;){
+	Namfun_t	*fp;
+	double d=0;
 	if((fp = nfp) != NIL(Namfun_t*) && !local)
 		fp = nfp = nfp->next;
 	local=0;
@@ -1507,8 +1507,8 @@ double nv_getn __PARAM__((Namval_t *np, register Namfun_t *nfp), (np, nfp)) __OT
 /*
  * call the next assign function in the chain
  */
-void nv_putv __PARAM__((Namval_t *np, const char *value, int flags, register Namfun_t *nfp), (np, value, flags, nfp)) __OTORP__(Namval_t *np; const char *value; int flags; register Namfun_t *nfp;){
-	register Namfun_t	*fp;
+void nv_putv __PARAM__((Namval_t *np, const char *value, int flags, Namfun_t *nfp), (np, value, flags, nfp)) __OTORP__(Namval_t *np; const char *value; int flags; Namfun_t *nfp;){
+	Namfun_t	*fp;
 	if((fp=nfp) != NIL(Namfun_t*) && !local)
 		fp = nfp = nfp->next;
 	local=0;
@@ -1542,8 +1542,8 @@ struct	vardisc
 /*
  * free discipline if no more discipline functions
  */
-static void chktfree __PARAM__((register Namval_t *np, register struct vardisc *vp), (np, vp)) __OTORP__(register Namval_t *np; register struct vardisc *vp;){
-	register int n;
+static void chktfree __PARAM__((Namval_t *np, struct vardisc *vp), (np, vp)) __OTORP__(Namval_t *np; struct vardisc *vp;){
+	int n;
 	for(n=0; n< sizeof(vp->disc)/sizeof(*vp->disc); n++)
 	{
 		if(vp->disc[n])
@@ -1562,8 +1562,8 @@ static void chktfree __PARAM__((register Namval_t *np, register struct vardisc *
  * This function performs an assignment disc on the given node <np>
  */
 static void	assign __PARAM__((Namval_t *np,const char* val,int flags,Namfun_t *handle), (np, val, flags, handle)) __OTORP__(Namval_t *np;const char* val;int flags;Namfun_t *handle;){
-	register struct vardisc *vp = (struct vardisc*)handle;
-	register Namval_t *nq, **disc;
+	struct vardisc *vp = (struct vardisc*)handle;
+	Namval_t *nq, **disc;
 	if(val)
 	{
 		if(!(nq=vp->disc[ASSIGN]))
@@ -1585,7 +1585,7 @@ static void	assign __PARAM__((Namval_t *np,const char* val,int flags,Namfun_t *h
 	}
 	if(val)
 	{
-		register char *cp;
+		char *cp;
 		double d;
 		if(nv_isnull(SH_VALNOD))
 			cp=0;
@@ -1619,9 +1619,9 @@ static void	assign __PARAM__((Namval_t *np,const char* val,int flags,Namfun_t *h
  * the lookup on the given node <np>
  */
 static char*	lookup __PARAM__((Namval_t *np, Namfun_t *handle), (np, handle)) __OTORP__(Namval_t *np; Namfun_t *handle;){
-	register struct vardisc *vp = (struct vardisc*)handle;
-	register Namval_t *nq;
-	register char *cp=0;
+	struct vardisc *vp = (struct vardisc*)handle;
+	Namval_t *nq;
+	char *cp=0;
 	if((nq=vp->disc[LOOKUP]) &&  nq!=BLOCKED)
 	{
 		nv_unset(SH_VALNOD);
@@ -1641,7 +1641,7 @@ static char*	lookup __PARAM__((Namval_t *np, Namfun_t *handle), (np, handle)) __
 /*
  * node creation discipline
  */
-Namval_t *nv_create __PARAM__((register Namval_t* np,const char *name,register Namfun_t *fp), (np, name, fp)) __OTORP__(register Namval_t* np;const char *name;register Namfun_t *fp;){
+Namval_t *nv_create __PARAM__((Namval_t* np,const char *name,Namfun_t *fp), (np, name, fp)) __OTORP__(Namval_t* np;const char *name;Namfun_t *fp;){
 	if(np == (Namval_t*)fp)
 		fp = np->nvfun;
 	else if(fp)
@@ -1668,14 +1668,14 @@ static const Namdisc_t shdisc =
  * If <event> is NULL, then return the event name after <action>
  * If <event> is NULL, and <action> is NULL, return the first event
  */
-char *nv_setdisc __PARAM__((register Namval_t* np,register const char *event,Namval_t *action,register Namfun_t *fp), (np, event, action, fp)) __OTORP__(register Namval_t* np;register const char *event;Namval_t *action;register Namfun_t *fp;){
-	register struct vardisc *vp = (struct vardisc*)np->nvfun;
-	register int type;
+char *nv_setdisc __PARAM__((Namval_t* np,const char *event,Namval_t *action,Namfun_t *fp), (np, event, action, fp)) __OTORP__(Namval_t* np;const char *event;Namval_t *action;Namfun_t *fp;){
+	struct vardisc *vp = (struct vardisc*)np->nvfun;
+	int type;
 	if(np == (Namval_t*)fp)
 	{
 		static const char *discnames[] = { "get", "set", "unset", 0 };
-		register const char *name;
-		register int getname=0;
+		const char *name;
+		int getname=0;
 		/* top level call, check for get/set */
 		if(!event)
 		{
@@ -1744,10 +1744,10 @@ char *nv_setdisc __PARAM__((register Namval_t* np,register const char *event,Nam
 /*
  * Create a reference node from <np>
  */
-void nv_setref __PARAM__((register Namval_t *np), (np)) __OTORP__(register Namval_t *np;){
-	register Namval_t *nq, *nr;
-	register char *cp;
-	register int flags = NV_ARRAY|NV_VARNAME|NV_REF;
+void nv_setref __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
+	Namval_t *nq, *nr;
+	char *cp;
+	int flags = NV_ARRAY|NV_VARNAME|NV_REF;
 	Hashtab_t *hp=sh.var_tree;
 	if(nv_isattr(np,NV_REF))
 		return;

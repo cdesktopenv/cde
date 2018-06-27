@@ -102,8 +102,8 @@
  */
 
 int
-tmgoff __PARAM__((register const char* s, char** e, int d), (s, e, d)) __OTORP__(register const char* s; char** e; int d;){
-	register int	n;
+tmgoff __PARAM__((const char* s, char** e, int d), (s, e, d)) __OTORP__(const char* s; char** e; int d;){
+	int	n;
 	char*		t;
 
 	if (isdigit(n = *s) || n == '-' || n == '+')

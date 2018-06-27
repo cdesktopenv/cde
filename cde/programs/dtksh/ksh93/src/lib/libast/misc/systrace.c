@@ -96,8 +96,8 @@
 
 void
 systrace __PARAM__((const char* id), (id)) __OTORP__(const char* id;){
-	register int	n;
-	register char*	out;
+	int	n;
+	char*	out;
 	char*		s;
 	char		buf[PATH_MAX];
 	char*		av[7];

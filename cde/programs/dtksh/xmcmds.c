@@ -652,7 +652,7 @@ _xmcreatefunc(
 	wtab_t *w, *pw, *wtab, *parenttab;
 	char *wname, *parentid, *var;
 	Arg	args[MAXARGS];
-	register int	i;
+	int	i;
 	int n;
         char * errmsg;
 	int pargc;
@@ -2336,7 +2336,7 @@ do_XmMainWindowSetAreas(
 {
    char *arg0 = argv[0];
    wtab_t *w[6];
-   register int i;
+   int i;
    char * errmsg;
 
    if (argc != 7) 
@@ -4992,7 +4992,7 @@ _CreatePDMJobSetup(
 	char *arg0 = argv[0];
 	wtab_t *w, *pw, *wtab, *parenttab;
 	char *parentid, *var;
-	register int	i;
+	int	i;
 	int n;
 	char * errmsg;
 	WidgetClass wclass;

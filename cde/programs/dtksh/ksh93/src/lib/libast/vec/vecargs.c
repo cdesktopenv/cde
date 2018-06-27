@@ -105,9 +105,9 @@
  */
 
 int
-vecargs __PARAM__((register char** vec, int* argcp, char*** argvp), (vec, argcp, argvp)) __OTORP__(register char** vec; int* argcp; char*** argvp;){
-	register char**	argv;
-	register char**	oargv;
+vecargs __PARAM__((char** vec, int* argcp, char*** argvp), (vec, argcp, argvp)) __OTORP__(char** vec; int* argcp; char*** argvp;){
+	char**	argv;
+	char**	oargv;
 	char**		ovec;
 	char*		s;
 	int		num;

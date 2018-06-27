@@ -99,9 +99,9 @@ static const char id[] = "\n@(#)mkfifo (AT&T Bell Laboratories) 04/01/92\0\n";
 
 int
 b_mkfifo __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
-	register char *arg;
-	register mode_t mode=RWALL, mask=0;
-	register int n, mflag=0;
+	char *arg;
+	mode_t mode=RWALL, mask=0;
+	int n, mflag=0;
 
 	NoP(argc);
 	NoP(id[0]);

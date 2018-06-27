@@ -117,10 +117,10 @@ pathgetlink __PARAM__((const char* name, char* buf, int siz), (name, buf, siz)) 
 #ifdef UNIV_MAX
 	if (isspace(*buf))
 	{
-		register char*	s;
-		register char*	t;
-		register char*	u;
-		register char*	v;
+		char*	s;
+		char*	t;
+		char*	u;
+		char*	v;
 		int		match = 0;
 		char		tmp[PATH_MAX];
 

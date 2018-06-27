@@ -95,7 +95,7 @@
 
 int
 ftwflags __PARAM__((void), ()){
-	register char*	s;
+	char*	s;
 	
 	s = astconf("PATH_RESOLVE", NiL, NiL);
 	if (streq(s, "physical"))

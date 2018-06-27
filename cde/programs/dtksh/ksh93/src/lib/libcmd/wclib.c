@@ -97,7 +97,7 @@
 #define endline(c)	(((signed char)-1)<0?(c)<0:(c)==((char)-1))
 
 Wc_t *wc_init __PARAM__((char *space), (space)) __OTORP__(char *space;){
-	register int  n;
+	int  n;
 	Wc_t *wp;
 
 	if(!(wp = (Wc_t*)stakalloc(sizeof(Wc_t))))
@@ -117,12 +117,12 @@ Wc_t *wc_init __PARAM__((char *space), (space)) __OTORP__(char *space;){
  * compute the line, word, and character count for file <fd>
  */
 wc_count __PARAM__((Wc_t *wp, Sfio_t *fd), (wp, fd)) __OTORP__(Wc_t *wp; Sfio_t *fd;){
-	register signed char	*space = wp->space;
-	register unsigned char	*cp;
-	register long		nwords;
-	register int		c;
-	register unsigned char	*endbuff;
-	register int		lasttype = 1;
+	signed char	*space = wp->space;
+	unsigned char	*cp;
+	long		nwords;
+	int		c;
+	unsigned char	*endbuff;
+	int		lasttype = 1;
 	unsigned int		lastchar;
 	unsigned char		*buff;
 	wp->lines = nwords = wp->chars = 0;

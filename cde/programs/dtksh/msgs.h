@@ -63,7 +63,7 @@ char * GetSharedMsg(
 /*
  * Without this proto, standard C says that _DtGetMessage() returns
  * an int, even though it really returns a pointer.  The compiler is
- * then free to use the high 32-bits of the return register for
+ * then free to use the high 32-bits of the return for
  * something else (like scratch), and that can garble the pointer.
  */
 # ifdef _NO_PROTO

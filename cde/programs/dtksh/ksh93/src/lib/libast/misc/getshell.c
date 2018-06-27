@@ -118,9 +118,9 @@ char*
 getshell __PARAM__((void), ())
 #line 28
 {
-	register char*	s;
-	register char*	sh;
-	register int	i;
+	char*	s;
+	char*	sh;
+	int	i;
 
 	if ((sh = getenv("SHELL")) && *sh == '/' && strmatch(sh, "*/(sh|*[!cC]sh)"))
 	{

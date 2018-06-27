@@ -113,7 +113,7 @@ env_set_var(
         char *var,
         char *val )
 {
-	register int len;
+	int len;
 	char tmp[512];
 	char *set = &tmp[0];
 

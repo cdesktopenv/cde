@@ -94,11 +94,11 @@
 #include <ctype.h>
 
 long
-strton __PARAM__((register const char* s, char** e, char* b, int m), (s, e, b, m)) __OTORP__(register const char* s; char** e; char* b; int m;){
-	register long		n;
-	register int		c;
-	register int		r;
-	register const char*	p;
+strton __PARAM__((const char* s, char** e, char* b, int m), (s, e, b, m)) __OTORP__(const char* s; char** e; char* b; int m;){
+	long		n;
+	int		c;
+	int		r;
+	const char*	p;
 	int			z;
 
 	if (!b || (r = *b) < 0 || r > 64) r = 0;

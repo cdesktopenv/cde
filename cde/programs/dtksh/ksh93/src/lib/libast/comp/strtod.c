@@ -103,7 +103,7 @@ NoN(strtod)
 extern __MANGLE__ double	atof __PROTO__((const char*));
 
 double
-strtod __PARAM__((register const char* s, char** e), (s, e)) __OTORP__(register const char* s; char** e;){
+strtod __PARAM__((const char* s, char** e), (s, e)) __OTORP__(const char* s; char** e;){
 	double	n;
 
 	n = atof(s);

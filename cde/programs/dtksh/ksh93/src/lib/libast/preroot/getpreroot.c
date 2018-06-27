@@ -108,9 +108,9 @@
 
 char*
 getpreroot __PARAM__((char* path, const char* cmd), (path, cmd)) __OTORP__(char* path; const char* cmd;){
-	register int	c;
-	register FILE*	fp;
-	register char*	p;
+	int	c;
+	FILE*	fp;
+	char*	p;
 	char		buf[PATH_MAX];
 
 	if (!path) path = buf;

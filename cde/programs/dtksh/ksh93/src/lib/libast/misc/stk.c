@@ -189,14 +189,14 @@ static char *overflow __PARAM__((int n), (n)) __OTORP__(int n;){
  * initialize stkstd, sfio operations may have already occcured
  */
 static void stkinit __PARAM__((int size), (size)) __OTORP__(int size;){
-	register Sfio_t *sp;
+	Sfio_t *sp;
 	init = size;
 	sp = stkopen(0);
 	init = 1;
 	stkinstall(sp,overflow);
 }
 
-static int stkexcept __PARAM__((register Sfio_t *stream, int type, Sfdisc_t* dp), (stream, type, dp)) __OTORP__(register Sfio_t *stream; int type; Sfdisc_t* dp;){
+static int stkexcept __PARAM__((Sfio_t *stream, int type, Sfdisc_t* dp), (stream, type, dp)) __OTORP__(Sfio_t *stream; int type; Sfdisc_t* dp;){
 	NoP(dp);
 	switch(type)
 	{
@@ -226,12 +226,12 @@ static int stkexcept __PARAM__((register Sfio_t *stream, int type, Sfdisc_t* dp)
  * create a stack
  */
 Sfio_t *stkopen __PARAM__((int flags), (flags)) __OTORP__(int flags;){
-	register int bsize;
-	register Sfio_t *stream;
-	register struct stk *sp;
-	register struct frame *fp;
-	register Sfdisc_t *dp;
-	register char *cp;
+	int bsize;
+	Sfio_t *stream;
+	struct stk *sp;
+	struct frame *fp;
+	Sfdisc_t *dp;
+	char *cp;
 	if(!(stream=newof((char*)0,Sfio_t, 1, sizeof(*dp)+sizeof(*sp))))
 		return(0);
 	increment(create);
@@ -273,7 +273,7 @@ Sfio_t *stkopen __PARAM__((int flags), (flags)) __OTORP__(int flags;){
  */
 Sfio_t *stkinstall __PARAM__((Sfio_t *stream, _stk_overflow_ oflow), (stream, oflow)) __OTORP__(Sfio_t *stream; _stk_overflow_ oflow;){
 	Sfio_t *old;
-	register struct stk *sp;
+	struct stk *sp;
 	if(!init)
 	{
 		stkinit(1);
@@ -304,8 +304,8 @@ Sfio_t *stkinstall __PARAM__((Sfio_t *stream, _stk_overflow_ oflow), (stream, of
 /*
  * increase the reference count on the given <stack>
  */
-int stklink __PARAM__((register Sfio_t* stream), (stream)) __OTORP__(register Sfio_t* stream;){
-	register struct stk *sp = stream2stk(stream);
+int stklink __PARAM__((Sfio_t* stream), (stream)) __OTORP__(Sfio_t* stream;){
+	struct stk *sp = stream2stk(stream);
 	return(sp->stkref++);
 }
 
@@ -313,9 +313,9 @@ int stklink __PARAM__((register Sfio_t* stream), (stream)) __OTORP__(register Sf
  * terminate a stack and free up the space
  */
 int stkclose __PARAM__((Sfio_t* stream), (stream)) __OTORP__(Sfio_t* stream;){
-	register struct stk *sp = stream2stk(stream); 
-	register char *cp = sp->stkbase;
-	register struct frame *fp;
+	struct stk *sp = stream2stk(stream);
+	char *cp = sp->stkbase;
+	struct frame *fp;
 	if(--sp->stkref>0)
 		return(1);
 	increment(delete);
@@ -344,11 +344,11 @@ int stkclose __PARAM__((Sfio_t* stream), (stream)) __OTORP__(Sfio_t* stream;){
  * otherwise, the top of the stack is set to stkbot+<offset>
  *
  */
-char *stkset __PARAM__((register Sfio_t * stream, register char* loc, unsigned offset), (stream, loc, offset)) __OTORP__(register Sfio_t * stream; register char* loc; unsigned offset;){
-	register struct stk *sp = stream2stk(stream); 
-	register char *cp;
-	register struct frame *fp;
-	register int frames = 0;
+char *stkset __PARAM__((Sfio_t * stream, char* loc, unsigned offset), (stream, loc, offset)) __OTORP__(Sfio_t * stream; char* loc; unsigned offset;){
+	struct stk *sp = stream2stk(stream);
+	char *cp;
+	struct frame *fp;
+	int frames = 0;
 	if(!init)
 		stkinit(offset+1);
 	increment(set);
@@ -388,8 +388,8 @@ found:
 /*
  * allocate <n> bytes on the current stack
  */
-char *stkalloc __PARAM__((register Sfio_t *stream, register unsigned int n), (stream, n)) __OTORP__(register Sfio_t *stream; register unsigned int n;){
-	register unsigned char *old;
+char *stkalloc __PARAM__((Sfio_t *stream, unsigned int n), (stream, n)) __OTORP__(Sfio_t *stream; unsigned int n;){
+	unsigned char *old;
 	if(!init)
 		stkinit(n);
 	increment(alloc);
@@ -404,7 +404,7 @@ char *stkalloc __PARAM__((register Sfio_t *stream, register unsigned int n), (st
 /*
  * begin a new stack word of at least <n> bytes
  */
-char *_stkseek __PARAM__((register Sfio_t *stream, register unsigned n), (stream, n)) __OTORP__(register Sfio_t *stream; register unsigned n;){
+char *_stkseek __PARAM__((Sfio_t *stream, unsigned n), (stream, n)) __OTORP__(Sfio_t *stream; unsigned n;){
 	if(!init)
 		stkinit(n);
 	increment(seek);
@@ -418,8 +418,8 @@ char *_stkseek __PARAM__((register Sfio_t *stream, register unsigned n), (stream
  * advance the stack to the current top
  * if extra is non-zero, first add a extra bytes and zero the first
  */
-char	*stkfreeze __PARAM__((register Sfio_t *stream, register unsigned extra), (stream, extra)) __OTORP__(register Sfio_t *stream; register unsigned extra;){
-	register unsigned char *old, *top;
+char	*stkfreeze __PARAM__((Sfio_t *stream, unsigned extra), (stream, extra)) __OTORP__(Sfio_t *stream; unsigned extra;){
+	unsigned char *old, *top;
 	if(!init)
 		stkinit(extra);
 	old = stream->data;
@@ -442,8 +442,8 @@ char	*stkfreeze __PARAM__((register Sfio_t *stream, register unsigned extra), (s
  * copy string <str> onto the stack as a new stack word
  */
 char	*stkcopy __PARAM__((Sfio_t *stream, const char* str), (stream, str)) __OTORP__(Sfio_t *stream; const char* str;){
-	register unsigned char *cp = (unsigned char*)str;
-	register int n;
+	unsigned char *cp = (unsigned char*)str;
+	int n;
 	while(*cp++);
 	n = roundof(cp-(unsigned char*)str,sizeof(char*));
 	if(!init)
@@ -463,13 +463,13 @@ char	*stkcopy __PARAM__((Sfio_t *stream, const char* str), (stream, str)) __OTOR
  * to the end is copied into the new stack frame
  */
 
-static char *stkgrow __PARAM__((register Sfio_t *stream, unsigned size), (stream, size)) __OTORP__(register Sfio_t *stream; unsigned size;){
-	register int n = size;
-	register struct stk *sp = stream2stk(stream);
-	register struct frame *fp;
-	register char *cp;
-	register unsigned m = stktell(stream);
-	register int reused = 0;
+static char *stkgrow __PARAM__((Sfio_t *stream, unsigned size), (stream, size)) __OTORP__(Sfio_t *stream; unsigned size;){
+	int n = size;
+	struct stk *sp = stream2stk(stream);
+	struct frame *fp;
+	char *cp;
+	unsigned m = stktell(stream);
+	int reused = 0;
 	n += (m + sizeof(struct frame)+1);
 	if(sp->stkflags&STK_SMALL)
 #ifndef USE_REALLOC

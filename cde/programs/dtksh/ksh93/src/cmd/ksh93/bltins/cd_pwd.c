@@ -102,8 +102,8 @@
 #include	<ls.h>
 
 int	b_cd __PARAM__((int argc, char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(int argc; char *argv[];__V_ *extra;){
-	register char *dir, *cdpath="";
-	register const char *dp;
+	char *dir, *cdpath="";
+	const char *dp;
 	int saverrno=0;
 	int rval,flag = (sh_isoption(SH_PHYSICAL)!=0);
 	char *oldpwd;
@@ -174,7 +174,7 @@ int	b_cd __PARAM__((int argc, char *argv[],__V_ *extra), (argc, argv, extra)) __
 		}
 		if(!flag)
 		{
-			register char *cp;
+			char *cp;
 			stakseek(PATH_MAX+PATH_OFFSET);
 #ifdef SHOPT_FS_3D
 			if(!(cp = pathcanon(stakptr(PATH_OFFSET),PATH_DOTDOT)))
@@ -235,8 +235,8 @@ success:
 }
 
 int	b_pwd __PARAM__((int argc, char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(int argc; char *argv[];__V_ *extra;){
-	register int n, flag = (sh_isoption(SH_PHYSICAL)!=0);
-	register char *cp;
+	int n, flag = (sh_isoption(SH_PHYSICAL)!=0);
+	char *cp;
 	NOT_USED(extra);
 	NOT_USED(argc);
 	while((n = optget(argv,sh_optpwd))) switch(n)

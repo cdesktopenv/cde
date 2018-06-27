@@ -139,9 +139,9 @@ static unsigned char etoa[] =
  */
 
 void
-memetoa __PARAM__((__V_* aop, const __V_* aip, register size_t n), (aop, aip, n)) __OTORP__(__V_* aop; const __V_* aip; register size_t n;){
-	register unsigned char*		op = (unsigned char*)aop;
-	register const unsigned char*	ip = (const unsigned char*)aip;
+memetoa __PARAM__((__V_* aop, const __V_* aip, size_t n), (aop, aip, n)) __OTORP__(__V_* aop; const __V_* aip; size_t n;){
+	unsigned char*		op = (unsigned char*)aop;
+	const unsigned char*	ip = (const unsigned char*)aip;
 
 	while (n-- > 0) *op++ = etoa[*ip++];
 }

@@ -151,9 +151,9 @@ _vmopen __PARAM__((void), ()){
 }
 
 static void
-vmclose __PARAM__((register Vmalloc_t* vp), (vp)) __OTORP__(register Vmalloc_t* vp;){
-	register Vmchunk_t*	cp;
-	register Vmchunk_t*	np;
+vmclose __PARAM__((Vmalloc_t* vp), (vp)) __OTORP__(Vmalloc_t* vp;){
+	Vmchunk_t*	cp;
+	Vmchunk_t*	np;
 
 	if (vp)
 	{
@@ -168,7 +168,7 @@ vmclose __PARAM__((register Vmalloc_t* vp), (vp)) __OTORP__(register Vmalloc_t* 
 }
 
 static __V_*
-vmalloc __PARAM__((register Vmalloc_t* vp, size_t size), (vp, size)) __OTORP__(register Vmalloc_t* vp; size_t size;){
+vmalloc __PARAM__((Vmalloc_t* vp, size_t size), (vp, size)) __OTORP__(Vmalloc_t* vp; size_t size;){
 	char*	p;
 	size_t	n;
 
@@ -385,8 +385,8 @@ static Dict_t		info[] =
  */
 
 static char*
-getdata __PARAM__((register Magic_t* mp, register long off, register int siz), (mp, off, siz)) __OTORP__(register Magic_t* mp; register long off; register int siz;){
-	register long	n;
+getdata __PARAM__((Magic_t* mp, long off, int siz), (mp, off, siz)) __OTORP__(Magic_t* mp; long off; int siz;){
+	long	n;
 
 	if (off + siz <= mp->fbsz) return(mp->fbuf + off);
 	if (off < mp->xoff || off + siz > mp->xoff + mp->xbsz)
@@ -413,10 +413,10 @@ getdata __PARAM__((register Magic_t* mp, register long off, register int siz), (
 
 static long
 indirect __PARAM__((const char* cs, char** e, __V_* handle), (cs, e, handle)) __OTORP__(const char* cs; char** e; __V_* handle;){
-	register char*		s = (char*)cs;
-	register Magic_t*	mp = (Magic_t*)handle;
-	register long		n = 0;
-	register char*		p;
+	char*		s = (char*)cs;
+	Magic_t*	mp = (Magic_t*)handle;
+	long		n = 0;
+	char*		p;
 
 	if (!s) liberror(lib, 2, "%s in indirect expression", *e);
 	else
@@ -461,11 +461,11 @@ indirect __PARAM__((const char* cs, char** e, __V_* handle), (cs, e, handle)) __
  */
 
 static char*
-ckmagic __PARAM__((register Magic_t* mp, const char* file, char* buf, struct stat* st, unsigned long off), (mp, file, buf, st, off)) __OTORP__(register Magic_t* mp; const char* file; char* buf; struct stat* st; unsigned long off;){
-	register Entry_t*	ep;
-	register char*		p;
-	register char*		b;
-	register int		level = 0;
+ckmagic __PARAM__((Magic_t* mp, const char* file, char* buf, struct stat* st, unsigned long off), (mp, file, buf, st, off)) __OTORP__(Magic_t* mp; const char* file; char* buf; struct stat* st; unsigned long off;){
+	Entry_t*	ep;
+	char*		p;
+	char*		b;
+	int		level = 0;
 	int			call = -1;
 	int			c;
 	char*			t;
@@ -769,11 +769,11 @@ ckmagic __PARAM__((register Magic_t* mp, const char* file, char* buf, struct sta
  */
 
 static int
-ckenglish __PARAM__((register Magic_t* mp, int pun, int badpun), (mp, pun, badpun)) __OTORP__(register Magic_t* mp; int pun; int badpun;){
-	register char*	s;
-	register int	vowl = 0;
-	register int	freq = 0;
-	register int	rare = 0;
+ckenglish __PARAM__((Magic_t* mp, int pun, int badpun), (mp, pun, badpun)) __OTORP__(Magic_t* mp; int pun; int badpun;){
+	char*	s;
+	int	vowl = 0;
+	int	freq = 0;
+	int	rare = 0;
 
 	if (5 * badpun > pun)
 		return(0);
@@ -799,12 +799,12 @@ ckenglish __PARAM__((register Magic_t* mp, int pun, int badpun), (mp, pun, badpu
 #define F_eascii	(1<<2)
 
 static char*
-cklang __PARAM__((register Magic_t* mp, const char* file, char* buf, struct stat* st), (mp, file, buf, st)) __OTORP__(register Magic_t* mp; const char* file; char* buf; struct stat* st;){
-	register int		c;
-	register unsigned char*	b;
-	register unsigned char*	e;
-	register int		q;
-	register char*		s;
+cklang __PARAM__((Magic_t* mp, const char* file, char* buf, struct stat* st), (mp, file, buf, st)) __OTORP__(Magic_t* mp; const char* file; char* buf; struct stat* st;){
+	int		c;
+	unsigned char*	b;
+	unsigned char*	e;
+	int		q;
+	char*		s;
 	char*			t;
 	char*			base;
 	char*			suff;
@@ -1099,7 +1099,7 @@ cklang __PARAM__((register Magic_t* mp, const char* file, char* buf, struct stat
  */
 
 static char*
-type __PARAM__((register Magic_t* mp, const char* file, struct stat* st, char* buf, int size), (mp, file, st, buf, size)) __OTORP__(register Magic_t* mp; const char* file; struct stat* st; char* buf; int size;){
+type __PARAM__((Magic_t* mp, const char* file, struct stat* st, char* buf, int size), (mp, file, st, buf, size)) __OTORP__(Magic_t* mp; const char* file; struct stat* st; char* buf; int size;){
 	char*	s;
 
 	if (!S_ISREG(st->st_mode))
@@ -1160,10 +1160,10 @@ type __PARAM__((register Magic_t* mp, const char* file, struct stat* st, char* b
  */
 
 int
-magicload __PARAM__((register Magic_t* mp, const char* file, unsigned long flags), (mp, file, flags)) __OTORP__(register Magic_t* mp; const char* file; unsigned long flags;){
-	register Entry_t*	ep;
-	register Sfio_t*	fp;
-	register char*		p;
+magicload __PARAM__((Magic_t* mp, const char* file, unsigned long flags), (mp, file, flags)) __OTORP__(Magic_t* mp; const char* file; unsigned long flags;){
+	Entry_t*	ep;
+	Sfio_t*	fp;
+	char*		p;
 	int			n;
 	int			lge;
 	int			lev;
@@ -1195,7 +1195,7 @@ magicload __PARAM__((register Magic_t* mp, const char* file, unsigned long flags
 	first = ep = vmnewof(mp->region, 0, Entry_t, 1, 0);
 	while (p = sfgetr(fp, '\n', 1))
 	{
-		register char*	p2;
+		char*	p2;
 		char*		next;
 
 		error_info.line++;
@@ -1685,9 +1685,9 @@ magicload __PARAM__((register Magic_t* mp, const char* file, unsigned long flags
 
 Magic_t*
 magicopen __PARAM__((unsigned long flags), (flags)) __OTORP__(unsigned long flags;){
-	register Magic_t*	mp;
-	register int		n;
-	register Vmalloc_t*	vp;
+	Magic_t*	mp;
+	int		n;
+	Vmalloc_t*	vp;
 
 	if (!(vp = vmopen(Vmdcheap, Vmbest, 0)))
 		return(0);
@@ -1715,7 +1715,7 @@ magicopen __PARAM__((unsigned long flags), (flags)) __OTORP__(unsigned long flag
  */
 
 void
-magicclose __PARAM__((register Magic_t* mp), (mp)) __OTORP__(register Magic_t* mp;){
+magicclose __PARAM__((Magic_t* mp), (mp)) __OTORP__(Magic_t* mp;){
 #if USE_VMALLOC
 	if (mp) vmclose(mp->region);
 #else
@@ -1735,7 +1735,7 @@ magicclose __PARAM__((register Magic_t* mp), (mp)) __OTORP__(register Magic_t* m
  */
 
 char*
-magictype __PARAM__((register Magic_t* mp, const char* file, struct stat* st), (mp, file, st)) __OTORP__(register Magic_t* mp; const char* file; struct stat* st;){
+magictype __PARAM__((Magic_t* mp, const char* file, struct stat* st), (mp, file, st)) __OTORP__(Magic_t* mp; const char* file; struct stat* st;){
 	char*		s;
 	struct stat	statb;
 
@@ -1761,9 +1761,9 @@ magictype __PARAM__((register Magic_t* mp, const char* file, struct stat* st), (
  */
 
 int
-magiclist __PARAM__((register Magic_t* mp, register Sfio_t* sp), (mp, sp)) __OTORP__(register Magic_t* mp; register Sfio_t* sp;){
-	register Entry_t*	ep = mp->magic;
-	register Entry_t*	rp = 0;
+magiclist __PARAM__((Magic_t* mp, Sfio_t* sp), (mp, sp)) __OTORP__(Magic_t* mp; Sfio_t* sp;){
+	Entry_t*	ep = mp->magic;
+	Entry_t*	rp = 0;
 
 	sfprintf(sp, "cont\toffset\ttype\top\tmask\tvalue\tdesc\n");
 	while (ep)

@@ -104,7 +104,7 @@ NoN(mkdir)
 
 int
 mkdir __PARAM__((const char* path, mode_t mode), (path, mode)) __OTORP__(const char* path; mode_t mode;){
-	register int	n;
+	int	n;
 	char*		av[3];
 
 	static char*	cmd[] = { "/bin/mkdir", "/usr/5bin/mkdir", 0 };

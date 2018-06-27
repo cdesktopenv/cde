@@ -93,10 +93,10 @@
 #include "modelib.h"
 
 int
-strmode __PARAM__((register const char* s), (s)) __OTORP__(register const char* s;){
-	register int		c;
-	register char*		t;
-	register struct modeop*	p;
+strmode __PARAM__((const char* s), (s)) __OTORP__(const char* s;){
+	int		c;
+	char*		t;
+	struct modeop*	p;
 	int			mode;
 
 	mode = 0;

@@ -99,7 +99,7 @@
 
 __V_*
 swapput __PARAM__((int op, __V_* b, int n, int_max v), (op, b, n, v)) __OTORP__(int op; __V_* b; int n; int_max v;){
-	register char*	p = (char*)b + n;
+	char*	p = (char*)b + n;
 
 	while (p > (char*)b)
 	{

@@ -139,10 +139,10 @@ static const char id[] = "\n@(#)id (AT&T Bell Laboratories) 07/17/94\0\n";
 
 #if _lib_fsid
 static void
-getfsids __PARAM__((Sfio_t* sp, const char* name, int flags, register int lastchar), (sp, name, flags, lastchar)) __OTORP__(Sfio_t* sp; const char* name; int flags; register int lastchar;){
-	register struct fsg*	fs;
-	register char*		s;
-	register char**		p;
+getfsids __PARAM__((Sfio_t* sp, const char* name, int flags, int lastchar), (sp, name, flags, lastchar)) __OTORP__(Sfio_t* sp; const char* name; int flags; int lastchar;){
+	struct fsg*	fs;
+	char*		s;
+	char**		p;
 	char**			x;
 
 	if (lastchar)
@@ -161,9 +161,9 @@ getfsids __PARAM__((Sfio_t* sp, const char* name, int flags, register int lastch
 				if (flags > 0) x = 0;
 				else
 				{
-					register char**		q;
-					register char*		t;
-					register int		n;
+					char**		q;
+					char*		t;
+					int		n;
 
 					n = 0;
 					q = p;
@@ -228,14 +228,14 @@ putid __PARAM__((Sfio_t* sp, int flags, const char* label, const char* name, lon
 }
 
 static int
-getids __PARAM__((Sfio_t* sp, const char* name, register int flags), (sp, name, flags)) __OTORP__(Sfio_t* sp; const char* name; register int flags;){
-	register struct passwd*	pw;
-	register struct group*	grp;
-	register int		i;
-	register int		j;
-	register int		k;
+getids __PARAM__((Sfio_t* sp, const char* name, int flags), (sp, name, flags)) __OTORP__(Sfio_t* sp; const char* name; int flags;){
+	struct passwd*	pw;
+	struct group*	grp;
+	int		i;
+	int		j;
+	int		k;
 #if _lib_fsid
-	register struct fsg*	fs;
+	struct fsg*	fs;
 	const char*		fs_name;
 	int			fs_id;
 #endif
@@ -452,8 +452,8 @@ getids __PARAM__((Sfio_t* sp, const char* name, register int flags), (sp, name, 
 
 int
 b_id __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
-	register int	flags = 0;
-	register int	n;
+	int	flags = 0;
+	int	n;
 
 	NoP(id[0]);
 	cmdinit(argv);

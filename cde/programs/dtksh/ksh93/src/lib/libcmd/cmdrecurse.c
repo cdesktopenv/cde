@@ -96,8 +96,8 @@
 
 int
 cmdrecurse __PARAM__((int argc, char** argv, int pfxc, char** pfxv), (argc, argv, pfxc, pfxv)) __OTORP__(int argc; char** argv; int pfxc; char** pfxv;){
-	register char**	v;
-	register char**	a;
+	char**	v;
+	char**	a;
 	int		resolve = 'L';
 	char		arg[16];
 

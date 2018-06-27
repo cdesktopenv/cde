@@ -176,9 +176,9 @@ spawnveg __PARAM__((const char* cmd, char* const argv[], char* const envv[], pid
 		execve(cmd, argv, envv);
 		if (errno == ENOEXEC)
 		{
-			register char**	o;
-			register char**	p;
-			register char**	v;
+			char**	o;
+			char**	p;
+			char**	v;
 
 			for (p = o = (char**)argv; *p; p++);
 			if (v = newof(0, char*, p - o + 2, 0))

@@ -104,10 +104,10 @@
 extern __MANGLE__ char**	environ;
 
 char*
-pathpath __PARAM__((register char* path, const char* p, const char* a, int mode), (path, p, a, mode)) __OTORP__(register char* path; const char* p; const char* a; int mode;)
+pathpath __PARAM__((char* path, const char* p, const char* a, int mode), (path, p, a, mode)) __OTORP__(char* path; const char* p; const char* a; int mode;)
 #line 20
 {
-	register char*	s;
+	char*	s;
 	char*		x;
 
 	static char*	cmd;

@@ -104,7 +104,7 @@ char*
 getpath __PARAM__((void), ())
 #line 13
 {
-	register char*	s;
+	char*	s;
 
 	if (!(s = getenv("PATH")) || !*s) s = ":/bin:/usr/bin:/usr/ucb";
 	return(s);

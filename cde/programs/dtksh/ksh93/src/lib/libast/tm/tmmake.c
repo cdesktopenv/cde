@@ -100,8 +100,8 @@
 
 Tm_t*
 tmmake __PARAM__((time_t* clock), (clock)) __OTORP__(time_t* clock;){
-	register Tm_t*		tp;
-	register Tm_leap_t*	lp;
+	Tm_t*		tp;
+	Tm_leap_t*	lp;
 	int			leapsec;
 	time_t			now;
 

@@ -196,8 +196,8 @@ _END_EXTERNS_
 #define uchar		unsigned char
 #define ulong		unsigned long
 #define uint		unsigned int
-#define reg		register
-#define REG		register
+#define reg		/*NO register keyword*/
+#define REG		reg
 
 #define SECOND		1000	/* millisecond units */
 

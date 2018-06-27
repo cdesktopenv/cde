@@ -136,7 +136,7 @@ interrupt __PARAM__((int sig), (sig)) __OTORP__(int sig;){
 
 int
 sigcritical __PARAM__((int op), (op)) __OTORP__(int op;){
-	register int		i;
+	int		i;
 	static int		level;
 #if _lib_sigprocmask
 	static sigset_t		mask;

@@ -120,7 +120,7 @@ static void	trap_timeout __PROTO__((__V_*));
  * insert timeout item on current given list in sorted order
  */
 static __V_ *time_add __PARAM__((struct tevent *item, __V_ *list), (item, list)) __OTORP__(struct tevent *item; __V_ *list;){
-	register struct tevent *tp = (struct tevent*)list;
+	struct tevent *tp = (struct tevent*)list;
 	if(!tp || item->milli < tp->milli)
 	{
 		item->next = tp;
@@ -141,8 +141,8 @@ static __V_ *time_add __PARAM__((struct tevent *item, __V_ *list), (item, list))
 /*
  * delete timeout item from current given list, delete timer
  */
-static 	__V_ *time_delete __PARAM__((register struct tevent *item, __V_ *list), (item, list)) __OTORP__(register struct tevent *item; __V_ *list;){
-	register struct tevent *tp = (struct tevent*)list;
+static 	__V_ *time_delete __PARAM__((struct tevent *item, __V_ *list), (item, list)) __OTORP__(struct tevent *item; __V_ *list;){
+	struct tevent *tp = (struct tevent*)list;
 	if(item==tp)
 		list = (__V_*)tp->next;
 	else
@@ -158,12 +158,12 @@ static 	__V_ *time_delete __PARAM__((register struct tevent *item, __V_ *list), 
 }
 
 static void	print_alarms __PARAM__((__V_ *list), (list)) __OTORP__(__V_ *list;){
-	register struct tevent *tp = (struct tevent*)list;
+	struct tevent *tp = (struct tevent*)list;
 	while(tp)
 	{
 		if(tp->timeout)
 		{
-			register char *name = nv_name(tp->node);
+			char *name = nv_name(tp->node);
 			if(tp->flags&R_FLAG)
 			{
 				double d = tp->milli;
@@ -177,7 +177,7 @@ static void	print_alarms __PARAM__((__V_ *list), (list)) __OTORP__(__V_ *list;){
 }
 
 static void	trap_timeout __PARAM__((__V_* handle), (handle)) __OTORP__(__V_* handle;){
-	register struct tevent *tp = (struct tevent*)handle;
+	struct tevent *tp = (struct tevent*)handle;
 	sh.trapnote |= SH_SIGTRAP;
 	if(!(tp->flags&R_FLAG))
 		tp->timeout = 0;
@@ -188,8 +188,8 @@ static void	trap_timeout __PARAM__((__V_* handle), (handle)) __OTORP__(__V_* han
 }
 
 void	sh_timetraps __PARAM__((void), ()){
-	register struct tevent *tp, *tpnext;
-	register struct tevent *tptop;
+	struct tevent *tp, *tpnext;
+	struct tevent *tptop;
 	while(1)
 	{
 		sh.sigflag[SIGALRM] &= ~SH_SIGTRAP;
@@ -222,7 +222,7 @@ void	sh_timetraps __PARAM__((void), ()){
 static char *setdisc __PARAM__((Namval_t *np, const char *event, Namval_t* action, Namfun_t
  *fp), (np, event, action, fp)) __OTORP__(Namval_t *np; const char *event; Namval_t* action; Namfun_t
  *fp;){
-        register struct tevent *tp = (struct tevent*)fp;
+        struct tevent *tp = (struct tevent*)fp;
 	if(!event)
 		return(action?"":(char*)ALARM);
 	if(strcmp(event,ALARM)!=0)
@@ -241,8 +241,8 @@ static char *setdisc __PARAM__((Namval_t *np, const char *event, Namval_t* actio
  * catch assignments and set alarm traps
  */
 static void putval __PARAM__((Namval_t* np, const char* val, int flag, Namfun_t* fp), (np, val, flag, fp)) __OTORP__(Namval_t* np; const char* val; int flag; Namfun_t* fp;){
-	register struct tevent *tp;
-	register double d;
+	struct tevent *tp;
+	double d;
 	if(val)
 	{
 		double now;
@@ -290,9 +290,9 @@ static const Namdisc_t alarmdisc =
 };
 
 int	b_alarm __PARAM__((int argc,char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(int argc;char *argv[];__V_ *extra;){
-	register int n,rflag=0;
-	register Namval_t *np;
-	register struct tevent *tp;
+	int n,rflag=0;
+	Namval_t *np;
+	struct tevent *tp;
 	NOT_USED(extra);
 	while (n = optget(argv, sh_optalarm)) switch (n)
 	{

@@ -101,14 +101,14 @@
 
 static int level;
 static double arith __PARAM__((const char **ptr, struct lval *lvalue, int type, double n), (ptr, lvalue, type, n)) __OTORP__(const char **ptr; struct lval *lvalue; int type; double n;){
-	register double r= 0;
+	double r= 0;
 	char *str = (char*)*ptr;
 	switch(type)
 	{
 	    case ASSIGN:
 	    {
-		register Namval_t *np = (Namval_t*)(lvalue->value);
-		register Namarr_t *ap;
+		Namval_t *np = (Namval_t*)(lvalue->value);
+		Namarr_t *ap;
 		if(ap = nv_arrayptr(np))
 		{
 			if(!array_assoc(ap))
@@ -119,13 +119,13 @@ static double arith __PARAM__((const char **ptr, struct lval *lvalue, int type, 
 	    }
 	    case LOOKUP:
 	    {
-		register int c = *str;
+		int c = *str;
 		lvalue->value = (char*)0;
 		if(c=='.')
 			c = str[1];
 		if(isaletter(c))
 		{
-			register Namval_t *np;
+			Namval_t *np;
 			while(c= *++str, isaname(c)||c=='.');
 			if(c=='(')
 			{
@@ -177,7 +177,7 @@ static double arith __PARAM__((const char **ptr, struct lval *lvalue, int type, 
 	    }
 	    case VALUE:
 	    {
-		register Namval_t *np = (Namval_t*)(lvalue->value);
+		Namval_t *np = (Namval_t*)(lvalue->value);
 		if(sh_isoption(SH_NOEXEC))
 			return(0);
 		if((level || sh_isoption(SH_NOUNSET)) && nv_isnull(np) && !nv_isattr(np,NV_INTEGER))
@@ -200,13 +200,13 @@ static double arith __PARAM__((const char **ptr, struct lval *lvalue, int type, 
 	return(r);
 }
 
-double sh_strnum __PARAM__((register const char *str, char** ptr), (str, ptr)) __OTORP__(register const char *str; char** ptr;){
+double sh_strnum __PARAM__((const char *str, char** ptr), (str, ptr)) __OTORP__(const char *str; char** ptr;){
 	return(strval(str,(char**)ptr, arith));
 }
 
-double sh_arith __PARAM__((register const char *str), (str)) __OTORP__(register const char *str;){
+double sh_arith __PARAM__((const char *str), (str)) __OTORP__(const char *str;){
 	const char *ptr = str;
-	register double d;
+	double d;
 	if(*str==0)
 		return(0);
 	d = strval(str,(char**)&ptr,arith);

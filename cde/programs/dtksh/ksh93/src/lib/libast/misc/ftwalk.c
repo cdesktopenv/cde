@@ -122,9 +122,9 @@
 static Ftw_t	*Free;
 #define freeFtw(f)	((f)->link = Free, Free = (f))
 
-static Ftw_t *newFtw __PARAM__((register char* name, register int namelen), (name, namelen)) __OTORP__(register char* name; register int namelen;){
-	register Ftw_t	*f;
-	register int	amount;
+static Ftw_t *newFtw __PARAM__((char* name, int namelen), (name, namelen)) __OTORP__(char* name; int namelen;){
+	Ftw_t	*f;
+	int	amount;
 
 	if(Free && namelen < MINNAME)
 		f = Free, Free = f->link;
@@ -144,9 +144,9 @@ static Ftw_t *newFtw __PARAM__((register char* name, register int namelen), (nam
 	return f;
 }
 
-static int freeAll __PARAM__((register Ftw_t* f, register int rv), (f, rv)) __OTORP__(register Ftw_t* f; register int rv;){
-	register Ftw_t	*next;
-	register int	freeing;
+static int freeAll __PARAM__((Ftw_t* f, int rv), (f, rv)) __OTORP__(Ftw_t* f; int rv;){
+	Ftw_t	*next;
+	int	freeing;
 
 	for(freeing = 0; freeing < 2; ++freeing)
 	{
@@ -165,8 +165,8 @@ static int freeAll __PARAM__((register Ftw_t* f, register int rv), (f, rv)) __OT
 /*
 	To compare directories by device/inode.
 */
-static int statcmp __PARAM__((register Ftw_t* f1, register Ftw_t* f2), (f1, f2)) __OTORP__(register Ftw_t* f1; register Ftw_t* f2;){
-	register int	d;
+static int statcmp __PARAM__((Ftw_t* f1, Ftw_t* f2), (f1, f2)) __OTORP__(Ftw_t* f1; Ftw_t* f2;){
+	int	d;
 	if((d = f1->statb.st_ino - f2->statb.st_ino) != 0)
 		return d;
 	if((d = f1->statb.st_dev - f2->statb.st_dev) != 0)
@@ -182,9 +182,9 @@ static int statcmp __PARAM__((register Ftw_t* f1, register Ftw_t* f2), (f1, f2))
 #define RROTATE(r)	(t = r->left, r->left = t->right, t->right = r, r = t)
 #define LROTATE(r)	(t = r->right, r->right = t->left, t->left = r, r = t)
 
-static Ftw_t *search __PARAM__((register Ftw_t* e, register Ftw_t* root, int(*comparf)(Ftw_t*, Ftw_t*), int insert), (e, root, comparf, insert)) __OTORP__(register Ftw_t* e; register Ftw_t* root; int(*comparf)(); int insert;){
-	register int		cmp;
-	register Ftw_t		*t, *left, *right, *lroot, *rroot;
+static Ftw_t *search __PARAM__((Ftw_t* e, Ftw_t* root, int(*comparf)(Ftw_t*, Ftw_t*), int insert), (e, root, comparf, insert)) __OTORP__(Ftw_t* e; Ftw_t* root; int(*comparf)(); int insert;){
+	int		cmp;
+	Ftw_t		*t, *left, *right, *lroot, *rroot;
 
 	left = right = lroot = rroot = 0;
 	while(root)
@@ -247,8 +247,8 @@ static Ftw_t *search __PARAM__((register Ftw_t* e, register Ftw_t* root, int(*co
 /*
 **	Delete the root element from the tree
 */
-static Ftw_t *deleteroot __PARAM__((register Ftw_t* root), (root)) __OTORP__(register Ftw_t* root;){
-	register Ftw_t *t, *left, *right;
+static Ftw_t *deleteroot __PARAM__((Ftw_t* root), (root)) __OTORP__(Ftw_t* root;){
+	Ftw_t *t, *left, *right;
 
 	left = root->left;
 	right = root->right;
@@ -267,7 +267,7 @@ static Ftw_t *deleteroot __PARAM__((register Ftw_t* root), (root)) __OTORP__(reg
 /*
 	Convert a binary search tree into a sorted todo (link) list
 */
-static void getlist __PARAM__((register Ftw_t** top, register Ftw_t** bot, register Ftw_t* root), (top, bot, root)) __OTORP__(register Ftw_t** top; register Ftw_t** bot; register Ftw_t* root;){
+static void getlist __PARAM__((Ftw_t** top, Ftw_t** bot, Ftw_t* root), (top, bot, root)) __OTORP__(Ftw_t** top; Ftw_t** bot; Ftw_t* root;){
 	if(root->left)
 		getlist(top,bot,root->left);
 	if (*top) (*bot)->link = root, *bot = root;
@@ -279,8 +279,8 @@ static void getlist __PARAM__((register Ftw_t** top, register Ftw_t** bot, regis
 /*
 	Set directory when curdir is lost in space
 */
-static int setdir __PARAM__((register char* home, register char* path), (home, path)) __OTORP__(register char* home; register char* path;){
-	register int	cdrv;
+static int setdir __PARAM__((char* home, char* path), (home, path)) __OTORP__(char* home; char* path;){
+	int	cdrv;
 
 	if(path[0] == '/')
 		cdrv = pathcd(path,NiL);
@@ -298,8 +298,8 @@ static int setdir __PARAM__((register char* home, register char* path), (home, p
 /*
 	Set to parent dir
 */
-static int setpdir __PARAM__((register char* home, register char* path, register char* base), (home, path, base)) __OTORP__(register char* home; register char* path; register char* base;){
-	register int	cdrv, c;
+static int setpdir __PARAM__((char* home, char* path, char* base), (home, path, base)) __OTORP__(char* home; char* path; char* base;){
+	int	cdrv, c;
 
 	if(base > path)
 	{
@@ -315,9 +315,9 @@ static int setpdir __PARAM__((register char* home, register char* path, register
 /*
 	Pop a set of directories
 */
-static int popdirs __PARAM__((register int n_dir, register Ftw_t* ftw), (n_dir, ftw)) __OTORP__(register int n_dir; register Ftw_t* ftw;){
+static int popdirs __PARAM__((int n_dir, Ftw_t* ftw), (n_dir, ftw)) __OTORP__(int n_dir; Ftw_t* ftw;){
 	struct stat	sb;
-	register char	*s, *endbuf;
+	char	*s, *endbuf;
 	char		buf[PATH_MAX];
 
 	if(!ftw || ftw->level < 0)
@@ -340,11 +340,11 @@ static int popdirs __PARAM__((register int n_dir, register Ftw_t* ftw), (n_dir, 
 /*
 	Get top list of elt to process
 */
-static Ftw_t *toplist __PARAM__((register char** paths, int(*statf)(const char*, struct stat*),int(*comparf)(Ftw_t*, Ftw_t*), int metaphysical), (paths, statf, comparf, metaphysical)) __OTORP__(register char** paths; int(*statf)();int(*comparf)(); int metaphysical;){
-	register char		*path;
-	register Ftw_t		*f, *root;
+static Ftw_t *toplist __PARAM__((char** paths, int(*statf)(const char*, struct stat*),int(*comparf)(Ftw_t*, Ftw_t*), int metaphysical), (paths, statf, comparf, metaphysical)) __OTORP__(char** paths; int(*statf)();int(*comparf)(); int metaphysical;){
+	char		*path;
+	Ftw_t		*f, *root;
 	Ftw_t			*top, *bot;
-	register struct stat	*sb;
+	struct stat	*sb;
 	struct stat		st;
 
 	top = bot = root = 0;
@@ -389,9 +389,9 @@ static Ftw_t *toplist __PARAM__((register char** paths, int(*statf)(const char*,
 	Note that free() is not used because we may need to chdir(home)
 	if there isn't enough space to continue
 */
-static int resize __PARAM__((register char** home, register char** endbuf, register char** path, register char** base, int n_buf, int incre), (home, endbuf, path, base, n_buf, incre)) __OTORP__(register char** home; register char** endbuf; register char** path; register char** base; int n_buf; int incre;){
-	register char	*old, *newp;
-	register int		n_old;
+static int resize __PARAM__((char** home, char** endbuf, char** path, char** base, int n_buf, int incre), (home, endbuf, path, base, n_buf, incre)) __OTORP__(char** home; char** endbuf; char** path; char** base; int n_buf; int incre;){
+	char	*old, *newp;
+	int		n_old;
 
 	/* add space for "/." used in testing FTW_DNX */
 	n_old = n_buf;
@@ -418,7 +418,7 @@ static int resize __PARAM__((register char** home, register char** endbuf, regis
 */
 ftwalk __PARAM__((const char *cpath, int (*userf)(Ftw_t*), int flags, int (*comparf)(Ftw_t*, Ftw_t*)), (cpath, userf, flags, comparf)) __OTORP__(const char *cpath; int (*userf)(); int flags; int (*comparf)();){
 	char		*path = (char*)cpath;
-	register int	cdrv;		/* chdir value */
+	int	cdrv;		/* chdir value */
 	int		fnrv;		/* return value from user function */
 	Ftw_t		topf,		/* the parent of top elt */
 			*todo, *top, *bot;
@@ -478,14 +478,14 @@ ftwalk __PARAM__((const char *cpath, int (*userf)(Ftw_t*), int flags, int (*comp
 	dirfp = 0;
 	while(todo)
 	{
-		register int		i, nd;
-		register Ftw_t		*ftw, *f;
-		register struct stat	*sb;
-		register char		*name, *endbase;
+		int		i, nd;
+		Ftw_t		*ftw, *f;
+		struct stat	*sb;
+		char		*name, *endbase;
 		Ftw_t			*link, *root, *curdir, *diroot, *dotdot;
 		struct dirent		*dir;
 		char			*base;
-		register int		level, n_base, nostat, cpname;
+		int		level, n_base, nostat, cpname;
 
 		/* process the top object on the stack */
 		ftw = todo;

@@ -111,8 +111,8 @@
  */
 
 static void
-cmdinit __PARAM__((register char** argv), (argv)) __OTORP__(register char** argv;){
-	register char*	cp;
+cmdinit __PARAM__((char** argv), (argv)) __OTORP__(char** argv;){
+	char*	cp;
 
 	if (cp = strrchr(argv[0], '/')) cp++;
 	else cp = argv[0];

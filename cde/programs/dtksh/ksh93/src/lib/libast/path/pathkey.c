@@ -98,9 +98,9 @@
 
 char*
 pathkey __PARAM__((char* key, char* attr, const char* lang, const char* apath), (key, attr, lang, apath)) __OTORP__(char* key; char* attr; const char* lang; const char* apath;){
-	register char*		path = (char*)apath;
-	register char*		s;
-	register char*		k;
+	char*		path = (char*)apath;
+	char*		s;
+	char*		k;
 	char*			t;
 	char*			flags;
 	char**			p;

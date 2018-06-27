@@ -93,10 +93,10 @@
 #include <ast.h>
 
 int
-chrtoi __PARAM__((register const char* s), (s)) __OTORP__(register const char* s;){
-	register int	c;
-	register int	n;
-	register int	x;
+chrtoi __PARAM__((const char* s), (s)) __OTORP__(const char* s;){
+	int	c;
+	int	n;
+	int	x;
 	char*		p;
 
 	c = 0;

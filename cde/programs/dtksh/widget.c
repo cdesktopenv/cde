@@ -113,7 +113,7 @@ static void pr_widheader( void ) ;
 void
 init_widgets( void )
 {
-	register int i, n = 0;
+	int i, n = 0;
 	char *nam;
 	wtab_t *wentries;
         char * errmsg;
@@ -163,7 +163,7 @@ str_to_class(
         char *arg0,
         char *s )
 {
-   register int i, j, n;
+   int i, j, n;
    Widget w;
    char *nam;
    classtab_t *ret;
@@ -429,7 +429,7 @@ wtab_t *
 widget_to_wtab(
         Widget w )
 {
-	register int i;
+	int i;
         char * errmsg;
 
 	if (w == NULL)
@@ -495,7 +495,7 @@ get_new_wtab(
         char *name )
 
 {
-	register int i;
+	int i;
 
 	/*
 	 * If there has been a destroywidget call, then one or more
@@ -518,7 +518,7 @@ get_new_wtab(
 		if (NumW < MaxW) {
 			i = NumW++;
 		} else {
-			register int j;
+			int j;
 			int oldmax = MaxW;
 			wtab_t *wentries;
 
@@ -545,7 +545,7 @@ fixupresources(
         resfixup_t *fixups )
 {
 	XtResource *resource;
-	register int i;
+	int i;
 	char *nam;
 
 	if (fixups == NULL)
@@ -658,7 +658,7 @@ _pr_resource_list(
 static void
 sort_and_print_res( void )
 {
-	register int i;
+	int i;
 	qsort(Res, Nres, sizeof(XtResource *), (int (*)())rescompare);
 	for (i = 0; i < Nres; i++) {
 		_pr_resource_list(Res[i]);
@@ -826,7 +826,7 @@ do_DtWidgetInfo(
         int argc,
         char *argv[] )
 {
-	register int i, j;
+	int i, j;
 	char buf[1024];
 	wtab_t *w;
 	classtab_t *c;

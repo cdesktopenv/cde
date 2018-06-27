@@ -97,8 +97,8 @@
  */
 
 void
-copyin __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap;){
-	register File_t*	f = &ap->file;
+copyin __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
+	File_t*	f = &ap->file;
 
 	deltabase(ap);
 	while (getprologue(ap))
@@ -120,9 +120,9 @@ copyin __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* a
  */
 
 int
-copyout __PARAM__((register Ftw_t* ftw), (ftw)) __OTORP__(register Ftw_t* ftw;){
-	register Archive_t*	ap = state.out;
-	register File_t*	f = &ap->file;
+copyout __PARAM__((Ftw_t* ftw), (ftw)) __OTORP__(Ftw_t* ftw;){
+	Archive_t*	ap = state.out;
+	File_t*	f = &ap->file;
 
 	if (getfile(ap, f, ftw))
 	{
@@ -142,10 +142,10 @@ copyout __PARAM__((register Ftw_t* ftw), (ftw)) __OTORP__(register Ftw_t* ftw;){
 
 static void
 recordout __PARAM__((Archive_t* ap, File_t* f, Sfio_t* fp), (ap, f, fp)) __OTORP__(Archive_t* ap; File_t* f; Sfio_t* fp;){
-	register int	c;
-	register char*	p;
-	register char*	recdat;
-	register char*	blkdat;
+	int	c;
+	char*	p;
+	char*	recdat;
+	char*	blkdat;
 	char*		rec;
 	char*		blk;
 	int		span;
@@ -326,9 +326,9 @@ recordout __PARAM__((Archive_t* ap, File_t* f, Sfio_t* fp), (ap, f, fp)) __OTORP
  */
 
 void
-fileout __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register int	n;
-	register long	c;
+fileout __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	int	n;
+	long	c;
 	int		err;
 	Buffer_t*	bp;
 	Sfio_t*		rfp;
@@ -458,9 +458,9 @@ fileout __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP
  */
 
 static void
-recordin __PARAM__((register Archive_t* ap, register File_t* f, int wfd), (ap, f, wfd)) __OTORP__(register Archive_t* ap; register File_t* f; int wfd;){
-	register long			n;
-	register long			size;
+recordin __PARAM__((Archive_t* ap, File_t* f, int wfd), (ap, f, wfd)) __OTORP__(Archive_t* ap; File_t* f; int wfd;){
+	long			n;
+	long			size;
 	int				c;
 	int				i;
 	int				j;
@@ -645,8 +645,8 @@ recordin __PARAM__((register Archive_t* ap, register File_t* f, int wfd), (ap, f
  */
 
 static void
-savesetin __PARAM__((register Archive_t* ap, register File_t* f, int wfd), (ap, f, wfd)) __OTORP__(register Archive_t* ap; register File_t* f; int wfd;){
-	register long		c;
+savesetin __PARAM__((Archive_t* ap, File_t* f, int wfd), (ap, f, wfd)) __OTORP__(Archive_t* ap; File_t* f; int wfd;){
+	long		c;
 	int			i;
 	int			j;
 	int			k;
@@ -736,10 +736,10 @@ savesetin __PARAM__((register Archive_t* ap, register File_t* f, int wfd), (ap, 
  */
 
 void
-filein __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register long	c;
-	register int	n;
-	register char*	s;
+filein __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	long	c;
+	int	n;
+	char*	s;
 	int		dfd;
 	int		wfd;
 	long		checksum;
@@ -845,7 +845,7 @@ filein __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP_
  */
 
 void
-fileskip __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
+fileskip __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
 	switch (ap->format)
 	{
 	case ALAR:
@@ -871,11 +871,11 @@ fileskip __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTOR
 
 int
 copyinout __PARAM__((Ftw_t* ftw), (ftw)) __OTORP__(Ftw_t* ftw;){
-	register long		c;
-	register long		n;
-	register int		rfd;
-	register int		wfd;
-	register File_t*	f = &state.out->file;
+	long		c;
+	long		n;
+	int		rfd;
+	int		wfd;
+	File_t*	f = &state.out->file;
 
 	static char		path[PATH_MAX];
 
@@ -932,9 +932,9 @@ cmpftw __PARAM__((Ftw_t* ft1, Ftw_t* ft2), (ft1, ft2)) __OTORP__(Ftw_t* ft1; Ftw
 typedef int (*Ftw_cmp_t) __PROTO__((Ftw_t*, Ftw_t*));
 
 void
-copy __PARAM__((register Archive_t* ap, register int (*copyfile)(Ftw_t*)), (ap, copyfile)) __OTORP__(register Archive_t* ap; register int (*copyfile)();){
-	register char*	s;
-	register int	n;
+copy __PARAM__((Archive_t* ap, int (*copyfile)(Ftw_t*)), (ap, copyfile)) __OTORP__(Archive_t* ap; int (*copyfile)();){
+	char*	s;
+	int	n;
 
 	if (ap)
 	{
@@ -966,7 +966,7 @@ copy __PARAM__((register Archive_t* ap, register int (*copyfile)(Ftw_t*)), (ap, 
  */
 
 void
-append __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap;){
+append __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
 	if (state.update) initdelta(ap);
 	ap->format = IN_DEFAULT;
 	copyin(ap);

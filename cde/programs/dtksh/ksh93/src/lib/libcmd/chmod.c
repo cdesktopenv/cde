@@ -114,12 +114,12 @@ extern __MANGLE__ int	lchmod __PROTO__((const char*, mode_t));
 
 int
 b_chmod __PARAM__((int argc, char* argv[]), (argc, argv)) __OTORP__(int argc; char* argv[];){
-	register int	mode;
-	register int	force = 0;
-	register int	recurse = 0;
-	register int	resolve;
-	register char*	amode;
-	register char*	file;
+	int	mode;
+	int	force = 0;
+	int	recurse = 0;
+	int	resolve;
+	char*	amode;
+	char*	file;
 	char*		last;
 	struct stat	st;
 	int		(*chmodf) __PROTO__((const char*, mode_t));

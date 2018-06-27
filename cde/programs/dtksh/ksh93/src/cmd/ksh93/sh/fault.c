@@ -106,10 +106,10 @@ static char	indone;
 /*
  * Most signals caught or ignored by the shell come here
 */
-void	sh_fault __PARAM__((register int sig), (sig)) __OTORP__(register int sig;){
-	register int 	flag;
-	register char	*trap;
-	register struct checkpt	*pp = (struct checkpt*)sh.jmplist;
+void	sh_fault __PARAM__((int sig), (sig)) __OTORP__(int sig;){
+	int 	flag;
+	char	*trap;
+	struct checkpt	*pp = (struct checkpt*)sh.jmplist;
 	/* reset handler */
 	signal(sig, sh_fault);
 	/* handle ignored signals */
@@ -176,8 +176,8 @@ void	sh_fault __PARAM__((register int sig), (sig)) __OTORP__(register int sig;){
  * initialize signal handling
  */
 void sh_siginit __PARAM__((void), ()){
-	register int sig, n=SIGTERM+1;
-	register const struct shtable2	*tp = shtab_signals;
+	int sig, n=SIGTERM+1;
+	const struct shtable2	*tp = shtab_signals;
 	init_shtab_signals();
 	sig_begin();
 	/* find the largest signal number in the table */
@@ -214,8 +214,8 @@ void sh_siginit __PARAM__((void), ()){
 /*
  * Turn on trap handler for signal <sig>
  */
-void	sh_sigtrap __PARAM__((register int sig), (sig)) __OTORP__(register int sig;){
-	register int flag;
+void	sh_sigtrap __PARAM__((int sig), (sig)) __OTORP__(int sig;){
+	int flag;
 	sh.st.otrapcom = 0;
 	if(sig==0)
 		sh_sigdone();
@@ -238,7 +238,7 @@ void	sh_sigtrap __PARAM__((register int sig), (sig)) __OTORP__(register int sig;
  * set signal handler so sh_done is called for all caught signals
  */
 void	sh_sigdone __PARAM__((void), ()){
-	register int 	flag, sig = sh.sigmax;
+	int 	flag, sig = sh.sigmax;
 	setdone=1;
 	sh.sigflag[0] |= SH_SIGFAULT;
 	while(--sig>0)
@@ -254,9 +254,9 @@ void	sh_sigdone __PARAM__((void), ()){
  * Free the trap strings if mode is non-zero
  * If mode>1 then ignored traps cause signal to be ignored 
  */
-void	sh_sigreset __PARAM__((register int mode), (mode)) __OTORP__(register int mode;){
-	register char	*trap;
-	register int 	flag, sig=sh.st.trapmax;
+void	sh_sigreset __PARAM__((int mode), (mode)) __OTORP__(int mode;){
+	char	*trap;
+	int 	flag, sig=sh.st.trapmax;
 	while(sig-- > 0)
 	{
 		if(trap=sh.st.trapcom[sig])
@@ -296,9 +296,9 @@ void	sh_sigreset __PARAM__((register int mode), (mode)) __OTORP__(register int m
 /*
  * free up trap if set and restore signal handler if modified
  */
-void	sh_sigclear __PARAM__((register int sig), (sig)) __OTORP__(register int sig;){
-	register int flag = sh.sigflag[sig];
-	register char *trap;
+void	sh_sigclear __PARAM__((int sig), (sig)) __OTORP__(int sig;){
+	int flag = sh.sigflag[sig];
+	char *trap;
 	sh.st.otrapcom=0;
 	if(!(flag&SH_SIGFAULT))
 		return;
@@ -316,8 +316,8 @@ void	sh_sigclear __PARAM__((register int sig), (sig)) __OTORP__(register int sig
  */
 
 void	sh_chktrap __PARAM__((void), ()){
-	register int 	sig=sh.st.trapmax;
-	register char *trap;
+	int 	sig=sh.st.trapmax;
+	char *trap;
 	if(!sh.trapnote)
 		sig=0;
 	sh.trapnote &= ~SH_SIGTRAP;
@@ -401,9 +401,9 @@ int sh_trap __PARAM__((const char *trap, int mode), (trap, mode)) __OTORP__(cons
 /*
  * exit the current scope and jump to an earlier one based on pp->mode
  */
-void sh_exit __PARAM__((register int xno), (xno)) __OTORP__(register int xno;){
-	register struct checkpt	*pp = (struct checkpt*)sh.jmplist;
-	register int		sig=0;
+void sh_exit __PARAM__((int xno), (xno)) __OTORP__(int xno;){
+	struct checkpt	*pp = (struct checkpt*)sh.jmplist;
+	int		sig=0;
 	sh.exitval=xno;
 	if(xno==SH_EXITSIG)
 		sh.exitval |= (sig=sh.lastsig);
@@ -471,9 +471,9 @@ void sh_exit __PARAM__((register int xno), (xno)) __OTORP__(register int xno;){
  * This is the exit routine for the shell
  */
 
-void sh_done __PARAM__((register int sig), (sig)) __OTORP__(register int sig;){
-	register char *t;
-	register int savxit = sh.exitval;
+void sh_done __PARAM__((int sig), (sig)) __OTORP__(int sig;){
+	char *t;
+	int savxit = sh.exitval;
 	sh.trapnote = 0;
 	indone=1;
 	if(sig==0)

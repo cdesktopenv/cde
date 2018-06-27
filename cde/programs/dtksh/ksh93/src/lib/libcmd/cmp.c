@@ -104,13 +104,13 @@ static const char id[] = "\n@(#)cmp (AT&T Bell Laboratories) 07/17/94\0\n";
 
 static int
 cmp __PARAM__((const char* file1, Sfio_t* f1, const char* file2, Sfio_t* f2, int flags), (file1, f1, file2, f2, flags)) __OTORP__(const char* file1; Sfio_t* f1; const char* file2; Sfio_t* f2; int flags;){
-	register int		c1;
-	register int		c2;
-	register unsigned char*	p1 = 0;
-	register unsigned char*	p2 = 0;
-	register int		lines = 1;
-	register unsigned char*	e1 = 0;
-	register unsigned char*	e2 = 0;
+	int		c1;
+	int		c2;
+	unsigned char*	p1 = 0;
+	unsigned char*	p2 = 0;
+	int		lines = 1;
+	unsigned char*	e1 = 0;
+	unsigned char*	e2 = 0;
 	unsigned long		pos = 0;
 	int			ret = 0;
 	unsigned char*		last;
@@ -177,7 +177,7 @@ cmp __PARAM__((const char* file1, Sfio_t* f1, const char* file2, Sfio_t* f2, int
 }
 
 int
-b_cmp __PARAM__((int argc, register char** argv), (argc, argv)) __OTORP__(int argc; register char** argv;){
+b_cmp __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
 	char*		s;
 	char*		e;
 	Sfio_t*		f1 = 0;

@@ -102,9 +102,9 @@
 char*
 pathprobe __PARAM__((char* path, char* attr, const char* lang, const char* tool, const char* aproc, int op), (path, attr, lang, tool, aproc, op)) __OTORP__(char* path; char* attr; const char* lang; const char* tool; const char* aproc; int op;){
 	char*		proc = (char*)aproc;
-	register char*	p;
-	register char*	k;
-	register char**	ap;
+	char*	p;
+	char*	k;
+	char**	ap;
 	int		n;
 	char*		e;
 	char*		probe;

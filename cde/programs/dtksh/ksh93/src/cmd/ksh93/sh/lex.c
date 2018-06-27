@@ -199,7 +199,7 @@ static void refvar __PARAM__((int type), (type)) __OTORP__(int type;){
  * This routine gets called when reading across a buffer boundary
  * If lexd.nocopy is off, then current token is saved on the stack
  */
-static void lex_advance __PARAM__((Sfio_t *iop, const char *buff, register int size), (iop, buff, size)) __OTORP__(Sfio_t *iop; const char *buff; register int size;){
+static void lex_advance __PARAM__((Sfio_t *iop, const char *buff, int size), (iop, buff, size)) __OTORP__(Sfio_t *iop; const char *buff; int size;){
 #ifdef KSHELL
 	/* write to history file and to stderr if necessary */
 	if(!sfstacked(iop))
@@ -234,7 +234,7 @@ static void lex_advance __PARAM__((Sfio_t *iop, const char *buff, register int s
  * preserves lexical state
  */
 static int lexfill __PARAM__((void), ()){
-	register int c;
+	int c;
 	struct lexdata savedata;
 	struct lexstate savestate;
 	savedata = lexd;
@@ -264,10 +264,10 @@ void sh_lexinit __PARAM__((int mode), (mode)) __OTORP__(int mode;){
 
 #ifdef DBUG
 int sh_lex __PARAM__((void), ()){
-	register int flag;
+	int flag;
 	extern __MANGLE__ int lextoken __PROTO__((void));
 	char *quoted, *macro, *split, *expand; 
-	register int tok = lextoken();
+	int tok = lextoken();
 	quoted = macro = split = expand = "";
 	if(tok==0 && (flag=shlex.arg->argflag))
 	{
@@ -326,8 +326,8 @@ static void mbStateSkip __PARAM__((const char *state, int *c, int *n, int *len),
  * Returns the token type
  */
 int sh_lex __PARAM__((void), ()){
-	register const char	*state;
-	register int	n, c, mode=ST_BEGIN, wordflags=0;
+	const char	*state;
+	int	n, c, mode=ST_BEGIN, wordflags=0;
 	int		len, inlevel=lexd.level, assignment=0, ingrave=0;
 	Sfio_t *sp;
 	if(lexd.paren)
@@ -1283,8 +1283,8 @@ breakloop:
  * read to end of command substitution
  */
 static int comsub __PARAM__((void), ()){
-	register int	n,c,count=1;
-	register int	line=sh.inlineno;
+	int	n,c,count=1;
+	int	line=sh.inlineno;
 	char word[5];
 	int messages=0;
 	struct lexstate	save;
@@ -1355,8 +1355,8 @@ done:
  * allocate ionode with delimiter filled in without disturbing stak
  */
 static void nested_here __PARAM__((void), ()){
-	register struct ionod *iop;
-	register int n,offset;
+	struct ionod *iop;
+	int n,offset;
 	struct argnod *arg = shlex.arg;
 	char *base;
 	if(offset=staktell())
@@ -1386,8 +1386,8 @@ static void nested_here __PARAM__((void), ()){
  * if <copy> is non,zero, then the characters are copied to the stack
  * <state> is the initial lexical state
  */
-void sh_lexskip __PARAM__((int close, register int copy, int  state), (close, copy, state)) __OTORP__(int close; register int copy; int  state;){
-	register char	*cp;
+void sh_lexskip __PARAM__((int close, int copy, int  state), (close, copy, state)) __OTORP__(int close; int copy; int  state;){
+	char	*cp;
 	lexd.nest = close;
 	lex_state = state;
 	lexd.nocopy += !copy;
@@ -1411,11 +1411,11 @@ void sh_lexskip __PARAM__((int close, register int copy, int  state), (close, co
  * returns 1 for complete here-doc, 0 for EOF
  */
 
-static int here_copy __PARAM__((register struct ionod *iop), (iop)) __OTORP__(register struct ionod *iop;){
-	register const char	*state;
-	register int		c,n;
-	register char		*bufp,*cp;
-	register Sfio_t	*sp;
+static int here_copy __PARAM__((struct ionod *iop), (iop)) __OTORP__(struct ionod *iop;){
+	const char	*state;
+	int		c,n;
+	char		*bufp,*cp;
+	Sfio_t	*sp;
 	int			stripflg, nsave, special=0;
 	if(iop->iolst)
 		here_copy(iop->iolst);
@@ -1593,7 +1593,7 @@ done:
 /*
  * generates string for given token
  */
-static char	*fmttoken __PARAM__((register int sym), (sym)) __OTORP__(register int sym;){
+static char	*fmttoken __PARAM__((int sym), (sym)) __OTORP__(int sym;){
 	static char tok[3];
 	if(sym < 0)
 		return((char*)e_lexzerobyte);
@@ -1601,7 +1601,7 @@ static char	*fmttoken __PARAM__((register int sym), (sym)) __OTORP__(register in
 		return(shlex.arg?shlex.arg->argval:"?");
 	if(sym&SYMRES)
 	{
-		register const Shtable_t *tp=shtab_reserved;
+		const Shtable_t *tp=shtab_reserved;
 		while(tp->sh_number && tp->sh_number!=sym)
 			tp++;
 		return((char*)tp->sh_name);
@@ -1652,9 +1652,9 @@ static char	*fmttoken __PARAM__((register int sym), (sym)) __OTORP__(register in
  */
 
 void	sh_syntax __PARAM__((void), ()){
-	register const char *cp = e_unexpected;
-	register int tok = shlex.token;
-	register char *tokstr;
+	const char *cp = e_unexpected;
+	int tok = shlex.token;
+	char *tokstr;
 	Sfio_t *sp;
 	if((tok==EOFSYM) && shlex.lasttok)
 	{
@@ -1667,7 +1667,7 @@ void	sh_syntax __PARAM__((void), ()){
 	if((sp=fcfile()) || (sh.infd>=0 && (sp=sh.sftable[sh.infd])))
 	{
 		/* clear out any pending input */
-		register Sfio_t *top;
+		Sfio_t *top;
 		while(fcget()>0);
 		fcclose();
 		while(top=sfstack(sp,SF_POPSTACK))
@@ -1696,10 +1696,10 @@ void	sh_syntax __PARAM__((void), ()){
  * If mode==2, the each $"" string is printed on standard output
  */
 struct argnod *sh_endword __PARAM__((int mode), (mode)) __OTORP__(int mode;){
-	register const char *state = sh_lexstates[ST_NESTED];
-	register int n;
-	register char *sp,*dp;
-	register int inquote=0, inlit=0; /* set within quoted strings */
+	const char *state = sh_lexstates[ST_NESTED];
+	int n;
+	char *sp,*dp;
+	int inquote=0, inlit=0; /* set within quoted strings */
 	struct argnod* argp;
 	char	*ep=0;
 	int offset = staktell();
@@ -1901,8 +1901,8 @@ struct alias
  * This code gets called whenever an end of string is found with alias
  */
 static int alias_exceptf __PARAM__((Sfio_t *iop,int type,Sfdisc_t *handle), (iop, type, handle)) __OTORP__(Sfio_t *iop;int type;Sfdisc_t *handle;){
-	register struct alias *ap = (struct alias*)handle;
-	register Namval_t *np;
+	struct alias *ap = (struct alias*)handle;
+	Namval_t *np;
 	static char buf[2];
 	if(type==0 || !ap)
 		return(0);
@@ -1911,7 +1911,7 @@ static int alias_exceptf __PARAM__((Sfio_t *iop,int type,Sfdisc_t *handle), (iop
 	{
 		if(type==SF_CLOSE)
 		{
-			register Sfdisc_t *dp = sfdisc(iop,SF_POPDISC);
+			Sfdisc_t *dp = sfdisc(iop,SF_POPDISC);
 			if(dp!=handle)
 				sfdisc(iop,dp);
 			else if(ap)
@@ -1922,7 +1922,7 @@ static int alias_exceptf __PARAM__((Sfio_t *iop,int type,Sfdisc_t *handle), (iop
 	if(ap->nextc)
 	{
 		/* if last character is a blank, then next work can be alias */
-		register int c = fcpeek(-1);
+		int c = fcpeek(-1);
 		if(isblank(c))
 			shlex.aliasok = 1;
 		*buf = ap->nextc;
@@ -1938,7 +1938,7 @@ done:
 
 
 static void setupalias __PARAM__((const char *string,Namval_t *np), (string, np)) __OTORP__(const char *string;Namval_t *np;){
-	register Sfio_t *iop, *base;
+	Sfio_t *iop, *base;
 	struct alias *ap = (struct alias*)malloc(sizeof(struct alias));
 	ap->disc = alias_disc;
 	iop = sfopen(NIL(Sfio_t*),(char*)string,"s");

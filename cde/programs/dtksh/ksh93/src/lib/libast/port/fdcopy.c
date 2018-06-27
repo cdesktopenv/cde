@@ -146,7 +146,7 @@ off_t
 fdcopy __PARAM__((int rfd, int wfd, off_t n), (rfd, wfd, n)) __OTORP__(int rfd; int wfd; off_t n;)
 #line 55
 {
-	register off_t	c;
+	off_t	c;
 #ifdef MAPSIZE
 	off_t		pos;
 	off_t		mapsize;

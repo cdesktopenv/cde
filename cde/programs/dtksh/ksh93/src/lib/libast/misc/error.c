@@ -136,7 +136,7 @@ static const Namval_t		options[] =
  */
 
 static int
-setopt __PARAM__((__V_* a, const __V_* p, register int n, register const char* v), (a, p, n, v)) __OTORP__(__V_* a; const __V_* p; register int n; register const char* v;){
+setopt __PARAM__((__V_* a, const __V_* p, int n, const char* v), (a, p, n, v)) __OTORP__(__V_* a; const __V_* p; int n; const char* v;){
 	NoP(a);
 	if (p) switch (((Namval_t*)p)->value)
 	{
@@ -192,8 +192,8 @@ setopt __PARAM__((__V_* a, const __V_* p, register int n, register const char* v
  */
 
 static void
-print __PARAM__((register Sfio_t* sp, register char* name, char* delim), (sp, name, delim)) __OTORP__(register Sfio_t* sp; register char* name; char* delim;){
-	register int	c;
+print __PARAM__((Sfio_t* sp, char* name, char* delim), (sp, name, delim)) __OTORP__(Sfio_t* sp; char* name; char* delim;){
+	int	c;
 
 	while (c = *name++)
 	{
@@ -217,7 +217,7 @@ print __PARAM__((register Sfio_t* sp, register char* name, char* delim), (sp, na
  */
 
 static void
-context __PARAM__((register Sfio_t* sp, register Error_context_t* cp), (sp, cp)) __OTORP__(register Sfio_t* sp; register Error_context_t* cp;){
+context __PARAM__((Sfio_t* sp, Error_context_t* cp), (sp, cp)) __OTORP__(Sfio_t* sp; Error_context_t* cp;){
 	if (cp->context) context(sp, cp->context);
 	if (!(cp->flags & ERROR_SILENT))
 	{
@@ -243,7 +243,7 @@ error __PARAM__((int level, ...), (va_alist)) __OTORP__(va_dcl)
 
 void
 errorv __PARAM__((const char* lib, int level, va_list ap), (lib, level, ap)) __OTORP__(const char* lib; int level; va_list ap;){
-	register int	n;
+	int	n;
 	int		fd;
 	int		flags;
 	char*		s;

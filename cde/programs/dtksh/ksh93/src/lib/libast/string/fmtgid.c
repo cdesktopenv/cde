@@ -120,8 +120,8 @@ extern __MANGLE__ struct group*	getgrgid __PROTO__((gid_t));
 
 char*
 fmtgid __PARAM__((int gid), (gid)) __OTORP__(int gid;){
-	register char*		name;
-	register struct group*	gr;
+	char*		name;
+	struct group*	gr;
 
 	static Hash_table_t*	gidtab;
 	static char		buf[sizeof(int) * 3 + 1];

@@ -72,7 +72,7 @@ _END_EXTERNS_
 #endif
 
 /* short-hand notations */
-#define reg		register
+#define reg		/*no register keywords*/
 #define uchar		unsigned char
 #define uint		unsigned int
 #define ulong		unsigned long

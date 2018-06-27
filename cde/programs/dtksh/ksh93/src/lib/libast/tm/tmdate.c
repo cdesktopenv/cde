@@ -119,9 +119,9 @@
  */
 
 time_t
-tmdate __PARAM__((register const char* s, char** e, time_t* clock), (s, e, clock)) __OTORP__(register const char* s; char** e; time_t* clock;){
-	register Tm_t*	tm;
-	register int	n;
+tmdate __PARAM__((const char* s, char** e, time_t* clock), (s, e, clock)) __OTORP__(const char* s; char** e; time_t* clock;){
+	Tm_t*	tm;
+	int	n;
 	int		state;
 	time_t		now;
 	char*		t;

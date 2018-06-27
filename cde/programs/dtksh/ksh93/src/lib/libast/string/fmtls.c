@@ -112,8 +112,8 @@
  */
 
 char*
-fmtls __PARAM__((char* buf, const char* name, register struct stat* st, const char* info, const char* link, register int flags), (buf, name, st, info, link, flags)) __OTORP__(char* buf; const char* name; register struct stat* st; const char* info; const char* link; register int flags;){
-	register char*		s;
+fmtls __PARAM__((char* buf, const char* name, struct stat* st, const char* info, const char* link, int flags), (buf, name, st, info, link, flags)) __OTORP__(char* buf; const char* name; struct stat* st; const char* info; const char* link; int flags;){
+	char*		s;
 	time_t			tm;
 
 	s = buf;

@@ -103,10 +103,10 @@
 #define next_config(p)	((Shtable_t*)((char*)(p) + sizeof(*shtab_config)))
 #define MIN_LEN	20
 
-int	b_getconf __PARAM__((register int argc, char *argv[]), (argc, argv)) __OTORP__(register int argc; char *argv[];){
-	register int m,n;
-	register long val;
-	register const char *name, *path="";
+int	b_getconf __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
+	int m,n;
+	long val;
+	const char *name, *path="";
 	int offset = staktell();
 	const Shtable_t *tp = shtab_config;
 	error_info.id = argv[0];

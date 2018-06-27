@@ -122,7 +122,7 @@ void delsuftree __PARAM__((Suftree* root), (root)) __OTORP__(Suftree* root;){
 	root -= 1;
 	while(root)
 	{
-		register Suftree *next;
+		Suftree *next;
 		next = NEXT(root);
 		free(root);
 		root = next;
@@ -131,7 +131,7 @@ void delsuftree __PARAM__((Suftree* root), (root)) __OTORP__(Suftree* root;){
 
 /* Find a child whose label string starts with a given character */
 static Suftree	*child_find __PARAM__((Suftree* node, Element c), (node, c)) __OTORP__(Suftree* node; Element c;){
-	register Suftree	*np, *last;
+	Suftree	*np, *last;
 
 	last = 0;
 	for(np = CHILD(node); np; np = SIBLING(np))
@@ -186,10 +186,10 @@ static Suftree *getmem __PARAM__((Suftree* root, int n), (root, n)) __OTORP__(Su
 **			of the previously inserted suffix.
 */
 Suftree	*bldsuftree __PARAM__((Element* src, long len), (src, len)) __OTORP__(Element* src; long len;){
-	register Element	*sp, *mp, *rescan, *endmatch, *endsrc;
-	register Suftree	*match, *clocus, *locus, *link;
-	register long		mtlen, relen;
-	register int		n;
+	Element	*sp, *mp, *rescan, *endmatch, *endsrc;
+	Suftree	*match, *clocus, *locus, *link;
+	long		mtlen, relen;
+	int		n;
 	Suftree			*root, *list, *endlist;
 
 	if(len == 0)
@@ -383,9 +383,9 @@ Suftree	*bldsuftree __PARAM__((Element* src, long len), (src, len)) __OTORP__(El
 	string represented by the tree.
 */
 long	mtchsuftree __PARAM__((Suftree* tree, Element* str, long len, Element** mtchp), (tree, str, len, mtchp)) __OTORP__(Suftree* tree; Element* str; long len; Element** mtchp;){
-	register Suftree	*match;
-	register Element	*sp, *mp, *endmp, *endstr;
-	register long		mlen;
+	Suftree	*match;
+	Element	*sp, *mp, *endmp, *endstr;
+	long		mlen;
 
 	mlen = 0;
 	endstr = str + len;

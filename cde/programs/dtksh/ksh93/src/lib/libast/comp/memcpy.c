@@ -113,9 +113,9 @@ memcpy __PARAM__((__V_* s1, __V_* s2, size_t n), (s1, s2, n)) __OTORP__(__V_* s1
 #else
 
 __V_*
-memcpy __PARAM__((__V_* as1, const __V_* as2, register size_t n), (as1, as2, n)) __OTORP__(__V_* as1; const __V_* as2; register size_t n;){
-	register char*		s1 = (char*)as1;
-	register const char*	s2 = (const char*)as2;
+memcpy __PARAM__((__V_* as1, const __V_* as2, size_t n), (as1, as2, n)) __OTORP__(__V_* as1; const __V_* as2; size_t n;){
+	char*		s1 = (char*)as1;
+	const char*	s2 = (const char*)as2;
 
 	while (n-- > 0)
 		*s1++ = *s2++;

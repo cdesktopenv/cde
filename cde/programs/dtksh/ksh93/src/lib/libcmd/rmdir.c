@@ -96,8 +96,8 @@ static const char id[] = "\n@(#)rmdir (AT&T Bell Laboratories) 05/09/95\0\n";
 
 int
 b_rmdir __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
-	register char*	dir;
-	register int	n;
+	char*	dir;
+	int	n;
 
 	NoP(argc);
 	NoP(id[0]);

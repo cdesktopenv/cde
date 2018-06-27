@@ -132,9 +132,9 @@ static int subenv;
 void	sh_subtmpfile __PARAM__((void), ()){
 	if(sfset(sfstdout,0,0)&SF_STRING)
 	{
-		register int fd;
-		register struct checkpt	*pp = (struct checkpt*)sh.jmplist;
-		register struct subshell *sp = subshell_data->pipe;
+		int fd;
+		struct checkpt	*pp = (struct checkpt*)sh.jmplist;
+		struct subshell *sp = subshell_data->pipe;
 		/* save file descriptor 1 if open */
 		if((sp->tmpfd = fd = fcntl(1,F_DUPFD,10)) >= 0)
 		{
@@ -168,7 +168,7 @@ void	sh_subtmpfile __PARAM__((void), ()){
  * The child continues possibly with its standard output replaced by temp file
  */
 void sh_subfork __PARAM__((void), ()){
-	register struct subshell *sp = subshell_data;
+	struct subshell *sp = subshell_data;
 	pid_t pid;
 	/* see whether inside $(...) */
 	if(sp->pipe)
@@ -197,8 +197,8 @@ void sh_subfork __PARAM__((void), ()){
  * layer created by the most recent subshell_fork if the
  * node hasn't already been copied
  */
-Namval_t *sh_assignok __PARAM__((register Namval_t *np,int add), (np, add)) __OTORP__(register Namval_t *np;int add;){
-	register Namval_t *mp;
+Namval_t *sh_assignok __PARAM__((Namval_t *np,int add), (np, add)) __OTORP__(Namval_t *np;int add;){
+	Namval_t *mp;
 	if(nv_isnull(np) && !add)	/* don't bother with this */
 		return(np);
 	/* don't bother to save if in newer scope */
@@ -226,8 +226,8 @@ Namval_t *sh_assignok __PARAM__((register Namval_t *np,int add), (np, add)) __OT
  * restore the variables
  */
 static void nv_restore __PARAM__((struct subshell *sp), (sp)) __OTORP__(struct subshell *sp;){
-	register Namval_t *mp, *np;
-	register Hashpos_t *pos = hashscan(sp->svar,0);
+	Namval_t *mp, *np;
+	Hashpos_t *pos = hashscan(sp->svar,0);
 	while(np=(Namval_t*)hashnext(pos))
 	{
 		if(mp = nv_search((char*)np,sp->var,HASH_BUCKET))
@@ -256,7 +256,7 @@ static void nv_restore __PARAM__((struct subshell *sp), (sp)) __OTORP__(struct s
 
 Sfio_t *sh_subshell __PARAM__((union anynode *t, int flags, int comsub), (t, flags, comsub)) __OTORP__(union anynode *t; int flags; int comsub;){
 	struct subshell sub_data;
-	register struct subshell *sp = &sub_data;
+	struct subshell *sp = &sub_data;
 	int jmpval,nsig;
 	int savecurenv = sh.curenv;
 	char *savstak;

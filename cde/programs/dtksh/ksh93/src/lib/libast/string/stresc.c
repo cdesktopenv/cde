@@ -93,9 +93,9 @@
 #include <ast.h>
 
 int
-stresc __PARAM__((register char* s), (s)) __OTORP__(register char* s;){
-	register char*	t;
-	register int	c;
+stresc __PARAM__((char* s), (s)) __OTORP__(char* s;){
+	char*	t;
+	int	c;
 	char*		b;
 	char*		p;
 

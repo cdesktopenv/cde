@@ -99,7 +99,7 @@
 int
 pathcheck __PARAM__((const char* package, const char* tool, Pathcheck_t* pc), (package, tool, pc)) __OTORP__(const char* package; const char* tool; Pathcheck_t* pc;){
 #ifdef PARANOID
-	register char*	s;
+	char*	s;
 	struct stat	st;
 
 	if (strmatch(tool, PARANOID) && environ && (s = *environ) && *s++ == '_' && *s++ == '=' && !stat(s, &st))

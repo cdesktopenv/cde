@@ -291,7 +291,7 @@ classtab_t C[] = {
 void
 toolkit_init_widgets( void )
 {
-	register int i, n = 0;
+	int i, n = 0;
 	struct namnod *nam;
 
 	if (C[0].class != NULL)

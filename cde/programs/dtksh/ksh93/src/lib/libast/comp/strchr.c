@@ -114,7 +114,7 @@ strchr __PARAM__((const char* s, int c), (s, c)) __OTORP__(const char* s; int c;
 #else
 
 char*
-strchr __PARAM__((register const char* s, register int c), (s, c)) __OTORP__(register const char* s; register int c;){
+strchr __PARAM__((const char* s, int c), (s, c)) __OTORP__(const char* s; int c;){
 	do if (*s == c) return((char*)s); while(*s++);
 	return(0);
 }

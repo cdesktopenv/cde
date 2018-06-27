@@ -162,10 +162,10 @@ struct	mntent
 
 static struct mntent*
 getmntent __PARAM__((FILE* mp), (mp)) __OTORP__(FILE* mp;){
-	register int		c;
-	register char*		s;
-	register char*		m;
-	register int		q;
+	int		c;
+	char*		s;
+	char*		m;
+	int		q;
 	static struct mntent	e;
 
 	q = 0;
@@ -225,9 +225,9 @@ endmntent __PARAM__((FILE* mp), (mp)) __OTORP__(FILE* mp;){
 
 char*
 fmtfs __PARAM__((struct stat* st), (st)) __OTORP__(struct stat* st;){
-	register FILE*		mp;
-	register struct mntent*	mnt;
-	register char*		s;
+	FILE*		mp;
+	struct mntent*	mnt;
+	char*		s;
 	struct stat		rt;
 
 	static Hash_table_t*	tab;

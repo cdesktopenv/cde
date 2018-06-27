@@ -66,10 +66,10 @@ static char id[] = "\n@(#)mamstate (AT&T Bell Laboratories) 06/26/89\0\n";
 
 main(argc, argv)
 int		argc;
-register char**	argv;
+char**	argv;
 {
-	register char*	s;
-	register int	c;
+	char*	s;
+	int	c;
 	long		ref;
 	struct stat	st;
 	char		buf[1024];

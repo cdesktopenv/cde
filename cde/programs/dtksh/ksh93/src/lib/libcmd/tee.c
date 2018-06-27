@@ -108,11 +108,11 @@ struct tee
  */
 
 static int tee_write __PARAM__((Sfio_t* fp, const __V_* buf, int n, Sfdisc_t* handle), (fp, buf, n, handle)) __OTORP__(Sfio_t* fp; const __V_* buf; int n; Sfdisc_t* handle;){
-	register const char*	bp;
-	register const char*	ep;
-	register int*		hp = ((struct tee*)handle)->fd;
-	register int		fd = sffileno(fp);
-	register int		r;
+	const char*	bp;
+	const char*	ep;
+	int*		hp = ((struct tee*)handle)->fd;
+	int		fd = sffileno(fp);
+	int		r;
 
 	do
 	{
@@ -131,12 +131,12 @@ static int tee_write __PARAM__((Sfio_t* fp, const __V_* buf, int n, Sfdisc_t* ha
 static Sfdisc_t tee_disc = { 0, tee_write, 0, 0, 0 };
 
 int
-b_tee __PARAM__((int argc, register char** argv), (argc, argv)) __OTORP__(int argc; register char** argv;){
-	register struct tee*	tp = 0;
-	register int		oflag = O_WRONLY|O_TRUNC|O_CREAT;
-	register int		n;
-	register int*		hp;
-	register char*		cp;
+b_tee __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
+	struct tee*	tp = 0;
+	int		oflag = O_WRONLY|O_TRUNC|O_CREAT;
+	int		n;
+	int*		hp;
+	char*		cp;
 
 	NoP(id[0]);
 	cmdinit(argv);

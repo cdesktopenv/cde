@@ -118,9 +118,9 @@ extern __MANGLE__ int		printf __PROTO__((const char*, ...));
 
 main()
 {
-	register int	i;
-	register int	j;
-	register int	k;
+	int	i;
+	int	j;
+	int	k;
 
 	int		align0;
 	int		align1;

@@ -113,8 +113,8 @@ static struct tok*	freelist;
  */
 
 char*
-tokopen __PARAM__((register char* s, int f), (s, f)) __OTORP__(register char* s; int f;){
-	register TOK*	p;
+tokopen __PARAM__((char* s, int f), (s, f)) __OTORP__(char* s; int f;){
+	TOK*	p;
 
 	if (p = freelist) freelist = freelist->ptr.nxt;
 	else if (!(p = newof(0, TOK, 1, 0))) return(0);
@@ -130,7 +130,7 @@ tokopen __PARAM__((register char* s, int f), (s, f)) __OTORP__(register char* s;
 
 void
 tokclose __PARAM__((char* u), (u)) __OTORP__(char* u;){
-	register TOK*	p = (TOK*)u;
+	TOK*	p = (TOK*)u;
 
 	if (p->flg) *p->ptr.end = p->chr;
 	p->ptr.nxt = freelist;
@@ -146,11 +146,11 @@ tokclose __PARAM__((char* u), (u)) __OTORP__(char* u;){
 
 char*
 tokread __PARAM__((char* u), (u)) __OTORP__(char* u;){
-	register TOK*	p = (TOK*)u;
-	register char*	s;
-	register char*	r;
-	register int	q;
-	register int	c;
+	TOK*	p = (TOK*)u;
+	char*	s;
+	char*	r;
+	int	q;
+	int	c;
 
 	/*
 	 * restore string on each call

@@ -130,8 +130,8 @@ static gid_t egroupid;
 static struct stat statb;
 
 main __PARAM__((int argc,char *argv[]), (argc, argv)) __OTORP__(int argc;char *argv[];){
-	register int m,n;
-	register char *p;
+	int m,n;
+	char *p;
 	struct stat statx;
 	int mode;
 	uid_t effuid;
@@ -283,7 +283,7 @@ exec:
  * return true of shell ends in sh
  */
 
-static int endsh __PARAM__((register const char *shell), (shell)) __OTORP__(register const char *shell;){
+static int endsh __PARAM__((const char *shell), (shell)) __OTORP__(const char *shell;){
 	while(*shell)
 		shell++;
 	if(*--shell != 'h' || *--shell != 's')
@@ -296,7 +296,7 @@ static int endsh __PARAM__((register const char *shell), (shell)) __OTORP__(regi
  * return true of shell is in <dir> directory
  */
 
-static int in_dir __PARAM__((register const char *dir,register const char *shell), (dir, shell)) __OTORP__(register const char *dir;register const char *shell;){
+static int in_dir __PARAM__((const char *dir,const char *shell), (dir, shell)) __OTORP__(const char *dir;const char *shell;){
 	while(*dir)
 	{
 		if(*dir++ != *shell++)
@@ -316,7 +316,7 @@ static void error_exit __PARAM__((const char *message), (message)) __OTORP__(con
  * This version of access checks against effective uid and effective gid
  */
 
-eaccess __PARAM__((register const char *name, register int mode), (name, mode)) __OTORP__(register const char *name; register int mode;){	
+eaccess __PARAM__((const char *name, int mode), (name, mode)) __OTORP__(const char *name; int mode;){
 	struct stat statb;
 	if (stat(name, &statb) == 0)
 	{
@@ -337,7 +337,7 @@ eaccess __PARAM__((register const char *name, register int mode), (name, mode)) 
 		{
 			static int maxgroups = 0;
 			gid_t *groups; 
-			register int n;
+			int n;
 			if(maxgroups==0)
 			{
 				/* first time */
@@ -387,7 +387,7 @@ setids __PARAM__((int mode,int owner,int group), (mode, owner, group)) __OTORP__
  */
 
 setids __PARAM__((int mode,uid_t owner,gid_t group), (mode, owner, group)) __OTORP__(int mode;uid_t owner;gid_t group;){
-	register int n,m;
+	int n,m;
 	int pv[2];
 
 	/*
@@ -497,8 +497,8 @@ setids __PARAM__((int mode,uid_t owner,gid_t group), (mode, owner, group)) __OTO
  */
 
 static void maketemp __PARAM__((char *template), (template)) __OTORP__(char *template;){
-	register char *cp = template;
-	register pid_t n = getpid();
+	char *cp = template;
+	pid_t n = getpid();
 	/* skip to end of string */
 	while(*++cp);
 	/* convert process id to string */
@@ -516,7 +516,7 @@ static void maketemp __PARAM__((char *template), (template)) __OTORP__(char *tem
 
 static int mycopy __PARAM__((int fdi, int fdo), (fdi, fdo)) __OTORP__(int fdi; int fdo;){
 	char buffer[BLKSIZE];
-	register int n;
+	int n;
 
 	while((n = read(fdi,buffer,BLKSIZE)) > 0)
 		if(write(fdo,buffer,n) != n)

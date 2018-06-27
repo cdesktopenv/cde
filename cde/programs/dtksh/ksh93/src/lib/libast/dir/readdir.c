@@ -99,8 +99,8 @@ NoN(readdir)
 #else
 
 struct dirent*
-readdir __PARAM__((register DIR* dirp), (dirp)) __OTORP__(register DIR* dirp;){
-	register struct dirent*	dp;
+readdir __PARAM__((DIR* dirp), (dirp)) __OTORP__(DIR* dirp;){
+	struct dirent*	dp;
 
 	for (;;)
 	{

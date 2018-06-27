@@ -94,9 +94,9 @@
 #include <ls.h>
 
 char*
-fmtperm __PARAM__((register int perm), (perm)) __OTORP__(register int perm;){
-	register char*	s;
-	register char*	p;
+fmtperm __PARAM__((int perm), (perm)) __OTORP__(int perm;){
+	char*	s;
+	char*	p;
 	char*		o;
 	int		c;
 

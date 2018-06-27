@@ -107,8 +107,8 @@
  */
 
 Hash_position_t*
-hashscan __PARAM__((register Hash_table_t* tab, register int flags), (tab, flags)) __OTORP__(register Hash_table_t* tab; register int flags;){
-	register Hash_position_t*	pos;
+hashscan __PARAM__((Hash_table_t* tab, int flags), (tab, flags)) __OTORP__(Hash_table_t* tab; int flags;){
+	Hash_position_t*	pos;
 
 	static Hash_bucket_t		empty;
 
@@ -122,12 +122,12 @@ hashscan __PARAM__((register Hash_table_t* tab, register int flags), (tab, flags
 		pos->flags = HASH_SCOPE;
 		do
 		{
-			register Hash_bucket_t*	b;
+			Hash_bucket_t*	b;
 
 			if (tab->flags & HASH_SCANNING)
 			{
-				register Hash_bucket_t**	sp = tab->table;
-				register Hash_bucket_t**	sx = tab->table + tab->size;
+				Hash_bucket_t**	sp = tab->table;
+				Hash_bucket_t**	sx = tab->table + tab->size;
 
 				while (sp < sx)
 					for (b = *sp++; b; b = b->next)
@@ -147,8 +147,8 @@ hashscan __PARAM__((register Hash_table_t* tab, register int flags), (tab, flags
  */
 
 Hash_bucket_t*
-hashnext __PARAM__((register Hash_position_t* pos), (pos)) __OTORP__(register Hash_position_t* pos;){
-	register Hash_bucket_t*	b;
+hashnext __PARAM__((Hash_position_t* pos), (pos)) __OTORP__(Hash_position_t* pos;){
+	Hash_bucket_t*	b;
 
 	if (!pos) return(hash_info.last = pos->tab->root->last.bucket = 0);
 	b = pos->bucket;
@@ -173,7 +173,7 @@ hashnext __PARAM__((register Hash_position_t* pos), (pos)) __OTORP__(register Ha
 		if (!(b->hash & HASH_DELETED) && (!(pos->tab->flags & HASH_VALUE) || b->value) && (!pos->flags || !(b->hash & (HASH_HIDDEN|HASH_HIDES)))) break;
 		if (b->hash & HASH_HIDES)
 		{
-			register Hash_bucket_t*	h = (Hash_bucket_t*)b->name;
+			Hash_bucket_t*	h = (Hash_bucket_t*)b->name;
 
 			if (!(h->hash & HASH_HIDDEN))
 			{
@@ -191,7 +191,7 @@ hashnext __PARAM__((register Hash_position_t* pos), (pos)) __OTORP__(register Ha
  */
 
 void
-hashdone __PARAM__((register Hash_position_t* pos), (pos)) __OTORP__(register Hash_position_t* pos;){
+hashdone __PARAM__((Hash_position_t* pos), (pos)) __OTORP__(Hash_position_t* pos;){
 	if (pos)
 	{
 		if (pos->tab->flags & HASH_SCANNING)

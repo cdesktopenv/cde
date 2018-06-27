@@ -264,7 +264,7 @@ DtkshCvtNamedValueToString(
 	struct named_integer *table;
 	int numtable;
 	long value;
-	register int i;
+	int i;
         char * errmsg;
 
         switch(fval->size)
@@ -335,7 +335,7 @@ DtkshCvtStringToNamedValue(
 	struct named_integer *table;
 	int numtable;
 	char *value;
-	register int i;
+	int i;
         char * errbuf;
         char * errmsg;
 

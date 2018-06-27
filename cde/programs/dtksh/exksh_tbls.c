@@ -168,7 +168,7 @@ xk_parse(
         memtbl_t *(*tbl_find)() )
 {
 	memtbl_t *ntbl;
-	register int i = 0;
+	int i = 0;
 	int skind, delim_type;
 	long val = 0;		/* used for choice selection */
 	char *np;
@@ -726,7 +726,7 @@ xk_print(
         memtbl_t *(*tbl_find)() )
 {
 	memtbl_t *ntbl;
-	register int i;
+	int i;
 	long val;		/* used for choice selection */
 	char *np;
 	int delim = _Delim;
@@ -962,7 +962,7 @@ xk_free(
         memtbl_t *(*tbl_find)() )
 {
 	memtbl_t *ntbl;
-	register int i;
+	int i;
 	long val;		/* used for choice selection */
 	char *np;
 	int delim = _Delim;

@@ -638,7 +638,7 @@ all_tbl_search(
         char *name,
         int flag )
 {
-	register int i;
+	int i;
 	void *found;
 
         if (!structInited)
@@ -647,8 +647,8 @@ all_tbl_search(
 	if (found = (void *) xkhash_find(Hashnams, name))
 		return((memtbl_t *) found);
 	else {
-		register int j;
-		register memtbl_t **subtbl;
+		int j;
+		memtbl_t **subtbl;
 
 		for (i = 0; i < Nstructlist; i++) {
 			if (subtbl = Structlist[i].mem)

@@ -49,8 +49,8 @@
 _stdvsscanf(char *s, const char *form, va_list args)
 #else
 _stdvsscanf(s,form,args)
-register char	*s;
-register char	*form;
+char	*s;
+char	*form;
 va_list		args;
 #endif
 {

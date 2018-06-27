@@ -103,7 +103,7 @@ NoN(rmdir)
 
 int
 rmdir __PARAM__((const char* path), (path)) __OTORP__(const char* path;){
-	register int	n;
+	int	n;
 	struct stat	st;
 	char*		av[3];
 

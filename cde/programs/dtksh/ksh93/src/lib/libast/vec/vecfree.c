@@ -101,7 +101,7 @@
  */
 
 void
-vecfree __PARAM__((register char** vec, int retain), (vec, retain)) __OTORP__(register char** vec; int retain;){
+vecfree __PARAM__((char** vec, int retain), (vec, retain)) __OTORP__(char** vec; int retain;){
 	if (vec)
 	{
 		if (*(vec -= 2) && !retain) free(*vec);

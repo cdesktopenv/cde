@@ -112,16 +112,16 @@ getuniv __PARAM__((void), ())
 	return(getuniverse(buf) < 0 ? 0 : buf);
 #else
 #ifndef UNIV_MAX
-	register char*	u;
-	register char*	p;
+	char*	u;
+	char*	p;
 
 	if (!(u = getenv(univ_env)) || !*u)
 	{
 		u = _UNIV_DEFAULT;
 		if (p = getenv("PATH"))
 		{
-			register int	r = 1;
-			register char*	d = p;
+			int	r = 1;
+			char*	d = p;
 			int		offset = staktell();
 
 			for (;;)
@@ -180,7 +180,7 @@ getuniv __PARAM__((void), ())
 	return(buf);
 #else
 #if defined(ATT_UNIV) || defined(U_GET)
-	register int	n;
+	int	n;
 
 #if defined(ATT_UNIV)
 	if ((n = setuniverse(ATT_UNIV)) < 0) return(0);

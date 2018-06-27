@@ -130,9 +130,9 @@ static int		exec_err;
  * Sets the PWD variable to this value
  */
 char *path_pwd __PARAM__((int flag), (flag)) __OTORP__(int flag;){
-	register char *cp;
-	register char *dfault = (char*)e_dot;
-	register int count = 0;
+	char *cp;
+	char *dfault = (char*)e_dot;
+	int count = 0;
 	if(sh.pwd)
 		return((char*)sh.pwd);
 	while(1) 
@@ -189,8 +189,8 @@ skip:
  */
 
 char *path_get __PARAM__((const char *name), (name)) __OTORP__(const char *name;){
-	register char *path=0;
-	register char *sp = sh.lastpath;
+	char *path=0;
+	char *sp = sh.lastpath;
 	static int bin_is_usrbin = -1;
 	if(strchr(name,'/'))
 		return("");
@@ -220,9 +220,9 @@ char *path_get __PARAM__((const char *name), (name)) __OTORP__(const char *name;
  * convert each /usr/bin to /bin and eliminate multiple /bin from <path>
  * The resulting path is placed on the stack
  */
-static char *path_to_stak __PARAM__((register const char *path), (path)) __OTORP__(register const char *path;){
-	register const char *cp=path, *base;
-	register int n, nbin=0;
+static char *path_to_stak __PARAM__((const char *path), (path)) __OTORP__(const char *path;){
+	const char *cp=path, *base;
+	int n, nbin=0;
 	stakseek(0);
 	while(*cp)
 	{
@@ -250,7 +250,7 @@ static char *path_to_stak __PARAM__((register const char *path), (path)) __OTORP
 }
 
 int	path_open __PARAM__((const char *name,char *path), (name, path)) __OTORP__(const char *name;char *path;){
-	register int fd;
+	int fd;
 	struct stat statb;
 	if(strchr(name,'/'))
 	{
@@ -292,9 +292,9 @@ int	path_open __PARAM__((const char *name,char *path), (name, path)) __OTORP__(c
  */
 
 static int path_inpath __PARAM__((const char *path, const char *fpath), (path, fpath)) __OTORP__(const char *path; const char *fpath;){
-	register const char *dp = fpath;
-	register const char *sp = path;
-	register int c, match=1;
+	const char *dp = fpath;
+	const char *sp = path;
+	int c, match=1;
 	if(!dp || !sp || *sp==0)
 		return(0);
 	if(*sp==':' || (*sp=='.' && ((c=sp[1])==0 || c==':')))
@@ -323,14 +323,14 @@ static int path_inpath __PARAM__((const char *path, const char *fpath), (path, f
  *  set tracked alias node <np> to value <sp>
  */
 
-void path_alias __PARAM__((register Namval_t *np,register char *sp), (np, sp)) __OTORP__(register Namval_t *np;register char *sp;){
+void path_alias __PARAM__((Namval_t *np,char *sp), (np, sp)) __OTORP__(Namval_t *np;char *sp;){
 	if(!sp)
 		nv_unset(np);
 	else
 	{
-		register const char *vp = np->nvalue.cp;
-		register int n = 1;
-		register int nofree = nv_isattr(np,NV_NOFREE);
+		const char *vp = np->nvalue.cp;
+		int n = 1;
+		int nofree = nv_isattr(np,NV_NOFREE);
 		nv_offattr(np,NV_NOPRINT);
 		if(!vp || (n=strcmp(sp,vp))!=0)
 		{
@@ -350,8 +350,8 @@ void path_alias __PARAM__((register Namval_t *np,register char *sp), (np, sp)) _
  * given a pathname return the base name
  */
 
-char	*path_basename __PARAM__((register const char *name), (name)) __OTORP__(register const char *name;){
-	register const char *start = name;
+char	*path_basename __PARAM__((const char *name), (name)) __OTORP__(const char *name;){
+	const char *start = name;
 	while (*name)
 		if ((*name++ == '/') && *name)	/* don't trim trailing / */
 			start = name;
@@ -379,9 +379,9 @@ static void funload __PARAM__((int fno, const char *name), (fno, name)) __OTORP_
  * If endpath!=NULL, Path search ends when path matches endpath.
  */
 
-int	path_search __PARAM__((register const char *name,const char *endpath, int flag), (name, endpath, flag)) __OTORP__(register const char *name;const char *endpath; int flag;){
-	register Namval_t *np;
-	register int fno;
+int	path_search __PARAM__((const char *name,const char *endpath, int flag), (name, endpath, flag)) __OTORP__(const char *name;const char *endpath; int flag;){
+	Namval_t *np;
+	int fno;
 	if(flag)
 	{
 		/* if not found on pruned path, rehash and try again */
@@ -393,7 +393,7 @@ int	path_search __PARAM__((register const char *name,const char *endpath, int fl
 	}
 	if(flag==0 || !sh.lastpath)
 	{
-		register char *path=0;
+		char *path=0;
 		if(strmatch(name,e_alphanum))
 			path = nv_getval(nv_scoped(FPATHNOD));
 		if(path && (fno=path_open(name,path))>=0)
@@ -425,11 +425,11 @@ int	path_search __PARAM__((register const char *name,const char *endpath, int fl
  * end search of path matches endpath without checking execute permission
  */
 
-char	*path_absolute __PARAM__((register const char *name, const char *endpath), (name, endpath)) __OTORP__(register const char *name; const char *endpath;){
-	register int	f;
-	register char *path;
-	register const char *fpath=0;
-	register int isfun;
+char	*path_absolute __PARAM__((const char *name, const char *endpath), (name, endpath)) __OTORP__(const char *name; const char *endpath;){
+	int	f;
+	char *path;
+	const char *fpath=0;
+	int isfun;
 #ifdef SHOPT_VPIX
 	char **suffix = 0;
 	char *top;
@@ -501,9 +501,9 @@ char	*path_absolute __PARAM__((register const char *name, const char *endpath), 
 #   endif /*S_EXEC */
 #endif /* S_IXUSR */
 
-static int canexecute __PARAM__((register char *path, int isfun), (path, isfun)) __OTORP__(register char *path; int isfun;){
+static int canexecute __PARAM__((char *path, int isfun), (path, isfun)) __OTORP__(char *path; int isfun;){
 	struct stat statb;
-	register int fd=0;
+	int fd=0;
 	path = path_relative(path);
 	if(isfun)
 	{
@@ -542,9 +542,9 @@ err:
  * Return path relative to present working directory
  */
 
-char *path_relative __PARAM__((register const char* file), (file)) __OTORP__(register const char* file;){
-	register const char *pwd;
-	register const char *fp = file;
+char *path_relative __PARAM__((const char* file), (file)) __OTORP__(const char* file;){
+	const char *pwd;
+	const char *fp = file;
 	/* can't relpath when sh.pwd not set */
 	if(!(pwd=sh.pwd))
 		return((char*)fp);
@@ -564,10 +564,10 @@ char *path_relative __PARAM__((register const char* file), (file)) __OTORP__(reg
 	return((char*)file);
 }
 
-char *path_join __PARAM__((register char *path,const char *name), (path, name)) __OTORP__(register char *path;const char *name;){
+char *path_join __PARAM__((char *path,const char *name), (path, name)) __OTORP__(char *path;const char *name;){
 	/* leaves result on top of stack */
-	register char *scanp = path;
-	register int c;
+	char *scanp = path;
+	int c;
 	stakseek(PATH_OFFSET);
 	if(*scanp=='.')
 	{
@@ -602,8 +602,8 @@ char *path_join __PARAM__((register char *path,const char *name), (path, name)) 
 }
 
 
-void	path_exec __PARAM__((register const char *arg0,register char *argv[],struct argnod *local), (arg0, argv, local)) __OTORP__(register const char *arg0;register char *argv[];struct argnod *local;){
-	register const char *path = "";
+void	path_exec __PARAM__((const char *arg0,char *argv[],struct argnod *local), (arg0, argv, local)) __OTORP__(const char *arg0;char *argv[];struct argnod *local;){
+	const char *path = "";
 	nv_setlist(local,NV_EXPORT|NV_IDENT|NV_ASSIGN);
 	xecenv=sh_envgen();
 	if(strchr(arg0,'/'))
@@ -632,9 +632,9 @@ void	path_exec __PARAM__((register const char *arg0,register char *argv[],struct
  * This routine constructs a short path consisting of all
  * Relative directories up to the directory of fullname <name>
  */
-static char *prune __PARAM__((register char *path,const char *fullname), (path, fullname)) __OTORP__(register char *path;const char *fullname;){
-	register char *p = path;
-	register char *s;
+static char *prune __PARAM__((char *path,const char *fullname), (path, fullname)) __OTORP__(char *path;const char *fullname;){
+	char *p = path;
+	char *s;
 	int n = 1; 
 	const char *base;
 	char *inpath = path;
@@ -675,8 +675,8 @@ static char *prune __PARAM__((register char *path,const char *fullname), (path, 
 }
 
 
-static char *execs __PARAM__((const char *ap,const char *arg0,register char **argv), (ap, arg0, argv)) __OTORP__(const char *ap;const char *arg0;register char **argv;){
-	register char *path, *prefix;
+static char *execs __PARAM__((const char *ap,const char *arg0,char **argv), (ap, arg0, argv)) __OTORP__(const char *ap;const char *arg0;char **argv;){
+	char *path, *prefix;
 	sh_sigcheck();
 	prefix=path_join((char*)ap,arg0);
 	xecenv[0] =  stakptr(0);
@@ -779,8 +779,8 @@ static char *execs __PARAM__((const char *ap,const char *arg0,register char **ar
  */
 
 
-static void exscript __PARAM__((register char *path,register char *argv[]), (path, argv)) __OTORP__(register char *path;register char *argv[];){
-	register Sfio_t *sp;
+static void exscript __PARAM__((char *path,char *argv[]), (path, argv)) __OTORP__(char *path;char *argv[];){
+	Sfio_t *sp;
 	sh.comdiv=0;
 	sh.bckpid = 0;
 	sh.st.ioset=0;
@@ -801,8 +801,8 @@ static void exscript __PARAM__((register char *path,register char *argv[]), (pat
 	/* check if file cannot open for read or script is setuid/setgid  */
 	{
 		static char name[] = "/tmp/euidXXXXXXXXXX";
-		register int n;
-		register uid_t euserid;
+		int n;
+		uid_t euserid;
 		char *savet;
 		struct stat statb;
 		if((n=sh_open(path,O_RDONLY,0)) >= 0)
@@ -933,8 +933,8 @@ static void exscript __PARAM__((register char *path,register char *argv[]), (pat
      * Produce a pseudo-floating point representation
      * with 3 bits base-8 exponent, 13 bits fraction.
      */
-    static int compress __PARAM__((register time_t t), (t)) __OTORP__(register time_t t;){
-	register int exp = 0, rund = 0;
+    static int compress __PARAM__((time_t t), (t)) __OTORP__(time_t t;){
+	int exp = 0, rund = 0;
 
 	while (t >= 8192)
 	{

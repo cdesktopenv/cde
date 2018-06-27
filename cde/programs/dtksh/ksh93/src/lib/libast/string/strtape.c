@@ -93,7 +93,7 @@
 #include <ast.h>
 
 char*
-strtape __PARAM__((register const char* s, register char** e), (s, e)) __OTORP__(register const char* s; register char** e;){
+strtape __PARAM__((const char* s, char** e), (s, e)) __OTORP__(const char* s; char** e;){
 	int		mtunit = '0';
 	int		mtdensity = 0;
 	char		mtrewind[2];

@@ -126,9 +126,9 @@ vchdir __PARAM__((const char* path), (path)) __OTORP__(const char* path;){
 
 int
 pathcd __PARAM__((const char* path, const char* home), (path, home)) __OTORP__(const char* path; const char* home;){
-	register char*	p = (char*)path;
-	register char*	s;
-	register int	n;
+	char*	p = (char*)path;
+	char*	s;
+	int	n;
 	int		i;
 	int		r;
 

@@ -108,9 +108,9 @@
 
 char*
 pathshell __PARAM__((void), ()){
-	register char*	s;
-	register char*	sh;
-	register int	i;
+	char*	s;
+	char*	sh;
+	int	i;
 
 	static char*	val;
 

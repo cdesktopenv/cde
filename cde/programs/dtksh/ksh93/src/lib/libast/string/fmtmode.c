@@ -93,9 +93,9 @@
 #include "modelib.h"
 
 char*
-fmtmode __PARAM__((register int mode, int external), (mode, external)) __OTORP__(register int mode; int external;){
-	register char*		s;
-	register struct modeop*	p;
+fmtmode __PARAM__((int mode, int external), (mode, external)) __OTORP__(int mode; int external;){
+	char*		s;
+	struct modeop*	p;
 
 	static char		buf[MODELEN + 1];
 

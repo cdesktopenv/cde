@@ -114,8 +114,8 @@ struct index_array
  *   but <= ARRAY_MAX) is returned.
  *
  */
-static int	arsize __PARAM__((register int maxi), (maxi)) __OTORP__(register int maxi;){
-	register int i = roundof(maxi,ARRAY_INCR);
+static int	arsize __PARAM__((int maxi), (maxi)) __OTORP__(int maxi;){
+	int i = roundof(maxi,ARRAY_INCR);
 	return (i>ARRAY_MAX?ARRAY_MAX:i);
 }
 
@@ -126,10 +126,10 @@ static int	arsize __PARAM__((register int maxi), (maxi)) __OTORP__(register int 
  *        allocated Namarr_t structure is returned.
  *        <maxi> becomes the current index of the array.
  */
-static struct index_array *array_grow __PARAM__((register struct index_array *arp,int maxi), (arp, maxi)) __OTORP__(register struct index_array *arp;int maxi;){
-	register struct index_array *ap;
-	register int i=0;
-	register int newsize = arsize(maxi+1);
+static struct index_array *array_grow __PARAM__((struct index_array *arp,int maxi), (arp, maxi)) __OTORP__(struct index_array *arp;int maxi;){
+	struct index_array *ap;
+	int i=0;
+	int newsize = arsize(maxi+1);
 	if (maxi >= ARRAY_MAX)
 		error(ERROR_exit(1),e_subscript, fmtbase((long)maxi,10,0));
 	ap = new_of(struct index_array,(newsize-1)*sizeof(union Value*));
@@ -158,7 +158,7 @@ static struct index_array *array_grow __PARAM__((register struct index_array *ar
  * Check for bounds violation for indexed array
  */
 void array_check __PARAM__((Namval_t *np,int flag), (np, flag)) __OTORP__(Namval_t *np;int flag;){
-	register struct index_array *ap = (struct index_array*)nv_arrayptr(np);
+	struct index_array *ap = (struct index_array*)nv_arrayptr(np);
 	if(ap->header.nelem&ARRAY_UNDEF)
 	{
 		ap->header.nelem &= ~ARRAY_UNDEF;
@@ -194,9 +194,9 @@ void array_check __PARAM__((Namval_t *np,int flag), (np, flag)) __OTORP__(Namval
  * After the lookup is done the last @ or * subscript is incremented
  */
 union Value *array_find __PARAM__((Namval_t *np,int flag), (np, flag)) __OTORP__(Namval_t *np;int flag;){
-	register struct index_array *ap = (struct index_array*)nv_arrayptr(np);
-	register union Value *up;
-	register unsigned dot=0;
+	struct index_array *ap = (struct index_array*)nv_arrayptr(np);
+	union Value *up;
+	unsigned dot=0;
 	if(is_associative(ap))
 		up = (union Value*)((*ap->header.fun)(np,NIL(char*),0));
 	else
@@ -241,12 +241,12 @@ union Value *array_find __PARAM__((Namval_t *np,int flag), (np, flag)) __OTORP__
  * freeing relevant storage
  */
 static Namarr_t *nv_changearray __PARAM__((Namval_t *np, __V_ *(*fun)(Namval_t*,const char*,int)), (np, fun)) __OTORP__(Namval_t *np; __V_ *(*fun)();){
-	register Namarr_t *ap;
+	Namarr_t *ap;
 	char numbuff[NUMSIZE];
 	unsigned dot, digit, n;
 	union Value *up;
 	struct index_array *save_ap;
-	register char *string_index= &numbuff[NUMSIZE];
+	char *string_index= &numbuff[NUMSIZE];
 	numbuff[NUMSIZE]='\0';
 
 	if(!fun || !(ap = nv_arrayptr(np)) || is_associative(ap))
@@ -284,7 +284,7 @@ static Namarr_t *nv_changearray __PARAM__((Namval_t *np, __V_ *(*fun)(Namval_t*,
  * The array pointer is returned if sucessful.
  */
 Namarr_t *nv_setarray __PARAM__((Namval_t *np, __V_ *(*fun)(Namval_t*,const char*,int)), (np, fun)) __OTORP__(Namval_t *np; __V_ *(*fun)();){
-	register Namarr_t *ap;
+	Namarr_t *ap;
 
 	if(fun && (ap = nv_arrayptr(np)) && !is_associative(ap))
 	{
@@ -321,8 +321,8 @@ Namarr_t *nv_setarray __PARAM__((Namval_t *np, __V_ *(*fun)(Namval_t*,const char
  * Otherwise, 1 is returned.
  */
 int nv_nextsub __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
-	register struct index_array *ap = (struct index_array*)nv_arrayptr(np);
-	register unsigned dot;
+	struct index_array *ap = (struct index_array*)nv_arrayptr(np);
+	unsigned dot;
 	if(!ap || !(ap->header.nelem&ARRAY_SCAN))
 		return(0);
 	if(is_associative(ap))
@@ -353,9 +353,9 @@ int nv_nextsub __PARAM__((Namval_t *np), (np)) __OTORP__(Namval_t *np;){
  * The node pointer is returned which can be NULL if <np> is
  *    not already array and the ARRAY_ADD bit of <mode> is not set.
  */
-Namval_t *nv_putsub __PARAM__((Namval_t *np,register char *sp,register long mode), (np, sp, mode)) __OTORP__(Namval_t *np;register char *sp;register long mode;){
-	register struct index_array *ap = (struct index_array*)nv_arrayptr(np);
-	register int size = (mode&ARRAY_MASK);
+Namval_t *nv_putsub __PARAM__((Namval_t *np,char *sp,long mode), (np, sp, mode)) __OTORP__(Namval_t *np;char *sp;long mode;){
+	struct index_array *ap = (struct index_array*)nv_arrayptr(np);
+	int size = (mode&ARRAY_MASK);
 	if(!ap || !ap->header.fun)
 	{
 		if(sp)
@@ -367,7 +367,7 @@ Namval_t *nv_putsub __PARAM__((Namval_t *np,register char *sp,register long mode
 		}
 		if(!ap || size>=ap->maxi)
 		{
-			register struct index_array *apold;
+			struct index_array *apold;
 			if(size==0)
 				return(NIL(Namval_t*));
 			ap = array_grow(apold=ap,size);
@@ -398,9 +398,9 @@ Namval_t *nv_putsub __PARAM__((Namval_t *np,register char *sp,register long mode
  * process an array subscript for node <np> given the subscript <cp>
  * returns pointer to character after the subscript
  */
-char *nv_endsubscript __PARAM__((Namval_t *np, register char *cp, int mode), (np, cp, mode)) __OTORP__(Namval_t *np; register char *cp; int mode;){
-	register int count=1, quoted=0, c;
-	register char *sp = cp+1;
+char *nv_endsubscript __PARAM__((Namval_t *np, char *cp, int mode), (np, cp, mode)) __OTORP__(Namval_t *np; char *cp; int mode;){
+	int count=1, quoted=0, c;
+	char *sp = cp+1;
 	/* first find matching ']' */
 	while(count>0 && (c= *++cp))
 	{
@@ -435,9 +435,9 @@ char *nv_endsubscript __PARAM__((Namval_t *np, register char *cp, int mode), (np
 
 char	*nv_getsub __PARAM__((Namval_t* np), (np)) __OTORP__(Namval_t* np;){
 	static char numbuff[NUMSIZE];
-	register struct index_array *ap = (struct index_array*)nv_arrayptr(np);
-	register unsigned dot, n;
-	register char *cp = &numbuff[NUMSIZE];
+	struct index_array *ap = (struct index_array*)nv_arrayptr(np);
+	unsigned dot, n;
+	char *cp = &numbuff[NUMSIZE];
 	if(!ap)
 		return(NIL(char*));
 	if(is_associative(ap))
@@ -456,7 +456,7 @@ char	*nv_getsub __PARAM__((Namval_t* np), (np)) __OTORP__(Namval_t* np;){
  * If <np> is an indexed array node, the current subscript index
  * retuned, otherwise returns -1
  */
-int nv_aindex __PARAM__((register Namval_t* np), (np)) __OTORP__(register Namval_t* np;){
+int nv_aindex __PARAM__((Namval_t* np), (np)) __OTORP__(Namval_t* np;){
 	Namarr_t *ap = nv_arrayptr(np);
 	if(!ap || is_associative(ap))
 		return(-1);
@@ -475,9 +475,9 @@ struct assoc_array
 /*
  *  This is the default implementation for associate arrays
  */
-__V_ *nv_associative __PARAM__((register Namval_t *np,const char *sp,int mode), (np, sp, mode)) __OTORP__(register Namval_t *np;const char *sp;int mode;){
-	register struct assoc_array *ap = (struct assoc_array*)nv_arrayptr(np);
-	register int type;
+__V_ *nv_associative __PARAM__((Namval_t *np,const char *sp,int mode), (np, sp, mode)) __OTORP__(Namval_t *np;const char *sp;int mode;){
+	struct assoc_array *ap = (struct assoc_array*)nv_arrayptr(np);
+	int type;
 	switch(mode)
 	{
 	    case NV_AINIT:
@@ -536,7 +536,7 @@ __V_ *nv_associative __PARAM__((register Namval_t *np,const char *sp,int mode), 
 /*
  * Assign values to an array
  */
-void nv_setvec __PARAM__((register Namval_t *np,register int argc,register char *argv[]), (np, argc, argv)) __OTORP__(register Namval_t *np;register int argc;register char *argv[];){
+void nv_setvec __PARAM__((Namval_t *np,int argc,char *argv[]), (np, argc, argv)) __OTORP__(Namval_t *np;int argc;char *argv[];){
 	while(--argc >= 0)
 	{
 		if(argc>0  || nv_isattr(np,NV_ARRAY))

@@ -102,7 +102,7 @@
 #include <ls.h>
 
 char*
-pathaccess __PARAM__((register char* path, register const char* dirs, const char* a, const char* b, register int mode), (path, dirs, a, b, mode)) __OTORP__(register char* path; register const char* dirs; const char* a; const char* b; register int mode;)
+pathaccess __PARAM__((char* path, const char* dirs, const char* a, const char* b, int mode), (path, dirs, a, b, mode)) __OTORP__(char* path; const char* dirs; const char* a; const char* b; int mode;)
 #line 18
 {
 	int		sep = ':';

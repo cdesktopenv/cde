@@ -103,8 +103,8 @@ NoN(memdup)
  */
 
 __V_*
-memdup __PARAM__((register const __V_* s, register size_t n), (s, n)) __OTORP__(register const __V_* s; register size_t n;){
-	register __V_*	t;
+memdup __PARAM__((const __V_* s, size_t n), (s, n)) __OTORP__(const __V_* s; size_t n;){
+	__V_*	t;
 
 	return((t = (__V_*)newof(0, char, n, 0)) ? memcpy(t, s, n) : 0);
 }

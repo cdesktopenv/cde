@@ -126,7 +126,7 @@ NoN(statvfs)
 #endif
 
 static void
-us2v __PARAM__((register struct statfs* ufs, register struct stat* st, register struct statvfs* vfs), (ufs, st, vfs)) __OTORP__(register struct statfs* ufs; register struct stat* st; register struct statvfs* vfs;){
+us2v __PARAM__((struct statfs* ufs, struct stat* st, struct statvfs* vfs), (ufs, st, vfs)) __OTORP__(struct statfs* ufs; struct stat* st; struct statvfs* vfs;){
 	memset(vfs, 0, sizeof(*vfs));
 	vfs->f_bsize = vfs->f_frsize = ufs->f_bsize;
 	vfs->f_blocks = ufs->f_blocks;
@@ -171,7 +171,7 @@ statvfs __PARAM__((const char* path, struct statvfs* vfs), (path, vfs)) __OTORP_
 #else
 
 static void
-s2v __PARAM__((register struct stat* st, register struct statvfs* vfs), (st, vfs)) __OTORP__(register struct stat* st; register struct statvfs* vfs;){
+s2v __PARAM__((struct stat* st, struct statvfs* vfs), (st, vfs)) __OTORP__(struct stat* st; struct statvfs* vfs;){
 	memset(vfs, 0, sizeof(*vfs));
 	vfs->f_bsize = vfs->f_frsize =
 #if _mem_st_blksize_stat

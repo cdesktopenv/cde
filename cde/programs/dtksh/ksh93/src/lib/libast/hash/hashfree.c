@@ -100,10 +100,10 @@
  */
 
 Hash_table_t*
-hashfree __PARAM__((register Hash_table_t* tab), (tab)) __OTORP__(register Hash_table_t* tab;){
-	register Hash_bucket_t**	sp;
-	register Hash_bucket_t*		b;
-	register Hash_bucket_t*		p;
+hashfree __PARAM__((Hash_table_t* tab), (tab)) __OTORP__(Hash_table_t* tab;){
+	Hash_bucket_t**	sp;
+	Hash_bucket_t*		b;
+	Hash_bucket_t*		p;
 	Hash_bucket_t**			sx;
 	Hash_root_t*			rp;
 	Hash_table_t*			tp;

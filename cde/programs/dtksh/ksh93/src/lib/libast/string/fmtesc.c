@@ -96,9 +96,9 @@
 
 char*
 fmtesc __PARAM__((const char* as), (as)) __OTORP__(const char* as;){
-	register unsigned char*	s = (unsigned char*)as;
-	register char*		b;
-	register int		c;
+	unsigned char*	s = (unsigned char*)as;
+	char*		b;
+	int		c;
 
 	static char*		buf;
 	static int		bufsiz;

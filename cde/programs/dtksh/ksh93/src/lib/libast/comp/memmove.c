@@ -99,9 +99,9 @@ NoN(memmove)
 #else
 
 __V_*
-memmove __PARAM__((__V_* to, const __V_* from, register size_t n), (to, from, n)) __OTORP__(__V_* to; const __V_* from; register size_t n;){
-	register char*	out = (char*)to;
-	register char*	in = (char*)from;
+memmove __PARAM__((__V_* to, const __V_* from, size_t n), (to, from, n)) __OTORP__(__V_* to; const __V_* from; size_t n;){
+	char*	out = (char*)to;
+	char*	in = (char*)from;
 
 	if (n <= 0)	/* works if size_t is signed or not */
 		;

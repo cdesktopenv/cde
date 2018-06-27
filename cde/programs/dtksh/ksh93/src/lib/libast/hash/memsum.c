@@ -102,9 +102,9 @@
  */
 
 unsigned long
-memsum __PARAM__((const __V_* ap, int n, register unsigned long c), (ap, n, c)) __OTORP__(const __V_* ap; int n; register unsigned long c;){
-	register const unsigned char*	p = (const unsigned char*)ap;
-	register const unsigned char*	e = p + n;
+memsum __PARAM__((const __V_* ap, int n, unsigned long c), (ap, n, c)) __OTORP__(const __V_* ap; int n; unsigned long c;){
+	const unsigned char*	p = (const unsigned char*)ap;
+	const unsigned char*	e = p + n;
 
 	while (p < e) HASHPART(c, *p++);
 #if LONG_MAX > 2147483647

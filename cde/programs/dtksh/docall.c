@@ -294,7 +294,7 @@ do_call(
 	char *p;
 	char dorun, promptflag;
 	unsigned char freeval, ret_type;
-	register int i, j, ret;
+	int i, j, ret;
         char * msg;
         char * errbuf;
         char * errmsg;

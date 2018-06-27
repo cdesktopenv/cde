@@ -111,7 +111,7 @@ main()
 #if _lib_getgroups
 	if (sizeof(gid_t) < sizeof(int))
 	{
-		register int	n;
+		int	n;
 		gid_t		groups[32 * sizeof(int) / sizeof(gid_t)];
 
 		for (n = 0; n < sizeof(int) / sizeof(gid_t); n++)

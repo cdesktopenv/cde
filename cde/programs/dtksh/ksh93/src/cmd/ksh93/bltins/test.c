@@ -131,8 +131,8 @@ static int ap, ac;
 static char **av;
 
 int b_test __PARAM__((int argc, char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(int argc; char *argv[];__V_ *extra;){
-	register char *cp = argv[0];
-	register int not;
+	char *cp = argv[0];
+	int not;
 	NOT_USED(extra);
 	av = argv;
 	ap = 1;
@@ -156,7 +156,7 @@ int b_test __PARAM__((int argc, char *argv[],__V_ *extra), (argc, argv, extra)) 
 			/* fall through */
 		case 4:
 		{
-			register int op = sh_lookup(cp=argv[2],shtab_testops);
+			int op = sh_lookup(cp=argv[2],shtab_testops);
 			if(op&TEST_BINOP)
 				break;
 			if(!op)
@@ -190,9 +190,9 @@ int b_test __PARAM__((int argc, char *argv[],__V_ *extra), (argc, argv, extra)) 
  * flag is 1 when in parenthesis
  * flag is 2 when evaluating -a 
  */
-static int expr __PARAM__((int register flag), (flag)) __OTORP__(int register flag;){
-	register int r;
-	register char *p;
+static int expr __PARAM__((int flag), (flag)) __OTORP__(int flag;){
+	int r;
+	char *p;
 	r = e3();
 	while(ap < ac)
 	{
@@ -243,8 +243,8 @@ static char *nxtarg __PARAM__((int mt), (mt)) __OTORP__(int mt;){
 
 
 static e3 __PARAM__((void), ()){
-	register char *arg, *cp;
-	register int op;
+	char *arg, *cp;
+	int op;
 	char *binop;
 	arg=nxtarg(0);
 	if(c_eq(arg, '!'))
@@ -298,7 +298,7 @@ skip:
 	return(test_binop(op,arg,cp));
 }
 
-int test_unop __PARAM__((register int op,register const char *arg), (op, arg)) __OTORP__(register int op;register const char *arg;){
+int test_unop __PARAM__((int op,const char *arg), (op, arg)) __OTORP__(int op;const char *arg;){
 	switch(op)
 	{
 	    case 'r':
@@ -310,7 +310,7 @@ int test_unop __PARAM__((register int op,register const char *arg), (op, arg)) _
 	    case 'V':
 #ifdef SHOPT_FS_3D
 	    {
-		register int offset = staktell();
+		int offset = staktell();
 		if(stat(arg,&statb)<0 || !S_ISREG(statb.st_mode))
 			return(0);
 		/* add trailing / */
@@ -360,7 +360,7 @@ int test_unop __PARAM__((register int op,register const char *arg), (op, arg)) _
 	    case 'H':
 #ifdef S_ISCDF
 	    {
-		register int offset = staktell();
+		int offset = staktell();
 		if(test_stat(arg,&statb)>=0 && S_ISCDF(statb.st_mode))
 			return(1);
 		stakputs(arg);
@@ -419,8 +419,8 @@ int test_unop __PARAM__((register int op,register const char *arg), (op, arg)) _
 	}
 }
 
-test_binop __PARAM__((register int op,const char *left,const char *right), (op, left, right)) __OTORP__(register int op;const char *left;const char *right;){
-	register double lnum,rnum;
+test_binop __PARAM__((int op,const char *left,const char *right), (op, left, right)) __OTORP__(int op;const char *left;const char *right;){
+	double lnum,rnum;
 	if(op&TEST_ARITH)
 	{
 		lnum = sh_arith(left);
@@ -498,7 +498,7 @@ test_inode __PARAM__((const char *file1,const char *file2), (file1, file2)) __OT
  * The static buffer statb is shared with test_mode.
  */
 
-sh_access __PARAM__((register const char *name, register int mode), (name, mode)) __OTORP__(register const char *name; register int mode;){
+sh_access __PARAM__((const char *name, int mode), (name, mode)) __OTORP__(const char *name; int mode;){
 	if(*name==0)
 		return(-1);
 	if(strmatch(name,(char*)e_devfdNN))
@@ -550,7 +550,7 @@ skip:
 		{
 			static int maxgroups = 0;
 			gid_t *groups; 
-			register int n;
+			int n;
 			if(maxgroups==0)
 			{
 				/* first time */
@@ -584,7 +584,7 @@ skip:
  * The mode bits are zero if the file doesn't exist.
  */
 
-static int test_mode __PARAM__((register const char *file), (file)) __OTORP__(register const char *file;){
+static int test_mode __PARAM__((const char *file), (file)) __OTORP__(const char *file;){
 	if(file && (*file==0 || test_stat(file,&statb)<0))
 		return(0);
 	return(statb.st_mode);

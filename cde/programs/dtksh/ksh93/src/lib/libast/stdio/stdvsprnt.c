@@ -49,8 +49,8 @@
 _stdvsprintf(char *s, const char *form, va_list args)
 #else
 _stdvsprintf(s,form,args)
-register char	*s;
-register char	*form;
+char	*s;
+char	*form;
 va_list		args;
 #endif
 {

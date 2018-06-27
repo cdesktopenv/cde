@@ -112,9 +112,9 @@ pathprobe __PARAM__((char* path, char* attr, const char* lang, const char* tool,
 #line 32
 {
 	char*		proc = (char*)aproc;
-	register char*	p;
-	register char*	k;
-	register char**	ap;
+	char*	p;
+	char*	k;
+	char**	ap;
 	int		n;
 	char*		e;
 	char*		probe;

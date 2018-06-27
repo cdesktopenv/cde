@@ -99,10 +99,10 @@
  */
 
 __V_*
-swapmem __PARAM__((int op, const __V_* from, __V_* to, register size_t n), (op, from, to, n)) __OTORP__(int op; const __V_* from; __V_* to; register size_t n;){
-	register char*	f = (char*)from;
-	register char*	t = (char*)to;
-	register int	c;
+swapmem __PARAM__((int op, const __V_* from, __V_* to, size_t n), (op, from, to, n)) __OTORP__(int op; const __V_* from; __V_* to; size_t n;){
+	char*	f = (char*)from;
+	char*	t = (char*)to;
+	int	c;
 
 	switch ((op ^ int_swap) & (n - 1))
 	{

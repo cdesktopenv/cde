@@ -94,8 +94,8 @@
 #include <option.h>
 
 char*
-pathpath __PARAM__((register char* path, const char* p, const char* a, int mode), (path, p, a, mode)) __OTORP__(register char* path; const char* p; const char* a; int mode;){
-	register char*	s;
+pathpath __PARAM__((char* path, const char* p, const char* a, int mode), (path, p, a, mode)) __OTORP__(char* path; const char* p; const char* a; int mode;){
+	char*	s;
 	char*		x;
 
 	static char*	cmd;

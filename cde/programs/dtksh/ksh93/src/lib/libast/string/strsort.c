@@ -92,10 +92,10 @@
 #endif
 void
 strsort __PARAM__((char** argv, int n, int(*fn)(const char*, const char*)), (argv, n, fn)) __OTORP__(char** argv; int n; int(*fn)();){
-	register int 	i;
-	register int 	j;
-	register int 	m;
-	register char**	ap;
+	int 	i;
+	int 	j;
+	int 	m;
+	char**	ap;
 	char*		s;
 	int 		k;
 

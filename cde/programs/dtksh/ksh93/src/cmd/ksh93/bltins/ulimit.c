@@ -113,8 +113,8 @@
 #define SOFT	2
 
 int	b_ulimit __PARAM__((int argc,char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(int argc;char *argv[];__V_ *extra;){
-	register char *limit;
-	register int flag = 0, mode=0, n;
+	char *limit;
+	int flag = 0, mode=0, n;
 #ifdef _lib_getrlimit
 	struct rlimit rlp;
 #endif /* _lib_getrlimit */

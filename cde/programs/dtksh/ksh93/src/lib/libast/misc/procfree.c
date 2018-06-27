@@ -93,7 +93,7 @@
 #include "proclib.h"
 
 int
-procfree __PARAM__((register Proc_t* p), (p)) __OTORP__(register Proc_t* p;){
+procfree __PARAM__((Proc_t* p), (p)) __OTORP__(Proc_t* p;){
 	if (!p) return(-1);
 	if (p == &proc_default) p->pid = -1;
 	else free(p);

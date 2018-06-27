@@ -119,14 +119,14 @@ static int seqno;
  * compare the first of an array of integers
  */
 
-static int mycomp __PARAM__((register const __V_ *a,register const __V_ *b), (a, b)) __OTORP__(register const __V_ *a;register const __V_ *b;){
+static int mycomp __PARAM__((const __V_ *a,const __V_ *b), (a, b)) __OTORP__(const __V_ *a;const __V_ *b;){
 	return(*((int*)a) - *((int*)b));
 }
 
 static Cut_t *cutinit __PARAM__((int mode,char *str,int wdelim,int ldelim), (mode, str, wdelim, ldelim)) __OTORP__(int mode;char *str;int wdelim;int ldelim;){
-	register int *lp, c, n=0;
-	register int range = 0;
-	register char *cp = str;
+	int *lp, c, n=0;
+	int range = 0;
+	char *cp = str;
 	Cut_t *cuthdr;
 	cuthdr = (Cut_t*)stakalloc(sizeof(Cut_t)+strlen(cp)*sizeof(int));
 	cuthdr->cflag = ((mode&C_CHARS)!=0);
@@ -158,7 +158,7 @@ static Cut_t *cutinit __PARAM__((int mode,char *str,int wdelim,int ldelim), (mod
 			}
 			if(c==0)
 			{
-				register int *dp;
+				int *dp;
 				*lp = HUGE;
 				n = 1 + (lp-cuthdr->list)/2;
 				qsort(lp=cuthdr->list,n,2*sizeof(*lp),mycomp);
@@ -227,10 +227,10 @@ static Cut_t *cutinit __PARAM__((int mode,char *str,int wdelim,int ldelim), (mod
  */
 
 static int cutcols __PARAM__((const Cut_t *cuthdr,Sfio_t *fdin,Sfio_t *fdout), (cuthdr, fdin, fdout)) __OTORP__(const Cut_t *cuthdr;Sfio_t *fdin;Sfio_t *fdout;){
-	register int		c, ncol=0;
-	register const int	*lp = cuthdr->list;
-	register char		*inp, *inend;
-	register int		skip; /* non-zero for don't copy */
+	int		c, ncol=0;
+	const int	*lp = cuthdr->list;
+	char		*inp, *inend;
+	int		skip; /* non-zero for don't copy */
 	int			inword = 0;
 	while(inp = sfgetr(fdin,'\n', 0))
 	{
@@ -267,12 +267,12 @@ static int cutcols __PARAM__((const Cut_t *cuthdr,Sfio_t *fdin,Sfio_t *fdout), (
 static int cutfields __PARAM__((const Cut_t *cuthdr,Sfio_t *fdin,Sfio_t *fdout), (cuthdr, fdin, fdout)) __OTORP__(const Cut_t *cuthdr;Sfio_t *fdin;Sfio_t *fdout;){
 	static signed char space[1<<CHAR_BIT];
 	static int lastseq, lastwdelim = 0, lastldelim = '\n';
-	register unsigned char *cp;
-	register int c, nfields;
-	register const int *lp = cuthdr->list;
-	register unsigned char *copy;
-	register int nodelim, empty, inword=0;
-	register unsigned char *endbuff;
+	unsigned char *cp;
+	int c, nfields;
+	const int *lp = cuthdr->list;
+	unsigned char *copy;
+	int nodelim, empty, inword=0;
+	unsigned char *endbuff;
 	unsigned char *inbuff, *first;
 	int lastchar;
 	Sfio_t *fdtmp = 0;
@@ -384,8 +384,8 @@ failed:
 
 int
 b_cut __PARAM__((int argc,char *argv[]), (argc, argv)) __OTORP__(int argc;char *argv[];){
-	register char *cp;
-	register Sfio_t *fp;
+	char *cp;
+	Sfio_t *fp;
 	int	n;
 	Cut_t	*cuthdr;
 	int	mode = 0;

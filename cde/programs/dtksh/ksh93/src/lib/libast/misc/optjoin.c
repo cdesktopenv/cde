@@ -99,8 +99,8 @@ int
 optjoin __PARAM__((char** argv, ...), (va_alist)) __OTORP__(va_dcl)
 { __OTORP__(char** argv; )
 	va_list			ap;
-	register OPTFUN		fun;
-	register OPTFUN		rep;
+	OPTFUN		fun;
+	OPTFUN		rep;
 	OPTFUN			err;
 	int			more;
 	int			user;

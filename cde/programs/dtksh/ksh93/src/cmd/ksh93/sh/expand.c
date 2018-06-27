@@ -158,8 +158,8 @@ static void		glob_dir __PROTO__((struct argnod*));
 #ifdef SHOPT_NOCASE
 
 #   include	<ctype.h>
-    static void utol __PARAM__((register char const *str1,register char *str2), (str1, str2)) __OTORP__(register char const *str1;register char *str2;){               
-        register int c;         
+    static void utol __PARAM__((char const *str1,char *str2), (str1, str2)) __OTORP__(char const *str1;char *str2;){
+        int c;
         for(; c= *((unsigned char*)str1); str1++,str2++)
         {               
                 if(isupper(c))  
@@ -180,9 +180,9 @@ static void		glob_dir __PROTO__((struct argnod*));
 
 
 int path_expand __PARAM__((const char *pattern, struct argnod **arghead), (pattern, arghead)) __OTORP__(const char *pattern; struct argnod **arghead;){
-	register struct argnod *ap;
-	register struct glob *gp;
-	register char *pat;
+	struct argnod *ap;
+	struct glob *gp;
+	char *pat;
 #ifdef KSHELL
 	struct glob globdata;
 	membase = &globdata;
@@ -223,10 +223,10 @@ int path_expand __PARAM__((const char *pattern, struct argnod **arghead), (patte
 }
 
 static void glob_dir __PARAM__((struct argnod *ap), (ap)) __OTORP__(struct argnod *ap;){
-	register char		*rescan;
-	register char		*prefix;
-	register char		*pat;
-	register struct dirent	*dirp;
+	char		*rescan;
+	char		*prefix;
+	char		*pat;
+	struct dirent	*dirp;
 	DIR 			*dirf;
 	char			*path=0;
 	char			quote = 0;
@@ -344,7 +344,7 @@ process:
 #endif /* SHOPT_NOCASE */
 			while(dirp = readdir(dirf))
 			{
-				register int c;
+				int c;
 				if(!D_FILENO(dirp))
 					continue;
 				if(fignore && *fignore && strmatch(dirp->d_name, fignore))
@@ -365,9 +365,9 @@ process:
 	return;
 }
 
-static  void addmatch __PARAM__((const char *dir,const char *pat,const register char *rescan,char *endslash), (dir, pat, rescan, endslash)) __OTORP__(const char *dir;const char *pat;const register char *rescan;char *endslash;){
-	register struct argnod *ap = (struct argnod*)stakseek(ARGVAL);
-	register struct glob *gp = globptr();
+static  void addmatch __PARAM__((const char *dir,const char *pat,const char *rescan,char *endslash), (dir, pat, rescan, endslash)) __OTORP__(const char *dir;const char *pat;const char *rescan;char *endslash;){
+	struct argnod *ap = (struct argnod*)stakseek(ARGVAL);
+	struct glob *gp = globptr();
 	struct stat statb;
 	if(dir)
 	{
@@ -429,11 +429,11 @@ static  void addmatch __PARAM__((const char *dir,const char *pat,const register 
  * scan tree and add each name that matches the given pattern
  */
 static void scantree __PARAM__((Hashtab_t *tree, const char *pattern), (tree, pattern)) __OTORP__(Hashtab_t *tree; const char *pattern;){
-	register Hashpos_t *hp;
-	register Namval_t *np;
-	register struct argnod *ap;
-	register struct glob *gp = globptr();
-	register char *cp;
+	Hashpos_t *hp;
+	Namval_t *np;
+	struct argnod *ap;
+	struct glob *gp = globptr();
+	char *cp;
 	if(hp = hashscan(tree,0))
 	{
 		while((np = (Namval_t*)hashnext(hp)) && !nv_isnull(np))
@@ -461,7 +461,7 @@ static void scantree __PARAM__((Hashtab_t *tree, const char *pattern), (tree, pa
  * The number of matches is returned
  */
 
-int path_complete __PARAM__((const char *name,register const char *suffix, struct argnod **arghead), (name, suffix, arghead)) __OTORP__(const char *name;register const char *suffix; struct argnod **arghead;){
+int path_complete __PARAM__((const char *name,const char *suffix, struct argnod **arghead), (name, suffix, arghead)) __OTORP__(const char *name;const char *suffix; struct argnod **arghead;){
 	sufstr = suffix;
 	suflen = strlen(suffix);
 	return(path_expand(name,arghead));
@@ -474,10 +474,10 @@ int path_complete __PARAM__((const char *name,register const char *suffix, struc
  */
 
 static void sh_trim(sp)
-register char *sp;
+char *sp;
 {
-	register char *dp = sp;
-	register int c;
+	char *dp = sp;
+	int c;
 	while(1)
 	{
 		if((c= *sp++) == '\\')
@@ -491,9 +491,9 @@ register char *sp;
 
 #ifdef SHOPT_BRACEPAT
 int path_generate __PARAM__((struct argnod *todo, struct argnod **arghead), (todo, arghead)) __OTORP__(struct argnod *todo; struct argnod **arghead;){
-	register char *cp;
-	register int brace;
-	register struct argnod *ap;
+	char *cp;
+	int brace;
+	struct argnod *ap;
 	struct argnod *top = 0;
 	struct argnod *apin;
 	char *pat, *rescan, *bracep;

@@ -104,8 +104,8 @@
  */
 
 int
-tmword __PARAM__((register const char* s, char** e, register const char* t, char** suf, int n), (s, e, t, suf, n)) __OTORP__(register const char* s; char** e; register const char* t; char** suf; int n;){
-	register int	c;
+tmword __PARAM__((const char* s, char** e, const char* t, char** suf, int n), (s, e, t, suf, n)) __OTORP__(const char* s; char** e; const char* t; char** suf; int n;){
+	int	c;
 	const char*	b;
 
 	if (*s && *t)

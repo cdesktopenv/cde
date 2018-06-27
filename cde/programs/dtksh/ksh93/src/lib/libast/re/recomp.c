@@ -129,7 +129,7 @@ rcerror __PARAM__((char* s), (s)) __OTORP__(char* s;){
 }
 
 static void
-reerr2 __PARAM__((register char* s, int c), (s, c)) __OTORP__(register char* s; int c;){
+reerr2 __PARAM__((char* s, int c), (s, c)) __OTORP__(char* s; int c;){
 	char	buf[100];
 
 	s = strcopy(buf, s);
@@ -164,7 +164,7 @@ pushand __PARAM__((Inst_t* f, Inst_t* l), (f, l)) __OTORP__(Inst_t* f; Inst_t* l
 
 static Node_t*
 popand __PARAM__((int op), (op)) __OTORP__(int op;){
-	register Inst_t*	inst;
+	Inst_t*	inst;
 
 	if (re->andp <= &re->andstack[0])
 	{
@@ -190,11 +190,11 @@ popator __PARAM__((void), ()){
 }
 
 static void
-evaluntil __PARAM__((register int pri), (pri)) __OTORP__(register int pri;){
-	register Node_t*	op1;
-	register Node_t*	op2;
-	register Inst_t*	inst1;
-	register Inst_t*	inst2;
+evaluntil __PARAM__((int pri), (pri)) __OTORP__(int pri;){
+	Node_t*	op1;
+	Node_t*	op2;
+	Inst_t*	inst1;
+	Inst_t*	inst2;
 
 	while (pri == RBRA || re->atorp[-1] >= pri)
 	{
@@ -262,8 +262,8 @@ evaluntil __PARAM__((register int pri), (pri)) __OTORP__(register int pri;){
 }
 
 static void
-operation __PARAM__((register int t), (t)) __OTORP__(register int t;){
-	register int	thisisand = 0;
+operation __PARAM__((int t), (t)) __OTORP__(int t;){
+	int	thisisand = 0;
 
 	switch (t)
 	{
@@ -294,7 +294,7 @@ operation __PARAM__((register int t), (t)) __OTORP__(register int t;){
 
 static void
 operand __PARAM__((int t), (t)) __OTORP__(int t;){
-	register Inst_t*	i;
+	Inst_t*	i;
 
 	/*
 	 * catenate is implicit
@@ -317,8 +317,8 @@ operand __PARAM__((int t), (t)) __OTORP__(int t;){
 
 static void
 optimize __PARAM__((Re_program_t* pp), (pp)) __OTORP__(Re_program_t* pp;){
-	register Inst_t*	inst;
-	register Inst_t*	target;
+	Inst_t*	inst;
+	Inst_t*	target;
 
 	for (inst = pp->firstinst; inst->type != END; inst++)
 	{
@@ -358,7 +358,7 @@ dump __PARAM__((Re_program_t* pp), (pp)) __OTORP__(Re_program_t* pp;){
 
 static int
 nextc __PARAM__((void), ()){
-	register int	c;
+	int	c;
 
 	switch (c = *re->exprp++)
 	{
@@ -378,10 +378,10 @@ nextc __PARAM__((void), ()){
 
 static void
 bldcclass __PARAM__((void), ()){
-	register int	c1;
-	register int	c2;
-	register char*	map;
-	register int	negate;
+	int	c1;
+	int	c2;
+	char*	map;
+	int	negate;
 
 	if (re->nclass >= NCLASS) reerr2("too many character classes -- limit ", NCLASS + '0');
 	map = re->classp[re->nclass++].map;
@@ -429,7 +429,7 @@ bldcclass __PARAM__((void), ()){
 
 static int
 lex __PARAM__((void), ()){
-	register int	c;
+	int	c;
 
 	switch(c = *re->exprp++)
 	{
@@ -523,7 +523,7 @@ lex __PARAM__((void), ()){
 
 reprogram*
 recomp __PARAM__((const char* s, int reflags), (s, reflags)) __OTORP__(const char* s; int reflags;){
-	register int	token;
+	int	token;
 	Re_program_t*	pp;
 	State_t		restate;
 

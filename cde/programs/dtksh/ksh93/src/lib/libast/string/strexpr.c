@@ -113,7 +113,7 @@ typedef struct				/* expression handle		*/
  */
 
 static long
-seterror __PARAM__((register Expr_t* ex, char* msg), (ex, msg)) __OTORP__(register Expr_t* ex; char* msg;){
+seterror __PARAM__((Expr_t* ex, char* msg), (ex, msg)) __OTORP__(Expr_t* ex; char* msg;){
 	if (!ex->errmsg) ex->errmsg = msg;
 	ex->errchr = ex->nextchr;
 	ex->nextchr = "";
@@ -125,10 +125,10 @@ seterror __PARAM__((register Expr_t* ex, char* msg), (ex, msg)) __OTORP__(regist
  */
 
 static long
-expr __PARAM__((register Expr_t* ex, register int precedence), (ex, precedence)) __OTORP__(register Expr_t* ex; register int precedence;){
-	register int	c;
-	register long	n;
-	register long	x;
+expr __PARAM__((Expr_t* ex, int precedence), (ex, precedence)) __OTORP__(Expr_t* ex; int precedence;){
+	int	c;
+	long	n;
+	long	x;
 	char*		pos;
 	int		operand = 1;
 

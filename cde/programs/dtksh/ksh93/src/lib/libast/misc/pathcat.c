@@ -101,10 +101,10 @@
 #include <ast.h>
 
 char*
-pathcat __PARAM__((char* path, register const char* dirs, int sep, const char* a, register const char* b), (path, dirs, sep, a, b)) __OTORP__(char* path; register const char* dirs; int sep; const char* a; register const char* b;)
+pathcat __PARAM__((char* path, const char* dirs, int sep, const char* a, const char* b), (path, dirs, sep, a, b)) __OTORP__(char* path; const char* dirs; int sep; const char* a; const char* b;)
 #line 13
 {
-	register char*	s;
+	char*	s;
 
 	s = path;
 	while (*dirs && *dirs != sep) *s++ = *dirs++;

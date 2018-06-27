@@ -112,8 +112,8 @@ static char	buf[L_tmpnam];
 static char	seed[] = { 'a', 'a', 'a', 0 };
 
 char*
-tmpnam __PARAM__((register char* p), (p)) __OTORP__(register char* p;){
-	register char*	q;
+tmpnam __PARAM__((char* p), (p)) __OTORP__(char* p;){
+	char*	q;
 
 	if (!p) p = buf;
 	strcopy(strcopy(strcopy(p, P_tmpdir), seed), "XXXXXX");

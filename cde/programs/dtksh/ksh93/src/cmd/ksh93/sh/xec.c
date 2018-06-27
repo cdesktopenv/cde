@@ -132,8 +132,8 @@ static char	pipejob;
 /*
  * Given stream <iop> compile and execute
  */
-int sh_eval __PARAM__((register Sfio_t *iop, int mode), (iop, mode)) __OTORP__(register Sfio_t *iop; int mode;){
-	register union anynode *t;
+int sh_eval __PARAM__((Sfio_t *iop, int mode), (iop, mode)) __OTORP__(Sfio_t *iop; int mode;){
+	union anynode *t;
 	struct slnod *saveslp = sh.st.staklist;
 	int jmpval;
 	struct checkpt *pp = (struct checkpt*)sh.jmplist;
@@ -167,7 +167,7 @@ int sh_eval __PARAM__((register Sfio_t *iop, int mode), (iop, mode)) __OTORP__(r
 #ifdef SHOPT_FASTPIPE
 static int pipe_exec __PARAM__((int pv[], union anynode *t, int errorflg), (pv, t, errorflg)) __OTORP__(int pv[]; union anynode *t; int errorflg;){
 	struct checkpt buff;
-	register union anynode *tchild = t->fork.forktre;
+	union anynode *tchild = t->fork.forktre;
 	Namval_t *np;
 	Sfile_t *iop;
 	int jmpval,r;
@@ -209,12 +209,12 @@ static int pipe_exec __PARAM__((int pv[], union anynode *t, int errorflg), (pv, 
 }
 #endif /* SHOPT_FASTPIPE */
 
-sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OTORP__(register const union anynode *t; int flags;){
+sh_exec __PARAM__((const union anynode *t, int flags), (t, flags)) __OTORP__(const union anynode *t; int flags;){
 	sh_sigcheck();
 	if(t && !sh.st.execbrk && !sh_isoption(SH_NOEXEC))
 	{
-		register int 	type = flags;
-		register char	*com0 = 0;
+		int 	type = flags;
+		char	*com0 = 0;
 		int 		errorflg = (type&SH_ERREXIT);
 		int 		execflg = (type&SH_NOFORK);
 		int 		mainloop = (type&SH_INTERACTIVE);
@@ -242,7 +242,7 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 		{
 		    case TCOM:
 		    {
-			register struct argnod	*argp;
+			struct argnod	*argp;
 			char		*trap;
 			Namval_t	*np;
 			struct ionod	*io;
@@ -258,7 +258,7 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 			com0 = com[0];
 			if(!(np=(Namval_t*)(t->com.comnamp)) && com0)
 			{
-				register char *cp;
+				char *cp;
 				Namval_t *nq=0;
 				/* check for reference to discipline function */
 				if((cp=strchr(com0,'.')) && cp!=com0) 
@@ -310,7 +310,7 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 			}
 			while(np==SYSCOMMAND)
 			{
-				register int n = b_command(0,com,0);
+				int n = b_command(0,com,0);
 				if(n==0)
 					break;
 				command += n;
@@ -333,7 +333,7 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 			{
 				if(argn==0 || (np && !command && nv_isattr(np,BLT_SPC)))
 				{
-					register int flags=NV_VARNAME|NV_ASSIGN;
+					int flags=NV_VARNAME|NV_ASSIGN;
 					if(np==SYSTYPESET)
 					{
 						if(sh.fn_depth)
@@ -472,7 +472,7 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 				if(!command && np && nv_isattr(np,NV_FUNCTION))
 				{
 					int indx;
-					register struct slnod *slp;
+					struct slnod *slp;
 					if(!np->nvalue.ip)
 					{
 						path_search(com0,NIL(char*),0);
@@ -502,7 +502,7 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 		    }
 		    case TFORK:
 		    {
-			register pid_t parent;
+			pid_t parent;
 			int no_fork,jobid;
 			int pipes[2];
 			no_fork = (execflg && !(type&(FAMP|FPOU)) &&
@@ -794,9 +794,9 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 
 		    case TFOR: /* for and select */
 		    {
-			register char **args;
-			register int nargs;
-			register Namval_t *np;
+			char **args;
+			int nargs;
+			Namval_t *np;
 			struct dolnod	*argsav=0;
 			struct comnod	*tp;
 			char *cp, *nullptr = 0;
@@ -822,7 +822,7 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 				{
 					char *val;
 					int save_prompt;
-					/* reuse register */
+					/* reuse */
 					if(refresh)
 					{
 						sh_menu(sfstderr,nargs,args);
@@ -889,7 +889,7 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 
 		    case TWH: /* while and until */
 		    {
-			register int 	r=0;
+			int 	r=0;
 			sh.st.loopcnt++;
 			while(sh.st.execbrk==0 && (sh_exec(t->wh.whtre,0)==0)==(type==TWH))
 			{
@@ -908,7 +908,7 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 		    }
 		    case TARITH: /* (( expression )) */
 		    {
-			register char *trap;
+			char *trap;
 			static char *arg[4]=  {"((", 0, "))"};
 			error_info.line = t->ar.arline-sh.st.firstline;
 			if(trap=sh.st.trap[SH_DEBUGTRAP])
@@ -945,10 +945,10 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 			t= (union anynode*)(t->sw.swlst);
 			while(t)
 			{
-				register struct argnod	*rex=(struct argnod*)t->reg.regptr;
+				struct argnod	*rex=(struct argnod*)t->reg.regptr;
 				while(rex)
 				{
-					register char *s;
+					char *s;
 					if(rex->argflag&ARG_MAC)
 					{
 						s = sh_mactrim(rex->argval,1);
@@ -1037,11 +1037,11 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 		    }
 		    case TFUN:
 		    {
-			register Namval_t *np;
-			register struct slnod *slp;
-			register char *fname = ((struct functnod*)t)->functnam;
-			register char *cp;
-			register Namval_t *npv=0;
+			Namval_t *np;
+			struct slnod *slp;
+			char *fname = ((struct functnod*)t)->functnam;
+			char *cp;
+			Namval_t *npv=0;
 			/* look for discipline functions */
 			error_info.line = t->funct.functline-sh.st.firstline;
 			if(cp = strrchr(fname,'.'))
@@ -1098,8 +1098,8 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 		    /* new test compound command */
 		    case TTST:
 		    {
-			register int n;
-			register char *left;
+			int n;
+			char *left;
 			if(type&TTEST)
 				skipexitset++;
 			error_info.line = t->tst.tstline-sh.st.firstline;
@@ -1110,9 +1110,9 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
 			}
 			else
 			{
-				register int traceon=0;
-				register char *right;
-				register char *trap;
+				int traceon=0;
+				char *right;
+				char *trap;
 				n = type>>TSHIFT;
 				left = word_trim(&(t->lst.lstlef->arg),0);
 				if(type&TBINARY)
@@ -1220,8 +1220,8 @@ sh_exec __PARAM__((register const union anynode *t, int flags), (t, flags)) __OT
  * returns 1 if r == trim(s) otherwise 0
  */
 
-static trim_eq __PARAM__((register const char *r,register const char *s), (r, s)) __OTORP__(register const char *r;register const char *s;){
-	register char c;
+static trim_eq __PARAM__((const char *r,const char *s), (r, s)) __OTORP__(const char *r;const char *s;){
+	char c;
 	while(c = *s++)
 	{
 		if(c=='\\')
@@ -1236,9 +1236,9 @@ static trim_eq __PARAM__((register const char *r,register const char *s), (r, s)
  * print out the command line if set -x is on
  */
 
-int sh_trace __PARAM__((register char *argv[], register int nl), (argv, nl)) __OTORP__(register char *argv[]; register int nl;){
-	register char *cp;
-	register int bracket = 0;
+int sh_trace __PARAM__((char *argv[], int nl), (argv, nl)) __OTORP__(char *argv[]; int nl;){
+	char *cp;
+	int bracket = 0;
 	if(sh_isoption(SH_XTRACE))
 	{
 		/* make this trace atomic */
@@ -1279,8 +1279,8 @@ int sh_trace __PARAM__((register char *argv[], register int nl), (argv, nl)) __O
 }
 
 
-static char *word_trim __PARAM__((register struct argnod *arg, int flag), (arg, flag)) __OTORP__(register struct argnod *arg; int flag;){
-	register char *sp = arg->argval;
+static char *word_trim __PARAM__((struct argnod *arg, int flag), (arg, flag)) __OTORP__(struct argnod *arg; int flag;){
+	char *sp = arg->argval;
 	if((arg->argflag&ARG_RAW))
 		return(sp);
 	return(sh_mactrim(sp,flag));
@@ -1309,8 +1309,8 @@ static void timed_out __PARAM__((__V_ *handle), (handle)) __OTORP__(__V_ *handle
 /*
  * called by parent and child after fork by sh_fork()
  */
-pid_t _sh_fork __PARAM__((register pid_t parent,int flags,int *jobid), (parent, flags, jobid)) __OTORP__(register pid_t parent;int flags;int *jobid;){
-	register struct checkpt *pp = (struct checkpt*)sh.jmplist;
+pid_t _sh_fork __PARAM__((pid_t parent,int flags,int *jobid), (parent, flags, jobid)) __OTORP__(pid_t parent;int flags;int *jobid;){
+	struct checkpt *pp = (struct checkpt*)sh.jmplist;
 	static long forkcnt = 1000L;
 	pid_t	curpgid = job.curpgid;
 	pid_t	postid = (flags&FAMP)?0:curpgid;
@@ -1407,7 +1407,7 @@ pid_t _sh_fork __PARAM__((register pid_t parent,int flags,int *jobid), (parent, 
 }
 
 pid_t sh_fork __PARAM__((int flags, int *jobid), (flags, jobid)) __OTORP__(int flags; int *jobid;){
-	register pid_t parent;
+	pid_t parent;
 #ifdef SHOPT_FASTPIPE
 	if(sffileno(sfstdin)<0)
 	{
@@ -1430,8 +1430,8 @@ pid_t sh_fork __PARAM__((int flags, int *jobid), (flags, jobid)) __OTORP__(int f
  * The environment modification list <envlist> is ignored for posix functions
  */
 static void sh_funct __PARAM__((Namval_t *np,int argn, char *argv[],int execflg,struct argnod *envlist), (np, argn, argv, execflg, envlist)) __OTORP__(Namval_t *np;int argn; char *argv[];int execflg;struct argnod *envlist;){
-	register char	*trap;
-	register int	nsig;
+	char	*trap;
+	int	nsig;
 	struct dolnod	*argsav=0,*saveargfor;
 	struct sh_scoped savst;
 	Shopt_t		savopt;
@@ -1526,9 +1526,9 @@ static void sh_funct __PARAM__((Namval_t *np,int argn, char *argv[],int execflg,
  */
 int sh_fun __PARAM__((Namval_t *np, Namval_t *nq), (np, nq)) __OTORP__(Namval_t *np; Namval_t *nq;){
 	char *argv[2];
-	register Namarr_t *ap;
-	register int offset;
-	register char *base;
+	Namarr_t *ap;
+	int offset;
+	char *base;
 	Fcin_t save;
 	fcsave(&save);
 	if((offset=staktell())>0)
@@ -1575,9 +1575,9 @@ int sh_fun __PARAM__((Namval_t *np, Namval_t *nq), (np, nq)) __OTORP__(Namval_t 
 /*
  * print a time and a separator 
  */
-static void	p_time __PARAM__((Sfio_t *outfile,register clock_t t,int c), (outfile, t, c)) __OTORP__(Sfio_t *outfile;register clock_t t;int c;){
-	register int  min, sec, frac;
-	register int hr;
+static void	p_time __PARAM__((Sfio_t *outfile,clock_t t,int c), (outfile, t, c)) __OTORP__(Sfio_t *outfile;clock_t t;int c;){
+	int  min, sec, frac;
+	int hr;
 	frac = t%sh.lim.clk_tck;
 	frac = (frac*100)/sh.lim.clk_tck;
 	t /= sh.lim.clk_tck;
@@ -1635,8 +1635,8 @@ static void coproc_init __PARAM__((int pipes[]), (pipes)) __OTORP__(int pipes[];
 /*
  * print out function definition
  */
-static void print_fun __PARAM__((register Namval_t* np), (np)) __OTORP__(register Namval_t* np;){
-	register char *format;
+static void print_fun __PARAM__((Namval_t* np), (np)) __OTORP__(Namval_t* np;){
+	char *format;
 	if(!is_afunction(np) || !np->nvalue.ip)
 		return;
 	if(nv_isattr(np,NV_FPOSIX))
@@ -1653,7 +1653,7 @@ static void print_fun __PARAM__((register Namval_t* np), (np)) __OTORP__(registe
  */
 static int run_subshell __PARAM__((const union anynode *t,pid_t grp), (t, grp)) __OTORP__(const union anynode *t;pid_t grp;){
 	static char prolog[] = "set; typeset -p; print .sh.dollar=$$";
-	register int i, fd, trace = sh_isoption(SH_XTRACE);
+	int i, fd, trace = sh_isoption(SH_XTRACE);
 	pid_t pid;
 	char *arglist[3], devfd[12], *cp;
 	Sfio_t *sp = sftmp(0);
@@ -1717,7 +1717,7 @@ static pid_t sh_ntfork __PARAM__((const union anynode *t,char *argv[],int *jobid
 #   ifndef _lib_fork
 	if(!argv)
 	{
-		register union anynode *tchild = t->fork.forktre;
+		union anynode *tchild = t->fork.forktre;
 		int optimize=0;
 		otype = t->tre.tretyp;
 		savetype = otype;

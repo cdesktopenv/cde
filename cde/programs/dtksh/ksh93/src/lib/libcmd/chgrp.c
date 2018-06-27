@@ -135,9 +135,9 @@ extern __MANGLE__ int	lchown __PROTO__((const char*, uid_t, gid_t));
  */
 
 static void
-getids __PARAM__((register char* s, char** e, int* uid, int* gid, int flags), (s, e, uid, gid, flags)) __OTORP__(register char* s; char** e; int* uid; int* gid; int flags;){
-	register char*	t;
-	register int	n;
+getids __PARAM__((char* s, char** e, int* uid, int* gid, int flags), (s, e, uid, gid, flags)) __OTORP__(char* s; char** e; int* uid; int* gid; int flags;){
+	char*	t;
+	int	n;
 	char*		z;
 	char		buf[64];
 
@@ -185,10 +185,10 @@ getids __PARAM__((register char* s, char** e, int* uid, int* gid, int flags), (s
 
 int
 b_chgrp __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
-	register int	flags = 0;
-	register char*	file;
-	register char*	s;
-	register Map_t*	m;
+	int	flags = 0;
+	char*	file;
+	char*	s;
+	Map_t*	m;
 	Hash_table_t*	map = 0;
 	int		resolve;
 	int		n;

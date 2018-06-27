@@ -133,9 +133,9 @@ static char flagadr[NUM_OPTS+1];
  *  The -o option is used to set option by name
  *  This routine returns the number of non-option arguments
  */
-int sh_argopts __PARAM__((int argc,register char *argv[]), (argc, argv)) __OTORP__(int argc;register char *argv[];){
-	register int n;
-	register Shopt_t newflags=sh.options, opt;
+int sh_argopts __PARAM__((int argc,char *argv[]), (argc, argv)) __OTORP__(int argc;char *argv[];){
+	int n;
+	Shopt_t newflags=sh.options, opt;
 	int setflag=0, action=0, trace=(int)sh_isoption(SH_XTRACE);
 	Namval_t *np = NIL(Namval_t*);
 	const char *cp;
@@ -296,8 +296,8 @@ int sh_argopts __PARAM__((int argc,register char *argv[]), (argc, argv)) __OTORP
  * returns the value of $-
  */
 char *sh_argdolminus __PARAM__((void), ()){
-	register const char *cp=sh_optksh;
-	register char *flagp=flagadr;
+	const char *cp=sh_optksh;
+	char *flagp=flagadr;
 	while(cp< &sh_optksh[NUM_OPTS])
 	{
 		if(sh.options&flagval[cp-sh_optksh])
@@ -329,8 +329,8 @@ void sh_argset __PARAM__((char *argv[]), (argv)) __OTORP__(char *argv[];){
  * If flag is set, then the block dolh is not freed
  */
 struct dolnod *sh_argfree __PARAM__((struct dolnod *blk,int flag), (blk, flag)) __OTORP__(struct dolnod *blk;int flag;){
-	register struct dolnod*	argr=blk;
-	register struct dolnod*	argblk;
+	struct dolnod*	argr=blk;
+	struct dolnod*	argblk;
 	if(argblk=argr)
 	{
 		if((--argblk->dolrefcnt)==0)
@@ -364,10 +364,10 @@ struct dolnod *sh_argfree __PARAM__((struct dolnod *blk,int flag), (blk, flag)) 
  * grab space for arglist and copy args
  * The strings are copied after the argument vector
  */
-struct dolnod *sh_argcreate __PARAM__((register char *argv[]), (argv)) __OTORP__(register char *argv[];){
-	register struct dolnod *dp;
-	register char **pp=argv, *sp;
-	register int 	size=0,n;
+struct dolnod *sh_argcreate __PARAM__((char *argv[]), (argv)) __OTORP__(char *argv[];){
+	struct dolnod *dp;
+	char **pp=argv, *sp;
+	int 	size=0,n;
 	/* count args and number of bytes of arglist */
 	while(sp= *pp++)
 		size += strlen(sp);
@@ -391,7 +391,7 @@ struct dolnod *sh_argcreate __PARAM__((register char *argv[]), (argv)) __OTORP__
  *  used to set new arguments for functions
  */
 struct dolnod *sh_argnew __PARAM__((char *argi[], struct dolnod **savargfor), (argi, savargfor)) __OTORP__(char *argi[]; struct dolnod **savargfor;){
-	register struct dolnod *olddolh = dolh;
+	struct dolnod *olddolh = dolh;
 	*savargfor = argfor;
 	dolh = 0;
 	argfor = 0;
@@ -416,7 +416,7 @@ void sh_argreset __PARAM__((struct dolnod *blk, struct dolnod *afor), (blk, afor
  * increase the use count so that an sh_argset will not make it go away
  */
 struct dolnod *sh_arguse __PARAM__((void), ()){
-	register struct dolnod *dh;
+	struct dolnod *dh;
 	if(dh=dolh)
 		dh->dolrefcnt++;
 	return(dh);
@@ -426,8 +426,8 @@ struct dolnod *sh_arguse __PARAM__((void), ()){
  *  Print option settings on standard output
  *  if mode==1 for -o format, otherwise +o format
  */
-static void print_opts __PARAM__((Shopt_t oflags,register int mode), (oflags, mode)) __OTORP__(Shopt_t oflags;register int mode;){
-	register const Shtable_t *tp = shtab_options;
+static void print_opts __PARAM__((Shopt_t oflags,int mode), (oflags, mode)) __OTORP__(Shopt_t oflags;int mode;){
+	const Shtable_t *tp = shtab_options;
 	Shopt_t value;
 	if(mode)
 		sfputr(sfstdout,ERROR_translate(e_heading,1),'\n');
@@ -459,10 +459,10 @@ static void print_opts __PARAM__((Shopt_t oflags,register int mode), (oflags, mo
  * build an argument list
  */
 char **sh_argbuild __PARAM__((int *nargs, const struct comnod *comptr), (nargs, comptr)) __OTORP__(int *nargs; const struct comnod *comptr;){
-	register struct argnod	*argp;
+	struct argnod	*argp;
 	struct argnod *arghead=0;
 	{
-		register const struct comnod	*ac = comptr;
+		const struct comnod	*ac = comptr;
 		/* see if the arguments have already been expanded */
 		if(!ac->comarg)
 		{
@@ -471,7 +471,7 @@ char **sh_argbuild __PARAM__((int *nargs, const struct comnod *comptr), (nargs, 
 		}
 		else if(!(ac->comtyp&COMSCAN))
 		{
-			register struct dolnod *ap = (struct dolnod*)ac->comarg;
+			struct dolnod *ap = (struct dolnod*)ac->comarg;
 			*nargs = ap->dolnum;
 			return(ap->dolval+ap->dolbot);
 		}
@@ -489,9 +489,9 @@ char **sh_argbuild __PARAM__((int *nargs, const struct comnod *comptr), (nargs, 
 		}
 	}
 	{
-		register char	**comargn;
-		register int	argn;
-		register char	**comargm;
+		char	**comargn;
+		int	argn;
+		char	**comargm;
 		argn = *nargs;
 		/* allow room to prepend args */
 #ifdef SHOPT_VPIX
@@ -528,14 +528,14 @@ char **sh_argbuild __PARAM__((int *nargs, const struct comnod *comptr), (nargs, 
 }
 
 /* Argument expansion */
-static int arg_expand __PARAM__((register struct argnod *argp, struct argnod **argchain), (argp, argchain)) __OTORP__(register struct argnod *argp; struct argnod **argchain;){
-	register int count = 0;
+static int arg_expand __PARAM__((struct argnod *argp, struct argnod **argchain), (argp, argchain)) __OTORP__(struct argnod *argp; struct argnod **argchain;){
+	int count = 0;
 	argp->argflag &= ~ARG_MAKE;
 #ifdef SHOPT_DEVFD
 	if(*argp->argval==0 && (argp->argflag&ARG_EXP))
 	{
 		/* argument of the form (cmd) */
-		register struct argnod *ap;
+		struct argnod *ap;
 		int monitor, fd, pv[2];
 		ap = (struct argnod*)stakseek(ARGVAL);
 		ap->argflag |= ARG_MAKE;

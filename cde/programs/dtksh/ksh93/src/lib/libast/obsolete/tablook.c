@@ -93,6 +93,6 @@
 #include <ast.h>
 
 __V_*
-tablook __PARAM__((const __V_* tab, int siz, register const char* name), (tab, siz, name)) __OTORP__(const __V_* tab; int siz; register const char* name;){
+tablook __PARAM__((const __V_* tab, int siz, const char* name), (tab, siz, name)) __OTORP__(const __V_* tab; int siz; const char* name;){
 	return(strlook(tab, siz, name));
 }

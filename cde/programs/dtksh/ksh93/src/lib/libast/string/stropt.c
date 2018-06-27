@@ -120,10 +120,10 @@
 
 int
 stropt __PARAM__((const char* as, const __V_* tab, int siz, int(*f)(__V_*, const __V_*, int, const char*), __V_* a), (as, tab, siz, f, a)) __OTORP__(const char* as; const __V_* tab; int siz; int(*f)(); __V_* a;){
-	register int	c;
-	register char*	s;
-	register char*	v;
-	register char*	t;
+	int	c;
+	char*	s;
+	char*	v;
+	char*	t;
 	char**		p;
 	char*		u;
 	char*		x;

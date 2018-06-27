@@ -102,7 +102,7 @@
 #include <sig.h>
 
 char*
-strsignal __PARAM__((register int sig), (sig)) __OTORP__(register int sig;)
+strsignal __PARAM__((int sig), (sig)) __OTORP__(int sig;)
 #line 17
 {
 	static char	buf[20];

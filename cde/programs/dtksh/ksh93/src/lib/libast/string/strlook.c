@@ -100,9 +100,9 @@
  */
 
 __V_*
-strlook __PARAM__((const __V_* tab, int siz, register const char* name), (tab, siz, name)) __OTORP__(const __V_* tab; int siz; register const char* name;){
-	register char*	t = (char*)tab;
-	register char*	s;
+strlook __PARAM__((const __V_* tab, int siz, const char* name), (tab, siz, name)) __OTORP__(const __V_* tab; int siz; const char* name;){
+	char*	t = (char*)tab;
+	char*	s;
 
 	for (; s = *((char**)t); t += siz)
 		if (streq(s, name))

@@ -153,7 +153,7 @@ static int	slowread __PROTO__((Sfio_t*, __V_*, int, Sfdisc_t*));
 static int	slowexcept __PROTO__((Sfio_t*, int, Sfdisc_t*));
 static int	pipeexcept __PROTO__((Sfio_t*, int, Sfdisc_t*));
 static int	io_prompt __PROTO__((int));
-static int	io_heredoc __PROTO__((register struct ionod*));
+static int	io_heredoc __PROTO__((struct ionod*));
 static void	sftrack __PROTO__((Sfio_t*,int,int));
 static int	tee_write __PROTO__((Sfio_t*,const __V_*,int,Sfdisc_t*));
 static const Sfdisc_t eval_disc = { NULL, NULL, NULL, eval_exceptf, NULL};
@@ -178,7 +178,7 @@ static short		filemapsize;
 /* ======== input output and file copying ======== */
 
 void sh_ioinit __PARAM__((void), ()){
-	register int n;
+	int n;
 	filemapsize = 8;
 	filemap = (struct fdsave*)malloc(8*sizeof(struct fdsave));
 #ifdef SHOPT_FASTPIPE
@@ -215,10 +215,10 @@ void sh_ioinit __PARAM__((void), ()){
  * For output streams, the buffer is set to sh.output and put into
  * the sh.outpool synchronization pool
  */
-Sfio_t *sh_iostream __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
-	register Sfio_t *iop;
-	register int status = sh_iocheckfd(fd);
-	register int flags = SF_WRITE;
+Sfio_t *sh_iostream __PARAM__((int fd), (fd)) __OTORP__(int fd;){
+	Sfio_t *iop;
+	int status = sh_iocheckfd(fd);
+	int flags = SF_WRITE;
 	char *bp;
 	int size;
 #ifdef SHOPT_FASTPIPE
@@ -282,8 +282,8 @@ Sfio_t *sh_iostream __PARAM__((register int fd), (fd)) __OTORP__(register int fd
 /*
  * preserve the file descriptor or stream by moving it
  */
-static void io_preserve __PARAM__((register Sfio_t *sp, register int f2), (sp, f2)) __OTORP__(register Sfio_t *sp; register int f2;){
-	register int fd;
+static void io_preserve __PARAM__((Sfio_t *sp, int f2), (sp, f2)) __OTORP__(Sfio_t *sp; int f2;){
+	int fd;
 	if(sp)
 		fd = sfsetfd(sp,10);
 	else
@@ -315,8 +315,8 @@ static void io_preserve __PARAM__((register Sfio_t *sp, register int f2), (sp, f
  * The original stream <f1> is closed.
  *  The new file descriptor <f2> is returned;
  */
-int sh_iorenumber __PARAM__((register int f1,register int f2), (f1, f2)) __OTORP__(register int f1;register int f2;){
-	register Sfio_t *sp = sh.sftable[f2];
+int sh_iorenumber __PARAM__((int f1,int f2), (f1, f2)) __OTORP__(int f1;int f2;){
+	Sfio_t *sp = sh.sftable[f2];
 	if(f1!=f2)
 	{
 		/* see whether file descriptor is in use */
@@ -330,7 +330,7 @@ int sh_iorenumber __PARAM__((register int f1,register int f2), (f1, f2)) __OTORP
 		sh_close(f2);
 		if(f2<=2 && sp)
 		{
-			register Sfio_t *spnew = sh_iostream(f1);
+			Sfio_t *spnew = sh_iostream(f1);
 			sh.fdstatus[f2] = (sh.fdstatus[f1]&~IOCLEX);
 			sfsetfd(spnew,f2);
 			sfswap(spnew,sp);
@@ -354,9 +354,9 @@ int sh_iorenumber __PARAM__((register int f1,register int f2), (f1, f2)) __OTORP
 /*
  * close a file descriptor and update stream table and attributes 
  */
-int sh_close __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
-	register Sfio_t *sp;
-	register int r = 0;
+int sh_close __PARAM__((int fd), (fd)) __OTORP__(int fd;){
+	Sfio_t *sp;
+	int r = 0;
 	if(fd<0)
 		return(-1);
 	if(fd==sh.coutpipe)
@@ -379,9 +379,9 @@ int sh_close __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
  * Open a file for reading
  * On failure, print message.
  */
-int sh_open __PARAM__((register const char *path, int flags, ...), (va_alist)) __OTORP__(va_dcl)
-{ __OTORP__(register const char *path; int flags; )
-	register int		fd;
+int sh_open __PARAM__((const char *path, int flags, ...), (va_alist)) __OTORP__(va_dcl)
+{ __OTORP__(const char *path; int flags; )
+	int		fd;
 	mode_t			mode;
 #ifdef SOCKET
 	struct sockaddr_in	addr;
@@ -432,8 +432,8 @@ int sh_open __PARAM__((register const char *path, int flags, ...), (va_alist)) _
 	return(fd);
 }
 
-int sh_chkopen __PARAM__((register const char *name), (name)) __OTORP__(register const char *name;){
-	register int fd = sh_open(name,O_RDONLY,0);
+int sh_chkopen __PARAM__((const char *name), (name)) __OTORP__(const char *name;){
+	int fd = sh_open(name,O_RDONLY,0);
 	if(fd < 0)
 		error(ERROR_system(1),e_open,name);
 	return(fd);
@@ -442,8 +442,8 @@ int sh_chkopen __PARAM__((register const char *name), (name)) __OTORP__(register
 /*
  * move open file descriptor to a number > 2
  */
-int sh_iomovefd __PARAM__((register int fdold), (fdold)) __OTORP__(register int fdold;){
-	register int fdnew;
+int sh_iomovefd __PARAM__((int fdold), (fdold)) __OTORP__(int fdold;){
+	int fdnew;
 	if(fdold<0 || fdold>2)
 		return(fdold);
 	fdnew = sh_iomovefd(dup(fdold));
@@ -456,7 +456,7 @@ int sh_iomovefd __PARAM__((register int fdold), (fdold)) __OTORP__(register int 
 /*
  * create a pipe and print message on failure
  */
-int	sh_pipe __PARAM__((register int pv[]), (pv)) __OTORP__(register int pv[];){
+int	sh_pipe __PARAM__((int pv[]), (pv)) __OTORP__(int pv[];){
 	int fd[2];
 	if(pipe(fd)<0 || (pv[0]=fd[0])<0 || (pv[1]=fd[1])<0)
 		error(ERROR_system(1),e_pipe);
@@ -470,7 +470,7 @@ int	sh_pipe __PARAM__((register int pv[]), (pv)) __OTORP__(register int pv[];){
 /*
  * close a pipe
  */
-void sh_pclose __PARAM__((register int pv[]), (pv)) __OTORP__(register int pv[];){
+void sh_pclose __PARAM__((int pv[]), (pv)) __OTORP__(int pv[];){
 	if(pv[0]>=2)
 		sh_close(pv[0]);
 	if(pv[1]>=2)
@@ -485,9 +485,9 @@ void sh_pclose __PARAM__((register int pv[]), (pv)) __OTORP__(register int pv[];
  * flag = 3 when called from $( < ...), just open file and return
  */
 int	sh_redirect __PARAM__((struct ionod *iop, int flag), (iop, flag)) __OTORP__(struct ionod *iop; int flag;){
-	register char *fname;
-	register int 	fd, iof;
-	register Namval_t *np=0;
+	char *fname;
+	int 	fd, iof;
+	Namval_t *np=0;
 	const char *message = e_open;
 	int o_mode;		/* mode flag for open */
 	static char io_op[5];	/* used for -x trace info */
@@ -663,9 +663,9 @@ fail:
 /*
  * Create a tmp file for the here-document
  */
-static int io_heredoc __PARAM__((register struct ionod *iop), (iop)) __OTORP__(register struct ionod *iop;){
-	register Sfio_t	*infile = 0, *outfile;
-	register char		fd;
+static int io_heredoc __PARAM__((struct ionod *iop), (iop)) __OTORP__(struct ionod *iop;){
+	Sfio_t	*infile = 0, *outfile;
+	char		fd;
 	/* create an unnamed temporary file */
 	if(!(outfile=sftmp(0)))
 		error(ERROR_system(1),e_tmpcreate);
@@ -716,12 +716,12 @@ static int tee_write __PARAM__((Sfio_t *iop,const __V_ *buff,int n,Sfdisc_t *unu
  * if <origfd> < 0, then -origfd is saved, but not duped so that it
  *   will be closed with sh_iorestore.
  */
-void sh_iosave __PARAM__((register int origfd, int oldtop), (origfd, oldtop)) __OTORP__(register int origfd; int oldtop;){
+void sh_iosave __PARAM__((int origfd, int oldtop), (origfd, oldtop)) __OTORP__(int origfd; int oldtop;){
 /*@
 	assume oldtop>=0 && oldtop<sh.lim.open_max;
 @*/
  
-	register int	savefd;
+	int	savefd;
 	/* see if already saved, only save once */
 	for(savefd=sh.topfd; --savefd>=oldtop; )
 	{
@@ -752,7 +752,7 @@ void sh_iosave __PARAM__((register int origfd, int oldtop), (origfd, oldtop)) __
 	filemap[sh.topfd++].save_fd = savefd;
 	if(savefd >=0)
 	{
-		register Sfio_t* sp = sh.sftable[origfd];
+		Sfio_t* sp = sh.sftable[origfd];
 		/* make saved file close-on-exec */
 		fcntl(savefd,F_SETFD,FD_CLOEXEC);
 		if(origfd==job.fd)
@@ -777,7 +777,7 @@ void sh_iosave __PARAM__((register int origfd, int oldtop), (origfd, oldtop)) __
  *  close all saved file descriptors
  */
 void	sh_iounsave __PARAM__((void), ()){
-	register int fd, savefd, newfd;
+	int fd, savefd, newfd;
 	for(newfd=fd=0; fd < sh.topfd; fd++)
 	{
 		if((savefd = filemap[fd].save_fd)< 0)
@@ -795,7 +795,7 @@ void	sh_iounsave __PARAM__((void), ()){
  *  restore saved file descriptors from <last> on
  */
 void	sh_iorestore __PARAM__((int last), (last)) __OTORP__(int last;){
-	register int 	origfd, savefd, fd;
+	int 	origfd, savefd, fd;
 	for (fd = sh.topfd - 1; fd >= last; fd--)
 	{
 		origfd = filemap[fd].orig_fd;
@@ -830,8 +830,8 @@ void	sh_iorestore __PARAM__((int last), (last)) __OTORP__(int last;){
  * returns -1 for failure, 0 for success
  * <mode> is the same as for access()
  */
-sh_ioaccess __PARAM__((int fd,register int mode), (fd, mode)) __OTORP__(int fd;register int mode;){
-	register int flags;
+sh_ioaccess __PARAM__((int fd,int mode), (fd, mode)) __OTORP__(int fd;int mode;){
+	int flags;
 	if(mode==X_OK)
 		return(-1);
 	if((flags=sh_iocheckfd(fd))!=IOCLOSE)
@@ -852,8 +852,8 @@ sh_ioaccess __PARAM__((int fd,register int mode), (fd, mode)) __OTORP__(int fd;r
  * 0 returned on error
  */
 
-static int str2inet __PARAM__((register const char *sp, struct sockaddr_in *addr), (sp, addr)) __OTORP__(register const char *sp; struct sockaddr_in *addr;){
-	register int	n=0,c,v;
+static int str2inet __PARAM__((const char *sp, struct sockaddr_in *addr), (sp, addr)) __OTORP__(const char *sp; struct sockaddr_in *addr;){
+	int	n=0,c,v;
 	unsigned long	a=0;
 	unsigned short	p;
 
@@ -883,8 +883,8 @@ static int str2inet __PARAM__((register const char *sp, struct sockaddr_in *addr
 /*
  *  Handle interrupts for slow streams
  */
-static int slowexcept __PARAM__((register Sfio_t *iop, int type, Sfdisc_t *handle), (iop, type, handle)) __OTORP__(register Sfio_t *iop; int type; Sfdisc_t *handle;){
-	register int	n,fno;
+static int slowexcept __PARAM__((Sfio_t *iop, int type, Sfdisc_t *handle), (iop, type, handle)) __OTORP__(Sfio_t *iop; int type; Sfdisc_t *handle;){
+	int	n,fno;
 	NOT_USED(handle);
 	if(type!=SF_READ)
 		return(0);
@@ -949,7 +949,7 @@ static void time_grace __PARAM__((__V_ *handle), (handle)) __OTORP__(__V_ *handl
 	sh.trapnote |= SH_SIGTRAP;
 }
 
-static int piperead __PARAM__((Sfio_t *iop,__V_ *buff,register int size,Sfdisc_t *handle), (iop, buff, size, handle)) __OTORP__(Sfio_t *iop;__V_ *buff;register int size;Sfdisc_t *handle;){
+static int piperead __PARAM__((Sfio_t *iop,__V_ *buff,int size,Sfdisc_t *handle), (iop, buff, size, handle)) __OTORP__(Sfio_t *iop;__V_ *buff;int size;Sfdisc_t *handle;){
 	NOT_USED(handle);
 	size = ed_read(sffileno(iop), (char*)buff, size);
 	return(size);
@@ -958,7 +958,7 @@ static int piperead __PARAM__((Sfio_t *iop,__V_ *buff,register int size,Sfdisc_t
  * This is the read discipline that is applied to slow devices
  * This routine takes care of prompting for input
  */
-static int slowread __PARAM__((Sfio_t *iop,__V_ *buff,register int size,Sfdisc_t *handle), (iop, buff, size, handle)) __OTORP__(Sfio_t *iop;__V_ *buff;register int size;Sfdisc_t *handle;){
+static int slowread __PARAM__((Sfio_t *iop,__V_ *buff,int size,Sfdisc_t *handle), (iop, buff, size, handle)) __OTORP__(Sfio_t *iop;__V_ *buff;int size;Sfdisc_t *handle;){
 	int	(*readf) __PROTO__((int, char*, int));
 	NOT_USED(handle);
 	if(io_prompt(sh.nextprompt)<0 && errno==EIO)
@@ -987,8 +987,8 @@ static int slowread __PARAM__((Sfio_t *iop,__V_ *buff,register int size,Sfdisc_t
  * check and return the attributes for a file descriptor
  */
 
-int sh_iocheckfd __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
-	register int flags, n;
+int sh_iocheckfd __PARAM__((int fd), (fd)) __OTORP__(int fd;){
+	int flags, n;
 	if((n=sh.fdstatus[fd])&IOCLOSE)
 		return(n);
 	if(!(n&(IOREAD|IOWRITE)))
@@ -1051,8 +1051,8 @@ int sh_iocheckfd __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
  * Display prompt PS<flag> on standard error
  */
 
-static int	io_prompt __PARAM__((register int flag), (flag)) __OTORP__(register int flag;){
-	register char *cp;
+static int	io_prompt __PARAM__((int flag), (flag)) __OTORP__(int flag;){
+	char *cp;
 	char *endprompt;
 	static short cmdno;
 	int sfflags;
@@ -1067,7 +1067,7 @@ static int	io_prompt __PARAM__((register int flag), (flag)) __OTORP__(register i
 	{
 		case 1:
 		{
-			register int c;
+			int c;
 #if defined(TIOCLBIC) && defined(LFLUSHO)
 			if(!sh_isoption(SH_VI|SH_EMACS|SH_GMACS))
 			{
@@ -1133,9 +1133,9 @@ static int pipeexcept __PARAM__((Sfio_t* iop, int mode, Sfdisc_t* handle), (iop,
  * keep track of each stream that is opened and closed
  */
 static void	sftrack __PARAM__((Sfio_t* sp,int flag, int newfd), (sp, flag, newfd)) __OTORP__(Sfio_t* sp;int flag; int newfd;){
-	register int fd = sffileno(sp);
-	register struct checkpt *pp;
-	register int mode;
+	int fd = sffileno(sp);
+	struct checkpt *pp;
+	int mode;
 	if(flag==SF_SETFD && newfd<0)
 	{
 		flag = SF_CLOSE;
@@ -1224,9 +1224,9 @@ struct eval
  * Create a stream consisting of a space separated argv[] list 
  */
 
-Sfio_t *sh_sfeval __PARAM__((register char *argv[]), (argv)) __OTORP__(register char *argv[];){
-	register Sfio_t *iop;
-	register char *cp;
+Sfio_t *sh_sfeval __PARAM__((char *argv[]), (argv)) __OTORP__(char *argv[];){
+	Sfio_t *iop;
+	char *cp;
 	if(argv[1])
 		cp = "";
 	else
@@ -1234,7 +1234,7 @@ Sfio_t *sh_sfeval __PARAM__((register char *argv[]), (argv)) __OTORP__(register 
 	iop = sfopen(NIL(Sfio_t*),(char*)cp,"s");
 	if(argv[1])
 	{
-		register struct eval *ep;
+		struct eval *ep;
 		if(!(ep = new_of(struct eval,0)))
 			return(NIL(Sfio_t*));
 		ep->disc = eval_disc;
@@ -1251,9 +1251,9 @@ Sfio_t *sh_sfeval __PARAM__((register char *argv[]), (argv)) __OTORP__(register 
  */
 
 static int eval_exceptf __PARAM__((Sfio_t *iop,int type, Sfdisc_t *handle), (iop, type, handle)) __OTORP__(Sfio_t *iop;int type; Sfdisc_t *handle;){
-	register struct eval *ep = (struct eval*)handle;
-	register char	*cp;
-	register int	len;
+	struct eval *ep = (struct eval*)handle;
+	char	*cp;
+	int	len;
 
 	/* no more to do */
 	if(type!=SF_READ || !(cp = ep->argv[0]))
@@ -1292,8 +1292,8 @@ static int eval_exceptf __PARAM__((Sfio_t *iop,int type, Sfdisc_t *handle), (iop
  */
 
 static Sfio_t *subopen __PARAM__((Sfio_t* sp, off_t offset, long size), (sp, offset, size)) __OTORP__(Sfio_t* sp; off_t offset; long size;){
-	register struct subfile *disp;
-	register int fd = sffileno(sp);
+	struct subfile *disp;
+	int fd = sffileno(sp);
 	if(sfseek(sp,offset,SEEK_SET) <0)
 		return(NIL(Sfio_t*));
 	if(!(disp = (struct subfile*)malloc(sizeof(struct subfile)+IOBSIZE+1)))
@@ -1310,8 +1310,8 @@ static Sfio_t *subopen __PARAM__((Sfio_t* sp, off_t offset, long size), (sp, off
 /*
  * read function for subfile discipline
  */
-static int subread __PARAM__((Sfio_t* sp,__V_* buff,register int size,Sfdisc_t* handle), (sp, buff, size, handle)) __OTORP__(Sfio_t* sp;__V_* buff;register int size;Sfdisc_t* handle;){
-	register struct subfile *disp = (struct subfile*)handle;
+static int subread __PARAM__((Sfio_t* sp,__V_* buff,int size,Sfdisc_t* handle), (sp, buff, size, handle)) __OTORP__(Sfio_t* sp;__V_* buff;int size;Sfdisc_t* handle;){
+	struct subfile *disp = (struct subfile*)handle;
 	NOT_USED(sp);
 	if(disp->left == 0)
 		return(0);
@@ -1324,8 +1324,8 @@ static int subread __PARAM__((Sfio_t* sp,__V_* buff,register int size,Sfdisc_t* 
 /*
  * exception handler for subfile discipline
  */
-static int subexcept __PARAM__((Sfio_t* sp,register int mode, Sfdisc_t* handle), (sp, mode, handle)) __OTORP__(Sfio_t* sp;register int mode; Sfdisc_t* handle;){
-	register struct subfile *disp = (struct subfile*)handle;
+static int subexcept __PARAM__((Sfio_t* sp,int mode, Sfdisc_t* handle), (sp, mode, handle)) __OTORP__(Sfio_t* sp;int mode; Sfdisc_t* handle;){
+	struct subfile *disp = (struct subfile*)handle;
 	if(mode==SF_CLOSE)
 	{
 		sfdisc(sp,SF_POPDISC);
@@ -1342,8 +1342,8 @@ static int subexcept __PARAM__((Sfio_t* sp,register int mode, Sfdisc_t* handle),
  * print a list of arguments in columns
  */
 void	sh_menu __PARAM__((Sfio_t *outfile,int argn,char *argv[]), (outfile, argn, argv)) __OTORP__(Sfio_t *outfile;int argn;char *argv[];){
-	register int i,j;
-	register char **arg;
+	int i,j;
+	char **arg;
 	int nrow, ncol=1, ndigits=1;
 	int fldsize, wsize = ed_window();
 	char *cp = nv_getval(nv_scoped(LINES));
@@ -1397,8 +1397,8 @@ skip:
 /*
  * shell version of read() for user added builtins
  */
-ssize_t sh_read __PARAM__((register int fd, __V_* buff, size_t n), (fd, buff, n)) __OTORP__(register int fd; __V_* buff; size_t n;){
-	register Sfio_t *sp;
+ssize_t sh_read __PARAM__((int fd, __V_* buff, size_t n), (fd, buff, n)) __OTORP__(int fd; __V_* buff; size_t n;){
+	Sfio_t *sp;
 	if(sp=sh.sftable[fd])
 		return(sfread(sp,buff,n));
 	else
@@ -1409,8 +1409,8 @@ ssize_t sh_read __PARAM__((register int fd, __V_* buff, size_t n), (fd, buff, n)
 /*
  * shell version of write() for user added builtins
  */
-ssize_t sh_write __PARAM__((register int fd, const __V_* buff, size_t n), (fd, buff, n)) __OTORP__(register int fd; const __V_* buff; size_t n;){
-	register Sfio_t *sp;
+ssize_t sh_write __PARAM__((int fd, const __V_* buff, size_t n), (fd, buff, n)) __OTORP__(int fd; const __V_* buff; size_t n;){
+	Sfio_t *sp;
 	if(sp=sh.sftable[fd])
 		return(sfwrite(sp,buff,n));
 	else
@@ -1421,8 +1421,8 @@ ssize_t sh_write __PARAM__((register int fd, const __V_* buff, size_t n), (fd, b
 /*
  * shell version of lseek() for user added builtins
  */
-off_t sh_seek __PARAM__((register int fd, off_t offset, int whence), (fd, offset, whence)) __OTORP__(register int fd; off_t offset; int whence;){
-	register Sfio_t *sp;
+off_t sh_seek __PARAM__((int fd, off_t offset, int whence), (fd, offset, whence)) __OTORP__(int fd; off_t offset; int whence;){
+	Sfio_t *sp;
 	if(sp=sh.sftable[fd])
 		return(sfseek(sp,offset,whence));
 	else
@@ -1430,8 +1430,8 @@ off_t sh_seek __PARAM__((register int fd, off_t offset, int whence), (fd, offset
 }
 
 #undef dup
-int sh_dup __PARAM__((register int old), (old)) __OTORP__(register int old;){
-	register int fd = dup(old);
+int sh_dup __PARAM__((int old), (old)) __OTORP__(int old;){
+	int fd = dup(old);
 	if(fd>=0)
 		sh.fdstatus[fd] = (sh.fdstatus[old]&~IOCLEX);
 	return(fd);

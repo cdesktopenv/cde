@@ -136,8 +136,8 @@ void sh_deparse __PARAM__((Sfio_t *out, const union anynode *t,int tflags), (out
 /*
  * print script corresponding to shell tree <t>
  */
-static void p_tree __PARAM__((register const union anynode *t,register int tflags), (t, tflags)) __OTORP__(register const union anynode *t;register int tflags;){
-	register char *cp;
+static void p_tree __PARAM__((const union anynode *t,int tflags), (t, tflags)) __OTORP__(const union anynode *t;int tflags;){
+	char *cp;
 	int save = end_line;
 	int needbrace = (tflags&NEED_BRACE);
 	tflags &= ~NEED_BRACE;
@@ -280,7 +280,7 @@ static void p_tree __PARAM__((register const union anynode *t,register int tflag
 
 		case TARITH:
 		{
-			register struct argnod *ap = t->ar.arexpr;
+			struct argnod *ap = t->ar.arexpr;
 			if(begin_line && level)
 				sfnputc(outfile,'\t',level);
 			sfprintf(outfile,"(( %s ))%c",ap->argflag&ARG_RAW?sh_fmtq(ap->argval):ap->argval,end_line);
@@ -396,7 +396,7 @@ static void p_tree __PARAM__((register const union anynode *t,register int tflag
  * decrement indent level for flag==END
  */
 static void p_keyword __PARAM__((const char *word,int flag), (word, flag)) __OTORP__(const char *word;int flag;){
-	register int sep;
+	int sep;
 	if(flag==END)
 		sep = end_line;
 	else if(*word=='[')
@@ -416,9 +416,9 @@ static void p_keyword __PARAM__((const char *word,int flag), (word, flag)) __OTO
 		level++;
 }
 
-static void p_arg __PARAM__((register const struct argnod *arg,register int endchar,int opts), (arg, endchar, opts)) __OTORP__(register const struct argnod *arg;register int endchar;int opts;){
-	register const char *cp;
-	register int flag;
+static void p_arg __PARAM__((const struct argnod *arg,int endchar,int opts), (arg, endchar, opts)) __OTORP__(const struct argnod *arg;int endchar;int opts;){
+	const char *cp;
+	int flag;
 	do
 	{
 		if(!arg->argnxt.ap)
@@ -454,9 +454,9 @@ static void p_arg __PARAM__((register const struct argnod *arg,register int endc
 	return;
 }
 
-static void p_redirect __PARAM__((register const struct ionod *iop), (iop)) __OTORP__(register const struct ionod *iop;){
-	register int iof;
-	register char *cp;
+static void p_redirect __PARAM__((const struct ionod *iop), (iop)) __OTORP__(const struct ionod *iop;){
+	int iof;
+	char *cp;
 	for(;iop;iop=iop->ionxt)
 	{
 		iof=iop->iofile;
@@ -517,8 +517,8 @@ static void p_redirect __PARAM__((register const struct ionod *iop), (iop)) __OT
 	return;
 }
 
-static void p_comarg __PARAM__((const register struct comnod *com), (com)) __OTORP__(const register struct comnod *com;){
-	register int flag = end_line;
+static void p_comarg __PARAM__((const struct comnod *com), (com)) __OTORP__(const struct comnod *com;){
+	int flag = end_line;
 	if(com->comarg || com->comio)
 		flag = ' ';
 	if(com->comset)
@@ -538,8 +538,8 @@ static void p_comarg __PARAM__((const register struct comnod *com), (com)) __OTO
 }
 
 static void p_comlist __PARAM__((const struct dolnod *dol,int endchar), (dol, endchar)) __OTORP__(const struct dolnod *dol;int endchar;){
-	register char *cp, *const*argv;
-	register int flag = ' ', special;
+	char *cp, *const*argv;
+	int flag = ' ', special;
 	argv = dol->dolval+ARG_SPARE;
 	cp = *argv;
 	special = (*cp=='[' && cp[1]==0);
@@ -562,7 +562,7 @@ static void p_comlist __PARAM__((const struct dolnod *dol,int endchar), (dol, en
 	return;
 }
 
-static void p_switch __PARAM__((register const struct regnod *reg), (reg)) __OTORP__(register const struct regnod *reg;){
+static void p_switch __PARAM__((const struct regnod *reg), (reg)) __OTORP__(const struct regnod *reg;){
 	if(level>1)
 		sfnputc(outfile,'\t',level-1);
 	p_arg(reg->regptr,')',PRE);
@@ -583,7 +583,7 @@ static void p_switch __PARAM__((register const struct regnod *reg), (reg)) __OTO
 /*
  * output here documents
  */
-static void here_body __PARAM__((register const struct ionod *iop), (iop)) __OTORP__(register const struct ionod *iop;){
+static void here_body __PARAM__((const struct ionod *iop), (iop)) __OTORP__(const struct ionod *iop;){
 	Sfio_t *infile;
 #ifdef xxx
 	if(iop->iolink)

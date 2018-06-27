@@ -98,9 +98,9 @@
  */
 
 char*
-vmstrdup __PARAM__((Vmalloc_t* v, register const char* s), (v, s)) __OTORP__(Vmalloc_t* v; register const char* s;){
-	register char*	t;
-	register int	n;
+vmstrdup __PARAM__((Vmalloc_t* v, const char* s), (v, s)) __OTORP__(Vmalloc_t* v; const char* s;){
+	char*	t;
+	int	n;
 
 	return((t = vmalloc(v, n = strlen(s) + 1)) ? (char*)memcpy(t, s, n) : (char*)0);
 }

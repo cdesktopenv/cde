@@ -104,9 +104,9 @@ static const char id[] = "\n@(#)tail (AT&T Bell Laboratories) 05/03/94\0\n";
  * If file is seekable, position file to tail location and return offset
  * Otherwise, return -1
  */
-static off_t tailpos __PARAM__((register Sfio_t *fp, register long nitems, int delim), (fp, nitems, delim)) __OTORP__(register Sfio_t *fp; register long nitems; int delim;){
-	register int nleft,n;
-	register off_t offset, first, last;
+static off_t tailpos __PARAM__((Sfio_t *fp, long nitems, int delim), (fp, nitems, delim)) __OTORP__(Sfio_t *fp; long nitems; int delim;){
+	int nleft,n;
+	off_t offset, first, last;
 	if((first=sfseek(fp,(off_t)0,SEEK_CUR))<0)
 		return((off_t)-1);
 	last = sfsize(fp);
@@ -145,8 +145,8 @@ static off_t tailpos __PARAM__((register Sfio_t *fp, register long nitems, int d
  * This code handles tail from a pipe without any size limits
  */
 static void pipetail __PARAM__((Sfio_t *infile, Sfio_t *outfile, int nitems, int delim), (infile, outfile, nitems, delim)) __OTORP__(Sfio_t *infile; Sfio_t *outfile; int nitems; int delim;){
-	register Sfio_t *out;
-	register int n=(2*SF_BUFSIZE), nleft=nitems, fno=0;
+	Sfio_t *out;
+	int n=(2*SF_BUFSIZE), nleft=nitems, fno=0;
 	off_t offset[2];
 	Sfio_t *tmp[2];
 	if(delim<0 && nitems < n)
@@ -188,8 +188,8 @@ static void pipetail __PARAM__((Sfio_t *infile, Sfio_t *outfile, int nitems, int
 
 int
 b_tail __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
-	register Sfio_t *fp;
-	register int n, delim='\n', flags=0;
+	Sfio_t *fp;
+	int n, delim='\n', flags=0;
 	char *cp;
 	off_t offset;
 	long number = 10;
@@ -332,7 +332,7 @@ b_tail __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char
 	}
 	if(flags&F_FLAG)
 	{
-		register char *bufp;
+		char *bufp;
 		while(1)
 		{
 			sfsync(sfstdout);

@@ -149,7 +149,7 @@ static int outexceptf __PARAM__((Sfio_t* iop, int mode, Sfdisc_t* dp), (iop, mod
 	/* This mess is because /bin/echo on BSD is different */
 	if(!sh.universe)
 	{
-		register char *universe;
+		char *universe;
 		if(universe=astconf("_AST_UNIVERSE",0,0))
 			bsd_univ = (strcmp(universe,"ucb")==0);
 		sh.universe = 1;
@@ -177,8 +177,8 @@ int    b_printf __PARAM__((int argc, char *argv[],__V_ *extra), (argc, argv, ext
  */
 
 int    b_print __PARAM__((int argc, char *argv[], __V_ *extra), (argc, argv, extra)) __OTORP__(int argc; char *argv[]; __V_ *extra;){
-	register Sfio_t *outfile;
-	register int n, fd = 1;
+	Sfio_t *outfile;
+	int n, fd = 1;
 	const char *msg = e_file+4;
 	char *format = 0;
 	int sflag = 0, nflag, rflag;
@@ -344,8 +344,8 @@ skip2:
  */
 
 int sh_echolist __PARAM__((Sfio_t *outfile, int raw, char *argv[]), (outfile, raw, argv)) __OTORP__(Sfio_t *outfile; int raw; char *argv[];){
-	register char	*cp;
-	register int	n;
+	char	*cp;
+	int	n;
 	while(!cescape && (cp= *argv++))
 	{
 		if(!raw  && (n=fmtvecho(cp))>=0)
@@ -364,7 +364,7 @@ int sh_echolist __PARAM__((Sfio_t *outfile, int raw, char *argv[]), (outfile, ra
 
 
 static char *genformat __PARAM__((char *format), (format)) __OTORP__(char *format;){
-	register char *fp;
+	char *fp;
 	stakseek(0);
 	stakputs(preformat);
 	stakputs(format);
@@ -374,9 +374,9 @@ static char *genformat __PARAM__((char *format), (format)) __OTORP__(char *forma
 }
 
 static int getarg __PARAM__((int format,union types_t *value), (format, value)) __OTORP__(int format;union types_t *value;){
-	register char *argp = *nextarg;
+	char *argp = *nextarg;
 	char *lastchar = "";
-	register int neg = 0;
+	int neg = 0;
 	if(!argp)
 	{
 		switch(format)
@@ -488,7 +488,7 @@ static int getarg __PARAM__((int format,union types_t *value), (format, value)) 
  * This routine adds new % escape sequences to printf
  */
 static int extend __PARAM__((char *invalue,int format,int precis,char **outval), (invalue, format, precis, outval)) __OTORP__(char *invalue;int format;int precis;char **outval;){
-	register int n;
+	int n;
 	NOT_USED(precis);
 	switch(format)
 	{
@@ -528,9 +528,9 @@ static int extend __PARAM__((char *invalue,int format,int precis,char **outval),
 
 static int fmtvecho __PARAM__((const char *string), (string)) __OTORP__(const char *string;){
 	static char *nullarg;
-	register const char *cp = string, *cpmax;
-	register int c;
-	register int offset = staktell();
+	const char *cp = string, *cpmax;
+	int c;
+	int offset = staktell();
         int chlen;
         if (MB_CUR_MAX > 1)
         {

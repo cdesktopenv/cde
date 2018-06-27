@@ -111,8 +111,8 @@ struct dirlist				/* long path chdir(2) component	*/
  */
 
 static int
-popdir __PARAM__((register struct dirlist* d, register char* end), (d, end)) __OTORP__(register struct dirlist* d; register char* end;){
-	register struct dirlist*	dp;
+popdir __PARAM__((struct dirlist* d, char* end), (d, end)) __OTORP__(struct dirlist* d; char* end;){
+	struct dirlist*	dp;
 	int				v;
 
 	v = 0;
@@ -135,8 +135,8 @@ popdir __PARAM__((register struct dirlist* d, register char* end), (d, end)) __O
  */
 
 static struct dirlist*
-pushdir __PARAM__((register struct dirlist* d, char* dots, char* path, char* end), (d, dots, path, end)) __OTORP__(register struct dirlist* d; char* dots; char* path; char* end;){
-	register struct dirlist*	p;
+pushdir __PARAM__((struct dirlist* d, char* dots, char* path, char* end), (d, dots, path, end)) __OTORP__(struct dirlist* d; char* dots; char* path; char* end;){
+	struct dirlist*	p;
 
 	if (!(p = newof(0, struct dirlist, 1, 0)) || chdir(dots))
 	{
@@ -162,9 +162,9 @@ pushdir __PARAM__((register struct dirlist* d, char* dots, char* path, char* end
 
 char*
 getcwd __PARAM__((char* buf, size_t len), (buf, len)) __OTORP__(char* buf; size_t len;){
-	register char*	d;
-	register char*	p;
-	register char*	s;
+	char*	d;
+	char*	p;
+	char*	s;
 	DIR*		dirp = 0;
 	int		n;
 	int		x;

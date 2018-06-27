@@ -102,10 +102,10 @@
 #include "cmdlib.h"
 
 int
-cmdkill __PARAM__((register int fd, int sig), (fd, sig)) __OTORP__(register int fd; int sig;)
+cmdkill __PARAM__((int fd, int sig), (fd, sig)) __OTORP__(int fd; int sig;)
 #line 13
 {
-	register struct cmdinfo*	cmd;
+	struct cmdinfo*	cmd;
 
 	for (cmd = cmds; cmd; cmd = cmd->next)
 		if (cmd->fd == fd)

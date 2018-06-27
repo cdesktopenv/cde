@@ -106,9 +106,9 @@ NoN(strtol)
 #define MBASE	('z' - 'a' + 1 + 10)
 
 long
-strtol __PARAM__((register const char* str, char** ptr, register int base), (str, ptr, base)) __OTORP__(register const char* str; char** ptr; register int base;){
-	register long val;
-	register int c;
+strtol __PARAM__((const char* str, char** ptr, int base), (str, ptr, base)) __OTORP__(const char* str; char** ptr; int base;){
+	long val;
+	int c;
 	int xx, neg = 0;
 
 	if (ptr)

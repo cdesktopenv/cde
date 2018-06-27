@@ -130,7 +130,7 @@ static struct f_save *save_fork;	/* most recently saved data */
 int	sh_vforksave __PARAM__((void), ())
 #line 35
 {
-	register struct f_save *fp;
+	struct f_save *fp;
 	if(!(fp = new_of(struct f_save,0)))
 		return(0);
 	fp->f_save_fork = save_fork;
@@ -151,7 +151,7 @@ int	sh_vforksave __PARAM__((void), ())
 void	sh_vforkrestore __PARAM__((void), ())
 #line 55
 {
-	register struct f_save *fp = save_fork;
+	struct f_save *fp = save_fork;
 
 	if(!sh_isstate(SH_VFORKED))
 		return;

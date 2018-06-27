@@ -102,9 +102,9 @@
  */
 
 time_t
-tmtime __PARAM__((register Tm_t* tp, int west), (tp, west)) __OTORP__(register Tm_t* tp; int west;){
-	register time_t		clock;
-	register Tm_leap_t*	lp;
+tmtime __PARAM__((Tm_t* tp, int west), (tp, west)) __OTORP__(Tm_t* tp; int west;){
+	time_t		clock;
+	Tm_leap_t*	lp;
 	int			n;
 	int			sec;
 	time_t			now;

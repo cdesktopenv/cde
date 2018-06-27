@@ -190,10 +190,10 @@ static int cr_ok;
 static	Histloc_t location = { -5, 0 };
 
 ed_emacsread __PARAM__((int fd,char *buff,int scend), (fd, buff, scend)) __OTORP__(int fd;char *buff;int scend;){
-	register int c;
-	register int i;
-	register genchar *out;
-	register int count;
+	int c;
+	int i;
+	genchar *out;
+	int count;
 	int adjust,oadjust;
 	char backslash;
 	genchar *kptr;
@@ -667,8 +667,8 @@ process:
 }
 
 static void show_info __PARAM__((const char *str), (str)) __OTORP__(const char *str;){
-	register genchar *out = drawbuff;
-	register int c;
+	genchar *out = drawbuff;
+	int c;
 	genchar string[LBUF];
 	int sav_cur = cur;
 	/* save current line */
@@ -690,15 +690,15 @@ static void show_info __PARAM__((const char *str), (str)) __OTORP__(const char *
 	draw(UPDATE);
 }
 
-static void putstring __PARAM__((register char *sp), (sp)) __OTORP__(register char *sp;){
-	register int c;
+static void putstring __PARAM__((char *sp), (sp)) __OTORP__(char *sp;){
+	int c;
 	while (c= *sp++)
 		 putchar(c);
 }
 
 
-static int escape __PARAM__((register genchar *out,int count), (out, count)) __OTORP__(register genchar *out;int count;){
-	register int i,value;
+static int escape __PARAM__((genchar *out,int count), (out, count)) __OTORP__(genchar *out;int count;){
+	int i,value;
 	int digit,ch;
 	digit = 0;
 	value = 0;
@@ -965,7 +965,7 @@ static int escape __PARAM__((register genchar *out,int count), (out, count)) __O
  */
 
 static void xcommands __PARAM__((int count), (count)) __OTORP__(int count;){
-        register int i = ed_getchar(0);
+        int i = ed_getchar(0);
 	NOT_USED(count);
         switch(i)
         {
@@ -1052,9 +1052,9 @@ static void search __PARAM__((genchar *out,int direction), (out, direction)) __O
 #ifndef ESH_NFIRST
 	Histloc_t location;
 #endif
-	register int i,sl;
+	int i,sl;
 	genchar str_buff[LBUF];
-	register genchar *string = drawbuff;
+	genchar *string = drawbuff;
 	/* save current line */
 	char sav_cur = cur;
 	genncpy(str_buff,string,sizeof(str_buff)/CHARSIZE-1);
@@ -1161,18 +1161,18 @@ static void draw __PARAM__((Draw_t option), (option)) __OTORP__(Draw_t option;){
 #define	UPPER  '>'
 
 	static char overflow;		/* Screen overflow flag set */
-	register genchar *sptr;		/* Pointer within screen */
+	genchar *sptr;		/* Pointer within screen */
 	
 	static int offset;		/* Screen offset */
 	static char scvalid;		/* Screen is up to date */
 	
 	genchar nscreen[2*MAXLINE];	/* New entire screen */
 	genchar *ncursor;		/* New cursor */
-	register genchar *nptr;		/* Pointer to New screen */
+	genchar *nptr;		/* Pointer to New screen */
 	char  longline;			/* Line overflow */
 	genchar *logcursor;
 	genchar *nscend;		/* end of logical screen */
-	register int i;
+	int i;
 	
 	nptr = nscreen;
 	sptr = drawbuff;
@@ -1330,8 +1330,8 @@ static void draw __PARAM__((Draw_t option), (option)) __OTORP__(Draw_t option;){
  * cursor is set to reflect the change
  */
 
-static void setcursor __PARAM__((register int newp,int c), (newp, c)) __OTORP__(register int newp;int c;){
-	register int oldp = cursor - screen;
+static void setcursor __PARAM__((int newp,int c), (newp, c)) __OTORP__(int newp;int c;){
+	int oldp = cursor - screen;
 	if (oldp > newp)
 	{
 		if (!cr_ok || (2*(newp+plen)>(oldp+plen)))
@@ -1359,12 +1359,12 @@ skip:
 }
 
 #ifdef SHOPT_MULTIBYTE
-static int print __PARAM__((register int c), (c)) __OTORP__(register int c;){
+static int print __PARAM__((int c), (c)) __OTORP__(int c;){
 	return((c&~STRIP)==0 && isprint(c));
 }
 
-static int isword __PARAM__((register int i), (i)) __OTORP__(register int i;){
-	register int c = drawbuff[i];
+static int isword __PARAM__((int i), (i)) __OTORP__(int i;){
+	int c = drawbuff[i];
 	return((c&~STRIP) || isalnum(c));
 }
 #endif /* SHOPT_MULTIBYTE */

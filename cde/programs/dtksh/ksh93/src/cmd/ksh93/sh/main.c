@@ -130,7 +130,7 @@ static time_t	mailtime;
 static char	beenhere = 0;
 
 #ifdef _lib_sigvec
-    void clearsigmask __PARAM__((register int sig), (sig)) __OTORP__(register int sig;){
+    void clearsigmask __PARAM__((int sig), (sig)) __OTORP__(int sig;){
 	struct sigvec vec;
 	if(sigvec(sig,NIL(struct sigvec*),&vec)>=0 && vec.sv_mask)
 	{
@@ -141,10 +141,10 @@ static char	beenhere = 0;
 #endif /* _lib_sigvec */
 
 main __PARAM__((int ac, char *av[]), (ac, av)) __OTORP__(int ac; char *av[];){
-	register char	*name;
-	register int	fdin;
-	register Sfio_t  *iop;
-	register int 	rshflag;	/* set for restricted shell */
+	char	*name;
+	int	fdin;
+	Sfio_t  *iop;
+	int 	rshflag;	/* set for restricted shell */
 	struct checkpt buff;
 	int prof;
 	char *command;
@@ -322,7 +322,7 @@ main __PARAM__((int ac, char *av[]), (ac, av)) __OTORP__(int ac; char *av[];){
  * fdin is the input file descriptor 
  */
 
-static void	exfile __PARAM__((register Sfio_t *iop,register int fno), (iop, fno)) __OTORP__(register Sfio_t *iop;register int fno;){
+static void	exfile __PARAM__((Sfio_t *iop,int fno), (iop, fno)) __OTORP__(Sfio_t *iop;int fno;){
 	time_t curtime;
 	union anynode *t;
 	int maxtry=IOMAXTRY, tdone=0, execflags;
@@ -412,7 +412,7 @@ static void	exfile __PARAM__((register Sfio_t *iop,register int fno), (iop, fno)
 			sh_offstate(SH_INTERACTIVE|SH_ERREXIT|SH_MONITOR);
 		if(sh_isstate(SH_INTERACTIVE) && !tdone)
 		{
-			register char *mail;
+			char *mail;
 #ifdef JOBS
 			sh_offstate(SH_MONITOR);
 			sh_onstate(sh_isoption(SH_MONITOR));
@@ -529,8 +529,8 @@ done:
 
 /* prints out messages if files in list have been modified since last call */
 static void chkmail __PARAM__((char *files), (files)) __OTORP__(char *files;){
-	register char *cp,*sp,*qp;
-	register char save;
+	char *cp,*sp,*qp;
+	char save;
 	struct argnod *arglist=0;
 	int	offset = staktell();
 	char 	*savstak=stakptr(0);
@@ -626,7 +626,7 @@ static void fixargs __PARAM__((char **argv, int mode), (argv, mode)) __OTORP__(c
 #else
 	static char *buff;
 	static int command_len;
-	register char *cp;
+	char *cp;
 	int offset=0,size;
 #   ifdef PSTAT
 	union pstun un;

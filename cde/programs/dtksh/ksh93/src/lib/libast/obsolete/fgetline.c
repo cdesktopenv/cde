@@ -117,12 +117,12 @@
  */
 
 char*
-fgetline __PARAM__((register FILE* fp, int op), (fp, op)) __OTORP__(register FILE* fp; int op;)
+fgetline __PARAM__((FILE* fp, int op), (fp, op)) __OTORP__(FILE* fp; int op;)
 #line 29
 {
-	register int	c;
-	register char*	s;
-	register char*	end;
+	int	c;
+	char*	s;
+	char*	end;
 
 	static char*	buf;
 	static int	siz;

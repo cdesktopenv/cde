@@ -123,9 +123,9 @@ do	case $info in
 		cat > $tmp.c <<!
 main()
 {
-	register unsigned long	i;
-	register unsigned long	j;
-	register unsigned long	k = 0;
+	unsigned long	i;
+	unsigned long	j;
+	unsigned long	k = 0;
 	for (i = 0; i < 5000; i++)
 		for (j = 0; j < 50000; j++)
 			k += j;

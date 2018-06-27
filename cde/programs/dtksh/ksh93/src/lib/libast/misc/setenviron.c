@@ -103,10 +103,10 @@ setenviron __PARAM__((const char* akey), (akey)) __OTORP__(const char* akey;){
 	static char	ok[] = "";	/* delete/optimization ok return*/
 
 	char*		key = (char*)akey;
-	register char**	v = environ;
-	register char**	p = envv;
-	register char*	s;
-	register char*	t;
+	char**	v = environ;
+	char**	p = envv;
+	char*	s;
+	char*	t;
 	int		n;
 
 	if (p && !v)

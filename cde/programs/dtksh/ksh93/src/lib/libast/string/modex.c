@@ -99,12 +99,12 @@
 #undef	modex
 
 int
-modex __PARAM__((register int i), (i)) __OTORP__(register int i;){
+modex __PARAM__((int i), (i)) __OTORP__(int i;){
 #if _S_IDPERM && _S_IDTYPE
 	return(i);
 #else
-	register int	x;
-	register int	c;
+	int	x;
+	int	c;
 
 	x = 0;
 #if _S_IDPERM

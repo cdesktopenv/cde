@@ -96,8 +96,8 @@ static const char id[] = "\n@(#)tty (AT&T Bell Laboratories) 04/01/92\0\n";
 
 int
 b_tty __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
-	register int n,sflag=0;
-	register char *tty;
+	int n,sflag=0;
+	char *tty;
 
 	NoP(argc);
 	NoP(id[0]);

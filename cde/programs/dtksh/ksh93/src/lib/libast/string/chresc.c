@@ -93,9 +93,9 @@
 #include <ast.h>
 
 int
-chresc __PARAM__((register const char* s, char** p), (s, p)) __OTORP__(register const char* s; char** p;){
-	register const char*	q;
-	register int		c;
+chresc __PARAM__((const char* s, char** p), (s, p)) __OTORP__(const char* s; char** p;){
+	const char*	q;
+	int		c;
 
 	switch (c = *s++)
 	{

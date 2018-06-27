@@ -99,7 +99,7 @@
 
 int
 swapop __PARAM__((const __V_* internal, const __V_* external, int size), (internal, external, size)) __OTORP__(const __V_* internal; const __V_* external; int size;){
-	register int	op;
+	int	op;
 	char		tmp[sizeof(int_max)];
 
 	if (size <= 1)

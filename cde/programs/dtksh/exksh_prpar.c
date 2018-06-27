@@ -139,7 +139,7 @@ xk_prin_int(
         unsigned long *old_v )
 
 {
-	register int i, printed = 0;
+	int i, printed = 0;
 	struct symlist *sym;
 	unsigned long v;
 
@@ -226,7 +226,7 @@ xk_par_int(
         long *v,
         struct envsymbols *env )
 {
-	register int ret, base;
+	int ret, base;
 	char *p, *q, *pp;
 	char nbuf[512];
 
@@ -339,7 +339,7 @@ xk_prin_charstr(
         unsigned char *str,
         int len )
 {
-	register int i;
+	int i;
 
 	if (str == NULL)
 		*buf += lsprintf(*buf, "NULL");
@@ -390,7 +390,7 @@ xk_prin_hexstr(
         char *str,
         int len )
 {
-	register int i;
+	int i;
 	unsigned char tempc;
 
 	if (str == NULL)
@@ -443,7 +443,7 @@ xk_par_charstr(
         char **str,
         int *len )
 {
-	register int i;
+	int i;
 	char delim;
 	int didmalloc = FALSE, getmode;
 	char cbuf[3];	/* conversion buffer for hex strings */

@@ -111,11 +111,11 @@ char*
 pathcanon __PARAM__((char* path, int flags), (path, flags)) __OTORP__(char* path; int flags;)
 #line 33
 {
-	register char*	p;
-	register char*	r;
-	register char*	s;
-	register char*	t;
-	register int	dots;
+	char*	p;
+	char*	r;
+	char*	s;
+	char*	t;
+	int	dots;
 	int		loop;
 	int		oerrno;
 #if defined(FS_3D)

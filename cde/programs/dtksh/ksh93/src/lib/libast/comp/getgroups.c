@@ -116,7 +116,7 @@ ast_getgroups __PARAM__((int len, gid_t* set), (len, set)) __OTORP__(int len; gi
 #undef	NGROUPS_MAX
 #define NGROUPS_MAX	1
 #endif
-	register int	i;
+	int	i;
 	int		big[NGROUPS_MAX];
 #else
 #undef	NGROUPS_MAX

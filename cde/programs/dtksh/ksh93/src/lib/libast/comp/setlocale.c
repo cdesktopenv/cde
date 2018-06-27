@@ -104,10 +104,10 @@ typedef struct
 } Locale_t;
 
 char*
-_ast_setlocale __PARAM__((register int category, const char* locale), (category, locale)) __OTORP__(register int category; const char* locale;){
+_ast_setlocale __PARAM__((int category, const char* locale), (category, locale)) __OTORP__(int category; const char* locale;){
 #if _hdr_locale && _lib_setlocale
-	register Locale_t*	lc;
-	register char*		p;
+	Locale_t*	lc;
+	char*		p;
 
 	static Locale_t		def[] =
 	{

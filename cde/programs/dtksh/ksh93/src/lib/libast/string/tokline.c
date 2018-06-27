@@ -107,11 +107,11 @@ typedef struct
 static int
 splice __PARAM__((Sfio_t* s, int op, Sfdisc_t* ad), (s, op, ad)) __OTORP__(Sfio_t* s; int op; Sfdisc_t* ad;){
 	SPLICE*		d = (SPLICE*)ad;
-	register char*	b;
-	register int	c;
-	register int	n;
-	register int	q;
-	register char*	e;
+	char*	b;
+	int	c;
+	int	n;
+	int	q;
+	char*	e;
 	char*		buf;
 
 	switch (op)

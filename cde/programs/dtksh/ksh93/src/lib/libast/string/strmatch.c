@@ -212,9 +212,9 @@ extern __MANGLE__ int		fnmatch __PROTO__((const char*, const char*, int));
  */
 
 static char*
-gobble __PARAM__((Match_t* mp, register char* s, register int sub, int* g, int clear), (mp, s, sub, g, clear)) __OTORP__(Match_t* mp; register char* s; register int sub; int* g; int clear;){
-	register int	p = 0;
-	register char*	b = 0;
+gobble __PARAM__((Match_t* mp, char* s, int sub, int* g, int clear), (mp, s, sub, g, clear)) __OTORP__(Match_t* mp; char* s; int sub; int* g; int clear;){
+	int	p = 0;
+	char*	b = 0;
 	int		c = 0;
 	int		n;
 
@@ -262,7 +262,7 @@ gobble __PARAM__((Match_t* mp, register char* s, register int sub, int* g, int c
 	}
 }
 
-static int	grpmatch __PROTO__((Match_t*, int, char*, register char*, char*, int));
+static int	grpmatch __PROTO__((Match_t*, int, char*, char*, char*, int));
 
 #if _DEBUG_MATCH
 static long		test;
@@ -278,9 +278,9 @@ static long		test;
 
 static int
 onematch __PARAM__((Match_t* mp, int g, char* s, char* p, char* e, char* r, int flags), (mp, g, s, p, e, r, flags)) __OTORP__(Match_t* mp; int g; char* s; char* p; char* e; char* r; int flags;){
-	register int 	pc;
-	register int 	sc;
-	register int	n;
+	int 	pc;
+	int 	sc;
+	int	n;
 	char*		olds;
 	char*		oldp;
 
@@ -687,8 +687,8 @@ onematch __PARAM__((Match_t* mp, int g, char* s, char* p, char* e, char* r, int 
  */
 
 static int
-grpmatch __PARAM__((Match_t* mp, int g, char* s, register char* p, char* e, int flags), (mp, g, s, p, e, flags)) __OTORP__(Match_t* mp; int g; char* s; register char* p; char* e; int flags;){
-	register char*	a;
+grpmatch __PARAM__((Match_t* mp, int g, char* s, char* p, char* e, int flags), (mp, g, s, p, e, flags)) __OTORP__(Match_t* mp; int g; char* s; char* p; char* e; int flags;){
+	char*	a;
 
 #if _DEBUG_MATCH
 	error_info.indent++;
@@ -719,8 +719,8 @@ grpmatch __PARAM__((Match_t* mp, int g, char* s, register char* p, char* e, int 
 
 int
 strgrpmatch __PARAM__((const char* b, const char* p, int* sub, int n, int flags), (b, p, sub, n, flags)) __OTORP__(const char* b; const char* p; int* sub; int n; int flags;){
-	register int	i;
-	register char*	s;
+	int	i;
+	char*	s;
 	char*		e;
 	Match_t		match;
 

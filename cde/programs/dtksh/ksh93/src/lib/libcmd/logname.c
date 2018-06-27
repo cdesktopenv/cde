@@ -102,8 +102,8 @@ extern __MANGLE__ char*		getlogin __PROTO__((void));
 
 int
 b_logname __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
-	register int	n;
-	register char*	logname;
+	int	n;
+	char*	logname;
 
 	NoP(argc);
 	NoP(id[0]);

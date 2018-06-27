@@ -100,9 +100,9 @@
 
 char**
 vecfile __PARAM__((const char* file), (file)) __OTORP__(const char* file;){
-	register int	n;
-	register char*	buf;
-	register char**	vec;
+	int	n;
+	char*	buf;
+	char**	vec;
 	int		fd;
 	struct stat	st;
 

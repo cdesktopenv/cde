@@ -94,9 +94,9 @@ static const char id[] = "\n@(#)basename (AT&T Bell Laboratories) 03/01/94\0\n";
 
 #include <cmdlib.h>
 
-static void namebase __PARAM__((Sfio_t *outfile, register char *pathname, char *suffix), (outfile, pathname, suffix)) __OTORP__(Sfio_t *outfile; register char *pathname; char *suffix;){
-	register char *first, *last;
-	register int n=0;
+static void namebase __PARAM__((Sfio_t *outfile, char *pathname, char *suffix), (outfile, pathname, suffix)) __OTORP__(Sfio_t *outfile; char *pathname; char *suffix;){
+	char *first, *last;
+	int n=0;
 	for(first=last=pathname; *last; last++);
 	/* back over trailing '/' */
 	if(last>first)
@@ -126,8 +126,8 @@ static void namebase __PARAM__((Sfio_t *outfile, register char *pathname, char *
 }
 
 int
-b_basename __PARAM__((int argc,register char *argv[]), (argc, argv)) __OTORP__(int argc;register char *argv[];){
-	register int  n;
+b_basename __PARAM__((int argc,char *argv[]), (argc, argv)) __OTORP__(int argc;char *argv[];){
+	int  n;
 
 	NoP(id[0]);
 	cmdinit(argv);

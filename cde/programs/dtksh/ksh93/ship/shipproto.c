@@ -2037,12 +2037,12 @@ static char*	oct = &hex[14];
 
 
 void
-ppfsm __PARAM__((int op, register char* s), (op, s)) __OTORP__(int op; register char* s;){
-	register int			c;
-	register int			n;
-	register int			i;
-	register short*			rp;
-	register struct fsminit*	fp;
+ppfsm __PARAM__((int op, char* s), (op, s)) __OTORP__(int op; char* s;){
+	int			c;
+	int			n;
+	int			i;
+	short*			rp;
+	struct fsminit*	fp;
 
 
 
@@ -2556,8 +2556,8 @@ static int		errors;
 
 
 static int
-sstrlen __PARAM__((register char* s), (s)) __OTORP__(register char* s;){
-	register char*	b;
+sstrlen __PARAM__((char* s), (s)) __OTORP__(char* s;){
+	char*	b;
 
 	for (b = s; *s; s++);
 	return(s - b);
@@ -2568,8 +2568,8 @@ sstrlen __PARAM__((register char* s), (s)) __OTORP__(register char* s;){
 
 
 static int
-sstrncmp __PARAM__((register char* s, register char* t, register int n), (s, t, n)) __OTORP__(register char* s; register char* t; register int n;){
-	register char*	e = s + n;
+sstrncmp __PARAM__((char* s, char* t, int n), (s, t, n)) __OTORP__(char* s; char* t; int n;){
+	char*	e = s + n;
 
 	while (s < e)
 	{
@@ -2585,8 +2585,8 @@ sstrncmp __PARAM__((register char* s, register char* t, register int n), (s, t, 
 
 
 static char*
-memcopy __PARAM__((register char* s, register char* t, int n), (s, t, n)) __OTORP__(register char* s; register char* t; int n;){
-	register char*	e = t + n;
+memcopy __PARAM__((char* s, char* t, int n), (s, t, n)) __OTORP__(char* s; char* t; int n;){
+	char*	e = t + n;
 
 	while (t < e) *s++ = *t++;
 	return(s);
@@ -2597,7 +2597,7 @@ memcopy __PARAM__((register char* s, register char* t, int n), (s, t, n)) __OTOR
 
 
 static char*
-strcopy __PARAM__((register char* s, register char* t), (s, t)) __OTORP__(register char* s; register char* t;){
+strcopy __PARAM__((char* s, char* t), (s, t)) __OTORP__(char* s; char* t;){
 	while (*s++ = *t++);
 	return(s - 1);
 }
@@ -2612,8 +2612,8 @@ strcopy __PARAM__((register char* s, register char* t), (s, t)) __OTORP__(regist
 
 
 static char*
-comment __PARAM__((register char* p, register char* s, register int n, int u), (p, s, n, u)) __OTORP__(register char* p; register char* s; register int n; int u;){
-	register char*	e;
+comment __PARAM__((char* p, char* s, int n, int u), (p, s, n, u)) __OTORP__(char* p; char* s; int n; int u;){
+	char*	e;
 	char*		m;
 
 	if (!s)
@@ -2675,10 +2675,10 @@ typedef struct
 } Notice_t;
 
 static char*
-copyright __PARAM__((register char* p, register char* s), (p, s)) __OTORP__(register char* p; register char* s;){
-	register char*	v;
-	register char*	x;
-	register int	c;
+copyright __PARAM__((char* p, char* s), (p, s)) __OTORP__(char* p; char* s;){
+	char*	v;
+	char*	x;
+	int	c;
 	int		i;
 	int		n;
 	unsigned long	h;
@@ -2909,8 +2909,8 @@ copyright __PARAM__((register char* p, register char* s), (p, s)) __OTORP__(regi
 
 
 static char*
-number __PARAM__((register char* p, register long n), (p, n)) __OTORP__(register char* p; register long n;){
-	register long	d;
+number __PARAM__((char* p, long n), (p, n)) __OTORP__(char* p; long n;){
+	long	d;
 
 	for (d = 1000000; d > 1; d /= 10)
 		if (n >= d) *p++ = '0' + (n / d) % 10;
@@ -2925,13 +2925,13 @@ number __PARAM__((register char* p, register long n), (p, n)) __OTORP__(register
 
 static void
 proto_error __PARAM__((char* iob, int level, char* msg, char* arg), (iob, level, msg, arg)) __OTORP__(char* iob; int level; char* msg; char* arg;){
-	register char*	p;
+	char*	p;
 	char		buf[1024];
 
 	p = strcopy(buf, "proto: ");
 	if (iob)
 	{
-		register struct proto*	proto = (struct proto*)(iob - sizeof(struct proto));
+		struct proto*	proto = (struct proto*)(iob - sizeof(struct proto));
 
 		if (proto->line)
 		{
@@ -2977,7 +2977,7 @@ proto_error __PARAM__((char* iob, int level, char* msg, char* arg), (iob, level,
 
 
 static char*
-linesync __PARAM__((register struct proto* proto, register char* p, register long n), (proto, p, n)) __OTORP__(register struct proto* proto; register char* p; register long n;){
+linesync __PARAM__((struct proto* proto, char* p, long n), (proto, p, n)) __OTORP__(struct proto* proto; char* p; long n;){
 
 	if (proto->flags & (1L<<12))
 
@@ -3077,12 +3077,12 @@ init __PARAM__((char* op, int flags), (op, flags)) __OTORP__(char* op; int flags
 
 
 static int
-lex __PARAM__((register struct proto* proto, register long flags), (proto, flags)) __OTORP__(register struct proto* proto; register long flags;){
-	register char*		ip;
-	register char*		op;
-	register int		c;
-	register int		state;
-	register short*		rp;
+lex __PARAM__((struct proto* proto, long flags), (proto, flags)) __OTORP__(struct proto* proto; long flags;){
+	char*		ip;
+	char*		op;
+	int		c;
+	int		state;
+	short*		rp;
 	char*			m;
 	char*			e;
 	char*			t;
@@ -4478,7 +4478,7 @@ if !defined(va_start)\n\
 
 void
 pppclose __PARAM__((char* iob), (iob)) __OTORP__(char* iob;){
-	register struct proto*	proto = (struct proto*)(iob - sizeof(struct proto));
+	struct proto*	proto = (struct proto*)(iob - sizeof(struct proto));
 
 	if (proto->flags & (1L<<15)) close(proto->fd);
 	free((char*)proto);  
@@ -4496,10 +4496,10 @@ pppclose __PARAM__((char* iob), (iob)) __OTORP__(char* iob;){
 
 char*
 pppopen __PARAM__((char* file, int fd, char* notice, int flags), (file, fd, notice, flags)) __OTORP__(char* file; int fd; char* notice; int flags;){
-	register struct proto*	proto;
-	register char*		iob;
-	register long		n;
-	register char*		s;
+	struct proto*	proto;
+	char*		iob;
+	long		n;
+	char*		s;
 	int			pragma;
 	char*			b;
 
@@ -4771,8 +4771,8 @@ pppopen __PARAM__((char* file, int fd, char* notice, int flags), (file, fd, noti
 
 int
 pppread __PARAM__((char* iob), (iob)) __OTORP__(char* iob;){
-	register struct proto*	proto = (struct proto*)(iob - sizeof(struct proto));
-	register int		n;
+	struct proto*	proto = (struct proto*)(iob - sizeof(struct proto));
+	int		n;
 
 	if (proto->flags & (1L<<17))
 	{
@@ -4796,9 +4796,9 @@ pppread __PARAM__((char* iob), (iob)) __OTORP__(char* iob;){
 
 			if (proto->flags & (1L<<29))
 			{
-				register char*	ip = proto->ip;
-				register char*	op = proto->ob;
-				register char*	ep = proto->ob + proto->oz - 2;
+				char*	ip = proto->ip;
+				char*	op = proto->ob;
+				char*	ep = proto->ob + proto->oz - 2;
 
 				if (!*ip)
 				{

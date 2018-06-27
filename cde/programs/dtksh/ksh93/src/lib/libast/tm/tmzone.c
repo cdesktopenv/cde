@@ -109,9 +109,9 @@
  */
 
 Tm_zone_t*
-tmzone __PARAM__((register const char* name, char** end, const char* type, int* dst), (name, end, type, dst)) __OTORP__(register const char* name; char** end; const char* type; int* dst;){
-	register Tm_zone_t*	zp;
-	register char*		prev;
+tmzone __PARAM__((const char* name, char** end, const char* type, int* dst), (name, end, type, dst)) __OTORP__(const char* name; char** end; const char* type; int* dst;){
+	Tm_zone_t*	zp;
+	char*		prev;
 
 	tmset(tm_info.zone);
 	zp = tm_info.local;

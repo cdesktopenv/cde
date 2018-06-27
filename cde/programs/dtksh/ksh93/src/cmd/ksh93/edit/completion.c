@@ -107,7 +107,7 @@ static char macro[] = "_??";
  *  if <str> is equal to <newstr> returns  <str>+strlen(<str>)+1
  *  otherwise returns <str>+strlen(<str>)
  */
-static char *overlay __PARAM__((register char *str,register const char *newstr), (str, newstr)) __OTORP__(register char *str;register const char *newstr;){
+static char *overlay __PARAM__((char *str,const char *newstr), (str, newstr)) __OTORP__(char *str;const char *newstr;){
 	while(*str && *str == *newstr++)
 		str++;
 	if(*str)
@@ -132,7 +132,7 @@ ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, 
 	char *staksav = stakptr(0);
 	struct comnod  *comptr = (struct comnod*)stakalloc(sizeof(struct comnod));
 	struct argnod *ap = (struct argnod*)stakseek(ARGVAL);
-	register char *out;
+	char *out;
 	char *begin;
 	int addstar;
 	int rval = 0;
@@ -140,8 +140,8 @@ ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, 
 	int nomarkdirs = !sh_isoption(SH_MARKDIRS);
 #ifdef SHOPT_MULTIBYTE
 	{
-		register int c = *cur;
-		register genchar *cp;
+		int c = *cur;
+		genchar *cp;
 		/* adjust cur */
 		cp = (genchar *)outbuff + *cur;
 		c = *cp;
@@ -157,7 +157,7 @@ ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, 
 	ap->argflag = (ARG_MAC|ARG_EXP);
 	ap->argnxt.ap = 0;
 	{
-		register int c;
+		int c;
 		if(out>outbuff)
 		{
 			/* go to beginning of word */
@@ -201,10 +201,10 @@ ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, 
 	if(mode!='*')
 		sh_onoption(SH_MARKDIRS);
 	{
-		register char **com;
+		char **com;
 		char	*cp=begin;
 		int	 narg,cmd_completion=0;
-		register int size;
+		int size;
 		while(cp>outbuff && ((size=cp[-1])==' ' || size=='\t'))
 			cp--;
 		if((cp==outbuff || strchr(";&|(",size)) && *begin!='~' && !strchr(ap->argval,'/'))
@@ -230,7 +230,7 @@ ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, 
 		{
 			if (strip && !cmd_completion)
 			{
-				register char **ptrcom;
+				char **ptrcom;
 				for(ptrcom=com;*ptrcom;ptrcom++)
 					/* trim directory prefix */
 					*ptrcom = path_basename(*ptrcom);
@@ -317,7 +317,7 @@ ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, 
 		sh_offoption(SH_MARKDIRS);
 #ifdef SHOPT_MULTIBYTE
 	{
-		register int c;
+		int c;
 		/* first re-adjust cur */
 		out = outbuff + *cur;
 		c = *out;
@@ -335,8 +335,8 @@ ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, 
  * look for edit macro named _i
  * if found, puts the macro definition into lookahead buffer and returns 1
  */
-ed_macro __PARAM__((register int i), (i)) __OTORP__(register int i;){
-	register char *out;
+ed_macro __PARAM__((int i), (i)) __OTORP__(int i;){
+	char *out;
 	Namval_t *np;
 	genchar buff[LOOKAHEAD+1];
 	if(i != '@')
@@ -369,7 +369,7 @@ ed_macro __PARAM__((register int i), (i)) __OTORP__(register int i;){
  * Enter the fc command on the current history line
  */
 ed_fulledit __PARAM__((void), ()){
-	register char *cp;
+	char *cp;
 	if(!sh.hist_ptr)
 		return(-1);
 	/* use EDITOR on current command */

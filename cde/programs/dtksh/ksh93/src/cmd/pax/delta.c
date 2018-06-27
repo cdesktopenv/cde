@@ -98,9 +98,9 @@
 
 static void
 getdeltaops __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
-	register char*	s;
-	register char*	e;
-	register int	n;
+	char*	s;
+	char*	e;
+	int	n;
 	unsigned long	x;
 	char		c;
 
@@ -160,8 +160,8 @@ getdeltaops __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* 
  */
 
 void
-getdeltaheader __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register char*	s;
+getdeltaheader __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	char*	s;
 	char		c;
 	int		n;
 	unsigned long	sum;
@@ -218,7 +218,7 @@ getdeltaheader __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) 
  */
 
 void
-getdeltatrailer __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
+getdeltatrailer __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
 	if (ap->delta && ap->delta->trailer)
 	{
 		f->st->st_size += ap->delta->trailer;
@@ -232,9 +232,9 @@ getdeltatrailer __PARAM__((register Archive_t* ap, register File_t* f), (ap, f))
  */
 
 void
-setdeltaheader __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register char*	s;
-	register int	n;
+setdeltaheader __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	char*	s;
+	int	n;
 
 	if (f->delta.op && ap->delta)
 	{
@@ -253,7 +253,7 @@ setdeltaheader __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) 
  */
 
 void
-putdeltaheader __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
+putdeltaheader __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
 	int	n;
 
 	if (f->delta.op && ap->delta && (n = ap->delta->hdr - ap->delta->hdrbuf))
@@ -278,9 +278,9 @@ putdeltaheader __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) 
  */
 
 void
-putdeltatrailer __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register char*	s;
-	register int	n;
+putdeltatrailer __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	char*	s;
+	int	n;
 
 	if (f->delta.op && ap->delta)
 	{
@@ -312,8 +312,8 @@ initdelta __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
  */
 
 void
-deltabase __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap;){
-	register Archive_t*	bp;
+deltabase __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
+	Archive_t*	bp;
 	struct stat		st;
 
 	if (!ap->delta)
@@ -355,10 +355,10 @@ deltabase __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t
 
 void
 deltaverify __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
-	register int		wfd;
-	register Member_t*	d;
-	register long		c;
-	register long		n;
+	int		wfd;
+	Member_t*	d;
+	long		c;
+	long		n;
 	Hash_position_t*	pos;
 
 	if (!state.list && ap->delta && (pos = hashscan(ap->delta->tab, 0)))
@@ -410,9 +410,9 @@ deltaverify __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
  */
 
 static void
-deltaprefix __PARAM__((Archive_t* ip, Archive_t* op, register Member_t* d), (ip, op, d)) __OTORP__(Archive_t* ip; Archive_t* op; register Member_t* d;){
-	register char*		s;
-	register Member_t*	m;
+deltaprefix __PARAM__((Archive_t* ip, Archive_t* op, Member_t* d), (ip, op, d)) __OTORP__(Archive_t* ip; Archive_t* op; Member_t* d;){
+	char*		s;
+	Member_t*	m;
 
 	d->mark = 1;
 	if (s = strrchr(d->info->path, '/'))
@@ -438,8 +438,8 @@ deltaprefix __PARAM__((Archive_t* ip, Archive_t* op, register Member_t* d), (ip,
  */
 
 void
-deltaout __PARAM__((Archive_t* ip, Archive_t* op, register File_t* f), (ip, op, f)) __OTORP__(Archive_t* ip; Archive_t* op; register File_t* f;){
-	register Member_t*	d;
+deltaout __PARAM__((Archive_t* ip, Archive_t* op, File_t* f), (ip, op, f)) __OTORP__(Archive_t* ip; Archive_t* op; File_t* f;){
+	Member_t*	d;
 	int			dfd;
 
 	if (d = op->delta && op->delta->tab && f->name ? (Member_t*)hashget(op->delta->tab, f->name) : (Member_t*)0)
@@ -489,7 +489,7 @@ deltaout __PARAM__((Archive_t* ip, Archive_t* op, register File_t* f), (ip, op, 
 	}
 	if (!d || d->mtime != f->st->st_mtime)
 	{
-		register char*	s;
+		char*	s;
 
 		if (ip && ip->delta && ip->delta->tab && f->name && (s = strrchr(f->name, '/')))
 		{
@@ -512,7 +512,7 @@ deltaout __PARAM__((Archive_t* ip, Archive_t* op, register File_t* f), (ip, op, 
  */
 
 static void
-deltacopy __PARAM__((Archive_t* ip, Archive_t* op, register File_t* f), (ip, op, f)) __OTORP__(Archive_t* ip; Archive_t* op; register File_t* f;){
+deltacopy __PARAM__((Archive_t* ip, Archive_t* op, File_t* f), (ip, op, f)) __OTORP__(Archive_t* ip; Archive_t* op; File_t* f;){
 	f->st->st_size = f->delta.base->size;
 	if (f->delta.base->expand >= 0)
 	{
@@ -537,9 +537,9 @@ deltacopy __PARAM__((Archive_t* ip, Archive_t* op, register File_t* f), (ip, op,
  */
 
 void
-deltadelete __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap;){
-	register File_t*	f;
-	register Member_t*	d;
+deltadelete __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
+	File_t*	f;
+	Member_t*	d;
 	Hash_position_t*	pos;
 
 	if (!state.ordered && ap->delta && ap->delta->tab)
@@ -572,9 +572,9 @@ deltadelete __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive
 
 void
 deltapass __PARAM__((Archive_t* ip, Archive_t* op), (ip, op)) __OTORP__(Archive_t* ip; Archive_t* op;){
-	register File_t*	f;
-	register long		c;
-	register long		n;
+	File_t*	f;
+	long		c;
+	long		n;
 	Member_t*		d;
 	char*			p;
 	Hash_position_t*	pos;
@@ -764,7 +764,7 @@ typedef struct
 
 static int
 delread __PARAM__((__V_* buf, int n, long off, Vddisc_t* vd), (buf, n, off, vd)) __OTORP__(__V_* buf; int n; long off; Vddisc_t* vd;){
-	register Vdio_t*	dp = (Vdio_t*)vd;
+	Vdio_t*	dp = (Vdio_t*)vd;
 
 	if (off != dp->offset)
 	{
@@ -800,7 +800,7 @@ delread __PARAM__((__V_* buf, int n, long off, Vddisc_t* vd), (buf, n, off, vd))
 
 static int
 delwrite __PARAM__((__V_* buf, int n, long off, Vddisc_t* vd), (buf, n, off, vd)) __OTORP__(__V_* buf; int n; long off; Vddisc_t* vd;){
-	register Vdio_t*	dp = (Vdio_t*)vd;
+	Vdio_t*	dp = (Vdio_t*)vd;
 	Buffer_t*		bp;
 
 	if (dp->op & DELTA_BIO)
@@ -836,7 +836,7 @@ delwrite __PARAM__((__V_* buf, int n, long off, Vddisc_t* vd), (buf, n, off, vd)
 int
 paxdelta __PARAM__((Archive_t* ip, Archive_t* ap, File_t* f, int op, ...), (va_alist)) __OTORP__(va_dcl)
 { __OTORP__(Archive_t* ip; Archive_t* ap; File_t* f; int op; )
-	register Vdio_t*	dp;
+	Vdio_t*	dp;
 	va_list			vp;
 	long			n;
 	int			bufferclash = 0;

@@ -165,9 +165,9 @@ optget __PARAM__((char** argv, const char* oopts), (argv, oopts)) __OTORP__(char
  */
 
 static int
-error __PARAM__((register char* p), (p)) __OTORP__(register char* p;){
-	register char*	s;
-	register char*	t;
+error __PARAM__((char* p), (p)) __OTORP__(char* p;){
+	char*	s;
+	char*	t;
 	int		n;
 
 	if (!opt_info.msg && !(opt_info.msg = newof(0, char, OPT_MSG, 0))) opt_info.arg = "[* out of space *]";
@@ -215,7 +215,7 @@ error __PARAM__((register char* p), (p)) __OTORP__(register char* p;){
 
 static void
 optadd __PARAM__((const char* opts), (opts)) __OTORP__(const char* opts;){
-	register int	n;
+	int	n;
 
 	if ((!opt_info.nopt || opt_info.opts[opt_info.nopt - 1] != (char*)opts) && opt_info.nopt < elementsof(opt_info.opts) - 1)
 	{
@@ -260,9 +260,9 @@ optadd __PARAM__((const char* opts), (opts)) __OTORP__(const char* opts;){
  */
 
 int
-optget __PARAM__((register char** argv, const char* oopts), (argv, oopts)) __OTORP__(register char** argv; const char* oopts;){
-	register int	c;
-	register char*	s;
+optget __PARAM__((char** argv, const char* oopts), (argv, oopts)) __OTORP__(char** argv; const char* oopts;){
+	int	c;
+	char*	s;
 	char*		e;
 	char*		opts;
 	int		n;
@@ -435,9 +435,9 @@ optget __PARAM__((register char** argv, const char* oopts), (argv, oopts)) __OTO
 char*
 optusage __PARAM__((const char* oopts), (oopts)) __OTORP__(const char* oopts;){
 	char*			opts = (char*)oopts;
-	register Sfio_t*	sp;
-	register int		c;
-	register char*		p;
+	Sfio_t*	sp;
+	int		c;
+	char*		p;
 	char*			t;
 	char*			x;
 	char**			o;

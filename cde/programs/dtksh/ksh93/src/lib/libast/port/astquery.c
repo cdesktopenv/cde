@@ -97,8 +97,8 @@ int
 astquery __PARAM__((int quit, const char* format, ...), (va_alist)) __OTORP__(va_dcl)
 { __OTORP__(int quit; const char* format; )
 	va_list		ap;
-	register int	n;
-	register int	c;
+	int	n;
+	int	c;
 
 	static Sfio_t*	rfp;
 	static Sfio_t*	wfp;

@@ -99,9 +99,9 @@ static const char id[] = "\n@(#)mkdir (AT&T Bell Laboratories) 02/14/95\0\n";
 
 int
 b_mkdir __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
-	register char *arg;
-	register mode_t mode=DIRMODE, mask;
-	register int n, mflag=0, pflag=0;
+	char *arg;
+	mode_t mode=DIRMODE, mask;
+	int n, mflag=0, pflag=0;
 	mode_t dmode;
 
 	NoP(argc);

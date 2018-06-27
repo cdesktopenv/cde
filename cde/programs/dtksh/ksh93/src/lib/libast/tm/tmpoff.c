@@ -101,7 +101,7 @@
  */
 
 char*
-tmpoff __PARAM__((register char* s, register const char* p, register int n, int d), (s, p, n, d)) __OTORP__(register char* s; register const char* p; register int n; int d;){
+tmpoff __PARAM__((char* s, const char* p, int n, int d), (s, p, n, d)) __OTORP__(char* s; const char* p; int n; int d;){
 	while (*s = *p++) s++;
 	if (n != d)
 	{

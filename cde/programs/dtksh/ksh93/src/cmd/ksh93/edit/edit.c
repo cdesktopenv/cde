@@ -190,7 +190,7 @@ int tty_check __PARAM__((int fd), (fd)) __OTORP__(int fd;){
  *   is called again without an intervening tty_set()
  */
 
-int tty_get __PARAM__((register int fd, register struct termios *tty), (fd, tty)) __OTORP__(register int fd; register struct termios *tty;){
+int tty_get __PARAM__((int fd, struct termios *tty), (fd, tty)) __OTORP__(int fd; struct termios *tty;){
 	if(fd == savefd)
 		*tty = savetty;
 	else
@@ -243,7 +243,7 @@ int tty_set __PARAM__((int fd, int action, struct termios *tty), (fd, action, tt
  *
 }*/
 
-void tty_cooked __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
+void tty_cooked __PARAM__((int fd), (fd)) __OTORP__(int fd;){
 
 	if(editb.e_raw==0)
 		return;
@@ -274,7 +274,7 @@ void tty_cooked __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
  *
 }*/
 
-tty_raw __PARAM__((register int fd, int echo), (fd, echo)) __OTORP__(register int fd; int echo;){
+tty_raw __PARAM__((int fd, int echo), (fd, echo)) __OTORP__(int fd; int echo;){
 #ifdef L_MASK
 	struct ltchars lchars;
 #endif	/* L_MASK */
@@ -385,7 +385,7 @@ tty_raw __PARAM__((register int fd, int echo), (fd, echo)) __OTORP__(register in
  */
 
 #   ifdef TIOCGETC
-tty_alt __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
+tty_alt __PARAM__((int fd), (fd)) __OTORP__(int fd;){
 	int mask;
 	struct tchars ttychars;
 	switch(editb.e_raw)
@@ -431,7 +431,7 @@ tty_alt __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
 #	    define IEXTEN	0
 #	endif /* IEXTEN */
 
-tty_alt __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
+tty_alt __PARAM__((int fd), (fd)) __OTORP__(int fd;){
 	switch(editb.e_raw)
 	{
 	    case ECHOMODE:
@@ -498,7 +498,7 @@ tty_alt __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
  */
 int ed_window __PARAM__((void), ()){
 	int	rows,cols;
-	register char *cp = nv_getval(COLUMNS);
+	char *cp = nv_getval(COLUMNS);
 	if(cp)
 		cols = atoi(cp)-1;
 	else
@@ -521,8 +521,8 @@ int ed_window __PARAM__((void), ()){
  */
 
 void ed_flush __PARAM__((void), ()){
-	register int n = editb.e_outptr-editb.e_outbase;
-	register int fd = ERRIO;
+	int n = editb.e_outptr-editb.e_outbase;
+	int fd = ERRIO;
 	if(n<=0)
 		return;
 	write(fd,editb.e_outbase,(unsigned)n);
@@ -568,11 +568,11 @@ void ed_crlf __PARAM__((void), ()){
  */
 
 void	ed_setup __PARAM__((int fd), (fd)) __OTORP__(int fd;){
-	register char *pp;
-	register char *last;
+	char *pp;
+	char *last;
 	char *ppmax;
 	int myquote = 0;
-	register int qlen = 1;
+	int qlen = 1;
 	char inquote = 0;
 	editb.e_fd = fd;
 #ifdef KSHELL
@@ -584,7 +584,7 @@ void	ed_setup __PARAM__((int fd), (fd)) __OTORP__(int fd;){
 #endif /* KSHELL */
 	if(sh.hist_ptr)
 	{
-		register History_t *hp = sh.hist_ptr;
+		History_t *hp = sh.hist_ptr;
 		editb.e_hismax = hist_max(hp);
 		editb.e_hismin = hist_min(hp);
 	}
@@ -599,7 +599,7 @@ void	ed_setup __PARAM__((int fd), (fd)) __OTORP__(int fd;){
 	ppmax = pp+PRSIZE-1;
 	*pp++ = '\r';
 	{
-		register int c;
+		int c;
 		while(c= *last++) switch(c)
 		{
 			case '\r':
@@ -648,7 +648,7 @@ void	ed_setup __PARAM__((int fd), (fd)) __OTORP__(int fd;){
 	*pp = 0;
 	if((editb.e_wsize -= editb.e_plen) < 7)
 	{
-		register int shift = 7-editb.e_wsize;
+		int shift = 7-editb.e_wsize;
 		editb.e_wsize = 7;
 		pp = editb.e_prompt+1;
 		strcpy(pp,pp+shift);
@@ -675,8 +675,8 @@ void	ed_setup __PARAM__((int fd), (fd)) __OTORP__(int fd;){
  * sfpkrd() correctly (i,e., those that support poll() or select()
  */
 int ed_read __PARAM__((int fd, char *buff, int size), (fd, buff, size)) __OTORP__(int fd; char *buff; int size;){
-	register int rv= -1;
-	register int delim = (editb.e_raw==RAWMODE?'\r':'\n');
+	int rv= -1;
+	int delim = (editb.e_raw==RAWMODE?'\r':'\n');
 	sh_onstate(SH_TTYWAIT);
 	errno = EINTR;
 	while(rv<0 && errno==EINTR)
@@ -740,10 +740,10 @@ done:
  *    onto the stack so that it can be checked for KEYTRAP
  * putstack() returns 1 except when in the middle of a multi-byte char
  */
-static int putstack __PARAM__((char string[], register int nbyte, int type), (string, nbyte, type)) __OTORP__(char string[]; register int nbyte; int type;){
-	register int c;
+static int putstack __PARAM__((char string[], int nbyte, int type), (string, nbyte, type)) __OTORP__(char string[]; int nbyte; int type;){
+	int c;
 #ifdef SHOPT_MULTIBYTE
-	register int max,last;
+	int max,last;
 	static int curchar, cursize=0;
 	last = max = nbyte;
 	nbyte = 0;
@@ -829,7 +829,7 @@ static int putstack __PARAM__((char string[], register int nbyte, int type), (st
  *   2		Next key is literal
  */
 int ed_getchar __PARAM__((int mode), (mode)) __OTORP__(int mode;){
-	register int n, c;
+	int n, c;
 	char readin[LOOKAHEAD+1];
 	if(!lookahead)
 	{
@@ -887,7 +887,7 @@ int ed_getchar __PARAM__((int mode), (mode)) __OTORP__(int mode;){
 	return(c);
 }
 
-void ed_ungetchar __PARAM__((register int c), (c)) __OTORP__(register int c;){
+void ed_ungetchar __PARAM__((int c), (c)) __OTORP__(int c;){
 	if (lookahead < LOOKAHEAD)
 		previous[lookahead++] = c;
 	return;
@@ -897,10 +897,10 @@ void ed_ungetchar __PARAM__((register int c), (c)) __OTORP__(register int c;){
  * put a character into the output buffer
  */
 
-void	ed_putchar __PARAM__((register int c), (c)) __OTORP__(register int c;){
-	register char *dp = editb.e_outptr;
+void	ed_putchar __PARAM__((int c), (c)) __OTORP__(int c;){
+	char *dp = editb.e_outptr;
 #ifdef SHOPT_MULTIBYTE
-	register int d;
+	int d;
 	/* check for place holder */
 	if(c == MARKER)
 		return;
@@ -934,9 +934,9 @@ void	ed_putchar __PARAM__((register int c), (c)) __OTORP__(register int c;){
  */
 
 ed_virt_to_phys __PARAM__((genchar *virt,genchar *phys,int cur,int voff,int poff), (virt, phys, cur, voff, poff)) __OTORP__(genchar *virt;genchar *phys;int cur;int voff;int poff;){
-	register genchar *sp = virt;
-	register genchar *dp = phys;
-	register int c;
+	genchar *sp = virt;
+	genchar *dp = phys;
+	int c;
 	genchar *curp = sp + cur;
 	genchar *dpmax = phys+MAXLINE;
 	int r;
@@ -1001,11 +1001,11 @@ ed_virt_to_phys __PARAM__((genchar *virt,genchar *phys,int cur,int voff,int poff
  */
 
 int	ed_internal __PARAM__((const char *src, genchar *dest), (src, dest)) __OTORP__(const char *src; genchar *dest;){
-	register const unsigned char *cp = (unsigned char *)src;
-	register int c;
-	register genchar *dp = dest;
-	register int d;
-	register int size;
+	const unsigned char *cp = (unsigned char *)src;
+	int c;
+	genchar *dp = dest;
+	int d;
+	int size;
 	if((unsigned char*)dest == cp)
 	{
 		genchar buffer[MAXLINE];
@@ -1042,9 +1042,9 @@ int	ed_internal __PARAM__((const char *src, genchar *dest), (src, dest)) __OTORP
  */
 
 int	ed_external __PARAM__((const genchar *src, char *dest), (src, dest)) __OTORP__(const genchar *src; char *dest;){
-	register int c;
-	register char *dp = dest;
-	register int d;
+	int c;
+	char *dp = dest;
+	int d;
 	char *dpmax = dp+sizeof(genchar)*MAXLINE-2;
 	if((char*)src == dp)
 	{
@@ -1084,7 +1084,7 @@ void	ed_gencpy __PARAM__((genchar *dp,const genchar *sp), (dp, sp)) __OTORP__(ge
  * copy at most <n> items from <sp> to <dp>
  */
 
-void	ed_genncpy __PARAM__((register genchar *dp,register const genchar *sp, int n), (dp, sp, n)) __OTORP__(register genchar *dp;register const genchar *sp; int n;){
+void	ed_genncpy __PARAM__((genchar *dp,const genchar *sp, int n), (dp, sp, n)) __OTORP__(genchar *dp;const genchar *sp; int n;){
 	while(n-->0 && (*dp++ = *sp++));
 }
 
@@ -1092,8 +1092,8 @@ void	ed_genncpy __PARAM__((register genchar *dp,register const genchar *sp, int 
  * find the string length of <str>
  */
 
-int	ed_genlen __PARAM__((register const genchar *str), (str)) __OTORP__(register const genchar *str;){
-	register const genchar *sp = str;
+int	ed_genlen __PARAM__((const genchar *str), (str)) __OTORP__(const genchar *str;){
+	const genchar *sp = str;
 	while(*sp++);
 	return(sp-str-1);
 }
@@ -1108,10 +1108,10 @@ int	ed_genlen __PARAM__((register const genchar *str), (str)) __OTORP__(register
  */
 
 ed_setwidth __PARAM__((const char *string), (string)) __OTORP__(const char *string;){
-	register int indx = 0;
-	register int state = 0;
-	register int c;
-	register int n = 0;
+	int indx = 0;
+	int state = 0;
+	int c;
+	int n = 0;
 	static char widths[6] = {1,1};
 	while(1) switch(c = *string++)
 	{
@@ -1160,7 +1160,7 @@ ed_setwidth __PARAM__((const char *string), (string)) __OTORP__(const char *stri
 /*
  * returns 1 when <n> bytes starting at <a> and <b> are equal
  */
-static int compare __PARAM__((register const char *a,register const char *b,register int n), (a, b, n)) __OTORP__(register const char *a;register const char *b;register int n;){
+static int compare __PARAM__((const char *a,const char *b,int n), (a, b, n)) __OTORP__(const char *a;const char *b;int n;){
 	while(n-->0)
 	{
 		if(*a++ != *b++)
@@ -1188,8 +1188,8 @@ static struct termio ott;
 
 
 tcgetattr __PARAM__((int fd, struct termios *tt), (fd, tt)) __OTORP__(int fd; struct termios *tt;){
-	register int r;
-	register int i;
+	int r;
+	int i;
 	tcgeta = 0;
 	echoctl = (ECHOCTL!=0);
 	if((r=ioctl(fd,TCGETS,tt))>=0 ||  errno!=EINVAL)
@@ -1209,10 +1209,10 @@ tcgetattr __PARAM__((int fd, struct termios *tt), (fd, tt)) __OTORP__(int fd; st
 }
 
 tcsetattr __PARAM__((int fd,int mode,struct termios *tt), (fd, mode, tt)) __OTORP__(int fd;int mode;struct termios *tt;){
-	register int r;
+	int r;
 	if(tcgeta)
 	{
-		register int i;
+		int i;
 		ott.c_lflag = tt->c_lflag;
 		ott.c_oflag = tt->c_oflag;
 		ott.c_iflag = tt->c_iflag;
@@ -1250,10 +1250,10 @@ tcsetattr __PARAM__((int fd,int mode,struct termios *tt), (fd, mode, tt)) __OTOR
  * Execute keyboard trap on given buffer <inbuff> of given size <isize>
  * <mode> < 0 for vi insert mode
  */
-static int keytrap __PARAM__((char *inbuff,register int insize, int bufsize, int mode), (inbuff, insize, bufsize, mode)) __OTORP__(char *inbuff;register int insize; int bufsize; int mode;){
+static int keytrap __PARAM__((char *inbuff,int insize, int bufsize, int mode), (inbuff, insize, bufsize, mode)) __OTORP__(char *inbuff;int insize; int bufsize; int mode;){
 	static char vi_insert[2];
 	static long col;
-	register char *cp;
+	char *cp;
 	inbuff[insize] = 0;
 	col = editb.e_cur;
 	if(mode== -2)

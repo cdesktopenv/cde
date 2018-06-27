@@ -104,10 +104,10 @@
 #include <wait.h>
 
 int
-cmdclose __PARAM__((register int fd), (fd)) __OTORP__(register int fd;)
+cmdclose __PARAM__((int fd), (fd)) __OTORP__(int fd;)
 #line 17
 {
-	register struct cmdinfo*	cmd;
+	struct cmdinfo*	cmd;
 	int				status = -1;
 
 	for (cmd = cmds; cmd; cmd = cmd->next)

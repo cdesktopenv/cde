@@ -117,7 +117,7 @@ setuniv __PARAM__((const char* buf), (buf)) __OTORP__(const char* buf;)
 	return(-1);
 #else
 #if defined(ATT_UNIV) || defined(U_GET)
-	register int	n;
+	int	n;
 
 	for (n = 0; n < UNIV_MAX; n++)
 		if (streq(buf, univ_name[n]))

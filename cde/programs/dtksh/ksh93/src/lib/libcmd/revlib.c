@@ -100,8 +100,8 @@
  * in reverse order
  */
 int rev_line __PARAM__((Sfio_t *in, Sfio_t *out, off_t start), (in, out, start)) __OTORP__(Sfio_t *in; Sfio_t *out; off_t start;){
-	register char *cp, *cpold;
-	register int n, nleft=0;
+	char *cp, *cpold;
+	int n, nleft=0;
 	char buff[BUFSIZE];
 	off_t offset;
 	if(sfseek(in,(off_t)0,SEEK_CUR) < 0)

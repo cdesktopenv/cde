@@ -132,9 +132,9 @@ static int	size[] = { 1, 2, 4, 8 };
 
 main()
 {
-	register int	t;
-	register int	s;
-	register int	m = 1;
+	int	t;
+	int	s;
+	int	m = 1;
 
 	for (s = 0; s < elementsof(size); s++)
 	{

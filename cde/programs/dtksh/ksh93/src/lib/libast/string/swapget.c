@@ -99,8 +99,8 @@
 
 int_max
 swapget __PARAM__((int op, const __V_* b, int n), (op, b, n)) __OTORP__(int op; const __V_* b; int n;){
-	register unsigned char*	p;
-	register unsigned char*	d;
+	unsigned char*	p;
+	unsigned char*	d;
 	int_max			v;
 	unsigned char		tmp[sizeof(int_max)];
 

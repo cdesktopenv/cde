@@ -121,8 +121,8 @@ union anynode *sh_trestore __PARAM__((Sfio_t *in), (in)) __OTORP__(Sfio_t *in;){
 static union anynode *r_tree()
 {
 	long l = sfgetl(infile); 
-	register int type;
-	register union anynode *t=0;
+	int type;
+	union anynode *t=0;
 	if(l<0)
 		return(t);
 	type = l;
@@ -219,8 +219,8 @@ static union anynode *r_tree()
 }
 
 static struct argnod *r_arg __PARAM__((void), ()){
-	register struct argnod *ap=0, *apold, *aptop=0;
-	register long l;
+	struct argnod *ap=0, *apold, *aptop=0;
+	long l;
 	while((l=sfgetu(infile))>0)
 	{
 		ap = (struct argnod*)stakseek((unsigned)l+ARGVAL);
@@ -263,8 +263,8 @@ static struct argnod *r_arg __PARAM__((void), ()){
 }
 
 static struct ionod *r_redirect __PARAM__((void), ()){
-	register long l;
-	register struct ionod *iop=0, *iopold, *ioptop=0;
+	long l;
+	struct ionod *iop=0, *iopold, *ioptop=0;
 	while((l=sfgetl(infile))>=0)
 	{
 		iop = (struct ionod*)getnode(ionod);
@@ -313,9 +313,9 @@ static void r_comarg __PARAM__((struct comnod *com), (com)) __OTORP__(struct com
 }
 
 static struct dolnod *r_comlist __PARAM__((void), ()){
-	register struct dolnod *dol=0;
-	register long l;
-	register char **argv;
+	struct dolnod *dol=0;
+	long l;
+	char **argv;
 	if((l=sfgetl(infile))>0)
 	{
 		dol = (struct dolnod*)stakalloc(sizeof(struct dolnod) + sizeof(char*)*(l+ARG_SPARE));
@@ -328,7 +328,7 @@ static struct dolnod *r_comlist __PARAM__((void), ()){
 }
 
 static struct regnod *r_switch __PARAM__((void), ()){
-	register long l;
+	long l;
 	struct regnod *reg=0,*regold,*regtop=0;
 	while((l=sfgetl(infile))>=0)
 	{
@@ -348,9 +348,9 @@ static struct regnod *r_switch __PARAM__((void), ()){
 }
 
 static char *r_string __PARAM__((void), ()){
-	register Sfio_t *in = infile;
-	register unsigned long l = sfgetu(in);
-	register char *ptr;
+	Sfio_t *in = infile;
+	unsigned long l = sfgetu(in);
+	char *ptr;
 	if(l == 0)
 		return(NIL(char*));
 	ptr = stakalloc((unsigned)l);

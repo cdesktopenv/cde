@@ -113,8 +113,8 @@ static int whence __PROTO__((char**, int));
  * In this case return 0 when -v or -V or unknown option, otherwise
  *   the shift count to the command is returned
  */
-int	b_command __PARAM__((register int argc,char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(register int argc;char *argv[];__V_ *extra;){
-	register int n, flags=0;
+int	b_command __PARAM__((int argc,char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(int argc;char *argv[];__V_ *extra;){
+	int n, flags=0;
 	NOT_USED(extra);
 	opt_index = opt_char = 0;
 	while((n = optget(argv,sh_optcommand))) switch(n)
@@ -151,7 +151,7 @@ int	b_command __PARAM__((register int argc,char *argv[],__V_ *extra), (argc, arg
  *  for the whence command
  */
 int	b_whence __PARAM__((int argc,char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(int argc;char *argv[];__V_ *extra;){
-	register int flags=0, n;
+	int flags=0, n;
 	NOT_USED(argc);
 	NOT_USED(extra);
 	if(*argv[0]=='t')
@@ -183,12 +183,12 @@ int	b_whence __PARAM__((int argc,char *argv[],__V_ *extra), (argc, argv, extra))
 	return(whence(argv, flags));
 }
 
-static int whence __PARAM__((char **argv, register int flags), (argv, flags)) __OTORP__(char **argv; register int flags;){
-	register const char *name;
-	register Namval_t *np;
-	register const char *cp;
-	register aflag,r=0;
-	register const char *msg;
+static int whence __PARAM__((char **argv, int flags), (argv, flags)) __OTORP__(char **argv; int flags;){
+	const char *name;
+	Namval_t *np;
+	const char *cp;
+	int aflag,r=0;
+	const char *msg;
 	int notrack = 1;
 	while(name= *argv++)
 	{

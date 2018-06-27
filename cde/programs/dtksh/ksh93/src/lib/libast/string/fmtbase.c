@@ -93,7 +93,7 @@
 #include <ast.h>
 
 char*
-fmtbase __PARAM__((register long n, register int b, int p), (n, b, p)) __OTORP__(register long n; register int b; int p;){
+fmtbase __PARAM__((long n, int b, int p), (n, b, p)) __OTORP__(long n; int b; int p;){
 	static char	buf[36];
 
 	if (n == 0 || b == 0) sfsprintf(buf, sizeof(buf), "%ld", n);

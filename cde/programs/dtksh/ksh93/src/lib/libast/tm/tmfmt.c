@@ -105,7 +105,7 @@
  */
 
 static char*
-number __PARAM__((register char* s, register char* e, register long n, register int p), (s, e, n, p)) __OTORP__(register char* s; register char* e; register long n; register int p;){
+number __PARAM__((char* s, char* e, long n, int p), (s, e, n, p)) __OTORP__(char* s; char* e; long n; int p;){
 	if (p > 0) s += sfsprintf(s, 64, "%0*lu", p, n);
 	else if (p < 0) s += sfsprintf(s, 64, "%*lu", -p, n);
 	else s += sfsprintf(s, e - s, "%lu", n);
@@ -119,10 +119,10 @@ number __PARAM__((register char* s, register char* e, register long n, register 
 
 char*
 tmfmt __PARAM__((char* buf, size_t len, const char* format, time_t* clock), (buf, len, format, clock)) __OTORP__(char* buf; size_t len; const char* format; time_t* clock;){
-	register char*	cp;
-	register char*	ep;
-	register char*	p;
-	register int	n;
+	char*	cp;
+	char*	ep;
+	char*	p;
+	int	n;
 	int		c;
 	int		i;
 	int		flags;

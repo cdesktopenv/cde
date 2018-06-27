@@ -104,9 +104,9 @@ NoN(memchr)
  */
 
 __V_*
-memchr __PARAM__((const __V_* asp, register int c, size_t n), (asp, c, n)) __OTORP__(const __V_* asp; register int c; size_t n;){
-	register const char*	sp = (char*)asp;
-	register const char*	ep = sp + n;
+memchr __PARAM__((const __V_* asp, int c, size_t n), (asp, c, n)) __OTORP__(const __V_* asp; int c; size_t n;){
+	const char*	sp = (char*)asp;
+	const char*	ep = sp + n;
 
 	while (sp < ep)
 		if (*sp++ == c)

@@ -126,9 +126,9 @@
  */
 
 static int
-blokread __PARAM__((register Archive_t* ap, char* buf, int n), (ap, buf, n)) __OTORP__(register Archive_t* ap; char* buf; int n;){
-	register int		i;
-	register int		j;
+blokread __PARAM__((Archive_t* ap, char* buf, int n), (ap, buf, n)) __OTORP__(Archive_t* ap; char* buf; int n;){
+	int		i;
+	int		j;
 	char			c;
 
 	static int		eof;
@@ -170,10 +170,10 @@ blokread __PARAM__((register Archive_t* ap, char* buf, int n), (ap, buf, n)) __O
 }
 
 static int
-blokwrite __PARAM__((register Archive_t* ap, char* buf, int n), (ap, buf, n)) __OTORP__(register Archive_t* ap; char* buf; int n;){
-	register char*	s;
-	register int	i;
-	register int	j;
+blokwrite __PARAM__((Archive_t* ap, char* buf, int n), (ap, buf, n)) __OTORP__(Archive_t* ap; char* buf; int n;){
+	char*	s;
+	int	i;
+	int	j;
 	char		blk[9];
 
 	if (ap->io.blok)
@@ -225,7 +225,7 @@ blokwrite __PARAM__((register Archive_t* ap, char* buf, int n), (ap, buf, n)) __
  */
 
 void
-binit __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap;){
+binit __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
 	unsigned long	n;
 
 	if (ap->delta)
@@ -245,7 +245,7 @@ binit __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap
  */
 
 int
-bskip __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap;){
+bskip __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
 	long		c;
 	int		skip = ap->io.skip;
 #ifdef MTIOCTOP
@@ -315,8 +315,8 @@ bskip __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap
  */
 
 static int
-bfill __PARAM__((register Archive_t* ap, int must), (ap, must)) __OTORP__(register Archive_t* ap; int must;){
-	register int	c;
+bfill __PARAM__((Archive_t* ap, int must), (ap, must)) __OTORP__(Archive_t* ap; int must;){
+	int	c;
 
 	if (ap->io.eof) return(-1);
 	if (ap->io.skip) ap->io.skip = bskip(ap);
@@ -343,10 +343,10 @@ bfill __PARAM__((register Archive_t* ap, int must), (ap, must)) __OTORP__(regist
  */
 
 int
-bread __PARAM__((register Archive_t* ap, __V_* ab, register long n, long m, int must), (ap, ab, n, m, must)) __OTORP__(register Archive_t* ap; __V_* ab; register long n; long m; int must;){
-	register char*	b = (char*)ab;
-	register int	c;
-	register char*	ob;
+bread __PARAM__((Archive_t* ap, __V_* ab, long n, long m, int must), (ap, ab, n, m, must)) __OTORP__(Archive_t* ap; __V_* ab; long n; long m; int must;){
+	char*	b = (char*)ab;
+	int	c;
+	char*	ob;
 
 	if (ap->io.eof) return(-1);
 	if (m <= 0) return(0);
@@ -465,8 +465,8 @@ bread __PARAM__((register Archive_t* ap, __V_* ab, register long n, long m, int 
  */
 
 void
-bunread __PARAM__((register Archive_t* ap, __V_* ab, register int n), (ap, ab, n)) __OTORP__(register Archive_t* ap; __V_* ab; register int n;){
-	register char*	b = (char*)ab;
+bunread __PARAM__((Archive_t* ap, __V_* ab, int n), (ap, ab, n)) __OTORP__(Archive_t* ap; __V_* ab; int n;){
+	char*	b = (char*)ab;
 
 	ap->io.eof = 0;
 	ap->io.count -= n;
@@ -484,8 +484,8 @@ bunread __PARAM__((register Archive_t* ap, __V_* ab, register int n), (ap, ab, n
  */
 
 char*
-bget __PARAM__((register Archive_t* ap, register int n), (ap, n)) __OTORP__(register Archive_t* ap; register int n;){
-	register char*	s;
+bget __PARAM__((Archive_t* ap, int n), (ap, n)) __OTORP__(Archive_t* ap; int n;){
+	char*	s;
 
 	ap->io.count += n;
 	s = ap->io.next;
@@ -494,9 +494,9 @@ bget __PARAM__((register Archive_t* ap, register int n), (ap, n)) __OTORP__(regi
 	{
 		if (ap->io.last > ap->io.buffer + MAXUNREAD + state.buffersize)
 		{
-                        register char*  b;
-                        register int    k;
-                        register int    m;
+                        char*  b;
+                        int    k;
+                        int    m;
 
                         k = ap->io.last - s;
 			m = roundof(k, IOALIGN) - k;
@@ -534,9 +534,9 @@ bget __PARAM__((register Archive_t* ap, register int n), (ap, n)) __OTORP__(regi
  */
 
 void
-backup __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap;){
-	register long	n;
-	register long	m;
+backup __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
+	long	n;
+	long	m;
 #ifdef MTIOCTOP
 	struct mtop	mt;
 #endif
@@ -593,7 +593,7 @@ backup __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* a
  */
 
 void
-bflushin __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap;){
+bflushin __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
 	ap->io.count += ap->io.last - ap->io.next;
 	ap->io.next = ap->io.last = ap->io.buffer + MAXUNREAD;
 	if (!ap->io.eof)
@@ -608,7 +608,7 @@ bflushin __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t*
  */
 
 off_t
-bseek __PARAM__((register Archive_t* ap, off_t pos, int op), (ap, pos, op)) __OTORP__(register Archive_t* ap; off_t pos; int op;){
+bseek __PARAM__((Archive_t* ap, off_t pos, int op), (ap, pos, op)) __OTORP__(Archive_t* ap; off_t pos; int op;){
 	ap->io.next = ap->io.last = ap->io.buffer + MAXUNREAD;
 	if ((pos = lseek(ap->io.fd, pos, op)) >= 0)
 	{
@@ -624,9 +624,9 @@ bseek __PARAM__((register Archive_t* ap, off_t pos, int op), (ap, pos, op)) __OT
  */
 
 void
-bflushout __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t* ap;){
-	register int	n;
-	register int	c;
+bflushout __PARAM__((Archive_t* ap), (ap)) __OTORP__(Archive_t* ap;){
+	int	n;
+	int	c;
 
 	if (n = ap->io.next - ap->io.buffer)
 	{
@@ -649,9 +649,9 @@ bflushout __PARAM__((register Archive_t* ap), (ap)) __OTORP__(register Archive_t
  */
 
 void
-bwrite __PARAM__((register Archive_t* ap, __V_* ab, register int n), (ap, ab, n)) __OTORP__(register Archive_t* ap; __V_* ab; register int n;){
-	register char*	b = (char*)ab;
-	register int	c;
+bwrite __PARAM__((Archive_t* ap, __V_* ab, int n), (ap, ab, n)) __OTORP__(Archive_t* ap; __V_* ab; int n;){
+	char*	b = (char*)ab;
+	int	c;
 
 	if (ap->sum > 0)
 		ap->memsum = memsum(b, n, ap->memsum);
@@ -734,7 +734,7 @@ bwrite __PARAM__((register Archive_t* ap, __V_* ab, register int n), (ap, ab, n)
  */
 
 void
-bput __PARAM__((register Archive_t* ap, register int n), (ap, n)) __OTORP__(register Archive_t* ap; register int n;){
+bput __PARAM__((Archive_t* ap, int n), (ap, n)) __OTORP__(Archive_t* ap; int n;){
 	ap->io.count += n;
 	message((-7, "bput(%s,%d@%ld): %-.*s%s", ap->name, n, ap->io.count, n > 32 ? 32 : n, ap->io.next, n > 32 ? "..." : ""));
 	if (ap->sum > 0)
@@ -766,7 +766,7 @@ static struct
  */
 
 static int
-devpath __PARAM__((register Ftw_t* ftw), (ftw)) __OTORP__(register Ftw_t* ftw;){
+devpath __PARAM__((Ftw_t* ftw), (ftw)) __OTORP__(Ftw_t* ftw;){
 	if (ftw->info == FTW_F && ftw->statb.st_dev == dev.st->st_dev && ftw->statb.st_ino == dev.st->st_ino)
 	{
 		message((-1, "device name is %s", ftw->path));
@@ -802,9 +802,9 @@ interactive __PARAM__((void), ()){
  */
 
 void
-newio __PARAM__((register Archive_t* ap, int c, int n), (ap, c, n)) __OTORP__(register Archive_t* ap; int c; int n;){
-	register char*	s;
-	register char*	rw;
+newio __PARAM__((Archive_t* ap, int c, int n), (ap, c, n)) __OTORP__(Archive_t* ap; int c; int n;){
+	char*	s;
+	char*	rw;
 	char*		file;
 	char*		io;
 	char*		t;

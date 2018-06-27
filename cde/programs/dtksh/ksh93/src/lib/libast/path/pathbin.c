@@ -94,7 +94,7 @@
 
 char*
 pathbin __PARAM__((void), ()){
-	register char*	bin;
+	char*	bin;
 
 	static char*	val;
 

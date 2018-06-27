@@ -171,7 +171,7 @@ static History_t *hist_ptr;
 #   include <pwd.h>
     
     int  acctinit __PARAM__((void), ()){
-	register char *cp, *acctfile;
+	char *cp, *acctfile;
 	Namval_t *np = nv_search("ACCTFILE",sh.var_tree,0);
 
 	if(!np || !(acctfile=nv_getval(np)))
@@ -229,13 +229,13 @@ static void hist_touch __PARAM__((__V_ *handle), (handle)) __OTORP__(__V_ *handl
  * hist_open() returns 1, if history file is open
  */
 int  sh_histinit __PARAM__((void), ()){
-	register int fd;
-	register History_t *hp;
-	register char *histname;
+	int fd;
+	History_t *hp;
+	char *histname;
 	char *fname=0;
 	int histmask, maxlines, hist_start;
-	register char *cp;
-	register off_t hsize = 0;
+	char *cp;
+	off_t hsize = 0;
 
 	if(sh.hist_ptr=hist_ptr)
 		return(1);
@@ -384,7 +384,7 @@ retry:
  * close the history file and free the space
  */
 
-void hist_close __PARAM__((register History_t *hp), (hp)) __OTORP__(register History_t *hp;){
+void hist_close __PARAM__((History_t *hp), (hp)) __OTORP__(History_t *hp;){
 	sfclose(hp->histfp);
 	free((char*)hp);
 	hist_ptr = 0;
@@ -401,7 +401,7 @@ void hist_close __PARAM__((register History_t *hp), (hp)) __OTORP__(register His
 /*
  * check history file format to see if it begins with special byte
  */
-static int hist_check __PARAM__((register int fd), (fd)) __OTORP__(register int fd;){
+static int hist_check __PARAM__((int fd), (fd)) __OTORP__(int fd;){
 	unsigned char magic[2];
 	lseek(fd,(off_t)0,SEEK_SET);
 	if((read(fd,(char*)magic,2)!=2) || (magic[0]!=HIST_UNDO))
@@ -422,9 +422,9 @@ static int hist_clean __PARAM__((int fd), (fd)) __OTORP__(int fd;){
  */
 
 static void hist_trim __PARAM__((int n), (n)) __OTORP__(int n;){
-	register char *cp;
-	register int incmd=1, c=0;
-	register History_t *hist_new, *hist_old = hist_ptr;
+	char *cp;
+	int incmd=1, c=0;
+	History_t *hist_new, *hist_old = hist_ptr;
 	char *buff, *endbuff;
 	off_t oldp,newp;
 	struct stat statb;
@@ -490,9 +490,9 @@ static void hist_trim __PARAM__((int n), (n)) __OTORP__(int n;){
 /*
  * position history file at size and find next command number 
  */
-static int hist_nearend __PARAM__((Sfio_t *iop, register off_t size), (iop, size)) __OTORP__(Sfio_t *iop; register off_t size;){
-        register unsigned char *cp, *endbuff;
-        register int n, incmd=1;
+static int hist_nearend __PARAM__((Sfio_t *iop, off_t size), (iop, size)) __OTORP__(Sfio_t *iop; off_t size;){
+        unsigned char *cp, *endbuff;
+        int n, incmd=1;
         unsigned char *buff, marker[4];
 	if(size <= 2L || sfseek(iop,size,SEEK_SET)<0)
 		goto begin;
@@ -556,10 +556,10 @@ begin:
  * the previous command.
  */
 
-void hist_eof __PARAM__((register History_t *hp), (hp)) __OTORP__(register History_t *hp;){
-	register char *cp,*first,*endbuff;
-	register int incmd = 0;
-	register off_t count = hp->histcnt;
+void hist_eof __PARAM__((History_t *hp), (hp)) __OTORP__(History_t *hp;){
+	char *cp,*first,*endbuff;
+	int incmd = 0;
+	off_t count = hp->histcnt;
 	int n,skip=0;
 	char *buff;
 	sfseek(hp->histfp,count,SEEK_SET);
@@ -652,8 +652,8 @@ void hist_eof __PARAM__((register History_t *hp), (hp)) __OTORP__(register Histo
  * This routine will cause the previous command to be cancelled
  */
 
-void hist_cancel __PARAM__((register History_t *hp), (hp)) __OTORP__(register History_t *hp;){
-	register int c;
+void hist_cancel __PARAM__((History_t *hp), (hp)) __OTORP__(History_t *hp;){
+	int c;
 	if(!hp)
 		return;
 	sfputc(hp->histfp,HIST_UNDO);
@@ -668,8 +668,8 @@ void hist_cancel __PARAM__((register History_t *hp), (hp)) __OTORP__(register Hi
  * flush the current history command
  */
 
-void hist_flush __PARAM__((register History_t *hp), (hp)) __OTORP__(register History_t *hp;){
-	register char *buff;
+void hist_flush __PARAM__((History_t *hp), (hp)) __OTORP__(History_t *hp;){
+	char *buff;
 	if(hp)
 	{
 		if(buff=(char*)sfreserve(hp->histfp,0,1))
@@ -695,11 +695,11 @@ void hist_flush __PARAM__((register History_t *hp), (hp)) __OTORP__(register His
  * a zero byte.  Line sequencing is added as required
  */
 
-static int hist_write __PARAM__((Sfio_t *iop,const __V_ *buff,register int insize,Sfdisc_t* handle), (iop, buff, insize, handle)) __OTORP__(Sfio_t *iop;const __V_ *buff;register int insize;Sfdisc_t* handle;){
-	register char *bufptr = ((char*)buff)+insize;
-	register History_t *hp = hist_ptr;
-	register int c,size = insize;
-	register off_t cur;
+static int hist_write __PARAM__((Sfio_t *iop,const __V_ *buff,int insize,Sfdisc_t* handle), (iop, buff, insize, handle)) __OTORP__(Sfio_t *iop;const __V_ *buff;int insize;Sfdisc_t* handle;){
+	char *bufptr = ((char*)buff)+insize;
+	History_t *hp = hist_ptr;
+	int c,size = insize;
+	off_t cur;
 	NOT_USED(handle);
 	if(!histflush)
 		return(write(sffileno(iop),(char*)buff,size));
@@ -769,7 +769,7 @@ static int hist_write __PARAM__((Sfio_t *iop,const __V_ *buff,register int insiz
  * The buffer must be large enough to hold HIST_MARKSZ chars
  */
 
-static void hist_marker __PARAM__((register char *buff,register long cmdno), (buff, cmdno)) __OTORP__(register char *buff;register long cmdno;){
+static void hist_marker __PARAM__((char *buff,long cmdno), (buff, cmdno)) __OTORP__(char *buff;long cmdno;){
 	*buff++ = HIST_CMDNO;
 	*buff++ = 0;
 	*buff++ = (cmdno>>16);
@@ -781,14 +781,14 @@ static void hist_marker __PARAM__((register char *buff,register long cmdno), (bu
 /*
  * return byte offset in history file for command <n>
  */
-off_t hist_tell __PARAM__((register History_t *hp, int n), (hp, n)) __OTORP__(register History_t *hp; int n;){
+off_t hist_tell __PARAM__((History_t *hp, int n), (hp, n)) __OTORP__(History_t *hp; int n;){
 	return(hp->histcmds[hist_ind(hp,n)]);
 }
 
 /*
  * seek to the position of command <n>
  */
-off_t hist_seek __PARAM__((register History_t *hp, int n), (hp, n)) __OTORP__(register History_t *hp; int n;){
+off_t hist_seek __PARAM__((History_t *hp, int n), (hp, n)) __OTORP__(History_t *hp; int n;){
 	return(sfseek(hp->histfp,hp->histcmds[hist_ind(hp,n)],SEEK_SET));
 }
 
@@ -798,9 +798,9 @@ off_t hist_seek __PARAM__((register History_t *hp, int n), (hp, n)) __OTORP__(re
  * each new-line character is replaced with string <nl>.
  */
 
-void hist_list __PARAM__((register History_t *hp,Sfio_t *outfile, off_t offset,int last, char *nl), (hp, outfile, offset, last, nl)) __OTORP__(register History_t *hp;Sfio_t *outfile; off_t offset;int last; char *nl;){
-	register int oldc=0;
-	register int c;
+void hist_list __PARAM__((History_t *hp,Sfio_t *outfile, off_t offset,int last, char *nl), (hp, outfile, offset, last, nl)) __OTORP__(History_t *hp;Sfio_t *outfile; off_t offset;int last; char *nl;){
+	int oldc=0;
+	int c;
 	if(offset<0 || !hp)
 	{
 		sfputr(outfile,e_unknown,'\n');
@@ -828,8 +828,8 @@ void hist_list __PARAM__((register History_t *hp,Sfio_t *outfile, off_t offset,i
  * direction < 1 for backwards search
 */
 
-Histloc_t hist_find __PARAM__((register History_t*hp,char *string,register int index1,int flag,int direction), (hp, string, index1, flag, direction)) __OTORP__(register History_t*hp;char *string;register int index1;int flag;int direction;){
-	register int index2;
+Histloc_t hist_find __PARAM__((History_t*hp,char *string,int index1,int flag,int direction), (hp, string, index1, flag, direction)) __OTORP__(History_t*hp;char *string;int index1;int flag;int direction;){
+	int index2;
 	off_t offset;
 	int *coffset=0;
 	Histloc_t location;
@@ -886,10 +886,10 @@ Histloc_t hist_find __PARAM__((register History_t*hp,char *string,register int i
  * returns the line number of the match if successful, otherwise -1
  */
 
-int hist_match __PARAM__((register History_t *hp,off_t offset,char *string,int *coffset), (hp, offset, string, coffset)) __OTORP__(register History_t *hp;off_t offset;char *string;int *coffset;){
-	register unsigned char *cp;
-	register int c;
-	register off_t count;
+int hist_match __PARAM__((History_t *hp,off_t offset,char *string,int *coffset), (hp, offset, string, coffset)) __OTORP__(History_t *hp;off_t offset;char *string;int *coffset;){
+	unsigned char *cp;
+	int c;
+	off_t count;
 	int line = 0;
 	int chrs=0;
 #ifdef SHOPT_MULTIBYTE
@@ -960,10 +960,10 @@ int hist_match __PARAM__((register History_t *hp,off_t offset,char *string,int *
  */
 
 int hist_copy __PARAM__((char *s1,int size,int command,int line), (s1, size, command, line)) __OTORP__(char *s1;int size;int command;int line;){
-	register int c;
-	register History_t *hp = hist_ptr;
-	register int count = 0;
-	register char *s1max = s1+size;
+	int c;
+	History_t *hp = hist_ptr;
+	int count = 0;
+	char *s1max = s1+size;
 	off_t offset;
 	if(!hp)
 		return(-1);
@@ -1002,10 +1002,10 @@ int hist_copy __PARAM__((char *s1,int size,int command,int line), (s1, size, com
  */
 
 char *hist_word __PARAM__((char *string,int size,int word), (string, size, word)) __OTORP__(char *string;int size;int word;){
-	register int c;
-	register char *s1 = string;
-	register unsigned char *cp = (unsigned char*)s1;
-	register int flag = 0;
+	int c;
+	char *s1 = string;
+	unsigned char *cp = (unsigned char*)s1;
+	int flag = 0;
 	if(!hist_ptr)
 #ifdef KSHELL
 	{
@@ -1047,7 +1047,7 @@ char *hist_word __PARAM__((char *string,int size,int word), (string, size, word)
  * compute the new command and line number.
  */
 
-Histloc_t hist_locate __PARAM__((History_t *hp,register int command,register int line,int lines), (hp, command, line, lines)) __OTORP__(History_t *hp;register int command;register int line;int lines;){
+Histloc_t hist_locate __PARAM__((History_t *hp,int command,int line,int lines), (hp, command, line, lines)) __OTORP__(History_t *hp;int command;int line;int lines;){
 	Histloc_t next;
 	line += lines;
 	if(!hp)
@@ -1057,7 +1057,7 @@ Histloc_t hist_locate __PARAM__((History_t *hp,register int command,register int
 	}
 	if(lines > 0)
 	{
-		register int count;
+		int count;
 		while(command <= hp->histind)
 		{
 			count = hist_copy(NIL(char*),0, command,-1);
@@ -1069,7 +1069,7 @@ Histloc_t hist_locate __PARAM__((History_t *hp,register int command,register int
 	}
 	else
 	{
-		register int least = (int)hp->histind-hp->histsize;
+		int least = (int)hp->histind-hp->histsize;
 		while(1)
 		{
 			if(line >=0)
@@ -1094,7 +1094,7 @@ done:
  * Handle history file exceptions
  */
 static int hist_exceptf __PARAM__((Sfio_t* fp, int type, Sfdisc_t *handle), (fp, type, handle)) __OTORP__(Sfio_t* fp; int type; Sfdisc_t *handle;){
-	register int newfd,oldfd;
+	int newfd,oldfd;
 	History_t *hp = (History_t*)handle;
 	if(type==SF_WRITE)
 	{
@@ -1110,7 +1110,7 @@ static int hist_exceptf __PARAM__((Sfio_t* fp, int type, Sfdisc_t *handle), (fp,
 			close(newfd);
 			if(lseek(oldfd,(off_t)0,SEEK_END) < hp->histcnt)
 			{
-				register int index = hp->histind;
+				int index = hp->histind;
 				lseek(oldfd,(off_t)2,SEEK_SET);
 				hp->histcnt = 2;
 				hp->histind = 1;

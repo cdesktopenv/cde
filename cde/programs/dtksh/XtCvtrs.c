@@ -200,11 +200,11 @@ DtCompareISOLatin1(
         char *first,
         char *second )
 {
-    register unsigned char *ap, *bp;
+    unsigned char *ap, *bp;
 
     for (ap = (unsigned char *) first, bp = (unsigned char *) second;
 	 *ap && *bp; ap++, bp++) {
-	register unsigned char a, b;
+	unsigned char a, b;
 
 	if ((a = *ap) != (b = *bp)) {
 	    /* try lowercasing and try again */

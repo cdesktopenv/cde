@@ -94,7 +94,7 @@
 #include <sig.h>
 
 char*
-fmtsignal __PARAM__((register int sig), (sig)) __OTORP__(register int sig;){
+fmtsignal __PARAM__((int sig), (sig)) __OTORP__(int sig;){
 	static char	buf[20];
 
 	if (sig >= 0)

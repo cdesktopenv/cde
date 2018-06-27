@@ -98,7 +98,7 @@ static const char id[] = "\n@(#)wc (AT&T Bell Laboratories) 08/11/94\0\n";
 
 #define ERRORMAX	125
 
-static void printout __PARAM__((register Wc_t *wp, register char *name,register int mode), (wp, name, mode)) __OTORP__(register Wc_t *wp; register char *name;register int mode;){
+static void printout __PARAM__((Wc_t *wp, char *name,int mode), (wp, name, mode)) __OTORP__(Wc_t *wp; char *name;int mode;){
 	if(mode&WC_LINES)
 		sfprintf(sfstdout," %7lu",wp->lines);
 	if(mode&WC_WORDS)
@@ -109,10 +109,10 @@ static void printout __PARAM__((register Wc_t *wp, register char *name,register 
 }
 
 int
-b_wc __PARAM__((int argc,register char **argv), (argc, argv)) __OTORP__(int argc;register char **argv;){
-	register char	*cp;
-	register int	mode=0, n;
-	register Wc_t	*wp;
+b_wc __PARAM__((int argc,char **argv), (argc, argv)) __OTORP__(int argc;char **argv;){
+	char	*cp;
+	int	mode=0, n;
+	Wc_t	*wp;
 	Sfio_t		*fp;
 	long		tlines=0, twords=0, tchars=0;
 	struct stat	statb;

@@ -116,7 +116,7 @@ static Timer_t *tptop, *tpmin;
 static char time_state;
 
 static double getnow __PARAM__((void), ()){
-	register double now;
+	double now;
 #ifdef _lib_gettimeofday
 	struct timeval tp;
 	gettimeofday(&tp,(void *)0);
@@ -131,7 +131,7 @@ static double getnow __PARAM__((void), ()){
 /*
  * set an alarm for <t> seconds
  */
-static double setalarm __PARAM__((register double t), (t)) __OTORP__(register double t;){
+static double setalarm __PARAM__((double t), (t)) __OTORP__(double t;){
 #if defined(_lib_setitimer) && defined(ITIMER_REAL)
 	struct itimerval tnew, told;
 	tnew.it_value.tv_sec = t;
@@ -154,7 +154,7 @@ static double setalarm __PARAM__((register double t), (t)) __OTORP__(register do
 
 /* signal handler for alarm call */
 static void sigalrm __PARAM__((int sig), (sig)) __OTORP__(int sig;){
-	register Timer_t *tp, *tplast, *tpold;
+	Timer_t *tp, *tplast, *tpold;
 	double now;
 	static double left;
 	NOT_USED(sig);
@@ -237,7 +237,7 @@ static void oldalrm __PARAM__((__V_ *handle), (handle)) __OTORP__(__V_ *handle;)
 }
 	
 __V_ *kshtimeradd __PARAM__((unsigned long msec,int flags,void (*action)(__V_*),__V_ *handle), (msec, flags, action, handle)) __OTORP__(unsigned long msec;int flags;void (*action)();__V_ *handle;){
-	register Timer_t *tp;
+	Timer_t *tp;
 	double t;
 	Handler_t fn;
 	t = ((double)msec)/1000.;
@@ -282,7 +282,7 @@ __V_ *kshtimeradd __PARAM__((unsigned long msec,int flags,void (*action)(__V_*),
  * delete timer <tp>.  If <tp> is NULL, all timers are deleted
  */
 void	timerdel __PARAM__((__V_ *handle), (handle)) __OTORP__(__V_ *handle;){
-	register Timer_t *tp = (Timer_t*)handle;
+	Timer_t *tp = (Timer_t*)handle;
 	if(tp)
 		tp->action = 0;
 	else

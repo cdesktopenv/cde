@@ -96,11 +96,11 @@ static const char id[] = "\n@(#)getconf (AT&T Bell Laboratories) 05/09/95\0\n";
 
 int
 b_getconf __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
-	register char*	name;
-	register char*	path;
-	register char*	value;
-	register char*	s;
-	register int	n;
+	char*	name;
+	char*	path;
+	char*	value;
+	char*	s;
+	int	n;
 	int		flags;
 
 	static char	empty[] = "-";

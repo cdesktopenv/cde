@@ -99,8 +99,8 @@
  */
 
 time_t
-tmleap __PARAM__((register time_t* clock), (clock)) __OTORP__(register time_t* clock;){
-	register Tm_leap_t*	lp;
+tmleap __PARAM__((time_t* clock), (clock)) __OTORP__(time_t* clock;){
+	Tm_leap_t*	lp;
 	time_t			now;
 
 	tmset(tm_info.zone);

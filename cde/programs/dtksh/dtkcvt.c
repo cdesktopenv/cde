@@ -450,7 +450,7 @@ DtkshCvtCallbackToString(
 {
    XtCallbackList cb;
    char buf[2048];
-   register char *p;
+   char *p;
    char * errmsg;
    Boolean count = 0;
 

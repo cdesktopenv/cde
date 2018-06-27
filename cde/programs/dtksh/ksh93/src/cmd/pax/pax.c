@@ -777,9 +777,9 @@ interrupt __PARAM__((int sig), (sig)) __OTORP__(int sig;){
  */
 
 static void
-substitute __PARAM__((Map_t** lastmap, register char* s), (lastmap, s)) __OTORP__(Map_t** lastmap; register char* s;){
-	register Map_t*	mp;
-	register int	n;
+substitute __PARAM__((Map_t** lastmap, char* s), (lastmap, s)) __OTORP__(Map_t** lastmap; char* s;){
+	Map_t*	mp;
+	int	n;
 	char*		p;
 
 	for (;;)
@@ -845,9 +845,9 @@ substitute __PARAM__((Map_t** lastmap, register char* s), (lastmap, s)) __OTORP_
 
 static void
 help __PARAM__((void), ()){
-	register char*		s;
-	register char*		e;
-	register Sfio_t*	sp;
+	char*		s;
+	char*		e;
+	Sfio_t*	sp;
 	int			n;
 
 	sp = sfstropen();
@@ -880,7 +880,7 @@ help __PARAM__((void), ()){
  */
 
 int
-setoption __PARAM__((__V_* a, const __V_* p, register int n, register const char* v), (a, p, n, v)) __OTORP__(__V_* a; const __V_* p; register int n; register const char* v;){
+setoption __PARAM__((__V_* a, const __V_* p, int n, const char* v), (a, p, n, v)) __OTORP__(__V_* a; const __V_* p; int n; const char* v;){
 	int		c;
 	char*		e;
 	char*		s;
@@ -1358,7 +1358,7 @@ setoption __PARAM__((__V_* a, const __V_* p, register int n, register const char
 
 static void
 ignore __PARAM__((void), ()){
-	register Option_t*	op;
+	Option_t*	op;
 	Hash_position_t*	pos;
 	char*			all;
 	char*			ext;
@@ -1383,9 +1383,9 @@ ignore __PARAM__((void), ()){
 
 int
 main __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
-	register int		i;
-	register char*		s;
-	register Archive_t*	ap;
+	int		i;
+	char*		s;
+	Archive_t*	ap;
 	char*			p;
 	Hash_position_t*	pos;
 	Option_t*		op;
@@ -1845,10 +1845,10 @@ main __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char**
 
 void
 finish __PARAM__((int code), (code)) __OTORP__(int code;){
-	register Archive_t*	ap;
-	register char*		x1 = &state.tmp.buffer[0];
-	register char*		x2 = &state.tmp.buffer[state.buffersize / 2];
-	register unsigned long	n;
+	Archive_t*	ap;
+	char*		x1 = &state.tmp.buffer[0];
+	char*		x2 = &state.tmp.buffer[state.buffersize / 2];
+	unsigned long	n;
 
 	while (state.proc)
 	{

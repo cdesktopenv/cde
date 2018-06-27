@@ -121,8 +121,8 @@ extern __MANGLE__ int		printf __PROTO__((const char*, ...));
 
 main()
 {
-	register int	i;
-	register int	n;
+	int	i;
+	int	n;
 
 	char		c;
 	unsigned char	uc;

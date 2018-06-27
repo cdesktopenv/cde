@@ -106,9 +106,9 @@
 static void hist_subst __PROTO__((const char*, int fd, char*));
 
 int	b_hist __PARAM__((int argc,char *argv[], __V_ *extra), (argc, argv, extra)) __OTORP__(int argc;char *argv[]; __V_ *extra;){
-	register History_t *hp;
-	register char *arg;
-	register int flag,fdo;
+	History_t *hp;
+	char *arg;
+	int flag,fdo;
 	struct stat statb;
 	time_t before;
 	Sfio_t *outfile;
@@ -301,9 +301,9 @@ int	b_hist __PARAM__((int argc,char *argv[], __V_ *extra), (argc, argv, extra)) 
  */
 
 static void hist_subst __PARAM__((const char *command,int fd,char *replace), (command, fd, replace)) __OTORP__(const char *command;int fd;char *replace;){
-	register char *newp=replace;
-	register char *sp;
-	register int c;
+	char *newp=replace;
+	char *sp;
+	int c;
 	off_t size;
 	char *string;
 	while(*++newp != '='); /* skip to '=' */

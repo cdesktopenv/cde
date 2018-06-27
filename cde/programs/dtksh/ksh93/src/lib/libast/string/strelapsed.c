@@ -94,9 +94,9 @@
 #include <ctype.h>
 
 unsigned long
-strelapsed __PARAM__((register const char* s, char** e, int n), (s, e, n)) __OTORP__(register const char* s; char** e; int n;){
-	register int		c;
-	register unsigned long	v;
+strelapsed __PARAM__((const char* s, char** e, int n), (s, e, n)) __OTORP__(const char* s; char** e; int n;){
+	int		c;
+	unsigned long	v;
 	unsigned long		t = 0;
 	int			f = 0;
 	int			m;

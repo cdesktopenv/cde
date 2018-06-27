@@ -103,10 +103,10 @@
 #undef	calloc
 
 __V_*
-calloc __PARAM__((register size_t count, register size_t size), (count, size)) __OTORP__(register size_t count; register size_t size;)
+calloc __PARAM__((size_t count, size_t size), (count, size)) __OTORP__(size_t count; size_t size;)
 #line 15
 {
-	register __V_*	ptr;
+	__V_*	ptr;
 
 	if (ptr = malloc(size *= count))
 		memzero(ptr, size);

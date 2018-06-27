@@ -101,7 +101,7 @@ static const char id[] = "\n@(#)pathchk (AT&T Bell Laboratories) 11/04/92\0\n";
  * call pathconf and handle unlimited sizes
  */ 
 static long mypathconf __PARAM__((const char *path, int op), (path, op)) __OTORP__(const char *path; int op;){
-	register long r;
+	long r;
 	errno=0;
 	if((r=pathconf(path, op))<0 && errno==0)
 		return(LONG_MAX);
@@ -112,9 +112,9 @@ static long mypathconf __PARAM__((const char *path, int op), (path, op)) __OTORP
  * returns 1 if <path> passes test
  */
 static int pathchk __PARAM__((char* path, int mode), (path, mode)) __OTORP__(char* path; int mode;){
-	register char *cp=path, *cpold;
-	register int c;
-	register long r,name_max,path_max;
+	char *cp=path, *cpold;
+	int c;
+	long r,name_max,path_max;
 	if(mode)
 	{
 		name_max = _POSIX_NAME_MAX;
@@ -217,8 +217,8 @@ err:
 
 int
 b_pathchk __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
-	register int n, mode=0;
-	register char *cp;
+	int n, mode=0;
+	char *cp;
 
 	NoP(argc);
 	cmdinit(argv);

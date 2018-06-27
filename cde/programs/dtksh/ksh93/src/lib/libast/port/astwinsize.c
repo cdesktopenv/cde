@@ -129,7 +129,7 @@ __STDPP__directive pragma pp:nohide ioctl sleep
 static int		ttctl __PROTO__((int, int, __V_*));
 
 void
-astwinsize __PARAM__((int fd, register int* rows, register int* cols), (fd, rows, cols)) __OTORP__(int fd; register int* rows; register int* cols;){
+astwinsize __PARAM__((int fd, int* rows, int* cols), (fd, rows, cols)) __OTORP__(int fd; int* rows; int* cols;){
 #ifdef	TIOCGWINSZ
 #define NEED_ttctl
 	struct winsize	ws;
@@ -180,8 +180,8 @@ astwinsize __PARAM__((int fd, register int* rows, register int* cols), (fd, rows
  */
 
 static int
-ttctl __PARAM__((register int fd, int op, __V_* tt), (fd, op, tt)) __OTORP__(register int fd; int op; __V_* tt;){
-	register int	v;
+ttctl __PARAM__((int fd, int op, __V_* tt), (fd, op, tt)) __OTORP__(int fd; int op; __V_* tt;){
+	int	v;
 
 	if (fd < 0)
 	{

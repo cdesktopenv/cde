@@ -375,10 +375,10 @@ int	Mt_certify;		/* automatically certify the arena */
 int	Mt_trace = -1;		/* print trace of mallocs and frees */
 
 /* Convert an int to a string */
-static itoa __PARAM__((register size_t i, register char* buf), (i, buf)) __OTORP__(register size_t i; register char* buf;)
+static itoa __PARAM__((size_t i, char* buf), (i, buf)) __OTORP__(size_t i; char* buf;)
 #line 281
 {
-	register int	k, c;
+	int	k, c;
 
 	k = 0;
 	do
@@ -396,10 +396,10 @@ static itoa __PARAM__((register size_t i, register char* buf), (i, buf)) __OTORP
 }
 
 /* Convert an int to a hex string */
-static xtoa __PARAM__((register size_t i, register char* buf), (i, buf)) __OTORP__(register size_t i; register char* buf;)
+static xtoa __PARAM__((size_t i, char* buf), (i, buf)) __OTORP__(size_t i; char* buf;)
 #line 301
 {
-	register int	k;
+	int	k;
 
 	static char dig[] = "0123456789ABCDEF";
 
@@ -412,7 +412,7 @@ static xtoa __PARAM__((register size_t i, register char* buf), (i, buf)) __OTORP
 }
 
 /* internal function for warning on corruption */
-static int mt_corrupt __PARAM__((register VOID* addr, register size_t usize, register VOID* stamp), (addr, usize, stamp)) __OTORP__(register VOID* addr; register size_t usize; register VOID* stamp;)
+static int mt_corrupt __PARAM__((VOID* addr, size_t usize, VOID* stamp), (addr, usize, stamp)) __OTORP__(VOID* addr; size_t usize; VOID* stamp;)
 #line 316
 {
 	char	buf[64], *mesg;
@@ -436,7 +436,7 @@ static int mt_corrupt __PARAM__((register VOID* addr, register size_t usize, reg
 }
 
 /* Print trace information */
-static mt_trace __PARAM__((register VOID* addr, register int type), (addr, type)) __OTORP__(register VOID* addr; register int type;)
+static mt_trace __PARAM__((VOID* addr, int type), (addr, type)) __OTORP__(VOID* addr; int type;)
 #line 339
 {
 	char	*mesg, buf[64];
@@ -458,7 +458,7 @@ static mt_trace __PARAM__((register VOID* addr, register int type), (addr, type)
 }
 
 /* Print a warning */
-static mt_didfree __PARAM__((register VOID* addr, register int type), (addr, type)) __OTORP__(register VOID* addr; register int type;)
+static mt_didfree __PARAM__((VOID* addr, int type), (addr, type)) __OTORP__(VOID* addr; int type;)
 #line 360
 {
 	char	*mesg, buf[64];
@@ -472,10 +472,10 @@ static mt_didfree __PARAM__((register VOID* addr, register int type), (addr, typ
 }
 
 /* Set trace info for a block */
-static mt_setinfo __PARAM__((register TREE* bp, register size_t usize, int type), (bp, usize, type)) __OTORP__(register TREE* bp; register size_t usize; int type;)
+static mt_setinfo __PARAM__((TREE* bp, size_t usize, int type), (bp, usize, type)) __OTORP__(TREE* bp; size_t usize; int type;)
 #line 373
 {
-	register uchar	*magic, *emagic;
+	uchar	*magic, *emagic;
 
 	USIZE(bp) = usize;
 	USTAMP(bp) = NIL(VOID*);
@@ -487,7 +487,7 @@ static mt_setinfo __PARAM__((register TREE* bp, register size_t usize, int type)
 }
 
 /* Set a stamp */
-mt_stamp __PARAM__((register VOID* addr, register VOID* stamp), (addr, stamp)) __OTORP__(register VOID* addr; register VOID* stamp;)
+mt_stamp __PARAM__((VOID* addr, VOID* stamp), (addr, stamp)) __OTORP__(VOID* addr; VOID* stamp;)
 #line 387
 {
 	USTAMP(BLOCK(addr)) = stamp;
@@ -497,8 +497,8 @@ mt_stamp __PARAM__((register VOID* addr, register VOID* stamp), (addr, stamp)) _
 mt_certify __PARAM__((void), ())
 #line 393
 {
-	register TREE	*bp, *endb;
-	register uchar	*magic, *endm;
+	TREE	*bp, *endb;
+	uchar	*magic, *endm;
 
 	if(!Mt_corrupt)
 		Mt_corrupt = mt_corrupt;
@@ -522,8 +522,8 @@ mt_certify __PARAM__((void), ())
 mt_stat __PARAM__((int fd), (fd)) __OTORP__(int fd;)
 #line 417
 {
-	register TREE	*bp, *endb;
-	register size_t	nbusy, sfree, sbusy, mbusy;
+	TREE	*bp, *endb;
+	size_t	nbusy, sfree, sbusy, mbusy;
 	char		buf[64], *mesg;
 
 	nbusy = sfree = sbusy = mbusy = 0;
@@ -566,11 +566,11 @@ mt_stat __PARAM__((int fd), (fd)) __OTORP__(int fd;)
 /*
 **	Get more core. Gaps in memory are noted as busy blocks.
 */
-static TREE *morecore __PARAM__((register size_t size), (size)) __OTORP__(register size_t size;)
+static TREE *morecore __PARAM__((size_t size), (size)) __OTORP__(size_t size;)
 #line 463
 {
-	register TREE	*tp, *bp;
-	register VOID	*addr;
+	TREE	*tp, *bp;
+	VOID	*addr;
 
 	/* space for queue of delayed free blocks */
 	if(!Qfree)
@@ -607,7 +607,7 @@ static TREE *morecore __PARAM__((register size_t size), (size)) __OTORP__(regist
 #ifndef SEGMENT
 		if((((size_t)addr)%ALIGN) != 0)
 		{	/* make sure alignment is correct */
-			register size_t n = ALIGN - ((size_t)addr)%ALIGN;
+			size_t n = ALIGN - ((size_t)addr)%ALIGN;
 			if((VOID*)GETCORE(n) == ERRCORE)
 			{
 				Bottom = bp;
@@ -663,11 +663,11 @@ static TREE *morecore __PARAM__((register size_t size), (size)) __OTORP__(regist
 **	the tree and return its address.
 **	This uses the top-down splay strategy.
 */
-static TREE *t_search __PARAM__((register int size), (size)) __OTORP__(register int size;)
+static TREE *t_search __PARAM__((int size), (size)) __OTORP__(int size;)
 #line 559
 {
-	register int		cmp;
-	register TREE	*t, *del, *left, *right, *lroot, *rroot;
+	int		cmp;
+	TREE	*t, *del, *left, *right, *lroot, *rroot;
 
 	/* find the right one to delete */
 	del = Root;
@@ -786,14 +786,14 @@ static TREE *t_search __PARAM__((register int size), (size)) __OTORP__(register 
 /*
 **	malloc().
 */
-__V_* malloc __PARAM__((register size_t size), (size)) __OTORP__(register size_t size;)
+__V_* malloc __PARAM__((size_t size), (size)) __OTORP__(size_t size;)
 #line 681
 {
-	register TREE	*tp, *np, *fp;
-	register int		n, i;
+	TREE	*tp, *np, *fp;
+	int		n, i;
 #ifdef MTRACE
 	/* save true size and make size large enough to hold our data */
-	register size_t	mtsize = size;
+	size_t	mtsize = size;
 	size = size <= (MINSIZE-MTSPACE) ? MINSIZE : size + MTSPACE;
 	if(Mt_certify)
 		mt_certify();
@@ -896,14 +896,14 @@ __V_* malloc __PARAM__((register size_t size), (size)) __OTORP__(register size_t
 /*
 **	realloc().
 */
-__V_* realloc __PARAM__((__V_* old, register size_t size), (old, size)) __OTORP__(__V_* old; register size_t size;)
+__V_* realloc __PARAM__((__V_* old, size_t size), (old, size)) __OTORP__(__V_* old; size_t size;)
 #line 790
 {
-	register TREE	*tp, *np;
-	register int	n, ts;
-	register VOID	*newp;
+	TREE	*tp, *np;
+	int	n, ts;
+	VOID	*newp;
 #ifdef MTRACE
-	register size_t	mtsize = size;
+	size_t	mtsize = size;
 	if(old)
 	{
 		size = size < (MINSIZE-MTSPACE) ? MINSIZE : size + MTSPACE;
@@ -989,10 +989,10 @@ __V_* realloc __PARAM__((__V_* old, register size_t size), (old, size)) __OTORP_
 void free __PARAM__((__V_* aold), (aold)) __OTORP__(__V_* aold;)
 #line 879
 {
-	register VOID*	old = (VOID*)aold;
-	register int	size;
-	register TREE	*tp, *np, *sp;
-	register VOID	*dequeue;
+	VOID*	old = (VOID*)aold;
+	int	size;
+	TREE	*tp, *np, *sp;
+	VOID	*dequeue;
 #ifdef MTRACE
 	if(Lfree != old)
 	{

@@ -247,9 +247,9 @@ static int	textmod __PROTO__((int,int));
  *
 -*/
 
-ed_viread __PARAM__((int fd, register char *shbuf, int nchar), (fd, shbuf, nchar)) __OTORP__(int fd; register char *shbuf; int nchar;){
-	register int i;			/* general variable */
-	register int term_char;		/* read() termination character */
+ed_viread __PARAM__((int fd, char *shbuf, int nchar), (fd, shbuf, nchar)) __OTORP__(int fd; char *shbuf; int nchar;){
+	int i;			/* general variable */
+	int term_char;		/* read() termination character */
 	char prompt[PRSIZE+2];		/* prompt */
 	genchar Physical[2*MAXLINE];	/* physical image */
 	genchar Ubuf[MAXLINE];	/* used for U command */
@@ -316,7 +316,7 @@ ed_viread __PARAM__((int fd, register char *shbuf, int nchar), (fd, shbuf, nchar
 	    }
 	    else
 	    {
-		register int c = shbuf[0];
+		int c = shbuf[0];
 
 		/*** Save and remove the last character if its an eol, ***/
 		/* changing '\r' to '\n' */
@@ -448,7 +448,7 @@ ed_viread __PARAM__((int fd, register char *shbuf, int nchar), (fd, shbuf, nchar
 				virtual[i] = '\n';
 		    if(!echoctl)
 		    {
-			register int c = virtual[i];
+			int c = virtual[i];
 			if( c<=usrerase)
 			{
 				/*** user typed escaped erase or kill char ***/
@@ -652,7 +652,7 @@ ed_viread __PARAM__((int fd, register char *shbuf, int nchar), (fd, shbuf, nchar
 #define virtual		editb.e_inbuf	/* pointer to virtual image buffer */
 
 static void append __PARAM__((int c, int mode), (c, mode)) __OTORP__(int c; int mode;){
-	register int i,j;
+	int i,j;
 
 	if( last_virt<max_col && last_phys<max_col )
 	{
@@ -675,8 +675,8 @@ static void append __PARAM__((int c, int mode), (c, mode)) __OTORP__(int c; int 
  *
 }*/
 
-static void backword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __OTORP__(int nwords; register int cmd;){
-	register int tcur_virt = cur_virt;
+static void backword __PARAM__((int nwords, int cmd), (nwords, cmd)) __OTORP__(int nwords; int cmd;){
+	int tcur_virt = cur_virt;
 	while( nwords-- && tcur_virt > first_virt )
 	{
 		if( !kshisblank(tcur_virt) && kshisblank(tcur_virt-1)
@@ -684,8 +684,8 @@ static void backword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __
 			--tcur_virt;
 		else if(cmd != 'B')
 		{
-			register int last = isalph(tcur_virt-1);
-			register int cur = isalph(tcur_virt);
+			int last = isalph(tcur_virt-1);
+			int cur = isalph(tcur_virt);
 			if((!cur && last) || (cur && !last))
 				--tcur_virt;
 		}
@@ -719,8 +719,8 @@ static void backword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __
 }*/
 
 static int cntlmode __PARAM__((void), ()){
-	register int c;
-	register int i;
+	int c;
+	int i;
 	genchar tmp_u_space[MAXLINE];	/* temporary u_space */
 	genchar *real_u_space;		/* points to real u_space */
 	int tmp_u_column = INVALID;	/* temporary u_column */
@@ -829,7 +829,7 @@ static int cntlmode __PARAM__((void), ()){
 
 		case cntl('V'):
 		{
-			register const char *p = &e_version[5];
+			const char *p = &e_version[5];
 			save_v();
 			del_line(BAD);
 			while(c = *p++)
@@ -971,7 +971,7 @@ static int cntlmode __PARAM__((void), ()){
 		case '#':	/** insert(delete) # to (no)comment command **/
 			if( cur_virt != INVALID )
 			{
-				register genchar *p = &virtual[last_virt+1];
+				genchar *p = &virtual[last_virt+1];
 				*p = 0;
 				/*** see whether first char is comment char ***/
 				c = (virtual[0]=='#');
@@ -1026,8 +1026,8 @@ static int cntlmode __PARAM__((void), ()){
  *
 }*/
 
-static void cursor __PARAM__((register int x), (x)) __OTORP__(register int x;){
-	register int delta;
+static void cursor __PARAM__((int x), (x)) __OTORP__(int x;){
+	int delta;
 
 #ifdef SHOPT_MULTIBYTE
 	while(physical[x]==MARKER)
@@ -1076,9 +1076,9 @@ static void cursor __PARAM__((register int x), (x)) __OTORP__(register int x;){
  *
 }*/
 
-static void cdelete __PARAM__((register int nchars, int mode), (nchars, mode)) __OTORP__(register int nchars; int mode;){
-	register int i;
-	register genchar *vp;
+static void cdelete __PARAM__((int nchars, int mode), (nchars, mode)) __OTORP__(int nchars; int mode;){
+	int i;
+	genchar *vp;
 
 	if( cur_virt < first_virt )
 	{
@@ -1162,8 +1162,8 @@ static void del_line __PARAM__((int mode), (mode)) __OTORP__(int mode;){
 }*/
 
 static int delmotion __PARAM__((int motion, int mode), (motion, mode)) __OTORP__(int motion; int mode;){
-	register int begin, end, delta;
-	/* the following saves a register */
+	int begin, end, delta;
+	/* the following saves a */
 
 	if( cur_virt == INVALID )
 		return(0);
@@ -1215,8 +1215,8 @@ static int delmotion __PARAM__((int motion, int mode), (motion, mode)) __OTORP__
  *
 }*/
 
-static void endword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __OTORP__(int nwords; register int cmd;){
-	register int tcur_virt = cur_virt;
+static void endword __PARAM__((int nwords, int cmd), (nwords, cmd)) __OTORP__(int nwords; int cmd;){
+	int tcur_virt = cur_virt;
 	while( nwords-- )
 	{
 		if( !kshisblank(tcur_virt) && tcur_virt<=last_virt )
@@ -1251,8 +1251,8 @@ static void endword __PARAM__((int nwords, register int cmd), (nwords, cmd)) __O
  *
 }*/
 
-static void forward __PARAM__((register int nwords, int cmd), (nwords, cmd)) __OTORP__(register int nwords; int cmd;){
-	register int tcur_virt = cur_virt;
+static void forward __PARAM__((int nwords, int cmd), (nwords, cmd)) __OTORP__(int nwords; int cmd;){
+	int tcur_virt = cur_virt;
 	while( nwords-- )
 	{
 		if( cmd == 'W' )
@@ -1290,8 +1290,8 @@ static void forward __PARAM__((register int nwords, int cmd), (nwords, cmd)) __O
  *
 }*/
 
-static int getcount __PARAM__((register int c), (c)) __OTORP__(register int c;){
-	register int i;
+static int getcount __PARAM__((int c), (c)) __OTORP__(int c;){
+	int i;
 
 	/*** get any repeat count ***/
 
@@ -1330,9 +1330,9 @@ static int getcount __PARAM__((register int c), (c)) __OTORP__(register int c;){
  *
 }*/
 
-static void getline __PARAM__((register int mode), (mode)) __OTORP__(register int mode;){
-	register int c;
-	register int tmp;
+static void getline __PARAM__((int mode), (mode)) __OTORP__(int mode;){
+	int c;
+	int tmp;
 
 	addnl = 1;
 
@@ -1494,11 +1494,11 @@ static void getline __PARAM__((register int mode), (mode)) __OTORP__(register in
  *
 }*/
 
-static int mvcursor __PARAM__((register int motion), (motion)) __OTORP__(register int motion;){
-	register int count;
-	register int tcur_virt;
-	register int incr = -1;
-	register int bound = 0;
+static int mvcursor __PARAM__((int motion), (motion)) __OTORP__(int motion;){
+	int count;
+	int tcur_virt;
+	int incr = -1;
+	int bound = 0;
 	static int last_find = 0;	/* last find command */
 
 	switch(motion)
@@ -1669,9 +1669,9 @@ find_b:
  * print a string
  */
 
-static void pr_string __PARAM__((register const char *sp), (sp)) __OTORP__(register const char *sp;){
+static void pr_string __PARAM__((const char *sp), (sp)) __OTORP__(const char *sp;){
 	/*** copy string sp ***/
-	register char *ptr = editb.e_outptr;
+	char *ptr = editb.e_outptr;
 	while(*sp)
 		*ptr++ = *sp++;
 	editb.e_outptr = ptr;
@@ -1685,7 +1685,7 @@ static void pr_string __PARAM__((register const char *sp), (sp)) __OTORP__(regis
  *
 }*/
 
-static void putstring __PARAM__((register int col, register int nchars), (col, nchars)) __OTORP__(register int col; register int nchars;){
+static void putstring __PARAM__((int col, int nchars), (col, nchars)) __OTORP__(int col; int nchars;){
 	while( nchars-- )
 		putchar(physical[col++]);
 	return;
@@ -1721,9 +1721,9 @@ static void putstring __PARAM__((register int col, register int nchars), (col, n
 }*/
 
 static void refresh __PARAM__((int mode), (mode)) __OTORP__(int mode;){
-	register int p;
-	register int regb;
-	register int first_w = first_wind;
+	int p;
+	int regb;
+	int first_w = first_wind;
 	int p_differ;
 	int new_lw;
 	int ncur_phys;
@@ -1890,8 +1890,8 @@ static void refresh __PARAM__((int mode), (mode)) __OTORP__(int mode;){
  *
 }*/
 
-static void replace __PARAM__((register int c, register int increment), (c, increment)) __OTORP__(register int c; register int increment;){
-	register int cur_window;
+static void replace __PARAM__((int c, int increment), (c, increment)) __OTORP__(int c; int increment;){
+	int cur_window;
 
 	if( cur_virt == INVALID )
 	{
@@ -1945,7 +1945,7 @@ static void replace __PARAM__((register int c, register int increment), (c, incr
 }*/
 
 static void restore_v __PARAM__((void), ()){
-	register int tmpcol;
+	int tmpcol;
 	genchar tmpspace[MAXLINE];
 
 	if( u_column == INVALID-1 )
@@ -1971,7 +1971,7 @@ static void restore_v __PARAM__((void), ()){
 }*/
 
 static void save_last __PARAM__((void), ()){
-	register int i;
+	int i;
 
 	if( (i = cur_virt - first_virt + 1) > 0 )
 	{
@@ -2015,8 +2015,8 @@ static void save_v __PARAM__((void), ()){
  * search for <string> in the current command
  */
 static int curline_search __PARAM__((const char *string), (string)) __OTORP__(const char *string;){
-	register int len=strlen(string);
-	register const char *dp,*cp=string, *dpmax;
+	int len=strlen(string);
+	const char *dp,*cp=string, *dpmax;
 #ifdef SHOPT_MULTIBYTE
 	ed_external(u_space,(char*)u_space);
 #endif /* SHOPT_MULTIBYTE */
@@ -2031,10 +2031,10 @@ static int curline_search __PARAM__((const char *string), (string)) __OTORP__(co
 	return(-1);
 }
 
-static int search __PARAM__((register int mode), (mode)) __OTORP__(register int mode;){
-	register int new_direction;
-	register int oldcurhline;
-	register int i;
+static int search __PARAM__((int mode), (mode)) __OTORP__(int mode;){
+	int new_direction;
+	int oldcurhline;
+	int i;
 	static int direction = -1;
 	Histloc_t  location;
 
@@ -2114,9 +2114,9 @@ static int search __PARAM__((register int mode), (mode)) __OTORP__(register int 
 }*/
 
 static void sync_cursor __PARAM__((void), ()){
-	register int p;
-	register int v;
-	register int c;
+	int p;
+	int v;
+	int c;
 	int new_phys;
 
 	if( cur_virt == INVALID )
@@ -2199,10 +2199,10 @@ static void sync_cursor __PARAM__((void), ()){
  *
 }*/
 
-static int textmod __PARAM__((register int c, int mode), (c, mode)) __OTORP__(register int c; int mode;){
-	register int i;
-	register genchar *p = lastline;
-	register int trepeat = repeat;
+static int textmod __PARAM__((int c, int mode), (c, mode)) __OTORP__(int c; int mode;){
+	int i;
+	genchar *p = lastline;
+	int trepeat = repeat;
 	static int lastmacro;
 	genchar *savep;
 
@@ -2521,19 +2521,19 @@ yankeol:
 
 
 #ifdef SHOPT_MULTIBYTE
-    static int isalph __PARAM__((register int c), (c)) __OTORP__(register int c;){
-	register int v = virtual[c];
+    static int isalph __PARAM__((int c), (c)) __OTORP__(int c;){
+	int v = virtual[c];
 	return((v&~STRIP) || isalnum(v) || v=='_');
     }
 
 
-    static int kshisblank __PARAM__((register int c), (c)) __OTORP__(register int c;){
-	register int v = virtual[c];
+    static int kshisblank __PARAM__((int c), (c)) __OTORP__(int c;){
+	int v = virtual[c];
 	return((v&~STRIP)==0 && isspace(v));
     }
 
-    static int ismetach __PARAM__((register int c), (c)) __OTORP__(register int c;){
-	register int v = virtual[c];
+    static int ismetach __PARAM__((int c), (c)) __OTORP__(int c;){
+	int v = virtual[c];
 	return((v&~STRIP)==0 && ismeta(v));
     }
 
@@ -2544,7 +2544,7 @@ yankeol:
  */
 static int getrchar()
 {
-	register int c;
+	int c;
 	if((c=ed_getchar(1))== usrlnext)
 		c = ed_getchar(2);
 	return(c);

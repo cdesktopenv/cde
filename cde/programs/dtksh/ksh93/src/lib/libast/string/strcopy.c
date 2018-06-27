@@ -97,7 +97,7 @@
  */
 
 char*
-strcopy __PARAM__((register char* s, register const char* t), (s, t)) __OTORP__(register char* s; register const char* t;){
+strcopy __PARAM__((char* s, const char* t), (s, t)) __OTORP__(char* s; const char* t;){
 	if (!t) return(s);
 	while (*s++ = *t++);
 	return(--s);

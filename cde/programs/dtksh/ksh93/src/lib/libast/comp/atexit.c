@@ -125,7 +125,7 @@ extern __MANGLE__ void		_exit __PROTO__((int));
 
 int
 atexit __PARAM__((void (*func)(void)), (func)) __OTORP__(void (*func)();){
-	register struct list*	p;
+	struct list*	p;
 
 	if (!(p = newof(0, struct list, 1, 0))) return(-1);
 	p->func = func;
@@ -136,7 +136,7 @@ atexit __PARAM__((void (*func)(void)), (func)) __OTORP__(void (*func)();){
 
 void
 _ast_atexit __PARAM__((void), ()){
-	register struct list*	p;
+	struct list*	p;
 
 	while (p = funclist)
 	{

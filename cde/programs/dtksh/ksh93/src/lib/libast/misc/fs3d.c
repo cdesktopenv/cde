@@ -94,9 +94,9 @@
 #include <fs3d.h>
 
 int
-fs3d __PARAM__((register int op), (op)) __OTORP__(register int op;){
-	register int	cur;
-	register char*	v;
+fs3d __PARAM__((int op), (op)) __OTORP__(int op;){
+	int	cur;
+	char*	v;
 	char		val[sizeof(FS3D_off) + 8];
 
 	static int	fsview;

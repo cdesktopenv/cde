@@ -136,7 +136,7 @@ extern __MANGLE__ caddr_t		mmap __PROTO__((caddr_t, size_t, int, int, int, off_t
 
 off_t
 astcopy __PARAM__((int rfd, int wfd, off_t n), (rfd, wfd, n)) __OTORP__(int rfd; int wfd; off_t n;){
-	register off_t	c;
+	off_t	c;
 #ifdef MAPSIZE
 	off_t		pos;
 	off_t		mapsize;

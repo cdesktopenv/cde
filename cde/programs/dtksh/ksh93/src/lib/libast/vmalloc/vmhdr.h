@@ -80,7 +80,7 @@ typedef struct _block_		Block_t;
 typedef struct _seg_		Seg_t;
 typedef struct _pfobj_		Pfobj_t;
 
-#define reg			register
+#define reg			/*no register keywords*/
 #define NOTUSED(x)		(&x,1)
 
 /* convert an address to an integral value */

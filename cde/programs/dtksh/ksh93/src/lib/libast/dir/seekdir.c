@@ -99,7 +99,7 @@ NoN(seekdir)
 #else
 
 void
-seekdir __PARAM__((register DIR* dirp, long loc), (dirp, loc)) __OTORP__(register DIR* dirp; long loc;){
+seekdir __PARAM__((DIR* dirp, long loc), (dirp, loc)) __OTORP__(DIR* dirp; long loc;){
 	off_t	base;		/* file location of block */
 	off_t	offset; 	/* offset within block */
 

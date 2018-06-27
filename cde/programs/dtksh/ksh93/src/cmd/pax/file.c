@@ -97,8 +97,8 @@
  */
 
 int
-filter __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register int	n;
+filter __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	int	n;
 	int		rfd;
 	int		wfd;
 	Proc_t*		proc;
@@ -150,8 +150,8 @@ filter __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP_
  */
 
 int
-openin __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register int	n;
+openin __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	int	n;
 	int		rfd;
 
 	if (f->type != X_IFREG)
@@ -185,9 +185,9 @@ openin __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP_
  */
 
 static int
-missdir __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register char*	s;
-	register char*	t;
+missdir __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	char*	s;
+	char*	t;
 	long		pp;
 	struct stat*	st;
 	struct stat*	sp;
@@ -257,8 +257,8 @@ missdir __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP
  */
 
 int
-openout __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register int	fd;
+openout __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	int	fd;
 	int		exists;
 	struct stat	st;
 
@@ -514,8 +514,8 @@ openout __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP
  */
 
 int
-getfile __PARAM__((register Archive_t* ap, register File_t* f, register Ftw_t* ftw), (ap, f, ftw)) __OTORP__(register Archive_t* ap; register File_t* f; register Ftw_t* ftw;){
-	register char*		name;
+getfile __PARAM__((Archive_t* ap, File_t* f, Ftw_t* ftw), (ap, f, ftw)) __OTORP__(Archive_t* ap; File_t* f; Ftw_t* ftw;){
+	char*		name;
 
 	static struct stat	st;
 	static char		pathbuffer[PATH_MAX];
@@ -599,8 +599,8 @@ getfile __PARAM__((register Archive_t* ap, register File_t* f, register Ftw_t* f
  */
 
 int
-validout __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register char*	s;
+validout __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	char*	s;
 
 	static char	linkbuffer[PATH_MAX];
 	static char	idbuffer[ALAR_NAMESIZE + 1];
@@ -697,9 +697,9 @@ validout __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTOR
  */
 
 int
-addlink __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register Link_t*	p;
-	register char*		s;
+addlink __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	Link_t*	p;
+	char*		s;
 	Fileid_t		id;
 	unsigned short		us;
 
@@ -827,7 +827,7 @@ addlink __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP
  */
 
 void
-getidnames __PARAM__((register File_t* f), (f)) __OTORP__(register File_t* f;){
+getidnames __PARAM__((File_t* f), (f)) __OTORP__(File_t* f;){
 	if (!f->uidname) f->uidname = fmtuid(f->st->st_uid);
 	if (!f->gidname) f->gidname = fmtgid(f->st->st_gid);
 }
@@ -837,8 +837,8 @@ getidnames __PARAM__((register File_t* f), (f)) __OTORP__(register File_t* f;){
  */
 
 void
-setidnames __PARAM__((register File_t* f), (f)) __OTORP__(register File_t* f;){
-	register int	id;
+setidnames __PARAM__((File_t* f), (f)) __OTORP__(File_t* f;){
+	int	id;
 
 	if (f->uidname)
 	{
@@ -898,7 +898,7 @@ getarchive __PARAM__((int op), (op)) __OTORP__(int op;){
  */
 
 void
-initfile __PARAM__((register Archive_t* ap, register File_t* f, register char* name, int mode), (ap, f, name, mode)) __OTORP__(register Archive_t* ap; register File_t* f; register char* name; int mode;){
+initfile __PARAM__((Archive_t* ap, File_t* f, char* name, int mode), (ap, f, name, mode)) __OTORP__(Archive_t* ap; File_t* f; char* name; int mode;){
 	static struct stat	st;
 
 	memzero(f, sizeof(*f));
@@ -918,8 +918,8 @@ initfile __PARAM__((register Archive_t* ap, register File_t* f, register char* n
  */
 
 void
-setfile __PARAM__((register Archive_t* ap, register File_t* f), (ap, f)) __OTORP__(register Archive_t* ap; register File_t* f;){
-	register Post_t*	p;
+setfile __PARAM__((Archive_t* ap, File_t* f), (ap, f)) __OTORP__(Archive_t* ap; File_t* f;){
+	Post_t*	p;
 	Post_t			post;
 
 	if (!ap->pass) switch (f->type)
@@ -967,8 +967,8 @@ settime __PARAM__((const char* name, time_t atime, time_t mtime), (name, atime, 
  */
 
 int
-restore __PARAM__((register const char* name, char* ap, __V_* handle), (name, ap, handle)) __OTORP__(register const char* name; char* ap; __V_* handle;){
-	register Post_t*	p = (Post_t*)ap;
+restore __PARAM__((const char* name, char* ap, __V_* handle), (name, ap, handle)) __OTORP__(const char* name; char* ap; __V_* handle;){
+	Post_t*	p = (Post_t*)ap;
 	int			m;
 	struct stat		st;
 
@@ -1004,7 +1004,7 @@ restore __PARAM__((register const char* name, char* ap, __V_* handle), (name, ap
  */
 
 int
-prune __PARAM__((register Archive_t* ap, register File_t* f, register struct stat* st), (ap, f, st)) __OTORP__(register Archive_t* ap; register File_t* f; register struct stat* st;){
+prune __PARAM__((Archive_t* ap, File_t* f, struct stat* st), (ap, f, st)) __OTORP__(Archive_t* ap; File_t* f; struct stat* st;){
 	if (st->st_mode == f->st->st_mode && (ap->delta && f->st->st_mtime == st->st_mtime || state.update && (unsigned long)f->st->st_mtime <= (unsigned long)st->st_mtime))
 		return(1);
 	return(0);
@@ -1017,10 +1017,10 @@ prune __PARAM__((register Archive_t* ap, register File_t* f, register struct sta
 
 ssize_t
 holewrite __PARAM__((int fd, __V_* buf, size_t siz), (fd, buf, siz)) __OTORP__(int fd; __V_* buf; size_t siz;){
-	register char*	t = (char*)buf;
-	register char*	e = t + siz;
-	register char*	b = 0;
-	register char*	s;
+	char*	t = (char*)buf;
+	char*	e = t + siz;
+	char*	b = 0;
+	char*	s;
 	ssize_t		i;
 	ssize_t		n = 0;
 

@@ -96,10 +96,10 @@
 
 char*
 fmtre __PARAM__((const char* as), (as)) __OTORP__(const char* as;){
-	register char*	s = (char*)as;
-	register int	c;
-	register char*	t;
-	register char*	p;
+	char*	s = (char*)as;
+	int	c;
+	char*	t;
+	char*	p;
 	int		n;
 	char		stack[32];
 

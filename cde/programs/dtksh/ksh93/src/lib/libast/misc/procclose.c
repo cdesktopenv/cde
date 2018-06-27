@@ -95,7 +95,7 @@
 #include <wait.h>
 
 int
-procclose __PARAM__((register Proc_t* p), (p)) __OTORP__(register Proc_t* p;){
+procclose __PARAM__((Proc_t* p), (p)) __OTORP__(Proc_t* p;){
 	int	status = -1;
 
 	if (p)

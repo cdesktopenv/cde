@@ -98,9 +98,9 @@
 #include <option.h>
 
 void
-setpreroot __PARAM__((register char** argv, const char* dir), (argv, dir)) __OTORP__(register char** argv; const char* dir;){
-	register char*	s;
-	register char**	ap;
+setpreroot __PARAM__((char** argv, const char* dir), (argv, dir)) __OTORP__(char** argv; const char* dir;){
+	char*	s;
+	char**	ap;
 	int		argc;
 	char*		cmd;
 	char**		av;

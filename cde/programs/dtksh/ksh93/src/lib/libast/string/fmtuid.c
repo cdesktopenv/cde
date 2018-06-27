@@ -120,8 +120,8 @@ extern __MANGLE__ struct passwd*	getpwuid __PROTO__((uid_t));
 
 char*
 fmtuid __PARAM__((int uid), (uid)) __OTORP__(int uid;){
-	register char*		name;
-	register struct passwd*	pw;
+	char*		name;
+	struct passwd*	pw;
 
 	static Hash_table_t*	uidtab;
 	static char		buf[sizeof(int) * 3 + 1];

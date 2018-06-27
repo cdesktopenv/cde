@@ -106,10 +106,10 @@
  *  This is only used for small tables and is used to save non-sharable memory 
  */
 
-int sh_locate __PARAM__((register const char *sp,const Shtable_t *table,int size), (sp, table, size)) __OTORP__(register const char *sp;const Shtable_t *table;int size;){
-	register int first;
-	register const Shtable_t	*tp;
-	register int c;
+int sh_locate __PARAM__((const char *sp,const Shtable_t *table,int size), (sp, table, size)) __OTORP__(const char *sp;const Shtable_t *table;int size;){
+	int first;
+	const Shtable_t	*tp;
+	int c;
 	if(sp==0 || (first= *sp)==0)
 		return(0);
 	tp=table;
@@ -127,8 +127,8 @@ int sh_locate __PARAM__((register const char *sp,const Shtable_t *table,int size
  * The new string is put on top of the stack
  */
 char *sh_substitute __PARAM__((const char *string,const char *oldsp,char *newsp), (string, oldsp, newsp)) __OTORP__(const char *string;const char *oldsp;char *newsp;){
-	register const char *sp = string;
-	register const char *cp;
+	const char *sp = string;
+	const char *cp;
 	const char *savesp = 0;
 	stakseek(0);
 	if(*sp==0)
@@ -182,9 +182,9 @@ found:
  * Remove escape characters from characters in <sp> and eliminate quoted nulls.
  */
 
-void	sh_trim __PARAM__((register char *sp), (sp)) __OTORP__(register char *sp;){
-	register char *dp;
-	register int c;
+void	sh_trim __PARAM__((char *sp), (sp)) __OTORP__(char *sp;){
+	char *dp;
+	int c;
 	if(sp)
 	{
 		dp = sp;
@@ -204,8 +204,8 @@ void	sh_trim __PARAM__((register char *sp), (sp)) __OTORP__(register char *sp;){
  * puts null terminated result on stack, but doesn't freeze it
  */
 char	*sh_fmtq __PARAM__((const char *string), (string)) __OTORP__(const char *string;){
-	register const char *cp = string;
-	register int c, state;
+	const char *cp = string;
+	int c, state;
 	int offset;
 	if(!cp)
 		return((char*)0);
@@ -303,10 +303,10 @@ char	*sh_fmtq __PARAM__((const char *string), (string)) __OTORP__(const char *st
 }
 
 #ifdef SHOPT_MULTIBYTE
-	int sh_strchr __PARAM__((const char *string, register const char *dp), (string, dp)) __OTORP__(const char *string; register const char *dp;){
+	int sh_strchr __PARAM__((const char *string, const char *dp), (string, dp)) __OTORP__(const char *string; const char *dp;){
 		wchar_t c,d; 
-		register int m;
-		register const char *cp=string;
+		int m;
+		const char *cp=string;
 		int n = mbtowc(&d,dp,MB_CUR_MAX);
 		while((m=mbtowc(&c,cp,MB_CUR_MAX)) && c)
 		{

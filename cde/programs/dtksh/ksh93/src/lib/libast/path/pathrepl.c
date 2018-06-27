@@ -93,9 +93,9 @@
 #include <ast.h>
 
 char*
-pathrepl __PARAM__((register char* path, const char* match, register const char* replace), (path, match, replace)) __OTORP__(register char* path; const char* match; register const char* replace;){
-	register const char*	m = match;
-	register const char*	r;
+pathrepl __PARAM__((char* path, const char* match, const char* replace), (path, match, replace)) __OTORP__(char* path; const char* match; const char* replace;){
+	const char*	m = match;
+	const char*	r;
 	char*			t;
 
 	if (!match) match = "";
@@ -112,7 +112,7 @@ pathrepl __PARAM__((register char* path, const char* match, register const char*
 			while (*m && *m++ == *path) path++;
 			if (!*m && *path == '/')
 			{
-				register char*	p;
+				char*	p;
 
 				p = t;
 				r = replace;
@@ -120,7 +120,7 @@ pathrepl __PARAM__((register char* path, const char* match, register const char*
 				if (p < path) while (*p++ = *path++);
 				else if (*r && p >= path)
 				{
-					register char*	u;
+					char*	u;
 
 					t = path + strlen(path);
 					u = t + strlen(r);

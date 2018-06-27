@@ -69,7 +69,7 @@
 #include "msgs.h"
 #include <locale.h>
 
-extern Namval_t *sh_assignok(register Namval_t *np,int add);
+extern Namval_t *sh_assignok(Namval_t *np,int add);
 
 
 static void PendingDestroy( 
@@ -542,8 +542,8 @@ parse_args(
 	char ** pargv ,
 	Boolean postponePixmaps )
 {
-	register int i;
-	register char *colon, *resource, *val, *p;
+	int i;
+	char *colon, *resource, *val, *p;
 	XtArgVal argval;
 	int freeflag, len;
         char * errmsg;
@@ -638,7 +638,7 @@ free_args(
         int n,
         Arg *args )
 {
-	register int i;
+	int i;
 
 	/*
 	 * Free up argument pointers
@@ -700,7 +700,7 @@ _CreateWidget(
 	wtab_t *w, *pw, *wtab;
 	char *wname, *wclass, *parentid, *var;
 	Arg	args[MAXARGS];
-	register int	i;
+	int	i;
 	int n;
         char * errmsg;
 	int pargc;
@@ -777,7 +777,7 @@ do_XtCreateApplicationShell(
 	wtab_t *w, *wtab;
 	char *wname, *wclass, *var;
 	Arg	args[MAXARGS];
-	register int	i;
+	int	i;
 	int n;
         char * errmsg;
 	int pargc;
@@ -916,7 +916,7 @@ do_single_widget_arg_func(
         char **argv )
 {
 	wtab_t *w;
-	register int i;
+	int i;
         char * errmsg;
 
 	if (argc < 2) {
@@ -950,7 +950,7 @@ do_single_widget_test_func(
         char **argv )
 {
 	wtab_t *w;
-	register int i;
+	int i;
         char * errmsg;
 
 	if (argc != 2) {
@@ -985,7 +985,7 @@ do_XtIsShell(
         char *argv[] )
 {
    wtab_t *w;
-   register int i;
+   int i;
    char * errmsg;
 
    if (argc != 2) 
@@ -1044,7 +1044,7 @@ do_XtMapWidget(
         char *argv[] )
 {
 	wtab_t *w;
-	register int i;
+	int i;
         char * errmsg;
 
 	if (argc < 2) {
@@ -1068,7 +1068,7 @@ do_XtUnmapWidget(
         char **argv )
 {
 	wtab_t *w;
-	register int i;
+	int i;
         char * errmsg;
 
 	if (argc < 2) {
@@ -1681,7 +1681,7 @@ do_XtGetValues(
         int argc,
         char **argv )
 {
-	register int i, j;
+	int i, j;
 	int n;
 	char *arg0 = argv[0];
 	char *val, *p, *str;
@@ -2030,7 +2030,7 @@ do_managelist_func(
         int (*func)() )
 {
 	wtab_t *w;
-	register int i;
+	int i;
 	Widget widgets[MAXARGS];
 	Cardinal nwidgets;
         char * errmsg;
@@ -2059,7 +2059,7 @@ do_XtIsSubclass(
         char *argv[] )
 {
    wtab_t *w;
-   register int i;
+   int i;
    char * errmsg;
 
    if (argc != 3) 
@@ -2095,7 +2095,7 @@ do_XtClass(
         char *argv[] )
 {
    wtab_t *w;
-   register int i;
+   int i;
    char * errmsg;
    WidgetClass class;
 
@@ -2346,7 +2346,7 @@ do_XtRemoveAllCallbacks(
         char *argv[] )
 {
 	wtab_t *w;
-	register int i;
+	int i;
         char * errmsg;
 
 	if (argc != 3) {
@@ -2480,7 +2480,7 @@ invokeXDrawFunction(
    unsigned int width, height;
    char *s;
    char *sp;
-   register int i;
+   int i;
    int mode, parse;
    int text = FALSE;
    int (*func)();
@@ -3307,7 +3307,7 @@ do_XtAddInput(
         int argc,
         char *argv[] )
 {
-   register int i, j;
+   int i, j;
    int fd;
    char *arg0 = argv[0];
    char *variable;
@@ -3811,7 +3811,7 @@ stdInputCB(
    char cmdbuf[LINESIZE];
    int cmd;
    char *p;
-   register int i, n, j;
+   int i, n, j;
    char * errmsg;
    int len;
 

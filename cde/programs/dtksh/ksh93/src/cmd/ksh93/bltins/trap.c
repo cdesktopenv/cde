@@ -106,8 +106,8 @@ static int	sig_number __PROTO__((const char*));
 static void	sig_list __PROTO__((int));
 
 int	b_trap __PARAM__((int argc,char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(int argc;char *argv[];__V_ *extra;){
-	register char *arg = argv[1];
-	register int sig, pflag = 0;
+	char *arg = argv[1];
+	int sig, pflag = 0;
 	NOT_USED(argc);
 	NOT_USED(extra);
 	while (sig = optget(argv, sh_opttrap)) switch (sig)
@@ -127,7 +127,7 @@ int	b_trap __PARAM__((int argc,char *argv[],__V_ *extra), (argc, argv, extra)) _
 		error(ERROR_usage(2),optusage((char*)0));
 	if(arg = *argv)
 	{
-		register int	clear;
+		int	clear;
 		char *action = arg;
 		if(!pflag)
 		{
@@ -210,8 +210,8 @@ int	b_trap __PARAM__((int argc,char *argv[],__V_ *extra), (argc, argv, extra)) _
 }
 
 int	b_kill __PARAM__((int argc,char *argv[],__V_ *extra), (argc, argv, extra)) __OTORP__(int argc;char *argv[];__V_ *extra;){
-	register char *signame;
-	register int sig=SIGTERM, flag=0, n;
+	char *signame;
+	int sig=SIGTERM, flag=0, n;
 	NOT_USED(argc);
 	NOT_USED(extra);
 	while((n = optget(argv,sh_optkill))) switch(n)
@@ -281,7 +281,7 @@ endopts:
  */
 
 static int sig_number __PARAM__((const char *string), (string)) __OTORP__(const char *string;){
-	register int n;
+	int n;
 	char *last;
 	if(isdigit(*string))
 	{
@@ -291,7 +291,7 @@ static int sig_number __PARAM__((const char *string), (string)) __OTORP__(const 
 	}
 	else
 	{
-		register int c;
+		int c;
 		n = staktell();
 		do
 		{
@@ -316,9 +316,9 @@ static int sig_number __PARAM__((const char *string), (string)) __OTORP__(const 
  * if <flag> is zero, then print all signal names
  * if <flag> is negative, then print all traps
  */
-static void sig_list __PARAM__((register int flag), (flag)) __OTORP__(register int flag;){
-	register const struct shtable2	*tp;
-	register int sig = sh.sigmax+1;
+static void sig_list __PARAM__((int flag), (flag)) __OTORP__(int flag;){
+	const struct shtable2	*tp;
+	int sig = sh.sigmax+1;
 	const char *names[SH_TRAP];
 	const char *traps[SH_DEBUGTRAP+1];
 
@@ -353,7 +353,7 @@ static void sig_list __PARAM__((register int flag), (flag)) __OTORP__(register i
 	else if(flag<0)
 	{
 		/* print the traps */
-		register char *trap,*sname,**trapcom;
+		char *trap,*sname,**trapcom;
 		sig = sh.st.trapmax;
 		/* use parent traps if otrapcom is set (for $(trap)  */
 		trapcom = (sh.st.otrapcom?sh.st.otrapcom:sh.st.trapcom);

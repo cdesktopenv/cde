@@ -103,8 +103,8 @@
  */
 
 Tm_t*
-tmfix __PARAM__((register Tm_t* tp), (tp)) __OTORP__(register Tm_t* tp;){
-	register int	n;
+tmfix __PARAM__((Tm_t* tp), (tp)) __OTORP__(Tm_t* tp;){
+	int	n;
 
 	if ((n = tp->tm_sec) < 0)
 	{

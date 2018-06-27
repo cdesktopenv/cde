@@ -99,8 +99,8 @@ NoN(memset)
 #else
 
 __V_*
-memset __PARAM__((__V_* asp, register int c, register size_t n), (asp, c, n)) __OTORP__(__V_* asp; register int c; register size_t n;){
-	register char*	sp = (char*)asp;
+memset __PARAM__((__V_* asp, int c, size_t n), (asp, c, n)) __OTORP__(__V_* asp; int c; size_t n;){
+	char*	sp = (char*)asp;
 
 	while (n-- > 0)
 		*sp++ = c;

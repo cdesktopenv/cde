@@ -189,7 +189,7 @@ static char *overflow __PARAM__((int n), (n)) __OTORP__(int n;)
 static void stakinit __PARAM__((int size), (size)) __OTORP__(int size;)
 #line 109
 {
-	register Sfile_t *sp;
+	Sfile_t *sp;
 	init = size;
 	sp = stakcreate(0);
 	init = 1;
@@ -230,12 +230,12 @@ static int stakexcept __PARAM__((Sfile_t* sp, int type, Sfdisc_t* dp), (sp, type
 Sfile_t *stakcreate __PARAM__((int flags), (flags)) __OTORP__(int flags;)
 #line 148
 {
-	register int bsize;
-	register Sfile_t *stream;
-	register struct stak *sp;
-	register struct frame *fp;
-	register Sfdisc_t *dp;
-	register char *cp;
+	int bsize;
+	Sfile_t *stream;
+	struct stak *sp;
+	struct frame *fp;
+	Sfdisc_t *dp;
+	char *cp;
 	if(!(stream=newof((char*)0,Sfile_t, 1, sizeof(*dp)+sizeof(*sp))))
 		return(0);
 	increment(create);
@@ -279,7 +279,7 @@ Sfile_t *stakinstall __PARAM__((Sfile_t *stream, _stak_overflow_ oflow), (stream
 #line 195
 {
 	Sfile_t *old;
-	register struct stak *sp;
+	struct stak *sp;
 	if(!init)
 	{
 		stakinit(1);
@@ -310,10 +310,10 @@ Sfile_t *stakinstall __PARAM__((Sfile_t *stream, _stak_overflow_ oflow), (stream
 /*
  * increase the reference count on the given <stack>
  */
-int staklink __PARAM__((register Sfile_t* stream), (stream)) __OTORP__(register Sfile_t* stream;)
+int staklink __PARAM__((Sfile_t* stream), (stream)) __OTORP__(Sfile_t* stream;)
 #line 229
 {
-	register struct stak *sp = stream2stak(stream);
+	struct stak *sp = stream2stak(stream);
 	return(sp->stakref++);
 }
 
@@ -323,9 +323,9 @@ int staklink __PARAM__((register Sfile_t* stream), (stream)) __OTORP__(register 
 int stakdelete __PARAM__((Sfile_t* stream), (stream)) __OTORP__(Sfile_t* stream;)
 #line 238
 {
-	register struct stak *sp = stream2stak(stream); 
-	register char *cp = sp->stakbase;
-	register struct frame *fp;
+	struct stak *sp = stream2stak(stream);
+	char *cp = sp->stakbase;
+	struct frame *fp;
 	if(--sp->stakref>0)
 		return(1);
 	increment(delete);
@@ -354,13 +354,13 @@ int stakdelete __PARAM__((Sfile_t* stream), (stream)) __OTORP__(Sfile_t* stream;
  * otherwise, the top of the stack is set to stakbot+<offset>
  *
  */
-char *stakset __PARAM__((register char* loc, unsigned offset), (loc, offset)) __OTORP__(register char* loc; unsigned offset;)
+char *stakset __PARAM__((char* loc, unsigned offset), (loc, offset)) __OTORP__(char* loc; unsigned offset;)
 #line 271
 {
-	register struct stak *sp=stakcur;
-	register char *cp;
-	register struct frame *fp;
-	register int frames = 0;
+	struct stak *sp=stakcur;
+	char *cp;
+	struct frame *fp;
+	int frames = 0;
 	if(!init)
 		stakinit(offset+1);
 	increment(set);
@@ -400,10 +400,10 @@ found:
 /*
  * allocate <n> bytes on the current stack
  */
-char *stakalloc __PARAM__((register unsigned int n), (n)) __OTORP__(register unsigned int n;)
+char *stakalloc __PARAM__((unsigned int n), (n)) __OTORP__(unsigned int n;)
 #line 316
 {
-	register unsigned char *old;
+	unsigned char *old;
 	if(!init)
 		stakinit(n);
 	increment(alloc);
@@ -418,7 +418,7 @@ char *stakalloc __PARAM__((register unsigned int n), (n)) __OTORP__(register uns
 /*
  * begin a new stack word of at least <n> bytes
  */
-char *_stakseek __PARAM__((register unsigned n), (n)) __OTORP__(register unsigned n;)
+char *_stakseek __PARAM__((unsigned n), (n)) __OTORP__(unsigned n;)
 #line 333
 {
 	if(!init)
@@ -434,10 +434,10 @@ char *_stakseek __PARAM__((register unsigned n), (n)) __OTORP__(register unsigne
  * advance the stack to the current top
  * if extra is non-zero, first add a extra bytes and zero the first
  */
-char	*stakfreeze __PARAM__((register unsigned extra), (extra)) __OTORP__(register unsigned extra;)
+char	*stakfreeze __PARAM__((unsigned extra), (extra)) __OTORP__(unsigned extra;)
 #line 348
 {
-	register unsigned char *old, *top;
+	unsigned char *old, *top;
 	if(!init)
 		stakinit(extra);
 	old = staksp->data;
@@ -462,8 +462,8 @@ char	*stakfreeze __PARAM__((register unsigned extra), (extra)) __OTORP__(registe
 char	*stakcopy __PARAM__((const char* str), (str)) __OTORP__(const char* str;)
 #line 372
 {
-	register unsigned char *cp = (unsigned char*)str;
-	register int n;
+	unsigned char *cp = (unsigned char*)str;
+	int n;
 	while(*cp++);
 	n = roundof(cp-(unsigned char*)str,sizeof(char*));
 	if(!init)
@@ -486,12 +486,12 @@ char	*stakcopy __PARAM__((const char* str), (str)) __OTORP__(const char* str;)
 static char *stakgrow __PARAM__((unsigned size), (size)) __OTORP__(unsigned size;)
 #line 395
 {
-	register int n = size;
-	register struct stak *sp = stakcur;
-	register struct frame *fp;
-	register char *cp;
-	register unsigned m = staktell();
-	register int reused = 0;
+	int n = size;
+	struct stak *sp = stakcur;
+	struct frame *fp;
+	char *cp;
+	unsigned m = staktell();
+	int reused = 0;
 	n += (m + sizeof(struct frame)+1);
 	if(sp->stakflags&STAK_SMALL)
 #ifndef USE_REALLOC

@@ -97,9 +97,9 @@
  */
 
 char*
-strlower __PARAM__((register char* s), (s)) __OTORP__(register char* s;){
-	register int	c;
-	register char*	t;
+strlower __PARAM__((char* s), (s)) __OTORP__(char* s;){
+	int	c;
+	char*	t;
 
 	for (t = s; c = *t; t++)
 		if (isupper(c))
@@ -112,9 +112,9 @@ strlower __PARAM__((register char* s), (s)) __OTORP__(register char* s;){
  */
 
 char*
-strupper __PARAM__((register char* s), (s)) __OTORP__(register char* s;){
-	register int	c;
-	register char*	t;
+strupper __PARAM__((char* s), (s)) __OTORP__(char* s;){
+	int	c;
+	char*	t;
 
 	for (t = s; c = *t; t++)
 		if (islower(c))
@@ -127,7 +127,7 @@ strupper __PARAM__((register char* s), (s)) __OTORP__(register char* s;){
  */
 
 long
-cpio_long __PARAM__((register unsigned short* s), (s)) __OTORP__(register unsigned short* s;){
+cpio_long __PARAM__((unsigned short* s), (s)) __OTORP__(unsigned short* s;){
 	Integral_t	u;
 
 	u.l = 1;
@@ -149,7 +149,7 @@ cpio_long __PARAM__((register unsigned short* s), (s)) __OTORP__(register unsign
  */
 
 void
-cpio_short __PARAM__((register unsigned short* s, long n), (s, n)) __OTORP__(register unsigned short* s; long n;){
+cpio_short __PARAM__((unsigned short* s, long n), (s, n)) __OTORP__(unsigned short* s; long n;){
 	Integral_t	u;
 
 	u.l = 1;
@@ -173,8 +173,8 @@ cpio_short __PARAM__((register unsigned short* s, long n), (s, n)) __OTORP__(reg
 
 int
 tar_checksum __PARAM__((void), ()){
-	register char*	p;
-	register int	n;
+	char*	p;
+	int	n;
 
 	p = tar_header.chksum;
 	while (p < &tar_header.chksum[sizeof(tar_header.chksum)]) *p++ = ' ';
@@ -189,9 +189,9 @@ tar_checksum __PARAM__((void), ()){
  */
 
 long
-asc_checksum __PARAM__((char* ab, int n, register unsigned long sum), (ab, n, sum)) __OTORP__(char* ab; int n; register unsigned long sum;){
-	register unsigned char* b = (unsigned char*)ab;
-	register unsigned char*	e;
+asc_checksum __PARAM__((char* ab, int n, unsigned long sum), (ab, n, sum)) __OTORP__(char* ab; int n; unsigned long sum;){
+	unsigned char* b = (unsigned char*)ab;
+	unsigned char*	e;
 
 	e = b + n;
 	while (b < e) sum += *b++;
@@ -203,9 +203,9 @@ asc_checksum __PARAM__((char* ab, int n, register unsigned long sum), (ab, n, su
  */
 
 long
-getlabnum __PARAM__((register char* p, int byte, int width, int base), (p, byte, width, base)) __OTORP__(register char* p; int byte; int width; int base;){
-	register char*	e;
-	register int	c;
+getlabnum __PARAM__((char* p, int byte, int width, int base), (p, byte, width, base)) __OTORP__(char* p; int byte; int width; int base;){
+	char*	e;
+	int	c;
 	long		n;
 
 	p += byte - 1;
@@ -221,9 +221,9 @@ getlabnum __PARAM__((register char* p, int byte, int width, int base), (p, byte,
  */
 
 char*
-getlabstr __PARAM__((register char* p, int byte, int width, register char* s), (p, byte, width, s)) __OTORP__(register char* p; int byte; int width; register char* s;){
+getlabstr __PARAM__((char* p, int byte, int width, char* s), (p, byte, width, s)) __OTORP__(char* p; int byte; int width; char* s;){
 
-	register char*	e;
+	char*	e;
 	char*		v;
 
 	v = s;
@@ -245,9 +245,9 @@ getlabstr __PARAM__((register char* p, int byte, int width, register char* s), (
 #define OHASHLPART(h,c)		OHASHPART(31, h, c, 3, 2)
 
 unsigned long
-omemsum __PARAM__((const __V_* b, int n, register unsigned long c), (b, n, c)) __OTORP__(const __V_* b; int n; register unsigned long c;){
-	register unsigned char*	p;
-	register unsigned char*	e;
+omemsum __PARAM__((const __V_* b, int n, unsigned long c), (b, n, c)) __OTORP__(const __V_* b; int n; unsigned long c;){
+	unsigned char*	p;
+	unsigned char*	e;
 
 	p = (unsigned char*)b;
 	e = p + n;

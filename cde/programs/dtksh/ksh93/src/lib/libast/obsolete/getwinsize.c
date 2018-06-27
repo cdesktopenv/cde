@@ -93,6 +93,6 @@
 #include <ast.h>
 
 void
-getwinsize __PARAM__((int fd, register int* rows, register int* cols), (fd, rows, cols)) __OTORP__(int fd; register int* rows; register int* cols;){
+getwinsize __PARAM__((int fd, int* rows, int* cols), (fd, rows, cols)) __OTORP__(int fd; int* rows; int* cols;){
 	astwinsize(fd, rows, cols);
 }

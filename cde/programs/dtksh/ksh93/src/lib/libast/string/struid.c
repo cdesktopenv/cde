@@ -131,8 +131,8 @@ typedef struct
 
 int
 struid __PARAM__((const char* name), (name)) __OTORP__(const char* name;){
-	register struct passwd*	pw;
-	register bucket*	b;
+	struct passwd*	pw;
+	bucket*	b;
 	char*			e;
 
 	static Hash_table_t*	uidtab;

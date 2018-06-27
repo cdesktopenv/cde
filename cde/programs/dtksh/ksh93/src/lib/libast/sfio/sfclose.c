@@ -154,7 +154,7 @@ reg Sfio_t*	f;
 		f->disc = NIL(Sfdisc_t*);
 	}
 
-	/* tell the register function */
+	/* tell the function */
 	if(_Sfnotify)
 		(*_Sfnotify)(f,SF_CLOSE,f->file);
 

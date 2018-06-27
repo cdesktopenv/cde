@@ -154,8 +154,8 @@ static char*		cmd[] = { "/bin/echo", 0 };
 
 main()
 {
-	register int	i;
-	register int	n;
+	int	i;
+	int	n;
 
 	char		c;
 	unsigned char	uc;

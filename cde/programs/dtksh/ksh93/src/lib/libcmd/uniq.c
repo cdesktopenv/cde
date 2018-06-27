@@ -106,7 +106,7 @@ static const char id[] = "\n@(#)uniq (AT&T Bell Laboratories) 04/01/93\0\n";
 static char *sidebuff __PARAM__((int size), (size)) __OTORP__(int size;){
 	static int maxbuff;
 	static char *buff;
-	register char *cp=0;
+	char *cp=0;
 	if(size)
 	{
 		if(size <= maxbuff)
@@ -123,8 +123,8 @@ static char *sidebuff __PARAM__((int size), (size)) __OTORP__(int size;){
 }
 
 static int uniq __PARAM__((Sfio_t *fdin, Sfio_t *fdout, int fields, int chars, int mode), (fdin, fdout, fields, chars, mode)) __OTORP__(Sfio_t *fdin; Sfio_t *fdout; int fields; int chars; int mode;){
-	register int n, outsize=0;
-	register char *cp, *bufp, *outp;
+	int n, outsize=0;
+	char *cp, *bufp, *outp;
 	char *orecp, *sbufp=0, *outbuff;
 	int reclen,oreclen= -1,count=0, cwidth=0;
 	if(mode&C_FLAG)
@@ -225,8 +225,8 @@ static int uniq __PARAM__((Sfio_t *fdin, Sfio_t *fdout, int fields, int chars, i
 
 int
 b_uniq __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
-	register int n, mode=0;
-	register char *cp;
+	int n, mode=0;
+	char *cp;
 	int fields=0, chars=0;
 	Sfio_t *fpin, *fpout;
 

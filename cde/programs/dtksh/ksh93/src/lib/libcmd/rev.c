@@ -98,9 +98,9 @@ static const char id[] = "\n@(#)rev (AT&T Bell Laboratories) 11/11/92\0\n";
  * reverse the characters within a line
  */
 static int rev_char __PARAM__((Sfio_t *in, Sfio_t *out), (in, out)) __OTORP__(Sfio_t *in; Sfio_t *out;){
-	register int c;
-	register char *ep, *bp, *cp;
-	register int n;
+	int c;
+	char *ep, *bp, *cp;
+	int n;
 	while(cp = bp = sfgetr(in,'\n',0))
 	{
 		ep = bp + (n=sfslen()) -1;
@@ -117,10 +117,10 @@ static int rev_char __PARAM__((Sfio_t *in, Sfio_t *out), (in, out)) __OTORP__(Sf
 }
 
 int
-b_rev __PARAM__((int argc, register char** argv), (argc, argv)) __OTORP__(int argc; register char** argv;){
-	register Sfio_t *fp;
-	register char *cp;
-	register int n, line=0;
+b_rev __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
+	Sfio_t *fp;
+	char *cp;
+	int n, line=0;
 	NOT_USED(argc);
 
 	NoP(id[0]);

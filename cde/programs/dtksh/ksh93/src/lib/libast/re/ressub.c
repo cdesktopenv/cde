@@ -101,8 +101,8 @@
  */
 
 static void
-sub __PARAM__((register Sfio_t* dp, register const char* sp, register Match_t* mp, register int flags), (dp, sp, mp, flags)) __OTORP__(register Sfio_t* dp; register const char* sp; register Match_t* mp; register int flags;){
-	register int	c;
+sub __PARAM__((Sfio_t* dp, const char* sp, Match_t* mp, int flags), (dp, sp, mp, flags)) __OTORP__(Sfio_t* dp; const char* sp; Match_t* mp; int flags;){
+	int	c;
 	char*		s;
 	char*		e;
 
@@ -169,8 +169,8 @@ sub __PARAM__((register Sfio_t* dp, register const char* sp, register Match_t* m
  */
 
 void
-ressub __PARAM__((Re_program_t* re, Sfio_t* dp, register const char* op, const char* sp, int flags), (re, dp, op, sp, flags)) __OTORP__(Re_program_t* re; Sfio_t* dp; register const char* op; const char* sp; int flags;){
-	register Match_t*	mp;
+ressub __PARAM__((Re_program_t* re, Sfio_t* dp, const char* op, const char* sp, int flags), (re, dp, op, sp, flags)) __OTORP__(Re_program_t* re; Sfio_t* dp; const char* op; const char* sp; int flags;){
+	Match_t*	mp;
 
 	mp = re->subexp.m;
 	do

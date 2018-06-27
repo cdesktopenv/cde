@@ -108,10 +108,10 @@
  */
 
 char*
-tablook __PARAM__((register char* tab, int siz, register char* name), (tab, siz, name)) __OTORP__(register char* tab; int siz; register char* name;)
+tablook __PARAM__((char* tab, int siz, char* name), (tab, siz, name)) __OTORP__(char* tab; int siz; char* name;)
 #line 18
 {
-	register char*	s;
+	char*	s;
 
 	for (; s = *((char**)tab); tab += siz)
 		if (streq(s, name))

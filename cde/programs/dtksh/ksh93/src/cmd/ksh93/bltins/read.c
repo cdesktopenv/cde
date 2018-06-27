@@ -111,8 +111,8 @@
 #define D_FLAG	6	/* must be number of bits for all flags */
 
 int	b_read __PARAM__((int argc,char *argv[], __V_ *extra), (argc, argv, extra)) __OTORP__(int argc;char *argv[]; __V_ *extra;){
-	register char *name;
-	register int r, flags=0, fd=0;
+	char *name;
+	int r, flags=0, fd=0;
 	long timeout = 1000*sh.tmout;
 	int save_prompt;
 	NOT_USED(argc);
@@ -203,11 +203,11 @@ static void timedout __PARAM__((__V_ *handle), (handle)) __OTORP__(__V_ *handle;
  */
 
 int sh_readline __PARAM__((char **names, int fd, int flags,long timeout), (names, fd, flags, timeout)) __OTORP__(char **names; int fd; int flags;long timeout;){
-	register int		c;
-	register unsigned char	*cp;
-	register Namval_t	*np;
-	register char		*name, *val;
-	register Sfio_t	*iop;
+	int		c;
+	unsigned char	*cp;
+	Namval_t	*np;
+	char		*name, *val;
+	Sfio_t	*iop;
 	char			*ifs;
 	unsigned char		*cpmax;
 	char			was_escape = 0;
@@ -437,8 +437,8 @@ int sh_readline __PARAM__((char **names, int fd, int flags,long timeout), (names
 		if(!name && *val)
 		{
 			/* strip off trailing delimiters */
-			register char	*cp = val + strlen(val);
-			register int n;
+			char	*cp = val + strlen(val);
+			int n;
 			while((n=sh.ifstable[*--cp])==S_DELIM || n==S_SPACE);
 			cp[1] = 0;
 		}

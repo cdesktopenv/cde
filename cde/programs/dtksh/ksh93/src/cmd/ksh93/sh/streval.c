@@ -141,7 +141,7 @@ static double		seterror __PROTO__((const char[]));	/* set error message string	*
  */
 
 double strval __PARAM__((const char *s, char** end, double(*conv)(const char**,struct lval*,int,double)), (s, end, conv)) __OTORP__(const char *s; char** end; double(*conv)();){
-	register double	n;
+	double	n;
 
 	pushchr(s);
 	cur.isfloat = 0;
@@ -167,9 +167,9 @@ double strval __PARAM__((const char *s, char** end, double(*conv)(const char**,s
  * evaluate a subexpression with precedence
  */
 
-static double expr __PARAM__((register int precedence), (precedence)) __OTORP__(register int precedence;){
-	register int	c, op;
-	register double	n, x;
+static double expr __PARAM__((int precedence), (precedence)) __OTORP__(int precedence;){
+	int	c, op;
+	double	n, x;
 	int		wasop, incr=0;
 	struct lval	lvalue, assignop;
 	const char	*pos;

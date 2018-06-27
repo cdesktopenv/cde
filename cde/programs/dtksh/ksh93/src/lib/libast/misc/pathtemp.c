@@ -115,10 +115,10 @@ char*
 pathtemp __PARAM__((char* buf, const char* adir, const char* apfx), (buf, adir, apfx)) __OTORP__(char* buf; const char* adir; const char* apfx;)
 #line 39
 {
-	register char*	dir = (char*)adir;
+	char*	dir = (char*)adir;
 	char*		pfx = (char*)apfx;
-	register char*	p;
-	register char*	s;
+	char*	p;
+	char*	s;
 	int		pid;
 
 	static char*	tmpdir;

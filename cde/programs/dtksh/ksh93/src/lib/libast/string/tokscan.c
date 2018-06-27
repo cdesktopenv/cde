@@ -101,9 +101,9 @@ static char	empty[1];
  */
 
 static char*
-lextok __PARAM__((register char* s, register int c, char** p, int* n), (s, c, p, n)) __OTORP__(register char* s; register int c; char** p; int* n;){
-	register char*	t;
-	register int	q;
+lextok __PARAM__((char* s, int c, char** p, int* n), (s, c, p, n)) __OTORP__(char* s; int c; char** p; int* n;){
+	char*	t;
+	int	q;
 	char*		b;
 	char*		u;
 
@@ -198,10 +198,10 @@ lextok __PARAM__((register char* s, register int c, char** p, int* n), (s, c, p,
  */
 
 int
-tokscan __PARAM__((register char* s, char** nxt, const char* fmt, ...), (va_alist)) __OTORP__(va_dcl)
-{ __OTORP__(register char* s; char** nxt; const char* fmt; )
-	register int	c;
-	register char*	f;
+tokscan __PARAM__((char* s, char** nxt, const char* fmt, ...), (va_alist)) __OTORP__(va_dcl)
+{ __OTORP__(char* s; char** nxt; const char* fmt; )
+	int	c;
+	char*	f;
 	int		num = 0;
 	char*		skip = 0;
 	int		q;

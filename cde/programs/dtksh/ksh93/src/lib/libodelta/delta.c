@@ -137,8 +137,8 @@ static int delputc __PARAM__((int byte), (byte)) __OTORP__(int byte;){
 	return 0;
 }
 
-static int delputl __PARAM__((register int n, register long v), (n, v)) __OTORP__(register int n; register long v;){
-	register int	i;
+static int delputl __PARAM__((int n, long v), (n, v)) __OTORP__(int n; long v;){
+	int	i;
 	unsigned char	c[4];
 
 	for(i = 0; i < n; ++i)
@@ -152,7 +152,7 @@ static int delputl __PARAM__((register int n, register long v), (n, v)) __OTORP_
 	return 0;
 }
 
-static int delputs __PARAM__((register long n, register long addr), (n, addr)) __OTORP__(register long n; register long addr;){
+static int delputs __PARAM__((long n, long addr), (n, addr)) __OTORP__(long n; long addr;){
 	if(n < (Dend-Dnext))
 	{
 		memcpy(Dnext,Btar+addr,n);
@@ -170,7 +170,7 @@ static int delputs __PARAM__((register long n, register long addr), (n, addr)) _
 
 /* write an instruction */
 static int putMove __PARAM__((Move* ip), (ip)) __OTORP__(Move* ip;){
-	register char	inst;
+	char	inst;
 
 	inst = ip->type;
 	inst |= (NBYTE(ip->size)&07) << 3;
@@ -194,7 +194,7 @@ static int putMove __PARAM__((Move* ip), (ip)) __OTORP__(Move* ip;){
 
 /* constructor for Move */
 static Move *newMove __PARAM__((int type, long size, long addr, Move* last), (type, size, addr, last)) __OTORP__(int type; long size; long addr; Move* last;){
-	register Move *ip = (Move*) malloc(sizeof(Move));
+	Move *ip = (Move*) malloc(sizeof(Move));
 	if(!ip) return 0;
 	ip->type = type;
 	ip->size = size;
@@ -211,8 +211,8 @@ static Move *newMove __PARAM__((int type, long size, long addr, Move* last), (ty
 
 /* destructor for Move, return the elt after move */
 static Move *delMove __PARAM__((Move* ip), (ip)) __OTORP__(Move* ip;){
-	register Move *next = ip->next;
-	register Move *last = ip->last;
+	Move *next = ip->next;
+	Move *last = ip->last;
 	if(last)
 		last->next = next;
 	if(next)
@@ -223,7 +223,7 @@ static Move *delMove __PARAM__((Move* ip), (ip)) __OTORP__(Move* ip;){
 
 /* make a new add command */
 static Move *makeAdd __PARAM__((char* beg, char* end, Move* last), (beg, end, last)) __OTORP__(char* beg; char* end; Move* last;){
-	register Move	*ip;
+	Move	*ip;
 
 	ip = newMove(DELTA_ADD,(long)(end-beg),(long)(beg-Btar),NiL);
 	if(!ip)
@@ -232,7 +232,7 @@ static Move *makeAdd __PARAM__((char* beg, char* end, Move* last), (beg, end, la
 	/* remove small previous adjacent moves */
 	while(last)
 	{
-		register int a_size, cost_m, cost_a;
+		int a_size, cost_m, cost_a;
 
 		if(last->type == DELTA_ADD)
 			break;
@@ -267,7 +267,7 @@ static Move *makeAdd __PARAM__((char* beg, char* end, Move* last), (beg, end, la
 
 /* check to see if a move is appropriate */
 static int chkMove __PARAM__((long m_size, long m_addr, long a_size), (m_size, m_addr, a_size)) __OTORP__(long m_size; long m_addr; long a_size;){
-	register int cost_m, cost_a;
+	int cost_m, cost_a;
 
 	cost_m = NBYTE(m_size) + NBYTE(m_addr);
 	cost_a = NBYTE(m_size) + m_size;
@@ -277,7 +277,7 @@ static int chkMove __PARAM__((long m_size, long m_addr, long a_size), (m_size, m
 	/* it's good but it may be better to merge it to an add */
 	if(a_size > 0)
 	{
-		register int m_cost, a_cost;
+		int m_cost, a_cost;
 
 		m_cost = cost_m + NBYTE(a_size) + a_size;
 		a_size += m_size;
@@ -292,9 +292,9 @@ static int chkMove __PARAM__((long m_size, long m_addr, long a_size), (m_size, m
 }
 
 /* optimize a sequence of moves */
-static Move *optMove __PARAM__((register Move* s), (s)) __OTORP__(register Move* s;){
-	register long	add, m_cost, a_cost;
-	register Move	*ip, *last;
+static Move *optMove __PARAM__((Move* s), (s)) __OTORP__(Move* s;){
+	long	add, m_cost, a_cost;
+	Move	*ip, *last;
 
 	add = (s->last && s->last->type == DELTA_ADD) ? s->last->size : 0;
 
@@ -302,7 +302,7 @@ static Move *optMove __PARAM__((register Move* s), (s)) __OTORP__(register Move*
 	a_cost = 0;
 	for(ip = s; ip; ip = ip->next)
 	{
-		register long cost_m, cost_a;
+		long cost_m, cost_a;
 
 		if(ip->type == DELTA_ADD || ip->size > (M_MAX+A_MAX))
 			break;
@@ -360,8 +360,8 @@ static Move *optMove __PARAM__((register Move* s), (s)) __OTORP__(register Move*
 /* the real thing */
 int
 delta __PARAM__((char* src, long n_src, char* tar, long n_tar, int delfd), (src, n_src, tar, n_tar, delfd)) __OTORP__(char* src; long n_src; char* tar; long n_tar; int delfd;){
-	register char	*sp, *tp, *esrc, *etar;
-	register long	size, addr;
+	char	*sp, *tp, *esrc, *etar;
+	long	size, addr;
 	Suftree		*tree;
 	Move		*moves, *last;
 	char		inst, buf[BUFSIZE];
@@ -395,7 +395,7 @@ delta __PARAM__((char* src, long n_src, char* tar, long n_tar, int delfd), (src,
 				break;
 		if((size = src-Bsrc) > 0)
 		{
-			register int cost_m, cost_a;
+			int cost_m, cost_a;
 
 			cost_m = NBYTE(size) + NBYTE(0);
 			cost_a = NBYTE(size) + size;
@@ -501,7 +501,7 @@ delta __PARAM__((char* src, long n_src, char* tar, long n_tar, int delfd), (src,
 	/* optimize move instructions */
 	if(moves)
 	{
-		register Move	*ip;
+		Move	*ip;
 
 		ip = moves;
 		while(ip->last)

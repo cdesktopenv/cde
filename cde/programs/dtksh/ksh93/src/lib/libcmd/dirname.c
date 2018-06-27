@@ -94,8 +94,8 @@ static const char id[] = "\n@(#)dirname (AT&T Bell Laboratories) 07/17/92\0\n";
 
 #include <cmdlib.h>
 
-static void dirname __PARAM__((register Sfio_t *outfile, register const char *pathname), (outfile, pathname)) __OTORP__(register Sfio_t *outfile; register const char *pathname;){
-	register const char  *last;
+static void dirname __PARAM__((Sfio_t *outfile, const char *pathname), (outfile, pathname)) __OTORP__(Sfio_t *outfile; const char *pathname;){
+	const char  *last;
 	/* go to end of path */
 	for(last=pathname; *last; last++);
 	/* back over trailing '/' */
@@ -124,8 +124,8 @@ static void dirname __PARAM__((register Sfio_t *outfile, register const char *pa
 }
 
 int
-b_dirname __PARAM__((int argc,register char *argv[]), (argc, argv)) __OTORP__(int argc;register char *argv[];){
-	register int n;
+b_dirname __PARAM__((int argc,char *argv[]), (argc, argv)) __OTORP__(int argc;char *argv[];){
+	int n;
 
 	NoP(id[0]);
 	cmdinit(argv);
