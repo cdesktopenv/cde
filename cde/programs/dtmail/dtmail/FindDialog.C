@@ -73,7 +73,7 @@
 void
 FindDialog::clear()
 {
-  register unsigned int		offset;
+  unsigned int		offset;
 
   //
   if (_text_labels != NULL) {
@@ -239,7 +239,7 @@ FindDialog::createWorkArea(Widget dialog)
   Widget *label = new Widget[_num_text_fields]; 
 
 
-  register unsigned int		offset;
+  unsigned int		offset;
 
   _name = GETMSG(DT_catd, 1, 192, "Mailer - Find");
 
@@ -364,7 +364,7 @@ FindDialog::createWorkArea(Widget dialog)
   //
 #define TIGHTNESS	20
 
-  register Widget		widget;
+  Widget		widget;
 
   Widget fd_action = XtVaCreateWidget("actionArea",
 				 xmFormWidgetClass,
@@ -500,12 +500,12 @@ FindDialog::findMatching(Boolean findAll)
     //
     // A pointer to the currently interesting message.
     //
-    register DtMailMessageHandle	  currentHandle = NULL;
+    DtMailMessageHandle	  currentHandle = NULL;
 
     //
     // The offset of the currentHandle in the MsgScrollingList.
     //
-    register int		  handleOffset;
+    int		  handleOffset;
 
     //
     // Find the current message. We would always start from the
@@ -657,7 +657,7 @@ Boolean
 FindDialog::compareMessage(DtMailMessageHandle	  handle)
 {
   Boolean				found = False;
-  register unsigned int		offset;
+  unsigned int		offset;
 
   //
   // Check for something to do.
@@ -740,9 +740,9 @@ FindDialog::strcasestr(const char *str, const char *toFind)
   const char	*result = NULL;		// Default to not found.
 
   if (str && toFind) {		// Sanity check
-    register int	offset = 0;
-    register int	lenToFind = strlen(toFind);
-    register int	lenStr = strlen(str);
+    int	offset = 0;
+    int	lenToFind = strlen(toFind);
+    int	lenStr = strlen(str);
 
     //
     // If toFind == "", then return the entire string (like strstr()).
@@ -771,7 +771,7 @@ FindDialog::compareHeader(DtMailEnv		& error,
 			  DtMailValueSeq	& header,
 			  const char		* cmpToString)
 {
-  register int		headerOffset = header.length() - 1;
+  int		headerOffset = header.length() - 1;
 
   error.clear();
 
@@ -790,7 +790,7 @@ FindDialog::compareHeader(DtMailEnv		& error,
 void
 FindDialog::getAllFields()
 {
-  register unsigned int		offset;
+  unsigned int		offset;
 
   for (offset = 0; offset < _num_text_fields; offset++) {
     if (_text_fields[offset] != NULL) {
@@ -882,7 +882,7 @@ FindDialog::clearCallback(Widget	/*button*/,
 			  XtPointer	/*call_data*/)
 {
   FindDialog	*findData = (FindDialog *)closure;
-  register unsigned int		offset;
+  unsigned int		offset;
 
   for (offset = 0; offset < findData->_num_text_fields; offset++) {
     if (findData->_text_fields[offset] != NULL) {

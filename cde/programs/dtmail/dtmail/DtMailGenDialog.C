@@ -308,7 +308,7 @@ void DtMailGenDialog::verify(XmTextVerifyPtr cbs)
 {
     int                 i;
     static char         buffer[MAXPATHLEN];
-    register char       *s, *t;
+    char       *s, *t;
 
 #if defined(SHROUDED_TEXTFIELD_DEBUG)
     printf(

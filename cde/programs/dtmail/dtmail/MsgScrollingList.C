@@ -1496,7 +1496,7 @@ MsgScrollingList::select_all_and_display_last(
 )
  
 {
-    register int                item_pos;
+    int                item_pos;
     int				num_items;
     MsgHndArray			* msgHandles = get_messages();
  
@@ -1537,8 +1537,8 @@ MsgScrollingList::select_all_and_display_last(
     unsigned int	   elements
 )
 {
-  register int		handleOffset = 0;
-  register int		item_pos;
+  int		handleOffset = 0;
+  int		item_pos;
 
   error.clear();
 

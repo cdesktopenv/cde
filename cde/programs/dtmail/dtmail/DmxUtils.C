@@ -169,7 +169,7 @@ static char *phrase(char *, int , int );
 char *
 savestr(char *str)
 {
-	register char *cp, *cp2, *top;
+	char *cp, *cp2, *top;
 
 	for (cp = str; *cp; cp++)
 		;
@@ -233,8 +233,8 @@ dispname(const char *hdr)
 static char *
 phrase(char *name, int token, int comma)
 {
-	register char c;
-	register char *cp, *cp2;
+	char c;
+	char *cp, *cp2;
 	char *bufend, *nbufp;
 	int gotlt, lastsp, didq;
 	char nbuf[LINESIZE];

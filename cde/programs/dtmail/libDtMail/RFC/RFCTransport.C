@@ -524,8 +524,8 @@ skin_comma(char * buf)
 void
 RFCTransport::arpaPhrase(const char * name, DtMailAddressSeq & tokens)
 {
-    register char c;
-    register const char *cp;
+    char c;
+    const char *cp;
     char *cp2;
     char *nbufp;
     char *bufend;

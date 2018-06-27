@@ -906,7 +906,7 @@ int get_stat(
 struct vmount   **vmountpp)     /* place to tell where buffer is */
 {
   size_t                size;
-  register struct vmount        *vm;
+  struct vmount        *vm;
   int                   nmounts;
   int                   count;
 
@@ -958,7 +958,7 @@ struct vmount *get_vmount(fsid_t *fsid)
 {
     struct vmount *inu_vmount_p=NULL;
     int inu_vmount_num;
-    register struct vmount *vm;
+    struct vmount *vm;
     int nmount;
 
     /* make sure we have all the virtual mount status of this host */

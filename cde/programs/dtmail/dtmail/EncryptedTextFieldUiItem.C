@@ -161,7 +161,7 @@ void EncryptedTextFieldUiItem::verify(XmTextVerifyPtr cbs)
 {
     int			i;
     static char		buffer[MAXPATHLEN];
-    register char	*s, *t;
+    char	*s, *t;
 
 #if defined(ENCRYPTED_TEXTFIELD_DEBUG)
     printf(

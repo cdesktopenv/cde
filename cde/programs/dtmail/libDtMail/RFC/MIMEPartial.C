@@ -86,7 +86,7 @@ getNamedValueInt(const char *string, const char *name)
   int		  	stringLen = strlen(string);
   int		  	nameLen = strlen(name);
   int		  	results = 0;
-  register unsigned int	offset;
+  unsigned int	offset;
 
   for (offset = 0; offset < stringLen - nameLen; offset++) {
     if (strncasecmp(&string[offset], name, nameLen) == 0) {
@@ -110,7 +110,7 @@ getNamedValueString(const char *string, const char *name)
   int		  	  nameLen = strlen(name);
   const char		* results;
   char			* stringEnd;
-  register unsigned int	  offset;
+  unsigned int	  offset;
 
   for (offset = 0; offset < stringLen - nameLen; offset++) {
     if (strncasecmp(&string[offset], name, nameLen) == 0) {
@@ -191,7 +191,7 @@ RFCMessage	*
 RFCMailBox::_assemblePartial(DtMailEnv	& error,
 			     RFCMessage	* message)
 {
-  register unsigned int	  offset;
+  unsigned int	  offset;
   unsigned int	  	  totalParts = 0;
 
   RFCMessage		* msg = message;
@@ -319,7 +319,7 @@ RFCMailBox::_assemblePartial(DtMailEnv	& error,
 	unsigned int	  	  duplicateCount;
 	int			  fromLen;
 	int			  headerNumber = 0;
-	register unsigned int	  dupOffset;
+	unsigned int	  dupOffset;
 
 	if (error.isNotSet()) {
 	  //

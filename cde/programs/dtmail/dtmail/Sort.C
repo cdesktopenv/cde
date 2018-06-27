@@ -114,8 +114,8 @@ Sort::sortMessages(MsgScrollingList	*displayList,
 
       messageRecord	* messages = new messageRecord[numberMessages +2];
 
-      register unsigned int	offset;
-      register unsigned int	msgno;
+      unsigned int	offset;
+      unsigned int	msgno;
       DtMail::Message		* msg = NULL;
       DtMail::Envelope	* envelope = NULL;
 
@@ -406,11 +406,11 @@ Sort::_msort (char	* base,
 	      int	(*compar)(char	**one,
 				  char	**two))
 {
-  register int	i;
-  register int	t;
-  register int	s;
-  register int	p;
-  register int	q;
+  int	i;
+  int	t;
+  int	s;
+  int	p;
+  int	q;
   char	*k1;
   char 	*k2;
 
@@ -508,8 +508,8 @@ Sort::_sortCmp(char ** one, char ** two)
   //
   // Cast the pointers to the known type.
   //
-  register messageRecord	* first = (messageRecord *) *one;
-  register messageRecord	* second = (messageRecord *) *two;
+  messageRecord	* first = (messageRecord *) *one;
+  messageRecord	* second = (messageRecord *) *two;
 
   if (first->primary_key_str == NULL)
   {

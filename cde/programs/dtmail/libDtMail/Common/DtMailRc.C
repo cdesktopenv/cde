@@ -458,8 +458,8 @@ DtMail::MailRc::removeValue(DtMailEnv & error,
 // return alternates list
 const char * DtMail::MailRc::getAlternates(DtMailEnv &env)
 {
-    register int    i;
-    register struct hash *h;
+    int    i;
+    struct hash *h;
     struct hash **table = (struct hash **)glob.g_alternates;
     int len;
     
@@ -799,7 +799,7 @@ void DtMail::MailRc::init_globals()
 int
 DtMail::MailRc::load(char *name, char* line)
 {
-    register FILE *in, *oldin;
+    FILE *in, *oldin;
     int ret=0;
     
     if ((in = fopen(name, "r")) == NULL) {
@@ -828,7 +828,7 @@ DtMail::MailRc::load(char *name, char* line)
 int
 DtMail::MailRc::commands(char* iline)
 {
-    register int n;
+    int n;
     char *linebuf = new char[LINESIZE];
     char *line = new char[LINESIZE];
     
@@ -1070,8 +1070,8 @@ int DtMail::MailRc::execute(char linebuf[])
 int
 DtMail::MailRc::readline(FILE *ibuf, char *linebuf)
 {
-    register char *cp;
-    register int c;
+    char *cp;
+    int c;
     int seennulls = 0;
     
     clearerr(ibuf);
@@ -1122,7 +1122,7 @@ void DtMail::MailRc::unstack()
 
 void *DtMail::MailRc::lex(char word[])
 {
-    register struct cmd *cp;
+    struct cmd *cp;
 
     for (cp = &cmdtab[0]; cp->c_name != NOSTR; cp++)
 	if (DtMail::MailRc::isprefix(word, cp->c_name))
@@ -1137,7 +1137,7 @@ void *DtMail::MailRc::lex(char word[])
 
 int DtMail::MailRc::isprefix(char *as1, char *as2)
 {
-    register char *s1, *s2;
+    char *s1, *s2;
     
     s1 = as1;
     s2 = as2;
@@ -1154,9 +1154,9 @@ int DtMail::MailRc::isprefix(char *as1, char *as2)
 
 int DtMail::MailRc::getrawlist(char line[], char **argv, int argc)
 {
-    register char **ap, *cp, *cp2;
+    char **ap, *cp, *cp2;
     char linebuf[LINESIZE], quotec;
-    register char **last;
+    char **last;
     
     ap = argv;
     cp = line;
@@ -1212,8 +1212,8 @@ void DtMail::MailRc::freerawlist(char **argv)
 
 char *DtMail::MailRc::mt_value(char name[])
 {
-    register struct var *vp;
-    register char *cp;
+    struct var *vp;
+    char *cp;
 //        extern char *getenv();
     
     if ((vp = lookup(name, (struct var **)this->variables)) == (struct var *)NULL)
@@ -1229,8 +1229,8 @@ char *DtMail::MailRc::mt_value(char name[])
  */
 struct var *DtMail::MailRc::lookup(char *name, struct var **hasharray)
 {
-    register struct var *vp;
-    register int h;
+    struct var *vp;
+    int h;
     
     h = hash(name);
     for (vp = hasharray[h]; vp != (struct var *)NULL; vp = vp->v_link)
@@ -1406,7 +1406,7 @@ DtMail::MailRc::nignorelist(char * key, void * data, void * client_data)
 
 int DtMail::MailRc::set(char **arglist, DtMail::MailRc *)
 {
-    register char *cp, *cp2;
+    char *cp, *cp2;
     char varbuf[LINESIZE], **ap;
     int errs;
     
@@ -1500,7 +1500,7 @@ DtMail::MailRc::wset(const char * verbatim,
 
 int DtMail::MailRc::unset(char **arglist, DtMail::MailRc *)
 {
-        register char **ap;
+        char **ap;
 
         for (ap = arglist; *ap != NOSTR; ap++)
                 (void) MailRc::mt_deassign(*ap);
@@ -1523,8 +1523,8 @@ DtMail::MailRc::wunset(const char * verbatim,
  */
 int DtMail::MailRc::hash(char *name)
 {
-    register unsigned h;
-    register char *cp;
+    unsigned h;
+    char *cp;
     
     for (cp = name, h = 0; *cp; h = (h << 2) + *cp++)
 	;
@@ -1579,8 +1579,8 @@ void DtMail::MailRc::mt_assign(char *name,char * val)
 
 int DtMail::MailRc::mt_deassign(char *s)
 {
-    register struct var *vp, *vp2;
-    register int h;
+    struct var *vp, *vp2;
+    int h;
     
     if ((vp2 = lookup(s, MailRc::variables)) == (struct var *)NULL) {
 	return (1);
@@ -1607,8 +1607,8 @@ int DtMail::MailRc::mt_deassign(char *s)
  */
 void DtMail::MailRc::mt_puthash(char *name, char *val, struct var **hasharray)
 {
-    register struct var *vp;
-    register int h;
+    struct var *vp;
+    int h;
     
     vp = lookup(name, hasharray);
     if (vp == (struct var *)NULL) {
@@ -1681,7 +1681,7 @@ void DtMail::MailRc::hm_add(struct hash **table,
 			    int size)
 {
     int index;
-    register struct hash *h;
+    struct hash *h;
     
     if (!table)
 	return;
@@ -1703,9 +1703,9 @@ void DtMail::MailRc::hm_add(struct hash **table,
 
 void DtMail::MailRc::hm_delete(struct hash **table, char *key)
 {
-    register int index;
-    register struct hash *h;
-    register struct hash *old;
+    int index;
+    struct hash *h;
+    struct hash *old;
     
     if (!table)
 	return;
@@ -1733,7 +1733,7 @@ void DtMail::MailRc::hm_delete(struct hash **table, char *key)
 
 void *DtMail::MailRc::hm_test(struct hash **table, char *key)
 {
-    register struct hash *h;
+    struct hash *h;
     
     if (!table)
 	return (NULL);
@@ -1754,7 +1754,7 @@ void *DtMail::MailRc::hm_test(struct hash **table, char *key)
 
 void DtMail::MailRc::hm_mark(struct hash **table, char *key)
 {
-    register struct hash *h;
+    struct hash *h;
     
     if (!table)
 	return;
@@ -1773,7 +1773,7 @@ void DtMail::MailRc::hm_mark(struct hash **table, char *key)
 
 int DtMail::MailRc::hm_ismarked(struct hash **table, char *key)
 {
-    register struct hash *h;
+    struct hash *h;
     
     if (!table) return 0;
     h = table[hash_index(key)];
@@ -1801,9 +1801,9 @@ DtMail::MailRc::hm_scan(struct hash **table, hm_callback callback, void * client
 
 int DtMail::MailRc::hash_index(char *key)
 {
-    register unsigned h;
-    register char *s;
-    register int c;
+    unsigned h;
+    char *s;
+    int c;
     
     s = key;
     h = 0;
@@ -2004,8 +2004,8 @@ DtMail::MailRc::expand(char *name)
 	char *xname = new char[LINESIZE];
 	char *cmdbuf = new char[LINESIZE];
 	char *str;
-	register int pid, l;
-	register char *cp, *Shell;
+	int pid, l;
+	char *cp, *Shell;
 	int s, pivec[2];
 	struct stat sbuf;
         char *retchr = NULL;
@@ -2133,7 +2133,7 @@ DtMail::MailRc::wsource(const char * verbatim, char ** arglist, FILE * outf)
 int
 DtMail::MailRc::ifcmd(char **arglist, DtMail::MailRc *self)
 {
-	register char *cp;
+	char *cp;
 
 	if (self->cond != CANY) {
 		fprintf(stderr,"Illegal nested \"if\"\n");
