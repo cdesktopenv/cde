@@ -2868,7 +2868,7 @@ findpopen(char *cmd, char *mode, int *childpid)
 {
    static char *pname = "findpopen";
    int     fd[2];
-   register int parentside, childside;
+   int parentside, childside;
 
    if(pipe(fd) < 0)
         return(NULL);

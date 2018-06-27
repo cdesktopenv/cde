@@ -93,17 +93,17 @@
 
 int
 RunFileCommand(
-        register char *command_path,
-        register char *argument1,
-        register char *argument2,
-        register char *argument3)
+        char *command_path,
+        char *argument1,
+        char *argument2,
+        char *argument3)
 {
    static char *pname = "RunFileCommand";
-   register int child;           /* process id of command process */
-   register int wait_return;     /* return value from wait */
+   int child;           /* process id of command process */
+   int wait_return;     /* return value from wait */
             int exit_value;      /* command exit value */
-   register char *command_name;  /* pointer to the command name */
-   register int i;
+   char *command_name;  /* pointer to the command name */
+   int i;
    void (*oldSig)();
   
    /* prepare to catch the command termination */

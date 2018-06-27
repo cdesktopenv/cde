@@ -84,8 +84,8 @@
 
 /* Cannot put into sharedFuncs.h due to conflict with FileManip.c */
 extern int       Check(
-                                    register char *spth,
-                                    register char *dpth,
+                                    char *spth,
+                                    char *dpth,
                                     int mode);
 
 /*--------------------------------------------------------------------

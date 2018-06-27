@@ -1652,9 +1652,9 @@ SetValues(
    ModAttrData *attr_data;
    Boolean loadOk;
 
-   register int i;
-   register int j;
-   register int k;
+   int i;
+   int j;
+   int k;
    DirectorySet ** directory_set;
    FileViewData ** order_list;
    int directory_count;
@@ -3442,7 +3442,7 @@ DropOnPrimaryHotspot (
    DirectorySet ** directory_data)
 {
    int directory_count;
-   register int i, j;
+   int i, j;
    FileViewData * file_view_data;
    DirectorySet * dir_data;
    ObjectPtr top;
@@ -3967,9 +3967,9 @@ GetFileData(
    int new_dir_count;
    int new_file_count;
    ObjectPtr position_info;
-   register int i;
-   register int j;
-   register int k;
+   int i;
+   int j;
+   int k;
    Boolean match;
 
 
@@ -4787,7 +4787,7 @@ FreeDirectorySet(
         DirectorySet ** directory_set,
         int directory_count)
 {
-   register int i, j;
+   int i, j;
 
    if (!directory_set)
      return;
@@ -6259,7 +6259,7 @@ DoTheMove(
    int file_count;
    char **file_set;
    char **host_set;
-   register int i, j;
+   int i, j;
    char *file, *next, *end;
    char directory[MAX_PATH];
    Boolean result = True;

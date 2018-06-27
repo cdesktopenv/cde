@@ -841,7 +841,7 @@ _DtHideDialog(
    Dialog * dialog;
    DialogData * new_data;
    CorePart * core;
-   register int i;
+   int i;
 
 
    /*  Find the dialog and then hide it.  */
@@ -1575,7 +1575,7 @@ TimerEvent(
         XtIntervalId *id )
 
 {
-   register int i;
+   int i;
    Dialog * dialog;
    Dialog * prev_dialog;
    int count;

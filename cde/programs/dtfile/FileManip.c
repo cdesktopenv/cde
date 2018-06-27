@@ -231,7 +231,7 @@ FileOperationError(
  ************************************************************************/
 char *
 DName(
-        register char *name )
+        char *name )
 {
    char * p;
    char * q;
@@ -262,8 +262,8 @@ DName(
 static int
 Check(
         Widget w,
-        register char *spth,
-        register ino_t dinode,
+        char *spth,
+        ino_t dinode,
         int mode,
         void (*errorHandler)() )
 {
@@ -324,15 +324,15 @@ Check(
 static Boolean
 MoveDir(
         Widget w,
-        register char *source,
-        register char *target,
+        char *source,
+        char *target,
         struct stat *sourceStatInfo,
         void (*errorHandler)(),
         char ** targetRtn ,
         int type )
 {
    static char *pname = "MoveDir";
-   register char *p;
+   char *p;
 
    char * targetDir;            /* original target dir path */
    char *link_path;
@@ -597,8 +597,8 @@ static Boolean
 CopyDir(
         Widget w,
         int mode,
-        register char *from,
-        register char *to,
+        char *from,
+        char *to,
         Boolean  isContainer,
         struct stat *s1,
         void (*errorHandler)(),
@@ -771,16 +771,16 @@ Boolean
 FileManip(
         Widget w,
         int mode,
-        register char *from,
-        register char *to,
+        char *from,
+        char *to,
         Boolean  isContainer,          /* described in function CopyDir */
         void (*errorHandler)(),
         Boolean checkForBusyDir,
         int type )
 {
-   register int fold;
-   register int fnew;
-   register int n;
+   int fold;
+   int fnew;
+   int n;
    Boolean copy_dir_return;
    Boolean move_dir_return;
    void (*oldInt)();

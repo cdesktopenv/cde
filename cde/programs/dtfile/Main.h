@@ -624,10 +624,10 @@ extern void AddString(
 /* prototype from MakeDir.c */
 
 extern int RunFileCommand(
-                        register char *command_path,
-                        register char *argument1,
-                        register char *argument2,
-                        register char *argument3) ;
+                        char *command_path,
+                        char *argument1,
+                        char *argument2,
+                        char *argument3) ;
 
 /* prototypes from Directory.h */
 
@@ -960,8 +960,8 @@ extern void FileOperationError(
 extern Boolean FileManip(
                         Widget w,
                         int mode,
-                        register char *from,
-                        register char *to,
+                        char *from,
+                        char *to,
                         Boolean isContainer,
                         void (*errorHandler)(),
                         Boolean checkForBusyDir,
@@ -971,7 +971,7 @@ extern int CheckAccess(
                         int what);
 
 extern char * DName(
-                        register char *name) ;
+                        char *name) ;
 
 /* prototypes from FileMgr.h */
 

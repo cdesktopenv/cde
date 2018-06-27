@@ -770,7 +770,7 @@ static void
 UnmanageAllActionItems(
         FileMgrRec *file_mgr_rec )
 {
-  register int i, children;
+  int i, children;
   XmManagerWidget action_pane;
 
   action_pane = (XmManagerWidget) file_mgr_rec->action_pane;
@@ -987,7 +987,7 @@ TrashFiles(
    Widget mbar;
    DtActionArg * action_args;
    int arg_count;
-   register int i;
+   int i;
 
    if (!TrashIsInitialized())
    {

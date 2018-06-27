@@ -54,12 +54,12 @@ extern String _DtStripSpaces(
                         String string) ;
 
 extern char * _DtPName(
-                        register char *name) ;
+                        char *name) ;
 extern char * _DtFollowLink(
                         char * path) ;
 extern Boolean _DtStringsAreEquivalent(
-                        register char *in_str,
-                        register char *test_str) ;
+                        char *in_str,
+                        char *test_str) ;
 extern void _DtDuplicateDialogNameList (
                         char ** nameList,
                         char ** newNameList,

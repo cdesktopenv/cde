@@ -122,8 +122,8 @@ UpdateActionMenuPane(
    FileViewData *file_view_data;
    DesktopRec *desktopWindow;
    Widget child;
-   register int i, menu_offset;
-   register int action_count;
+   int i, menu_offset;
+   int action_count;
    int count, del_count;
    int num_children;
    char ** command_list;

@@ -412,7 +412,7 @@ GetValues(
 {
    ChangeDirData * change_dir_data;
    Arg args[8];
-   register int n;
+   int n;
    XmStringTable history_list;
    XmString      string_path;
 
@@ -664,7 +664,7 @@ static void
 FreeValues(
         ChangeDirData *change_dir_data )
 {
-   register int i;
+   int i;
 
    for (i = 0; i < change_dir_data->list_count; i++)
       XmStringFree (change_dir_data->history_list[i]);

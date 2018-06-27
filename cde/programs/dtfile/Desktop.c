@@ -1861,7 +1861,7 @@ DeselectAllDTFiles (
       WorkspaceRec *workspaceData)
 {
    int selection_count;
-   register int i;
+   int i;
 
    selection_count = workspaceData->files_selected;
 
@@ -1892,8 +1892,8 @@ DeselectDTFile (
       DesktopRec *desktopWindow)
 {
    int selection_count;
-   register int i;
-   register int j;
+   int i;
+   int j;
 
 
    selection_count = workspaceData->files_selected;

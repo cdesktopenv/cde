@@ -3920,8 +3920,8 @@ void
 CloseView(
         DialogData *dialog_data )
 {
-   register int i;
-   register int j;
+   int i;
+   int j;
    FileMgrData * file_mgr_data;
    DialogData * tmpDialog_data;
    FileMgrRec * file_mgr_rec;
@@ -4469,7 +4469,7 @@ static void
 ViewHomeDirectoryHandler(
    Tt_message msg)
 {
-   register int i, j, k;
+   int i, j, k;
    struct passwd * pwInfo;
    char * homeDir;
    char * tmp_path;
@@ -4647,7 +4647,7 @@ static void
 ViewToolsDirectoryHandler(
    Tt_message msg)
 {
-   register int i;
+   int i;
    char * tmp_path = NULL;
    char * tool_dir = NULL;
    char * msgFile = NULL;
@@ -5433,8 +5433,8 @@ static unsigned char
         unsigned char **ppchNext)
 {
     unsigned char *pchR = pchIn;
-    register int   i;
-    register int   chlen;
+    int   i;
+    int   chlen;
 
     for (i = 0; ((chlen = mblen ((char *)pchIn, MB_CUR_MAX)) > 0); i++)
     /* find end of word: requires singlebyte whitespace terminator */
@@ -5995,9 +5995,9 @@ ForceMyIconClosed (
    char * host_name,
    char * directory_name)
 {
-   register int i;
-   register int j;
-   register int k;
+   int i;
+   int j;
+   int k;
    Arg args[1];
    FileViewData * file_view_data = NULL;
    DialogData *dialog_data;

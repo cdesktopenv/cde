@@ -282,7 +282,7 @@ static ObjectPosition *GetPositionalData (
 static void RedisplayUsingStackingOrder (
                         FileMgrData * file_mgr_data,
                         Widget w,
-                        register XEvent *event,
+                        XEvent *event,
                         Region region) ;
 static void ReorderChildrenList (
                         XmManagerWidget file_window,
@@ -345,8 +345,8 @@ static void LayoutDesktopIcons(
                         Boolean turn_off_hourglass);
 static XmGadget InputInGadget (
 			Widget w,
-                        register int x,
-			register int y);
+                        int x,
+			int y);
 static XmGadget InputForGadget (
                         Widget cw,
                         int x,
@@ -787,8 +787,8 @@ OrderFiles(
    FileViewData ** order_list;
    int * sort;
    int * sub_sort;
-   register int i;
-   register int start;
+   int i;
+   int start;
 
    file_view_data = directory_set->file_view_data;
    file_count = directory_set->file_count;
@@ -903,7 +903,7 @@ FilterFiles(
 {
    FileViewData **file_view_data;
    FilterData *   filter_data;
-   register int   i, j, k;
+   int   i, j, k;
    Boolean        show_hidden;
    String         filter;
    Boolean        mustMatch, matches;
@@ -1868,7 +1868,7 @@ GetDragIcon(
    XmManagerWidget mw = (XmManagerWidget) XtParent(w);
    Widget screen_object = (Widget) XmGetXmScreen(XtScreenOfObject(w));
    Arg args[11];
-   register int n;
+   int n;
    unsigned int wid, hei, d, junk;
    Widget dragIcon;
    Pixmap dragPixmap;
@@ -2247,7 +2247,7 @@ InitiateIconDrag(
    XRectangle pRect, lRect;
    unsigned char flags;
    int stringSize;
-   register int i;
+   int i;
    Arg args[10];
    Boolean allowDropInInitiatingWindow;
    int rectCount;
@@ -2321,18 +2321,18 @@ InitiateIconDrag(
 static XmGadget
 InputInGadget (
    Widget w,
-   register int x,
-   register int y)
+   int x,
+   int y)
 
 {
    CompositeWidget cw = (CompositeWidget)w;
    static Region r = NULL;
    FileMgrData * file_mgr_data;
    Boolean simpleCheck = False;
-   register int i;
+   int i;
    unsigned char flags;
    XRectangle pRect, lRect;
-   register Widget widget;
+   Widget widget;
 
    file_mgr_data = ReturnDesktopPtr((Widget)cw);
 
@@ -2741,8 +2741,8 @@ DeselectFile(
         Boolean valid)
 {
    int selection_count;
-   register int i;
-   register int j;
+   int i;
+   int j;
 
 
    selection_count = file_mgr_data->selected_file_count;
@@ -2781,7 +2781,7 @@ DeselectAllFiles(
         FileMgrData *file_mgr_data )
 {
    FileViewData * file_view_data;
-   register int i, j, k;
+   int i, j, k;
    ObjectPtr bottom;
    FileViewData ** repaint_list;
 
@@ -2887,8 +2887,8 @@ SelectAllFiles(
    FileViewData ** order_list;
    int directory_count;
    int selection_count;
-   register int i;
-   register int j;
+   int i;
+   int j;
    ObjectPtr top;
    FileViewData ** selection_list;
 
@@ -3678,11 +3678,11 @@ static void
 RedisplayUsingStackingOrder (
    FileMgrData * file_mgr_data,
    Widget w,
-   register XEvent *event,
+   XEvent *event,
    Region region)
 
 {
-   register Widget child;
+   Widget child;
    FileViewData * file_view_data;
    ObjectPosition * bottom;
    ObjectPosition * top;
@@ -3997,7 +3997,7 @@ ReorderChildrenList (
 
 {
    Widget * children = file_window->composite.children;
-   register int i, j;
+   int i, j;
 
    for (i = 0; i < manageCount; i++)
       children[i] = manage[i];
@@ -4424,7 +4424,7 @@ PositionFileView(
 static Boolean
 InMultipleObjectRegion (FileMgrData * file_mgr_data, FileViewData * fileViewData)
 {
-  register int i;
+  int i;
   for( i = 0; i < file_mgr_data->selected_file_count; ++i )
     if( strcmp( file_mgr_data->selection_list[i]->file_data->file_name, fileViewData->file_data->file_name ) == 0 )
       return True;

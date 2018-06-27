@@ -179,10 +179,10 @@ static void RenameCollisions(
 
 char *
 _DtPName(
-        register char *name )
+        char *name )
 
 {
-   register char * q;
+   char * q;
    static char pnam[MAXPATHLEN];
    static char dot[] = ".";
 
@@ -293,16 +293,16 @@ _DtFollowLink (
 
 Boolean
 _DtStringsAreEquivalent(
-        register char *in_str,
-        register char *test_str )
+        char *in_str,
+        char *test_str )
 {
 #ifdef NLS16
    wchar_t c1;
    wchar_t c2;
    int c1size, c2size;
 #endif
-   register int i;
-   register int j;
+   int i;
+   int j;
 
 #ifdef NLS16
    if (is_multibyte)
@@ -1391,7 +1391,7 @@ RetrieveAndUseNameTemplateInfo(
 static void
 RenameCollisions( char ** list, int count )
 {
-  register int i, j, k, l;
+  int i, j, k, l;
   char flg = 0, flg2 = 0;
 
   for( i = 0; i < count; ++i )

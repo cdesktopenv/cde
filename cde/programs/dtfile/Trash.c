@@ -395,8 +395,8 @@ static void RestoreVerifyCancel(
 static int RestoreObject(
                         Widget w,
                         int mode,
-                        register char *source,
-                        register char *target,
+                        char *source,
+                        char *target,
                         Boolean  isContainer,
                         void (*errorHandler)(),
                         Boolean checkForBusyDir,
@@ -4280,8 +4280,8 @@ static int
 RestoreObject(
         Widget w,
         int mode,
-        register char *source,
-        register char *target,
+        char *source,
+        char *target,
         Boolean  isContainer,
         void (*errorHandler)(),
         Boolean checkForBusyDir,

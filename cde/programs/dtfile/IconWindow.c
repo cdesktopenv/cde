@@ -149,7 +149,7 @@ FileWindowExposeCallback(
    DialogData  * dialog_data;
    FileMgrData * file_mgr_data;
    XmDrawingAreaCallbackStruct * da_cbs;
-   register int i;
+   int i;
 
    file_mgr_rec = (FileMgrRec *) client_data;
    dialog_data = _DtGetInstanceData ((XtPointer)file_mgr_rec);
@@ -1622,7 +1622,7 @@ ProcessSelection (
    XRectangle   widget_rect;
    DirectorySet ** directory_set;
    int directory_count;
-   register int i, j;
+   int i, j;
    Region region;
    Region widget_region;
    Region intersect_region;
