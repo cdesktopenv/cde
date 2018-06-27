@@ -305,7 +305,7 @@ static void reset_xor_gc (PannerWidget pw)		/* used when resources change */
 }
 
 
-static void check_knob (register PannerWidget pw, Boolean knob)
+static void check_knob (PannerWidget pw, Boolean knob)
 {
     Position pad = pw->panner.internal_border * 2;
     Position maxx = (((Position) pw->core.width) - pad -
@@ -335,14 +335,14 @@ static void check_knob (register PannerWidget pw, Boolean knob)
 }
 
 
-static void move_shadow (register PannerWidget pw)
+static void move_shadow (PannerWidget pw)
 {
     if (pw->panner.shadow_thickness > 0) {
 	int lw = pw->panner.shadow_thickness + pw->panner.line_width * 2;
 	int pad = pw->panner.internal_border;
 
 	if ((int)pw->panner.knob_height > lw && (int)pw->panner.knob_width > lw) {
-	    register XRectangle *r = pw->panner.shadow_rects;
+	    XRectangle *r = pw->panner.shadow_rects;
 	    r->x = (short) (pw->panner.knob_x + pad + pw->panner.knob_width);
 	    r->y = (short) (pw->panner.knob_y + pad + lw);
 	    r->width = pw->panner.shadow_thickness;
@@ -445,7 +445,7 @@ static Boolean get_event_xy (PannerWidget pw, XEvent *event, int *x, int *y)
     return FALSE;
 }
 
-static int parse_page_string (register char *s, int pagesize, int canvassize, Boolean *relative)
+static int parse_page_string (char *s, int pagesize, int canvassize, Boolean *relative)
 {
     char *cp;
     double val = 1.0;

@@ -212,8 +212,8 @@ WidgetClass treeWidgetClass = (WidgetClass) &treeClassRec;
 
 static void initialize_dimensions (Dimension **listp, int *sizep, int n)
 {
-    register int i;
-    register Dimension *l;
+    int i;
+    Dimension *l;
 
     if (!*listp) {
 	*listp = (Dimension *) XtCalloc ((unsigned int) n,
@@ -579,7 +579,7 @@ static void Redisplay (TreeWidget tw, XEvent *event, Region region)
 	Window w = XtWindow (tw);
 
 	for (i = 0; i < tw->composite.num_children; i++) {
-	    register Widget child = tw->composite.children[i];
+	    Widget child = tw->composite.children[i];
 	    TreeConstraints tc = TREE_CONSTRAINT(child);
 
 	    /*
@@ -606,7 +606,7 @@ static void Redisplay (TreeWidget tw, XEvent *event, Region region)
 		}
 
 		for (j = 0; j < tc->tree.n_children; j++) {
-		    register Widget k = tc->tree.children[j];
+		    Widget k = tc->tree.children[j];
 		    GC gc = (tc->tree.gc ? tc->tree.gc : tw->tree.gc);
 
 		    switch (tw->tree.gravity) {
@@ -662,7 +662,7 @@ static void Redisplay (TreeWidget tw, XEvent *event, Region region)
 
 static XtGeometryResult QueryGeometry (Widget w, XtWidgetGeometry *intended, XtWidgetGeometry *preferred)
 {
-    register TreeWidget tw = (TreeWidget) w;
+    TreeWidget tw = (TreeWidget) w;
 
     preferred->request_mode = (CWWidth | CWHeight);
     preferred->width = tw->tree.maxwidth;
@@ -695,7 +695,7 @@ static XtGeometryResult QueryGeometry (Widget w, XtWidgetGeometry *intended, XtW
 static void compute_bounding_box_subtree (TreeWidget tree, Widget w, int depth)
 {
     TreeConstraints tc = TREE_CONSTRAINT(w);  /* info attached to all kids */
-    register int i;
+    int i;
     Bool horiz = IsHorizontal (tree);
     Dimension newwidth, newheight;
     Dimension bw2 = w->core.border_width * 2;
@@ -804,7 +804,7 @@ static void arrange_subtree (TreeWidget tree, Widget w, int depth, Position x, P
 {
     TreeConstraints tc = TREE_CONSTRAINT(w);  /* info attached to all kids */
     TreeConstraints firstcc, lastcc;
-    register int i;
+    int i;
     int newx, newy;
     Bool horiz = IsHorizontal (tree);
     Widget child = NULL;

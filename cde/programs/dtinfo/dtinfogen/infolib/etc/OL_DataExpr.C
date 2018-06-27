@@ -168,9 +168,9 @@ extern char *getenv(const char *);
 int
 ol_dataparse()
 {
-    register int ol_datam, ol_datan, ol_datastate;
+    int ol_datam, ol_datan, ol_datastate;
 #if ol_dataDEBUG
-    register char *ol_datas;
+    char *ol_datas;
 
     if ((ol_datas = getenv("ol_dataDEBUG")))
     {

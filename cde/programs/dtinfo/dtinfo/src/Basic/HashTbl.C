@@ -68,7 +68,7 @@ public: // functions
 int
 HashBucket::find (FolioObject &element)
 {
-  register int i;
+  int i;
 
   for (i = 0; i < f_length; i++)
     {
@@ -87,7 +87,7 @@ HashBucket::find (FolioObject &element)
 void
 HashBucket::remove (FolioObject &element)
 {
-  register int i;
+  int i;
 
   for (i = 0; i < f_length; i++)
     {

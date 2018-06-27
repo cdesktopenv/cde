@@ -166,10 +166,10 @@ WidgetClass portholeWidgetClass = (WidgetClass) &portholeClassRec;
  *                                                                           *
  *****************************************************************************/
 
-static Widget find_child (register PortholeWidget pw)
+static Widget find_child (PortholeWidget pw)
 {
-    register Widget *children;
-    register int i;
+    Widget *children;
+    int i;
 
     /*
      * Find the managed child on which we should operate.  Ignore multiple
@@ -251,7 +251,7 @@ static void layout_child (PortholeWidget pw, Widget child,
  *****************************************************************************/
 
 
-static void Realize (register Widget gw, Mask *valueMask, XSetWindowAttributes *attributes)
+static void Realize (Widget gw, Mask *valueMask, XSetWindowAttributes *attributes)
 {
     attributes->bit_gravity = NorthWestGravity;
     *valueMask |= CWBitGravity;
@@ -286,7 +286,7 @@ static void Resize (Widget gw)
 
 static XtGeometryResult QueryGeometry (Widget gw, XtWidgetGeometry *intended, XtWidgetGeometry *preferred)
 {
-    register PortholeWidget pw = (PortholeWidget) gw;
+    PortholeWidget pw = (PortholeWidget) gw;
     Widget child = find_child (pw);
 
     if (child) {

@@ -1883,9 +1883,9 @@ static int input graphics_task_PROTO(( void ));
 
 graphics_task_DECL
     {
-    register graphics_task_state_type graphics_task_current_state;
-    register graphics_task_CHAR *graphics_task_cp, *graphics_task_bp;
-    register int graphics_task_act;
+    graphics_task_state_type graphics_task_current_state;
+    graphics_task_CHAR *graphics_task_cp, *graphics_task_bp;
+    int graphics_task_act;
 
 
 
@@ -2162,9 +2162,9 @@ case graphics_task_STATE_EOF(INITIAL):
 static int graphics_task_get_next_buffer()
 
     {
-    register graphics_task_CHAR *dest = graphics_task_current_buffer->graphics_task_ch_buf;
-    register graphics_task_CHAR *source = graphics_tasktext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+    graphics_task_CHAR *dest = graphics_task_current_buffer->graphics_task_ch_buf;
+    graphics_task_CHAR *source = graphics_tasktext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if ( graphics_task_c_buf_p > &graphics_task_current_buffer->graphics_task_ch_buf[graphics_task_n_chars + 1] )
@@ -2243,10 +2243,10 @@ static int graphics_task_get_next_buffer()
 static graphics_task_state_type graphics_task_get_previous_state()
 
     {
-    register graphics_task_state_type graphics_task_current_state;
-    register graphics_task_CHAR *graphics_task_cp;
+    graphics_task_state_type graphics_task_current_state;
+    graphics_task_CHAR *graphics_task_cp;
 
-    register graphics_task_CHAR *graphics_task_bp = graphics_tasktext;
+    graphics_task_CHAR *graphics_task_bp = graphics_tasktext;
 
     graphics_task_current_state = graphics_task_start;
     if ( graphics_task_bp[-1] == '\n' )
@@ -2278,15 +2278,15 @@ static graphics_task_state_type graphics_task_get_previous_state()
  */
 
 #ifdef graphics_task_USE_PROTOS
-static graphics_task_state_type graphics_task_try_NUL_trans( register graphics_task_state_type graphics_task_current_state )
+static graphics_task_state_type graphics_task_try_NUL_trans( graphics_task_state_type graphics_task_current_state )
 #else
 static graphics_task_state_type graphics_task_try_NUL_trans( graphics_task_current_state )
-register graphics_task_state_type graphics_task_current_state;
+graphics_task_state_type graphics_task_current_state;
 #endif
 
     {
-    register int graphics_task_is_jam;
-    register graphics_task_CHAR *graphics_task_cp = graphics_task_c_buf_p;
+    int graphics_task_is_jam;
+    graphics_task_CHAR *graphics_task_cp = graphics_task_c_buf_p;
 
     graphics_task_current_state = graphics_task_NUL_trans[graphics_task_current_state];
     graphics_task_is_jam = (graphics_task_current_state == 0);
@@ -2306,25 +2306,25 @@ register graphics_task_state_type graphics_task_current_state;
 
 #if 0
 #ifdef graphics_task_USE_PROTOS
-static void graphics_taskunput( graphics_task_CHAR c, register graphics_task_CHAR *graphics_task_bp )
+static void graphics_taskunput( graphics_task_CHAR c, graphics_task_CHAR *graphics_task_bp )
 #else
 static void graphics_taskunput( c, graphics_task_bp )
 graphics_task_CHAR c;
-register graphics_task_CHAR *graphics_task_bp;
+graphics_task_CHAR *graphics_task_bp;
 #endif
 
     {
-    register graphics_task_CHAR *graphics_task_cp = graphics_task_c_buf_p;
+    graphics_task_CHAR *graphics_task_cp = graphics_task_c_buf_p;
 
     /* undo effects of setting up graphics_tasktext */
     *graphics_task_cp = graphics_task_hold_char;
 
     if ( graphics_task_cp < graphics_task_current_buffer->graphics_task_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move = graphics_task_n_chars + 2; /* +2 for EOB chars */
-	register graphics_task_CHAR *dest =
+	int number_to_move = graphics_task_n_chars + 2; /* +2 for EOB chars */
+	graphics_task_CHAR *dest =
 	    &graphics_task_current_buffer->graphics_task_ch_buf[graphics_task_current_buffer->graphics_task_buf_size + 2];
-	register graphics_task_CHAR *source =
+	graphics_task_CHAR *source =
 	    &graphics_task_current_buffer->graphics_task_ch_buf[number_to_move];
 
 	while ( source > graphics_task_current_buffer->graphics_task_ch_buf )

@@ -151,8 +151,8 @@ __bt_get(const DB *dbp, const DBT *key, DBT *data, u_int flags)
 EPG *
 __bt_first(BTREE *t, const DBT *key, int *exactp)
 {
-	register PAGE *h;
-	register EPG *e;
+	PAGE *h;
+	EPG *e;
 	EPG save;
 	pgno_t cpgno, pg;
 	indx_t cindex;

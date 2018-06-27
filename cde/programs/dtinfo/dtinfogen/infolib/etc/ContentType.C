@@ -1768,9 +1768,9 @@ static int input ol_data_PROTO(( void ));
 
 ol_data_DECL
     {
-    register ol_data_state_type ol_data_current_state;
-    register ol_data_CHAR *ol_data_cp, *ol_data_bp;
-    register int ol_data_act;
+    ol_data_state_type ol_data_current_state;
+    ol_data_CHAR *ol_data_cp, *ol_data_bp;
+    int ol_data_act;
 
 
 
@@ -2065,9 +2065,9 @@ case ol_data_STATE_EOF(INITIAL):
 static int ol_data_get_next_buffer()
 
     {
-    register ol_data_CHAR *dest = ol_data_current_buffer->ol_data_ch_buf;
-    register ol_data_CHAR *source = ol_datatext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+    ol_data_CHAR *dest = ol_data_current_buffer->ol_data_ch_buf;
+    ol_data_CHAR *source = ol_datatext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if ( ol_data_c_buf_p > &ol_data_current_buffer->ol_data_ch_buf[ol_data_n_chars + 1] )
@@ -2146,8 +2146,8 @@ static int ol_data_get_next_buffer()
 static ol_data_state_type ol_data_get_previous_state()
 
     {
-    register ol_data_state_type ol_data_current_state;
-    register ol_data_CHAR *ol_data_cp;
+    ol_data_state_type ol_data_current_state;
+    ol_data_CHAR *ol_data_cp;
 
     ol_data_current_state = ol_data_start;
 
@@ -2177,15 +2177,15 @@ static ol_data_state_type ol_data_get_previous_state()
  */
 
 #ifdef ol_data_USE_PROTOS
-static ol_data_state_type ol_data_try_NUL_trans( register ol_data_state_type ol_data_current_state )
+static ol_data_state_type ol_data_try_NUL_trans( ol_data_state_type ol_data_current_state )
 #else
 static ol_data_state_type ol_data_try_NUL_trans( ol_data_current_state )
-register ol_data_state_type ol_data_current_state;
+ol_data_state_type ol_data_current_state;
 #endif
 
     {
-    register int ol_data_is_jam;
-    register ol_data_CHAR *ol_data_cp = ol_data_c_buf_p;
+    int ol_data_is_jam;
+    ol_data_CHAR *ol_data_cp = ol_data_c_buf_p;
 
     ol_data_current_state = ol_data_NUL_trans[ol_data_current_state];
     ol_data_is_jam = (ol_data_current_state == 0);
@@ -2205,25 +2205,25 @@ register ol_data_state_type ol_data_current_state;
 
 #if 0
 #ifdef ol_data_USE_PROTOS
-static void ol_dataunput( ol_data_CHAR c, register ol_data_CHAR *ol_data_bp )
+static void ol_dataunput( ol_data_CHAR c, ol_data_CHAR *ol_data_bp )
 #else
 static void ol_dataunput( c, ol_data_bp )
 ol_data_CHAR c;
-register ol_data_CHAR *ol_data_bp;
+ol_data_CHAR *ol_data_bp;
 #endif
 
     {
-    register ol_data_CHAR *ol_data_cp = ol_data_c_buf_p;
+    ol_data_CHAR *ol_data_cp = ol_data_c_buf_p;
 
     /* undo effects of setting up ol_datatext */
     *ol_data_cp = ol_data_hold_char;
 
     if ( ol_data_cp < ol_data_current_buffer->ol_data_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move = ol_data_n_chars + 2; /* +2 for EOB chars */
-	register ol_data_CHAR *dest =
+	int number_to_move = ol_data_n_chars + 2; /* +2 for EOB chars */
+	ol_data_CHAR *dest =
 	    &ol_data_current_buffer->ol_data_ch_buf[ol_data_current_buffer->ol_data_buf_size + 2];
-	register ol_data_CHAR *source =
+	ol_data_CHAR *source =
 	    &ol_data_current_buffer->ol_data_ch_buf[number_to_move];
 
 	while ( source > ol_data_current_buffer->ol_data_ch_buf )

@@ -159,8 +159,8 @@ static void ClassInitialize(void)
 
 static void ClassPartInitialize(WidgetClass class)
 {
-    register SimpleWidgetClass c = (SimpleWidgetClass)class;
-    register SimpleWidgetClass super = (SimpleWidgetClass) 
+    SimpleWidgetClass c = (SimpleWidgetClass)class;
+    SimpleWidgetClass super = (SimpleWidgetClass)
 	c->core_class.superclass;
 
     if (c->simple_class.change_sensitive == NULL) {
@@ -177,7 +177,7 @@ static void ClassPartInitialize(WidgetClass class)
 	c->simple_class.change_sensitive = super->simple_class.change_sensitive;
 }
 
-static void Realize(register Widget w, Mask *valueMask, XSetWindowAttributes *attributes)
+static void Realize(Widget w, Mask *valueMask, XSetWindowAttributes *attributes)
 {
     Pixmap border_pixmap = 0;
 
@@ -278,7 +278,7 @@ static Boolean SetValues(Widget current, Widget request, Widget new)
 }
 
 
-static Boolean ChangeSensitive(register Widget w)
+static Boolean ChangeSensitive(Widget w)
 {
     if (XtIsRealized(w)) {
 	if (XtIsSensitive(w))

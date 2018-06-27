@@ -2243,9 +2243,9 @@ static int input remote_PROTO(( void ));
 
 remote_DECL
     {
-    register remote_state_type remote_current_state;
-    register remote_CHAR *remote_cp, *remote_bp;
-    register int remote_act;
+    remote_state_type remote_current_state;
+    remote_CHAR *remote_cp, *remote_bp;
+    int remote_act;
 
 
 
@@ -2550,9 +2550,9 @@ case remote_STATE_EOF(OLIDREF_FILE):
 static int remote_get_next_buffer()
 
     {
-    register remote_CHAR *dest = remote_current_buffer->remote_ch_buf;
-    register remote_CHAR *source = remotetext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+    remote_CHAR *dest = remote_current_buffer->remote_ch_buf;
+    remote_CHAR *source = remotetext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if ( remote_c_buf_p > &remote_current_buffer->remote_ch_buf[remote_n_chars + 1] )
@@ -2631,8 +2631,8 @@ static int remote_get_next_buffer()
 static remote_state_type remote_get_previous_state()
 
     {
-    register remote_state_type remote_current_state;
-    register remote_CHAR *remote_cp;
+    remote_state_type remote_current_state;
+    remote_CHAR *remote_cp;
 
     remote_current_state = remote_start;
 
@@ -2662,15 +2662,15 @@ static remote_state_type remote_get_previous_state()
  */
 
 #ifdef remote_USE_PROTOS
-static remote_state_type remote_try_NUL_trans( register remote_state_type remote_current_state )
+static remote_state_type remote_try_NUL_trans( remote_state_type remote_current_state )
 #else
 static remote_state_type remote_try_NUL_trans( remote_current_state )
-register remote_state_type remote_current_state;
+remote_state_type remote_current_state;
 #endif
 
     {
-    register int remote_is_jam;
-    register remote_CHAR *remote_cp = remote_c_buf_p;
+    int remote_is_jam;
+    remote_CHAR *remote_cp = remote_c_buf_p;
 
     remote_current_state = remote_NUL_trans[remote_current_state];
     remote_is_jam = (remote_current_state == 0);
@@ -2690,25 +2690,25 @@ register remote_state_type remote_current_state;
 
 #if 0
 #ifdef remote_USE_PROTOS
-static void remoteunput( remote_CHAR c, register remote_CHAR *remote_bp )
+static void remoteunput( remote_CHAR c, remote_CHAR *remote_bp )
 #else
 static void remoteunput( c, remote_bp )
 remote_CHAR c;
-register remote_CHAR *remote_bp;
+remote_CHAR *remote_bp;
 #endif
 
     {
-    register remote_CHAR *remote_cp = remote_c_buf_p;
+    remote_CHAR *remote_cp = remote_c_buf_p;
 
     /* undo effects of setting up remotetext */
     *remote_cp = remote_hold_char;
 
     if ( remote_cp < remote_current_buffer->remote_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move = remote_n_chars + 2; /* +2 for EOB chars */
-	register remote_CHAR *dest =
+	int number_to_move = remote_n_chars + 2; /* +2 for EOB chars */
+	remote_CHAR *dest =
 	    &remote_current_buffer->remote_ch_buf[remote_current_buffer->remote_buf_size + 2];
-	register remote_CHAR *source =
+	remote_CHAR *source =
 	    &remote_current_buffer->remote_ch_buf[number_to_move];
 
 	while ( source > remote_current_buffer->remote_ch_buf )

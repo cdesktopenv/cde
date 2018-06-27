@@ -76,8 +76,8 @@ string_hash (const char *key)
 {
   assert (key != NULL);
 
-  register u_int pos, sum = 0;
-  register char c;
+  u_int pos, sum = 0;
+  char c;
 
   for (pos = 0; (c = *key++); pos++)
     sum = (sum << 5) + (sum >> (sizeof(int) * 8 - 6))

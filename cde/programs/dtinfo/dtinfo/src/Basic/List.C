@@ -188,7 +188,7 @@ int
 List::find (FolioObject &element)
 {
   /* -------- Search through the list, looking for element. -------- */
-  register int i;
+  int i;
 
   for (i = 0; i < f_length; i++)
     if (f_list_element[i] == &element)

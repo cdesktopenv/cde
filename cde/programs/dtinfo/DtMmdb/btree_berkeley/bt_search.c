@@ -87,9 +87,9 @@ static char sccsid[] = "@(#)bt_search.c	8.1 (Berkeley) 6/4/93";
 EPG *
 __bt_search(BTREE *t, const DBT *key, int *exactp)
 {
-	register indx_t index;
-	register int base, cmp, lim;
-	register PAGE *h;
+	indx_t index;
+	int base, cmp, lim;
+	PAGE *h;
 	pgno_t pg;
 	static EPG e;
 

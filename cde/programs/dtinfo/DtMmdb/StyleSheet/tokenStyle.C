@@ -606,9 +606,9 @@ static int input style_PROTO(( void ));
 
 style_DECL
     {
-    register style_state_type style_current_state;
-    register style_CHAR *style_cp, *style_bp;
-    register int style_act;
+    style_state_type style_current_state;
+    style_CHAR *style_cp, *style_bp;
+    int style_act;
 
 
 
@@ -654,7 +654,7 @@ style_DECL
 style_match:
 	do
 	    {
-	    register style_CHAR style_c = style_ec[*style_cp];
+	    style_CHAR style_c = style_ec[*style_cp];
 	    if ( style_accept[style_current_state] )
 		{
 		style_last_accepting_state = style_current_state;
@@ -1160,9 +1160,9 @@ case style_STATE_EOF(quoted_string):
 static int style_get_next_buffer()
 
     {
-    register style_CHAR *dest = style_current_buffer->style_ch_buf;
-    register style_CHAR *source = styletext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+    style_CHAR *dest = style_current_buffer->style_ch_buf;
+    style_CHAR *source = styletext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if ( style_c_buf_p > &style_current_buffer->style_ch_buf[style_n_chars + 1] )
@@ -1241,10 +1241,10 @@ static int style_get_next_buffer()
 static style_state_type style_get_previous_state()
 
     {
-    register style_state_type style_current_state;
-    register style_CHAR *style_cp;
+    style_state_type style_current_state;
+    style_CHAR *style_cp;
 
-    register style_CHAR *style_bp = styletext;
+    style_CHAR *style_bp = styletext;
 
     style_current_state = style_start;
     if ( style_bp[-1] == '\n' )
@@ -1252,7 +1252,7 @@ static style_state_type style_get_previous_state()
 
     for ( style_cp = styletext + style_MORE_ADJ; style_cp < style_c_buf_p; ++style_cp )
 	{
-	register style_CHAR style_c = (*style_cp ? style_ec[*style_cp] : 1);
+	style_CHAR style_c = (*style_cp ? style_ec[*style_cp] : 1);
 	if ( style_accept[style_current_state] )
 	    {
 	    style_last_accepting_state = style_current_state;
@@ -1278,17 +1278,17 @@ static style_state_type style_get_previous_state()
  */
 
 #ifdef style_USE_PROTOS
-static style_state_type style_try_NUL_trans( register style_state_type style_current_state )
+static style_state_type style_try_NUL_trans( style_state_type style_current_state )
 #else
 static style_state_type style_try_NUL_trans( style_current_state )
-register style_state_type style_current_state;
+style_state_type style_current_state;
 #endif
 
     {
-    register int style_is_jam;
-    register style_CHAR *style_cp = style_c_buf_p;
+    int style_is_jam;
+    style_CHAR *style_cp = style_c_buf_p;
 
-    register style_CHAR style_c = 1;
+    style_CHAR style_c = 1;
     if ( style_accept[style_current_state] )
 	{
 	style_last_accepting_state = style_current_state;
@@ -1309,25 +1309,25 @@ register style_state_type style_current_state;
 
 #if 0
 #ifdef style_USE_PROTOS
-static void styleunput( style_CHAR c, register style_CHAR *style_bp )
+static void styleunput( style_CHAR c, style_CHAR *style_bp )
 #else
 static void styleunput( c, style_bp )
 style_CHAR c;
-register style_CHAR *style_bp;
+style_CHAR *style_bp;
 #endif
 
     {
-    register style_CHAR *style_cp = style_c_buf_p;
+    style_CHAR *style_cp = style_c_buf_p;
 
     /* undo effects of setting up styletext */
     *style_cp = style_hold_char;
 
     if ( style_cp < style_current_buffer->style_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move = style_n_chars + 2; /* +2 for EOB chars */
-	register style_CHAR *dest =
+	int number_to_move = style_n_chars + 2; /* +2 for EOB chars */
+	style_CHAR *dest =
 	    &style_current_buffer->style_ch_buf[style_current_buffer->style_buf_size + 2];
-	register style_CHAR *source =
+	style_CHAR *source =
 	    &style_current_buffer->style_ch_buf[number_to_move];
 
 	while ( source > style_current_buffer->style_ch_buf )

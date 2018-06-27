@@ -210,9 +210,9 @@ extern char *getenv(const char *);
 int
 defParserparse()
 {
-    register int defParserm, defParsern, defParserstate;
+    int defParserm, defParsern, defParserstate;
 #if defParserDEBUG
-    register char *defParsers;
+    char *defParsers;
 
     if (defParsers = getenv("defParserDEBUG"))
     {

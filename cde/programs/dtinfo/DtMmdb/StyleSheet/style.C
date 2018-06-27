@@ -468,9 +468,9 @@ extern char *getenv(const char *);
 int
 styleparse()
 {
-    register int stylem, stylen, stylestate;
+    int stylem, stylen, stylestate;
 #if styleDEBUG
-    register char *styles;
+    char *styles;
 
     if (styles = getenv("styleDEBUG"))
     {

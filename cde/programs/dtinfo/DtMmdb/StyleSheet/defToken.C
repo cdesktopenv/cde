@@ -505,9 +505,9 @@ static int input defParser_PROTO(( void ));
 
 defParser_DECL
     {
-    register defParser_state_type defParser_current_state;
-    register defParser_CHAR *defParser_cp, *defParser_bp;
-    register int defParser_act;
+    defParser_state_type defParser_current_state;
+    defParser_CHAR *defParser_cp, *defParser_bp;
+    int defParser_act;
 
 
 
@@ -553,7 +553,7 @@ defParser_DECL
 defParser_match:
 	do
 	    {
-	    register defParser_CHAR defParser_c = defParser_ec[*defParser_cp];
+	    defParser_CHAR defParser_c = defParser_ec[*defParser_cp];
 	    if ( defParser_accept[defParser_current_state] )
 		{
 		defParser_last_accepting_state = defParser_current_state;
@@ -912,9 +912,9 @@ case defParser_STATE_EOF(quoted_string):
 static int defParser_get_next_buffer()
 
     {
-    register defParser_CHAR *dest = defParser_current_buffer->defParser_ch_buf;
-    register defParser_CHAR *source = defParsertext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+    defParser_CHAR *dest = defParser_current_buffer->defParser_ch_buf;
+    defParser_CHAR *source = defParsertext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if ( defParser_c_buf_p > &defParser_current_buffer->defParser_ch_buf[defParser_n_chars + 1] )
@@ -993,10 +993,10 @@ static int defParser_get_next_buffer()
 static defParser_state_type defParser_get_previous_state()
 
     {
-    register defParser_state_type defParser_current_state;
-    register defParser_CHAR *defParser_cp;
+    defParser_state_type defParser_current_state;
+    defParser_CHAR *defParser_cp;
 
-    register defParser_CHAR *defParser_bp = defParsertext;
+    defParser_CHAR *defParser_bp = defParsertext;
 
     defParser_current_state = defParser_start;
     if ( defParser_bp[-1] == '\n' )
@@ -1004,7 +1004,7 @@ static defParser_state_type defParser_get_previous_state()
 
     for ( defParser_cp = defParsertext + defParser_MORE_ADJ; defParser_cp < defParser_c_buf_p; ++defParser_cp )
 	{
-	register defParser_CHAR defParser_c = (*defParser_cp ? defParser_ec[*defParser_cp] : 1);
+	defParser_CHAR defParser_c = (*defParser_cp ? defParser_ec[*defParser_cp] : 1);
 	if ( defParser_accept[defParser_current_state] )
 	    {
 	    defParser_last_accepting_state = defParser_current_state;
@@ -1030,17 +1030,17 @@ static defParser_state_type defParser_get_previous_state()
  */
 
 #ifdef defParser_USE_PROTOS
-static defParser_state_type defParser_try_NUL_trans( register defParser_state_type defParser_current_state )
+static defParser_state_type defParser_try_NUL_trans( defParser_state_type defParser_current_state )
 #else
 static defParser_state_type defParser_try_NUL_trans( defParser_current_state )
-register defParser_state_type defParser_current_state;
+defParser_state_type defParser_current_state;
 #endif
 
     {
-    register int defParser_is_jam;
-    register defParser_CHAR *defParser_cp = defParser_c_buf_p;
+    int defParser_is_jam;
+    defParser_CHAR *defParser_cp = defParser_c_buf_p;
 
-    register defParser_CHAR defParser_c = 1;
+    defParser_CHAR defParser_c = 1;
     if ( defParser_accept[defParser_current_state] )
 	{
 	defParser_last_accepting_state = defParser_current_state;
@@ -1061,25 +1061,25 @@ register defParser_state_type defParser_current_state;
 
 #if 0
 #ifdef defParser_USE_PROTOS
-static void defParserunput( defParser_CHAR c, register defParser_CHAR *defParser_bp )
+static void defParserunput( defParser_CHAR c, defParser_CHAR *defParser_bp )
 #else
 static void defParserunput( c, defParser_bp )
 defParser_CHAR c;
-register defParser_CHAR *defParser_bp;
+defParser_CHAR *defParser_bp;
 #endif
 
     {
-    register defParser_CHAR *defParser_cp = defParser_c_buf_p;
+    defParser_CHAR *defParser_cp = defParser_c_buf_p;
 
     /* undo effects of setting up defParsertext */
     *defParser_cp = defParser_hold_char;
 
     if ( defParser_cp < defParser_current_buffer->defParser_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move = defParser_n_chars + 2; /* +2 for EOB chars */
-	register defParser_CHAR *dest =
+	int number_to_move = defParser_n_chars + 2; /* +2 for EOB chars */
+	defParser_CHAR *dest =
 	    &defParser_current_buffer->defParser_ch_buf[defParser_current_buffer->defParser_buf_size + 2];
-	register defParser_CHAR *source =
+	defParser_CHAR *source =
 	    &defParser_current_buffer->defParser_ch_buf[number_to_move];
 
 	while ( source > defParser_current_buffer->defParser_ch_buf )

@@ -85,8 +85,8 @@ static char sccsid[] = "@(#)bt_utils.c	8.2 (Berkeley) 9/7/93";
 int
 __bt_ret(BTREE *t, EPG *e, DBT *key, DBT *data)
 {
-	register BLEAF *bl;
-	register void *p;
+	BLEAF *bl;
+	void *p;
 
 	bl = GETBLEAF(e->page, e->index);
 
@@ -217,8 +217,8 @@ __bt_cmp(BTREE *t, const DBT *k1, EPG *e)
 int
 __bt_defcmp(const DBT *a, const DBT *b)
 {
-	register u_char *p1, *p2;
-	register int diff, len;
+	u_char *p1, *p2;
+	int diff, len;
 
 	len = MIN(a->size, b->size);
 	for (p1 = a->data, p2 = b->data; len--; ++p1, ++p2)
@@ -240,8 +240,8 @@ __bt_defcmp(const DBT *a, const DBT *b)
 int
 __bt_defpfx(const DBT *a, const DBT *b)
 {
-	register u_char *p1, *p2;
-	register int len;
+	u_char *p1, *p2;
+	int len;
 	int cnt;
 
 	cnt = 1;

@@ -1760,9 +1760,9 @@ static int input YY_PROTO(( void ));
 
 YY_DECL
     {
-    register yy_state_type yy_current_state;
-    register YY_CHAR *yy_cp, *yy_bp;
-    register int yy_act;
+    yy_state_type yy_current_state;
+    YY_CHAR *yy_cp, *yy_bp;
+    int yy_act;
 
 
 
@@ -2135,9 +2135,9 @@ case YY_STATE_EOF(ProcessData):
 static int yy_get_next_buffer()
 
     {
-    register YY_CHAR *dest = yy_current_buffer->yy_ch_buf;
-    register YY_CHAR *source = yytext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+    YY_CHAR *dest = yy_current_buffer->yy_ch_buf;
+    YY_CHAR *source = yytext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if ( yy_c_buf_p > &yy_current_buffer->yy_ch_buf[yy_n_chars + 1] )
@@ -2216,10 +2216,10 @@ static int yy_get_next_buffer()
 static yy_state_type yy_get_previous_state()
 
     {
-    register yy_state_type yy_current_state;
-    register YY_CHAR *yy_cp;
+    yy_state_type yy_current_state;
+    YY_CHAR *yy_cp;
 
-    register YY_CHAR *yy_bp = yytext;
+    YY_CHAR *yy_bp = yytext;
 
     yy_current_state = yy_start;
     if ( yy_bp[-1] == '\n' )
@@ -2251,15 +2251,15 @@ static yy_state_type yy_get_previous_state()
  */
 
 #ifdef YY_USE_PROTOS
-static yy_state_type yy_try_NUL_trans( register yy_state_type yy_current_state )
+static yy_state_type yy_try_NUL_trans( yy_state_type yy_current_state )
 #else
 static yy_state_type yy_try_NUL_trans( yy_current_state )
-register yy_state_type yy_current_state;
+yy_state_type yy_current_state;
 #endif
 
     {
-    register int yy_is_jam;
-    register YY_CHAR *yy_cp = yy_c_buf_p;
+    int yy_is_jam;
+    YY_CHAR *yy_cp = yy_c_buf_p;
 
     yy_current_state = yy_NUL_trans[yy_current_state];
     yy_is_jam = (yy_current_state == 0);
@@ -2279,25 +2279,25 @@ register yy_state_type yy_current_state;
 
 #if 0
 #ifdef YY_USE_PROTOS
-static void yyunput( YY_CHAR c, register YY_CHAR *yy_bp )
+static void yyunput( YY_CHAR c, YY_CHAR *yy_bp )
 #else
 static void yyunput( c, yy_bp )
 YY_CHAR c;
-register YY_CHAR *yy_bp;
+YY_CHAR *yy_bp;
 #endif
 
     {
-    register YY_CHAR *yy_cp = yy_c_buf_p;
+    YY_CHAR *yy_cp = yy_c_buf_p;
 
     /* undo effects of setting up yytext */
     *yy_cp = yy_hold_char;
 
     if ( yy_cp < yy_current_buffer->yy_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move = yy_n_chars + 2; /* +2 for EOB chars */
-	register YY_CHAR *dest =
+	int number_to_move = yy_n_chars + 2; /* +2 for EOB chars */
+	YY_CHAR *dest =
 	    &yy_current_buffer->yy_ch_buf[yy_current_buffer->yy_buf_size + 2];
-	register YY_CHAR *source =
+	YY_CHAR *source =
 	    &yy_current_buffer->yy_ch_buf[number_to_move];
 
 	while ( source > yy_current_buffer->yy_ch_buf )

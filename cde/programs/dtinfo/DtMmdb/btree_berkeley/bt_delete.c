@@ -296,10 +296,10 @@ done2:	mpool_put(t->bt_mp, h, dirty1);
 int
 __bt_dleaf(BTREE *t, PAGE *h, int index)
 {
-	register BLEAF *bl;
-	register indx_t *ip, offset;
-	register size_t nbytes;
-	register int cnt;
+	BLEAF *bl;
+	indx_t *ip, offset;
+	size_t nbytes;
+	int cnt;
 	char *from;
 	void *to;
 

@@ -3048,9 +3048,9 @@ static int input nodedata_PROTO(( void ));
 
 nodedata_DECL
     {
-    register nodedata_state_type nodedata_current_state;
-    register nodedata_CHAR *nodedata_cp, *nodedata_bp;
-    register int nodedata_act;
+    nodedata_state_type nodedata_current_state;
+    nodedata_CHAR *nodedata_cp, *nodedata_bp;
+    int nodedata_act;
 
 
 
@@ -3381,9 +3381,9 @@ case nodedata_STATE_EOF(XREF):
 static int nodedata_get_next_buffer()
 
     {
-    register nodedata_CHAR *dest = nodedata_current_buffer->nodedata_ch_buf;
-    register nodedata_CHAR *source = nodedatatext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+    nodedata_CHAR *dest = nodedata_current_buffer->nodedata_ch_buf;
+    nodedata_CHAR *source = nodedatatext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if ( nodedata_c_buf_p > &nodedata_current_buffer->nodedata_ch_buf[nodedata_n_chars + 1] )
@@ -3462,8 +3462,8 @@ static int nodedata_get_next_buffer()
 static nodedata_state_type nodedata_get_previous_state()
 
     {
-    register nodedata_state_type nodedata_current_state;
-    register nodedata_CHAR *nodedata_cp;
+    nodedata_state_type nodedata_current_state;
+    nodedata_CHAR *nodedata_cp;
 
     nodedata_current_state = nodedata_start;
 
@@ -3493,15 +3493,15 @@ static nodedata_state_type nodedata_get_previous_state()
  */
 
 #ifdef nodedata_USE_PROTOS
-static nodedata_state_type nodedata_try_NUL_trans( register nodedata_state_type nodedata_current_state )
+static nodedata_state_type nodedata_try_NUL_trans( nodedata_state_type nodedata_current_state )
 #else
 static nodedata_state_type nodedata_try_NUL_trans( nodedata_current_state )
-register nodedata_state_type nodedata_current_state;
+nodedata_state_type nodedata_current_state;
 #endif
 
     {
-    register int nodedata_is_jam;
-    register nodedata_CHAR *nodedata_cp = nodedata_c_buf_p;
+    int nodedata_is_jam;
+    nodedata_CHAR *nodedata_cp = nodedata_c_buf_p;
 
     nodedata_current_state = nodedata_NUL_trans[nodedata_current_state];
     nodedata_is_jam = (nodedata_current_state == 0);
@@ -3521,25 +3521,25 @@ register nodedata_state_type nodedata_current_state;
 
 #if 0
 #ifdef nodedata_USE_PROTOS
-static void nodedataunput( nodedata_CHAR c, register nodedata_CHAR *nodedata_bp )
+static void nodedataunput( nodedata_CHAR c, nodedata_CHAR *nodedata_bp )
 #else
 static void nodedataunput( c, nodedata_bp )
 nodedata_CHAR c;
-register nodedata_CHAR *nodedata_bp;
+nodedata_CHAR *nodedata_bp;
 #endif
 
     {
-    register nodedata_CHAR *nodedata_cp = nodedata_c_buf_p;
+    nodedata_CHAR *nodedata_cp = nodedata_c_buf_p;
 
     /* undo effects of setting up nodedatatext */
     *nodedata_cp = nodedata_hold_char;
 
     if ( nodedata_cp < nodedata_current_buffer->nodedata_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move = nodedata_n_chars + 2; /* +2 for EOB chars */
-	register nodedata_CHAR *dest =
+	int number_to_move = nodedata_n_chars + 2; /* +2 for EOB chars */
+	nodedata_CHAR *dest =
 	    &nodedata_current_buffer->nodedata_ch_buf[nodedata_current_buffer->nodedata_buf_size + 2];
-	register nodedata_CHAR *source =
+	nodedata_CHAR *source =
 	    &nodedata_current_buffer->nodedata_ch_buf[number_to_move];
 
 	while ( source > nodedata_current_buffer->nodedata_ch_buf )

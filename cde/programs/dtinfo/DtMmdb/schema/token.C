@@ -520,9 +520,9 @@ static int input  schema_PROTO(( void ));
 
  schema_DECL
     {
-    register  schema_state_type  schema_current_state;
-    register  schema_CHAR * schema_cp, * schema_bp;
-    register int  schema_act;
+     schema_state_type  schema_current_state;
+     schema_CHAR * schema_cp, * schema_bp;
+    int  schema_act;
 
 
 
@@ -568,7 +568,7 @@ static int input  schema_PROTO(( void ));
  schema_match:
 	do
 	    {
-	    register  schema_CHAR  schema_c =  schema_ec[* schema_cp];
+	     schema_CHAR  schema_c =  schema_ec[* schema_cp];
 	    if (  schema_accept[ schema_current_state] )
 		{
 		 schema_last_accepting_state =  schema_current_state;
@@ -922,9 +922,9 @@ case  schema_STATE_EOF(INITIAL):
 static int  schema_get_next_buffer()
 
     {
-    register  schema_CHAR *dest =  schema_current_buffer-> schema_ch_buf;
-    register  schema_CHAR *source =  schematext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+     schema_CHAR *dest =  schema_current_buffer-> schema_ch_buf;
+     schema_CHAR *source =  schematext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if (  schema_c_buf_p > & schema_current_buffer-> schema_ch_buf[ schema_n_chars + 1] )
@@ -1003,10 +1003,10 @@ static int  schema_get_next_buffer()
 static  schema_state_type  schema_get_previous_state()
 
     {
-    register  schema_state_type  schema_current_state;
-    register  schema_CHAR * schema_cp;
+     schema_state_type  schema_current_state;
+     schema_CHAR * schema_cp;
 
-    register  schema_CHAR * schema_bp =  schematext;
+     schema_CHAR * schema_bp =  schematext;
 
      schema_current_state =  schema_start;
     if (  schema_bp[-1] == '\n' )
@@ -1014,7 +1014,7 @@ static  schema_state_type  schema_get_previous_state()
 
     for (  schema_cp =  schematext +  schema_MORE_ADJ;  schema_cp <  schema_c_buf_p; ++ schema_cp )
 	{
-	register  schema_CHAR  schema_c = (* schema_cp ?  schema_ec[* schema_cp] : 1);
+	 schema_CHAR  schema_c = (* schema_cp ?  schema_ec[* schema_cp] : 1);
 	if (  schema_accept[ schema_current_state] )
 	    {
 	     schema_last_accepting_state =  schema_current_state;
@@ -1040,17 +1040,17 @@ static  schema_state_type  schema_get_previous_state()
  */
 
 #ifdef  schema_USE_PROTOS
-static  schema_state_type  schema_try_NUL_trans( register  schema_state_type  schema_current_state )
+static  schema_state_type  schema_try_NUL_trans(  schema_state_type  schema_current_state )
 #else
 static  schema_state_type  schema_try_NUL_trans(  schema_current_state )
-register  schema_state_type  schema_current_state;
+ schema_state_type  schema_current_state;
 #endif
 
     {
-    register int  schema_is_jam;
-    register  schema_CHAR * schema_cp =  schema_c_buf_p;
+    int  schema_is_jam;
+     schema_CHAR * schema_cp =  schema_c_buf_p;
 
-    register  schema_CHAR  schema_c = 1;
+     schema_CHAR  schema_c = 1;
     if (  schema_accept[ schema_current_state] )
 	{
 	 schema_last_accepting_state =  schema_current_state;
@@ -1071,25 +1071,25 @@ register  schema_state_type  schema_current_state;
 
 #if 0
 #ifdef  schema_USE_PROTOS
-static void  schemaunput(  schema_CHAR c, register  schema_CHAR * schema_bp )
+static void  schemaunput(  schema_CHAR c,  schema_CHAR * schema_bp )
 #else
 static void  schemaunput( c,  schema_bp )
  schema_CHAR c;
-register  schema_CHAR * schema_bp;
+ schema_CHAR * schema_bp;
 #endif
 
     {
-    register  schema_CHAR * schema_cp =  schema_c_buf_p;
+     schema_CHAR * schema_cp =  schema_c_buf_p;
 
     /* undo effects of setting up  schematext */
     * schema_cp =  schema_hold_char;
 
     if (  schema_cp <  schema_current_buffer-> schema_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move =  schema_n_chars + 2; /* +2 for EOB chars */
-	register  schema_CHAR *dest =
+	int number_to_move =  schema_n_chars + 2; /* +2 for EOB chars */
+	 schema_CHAR *dest =
 	    & schema_current_buffer-> schema_ch_buf[ schema_current_buffer-> schema_buf_size + 2];
-	register  schema_CHAR *source =
+	 schema_CHAR *source =
 	    & schema_current_buffer-> schema_ch_buf[number_to_move];
 
 	while ( source >  schema_current_buffer-> schema_ch_buf )

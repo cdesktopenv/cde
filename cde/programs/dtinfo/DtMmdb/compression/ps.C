@@ -435,9 +435,9 @@ static int input ps_PROTO(( void ));
 
 ps_DECL
     {
-    register ps_state_type ps_current_state;
-    register ps_CHAR *ps_cp, *ps_bp;
-    register int ps_act;
+    ps_state_type ps_current_state;
+    ps_CHAR *ps_cp, *ps_bp;
+    int ps_act;
 
 
 
@@ -481,7 +481,7 @@ ps_DECL
 ps_match:
 	do
 	    {
-	    register ps_CHAR ps_c = ps_ec[*ps_cp];
+	    ps_CHAR ps_c = ps_ec[*ps_cp];
 	    if ( ps_accept[ps_current_state] )
 		{
 		ps_last_accepting_state = ps_current_state;
@@ -666,9 +666,9 @@ case ps_STATE_EOF(INITIAL):
 static int ps_get_next_buffer()
 
     {
-    register ps_CHAR *dest = ps_current_buffer->ps_ch_buf;
-    register ps_CHAR *source = pstext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+    ps_CHAR *dest = ps_current_buffer->ps_ch_buf;
+    ps_CHAR *source = pstext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if ( ps_c_buf_p > &ps_current_buffer->ps_ch_buf[ps_n_chars + 1] )
@@ -747,14 +747,14 @@ static int ps_get_next_buffer()
 static ps_state_type ps_get_previous_state()
 
     {
-    register ps_state_type ps_current_state;
-    register ps_CHAR *ps_cp;
+    ps_state_type ps_current_state;
+    ps_CHAR *ps_cp;
 
     ps_current_state = ps_start;
 
     for ( ps_cp = pstext + ps_MORE_ADJ; ps_cp < ps_c_buf_p; ++ps_cp )
 	{
-	register ps_CHAR ps_c = (*ps_cp ? ps_ec[*ps_cp] : 1);
+	ps_CHAR ps_c = (*ps_cp ? ps_ec[*ps_cp] : 1);
 	if ( ps_accept[ps_current_state] )
 	    {
 	    ps_last_accepting_state = ps_current_state;
@@ -780,17 +780,17 @@ static ps_state_type ps_get_previous_state()
  */
 
 #ifdef ps_USE_PROTOS
-static ps_state_type ps_try_NUL_trans( register ps_state_type ps_current_state )
+static ps_state_type ps_try_NUL_trans( ps_state_type ps_current_state )
 #else
 static ps_state_type ps_try_NUL_trans( ps_current_state )
-register ps_state_type ps_current_state;
+ps_state_type ps_current_state;
 #endif
 
     {
-    register int ps_is_jam;
-    register ps_CHAR *ps_cp = ps_c_buf_p;
+    int ps_is_jam;
+    ps_CHAR *ps_cp = ps_c_buf_p;
 
-    register ps_CHAR ps_c = 1;
+    ps_CHAR ps_c = 1;
     if ( ps_accept[ps_current_state] )
 	{
 	ps_last_accepting_state = ps_current_state;
@@ -811,25 +811,25 @@ register ps_state_type ps_current_state;
 
 #if 0
 #ifdef ps_USE_PROTOS
-static void psunput( ps_CHAR c, register ps_CHAR *ps_bp )
+static void psunput( ps_CHAR c, ps_CHAR *ps_bp )
 #else
 static void psunput( c, ps_bp )
 ps_CHAR c;
-register ps_CHAR *ps_bp;
+ps_CHAR *ps_bp;
 #endif
 
     {
-    register ps_CHAR *ps_cp = ps_c_buf_p;
+    ps_CHAR *ps_cp = ps_c_buf_p;
 
     /* undo effects of setting up pstext */
     *ps_cp = ps_hold_char;
 
     if ( ps_cp < ps_current_buffer->ps_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move = ps_n_chars + 2; /* +2 for EOB chars */
-	register ps_CHAR *dest =
+	int number_to_move = ps_n_chars + 2; /* +2 for EOB chars */
+	ps_CHAR *dest =
 	    &ps_current_buffer->ps_ch_buf[ps_current_buffer->ps_buf_size + 2];
-	register ps_CHAR *source =
+	ps_CHAR *source =
 	    &ps_current_buffer->ps_ch_buf[number_to_move];
 
 	while ( source > ps_current_buffer->ps_ch_buf )

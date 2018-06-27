@@ -441,8 +441,8 @@ mpool_write(MPOOL *mp, BKT *b)
 static BKT *
 mpool_look(MPOOL *mp, pgno_t pgno)
 {
-	register BKT *b;
-	register BKTHDR *tb;
+	BKT *b;
+	BKTHDR *tb;
 
 	/* XXX
 	 * If find the buffer, put it first on the hash chain so can

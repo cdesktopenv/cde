@@ -87,9 +87,9 @@ mktemp(char *path)
 }
 
 static int
-_gettemp(char *path, register int *doopen)
+_gettemp(char *path, int *doopen)
 {
-	register char *start, *trv;
+	char *start, *trv;
 	struct stat sbuf;
 	u_int pid;
 

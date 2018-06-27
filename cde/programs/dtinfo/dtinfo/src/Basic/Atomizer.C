@@ -82,7 +82,7 @@ public: // variables
 Atomizer::Atomizer (const char *string)
 {
   // Try to find the string in the pool of strings
-  register unsigned int i;
+  unsigned int i;
 
   for (i = 0; i < f_pool.length(); i++)
     if (((PoolString *)f_pool[i])->equals (string))

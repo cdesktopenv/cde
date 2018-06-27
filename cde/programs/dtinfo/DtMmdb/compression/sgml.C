@@ -441,9 +441,9 @@ static int input sgml_PROTO(( void ));
 
 sgml_DECL
     {
-    register sgml_state_type sgml_current_state;
-    register sgml_CHAR *sgml_cp, *sgml_bp;
-    register int sgml_act;
+    sgml_state_type sgml_current_state;
+    sgml_CHAR *sgml_cp, *sgml_bp;
+    int sgml_act;
 
 
 
@@ -487,7 +487,7 @@ sgml_DECL
 sgml_match:
 	do
 	    {
-	    register sgml_CHAR sgml_c = sgml_ec[*sgml_cp];
+	    sgml_CHAR sgml_c = sgml_ec[*sgml_cp];
 	    if ( sgml_accept[sgml_current_state] )
 		{
 		sgml_last_accepting_state = sgml_current_state;
@@ -677,9 +677,9 @@ case sgml_STATE_EOF(INITIAL):
 static int sgml_get_next_buffer()
 
     {
-    register sgml_CHAR *dest = sgml_current_buffer->sgml_ch_buf;
-    register sgml_CHAR *source = sgmltext - 1; /* copy prev. char, too */
-    register int number_to_move, i;
+    sgml_CHAR *dest = sgml_current_buffer->sgml_ch_buf;
+    sgml_CHAR *source = sgmltext - 1; /* copy prev. char, too */
+    int number_to_move, i;
     int ret_val;
 
     if ( sgml_c_buf_p > &sgml_current_buffer->sgml_ch_buf[sgml_n_chars + 1] )
@@ -758,14 +758,14 @@ static int sgml_get_next_buffer()
 static sgml_state_type sgml_get_previous_state()
 
     {
-    register sgml_state_type sgml_current_state;
-    register sgml_CHAR *sgml_cp;
+    sgml_state_type sgml_current_state;
+    sgml_CHAR *sgml_cp;
 
     sgml_current_state = sgml_start;
 
     for ( sgml_cp = sgmltext + sgml_MORE_ADJ; sgml_cp < sgml_c_buf_p; ++sgml_cp )
 	{
-	register sgml_CHAR sgml_c = (*sgml_cp ? sgml_ec[*sgml_cp] : 1);
+	sgml_CHAR sgml_c = (*sgml_cp ? sgml_ec[*sgml_cp] : 1);
 	if ( sgml_accept[sgml_current_state] )
 	    {
 	    sgml_last_accepting_state = sgml_current_state;
@@ -791,17 +791,17 @@ static sgml_state_type sgml_get_previous_state()
  */
 
 #ifdef sgml_USE_PROTOS
-static sgml_state_type sgml_try_NUL_trans( register sgml_state_type sgml_current_state )
+static sgml_state_type sgml_try_NUL_trans( sgml_state_type sgml_current_state )
 #else
 static sgml_state_type sgml_try_NUL_trans( sgml_current_state )
-register sgml_state_type sgml_current_state;
+sgml_state_type sgml_current_state;
 #endif
 
     {
-    register int sgml_is_jam;
-    register sgml_CHAR *sgml_cp = sgml_c_buf_p;
+    int sgml_is_jam;
+    sgml_CHAR *sgml_cp = sgml_c_buf_p;
 
-    register sgml_CHAR sgml_c = 1;
+    sgml_CHAR sgml_c = 1;
     if ( sgml_accept[sgml_current_state] )
 	{
 	sgml_last_accepting_state = sgml_current_state;
@@ -822,25 +822,25 @@ register sgml_state_type sgml_current_state;
 
 #if 0
 #ifdef sgml_USE_PROTOS
-static void sgmlunput( sgml_CHAR c, register sgml_CHAR *sgml_bp )
+static void sgmlunput( sgml_CHAR c, sgml_CHAR *sgml_bp )
 #else
 static void sgmlunput( c, sgml_bp )
 sgml_CHAR c;
-register sgml_CHAR *sgml_bp;
+sgml_CHAR *sgml_bp;
 #endif
 
     {
-    register sgml_CHAR *sgml_cp = sgml_c_buf_p;
+    sgml_CHAR *sgml_cp = sgml_c_buf_p;
 
     /* undo effects of setting up sgmltext */
     *sgml_cp = sgml_hold_char;
 
     if ( sgml_cp < sgml_current_buffer->sgml_ch_buf + 2 )
 	{ /* need to shift things up to make room */
-	register int number_to_move = sgml_n_chars + 2; /* +2 for EOB chars */
-	register sgml_CHAR *dest =
+	int number_to_move = sgml_n_chars + 2; /* +2 for EOB chars */
+	sgml_CHAR *dest =
 	    &sgml_current_buffer->sgml_ch_buf[sgml_current_buffer->sgml_buf_size + 2];
-	register sgml_CHAR *source =
+	sgml_CHAR *source =
 	    &sgml_current_buffer->sgml_ch_buf[number_to_move];
 
 	while ( source > sgml_current_buffer->sgml_ch_buf )

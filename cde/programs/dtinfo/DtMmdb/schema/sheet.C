@@ -350,9 +350,9 @@ extern char *getenv(const char *);
 int
  schemaparse()
 {
-    register int  schemam,  scheman,  schemastate;
+    int  schemam,  scheman,  schemastate;
 #if  schemaDEBUG
-    register char * schemas;
+    char * schemas;
 
     if ( schemas = getenv(" schemaDEBUG"))
     {
