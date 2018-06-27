@@ -365,7 +365,7 @@ static Widget
 build_dtwmDlg(
         Widget shell )
 {
-    register int     i, n;
+    int     i, n;
     Arg              args[MAX_ARGS];
     XmString         button_string[NUM_LABELS]; 
     XmString         string; 

@@ -195,7 +195,7 @@ static Widget
 BuildStartup(
         Widget shell )
 {
-  register int     n;
+  int     n;
   Arg              args[MAX_ARGS];
   XmString         button_string[NUM_LABELS]; 
   XmString         string;

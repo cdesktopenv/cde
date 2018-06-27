@@ -215,7 +215,7 @@ static void
 CreateColorEditor(
         Widget parent )
 {
-	register int     n,i;
+	int     n,i;
 	Arg              args[MAX_ARGS];
         Widget           sampleTB;
         Widget           sampleForm;
@@ -589,7 +589,7 @@ sliderLayoutCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-	register int     n;
+	int     n;
 	Arg              args[12];
         Dimension        redLabelWidth;
         Dimension        greenLabelWidth;
@@ -834,7 +834,7 @@ sliderLayoutCB(
 static void 
 InitializeNewButton( void )
 {
-	register int     n;
+	int     n;
 	Arg              args[6];
 
         n=0;
@@ -862,7 +862,7 @@ InitializeNewButton( void )
 static void 
 InitializeOldButton( void )
 {
-    register int     i,n, numOfPixels;
+    int     i,n, numOfPixels;
     unsigned long    *pixels;
     unsigned long    plane_mask;
     int              hue, val, sat, status;

@@ -270,7 +270,7 @@ popup_mouseBB( Widget shell )
 static Widget 
 build_mouseDialog( Widget shell )
 {
-    register int     i, n;
+    int     i, n;
     Arg              args[MAX_ARGS];
     int              nmap;
     XmString         button_string[NUM_LABELS]; 
@@ -1040,7 +1040,7 @@ dclickTestCB(
         XtPointer call_data )
 {
     Arg  color[3], args[10];       /*  arg list            */
-    register int    n;             /*  arg count           */
+    int    n;             /*  arg count           */
     XmPushButtonCallbackStruct *cb = (XmPushButtonCallbackStruct *)call_data;
     static int selectstate = False;
 
@@ -1105,7 +1105,7 @@ warnToggleCB(
         XtPointer call_data )
 {
   
-  register int     n;
+  int     n;
   Arg              args[10];
   XmString         string;
   Boolean          set;
@@ -1161,7 +1161,7 @@ midwarnToggleCB(
         XtPointer call_data )
 {
   
-  register int     n;
+  int     n;
   Arg              args[10];
   XmString         warnstring;
   Boolean          set;
@@ -1225,7 +1225,7 @@ cancelWarnCB(
         XtPointer call_data )
 {
 
-  register int     n;
+  int     n;
   Arg              args[10];
   XmString         string;
   
@@ -1254,7 +1254,7 @@ midcancelWarnCB(
         XtPointer call_data )
 {
 
-  register int     n;
+  int     n;
   Arg              args[10];
   XmString         string;
   
@@ -1281,7 +1281,7 @@ reverseToggleCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-  register int     n;
+  int     n;
   int              i, j;
   Arg              args[MAX_ARGS];
   Boolean          set;
@@ -1365,7 +1365,7 @@ midreverseToggleCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    register int     n;
+    int     n;
     int              i, j;
     Arg              args[MAX_ARGS];
     Boolean          set;

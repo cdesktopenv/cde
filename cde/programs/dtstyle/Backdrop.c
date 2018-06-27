@@ -196,7 +196,7 @@ build_dirList(char * dirStr,
    char tokenSep[] = ":";
    char * token;
    char ** dirList = NULL;
-   register int i = 0;
+   int i = 0;
    char * tmpStr;
    int len = strlen(dirStr);
    *count = 0;
@@ -243,7 +243,7 @@ free_dirList(char ** dirList,
 		    int count)
 
 {
-  register int   i;
+  int   i;
 
   if (dirList == NULL)
     return;
@@ -332,7 +332,7 @@ static int
 CreateBackdropDialog(
         Widget parent )
 {
-    register int     i, n;
+    int     i, n;
     Arg              args[20];
     Widget           mainForm;
     Widget           list;
@@ -565,7 +565,7 @@ static
   int            width, height, x, y;
   Window         win;
   int            num;
-  register int   i;   
+  int   i;
   char          *string;
   /* allocate space for temporary bitmap info */
   backdrops.tmpBitmapNames = (char **)XtCalloc(100, sizeof(char *));

@@ -157,7 +157,7 @@ static Widget
 build_keyboardDlg(
         Widget shell )
 {
-    register int     i, n;
+    int     i, n;
     Arg              args[MAX_ARGS];
     Widget           widget_list[12]; 
     int              count = 0;

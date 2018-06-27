@@ -272,7 +272,7 @@ build_saverList(char * str,
    char tokenSep[] = " ";
    char * token;
    char ** saverList = NULL;
-   register int i = 0;
+   int i = 0;
    char * tmpStr, *tmpStr2;
    int len = strlen(str);
    
@@ -335,7 +335,7 @@ build_selsaverList(char * envStr,
    char tokenSep[] = " ";
    char * token;
    char ** saverList = NULL;
-   register int i = 0;
+   int i = 0;
    char * tmpStr;
    int len = strlen(envStr);
    *count = 0;
@@ -416,7 +416,7 @@ build_selectedList(char ** saverList,
 {
 
    char * selectedList = NULL;
-   register int i = 0;
+   int i = 0;
    char * tmpStr;
    int len = 0;
    int tmplen = 0;
@@ -450,7 +450,7 @@ free_saverList(char ** saverList,
 		    int count)
 
 {
-  register int   i;
+  int   i;
 
   if (saverList == NULL)
     return;
@@ -489,7 +489,7 @@ static Widget
 build_screenDialog(
         Widget shell )
 {
-    register int     i, m, n;
+    int     i, m, n;
     Arg              args[MAX_ARGS];
     Widget           form;
     Boolean          sel_matched = False;
@@ -1059,7 +1059,7 @@ formLayoutCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    register int     n;
+    int     n;
     Arg              args[MAX_ARGS];
     Dimension        ScaleHeight;
     Dimension        LabelHeight;
@@ -1329,7 +1329,7 @@ no_svr_ext_formLayoutCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-  register int     n;
+  int     n;
   Arg              args[MAX_ARGS];
   Dimension        ScaleHeight;
   Dimension        LabelHeight;
@@ -1543,7 +1543,7 @@ _DtmapCB_screenDialog(
         XtPointer call_data )
 {
   static int    first_time = 1;
-  register int  n;
+  int  n;
   Arg           args[MAX_ARGS];
   XmString      string;
   Boolean       lock_on, saver_on;  
@@ -1800,7 +1800,7 @@ no_svr_ext_DtmapCB_screenDialog(
         XtPointer call_data )
 {
   static int    first_time = 1;
-  register int  n;
+  int  n;
   Arg           args[MAX_ARGS];
   XmString      string;
   int           mintime;
@@ -1941,7 +1941,7 @@ timeOutvalueChangedCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    register int     n;
+    int     n;
     Arg              args[MAX_ARGS];
 
     n=0;
@@ -1979,7 +1979,7 @@ no_svr_ext_timeOutvalueChangedCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    register int     n;
+    int     n;
     Arg              args[MAX_ARGS];
 
     n=0;
@@ -2004,7 +2004,7 @@ saverToggleCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-  register int     n;
+  int     n;
   Arg              args[MAX_ARGS];
   Boolean          set;
   XmString string;
@@ -2118,7 +2118,7 @@ no_svr_ext_saverToggleCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    register int     n;
+    int     n;
     Arg              args[MAX_ARGS];
     Boolean          set;
     XmString string;
@@ -2173,7 +2173,7 @@ lockToggleCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    register int     n;
+    int     n;
     Arg              args[MAX_ARGS];
     Boolean          set;
     XmToggleButtonCallbackStruct *cb = (XmToggleButtonCallbackStruct *)call_data;
@@ -2239,7 +2239,7 @@ saversToggleCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-  register int     n;
+  int     n;
   Arg              args[MAX_ARGS];
   Boolean          set;
   XmString string;
@@ -2321,7 +2321,7 @@ systemDefaultCB(
 		XtPointer client_data,
 		XtPointer call_data )
 {
-  register int  n;
+  int  n;
   Arg           args[MAX_ARGS];
   
   screen.saverTimeout = SAVER_DEFAULT;
@@ -2357,7 +2357,7 @@ no_svr_ext_systemDefaultCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-  register int  n;
+  int  n;
   Arg           args[MAX_ARGS];
 
   screen.saverTimeout = SAVER_DEFAULT;
@@ -2391,7 +2391,7 @@ ButtonCB(
 	 XtPointer client_data,
 	 XtPointer call_data )
 {
-  register int        i, n, m;
+  int        i, n, m;
   Arg                 args[MAX_ARGS];
   Boolean             sel_matched = False;
   Boolean             lockset;
@@ -2608,7 +2608,7 @@ no_svr_ext_ButtonCB(
 		     XtPointer client_data,
 		     XtPointer call_data )
 {
-  register int        i, n, m;
+  int        i, n, m;
   Arg                 args[MAX_ARGS];
   Boolean             sel_matched = False;
   Boolean             saverset;
@@ -2927,7 +2927,7 @@ saveScreen(
 static XmString * 
 MakeListStrings( char ** list )
 {
-    register int   i;
+    int   i;
     XmString      *xmList;
     
     xmList = (XmString *) XtMalloc(savers.saverCount * sizeof(XmString));
@@ -2973,7 +2973,7 @@ ListCB(
         XtPointer call_data )
 {
   XmListCallbackStruct  *cb = (XmListCallbackStruct *)call_data;
-  register int           i;
+  int           i;
   Boolean                runsaver = False;
   XmString               string;
 

@@ -164,7 +164,7 @@ CreateFontDlg(
         Widget parent )
 {
 
-    register int     n;
+    int     n;
     int              i;
     Arg              args[MAX_ARGS];
     Widget           appTBox;

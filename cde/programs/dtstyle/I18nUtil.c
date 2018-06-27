@@ -128,7 +128,7 @@ trim_line(
      char *ptr
 )
 {
-    register char	*lastp;
+    char	*lastp;
 
     skip_white(ptr);
     for (lastp = ptr + strlen(ptr) - 1;

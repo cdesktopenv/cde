@@ -385,7 +385,7 @@ void
 Customize(
         Widget shell )
 {
-    register int     i;
+    int     i;
 
     /*  
     **  Main routine does the following:
@@ -501,7 +501,7 @@ void
 CreatePaletteButtons(
         Widget parent )
 {
-    register int     i,n;
+    int     i,n;
     Arg              args[16];
     XmString         string;
     Pixmap           pixmap100;
@@ -630,7 +630,7 @@ InitializePaletteList(
         Boolean startup )
 #endif
 {
-  register int     n;
+  int     n;
   Arg              args[4];
   XmString         string;
   XmStringTable    string_table;
@@ -834,7 +834,7 @@ selectPaletteCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    register int     n;
+    int     n;
     Arg              args[10];
     XmListCallbackStruct *cb = (XmListCallbackStruct *)call_data;
     palette         *tmp_palette;
@@ -1058,7 +1058,7 @@ timeoutCB(
         XtPointer client_data,
         XtIntervalId *id )
 {
-    register int     n;
+    int     n;
     intptr_t         i;
     Arg              args[2];
 	Pixel	bg_pixel;
@@ -1095,7 +1095,7 @@ addPaletteCB(
         XtPointer call_data )
 {
 
-    register int     n;
+    int     n;
     Arg              args[10];
     XmString         string;
     XmString         string1;
@@ -1158,7 +1158,7 @@ addOkCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-  register int     n, i;
+  int     n, i;
   Arg              args[6];
   XmString         string;
   char             *name, *filename, *tmpstr;
@@ -1499,7 +1499,7 @@ deletePaletteCB(
         XtPointer client_data,
         XtPointer call_data )
 {
-    register int     n;
+    int     n;
     Arg              args[10];
     char            *tmpStr;
     palette         *tmp_palette;
@@ -1591,7 +1591,7 @@ resourcesCB(
         XtPointer call_data )
 {
 
-    register int     n;
+    int     n;
     Arg              args[12];
     XmString         button_string[NUM_LABELS]; 
     XmString	     string;
@@ -1983,7 +1983,7 @@ void
 DeletePaletteFromLinkList(
         Widget list )
 {
-    register int n;
+    int n;
     Arg args[2];
     int i;
     XmString        string; 
@@ -2670,7 +2670,7 @@ CreateDialogBoxD(
 void 
 AddToDialogBox( void )
 {
-    register int     n;
+    int     n;
     Arg              args[3];
 
    if(style.count > 1)
@@ -2701,7 +2701,7 @@ AddToDialogBox( void )
 void 
 CreateTopColor1( void )
 {
-    register int     n;
+    int     n;
     Arg              args[6];
     XmString         string; 
 
@@ -2737,7 +2737,7 @@ CreateTopColor1( void )
 void 
 CreateTopColor2( void )
 {
-    register int     n;
+    int     n;
     Arg              args[8];
 
     if(style.count > 3)
@@ -2770,7 +2770,7 @@ CreateTopColor2( void )
 void 
 CreateBottomColor( void )
 {
-    register int     n;
+    int     n;
     Arg              args[12];
     XmString         string; 
     Widget           addDeleteForm;

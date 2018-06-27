@@ -137,7 +137,7 @@ AllocatePaletteCells(
 int 
 ReColorPalette( void )
 {
-    register int     n;
+    int     n;
     Arg              args[MAX_ARGS];
     int              i;
     int              j=0;
