@@ -874,7 +874,7 @@ verify_passwd()
 static int
 quotec(void)
 {
-	register int c, i, num;
+	int c, i, num;
 
 	switch (c = getc(stdin)) {
 
@@ -936,8 +936,8 @@ getargs(char *in_line)
 {
 	static char envbuf[MAXLINE];
 	static char *args[MAXARGS];
-	register char *ptr, **answer;
-	register int c;
+	char *ptr, **answer;
+	int c;
 	int state;
 
 	for (ptr = envbuf; ptr < &envbuf[sizeof (envbuf)]; /* cstyle */)
@@ -1103,7 +1103,7 @@ static char *illegal[] = {
 static int
 legalenvvar(char *s)
 {
-	register char **p;
+	char **p;
 
 	for (p = illegal; *p; p++)
 		if (strncmp(s, *p, strlen(*p)) == 0)
@@ -1177,8 +1177,8 @@ static void
 defaults(void)
 {
 	extern int defcntl();
-	register int  flags;
-	register char *ptr;
+	int  flags;
+	char *ptr;
 
 	if (defopen(Pndefault) == 0) {
 		/*
@@ -1378,7 +1378,7 @@ static void
 doremoteterm(char *term)
 {
 	struct termios tp;
-	register char *cp = strchr(term, '/'), **cpp;
+	char *cp = strchr(term, '/'), **cpp;
 	char *speed;
 
 	(void) ioctl(0, TCGETS, &tp);
