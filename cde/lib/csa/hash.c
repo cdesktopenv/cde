@@ -136,8 +136,8 @@ void * _DtCmMakeHash(int size)
 void ** _DtCmGetHash(void * t, const unsigned char * key)
 {	
   hash * tbl = (hash *) t;
-  register int bucket;
-  register hash_entry * tmp;
+  int bucket;
+  hash_entry * tmp;
   hash_entry * new;
 
   if(tbl->hash_type == String_Key)
@@ -184,8 +184,8 @@ void ** _DtCmGetHash(void * t, const unsigned char * key)
 
 void ** _DtCmFindHash(void * t, const unsigned char * key)
 {
-  register hash * tbl = (hash *) t;
-  register hash_entry * tmp;
+  hash * tbl = (hash *) t;
+  hash_entry * tmp;
 
   if(tbl->hash_type == String_Key)
     {
@@ -208,7 +208,7 @@ void ** _DtCmFindHash(void * t, const unsigned char * key)
 void _DtCmDestroyHash(void * t, int (*ptr)(), void * usr_arg)
 {
   hash * tbl = (hash *) t;
-  register hash_entry * tmp = tbl->start, * prev;
+  hash_entry * tmp = tbl->start, * prev;
 
   while(tmp)
     {
@@ -227,8 +227,8 @@ void _DtCmDestroyHash(void * t, int (*ptr)(), void * usr_arg)
 
 static int hash_string(char *s, int modulo)
 {
-	register unsigned result = 0;
-	register int i=1;
+	unsigned result = 0;
+	int i=1;
 
  	while(*s!=0)
 	  result += (*s++ << i++);
