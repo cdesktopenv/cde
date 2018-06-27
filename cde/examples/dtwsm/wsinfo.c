@@ -83,8 +83,8 @@ void main (argc,argv)
     Widget  top;
     XtAppContext app_context;
     Arg	args[10];
-    register int n;
-    register int i;
+    int n;
+    int i;
     XmString xms, xmsBlank;
 
     /*  
@@ -442,7 +442,7 @@ void main (argc,argv)
 static void ShowCurrentWorkspaceInfo ()
 {
     Arg	args[10]; /*  arg list		*/
-    register int n;	/*  arg count		*/
+    int n;	/*  arg count		*/
     Atom aWs;
     int rval;
     Display *dpy;
