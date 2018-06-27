@@ -897,8 +897,8 @@ void
 TblTStart(Element_t * ep,
 	  FILE * fP)
 {
-	register char * cp;
-	register struct Element_t * ep2;
+	char * cp;
+	struct Element_t * ep2;
 
 
 
@@ -928,7 +928,7 @@ void
 TblTEnd(Element_t * ep,
 	FILE * fP)
 {
-	register struct tblformat * ffp, * ffp2;
+	struct tblformat * ffp, * ffp2;
 
 
 	if ( tblBOFTCount > 31 )	{
@@ -971,11 +971,11 @@ void
 TblTGroup(Element_t * ep,
 	  FILE * fP)
 {
-	register int i, j, k;
-	register char * cp, * cp2;
-	register Element_t * ep2, ep3;
-	register struct tblcolspec * tcsp, * tcsp2;
-	register struct tblspanspec * tssp, * tssp2;
+	int i, j, k;
+	char * cp, * cp2;
+	Element_t * ep2, ep3;
+	struct tblcolspec * tcsp, * tcsp2;
+	struct tblspanspec * tssp, * tssp2;
 
 
 	tblColSpec = 0;		/* make sure they're clear */
@@ -1116,8 +1116,8 @@ void
 TblTGroupEnd(Element_t * ep,
 	      FILE * fP)
 {
-	register struct tblcolspec * tcsp, * tcsp2;
-	register struct tblspanspec * tssp, * tssp2;
+	struct tblcolspec * tcsp, * tcsp2;
+	struct tblspanspec * tssp, * tssp2;
 
 
 	for ( tcsp=tblColSpec;  tcsp;  tcsp=tcsp2 )	{
@@ -1147,7 +1147,7 @@ void
 TblTFoot(Element_t * ep,
 	 FILE * fP)
 {
-	register struct tblformat * ffp, * ffp2;
+	struct tblformat * ffp, * ffp2;
 	static struct tblformat * tfp, * tfp2;
 
 
@@ -1184,9 +1184,9 @@ TblBuildFormat(Element_t * ep,		/* parent of rows.. */
 	       				 * building */
 	       tblsource source)	/* type of record */
 {
-	register int i;
-	register struct tblformat * lfp; /* "current" format */
-	register struct tblformat * nfp; /* the next format */
+	int i;
+	struct tblformat * lfp; /* "current" format */
+	struct tblformat * nfp; /* the next format */
 
 
 	for ( lfp= *fp;  lfp && lfp->next;  lfp=lfp->next )
@@ -1225,11 +1225,11 @@ TblBuild1Format(Element_t * rp,		/* the row to deal with */
 		bool addinRowsep,	/* insert rowsep into model? */
 		tblsource source)	/* type type of row */
 {
-	register int i;
-	register bool allProp;
+	int i;
+	bool allProp;
 	float totalProp;
-	register struct tblformat * tfp;
-	register Element_t * ep;	/* entry pointer */
+	struct tblformat * tfp;
+	Element_t * ep;	/* entry pointer */
 
 
 	Calloc(1, tfp, struct tblformat);
@@ -1279,9 +1279,9 @@ TblGetAlign(short col,			/* column number */
 	    Element_t * entry,		/* the entry */
 	    tblsource	source)		/* context */
 {
-	register struct tblcolspec * tcsp;
-	register struct tblspanspec * tssp;
-	register tblalign talign;
+	struct tblcolspec * tcsp;
+	struct tblspanspec * tssp;
+	tblalign talign;
 
 
 	if ( entry && (tssp = TblEntrySpanSpec(col, entry, source)) )	{
@@ -1316,8 +1316,8 @@ TblGetWidth(short col,			/* column number */
 	    bool	literal,	/* literal (or proportional) */
 	    tblsource	source)		/* context */
 {
-	register struct tblcolspec * tcsp;
-	register struct tblspanspec * tssp;
+	struct tblcolspec * tcsp;
+	struct tblspanspec * tssp;
 	static char colWidth[10];
 
 
@@ -1350,8 +1350,8 @@ TblGetFont(short col,			/* column number */
 	   Element_t * entry,		/* the entry */
 	   tblsource source)		/* context */
 {
-	register struct tblcolspec * tcsp;
-	register struct tblspanspec * tssp;
+	struct tblcolspec * tcsp;
+	struct tblspanspec * tssp;
 
 
 	return "";
@@ -1367,9 +1367,9 @@ TblGetColSep(short col,			/* column number */
 	     Element_t * entry,		/* the entry */
 	     tblsource	source)		/* context */
 {
-	register struct tblcolspec * tcsp;
-	register struct tblspanspec * tssp;
-	register bool colsep;
+	struct tblcolspec * tcsp;
+	struct tblspanspec * tssp;
+	bool colsep;
 
 
 	if ( entry && (tssp = TblEntrySpanSpec(col, entry, source)) )	{
@@ -1395,9 +1395,9 @@ TblGetRowSep(short col,			/* column number */
 	     Element_t * entry,		/* the entry */
 	     tblsource	source)		/* context */
 {
-	register struct tblcolspec * tcsp;
-	register struct tblspanspec * tssp;
-	register bool rowsep;
+	struct tblcolspec * tcsp;
+	struct tblspanspec * tssp;
+	bool rowsep;
 
 	if ( entry && (tssp = TblEntrySpanSpec(col, entry, source)) )	{
 		rowsep = tssp->rowsep;
@@ -1423,7 +1423,7 @@ TblGetMoreRows(short col,		/* column number */
 	       Element_t * entry,	/* the entry */
 	       tblsource	source)	/* context */
 {
-	register char * cp;
+	char * cp;
 
 
 	if ( cp = FindAttValByName(entry, "MOREROWS") )
@@ -1443,8 +1443,8 @@ TblColAdv(short col,		/* the current column */
 	  struct tblformat * tfp, /* pointer to prevailing format */
 	  tblsource source)	/* context */
 {
-	register bool bump;
-	register struct tblspanspec * tssp;
+	bool bump;
+	struct tblspanspec * tssp;
 
 
 	bump = TRUE;
@@ -1467,10 +1467,10 @@ TblEntryColSpec(short num,		/* column number */
 		Element_t * ep,		/* entry */
 		tblsource source)	/* context */
 {
-	register int i;
-	register bool throwAway;
-	register char * cp;
-	register struct tblcolspec * tcsp, * tcsp2;
+	int i;
+	bool throwAway;
+	char * cp;
+	struct tblcolspec * tcsp, * tcsp2;
 
 
 	tcsp = tcsp2 = 0;
@@ -1505,8 +1505,8 @@ TblEntrySpanSpec(short num,		/* column number */
 		 Element_t * ep,	/* entry */
 		 tblsource source)	/* context */
 {
-	register char * cp, * cp2;
-	register struct tblspanspec * tssp, * tssp2;
+	char * cp, * cp2;
+	struct tblspanspec * tssp, * tssp2;
 
 
 	tssp2 = 0;
@@ -1537,7 +1537,7 @@ bool
 TblFormatMatch(struct tblformat * tf1,	/* one row */
 	       struct tblformat * tf2)	/* the other */
 {
-	register int i;
+	int i;
 
 	if ( tf1->cols != tf2->cols )	{
 		return FALSE;
@@ -1577,8 +1577,8 @@ void
 TblPrintFormat(FILE * fP,		/* where to print */
 	       struct tblformat * tfp)	/* the structure */
 {
-	register int i;
-	register struct tblformat * tfp2, * tfp3;
+	int i;
+	struct tblformat * tfp2, * tfp3;
 	static char buf[3] = "\000\000";
 
 
@@ -1645,10 +1645,10 @@ void
 TblTRowEnd(Element_t * ep,
 	   FILE * fP)
 {
-	register int i, k;
-	register tblsource source;
-	register bool startedRow, didSep;
-	register struct tblformat * rfp;
+	int i, k;
+	tblsource source;
+	bool startedRow, didSep;
+	struct tblformat * rfp;
 
 
 	OutputString("^", fP, 1);
@@ -1706,9 +1706,9 @@ void
 TblTCellStart(Element_t * ep,
 	      FILE * fP)
 {
-	register int i;
-	register Element_t * ep2;
-	register bool sawPIorPara;
+	int i;
+	Element_t * ep2;
+	bool sawPIorPara;
 
 
 	for ( i=0, sawPIorPara=FALSE;  i < ep->ncont;  i++ )	{
@@ -1738,8 +1738,8 @@ TblTCellStart(Element_t * ep,
 int
 TblCountContent(Element_t * ep)		/* the element to look under */
 {
-	register int i, count;
-	register char * cp;
+	int i, count;
+	char * cp;
 
 
 	count = 0;
@@ -1773,7 +1773,7 @@ void
 TblTCellEnd(Element_t * ep,
 	    FILE * fP)
 {
-	register Element_t * ep2;
+	Element_t * ep2;
 
 
 	if ( tblinBOFT )	{
@@ -1804,8 +1804,8 @@ TblDoColSpec(short number,		/* this column number */
 	     struct tblcolspec * pcsp,	/* prevailing colspec (with defaults) */
 	     tblsource source)		/* precedence level of the resulting spec */
 {
-	register char * cp;
-	register struct tblcolspec * tcsp;
+	char * cp;
+	struct tblcolspec * tcsp;
 
 
 	Calloc(1, tcsp, struct tblcolspec);
@@ -1867,9 +1867,9 @@ TblDoSpanSpec(Element_t * ep,		/* element containing spanspec stuff */
 	      struct tblspanspec * pssp, /* prevailing spanspec (with defaults) */
 	      tblsource source)		/* precedence level of the resulting spec */
 {
-	register char * cp;
-	register struct tblspanspec * tssp;
-	register struct tblcolspec * tcsp;
+	char * cp;
+	struct tblspanspec * tssp;
+	struct tblcolspec * tcsp;
 
 
 	Calloc(1, tssp, struct tblspanspec);
@@ -1955,7 +1955,7 @@ struct tblcolspec *
 TblFindColSpec(char * name,		/* the name we're looking for */
 	       tblsource source)	/* the context in which to find it */
 {
-	register struct tblcolspec * tcsp;
+	struct tblcolspec * tcsp;
 
 
     /* first, try to find the one in the right "source" */
@@ -1987,7 +1987,7 @@ struct tblcolspec *
 TblFindColNum(short number,		/* the number we're looking for */
 	      tblsource source)		/* the context in which to find it */
 {
-	register struct tblcolspec * tcsp;
+	struct tblcolspec * tcsp;
 
 
 
@@ -2022,7 +2022,7 @@ struct tblspanspec *
 TblFindSpanSpec(char * name,		/* the name we're looking for */
 	        tblsource source)	/* the context in which to find it */
 {
-	register struct tblspanspec * tssp;
+	struct tblspanspec * tssp;
 
 
     /* first, try to find the one in the right "source" */

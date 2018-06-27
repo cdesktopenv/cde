@@ -211,7 +211,7 @@ ExpandVariables(
     Element_t	*e
 )
 {
-    register int i, j, k;
+    int i, j, k;
     char	*ip, *vp, *op;
     char	*def_val, *s, *atval, *modifier;
     char	vbuf[500];
