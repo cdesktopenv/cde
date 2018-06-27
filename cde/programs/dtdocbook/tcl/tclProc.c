@@ -73,12 +73,12 @@ Tcl_ProcCmd(
     char **argv				/* Argument strings. */
 )
 {
-    register Interp *iPtr = (Interp *) interp;
-    register Proc *procPtr;
+    Interp *iPtr = (Interp *) interp;
+    Proc *procPtr;
     int result, argCount, i;
     char **argArray = NULL;
     Arg *lastArgPtr;
-    register Arg *argPtr = NULL;	/* Initialization not needed, but
+    Arg *argPtr = NULL;	/* Initialization not needed, but
 					 * prevents compiler warning. */
 
     if (argc != 4) {
@@ -210,7 +210,7 @@ TclGetFrame(
 				 * if global frame indicated). */
 )
 {
-    register Interp *iPtr = (Interp *) interp;
+    Interp *iPtr = (Interp *) interp;
     int curLevel, level, result;
     CallFrame *framePtr;
 
@@ -288,7 +288,7 @@ Tcl_UplevelCmd(
     char **argv				/* Argument strings. */
 )
 {
-    register Interp *iPtr = (Interp *) interp;
+    Interp *iPtr = (Interp *) interp;
     int result;
     CallFrame *savedVarFramePtr, *framePtr;
 
@@ -443,9 +443,9 @@ InterpProc(
     char **argv			/* Argument values. */
 )
 {
-    register Proc *procPtr = (Proc *) clientData;
-    register Arg *argPtr;
-    register Interp *iPtr;
+    Proc *procPtr = (Proc *) clientData;
+    Arg *argPtr;
+    Interp *iPtr;
     char **args;
     CallFrame frame;
     char *value;
@@ -630,10 +630,10 @@ ProcDeleteProc(
 
 static void
 CleanupProc(
-    register Proc *procPtr		/* Procedure to be deleted. */
+    Proc *procPtr		/* Procedure to be deleted. */
 )
 {
-    register Arg *argPtr;
+    Arg *argPtr;
 
     ckfree((char *) procPtr->command);
     for (argPtr = procPtr->argPtr; argPtr != NULL; ) {

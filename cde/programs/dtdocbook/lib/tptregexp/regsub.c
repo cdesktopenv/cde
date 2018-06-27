@@ -57,11 +57,11 @@
 void
 tpt_regsub(regexp *prog, char *source, char *dest)
 {
-	register char *src;
-	register char *dst;
-	register char c;
-	register int no;
-	register int len;
+	char *src;
+	char *dst;
+	char c;
+	int no;
+	int len;
 	extern char *strncpy();
 
 	if (prog == NULL || source == NULL || dest == NULL) {

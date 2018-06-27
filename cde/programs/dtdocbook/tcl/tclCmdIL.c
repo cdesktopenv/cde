@@ -269,7 +269,7 @@ Tcl_InfoCmd(
     char **argv				/* Argument strings. */
 )
 {
-    register Interp *iPtr = (Interp *) interp;
+    Interp *iPtr = (Interp *) interp;
     size_t length;
     int c;
     Arg *argPtr;

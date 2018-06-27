@@ -58,8 +58,8 @@ char *opts;
 	static char switchar = '\0';
 #endif
 	static int sp = 1;
-	register int c;
-	register char *cp;
+	int c;
+	char *cp;
 	char *message;
 #ifdef SWITCHAR
 	if (switchar == '\0') {

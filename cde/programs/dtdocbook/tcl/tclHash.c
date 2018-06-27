@@ -100,7 +100,7 @@ static Tcl_HashEntry *	OneWordCreate _ANSI_ARGS_((Tcl_HashTable *tablePtr,
 
 void
 Tcl_InitHashTable(
-    register Tcl_HashTable *tablePtr,	/* Pointer to table record, which
+    Tcl_HashTable *tablePtr,	/* Pointer to table record, which
 					 * is supplied by the caller. */
     int keyType				/* Type of keys to use in table:
 					 * TCL_STRING_KEYS, TCL_ONE_WORD_KEYS,
@@ -152,7 +152,7 @@ Tcl_DeleteHashEntry(
     Tcl_HashEntry *entryPtr
 )
 {
-    register Tcl_HashEntry *prevPtr;
+    Tcl_HashEntry *prevPtr;
 
     if (*entryPtr->bucketPtr == entryPtr) {
 	*entryPtr->bucketPtr = entryPtr->nextPtr;
@@ -190,10 +190,10 @@ Tcl_DeleteHashEntry(
 
 void
 Tcl_DeleteHashTable(
-    register Tcl_HashTable *tablePtr		/* Table to delete. */
+    Tcl_HashTable *tablePtr		/* Table to delete. */
 )
 {
-    register Tcl_HashEntry *hPtr, *nextPtr;
+    Tcl_HashEntry *hPtr, *nextPtr;
     int i;
 
     /*
@@ -282,7 +282,7 @@ Tcl_FirstHashEntry(
 
 Tcl_HashEntry *
 Tcl_NextHashEntry(
-    register Tcl_HashSearch *searchPtr	/* Place to store information about
+    Tcl_HashSearch *searchPtr	/* Place to store information about
 					 * progress through the table.  Must
 					 * have been initialized by calling
 					 * Tcl_FirstHashEntry. */
@@ -330,7 +330,7 @@ Tcl_HashStats(
 #define NUM_COUNTERS 10
     int count[NUM_COUNTERS], overflow, i, j;
     double average, tmp;
-    register Tcl_HashEntry *hPtr;
+    Tcl_HashEntry *hPtr;
     char *result, *p;
 
     /*
@@ -396,11 +396,11 @@ Tcl_HashStats(
 
 static unsigned int
 HashString(
-    register char *string	/* String from which to compute hash value. */
+    char *string	/* String from which to compute hash value. */
 )
 {
-    register unsigned int result;
-    register int c;
+    unsigned int result;
+    int c;
 
     /*
      * I tried a zillion different hash functions and asked many other
@@ -454,8 +454,8 @@ StringFind(
     char *key			/* Key to use to find matching entry. */
 )
 {
-    register Tcl_HashEntry *hPtr;
-    register char *p1, *p2;
+    Tcl_HashEntry *hPtr;
+    char *p1, *p2;
     int index;
 
     index = HashString(key) & tablePtr->mask;
@@ -508,8 +508,8 @@ StringCreate(
 				 * entry was created. */
 )
 {
-    register Tcl_HashEntry *hPtr;
-    register char *p1, *p2;
+    Tcl_HashEntry *hPtr;
+    char *p1, *p2;
     int index;
 
     index = HashString(key) & tablePtr->mask;
@@ -578,10 +578,10 @@ StringCreate(
 static Tcl_HashEntry *
 OneWordFind(
     Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
-    register char *key		/* Key to use to find matching entry. */
+    char *key		/* Key to use to find matching entry. */
 )
 {
-    register Tcl_HashEntry *hPtr;
+    Tcl_HashEntry *hPtr;
     int index;
 
     index = RANDOM_INDEX(tablePtr, key);
@@ -623,13 +623,13 @@ OneWordFind(
 static Tcl_HashEntry *
 OneWordCreate(
     Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
-    register char *key,		/* Key to use to find or create matching
+    char *key,		/* Key to use to find or create matching
 				 * entry. */
     int *newPtr			/* Store info here telling whether a new
 				 * entry was created. */
 )
 {
-    register Tcl_HashEntry *hPtr;
+    Tcl_HashEntry *hPtr;
     int index;
 
     index = RANDOM_INDEX(tablePtr, key);
@@ -695,9 +695,9 @@ ArrayFind(
     char *key			/* Key to use to find matching entry. */
 )
 {
-    register Tcl_HashEntry *hPtr;
+    Tcl_HashEntry *hPtr;
     int *arrayPtr = (int *) key;
-    register int *iPtr1, *iPtr2;
+    int *iPtr1, *iPtr2;
     int index, count;
 
     for (index = 0, count = tablePtr->keyType, iPtr1 = arrayPtr;
@@ -749,15 +749,15 @@ ArrayFind(
 static Tcl_HashEntry *
 ArrayCreate(
     Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
-    register char *key,		/* Key to use to find or create matching
+    char *key,		/* Key to use to find or create matching
 				 * entry. */
     int *newPtr			/* Store info here telling whether a new
 				 * entry was created. */
 )
 {
-    register Tcl_HashEntry *hPtr;
+    Tcl_HashEntry *hPtr;
     int *arrayPtr = (int *) key;
-    register int *iPtr1, *iPtr2;
+    int *iPtr1, *iPtr2;
     int index, count;
 
     for (index = 0, count = tablePtr->keyType, iPtr1 = arrayPtr;
@@ -896,13 +896,13 @@ BogusCreate(
 
 static void
 RebuildTable(
-    register Tcl_HashTable *tablePtr	/* Table to enlarge. */
+    Tcl_HashTable *tablePtr	/* Table to enlarge. */
 )
 {
     int oldSize, count, index;
     Tcl_HashEntry **oldBuckets;
-    register Tcl_HashEntry **oldChainPtr, **newChainPtr;
-    register Tcl_HashEntry *hPtr;
+    Tcl_HashEntry **oldChainPtr, **newChainPtr;
+    Tcl_HashEntry *hPtr;
 
     oldSize = tablePtr->numBuckets;
     oldBuckets = tablePtr->buckets;
@@ -935,7 +935,7 @@ RebuildTable(
 	    } else if (tablePtr->keyType == TCL_ONE_WORD_KEYS) {
 		index = RANDOM_INDEX(tablePtr, hPtr->key.oneWordValue);
 	    } else {
-		register int *iPtr;
+		int *iPtr;
 		int count;
 
 		for (index = 0, count = tablePtr->keyType,

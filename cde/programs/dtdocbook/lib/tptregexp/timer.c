@@ -135,7 +135,7 @@ int lineno = 0;
 multiple(ncomp, nexec, nsub)
 int ncomp, nexec, nsub;
 {
-	register int i;
+	int i;
 	extern char *strchr();
 
 	errreport = 1;
@@ -151,7 +151,7 @@ int ncomp, nexec, nsub;
 {
 	regexp *r;
 	char dbuf[BUFSIZ];
-	register int i;
+	int i;
 
 	errseen = NULL;
 	r = tpt_regcomp(fields.re);

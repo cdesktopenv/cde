@@ -340,7 +340,7 @@ Tcl_CreateFileHandler(
     ClientData clientData	/* Arbitrary data to pass to proc. */
 )
 {
-    register FileHandler *filePtr;
+    FileHandler *filePtr;
 
     if (!fileEventSourceCreated) {
 	fileEventSourceCreated = 1;
@@ -647,7 +647,7 @@ Tcl_CreateTimerHandler(
     ClientData clientData	/* Arbitrary data to pass to proc. */
 )
 {
-    register TimerHandler *timerHandlerPtr, *tPtr2, *prevPtr;
+    TimerHandler *timerHandlerPtr, *tPtr2, *prevPtr;
     static int id = 0;
 
     if (!timerEventSourceCreated) {
@@ -727,7 +727,7 @@ Tcl_DeleteTimerHandler(
 				 * Tcl_DeleteTimerHandler. */
 )
 {
-    register TimerHandler *timerHandlerPtr, *prevPtr;
+    TimerHandler *timerHandlerPtr, *prevPtr;
 
     for (timerHandlerPtr = firstTimerHandlerPtr, prevPtr = NULL;
 	    timerHandlerPtr != NULL; prevPtr = timerHandlerPtr,
@@ -1102,7 +1102,7 @@ Tcl_DoWhenIdle(
     ClientData clientData	/* Arbitrary value to pass to proc. */
 )
 {
-    register IdleHandler *idlePtr;
+    IdleHandler *idlePtr;
 
     idlePtr = (IdleHandler *) ckalloc(sizeof(IdleHandler));
     idlePtr->proc = proc;
@@ -1141,7 +1141,7 @@ Tcl_CancelIdleCall(
     ClientData clientData	/* Arbitrary value to pass to proc. */
 )
 {
-    register IdleHandler *idlePtr, *prevPtr;
+    IdleHandler *idlePtr, *prevPtr;
     IdleHandler *nextPtr;
 
     for (prevPtr = NULL, idlePtr = idleList; idlePtr != NULL;

@@ -92,7 +92,7 @@ static Tcl_File
 FileForRedirect(
     Tcl_Interp *interp,			/* Intepreter to use for error
 					 * reporting. */
-    register char *spec,			/* Points to character just after
+    char *spec,			/* Points to character just after
 					 * redirection character. */
     int atOk,				/* Non-zero means '@' notation is
 					 * OK, zero means it isn't. */
@@ -487,7 +487,7 @@ Tcl_DetachPids(
     pid_t *pidPtr		/* Array of pids to detach. */
 )
 {
-    register Detached *detPtr;
+    Detached *detPtr;
     int i;
 
     for (i = 0; i < numPids; i++) {
@@ -521,7 +521,7 @@ Tcl_DetachPids(
 void
 Tcl_ReapDetachedProcs(void)
 {
-    register Detached *detPtr;
+    Detached *detPtr;
     Detached *nextPtr, *prevPtr;
     int status;
     pid_t pid;

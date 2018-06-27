@@ -923,9 +923,9 @@ int etag()
 */
 VOID destack()
 {
-     register int ecode = 0;  /* Error code (0=o.k.). */
+     int ecode = 0;  /* Error code (0=o.k.). */
      UNCH *eparm2 = NULL;     /* Second parameter of error message. */
-     register int minmsgsw;   /* 1=message if tag omitted; 0=no message. */
+     int minmsgsw;   /* 1=message if tag omitted; 0=no message. */
 
      /* If element has a content model (i.e., not a keyword) and there
         are required tags left, and no CONREF attribute was specified,

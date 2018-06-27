@@ -199,7 +199,7 @@ Tcl_Backslash(
 				 * from src, unless NULL. */
 )
 {
-    register char *p = src+1;
+    char *p = src+1;
     char result;
     int count;
 
@@ -323,7 +323,7 @@ TclParseQuotes(
 				 * fully-substituted result of parse. */
 )
 {
-    register char *src, *dst, c;
+    char *src, *dst, c;
 
     src = string;
     dst = pvPtr->next;
@@ -435,7 +435,7 @@ TclParseNestedCmd(
     int flags,			/* Flags to pass to nested Tcl_Eval. */
     char **termPtr,		/* Store address of terminating character
 				 * here. */
-    register ParseValue *pvPtr	/* Information about where to place
+    ParseValue *pvPtr	/* Information about where to place
 				 * result of command. */
 )
 {
@@ -503,13 +503,13 @@ TclParseBraces(
     char *string,		/* Character just after opening bracket. */
     char **termPtr,		/* Store address of terminating character
 				* here. */
-    register ParseValue *pvPtr	/* Information about where to place
+    ParseValue *pvPtr	/* Information about where to place
 				 * result of command. */
 )
 {
     int level;
-    register char *src, *dst, *end;
-    register char c;
+    char *src, *dst, *end;
+    char c;
 
     src = string;
     dst = pvPtr->next;
@@ -636,12 +636,12 @@ TclParseWords(
     int *argcPtr,		/* Filled in with actual number of words
 				 * parsed. */
     char **argv,		/* Store addresses of individual words here. */
-    register ParseValue *pvPtr	/* Information about where to place
+    ParseValue *pvPtr	/* Information about where to place
 				 * fully-substituted word. */
 )
 {
-    register char *src, *dst;
-    register char c;
+    char *src, *dst;
+    char c;
     int type, result, argc;
     char *oldBuffer;		/* Used to detect when pvPtr's buffer gets
 				 * reallocated, so we can adjust all of the
@@ -881,7 +881,7 @@ TclParseWords(
 
 void
 TclExpandParseValue(
-    register ParseValue *pvPtr,		/* Information about buffer that
+    ParseValue *pvPtr,		/* Information about buffer that
 					 * must be expanded.  If the clientData
 					 * in the structure is non-zero, it
 					 * means that the current buffer is
@@ -953,7 +953,7 @@ TclWordEnd(
 				 * If NULL then ignored. */
 )
 {
-    register char *p;
+    char *p;
     int count;
 
     if (semiPtr != NULL) {
@@ -1100,7 +1100,7 @@ QuoteEnd(
 				 * quoted string (e.g. '"' or ')'). */
 )
 {
-    register char *p = string;
+    char *p = string;
     int count;
 
     while (*p != term) {
@@ -1155,7 +1155,7 @@ VarNameEnd(
     char *string		/* Pointer to dollar-sign character. */
 )
 {
-    register char *p = string+1;
+    char *p = string+1;
 
     if (*p == '{') {
 	for (p++; (*p != '}') && (*p != 0); p++) {
@@ -1273,7 +1273,7 @@ ScriptEnd(
 char *
 Tcl_ParseVar(
     Tcl_Interp *interp,			/* Context for looking up variable. */
-    register char *string,		/* String containing variable name.
+    char *string,		/* String containing variable name.
 					 * First character must be "$". */
     char **termPtr			/* If non-NULL, points to word to fill
 					 * in with character just after last
@@ -1281,7 +1281,7 @@ Tcl_ParseVar(
 )
 {
     char *name1, *name1End, c, *result;
-    register char *name2;
+    char *name2;
 #define NUM_CHARS 200
     char copyStorage[NUM_CHARS];
     ParseValue pv;

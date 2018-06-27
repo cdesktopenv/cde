@@ -947,7 +947,7 @@ Tcl_TranslateFileName(
 				 * not even be initialized. */
 )
 {
-    register char *p;
+    char *p;
 
     /*
      * Handle tilde substitutions, if needed.
@@ -1301,7 +1301,7 @@ SkipToChar(
 )
 {
     int quoted, level;
-    register char *p;
+    char *p;
 
     quoted = 0;
     level = 0;
