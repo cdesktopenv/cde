@@ -1924,7 +1924,7 @@ _tt_gettype_1(_Tt_spec_props *argp, SVCXPRT * /* transp */)
 void
 isgarbage_collect()
 {
-	register int	offset;
+	int	offset;
 	_Tt_string	dbName;
 
 	for (offset = 0; offset < _TT_MAX_ISFD; offset++) {

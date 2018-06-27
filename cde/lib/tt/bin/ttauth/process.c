@@ -1085,7 +1085,7 @@ do_list(char *inputfilename, int lineno, int argc, char *argv[])
     ld.fp = stdout;
 
     if (argc == 1) {
-	register _tt_AuthFileEntryList *l;
+	_tt_AuthFileEntryList *l;
 
 	if (ttauth_head) {
 	    for (l = ttauth_head; l; l = l->next) {
