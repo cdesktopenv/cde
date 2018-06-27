@@ -146,8 +146,8 @@ DtHashTbl _DtUtilMakeIHash(int size)
 void ** _DtUtilGetHash(DtHashTbl t, const unsigned char * key)
 {	
   hash * tbl = (hash *) t;
-  register int bucket;
-  register hash_entry * tmp;
+  int bucket;
+  hash_entry * tmp;
   hash_entry * new;
 
   if(tbl->hash_type == String_Key)
@@ -194,8 +194,8 @@ void ** _DtUtilGetHash(DtHashTbl t, const unsigned char * key)
 
 void ** _DtUtilFindHash(DtHashTbl t, const unsigned char * key)
 {
-  register hash * tbl = (hash *) t;
-  register hash_entry * tmp;
+  hash * tbl = (hash *) t;
+  hash_entry * tmp;
 
   if(tbl->hash_type == String_Key)
     {
@@ -217,10 +217,10 @@ void ** _DtUtilFindHash(DtHashTbl t, const unsigned char * key)
 
 void * _DtUtilDelHash(DtHashTbl t, const unsigned char * key)
 {
-  register hash * tbl = (hash *) t;
+  hash * tbl = (hash *) t;
 
-  register int bucket;
-  register hash_entry * tmp, * prev = NULL;
+  int bucket;
+  hash_entry * tmp, * prev = NULL;
 
   if(tbl->hash_type == String_Key)
     bucket = hash_string(key, tbl->size);
@@ -277,7 +277,7 @@ void * _DtUtilDelHash(DtHashTbl t, const unsigned char * key)
 int _DtUtilOperateHash(DtHashTbl t, void (*ptr)(), void * usr_arg)
 {
   hash * tbl = (hash *) t;
-  register hash_entry * tmp = tbl->start;
+  hash_entry * tmp = tbl->start;
   int c = 0;
 
   while(tmp)
@@ -292,7 +292,7 @@ int _DtUtilOperateHash(DtHashTbl t, void (*ptr)(), void * usr_arg)
 void _DtUtilDestroyHash(DtHashTbl t, int (*ptr)(), void * usr_arg)
 {
   hash * tbl = (hash *) t;
-  register hash_entry * tmp = tbl->start, * prev;
+  hash_entry * tmp = tbl->start, * prev;
 
   while(tmp)
     {
@@ -309,10 +309,10 @@ void _DtUtilDestroyHash(DtHashTbl t, int (*ptr)(), void * usr_arg)
   free(tbl);
 }
 
-static int hash_string(register const unsigned char * s, int modulo)
+static int hash_string(const unsigned char * s, int modulo)
 {
-	register unsigned result = 0;
-	register int i=1;
+	unsigned result = 0;
+	int i=1;
 
  	while(*s!=0)
 	  result += (*s++ << i++);

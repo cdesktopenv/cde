@@ -886,7 +886,7 @@ _DtActGenerateTmpFile(char *dir,char *format,mode_t mode,int *fd)
 void
 _DtRemoveTrailingBlanksInPlace(char **s)
 {
-	register char *p;
+	char *p;
 
 	if (!s || !strlen(*s))
 		 return;
@@ -1182,7 +1182,7 @@ _DtActFreeChildRec( _DtActChildRecT *childRecP)
  ******************************************************************************/
 int _DtActDeleteChildRec( _DtActInvRecT *invp, _DtActChildRecT *childp)
 {
-	register int i,j;
+	int i,j;
 
 	if ( !invp || !childp )
 		return 0;
@@ -1222,7 +1222,7 @@ int _DtActDeleteChildRec( _DtActInvRecT *invp, _DtActChildRecT *childp)
  ******************************************************************************/
 int _DtActDeleteInvRec( DtActionInvocationID id )
 {
-    register int i;
+    int i;
     CallbackData *data;
 
     _DtSvcProcessLock();
@@ -1394,7 +1394,7 @@ _DtActChildRecT *_DtActFindChildRec(
 static void
 _DtActFreeInvRec( _DtActInvRecT *invp )
 {
-    register int i;
+    int i;
 
 
     /*
@@ -1880,7 +1880,7 @@ _DtActGetCmdReturnArgs(
     _DtActChildRecT *childp,
     DtActionArg     **aargv )
 {
-    register int i;
+    int i;
     _DtActInvRecT	*invp;
     DtActionArg		*newArgp;
 

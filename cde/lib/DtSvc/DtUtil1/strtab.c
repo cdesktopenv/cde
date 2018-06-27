@@ -89,9 +89,9 @@ const char *    _DtShmBosonToString(DtShmStrtab strtab, int boson)
 
 DtShmBoson _DtShmStringToBoson(DtShmStrtab strtab, const char * string)
 {
-  register unsigned int i,j;
-  register unsigned const char * s;
-  register strtab_entry_t * ptr = (strtab_entry_t *) ((unsigned char *) strtab  + 
+  unsigned int i,j;
+  unsigned const char * s;
+  strtab_entry_t * ptr = (strtab_entry_t *) ((unsigned char *) strtab  +
 						      ((strtab_t *) strtab) -> st_taboffset);
  
   /*
@@ -260,10 +260,10 @@ _DtShmProtoCopyStrtab(DtShmProtoStrtab in, void * destination)
 
 static void build_it(int a, struct strtab_build * ptr, unsigned char * key)
 {
-  register unsigned int i,j;
-  register unsigned char * s;
-  register strtab_entry_t * e;
-  register unsigned short * add_ptr;
+  unsigned int i,j;
+  unsigned char * s;
+  strtab_entry_t * e;
+  unsigned short * add_ptr;
 
   strcpy((char *) ptr->strstart + a, (const char *)key);
 

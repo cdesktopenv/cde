@@ -230,7 +230,7 @@ static
 unsigned long
 _DtActFieldBitLookup(char *name)
 {
-	register int j;
+	int j;
 	char *np = name;
 #ifdef _DT_ALLOW_DT_MSGS
 	char dtnamebuf[sizeof(_DtPFX) + sizeof(_DtACTION_DTN_VALUE)] = _DtPFX;
@@ -290,7 +290,7 @@ _DtActFieldBitLookup(char *name)
 static char *
 _DtActFieldNameLookup(long bitmask)
 {
-	register int j;
+	int j;
 
 	if ( !bitmask )
 		return NULL;
@@ -312,7 +312,7 @@ _DtActFieldNameLookup(long bitmask)
 static Boolean
 _DtActDupFieldNameCheck(DtDtsDbField **fields,int numFields,XrmQuark name)
 {
-	register int i;
+	int i;
 
 	for ( i = 0; i < numFields; i++ ) 
 	{
@@ -998,7 +998,7 @@ _DtActionConverter(DtDtsDbField * fields,
 	DtDtsDbDatabase	*act_db;
 	DtDtsDbRecord	*act_rec;
 	DtDtsDbField	*fld;
-	register int    i;
+	int    i;
 	unsigned int	mask = 0;
 	char		bigBuf[_DtAct_MAX_BUF_SIZE];
 	char		*buf = bigBuf;

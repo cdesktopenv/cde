@@ -618,20 +618,20 @@ _DtFindMatchingFiles(
 {
 /* LOCAL VARIABLES */
    
-   register DtDirPaths *files;	/* An array of pointers to the filenames which 
+   DtDirPaths *files;	/* An array of pointers to the filenames which
 			   	have been found. */
    int max_files;	/* The total number of filenames that can be 
 			   stored in the "files" array before it must
 			   be reallocd. */
    int num_found;	/* The number of files which have been found. */
-   register DIR *dirp;		/* Variables for walking through the directory
+   DIR *dirp;		/* Variables for walking through the directory
 			   	entries. */
    char * next_file;
    struct dirent *dp = NULL;
    char *file_suffix;
    int suffixLen, nameLen;
    int nextIndex;
-   register char * next_path;
+   char * next_path;
    int files_in_this_directory;
    int base;
 

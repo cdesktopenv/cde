@@ -106,9 +106,9 @@ static void _DtActionGetRecordWeight(
                     long * primaryWeightPtr,
                     long * secondaryWeightPtr );
 static void ParseMessage( 
-                        register ActionPtr action,
-                        register char * str,
-                        register parsedMsg * msg) ;
+                        ActionPtr action,
+                        char * str,
+                        parsedMsg * msg) ;
 static Boolean ValidKeyword(
 			char *start,
 			char *end,
@@ -2273,18 +2273,18 @@ _DtActionFindDBEntry(	ActionRequest *reqp,
 
 static void 
 ParseMessage(
-        register ActionPtr action,
-        register char * str,
-        register parsedMsg * msg )
+        ActionPtr action,
+        char * str,
+        parsedMsg * msg )
 
 {
    char *start; 
-   register char *string;
+   char *string;
    char *keywordStart, *keywordEnd;
    char *prompt;
    int keyword, argNum;
    Boolean isFile;
-   register MsgComponent *newBlock;
+   MsgComponent *newBlock;
 
    /* Initialize all fields */
    msg->parsedMessage = NULL;

@@ -338,7 +338,7 @@ _DtDtsDbRecordSort(DtDtsDbDatabase *db, _DtDtsDbRecordCompare compare)
 DtDtsDbField *
 _DtDtsDbGetField(DtDtsDbRecord *rec, char *name)
 {
-	register int i;
+	int i;
 
 	/*
 	 * Field names have been quarked so quark 'name' and
@@ -379,7 +379,7 @@ _DtDtsDbGetRecordByName(DtDtsDbDatabase *db, char *name)
 	DtDtsDbRecord	srch;
 	DtDtsDbRecord	**result;
 	DtDtsDbRecord	*s = &srch;
-	register int i;
+	int i;
 	XrmQuark 	name_quark = XrmStringToQuark(name);
 
 	/*

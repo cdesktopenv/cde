@@ -131,7 +131,7 @@ Boolean _DtCompileMessagePiece(
 ActionRequest * _DtCloneRequest (
                         ActionRequest * request) ;
 void _DtFreeRequest( 
-                        register ActionRequest *request) ;
+                        ActionRequest *request) ;
 
 char * _DtFindCwd( void ) ;
 
@@ -222,9 +222,9 @@ static void AddFailedHostToList (
                         ActionRequest * request,
                         char * badHost) ;
 static int _DtAddEntry( 
-                        register char * string,
-                        register char * **arrayPtr,
-                        register int *sizePtr) ;
+                        char * string,
+                        char * **arrayPtr,
+                        int *sizePtr) ;
 static void TryToTypeFile( 
                         ObjectData *obj,
                         char * host,
@@ -255,10 +255,10 @@ static Boolean ParseFileArgument(
                         char * filetype,
                         Boolean typeFile) ;
 static void AddPrompt( 
-                        register int argNum,
+                        int argNum,
                         char * prompt,
-                        register int *numPrompts,
-                        register PromptEntry **prompts) ;
+                        int *numPrompts,
+                        PromptEntry **prompts) ;
 static int MatchParamsToAction( 
                         ActionRequest *request,
                         int *numPrompts,
@@ -273,33 +273,33 @@ static void ProcessOneSegment(
 	                int * unused,
 	                Boolean * paramUsed) ;
 static ActionPtr CloneActionDBEntry( 
-                        register ActionPtr action) ;
+                        ActionPtr action) ;
 static void CloneParsedMessage(
-                        register parsedMsg * old_pmsg,
-                        register parsedMsg * new_pmsg ) ;
+                        parsedMsg * old_pmsg,
+                        parsedMsg * new_pmsg ) ;
 static void FreeParsedMessage(
-                        register parsedMsg * parsedMessage) ;
+                        parsedMsg * parsedMessage) ;
 static parsedMsg * CloneParsedMessageArray(
-                        register parsedMsg * pmsgArray,
-                        register int count ) ;
+                        parsedMsg * pmsgArray,
+                        int count ) ;
 static void FreeParsedMessageArray(
-                        register parsedMsg * parsedMessageArray,
+                        parsedMsg * parsedMessageArray,
                         int count ) ;
 static Boolean InsertArgumentString(
                         Widget w,
-                        register char **bufPtr,
+                        char **bufPtr,
                         int * bufSizePtr,
                         ActionRequest *request,
-                        register ObjectData *object,
+                        ObjectData *object,
                         unsigned long mask,
                         char * relPathHost,
                         char * relPathDir,
                         Boolean addLeadingSpace,
                         unsigned long processingMask ) ;
 static void InsertUnmappedArgumentString(
-                        register char **bufPtr,
+                        char **bufPtr,
                         int * bufSizePtr,
-                        register ObjectData *object,
+                        ObjectData *object,
                         Boolean addLeadingSpace ) ;
 static char * GrowMsgBuffer( 
                         char * buffer,
@@ -324,9 +324,9 @@ static void InitiateDtNotifyMessage(
                         ActionRequest *request ) ;
 static void PrepareAndExecuteAction( 
                         Widget w,
-                        register ActionRequest *request);
+                        ActionRequest *request);
 static void __ExtractCWD(
-                        register ActionRequest *request,
+                        ActionRequest *request,
                         char ** hostPtr,
                         char ** dirPtr,
                         Boolean useObjectInfo) ;
@@ -342,29 +342,29 @@ static void CreateContinueDialog(
                         Widget w,
                         ActionRequest *request,
                         int numPrompts,
-                        register PromptEntry *prompts) ;
+                        PromptEntry *prompts) ;
 static void CancelPromptDialog( 
                         Widget widget,
                         PromptDialog *dialog,
                         XtPointer call_data) ;
 static void ProcessPromptDialog( 
                         Widget widget,
-                        register PromptDialog *dialog,
+                        PromptDialog *dialog,
                         XtPointer call_data) ;
 static void ChangePromptTraversal( 
                         Widget widget,
-                        register PromptDialog *dialog,
+                        PromptDialog *dialog,
                         XtPointer call_data) ;
 static void CreatePromptDialog( 
                         Widget w,
                         ActionRequest *request,
-                        register int numPrompts,
-                        register PromptEntry *prompts) ;
+                        int numPrompts,
+                        PromptEntry *prompts) ;
 static Boolean MoreArgumentsToProcess( 
-                        register ActionRequest *request) ;
+                        ActionRequest *request) ;
 static Boolean ProcessRequest( 
                         Widget w,
-                        register ActionRequest *request) ;
+                        ActionRequest *request) ;
 static void InitLocalizedStrings( void ) ;
 static int LinkToTypeQuark(
                         char * host,
@@ -485,7 +485,7 @@ DtActionInvoke(
         DtActionCallbackProc statusUpdateCb,
         XtPointer       client_data)
 {
-    register int	i;
+    int	i;
     ActionRequest	*request;
     char 		*contextHost= NULL;/* dummy to replace old parameter */
     _DtActInvRecT	*invp;		/* pointer to invocation record */
@@ -1281,11 +1281,11 @@ CreateActionRequest(
         _DtActInvRecT *invp )
 
 {
-   register int i, j;
+   int i, j;
    int numObjects = 0;
    ObjectData * objectDataArray;
    ObjectData objectData;
-   register ActionRequest * request;
+   ActionRequest * request;
 
 
    /* Allocate a new request structure -- zero filled */
@@ -1453,7 +1453,7 @@ CreateInvocationRecord(
 	DtActionArg	*aap,
 	int		aac)
 {
-    register int	i;
+    int	i;
     _DtActInvRecT	*invp;	/* pointer to invocation record */
     char		*tmp;
 
@@ -1720,7 +1720,7 @@ ParseFileArgument(
         Boolean typeFile )
 
 {
-   register int i, j;
+   int i, j;
    String dirName;
    String host;
    String dir;
@@ -1890,12 +1890,12 @@ _DtFindCwd( void )
 
 static int 
 _DtAddEntry(
-        register String string,
-        register String **arrayPtr,
-        register int *sizePtr )
+        String string,
+        String **arrayPtr,
+        int *sizePtr )
 
 {
-   register int i;
+   int i;
 
    /* See if the string is already in the array */
    for (i = 0; i < *sizePtr; i++)
@@ -2050,11 +2050,11 @@ LinkToTypeQuark(
 static Boolean 
 ProcessRequest(
         Widget w,
-        register ActionRequest *request )
+        ActionRequest *request )
 
 {
    int unused;
-   register ActionPtr action;
+   ActionPtr action;
    int numPrompts;
    PromptEntry * prompts;
    DtShmBoson actionQuark;
@@ -2239,13 +2239,13 @@ ProcessRequest(
 static void 
 PrepareAndExecuteAction(
         Widget w,
-        register ActionRequest *request )
+        ActionRequest *request )
 
 {
    char * relPathHost;
    char * relPathDir;
-   register int i;
-   register ActionPtr action = request->clonedAction;
+   int i;
+   ActionPtr action = request->clonedAction;
    int     argNum;
    _DtActInvRecT *invp;	/* pointer to invocation record */
    _DtActChildRecT *childrecp;	/* pointer to child record */
@@ -2423,7 +2423,7 @@ PrepareAndExecuteAction(
  */
 static void 
 __ExtractCWD(
-        register ActionRequest *request,
+        ActionRequest *request,
         char ** hostPtr,
         char ** dirPtr,
         Boolean useObjectInfo )
@@ -2432,7 +2432,7 @@ __ExtractCWD(
    String msg;
    String lastCh;
    int lastChLen;
-   register ActionPtr action = request->clonedAction;
+   ActionPtr action = request->clonedAction;
 
    /* Only dropped objects will have been 'typed' at this point */
    if (useObjectInfo && (IS_CMD(action->mask)) && (request->numObjects > 0) && 
@@ -2534,10 +2534,10 @@ __ExtractCWD(
 
 static Boolean 
 MoreArgumentsToProcess(
-        register ActionRequest *request )
+        ActionRequest *request )
 
 {
-   register int i;
+   int i;
    char * path;
    char * dtype;
 
@@ -2761,10 +2761,10 @@ _DtCloneRequest (
 
 void 
 _DtFreeRequest(
-        register ActionRequest *request )
+        ActionRequest *request )
 
 {
-   register int i;
+   int i;
 
    XtFree(request->actionName);
 
@@ -2826,11 +2826,11 @@ _DtFreeRequest(
 
 static ActionPtr 
 CloneActionDBEntry(
-        register ActionPtr action )
+        ActionPtr action )
 
 {
-   register ActionPtr newAction = (ActionPtr)XtMalloc((Cardinal)sizeof(Action));
-   register int i;
+   ActionPtr newAction = (ActionPtr)XtMalloc((Cardinal)sizeof(Action));
+   int i;
 
    /* Clone each field */
    newAction->action = action->action;
@@ -2928,10 +2928,10 @@ CloneActionDBEntry(
 
 void 
 _DtFreeActionStruct(
-        register ActionPtr action )
+        ActionPtr action )
 
 {
-   register int i;
+   int i;
 
    if (action == NULL)
       return;
@@ -2975,13 +2975,13 @@ _DtFreeActionStruct(
 
 static void
 CloneParsedMessage(
-        register parsedMsg * old_pmsg,
-        register parsedMsg * new_pmsg )
+        parsedMsg * old_pmsg,
+        parsedMsg * new_pmsg )
 
 {
    int i;
-   register MsgComponent * piece;
-   register MsgComponent * newPiece;
+   MsgComponent * piece;
+   MsgComponent * newPiece;
 
    new_pmsg->numMsgParts = old_pmsg->numMsgParts;
    if (old_pmsg->compiledMessage)
@@ -3041,7 +3041,7 @@ CloneParsedMessage(
  */
 static void 
 FreeParsedMessage(
-        register parsedMsg * parsedMessage )
+        parsedMsg * parsedMessage )
 
 {
    int i;
@@ -3067,8 +3067,8 @@ FreeParsedMessage(
  */
 static parsedMsg *
 CloneParsedMessageArray(
-        register parsedMsg * pmsgArray,
-        register int count )
+        parsedMsg * pmsgArray,
+        int count )
 
 {
    parsedMsg * newArray;
@@ -3092,7 +3092,7 @@ CloneParsedMessageArray(
  */
 static void 
 FreeParsedMessageArray(
-        register parsedMsg * parsedMessageArray,
+        parsedMsg * parsedMessageArray,
         int count )
 
 {
@@ -3135,9 +3135,9 @@ _DtCompileMessagePiece(
 	int * promptDataIndex )
 
 {
-   register int i, j;
+   int i, j;
    Boolean firstParmUsed;
-   register MsgComponent * segment;
+   MsgComponent * segment;
    char * compiledMsg = NULL;
    int    compiledMsgSize = 0;
    ObjectData tmpObjData;
@@ -3393,10 +3393,10 @@ _DtCompileMessagePiece(
 static Boolean 
 InsertArgumentString(
         Widget w,
-        register char **bufPtr,
+        char **bufPtr,
         int * bufSizePtr,
         ActionRequest *request,
-        register ObjectData *object,
+        ObjectData *object,
         unsigned long mask,
         char * relPathHost,
         char * relPathDir,
@@ -3568,9 +3568,9 @@ InsertArgumentString(
 
 static void 
 InsertUnmappedArgumentString(
-        register char **bufPtr,
+        char **bufPtr,
         int * bufSizePtr,
-        register ObjectData *object,
+        ObjectData *object,
         Boolean addLeadingSpace )
 
 {
@@ -3645,13 +3645,13 @@ GrowMsgBuffer(
 
 static void 
 AddPrompt(
-        register int argNum,
+        int argNum,
         String prompt,
-        register int *numPrompts,
-        register PromptEntry **prompts )
+        int *numPrompts,
+        PromptEntry **prompts )
 
 {
-   register int i;
+   int i;
 
    /*
     * Standard arguments only want their prompts entered once.
@@ -3697,7 +3697,7 @@ MatchParamsToAction(
    Boolean * paramUsed = NULL;
    int unused;
    Boolean argsOptionFound;
-   register int i;
+   int i;
    int lastArgReferenced;
    ActionPtr action = request->clonedAction;
 
@@ -3966,7 +3966,7 @@ CancelPromptDialog(
 static void 
 ChangePromptTraversal(
         Widget widget,
-        register PromptDialog *dialog,
+        PromptDialog *dialog,
         XtPointer call_data )
 {
    XmProcessTraversal (widget, XmTRAVERSE_NEXT_TAB_GROUP);
@@ -3982,11 +3982,11 @@ ChangePromptTraversal(
 static void 
 ProcessPromptDialog(
         Widget widget,
-        register PromptDialog *dialog,
+        PromptDialog *dialog,
         XtPointer call_data )
 
 {
-   register int i, j;
+   int i, j;
    String value;
 
    /* Unpost the dialog */
@@ -4114,18 +4114,18 @@ static void
 CreatePromptDialog(
         Widget w,
         ActionRequest *request,
-        register int numPrompts,
-        register PromptEntry *prompts )
+        int numPrompts,
+        PromptEntry *prompts )
 
 {
-   register PromptDialog * dialog;
-   register DialogPromptEntry * promptDes;
+   PromptDialog * dialog;
+   DialogPromptEntry * promptDes;
    XmString pt1;
    String title;
    Widget shell, bboard, frame, form, label;
    Widget promptLabel, topAttach;
    Widget separator, ok, cancel;
-   register int count;
+   int count;
    int n, i;
    Arg args[20];
    XmString labelString;
@@ -4411,8 +4411,8 @@ ContinueRequest(
         XtPointer call_data )
 
 {
-   register int i;
-   register ContinueDialog *dialog = (ContinueDialog *)user_data;
+   int i;
+   ContinueDialog *dialog = (ContinueDialog *)user_data;
 
    /* Destroy the dialog */
    XtDestroyWidget(XtParent(dialog->topLevel));
@@ -4478,8 +4478,8 @@ CancelRequest(
         XtPointer call_data )
 
 {
-   register int i;
-   register ContinueDialog *dialog = (ContinueDialog *)user_data;
+   int i;
+   ContinueDialog *dialog = (ContinueDialog *)user_data;
    unsigned long evalStatus;
    unsigned long userStatus;
    _DtActInvRecT *invp;
@@ -4529,13 +4529,13 @@ CreateContinueDialog(
         Widget w,
         ActionRequest *request,
         int numPrompts,
-        register PromptEntry *prompts )
+        PromptEntry *prompts )
 
 {
-   register ContinueDialog * dialog;
+   ContinueDialog * dialog;
    String title;
    XmString label;
-   register int i; 
+   int i;
    int n;
    Arg args[10];
    XmString ok, cancel;

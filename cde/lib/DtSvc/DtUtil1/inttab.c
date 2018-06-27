@@ -73,9 +73,9 @@ typedef struct builder {
 const int *
 _DtShmFindIntTabEntry(DtShmInttab inttab, unsigned int key)
 {
-  register const inttab_t * ptr = (const inttab_t *) inttab;
+  const inttab_t * ptr = (const inttab_t *) inttab;
   
-  register int i;
+  int i;
   
   if ( !ptr->key)
 	return(0);

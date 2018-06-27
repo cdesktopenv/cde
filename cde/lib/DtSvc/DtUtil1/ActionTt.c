@@ -136,7 +136,7 @@ extern Boolean _DtCompileMessagePiece(
 extern ActionRequest * _DtCloneRequest (
                         ActionRequest * request) ;
 extern void _DtFreeRequest( 
-                        register ActionRequest *request) ;
+                        ActionRequest *request) ;
 /********    End Public Function Declarations    ********/
 
 

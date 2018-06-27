@@ -414,7 +414,7 @@ _DtDtsMMGet(const char *name)
 DtDtsMMField *
 _DtDtsMMGetField(DtDtsMMRecord *rec, const char *name)
 {
-	register int i;
+	int i;
 	int		fld;
 	DtDtsMMField	*fld_ptr;
 	DtDtsMMField	*fld_ptr_list;
@@ -460,7 +460,7 @@ _DtDtsMMGetRecordByName(DtDtsMMDatabase *db, const char *name)
 	DtDtsMMRecord	srch;
 	DtDtsMMRecord	*result;
 	DtDtsMMRecord	*s = &srch;
-	register int i;
+	int i;
 	DtShmBoson 	name_quark = _DtDtsMMStringToBoson(name);
 	DtDtsMMRecord	*rec_ptr;
 	DtDtsMMRecord	*rec_ptr_list;
