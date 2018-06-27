@@ -3316,7 +3316,7 @@ modelineValueChanged(Widget widget, XtPointer client_data, XtPointer call_data)
 static void
 create_menu_bar(Widget parent)
 {
-   register int n;
+   int n;
    int count;
    Widget WidgList[10];
    Arg args[5];
