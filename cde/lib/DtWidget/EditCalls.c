@@ -389,7 +389,7 @@ _DtEditorModifyVerifyCB(
         caddr_t client_data,
         caddr_t call_data )
 {
-  register XmTextVerifyCallbackStruct * cb = 
+  XmTextVerifyCallbackStruct * cb =
 				(XmTextVerifyCallbackStruct *) call_data;
   DtEditorWidget editor = (DtEditorWidget) client_data;
 

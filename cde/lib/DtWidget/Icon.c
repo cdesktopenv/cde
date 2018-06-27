@@ -2668,8 +2668,8 @@ SetValues(
 static void 
 BorderHighlight( DtIconGadget g)
 {
-   register int width;
-   register int height;
+   int width;
+   int height;
    CallCallbackProc call_callback;
 
    width = g->rectangle.width;
@@ -2699,9 +2699,9 @@ static void
 BorderUnhighlight( DtIconGadget g)
 {
 
-   register int window_width;
-   register int window_height;
-   register int highlight_width;
+   int window_width;
+   int window_height;
+   int highlight_width;
    CallCallbackProc	call_callback;
 
    window_width = g->rectangle.width;

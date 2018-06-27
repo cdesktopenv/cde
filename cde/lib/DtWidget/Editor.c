@@ -1607,7 +1607,7 @@ static Widget
 CreateText(
         DtEditorWidget parent)
 {
-    register            int ac;         /* arg count */
+               int ac;         /* arg count */
     Arg 		al[21];		/* arg list */
     Widget		text;
 
@@ -2102,7 +2102,7 @@ SetValues(
 {
   Boolean         redisplay_flag = False;
   Arg		al[15];		/*  arg list            */
-  register int    ac;		/*  arg count           */
+  int    ac;		/*  arg count           */
 
   Boolean	resetSpellTitle = False,
   		resetFormatTitle = False,
@@ -3726,8 +3726,8 @@ static unsigned int
 GetModeSwitchModifier(
                 Display *dpy)
 {
-    register XModifierKeymap *pMap;
-    register int mapIndex, keyCol, mapSize;
+    XModifierKeymap *pMap;
+    int mapIndex, keyCol, mapSize;
     KeySym keySym;
     unsigned int modeSwitchModMask = 0;
     pMap = XGetModifierMapping(dpy);
@@ -4549,7 +4549,7 @@ UpdateOverstrikeIndicator(
 	Boolean		overstrikeOn )
 {
     Arg 	   al[10];
-    register	   int ac;
+    int ac;
     DtEditorWidget ew = (DtEditorWidget) widget;
  
     /*
@@ -4639,7 +4639,7 @@ SetStatusLine(
 	Boolean	statusLineOn)
 {
    Arg 		al[10];
-   register int	ac;
+   int	ac;
    int currentLine;
    XmTextPosition cursorPos;
 
@@ -5188,16 +5188,16 @@ extern int _nl_space_alt;
 /*
  * Forward declarations
  */
-static int DoLine (FormatData *data, register FILE *filep);
+static int DoLine (FormatData *data, FILE *filep);
 static void Center (FormatData *data, 
-		    wint_t *in_line, register wint_t *inlinelim);
-static void Fill (FormatData *data, wint_t *in_line, register wint_t *inlinelim);
+		    wint_t *in_line, wint_t *inlinelim);
+static void Fill (FormatData *data, wint_t *in_line, wint_t *inlinelim);
 static void FillWord (FormatData *data);
 static void Dump (FormatData *data, int endpara);
 static void PrintIndent (FormatData *data, int indent);
 static void PrintTag (FormatData *data, WORD *wordpast);
 static void PrintWords (FormatData *data, WORD *wordpast);
-static void Justify (FormatData *data, register int blanks, WORD *wordpast);
+static void Justify (FormatData *data, int blanks, WORD *wordpast);
 static int CompareWords (const void *, const void *);
 static int EkinBekinProc(FormatData *data, WORD **wordpast);
 static void postEkinBekinProc(FormatData *data, int *poutchars, WORD *wordpast);
@@ -5353,8 +5353,8 @@ fixLeftMarginAndNewlines(
 	int endPos)
 {
     Widget widget = M_text(editor);
-    register XmTextLineTable lineTable;
-    register int i;
+    XmTextLineTable lineTable;
+    int i;
     int lineIndex, lineLen, nextLen, lineIndent, lastIndex,
         lineByteLen, total_lines;
     Boolean newPara = True;
@@ -5541,7 +5541,7 @@ FormatText (
 
 { 
   long		maxmargin;	/* max allowed */ 
-  register FILE	*filep;		/* file to read */ 
+  FILE	*filep;		/* file to read */
   int		retVal;
   FormatData	data;
 
@@ -5648,12 +5648,12 @@ CleanUp:
 
 static int 
 DoLine (FormatData	*data,
-	register FILE	*filep)			/* open file to read	*/
+	FILE	*filep)			/* open file to read	*/
 {
 	wint_t	in_line [LINESIZE];	        /* after reading in	*/
-	register wint_t	*incp	 = in_line;	/* place in in_line	*/
-	register wint_t	*incplim = in_line + LINESIZE;	/* limit of in_line */
-	register wint_t   c;
+	wint_t	*incp	 = in_line;	/* place in in_line	*/
+	wint_t	*incplim = in_line + LINESIZE;	/* limit of in_line */
+	wint_t   c;
 
 /*
  * READ LINE WITH BACKSPACE CRUNCHING:
@@ -5713,17 +5713,17 @@ DoLine (FormatData	*data,
 static void
 Center (FormatData *data, 
 	wint_t	*in_line,			/* start of input line	*/
-	register wint_t	*inlinelim)		/* end of line + 1	*/
+	wint_t	*inlinelim)		/* end of line + 1	*/
 {
-	register wint_t	*incp;		/* pointer in in_line	*/
+	wint_t	*incp;		/* pointer in in_line	*/
 	wint_t	outline [LINESIZE + MAXTABSIZE];  /* after generic work	*/
-	register wint_t	*outcp      = outline;	  /* place in outline	*/
-	register wint_t	*outlinelim = outline + LINESIZE; /* limit of outline*/
+	wint_t	*outcp      = outline;	  /* place in outline	*/
+	wint_t	*outlinelim = outline + LINESIZE; /* limit of outline*/
 
 	int	haveword  = False;	/* hit word in in_line?	*/
-	register wint_t	ch;		/* current working char	*/
-	register int	needsp;		/* spaces need for tab	*/
-	register int	indent = 0;	/* size of indentation	*/
+	wint_t	ch;		/* current working char	*/
+	int	needsp;		/* spaces need for tab	*/
+	int	indent = 0;	/* size of indentation	*/
 	int	textwidth;		/* size of text part	*/
 	int     extwidth = 0;           /* additional width for MBCS */
 
@@ -5875,12 +5875,12 @@ Center (FormatData *data,
 static void
 Fill (FormatData *data,
       wint_t	*in_line,		/* start of input line	*/
-      register wint_t	*inlinelim)	/* end of line + 1	*/
+      wint_t	*inlinelim)	/* end of line + 1	*/
 {
-	register wint_t	*incp;		/* place in in_line	*/
-	register wint_t	ch;		/* current working char	*/
+	wint_t	*incp;		/* place in in_line	*/
+	wint_t	ch;		/* current working char	*/
 	int	haveword = False;	/* hit word in in_line?	*/
-	register int	inword	 = False;	/* currently in a word?	*/
+	int	inword	 = False;	/* currently in a word?	*/
 /*
  * SCAN INPUT LINE:
  */
@@ -6017,7 +6017,7 @@ FillWord (FormatData *data)
 {
   int	wordlen;		/* length of word to fill */
   int	blanks = 1;		/* trailing blanks needed */
-  register wint_t	ch1, ch2, ch3;		/* last chars of word	  */
+  wint_t	ch1, ch2, ch3;		/* last chars of word	  */
 
   data->wordat->length = (data->incolumn - data->wordat->incolumn);
   wordlen = data->wordat->wclen;
@@ -6094,9 +6094,9 @@ Dump (FormatData *data,
   int	startpara;			/* start of paragraph?	*/
   int	normal;				/* non-tagged line?	*/
   WORD	*wordpast = data->wordfirst;		/* past last to dump	*/
-  register int	wordlen;		/* length of one word	*/
+  int	wordlen;		/* length of one word	*/
   int	indent;				/* local value		*/
-  register int	outneed;		/* chars need to dump	*/
+  int	outneed;		/* chars need to dump	*/
   int	outchars;			/* chars found to dump	*/
 
 /*
@@ -6274,10 +6274,10 @@ static void
 PrintTag (FormatData *data, 
 	  WORD	*wordpast)		/* past last to print */
 {
-   register WORD	*wordat = data->wordfirst;	/* local value	  */
-   register int	outcol = data->indent1 + 1;	/* next column	  */
+   WORD	*wordat = data->wordfirst;	/* local value	  */
+   int	outcol = data->indent1 + 1;	/* next column	  */
    int	wordcol;		/* desired column */
-   register wint_t	*wordcp;		/* place in word  */
+   wint_t	*wordcp;		/* place in word  */
    wint_t	*wordcplim;		/* limit of word  */
 
    while (True)				/* till break */
@@ -6318,10 +6318,10 @@ static void
 PrintWords (FormatData *data,
 	    WORD       *wordpast)		/* past last to print */
 {
-   register WORD	*wordat = data->wordfirst;	/* local value   */
-   register wint_t	*wordcp;		/* place in word */
+   WORD	*wordat = data->wordfirst;	/* local value   */
+   wint_t	*wordcp;		/* place in word */
    wint_t	*wordcplim;		/* limit of word */
-   register int	blanks;			/* after a word	 */
+   int	blanks;			/* after a word	 */
 
    while (True)				/* till break */
    {
@@ -6363,13 +6363,13 @@ PrintWords (FormatData *data,
 
 static void
 Justify (FormatData *data, 
-	 register int blanks,			/* blanks to insert   */
+	 int blanks,			/* blanks to insert   */
 	 WORD	*wordpast)		/* past last to print */
 {
-   register WORD	*wordat;		/* local value		*/
-   register int	sortat;			/* place in sort[]	*/
-   register int	wordlen;		/* size of this word	*/
-   register int	nextlen;		/* size of next word	*/
+   WORD	*wordat;		/* local value		*/
+   int	sortat;			/* place in sort[]	*/
+   int	wordlen;		/* size of this word	*/
+   int	nextlen;		/* size of next word	*/
    int	level;			/* current blanks level	*/
 
    WORD	*sort [WORDMAX];	/* sorted pointers */
@@ -7041,7 +7041,7 @@ ComputeRightMargin(
    	       margin_width;
     int	rightMargin;
     Arg al[5];             /* arg list */
-    register	int ac;    /* arg count */
+    int ac;    /* arg count */
 
     ac=0;
     XtSetArg(al[ac], XmNwidth, &text_width); ac++;
@@ -7177,7 +7177,7 @@ CreateFormatDialog(
 	DtEditorWidget editor)
 {
     Arg		al[15];        /* arg list */
-    register	int ac;        /* arg count */
+    int ac;        /* arg count */
     Pixel	textBackground, textForeground;
     XmString	tempString = (XmString)NULL;
 
@@ -8072,7 +8072,7 @@ DtEditorGetSizeHints(
     XSizeHints *pHints) /* Return */
 {
     Arg al[10];                 /* arg list */
-    register int ac;            /* arg count */
+    int ac;            /* arg count */
     Dimension FormWidth, FormHeight, 
 	      Twidth, Theight, statusHeight,
 	      highlightThickness, shadowThickness,

@@ -84,9 +84,9 @@ static DtEditorErrorCode LoadFile(
  */
 static int
 strcasecmp(s1, s2)
-    register char *s1, *s2;
+    char *s1, *s2;
 {
-    register int c1, c2;
+    int c1, c2;
 
     while (*s1 && *s2) {
 	c1 = isupper(*s1) ? tolower(*s1) : *s1;
@@ -1386,7 +1386,7 @@ CopySubstring(
         char *buf,
         Boolean addNewlines)
 {
-    register XmTextLineTable line_table = widget->text.line_table;
+    XmTextLineTable line_table = widget->text.line_table;
     int currLine, firstLine;
     char *pString, *pCurrChar, *pLastChar;
     int numToCopy;

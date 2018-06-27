@@ -66,7 +66,7 @@ ManageFind(
         DtEditorWidget pPriv)
 {
     Arg al[10];
-    register int ac;
+    int ac;
 
     ac = 0;
     XtSetArg(al[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
@@ -83,7 +83,7 @@ UnmanageFind(
         DtEditorWidget pPriv)
 {
     Arg al[10];
-    register int ac;
+    int ac;
 
     XtUnmanageChild(M_search_findLbl(pPriv));
     XtUnmanageChild(M_findText(pPriv));
@@ -109,7 +109,7 @@ _DtEditorSearch(
         Boolean createonly )
 {
     Arg al[10];             /* arg list */
-    register int ac;        /* arg count */
+    int ac;        /* arg count */
 
     /* create the dialog if it is the first time */
     if ( !M_search_dialog(pPriv) ) 
@@ -274,7 +274,7 @@ CreateSearchDialog(
         DtEditorWidget pPriv)
 {
     Arg	     al[10];         /* arg list */
-    register int ac;         /* arg count */
+    int ac;         /* arg count */
     Pixel    textBackground, textForeground;
     XmString tmpStr1;
 

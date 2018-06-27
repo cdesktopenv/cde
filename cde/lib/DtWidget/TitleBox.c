@@ -498,7 +498,7 @@ GetTitleString(
         XtArgVal *value )
 {
 	Arg		al[10];		/*  arg list		*/
-	register int	ac;		/*  arg count		*/
+	int	ac;		/*  arg count		*/
 	Widget		title_area = M_TitleArea (manager);
 	XmString	string = NULL;
 
@@ -558,7 +558,7 @@ Initialize(
         DtTitleBoxWidget new )
 {
 	Arg		al[10];		/*  arg list		*/
-	register int	ac;		/*  arg count		*/
+	int	ac;		/*  arg count		*/
 	Widget		title = NULL;
 	XmString	title_string = NULL;
 
@@ -823,7 +823,7 @@ SetValues(
 			new_title = False,
 			new_font = False;
 	Arg		al[10];		/*  arg list		*/
-	register int	ac;		/*  arg count		*/
+	int	ac;		/*  arg count		*/
 
 /*	Validate title position.
 */

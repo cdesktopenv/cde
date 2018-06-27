@@ -507,7 +507,7 @@ InsertChild(
 	XmManagerWidgetClass    mc = (XmManagerWidgetClass)xmManagerWidgetClass;
 	Dimension		s_t = M_ShadowThickness (w);
 	Arg		al[20];		/*  arg list		*/
-	register int	ac;		/*  arg count		*/
+	int	ac;		/*  arg count		*/
 	XtWidgetProc	insert_child;
 
 	_DtProcessLock();
@@ -628,7 +628,7 @@ GetSize(
 	Widget			work_area =	M_WorkArea (mgr),
 				separator =	M_Separator (mgr);
 	Widget *		button =	M_Button (mgr);
-	register int		button_count =	M_ButtonCount (mgr),
+	int		button_count =	M_ButtonCount (mgr),
 				i;		      
 	Boolean			min_btns =	M_MinimizeButtons (mgr);
 	Dimension		sep_h =	0,
@@ -717,7 +717,7 @@ CreateChildren(
 	char		button_name[100];
 
 	Arg		al[20];		/*  arg list		*/
-	register int	ac;		/*  arg count		*/
+	int	ac;		/*  arg count		*/
 
 /*	Compute position factors.
 */
