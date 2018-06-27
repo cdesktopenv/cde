@@ -150,11 +150,11 @@ static void root_object_init (object * UNUSED_PARM(p))
 static object *root_clone (object *this_ptr, object *clone)
 /*--------------------------------------------------------------------------+*/
 {
-  register XeString orig = (XeString) this_ptr ;
-  register XeString copy ;
+  XeString orig = (XeString) this_ptr ;
+  XeString copy ;
   
-  register object_clasp o_class =	this_ptr->class_ptr ;
-  register OSizeType	size =		o_class->object_size ;
+  object_clasp o_class =	this_ptr->class_ptr ;
+  OSizeType	size =		o_class->object_size ;
 
   if ( ! clone )
     clone = (*(o_class->new_obj))(o_class) ;
