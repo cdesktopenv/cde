@@ -45,16 +45,16 @@
     */
     ILJPG_PUBLIC
 iljpgError iljpgEncodeInit (
-    register iljpgDataPtr pData,
+    iljpgDataPtr pData,
     iljpgPtr           *pPrivate                /* RETURNED */
     )
 {
-    register iljpgEncodePrivPtr pPriv;
-    register iljpgECompPtr pComp;
+    iljpgEncodePrivPtr pPriv;
+    iljpgECompPtr pComp;
     iljpgCompDataPtr    pCompData;
     int                 comp;
     iljpgError          error;
-    register unsigned int   index, i;
+    unsigned int   index, i;
 
         /*  Validate *pData: valid hori/vertFactor, tables present, etc. */
     if (!_iljpgValidPars (pData))
@@ -108,8 +108,8 @@ iljpgError iljpgEncodeCleanup (
     iljpgPtr            pPrivate
     )
 {
-    register int        i;
-    register iljpgEncodePrivPtr pPriv;
+    int        i;
+    iljpgEncodePrivPtr pPriv;
     iljpgError          error;
 
         /*  Free any scaled Q tables created by Init() */
@@ -151,7 +151,7 @@ iljpgError iljpgEncodeExecute (
 {
     iljpgEncodePrivPtr  pPriv;
     iljpgDataPtr        pData;
-    register iljpgECompPtr pComp;
+    iljpgECompPtr pComp;
     iljpgPtr            pPixels;
     iljpgError          error;
     long                nBytesPerRow, mcuMaxX, mcuMaxY, bX, bY;
@@ -201,8 +201,8 @@ iljpgError iljpgEncodeExecute (
                                 clipped replicate pixel or above scan line out to 8x8.
                             */
                         {   int             nBytesInit;
-                            register int    nLines, nBytesM1, *pDst, *pDstLine;
-                            register iljpgPtr pSrc, pSrcLine;
+                            int    nLines, nBytesM1, *pDst, *pDstLine;
+                            iljpgPtr pSrc, pSrcLine;
 
                             nLines = pComp->height - bY;
                             if (nLines > 8) 

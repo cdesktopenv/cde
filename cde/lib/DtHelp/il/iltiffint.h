@@ -128,7 +128,7 @@ typedef struct _ilFileRec {
     */
 /* compatibility problem with long and unsigned long data fields */
 #define IL_FLIP_LONG(_bigEndian, _4b, _long) {  \
-    register CARD32 _l;                  \
+    CARD32 _l;                  \
     if (_bigEndian) {                           \
         _l = *((ilPtr)(_4b)+0); _l <<= 8;       \
         _l |= *((ilPtr)(_4b)+1); _l <<= 8;      \
@@ -147,7 +147,7 @@ typedef struct _ilFileRec {
     /*  Same for a short.
     */
 #define IL_FLIP_SHORT(_bigEndian, _2b, _short) {\
-    register unsigned short _s;                 \
+    unsigned short _s;                 \
     if (_bigEndian) {                           \
         _s = *((ilPtr)(_2b)+0); _s <<= 8;       \
         _s |= *((ilPtr)(_2b)+1);                \

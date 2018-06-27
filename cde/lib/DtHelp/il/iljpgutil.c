@@ -59,12 +59,12 @@ int _iljpgZigzagTable[64] = {
     */
     ILJPG_PRIVATE
 iljpgBool _iljpgValidPars (
-    register iljpgDataPtr pData
+    iljpgDataPtr pData
     )
 {
     int                 comp;
     iljpgCompDataPtr    pCompData;
-    register unsigned int   index;
+    unsigned int   index;
 #define VALID_FACTOR(_f) ( ((_f) == 1) || ((_f) == 2) || ((_f) == 4) )
 
         /*  Validate *pData: valid hori/vertFactor, tables present, etc. */

@@ -95,9 +95,9 @@ static ilError ilComppackbitsExecute(
 
     unsigned long       nBytes     = 0;         /* Number of source image bytes to unpack for current strip      */  
     unsigned long       nLines;                 /* Number of lines per source image strip                        */  
-    register ilPtr      pSrcByte;               /* Pointer to source image data first byte                       */  
+    ilPtr      pSrcByte;               /* Pointer to source image data first byte                       */
     ilPtr               pSrcLine;               /* Pointer to source image data first byte of line               */  
-    register ilPtr      pDstByte;               /* Pointer to destination image data                             */  
+    ilPtr      pDstByte;               /* Pointer to destination image data                             */
     ilPtr               pDstBufferEnd;          /* Ptr to byte "PB_MAX_BUFFER_WRITE" from end of compressed buffer  */
     unsigned long       srcNBytes;              /* Number of source image bytes per row                          */  
     ilCompPBPrivPtr       pPriv;                  /* Pointer to private image data                                 */  
@@ -106,9 +106,9 @@ static ilError ilComppackbitsExecute(
     long                    offset;                 /* difference between current dst image address pointer and the
                                                    start address of the dst image buffer                         */
     long                    length;                 /* number of bytes written to dst image                      */
-    register int            count; 	                /* run count value                   */
-    register int            start, j;               /* indices into source data          */
-    register int            nBytesM1;               /* bytes per row of data minus one   */
+    int            count; 	                /* run count value                   */
+    int            start, j;               /* indices into source data          */
+    int            nBytesM1;               /* bytes per row of data minus one   */
 
 /* ========================================================================
    Set up for execution of compression algorithm code

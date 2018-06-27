@@ -190,7 +190,7 @@ extern ilPtr ilAddPipeElement (
 ** parameter which is a floating pointing.
 */
     ilError           (*ExecuteThree)(),
-    ilError           (*ExecuteFour)( register ilExecuteData *,
+    ilError           (*ExecuteFour)( ilExecuteData *,
 				  long,
 	                          long *,
 	                          float),

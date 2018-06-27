@@ -107,7 +107,7 @@ static ilEFSPrivatePtr ilInitEFS (
     ilContext               context
     )
 {
-register ilEFSPrivatePtr    pPriv;
+ilEFSPrivatePtr    pPriv;
 
         /*  If EFS file type data not present malloc and zero it, and then point
             context pAlloc to it - if not, could recurse forever.
@@ -149,7 +149,7 @@ static ilEFSFileTypePtr ilFindFileType (
     ilEFSFileTypePtr        pListHead
     )
 {
-register ilEFSFileTypePtr   pFileType;
+ilEFSFileTypePtr   pFileType;
 
     pFileType = pListHead->h.pNext;
     while (pFileType != pListHead) {
@@ -167,12 +167,12 @@ register ilEFSFileTypePtr   pFileType;
             checkOrder.
         */
 static void ilAddFileTypeToList (
-    register ilEFSFileTypePtr pFileType,
+    ilEFSFileTypePtr pFileType,
     ilEFSFileTypePtr        pListHead
     )
 {
-register ilEFSFileTypePtr   pListFileType;
-register int                checkOrder;
+ilEFSFileTypePtr   pListFileType;
+int                checkOrder;
 
     checkOrder = pFileType->info.checkOrder;
     pListFileType = pListHead->h.pNext;
@@ -191,11 +191,11 @@ register int                checkOrder;
 
         /*  Object Destroy() function for file type objects. */
 static void ilDestroyFileType (
-    register ilEFSFileTypePtr pFileType
+    ilEFSFileTypePtr pFileType
     )
 {
 ilEFSPrivatePtr             pPriv;
-register ilEFSFileTypePtr   pReplaced;
+ilEFSFileTypePtr   pReplaced;
 
     pPriv = (ilEFSPrivatePtr)
         ((ilContextPtr)(pFileType->h.o.p.context))->pAlloc[IL_CONTEXT_ALLOC_EFS];
@@ -215,14 +215,14 @@ register ilEFSFileTypePtr   pReplaced;
 
 ilEFSFileType ilEFSAddFileType (
     ilContext               context,
-    register ilEFSFileTypeInfo *pInfo,
+    ilEFSFileTypeInfo *pInfo,
     void                   *pOptions
     )
 {
 ilEFSPrivatePtr             pPriv;
 int                         i;
-register ilEFSFileTypePtr   pFileType, pReplace;
-register unsigned long      openModes;
+ilEFSFileTypePtr   pFileType, pReplace;
+unsigned long      openModes;
 
         /* masks for defined bits in ilEFSFileTypeInfo - others invalid */
 #define OPEN_MODE_MASKS (1<<IL_EFS_READ | 1<<IL_EFS_READ_SEQUENTIAL | 1<<IL_EFS_WRITE)
@@ -307,7 +307,7 @@ ilBool ilEFSGetFileTypeInfo (
     ilEFSFileTypeInfo      *pInfo
     )
 {
-register ilEFSFileTypePtr   pFileType;
+ilEFSFileTypePtr   pFileType;
 
     pFileType = (ilEFSFileTypePtr)fileType;
     if (pFileType->h.o.p.objectType != IL_EFS_FILE_TYPE) {
@@ -331,9 +331,9 @@ ilBool ilEFSListFileTypes (
     )
 {
 ilEFSPrivatePtr             pPriv;
-register int                nFileTypes;
-register ilEFSFileTypePtr   pFileType;
-register ilEFSFileType     *pfileType;
+int                nFileTypes;
+ilEFSFileTypePtr   pFileType;
+ilEFSFileType     *pfileType;
 
     *pNFileTypes = 0;
     *pfileTypes = (ilEFSFileType *)NULL;
@@ -386,7 +386,7 @@ static void ilDestroyFile (
     ilEFSFilePtr            pFile
     )
 {
-register ilEFSFileTypePtr   pFileType;
+ilEFSFileTypePtr   pFileType;
 
         /*  Get ptr to file type; if null, file not actually open yet; skip Close() */
     pFileType = (ilEFSFileTypePtr)pFile->info.fileType;
@@ -405,8 +405,8 @@ ilEFSFile ilEFSOpen (
     )
 {
 ilEFSPrivatePtr             pPriv;
-register ilEFSFilePtr       pFile;
-register ilEFSFileTypePtr   pFileType, pListHead;
+ilEFSFilePtr       pFile;
+ilEFSFileTypePtr   pFileType, pListHead;
 ilBool                      readOpen;
 long                        nPages;
 ilPtr                       pOpenPriv;
@@ -466,7 +466,7 @@ char                        extension [IL_EFS_MAX_EXTENSION_CHARS];
         /*  If not found, search for extension if enabled. */
     if (!pFileType && (searchOptions & IL_EFS_BY_EXTENSION)) {
         char                       *pExtension;
-        register ilEFSFileTypePtr   pSearch;
+        ilEFSFileTypePtr   pSearch;
         int                         nChars;
 
         pExtension = strrchr (fileName, '.');
@@ -481,7 +481,7 @@ char                        extension [IL_EFS_MAX_EXTENSION_CHARS];
                 /* Search list for extension match until pFileType found or list done */
             pSearch = pListHead->h.pNext;
             while (!pFileType && (pSearch != pListHead)) {
-                register int nExtensions = pSearch->info.nExtensions;
+                int nExtensions = pSearch->info.nExtensions;
                 while (nExtensions-- > 0)
                     if (STRING_EQUAL (extension, pSearch->info.extensions[nExtensions])) {
                         pFileType = pSearch;            /* extension found; quit */
@@ -510,7 +510,7 @@ char                        extension [IL_EFS_MAX_EXTENSION_CHARS];
             try open if enabled (checkOrder != 0) and openMode supported for file type.
         */
     if (!pFileType && readOpen && (searchOptions & IL_EFS_BY_CHECKING)) {
-        register ilEFSFileTypePtr   pSearch;
+        ilEFSFileTypePtr   pSearch;
 
         pSearch = pListHead->h.pNext;
         while (pSearch != pListHead) {
@@ -569,7 +569,7 @@ ilBool ilEFSGetFileInfo (
     ilEFSFileInfo          *pInfo                   /* RETURNED */
     )
 {
-register ilEFSFilePtr       pFile;
+ilEFSFilePtr       pFile;
 
     pFile = (ilEFSFilePtr)file;
     if (pFile->o.p.objectType != IL_EFS_FILE) {
@@ -594,7 +594,7 @@ ilBool ilEFSSeek (
     void                   *pOptions
     )
 {
-register ilEFSFilePtr       pFile;
+ilEFSFilePtr       pFile;
 
     pFile = (ilEFSFilePtr)file;
     if (pOptions) {
@@ -628,7 +628,7 @@ ilBool ilEFSGetPageInfo (
     ilEFSPageInfo          *pInfo
     )
 {
-register ilEFSFilePtr       pFile;
+ilEFSFilePtr       pFile;
 
     pFile = (ilEFSFilePtr)file;
     if (pFile->o.p.objectType != IL_EFS_FILE) {
@@ -660,7 +660,7 @@ ilBool ilEFSReadImage (
     void                   *pOptions
     )
 {
-register ilEFSFilePtr       pFile;
+ilEFSFilePtr       pFile;
 
     pFile = (ilEFSFilePtr)file;
     if (pOptions) {
@@ -715,7 +715,7 @@ ilBool ilEFSWriteImage (
     void                   *pOptions
     )
 {
-register ilEFSFilePtr       pFile;
+ilEFSFilePtr       pFile;
 
     pFile = (ilEFSFilePtr)file;
     if (pOptions) {
@@ -739,8 +739,8 @@ register ilEFSFilePtr       pFile;
             maskImage = (ilClientImage)NULL;
         else {
             ilImageInfo            *pInfo;
-            register const ilImageDes    *pDes;
-            register const ilImageFormat *pFormat;
+            const ilImageDes    *pDes;
+            const ilImageFormat *pFormat;
 
             if (!ilQueryClientImage (maskImage, &pInfo, 0))
                 return FALSE;

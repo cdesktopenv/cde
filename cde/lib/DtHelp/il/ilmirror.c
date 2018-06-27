@@ -67,7 +67,7 @@ static ilError ilMirrorInit(
     )
 
 {
- register unsigned char  *pdstline;
+ unsigned char  *pdstline;
  ilImagePlaneInfo           *pplane;
 
 
@@ -91,17 +91,17 @@ static ilError ilMirrorInit(
 
    ============================================================================================================================= */
 static ilError ilMirrorXBitonalExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
                         
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
 ilImagePlaneInfo           *pplane;
-register int               x, y, lastcount, srcnbytes, dstnbytes;
-register ilMirrorPrivptr   pPriv;
+int               x, y, lastcount, srcnbytes, dstnbytes;
+ilMirrorPrivptr   pPriv;
 
 
 
@@ -146,19 +146,19 @@ register ilMirrorPrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilMirrorYBitonalExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
                         
 
-register unsigned char     *psrc, *pdst, *psrcline, *psrcbefore, *pdstline;
-register unsigned char     srcbyte;
+unsigned char     *psrc, *pdst, *psrcline, *psrcbefore, *pdstline;
+unsigned char     srcbyte;
 ilImagePlaneInfo           *pplane;
-register int               x, y, lastcount, loffset, roffset;
-register int               srcnbytes, dstnbytes, widthbytes;
-register ilMirrorPrivptr   pPriv;
+int               x, y, lastcount, loffset, roffset;
+int               srcnbytes, dstnbytes, widthbytes;
+ilMirrorPrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -220,18 +220,18 @@ register ilMirrorPrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilMirrorX3ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, lastcount;
-register ilMirrorPrivptr   pPriv;
+int               x, y, lastcount;
+ilMirrorPrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -279,18 +279,18 @@ register ilMirrorPrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilMirrorY3ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, xoffset, lastcount;
-register ilMirrorPrivptr   pPriv;
+int               x, y, xoffset, lastcount;
+ilMirrorPrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -340,18 +340,18 @@ register ilMirrorPrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilMirrorXByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, lastcount;
-register ilMirrorPrivptr   pPriv;
+int               x, y, lastcount;
+ilMirrorPrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -395,18 +395,18 @@ register ilMirrorPrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilMirrorYByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, lastcount;
-register ilMirrorPrivptr   pPriv;
+int               x, y, lastcount;
+ilMirrorPrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -460,7 +460,7 @@ ilBool ilMirror (
 {
 unsigned int              state;
 ilPipeInfo                info;
-register ilMirrorPrivptr  pPriv;
+ilMirrorPrivptr  pPriv;
 ilDstElementData          dstdata;
 ilImageDes                imdes;
 ilImageFormat             imformat;

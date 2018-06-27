@@ -62,10 +62,10 @@ static void _il_fwft_rev_scale (
     float   *s                 /* pointer to pointer to descaling matrix */
     )
 {
-  register int   i, j, prevValue, value, QIndex;
+  int   i, j, prevValue, value, QIndex;
   double         a, c0, b[8], pi;
-  register iljpgPtr qptr;
-  register float *sptr;
+  iljpgPtr qptr;
+  float *sptr;
 
   pi = 4.0 * atan(1.0);
   c0 = 1.0 / (2.0 * 0.707106718);
@@ -107,7 +107,7 @@ iljpgError _iljpgDeDCTInit (
     )
 {
     iljpgDataPtr        pData;
-    register int        i;
+    int        i;
 
     pData = pPriv->pData;
 
@@ -135,7 +135,7 @@ iljpgError _iljpgDeDCTCleanup (
     iljpgDecodePrivPtr  pPriv
     )
 {
-    register int        i;
+    int        i;
 
         /*  Free any "rev scale" tables that were allocated in iljpgDeDCTInit() */
     for (i = 0; i < 4; i++) {
@@ -247,27 +247,27 @@ iljpgError _iljpgDeDCTCleanup (
     */
     ILJPG_PRIVATE_EXTERN
 void _iljpgDeDCTFull (
-    register int       *pSrc,
+    int       *pSrc,
     long                nBytesPerRow,
     iljpgPtr            ix,                 /* RETURNED */
-    register float      *pRevScale
+    float      *pRevScale
     )
 {
-  register int   i;
-  register int   *zptr;
+  int   i;
+  int   *zptr;
   float           ox[64];
-  register float in0, in1, in2, in3, in4, in5, in6, in7;
-  register float tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
-  register float tmp;
-  register int   clipValue;
-  register iljpgPtr ixaddr;
-  register float *oxaddr;
+  float in0, in1, in2, in3, in4, in5, in6, in7;
+  float tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
+  float tmp;
+  int   clipValue;
+  iljpgPtr ixaddr;
+  float *oxaddr;
   /* Constants needed by the 16 point Winograd Fourier Transform for inv. DCT */
-  register float b1 =  1.41421356;  
-  register float b2 = -2.61312587;
-  register float b3 =  1.41421356;  
-  register float b4 =  1.08239220;  
-  register float b5 =  0.76536686;
+  float b1 =  1.41421356;
+  float b2 = -2.61312587;
+  float b3 =  1.41421356;
+  float b4 =  1.08239220;
+  float b5 =  0.76536686;
   
 
   oxaddr = ox;
@@ -541,27 +541,27 @@ void _iljpgDeDCTFull (
     */
     ILJPG_PRIVATE_EXTERN
 void _iljpgDeDCT4x4 (
-    register int       *pSrc,
+    int       *pSrc,
     long                nBytesPerRow,
     iljpgPtr            ix,                 /* RETURNED */
-    register float      *pRevScale
+    float      *pRevScale
     )
 {
-  register int   i;
-  register int   *zptr;
+  int   i;
+  int   *zptr;
   float           ox[64];
-  register float in0, in2, in3, in4, in5, in7;
-  register float tmp0, tmp1, tmp2, tmp5, tmp6, tmp7;
-  register float tmp;
-  register float *oxaddr;
-  register int   clipValue;
-  register iljpgPtr ixaddr;
+  float in0, in2, in3, in4, in5, in7;
+  float tmp0, tmp1, tmp2, tmp5, tmp6, tmp7;
+  float tmp;
+  float *oxaddr;
+  int   clipValue;
+  iljpgPtr ixaddr;
   /* Constants needed by the 16 point Winograd Fourier Transform for inv. DCT */
-  register float b1 =  1.41421356;  
-  register float b2 = -2.61312587;
-  register float b3 =  1.41421356;  
-  register float b4 =  1.08239220;  
-  register float b5 =  0.76536686;
+  float b1 =  1.41421356;
+  float b2 = -2.61312587;
+  float b3 =  1.41421356;
+  float b4 =  1.08239220;
+  float b5 =  0.76536686;
 
 #ifdef NOTDEF
   orxptr = ox;
@@ -804,12 +804,12 @@ void _iljpgDeDCT4x4 (
 void _iljpgDeDCTDCOnly (
     int                *pSrc,
     long                nBytesPerRow,
-    register iljpgPtr   pDst,               /* RETURNED */
+    iljpgPtr   pDst,               /* RETURNED */
     float              *pRevScale
     )
 {
-  register int   i, dc;
-  register int   j;
+  int   i, dc;
+  int   j;
 
   j       = *pSrc;
   j = (j < -2047) ? -2047 : ((j > 2047) ? 2047 : j);

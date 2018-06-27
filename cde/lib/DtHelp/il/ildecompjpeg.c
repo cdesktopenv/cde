@@ -104,14 +104,14 @@ static ilError ilDecompRawExecute (
     unsigned long      *pNLines
     )
 {
-    register ilJPEGPrivPtr pPriv;
+    ilJPEGPrivPtr pPriv;
     ilJPEGDecodeStream  streamRec;
     ilError             error;
     iljpgPtr            pPixels[ILJPG_MAX_COMPS];
     long                nBytesPerRow[ILJPG_MAX_COMPS];
     int                 i;
     ilImagePlaneInfo   *pPlane;
-    register ilImageInfo *pSrcImage, *pDstImage;
+    ilImageInfo *pSrcImage, *pDstImage;
 
     pPriv = (ilJPEGPrivPtr)pData->pPrivate;
     pSrcImage = pData->pSrcImage;
@@ -151,7 +151,7 @@ static ilError ilDecompJIFExecute (
     unsigned long      *pNLines
     )
 {
-    register ilJPEGPrivPtr pPriv;
+    ilJPEGPrivPtr pPriv;
     ilError             error;
     int                 i;
     iljpgPtr            pPixels[ILJPG_MAX_COMPS];

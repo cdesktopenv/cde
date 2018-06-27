@@ -101,7 +101,7 @@ ilImageInfo            *pDstImage
    ======================================================================== */
 
 static ilError   _ilDecompG3Line(
-register ilDecompG3G4PrivPtr  pPriv,
+ilDecompG3G4PrivPtr  pPriv,
 ilPtr                     dstImageP
 )
 {
@@ -117,12 +117,12 @@ ilPtr                     dstImageP
 	ilPtr ImageP;
 	int srcpos;
 
-    register ilDecompG4HuffTablePtrConst pDecodeWhite = ilArFax1DDecodeWhite;
-    register ilDecompG4HuffTablePtrConst pDecodeTemp;
-    register ilDecompG4HuffTablePtrConst pDecodeBlack = ilArFax1DDecodeBlack;
-    register ilPtr sByte;
-    register int  no_of_ones;
-    register int  startPixel;
+    ilDecompG4HuffTablePtrConst pDecodeWhite = ilArFax1DDecodeWhite;
+    ilDecompG4HuffTablePtrConst pDecodeTemp;
+    ilDecompG4HuffTablePtrConst pDecodeBlack = ilArFax1DDecodeBlack;
+    ilPtr sByte;
+    int  no_of_ones;
+    int  startPixel;
 
 	static const unsigned char fillmasks[] =
 	{ 
@@ -269,8 +269,8 @@ unsigned long      *pNLines
 	int                 temp;              /* some temp var..                            */
 	ilBool              tag_bit;           /* True or 1 for G3 1D coded line ,else G3 2d */
     long                nLines;            /* no. of lines in the current strip     */
-	register ilDecompG4HuffTablePtrConst pDecodeWhite = ilArFax1DDecodeWhite;
-	register ilDecompG4HuffTablePtrConst pDecodeTemp;
+	ilDecompG4HuffTablePtrConst pDecodeWhite = ilArFax1DDecodeWhite;
+	ilDecompG4HuffTablePtrConst pDecodeTemp;
 
 
 	/* ========================================================================

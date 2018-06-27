@@ -88,7 +88,7 @@ static void ilFreeFileList (
     ilFilePtr           pFile
     )
 {
-register ilFileImagePtr pFileImage, pAltFileImage, pFileImageTemp;
+ilFileImagePtr pFileImage, pAltFileImage, pFileImageTemp;
 
         /*  Run thru the list of file images; for each: if a mask image destroy it
             (only one); if child images, destroy them - they are linked by pChild.
@@ -148,7 +148,7 @@ ilPtr                   pTagData, pTagAlloc;
 ilFilePtr               pFile;
 ilFileTag              *pTag, **ppTag;
 int                     tagNumber, nFileTags, nItems, nTags, tagType, i;
-register ilBool         bigEndian;
+ilBool         bigEndian;
 
     pFileImage = (ilFileImagePtr)fileImage;
     if (mustBeZero != 0) {
@@ -363,7 +363,7 @@ RFTFatalError:
         */
 static void ilAddImageToList (
     ilFilePtr                   pFile,
-    register ilFileImagePtr     pFileImage,
+    ilFileImagePtr     pFileImage,
     ilFileImagePtr              pPrevFileImage
     )
 {
@@ -431,7 +431,7 @@ static void ilAddImageToList (
 static ilError ilReadTagsAndAddImageToList (
     ilFilePtr                   pFile,
     ilFileImagePtr             *ppPrevFileImage,
-    register ilFileImagePtr     pFileImage
+    ilFileImagePtr     pFileImage
     )
 {
     /*  Indexes into "tagNumbers" below. NOTE: order is important, as tags are checked
@@ -495,11 +495,11 @@ ilFileTag                  *tag [AI_NTAGS];
 ilBool                      present;
 ilError                     error;
 ilPtr                       pTagAlloc;
-register unsigned long      value;
+unsigned long      value;
 int                         i, tagIndex, nBits, resolutionUnit, fillOrder;
 unsigned long               group3CompData;
 unsigned long               group4CompData;
-register ilFileTag         *pTag;
+ilFileTag         *pTag;
 ilYCbCrInfo                *pYCbCr;     /* null if not YCbCr ; else -> des...YCbCr */
 
         /*  Init/zero des and format in *pFileImage.
@@ -815,7 +815,7 @@ ilYCbCrInfo                *pYCbCr;     /* null if not YCbCr ; else -> des...YCb
                     }
                 else {
 /* compatibility problem with long or unsigned long data fields */
-                    register INT32 *pLong = (INT32 *)pTag->pItems;
+                    INT32 *pLong = (INT32 *)pTag->pItems;
                     double          num, denom;
                     if ((pTag->nItems != 3) || (pTag->type != IL_TAG_RATIONAL))
                         AIL_FATAL_ERROR (IL_ERROR_FILE_MALFORMED_TAG);
@@ -858,7 +858,7 @@ ilYCbCrInfo                *pYCbCr;     /* null if not YCbCr ; else -> des...YCb
             */
           case REFERENCE_BLACK_WHITE:
             if (pYCbCr) {
-                register ilYCbCrSampleInfo  *pSample = pYCbCr->sample;
+                ilYCbCrSampleInfo  *pSample = pYCbCr->sample;
                 int                         i;
                 if (!present) {
                     pSample->refBlack = 0; pSample->refWhite = 255; pSample++;
@@ -867,7 +867,7 @@ ilYCbCrInfo                *pYCbCr;     /* null if not YCbCr ; else -> des...YCb
                     }
                 else {
 /* compatibility problem with long and unsigned long data fields */
-                    register INT32 *pLong = (INT32 *)pTag->pItems;
+                    INT32 *pLong = (INT32 *)pTag->pItems;
                     if (pTag->nItems != 6)
                         AIL_FATAL_ERROR (IL_ERROR_FILE_MALFORMED_TAG);
                     if (pTag->type == IL_TAG_LONG) {            /* old type */
@@ -901,7 +901,7 @@ ilYCbCrInfo                *pYCbCr;     /* null if not YCbCr ; else -> des...YCb
             if (present) {
                 if (value & IL_TAG_P0_FLAG_DITHER_LEVELS) {
                     if (pFileImage->p.des.type == IL_PALETTE) {
-                        register short *pLevel = ((short *)pTag->pItems + 1);
+                        short *pLevel = ((short *)pTag->pItems + 1);
                         if ((pTag->nItems < 4) || (pTag->type != IL_TAG_SHORT))
                             AIL_FATAL_ERROR (IL_ERROR_FILE_MALFORMED_TAG);
                         pFileImage->p.des.flags |= IL_DITHERED_PALETTE;
@@ -932,7 +932,7 @@ ilYCbCrInfo                *pYCbCr;     /* null if not YCbCr ; else -> des...YCb
 
         /*  If mask image: must be bitonal or discard it. */
     if (imageType == maskImage) {
-        register ilFileImagePtr pPrevFileImage = *ppPrevFileImage;
+        ilFileImagePtr pPrevFileImage = *ppPrevFileImage;
         if (!pPrevFileImage                                     /* no image before it */
          || pPrevFileImage->p.pMask                             /* already has mask */
          || (pFileImage->p.des.nSamplesPerPixel != 1)
@@ -983,8 +983,8 @@ ilByte                  fourBytes [4];
 ilFileOffset            IFDOffset;
 ilFileImagePtr          pFileImage, pPrevFileImage;
 ilTIFFHeader            header;
-register ilFilePtr      pFile;
-register ilBool         bigEndian;
+ilFilePtr      pFile;
+ilBool         bigEndian;
 
         /*  Check if image list already built - if so, return ptr to it.
         */

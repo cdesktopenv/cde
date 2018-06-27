@@ -70,13 +70,13 @@ static ilError ilRCIInit (
     /*  Execute() for ilReadImage() producer when the image is compressed.
     */
 static ilError ilRCIExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                    dstLine,            /* ignored */
     long                   *pNLines             /* ignored on input */
     )
 {
-register ilRCIPrivPtr       pPriv;
-register ilImagePtr         pImage;
+ilRCIPrivPtr       pPriv;
+ilImagePtr         pImage;
 long                        offset;
 
     pPriv = (ilRCIPrivPtr)pData->pPrivate;
@@ -114,8 +114,8 @@ ilBool ilReadImage (
     ilObject            image
     )
 {
-register ilImagePtr     pImage;
-register ilRCIPrivPtr   pPriv;
+ilImagePtr     pImage;
+ilRCIPrivPtr   pPriv;
 
         /*  Validate that pipe and image are such, have same context and pipe empty */
     pImage = (ilImagePtr)image;

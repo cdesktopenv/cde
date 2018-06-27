@@ -238,11 +238,11 @@ ilDitherPrivPtr             pPriv;
 long                        nLinesM1;
 long                        srcRowBytes, dstRowBytes;
 ilPtr                       pSrcLine, pDstLine;
-register long               x, yMod8Times8, width;
-register const unsigned short *pMulR, *pMulG, *pMulB;
-register ilPtr              pSrc, pDst, pTranslate;
-register unsigned long      pixel, kernel;
-register int                upShiftR, upShiftG;
+long               x, yMod8Times8, width;
+const unsigned short *pMulR, *pMulG, *pMulB;
+ilPtr              pSrc, pDst, pTranslate;
+unsigned long      pixel, kernel;
+int                upShiftR, upShiftG;
 
     pPriv = (ilDitherPrivPtr)pData->pPrivate;
     width = pPriv->width;
@@ -302,10 +302,10 @@ ilDitherPrivPtr             pPriv;
 long                        nLinesM1;
 long                        srcRowBytes, dstRowBytes;
 ilPtr                       pSrcLine, pDstLine;
-register long               x, yMod8Times8, width;
-register const unsigned short    *pMul8, *pMul4;
-register ilPtr              pSrc, pDst, pTranslate;
-register unsigned long      pixel, kernel;
+long               x, yMod8Times8, width;
+const unsigned short    *pMul8, *pMul4;
+ilPtr              pSrc, pDst, pTranslate;
+unsigned long      pixel, kernel;
 
     pPriv = (ilDitherPrivPtr)pData->pPrivate;
     width = pPriv->width;
@@ -364,14 +364,14 @@ static ilError ilExecuteDiffusionRGB (
 ilDitherPrivPtr             pPriv;
 long                        srcRowBytes, dstRowBytes;
 long                        nLinesM1, nPixelsM1, nPixelsM1Init;
-register int                red, green, blue;
-register int                redAboveError, greenAboveError, blueAboveError;
-register int                redAboveLeftError, greenAboveLeftError, blueAboveLeftError;
-register int                redAboveRightError, greenAboveRightError, blueAboveRightError;
+int                red, green, blue;
+int                redAboveError, greenAboveError, blueAboveError;
+int                redAboveLeftError, greenAboveLeftError, blueAboveLeftError;
+int                redAboveRightError, greenAboveRightError, blueAboveRightError;
 int                         redRShift, greenRShift, blueRShift;
-register long               pixel;
-register int               *pError;
-register ilPtr              pSrc;
+long               pixel;
+int               *pError;
+ilPtr              pSrc;
 long                       *pColorTable;
 ilPtr                       pDst, pSrcLine, pDstLine;
 
@@ -495,13 +495,13 @@ static ilError ilExecuteDiffusion484 (
 ilDitherPrivPtr             pPriv;
 long                        srcRowBytes, dstRowBytes;
 long                        nLinesM1, nPixelsM1, nPixelsM1Init;
-register int                red, green, blue;
-register int                redAboveError, greenAboveError, blueAboveError;
-register int                redAboveLeftError, greenAboveLeftError, blueAboveLeftError;
-register int                redAboveRightError, greenAboveRightError, blueAboveRightError;
-register long               pixel;
-register int               *pError;
-register ilPtr              pSrc;
+int                red, green, blue;
+int                redAboveError, greenAboveError, blueAboveError;
+int                redAboveLeftError, greenAboveLeftError, blueAboveLeftError;
+int                redAboveRightError, greenAboveRightError, blueAboveRightError;
+long               pixel;
+int               *pError;
+ilPtr              pSrc;
 long                       *pColorTable;
 ilPtr                       pDst, pSrcLine, pDstLine;
 
@@ -614,12 +614,12 @@ static ilError ilExecuteQuickDiffusionRGB (
 ilDitherPrivPtr             pPriv;
 long                        srcRowBytes, dstRowBytes;
 long                        nLinesM1, nPixelsM1, nPixelsM1Init;
-register int                red, green, blue;
-register int                redRShift, greenRShift, blueRShift;
-register long               pixel;
-register int               *pError;
-register ilPtr              pSrc;
-register long              *pColorTable;
+int                red, green, blue;
+int                redRShift, greenRShift, blueRShift;
+long               pixel;
+int               *pError;
+ilPtr              pSrc;
+long              *pColorTable;
 ilPtr                       pDst, pSrcLine, pDstLine;
 
         /*  Same as regular diffusion above, except spread the errors in a simpler and
@@ -771,9 +771,9 @@ static int ScanBox(
 convertBoxTotalRec          total, part1, part2;
 convertBoxCountRec          count;
 convertBoxRec               slice;
-register convertBoxRec     *pBox = &BoxTable[box];
+convertBoxRec     *pBox = &BoxTable[box];
 double                      temp, ssq1, ssq2;
-register int                axis, plane, rgb, n;
+int                axis, plane, rgb, n;
 
     if ( CountBox( pBox, Ftable, &count ) ) {
 
@@ -848,13 +848,13 @@ static ilError ilChooseColorsExecute (
     long                   *pNLines
     )
 {
-register ilDitherPrivPtr    pPriv;
+ilDitherPrivPtr    pPriv;
 long                        srcRowBytes, dstRowBytes, nRowsM1, nLinesM1;
 long                        width, height;
 ilPtr                       pSrcLine, pDstLine;
-register long               rowCount;
-register ilPtr              pSrc, pDst;
-register unsigned short    *pPalette;
+long               rowCount;
+ilPtr              pSrc, pDst;
+unsigned short    *pPalette;
 int                         nBoxes, nColors;
 int                         index, axis, plane, inner, outer;
 unsigned long              *Ftable;
@@ -886,7 +886,7 @@ convertBoxTotalRec          total[256];
         pSrcLine += srcRowBytes;
         rowCount = nRowsM1;
         do {
-            register ilByte  R, G, B;
+            ilByte  R, G, B;
 
             R = *pSrc++;        /* red */
             G = *pSrc++;        /* green */
@@ -921,8 +921,8 @@ convertBoxTotalRec          total[256];
     }
 
     for ( outer = 0 ; outer < nBoxes ; outer++ ) {
-        register convertBoxRec  *pBox = &box[outer];
-        register int             R, G, B;
+        convertBoxRec  *pBox = &box[outer];
+        int             R, G, B;
         int                      rgb_inner, rgb_outer, rgb_limit;
         unsigned char            multiple, candidate[256];
         double                   ssq_inner, ssq_outer, distance;
@@ -975,7 +975,7 @@ convertBoxTotalRec          total[256];
         pDstLine += dstRowBytes;
         rowCount = nRowsM1;
         do {
-            register ilByte  R, G, B, P;
+            ilByte  R, G, B, P;
 
             R = *pSrc++;        /* red */
             G = *pSrc++;        /* green */
@@ -1010,13 +1010,13 @@ convertBoxTotalRec          total[256];
 IL_PRIVATE ilBool _ilConvertRGBToPalette (
     ilPipe                  pipe,
     ilPipeInfo             *pInfo,
-    register ilImageDes    *pDes,
+    ilImageDes    *pDes,
     ilImageFormat          *pFormat,
     int                     option,
-    register ilConvertToPaletteInfo *pData
+    ilConvertToPaletteInfo *pData
     )
 {
-    register ilDitherPrivPtr pPriv;
+    ilDitherPrivPtr pPriv;
     ilDstElementData        dstData;
     ilSrcElementData        srcData;
     ilError                 (*executeFunction)(), (*cleanupFunction)();
@@ -1155,10 +1155,10 @@ IL_PRIVATE ilBool _ilConvertRGBToPalette (
             with r/g/b/pixel together, instead of 0..65535 and rgb spread apart.
         */
     if (diffusion) {
-        register int            i, index;
+        int            i, index;
         int                     red, green, blue;
         int                     redLevel, greenLevel, blueLevel;
-        register long *pColorTemp;
+        long *pColorTemp;
         pColorTable = (long *)IL_MALLOC (sizeof (long) * 256);
         if (!pColorTable) {
             ilDeclarePipeInvalid (pipe, IL_ERROR_MALLOC);
@@ -1190,9 +1190,9 @@ IL_PRIVATE ilBool _ilConvertRGBToPalette (
             goto cleanup;
             }
        if (!chooseColors) {
-            register int            red, green, blue;
-            register int            redLevel, greenLevel, blueLevel;
-            register unsigned short *pPal;
+            int            red, green, blue;
+            int            redLevel, greenLevel, blueLevel;
+            unsigned short *pPal;
 
             pPal = pPalette;
             for (red = 0; red < pData->levels[0]; red++) {

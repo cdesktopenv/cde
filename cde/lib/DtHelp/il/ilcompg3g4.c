@@ -390,10 +390,10 @@ int nTimes)
 {
 	int rel_diff, abs_diff;
 
-	register unsigned char *bp;
-	register int ini_diff;
-	register int n, fin_diff;
-	register unsigned char *table ;
+	unsigned char *bp;
+	int ini_diff;
+	int n, fin_diff;
+	unsigned char *table ;
 
 	bp = sByte;
 
@@ -471,10 +471,10 @@ done:
    ======================================================================== */
 
 static ilBool _ilCompressG3G4ReallocBuffer (
-register ilCompressG3G4PrivPtr  pPriv
+ilCompressG3G4PrivPtr  pPriv
 )
 {
-	register unsigned long  offset;
+	unsigned long  offset;
 
 	offset = pPriv->pDstByte - pPriv->pDstImage->plane[0].pPixels;
 	if (!_ilReallocCompressedBuffer (pPriv->pDstImage, 0, offset + G3_G4_MAX_BUFFER_WRITE))
@@ -502,18 +502,18 @@ register ilCompressG3G4PrivPtr  pPriv
    ======================================================================== */
 static ilError
 _ilPutData ( 
-register  ilCompressG3G4PrivPtr pPriv)
+ ilCompressG3G4PrivPtr pPriv)
 
 {
 
    /* use local variables here, copy the values from pPriv to local & copy them
       back at the end of the function; this is expected to be faster                */
 
-   register unsigned int         bitCount;       /* # of bits waiting to be output  */
+   unsigned int         bitCount;       /* # of bits waiting to be output  */
 /* compatibility problem with long and unsigned long data fields */
-   register CARD32               bits;           /* bits waiting to be output       */
-   register ilPtr                pDstByte;       /* ptr to spot for next byte in output buffer */
-   register ilBool               Is_Lsb_First;
+   CARD32               bits;           /* bits waiting to be output       */
+   ilPtr                pDstByte;       /* ptr to spot for next byte in output buffer */
+   ilBool               Is_Lsb_First;
 
 	/*  Output 3 bytes; check for room in buffer; realloc if not room.
             */
@@ -624,7 +624,7 @@ register  ilCompressG3G4PrivPtr pPriv)
    ======================================================================== */
 static ilError
 _ilGetNdPutNewBits( 
-register  ilCompressG3G4PrivPtr pPriv,
+ ilCompressG3G4PrivPtr pPriv,
 int count,
 ilBool pixelValue
 )
@@ -762,23 +762,23 @@ ilImageInfo            *pDstImage
    ======================================================================== */
 static ilError
 _ilCompressG3Line( 
-register  ilCompressG3G4PrivPtr pPriv,
-register  ilPtr                 pSrc
+ ilCompressG3G4PrivPtr pPriv,
+ ilPtr                 pSrc
 )
 {
-    register int        a0, b2;             /* changing elements pertaining to the pSrcLine   */
-    register ilBool     pixelValue;         /* value of the pixel 0 or 1                      */
+    int        a0, b2;             /* changing elements pertaining to the pSrcLine   */
+    ilBool     pixelValue;         /* value of the pixel 0 or 1                      */
     ilError             error;
-    register long       width;              /* width of the image */
-    register ilBool     white;              /* value of the white pixel */
+    long       width;              /* width of the image */
+    ilBool     white;              /* value of the white pixel */
 #ifndef NOINLINEG3
-	register int ini_diff;
-	register int n, fin_diff;
-	register unsigned char *table ;
-    register ilBool termFlag ;
-    register int    index;
-    register int    tnumBits ;
-    register int    count;
+	int ini_diff;
+	int n, fin_diff;
+	unsigned char *table ;
+    ilBool termFlag ;
+    int    index;
+    int    tnumBits ;
+    int    count;
     CARD32          tnewBits;
 #endif
 
@@ -1345,7 +1345,7 @@ ilImageInfo            *pDstImage
    ======================================================================== */
 ilError
 _ilCompressG4Line( 
-register  ilCompressG3G4PrivPtr pPriv,
+ ilCompressG3G4PrivPtr pPriv,
 ilPtr pSrcLine,
 ilPtr pRefLine
 )

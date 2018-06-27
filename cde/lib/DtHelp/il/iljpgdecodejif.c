@@ -117,14 +117,14 @@ iljpgError iljpgDecodeJIF (
     iljpgDataPtr       *ppData                  /* RETURNED */
     )
 {
-    register iljpgDataPtr pData;
+    iljpgDataPtr pData;
     iljpgBool           firstMarker, SOSFound, SOF0Found;
     iljpgError          error;
     int                 value, nFrameComps, length;
     iljpgPtr           *ppTable;
     iljpgCompDataPtr    pComp;
-    register int        i, index;
-    register iljpgPtr   pTable;
+    int        i, index;
+    iljpgPtr   pTable;
     struct {
         int             id, horiFactor, vertFactor, QTableIndex;
         }               frameComp[ILJPG_MAX_COMPS], *pFrame;

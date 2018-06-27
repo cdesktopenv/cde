@@ -91,7 +91,7 @@ static ilError ilAddElementRGBGrayConversions (
     void               *pOptionData         /* not used */
     )
 {
-    register int        i;
+    int        i;
 
         /*  Init tables, index by R/G/B, which effectively multiply each component
             (0..255) by the NTSC conversion formula: 0.30 * R + 0.587 * G + 0.114 * B,
@@ -126,12 +126,12 @@ static ilError ilExecuteRGBToGray  (
     long                   *pNLines
     )
 {
-register ilRGBToGrayRecPtr  pPriv;
+ilRGBToGrayRecPtr  pPriv;
 long                        srcnbytes, dstnbytes;
-register ilPtr              psrcline, pdstline;
-register ilPtr              psrc, pdst;
-register long               nLines, nPixels;
-register INT32		    i;
+ilPtr              psrcline, pdstline;
+ilPtr              psrc, pdst;
+long               nLines, nPixels;
+INT32		    i;
 
 
 
@@ -200,11 +200,11 @@ static ilError ilExecuteGrayToRGB  (
     )
 {
 ilRGBToGrayRecPtr           pPriv;
-register long               nLinesM1, nPixelsM1;
+long               nLinesM1, nPixelsM1;
 long                        srcRowBytes, dstRowBytes, nPixelsM1Init;
 ilPtr                       pSrcLine, pDstLine;
-register ilPtr              pSrc, pDst;
-register ilByte             byte;
+ilPtr              pSrc, pDst;
+ilByte             byte;
 
     pPriv = (ilRGBToGrayRecPtr)pData->pPrivate;
     nPixelsM1Init = pPriv->nPixels - 1;

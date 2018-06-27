@@ -122,7 +122,7 @@ IL_EXTERN void _ilFreeImagePixels (
         is zero (0).  Locks image to that strip height.
     */
 IL_EXTERN ilBool _ilAllocStripOffsets (
-    register ilImagePtr pImage,
+    ilImagePtr pImage,
     long                stripHeight
     );
 

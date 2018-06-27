@@ -219,7 +219,7 @@ static ilError ilReadXExecute (
     long                   *pNLines
     )
 {
-register ilReadXPrivPtr     pPriv;
+ilReadXPrivPtr     pPriv;
 Drawable                    readDrawable;
 ilBool                      lastStrip;
 long                        nLines;
@@ -278,9 +278,9 @@ long                        srcRowBytes, dstRowBytes, nBytesToCopy;
         /*  If a long/pixel image, must extract IL RGB bytes from X long/pixel image.
         */
     if (pPriv->isLongImage) {
-        register ilPtr          pDst;
-        register unsigned long  temp, *pSrc;
-        register long           nLongsM1;
+        ilPtr          pDst;
+        unsigned long  temp, *pSrc;
+        long           nLongsM1;
 
         while (nLines-- > 0) {
             pSrc = (unsigned long *)pSrcLine;
@@ -305,8 +305,8 @@ long                        srcRowBytes, dstRowBytes, nBytesToCopy;
                  copy buffer, else one line at a time.
             */
         if ((Ximage->depth == 1) && (Ximage->bitmap_bit_order == LSBFirst)) {
-            register ilPtr          pSrc, pDst;
-            register long           nBytesM1;
+            ilPtr          pSrc, pDst;
+            long           nBytesM1;
 
             if (nBytesToCopy > 0)
                 while (nLines-- > 0) {
@@ -348,7 +348,7 @@ static ilError ilReadXExecuteSlow (
     long                   *pNLines
     )
 {
-register ilReadXPrivPtr     pPriv;
+ilReadXPrivPtr     pPriv;
 ilReadXPrivRec              priv;  
 Drawable                    readDrawable;
 ilBool                      lastStrip;
@@ -408,9 +408,9 @@ long                        srcRowBytes, dstRowBytes, nBytesToCopy;
         /*  If a long/pixel image, must extract IL RGB bytes from X long/pixel image.
         */
     if (pPriv->isLongImage) {
-        register ilPtr          pDst;
-        register unsigned long  temp, *pSrc;
-        register long           nLongsM1;
+        ilPtr          pDst;
+        unsigned long  temp, *pSrc;
+        long           nLongsM1;
         unsigned int            X, Y;
 
 	XVisualInfo             *pVisualInfo;
@@ -446,8 +446,8 @@ long                        srcRowBytes, dstRowBytes, nBytesToCopy;
                  copy buffer, else one line at a time.
             */
         if ((Ximage->depth == 1) && (Ximage->bitmap_bit_order == LSBFirst)) {
-            register ilPtr          pSrc, pDst;
-            register long           nBytesM1;
+            ilPtr          pSrc, pDst;
+            long           nBytesM1;
 
             if (nBytesToCopy > 0)
                 while (nLines-- > 0) {

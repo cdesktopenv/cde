@@ -70,15 +70,15 @@ static void ilUpsampleQuadruple (
     long                    nSrcBytes,
     long                    srcRowBytes,
     ilPtr                   pSrcLine,
-    register long           dstRowBytes,
+    long           dstRowBytes,
     ilPtr                   pDstLine
     )
 {
-register int                temp0, temp1, delta;
-register unsigned long      aLong;
+int                temp0, temp1, delta;
+unsigned long      aLong;
 long                        nSrcBytesM1, dstOffset;
-register ilPtr              pSrc, pSrcBelow, pDst;
-register int                left, leftBelow, right, rightBelow;
+ilPtr              pSrc, pSrcBelow, pDst;
+int                left, leftBelow, right, rightBelow;
 
 #define FUPINTER(_start, _delta, _temp, _result) { \
     _result = (_start) << 8; \
@@ -178,9 +178,9 @@ ilImagePlaneInfo           *pSrcPlane, *pDstPlane;
 int                         sample, subsampleShift;
 ilPtr                       pSrcLine, pDstLine;
 long                        width, nLines, nSrcLines, nSrcBytes, srcRowBytes, nSrcBytesM2;
-register long               dstRowBytes;
-register ilPtr              pSrc, pSrcBelow, pDst;
-register int                left, leftBelow, right, rightBelow;
+long               dstRowBytes;
+ilPtr              pSrc, pSrcBelow, pDst;
+int                left, leftBelow, right, rightBelow;
 
         /*  Get width and height of _upsampled_ image; exit if zero. */
     pPriv = (ilUpFastPrivPtr)pData->pPrivate;
@@ -299,7 +299,7 @@ IL_PRIVATE ilBool _ilFastUpsample (
     int                     scaleFactor
     )
 {
-    register ilUpFastPrivPtr pUpPriv;
+    ilUpFastPrivPtr pUpPriv;
     ilUpFastPrivRec         upPriv;
     int                     i, j;
     ilYCbCrSampleInfo      *pSample;
@@ -431,9 +431,9 @@ static void ilUpsampleHorizontal (
     )
 {
 long                        nMidPixels, nEndPixels;
-register long               nPixelsM1;
-register ilPtr              pSrc, pDst;
-register ilByte             pixel, prevPixel;
+long               nPixelsM1;
+ilPtr              pSrc, pDst;
+ilByte             pixel, prevPixel;
 
     if (nLines <= 0)
         return;
@@ -498,7 +498,7 @@ register ilByte             pixel, prevPixel;
                 3 (prevPixel) | (12+3)/4=3   (15+3)/4=4   (18+3)/4=5   6 (src pixel) |
         */
       case 2: {
-        register int delta, temp;
+        int delta, temp;
 
         nMidPixels = (width >> 2) - 1;
         nEndPixels = width - (nMidPixels << 2) - 1;
@@ -547,12 +547,12 @@ static void ilUpsampleVertical (
     unsigned int    shift,          /* 0 = no upsample; 1 = * 2 (doubling); 2 = * 4  */
     long            width,          /* width of _whole_ (un-upsampled) image */
     long            nLines,         /* # of dst lines (after upsampling) */
-    register long   rowBytes,       /* bytes / row in src/dst image */
+    long   rowBytes,       /* bytes / row in src/dst image */
     ilPtr           pLine           /* ptr to first line of src/dst image */
     )
 {
 long                        nPixelsM1Init;
-register long               nPixelsM1;
+long               nPixelsM1;
 
         /*  Return if no pixels or lines to do. */
     if (nLines <= 0)
@@ -572,7 +572,7 @@ register long               nPixelsM1;
             and third lines, filling in the second with the average of the two.
         */
       case 1: {
-        register ilPtr  pDst, pSrc1, pSrc2;
+        ilPtr  pDst, pSrc1, pSrc2;
 
         nLines--;                       /* don't count first line already in buffer */
         while (nLines >= 2) {           /* two src lines, line between to interpolate */
@@ -601,8 +601,8 @@ register long               nPixelsM1;
             0 and 4, interpolating 1..3 - see horizontal upsampling.
         */
       case 2: {
-        register ilPtr  pSrc, pDst;
-        register int    pixel, delta;
+        ilPtr  pSrc, pDst;
+        int    pixel, delta;
         long            rowBytesTimes4 = rowBytes << 2;
 
         nLines--;                       /* don't count first line already in buffer */
@@ -649,7 +649,7 @@ static ilError ilExecuteUpsample (
     long                   *pNLines             /* ignored on input */
     )
 {
-register ilUpsamplePrivPtr pPriv;
+ilUpsamplePrivPtr pPriv;
 ilImagePlaneInfo           *pSrcPlane, *pDstPlane;
 int                         nSamples;
 ilPtr                       pSrcLine, pDstLine;
@@ -724,14 +724,14 @@ IL_PRIVATE ilBool _ilUpsampleYCbCr (
     ilBool                  upSample
     )
 {
-    register ilUpsamplePrivPtr pUpPriv;
+    ilUpsamplePrivPtr pUpPriv;
     ilImageDes              pipeDes;
     ilUpsampleShiftRec     *pShift;
     ilYCbCrSampleInfo      *pSample;
     int                     sample;
     ilDstElementData        dstData;
     ilSrcElementData        srcData;
-    register long           i, j;
+    long           i, j;
 
         /*  Only 8 bit planar YCbCr can currently be upsampled; if not that and upsampling
             needed, error; if no upsampling (only convert to gray) convert to planar.

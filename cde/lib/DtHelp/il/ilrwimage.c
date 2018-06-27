@@ -85,12 +85,12 @@ static ilError ilThrottleInit (
             error on last one.
         */
 static ilError ilProducerThrottleExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                    dstLine,            /* ignored */
     long                   *pNLines             /* ignored on input */
     )
 {
-register ilThrottlePrivPtr  pPriv;
+ilThrottlePrivPtr  pPriv;
 
         /*  Set the next elements srcLine to our current line.  Bump srcLine by
             stripHeight (# lines just "written"), but if that is to/past end of image,
@@ -116,12 +116,12 @@ register ilThrottlePrivPtr  pPriv;
             pData->srcLine must be startLine, as passed to ilFeedPipe()
         */
 static ilError ilFeedProducerThrottleExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                    dstLine,            /* ignored */
     long                   *pNLines
     )
 {
-register ilThrottlePrivPtr  pPriv;
+ilThrottlePrivPtr  pPriv;
 long                        nLines;
 
         /*  Point next element to the feed data, set into pData by ilExecutePipe():
@@ -149,12 +149,12 @@ long                        nLines;
         /*  Execute() for when not the producer, but constant strips are not required.
         */
 static ilError ilNonConstantThrottleExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                    dstLine,            /* ignored */
     long                   *pNLines
     )
 {
-register ilThrottlePrivPtr  pPriv;
+ilThrottlePrivPtr  pPriv;
 
 
         /*  Not from a producer, but !constantStrip; easy: caller just wants strips
@@ -203,14 +203,14 @@ register ilThrottlePrivPtr  pPriv;
         /*  Execute() for when not a producer and constant strips are required.
         */
 static ilError ilConstantThrottleExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                    dstLine,            /* ignored */
     long                   *pNLines
     )
 {
-register ilThrottlePrivPtr  pPriv;
+ilThrottlePrivPtr  pPriv;
 long                        nLines, nLinesToWrite;
-register ilError            returnCode;
+ilError            returnCode;
 
     pPriv = (ilThrottlePrivPtr)pData->pPrivate;
     if (pPriv->beingRecalled)
@@ -314,7 +314,7 @@ register ilError            returnCode;
                 Handles uncompressed images only; compressed images handled separately.
         */
 static ilError ilCopyImageExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                    dstLine,
     long                   *pNLines
     )
@@ -326,7 +326,7 @@ long                        srcRowBytes, dstRowBytes;
 long                        nLines, nBytes, srcStart, dstStart;
 int                         nPlanes;
 ilPtr                       pSrcLine, pDstLine;
-register long               lineCount;
+long               lineCount;
 
         /*  Point to src/dst image and first plane of each */
     pSrcImage = pData->pSrcImage;

@@ -59,8 +59,8 @@ static ilError ilExecuteBitAlign (
 {
 ilImagePlaneInfo           *pImagePlane;
 long                        srcRowBytes, dstRowBytes;
-register long               nLinesM1, nBytes;
-register ilPtr              pSrc, pDst;
+long               nLinesM1, nBytes;
+ilPtr              pSrc, pDst;
 
         /*  Use bcopy to copy each line; copy the lesser of the src/dstRowBytes.
             Exit if no lines or pixels.
@@ -115,9 +115,9 @@ static ilError ilExecute8Bit3PlaneToPixel (
 ilImagePlaneInfo           *pImagePlane;
 long                        src0RowBytes, src1RowBytes, src2RowBytes, dstRowBytes;
 long                        nPixelsM1Init;
-register long               nLinesM1, nPixelsM1;
+long               nLinesM1, nPixelsM1;
 ilPtr                       pSrc0Line, pSrc1Line, pSrc2Line, pDstLine;
-register ilPtr              pSrc0, pSrc1, pSrc2, pDst;
+ilPtr              pSrc0, pSrc1, pSrc2, pDst;
 
         /*  Get ptr to start of 3 src planes and to dst */
     pImagePlane = pData->pSrcImage->plane;
@@ -188,9 +188,9 @@ static ilError ilExecute8Bit3PixelToPlane (
 ilImagePlaneInfo           *pImagePlane;
 long                        dst0RowBytes, dst1RowBytes, dst2RowBytes, srcRowBytes;
 long                        nPixelsM1Init;
-register long               nLinesM1, nPixelsM1;
+long               nLinesM1, nPixelsM1;
 ilPtr                       pDst0Line, pDst1Line, pDst2Line, pSrcLine;
-register ilPtr              pDst0, pDst1, pDst2, pSrc;
+ilPtr              pDst0, pDst1, pDst2, pSrc;
 
         /*  Get ptr to start src plane and to 3 dst planes */
     pImagePlane = pData->pSrcImage->plane;
@@ -265,9 +265,9 @@ ilImagePlaneInfo           *pImagePlane;
 long                        srcRowBytes, dstRowBytes, nBytesM1Init, nLinesM1;
 ilBool                      oddNumberOfNibbles;
 ilPtr                       pSrcLine, pDstLine;
-register long               nBytesM1;
-register ilPtr              pSrc, pDst;
-register ilByte             byte;
+long               nBytesM1;
+ilPtr              pSrc, pDst;
+ilByte             byte;
 
         /*  Exit if no lines or pixels. */
     pSrcImage = pData->pSrcImage;
@@ -341,9 +341,9 @@ ilImagePlaneInfo           *pImagePlane;
 long                        srcRowBytes, dstRowBytes, nBytesM1Init, nLinesM1;
 ilBool                      oddNumberOfNibbles;
 ilPtr                       pSrcLine, pDstLine;
-register long               nBytesM1;
-register ilPtr              pSrc, pDst;
-register ilByte             byte0, byte1;
+long               nBytesM1;
+ilPtr              pSrc, pDst;
+ilByte             byte0, byte1;
 
         /*  Exit if no lines or pixels. */
     pSrcImage = pData->pSrcImage;
@@ -419,9 +419,9 @@ ilImagePlaneInfo           *pImagePlane;
 long                        srcRowBytes, dstRowBytes, nBytesM1Init, nLinesM1;
 ilBool                      oddNumberOfNibbles;
 ilPtr                       pSrcLine, pDstLine;
-register long               nBytesM1;
-register ilPtr              pSrc, pDst;
-register ilByte             byte;
+long               nBytesM1;
+ilPtr              pSrc, pDst;
+ilByte             byte;
 
         /*  Use bcopy to copy each line; copy the lesser of the src/dstRowBytes.
             Exit if no lines or pixels.
@@ -490,9 +490,9 @@ ilImageInfo                *pSrcImage;
 ilImagePlaneInfo           *pImagePlane;
 long                        srcRowBytes, dstRowBytes, nBytesM1Init, nLinesM1;
 ilPtr                       pSrcLine, pDstLine;
-register long               nBytesM1;
-register ilPtr              pSrc, pDst;
-register ilByte             byte;
+long               nBytesM1;
+ilPtr              pSrc, pDst;
+ilByte             byte;
 
         /*  Use bcopy to copy each line; copy the lesser of the src/dstRowBytes.
             Exit if no lines or pixels.

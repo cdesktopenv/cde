@@ -124,7 +124,7 @@ static ilError ilDecompLZWCleanup (
    ======================================================================== */
 
 static int ilCurrentBitsRead (
-    register ilDecompPrivPtr pPriv
+    ilDecompPrivPtr pPriv
     )
 {
     int   retval;
@@ -164,7 +164,7 @@ static void ilStringFromCode(
 {
     unsigned int  index;
     int           node;
-    register ilDenodePtr   denodes = pPriv->denodes;
+    ilDenodePtr   denodes = pPriv->denodes;
 
     if (code > 255) node = code - 2;    /* remove for extra codes */
     else node = code;
@@ -213,7 +213,7 @@ static void ilAddStringToTable (
    ======================================================================== */
 
 static ilError ilInitializeDecodeTable (
-    register ilDecompPrivPtr pPriv
+    ilDecompPrivPtr pPriv
     )
 {
     unsigned int    i;
@@ -263,20 +263,20 @@ static ilError ilDecompLZWExecute(
     long                nLines;                 /* Number of lines per source image strip                        */  
     long                nBytesToGo;             /* Number of source image bytes left to unpack for current strip */  
     long                nDstLineBytesToGo;      /* Number of bytes left to write to this line of destination     */
-    register ilPtr      pSrcByte;               /* Pointer to source image data                                  */  
-    register ilPtr      pDstByte;               /* Pointer to destination image data first byte                  */  
+    ilPtr      pSrcByte;               /* Pointer to source image data                                  */
+    ilPtr      pDstByte;               /* Pointer to destination image data first byte                  */
     ilPtr               pSrcStart;              /* Pointer to initial src (comp) byte                            */
     ilPtr               pDstLine;               /* Pointer to destination image data first byte of each scanline */  
-    register ilDecompPrivPtr pPriv;             /* Pointer to private image data                                 */  
+    ilDecompPrivPtr pPriv;             /* Pointer to private image data                                 */
     ilImagePlaneInfo   *pPlane;
 
     /* Greeley defines */
-    register unsigned int bitCount;
+    unsigned int bitCount;
     unsigned int        numBits;
 /* compatibility problem with long and unsigned long data fields */
     CARD32              bits;
     long                k;
-    register unsigned int code;
+    unsigned int code;
     unsigned int        oldCode;
     unsigned int        stringCount = 0;
     ilError             status      = IL_OK;

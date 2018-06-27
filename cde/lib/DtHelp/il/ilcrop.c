@@ -85,7 +85,7 @@ static ilError ilCropCompExecute (
     long                   *pNLines
     )
 {
-register ilCropCompPrivPtr  pPriv;
+ilCropCompPrivPtr  pPriv;
 
         /*  If this strip is out of range of strips to be written, return 0 for
             # lines written (crops the strip); otherwise pass strip on to next filter.
@@ -117,7 +117,7 @@ static ilBool ilCropCompressed (
     )
 {
 ilRect                  rect;
-register long           stripHeight, bottom;
+long           stripHeight, bottom;
 long                    topStrip, bottomStrip, topLine;
 ilDstElementData        dstData;
 ilCropCompPrivPtr       pPriv;
@@ -212,19 +212,19 @@ static ilError ilCropInit(
 
    ============================================================================================================================= */
 static ilError ilCropBitonalExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
-register CARD32            *psrc, *pdst, *psrcline, *pdstline, srca, srcb;
-register long              srcnwords, dstnwords, nlines;
-register unsigned long     dstwidth;  
-register long              nlongs, firstword;
+CARD32            *psrc, *pdst, *psrcline, *pdstline, srca, srcb;
+long              srcnwords, dstnwords, nlines;
+unsigned long     dstwidth;
+long              nlongs, firstword;
 ilImagePlaneInfo           *pplane;
-register unsigned long     local_noDstLine, Lwordoff, Rwordoff;
-register int               x, y, lastcount, yextent;
-register ilCropPrivptr     pPriv;
+unsigned long     local_noDstLine, Lwordoff, Rwordoff;
+int               x, y, lastcount, yextent;
+ilCropPrivptr     pPriv;
 
 
 
@@ -298,18 +298,18 @@ register ilCropPrivptr     pPriv;
 
    ============================================================================================================================= */
 static ilError ilCrop3ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes, nlines;
-register unsigned long     dstwidth;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes, nlines;
+unsigned long     dstwidth;
 ilImagePlaneInfo           *pplane;
-register unsigned long     local_noDstLine;
-register int               x, y, lastcount, yextent, xextent;
-register ilCropPrivptr     pPriv;
+unsigned long     local_noDstLine;
+int               x, y, lastcount, yextent, xextent;
+ilCropPrivptr     pPriv;
 
 
    nlines                  =  *pNLines;
@@ -368,18 +368,18 @@ register ilCropPrivptr     pPriv;
 
    ============================================================================================================================= */
 static ilError ilCropByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes, nlines;
-register unsigned long     dstwidth;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes, nlines;
+unsigned long     dstwidth;
 ilImagePlaneInfo           *pplane;
-register unsigned long     local_noDstLine;
-register int               x, y, lastcount, yextent, xextent;
-register ilCropPrivptr     pPriv;
+unsigned long     local_noDstLine;
+int               x, y, lastcount, yextent, xextent;
+ilCropPrivptr     pPriv;
 
 
    nlines                  =  *pNLines;
@@ -440,7 +440,7 @@ ilBool ilCrop (
 {
 unsigned int            state;
 ilPipeInfo              info;
-register ilCropPrivptr  pPriv;
+ilCropPrivptr  pPriv;
 ilDstElementData        dstdata;
 ilImageDes              imdes;
 ilImageFormat           imformat;

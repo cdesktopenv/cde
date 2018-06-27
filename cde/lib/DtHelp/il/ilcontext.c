@@ -75,7 +75,7 @@ ilError ilInternalCreateContext (
     unsigned long       mustBeZero
     )
 {
-register ilContextPtr   pContext;
+ilContextPtr   pContext;
 
         /*  If internal version # > the version # the library was built with, then
             error; if <, old IL program using new library: supported.
@@ -116,7 +116,7 @@ IL_PRIVATE void *_ilMallocAndInitWithGarbage (
     unsigned long           nBytes
     )
 {
-register ilPtr              p, pMalloc;
+ilPtr              p, pMalloc;
 
     pMalloc = (ilPtr)malloc (nBytes);
     if (p = pMalloc) {
@@ -136,7 +136,7 @@ unsigned int ilGetPrivateType (
     ilContext           context
     )
 {
-register ilContextPtr   pContext;
+ilContextPtr   pContext;
 
         /*  Increment code (but not if it has wrapped to zero! and return it.
         */
@@ -155,7 +155,7 @@ ilBool ilDestroyContext (
     ilContext           context
     )
 {
-register ilContextPtr   pContext;
+ilContextPtr   pContext;
 int                     i;
 
         /*  Destroy all objects associated with this context, then free
@@ -179,8 +179,8 @@ int                     i;
                 Not in this file for any particular reason; no other logical place for it.
         */
 IL_PRIVATE void _ilIntersectRect (
-    register ilRect     *pSrcRect,
-    register ilRect     *pDstRect
+    ilRect     *pSrcRect,
+    ilRect     *pDstRect
     )
 {
 long                    left, top, right, bottom, i;

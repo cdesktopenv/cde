@@ -97,8 +97,8 @@ static ilError ilWriteCompressedCleanup (
     ilBool              aborting
     )
 {
-register ilImagePlaneInfo *pImagePlane;
-register ilImagePtr     pImage;
+ilImagePlaneInfo *pImagePlane;
+ilImagePtr     pImage;
 ilError                 error;
 
     pImage = pPriv->pImage;
@@ -137,13 +137,13 @@ ilError                 error;
     /*  Execute() function for ilWriteImage(), writing compressed images.
     */
 static ilError ilWriteCompressedExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                dstLine,
     long               *pNLines
     )
 {
-register ilImagePrivPtr pPriv;
-register ilImagePtr     pImage;
+ilImagePrivPtr pPriv;
+ilImagePtr     pImage;
 
     pPriv = (ilImagePrivPtr)pData->pPrivate;
     pImage = pPriv->pImage;
@@ -193,12 +193,12 @@ static ilBool ilWriteCompressedImage (
     ilObject            image
     )
 {
-register ilImagePtr     pImage;
+ilImagePtr     pImage;
 ilPipeInfo              info;                              
 ilImageDes              des;
 ilImageFormat           format;
 ilBool                  mustConvert;
-register ilImagePrivPtr pPriv;
+ilImagePrivPtr pPriv;
 ilSrcElementData        srcData;
 long                    stripHeight;
 ilPtr                   pCompData;
@@ -289,7 +289,7 @@ ilPtr                   pCompData;
         /*  Execute() for WriteImage(): merely bumps srcLine by # lines written.
         */
 static ilError ilWriteImageExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                    dstLine,
     long                   *pNLines
     )
@@ -322,9 +322,9 @@ ilBool ilWriteImage (
     ilObject            image
     )
 {
-register ilImagePtr     pImage;
-register ilImagePrivPtr pPriv;
-register ilContext      context;
+ilImagePtr     pImage;
+ilImagePrivPtr pPriv;
+ilContext      context;
 ilPipeInfo              info;
 ilSrcElementData        srcData;
 

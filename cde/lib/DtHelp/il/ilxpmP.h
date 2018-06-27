@@ -208,10 +208,10 @@ FUNC(xpmGetRgbName, char *, (xpmRgbName * rgbn, int rgbn_max,
 			     int red, int green, int blue));
 FUNC(xpmFreeRgbNames, void, (xpmRgbName * rgbn, int rgbn_max));
 
-FUNC(xpm_xynormalizeimagebits, int, (register unsigned char *bp,
-				     register XImage * img));
-FUNC(xpm_znormalizeimagebits, int, (register unsigned char *bp,
-				    register XImage * img));
+FUNC(xpm_xynormalizeimagebits, int, (unsigned char *bp,
+				     XImage * img));
+FUNC(xpm_znormalizeimagebits, int, (unsigned char *bp,
+				    XImage * img));
 */
 /*
  * Macros

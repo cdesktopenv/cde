@@ -47,12 +47,12 @@
     */
     ILJPG_PUBLIC_EXTERN
 iljpgError iljpgDecodeInit (
-    register iljpgDataPtr pData,
+    iljpgDataPtr pData,
     iljpgPtr           *pPrivate                /* RETURNED */
     )
 {
-    register iljpgDecodePrivPtr pPriv;
-    register iljpgCompPtr pComp;
+    iljpgDecodePrivPtr pPriv;
+    iljpgCompPtr pComp;
     int                 comp;
     iljpgCompDataPtr    pCompData;
     iljpgError          error;
@@ -155,10 +155,10 @@ iljpgError iljpgDecodeExecute (
     int                 outHuff[64];
     iljpgByte           outDCT[64];
     int                 restartInterval;
-    register iljpgCompPtr pComp;
+    iljpgCompPtr pComp;
     int                 nBytesInit;
-    register int        nLines, dc;
-    register iljpgPtr   pDstLine;
+    int        nLines, dc;
+    iljpgPtr   pDstLine;
 
 
     pPriv = (iljpgDecodePrivPtr)pPrivate;
@@ -273,8 +273,8 @@ iljpgError iljpgDecodeExecute (
                                }
 
                                 /*  Clip and output 8x8 block to position (bX, bY) */
-                            {   register int    nBytesM1;
-                                register iljpgPtr pSrc, pSrcLine, pDst;
+                            {   int    nBytesM1;
+                                iljpgPtr pSrc, pSrcLine, pDst;
 
                                 if (nBytesInit > 8) 
                                     nBytesInit = 8;

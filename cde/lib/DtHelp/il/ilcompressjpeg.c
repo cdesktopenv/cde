@@ -412,9 +412,9 @@ static ilError ilCompressJPEGDestroy (
     ilCompressJPEGPrivPtr   pPriv
     )
 {
-    register int            i;
+    int            i;
     ilPtr                   pTable;
-    register ilJPEGData    *pCompData;
+    ilJPEGData    *pCompData;
 
         /*  Free pCompData and any non-default Q tables */
     if (pCompData = pPriv->pCompData) {
@@ -439,7 +439,7 @@ static ilError ilCompressJPEGExecute (
     unsigned long          *pNLines
     )
 {
-    register ilCompressJPEGPrivPtr pPriv;
+    ilCompressJPEGPrivPtr pPriv;
     ilJPEGEncodeStream      streamRec;
     ilImageInfo            *pImage;
     ilImagePlaneInfo       *pSrcPlane;
@@ -489,13 +489,13 @@ static ilError ilCompressJPEGExecute (
         and return ptr to new table, or null if error.
     */
 static ilPtr _ilScaleQTable (
-    register ilPtr          pSrc,           /* ptr to 64 byte Q table to scale */
+    ilPtr          pSrc,           /* ptr to 64 byte Q table to scale */
     int                     Q               /* IL Q factor: != 0, or no scale needed */
     )
 {
     ilPtr                   pTable;
-    register ilPtr          pDst;
-    register int            i, value;
+    ilPtr          pDst;
+    int            i, value;
 
     if (!(pTable = (ilPtr)IL_MALLOC (64)))
         return (ilPtr)NULL;

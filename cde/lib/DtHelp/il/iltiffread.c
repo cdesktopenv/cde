@@ -86,12 +86,12 @@ static ilError ilReadJPEGTags (
     long               *pQOffsets,          /* array of nComps file offsets to tables */
     long               *pDCOffsets,
     long               *pACOffsets,
-    register ilJPEGData *pCompData          /* ptr to structure to fill in */
+    ilJPEGData *pCompData          /* ptr to structure to fill in */
     )
 {
-    register int        i, c, nBytes;
-    register ilJPEGSampleData *pSample;
-    register ilPtr      pTable;
+    int        i, c, nBytes;
+    ilJPEGSampleData *pSample;
+    ilPtr      pTable;
     ilByte              buffer[16];         /* buffer for DC/AC table prefix (# codes) */
 
         /*  Use sample/component index as table index; load tables based on sample */
@@ -152,10 +152,10 @@ static ilError ilReadFileInit (
     ilImageInfo        *pDstImage
     )
 {
-register ilReadFilePrivPtr pPriv = (ilReadFilePrivPtr)pPrivate;
+ilReadFilePrivPtr pPriv = (ilReadFilePrivPtr)pPrivate;
 ilFileImagePtr          pFileImage;
 ilError                 error;
-register ilFileTag     *pTag;
+ilFileTag     *pTag;
 
     /*  Data for tags to read: "numbers" is the array of tag ids, "nTags" in length.
         "?Index" vars are indices into "numbers" and returned data "tags".
@@ -263,8 +263,8 @@ int                     stripOffsetsIndex, stripByteCountsIndex, colorMapIndex,
             Copy TIFF palette (size = 2 ** nBits)  to pPriv->pPalette (size = 3 * 256).
         */
     if (pPriv->pPalette) {
-        register unsigned short *pPalette, *pFilePalette;
-        register int             nPaletteEntries, i;
+        unsigned short *pPalette, *pFilePalette;
+        int             nPaletteEntries, i;
 
         pTag = tags [colorMapIndex];
         if (!pTag)
@@ -430,7 +430,7 @@ static ilError ilReadFileExecute (
     long                   *pNLines
     )
 {
-register ilReadFilePrivPtr  pPriv;
+ilReadFilePrivPtr  pPriv;
 unsigned long               nBytes, offset;
 ilPtr                       pDst;
 ilImagePlaneInfo           *pDstImagePlane;
@@ -500,8 +500,8 @@ ilBool ilReadFileImage (
     )
 {
 ilDstElementData        dstData;
-register ilFileImagePtr pFileImage;
-register ilReadFilePrivPtr pPriv;
+ilFileImagePtr pFileImage;
+ilReadFilePrivPtr pPriv;
 unsigned short          *pPalette;
 ilPtr                   pCompData;
 

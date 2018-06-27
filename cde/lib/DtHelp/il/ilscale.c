@@ -61,7 +61,7 @@
  } ilScalePriv,  *ilScalePrivptr;
 
 #ifdef LSB_BIT_ORDER
-extern void flip_bits(register ilPtr start, register unsigned n);
+extern void flip_bits(ilPtr start, unsigned n);
 #else
 # define flip_bits(start,n)      /*EMPTY*/
 #endif
@@ -96,16 +96,16 @@ static ilError ilScaleInit(
    ============================================================================================================================= */
 
 static void ilswbitdown(
-    register CARD32 *psrcline,
-    register CARD32 *pdstline,
+    CARD32 *psrcline,
+    CARD32 *pdstline,
     unsigned long   srcwidth,   
     unsigned long   dstwidth
     )
 
 {
-register int            acc, nbits;
-register CARD32		srcMask;
-register CARD32		srcLong;
+int            acc, nbits;
+CARD32		srcMask;
+CARD32		srcLong;
 CARD32			dstLong;
 ilBool copy;
 ilBool Lastbit;
@@ -215,16 +215,16 @@ ilBool Lastbit;
    ============================================================================================================================= */
 
 static void ilswbitup(
-    register CARD32 *psrcline,
-    register CARD32 *pdstline,
+    CARD32 *psrcline,
+    CARD32 *pdstline,
     unsigned long   srcwidth,   
     unsigned long   dstwidth
     )
 
 {
-register int     acc, nbits;
-register CARD32	 srcMask;
-register CARD32	 srcLong;
+int     acc, nbits;
+CARD32	 srcMask;
+CARD32	 srcLong;
 CARD32		 dstLong;
 ilBool           Lastbit;
 
@@ -293,14 +293,14 @@ ilBool           Lastbit;
    ============================================================================================================================= */
 
 static void ilsw3bytedown(
-    register unsigned char   *psrcline,
-    register unsigned char   *pdstline,
+    unsigned char   *psrcline,
+    unsigned char   *pdstline,
     unsigned long   srcwidth,   
     unsigned long   dstwidth
     )
 
 {
-register int acc, n3bytes;
+int acc, n3bytes;
 ilBool copy;
 
 
@@ -338,14 +338,14 @@ ilBool copy;
    ============================================================================================================================= */
 
 static void ilsw3byteup(
-    register unsigned char   *psrcline,
-    register unsigned char   *pdstline,
+    unsigned char   *psrcline,
+    unsigned char   *pdstline,
     unsigned long   srcwidth,   
     unsigned long   dstwidth
     )
 
 {
-register int acc, n3bytes;
+int acc, n3bytes;
 
   acc = dstwidth - srcwidth;
   n3bytes = srcwidth;
@@ -373,14 +373,14 @@ register int acc, n3bytes;
    ============================================================================================================================= */
 
 static void ilswbytedown(
-    register unsigned char   *psrcline,
-    register unsigned char   *pdstline,
+    unsigned char   *psrcline,
+    unsigned char   *pdstline,
     unsigned long   srcwidth,   
     unsigned long   dstwidth
     )
 
 {
-register int acc, nbytes;
+int acc, nbytes;
 ilBool copy;
 
 
@@ -412,14 +412,14 @@ ilBool copy;
    ============================================================================================================================= */
 
 static void ilswbyteup(
-    register unsigned char   *psrcline,
-    register unsigned char   *pdstline,
+    unsigned char   *psrcline,
+    unsigned char   *pdstline,
     unsigned long   srcwidth,   
     unsigned long   dstwidth
     )
 
 {
-register int acc, nbytes;
+int acc, nbytes;
 
   acc = dstwidth - srcwidth;
   nbytes = srcwidth;
@@ -447,18 +447,18 @@ register int acc, nbytes;
                                 to scale the width.
    ============================================================================================================================= */
 static ilError ilScaleBitonalExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
-register CARD32		   *psrcline, *pdstline;
-register unsigned long     srcnwords, dstnwords;
-register long              nlines;
-register unsigned long     srcwidth, dstwidth;
+CARD32		   *psrcline, *pdstline;
+unsigned long     srcnwords, dstnwords;
+long              nlines;
+unsigned long     srcwidth, dstwidth;
 ilImagePlaneInfo           *pplane;
-register unsigned long     local_noDstLine;
-register ilScalePrivptr    pPriv;
+unsigned long     local_noDstLine;
+ilScalePrivptr    pPriv;
 
 
 
@@ -556,18 +556,18 @@ register ilScalePrivptr    pPriv;
                                 to scale the width.
    ============================================================================================================================= */
 static ilError ilScale3ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
-register unsigned char     *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
-register long              nlines;
-register unsigned long     srcwidth, dstwidth;
+unsigned char     *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
+long              nlines;
+unsigned long     srcwidth, dstwidth;
 ilImagePlaneInfo           *pplane;
-register unsigned long     local_noDstLine;
-register ilScalePrivptr    pPriv;
+unsigned long     local_noDstLine;
+ilScalePrivptr    pPriv;
 
 
 
@@ -667,18 +667,18 @@ register ilScalePrivptr    pPriv;
                                 to scale the width.
    ============================================================================================================================= */
 static ilError ilScaleByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
-register unsigned char     *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
-register long              nlines;
-register unsigned long     srcwidth, dstwidth;
+unsigned char     *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
+long              nlines;
+unsigned long     srcwidth, dstwidth;
 ilImagePlaneInfo           *pplane;
-register unsigned long     local_noDstLine;
-register ilScalePrivptr    pPriv;
+unsigned long     local_noDstLine;
+ilScalePrivptr    pPriv;
 
 
 
@@ -784,7 +784,7 @@ ilBool ilScale (
 {
 unsigned int             state;
 ilPipeInfo               info;
-register ilScalePrivptr  pPriv;
+ilScalePrivptr  pPriv;
 ilDstElementData         dstdata;
 ilImageDes               imdes;
 ilImageFormat            imformat;

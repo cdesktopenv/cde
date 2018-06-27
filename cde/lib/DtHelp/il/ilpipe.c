@@ -80,7 +80,7 @@ typedef struct _ilElementRec {
     ilError           (*Cleanup)();
     ilError           (*Destroy)();
     ilError           (*ExecuteThree)();
-    ilError           (*ExecuteFour)(register ilExecuteData *,
+    ilError           (*ExecuteFour)(ilExecuteData *,
 				     long,
 				     long *,
 				     float);
@@ -227,10 +227,10 @@ void _ilSetDefaultStripSize (
             structures are not freed; just the pixels.
         */
 static void ilFreeTempImageBuffers (
-    register ilPipePtr  pPipe
+    ilPipePtr  pPipe
     )
 {
-register ilImagePtr     pImage;
+ilImagePtr     pImage;
 
     pImage = (ilImagePtr)pPipe->imageHead.pNext;
     while (pImage != (ilImagePtr)&pPipe->imageHead) {
@@ -245,13 +245,13 @@ register ilImagePtr     pImage;
             height of the image is not set; the caller must do that.
         */
 static ilImagePtr ilAllocTempImage (
-    register ilPipePtr      pPipe,
+    ilPipePtr      pPipe,
     ilPipeInfo             *pInfo,
     ilImageDes             *pDes,
     ilImageFormat          *pFormat
     )
 {
-register ilImagePtr         pImage;
+ilImagePtr         pImage;
 
     pImage = (ilImagePtr)IL_MALLOC (sizeof (ilImageRec));
     if (!pImage)
@@ -290,11 +290,11 @@ register ilImagePtr         pImage;
             The pipe state is set to IL_PIPE_COMPLETE.
         */
 static ilError ilCleanupRunningPipe (
-    register ilPipePtr  pPipe,
+    ilPipePtr  pPipe,
     ilBool              aborting
     )
 {
-register ilElementPtr   pElement, pElementHead;
+ilElementPtr   pElement, pElementHead;
 ilError                 error, prevError;
 
         /*  Run thru the list of elements and call Cleanup function if non-null, then
@@ -336,9 +336,9 @@ ilBool ilEmptyPipe (
     ilPipe              pipe
     )
 {
-register ilPipePtr      pPipe;
-register ilElementPtr   pElement, pNextElement, pElementHead;
-register ilImagePtr     pImage, pNextImage;
+ilPipePtr      pPipe;
+ilElementPtr   pElement, pNextElement, pElementHead;
+ilImagePtr     pImage, pNextImage;
 int                     i;
 ilError                 error;
 
@@ -419,7 +419,7 @@ ilPipe ilCreatePipe (
     unsigned long       mustBeZero
     )
 {
-register ilPipePtr   pPipe;
+ilPipePtr   pPipe;
 
     if (mustBeZero != 0) {
         context->error = IL_ERROR_PAR_NOT_ZERO;
@@ -462,7 +462,7 @@ ilBool ilDeclarePipeInvalid (
     ilError             error
     )
 {
-register ilPipePtr   pPipe;
+ilPipePtr   pPipe;
 
     pPipe = (ilPipePtr)pipe;
     ilEmptyPipe ((ilPipe)pPipe);
@@ -484,7 +484,7 @@ unsigned int ilQueryPipe (
     ilImageDes         *pDes                    /* RETURNED */
     )
 {
-register ilPipePtr   pPipe;
+ilPipePtr   pPipe;
 
     pPipe = (ilPipePtr)pipe;
     if (pPipe->o.p.objectType != IL_PIPE) {
@@ -519,7 +519,7 @@ unsigned int ilGetPipeInfo (
     ilImageFormat      *pFormat
     )
 {
-register ilPipePtr   pPipe;
+ilPipePtr   pPipe;
 
     pPipe = (ilPipePtr)pipe;
     if (pPipe->o.p.objectType != IL_PIPE) {
@@ -560,7 +560,7 @@ long ilRecommendedStripHeight (
     )
 {
 long                    bytesPerRow [IL_MAX_SAMPLES];
-register long           stripHeight, nBytes;
+long           stripHeight, nBytes;
 int                     i;
 
         /*  Get the bytes/row, per plane.  If pixel format, all bytes are in plane 0,
@@ -597,10 +597,10 @@ int                     i;
             pipe height is changed (limits stripHeight to image height).
         */
 static void ilChangeStripHeight (
-    register ilPipePtr  pPipe
+    ilPipePtr  pPipe
     )
 {
-register long           stripHeight;
+long           stripHeight;
 
         /*  Limit stripHeight to pipe height. */
     stripHeight = pPipe->image.info.stripHeight;
@@ -611,7 +611,7 @@ register long           stripHeight;
 
         /*  If uncompressed image, calc recommendedStripHeight else current stripHeight */
     if (pPipe->image.des.compression == IL_UNCOMPRESSED) {
-        register long   i;
+        long   i;
         i = ilRecommendedStripHeight (&pPipe->image.des, &pPipe->image.format, 
                                       pPipe->image.info.width, pPipe->image.info.height);
         pPipe->image.info.recommendedStripHeight = (i > stripHeight) ? stripHeight : i;
@@ -635,7 +635,7 @@ IL_PRIVATE ilBool _ilAddPipeDestroyObject (
     ilObject            object
     )
 {
-register ilPipePtr      pPipe;
+ilPipePtr      pPipe;
 
     pPipe = (ilPipePtr)pipe;
     if (pPipe->nDestroyObjects >= IL_MAX_DESTROY_OBJECTS) {
@@ -657,7 +657,7 @@ register ilPipePtr      pPipe;
         */
 IL_PRIVATE ilBool _ilAddProducerImage (
     ilPipe              pipe,
-    register ilImagePtr pImage,
+    ilImagePtr pImage,
     unsigned int        producerCode,
     long                height,
     long                stripHeight,
@@ -665,7 +665,7 @@ IL_PRIVATE ilBool _ilAddProducerImage (
     ilBool              needProducerThrottle
     )
 {
-register ilPipePtr      pPipe;
+ilPipePtr      pPipe;
 
         /*  Copy image data into pipe info, point to given image as producer. */
     pPipe = (ilPipePtr)pipe;
@@ -714,8 +714,8 @@ IL_PRIVATE ilBool _ilSetFeedPipeData (
     long                nCompBytes
     )
 {
-register ilPipePtr      pPipe;
-register ilImagePtr     pImage;
+ilPipePtr      pPipe;
+ilImagePtr     pImage;
 
     pPipe = (ilPipePtr)pipe;
     if (pPipe->producerCode != IL_PIPE_FEED_IMAGE)
@@ -754,7 +754,7 @@ IL_PRIVATE void _ilSetPipeDesFormat (
     ilImageFormat      *pFormat
     )
 {
-register ilPipePtr      pPipe;
+ilPipePtr      pPipe;
 
     pPipe = (ilPipePtr)pipe;
     if (pDes)
@@ -784,16 +784,16 @@ ilPtr ilAddPipeElement (
 ** parameter which is a floating pointing.
 */
     ilError           (*ExecuteThree)(),
-    ilError           (*ExecuteFour)(register ilExecuteData *,
+    ilError           (*ExecuteFour)(ilExecuteData *,
 					      long,
 					      long *,
 					      float),
     unsigned long       mustBeZero
     )
 {
-register ilPipePtr      pPipe;
+ilPipePtr      pPipe;
 unsigned int            newState;           /* pipe state after this element added */
-register ilElementPtr   pElement;           /* ptr to new element to add to list */
+ilElementPtr   pElement;           /* ptr to new element to add to list */
 ilElementPtr            pPrevElement;
 ilError                 error;
 long                    stripHeight, srcBufferHeight;
@@ -1143,7 +1143,7 @@ ilBool ilAbortPipe (
     ilPipe              pipe
     )
 {
-register ilPipePtr      pPipe;
+ilPipePtr      pPipe;
 
     pPipe = (ilPipePtr)pipe;
     if (pPipe->o.p.objectType != IL_PIPE) {
@@ -1168,8 +1168,8 @@ int ilExecutePipe (
     float               ratio
     )
 {
-register ilPipePtr      pPipe;
-register ilElementPtr   pElement, pExecHead, pElementHead;
+ilPipePtr      pPipe;
+ilElementPtr   pElement, pExecHead, pElementHead;
 ilImagePtr              pImage;
 long                    nLines, initNLines;
 ilError                 error;

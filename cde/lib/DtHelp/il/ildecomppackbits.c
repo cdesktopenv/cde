@@ -72,16 +72,16 @@ static ilError ilDecompPackbitsExecute(
 
     unsigned long           dstNBytes;              /* Number of destination image bytes per row                     */                    
     long                    nLines;                 /* Number of lines per source image strip                        */  
-    register long           nBytesToGo;             /* Number of source image bytes left to unpack for current strip */  
-    register long           nDstLineBytesToGo;      /* Number of bytes left to write to this line of destination     */
-    register ilPtr          pSrcByte;               /* Pointer to source image data                                  */  
-    register ilPtr          pDstByte;               /* Pointer to destination image data first byte                  */  
+    long           nBytesToGo;             /* Number of source image bytes left to unpack for current strip */
+    long           nDstLineBytesToGo;      /* Number of bytes left to write to this line of destination     */
+    ilPtr          pSrcByte;               /* Pointer to source image data                                  */
+    ilPtr          pDstByte;               /* Pointer to destination image data first byte                  */
     ilPtr                   pSrcLine;               /* Pointer to source image data first byte of each scanline      */  
     ilPtr                   pDstLine;               /* Pointer to destination image data first byte of each scanline */  
     ilDecompPBPrivPtr       pPriv;                  /* Pointer to private image data                                 */  
     ilImagePlaneInfo        *pPlane;
-    register int            count;                  /* run-length code value     */
-    register ilByte         repeatbyte;             /* repeated data             */
+    int            count;                  /* run-length code value     */
+    ilByte         repeatbyte;             /* repeated data             */
 
 
 /* ========================================================================

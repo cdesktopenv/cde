@@ -102,9 +102,9 @@ static void ilInitPackedPalette (
     ilPaletteToRGBPrivPtr pPriv
     )
 {
-register int                i;
-register unsigned long     *pPacked, packed;
-register unsigned short    *pRed, *pGreen, *pBlue, temp;
+int                i;
+unsigned long     *pPacked, packed;
+unsigned short    *pRed, *pGreen, *pBlue, temp;
 
         /*  Pack the upper 8 bits of the rgb value, with blue in the high order bits. */
     pPacked = pPriv->palette;
@@ -138,9 +138,9 @@ static ilError ilExecutePaletteToRGBByte (
 ilPaletteToRGBPrivPtr       pPriv;
 long                        srcRowBytes, dstRowBytes, nPixelsM1;
 ilPtr                       pSrcLine, pDstLine;
-register ilPtr              pSrc, pDst;
-register unsigned long      rgb, *pPackedPalette;
-register long               nLinesM1, nPixelsM1Temp;
+ilPtr              pSrc, pDst;
+unsigned long      rgb, *pPackedPalette;
+long               nLinesM1, nPixelsM1Temp;
 
         /*  If firstStrip, init the packed palette in private */
     pPriv = (ilPaletteToRGBPrivPtr)pData->pPrivate;

@@ -47,7 +47,7 @@
 #include "ilerrors.h"
 
 #ifdef LSB_BIT_ORDER
-extern void flip_bits(register ilPtr start, register unsigned n);
+extern void flip_bits(ilPtr start, unsigned n);
 #else
 # define flip_bits(s,n)          /*EMPTY*/
 #endif
@@ -227,10 +227,10 @@ static ilError ilBiGrayExecute (
 long                        nLines, nLinesWritten;
 ilPtr                       pSrcLine, pDstLine;
 long                        colAcc, nDstBits, dstWidth, bottomLine, line;
-register long               srcBytesAbove, srcBytesBelow;
-register ilBiGrayPrivPtr    pPriv;
-register CARD32             index, *pSrc;
-register int                shift, bitNumber;
+long               srcBytesAbove, srcBytesBelow;
+ilBiGrayPrivPtr    pPriv;
+CARD32             index, *pSrc;
+int                shift, bitNumber;
 
         /*  Point pSrcLine to srcLine: = middle line of 3x3 matrix.
             Set bottomLine to last available line in the buffer.
@@ -434,7 +434,7 @@ IL_PRIVATE void _ilScaleBitonalToGray (
     ilPipeInfo         *pInfo
     )
 {
-register ilBiGrayPrivPtr pPriv;
+ilBiGrayPrivPtr pPriv;
 ilDstElementData        dstData;
 ilImageDes              des;
 
@@ -511,7 +511,7 @@ IL_PRIVATE void _ilAreaScaleBitonal (
     ilPipeInfo         *pInfo
     )
 {
-register ilBiGrayPrivPtr pPriv;
+ilBiGrayPrivPtr pPriv;
 ilDstElementData        dstData;
 #define                 DEFAULT_GRAY_THRESHOLD  128     /* assumes 256 levels */
 

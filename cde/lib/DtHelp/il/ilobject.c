@@ -67,8 +67,8 @@ IL_PRIVATE ilObjectPtr _ilCreateObject (
     size_t              sizeInBytes             /* size of object to create */
     )
 {
-register ilContextPtr   pContext;
-register ilObjectPtr    pObject;
+ilContextPtr   pContext;
+ilObjectPtr    pObject;
 
         /*  Allocate object rec, return if failure.
         */
@@ -106,7 +106,7 @@ ilBool ilDestroyObject (
     ilObject            object
     )
 {
-register ilObjectPtr    pObject;
+ilObjectPtr    pObject;
 
         /*  Downcount refCount, exit if not zero - object is still attached to others.
             Call object-specific destroy function, free client private if present, 
@@ -161,7 +161,7 @@ IL_PRIVATE void _ilObjectDestroyContext (
     ilContextPtr        pContext
     )
 {
-register ilObjectPtr    pObject, pNextObject, pObjectHead;
+ilObjectPtr    pObject, pNextObject, pObjectHead;
 
         /*  Loop thru and destroy all objects until list points back to head (done).
         */

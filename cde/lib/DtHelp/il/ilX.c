@@ -124,7 +124,7 @@ typedef ilError   (*executeFunctionType)();
 	    IL_FREE_XCOLORS/XGRAYS, or ~0 for everything.
         */
 static void ilFreeColorData (
-    register ilXWCPtr   pXWC,
+    ilXWCPtr   pXWC,
     unsigned long       freeMask
     )
 {
@@ -184,7 +184,7 @@ static void ilDestroyXWC (
     )
 {
 ilObject object = (ilObject)pPrivate;
-register ilXWCPtr       pXWC;
+ilXWCPtr       pXWC;
 
     pXWC = (ilXWCPtr)object;
 
@@ -206,7 +206,7 @@ static int ilGammaCorrect (
     int                 maxValue
     )
 {
-register int            allocValue;
+int            allocValue;
 
     if (value == 0) 
         allocValue = 0;
@@ -233,7 +233,7 @@ register int            allocValue;
         */
 static ilBool ilAllocateXDitherColors (
     ilContext               context,
-    register ilXWCPtr       pXWC
+    ilXWCPtr       pXWC
     )
 {
 
@@ -306,7 +306,7 @@ ilImageInfo     imageInfo, *pImageInfo;
     */
 static ilBool ilAllocateXGrays (
     ilContext               context,
-    register ilXWCPtr       pXWC,
+    ilXWCPtr       pXWC,
     int                     nGrays
     )
 {
@@ -392,7 +392,7 @@ double          spreadFactor;
 	levels not alloc'd.
     */
 static ilBool ilAllocateXDirectColors (
-    register ilXWCPtr       pXWC,
+    ilXWCPtr       pXWC,
     int                     nLevels
     )
 {
@@ -476,8 +476,8 @@ ilBool ilChangeXWC (
     void                   *pData
     )
 {
-register ilXWCPtr           pXWC;
-register ilContext          context;
+ilXWCPtr           pXWC;
+ilContext          context;
 
     pXWC = (ilXWCPtr)XWC;
     context = pXWC->o.p.context;
@@ -576,7 +576,7 @@ ilBool ilQueryXWC (
     ilXWCInfo              *pInfo
     )
 {
-register ilXWCPtr           pXWC;
+ilXWCPtr           pXWC;
 
     pXWC = (ilXWCPtr)XWC;
     if (pXWC->o.p.objectType != IL_XWC) {
@@ -605,7 +605,7 @@ ilXWC ilCreateXWC (
     unsigned long           mustBeZero2
     )
 {
-register ilXWCPtr       pXWC;
+ilXWCPtr       pXWC;
 XVisualInfo             template, *pVisualInfo;
 int                     notUsed;
 
@@ -772,9 +772,9 @@ static ilError ilWriteXInit (
     ilImageInfo            *pDstImage                   /* ignored */
     )
 {
-register ilXPrivPtr pPriv = (ilXPrivPtr)pPrivate;
-register ilXWCPtr           pXWC;
-register XImage            *pXImage;
+ilXPrivPtr pPriv = (ilXPrivPtr)pPrivate;
+ilXWCPtr           pXWC;
+XImage            *pXImage;
 
         /*  Create a temp buffer for image pixels if requested. */
     if (pPriv->bufferSize > 0) {
@@ -826,7 +826,7 @@ static ilError ilWriteXCleanup (
 	    XDestroyImage() will try to free the pixels; destroy the image, 
 	    created by Init().
         */
-    register ilXPrivPtr pPriv = (ilXPrivPtr)pPrivate;
+    ilXPrivPtr pPriv = (ilXPrivPtr)pPrivate;
     if (!aborting)
         XFlush (pPriv->pXWC->i.display);
     if (pPriv->pBuffer)
@@ -844,14 +844,14 @@ static ilError ilWriteXCleanup (
 	    written *pNLines below this one in the drawable.
         */
 static ilError ilWriteXExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                     dstLine,
     long                    *pNLines,
     float                    ratio
 )
 {
-register ilXPrivPtr         pPriv;
-register XImage            *pXImage;
+ilXPrivPtr         pPriv;
+XImage            *pXImage;
 ilXWCPtr                    pXWC;
 unsigned int                nSrcLines;
 unsigned int                scaledWidth,scaledHeight;
@@ -894,7 +894,7 @@ int                         scaledX, scaledY;
 	    XPutImage(), then bump linesDone.
         */
 static ilError ilWriteXOptLongExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                     dstLine,
     long                    *pNLines,
     float                    ratio
@@ -906,9 +906,9 @@ XImage                     *pXImage;
 ilXWCPtr                    pXWC;
 ilPtr                       pSrcLine;
 long                        srcRowBytes, width, nSrcLines, nLinesM1;
-register long               nLongsM1;
-register ilPtr              pSrc;
-register CARD32            *pDst, temp;
+long               nLongsM1;
+ilPtr              pSrc;
+CARD32            *pDst, temp;
 unsigned int                scaledWidth,scaledHeight;
 int scaledX, scaledY ;
 
@@ -983,7 +983,7 @@ ilPipeInfo                  info;
 ilImageDes                  des;
 ilImageFormat               format;
 unsigned int                writeType;
-register ilXWCPtr           pXWC;
+ilXWCPtr           pXWC;
 
     /*  Table indexed by [dst visual type], yielding writeType when in raw 
 	mode */
@@ -1218,14 +1218,14 @@ ilBool ilWriteXDrawable (
     )
 {
 ilPipeInfo                  info;
-register ilXWCPtr           pXWC;
-register ilXPrivPtr         pPriv;
+ilXWCPtr           pXWC;
+ilXPrivPtr         pPriv;
 ilSrcElementData           *pSrcData, srcData;
 unsigned long               bufferSize;
 /*
 ** We need to use the execute fucntion with the ratio parameter.
 */
-ilError                   (*executeFunction)( register ilExecuteData *,
+ilError                   (*executeFunction)( ilExecuteData *,
 					      long,
 					      long *,
 					      float);

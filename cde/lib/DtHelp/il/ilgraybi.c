@@ -47,13 +47,13 @@
 #ifndef LSB_BIT_ORDER
 # define flip_bits(start,n)      /*EMPTY*/
 #else
-extern void flip_bits(register ilPtr start, register unsigned n);
+extern void flip_bits(ilPtr start, unsigned n);
 
 extern void
-flip_bits(register ilPtr start,
-          register unsigned n )
+flip_bits(ilPtr start,
+          unsigned n )
 {
-	register int	i;
+	int	i;
 	unsigned char   c;
 
 	for (i = 0; i < n; i++) {
@@ -136,12 +136,12 @@ static ilError ilExecuteBiDiffusion (
 #endif
 ilBiDiffusionPrivPtr        pPriv;
 long                        nLinesM1, nPixelsM1Init, nPixelsM1;
-register short             *pPrevError, *pError;
-register int                errorAcc, invert;
+short             *pPrevError, *pError;
+int                errorAcc, invert;
 long                        srcRowBytes, dstRowBytes;
 ilPtr                       pSrcLine, pDstLine;
-register ilPtr              pSrc;
-register CARD32             mask, *pDst;
+ilPtr              pSrc;
+CARD32             mask, *pDst;
 CARD32			    outLong;
 
     pPriv = (ilBiDiffusionPrivPtr)pData->pPrivate;
@@ -314,11 +314,11 @@ ilThresholdPrivPtr          pPriv;
 long                        nLinesM1, nPixelsM1Init;
 long                        srcRowBytes, dstRowBytes;
 ilPtr                       pSrcLine, pDstLine;
-register long               nPixelsM1;
-register ilPtr              pSrc;
-register CARD32             mask, *pDst;
+long               nPixelsM1;
+ilPtr              pSrc;
+CARD32             mask, *pDst;
 CARD32			    outLong;
-register ilByte             threshold;
+ilByte             threshold;
 
     pPriv = (ilThresholdPrivPtr)pData->pPrivate;
     threshold = *pPriv->pThreshold;

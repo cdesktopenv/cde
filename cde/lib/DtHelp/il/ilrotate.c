@@ -73,7 +73,7 @@ static ilError ilRotateInit(
     )
 
 {
- register unsigned char  *pdstline;
+ unsigned char  *pdstline;
  ilImagePlaneInfo        *pplane;
  int                     bitoff;
 
@@ -115,22 +115,22 @@ static ilError ilRotateInit(
 
    ============================================================================================================================= */
 static ilError ilRotate90BitonalExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
    
 
-register unsigned long     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnwords, dstnwords;
+unsigned long     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnwords, dstnwords;
 ilImagePlaneInfo           *pplane;
-register int               x, y, xoffset, lastcount;
-register ilRotatePrivptr   pPriv;
+int               x, y, xoffset, lastcount;
+ilRotatePrivptr   pPriv;
 
-register unsigned long     srcMask;
-register unsigned long     srcLong;
-register ilBool            shortwidth;
+unsigned long     srcMask;
+unsigned long     srcLong;
+ilBool            shortwidth;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -203,19 +203,19 @@ register ilBool            shortwidth;
 
    ============================================================================================================================= */
 static ilError ilRotate180BitonalExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
                         
 
-register unsigned char     *psrc, *pdst, *psrcline, *psrcbefore, *pdstline;
-register unsigned char     srcbyte;
+unsigned char     *psrc, *pdst, *psrcline, *psrcbefore, *pdstline;
+unsigned char     srcbyte;
 ilImagePlaneInfo           *pplane;
-register int               x, y, lastcount, loffset, roffset;
-register int               srcnbytes, dstnbytes, widthbytes;
-register ilRotatePrivptr   pPriv;
+int               x, y, lastcount, loffset, roffset;
+int               srcnbytes, dstnbytes, widthbytes;
+ilRotatePrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -276,22 +276,22 @@ register ilRotatePrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilRotate270BitonalExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
 
 
-register unsigned long     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnwords, dstnwords;
+unsigned long     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnwords, dstnwords;
 ilImagePlaneInfo           *pplane;
-register int               x, y, xoffset, lastcount;
-register ilRotatePrivptr   pPriv;
+int               x, y, xoffset, lastcount;
+ilRotatePrivptr   pPriv;
 
-register unsigned long     srcMask, dstMask;
-register unsigned long     srcLong, dstLong;
-register ilBool            shortwidth;
+unsigned long     srcMask, dstMask;
+unsigned long     srcLong, dstLong;
+ilBool            shortwidth;
 
 
 
@@ -365,16 +365,16 @@ register ilBool            shortwidth;
 
    ============================================================================================================================= */
 static ilError ilRotate903ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, xoffset, lastcount;
-register ilRotatePrivptr   pPriv;
+int               x, y, xoffset, lastcount;
+ilRotatePrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -425,18 +425,18 @@ register ilRotatePrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilRotate1803ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, xoffset, lastcount;
-register ilRotatePrivptr   pPriv;
+int               x, y, xoffset, lastcount;
+ilRotatePrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -486,7 +486,7 @@ register ilRotatePrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilRotate2703ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
@@ -494,11 +494,11 @@ static ilError ilRotate2703ByteExecute (
 
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, lastcount, xoffset;
-register ilRotatePrivptr   pPriv;
+int               x, y, lastcount, xoffset;
+ilRotatePrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -544,7 +544,7 @@ register ilRotatePrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilRotate90ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
@@ -552,12 +552,12 @@ static ilError ilRotate90ByteExecute (
 
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, xoffset, lastcount;
+int               x, y, xoffset, lastcount;
 unsigned int               dstrowpixels;
-register ilRotatePrivptr   pPriv;
+ilRotatePrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -601,18 +601,18 @@ register ilRotatePrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilRotate180ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, lastcount;
-register ilRotatePrivptr   pPriv;
+int               x, y, lastcount;
+ilRotatePrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -654,18 +654,18 @@ register ilRotatePrivptr   pPriv;
 
    ============================================================================================================================= */
 static ilError ilRotate270ByteExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
 {
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register int               x, y, lastcount, xoffset;
-register ilRotatePrivptr   pPriv;
+int               x, y, lastcount, xoffset;
+ilRotatePrivptr   pPriv;
 
 
    if (*pNLines <= 0)  return IL_OK;
@@ -721,7 +721,7 @@ ilBool ilRotate90 (
 {
 unsigned int              state;
 ilPipeInfo                info;
-register ilRotatePrivptr  pPriv;
+ilRotatePrivptr  pPriv;
 ilDstElementData          dstdata;
 ilImageDes                imdes;
 ilImageFormat             imformat;

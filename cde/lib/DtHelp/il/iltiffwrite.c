@@ -111,7 +111,7 @@ typedef struct {
         /*  Init() function for ilWriteFileImage().
         */
 static ilError ilWriteFileInit (
-    register ilWriteFilePrivPtr pPriv,
+    ilWriteFilePrivPtr pPriv,
     ilImageInfo        *pSrcImage,
     ilImageInfo        *pDstImage
     )
@@ -132,15 +132,15 @@ static ilError ilWriteFileInit (
         /*  Cleanup() function for ilWriteFileImage().
         */
 static ilError ilWriteFileCleanup (
-    register ilWriteFilePrivPtr pPriv,
+    ilWriteFilePrivPtr pPriv,
     ilBool                  aborting
     )
 {
-register ilFilePtr          pFile;
+ilFilePtr          pFile;
 ilFileOffset                position;
 ilByte                      fourBytes[4], nextBytes[4];
 ilPtr                       pBytes, pTag;
-register CARD32            *pTagOffsets, l;
+CARD32            *pTagOffsets, l;
 int                         i;
 
         /*  If aborting pipe, just exit.  The net effect is that if
@@ -230,14 +230,14 @@ static ilError ilWriteFileDestroy (
             into the tag memory buffer, so it will be written out by ilWriteFileCleanup().
         */
 static void ilCopyPalette (
-    register ilWriteFilePrivPtr pPriv,
-    register unsigned short    *pSrcPalette
+    ilWriteFilePrivPtr pPriv,
+    unsigned short    *pSrcPalette
     )
 {
-register unsigned short *pDstPalette;
-register ilPtr          pBytes;
+unsigned short *pDstPalette;
+ilPtr          pBytes;
 /* Since using IL_WRITE_FLIP_SHORT, palEntry should be unsigned short */
-register unsigned short palEntry;
+unsigned short palEntry;
 unsigned long           greenOffset, blueOffset;
 int                     i;
 
@@ -275,7 +275,7 @@ static ilError ilWriteFileExecute (
     long                   *pNLines
     )
 {
-register ilWriteFilePrivPtr pPriv;
+ilWriteFilePrivPtr pPriv;
 ilFilePtr                   pFile;
 unsigned long               nBytes, rowBytes;
 ilPtr                       pBytes;
@@ -336,7 +336,7 @@ long                        position;
         and write a JIF header into the TIFF file.
     */
 static ilError ilWriteJIFData (
-    register ilWriteFilePrivPtr pPriv,
+    ilWriteFilePrivPtr pPriv,
     ilFilePtr               pFile,
     ilImageInfo            *pImage
     )
@@ -349,7 +349,7 @@ static ilError ilWriteJIFData (
     ilJPEGData             *pCompData;
     ilError                 error;
     long                    mcuWidth, mcuHeight;
-    register ilPtr          pBytes;
+    ilPtr          pBytes;
 
 
         /*  Init streamRec so output is written into malloc'd memory, and encode
@@ -452,11 +452,11 @@ static ilError ilWriteJPEGExecute (
     long                   *pNLines
     )
 {
-    register ilWriteFilePrivPtr pPriv;
+    ilWriteFilePrivPtr pPriv;
     ilFilePtr               pFile;
     ilError                 error;
     long                    position, nBytes, i, j;
-    register ilPtr          pBytes;
+    ilPtr          pBytes;
     ilByte                  marker[2];
 
         /*  The overall approach is to write a JIF image into the file plus strips.
@@ -544,13 +544,13 @@ static ilError ilMergeWriteTags (
     ilTagInfoPtr        pInfo)                  /* returned tag info */
 {
 ilFileTag             **ppTagsInit, **ppLastTag;
-register ilFileTag    **ppTag, **ppTagTemp, *pTag;
+ilFileTag    **ppTag, **ppTagTemp, *pTag;
 ilPtr                   pTagData, pFileTags;
 long                    tagArraySize, tagDataSize, l;
 CARD32                 *pTagOffsets, *pLong;
 int                     nTags, i;
 unsigned short          tagType, *pShort;
-register int            tagNumber;
+int            tagNumber;
 
         /*  Allocate and null an array of ptrs to tags, size = # user + std tags, + 1
             so that there is at least one guaranteed null tag ptr, for "end of array".
@@ -729,13 +729,13 @@ static ilBool ilFormatPipeImage (
     unsigned int            compression,
     ilPtr                   pCompData,
     long                   *pStripHeight,
-    register ilPipeInfo    *pInfo,
-    register ilImageDes    *pDes,
-    register ilImageFormat *pFormat
+    ilPipeInfo    *pInfo,
+    ilImageDes    *pDes,
+    ilImageFormat *pFormat
     )
 {
 #define IL_WRITE_TIFF_STRIP_SIZE (16 * 1024)    /* write 16KB strips as default */
-register long               stripHeight;
+long               stripHeight;
 long                        i, nLevels;
 ilBool                      mustConvert;
 unsigned long               g3Flags, g4Flags;
@@ -887,7 +887,7 @@ ilBool ilWriteFileImage (
 
 long                    nStripsPerImage;
 ilFileTag               tags [MAX_WRITE_TAGS];
-register ilFileTag     *pTag;
+ilFileTag     *pTag;
 int                     nTags, i;
 ilTagInfoRec            tagInfo;
 ilFilePtr               pFile;
@@ -1120,7 +1120,7 @@ char                    versionName [VERSION_LENGTH];
             /*  TIFF only allows subsampling as follows: Y = 1, Cr/Cb = 1,2,4 but
                 Cr and CB equal to each other; vert <= horiz.
             */
-        { register ilYCbCrSampleInfo *pSample = des.typeInfo.YCbCr.sample;
+        { ilYCbCrSampleInfo *pSample = des.typeInfo.YCbCr.sample;
 
         if ((pSample[0].subsampleHoriz != 1)
          || (pSample[0].subsampleVert != 1)

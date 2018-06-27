@@ -51,10 +51,10 @@
         IL JPG package format.
     */
 IL_PRIVATE void _ilJPEGDataIn (
-    register const ilImageDes    *pDes,
+    const ilImageDes    *pDes,
     long                          width,
     long                          height,
-    register iljpgDataPtr         pDst
+    iljpgDataPtr         pDst
     )
 {
     int                     maxSubsample;
@@ -69,7 +69,7 @@ IL_PRIVATE void _ilJPEGDataIn (
             NOTE: currently only YCbCr data in IL is subsampled!
         */
     if (pDes->type == IL_YCBCR) {
-        register const ilYCbCrSampleInfo *pSample = pDes->typeInfo.YCbCr.sample;
+        const ilYCbCrSampleInfo *pSample = pDes->typeInfo.YCbCr.sample;
 
         maxSubsample = pSample[0].subsampleHoriz;
         if (pSample[1].subsampleHoriz > maxSubsample)
@@ -110,8 +110,8 @@ IL_PRIVATE void _ilJPEGDataIn (
         Note: the restartInterval is also copied.
     */
 IL_PRIVATE void _ilJPEGTablesIn (
-    register ilJPEGData    *pSrc,
-    register iljpgDataPtr   pDst
+    ilJPEGData    *pSrc,
+    iljpgDataPtr   pDst
     )
 {
 
@@ -157,10 +157,10 @@ IL_PRIVATE void _ilJPEGTablesIn (
     /*  Free the tables in the given IL JPEG data block, which is not freed.
     */
 IL_PRIVATE void _ilJPEGFreeTables (
-    register ilJPEGData    *pData
+    ilJPEGData    *pData
     )
 {
-    register int            i;
+    int            i;
 
     for (i = 0; i < 4; i++) {
         if (pData->QTables[i]) {
@@ -184,11 +184,11 @@ IL_PRIVATE void _ilJPEGFreeTables (
         to it or null if malloc failed.
     */
 static ilPtr _ilJPEGCopyHuffmanTable (
-    register ilPtr          pSrc
+    ilPtr          pSrc
     )
 {
-    register int            i, nBytes;
-    register ilPtr          pDst;
+    int            i, nBytes;
+    ilPtr          pDst;
 
         /*  Huffman tables are: 16 bytes of # occurrences each # bits, followed by
             bytes for each of those # occurrences.  Size of table = 16 + sum(0..15).
@@ -207,11 +207,11 @@ static ilPtr _ilJPEGCopyHuffmanTable (
         If an error, free all malloc'd tables in dest, null them and return false.
     */
 IL_PRIVATE ilBool _ilJPEGCopyData (
-    register ilJPEGData    *pSrc,
-    register ilJPEGData    *pDst
+    ilJPEGData    *pSrc,
+    ilJPEGData    *pDst
     )
 {
-    register int            i;
+    int            i;
 
         /*  Zero table ptrs in *pDst in case of error; copy index info */
     bzero ((char *)pDst, sizeof (ilJPEGData));
@@ -251,11 +251,11 @@ cdMallocError:
         to be written.  Zero (0) is returned if success else an error code.
     */
 IL_PRIVATE iljpgError _ilReallocJPEGEncode (
-    register ilJPEGEncodeStreamPtr pStream,
+    ilJPEGEncodeStreamPtr pStream,
     long                    nBytes
     )
 {
-    register long           offset;
+    long           offset;
 
         /*  Allocate space so exactly "nBytes" more bytes will fit in output buffer.
             There are "offset" bytes in the buffer now so allocate offset + nBytes.

@@ -89,12 +89,12 @@ typedef struct {
     */
     ILJPG_PRIVATE 
 iljpgError _iljpgBuildEnhuffTable (
-    register iljpgPtr       pTableIn,
+    iljpgPtr       pTableIn,
     iljpgEnhuffTablePtr    *ppTableOut          /* RETURNED */
     )
 {
-    register iljpgEnhuffTablePtr pTable;
-    register int            i, j, nValues, value;
+    iljpgEnhuffTablePtr pTable;
+    int            i, j, nValues, value;
     int                     huffSize[257];      /* called "HUFFSIZE" in JPEG spec */
     int                     huffCode[257];      /* called "HUFFCODE" in JPEG spec */
 
@@ -156,10 +156,10 @@ iljpgError _iljpgEnhuffInit (
     iljpgEncodePrivPtr      pPriv
     )
 {
-    register iljpgEnhuffPtr pHuffPriv;
-    register iljpgDataPtr   pData;
+    iljpgEnhuffPtr pHuffPriv;
+    iljpgDataPtr   pData;
     iljpgError              error;
-    register int            i;
+    int            i;
 
         /*  Allocate Huffman private area and point to it in encode private */
     pData = pPriv->pData;
@@ -227,12 +227,12 @@ iljpgError _iljpgEnhuffCleanup (
     */
 static iljpgError _iljpgPackHuffman (
     iljpgEnhuffPtr      pHuffPriv,
-    register int       *pHuff,
-    register int        nHuff,
+    int       *pHuff,
+    int        nHuff,
     ILJPG_ENCODE_STREAM stream
     )
 {
-    register int        size, value, huffBits, nHuffBits;
+    int        size, value, huffBits, nHuffBits;
     iljpgError          error;
     static int          sizeMasks[9] =     /* masks for lower "i" bits, indexed by i */
                             {0x0, 0x1, 0x3, 0x7, 0x0f, 0x1f, 0x3f, 0x7f, 0x0ff};
@@ -290,10 +290,10 @@ iljpgError _iljpgEnhuffExecute (
     )
 {
     iljpgEnhuffPtr  pHuffPriv;
-    register iljpgEnhuffTablePtr    pTable;
+    iljpgEnhuffTablePtr    pTable;
     int             huff[4 * 64 + 10];  /* room for 64 * 2 pairs plus some slop */
-    register int   *pHuff;
-    register int    size, value, nACLeft, nZeros;
+    int   *pHuff;
+    int    size, value, nACLeft, nZeros;
 #   define ENHUFF(_value) { \
         *pHuff++ = pTable->size[_value]; \
         *pHuff++ = pTable->code[_value]; \
@@ -379,8 +379,8 @@ iljpgError _iljpgEnhuffFlush (
     ILJPG_ENCODE_STREAM stream
     )
 {
-    register iljpgEnhuffPtr pHuffPriv;
-    register int        nHuffBits, huffBits;
+    iljpgEnhuffPtr pHuffPriv;
+    int        nHuffBits, huffBits;
     iljpgError          error;
 
         /*  If any bits left, flush them out.  Pad with binary 1's, and

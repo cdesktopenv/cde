@@ -492,8 +492,8 @@ iljpgError _iljpgDehuffExecute (
 #define         is_dc   (!coeff_ct)     /* First coefficient is DC */
         int             delta;
         int             len, zrun; 
-        register BITBUF bitbuf, ch, c;
-        register int    bitsleft;
+        BITBUF bitbuf, ch, c;
+        int    bitsleft;
         iljpgError      error = 0;      /* assume no error */
         int             index;
         int             is_fourx4 = 1, is_dconly = 0;

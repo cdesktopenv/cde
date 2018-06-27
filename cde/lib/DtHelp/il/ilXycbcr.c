@@ -74,9 +74,9 @@ ilImagePlaneInfo           *pPlane;
 long                        nLinesDiv2, halfWidth;
 long                        CbRowBytes, CrRowBytes;
 ilPtr                       pYLine, pCbLine, pCrLine, pDstLine;
-register unsigned long     *pTable;
-register long               YRowBytes, dstRowBytes, nPixelsDiv2, CbCr, temp0, temp1;
-register ilPtr              pY, pCb, pCr, pDst;
+unsigned long     *pTable;
+long               YRowBytes, dstRowBytes, nPixelsDiv2, CbCr, temp0, temp1;
+ilPtr              pY, pCb, pCr, pDst;
 
         /*  This filter handles a pipe image of YCbCr subsampled by 2 in Cb/Cr only.
             The # of lines of Cb/Cr is therefore 1/2 the # of lines of Y.
@@ -161,11 +161,11 @@ ilImagePlaneInfo           *pPlane;
 long                        nLinesDiv2, halfWidth;
 long                        CbRowBytes, CrRowBytes, dstRowBytes;
 ilPtr                       pYLine, pCbLine, pCrLine;
-register unsigned long     *pTable;
-register long               YRowBytes, nPixelsDiv2, CbCr, temp0, temp1;
-register long               dstRowShorts, dstRowShortsTimes2, dstRowShortsTimes3;
-register ilPtr              pY, pCb, pCr;
-register unsigned short    *pDst;
+unsigned long     *pTable;
+long               YRowBytes, nPixelsDiv2, CbCr, temp0, temp1;
+long               dstRowShorts, dstRowShortsTimes2, dstRowShortsTimes3;
+ilPtr              pY, pCb, pCr;
+unsigned short    *pDst;
 unsigned short             *pDstLine;
 
         /*  This filter handles a pipe image of YCbCr subsampled by 2 in Cb/Cr only.
@@ -257,7 +257,7 @@ unsigned short             *pDstLine;
     /*  Setup *pTable as necessary for the YCbCr to RGB (dither) conversion.
     */
 static void ilSetupYCbCrDitherTables (
-    register ilYCbCrInfo   *pYCbCr,
+    ilYCbCrInfo   *pYCbCr,
     int                     nBitsR,
     int                     nBitsG,
     int                     nBitsB,
@@ -267,7 +267,7 @@ static void ilSetupYCbCrDitherTables (
 {
 int                         nTableEntries, nLevelsY, nLevelsCbCr;
 int                         Y, Cb, Cr, refY, refCb, refCr;
-register int                R, G, B, pixel, i, temp, kernel;
+int                R, G, B, pixel, i, temp, kernel;
 double                      Lr, Lg, Lb;
 double                      ditherR, ditherG, ditherB, ditherY, ditherCbCr;
 

@@ -57,7 +57,7 @@ IL_PRIVATE ilBool _ilReallocCompressedBuffer (
     unsigned long       minNewSize
     )
 {
-register ilImagePlaneInfo *pPlane;
+ilImagePlaneInfo *pPlane;
 
     pPlane = &pImage->plane[plane];
     pPlane->bufferSize = minNewSize + 10000;  /* A GUESS - DO SOMETHING SMARTER !!!!! */
@@ -77,12 +77,12 @@ register ilImagePlaneInfo *pPlane;
         Copies one strip of compressed data.
     */
 static ilError ilCopyCompressedExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                    dstLine,
     long                   *pNLines
     )
 {
-    register ilImagePlaneInfo *pSrcPlane, *pDstPlane;
+    ilImagePlaneInfo *pSrcPlane, *pDstPlane;
     long                    nBytes, dstOffset, requiredBufferSize;
 
     nBytes = pData->compressed.nBytesToRead;        /* # of bytes to write */

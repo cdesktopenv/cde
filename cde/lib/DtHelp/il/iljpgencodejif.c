@@ -91,7 +91,7 @@ static iljpgError iljpgWriteHuffmanTable (
     ILJPG_ENCODE_STREAM stream
     )
 {
-    register int        i, nBytes;
+    int        i, nBytes;
     iljpgError          error;
 
         /*  Huffman tables are: 16 bytes of # occurrences each # bits, followed by
@@ -133,10 +133,10 @@ ILJPG_PUBLIC iljpgError iljpgEncodeJIF (
     iljpgJIFOffsetsPtr  pOffsets
     )
 {
-    register int        index, i;
-    register iljpgPtr   pTable;
-    register iljpgError error;
-    register iljpgCompDataPtr pComp;
+    int        index, i;
+    iljpgPtr   pTable;
+    iljpgError error;
+    iljpgCompDataPtr pComp;
     long                startOffset;
 
 #   define PUT_BYTE(_byte)  {                              \

@@ -94,9 +94,9 @@ static ilError ilExecuteinvert  (
 {
 ilinvertPtr                 pPriv;
 long                        srcnbytes, dstnbytes;
-register ilPtr              psrcline, pdstline;
-register ilPtr              psrc, pdst;
-register long               nLines, nPixels;
+ilPtr              psrcline, pdstline;
+ilPtr              psrc, pdst;
+long               nLines, nPixels;
 
 
 

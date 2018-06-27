@@ -155,11 +155,11 @@ static ilError ilScaleSample3ByteExecute (
     long                   *pNLines
     )
 {
-register ilScaleSamplePtr  pPriv;
-register ilPtr             pSrc, pDst, pSrcTemp;
-register long              pixel, i, j, right;
-register unsigned long    *pCornerTable, *pTopBelowTable;
-register long              colAcc, dstWidth;
+ilScaleSamplePtr  pPriv;
+ilPtr             pSrc, pDst, pSrcTemp;
+long              pixel, i, j, right;
+unsigned long    *pCornerTable, *pTopBelowTable;
+long              colAcc, dstWidth;
 long                       nDstPixels, widthDiff;
 ilPtr                      psrcline, pdstline, pSrcEnd;
 long                       srcnbytes, dstnbytes;
@@ -381,11 +381,11 @@ static ilError ilScaleSampleByteExecute (
     long                   *pNLines
     )
 {
-register ilScaleSamplePtr  pPriv;
-register ilPtr             pSrc, pDst, pSrcTemp;
-register long              pixel, i, j, right;
-register unsigned long    *pCornerTable, *pTopBelowTable;
-register long              colAcc, dstWidth;
+ilScaleSamplePtr  pPriv;
+ilPtr             pSrc, pDst, pSrcTemp;
+long              pixel, i, j, right;
+unsigned long    *pCornerTable, *pTopBelowTable;
+long              colAcc, dstWidth;
 long                       nDstPixels, widthDiff;
 ilPtr                      psrcline, pdstline, pSrcEnd;
 long                       srcnbytes, dstnbytes;
@@ -538,7 +538,7 @@ IL_PRIVATE void _ilScaleSample (
     )
 {
 
-register ilScaleSamplePtr pPriv;
+ilScaleSamplePtr pPriv;
 ilDstElementData          dstdata;
 
 

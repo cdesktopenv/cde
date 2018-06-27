@@ -129,9 +129,9 @@ static unsigned char oneruns[256] = {
 
 IL_PRIVATE  void
 _ilPutOnes(
-register char *sByte,
-register int startPixel,
-register int  no_of_ones )
+char *sByte,
+int startPixel,
+int  no_of_ones )
 
 {
 	static const unsigned char masks[] =
@@ -186,10 +186,10 @@ int color,
 int nTimes)
 {
 
-	register unsigned char *bp;
-	register int ini_diff;
-	register int n, fin_diff;
-	register unsigned char *table ;
+	unsigned char *bp;
+	int ini_diff;
+	int n, fin_diff;
+	unsigned char *table ;
 
 	bp = sByte;
 
@@ -340,7 +340,7 @@ ilImageInfo            *pDstImage
            image by Two dimensional coding.
    ======================================================================== */
 ilError   _ilDecompG4Line(
-register ilDecompG3G4PrivPtr  pPriv,
+ilDecompG3G4PrivPtr  pPriv,
 ilPtr          pRefLine,
 ilPtr          dstImageP
 )
@@ -357,9 +357,9 @@ ilPtr          dstImageP
 	ilPtr ImageP;
 	int srcpos;
 
-	register ilDecompG4HuffTablePtrConst pDecodeWhite = ilArFax1DDecodeWhite;
-	register ilDecompG4HuffTablePtrConst pDecodeTemp;
-	register ilDecompG4HuffTablePtrConst pDecodeBlack = ilArFax1DDecodeBlack;
+	ilDecompG4HuffTablePtrConst pDecodeWhite = ilArFax1DDecodeWhite;
+	ilDecompG4HuffTablePtrConst pDecodeTemp;
+	ilDecompG4HuffTablePtrConst pDecodeBlack = ilArFax1DDecodeBlack;
 
 
 	/*  Deccompression Procedure  ....

@@ -58,7 +58,7 @@ static ilBool ilAddConversionFilter (
     ilImageDes             *pSrcDes,
     ilImageFormat          *pSrcFormat,
     void                   *pOptionData,
-    register ilConvertPtr   pCvtData
+    ilConvertPtr   pCvtData
     )
 {
 ilPtr                       pPriv;
@@ -146,7 +146,7 @@ static ilBool ilAddFormatFilter (
     ilPipe                  pipe,
     ilPipeInfo             *pInfo,
     const ilImageFormat    *pNewFormat,
-    register ilFormatPtr    pData
+    ilFormatPtr    pData
     )
 {
 ilPtr                       pPriv;
@@ -620,10 +620,10 @@ CantConvert:
     */
 unsigned int ilCheckPipeFormat (
     ilPipe                  pipe,
-    register unsigned long  formatMask,
+    unsigned long  formatMask,
     ilPipeInfo             *pInfo,              /* RETURNED */
-    register ilImageDes    *pDes,               /* RETURNED */
-    register ilImageFormat *pFormat             /* RETURNED */
+    ilImageDes    *pDes,               /* RETURNED */
+    ilImageFormat *pFormat             /* RETURNED */
     )
 {
     ilPipeInfo          localInfo;

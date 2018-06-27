@@ -63,7 +63,7 @@
     */
 IL_EXTERN ilBool _ilAddProducerImage (
     ilPipe              pipe,
-    register ilImagePtr pImage,
+    ilImagePtr pImage,
     unsigned int        producerCode,
     long                height,
     long                stripHeight,

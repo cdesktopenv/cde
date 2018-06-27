@@ -78,8 +78,8 @@ static ilError ilMapByteExecute (
 ilMapPrivPtr                pPriv;
 long                        srcRowBytes, dstRowBytes, nRowsM1, nLinesM1;
 ilPtr                       pSrcLine, pDstLine;
-register long               rowCount;
-register ilPtr              pSrc, pDst, pTranslate;
+long               rowCount;
+ilPtr              pSrc, pDst, pTranslate;
 
         /*  Get data from private, exit if no rows or lines to do.
         */
@@ -127,8 +127,8 @@ static ilError ilMap3ByteExecute (
 ilMapPrivPtr                pPriv;
 long                        srcRowBytes, dstRowBytes, nRowsM1, nLinesM1;
 ilPtr                       pSrcLine, pDstLine;
-register long               rowCount;
-register ilPtr              pSrc, pDst, pTranslate;
+long               rowCount;
+ilPtr              pSrc, pDst, pTranslate;
 
         /*  Get data from private, exit if no rows or lines to do.
         */
@@ -193,8 +193,8 @@ ilBool ilMap (
     ilClientImage       mapImage
     )
 {
-register ilMapPrivPtr   pPriv;
-register ilContext      context;
+ilMapPrivPtr   pPriv;
+ilContext      context;
 ilPipeInfo              info;
 ilImageDes              des;
 ilImageFormat           format;

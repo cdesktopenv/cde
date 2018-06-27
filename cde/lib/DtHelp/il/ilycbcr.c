@@ -75,7 +75,7 @@ static ilError ilExecuteSubsample (
     long                   *pNLines             /* ignored on input */
     )
 {
-register ilSubsamplePrivPtr pPriv;
+ilSubsamplePrivPtr pPriv;
 ilImagePlaneInfo           *pSrcPlane, *pDstPlane;
 int                         nSamples;
 ilPtr                       pSrcLine, pDstLine;
@@ -83,9 +83,9 @@ long                        height, width;
 long                        srcRowInc, dstRowBytes;
 long                        nDstLinesM1, nDstPixelsM1Init;
 ilSubsampleShiftPtr          pShift;
-register long               nDstPixelsM1, srcRowBytes, i;
-register ilPtr              pSrc, pDst;
-register unsigned int       pixel;
+long               nDstPixelsM1, srcRowBytes, i;
+ilPtr              pSrc, pDst;
+unsigned int       pixel;
 
         /*  Get width and height of _upsampled_ image; exit if zero. */
     pPriv = (ilSubsamplePrivPtr)pData->pPrivate;
@@ -202,7 +202,7 @@ IL_PRIVATE ilBool _ilSubsampleYCbCr (
     ilImageFormat          *pFormat
     )
 {
-    register ilSubsamplePrivPtr pSubPriv;
+    ilSubsamplePrivPtr pSubPriv;
     ilSubsamplePrivRec       priv;
     ilSubsampleShiftRec     *pShift;
     ilYCbCrSampleInfo      *pSample;
@@ -315,10 +315,10 @@ static ilError ilExecutePlanarYCbCrToRGB (
     )
 {
 ilPtr                       pYLine, pCbLine, pCrLine, pDstLine;
-register ilRGBTransPtr      pTrans;
-register ilPtr              pY, pCb, pCr, pDst;
-register long               YTrans, CbTrans, CrTrans, pixel, nPixelsM1;
-register int                Y;
+ilRGBTransPtr      pTrans;
+ilPtr              pY, pCb, pCr, pDst;
+long               YTrans, CbTrans, CrTrans, pixel, nPixelsM1;
+int                Y;
 long                        nPixelsM1Init, nLinesM1;
 long                        YRowBytes, CbRowBytes, CrRowBytes, dstRowBytes;
 ilImagePlaneInfo           *pPlane;
@@ -408,10 +408,10 @@ static ilError ilExecutePixelYCbCrToRGB (
     )
 {
 ilPtr                       pSrcLine, pDstLine;
-register ilRGBTransPtr      pTrans;
-register ilPtr              pSrc, pDst;
-register long               YTrans, CbTrans, CrTrans, pixel, nPixelsM1;
-register int                Y;
+ilRGBTransPtr      pTrans;
+ilPtr              pSrc, pDst;
+long               YTrans, CbTrans, CrTrans, pixel, nPixelsM1;
+int                Y;
 long                        nPixelsM1Init, nLinesM1;
 long                        srcRowBytes, dstRowBytes;
 ilImagePlaneInfo           *pPlane;
@@ -489,11 +489,11 @@ static ilRGBTransPtr ilGetYCbCrConvertTable (
     ilImageDes             *pDes
     )
 {
-    register ilRGBTransPtr  pTrans;
+    ilRGBTransPtr  pTrans;
     const ilYCbCrInfo      *pYCbCr, *pStdYCbCr;
     double                  Lr, Lg, Lb, scaledY;
-    register double         factor, gFactor;
-    register int            i, refBlack, upper, lower;
+    double         factor, gFactor;
+    int            i, refBlack, upper, lower;
     ilBool                  isStd;
     struct {
         int                 refBlack;
@@ -608,7 +608,7 @@ IL_PRIVATE ilBool _ilConvertYCbCrToRGB (
     ilDstElementData        dstData;
     ilError                 (*executeFunction)(), (*destroyFunction)();
     ilYCbCrToRGBPrivPtr     pPriv;
-    register ilRGBTransPtr  pTrans;
+    ilRGBTransPtr  pTrans;
 
     if ((pFormat->nBitsPerSample[0] != 8)
      || (pFormat->nBitsPerSample[1] != 8)
@@ -717,12 +717,12 @@ ilPtr                       pYLine, pCbLine, pCrLine, pDstLine;
 int                        *pKernelRowEnd;
 long                        nPixelsDiv2M1;
 ilPtr                       pCb, pCr;
-register long               YRowBytes, dstRowBytes;
-register long               Y, Cb, Cr, YTrans, CbTrans, CrTrans, comp, pixel;
-register ilPtr              pY, pDst;
-register ilRGBTransPtr      pTrans;
-register ilPtr              pTranslate;
-register int               *pKernel, kernel;
+long               YRowBytes, dstRowBytes;
+long               Y, Cb, Cr, YTrans, CbTrans, CrTrans, comp, pixel;
+ilPtr              pY, pDst;
+ilRGBTransPtr      pTrans;
+ilPtr              pTranslate;
+int               *pKernel, kernel;
 #define YCBCR2_KERNEL_SIZE  8                   /* size of dither kernel used */
 
         /*  This filter handles a pipe image of YCbCr subsampled by 2 in Cb/Cr only.
@@ -894,14 +894,14 @@ d3ClipB: if (comp > YCBCR2_MAX_B) comp = YCBCR2_MAX_B; else comp = 0;
         with the dither values pre-multiplied into them.
     */
 static void ilSetupYCbCrDitherTable (
-    register ilRGBTransPtr  pTrans,
+    ilRGBTransPtr  pTrans,
     ilImageDes             *pDes
     )
 {
     ilYCbCrInfo            *pYCbCr;
     double                  Lr, Lg, Lb, scaledY;
-    register double         factor, gFactor, rbDither, gDither;
-    register int            i, refBlack, upper, lower;
+    double         factor, gFactor, rbDither, gDither;
+    int            i, refBlack, upper, lower;
     struct {
         int                 refBlack;
         double              scale;
@@ -1033,9 +1033,9 @@ IL_PRIVATE ilBool _ilDitherYCbCr (
         /*  alloc pPalette unless not palette dst; init with ramp if not choosing */
     pPalette = (unsigned short *)NULL;
     if (pData->dstType == IL_PALETTE) {
-        register int            red, green, blue;
-        register int            redLevel, greenLevel, blueLevel;
-        register unsigned short *pPal;
+        int            red, green, blue;
+        int            redLevel, greenLevel, blueLevel;
+        unsigned short *pPal;
 
         pPalette = (unsigned short *)IL_MALLOC_ZERO (3 * 256 * sizeof(unsigned short));
         if (!pPalette)
@@ -1146,15 +1146,15 @@ static ilError ilExecuteRGBToYCbCr (
     long                   *pNLines
     )
 {
-register ilRGBToYCbCrPrivPtr pPriv;
+ilRGBToYCbCrPrivPtr pPriv;
 ilPtr                       pSrcLine, pYLine, pCbLine, pCrLine;
-register ilPtr              pSrc, pY, pCb, pCr;
-register long               nPixelsM1;
-register long               YRefBlack, CbRefBlack, CrRefBlack;
+ilPtr              pSrc, pY, pCb, pCr;
+long               nPixelsM1;
+long               YRefBlack, CbRefBlack, CrRefBlack;
 long                        nPixelsM1Init, nLinesM1;
 long                        YRowBytes, CbRowBytes, CrRowBytes, srcRowBytes;
 ilImagePlaneInfo           *pPlane;
-register long               R, G, B, pixel;
+long               R, G, B, pixel;
 
 
         /*  Set nPixels/LinesM1 to # pixels / lines - 1; exit if either 0. */
@@ -1247,13 +1247,13 @@ CrClip:  if (pixel > 255) pixel = 255; else pixel = 0;
 IL_PRIVATE ilBool _ilConvertRGBToYCbCr (
     ilPipe                  pipe,
     ilPipeInfo             *pInfo,
-    register ilImageDes    *pDes,
-    register const ilImageDes *pNewDes,
+    ilImageDes    *pDes,
+    const ilImageDes *pNewDes,
     ilImageFormat          *pFormat
     )
 {
-    register ilRGBToYCbCrPrivPtr pPriv;
-    register ilYCbCrInfo   *pYCbCr;
+    ilRGBToYCbCrPrivPtr pPriv;
+    ilYCbCrInfo   *pYCbCr;
     ilDstElementData        dstData;
     double                  Lr, Lg, Lb, range;
     long                    YR, YG, YB;

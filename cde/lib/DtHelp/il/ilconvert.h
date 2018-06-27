@@ -123,7 +123,7 @@ IL_EXTERN const unsigned short _ilMul4[];
 IL_EXTERN ilBool _ilConvertRGBToPalette (
     ilPipe                  pipe,
     ilPipeInfo             *pInfo,
-    register ilImageDes    *pDes,
+    ilImageDes    *pDes,
     ilImageFormat          *pFormat,
     int                     option,
     ilConvertToPaletteInfo *pData
@@ -273,7 +273,7 @@ IL_EXTERN ilBool _ilConvertRGBToYCbCr (
     ilPipe                  pipe,
     ilPipeInfo             *pInfo,
     ilImageDes             *pDes,
-    register const ilImageDes *pNewDes,
+    const ilImageDes *pNewDes,
     ilImageFormat          *pFormat
     );
 

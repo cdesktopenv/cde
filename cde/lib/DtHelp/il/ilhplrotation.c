@@ -399,7 +399,7 @@ DATA_OUT_PTR out;
     OPERAND first_pix, last_pix, col;
     float Y, x, y;
     OPERAND ex, ey, dx, dy;
-    register DATA_IN_PTR data;
+    DATA_IN_PTR data;
 
     /* Find coord of first & last pixels in the new image coord. system */
     first_pix = First_Pixel(r_next_row_out);
@@ -491,7 +491,7 @@ DATA_OUT_PTR out;
     OPERAND first_pix, last_pix, col;
     float Y, x, y;
     OPERAND ex, ey, dx, dy;
-    register DATA_IN_PTR data, data2;
+    DATA_IN_PTR data, data2;
     OPERAND val1, val2, x1, y1, t;
     size_t input_row_size;
 

@@ -128,11 +128,11 @@ ILJPG_PRIVATE iljpgError _iljpgEnDCTScale (
     float              *pDst
     )
 {
-  register int   i, j, k, temp;
+  int   i, j, k, temp;
   double         a, c0, b[8], pi;
-  register float *sptr;
-  register iljpgPtr qptr;
-  register int   *cptr;
+  float *sptr;
+  iljpgPtr qptr;
+  int   *cptr;
    
   pi   = 4.0 * atan(1.0);
   c0   = 1.0 / (2.0 * 0.707106718);
@@ -175,19 +175,19 @@ static void fwfwddct_8x8 (
     float *ox  /* pointer to 8x8 output array containing DCT coefficients */
     )
 {
-  register float in0, in1, in2, in3, in4, in5, in6, in7;
-  register float tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
-  register float tmp;
-  register int   *ixaddr;
-  register float *oxaddr;
+  float in0, in1, in2, in3, in4, in5, in6, in7;
+  float tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
+  float tmp;
+  int   *ixaddr;
+  float *oxaddr;
   int            i;
   int            j;
   /* constants needed by the 16 point Winograd Fourier Transform method */
-  register float a1 =  0.707106718;
-  register float a2 = -0.541196100;
-  register float a3 =  0.707106718;
-  register float a4 =  1.306562963;
-  register float a5 =  0.382683432; 
+  float a1 =  0.707106718;
+  float a2 = -0.541196100;
+  float a3 =  0.707106718;
+  float a4 =  1.306562963;
+  float a5 =  0.382683432;
 
 #ifdef DEBUG
   ixaddr = ix;
@@ -441,12 +441,12 @@ ILJPG_PRIVATE _iljpgEnDCT (
     float      *pScale
     )
 {
-  register int   i, value;
-  register float *sptr;
-  register int   *ixptr;
-  register float *oxptr;
-  register int   *zptr; 
-  register float  fvalue;
+  int   i, value;
+  float *sptr;
+  int   *ixptr;
+  float *oxptr;
+  int   *zptr;
+  float  fvalue;
   float           ox[64];   /* DCT coefficient buffer */
 
 

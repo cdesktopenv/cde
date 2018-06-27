@@ -91,12 +91,12 @@ static unsigned long    ilSupportedCompressions [IL_MAX_TYPE+1] = {
         */
 IL_PRIVATE ilError _ilValidateDesFormat (
     ilBool                  allowPrivateTypes,
-    register const ilImageDes     *pDes,
-    register const ilImageFormat  *pFormat
+    const ilImageDes     *pDes,
+    const ilImageFormat  *pFormat
     )
 {
 #define MAX_BITS_PER_SAMPLE     24       /* maximum # of bits/sample supported */
-register unsigned int           i, j, nBits, nLevels, nSamplesPerPixel;
+unsigned int           i, j, nBits, nLevels, nSamplesPerPixel;
 const ilYCbCrSampleInfo              *pSample;
 
         /*  reserved must = 0; # samples must be 1 .. IL_MAX_SAMPLES.
@@ -241,14 +241,14 @@ const ilYCbCrSampleInfo              *pSample;
             format "*pFormat".
         */
 void ilGetBytesPerRow (
-    register const ilImageDes    *pDes,
-    register const ilImageFormat *pFormat,
+    const ilImageDes    *pDes,
+    const ilImageFormat *pFormat,
     long                    width,
     long                   *pnBytesPerRow       /* RETURNED */
     )
 {
-register const unsigned short    *pNBits;
-register int                rowBitAlign, nBits, nSamplesPerPixel, i;
+const unsigned short    *pNBits;
+int                rowBitAlign, nBits, nSamplesPerPixel, i;
 
     pNBits = pFormat->nBitsPerSample;
     rowBitAlign = pFormat->rowBitAlign;
@@ -282,7 +282,7 @@ register int                rowBitAlign, nBits, nSamplesPerPixel, i;
                         * (rowBitAlign / 8);
         }
     else  {
-        register const ilYCbCrSampleInfo *pYCbCr;
+        const ilYCbCrSampleInfo *pYCbCr;
 
             /*  Planar order: each plane is independent; return nSamplesPerPixel rowbytes.
                 Take into account subsampling if YCbCr image.
@@ -319,15 +319,15 @@ register int                rowBitAlign, nBits, nSamplesPerPixel, i;
                 Returns: zero if success, else error code.
         */
 IL_PRIVATE ilError _ilMallocImagePixels (
-    register ilImagePtr pImage
+    ilImagePtr pImage
     )
 {
-register int            plane, nPlanes;
+int            plane, nPlanes;
 int                     MCUMinus1;
-register long           nBytesToAlloc, nBytesPerRow, allocHeight;
+long           nBytesToAlloc, nBytesPerRow, allocHeight;
 ilPtr                   pPixels;
 long                    rowBytesPerPlane [IL_MAX_SAMPLES];
-register ilYCbCrSampleInfo *pYCbCr;
+ilYCbCrSampleInfo *pYCbCr;
 
 
         /*  Get the bytes per row, set into the image. */
@@ -399,7 +399,7 @@ register ilYCbCrSampleInfo *pYCbCr;
             Free the pixels of the image only if the IL owns them.
         */
 IL_PRIVATE void _ilFreeImagePixels (
-    register ilImagePtr pImage
+    ilImagePtr pImage
     )
 {
 int                     plane;
@@ -447,11 +447,11 @@ ilPtr                   pPixels;
         is zero (0).  Locks image to that strip height.
     */
 IL_PRIVATE ilBool _ilAllocStripOffsets (
-    register ilImagePtr pImage,
-    register long       stripHeight
+    ilImagePtr pImage,
+    long       stripHeight
     )
 {
-register long           nStrips;
+long           nStrips;
 
     if (stripHeight <= 0)
         stripHeight = ilRecommendedStripHeight (pImage->i.pDes, pImage->i.pFormat,
@@ -485,7 +485,7 @@ ilInternalImage ilCreateInternalImage (
     unsigned long       mustBeZero
     )
 {
-register ilImagePtr     pImage;
+ilImagePtr     pImage;
 ilError                 error;
 
 
@@ -611,7 +611,7 @@ ilBool ilQueryInternalImage (
     unsigned long       mustBeZero
     )
 {
-register ilImagePtr     pImage;
+ilImagePtr     pImage;
 
 
         /*  Check that given image is an internal image.
@@ -649,7 +649,7 @@ ilClientImage ilCreateClientImage (
     unsigned long       mustBeZero
     )
 {
-register ilImagePtr     pImage;
+ilImagePtr     pImage;
 ilError                 error;
 int                     plane, nPlanes;
 
@@ -771,7 +771,7 @@ ilBool ilQueryClientImage (
     unsigned long       mustBeZero
     )
 {
-register ilImagePtr     pImage;
+ilImagePtr     pImage;
 
         /*  Validate given image of correct type; return false if not realized.
         */

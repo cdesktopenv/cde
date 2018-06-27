@@ -113,10 +113,10 @@ static ilError ilCompLZWCleanup (
         /*  Reallocate the output (compressed) buffer and reset pPriv->pDst(BufferEnd).
         */
 static ilBool ilLZWReallocBuffer (
-    register ilCompLZWPrivPtr pPriv
+    ilCompLZWPrivPtr pPriv
     )
 {
-    register unsigned long  offset;
+    unsigned long  offset;
 
     offset = pPriv->pDst - pPriv->pDstImage->plane[0].pPixels;
     if (!_ilReallocCompressedBuffer (pPriv->pDstImage, 0, offset + LZW_MAX_BUFFER_WRITE))
@@ -149,10 +149,10 @@ static void NewEnnode (
             Initializes the encode table with the first 256 strings (i.e. 0-ff).
         */
 static void ilInitEncodeTable (
-    register ilCompLZWPrivPtr pPriv
+    ilCompLZWPrivPtr pPriv
     )
 {
-    register int        i;
+    int        i;
 
     for (i = 0; i < 256; i++) {
         pPriv->ennodes[i].value = i;
@@ -185,11 +185,11 @@ static ilBool ilStringInTable (
     ilCompLZWPrivPtr        pPriv,
     ilPtr                   string,
     unsigned int            count,
-    register unsigned int  *pCurrentNode
+    unsigned int  *pCurrentNode
     )
 {
-    register unsigned int   byte; /* current character in string */
-    register ilEnnodePtr    ennodes;
+    unsigned int   byte; /* current character in string */
+    ilEnnodePtr    ennodes;
 
     ennodes = pPriv->ennodes;
     byte = string[count-1];
@@ -243,7 +243,7 @@ static ilBool ilStringInTable (
             If the bit stream is longer than 16 bits, two bytes will be written.
         */
 static ilError ilWriteCode (
-    register ilCompLZWPrivPtr pPriv,
+    ilCompLZWPrivPtr pPriv,
     unsigned int        code
     )
 {
@@ -283,7 +283,7 @@ static ilError ilCompLZWExecute (
     unsigned long  *pNLines
     )
 {
-    register ilCompLZWPrivPtr pPriv;
+    ilCompLZWPrivPtr pPriv;
     ilPtr                   pSrcLine, pSrc;
     ilByte                  srcByte;
     long                    nLines, srcRowBytes, nSrcBytes;

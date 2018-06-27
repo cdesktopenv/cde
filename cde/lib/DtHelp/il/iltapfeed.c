@@ -60,7 +60,7 @@ ilBool ilFeedFromImage (
     ilBool              constantStrip
     )
 {
-register ilImagePtr     pImage;
+ilImagePtr     pImage;
 
         /*  Validate that pipe and image are such, and that they have the same context. */
     pImage = (ilImagePtr)image;
@@ -141,7 +141,7 @@ static ilError ilTapInit (
     ilImageInfo        *pDstImage
     )
 {
-register int            plane;
+int            plane;
 ilImageInfo            *pFeedInfo;
 
     pFeedInfo = pPriv->pFeedInfo;
@@ -168,13 +168,13 @@ static ilError ilTapDestroy (
             Feed the pipe bits entering this filter down the offshoot pipe.
         */
 static ilError ilTapExecute (
-    register ilExecuteData  *pData,
+    ilExecuteData  *pData,
     long                    dstLine,
     long                   *pNLines
     )
 {
-register ilTapPrivPtr   pPriv;
-register int            plane;
+ilTapPrivPtr   pPriv;
+int            plane;
 ilImageInfo            *pFeedInfo, *pSrcImage;
 long                    start, nCompBytes;
 
@@ -213,7 +213,7 @@ long                    start, nCompBytes;
         /*  Public function: see spec.
         */
 ilPipe ilTapPipe (
-    register ilPipe     pipe,
+    ilPipe     pipe,
     unsigned long       mustBeZero,
     void               *mustBeNull
     )
@@ -227,7 +227,7 @@ ilImageFormat           format;
 ilImageInfo             imageInfo, *pFeedInfo;
 ilSrcElementData        srcData;
 ilError                 error;
-register ilTapPrivPtr   pPriv;
+ilTapPrivPtr   pPriv;
 
     context = pipe->context;
     feedImage = (ilClientImage)NULL;

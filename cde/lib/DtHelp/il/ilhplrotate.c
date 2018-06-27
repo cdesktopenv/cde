@@ -107,7 +107,7 @@ short          out_w, out_h;
 
    ============================================================================================================================= */
 static ilError ilRotateCleanup (
-    register ilRotatePrivptr   pPriv,
+    ilRotatePrivptr   pPriv,
     ilBool                  aborting
     )
 {
@@ -124,7 +124,7 @@ static ilError ilRotateCleanup (
 
    ============================================================================================================================= */
 static ilError ilRotateExecute (
-    register ilExecuteData   *pData,
+    ilExecuteData   *pData,
     unsigned long           dstLine,
     unsigned long          *pNLines
     )
@@ -132,10 +132,10 @@ static ilError ilRotateExecute (
 
 
 
-register unsigned char     *psrc, *pdst, *psrcline, *pdstline;
-register unsigned long     srcnbytes, dstnbytes;
+unsigned char     *psrc, *pdst, *psrcline, *pdstline;
+unsigned long     srcnbytes, dstnbytes;
 ilImagePlaneInfo           *pplane;
-register ilRotatePrivptr   pPriv;
+ilRotatePrivptr   pPriv;
  int                       nrows, nlines, nlinesout;
 
    if (*pNLines <= 0)  return IL_OK;
@@ -187,7 +187,7 @@ ilBool ilRotate(
 {
 unsigned int              state;
 ilPipeInfo                info;
-register ilRotatePrivptr  pPriv;
+ilRotatePrivptr  pPriv;
 ilDstElementData          dstdata;
 ilImageDes                imdes;
 ilImageFormat             imformat;

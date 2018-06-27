@@ -85,7 +85,7 @@ int _iljpgZigzagTable[];
     */
     ILJPG_PRIVATE_EXTERN 
 iljpgBool _iljpgValidPars (
-    register iljpgDataPtr pData
+    iljpgDataPtr pData
     );
 
 #endif

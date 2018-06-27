@@ -168,8 +168,8 @@ IL_EXTERN ilObjectPtr _ilCreateObject (
         */
 IL_EXTERN ilError _ilValidateDesFormat (
     ilBool                  allowPrivateTypes,
-    register const ilImageDes     *pDes,
-    register const ilImageFormat  *pFormat
+    const ilImageDes     *pDes,
+    const ilImageFormat  *pFormat
     );
 
 
