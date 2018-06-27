@@ -667,7 +667,7 @@ AddMenubarToggle
 static void
 CloneCallback(Widget wid, XtPointer client_data, XtPointer call_data)
 {
-    register DtTermViewWidget w = (DtTermViewWidget) wid;
+    DtTermViewWidget w = (DtTermViewWidget) wid;
     DtTermViewCallbackStruct *termCB = (DtTermViewCallbackStruct *) call_data;
 
     Widget parent = XtParent((Widget) w);
@@ -1104,7 +1104,7 @@ base_name(
      char *name
 )
 {
-	register char *cp;
+	char *cp;
 
 	cp = strrchr(name, '/');
 	return(cp ? cp + 1 : name);

@@ -184,7 +184,7 @@ typedef char *Anyptr;
 # define Inline
 #endif
 
-#define Register    register  /* Register variables */
+#define Register    /* Register variables (nope) */
 #define Char        char      /* Characters (not bytes) */
 
 #ifndef Static

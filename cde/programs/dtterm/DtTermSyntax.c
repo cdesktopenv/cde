@@ -92,9 +92,9 @@ static char *message_defaults[] = {
 
 static void GetUsage(void)
 {
-    register struct _options *optPtr;
-    register int i;
-    register char *c;
+    struct _options *optPtr;
+    int i;
+    char *c;
     char *c2;
     int num_messages;
     optHead = (struct _options *) 0;
@@ -224,7 +224,7 @@ static void GetUsage(void)
 
 void Syntax(char *programName, char *badOption)
 {
-    register struct _options    *optPtr;
+    struct _options    *optPtr;
     int                          col;
     int                          cols;
     char                        *c;
@@ -284,7 +284,7 @@ void Syntax(char *programName, char *badOption)
 
 void Help(char *programName)
 {
-    register struct _options     *optPtr;
+    struct _options     *optPtr;
     int                           width = 0;
 
     /* 
