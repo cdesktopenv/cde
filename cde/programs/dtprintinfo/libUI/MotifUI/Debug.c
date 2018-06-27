@@ -129,7 +129,7 @@ PrintXError(
     char mesg[BUFSIZ];
     char number[32];
     char *mtype = "XlibMessage";
-    register _XExtension *ext = (_XExtension *)NULL;
+    _XExtension *ext = (_XExtension *)NULL;
     _XExtension *bext = (_XExtension *)NULL;
     XGetErrorText(dpy, event->error_code, buffer, BUFSIZ);
     XGetErrorDatabaseText(dpy, mtype, "XError", "X Error", mesg, BUFSIZ);
