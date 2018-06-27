@@ -1050,8 +1050,13 @@ CXXDEPENDINCLUDE != CcCmd -v -x c++ /dev/null -fsyntax-only \
 # endif
 #endif
 
+/* Suppress warnings dependant from compiler versions */
 #if !defined(GccWarningOptions)
-# define GccWarningOptions 		-Wpointer-arith -Wno-unused -Wno-write-strings -Wno-switch -Wno-unused-result -Wno-deprecated-register
+# if (defined __clang__)
+#  define GccWarningOptions 	-Wpointer-arith -Wno-unused -Wno-write-strings -Wno-switch -Wno-unused-result -Wno-deprecated-register
+# else
+#  define GccWarningOptions 	-Wpointer-arith -Wno-unused -Wno-write-strings -Wno-switch
+# endif
 #endif
 
 #define TtClientLibs $(TTLIB) $(XTOOLLIB) $(XLIB)
