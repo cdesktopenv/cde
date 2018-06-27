@@ -112,8 +112,8 @@ _tt_AuthFileName ()
     if (!name)
     {
 #ifdef WIN32
-    register char *ptr1;
-    register char *ptr2;
+    char *ptr1;
+    char *ptr2;
     int len1 = 0, len2 = 0;
 
     if ((ptr1 = getenv("HOMEDRIVE")) && (ptr2 = getenv("HOMEDIR"))) {

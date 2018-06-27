@@ -427,7 +427,7 @@ int tt_trace_parse(void)
 int tt_trace_parse()
 #endif
 {
-	register TT_TRACE_STYPE *tt_trace_pvt;	/* top of value stack for $vars */
+	TT_TRACE_STYPE *tt_trace_pvt;	/* top of value stack for $vars */
 
 #if defined(__cplusplus) || defined(lint)
 /*
@@ -466,10 +466,10 @@ int tt_trace_parse()
 #endif
 
 	{
-		register TT_TRACE_STYPE *tt_trace__pv;	/* top of value stack */
-		register int *tt_trace__ps;		/* top of state stack */
-		register int tt_trace__state;		/* current state */
-		register int  tt_trace__n;		/* internal state number info */
+		TT_TRACE_STYPE *tt_trace__pv;	/* top of value stack */
+		int *tt_trace__ps;		/* top of state stack */
+		int tt_trace__state;		/* current state */
+		int  tt_trace__n;		/* internal state number info */
 	goto tt_trace_stack;	/* moved from 6 lines above to here to please C++ */
 
 		/*
@@ -507,7 +507,7 @@ int tt_trace_parse()
 		*/
 		if ( tt_trace_debug )
 		{
-			register int tt_trace__i;
+			int tt_trace__i;
 
 			printf( "State %d, token ", tt_trace__state );
 			if ( tt_trace_char == 0 )
@@ -591,7 +591,7 @@ int tt_trace_parse()
 #if TT_TRACE_DEBUG
 		if ( tt_trace_debug && tt_trace_tmp )
 		{
-			register int tt_trace__i;
+			int tt_trace__i;
 
 			printf( "Received token " );
 			if ( tt_trace_char == 0 )
@@ -633,7 +633,7 @@ int tt_trace_parse()
 #if TT_TRACE_DEBUG
 			if ( tt_trace_debug && tt_trace_tmp )
 			{
-				register int tt_trace__i;
+				int tt_trace__i;
 
 				printf( "Received token " );
 				if ( tt_trace_char == 0 )
@@ -660,7 +660,7 @@ int tt_trace_parse()
 			** look through exception table
 			*/
 			{
-				register int *tt_trace_xi = tt_trace_exca;
+				int *tt_trace_xi = tt_trace_exca;
 
 				while ( ( *tt_trace_xi != -1 ) ||
 					( tt_trace_xi[1] != tt_trace__state ) )
@@ -746,7 +746,7 @@ int tt_trace_parse()
 				*/
 				if ( tt_trace_debug )
 				{
-					register int tt_trace__i;
+					int tt_trace__i;
 
 					printf( "Error recovery discards " );
 					if ( tt_trace_char == 0 )
@@ -806,7 +806,7 @@ int tt_trace_parse()
 		*/
 		{
 			/* length of production doubled with extra bit */
-			register int tt_trace__len = tt_trace_r2[ tt_trace__n ];
+			int tt_trace__len = tt_trace_r2[ tt_trace__n ];
 
 			if ( !( tt_trace__len & 01 ) )
 			{

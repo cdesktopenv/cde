@@ -609,7 +609,7 @@ _Tt_object_list_cursor& _Tt_object_list_cursor::
 remove()
 {
 	ASSERT(current,"No current element to delete");
-	register _Tt_object_list_element *p = current;
+	_Tt_object_list_element *p = current;
 	listhdr->_count--;
 	if (p->next != 0)
 	  p->next->prev = p->prev;

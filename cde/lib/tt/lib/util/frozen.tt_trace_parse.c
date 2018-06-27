@@ -3993,8 +3993,8 @@ int tt_trace_look(void)
 tt_trace_look()
 #endif
 {
-	register struct tt_trace_svf *tt_trace_state, **lsp;
-	register struct tt_trace_work *tt_trace_t;
+	struct tt_trace_svf *tt_trace_state, **lsp;
+	struct tt_trace_work *tt_trace_t;
 	struct tt_trace_svf *tt_trace_z;
 	int tt_trace_ch, tt_trace_first;
 	struct tt_trace_work *tt_trace_r;

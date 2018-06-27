@@ -605,8 +605,8 @@ unquote_nulls() const
 	int l;
 	unsigned char *result;
 	_Tt_string r;
-	register unsigned char *p;
-	register unsigned char *q;
+	unsigned char *p;
+	unsigned char *q;
 
 	l = len();
 	if (l==0) {
@@ -746,9 +746,9 @@ replace(const char *old, const _Tt_string &with) const
 int _Tt_string::
 cmp(const char *q, int qlen) const
 {
-	register char *p = (*this)->content;
-	register int plen = len();
-	register int pcmp;
+	char *p = (*this)->content;
+	int plen = len();
+	int pcmp;
 
 	if (0==p && 0==q) return 0;
 	if (0==p) return -1;
@@ -769,9 +769,9 @@ cmp(const char *q, int qlen) const
 /* XXX: old definition of cmp
  * {	
  * 
- * 	register char *p = (*this)->content;
- * 	register char *end;
- * 	register int plen = len();
+ * 	char *p = (*this)->content;
+ * 	char *end;
+ * 	int plen = len();
  * 	
  * 	// null pointers are treated as null strings, ignoring length.
  * 	if (0==p && 0==q) return 0;
@@ -815,8 +815,8 @@ index(char c) const
 		return -1;
 	}
 
-	register char *p = (*this)->content;
-	register char *end = p+len();
+	char *p = (*this)->content;
+	char *end = p+len();
 	
 	while (p<end && *p!=c) ++p;
 	if (p==end) {
@@ -873,8 +873,8 @@ rindex(char c) const
 		return -1;
 	}
 
-	register char *beg = (*this)->content;
-	register char *p = beg+len()-1;
+	char *beg = (*this)->content;
+	char *p = beg+len()-1;
 
 	while (p>=beg && *p!=c) --p;
 	if (p<beg) {
