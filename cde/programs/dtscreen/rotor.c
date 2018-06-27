@@ -168,8 +168,8 @@ initrotor(perwindow *pwin)
 void
 drawrotor(perwindow *pwin)
 {
-    register flightstruct *fs;
-    register struct elem *pelem;
+    flightstruct *fs;
+    struct elem *pelem;
     int         thisx,
                 thisy;
     int         i,
