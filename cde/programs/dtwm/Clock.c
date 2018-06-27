@@ -325,8 +325,8 @@ ClockTick(
 	struct tm 	tm; 
 	time_t		time_value;
 	char *		time_ptr;
-	register Display *	dpy = XtDisplay (w);
-	register Window		win = XtWindow (w);
+	Display *	dpy = XtDisplay (w);
+	Window		win = XtWindow (w);
 
 	if (id || !w->clock.interval_id)
 		w->clock.interval_id =
@@ -508,8 +508,8 @@ DrawHand(
         Dimension width,
         double fraction_of_a_circle )
 {
-	register double angle, cosangle, sinangle;
-	register double ws, wc;
+	double angle, cosangle, sinangle;
+	double ws, wc;
 	Position x, y, x1, y1, x2, y2;
 	double cos ();
 	double sin ();
@@ -593,8 +593,8 @@ DrawClockFace(
 	Boolean	draw_minute_ticks =
 			 ((G_ClockWidth (g) > (Dimension) (2 * SIZE_DEFAULT)) &&
 			  (G_ClockHeight (g) > (Dimension) (2 * SIZE_DEFAULT)));
-	register int i;
-	register int delta =
+	int i;
+	int delta =
 			(int)(g->clock.radius - g->clock.tick_spacing) / 3;
 
 	if (! XtIsManaged ((Widget)g))

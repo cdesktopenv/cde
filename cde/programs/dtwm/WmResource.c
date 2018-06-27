@@ -5857,10 +5857,10 @@ XmColorData * _WmGetDefaultColors (Screen *screen, Colormap colormap,
     static int defaultCount[2] = {0, 0};
     static int defaultSize[2] = {0, 0};
     int setId;
-    register XmColorData *set;
-    register int count;
-    register int size;
-    register int i;
+    XmColorData *set;
+    int count;
+    int size;
+    int i;
     Display *display = DisplayOfScreen (screen);
     XColor colorDef;
 

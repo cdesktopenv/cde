@@ -2440,7 +2440,7 @@ static MenuItem *ParseMenuItems (WmScreenData *pSD)
     MenuItem      *firstMenuItem;
     MenuItem      *lastMenuItem;
     MenuItem      *menuItem;
-    register int   ix;
+    int   ix;
     
     /*
      * Parse "label [mnemonic] [accelerator] function" or
@@ -2836,7 +2836,7 @@ int ParseWmFunction (unsigned char **linePP, unsigned int res_spec,
 {
     unsigned char *lineP = *linePP;
     unsigned char *string;
-    register int  low, mid, high, cmp;
+    int  low, mid, high, cmp;
 
     /*
      * Skip leading white space.
@@ -4367,7 +4367,7 @@ static Boolean ParseModifiers(unsigned char **linePP, unsigned int *state)
 
 static Boolean LookupModifier (unsigned char *name, unsigned int *valueP)
 {
-    register int i;
+    int i;
 
     if (name != NULL)
     {
@@ -4423,7 +4423,7 @@ static Boolean ParseEventType (unsigned char **linePP, EventTableEntry *table,
     unsigned char *lineP = *linePP;
     unsigned char *startP = *linePP;
     unsigned char eventTypeStr[MAX_EVENTTYPE_STRLEN+1];
-    register int  len;
+    int  len;
 
     /* Parse out the event string */
     ScanAlphanumeric (&lineP);

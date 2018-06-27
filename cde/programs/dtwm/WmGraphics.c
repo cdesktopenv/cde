@@ -108,7 +108,7 @@
 void BevelRectangle (RList *prTop, RList *prBot, int x, int y, unsigned int width, unsigned int height, unsigned int top_wid, unsigned int right_wid, unsigned int bot_wid, unsigned int left_wid)
 {
     XRectangle *prect;		/* pointer to "current" rectangle */
-    register int count;		/* counter used for beveling operation */
+    int count;		/* counter used for beveling operation */
     int join1, join2;		/* used to compute "good" bevel joints */
     int x1, y1, len;		/* used to compute bevel parameters */
     int *piTop, *piBot;
@@ -262,7 +262,7 @@ void BevelRectangle (RList *prTop, RList *prBot, int x, int y, unsigned int widt
 void BevelDepressedRectangle (RList *prTop, RList *prBot, int x, int y, unsigned int width, unsigned int height, unsigned int top_wid, unsigned int right_wid, unsigned int bot_wid, unsigned int left_wid, unsigned int in_wid)
 {
     XRectangle *prect;		/* pointer to "current" rectangle */
-    register int count;		/* counter used for beveling operation */
+    int count;		/* counter used for beveling operation */
     int join1, join2;		/* used to compute "good" bevel joints */
     int x1, y1, len;		/* used to compute bevel parameters */
     int *piTop, *piBot;

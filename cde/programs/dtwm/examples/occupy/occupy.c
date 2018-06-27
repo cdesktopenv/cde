@@ -105,8 +105,8 @@ char **argv;
     Widget  top;
     XtAppContext app_context;
     Arg	args[10];
-    register int n;
-    register int i;
+    int n;
+    int i;
 
     /*  
      * initialize toolkit  
@@ -273,8 +273,8 @@ Widget top;
 {
     Window root;
     Arg	args[10]; /*  arg list		*/
-    register int n;	/*  arg count		*/
-    register int i;
+    int n;	/*  arg count		*/
+    int i;
     DtWsmWorkspaceInfo *pWsInfo;
     char *pchWs;
     Widget left = None;
@@ -346,7 +346,7 @@ Widget top;
 void ShowWorkspaceOccupancy ()
 {
     Arg	args[10]; /*  arg list		*/
-    register int n;	/*  arg count		*/
+    int n;	/*  arg count		*/
     int i,j;
     Atom *paWsIn = NULL;
     unsigned long numWsIn;

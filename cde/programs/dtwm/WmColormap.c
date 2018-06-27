@@ -549,7 +549,7 @@ void
 ProcessColormapList (WmScreenData *pSD, ClientData *pCD)
 
 {
-	register int i;
+	int i;
 	XEvent event;
 
 

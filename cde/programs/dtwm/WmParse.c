@@ -908,7 +908,7 @@ _DtWmParseNextLine (
  *
  ***********************************************************************/
 
-    register unsigned char	*string;
+    unsigned char	*string;
     int				len;
     int   chlen;
     wchar_t last;
