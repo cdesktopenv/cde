@@ -52,7 +52,7 @@ __set_authtoken_attr(
 	int		argc,
 	const char	**argv)
 {
-	register int	i;
+	int	i;
 	int		retcode;
 	char 		*usrname;
 	char 		*prognamep;

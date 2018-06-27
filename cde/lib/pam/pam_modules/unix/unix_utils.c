@@ -384,7 +384,7 @@ ck_perm(pamh, repository, domain, pwd, shpwd, privileged, passwd_res, uid,
 
 char *
 attr_match(s1, s2)
-	register char *s1, *s2;
+	char *s1, *s2;
 {
 	while (*s1 == *s2++)
 		if (*s1++ == '=')
@@ -407,7 +407,7 @@ attr_match(s1, s2)
 
 int
 attr_find(s1, s2)
-	register char *s1, *s2[];
+	char *s1, *s2[];
 {
 	int 	i;
 	char 	*sa, *sb;
@@ -467,7 +467,7 @@ setup_attr(dest_attr, k, attr, value)
 #ifdef PAM_NISPLUS
 static char *
 spskip(p)
-	register char *p;
+	char *p;
 {
 	while (*p && *p != ':' && *p != '\n')
 		++p;

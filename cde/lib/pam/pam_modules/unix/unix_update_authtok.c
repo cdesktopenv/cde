@@ -516,7 +516,7 @@ verify_old_passwd(pamh, repository, real_rep, domain,
 	int debug;
 	int nowarn;
 {
-	register int		now;
+	int		now;
 	int			done = 0;
 	int			retcode;
 	char			*prognamep;

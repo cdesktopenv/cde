@@ -180,7 +180,7 @@ extern int		key_setnet();
 extern int		ck_perm(pam_handle_t *, int,
 				char *, struct passwd **, struct spwd **,
 				int *, void **, uid_t, int, int);
-extern char		*attr_match(register char *, register char *);
+extern char		*attr_match(char *, char *);
 extern char		*getloginshell(pam_handle_t *, char *, int, int);
 extern char		*gethomedir(pam_handle_t *, char *, int);
 extern char		*getfingerinfo(pam_handle_t *, char *, int);

@@ -61,7 +61,7 @@ update_authtok_file(pamh, field, data, unix_pwd, privileged, nowarn)
 	char *prognamep;
 	char *usrname;
 	struct stat	buf;
-	register int	found = 0;
+	int	found = 0;
 	FILE 		*tsfp, *spfp;
 	struct spwd	unix_sp;
 	char		spbuf[1024];

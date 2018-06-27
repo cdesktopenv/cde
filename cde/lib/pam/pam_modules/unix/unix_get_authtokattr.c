@@ -70,7 +70,7 @@ __get_authtoken_attr(
 	int			argc,
 	const char		**argv)
 {
-	register int		k;
+	int		k;
 	char 			value[PAM_MAX_ATTR_SIZE];
 	int 			retcode;
 	long 			lstchg;

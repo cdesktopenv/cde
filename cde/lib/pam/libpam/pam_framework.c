@@ -1696,7 +1696,7 @@ mal_formed:
 static char *
 read_next_token(char **cpp)
 {
-	register char *cp = *cpp;
+	char *cp = *cpp;
 	char *start;
 
 	while (*cp == ' ' || *cp == '\t')
