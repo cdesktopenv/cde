@@ -111,7 +111,7 @@ static	XtResource logoResources[] = {
 void 
 MakeLogo( void )
 {
-    register int i;
+    int i;
 
     char	*logoFile;		/* name of logo bitmap file	   */
     

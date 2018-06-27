@@ -592,7 +592,7 @@ MakeLangAbort( int arg )
 void
 MakeLangList( void )
 {
-    register int i, j;
+    int i, j;
 
     char        *lang[500];             /* sort list for languages         */
     int         nlang;                  /* total number of languages       */

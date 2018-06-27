@@ -582,7 +582,7 @@ RegisterHostname (char *name)
     struct hostent	*hostent;
     struct sockaddr_in	in_addr;
     struct ifconf	ifc;
-    register struct ifreq *ifr;
+    struct ifreq *ifr;
     struct sockaddr	broad_addr;
     char		buf[2048];
     int			n;

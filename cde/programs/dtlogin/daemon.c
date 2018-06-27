@@ -62,7 +62,7 @@ extern void exit ();
 void
 BecomeDaemon( void )
 {
-    register int i;
+    int i;
 
     /*
      * fork so that the process goes into the background automatically. Also

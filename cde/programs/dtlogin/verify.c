@@ -449,8 +449,8 @@ login_defaults(
 	struct display *d )
 {
         extern int defcntl();
-        register int  flags;
-        register char *ptr;
+        int  flags;
+        char *ptr;
 	char *Def_path;
 	char *final_path = malloc(MAXPATHLEN);
 	char *element;

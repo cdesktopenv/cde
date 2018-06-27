@@ -426,7 +426,7 @@ EditPasswdCB(Widget w, XtPointer client, XtPointer call_data)
     XmTextVerifyPtr	cbs = (XmTextVerifyPtr) call_data;
     int			i;
     static char		buffer[MAXPATHLEN];
-    register char	*s, *t;
+    char	*s, *t;
 
 #ifdef VG_TRACE
     vg_TRACE_EXECUTION("main:  entered EditPasswdCB ...");

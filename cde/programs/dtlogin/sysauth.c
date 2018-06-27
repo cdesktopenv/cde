@@ -217,7 +217,7 @@ static void	Audit( struct passwd *p, char *msg, int errnum) ;
 static int	CheckPassword( char *name, char	*passwd, struct passwd **ppwd );
 static int	CountUsers( int added_users) ;
 static int	CountUsersStrict( char *new_user) ;
-static int	PasswordAged( register struct passwd *pw) ;
+static int	PasswordAged( struct passwd *pw) ;
 static void	WriteBtmp( char *name) ;
 
 
@@ -488,7 +488,7 @@ CountUsersStrict( char *new_user )
 #define SECONDS_IN_WEEK		604800L
 
 static int 
-PasswordAged( register struct passwd *pw )
+PasswordAged( struct passwd *pw )
 {
     long change_week;	/* week password was changed (1/1/70 = Week 0) */
     long last_week;	/* week after which password must change */
@@ -1357,7 +1357,7 @@ Authenticate( struct display *d, char *name, char *passwd, char **msg )
  ***************************************************************************/
 
 static void Audit( struct passwd *p, char *msg, int errnum) ;
-static int  PasswordAged(char *name, register struct passwd *pw) ;
+static int  PasswordAged(char *name, struct passwd *pw) ;
 static void WriteBtmp( char *name) ;
 
 
@@ -1436,7 +1436,7 @@ WriteBtmp( char *name )
 #define SECONDS_IN_WEEK		604800L
 
 static int 
-PasswordAged(char *name, register struct passwd *pw )
+PasswordAged(char *name, struct passwd *pw )
 {
   struct userpw *pupw; /* authentication information from getuserpw() */
   struct userpw  upw;  /* working authentication information */
@@ -1832,7 +1832,7 @@ tsm_check_login(uid_t uid)
  ***************************************************************************/
 
 static void Audit( struct passwd *p, char *msg, int errnum) ;
-static int  PasswordAged( register struct passwd *pw) ;
+static int  PasswordAged( struct passwd *pw) ;
 static void WriteBtmp( char *name) ;
 
 
@@ -1896,7 +1896,7 @@ WriteBtmp( char *name )
 #define SECONDS_IN_WEEK		604800L
 
 static int 
-PasswordAged( register struct passwd *pw )
+PasswordAged( struct passwd *pw )
 {
   return(FALSE);
 }

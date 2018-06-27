@@ -145,7 +145,7 @@ static XmTextScanType sarray[] = {XmSELECT_POSITION};
 int 
 InitArg( WidgetType wtype )
 {
-    register int i;
+    int i;
 
     i = 0;
 

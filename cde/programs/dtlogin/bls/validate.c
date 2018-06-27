@@ -768,12 +768,12 @@ getGroups ( char *name, struct verify_info *verify, int gid)
 int 
 passwordExpired( struct verify_info *verify)
 {
-	register struct pr_passwd *pr;
-	register time_t expiration;
-	register time_t last_change;
+	struct pr_passwd *pr;
+	time_t expiration;
+	time_t last_change;
 	time_t expiration_time;
-	register time_t now;
-	register int passwd_status;
+	time_t now;
+	int passwd_status;
 	struct pr_passwd save_data;
 	struct pr_default *df;
 	char *ttime;

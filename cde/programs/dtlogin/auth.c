@@ -504,7 +504,7 @@ SetLocalAuthorization (struct display *d)
 void 
 SetAuthorization (struct display *d)
 {
-    register Xauth **auth = d->authorizations;
+    Xauth **auth = d->authorizations;
     int i;
 
     for (i = 0; i < d->authNum; i++)
@@ -866,11 +866,11 @@ DefineSelf (int fd, FILE *file, Xauth *auth)
 {
     char		buf[2048];
     struct ifconf	ifc;
-    register int	n;
+    int	n;
     int 		len;
     char 		*addr;
     int 		family;
-    register struct ifreq *ifr;
+    struct ifreq *ifr;
     
     ifc.ifc_len = sizeof (buf);
     ifc.ifc_buf = buf;
@@ -937,13 +937,13 @@ DefineSelf (int fd, FILE *file, Xauth *auth)
 static void
 DefineSelf (int fd, int file, int auth)
 {
-    register int n;
+    int n;
     int	len;
     caddr_t	addr;
     int		family;
 
     struct utsname name;
-    register struct hostent  *hp;
+    struct hostent  *hp;
 
     union {
 	struct  sockaddr   sa;

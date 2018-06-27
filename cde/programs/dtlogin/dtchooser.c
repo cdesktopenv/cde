@@ -316,7 +316,7 @@ MakeRootCursor( void )
 void 
 MakeBackground( void )
 {
-    register int i;
+    int i;
 
     /*
      * Get resources first
@@ -430,7 +430,7 @@ MakeBackground( void )
 void 
 MakeButtons( void )
 {
-    register int i;
+    int i;
 
     Dimension	width;
 
@@ -659,7 +659,7 @@ MakeChooser( void )
 void 
 MakeDialog( DialogType dtype )
 {
-    register int i, j;
+    int i, j;
 
     int		width;
     

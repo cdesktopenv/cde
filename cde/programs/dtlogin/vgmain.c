@@ -765,7 +765,7 @@ MakeRootCursor( void )
 static void 
 MakeBackground( void )
 {
-    register int i;
+    int i;
     
 #ifdef VG_TRACE
     vg_TRACE_EXECUTION("MakeBackground:  entered ...");
@@ -1059,7 +1059,7 @@ char 	    *temp_p;
 static void 
 MakeButtons( void )
 {
-    register int i;
+    int i;
 
     Dimension	max_width;	/* maximum width  of a set of widgets	   */
     Dimension	max_height;	/* maximum height of a set of widgets	   */
@@ -1200,7 +1200,7 @@ MakeButtons( void )
 void 
 MakeDialog( DialogType dtype )
 {
-    register int i, j;
+    int i, j;
 
     int		width;
     
@@ -1481,7 +1481,7 @@ static	XtResource greetResources[] = {
 static void 
 MakeGreeting( void )
 {
-    register int i;
+    int i;
 
     char    *greetmsg;
     char    host[128];
@@ -1678,7 +1678,7 @@ MakeGreeting( void )
 static void 
 MakeLogin( void )
 {
-    register int i;
+    int i;
     int	j;
     LoginTextPtr textdata; 
     XtTranslations      textTable;

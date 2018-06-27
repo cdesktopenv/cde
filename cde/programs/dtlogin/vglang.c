@@ -443,7 +443,7 @@ compareLangDesc(
 void 
 MakeLangMenu( void )
 {
-    register int i, k;
+    int i, k;
     char	cblab[MAX_NAME_LEN];	/* pushbutton label		   */
     int		nlang;			/* total number of languages	   */
     int		nlangMenus;		/* number of language sub-menus	   */
