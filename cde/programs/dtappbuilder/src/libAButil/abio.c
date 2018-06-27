@@ -1859,7 +1859,7 @@ abio_put_string(FILE * outFile, STRING s)
 int
 abio_put_string_to_file(FILE * outFile, STRING string)
 {
-    register STRING     ptr;
+    STRING     ptr;
     char		strEndChar = *(abio_string_end_string());
     char		curChar = 0;
 
@@ -1971,7 +1971,7 @@ abioP_build_indent_string(
 			int	new_indent_level
 )
 {
-    register int        i;
+    int        i;
     int			indent_length = 0;
     out_file = out_file;	/* avoid warning */
 
@@ -2426,7 +2426,7 @@ int
 abio_put_string_to_buffer(STRING string, STRING outBuf, int size)
 {
 #define INC             32
-    register STRING     ptr;
+    STRING     ptr;
     char		strEndChar = *(abio_string_end_string());
     char		curChar = 0;
     int			i = 0;

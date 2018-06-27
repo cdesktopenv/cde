@@ -720,7 +720,7 @@ connP_get_when_labels(
 
     if (when_label_list == NULL)
     {
-	register int	i;
+	int	i;
 
 	when_label_list = (STRING *)XtMalloc(
 			    sizeof(STRING) * ((int)AB_WHEN_NUM_VALUES - 1));
@@ -741,7 +741,7 @@ connP_get_act_labels(
 
     if (stdact_label_list == NULL)
     {
-	register int	i;
+	int	i;
 
 	stdact_label_list = (STRING *)XtMalloc(
 			sizeof(STRING) * ((int)AB_BUILTIN_ACTION_NUM_VALUES - 1));
@@ -923,7 +923,7 @@ connP_make_conn_string(
     ABObj	action_obj
 )
 {
-    register int	i;
+    int	i;
     long		si;
     static char		conn_string[BUFSIZ];
     char		buf[BUFSIZ];
@@ -1045,7 +1045,7 @@ connP_get_obj_type_index(
     int			ab_subtype
 )
 {
-    register long	i;
+    long	i;
 
     if (connP_objtype_needs_subtype(ab_type, ab_subtype))
     {
@@ -1268,7 +1268,7 @@ connP_objtype_needs_subtype(
     int			obj_subtype
 )
 {
-    register	int	i;
+    int	i;
 
     for (i = 0; i < ConnP_num_conn_objs; i++)
     {

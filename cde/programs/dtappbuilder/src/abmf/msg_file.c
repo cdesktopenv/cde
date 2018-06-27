@@ -204,7 +204,7 @@ MsgSet_destroy(
 
     if (that->is_generated && that->msgs != (Msg *)NULL)
     {
-        register int	i;
+        int	i;
 
         for (i = 0; i < that->num_msgs; i++)
             msg_destroy(that->msgs[i]);
@@ -257,7 +257,7 @@ MsgSet_just_find_msg(
     )
 {
     int			ret_val = -1;
-    register int	i;
+    int	i;
 
     if (that == NULL || string == (char *)NULL)
         goto cret;
@@ -317,7 +317,7 @@ MsgSet_set_msg_is_referenced(
     BOOL	msg_is_referenced
 )
 {
-    register int	i;
+    int	i;
 
     if (that == (MsgSet)NULL)
         goto cret;
@@ -413,7 +413,7 @@ MsgFile_destroy(
     
     if (that->msg_sets != (MsgSet *)NULL)
     {
-        register int	i;
+        int	i;
 
         for (i = 0; i < that->num_msg_sets; i++)
             MsgSet_destroy(that->msg_sets[i]);
@@ -439,7 +439,7 @@ MsgFile_save(
 {
     int			ret_val = 0;
     FILE		*fp = NULL;
-    register int	i;
+    int	i;
 
     *msgFileOutPtr = NULL;
 
@@ -547,7 +547,7 @@ MsgFile_just_find_msg_set(
     )
 {
     MsgSet		ret_val = (MsgSet)NULL;
-    register int	i;
+    int	i;
 
     if (that == (MsgFile)NULL)
         goto cret;
@@ -725,7 +725,7 @@ msgFile_get_msg_set_by_num(
     )
 {
     MsgSet		ret_val = (MsgSet)NULL;
-    register int	i;
+    int	i;
 
     if (that == NULL)
         goto cret;
@@ -794,7 +794,7 @@ msgFile_max_set_number(
     )
 {
     int			ret_val = 0;
-    register int	i;
+    int	i;
 
     if (that == NULL)
         goto cret;
@@ -904,7 +904,7 @@ msgSet_output(
     )
 {
     char	*set_name;
-    register int	i;
+    int	i;
         
     if (that == (MsgSet)NULL)
         goto cret;
@@ -1001,7 +1001,7 @@ msgSet_max_msg_number(
     )
 {
     int			ret_val = 0;
-    register int	i;
+    int	i;
 
     if (that == NULL)
         goto cret;

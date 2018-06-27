@@ -215,9 +215,9 @@ obj_set_typed_arg_if_new(
 ABTypedArg 
 obj_get_typed_arg(ABObj obj, char *name)
 {
-	register int		num_args;
-	register int		i;
-	register ABTypedArg	arg_list= NULL;
+	int		num_args;
+	int		i;
+	ABTypedArg	arg_list= NULL;
 	ABTypedArg		arg= NULL;
 	ISTRING			iname= istr_get_existing(name);
 
@@ -246,9 +246,9 @@ obj_get_typed_arg(ABObj obj, char *name)
 ABArg
 obj_get_arg(ABObj obj, char *name)
 {
-	register int	num_args;
-	register int	i;
-	register ABArg	arg_list;
+	int	num_args;
+	int	i;
+	ABArg	arg_list;
 	ABArg		arg= NULL;
 	ISTRING		iname= istr_get_existing(name);
 
@@ -324,9 +324,9 @@ MergeTypedArgLists(ABTypedArg args1, int num_args1,
 int
 obj_remove_arg(ABObj obj, STRING name)
 {
-	register int 		i;
-	register ABArgList	args;
-	register int 		nargs;
+	int 		i;
+	ABArgList	args;
+	int 		nargs;
 	ISTRING			iname= istr_get_existing(name);
 
 	if ((obj == NULL) || (obj->args == NULL) )
@@ -412,8 +412,8 @@ abo_merge_typed_args(ABObj obj, ABTypedArg arg)
 int
 obj_get_num_args(ABObj obj)
 {
-	register ABArgList args= obj->args;
-	register int n = 0;
+	ABArgList args= obj->args;
+	int n = 0;
 
         for ( ; (args != (ABArgList)NULL) && (args->name != NULL);
              args++, n++)
@@ -429,8 +429,8 @@ obj_get_num_args(ABObj obj)
 int
 obj_get_num_typed_args(ABObj obj)
 {
-	register ABTypedArg args = obj->typed_args;
-	register int n = 0;
+	ABTypedArg args = obj->typed_args;
+	int n = 0;
 
         for ( ; (args != NULL) && (args->name != NULL); args++, n++)
 	{

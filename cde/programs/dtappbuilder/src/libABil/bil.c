@@ -1720,8 +1720,8 @@ BIL_TOKEN
 bilP_string_to_token(STRING strToken)
 {
     ISTRING             istrToken = istr_create(strToken);
-    register long	midDiff;
-    register long	midIndex; 
+    long	midDiff;
+    long	midIndex;
     long		minIndex, maxIndex;
     bil_token_table_check_init();
 

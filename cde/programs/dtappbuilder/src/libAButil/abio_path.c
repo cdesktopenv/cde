@@ -275,10 +275,10 @@ util_file_name_is_bil_encapsulated(
 static void
 expand_path(char *nm, char *buf)
 {
-	register char  *s, *d;
+	char  *s, *d;
 	char            lnm[MAXPATHLEN];
 	int             q;
-	register char  *trimchars = "\n \t";
+	char  *trimchars = "\n \t";
 
 	/* Strip off leading & trailing whitespace and cr */
 	while (strchr(trimchars, *nm) != NULL)
@@ -303,9 +303,9 @@ expand_path(char *nm, char *buf)
 				break;
 		}
 		else if (*s++ == '$') {
-			register char  *start = d;
-			register        braces = *s == '{';
-			register char  *value;
+			char  *start = d;
+			char  braces = *s == '{';
+			char  *value;
 			while (*d++ = *s)
 				if (braces ? *s == '}' : !isalnum(*s))
 					break;
@@ -336,8 +336,8 @@ expand_path(char *nm, char *buf)
 		}
 		else
 		{	/* ~user/filename */
-			register char  *nnm;
-			register struct passwd *pw;
+			char  *nnm;
+			struct passwd *pw;
 			for (s = nm; *s && *s != '/'; s++);
 			nnm = *s ? s + 1 : s;
 			*s = 0;

@@ -3168,7 +3168,7 @@ abuilP_store_attr_in_abobj(
 	AB_OBJECT_TYPE	ab_type = obj_get_type(obj);
 	unsigned long	obj_mask = BMASK(ab_type);
 	AttrMap		*maps = match->attr_maps;
-	register int	i;
+	int	i;
 
 	/* REMIND: fprintf(stderr,"Searching matched maps\n"); */
 	for (i = 0; i < match->num_maps; i++)

@@ -270,7 +270,7 @@ abmfP_obj_get_widget_specific_includes(StringList includesList, ABObj obj)
     int                 	return_value = 0;
     int				num_includes = 0;
     BOOL                	objHasScrollbar = FALSE;
-    register IncludeForClass	include = class_includes;
+    IncludeForClass	include = class_includes;
 
     /*
      * Get optional widget parts

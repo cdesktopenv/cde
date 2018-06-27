@@ -268,8 +268,8 @@ objxm_get_arg(
     char        *name
 )
 {
-    register int        num_args;
-    register int        i;
+    int        num_args;
+    int        i;
     Arg                 *argptr = NULL;
 
     num_args = objxm_get_num_args(arglist);
@@ -422,8 +422,8 @@ objxm_get_num_args(
    ArgList arglist 
 )
 {
-    register ArgList args = arglist;
-    register int     n = 0;
+    ArgList args = arglist;
+    int     n = 0;
 
     for ( ; (args != (ArgList)NULL) && (args->name != NULL);
              args++, n++)
@@ -441,9 +441,9 @@ objxm_remove_arg(
     STRING  name
 )
 {
-    register int       i;
-    register ArgList   args;
-    register int       nargs;
+    int       i;
+    ArgList   args;
+    int       nargs;
 
     if (*p_arglist == NULL)
     {

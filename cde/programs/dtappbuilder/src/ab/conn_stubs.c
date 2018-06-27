@@ -800,7 +800,7 @@ populate_connection_list(
     for (trav_open(&trav, project, AB_TRAV_ACTIONS);
         (obj = trav_next(&trav)) != NULL; )
     {
-	register XmString	xm_item_str;
+	XmString	xm_item_str;
 	
 	if (is_action_type(obj, ConnP_view_filter))
 	{
@@ -1353,7 +1353,7 @@ get_cur_when(
     Widget	label_wid = XmOptionButtonGadget(when_menu);
     XmString	xm_when_label	= (XmString)NULL;
     char	*when_label = NULL;
-    register int	i;
+    int	i;
 
     XtVaGetValues(label_wid, XmNlabelString, &xm_when_label, NULL);
     if (xm_when_label != NULL) {
@@ -1382,7 +1382,7 @@ get_cur_act(
     Widget	label_wid = XmOptionButtonGadget(action_menu);
     XmString	xm_act_label	= (XmString)NULL;
     char	*act_label = NULL;
-    register int	i;
+    int	i;
 
     XtVaGetValues(label_wid, XmNlabelString, &xm_act_label, NULL);
     if (xm_act_label != NULL) {
@@ -1408,7 +1408,7 @@ set_cur_when(
     AB_WHEN	new_when
 )
 {
-    register int	i;
+    int	i;
 
     for (i = 0; i < ConnP_num_conn_whens; i++)
     {
@@ -1430,7 +1430,7 @@ set_cur_act(
     AB_BUILTIN_ACTION	new_act
 )
 {
-    register int	i;
+    int	i;
 
     for (i = 0; i < ConnP_num_conn_acts; i++)
 	if (new_act == ConnP_conn_acts[i].act_type)
@@ -3872,7 +3872,7 @@ get_cur_func_type(void)
     Widget      label_wid = XmOptionButtonGadget(action_type_opmenu);
     XmString    xm_act_label    = (XmString)NULL;
     char        *act_label = NULL;
-    register int        i;
+    int        i;
     AB_FUNC_TYPE	func_type = AB_FUNC_UNDEF;
  
     XtVaGetValues(label_wid, XmNlabelString, &xm_act_label, NULL);

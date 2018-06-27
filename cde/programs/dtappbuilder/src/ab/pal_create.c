@@ -786,7 +786,7 @@ image_copy(
     int     put_x
 )
 {
-    register int    i, j, k, pix;
+    int    i, j, k, pix;
     Pixel    	    background;
     Pixel    	    foreground;
     Pixel           bshadow, tshadow;

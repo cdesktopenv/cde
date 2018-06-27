@@ -1098,10 +1098,10 @@ build_xm_res_table_xmname_index(void)
 static ObjxmRes *
 find_res_entry_by_xmname(ISTRING istr_xmname)
 {
-    register int        midDiff;
-    register int        midIndex;
-    register int	minIndex, maxIndex;
-    register ObjxmRes	*entry;
+    int        midDiff;
+    int        midIndex;
+    int	minIndex, maxIndex;
+    ObjxmRes	*entry;
 
     /*
      * Perform binary search for ISTRING value

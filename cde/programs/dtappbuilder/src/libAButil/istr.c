@@ -861,7 +861,7 @@ hashing(
 	STRING	string
 )
 {
-    register unsigned hash_val = 0;
+    unsigned hash_val = 0;
 
     for (hash_val = 0; *string; ++string)
         hash_val = hash_val * 65599 + *string;
@@ -881,8 +881,8 @@ hash_and_lookupstr(
 {
 #define fast_streq(s1,s2) (((s1)[0] == (s2)[0]) && (strcmp(s1,s2) == 0))
 
-    register unsigned hash_val = 0;
-    register char	*stringPtr;
+    unsigned hash_val = 0;
+    char	*stringPtr;
     Bucket	entry;
     int		*valuePtr;
     int		*valuePtrEnd;

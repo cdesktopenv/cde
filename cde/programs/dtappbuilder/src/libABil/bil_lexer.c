@@ -120,7 +120,7 @@ AByylex(void)
 static int
 get_token(FILE *file)
 {
-    register int		c;	/* static for speed */
+    int		c;	/* static for speed */
     
     while (TRUE)
     {

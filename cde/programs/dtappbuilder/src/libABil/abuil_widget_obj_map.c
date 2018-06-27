@@ -278,7 +278,7 @@ abuilP_entry_for_uil_widget(
 
     if (b_type > sym_k_error_object)
     {
-	register int	i;
+	int	i;
 	STRING		widget_class_name = uil_widget_names[b_type];
 
 	for (i = 0; i < XtNumber(widget_abobj_map); i++)

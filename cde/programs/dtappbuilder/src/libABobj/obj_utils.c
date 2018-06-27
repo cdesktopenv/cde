@@ -644,8 +644,8 @@ ab_make_valid_c_ident(STRING label)
     static char         name[MAXPATHLEN];
     static int          ith = 0;
     int                 lastchar = -1;
-    register char      *oldPtr = label;
-    register char      *newPtr = name;
+    char      *oldPtr = label;
+    char      *newPtr = name;
 
     if (isdigit(*oldPtr))
     {

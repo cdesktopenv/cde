@@ -506,7 +506,7 @@ draw_select_feedback(
     Widget     	  selWidget;
     Dimension     width = 0;
     Dimension     height = 0;
-    register int  x0,y0,x1,y1;
+    int  x0,y0,x1,y1;
     int		  border_w;
     Display       *display;
     Drawable      drawable;

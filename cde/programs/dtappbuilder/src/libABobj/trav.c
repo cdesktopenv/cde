@@ -478,8 +478,8 @@ find_first_ancestor_sibling_child(ABObj obj, ABTraversal trav)
 static BOOL
 travP_qualifies(ABTraversal trav)
 {
-	register ABObj	curObj = trav->curObj;
-	register BOOL	qualifies= TRUE;
+	ABObj	curObj = trav->curObj;
+	BOOL	qualifies= TRUE;
 
 	if (obj_has_impl_flags(curObj, ObjFlagDestroyed))
 	{
