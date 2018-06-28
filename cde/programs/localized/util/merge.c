@@ -118,9 +118,7 @@ void fatal ();
 void get_option ();
 
 
-void main (argc, argv)
-int argc;
-char *argv [];
+void main (int argc, char *argv [])
 {
     int c;
 
@@ -182,7 +180,7 @@ char *argv [];
  * If the pattern "%|nls-???-###|" is found in the template file, replace it
  * by big_buff.
  */
-void process_message ()
+void process_message (void)
 {
     int c;
     int m = 0;
@@ -220,7 +218,7 @@ void process_message ()
 /*
  * Get a character from template. Incriment line count if new line is found.
  */
-int get_char ()
+int get_char (void)
 {
     int c;
 
@@ -233,7 +231,7 @@ int get_char ()
 /*
  * Open message files
  */
-void cat_open ()
+void cat_open (void)
 {
     char line[255];
 
@@ -272,9 +270,9 @@ void cat_open ()
 /*
  * Search a message by specified number. If found, returns 1 and the message
  * will be set in big_buff. If not found, returns 0.
+ * msg, message number to be searched
  */
-int find_message (msg)
-int msg; /* message number to be searched */
+int find_message (int msg)
 {
     int ret = 0;
 
@@ -289,10 +287,11 @@ int msg; /* message number to be searched */
  * Search a line starts with the message number in specified file. If found,
  * the line will be passed to get_message() and returns 1.
  * If not found, returns 0.
+ *
+ * msg, message number to be searched
+ * file, 0: Primary message file, 1: Default message file
  */
-int find_msg_in_file (msg, file)
-int msg; /* message number to be searched */
-int file; /* 0: Primary message file, 1: Default message file */
+int find_msg_in_file (int msg, int file)
 {
         big_buff = catgets(catfile[file],1,msg,"MSG_NOT_FOUND");
         if ( strcmp(big_buff,"MSG_NOT_FOUND") )
@@ -334,9 +333,7 @@ void fatal (char *m, int line, int file)
 /*
  * Parse command line options.
  */
-void get_option (argc, argv)
-int *argc;
-char *argv[];
+void get_option (int *argc, char *argv[])
 {
     int i;
 
