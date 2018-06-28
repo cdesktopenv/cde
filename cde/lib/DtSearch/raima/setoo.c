@@ -74,16 +74,6 @@ DBN_DECL    /* database number */
 
    curr_own[sett] = curr_own[sets];
    curr_mem[sett] = NULL_DBA;
-#ifndef	 NO_TIMESTAMP
-   /* set timestamps */
-   if ( db_tsrecs ) {
-      co_time[sett] = co_time[sets];
-      cm_time[sett] = 0L;
-   }
-   if ( db_tssets ) {
-      d_utscs( nsett, &cs_time[sett] TASK_PARM DBN_PARM );
-   }
-#endif
    RETURN( db_status = S_OKAY );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin setoo.c */

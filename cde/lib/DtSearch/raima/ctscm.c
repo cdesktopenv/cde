@@ -48,45 +48,4 @@
 #include "dbtype.h"
 
 
-#ifndef	 NO_TIMESTAMP
-/* Get creation timestamp of current member
-*/
-d_ctscm(set, timestamp TASK_PARM DBN_PARM)
-int set;
-ULONG *timestamp;
-TASK_DECL
-DBN_DECL
-{
-   INT rec;
-   char *rptr;
-   SET_ENTRY *set_ptr;
-
-   DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
-
-   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
-      RETURN( db_status );
-
-   /* make sure we have a current member */
-   if ( ! curr_mem[set] )
-      RETURN( dberr(S_NOCM) );
-
-   /* read current member */
-   if ( dio_read( curr_mem[set], (char * *)&rptr , NOPGHOLD) != S_OKAY )
-      RETURN( db_status );
-
-   /* get record id */
-   bytecpy(&rec, rptr, sizeof(INT));
-   if ( rec >= 0 ) {
-      rec &= ~RLBMASK; /* mask off rlb */
-      if (record_table[NUM2INT(rec, rt_offset)].rt_flags & TIMESTAMPED)
-	 bytecpy(timestamp, rptr + RECCRTIME, sizeof(ULONG));
-      else
-	 *timestamp = 0L;
-   }
-   else
-      db_status = S_DELETED;
-
-   RETURN( db_status );
-}
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin ctscm.c */

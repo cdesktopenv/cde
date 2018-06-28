@@ -58,9 +58,6 @@ const char *data; /* Data area to contain field contents */
 TASK_DECL
 DBN_DECL    /* database number */
 {
-#ifndef	 NO_TIMESTAMP
-   ULONG timestamp;
-#endif
    int stat, fld, rec;
    char *recp;
    SET_ENTRY *set_ptr;
@@ -98,18 +95,7 @@ DBN_DECL    /* database number */
    /* Put data into record */
    if ( r_pfld(fld, fld_ptr, recp, data, cm_ptr) != S_OKAY )
       RETURN( db_status );
-#ifndef	 NO_TIMESTAMP
-   /* check for timestamp */
-   if ( rec_ptr->rt_flags & TIMESTAMPED ) {
-      timestamp = dio_pzgetts(rec_ptr->rt_file);
-      bytecpy( recp + RECUPTIME, &timestamp, sizeof(LONG));
-   }
-#endif
    dio_write(*cm_ptr, NULL, PGFREE);
-#ifndef	 NO_TIMESTAMP
-   if (( db_status == S_OKAY ) && ( rec_ptr->rt_flags & TIMESTAMPED ))
-      cm_time[set] = timestamp;
-#endif
    RETURN( db_status );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin csmwrite.c */

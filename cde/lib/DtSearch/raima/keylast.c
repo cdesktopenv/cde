@@ -70,11 +70,6 @@ DBN_DECL     /* database number */
 
    if ( key_boundary(KEYLAST, &dba) == S_OKAY ) {
       curr_rec = dba;
-#ifndef	 NO_TIMESTAMP
-      /* set timestamp */
-      if ( db_tsrecs )
-	 d_utscr( &cr_time TASK_PARM );
-#endif
    }
    RETURN( db_status );
 }

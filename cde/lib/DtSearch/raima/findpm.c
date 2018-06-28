@@ -90,13 +90,6 @@ DBN_DECL
       RETURN( db_status = S_EOS );
 
    curr_rec = mem;
-#ifndef	 NO_TIMESTAMP
-   /* set timestamps */
-   if ( db_tsrecs ) {
-      d_utscr( &cr_time TASK_PARM );
-      cm_time[set] = cr_time;
-   }
-#endif
    RETURN( db_status = S_OKAY );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin findpm.c */

@@ -52,9 +52,6 @@ typedef struct {
    LONG    total;     /* total number of members in set */
    DB_ADDR first;     /* database address of first member in set */
    DB_ADDR last;      /* database address of last member in set */
-#ifndef	 NO_TIMESTAMP
-   ULONG   timestamp; /* set update timestamp - if used */
-#endif
 } SET_PTR;
 
 /* member pointer structure definition */
@@ -83,9 +80,6 @@ DBN_DECL  /* database number */
    DB_ADDR npdba;         /* db address of next or previous member */
    int set;               /* set_table entry */
    int stat;              /* status code variable */
-#ifndef	 NO_TIMESTAMP
-   FILE_NO file;          /* file containing owner record */
-#endif
    SET_ENTRY *set_ptr;
    DB_ADDR *co_ptr, *cm_ptr;
 
@@ -150,13 +144,6 @@ DBN_DECL  /* database number */
 	  (dio_write(npdba, NULL, NOPGFREE) != S_OKAY))
 	 goto quit_a;
    }
-#ifndef	 NO_TIMESTAMP
-   /* check for timestamp */
-   if ( set_ptr->st_flags & TIMESTAMPED ) {
-      file = NUM2INT((FILE_NO)((*co_ptr >> FILESHIFT) & FILEMASK), ft_offset);
-      cosp.timestamp = dio_pzgetts(file);
-   }
-#endif
    /* update membership count */
    --cosp.total;
 
@@ -176,17 +163,6 @@ DBN_DECL  /* database number */
    if ((r_pmem(set, mrec, (char *)&cmmp) != S_OKAY) ||
        (dio_write(mdba, NULL, PGFREE) != S_OKAY))
       RETURN( db_status );
-#ifndef	 NO_TIMESTAMP
-   /* note timestamps */
-   if ( db_tsrecs )
-      d_utscr( &cr_time TASK_PARM );
-   if ( db_tsrecs && *cm_ptr )
-      d_utscm(nset, &cm_time[set] TASK_PARM DBN_PARM);
-
-   /* check for timestamp */
-   if ( set_ptr->st_flags & TIMESTAMPED )
-      cs_time[set] = cosp.timestamp;
-#endif
    RETURN( db_status = *cm_ptr ? S_OKAY : S_EOS );
 
 quit_a:

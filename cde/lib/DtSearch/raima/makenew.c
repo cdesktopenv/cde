@@ -141,9 +141,6 @@ int nrec;
 TASK_DECL
 DBN_DECL
 {
-#ifndef	 NO_TIMESTAMP
-   ULONG timestamp;
-#endif
    DB_ADDR db_addr;
    INT recnum, fld, stat;
    FILE_NO file;
@@ -207,15 +204,6 @@ DBN_DECL
    /* place the record number and db_addr at the start of the record */
    bytecpy( ptr, &recnum, sizeof(INT) );
    bytecpy( ptr+sizeof(INT), &db_addr, DB_ADDR_SIZE);
-#ifndef	 NO_TIMESTAMP
-   /* check for timestamp */
-   if ( rec_ptr->rt_flags & TIMESTAMPED ) {
-      timestamp = dio_pzgetts(file);
-      bytecpy( ptr + RECCRTIME, &timestamp, sizeof(LONG));
-      bytecpy( ptr + RECUPTIME, &timestamp, sizeof(LONG));
-   }
-   else timestamp = 0L;
-#endif
    /* for each keyed field, enter the key value into the key file */
    for (fld = rec_ptr->rt_fields, fldtot = fld + rec_ptr->rt_fdtot,
 						   fld_ptr = &field_table[fld];
@@ -253,10 +241,6 @@ DBN_DECL
    }
    if ( dio_write(db_addr, NULL, PGFREE) == S_OKAY ) {
       curr_rec = db_addr;
-#ifndef	 NO_TIMESTAMP
-      if ( db_tsrecs )
-	 cr_time = timestamp;
-#endif
    }
    RETURN( db_status );
 }

@@ -91,11 +91,6 @@ DBN_DECL      /* database number */
       /* set current record to found db addr */
       curr_rec = dba;
    }
-#ifndef	 NO_TIMESTAMP
-   /* set timestamp */
-   if ( curr_rec && db_tsrecs )
-      d_utscr( &cr_time TASK_PARM );
-#endif
    RETURN( db_status = S_OKAY );
 }
 

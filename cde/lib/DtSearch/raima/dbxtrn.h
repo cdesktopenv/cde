@@ -100,14 +100,6 @@ typedef struct TASK_S {
    DB_ADDR Curr_rec;          /* current record address */
    DB_ADDR_P Curr_own;        /* current set owners array */
    DB_ADDR_P Curr_mem;        /* current set members array */
-#ifndef	 NO_TIMESTAMP
-   ULONG   Cr_time;
-   ULONG_P Co_time;          /* co_time = NULL */
-   ULONG_P Cm_time;          /* cm_time = NULL */
-   ULONG_P Cs_time;          /* cs_time = NULL */
-   BOOLEAN Db_tsrecs;
-   BOOLEAN Db_tssets;
-#endif
    FILE_NO Ov_file;
    BOOLEAN Setdb_on;
    INT No_of_dbs;
@@ -163,11 +155,6 @@ typedef struct TASK_S {
 #define key_table db_global.Key_table.ptr
 #define pgzero db_global.Pgzero.ptr
 #define root_ix db_global.Root_ix.ptr
-#ifndef NO_TIMESTAMP
-#define co_time db_global.Co_time.ptr
-#define cm_time db_global.Cm_time.ptr
-#define cs_time db_global.Cs_time.ptr
-#endif
 /* Used in DIO.C and OVFCNS.C */
 #define ixpg_table Ixpg_table.ptr
 #define dbpgbuff Dbpgbuff.ptr
@@ -201,11 +188,6 @@ typedef struct TASK_S {
 #define curr_db db_global.Curr_db
 #define curr_db_table db_global.Curr_db_table
 #define curr_rec db_global.Curr_rec
-#ifndef	NO_TIMESTAMP
-#define cr_time db_global.Cr_time
-#define db_tsrecs db_global.Db_tsrecs
-#define db_tssets db_global.Db_tssets
-#endif
 #define ov_file db_global.Ov_file
 #define setdb_on db_global.Setdb_on
 #define no_of_dbs db_global.No_of_dbs

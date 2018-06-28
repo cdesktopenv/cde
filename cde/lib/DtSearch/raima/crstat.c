@@ -48,28 +48,4 @@
 #include "dbtype.h"
 
 
-#ifndef	 NO_TIMESTAMP
-/* Test timestamp status of current record
-*/
-d_crstat(TASK_ONLY)
-TASK_DECL
-{
-   ULONG cts, uts;
-
-   DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(RECORD_IO));
-
-   if ( d_ctscr(&cts TASK_PARM) == S_OKAY ) {
-      if ( cts ) {
-	 d_utscr(&uts TASK_PARM);
-	 if ( cts > cr_time )
-	    db_status = S_DELETED;
-	 else if ( uts > cr_time )
-	    db_status = S_UPDATED;
-      }
-      else
-	 dberr(S_TIMESTAMP);
-   }
-   RETURN( db_status );
-}
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin crstat.c */

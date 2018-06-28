@@ -58,9 +58,6 @@ typedef struct {
    LONG    total;     /* total number of members in set */
    DB_ADDR first;     /* database address of first member in set */
    DB_ADDR last;      /* database address of last member in set */
-#ifndef	 NO_TIMESTAMP
-   ULONG   timestamp; /* set update timestamp - if used */
-#endif
 } SET_PTR;
 
 /* member pointer structure definition */
@@ -91,9 +88,6 @@ DBN_DECL /* Database number */
    DB_ADDR ndba;          /* db address of next member record */
    INT ordering;          /* set order control variable */
    int stat, compare;     /* status code & sort comparison result */
-#ifndef	 NO_TIMESTAMP
-   FILE_NO file;
-#endif
    SET_ENTRY *set_ptr;
    DB_ADDR *co_ptr;
    DB_ADDR *cm_ptr;
@@ -251,13 +245,6 @@ DBN_DECL /* Database number */
 inserted:
    /* increment total members in set */
    ++cosp.total;
-#ifndef	 NO_TIMESTAMP
-   /* check for timestamp */
-   if ( set_ptr->st_flags & TIMESTAMPED ) {
-      file = NUM2INT((FILE_NO)((*co_ptr >> FILESHIFT) & FILEMASK), ft_offset);
-      cosp.timestamp = dio_pzgetts(file);
-   }
-#endif
    if ( mrec ) { 
       /* put member pointer back into member record and mark member
 	 record as modified
@@ -285,13 +272,6 @@ inserted:
 
    /* set current member to current record */
    *cm_ptr = curr_rec;
-#ifndef	 NO_TIMESTAMP
-   /* check and fetch timestamps */
-   if ( db_tsrecs )
-      d_utscr(&cm_time[set] TASK_PARM);
-   if ( db_tssets )
-      cs_time[set] = cosp.timestamp;
-#endif
    RETURN( db_status );
 
 /* error return */

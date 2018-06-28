@@ -66,11 +66,6 @@ DBN_DECL   /* database number */
       RETURN( dberr( S_NOCO ) );
 
    curr_rec = curr_own[set];
-#ifndef	 NO_TIMESTAMP
-   /* set timestamp */
-   if ( db_tsrecs )
-      cr_time = co_time[set];
-#endif
    RETURN( db_status = S_OKAY );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin setro.c */

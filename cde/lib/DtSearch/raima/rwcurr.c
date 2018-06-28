@@ -65,10 +65,6 @@ TASK_DECL
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(SET_NOIO));
 
    cs = 2*size_st + 1;
-#ifndef	 NO_TIMESTAMP
-   if ( db_tsrecs ) cs *= 2;
-   if ( db_tssets ) cs += size_st;
-#endif
    *currbuff = (DB_ADDR *)ALLOC(NULL, cs*sizeof(DB_ADDR), "currbuff");
    if ( *currbuff == NULL ) RETURN( dberr(S_NOMEMORY) );
    *currsize = cs * sizeof(DB_ADDR);
@@ -86,16 +82,6 @@ TASK_DECL
    *(cb_ptr = *currbuff) = curr_rec;
    bytecpy(++cb_ptr, curr_own, size_st*sizeof(*cb_ptr));
    bytecpy(cb_ptr += size_st, curr_mem, size_st*sizeof(*cb_ptr));
-#ifndef	 NO_TIMESTAMP
-   if ( db_tsrecs ) {
-      *(cb_ptr += size_st) = cr_time;
-      bytecpy(++cb_ptr, co_time, size_st*sizeof(*cb_ptr));
-      bytecpy(cb_ptr += size_st, cm_time, size_st*sizeof(*cb_ptr));
-   }
-   if ( db_tssets ) {
-      bytecpy(cb_ptr + size_st, cs_time, size_st*sizeof(*cb_ptr));
-   }
-#endif
    MEM_UNLOCK(currbuff);
    RETURN( db_status = S_OKAY );
 }
@@ -117,16 +103,6 @@ TASK_DECL
       curr_rec = *cb_ptr;
       bytecpy(curr_own, ++cb_ptr, size_st*sizeof(*cb_ptr));
       bytecpy(curr_mem, cb_ptr += size_st, size_st*sizeof(*cb_ptr));
-#ifndef	 NO_TIMESTAMP
-      if ( db_tsrecs ) {
-	 cr_time = *(cb_ptr += size_st);
-	 bytecpy(co_time, ++cb_ptr, size_st*sizeof(*cb_ptr));
-	 bytecpy(cm_time, cb_ptr += size_st, size_st*sizeof(*cb_ptr));
-      }
-      if ( db_tssets ) {
-	 bytecpy(cs_time, cb_ptr + size_st, size_st*sizeof(*cb_ptr));
-      }
-#endif
    }
    free(currbuff);
    RETURN( db_status = S_OKAY );

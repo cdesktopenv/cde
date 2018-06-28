@@ -408,9 +408,6 @@ TASK_DECL
       dio_free(); */
    }
    if ( dbopen ) {
-#ifndef NO_TIMESTAMP
-      cr_time = 0;
-#endif
       setdb_on = FALSE;
       curr_db = 0;
       no_of_dbs = 1;
@@ -448,20 +445,6 @@ void termfree()
       MEM_UNLOCK(&db_global.Curr_own);
       FREE(&db_global.Curr_own);
    }
-#ifndef	 NO_TIMESTAMP
-   if ( co_time ) {
-      MEM_UNLOCK(&db_global.Co_time);
-      FREE(&db_global.Co_time);
-   }
-   if ( cm_time ) {
-      MEM_UNLOCK(&db_global.Cm_time);
-      FREE(&db_global.Cm_time);
-   }
-   if ( cs_time ) {
-      MEM_UNLOCK(&db_global.Cs_time);
-      FREE(&db_global.Cs_time);
-   }
-#endif
    if ( sort_table ) {
       MEM_UNLOCK(&db_global.Sort_table);
       FREE(&db_global.Sort_table);

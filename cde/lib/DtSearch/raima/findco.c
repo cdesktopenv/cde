@@ -86,16 +86,6 @@ DBN_DECL
    curr_own[set] = own;
    curr_mem[set] = curr_rec;
    curr_rec      = own;
-#ifndef	 NO_TIMESTAMP
-   /* set any timestamps */
-   if ( db_tsrecs ) {
-      d_utscr( &cr_time TASK_PARM );
-      d_utscm(nset, &cm_time[set] TASK_PARM DBN_PARM);
-      co_time[set] = cr_time;
-   }
-   if ( db_tssets )
-      d_utscs(nset, &cs_time[set] TASK_PARM DBN_PARM);
-#endif
    RETURN( db_status = S_OKAY );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin findco.c */

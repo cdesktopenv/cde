@@ -63,9 +63,6 @@ DBN_DECL
    SET_ENTRY *set_ptr;
    MEMBER_ENTRY *mem_ptr;
    DB_ADDR *co_ptr, *cm_ptr;
-#ifndef	 NO_TIMESTAMP
-   ULONG *cots_ptr, *cmts_ptr, *sts_ptr;
-#endif
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
@@ -103,34 +100,17 @@ DBN_DECL
    /* delete record */
    if ( r_delrec( rt, curr_rec ) == S_OKAY ) {
       /* nullify any currency containing deleted record */
-#ifndef	 NO_TIMESTAMP
-      for (i = 0, co_ptr = curr_own, cm_ptr = curr_mem, cots_ptr = co_time,
-				       cmts_ptr = cm_time, sts_ptr = cs_time;
-	   i < size_st;
-	   ++i, ++co_ptr, ++cm_ptr, ++cots_ptr, ++cmts_ptr, ++sts_ptr) {
-#else
       for (i = 0, co_ptr = curr_own, cm_ptr = curr_mem;
 	   i < size_st;
 	   ++i, ++co_ptr, ++cm_ptr) {
-#endif
 	 if ( ADDRcmp(&curr_rec, co_ptr) == 0 ) {
 	    *co_ptr = NULL_DBA;
-#ifndef	 NO_TIMESTAMP
-	    if ( db_tsrecs ) *cots_ptr = 0L;
-	    if ( db_tssets ) *sts_ptr = 0L;
-#endif
 	 }
 	 if ( ADDRcmp(&curr_rec, cm_ptr) == 0 ) {
 	    *cm_ptr = NULL_DBA;
-#ifndef	 NO_TIMESTAMP
-	    if ( db_tsrecs ) *cmts_ptr = 0L;
-#endif
 	 }
       }
       curr_rec = NULL_DBA;
-#ifndef	 NO_TIMESTAMP
-      cr_time  = 0L;
-#endif
    }
    RETURN( db_status );
 }

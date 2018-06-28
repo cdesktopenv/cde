@@ -171,10 +171,6 @@ int dio_findpg(P1(FILE_NO) Pi(F_ADDR) Pi(PAGE_ENTRY *)
 			      Pi(PAGE_ENTRY * *) 
 			      Pi(LOOKUP_ENTRY * *));
 int dio_out(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *));
-#ifndef  NO_TIMESTAMP
-ULONG dio_pzsetts(P1(FILE_NO));
-ULONG dio_pzgetts(P1(FILE_NO));
-#endif
 int dio_pzread(P1(FILE_NO));
 int dio_pzalloc(P1(FILE_NO) Pi(F_ADDR *));
 int dio_pzdel(P1(FILE_NO) Pi(F_ADDR));

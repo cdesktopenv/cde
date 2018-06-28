@@ -106,11 +106,7 @@ inittab()
    FILE_ENTRY *file_ptr;
    FIELD_ENTRY *fld_ptr;
 #define	 DB_ENABLE   1
-#ifndef	 NO_TIMESTAMP
-#define	 TS_ENABLE   1
-#else
 #define	 TS_ENABLE   0
-#endif
 #if   DB_ENABLE | TS_ENABLE
    RECORD_ENTRY *rec_ptr;
    SET_ENTRY *set_ptr;
@@ -119,9 +115,6 @@ inittab()
    SORT_ENTRY *srt_ptr;
    KEY_ENTRY *key_ptr;
 
-#ifndef	 NO_TIMESTAMP
-   db_tsrecs = db_tssets = FALSE;
-#endif
    size_ft = size_rt = size_st = size_mt = size_srt = size_fd = size_kt = 0;
 
    /* compute individual dictionary sizes and offsets */
@@ -469,11 +462,6 @@ goodver:
 	   ++i, ++rec_ptr) {
 	 rec_ptr->rt_file += curr_db_table->ft_offset;
 	 rec_ptr->rt_fields += curr_db_table->fd_offset;
-#ifndef	 NO_TIMESTAMP
-	 if ( rec_ptr->rt_flags & TIMESTAMPED ) {
-	    db_tsrecs = TRUE;
-	 }
-#endif
       }
 #endif
       /* adjust field table entries */
@@ -499,11 +487,6 @@ goodver:
 	   ++i, ++set_ptr) {
 	 set_ptr->st_own_rt += curr_db_table->rt_offset;
 	 set_ptr->st_members += curr_db_table->mt_offset;
-#ifndef	 NO_TIMESTAMP
-	 if ( set_ptr->st_flags & TIMESTAMPED ) {
-	    db_tssets = TRUE;
-	 }
-#endif
       }
 #endif
 
@@ -669,26 +652,6 @@ static int initcurr()
 								!= S_OKAY ) {
 	 return( db_status );
       }
-#ifndef	 NO_TIMESTAMP
-      new_size = size_st * sizeof(ULONG);
-      old_size = old_size_st * sizeof(ULONG);
-      if ( db_tsrecs ) {
-	 if ( ALLOC_TABLE(&db_global.Co_time, new_size, old_size, "co_time")
-								!= S_OKAY ) {
-	    return( db_status );
-	 }
-	 if ( ALLOC_TABLE(&db_global.Cm_time, new_size, old_size, "cm_time")
-								!= S_OKAY ) {
-	    return( db_status );
-	 }
-      }
-      if ( db_tssets ) {
-	 if ( ALLOC_TABLE(&db_global.Cs_time, new_size, old_size, "cs_time")
-								!= S_OKAY ) {
-	    return( db_status );
-	 }
-      }
-#endif
       /* for each db make system record as curr_own of its sets */
       for (dbt_lc = no_of_dbs, curr_db_table = &db_table[old_no_of_dbs]; 
 	   --dbt_lc >= 0; ++curr_db_table) {

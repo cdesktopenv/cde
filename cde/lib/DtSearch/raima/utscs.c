@@ -48,47 +48,4 @@
 #include "dbtype.h"
 
 
-#ifndef	 NO_TIMESTAMP
-/* Get update timestamp of set
-*/
-d_utscs(set, timestamp TASK_PARM DBN_PARM)
-int set;
-ULONG *timestamp;
-TASK_DECL
-DBN_DECL
-{
-   INT rec;
-   char *rptr;
-   SET_ENTRY *set_ptr;
-
-   DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
-
-   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
-      RETURN( db_status );
-
-   /* make sure we have a current owner */
-   if ( ! curr_own[set] )
-      RETURN( dberr(S_NOCO) );
-
-   /* read current owner */
-   if ( dio_read( curr_own[set], (char * *)&rptr , NOPGHOLD) != S_OKAY )
-      RETURN( db_status );
-
-   /* get record id to ensure record not deleted */
-   bytecpy(&rec, rptr, sizeof(INT));
-   if ( rec >= 0 ) {
-      if (set_ptr->st_flags & TIMESTAMPED) {
-	 bytecpy(timestamp, rptr + set_ptr->st_own_ptr + SP_UTIME, sizeof(ULONG));
-      }
-      else
-	 *timestamp = 0L;
-
-      db_status = S_OKAY;
-   }
-   else
-      db_status = S_DELETED;
-
-   RETURN( db_status );
-}
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin utscs.c */

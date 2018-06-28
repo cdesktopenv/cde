@@ -1055,39 +1055,6 @@ LOOKUP_ENTRY *lu_ptr; /* corresponding to pg_ptr */
    Page zero handling functions for data and key files
 ***********************************************************************/
 
-#ifndef	 NO_TIMESTAMP
-/* Increment and return file timestamp
-*/
-ULONG dio_pzsetts(fno )
-FILE_NO fno;
-{
-   ULONG ts;
-   PGZERO *pgzero_ptr;
-
-   if ( db_tsrecs || db_tssets ) {
-      pgzero_ptr = &pgzero[fno];
-      pgzero_ptr->pz_modified = TRUE;
-      ts = ++pgzero_ptr->pz_timestamp;
-   }
-   else
-      ts = 0;
-
-   return( ts );
-}
-
-
-/* Return file timestamp
-*/
-ULONG dio_pzgetts(fno)
-FILE_NO fno;
-{
-   if ( pgzero[fno].pz_next == 0L )
-      dio_pzread(fno);
-   o_fileinit(fno);
-   return ( pgzero[fno].pz_timestamp );
-}
-
-#endif
 
 /* Initialize page zero table
 */

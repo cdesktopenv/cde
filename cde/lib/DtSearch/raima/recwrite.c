@@ -57,9 +57,6 @@ const char *rec; /* ptr to record area */
 TASK_DECL
 DBN_DECL
 {
-#ifndef	 NO_TIMESTAMP
-   ULONG timestamp;
-#endif
    INT  rt;        /* record type */
    char *fptr;     /* field data pointer */
    char ckey[256]; /* current compound key data */
@@ -145,21 +142,8 @@ DBN_DECL
 	 }
       }
    }
-#ifndef	 NO_TIMESTAMP
-   /* check for timestamp */
-   if ( rec_ptr->rt_flags & TIMESTAMPED ) {
-      timestamp = dio_pzgetts(rec_ptr->rt_file);
-      bytecpy( crloc + RECUPTIME, &timestamp, sizeof(LONG));
-   }
-   else
-      timestamp = 0L;
-#endif
    /* write current record to page */
    dio_write(curr_rec, NULL, PGFREE);
-#ifndef	 NO_TIMESTAMP
-   if (( db_status == S_OKAY ) && db_tsrecs )
-      cr_time = timestamp;
-#endif
    RETURN( db_status );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin recwrite.c */

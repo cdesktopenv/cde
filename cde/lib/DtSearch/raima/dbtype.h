@@ -107,7 +107,6 @@ Failure to do so will produce compilation errors.
    HHS     = Harris H-series
 */
 
-#define NO_TIMESTAMP
 
 #define PGHOLD 1
 #define NOPGHOLD 0
@@ -188,10 +187,6 @@ Failure to do so will produce compilation errors.
 #define SP_FIRST   4  
 /* Offset to last member ptr in set ptr = 2+DB_ADDR_SIZE */
 #define SP_LAST    8  
-#ifndef	 NO_TIMESTAMP
-/* Offset to timestamp in set ptr */
-#define SP_UTIME   12
-#endif
 /* Size of member pointer = 3*DB_ADDR_SIZE */
 #define MEMPSIZE   12 
 /* Offset to owner ptr in member ptr */

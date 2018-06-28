@@ -147,9 +147,6 @@ DB_ADDR db_addr;
    char *rec;       /* ptr to record slot */
    char *fptr;      /* field data ptr */
    char ckey[256];  /* compound key data */
-#ifndef	 NO_TIMESTAMP
-   ULONG timestamp;
-#endif
    FILE_NO fno;
    F_ADDR rno;
    int fld;
@@ -180,14 +177,6 @@ DB_ADDR db_addr;
    }
    fno = NUM2INT((FILE_NO)((db_addr >> FILESHIFT) & FILEMASK), ft_offset);
    rno = ADDRMASK & db_addr;
-#ifndef	 NO_TIMESTAMP
-   /* update timestamp, if necessary */
-   if ( rec_ptr->rt_flags & TIMESTAMPED ) {
-      timestamp = dio_pzgetts(fno);
-      bytecpy( rec + RECCRTIME, &timestamp, sizeof(ULONG));
-      bytecpy( rec + RECUPTIME, &timestamp, sizeof(ULONG));
-   }
-#endif
    dio_write(db_addr, NULL, PGFREE);
 
    /* place this record onto the delete chain */
@@ -287,11 +276,6 @@ char *setptr; /* pointer to set pointer */
    set_ptr = &set_table[set];
    bytecpy(&rt, rec, sizeof(INT));
    if (NUM2EXT(set_ptr->st_own_rt, rt_offset) == (rt & ~RLBMASK)) {
-#ifndef NO_TIMESTAMP
-      if ( set_ptr->st_flags & TIMESTAMPED )
-	 len = SETPSIZE;
-      else
-#endif
 	 len = SETPSIZE - sizeof(ULONG);
       bytecpy(setptr, rec + set_ptr->st_own_ptr, len);
       return( db_status = S_OKAY );
@@ -471,11 +455,6 @@ char *setptr;  /* pointer to set pointer */
    set_ptr = &set_table[set];
    bytecpy(&rt, rec, sizeof(INT));
    if (NUM2EXT(set_ptr->st_own_rt, rt_offset) == (rt & ~RLBMASK)) {
-#ifndef NO_TIMESTAMP
-      if ( set_ptr->st_flags & TIMESTAMPED )
-	 len = SETPSIZE;
-      else
-#endif
 	 len = SETPSIZE - sizeof(ULONG);
       bytecpy(rec + set_ptr->st_own_ptr, setptr, len);
       return( db_status = S_OKAY );
@@ -493,9 +472,6 @@ r_smem( db_addr, set )
 DB_ADDR *db_addr;
 INT set;
 {
-#ifndef	 NO_TIMESTAMP
-   int nset;
-#endif
    char mem[MEMPSIZE], *ptr;
    DB_ADDR dba;
 
@@ -512,16 +488,6 @@ INT set;
 
    /* ownership okay, set the member */
    curr_mem[set] = dba;
-#ifndef	 NO_TIMESTAMP
-   nset = NUM2EXT(set + SETMARK, st_offset);
-   /* set timestamps */
-   if ( db_tsrecs ) {
-      d_utsco( nset, &co_time[set] CURRTASK_PARM CURR_DB_PARM );
-      d_utscm( nset, &cm_time[set] CURRTASK_PARM CURR_DB_PARM );
-   }
-   if ( db_tssets )
-      d_utscs( nset, &cs_time[set] CURRTASK_PARM CURR_DB_PARM );
-#endif
    return( db_status = S_OKAY );
 }
 

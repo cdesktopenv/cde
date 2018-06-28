@@ -48,33 +48,4 @@
 #include "dbtype.h"
 
 
-#ifndef	 NO_TIMESTAMP
-/* Set timestamp of set
-*/
-d_stscs(set, timestamp TASK_PARM DBN_PARM)
-int set;
-ULONG timestamp;
-TASK_DECL
-DBN_DECL
-{
-   SET_ENTRY *set_ptr;
-
-   DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_NOIO));
-
-   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
-      RETURN( db_status );
-
-   /* make sure we have a current owner */
-   if ( curr_own[set] ) {
-      if ( db_tssets )
-	 cs_time[set] = timestamp;
-      else
-	 dberr(S_TIMESTAMP);
-   }
-   else
-      dberr(S_NOCO);
-
-   RETURN( db_status );
-}
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin stscs.c */

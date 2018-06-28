@@ -48,28 +48,4 @@
 #include "dbtype.h"
 
 
-#ifndef	 NO_TIMESTAMP
-/* Get timestamp of current record
-*/
-d_gtscr(timestamp TASK_PARM)
-ULONG *timestamp;
-TASK_DECL
-{
-   DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(RECORD_NOIO));
-
-   db_status = S_OKAY;
-
-   /* make sure we have a current record */
-   if ( curr_rec ) {
-      if ( db_tsrecs )
-	 *timestamp = cr_time;
-      else
-	 dberr(S_TIMESTAMP);
-   }
-   else
-      dberr(S_NOCR);
-
-   RETURN( db_status );
-}
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin gtscr.c */

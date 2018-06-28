@@ -66,11 +66,6 @@ DBN_DECL   /* database number */
       RETURN( dberr( S_NOCM ) );
 
    curr_rec = curr_mem[set];
-#ifndef	 NO_TIMESTAMP
-   /* set timestamp */
-   if ( db_tsrecs )
-      cr_time = cm_time[set];
-#endif
    RETURN( db_status = S_OKAY );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin setrm.c */

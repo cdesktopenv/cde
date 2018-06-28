@@ -46,16 +46,10 @@
 #define d_cmstat		dt_cmstat
 #define d_cmtype		dt_cmtype
 #define d_connect		dt_connect
-#ifndef NO_TIMESTAMP
-#define d_costat		dt_costat
-#endif
 #define d_cotype		dt_cotype
 #define d_crget			dt_crget
 #define d_crread		dt_crread
 #define d_crset			dt_crset
-#ifndef NO_TIMESTAMP
-#define d_crstat		dt_crstat
-#endif
 #define d_crtype		dt_crtype
 #define d_crwrite		dt_crwrite
 #define d_csmget		dt_csmget
@@ -66,12 +60,6 @@
 #define d_csoread		dt_csoread
 #define d_csoset		dt_csoset
 #define d_csowrite		dt_csowrite
-#ifndef NO_TIMESTAMP
-#define d_csstat		dt_csstat
-#define d_ctscm			dt_ctscm
-#define d_ctsco			dt_ctsco
-#define d_ctscr			dt_ctscr
-#endif
 #ifndef NO_COUNTRY
 #define d_ctbpath		dt_ctbpath
 #endif
@@ -93,12 +81,6 @@
 #define d_findnm		dt_findnm
 #define d_findpm		dt_findpm
 #define d_freeall		dt_freeall
-#ifndef NO_TIMESTAMP
-#define d_gtscm			dt_gtscm
-#define d_gtsco			dt_gtsco
-#define d_gtscr			dt_gtscr
-#define d_gtscs			dt_gtscs
-#endif
 #define d_initialize		dt_initialize
 #define d_initfile		dt_initfile
 #define d_ismember		dt_ismember
@@ -132,9 +114,6 @@
 #define d_recover		dt_recover
 #define d_recread		dt_recread
 #define d_recset		dt_recset
-#ifndef NO_TIMESTAMP
-#define d_recstat		dt_recstat
-#endif
 #define d_recwrite		dt_recwrite
 #define d_renfile		dt_renfile
 #define d_retries		dt_retries
@@ -155,21 +134,9 @@
 #define d_setor			dt_setor
 #define d_setrm			dt_setrm
 #define d_setro			dt_setro
-#ifndef NO_TIMESTAMP
-#define d_stscm			dt_stscm
-#define d_stsco			dt_stsco
-#define d_stscr			dt_stscr
-#define d_stscs			dt_stscs
-#endif
 #define d_timeout		dt_timeout
 #define d_trabort		dt_trabort
 #define d_trbegin		dt_trbegin
 #define d_trend			dt_trend
-#ifndef NO_TIMESTAMP
-#define d_utscm			dt_utscm
-#define d_utsco			dt_utsco
-#define d_utscr			dt_utscr
-#define d_utscs			dt_utscs
-#endif
 #define d_wrcurr		dt_wrcurr
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC dtcover.h */

@@ -61,9 +61,6 @@ const char *recval; /* record value */
 TASK_DECL
 DBN_DECL      /* database number */
 {
-#ifndef	 NO_TIMESTAMP
-   ULONG timestamp;
-#endif
    DB_ADDR db_addr;
    INT recnum, stat;
    FILE_NO file;
@@ -118,15 +115,6 @@ DBN_DECL      /* database number */
    /* place the record number and db_addr at the start of the record */
    bytecpy( ptr, &recnum, sizeof(INT) );
    bytecpy( ptr+sizeof(INT), &db_addr, DB_ADDR_SIZE );
-#ifndef	 NO_TIMESTAMP
-   /* check for timestamp */
-   if ( rec_ptr->rt_flags & TIMESTAMPED ) {
-      timestamp = dio_pzgetts(file);
-      bytecpy( ptr + RECCRTIME, &timestamp, sizeof(LONG));
-      bytecpy( ptr + RECUPTIME, &timestamp, sizeof(LONG));
-   }
-   else timestamp = 0;
-#endif
    /* copy the record value into place */
    bytecpy( ptr+rec_ptr->rt_data, recval, rec_ptr->rt_len-rec_ptr->rt_data );
 
@@ -151,9 +139,6 @@ DBN_DECL      /* database number */
    if ( dio_write(db_addr, NULL, PGFREE) == S_OKAY ) {
       curr_rec = db_addr;
 
-#ifndef	 NO_TIMESTAMP
-      if ( db_tsrecs ) cr_time = timestamp;
-#endif
    }
    RETURN( db_status );
 }

@@ -263,18 +263,12 @@ int EXTERNAL_DBN   dt_cmstat(P1(int) TASK_Di DBN_Dn);		/* cmstat.c */
 int EXTERNAL_DBN   dt_cmtype(P1(int) Pi(int *) TASK_Di DBN_Dn); 
 								/* cmtype.c */
 int EXTERNAL_DBN   dt_connect(P1(int) TASK_Di DBN_Dn);		/* connect.c */
-#ifndef NO_TIMESTAMP
-int EXTERNAL_DBN   dt_costat(P1(int) TASK_Di DBN_Dn);		/* costat.c */
-#endif
 int EXTERNAL_DBN   dt_cotype(P1(int) Pi(int *) TASK_Di DBN_Dn); 
 								/* cotype.c */
 int EXTERNAL_DBN   dt_crget(P1(DB_ADDR *) TASK_Di DBN_Dn);	/* crget.c */
 int EXTERNAL_DBN   dt_crread(P1(long) Pi(char *) TASK_Di DBN_Dn);
 								/* crread.c */
 int EXTERNAL_DBN   dt_crset(P1(DB_ADDR *) TASK_Di DBN_Dn);	/* crset.c */
-#ifndef NO_TIMESTAMP
-int EXTERNAL_FIXED dt_crstat(TASK_D1);				/* crstat.c */
-#endif
 int EXTERNAL_DBN   dt_crtype(P1(int *) TASK_Di DBN_Dn);	/* crtype.c */
 int EXTERNAL_DBN   dt_crwrite(P1(long) Pi(char *) TASK_Di DBN_Dn); 
 								/* crwrite.c */
@@ -294,14 +288,6 @@ int EXTERNAL_DBN   dt_csoset(P1(int) Pi(DB_ADDR *) TASK_Di DBN_Dn);
 								/* csoset.c */
 int EXTERNAL_DBN   dt_csowrite(P1(int) Pi(long) Pi(const char *) TASK_Di 
 				  DBN_Dn); 			/* csowrite.c */
-#ifndef NO_TIMESTAMP
-int EXTERNAL_DBN   dt_csstat(P1(int) TASK_Di DBN_Dn);		/* csstat.c */
-int EXTERNAL_DBN   dt_ctscm(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
-								/* ctscm.c */
-int EXTERNAL_DBN   dt_ctsco(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
-								/* ctsco.c */
-int EXTERNAL_FIXED dt_ctscr(P1(ULONG *) TASK_Di );		/* ctscr.c */
-#endif
 #ifndef NO_COUNTRY
 int EXTERNAL_FIXED dt_ctbpath(P1(const char *) TASK_Di);	/* pathfcns.c */
 #endif
@@ -323,15 +309,6 @@ int EXTERNAL_DBN   dt_findlm(P1(int) TASK_Di DBN_Dn);		/* findlm.c */
 int EXTERNAL_DBN   dt_findnm(P1(int) TASK_Di DBN_Dn);		/* findnm.c */
 int EXTERNAL_DBN   dt_findpm(P1(int) TASK_Di DBN_Dn);		/* findpm.c */
 int EXTERNAL_FIXED dt_freeall(TASK_D1);				/* dblfcns.c */
-#ifndef NO_TIMESTAMP
-int EXTERNAL_DBN   dt_gtscm(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
-								/* gtscm.c */
-int EXTERNAL_DBN   dt_gtsco(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
-								/* gtsco.c */
-int EXTERNAL_FIXED dt_gtscr(P1(ULONG *) TASK_Di );		/* gtscr.c */
-int EXTERNAL_DBN   dt_gtscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
-								/* gtscs.c */
-#endif
 int EXTERNAL_DBN   dt_initialize(TASK_D1 DBN_Dn);		/* initial.c */
 int EXTERNAL_DBN   dt_initfile(P1(FILE_NO) TASK_Di DBN_Dn);  	/* initial.c */
 int EXTERNAL_DBN   dt_ismember(P1(int) TASK_Di DBN_Dn);		/* ismember.c */
@@ -377,9 +354,6 @@ int EXTERNAL_DBN   dt_reclstat(P1(int) Pi(char *) TASK_Di DBN_Dn);
 int EXTERNAL_FIXED dt_recover(P1(const char *) TASK_Di );	/* recover.c */
 int EXTERNAL_DBN   dt_recread(P1(char *) TASK_Di DBN_Dn);	/* recread.c */
 int EXTERNAL_DBN   dt_recset(P1(int) TASK_Di DBN_Dn);   	/* recset.c */
-#ifndef NO_TIMESTAMP
-int EXTERNAL_FIXED dt_recstat(P1(DB_ADDR) Pi(ULONG) TASK_Di );	/* recstat.c */
-#endif
 int EXTERNAL_DBN   dt_recwrite(P1(const char *) TASK_Di DBN_Dn); 
 								/* recwrite.c */
 int EXTERNAL_FIXED dt_renfile(P1(const char *) Pi(FILE_NO) 
@@ -405,25 +379,10 @@ int EXTERNAL_DBN   dt_setoo(P1(int) Pi(int) TASK_Di DBN_Dn); 	/* setoo.c */
 int EXTERNAL_DBN   dt_setor(P1(int) TASK_Di DBN_Dn);		/* setor.c */
 int EXTERNAL_DBN   dt_setrm(P1(int) TASK_Di DBN_Dn);		/* setrm.c */
 int EXTERNAL_DBN   dt_setro(P1(int) TASK_Di DBN_Dn);		/* setro.c */
-#ifndef NO_TIMESTAMP
-int EXTERNAL_DBN   dt_stscm(P1(int) Pi(ULONG) TASK_Di DBN_Dn); 	/* stscm.c */
-int EXTERNAL_DBN   dt_stsco(P1(int) Pi(ULONG) TASK_Di DBN_Dn); 	/* stsco.c */
-int EXTERNAL_FIXED dt_stscr(P1(ULONG) TASK_Di );		/* stscr.c */
-int EXTERNAL_DBN   dt_stscs(P1(int) Pi(ULONG) TASK_Di DBN_Dn); 	/* stscs.c */
-#endif
 int EXTERNAL_FIXED dt_timeout(P1(int) TASK_Di );		/* dblfcns.c */
 int EXTERNAL_FIXED dt_trabort(TASK_D1);				/* dblfcns.c */
 int EXTERNAL_FIXED dt_trbegin(P1(const char *) TASK_Di);	/* dblfcns.c */
 int EXTERNAL_FIXED dt_trend(TASK_D1);				/* dblfcns.c */
-#ifndef NO_TIMESTAMP
-int EXTERNAL_DBN   dt_utscm(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
-								/* utscm.c */
-int EXTERNAL_DBN   dt_utsco(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
-								/* utsco.c */
-int EXTERNAL_FIXED dt_utscr(P1(ULONG *) TASK_Di );		/* utscr.c */
-int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
-								/* utscs.c */
-#endif
 
 #ifndef NO_DT_COVER
 
@@ -449,22 +408,10 @@ int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn);
 #define d_trbegin(a)                 dt_trbegin(a CURRTASK_PARM)
 #define d_trend()                    dt_trend(CURRTASK_ONLY)
 #define d_wrcurr(a)                  dt_wrcurr(a CURRTASK_PARM)
-#ifndef NO_TIMESTAMP
-#define d_crstat()                   dt_crstat(CURRTASK_ONLY)
-#define d_gtscr(a)                   dt_gtscr(a CURRTASK_PARM)
-#define d_recstat(a, b)              dt_recstat(a, b CURRTASK_PARM)
-#define d_rlbclr()                   dt_rlbclr(CURRTASK_ONLY)
-#define d_rlbset()                   dt_rlbset(CURRTASK_ONLY)
-#define d_rlbtst()                   dt_rlbtst(CURRTASK_ONLY)
-#define d_utscr(a)                   dt_utscr(a CURRTASK_PARM)
-#endif
 
 #define d_cmstat(a DBN_PARM)         dt_cmstat(a CURRTASK_PARM DBN_PARM)
 #define d_cmtype(a, b DBN_PARM)      dt_cmtype(a, b CURRTASK_PARM DBN_PARM)
 #define d_connect(a DBN_PARM)        dt_connect(a CURRTASK_PARM DBN_PARM)
-#ifndef NO_TIMESTAMP
-#define d_costat(a DBN_PARM)         dt_costat(a CURRTASK_PARM DBN_PARM)
-#endif
 #define d_cotype(a, b DBN_PARM)      dt_cotype(a, b CURRTASK_PARM DBN_PARM)
 #define d_crget(a DBN_PARM)          dt_crget(a CURRTASK_PARM DBN_PARM)
 #define d_crread(a, b DBN_PARM)      dt_crread(a, b CURRTASK_PARM DBN_PARM)
@@ -479,12 +426,6 @@ int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn);
 #define d_csoread(a, b, c DBN_PARM)  dt_csoread(a, b, c CURRTASK_PARM DBN_PARM)
 #define d_csoset(a, b DBN_PARM)      dt_csoset(a, b CURRTASK_PARM DBN_PARM)
 #define d_csowrite(a, b, c DBN_PARM) dt_csowrite(a, b, c CURRTASK_PARM DBN_PARM)
-#ifndef NO_TIMESTAMP
-#define d_csstat(a DBN_PARM)         dt_csstat(a CURRTASK_PARM DBN_PARM)
-#define d_ctscm(a, b DBN_PARM)       dt_ctscm(a, b CURRTASK_PARM DBN_PARM)
-#define d_ctsco(a, b DBN_PARM)       dt_ctsco(a, b CURRTASK_PARM DBN_PARM)
-#define d_ctscr(a DBN_PARM)          dt_ctscr(a CURRTASK_PARM)
-#endif
 #define d_delete(DBN_PARM)           dt_delete(CURRTASK_ONLY DBN_PARM)
 #define d_disdel(DBN_PARM)           dt_disdel(CURRTASK_ONLY DBN_PARM)
 #define d_recnext(DBN_PARM)          dt_recnext(CURRTASK_ONLY DBN_PARM)
@@ -496,11 +437,6 @@ int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn);
 #define d_findlm(a DBN_PARM)         dt_findlm(a CURRTASK_PARM DBN_PARM)
 #define d_findnm(a DBN_PARM)         dt_findnm(a CURRTASK_PARM DBN_PARM)
 #define d_findpm(a DBN_PARM)         dt_findpm(a CURRTASK_PARM DBN_PARM)
-#ifndef NO_TIMESTAMP
-#define d_gtscm(a, b DBN_PARM)       dt_gtscm(a, b CURRTASK_PARM DBN_PARM)
-#define d_gtsco(a, b DBN_PARM)       dt_gtsco(a, b CURRTASK_PARM DBN_PARM)
-#define d_gtscs(a, b DBN_PARM)       dt_gtscs(a, b CURRTASK_PARM DBN_PARM)
-#endif
 #define d_initialize(DBN_PARM)       dt_initialize(CURRTASK_ONLY DBN_PARM)
 #define d_initfile(a DBN_PARM)       dt_initfile(a CURRTASK_PARM DBN_PARM)
 #define d_ismember(a DBN_PARM)       dt_ismember(a CURRTASK_PARM DBN_PARM)
@@ -540,17 +476,6 @@ int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn);
 #define d_setor(a DBN_PARM)          dt_setor(a CURRTASK_PARM DBN_PARM)
 #define d_setrm(a DBN_PARM)          dt_setrm(a CURRTASK_PARM DBN_PARM)
 #define d_setro(a DBN_PARM)          dt_setro(a CURRTASK_PARM DBN_PARM)
-#ifndef NO_TIMESTAMP
-#define d_stscm(a, b DBN_PARM)       dt_stscm(a, b CURRTASK_PARM DBN_PARM)
-#define d_stsco(a, b DBN_PARM)       dt_stsco(a, b CURRTASK_PARM DBN_PARM)
-#define d_stscr(a DBN_PARM)          dt_stscr(a CURRTASK_PARM DBN_PARM)
-#define d_stscs(a, b DBN_PARM)       dt_stscs(a, b CURRTASK_PARM DBN_PARM)
-#endif
-#ifndef NO_TIMESTAMP
-#define d_utscm(a, b DBN_PARM)       dt_utscm(a, b CURRTASK_PARM DBN_PARM)
-#define d_utsco(a, b DBN_PARM)       dt_utsco(a, b CURRTASK_PARM DBN_PARM)
-#define d_utscs(a, b DBN_PARM)       dt_utscs(a, b CURRTASK_PARM DBN_PARM)
-#endif
 
 #endif /* NO_DT_COVER */
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC task.h */

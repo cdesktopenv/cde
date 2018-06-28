@@ -74,16 +74,6 @@ DBN_DECL    /* database number */
       
    curr_own[seto] = curr_mem[setm];
    curr_mem[seto] = NULL_DBA;
-#ifndef	 NO_TIMESTAMP
-   /* set timestamps */
-   if ( db_tsrecs ) {
-      co_time[seto] = cm_time[setm];
-      cm_time[seto] = 0L;
-   }
-   if ( db_tssets ) {
-      d_utscs( nseto, &cs_time[seto] TASK_PARM DBN_PARM );
-   }
-#endif
    RETURN( db_status );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin setom.c */
