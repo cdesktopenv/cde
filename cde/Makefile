@@ -131,7 +131,7 @@ Makefile.boot: imake.proto $(DEPENDSRC)/Makefile.proto depend.bootstrap $(IMAKES
 
 imake.proto:
 	cd $(IMAKESRC) && $(MAKE) $(FLAGS)
-	$(RM) $(DEPENDSRC)/Makefile.proto
+	$(RM) $(DEPENDSRC)/Makefile.proto $(DEPENDSRC)/.depend
 
 $(DEPENDSRC)/Makefile.proto:
 	$(IMAKE_CMD) -s $(DEPENDSRC)/Makefile.proto -f $(DEPENDSRC)/Imakefile -DTOPDIR=$(DEPENDTOP) -DCURDIR=$(DEPENDSRC)
