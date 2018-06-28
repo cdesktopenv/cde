@@ -559,7 +559,7 @@ static gid_t gid_user;
 static gid_t gid_root;
 
 static void
-suidInit()
+suidInit(void)
 {
     _DtTermProcessLock();
     if (first) {
@@ -575,7 +575,7 @@ suidInit()
 }
 
 void
-_DtTermPrimRemoveSuidRoot()
+_DtTermPrimRemoveSuidRoot(void)
 {
     (void) suidInit();
 #if	defined(HAS_SETRESUID)

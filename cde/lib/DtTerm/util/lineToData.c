@@ -57,9 +57,7 @@ static void order(char *p1, char *p2, signed char *offset1, signed char *offset2
 static char *vis(char val);
 
 int
-main(argc, argv)
-int argc;
-char **argv;
+main(int argc, char **argv)
 {
     char buffer[BUFSIZ];
     char *bufPtr;

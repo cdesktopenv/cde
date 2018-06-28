@@ -3716,7 +3716,7 @@ ManagerConstraintInitializePatch(Widget request, Widget new_w, ArgList args,
 }
 
 void
-DtTermInitialize()
+DtTermInitialize(void)
 {
     XmManagerClassRec *mw = (XmManagerClassRec *) xmManagerWidgetClass;
     CoreClassRec *core = (CoreClassRec *) coreWidgetClass;

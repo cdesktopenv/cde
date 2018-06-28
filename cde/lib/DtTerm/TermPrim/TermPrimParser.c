@@ -59,7 +59,7 @@ static char rcs_id[] = "$TOG: TermPrimParser.c /main/2 1999/10/15 12:23:41 mgree
 #pragma	BBA_IGNORE
 #endif	/*BBA*/
 static void
-ParseTrap()
+ParseTrap(void)
 {
     static int count = 0;
 

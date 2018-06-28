@@ -340,8 +340,7 @@ void _DtTermPrimPtySendBreak(int pty, int msec)
 #elif	defined(USE_TCSENDBREAK)
     (void) tcsendbreak(pty, 0);
 #else	/* none specified... */
-    There is no RS232 break code specified for this architecture.  See
-    TermPrimOSDepI.h for a list of #defines...
+    #error "There is no RS232 break code specified for this architecture.  See TermPrimOSDepI.h for a list of #defines..."
 #endif	/* rs232 break definition... */
 }
 
@@ -368,7 +367,7 @@ static eucioc_t refWp;
 #endif   /* (USE_CSWIDTH) */
 
 void
-_DtTermPrimPtyGetDefaultModes()
+_DtTermPrimPtyGetDefaultModes(void)
 {
     int tty = -1;
     int refTty = -1;

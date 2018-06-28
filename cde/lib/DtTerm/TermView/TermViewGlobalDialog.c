@@ -65,9 +65,7 @@ static void HelpTerminalOptionsCallback(Widget w, XtPointer client_data,
 
 
 _DtTermViewLineupList *
-_DtTermViewLineupListCreate
-(
-)
+_DtTermViewLineupListCreate(void)
 {
     _DtTermViewLineupList *list;
 

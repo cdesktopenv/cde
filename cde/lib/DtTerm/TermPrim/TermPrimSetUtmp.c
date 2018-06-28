@@ -562,7 +562,7 @@ _DtTermPrimUtmpEntryDestroy(Widget w, char *utmpLine)
 }
 
 void
-_DtTermPrimUtmpCleanup()
+_DtTermPrimUtmpCleanup(void)
 {
     DebugF('s', 10, fprintf(stderr, ">>_DtTermPrimUtmpCleanup() starting\n"));
     _DtTermProcessLock();
