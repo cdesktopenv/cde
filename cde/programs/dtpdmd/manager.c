@@ -894,7 +894,7 @@ Bool has_exec_token( XpPdmServiceRec *rec )
  * Search through all the child tracking records and see if
  * any can be shutdown.
  */
-void mgr_shutdown_scan()
+void mgr_shutdown_scan(void)
 {
     int        i;
     time_t     now;

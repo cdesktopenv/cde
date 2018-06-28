@@ -155,9 +155,7 @@ static void pusage( char *prog_name )
  *
  *****************************************************************************/
 
-static int generic_error_handler( edpy, eevent )
-    Display     *edpy;
-    XErrorEvent *eevent;
+static int generic_error_handler(Display *edpy, XErrorEvent *eevent)
 {
     g.xerrno  = eevent->error_code;
     g.xerrreq = eevent->request_code;
@@ -264,9 +262,7 @@ static void xtkick_proc( XtPointer w, int *source, XtInputId *id)
  * main
  */
 int
-main( argc, argv )
-    int argc;
-    char **argv;
+main(int argc, char **argv)
 {
     int tscreen;
     XtInputId xtid;
