@@ -117,11 +117,12 @@ static void		LoadExitProc _ANSI_ARGS_((ClientData clientData));
  */
 
 int
-Tcl_LoadCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_LoadCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Interp *target;
     LoadedPackage *pkgPtr;
@@ -430,23 +431,24 @@ Tcl_LoadCmd(dummy, interp, argc, argv)
  */
 
 void
-Tcl_StaticPackage(interp, pkgName, initProc, safeInitProc)
-    Tcl_Interp *interp;			/* If not NULL, it means that the
+Tcl_StaticPackage(
+    Tcl_Interp *interp,			/* If not NULL, it means that the
 					 * package has already been loaded
 					 * into the given interpreter by
 					 * calling the appropriate init proc. */
-    char *pkgName;			/* Name of package (must be properly
+    char *pkgName,			/* Name of package (must be properly
 					 * capitalized: first letter upper
 					 * case, others lower case). */
-    Tcl_PackageInitProc *initProc;	/* Procedure to call to incorporate
+    Tcl_PackageInitProc *initProc,	/* Procedure to call to incorporate
 					 * this package into a trusted
 					 * interpreter. */
-    Tcl_PackageInitProc *safeInitProc;	/* Procedure to call to incorporate
+    Tcl_PackageInitProc *safeInitProc	/* Procedure to call to incorporate
 					 * this package into a safe interpreter
 					 * (one that will execute untrusted
 					 * scripts).   NULL means the package
 					 * can't be used in safe
 					 * interpreters. */
+)
 {
     LoadedPackage *pkgPtr;
     InterpPackage *ipPtr, *ipFirstPtr;
@@ -500,13 +502,14 @@ Tcl_StaticPackage(interp, pkgName, initProc, safeInitProc)
  */
 
 int
-TclGetLoadedPackages(interp, targetName)
-    Tcl_Interp *interp;		/* Interpreter in which to return
+TclGetLoadedPackages(
+    Tcl_Interp *interp,		/* Interpreter in which to return
 				 * information or error message. */
-    char *targetName;		/* Name of target interpreter or NULL.
+    char *targetName		/* Name of target interpreter or NULL.
 				 * If NULL, return info about all interps;
 				 * otherwise, just return info about this
 				 * interpreter. */
+)
 {
     Tcl_Interp *target;
     LoadedPackage *pkgPtr;
@@ -575,10 +578,11 @@ TclGetLoadedPackages(interp, targetName)
  */
 
 static void
-LoadCleanupProc(clientData, interp)
-    ClientData clientData;	/* Pointer to first InterpPackage structure
+LoadCleanupProc(
+    ClientData clientData,	/* Pointer to first InterpPackage structure
 				 * for interp. */
-    Tcl_Interp *interp;		/* Interpreter that is being deleted. */
+    Tcl_Interp *interp		/* Interpreter that is being deleted. */
+)
 {
     InterpPackage *ipPtr, *nextPtr;
 
@@ -608,8 +612,9 @@ LoadCleanupProc(clientData, interp)
  */
 
 static void
-LoadExitProc(clientData)
-    ClientData clientData;		/* Not used. */
+LoadExitProc(
+    ClientData clientData		/* Not used. */
+)
 {
     LoadedPackage *pkgPtr;
 

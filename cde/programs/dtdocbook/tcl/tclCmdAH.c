@@ -67,11 +67,12 @@ static int		StoreStatData _ANSI_ARGS_((Tcl_Interp *interp,
 
 	/* ARGSUSED */
 int
-Tcl_BreakCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_BreakCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     if (argc != 1) {
 	Tcl_AppendResult(interp, "wrong # args: should be \"",
@@ -100,11 +101,12 @@ Tcl_BreakCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_CaseCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_CaseCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int i, result;
     int body;
@@ -240,11 +242,12 @@ Tcl_CaseCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_CatchCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_CatchCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int result;
 
@@ -285,11 +288,12 @@ Tcl_CatchCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_CdCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_CdCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     char *dirName;
     Tcl_DString buffer;
@@ -334,11 +338,12 @@ Tcl_CdCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ConcatCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ConcatCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     if (argc >= 2) {
 	interp->result = Tcl_Concat(argc-1, argv+1);
@@ -366,11 +371,12 @@ Tcl_ConcatCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ContinueCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ContinueCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     if (argc != 1) {
 	Tcl_AppendResult(interp, "wrong # args: should be \"", argv[0],
@@ -399,11 +405,12 @@ Tcl_ContinueCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ErrorCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ErrorCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Interp *iPtr = (Interp *) interp;
 
@@ -444,11 +451,12 @@ Tcl_ErrorCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_EvalCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_EvalCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int result;
     char *cmd;
@@ -498,11 +506,12 @@ Tcl_EvalCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ExitCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ExitCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int value;
 
@@ -540,11 +549,12 @@ Tcl_ExitCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ExprCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ExprCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_DString buffer;
     int i, result;
@@ -588,11 +598,12 @@ Tcl_ExprCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_FileCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_FileCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     char *fileName, *extension;
     int c, statOp, result;
@@ -1005,12 +1016,13 @@ Tcl_FileCmd(dummy, interp, argc, argv)
  */
 
 static int
-StoreStatData(interp, varName, statPtr)
-    Tcl_Interp *interp;			/* Interpreter for error reports. */
-    char *varName;			/* Name of associative array variable
+StoreStatData(
+    Tcl_Interp *interp,			/* Interpreter for error reports. */
+    char *varName,			/* Name of associative array variable
 					 * in which to store stat results. */
-    struct stat *statPtr;		/* Pointer to buffer containing
+    struct stat *statPtr		/* Pointer to buffer containing
 					 * stat data to store in varName. */
+)
 {
     char string[30];
 
@@ -1089,8 +1101,7 @@ StoreStatData(interp, varName, statPtr)
  */
 
 static char *
-GetTypeFromMode(mode)
-    int mode;
+GetTypeFromMode(int mode)
 {
     if (S_ISREG(mode)) {
 	return "file";
@@ -1129,11 +1140,12 @@ GetTypeFromMode(mode)
 
 	/* ARGSUSED */
 int
-Tcl_ForCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ForCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int result, value;
 
@@ -1205,11 +1217,12 @@ Tcl_ForCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ForeachCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ForeachCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int result = TCL_OK;
     int i;			/* i selects a value list */
@@ -1363,11 +1376,12 @@ errorReturn:
 
 	/* ARGSUSED */
 int
-Tcl_FormatCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_FormatCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     register char *format;	/* Used to read characters from the format
 				 * string. */

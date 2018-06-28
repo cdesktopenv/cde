@@ -58,11 +58,12 @@
  */
 
 int
-TclSockGetPort(interp, string, proto, portPtr)
-    Tcl_Interp *interp;
-    char *string;		/* Integer or service name */
-    char *proto;		/* "tcp" or "udp", typically */
-    int *portPtr;		/* Return port number */
+TclSockGetPort(
+    Tcl_Interp *interp,
+    char *string,		/* Integer or service name */
+    char *proto,		/* "tcp" or "udp", typically */
+    int *portPtr		/* Return port number */
+)
 {
     struct servent *sp = getservbyname(string, proto);    
     if (sp != NULL) {
@@ -97,9 +98,10 @@ TclSockGetPort(interp, string, proto, portPtr)
  */
 
 int
-TclSockMinimumBuffers(sock, size)
-    int sock;			/* Socket file descriptor */
-    int size;			/* Minimum buffer size */
+TclSockMinimumBuffers(
+    int sock,			/* Socket file descriptor */
+    int size			/* Minimum buffer size */
+)
 {
     int current;
     int len = sizeof(int);

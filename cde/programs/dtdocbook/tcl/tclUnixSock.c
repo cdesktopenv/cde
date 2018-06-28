@@ -65,7 +65,7 @@ static int  hostnameInited = 0;
  */
 
 char *
-Tcl_GetHostName()
+Tcl_GetHostName(void)
 {
     struct utsname u;
     struct hostent *hp;

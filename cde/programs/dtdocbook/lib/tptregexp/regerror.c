@@ -25,8 +25,7 @@
 #include <stdlib.h>
 
 void
-tpt_regerror(s)
-char *s;
+tpt_regerror(char *s)
 {
 #ifdef ERRAVAIL
 	error("tpt_regexp: %s", s);

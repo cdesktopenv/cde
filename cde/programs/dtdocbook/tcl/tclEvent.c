@@ -329,15 +329,16 @@ static char *		VwaitVarProc _ANSI_ARGS_((ClientData clientData,
  */
 
 void
-Tcl_CreateFileHandler(file, mask, proc, clientData)
-    Tcl_File file;		/* Handle of stream to watch. */
-    int mask;			/* OR'ed combination of TCL_READABLE,
+Tcl_CreateFileHandler(
+    Tcl_File file,		/* Handle of stream to watch. */
+    int mask,			/* OR'ed combination of TCL_READABLE,
 				 * TCL_WRITABLE, and TCL_EXCEPTION:
 				 * indicates conditions under which
 				 * proc should be called. */
-    Tcl_FileProc *proc;		/* Procedure to call for each
+    Tcl_FileProc *proc,		/* Procedure to call for each
 				 * selected event. */
-    ClientData clientData;	/* Arbitrary data to pass to proc. */
+    ClientData clientData	/* Arbitrary data to pass to proc. */
+)
 {
     register FileHandler *filePtr;
 
@@ -397,9 +398,10 @@ Tcl_CreateFileHandler(file, mask, proc, clientData)
  */
 
 void
-Tcl_DeleteFileHandler(file)
-    Tcl_File file;		/* Stream id for which to remove
+Tcl_DeleteFileHandler(
+    Tcl_File file		/* Stream id for which to remove
 				 * callback procedure. */
+)
 {
     FileHandler *filePtr, *prevPtr;
 
@@ -449,8 +451,9 @@ Tcl_DeleteFileHandler(file)
 
 	/* ARGSUSED */
 static void
-FileHandlerExitProc(clientData)
-    ClientData clientData;		/* Not used. */
+FileHandlerExitProc(
+    ClientData clientData		/* Not used. */
+)
 {
     Tcl_DeleteEventSource(FileHandlerSetupProc, FileHandlerCheckProc,
             (ClientData) NULL);
@@ -475,12 +478,13 @@ FileHandlerExitProc(clientData)
  */
 
 static void
-FileHandlerSetupProc(clientData, flags)
-    ClientData clientData;		/* Not used. */
-    int flags;				/* Flags passed to Tk_DoOneEvent:
+FileHandlerSetupProc(
+    ClientData clientData,		/* Not used. */
+    int flags				/* Flags passed to Tk_DoOneEvent:
 					 * if it doesn't include
 					 * TCL_FILE_EVENTS then we do
 					 * nothing. */
+)
 {
     FileHandler *filePtr;
 
@@ -515,12 +519,13 @@ FileHandlerSetupProc(clientData, flags)
  */
 
 static void
-FileHandlerCheckProc(clientData, flags)
-    ClientData clientData;		/* Not used. */
-    int flags;				/* Flags passed to Tk_DoOneEvent:
+FileHandlerCheckProc(
+    ClientData clientData,		/* Not used. */
+    int flags				/* Flags passed to Tk_DoOneEvent:
 					 * if it doesn't include 
 					 * TCL_FILE_EVENTS then we do
 					 * nothing. */
+)
 {
     FileHandler *filePtr;
     FileHandlerEvent *fileEvPtr;
@@ -566,10 +571,11 @@ FileHandlerCheckProc(clientData, flags)
  */
 
 static int
-FileHandlerEventProc(evPtr, flags)
-    Tcl_Event *evPtr;		/* Event to service. */
-    int flags;			/* Flags that indicate what events to
+FileHandlerEventProc(
+    Tcl_Event *evPtr,		/* Event to service. */
+    int flags			/* Flags that indicate what events to
 				 * handle, such as TCL_FILE_EVENTS. */
+)
 {
     FileHandler *filePtr;
     FileHandlerEvent *fileEvPtr = (FileHandlerEvent *) evPtr;
@@ -634,11 +640,12 @@ FileHandlerEventProc(evPtr, flags)
  */
 
 Tcl_TimerToken
-Tcl_CreateTimerHandler(milliseconds, proc, clientData)
-    int milliseconds;		/* How many milliseconds to wait
+Tcl_CreateTimerHandler(
+    int milliseconds,		/* How many milliseconds to wait
 				 * before invoking proc. */
-    Tcl_TimerProc *proc;	/* Procedure to invoke. */
-    ClientData clientData;	/* Arbitrary data to pass to proc. */
+    Tcl_TimerProc *proc,	/* Procedure to invoke. */
+    ClientData clientData	/* Arbitrary data to pass to proc. */
+)
 {
     register TimerHandler *timerHandlerPtr, *tPtr2, *prevPtr;
     static int id = 0;
@@ -715,9 +722,10 @@ Tcl_CreateTimerHandler(milliseconds, proc, clientData)
  */
 
 void
-Tcl_DeleteTimerHandler(token)
-    Tcl_TimerToken token;	/* Result previously returned by
+Tcl_DeleteTimerHandler(
+    Tcl_TimerToken token	/* Result previously returned by
 				 * Tcl_DeleteTimerHandler. */
+)
 {
     register TimerHandler *timerHandlerPtr, *prevPtr;
 
@@ -756,11 +764,12 @@ Tcl_DeleteTimerHandler(token)
  */
 
 void
-Tcl_CreateModalTimeout(milliseconds, proc, clientData)
-    int milliseconds;		/* How many milliseconds to wait
+Tcl_CreateModalTimeout(
+    int milliseconds,		/* How many milliseconds to wait
 				 * before invoking proc. */
-    Tcl_TimerProc *proc;	/* Procedure to invoke. */
-    ClientData clientData;	/* Arbitrary data to pass to proc. */
+    Tcl_TimerProc *proc,	/* Procedure to invoke. */
+    ClientData clientData	/* Arbitrary data to pass to proc. */
+)
 {
     TimerHandler *timerHandlerPtr;
 
@@ -815,9 +824,10 @@ Tcl_CreateModalTimeout(milliseconds, proc, clientData)
  */
 
 void
-Tcl_DeleteModalTimeout(proc, clientData)
-    Tcl_TimerProc *proc;	/* Callback procedure for the timeout. */
-    ClientData clientData;	/* Arbitrary data to pass to proc. */
+Tcl_DeleteModalTimeout(
+    Tcl_TimerProc *proc,	/* Callback procedure for the timeout. */
+    ClientData clientData	/* Arbitrary data to pass to proc. */
+)
 {
     TimerHandler *timerHandlerPtr;
 
@@ -849,12 +859,13 @@ Tcl_DeleteModalTimeout(proc, clientData)
  */
 
 static void
-TimerHandlerSetupProc(clientData, flags)
-    ClientData clientData;		/* Not used. */
-    int flags;				/* Flags passed to Tk_DoOneEvent:
+TimerHandlerSetupProc(
+    ClientData clientData,		/* Not used. */
+    int flags				/* Flags passed to Tk_DoOneEvent:
 					 * if it doesn't include
 					 * TCL_TIMER_EVENTS then we only
 					 * consider modal timers. */
+)
 {
     TimerHandler *timerHandlerPtr, *tPtr2;
     Tcl_Time blockTime;
@@ -917,12 +928,13 @@ TimerHandlerSetupProc(clientData, flags)
  */
 
 static void
-TimerHandlerCheckProc(clientData, flags)
-    ClientData clientData;		/* Not used. */
-    int flags;				/* Flags passed to Tk_DoOneEvent:
+TimerHandlerCheckProc(
+    ClientData clientData,		/* Not used. */
+    int flags				/* Flags passed to Tk_DoOneEvent:
 					 * if it doesn't include 
 					 * TCL_TIMER_EVENTS then we only
 					 * consider modal timeouts. */
+)
 {
     TimerHandler *timerHandlerPtr;
     TimerEvent *timerEvPtr;
@@ -980,8 +992,9 @@ TimerHandlerCheckProc(clientData, flags)
 
 	/* ARGSUSED */
 static void
-TimerHandlerExitProc(clientData)
-    ClientData clientData;		/* Not used. */
+TimerHandlerExitProc(
+    ClientData clientData		/* Not used. */
+)
 {
     Tcl_DeleteEventSource(TimerHandlerSetupProc, TimerHandlerCheckProc,
             (ClientData) NULL);
@@ -1010,10 +1023,11 @@ TimerHandlerExitProc(clientData)
  */
 
 static int
-TimerHandlerEventProc(evPtr, flags)
-    Tcl_Event *evPtr;		/* Event to service. */
-    int flags;			/* Flags that indicate what events to
+TimerHandlerEventProc(
+    Tcl_Event *evPtr,		/* Event to service. */
+    int flags			/* Flags that indicate what events to
 				 * handle, such as TCL_FILE_EVENTS. */
+)
 {
     TimerHandler *timerHandlerPtr;
     TimerEvent *timerEvPtr = (TimerEvent *) evPtr;
@@ -1083,9 +1097,10 @@ TimerHandlerEventProc(evPtr, flags)
  */
 
 void
-Tcl_DoWhenIdle(proc, clientData)
-    Tcl_IdleProc *proc;		/* Procedure to invoke. */
-    ClientData clientData;	/* Arbitrary value to pass to proc. */
+Tcl_DoWhenIdle(
+    Tcl_IdleProc *proc,		/* Procedure to invoke. */
+    ClientData clientData	/* Arbitrary value to pass to proc. */
+)
 {
     register IdleHandler *idlePtr;
 
@@ -1121,9 +1136,10 @@ Tcl_DoWhenIdle(proc, clientData)
  */
 
 void
-Tcl_CancelIdleCall(proc, clientData)
-    Tcl_IdleProc *proc;		/* Procedure that was previously registered. */
-    ClientData clientData;	/* Arbitrary value to pass to proc. */
+Tcl_CancelIdleCall(
+    Tcl_IdleProc *proc,		/* Procedure that was previously registered. */
+    ClientData clientData	/* Arbitrary value to pass to proc. */
+)
 {
     register IdleHandler *idlePtr, *prevPtr;
     IdleHandler *nextPtr;
@@ -1166,7 +1182,7 @@ Tcl_CancelIdleCall(proc, clientData)
  */
 
 int
-TclIdlePending()
+TclIdlePending(void)
 {
     return (idleList == NULL) ? 0 : 1;
 }
@@ -1189,7 +1205,7 @@ TclIdlePending()
  */
 
 int
-TclServiceIdle()
+TclServiceIdle(void)
 {
     IdleHandler *idlePtr;
     int oldGeneration;
@@ -1259,9 +1275,10 @@ TclServiceIdle()
  */
 
 void
-Tcl_BackgroundError(interp)
-    Tcl_Interp *interp;		/* Interpreter in which an error has
+Tcl_BackgroundError(
+    Tcl_Interp *interp		/* Interpreter in which an error has
 				 * occurred. */
+)
 {
     BgError *errPtr;
     char *varValue;
@@ -1339,8 +1356,9 @@ Tcl_BackgroundError(interp)
  */
 
 static void
-HandleBgErrors(clientData)
-    ClientData clientData;	/* Pointer to ErrAssocData structure. */
+HandleBgErrors(
+    ClientData clientData	/* Pointer to ErrAssocData structure. */
+)
 {
     Tcl_Interp *interp;
     char *command;
@@ -1458,9 +1476,10 @@ HandleBgErrors(clientData)
  */
 
 static void
-BgErrorDeleteProc(clientData, interp)
-    ClientData clientData;	/* Pointer to ErrAssocData structure. */
-    Tcl_Interp *interp;		/* Interpreter being deleted. */
+BgErrorDeleteProc(
+    ClientData clientData,	/* Pointer to ErrAssocData structure. */
+    Tcl_Interp *interp		/* Interpreter being deleted. */
+)
 {
     ErrAssocData *assocPtr = (ErrAssocData *) clientData;
     BgError *errPtr;
@@ -1496,9 +1515,10 @@ BgErrorDeleteProc(clientData, interp)
  */
 
 void
-Tcl_CreateExitHandler(proc, clientData)
-    Tcl_ExitProc *proc;		/* Procedure to invoke. */
-    ClientData clientData;	/* Arbitrary value to pass to proc. */
+Tcl_CreateExitHandler(
+    Tcl_ExitProc *proc,		/* Procedure to invoke. */
+    ClientData clientData	/* Arbitrary value to pass to proc. */
+)
 {
     ExitHandler *exitPtr;
 
@@ -1529,9 +1549,10 @@ Tcl_CreateExitHandler(proc, clientData)
  */
 
 void
-Tcl_DeleteExitHandler(proc, clientData)
-    Tcl_ExitProc *proc;		/* Procedure that was previously registered. */
-    ClientData clientData;	/* Arbitrary value to pass to proc. */
+Tcl_DeleteExitHandler(
+    Tcl_ExitProc *proc,		/* Procedure that was previously registered. */
+    ClientData clientData	/* Arbitrary value to pass to proc. */
+)
 {
     ExitHandler *exitPtr, *prevPtr;
 
@@ -1568,9 +1589,10 @@ Tcl_DeleteExitHandler(proc, clientData)
  */
 
 void
-Tcl_Exit(status)
-    int status;			/* Exit status for application;  typically
+Tcl_Exit(
+    int status			/* Exit status for application;  typically
 				 * 0 for normal return, 1 for error return. */
+)
 {
     ExitHandler *exitPtr;
 
@@ -1613,13 +1635,14 @@ Tcl_Exit(status)
 
 	/* ARGSUSED */
 int
-Tcl_AfterCmd(clientData, interp, argc, argv)
-    ClientData clientData;	/* Points to the "tclAfter" assocData for
+Tcl_AfterCmd(
+    ClientData clientData,	/* Points to the "tclAfter" assocData for
 				 * this interpreter, or NULL if the assocData
 				 * hasn't been created yet.*/
-    Tcl_Interp *interp;		/* Current interpreter. */
-    int argc;			/* Number of arguments. */
-    char **argv;		/* Argument strings. */
+    Tcl_Interp *interp,		/* Current interpreter. */
+    int argc,			/* Number of arguments. */
+    char **argv			/* Argument strings. */
+)
 {
     /*
      * The variable below is used to generate unique identifiers for
@@ -1809,11 +1832,12 @@ Tcl_AfterCmd(clientData, interp, argc, argv)
  */
 
 static AfterInfo *
-GetAfterEvent(assocPtr, string)
-    AfterAssocData *assocPtr;	/* Points to "after"-related information for
+GetAfterEvent(
+    AfterAssocData *assocPtr,	/* Points to "after"-related information for
 				 * this interpreter. */
-    char *string;		/* Textual identifier for after event, such
+    char *string		/* Textual identifier for after event, such
 				 * as "after#6". */
+)
 {
     AfterInfo *afterPtr;
     int id;
@@ -1857,8 +1881,9 @@ GetAfterEvent(assocPtr, string)
  */
 
 static void
-AfterProc(clientData)
-    ClientData clientData;	/* Describes command to execute. */
+AfterProc(
+    ClientData clientData	/* Describes command to execute. */
+)
 {
     AfterInfo *afterPtr = (AfterInfo *) clientData;
     AfterAssocData *assocPtr = afterPtr->assocPtr;
@@ -1923,8 +1948,9 @@ AfterProc(clientData)
  */
 
 static void
-FreeAfterPtr(afterPtr)
-    AfterInfo *afterPtr;		/* Command to be deleted. */
+FreeAfterPtr(
+    AfterInfo *afterPtr			/* Command to be deleted. */
+)
 {
     AfterInfo *prevPtr;
     AfterAssocData *assocPtr = afterPtr->assocPtr;
@@ -1961,10 +1987,11 @@ FreeAfterPtr(afterPtr)
 
 	/* ARGSUSED */
 static void
-AfterCleanupProc(clientData, interp)
-    ClientData clientData;	/* Points to AfterAssocData for the
+AfterCleanupProc(
+    ClientData clientData,	/* Points to AfterAssocData for the
 				 * interpreter. */
-    Tcl_Interp *interp;		/* Interpreter that is being deleted. */
+    Tcl_Interp *interp		/* Interpreter that is being deleted. */
+)
 {
     AfterAssocData *assocPtr = (AfterAssocData *) clientData;
     AfterInfo *afterPtr;
@@ -2002,11 +2029,12 @@ AfterCleanupProc(clientData, interp)
 
 	/* ARGSUSED */
 int
-Tcl_VwaitCmd(clientData, interp, argc, argv)
-    ClientData clientData;	/* Not used. */
-    Tcl_Interp *interp;		/* Current interpreter. */
-    int argc;			/* Number of arguments. */
-    char **argv;		/* Argument strings. */
+Tcl_VwaitCmd(
+    ClientData clientData,	/* Not used. */
+    Tcl_Interp *interp,		/* Current interpreter. */
+    int argc,			/* Number of arguments. */
+    char **argv			/* Argument strings. */
+)
 {
     int done, foundEvent;
 
@@ -2043,12 +2071,13 @@ Tcl_VwaitCmd(clientData, interp, argc, argv)
 
 	/* ARGSUSED */
 static char *
-VwaitVarProc(clientData, interp, name1, name2, flags)
-    ClientData clientData;	/* Pointer to integer to set to 1. */
-    Tcl_Interp *interp;		/* Interpreter containing variable. */
-    char *name1;		/* Name of variable. */
-    char *name2;		/* Second part of variable name. */
-    int flags;			/* Information about what happened. */
+VwaitVarProc(
+    ClientData clientData,	/* Pointer to integer to set to 1. */
+    Tcl_Interp *interp,		/* Interpreter containing variable. */
+    char *name1,		/* Name of variable. */
+    char *name2,		/* Second part of variable name. */
+    int flags			/* Information about what happened. */
+)
 {
     int *donePtr = (int *) clientData;
 
@@ -2075,11 +2104,12 @@ VwaitVarProc(clientData, interp, name1, name2, flags)
 
 	/* ARGSUSED */
 int
-Tcl_UpdateCmd(clientData, interp, argc, argv)
-    ClientData clientData;	/* Not used. */
-    Tcl_Interp *interp;		/* Current interpreter. */
-    int argc;			/* Number of arguments. */
-    char **argv;		/* Argument strings. */
+Tcl_UpdateCmd(
+    ClientData clientData,	/* Not used. */
+    Tcl_Interp *interp,		/* Current interpreter. */
+    int argc,			/* Number of arguments. */
+    char **argv			/* Argument strings. */
+)
 {
     int flags = 0;		/* Initialization needed only to stop
 				 * compiler warnings. */
@@ -2137,16 +2167,17 @@ Tcl_UpdateCmd(clientData, interp, argc, argv)
  */
 
 int
-TclWaitForFile(file, mask, timeout)
-    Tcl_File file;		/* Handle for file on which to wait. */
-    int mask;			/* What to wait for: OR'ed combination of
+TclWaitForFile(
+    Tcl_File file,		/* Handle for file on which to wait. */
+    int mask,			/* What to wait for: OR'ed combination of
 				 * TCL_READABLE, TCL_WRITABLE, and
 				 * TCL_EXCEPTION. */
-    int timeout;		/* Maximum amount of time to wait for one
+    int timeout			/* Maximum amount of time to wait for one
 				 * of the conditions in mask to occur, in
 				 * milliseconds.  A value of 0 means don't
 				 * wait at all, and a value of -1 means
 				 * wait forever. */
+)
 {
     Tcl_Time abortTime, now, blockTime;
     int present;

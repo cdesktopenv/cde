@@ -127,13 +127,14 @@ static int		ServiceEvent _ANSI_ARGS_((int flags));
  */
 
 void
-Tcl_CreateEventSource(setupProc, checkProc, clientData)
-    Tcl_EventSetupProc *setupProc;	/* Procedure to invoke to figure out
+Tcl_CreateEventSource(
+    Tcl_EventSetupProc *setupProc,	/* Procedure to invoke to figure out
 					 * what to wait for. */
-    Tcl_EventCheckProc *checkProc;	/* Procedure to call after waiting
+    Tcl_EventCheckProc *checkProc,	/* Procedure to call after waiting
 					 * to see what happened. */
-    ClientData clientData;		/* One-word argument to pass to
+    ClientData clientData		/* One-word argument to pass to
 					 * setupProc and checkProc. */
+)
 {
     TclEventSource *sourcePtr;
 
@@ -165,13 +166,14 @@ Tcl_CreateEventSource(setupProc, checkProc, clientData)
  */
 
 void
-Tcl_DeleteEventSource(setupProc, checkProc, clientData)
-    Tcl_EventSetupProc *setupProc;	/* Procedure to invoke to figure out
+Tcl_DeleteEventSource(
+    Tcl_EventSetupProc *setupProc,	/* Procedure to invoke to figure out
 					 * what to wait for. */
-    Tcl_EventCheckProc *checkProc;	/* Procedure to call after waiting
+    Tcl_EventCheckProc *checkProc,	/* Procedure to call after waiting
 					 * to see what happened. */
-    ClientData clientData;		/* One-word argument to pass to
+    ClientData clientData		/* One-word argument to pass to
 					 * setupProc and checkProc. */
+)
 {
     TclEventSource *sourcePtr, *prevPtr;
 
@@ -215,15 +217,16 @@ Tcl_DeleteEventSource(setupProc, checkProc, clientData)
  */
 
 void
-Tcl_QueueEvent(evPtr, position)
-    Tcl_Event* evPtr;		/* Event to add to queue.  The storage
+Tcl_QueueEvent(
+    Tcl_Event* evPtr,		/* Event to add to queue.  The storage
 				 * space must have been allocated the caller
 				 * with malloc (ckalloc), and it becomes
 				 * the property of the event queue.  It
 				 * will be freed after the event has been
 				 * handled. */
-    Tcl_QueuePosition position;	/* One of TCL_QUEUE_TAIL, TCL_QUEUE_HEAD,
+    Tcl_QueuePosition position	/* One of TCL_QUEUE_TAIL, TCL_QUEUE_HEAD,
 				 * TCL_QUEUE_MARK. */
+)
 {
     if (position == TCL_QUEUE_TAIL) {
 	/*
@@ -286,9 +289,10 @@ Tcl_QueueEvent(evPtr, position)
  */
 
 void
-Tcl_DeleteEvents(proc, clientData)
-    Tcl_EventDeleteProc *proc;		/* The procedure to call. */
-    ClientData clientData;    		/* type-specific data. */
+Tcl_DeleteEvents(
+    Tcl_EventDeleteProc *proc,		/* The procedure to call. */
+    ClientData clientData    		/* type-specific data. */
+)
 {
     Tcl_Event *evPtr, *prevPtr, *hold;
 
@@ -335,13 +339,14 @@ Tcl_DeleteEvents(proc, clientData)
  */
 
 static int
-ServiceEvent(flags)
-    int flags;			/* Indicates what events should be processed.
+ServiceEvent(
+    int flags			/* Indicates what events should be processed.
 				 * May be any combination of TCL_WINDOW_EVENTS
 				 * TCL_FILE_EVENTS, TCL_TIMER_EVENTS, or other
 				 * flags defined elsewhere.  Events not
 				 * matching this will be skipped for processing
 				 * later. */
+)
 {
     Tcl_Event *evPtr, *prevPtr;
     Tcl_EventProc *proc;
@@ -438,10 +443,11 @@ ServiceEvent(flags)
  */
 
 void
-Tcl_SetMaxBlockTime(timePtr)
-    Tcl_Time *timePtr;		/* Specifies a maximum elapsed time for
+Tcl_SetMaxBlockTime(
+    Tcl_Time *timePtr		/* Specifies a maximum elapsed time for
 				 * the next blocking operation in the
 				 * event notifier. */
+)
 {
     if (!blockTimeSet || (timePtr->sec < blockTime.sec)
 	    || ((timePtr->sec == blockTime.sec)
@@ -475,12 +481,13 @@ Tcl_SetMaxBlockTime(timePtr)
  */
 
 int
-Tcl_DoOneEvent(flags)
-    int flags;			/* Miscellaneous flag values:  may be any
+Tcl_DoOneEvent(
+    int flags			/* Miscellaneous flag values:  may be any
 				 * combination of TCL_DONT_WAIT,
 				 * TCL_WINDOW_EVENTS, TCL_FILE_EVENTS,
 				 * TCL_TIMER_EVENTS, TCL_IDLE_EVENTS, or
 				 * others defined by event sources. */
+)
 {
     TclEventSource *sourcePtr;
     Tcl_Time *timePtr;

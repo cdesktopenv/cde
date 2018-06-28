@@ -601,7 +601,7 @@ if (cp->type == CMD_DATA)
  */
 
 void
-GetIDREFnames()
+GetIDREFnames(void)
 {
     char	*cp;
 

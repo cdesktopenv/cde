@@ -63,7 +63,7 @@ static int		SetupStdFile _ANSI_ARGS_((Tcl_File file, int type));
  */
  
 static void
-RestoreSignals()
+RestoreSignals(void)
 {
 #ifdef SIGABRT
     signal(SIGABRT, SIG_DFL);
@@ -138,9 +138,10 @@ RestoreSignals()
  */
 
 static int
-SetupStdFile(file, type)
-    Tcl_File file;		/* File to dup, or NULL. */
-    int type;			/* One of TCL_STDIN, TCL_STDOUT, TCL_STDERR */
+SetupStdFile(
+    Tcl_File file,		/* File to dup, or NULL. */
+    int type			/* One of TCL_STDIN, TCL_STDOUT, TCL_STDERR */
+)
 {
     Tcl_Channel channel;
     int fd;
@@ -216,26 +217,26 @@ SetupStdFile(file, type)
  *----------------------------------------------------------------------
  */
 int
-TclSpawnPipeline(interp, pidPtr, numPids, argc, argv, inputFile,
-	outputFile, errorFile, intIn, finalOut)
-    Tcl_Interp *interp;		/* Interpreter in which to process pipeline. */
-    pid_t *pidPtr;		/* Array of pids which are created. */
-    int *numPids;		/* Number of pids created. */
-    int argc;			/* Number of entries in argv. */
-    char **argv;		/* Array of strings describing commands in
+TclSpawnPipeline(
+    Tcl_Interp *interp,		/* Interpreter in which to process pipeline. */
+    pid_t *pidPtr,		/* Array of pids which are created. */
+    int *numPids,		/* Number of pids created. */
+    int argc,			/* Number of entries in argv. */
+    char **argv,		/* Array of strings describing commands in
 				 * pipeline plus I/O redirection with <,
 				 * <<, >, etc. argv[argc] must be NULL. */
-    Tcl_File inputFile;	/* If >=0, gives file id to use as input for
+    Tcl_File inputFile,	/* If >=0, gives file id to use as input for
 				 * first process in pipeline (specified via <
 				 * or <@). */
-    Tcl_File outputFile;	/* Writable file id for output from last
+    Tcl_File outputFile,	/* Writable file id for output from last
 				 * command in pipeline (could be file or
 				 * pipe). NULL means use stdout. */
-    Tcl_File errorFile;	/* Writable file id for error output from all
+    Tcl_File errorFile,	/* Writable file id for error output from all
 				 * commands in the pipeline. NULL means use
 				 * stderr */
-    char *intIn;		/* File name for initial input (for Win32s). */
-    char *finalOut;		/* File name for final output (for Win32s). */
+    char *intIn,		/* File name for initial input (for Win32s). */
+    char *finalOut		/* File name for final output (for Win32s). */
+)
 {
     int firstArg, lastArg;
     pid_t pid;
@@ -435,11 +436,12 @@ error:
  *----------------------------------------------------------------------
  */
 int
-TclCreatePipe(readPipe, writePipe)
-    Tcl_File *readPipe;	/* Location to store file handle for
+TclCreatePipe(
+    Tcl_File *readPipe,		/* Location to store file handle for
 				 * read side of pipe. */
-    Tcl_File *writePipe;	/* Location to store file handle for
+    Tcl_File *writePipe		/* Location to store file handle for
 				 * write side of pipe. */
+)
 {
     int pipeIds[2];
 
@@ -474,15 +476,15 @@ TclCreatePipe(readPipe, writePipe)
  */
 
 int
-Tcl_CreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
-	outPipePtr, errFilePtr)
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
-    pid_t **pidArrayPtr;
-    int *inPipePtr;
-    int *outPipePtr;
-    int *errFilePtr;
+Tcl_CreatePipeline(
+    Tcl_Interp *interp,
+    int argc,
+    char **argv,
+    pid_t **pidArrayPtr,
+    int *inPipePtr,
+    int *outPipePtr,
+    int *errFilePtr
+)
 {
     Tcl_File inFile, outFile, errFile;
     int result;

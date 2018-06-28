@@ -114,9 +114,10 @@ void			TclUnsetEnv _ANSI_ARGS_((CONST char *name));
  */
 
 void
-TclSetupEnv(interp)
-    Tcl_Interp *interp;		/* Interpreter whose "env" array is to be
+TclSetupEnv(
+    Tcl_Interp *interp		/* Interpreter whose "env" array is to be
 				 * managed. */
+)
 {
     EnvInterp *eiPtr;
     int i;
@@ -186,12 +187,13 @@ TclSetupEnv(interp)
  */
 
 static int
-FindVariable(name, lengthPtr)
-    CONST char *name;		/* Name of desired environment variable. */
-    int *lengthPtr;		/* Used to return length of name (for
+FindVariable(
+    CONST char *name,		/* Name of desired environment variable. */
+    int *lengthPtr		/* Used to return length of name (for
 				 * successful searches) or number of non-NULL
 				 * entries in environ (for unsuccessful
 				 * searches). */
+)
 {
     int i;
     register CONST char *p1, *p2;
@@ -230,8 +232,9 @@ FindVariable(name, lengthPtr)
  */
 
 char *
-TclGetEnv(name)
-    char *name;			/* Name of desired environment variable. */
+TclGetEnv(
+    char *name			/* Name of desired environment variable. */
+)
 {
     int i;
     size_t len;
@@ -274,10 +277,11 @@ TclGetEnv(name)
  */
 
 void
-TclSetEnv(name, value)
-    CONST char *name;		/* Name of variable whose value is to be
+TclSetEnv(
+    CONST char *name,		/* Name of variable whose value is to be
 				 * set. */
-    CONST char *value;		/* New value for variable. */
+    CONST char *value		/* New value for variable. */
+)
 {
     int index, length, nameLength;
     char *p;
@@ -376,9 +380,10 @@ TclSetEnv(name, value)
  */
 
 int
-Tcl_PutEnv(string)
-    CONST char *string;		/* Info about environment variable in the
+Tcl_PutEnv(
+    CONST char *string		/* Info about environment variable in the
 				 * form NAME=value. */
+)
 {
     int nameLength;
     char *name, *value;
@@ -429,8 +434,9 @@ Tcl_PutEnv(string)
  */
 
 void
-TclUnsetEnv(name)
-    CONST char *name;			/* Name of variable to remove. */
+TclUnsetEnv(
+    CONST char *name			/* Name of variable to remove. */
+)
 {
     int index, dummy;
     char **envPtr;
@@ -496,14 +502,15 @@ TclUnsetEnv(name)
 
 	/* ARGSUSED */
 static char *
-EnvTraceProc(clientData, interp, name1, name2, flags)
-    ClientData clientData;	/* Not used. */
-    Tcl_Interp *interp;		/* Interpreter whose "env" variable is
+EnvTraceProc(
+    ClientData clientData,	/* Not used. */
+    Tcl_Interp *interp,		/* Interpreter whose "env" variable is
 				 * being modified. */
-    char *name1;		/* Better be "env". */
-    char *name2;		/* Name of variable being modified, or
+    char *name1,		/* Better be "env". */
+    char *name2,		/* Name of variable being modified, or
 				 * NULL if whole array is being deleted. */
-    int flags;			/* Indicates what's happening. */
+    int flags			/* Indicates what's happening. */
+)
 {
     /*
      * First see if the whole "env" variable is being deleted.  If
@@ -570,7 +577,7 @@ EnvTraceProc(clientData, interp, name1, name2, flags)
  */
 
 static void
-EnvInit()
+EnvInit(void)
 {
 #ifdef MAC_TCL
     environSize = TclMacCreateEnv();
@@ -615,8 +622,9 @@ EnvInit()
  */
 
 static void
-EnvExitProc(clientData)
-    ClientData clientData;		/* Not  used. */
+EnvExitProc(
+    ClientData clientData		/* Not  used. */
+)
 {
     char **p;
 

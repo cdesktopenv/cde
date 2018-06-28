@@ -113,8 +113,9 @@ static char *		SplitUnixPath _ANSI_ARGS_((char *path,
  */
 
 static void
-FileNameCleanup(clientData)
-    ClientData clientData;	/* Not used. */
+FileNameCleanup(
+    ClientData clientData	/* Not used. */
+)
 {
     if (winRootPatternPtr != NULL) {
 	ckfree((char *)winRootPatternPtr);
@@ -145,11 +146,12 @@ FileNameCleanup(clientData)
  */
 
 static char *
-ExtractWinRoot(path, resultPtr, offset)
-    char *path;			/* Path to parse. */
-    Tcl_DString *resultPtr;	/* Buffer to hold result. */
-    int offset;			/* Offset in buffer where result should be
+ExtractWinRoot(
+    char *path,			/* Path to parse. */
+    Tcl_DString *resultPtr,	/* Buffer to hold result. */
+    int offset			/* Offset in buffer where result should be
 				 * stored. */
+)
 {
     int length;
 
@@ -214,8 +216,9 @@ ExtractWinRoot(path, resultPtr, offset)
  */
 
 Tcl_PathType
-Tcl_GetPathType(path)
-    char *path;
+Tcl_GetPathType(
+    char *path
+)
 {
     Tcl_PathType type = TCL_PATH_ABSOLUTE;
 
@@ -311,12 +314,13 @@ Tcl_GetPathType(path)
  */
 
 void
-Tcl_SplitPath(path, argcPtr, argvPtr)
-    char *path;			/* Pointer to string containing a path. */
-    int *argcPtr;		/* Pointer to location to fill in with
+Tcl_SplitPath(
+    char *path,			/* Pointer to string containing a path. */
+    int *argcPtr,		/* Pointer to location to fill in with
 				 * the number of elements in the path. */
-    char ***argvPtr;		/* Pointer to place to store pointer to array
+    char ***argvPtr		/* Pointer to place to store pointer to array
 				 * of pointers to path elements. */
+)
 {
     int i, size;
     char *p;
@@ -404,9 +408,10 @@ Tcl_SplitPath(path, argcPtr, argvPtr)
  */
 
 static char *
-SplitUnixPath(path, bufPtr)
-    char *path;			/* Pointer to string containing a path. */
-    Tcl_DString *bufPtr;	/* Pointer to DString to use for the result. */
+SplitUnixPath(
+    char *path,			/* Pointer to string containing a path. */
+    Tcl_DString *bufPtr		/* Pointer to DString to use for the result. */
+)
 {
     int length;
     char *p, *elementStart;
@@ -466,9 +471,10 @@ SplitUnixPath(path, bufPtr)
  */
 
 static char *
-SplitWinPath(path, bufPtr)
-    char *path;			/* Pointer to string containing a path. */
-    Tcl_DString *bufPtr;	/* Pointer to DString to use for the result. */
+SplitWinPath(
+    char *path,			/* Pointer to string containing a path. */
+    Tcl_DString *bufPtr		/* Pointer to DString to use for the result. */
+)
 {
     int length;
     char *p, *elementStart;
@@ -524,9 +530,10 @@ SplitWinPath(path, bufPtr)
  */
 
 static char *
-SplitMacPath(path, bufPtr)
-    char *path;			/* Pointer to string containing a path. */
-    Tcl_DString *bufPtr;	/* Pointer to DString to use for the result. */
+SplitMacPath(
+    char *path,			/* Pointer to string containing a path. */
+    Tcl_DString *bufPtr		/* Pointer to DString to use for the result. */
+)
 {
     int isMac = 0;		/* 1 if is Mac-style, 0 if Unix-style path. */
     int i, length;
@@ -703,10 +710,11 @@ SplitMacPath(path, bufPtr)
  */
 
 char *
-Tcl_JoinPath(argc, argv, resultPtr)
-    int argc;
-    char **argv;
-    Tcl_DString *resultPtr;	/* Pointer to previously initialized DString. */
+Tcl_JoinPath(
+    int argc,
+    char **argv,
+    Tcl_DString *resultPtr	/* Pointer to previously initialized DString. */
+)
 {
     int oldLength, length, i, needsSep;
     Tcl_DString buffer;
@@ -927,16 +935,17 @@ Tcl_JoinPath(argc, argv, resultPtr)
  *---------------------------------------------------------------------- */
 
 char *
-Tcl_TranslateFileName(interp, name, bufferPtr)
-    Tcl_Interp *interp;		/* Interpreter in which to store error
+Tcl_TranslateFileName(
+    Tcl_Interp *interp,		/* Interpreter in which to store error
 				 * message (if necessary). */
-    char *name;			/* File name, which may begin with "~"
+    char *name,			/* File name, which may begin with "~"
 				 * (to indicate current user's home directory)
 				 * or "~<user>" (to indicate any user's
 				 * home directory). */
-    Tcl_DString *bufferPtr;	/* May be used to hold result.  Must not hold
+    Tcl_DString *bufferPtr	/* May be used to hold result.  Must not hold
 				 * anything at the time of the call, and need
 				 * not even be initialized. */
+)
 {
     register char *p;
 
@@ -1011,8 +1020,9 @@ Tcl_TranslateFileName(interp, name, bufferPtr)
  */
 
 char *
-TclGetExtension(name)
-    char *name;			/* File name to parse. */
+TclGetExtension(
+    char *name			/* File name to parse. */
+)
 {
     char *p, *lastSep;
 
@@ -1073,14 +1083,15 @@ TclGetExtension(name)
  */
 
 static char *
-DoTildeSubst(interp, user, resultPtr)
-    Tcl_Interp *interp;		/* Interpreter in which to store error
+DoTildeSubst(
+    Tcl_Interp *interp,		/* Interpreter in which to store error
 				 * message (if necessary). */
-    char *user;			/* Name of user whose home directory should be
+    char *user,			/* Name of user whose home directory should be
 				 * substituted, or "" for current user. */
-    Tcl_DString *resultPtr;	/* May be used to hold result.  Must not hold
+    Tcl_DString *resultPtr	/* May be used to hold result.  Must not hold
 				 * anything at the time of the call, and need
 				 * not even be initialized. */
+)
 {
     char *dir;
 
@@ -1127,11 +1138,12 @@ DoTildeSubst(interp, user, resultPtr)
 
 	/* ARGSUSED */
 int
-Tcl_GlobCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_GlobCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int i, noComplain, firstArg;
     char c;
@@ -1283,9 +1295,10 @@ done:
  */
 
 static int
-SkipToChar(stringPtr, match)
-    char **stringPtr;			/* Pointer string to check. */
-    char *match;			/* Pointer to character to find. */
+SkipToChar(
+    char **stringPtr,			/* Pointer string to check. */
+    char *match				/* Pointer to character to find. */
+)
 {
     int quoted, level;
     register char *p;
@@ -1338,14 +1351,15 @@ SkipToChar(stringPtr, match)
  */
 
 int
-TclDoGlob(interp, separators, headPtr, tail)
-    Tcl_Interp *interp;		/* Interpreter to use for error reporting
+TclDoGlob(
+    Tcl_Interp *interp,		/* Interpreter to use for error reporting
 				 * (e.g. unmatched brace). */
-    char *separators;		/* String containing separator characters
+    char *separators,		/* String containing separator characters
 				 * that should be used to identify globbing
 				 * boundaries. */
-    Tcl_DString *headPtr;	/* Completely expanded prefix. */
-    char *tail;			/* The unexpanded remainder of the path. */
+    Tcl_DString *headPtr,	/* Completely expanded prefix. */
+    char *tail			/* The unexpanded remainder of the path. */
+)
 {
     int level, baseLength, quoted, count;
     int result = TCL_OK;

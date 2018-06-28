@@ -85,11 +85,12 @@ static void	UnregisterTcpServerInterpCleanupProc _ANSI_ARGS_((
 
 	/* ARGSUSED */
 int
-Tcl_PutsCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_PutsCmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to puts on. */
     int i;				/* Counter. */
@@ -175,11 +176,12 @@ error:
 
 	/* ARGSUSED */
 int
-Tcl_FlushCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_FlushCmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to flush on. */
     int result;				/* Result of call to channel
@@ -228,11 +230,12 @@ Tcl_FlushCmd(clientData, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_GetsCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_GetsCmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to read from. */
     char *varName;			/* Assign to this variable? */
@@ -312,11 +315,12 @@ Tcl_GetsCmd(clientData, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ReadCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ReadCmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to read from. */
     int newline, i;			/* Discard newline at end? */
@@ -450,12 +454,13 @@ argerror:
  */
 
 int
-TclUnsupported0Cmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Interpreter in which both channels
+TclUnsupported0Cmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Interpreter in which both channels
                                          * are defined. */
-    int argc;				/* How many arguments? */
-    char **argv;			/* The argument strings. */
+    int argc,				/* How many arguments? */
+    char **argv				/* The argument strings. */
+)
 {
     Tcl_Channel inChan, outChan;
     int requested;
@@ -555,11 +560,12 @@ TclUnsupported0Cmd(clientData, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_SeekCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_SeekCmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to tell on. */
     int offset, mode;			/* Where to seek? */
@@ -626,11 +632,12 @@ Tcl_SeekCmd(clientData, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_TellCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_TellCmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to tell on. */
 
@@ -672,11 +679,12 @@ Tcl_TellCmd(clientData, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_CloseCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_CloseCmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to close. */
     int len;				/* Length of error output. */
@@ -732,11 +740,12 @@ Tcl_CloseCmd(clientData, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_FconfigureCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_FconfigureCmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to set a mode on. */
     int result;				/* Of Tcl_Set/GetChannelOption. */
@@ -808,11 +817,12 @@ Tcl_FconfigureCmd(clientData, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_EofCmd(unused, interp, argc, argv)
-    ClientData unused;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_EofCmd(
+    ClientData unused,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to query for EOF. */
     int mode;				/* Mode in which channel is opened. */
@@ -849,11 +859,12 @@ Tcl_EofCmd(unused, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ExecCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ExecCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
 #ifdef MAC_TCL
     Tcl_AppendResult(interp, "exec not implemented under Mac OS",
@@ -992,11 +1003,12 @@ Tcl_ExecCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_FblockedCmd(unused, interp, argc, argv)
-    ClientData unused;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_FblockedCmd(
+    ClientData unused,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Channel chan;			/* The channel to query for blocked. */
     int mode;				/* Mode in which channel was opened. */
@@ -1039,11 +1051,12 @@ Tcl_FblockedCmd(unused, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_OpenCmd(notUsed, interp, argc, argv)
-    ClientData notUsed;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_OpenCmd(
+    ClientData notUsed,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int pipeline, prot;
     char *modeString;
@@ -1139,10 +1152,11 @@ Tcl_OpenCmd(notUsed, interp, argc, argv)
 
 	/* ARGSUSED */
 static void
-TcpAcceptCallbacksDeleteProc(clientData, interp)
-    ClientData clientData;	/* Data which was passed when the assocdata
+TcpAcceptCallbacksDeleteProc(
+    ClientData clientData,	/* Data which was passed when the assocdata
                                  * was registered. */
-    Tcl_Interp *interp;		/* Interpreter being deleted - not used. */
+    Tcl_Interp *interp		/* Interpreter being deleted - not used. */
+)
 {
     Tcl_HashTable *hTblPtr;
     Tcl_HashEntry *hPtr;
@@ -1181,13 +1195,14 @@ TcpAcceptCallbacksDeleteProc(clientData, interp)
  */
 
 static void
-RegisterTcpServerInterpCleanup(interp, acceptCallbackPtr)
-    Tcl_Interp *interp;		/* Interpreter for which we want to be
+RegisterTcpServerInterpCleanup(
+    Tcl_Interp *interp,		/* Interpreter for which we want to be
                                  * informed of deletion. */
-    AcceptCallback *acceptCallbackPtr;
+    AcceptCallback *acceptCallbackPtr
     				/* The accept callback record whose
                                  * interp field we want set to NULL when
                                  * the interpreter is deleted. */
+)
 {
     Tcl_HashTable *hTblPtr;	/* Hash table for accept callback
                                  * records to smash when the interpreter
@@ -1231,12 +1246,13 @@ RegisterTcpServerInterpCleanup(interp, acceptCallbackPtr)
  */
 
 static void
-UnregisterTcpServerInterpCleanupProc(interp, acceptCallbackPtr)
-    Tcl_Interp *interp;		/* Interpreter in which the accept callback
+UnregisterTcpServerInterpCleanupProc(
+    Tcl_Interp *interp,		/* Interpreter in which the accept callback
                                  * record was registered. */
-    AcceptCallback *acceptCallbackPtr;
+    AcceptCallback *acceptCallbackPtr
     				/* The record for which to delete the
                                  * registration. */
+)
 {
     Tcl_HashTable *hTblPtr;
     Tcl_HashEntry *hPtr;
@@ -1271,15 +1287,16 @@ UnregisterTcpServerInterpCleanupProc(interp, acceptCallbackPtr)
  */
 
 static void
-AcceptCallbackProc(callbackData, chan, address, port)
-    ClientData callbackData;		/* The data stored when the callback
+AcceptCallbackProc(
+    ClientData callbackData,		/* The data stored when the callback
                                          * was created in the call to
                                          * Tcl_OpenTcpServer. */
-    Tcl_Channel chan;			/* Channel for the newly accepted
+    Tcl_Channel chan,			/* Channel for the newly accepted
                                          * connection. */
-    char *address;			/* Address of client that was
+    char *address,			/* Address of client that was
                                          * accepted. */
-    int port;				/* Port of client that was accepted. */
+    int port				/* Port of client that was accepted. */
+)
 {
     AcceptCallback *acceptCallbackPtr;
     Tcl_Interp *interp;
@@ -1346,9 +1363,10 @@ AcceptCallbackProc(callbackData, chan, address, port)
  */
 
 static void
-TcpServerCloseProc(callbackData)
-    ClientData callbackData;	/* The data passed in the call to
+TcpServerCloseProc(
+    ClientData callbackData	/* The data passed in the call to
                                  * Tcl_CreateCloseHandler. */
+)
 {
     AcceptCallback *acceptCallbackPtr;
     				/* The actual data. */
@@ -1380,11 +1398,12 @@ TcpServerCloseProc(callbackData)
  */
 
 int
-Tcl_SocketCmd(notUsed, interp, argc, argv)
-    ClientData notUsed;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_SocketCmd(
+    ClientData notUsed,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int a, server, port;
     char *arg, *copyScript, *host, *script;

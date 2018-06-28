@@ -89,27 +89,28 @@ static Tcl_File	FileForRedirect _ANSI_ARGS_((Tcl_Interp *interp,
  */
 
 static Tcl_File
-FileForRedirect(interp, spec, atOk, arg, flags, nextArg, skipPtr, closePtr)
-    Tcl_Interp *interp;			/* Intepreter to use for error
+FileForRedirect(
+    Tcl_Interp *interp,			/* Intepreter to use for error
 					 * reporting. */
-    register char *spec;			/* Points to character just after
+    register char *spec,			/* Points to character just after
 					 * redirection character. */
-    int atOk;				/* Non-zero means '@' notation is
+    int atOk,				/* Non-zero means '@' notation is
 					 * OK, zero means it isn't. */
-    char *arg;				/* Pointer to entire argument
+    char *arg,				/* Pointer to entire argument
 					 * containing spec:  used for error
 					 * reporting. */
-    int flags;				/* Flags to use for opening file. */
-    char *nextArg;			/* Next argument in argc/argv
+    int flags,				/* Flags to use for opening file. */
+    char *nextArg,			/* Next argument in argc/argv
 					 * array, if needed for file name.
 					 * May be NULL. */
-    int *skipPtr;			/* This value is incremented if
+    int *skipPtr,			/* This value is incremented if
 					 * nextArg is used for redirection
 					 * spec. */
-    int *closePtr;			/* This value is set to 1 if the file
+    int *closePtr			/* This value is set to 1 if the file
 					 * that's returned must be closed, 0
 					 * if it was specified with "@" so
 					 * it must be left open. */
+)
 {
     int writing = (flags & O_WRONLY);
     Tcl_Channel chan;
@@ -209,14 +210,15 @@ FileForRedirect(interp, spec, atOk, arg, flags, nextArg, skipPtr, closePtr)
  */
 
 int
-TclGetOpenMode(interp, string, seekFlagPtr)
-    Tcl_Interp *interp;			/* Interpreter to use for error
+TclGetOpenMode(
+    Tcl_Interp *interp,			/* Interpreter to use for error
 					 * reporting - may be NULL. */
-    char *string;			/* Mode string, e.g. "r+" or
+    char *string,			/* Mode string, e.g. "r+" or
 					 * "RDONLY CREAT". */
-    int *seekFlagPtr;			/* Set this to 1 if the caller
+    int *seekFlagPtr			/* Set this to 1 if the caller
                                          * should seek to EOF during the
                                          * opening of the file. */
+)
 {
     int mode, modeArgc, c, i, gotRW;
     char **modeArgv, *flag;
@@ -369,10 +371,11 @@ TclGetOpenMode(interp, string, seekFlagPtr)
  */
 
 int
-Tcl_EvalFile(interp, fileName)
-    Tcl_Interp *interp;		/* Interpreter in which to process file. */
-    char *fileName;		/* Name of file to process.  Tilde-substitution
+Tcl_EvalFile(
+    Tcl_Interp *interp,		/* Interpreter in which to process file. */
+    char *fileName		/* Name of file to process.  Tilde-substitution
 				 * will be performed on this name. */
+)
 {
     int result;
     struct stat statBuf;
@@ -478,10 +481,11 @@ error:
  */
 
 void
-Tcl_DetachPids(numPids, pidPtr)
-    int numPids;		/* Number of pids to detach:  gives size
+Tcl_DetachPids(
+    int numPids,		/* Number of pids to detach:  gives size
 				 * of array pointed to by pidPtr. */
-    pid_t *pidPtr;		/* Array of pids to detach. */
+    pid_t *pidPtr		/* Array of pids to detach. */
+)
 {
     register Detached *detPtr;
     int i;
@@ -515,7 +519,7 @@ Tcl_DetachPids(numPids, pidPtr)
  */
 
 void
-Tcl_ReapDetachedProcs()
+Tcl_ReapDetachedProcs(void)
 {
     register Detached *detPtr;
     Detached *nextPtr, *prevPtr;
@@ -563,13 +567,14 @@ Tcl_ReapDetachedProcs()
  */
 
 int
-TclCleanupChildren(interp, numPids, pidPtr, errorChan)
-    Tcl_Interp *interp;		/* Used for error messages. */
-    int numPids;		/* Number of entries in pidPtr array. */
-    pid_t *pidPtr;		/* Array of process ids of children. */
-    Tcl_Channel errorChan;	/* Channel for file containing stderr output
+TclCleanupChildren(
+    Tcl_Interp *interp,		/* Used for error messages. */
+    int numPids,		/* Number of entries in pidPtr array. */
+    pid_t *pidPtr,		/* Array of process ids of children. */
+    Tcl_Channel errorChan	/* Channel for file containing stderr output
 				 * from pipeline.  NULL means there isn't any
 				 * stderr output. */
+)
 {
     int result = TCL_OK;
     pid_t pid;
@@ -735,30 +740,29 @@ TclCleanupChildren(interp, numPids, pidPtr, errorChan)
  */
 
 int
-TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
-	outPipePtr, errFilePtr)
-    Tcl_Interp *interp;		/* Interpreter to use for error reporting. */
-    int argc;			/* Number of entries in argv. */
-    char **argv;		/* Array of strings describing commands in
+TclCreatePipeline(
+    Tcl_Interp *interp,		/* Interpreter to use for error reporting. */
+    int argc,			/* Number of entries in argv. */
+    char **argv,		/* Array of strings describing commands in
 				 * pipeline plus I/O redirection with <,
 				 * <<,  >, etc.  Argv[argc] must be NULL. */
-    pid_t **pidArrayPtr;	/* Word at *pidArrayPtr gets filled in with
+    pid_t **pidArrayPtr,	/* Word at *pidArrayPtr gets filled in with
 				 * address of array of pids for processes
 				 * in pipeline (first pid is first process
 				 * in pipeline). */
-    Tcl_File *inPipePtr;	/* If non-NULL, input to the pipeline comes
+    Tcl_File *inPipePtr,	/* If non-NULL, input to the pipeline comes
 				 * from a pipe (unless overridden by
 				 * redirection in the command).  The file
 				 * id with which to write to this pipe is
 				 * stored at *inPipePtr.  NULL means command
 				 * specified its own input source. */
-    Tcl_File *outPipePtr;	/* If non-NULL, output to the pipeline goes
+    Tcl_File *outPipePtr,	/* If non-NULL, output to the pipeline goes
 				 * to a pipe, unless overriden by redirection
 				 * in the command.  The file id with which to
 				 * read frome this pipe is stored at
 				 * *outPipePtr.  NULL means command specified
 				 * its own output sink. */
-    Tcl_File *errFilePtr;	/* If non-NULL, all stderr output from the
+    Tcl_File *errFilePtr	/* If non-NULL, all stderr output from the
 				 * pipeline will go to a temporary file
 				 * created here, and a descriptor to read
 				 * the file will be left at *errFilePtr.
@@ -769,6 +773,7 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
 				 * If the pipeline specifies redirection
 				 * then the file will still be created
 				 * but it will never get any data. */
+)
 {
 #if defined( MAC_TCL )
     Tcl_AppendResult(interp,
@@ -1143,7 +1148,7 @@ error:
  */
 
 int
-Tcl_GetErrno()
+Tcl_GetErrno(void)
 {
     return errno;
 }
@@ -1165,8 +1170,9 @@ Tcl_GetErrno()
  */
 
 void
-Tcl_SetErrno(err)
-    int err;			/* The new value. */
+Tcl_SetErrno(
+    int err			/* The new value. */
+)
 {
     errno = err;
 }
@@ -1192,9 +1198,10 @@ Tcl_SetErrno(err)
  */
 
 char *
-Tcl_PosixError(interp)
-    Tcl_Interp *interp;		/* Interpreter whose $errorCode variable
+Tcl_PosixError(
+    Tcl_Interp *interp		/* Interpreter whose $errorCode variable
 				 * is to be changed. */
+)
 {
     char *id, *msg;
 
@@ -1239,13 +1246,14 @@ Tcl_PosixError(interp)
  */
 
 Tcl_Channel
-Tcl_OpenCommandChannel(interp, argc, argv, flags)
-    Tcl_Interp *interp;		/* Interpreter for error reporting. Can
+Tcl_OpenCommandChannel(
+    Tcl_Interp *interp,		/* Interpreter for error reporting. Can
                                  * NOT be NULL. */
-    int argc;			/* How many arguments. */
-    char **argv;		/* Array of arguments for command pipe. */
-    int flags;			/* Or'ed combination of TCL_STDIN, TCL_STDOUT,
+    int argc,			/* How many arguments. */
+    char **argv,		/* Array of arguments for command pipe. */
+    int flags			/* Or'ed combination of TCL_STDIN, TCL_STDOUT,
 				 * TCL_STDERR, and TCL_ENFORCE_MODE. */
+)
 {
     Tcl_File *inPipePtr, *outPipePtr, *errFilePtr;
     Tcl_File inPipe, outPipe, errFile;

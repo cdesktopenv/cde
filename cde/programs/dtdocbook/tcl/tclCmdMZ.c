@@ -85,11 +85,12 @@ static char *		TraceVarProc _ANSI_ARGS_((ClientData clientData,
 
 	/* ARGSUSED */
 int
-Tcl_PwdCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_PwdCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     char *dirName;
 
@@ -126,11 +127,12 @@ Tcl_PwdCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_RegexpCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_RegexpCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int noCase = 0;
     int indices = 0;
@@ -279,11 +281,12 @@ Tcl_RegexpCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_RegsubCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_RegsubCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int noCase = 0, all = 0;
     Tcl_RegExp regExpr;
@@ -529,11 +532,12 @@ Tcl_RegsubCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_RenameCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_RenameCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     register Command *cmdPtr;
     Interp *iPtr = (Interp *) interp;
@@ -646,11 +650,12 @@ Tcl_RenameCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ReturnCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ReturnCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Interp *iPtr = (Interp *) interp;
     int c, code;
@@ -723,11 +728,12 @@ Tcl_ReturnCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_ScanCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ScanCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
 #   define MAX_FIELDS 20
     typedef struct {
@@ -1018,11 +1024,12 @@ Tcl_ScanCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_SourceCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_SourceCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv 			/* Argument strings. */
+)
 {
     if (argc != 2) {
 	Tcl_AppendResult(interp, "wrong # args: should be \"", argv[0],
@@ -1051,11 +1058,12 @@ Tcl_SourceCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_SplitCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_SplitCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     char *splitChars;
     register char *p, *p2;
@@ -1127,11 +1135,12 @@ Tcl_SplitCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_StringCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_StringCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     size_t length;
     register char *p;
@@ -1456,11 +1465,12 @@ Tcl_StringCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_SubstCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_SubstCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Interp *iPtr = (Interp *) interp;
     Tcl_DString result;
@@ -1594,11 +1604,12 @@ Tcl_SubstCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_SwitchCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_SwitchCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
 #define EXACT	0
 #define GLOB	1
@@ -1750,11 +1761,12 @@ Tcl_SwitchCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_TimeCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_TimeCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int count, i, result;
     double timePer;
@@ -1811,11 +1823,12 @@ Tcl_TimeCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 int
-Tcl_TraceCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_TraceCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int c;
     size_t length;
@@ -1989,14 +2002,15 @@ Tcl_TraceCmd(dummy, interp, argc, argv)
 
 	/* ARGSUSED */
 static char *
-TraceVarProc(clientData, interp, name1, name2, flags)
-    ClientData clientData;	/* Information about the variable trace. */
-    Tcl_Interp *interp;		/* Interpreter containing variable. */
-    char *name1;		/* Name of variable or array. */
-    char *name2;		/* Name of element within array;  NULL means
+TraceVarProc(
+    ClientData clientData,	/* Information about the variable trace. */
+    Tcl_Interp *interp,		/* Interpreter containing variable. */
+    char *name1,		/* Name of variable or array. */
+    char *name2,		/* Name of element within array;  NULL means
 				 * scalar variable is being referenced. */
-    int flags;			/* OR-ed bits giving operation and other
+    int flags				/* OR-ed bits giving operation and other
 				 * information. */
+)
 {
     TraceVarInfo *tvarPtr = (TraceVarInfo *) clientData;
     char *result;
@@ -2087,11 +2101,12 @@ TraceVarProc(clientData, interp, name1, name2, flags)
 
 	/* ARGSUSED */
 int
-Tcl_WhileCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_WhileCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int result, value;
 

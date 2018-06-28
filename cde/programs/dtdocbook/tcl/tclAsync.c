@@ -102,10 +102,8 @@ static int asyncActive = 0;
  */
 
 Tcl_AsyncHandler
-Tcl_AsyncCreate(proc, clientData)
-    Tcl_AsyncProc *proc;		/* Procedure to call when handler
-					 * is invoked. */
-    ClientData clientData;		/* Argument to pass to handler. */
+Tcl_AsyncCreate(Tcl_AsyncProc *proc /* Procedure to call when handler is invoked. */,
+                ClientData clientData /* Argument to pass to handler. */)
 {
     AsyncHandler *asyncPtr;
 
@@ -143,8 +141,7 @@ Tcl_AsyncCreate(proc, clientData)
  */
 
 void
-Tcl_AsyncMark(async)
-    Tcl_AsyncHandler async;		/* Token for handler. */
+Tcl_AsyncMark(Tcl_AsyncHandler async /* Token for handler. */)
 {
     ((AsyncHandler *) async)->ready = 1;
     if (!asyncActive) {
@@ -170,16 +167,13 @@ Tcl_AsyncMark(async)
  *
  *----------------------------------------------------------------------
  */
+/* interp, If invoked from Tcl_Eval just after completing a command,
+ * points to interpreter.  Otherwise it is NULL. */
+/* code, If interp is non-NULL, this gives completion code from command
+ * that just completed. */
 
 int
-Tcl_AsyncInvoke(interp, code)
-    Tcl_Interp *interp;			/* If invoked from Tcl_Eval just after
-					 * completing a command, points to
-					 * interpreter.  Otherwise it is
-					 * NULL. */
-    int code; 				/* If interp is non-NULL, this gives
-					 * completion code from command that
-					 * just completed. */
+Tcl_AsyncInvoke(Tcl_Interp *interp, int code)
 {
     AsyncHandler *asyncPtr;
 
@@ -238,8 +232,7 @@ Tcl_AsyncInvoke(interp, code)
  */
 
 void
-Tcl_AsyncDelete(async)
-    Tcl_AsyncHandler async;		/* Token for handler to delete. */
+Tcl_AsyncDelete(Tcl_AsyncHandler async /* Token for handler to delete. */)
 {
     AsyncHandler *asyncPtr = (AsyncHandler *) async;
     AsyncHandler *prevPtr;
@@ -282,7 +275,7 @@ Tcl_AsyncDelete(async)
  */
 
 int
-Tcl_AsyncReady()
+Tcl_AsyncReady(void)
 {
     return asyncReady;
 }

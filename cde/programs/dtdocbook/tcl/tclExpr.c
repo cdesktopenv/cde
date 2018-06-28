@@ -340,11 +340,12 @@ static BuiltinFunc funcTable[] = {
  */
 
 static int
-ExprParseString(interp, string, valuePtr)
-    Tcl_Interp *interp;		/* Where to store error message. */
-    char *string;		/* String to turn into value. */
-    Value *valuePtr;		/* Where to store value information. 
+ExprParseString(
+    Tcl_Interp *interp,		/* Where to store error message. */
+    char *string,		/* String to turn into value. */
+    Value *valuePtr		/* Where to store value information. 
 				 * Caller must have initialized pv field. */
+)
 {
     char *term, *p, *start;
 
@@ -454,14 +455,15 @@ ExprParseString(interp, string, valuePtr)
  */
 
 static int
-ExprLex(interp, infoPtr, valuePtr)
-    Tcl_Interp *interp;			/* Interpreter to use for error
+ExprLex(
+    Tcl_Interp *interp,			/* Interpreter to use for error
 					 * reporting. */
-    register ExprInfo *infoPtr;		/* Describes the state of the parse. */
-    register Value *valuePtr;		/* Where to store value, if that is
+    register ExprInfo *infoPtr,		/* Describes the state of the parse. */
+    register Value *valuePtr		/* Where to store value, if that is
 					 * what's parsed from string.  Caller
 					 * must have initialized pv field
 					 * correctly. */
+)
 {
     register char *p;
     char *var, *term;
@@ -731,19 +733,20 @@ ExprLex(interp, infoPtr, valuePtr)
  */
 
 static int
-ExprGetValue(interp, infoPtr, prec, valuePtr)
-    Tcl_Interp *interp;			/* Interpreter to use for error
+ExprGetValue(
+   Tcl_Interp *interp,			/* Interpreter to use for error
 					 * reporting. */
-    register ExprInfo *infoPtr;		/* Describes the state of the parse
+    register ExprInfo *infoPtr,		/* Describes the state of the parse
 					 * just before the value (i.e. ExprLex
 					 * will be called to get first token
 					 * of value). */
-    int prec;				/* Treat any un-parenthesized operator
+    int prec,				/* Treat any un-parenthesized operator
 					 * with precedence <= this as the end
 					 * of the expression. */
-    Value *valuePtr;			/* Where to store the value of the
+    Value *valuePtr			/* Where to store the value of the
 					 * expression.   Caller must have
 					 * initialized pv field. */
+)
 {
     Interp *iPtr = (Interp *) interp;
     Value value2;			/* Second operand for current
@@ -1339,10 +1342,11 @@ ExprGetValue(interp, infoPtr, prec, valuePtr)
  */
 
 static void
-ExprMakeString(interp, valuePtr)
-    Tcl_Interp *interp;			/* Interpreter to use for precision
+ExprMakeString(
+    Tcl_Interp *interp,			/* Interpreter to use for precision
 					 * information. */
-    register Value *valuePtr;		/* Value to be converted. */
+    register Value *valuePtr		/* Value to be converted. */
+)
 {
     int shortfall;
 
@@ -1382,12 +1386,13 @@ ExprMakeString(interp, valuePtr)
  */
 
 static int
-ExprTopLevel(interp, string, valuePtr)
-    Tcl_Interp *interp;			/* Context in which to evaluate the
+ExprTopLevel(
+    Tcl_Interp *interp,			/* Context in which to evaluate the
 					 * expression. */
-    char *string;			/* Expression to evaluate. */
-    Value *valuePtr;			/* Where to store result.  Should
+    char *string,			/* Expression to evaluate. */
+    Value *valuePtr			/* Where to store result.  Should
 					 * not be initialized by caller. */
+)
 {
     ExprInfo info;
     int result;
@@ -1459,11 +1464,12 @@ ExprTopLevel(interp, string, valuePtr)
  */
 
 int
-Tcl_ExprLong(interp, string, ptr)
-    Tcl_Interp *interp;			/* Context in which to evaluate the
+Tcl_ExprLong(
+    Tcl_Interp *interp,			/* Context in which to evaluate the
 					 * expression. */
-    char *string;			/* Expression to evaluate. */
-    long *ptr;				/* Where to store result. */
+    char *string,			/* Expression to evaluate. */
+    long *ptr				/* Where to store result. */
+)
 {
     Value value;
     int result;
@@ -1486,11 +1492,12 @@ Tcl_ExprLong(interp, string, ptr)
 }
 
 int
-Tcl_ExprDouble(interp, string, ptr)
-    Tcl_Interp *interp;			/* Context in which to evaluate the
+Tcl_ExprDouble(
+    Tcl_Interp *interp,			/* Context in which to evaluate the
 					 * expression. */
-    char *string;			/* Expression to evaluate. */
-    double *ptr;			/* Where to store result. */
+    char *string,			/* Expression to evaluate. */
+    double *ptr				/* Where to store result. */
+)
 {
     Value value;
     int result;
@@ -1513,11 +1520,12 @@ Tcl_ExprDouble(interp, string, ptr)
 }
 
 int
-Tcl_ExprBoolean(interp, string, ptr)
-    Tcl_Interp *interp;			/* Context in which to evaluate the
+Tcl_ExprBoolean(
+    Tcl_Interp *interp,			/* Context in which to evaluate the
 					 * expression. */
-    char *string;			/* Expression to evaluate. */
-    int *ptr;				/* Where to store 0/1 result. */
+    char *string,			/* Expression to evaluate. */
+    int *ptr				/* Where to store 0/1 result. */
+)
 {
     Value value;
     int result;
@@ -1558,10 +1566,11 @@ Tcl_ExprBoolean(interp, string, ptr)
  */
 
 int
-Tcl_ExprString(interp, string)
-    Tcl_Interp *interp;			/* Context in which to evaluate the
+Tcl_ExprString(
+    Tcl_Interp *interp,			/* Context in which to evaluate the
 					 * expression. */
-    char *string;			/* Expression to evaluate. */
+    char *string			/* Expression to evaluate. */
+)
 {
     Value value;
     int result;
@@ -1607,18 +1616,19 @@ Tcl_ExprString(interp, string)
  */
 
 void
-Tcl_CreateMathFunc(interp, name, numArgs, argTypes, proc, clientData)
-    Tcl_Interp *interp;			/* Interpreter in which function is
+Tcl_CreateMathFunc(
+    Tcl_Interp *interp,			/* Interpreter in which function is
 					 * to be available. */
-    char *name;				/* Name of function (e.g. "sin"). */
-    int numArgs;			/* Nnumber of arguments required by
+    char *name,				/* Name of function (e.g. "sin"). */
+    int numArgs,			/* Nnumber of arguments required by
 					 * function. */
-    Tcl_ValueType *argTypes;		/* Array of types acceptable for
+    Tcl_ValueType *argTypes,		/* Array of types acceptable for
 					 * each argument. */
-    Tcl_MathProc *proc;			/* Procedure that implements the
+    Tcl_MathProc *proc,			/* Procedure that implements the
 					 * math function. */
-    ClientData clientData;		/* Additional value to pass to the
+    ClientData clientData		/* Additional value to pass to the
 					 * function. */
+)
 {
     Interp *iPtr = (Interp *) interp;
     Tcl_HashEntry *hPtr;
@@ -1665,17 +1675,18 @@ Tcl_CreateMathFunc(interp, name, numArgs, argTypes, proc, clientData)
  */
 
 static int
-ExprMathFunc(interp, infoPtr, valuePtr)
-    Tcl_Interp *interp;			/* Interpreter to use for error
+ExprMathFunc(
+    Tcl_Interp *interp,			/* Interpreter to use for error
 					 * reporting. */
-    register ExprInfo *infoPtr;		/* Describes the state of the parse.
+    register ExprInfo *infoPtr,		/* Describes the state of the parse.
 					 * infoPtr->expr must point to the
 					 * first character of the function's
 					 * name. */
-    register Value *valuePtr;		/* Where to store value, if that is
+    register Value *valuePtr		/* Where to store value, if that is
 					 * what's parsed from string.  Caller
 					 * must have initialized pv field
 					 * correctly. */
+)
 {
     Interp *iPtr = (Interp *) interp;
     MathFunc *mathFuncPtr;		/* Info about math function. */
@@ -1838,10 +1849,11 @@ ExprMathFunc(interp, infoPtr, valuePtr)
  */
 
 void
-TclExprFloatError(interp, value)
-    Tcl_Interp *interp;		/* Where to store error message. */
-    double value;		/* Value returned after error;  used to
+TclExprFloatError(
+    Tcl_Interp *interp,		/* Where to store error message. */
+    double value		/* Value returned after error;  used to
 				 * distinguish underflows from overflows. */
+)
 {
     char buf[20];
 
@@ -1888,13 +1900,14 @@ TclExprFloatError(interp, value)
  */
 
 static int
-ExprUnaryFunc(clientData, interp, args, resultPtr)
-    ClientData clientData;		/* Contains address of procedure that
+ExprUnaryFunc(
+    ClientData clientData,		/* Contains address of procedure that
 					 * takes one double argument and
 					 * returns a double result. */
-    Tcl_Interp *interp;
-    Tcl_Value *args;
-    Tcl_Value *resultPtr;
+    Tcl_Interp *interp,
+    Tcl_Value *args,
+    Tcl_Value *resultPtr
+)
 {
     double (*func) _ANSI_ARGS_((double)) = (double (*)_ANSI_ARGS_((double))) clientData;
 
@@ -1909,13 +1922,14 @@ ExprUnaryFunc(clientData, interp, args, resultPtr)
 }
 
 static int
-ExprBinaryFunc(clientData, interp, args, resultPtr)
-    ClientData clientData;		/* Contains address of procedure that
+ExprBinaryFunc(
+    ClientData clientData,		/* Contains address of procedure that
 					 * takes two double arguments and
 					 * returns a double result. */
-    Tcl_Interp *interp;
-    Tcl_Value *args;
-    Tcl_Value *resultPtr;
+    Tcl_Interp *interp,
+    Tcl_Value *args,
+    Tcl_Value *resultPtr
+)
 {
     double (*func) _ANSI_ARGS_((double, double))
 	= (double (*)_ANSI_ARGS_((double, double))) clientData;
@@ -1932,11 +1946,12 @@ ExprBinaryFunc(clientData, interp, args, resultPtr)
 
 	/* ARGSUSED */
 static int
-ExprAbsFunc(clientData, interp, args, resultPtr)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    Tcl_Value *args;
-    Tcl_Value *resultPtr;
+ExprAbsFunc(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    Tcl_Value *args,
+    Tcl_Value *resultPtr
+)
 {
     resultPtr->type = TCL_DOUBLE;
     if (args[0].type == TCL_DOUBLE) {
@@ -1965,11 +1980,12 @@ ExprAbsFunc(clientData, interp, args, resultPtr)
 
 	/* ARGSUSED */
 static int
-ExprDoubleFunc(clientData, interp, args, resultPtr)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    Tcl_Value *args;
-    Tcl_Value *resultPtr;
+ExprDoubleFunc(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    Tcl_Value *args,
+    Tcl_Value *resultPtr
+)
 {
     resultPtr->type = TCL_DOUBLE;
     if (args[0].type == TCL_DOUBLE) {
@@ -1982,11 +1998,12 @@ ExprDoubleFunc(clientData, interp, args, resultPtr)
 
 	/* ARGSUSED */
 static int
-ExprIntFunc(clientData, interp, args, resultPtr)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    Tcl_Value *args;
-    Tcl_Value *resultPtr;
+ExprIntFunc(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    Tcl_Value *args,
+    Tcl_Value *resultPtr
+)
 {
     resultPtr->type = TCL_INT;
     if (args[0].type == TCL_INT) {
@@ -2012,11 +2029,12 @@ ExprIntFunc(clientData, interp, args, resultPtr)
 
 	/* ARGSUSED */
 static int
-ExprRoundFunc(clientData, interp, args, resultPtr)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    Tcl_Value *args;
-    Tcl_Value *resultPtr;
+ExprRoundFunc(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    Tcl_Value *args,
+    Tcl_Value *resultPtr
+)
 {
     resultPtr->type = TCL_INT;
     if (args[0].type == TCL_INT) {
@@ -2063,8 +2081,9 @@ ExprRoundFunc(clientData, interp, args, resultPtr)
  */
 
 static int
-ExprLooksLikeInt(p)
-    char *p;			/* Pointer to string. */
+ExprLooksLikeInt(
+    char *p			/* Pointer to string. */
+)
 {
     while (isspace(UCHAR(*p))) {
 	p++;

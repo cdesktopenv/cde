@@ -85,9 +85,10 @@ static void 		FileExitProc _ANSI_ARGS_((ClientData clientData));
  */
 
 Tcl_File
-Tcl_GetFile(osHandle, type)
-    ClientData osHandle;	/* Platform specific file handle. */
-    int type;			/* Type of file handle. */
+Tcl_GetFile(
+    ClientData osHandle,	/* Platform specific file handle. */
+    int type			/* Type of file handle. */
+)
 {
     FileHashKey key;
     Tcl_HashEntry *entryPtr;
@@ -130,8 +131,9 @@ Tcl_GetFile(osHandle, type)
  */
 
 void
-Tcl_FreeFile(handle)
-    Tcl_File handle;
+Tcl_FreeFile(
+    Tcl_File handle
+)
 {
     Tcl_HashEntry *entryPtr;
     FileHandle *handlePtr = (FileHandle *) handle;
@@ -170,9 +172,10 @@ Tcl_FreeFile(handle)
  */
 
 ClientData
-Tcl_GetFileInfo(handle, typePtr)
-    Tcl_File handle;
-    int *typePtr;
+Tcl_GetFileInfo(
+    Tcl_File handle,
+    int *typePtr
+)
 {
     FileHandle *handlePtr = (FileHandle *) handle;
 
@@ -201,10 +204,11 @@ Tcl_GetFileInfo(handle, typePtr)
  */
 
 void
-Tcl_SetNotifierData(handle, proc, data)
-    Tcl_File handle;
-    Tcl_FileFreeProc *proc;
-    ClientData data;
+Tcl_SetNotifierData(
+    Tcl_File handle,
+    Tcl_FileFreeProc *proc,
+    ClientData data
+)
 {
     FileHandle *handlePtr = (FileHandle *) handle;
     handlePtr->proc = proc;
@@ -231,9 +235,10 @@ Tcl_SetNotifierData(handle, proc, data)
  */
 
 ClientData
-Tcl_GetNotifierData(handle, procPtr)
-    Tcl_File handle;
-    Tcl_FileFreeProc **procPtr;
+Tcl_GetNotifierData(
+    Tcl_File handle,
+    Tcl_FileFreeProc **procPtr
+)
 {
     FileHandle *handlePtr = (FileHandle *) handle;
     if (procPtr != NULL) {
@@ -260,8 +265,9 @@ Tcl_GetNotifierData(handle, procPtr)
  */
 
 static void
-FileExitProc(clientData)
-    ClientData clientData;	/* Not used. */
+FileExitProc(
+    ClientData clientData	/* Not used. */
+)
 {
     Tcl_HashSearch search;
     Tcl_HashEntry *entryPtr;

@@ -94,14 +94,15 @@ static char *		StringValue _ANSI_ARGS_((Link *linkPtr,
  */
 
 int
-Tcl_LinkVar(interp, varName, addr, type)
-    Tcl_Interp *interp;		/* Interpreter in which varName exists. */
-    char *varName;		/* Name of a global variable in interp. */
-    char *addr;			/* Address of a C variable to be linked
+Tcl_LinkVar(
+    Tcl_Interp *interp,		/* Interpreter in which varName exists. */
+    char *varName,		/* Name of a global variable in interp. */
+    char *addr,			/* Address of a C variable to be linked
 				 * to varName. */
-    int type;			/* Type of C variable: TCL_LINK_INT, etc. 
+    int type			/* Type of C variable: TCL_LINK_INT, etc. 
 				 * Also may have TCL_LINK_READ_ONLY
 				 * OR'ed in. */
+)
 {
     Link *linkPtr;
     char buffer[TCL_DOUBLE_SPACE];
@@ -149,9 +150,10 @@ Tcl_LinkVar(interp, varName, addr, type)
  */
 
 void
-Tcl_UnlinkVar(interp, varName)
-    Tcl_Interp *interp;		/* Interpreter containing variable to unlink. */
-    char *varName;		/* Global variable in interp to unlink. */
+Tcl_UnlinkVar(
+    Tcl_Interp *interp,		/* Interpreter containing variable to unlink. */
+    char *varName		/* Global variable in interp to unlink. */
+)
 {
     Link *linkPtr;
 
@@ -187,9 +189,10 @@ Tcl_UnlinkVar(interp, varName)
  */
 
 void
-Tcl_UpdateLinkedVar(interp, varName)
-    Tcl_Interp *interp;		/* Interpreter containing variable. */
-    char *varName;		/* Name of global variable that is linked. */
+Tcl_UpdateLinkedVar(
+    Tcl_Interp *interp,		/* Interpreter containing variable. */
+    char *varName		/* Name of global variable that is linked. */
+)
 {
     Link *linkPtr;
     char buffer[TCL_DOUBLE_SPACE];
@@ -225,12 +228,13 @@ Tcl_UpdateLinkedVar(interp, varName)
  */
 
 static char *
-LinkTraceProc(clientData, interp, name1, name2, flags)
-    ClientData clientData;	/* Contains information about the link. */
-    Tcl_Interp *interp;		/* Interpreter containing Tcl variable. */
-    char *name1;		/* First part of variable name. */
-    char *name2;		/* Second part of variable name. */
-    int flags;			/* Miscellaneous additional information. */
+LinkTraceProc(
+    ClientData clientData,	/* Contains information about the link. */
+    Tcl_Interp *interp,		/* Interpreter containing Tcl variable. */
+    char *name1,		/* First part of variable name. */
+    char *name2,		/* Second part of variable name. */
+    int flags			/* Miscellaneous additional information. */
+)
 {
     Link *linkPtr = (Link *) clientData;
     int changed;
@@ -373,11 +377,12 @@ LinkTraceProc(clientData, interp, name1, name2, flags)
  */
 
 static char *
-StringValue(linkPtr, buffer)
-    Link *linkPtr;		/* Structure describing linked variable. */
-    char *buffer;		/* Small buffer to use for converting
+StringValue(
+    Link *linkPtr,		/* Structure describing linked variable. */
+    char *buffer		/* Small buffer to use for converting
 				 * values.  Must have TCL_DOUBLE_SPACE
 				 * bytes or more. */
+)
 {
     char *p;
 

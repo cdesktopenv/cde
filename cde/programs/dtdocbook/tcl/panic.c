@@ -72,8 +72,7 @@ void (*panicProc) _ANSI_ARGS_(TCL_VARARGS(char *,format)) = NULL;
  */
 
 void
-Tcl_SetPanicProc(proc)
-    void (*proc) _ANSI_ARGS_(TCL_VARARGS(char *,format));
+Tcl_SetPanicProc(void (*proc) _ANSI_ARGS_(TCL_VARARGS(char *,format)))
 {
     panicProc = proc;
 }
@@ -96,12 +95,9 @@ Tcl_SetPanicProc(proc)
 
 	/* VARARGS ARGSUSED */
 void
-panic(format, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
-    char *format;		/* Format string, suitable for passing to
-				 * fprintf. */
-    char *arg1, *arg2, *arg3;	/* Additional arguments (variable in number)
-				 * to pass to fprintf. */
-    char *arg4, *arg5, *arg6, *arg7, *arg8;
+panic(char *format /* Format string, suitable for passing to fprintf. */,
+      char *arg1, char *arg2, char *arg3 /* Additional arguments (variable in number) to pass to fprintf. */,
+      char *arg4, char *arg5, char *arg6, char *arg7, char *arg8)
 {
     if (panicProc != NULL) {
 	(void) (*panicProc)(format, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);

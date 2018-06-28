@@ -608,7 +608,7 @@ OutputString(
 /* ______________________________________________________________________ */
 /* resets the output buffer
  */
-void ClearOutputBuffer()
+void ClearOutputBuffer(void)
 {
 outputBuffer.current = outputBuffer.base;
 }
@@ -617,7 +617,7 @@ outputBuffer.current = outputBuffer.base;
 /* determines if there is already some text in the output buffer,
  * returns 1 if so, else 0
  */
-int OutputBufferActive()
+int OutputBufferActive(void)
 {
 return (outputBuffer.current != outputBuffer.base);
 }
@@ -625,7 +625,7 @@ return (outputBuffer.current != outputBuffer.base);
 /* ______________________________________________________________________ */
 /* terminates output buffer with a null char and returns the buffer
  */
-char *GetOutputBuffer()
+char *GetOutputBuffer(void)
 {
 if (CheckOutputBuffer(1))
     *(outputBuffer.current)++ = '\0';

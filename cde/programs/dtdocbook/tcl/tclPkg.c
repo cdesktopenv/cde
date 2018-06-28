@@ -103,11 +103,12 @@ static Package *	FindPackage _ANSI_ARGS_((Tcl_Interp *interp,
  */
 
 int
-Tcl_PkgProvide(interp, name, version)
-    Tcl_Interp *interp;		/* Interpreter in which package is now
+Tcl_PkgProvide(
+    Tcl_Interp *interp,		/* Interpreter in which package is now
 				 * available. */
-    char *name;			/* Name of package. */
-    char *version;		/* Version string for package. */
+    char *name,			/* Name of package. */
+    char *version		/* Version string for package. */
+)
 {
     Package *pkgPtr;
 
@@ -155,16 +156,17 @@ Tcl_PkgProvide(interp, name, version)
  */
 
 char *
-Tcl_PkgRequire(interp, name, version, exact)
-    Tcl_Interp *interp;		/* Interpreter in which package is now
+Tcl_PkgRequire(
+    Tcl_Interp *interp,		/* Interpreter in which package is now
 				 * available. */
-    char *name;			/* Name of desired package. */
-    char *version;		/* Version string for desired version;
+    char *name,			/* Name of desired package. */
+    char *version,		/* Version string for desired version;
 				 * NULL means use the latest version
 				 * available. */
-    int exact;			/* Non-zero means that only the particular
+    int exact			/* Non-zero means that only the particular
 				 * version given is acceptable. Zero means
 				 * use the latest compatible version. */
+)
 {
     Package *pkgPtr;
     PkgAvail *availPtr, *bestPtr;
@@ -312,11 +314,12 @@ Tcl_PkgRequire(interp, name, version, exact)
 
 	/* ARGSUSED */
 int
-Tcl_PackageCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_PackageCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Interp *iPtr = (Interp *) interp;
     size_t length;
@@ -554,9 +557,10 @@ Tcl_PackageCmd(dummy, interp, argc, argv)
  */
 
 static Package *
-FindPackage(interp, name)
-    Tcl_Interp *interp;		/* Interpreter to use for package lookup. */
-    char *name;			/* Name of package to fine. */
+FindPackage(
+    Tcl_Interp *interp,		/* Interpreter to use for package lookup. */
+    char *name			/* Name of package to fine. */
+)
 {
     Interp *iPtr = (Interp *) interp;
     Tcl_HashEntry *hPtr;
@@ -594,8 +598,9 @@ FindPackage(interp, name)
  */
 
 void
-TclFreePackageInfo(iPtr)
-    Interp *iPtr;		/* Interpereter that is being deleted. */
+TclFreePackageInfo(
+    Interp *iPtr		/* Interpereter that is being deleted. */
+)
 {
     Package *pkgPtr;
     Tcl_HashSearch search;
@@ -643,11 +648,12 @@ TclFreePackageInfo(iPtr)
  */
 
 static int
-CheckVersion(interp, string)
-    Tcl_Interp *interp;		/* Used for error reporting. */
-    char *string;		/* Supposedly a version number, which is
+CheckVersion(
+    Tcl_Interp *interp,		/* Used for error reporting. */
+    char *string		/* Supposedly a version number, which is
 				 * groups of decimal digits separated
 				 * by dots. */
+)
 {
     char *p = string;
 
@@ -690,14 +696,15 @@ CheckVersion(interp, string)
  */
 
 static int
-ComparePkgVersions(v1, v2, satPtr)
-    char *v1, *v2;		/* Versions strings, of form 2.1.3 (any
+ComparePkgVersions(
+    char *v1, char *v2,		/* Versions strings, of form 2.1.3 (any
 				 * number of version numbers). */
-    int *satPtr;		/* If non-null, the word pointed to is
+    int *satPtr			/* If non-null, the word pointed to is
 				 * filled in with a 0/1 value.  1 means
 				 * v1 "satisfies" v2:  v1 is greater than
 				 * or equal to v2 and both version numbers
 				 * have the same major number. */
+)
 {
     int thisIsMajor, n1, n2;
 

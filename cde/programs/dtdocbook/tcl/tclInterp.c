@@ -233,16 +233,17 @@ static int TclCommandsToKeepCt =
  */
 
 int
-TclPreventAliasLoop(interp, cmdInterp, cmdName, proc, clientData)
-    Tcl_Interp *interp;			/* Interp in which to report errors. */
-    Tcl_Interp *cmdInterp;		/* Interp in which the command is
+TclPreventAliasLoop(
+    Tcl_Interp *interp,			/* Interp in which to report errors. */
+    Tcl_Interp *cmdInterp,		/* Interp in which the command is
                                          * being defined. */
-    char *cmdName;			/* Name of Tcl command we are
+    char *cmdName,			/* Name of Tcl command we are
                                          * attempting to define. */
-    Tcl_CmdProc *proc;			/* The command procedure for the
+    Tcl_CmdProc *proc,			/* The command procedure for the
                                          * command being created. */
-    ClientData clientData;		/* The client data associated with the
+    ClientData clientData		/* The client data associated with the
                                          * command to be created. */
+)
 {
     Alias *aliasPtr, *nextAliasPtr;
     Tcl_CmdInfo cmdInfo;
@@ -321,8 +322,9 @@ TclPreventAliasLoop(interp, cmdInterp, cmdName, proc, clientData)
  */
 
 static int
-MakeSafe(interp)
-    Tcl_Interp *interp;		/* Interpreter to be made safe. */
+MakeSafe(
+    Tcl_Interp *interp		/* Interpreter to be made safe. */
+)
 {
     char **argv;				/* Args for Tcl_Eval. */
     int argc, keep, i, j;			/* Loop indices. */
@@ -403,11 +405,12 @@ MakeSafe(interp)
  */
 
 static Tcl_Interp *
-GetInterp(interp, masterPtr, path, masterPtrPtr)
-    Tcl_Interp *interp;		/* Interp. to start search from. */
-    Master *masterPtr;		/* Its master record. */
-    char *path;			/* The path (name) of interp. to be found. */
-    Master **masterPtrPtr;	/* (Return) its master record. */
+GetInterp(
+    Tcl_Interp *interp,		/* Interp. to start search from. */
+    Master *masterPtr,		/* Its master record. */
+    char *path,			/* The path (name) of interp. to be found. */
+    Master **masterPtrPtr	/* (Return) its master record. */
+)
 {
     Tcl_HashEntry *hPtr;	/* Search element. */
     Slave *slavePtr;		/* Interim slave record. */
@@ -466,10 +469,11 @@ GetInterp(interp, masterPtr, path, masterPtrPtr)
  */
 
 static Tcl_Interp *
-CreateSlave(interp, slavePath, safe)
-    Tcl_Interp *interp;			/* Interp. to start search from. */
-    char *slavePath;			/* Path (name) of slave to create. */
-    int safe;				/* Should we make it "safe"? */
+CreateSlave(
+    Tcl_Interp *interp,			/* Interp. to start search from. */
+    char *slavePath,			/* Path (name) of slave to create. */
+    int safe				/* Should we make it "safe"? */
+)
 {
     Master *masterPtr;			/* Master record. */
     Tcl_Interp *slaveInterp;		/* Ptr to slave interpreter. */
@@ -577,10 +581,11 @@ CreateSlave(interp, slavePath, safe)
  */
 
 static int
-CreateInterpObject(interp, argc, argv)
-    Tcl_Interp *interp;			/* Invoking interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+CreateInterpObject(
+    Tcl_Interp *interp,			/* Invoking interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int safe;				/* Create a safe interpreter? */
     Master *masterPtr;			/* Master record. */
@@ -656,9 +661,10 @@ CreateInterpObject(interp, argc, argv)
  */
 
 static int
-DeleteOneInterpObject(interp, path)
-    Tcl_Interp *interp;			/* Interpreter for reporting errors. */
-    char *path;				/* Path of interpreter to delete. */
+DeleteOneInterpObject(
+    Tcl_Interp *interp,			/* Interpreter for reporting errors. */
+    char *path				/* Path of interpreter to delete. */
+)
 {
     Master *masterPtr;			/* Interim storage for master record.*/
     Slave *slavePtr;			/* Interim storage for slave record. */
@@ -736,11 +742,12 @@ DeleteOneInterpObject(interp, path)
  */
 
 static int
-DeleteInterpObject(interp, argc, argv)
-    Tcl_Interp *interp;			/* Interpreter start search from. */
-    int argc;				/* Number of arguments in vector. */
-    char **argv;			/* Contains path to interps to
+DeleteInterpObject(
+    Tcl_Interp *interp,			/* Interpreter start search from. */
+    int argc,				/* Number of arguments in vector. */
+    char **argv				/* Contains path to interps to
                                          * delete. */
+)
 {
     int i;
     
@@ -771,18 +778,18 @@ DeleteInterpObject(interp, argc, argv)
  */
 
 static int
-AliasHelper(curInterp, slaveInterp, masterInterp, masterPtr,
-     aliasName, targetName, argc, argv)
-    Tcl_Interp *curInterp;		/* Interp that invoked this proc. */
-    Tcl_Interp *slaveInterp;		/* Interp where alias cmd will live
+AliasHelper(
+    Tcl_Interp *curInterp,		/* Interp that invoked this proc. */
+    Tcl_Interp *slaveInterp,		/* Interp where alias cmd will live
                                          * or from which alias will be
                                          * deleted. */
-    Tcl_Interp *masterInterp;		/* Interp where target cmd will be. */
-    Master *masterPtr;			/* Master record for target interp. */
-    char *aliasName;			/* Name of alias cmd. */
-    char *targetName;			/* Name of target cmd. */
-    int argc;				/* Additional arguments to store */
-    char **argv;			/* with alias. */
+    Tcl_Interp *masterInterp,		/* Interp where target cmd will be. */
+    Master *masterPtr,			/* Master record for target interp. */
+    char *aliasName,			/* Name of alias cmd. */
+    char *targetName,			/* Name of target cmd. */
+    int argc,				/* Additional arguments to store */
+    char **argv				/* with alias. */
+)
 {
     Alias *aliasPtr;			/* Storage for alias data. */
     Alias *tmpAliasPtr;			/* Temp storage for alias to delete. */
@@ -916,10 +923,11 @@ AliasHelper(curInterp, slaveInterp, masterInterp, masterPtr,
  */
 
 static int
-SlaveAliasHelper(interp, argc, argv)
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+SlaveAliasHelper(
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Master *masterPtr;			/* Master record for current interp. */
     Tcl_Interp *slaveInterp,		/* Interpreters used when */
@@ -983,10 +991,11 @@ SlaveAliasHelper(interp, argc, argv)
  */
 
 static int
-DescribeAlias(interp, slaveInterp, aliasName)
-    Tcl_Interp *interp;		/* Interpreter for result and errors. */
-    Tcl_Interp *slaveInterp;	/* Interpreter defining alias. */
-    char *aliasName;		/* Name of alias to describe. */
+DescribeAlias(
+    Tcl_Interp *interp,		/* Interpreter for result and errors. */
+    Tcl_Interp *slaveInterp,	/* Interpreter defining alias. */
+    char *aliasName		/* Name of alias to describe. */
+)
 {
     Slave *slavePtr;		/* Slave record for slave interpreter. */
     Tcl_HashEntry *hPtr;	/* Search variable. */
@@ -1028,10 +1037,11 @@ DescribeAlias(interp, slaveInterp, aliasName)
  */
 
 static int
-DeleteAlias(interp, slaveInterp, aliasName)
-    Tcl_Interp *interp;		/* Interpreter for result and errors. */
-    Tcl_Interp *slaveInterp;	/* Interpreter defining alias. */
-    char *aliasName;		/* Name of alias to delete. */
+DeleteAlias(
+    Tcl_Interp *interp,		/* Interpreter for result and errors. */
+    Tcl_Interp *slaveInterp,	/* Interpreter defining alias. */
+    char *aliasName		/* Name of alias to delete. */
+)
 {
     Slave *slavePtr;		/* Slave record for slave interpreter. */
     Tcl_HashEntry *hPtr;	/* Search variable. */
@@ -1101,9 +1111,10 @@ DeleteAlias(interp, slaveInterp, aliasName)
  */
 
 int
-Tcl_GetInterpPath(askingInterp, targetInterp)
-    Tcl_Interp *askingInterp;	/* Interpreter to start search from. */
-    Tcl_Interp *targetInterp;	/* Interpreter to find. */
+Tcl_GetInterpPath(
+    Tcl_Interp *askingInterp,	/* Interpreter to start search from. */
+    Tcl_Interp *targetInterp	/* Interpreter to find. */
+)
 {
     Master *masterPtr;		/* Interim storage for Master record. */
     Slave *slavePtr;		/* Interim storage for Slave record. */
@@ -1154,10 +1165,11 @@ Tcl_GetInterpPath(askingInterp, targetInterp)
  */
 
 static int
-GetTarget(askingInterp, path, aliasName)
-    Tcl_Interp *askingInterp;	/* Interpreter to start search from. */
-    char *path;			/* The path of the interp to find. */
-    char *aliasName;		/* The target of this allias. */
+GetTarget(
+    Tcl_Interp *askingInterp,	/* Interpreter to start search from. */
+    char *path,			/* The path of the interp to find. */
+    char *aliasName		/* The target of this allias. */
+)
 {
     Tcl_Interp *slaveInterp;	/* Interim storage for slave. */
     Slave *slaveSlavePtr;	/* Its Slave record. */
@@ -1221,11 +1233,12 @@ GetTarget(askingInterp, path, aliasName)
  */
 	/* ARGSUSED */
 int
-Tcl_InterpCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Unused. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_InterpCmd(
+    ClientData clientData,		/* Unused. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Tcl_Interp *slaveInterp;		/* A slave. */
     Tcl_Interp *masterInterp;		/* A master. */
@@ -1524,11 +1537,12 @@ Tcl_InterpCmd(clientData, interp, argc, argv)
  */
 
 static int
-SlaveObjectCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Slave interpreter. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+SlaveObjectCmd(
+    ClientData clientData,		/* Slave interpreter. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Master *masterPtr;			/* Master record for slave interp. */
     Slave *slavePtr;			/* Slave record. */
@@ -1710,8 +1724,9 @@ SlaveObjectCmd(clientData, interp, argc, argv)
  */
 
 static void
-SlaveObjectDeleteProc(clientData)
-    ClientData clientData;		/* The SlaveRecord for the command. */
+SlaveObjectDeleteProc(
+    ClientData clientData		/* The SlaveRecord for the command. */
+)
 {
     Slave *slavePtr;			/* Interim storage for Slave record. */
     Tcl_Interp *slaveInterp;		/* And for a slave interp. */
@@ -1773,11 +1788,12 @@ SlaveObjectDeleteProc(clientData)
  */
 
 static int
-AliasCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Alias record. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+AliasCmd(
+    ClientData clientData,		/* Alias record. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     Alias *aliasPtr;			/* Describes the alias. */
     Tcl_CmdInfo cmdInfo;		/* Info about target command. */
@@ -1926,8 +1942,9 @@ AliasCmd(clientData, interp, argc, argv)
  */
 
 static void
-AliasCmdDeleteProc(clientData)
-    ClientData clientData;		/* The alias record for this alias. */
+AliasCmdDeleteProc(
+    ClientData clientData		/* The alias record for this alias. */
+)
 {
     Alias *aliasPtr;			/* Alias record for alias to delete. */
     Target *targetPtr;			/* Record for target of this alias. */
@@ -1972,9 +1989,10 @@ AliasCmdDeleteProc(clientData)
  */
 
 static void
-MasterRecordDeleteProc(clientData, interp)
-    ClientData	clientData;		/* Master record for deleted interp. */
-    Tcl_Interp *interp;			/* Interpreter being deleted. */
+MasterRecordDeleteProc(
+    ClientData	clientData,		/* Master record for deleted interp. */
+    Tcl_Interp *interp			/* Interpreter being deleted. */
+)
 {
     Target *targetPtr;			/* Loop variable. */
     Tcl_HashEntry *hPtr;		/* Search element. */
@@ -2025,9 +2043,10 @@ MasterRecordDeleteProc(clientData, interp)
  */
 
 static void
-SlaveRecordDeleteProc(clientData, interp)
-    ClientData	clientData;		/* Slave record for deleted interp. */
-    Tcl_Interp *interp;			/* Interpreter being deleted. */
+SlaveRecordDeleteProc(
+    ClientData	clientData,		/* Slave record for deleted interp. */
+    Tcl_Interp *interp			/* Interpreter being deleted. */
+)
 {
     Slave *slavePtr;			/* Interim storage. */
     Alias *aliasPtr;
@@ -2128,8 +2147,9 @@ SlaveRecordDeleteProc(clientData, interp)
  */
 
 int
-TclInterpInit(interp)
-    Tcl_Interp *interp;			/* Interpreter to initialize. */
+TclInterpInit(
+    Tcl_Interp *interp			/* Interpreter to initialize. */
+)
 {
     Master *masterPtr;			/* Its Master record. */
 
@@ -2161,8 +2181,9 @@ TclInterpInit(interp)
  */
 
 int
-Tcl_IsSafe(interp)
-    Tcl_Interp *interp;		/* Is this interpreter "safe" ? */
+Tcl_IsSafe(
+    Tcl_Interp *interp		/* Is this interpreter "safe" ? */
+)
 {
     Master *masterPtr;		/* Its master record. */
 
@@ -2193,8 +2214,9 @@ Tcl_IsSafe(interp)
  */
 
 int
-Tcl_MakeSafe(interp)
-    Tcl_Interp *interp;		/* Make this interpreter "safe". */
+Tcl_MakeSafe(
+    Tcl_Interp *interp		/* Make this interpreter "safe". */
+)
 {
     if (interp == (Tcl_Interp *) NULL) {
         return TCL_ERROR;
@@ -2226,10 +2248,11 @@ Tcl_MakeSafe(interp)
  */
 
 Tcl_Interp *
-Tcl_CreateSlave(interp, slavePath, isSafe)
-    Tcl_Interp *interp;		/* Interpreter to start search at. */
-    char *slavePath;		/* Name of slave to create. */
-    int isSafe;			/* Should new slave be "safe" ? */
+Tcl_CreateSlave(
+    Tcl_Interp *interp,		/* Interpreter to start search at. */
+    char *slavePath,		/* Name of slave to create. */
+    int isSafe			/* Should new slave be "safe" ? */
+)
 {
     if ((interp == (Tcl_Interp *) NULL) || (slavePath == (char *) NULL)) {
         return NULL;
@@ -2255,9 +2278,10 @@ Tcl_CreateSlave(interp, slavePath, isSafe)
  */
 
 Tcl_Interp *
-Tcl_GetSlave(interp, slavePath)
-    Tcl_Interp *interp;		/* Interpreter to start search from. */
-    char *slavePath;		/* Path of slave to find. */
+Tcl_GetSlave(
+    Tcl_Interp *interp,		/* Interpreter to start search from. */
+    char *slavePath		/* Path of slave to find. */
+)
 {
     Master *masterPtr;		/* Interim storage for Master record. */
 
@@ -2288,8 +2312,9 @@ Tcl_GetSlave(interp, slavePath)
  */
 
 Tcl_Interp *
-Tcl_GetMaster(interp)
-    Tcl_Interp *interp;		/* Get the master of this interpreter. */
+Tcl_GetMaster(
+    Tcl_Interp *interp		/* Get the master of this interpreter. */
+)
 {
     Slave *slavePtr;		/* Slave record of this interpreter. */
 
@@ -2321,13 +2346,14 @@ Tcl_GetMaster(interp)
  */
 
 int
-Tcl_CreateAlias(slaveInterp, slaveCmd, targetInterp, targetCmd, argc, argv)
-    Tcl_Interp *slaveInterp;		/* Interpreter for source command. */
-    char *slaveCmd;			/* Command to install in slave. */
-    Tcl_Interp *targetInterp;		/* Interpreter for target command. */
-    char *targetCmd;			/* Name of target command. */
-    int argc;				/* How many additional arguments? */
-    char **argv;			/* These are the additional args. */
+Tcl_CreateAlias(
+    Tcl_Interp *slaveInterp,		/* Interpreter for source command. */
+    char *slaveCmd,			/* Command to install in slave. */
+    Tcl_Interp *targetInterp,		/* Interpreter for target command. */
+    char *targetCmd,			/* Name of target command. */
+    int argc,				/* How many additional arguments? */
+    char **argv				/* These are the additional args. */
+)
 {
     Master *masterPtr;			/* Master record for target interp. */
 
@@ -2365,14 +2391,14 @@ Tcl_CreateAlias(slaveInterp, slaveCmd, targetInterp, targetCmd, argc, argv)
  */
 
 int
-Tcl_GetAlias(interp, aliasName, targetInterpPtr, targetNamePtr, argcPtr,
-        argvPtr)
-    Tcl_Interp *interp;			/* Interp to start search from. */
-    char *aliasName;			/* Name of alias to find. */
-    Tcl_Interp **targetInterpPtr;	/* (Return) target interpreter. */
-    char **targetNamePtr;		/* (Return) name of target command. */
-    int *argcPtr;			/* (Return) count of addnl args. */
-    char ***argvPtr;			/* (Return) additional arguments. */
+Tcl_GetAlias(
+    Tcl_Interp *interp,			/* Interp to start search from. */
+    char *aliasName,			/* Name of alias to find. */
+    Tcl_Interp **targetInterpPtr,	/* (Return) target interpreter. */
+    char **targetNamePtr,		/* (Return) name of target command. */
+    int *argcPtr,			/* (Return) count of addnl args. */
+    char ***argvPtr			/* (Return) additional arguments. */
+)
 {
     Slave *slavePtr;			/* Slave record for slave interp. */
     Tcl_HashEntry *hPtr;		/* Search element. */

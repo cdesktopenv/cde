@@ -57,7 +57,7 @@
  */
 
 unsigned long
-TclGetSeconds()
+TclGetSeconds(void)
 {
     return time((time_t *) NULL);
 }
@@ -82,7 +82,7 @@ TclGetSeconds()
  */
 
 unsigned long
-TclGetClicks()
+TclGetClicks(void)
 {
     unsigned long now;
 #ifdef NO_GETTOD
@@ -121,8 +121,9 @@ TclGetClicks()
  */
 
 int
-TclGetTimeZone (currentTime)
-    unsigned long  currentTime;
+TclGetTimeZone (
+    unsigned long  currentTime
+)
 {
     /*
      * Determine how a timezone is obtained from "struct tm".  If there is no
@@ -229,8 +230,9 @@ TclGetTimeZone (currentTime)
  */
 
 void
-TclGetTime(timePtr)
-    Tcl_Time *timePtr;		/* Location to store time information. */
+TclGetTime(
+    Tcl_Time *timePtr		/* Location to store time information. */
+)
 {
     struct timeval tv;
     struct timezone tz;

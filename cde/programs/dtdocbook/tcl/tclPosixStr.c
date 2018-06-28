@@ -59,7 +59,7 @@
  */
 
 char *
-Tcl_ErrnoId()
+Tcl_ErrnoId(void)
 {
     switch (errno) {
 #ifdef E2BIG
@@ -504,8 +504,9 @@ Tcl_ErrnoId()
  */
 
 char *
-Tcl_ErrnoMsg(err)
-    int err;			/* Error number (such as in errno variable). */
+Tcl_ErrnoMsg(
+    int err			/* Error number (such as in errno variable). */
+)
 {
     switch (err) {
 #ifdef E2BIG
@@ -951,8 +952,9 @@ Tcl_ErrnoMsg(err)
  */
 
 char *
-Tcl_SignalId(sig)
-    int sig;			/* Number of signal. */
+Tcl_SignalId(
+    int sig			/* Number of signal. */
+)
 {
     switch (sig) {
 #ifdef SIGABRT
@@ -1083,8 +1085,9 @@ Tcl_SignalId(sig)
  */
 
 char *
-Tcl_SignalMsg(sig)
-    int sig;			/* Number of signal. */
+Tcl_SignalMsg(
+    int sig			/* Number of signal. */
+)
 {
     switch (sig) {
 #ifdef SIGABRT

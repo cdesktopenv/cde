@@ -258,8 +258,7 @@ static int strcspn _ANSI_ARGS_((char *s1, char *s2));
  * of the structure of the compiled regexp.
  */
 regexp *
-TclRegComp(exp)
-char *exp;
+TclRegComp(char *exp)
 {
 	register regexp *r;
 	register char *scan;
@@ -347,10 +346,7 @@ char *exp;
  * follows makes it hard to avoid.
  */
 static char *
-reg(paren, flagp, rcstate)
-int paren;			/* Parenthesized? */
-int *flagp;
-struct regcomp_state *rcstate;
+reg(int paren /* Parenthesized? */, int *flagp, struct regcomp_state *rcstate)
 {
 	register char *ret;
 	register char *br;
@@ -420,9 +416,7 @@ struct regcomp_state *rcstate;
  * Implements the concatenation operator.
  */
 static char *
-regbranch(flagp, rcstate)
-int *flagp;
-struct regcomp_state *rcstate;
+regbranch(int *flagp, struct regcomp_state *rcstate)
 {
 	register char *ret;
 	register char *chain;
@@ -461,9 +455,7 @@ struct regcomp_state *rcstate;
  * endmarker role is not redundant.
  */
 static char *
-regpiece(flagp, rcstate)
-int *flagp;
-struct regcomp_state *rcstate;
+regpiece(int *flagp, struct regcomp_state *rcstate)
 {
 	register char *ret;
 	register char op;
@@ -526,9 +518,7 @@ struct regcomp_state *rcstate;
  * separate node; the code is simpler that way and it's not worth fixing.
  */
 static char *
-regatom(flagp, rcstate)
-int *flagp;
-struct regcomp_state *rcstate;
+regatom(int *flagp, struct regcomp_state *rcstate)
 {
 	register char *ret;
 	int flags;
@@ -638,9 +628,7 @@ struct regcomp_state *rcstate;
  - regnode - emit a node
  */
 static char *			/* Location. */
-regnode(op, rcstate)
-int op;
-struct regcomp_state *rcstate;
+regnode(int op, struct regcomp_state *rcstate)
 {
 	register char *ret;
 	register char *ptr;
@@ -664,9 +652,7 @@ struct regcomp_state *rcstate;
  - regc - emit (if appropriate) a byte of code
  */
 static void
-regc(b, rcstate)
-int b;
-struct regcomp_state *rcstate;
+regc(int b, struct regcomp_state *rcstate)
 {
 	if (rcstate->regcode != &regdummy)
 		*rcstate->regcode++ = (char)b;
@@ -680,10 +666,7 @@ struct regcomp_state *rcstate;
  * Means relocating the operand.
  */
 static void
-reginsert(op, opnd, rcstate)
-int op;
-char *opnd;
-struct regcomp_state *rcstate;
+reginsert(int op, char *opnd, struct regcomp_state *rcstate)
 {
 	register char *src;
 	register char *dst;
@@ -710,9 +693,7 @@ struct regcomp_state *rcstate;
  - regtail - set the next-pointer at the end of a node chain
  */
 static void
-regtail(p, val)
-char *p;
-char *val;
+regtail(char *p, char *val)
 {
 	register char *scan;
 	register char *temp;
@@ -742,9 +723,7 @@ char *val;
  - regoptail - regtail on operand of first argument; nop if operandless
  */
 static void
-regoptail(p, val)
-char *p;
-char *val;
+regoptail(char *p, char *val)
 {
 	/* "Operandless" and "op != BRANCH" are synonymous in practice. */
 	if (p == NULL || p == &regdummy || OP(p) != BRANCH)
@@ -786,10 +765,7 @@ static char *regprop _ANSI_ARGS_((char *op));
  - TclRegExec - match a regexp against a string
  */
 int
-TclRegExec(prog, string, start)
-register regexp *prog;
-register char *string;
-char *start;
+TclRegExec(register regexp *prog, register char *string, char *start)
 {
 	register char *s;
 	struct regexec_state state;
@@ -851,10 +827,7 @@ char *start;
  - regtry - try match at specific point
  */
 static int			/* 0 failure, 1 success */
-regtry(prog, string, restate)
-regexp *prog;
-char *string;
-struct regexec_state *restate;
+regtry(regexp *prog, char *string, struct regexec_state *restate)
 {
 	register int i;
 	register char **sp;
@@ -889,9 +862,7 @@ struct regexec_state *restate;
  * by recursion.
  */
 static int			/* 0 failure, 1 success */
-regmatch(prog, restate)
-char *prog;
-struct regexec_state *restate;
+regmatch(char *prog, struct regexec_state *restate)
 {
     register char *scan;	/* Current node. */
     char *next;		/* Next node. */
@@ -1090,9 +1061,7 @@ struct regexec_state *restate;
  - regrepeat - repeatedly match something simple, report how many
  */
 static int
-regrepeat(p, restate)
-char *p;
-struct regexec_state *restate;
+regrepeat(char *p, struct regexec_state *restate)
 {
 	register int count = 0;
 	register char *scan;
@@ -1137,8 +1106,7 @@ struct regexec_state *restate;
  - regnext - dig the "next" pointer out of a node
  */
 static char *
-regnext(p)
-register char *p;
+regnext(register char *p)
 {
 	register int offset;
 
@@ -1163,8 +1131,7 @@ static char *regprop();
  - regdump - dump a regexp onto stdout in vaguely comprehensible form
  */
 void
-regdump(r)
-regexp *r;
+regdump(regexp *r)
 {
 	register char *s;
 	register char op = EXACTLY;	/* Arbitrary non-END op. */
@@ -1206,8 +1173,7 @@ regexp *r;
  - regprop - printable representation of opcode
  */
 static char *
-regprop(op)
-char *op;
+regprop(char *op)
 {
 	register char *p;
 	static char buf[50];
@@ -1307,9 +1273,7 @@ char *op;
  */
 
 static int
-strcspn(s1, s2)
-char *s1;
-char *s2;
+strcspn(char *s1, char *s2)
 {
 	register char *scan1;
 	register char *scan2;
@@ -1345,14 +1309,13 @@ char *s2;
  */
 
 void
-TclRegError(string)
-    char *string;			/* Error message. */
+TclRegError(char *string /* Error message. */)
 {
     errMsg = string;
 }
 
 char *
-TclGetRegError()
+TclGetRegError(void)
 {
     return errMsg;
 }

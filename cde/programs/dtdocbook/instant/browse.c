@@ -101,7 +101,7 @@ static char *br_help_msg[] = {
 /* ______________________________________________________________________ */
 
 void
-Browse()
+Browse(void)
 {
     char	buf[256], *cmd, **av, **sv, *cmapfile, *sdatafile;
     char	*Prompt;

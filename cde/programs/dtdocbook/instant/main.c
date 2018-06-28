@@ -127,7 +127,7 @@ static int TclReadLocaleStrings(ClientData clientData,
 char		*GetOutFileBaseName();
 
 char *
-GetCLocale()
+GetCLocale(void)
 {
 _DtXlateDb   myDb = NULL;
 char         myPlatform[_DtPLATFORM_MAX_LEN+1];
@@ -552,7 +552,7 @@ Initialize1(
 /* Initialization stuff done after dealing with args. */
 
 static void
-Initialize2()
+Initialize2(void)
 {
     SetMappingNV(Variables, "transpec", tranfile ? tranfile : "??");
 
@@ -582,7 +582,7 @@ Initialize2()
  *  Arguments:
  *
  */
-char *GetOutFileBaseName()
+char *GetOutFileBaseName(void)
 {
 char *prefix, *suffix, *cp;
 static char nameBuf[_MAXNAMLEN+1] = "";
@@ -761,7 +761,7 @@ static char *help_msg[] = {
 };
 
 static void
-DoHelpMessage()
+DoHelpMessage(void)
 {
     char	**s = help_msg;
     printf("usage: %s [option ...] [file]", this_prog);

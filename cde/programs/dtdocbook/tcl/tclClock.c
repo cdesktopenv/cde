@@ -69,11 +69,12 @@ static int		ParseTime _ANSI_ARGS_((Tcl_Interp *interp,
  */
 
 int
-Tcl_ClockCmd (dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Argument strings. */
+Tcl_ClockCmd (
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    char **argv				/* Argument strings. */
+)
 {
     int c;
     size_t length;
@@ -224,10 +225,7 @@ Tcl_ClockCmd (dummy, interp, argc, argv)
  */
 
 static int
-ParseTime(interp, string, timePtr)
-    Tcl_Interp *interp;
-    char *string;
-    unsigned long *timePtr;
+ParseTime(Tcl_Interp *interp, char *string, unsigned long *timePtr)
 {
     char *end, *p;
     unsigned long  i;
@@ -290,11 +288,12 @@ ParseTime(interp, string, timePtr)
  */
 
 static int
-FormatClock(interp, clockVal, useGMT, format)
-    Tcl_Interp *interp;			/* Current interpreter. */
-    unsigned long clockVal;	       	/* Time in seconds. */
-    int useGMT;				/* Boolean */
-    char *format;			/* Format string */
+FormatClock(
+    Tcl_Interp *interp,			/* Current interpreter. */
+    unsigned long clockVal,	       	/* Time in seconds. */
+    int useGMT,				/* Boolean */
+    char *format			/* Format string */
+)
 {
     struct tm *timeDataPtr;
     Tcl_DString buffer;

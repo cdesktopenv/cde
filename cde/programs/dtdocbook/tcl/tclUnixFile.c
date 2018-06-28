@@ -80,10 +80,11 @@ static void	FreeExecutableName _ANSI_ARGS_((ClientData clientData));
  */
 
 int
-Tcl_WaitPid(pid, statPtr, options)
-    pid_t pid;
-    int *statPtr;
-    int options;
+Tcl_WaitPid(
+    pid_t pid,
+    int *statPtr,
+    int options
+)
 {
     int result;
     pid_t real_pid;
@@ -116,8 +117,9 @@ Tcl_WaitPid(pid, statPtr, options)
 
 	/* ARGSUSED */
 static void
-FreeCurrentDir(clientData)
-    ClientData clientData;	/* Not used. */
+FreeCurrentDir(
+    ClientData clientData	/* Not used. */
+)
 {
     if (currentDir != (char *) NULL) {
         ckfree(currentDir);
@@ -145,8 +147,9 @@ FreeCurrentDir(clientData)
 
 	/* ARGSUSED */
 static void
-FreeExecutableName(clientData)
-    ClientData clientData;	/* Not used. */
+FreeExecutableName(
+    ClientData clientData	/* Not used. */
+)
 {
     if (tclExecutableName != (char *) NULL) {
         ckfree(tclExecutableName);
@@ -174,9 +177,10 @@ FreeExecutableName(clientData)
  */
 
 int
-TclChdir(interp, dirName)
-    Tcl_Interp *interp;		/* If non NULL, used for error reporting. */
-    char *dirName;     		/* Path to new working directory. */
+TclChdir(
+    Tcl_Interp *interp,		/* If non NULL, used for error reporting. */
+    char *dirName     		/* Path to new working directory. */
+)
 {
     if (currentDir != NULL) {
 	ckfree(currentDir);
@@ -215,8 +219,9 @@ TclChdir(interp, dirName)
  */
 
 char *
-TclGetCwd(interp)
-    Tcl_Interp *interp;		/* If non NULL, used for error reporting. */
+TclGetCwd(
+    Tcl_Interp *interp		/* If non NULL, used for error reporting. */
+)
 {
     char buffer[MAXPATHLEN+1];
 
@@ -260,9 +265,10 @@ TclGetCwd(interp)
  */
 
 Tcl_File
-TclOpenFile(fname, mode)
-    char *fname;			/* The name of the file to open. */
-    int mode;				/* In what mode to open the file? */
+TclOpenFile(
+    char *fname,			/* The name of the file to open. */
+    int mode				/* In what mode to open the file? */
+)
 {
     int fd;
 
@@ -291,8 +297,9 @@ TclOpenFile(fname, mode)
  */
 
 int
-TclCloseFile(file)
-    Tcl_File file;	/* The file to close. */
+TclCloseFile(
+    Tcl_File file	/* The file to close. */
+)
 {
     int type;
     int fd;
@@ -335,11 +342,12 @@ TclCloseFile(file)
  */
 	/* ARGSUSED */
 int
-TclReadFile(file, shouldBlock, buf, toRead)
-    Tcl_File file;	/* The file to read from. */
-    int shouldBlock;		/* Not used. */
-    char *buf;			/* The buffer to store input in. */
-    int toRead;			/* Number of characters to read. */
+TclReadFile(
+    Tcl_File file,	/* The file to read from. */
+    int shouldBlock,		/* Not used. */
+    char *buf,			/* The buffer to store input in. */
+    int toRead			/* Number of characters to read. */
+)
 {
     int type, fd;
 
@@ -369,11 +377,12 @@ TclReadFile(file, shouldBlock, buf, toRead)
 
 	/* ARGSUSED */
 int
-TclWriteFile(file, shouldBlock, buf, toWrite)
-    Tcl_File file;	/* The file to write to. */
-    int shouldBlock;		/* Not used. */
-    char *buf;			/* Where output is stored. */
-    int toWrite;		/* Number of characters to write. */
+TclWriteFile(
+    Tcl_File file,	/* The file to write to. */
+    int shouldBlock,		/* Not used. */
+    char *buf,			/* Where output is stored. */
+    int toWrite			/* Number of characters to write. */
+)
 {
     int type, fd;
 
@@ -403,10 +412,11 @@ TclWriteFile(file, shouldBlock, buf, toWrite)
  */
 
 int
-TclSeekFile(file, offset, whence)
-    Tcl_File file;	/* The file to seek on. */
-    int offset;			/* How far to seek? */
-    int whence;			/* And from where to seek? */
+TclSeekFile(
+    Tcl_File file,	/* The file to seek on. */
+    int offset,			/* How far to seek? */
+    int whence			/* And from where to seek? */
+)
 {
     int type, fd;
 
@@ -437,8 +447,9 @@ TclSeekFile(file, offset, whence)
  */
 
 Tcl_File
-TclCreateTempFile(contents)
-    char *contents;		/* String to write into temp file, or NULL. */
+TclCreateTempFile(
+    char *contents		/* String to write into temp file, or NULL. */
+)
 {
     char fileName[L_tmpnam];
     Tcl_File file;
@@ -484,8 +495,9 @@ TclCreateTempFile(contents)
  */
 
 void
-Tcl_FindExecutable(argv0)
-    char *argv0;		/* The value of the application's argv[0]. */
+Tcl_FindExecutable(
+    char *argv0			/* The value of the application's argv[0]. */
+)
 {
     char *name, *p, *cwd;
     Tcl_DString buffer;
@@ -612,11 +624,12 @@ Tcl_FindExecutable(argv0)
  */
 
 char *
-TclGetUserHome(name, bufferPtr)
-    char *name;			/* User name to use to find home directory. */
-    Tcl_DString *bufferPtr;	/* May be used to hold result.  Must not hold
+TclGetUserHome(
+    char *name,			/* User name to use to find home directory. */
+    Tcl_DString *bufferPtr	/* May be used to hold result.  Must not hold
 				 * anything at the time of the call, and need
 				 * not even be initialized. */
+)
 {
     struct passwd *pwPtr;
 
@@ -652,12 +665,13 @@ TclGetUserHome(name, bufferPtr)
  *---------------------------------------------------------------------- */
 
 int
-TclMatchFiles(interp, separators, dirPtr, pattern, tail)
-    Tcl_Interp *interp;		/* Interpreter to receive results. */
-    char *separators;		/* Path separators to pass to TclDoGlob. */
-    Tcl_DString *dirPtr;	/* Contains path to directory to search. */
-    char *pattern;		/* Pattern to match against. */
-    char *tail;			/* Pointer to end of pattern. */
+TclMatchFiles(
+    Tcl_Interp *interp,		/* Interpreter to receive results. */
+    char *separators,		/* Path separators to pass to TclDoGlob. */
+    Tcl_DString *dirPtr,	/* Contains path to directory to search. */
+    char *pattern,		/* Pattern to match against. */
+    char *tail			/* Pointer to end of pattern. */
+)
 {
     char *dirName, *patternEnd = tail;
     char savedChar = 0;		/* Initialization needed only to prevent

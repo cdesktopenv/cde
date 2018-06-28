@@ -408,18 +408,13 @@ static TABLE    MilitaryTable[] = {
  * Dump error messages in the bit bucket.
  */
 static void
-TclDateerror(s)
-    char  *s;
+TclDateerror(char  *s)
 {
 }
 
 
 static time_t
-ToSeconds(Hours, Minutes, Seconds, Meridian)
-    time_t      Hours;
-    time_t      Minutes;
-    time_t      Seconds;
-    MERIDIAN    Meridian;
+ToSeconds(time_t Hours, time_t Minutes, time_t Seconds, MERIDIAN Meridian)
 {
     if (Minutes < 0 || Minutes > 59 || Seconds < 0 || Seconds > 59)
         return -1;
@@ -442,16 +437,9 @@ ToSeconds(Hours, Minutes, Seconds, Meridian)
 
 
 static int
-Convert(Month, Day, Year, Hours, Minutes, Seconds, Meridian, DSTmode, TimePtr)
-    time_t      Month;
-    time_t      Day;
-    time_t      Year;
-    time_t      Hours;
-    time_t      Minutes;
-    time_t      Seconds;
-    MERIDIAN    Meridian;
-    DSTMODE     DSTmode;
-    time_t     *TimePtr;
+Convert(time_t Month, time_t Day, time_t Year,
+        time_t Hours, time_t Minutes, time_t Seconds,
+        MERIDIAN Meridian, DSTMODE DSTmode, time_t *TimePtr)
 {
     static int  DaysInMonth[12] = {
         31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
@@ -494,9 +482,7 @@ Convert(Month, Day, Year, Hours, Minutes, Seconds, Meridian, DSTmode, TimePtr)
 
 
 static time_t
-DSTcorrect(Start, Future)
-    time_t      Start;
-    time_t      Future;
+DSTcorrect(time_t Start, time_t Future)
 {
     time_t      StartDay;
     time_t      FutureDay;
@@ -508,10 +494,7 @@ DSTcorrect(Start, Future)
 
 
 static time_t
-RelativeDate(Start, DayOrdinal, DayNumber)
-    time_t      Start;
-    time_t      DayOrdinal;
-    time_t      DayNumber;
+RelativeDate(time_t Start, time_t DayOrdinal, time_t DayNumber)
 {
     struct tm   *tm;
     time_t      now;
@@ -525,10 +508,7 @@ RelativeDate(Start, DayOrdinal, DayNumber)
 
 
 static int
-RelativeMonth(Start, RelMonth, TimePtr)
-    time_t      Start;
-    time_t      RelMonth;
-    time_t     *TimePtr;
+RelativeMonth(time_t Start, time_t RelMonth, time_t *TimePtr)
 {
     struct tm   *tm;
     time_t      Month;
@@ -553,8 +533,7 @@ RelativeMonth(Start, RelMonth, TimePtr)
 
 
 static int
-LookupWord(buff)
-    char                *buff;
+LookupWord(char *buff)
 {
     register char       *p;
     register char       *q;
@@ -673,7 +652,7 @@ LookupWord(buff)
 
 
 static int
-TclDatelex()
+TclDatelex(void)
 {
     register char       c;
     register char       *p;
@@ -739,11 +718,7 @@ TclDatelex()
  */
 
 int
-TclGetDate(p, now, zone, timePtr)
-    char          *p;
-    unsigned long  now;
-    long           zone;
-    unsigned long *timePtr;
+TclGetDate(char *p, unsigned long now, long zone, unsigned long *timePtr)
 {
     struct tm           *tm;
     time_t              Start;

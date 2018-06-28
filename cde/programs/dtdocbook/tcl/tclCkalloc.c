@@ -646,8 +646,7 @@ Tcl_CreateCommand (interp, "memory", MemoryCmd, (ClientData) NULL,
  *----------------------------------------------------------------------
  */
 VOID *
-Tcl_Ckalloc (size)
-    unsigned int size;
+Tcl_Ckalloc (unsigned int size)
 {
         char *result;
 
@@ -659,10 +658,7 @@ Tcl_Ckalloc (size)
 
 
 char *
-Tcl_DbCkalloc(size, file, line)
-    unsigned int size;
-    char        *file;
-    int          line;
+Tcl_DbCkalloc(unsigned int size, char *file, int line)
 {
     char *result;
 
@@ -677,11 +673,7 @@ Tcl_DbCkalloc(size, file, line)
 }
 
 char *
-Tcl_DbCkrealloc(ptr, size, file, line)
-    char *ptr;
-    unsigned int size;
-    char *file;
-    int line;
+Tcl_DbCkrealloc(char *ptr, unsigned int size, char *file, int line)
 {
     char *result;
 
@@ -705,17 +697,13 @@ Tcl_DbCkrealloc(ptr, size, file, line)
  *----------------------------------------------------------------------
  */
 void
-Tcl_Ckfree (ptr)
-    char *ptr;
+Tcl_Ckfree (char *ptr)
 {
         free (ptr);
 }
 
 int
-Tcl_DbCkfree(ptr, file, line)
-    char *  ptr;
-    char     *file;
-    int       line;
+Tcl_DbCkfree(char *ptr, char *file, int line)
 {
     free (ptr);
     return 0;
@@ -732,8 +720,7 @@ Tcl_DbCkfree(ptr, file, line)
  */
 	/* ARGSUSED */
 void
-Tcl_InitMemory(interp)
-    Tcl_Interp *interp;
+Tcl_InitMemory(Tcl_Interp *interp)
 {
 }
 
@@ -745,16 +732,13 @@ extern void		Tcl_ValidateAllMemory _ANSI_ARGS_((char *file,
 			    int line));
 
 int
-Tcl_DumpActiveMemory (fileName)
-    char *fileName;
+Tcl_DumpActiveMemory (char *fileName)
 {
     return TCL_OK;
 }
 
 void
-Tcl_ValidateAllMemory (file, line)
-    char  *file;
-    int    line;
+Tcl_ValidateAllMemory (char *file, int line)
 {
 }
 

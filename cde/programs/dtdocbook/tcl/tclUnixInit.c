@@ -106,8 +106,9 @@ init";
  */
 
 void
-TclPlatformInit(interp)
-    Tcl_Interp *interp;
+TclPlatformInit(
+    Tcl_Interp *interp
+)
 {
 #ifndef NO_UNAME
     struct utsname name;
@@ -179,8 +180,9 @@ TclPlatformInit(interp)
  */
 
 int
-Tcl_Init(interp)
-    Tcl_Interp *interp;		/* Interpreter to initialize. */
+Tcl_Init(
+    Tcl_Interp *interp		/* Interpreter to initialize. */
+)
 {
     return Tcl_Eval(interp, initScript);
 }

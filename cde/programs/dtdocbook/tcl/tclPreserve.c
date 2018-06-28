@@ -89,8 +89,9 @@ static void	PreserveExitProc _ANSI_ARGS_((ClientData clientData));
 
 	/* ARGSUSED */
 static void
-PreserveExitProc(clientData)
-    ClientData clientData;		/* NULL -Unused. */
+PreserveExitProc(
+    ClientData clientData		/* NULL -Unused. */
+)
 {
     if (spaceAvl != 0) {
         ckfree((char *) refArray);
@@ -120,8 +121,9 @@ PreserveExitProc(clientData)
  */
 
 void
-Tcl_Preserve(clientData)
-    ClientData clientData;	/* Pointer to malloc'ed block of memory. */
+Tcl_Preserve(
+    ClientData clientData	/* Pointer to malloc'ed block of memory. */
+)
 {
     Reference *refPtr;
     int i;
@@ -195,8 +197,9 @@ Tcl_Preserve(clientData)
  */
 
 void
-Tcl_Release(clientData)
-    ClientData clientData;	/* Pointer to malloc'ed block of memory. */
+Tcl_Release(
+    ClientData clientData	/* Pointer to malloc'ed block of memory. */
+)
 {
     Reference *refPtr;
     int mustFree;
@@ -262,9 +265,10 @@ Tcl_Release(clientData)
  */
 
 void
-Tcl_EventuallyFree(clientData, freeProc)
-    ClientData clientData;	/* Pointer to malloc'ed block of memory. */
-    Tcl_FreeProc *freeProc;	/* Procedure to actually do free. */
+Tcl_EventuallyFree(
+    ClientData clientData,	/* Pointer to malloc'ed block of memory. */
+    Tcl_FreeProc *freeProc	/* Procedure to actually do free. */
+)
 {
     Reference *refPtr;
     int i;

@@ -100,13 +100,14 @@ static int		CheckmemCmd _ANSI_ARGS_((ClientData clientData,
  */
 
 void
-Tcl_Main(argc, argv, appInitProc)
-    int argc;				/* Number of arguments. */
-    char **argv;			/* Array of argument strings. */
-    Tcl_AppInitProc *appInitProc;	/* Application-specific initialization
+Tcl_Main(
+    int argc,				/* Number of arguments. */
+    char **argv,			/* Array of argument strings. */
+    Tcl_AppInitProc *appInitProc	/* Application-specific initialization
 					 * procedure to call after most
 					 * initialization but before starting
 					 * to execute commands. */
+)
 {
     char buffer[1000], *cmd, *args, *fileName;
     int code, gotPartial, tty, length;
@@ -350,11 +351,12 @@ done:
 
 	/* ARGSUSED */
 static int
-CheckmemCmd(clientData, interp, argc, argv)
-    ClientData clientData;		/* Not used. */
-    Tcl_Interp *interp;			/* Interpreter for evaluation. */
-    int argc;				/* Number of arguments. */
-    char *argv[];			/* String values of arguments. */
+CheckmemCmd(
+    ClientData clientData,		/* Not used. */
+    Tcl_Interp *interp,			/* Interpreter for evaluation. */
+    int argc,				/* Number of arguments. */
+    char *argv[]			/* String values of arguments. */
+)
 {
     extern char *tclMemDumpFileName;
     if (argc != 2) {

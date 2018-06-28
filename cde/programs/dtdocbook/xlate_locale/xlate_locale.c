@@ -26,7 +26,7 @@
 #include "XlationSvc.h"
 
 int
-main()
+main(void)
 {
 _DtXlateDb  myDb = NULL;
 char        myPlatform[_DtPLATFORM_MAX_LEN+1];

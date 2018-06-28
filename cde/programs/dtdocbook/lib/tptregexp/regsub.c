@@ -55,10 +55,7 @@
  - regsub - perform substitutions after a regexp match
  */
 void
-tpt_regsub(prog, source, dest)
-regexp *prog;
-char *source;
-char *dest;
+tpt_regsub(regexp *prog, char *source, char *dest)
 {
 	register char *src;
 	register char *dst;
