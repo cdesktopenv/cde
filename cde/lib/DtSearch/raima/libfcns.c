@@ -65,8 +65,8 @@
 /* Internal function prototypes */
 static int rec_okay(P1(int) Pi(int *) 
 				   Pi(RECORD_ENTRY * *));
-static int ctblcmp(P1(CONST unsigned char FAR*)
-                                  Pi(CONST unsigned char FAR*) Pi(int));
+static int ctblcmp(P1(const unsigned char FAR*)
+                                  Pi(const unsigned char FAR*) Pi(int));
 
 #ifndef	 ONE_DB
 /* Check for valid db number and set curr_db, curr_db_table and curr_rn_table
@@ -170,8 +170,8 @@ RECORD_ENTRY * *rec_ptr;
 */
 int fldcmp(fld_ptr, f1, f2)
 FIELD_ENTRY *fld_ptr;
-CONST char *f1;   /* pointer to field 1 */
-CONST char *f2;   /* pointer to field 2 */
+const char *f1;   /* pointer to field 1 */
+const char *f2;   /* pointer to field 2 */
 /*
    returns < 0 if f1 < f2,
 	   = 0 if f1 == f2,
@@ -328,7 +328,7 @@ CONST char *f2;   /* pointer to field 2 */
 /* compare the INT variables
 */
 int INTcmp( i1, i2 )
-CONST char *i1, *i2;
+const char *i1, *i2;
 {
    INT I1, I2;
 
@@ -341,7 +341,7 @@ CONST char *i1, *i2;
 /* compare two DB_ADDR variables 
 */
 int ADDRcmp( d1, d2 )
-CONST DB_ADDR *d1, *d2;
+const DB_ADDR *d1, *d2;
 {
    DB_ADDR a1, a2;
    FILE_NO f1, f2;
@@ -371,7 +371,7 @@ CONST DB_ADDR *d1, *d2;
 */
 int
 null_dba( db_addr )
-CONST char *db_addr;
+const char *db_addr;
 {
    DB_ADDR dba;
 
@@ -409,8 +409,8 @@ DB_ADDR dba;
 /* Compare two strings with sorting according to char-table
 */
 static int ctblcmp(s, t, n)
-CONST unsigned char *s;  /* String 1 */
-CONST unsigned char *t;  /* String 2 */
+const unsigned char *s;  /* String 1 */
+const unsigned char *t;  /* String 2 */
 int    n;   /* Max. String length */
 {
    int x;

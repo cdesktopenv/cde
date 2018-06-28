@@ -227,7 +227,7 @@ int num;		/* Element to extract (0 = first) */
       if ((dbxpath = strchr(dbxpath+1,';')) == NULL) return (NULL);
    dbxpath++;
    if ((save = strchr(dbxpath+1,';')) != NULL) *save = '\0';
-   i = (dbxpath - (char *)element) + strlen((CONST char *)dbxpath);
+   i = (dbxpath - (char *)element) + strlen((const char *)dbxpath);
    if (element[i-1] != DIRCHAR && element[i-1] != ':') {
       element[i++] = DIRCHAR;
       element[i] = '\0';
@@ -299,7 +299,7 @@ char *path_str;		/* Path to remove filename from */
 /* Set Country Table path
 */
 int d_ctbpath(ctb TASK_PARM)
-CONST char *ctb;
+const char *ctb;
 TASK_DECL
 {
    int i;

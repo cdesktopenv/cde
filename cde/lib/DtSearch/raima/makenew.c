@@ -56,7 +56,7 @@
 int
 d_setkey( field, fldvalue TASK_PARM DBN_PARM )
 long field;
-CONST char *fldvalue;
+const char *fldvalue;
 TASK_DECL
 DBN_DECL
 {

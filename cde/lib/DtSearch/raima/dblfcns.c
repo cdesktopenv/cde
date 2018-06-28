@@ -213,7 +213,7 @@ extern char taf_files[TAFLIMIT][FILENMLEN];
 /* Internal function prototypes */
 #ifndef SINGLE_USER
 static void pr_lock_descr(P1(struct lock_descr *) Pi(int) 
-					    Pi(CONST char *));
+					    Pi(const char *));
 static int process_lock(P1(struct lock_descr *) Pi(char));
 static int keep_locks(P1(struct lock_descr *));
 static int free_files(P1(struct lock_descr *));
@@ -278,8 +278,8 @@ TASK_DECL
 */
 int
 d_open(dbnames, opentype TASK_PARM)
-CONST char *dbnames;
-CONST char *opentype;
+const char *dbnames;
+const char *opentype;
 TASK_DECL
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
@@ -445,13 +445,13 @@ TASK *tsk;
 */
 int
 initdbt(dbnames )
-CONST char *dbnames;
+const char *dbnames;
 {
    int dbt_lc;			/* loop control */
    char dbfile [DtSrFILENMLEN];
    char *ptr;
 #ifndef	 ONE_DB
-   CONST char *cp;
+   const char *cp;
    int i;
 #endif
 
@@ -660,7 +660,7 @@ send_open:
 
    if ( recv_pkt->status == L_RECOVER )  {
       /* perform auto-recovery */
-      d_recover( (CONST char *)recv_pkt->logfile CURRTASK_PARM );
+      d_recover( (const char *)recv_pkt->logfile CURRTASK_PARM );
 
       /* tell lock mgr we're done */
       trend_pkt.fcn = L_RECDONE;
@@ -2127,7 +2127,7 @@ TASK_DECL
 /* Begin transaction
 */
 d_trbegin(tid TASK_PARM)
-CONST char *tid;
+const char *tid;
 TASK_DECL
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_IO));

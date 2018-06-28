@@ -114,12 +114,12 @@ typedef struct {
 #define KEYREPOS 3
 
 /* Internal function prototypes */
-static int node_search(P1(CONST char *) Pi(DB_ADDR *) 
+static int node_search(P1(const char *) Pi(DB_ADDR *) 
 				      Pi(NODE *) Pi(int *) Pi(int *) 
 				      Pi(F_ADDR *));
-static int keycmp(P1(CONST char *) Pi(KEY_SLOT *) 
+static int keycmp(P1(const char *) Pi(KEY_SLOT *) 
 				    Pi(DB_ADDR *));
-static int expand(P1(CONST char *) Pi(DB_ADDR) Pi(F_ADDR));
+static int expand(P1(const char *) Pi(DB_ADDR) Pi(F_ADDR));
 static int split_root(P1(NODE *));
 static int split_node(P1(F_ADDR) Pi(NODE *));
 static int delete(P0);
@@ -290,7 +290,7 @@ FILE_NO fno;
 */
 int
 key_locpos(key_val, dba)
-CONST char *key_val; /* key search value */
+const char *key_val; /* key search value */
 DB_ADDR *dba;        /* database address of located key */
 {
    NODE *node;   /* pointer to current node */
@@ -382,7 +382,7 @@ DB_ADDR *dba;        /* database address of located key */
 */
 static int node_search(key_val, dba, node, slotno, slot_offset, 
 					 child)
-CONST char *key_val; /* key being searched */
+const char *key_val; /* key being searched */
 DB_ADDR *dba;    /* database address included in comparison if not null */
 NODE    *node;   /* node being searched */
 int     *slotno; /* slot number of key position in node */
@@ -436,7 +436,7 @@ have_slot:
 /* Compare key value
 */
 static int keycmp(key_val, slot, dba)
-CONST char *key_val;  /* key value */
+const char *key_val;  /* key value */
 KEY_SLOT *slot;    /* pointer to key slot to be compared */
 DB_ADDR *dba;     /* database address included in comparison if not null */
 {
@@ -669,7 +669,7 @@ DB_ADDR *dba; /* to get dba of first or last key */
 int
 key_insert(fld, key_val, dba )
 int fld;      /* key field number */
-CONST char *key_val; /* key value */
+const char *key_val; /* key value */
 DB_ADDR dba;  /* record's database address */
 {
    int stat;
@@ -703,7 +703,7 @@ DB_ADDR dba;  /* record's database address */
 /* Expand node for new key
 */
 static int expand(key_val, dba, brother )
-CONST char *key_val;    /* key value */
+const char *key_val;    /* key value */
 DB_ADDR dba;     /* record's database address */
 F_ADDR brother;  /* page number of brother node */
 {
@@ -860,7 +860,7 @@ NODE *node;
 int
 key_delete(fld, key_val, dba )
 int fld;
-char CONST *key_val;
+char const *key_val;
 DB_ADDR dba;
 {
    int stat;

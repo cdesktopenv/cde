@@ -57,7 +57,7 @@
 int
 d_fillnew( nrec, recval TASK_PARM DBN_PARM )
 int nrec;       /* record number */
-CONST char *recval; /* record value */
+const char *recval; /* record value */
 TASK_DECL
 DBN_DECL      /* database number */
 {

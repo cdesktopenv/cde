@@ -162,7 +162,7 @@
 int d_setfiles(P1(int));				/* dio.c */
 int d_setpages(P1(int) Pi(int));			/* dio.c */
 int d_trbound(P0);				/* trlog.c */
-int d_trlog(P1(int) Pi(int) Pi(CONST char *) Pi(int)); 
+int d_trlog(P1(int) Pi(int) Pi(const char *) Pi(int)); 
 								/* trlog.c */
 int d_trmark(P0);				/* trlog.c */
 int d_tron(P0);					/* trlog.c */
@@ -204,13 +204,13 @@ int d_csmget(P1(int) Pi(DB_ADDR *) DBN_Dn); 	/* csmget.c */
 int d_csmread(P1(int) Pi(long) Pi(char *) DBN_Dn); 
 								/* csmread.c */
 int d_csmset(P1(int) Pi(DB_ADDR *) DBN_Dn); 	/* csmset.c */
-int d_csmwrite(P1(int) Pi(long) Pi(CONST char *) DBN_Dn); 
+int d_csmwrite(P1(int) Pi(long) Pi(const char *) DBN_Dn); 
 								/* csmwrite.c */
 int d_csoget(P1(int) Pi(DB_ADDR *) DBN_Dn); 	/* csoget.c */
 int d_csoread(P1(int) Pi(long) Pi(char *) DBN_Dn); 
 								/* csoread.c */
 int d_csoset(P1(int) Pi(DB_ADDR *) DBN_Dn); 	/* csoset.c */
-int d_csowrite(P1(int) Pi(long) Pi(CONST char *) DBN_Dn); 
+int d_csowrite(P1(int) Pi(long) Pi(const char *) DBN_Dn); 
 								/* csowrite.c */
 #ifndef NO_TIMESTAMP			   /* NO_TIMESTAMP */
 int d_csstat(P1(int) DBN_Dn);			/* csstat.c */
@@ -219,20 +219,20 @@ int d_ctsco(P1(int) Pi(ULONG *) DBN_Dn); 	/* ctsco.c */
 int d_ctscr(P1(ULONG *));			/* ctscr.c */
 #endif					   /* NO_TIMESTAMP */
 #ifndef NO_COUNTRY
-int d_ctbpath(P1(CONST char *));		/* pathfcns.c */
+int d_ctbpath(P1(const char *));		/* pathfcns.c */
 #endif					   /* NO_COUNTRY */
-int d_dbdpath(P1(CONST char *));		/* dbdpath.c */
-int d_dbfpath(P1(CONST char *));		/* dbfpath.c */
-int d_dblog(P1(CONST char *));		/* dblog.c */
-int d_dbtaf(P1(CONST char *));		/* dbtaf.c */
-int d_dbuserid(P1(CONST char *));		/* dbuserid.c */
+int d_dbdpath(P1(const char *));		/* dbdpath.c */
+int d_dbfpath(P1(const char *));		/* dbfpath.c */
+int d_dblog(P1(const char *));		/* dblog.c */
+int d_dbtaf(P1(const char *));		/* dbtaf.c */
+int d_dbuserid(P1(const char *));		/* dbuserid.c */
 int d_delete(DBN_D1);				/* delete.c */
 int d_disdel(DBN_D1);				/* disdel.c */
 int d_recnext(DBN_D1);				/* recnext.c */
 int d_recprev(DBN_D1);				/* recprev.c */
-int d_destroy(P1(CONST char *));		/* destroy.c */
+int d_destroy(P1(const char *));		/* destroy.c */
 int d_discon(P1(int) DBN_Dn);			/* discon.c */
-int d_fillnew(P1(int) Pi(CONST char *) DBN_Dn); /* fillnew.c */
+int d_fillnew(P1(int) Pi(const char *) DBN_Dn); /* fillnew.c */
 int d_findco(P1(int) DBN_Dn);			/* findco.c */
 int d_findfm(P1(int) DBN_Dn);			/* findfm.c */
 int d_findlm(P1(int) DBN_Dn);			/* findlm.c */
@@ -251,7 +251,7 @@ int d_ismember(P1(int) DBN_Dn);			/* ismember.c */
 int d_isowner(P1(int) DBN_Dn);			/* isowner.c */
 int d_keydel(P1(long) DBN_Dn);			/* keydel.c */
 int d_keyexist(P1(long) DBN_Dn);			/* keyexist.c */
-int d_keyfind(P1(long) Pi(CONST char *) DBN_Dn); 
+int d_keyfind(P1(long) Pi(const char *) DBN_Dn); 
 								/* keyfind.c */
 int d_keyfree(P1(long) DBN_Dn);			/* dblfcns.c */
 int d_keyfrst(P1(long) DBN_Dn);			/* keyfrst.c */
@@ -265,11 +265,11 @@ int d_keystore(P1(long) DBN_Dn);			/* keystore.c */
 int d_lock(P1(int) Pi(LOCK_REQUEST *) DBN_Dn); /* dblfcns.c */
 int d_makenew(P1(int) DBN_Dn);			/* makenew.c */
 int d_mapchar(P1(unsigned char) Pi(unsigned char) 
-		      Pi(CONST char *) Pi(unsigned char));  /* mapchar.c */
+		      Pi(const char *) Pi(unsigned char));  /* mapchar.c */
 int d_members(P1(int) Pi(LONG *) DBN_Dn); 	/* members.c */
 int d_off_opt(P1(int));				/* options.c */
 int d_on_opt(P1(int));				/* options.c */
-int d_open(P1(CONST char *) Pi(CONST char *)); 
+int d_open(P1(const char *) Pi(const char *)); 
 								/* dblfcns.c */
 int d_rerdcurr(P1(DB_ADDR **));		/* rwcurr.c */
 int d_rdcurr(P1(DB_ADDR **) Pi(int *));	/* rwcurr.c */
@@ -279,15 +279,15 @@ int d_recfrst(P1(int) DBN_Dn);			/* recfrst.c */
 int d_reclast(P1(int) DBN_Dn);			/* reclast.c */
 int d_reclock(P1(int) Pi(char *) DBN_Dn); 	/* dblfcns.c */
 int d_reclstat(P1(int) Pi(char *) DBN_Dn); 	/* dblfcns.c */
-int d_recover(P1(CONST char *));		/* recover.c */
+int d_recover(P1(const char *));		/* recover.c */
 int d_recread(P1(char *) DBN_Dn);		/* recread.c */
 int d_recset(P1(int) DBN_Dn);   			/* recset.c */
 #ifndef NO_TIMESTAMP			   /* NO_TIMESTAMP */
 int d_recstat(P1(DB_ADDR) Pi(ULONG));		/* recstat.c */
 #endif					   /* NO_TIMESTAMP */
-int d_recwrite(P1(CONST char *) DBN_Dn); 	/* recwrite.c */
-int d_renfile(P1(CONST char *) Pi(FILE_NO) 
-				Pi(CONST char *)); 		/* renfile.c */
+int d_recwrite(P1(const char *) DBN_Dn); 	/* recwrite.c */
+int d_renfile(P1(const char *) Pi(FILE_NO) 
+				Pi(const char *)); 		/* renfile.c */
 int d_retries(P1(int));				/* dblfcns.c */
 int d_rlbclr(P0);				/* dblfcns.c */
 int d_rlbset(P0);				/* dblfcns.c */
@@ -297,7 +297,7 @@ int d_set_dberr(P1(FARPROC));			/* dberr.c */
 int d_setdb(P1(int));				/* setdb.c */
 #endif					   /* ONE_DB */
 int d_setfree(P1(int) DBN_Dn);			/* dblfcns.c */
-int d_setkey(P1(long) Pi(CONST char *) DBN_Dn); /* makenew.c */
+int d_setkey(P1(long) Pi(const char *) DBN_Dn); /* makenew.c */
 int d_setlock(P1(int) Pi(char *) DBN_Dn); 	/* dblfcns.c */
 int d_setlstat(P1(int) Pi(char *) DBN_Dn); 	/* dblfcns.c */
 int d_setmm(P1(int) Pi(int) DBN_Dn); 		/* setmm.c */
@@ -316,7 +316,7 @@ int d_stscs(P1(int) Pi(ULONG) DBN_Dn); 		/* stscs.c */
 #endif					   /* NO_TIMESTAMP */
 int d_timeout(P1(int));				/* dblfcns.c */
 int d_trabort(P0);				/* dblfcns.c */
-int d_trbegin(P1(CONST char *));		/* dblfcns.c */
+int d_trbegin(P1(const char *));		/* dblfcns.c */
 int d_trend(P0);					/* dblfcns.c */
 #ifndef NO_TIMESTAMP			   /* NO_TIMESTAMP */
 int d_utscm(P1(int) Pi(ULONG *) DBN_Dn); 	/* utscm.c */

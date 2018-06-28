@@ -146,7 +146,7 @@ void dbautorec(P0);
 
 /* From dblfcns.c: */
 int taskinit(P1(TASK *));
-int initdbt(P1(CONST char *));
+int initdbt(P1(const char *));
 int alloc_table(P1(CHAR_P *) Pi(unsigned) Pi(unsigned));
 #define ALLOC_TABLE(t, n, o, v)	alloc_table((CHAR_P *)(t), n, o)
 #ifndef SINGLE_USER
@@ -169,7 +169,7 @@ void dio_setdef(P1(FILE_NO));
 int dio_get(P1(F_ADDR) Pi(char * *) Pi(int));
 int dio_touch(P1(F_ADDR));
 int dio_read(P1(DB_ADDR) Pi(char * *) Pi(int));
-int dio_write(P1(DB_ADDR) Pi(CONST char *) Pi(int));
+int dio_write(P1(DB_ADDR) Pi(const char *) Pi(int));
 int dio_release(P1(DB_ADDR));
 int dio_rrlb(P1(DB_ADDR) Pi(INT *));
 int dio_wrlb(P1(DB_ADDR) Pi(INT));
@@ -203,11 +203,11 @@ int key_open(P0);
 void key_close(P0);
 int key_init(P1(int));
 int key_reset(P1(FILE_NO));
-int key_locpos(P1(CONST char *) Pi(DB_ADDR *));
+int key_locpos(P1(const char *) Pi(DB_ADDR *));
 int key_scan(P1(int) Pi(DB_ADDR *));
 int key_boundary(P1(int) Pi(DB_ADDR *));
-int key_insert(P1(int) Pi(CONST char *) Pi(DB_ADDR));
-int key_delete(P1(int) Pi(CONST char *) Pi(DB_ADDR));
+int key_insert(P1(int) Pi(const char *) Pi(DB_ADDR));
+int key_delete(P1(int) Pi(const char *) Pi(DB_ADDR));
 /* Due to a problem with MSC 5.1, we couldn't declare the 2nd parm
    of key_bldcom as const (see keyfcns.c) */
 int key_bldcom(P1(int) Pi(char *) Pi(char *) Pi(int));
@@ -225,11 +225,11 @@ int nfld_check(P1(long) Pi(int *) Pi(int *)
 			      Pi(RECORD_ENTRY * *) 
 			      Pi(FIELD_ENTRY * *));
 int nrec_check(P1(int) Pi(int *) Pi(RECORD_ENTRY * *));
-int fldcmp(P1(FIELD_ENTRY *) Pi(CONST char *) 
-			     Pi(CONST char *));
-int INTcmp(P1(CONST char *) Pi(CONST char *));
-int ADDRcmp(P1(CONST DB_ADDR *) Pi(CONST DB_ADDR *));
-int null_dba(P1(CONST char *));
+int fldcmp(P1(FIELD_ENTRY *) Pi(const char *) 
+			     Pi(const char *));
+int INTcmp(P1(const char *) Pi(const char *));
+int ADDRcmp(P1(const DB_ADDR *) Pi(const DB_ADDR *));
+int null_dba(P1(const char *));
 int check_dba(P1(DB_ADDR));
 
 /* From makenew.c: */
@@ -248,7 +248,7 @@ int nw_send(P1(int) Pi(MESSAGE *) Pi(int));
 int nw_rcvmsg(P1(int) Pi(MESSAGE *) Pi(int) Pi(int *));
 
 /* From opens.c: */
-int open_b(P1(CONST char *) Pi(int));
+int open_b(P1(const char *) Pi(int));
 
 /* From ovfcns.c: */
 int o_setup(P0);
@@ -264,13 +264,13 @@ void o_free(P0);
 
 /* From recfcns.c: */
 int r_chkfld(P1(INT) Pi(FIELD_ENTRY *) Pi(char *)
-	     Pi(CONST char *));
+	     Pi(const char *));
 int r_delrec(P1(INT) Pi(DB_ADDR));
 int r_gfld(P1(FIELD_ENTRY *) Pi(char *) Pi(char *));
 int r_gmem(P1(int) Pi(char *) Pi(char *));
 int r_gset(P1(int) Pi(char *) Pi(char *));
 int r_pfld(P1(INT) Pi(FIELD_ENTRY *) Pi(char *) 
-			     Pi(CONST char *) Pi(DB_ADDR *));
+			     Pi(const char *) Pi(DB_ADDR *));
 int r_pmem(P1(int) Pi(char *) Pi(char *));
 int r_pset(P1(int) Pi(char *) Pi(char *));
 int r_smem(P1(DB_ADDR *) Pi(INT));
@@ -303,8 +303,8 @@ int taf_open(P0);
 int taf_close(P0);
 int taf_access(P0);
 int taf_release(P0);
-int taf_add(P1(CONST char *));
-int taf_del(P1(CONST char *) );
+int taf_add(P1(const char *));
+int taf_del(P1(const char *) );
 
 /* From task.c */
 #ifdef MULTI_TASK
@@ -324,14 +324,14 @@ void ctbl_free(P0);
   int  CDECL memcmp(P1(char *) Pi(char *) Pi(int));
   void CDECL memset(P1(char *) Pi(char) Pi(int));
 
-  int CDECL strcmp(P1(CONST char *) Pi(CONST char *));
-  char * CDECL strcpy(P1(char *) Pi(CONST char *));
-  char * CDECL strcat(P1(char *) Pi(CONST char *));
-  int CDECL strlen(P1(CONST char *));
-  int CDECL strncmp(P1(CONST char *) Pi(CONST char *) Pi(int));
-  char * CDECL strncpy(P1(char *) Pi(CONST char *) Pi(int));
-  char * CDECL strchr(P1(CONST char *) Pi(int));
-  char * CDECL strrchr(P1(CONST char *) Pi(int));
+  int CDECL strcmp(P1(const char *) Pi(const char *));
+  char * CDECL strcpy(P1(char *) Pi(const char *));
+  char * CDECL strcat(P1(char *) Pi(const char *));
+  int CDECL strlen(P1(const char *));
+  int CDECL strncmp(P1(const char *) Pi(const char *) Pi(int));
+  char * CDECL strncpy(P1(char *) Pi(const char *) Pi(int));
+  char * CDECL strchr(P1(const char *) Pi(int));
+  char * CDECL strrchr(P1(const char *) Pi(int));
 #endif
 
 void CDECL free(P1(void *));  /* AIXV3 - DPG 07/05/90 */
@@ -341,7 +341,7 @@ int CDECL read(P1(int) Pi(char *) Pi(unsigned int));
 long CDECL lseek(P1(int) Pi(long) Pi(int));
 int CDECL close(P1(int));
 void CDECL exit(P1(int));
-char * CDECL getenv(P1(CONST char *));
+char * CDECL getenv(P1(const char *));
 int CDECL locking(P1(int) Pi(int) Pi(long));
-int CDECL unlink(P1(CONST char *));
+int CDECL unlink(P1(const char *));
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin proto.h */

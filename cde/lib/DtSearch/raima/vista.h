@@ -260,13 +260,6 @@ extern int rlb_status;
  */
 extern int db_oflag;
 
-/* Use the 'const' keyword unless told otherwise */
-#ifndef NO_CONST
-#define CONST const
-#else
-#define CONST /**/
-#endif
-
 #ifndef GENERAL			/* GENERAL lockmgr */
 #ifdef MSC			/* MSC */
 #ifndef NO_EXT_KEYWORDS		   /* NO_EXT_KEYWORDS */

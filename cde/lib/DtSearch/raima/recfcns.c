@@ -75,7 +75,7 @@ r_chkfld(field, fld_ptr, rec, data )
 INT field;  /* field_table entry number */
 FIELD_ENTRY *fld_ptr; /* corresponds to field */
 char *rec;  /* pointer to record slot */
-CONST char *data; /* pointer to data area containing field contents */
+const char *data; /* pointer to data area containing field contents */
 {
    DB_ADDR dba;
    long fld;
@@ -318,14 +318,14 @@ r_pfld(field, fld_ptr, rec, data, db_addr )
 INT field;  /* field_table entry number */
 FIELD_ENTRY *fld_ptr; /* corresponds to field */
 char *rec;  /* pointer to existing record */
-CONST char *data; /* pointer to data area containing new field contents */
+const char *data; /* pointer to data area containing new field contents */
 DB_ADDR *db_addr;
 {
    DB_ADDR mdba, odba, dba;
    int set, sn;
    char memp[MEMPSIZE];
    char *fptr;
-   CONST char *tfptr;
+   const char *tfptr;
    int s, i, strfld;
    FIELD_ENTRY *sfld_ptr;
    SORT_ENTRY *srt_ptr;

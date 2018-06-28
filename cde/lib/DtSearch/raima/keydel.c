@@ -62,7 +62,7 @@ DBN_DECL    /* database number */
    int fld;        /* field number */
    int rec, rn;    /* record type of current record */
    char *rptr;     /* pointer to current record */
-   CONST char *fptr;     /* pointer to field contents */
+   const char *fptr;     /* pointer to field contents */
    char ckey[256]; /* compound key data */
    int stat;
    RECORD_ENTRY *rec_ptr;

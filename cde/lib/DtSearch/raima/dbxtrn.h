@@ -94,7 +94,7 @@ typedef struct TASK_S {
    INT_P Excl_locks;          /* excl_locks = NULL */
    INT_P Kept_locks;          /* kept_locks = NULL */
 #endif
-   CONST char *Trans_id;  /* trans_id = NULL */
+   const char *Trans_id;  /* trans_id = NULL */
    char Dblog[FILENMLEN];     /* dblog = "" */
 #ifndef SINGLE_USER
    LOCK_DESCR_P Rec_locks;    /* rec_locks = NULL */

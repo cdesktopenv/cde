@@ -79,7 +79,7 @@ static int nextc(P1(int));
 int d_mapchar(inchar,outchar,sort_str,subsort TASK_PARM)
 unsigned char	inchar;     /* value of character to be mapped */
 unsigned char	outchar;    /* output character as    ... */
-CONST char *sort_str;  /* sort string (max. len = 2) */
+const char *sort_str;  /* sort string (max. len = 2) */
 unsigned char	subsort;    /* subsort value, to distinguish between two */
 			    /* equal values (e.g. 'a' and 'A', if necessary) */
 TASK_DECL

@@ -52,14 +52,14 @@
 
 /* Internal function prototypes */
 static void chk_desc_key(P1(int) Pi(FIELD_ENTRY *) 
-					Pi(CONST char *) Pi(char *));
+					Pi(const char *) Pi(char *));
 
 /* Find record thru key field
 */
 int
 d_keyfind(field, fldval TASK_PARM DBN_PARM)
 long  field;  /* field constant */
-CONST char *fldval; /* value of the data field */
+const char *fldval; /* value of the data field */
 TASK_DECL
 DBN_DECL      /* database number */
 {
@@ -105,7 +105,7 @@ DBN_DECL      /* database number */
 static void chk_desc_key(fld, fld_ptr, fldval, ckey)
 int fld;
 FIELD_ENTRY *fld_ptr;
-CONST char *fldval;
+const char *fldval;
 char *ckey;
 {
    int kt_lc;			/* loop control */

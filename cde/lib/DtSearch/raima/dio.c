@@ -953,7 +953,7 @@ int hold;
 int
 dio_write( dba, recptr, release )
 DB_ADDR dba;
-CONST char *recptr;
+const char *recptr;
 int release;
 {
    FILE_NO file;

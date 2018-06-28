@@ -54,7 +54,7 @@ int
 d_csmwrite(set, field, data TASK_PARM DBN_PARM)
 int set;    /* Set constant */
 long field; /* Field constant */
-CONST char *data; /* Data area to contain field contents */
+const char *data; /* Data area to contain field contents */
 TASK_DECL
 DBN_DECL    /* database number */
 {

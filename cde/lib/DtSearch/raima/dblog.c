@@ -50,7 +50,7 @@
 /* Set database log file name/path
 */
 d_dblog(log TASK_PARM)
-CONST char *log;
+const char *log;
 TASK_DECL
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_NONE));

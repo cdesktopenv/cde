@@ -53,7 +53,7 @@
 */
 int
 d_recwrite(rec TASK_PARM DBN_PARM)
-CONST char *rec; /* ptr to record area */
+const char *rec; /* ptr to record area */
 TASK_DECL
 DBN_DECL
 {

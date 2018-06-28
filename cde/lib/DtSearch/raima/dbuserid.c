@@ -53,10 +53,10 @@
 */
 int
 d_dbuserid(id TASK_PARM)
-CONST char *id;
+const char *id;
 TASK_DECL
 {
-   CONST char *chk_id;
+   const char *chk_id;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_NONE));
 

@@ -56,7 +56,7 @@
 */
 int
 d_destroy(dbname TASK_PARM)
-CONST char *dbname;
+const char *dbname;
 TASK_DECL
 {
    int ft_lc;			/* loop control */
