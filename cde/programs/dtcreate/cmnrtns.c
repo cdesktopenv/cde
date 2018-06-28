@@ -597,7 +597,7 @@ void FreeIconSearchPathList(char **pplist)
 /* OUTPUT: none                                                               */
 /*                                                                            */
 /******************************************************************************/
-void TurnOnHourGlassAllWindows()
+void TurnOnHourGlassAllWindows(void)
 {
   _DtTurnOnHourGlass(CreateActionAppShell);
   if ( (AddFiletype) &&
@@ -630,7 +630,7 @@ void TurnOnHourGlassAllWindows()
 /* OUTPUT: none                                                               */
 /*                                                                            */
 /******************************************************************************/
-void TurnOffHourGlassAllWindows()
+void TurnOffHourGlassAllWindows(void)
 {
   _DtTurnOffHourGlass(CreateActionAppShell);
   if ( (AddFiletype) &&
