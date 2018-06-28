@@ -36,7 +36,7 @@ typedef	enum {
     /* local func */
 static int	shell_type(/* shell */);
 
-int	set_cmd_env()
+int	set_cmd_env(void)
 {
     int		ret = NoError;
     char	**aliases = (char **)0;
@@ -63,7 +63,7 @@ int	set_cmd_env()
 }
 
 
-int	get_user_environ()
+int	get_user_environ(void)
 {
     int		ret = NoError;
     char	buf[BUFSIZ], *p;
@@ -138,10 +138,7 @@ int	get_user_environ()
 }
 
 
-int	expand_string(in_str, out_str, out_len, ims)
-    char	*in_str, *out_str;
-    int		out_len;
-    ImsConf	*ims;
+int	expand_string(char *in_str, char *out_str, int out_len, ImsConf *ims)
 {
     register char	*p, *q, *ep;
     char        str[20];
@@ -220,8 +217,7 @@ int	expand_string(in_str, out_str, out_len, ims)
 }
 
 
-static int	shell_type(shell)
-    char	*shell;
+static int	shell_type(char *shell)
 {
     char	*p;
     int		len;
@@ -245,9 +241,7 @@ static int	shell_type(shell)
 }
 
 
-int	make_new_environ(oenv, sel)
-    OutEnv	*oenv;
-    UserSelection	*sel;
+int	make_new_environ(OutEnv *oenv, UserSelection *sel)
 {
     ImsConf	*ims;
     EnvEnt	*ep, *ep2;
@@ -362,8 +356,8 @@ int	make_new_environ(oenv, sel)
     return NoError;
 }
 
-int	put_new_environ(oenv)	/* print modified environment variables */
-    OutEnv	*oenv;
+/* print modified environment variables */
+int	put_new_environ(OutEnv *oenv)
 {
     EnvEnt	*ep;
     char	tmpbuf[BUFSIZ], *bp, *vp;
@@ -433,8 +427,7 @@ int	put_new_environ(oenv)	/* print modified environment variables */
 }
 
 
-int	set_remote_env(ptr, env_pass)
-    char	*ptr, *env_pass;
+int	set_remote_env(char *ptr, char *env_pass)
 {
     char	*bp = ptr, *ep;
     char	**ls, **ls2, **pp, **pp2;
@@ -477,8 +470,7 @@ int	set_remote_env(ptr, env_pass)
 }
 
 # ifdef	old_hpux
-char	*xhp_xinput_name(locale)
-    char	*locale;
+char	*xhp_xinput_name(char *locale)
 {
     char	*xinput_name = "X@INPUT";
     char	**pp, *p;
@@ -513,8 +505,7 @@ char	*xhp_xinput_name(locale)
 }
 
 
-char	*get_real_locale(locale, aliases)
-    char	*locale, ***aliases;
+char	*get_real_locale(char *locale, char ***aliases)
 {
     int		i;
     int		match_idx = -1;

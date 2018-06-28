@@ -42,14 +42,13 @@ static DtActionInvocationID	actionId = 0;
 
 	/* *****  DtAction functions  ***** */
 
-static void	DbReloadProc(cd)
-    XtPointer cd;
+static void	DbReloadProc(XtPointer cd)
 {
     DPR(("DbReloadProc(): action database updated\n"));
     DtDbLoad();	/* Pick up any dynamic changes to the database files */
 }
 
-static bool	init_action_env()
+static bool	init_action_env(void)
 {
     init_window_env();
 
@@ -68,12 +67,8 @@ static bool	init_action_env()
     return actionEnabled;
 }
 
-static void	action_cb(id, cd, args, argcnt, status)
-    long unsigned	id;
-    XtPointer	cd;	/* unused */
-    DtActionArg	*args;
-    int		argcnt;
-    DtActionStatus	status;
+static void	action_cb(long unsigned id, XtPointer cd /* unused */,
+                          DtActionArg *args, int argcnt, DtActionStatus status)
 {
     if (actionId == 0) {
 	DPR(("action_cb(): invalid id %d != %d\n", id, actionId));
@@ -134,7 +129,7 @@ static void	action_cb(id, cd, args, argcnt, status)
 }
 
 
-static void	wait_action_done()
+static void	wait_action_done(void)
 {
     XEvent event;
 
@@ -157,9 +152,7 @@ static void	wait_action_done()
     return;
 }
 
-int	invoke_action(action, host)
-    char	*action;
-    char	*host;
+int	invoke_action(char *action, char *host)
 {
     if (init_action_env() != True)	return ErrInternal;
   
@@ -188,8 +181,7 @@ int	invoke_action(action, host)
 }
 
 
-void	send_dtims_msg(msg, errcode)
-    int	msg, errcode;
+void	send_dtims_msg(int msg, int errcode)
 {
     XEvent ev;
 
@@ -204,11 +196,8 @@ void	send_dtims_msg(msg, errcode)
     XSendEvent(Dpy, XtWindow(TopW), False, NoEventMask, &ev);
 }
 
-void	dtims_msg_proc(w, cd, event, continue_dispatch)
-    Widget w;
-    XtPointer cd;
-    XEvent *event;
-    Boolean *continue_dispatch;	/* never changed */
+void	dtims_msg_proc(Widget w, XtPointer cd, XEvent *event,
+                       Boolean *continue_dispatch /* never changed */)
 {
     XClientMessageEvent *ev = &event->xclient;
     int	msg, errcode;

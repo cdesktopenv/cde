@@ -75,9 +75,7 @@ static int	exitSignalNumber = 0;
 static bool	do_usage = False;
 
 
-main (argc, argv)
-    int		argc;
-    char	**argv;
+int main (int argc, char **argv)
 {
     int		ret = NoError;
     int		ret2;
@@ -149,8 +147,7 @@ main (argc, argv)
 }
 
 
-void	sigExit(sig)
-    int	sig;
+void	sigExit(int sig)
 {
     DPR(("sigExit:  %s (%d)\n", sig_name(sig), sig));
     signal(sig, SIG_IGN);
@@ -158,8 +155,7 @@ void	sigExit(sig)
     Exit(ErrSignaled);
 }
 
-void	Exit(err_code)
-    int	err_code;
+void	Exit(int err_code)
 {
     int		exit_code = IsNoError(err_code) ? 0 : 1;
 
@@ -186,8 +182,7 @@ void	Exit(err_code)
     exit(exit_code);
 }
 
-int	NotifyErrCode(err_code)
-    int	err_code;
+int	NotifyErrCode(int err_code)
 {
     char	buf[BUFSIZ], *bp, val[20];
     static bool	notify_done = False;
@@ -229,8 +224,7 @@ int	NotifyErrCode(err_code)
 }
 
 
-static int	IsNoError(error)
-    ximsError	error;
+static int	IsNoError(ximsError error)
 {
     switch (error) {
 	case NoError: case ErrIsNone: case ErrNotRun:
@@ -244,8 +238,7 @@ static int	IsNoError(error)
     return False;
 }
 
-static int	EnvNeeded(error)
-    ximsError	error;
+static int	EnvNeeded(ximsError error)
 {
     switch (error) {
 	case NoError: case ErrIsNone: case ErrNotRun:
@@ -258,8 +251,7 @@ static int	EnvNeeded(error)
     return False;
 }
 
-static int	ErrMsgDisabled(error)
-    ximsError	error;
+static int	ErrMsgDisabled(ximsError error)
 {
     switch (error) {
 	case NoError: case ErrIsNone: case ErrNotRun:
@@ -274,8 +266,7 @@ static int	ErrMsgDisabled(error)
     return False;
 }
 
-int	ErrFilePathNeeded(error)
-    ximsError	error;
+int	ErrFilePathNeeded(ximsError error)
 {
     switch (error) {
 	case ErrFileOpen: case ErrFileCreate: case ErrDirCreate:
@@ -286,7 +277,7 @@ int	ErrFilePathNeeded(error)
     return False;
 }
 
-int	InWaitingState()
+int	InWaitingState(void)
 {
     switch (OpState) {
 	case State_Init_Err:
@@ -297,7 +288,7 @@ int	InWaitingState()
     return False;
 }
 
-void	ximsMain()
+void	ximsMain(void)
 {
     static int	call_cnt = 0;
 
@@ -366,7 +357,7 @@ void	ximsMain()
 }
 
 
-void	ximsFinish()
+void	ximsFinish(void)
 {
     OpStateVal	oldOpState = OpState;
 
@@ -408,7 +399,7 @@ void	ximsFinish()
 }
 
 
-static int	ximsShowImsList()
+static int	ximsShowImsList(void)
 {
     int		ret;
     int		i;
@@ -491,7 +482,7 @@ static int	ximsShowImsList()
     return NoError;
 }
 
-static int	ximsShowCurrentIms()
+static int	ximsShowCurrentIms(void)
 {
     int		ret = NoError;
     FileSel	*fsel;
@@ -520,8 +511,7 @@ static int	ximsShowCurrentIms()
 }
 
 
-static int	prepare_remote(win_st)
-    int	win_st;
+static int	prepare_remote(int win_st)
 {
     int		ret;
     char	**av = NULL;
@@ -565,7 +555,7 @@ static int	prepare_remote(win_st)
     return NoError;
 }
 
-static int	ximsRemoteConf()
+static int	ximsRemoteConf(void)
 {
     int		ret;
     char	*locale;
@@ -583,7 +573,7 @@ static int	ximsRemoteConf()
 }
 
 
-static int	ximsSetMode()
+static int	ximsSetMode(void)
 {
     int		ret = NoError;
     int		cur_mode = SEL_MODE_NONE;
@@ -622,8 +612,7 @@ static int	ximsSetMode()
     return ret;
 }
 
-static void	show_select_mode(mode)
-    int		mode;
+static void	show_select_mode(int mode)
 {
     char	*valp;
 
@@ -652,8 +641,7 @@ static void	show_select_mode(mode)
 }
 
 
-static int	set_locale_env(locale)
-    char	*locale;
+static int	set_locale_env(char *locale)
 {
     char	*env_name, *env_value, *bp, *vp, buf[BUFSIZ], buf2[BUFSIZ];
     static char	*last_lang_env[2] = { NULL, NULL };
@@ -729,8 +717,7 @@ static int	set_locale_env(locale)
     return NoError;
 }
 
-static void	init_command(progname)
-    char	*progname;
+static void	init_command(char *progname)
 {
 	/* globals */
     ProgramName = progname;
@@ -775,9 +762,7 @@ static void	init_command(progname)
 }
 
 
-static bool	optname_match(name, str, minlen)
-    char	*name, *str;
-    int		minlen;
+static bool	optname_match(char *name, char *str, int minlen)
 {
     int		nlen, slen;
 
@@ -790,9 +775,7 @@ static bool	optname_match(name, str, minlen)
     return False;
 }
 
-static int	parse_options(argc, argv)
-    int		argc;
-    char	**argv;
+static int	parse_options(int argc, char **argv)
 {
     char	*opt;
     int		i, n;
@@ -1118,8 +1101,7 @@ static OptDesc	opts_internal[] = {
 };
 #endif	/* DEBUG */
 
-static void	usage(force)
-    int		force;
+static void	usage(int force)
 {
     char	*fmt = "\t%-20s%s\n";
 
@@ -1167,9 +1149,7 @@ static void	usage(force)
 
 	/* ********  error messages  ******** */
 
-char	*xims_errmsg(err_num, arg1, arg2, arg3)
-    int		err_num;
-    void	*arg1, *arg2, *arg3;
+char	*xims_errmsg(int err_num, void *arg1, void *arg2, void *arg3)
 {
     char	*fmt = NULL, *bp;
     int		len;

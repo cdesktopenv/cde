@@ -30,7 +30,7 @@ static int	setup_remote_selection(/* sel */);
 static int	setup_user_selection(/* sel, list, idx */);
 
 
-void	ximsSelect()
+void	ximsSelect(void)
 {
     int		ret;
     bool	use_win;
@@ -166,9 +166,7 @@ void	ximsSelect()
 }
 
 
-static int	fill_ims_ent(list, top, last)
-    ImsList	*list;
-    int		top, last;
+static int	fill_ims_ent(ImsList *list, int top, int last)
 {
     int		ret;
     int		i;
@@ -199,10 +197,7 @@ static int	fill_ims_ent(list, top, last)
 }
 
 
-static int	setup_local_selection(sel, list, conf_all)
-    UserSelection	*sel;
-    ImsList	*list;
-    int		conf_all;
+static int	setup_local_selection(UserSelection *sel, ImsList *list, int conf_all)
 {
     int		ret;
     int		idx, top, last;
@@ -218,8 +213,7 @@ static int	setup_local_selection(sel, list, conf_all)
     return ret;
 }
 
-static int	setup_remote_selection(sel)
-    UserSelection	*sel;
+static int	setup_remote_selection(UserSelection *sel)
 {
     int		ret;
     int		idx;
@@ -235,10 +229,7 @@ static int	setup_remote_selection(sel)
     return ret;
 }
 
-static int	setup_user_selection(sel, list, idx)
-    UserSelection	*sel;
-    ImsList	*list;
-    int		idx;
+static int	setup_user_selection(UserSelection *sel, ImsList *list, int idx)
 {
     if (sel->name) {
 	if (idx >= 0) {
@@ -256,12 +247,7 @@ static int	setup_user_selection(sel, list, idx)
     return sel->status;
 }
 
-int	update_user_selection(sel, list, idx, host, host_type)
-    UserSelection	*sel;
-    ImsList	*list;
-    int		idx;
-    char	*host;
-    int		host_type;
+int	update_user_selection(UserSelection *sel, ImsList *list, int idx, char *host, int host_type)
 {
     ImsEnt	*ent;
 
@@ -292,9 +278,7 @@ int	update_user_selection(sel, list, idx, host, host_type)
 }
 
 
-int	get_ims_idx(list, name)
-    ImsList	*list;
-    char	*name;
+int	get_ims_idx(ImsList *list, char *name)
 {
     int		idx;
 
@@ -306,8 +290,7 @@ int	get_ims_idx(list, name)
     return -1;
 }
 
-int	set_ims_status(ent)
-    ImsEnt	*ent;
+int	set_ims_status(ImsEnt *ent)
 {
     int		ret = NoError;
     ImsConf	*ims = ent->ims;
@@ -328,10 +311,7 @@ int	set_ims_status(ent)
 }
 
 
-int	get_ims_list(listp, locale, fill_ent)
-    ImsList	**listp;
-    char	*locale;
-    int		fill_ent;
+int	get_ims_list(ImsList **listp, char *locale, int fill_ent)
 {
     int		ret = NoError;
     ImsList	*list;

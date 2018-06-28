@@ -149,8 +149,7 @@ strcasecmp(register const char *s1,
 }
 #endif
 
-int	put_remote_conf(locale, ims_name)
-    char	*locale, *ims_name;
+int	put_remote_conf(char *locale, char *ims_name)
 {
     int		ret;
     int		msg_status = NoError;
@@ -182,9 +181,7 @@ int	put_remote_conf(locale, ims_name)
     return ret;
 }
 
-int	get_remote_conf(listp, hostname, locale, ims_name)
-    ImsList	**listp;
-    char	*hostname, *locale, *ims_name;
+int	get_remote_conf(ImsList **listp, char *hostname, char *locale, char *ims_name)
 {
     int		ret = NoError;
     int		conflen = 0;
@@ -256,11 +253,9 @@ int	get_remote_conf(listp, hostname, locale, ims_name)
 #define	PUT_DATA(nm, val)	*bp++ = ' ', bp = strcpyx(bp, (nm)), \
 			*bp++ = '=', bp = strcpyx(bp, (val)), *bp++ = '\n'
 
-static int	mk_remote_conf(list, locale, ims_name, status, confbuf, conflen)
-    ImsList	*list;
-    int		status;
-    char	*locale, *ims_name, *confbuf;
-    int		*conflen;
+static int	mk_remote_conf(ImsList *list, char *locale,
+                               char *ims_name, int status,
+                               char *confbuf, int *conflen)
 {
     int		num_ent;
     int		i, j;
@@ -332,10 +327,7 @@ static int	mk_remote_conf(list, locale, ims_name, status, confbuf, conflen)
     return NoError;
 }
 
-static char	*mk_ims_ent(bp, idx, ent)
-    ImsEnt	*ent;
-    int		idx;
-    register char	*bp;
+static char	*mk_ims_ent(register char *bp, int idx, ImsEnt *ent)
 {
     ImsConf	*ims = ent->ims;
     char        val[20];
@@ -375,9 +367,7 @@ static char	*mk_ims_ent(bp, idx, ent)
 
 #undef	PUT_DATA
 
-static int	parse_ims_list(ptr, list)
-    char	*ptr;
-    ImsList	*list;
+static int	parse_ims_list(char *ptr, ImsList *list)
 {
     register char	*bp = ptr;
     char	*np, *vp;
@@ -483,10 +473,7 @@ static int	parse_ims_list(ptr, list)
 }
 
 
-static int	parse_remote_conf(listp, locale, confbuf, conflen)
-    ImsList	**listp;
-    char	*locale, *confbuf;
-    int		conflen;
+static int	parse_remote_conf(ImsList **listp, char *locale, char *confbuf, int conflen)
 {
     int		ret = NoError;
     char 	*bp = confbuf;
@@ -545,8 +532,7 @@ static int	parse_remote_conf(listp, locale, confbuf, conflen)
 }
 
 
-int	exec_remote_ims(sel)
-    UserSelection	*sel;
+int	exec_remote_ims(UserSelection *sel)
 {
     int		ret = NoError;
     int		n, num_opts, binc;
@@ -636,8 +622,7 @@ int	exec_remote_ims(sel)
 }
 
 
-int	check_hostname(hostname)
-    char	*hostname;
+int	check_hostname(char *hostname)
 {
     int		host_type = HOST_UNKNOWN;
     char	*local = userEnv.hostname;
@@ -681,9 +666,7 @@ int	check_hostname(hostname)
 
 
 
-int	set_remote_confdata(confbuf, conflen)
-    char *confbuf;
-    int conflen;
+int	set_remote_confdata(char *confbuf, int conflen)
 {
     char *av[2];
 
@@ -692,9 +675,7 @@ int	set_remote_confdata(confbuf, conflen)
     return set_window_data(1, av);
 }
 
-int	read_remote_confdata(confbuf, conflen)
-    char **confbuf;
-    int *conflen;
+int	read_remote_confdata(char **confbuf, int *conflen)
 {
     char **av = NULL;
     int ac = 0;
@@ -710,10 +691,7 @@ int	read_remote_confdata(confbuf, conflen)
 }
 
 
-static int	prepare_action(act_typ, av, ac)
-    int	act_typ;
-    char	**av;
-    int		ac;
+static int	prepare_action(int act_typ, char **av, int ac)
 {
     int ret;
 
@@ -738,7 +716,7 @@ static int	prepare_action(act_typ, av, ac)
 }
 
 
-int	get_window_status()
+int	get_window_status(void)
 {
     long	*datap;
     int		len = 0;
@@ -762,8 +740,7 @@ int	get_window_status()
     return win_st;
 }
 
-int	change_window_status(status)
-    int	status;
+int	change_window_status(int status)
 {
     if (winEnv.atom_status == None || winEnv.atom_owner == None)
 	return ErrInternal;
@@ -780,9 +757,7 @@ int	change_window_status(status)
     return NoError;
 }
 
-int	set_window_data(ac, av)
-    int	ac;
-    char **av;
+int	set_window_data(int ac, char **av)
 {
     register int i;
     register int nbytes;
@@ -823,9 +798,7 @@ int	set_window_data(ac, av)
 }
 
 
-int	get_window_data(acp, avp)
-    int	*acp;
-    char ***avp;
+int	get_window_data(int *acp, char ***avp)
 {
     int ac;
     char *data;
@@ -878,13 +851,9 @@ int	get_window_data(acp, avp)
 }
 
 
-static int	read_property(prop, type, format, del_flag, datapp, lenp)
-    Atom prop;
-    Atom type;
-    int format;
-    int	del_flag;
-    unsigned char **datapp;
-    unsigned long *lenp;
+static int	read_property(Atom prop, Atom type, int format,
+                              int del_flag, unsigned char **datapp,
+                              unsigned long *lenp)
 {
     Atom realtype;
     int realformat;

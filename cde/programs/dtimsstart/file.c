@@ -27,7 +27,7 @@
 #include	<sys/stat.h>
 
     /* local func */
-static void	put_selection_entry(/* fp, ent_type, is_valid, val, val2 */);
+static void put_selection_entry(FILE *fp, int ent_type, bool is_valid, char *val, char *val2);
 static void	put_ims_conf(/* fp, sel */);
 static void	put_select_mode(/* fp, select_mode */);
 static void	put_selection_header(/* fp */);
@@ -38,7 +38,7 @@ static char	*SelectFileFormat = NULL;
 static bool	cmdconf_initialized = False;
 
 
-int	create_xims_dir()
+int	create_xims_dir(void)
 {
     int		ret = NoError;
     char	path[MAXPATHLEN];
@@ -77,9 +77,7 @@ int	create_xims_dir()
     return ret;
 }
 
-int	init_log_file(org_path, check_size)
-    char	*org_path;
-    int		check_size;
+int	init_log_file(char *org_path, int check_size)
 {
     char	path[MAXPATHLEN];
     bool	log_exists = False;
@@ -124,8 +122,7 @@ _err:
 }
 
 
-int	set_errorlog(path)
-    char	*path;
+int	set_errorlog(char *path)
 {
     int	fd;
 
@@ -146,7 +143,7 @@ int	set_errorlog(path)
 }
 
 
-int	read_cmd_conf()
+int	read_cmd_conf(void)
 {
     char	buf[MAXPATHLEN];
     CmdConf	*conf = &Conf;
@@ -377,7 +374,7 @@ _default:
     return NoError;
 }
 
-int	expand_cmd_conf()
+int	expand_cmd_conf(void)
 {
     char	**pp[20 + NUM_ACTIONS], *p, buf[BUFSIZ];
     int		i, j, n;
@@ -434,9 +431,7 @@ int	expand_cmd_conf()
 }
 
 
-int	read_imsconf(conf, ims_name, ims_fname)
-    ImsConf	*conf;
-    char	*ims_name, *ims_fname;
+int	read_imsconf(ImsConf *conf, char *ims_name, char *ims_fname)
 {
     int		ret = NoError;
     char	path[MAXPATHLEN];
@@ -533,9 +528,7 @@ int	read_imsconf(conf, ims_name, ims_fname)
     return ret;
 }
 
-int	check_ims_conf(ims, ims_name)
-    ImsConf	*ims;
-    char	*ims_name;
+int	check_ims_conf(ImsConf *ims, char *ims_name)
 {
     int		ret = NoError;
     char	*missing_entry = NULL;
@@ -570,9 +563,7 @@ int	check_ims_conf(ims, ims_name)
     return ret;
 }
 
-int	read_localeconf(list, locale_name)
-    ImsList	*list;
-    char	*locale_name;
+int	read_localeconf(ImsList *list, char *locale_name)
 {
     char	path[MAXPATHLEN];
     char	*lp, *valp, *pp;
@@ -669,9 +660,7 @@ int	read_localeconf(list, locale_name)
     return list->status;
 }
 
-int	read_user_selection(fselp, locale_name)
-    FileSel	**fselp;
-    char	*locale_name;
+int	read_user_selection(FileSel **fselp, char *locale_name)
 {
     char	path[MAXPATHLEN];
     int		ret;
@@ -702,9 +691,7 @@ int	read_user_selection(fselp, locale_name)
     return NoError;
 }
 
-int	read_selection_file(fsel, fp)
-    FileSel	*fsel;
-    FILE	*fp;
+int	read_selection_file(FileSel *fsel, FILE *fp)
 {
     char	*lp, *valp, *vp, *p;
     int		i, nopts, line_num;
@@ -789,9 +776,7 @@ int	read_selection_file(fsel, fp)
     return NoError;
 }
 
-int	save_user_selection(sel, locale_name)
-    UserSelection	*sel;
-    char	*locale_name;
+int	save_user_selection(UserSelection *sel, char *locale_name)
 {
     char	path[MAXPATHLEN];
     int		dpy_specific;
@@ -825,11 +810,7 @@ int	save_user_selection(sel, locale_name)
 #define	_IMSOPTION	4
 #define	_IMSOPT2	5
 
-static void	put_selection_entry(fp, ent_type, is_valid, val, val2)
-    FILE	*fp;
-    int		ent_type;
-    bool	is_valid;
-    char	*val, *val2;
+static void put_selection_entry(FILE *fp, int ent_type, bool is_valid, char *val, char *val2)
 {
     char	*name = NULL;
 
@@ -852,9 +833,7 @@ static void	put_selection_entry(fp, ent_type, is_valid, val, val2)
 
 }
 
-static void	put_ims_conf(fp, sel)
-    FILE	*fp;
-    UserSelection	*sel;
+static void	put_ims_conf(FILE *fp, UserSelection *sel)
 {
     char	*valp, val[20];
 
@@ -891,9 +870,7 @@ static void	put_ims_conf(fp, sel)
     }
 }
 
-static void	put_select_mode(fp, select_mode)
-    FILE	*fp;
-    int		select_mode;
+static void	put_select_mode(FILE *fp, int select_mode)
 {
     char val[20];
     if (select_mode != SEL_MODE_NOAUTO && select_mode != SEL_MODE_AUTO
@@ -908,22 +885,20 @@ static void	put_select_mode(fp, select_mode)
 
 }
 
-static void	put_selection_header(fp)
-    FILE	*fp;
+static void	put_selection_header(FILE *fp)
 {
     fprintf(fp, "%s %s\n", COMMENT_CHARS, ProgramRevision);
     if (SelectFileFormat)
 	fprintf(fp, "%s%s\n", COMMENT_CHARS, SelectFileFormat);
 }
 
-static void	put_selection_sep(fp)
-    FILE	*fp;
+static void	put_selection_sep(FILE *fp)
 {
     fprintf(fp, "%s\n", COMMENT_CHARS);
 }
 
 
-int	get_select_mode()
+int	get_select_mode(void)
 {
     char	path[MAXPATHLEN];
     char	*lp, *valp;
@@ -957,8 +932,7 @@ int	get_select_mode()
     return select_mode;
 }
 
-int	set_select_mode(cur_mode, new_mode)
-    int		cur_mode, new_mode;
+int	set_select_mode(int cur_mode, int new_mode)
 {
     char	path[MAXPATHLEN];
     int		dpy_specific;
@@ -1055,9 +1029,7 @@ int	set_select_mode(cur_mode, new_mode)
     return NoError;
 }
 
-static int	user_selection_fname(buf, buf_len, dpy_specific)
-    char	*buf;
-    int		buf_len, dpy_specific;
+static int	user_selection_fname(char *buf, int buf_len, int dpy_specific)
 {
     int		len;
     UserEnv	*uenv = &userEnv;
@@ -1125,8 +1097,7 @@ static int	user_selection_fname(buf, buf_len, dpy_specific)
 }
 
 
-int	parse_protolist(valp)
-    char	*valp;
+int	parse_protolist(char *valp)
 {
     int		proto_bits = 0;
 
@@ -1140,8 +1111,7 @@ int	parse_protolist(valp)
     return proto_bits;
 }
 
-int	default_protocol(conf)
-    ImsConf	*conf;
+int	default_protocol(ImsConf *conf)
 {
     if (conf->protocols & ProtoBit(Proto_XIM))		return Proto_XIM;
     else if (conf->protocols & ProtoBit(Proto_Ximp))	return Proto_Ximp;

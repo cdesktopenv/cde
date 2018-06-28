@@ -30,7 +30,7 @@
 
         /* ********  locale name manupilation  ******** */
 
-int find_CDE_locale_name()
+int find_CDE_locale_name(void)
 {
     UserEnv   *uenv = &userEnv;
    _DtXlateDb db = NULL;
@@ -61,8 +61,7 @@ int find_CDE_locale_name()
    return ret;
 }
 
-char *find_system_locale_name(CDE_locale)
-    char *CDE_locale;
+char *find_system_locale_name(char *CDE_locale)
 {
    _DtXlateDb db = NULL;
    int        ret = NoError;
@@ -93,16 +92,14 @@ char *find_system_locale_name(CDE_locale)
 
 	/* ********  string manupilation  ******** */
 
-char	*strcpyx(dest, src)
-    register char	*dest, *src;
+char	*strcpyx(register char *dest, register char *src)
 {
     while (*dest++ = *src++) ;
     return(--dest);
 }
 
 #ifdef	unused
-char	*strcpy2(dest, src1, src2)
-    register char	*dest, *src1, *src2;
+char	*strcpy2(register char *dest, register char *src1, register char *src2)
 {
     while (*dest++ = *src1++) ;
     --dest;
@@ -110,8 +107,7 @@ char	*strcpy2(dest, src1, src2)
     return(--dest);
 }
 
-char	*newstradded(src1, src2, src3)
-    register char	*src1, *src2, *src3;
+char	*newstradded(register char *src1, register char *src2, register char *src3)
 {
     register char	*p;
     char	*dest;
@@ -125,9 +121,7 @@ char	*newstradded(src1, src2, src3)
 #endif	/* unused */
 
 
-int	str_to_int(ptr, val)
-    char *ptr;
-    int *val;
+int	str_to_int(char *ptr, int *val)
 {
     int	base;
     char *pp;
@@ -140,9 +134,7 @@ int	str_to_int(ptr, val)
     return(True);
 }
 
-bool	str_to_bool(ptr, def_val)
-    char	*ptr;
-    bool	def_val;
+bool	str_to_bool(char *ptr, bool def_val)
 {
     if (!ptr || !*ptr)	return def_val;
     skip_white(ptr);
@@ -168,8 +160,7 @@ bool	str_to_bool(ptr, def_val)
     return def_val;
 }
 
-char	*trim_line(ptr)
-    char	*ptr;
+char	*trim_line(char *ptr)
 {
     register char	*lastp;
 
@@ -180,9 +171,7 @@ char	*trim_line(ptr)
     return ptr;		/* return lastp > ptr ? ptr : NULL; */
 }
 
-char	**parse_strlist(ptr, sep_ch)
-    register char	*ptr;
-    char	sep_ch;
+char	**parse_strlist(register char *ptr, char sep_ch)
 {
     char	*pbuf[100], **new, **bp;
     char	*sep, *p;
@@ -216,9 +205,7 @@ char	**parse_strlist(ptr, sep_ch)
 }
 
 #ifdef	unused
-int	pack_strlist(ptr, listp, sep_ch)
-    char	*ptr, **listp;
-    char	sep_ch;
+int	pack_strlist(char *ptr, char **listp, char sep_ch)
 {
     register char	*bp = ptr, **lp = listp;
 
@@ -240,8 +227,7 @@ int	pack_strlist(ptr, listp, sep_ch)
 }
 #endif	/* unused */
 
-void	free_strlist(pp)
-    char	**pp;
+void	free_strlist(char **pp)
 {
     register char	**ptr = pp;
 
@@ -253,9 +239,7 @@ void	free_strlist(pp)
 
 	/* ********  display string  ******** */
 
-bool	parse_dpy_str(display_str, host, dnum, snum, dnet)
-    char	*display_str, **host;
-    int		*dnum, *snum, *dnet;
+bool	parse_dpy_str(char *display_str, char **host, int *dnum, int *snum, int *dnet)
 {
     char	buf[BUFSIZ], hostbuf[BUFSIZ], *p, *hp, *pdnum, *psnum;
     int		isdnet = 0;
@@ -301,9 +285,7 @@ bool	parse_dpy_str(display_str, host, dnum, snum, dnet)
     return True;
 }
 
-char	*std_dpy_str(display_str, snum)
-    char	*display_str;
-    int		*snum;
+char	*std_dpy_str(char *display_str, int *snum)
 {
     char	buf[BUFSIZ], *bp, val[20];
     char	*host = NULL;
@@ -330,8 +312,7 @@ char	*std_dpy_str(display_str, snum)
 
 	/* ********  file & dir manipulation  ******** */
 
-int	make_user_dir(path)
-    char	*path;
+int	make_user_dir(char *path)
 {
     if (!is_directory(path, False)) {
 	if (access(path, F_OK) == 0)
@@ -343,8 +324,7 @@ int	make_user_dir(path)
     return True;
 }
 
-char	*dirname(path)
-    char	*path;
+char	*dirname(char *path)
 {
     static char	dname[MAXPATHLEN];
     register char	*p = path;
@@ -371,9 +351,7 @@ char	*dirname(path)
 
 }
 
-int	is_directory(path, must_writable)
-    char	*path;
-    int		must_writable;
+int	is_directory(char *path, int must_writable)
 {
     struct stat	stb;
     int		mode = R_OK|X_OK;
@@ -384,15 +362,13 @@ int	is_directory(path, must_writable)
 }
 
 #ifdef	unused
-int	is_regularfile(path)
-    char	*path;
+int	is_regularfile(char *path)
 {
     struct stat	stb;
     return stat(path, &stb) == 0 && S_ISREG(stb.st_mode);
 }
 
-int	is_emptyfile(path)
-    char	*path;
+int	is_emptyfile(char *path)
 {
     struct stat	stb;
     return stat(path, &stb) == 0 && S_ISREG(stb.st_mode) && stb.st_size == 0;
@@ -400,8 +376,7 @@ int	is_emptyfile(path)
 #endif	/* unused */
 
 
-int	is_executable(path)
-    char	*path;
+int	is_executable(char *path)
 {
     struct stat	stb;
     return stat(path, &stb) == 0 && S_ISREG(stb.st_mode)
@@ -409,8 +384,7 @@ int	is_executable(path)
 }
 
 #ifdef	unused
-int	is_writable(path)
-    char	*path;
+int	is_writable(char *path)
 {
     if (access(path, R_OK|W_OK) == 0)
 	return True;
@@ -421,9 +395,7 @@ int	is_writable(path)
 }
 #endif	/* unused */
 
-int	is_readable(path, allow_empty)
-    char	*path;
-    int		allow_empty;
+int	is_readable(char *path, int allow_empty)
 {
     struct stat	stb;
     return stat(path, &stb) == 0 && S_ISREG(stb.st_mode)
@@ -437,8 +409,7 @@ static int	tag_line_num = 0;
 static char	*tag_linebuf = NULL;
 static char	*tag_file = NULL;
 
-int	start_tag_line(fname)
-    char	*fname;
+int	start_tag_line(char *fname)
 {
     if (fname) {
 	if (!tag_linebuf)
@@ -453,9 +424,7 @@ int	start_tag_line(fname)
     return True;
 }
 
-int	read_tag_line(fp, tagp, valp)
-    FILE	*fp;
-    char	**tagp, **valp;
+int	read_tag_line(FILE *fp, char **tagp, char **valp)
 {
     char	*lp, *lp2;
 
@@ -483,9 +452,7 @@ int	read_tag_line(fp, tagp, valp)
 
 	/* ********  put messages  ******** */
 
-void	put_xims_msg(msg_type, err_num, arg1, arg2, arg3)
-    int		msg_type, err_num;
-    void	*arg1, *arg2, *arg3;
+void	put_xims_msg(int msg_type, int err_num, void *arg1, void *arg2, void *arg3)
 {
     int		ret = -2;
     char	*msg;
@@ -514,17 +481,13 @@ void	put_xims_msg(msg_type, err_num, arg1, arg2, arg3)
     return;
 }
 
-void	put_xims_errmsg(err_num, arg1, arg2, arg3)
-    int		err_num;
-    void	*arg1, *arg2, *arg3;
+void	put_xims_errmsg(int err_num, void *arg1, void *arg2, void *arg3)
 {
     if (Verbose > 0)
 	put_xims_msg(MSGTYP_FATAL, err_num, arg1, arg2, arg3);
 }
 
-void	put_xims_warnmsg(err_num, arg1, arg2, arg3)
-    int		err_num;
-    void	*arg1, *arg2, *arg3;
+void	put_xims_warnmsg(int err_num, void *arg1, void *arg2, void *arg3)
 {
     if (Verbose > 0)
 	put_xims_msg(MSGTYP_WARN, err_num, arg1, arg2, arg3);
@@ -533,18 +496,14 @@ void	put_xims_warnmsg(err_num, arg1, arg2, arg3)
 
 #ifdef	DEBUG
     /* for DPR*() macro */
-void	print_msg(fmt, arg1, arg2, arg3, arg4, arg5)
-    char	*fmt;
-    void	*arg1, *arg2, *arg3, *arg4, *arg5;
+void	print_msg(char *fmt, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5)
 {
     fprintf(LogFp, fmt, arg1, arg2, arg3, arg4, arg5);
 }
 #endif
 
 
-int	put_xims_log(fmt, arg1, arg2, arg3)
-    char	*fmt;
-    void	*arg1, *arg2, *arg3;
+int	put_xims_log(char *fmt, void *arg1, void *arg2, void *arg3)
 {
     FILE	*fp;
     char	*logpath = Opt.LogPath;
@@ -570,8 +529,7 @@ int	put_xims_log(fmt, arg1, arg2, arg3)
 
 	/* ********  clear structure  ******** */
 
-void	clear_ImsConf(ims)
-    ImsConf	*ims;
+void	clear_ImsConf(ImsConf *ims)
 {
     FREE(ims->servername);
     FREE(ims->servername2);
@@ -586,8 +544,7 @@ void	clear_ImsConf(ims)
     CLR(ims, ImsConf);
 }
 
-void	clear_ImsEnt(ent)
-    ImsEnt	*ent;
+void	clear_ImsEnt(ImsEnt *ent)
 {
     FREE(ent->name);
     FREE(ent->fname);
@@ -599,8 +556,7 @@ void	clear_ImsEnt(ent)
     CLR(ent, ImsEnt);
 }
 
-void	clear_ImsList(list)
-    ImsList	*list;
+void	clear_ImsList(ImsList *list)
 {
     int		i;
 
@@ -616,8 +572,7 @@ void	clear_ImsList(list)
 }
 
 
-void	clear_FileSel(fsel)
-    FileSel	*fsel;
+void	clear_FileSel(FileSel *fsel)
 {
     FREE(fsel->name);
     FREE(fsel->hostname);
@@ -640,8 +595,7 @@ void	clear_FileSel(fsel)
     fsel->dpy_specific = False;
 }
 
-void	clear_UserSelection(sel)
-    UserSelection	*sel;
+void	clear_UserSelection(UserSelection *sel)
 {
     FREE(sel->name);
     FREE(sel->hostname);
@@ -666,8 +620,7 @@ void	clear_UserSelection(sel)
 }
 
 
-void	clear_RunEnv(renv)
-    RunEnv	*renv;
+void	clear_RunEnv(RunEnv *renv)
 {
     FREE(renv->im_mod);
     FREE(renv->atom_name);
@@ -678,8 +631,7 @@ void	clear_RunEnv(renv)
 }
 
 
-void	clear_OutEnv(oenv)
-    OutEnv	*oenv;
+void	clear_OutEnv(OutEnv *oenv)
 {
     EnvEnt	*ep;
 
@@ -696,7 +648,7 @@ void	clear_OutEnv(oenv)
 
 
 #ifdef	unused
-void	clear_UserEnv()
+void	clear_UserEnv(void)
 {
     UserEnv	*uenv = &userEnv;
 
@@ -714,7 +666,7 @@ void	clear_UserEnv()
     return;
 }
 
-void	clear_CmdConf()
+void	clear_CmdConf(void)
 {
     if (cmdconf_initialized) {
 	CmdConf	*conf = &Conf;
@@ -775,17 +727,17 @@ void	clear_CmdConf()
     return;
 }
 
-void	clear_WinEnv()
+void	clear_WinEnv(void)
 {
     CLR(&winEnv, WinEnv);
 }
 
-void	clear_CmdOpt()
+void	clear_CmdOpt(void)
 {
     CLR(&Opt, CmdOpt);
 }
 
-void	clear_All()
+void	clear_All(void)
 {
     UserSelection	*sel = &userSel;
 
@@ -815,8 +767,7 @@ void	clear_All()
 
 	/* ********  print structure (for DEBUG)  ******** */
 
-void	pr_FileSel(fsel)
-    FileSel	*fsel;
+void	pr_FileSel(FileSel *fsel)
 {
     fprintf(LogFp, "FileSel:\tdpy_specific=%d  real_fname=%s  select_mode=%d\n",
 	fsel->dpy_specific, fsel->real_fname, fsel->select_mode);
@@ -831,8 +782,7 @@ void	pr_FileSel(fsel)
     }
 }
 
-void	pr_UserSelection(sel)
-    UserSelection	*sel;
+void	pr_UserSelection(UserSelection *sel)
 {
     fprintf(LogFp, "userSelection:\tstatus=%s  flag=%#x  ims_idx=%d\n",
 			error_name(sel->status), sel->flag, sel->ims_idx);
@@ -844,9 +794,7 @@ void	pr_UserSelection(sel)
     if (sel->renv)	pr_RunEnv(sel->renv);
 }
 
-void	pr_ImsConf(conf, ims_name)
-    ImsConf	*conf;
-    char	*ims_name;
+void	pr_ImsConf(ImsConf *conf, char *ims_name)
 {
     char	**p;
 
@@ -877,16 +825,13 @@ void	pr_ImsConf(conf, ims_name)
     fputc('\n', LogFp);
 }
 
-void	pr_ImsEnt(ent, idx)
-    ImsEnt	*ent;
-    int		idx;
+void	pr_ImsEnt(ImsEnt *ent, int idx)
 {
     fprintf(LogFp, "ImsEnt[%d]:\tname=%s  fname=%s  label=%s  ims=%#x\n",
 		idx, ent->name, ent->fname, ent->label, ent->ims);
 }
 
-void	pr_ImsList(list)
-    ImsList	*list;
+void	pr_ImsList(ImsList *list)
 {
     int		i;
     ImsEnt	*ent;
@@ -900,8 +845,7 @@ void	pr_ImsList(list)
     }
 }
 
-void	pr_WinEnv(wenv)
-    WinEnv	*wenv;
+void	pr_WinEnv(WinEnv *wenv)
 {
     fprintf(LogFp, "WinEnv:\tstatus=%d  Dpy=%#x  topW=%#x  appC=%#x\n",
 		wenv->status, wenv->Dpy, wenv->TopW, wenv->appC);
@@ -909,8 +853,7 @@ void	pr_WinEnv(wenv)
 		wenv->atom_owner, wenv->atom_main, wenv->atom_status, wenv->atom_data);
 }
 
-void	pr_RunEnv(renv)
-    RunEnv	*renv;
+void	pr_RunEnv(RunEnv *renv)
 {
     fprintf(LogFp, "RunEnv:\tstatus=%s  is_remote=%d  proto=%d\n",
 		error_name(renv->status), renv->is_remote, proto_name(renv->proto));
@@ -921,7 +864,7 @@ void	pr_RunEnv(renv)
 }
 
 
-void	pr_UserEnv()
+void	pr_UserEnv(void)
 {
     UserEnv	*uenv = &userEnv;
 
@@ -936,8 +879,7 @@ void	pr_UserEnv()
     fprintf(LogFp, "\tscreen_num=%d\n", uenv->screen_num);
 }
 
-void	pr_OutEnv(oenv)
-    OutEnv	*oenv;
+void	pr_OutEnv(OutEnv *oenv)
 {
     EnvEnt	*ep;
 
@@ -956,7 +898,7 @@ void	pr_OutEnv(oenv)
 }
 
 
-void	pr_CmdConf()
+void	pr_CmdConf(void)
 {
     int		i;
     CmdConf	*conf = &Conf;
@@ -1034,7 +976,7 @@ void	pr_CmdConf()
 # endif	/* old_hpux */
 }
 
-void	pr_CmdOpt()
+void	pr_CmdOpt(void)
 {
     fprintf(LogFp, "CmdOpt:\tDisplayName=%s  LocaleName=%s  ShellName=%s\n",
 			Opt.DisplayName, Opt.LocaleName, Opt.ShellName);
@@ -1048,7 +990,7 @@ void	pr_CmdOpt()
 			Opt.SelectMode, Opt.Timeout, Opt.Interval);
 }
 
-void	pr_OpModeFlag()
+void	pr_OpModeFlag(void)
 {
     char	*name = "<unknown>";
 
@@ -1107,7 +1049,7 @@ static char	*StateNameTbl[] = {
 };
 #define	NumStates	(sizeof(StateNameTbl) / sizeof(char *))
 
-char	*StateName()
+char	*StateName(void)
 {
     return (OpState >= 0 && OpState < NumStates) ?
 				StateNameTbl[OpState] : "<unknown>";
@@ -1116,8 +1058,7 @@ char	*StateName()
 
 	/* ********  error name  ******** */
 
-char	*error_name(error)
-    ximsError	error;
+char	*error_name(ximsError error)
 {
     char	*name = "<unknown>";
 
@@ -1196,8 +1137,7 @@ static char *_proto_names[NUM_PROTOCOLS] =
 			{ "None", "XIM", "Ximp", "Xsi" };
 # endif	/* old_hpux */
 
-char	*proto_name(proto_idx)
-    int		proto_idx;
+char	*proto_name(int proto_idx)
 {
     if (proto_idx >= 0 && proto_idx < NUM_PROTOCOLS)
 	return _proto_names[proto_idx];
@@ -1214,15 +1154,13 @@ static char	*SigNames[] = {		/* 1 ~ 32 */
 
 #define	MaxSigNum	(sizeof(SigNames) / sizeof(char *))
 
-char	*sig_name(sig)
-    int		sig;
+char	*sig_name(int sig)
 {
     return (sig > 0 && sig <= MaxSigNum) ? SigNames[sig - 1] : "<unknown>";
 }
 
 
-void	pr_brk(msg)
-    char	*msg;
+void	pr_brk(char *msg)
 {
     static char	*last_brk = 0;
     char	*new_brk = (char *) sbrk(0);

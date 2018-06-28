@@ -175,7 +175,7 @@ static void	xt_timer_cb(/* client_data, timer_id */);
 
 	/* ********  window env  ******** */
 
-int	open_display()
+int	open_display(void)
 {
     if (Dpy)	return NoError;		/* already done */
 
@@ -188,7 +188,7 @@ int	open_display()
     return NoError;
 }
 
-void	close_display()
+void	close_display(void)
 {
     if (TopW)	return;		/* Xt not finished */
 
@@ -199,12 +199,12 @@ void	close_display()
     return;
 }
 
-int	window_env_ok()
+int	window_env_ok(void)
 {
     return winEnv.status != WIN_ST_NONE ? True : False;
 }
 
-int	init_window_env()
+int	init_window_env(void)
 {
     enum { XA_DTIMS_ATOM_MAIN, XA_DTIMS_ATOM_STATUS, XA_DTIMS_ATOM_DATA, 
 	   NUM_ATOMS }; 
@@ -288,7 +288,7 @@ int	init_window_env()
     return NoError;
 }
 
-void	end_window_env()
+void	end_window_env(void)
 {
     if (TopW) {
 	disown_main_atom(XtWindow(TopW));
@@ -309,9 +309,8 @@ void	end_window_env()
     /* return; */
 }
 
-
-int	clear_cmd_property(win)			/* clear WM_COMMAND property */
-    Window	win;
+/* clear WM_COMMAND property */
+int	clear_cmd_property(Window win)
 {
     int		ret, ac = 0;
     int		clear_ok = False;
@@ -331,9 +330,7 @@ int	clear_cmd_property(win)			/* clear WM_COMMAND property */
     return clear_ok;
 }
 
-static int	ignoreBadWindow(dpy, error)
-    Display *dpy;
-    XErrorEvent *error;
+static int	ignoreBadWindow(Display *dpy, XErrorEvent *error)
 {
     if (error->error_code == BadWindow || error->error_code == BadDrawable) {
 	return 0;
@@ -343,9 +340,7 @@ static int	ignoreBadWindow(dpy, error)
 }
 
 #ifdef	unused
-static void	finish_window(w, end_window)
-    Widget	*w;
-    int		end_window;
+static void	finish_window(Widget *w, int end_window)
 {
     if (*w) {
 	XtUnmapWidget(*w);
@@ -361,8 +356,8 @@ static void	finish_window(w, end_window)
 #endif	/* unused */
 
 
-static int	own_main_atom(win)	/* own DTIMS_ATOM_MAIN */
-    Window	win;
+/* own DTIMS_ATOM_MAIN */
+static int	own_main_atom(Window win)
 {
     Window	owner = None;
 
@@ -383,8 +378,8 @@ static int	own_main_atom(win)	/* own DTIMS_ATOM_MAIN */
     return winEnv.atom_owner == win ? True : False;
 }
 
-static int	disown_main_atom(win)	/* disown DTIMS_ATOM_MAIN */
-    Window	win;
+/* disown DTIMS_ATOM_MAIN */
+static int	disown_main_atom(Window win)
 {
     if (winEnv.atom_main == None)	return False;
     /* if (winEnv.atom_owner == None)	return False; */
@@ -402,15 +397,14 @@ static int	disown_main_atom(win)	/* disown DTIMS_ATOM_MAIN */
 
 static char	*saved_xdefs = NULL;	/* should not be freed */
 
-int	save_RM()
+int	save_RM(void)
 {
     if (!Dpy)	return False;
     saved_xdefs = XResourceManagerString(Dpy);
     return saved_xdefs ? True : False;
 }
 
-int	merge_RM(res1, res2)
-    char	*res1, *res2;
+int	merge_RM(char *res1, char *res2)
 {
     char	cmdbuf[BUFSIZ*2];
     int		ret;
@@ -438,7 +432,7 @@ int	merge_RM(res1, res2)
     return ret == 0 ? True : False;
 }
 
-int	restore_RM()
+int	restore_RM(void)
 {
     int		len = saved_xdefs ? strlen(saved_xdefs) : 0;
     int		max = (XMaxRequestSize(Dpy) << 2) - 28;
@@ -490,8 +484,7 @@ static ImsList		*curList = 0;
 static bool		selection_changed = False;
 
 
-static void	free_ims_list(list)
-    ImsList	*list;
+static void	free_ims_list(ImsList *list)
 {
     /* DPR(("free_ims_list(list=%p)\n", list)); */
     if (list && list != localList && list != userSel.list) {
@@ -500,7 +493,7 @@ static void	free_ims_list(list)
     }
 }
 
-static void	clear_selection_var()
+static void	clear_selection_var(void)
 {
     free_ims_list(curList);
     curList = (ImsList *) 0;
@@ -512,7 +505,7 @@ static void	clear_selection_var()
     selection_changed = False;
 }
 
-int	start_selection_window()
+int	start_selection_window(void)
 {
     int		ret = NoError;
 
@@ -548,8 +541,7 @@ int	start_selection_window()
     return NoError;
 }
 
-static void	finish_selection_window(end_window)
-    int		end_window;
+static void	finish_selection_window(int end_window)
 {
     DPR(("finish_selection_window(end=%s)\n", end_window ? "True" : "False"));
 
@@ -582,9 +574,7 @@ static void	finish_selection_window(end_window)
     return;
 }
 
-static void	done_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	done_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     int		canceled = (int)(intptr_t) client_data == CANCEL_BTN;
     int		idx;
@@ -618,9 +608,7 @@ static void	done_cb(w, client_data, call_data)
     ximsMain();
 }
 
-static void	select_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	select_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     int		new_idx = (int)(intptr_t) client_data;
 
@@ -635,22 +623,18 @@ static void	select_cb(w, client_data, call_data)
     CurIdx = new_idx;
 }
 
-static void	host_btn_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	host_btn_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     start_host_window(CurHost);
 }
 
-static void	help_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	help_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     ximsHelp(HELP_SELECTION);
 }
 
 
-static int	create_selection_window()
+static int	create_selection_window(void)
 {
     Widget	form, sel_rc, host_rc, cmd_rc, lb, sep;
     Widget	w_tbl[8];
@@ -752,9 +736,7 @@ static int	create_selection_window()
 }
 
 
-static int	change_host(new_host, host_type)
-    char	*new_host;
-    int		host_type;
+static int	change_host(char *new_host, int host_type)
 {
     int		ret = NoError;
     ImsList	*new_list = (ImsList *) 0;
@@ -794,8 +776,7 @@ static int	change_host(new_host, host_type)
 #define	createPB	XmCreatePushButton
 #define	createTB	XmCreateToggleButton
 
-static void	add_btn_trans(btn)
-    Widget	btn;
+static void	add_btn_trans(Widget btn)
 {
     char	btn_trans_str[] = "<Key>Return: ArmAndActivate()";
     static XtTranslations	btn_trans = 0;
@@ -814,9 +795,7 @@ static void	add_btn_trans(btn)
 # endif	/* SelectByReturn */
 
 
-static void	change_ims_list(last_ims_name, init_idx)
-    char	*last_ims_name;
-    int		init_idx;
+static void	change_ims_list(char *last_ims_name, int init_idx)
 {
     int	idx;
     int	i, j;
@@ -880,9 +859,7 @@ static void	change_ims_list(last_ims_name, init_idx)
 #undef	IMS_OK
 }
 
-static void	set_host_label(host_type, hostname)
-    int		host_type;
-    char	*hostname;
+static void	set_host_label(int host_type, char *hostname)
 {
     static Widget	lb_host = 0;
 
@@ -914,10 +891,9 @@ static void	set_host_label(host_type, hostname)
 }
 
 
-static void	add_cmd_btn(parent_rc, cb_ok, cb_clear, cb_cancel, cb_host, cb_help)
-    Widget	parent_rc;
-    void	(*cb_ok)(), (*cb_cancel)(), (*cb_clear)(),
-			(*cb_host)(), (*cb_help)();
+static void	add_cmd_btn(Widget parent_rc, void (*cb_ok)(),
+                            void (*cb_clear)(), void (*cb_cancel)(),
+                            void (*cb_host)(), void (*cb_help)())
 {
     Widget	pb[4];
     Arg		args[12];
@@ -996,8 +972,7 @@ static void	add_cmd_btn(parent_rc, cb_ok, cb_clear, cb_cancel, cb_host, cb_help)
 
 	/* ***** host window ***** */
 
-static void	start_host_window(cur_host)
-    char	*cur_host;
+static void	start_host_window(char *cur_host)
 {
     int	ret;
 
@@ -1026,7 +1001,7 @@ static void	start_host_window(cur_host)
     return;
 }
 
-static void	finish_host_window()
+static void	finish_host_window(void)
 {
     DPR(("finish_host_window()\n"));
 
@@ -1037,9 +1012,7 @@ static void	finish_host_window()
     }
 }
 
-static void	host_done_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	host_done_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     int		cancel = (int)(intptr_t) client_data == CANCEL_BTN;
     int		ret = NoError;
@@ -1120,25 +1093,18 @@ static void	host_done_cb(w, client_data, call_data)
 #endif
 }
 
-static void	host_clear_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	host_clear_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     /* if (!HostText)	return; */
     XtVaSetValues(HostText, XmNvalue, "", NULL);
 }
 
-static void	host_done_action(w, ev, args, num_args)
-    Widget	w;
-    XEvent	*ev;
-    String	*args;
-    Cardinal	*num_args;
+static void	host_done_action(Widget w, XEvent *ev, String *args, Cardinal *num_args)
 {
     host_done_cb(w, (XtPointer) OK_BTN, 0);
 }
 
-static void	create_host_window(cur_host)
-    char	*cur_host;
+static void	create_host_window(char *cur_host)
 {
     Widget	form, cmd_rc, lb1, sep, w_tbl[5];
     Widget	host_desc, host_rc, host_lb, host_txt;
@@ -1233,8 +1199,7 @@ static void	create_host_window(cur_host)
 static int	OrgMode = SEL_MODE_NONE;
 static int	CurMode = SEL_MODE_NONE;
 
-int	start_mode_window(cur_mode)
-    int		cur_mode;
+int	start_mode_window(int cur_mode)
 {
     int	ret;
 
@@ -1263,8 +1228,7 @@ int	start_mode_window(cur_mode)
     return NoError;
 }
 
-static void	finish_mode_window(end_window)
-    int		end_window;
+static void	finish_mode_window(int end_window)
 {
     if (ModeW) {
 	XtUnmanageChild(ModeW);
@@ -1280,9 +1244,7 @@ static void	finish_mode_window(end_window)
     return;
 }
 
-static void	mode_done_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	mode_done_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     int		ret = NoError;
     int		canceled = (int)(intptr_t) client_data == CANCEL_BTN;
@@ -1312,9 +1274,7 @@ static void	mode_done_cb(w, client_data, call_data)
 	/* never returns */
 }
 
-static void	mode_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	mode_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     int		is_set = (int)((XmToggleButtonCallbackStruct *)call_data)->set;
     int		is_auto = (int)(intptr_t) client_data;
@@ -1322,15 +1282,12 @@ static void	mode_cb(w, client_data, call_data)
     CurMode = (is_auto && is_set) ? SEL_MODE_AUTO : SEL_MODE_NOAUTO;
 }
 
-static void	mode_help_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	mode_help_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     ximsHelp(HELP_MODE);
 }
 
-static int	create_mode_window(cur_mode)
-    int		cur_mode;
+static int	create_mode_window(int cur_mode)
 {
     Widget	form, mode_rc, cmd_rc, lb1, sep, w_tbl[8];
     Arg		args[16];
@@ -1415,14 +1372,12 @@ static int	create_mode_window(cur_mode)
 
 	/* ********  ximsHelp  ******** */
 
-static void	help_ok(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	help_ok(Widget w, XtPointer client_data, XtPointer call_data)
 {
     stop_help();
 }
 
-void	stop_help()
+void	stop_help(void)
 {
     if (HelpW) {
 	XtUnmanageChild(HelpW);
@@ -1430,7 +1385,7 @@ void	stop_help()
     }
 }
 
-static void	create_help()
+static void	create_help(void)
 {
     int		i;
     Arg		args[10];
@@ -1460,8 +1415,7 @@ static void	create_help()
     return;
 }
 
-void	ximsHelp(help_type)
-    int		help_type;
+void	ximsHelp(int help_type)
 {
     char	*msg = NULL;
     XmString	str;
@@ -1509,9 +1463,7 @@ void	ximsHelp(help_type)
 static int	dialog_resp = XmCR_NONE;
 static bool	in_confirmation = False;
 
-static void	dialog_resp_cb(w, client_data, call_data)
-    Widget	w;
-    XtPointer	client_data, call_data;
+static void	dialog_resp_cb(Widget w, XtPointer client_data, XtPointer call_data)
 {
     Widget	msg_box = (Widget) client_data;
     XmAnyCallbackStruct	*cbs = (XmAnyCallbackStruct *) call_data;
@@ -1529,8 +1481,7 @@ static void	dialog_resp_cb(w, client_data, call_data)
 }
 
 #ifdef	unused
-static int	wait_confirmation(w)
-    Widget	w;
+static int	wait_confirmation(Widget w)
 {
     XtAppContext	context;
 
@@ -1550,9 +1501,7 @@ static int	wait_confirmation(w)
 }
 #endif	/* unused */
 
-int	put_msg_win(type, msg)
-    int		type;
-    char	*msg;
+int	put_msg_win(int type, char *msg)
 {
     int		reply;
     Widget	btn;
@@ -1657,8 +1606,7 @@ int	put_msg_win(type, msg)
 #define	LOC_RIGHT		(1<<3)
 #define	LOC_MARGIN		5
 
-static int	window_location(loc_str)
-    char	*loc_str;
+static int	window_location(char *loc_str)
 {
     int		locate_type = LOC_CENTER;
     char	*lower_str, *p;
@@ -1676,8 +1624,7 @@ static int	window_location(loc_str)
     return locate_type;
 }
 
-static void	locate_window(w)
-    Widget	w;
+static void	locate_window(Widget w)
 {
     int		scr;
     int		x, y;
@@ -1718,9 +1665,7 @@ static void	locate_window(w)
 
 	/* ********  cursor (normal / wait)  ******** */
 
-static void	set_cursor(w, is_wait)
-    Widget	w;
-    int		is_wait;
+static void	set_cursor(Widget w, int is_wait)
 {
     static Cursor	cursors[2] = { None, None };
     int		idx;
@@ -1738,7 +1683,7 @@ static void	set_cursor(w, is_wait)
 
 
 	/* *****  waiting functions  ***** */
-void	xevent_loop()
+void	xevent_loop(void)
 {
     if (appC)
 	XtAppMainLoop(appC);
@@ -1748,7 +1693,7 @@ static time_t		xt_start_tm = 0L;	/* in sec */
 static XtIntervalId	xt_last_timer = (XtIntervalId)0;
 static bool		xt_waiting = False;
 
-void	xt_start_waiting()
+void	xt_start_waiting(void)
 {
     if (!appC)	return;
 
@@ -1763,7 +1708,7 @@ void	xt_start_waiting()
     XtAppMainLoop(appC);
 }
 
-void	xt_stop_waiting()
+void	xt_stop_waiting(void)
 {
     if (xt_last_timer) {
 	XtRemoveTimeOut(xt_last_timer);
@@ -1774,9 +1719,7 @@ void	xt_stop_waiting()
     ximsWaitDone();
 }
 
-static void	xt_timer_cb(client_data, timer_id)
-    XtPointer		client_data;
-    XtIntervalId	*timer_id;
+static void	xt_timer_cb(XtPointer client_data, XtIntervalId *timer_id)
 {
     int		lapse;
 

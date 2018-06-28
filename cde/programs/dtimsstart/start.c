@@ -55,7 +55,7 @@ static int	create_dummy_ic(/* xim */);
 # endif	/* old_hpux */
 
 
-void	ximsStart()
+void	ximsStart(void)
 {
     int		ret;
     UserSelection	*sel = &userSel;
@@ -118,7 +118,7 @@ void	ximsStart()
 }
 
 
-void	ximsWait()
+void	ximsWait(void)
 {
     OpStateVal	oldOpState = OpState;
     UserSelection	*sel = &userSel;
@@ -169,7 +169,7 @@ void	ximsWait()
 }
 
 
-void	ximsWaitDone()
+void	ximsWaitDone(void)
 {
     int		ret;
     UserSelection	*sel = &userSel;
@@ -224,20 +224,18 @@ void	ximsWaitDone()
     ximsMain();
 }
 
-int	is_waiting()
+int	is_waiting(void)
 {
     return userSel.renv && userSel.renv->status == ErrImsWaiting;
 }
 
-void	set_sig_chld(enable)
-    int		enable;
+void	set_sig_chld(int enable)
 {
     DPR(("set_sig_chld(%s)\n", enable ? "Enabled" : "Disabled"));
     signal(SIGCHLD, enable ? on_sig_chld : SIG_IGN);
 }
 
-int	im_mod_available(renv)
-    RunEnv	*renv;
+int	im_mod_available(RunEnv *renv)
 {
     Window	owner;
 
@@ -283,9 +281,7 @@ int	im_mod_available(renv)
 
 	/* ***** IMS options ***** */
 
-int	mk_ims_option(ptr, sel)
-    char	*ptr;
-    UserSelection	*sel;
+int	mk_ims_option(char *ptr, UserSelection *sel)
 {
     char	*bp = ptr;
     FileSel	*fsel = sel->fsel;
@@ -326,8 +322,7 @@ int	mk_ims_option(ptr, sel)
     return (int) (bp - ptr);
 }
 
-static int	check_ims_opt(ptr)
-    char	*ptr;
+static int	check_ims_opt(char *ptr)
 {
 	/* option string must not contain any of shell's metacaharacters */
     if (strpbrk(ptr, "`'\"#;&()|<>\n")) {
@@ -346,7 +341,7 @@ static int	check_ims_opt(ptr)
 
 static bool	resource_loaded = False;
 
-int	load_resources()
+int	load_resources(void)
 {
     int		ret;
     int		empty;
@@ -395,7 +390,7 @@ int	load_resources()
     return ret;
 }
 
-int	restore_resources()
+int	restore_resources(void)
 {
     if (!resource_loaded) {
 	DPR2(("restore_resources: not loaded yet -- not restored\n"));
@@ -405,8 +400,7 @@ int	restore_resources()
     return restore_RM();
 }
 
-static char	*find_session_resfile(res_type)
-    int		res_type;
+static char	*find_session_resfile(int res_type)
 {
     char	path[MAXPATHLEN];
     char	**ls = (char **) 0, **pp;
@@ -449,8 +443,7 @@ static char	*find_session_resfile(res_type)
 
 	/* ***** local functions ***** */
 
-static int	check_selection(sel)
-    UserSelection	*sel;
+static int	check_selection(UserSelection *sel)
 {
     int		ret = NoError;
 
@@ -470,8 +463,7 @@ static int	check_selection(sel)
     return ret;
 }
 
-static int	build_run_env(sel)
-    UserSelection	*sel;
+static int	build_run_env(UserSelection *sel)
 {
     char	*p;
     int		proto;
@@ -570,8 +562,7 @@ static int	build_run_env(sel)
     return NoError;
 }
 
-static int	run_ims(sel)
-    UserSelection	*sel;
+static int	run_ims(UserSelection *sel)
 {
     int		ret = NoError;
 
@@ -598,8 +589,7 @@ static int	run_ims(sel)
     return ret;
 }
 
-static int	invoke_ims(sel)
-    UserSelection	*sel;
+static int	invoke_ims(UserSelection *sel)
 {
     RunEnv	*renv = sel->renv;
     pid_t	pid;
@@ -646,8 +636,7 @@ static int	invoke_ims(sel)
     return NoError;
 }
 
-static void	on_sig_chld(sig)
-    int sig;
+static void	on_sig_chld(int sig)
 {
     int		wait_status = 0;
     pid_t	pid;
@@ -703,9 +692,7 @@ static void	on_sig_chld(sig)
     return;
 }
 
-static bool	is_ims_running(renv, ims)
-    RunEnv	*renv;
-    ImsConf	*ims;
+static bool	is_ims_running(RunEnv *renv, ImsConf *ims)
 {
     char	*prop_str;
     Window	owner;
@@ -745,8 +732,7 @@ static bool	is_ims_running(renv, ims)
 }
 
 
-static int	settle_ims(sel)
-    UserSelection	*sel;
+static int	settle_ims(UserSelection *sel)
 {
 
     if (isXsession()) {
@@ -774,9 +760,7 @@ static int	settle_ims(sel)
     return NoError;
 }
 
-static Window	property_owner(prop_atom, prop_str)
-    Atom	*prop_atom;
-    char	*prop_str;
+static Window	property_owner(Atom *prop_atom, char *prop_str)
 {
     Atom	property = prop_atom ? *prop_atom : None;
 
@@ -799,16 +783,14 @@ static Window	property_owner(prop_atom, prop_str)
 static jmp_buf	jmp_env;
 static Window	dmy_win = 0;	/* temporary window used for XCreateIC() */
 
-static void	catch_alarm(sig)
-    int	sig;
+static void	catch_alarm(int	sig)
 {
     signal(SIGALRM, SIG_IGN);
     alarm(0);
     longjmp(jmp_env, 1);
 }
 
-static int	try_connection(sel)
-    UserSelection	*sel;
+static int	try_connection(UserSelection *sel)
 {
     RunEnv	*renv = sel->renv;
     ImsConf	*ims = sel->ent->ims;
@@ -886,8 +868,7 @@ static int	try_connection(sel)
     return ic_ok ? NoError : ErrImsTimeout;	/* ErrImsConnect; */
 }
 
-static int	create_dummy_ic(xim)
-    XIM		xim;
+static int	create_dummy_ic(XIM xim)
 {
     int		scr;
     XFontSet	fset;
