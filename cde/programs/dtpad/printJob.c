@@ -282,7 +282,7 @@ PrintJobCancel(PrintJob *pJob)
  *	Returns the last print display on which an error occurred.
  ************************************************************************/
 Display *
-PrintJobGetErrorPrintDisplay()
+PrintJobGetErrorPrintDisplay(void)
 {
     return _pjErrorPrintDisplay;
 }
