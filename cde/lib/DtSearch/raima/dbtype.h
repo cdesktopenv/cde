@@ -355,17 +355,10 @@ typedef struct RN_ENTRY_S {
 #define	 NUM2INT(num, offset) 	 ((num) + db_global.Curr_db_table->offset)
 #define	 NUM2EXT(num, offset) 	 ((num) - db_global.Curr_db_table->offset)
 #define	 ORIGIN(offset)	      	 (curr_db_table->offset)
-#ifndef NO_DBN
 #define	 CURR_DB_PARM	      	 , curr_db
 #define	 DBN_PARM    	      	 , dbn
 #define  DBN_ONLY		 dbn
 #define	 DBN_DECL    	      	 int dbn;
-#else
-#define	 CURR_DB_PARM	      	 /**/
-#define	 DBN_PARM    	      	 /**/
-#define  DBN_ONLY		 /**/
-#define	 DBN_DECL    	      	 /**/
-#endif
 #else
 #define	 DB_REF(item)     	 (db_global.item)
 #define  RN_REF(item)		 (db_global.item)
@@ -515,11 +508,6 @@ typedef struct MESSAGE_S {
 #endif				/* GENERAL */
 } MESSAGE;
 
-#ifdef ONE_DB
-#define NO_DBN
-#endif
-
-#ifndef NO_DBN			   /* NO_DBN */
 #ifdef COMMA				 /* COMMA */
 #define DB_ID , dbn
 #define NO_DB_ID , -1
@@ -530,12 +518,6 @@ typedef struct MESSAGE_S {
 #define DBN_PARAM b
 #define COMMA
 #endif				 	 /* COMMA */
-#else                              /* NO_DBN */
-#define DBN_PARAM /**/
-#define DB_ID /**/
-#define DB_PARM /**/
-#define NO_DB_ID /**/
-#endif				   /* NO_DBN */
 
 #define TASK_PARAM /**/
 #define TASK_ID /**/

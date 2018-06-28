@@ -463,102 +463,6 @@ int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn);
 #define d_utscr(a)                   dt_utscr(a CURRTASK_PARM)
 #endif
 
-#ifdef NO_DBN_PARM
-#define d_cmstat(a)                  dt_cmstat(a CURRTASK_PARM)
-#define d_cmtype(a, b)               dt_cmtype(a, b CURRTASK_PARM)
-#define d_connect(a)                 dt_connect(a CURRTASK_PARM)
-#ifndef NO_TIMESTAMP
-#define d_costat(a)                  dt_costat(a CURRTASK_PARM)
-#endif
-#define d_cotype(a, b)               dt_cotype(a, b CURRTASK_PARM)
-#define d_crget(a)                   dt_crget(a CURRTASK_PARM)
-#define d_crread(a, b)               dt_crread(a, b CURRTASK_PARM)
-#define d_crset(a)                   dt_crset(a CURRTASK_PARM)
-#define d_crtype(a)                  dt_crtype(a CURRTASK_PARM)
-#define d_crwrite(a, b)              dt_crwrite(a, b CURRTASK_PARM)
-#define d_csmget(a, b)               dt_csmget(a, b CURRTASK_PARM)
-#define d_csmread(a, b, c)           dt_csmread(a, b, c CURRTASK_PARM)
-#define d_csmset(a, b)               dt_csmset(a, b CURRTASK_PARM)
-#define d_csmwrite(a, b, c)          dt_csmwrite(a, b, c CURRTASK_PARM)
-#define d_csoget(a, b)               dt_csoget(a, b CURRTASK_PARM)
-#define d_csoread(a, b, c)           dt_csoread(a, b, c CURRTASK_PARM)
-#define d_csoset(a, b)               dt_csoset(a, b CURRTASK_PARM)
-#define d_csowrite(a, b, c)          dt_csowrite(a, b, c CURRTASK_PARM)
-#ifndef NO_TIMESTAMP
-#define d_csstat(a)                  dt_csstat(a CURRTASK_PARM)
-#define d_ctscm(a, b)                dt_ctscm(a, b CURRTASK_PARM)
-#define d_ctsco(a, b)                dt_ctsco(a, b CURRTASK_PARM)
-#define d_ctscr(a)                   dt_ctscr(a CURRTASK_PARM)
-#endif
-#define d_delete()                   dt_delete(CURRTASK_ONLY)
-#define d_disdel()                   dt_disdel(CURRTASK_ONLY)
-#define d_recnext()                  dt_recnext(CURRTASK_ONLY)
-#define d_recprev()                  dt_recprev(CURRTASK_ONLY)
-#define d_discon(a)                  dt_discon(a CURRTASK_PARM)
-#define d_fillnew(a, b)              dt_fillnew(a, b CURRTASK_PARM)
-#define d_findco(a)                  dt_findco(a CURRTASK_PARM)
-#define d_findfm(a)                  dt_findfm(a CURRTASK_PARM)
-#define d_findlm(a)                  dt_findlm(a CURRTASK_PARM)
-#define d_findnm(a)                  dt_findnm(a CURRTASK_PARM)
-#define d_findpm(a)                  dt_findpm(a CURRTASK_PARM)
-#ifndef NO_TIMESTAMP
-#define d_gtscm(a, b)                dt_gtscm(a, b CURRTASK_PARM)
-#define d_gtsco(a, b)                dt_gtsco(a, b CURRTASK_PARM)
-#define d_gtscs(a, b)                dt_gtscs(a, b CURRTASK_PARM)
-#endif
-#define d_initialize()               dt_initialize(CURRTASK_ONLY)
-#define d_initfile(a)                dt_initfile(a CURRTASK_PARM)
-#define d_ismember(a)                dt_ismember(a CURRTASK_PARM)
-#define d_isowner(a)                 dt_isowner(a CURRTASK_PARM)
-#define d_keydel(a)                  dt_keydel(a CURRTASK_PARM)
-#define d_keyexist(a)                dt_keyexist(a CURRTASK_PARM)
-#define d_keyfind(a, b)              dt_keyfind(a, b CURRTASK_PARM)
-#define d_keyfree(a)                 dt_keyfree(a CURRTASK_PARM)
-#define d_keyfrst(a)                 dt_keyfrst(a CURRTASK_PARM)
-#define d_keylast(a)                 dt_keylast(a CURRTASK_PARM)
-#define d_keylock(a, b)              dt_keylock(a, b CURRTASK_PARM)
-#define d_keylstat(a, b)             dt_keylstat(a, b CURRTASK_PARM)
-#define d_keynext(a)                 dt_keynext(a CURRTASK_PARM)
-#define d_keyprev(a)                 dt_keyprev(a CURRTASK_PARM)
-#define d_keyread(a)                 dt_keyread(a CURRTASK_PARM)
-#define d_keystore(a)                dt_keystore(a CURRTASK_PARM)
-#define d_lock(a, b)                 dt_lock(a, b CURRTASK_PARM)
-#define d_makenew(a)                 dt_makenew(a CURRTASK_PARM)
-#define d_members(a, b)              dt_members(a, b CURRTASK_PARM)
-#define d_recfree(a)                 dt_recfree(a CURRTASK_PARM)
-#define d_recfrst(a)                 dt_recfrst(a CURRTASK_PARM)
-#define d_reclast(a)                 dt_reclast(a CURRTASK_PARM)
-#define d_reclock(a, b)              dt_reclock(a, b CURRTASK_PARM)
-#define d_reclstat(a, b)             dt_reclstat(a, b CURRTASK_PARM)
-#define d_recread(a)                 dt_recread(a CURRTASK_PARM)
-#define d_recset(a)                  dt_recset(a CURRTASK_PARM)
-#define d_recwrite(a)                dt_recwrite(a CURRTASK_PARM)
-#define d_setfree(a)                 dt_setfree(a CURRTASK_PARM)
-#define d_setkey(a, b)               dt_setkey(a, b CURRTASK_PARM)
-#define d_setlock(a, b)              dt_setlock(a, b CURRTASK_PARM)
-#define d_setlstat(a, b)             dt_setlstat(a, b CURRTASK_PARM)
-#define d_setmm(a, b)                dt_setmm(a, b CURRTASK_PARM)
-#define d_setmo(a, b)                dt_setmo(a, b CURRTASK_PARM)
-#define d_setmr(a)                   dt_setmr(a CURRTASK_PARM)
-#define d_setom(a, b)                dt_setom(a, b CURRTASK_PARM)
-#define d_setoo(a, b)                dt_setoo(a, b CURRTASK_PARM)
-#define d_setor(a)                   dt_setor(a CURRTASK_PARM)
-#define d_setrm(a)                   dt_setrm(a CURRTASK_PARM)
-#define d_setro(a)                   dt_setro(a CURRTASK_PARM)
-#ifndef NO_TIMESTAMP
-#define d_stscm(a, b)                dt_stscm(a, b CURRTASK_PARM)
-#define d_stsco(a, b)                dt_stsco(a, b CURRTASK_PARM)
-#define d_stscr(a)                   dt_stscr(a CURRTASK_PARM)
-#define d_stscs(a, b)                dt_stscs(a, b CURRTASK_PARM)
-#endif
-#ifndef NO_TIMESTAMP
-#define d_utscm(a, b)                dt_utscm(a, b CURRTASK_PARM)
-#define d_utsco(a, b)                dt_utsco(a, b CURRTASK_PARM)
-#define d_utscs(a, b)                dt_utscs(a, b CURRTASK_PARM)
-#endif
-
-#else /* NO_DBN_PARM */
-
 #define d_cmstat(a DBN_PARM)         dt_cmstat(a CURRTASK_PARM DBN_PARM)
 #define d_cmtype(a, b DBN_PARM)      dt_cmtype(a, b CURRTASK_PARM DBN_PARM)
 #define d_connect(a DBN_PARM)        dt_connect(a CURRTASK_PARM DBN_PARM)
@@ -651,7 +555,6 @@ int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn);
 #define d_utsco(a, b DBN_PARM)       dt_utsco(a, b CURRTASK_PARM DBN_PARM)
 #define d_utscs(a, b DBN_PARM)       dt_utscs(a, b CURRTASK_PARM DBN_PARM)
 #endif
-#endif /* NO_DBN_PARM */
 
 #endif /* NO_DT_COVER */
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC task.h */

@@ -289,16 +289,6 @@ extern int db_oflag;
 typedef int (PASCAL *FARPROC)();
 typedef char *HANDLE;
 
-#ifdef NO_DBN_PARM
-#ifdef DBN_IN_LIB
-#define EXTERNAL_DBN EXTERNAL_VARIABLE
-#else
-#define EXTERNAL_DBN EXTERNAL_FIXED
-#endif
-#else
-#define EXTERNAL_DBN EXTERNAL_VARIABLE
-#endif
-
 #define LOCK_DESC /**/
 #define POINTER_INIT()		{  NULL  }
 #define POINTER_ASSIGN(a)	{  a  }
@@ -327,23 +317,11 @@ typedef struct {DB_ADDR *ptr; LOCK_DESC} DB_ADDR_P;
 #define Pv(t)	/**/
 #endif
 
-#ifdef  ONE_DB
-#define NO_DBN
-#endif
 
-#ifdef NO_DBN_PARM 
-#define NO_DBN
-#endif
 
-#ifndef NO_DBN
 #define DBN_D1 Pv(int)
 #define DBN_FIX_D1 P1(int)
 #define DBN_Dn Piv(int)
-#else
-#define DBN_D1 P0
-#define DBN_FIX_D1 /**/
-#define DBN_Dn /**/
-#endif
 
 #define TASK_DBN_D1 DBN_D1
 #define TASK_D1 P0

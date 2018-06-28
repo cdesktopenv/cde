@@ -288,11 +288,7 @@ char * get_element(P1(char *) Pi(int));
 int renfiles(P0);
 
 /* From startup.c: */
-#ifndef NO_DBN_PARM
 int startup(DBN_FIX_D1 TASK_PTR_Di LOCK_Di);
-#else
-#define startup() S_OKAY
-#endif
 
 /* From taffcns.c: */
 int taf_open(P0);

@@ -56,12 +56,10 @@ LOCK_DECL
       taskinit(&db_global);
       db_glob_init = 1;
    }
-#ifndef NO_DBN_PARM
 #ifndef ONE_DB
    if ( dbn >= 0 && dbn_check(dbn) != S_OKAY ) {
       return( db_status );
    }
-#endif
 #endif
    return( db_status );
 }
