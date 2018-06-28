@@ -646,9 +646,7 @@ ErrorHandler(
  *
  ************************************************************************/
 static int
-IOErrorHandler (display)
- Display *display;
-
+IOErrorHandler (Display *display)
 {
 #ifdef DEBUG
     Warning ("X IO error occurred during generic operation");

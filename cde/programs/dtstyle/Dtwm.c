@@ -196,7 +196,7 @@ popup_dtwmBB(
 /*+++++++++++++++++++++++++++++++++++++++*/
 
 static void 
-getDtwmValues( )
+getDtwmValues(void)
 {
     char *str_type_return;
     XrmValue value_return;

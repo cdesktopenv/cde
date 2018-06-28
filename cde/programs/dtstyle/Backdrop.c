@@ -258,7 +258,7 @@ free_dirList(char ** dirList,
  *  SelectCurrentBackdrop() - Selects current backdrop in list
  *
  ************************************************************************/
-void SelectCurrentBackdrop(callback)
+void SelectCurrentBackdrop(int callback)
 {
     DtWsmWorkspaceInfo   *wInfo=NULL;
     Atom	     aWS;

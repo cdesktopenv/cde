@@ -54,7 +54,7 @@
 #include "Help.h"
 
 static Widget
-GetHelpDialog( )
+GetHelpDialog(void)
 {
     static HelpStruct       *pHelpCache;
 
