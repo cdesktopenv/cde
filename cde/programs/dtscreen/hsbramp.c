@@ -46,13 +46,7 @@
 #include <math.h>
 
 void
-hsb2rgb(H, S, B, r, g, b)
-    double      H,
-                S,
-                B;
-    u_char     *r,
-               *g,
-               *b;
+hsb2rgb(double H, double S, double B,  u_char *r, u_char *g, u_char *b)
 {
     int         i;
     double      f;

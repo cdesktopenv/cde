@@ -139,8 +139,7 @@ static Window *winprop = NULL;  /* dtsession cover windows */
 
 /* VARARGS1 */
 void
-error(s1, s2)
-    char       *s1, *s2;
+error(char *s1, char *s2)
 {
     fprintf(stderr, s1, ProgramName, s2);
     exit(1);
