@@ -65,7 +65,7 @@ char *vstrs[MAXVMESS] ;
 
 
 void
-init_cmdline_opts()      /* Initialize command line option strings. */
+init_cmdline_opts(void)      /* Initialize command line option strings. */
 {
   cmdstr[(int) CMD_ACC]      = "-a" ;
   cmdstr[(int) CMD_MODE]      = "-m" ;
@@ -78,7 +78,7 @@ init_cmdline_opts()      /* Initialize command line option strings. */
 
 
 void
-init_text()   /* Setup text strings depending upon language. */
+init_text(void)   /* Setup text strings depending upon language. */
 {
   int i ;
 
@@ -640,7 +640,7 @@ init_text()   /* Setup text strings depending upon language. */
 }
 
 void
-init_mess()   /* Setup text strings depending upon language. */
+init_mess(void)   /* Setup text strings depending upon language. */
 {
   int i ;
 

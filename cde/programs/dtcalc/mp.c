@@ -1633,8 +1633,7 @@ L130:
 
 
 void
-mpdiv(x, y, z)
-int *x, *y, *z ;
+mpdiv(int *x, int *y, int *z)
 {
   static int i, i2, ie, iz3 ;
 
