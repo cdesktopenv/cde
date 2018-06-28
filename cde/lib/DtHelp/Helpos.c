@@ -390,7 +390,7 @@ char *_DtHelpGetMessage(
  *                 If that is NULL, returns NULL.
  *
  *****************************************************************************/
-char *_DtHelpGetLocale()
+char *_DtHelpGetLocale(void)
 {
     char *loc;
 

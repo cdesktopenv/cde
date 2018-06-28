@@ -45,7 +45,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char * _DtCliSrvGetDtUserSession()
+char * _DtCliSrvGetDtUserSession(void)
 {
   char * envVar = getenv("DTUSERSESSION");
   char * ret_envVar = NULL;

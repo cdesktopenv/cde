@@ -93,7 +93,7 @@ static short hexTable[256];		/* conversion value */
  *	Table index for the hex values. Initialized once, first time.
  *	Used for translation value or delimiter significance lookup.
  */
-static void initHexTable()
+static void initHexTable(void)
 {
     /*
      * We build the table at run time for several reasons:
@@ -124,8 +124,7 @@ static void initHexTable()
 /*
  *	read next hex value in the input stream, return -1 if EOF
  */
-static int NextInt (fstream)
-    _DtGrStream *fstream;
+static int NextInt (_DtGrStream *fstream)
 {
     int	ch;
     int	value = 0;
