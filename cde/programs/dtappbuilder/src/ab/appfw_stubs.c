@@ -531,8 +531,7 @@ appfw_editor_apply(
 }
 
 static void
-turnoff_changebars(
-)
+turnoff_changebars(void)
 {
 
     prop_set_changebar(afs->vendor.changebar,    	PROP_CB_OFF);
@@ -621,8 +620,7 @@ obj_destroyedOCB(
  * the Application Framework Editor
  */
 static BOOL
-appfw_editor_pending(
-)
+appfw_editor_pending(void)
 {
     if (afs && prop_changebars_pending(afs->prop_sheet))
 	return TRUE;

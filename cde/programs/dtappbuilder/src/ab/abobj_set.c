@@ -2112,22 +2112,19 @@ abobj_set_save_needed(
 }
 
 void
-abobj_disable_save_needed(
-)
+abobj_disable_save_needed(void)
 {
     save_needed_enabled = FALSE;
 }
 
 void
-abobj_enable_save_needed(
-)
+abobj_enable_save_needed(void)
 {
     save_needed_enabled = TRUE;
 }
 
 BOOL
-abobj_save_needed_enabled(
-)
+abobj_save_needed_enabled(void)
 {
     return (save_needed_enabled);
 }

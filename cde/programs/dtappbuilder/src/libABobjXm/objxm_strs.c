@@ -159,8 +159,7 @@ static XtArgVal	resize_default(WidgetClass wclass);
  * Initialize all Xm string tables
  */
 void
-objxm_strs_init(
-)
+objxm_strs_init(void)
 {
     load_enum_table();
     load_res_table();
@@ -606,8 +605,7 @@ xm_reg_res(
  * Load the resource table with known Motif/Xt resource names
  */
 static void
-load_res_table(
-)
+load_res_table(void)
 {
 #define REG(xmn_, strn_, type_, enumt_, defv_, deff_) \
 	  (objxm_register_res(xmn_, strn_, type_, AB_ARG_CLASS_UNDEF, enumt_, defv_, deff_));
@@ -1164,8 +1162,7 @@ find_res_entry_by_strname(ISTRING strname)
  * Load the enum table with known Motif/Xt enum definition/strings
  */ 
 static void
-load_enum_table(
-)
+load_enum_table(void)
 {
 #define XM_REG_ENUM(tbl_, i_, xmd_, strd_) \
               {  (tbl_).enums[i_].xmdef = (xmd_); \
@@ -1473,8 +1470,7 @@ load_enum_table(
  * Load the xmcreate table with known Motif/Xt create routines/strings
  */
 static void
-load_xmcreate_table(
-)
+load_xmcreate_table(void)
 {
 #define XM_REG_XMCREATE(i_, ftn_, fstr_) \
               {  xm_xmcreate_table[i_].ftn = (ftn_); \

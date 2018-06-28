@@ -89,7 +89,7 @@ static BOOL         align_tab_inited = FALSE;
 #define align_tab_check_init() (align_tab_inited? 0:align_tab_init())
 
 static int
-align_tab_init()
+align_tab_init(void)
 {
 #define at align_tab
     align_tab_inited = TRUE;
@@ -122,7 +122,7 @@ static BOOL         arg_type_tab_inited = FALSE;
 #define arg_type_tab_check_init() (arg_type_tab_inited? 0:arg_type_tab_init())
 
 static int
-arg_type_tab_init()
+arg_type_tab_init(void)
 {
 #define att arg_type_tab
     arg_type_tab_inited = TRUE;
@@ -152,7 +152,7 @@ static BOOL         gat_inited = FALSE;
 #define gat_check_init() (gat_inited? 0:gat_init())
 
 static int
-gat_init()
+gat_init(void)
 {
     convert_fill_table(gat, AB_GIL_ATTRIBUTE_NUM_VALUES, istr_const(NULL));
 
@@ -316,7 +316,7 @@ static ISTRING      builtin_action_table[AB_BUILTIN_ACTION_NUM_VALUES] = {NULL};
 	(builtin_action_table_inited? 0:builtin_action_table_init())
 
 static int
-builtin_action_table_init()
+builtin_action_table_init(void)
 {
 #define bat builtin_action_table
     builtin_action_table_inited = TRUE;
@@ -379,7 +379,7 @@ static BOOL         button_type_tab_inited = FALSE;
 		(button_type_tab_inited? 0:button_type_tab_init())
 
 static int
-button_type_tab_init()
+button_type_tab_init(void)
 {
 #define btt button_type_tab
     button_type_tab_inited = TRUE;
@@ -411,7 +411,7 @@ static BOOL         compass_tab_inited = FALSE;
 #define cp_tab_check_init() (compass_tab_inited? 0:compass_tab_init())
 
 static int
-compass_tab_init()
+compass_tab_init(void)
 {
 #define cpt compass_tab
     compass_tab_inited = TRUE;
@@ -488,7 +488,7 @@ static BOOL         label_type_tab_inited = FALSE;
 		(label_type_tab_inited? 0:label_type_tab_init())
 
 static int
-label_type_tab_init()
+label_type_tab_init(void)
 {
 #define ltt label_type_tab
     label_type_tab_inited = TRUE;
@@ -590,7 +590,7 @@ static ISTRING      obj_type_table[AB_OBJECT_TYPE_NUM_VALUES + 1] = {NULL};
 	(obj_type_table_inited? 0:obj_type_table_init())
 
 static int
-obj_type_table_init()
+obj_type_table_init(void)
 {
 #define ott obj_type_table
     obj_type_table_inited = TRUE;
@@ -714,7 +714,7 @@ static BOOL         when_table_inited = FALSE;
 		if (!when_table_inited) {when_table_init();}
 
 static int
-when_table_init()
+when_table_init(void)
 {
 #define wt when_table
     int                 i = 0;

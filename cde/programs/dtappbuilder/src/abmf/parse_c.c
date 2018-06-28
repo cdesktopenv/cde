@@ -1681,7 +1681,7 @@ epilogue:
 
 
 CSegArray
-cseg_array_create()
+cseg_array_create(void)
 {
     CSegArray	newArray = (CSegArray)util_malloc(sizeof(CSegArrayRec));
     if (newArray != NULL)
@@ -1869,7 +1869,7 @@ main(int argc, char *argv[])
 /* DTB_USER_CODE_START */
 
 static int
-myfunc()
+myfunc(void)
 {
     return 0;
 }

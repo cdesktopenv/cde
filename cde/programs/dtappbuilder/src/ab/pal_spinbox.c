@@ -916,7 +916,7 @@ setup_content_settings(
 }
 
 static int
-spinbox_install_obj_destroy_CB()
+spinbox_install_obj_destroy_CB(void)
 {
     static BOOL	callback_installed = False;
 

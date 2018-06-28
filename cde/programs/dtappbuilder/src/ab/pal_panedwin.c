@@ -814,7 +814,7 @@ pw_obj_reparentedOCB(
 }
 
 static void
-panedwinEdP_init()
+panedwinEdP_init(void)
 {
     obj_add_reparent_callback(pw_obj_reparentedOCB, "panedwinEdP_init");
     obj_add_rename_callback(pw_obj_renamedOCB, "panedwinEdP_init");
@@ -826,8 +826,7 @@ panedwinEdP_init()
  * Create a paned window out of the selected group of objects.
  */
 void
-abobj_make_panedwin(
-)
+abobj_make_panedwin(void)
 {
     ABObj         	project = proj_get_project();
     ABObj         	obj = (ABObj) NULL;
@@ -1076,8 +1075,7 @@ west_compare(
  * paned window and delete the paned window object.
  */
 void
-abobj_unmake_panedwin(
-)
+abobj_unmake_panedwin(void)
 {
     ABObj		project = proj_get_project();
     ABObj		pw_obj = NULL;

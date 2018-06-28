@@ -1837,7 +1837,7 @@ proj_show_proj_dir(void)
 }
 
 void
-proj_name_proj()
+proj_name_proj(void)
 {
     STRING              proj_name = NULL;
     UI_MODAL_ANSWER     answer = UI_ANSWER_NONE;

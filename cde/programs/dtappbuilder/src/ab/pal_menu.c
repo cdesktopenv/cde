@@ -931,7 +931,7 @@ menu_editCB(
  * Object destroy callback
  */
 static int
-prop_menu_install_obj_destroy_CB()
+prop_menu_install_obj_destroy_CB(void)
 {
     static BOOL	callback_installed = False;
 

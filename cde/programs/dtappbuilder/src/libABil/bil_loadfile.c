@@ -392,7 +392,7 @@ epilogue:
  */
 
 int
-bilP_load_end_of_file()
+bilP_load_end_of_file(void)
 {
     bilP_reset_token_text();
     return 0;
@@ -400,7 +400,7 @@ bilP_load_end_of_file()
 
 
 int
-bilP_load_end_of_data()
+bilP_load_end_of_data(void)
 {
     fseek(AByyin, 0, SEEK_END);		/* move to end of file */
     return 0;

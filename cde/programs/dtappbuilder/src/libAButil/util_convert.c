@@ -121,7 +121,7 @@ static ISTRING	builtin_action_table[AB_BUILTIN_ACTION_NUM_VALUES]= {NULL};
 	(builtin_action_table_inited? 0:builtin_action_table_init())
 
 static int
-builtin_action_table_init()
+builtin_action_table_init(void)
 {
 #define bat builtin_action_table
 	builtin_action_table_inited= TRUE;
@@ -176,7 +176,7 @@ static ISTRING obj_type_table[AB_OBJECT_TYPE_NUM_VALUES+1]= {NULL};
 	(obj_type_table_inited? 0:obj_type_table_init())
 
 static int
-obj_type_table_init()
+obj_type_table_init(void)
 {
 #define ott obj_type_table
     obj_type_table_inited= TRUE;
@@ -248,7 +248,7 @@ static ISTRING browser_obj_type_table[AB_OBJECT_TYPE_NUM_VALUES+1]= {NULL};
 	(browser_obj_type_table_inited? 0:browser_obj_type_table_init())
 
 static int
-browser_obj_type_table_init()
+browser_obj_type_table_init(void)
 {
 #define bott browser_obj_type_table
     browser_obj_type_table_inited= TRUE;
@@ -316,7 +316,7 @@ static ISTRING	when_table[AB_WHEN_NUM_VALUES];
 static BOOL	when_table_inited= FALSE;
 
 static int
-when_table_init()
+when_table_init(void)
 {
 #define wt when_table
 	int	i= 0;
@@ -389,7 +389,7 @@ static BOOL	align_tab_inited= FALSE;
 #define align_tab_check_init() (align_tab_inited? 0:align_tab_init())
 
 static int
-align_tab_init()
+align_tab_init(void)
 {
 #define at align_tab
     align_tab_inited= TRUE;
@@ -429,7 +429,7 @@ static BOOL	label_type_tab_inited= FALSE;
 		(label_type_tab_inited? 0:label_type_tab_init())
 
 static int
-label_type_tab_init()
+label_type_tab_init(void)
 {
 #define ltt label_type_tab
 	label_type_tab_inited= TRUE;
@@ -469,7 +469,7 @@ static BOOL	button_type_tab_inited= FALSE;
 		(button_type_tab_inited? 0:button_type_tab_init())
 
 static int
-button_type_tab_init()
+button_type_tab_init(void)
 {
 #define btt button_type_tab
     button_type_tab_inited= TRUE;
@@ -504,7 +504,7 @@ static BOOL	arg_class_tab_inited= FALSE;
 		(arg_class_tab_inited? 0:arg_class_tab_init())
 
 static int
-arg_class_tab_init()
+arg_class_tab_init(void)
 {
 #define att arg_class_tab
     arg_class_tab_inited= TRUE;
@@ -585,7 +585,7 @@ static BOOL	arg_type_tab_inited= FALSE;
 #define arg_type_tab_check_init() (arg_type_tab_inited? 0:arg_type_tab_init())
 
 static int
-arg_type_tab_init()
+arg_type_tab_init(void)
 {
 #define att arg_type_tab
     arg_type_tab_inited= TRUE;
@@ -703,7 +703,7 @@ static BOOL     container_tab_inited= FALSE;
 #define container_tab_check_init() (container_tab_inited? 0:container_tab_init())
  
 static int
-container_tab_init()
+container_tab_init(void)
 {
 #define cont container_tab
     container_tab_inited= TRUE;
@@ -747,7 +747,7 @@ static BOOL     item_tab_inited= FALSE;
 #define item_tab_check_init() (item_tab_inited? 0:item_tab_init())
  
 static int
-item_tab_init()
+item_tab_init(void)
 {
 #define it item_tab
     item_tab_inited= TRUE;

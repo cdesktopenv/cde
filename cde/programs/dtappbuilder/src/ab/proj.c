@@ -248,7 +248,7 @@ static int	select_fn(
  * Dialog shell.
  */
 void
-proj_show_dialog()
+proj_show_dialog(void)
 {
     ABObj		proj = proj_get_project();
     BrowserUiObj 	ui;
@@ -320,7 +320,7 @@ projP_store_viewer(
  * Create viewer data structure for project window
  */
 static Vwr
-create_proj_struct()
+create_proj_struct(void)
 {
     Vwr			v;
     extern VMethods	projP_methods;
@@ -893,8 +893,7 @@ mult_module_selected(
 }
 
 int
-proj_init(
-)
+proj_init(void)
 {
     obj_add_rename_callback(projP_obj_renameOCB, "PROJ");
     obj_add_destroy_callback(projP_obj_destroyOCB, "PROJ");
@@ -948,8 +947,7 @@ proj_set_project(
 }
 
 ABObj
-proj_get_project(
-)
+proj_get_project(void)
 {
     return AB_project;
 }
@@ -972,8 +970,7 @@ proj_set_cur_module(
 }
 
 ABObj
-proj_get_cur_module(
-)
+proj_get_cur_module(void)
 {
     return AB_cur_module;
 }

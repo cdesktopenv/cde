@@ -1200,8 +1200,7 @@ abobj_set_menu_item_state(
 }
 
 void
-abobj_strings_init(
-)
+abobj_strings_init(void)
 {
     char 	*props_str;
     char 	*undo_str;

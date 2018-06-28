@@ -843,7 +843,7 @@ typeCB(
  * Object destroy callback
  */
 static int
-prop_choice_install_obj_destroy_CB()
+prop_choice_install_obj_destroy_CB(void)
 {
     static BOOL	callback_installed = False;
 

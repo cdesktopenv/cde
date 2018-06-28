@@ -297,8 +297,7 @@ static void 		set_ctrls_for_target(
 
 
 extern void
-conn_init(
-)
+conn_init(void)
 {
     conn_strings_init();
 
@@ -1883,7 +1882,7 @@ connP_update_on_show_status(
 
 
 BOOL
-connP_conn_is_possible()
+connP_conn_is_possible(void)
 {
     BOOL        ConnIsPossible = FALSE;
     ABObj	source = NULL,

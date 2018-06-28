@@ -1591,10 +1591,7 @@ brws_delete_objects
 /*
  * create_browser_window - creates a new browser main window
  */
-ABBrowser
-brws_create
-(
-)
+ABBrowser brws_create(void)
 {
     ABBrowser	b;
 
@@ -2160,7 +2157,7 @@ aob_proj_init_state
  * Initialize the object browser.
  */
 static ABBrowser
-create_browser_struct()
+create_browser_struct(void)
 {
     ABBrowser		b;
 
@@ -2290,10 +2287,7 @@ draw_viewer(Viewer *v)
 /*
  * Create (malloc) structure to hold browser UI objects
  */
-BrowserUiObj   
-aob_create_ui_obj
-(
-)
+BrowserUiObj aob_create_ui_obj(void)
 {
     BrowserUiObj	ui;
 
@@ -2317,9 +2311,7 @@ aob_create_ui_obj
  * Create (malloc) structure to hold browser properties
  */
 static BrowserProps   
-aob_create_props
-(
-)
+aob_create_props(void)
 {
     BrowserProps	props;
 
@@ -2952,8 +2944,7 @@ brws_show_browser(
 }
 
 void
-brws_init(
-)
+brws_init(void)
 {
     obj_add_rename_callback(brwsP_obj_renameOCB, "BRWS");
     obj_add_destroy_callback(brwsP_obj_destroyOCB, "BRWS");

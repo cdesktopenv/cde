@@ -312,8 +312,7 @@ PropGroupSettingsRec prop_group_settings_rec[AB_PROP_TYPE_NUM_VALUES];
  * Create a group object out of the selected group of objects.
  */
 void
-abobj_group_selected_objects(
-)
+abobj_group_selected_objects(void)
 {
     ABObj	  project = proj_get_project();
     ABObj 	  obj;
@@ -429,8 +428,7 @@ group_objects(
  * them after all groups have been ungrouped.
  */
 void
-abobj_ungroup_selected_objects(
-)
+abobj_ungroup_selected_objects(void)
 {
     ABObj	  project = proj_get_project();
     ABSelectedRec sel;

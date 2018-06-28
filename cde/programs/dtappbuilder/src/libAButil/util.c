@@ -211,7 +211,7 @@ util_get_program_name(void)
  * the ones that don't we'll do a normal fork.
  */
 pid_t
-util_vfork()
+util_vfork(void)
 {
     return fork();
 }

@@ -792,11 +792,11 @@ static LibFuncRec abmfP_lrc_get_toplevel_widget =
     "dtb_get_toplevel_widget",
     
     /* proto */
-    "Widget dtb_get_toplevel_widget();",
+    "Widget dtb_get_toplevel_widget(void);",
     
     /* def */
     "Widget\n"
-    "dtb_get_toplevel_widget()\n"
+    "dtb_get_toplevel_widget(void)\n"
     "{\n"
     "	return(dtb_project_toplevel_widget);\n"
     "}"
@@ -894,11 +894,11 @@ static LibFuncRec abmfP_lrc_get_command =
     "dtb_get_command",
     
     /* proto */
-    "char *  dtb_get_command();",
+    "char *  dtb_get_command(void);",
     
     /* def */
     "char * \n"
-    "dtb_get_command() \n"
+    "dtb_get_command(void) \n"
     "{\n"
     "    return(dtb_save_command_str); \n"
     "}"
@@ -1174,7 +1174,7 @@ static LibFuncRec abmfP_lrc_do_onitem_help =
     "dtb_do_onitem_help",
     
     /* proto */
-    "void dtb_do_onitem_help();",
+    "void dtb_do_onitem_help(void);",
     
     /* def */
     "/*\n"
@@ -1183,7 +1183,7 @@ static LibFuncRec abmfP_lrc_do_onitem_help =
     "** main menubar's \"Help\" menu.\n"
     "*/\n"
     "void\n"
-    "dtb_do_onitem_help()\n"
+    "dtb_do_onitem_help(void)\n"
     "{\n"
     "    Widget	target;\n"
     "\n"
@@ -1456,14 +1456,14 @@ static LibFuncRec abmfP_lrc_get_client_session_saveCB =
     "dtb_get_client_session_saveCB",
     
     /* proto */
-    "DtbClientSessionSaveCB dtb_get_client_session_saveCB();",
+    "DtbClientSessionSaveCB dtb_get_client_session_saveCB(void);",
     
     /* def */
     "/*\n"
     " * dtb_get_client_session_saveCB()\n"
     " */\n"
     "DtbClientSessionSaveCB\n"
-    "dtb_get_client_session_saveCB()\n"
+    "dtb_get_client_session_saveCB(void)\n"
     "{\n"
     "    return(dtb_client_session_saveCB);\n"
     "\n"
@@ -1603,14 +1603,14 @@ static LibFuncRec abmfP_lrc_get_client_session_restoreCB =
     "dtb_get_client_session_restoreCB",
     
     /* proto */
-    "DtbClientSessionRestoreCB dtb_get_client_session_restoreCB();",
+    "DtbClientSessionRestoreCB dtb_get_client_session_restoreCB(void);",
     
     /* def */
     "/*\n"
     " * dtb_get_client_session_restoreCB()\n"
     " */\n"
     "DtbClientSessionRestoreCB\n"
-    "dtb_get_client_session_restoreCB()\n"
+    "dtb_get_client_session_restoreCB(void)\n"
     "{\n"
     "    return(dtb_client_session_restoreCB);\n"
     "\n"
@@ -4854,14 +4854,14 @@ static LibFuncRec abmfP_lrc_get_tt_msg_quitCB =
     "dtb_get_tt_msg_quitCB",
     
     /* proto */
-    "static DtbTTMsgHandlerCB dtb_get_tt_msg_quitCB();",
+    "static DtbTTMsgHandlerCB dtb_get_tt_msg_quitCB(void);",
     
     /* def */
     "/*\n"
     " * dtb_get_tt_msg_quitCB()\n"
     " */\n"
     "static DtbTTMsgHandlerCB\n"
-    "dtb_get_tt_msg_quitCB()\n"
+    "dtb_get_tt_msg_quitCB(void)\n"
     "{\n"
     "    return(dtb_tt_msg_quitCB);\n"
     "}"
@@ -4940,14 +4940,14 @@ static LibFuncRec abmfP_lrc_get_tt_msg_do_commandCB =
     "dtb_get_tt_msg_do_commandCB",
     
     /* proto */
-    "static DtbTTMsgHandlerCB dtb_get_tt_msg_do_commandCB();",
+    "static DtbTTMsgHandlerCB dtb_get_tt_msg_do_commandCB(void);",
     
     /* def */
     "/* \n"
     " * dtb_get_tt_msg_do_commandCB()\n"
     " */ \n"
     "static DtbTTMsgHandlerCB\n"
-    "dtb_get_tt_msg_do_commandCB()\n"
+    "dtb_get_tt_msg_do_commandCB(void)\n"
     "{ \n"
     "    return(dtb_tt_msg_do_commandCB);\n"
     "}"
@@ -5026,14 +5026,14 @@ static LibFuncRec abmfP_lrc_get_tt_msg_get_statusCB =
     "dtb_get_tt_msg_get_statusCB",
     
     /* proto */
-    "static DtbTTMsgHandlerCB dtb_get_tt_msg_get_statusCB();",
+    "static DtbTTMsgHandlerCB dtb_get_tt_msg_get_statusCB(void);",
     
     /* def */
     "/* \n"
     " * dtb_get_tt_msg_get_statusCB()\n"
     " */ \n"
     "static DtbTTMsgHandlerCB\n"
-    "dtb_get_tt_msg_get_statusCB()\n"
+    "dtb_get_tt_msg_get_statusCB(void)\n"
     "{ \n"
     "    return(dtb_tt_msg_get_statusCB);\n"
     "}"
@@ -5112,14 +5112,14 @@ static LibFuncRec abmfP_lrc_get_tt_msg_pause_resumeCB =
     "dtb_get_tt_msg_pause_resumeCB",
     
     /* proto */
-    "static DtbTTMsgHandlerCB dtb_get_tt_msg_pause_resumeCB();",
+    "static DtbTTMsgHandlerCB dtb_get_tt_msg_pause_resumeCB(void);",
     
     /* def */
     "/* \n"
     " * dtb_get_tt_msg_pause_resumeCB()\n"
     " */ \n"
     "static DtbTTMsgHandlerCB\n"
-    "dtb_get_tt_msg_pause_resumeCB()\n"
+    "dtb_get_tt_msg_pause_resumeCB(void)\n"
     "{ \n"
     "    return(dtb_tt_msg_pause_resumeCB);\n"
     "}"
@@ -5245,7 +5245,7 @@ static LibFuncRec abmfP_lrc_tt_close =
     "dtb_tt_close",
     
     /* proto */
-    "void dtb_tt_close();",
+    "void dtb_tt_close(void);",
     
     /* def */
     "/*\n"
@@ -5253,7 +5253,7 @@ static LibFuncRec abmfP_lrc_tt_close =
     " * Close ToolTalk Connection\n"
     " */\n"
     "void\n"
-    "dtb_tt_close()\n"
+    "dtb_tt_close(void)\n"
     "{\n"
     "    ttdt_close(NULL, NULL, True);\n"
     "}"

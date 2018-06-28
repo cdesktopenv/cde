@@ -226,8 +226,7 @@ BOOL			in_undo = FALSE;
  * Called from main()...
  */
 void
-abobj_edit_init(
-)
+abobj_edit_init(void)
 {
     obj_add_destroy_callback(edit_destroyOCB, "ATTCH_ED");
 }
@@ -401,8 +400,7 @@ edit_destroyOCB(
  * Initializes the clipboard
  */
 static void
-init_clipboard(
-)
+init_clipboard(void)
 {
     if (!ABClipboard)
     {
@@ -1452,8 +1450,7 @@ init_undo_rec(
  * Initializes undo buffer
  */
 static void
-init_undo(
-)
+init_undo(void)
 {
     init_undo_rec(&ABUndo);
 }
@@ -2124,8 +2121,7 @@ clear_undo_rec(
  */
 
 int
-abobj_cut(
-)
+abobj_cut(void)
 {
     ABObj	project = proj_get_project();
     ABObj	newObj = NULL;
@@ -2171,8 +2167,7 @@ abobj_cut(
 }
 
 int
-abobj_copy(
-)
+abobj_copy(void)
 {
     ABObj	project = proj_get_project(),
     		newObj;
@@ -2807,8 +2802,7 @@ abobj_paste(
 }
 
 int
-abobj_delete(
-)
+abobj_delete(void)
 {
     ABObj		project = proj_get_project(),
 			parent = NULL;
@@ -2862,8 +2856,7 @@ abobj_delete(
 }
 
 int
-abobj_undo(
-)
+abobj_undo(void)
 {
     int		iRet = 0;
 
@@ -2929,16 +2922,14 @@ abobj_set_undo(
 }
 
 int
-abobj_cancel_undo(
-)
+abobj_cancel_undo(void)
 {
     clear_undo_rec(&ABUndo);
     return 0;
 }
 
 BOOL
-abobj_undo_active(
-)
+abobj_undo_active(void)
 {
     BOOL		i;
 
@@ -2956,8 +2947,7 @@ abobj_undo_active(
  * Is clipboard empty ?
  */
 BOOL
-abobj_clipboard_is_empty(
-)
+abobj_clipboard_is_empty(void)
 {
     return(!ABClipboard || (ABClipboard->count == 0));
 }
@@ -2990,8 +2980,7 @@ abobj_in_clipboard(
  * Clears the clipboard
  */
 void
-abobj_clipboard_clear(
-)
+abobj_clipboard_clear(void)
 {
     int		i;
 

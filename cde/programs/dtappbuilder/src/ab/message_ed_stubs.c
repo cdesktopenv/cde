@@ -249,8 +249,7 @@ static void     change_msg_moduleCB(
 ******************************************************************/
 
 void
-msgEd_show_dialog(
-)
+msgEd_show_dialog(void)
 {
     int		numMods = 0;
     ABObj	current_module = proj_get_cur_module();
@@ -340,8 +339,7 @@ msgEd_show_dialog(
  *      Add callbacks for object rename & destroy
  */
 static void
-msgEdP_init(
-)
+msgEdP_init(void)
 {
     /*
      * Initialize static strings used in message editor
@@ -521,8 +519,7 @@ msg_editor_init(
 }
 
 static int
-msg_editor_clear(
-)
+msg_editor_clear(void)
 {
     MsgEditorSettingsRec       *mes = &msg_editor_settings_rec;
     int				sel_pos = 0;
@@ -717,14 +714,13 @@ msg_editor_load(
 
 
 static BOOL
-msg_editor_pending(
-)
+msg_editor_pending(void)
 {
     return(prop_changebars_pending(msg_editor_settings_rec.prop_sheet));
 }
 
 static BOOL
-verify_name()
+verify_name(void)
 {
     BOOL		 retVal = TRUE; 
     MsgEditorSettingsRec *mes = &msg_editor_settings_rec;
@@ -739,8 +735,7 @@ verify_name()
 }
 
 static void
-turnoff_changebars(
-)
+turnoff_changebars(void)
 {
     MsgEditorSettingsRec *mes = &msg_editor_settings_rec;
 
@@ -1610,7 +1605,7 @@ objlist_test_func(
 
 
 static BOOL
-verify_default_btn()
+verify_default_btn(void)
 {
     MsgEditorSettingsRec *mes = &msg_editor_settings_rec;
     AB_DEFAULT_BUTTON	 default_btn = AB_DEFAULT_BTN_UNDEF;
@@ -1679,7 +1674,7 @@ verify_default_btn()
 }
 
 static BOOL
-verify_label()
+verify_label(void)
 {
     MsgEditorSettingsRec *mes = &msg_editor_settings_rec;
     BOOL		 validLabel = TRUE;
@@ -1731,7 +1726,7 @@ verify_label()
 }
 
 static BOOL
-verify_buttons()
+verify_buttons(void)
 {
     MsgEditorSettingsRec *mes = &msg_editor_settings_rec;
     BOOL                 hasButtons = TRUE;
@@ -2555,8 +2550,7 @@ update_mod_opmenu(
 }
 
 static void
-msgEdP_strings_init(
-)
+msgEdP_strings_init(void)
 {
     msgEd_strings[MSG_ED_RETRY_STR] = 
 	XtNewString(catgets(Dtb_project_catd, 100, 202, "Retry"));

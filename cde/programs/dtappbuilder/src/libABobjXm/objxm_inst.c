@@ -1478,8 +1478,7 @@ formlist_append(
  * resize requests after they've been already managed.
  */
 static int
-formlist_force_resize(
-)
+formlist_force_resize(void)
 {
     Dimension 	f_width, f_height;
     int 	i;

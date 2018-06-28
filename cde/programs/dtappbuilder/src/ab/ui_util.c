@@ -823,9 +823,7 @@ ui_set_busy_cursor(
  * Initialize object pixmaps
  */
 static void
-init_obj_pixmaps
-(
-)
+init_obj_pixmaps(void)
 {
     Display		*dpy;
     Pixmap		tmp;

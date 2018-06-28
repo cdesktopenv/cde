@@ -140,8 +140,7 @@ static Widget CacheAnchor;	/* Dummy widget used to control caching of color
 				   objxm_name_to_pixel (via XtConvertAndStore). */
 
 char *
-display_color_chooser(
-)
+display_color_chooser(void)
 {
     extern Widget 	AB_toplevel;
     static int 		first_time = 1;
@@ -187,8 +186,7 @@ display_color_chooser(
 }
 
 void
-create_color_chooser(
-)
+create_color_chooser(void)
 {
     extern Widget 	AB_toplevel;
     XmString 		label;

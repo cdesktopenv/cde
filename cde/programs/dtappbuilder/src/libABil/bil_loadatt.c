@@ -78,7 +78,7 @@ typedef LOADATT_FUNC *LOADATT_FUNC_PTR;
 /*
  */
 ISTRING
-bilP_get_string()
+bilP_get_string(void)
 {
     STRING              tmp_str = NULL;
     ISTRING             value1;
@@ -133,7 +133,7 @@ bilP_get_string()
 /*
  */
 STRING
-bilP_load_att()
+bilP_load_att(void)
 {
 
     return NULL;
@@ -432,14 +432,14 @@ bilP_load_att_drag_enabled(BIL_TOKEN valueToken)
 }
 
 STRING
-bilP_load_att_drag_ops_begin()
+bilP_load_att_drag_ops_begin(void)
 {
     nset_att(AB_BIL_DRAG_OPS);
     return NULL;
 }
 
 STRING
-bilP_load_att_drag_ops_end()
+bilP_load_att_drag_ops_end(void)
 {
     clear_att();
     return NULL;
@@ -456,14 +456,14 @@ bilP_load_att_drag_to_root_allowed(BIL_TOKEN valueToken)
 }
 
 STRING
-bilP_load_att_drag_types_begin()
+bilP_load_att_drag_types_begin(void)
 {
     nset_att(AB_BIL_DRAG_TYPES);
     return NULL;
 }
 
 STRING
-bilP_load_att_drag_types_end()
+bilP_load_att_drag_types_end(void)
 {
     clear_att();
     return NULL;
@@ -489,42 +489,42 @@ bilP_load_att_drop_site_child_allowed(BIL_TOKEN valueToken)
 }
 
 STRING
-bilP_load_att_drop_ops_begin()
+bilP_load_att_drop_ops_begin(void)
 {
     nset_att(AB_BIL_DROP_OPS);
     return NULL;
 }
 
 STRING
-bilP_load_att_drop_ops_end()
+bilP_load_att_drop_ops_end(void)
 {
     clear_att();
     return NULL;
 }
 
 STRING
-bilP_load_att_drop_types_begin()
+bilP_load_att_drop_types_begin(void)
 {
     nset_att(AB_BIL_DROP_TYPES);
     return NULL;
 }
 
 STRING
-bilP_load_att_drop_types_end()
+bilP_load_att_drop_types_end(void)
 {
     clear_att();
     return NULL;
 }
 
 STRING
-bilP_load_att_files_begin()
+bilP_load_att_files_begin(void)
 {
     nset_att(AB_BIL_FILES);
     return NULL;
 }
 
 STRING
-bilP_load_att_files_end()
+bilP_load_att_files_end(void)
 {
     clear_att();
     return NULL;

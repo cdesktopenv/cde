@@ -856,8 +856,7 @@ conn_set_source(
 }
 
 extern ABObj
-connP_get_source(
-)
+connP_get_source(void)
 {
     return cur_source;
 }
@@ -882,8 +881,7 @@ conn_set_target(
 }
 
 extern ABObj
-connP_get_target(
-)
+connP_get_target(void)
 {
     return cur_target;
 }
@@ -1521,8 +1519,7 @@ connP_make_help_vol_conn(
  * Initializes strings used in connections editor
  */
 extern void
-conn_strings_init(
-)
+conn_strings_init(void)
 {
       unknown_str = 
 	XtNewString(catgets(Dtb_project_catd, 100, 158, "??unknown??"));

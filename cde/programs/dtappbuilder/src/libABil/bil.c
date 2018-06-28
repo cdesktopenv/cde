@@ -1295,7 +1295,7 @@ bil_token_key_compare(const void *voidIstr, const void *voidEntry)
 
 
 static int
-bil_token_table_init()
+bil_token_table_init(void)
 {
 #define btt bil_token_table
 #define off ((int)BIL_TOKEN_MIN_VALUE)	/* offset to 1st token */

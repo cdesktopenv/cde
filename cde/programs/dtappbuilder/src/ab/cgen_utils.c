@@ -452,7 +452,7 @@ cgen_notify_new_directory(STRING dir)
 
 
 int
-cgen_abort()
+cgen_abort(void)
 {
     public_entry_point();
     return cgenP_abort();
@@ -501,8 +501,7 @@ cgenP_init_props_module_list(
  *      Add callbacks for object rename & destroy
  */
 void
-cgenP_prop_init(
-)
+cgenP_prop_init(void)
 {
     obj_add_rename_callback(obj_renamedOCB, "cgen_prop_init");
     obj_add_update_callback(obj_updateOCB, "cgen_prop_init");
@@ -584,7 +583,7 @@ print_to_term(STRING msg)
  * Sends stdout and stderr to term window
  */
 static int
-send_output_to_term()
+send_output_to_term(void)
 {
     static BOOL         done = FALSE;
     int                 rc = 0;
@@ -859,7 +858,7 @@ term_execute_command(CG_SUBCOMMAND cmd_code, STRING cmd, STRING argv[])
  * Gets the slave device name and puts it into the file variable
  */
 static int
-get_slave_device_name()
+get_slave_device_name(void)
 {
     String              deviceName = NULL;
 
@@ -889,7 +888,7 @@ get_slave_device_name()
 *************************************************************************/
 
 static int
-exec_generate_code()
+exec_generate_code(void)
 {
     ABObj	project= proj_get_project();
     STRING	project_name= NULL;
@@ -929,7 +928,7 @@ exec_generate_code()
 }
 
 static int
-exec_generate_main()
+exec_generate_main(void)
 {
     int		rc = 0;		/* return code */
     ABObj       project= proj_get_project();
@@ -967,7 +966,7 @@ exec_generate_main()
 }
  
 static int
-exec_generate_proj()
+exec_generate_proj(void)
 {
     int		rc = 0;		/* return code */
     ABObj       project= proj_get_project();
@@ -1004,7 +1003,7 @@ exec_generate_proj()
 }
  
 static int
-exec_generate_specific_files()
+exec_generate_specific_files(void)
 {
     int		returnValue = 0;
     int		rc = 0;		/* return code */
@@ -1055,7 +1054,7 @@ epilogue:
 }
  
 static int
-exec_generate_specific_files_and_main()
+exec_generate_specific_files_and_main(void)
 {
     int		returnValue = 0;
     int		rc = 0;		/* return code */
@@ -1172,7 +1171,7 @@ epilogue:
 
 
 static int
-exec_make()
+exec_make(void)
 {
     int			rc = 0;		/* return code */
     STRING		cmd = NULL;
@@ -1200,7 +1199,7 @@ exec_make()
 
 
 static int
-exec_run()
+exec_run(void)
 {
     ABObj	project= NULL;
     char	executable_name[1024];
@@ -1373,7 +1372,7 @@ exec_next_command_for_build_and_run(CG_SUBCOMMAND cmd_code, int exit_code)
 
 
 static int
-exec_first_build_and_run_command()
+exec_first_build_and_run_command(void)
 {
     int	return_value= 0;
     if (!util_file_exists("Makefile"))
@@ -1470,7 +1469,7 @@ subprocess_exit(int exit_code)
 
 
 static int
-print_internal_err_message()
+print_internal_err_message(void)
 {
     print_to_term("****> UNSUCCESSFUL (Internal failure occurred).\n");
     return 0;
@@ -1492,7 +1491,7 @@ print_failure_message(CG_SUBCOMMAND cmd_code, int exit_code)
 
 
 static int
-print_success_message()
+print_success_message(void)
 {
     print_to_term("====> Completed successfully.\n");
     user_goal= CG_GOAL_UNDEF;
@@ -1545,7 +1544,7 @@ print_exit_message(int exitCode)
 
 
 static int
-print_abort_message()
+print_abort_message(void)
 {
     print_to_term("\n====> Command aborted.\n");
     user_goal= CG_GOAL_UNDEF;
@@ -1659,7 +1658,7 @@ epilogue:
  * We are running a process - desensitize most buttons.
  */
 static int
-goto_busy_state()
+goto_busy_state(void)
 {
     XtSetSensitive(abort_button, True);
     XtSetSensitive(abort_item, True);
@@ -1681,7 +1680,7 @@ goto_busy_state()
  * We are waiting for user input
  */
 static int
-goto_ready_state()
+goto_ready_state(void)
 {
     XtSetSensitive(abort_button, False);
     XtSetSensitive(abort_item, False);
@@ -2135,8 +2134,7 @@ obj_updateOCB(
 }
 
 int
-cgenP_sync_up_dir(
-)
+cgenP_sync_up_dir(void)
 {
     STRING 	cmd = NULL;
     STRING 	request_dir = NULL;
@@ -2289,7 +2287,7 @@ save_done_cb(int status)
 
 
 static int
-check_path()
+check_path(void)
 {
     int		return_value = 0;
     int		rc = 0;		/* return code */
@@ -2688,7 +2686,7 @@ epilogue:
 
 
 static int
-destroy_makefile()
+destroy_makefile(void)
 {
     destroy_links_to_file("makefile");
     destroy_links_to_file("Makefile");

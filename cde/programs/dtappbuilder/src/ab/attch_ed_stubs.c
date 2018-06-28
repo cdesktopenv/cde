@@ -387,8 +387,7 @@ attch_ed_get_parent(
 }
 
 void
-attch_ed_init(
-)
+attch_ed_init(void)
 {
     obj_add_destroy_callback(attch_obj_destroyCB, "ATTCH_ED");
     obj_add_reparent_callback(attch_obj_reparentCB, "ATTCH_ED");
@@ -1189,8 +1188,7 @@ attch_editor_apply(
 }
 
 static BOOL
-attch_edP_pending(
-)
+attch_edP_pending(void)
 {
     AttchEditorSettingsRec *ats = &attch_editor_settings_rec;
 
@@ -1218,8 +1216,7 @@ attch_editor_activate(
 }
 
 static void
-turnoff_changebars(
-)
+turnoff_changebars(void)
 {
     AttchEditorSettingsRec *ats = &attch_editor_settings_rec;
 
@@ -3345,8 +3342,7 @@ attach_obj_changed(
 
 
 static void 
-attch_ed_view_child_attachments(
-)
+attch_ed_view_child_attachments(void)
 {
     AttchEditorSettingsRec	*ats = &attch_editor_settings_rec;
     ABObj			cur_obj,
@@ -3377,8 +3373,7 @@ attch_ed_view_child_attachments(
 
 
 static void 
-attch_ed_view_parent_attachments(
-)
+attch_ed_view_parent_attachments(void)
 {
     AttchEditorSettingsRec	*ats = &attch_editor_settings_rec;
     ABObj			cur_obj,
@@ -3410,8 +3405,7 @@ attch_ed_view_parent_attachments(
 }
 
 static void
-attch_ed_activate_parent_child_button(
-)
+attch_ed_activate_parent_child_button(void)
 {
     AttchEditorSettingsRec	*ats = &attch_editor_settings_rec;
     DtbAttchEdAttchEdDialogInfo attch_ed_cgen
@@ -3663,8 +3657,7 @@ print_attach_type(
 }
 
 static BOOL
-attch_ed_verify_props(
-)
+attch_ed_verify_props(void)
 {
     AttchEditorSettingsRec	*ats = &attch_editor_settings_rec;
     ATTCH_ED_ATTACH_TYPE	attach_type = ATTCH_ED_NONE;

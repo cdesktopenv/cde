@@ -307,8 +307,7 @@ ab_position_window(
 }
 
 BOOL
-ab_window_leader_iconified(
-)
+ab_window_leader_iconified(void)
 {
     return(AB_win_leader->state & WindowIconified);
 }
@@ -677,15 +676,13 @@ set_windows_visibility(
 }
 
 void
-ab_takedown_windows(
-)
+ab_takedown_windows(void)
 {
     set_windows_visibility(False);
 }
 
 void
-ab_putback_windows(
-)
+ab_putback_windows(void)
 {
     set_windows_visibility(True);
 }
@@ -1222,7 +1219,7 @@ ab_palette_set_active(
 }
 
 void
-ab_exit_dtbuilder()
+ab_exit_dtbuilder(void)
 {
     static DTB_MODAL_ANSWER     answer;
     XtAppContext                app;

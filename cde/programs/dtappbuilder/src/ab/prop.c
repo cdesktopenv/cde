@@ -4475,8 +4475,7 @@ obj_options_buildCB(
 }
 
 void
-strings_init(
-)
+strings_init(void)
 {
     LabelForString =
 	XtNewString(catgets(Dtb_project_catd, 100, 215, "Label:"));

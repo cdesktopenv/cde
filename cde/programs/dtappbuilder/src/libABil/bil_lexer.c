@@ -404,7 +404,7 @@ yywrap()
  *************************************************************************/
 
 int
-bilP_load_reset()
+bilP_load_reset(void)
 {
 	line_number= 1;
 	last_token= AB_BIL_UNDEF;
@@ -414,7 +414,7 @@ bilP_load_reset()
 }
 
 int
-bilP_load_get_token()
+bilP_load_get_token(void)
 {
 	return last_token;
 }
@@ -432,13 +432,13 @@ bilP_load_get_value(void)
 }
 
 int
-bilP_load_get_length()
+bilP_load_get_length(void)
 {
 	return tokenTextLen;
 }
 
 int
-bilP_load_get_line_number()
+bilP_load_get_line_number(void)
 {
     return line_number;
 }

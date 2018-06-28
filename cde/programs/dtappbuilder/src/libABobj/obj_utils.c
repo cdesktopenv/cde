@@ -1602,7 +1602,7 @@ sig_fault_handler_uninstall(void)
 
 
 static void
-sig_fault_handler()
+sig_fault_handler(void)
 {
     if (mem_fault_occurred)
     {

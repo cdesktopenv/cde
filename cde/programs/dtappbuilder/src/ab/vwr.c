@@ -170,7 +170,7 @@ vwr_destroy_tree
 }
 
 VNode
-vwr_create_node()
+vwr_create_node(void)
 {
     VNode	bnode;
 

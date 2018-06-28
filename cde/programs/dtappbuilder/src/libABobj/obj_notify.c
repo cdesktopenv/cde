@@ -263,7 +263,7 @@ obj_add_update_with_data_callback(ObjUpdateWithDataCallback cb,
 **************************************************************************/
 
 int
-objP_notify_push_mode()
+objP_notify_push_mode(void)
 {
     if (modeStackIndex >= (MAX_MODE_DEPTH-1))
     {
@@ -294,7 +294,7 @@ objP_notify_clear_mode(OBJ_EVENT_MODE deadMode)
  * the notify queue is flushed.
  */
 int
-objP_notify_pop_mode()
+objP_notify_pop_mode(void)
 {
     objP_notify_pop_mode_dont_flush();
 
@@ -311,7 +311,7 @@ objP_notify_pop_mode()
 
 
 OBJ_EVENT_MODE
-objP_notify_get_mode()
+objP_notify_get_mode(void)
 {
     return current_notify_mode();
 }
@@ -698,7 +698,7 @@ epilogue:
  *    		generated while sending.  Guarantees empty queue on return.
  */
 static int
-flush_queue()
+flush_queue(void)
 {
     int		iReturn= 0;
     int		numEventsProcessed= 0;
@@ -1056,7 +1056,7 @@ event_print(OBJ_EVENT *event, FILE *outFile, BOOL addNewline, STRING name)
 
 
 static int
-event_queue_print()
+event_queue_print(void)
 {
     int		oldFirst= firstEventIndex;
     int		oldLast= lastEventIndex;

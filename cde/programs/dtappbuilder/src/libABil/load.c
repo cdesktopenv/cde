@@ -287,7 +287,7 @@ abil_print_custom_load_err(STRING errmsgstr)
 
 /* Load the BIL error message table with message set and default text */
 static int
-abil_load_errmsg_table()
+abil_load_errmsg_table(void)
 {
     int i;
 

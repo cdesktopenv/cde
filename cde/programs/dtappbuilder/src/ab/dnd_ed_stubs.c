@@ -186,8 +186,7 @@ static DndEditorSettingsRec	dndEdInfo;
  */
 
 void
-dnd_ed_show_dialog(
-)
+dnd_ed_show_dialog(void)
 {
     /* If there is no DragAndDrop Editor, create it */
     if (AB_dnd_dialog == (Widget)NULL)
@@ -540,8 +539,7 @@ dnd_ed_editor_apply(void)
 
 
 static void
-dnd_turnoff_changebars(
-)
+dnd_turnoff_changebars(void)
 {
     DndEditorSettings	dds = &dndEdInfo;
     prop_set_changebar(dds->drag_ops_checkbox.changebar,PROP_CB_OFF);
@@ -720,8 +718,7 @@ do_auto_apply(
 	
 
 static void
-clear_editor_fields(
-)
+clear_editor_fields(void)
 {
     DndEditorSettingsRec	*dds = &dndEdInfo;
 

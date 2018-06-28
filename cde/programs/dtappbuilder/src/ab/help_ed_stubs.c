@@ -595,8 +595,7 @@ do_auto_apply(
 }
 
 static void
-clear_editor_fields(
-)
+clear_editor_fields(void)
 {
     HelpEditorSettingsRec	*hes = &Help_Editor_Settings_Rec;
 
@@ -982,7 +981,7 @@ help_dispatchCB(Widget widget, XtPointer clientData, XtPointer callData)
 ** apps built with App Builder will use as well.)
 */
 static void
-help_test_onitem_help()
+help_test_onitem_help(void)
 {
     ABObj	obj, root_obj, help_obj;
     Widget 	target;
@@ -1183,7 +1182,7 @@ update_object_menu_from_obj(
 ** if there are no base or popup windows.
 */
 static ABObj
-find_toplevel_obj()
+find_toplevel_obj(void)
 {
     ABObj		obj, bwobj, pwobj, fcobj;
     AB_TRAVERSAL	trav;
