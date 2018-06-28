@@ -80,9 +80,7 @@ DBN_DECL
    if (rt < 0)
       RETURN( dberr(S_INVADDR) );
    rt &= ~RLBMASK; /* mask off rlb */
-#ifndef	 ONE_DB
    rt += curr_db_table->rt_offset;
-#endif
 
    /* make sure this is not the system record */
    if ( record_table[rt].rt_fdtot == -1 )

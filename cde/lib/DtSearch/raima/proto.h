@@ -217,9 +217,7 @@ int key_bldcom(P1(int) Pi(char *) Pi(char *) Pi(int));
 void key_cmpcpy(P1(char *) Pi(char *) Pi(INT));
 
 /* From libfcns.c: */
-#ifndef ONE_DB
 int dbn_check(P1(int));
-#endif
 int nset_check(P1(int) Pi(int *) Pi(SET_ENTRY * *));
 int nfld_check(P1(long) Pi(int *) Pi(int *) 
 			      Pi(RECORD_ENTRY * *) 

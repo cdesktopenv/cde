@@ -292,9 +292,7 @@ int d_rlbclr(P0);				/* dblfcns.c */
 int d_rlbset(P0);				/* dblfcns.c */
 int d_rlbtst(P0);				/* dblfcns.c */
 int d_set_dberr(P1(FARPROC));			/* dberr.c */
-#ifndef ONE_DB				   /* ONE_DB */
 int d_setdb(P1(int));				/* setdb.c */
-#endif					   /* ONE_DB */
 int d_setfree(P1(int) DBN_Dn);			/* dblfcns.c */
 int d_setkey(P1(long) Pi(const char *) DBN_Dn); /* makenew.c */
 int d_setlock(P1(int) Pi(char *) DBN_Dn); 	/* dblfcns.c */

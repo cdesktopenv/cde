@@ -49,7 +49,6 @@
 #include "vista.h"
 #include "dbtype.h"
 
-#ifndef	 ONE_DB
 /* Set current database
 */
 int
@@ -72,5 +71,4 @@ TASK_DECL
 
    RETURN( db_status = S_OKAY );
 }
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin setdb.c */

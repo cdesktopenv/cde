@@ -127,9 +127,6 @@ static void open_slots(P1(NODE *) Pi(int) Pi(int));
 static void close_slots(P1(NODE *) Pi(int) Pi(int));
 static void key_found(P1(DB_ADDR *));
 
-#ifdef	 ONE_DB
-#define	 prefix	  keyno
-#endif
 
 static KEY_INFO *curkey;
 static int key_len;
@@ -141,9 +138,7 @@ static int keyfile;
 static INT fldno;
 static FIELD_ENTRY *cfld_ptr;
 static INT keyno;
-#ifndef	 ONE_DB
 static INT prefix;
-#endif
 static int unique;
 
 
@@ -249,9 +244,7 @@ int field;  /* field number to be processed */
    fldno     = field;
    cfld_ptr  = fld_ptr;
    keyno     = fld_ptr->fd_keyno;
-#ifndef	 ONE_DB
    prefix    = keyno - curr_db_table->key_offset;
-#endif
    key_len   = fld_ptr->fd_len;
    keyfile   = fld_ptr->fd_keyfile;
    file_ptr  = &file_table[keyfile];
@@ -775,9 +768,7 @@ NODE *l_node; /* left node buffer */
    /* extract middle key */
    l_node_slot_ptr = &l_node->slots[mid_slot*slot_len];
    bytecpy(&prefix, l_node_slot_ptr + sizeof(F_ADDR), sizeof(INT));
-#ifndef	 ONE_DB
    keyno = prefix + curr_db_table->key_offset;
-#endif
    fldno = key_info[keyno].fldno;
    cfld_ptr = &field_table[fldno];
    key_len = cfld_ptr->fd_len;

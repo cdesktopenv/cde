@@ -419,9 +419,7 @@ int taskinit(tsk)
 TASK *tsk;
 {
    byteset(tsk, '\0', sizeof(TASK));
-#ifndef ONE_DB
    tsk->No_of_dbs = 1;
-#endif
 #ifndef SINGLE_USER
    tsk->Lock_tries = 5;
    tsk->Dbwait_time = 1;
@@ -446,12 +444,9 @@ const char *dbnames;
    int dbt_lc;			/* loop control */
    char dbfile [DtSrFILENMLEN];
    char *ptr;
-#ifndef	 ONE_DB
    const char *cp;
    int i;
-#endif
 
-#ifndef	 ONE_DB
    /* compute number of databases to be opened */
    old_no_of_dbs = (( no_of_dbs == 1 ) ? 0 : no_of_dbs);
    for ( cp = dbnames; *cp; ++cp )
@@ -498,9 +493,6 @@ const char *dbnames;
       for ( i = 0; *cp && *cp != ';'; ++cp, ++i )
 	 dbfile[i] = *cp;
       dbfile[i] = '\0';
-#else
-      strcpy(dbfile, dbnames);
-#endif
       if ( (ptr = strrchr(dbfile, DIRCHAR)) == NULL ) 
 	 ptr = strrchr(dbfile, ':');
       if ( ptr ) {
@@ -514,9 +506,7 @@ const char *dbnames;
 	 strcpy(DB_REF(db_path), "");
 	 strcpy(DB_REF(db_name), dbfile);
       }
-#ifndef	 ONE_DB
    }
-#endif
    return( db_status = S_OKAY );
 } /* initdbt() */
 
@@ -959,11 +949,9 @@ TASK_DECL
 #ifndef NO_TIMESTAMP
       cr_time = 0;
 #endif
-#ifndef ONE_DB
       setdb_on = FALSE;
       curr_db = 0;
       no_of_dbs = 1;
-#endif
 #ifndef SINGLE_USER
       lock_tries = 5;
       dbwait_time = 1;
@@ -1137,7 +1125,6 @@ void termfree()
       FREE(&db_global.Free_pkt);
    }
 #endif
-#ifndef	 ONE_DB
    if ( db_table ) {
       MEM_UNLOCK(&db_global.Db_table);
       FREE(&db_global.Db_table);
@@ -1146,7 +1133,6 @@ void termfree()
       MEM_UNLOCK(&db_global.Rn_table);
       FREE(&db_global.Rn_table);
    }
-#endif
 }
 
 #ifndef NO_TRANS
@@ -2344,13 +2330,11 @@ unsigned old_size;
       return( dberr(S_NOMEMORY) );
    }
    byteset(&Temp_table.ptr[old_size], 0, new_size - old_size);
-#ifndef ONE_DB
    if ( old_size ) {
       bytecpy(Temp_table.ptr, table, old_size);
       MEM_UNLOCK(Table);
       FREE(Table);
    }
-#endif
    *Table = Temp_table;
    return( db_status );
 }

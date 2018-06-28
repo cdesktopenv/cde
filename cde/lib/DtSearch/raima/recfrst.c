@@ -68,9 +68,7 @@ DBN_DECL
 
    if (nrec_check(rec, &rec, (RECORD_ENTRY * *)&rec_ptr) != S_OKAY)
       RETURN( db_status );
-#ifndef	 ONE_DB
    rec -= curr_db_table->rt_offset;
-#endif
 
    /* get the normalized number of file containing this record type */
    ftype = NUM2EXT(rec_ptr->rt_file, ft_offset);

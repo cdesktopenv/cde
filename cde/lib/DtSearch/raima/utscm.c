@@ -78,9 +78,7 @@ DBN_DECL
    bytecpy(&rec, rptr, sizeof(INT));
    if ( rec >= 0 ) {
       rec &= ~RLBMASK; /* mask off rlb */
-#ifndef	 ONE_DB
       rec += curr_db_table->rt_offset;
-#endif
       if ( record_table[rec].rt_flags & TIMESTAMPED )
 	 bytecpy(timestamp, rptr + RECUPTIME, sizeof(ULONG));
       else

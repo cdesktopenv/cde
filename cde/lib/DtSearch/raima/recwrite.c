@@ -84,9 +84,7 @@ DBN_DECL
    /* Copy record type from record */
    bytecpy(&rt, crloc, sizeof(INT));
    rt &= ~RLBMASK; /* mask off rlb */
-#ifndef	 ONE_DB
    rt += curr_db_table->rt_offset;
-#endif
    rec_ptr = &record_table[rt];
 
    /* Check out each field before they are changed */

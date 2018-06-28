@@ -76,9 +76,7 @@ TASK_DECL
    bytecpy(&rec, crloc, sizeof(INT));
    if ( rec >= 0 ) {
       rec &= ~RLBMASK; /* mask off rlb */
-#ifndef	 ONE_DB
       rec += curr_db_table->rt_offset;
-#endif
       if ( record_table[rec].rt_flags & TIMESTAMPED )
 	 bytecpy(timestamp, crloc + RECUPTIME, sizeof(ULONG));
       else

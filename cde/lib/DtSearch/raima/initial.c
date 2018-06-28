@@ -137,9 +137,7 @@ DBN_DECL
    time (&local_timestamp);
    extern_timestamp = htonl ((LONG) local_timestamp);
 
-#ifndef	 ONE_DB
    fno += curr_db_table->ft_offset;
-#endif
    file_ptr = &file_table[fno];
 
    /* If file is open - close it */

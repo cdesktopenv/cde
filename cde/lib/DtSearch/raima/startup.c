@@ -56,11 +56,9 @@ LOCK_DECL
       taskinit(&db_global);
       db_glob_init = 1;
    }
-#ifndef ONE_DB
    if ( dbn >= 0 && dbn_check(dbn) != S_OKAY ) {
       return( db_status );
    }
-#endif
    return( db_status );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin startup.c */

@@ -105,11 +105,7 @@ inittab()
    int dbf;
    FILE_ENTRY *file_ptr;
    FIELD_ENTRY *fld_ptr;
-#ifndef	 ONE_DB
 #define	 DB_ENABLE   1
-#else
-#define	 DB_ENABLE   0
-#endif
 #ifndef	 NO_TIMESTAMP
 #define	 TS_ENABLE   1
 #else
@@ -119,11 +115,9 @@ inittab()
    RECORD_ENTRY *rec_ptr;
    SET_ENTRY *set_ptr;
 #endif
-#ifndef	 ONE_DB
    MEMBER_ENTRY *mem_ptr;
    SORT_ENTRY *srt_ptr;
    KEY_ENTRY *key_ptr;
-#endif
 
 #ifndef	 NO_TIMESTAMP
    db_tsrecs = db_tssets = FALSE;
@@ -131,10 +125,8 @@ inittab()
    size_ft = size_rt = size_st = size_mt = size_srt = size_fd = size_kt = 0;
 
    /* compute individual dictionary sizes and offsets */
-#ifndef	 ONE_DB
    for (dbt_lc = 0, curr_db_table = &db_table[old_no_of_dbs]; 
 	dbt_lc < no_of_dbs; ++dbt_lc, ++curr_db_table) {
-#endif
 
       /* form database dictionary name */
       if ( DB_REF(db_path[0]) )
@@ -214,7 +206,6 @@ goodver:
 
       DB_REF(sysdba) = NULL_DBA;
 
-#ifndef	 ONE_DB
       /* update merged dictionary offsets and sizes */
       if ( curr_db_table->Page_size > page_size ) {
 	    page_size = curr_db_table->Page_size;
@@ -242,16 +233,13 @@ goodver:
       curr_db_table->kt_offset = size_kt;
       size_kt += curr_db_table->Size_kt;
    }
-#endif
    /* allocate dictionary space */
    if ( alloc_dict() != S_OKAY ) return( db_status );
 
    /* read in and adjust dictionary entries for each database */
-#ifndef	 ONE_DB
    for (dbt_lc = 0, curr_db_table = &db_table[old_no_of_dbs]; 
 	dbt_lc < no_of_dbs; 
 	++dbt_lc, ++curr_db_table) {
-#endif
 
       /* form database dictionary name */
       if ( DB_REF(db_path[0]) )
@@ -450,9 +438,7 @@ goodver:
 #ifdef DEBUG_INITTAB
       dump_init_tables = FALSE;
 #endif
-#ifndef	 ONE_DB
       curr_db_table->key_offset = key_offset;
-#endif
 
       /* update file table path entries */
       if ( DB_REF(db_path[0]) || dbfpath[0] ) {
@@ -481,16 +467,11 @@ goodver:
       for (i = ORIGIN(rt_offset), rec_ptr = &record_table[ORIGIN(rt_offset)];
 	   i < ORIGIN(rt_offset) + DB_REF(Size_rt);
 	   ++i, ++rec_ptr) {
-#ifndef	 ONE_DB
 	 rec_ptr->rt_file += curr_db_table->ft_offset;
 	 rec_ptr->rt_fields += curr_db_table->fd_offset;
-#endif
 #ifndef	 NO_TIMESTAMP
 	 if ( rec_ptr->rt_flags & TIMESTAMPED ) {
 	    db_tsrecs = TRUE;
-#ifdef ONE_DB
-	    break;
-#endif
 	 }
 #endif
       }
@@ -500,17 +481,13 @@ goodver:
 	      fld_ptr = &field_table[ORIGIN(fd_offset)];
 	   i < ORIGIN(fd_offset) + DB_REF(Size_fd);
 	   ++i, ++fld_ptr) {
-#ifndef	 ONE_DB
 	 fld_ptr->fd_rec += curr_db_table->rt_offset;
-#endif
 	 if ( fld_ptr->fd_key != NOKEY ) {
 	    fld_ptr->fd_keyno += key_offset;
 	    ++key_count;
-#ifndef	 ONE_DB
 	    fld_ptr->fd_keyfile += curr_db_table->ft_offset;
 	    if ( fld_ptr->fd_type == 'k' )
 	       fld_ptr->fd_ptr += curr_db_table->kt_offset;
-#endif
 	 }
       }
       key_offset += key_count;
@@ -520,22 +497,16 @@ goodver:
       for (i = ORIGIN(st_offset), set_ptr = &set_table[ORIGIN(st_offset)];
 	   i < ORIGIN(st_offset) + DB_REF(Size_st);
 	   ++i, ++set_ptr) {
-#ifndef	 ONE_DB
 	 set_ptr->st_own_rt += curr_db_table->rt_offset;
 	 set_ptr->st_members += curr_db_table->mt_offset;
-#endif
 #ifndef	 NO_TIMESTAMP
 	 if ( set_ptr->st_flags & TIMESTAMPED ) {
 	    db_tssets = TRUE;
-#ifdef ONE_DB
-	    break;
-#endif
 	 }
 #endif
       }
 #endif
 
-#ifndef	 ONE_DB
       /* adjust member table entries */
       for (i = curr_db_table->mt_offset, 
 	      mem_ptr = &member_table[curr_db_table->mt_offset];
@@ -563,7 +534,6 @@ goodver:
 	 key_ptr->kt_field += curr_db_table->fd_offset;
       }
    }  /* end loop for each database */
-#endif
    initcurr();
    return( db_status );
 }
@@ -577,9 +547,7 @@ static int alloc_dict()
    int old_size;
    int new_size;
    int extra_file = 0;
-#ifndef ONE_DB
    DB_ENTRY *db_ptr;
-#endif
 
    /* allocate and initialize file_table */
 #ifndef NO_TRANS
@@ -588,7 +556,6 @@ static int alloc_dict()
    }
 #endif
 
-#ifndef ONE_DB
    if ( old_no_of_dbs == 0 ) {
       old_size_ft = 0;
       old_size_fd = 0;
@@ -608,7 +575,6 @@ static int alloc_dict()
       old_size_kt = db_ptr->Size_kt + db_ptr->kt_offset;
       old_size_rt = db_ptr->Size_rt + db_ptr->rt_offset;
    }
-#endif
 
    new_size = (size_ft + extra_file) * sizeof(FILE_ENTRY);
    old_size = old_size_ft * sizeof(FILE_ENTRY);
@@ -689,17 +655,13 @@ static int initcurr()
    int new_size;
 
    /* Initialize current record and type */
-#ifndef	 ONE_DB
    for (dbt_lc = no_of_dbs, curr_db_table = &db_table[old_no_of_dbs],
 				curr_rn_table = &rn_table[old_no_of_dbs];
 	--dbt_lc >= 0; ++curr_db_table, ++curr_rn_table) {
       DB_REF(curr_dbt_rec) = NULL_DBA;
-#endif
       RN_REF(rn_dba)   = NULL_DBA;
       RN_REF(rn_type)  = -1;
-#ifndef ONE_DB
    }
-#endif
 
    if ( size_st ) {
       new_size = size_st * sizeof(DB_ADDR);
@@ -733,10 +695,8 @@ static int initcurr()
       }
 #endif
       /* for each db make system record as curr_own of its sets */
-#ifndef	 ONE_DB
       for (dbt_lc = no_of_dbs, curr_db_table = &db_table[old_no_of_dbs]; 
 	   --dbt_lc >= 0; ++curr_db_table) {
-#endif
 	 for (rec = ORIGIN(rt_offset), 
 		 rec_ptr = &record_table[ORIGIN(rt_offset)];
 	      rec < ORIGIN(rt_offset) + DB_REF(Size_rt);
@@ -756,21 +716,16 @@ static int initcurr()
 		  }
 	       }
 	       DB_REF(sysdba) = curr_rec;
-#ifndef ONE_DB
  	       DB_REF(curr_dbt_rec) = curr_rec;
-#endif
 	       break;
 	    }
 	 }
-#ifndef	 ONE_DB
       }
-#endif
    }
    else {
       curr_own = NULL;
       curr_mem = NULL;
    }
-#ifndef	 ONE_DB
    curr_db = 0;
    MEM_LOCK(&db_global.Db_table);
    curr_db_table = db_table;
@@ -778,7 +733,6 @@ static int initcurr()
    curr_rn_table = rn_table;
    setdb_on = FALSE;
    curr_rec = DB_REF(curr_dbt_rec);
-#endif
    return( db_status = S_OKAY );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin inittab.c */

@@ -53,7 +53,6 @@
 /* Database Dictionary Tables */
 extern INT largest_page;
 
-#ifndef ONE_DB
 extern INT old_size_ft;
 extern INT old_size_fd;
 extern INT old_size_st;
@@ -62,16 +61,6 @@ extern INT old_size_srt;
 extern INT old_size_kt;
 extern INT old_size_rt;
 extern INT old_no_of_dbs;
-#else
-#define old_size_ft 0
-#define old_size_fd 0
-#define old_size_st 0
-#define old_size_mt 0
-#define old_size_srt 0
-#define old_size_kt 0
-#define old_size_rt 0
-#define old_no_of_dbs 0
-#endif
 
 extern char *crloc;          /* location in page buffer of current record */
 
@@ -132,10 +121,8 @@ typedef struct TASK_S {
    llist Ren_list;	      /* Ren_list = LLIST_INIT() */
    /* The following global variables came from inittab.h */
    INT Page_size;
-#ifndef ONE_DB
    int     Curr_db;
    DB_ENTRY *Curr_db_table;
-#endif
    DB_ADDR Curr_rec;          /* current record address */
    DB_ADDR_P Curr_own;        /* current set owners array */
    DB_ADDR_P Curr_mem;        /* current set members array */
@@ -148,23 +135,11 @@ typedef struct TASK_S {
    BOOLEAN Db_tssets;
 #endif
    FILE_NO Ov_file;
-#ifndef ONE_DB
    BOOLEAN Setdb_on;
    INT No_of_dbs;
    RN_ENTRY_P Rn_table;
    RN_ENTRY *Curr_rn_table;
-#else
-   DB_ADDR rn_dba;	 /* last computed dba by recfrst/recset/recnext */
-   INT     rn_type;	 /* last record type supplied to recfrst/recset */
-   INT     Ft_offset;
-#endif
-#ifndef	 ONE_DB
    DB_ENTRY_P Db_table;
-#else
-   char db_name[DBNMLEN];   /* name of this database */
-   char db_path[PATHLEN];   /* name of path to this database */
-   DB_ADDR sysdba;  /* database address of system record */
-#endif
    FILE_ENTRY_P File_table;
    INT Size_ft;
    RECORD_ENTRY_P Record_table;
@@ -258,11 +233,9 @@ typedef struct TASK_S {
 #define db_tssets db_global.Db_tssets
 #endif
 #define ov_file db_global.Ov_file
-#ifndef ONE_DB
 #define setdb_on db_global.Setdb_on
 #define no_of_dbs db_global.No_of_dbs
 #define curr_rn_table db_global.Curr_rn_table
-#endif
 #define size_ft db_global.Size_ft
 #define size_rt db_global.Size_rt
 #define size_st db_global.Size_st

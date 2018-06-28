@@ -69,7 +69,6 @@ INT largest_page = 0;
 
 char *crloc = NULL;
 
-#ifndef ONE_DB
 INT old_size_ft = 0;
 INT old_size_fd = 0;
 INT old_size_st = 0;
@@ -78,7 +77,6 @@ INT old_size_srt = 0;
 INT old_size_kt = 0;
 INT old_size_rt = 0;
 INT old_no_of_dbs = 0;
-#endif
 
 /* Compatible dictionary versions */
 char *compat_dbd[] = {

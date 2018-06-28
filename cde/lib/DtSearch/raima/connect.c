@@ -325,10 +325,8 @@ char *mem2; /* member record 2 */
    rn1 &= ~RLBMASK; /* mask off rlb */
    bytecpy(&rn2, mem2, sizeof(INT));
    rn2 &= ~RLBMASK; /* mask off rlb */
-#ifndef	 ONE_DB
    rn1 += curr_db_table->rt_offset;
    rn2 += curr_db_table->rt_offset;
-#endif
 
    /* locate member_table entries for these record types */
    mt2 = mt1 = NULL;

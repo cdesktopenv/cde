@@ -92,21 +92,15 @@ renfiles()
 {
    int dbt_lc;			/* loop control */
    REN_ENTRY_P *rp;
-#ifndef	 ONE_DB
    DB_ENTRY *db_ptr;
-#endif
 
    if ( ll_access(&ren_list) ) {
-#ifndef	 ONE_DB
       db_ptr = curr_db_table;		/* Have to save it because of macros */
-#endif
       while ((rp = (REN_ENTRY_P *)ll_next(&ren_list)) != NULL) {
 	 MEM_LOCK(&rp->ptr->Ren_db_name);
 	 MEM_LOCK(&rp->ptr->File_name);
-#ifndef	 ONE_DB
 	 for (dbt_lc = no_of_dbs, curr_db_table = db_table;
 	      --dbt_lc >= 0; ++curr_db_table) {
-#endif
 	    if (strcmp(rp->ptr->Ren_db_name.ptr, DB_REF(db_name)) == 0) {
 	       if ( rp->ptr->file_no < 0 || rp->ptr->file_no >= DB_REF(Size_ft) ) {
 		  MEM_UNLOCK(&rp->ptr->Ren_db_name);
@@ -118,21 +112,15 @@ renfiles()
 	       }
 	       strcpy(file_table[NUM2INT(rp->ptr->file_no, ft_offset)].ft_name,
 		      rp->ptr->File_name.ptr);
-#ifndef	 ONE_DB
 	       break;
-#endif
 	    }
-#ifndef	 ONE_DB
 	 }
-#endif
 	 MEM_UNLOCK(&rp->ptr->Ren_db_name);
 	 MEM_UNLOCK(&rp->ptr->File_name);
 	 FREE(&rp->ptr->Ren_db_name);
 	 FREE(&rp->ptr->File_name);
       }
-#ifndef	 ONE_DB
       curr_db_table = db_ptr;
-#endif
    }
    ll_deaccess(&ren_list);
    ll_free(&ren_list);

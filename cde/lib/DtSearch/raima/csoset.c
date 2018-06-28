@@ -74,9 +74,7 @@ DBN_DECL      /* database number */
       if ( dio_read( *dba, (char * *)&ptr , NOPGHOLD) ) RETURN( db_status );
       bytecpy( &type, ptr, sizeof(INT) );
       type &= ~RLBMASK;
-#ifndef	 ONE_DB
       type += curr_db_table->rt_offset;
-#endif
 
       if (set_ptr->st_own_rt != type)
 	 RETURN( dberr( S_INVOWN ) );

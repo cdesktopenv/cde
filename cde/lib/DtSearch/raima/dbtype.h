@@ -320,7 +320,6 @@ typedef struct KEY_ENTRY_S {
    INT  kt_sort;   /* 'a' = ascending, 'd' = descending */
 } KEY_ENTRY;
 
-#ifndef	 ONE_DB
 /* database table entry declaration */
 typedef struct DB_ENTRY_S {
    char db_name[DBNMLEN];   /* name of this database */
@@ -359,17 +358,6 @@ typedef struct RN_ENTRY_S {
 #define	 DBN_PARM    	      	 , dbn
 #define  DBN_ONLY		 dbn
 #define	 DBN_DECL    	      	 int dbn;
-#else
-#define	 DB_REF(item)     	 (db_global.item)
-#define  RN_REF(item)		 (db_global.item)
-#define	 NUM2INT(num, offset) 	 (num)
-#define	 NUM2EXT(num, offset) 	 (num)
-#define	 ORIGIN(offset)	      	 (0)
-#define	 CURR_DB_PARM	      	 /**/
-#define	 DBN_PARM    	      	 /**/
-#define  DBN_ONLY		 /**/
-#define	 DBN_DECL    	      	 /**/
-#endif
 #define	 TABLE_SIZE(size)     	 DB_REF(size)
 
 /* DBN_PARM... and TASK_PARM... are used for function interfaces */

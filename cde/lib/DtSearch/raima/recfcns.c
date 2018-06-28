@@ -223,9 +223,7 @@ char *data; /* pointer to data area to contain field contents */
       rlb_status = S_UNLOCKED;
    }
 #endif
-#ifndef	 ONE_DB
    rn += curr_db_table->rt_offset;
-#endif
 
    if ( fld_ptr->fd_rec != rn )
       return( dberr(S_INVFLD) );

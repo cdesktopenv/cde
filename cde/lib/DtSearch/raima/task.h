@@ -389,9 +389,7 @@ int EXTERNAL_FIXED dt_rlbclr(TASK_D1);				/* dblfcns.c */
 int EXTERNAL_FIXED dt_rlbset(TASK_D1);				/* dblfcns.c */
 int EXTERNAL_FIXED dt_rlbtst(TASK_D1);				/* dblfcns.c */
 int EXTERNAL_FIXED dt_set_dberr(P1(FARPROC) TASK_Di);		/* dberr.c */
-#ifndef ONE_DB
 int EXTERNAL_FIXED dt_setdb(P1(int) TASK_Di);			/* setdb.c */
-#endif
 int EXTERNAL_DBN   dt_setfree(P1(int) TASK_Di DBN_Dn);		/* dblfcns.c */
 int EXTERNAL_DBN   dt_setkey(P1(long) Pi(const char *) TASK_Di DBN_Dn); 
 								/* makenew.c */
@@ -445,9 +443,7 @@ int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn);
 #define d_renfile(a, b, c)           dt_renfile(a, b, c CURRTASK_PARM)
 #define d_retries(a)                 dt_retries(a CURRTASK_PARM)
 #define d_set_dberr(a, b)            dt_set_dberr(a, b, CURRTASK_PARM)
-#ifndef ONE_DB
 #define d_setdb(a)                   dt_setdb(a CURRTASK_PARM)
-#endif
 #define d_timeout(a)                 dt_timeout(a CURRTASK_PARM)
 #define d_trabort()                  dt_trabort(CURRTASK_ONLY)
 #define d_trbegin(a)                 dt_trbegin(a CURRTASK_PARM)
