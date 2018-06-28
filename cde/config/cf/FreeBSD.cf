@@ -73,11 +73,8 @@ USE_GCC = UseGcc
 # define HasGcc2		YES
 #endif
 
-/* Use installed X11 includes/libs on FreeBSD 11+ */
-#if (OSMajorVersion >= 11)
+/* Use installed X11 includes/libs */
 #define UseInstalledX11         YES
-#endif
-
 
 /* For DtHelp TIFF processing routines. */
 #ifdef AMD64Architecture
@@ -179,13 +176,30 @@ USE_GCC = UseGcc
 #endif
 #endif
 
-/* The GCC strength-reduce bug is fixed for FreeBSD 2.1.5 and later */
+/* Suppress warnings dependant from compiler versions */
 #ifndef DefaultGcc2i386Opt
-#if OSMajorVersion > 2 || (OSMajorVersion == 2 && OSMinorVersion > 1) || (OSMajorVersion == 2 && OSMinorVersion == 1 && OSTeenyVersion >= 5)
-#define DefaultGcc2i386Opt -O2 -fno-strict-aliasing -Wno-write-strings \
-        -Wno-unused-result
+# if defined(__clang__) && defined(__clang_major__) && defined(__clang_minor__)
+#  if (__clang_major__ > 3) || \
+      (__clang_major__ == 3 && __clang_minor__ >= 4)
+#   define DefaultGcc2i386Opt -O2 -fno-strict-aliasing -Wno-write-strings \
+           -Wno-unused-result 
+#  else
+#   define DefaultGcc2i386Opt -O2 -fno-strict-aliasing -Wno-write-strings \
+           -Wno-unused-result
+#  endif
+# elif defined(__GNUC__) && defined(__GNUC_MINOR__)
+#  if (__GNUC__ > 4) || \
+      (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
+#   define DefaultGcc2i386Opt -O2 -fno-strict-aliasing -Wno-write-strings \
+           -Wno-unused-result -Wno-deprecated
+#  else
+#   define DefaultGcc2i386Opt -O2 -fno-strict-aliasing -Wno-write-strings
+#  endif
+# else
+#   define DefaultGcc2i386Opt -O2 -fno-strict-aliasing
+# endif
 #endif
-#endif
+
 
 #ifndef OptimizedCDebugFlags
 # if defined(i386Architecture) || defined(AMD64Architecture)
@@ -210,6 +224,11 @@ ICONVSYSLIB != if test -f /usr/local/include/iconv.h; then echo -liconv; else ec
 
 #define StandardDefines		-DCSRG_BASED
 #define StandardIncludes	-I/usr/local/include
+
+#ifndef TopMotifInclude
+#define TopMotifInclude		/usr/local/include
+#endif
+
 #define BuildLibPathVar		LD_LIBRARY_PATH
 
 #define DefaultUserPath		/bin:/usr/bin:/usr/local/bin:$(BINDIR)

@@ -62,6 +62,12 @@ M4 = /bin/m4
 
 #if defined(LinuxArchitecture) || defined(BSDArchitecture)
 
+#if defined(__llvm__)
+NOIMPLTEMPLATES =
+#else
+NOIMPLTEMPLATES = -fno-implicit-templates
+#endif
+
 /*
  * put cpp directives here rather than in CXXDEFINES because
  * for some reason the CXXDEFINES aren't passed to the link phase
@@ -69,12 +75,12 @@ M4 = /bin/m4
  */
 CXXOPTIONS = \
   -DSP_VOLATILE=volatile -DSP_CONST=const -DSP_ANSI_CLASS_INST \
-  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST -fno-implicit-templates
+  -DSP_HAVE_LOCALE -DSP_MULTI_BYTE -DSP_MANUAL_INST $(NOIMPLTEMPLATES)
 
 /*
  * Flags passed into compile step when doing manual template instantiation.
  */
-CXXTEMPLATEFLAGS = -fno-implicit-templates
+CXXTEMPLATEFLAGS = $(NOIMPLTEMPLATES)
 
 M4 = /usr/bin/m4
 
