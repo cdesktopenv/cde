@@ -362,7 +362,7 @@ _DtDtsMMInit(int override)
 }
 
 char **
-_DtsMMListDb()
+_DtsMMListDb(void)
 {
 	int	i;
 	char	**list;
@@ -717,7 +717,7 @@ _DtDtsMMIsMemory(const char *value)
 }
 
 int
-_DtDtsMMUnLoad()
+_DtDtsMMUnLoad(void)
 {
 	int	error = 0;
 

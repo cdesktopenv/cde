@@ -143,7 +143,7 @@ DtInfoShowTopic (
 
 
 static DtInfoShowStatus
-ConnectToMessageServer ()
+ConnectToMessageServer (void)
 {
 	char	       		* procid;
 	Tt_status		status;

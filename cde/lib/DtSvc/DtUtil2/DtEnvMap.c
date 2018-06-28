@@ -1429,7 +1429,7 @@ void _DtEnvMapForRemote (char *targetHost)
  * restores the original envirnment settings for a number of
  * environment variables.
  */
-void _DtEnvRestoreLocal ()
+void _DtEnvRestoreLocal (void)
 {
     extern char   *mostRecentRemoteHostG;
     cacheForTargetHost  *targetCache;

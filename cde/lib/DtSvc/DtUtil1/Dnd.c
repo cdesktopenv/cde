@@ -468,7 +468,7 @@ _DtDndArgListFromVarArgs(
  * Returns the network node/host name.
  */
 String
-_DtDndGetHostName()
+_DtDndGetHostName(void)
 {
         static char *nodename;
 

@@ -181,7 +181,7 @@ _DtDtsDbInit(void)
 }
 
 char **
-_DtsDbListDb()
+_DtsDbListDb(void)
 {
 	int	i;
 	char	**list = 0;

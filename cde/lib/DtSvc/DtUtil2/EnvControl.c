@@ -207,7 +207,7 @@ makeDefaultIconPath(
  * Construct a default value for XMICONSEARCHPATH into outbuf.
  */
 static char *
-makeDefaultIconPmPath()
+makeDefaultIconPmPath(void)
 {
     static char *defaultIconPmPath = NULL;
 
@@ -223,7 +223,7 @@ makeDefaultIconPmPath()
  * Construct a default value for XMICONBMSEARCHPATH into outbuf.
  */
 static char *
-makeDefaultIconBmPath()
+makeDefaultIconBmPath(void)
 {
     static char *defaultIconBmPath = NULL;
 
@@ -254,7 +254,7 @@ makeDefaultIconBmPath()
  * 
  *****************************<->***********************************/
 void
-_DtEnvSessionManager()
+_DtEnvSessionManager(void)
 {
 #define SESSION_MANAGER	"SESSION_MANAGER"
     char *session_manager = getenv(SESSION_MANAGER);

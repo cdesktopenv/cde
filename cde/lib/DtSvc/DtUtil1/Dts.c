@@ -742,7 +742,7 @@ get_buff_size(type_info_t *info)
 	return(info->buff_size);
 }
 static DtDtsMMDatabase *
-get_dc_db()
+get_dc_db(void)
 {
 	DtDtsMMDatabase *dc_db = 0;
 
@@ -782,7 +782,7 @@ _DtDtsMMPrint(stdout);
 }
 
 static DtDtsMMDatabase *
-get_da_db()
+get_da_db(void)
 {
 	DtDtsMMDatabase *da_db = 0;
 	if(!da_db)

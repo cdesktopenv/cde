@@ -82,7 +82,7 @@ static int      cur_da_count = 0;
 #define	_DtFT_NUM_FIELDS	20
 
 int
-_DtDtsNextDCSeq()
+_DtDtsNextDCSeq(void)
 {
 	int nextDCSeq;
 
@@ -94,7 +94,7 @@ _DtDtsNextDCSeq()
 }
 
 int
-_DtDtsNextDASeq()
+_DtDtsNextDASeq(void)
 {
 	int nextDASeq;
 
@@ -106,7 +106,7 @@ _DtDtsNextDASeq()
 }
 
 void
-_DtDtsSeqReset()
+_DtDtsSeqReset(void)
 {
         _DtSvcProcessLock();
 	cur_dc_count = 0;

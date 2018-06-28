@@ -312,7 +312,7 @@ _DtPerfChkpntMsgSend(char *message)
  * myDtPerfChkpntEnd --- End the checkpointing message delivery
  */
 int
-_DtPerfChkpntEnd() 
+_DtPerfChkpntEnd(void) 
 {
     myDtChkpntMsgSend("End checkpoint delivery", DT_PERF_CHKPNT_MSG_END);
     return(1);

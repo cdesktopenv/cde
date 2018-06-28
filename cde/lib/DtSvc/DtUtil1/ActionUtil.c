@@ -989,7 +989,7 @@ _DtExecuteAccess( const char *path )
  * Allocate an unused DtActionInvocationID
  * between 1..INT_MAX
  */
-DtActionInvocationID _DtActAllocID()
+DtActionInvocationID _DtActAllocID(void)
 {
     extern _DtActInvRecT   **_DtActInvRecArray;		/* global */
     extern int             _actInvRecArraySize;		/* global */
@@ -1030,7 +1030,7 @@ DtActionInvocationID _DtActAllocID()
  *
  * Allocate an Invocation Record
  */
-_DtActInvRecT *_DtActAllocInvRec()
+_DtActInvRecT *_DtActAllocInvRec(void)
 {
     extern _DtActInvRecT   **_DtActInvRecArray;		/* global */
     extern int             _actInvRecArraySize;		/* global */
