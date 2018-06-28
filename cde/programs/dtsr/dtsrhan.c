@@ -329,7 +329,7 @@ int             validate_id (char *s)
    OPEN_OUTFILE - open outputfile - if the file already exists,
   and no mode was specified by the user, ask the user what to do.
 ****************************************************************/
-void            open_outfile ()
+void            open_outfile (void)
 {
     FILE           *temp;
     int             i;
@@ -552,7 +552,7 @@ int             token (char *s)
 /***********************************************************************
     PROCESS_PROFILE - process 'profile' file.
 ************************************************************************/
-void            process_profile ()
+void            process_profile (void)
 {
     FILE           *prof;
     char            prof_line[200];
@@ -1572,7 +1572,7 @@ END_DATE_TABLE:
 /**********************************************************************
    CLEANUP - frees memory used by record
 ***********************************************************************/
-void            cleanup ()
+void            cleanup (void)
 {
     struct line_id *line_current;
     struct field_id *field_current;
@@ -1606,7 +1606,7 @@ void            cleanup ()
    WRITE_RECORD - writes the final form of the record - key, fzkey, abstract,
  and image.
 **************************************************************************/
-void            write_record ()
+void            write_record (void)
 {
     static int	    dotcount = 0;
     char           *ptr;
@@ -2046,7 +2046,7 @@ try and identify each line.  Then fields are processed against these lines,
 and finally fzk processing can begin on any lines that are indicated being
 important.
 ***************************************************************************/
-void            process_infile ()
+void            process_infile (void)
 {
     int             line_num = 0;
     struct line_id *line_current;
