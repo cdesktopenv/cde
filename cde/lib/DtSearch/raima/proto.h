@@ -145,10 +145,10 @@
 void dbautorec(P0);
 
 /* From dblfcns.c: */
-int taskinit(P1(TASK FAR *));
-int initdbt(P1(CONST char FAR *));
-int alloc_table(P1(CHAR_P FAR *) Pi(unsigned) Pi(unsigned));
-#define ALLOC_TABLE(t, n, o, v)	alloc_table((CHAR_P FAR *)(t), n, o)
+int taskinit(P1(TASK *));
+int initdbt(P1(CONST char *));
+int alloc_table(P1(CHAR_P *) Pi(unsigned) Pi(unsigned));
+#define ALLOC_TABLE(t, n, o, v)	alloc_table((CHAR_P *)(t), n, o)
 #ifndef SINGLE_USER
 int  termses(P0);
 #endif
@@ -166,20 +166,20 @@ int dio_clrfile(P1(FILE_NO));
 int dio_clear(P0);
 int dio_flush(P0);
 void dio_setdef(P1(FILE_NO));
-int dio_get(P1(F_ADDR) Pi(char FAR * FAR *) Pi(int));
+int dio_get(P1(F_ADDR) Pi(char * *) Pi(int));
 int dio_touch(P1(F_ADDR));
-int dio_read(P1(DB_ADDR) Pi(char FAR * FAR *) Pi(int));
-int dio_write(P1(DB_ADDR) Pi(CONST char FAR *) Pi(int));
+int dio_read(P1(DB_ADDR) Pi(char * *) Pi(int));
+int dio_write(P1(DB_ADDR) Pi(CONST char *) Pi(int));
 int dio_release(P1(DB_ADDR));
 int dio_rrlb(P1(DB_ADDR) Pi(INT *));
 int dio_wrlb(P1(DB_ADDR) Pi(INT));
-int dio_findpg(P1(FILE_NO) Pi(F_ADDR) Pi(PAGE_ENTRY FAR *)
-			      Pi(PAGE_ENTRY FAR * FAR *) 
-			      Pi(LOOKUP_ENTRY FAR * FAR *));
+int dio_findpg(P1(FILE_NO) Pi(F_ADDR) Pi(PAGE_ENTRY *)
+			      Pi(PAGE_ENTRY * *) 
+			      Pi(LOOKUP_ENTRY * *));
 #ifdef NO_TRANS
-int dio_out(P1(PAGE_ENTRY FAR *) Pi(LOOKUP_ENTRY FAR *));
+int dio_out(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *));
 #else
-int dio_out(P1(PAGE_ENTRY FAR *) Pi(LOOKUP_ENTRY FAR *) 
+int dio_out(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *) 
 			   Pi(BOOLEAN));
 #endif
 #ifndef  NO_TIMESTAMP
@@ -203,33 +203,33 @@ int key_open(P0);
 void key_close(P0);
 int key_init(P1(int));
 int key_reset(P1(FILE_NO));
-int key_locpos(P1(CONST char FAR *) Pi(DB_ADDR FAR *));
+int key_locpos(P1(CONST char *) Pi(DB_ADDR *));
 int key_scan(P1(int) Pi(DB_ADDR *));
 int key_boundary(P1(int) Pi(DB_ADDR *));
-int key_insert(P1(int) Pi(CONST char FAR *) Pi(DB_ADDR));
-int key_delete(P1(int) Pi(CONST char FAR *) Pi(DB_ADDR));
+int key_insert(P1(int) Pi(CONST char *) Pi(DB_ADDR));
+int key_delete(P1(int) Pi(CONST char *) Pi(DB_ADDR));
 /* Due to a problem with MSC 5.1, we couldn't declare the 2nd parm
    of key_bldcom as const (see keyfcns.c) */
-int key_bldcom(P1(int) Pi(char FAR *) Pi(char FAR *) Pi(int));
+int key_bldcom(P1(int) Pi(char *) Pi(char *) Pi(int));
 /* Because of a "problem" with the MSC 5.1 compiler, we couldn't declare
    the second argument to key_cmpcpy with a const attribute.  Hence we
    were not able to define the 2nd argument of key_bldcom as const.  */
-void key_cmpcpy(P1(char FAR *) Pi(char FAR *) Pi(INT));
+void key_cmpcpy(P1(char *) Pi(char *) Pi(INT));
 
 /* From libfcns.c: */
 #ifndef ONE_DB
 int dbn_check(P1(int));
 #endif
-int nset_check(P1(int) Pi(int *) Pi(SET_ENTRY FAR * FAR *));
+int nset_check(P1(int) Pi(int *) Pi(SET_ENTRY * *));
 int nfld_check(P1(long) Pi(int *) Pi(int *) 
-			      Pi(RECORD_ENTRY FAR * FAR *) 
-			      Pi(FIELD_ENTRY FAR * FAR *));
-int nrec_check(P1(int) Pi(int *) Pi(RECORD_ENTRY FAR * FAR *));
-int fldcmp(P1(FIELD_ENTRY FAR *) Pi(CONST char FAR *) 
-			     Pi(CONST char FAR *));
-int INTcmp(P1(CONST char FAR *) Pi(CONST char FAR *));
-int ADDRcmp(P1(CONST DB_ADDR FAR *) Pi(CONST DB_ADDR FAR *));
-int null_dba(P1(CONST char FAR *));
+			      Pi(RECORD_ENTRY * *) 
+			      Pi(FIELD_ENTRY * *));
+int nrec_check(P1(int) Pi(int *) Pi(RECORD_ENTRY * *));
+int fldcmp(P1(FIELD_ENTRY *) Pi(CONST char *) 
+			     Pi(CONST char *));
+int INTcmp(P1(CONST char *) Pi(CONST char *));
+int ADDRcmp(P1(CONST DB_ADDR *) Pi(CONST DB_ADDR *));
+int null_dba(P1(CONST char *));
 int check_dba(P1(DB_ADDR));
 
 /* From makenew.c: */
@@ -238,24 +238,24 @@ int sk_free(P0);
 /* From netwdos.c: */
 int netbios_chk(P0);
 int nw_reset(P1(int) Pi(int));
-int nw_addnm(P1(char FAR *) Pi(int *));
-int nw_cleanup(P1(char FAR *));
+int nw_addnm(P1(char *) Pi(int *));
+int nw_cleanup(P1(char *));
 int nw_sestat(P0);
-int nw_delnm(P1(char FAR *));
-int nw_call(P1(char FAR *) Pi(char FAR *) Pi(int *));
+int nw_delnm(P1(char *));
+int nw_call(P1(char *) Pi(char *) Pi(int *));
 int nw_hangup(P1(int));
-int nw_send(P1(int) Pi(MESSAGE FAR *) Pi(int));
-int nw_rcvmsg(P1(int) Pi(MESSAGE FAR *) Pi(int) Pi(int *));
+int nw_send(P1(int) Pi(MESSAGE *) Pi(int));
+int nw_rcvmsg(P1(int) Pi(MESSAGE *) Pi(int) Pi(int *));
 
 /* From opens.c: */
-int open_b(P1(CONST char FAR *) Pi(int));
+int open_b(P1(CONST char *) Pi(int));
 
 /* From ovfcns.c: */
 int o_setup(P0);
 int o_init(P0);
 int o_fileinit(P1(FILE_NO));
 int o_search(P1(FILE_NO) Pi(F_ADDR) Pi(F_ADDR *));
-int o_write(P1(PAGE_ENTRY FAR *) Pi(LOOKUP_ENTRY FAR *));
+int o_write(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *));
 int o_pzwrite(P1(FILE_NO));
 int o_flush(P0);
 int o_update(P0);
@@ -263,26 +263,26 @@ long o_pages(P1(FILE_NO));
 void o_free(P0);
 
 /* From recfcns.c: */
-int r_chkfld(P1(INT) Pi(FIELD_ENTRY FAR *) Pi(char FAR *)
-	     Pi(CONST char FAR *));
+int r_chkfld(P1(INT) Pi(FIELD_ENTRY *) Pi(char *)
+	     Pi(CONST char *));
 int r_delrec(P1(INT) Pi(DB_ADDR));
-int r_gfld(P1(FIELD_ENTRY FAR *) Pi(char FAR *) Pi(char FAR *));
-int r_gmem(P1(int) Pi(char FAR *) Pi(char FAR *));
-int r_gset(P1(int) Pi(char FAR *) Pi(char FAR *));
-int r_pfld(P1(INT) Pi(FIELD_ENTRY FAR *) Pi(char FAR *) 
-			     Pi(CONST char FAR *) Pi(DB_ADDR FAR *));
-int r_pmem(P1(int) Pi(char FAR *) Pi(char FAR *));
-int r_pset(P1(int) Pi(char FAR *) Pi(char FAR *));
-int r_smem(P1(DB_ADDR FAR *) Pi(INT));
-int r_setopt(P1(FIELD_ENTRY FAR *) Pi(char FAR *));
-int r_clropt(P1(FIELD_ENTRY FAR *) Pi(char FAR *));
-int r_tstopt(P1(FIELD_ENTRY FAR *) Pi(char FAR *));
+int r_gfld(P1(FIELD_ENTRY *) Pi(char *) Pi(char *));
+int r_gmem(P1(int) Pi(char *) Pi(char *));
+int r_gset(P1(int) Pi(char *) Pi(char *));
+int r_pfld(P1(INT) Pi(FIELD_ENTRY *) Pi(char *) 
+			     Pi(CONST char *) Pi(DB_ADDR *));
+int r_pmem(P1(int) Pi(char *) Pi(char *));
+int r_pset(P1(int) Pi(char *) Pi(char *));
+int r_smem(P1(DB_ADDR *) Pi(INT));
+int r_setopt(P1(FIELD_ENTRY *) Pi(char *));
+int r_clropt(P1(FIELD_ENTRY *) Pi(char *));
+int r_tstopt(P1(FIELD_ENTRY *) Pi(char *));
 
 /* From pathfcns.c */
-int con_dbd(P1(char FAR *) Pi(char FAR *) Pi(char FAR *));
-int con_dbf(P1(char FAR *) Pi(char FAR *) Pi(char FAR *) 
-			   Pi(char FAR *));
-char FAR * get_element(P1(char FAR *) Pi(int));
+int con_dbd(P1(char *) Pi(char *) Pi(char *));
+int con_dbf(P1(char *) Pi(char *) Pi(char *) 
+			   Pi(char *));
+char * get_element(P1(char *) Pi(int));
 
 /* From renfile.c: */
 int renfiles(P0);
@@ -303,12 +303,12 @@ int taf_open(P0);
 int taf_close(P0);
 int taf_access(P0);
 int taf_release(P0);
-int taf_add(P1(CONST char FAR *));
-int taf_del(P1(CONST char FAR *) );
+int taf_add(P1(CONST char *));
+int taf_del(P1(CONST char *) );
 
 /* From task.c */
 #ifdef MULTI_TASK
-void task_switch(P1(DB_TASK FAR *));
+void task_switch(P1(DB_TASK *));
 #endif
 
 /* From mapchar.c */
@@ -334,7 +334,7 @@ void ctbl_free(P0);
   char * CDECL strrchr(P1(CONST char *) Pi(int));
 #endif
 
-void CDECL free(P1(void FAR *));  /* AIXV3 - DPG 07/05/90 */
+void CDECL free(P1(void *));  /* AIXV3 - DPG 07/05/90 */
 time_t CDECL time(P1(long *));
 int CDECL write(P1(int) Pi(char *) Pi(unsigned int));
 int CDECL read(P1(int) Pi(char *) Pi(unsigned int));

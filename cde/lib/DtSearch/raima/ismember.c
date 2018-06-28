@@ -57,11 +57,11 @@ TASK_DECL
 DBN_DECL  /* database number */
 {
    char crmp[MEMPSIZE];   /* current record's member pointer */
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
    
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* Make sure we have a current record */
@@ -69,7 +69,7 @@ DBN_DECL  /* database number */
       RETURN( dberr(S_NOCR) );
 
    /* Read current record and check connection */
-   if ((dio_read( curr_rec, (char FAR * FAR *)&crloc , NOPGHOLD) == S_OKAY) &&
+   if ((dio_read( curr_rec, (char * *)&crloc , NOPGHOLD) == S_OKAY) &&
        (r_gmem(set, crloc, crmp) == S_OKAY) &&
        null_dba(crmp + MP_OWNER))
       db_status = S_EOS; /* end-of-set if curr rec not owned */

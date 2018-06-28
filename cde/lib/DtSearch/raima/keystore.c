@@ -60,16 +60,16 @@ DBN_DECL    /* database number */
 {
    int fld;        /* field number */
    int rec, rn;    /* record type of current record */
-   char FAR *rptr;     /* pointer to current record */
-   char FAR *fptr;     /* pointer to field contents */
+   char *rptr;     /* pointer to current record */
+   char *fptr;     /* pointer to field contents */
    char ckey[256]; /* compound key */
    int stat;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
-   if (nfld_check(field, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY)
+   if (nfld_check(field, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* Make sure we have a current record */
@@ -87,7 +87,7 @@ DBN_DECL    /* database number */
       RETURN( dberr(S_NOTOPTKEY) );
 
    /* read current record */
-   if ( (stat = dio_read(curr_rec, (char FAR * FAR *)&rptr, PGHOLD)) == S_OKAY )  {
+   if ( (stat = dio_read(curr_rec, (char * *)&rptr, PGHOLD)) == S_OKAY )  {
       /* Make sure that the key has not already been stored */
       if ( (stat = r_tstopt( fld_ptr, rptr )) != S_OKAY ) {
 	 if ( dio_release( curr_rec ) != S_OKAY )

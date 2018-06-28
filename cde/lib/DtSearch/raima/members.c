@@ -53,18 +53,18 @@
 int
 d_members(set, tot TASK_PARM DBN_PARM)
 int set;     /* Set table entry */
-LONG FAR *tot;   /* total members of set */
+LONG *tot;   /* total members of set */
 TASK_DECL
 DBN_DECL     /* database number */
 {
    char setp[SETPSIZE];
-   char FAR *recp;
+   char *recp;
    LONG total;
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* Make sure we have a current owner */
@@ -72,7 +72,7 @@ DBN_DECL     /* database number */
       RETURN( dberr(S_NOCO) );
 
    /* Read owner record */
-   if ( dio_read( curr_own[set], (char FAR * FAR *)&recp, NOPGHOLD) != S_OKAY )
+   if ( dio_read( curr_own[set], (char * *)&recp, NOPGHOLD) != S_OKAY )
       RETURN( db_status );
 
    /* Get set pointer from owner record */

@@ -78,7 +78,7 @@ typedef union INIT_PAGE_U {
    } pg1;
 } INIT_PAGE;
 
-typedef struct {union INIT_PAGE_U FAR *ptr; LOCK_DESC} INIT_PAGE_P;
+typedef struct {union INIT_PAGE_U *ptr; LOCK_DESC} INIT_PAGE_P;
 
 static char nulls[5] = "\0\0\0\0";
 static int dbfile;
@@ -124,8 +124,8 @@ DBN_DECL
    F_ADDR addr;
    ULONG ts;
    INT rno, rec;
-   FILE_ENTRY FAR *file_ptr;
-   RECORD_ENTRY FAR *rec_ptr;
+   FILE_ENTRY *file_ptr;
+   RECORD_ENTRY *rec_ptr;
    time_t	local_timestamp;
    LONG		extern_timestamp;
 
@@ -154,7 +154,7 @@ DBN_DECL
    if ((dbfile = DB_OPEN(file_ptr->ft_name, O_RDWR | O_CREAT | O_TRUNC)) < 0)
       RETURN( dberr(S_NOFILE) );
    
-   page = (INIT_PAGE FAR *)ALLOC(&Page, file_ptr->ft_pgsize, "page");
+   page = (INIT_PAGE *)ALLOC(&Page, file_ptr->ft_pgsize, "page");
    if ( page == NULL ) RETURN( dberr(S_NOMEMORY) );
 
    /*--------- Init PAGE 0 ---------*/
@@ -169,7 +169,7 @@ DBN_DECL
       page->pg0.dchain =	htonl ((LONG) NONE);
       page->pg0.next =		htonl (2);
       page->pg0.timestamp =	0; /* not really used by key file */
-      DB_WRITE(dbfile, (char FAR *)page, (int)file_ptr->ft_pgsize);
+      DB_WRITE(dbfile, (char *)page, (int)file_ptr->ft_pgsize);
 
       /*--------- Write KEY FILE PAGE 1 ---------*/
       byteset(page, '\0', file_ptr->ft_pgsize);
@@ -179,7 +179,7 @@ DBN_DECL
       /* node 1, NONE page pointer */
       addr =			-1;
       bytecpy(page->pg1.init_addr, &addr, sizeof(F_ADDR));
-      DB_WRITE(dbfile, (char FAR *)page, (int)file_ptr->ft_pgsize);
+      DB_WRITE(dbfile, (char *)page, (int)file_ptr->ft_pgsize);
    }
    else {
       /*--------- Init DATA PAGE 0 ---------
@@ -194,7 +194,7 @@ DBN_DECL
 
 	    /*---Write special DATA FILE PAGE 0 for system record file ---*/
 	    page->pg0.next =	htonl (2);
-	    DB_WRITE(dbfile, (char FAR *)page, (int)file_ptr->ft_pgsize);
+	    DB_WRITE(dbfile, (char *)page, (int)file_ptr->ft_pgsize);
 
 	    /*--------- Write DATA FILE PAGE 1 for system record ---------*/
 	    byteset(page, '\0', file_ptr->ft_pgsize);
@@ -217,7 +217,7 @@ DBN_DECL
 	       bytecpy(page->pg1.init_crts, &ts, sizeof(ULONG));
 	       bytecpy(page->pg1.init_upts, &ts, sizeof(ULONG));
 	    }
-	    DB_WRITE(dbfile, (char FAR *)page, (int)file_ptr->ft_pgsize);
+	    DB_WRITE(dbfile, (char *)page, (int)file_ptr->ft_pgsize);
 	    break;
 	 }
       }
@@ -227,7 +227,7 @@ DBN_DECL
        */
       if (rec == size_rt) {
 	 page->pg0.next =	htonl (1);
-	 DB_WRITE(dbfile, (char FAR *)page, (int)file_ptr->ft_pgsize);
+	 DB_WRITE(dbfile, (char *)page, (int)file_ptr->ft_pgsize);
       }
    }
    /* close database file */

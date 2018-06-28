@@ -52,7 +52,7 @@
 /* Get timestamp of current record
 */
 d_gtscr(timestamp TASK_PARM)
-ULONG FAR *timestamp;
+ULONG *timestamp;
 TASK_DECL
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(RECORD_NOIO));

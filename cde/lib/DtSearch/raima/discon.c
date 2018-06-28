@@ -76,9 +76,9 @@ DBN_DECL  /* database number */
    SET_PTR cosp;          /* current owner's set pointer */
    MEM_PTR cmmp;          /* member's member pointer */
    MEM_PTR npmp;          /* next or previous member's member pointer */
-   char FAR *orec;            /* ptr to current owner record contents in cache */
-   char FAR *mrec = NULL;     /* ptr to member record contents in cache */
-   char FAR *nprec = NULL;    /* ptr to next or prev record contents in cache */
+   char *orec;            /* ptr to current owner record contents in cache */
+   char *mrec = NULL;     /* ptr to member record contents in cache */
+   char *nprec = NULL;    /* ptr to next or prev record contents in cache */
    DB_ADDR mdba;          /* db address of member record */
    DB_ADDR npdba;         /* db address of next or previous member */
    int set;               /* set_table entry */
@@ -86,12 +86,12 @@ DBN_DECL  /* database number */
 #ifndef	 NO_TIMESTAMP
    FILE_NO file;          /* file containing owner record */
 #endif
-   SET_ENTRY FAR *set_ptr;
-   DB_ADDR FAR *co_ptr, FAR *cm_ptr;
+   SET_ENTRY *set_ptr;
+   DB_ADDR *co_ptr, *cm_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(nset, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(nset, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* make sure we have a current owner */
@@ -104,22 +104,22 @@ DBN_DECL  /* database number */
 
    /* read member record */
    mdba = *cm_ptr;
-   if ( dio_read(mdba, (char FAR * FAR *)&mrec, PGHOLD) != S_OKAY )
+   if ( dio_read(mdba, (char * *)&mrec, PGHOLD) != S_OKAY )
       RETURN( db_status );
 
    /* ensure record is connected */
-   if ( (stat = r_gmem(set, mrec, (char FAR *)&cmmp)) != S_OKAY )
+   if ( (stat = r_gmem(set, mrec, (char *)&cmmp)) != S_OKAY )
       goto quit_b;
    if ( cmmp.owner == NULL_DBA ) { /* checks owner pointer */
       stat = S_NOTCON;
       goto quit_b;
    }
    /* read owner record */
-   if ( (stat = dio_read(*co_ptr, (char FAR * FAR *)&orec, PGHOLD)) != S_OKAY )
+   if ( (stat = dio_read(*co_ptr, (char * *)&orec, PGHOLD)) != S_OKAY )
       goto quit_b;
 
    /* get set pointer from owner */
-   if ( r_gset(set, orec, (char FAR *)&cosp) != S_OKAY )
+   if ( r_gset(set, orec, (char *)&cosp) != S_OKAY )
       goto quit_a;
 
    if ( cmmp.next == NULL_DBA )
@@ -128,11 +128,11 @@ DBN_DECL  /* database number */
    else {
       /* set next record's prev to current member's prev */
       npdba = cmmp.next;
-      if ((dio_read(npdba, (char FAR * FAR *)&nprec, NOPGHOLD) != S_OKAY) ||
-	  (r_gmem(set, nprec, (char FAR *)&npmp) != S_OKAY))
+      if ((dio_read(npdba, (char * *)&nprec, NOPGHOLD) != S_OKAY) ||
+	  (r_gmem(set, nprec, (char *)&npmp) != S_OKAY))
 	 goto quit_a;
       npmp.prev = cmmp.prev;
-      if ((r_pmem(set, nprec, (char FAR *)&npmp) != S_OKAY) ||
+      if ((r_pmem(set, nprec, (char *)&npmp) != S_OKAY) ||
 	  (dio_write(npdba, NULL, NOPGFREE) != S_OKAY))
 	 goto quit_a;
    }
@@ -142,11 +142,11 @@ DBN_DECL  /* database number */
    else {
       /* set previous record's next to current member's next */
       npdba = cmmp.prev;
-      if ((dio_read(npdba, (char FAR * FAR *)&nprec, NOPGHOLD) != S_OKAY) ||
-	  (r_gmem(set, nprec, (char FAR *)&npmp) != S_OKAY))
+      if ((dio_read(npdba, (char * *)&nprec, NOPGHOLD) != S_OKAY) ||
+	  (r_gmem(set, nprec, (char *)&npmp) != S_OKAY))
 	 goto quit_a;
       npmp.next = cmmp.next;
-      if ((r_pmem(set, nprec, (char FAR *)&npmp) != S_OKAY) ||
+      if ((r_pmem(set, nprec, (char *)&npmp) != S_OKAY) ||
 	  (dio_write(npdba, NULL, NOPGFREE) != S_OKAY))
 	 goto quit_a;
    }
@@ -161,7 +161,7 @@ DBN_DECL  /* database number */
    --cosp.total;
 
    /* update owner record's set pointer */
-   if ((r_pset(set, orec, (char FAR *)&cosp) != S_OKAY) ||
+   if ((r_pset(set, orec, (char *)&cosp) != S_OKAY) ||
        (dio_write(*co_ptr, NULL, PGFREE) != S_OKAY))
       RETURN( db_status );
 
@@ -173,7 +173,7 @@ DBN_DECL  /* database number */
    cmmp.owner = cmmp.prev = cmmp.next = NULL_DBA;
    
    /* update member record */
-   if ((r_pmem(set, mrec, (char FAR *)&cmmp) != S_OKAY) ||
+   if ((r_pmem(set, mrec, (char *)&cmmp) != S_OKAY) ||
        (dio_write(mdba, NULL, PGFREE) != S_OKAY))
       RETURN( db_status );
 #ifndef	 NO_TIMESTAMP

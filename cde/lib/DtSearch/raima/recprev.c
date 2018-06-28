@@ -85,8 +85,8 @@ DBN_DECL
    FILE_NO fno;			/* current file we're scanning */
    F_ADDR last;			/* last slot in file */
    int rec_ndx;			/* index of RECORD ENTRY (not used) */
-   char FAR *recptr;		/* record from database */
-   RECORD_ENTRY FAR *rec_ptr;	/* RECORD ENTRY for this record */
+   char *recptr;		/* record from database */
+   RECORD_ENTRY *rec_ptr;	/* RECORD ENTRY for this record */
    INT rectype;			/* record type from record */
    F_ADDR rno;			/* current slot we're scanning */
    FILE_NO ft;			/* normalized file */
@@ -104,7 +104,7 @@ DBN_DECL
       rno = RN_REF(rn_dba) & ADDRMASK;
    }
    else {		/* no current rec, get fno from rn_type */
-      nrec_check(RN_REF(rn_type) + RECMARK, &rec_ndx, (RECORD_ENTRY FAR * FAR *)&rec_ptr);
+      nrec_check(RN_REF(rn_type) + RECMARK, &rec_ndx, (RECORD_ENTRY * *)&rec_ptr);
       fno = NUM2EXT(rec_ptr->rt_file, ft_offset);
       fno = (int)((fno >> FILESHIFT) & FILEMASK);
 
@@ -125,7 +125,7 @@ DBN_DECL
       dbopen_sv = dbopen;
       dbopen = 2;		/* setup to allow for unlocked read */
 #endif
-      dio_read(dba, (char FAR * FAR *)&recptr, NOPGHOLD);
+      dio_read(dba, (char * *)&recptr, NOPGHOLD);
 #ifndef SINGLE_USER
       dbopen = dbopen_sv;
 #endif

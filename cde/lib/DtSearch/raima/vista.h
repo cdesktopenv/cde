@@ -280,10 +280,6 @@ extern int db_oflag;
 #endif		   		/* MSC */
 #endif				/* GENERAL lockmgr */
 
-#ifndef FAR
-#define FAR /**/
-#endif
-
 #ifndef PASCAL
 #define PASCAL /**/
 #endif
@@ -292,12 +288,12 @@ extern int db_oflag;
 #define CDECL /**/
 #endif
 
-#define EXTERNAL_FIXED    FAR PASCAL
-#define EXTERNAL_VARIABLE FAR CDECL
+#define EXTERNAL_FIXED    PASCAL
+#define EXTERNAL_VARIABLE CDECL
 #define INTERNAL_FIXED    PASCAL
 #define INTERNAL_VARIABLE CDECL
 
-typedef int (FAR PASCAL *FARPROC)();
+typedef int (PASCAL *FARPROC)();
 typedef char *HANDLE;
 
 #ifdef NO_DBN_PARM
@@ -314,11 +310,11 @@ typedef char *HANDLE;
 #define POINTER_INIT()		{  NULL  }
 #define POINTER_ASSIGN(a)	{  a  }
 
-typedef struct {char FAR *ptr; LOCK_DESC} CHAR_P;
-typedef struct {DB_ADDR FAR *ptr; LOCK_DESC} DB_ADDR_P;
+typedef struct {char *ptr; LOCK_DESC} CHAR_P;
+typedef struct {DB_ADDR *ptr; LOCK_DESC} DB_ADDR_P;
 #ifdef MULTI_TASK
-typedef struct {struct TASK_S FAR *ptr; LOCK_DESC} TASK_P;
-typedef struct {char FAR *ptr; LOCK_DESC} QFAKE_P;
+typedef struct {struct TASK_S *ptr; LOCK_DESC} TASK_P;
+typedef struct {char *ptr; LOCK_DESC} QFAKE_P;
 typedef struct {
    TASK_P v;
    QFAKE_P q;
@@ -368,8 +364,8 @@ typedef struct {
 #define TASK_DBN_D1 P1(DB_TASK) DBN_Dn
 #define TASK_D1 P1(DB_TASK)
 #define TASK_Di Pi(DB_TASK)
-#define TASK_PTR_D1 P1(DB_TASK FAR *)
-#define TASK_PTR_Di Pi(DB_TASK FAR *)
+#define TASK_PTR_D1 P1(DB_TASK *)
+#define TASK_PTR_Di Pi(DB_TASK *)
 #define CURRTASK_PARM            , Currtask
 #define CURRTASK_ONLY            Currtask
 #else

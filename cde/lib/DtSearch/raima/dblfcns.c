@@ -175,7 +175,7 @@ static LR_LOCK lock_reply;		/* This used to be in db_global */
 #endif
 
 #ifdef MULTI_TASK
-DB_TASK Currtask = {POINTER_ASSIGN((TASK FAR *)&db_global), POINTER_ASSIGN((char FAR *)NULL)};
+DB_TASK Currtask = {POINTER_ASSIGN((TASK *)&db_global), POINTER_ASSIGN((char *)NULL)};
 #endif
 
 extern CHAR_P Dbpgbuff;  /* allocated by dio_init used by o_update */
@@ -212,15 +212,15 @@ extern char taf_files[TAFLIMIT][FILENMLEN];
 
 /* Internal function prototypes */
 #ifndef SINGLE_USER
-static void pr_lock_descr(P1(struct lock_descr FAR *) Pi(int) 
-					    Pi(CONST char FAR *));
-static int process_lock(P1(struct lock_descr FAR *) Pi(char));
-static int keep_locks(P1(struct lock_descr FAR *));
-static int free_files(P1(struct lock_descr FAR *));
+static void pr_lock_descr(P1(struct lock_descr *) Pi(int) 
+					    Pi(CONST char *));
+static int process_lock(P1(struct lock_descr *) Pi(char));
+static int keep_locks(P1(struct lock_descr *));
+static int free_files(P1(struct lock_descr *));
 #endif
 static int bld_lock_tables(P0);
 static int initses(P0);
-static int lock_files(P1(int) Pi(LOCK_REQUEST FAR *));
+static int lock_files(P1(int) Pi(LOCK_REQUEST *));
 static int send_lock(P0);
 static int send_free(P0);
 static void reset_locks(P0);
@@ -264,7 +264,7 @@ TASK_DECL
    if ( dbopen == 1 ) {
       sto.fcn  = L_SETTIME;
       sto.secs = secs;
-      if ( nw_send(lsn, (MESSAGE FAR *)&sto, sizeof(LM_SETTIME)) )
+      if ( nw_send(lsn, (MESSAGE *)&sto, sizeof(LM_SETTIME)) )
 	 RETURN( neterr() );
       db_timeout = secs;
    }
@@ -278,8 +278,8 @@ TASK_DECL
 */
 int
 d_open(dbnames, opentype TASK_PARM)
-CONST char FAR *dbnames;
-CONST char FAR *opentype;
+CONST char *dbnames;
+CONST char *opentype;
 TASK_DECL
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
@@ -420,7 +420,7 @@ TASK_DECL
 /* Initialize a task structure
 */
 int taskinit(tsk)
-TASK FAR *tsk;
+TASK *tsk;
 {
    byteset(tsk, '\0', sizeof(TASK));
 #ifndef ONE_DB
@@ -445,13 +445,13 @@ TASK FAR *tsk;
 */
 int
 initdbt(dbnames )
-CONST char FAR *dbnames;
+CONST char *dbnames;
 {
    int dbt_lc;			/* loop control */
    char dbfile [DtSrFILENMLEN];
-   char FAR *ptr;
+   char *ptr;
 #ifndef	 ONE_DB
-   CONST char FAR *cp;
+   CONST char *cp;
    int i;
 #endif
 
@@ -568,7 +568,7 @@ static recovery_check()
    if ( db_lockmgr ) {
       /* tell lock manager that we're done */
       trend_pkt.fcn = L_RECDONE;
-      if ( nw_send(lsn, (MESSAGE FAR *)&trend_pkt, sizeof(LM_TREND)) )
+      if ( nw_send(lsn, (MESSAGE *)&trend_pkt, sizeof(LM_TREND)) )
 	 neterr();
    }
 #endif
@@ -591,9 +591,9 @@ static int initses()
    int send_size, recv_size, recvd_sz;
    struct stat stbuf;
    LM_FILEID *fi_ptr;
-   FILE_ENTRY FAR *file_ptr;
-   FILE_NO FAR *fref_ptr;
-   INT FAR *rcv_fref_ptr;
+   FILE_ENTRY *file_ptr;
+   FILE_NO *fref_ptr;
+   INT *rcv_fref_ptr;
 
    if ( (net_status=nw_addnm(dbuserid, (int *)NULL) ) != N_OKAY )
       if ( net_status == N_DUPNAME ) {
@@ -622,9 +622,9 @@ static int initses()
 #else				/* GENERAL */
    send_size = sizeof(LM_DBOPEN) + (size_ft-1)*sizeof(LM_FILEID);
 #endif				/* GENERAL */
-   send_pkt = (LM_DBOPEN FAR *)ALLOC(&Send_pkt, send_size, "send_pkt");
+   send_pkt = (LM_DBOPEN *)ALLOC(&Send_pkt, send_size, "send_pkt");
    recv_size = sizeof(LR_DBOPEN) + (size_ft-1)*sizeof(INT);
-   recv_pkt = (LR_DBOPEN FAR *)ALLOC(&Recv_pkt, recv_size, "recv_pkt");
+   recv_pkt = (LR_DBOPEN *)ALLOC(&Recv_pkt, recv_size, "recv_pkt");
    if (send_pkt == NULL || recv_pkt == NULL) {
       nw_hangup(lsn);
       return(dberr(S_NOMEMORY));
@@ -652,19 +652,19 @@ static int initses()
 #endif
    }
 send_open:
-   if (nw_send(lsn, (MESSAGE FAR *)send_pkt, send_size) ||
-       nw_rcvmsg(lsn, (MESSAGE FAR *)recv_pkt, recv_size, &recvd_sz)) {
+   if (nw_send(lsn, (MESSAGE *)send_pkt, send_size) ||
+       nw_rcvmsg(lsn, (MESSAGE *)recv_pkt, recv_size, &recvd_sz)) {
       nw_hangup(lsn);
       return(neterr());
    }
 
    if ( recv_pkt->status == L_RECOVER )  {
       /* perform auto-recovery */
-      d_recover( (CONST char FAR *)recv_pkt->logfile CURRTASK_PARM );
+      d_recover( (CONST char *)recv_pkt->logfile CURRTASK_PARM );
 
       /* tell lock mgr we're done */
       trend_pkt.fcn = L_RECDONE;
-      if ( nw_send(lsn, (MESSAGE FAR *)&trend_pkt, sizeof(LM_TREND)) ) {
+      if ( nw_send(lsn, (MESSAGE *)&trend_pkt, sizeof(LM_TREND)) ) {
 	 nw_hangup(lsn);
 	 return(neterr());
       }
@@ -727,13 +727,13 @@ static int bld_lock_tables()
    int mem, memtot;
    FILE_NO i;
    FILE_NO fl_cnt;
-   struct lock_descr FAR *ld_ptr;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
-   SET_ENTRY FAR *set_ptr;
-   MEMBER_ENTRY FAR *mem_ptr;
-   int FAR *fu_ptr;
-   FILE_NO FAR *fl_ptr;
+   struct lock_descr *ld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
+   SET_ENTRY *set_ptr;
+   MEMBER_ENTRY *mem_ptr;
+   int *fu_ptr;
+   FILE_NO *fl_ptr;
    unsigned new_size;
    unsigned old_size;
    int old_keyl_cnt;
@@ -799,7 +799,7 @@ static int bld_lock_tables()
       ld_ptr->fl_cnt = fl_cnt;
       ld_ptr->fl_list.ptr =
 		/* Macro references must be on one line for some compilers */ 
-    (FILE_NO FAR *)ALLOC(&ld_ptr->fl_list, fl_cnt*sizeof(FILE_NO), db_avname);
+    (FILE_NO *)ALLOC(&ld_ptr->fl_list, fl_cnt*sizeof(FILE_NO), db_avname);
       if ( ld_ptr->fl_list.ptr == NULL ) return( dberr(S_NOMEMORY) );
       fl_ptr = ld_ptr->fl_list.ptr;
       for (i = 0, fu_ptr = file_used; i < size_ft; ++i, ++fu_ptr) {
@@ -836,7 +836,7 @@ static int bld_lock_tables()
 	 ld_ptr->fl_cnt = fl_cnt;
 	 ld_ptr->fl_list.ptr =
 		   /* Macro references must be on one line for some compilers */ 
-       (FILE_NO FAR *)ALLOC(&ld_ptr->fl_list, fl_cnt*sizeof(FILE_NO), db_avname);
+       (FILE_NO *)ALLOC(&ld_ptr->fl_list, fl_cnt*sizeof(FILE_NO), db_avname);
 	 if ( ld_ptr->fl_list.ptr == NULL ) return( dberr(S_NOMEMORY) );
 	 fl_ptr = ld_ptr->fl_list.ptr;
 	 for (i = 0, fu_ptr = file_used; i < size_ft; ++i, ++fu_ptr) {
@@ -873,7 +873,7 @@ static int bld_lock_tables()
 	    ld_ptr->fl_prev = 'f';			/*[367] init to free */
 	    ld_ptr->fl_kept = FALSE;
 	    ld_ptr->fl_cnt = 1;
-	    ld_ptr->fl_list.ptr = (FILE_NO FAR *)ALLOC(&ld_ptr->fl_list, ld_ptr->fl_cnt*sizeof(FILE_NO), "fl_list");
+	    ld_ptr->fl_list.ptr = (FILE_NO *)ALLOC(&ld_ptr->fl_list, ld_ptr->fl_cnt*sizeof(FILE_NO), "fl_list");
 	    if ( ld_ptr->fl_list.ptr == NULL ) return( dberr(S_NOMEMORY) );
 	    *(ld_ptr->fl_list.ptr) = fld_ptr->fd_keyfile;
 	    FL_LIST_DEACCESS(ld_ptr);
@@ -883,8 +883,8 @@ static int bld_lock_tables()
    }
    lp_size = sizeof(LM_LOCK) + (size_ft-1)*sizeof(LM_LOCKREQ);
    fp_size = sizeof(LM_FREE) + (size_ft-1)*sizeof(INT);
-   lock_pkt = (LM_LOCK FAR *)ALLOC(&db_global.Lock_pkt, lp_size, "lock_pkt");
-   free_pkt = (LM_FREE FAR *)ALLOC(&db_global.Free_pkt, fp_size, "free_pkt");
+   lock_pkt = (LM_LOCK *)ALLOC(&db_global.Lock_pkt, lp_size, "lock_pkt");
+   free_pkt = (LM_FREE *)ALLOC(&db_global.Free_pkt, fp_size, "free_pkt");
    if ( !lock_pkt || !free_pkt ) return( dberr(S_NOMEMORY) );
    lock_pkt->fcn = L_LOCK;
    free_pkt->fcn = L_FREE;
@@ -1008,12 +1008,12 @@ termses()
    LM_DBCLOSE_P Send_pkt;
    int ft_lc;			/* loop control */
    int send_size;
-   FILE_NO FAR *fref_ptr;
-   INT FAR *snd_fref_ptr;
+   FILE_NO *fref_ptr;
+   INT *snd_fref_ptr;
 
    if ( session_active ) {
       send_size = sizeof(LM_DBCLOSE) + (size_ft-1)*sizeof(INT);
-      send_pkt = (LM_DBCLOSE FAR *)ALLOC(&Send_pkt, send_size, "send_pkt");
+      send_pkt = (LM_DBCLOSE *)ALLOC(&Send_pkt, send_size, "send_pkt");
       if ( send_pkt == NULL ) return( dberr(S_NOMEMORY) );
       send_pkt->fcn = L_DBCLOSE;
       send_pkt->nfiles = size_ft;
@@ -1021,7 +1021,7 @@ termses()
 						snd_fref_ptr = send_pkt->frefs;
 	   --ft_lc >= 0; ++fref_ptr, ++snd_fref_ptr)
 	 *snd_fref_ptr = *fref_ptr;
-      if ( nw_send(lsn, (MESSAGE FAR *)send_pkt, send_size) )
+      if ( nw_send(lsn, (MESSAGE *)send_pkt, send_size) )
 	 return( neterr() );
 
       nw_hangup(lsn);
@@ -1044,7 +1044,7 @@ void termfree()
 {
 #ifndef SINGLE_USER
    int i;
-   struct lock_descr FAR *ld_ptr;
+   struct lock_descr *ld_ptr;
 #endif
 
    /* free all allocated memory */
@@ -1161,7 +1161,7 @@ void termfree()
 */
 d_reclock(rec, lock_type TASK_PARM DBN_PARM)
 int rec;
-char FAR *lock_type;
+char *lock_type;
 TASK_DECL
 DBN_DECL
 {
@@ -1186,7 +1186,7 @@ DBN_DECL
 */
 d_setlock(set, lock_type TASK_PARM DBN_PARM)
 int  set;
-char FAR *lock_type;
+char *lock_type;
 TASK_DECL
 DBN_DECL
 {
@@ -1210,7 +1210,7 @@ DBN_DECL
 */
 d_keylock(key, lock_type TASK_PARM DBN_PARM)
 long key;  /* field number of key */
-char FAR *lock_type;
+char *lock_type;
 TASK_DECL
 DBN_DECL
 {
@@ -1219,12 +1219,12 @@ DBN_DECL
 #else
    int fld, rec;
    LOCK_REQUEST lr;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(LOCK_IO));
 
-   if (nfld_check(key, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY)
+   if (nfld_check(key, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY)
       RETURN( db_status );
 
    if (fld_ptr->fd_key == NOKEY)
@@ -1247,7 +1247,7 @@ DBN_DECL
 */
 d_reclstat(rec, lstat TASK_PARM DBN_PARM)
 int rec;
-char FAR *lstat;
+char *lstat;
 TASK_DECL
 DBN_DECL
 {
@@ -1255,11 +1255,11 @@ DBN_DECL
    *lstat = 'f';
    return( db_status = S_OKAY );
 #else
-   RECORD_ENTRY FAR *rec_ptr;
+   RECORD_ENTRY *rec_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(LOCK_NOIO));
 
-   if (nrec_check(rec, &rec, (RECORD_ENTRY FAR * FAR *)&rec_ptr) != S_OKAY)
+   if (nrec_check(rec, &rec, (RECORD_ENTRY * *)&rec_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( dbopen >= 2 )
@@ -1280,7 +1280,7 @@ DBN_DECL
 */
 d_setlstat(set, lstat TASK_PARM DBN_PARM)
 int set;
-char FAR *lstat;
+char *lstat;
 TASK_DECL
 DBN_DECL
 {
@@ -1288,11 +1288,11 @@ DBN_DECL
    *lstat = 'f';
    return (db_status = S_OKAY);
 #else
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(LOCK_NOIO));
 
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( dbopen >= 2 )
@@ -1310,7 +1310,7 @@ DBN_DECL
 */
 d_keylstat(key, lstat TASK_PARM DBN_PARM)
 long key;
-char FAR *lstat;
+char *lstat;
 TASK_DECL
 DBN_DECL
 {
@@ -1319,12 +1319,12 @@ DBN_DECL
    return (db_status = S_OKAY);
 #else
    int fld, rec;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(LOCK_NOIO));
 
-   if (nfld_check(key, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY)
+   if (nfld_check(key, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY)
       RETURN( db_status );
 
    if (fld_ptr->fd_key == NOKEY)
@@ -1348,7 +1348,7 @@ DBN_DECL
 */
 d_lock(count, lrpkt TASK_PARM DBN_PARM)
 int count;
-LOCK_REQUEST FAR *lrpkt;
+LOCK_REQUEST *lrpkt;
 TASK_DECL
 DBN_DECL
 {
@@ -1357,8 +1357,8 @@ DBN_DECL
 #else
    int item;
    int i;
-   LOCK_REQUEST FAR *lrpkt_ptr;
-   struct lock_descr FAR *ld_ptr;
+   LOCK_REQUEST *lrpkt_ptr;
+   struct lock_descr *ld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(LOCK_IO));
 
@@ -1422,14 +1422,14 @@ DBN_DECL
 /* Process set/record lock
 */
 static process_lock(ld_ptr, type )
-struct lock_descr FAR *ld_ptr;
+struct lock_descr *ld_ptr;
 char type;
 {
    int fl_lc;			/* loop control */
    int fno;
    int i;
-   LM_LOCKREQ FAR *lockreq_ptr;
-   FILE_NO FAR *fl_ptr, fref;
+   LM_LOCKREQ *lockreq_ptr;
+   FILE_NO *fl_ptr, fref;
 
    db_status = S_OKAY;
    ld_ptr->fl_prev = ld_ptr->fl_type;
@@ -1501,17 +1501,17 @@ char type;
 */
 static lock_files(count, lrpkt )
 int count;
-LOCK_REQUEST FAR *lrpkt;
+LOCK_REQUEST *lrpkt;
 {
 #ifndef SINGLE_USER
    int fl_lc;			/* loop control */
-   struct lock_descr FAR *ld_ptr;
+   struct lock_descr *ld_ptr;
    FILE_NO fno;
    int item;
    int l;
-   LOCK_REQUEST FAR *lrpkt_ptr;
-   int FAR *appl_ptr, FAR *excl_ptr;
-   FILE_NO FAR *fl_ptr;
+   LOCK_REQUEST *lrpkt_ptr;
+   int *appl_ptr, *excl_ptr;
+   FILE_NO *fl_ptr;
    
    lock_reply.status = L_OKAY;
    if ( lock_pkt->nfiles == 0 ) goto skip_send;
@@ -1602,10 +1602,10 @@ req_locks:
 #ifdef MONITOR
       printf("nw_send(lsn,lock_pkt->fcn=%ld,size=%d\n",lock_pkt->fcn,send_size);
 #endif
-      if ( nw_send(lsn, (MESSAGE FAR *)lock_pkt, send_size) )
+      if ( nw_send(lsn, (MESSAGE *)lock_pkt, send_size) )
 	 return( neterr() );
 
-      if ( nw_rcvmsg(lsn, (MESSAGE FAR *)&lock_reply, sizeof(LR_LOCK), &recv_size) )
+      if ( nw_rcvmsg(lsn, (MESSAGE *)&lock_reply, sizeof(LR_LOCK), &recv_size) )
 	 return( neterr() );
 #ifdef MONITOR
       printf("nw_rcvmsg(lock_reply.fcn=%ld,lock_reply.status=%d\n",
@@ -1622,7 +1622,7 @@ req_locks:
 
 	 /* tell lock mgr we're done */
 	 trend_pkt.fcn = L_RECDONE;
-	 if (nw_send(lsn, (MESSAGE FAR *)&trend_pkt, sizeof(LM_TREND)))
+	 if (nw_send(lsn, (MESSAGE *)&trend_pkt, sizeof(LM_TREND)))
 	    return( neterr() );
 
 	 /* re-issue lock request */
@@ -1652,13 +1652,13 @@ DBN_DECL
    return (db_status = S_OKAY);
 #else
    int fld, rec;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
-   struct lock_descr FAR *ld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
+   struct lock_descr *ld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(LOCK_IO));
 
-   if (nfld_check(key, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY)
+   if (nfld_check(key, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( fld_ptr->fd_key == NOKEY )
@@ -1687,10 +1687,10 @@ DBN_DECL
 /* Setup table to keep locks after transaction end
 */
 static keep_locks( ld_ptr )
-struct lock_descr FAR *ld_ptr;      /* Lock descriptor */
+struct lock_descr *ld_ptr;      /* Lock descriptor */
 {
    int fl_lc;			/* loop control */
-   FILE_NO FAR *fl_ptr;
+   FILE_NO *fl_ptr;
 
    /* Mark lock as kept */
    ld_ptr->fl_kept = TRUE;                
@@ -1715,12 +1715,12 @@ DBN_DECL
 #ifdef SINGLE_USER
    return (db_status = S_OKAY);
 #else
-   RECORD_ENTRY FAR *rec_ptr;
-   struct lock_descr FAR *ld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   struct lock_descr *ld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(LOCK_IO));
 
-   if (nrec_check(rec, &rec, (RECORD_ENTRY FAR * FAR *)&rec_ptr) != S_OKAY)
+   if (nrec_check(rec, &rec, (RECORD_ENTRY * *)&rec_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( dbopen >= 2 )  /* exclusive access needs no locks */
@@ -1753,12 +1753,12 @@ DBN_DECL
 #ifdef SINGLE_USER
    return (db_status = S_OKAY);
 #else
-   SET_ENTRY FAR *set_ptr;
-   struct lock_descr FAR *ld_ptr;
+   SET_ENTRY *set_ptr;
+   struct lock_descr *ld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(LOCK_IO));
 
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( dbopen >= 2 )  /* exclusive access needs no locks */
@@ -1786,14 +1786,14 @@ DBN_DECL
 /* Free read-locked files associated with record or set
 */
 static int free_files(ld_ptr)
-struct lock_descr FAR *ld_ptr;
+struct lock_descr *ld_ptr;
 {
    int fl_lc;			/* loop control */
    FILE_NO fno;
-   LM_LOCKREQ FAR *lockreq_ptr;
-   int FAR *appl_ptr;
+   LM_LOCKREQ *lockreq_ptr;
+   int *appl_ptr;
    FILE_NO fref;
-   FILE_NO FAR *fl_ptr;
+   FILE_NO *fl_ptr;
 
    /* fill free packet */
    lock_pkt->nfiles = free_pkt->nfiles = 0; 
@@ -1854,8 +1854,8 @@ TASK_DECL
    return (db_status = S_OKAY);
 #else
    int i;
-   FILE_NO FAR *fref_ptr;
-   int FAR *appl_ptr;
+   FILE_NO *fref_ptr;
+   int *appl_ptr;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_IO));
 
@@ -1900,7 +1900,7 @@ static void reset_locks()
 {
    int beg, end;
    int i;
-   struct lock_descr FAR *ld_ptr;
+   struct lock_descr *ld_ptr;
 
    /* reset record lock descriptors */
    beg = 0;
@@ -1952,7 +1952,7 @@ static int send_free()
       if ( send_size > fp_size )
 	 return ( dberr(S_SYSERR) );
 
-      if ( nw_send(lsn, (MESSAGE FAR *)free_pkt, send_size) ) 
+      if ( nw_send(lsn, (MESSAGE *)free_pkt, send_size) ) 
 	 return( neterr() );
    }
 #endif
@@ -2127,7 +2127,7 @@ TASK_DECL
 /* Begin transaction
 */
 d_trbegin(tid TASK_PARM)
-CONST char FAR *tid;
+CONST char *tid;
 TASK_DECL
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_IO));
@@ -2163,9 +2163,9 @@ TASK_DECL
    int ft_lc;			/* loop control */
    LM_TRCOMMIT trcom_pkt;
    LM_TREND trend_pkt;
-   LM_LOCKREQ FAR *lockreq_ptr;
-   FILE_NO FAR *fref_ptr;
-   int FAR *appl_ptr, FAR *keptl_ptr, FAR *excl_ptr;
+   LM_LOCKREQ *lockreq_ptr;
+   FILE_NO *fref_ptr;
+   int *appl_ptr, *keptl_ptr, *excl_ptr;
 #endif
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_IO));
@@ -2189,7 +2189,7 @@ TASK_DECL
 #ifndef SINGLE_USER
       trcom_pkt.fcn = L_TRCOMMIT;
       strcpy(trcom_pkt.logfile, dblog);
-      if ( nw_send(lsn, (MESSAGE FAR *)&trcom_pkt, sizeof(LM_TRCOMMIT)) )
+      if ( nw_send(lsn, (MESSAGE *)&trcom_pkt, sizeof(LM_TRCOMMIT)) )
 	 RETURN( neterr() );
 #endif
       trcommit = TRUE;
@@ -2215,7 +2215,7 @@ TASK_DECL
    }
 #ifndef SINGLE_USER
       trend_pkt.fcn = L_TREND;
-      if ( nw_send(lsn, (MESSAGE FAR *)&trend_pkt, sizeof(LM_TREND)) )
+      if ( nw_send(lsn, (MESSAGE *)&trend_pkt, sizeof(LM_TREND)) )
 	 RETURN( neterr() );
 #endif
       trcommit = FALSE;
@@ -2284,8 +2284,8 @@ TASK_DECL
    RETURN (db_status = S_OKAY);
 #else
    int i;
-   int FAR *keptl_ptr;
-   struct lock_descr FAR *ld_ptr;
+   int *keptl_ptr;
+   struct lock_descr *ld_ptr;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_IO));
 
@@ -2339,7 +2339,7 @@ neterr()
 #endif
 
 int alloc_table(Table, new_size, old_size )
-CHAR_P FAR *Table;
+CHAR_P *Table;
 #define table Table->ptr
 unsigned new_size;
 unsigned old_size;

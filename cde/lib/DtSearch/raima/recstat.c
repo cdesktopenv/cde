@@ -57,12 +57,12 @@ ULONG   rts;
 TASK_DECL
 {
    INT rec;
-   char FAR *ptr;
+   char *ptr;
    ULONG cts, uts;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
-   if ((check_dba(dba) != S_OKAY) || (dio_read(dba, (char FAR * FAR *)&ptr, NOPGHOLD) != S_OKAY))
+   if ((check_dba(dba) != S_OKAY) || (dio_read(dba, (char * *)&ptr, NOPGHOLD) != S_OKAY))
       RETURN( db_status );
 
    /* get record id */

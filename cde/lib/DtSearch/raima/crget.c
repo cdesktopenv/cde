@@ -51,7 +51,7 @@
 */
 int
 d_crget(dba TASK_PARM DBN_PARM)
-DB_ADDR FAR *dba; /* db address of record to become current */
+DB_ADDR *dba; /* db address of record to become current */
 TASK_DECL
 DBN_DECL
 {

@@ -51,7 +51,7 @@
 */
 int
 d_dbdpath(path TASK_PARM)
-CONST char FAR *path;
+CONST char *path;
 TASK_DECL
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_NONE));

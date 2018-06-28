@@ -88,7 +88,7 @@ typedef struct {
 	char  retcode;	/* Return value (some enumerated below) */
 	char  lsn;	/* Local session number */
 	char  num;	/* Name number */
-	char FAR *buffer_off; /* Message buffer offset */
+	char *buffer_off; /* Message buffer offset */
 #ifdef SMALL_DATA
 	int   buffer_seg; /* Message buffer segment */
 #endif
@@ -97,7 +97,7 @@ typedef struct {
 	char  name[NETNAME_LEN];     /* My name */
 	char  rto;	/* Receive timeout (500ms units) */
 	char  sto;	/* Send timeout (500ms units) */
-	char FAR *post_off; /* Post function offset */
+	char *post_off; /* Post function offset */
 #ifdef SMALL_DATA
 	int   post_seg; /* Post function segment */
 #endif

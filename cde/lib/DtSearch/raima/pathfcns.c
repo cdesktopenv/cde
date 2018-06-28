@@ -81,23 +81,23 @@
 
 /* ********************** FUNCTION PROTOTYPES ************************ */
 
-static int isabs(P1(char FAR *));
+static int isabs(P1(char *));
 					/* TRUE if path is absolute */
-static char FAR * remdrv(P1(char FAR *));
+static char * remdrv(P1(char *));
 					/* Removes drive spec from path */
-static char FAR * remfile(P1(char FAR *));
+static char * remfile(P1(char *));
 					/* Removes file from path */
 
 /* ======================================================================
    Construct the full path to the dictionary.
 */
 int con_dbd(path_str,dbname,dbdpath)
-char FAR *path_str;	/* (output) string to receive the full path to the
+char *path_str;	/* (output) string to receive the full path to the
 			   dictionary */
-char FAR *dbname;	/* contains the filename of the dictionary preceded
+char *dbname;	/* contains the filename of the dictionary preceded
 			   optionally by a path preceded optionally (DOS only)
 			   by a drive spec. */
-char FAR *dbdpath;	/* contains one element of the environment variable
+char *dbdpath;	/* contains one element of the environment variable
 			   DBDPATH.  NULL means no DBDPATH defined. */
 {
 /*
@@ -143,10 +143,10 @@ char FAR *dbdpath;	/* contains one element of the environment variable
    Construct full path to data/key files
 */
 int con_dbf(path_str, dbfile, dbname, dbfpath)
-char FAR *path_str;	/* (output) receives full path to dictionary */
-char FAR *dbfile;	/* path to database file (defn in schema) */
-char FAR *dbname;	/* d_open dbname argument - path to dictionary */
-char FAR *dbfpath;	/* one element from DBFPATH, or NULL for no path */
+char *path_str;	/* (output) receives full path to dictionary */
+char *dbfile;	/* path to database file (defn in schema) */
+char *dbname;	/* d_open dbname argument - path to dictionary */
+char *dbfpath;	/* one element from DBFPATH, or NULL for no path */
 {
 /*
    RETURNS: db_status, S_OKAY means no error.
@@ -190,8 +190,8 @@ char FAR *dbfpath;	/* one element from DBFPATH, or NULL for no path */
 /* ======================================================================
    extracts a single element from DBxPATH type variables
 */
-char FAR * get_element(dbxpath,num)
-char FAR *dbxpath;	/* DBxPATH, elements separated by semicolons
+char * get_element(dbxpath,num)
+char *dbxpath;	/* DBxPATH, elements separated by semicolons
 			   NULL causes get_element to return NULL.
 			   A NULL string also causes a NULL return */
 int num;		/* Element to extract (0 = first) */
@@ -205,7 +205,7 @@ int num;		/* Element to extract (0 = first) */
 
    static char element[FILENMLEN+1];	/* return value */
    int i;
-   char FAR *save;
+   char *save;
 
    if (dbxpath == NULL) return (NULL);
    if (dbxpath[0] == '\0') return (NULL);	/* NULL string? */
@@ -227,7 +227,7 @@ int num;		/* Element to extract (0 = first) */
       if ((dbxpath = strchr(dbxpath+1,';')) == NULL) return (NULL);
    dbxpath++;
    if ((save = strchr(dbxpath+1,';')) != NULL) *save = '\0';
-   i = (dbxpath - (char FAR *)element) + strlen((CONST char FAR *)dbxpath);
+   i = (dbxpath - (char *)element) + strlen((CONST char *)dbxpath);
    if (element[i-1] != DIRCHAR && element[i-1] != ':') {
       element[i++] = DIRCHAR;
       element[i] = '\0';
@@ -239,13 +239,13 @@ int num;		/* Element to extract (0 = first) */
    Returns TRUE of path is absolute
 */
 static int isabs(path_str)
-char FAR *path_str;	/* path to test, NULL causes iabs to return FALSE */
+char *path_str;	/* path to test, NULL causes iabs to return FALSE */
 {
 /*
    RETURNS: TRUE if path is absolute
    ASSUMES: None.
 */
-   char FAR *path;			/* Points to path w/o drive spec */
+   char *path;			/* Points to path w/o drive spec */
 
    if (path_str == NULL) return (FALSE);
    path = remdrv(path_str);
@@ -256,15 +256,15 @@ char FAR *path_str;	/* path to test, NULL causes iabs to return FALSE */
 /* ======================================================================
    Removes drive specifier from path
 */
-static char FAR * remdrv(path_str)
-char FAR *path_str;		/* path to remove drive from */
+static char * remdrv(path_str)
+char *path_str;		/* path to remove drive from */
 {
 /*
    RETURNS:       Pointer to string w/o drive specification.  Note that
 		  this simply points further into path_str.
    ASSUMES: None.
 */
-   char FAR *path;			/* Return value */
+   char *path;			/* Return value */
 
    if ((path = strrchr(path_str,':')) == NULL) return (path_str);
    return (path+1);
@@ -273,8 +273,8 @@ char FAR *path_str;		/* path to remove drive from */
 /* ======================================================================
    Removes file from a path.
 */
-static char FAR * remfile(path_str)
-char FAR *path_str;		/* Path to remove filename from */
+static char * remfile(path_str)
+char *path_str;		/* Path to remove filename from */
 {
 /*
    RETURNS: Pointer to the path with the filename removed (a static
@@ -299,7 +299,7 @@ char FAR *path_str;		/* Path to remove filename from */
 /* Set Country Table path
 */
 int d_ctbpath(ctb TASK_PARM)
-CONST char FAR *ctb;
+CONST char *ctb;
 TASK_DECL
 {
    int i;

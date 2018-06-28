@@ -57,13 +57,13 @@ DBN_DECL
 {
    char setp[SETPSIZE];
    DB_ADDR mem;
-   char FAR *recp;
+   char *recp;
    int set;
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(nset, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(nset, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* make sure we have a current owner */
@@ -71,7 +71,7 @@ DBN_DECL
       RETURN( dberr(S_NOCO) );
 
    /* read current owner of set */
-   if ( dio_read(curr_own[set], (char FAR * FAR *)&recp, NOPGHOLD) != S_OKAY )
+   if ( dio_read(curr_own[set], (char * *)&recp, NOPGHOLD) != S_OKAY )
       RETURN( db_status );
 
    /* get set pointer from record */

@@ -53,7 +53,7 @@
 */
 int
 d_recwrite(rec TASK_PARM DBN_PARM)
-CONST char FAR *rec; /* ptr to record area */
+CONST char *rec; /* ptr to record area */
 TASK_DECL
 DBN_DECL
 {
@@ -61,13 +61,13 @@ DBN_DECL
    ULONG timestamp;
 #endif
    INT  rt;        /* record type */
-   char FAR *fptr;     /* field data pointer */
+   char *fptr;     /* field data pointer */
    char ckey[256]; /* current compound key data */
    char nkey[256]; /* new compound key data */
    int stat;
    int fld;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
@@ -78,7 +78,7 @@ DBN_DECL
       RETURN( dberr(S_NOCR) );
 
    /* Read current record */
-   if ( dio_read( curr_rec, (char FAR * FAR *)&crloc, PGHOLD) != S_OKAY )
+   if ( dio_read( curr_rec, (char * *)&crloc, PGHOLD) != S_OKAY )
       RETURN( db_status );
 
    /* Copy record type from record */
@@ -97,11 +97,11 @@ DBN_DECL
       /* Build compound key for new data supplied by user.  Note: cflag
 	 must be the same here as in the 1st key_bldcom for r_chkfld */
       if ( fld_ptr->fd_type == COMKEY ) {
-	 key_bldcom(fld, (char FAR *)rec, nkey, FALSE);
+	 key_bldcom(fld, (char *)rec, nkey, FALSE);
 	 fptr = nkey;
       }
       else
-	 fptr = (char FAR *)rec + fld_ptr->fd_ptr - rec_ptr->rt_data;
+	 fptr = (char *)rec + fld_ptr->fd_ptr - rec_ptr->rt_data;
 
       if ( ! (fld_ptr->fd_flags & STRUCTFLD) ) {
 	 if ( (stat = r_chkfld(fld, fld_ptr, crloc, fptr)) != S_OKAY ) {
@@ -120,7 +120,7 @@ DBN_DECL
       if ( fld_ptr->fd_type == COMKEY ) {
 	 /* build old and new keys */
 	 key_bldcom(fld, crloc + rec_ptr->rt_data, ckey, TRUE);
-	 key_bldcom(fld, (char FAR *)rec, nkey, TRUE);
+	 key_bldcom(fld, (char *)rec, nkey, TRUE);
 
 	 /* make sure value has changed */
 	 if ((fldcmp(fld_ptr, ckey, nkey) != 0) &&

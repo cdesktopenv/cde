@@ -53,7 +53,7 @@
 int
 d_crwrite(field, data TASK_PARM DBN_PARM)
 long field; /* field constant */
-char FAR *data; /* data area to contain field contents */
+char *data; /* data area to contain field contents */
 TASK_DECL
 DBN_DECL    /* database number */
 {
@@ -61,12 +61,12 @@ DBN_DECL    /* database number */
    ULONG timestamp;
 #endif
    int stat, fld, rec;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
    
-   if (nfld_check(field, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY)
+   if (nfld_check(field, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* compound keys cannot be updated directly */
@@ -82,7 +82,7 @@ DBN_DECL    /* database number */
       RETURN( dberr(S_NOCR) );
 
    /* Read current record */
-   if ( dio_read( curr_rec, (char FAR * FAR *)&crloc , PGHOLD) != S_OKAY )
+   if ( dio_read( curr_rec, (char * *)&crloc , PGHOLD) != S_OKAY )
       RETURN( db_status );
 	    
    /* check out the field */

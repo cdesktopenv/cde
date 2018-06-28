@@ -53,15 +53,15 @@
 int
 d_csoget(set, dba TASK_PARM DBN_PARM)
 int set;      /* Set table entry */
-DB_ADDR FAR *dba; /* db address of record to become current */
+DB_ADDR *dba; /* db address of record to become current */
 TASK_DECL
 DBN_DECL      /* database number */
 {
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_NOIO));
 
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( ! (*dba = curr_own[set]) )

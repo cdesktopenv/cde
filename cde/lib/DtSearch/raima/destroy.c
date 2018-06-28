@@ -56,11 +56,11 @@
 */
 int
 d_destroy(dbname TASK_PARM)
-CONST char FAR *dbname;
+CONST char *dbname;
 TASK_DECL
 {
    int ft_lc;			/* loop control */
-   FILE_ENTRY FAR *file_ptr;
+   FILE_ENTRY *file_ptr;
 #ifndef NO_TRANS
    int ovfl_save;
 #endif

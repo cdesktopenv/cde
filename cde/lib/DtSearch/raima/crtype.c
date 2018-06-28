@@ -51,7 +51,7 @@
 */
 int
 d_crtype(crtype TASK_PARM DBN_PARM)
-int FAR *crtype;
+int *crtype;
 TASK_DECL
 DBN_DECL
 {
@@ -74,7 +74,7 @@ DBN_DECL
 #endif
 
    /* Read current record */
-   dio_read(curr_rec, (char FAR * FAR *)&crloc, NOPGHOLD);
+   dio_read(curr_rec, (char * *)&crloc, NOPGHOLD);
 #ifndef SINGLE_USER
    dbopen = dbopen_sv;
 #endif

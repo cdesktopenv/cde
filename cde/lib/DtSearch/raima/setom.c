@@ -59,12 +59,12 @@ DBN_DECL    /* database number */
 {
    int seto, setm;
    int cmtype; /* current record type */
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
    if ((d_cmtype(nsetm, &cmtype TASK_PARM DBN_PARM) != S_OKAY) ||
-       (nset_check(nseto, &seto, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY))
+       (nset_check(nseto, &seto, (SET_ENTRY * *)&set_ptr) != S_OKAY))
       RETURN( db_status );
    cmtype += NUM2INT(-RECMARK, rt_offset);
    setm = NUM2INT(nsetm - SETMARK, st_offset);

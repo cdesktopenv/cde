@@ -64,7 +64,7 @@
 
 /* Internal function prototypes */
 static int rec_okay(P1(int) Pi(int *) 
-				   Pi(RECORD_ENTRY FAR * FAR *));
+				   Pi(RECORD_ENTRY * *));
 static int ctblcmp(P1(CONST unsigned char FAR*)
                                   Pi(CONST unsigned char FAR*) Pi(int));
 
@@ -98,7 +98,7 @@ int
 nset_check(nset, set, set_ptr )
 int nset;
 int *set;
-SET_ENTRY FAR * FAR *set_ptr;
+SET_ENTRY * *set_ptr;
 {
    nset -= SETMARK;
    if ((nset < 0) || (nset >= TABLE_SIZE(Size_st)))
@@ -117,13 +117,13 @@ nfld_check(nfld, rec, fld, rec_ptr, fld_ptr )
 long nfld;
 int *rec;
 int *fld;
-RECORD_ENTRY FAR * FAR *rec_ptr;
-FIELD_ENTRY FAR * FAR *fld_ptr;
+RECORD_ENTRY * *rec_ptr;
+FIELD_ENTRY * *fld_ptr;
 {
    int trec;
    int tfld;
 
-   if (!rec_okay(trec = (int)(nfld/FLDMARK), rec, (RECORD_ENTRY FAR * FAR *)rec_ptr) ||
+   if (!rec_okay(trec = (int)(nfld/FLDMARK), rec, (RECORD_ENTRY * *)rec_ptr) ||
        ((tfld = (int)(nfld - trec*FLDMARK)) < 0) ||
        (tfld >= TABLE_SIZE(Size_fd)))
       return( dberr(S_INVFLD) );
@@ -141,9 +141,9 @@ int
 nrec_check(nrec, rec, rec_ptr)
 int nrec;
 int *rec;
-RECORD_ENTRY FAR * FAR *rec_ptr;
+RECORD_ENTRY * *rec_ptr;
 {
-   if (rec_okay(nrec - RECMARK, rec, (RECORD_ENTRY FAR * FAR *)rec_ptr))
+   if (rec_okay(nrec - RECMARK, rec, (RECORD_ENTRY * *)rec_ptr))
       db_status = S_OKAY;
    else
       dberr(S_INVREC);
@@ -156,7 +156,7 @@ RECORD_ENTRY FAR * FAR *rec_ptr;
 static int rec_okay(nrec, rec, rec_ptr)
 int nrec;
 int *rec;
-RECORD_ENTRY FAR * FAR *rec_ptr;
+RECORD_ENTRY * *rec_ptr;
 {
    if ((nrec < 0) || (nrec >= TABLE_SIZE(Size_rt)))
       return (FALSE);
@@ -169,9 +169,9 @@ RECORD_ENTRY FAR * FAR *rec_ptr;
 /* Compare values of two db_VISTA data fields
 */
 int fldcmp(fld_ptr, f1, f2)
-FIELD_ENTRY FAR *fld_ptr;
-CONST char FAR *f1;   /* pointer to field 1 */
-CONST char FAR *f2;   /* pointer to field 2 */
+FIELD_ENTRY *fld_ptr;
+CONST char *f1;   /* pointer to field 1 */
+CONST char *f2;   /* pointer to field 2 */
 /*
    returns < 0 if f1 < f2,
 	   = 0 if f1 == f2,
@@ -196,10 +196,10 @@ CONST char FAR *f2;   /* pointer to field 2 */
    float F1, F2;
    double d1, d2;
 #endif
-   FIELD_ENTRY FAR *fld_max;
-   FIELD_ENTRY FAR *sfld_ptr;
-   KEY_ENTRY FAR *key_ptr;
-   INT FAR *dim_ptr;
+   FIELD_ENTRY *fld_max;
+   FIELD_ENTRY *sfld_ptr;
+   KEY_ENTRY *key_ptr;
+   INT *dim_ptr;
 
    len = fld_ptr->fd_len;
 
@@ -293,8 +293,8 @@ CONST char FAR *f2;   /* pointer to field 2 */
 #endif
       case DBADDR:
 	 for ( result = elt = 0; result == 0 && elt < entries; ++elt ) {
-	    result = ADDRcmp((DB_ADDR FAR *)(f1+(elt*sizeof(DB_ADDR))),
-			     (DB_ADDR FAR *)(f2+(elt*sizeof(DB_ADDR))));
+	    result = ADDRcmp((DB_ADDR *)(f1+(elt*sizeof(DB_ADDR))),
+			     (DB_ADDR *)(f2+(elt*sizeof(DB_ADDR))));
 	 }
 	 break;
       case GROUPED:
@@ -328,7 +328,7 @@ CONST char FAR *f2;   /* pointer to field 2 */
 /* compare the INT variables
 */
 int INTcmp( i1, i2 )
-CONST char FAR *i1, FAR *i2;
+CONST char *i1, *i2;
 {
    INT I1, I2;
 
@@ -341,7 +341,7 @@ CONST char FAR *i1, FAR *i2;
 /* compare two DB_ADDR variables 
 */
 int ADDRcmp( d1, d2 )
-CONST DB_ADDR FAR *d1, FAR *d2;
+CONST DB_ADDR *d1, *d2;
 {
    DB_ADDR a1, a2;
    FILE_NO f1, f2;
@@ -371,7 +371,7 @@ CONST DB_ADDR FAR *d1, FAR *d2;
 */
 int
 null_dba( db_addr )
-CONST char FAR *db_addr;
+CONST char *db_addr;
 {
    DB_ADDR dba;
 
@@ -409,8 +409,8 @@ DB_ADDR dba;
 /* Compare two strings with sorting according to char-table
 */
 static int ctblcmp(s, t, n)
-CONST unsigned char FAR *s;  /* String 1 */
-CONST unsigned char FAR *t;  /* String 2 */
+CONST unsigned char *s;  /* String 1 */
+CONST unsigned char *t;  /* String 2 */
 int    n;   /* Max. String length */
 {
    int x;

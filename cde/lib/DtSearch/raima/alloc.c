@@ -90,7 +90,7 @@
 
 /* Allocate and clear i*s bytes of memory
 */
-char FAR * d_calloc(i, s)
+char * d_calloc(i, s)
 unsigned i, s;
 {
    return (I_CALLOC(cp, i, s));
@@ -99,7 +99,7 @@ unsigned i, s;
 
 /* Allocate b bytes of memory
 */
-char FAR * d_alloc(b)
+char * d_alloc(b)
 unsigned b;
 {
    return (I_MALLOC(cp, b));
@@ -108,7 +108,7 @@ unsigned b;
 /* Free memory
 */
 void d_free(p)
-CHAR_P FAR *p;
+CHAR_P *p;
 {
    if ((p != NULL) && (p->ptr != NULL)) {
       I_FREE(p);
@@ -117,12 +117,12 @@ CHAR_P FAR *p;
 }
 
 
-static int NewInit(P1(LL_P FAR *));
+static int NewInit(P1(LL_P *));
 
 /* Resets pointer to current element and checks for an empty list
 */
 BOOLEAN ll_access(ll)
-llist FAR *ll;
+llist *ll;
 {
    ll->curr = NULL;
    return( ll->head.ptr != NULL && ll->tail.ptr != NULL );
@@ -131,8 +131,8 @@ llist FAR *ll;
 /* Appends item to list
 */
 int ll_append(ll, data)
-llist FAR *ll;
-CHAR_P FAR *data;
+llist *ll;
+CHAR_P *data;
 {
    LL_P item;
    LL_P hold;
@@ -143,18 +143,18 @@ CHAR_P FAR *data;
    if ( ll->head.ptr == NULL ) {
       /* Empty list */
       ll->head = ll->tail = item;
-      ll->curr = (LL_P FAR *)&ll->head;
+      ll->curr = (LL_P *)&ll->head;
       CurrLock(ll);
    }
    else {
       CurrUnlock(ll);
-      ll->curr = (LL_P FAR *)&ll->tail;
+      ll->curr = (LL_P *)&ll->tail;
       CurrLock(ll);
       hold = item;
       MEM_LOCK(&item);
       ll->curr->ptr->next = item;
       CurrUnlock(ll);
-      ll->curr = (LL_P FAR *)&ll->tail;
+      ll->curr = (LL_P *)&ll->tail;
       *ll->curr = hold;
       CurrLock(ll);
    }
@@ -164,33 +164,33 @@ CHAR_P FAR *data;
 
 /* Finds the first element of a list and returns its data 
 */
-CHAR_P FAR *ll_first(ll)
-llist FAR *ll;
+CHAR_P *ll_first(ll)
+llist *ll;
 {
    if ( ll->head.ptr == NULL ) {
       return( NULL );
    }
    CurrUnlock(ll);
-   ll->curr = (LL_P FAR *)&ll->head;
+   ll->curr = (LL_P *)&ll->head;
    CurrLock(ll);
-   return( (CHAR_P FAR *)&ll->curr->ptr->data );
+   return( (CHAR_P *)&ll->curr->ptr->data );
 }
 
 /* Frees a list
 */
 void ll_free(ll)
-llist FAR *ll;
+llist *ll;
 {
-   LL_P FAR *curr, next, free;
+   LL_P *curr, next, free;
 
-   curr = (LL_P FAR *)&ll->head;
+   curr = (LL_P *)&ll->head;
    while ( TRUE ) {
       MEM_LOCK(curr);
       if ( curr->ptr == NULL )
 	 break;
       bytecpy(&next, &curr->ptr->next, sizeof(LL_P));
       if ( curr != NULL )
-	 d_free((CHAR_P FAR *)curr);
+	 d_free((CHAR_P *)curr);
       bytecpy(&free, &next, sizeof(LL_P));
       curr = &free;
    }
@@ -200,10 +200,10 @@ llist FAR *ll;
 
 /* Finds the next element and returns its data
 */
-CHAR_P FAR *ll_next(ll)
-llist FAR *ll;
+CHAR_P *ll_next(ll)
+llist *ll;
 {
-   LL_P FAR *next;
+   LL_P *next;
 
    if ( ll->curr == NULL ) {
       return( ll_first(ll) );
@@ -215,14 +215,14 @@ llist FAR *ll;
    CurrUnlock(ll);
    ll->curr = next;
    CurrLock(ll);
-   return( (CHAR_P FAR *)&ll->curr->ptr->data );
+   return( (CHAR_P *)&ll->curr->ptr->data );
 }
 
 /* Prepends (stacks) item 
 */
 int ll_prepend(ll, data)
-llist FAR *ll;
-CHAR_P FAR *data;
+llist *ll;
+CHAR_P *data;
 {
    LL_P item;
 
@@ -232,7 +232,7 @@ CHAR_P FAR *data;
    if ( ll->head.ptr == NULL ) {
       /* Empty list */
       ll->head = ll->tail = item;
-      ll->curr = (LL_P FAR *)&ll->head;
+      ll->curr = (LL_P *)&ll->head;
       CurrLock(ll);
    }
    else {
@@ -240,7 +240,7 @@ CHAR_P FAR *data;
       MEM_LOCK(&item);
       item.ptr->next = ll->head;
       MEM_UNLOCK(&item);
-      ll->curr = (LL_P FAR *)&ll->head;
+      ll->curr = (LL_P *)&ll->head;
       *ll->curr = item;
       CurrLock(ll);
    }
@@ -251,9 +251,9 @@ CHAR_P FAR *data;
 /* Allocates and initializes a new list element
 */
 static int NewInit(new)
-LL_P FAR *new;
+LL_P *new;
 {
-   new->ptr = (ll_elem FAR *)ALLOC(new, sizeof(ll_elem), "new");
+   new->ptr = (ll_elem *)ALLOC(new, sizeof(ll_elem), "new");
    if ( new->ptr == NULL )
       return( dberr(S_NOMEMORY) );
    byteset(new->ptr, '\0', sizeof(ll_elem));

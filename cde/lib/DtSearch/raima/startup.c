@@ -54,7 +54,7 @@ LOCK_DECL
    db_status = S_OKAY;
    if ( ! db_glob_init ) {
 #ifdef MULTI_TASK
-      Currtask.v.ptr = (TASK FAR *)&db_global;
+      Currtask.v.ptr = (TASK *)&db_global;
 #endif
       taskinit(&db_global);
       db_glob_init = 1;

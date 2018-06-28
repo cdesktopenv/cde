@@ -185,7 +185,7 @@ PAGE_ENTRY_P Dbpg_table = POINTER_INIT(); /* database page table */
 static struct
 {
 #ifdef MULTI_TASK
-   TASK FAR *task;
+   TASK *task;
 #endif
    FILE_NO file;
    F_ADDR pageno;
@@ -209,15 +209,15 @@ static int dbpg_lru_slot;      /* least recently accessed db page */
 static int no_modheld;         /* number of modified or held db pages */
 static FILE_NO working_file;   /* current key file being processed */
 
-static void cache_init(P1(int) Pi(LOOKUP_ENTRY FAR *)
-				      Pi(PAGE_ENTRY FAR *) Pi(int));
+static void cache_init(P1(int) Pi(LOOKUP_ENTRY *)
+				      Pi(PAGE_ENTRY *) Pi(int));
 static int dio_pzinit(P0);
 static int clear_cache(P1(FILE_NO) Pi(FILE_NO));
 static int dio_pzflush(P0);
 #ifdef NO_TRANS
-static int dio_in(P1(PAGE_ENTRY FAR *) Pi(LOOKUP_ENTRY FAR *));
+static int dio_in(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *));
 #else
-static int dio_in(P1(PAGE_ENTRY FAR *) Pi(LOOKUP_ENTRY FAR *)
+static int dio_in(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *)
 				 Pi(BOOLEAN));
 #endif
 
@@ -273,8 +273,8 @@ int
 dio_open( fno )
 FILE_NO fno;
 {
-   FILE_ENTRY FAR *file_ptr, FAR *lru_file_ptr;
-   int FAR *uf_ptr;
+   FILE_ENTRY *file_ptr, *lru_file_ptr;
+   int *uf_ptr;
 
    file_ptr = &file_table[fno];
    if ( file_ptr->ft_status == CLOSED ) {
@@ -321,7 +321,7 @@ int
 dio_close( fno )
 FILE_NO fno;
 {
-   FILE_ENTRY FAR *file_ptr;
+   FILE_ENTRY *file_ptr;
 
    file_ptr = &file_table[fno];
    if ( file_ptr->ft_status == OPEN ) {
@@ -381,14 +381,14 @@ dio_init()
 
    used_files =
 	/* Macro references must be on one line for some compilers */ 
-	(int FAR *)ALLOC(&Used_files, (size_ft+1)*sizeof(int), "used_files");
+	(int *)ALLOC(&Used_files, (size_ft+1)*sizeof(int), "used_files");
    db_lookup =
 	/* Macro references must be on one line for some compilers */ 
-	(LOOKUP_ENTRY FAR *)
+	(LOOKUP_ENTRY *)
 	ALLOC(&Db_lookup, db_pgtab_sz*sizeof(LOOKUP_ENTRY), "db_lookup");
    dbpg_table =
 	/* Macro references must be on one line for some compilers */ 
-	(PAGE_ENTRY FAR *)
+	(PAGE_ENTRY *)
 	ALLOC(&Dbpg_table, db_pgtab_sz*sizeof(PAGE_ENTRY), "dbpg_table");
 #ifdef DEBUG_DIO
    if (debugging_dio_init) {
@@ -416,11 +416,11 @@ dio_init()
    if ( use_ovfl ) {
       ix_lookup =
 	/* Macro references must be on one line for some compilers */ 
-	(LOOKUP_ENTRY FAR *)
+	(LOOKUP_ENTRY *)
 	ALLOC(&Ix_lookup, ix_pgtab_sz*sizeof(LOOKUP_ENTRY),"ix_lookup");
       ixpg_table = 
 	/* Macro references must be on one line for some compilers */ 
-	(PAGE_ENTRY FAR *)
+	(PAGE_ENTRY *)
 	ALLOC(&Ixpg_table, ix_pgtab_sz*sizeof(PAGE_ENTRY), "ixpg_table");
       if ( !ix_lookup || !ixpg_table )
 	 return( dberr(S_NOMEMORY) );
@@ -454,8 +454,8 @@ dio_init()
 
 static void	cache_init (pg_cnt, lu_ptr, pg_ptr, pgsize)
 int		    pg_cnt;
-LOOKUP_ENTRY FAR *  lu_ptr;
-PAGE_ENTRY FAR *    pg_ptr;
+LOOKUP_ENTRY *  lu_ptr;
+PAGE_ENTRY *    pg_ptr;
 int		    pgsize;
 {
    int pg_no;
@@ -512,7 +512,7 @@ int		    pgsize;
 void dio_free()
 {
    int pgt_lc;			/* loop control */
-   PAGE_ENTRY FAR *pg_ptr;
+   PAGE_ENTRY *pg_ptr;
 
 #ifdef MULTI_TASK
    if ( task_count > 1 ) {
@@ -594,13 +594,13 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
    FILE_NO s_file;   /* start file to be cleared */
    FILE_NO e_file;   /* end file (+1) to be cleared */
    int i;
-   LOOKUP_ENTRY FAR *lu_ptr, FAR *lu2_ptr;
+   LOOKUP_ENTRY *lu_ptr, *lu2_ptr;
    int pg_slot;
-   PAGE_ENTRY FAR *pg_ptr;
-   PGZERO FAR *pgzero_ptr;
-   FILE_ENTRY FAR *file_ptr;
+   PAGE_ENTRY *pg_ptr;
+   PGZERO *pgzero_ptr;
+   FILE_ENTRY *file_ptr;
 #ifndef SINGLE_USER
-   int FAR *appl_ptr, FAR *excl_ptr;
+   int *appl_ptr, *excl_ptr;
 #endif
 
 #ifndef SINGLE_USER
@@ -711,8 +711,8 @@ int dio_flush()
 #ifndef NO_TRANS
    int fno;
 #endif
-   PAGE_ENTRY FAR *pg_ptr;
-   LOOKUP_ENTRY FAR *lu_ptr;
+   PAGE_ENTRY *pg_ptr;
+   LOOKUP_ENTRY *lu_ptr;
 
 #ifdef DEBUG_DIO
     if (debugging_dio_close) {
@@ -802,10 +802,10 @@ FILE_NO file_no;
 int
 dio_get( page_no, page_ptr, hold )
 F_ADDR page_no;
-char FAR * FAR *page_ptr;
+char * *page_ptr;
 int hold;
 {
-   PAGE_ENTRY FAR *pg_ptr;
+   PAGE_ENTRY *pg_ptr;
 
 #ifndef SINGLE_USER
    if ( dbopen == 1 ) {
@@ -846,7 +846,7 @@ int
 dio_touch( page_no )
 F_ADDR page_no;
 {
-   PAGE_ENTRY FAR *pg_ptr;
+   PAGE_ENTRY *pg_ptr;
 
 #ifndef NO_TRANS
    /* ensure overflow data is initialized when exclusive db access */
@@ -896,14 +896,14 @@ F_ADDR page_no;
 int
 dio_read( dba, recptr, hold )
 DB_ADDR dba;
-char FAR * FAR *recptr;
+char * *recptr;
 int hold;
 {
    FILE_NO file;
    int offset;
    F_ADDR us1, us2;
-   FILE_ENTRY FAR *file_ptr;
-   PAGE_ENTRY FAR *pg_ptr;
+   FILE_ENTRY *file_ptr;
+   PAGE_ENTRY *pg_ptr;
 
    file = NUM2INT((FILE_NO)((dba >> FILESHIFT) & FILEMASK), ft_offset);
    file_ptr = &file_table[file];
@@ -953,14 +953,14 @@ int hold;
 int
 dio_write( dba, recptr, release )
 DB_ADDR dba;
-CONST char FAR *recptr;
+CONST char *recptr;
 int release;
 {
    FILE_NO file;
    F_ADDR us1, us2;
    int offset;
-   FILE_ENTRY FAR *file_ptr;
-   PAGE_ENTRY FAR *pg_ptr;
+   FILE_ENTRY *file_ptr;
+   PAGE_ENTRY *pg_ptr;
 
    file = NUM2INT((FILE_NO)((dba >> FILESHIFT) & FILEMASK), ft_offset);
 
@@ -1016,7 +1016,7 @@ DB_ADDR dba;
 {
    FILE_NO file;
    F_ADDR us1, us2;
-   PAGE_ENTRY FAR *pg_ptr;
+   PAGE_ENTRY *pg_ptr;
 
    file = NUM2INT((FILE_NO)((dba >> FILESHIFT) & FILEMASK), ft_offset);
    us1 = ADDRMASK & dba;
@@ -1047,7 +1047,7 @@ INT *rid;
    F_ADDR sno;     /* slot number */
    F_ADDR spp;     /* slots per page */
    F_ADDR offset;  /* lseek address - offset from start of file */
-   FILE_ENTRY FAR *file_ptr;
+   FILE_ENTRY *file_ptr;
 
    file = NUM2INT((FILE_NO)((dba >> FILESHIFT) & FILEMASK), ft_offset);
    if ( dio_open(file) == S_OKAY ) {
@@ -1058,7 +1058,7 @@ INT *rid;
       offset = PGHDRSIZE + page*file_ptr->ft_pgsize +
 				 (sno - 1 - (page - 1)*spp)*file_ptr->ft_slsize;
       DB_LSEEK(file_ptr->ft_desc, (off_t)offset, 0);
-      if ( DB_READ(file_ptr->ft_desc, (char FAR *)rid, sizeof(INT))
+      if ( DB_READ(file_ptr->ft_desc, (char *)rid, sizeof(INT))
 		!= sizeof(INT) ) {
 	 dberr(S_BADREAD);
       }
@@ -1081,8 +1081,8 @@ INT rid;
    F_ADDR offset;  /* offset from start of page or file */
    int clr_in_tx;  /* true if called from d_rlbclr in trx */
    INT trid;		/* [333] working rid */
-   FILE_ENTRY FAR *file_ptr;
-   PAGE_ENTRY FAR *pg_ptr;
+   FILE_ENTRY *file_ptr;
+   PAGE_ENTRY *pg_ptr;
 
    file = NUM2INT((FILE_NO)((dba >> FILESHIFT) & FILEMASK), ft_offset);
    file_ptr = &file_table[file];
@@ -1120,7 +1120,7 @@ INT rid;
 
 	 /* read rid from disk, and set/clear rlb accordingly */
 	 DB_LSEEK(file_ptr->ft_desc, (off_t)offset, 0);
-	 if ( DB_READ(file_ptr->ft_desc, (char FAR *)&trid, sizeof(INT))
+	 if ( DB_READ(file_ptr->ft_desc, (char *)&trid, sizeof(INT))
 		!= sizeof(INT) ) {
 	    dberr(S_BADREAD);
 	 }
@@ -1130,7 +1130,7 @@ INT rid;
 	 /* write original rid out with modified rlb */
          trid = htons (rid); /* make a copy in trid for byte swap */
 	 DB_LSEEK(file_ptr->ft_desc, (off_t)offset, 0);	/* reseek */
-	 if ( DB_WRITE(file_ptr->ft_desc, (char FAR *)&trid, sizeof(INT)) !=
+	 if ( DB_WRITE(file_ptr->ft_desc, (char *)&trid, sizeof(INT)) !=
 	      sizeof(INT) )
 	    dberr(S_BADWRITE);
       }
@@ -1151,21 +1151,21 @@ int
 dio_findpg(file, page, pg_table, xpg_ptr, xlu_ptr )
 FILE_NO      file;       /* file number = 0..size_ft-1 */
 F_ADDR       page;       /* database page number */
-PAGE_ENTRY FAR *pg_table;   /* = dbpg_table, ixpg_table, or NULL */
-PAGE_ENTRY FAR * FAR *xpg_ptr;  /* pointer to page table entry for found page */
-LOOKUP_ENTRY FAR * FAR *xlu_ptr;/* pointer to lookup table slot for found page*/
+PAGE_ENTRY *pg_table;   /* = dbpg_table, ixpg_table, or NULL */
+PAGE_ENTRY * *xpg_ptr;  /* pointer to page table entry for found page */
+LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
 {
 #ifdef MULTI_TASK
    CHAR_P Tempbuff;
 #define tempbuff Tempbuff.ptr
 #endif
-   LOOKUP_ENTRY FAR *lookup;  /* = db_lookup or ix_lookup */
+   LOOKUP_ENTRY *lookup;  /* = db_lookup or ix_lookup */
    int pgtab_sz;          /* = db_pgtab_sz or ix_pgtab_sz */
    long cmp;
    int cnt;
    int lu_slot, l, u;
-   LOOKUP_ENTRY FAR *lu_ptr, FAR *replu_ptr;
-   PAGE_ENTRY FAR *pg_ptr;
+   LOOKUP_ENTRY *lu_ptr, *replu_ptr;
+   PAGE_ENTRY *pg_ptr;
    int *lru_ptr;
    int pg_slot;
 #ifndef NO_TRANS
@@ -1459,8 +1459,8 @@ dio_out(pg_ptr, lu_ptr, db_cache)
 #else
 dio_out(pg_ptr, lu_ptr)
 #endif
-PAGE_ENTRY FAR *pg_ptr;    /* page table entry to be output */
-LOOKUP_ENTRY FAR *lu_ptr;  /* corresponding lookup table entry */
+PAGE_ENTRY *pg_ptr;    /* page table entry to be output */
+LOOKUP_ENTRY *lu_ptr;  /* corresponding lookup table entry */
 #ifndef NO_TRANS
    BOOLEAN db_cache;      /* TRUE if pg_ptr is in db page cache */
 #endif
@@ -1526,14 +1526,14 @@ LOOKUP_ENTRY FAR *lu_ptr;  /* corresponding lookup table entry */
 /* Read in a page to the buffer
 */
 static int dio_in(pg_ptr, lu_ptr)
-PAGE_ENTRY FAR *pg_ptr; /* page table entry to be input */
-LOOKUP_ENTRY FAR *lu_ptr; /* corresponding to pg_ptr */
+PAGE_ENTRY *pg_ptr; /* page table entry to be input */
+LOOKUP_ENTRY *lu_ptr; /* corresponding to pg_ptr */
 #else
 /* Read in a page to the buffer
 */
 static int dio_in(pg_ptr, lu_ptr, db_cache )
-PAGE_ENTRY FAR *pg_ptr; /* page table entry to be input */
-LOOKUP_ENTRY FAR *lu_ptr; /* corresponding to pg_ptr */
+PAGE_ENTRY *pg_ptr; /* page table entry to be input */
+LOOKUP_ENTRY *lu_ptr; /* corresponding to pg_ptr */
 BOOLEAN db_cache;  /* TRUE if pg_ptr in db cache */
 #endif
 {
@@ -1541,8 +1541,8 @@ BOOLEAN db_cache;  /* TRUE if pg_ptr in db cache */
    int fno;    /* file number */
    int pgsize; /* page size */
    long addr;  /* file address */
-   PGZERO FAR *pgzero_ptr;
-   FILE_ENTRY FAR *file_ptr;
+   PGZERO *pgzero_ptr;
+   FILE_ENTRY *file_ptr;
    int r;
 
    file_ptr = &file_table[fno = lu_ptr->file];
@@ -1600,7 +1600,7 @@ ULONG dio_pzsetts(fno )
 FILE_NO fno;
 {
    ULONG ts;
-   PGZERO FAR *pgzero_ptr;
+   PGZERO *pgzero_ptr;
 
    if ( db_tsrecs || db_tssets ) {
       pgzero_ptr = &pgzero[fno];
@@ -1632,7 +1632,7 @@ FILE_NO fno;
 static int dio_pzinit()
 {
    FILE_NO i;
-   PGZERO FAR *pgzero_ptr;
+   PGZERO *pgzero_ptr;
 
 #ifdef DEBUG_DIO
    if (debugging_dio_init) {
@@ -1680,8 +1680,8 @@ static int dio_pzflush()
 {
    FILE_NO i;
    int desc;
-   PGZERO FAR *pgzero_ptr;
-   FILE_ENTRY FAR *file_ptr;
+   PGZERO *pgzero_ptr;
+   FILE_ENTRY *file_ptr;
    LONG		align_LONG;
    char		*cptr;
    int		j;
@@ -1715,12 +1715,12 @@ static int dio_pzflush()
 	    }
 	    desc = file_ptr->ft_desc;
 	    DB_LSEEK(desc, (off_t)0L, 0);
-	    if (DB_WRITE(desc, (char FAR *)pgzero_ptr, PGZEROSZ) != PGZEROSZ) 
+	    if (DB_WRITE(desc, (char *)pgzero_ptr, PGZEROSZ) != PGZEROSZ) 
 	       return( dberr(S_BADWRITE) );
 	    pgzero_ptr->pz_modified = FALSE;
 #ifndef NO_TRANS
 	    if ( trlog_flag )
-	       d_trlog(i, 0, (char FAR *)pgzero_ptr,  PGZEROSZ);
+	       d_trlog(i, 0, (char *)pgzero_ptr,  PGZEROSZ);
 #endif
 	 }
 #ifdef	 CLOSE_FILES
@@ -1745,8 +1745,8 @@ int
 dio_pzread(fno)
 FILE_NO fno;  /* file number */
 {
-   FILE_ENTRY FAR *file_ptr;
-   PGZERO FAR *pgzero_ptr;
+   FILE_ENTRY *file_ptr;
+   PGZERO *pgzero_ptr;
 
    pgzero_ptr = &pgzero[fno];
    file_ptr = &file_table[fno];
@@ -1763,7 +1763,7 @@ FILE_NO fno;  /* file number */
 
    /* seek to and read page zero */
    DB_LSEEK(file_ptr->ft_desc, (off_t)0L, 0);
-   if ( DB_READ(file_ptr->ft_desc, (char FAR *)pgzero_ptr, PGZEROSZ) 
+   if ( DB_READ(file_ptr->ft_desc, (char *)pgzero_ptr, PGZEROSZ) 
 							!= PGZEROSZ ) {
       return( dberr(S_BADREAD) );
    }
@@ -1791,8 +1791,8 @@ F_ADDR *loc;    /* pointer to allocated location */
 {
    DB_ADDR dba;
    F_ADDR pg;
-   char FAR *ptr;
-   PGZERO FAR *pgzero_ptr;
+   char *ptr;
+   PGZERO *pgzero_ptr;
 
 #ifndef SINGLE_USER
    /* check shared access privileges */
@@ -1814,7 +1814,7 @@ F_ADDR *loc;    /* pointer to allocated location */
       }
       else {
 	 pg = pgzero_ptr->pz_dchain;
-	 if ( dio_get( pg, (char FAR * FAR *)&ptr, NOPGHOLD ) != S_OKAY )
+	 if ( dio_get( pg, (char * *)&ptr, NOPGHOLD ) != S_OKAY )
 	    return( db_status );
 	/* Get the first key node on the delete chain.
 	 * (sizeof external timestamp set to 4 bytes)
@@ -1834,7 +1834,7 @@ F_ADDR *loc;    /* pointer to allocated location */
       else {
 	 pg = pgzero_ptr->pz_dchain;
 	 dba = ((NUM2EXT(fno, ft_offset) & FILEMASK) << FILESHIFT) | pg;
-	 if ( dio_read(dba, (char FAR * FAR *)&ptr, NOPGHOLD) != S_OKAY )
+	 if ( dio_read(dba, (char * *)&ptr, NOPGHOLD) != S_OKAY )
 	    return( db_status );
 	 bytecpy(&pgzero_ptr->pz_dchain, ptr+sizeof(INT), sizeof(F_ADDR));
       }
@@ -1859,8 +1859,8 @@ F_ADDR  loc;  /* location to be freed */
 {
    DB_ADDR dba;
    INT recnum;
-   char FAR *ptr;
-   PGZERO FAR *pgzero_ptr;
+   char *ptr;
+   PGZERO *pgzero_ptr;
 
 #ifndef SINGLE_USER
    /* check shared access privileges */
@@ -1875,7 +1875,7 @@ F_ADDR  loc;  /* location to be freed */
    if ( file_table[fno].ft_type == KEY ) {
       if ( working_file != fno )
 	 return( dberr(S_NOWORK) );
-      if ( dio_get( loc, (char FAR * FAR *)&ptr, PGHOLD ) != S_OKAY )
+      if ( dio_get( loc, (char * *)&ptr, PGHOLD ) != S_OKAY )
 	 return( db_status );
       /*********************************************
        * Delete chain ptr in key node page is in location
@@ -1892,7 +1892,7 @@ F_ADDR  loc;  /* location to be freed */
    }
    else {
       dba = ((NUM2EXT(fno, ft_offset) & FILEMASK) << FILESHIFT) | loc;
-      if ( dio_read( dba, (char FAR * FAR *)&ptr , NOPGHOLD) != S_OKAY )
+      if ( dio_read( dba, (char * *)&ptr , NOPGHOLD) != S_OKAY )
 	 return( db_status );
       bytecpy(&recnum, ptr, sizeof(INT));
       recnum = ~recnum;  /* indicates deleted record */
@@ -1932,7 +1932,7 @@ FILE_NO fno;
 void dio_pzclr()
 {
    FILE_NO i;
-   PGZERO FAR *pgzero_ptr;
+   PGZERO *pgzero_ptr;
 
    for (i = 0, pgzero_ptr = pgzero; i < size_ft; i++, pgzero_ptr++) {
       if (pgzero_ptr->pz_modified) {

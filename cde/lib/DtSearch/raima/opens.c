@@ -61,7 +61,7 @@
 /* Open a binary file for shared access
 */
 int open_b(filenm, flags)
-CONST char FAR *filenm;
+CONST char *filenm;
 int flags;  
 {
    int desc;

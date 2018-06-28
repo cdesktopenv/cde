@@ -103,8 +103,8 @@ inittab()
    char dbfile[DtSrFILENMLEN], dbd_ver[DBD_COMPAT_LEN + 1];
    char dbname[FILENMLEN];	/* Temporary working space */
    int dbf;
-   FILE_ENTRY FAR *file_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   FILE_ENTRY *file_ptr;
+   FIELD_ENTRY *fld_ptr;
 #ifndef	 ONE_DB
 #define	 DB_ENABLE   1
 #else
@@ -116,13 +116,13 @@ inittab()
 #define	 TS_ENABLE   0
 #endif
 #if   DB_ENABLE | TS_ENABLE
-   RECORD_ENTRY FAR *rec_ptr;
-   SET_ENTRY FAR *set_ptr;
+   RECORD_ENTRY *rec_ptr;
+   SET_ENTRY *set_ptr;
 #endif
 #ifndef	 ONE_DB
-   MEMBER_ENTRY FAR *mem_ptr;
-   SORT_ENTRY FAR *srt_ptr;
-   KEY_ENTRY FAR *key_ptr;
+   MEMBER_ENTRY *mem_ptr;
+   SORT_ENTRY *srt_ptr;
+   KEY_ENTRY *key_ptr;
 #endif
 
 #ifndef	 NO_TIMESTAMP
@@ -175,23 +175,23 @@ inittab()
 goodver:
 
       /* Read in database page size */
-      DB_READ(dbf, (char FAR *)&DB_REF(Page_size), sizeof(INT));
+      DB_READ(dbf, (char *)&DB_REF(Page_size), sizeof(INT));
       NTOHS (DB_REF(Page_size));
 
       /* Read in table sizes */
-      DB_READ(dbf, (char FAR *)&DB_REF(Size_ft), sizeof(INT));
+      DB_READ(dbf, (char *)&DB_REF(Size_ft), sizeof(INT));
       NTOHS (DB_REF(Size_ft));
-      DB_READ(dbf, (char FAR *)&DB_REF(Size_rt), sizeof(INT));
+      DB_READ(dbf, (char *)&DB_REF(Size_rt), sizeof(INT));
       NTOHS (DB_REF(Size_rt));
-      DB_READ(dbf, (char FAR *)&DB_REF(Size_fd), sizeof(INT));
+      DB_READ(dbf, (char *)&DB_REF(Size_fd), sizeof(INT));
       NTOHS (DB_REF(Size_fd));
-      DB_READ(dbf, (char FAR *)&DB_REF(Size_st), sizeof(INT));
+      DB_READ(dbf, (char *)&DB_REF(Size_st), sizeof(INT));
       NTOHS (DB_REF(Size_st));
-      DB_READ(dbf, (char FAR *)&DB_REF(Size_mt), sizeof(INT));
+      DB_READ(dbf, (char *)&DB_REF(Size_mt), sizeof(INT));
       NTOHS (DB_REF(Size_mt));
-      DB_READ(dbf, (char FAR *)&DB_REF(Size_srt), sizeof(INT));
+      DB_READ(dbf, (char *)&DB_REF(Size_srt), sizeof(INT));
       NTOHS (DB_REF(Size_srt));
-      DB_READ(dbf, (char FAR *)&DB_REF(Size_kt), sizeof(INT));
+      DB_READ(dbf, (char *)&DB_REF(Size_kt), sizeof(INT));
       NTOHS (DB_REF(Size_kt));
       close(dbf);	/* end of PASS 1 */
 
@@ -278,7 +278,7 @@ goodver:
       DB_LSEEK(dbf, (off_t)(DBD_COMPAT_LEN + 8L*sizeof(INT)), 0);
 
       /*----------------- FILE TABLE -------------------*/
-      DB_READ(dbf, (char FAR *)&file_table[ORIGIN(ft_offset)],
+      DB_READ(dbf, (char *)&file_table[ORIGIN(ft_offset)],
 	    (DB_REF(Size_ft)*sizeof(FILE_ENTRY)));
       /* Invalid if sizeof(xxxx_ENTRY) diff on each machine */
       for (	i = 0, file_ptr = &file_table[ORIGIN(ft_offset)];
@@ -304,7 +304,7 @@ goodver:
       }
 
       /*----------------- RECORD TABLE -------------------*/
-      DB_READ(dbf, (char FAR *)&record_table[ORIGIN(rt_offset)],
+      DB_READ(dbf, (char *)&record_table[ORIGIN(rt_offset)],
 	   (DB_REF(Size_rt)*sizeof(RECORD_ENTRY)));
       for (	i = 0, rec_ptr = &record_table[ORIGIN(rt_offset)];
 		i < DB_REF(Size_rt);
@@ -332,7 +332,7 @@ goodver:
       }
 
       /*----------------- FIELD TABLE -------------------*/
-      DB_READ(dbf, (char FAR *)&field_table[ORIGIN(fd_offset)],
+      DB_READ(dbf, (char *)&field_table[ORIGIN(fd_offset)],
 	   (DB_REF(Size_fd)*sizeof(FIELD_ENTRY)));
       for (	i = 0, fld_ptr = &field_table[ORIGIN(fd_offset)];
 		i < DB_REF(Size_fd);
@@ -371,7 +371,7 @@ goodver:
       }
 
       /*----------------- SET TABLE -------------------*/
-      DB_READ(dbf, (char FAR *)&set_table[ORIGIN(st_offset)],
+      DB_READ(dbf, (char *)&set_table[ORIGIN(st_offset)],
 	   (DB_REF(Size_st)*sizeof(SET_ENTRY)));
       for (	i = 0, set_ptr = &set_table[ORIGIN(st_offset)];
 		i < DB_REF(Size_st);
@@ -399,7 +399,7 @@ goodver:
       }
 
       /*----------------- MEMBER TABLE -------------------*/
-      DB_READ(dbf, (char FAR *)&member_table[ORIGIN(mt_offset)],
+      DB_READ(dbf, (char *)&member_table[ORIGIN(mt_offset)],
 	   (DB_REF(Size_mt)*sizeof(MEMBER_ENTRY)));
       for (	i = 0, mem_ptr = &member_table[ORIGIN(mt_offset)];
 		i < DB_REF(Size_mt);
@@ -424,7 +424,7 @@ goodver:
       }
 
 
-      DB_READ(dbf, (char FAR *)&sort_table[ORIGIN(srt_offset)],
+      DB_READ(dbf, (char *)&sort_table[ORIGIN(srt_offset)],
 	   (DB_REF(Size_srt)*sizeof(SORT_ENTRY)));
       /* Member sort tables not used by DtSearch @@@ */
       if (DB_REF(Size_srt)) {
@@ -434,7 +434,7 @@ goodver:
 	    NTOHS (srt_ptr->se_set);
       }
 
-      DB_READ(dbf, (char FAR *)&key_table[ORIGIN(kt_offset)],
+      DB_READ(dbf, (char *)&key_table[ORIGIN(kt_offset)],
 	   (DB_REF(Size_kt)*sizeof(KEY_ENTRY)));
       /* Compound key tables not used by DtSearch @@@ */
       if (DB_REF(Size_kt)) {
@@ -578,7 +578,7 @@ static int alloc_dict()
    int new_size;
    int extra_file = 0;
 #ifndef ONE_DB
-   DB_ENTRY FAR *db_ptr;
+   DB_ENTRY *db_ptr;
 #endif
 
    /* allocate and initialize file_table */
@@ -682,9 +682,9 @@ static int initcurr()
 {
    int dbt_lc;			/* loop control */
    int rec, i;
-   RECORD_ENTRY FAR *rec_ptr;
-   SET_ENTRY FAR *set_ptr;
-   DB_ADDR FAR *co_ptr;
+   RECORD_ENTRY *rec_ptr;
+   SET_ENTRY *set_ptr;
+   DB_ADDR *co_ptr;
    int old_size;
    int new_size;
 

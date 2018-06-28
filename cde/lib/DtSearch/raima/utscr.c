@@ -52,7 +52,7 @@
 /* Get update timestamp of current record
 */
 d_utscr(timestamp TASK_PARM)
-ULONG FAR *timestamp;
+ULONG *timestamp;
 TASK_DECL
 {
    INT rec;
@@ -68,7 +68,7 @@ TASK_DECL
    dbopen_sv = dbopen;
    dbopen = 2;
    /* read current record */
-   if ( dio_read( curr_rec, (char FAR * FAR *)&crloc , NOPGHOLD) != S_OKAY )
+   if ( dio_read( curr_rec, (char * *)&crloc , NOPGHOLD) != S_OKAY )
       RETURN( db_status );
    dbopen = dbopen_sv;
 

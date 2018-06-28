@@ -58,11 +58,11 @@ DBN_DECL
    int set;
    char mem[MEMPSIZE];
    DB_ADDR own;
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(nset, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(nset, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* Make sure we have a current record */
@@ -70,7 +70,7 @@ DBN_DECL
       RETURN( dberr(S_NOCR) );
 
    /* Read current record */
-   if ( dio_read(curr_rec, (char FAR * FAR *)&crloc, NOPGHOLD) != S_OKAY )
+   if ( dio_read(curr_rec, (char * *)&crloc, NOPGHOLD) != S_OKAY )
       RETURN( db_status );
    
    /* Get the member ptr for this set */

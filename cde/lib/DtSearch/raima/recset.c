@@ -83,12 +83,12 @@ DBN_DECL
    FILE_NO rfile;		/* file containing user specified rec */
    FILE_NO fno;			/* file containing current record */
    int rec_ndx;			/* Index into record table */
-   RECORD_ENTRY FAR *rec_ptr;	/* Pointer to record table */
+   RECORD_ENTRY *rec_ptr;	/* Pointer to record table */
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_NOIO));
 
    /* Check rec parameter user passed */
-   if (nrec_check(rec, &rec_ndx, (RECORD_ENTRY FAR * FAR *)&rec_ptr) != S_OKAY)
+   if (nrec_check(rec, &rec_ndx, (RECORD_ENTRY * *)&rec_ptr) != S_OKAY)
       RETURN( db_status );
    
    /* Check to make sure current record is in this file */

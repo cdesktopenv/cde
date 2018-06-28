@@ -53,17 +53,17 @@
 */
 d_ctscm(set, timestamp TASK_PARM DBN_PARM)
 int set;
-ULONG FAR *timestamp;
+ULONG *timestamp;
 TASK_DECL
 DBN_DECL
 {
    INT rec;
-   char FAR *rptr;
-   SET_ENTRY FAR *set_ptr;
+   char *rptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* make sure we have a current member */
@@ -71,7 +71,7 @@ DBN_DECL
       RETURN( dberr(S_NOCM) );
 
    /* read current member */
-   if ( dio_read( curr_mem[set], (char FAR * FAR *)&rptr , NOPGHOLD) != S_OKAY )
+   if ( dio_read( curr_mem[set], (char * *)&rptr , NOPGHOLD) != S_OKAY )
       RETURN( db_status );
 
    /* get record id */

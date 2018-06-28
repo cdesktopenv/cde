@@ -85,8 +85,8 @@ DBN_DECL			/* optional database number */
    DB_ADDR dba;			/* current database addr we're scanning */
    FILE_NO ftype;		/* file desc for file holding rec */
    F_ADDR last;			/* last slot in file */
-   char FAR *recptr;		/* record from database */
-   RECORD_ENTRY FAR *rec_ptr;	/* RECORD ENTRY for this record */
+   char *recptr;		/* record from database */
+   RECORD_ENTRY *rec_ptr;	/* RECORD ENTRY for this record */
    INT rectype;			/* record type from record */
    F_ADDR rno;			/* current slot we're scanning */
 
@@ -97,7 +97,7 @@ DBN_DECL			/* optional database number */
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
    /* validate and convert record number */
-   if ( nrec_check(rec, &rec, (RECORD_ENTRY FAR * FAR *)&rec_ptr) != S_OKAY)
+   if ( nrec_check(rec, &rec, (RECORD_ENTRY * *)&rec_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* get the last record # for this file */
@@ -117,7 +117,7 @@ DBN_DECL			/* optional database number */
       dbopen_sv = dbopen;
       dbopen = 2;		/* setup to allow unlocked read */
 #endif
-      dio_read(dba, (char FAR * FAR *)&recptr, NOPGHOLD);
+      dio_read(dba, (char * *)&recptr, NOPGHOLD);
 #ifndef SINGLE_USER
       dbopen = dbopen_sv;
 #endif

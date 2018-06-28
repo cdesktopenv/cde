@@ -58,9 +58,9 @@ DBN_DECL
    int rectype, nset, cset;
    int set, mem;
    DB_ADDR dba, odba, mdba;
-   DB_ADDR FAR *co_ptr, FAR *cm_ptr;
-   SET_ENTRY FAR *set_ptr;
-   MEMBER_ENTRY FAR *mem_ptr;
+   DB_ADDR *co_ptr, *cm_ptr;
+   SET_ENTRY *set_ptr;
+   MEMBER_ENTRY *mem_ptr;
    int memtot;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));

@@ -54,7 +54,7 @@ int
 d_csowrite(set, field, data TASK_PARM DBN_PARM)
 int set;    /* Set constant */
 long field; /* Field constant */
-CONST char FAR *data; /* Data area to contain field contents */
+CONST char *data; /* Data area to contain field contents */
 TASK_DECL
 DBN_DECL    /* database number */
 {
@@ -62,16 +62,16 @@ DBN_DECL    /* database number */
    ULONG timestamp;
 #endif
    int stat, fld, rec;
-   char FAR *recp;
-   SET_ENTRY FAR *set_ptr;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
-   DB_ADDR FAR *co_ptr;
+   char *recp;
+   SET_ENTRY *set_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
+   DB_ADDR *co_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if ((nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY) ||
-       (nfld_check(field, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY))
+   if ((nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY) ||
+       (nfld_check(field, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY))
       RETURN( db_status );
 
    /* compound keys cannot be updated directly */
@@ -87,7 +87,7 @@ DBN_DECL    /* database number */
       RETURN( dberr(S_NOCO) );
 
    /* Read current owner */
-   if ( dio_read( *co_ptr, (char FAR * FAR *)&recp , PGHOLD) != S_OKAY )
+   if ( dio_read( *co_ptr, (char * *)&recp , PGHOLD) != S_OKAY )
       RETURN( db_status );
   
    /* check out the field */
@@ -105,7 +105,7 @@ DBN_DECL    /* database number */
       bytecpy( recp + RECUPTIME, &timestamp, sizeof(LONG));
    }
 #endif
-   dio_write(*co_ptr, (char FAR *)NULL, PGFREE);
+   dio_write(*co_ptr, (char *)NULL, PGFREE);
 #ifndef	 NO_TIMESTAMP
    if (( db_status == S_OKAY ) && ( rec_ptr->rt_flags & TIMESTAMPED ))
       co_time[set] = timestamp;

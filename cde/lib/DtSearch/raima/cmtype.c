@@ -54,20 +54,20 @@
 int
 d_cmtype(set, cmtype TASK_PARM DBN_PARM)
 int set;
-int FAR *cmtype;
+int *cmtype;
 TASK_DECL
 DBN_DECL
 {
-   char FAR *mrec;
+   char *mrec;
    INT crt;
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 #ifndef SINGLE_USER
    int dbopen_sv;
 #endif
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY **)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( ! curr_mem[set] )
@@ -80,7 +80,7 @@ DBN_DECL
 #endif
 
    /* Read current member */
-   dio_read(curr_mem[set], (char FAR * FAR *)&mrec, NOPGHOLD);
+   dio_read(curr_mem[set], (char **)&mrec, NOPGHOLD);
 #ifndef SINGLE_USER
    dbopen = dbopen_sv;
 #endif

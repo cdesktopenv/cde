@@ -59,12 +59,12 @@ DBN_DECL
 {
    int st_lc, mt_lc;		/* loop control */
    INT i, rt;
-   char FAR *ptr;
-   SET_ENTRY FAR *set_ptr;
-   MEMBER_ENTRY FAR *mem_ptr;
-   DB_ADDR FAR *co_ptr, FAR *cm_ptr;
+   char *ptr;
+   SET_ENTRY *set_ptr;
+   MEMBER_ENTRY *mem_ptr;
+   DB_ADDR *co_ptr, *cm_ptr;
 #ifndef	 NO_TIMESTAMP
-   ULONG FAR *cots_ptr, FAR *cmts_ptr, FAR *sts_ptr;
+   ULONG *cots_ptr, *cmts_ptr, *sts_ptr;
 #endif
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
@@ -74,7 +74,7 @@ DBN_DECL
    if ( ! curr_rec )  RETURN( dberr( S_NOCR ) );
 
    /* get the record type of the current record */
-   if ( dio_read( curr_rec, (char FAR * FAR *)&ptr , NOPGHOLD) != S_OKAY )
+   if ( dio_read( curr_rec, (char * *)&ptr , NOPGHOLD) != S_OKAY )
       RETURN( db_status );
    bytecpy( &rt, ptr, sizeof(INT) );
    if (rt < 0)

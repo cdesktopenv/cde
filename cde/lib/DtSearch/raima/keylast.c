@@ -58,12 +58,12 @@ DBN_DECL     /* database number */
 {
    int fld, rec;
    DB_ADDR dba;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
-   if ((nfld_check(field, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY) ||
+   if ((nfld_check(field, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY) ||
        /* initialize key function operation */
        (key_init(fld) != S_OKAY))
       RETURN( db_status );

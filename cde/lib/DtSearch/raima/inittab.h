@@ -67,7 +67,7 @@ int db_status = 0;
 /* database dictionary tables */
 INT largest_page = 0;
 
-char FAR *crloc = NULL;
+char *crloc = NULL;
 
 #ifndef ONE_DB
 INT old_size_ft = 0;

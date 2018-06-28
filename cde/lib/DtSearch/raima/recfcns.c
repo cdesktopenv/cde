@@ -73,17 +73,17 @@ static int struct_key_chk = 1;
 int
 r_chkfld(field, fld_ptr, rec, data )
 INT field;  /* field_table entry number */
-FIELD_ENTRY FAR *fld_ptr; /* corresponds to field */
-char FAR *rec;  /* pointer to record slot */
-CONST char FAR *data; /* pointer to data area containing field contents */
+FIELD_ENTRY *fld_ptr; /* corresponds to field */
+char *rec;  /* pointer to record slot */
+CONST char *data; /* pointer to data area containing field contents */
 {
    DB_ADDR dba;
    long fld;
    INT rn;
-   char FAR *fptr, ckey[256];
+   char *fptr, ckey[256];
    int i;
-   FIELD_ENTRY FAR *sfld_ptr;
-   RECORD_ENTRY FAR *rec_ptr;
+   FIELD_ENTRY *sfld_ptr;
+   RECORD_ENTRY *rec_ptr;
 
    bytecpy(&rn, rec, sizeof(INT));
    rn &= ~RLBMASK; /* mask off rlb */
@@ -144,8 +144,8 @@ r_delrec( rt, db_addr )
 INT rt;
 DB_ADDR db_addr;
 {
-   char FAR *rec;       /* ptr to record slot */
-   char FAR *fptr;      /* field data ptr */
+   char *rec;       /* ptr to record slot */
+   char *fptr;      /* field data ptr */
    char ckey[256];  /* compound key data */
 #ifndef	 NO_TIMESTAMP
    ULONG timestamp;
@@ -153,10 +153,10 @@ DB_ADDR db_addr;
    FILE_NO fno;
    F_ADDR rno;
    int fld;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
 
-   if ( dio_read( db_addr, (char FAR * FAR *)&rec, PGHOLD) != S_OKAY )
+   if ( dio_read( db_addr, (char * *)&rec, PGHOLD) != S_OKAY )
       return( db_status );
 
    rec_ptr = &record_table[rt];
@@ -201,14 +201,14 @@ DB_ADDR db_addr;
 */
 int
 r_gfld(fld_ptr, rec, data )
-FIELD_ENTRY FAR *fld_ptr;
-char FAR *rec;  /* pointer to record */
-char FAR *data; /* pointer to data area to contain field contents */
+FIELD_ENTRY *fld_ptr;
+char *rec;  /* pointer to record */
+char *data; /* pointer to data area to contain field contents */
 {
    int kt_lc;			/* loop control */
    INT rn;
-   FIELD_ENTRY FAR *kfld_ptr;
-   KEY_ENTRY FAR *key_ptr;
+   FIELD_ENTRY *kfld_ptr;
+   KEY_ENTRY *key_ptr;
 
    bytecpy(&rn, rec, sizeof(INT));
    if ( rn < 0 )
@@ -256,13 +256,13 @@ char FAR *data; /* pointer to data area to contain field contents */
 int
 r_gmem(set, rec, mem_addr )
 int set;    /* set table entry number */
-char FAR *rec;  /* pointer to record */
-char FAR *mem_addr; /* pointer to member pointer */
+char *rec;  /* pointer to record */
+char *mem_addr; /* pointer to member pointer */
 {
    INT rt;
    int mem, memtot;
-   SET_ENTRY FAR *set_ptr;
-   MEMBER_ENTRY FAR *mem_ptr;
+   SET_ENTRY *set_ptr;
+   MEMBER_ENTRY *mem_ptr;
 
    /* search member list of set for record */
    set_ptr = &set_table[set];
@@ -288,12 +288,12 @@ char FAR *mem_addr; /* pointer to member pointer */
 int
 r_gset(set, rec, setptr )
 int set;      /* set table entry number */
-char FAR *rec;    /* pointer to record */
-char FAR *setptr; /* pointer to set pointer */
+char *rec;    /* pointer to record */
+char *setptr; /* pointer to set pointer */
 {
    INT rt;
    int len;
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    set_ptr = &set_table[set];
    bytecpy(&rt, rec, sizeof(INT));
@@ -316,20 +316,20 @@ char FAR *setptr; /* pointer to set pointer */
 int
 r_pfld(field, fld_ptr, rec, data, db_addr )
 INT field;  /* field_table entry number */
-FIELD_ENTRY FAR *fld_ptr; /* corresponds to field */
-char FAR *rec;  /* pointer to existing record */
-CONST char FAR *data; /* pointer to data area containing new field contents */
-DB_ADDR FAR *db_addr;
+FIELD_ENTRY *fld_ptr; /* corresponds to field */
+char *rec;  /* pointer to existing record */
+CONST char *data; /* pointer to data area containing new field contents */
+DB_ADDR *db_addr;
 {
    DB_ADDR mdba, odba, dba;
    int set, sn;
    char memp[MEMPSIZE];
-   char FAR *fptr;
-   CONST char FAR *tfptr;
+   char *fptr;
+   CONST char *tfptr;
    int s, i, strfld;
-   FIELD_ENTRY FAR *sfld_ptr;
-   SORT_ENTRY FAR *srt_ptr;
-   DB_ADDR FAR *co_ptr, FAR *cm_ptr;
+   FIELD_ENTRY *sfld_ptr;
+   SORT_ENTRY *srt_ptr;
+   DB_ADDR *co_ptr, *cm_ptr;
 
    db_status = S_OKAY;
    fptr = rec + fld_ptr->fd_ptr;
@@ -440,13 +440,13 @@ DB_ADDR FAR *db_addr;
 int
 r_pmem(set, rec, mem_addr )
 int set;    /* set table entry number */
-char FAR *rec;  /* pointer to record */
-char FAR *mem_addr; /* pointer to member pointer */
+char *rec;  /* pointer to record */
+char *mem_addr; /* pointer to member pointer */
 {
    INT rt;
    int mem, memtot;
-   SET_ENTRY FAR *set_ptr;
-   MEMBER_ENTRY FAR *mem_ptr;
+   SET_ENTRY *set_ptr;
+   MEMBER_ENTRY *mem_ptr;
 
    /* search member list of set for record */
    set_ptr = &set_table[set];
@@ -472,12 +472,12 @@ char FAR *mem_addr; /* pointer to member pointer */
 int
 r_pset(set, rec, setptr )
 int set;       /* set table entry number */
-char FAR *rec;     /* pointer to record */
-char FAR *setptr;  /* pointer to set pointer */
+char *rec;     /* pointer to record */
+char *setptr;  /* pointer to set pointer */
 {
    INT rt;
    int len;
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    set_ptr = &set_table[set];
    bytecpy(&rt, rec, sizeof(INT));
@@ -501,19 +501,19 @@ char FAR *setptr;  /* pointer to set pointer */
 */
 int
 r_smem( db_addr, set )
-DB_ADDR FAR *db_addr;
+DB_ADDR *db_addr;
 INT set;
 {
 #ifndef	 NO_TIMESTAMP
    int nset;
 #endif
-   char mem[MEMPSIZE], FAR *ptr;
+   char mem[MEMPSIZE], *ptr;
    DB_ADDR dba;
 
    bytecpy(&dba, db_addr, DB_ADDR_SIZE);
 
    /* make sure record is owned */
-   if ((dio_read(dba, (char FAR * FAR *)&ptr, NOPGHOLD) != S_OKAY) ||
+   if ((dio_read(dba, (char * *)&ptr, NOPGHOLD) != S_OKAY) ||
        (r_gmem(set, ptr, mem) != S_OKAY))
       return( db_status );
 
@@ -539,8 +539,8 @@ INT set;
 /* Set the optional key field "stored" bit */
 int
 r_setopt( fld_ptr, rec )
-FIELD_ENTRY FAR *fld_ptr; /* field table entry of optional key */
-char FAR *rec;	/* Pointer to record */
+FIELD_ENTRY *fld_ptr; /* field table entry of optional key */
+char *rec;	/* Pointer to record */
 {
    int offset;	/* offset to the bit map */
    int keyndx;	/* index into bit map of this key */
@@ -567,8 +567,8 @@ char FAR *rec;	/* Pointer to record */
 /* Clear the optional key field "stored" bit */
 int
 r_clropt( fld_ptr, rec )
-FIELD_ENTRY FAR *fld_ptr;	/* Field table entry of optional key */
-char FAR *rec;	/* Pointer to record */
+FIELD_ENTRY *fld_ptr;	/* Field table entry of optional key */
+char *rec;	/* Pointer to record */
 {
    int offset;	/* offset to the bit map */
    int keyndx;	/* index into bit map of this key */
@@ -595,8 +595,8 @@ char FAR *rec;	/* Pointer to record */
 /* Test the optional key field "stored" bit */
 int
 r_tstopt( fld_ptr, rec )
-FIELD_ENTRY FAR *fld_ptr;	/* Field table entry of optional key */
-char FAR *rec;	/* Pointer to record */
+FIELD_ENTRY *fld_ptr;	/* Field table entry of optional key */
+char *rec;	/* Pointer to record */
 {
    int offset;	/* offset to the bit map */
    int keyndx;	/* index into bit map of this key */

@@ -39,7 +39,7 @@
  */
 /* The functions in this file are defined in alloc.c */
 
-typedef struct {struct ll_elem FAR *ptr; LOCK_DESC} LL_P;
+typedef struct {struct ll_elem *ptr; LOCK_DESC} LL_P;
 
 typedef struct ll_elem {
    LL_P next;
@@ -51,16 +51,16 @@ typedef struct ll_elem {
 typedef struct {
    LL_P head;
    LL_P tail;
-   LL_P FAR *curr;
+   LL_P *curr;
 } llist;
 
 #define LLIST_INIT()    { POINTER_INIT(), POINTER_INIT(), NULL }
 
-BOOLEAN ll_access(P1(llist FAR *));
-int ll_append(P1(llist FAR *) Pi(CHAR_P FAR *));
+BOOLEAN ll_access(P1(llist *));
+int ll_append(P1(llist *) Pi(CHAR_P *));
 #define ll_deaccess(ll)	    /**/
-CHAR_P FAR *ll_first(P1(llist FAR *));
-void ll_free(P1(llist FAR *));
-CHAR_P FAR *ll_next(P1(llist FAR *));
-int ll_prepend(P1(llist FAR *) Pi(CHAR_P FAR *));
+CHAR_P *ll_first(P1(llist *));
+void ll_free(P1(llist *));
+CHAR_P *ll_next(P1(llist *));
+int ll_prepend(P1(llist *) Pi(CHAR_P *));
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin ll.h */

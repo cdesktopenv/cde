@@ -57,13 +57,13 @@ DBN_DECL   /* database number */
 {
    int crtype; /* current record type */
    int mem;
-   SET_ENTRY FAR *set_ptr;
-   MEMBER_ENTRY FAR *mem_ptr;
+   SET_ENTRY *set_ptr;
+   MEMBER_ENTRY *mem_ptr;
    int memtot;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( ! curr_rec )

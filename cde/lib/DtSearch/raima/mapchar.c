@@ -79,7 +79,7 @@ static int nextc(P1(int));
 int d_mapchar(inchar,outchar,sort_str,subsort TASK_PARM)
 unsigned char	inchar;     /* value of character to be mapped */
 unsigned char	outchar;    /* output character as    ... */
-CONST char FAR *sort_str;  /* sort string (max. len = 2) */
+CONST char *sort_str;  /* sort string (max. len = 2) */
 unsigned char	subsort;    /* subsort value, to distinguish between two */
 			    /* equal values (e.g. 'a' and 'A', if necessary) */
 TASK_DECL
@@ -184,7 +184,7 @@ int fd;
 */
 int ctbl_alloc()
 {
-   if ((db_global.country_tbl.ptr = (CNTRY_TBL FAR *)
+   if ((db_global.country_tbl.ptr = (CNTRY_TBL *)
 	   ALLOC(&db_global.country_tbl,256*sizeof(CNTRY_TBL)+1,"country_tbl")) 
 	   == NULL ) return( dberr(S_NOMEMORY) );
 

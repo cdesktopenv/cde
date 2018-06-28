@@ -255,67 +255,67 @@
 */
 
 
-int EXTERNAL_FIXED dt_opentask(P1(DB_TASK FAR *));
+int EXTERNAL_FIXED dt_opentask(P1(DB_TASK *));
 int EXTERNAL_FIXED dt_closetask(P1(DB_TASK));
 
 int EXTERNAL_FIXED dt_close(TASK_D1);				/* dblfcns.c */
 int EXTERNAL_DBN   dt_cmstat(P1(int) TASK_Di DBN_Dn);		/* cmstat.c */
-int EXTERNAL_DBN   dt_cmtype(P1(int) Pi(int FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_cmtype(P1(int) Pi(int *) TASK_Di DBN_Dn); 
 								/* cmtype.c */
 int EXTERNAL_DBN   dt_connect(P1(int) TASK_Di DBN_Dn);		/* connect.c */
 #ifndef NO_TIMESTAMP
 int EXTERNAL_DBN   dt_costat(P1(int) TASK_Di DBN_Dn);		/* costat.c */
 #endif
-int EXTERNAL_DBN   dt_cotype(P1(int) Pi(int FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_cotype(P1(int) Pi(int *) TASK_Di DBN_Dn); 
 								/* cotype.c */
-int EXTERNAL_DBN   dt_crget(P1(DB_ADDR FAR *) TASK_Di DBN_Dn);	/* crget.c */
-int EXTERNAL_DBN   dt_crread(P1(long) Pi(char FAR *) TASK_Di DBN_Dn);
+int EXTERNAL_DBN   dt_crget(P1(DB_ADDR *) TASK_Di DBN_Dn);	/* crget.c */
+int EXTERNAL_DBN   dt_crread(P1(long) Pi(char *) TASK_Di DBN_Dn);
 								/* crread.c */
-int EXTERNAL_DBN   dt_crset(P1(DB_ADDR FAR *) TASK_Di DBN_Dn);	/* crset.c */
+int EXTERNAL_DBN   dt_crset(P1(DB_ADDR *) TASK_Di DBN_Dn);	/* crset.c */
 #ifndef NO_TIMESTAMP
 int EXTERNAL_FIXED dt_crstat(TASK_D1);				/* crstat.c */
 #endif
-int EXTERNAL_DBN   dt_crtype(P1(int FAR *) TASK_Di DBN_Dn);	/* crtype.c */
-int EXTERNAL_DBN   dt_crwrite(P1(long) Pi(char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_crtype(P1(int *) TASK_Di DBN_Dn);	/* crtype.c */
+int EXTERNAL_DBN   dt_crwrite(P1(long) Pi(char *) TASK_Di DBN_Dn); 
 								/* crwrite.c */
-int EXTERNAL_DBN   dt_csmget(P1(int) Pi(DB_ADDR FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_csmget(P1(int) Pi(DB_ADDR *) TASK_Di DBN_Dn); 
 								/* csmget.c */
-int EXTERNAL_DBN   dt_csmread(P1(int) Pi(long) Pi(char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_csmread(P1(int) Pi(long) Pi(char *) TASK_Di DBN_Dn); 
 								/* csmread.c */
-int EXTERNAL_DBN   dt_csmset(P1(int) Pi(DB_ADDR FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_csmset(P1(int) Pi(DB_ADDR *) TASK_Di DBN_Dn); 
 								/* csmset.c */
-int EXTERNAL_DBN   dt_csmwrite(P1(int) Pi(long) Pi(CONST char FAR *) TASK_Di 
+int EXTERNAL_DBN   dt_csmwrite(P1(int) Pi(long) Pi(CONST char *) TASK_Di 
 				  DBN_Dn); 			/* csmwrite.c */
-int EXTERNAL_DBN   dt_csoget(P1(int) Pi(DB_ADDR FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_csoget(P1(int) Pi(DB_ADDR *) TASK_Di DBN_Dn); 
 								/* csoget.c */
-int EXTERNAL_DBN   dt_csoread(P1(int) Pi(long) Pi(char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_csoread(P1(int) Pi(long) Pi(char *) TASK_Di DBN_Dn); 
 								/* csoread.c */
-int EXTERNAL_DBN   dt_csoset(P1(int) Pi(DB_ADDR FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_csoset(P1(int) Pi(DB_ADDR *) TASK_Di DBN_Dn); 
 								/* csoset.c */
-int EXTERNAL_DBN   dt_csowrite(P1(int) Pi(long) Pi(CONST char FAR *) TASK_Di 
+int EXTERNAL_DBN   dt_csowrite(P1(int) Pi(long) Pi(CONST char *) TASK_Di 
 				  DBN_Dn); 			/* csowrite.c */
 #ifndef NO_TIMESTAMP
 int EXTERNAL_DBN   dt_csstat(P1(int) TASK_Di DBN_Dn);		/* csstat.c */
-int EXTERNAL_DBN   dt_ctscm(P1(int) Pi(ULONG FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_ctscm(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
 								/* ctscm.c */
-int EXTERNAL_DBN   dt_ctsco(P1(int) Pi(ULONG FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_ctsco(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
 								/* ctsco.c */
-int EXTERNAL_FIXED dt_ctscr(P1(ULONG FAR *) TASK_Di );		/* ctscr.c */
+int EXTERNAL_FIXED dt_ctscr(P1(ULONG *) TASK_Di );		/* ctscr.c */
 #endif
 #ifndef NO_COUNTRY
-int EXTERNAL_FIXED dt_ctbpath(P1(CONST char FAR *) TASK_Di);	/* pathfcns.c */
+int EXTERNAL_FIXED dt_ctbpath(P1(CONST char *) TASK_Di);	/* pathfcns.c */
 #endif
-int EXTERNAL_FIXED dt_dbdpath(P1(CONST char FAR *) TASK_Di );	/* dbdpath.c */
-int EXTERNAL_FIXED dt_dbfpath(P1(CONST char FAR *) TASK_Di );	/* dbfpath.c */
-int EXTERNAL_FIXED dt_dblog(P1(CONST char FAR *) TASK_Di );	/* dblog.c */
-int EXTERNAL_FIXED dt_dbuserid(P1(CONST char FAR *) TASK_Di );	/* dbuserid.c */
+int EXTERNAL_FIXED dt_dbdpath(P1(CONST char *) TASK_Di );	/* dbdpath.c */
+int EXTERNAL_FIXED dt_dbfpath(P1(CONST char *) TASK_Di );	/* dbfpath.c */
+int EXTERNAL_FIXED dt_dblog(P1(CONST char *) TASK_Di );	/* dblog.c */
+int EXTERNAL_FIXED dt_dbuserid(P1(CONST char *) TASK_Di );	/* dbuserid.c */
 int EXTERNAL_DBN   dt_delete(TASK_D1 DBN_Dn);			/* delete.c */
 int EXTERNAL_DBN   dt_disdel(TASK_D1 DBN_Dn);			/* disdel.c */
 int EXTERNAL_DBN   dt_recnext(TASK_D1 DBN_Dn);			/* recnext.c */
 int EXTERNAL_DBN   dt_recprev(TASK_D1 DBN_Dn);			/* recprev.c */
-int EXTERNAL_FIXED dt_destroy(P1(CONST char FAR *) TASK_Di );	/* destroy.c */
+int EXTERNAL_FIXED dt_destroy(P1(CONST char *) TASK_Di );	/* destroy.c */
 int EXTERNAL_DBN   dt_discon(P1(int) TASK_Di DBN_Dn);		/* discon.c */
-int EXTERNAL_DBN   dt_fillnew(P1(int) Pi(CONST char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_fillnew(P1(int) Pi(CONST char *) TASK_Di DBN_Dn); 
 								/* fillnew.c */
 int EXTERNAL_DBN   dt_findco(P1(int) TASK_Di DBN_Dn);		/* findco.c */
 int EXTERNAL_DBN   dt_findfm(P1(int) TASK_Di DBN_Dn);		/* findfm.c */
@@ -324,12 +324,12 @@ int EXTERNAL_DBN   dt_findnm(P1(int) TASK_Di DBN_Dn);		/* findnm.c */
 int EXTERNAL_DBN   dt_findpm(P1(int) TASK_Di DBN_Dn);		/* findpm.c */
 int EXTERNAL_FIXED dt_freeall(TASK_D1);				/* dblfcns.c */
 #ifndef NO_TIMESTAMP
-int EXTERNAL_DBN   dt_gtscm(P1(int) Pi(ULONG FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_gtscm(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
 								/* gtscm.c */
-int EXTERNAL_DBN   dt_gtsco(P1(int) Pi(ULONG FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_gtsco(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
 								/* gtsco.c */
-int EXTERNAL_FIXED dt_gtscr(P1(ULONG FAR *) TASK_Di );		/* gtscr.c */
-int EXTERNAL_DBN   dt_gtscs(P1(int) Pi(ULONG FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_FIXED dt_gtscr(P1(ULONG *) TASK_Di );		/* gtscr.c */
+int EXTERNAL_DBN   dt_gtscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
 								/* gtscs.c */
 #endif
 int EXTERNAL_DBN   dt_initialize(TASK_D1 DBN_Dn);		/* initial.c */
@@ -338,52 +338,52 @@ int EXTERNAL_DBN   dt_ismember(P1(int) TASK_Di DBN_Dn);		/* ismember.c */
 int EXTERNAL_DBN   dt_isowner(P1(int) TASK_Di DBN_Dn);		/* isowner.c */
 int EXTERNAL_DBN   dt_keydel(P1(long) TASK_Di DBN_Dn);		/* keydel.c */
 int EXTERNAL_DBN   dt_keyexist(P1(long) TASK_Di DBN_Dn);	/* keyexist.c */
-int EXTERNAL_DBN   dt_keyfind(P1(long) Pi(CONST char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_keyfind(P1(long) Pi(CONST char *) TASK_Di DBN_Dn); 
 								/* keyfind.c */
 int EXTERNAL_DBN   dt_keyfree(P1(long) TASK_Di DBN_Dn);		/* dblfcns.c */
 int EXTERNAL_DBN   dt_keyfrst(P1(long) TASK_Di DBN_Dn);		/* keyfrst.c */
 int EXTERNAL_DBN   dt_keylast(P1(long) TASK_Di DBN_Dn);		/* keylast.c */
-int EXTERNAL_DBN   dt_keylock(P1(long) Pi(char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_keylock(P1(long) Pi(char *) TASK_Di DBN_Dn); 
 								/* dblfcns.c */
-int EXTERNAL_DBN   dt_keylstat(P1(long) Pi(char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_keylstat(P1(long) Pi(char *) TASK_Di DBN_Dn); 
 								/* dblfcns.c */
 int EXTERNAL_DBN   dt_keynext(P1(long) TASK_Di DBN_Dn);		/* keynext.c */
 int EXTERNAL_DBN   dt_keyprev(P1(long) TASK_Di DBN_Dn);		/* keyprev.c */
-int EXTERNAL_FIXED dt_keyread(P1(char FAR *) TASK_Di );		/* keyfcns.c */
+int EXTERNAL_FIXED dt_keyread(P1(char *) TASK_Di );		/* keyfcns.c */
 int EXTERNAL_DBN   dt_keystore(P1(long) TASK_Di DBN_Dn);	/* keystore.c */
-int EXTERNAL_DBN   dt_lock(P1(int) Pi(LOCK_REQUEST FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_lock(P1(int) Pi(LOCK_REQUEST *) TASK_Di DBN_Dn); 
 								/* dblfcns.c */
 int EXTERNAL_DBN   dt_makenew(P1(int) TASK_Di DBN_Dn);		/* makenew.c */
 int EXTERNAL_FIXED dt_mapchar(P1(unsigned char) Pi(unsigned char) 
-		      Pi(CONST char FAR *) Pi(unsigned char) TASK_Di);
+		      Pi(CONST char *) Pi(unsigned char) TASK_Di);
 								/* mapchar.c */
-int EXTERNAL_DBN   dt_members(P1(int) Pi(LONG FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_members(P1(int) Pi(LONG *) TASK_Di DBN_Dn); 
 								/* members.c */
 int EXTERNAL_FIXED dt_off_opt(P1(int) TASK_Di );		/* options.c */
 int EXTERNAL_FIXED dt_on_opt(P1(int) TASK_Di );			/* options.c */
-int EXTERNAL_FIXED dt_open(P1(CONST char FAR *) Pi(CONST char FAR *) TASK_Di);
+int EXTERNAL_FIXED dt_open(P1(CONST char *) Pi(CONST char *) TASK_Di);
 								/* dblfcns.c */
-int EXTERNAL_FIXED dt_rdcurr(P1(DB_ADDR FAR **) Pi(int FAR *) TASK_Di); 
+int EXTERNAL_FIXED dt_rdcurr(P1(DB_ADDR **) Pi(int *) TASK_Di); 
 								/* rwcurr.c */
-int EXTERNAL_FIXED dt_rerdcurr(P1(DB_ADDR FAR **) TASK_Di); 	/* rwcurr.c */
-int EXTERNAL_FIXED dt_wrcurr(P1(DB_ADDR FAR *) TASK_Di);	/* rwcurr.c */
+int EXTERNAL_FIXED dt_rerdcurr(P1(DB_ADDR **) TASK_Di); 	/* rwcurr.c */
+int EXTERNAL_FIXED dt_wrcurr(P1(DB_ADDR *) TASK_Di);	/* rwcurr.c */
 int EXTERNAL_DBN   dt_recfree(P1(int) TASK_Di DBN_Dn);		/* dblfcns.c */
 int EXTERNAL_DBN   dt_recfrst(P1(int) TASK_Di DBN_Dn);		/* recfrst.c */
 int EXTERNAL_DBN   dt_reclast(P1(int) TASK_Di DBN_Dn);		/* reclast.c */
-int EXTERNAL_DBN   dt_reclock(P1(int) Pi(char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_reclock(P1(int) Pi(char *) TASK_Di DBN_Dn); 
 								/* dblfcns.c */
-int EXTERNAL_DBN   dt_reclstat(P1(int) Pi(char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_reclstat(P1(int) Pi(char *) TASK_Di DBN_Dn); 
 								/* dblfcns.c */
-int EXTERNAL_FIXED dt_recover(P1(CONST char FAR *) TASK_Di );	/* recover.c */
-int EXTERNAL_DBN   dt_recread(P1(char FAR *) TASK_Di DBN_Dn);	/* recread.c */
+int EXTERNAL_FIXED dt_recover(P1(CONST char *) TASK_Di );	/* recover.c */
+int EXTERNAL_DBN   dt_recread(P1(char *) TASK_Di DBN_Dn);	/* recread.c */
 int EXTERNAL_DBN   dt_recset(P1(int) TASK_Di DBN_Dn);   	/* recset.c */
 #ifndef NO_TIMESTAMP
 int EXTERNAL_FIXED dt_recstat(P1(DB_ADDR) Pi(ULONG) TASK_Di );	/* recstat.c */
 #endif
-int EXTERNAL_DBN   dt_recwrite(P1(CONST char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_recwrite(P1(CONST char *) TASK_Di DBN_Dn); 
 								/* recwrite.c */
-int EXTERNAL_FIXED dt_renfile(P1(CONST char FAR *) Pi(FILE_NO) 
-				 Pi(CONST char FAR *) TASK_Di); /* renfile.c */
+int EXTERNAL_FIXED dt_renfile(P1(CONST char *) Pi(FILE_NO) 
+				 Pi(CONST char *) TASK_Di); /* renfile.c */
 int EXTERNAL_FIXED dt_retries(P1(int) TASK_Di );		/* dblfcns.c */
 int EXTERNAL_FIXED dt_rlbclr(TASK_D1);				/* dblfcns.c */
 int EXTERNAL_FIXED dt_rlbset(TASK_D1);				/* dblfcns.c */
@@ -393,11 +393,11 @@ int EXTERNAL_FIXED dt_set_dberr(P1(FARPROC) TASK_Di);		/* dberr.c */
 int EXTERNAL_FIXED dt_setdb(P1(int) TASK_Di);			/* setdb.c */
 #endif
 int EXTERNAL_DBN   dt_setfree(P1(int) TASK_Di DBN_Dn);		/* dblfcns.c */
-int EXTERNAL_DBN   dt_setkey(P1(long) Pi(CONST char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_setkey(P1(long) Pi(CONST char *) TASK_Di DBN_Dn); 
 								/* makenew.c */
-int EXTERNAL_DBN   dt_setlock(P1(int) Pi(char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_setlock(P1(int) Pi(char *) TASK_Di DBN_Dn); 
 								/* dblfcns.c */
-int EXTERNAL_DBN   dt_setlstat(P1(int) Pi(char FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_setlstat(P1(int) Pi(char *) TASK_Di DBN_Dn); 
 								/* dblfcns.c */
 int EXTERNAL_DBN   dt_setmm(P1(int) Pi(int) TASK_Di DBN_Dn); 	/* setmm.c */
 int EXTERNAL_DBN   dt_setmo(P1(int) Pi(int) TASK_Di DBN_Dn); 	/* setmo.c */
@@ -415,15 +415,15 @@ int EXTERNAL_DBN   dt_stscs(P1(int) Pi(ULONG) TASK_Di DBN_Dn); 	/* stscs.c */
 #endif
 int EXTERNAL_FIXED dt_timeout(P1(int) TASK_Di );		/* dblfcns.c */
 int EXTERNAL_FIXED dt_trabort(TASK_D1);				/* dblfcns.c */
-int EXTERNAL_FIXED dt_trbegin(P1(CONST char FAR *) TASK_Di);	/* dblfcns.c */
+int EXTERNAL_FIXED dt_trbegin(P1(CONST char *) TASK_Di);	/* dblfcns.c */
 int EXTERNAL_FIXED dt_trend(TASK_D1);				/* dblfcns.c */
 #ifndef NO_TIMESTAMP
-int EXTERNAL_DBN   dt_utscm(P1(int) Pi(ULONG FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_utscm(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
 								/* utscm.c */
-int EXTERNAL_DBN   dt_utsco(P1(int) Pi(ULONG FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_DBN   dt_utsco(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
 								/* utsco.c */
-int EXTERNAL_FIXED dt_utscr(P1(ULONG FAR *) TASK_Di );		/* utscr.c */
-int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG FAR *) TASK_Di DBN_Dn); 
+int EXTERNAL_FIXED dt_utscr(P1(ULONG *) TASK_Di );		/* utscr.c */
+int EXTERNAL_DBN   dt_utscs(P1(int) Pi(ULONG *) TASK_Di DBN_Dn); 
 								/* utscs.c */
 #endif
 

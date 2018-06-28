@@ -57,16 +57,16 @@ DBN_DECL
    INT rectype;
    FILE_NO ftype;
    DB_ADDR dba;
-   char FAR *recptr;
+   char *recptr;
 #ifndef SINGLE_USER
    int dbopen_sv;
 #endif
    F_ADDR rno, last;
-   RECORD_ENTRY FAR *rec_ptr;
+   RECORD_ENTRY *rec_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
-   if (nrec_check(rec, &rec, (RECORD_ENTRY FAR * FAR *)&rec_ptr) != S_OKAY)
+   if (nrec_check(rec, &rec, (RECORD_ENTRY * *)&rec_ptr) != S_OKAY)
       RETURN( db_status );
 #ifndef	 ONE_DB
    rec -= curr_db_table->rt_offset;
@@ -93,7 +93,7 @@ DBN_DECL
 #endif
 
       /* read the record */
-      dio_read( dba, (char FAR * FAR *)&recptr, NOPGHOLD );
+      dio_read( dba, (char * *)&recptr, NOPGHOLD );
 #ifndef SINGLE_USER
       dbopen = dbopen_sv;
 #endif

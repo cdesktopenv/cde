@@ -52,7 +52,7 @@
 /* Get creation timestamp of current record
 */
 d_ctscr(timestamp TASK_PARM)
-ULONG FAR *timestamp;
+ULONG *timestamp;
 TASK_DECL
 {
    INT rec;
@@ -64,7 +64,7 @@ TASK_DECL
       RETURN( dberr(S_NOCR) );
 
    /* read current record */
-   if ( dio_read( curr_rec, (char FAR * FAR *)&crloc , NOPGHOLD) != S_OKAY )
+   if ( dio_read( curr_rec, (char * *)&crloc , NOPGHOLD) != S_OKAY )
       RETURN( db_status );
 
    /* get record id */

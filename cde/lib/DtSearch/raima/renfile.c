@@ -48,9 +48,9 @@
 */
 int
 d_renfile(dbn, fno, fnm TASK_PARM)
-CONST char FAR *dbn;  /* database containing file to be renamed */
+CONST char *dbn;  /* database containing file to be renamed */
 FILE_NO fno;  /* file id number for file to be renamed */
-CONST char FAR *fnm;  /* new file name */
+CONST char *fnm;  /* new file name */
 TASK_DECL
 {
    REN_ENTRY_P r;
@@ -59,11 +59,11 @@ TASK_DECL
 
    if ( dbopen ) RETURN( dberr(S_DBOPEN) );
 
-   r.ptr = (REN_ENTRY FAR *)ALLOC(&r, sizeof(REN_ENTRY), "r");
+   r.ptr = (REN_ENTRY *)ALLOC(&r, sizeof(REN_ENTRY), "r");
    if ( r.ptr == NULL )
       RETURN( dberr(S_NOMEMORY) );
    ll_access(&ren_list);
-   if ( ll_append(&ren_list, (CHAR_P FAR *)&r) != S_OKAY ) {
+   if ( ll_append(&ren_list, (CHAR_P *)&r) != S_OKAY ) {
       RETURN( db_status );
    }
    r.ptr->Ren_db_name.ptr = 
@@ -91,16 +91,16 @@ int
 renfiles()
 {
    int dbt_lc;			/* loop control */
-   REN_ENTRY_P FAR *rp;
+   REN_ENTRY_P *rp;
 #ifndef	 ONE_DB
-   DB_ENTRY FAR *db_ptr;
+   DB_ENTRY *db_ptr;
 #endif
 
    if ( ll_access(&ren_list) ) {
 #ifndef	 ONE_DB
       db_ptr = curr_db_table;		/* Have to save it because of macros */
 #endif
-      while ((rp = (REN_ENTRY_P FAR *)ll_next(&ren_list)) != NULL) {
+      while ((rp = (REN_ENTRY_P *)ll_next(&ren_list)) != NULL) {
 	 MEM_LOCK(&rp->ptr->Ren_db_name);
 	 MEM_LOCK(&rp->ptr->File_name);
 #ifndef	 ONE_DB

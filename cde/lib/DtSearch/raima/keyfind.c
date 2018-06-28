@@ -51,27 +51,27 @@
 #include "dbtype.h"
 
 /* Internal function prototypes */
-static void chk_desc_key(P1(int) Pi(FIELD_ENTRY FAR *) 
-					Pi(CONST char FAR *) Pi(char FAR *));
+static void chk_desc_key(P1(int) Pi(FIELD_ENTRY *) 
+					Pi(CONST char *) Pi(char *));
 
 /* Find record thru key field
 */
 int
 d_keyfind(field, fldval TASK_PARM DBN_PARM)
 long  field;  /* field constant */
-CONST char FAR *fldval; /* value of the data field */
+CONST char *fldval; /* value of the data field */
 TASK_DECL
 DBN_DECL      /* database number */
 {
    int fld, rec;
    DB_ADDR dba;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
    char ckey[256];
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
-   if ((nfld_check(field, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY) ||
+   if ((nfld_check(field, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY) ||
        /* initialize key function operation */
        (key_init(fld) != S_OKAY))
       RETURN( db_status );
@@ -104,26 +104,26 @@ DBN_DECL      /* database number */
 */
 static void chk_desc_key(fld, fld_ptr, fldval, ckey)
 int fld;
-FIELD_ENTRY FAR *fld_ptr;
-CONST char FAR *fldval;
-char FAR *ckey;
+FIELD_ENTRY *fld_ptr;
+CONST char *fldval;
+char *ckey;
 {
    int kt_lc;			/* loop control */
 #ifndef	 NO_FLOAT
    float fv;
    double dv;
 #endif
-   char FAR *fptr;
-   char FAR *tptr;
-   FIELD_ENTRY FAR *kfld_ptr;
-   KEY_ENTRY FAR *key_ptr;
+   char *fptr;
+   char *tptr;
+   FIELD_ENTRY *kfld_ptr;
+   KEY_ENTRY *key_ptr;
 
    /* complement descending compound key values */
    for (kt_lc = size_kt - fld_ptr->fd_ptr,
 					key_ptr = &key_table[fld_ptr->fd_ptr];
 	(--kt_lc >= 0) && (key_ptr->kt_key == fld); ++key_ptr) {
       kfld_ptr = &field_table[key_ptr->kt_field];
-      fptr = (char FAR *)fldval + key_ptr->kt_ptr;
+      fptr = (char *)fldval + key_ptr->kt_ptr;
       tptr = ckey + key_ptr->kt_ptr;
       if ( key_ptr->kt_sort == 'd' ) {
 	 switch ( kfld_ptr->fd_type ) {

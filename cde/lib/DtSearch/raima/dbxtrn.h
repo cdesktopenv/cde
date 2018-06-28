@@ -73,7 +73,7 @@ extern INT old_no_of_dbs;
 #define old_no_of_dbs 0
 #endif
 
-extern char FAR *crloc;          /* location in page buffer of current record */
+extern char *crloc;          /* location in page buffer of current record */
 
 typedef struct TASK_S {
    /* The following global variables came from dblfcns.c */
@@ -94,7 +94,7 @@ typedef struct TASK_S {
    INT_P Excl_locks;          /* excl_locks = NULL */
    INT_P Kept_locks;          /* kept_locks = NULL */
 #endif
-   CONST char FAR *Trans_id;  /* trans_id = NULL */
+   CONST char *Trans_id;  /* trans_id = NULL */
    char Dblog[FILENMLEN];     /* dblog = "" */
 #ifndef SINGLE_USER
    LOCK_DESCR_P Rec_locks;    /* rec_locks = NULL */
@@ -134,7 +134,7 @@ typedef struct TASK_S {
    INT Page_size;
 #ifndef ONE_DB
    int     Curr_db;
-   DB_ENTRY FAR *Curr_db_table;
+   DB_ENTRY *Curr_db_table;
 #endif
    DB_ADDR Curr_rec;          /* current record address */
    DB_ADDR_P Curr_own;        /* current set owners array */
@@ -152,7 +152,7 @@ typedef struct TASK_S {
    BOOLEAN Setdb_on;
    INT No_of_dbs;
    RN_ENTRY_P Rn_table;
-   RN_ENTRY FAR *Curr_rn_table;
+   RN_ENTRY *Curr_rn_table;
 #else
    DB_ADDR rn_dba;	 /* last computed dba by recfrst/recset/recnext */
    INT     rn_type;	 /* last record type supplied to recfrst/recset */

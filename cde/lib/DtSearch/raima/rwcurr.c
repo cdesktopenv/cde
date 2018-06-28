@@ -57,7 +57,7 @@
 int
 d_rdcurr(currbuff, currsize TASK_PARM)
 DB_ADDR **currbuff;
-int FAR *currsize;
+int *currsize;
 TASK_DECL
 {
    int cs;
@@ -79,7 +79,7 @@ int d_rerdcurr(currbuff TASK_PARM)
 DB_ADDR **currbuff;
 TASK_DECL
 {
-   DB_ADDR FAR *cb_ptr;
+   DB_ADDR *cb_ptr;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(SET_NOIO));
 
@@ -109,7 +109,7 @@ d_wrcurr(currbuff TASK_PARM)
 DB_ADDR *currbuff;
 TASK_DECL
 {
-   DB_ADDR FAR *cb_ptr;
+   DB_ADDR *cb_ptr;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(SET_NOIO));
 

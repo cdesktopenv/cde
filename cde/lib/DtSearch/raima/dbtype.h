@@ -385,7 +385,7 @@ typedef struct RN_ENTRY_S {
 #define  TASK_PARM_DBN		 task ,
 #define  TASK_ONLY		 task
 #define  TASK_DECL		 DB_TASK task;
-#define  TASK_PTR_DECL		 DB_TASK FAR *task;
+#define  TASK_PTR_DECL		 DB_TASK *task;
 #define  TASK_DBN_ONLY		 task DBN_PARM
 #else
 #define  TASK_PARM		 /**/
@@ -433,42 +433,42 @@ typedef struct OBJNAMES_S {
 #define DB_WRITE write
 #define DB_READ  read
 
-typedef struct {FILE_NO FAR *ptr; LOCK_DESC} FILE_NO_P;
-typedef struct {int FAR *ptr; LOCK_DESC} INT_P;
-typedef struct {struct NODE_PATH_S FAR *ptr; LOCK_DESC} NODE_PATH_P;
+typedef struct {FILE_NO *ptr; LOCK_DESC} FILE_NO_P;
+typedef struct {int *ptr; LOCK_DESC} INT_P;
+typedef struct {struct NODE_PATH_S *ptr; LOCK_DESC} NODE_PATH_P;
 #ifndef SINGLE_USER
-typedef struct {struct lock_descr FAR *ptr; LOCK_DESC} LOCK_DESCR_P;
-typedef struct {struct LM_LOCK_S FAR *ptr; LOCK_DESC} LM_LOCK_P;
-typedef struct {struct LM_FREE_S FAR *ptr; LOCK_DESC} LM_FREE_P;
-typedef struct {struct LM_DBOPEN_S FAR *ptr; LOCK_DESC} LM_DBOPEN_P;
-typedef struct {struct LM_DBCLOSE_S FAR *ptr; LOCK_DESC} LM_DBCLOSE_P;
-typedef struct {struct LR_DBOPEN_S FAR *ptr; LOCK_DESC} LR_DBOPEN_P;
+typedef struct {struct lock_descr *ptr; LOCK_DESC} LOCK_DESCR_P;
+typedef struct {struct LM_LOCK_S *ptr; LOCK_DESC} LM_LOCK_P;
+typedef struct {struct LM_FREE_S *ptr; LOCK_DESC} LM_FREE_P;
+typedef struct {struct LM_DBOPEN_S *ptr; LOCK_DESC} LM_DBOPEN_P;
+typedef struct {struct LM_DBCLOSE_S *ptr; LOCK_DESC} LM_DBCLOSE_P;
+typedef struct {struct LR_DBOPEN_S *ptr; LOCK_DESC} LR_DBOPEN_P;
 #endif
-typedef struct {struct KEY_INFO_S FAR *ptr; LOCK_DESC} KEY_INFO_P;
-typedef struct {struct ren_entry FAR *ptr; LOCK_DESC} REN_ENTRY_P;
-typedef struct {struct RN_ENTRY_S FAR *ptr; LOCK_DESC} RN_ENTRY_P;
-typedef struct {struct LOOKUP_ENTRY_S FAR *ptr; LOCK_DESC} LOOKUP_ENTRY_P;
-typedef struct {struct page_entry FAR *ptr; LOCK_DESC} PAGE_ENTRY_P;
-typedef struct {struct DB_ENTRY_S FAR *ptr; LOCK_DESC} DB_ENTRY_P;
-typedef struct {struct FILE_ENTRY_S FAR *ptr; LOCK_DESC} FILE_ENTRY_P;
-typedef struct {struct RECORD_ENTRY_S FAR *ptr; LOCK_DESC} RECORD_ENTRY_P;
-typedef struct {struct SET_ENTRY_S FAR *ptr; LOCK_DESC} SET_ENTRY_P;
-typedef struct {struct MEMBER_ENTRY_S FAR *ptr; LOCK_DESC} MEMBER_ENTRY_P;
-typedef struct {struct SORT_ENTRY_S FAR *ptr; LOCK_DESC} SORT_ENTRY_P;
-typedef struct {struct FIELD_ENTRY_S FAR *ptr; LOCK_DESC} FIELD_ENTRY_P;
-typedef struct {struct KEY_ENTRY_S FAR *ptr; LOCK_DESC} KEY_ENTRY_P;
-typedef struct {struct PGZERO_S FAR *ptr; LOCK_DESC} PGZERO_P;
-typedef struct {struct RI_ENTRY_S FAR *ptr; LOCK_DESC} RI_ENTRY_P;
-typedef struct {ULONG FAR *ptr; LOCK_DESC} ULONG_P;
-typedef struct {LONG FAR *ptr; LOCK_DESC} LONG_P;
+typedef struct {struct KEY_INFO_S *ptr; LOCK_DESC} KEY_INFO_P;
+typedef struct {struct ren_entry *ptr; LOCK_DESC} REN_ENTRY_P;
+typedef struct {struct RN_ENTRY_S *ptr; LOCK_DESC} RN_ENTRY_P;
+typedef struct {struct LOOKUP_ENTRY_S *ptr; LOCK_DESC} LOOKUP_ENTRY_P;
+typedef struct {struct page_entry *ptr; LOCK_DESC} PAGE_ENTRY_P;
+typedef struct {struct DB_ENTRY_S *ptr; LOCK_DESC} DB_ENTRY_P;
+typedef struct {struct FILE_ENTRY_S *ptr; LOCK_DESC} FILE_ENTRY_P;
+typedef struct {struct RECORD_ENTRY_S *ptr; LOCK_DESC} RECORD_ENTRY_P;
+typedef struct {struct SET_ENTRY_S *ptr; LOCK_DESC} SET_ENTRY_P;
+typedef struct {struct MEMBER_ENTRY_S *ptr; LOCK_DESC} MEMBER_ENTRY_P;
+typedef struct {struct SORT_ENTRY_S *ptr; LOCK_DESC} SORT_ENTRY_P;
+typedef struct {struct FIELD_ENTRY_S *ptr; LOCK_DESC} FIELD_ENTRY_P;
+typedef struct {struct KEY_ENTRY_S *ptr; LOCK_DESC} KEY_ENTRY_P;
+typedef struct {struct PGZERO_S *ptr; LOCK_DESC} PGZERO_P;
+typedef struct {struct RI_ENTRY_S *ptr; LOCK_DESC} RI_ENTRY_P;
+typedef struct {ULONG *ptr; LOCK_DESC} ULONG_P;
+typedef struct {LONG *ptr; LOCK_DESC} LONG_P;
 #ifndef NO_COUNTRY
-typedef struct {struct CNTRY_TBL_S FAR *ptr; LOCK_DESC} CNTRY_TBL_P;
+typedef struct {struct CNTRY_TBL_S *ptr; LOCK_DESC} CNTRY_TBL_P;
 #endif
 struct sk {
    INT sk_fld;
    CHAR_P sk_val;
 } __SK__;
-typedef struct { struct sk FAR *ptr; LOCK_DESC } SK_P;
+typedef struct { struct sk *ptr; LOCK_DESC } SK_P;
 
 /* node key search path stack entry: one per level per key field */
 typedef struct NODE_PATH_S {
@@ -578,9 +578,9 @@ typedef struct MESSAGE_S {
 #define RETURN(x) return( x )
 #define ALLOC(l, b, v) d_alloc(b)
 #define CALLOC(l, i, s, v) d_calloc(i, s)
-#define MEM_LOCK(cp)	d_memlock((CHAR_P FAR *)(cp))
-#define MEM_UNLOCK(cp) 	d_memunlock((CHAR_P FAR *)(cp))
-#define FREE(cp)	d_free((CHAR_P FAR *)(cp))
+#define MEM_LOCK(cp)	d_memlock((CHAR_P *)(cp))
+#define MEM_UNLOCK(cp) 	d_memunlock((CHAR_P *)(cp))
+#define FREE(cp)	d_free((CHAR_P *)(cp))
 
 /* Lock sets are defined in dblfcns.c */
 #define LOCK_NONE	-1
@@ -607,7 +607,7 @@ typedef struct MESSAGE_S {
 
 typedef struct LOOKUP_ENTRY_S {
 #ifdef MULTI_TASK
-   TASK FAR *task;	      /* task pointer */
+   TASK *task;	      /* task pointer */
 #endif
    FILE_NO file;              /* file table entry number (0..size_ft-1) */
    F_ADDR  pageno;            /* database page number */

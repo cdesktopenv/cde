@@ -56,26 +56,26 @@
 int
 d_setkey( field, fldvalue TASK_PARM DBN_PARM )
 long field;
-CONST char FAR *fldvalue;
+CONST char *fldvalue;
 TASK_DECL
 DBN_DECL
 {
-   SK_P FAR *sk_ptr;
+   SK_P *sk_ptr;
    SK_P sk_p;
    int fld, rec;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_NOIO));
 
-   if (nfld_check(field, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY)
+   if (nfld_check(field, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( fld_ptr->fd_key == 'n' )
       RETURN( dberr(S_NOTKEY) );
 
    ll_access(&sk_list);
-   while ((sk_ptr = (SK_P FAR *)ll_next(&sk_list)) != NULL) {
+   while ((sk_ptr = (SK_P *)ll_next(&sk_list)) != NULL) {
       if ( sk_ptr->ptr->sk_fld == fld ) {
          MEM_LOCK(&sk_ptr->ptr->sk_val);
 	 if ( fld_ptr->fd_type != CHARACTER || fld_ptr->fd_dim[1] )
@@ -90,10 +90,10 @@ DBN_DECL
       }
    }
    /* need to allocate a slot for a new fld */
-   sk_p.ptr = (struct sk FAR *)ALLOC(&sk_p, sizeof(struct sk), "sk_ptr->ptr");
+   sk_p.ptr = (struct sk *)ALLOC(&sk_p, sizeof(struct sk), "sk_ptr->ptr");
    if ( sk_p.ptr == NULL )
       RETURN( dberr( S_NOMEMORY ) );
-   if ( ll_prepend(&sk_list, (CHAR_P FAR *)&sk_p) != S_OKAY ) {
+   if ( ll_prepend(&sk_list, (CHAR_P *)&sk_p) != S_OKAY ) {
       RETURN( db_status );
    }
    sk_p.ptr->sk_fld = fld;
@@ -120,10 +120,10 @@ DBN_DECL
 */
 int sk_free()
 {
-   SK_P FAR *sk_ptr;
+   SK_P *sk_ptr;
 
    ll_access(&sk_list);
-   while ((sk_ptr = (SK_P FAR *)ll_next(&sk_list)) != NULL) {
+   while ((sk_ptr = (SK_P *)ll_next(&sk_list)) != NULL) {
       MEM_UNLOCK(&sk_ptr->ptr->sk_val);
       FREE(&sk_ptr->ptr->sk_val);
    }
@@ -148,15 +148,15 @@ DBN_DECL
    INT recnum, fld, stat;
    FILE_NO file;
    F_ADDR rec_addr;
-   char FAR *ptr;
-   SK_P FAR *sk_ptr;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   char *ptr;
+   SK_P *sk_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
    int fldtot;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
-   if (nrec_check(nrec, &nrec, (RECORD_ENTRY FAR * FAR *)&rec_ptr) != S_OKAY)
+   if (nrec_check(nrec, &nrec, (RECORD_ENTRY * *)&rec_ptr) != S_OKAY)
       RETURN( db_status );
 
    recnum = NUM2EXT(nrec, rt_offset);
@@ -172,7 +172,7 @@ DBN_DECL
       if ((fld_ptr->fd_key == UNIQUE) && !(fld_ptr->fd_flags & OPTKEYMASK)) {
 	 /* locate the key value in the set_key table */
 	 ll_access(&sk_list);
-	 while (((sk_ptr = (SK_P FAR *)ll_next(&sk_list)) != NULL) &&
+	 while (((sk_ptr = (SK_P *)ll_next(&sk_list)) != NULL) &&
 		(sk_ptr->ptr->sk_fld != fld))
 	    ;				/* NOP */
 	 if (sk_ptr == NULL) {
@@ -198,7 +198,7 @@ DBN_DECL
    db_addr |= rec_addr;
 
    /* read record */
-   if ( dio_read( db_addr, (char FAR * FAR *)&ptr, PGHOLD) != S_OKAY )
+   if ( dio_read( db_addr, (char * *)&ptr, PGHOLD) != S_OKAY )
       RETURN( db_status );
 
    /* zero fill the record */
@@ -224,7 +224,7 @@ DBN_DECL
       if ((fld_ptr->fd_key != 'n') && !(fld_ptr->fd_flags & OPTKEYMASK)) {
 	 /* locate the key value in the set_key table */
          ll_access(&sk_list);
-	 sk_ptr = (SK_P FAR *)ll_first(&sk_list);
+	 sk_ptr = (SK_P *)ll_first(&sk_list);
 	 while (sk_ptr != NULL) {
 	    if ( sk_ptr->ptr->sk_fld == fld ) {
 	       MEM_LOCK(&sk_ptr->ptr->sk_val);
@@ -245,7 +245,7 @@ DBN_DECL
 	       MEM_UNLOCK(&sk_ptr->ptr->sk_val);
 	       break;
 	    }
-	    sk_ptr = (SK_P FAR *)ll_next(&sk_list);
+	    sk_ptr = (SK_P *)ll_next(&sk_list);
 	 }
 	 ll_deaccess(&sk_list);
 	 if ( sk_ptr == NULL ) RETURN( dberr( S_KEYREQD ) );

@@ -54,7 +54,7 @@ int
 d_csoread(set, field, data TASK_PARM DBN_PARM)
 int set;    /* Set constant */
 long field; /* Field constant */
-char FAR *data; /* Data area to contain field contents */
+char *data; /* Data area to contain field contents */
 TASK_DECL
 DBN_DECL    /* database number */
 {
@@ -62,15 +62,15 @@ DBN_DECL    /* database number */
 #ifndef SINGLE_USER
    int dbopen_sv;
 #endif
-   char FAR *recp;
-   SET_ENTRY FAR *set_ptr;
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   char *recp;
+   SET_ENTRY *set_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if ((nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY) ||
-       (nfld_check(field, &rec, &fld, (RECORD_ENTRY FAR * FAR *)&rec_ptr, (FIELD_ENTRY FAR * FAR *)&fld_ptr) != S_OKAY))
+   if ((nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY) ||
+       (nfld_check(field, &rec, &fld, (RECORD_ENTRY * *)&rec_ptr, (FIELD_ENTRY * *)&fld_ptr) != S_OKAY))
       RETURN( db_status );
 
    /* Make sure we have a current owner */
@@ -84,7 +84,7 @@ DBN_DECL    /* database number */
 #endif
 
    /* Read current owner */
-   dio_read( curr_own[set], (char FAR * FAR *)&recp , NOPGHOLD);
+   dio_read( curr_own[set], (char * *)&recp , NOPGHOLD);
 #ifndef SINGLE_USER
    dbopen = dbopen_sv;
 #endif

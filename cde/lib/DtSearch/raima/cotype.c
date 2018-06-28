@@ -53,20 +53,20 @@
 int
 d_cotype(set, cotype TASK_PARM DBN_PARM)
 int set;
-int FAR *cotype;
+int *cotype;
 TASK_DECL
 DBN_DECL
 {
-   char FAR *orec;
+   char *orec;
    INT crt;
 #ifndef SINGLE_USER
    int dbopen_sv;
 #endif
-   SET_ENTRY FAR *set_ptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    if ( ! curr_own[set] )
@@ -79,7 +79,7 @@ DBN_DECL
 #endif
 
    /* Read current owner */
-   dio_read(curr_own[set], (char FAR * FAR *)&orec, NOPGHOLD);
+   dio_read(curr_own[set], (char * *)&orec, NOPGHOLD);
 #ifndef SINGLE_USER
    dbopen = dbopen_sv;
 #endif

@@ -62,8 +62,8 @@ DBN_DECL
    int dbopen_sv;
 #endif
    int rec_ndx;			/* Index into record table */
-   RECORD_ENTRY FAR *rec_ptr;	/* Pointer to record table */
-   char FAR *recptr;
+   RECORD_ENTRY *rec_ptr;	/* Pointer to record table */
+   char *recptr;
    F_ADDR rno, last;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
@@ -77,7 +77,7 @@ DBN_DECL
       rno = RN_REF(rn_dba) & ADDRMASK;
    }
    else {			/* No current rec - get fno from rn_type */
-      nrec_check(RN_REF(rn_type) + RECMARK, &rec_ndx, (RECORD_ENTRY FAR * FAR *)&rec_ptr);
+      nrec_check(RN_REF(rn_type) + RECMARK, &rec_ndx, (RECORD_ENTRY * *)&rec_ptr);
       fno = (FILE_NO)NUM2EXT(rec_ptr->rt_file, ft_offset);
       fno = (int)((fno >> FILESHIFT) & FILEMASK);
       rno = 1;
@@ -103,7 +103,7 @@ DBN_DECL
 #endif
 
 	/* read the record */
-	dio_read( dba, (char FAR * FAR *)&recptr, NOPGHOLD );
+	dio_read( dba, (char * *)&recptr, NOPGHOLD );
 #ifndef SINGLE_USER
 	dbopen = dbopen_sv;
 #endif

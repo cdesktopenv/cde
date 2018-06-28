@@ -50,8 +50,8 @@
 #include "dbtype.h"
 
 /* Internal function Prototypes */
-static int sortcmp(P1(SET_ENTRY FAR *) Pi(char FAR *) 
-				  Pi(char FAR *));
+static int sortcmp(P1(SET_ENTRY *) Pi(char *) 
+				  Pi(char *));
 
 /* set pointer structure definition */
 typedef struct {
@@ -83,10 +83,10 @@ DBN_DECL /* Database number */
    SET_PTR cosp;          /* current owner's set pointer */
    MEM_PTR cmmp;          /* current member's member pointer */
    MEM_PTR nmmp;          /* next member's member pointer */
-   char FAR *crec;            /* ptr to current record contents in cache */
-   char FAR *orec;            /* ptr to current owner record contents in cache */
-   char FAR *mrec;            /* ptr to current member record contents in cache */
-   char FAR *nrec;            /* ptr to next member record contents in cache */
+   char *crec;            /* ptr to current record contents in cache */
+   char *orec;            /* ptr to current owner record contents in cache */
+   char *mrec;            /* ptr to current member record contents in cache */
+   char *nrec;            /* ptr to next member record contents in cache */
    DB_ADDR mdba;          /* db address of current member record */
    DB_ADDR ndba;          /* db address of next member record */
    INT ordering;          /* set order control variable */
@@ -94,13 +94,13 @@ DBN_DECL /* Database number */
 #ifndef	 NO_TIMESTAMP
    FILE_NO file;
 #endif
-   SET_ENTRY FAR *set_ptr;
-   DB_ADDR FAR *co_ptr;
-   DB_ADDR FAR *cm_ptr;
+   SET_ENTRY *set_ptr;
+   DB_ADDR *co_ptr;
+   DB_ADDR *cm_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(set, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(set, &set, (SET_ENTRY **)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* make sure we have a current record */
@@ -114,16 +114,16 @@ DBN_DECL /* Database number */
    crec = orec = mrec = nrec = NULL;
 
    /* read current record */
-   if ( dio_read( curr_rec, (char FAR * FAR *)&crec, PGHOLD ) != S_OKAY )
+   if ( dio_read( curr_rec, (char **)&crec, PGHOLD ) != S_OKAY )
       RETURN( db_status );
    
    /* read owner record */
-   if ( (stat = dio_read(*co_ptr, (char FAR * FAR *)&orec, PGHOLD)) != S_OKAY ) {
+   if ( (stat = dio_read(*co_ptr, (char **)&orec, PGHOLD)) != S_OKAY ) {
       dio_release( curr_rec );
       RETURN( stat );
    }
    /* get copy of current record's member ptr for set */
-   if ( (stat = r_gmem(set, crec, (char FAR *)&crmp)) != S_OKAY )
+   if ( (stat = r_gmem(set, crec, (char *)&crmp)) != S_OKAY )
       goto quit;
 
    /* ensure record not already connected to set */
@@ -132,7 +132,7 @@ DBN_DECL /* Database number */
       goto quit;
    }
    /* get set pointer from owner */
-   if ( r_gset(set, orec, (char FAR *)&cosp) != S_OKAY ) {
+   if ( r_gset(set, orec, (char *)&cosp) != S_OKAY ) {
       stat = db_status == S_INVOWN ? dberr(S_SYSERR) : db_status;
       goto quit;
    }
@@ -162,8 +162,8 @@ DBN_DECL /* Database number */
 	 for (mdba = cosp.first; TRUE; mdba = cmmp.next) {
 	    /* read member record and get member pointer from member
 	       record */
-	    if (((stat = dio_read(mdba, (char FAR * FAR *)&mrec, NOPGHOLD)) != S_OKAY) ||
-		((stat = r_gmem(set, mrec, (char FAR *)&cmmp)) != S_OKAY))
+	    if (((stat = dio_read(mdba, (char * *)&mrec, NOPGHOLD)) != S_OKAY) ||
+		((stat = r_gmem(set, mrec, (char *)&cmmp)) != S_OKAY))
 	       goto quit;
 
 	    /* compare sort fields of current record with member record */
@@ -190,8 +190,8 @@ DBN_DECL /* Database number */
 	    member pointer
 	 */
 	 mdba = cosp.first;
-	 if (((stat = dio_read(mdba, (char FAR * FAR *)&mrec, PGHOLD)) != S_OKAY) ||
-	     ((stat = r_gmem(set, mrec, (char FAR *)&cmmp)) != S_OKAY))
+	 if (((stat = dio_read(mdba, (char * *)&mrec, PGHOLD)) != S_OKAY) ||
+	     ((stat = r_gmem(set, mrec, (char *)&cmmp)) != S_OKAY))
 	    goto quit;
 
 	 /* set current member's previous, and current owner's first, to
@@ -210,8 +210,8 @@ DBN_DECL /* Database number */
 	 /* read current member record and get member pointer from
 	    current member
 	 */
-	 if (((stat = dio_read(mdba, (char FAR * FAR *)&mrec, PGHOLD)) != S_OKAY) ||
-	     ((stat = r_gmem(set, mrec, (char FAR *)&cmmp)) != S_OKAY))
+	 if (((stat = dio_read(mdba, (char * *)&mrec, PGHOLD)) != S_OKAY) ||
+	     ((stat = r_gmem(set, mrec, (char *)&cmmp)) != S_OKAY))
 	    goto quit;
 
 	 /* set current record's next to current member's next */
@@ -231,8 +231,8 @@ DBN_DECL /* Database number */
 	 }
 	 /* read next member record and member pointer from next member */
 	 ndba = crmp.next;
-	 if (((stat = dio_read(ndba, (char FAR * FAR *)&nrec, PGHOLD)) != S_OKAY) ||
-	     ((stat = r_gmem(set, nrec, (char FAR *)&nmmp)) != S_OKAY))
+	 if (((stat = dio_read(ndba, (char * *)&nrec, PGHOLD)) != S_OKAY) ||
+	     ((stat = r_gmem(set, nrec, (char *)&nmmp)) != S_OKAY))
 	    goto quit;
 
 	 /* set previous pointer in next member to current record */
@@ -262,7 +262,7 @@ inserted:
       /* put member pointer back into member record and mark member
 	 record as modified
       */
-      if (((stat = r_pmem(set, mrec, (char FAR *)&cmmp)) != S_OKAY) ||
+      if (((stat = r_pmem(set, mrec, (char *)&cmmp)) != S_OKAY) ||
 	  ((stat = dio_write(mdba, NULL, PGFREE)) != S_OKAY))
 	 goto quit;
    }
@@ -270,16 +270,16 @@ inserted:
       /* put member pointer back into next record and mark next record
 	 as modified
       */
-      if (((stat = r_pmem(set, nrec, (char FAR *)&nmmp)) != S_OKAY) ||
+      if (((stat = r_pmem(set, nrec, (char *)&nmmp)) != S_OKAY) ||
 	  ((stat = dio_write(ndba, NULL, PGFREE)) != S_OKAY))
 	 goto quit;
    }
    /* put set pointer back into owner record and mark owner record as
       modified; put member pointer back into current record mark current
       record as modified */
-   if (((stat = r_pset(set, orec, (char FAR *)&cosp)) != S_OKAY) ||
+   if (((stat = r_pset(set, orec, (char *)&cosp)) != S_OKAY) ||
        ((stat = dio_write(*co_ptr, NULL, PGFREE)) != S_OKAY) ||
-       ((stat = r_pmem(set, crec, (char FAR *)&crmp)) != S_OKAY) ||
+       ((stat = r_pmem(set, crec, (char *)&crmp)) != S_OKAY) ||
        ((stat = dio_write(curr_rec, NULL, PGFREE)) != S_OKAY))
       goto quit;
 
@@ -307,18 +307,18 @@ quit:
 /* Compare two sort fields
 */
 static int sortcmp(set_ptr, mem1, mem2)
-SET_ENTRY FAR *set_ptr; /* set table entry */
-char FAR *mem1; /* member record 1 */
-char FAR *mem2; /* member record 2 */
+SET_ENTRY *set_ptr; /* set table entry */
+char *mem1; /* member record 1 */
+char *mem2; /* member record 2 */
 {
    INT rn1, rn2;  /* record numbers for mem1 & mem2 */
-   MEMBER_ENTRY FAR *mt1, FAR *mt2;
-   MEMBER_ENTRY FAR *mt;
+   MEMBER_ENTRY *mt1, *mt2;
+   MEMBER_ENTRY *mt;
    int mem, memtot;
    int cmp;       /* fldcmp result */
    int maxflds;
-   SORT_ENTRY FAR *srt1_ptr, FAR *srt2_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   SORT_ENTRY *srt1_ptr, *srt2_ptr;
+   FIELD_ENTRY *fld_ptr;
 
    /* extract record numbers from record header */
    bytecpy(&rn1, mem1, sizeof(INT));

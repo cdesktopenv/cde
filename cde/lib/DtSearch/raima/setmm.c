@@ -58,14 +58,14 @@ DBN_DECL    /* database number */
 {
    int cmtype; /* current member type */
    int mem;
-   SET_ENTRY FAR *set_ptr;
-   MEMBER_ENTRY FAR *mem_ptr;
+   SET_ENTRY *set_ptr;
+   MEMBER_ENTRY *mem_ptr;
    int memtot;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
    if ((d_cmtype(sets, &cmtype TASK_PARM DBN_PARM) != S_OKAY) ||
-       (nset_check(sett, &sett, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY))
+       (nset_check(sett, &sett, (SET_ENTRY * *)&set_ptr) != S_OKAY))
       RETURN( db_status );
 
    cmtype += NUM2INT(-RECMARK, rt_offset);

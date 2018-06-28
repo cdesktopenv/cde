@@ -58,13 +58,13 @@ DBN_DECL
    int set;
    char memp[MEMPSIZE];
    DB_ADDR mem;
-   char FAR *recp;
-   DB_ADDR FAR *cm_ptr;
-   SET_ENTRY FAR *set_ptr;
+   char *recp;
+   DB_ADDR *cm_ptr;
+   SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if (nset_check(nset, &set, (SET_ENTRY FAR * FAR *)&set_ptr) != S_OKAY)
+   if (nset_check(nset, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY)
       RETURN( db_status );
 
    /* make sure we have a current owner */
@@ -76,7 +76,7 @@ DBN_DECL
       RETURN( d_findlm(nset TASK_PARM DBN_PARM) );
 
    /* read current member of set and get member pointer from record */
-   if ((dio_read(*cm_ptr, (char FAR * FAR *)&recp, NOPGHOLD) != S_OKAY) ||
+   if ((dio_read(*cm_ptr, (char * *)&recp, NOPGHOLD) != S_OKAY) ||
        (r_gmem(set, recp, memp) != S_OKAY))
       RETURN( db_status );
 

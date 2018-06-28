@@ -114,24 +114,24 @@ typedef struct {
 #define KEYREPOS 3
 
 /* Internal function prototypes */
-static int node_search(P1(CONST char FAR *) Pi(DB_ADDR FAR *) 
-				      Pi(NODE FAR *) Pi(int *) Pi(int *) 
+static int node_search(P1(CONST char *) Pi(DB_ADDR *) 
+				      Pi(NODE *) Pi(int *) Pi(int *) 
 				      Pi(F_ADDR *));
-static int keycmp(P1(CONST char FAR *) Pi(KEY_SLOT FAR *) 
-				    Pi(DB_ADDR FAR *));
-static int expand(P1(CONST char FAR *) Pi(DB_ADDR) Pi(F_ADDR));
-static int split_root(P1(NODE FAR *));
-static int split_node(P1(F_ADDR) Pi(NODE FAR *));
+static int keycmp(P1(CONST char *) Pi(KEY_SLOT *) 
+				    Pi(DB_ADDR *));
+static int expand(P1(CONST char *) Pi(DB_ADDR) Pi(F_ADDR));
+static int split_root(P1(NODE *));
+static int split_node(P1(F_ADDR) Pi(NODE *));
 static int delete(P0);
-static void open_slots(P1(NODE FAR *) Pi(int) Pi(int));
-static void close_slots(P1(NODE FAR *) Pi(int) Pi(int));
+static void open_slots(P1(NODE *) Pi(int) Pi(int));
+static void close_slots(P1(NODE *) Pi(int) Pi(int));
 static void key_found(P1(DB_ADDR *));
 
 #ifdef	 ONE_DB
 #define	 prefix	  keyno
 #endif
 
-static KEY_INFO FAR *curkey;
+static KEY_INFO *curkey;
 static int key_len;
 static int key_data;
 static int slot_len;
@@ -139,7 +139,7 @@ static int max_slots;
 static int mid_slot;
 static int keyfile;
 static INT fldno;
-static FIELD_ENTRY FAR *cfld_ptr;
+static FIELD_ENTRY *cfld_ptr;
 static INT keyno;
 #ifndef	 ONE_DB
 static INT prefix;
@@ -156,9 +156,9 @@ key_open()
    long t;               /* total keys thru level l */
    int  l;               /* level number */
    int i;       /* field subscript */
-   FIELD_ENTRY FAR *fld_ptr;
-   KEY_INFO FAR *ki_ptr;
-   FILE_ENTRY FAR *file_ptr;
+   FIELD_ENTRY *fld_ptr;
+   KEY_INFO *ki_ptr;
+   FILE_ENTRY *file_ptr;
 
    /*           child ptr      key number   */
    key_data = sizeof(F_ADDR) + sizeof(INT);
@@ -173,7 +173,7 @@ key_open()
    if ( no_of_keys ) {
       key_info =
 	/* Macro references must be on one line for some compilers */ 
-	(KEY_INFO FAR *)
+	(KEY_INFO *)
 	ALLOC(&db_global.Key_info, no_of_keys*sizeof(KEY_INFO), "key_info");
       if ( ! key_info )
 	 return( dberr(S_NOMEMORY) );
@@ -198,7 +198,7 @@ key_open()
 	       t *= file_ptr->ft_slots;
 	    ki_ptr->max_lvls = ++l;
 	    ki_ptr->node_path =
-		(NODE_PATH FAR *)
+		(NODE_PATH *)
 		ALLOC(&ki_ptr->Node_path, l*sizeof(NODE_PATH), db_avname);
 	    if ( ! ki_ptr->node_path )
 	       return( dberr(S_NOMEMORY) );
@@ -217,7 +217,7 @@ key_open()
 void key_close()
 {
    int k;
-   KEY_INFO FAR *ki_ptr;
+   KEY_INFO *ki_ptr;
 
    if ( key_info ) {
       /* free memory allocated for key functions */
@@ -239,8 +239,8 @@ int
 key_init(field )
 int field;  /* field number to be processed */
 {
-   FIELD_ENTRY FAR *fld_ptr;
-   FILE_ENTRY FAR *file_ptr;
+   FIELD_ENTRY *fld_ptr;
+   FILE_ENTRY *file_ptr;
 
    fld_ptr = &field_table[field];
    if ( fld_ptr->fd_key == NOKEY )
@@ -274,7 +274,7 @@ key_reset(fno )
 FILE_NO fno;
 {
    int i;
-   KEY_INFO FAR *ki_ptr;
+   KEY_INFO *ki_ptr;
 
    for (i = 0, ki_ptr = key_info; i < no_of_keys; ++i, ++ki_ptr) {
       if (((fno == size_ft) || (ki_ptr->keyfile == fno)) && 
@@ -290,17 +290,17 @@ FILE_NO fno;
 */
 int
 key_locpos(key_val, dba)
-CONST char FAR *key_val; /* key search value */
-DB_ADDR FAR *dba;        /* database address of located key */
+CONST char *key_val; /* key search value */
+DB_ADDR *dba;        /* database address of located key */
 {
-   NODE FAR *node;   /* pointer to current node */
+   NODE *node;   /* pointer to current node */
    F_ADDR child;     /* page number of child node */
    F_ADDR pg;        /* page number of current node */
    int stat;         /* saves node search status */
    int slot, slot_pos;
    int match_lvl;    /* lowest level with duplicate key */
-   NODE_PATH FAR *np_ptr;
-   char FAR *node_slot_ptr;
+   NODE_PATH *np_ptr;
+   char *node_slot_ptr;
 
    match_lvl = -1;
    MEM_LOCK(&curkey->Node_path);
@@ -308,7 +308,7 @@ DB_ADDR FAR *dba;        /* database address of located key */
 	TRUE;
 	++curkey->level, ++np_ptr, pg = child) {
       /* read in next node */
-      if ( dio_get(pg, (char FAR * FAR *)&node, NOPGHOLD) != S_OKAY ) {
+      if ( dio_get(pg, (char * *)&node, NOPGHOLD) != S_OKAY ) {
          MEM_UNLOCK(&curkey->Node_path);
 	 return( db_status );
       }
@@ -382,15 +382,15 @@ DB_ADDR FAR *dba;        /* database address of located key */
 */
 static int node_search(key_val, dba, node, slotno, slot_offset, 
 					 child)
-CONST char FAR *key_val; /* key being searched */
-DB_ADDR FAR *dba;    /* database address included in comparison if not null */
-NODE    FAR *node;   /* node being searched */
+CONST char *key_val; /* key being searched */
+DB_ADDR *dba;    /* database address included in comparison if not null */
+NODE    *node;   /* node being searched */
 int     *slotno; /* slot number of key position in node */
 int     *slot_offset; /* slot position offset */
 F_ADDR  *child;  /* child ptr of located key */
 {
    int cmp, i, l, u, slot_pos;
-   char FAR *node_slot_ptr;
+   char *node_slot_ptr;
 
    /* perform binary search on node */
    l = 0;
@@ -398,13 +398,13 @@ F_ADDR  *child;  /* child ptr of located key */
    while ( u >= l ) {
       i = (l + u)/2;
       node_slot_ptr = &node->slots[slot_pos = i*slot_len];
-      if ( (cmp = keycmp(key_val, (KEY_SLOT FAR *)node_slot_ptr, dba)) < 0 )
+      if ( (cmp = keycmp(key_val, (KEY_SLOT *)node_slot_ptr, dba)) < 0 )
 	 u = i - 1;
       else if ( cmp > 0 )
 	 l = i + 1;
       else if ( i && !unique && !dba ) {
 	 /* backup to lowest duplicate in node */
-	 while (keycmp(key_val, (KEY_SLOT FAR *)(node_slot_ptr -= slot_len),
+	 while (keycmp(key_val, (KEY_SLOT *)(node_slot_ptr -= slot_len),
 		       dba) == 0) {
 	    slot_pos -= slot_len;
 	    if (--i == 0) goto have_slot;
@@ -436,9 +436,9 @@ have_slot:
 /* Compare key value
 */
 static int keycmp(key_val, slot, dba)
-CONST char FAR *key_val;  /* key value */
-KEY_SLOT FAR *slot;    /* pointer to key slot to be compared */
-DB_ADDR FAR *dba;     /* database address included in comparison if not null */
+CONST char *key_val;  /* key value */
+KEY_SLOT *slot;    /* pointer to key slot to be compared */
+DB_ADDR *dba;     /* database address included in comparison if not null */
 {
 /* 
    returns < 0 if key_val < slot
@@ -447,10 +447,10 @@ DB_ADDR FAR *dba;     /* database address included in comparison if not null */
 */
    int cmp;
 
-   if (((cmp = INTcmp((char FAR *)&prefix, (char FAR *)&slot->keyno)) == 0) &&
+   if (((cmp = INTcmp((char *)&prefix, (char *)&slot->keyno)) == 0) &&
        ((cmp = fldcmp(cfld_ptr, key_val, slot->data)) == 0) &&
        dba)
-      cmp = ADDRcmp(dba, (DB_ADDR FAR *)&slot->data[key_len]);
+      cmp = ADDRcmp(dba, (DB_ADDR *)&slot->data[key_len]);
 
    return( cmp );
 }
@@ -464,9 +464,9 @@ int fcn;       /* next or prev */
 DB_ADDR *dba;  /* db address of scanned record */
 {
    F_ADDR child;
-   NODE FAR *node;
-   NODE_PATH FAR *np_ptr;
-   char FAR *node_slot_ptr;
+   NODE *node;
+   NODE_PATH *np_ptr;
+   char *node_slot_ptr;
 
    /* locate next key on file */
    switch ( curkey->lstat ) {
@@ -488,7 +488,7 @@ DB_ADDR *dba;  /* db address of scanned record */
    }
    MEM_LOCK(&curkey->Node_path);
    np_ptr = &curkey->node_path[curkey->level];
-   if (dio_get(np_ptr->node, (char FAR * FAR *)&node, NOPGHOLD) != S_OKAY) {
+   if (dio_get(np_ptr->node, (char * *)&node, NOPGHOLD) != S_OKAY) {
       MEM_UNLOCK(&curkey->Node_path);
       return( db_status );
    }
@@ -509,7 +509,7 @@ DB_ADDR *dba;  /* db address of scanned record */
 	 }
 	 --curkey->level;
 	 node_slot_ptr = NULL;
-	 if (dio_get((--np_ptr)->node, (char FAR * FAR *)&node,
+	 if (dio_get((--np_ptr)->node, (char * *)&node,
 		     NOPGHOLD) != S_OKAY) {
 	    MEM_UNLOCK(&curkey->Node_path);
 	    return( db_status );
@@ -521,7 +521,7 @@ DB_ADDR *dba;  /* db address of scanned record */
 	 node_slot_ptr = &node->slots[np_ptr->slot*slot_len];
    }
    else do { /* move down to leaf node */
-      if ( dio_get(child, (char FAR * FAR *)&node, NOPGHOLD) != S_OKAY ) {
+      if ( dio_get(child, (char * *)&node, NOPGHOLD) != S_OKAY ) {
 	 MEM_UNLOCK(&curkey->Node_path);
 	 return( db_status );
       }
@@ -582,13 +582,13 @@ int  fcn;     /* KEYFRST or KEYLAST */
 DB_ADDR *dba; /* to get dba of first or last key */
 {
    F_ADDR pg;         /* node number */
-   NODE FAR *node;        /* pointer to node contents in cache */
+   NODE *node;        /* pointer to node contents in cache */
    int cmp;           /* keycmp result */
    int match_lvl;     /* lowest level containing matched key */
    int lvl;  /* node_path level variable */
    int slot; /* slot position in node */
-   NODE_PATH FAR *np_ptr;
-   char FAR *node_slot_ptr;
+   NODE_PATH *np_ptr;
+   char *node_slot_ptr;
 
    if ( fcn == KEYFIND ) {
       curkey->lstat = KEYINIT;
@@ -602,7 +602,7 @@ DB_ADDR *dba; /* to get dba of first or last key */
    MEM_LOCK(&curkey->Node_path);
    for (lvl = 0; TRUE; ++lvl) {
       /* read next node */
-      if ( dio_get(pg, (char FAR * FAR *)&node, NOPGHOLD) != S_OKAY ) {
+      if ( dio_get(pg, (char * *)&node, NOPGHOLD) != S_OKAY ) {
 	 MEM_UNLOCK(&curkey->Node_path);
 	 return( db_status );
       }
@@ -616,8 +616,8 @@ DB_ADDR *dba; /* to get dba of first or last key */
 	 for (slot = 0, node_slot_ptr = node->slots;
 	      slot < node->used_slots;
 	      ++slot, node_slot_ptr += slot_len) {
-	    if ((cmp = INTcmp((char FAR *)&prefix,
-			   (char FAR *)(node_slot_ptr + sizeof(F_ADDR)))) <= 0)
+	    if ((cmp = INTcmp((char *)&prefix,
+			   (char *)(node_slot_ptr + sizeof(F_ADDR)))) <= 0)
 	       break;
 	 }
       }
@@ -626,8 +626,8 @@ DB_ADDR *dba; /* to get dba of first or last key */
 				 node_slot_ptr = &node->slots[slot*slot_len];
 	      slot >= 0;
 	      --slot, node_slot_ptr -= slot_len) {
-	    if ((cmp = INTcmp((char FAR *)&prefix,
-			   (char FAR *)(node_slot_ptr + sizeof(F_ADDR)))) >= 0)
+	    if ((cmp = INTcmp((char *)&prefix,
+			   (char *)(node_slot_ptr + sizeof(F_ADDR)))) >= 0)
 	       break;
 	 }
       }
@@ -669,7 +669,7 @@ DB_ADDR *dba; /* to get dba of first or last key */
 int
 key_insert(fld, key_val, dba )
 int fld;      /* key field number */
-CONST char FAR *key_val; /* key value */
+CONST char *key_val; /* key value */
 DB_ADDR dba;  /* record's database address */
 {
    int stat;
@@ -703,20 +703,20 @@ DB_ADDR dba;  /* record's database address */
 /* Expand node for new key
 */
 static int expand(key_val, dba, brother )
-CONST char FAR *key_val;    /* key value */
+CONST char *key_val;    /* key value */
 DB_ADDR dba;     /* record's database address */
 F_ADDR brother;  /* page number of brother node */
 {
    F_ADDR pg;
-   NODE FAR *node;
-   NODE_PATH FAR *np_ptr;
+   NODE *node;
+   NODE_PATH *np_ptr;
    int slot_pos;
-   char FAR *node_slot_ptr;
+   char *node_slot_ptr;
 
    MEM_LOCK(&curkey->Node_path);
    np_ptr = &curkey->node_path[curkey->level];
 
-   if (dio_get(pg = np_ptr->node, (char FAR * FAR *)&node, PGHOLD) != S_OKAY) {
+   if (dio_get(pg = np_ptr->node, (char * *)&node, PGHOLD) != S_OKAY) {
       MEM_UNLOCK(&curkey->Node_path);
       return( db_status );
    }
@@ -764,13 +764,13 @@ F_ADDR brother;  /* page number of brother node */
 */
 static int split_node(l_pg, l_node )
 F_ADDR l_pg;  /* left node's page number */
-NODE FAR *l_node; /* left node buffer */
+NODE *l_node; /* left node buffer */
 {
    F_ADDR r_pg;
-   NODE FAR *r_node;
+   NODE *r_node;
    char key_val[256];
    DB_ADDR dba;
-   char FAR *l_node_slot_ptr;
+   char *l_node_slot_ptr;
 
    /* extract middle key */
    l_node_slot_ptr = &l_node->slots[mid_slot*slot_len];
@@ -789,7 +789,7 @@ NODE FAR *l_node; /* left node buffer */
 
    /* allocate new right node */
    if ((dio_pzalloc(keyfile, &r_pg) != S_OKAY) ||
-       (dio_get(r_pg, (char FAR * FAR *)&r_node, PGHOLD) != S_OKAY))
+       (dio_get(r_pg, (char * *)&r_node, PGHOLD) != S_OKAY))
       return( db_status );
 
    /* copy slots from left node at slot mid_slot+1 into right node */
@@ -810,18 +810,18 @@ NODE FAR *l_node; /* left node buffer */
 /* Split root node
 */
 static int split_root(node )
-NODE FAR *node;
+NODE *node;
 {
    F_ADDR l_pg, r_pg;
-   NODE FAR *l_node, FAR *r_node;
+   NODE *l_node, *r_node;
    int slot_pos;
-   char FAR *node_slot_ptr;
+   char *node_slot_ptr;
 
    /* allocate two new nodes */
    if ((dio_pzalloc(keyfile, &l_pg) != S_OKAY) ||
        (dio_pzalloc(keyfile, &r_pg) != S_OKAY) ||
-       (dio_get(l_pg, (char FAR * FAR *)&l_node, PGHOLD) != S_OKAY) ||
-       (dio_get(r_pg, (char FAR * FAR *)&r_node, PGHOLD) != S_OKAY))
+       (dio_get(l_pg, (char * *)&l_node, PGHOLD) != S_OKAY) ||
+       (dio_get(r_pg, (char * *)&r_node, PGHOLD) != S_OKAY))
       return( db_status );
 
    /* copy 0..max_slots/2-1 keys from root into left node */
@@ -860,7 +860,7 @@ NODE FAR *node;
 int
 key_delete(fld, key_val, dba )
 int fld;
-char CONST FAR *key_val;
+char CONST *key_val;
 DB_ADDR dba;
 {
    int stat;
@@ -891,22 +891,22 @@ DB_ADDR dba;
 static int delete()
 {
    F_ADDR pg, p_pg, l_pg, r_pg;
-   NODE FAR *node;
-   NODE FAR *p_node;
-   NODE FAR *l_node;
-   NODE FAR *r_node;
+   NODE *node;
+   NODE *p_node;
+   NODE *l_node;
+   NODE *r_node;
    int amt, slot_pos;
-   NODE_PATH FAR *np_ptr;
-   char FAR *node_slot_ptr;
-   char FAR *p_node_slot_ptr;
-   char FAR *l_node_slot_ptr;
-   char FAR *r_node_slot_ptr;
+   NODE_PATH *np_ptr;
+   char *node_slot_ptr;
+   char *p_node_slot_ptr;
+   char *l_node_slot_ptr;
+   char *r_node_slot_ptr;
 
    MEM_LOCK(&curkey->Node_path);
    np_ptr = &curkey->node_path[curkey->level];
 
    /* read node containing key to be deleted */
-   if (dio_get(pg = np_ptr->node, (char FAR * FAR *)&node, PGHOLD) != S_OKAY) {
+   if (dio_get(pg = np_ptr->node, (char * *)&node, PGHOLD) != S_OKAY) {
       MEM_UNLOCK(&curkey->Node_path);
       return( db_status );
    }
@@ -919,7 +919,7 @@ static int delete()
       /* find leftmost descendent of right sub-tree */
       ++np_ptr->slot;
       do {
-	 if ( dio_get(r_pg, (char FAR * FAR *)&r_node, NOPGHOLD) != S_OKAY ) {
+	 if ( dio_get(r_pg, (char * *)&r_node, NOPGHOLD) != S_OKAY ) {
 	    MEM_UNLOCK(&curkey->Node_path);
 	    return( db_status );
 	 }
@@ -940,7 +940,7 @@ static int delete()
       /* (this is more efficient than a recursive call) */
       slot_pos = 0;
       node_slot_ptr = node->slots;
-      if (dio_get(pg = np_ptr->node, (char FAR * FAR *)&node, PGHOLD) != S_OKAY) {
+      if (dio_get(pg = np_ptr->node, (char * *)&node, PGHOLD) != S_OKAY) {
 	 MEM_UNLOCK(&curkey->Node_path);
 	 return( db_status );
       }
@@ -951,7 +951,7 @@ shrink: /* delete key from leaf (shrink node ) */
    /* check if necessary to adjust nodes */
    if ((curkey->level > 0) && (node->used_slots < mid_slot)) {
       /* read in parent node */
-      if (dio_get(p_pg = (np_ptr - 1)->node, (char FAR * FAR *)&p_node,
+      if (dio_get(p_pg = (np_ptr - 1)->node, (char * *)&p_node,
 		  PGHOLD) != S_OKAY) {
 	 MEM_UNLOCK(&curkey->Node_path);
 	 return( db_status );
@@ -970,7 +970,7 @@ shrink: /* delete key from leaf (shrink node ) */
 	 /* read left node */
 	 p_node_slot_ptr = &p_node->slots[slot_pos];
 	 bytecpy(&l_pg, p_node_slot_ptr, sizeof(F_ADDR));
-	 if ( dio_get(l_pg, (char FAR * FAR *)&l_node, PGHOLD) != S_OKAY ) {
+	 if ( dio_get(l_pg, (char * *)&l_node, PGHOLD) != S_OKAY ) {
 	    MEM_UNLOCK(&curkey->Node_path);
 	    return( db_status );
 	 }
@@ -983,7 +983,7 @@ shrink: /* delete key from leaf (shrink node ) */
 	 /* read right node */
 	 p_node_slot_ptr = &p_node->slots[slot_pos + slot_len];
 	 bytecpy(&r_pg, p_node_slot_ptr, sizeof(F_ADDR));
-	 if (dio_get(r_pg, (char FAR * FAR *)&r_node, PGHOLD) != S_OKAY) {
+	 if (dio_get(r_pg, (char * *)&r_node, PGHOLD) != S_OKAY) {
 	    MEM_UNLOCK(&curkey->Node_path);
 	    return( db_status );
 	 }
@@ -1103,11 +1103,11 @@ shrink: /* delete key from leaf (shrink node ) */
 /* Open n slots in node
 */
 static void open_slots(node, slot_pos, n)
-NODE FAR *node;
+NODE *node;
 int slot_pos;
 int n;
 {
-   char FAR *dst, FAR *src;
+   char *dst, *src;
    int amt, w, nw;
 
    nw = NODE_WIDTH(node);
@@ -1126,11 +1126,11 @@ int n;
 /* Close n slots in node
 */
 static void close_slots(node, slot_pos, n)
-NODE FAR *node;
+NODE *node;
 int slot_pos;
 int n;
 {
-   char FAR *dst, FAR *src;
+   char *dst, *src;
    int w, amt;
 
    node->used_slots -= n;
@@ -1150,7 +1150,7 @@ int n;
 */
 int
 d_keyread(key_val TASK_PARM)
-char FAR *key_val;
+char *key_val;
 TASK_DECL
 {
    int kt_lc;			/* loop control */
@@ -1158,10 +1158,10 @@ TASK_DECL
    float fv;
    double dv;
 #endif
-   char FAR *fptr;
-   char FAR *kptr;
-   FIELD_ENTRY FAR *fld_ptr;
-   KEY_ENTRY FAR *key_ptr;
+   char *fptr;
+   char *kptr;
+   FIELD_ENTRY *fld_ptr;
+   KEY_ENTRY *key_ptr;
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
@@ -1226,8 +1226,8 @@ TASK_DECL
 int
 key_bldcom(fld, rec, key, cflag )
 int   fld; /* compound key field number */
-char FAR *rec; /* ptr to record data */
-char FAR *key; /* ptr to array to recv constructed key */
+char *rec; /* ptr to record data */
+char *key; /* ptr to array to recv constructed key */
 int cflag; /* TRUE to compliment compound descending keys */
 {
    int kt_lc;			/* loop control */
@@ -1235,9 +1235,9 @@ int cflag; /* TRUE to compliment compound descending keys */
    float fv;
    double dv;
 #endif
-   char FAR *fptr;
-   FIELD_ENTRY FAR *fld_ptr, FAR *kfld_ptr;
-   KEY_ENTRY FAR *key_ptr;
+   char *fptr;
+   FIELD_ENTRY *fld_ptr, *kfld_ptr;
+   KEY_ENTRY *key_ptr;
 
    /* clear key area */
    fld_ptr = &field_table[fld];
@@ -1289,8 +1289,8 @@ int cflag; /* TRUE to compliment compound descending keys */
 /* Complement and copy bytes
 */
 void key_cmpcpy(s1, s2, n)
-char FAR *s1;
-char FAR *s2;
+char *s1;
+char *s2;
 INT n;
 {
    while ( n-- ) {

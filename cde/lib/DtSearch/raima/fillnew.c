@@ -57,7 +57,7 @@
 int
 d_fillnew( nrec, recval TASK_PARM DBN_PARM )
 int nrec;       /* record number */
-CONST char FAR *recval; /* record value */
+CONST char *recval; /* record value */
 TASK_DECL
 DBN_DECL      /* database number */
 {
@@ -68,15 +68,15 @@ DBN_DECL      /* database number */
    INT recnum, stat;
    FILE_NO file;
    F_ADDR rec_addr;
-   char FAR *ptr;
+   char *ptr;
    char key[256];
-   RECORD_ENTRY FAR *rec_ptr;
-   FIELD_ENTRY FAR *fld_ptr;
+   RECORD_ENTRY *rec_ptr;
+   FIELD_ENTRY *fld_ptr;
    int fld, fldtot;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
-   if (nrec_check(nrec, &nrec, (RECORD_ENTRY FAR * FAR *)&rec_ptr) != S_OKAY)
+   if (nrec_check(nrec, &nrec, (RECORD_ENTRY * *)&rec_ptr) != S_OKAY)
       RETURN( db_status );
    recnum = NUM2EXT(nrec, rt_offset);
 
@@ -88,9 +88,9 @@ DBN_DECL      /* database number */
 	++fld, ++fld_ptr) {
       if ((fld_ptr->fd_key == UNIQUE) && !(fld_ptr->fd_flags & OPTKEYMASK)) {
 	 if (fld_ptr->fd_type != COMKEY)
-	    ptr = (char FAR *)recval + fld_ptr->fd_ptr - rec_ptr->rt_data;
+	    ptr = (char *)recval + fld_ptr->fd_ptr - rec_ptr->rt_data;
 	 else
-	    key_bldcom(fld, (char FAR *)recval, ptr = key, FALSE); /* Don't complement */
+	    key_bldcom(fld, (char *)recval, ptr = key, FALSE); /* Don't complement */
 	 d_keyfind(FLDMARK*(long)recnum + (fld - rec_ptr->rt_fields), ptr 
 		      TASK_PARM DBN_PARM);
 	 curr_rec = db_addr;
@@ -109,7 +109,7 @@ DBN_DECL      /* database number */
    db_addr |= rec_addr;
 
    /* read record */
-   if (dio_read(db_addr, (char FAR * FAR *)&ptr, PGHOLD) != S_OKAY)
+   if (dio_read(db_addr, (char * *)&ptr, PGHOLD) != S_OKAY)
       RETURN( db_status );
 
    /* zero fill the record */
@@ -137,9 +137,9 @@ DBN_DECL      /* database number */
 	++fld, ++fld_ptr) {
       if ((fld_ptr->fd_key != 'n') && !(fld_ptr->fd_flags & OPTKEYMASK)) {
 	 if ( fld_ptr->fd_type != COMKEY )
-	    ptr = (char FAR *)recval + fld_ptr->fd_ptr - rec_ptr->rt_data;
+	    ptr = (char *)recval + fld_ptr->fd_ptr - rec_ptr->rt_data;
 	 else
-	    key_bldcom(fld, (char FAR *)recval, ptr = key, TRUE);
+	    key_bldcom(fld, (char *)recval, ptr = key, TRUE);
 	 if ((stat = key_insert(fld, ptr, db_addr)) != S_OKAY) {
 	    r_delrec( nrec, db_addr );
 	    dio_write(db_addr, NULL, PGFREE);

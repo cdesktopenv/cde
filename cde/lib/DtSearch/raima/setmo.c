@@ -57,17 +57,17 @@ TASK_DECL
 DBN_DECL    /* database number */
 {
    int mem;
-   SET_ENTRY FAR *setm_ptr, FAR *seto_ptr;
-   MEMBER_ENTRY FAR *mem_ptr;
+   SET_ENTRY *setm_ptr, *seto_ptr;
+   MEMBER_ENTRY *mem_ptr;
    int memtot;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if ((nset_check(seto, &seto, (SET_ENTRY FAR * FAR *)&seto_ptr) != S_OKAY) ||
-       (nset_check(setm, &setm, (SET_ENTRY FAR * FAR *)&setm_ptr) != S_OKAY))
+   if ((nset_check(seto, &seto, (SET_ENTRY * *)&seto_ptr) != S_OKAY) ||
+       (nset_check(setm, &setm, (SET_ENTRY * *)&setm_ptr) != S_OKAY))
       RETURN( db_status );
 
-   if (null_dba((char FAR *)&curr_own[seto])) RETURN( dberr(S_NOCO) );
+   if (null_dba((char *)&curr_own[seto])) RETURN( dberr(S_NOCO) );
 
    for (mem = setm_ptr->st_members, memtot = mem + setm_ptr->st_memtot,
 						mem_ptr = &member_table[mem];

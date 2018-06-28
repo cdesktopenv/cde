@@ -53,7 +53,7 @@
 */
 int
 d_recread(rec TASK_PARM DBN_PARM)
-char FAR *rec; /* ptr to record area */
+char *rec; /* ptr to record area */
 TASK_DECL
 DBN_DECL
 {
@@ -62,7 +62,7 @@ DBN_DECL
 #ifndef SINGLE_USER
    int dbopen_sv;
 #endif
-   RECORD_ENTRY FAR *rec_ptr;
+   RECORD_ENTRY *rec_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
@@ -79,7 +79,7 @@ DBN_DECL
 #endif
 
    /* read current record */
-   dio_read( curr_rec, (char FAR * FAR *)&crloc, NOPGHOLD);
+   dio_read( curr_rec, (char * *)&crloc, NOPGHOLD);
 #ifndef SINGLE_USER
    dbopen = dbopen_sv;
 #endif
