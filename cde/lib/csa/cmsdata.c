@@ -130,7 +130,7 @@ _DtCm_free_cms_entries(cms_entry *entry)
 }
 
 extern void
-_DtCm_init_hash()
+_DtCm_init_hash(void)
 {
 	static	boolean_t	done = B_FALSE;
 

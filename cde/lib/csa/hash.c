@@ -225,9 +225,7 @@ void _DtCmDestroyHash(void * t, int (*ptr)(), void * usr_arg)
   free(tbl);
 }
 
-static int hash_string(s,modulo)
-register char *s;
-int modulo;
+static int hash_string(char *s, int modulo)
 {
 	register unsigned result = 0;
 	register int i=1;

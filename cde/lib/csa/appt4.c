@@ -339,7 +339,7 @@ _DtCm_free_abbrev_appt4(Abb_Appt_4 *a)
 }
 
 Attribute_4 *
-_DtCm_make_attr4()
+_DtCm_make_attr4(void)
 {
 	Attribute_4 *a;
 	

@@ -68,7 +68,7 @@ char     *_DtCm_rule_buf;
 char      _DtCm_yytext[128];
 
 int
-_DtCm_yylex()
+_DtCm_yylex(void)
 {
 	int	  token = 0;
 	int	  yylen = 128;

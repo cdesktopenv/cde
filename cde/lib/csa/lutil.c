@@ -75,7 +75,7 @@ _DtCmGetPrefix(char *str, char sep)
 }
 
 extern char *
-_DtCmGetLocalHost()
+_DtCmGetLocalHost(void)
 {
 	static char *host = NULL;
 
@@ -136,7 +136,7 @@ _DtCmGetLocalDomain(char *hostname)
 }
 
 extern char *
-_DtCmGetHostAtDomain()
+_DtCmGetHostAtDomain(void)
 {
 	static char	*hostname = NULL;
 	char		*host;
@@ -157,7 +157,7 @@ _DtCmGetHostAtDomain()
 }
 
 extern char *
-_DtCmGetUserName()
+_DtCmGetUserName(void)
 {
         static char *name = NULL;
 	_Xgetpwparams	pwd_buf;

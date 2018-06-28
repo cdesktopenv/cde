@@ -100,7 +100,7 @@ static void _FreeCallbackInfo(_CallbackInfo *ptr);
  * Register rpc service for server callback
  */
 extern void
-_DtCm_init_agent()
+_DtCm_init_agent(void)
 {
 	int 		s = RPC_ANYSOCK;
 
@@ -178,7 +178,7 @@ _DtCm_init_agent()
  * Unregister with the rpc service.
  */
 extern void
-_DtCm_destroy_agent()
+_DtCm_destroy_agent(void)
 {
 	if (mapped == 0)
 		return;
@@ -198,7 +198,7 @@ _DtCm_destroy_agent()
 }
 
 extern void
-_DtCm_process_updates()
+_DtCm_process_updates(void)
 {
 #if defined(CSRG_BASED) || defined(__linux__)
         int     i, nfd;
@@ -460,7 +460,7 @@ gettransient (int proto, u_long vers, int *sockp)
 #endif /* not SunOS */
 
 static void
-_DtCm_handle_callback()
+_DtCm_handle_callback(void)
 {
 	_CallbackInfo		*ptr, *prev;
 	boolean_t		keep = B_FALSE;
