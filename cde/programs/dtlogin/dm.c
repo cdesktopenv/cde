@@ -1287,7 +1287,8 @@ CloseOnFork( void )
 }
 #endif
 
-CloseOnFork ()
+int
+CloseOnFork (void)
 {
     int	fd;
 
@@ -1296,6 +1297,8 @@ CloseOnFork ()
 	    close (fd);
     FD_ZERO (&CloseMask);
     max = 0;
+    
+    return 0;
 }
 
 static int  pidFd;

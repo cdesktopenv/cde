@@ -92,13 +92,11 @@ from the X Consortium.
 static char	auth_name[256];
 static int	auth_name_len;
 
-int MitInitAuth (name_len, name)
 #if NeedWidePrototypes
-    unsigned int name_len;
+int MitInitAuth (unsigned int name_len, char *name)
 #else
-    unsigned short name_len;
+int MitInitAuth (unsigned short name_len, char *name)
 #endif /* NeedWidePrototypes */
-    char *name;
 {
     if (name_len > 256)
 	name_len = 256;
@@ -107,14 +105,13 @@ int MitInitAuth (name_len, name)
     return(0);
 }
 
-Xauth *
-MitGetAuth (namelen, name)
 #if NeedWidePrototypes
-    unsigned int namelen;
+Xauth *
+MitGetAuth (unsigned int namelen, char *name)
 #else
-    unsigned short namelen;
+Xauth *
+MitGetAuth (unsigned short namelen, char *name)
 #endif /* NeedWidePrototypes */
-    char *name;
 {
     Xauth   *new;
     new = (Xauth *) malloc (sizeof (Xauth));

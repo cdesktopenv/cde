@@ -1676,7 +1676,7 @@ SetDefaultDt(Widget w)
  *  the logo to display in logo_pixmap 
  **************************************************************************/
 void
-SetDtLabelAndIcon()
+SetDtLabelAndIcon(void)
 {
   static XmString	blanks = NULL;
   int			i;

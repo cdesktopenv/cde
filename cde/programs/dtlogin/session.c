@@ -257,12 +257,12 @@ catchAlrm( int arg )
     longjmp (pingTime, 1);
 }
 
-static int
-FileNameCompare (a, b)
 #if defined(__STDC__)
-	const void *a, *b;
+static int
+FileNameCompare (const char *a, const char *b)
 #else
-	char *a, *b;
+static int
+FileNameCompare (char *a, char *b)
 #endif
 {
     return strcoll (*(char **)a, *(char **)b);

@@ -697,9 +697,7 @@ checkEntry (Xauth *auth)
 static int  doWrite;
 
 static
-writeAuth (file, auth)
-    FILE	*file;
-    Xauth	*auth;
+writeAuth (FILE *file, Xauth *auth)
 {
     if (debugLevel >= 15) {	/* normally too verbose */
         Debug ("writeAuth: doWrite = %d\n", doWrite);
@@ -864,10 +862,7 @@ DefineSelf (int fd, FILE *file, Xauth *auth)
  * for this fd and add them to the selfhosts list.
  */
 static void
-DefineSelf (fd, file, auth)
-    int fd;
-    FILE	*file;
-    Xauth	*auth;
+DefineSelf (int fd, FILE *file, Xauth *auth)
 {
     char		buf[2048];
     struct ifconf	ifc;
@@ -940,8 +935,7 @@ DefineSelf (fd, file, auth)
  * for this fd and add them to the selfhosts list.
  */
 static void
-DefineSelf (fd, file, auth)
-    int fd;
+DefineSelf (int fd, int file, int auth)
 {
     register int n;
     int	len;
@@ -984,9 +978,7 @@ DefineSelf (fd, file, auth)
 
 
 static void
-setAuthNumber (auth, name)
-    Xauth   *auth;
-    char    *name;
+setAuthNumber (Xauth *auth, char *name)
 {
     char	*colon;
     char	*dot, *number;

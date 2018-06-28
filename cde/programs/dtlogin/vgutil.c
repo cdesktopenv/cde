@@ -732,7 +732,7 @@ LogError( unsigned char *fmt, ...)
  ***************************************************************************/
 
 void
-CloseCatalog()
+CloseCatalog(void)
 {
     catclose(nl_fd);
 }
@@ -744,7 +744,7 @@ CloseCatalog()
  ***************************************************************************/
 
 void
-OpenCatalog()
+OpenCatalog(void)
 {
     static int initialized = 0;
     char *nlspath, *newnlspath;

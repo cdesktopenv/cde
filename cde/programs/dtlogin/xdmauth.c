@@ -122,14 +122,13 @@ XdmPrintArray8Hex(const char *s, ARRAY8Ptr a)
 }
 #endif
 
-void
-XdmInitAuth (name_len, name)
 #if NeedWidePrototypes
-    unsigned int name_len;
+void
+XdmInitAuth (unsigned int name_len, char *name)
 #else
-    unsigned short name_len;
+void
+XdmInitAuth (unsigned short name_len, char *name)
 #endif /* NeedWidePrototypes */
-    char	    *name;
 {
     if (name_len > 256)
 	name_len = 256;
@@ -147,10 +146,7 @@ XdmInitAuth (name_len, name)
  */
 
 Xauth *
-XdmGetAuthHelper (namelen, name, includeRho)
-    unsigned short  namelen;
-    char	    *name;
-    int	    includeRho;
+XdmGetAuthHelper (unsigned short namelen, char *name, int includeRho)
 {
     Xauth   *new;
     new = (Xauth *) malloc (sizeof (Xauth));
@@ -192,28 +188,24 @@ XdmGetAuthHelper (namelen, name, includeRho)
     return new;
 }
 
-Xauth *
-XdmGetAuth (namelen, name)
 #if NeedWidePrototypes
-    unsigned int namelen;
+Xauth *
+XdmGetAuth (unsigned int namelen, char *name)
 #else
-    unsigned short namelen;
+Xauth *
+XdmGetAuth (unsigned short namelen, char *name)
 #endif /* NeedWidePrototypes */
-    char	    *name;
 {
     return XdmGetAuthHelper (namelen, name, TRUE);
 }
 
 #ifdef XDMCP
 
-void XdmGetXdmcpAuth (pdpy,authorizationNameLen, authorizationName)
-    struct protoDisplay	*pdpy;
 #if NeedWidePrototypes
-    unsigned int authorizationNameLen;
+void XdmGetXdmcpAuth (struct protoDisplay *pdpy, unsigned int authorizationNameLen, char *authorizationName)
 #else
-    unsigned short authorizationNameLen;
+void XdmGetXdmcpAuth (struct protoDisplay *pdpy, unsigned short authorizationNameLen, char *authorizationName)
 #endif /* NeedWidePrototypes */
-    char		*authorizationName;
 {
     Xauth   *fileauth, *xdmcpauth;
 
@@ -264,8 +256,7 @@ void XdmGetXdmcpAuth (pdpy,authorizationNameLen, authorizationName)
 		 'A' <= c && c <= 'F' ? c - 'A' + 10 : -1)
 
 static
-HexToBinary (key)
-    char    *key;
+HexToBinary (char *key)
 {
     char    *out, *in;
     int	    top, bottom;
@@ -294,9 +285,7 @@ HexToBinary (key)
  * routine accepts either plain ascii strings for keys, or hex-encoded numbers
  */
 
-XdmGetKey (pdpy, displayID)
-    struct protoDisplay	*pdpy;
-    ARRAY8Ptr		displayID;
+XdmGetKey (struct protoDisplay *pdpy, ARRAY8Ptr displayID)
 {
     FILE    *keys;
     char    line[1024], id[1024], key[1024];
@@ -335,9 +324,8 @@ XdmGetKey (pdpy, displayID)
 }
 
 /*ARGSUSED*/
-XdmCheckAuthentication (pdpy, displayID, authenticationName, authenticationData)
-    struct protoDisplay	*pdpy;
-    ARRAY8Ptr		displayID, authenticationName, authenticationData;
+XdmCheckAuthentication (struct protoDisplay *pdpy, ARRAY8Ptr displayID,
+                        ARRAY8Ptr authenticationName, ARRAY8Ptr authenticationData)
 {
     XdmAuthKeyPtr   incoming;
 

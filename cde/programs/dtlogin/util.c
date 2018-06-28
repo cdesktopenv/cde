@@ -980,7 +980,7 @@ static char localHostbuf[256];
 static int  gotLocalHostname;
 
 char *
-localHostname ()
+localHostname (void)
 {
     if (!gotLocalHostname)
     {
