@@ -60,7 +60,7 @@ Token Recognizer::recognize(InputSource *in, Messenger &mgr) const
   }
   else
     in->startTokenNoMulticode();
-  register const Trie *pos = trie_.pointer();
+  const Trie *pos = trie_.pointer();
   do {
     pos = pos->next(map_[in->tokenChar(mgr)]);
   } while (pos->hasNext());
