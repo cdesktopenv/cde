@@ -408,14 +408,9 @@ SubtractWindowFromVisibleRegion(Display *dpy, Window win, Region visrgn)
 
 
 void
-ProcessInterestProperty(dpy, win, screen, data, datalen, visrgn, xoff, yoff)
-	Display *	dpy;
-    Window win;
-    int screen;
-    void *data;
-    unsigned long datalen;
-    Region visrgn;
-    int xoff, yoff;
+ProcessInterestProperty(Display * dpy, Window win, int screen,
+                        void *data, unsigned long datalen, Region visrgn,
+                        int xoff, int yoff)
 {
     unsigned long *array = (unsigned long *)data;
     int cur = 0;
