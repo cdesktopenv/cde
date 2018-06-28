@@ -59,9 +59,6 @@ DBN_DECL
 {
    char *orec;
    INT crt;
-#ifndef SINGLE_USER
-   int dbopen_sv;
-#endif
    SET_ENTRY *set_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
@@ -73,16 +70,9 @@ DBN_DECL
       RETURN( dberr( S_NOCO ) );
 
    /* set up to allow unlocked read */
-#ifndef SINGLE_USER
-   dbopen_sv = dbopen;
-   dbopen = 2;
-#endif
 
    /* Read current owner */
    dio_read(curr_own[set], (char * *)&orec, NOPGHOLD);
-#ifndef SINGLE_USER
-   dbopen = dbopen_sv;
-#endif
    if (db_status != S_OKAY)
       RETURN( db_status );
 

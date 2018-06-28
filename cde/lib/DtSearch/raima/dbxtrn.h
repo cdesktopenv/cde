@@ -66,38 +66,12 @@ extern char *crloc;          /* location in page buffer of current record */
 
 typedef struct TASK_S {
    /* The following global variables came from dblfcns.c */
-#ifndef SINGLE_USER
-   int Lock_tries;            /* lock_tries = 5 */
-   int Dbwait_time;           /* dbwait_time = 1 */
-   int Db_timeout;            /* db_timeout = TIMEOUT_DEF */
-#endif
    int Dbopen;                /* dbopen = 0 */
-#ifndef SINGLE_USER
-   int Db_lockmgr;            /* db_lockmgr = 1 */
-#endif
    char Dbuserid[FILENMLEN];  /* dbuserid = "" */
    char Dbdpath[FILENMLEN*2]; /* dbdpath = "" */
    char Dbfpath[FILENMLEN*2]; /* dbdpath = "" */
-#ifndef SINGLE_USER
-   INT_P App_locks;           /* app_locks = NULL */
-   INT_P Excl_locks;          /* excl_locks = NULL */
-   INT_P Kept_locks;          /* kept_locks = NULL */
-#endif
    const char *Trans_id;  /* trans_id = NULL */
    char Dblog[FILENMLEN];     /* dblog = "" */
-#ifndef SINGLE_USER
-   LOCK_DESCR_P Rec_locks;    /* rec_locks = NULL */
-   LOCK_DESCR_P Set_locks;    /* set_locks = NULL */
-   LOCK_DESCR_P Key_locks;    /* key_locks = NULL */
-   int Keyl_cnt;
-   int Lp_size;
-   int Fp_size;
-   LM_LOCK_P Lock_pkt;        /* lock_pkt = NULL */
-   LM_FREE_P Free_pkt;        /* free_pkt = NULL */
-   FILE_NO_P File_refs;
-   int Lsn;
-   BOOLEAN Session_active;    /* session_active = FALSE */
-#endif
    /* The following global variables came from dio.c */
    BOOLEAN Cache_ovfl;        /* cache_ovfl = FALSE */
    PGZERO_P Pgzero;	      /* database file page 0 array */

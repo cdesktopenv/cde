@@ -80,11 +80,7 @@ typedef struct PGZERO_S {
 
 
 /* Maximum number of transactions which can commit a time */
-#ifndef SINGLE_USER
-#define TAFLIMIT 5
-#else
 #define TAFLIMIT 1
-#endif
 
 #define TRXLOG_H
 /* End - trxlog.h */

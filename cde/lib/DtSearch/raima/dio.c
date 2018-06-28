@@ -129,11 +129,7 @@ int	debugging_dio_close = FALSE;
 #endif
 
 
-#ifndef SINGLE_USER
-#define EXCL_OPEN()	(dbopen >= 2)
-#else
 #define EXCL_OPEN()	(TRUE)
-#endif
 
 #define DEFDBPAGES 16         /* default number of database cache pages */
 #define MINDBPAGES 8          /* minimum number of database cache pages */
@@ -492,29 +488,11 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
    PAGE_ENTRY *pg_ptr;
    PGZERO *pgzero_ptr;
    FILE_ENTRY *file_ptr;
-#ifndef SINGLE_USER
-   int *appl_ptr, *excl_ptr;
-#endif
 
-#ifndef SINGLE_USER
-   /* 
-      We only clear pages which are not from static files and are
-      not still locked.  The check on app_locks is made to implement 
-      the ability to hold locks after the end of a transaction 
-   */
-   for (s_file = e_file = fr_file, file_ptr = &file_table[e_file],
-		appl_ptr = &app_locks[e_file], excl_ptr = &excl_locks[e_file];
-	s_file < to_file;
-	++file_ptr, ++appl_ptr, ++excl_ptr) {
-#else
    for (s_file = e_file = fr_file, file_ptr = &file_table[e_file];
 	s_file < to_file;
 	++file_ptr) {
-#endif
       if ((e_file < to_file) &&
-#ifndef SINGLE_USER
-	  ((dbopen >= 2) || (!*appl_ptr && !*excl_ptr)) && 
-#endif
 	  !(file_ptr->ft_flags & STATIC)) 
 	 ++e_file;
       else {
@@ -650,13 +628,6 @@ int hold;
 {
    PAGE_ENTRY *pg_ptr;
 
-#ifndef SINGLE_USER
-   if ( dbopen == 1 ) {
-      if ( !app_locks[working_file] && !excl_locks[working_file] &&
-	   !(file_table[working_file].ft_flags & STATIC) )
-	 return( dberr(S_NOTLOCKED) );
-   }
-#endif
    if ( pgzero[working_file].pz_next == 0L )
       if ( dio_pzread(working_file) != S_OKAY )
 	 RETURN( db_status );
@@ -691,15 +662,6 @@ F_ADDR page_no;
 {
    PAGE_ENTRY *pg_ptr;
 
-#ifndef SINGLE_USER
-   if ( dbopen == 1 ) { 
-      /* check shared access privileges */
-      if ( !trans_id && !excl_locks[working_file] )  
-	 return( dberr(S_NOTRANS) );
-      if ( app_locks[working_file] >= 0 && !excl_locks[working_file] )
-	 return( dberr( S_NOTLOCKED ) );
-   }
-#endif
    if (dio_findpg(working_file, page_no, dbpg_table, &pg_ptr, NULL) == S_OKAY ) {
       pg_ptr->recently_used = TRUE;
       used_files[working_file] = TRUE;
@@ -749,15 +711,6 @@ int hold;
       if ( dio_pzread(file) != S_OKAY )
 	 RETURN( db_status );
 
-#ifndef SINGLE_USER
-   if ( dbopen == 1 ) {
-      /* check shared access privileges */
-      if (!app_locks[file] &&
-	  !excl_locks[file] &&
-	  !(file_ptr->ft_flags & STATIC))
-	 return( dberr(S_NOTLOCKED) );
-   }
-#endif
    us1 = ADDRMASK & dba;
    us2 = (us1 - 1)/file_ptr->ft_slots;
    if (dio_findpg(file, us2 + 1, dbpg_table, &pg_ptr, NULL) == S_OKAY ) {
@@ -801,16 +754,6 @@ int release;
 
    file = NUM2INT((FILE_NO)((dba >> FILESHIFT) & FILEMASK), ft_offset);
 
-#ifndef SINGLE_USER
-   if (dbopen == 1) {
-      if (!trans_id && !excl_locks[file])  
-	 return( dberr(S_NOTRANS) );
-
-      /* check shared access privileges */
-      if ( app_locks[file] >= 0 && !excl_locks[file] )
-	 return( dberr(S_NOTLOCKED) );
-   }
-#endif
    file_ptr = &file_table[file];
    us1 = ADDRMASK & dba;
    us2 = (us1 - 1)/file_ptr->ft_slots;
@@ -866,109 +809,6 @@ DB_ADDR dba;
 
 
 
-#ifndef SINGLE_USER
-/* Read record lock bit
-*/
-dio_rrlb(dba, rid )
-DB_ADDR dba;
-INT *rid;
-{
-   FILE_NO file;   /* file number */
-   F_ADDR page;    /* page number */
-   F_ADDR sno;     /* slot number */
-   F_ADDR spp;     /* slots per page */
-   F_ADDR offset;  /* lseek address - offset from start of file */
-   FILE_ENTRY *file_ptr;
-
-   file = NUM2INT((FILE_NO)((dba >> FILESHIFT) & FILEMASK), ft_offset);
-   if ( dio_open(file) == S_OKAY ) {
-      file_ptr = &file_table[file];
-      sno = ADDRMASK & dba;
-      spp = file_ptr->ft_slots;
-      page = (sno - 1)/spp + 1;
-      offset = PGHDRSIZE + page*file_ptr->ft_pgsize +
-				 (sno - 1 - (page - 1)*spp)*file_ptr->ft_slsize;
-      DB_LSEEK(file_ptr->ft_desc, (off_t)offset, 0);
-      if ( DB_READ(file_ptr->ft_desc, (char *)rid, sizeof(INT))
-		!= sizeof(INT) ) {
-	 dberr(S_BADREAD);
-      }
-      NTOHS (*rid);
-   }
-   return( db_status );
-} /* dio_rrlb() */
-
-
-/* Write record lock bit
-*/
-dio_wrlb(dba, rid )
-DB_ADDR dba;
-INT rid;
-{
-   FILE_NO file;   /* file number */
-   F_ADDR page;    /* page number */
-   F_ADDR sno;     /* slot number */
-   F_ADDR spp;     /* slots per page */
-   F_ADDR offset;  /* offset from start of page or file */
-   int clr_in_tx;  /* true if called from d_rlbclr in trx */
-   INT trid;		/* [333] working rid */
-   FILE_ENTRY *file_ptr;
-   PAGE_ENTRY *pg_ptr;
-
-   file = NUM2INT((FILE_NO)((dba >> FILESHIFT) & FILEMASK), ft_offset);
-   file_ptr = &file_table[file];
-   sno = ADDRMASK & dba;
-   spp = file_ptr->ft_slots;
-   page = ((sno - 1)/spp) + 1;
-   offset = PGHDRSIZE + (sno - 1 - (page - 1)*spp)*file_ptr->ft_slsize;
-   clr_in_tx = !(rid & RLBMASK) && trans_id;
-
-   if ( dbopen > 1 || (app_locks[file] || excl_locks[file]) ) {
-      /* file is locked - check if record in cache */
-      if (dio_findpg(file, page, dbpg_table, &pg_ptr, NULL) == S_OKAY) {
-	 MEM_LOCK(&pg_ptr->Buff);
-	 /* record in cache - update only rlb in rid */
-	 bytecpy(&trid, &pg_ptr->buff[offset], sizeof(INT));
-	 MEM_UNLOCK(&pg_ptr->Buff);
-	 rid = (trid & ~((INT)RLBMASK)) | (rid & RLBMASK);
-	 bytecpy(&pg_ptr->buff[offset], &rid, sizeof(INT));
-	 if ( clr_in_tx ) {
-	    /* clearing within a transaction requires touching page */
-	    if ( ! pg_ptr->modified ) {
-	       pg_ptr->modified = TRUE;
-	       if ( ! pg_ptr->holdcnt )
-		  ++no_modheld;
-	    }
-	 }
-      }
-      else
-	 clr_in_tx = FALSE;
-   }
-   if ( ! clr_in_tx ) {
-      /* update only rlb directly to disk */
-      if ( dio_open(file) == S_OKAY ) {
-	 offset += page*file_ptr->ft_pgsize;
-
-	 /* read rid from disk, and set/clear rlb accordingly */
-	 DB_LSEEK(file_ptr->ft_desc, (off_t)offset, 0);
-	 if ( DB_READ(file_ptr->ft_desc, (char *)&trid, sizeof(INT))
-		!= sizeof(INT) ) {
-	    dberr(S_BADREAD);
-	 }
-         NTOHS (trid);
-	 rid = (trid & ~((INT)RLBMASK)) | (rid & RLBMASK);
-
-	 /* write original rid out with modified rlb */
-         trid = htons (rid); /* make a copy in trid for byte swap */
-	 DB_LSEEK(file_ptr->ft_desc, (off_t)offset, 0);	/* reseek */
-	 if ( DB_WRITE(file_ptr->ft_desc, (char *)&trid, sizeof(INT)) !=
-	      sizeof(INT) )
-	    dberr(S_BADWRITE);
-      }
-   }
-   return( db_status );
-} /* dio_wrlb() */
-#endif			/* SINGLE_USER */
 
 
 /****************************************/
@@ -1399,11 +1239,6 @@ F_ADDR *loc;    /* pointer to allocated location */
    char *ptr;
    PGZERO *pgzero_ptr;
 
-#ifndef SINGLE_USER
-   /* check shared access privileges */
-   if ( dbopen == 1 && !trans_id && !excl_locks[fno] )
-      return( dberr(S_NOTRANS) );
-#endif
 
    pgzero_ptr = &pgzero[fno];
    if ( pgzero_ptr->pz_next == 0L )
@@ -1467,11 +1302,6 @@ F_ADDR  loc;  /* location to be freed */
    char *ptr;
    PGZERO *pgzero_ptr;
 
-#ifndef SINGLE_USER
-   /* check shared access privileges */
-   if ( dbopen == 1 && !trans_id && !excl_locks[fno] )
-      return( dberr(S_NOTRANS) );
-#endif
 
    pgzero_ptr = &pgzero[fno];
    if ( pgzero_ptr->pz_next == 0L )

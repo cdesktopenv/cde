@@ -59,9 +59,6 @@ TASK_DECL
 DBN_DECL    /* database number */
 {
    int fld, rec;
-#ifndef SINGLE_USER
-   int dbopen_sv;
-#endif
    char *recp;
    SET_ENTRY *set_ptr;
    RECORD_ENTRY *rec_ptr;
@@ -78,16 +75,9 @@ DBN_DECL    /* database number */
       RETURN( dberr(S_NOCO) );
 
    /* set up to allow unlocked read */
-#ifndef SINGLE_USER
-   dbopen_sv = dbopen;
-   dbopen = 2;
-#endif
 
    /* Read current owner */
    dio_read( curr_own[set], (char * *)&recp , NOPGHOLD);
-#ifndef SINGLE_USER
-   dbopen = dbopen_sv;
-#endif
    if (db_status != S_OKAY)
       RETURN( db_status );
   

@@ -214,15 +214,6 @@ char *data; /* pointer to data area to contain field contents */
    if ( rn < 0 )
       return( db_status = S_DELETED );
 
-#ifndef SINGLE_USER
-   if ( rn & RLBMASK ) {
-      rn &= ~RLBMASK; /* mask off rlb */
-      rlb_status = S_LOCKED;
-   }
-   else {
-      rlb_status = S_UNLOCKED;
-   }
-#endif
    rn += curr_db_table->rt_offset;
 
    if ( fld_ptr->fd_rec != rn )

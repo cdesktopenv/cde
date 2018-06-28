@@ -170,9 +170,6 @@ int db_glob_init = 0;
    calls would complete before a new task is run.  If this assumption is
    ever "broken" then lock_reply will need to be placed back within db_global
    again */
-#ifndef SINGLE_USER
-static LR_LOCK lock_reply;		/* This used to be in db_global */
-#endif
 
 extern CHAR_P Dbpgbuff;  /* allocated by dio_init used by o_update */
 extern LOOKUP_ENTRY_P Db_lookup; /* database page lookup table */
@@ -194,13 +191,6 @@ int db_txtest = 0;          /* transaction commit failure testing flag */
 
 
 /* Internal function prototypes */
-#ifndef SINGLE_USER
-static void pr_lock_descr(P1(struct lock_descr *) Pi(int) 
-					    Pi(const char *));
-static int process_lock(P1(struct lock_descr *) Pi(char));
-static int keep_locks(P1(struct lock_descr *));
-static int free_files(P1(struct lock_descr *));
-#endif
 static int bld_lock_tables(P0);
 static int initses(P0);
 static int lock_files(P1(int) Pi(LOCK_REQUEST *));
@@ -234,31 +224,6 @@ TASK_DECL
 
    if ( dbopen ) d_close(TASK_ONLY);
 
-#ifndef SINGLE_USER
-   if ( opentype ) {
-      switch ( *opentype ) {
-	 case 's':
-	 case 'x':
-#ifndef GENERAL
-	    if ( netbios_chk() == 0 )
-		RETURN( dberr( S_NONETBIOS ) );
-#endif
-	    db_lockmgr = 1;
-	    strcpy(type, opentype);
-	    break;
-	 case 'n':
-	 case 't':
-	 case 'o':
-	    db_lockmgr = 0;
-	    strcpy(type, "x");
-	    break;
-	 default:
-	    RETURN( dberr(S_BADTYPE) );
-      }
-   }
-   else
-      strcpy(type, "x");
-#endif
 
 
 #ifdef MIKER /**@@@***/
@@ -284,40 +249,7 @@ TASK_DECL
 #endif
    if ( renfiles() != S_OKAY ) RETURN( db_status );
 
-#ifndef SINGLE_USER
-
-   if ( db_lockmgr ) {	/* [637] Only alloc file_refs for shared open */
-      /* Macro references must be on one line for some compilers */ 
-      if (ALLOC_TABLE(&db_global.File_refs, size_ft*sizeof(FILE_NO),old_size_ft*sizeof(FILE_NO), "file_refs")
-		!=  S_OKAY) {
-	 RETURN( db_status );
-      }
-   }
-
-   if ( *type == 's' ) {
-      /* build application file lock tables */
-      if ( bld_lock_tables() != S_OKAY )
-	 RETURN( db_status );
-      dbopen = 1;
-   }
-   else
-#endif
       dbopen = 2;
-#ifndef SINGLE_USER
-#ifndef GENERAL
-   if ( db_lockmgr ) {
-#endif
-      if ( initses() != S_OKAY ) {
-	 dbopen = 0;
-	 RETURN( db_status );
-      }
-#ifndef GENERAL
-   }	/* [713] perform external recovery in one-user mode */
-   else
-      if ( recovery_check() != S_OKAY ) RETURN(db_status);
-#endif
-#else
-#endif
 
 #ifdef DEBUG_DBLF
    if (debugging_dopen) {
@@ -350,12 +282,6 @@ TASK *tsk;
 {
    byteset(tsk, '\0', sizeof(TASK));
    tsk->No_of_dbs = 1;
-#ifndef SINGLE_USER
-   tsk->Lock_tries = 5;
-   tsk->Dbwait_time = 1;
-   tsk->Db_timeout = TIMEOUT_DEF;
-   tsk->Db_lockmgr = 1;
-#endif
    tsk->Dboptions = DCHAINUSE;
    return( db_status );
 }
@@ -441,139 +367,6 @@ const char *dbnames;
 
 
 
-#ifndef	SINGLE_USER
-/* Initial lock manager session
-*/
-static int initses()
-{
-   LM_DBOPEN_P Send_pkt;
-   LR_DBOPEN_P Recv_pkt;
-   int ft_lc;			/* loop control */
-   LM_TREND trend_pkt;
-   int send_size, recv_size, recvd_sz;
-   struct stat stbuf;
-   LM_FILEID *fi_ptr;
-   FILE_ENTRY *file_ptr;
-   FILE_NO *fref_ptr;
-   INT *rcv_fref_ptr;
-
-   if ( (net_status=nw_addnm(dbuserid, (int *)NULL) ) != N_OKAY )
-      if ( net_status == N_DUPNAME ) {
-	 /* It is okay to reuse this name, but first be sure that all
-	    sessions are hung up.
-	 */
-	 nw_cleanup(dbuserid);
-      }
-      else
-	 return( neterr() );
-
-   if ( nw_call("lockmgr", dbuserid, &lsn) ) {
-      return( neterr() );
-   }
-   db_timeout = TIMEOUT_DEF;  /* reset default timeout value */
-
-#ifdef GENERAL
-
-   /* This section of code MUST be identical to else (DOS) below */
-   send_size = 0;
-   for (ft_lc = size_ft - old_size_ft, file_ptr = &file_table[old_size_ft];
-	--ft_lc >= 0; ++file_ptr) 
-      send_size += strlen(file_ptr->ft_name) + 1;
-   send_size += sizeof(LM_DBOPEN);
-   send_size += send_size % 2;
-#else				/* GENERAL */
-   send_size = sizeof(LM_DBOPEN) + (size_ft-1)*sizeof(LM_FILEID);
-#endif				/* GENERAL */
-   send_pkt = (LM_DBOPEN *)ALLOC(&Send_pkt, send_size, "send_pkt");
-   recv_size = sizeof(LR_DBOPEN) + (size_ft-1)*sizeof(INT);
-   recv_pkt = (LR_DBOPEN *)ALLOC(&Recv_pkt, recv_size, "recv_pkt");
-   if (send_pkt == NULL || recv_pkt == NULL) {
-      nw_hangup(lsn);
-      return(dberr(S_NOMEMORY));
-   }
-
-   send_pkt->fcn = L_DBOPEN;
-   send_pkt->nfiles = size_ft;
-   send_pkt->type = type[0];
-   for (ft_lc = size_ft - old_size_ft, file_ptr = &file_table[old_size_ft],
-						fi_ptr = send_pkt->fnames;
-#ifdef GENERAL
-        --ft_lc >= 0;  fi_ptr += strlen(file_ptr->ft_name)+1,++file_ptr) {
-#else
-	--ft_lc >= 0;  ++fi_ptr,++file_ptr) {
-#endif
-      if (stat(file_ptr->ft_name, &stbuf) == -1) {
-	 nw_hangup(lsn);
-	 return(dberr(S_NOFILE));
-      }
-#ifndef GENERAL
-      fi_ptr->inode = stbuf.st_ino;
-      fi_ptr->device = stbuf.st_dev;
-#else
-      strcpy(fi_ptr,file_ptr->ft_name);
-#endif
-   }
-send_open:
-   if (nw_send(lsn, (MESSAGE *)send_pkt, send_size) ||
-       nw_rcvmsg(lsn, (MESSAGE *)recv_pkt, recv_size, &recvd_sz)) {
-      nw_hangup(lsn);
-      return(neterr());
-   }
-
-   if ( recv_pkt->status == L_RECOVER )  {
-      /* perform auto-recovery */
-      d_recover( (const char *)recv_pkt->logfile CURRTASK_PARM );
-
-      /* tell lock mgr we're done */
-      trend_pkt.fcn = L_RECDONE;
-      if ( nw_send(lsn, (MESSAGE *)&trend_pkt, sizeof(LM_TREND)) ) {
-	 nw_hangup(lsn);
-	 return(neterr());
-      }
-      /* re-issue open request */
-      goto send_open;
-   }
-   if ( recv_pkt->fcn != L_DBOPEN ) {
-      nw_hangup(lsn);
-      return(dberr(S_NETSYNC));
-   }
-   if ( recv_pkt->status != L_OKAY ) {
-      nw_hangup(lsn);
-      nw_sestat();
-#ifndef GENERAL
-      taf_close();
-#endif
-      termfree();
-      MEM_UNLOCK(&Send_pkt);
-      FREE(&Send_pkt);
-      MEM_UNLOCK(&Recv_pkt);
-      FREE(&Recv_pkt);
-      dbopen = 0;
-      return(db_status = S_UNAVAIL);
-   }
-   if ( recv_pkt->nusers == 1 ) 
-      if ( recovery_check() != S_OKAY ) {
-	 nw_hangup(lsn);
-	 return(db_status);
-      }
-
-   /* [656] perform initialization if not general lockmgr */
-   if ( db_lockmgr ) {
-      for (ft_lc = size_ft - old_size_ft, fref_ptr = &file_refs[old_size_ft],
-					      rcv_fref_ptr = recv_pkt->frefs;
-	   --ft_lc >= 0; ++fref_ptr, ++rcv_fref_ptr) {
-	 *fref_ptr = *rcv_fref_ptr;
-      }
-   }
-   MEM_UNLOCK(&Send_pkt);
-   FREE(&Send_pkt);
-   MEM_UNLOCK(&Recv_pkt);
-   FREE(&Recv_pkt);
-
-   session_active = TRUE;
-   return(db_status = S_OKAY);
-}
-#endif
 
 
 
@@ -609,18 +402,10 @@ TASK_DECL
 #endif
 #endif
 
-#ifndef SINGLE_USER
-      d_freeall(TASK_ONLY);
-#endif
 /*    termfree();
       key_close();
       sk_free();
       dio_free(); */
-#ifndef SINGLE_USER
-      if ( db_lockmgr ) {
-	 termses();
-      }
-#endif
    }
    if ( dbopen ) {
 #ifndef NO_TIMESTAMP
@@ -629,12 +414,6 @@ TASK_DECL
       setdb_on = FALSE;
       curr_db = 0;
       no_of_dbs = 1;
-#ifndef SINGLE_USER
-      lock_tries = 5;
-      dbwait_time = 1;
-      db_lockmgr = 1;
-      session_active = FALSE;
-#endif
       db_status = S_OKAY;
       curr_rec = NULL_DBA;
       size_ft = 0;
@@ -652,41 +431,6 @@ TASK_DECL
 
 
 
-#ifndef SINGLE_USER
-/* Terminate lock manager session
-*/
-termses()
-{
-   LM_DBCLOSE_P Send_pkt;
-   int ft_lc;			/* loop control */
-   int send_size;
-   FILE_NO *fref_ptr;
-   INT *snd_fref_ptr;
-
-   if ( session_active ) {
-      send_size = sizeof(LM_DBCLOSE) + (size_ft-1)*sizeof(INT);
-      send_pkt = (LM_DBCLOSE *)ALLOC(&Send_pkt, send_size, "send_pkt");
-      if ( send_pkt == NULL ) return( dberr(S_NOMEMORY) );
-      send_pkt->fcn = L_DBCLOSE;
-      send_pkt->nfiles = size_ft;
-      for (ft_lc = size_ft, fref_ptr = file_refs,
-						snd_fref_ptr = send_pkt->frefs;
-	   --ft_lc >= 0; ++fref_ptr, ++snd_fref_ptr)
-	 *snd_fref_ptr = *fref_ptr;
-      if ( nw_send(lsn, (MESSAGE *)send_pkt, send_size) )
-	 return( neterr() );
-
-      nw_hangup(lsn);
-      nw_sestat();
-      MEM_UNLOCK(&Send_pkt);
-      FREE(&Send_pkt);
-      MEM_UNLOCK(&db_global.File_refs);
-      FREE(&db_global.File_refs);
-      session_active = FALSE;
-   }
-   return( db_status = S_OKAY );
-}
-#endif
 
 
 
@@ -694,10 +438,6 @@ termses()
 */
 void termfree()
 {
-#ifndef SINGLE_USER
-   int i;
-   struct lock_descr *ld_ptr;
-#endif
 
    /* free all allocated memory */
    if ( curr_mem ) {
@@ -750,52 +490,6 @@ void termfree()
       MEM_UNLOCK(&db_global.File_table);
       FREE(&db_global.File_table);
    }
-#ifndef SINGLE_USER
-   if ( app_locks ) {
-      MEM_UNLOCK(&db_global.App_locks);
-      FREE(&db_global.App_locks);
-   }
-   if ( excl_locks ) {
-      MEM_UNLOCK(&db_global.Excl_locks);
-      FREE(&db_global.Excl_locks);
-   }
-   if ( kept_locks ) {
-      MEM_UNLOCK(&db_global.Kept_locks);
-      FREE(&db_global.Kept_locks);
-   }
-   if ( rec_locks ) {
-      for (i = 0, ld_ptr = rec_locks; i < size_rt; ++i, ++ld_ptr) {
-	 MEM_UNLOCK(&ld_ptr->fl_list);
-	 FREE(&ld_ptr->fl_list);
-      }
-      MEM_UNLOCK(&db_global.Rec_locks);
-      FREE(&db_global.Rec_locks);
-   }
-   if ( set_locks ) {
-      for (i = 0, ld_ptr = set_locks; i < size_st; ++i, ++ld_ptr) {
-	 MEM_UNLOCK(&ld_ptr->fl_list);
-	 FREE(&ld_ptr->fl_list);
-      }
-      MEM_UNLOCK(&db_global.Set_locks);
-      FREE(&db_global.Set_locks);
-   }
-   if ( key_locks ) {
-      for (i = 0, ld_ptr = key_locks; i < keyl_cnt; ++i, ++ld_ptr) { /*[637]*/
-	 MEM_UNLOCK(&ld_ptr->fl_list);
-	 FREE(&ld_ptr->fl_list);
-      }
-      MEM_UNLOCK(&db_global.Key_locks);
-      FREE(&db_global.Key_locks);
-   }
-   if ( lock_pkt ) {
-      MEM_UNLOCK(&db_global.Lock_pkt);
-      FREE(&db_global.Lock_pkt);
-   }
-   if ( free_pkt ) {
-      MEM_UNLOCK(&db_global.Free_pkt);
-      FREE(&db_global.Free_pkt);
-   }
-#endif
    if ( db_table ) {
       MEM_UNLOCK(&db_global.Db_table);
       FREE(&db_global.Db_table);
@@ -815,223 +509,6 @@ void termfree()
 
 
 
-#ifndef SINGLE_USER
-/* Process set/record lock
-*/
-static process_lock(ld_ptr, type )
-struct lock_descr *ld_ptr;
-char type;
-{
-   int fl_lc;			/* loop control */
-   int fno;
-   int i;
-   LM_LOCKREQ *lockreq_ptr;
-   FILE_NO *fl_ptr, fref;
-
-   db_status = S_OKAY;
-   ld_ptr->fl_prev = ld_ptr->fl_type;
-   switch( type ) {
-      case 'k':
-	 if ( !trans_id )  
-	    dberr( S_TRNOTACT );
-	 else if ( ld_ptr->fl_prev == 'f' ) 
-	    dberr( S_NOTLOCKED );
-	 else if ( ld_ptr->fl_prev != 'x' ) 
-	    return( keep_locks(ld_ptr) );
-	 break;
-      case 'r':
-	 if( ld_ptr->fl_prev != 'f' ) 
-	    dberr( S_NOTFREE );
-	 else 
-	    ld_ptr->fl_type = 'r';
-	 break;
-      case 'w':
-	 if ( !trans_id )
-	    dberr( S_TRNOTACT );
-	 else if ( ld_ptr->fl_prev != 'f' && ld_ptr->fl_prev != 'r' ) 
-	    dberr( S_NOTFREE );
-	 else
-	    ld_ptr->fl_type = 'w';
-	 break;
-      case 'x':
-	 if ( ld_ptr->fl_prev != 'f' && ld_ptr->fl_prev != 'r' ) 
-	    dberr(S_NOTFREE);
-	 else
-	    ld_ptr->fl_type = 'x';
-	 break;
-      default:  
-	 dberr( S_BADTYPE );
-   }
-   if ( db_status == S_OKAY ) {
-      /* build lock request packet */
-      for (fl_lc = ld_ptr->fl_cnt, fl_ptr = FL_LIST_ACCESS(ld_ptr);
-	   --fl_lc >= 0; ++fl_ptr) {
-	 fref = file_refs[fno = *fl_ptr];
-	 for (i = 0, lockreq_ptr = lock_pkt->locks;
-	      (i < lock_pkt->nfiles) && (lockreq_ptr->fref != fref);
-	      ++i, ++lockreq_ptr)
-	    ;				/* null statement */
-
-	 if (i < lock_pkt->nfiles) {
-	    /* file already is in lock request packet */
-	    if ( lockreq_ptr->type == 'r' || ld_ptr->fl_type == 'x' )
-	       lockreq_ptr->type = ld_ptr->fl_type;
-	 }
-	 else if ( !excl_locks[fno] && ( !app_locks[fno] || 
-	      (ld_ptr->fl_type == 'w' && app_locks[fno] > 0) ||
-	      (ld_ptr->fl_type == 'x') ) ) {
-	    /* add to lock request packet */
-	    ++lock_pkt->nfiles;
-	    lockreq_ptr->fref = fref;
-	    lockreq_ptr->type = ld_ptr->fl_type;
-	 }
-      }
-      FL_LIST_DEACCESS(ld_ptr);
-   }
-   return( db_status );
-}
-#endif
-
-
-
-
-
-
-
-
-#ifndef SINGLE_USER
-/* Setup table to keep locks after transaction end
-*/
-static keep_locks( ld_ptr )
-struct lock_descr *ld_ptr;      /* Lock descriptor */
-{
-   int fl_lc;			/* loop control */
-   FILE_NO *fl_ptr;
-
-   /* Mark lock as kept */
-   ld_ptr->fl_kept = TRUE;                
-
-   for (fl_lc = ld_ptr->fl_cnt, fl_ptr = FL_LIST_ACCESS(ld_ptr);
-	--fl_lc >= 0; ++fl_ptr)
-      ++kept_locks[*fl_ptr];
-   FL_LIST_DEACCESS(ld_ptr);
-
-   return( db_status = S_OKAY );
-}
-#endif
-
-
-
-
-
-#ifndef SINGLE_USER
-/* Free read-locked files associated with record or set
-*/
-static int free_files(ld_ptr)
-struct lock_descr *ld_ptr;
-{
-   int fl_lc;			/* loop control */
-   FILE_NO fno;
-   LM_LOCKREQ *lockreq_ptr;
-   int *appl_ptr;
-   FILE_NO fref;
-   FILE_NO *fl_ptr;
-
-   /* fill free packet */
-   lock_pkt->nfiles = free_pkt->nfiles = 0; 
-   for (fl_lc = ld_ptr->fl_cnt, fl_ptr = FL_LIST_ACCESS(ld_ptr);
-	--fl_lc >= 0; ++fl_ptr) {
-      fno = *fl_ptr;
-      appl_ptr = &app_locks[fno];
-      fref = file_refs[fno];
-      if ( ld_ptr->fl_type == 'r' && *appl_ptr > 0 ) {
-	 /* free read lock */
-	 if ( --*appl_ptr == 0 && excl_locks[fno] == 0 ) {
-	    free_pkt->frefs[free_pkt->nfiles++] = fref;
-	    /* reset key scan position */
-	    if ( file_table[fno].ft_type == 'k' )
-	       key_reset(fno);
-	 }
-      }
-      else if ( --excl_locks[fno] == 0 ) {
-	 /* free exclusive access lock */
-	 if ( *appl_ptr > 0 ) {
-	    /* downgrade to read-lock */
-	    lockreq_ptr = &lock_pkt->locks[lock_pkt->nfiles++];
-	    lockreq_ptr->type = 'r';
-	    lockreq_ptr->fref = fref;
-	 }
-	 else {
-	    /* free excl-lock */
-	    free_pkt->frefs[free_pkt->nfiles++] = fref;
-	    dio_flush();
-	    /* reset key scan position */
-	    if ( file_table[fno].ft_type == 'k' )
-	       key_reset(fno);
-	 }
-      }
-      if ( ld_ptr->fl_kept ) {             
-	 /* Remove hold on lock */
-	 if ( --kept_locks[fno] < 0 ) return( dberr(S_BADLOCKS) );
-	 ld_ptr->fl_kept = FALSE; 
-      }
-   }
-   FL_LIST_DEACCESS(ld_ptr);
-   /* send any downgrades */
-   if ( send_lock() == S_OKAY ) {
-      /* free any files */
-      send_free();
-   }
-   return( db_status );
-}
-#endif
-
-
-
-#ifndef SINGLE_USER
-/* Reset lock descriptor tables
-*/
-static void reset_locks()
-{
-   int beg, end;
-   int i;
-   struct lock_descr *ld_ptr;
-
-   /* reset record lock descriptors */
-   beg = 0;
-   end = size_rt;
-   for (i = beg, ld_ptr = &rec_locks[i]; i < end; ++i, ++ld_ptr) {
-      if ( ld_ptr->fl_kept ) {
-	 ld_ptr->fl_type = 'r';
-	 ld_ptr->fl_kept = FALSE;
-      }
-      else if ( ld_ptr->fl_type != 'x' )
-	 ld_ptr->fl_type = 'f';
-   }
-   /* reset set lock descriptors */
-   beg = 0;
-   end = size_st;
-   for (i = beg, ld_ptr = &set_locks[i]; i < end; ++i, ++ld_ptr) {
-      if ( ld_ptr->fl_kept ) {
-	 ld_ptr->fl_type = 'r';
-	 ld_ptr->fl_kept = FALSE;
-      }
-      else if ( ld_ptr->fl_type != 'x' )
-	 ld_ptr->fl_type = 'f';
-   }
-   /* reset key lock descriptors */
-   beg = 0;
-   end = keyl_cnt;
-   for (i = beg, ld_ptr = &key_locks[i]; i < end; ++i, ++ld_ptr) {
-      if ( ld_ptr->fl_kept ) {
-	 ld_ptr->fl_type = 'r';
-	 ld_ptr->fl_kept = FALSE;
-      }
-      else if ( ld_ptr->fl_type != 'x' )
-	 ld_ptr->fl_type = 'f';
-   }
-}
-#endif
 
 
 
@@ -1046,28 +523,22 @@ static void reset_locks()
 
 
 
-#ifndef SINGLE_USER
-/* Report a network error
-*/
-neterr()
-{
-    switch ( net_status ) {
-	case N_OPENREJ:
-	    db_status = dberr( S_LMBUSY );
-	    break;
-	case N_CALLNAME:
-	    db_status = dberr( S_NOLOCKMGR );
-	    break;
-	case N_NAMEUSED:
-	    db_status = dberr( S_DUPUSERID );
-	    break;
-	default:
-	    db_status = dberr( S_NETERR );
-	    break;
-    }
-    return( db_status );
-}
-#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int alloc_table(Table, new_size, old_size )
 CHAR_P *Table;

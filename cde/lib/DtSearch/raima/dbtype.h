@@ -107,10 +107,7 @@ Failure to do so will produce compilation errors.
    HHS     = Harris H-series
 */
 
-#define SINGLE_USER
-#ifdef SINGLE_USER
 #define NO_TIMESTAMP
-#endif
 
 #define PGHOLD 1
 #define NOPGHOLD 0
@@ -406,14 +403,6 @@ typedef struct OBJNAMES_S {
 typedef struct {FILE_NO *ptr; LOCK_DESC} FILE_NO_P;
 typedef struct {int *ptr; LOCK_DESC} INT_P;
 typedef struct {struct NODE_PATH_S *ptr; LOCK_DESC} NODE_PATH_P;
-#ifndef SINGLE_USER
-typedef struct {struct lock_descr *ptr; LOCK_DESC} LOCK_DESCR_P;
-typedef struct {struct LM_LOCK_S *ptr; LOCK_DESC} LM_LOCK_P;
-typedef struct {struct LM_FREE_S *ptr; LOCK_DESC} LM_FREE_P;
-typedef struct {struct LM_DBOPEN_S *ptr; LOCK_DESC} LM_DBOPEN_P;
-typedef struct {struct LM_DBCLOSE_S *ptr; LOCK_DESC} LM_DBCLOSE_P;
-typedef struct {struct LR_DBOPEN_S *ptr; LOCK_DESC} LR_DBOPEN_P;
-#endif
 typedef struct {struct KEY_INFO_S *ptr; LOCK_DESC} KEY_INFO_P;
 typedef struct {struct ren_entry *ptr; LOCK_DESC} REN_ENTRY_P;
 typedef struct {struct RN_ENTRY_S *ptr; LOCK_DESC} RN_ENTRY_P;
@@ -571,15 +560,4 @@ typedef struct page_entry {
 #endif
 #include "proto.h"
 
-#ifndef SINGLE_USER
-/* record/set lock descriptor */
-struct lock_descr {  
-   FILE_NO_P fl_list;      /* array of files used by record/set */
-   int	     fl_cnt;    /* Number of elements in fl_list */
-   BOOLEAN   fl_kept;   /* Is lock kept after transaction? */
-   char      fl_type;   /* lock type: 'r' = read, 'w' = write, 
-				     'x' = exclusive, 'f' = free */ 
-   char      fl_prev;   /* previous lock type */
-};
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC dbtype.h */

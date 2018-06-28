@@ -90,9 +90,6 @@ DBN_DECL			/* optional database number */
    INT rectype;			/* record type from record */
    F_ADDR rno;			/* current slot we're scanning */
 
-#ifndef SINGLE_USER
-   int dbopen_sv;		/* saved copy of dbopen */
-#endif
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
@@ -113,22 +110,12 @@ DBN_DECL			/* optional database number */
       
       /* create the database address, and read this record */
       dba = ((FILEMASK & ftype) << FILESHIFT) | (ADDRMASK & rno);
-#ifndef SINGLE_USER
-      dbopen_sv = dbopen;
-      dbopen = 2;		/* setup to allow unlocked read */
-#endif
       dio_read(dba, (char * *)&recptr, NOPGHOLD);
-#ifndef SINGLE_USER
-      dbopen = dbopen_sv;
-#endif
       if ( db_status != S_OKAY )
 	 RETURN( db_status );
       
       /* See if this record is of the type we're looking for */
       bytecpy(&rectype, recptr, sizeof(INT));
-#ifndef SINGLE_USER
-      rectype &= ~((INT)RLBMASK);	/* remove rlb */
-#endif
       rno--;
    } while ( (int)rectype != rec );
 

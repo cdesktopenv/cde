@@ -149,13 +149,7 @@ int taskinit(P1(TASK *));
 int initdbt(P1(const char *));
 int alloc_table(P1(CHAR_P *) Pi(unsigned) Pi(unsigned));
 #define ALLOC_TABLE(t, n, o, v)	alloc_table((CHAR_P *)(t), n, o)
-#ifndef SINGLE_USER
-int  termses(P0);
-#endif
 void termfree(P0);
-#ifndef SINGLE_USER
-int neterr(P0);
-#endif
 
 /* From dio.c: */
 int dio_open(P1(FILE_NO));

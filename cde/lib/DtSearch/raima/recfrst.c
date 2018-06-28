@@ -58,9 +58,6 @@ DBN_DECL
    FILE_NO ftype;
    DB_ADDR dba;
    char *recptr;
-#ifndef SINGLE_USER
-   int dbopen_sv;
-#endif
    F_ADDR rno, last;
    RECORD_ENTRY *rec_ptr;
 
@@ -85,24 +82,14 @@ DBN_DECL
       dba = ( (FILEMASK & ftype) << FILESHIFT ) | (ADDRMASK & rno);
 
       /* set up to allow unlocked read */
-#ifndef SINGLE_USER
-      dbopen_sv = dbopen;
-      dbopen = 2;
-#endif
 
       /* read the record */
       dio_read( dba, (char * *)&recptr, NOPGHOLD );
-#ifndef SINGLE_USER
-      dbopen = dbopen_sv;
-#endif
       if ( db_status != S_OKAY )
 	 RETURN( db_status );
 
       /* get the record type out of the record */
       bytecpy( &rectype, recptr, sizeof(INT) );
-#ifndef SINGLE_USER
-      rectype &= ~RLBMASK;
-#endif
 
       ++rno;
    } while ( (int)rectype != rec );

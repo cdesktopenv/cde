@@ -56,9 +56,6 @@ TASK_DECL
 DBN_DECL
 {
    INT crt;
-#ifndef SINGLE_USER
-   int dbopen_sv;
-#endif
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
@@ -68,16 +65,9 @@ DBN_DECL
       RETURN( dberr( S_NOCR ) );
 
    /* set up to allow unlocked read */
-#ifndef SINGLE_USER
-   dbopen_sv = dbopen;
-   dbopen = 2;
-#endif
 
    /* Read current record */
    dio_read(curr_rec, (char * *)&crloc, NOPGHOLD);
-#ifndef SINGLE_USER
-   dbopen = dbopen_sv;
-#endif
    if (db_status != S_OKAY)
       RETURN( db_status );
    

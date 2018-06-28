@@ -59,9 +59,6 @@ DBN_DECL
 {
    INT  rt;     /* record type */
    DB_ADDR dba;
-#ifndef SINGLE_USER
-   int dbopen_sv;
-#endif
    RECORD_ENTRY *rec_ptr;
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
@@ -73,16 +70,9 @@ DBN_DECL
       RETURN( dberr(S_NOCR) );
 
    /* set up to allow unlocked read access */
-#ifndef SINGLE_USER
-   dbopen_sv = dbopen;
-   dbopen = 2;
-#endif
 
    /* read current record */
    dio_read( curr_rec, (char * *)&crloc, NOPGHOLD);
-#ifndef SINGLE_USER
-   dbopen = dbopen_sv;
-#endif
    if ( db_status != S_OKAY )
       RETURN( db_status );
 
@@ -91,15 +81,6 @@ DBN_DECL
    if ( rt < 0 )
       RETURN( db_status = S_DELETED );
 
-#ifndef SINGLE_USER
-   if ( rt & RLBMASK ) {
-      rt &= ~RLBMASK; /* mask off rlb */
-      rlb_status = S_LOCKED;
-   }
-   else {
-      rlb_status = S_UNLOCKED;
-   }
-#endif
    rec_ptr = &record_table[NUM2INT(rt, rt_offset)];
 
    /* Copy db_addr from record and check with curr_rec */

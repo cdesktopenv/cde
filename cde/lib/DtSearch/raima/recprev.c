@@ -91,9 +91,6 @@ DBN_DECL
    F_ADDR rno;			/* current slot we're scanning */
    FILE_NO ft;			/* normalized file */
 
-#ifndef SINGLE_USER
-   int dbopen_sv;		/* saved copy of dbopen */
-#endif
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 
@@ -121,21 +118,11 @@ DBN_DECL
    do {
       if (rno < 1) RETURN( db_status = S_NOTFOUND );
       dba = ((fno & FILEMASK) << FILESHIFT) | (rno & ADDRMASK);
-#ifndef SINGLE_USER
-      dbopen_sv = dbopen;
-      dbopen = 2;		/* setup to allow for unlocked read */
-#endif
       dio_read(dba, (char * *)&recptr, NOPGHOLD);
-#ifndef SINGLE_USER
-      dbopen = dbopen_sv;
-#endif
       if (db_status != S_OKAY) RETURN( db_status );
 
       /* see if we've found a match */
       bytecpy(&rectype, recptr, sizeof(INT));
-#ifndef SINGLE_USER
-      rectype &= ~((INT)RLBMASK);
-#endif
       rno--;
    } while ( rectype != RN_REF(rn_type) );
 
