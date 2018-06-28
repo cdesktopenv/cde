@@ -305,14 +305,6 @@ typedef char *HANDLE;
 
 typedef struct {char *ptr; LOCK_DESC} CHAR_P;
 typedef struct {DB_ADDR *ptr; LOCK_DESC} DB_ADDR_P;
-#ifdef MULTI_TASK
-typedef struct {struct TASK_S *ptr; LOCK_DESC} TASK_P;
-typedef struct {char *ptr; LOCK_DESC} QFAKE_P;
-typedef struct {
-   TASK_P v;
-   QFAKE_P q;
-} DB_TASK;
-#endif
 
 
 /* Allow for function prototyping */
@@ -353,15 +345,6 @@ typedef struct {
 #define DBN_Dn /**/
 #endif
 
-#ifdef MULTI_TASK
-#define TASK_DBN_D1 P1(DB_TASK) DBN_Dn
-#define TASK_D1 P1(DB_TASK)
-#define TASK_Di Pi(DB_TASK)
-#define TASK_PTR_D1 P1(DB_TASK *)
-#define TASK_PTR_Di Pi(DB_TASK *)
-#define CURRTASK_PARM            , Currtask
-#define CURRTASK_ONLY            Currtask
-#else
 #define TASK_DBN_D1 DBN_D1
 #define TASK_D1 P0
 #define TASK_Di /**/
@@ -369,7 +352,6 @@ typedef struct {
 #define TASK_PTR_Di /**/
 #define CURRTASK_PARM            /**/
 #define CURRTASK_ONLY            /**/
-#endif
 
 #define LOCK_D1 /**/
 #define LOCK_Di /**/
@@ -381,8 +363,5 @@ typedef struct {
 
 
 #include "dproto.h"
-#ifdef MULTI_TASK
-#include "task.h"
-#endif
 
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC vista.h */

@@ -174,10 +174,6 @@ int db_glob_init = 0;
 static LR_LOCK lock_reply;		/* This used to be in db_global */
 #endif
 
-#ifdef MULTI_TASK
-DB_TASK Currtask = {POINTER_ASSIGN((TASK *)&db_global), POINTER_ASSIGN((char *)NULL)};
-#endif
-
 extern CHAR_P Dbpgbuff;  /* allocated by dio_init used by o_update */
 extern LOOKUP_ENTRY_P Db_lookup; /* database page lookup table */
 extern PAGE_ENTRY_P Dbpg_table; /* database page table */
@@ -991,9 +987,6 @@ TASK_DECL
       size_kt = 0;
       no_of_keys = 0;
       dbopen = 0;
-#ifdef MULTI_TASK
-      bytecpy(task.v.ptr, &db_global, sizeof(TASK));
-#endif
    }
    RETURN( db_status );
 } /* d_close() */

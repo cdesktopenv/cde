@@ -380,21 +380,12 @@ typedef struct RN_ENTRY_S {
 #define	 TABLE_SIZE(size)     	 DB_REF(size)
 
 /* DBN_PARM... and TASK_PARM... are used for function interfaces */
-#ifdef MULTI_TASK
-#define  TASK_PARM		 , task
-#define  TASK_PARM_DBN		 task ,
-#define  TASK_ONLY		 task
-#define  TASK_DECL		 DB_TASK task;
-#define  TASK_PTR_DECL		 DB_TASK *task;
-#define  TASK_DBN_ONLY		 task DBN_PARM
-#else
 #define  TASK_PARM		 /**/
 #define  TASK_PARM_DBN		 /**/
 #define  TASK_ONLY		 /**/
 #define  TASK_DECL		 /**/
 #define  TASK_PTR_DECL		 /**/
 #define  TASK_DBN_ONLY		 DBN_ONLY
-#endif
 
 #ifndef NO_COUNTRY
 /* Country code table definition */
@@ -546,25 +537,10 @@ typedef struct MESSAGE_S {
 #define NO_DB_ID /**/
 #endif				   /* NO_DBN */
 
-#ifdef MULTI_TASK
-#ifdef COMMA
-#define TASK_ID , &task
-#define TASK_PTR_ID , task
-#define NO_TASK_ID , NULL
-#define TASK_PARAM , c
-#else
-#define TASK_ID &task
-#define TASK_PTR_ID task
-#define NO_TASK_ID NULL
-#define TASK_PARAM c
-#define COMMA
-#endif
-#else
 #define TASK_PARAM /**/
 #define TASK_ID /**/
 #define TASK_PTR_ID /**/
 #define NO_TASK_ID /**/
-#endif
 
 #define LOCK_PARAM /**/
 #define LOCK_PARM /**/
@@ -606,9 +582,6 @@ typedef struct MESSAGE_S {
 #include "dbxtrn.h"
 
 typedef struct LOOKUP_ENTRY_S {
-#ifdef MULTI_TASK
-   TASK *task;	      /* task pointer */
-#endif
    FILE_NO file;              /* file table entry number (0..size_ft-1) */
    F_ADDR  pageno;            /* database page number */
    short   pg_slot;	      /* page table slot pointing to this entry */
@@ -632,11 +605,6 @@ typedef struct page_entry {
 #define _STRING_H
 #endif
 #include "proto.h"
-#ifdef MULTI_TASK
-#ifdef NO_DT_COVER
-#include "dtcover.h"
-#endif
-#endif
 
 #ifndef SINGLE_USER
 /* record/set lock descriptor */

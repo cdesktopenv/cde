@@ -277,12 +277,5 @@ typedef struct TASK_S {
 
 extern TASK db_global;
 extern int db_glob_init;
-#ifdef MULTI_TASK
-extern DB_TASK Currtask;
-#endif
 
-
-#ifdef MULTI_TASK
-extern int task_count;
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin dbxtrn.h */

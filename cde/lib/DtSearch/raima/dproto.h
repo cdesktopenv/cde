@@ -180,7 +180,6 @@ char * d_alloc(P1(unsigned));		/* alloc.c */
 char * d_calloc(P1(unsigned) Pi(unsigned));	/* alloc.c */
 void d_free(P1(CHAR_P *));			/* alloc.c */
 
-#ifndef MULTI_TASK			/* MULTI_TASK */
 #define dt_opentask(a) S_OKAY
 #define dt_closetask(a) S_OKAY
 
@@ -324,8 +323,6 @@ int d_utsco(P1(int) Pi(ULONG *) DBN_Dn); 	/* utsco.c */
 int d_utscr(P1(ULONG *));			/* utscr.c */
 int d_utscs(P1(int) Pi(ULONG *) DBN_Dn); 	/* utscs.c */
 #endif					   /* NO_TIMESTAMP */
-
-#endif					/* MULTI_TASK */
 
 int dberr(P1(int));                      	/* dberr.c */
 

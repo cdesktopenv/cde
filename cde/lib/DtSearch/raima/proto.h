@@ -291,11 +291,7 @@ int renfiles(P0);
 #ifndef NO_DBN_PARM
 int startup(DBN_FIX_D1 TASK_PTR_Di LOCK_Di);
 #else
-#ifdef MULTI_TASK
-int startup(TASK_PTR_D1 LOCK_Di);
-#else
 #define startup() S_OKAY
-#endif
 #endif
 
 /* From taffcns.c: */
@@ -305,11 +301,6 @@ int taf_access(P0);
 int taf_release(P0);
 int taf_add(P1(const char *));
 int taf_del(P1(const char *) );
-
-/* From task.c */
-#ifdef MULTI_TASK
-void task_switch(P1(DB_TASK *));
-#endif
 
 /* From mapchar.c */
 int  ctb_init(P0);

@@ -184,9 +184,6 @@ LOOKUP_ENTRY_P Db_lookup = POINTER_INIT(); /* database page lookup table */
 PAGE_ENTRY_P Dbpg_table = POINTER_INIT(); /* database page table */
 static struct
 {
-#ifdef MULTI_TASK
-   TASK *task;
-#endif
    FILE_NO file;
    F_ADDR pageno;
    int slot;
@@ -401,9 +398,6 @@ dio_init()
       return( dberr(S_NOMEMORY) );
    byteset(used_files, 0, (size_ft + 1)*sizeof(*used_files));
 
-#ifdef MULTI_TASK
-   last_dblu.task = NULL;
-#endif
    last_dblu.file = -1;
    last_dblu.pageno = -1L;
    last_dblu.slot = -1;
@@ -470,9 +464,6 @@ int		    pgsize;
 
    for (pg_no = 0; pg_no < pg_cnt; ++pg_no, ++lu_ptr, ++pg_ptr)
    {
-#ifdef MULTI_TASK
-      lu_ptr->task = NULL;
-#endif
       lu_ptr->file = -1;
       lu_ptr->pageno = -1L;
       lu_ptr->pg_slot = pg_no;
@@ -514,11 +505,6 @@ void dio_free()
    int pgt_lc;			/* loop control */
    PAGE_ENTRY *pg_ptr;
 
-#ifdef MULTI_TASK
-   if ( task_count > 1 ) {
-      return;
-   }
-#endif
    MEM_UNLOCK(&db_global.Pgzero);
    FREE(&db_global.Pgzero);
    MEM_UNLOCK(&Used_files);
@@ -630,9 +616,6 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
 	    dio_findpg(s_file, 0L, NULL, NULL, &lu_ptr);
 	    dio_findpg(e_file, 0L, NULL, NULL, &lu2_ptr);
 
-#ifdef MULTI_TASK
-	    last_dblu.task = NULL;
-#endif
 	    last_dblu.file = -1;
 	    last_dblu.pageno = -1L;
 	    last_dblu.slot = -1;
@@ -642,9 +625,6 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
 	       while ((lu_ptr > db_lookup) && ((--lu_ptr)->file >= 0)) {
 		  --lu2_ptr;
 
-#ifdef MULTI_TASK
-		  lu2_ptr->task = lu_ptr->task;
-#endif
 		  lu2_ptr->file = lu_ptr->file;
 		  lu2_ptr->pageno = lu_ptr->pageno;
 		  /* exchange page slot numbers */
@@ -660,9 +640,6 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
 
 	       while (lu_ptr < lu2_ptr) {
 
-#ifdef MULTI_TASK
-		  lu_ptr->task = NULL;
-#endif
 		  lu_ptr->file = -1;
 		  lu_ptr->pageno = -1L;
                   pg_ptr = &dbpg_table[lu_ptr->pg_slot];
@@ -731,11 +708,6 @@ int dio_flush()
 	 continue;
       }
       lu_ptr = &db_lookup[pg_ptr->lu_slot];
-#ifdef MULTI_TASK
-      if ( lu_ptr->task != Currtask.v.ptr ) {
-	 continue;
-      }
-#endif
 #ifndef NO_TRANS
       if ((dboptions & TRLOGGING) && trans_id && !trcommit && use_ovfl) {
 	 /* flush to overflow/log file -- before tr commit */
@@ -1155,10 +1127,6 @@ PAGE_ENTRY *pg_table;   /* = dbpg_table, ixpg_table, or NULL */
 PAGE_ENTRY * *xpg_ptr;  /* pointer to page table entry for found page */
 LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
 {
-#ifdef MULTI_TASK
-   CHAR_P Tempbuff;
-#define tempbuff Tempbuff.ptr
-#endif
    LOOKUP_ENTRY *lookup;  /* = db_lookup or ix_lookup */
    int pgtab_sz;          /* = db_pgtab_sz or ix_pgtab_sz */
    long cmp;
@@ -1172,18 +1140,11 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
    BOOLEAN db_cache;      /* TRUE if currently using dbpg_table */
    F_ADDR ovfl_addr;
 #endif
-#ifdef MULTI_TASK
-   INT pgsize;
-#endif
 
 #ifdef NO_TRANS
 
    /* check if desired page was last one */
-#ifdef MULTI_TASK
-   if ((Currtask.v.ptr == last_dblu.task) && (file == last_dblu.file) && (page == last_dblu.pageno)) {
-#else
    if ((file == last_dblu.file) && (page == last_dblu.pageno)) {
-#endif
       if (xlu_ptr != NULL)
          *xlu_ptr = &db_lookup[last_dblu.slot];
       if (xpg_ptr != NULL)
@@ -1195,12 +1156,7 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
 #else			/* NO_TRANS */
    if (db_cache = (!pg_table || (pg_table == dbpg_table))) {
       /* check if desired page was last one */
-#ifdef MULTI_TASK
-      if ((Currtask.v.ptr == last_dblu.task) && (file == last_dblu.file) &&
-	     (page == last_dblu.pageno)) {
-#else
       if ((file == last_dblu.file) && (page == last_dblu.pageno)) {
-#endif
          if (xlu_ptr != NULL)
             *xlu_ptr = &db_lookup[last_dblu.slot];
          if (xpg_ptr != NULL)
@@ -1220,9 +1176,6 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
    u = pgtab_sz - 1;
    while (u >= l) {
       lu_ptr = &lookup[lu_slot = (l + u)/2];
-#ifdef MULTI_TASK
-      if ((cmp = Currtask.v.ptr - lu_ptr->task) == 0)
-#endif
 	 if ((cmp = file - lu_ptr->file) == 0)
 	    cmp = page - lu_ptr->pageno;
       if (cmp < 0)
@@ -1233,9 +1186,6 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
 #ifndef NO_TRANS
          if (db_cache)
          {
-#endif
-#ifdef MULTI_TASK
-            last_dblu.task = lu_ptr->task;
 #endif
             last_dblu.file = lu_ptr->file;
             last_dblu.pageno = lu_ptr->pageno;
@@ -1305,18 +1255,8 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
 #ifdef SINGLE_USER
 	    if (!db_cache || (EXCL_OPEN() && !trans_id)) {
 #else
-#ifdef MULTI_TASK
-	    MEM_LOCK(&replu_ptr->task->Excl_locks);
-#endif
 	    if (!db_cache || ((EXCL_OPEN() ||
-#ifdef MULTI_TASK
-		( replu_ptr->task == Currtask.v.ptr ) ?
-		   excl_locks[lookup[pg_ptr->lu_slot].file] :
-		   replu_ptr->task->Excl_locks.ptr[replu_ptr->file]) && 
-		!trans_id)) {
-#else
 	        excl_locks[lookup[pg_ptr->lu_slot].file]) && !trans_id)) {
-#endif		/* MULTI_TASK */
 #endif		/* SINGLE_USER */
 	       /* ix page swapping occurs here */
 	       dio_out(pg_ptr, replu_ptr, db_cache);
@@ -1330,9 +1270,6 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
 	       --no_modheld;  /* must be in db cache */
 	       if (o_write(pg_ptr, replu_ptr) != S_OKAY) return( db_status );
 	    }
-#ifdef MULTI_TASK
-	    MEM_UNLOCK(&replu_ptr->task->Excl_locks);
-#endif
 	 }
 	 pg_ptr->ovfl_addr = ovfl_addr;
 #endif			/* NO_TRANS */
@@ -1372,37 +1309,7 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
 	 --replu_ptr;
       }
    }
-#ifdef MULTI_TASK
 
-#ifdef NO_TRANS
-   pgsize = file_table[( lu_ptr->file > -1 ) ? lu_ptr->file : file].ft_pgsize;
-#else
-   pgsize = ( db_cache )
-	    ? file_table[( lu_ptr->file > -1 ) ? lu_ptr->file : file].ft_pgsize
-	    : file_table[ov_file].ft_pgsize;
-#endif
-
-   if ( ! pgsize ) {
-      pgsize = page_size;
-   }
-   if ( pgsize != file_table[file].ft_pgsize ) {
-      Tempbuff.ptr = NULL;
-      tempbuff = ALLOC(&Tempbuff, file_table[file].ft_pgsize, "dbpgbuff");
-      if ( ! tempbuff ) {
-	 return( dberr(S_NOMEMORY) );
-      }
-      if ( pg_ptr->buff ) {
-	 MEM_UNLOCK(&pg_ptr->Buff);
-	 FREE(&pg_ptr->Buff);
-      }
-      MEM_UNLOCK(&Tempbuff);
-      pg_ptr->Buff = Tempbuff;
-   }
-#endif /* MULTI_TASK */
-
-#ifdef MULTI_TASK
-   lu_ptr->task = Currtask.v.ptr;
-#endif
    lu_ptr->file = file;
    lu_ptr->pageno = page;
    lu_ptr->pg_slot = pg_slot;
@@ -1412,18 +1319,12 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
    if (xpg_ptr != NULL)
       *xpg_ptr = pg_ptr;
 #ifdef NO_TRANS
-#ifdef MULTI_TASK
-   last_dblu.task = lu_ptr->task;
-#endif
    last_dblu.file = lu_ptr->file;
    last_dblu.pageno = lu_ptr->pageno;
    last_dblu.slot = lu_slot;
    dio_in(pg_ptr, lu_ptr);
 #else
    if (db_cache) {
-#ifdef MULTI_TASK
-      last_dblu.task = lu_ptr->task;
-#endif
       last_dblu.file = lu_ptr->file;
       last_dblu.pageno = lu_ptr->pageno;
       last_dblu.slot = lu_slot;
