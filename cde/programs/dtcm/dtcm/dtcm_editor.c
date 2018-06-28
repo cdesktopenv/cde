@@ -680,7 +680,8 @@ de_reset_proc(Widget w, XtPointer client_data, XtPointer data) {
 }
 
 static void
-display_command_usage() {
+display_command_usage(void)
+{
 	fprintf(stderr, "\ndtcm_editor Usage:  dtcm [filename]\n\n");
 	exit(0);
 }

@@ -147,14 +147,14 @@ ntimes_this_week(u_int weekmask, int firstday)
 
 /* Return beginning of time */
 extern Tick
-get_bot()
+get_bot(void)
 {
 	return bot;
 }
 
 /* Return end of time */
 extern Tick
-get_eot()
+get_eot(void)
 {
 	return eot;
 }
@@ -255,8 +255,7 @@ year(Tick t)
 }
 
 extern int
-month(t)
-	Tick t;
+month(Tick t)
 {
 	struct tm *tm;
 	_Xltimeparams localtime_buf;
@@ -945,7 +944,7 @@ xytoclock(int x, int y, Tick t)
 }
 
 extern Tick
-now()
+now(void)
 {
 	return(time(0));
 }
@@ -972,7 +971,7 @@ set_timezone(char *tzname)
 }
  
 extern long
-gmt_off()
+gmt_off(void)
 {
         struct tm tm;
         Tick t;
@@ -1001,7 +1000,7 @@ gmt_off()
  * of the routines in this file and the caller of these routines.
  */
 extern void
-init_time()
+init_time(void)
 {
 	struct tm tm, gm;
 	Tick	t;

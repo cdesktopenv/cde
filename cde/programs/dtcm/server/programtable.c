@@ -56,7 +56,7 @@ program_object po = {
 	
 program_handle program = &po;
 
-program_handle newph() 
+program_handle newph(void) 
 {
 	extern void initrtable2();
 	extern void initrtable3();
@@ -71,7 +71,7 @@ program_handle newph()
 	return(program);
 }
 
-program_handle getph() 
+program_handle getph(void) 
 {
 	return(program);
 }

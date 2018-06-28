@@ -102,7 +102,7 @@ extern int   	pclose(FILE *);
  *
  */
 extern char*
-cm_def_printer()
+cm_def_printer(void)
 {
         FILE *fp;
         char message[257];
@@ -291,8 +291,7 @@ cr_to_str(char *s)
 
 /* VARARGS1 */
 extern void
-syserr(msg, a1, a2, a3)
-	char *msg;
+syserr(char *msg, int a1, int a2, int a3)
 {
 	/* Taken from Unix World, July 1989, p. 66 */
 	int saveerr;
@@ -525,7 +524,7 @@ get_tail(char *str, char sep)
 }
 
 extern char *
-cm_get_credentials()
+cm_get_credentials(void)
 {
 	char *name, *host;
 	static char *login = NULL;
@@ -541,7 +540,7 @@ cm_get_credentials()
 }
 
 extern char *
-cm_get_local_host()
+cm_get_local_host(void)
 {
 	static char *local_host;
 
@@ -558,7 +557,7 @@ cm_get_local_host()
 }
 
 extern char *
-cm_get_uname()
+cm_get_uname(void)
 {
         static char *name;
         struct passwd *pw; 
@@ -574,7 +573,7 @@ cm_get_uname()
 }
 
 extern char *
-cm_get_local_domain()
+cm_get_local_domain(void)
 {
 	static char *local_domain;
 

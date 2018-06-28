@@ -612,7 +612,7 @@ _DtCmsRbToCsaStat(Rb_Status rb_stat)
 }
 
 extern void
-garbage_collect()
+garbage_collect(void)
 {
 	unsigned remain;
 	_DtCmsCalendar *clist = calendar_list;
@@ -644,7 +644,7 @@ garbage_collect()
 }
 
 extern void
-debug_switch()
+debug_switch(void)
 {
 	_DtCmsCalendar *clist = calendar_list;
 	Access_Entry_4 *l;

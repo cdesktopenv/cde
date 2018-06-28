@@ -61,8 +61,7 @@
 #include "help.h"
 
 extern caddr_t
-make_timezone(c)
-Calendar *c;
+make_timezone(Calendar *c)
 {
 	Timezone *t;
 	Widget text, separator, button_form;
@@ -326,8 +325,7 @@ Calendar *c;
 }
 
 extern void
-refresh_timezone(t)
-Timezone *t;
+refresh_timezone(Timezone *t)
 {
     XmToggleButtonSetState(t->mytime, t->timezone_type == mytime, FALSE);
     XmToggleButtonSetState(t->customtime, t->timezone_type == customtime,FALSE);

@@ -50,18 +50,14 @@
 
 /*************** V2 PROTOCOL IMPLEMENTATION PROCS *****************/
 extern void *
-_DtCm_rtable_ping_2_svc(args, svcrq)
-void *args;
-struct svc_req *svcrq;
+_DtCm_rtable_ping_2_svc(void *args, struct svc_req *svcrq)
 {
 	return(NULL); /* for RPC reply */
 }
 
 /*	PROC #1		*/
 extern Table_Res_2 *
-_DtCm_rtable_lookup_2_svc (args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_lookup_2_svc (Table_Args_2 *args, struct svc_req *svcrq)
 {
 	static Table_Res_2 *res = NULL;
 	Table_Args_4 *newargs;
@@ -81,9 +77,7 @@ struct svc_req *svcrq;
 
 /*	PROC #2		*/
 extern Table_Res_2 *
-_DtCm_rtable_lookup_next_larger_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_lookup_next_larger_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL;
         Table_Args_4 *newargs;   
@@ -104,9 +98,7 @@ struct svc_req *svcrq;
 
 /*	PROC #3		*/
 extern Table_Res_2 *
-_DtCm_rtable_lookup_next_smaller_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_lookup_next_smaller_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL; 
         Table_Args_4 *newargs;    
@@ -127,9 +119,7 @@ struct svc_req *svcrq;
 
 /*	PROC #4		*/
 extern Table_Res_2 *
-_DtCm_rtable_lookup_range_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_lookup_range_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL;  
         Table_Args_4 *newargs;     
@@ -149,9 +139,7 @@ struct svc_req *svcrq;
 
 /*	PROC #5		*/
 extern Table_Res_2 *
-_DtCm_rtable_abbreviated_lookup_range_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_abbreviated_lookup_range_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL;   
         Table_Args_4 *newargs;      
@@ -171,9 +159,7 @@ struct svc_req *svcrq;
 
 /*	PROC #6		*/
 extern Table_Res_2 *
-_DtCm_rtable_insert_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_insert_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL;
         Table_Args_4 *newargs;
@@ -193,9 +179,7 @@ struct svc_req *svcrq;
 
 /*	PROC #7	*/
 extern Table_Res_2 *
-_DtCm_rtable_delete_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_delete_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL; 
         Table_Args_4 *newargs;
@@ -214,9 +198,7 @@ struct svc_req *svcrq;
 
 /*	PROC #8		*/
 extern Table_Res_2 *
-_DtCm_rtable_delete_instance_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_delete_instance_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL; 
         Table_Args_4 *newargs;  
@@ -235,9 +217,7 @@ struct svc_req *svcrq;
 
 /*	PROC #9	*/
 extern Table_Res_2 *
-_DtCm_rtable_change_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_change_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL;
         Table_Args_4 *newargs; 
@@ -257,9 +237,7 @@ struct svc_req *svcrq;
 
 /*	PROC #10	*/
 extern Table_Res_2 *
-_DtCm_rtable_change_instance_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_change_instance_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL; 
         Table_Args_4 *newargs;   
@@ -279,9 +257,7 @@ struct svc_req *svcrq;
 
 /*	PROC #11	*/
 extern Table_Res_2 *
-_DtCm_rtable_lookup_next_reminder_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_lookup_next_reminder_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Res_2 *res = NULL; 
         Table_Args_4 *newargs;    
@@ -301,9 +277,7 @@ struct svc_req *svcrq;
 
 /*	PROC #12	*/
 extern Table_Status_2 *
-_DtCm_rtable_check_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_check_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Status_2 res; 
         Table_Args_4 *newargs;     
@@ -321,9 +295,7 @@ struct svc_req *svcrq;
 
 /*	PROC #13	*/
 extern Table_Status_2 *
-_DtCm_rtable_flush_table_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_flush_table_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static Table_Status_2 res;  
         Table_Args_4 *newargs;     
@@ -341,9 +313,7 @@ struct svc_req *svcrq;
 
 /*	PROC #14	*/
 extern int *
-_DtCm_rtable_size_2_svc(args, svcrq)
-Table_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_size_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static int size;   
         Table_Args_4 *newargs;      
@@ -358,9 +328,7 @@ struct svc_req *svcrq;
 
 /*	PROC #15	*/
 Registration_Status_2 *
-_DtCm_register_callback_2_svc(r, svcrq)
-Registration_2 *r;
-struct svc_req *svcrq;
+_DtCm_register_callback_2_svc(Registration_2 *r, struct svc_req *svcrq)
 {
         static Registration_Status_2 stat;    
         Registration_4 *newreg;       
@@ -377,9 +345,7 @@ struct svc_req *svcrq;
 
 /*	PROC #16	*/
 Registration_Status_2 *
-_DtCm_deregister_callback_2_svc(r, svcrq)
-Registration_2 *r;
-struct svc_req *svcrq;
+_DtCm_deregister_callback_2_svc(Registration_2 *r, struct svc_req *svcrq)
 {
         static Registration_Status_2 stat;     
         Registration_4 *newreg;          
@@ -396,9 +362,7 @@ struct svc_req *svcrq;
 
 /*	PROC #17	*/
 extern Access_Status_2 *
-_DtCm_rtable_set_access_2_svc(args, svcrq)
-Access_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_set_access_2_svc(Access_Args_2 *args, struct svc_req *svcrq)
 {
 	static Access_Status_2 stat;
 	Access_Args_4 *newargs;
@@ -415,9 +379,7 @@ struct svc_req *svcrq;
 
 /*	PROC #18	*/
 extern Access_Args_2 *
-_DtCm_rtable_get_access_2_svc(args, svcrq)
-Access_Args_2 *args;
-struct svc_req *svcrq;
+_DtCm_rtable_get_access_2_svc(Access_Args_2 *args, struct svc_req *svcrq)
 {
         static Access_Args_2 *res = NULL;
         Access_Args_4 *newargs;
@@ -435,8 +397,7 @@ struct svc_req *svcrq;
         return(res); 
 }
 
-void initrtable2(ph)
-        program_handle ph;
+void initrtable2(program_handle ph)
 {
 	int ver = TABLEVERS_2;
         ph->program_num = TABLEPROG;

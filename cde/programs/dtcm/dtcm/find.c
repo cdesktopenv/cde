@@ -68,8 +68,7 @@
 static void layout_labels(Widget, Widget, Widget, Widget);
 
 extern caddr_t
-make_find(c)
-Calendar *c;
+make_find(Calendar *c)
 {
 	Find 		*f;
 	Widget 		 separator1, separator2, button_form;
@@ -554,10 +553,7 @@ fmt_time_what(
 }
 
 void
-find_appts(widget, client_data, cbs)
-Widget widget;
-XtPointer client_data;
-XmPushButtonCallbackStruct *cbs;
+find_appts(Widget widget, XtPointer client_data, XmPushButtonCallbackStruct *cbs)
 {
 	Calendar *c = calendar;
 	Props *p = (Props*)c->properties;
@@ -766,10 +762,7 @@ XmPushButtonCallbackStruct *cbs;
 }
 
 void
-show_appt(widget, client_data, cbs)
-Widget widget;
-XtPointer client_data;
-XmPushButtonCallbackStruct *cbs;
+show_appt(Widget widget, XtPointer client_data, XmPushButtonCallbackStruct *cbs)
 {
 	Calendar *c = calendar;
 

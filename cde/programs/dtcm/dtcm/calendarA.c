@@ -1904,8 +1904,7 @@ move_to_new_day(XtPointer data, XtIntervalId *dummy)
 }
 
 static void
-setup_new_day_handler(c)
-	Calendar *c;
+setup_new_day_handler(Calendar *c)
 {
 	Tick midnight;
         unsigned long next_day;
@@ -1985,9 +1984,7 @@ sig_int_handler(
 	exit(0);
 }
 
-static int myabort(dpy, event)
-        Display *dpy;
-        XErrorEvent  *event;
+static int myabort(Display *dpy, XErrorEvent  *event)
 {
 /*
 char buffer[MAXNAMELEN];
@@ -2328,7 +2325,7 @@ view_event(Widget w, XtPointer client_data, XtPointer cbs)
 }
 
 static void
-cm_usage()
+cm_usage(void)
 {
 	(void)fprintf(stderr, "Usage: dtcm [ -c calendar ] [-v view ]");
 	(void)fprintf(stderr, " [ -p printer ] [ generic-tool-arguments ]\n" );
@@ -2452,7 +2449,7 @@ static XtResource resources[] = {
  * to the local host.
  */
 char *
-get_user_calendar()
+get_user_calendar(void)
 {
 	char	*name, *uname, *loc;
 	Boolean	needfree = False;
@@ -2474,8 +2471,7 @@ get_user_calendar()
 }
 
 static void
-init_calendar(argc, argv)
-	int argc; char **argv;
+init_calendar(int argc, char **argv)
 {
 	int start, stop;
 	register int i;
@@ -2956,7 +2952,7 @@ today_inrange(Calendar *c, time_t day_in_range) {
 	return inrange;
 }
 void
-init_strings()
+init_strings(void)
 {
 	char *display_lang="C";
 

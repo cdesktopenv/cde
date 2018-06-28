@@ -225,7 +225,7 @@ DtXlateStdToOpLocale (
     }
 }
 char *
-targetTagName()
+targetTagName(void)
 {
    char *ret_locale = NULL;
    char *ret_lang = NULL;

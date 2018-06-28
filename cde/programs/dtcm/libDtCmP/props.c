@@ -327,7 +327,7 @@ props_clean_up(Props *p) {
 }
 
 static void
-init_props()
+init_props(void)
 {
 #define LIBDTCM_CAT "libdtcm"
     static int		is_inited = 0;

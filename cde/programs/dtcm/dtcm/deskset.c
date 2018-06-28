@@ -85,7 +85,7 @@ static  char sccsid[] = "@(#)deskset.c 1.11 94/12/22 Copyr 1993 Sun Microsystems
 **
 ******************************************************************************/
 extern char *
-ds_relname()
+ds_relname(void)
 {
 	static char	buf[MAXNAMELEN];
 

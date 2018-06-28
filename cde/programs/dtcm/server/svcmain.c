@@ -201,7 +201,7 @@ error:
 }
 
 static void
-init_dir()
+init_dir(void)
 {
 	char *dir = _DtCMS_DEFAULT_DIR;
 	char msgbuf[BUFSIZ];
@@ -282,7 +282,7 @@ init_dir()
  * send a SIGHUP signal to the rpc.cmsd that is already running
  */
 static void
-send_hup()
+send_hup(void)
 {
 	FILE	*fp = NULL;
 	char	buf[BUFSIZ];
@@ -313,7 +313,7 @@ send_hup()
  * We only allow one rpc.cmsd to run on each machine.
  */
 static int
-lock_it()
+lock_it(void)
 {
 	char *dir = _DtCMS_DEFAULT_DIR;
 	char	buff [MAXPATHLEN];
@@ -467,7 +467,7 @@ sighup_handler(int sig_num)
  * time and now so that the calling routine can set the alarm.
  */
 static int
-_GetFirstGarbageCollectionTime()
+_GetFirstGarbageCollectionTime(void)
 {
 	int n=0, midnight=0, gtime=0;
 
@@ -487,7 +487,7 @@ _GetFirstGarbageCollectionTime()
 }
 
 static void
-init_alarm()
+init_alarm(void)
 {
 	int next;
 	extern void garbage_collect();
@@ -508,6 +508,7 @@ init_alarm()
 	alarm((unsigned) next);
 }
 
+int
 main(int argc, char **argv)
 {
         u_long version;

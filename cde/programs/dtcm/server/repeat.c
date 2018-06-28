@@ -123,7 +123,7 @@ static time_t prevdaysofweek(time_t t, int weekmask);
  * of the routines in this file and the caller of these routines.
  */
 extern void
-init_time()
+init_time(void)
 {
 	struct tm tm, gm;
 	time_t	t;

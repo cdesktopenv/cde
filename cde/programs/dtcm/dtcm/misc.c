@@ -1161,9 +1161,7 @@ setup_quit_handler(Widget w, XtCallbackProc cb, caddr_t user_data) {
 }
 
 int
-ds_is_double_click(last_event, event )
-XEvent           *last_event;
-XEvent           *event;
+ds_is_double_click(XEvent *last_event, XEvent *event)
 {
         static  int             time_threshold;
         static  int             dist_threshold;

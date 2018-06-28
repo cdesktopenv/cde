@@ -193,7 +193,7 @@ static u_int  sendit_value[255];
 */
 
 static void
-init()
+init(void)
 {
   int i;
 
@@ -264,7 +264,7 @@ init()
 }
 
 extern int
-yyylex()
+yyylex(void)
 {
   static int first_time=1;
 

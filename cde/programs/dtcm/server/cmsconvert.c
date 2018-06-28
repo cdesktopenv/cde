@@ -839,7 +839,7 @@ _AttrsToAbbrAppt(uint size, cms_attribute *attrs, Abb_Appt_4 *appt)
 }
 
 static Abb_Appt_4 *
-_MakeAbbrAppt()
+_MakeAbbrAppt(void)
 {
 	Abb_Appt_4 *a;
 

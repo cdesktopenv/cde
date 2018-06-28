@@ -464,7 +464,7 @@ lookup(char *id)
 
 static char *lptr;
 
-int yylex()
+int yylex(void)
 {
 	extern int yylval;
 	int sign;
