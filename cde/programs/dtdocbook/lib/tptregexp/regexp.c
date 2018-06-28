@@ -712,13 +712,7 @@ STATIC char *regprop();
  - regexec - match a regexp against a string
  */
 int
-<<<<<<< ca7d34b7ff5f017e3228714bb583266f7cdf946f
-tpt_regexec(register regexp *prog, register char *string)
-=======
-tpt_regexec(prog, string)
-regexp *prog;
-char *string;
->>>>>>> dtdocbook: remove register keyword
+tpt_regexec(regexp *prog, char *string)
 {
 	char *s;
 
@@ -1043,12 +1037,7 @@ regrepeat(char *p)
  - regnext - dig the "next" pointer out of a node
  */
 static char *
-<<<<<<< ca7d34b7ff5f017e3228714bb583266f7cdf946f
-regnext(register char *p)
-=======
-regnext(p)
-char *p;
->>>>>>> dtdocbook: remove register keyword
+regnext(char *p)
 {
 	int offset;
 
