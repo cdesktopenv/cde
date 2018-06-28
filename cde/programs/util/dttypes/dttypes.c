@@ -34,7 +34,7 @@
 #include	<stdio.h>
 #include	<Xm/Xm.h>
 #include	<X11/Shell.h>
-#define INIT          register char *sp = instring;
+#define INIT          char *sp = instring;
 #define GETC()        (*sp++)
 #define PEEKC()       (*sp)
 #define UNGETC(c)     (--sp)
