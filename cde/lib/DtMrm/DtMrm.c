@@ -137,7 +137,7 @@ static char rcsid[] = "$TOG: DtMrm.c /main/4 1999/10/14 13:35:44 mgreess $"
 static	Boolean	urm__initialize_complete = FALSE;
 
 
-void DtMrmInitialize ()
+void DtMrmInitialize (void)
 
 /*
  *++
