@@ -586,12 +586,13 @@ parse_args(List *l, int argc, char **argv)
 	return(1);
 }
 
-usage()
+int usage(void)
 {
 	fprintf(stderr, "%s", catgets(dtcatd, 1, 25, "usage:  dttypes [-help]\n\tdttypes [-type filename]\n\tdttypes [-db database] [-w [rec_name regexp] [fld_name regexp]\n\t\t\t[fld_value regexp]]\n\t\t[-l [rec_name] [rec_info] [fld_name regexp] [fld_value]]\n"));
 	exit(1);
 }
 
+int
 main(int argc, char **argv)
 {
 	List	l;
