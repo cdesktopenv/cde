@@ -696,9 +696,7 @@ PanelControlCreate (Widget parent,
  ************************************************************************/
 
 static void
-BoxCreate ()
-
-
+BoxCreate (void)
 {
    int i, j;
    BoxData * box_data;

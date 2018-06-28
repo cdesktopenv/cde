@@ -1581,10 +1581,7 @@ void SetGranularity (WmWorkspaceData *pWS, ClientData *pCD, IconBoxData *pIBD)
  * 
  *************************************<->***********************************/
 
-MenuItem *GetIconBoxMenuItems (pSD)
-
-    WmScreenData *pSD;
-
+MenuItem *GetIconBoxMenuItems (WmScreenData *pSD)
 {
 
     return(ParseMwmMenuStr (pSD, 
@@ -1969,12 +1966,7 @@ Boolean InsertIconIntoBox (IconBoxData *pIBD, ClientData *pCD)
  * 
  *************************************<->***********************************/
 
-IconInfo *InsertIconInfo (pIBD, pCD, theWidget)
-
-    IconBoxData *pIBD;
-    ClientData *pCD;
-    Widget theWidget;
-
+IconInfo *InsertIconInfo (IconBoxData *pIBD, ClientData *pCD, Widget theWidget)
 {
     IconInfo *pII;
     int place;

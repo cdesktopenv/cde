@@ -5850,11 +5850,8 @@ _WmGetDynamicDefault (Widget widget, unsigned char type, String defaultColor, Pi
  * 
  *************************************<->***********************************/
 
-XmColorData * _WmGetDefaultColors (screen, colormap, defaultColor)
-	Screen *screen;
-	Colormap colormap;
-	String defaultColor;
-
+XmColorData * _WmGetDefaultColors (Screen *screen, Colormap colormap,
+                                   String defaultColor)
 {
     static XmColorData *defaultSet[2] = {NULL, NULL};
     static int defaultCount[2] = {0, 0};
@@ -5986,10 +5983,7 @@ XmColorData * _WmGetDefaultColors (screen, colormap, defaultColor)
  * 
  *************************************<->***********************************/
 
-char * WmRealloc (ptr, size)
-	char *ptr;
-	unsigned size;
-
+char * WmRealloc (char *ptr, unsigned size)
 {
     if (ptr)
     {
@@ -6034,10 +6028,7 @@ char * WmRealloc (ptr, size)
  * 
  *************************************<->***********************************/
 
-char * WmMalloc (ptr, size)
-	char *ptr;
-	unsigned size;
-
+char * WmMalloc (char *ptr, unsigned size)
 {
     if (ptr)
     {
@@ -6083,10 +6074,7 @@ char * WmMalloc (ptr, size)
  *************************************<->***********************************/
 
 void
-SetupDefaultResources (pSD)
-
-WmScreenData *pSD;
-
+SetupDefaultResources (WmScreenData *pSD)
 {
     KeySpec *nextKeySpec;
     String keyBindings;

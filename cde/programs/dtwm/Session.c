@@ -78,9 +78,7 @@ extern String unpost_monitor_arrow_image;
  ************************************************************************/
  
 static char *
-SessionFileGetName ()
-
-
+SessionFileGetName (void)
 {
    char * home_dir;
    char * file_name;
@@ -113,9 +111,7 @@ SessionFileGetName ()
  ************************************************************************/
 
 void
-SessionRestoreData ()
-
-
+SessionRestoreData (void)
 {
    FILE * fd;
 
@@ -477,9 +473,7 @@ SessionRestoreData ()
  ************************************************************************/
 
 void
-WmFrontPanelSessionSaveData ()
-
-
+WmFrontPanelSessionSaveData (void)
 {
    FILE * fd;
 

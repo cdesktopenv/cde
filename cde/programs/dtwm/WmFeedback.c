@@ -80,7 +80,7 @@ static char *confirm_mesg[4] = {"Switch to Default Behavior?",
 
 
 void
-initMesg()
+initMesg(void)
 {
 
     char * tmpString;
@@ -643,11 +643,7 @@ void UpdateFeedbackText (WmScreenData *pSD, int x, int y, unsigned int width, un
  * 
  *************************************<->***********************************/
 
-static void OkCB (w, client_data, call_data)
-
-   Widget w;
-   caddr_t client_data;
-   caddr_t call_data;
+static void OkCB (Widget w, caddr_t client_data, caddr_t call_data)
 {
     WithdrawDialog (w);
 
@@ -685,11 +681,7 @@ static void OkCB (w, client_data, call_data)
  * 
  *************************************<->***********************************/
 
-static void CancelCB (w, client_data, call_data)
-
-   Widget w;
-   caddr_t client_data;
-   caddr_t call_data;
+static void CancelCB (Widget w, caddr_t client_data, caddr_t call_data)
 {
     WithdrawDialog (w);
 

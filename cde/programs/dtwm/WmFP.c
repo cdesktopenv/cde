@@ -364,8 +364,7 @@ EmbeddedClientRegister (ControlData * control_data,
  ************************************************************************/
 
 static void
-EmbeddedClientSetData ()
-
+EmbeddedClientSetData (void)
 {
    WmScreenData *pSD;
    int i;
@@ -555,8 +554,7 @@ PushRecallRegister (ControlData * control_data,
  ************************************************************************/
 
 static void
-PushRecallSetData ()
-
+PushRecallSetData (void)
 {
    WmScreenData *pSD;
    int i;

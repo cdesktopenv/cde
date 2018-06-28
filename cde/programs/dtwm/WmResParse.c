@@ -1755,8 +1755,7 @@ void ProcessWmFile (WmScreenData *pSD, Boolean bNested)
 /**** This function stolen from Xt/Intrinsic.c ****/
 /* The implementation of this routine is operating system dependent */
 
-static char *ExtractLocaleName(lang)
-    String	lang;
+static char *ExtractLocaleName(String lang)
 {
 
 #ifdef hpux	 /* hpux-specific parsing of the locale string */

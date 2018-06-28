@@ -218,8 +218,7 @@ Boolean F_Beep (String args, ClientData *pCD, XEvent *event)
  * is to restack the dirty transient relative to the second to the
  * top transient.  This function is used to support freeFamily stacking.
  */
-ClientData * FindSecondToTopTransient (pcd)
-ClientData *pcd;
+ClientData * FindSecondToTopTransient (ClientData *pcd)
 {
     ClientData *pcdNext;
     static ClientData *second;
@@ -2199,11 +2198,7 @@ F_Push_Recall (String args, ClientData *pCD, XEvent *event)
  *
  *************************************<->***********************************/
 
-Boolean F_Pass_Key (args, pCD, event)
-    String args;
-    ClientData *pCD;
-    XEvent *event;
-
+Boolean F_Pass_Key (String args, ClientData *pCD, XEvent *event)
 {
     if (wmGD.passKeysActive)
     {
