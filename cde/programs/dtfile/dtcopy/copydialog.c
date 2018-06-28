@@ -367,10 +367,7 @@ cancel_callback(
 
 
 static void
-pause_callback(w, client_data, call_data)
-	Widget w;
-	XtPointer client_data;
-	XtPointer call_data;
+pause_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   XmString xm_string;
   Pixmap px;

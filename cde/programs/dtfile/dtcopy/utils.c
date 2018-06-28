@@ -278,7 +278,7 @@ _DtChildPosition(
 
 
 static Widget
-Get_Help_Dialog()
+Get_Help_Dialog(void)
 {
     Widget dialog;
     Arg args[5];
