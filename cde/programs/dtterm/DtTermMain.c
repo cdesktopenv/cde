@@ -837,7 +837,7 @@ CreateInstance
 }
 
 void
-AtExitProc()
+AtExitProc(void)
 {
     static int i = 0;
 

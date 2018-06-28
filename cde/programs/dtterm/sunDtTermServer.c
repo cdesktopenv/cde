@@ -87,7 +87,7 @@ static void TimeOut(XtPointer clientData, XtIntervalId *id);
 #endif  /* TIMEOUT */
 
 Boolean
-FinalizeToolTalkSession( )
+FinalizeToolTalkSession(void)
 {
     Tt_status 	ttRc;
     int 	i;

@@ -90,7 +90,7 @@ static char *message_defaults[] = {
 "End-Of-List",
 };
 
-static void GetUsage()
+static void GetUsage(void)
 {
     register struct _options *optPtr;
     register int i;
