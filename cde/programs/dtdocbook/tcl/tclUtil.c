@@ -856,7 +856,7 @@ Tcl_Concat(
 int
 Tcl_StringMatch(
     char *string,	/* String. */
-    char *pattern	/* Pattern, which may contain
+    char *pattern	/* Pattern, which may contain something */
 )
 {
     char c2;
