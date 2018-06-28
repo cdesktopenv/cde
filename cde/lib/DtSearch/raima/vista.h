@@ -246,9 +246,6 @@ typedef LONG	BOOLEAN;
 
 /* grouped lock request packet */
 extern int db_status;
-#ifndef NO_TRANS
-extern int rlb_status;
-#endif
 
 /* Mike Russell's custom open() flag.  Default is O_RDWR.
  * Change to O_RDONLY prior to d_open() if not updating

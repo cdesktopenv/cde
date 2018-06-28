@@ -128,44 +128,6 @@ int	debugging_dio_init = FALSE;
 int	debugging_dio_close = FALSE;
 #endif
 
-#ifndef NO_TRANS
-
-/* On MS-DOS networks, files must be closed whenever a lock is freed.
-   Function dio_clrfile is called whenever a lock is freed to clear
-   from the cache the pages of the file whose lock is being freed.
-   CLosing and opening files on Unix, VMS and other host computers, 
-   however, is very slow and is not necessary for database integrity.
-   The following constant definition specifies whether or not the files
-   need to be closed.   A definition per supported MS-DOS compiler is 
-   required.
-*/
-#ifdef MSC
-#define CLOSE_FILES
-#endif
-#ifdef LAT
-#define CLOSE_FILES
-#endif
-#ifdef WIZ
-#define CLOSE_FILES
-#endif
-#ifdef TURBO
-#define CLOSE_FILES
-#endif
-/*------------ transaction logging data ------------*/
-#define DEFIXPAGES 4          /* default number of index cache pages */
-#define MINIXPAGES 2          /* minimum number of index cache pages */
-int ix_pgtab_sz = DEFIXPAGES;
-LOOKUP_ENTRY_P Ix_lookup = POINTER_INIT(); /* index page lookup table */
-PAGE_ENTRY_P Ixpg_table = POINTER_INIT(); /* index page table */
-static int ixpg_lru_slot;     /* least recently accessed ix page */
-
-/* transaction logging enabled flag */
-int trlog_flag = 0;  /* set only by user implemented functions */
-
-BOOLEAN use_ovfl = YES;        /* Default to using overflow */
-CHAR_P Dbpgbuff = POINTER_INIT();  /* allocated by dio_init used by o_update */
-/*------------ end of transaction logging data ------------*/
-#endif		/* NO_TRANS */
 
 #ifndef SINGLE_USER
 #define EXCL_OPEN()	(dbopen >= 2)
@@ -211,12 +173,7 @@ static void cache_init(P1(int) Pi(LOOKUP_ENTRY *)
 static int dio_pzinit(P0);
 static int clear_cache(P1(FILE_NO) Pi(FILE_NO));
 static int dio_pzflush(P0);
-#ifdef NO_TRANS
 static int dio_in(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *));
-#else
-static int dio_in(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *)
-				 Pi(BOOLEAN));
-#endif
 
 #define used_files Used_files.ptr
 #define db_lookup Db_lookup.ptr
@@ -250,11 +207,6 @@ int ixpgs; /* # of index cache pages - ignored in single-user version */
 
    db_pgtab_sz = (dbpgs <= MINDBPAGES) ? MINDBPAGES : dbpgs;
 
-#ifndef NO_TRANS
-   if ( use_ovfl ) {
-      ix_pgtab_sz = (ixpgs <= MINIXPAGES) ? MINIXPAGES : ixpgs;
-   }
-#endif
    return( db_status = S_OKAY );
 }
 
@@ -358,11 +310,6 @@ dio_init()
       if ( page_size > largest_page ) {
 	 if ( (tempbuff = ALLOC(&Tempbuff, page_size, "tempbuff")) == NULL )
 	    return( dberr(S_NOMEMORY) );
-#ifndef NO_TRANS
-	 MEM_UNLOCK(&Dbpgbuff);
-	 FREE(&Dbpgbuff);
-	 Dbpgbuff = Tempbuff;
-#endif
 	 largest_page = page_size;
       }
 #ifdef DEBUG_DIO
@@ -406,29 +353,6 @@ dio_init()
    cache_init((int)db_pgtab_sz, db_lookup, dbpg_table, (int)page_size);
    /***cache_init(db_pgtab_sz, db_lookup, dbpg_table, page_size);****/
    if (db_status != S_OKAY) return(db_status);
-#ifndef NO_TRANS
-   if ( use_ovfl ) {
-      ix_lookup =
-	/* Macro references must be on one line for some compilers */ 
-	(LOOKUP_ENTRY *)
-	ALLOC(&Ix_lookup, ix_pgtab_sz*sizeof(LOOKUP_ENTRY),"ix_lookup");
-      ixpg_table = 
-	/* Macro references must be on one line for some compilers */ 
-	(PAGE_ENTRY *)
-	ALLOC(&Ixpg_table, ix_pgtab_sz*sizeof(PAGE_ENTRY), "ixpg_table");
-      if ( !ix_lookup || !ixpg_table )
-	 return( dberr(S_NOMEMORY) );
-
-      cache_init(ix_pgtab_sz, ix_lookup, ixpg_table, IX_PAGESIZE);
-      if (db_status != S_OKAY)
-         return (db_status);
-
-      if ( (dbpgbuff = ALLOC(&Dbpgbuff, page_size, "dbpgbuff")) == NULL )
-	 return( dberr(S_NOMEMORY) );
-
-      ixpg_lru_slot = 0;
-   }
-#endif			/* NO_TRANS */
    last_file = 0;
    dbpg_lru_slot = 0;
    no_modheld  = 0;
@@ -472,9 +396,6 @@ int		    pgsize;
       pg_ptr->recently_used = FALSE;
       pg_ptr->modified = FALSE;
       pg_ptr->holdcnt = 0;
-#ifndef NO_TRANS
-      pg_ptr->ovfl_addr = 0L;
-#endif
       pg_ptr->buff = ALLOC(&pg_ptr->Buff, pgsize, db_avname);
       if (pg_ptr->buff == NULL) {
 #ifdef DEBUG_DIO
@@ -517,20 +438,6 @@ void dio_free()
    }
    MEM_UNLOCK(&Dbpg_table);
    FREE(&Dbpg_table);
-#ifndef NO_TRANS
-   if ( use_ovfl ) {
-      MEM_UNLOCK(&Ix_lookup);
-      FREE(&Ix_lookup);
-      for (pgt_lc = ix_pgtab_sz, pg_ptr = ixpg_table; --pgt_lc >= 0; ++pg_ptr) {
-	 MEM_UNLOCK(&pg_ptr->Buff);
-	 FREE(&pg_ptr->Buff);
-      }
-      MEM_UNLOCK(&Ixpg_table);
-      FREE(&Ixpg_table);
-      MEM_UNLOCK(&Dbpgbuff);
-      FREE(&Dbpgbuff);
-   }
-#endif
 } /* dio_free() */
 
 
@@ -649,9 +556,6 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
 		  }
 		  pg_ptr->recently_used = FALSE;
 		  pg_ptr->holdcnt = 0;
-#ifndef NO_TRANS
-		  pg_ptr->ovfl_addr = 0L;
-#endif
 		  ++lu_ptr;
 	       }
 	    }
@@ -685,9 +589,6 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
 int dio_flush()
 {
    int pgt_lc;			/* loop control */
-#ifndef NO_TRANS
-   int fno;
-#endif
    PAGE_ENTRY *pg_ptr;
    LOOKUP_ENTRY *lu_ptr;
 
@@ -702,28 +603,10 @@ int dio_flush()
 
    for (pgt_lc = db_pgtab_sz, pg_ptr = dbpg_table; --pgt_lc >= 0; ++pg_ptr) {
       if (!pg_ptr->modified) {
-#ifndef NO_TRANS
-	 pg_ptr->ovfl_addr = 0L;		/*[612]*/
-#endif
 	 continue;
       }
       lu_ptr = &db_lookup[pg_ptr->lu_slot];
-#ifndef NO_TRANS
-      if ((dboptions & TRLOGGING) && trans_id && !trcommit && use_ovfl) {
-	 /* flush to overflow/log file -- before tr commit */
-	 if (o_write(pg_ptr, lu_ptr) != S_OKAY) return( db_status );
-	 if ( lu_ptr->pageno > o_pages(lu_ptr->file) ) {
-	    /* no need to rewrite this page at trcommit time */
-	    pg_ptr->holdcnt = 0;
-	    pg_ptr->modified = FALSE;
-	    --no_modheld;
-	 }
-	 continue;
-      }
-      pg_ptr->ovfl_addr = 0L;
-#endif
       /* write directly to database */
-#ifdef NO_TRANS
 #ifdef DEBUG_DIO
 	if (debugging_dio_close) {
 	    printf (__FILE__"723 dio_flush: write modified pg#%d @ %p\n",
@@ -732,21 +615,9 @@ int dio_flush()
 	}
 #endif
       if (dio_out(pg_ptr, lu_ptr) != S_OKAY) return( db_status );
-#else
-      if (dio_out(pg_ptr, lu_ptr, 1) != S_OKAY) return( db_status );
-#endif
       pg_ptr->holdcnt = 0;
       pg_ptr->modified = FALSE;
       --no_modheld;
-#ifndef NO_TRANS
-      if ( trlog_flag ) {
-	 fno = lu_ptr->file;
-	 MEM_LOCK(&pg_ptr->Buff);
-	 d_trlog(fno, (int)lu_ptr->pageno, pg_ptr->buff,
-		 file_table[fno].ft_pgsize);
-	 MEM_UNLOCK(&pg_ptr->Buff);
-      }
-#endif
    }
    /* store the page zero values in the data file and return */
    return( dio_pzflush() );
@@ -820,12 +691,6 @@ F_ADDR page_no;
 {
    PAGE_ENTRY *pg_ptr;
 
-#ifndef NO_TRANS
-   /* ensure overflow data is initialized when exclusive db access */
-   if ((trans_id && (dboptions & TRLOGGING) && use_ovfl) &&
-       (o_fileinit(working_file) != S_OKAY))
-      return( db_status );
-#endif
 #ifndef SINGLE_USER
    if ( dbopen == 1 ) { 
       /* check shared access privileges */
@@ -936,12 +801,6 @@ int release;
 
    file = NUM2INT((FILE_NO)((dba >> FILESHIFT) & FILEMASK), ft_offset);
 
-#ifndef NO_TRANS
-   /* ensure overflow data is initialized when exclusive db access */
-   if ((trans_id && (dboptions & TRLOGGING) && use_ovfl) &&
-       (o_fileinit(file) != S_OKAY))
-      return( db_status );
-#endif
 #ifndef SINGLE_USER
    if (dbopen == 1) {
       if (!trans_id && !excl_locks[file])  
@@ -1136,12 +995,7 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
    PAGE_ENTRY *pg_ptr;
    int *lru_ptr;
    int pg_slot;
-#ifndef NO_TRANS
-   BOOLEAN db_cache;      /* TRUE if currently using dbpg_table */
-   F_ADDR ovfl_addr;
-#endif
 
-#ifdef NO_TRANS
 
    /* check if desired page was last one */
    if ((file == last_dblu.file) && (page == last_dblu.pageno)) {
@@ -1153,24 +1007,6 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
    }
    lookup = db_lookup;
    pgtab_sz = db_pgtab_sz;
-#else			/* NO_TRANS */
-   if (db_cache = (!pg_table || (pg_table == dbpg_table))) {
-      /* check if desired page was last one */
-      if ((file == last_dblu.file) && (page == last_dblu.pageno)) {
-         if (xlu_ptr != NULL)
-            *xlu_ptr = &db_lookup[last_dblu.slot];
-         if (xpg_ptr != NULL)
-            *xpg_ptr = &dbpg_table[db_lookup[last_dblu.slot].pg_slot];
-	 return( db_status = S_OKAY );
-      }
-      lookup = db_lookup;
-      pgtab_sz = db_pgtab_sz;
-   }
-   else {
-      lookup = ix_lookup;
-      pgtab_sz = ix_pgtab_sz;
-   }
-#endif			/* NO_TRANS */
    /* perform binary search of sorted lookup table */
    l = 0;
    u = pgtab_sz - 1;
@@ -1183,16 +1019,9 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
       else if (cmp > 0)
          l = lu_slot + 1;
       else {
-#ifndef NO_TRANS
-         if (db_cache)
-         {
-#endif
             last_dblu.file = lu_ptr->file;
             last_dblu.pageno = lu_ptr->pageno;
             last_dblu.slot = lu_slot;
-#ifndef NO_TRANS
-         }
-#endif
          if (xlu_ptr != NULL)
             *xlu_ptr = lu_ptr;
          if (xpg_ptr != NULL)
@@ -1209,30 +1038,8 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
       return( db_status = S_NOTFOUND );
    }
    /* page not found - read into cache */
-#ifndef NO_TRANS
-   if( !use_ovfl && trans_id && (no_modheld == pgtab_sz) )
-      return( db_status =  S_TRCHANGES );
-
-   /* check to see if page is in overflow file */
-   ovfl_addr = 0L;
-   if ( cache_ovfl && file != ov_file ) {
-      if ( o_search( file, page, &ovfl_addr ) != S_OKAY )
-	 return( db_status );
-   }
-   /* check for overflow */
-   if ( db_cache && trans_id && (no_modheld == pgtab_sz) && !cache_ovfl ) {
-      cache_ovfl = TRUE;
-   }
-   /* select a page to replace */
-   if (db_cache) {
-      lru_ptr = &dbpg_lru_slot;
-   } else {
-      lru_ptr = &ixpg_lru_slot;
-   }
-#else
    /* select a page to replace */
    lru_ptr = &dbpg_lru_slot;
-#endif			/* NO_TRANS */
    for (cnt = 2*pgtab_sz, pg_slot = *lru_ptr, pg_ptr = &pg_table[pg_slot];
         --cnt >= 0;
         ++pg_slot, ++pg_ptr) {
@@ -1243,36 +1050,11 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
       }
       replu_ptr = &lookup[pg_ptr->lu_slot];
       if (!pg_ptr->recently_used && (pg_ptr->holdcnt == 0)) {
-#ifdef NO_TRANS
 	 if (pg_ptr->modified) {
 	    dio_out(pg_ptr, replu_ptr);
 	    pg_ptr->modified = FALSE;
 	    --no_modheld;
 	 }
-#else
-	 if (pg_ptr->modified) {
-	    /* allow updates outside transactions for single-user mode */
-#ifdef SINGLE_USER
-	    if (!db_cache || (EXCL_OPEN() && !trans_id)) {
-#else
-	    if (!db_cache || ((EXCL_OPEN() ||
-	        excl_locks[lookup[pg_ptr->lu_slot].file]) && !trans_id)) {
-#endif		/* SINGLE_USER */
-	       /* ix page swapping occurs here */
-	       dio_out(pg_ptr, replu_ptr, db_cache);
-	       pg_ptr->modified = FALSE;
-	       if ( db_cache ) --no_modheld;
-	    }
-	    else { 
-	       if (!use_ovfl || !cache_ovfl) continue; /* skip modified pages */
-	       /* Write out modified page */
-	       pg_ptr->modified = FALSE;
-	       --no_modheld;  /* must be in db cache */
-	       if (o_write(pg_ptr, replu_ptr) != S_OKAY) return( db_status );
-	    }
-	 }
-	 pg_ptr->ovfl_addr = ovfl_addr;
-#endif			/* NO_TRANS */
 	 pg_ptr->recently_used = TRUE;
          if ((*lru_ptr = (pg_slot + 1)) >= pgtab_sz)
             *lru_ptr = 0;
@@ -1318,19 +1100,10 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
       *xlu_ptr = lu_ptr;
    if (xpg_ptr != NULL)
       *xpg_ptr = pg_ptr;
-#ifdef NO_TRANS
    last_dblu.file = lu_ptr->file;
    last_dblu.pageno = lu_ptr->pageno;
    last_dblu.slot = lu_slot;
    dio_in(pg_ptr, lu_ptr);
-#else
-   if (db_cache) {
-      last_dblu.file = lu_ptr->file;
-      last_dblu.pageno = lu_ptr->pageno;
-      last_dblu.slot = lu_slot;
-   }
-   dio_in(pg_ptr, lu_ptr, db_cache);
-#endif
 
    return( db_status );
 #undef tempbuff
@@ -1355,16 +1128,9 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
  * page swap function.
  */
 int
-#ifndef NO_TRANS
-dio_out(pg_ptr, lu_ptr, db_cache)
-#else
 dio_out(pg_ptr, lu_ptr)
-#endif
 PAGE_ENTRY *pg_ptr;    /* page table entry to be output */
 LOOKUP_ENTRY *lu_ptr;  /* corresponding lookup table entry */
-#ifndef NO_TRANS
-   BOOLEAN db_cache;      /* TRUE if pg_ptr is in db page cache */
-#endif
 {
    int		desc;	/* file descriptor */
    int		fno;	/* file number */
@@ -1382,30 +1148,10 @@ LOOKUP_ENTRY *lu_ptr;  /* corresponding lookup table entry */
    netorder_timestamp = (ULONG) host_timestamp;
    HTONL (netorder_timestamp);
 
-#ifdef NO_TRANS
    fno = lu_ptr->file;
    pgsize = file_table[fno].ft_pgsize;
    addr = lu_ptr->pageno * (long)pgsize;
    memcpy (pg_ptr->buff, &netorder_timestamp, sizeof(ULONG));
-#else
-   if ( db_cache ) {
-      fno = lu_ptr->file;
-      pgsize = file_table[fno].ft_pgsize;
-   }
-   else
-      pgsize = file_table[ov_file].ft_pgsize;
-
-   if ( pg_ptr->ovfl_addr == 0L ) {
-      /* write to database */
-      addr = lu_ptr->pageno * (long)pgsize;
-      memcpy (pg_ptr->buff, &netorder_timestamp, sizeof(ULONG));
-   }
-   else {
-      /* write to overflow file */
-      fno = ov_file;
-      addr = pg_ptr->ovfl_addr;
-   }
-#endif
    if ( dio_open(fno) == S_OKAY ) {
       swab_page (pg_ptr->buff, &file_table[fno], HTON);
       desc = file_table[fno].ft_desc;
@@ -1423,20 +1169,11 @@ LOOKUP_ENTRY *lu_ptr;  /* corresponding lookup table entry */
 /*		 dio_in			*/
 /*					*/
 /****************************************/
-#ifdef NO_TRANS
 /* Read in a page to the buffer
 */
 static int dio_in(pg_ptr, lu_ptr)
 PAGE_ENTRY *pg_ptr; /* page table entry to be input */
 LOOKUP_ENTRY *lu_ptr; /* corresponding to pg_ptr */
-#else
-/* Read in a page to the buffer
-*/
-static int dio_in(pg_ptr, lu_ptr, db_cache )
-PAGE_ENTRY *pg_ptr; /* page table entry to be input */
-LOOKUP_ENTRY *lu_ptr; /* corresponding to pg_ptr */
-BOOLEAN db_cache;  /* TRUE if pg_ptr in db cache */
-#endif
 {
    int desc;   /* file descriptor */
    int fno;    /* file number */
@@ -1447,24 +1184,8 @@ BOOLEAN db_cache;  /* TRUE if pg_ptr in db cache */
    int r;
 
    file_ptr = &file_table[fno = lu_ptr->file];
-#ifdef NO_TRANS
    pgsize = file_ptr->ft_pgsize;
    addr = lu_ptr->pageno*pgsize;
-#else
-   pgsize = db_cache ? file_ptr->ft_pgsize : file_table[ov_file].ft_pgsize;
-
-   if (pg_ptr->ovfl_addr == 0L) {
-      /* read from database file */
-      /* if !db_cache, overflow address not set on initial read */
-      addr = db_cache ? lu_ptr->pageno*pgsize :
-			(pg_ptr->ovfl_addr = lu_ptr->pageno);
-   }
-   else {
-      /* read from overflow file */
-      file_ptr = &file_table[fno = ov_file];
-      addr = pg_ptr->ovfl_addr;
-   }
-#endif
    if ( dio_open(fno) == S_OKAY ) {
       desc = file_ptr->ft_desc;
       DB_LSEEK(desc, (off_t)addr, 0);
@@ -1587,16 +1308,6 @@ static int dio_pzflush()
    char		*cptr;
    int		j;
 
-#ifndef NO_TRANS
-   if ( (dboptions & TRLOGGING) && trans_id && !trcommit && use_ovfl ) {
-      /* flush to overflow/log file -- before tx commit */
-      for (i = 0, pgzero_ptr = pgzero; i < size_ft; ++i, ++pgzero_ptr) {
-	 if (pgzero_ptr->pz_modified ) 
-	    if ( o_pzwrite( i ) != S_OKAY ) return( db_status );
-      }
-   }
-   else {
-#endif
       /* flush modified page zeroes to database files */
       for (i = 0, pgzero_ptr = pgzero, file_ptr = file_table; i < size_ft; 
 	   ++i, ++pgzero_ptr, ++file_ptr) {
@@ -1619,18 +1330,11 @@ static int dio_pzflush()
 	    if (DB_WRITE(desc, (char *)pgzero_ptr, PGZEROSZ) != PGZEROSZ) 
 	       return( dberr(S_BADWRITE) );
 	    pgzero_ptr->pz_modified = FALSE;
-#ifndef NO_TRANS
-	    if ( trlog_flag )
-	       d_trlog(i, 0, (char *)pgzero_ptr,  PGZEROSZ);
-#endif
 	 }
 #ifdef	 CLOSE_FILES
 	 dio_close(i);
 #endif
       }
-#ifndef NO_TRANS
-   }
-#endif
    return( db_status = S_OKAY );
 } /* dio_pzflush() */
 

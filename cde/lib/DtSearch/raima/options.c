@@ -53,9 +53,6 @@ TASK_DECL
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
    dboptions |= optflag;
 
-#ifndef NO_TRANS
-   if ( optflag & ARCLOGGING ) d_tron();
-#endif
 
 #ifndef NO_COUNTRY
    if ( optflag & IGNORECASE ) {
@@ -86,9 +83,6 @@ TASK_DECL
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
    dboptions &= ~optflag;
 
-#ifndef NO_TRANS
-   if ( optflag & ARCLOGGING ) d_troff();
-#endif
 
 #ifndef NO_COUNTRY
    if ( optflag & IGNORECASE ) {

@@ -550,11 +550,6 @@ static int alloc_dict()
    DB_ENTRY *db_ptr;
 
    /* allocate and initialize file_table */
-#ifndef NO_TRANS
-   if ( use_ovfl ) {
-      extra_file = 1;
-   }
-#endif
 
    if ( old_no_of_dbs == 0 ) {
       old_size_ft = 0;

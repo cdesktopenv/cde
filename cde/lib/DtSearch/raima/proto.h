@@ -176,12 +176,7 @@ int dio_wrlb(P1(DB_ADDR) Pi(INT));
 int dio_findpg(P1(FILE_NO) Pi(F_ADDR) Pi(PAGE_ENTRY *)
 			      Pi(PAGE_ENTRY * *) 
 			      Pi(LOOKUP_ENTRY * *));
-#ifdef NO_TRANS
 int dio_out(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *));
-#else
-int dio_out(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *) 
-			   Pi(BOOLEAN));
-#endif
 #ifndef  NO_TIMESTAMP
 ULONG dio_pzsetts(P1(FILE_NO));
 ULONG dio_pzgetts(P1(FILE_NO));

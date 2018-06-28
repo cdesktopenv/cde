@@ -107,9 +107,7 @@ Failure to do so will produce compilation errors.
    HHS     = Harris H-series
 */
 
-#ifdef NO_TRANS
 #define SINGLE_USER
-#endif
 #ifdef SINGLE_USER
 #define NO_TIMESTAMP
 #endif
@@ -563,9 +561,6 @@ typedef struct page_entry {
    BOOLEAN modified;          /* TRUE if page has been modified */
    INT     holdcnt;           /* "hold-in-cache" counter */
    short   lu_slot;           /* lookup table slot pointing to this entry */
-#ifndef NO_TRANS
-   F_ADDR  ovfl_addr;         /* overflow file address of page */
-#endif
    CHAR_P Buff;             /* page buffer pointer */
 } PAGE_ENTRY;
 #define buff Buff.ptr

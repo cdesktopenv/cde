@@ -61,19 +61,11 @@ TASK_DECL
 {
    int ft_lc;			/* loop control */
    FILE_ENTRY *file_ptr;
-#ifndef NO_TRANS
-   int ovfl_save;
-#endif
 
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
 
    /* database must be closed (might be multiple databases open) */
    if ( dbopen ) d_close(TASK_ONLY);
-#ifndef NO_TRANS
-
-   ovfl_save = use_ovfl;
-   use_ovfl = NO;
-#endif
 
    /* prepare for the inittab and read in the database tables */
    if ((initdbt(dbname) != S_OKAY) || (inittab() != S_OKAY))
@@ -86,10 +78,6 @@ TASK_DECL
 
    /* free all residual memory */
    termfree();
-#ifndef NO_TRANS
-
-   use_ovfl = ovfl_save;
-#endif
 
    RETURN( db_status );
 }
