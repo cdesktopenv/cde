@@ -2360,7 +2360,7 @@ build_dtIconShell( void )
 /*******************************************************************************
     NewGraphicsOp - sets the text in the instruction line
 *******************************************************************************/
-static void NewGraphicsOp()
+static void NewGraphicsOp(void)
 {
     static char *fillOnStr = NULL;
     int fillOp = False;

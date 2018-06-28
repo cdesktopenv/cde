@@ -658,7 +658,7 @@ edit_notifier(char* fname, Tt_message msg, int clear)
 
 
 void
-send_tt_saved()
+send_tt_saved(void)
 {
         int mark;
         int fd;

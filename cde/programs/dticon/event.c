@@ -801,7 +801,7 @@ Do_ButtonOp(
  *            the middle of a polyline or polygon is no longer allowed.    *
  ***************************************************************************/
 void
-EndPolyOp()
+EndPolyOp(void)
 {
     Anchored = False;
     Clear_ClickCount();

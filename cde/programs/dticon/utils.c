@@ -1588,7 +1588,7 @@ stat_out(
  *                                                                         *
  *X11***********************************************************************/
 void
-PixelTableClear()
+PixelTableClear(void)
 {
     pixelTable.numItems = 0;
     pixelTable.lastFound = 0;
@@ -2228,9 +2228,7 @@ Set_Gfx_Labels(
  ***************************************************************************/
 #define MAX_MSG_STR   1024
 
-static int jskXerrorDebug(disp, error_event)
-Display *disp;
-XErrorEvent *error_event;
+static int jskXerrorDebug(Display *disp, XErrorEvent *error_event)
 {
     char error_msg[MAX_MSG_STR];
 
@@ -2252,8 +2250,7 @@ XErrorEvent *error_event;
  *                                                                         *
  * Purpose:   This routine is needed in order to get good bfa (bba) stats  *
  **************************************************************************/
-static int jskXerrorIODebug(disp)
-Display *disp;
+static int jskXerrorIODebug(Display *disp)
 {
     exit (-1);
     return (TRUE);
@@ -2484,8 +2481,7 @@ GetSessionInfo( void )
  * Purpose:   Put the file name in the window title...                     *
  ***************************************************************************/
 void
-ChangeTitle(
-        )
+ChangeTitle(void)
 {
     static char *dialogTitle = NULL;
     Arg al[10];
