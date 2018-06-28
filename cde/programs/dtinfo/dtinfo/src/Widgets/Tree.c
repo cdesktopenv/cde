@@ -210,10 +210,7 @@ WidgetClass treeWidgetClass = (WidgetClass) &treeClassRec;
  *                                                                           *
  *****************************************************************************/
 
-static void initialize_dimensions (listp, sizep, n)
-    Dimension **listp;
-    int *sizep;
-    int n;
+static void initialize_dimensions (Dimension **listp, int *sizep, int n)
 {
     register int i;
     register Dimension *l;
@@ -237,8 +234,7 @@ static void initialize_dimensions (listp, sizep, n)
     return;
 }
 
-static GC get_tree_gc (w)
-    TreeWidget w;
+static GC get_tree_gc (TreeWidget w)
 {
     XtGCMask valuemask = GCBackground | GCForeground;
     XGCValues values;
@@ -253,8 +249,7 @@ static GC get_tree_gc (w)
     return XtGetGC ((Widget) w, valuemask, &values);
 }
 
-static void insert_node (parent, node)
-     Widget parent, node;
+static void insert_node (Widget parent, Widget node)
 {
     TreeConstraints pc;
     TreeConstraints nc = TREE_CONSTRAINT(node);
@@ -287,8 +282,7 @@ static void insert_node (parent, node)
     pc->tree.n_children++;
 }
 
-static void delete_node (parent, node)
-    Widget parent, node;
+static void delete_node (Widget parent, Widget node)
 {
     TreeConstraints pc;
     int pos, i;
@@ -323,9 +317,7 @@ static void delete_node (parent, node)
     pc->tree.children[pc->tree.n_children]=0;
 }
 
-static void check_gravity (tw, grav)
-    TreeWidget tw;
-    XtGravity grav;
+static void check_gravity (TreeWidget tw, XtGravity grav)
 {
     switch (tw->tree.gravity) {
       case WestGravity: case NorthGravity: case EastGravity: case SouthGravity:
@@ -343,7 +335,7 @@ static void check_gravity (tw, grav)
  *                                                                           *
  *****************************************************************************/
 
-static void ClassInitialize ()
+static void ClassInitialize (void)
 {
     XawInitializeWidgetSet();
     XtAddConverter (XtRString, XtRGravity, XmuCvtStringToGravity,
@@ -351,8 +343,7 @@ static void ClassInitialize ()
 }
 
 
-static void Initialize (grequest, gnew)
-    Widget grequest, gnew;
+static void Initialize (Widget grequest, Widget gnew)
 {
     TreeWidget request = (TreeWidget) grequest, new = (TreeWidget) gnew;
     Arg args[2];
@@ -406,8 +397,7 @@ static void Initialize (grequest, gnew)
 
 
 /* ARGSUSED */
-static void ConstraintInitialize (request, new)
-     Widget request, new;
+static void ConstraintInitialize (Widget request, Widget new)
 {
     TreeConstraints tc = TREE_CONSTRAINT(new);
     TreeWidget tw = (TreeWidget) new->core.parent;
@@ -436,8 +426,7 @@ static void ConstraintInitialize (request, new)
 
 
 /* ARGSUSED */
-static Boolean SetValues (gcurrent, grequest, gnew)
-    Widget gcurrent, grequest, gnew;
+static Boolean SetValues (Widget gcurrent, Widget grequest, Widget gnew)
 {
     TreeWidget current = (TreeWidget) gcurrent, new = (TreeWidget) gnew;
     Boolean redraw = FALSE;
@@ -482,10 +471,7 @@ static Boolean SetValues (gcurrent, grequest, gnew)
 
 
 /* ARGSUSED */
-static Boolean ConstraintSetValues (current, request, new, args, num_args)
-    Widget current, request, new;
-    ArgList args;
-    Cardinal *num_args;
+static Boolean ConstraintSetValues (Widget current, Widget request, Widget new, ArgList args, Cardinal *num_args)
 {
     TreeConstraints newc = TREE_CONSTRAINT(new);
     TreeConstraints curc = TREE_CONSTRAINT(current);
@@ -513,8 +499,7 @@ static Boolean ConstraintSetValues (current, request, new, args, num_args)
 }
 
 
-static void ConstraintDestroy (w) 
-    Widget w;
+static void ConstraintDestroy (Widget w)
 { 
     TreeConstraints tc = TREE_CONSTRAINT(w);
     TreeWidget tw = (TreeWidget) XtParent(w);
@@ -540,10 +525,7 @@ static void ConstraintDestroy (w)
 }
 
 /* ARGSUSED */
-static XtGeometryResult GeometryManager (w, request, reply)
-    Widget w;
-    XtWidgetGeometry *request;
-    XtWidgetGeometry *reply;
+static XtGeometryResult GeometryManager (Widget w, XtWidgetGeometry *request, XtWidgetGeometry *reply)
 {
 
     TreeWidget tw = (TreeWidget) w->core.parent;
@@ -570,15 +552,13 @@ static XtGeometryResult GeometryManager (w, request, reply)
     return (XtGeometryYes);
 }
 
-static void ChangeManaged (gw)
-    Widget gw;
+static void ChangeManaged (Widget gw)
 {
     layout_tree ((TreeWidget) gw, FALSE);
 }
 
 
-static void Destroy (gw)
-    Widget gw;
+static void Destroy (Widget gw)
 {
     TreeWidget w = (TreeWidget) gw;
 
@@ -588,10 +568,7 @@ static void Destroy (gw)
 
 
 /* ARGSUSED */
-static void Redisplay (tw, event, region)
-     TreeWidget tw;
-     XEvent *event;
-     Region region;
+static void Redisplay (TreeWidget tw, XEvent *event, Region region)
 {
     /*
      * If the Tree widget is visible, visit each managed child.
@@ -683,9 +660,7 @@ static void Redisplay (tw, event, region)
     }
 }
 
-static XtGeometryResult QueryGeometry (w, intended, preferred)
-    Widget w;
-    XtWidgetGeometry *intended, *preferred;
+static XtGeometryResult QueryGeometry (Widget w, XtWidgetGeometry *intended, XtWidgetGeometry *preferred)
 {
     register TreeWidget tw = (TreeWidget) w;
 
@@ -717,10 +692,7 @@ static XtGeometryResult QueryGeometry (w, intended, preferred)
  *                                                                           *
  *****************************************************************************/
 
-static void compute_bounding_box_subtree (tree, w, depth)
-    TreeWidget tree;
-    Widget w;
-    int depth;
+static void compute_bounding_box_subtree (TreeWidget tree, Widget w, int depth)
 {
     TreeConstraints tc = TREE_CONSTRAINT(w);  /* info attached to all kids */
     register int i;
@@ -790,10 +762,7 @@ static void compute_bounding_box_subtree (tree, w, depth)
 }
 
 
-static void set_positions (tw, w, level)
-     TreeWidget tw;
-     Widget w;
-     int level;
+static void set_positions (TreeWidget tw, Widget w, int level)
 {
     int i;
   
@@ -831,11 +800,7 @@ static void set_positions (tw, w, level)
 }
 
 
-static void arrange_subtree (tree, w, depth, x, y)
-    TreeWidget tree;
-    Widget w;
-    int depth;
-    Position x, y;
+static void arrange_subtree (TreeWidget tree, Widget w, int depth, Position x, Position y)
 {
     TreeConstraints tc = TREE_CONSTRAINT(w);  /* info attached to all kids */
     TreeConstraints firstcc, lastcc;
@@ -938,10 +903,7 @@ static void arrange_subtree (tree, w, depth, x, y)
     }
 }
 
-static void set_tree_size (tw, insetvalues, width, height)
-    TreeWidget tw;
-    Boolean insetvalues;
-    Dimension width, height;
+static void set_tree_size (TreeWidget tw, Boolean insetvalues, Dimension width, Dimension height)
 {
     if (insetvalues) {
 	tw->core.width = width;

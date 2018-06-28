@@ -91,10 +91,7 @@ static void __mpoolerr __P((const char *fmt, ...));
  *	MPOOL pointer, NULL on error.
  */
 MPOOL *
-mpool_open(key, fd, pagesize, maxcache)
-	DBT *key;
-	int fd;
-	pgno_t pagesize, maxcache;
+mpool_open(DBT *key, int fd, pgno_t pagesize, pgno_t maxcache)
 {
 	struct stat sb;
 	MPOOL *mp;
@@ -145,11 +142,10 @@ mpool_open(key, fd, pagesize, maxcache)
  *	pgcookie:	Cookie for page in/out routines.
  */
 void
-mpool_filter(mp, pgin, pgout, pgcookie)
-	MPOOL *mp;
-	void (*pgin) __P((void *, pgno_t, void *));
-	void (*pgout) __P((void *, pgno_t, void *));
-	void *pgcookie;
+mpool_filter(MPOOL *mp,
+             void (*pgin) __P((void *, pgno_t, void *)),
+             void (*pgout) __P((void *, pgno_t, void *)),
+             void *pgcookie)
 {
 	mp->pgin = pgin;
 	mp->pgout = pgout;
@@ -166,9 +162,7 @@ mpool_filter(mp, pgin, pgout, pgcookie)
  *	RET_ERROR, RET_SUCCESS
  */
 void *
-mpool_new(mp, pgnoaddr)
-	MPOOL *mp;
-	pgno_t *pgnoaddr;
+mpool_new(MPOOL *mp, pgno_t *pgnoaddr)
 {
 	BKT *b;
 	BKTHDR *hp;
@@ -201,10 +195,7 @@ mpool_new(mp, pgnoaddr)
  *	RET_ERROR, RET_SUCCESS
  */
 void *
-mpool_get(mp, pgno, flags)
-	MPOOL *mp;
-	pgno_t pgno;
-	u_int flags;		/* XXX not used? */
+mpool_get(MPOOL *mp, pgno_t pgno, u_int flags /* XXX not used? */)
 {
 	BKT *b;
 	BKTHDR *hp;
@@ -277,10 +268,7 @@ mpool_get(mp, pgno, flags)
  *	RET_ERROR, RET_SUCCESS
  */
 int
-mpool_put(mp, page, flags)
-	MPOOL *mp;
-	void *page;
-	u_int flags;
+mpool_put(MPOOL *mp, void *page, u_int flags)
 {
 	BKT *baddr;
 #ifdef DEBUG
@@ -316,8 +304,7 @@ mpool_put(mp, page, flags)
  *	RET_ERROR, RET_SUCCESS
  */
 int
-mpool_close(mp)
-	MPOOL *mp;
+mpool_close(MPOOL *mp)
 {
 	BKT *b, *next;
 
@@ -340,8 +327,7 @@ mpool_close(mp)
  *	RET_ERROR, RET_SUCCESS
  */
 int
-mpool_sync(mp)
-	MPOOL *mp;
+mpool_sync(MPOOL *mp)
 {
 	BKT *b;
 
@@ -361,8 +347,7 @@ mpool_sync(mp)
  *	NULL on failure and a pointer to the BKT on success	
  */
 static BKT *
-mpool_bkt(mp)
-	MPOOL *mp;
+mpool_bkt(MPOOL *mp)
 {
 	BKT *b;
 
@@ -424,9 +409,7 @@ new:	if ((b = malloc(sizeof(BKT) + mp->pagesize)) == NULL)
  *	RET_ERROR, RET_SUCCESS
  */
 static int
-mpool_write(mp, b)
-	MPOOL *mp;
-	BKT *b;
+mpool_write(MPOOL *mp, BKT *b)
 {
 	off_t off;
 
@@ -456,9 +439,7 @@ mpool_write(mp, b)
  *	NULL on failure and a pointer to the BKT on success
  */
 static BKT *
-mpool_look(mp, pgno)
-	MPOOL *mp;
-	pgno_t pgno;
+mpool_look(MPOOL *mp, pgno_t pgno)
 {
 	register BKT *b;
 	register BKTHDR *tb;
@@ -489,8 +470,7 @@ mpool_look(mp, pgno)
  *	mp:	mpool cookie
  */
 void
-mpool_stat(mp)
-	MPOOL *mp;
+mpool_stat(MPOOL *mp)
 {
 	BKT *b;
 	int cnt;

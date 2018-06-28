@@ -98,10 +98,7 @@ PixmapClassRec  pixmapClassRec = {
 WidgetClass pixmapWidgetClass = (WidgetClass)&pixmapClassRec;
 
 static void
-Initialize(req, new, args, nargs )
-PixmapWidget req, new ;
-ArgList args ;
-Cardinal *nargs ;
+Initialize(PixmapWidget req, PixmapWidget new, ArgList args, Cardinal *nargs)
 {
   XtGCMask  value_mask ;
   XGCValues values ;
@@ -136,16 +133,14 @@ Cardinal *nargs ;
 }
 
 static void
-Resize(w)
-PixmapWidget w ;
+Resize(PixmapWidget w)
 {
   ON_DEBUG(fprintf(stderr, "PixmapWidget: RESIZE (%d, %d)\n",
 		   w->core.width, w->core.height));
 }
 
 static void
-Destroy(w)
-PixmapWidget w;
+Destroy(PixmapWidget w)
 {
   if (w->pixmap.pixmap != 0)
     {
@@ -154,10 +149,7 @@ PixmapWidget w;
 }
 
 static Boolean
-SetValues(current, request, new, args, num_args)
-PixmapWidget current, request, new ;
-ArgList args ;
-Cardinal *num_args ;
+SetValues(PixmapWidget current, PixmapWidget request, PixmapWidget new, ArgList args, Cardinal *num_args)
 {
   Window root ;
   int x, y ;
@@ -191,9 +183,7 @@ Cardinal *num_args ;
 
 
 static XtGeometryResult
-QueryGeometry(w, proposed, answer)
-PixmapWidget w ;
-XtWidgetGeometry *proposed, *answer;
+QueryGeometry(PixmapWidget w, XtWidgetGeometry *proposed, XtWidgetGeometry *answer)
 {
   ON_DEBUG(fprintf(stderr, "PixmapWidget:\tQueryGeometry()\n"));
 #ifdef DEBUG
@@ -218,9 +208,7 @@ XtWidgetGeometry *proposed, *answer;
 #endif
 
 static void
-ReDisplay(w, event)
-PixmapWidget w ;
-XExposeEvent *event ;
+ReDisplay(PixmapWidget w, XExposeEvent *event)
 {
   ON_DEBUG(fprintf(stderr, "PixmapWidget: EXPOSE\n"));
 

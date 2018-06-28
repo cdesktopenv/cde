@@ -84,10 +84,7 @@ static int bt_bdelete __P((BTREE *, const DBT *));
  *	RET_ERROR, RET_SUCCESS and RET_SPECIAL if the key not found.
  */
 int
-__bt_delete(dbp, key, flags)
-	const DB *dbp;
-	const DBT *key;
-	u_int flags;
+__bt_delete(const DB *dbp, const DBT *key, u_int flags)
 {
 	BTREE *t;
 	int status;
@@ -141,9 +138,7 @@ einval:		errno = EINVAL;
  *	RET_ERROR, RET_SUCCESS and RET_SPECIAL if the key not found.
  */
 static int
-bt_bdelete(t, key)
-	BTREE *t;
-	const DBT *key;
+bt_bdelete(BTREE *t, const DBT *key)
 {
 	EPG *e, save;
 	PAGE *h;
@@ -299,10 +294,7 @@ done2:	mpool_put(t->bt_mp, h, dirty1);
  *	RET_SUCCESS, RET_ERROR.
  */
 int
-__bt_dleaf(t, h, index)
-	BTREE *t;
-	PAGE *h;
-	int index;
+__bt_dleaf(BTREE *t, PAGE *h, int index)
 {
 	register BLEAF *bl;
 	register indx_t *ip, offset;

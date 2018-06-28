@@ -228,8 +228,7 @@ WidgetClass pannerWidgetClass = (WidgetClass) &pannerClassRec;
  *                                                                           *
  *****************************************************************************/
 
-static void reset_shadow_gc (pw)	/* used when resources change */
-    PannerWidget pw;
+static void reset_shadow_gc (PannerWidget pw)	/* used when resources change */
 {
     XtGCMask valuemask = GCForeground;
     XGCValues values;
@@ -270,8 +269,7 @@ static void reset_shadow_gc (pw)	/* used when resources change */
     pw->panner.shadow_gc = XtGetGC ((Widget) pw, valuemask, &values);
 }
 
-static void reset_slider_gc (pw)	/* used when resources change */
-    PannerWidget pw;
+static void reset_slider_gc (PannerWidget pw)	/* used when resources change */
 {
     XtGCMask valuemask = GCForeground;
     XGCValues values;
@@ -283,8 +281,7 @@ static void reset_slider_gc (pw)	/* used when resources change */
     pw->panner.slider_gc = XtGetGC ((Widget) pw, valuemask, &values);
 }
 
-static void reset_xor_gc (pw)		/* used when resources change */
-    PannerWidget pw;
+static void reset_xor_gc (PannerWidget pw)		/* used when resources change */
 {
     if (pw->panner.xor_gc) XtReleaseGC ((Widget) pw, pw->panner.xor_gc);
 
@@ -308,9 +305,7 @@ static void reset_xor_gc (pw)		/* used when resources change */
 }
 
 
-static void check_knob (pw, knob)
-    register PannerWidget pw;
-    Boolean knob;
+static void check_knob (register PannerWidget pw, Boolean knob)
 {
     Position pad = pw->panner.internal_border * 2;
     Position maxx = (((Position) pw->core.width) - pad -
@@ -340,8 +335,7 @@ static void check_knob (pw, knob)
 }
 
 
-static void move_shadow (pw)
-    register PannerWidget pw;
+static void move_shadow (register PannerWidget pw)
 {
     if (pw->panner.shadow_thickness > 0) {
 	int lw = pw->panner.shadow_thickness + pw->panner.line_width * 2;
@@ -366,9 +360,7 @@ static void move_shadow (pw)
     pw->panner.shadow_valid = FALSE;
 }
 
-static void scale_knob (pw, location, size)  /* set knob size and/or loc */
-    PannerWidget pw;
-    Boolean location, size;
+static void scale_knob (PannerWidget pw, Boolean location, Boolean size)  /* set knob size and/or loc */
 {
     if (location) {
 	pw->panner.knob_x = (Position) PANNER_HSCALE (pw, pw->panner.slider_x);
@@ -393,8 +385,7 @@ static void scale_knob (pw, location, size)  /* set knob size and/or loc */
     move_shadow (pw);
 }
 
-static void rescale (pw)
-    PannerWidget pw;
+static void rescale (PannerWidget pw)
 {
     int hpad = pw->panner.internal_border * 2;
     int vpad = hpad;
@@ -415,19 +406,14 @@ static void rescale (pw)
 }
 
 
-static void get_default_size (pw, wp, hp)
-    PannerWidget pw;
-    Dimension *wp, *hp;
+static void get_default_size (PannerWidget pw, Dimension *wp, Dimension *hp)
 {
     Dimension pad = pw->panner.internal_border * 2;
     *wp = PANNER_DSCALE (pw, pw->panner.canvas_width) + pad;
     *hp = PANNER_DSCALE (pw, pw->panner.canvas_height) + pad;
 }
 
-static Boolean get_event_xy (pw, event, x, y)
-    PannerWidget pw;
-    XEvent *event;
-    int *x, *y;
+static Boolean get_event_xy (PannerWidget pw, XEvent *event, int *x, int *y)
 {
     int pad = pw->panner.internal_border;
 
@@ -459,10 +445,7 @@ static Boolean get_event_xy (pw, event, x, y)
     return FALSE;
 }
 
-static int parse_page_string (s, pagesize, canvassize, relative)
-    register char *s;
-    int pagesize, canvassize;
-    Boolean *relative;
+static int parse_page_string (register char *s, int pagesize, int canvassize, Boolean *relative)
 {
     char *cp;
     double val = 1.0;
@@ -540,8 +523,7 @@ static int parse_page_string (s, pagesize, canvassize, relative)
  *****************************************************************************/
 
 
-static void Initialize (greq, gnew)
-    Widget greq, gnew;
+static void Initialize (Widget greq, Widget gnew)
 {
     PannerWidget req = (PannerWidget) greq, new = (PannerWidget) gnew;
     Dimension defwidth, defheight;
@@ -579,10 +561,7 @@ static void Initialize (greq, gnew)
 }
 
 
-static void Realize (gw, valuemaskp, attr)
-    Widget gw;
-    XtValueMask *valuemaskp;
-    XSetWindowAttributes *attr;
+static void Realize (Widget gw, XtValueMask *valuemaskp, XSetWindowAttributes *attr)
 {
     PannerWidget pw = (PannerWidget) gw;
     Pixmap pm = XtUnspecifiedPixmap;
@@ -605,8 +584,7 @@ static void Realize (gw, valuemaskp, attr)
 }
 
 
-static void Destroy (gw)
-    Widget gw;
+static void Destroy (Widget gw)
 {
     PannerWidget pw = (PannerWidget) gw;
 
@@ -615,18 +593,14 @@ static void Destroy (gw)
     XtReleaseGC (gw, pw->panner.xor_gc);
 }
 
-static void Resize (gw)
-    Widget gw;
+static void Resize (Widget gw)
 {
     rescale ((PannerWidget) gw);
 }
 
 
 /* ARGSUSED */
-static void Redisplay (gw, event, region)
-    Widget gw;
-    XEvent *event;
-    Region region;
+static void Redisplay (Widget gw, XEvent *event, Region region)
 {
     PannerWidget pw = (PannerWidget) gw;
     Display *dpy = XtDisplay(gw);
@@ -710,8 +684,7 @@ static void Redisplay (gw, event, region)
 
 
 /* ARGSUSED */
-static Boolean SetValues (gcur, greq, gnew)
-    Widget gcur, greq, gnew;
+static Boolean SetValues (Widget gcur, Widget greq, Widget gnew)
 {
     PannerWidget cur = (PannerWidget) gcur;
     PannerWidget new = (PannerWidget) gnew;
@@ -787,9 +760,7 @@ static Boolean SetValues (gcur, greq, gnew)
     return redisplay;
 }
 
-static void SetValuesAlmost (gold, gnew, req, reply)
-    Widget gold, gnew;
-    XtWidgetGeometry *req, *reply;
+static void SetValuesAlmost (Widget gold, Widget gnew, XtWidgetGeometry *req, XtWidgetGeometry *reply)
 {
     if (reply->request_mode == 0) {	/* got turned down, so cope */
 	Resize (gnew);
@@ -798,9 +769,7 @@ static void SetValuesAlmost (gold, gnew, req, reply)
 	(gold, gnew, req, reply);
 }
 
-static XtGeometryResult QueryGeometry (gw, intended, pref)
-    Widget gw;
-    XtWidgetGeometry *intended, *pref;
+static XtGeometryResult QueryGeometry (Widget gw, XtWidgetGeometry *intended, XtWidgetGeometry *pref)
 {
     PannerWidget pw = (PannerWidget) gw;
 
@@ -826,11 +795,7 @@ static XtGeometryResult QueryGeometry (gw, intended, pref)
  *****************************************************************************/
 
 /* ARGSUSED */
-static void ActionStart (gw, event, params, num_params)
-    Widget gw;
-    XEvent *event;
-    String *params;			/* unused */
-    Cardinal *num_params;		/* unused */
+static void ActionStart (Widget gw, XEvent *event, String *params /* unused */, Cardinal *num_params /* unused */)
 {
     PannerWidget pw = (PannerWidget) gw;
     int x, y;
@@ -851,11 +816,7 @@ static void ActionStart (gw, event, params, num_params)
 }
 
 /* ARGSUSED */
-static void ActionStop (gw, event, params, num_params)
-    Widget gw;
-    XEvent *event;
-    String *params;			/* unused */
-    Cardinal *num_params;		/* unused */
+static void ActionStop (Widget gw, XEvent *event, String *params /* unused */, Cardinal *num_params /* unused */)
 {
     PannerWidget pw = (PannerWidget) gw;
     int x, y;
@@ -870,11 +831,7 @@ static void ActionStop (gw, event, params, num_params)
 }
 
 /* ARGSUSED */
-static void ActionAbort (gw, event, params, num_params)
-    Widget gw;
-    XEvent *event;
-    String *params;			/* unused */
-    Cardinal *num_params;		/* unused */
+static void ActionAbort (Widget gw, XEvent *event, String *params /* unused */, Cardinal *num_params /* unused */)
 {
     PannerWidget pw = (PannerWidget) gw;
 
@@ -892,11 +849,7 @@ static void ActionAbort (gw, event, params, num_params)
 
 
 /* ARGSUSED */
-static void ActionMove (gw, event, params, num_params)
-    Widget gw;
-    XEvent *event;			/* must be a motion event */
-    String *params;			/* unused */
-    Cardinal *num_params;		/* unused */
+static void ActionMove (Widget gw, XEvent *event /* must be a motion event */, String *params /* unused */, Cardinal *num_params /* unused */)
 {
     PannerWidget pw = (PannerWidget) gw;
     int x, y;
@@ -922,11 +875,7 @@ static void ActionMove (gw, event, params, num_params)
 
 
 /* ARGSUSED */
-static void ActionPage (gw, event, params, num_params)
-    Widget gw;
-    XEvent *event;			/* unused */
-    String *params;
-    Cardinal *num_params;		/* unused */
+static void ActionPage (Widget gw, XEvent *event /* unused */, String *params, Cardinal *num_params /* unused */)
 {
     PannerWidget pw = (PannerWidget) gw;
     Cardinal zero = 0;
@@ -965,11 +914,7 @@ static void ActionPage (gw, event, params, num_params)
 
 
 /* ARGSUSED */
-static void ActionNotify (gw, event, params, num_params)
-    Widget gw;
-    XEvent *event;			/* unused */
-    String *params;			/* unused */
-    Cardinal *num_params;		/* unused */
+static void ActionNotify (Widget gw, XEvent *event /* unused */, String *params /* unused */, Cardinal *num_params /* unused */)
 {
     PannerWidget pw = (PannerWidget) gw;
 
@@ -1016,11 +961,7 @@ static void ActionNotify (gw, event, params, num_params)
 }
 
 /* ARGSUSED */
-static void ActionSet (gw, event, params, num_params)
-    Widget gw;
-    XEvent *event;			/* unused */
-    String *params;
-    Cardinal *num_params;
+static void ActionSet (Widget gw, XEvent *event /* unused */, String *params, Cardinal *num_params)
 {
     PannerWidget pw = (PannerWidget) gw;
     Boolean rb;

@@ -139,7 +139,7 @@ SimpleClassRec simpleClassRec = {
 
 WidgetClass simpleWidgetClass = (WidgetClass)&simpleClassRec;
 
-static void ClassInitialize()
+static void ClassInitialize(void)
 {
     static XtConvertArgRec convertArg[] = {
         {XtWidgetBaseOffset, (XtPointer) XtOffsetOf(WidgetRec, core.screen),
@@ -157,8 +157,7 @@ static void ClassInitialize()
 		       XtCacheByDisplay, NULL);
 }
 
-static void ClassPartInitialize(class)
-    WidgetClass class;
+static void ClassPartInitialize(WidgetClass class)
 {
     register SimpleWidgetClass c = (SimpleWidgetClass)class;
     register SimpleWidgetClass super = (SimpleWidgetClass) 
@@ -178,10 +177,7 @@ static void ClassPartInitialize(class)
 	c->simple_class.change_sensitive = super->simple_class.change_sensitive;
 }
 
-static void Realize(w, valueMask, attributes)
-    register Widget w;
-    Mask *valueMask;
-    XSetWindowAttributes *attributes;
+static void Realize(register Widget w, Mask *valueMask, XSetWindowAttributes *attributes)
 {
     Pixmap border_pixmap = 0;
 
@@ -221,8 +217,7 @@ static void Realize(w, valueMask, attributes)
  */
 
 static void
-ConvertCursor(w)
-Widget w;
+ConvertCursor(Widget w)
 {
     SimpleWidget simple = (SimpleWidget) w;
     XrmValue from, to;
@@ -251,8 +246,7 @@ Widget w;
 
 
 /* ARGSUSED */
-static Boolean SetValues(current, request, new)
-    Widget current, request, new;
+static Boolean SetValues(Widget current, Widget request, Widget new)
 {
     SimpleWidget s_old = (SimpleWidget) current;
     SimpleWidget s_new = (SimpleWidget) new;
@@ -284,8 +278,7 @@ static Boolean SetValues(current, request, new)
 }
 
 
-static Boolean ChangeSensitive(w)
-    register Widget w;
+static Boolean ChangeSensitive(register Widget w)
 {
     if (XtIsRealized(w)) {
 	if (XtIsSensitive(w))

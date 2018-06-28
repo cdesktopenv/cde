@@ -85,10 +85,7 @@ static char sccsid[] = "@(#)bt_search.c	8.1 (Berkeley) 6/4/93";
  *	next search of any kind in any tree.
  */
 EPG *
-__bt_search(t, key, exactp)
-	BTREE *t;
-	const DBT *key;
-	int *exactp;
+__bt_search(BTREE *t, const DBT *key, int *exactp)
 {
 	register indx_t index;
 	register int base, cmp, lim;

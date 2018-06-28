@@ -69,11 +69,7 @@ static char sccsid[] = "@(#)db.c	8.2 (Berkeley) 9/7/93";
 #include <db.h>
 
 DB *
-dbopen(fname, flags, mode, type, openinfo)
-	const char *fname;
-	int flags, mode;
-	DBTYPE type;
-	const void *openinfo;
+dbopen(const char *fname, int flags, int mode, DBTYPE type, const void *openinfo)
 {
 
 #define	DB_FLAGS	(DB_LOCK | DB_SHMEM | DB_TXN)
@@ -102,7 +98,7 @@ dbopen(fname, flags, mode, type, openinfo)
 }
 
 static int
-__dberr()
+__dberr(void)
 {
 	return (RET_ERROR);
 }
@@ -114,8 +110,7 @@ __dberr()
  *	dbp:	pointer to the DB structure.
  */
 void
-__dbpanic(dbp)
-	DB *dbp;
+__dbpanic(DB *dbp)
 {
 	/* The only thing that can succeed is a close. */
 	dbp->del = (int (*)())__dberr;

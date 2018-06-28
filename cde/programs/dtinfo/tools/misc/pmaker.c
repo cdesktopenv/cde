@@ -24,9 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(argc, argv)
-int argc ;
-char **argv ;
+int main(int argc, char **argv)
 {
   FILE *f ;
   int i;

@@ -83,11 +83,7 @@ static char sccsid[] = "@(#)bt_get.c	8.2 (Berkeley) 9/7/93";
  *	RET_ERROR, RET_SUCCESS and RET_SPECIAL if the key not found.
  */
 int
-__bt_get(dbp, key, data, flags)
-	const DB *dbp;
-	const DBT *key;
-	DBT *data;
-	u_int flags;
+__bt_get(const DB *dbp, const DBT *key, DBT *data, u_int flags)
 {
 	BTREE *t;
 	EPG *e;
@@ -153,10 +149,7 @@ __bt_get(dbp, key, data, flags)
  *	The first entry in the tree greater than or equal to key.
  */
 EPG *
-__bt_first(t, key, exactp)
-	BTREE *t;
-	const DBT *key;
-	int *exactp;
+__bt_first(BTREE *t, const DBT *key, int *exactp)
 {
 	register PAGE *h;
 	register EPG *e;

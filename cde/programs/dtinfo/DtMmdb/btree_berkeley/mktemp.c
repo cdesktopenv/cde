@@ -73,8 +73,7 @@ extern int errno;
 
 static int _gettemp(char*, int*);
 
-int mkstemp(path)
-	char *path;
+int mkstemp(char *path)
 {
 	int fd;
 
@@ -82,16 +81,13 @@ int mkstemp(path)
 }
 
 char *
-mktemp(path)
-	char *path;
+mktemp(char *path)
 {
 	return(_gettemp(path, (int *)NULL) ? path : (char *)NULL);
 }
 
 static int
-_gettemp(path, doopen)
-	char *path;
-	register int *doopen;
+_gettemp(char *path, register int *doopen)
 {
 	register char *start, *trv;
 	struct stat sbuf;

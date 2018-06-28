@@ -84,8 +84,7 @@ static int bt_meta __P((BTREE *));
  *	RET_ERROR, RET_SUCCESS
  */
 int
-__bt_close(dbp)
-	DB *dbp;
+__bt_close(DB *dbp)
 {
 	BTREE *t;
 	int fd;
@@ -134,9 +133,7 @@ __bt_close(dbp)
  *	RET_SUCCESS, RET_ERROR.
  */
 int
-__bt_sync(dbp, flags)
-	const DB *dbp;
-	u_int flags;
+__bt_sync(const DB *dbp, u_int flags)
 {
 	BTREE *t;
 	int status;
@@ -208,8 +205,7 @@ ecrsr:	if (ISSET(t, B_DELCRSR)) {
  *	RET_ERROR, RET_SUCCESS
  */
 static int
-bt_meta(t)
-	BTREE *t;
+bt_meta(BTREE *t)
 {
 	BTMETA m;
 	void *p;
