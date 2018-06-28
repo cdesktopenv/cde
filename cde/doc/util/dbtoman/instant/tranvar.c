@@ -575,7 +575,7 @@ Get_A_C_value(char * name)
  */
 
 void
-GetIDREFnames()
+GetIDREFnames(void)
 {
     char	*cp;
 

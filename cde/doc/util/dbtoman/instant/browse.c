@@ -125,7 +125,7 @@ static char *br_help_msg[] = {
 /* ______________________________________________________________________ */
 
 void
-Browse()
+Browse(void)
 {
     char	buf[256], *cmd, **av, **sv, *cmapfile, *sdatafile;
     char	*Prompt;
@@ -186,7 +186,7 @@ Browse()
 	    if (av[1] && isdigit(*av[1])) {
 		n = atoi(av[1]);
 		if (n < ce->ndcont) {
-		    printf(ce->dcont[n]);
+		    printf("%s", ce->dcont[n]);
 		    fputs("\n", stdout);
 		}
 		else if (ce->ndcont == 0)

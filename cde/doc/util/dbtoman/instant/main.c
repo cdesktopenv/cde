@@ -211,7 +211,7 @@ Initialize1(
 /* Initialization stuff done after dealing with args. */
 
 static void
-Initialize2()
+Initialize2(void)
 {
     SetMappingNV(Variables, "transpec", tranfile ? tranfile : "??");
 
@@ -344,7 +344,7 @@ static char *help_msg[] = {
 };
 
 static void
-DoHelpMessage()
+DoHelpMessage(void)
 {
     char	**s = help_msg;
     printf("usage: %s [option ...] [file]", this_prog);

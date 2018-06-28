@@ -302,7 +302,7 @@ PrintStats(
  */
 
 void
-PrintIDList()
+PrintIDList(void)
 {
     ID_t	*id;
     Element_t	*ep;
