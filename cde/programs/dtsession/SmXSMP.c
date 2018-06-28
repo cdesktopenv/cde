@@ -186,7 +186,7 @@ void AddClient (
  * Functions
  */
 
-Boolean InitXSMP ( )
+Boolean InitXSMP (void)
 {
 	char		errorMsg[ERRORMSGLEN];
 	char		*env;
@@ -299,7 +299,7 @@ InitializeSaveState (
 }
 
 static void 
-InitializeXSMPGlobals ( )
+InitializeXSMPGlobals (void)
 {
 	smXSMP.authDataEntries = NULL;
 
@@ -920,7 +920,7 @@ SaveYourselfDoneProc (
 
 
 static void
-ProcessSaveYourselfResponses ()
+ProcessSaveYourselfResponses (void)
 {
 	ClientRecPtr		pClientRec;
 	Boolean			done = False;
@@ -1014,7 +1014,7 @@ CloseConnectionProc (
 }
 
 void
-CompleteXSMPSave ()
+CompleteXSMPSave (void)
 {
 	ClientRecPtr		pClientRec;
 
@@ -1235,7 +1235,7 @@ Tt_callback_action GetWsmClientsHandler(
 
 
 static
-Boolean SendGetWsmClientsMessage ( )
+Boolean SendGetWsmClientsMessage (void)
 {
 	Tt_message		message;
 	Tt_status		status;
@@ -1270,7 +1270,7 @@ Boolean SendGetWsmClientsMessage ( )
 
 
 static 
-int GetCurrentWorkspaceNumber ()
+int GetCurrentWorkspaceNumber (void)
 {
 	Atom 			currentWorkspace;
 	Atom 			*workspaceList;
@@ -1300,7 +1300,7 @@ int GetCurrentWorkspaceNumber ()
 
 
 static 
-void CancelShutdown ()
+void CancelShutdown (void)
 {
 	ClientRecPtr		pClientRec;
 	char			*pch;
@@ -1441,7 +1441,7 @@ MyIoErrorHandler (
 }    
 
 void
-InstallIOErrorHandler ()
+InstallIOErrorHandler (void)
 {
 	IceIOErrorHandler default_handler;
 
@@ -1452,7 +1452,7 @@ InstallIOErrorHandler ()
 }
 
 
-void XSMPExit ( )
+void XSMPExit (void)
 {
 	char 		* pchar;
 

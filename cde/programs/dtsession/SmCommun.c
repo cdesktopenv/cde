@@ -481,7 +481,7 @@ StartMsgServer(void)
  * 
  *************************************<->***********************************/
 static void 
-DtwmStarted()
+DtwmStarted(void)
 {
     smGD.dtwmRunning = True;
 } /* END OF FUNCTION  DtwmStarted */
@@ -940,11 +940,8 @@ ProcessReloadActionsDatabase(void)
 }
 
 void
-ProcessEvent(w, client_data, event, continue_to_dispatch)
-  Widget w;
-  XtPointer client_data;
-  XEvent *event;
-  Boolean *continue_to_dispatch;
+ProcessEvent(Widget w, XtPointer client_data, XEvent *event,
+             Boolean *continue_to_dispatch)
 {
   switch(event->type)
   {

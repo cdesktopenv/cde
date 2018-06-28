@@ -314,7 +314,7 @@ SaveState(
  *
  *************************************<->***********************************/
 int 
-CompleteSave ( )
+CompleteSave (void)
 {
 
   FILE 			*convertFP;
@@ -414,7 +414,7 @@ CompleteSave ( )
  * 
  *************************************<->***********************************/
 static void
-PruneSessionDirectory ()
+PruneSessionDirectory (void)
 {
 	DIR			* dirp;
 	struct dirent 		* dp;
@@ -588,7 +588,7 @@ PruneSessionDirectory ()
  *
  *************************************<->***********************************/
 static Boolean
-WriteClientDatabase ()
+WriteClientDatabase (void)
 {
 	char			*db;
 	ClientDB		outputDB;
@@ -810,7 +810,7 @@ CheckRequiredProperties (
  *
  *************************************<->***********************************/
 void 
-NotifyProxyClients ( )
+NotifyProxyClients (void)
 {
   unsigned int 		topListLength, containedListLength;
   WindowInfo 		* topList;	/* list of top-level windows */

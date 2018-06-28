@@ -959,7 +959,7 @@ SetResSet( void )
  *
  *************************************<->***********************************/
 void 
-UndoSetSavePath ( )
+UndoSetSavePath (void)
 {
 	char			* buf;
 
@@ -2637,7 +2637,7 @@ SmExit (
 }
 
 void
-SetSIGPIPEToDefault ()
+SetSIGPIPEToDefault (void)
 {
 	struct sigaction pipeSig;
 
