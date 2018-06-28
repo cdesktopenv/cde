@@ -107,8 +107,7 @@ quit (
 #if NeedVarargsPrototypes
     int code, char * fmt, ...)
 #else
-    code, fmt, a1, a2, a3)
-    char *fmt;
+    int code, char *fmt, int a1, int a2, int a3)
 #endif
 {
 #if NeedVarargsPrototypes
@@ -124,8 +123,7 @@ quit (
 }
 
 void
-quiterr (code, s)
-    char *s;
+quiterr (int code, char *s)
 {
     perror (s);
     exit (code);
@@ -158,8 +156,7 @@ msg (
 }
 
 void
-mperror (s)
-    char *s;
+mperror (char *s)
 {
     if (curdir) {
 	fprintf (stderr, "%s:\n", curdir);
@@ -169,9 +166,7 @@ mperror (s)
 }
 
 
-int equivalent(lname, rname)
-    char *lname;
-    char *rname;
+int equivalent(char *lname, char *rname)
 {
     char *s;
 
@@ -188,11 +183,10 @@ int equivalent(lname, rname)
 /* Recursively create symbolic links from the current directory to the "from"
    directory.  Assumes that files described by fs and ts are directories. */
 
-dodir (fn, fs, ts, rel)
-char *fn;			/* name of "from" directory, either absolute or
-				   relative to cwd */
-struct stat *fs, *ts;		/* stats for the "from" directory and cwd */
-int rel;			/* if true, prepend "../" to fn before using */
+/* fn, name of "from" directory, either absolute or relative to cwd */
+/* fs, ts, stats for the "from" directory and cwd */
+/* rel, if true, prepend "../" to fn before using */
+int dodir (char *fn, struct stat *fs, struct stat *ts, int rel)
 {
     DIR *df;
     struct dirent *dp;
@@ -316,9 +310,8 @@ int rel;			/* if true, prepend "../" to fn before using */
 }
 
 
-main (ac, av)
-int ac;
-char **av;
+int
+main (int ac, char **av)
 {
     char *prog_name = av[0];
     char *fn, *tn;
