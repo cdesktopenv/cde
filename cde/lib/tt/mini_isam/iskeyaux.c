@@ -51,10 +51,7 @@ Blkno _isgetfreekpage();
  */
 
 void
-_iskey_extract (pkeydesc2, recp, keyp) 
-    Keydesc2	*	pkeydesc2;
-    char		*recp;	
-    char		*keyp;
+_iskey_extract (Keydesc2 *pkeydesc2, char *recp, char *keyp)
 {
     register int 	i;
     register struct keypart2 *ppart;
@@ -86,14 +83,12 @@ _iskey_extract (pkeydesc2, recp, keyp)
  * _allockpage()
  *
  * Allocate an initialize new key page.
+ * 
+ * blkno, Output parameter
  */
 
 Bufhdr *
-_allockpage(fcb, capac, level, blkno)
-    Fcb			*fcb;
-    int			capac;
-    int			level;
-    Blkno		*blkno;		     /* Output parameter */
+_allockpage(Fcb *fcb, int capac, int level, Blkno *blkno)
 {
     Bufhdr		*pbufhdr;
     char		*p;

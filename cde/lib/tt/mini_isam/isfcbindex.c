@@ -52,9 +52,7 @@ Static int _keypart2cmp();
  */
 
 int
-_isfcb_primkeyadd(fcb, keydesc2)
-    Fcb			*fcb;
-    Keydesc2		*keydesc2;
+_isfcb_primkeyadd(Fcb *fcb, Keydesc2 *keydesc2)
 {
     /*
      * Assign keyid.
@@ -74,8 +72,7 @@ _isfcb_primkeyadd(fcb, keydesc2)
  */
 
 int
-_isfcb_primkeydel(fcb)
-    Fcb			*fcb;
+_isfcb_primkeydel(Fcb *fcb)
 {
     if (FCB_NOPRIMARY_KEY(fcb))
 	return (EBADARG);
@@ -93,9 +90,7 @@ _isfcb_primkeydel(fcb)
  */
 
 int
-_isfcb_altkeyadd(fcb, keydesc2)
-    Fcb			*fcb;
-    Keydesc2		*keydesc2;
+_isfcb_altkeyadd(Fcb *fcb, Keydesc2 *keydesc2)
 {
     assert (fcb->nkeys < MAXNKEYS); 
 
@@ -126,9 +121,7 @@ _isfcb_altkeyadd(fcb, keydesc2)
  */
 
 Keydesc2 *
-_isfcb_findkey(fcb, keydesc2)
-    register Fcb	*fcb;
-    Keydesc2		*keydesc2;
+_isfcb_findkey(register Fcb *fcb, Keydesc2 *keydesc2)
 {
     int                 nkeys = fcb->nkeys;
     register Keydesc2	*kp2;
@@ -162,9 +155,7 @@ _isfcb_findkey(fcb, keydesc2)
  */
 
 int
-_isfcb_altkeydel(fcb, keydesc2)
-    register Fcb	*fcb;
-    Keydesc2		*keydesc2;
+_isfcb_altkeydel(register Fcb *fcb, Keydesc2 *keydesc2)
 {
     int                 nkeys = fcb->nkeys;
     register int        i, j;
@@ -209,8 +200,7 @@ _isfcb_altkeydel(fcb, keydesc2)
 
 /* compare key parts */
 Static int
-_keypart2cmp(l,r)
-    register struct keypart2 *l, *r;
+_keypart2cmp(register struct keypart2 *l, register struct keypart2 *r)
 {
     return !(l->kp2_type == r->kp2_type && l->kp2_start == r->kp2_start &&
 	     l->kp2_leng == r->kp2_leng);
@@ -224,9 +214,7 @@ _keypart2cmp(l,r)
  */
 
 Keydesc2 *
-_isfcb_indfindkey(fcb, keyid)
-    register Fcb	*fcb;
-    int			keyid;
+_isfcb_indfindkey(register Fcb *fcb, int keyid)
 {
     int                 nkeys = fcb->nkeys;
     register Keydesc2	*keys = fcb->keys;

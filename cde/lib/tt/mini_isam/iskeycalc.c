@@ -44,8 +44,7 @@ static char sccsid[] = "@(#)iskeycalc.c 1.3 89/07/17 Copyr 1988 Sun Micro";
 
 /* getkeysperleaf() - Calculate number of keys per leaf node */
 int 
-getkeysperleaf (keylen)
-    int		keylen;
+getkeysperleaf (int keylen)
 {
     int 	n;
 
@@ -56,8 +55,7 @@ getkeysperleaf (keylen)
 
 /* getkeyspernode() - Calculate number of keys per non-leaf node */
 int 
-getkeyspernode (keylen)
-    int		keylen;
+getkeyspernode (int keylen)
 {
     int 	n;
 
@@ -69,8 +67,7 @@ getkeyspernode (keylen)
 
 /* le_odd(n) - Get next lower or equal odd number */
 int 
-le_odd(n)
-    int		n;
+le_odd(int n)
 {
     return ((n - 1) | 1);
 }

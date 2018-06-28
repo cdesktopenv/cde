@@ -71,10 +71,7 @@ static int _amread();
  */
 
 int 
-isread(isfd, record, mode)
-    int			isfd;
-    char		*record;
-    int			mode;
+isread(int isfd, char *record, int mode)
 {
     register Fab	*fab;
     int			reclen;
@@ -150,14 +147,9 @@ isread(isfd, record, mode)
  */
 
 static int
-_amread(isfhandle, record, reclen, readmode, curpos, recnum, errcode)
-    Bytearray		*isfhandle;
-    enum readmode      	readmode;
-    char		*record;
-    int			*reclen;
-    Bytearray		*curpos;
-    Recno		*recnum;
-    struct errcode	*errcode;
+_amread(Bytearray *isfhandle, char *record, int *reclen,
+        enum readmode readmode, Bytearray *curpos, Recno *recnum,
+        struct errcode *errcode)
 {
     Fcb			*fcb = NULL;
     Recno		recnum2;

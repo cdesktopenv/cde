@@ -56,15 +56,15 @@ Static int _open_datfile(), _open_indfile(), _open_varfile();
  *
  * Return 0 if create is successful, or -1 if any error. In the case of 
   *an error, the errcode block is set.
+ *
+ * crdat, 0/1 flag
+ * crind, 0/1 flag
+ * crvar, 0/1 flag
  */
 
 Fcb *
-_isfcb_create(isfname, crdat, crind, crvar, owner, group, u_mask, errcode)
-    char		*isfname;
-    int			crdat, crind, crvar; /* 0/1 flags */
-    int			owner, group;
-    struct errcode	*errcode;
-    int			u_mask;
+_isfcb_create(char *isfname, int crdat, int crind, int crvar,
+              int owner, int group, int u_mask, struct errcode *errcode)
 {
     register Fcb	*fcb;
     int			dat_fd = -1;
@@ -156,10 +156,7 @@ _isfcb_create(isfname, crdat, crind, crvar, owner, group, u_mask, errcode)
  */
 
 void
-_isfcb_setreclength(fcb, varflag, minreclen, maxreclen)
-    register Fcb	*fcb;
-    Bool       		varflag;
-    int			minreclen, maxreclen;
+_isfcb_setreclength(register Fcb *fcb, Bool varflag, int minreclen, int maxreclen)
 {
     fcb->varflag = varflag;
     fcb->minreclen = minreclen;
@@ -183,9 +180,7 @@ _isfcb_setreclength(fcb, varflag, minreclen, maxreclen)
  */
 
 Fcb *
-_isfcb_open(isfname, errcode)
-    char		*isfname;
-    struct errcode	*errcode;
+_isfcb_open(char *isfname, struct errcode *errcode)
 {
     register Fcb	*fcb;
     int			dat_fd = -1;
@@ -242,8 +237,7 @@ _isfcb_open(isfname, errcode)
  */
 
 int
-_isfcb_nfds(fcb)
-    register Fcb	*fcb;
+_isfcb_nfds(register Fcb *fcb)
 {
     register int	count = 0;
 
@@ -267,8 +261,7 @@ _isfcb_nfds(fcb)
  */
 
 void
-_isfcb_remove(fcb)
-    register Fcb	*fcb;
+_isfcb_remove(register Fcb *fcb)
 {
     if (fcb->datfd)
 	_remove_datfile(fcb->isfname);
@@ -287,8 +280,7 @@ _isfcb_remove(fcb)
  */
 
 void
-_isfcb_close(fcb)
-    register Fcb	*fcb;
+_isfcb_close(register Fcb *fcb)
 {
     assert (fcb != NULL);
     assert (fcb->isfname != NULL);
@@ -312,8 +304,7 @@ _isfcb_close(fcb)
  */
 
 int
-_isfcb_cntlpg_w(fcb)
-    register Fcb	*fcb;
+_isfcb_cntlpg_w(register Fcb *fcb)
 {
     char	       	cntl_page[ISCNTLSIZE];
     int			dat_fd = fcb->datfd;
@@ -402,8 +393,7 @@ _isfcb_cntlpg_w(fcb)
  */
 
 int
-_isfcb_cntlpg_w2(fcb)
-    register Fcb	*fcb;
+_isfcb_cntlpg_w2(register Fcb *fcb)
 {
     char	       	cntl_page[CP_VAREND_OFF+CP_VAREND_LEN];
     int			dat_fd = fcb->datfd;
@@ -462,8 +452,7 @@ _isfcb_cntlpg_w2(fcb)
  */
 
 int
-_isfcb_cntlpg_r(fcb)
-    register Fcb	*fcb;
+_isfcb_cntlpg_r(register Fcb *fcb)
 {
     char	       	cntl_page[ISCNTLSIZE];
     int			dat_fd = fcb->datfd;
@@ -563,8 +552,7 @@ _isfcb_cntlpg_r(fcb)
  */
 
 int
-_isfcb_cntlpg_r2(fcb)
-    register Fcb	*fcb;
+_isfcb_cntlpg_r2(register Fcb *fcb)
 {
     char	       	cntl_page[CP_VAREND_OFF+CP_VAREND_LEN];
     int			dat_fd = fcb->datfd;
@@ -637,8 +625,7 @@ _isfcb_cntlpg_r2(fcb)
  */
 
 Static int
-_create_datfile(isfname)
-    char	*isfname;
+_create_datfile(char *isfname)
 {
 	int	fd;
 	char	namebuf[MAXPATHLEN];
@@ -664,8 +651,7 @@ _create_datfile(isfname)
  */
 
 Static int
-_create_indfile(isfname)
-    char	*isfname;
+_create_indfile(char *isfname)
 {
 	int	fd;
 	char	namebuf[MAXPATHLEN];
@@ -691,8 +677,7 @@ _create_indfile(isfname)
  */
 
 Static int
-_create_varfile(isfname)
-    char	*isfname;
+_create_varfile(char *isfname)
 {
 	int	fd;
 	char	namebuf[MAXPATHLEN];
@@ -719,8 +704,7 @@ _create_varfile(isfname)
  */
 
 Static void
-_remove_datfile(isfname)
-    char	*isfname;
+_remove_datfile(char *isfname)
 {
     char	namebuf[MAXPATHLEN];
 
@@ -737,8 +721,7 @@ _remove_datfile(isfname)
  */
 
 Static void
-_remove_indfile(isfname)
-    char	*isfname;
+_remove_indfile(char *isfname)
 {
     char	namebuf[MAXPATHLEN];
 
@@ -755,8 +738,7 @@ _remove_indfile(isfname)
  */
 
 Static void
-_remove_varfile(isfname)
-    char	*isfname;
+_remove_varfile(char *isfname)
 {
     char	namebuf[MAXPATHLEN];
 
@@ -774,9 +756,7 @@ _remove_varfile(isfname)
  */
 
 Static int
-_open_datfile(isfname, rdonly)
-    char	*isfname;
-    Bool	*rdonly;
+_open_datfile(char *isfname, Bool *rdonly)
 {
     char	namebuf[MAXPATHLEN];
     int		ret;
@@ -813,9 +793,7 @@ _open_datfile(isfname, rdonly)
  */
 
 Static int
-_open_indfile(isfname, rdonly)
-    char	*isfname;
-    Bool	rdonly;
+_open_indfile(char *isfname, Bool rdonly)
 {
 	int	fd;
 	char	namebuf[MAXPATHLEN];
@@ -841,9 +819,7 @@ _open_indfile(isfname, rdonly)
  */
 
 Static int
-_open_varfile(isfname, rdonly)
-    char	*isfname;
-    Bool	rdonly;
+_open_varfile(char *isfname, Bool rdonly)
 {
 	int	fd;
 	char	namebuf[MAXPATHLEN];
@@ -863,8 +839,7 @@ _open_varfile(isfname, rdonly)
 }
 
 int
-_check_isam_magic(fcb)
-    Fcb		*fcb;
+_check_isam_magic(Fcb *fcb)
 {
     char		magicbuffer[CP_MAGIC_LEN];
 
@@ -888,8 +863,7 @@ _check_isam_magic(fcb)
  */
 
 int
-_open2_indfile(fcb)
-    Fcb		*fcb;
+_open2_indfile(Fcb *fcb)
 {
     char	namebuf[MAXPATHLEN];
     struct stat buf;

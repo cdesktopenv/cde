@@ -52,10 +52,7 @@ extern char *_isunix_malloc();
  */
 
 Issort *
-_issort_create(reclen,nrecs,compfunc)
-    int		reclen;
-    int		nrecs;
-    int		(*compfunc)();
+_issort_create(int reclen, int nrecs, int (*compfunc)())
 {	
     Issort	*p;
 
@@ -82,8 +79,7 @@ _issort_create(reclen,nrecs,compfunc)
  */
 
 void
-_issort_destroy(srt)
-    Issort	*srt;
+_issort_destroy(Issort *srt)
 {
     assert(srt->ist_array != (char *) 0);
 
@@ -98,9 +94,7 @@ _issort_destroy(srt)
  */
 
 void
-_issort_insert(srt,record)
-    register Issort	*srt;
-    char		*record;
+_issort_insert(register Issort *srt, char *record)
 {
     assert(srt->ist_nrecs < srt->ist_allocrecs);
 
@@ -117,8 +111,7 @@ _issort_insert(srt,record)
  */
 
 void
-_issort_sort(srt)
-    Issort	*srt;
+_issort_sort(Issort *srt)
 {
     if (srt->ist_nrecs > 1)
 	qsort(srt->ist_array,srt->ist_nrecs,srt->ist_reclength,srt->ist_compf);
@@ -133,8 +126,7 @@ _issort_sort(srt)
  */
 
 void
-_issort_rewind(srt)
-    Issort	*srt;
+_issort_rewind(Issort *srt)
 {
     srt->ist_currec = 0;
 }
@@ -146,8 +138,7 @@ _issort_rewind(srt)
  */
 
 char *
-_issort_read(srt)
-    register Issort	*srt;
+_issort_read(register Issort *srt)
 {
     return((srt->ist_currec < srt->ist_nrecs) ?
 	(srt->ist_array + srt->ist_currec++ * srt->ist_reclength) :

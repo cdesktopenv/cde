@@ -53,9 +53,7 @@ extern int _iskeycmp();
  */
 
 Btree *
-    _isbtree_create(fcb, pkeydesc2)
-Fcb			*fcb;
-Keydesc2		*pkeydesc2;
+    _isbtree_create(Fcb *fcb, Keydesc2 *pkeydesc2)
 {
     register Btree	*p;
     
@@ -76,8 +74,7 @@ Keydesc2		*pkeydesc2;
  */
 
 void
-_isbtree_destroy(btree)
-    register Btree *btree;
+_isbtree_destroy(register Btree *btree)
 {
     register int	i;
     
@@ -95,9 +92,7 @@ _isbtree_destroy(btree)
  */
 
 void
-_isbtree_search(btree, key)
-    register Btree  	*btree;
-char		*key;		     /* Search for this key */
+_isbtree_search( register Btree *btree, char *key)
 {
     Keydesc2		*pkeydesc2 = btree->keydesc2;
     Blkno		rootblkno = pkeydesc2->k2_rootnode;
@@ -149,8 +144,7 @@ char		*key;		     /* Search for this key */
  */
 
 char *
-_isbtree_current(btree)
-    register Btree	*btree;
+_isbtree_current(register Btree *btree)
 {
     int			curpos;
     
@@ -169,8 +163,7 @@ _isbtree_current(btree)
  */
 
 char *
-_isbtree_next(btree)
-    register Btree	*btree;
+_isbtree_next(register Btree *btree)
 {
     int			curpos;
     int			depth = btree->depth;

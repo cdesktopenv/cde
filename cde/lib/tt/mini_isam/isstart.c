@@ -67,12 +67,8 @@ static int _amstart();
  */
 
 int 
-isstart(isfd, keydesc, length, record, mode)
-    int			isfd;
-    struct keydesc	*keydesc;
-    int			length;
-    char		*record;
-    int			mode;
+isstart(int isfd, struct keydesc *keydesc, int length, char *record,
+        int mode)
 {
     register Fab	*fab;
     int			reclen;
@@ -160,17 +156,9 @@ isstart(isfd, keydesc, length, record, mode)
 
 /* ARGSUSED */
 static int
-_amstart(isfhandle, record, reclen, readmode,
-	 keydesc, keylen, curpos, recnum, errcode)
-    Bytearray		*isfhandle;
-    enum readmode      	readmode;
-    char		*record;
-    int			*reclen;
-    Bytearray		*curpos;
-    Recno		*recnum;
-    struct errcode	*errcode;
-    struct keydesc	*keydesc;
-    int			keylen;
+_amstart(Bytearray *isfhandle, char *record, int *reclen,
+         enum readmode readmode, struct keydesc *keydesc, int keylen,
+         Bytearray *curpos, Recno *recnum, struct errcode *errcode)
 {
     Fcb			*fcb;
     Recno		recnum2;

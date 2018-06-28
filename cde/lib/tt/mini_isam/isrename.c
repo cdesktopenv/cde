@@ -68,8 +68,7 @@ static int _amrename();
  */
 
 int 
-isrename(oldname, newname)
-    char		*oldname, *newname;
+isrename(char *oldname, char *newname)
 {
     Isfd		isfd, isfd2;
     Fab			*fab;
@@ -145,8 +144,7 @@ isrename(oldname, newname)
  */
 
 Static void
-_removelast2(path)
-    char		*path;
+_removelast2(char *path)
 {
     register char	*p;
 
@@ -169,10 +167,7 @@ _removelast2(path)
 
 
 static int
-_amrename(isfhandle, newname, errcode)
-    Bytearray		*isfhandle;
-    char		*newname;
-    struct errcode	*errcode;
+_amrename(Bytearray *isfhandle, char *newname, struct errcode *errcode)
 {
     Fcb			*fcb;
     char		*isfname = _getisfname(isfhandle);
@@ -210,10 +205,9 @@ _amrename(isfhandle, newname, errcode)
 }
 
 
+/* newname, with no prefix */
 Static void
-_rename_datfile(isfname, newname)
-    char	*isfname;
-    char	*newname;		     /* with no prefix */
+_rename_datfile(char *isfname, char *newname)     
 {
     char	namebuf[MAXPATHLEN];
     char	newbuf[MAXPATHLEN];
@@ -239,10 +233,9 @@ _rename_datfile(isfname, newname)
     (void)rename(namebuf, newbuf);
 }
 
+/* newname, with no prefix */
 Static void
-_rename_indfile(isfname, newname)
-    char	*isfname;
-    char	*newname;		     /* with no prefix */
+_rename_indfile(char *isfname, char *newname)     
 {
     char	namebuf[MAXPATHLEN];
     char	newbuf[MAXPATHLEN];
@@ -268,10 +261,9 @@ _rename_indfile(isfname, newname)
     (void)rename(namebuf, newbuf);
 }
 
+/* newname, with no prefix */
 Static void
-_rename_varfile(isfname, newname)
-    char	*isfname;
-    char	*newname;		     /* with no prefix */
+_rename_varfile(char *isfname, char *newname) 
 {
     char	namebuf[MAXPATHLEN];
     char	newbuf[MAXPATHLEN];

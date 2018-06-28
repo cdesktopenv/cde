@@ -46,12 +46,7 @@
 extern long *ismaxlong;
 
 int
-_add1key(fcb, pkeydesc2, record, recnum, newkey)
-    Fcb			*fcb;	
-    Keydesc2		*pkeydesc2;
-    char		*record;
-    Recno		recnum;
-    char		*newkey;
+_add1key(Fcb *fcb, Keydesc2 *pkeydesc2, char *record, Recno recnum, char *newkey)
 {
     char		keybuf[MAXKEYSIZE];
     Btree		*btree;

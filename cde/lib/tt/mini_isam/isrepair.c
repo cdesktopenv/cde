@@ -69,9 +69,7 @@ Static int typeletter();
 Static rp_readcntlpg();
 static int  isnoprintf(const char *, ...);
 
-isrepair(isfname, verbose)
-    char	*isfname;
-    int		verbose;
+isrepair(char *isfname, int verbose)
 {
   extern      char *rp_readrecord_v(), *rp_readrecord_f();
   char	      cntlpg[ISCNTLSIZE];
@@ -345,9 +343,7 @@ static char	recordbuffer[ISMAXRECLEN + LONGSIZE];
 
 /* rp_readcntlpg() - Read the control page */
 Static 
-rp_readcntlpg(datfd, cntlpg)
-    int		datfd;
-    char	*cntlpg;
+rp_readcntlpg(int datfd, char *cntlpg)
 {
     if (read (datfd, cntlpg, ISCNTLSIZE) != ISCNTLSIZE)
 	return (ISERROR);
@@ -357,10 +353,7 @@ rp_readcntlpg(datfd, cntlpg)
 
 /* rp_readrecord_f() - Read a record from .rec file */
 Static char *
-rp_readrecord_f(datfd, offset, reclen)
-    int		datfd;
-    long	offset;
-    int		reclen;
+rp_readrecord_f(int datfd, long offset, int reclen)
 {
     if (lseek(datfd, offset, 0) != offset)
 	return ((char *) NULL);
@@ -376,10 +369,7 @@ rp_readrecord_f(datfd, offset, reclen)
 
 /* rp_readrecord_v() - Read a record from .rec file */
 Static char *
-rp_readrecord_v(datfd, varfd, offset, minreclen, maxreclen)
-    int		datfd, varfd;
-    long	offset;
-    int		minreclen, maxreclen;
+rp_readrecord_v(int datfd, int varfd, long offset, int minreclen, int maxreclen)
 {
     long	tailoff;
     char	frameheadbuf [2 * SHORTSIZE];
@@ -462,8 +452,7 @@ cmd_error(const char *str, int (*print)(const char *, ...))
 }
 
 static int
-typeletter(type)
-    int 	type;
+typeletter(int type)
 {
     switch (type) {
     case INTTYPE:

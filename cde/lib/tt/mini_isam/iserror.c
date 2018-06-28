@@ -116,8 +116,7 @@ _isam_warning(char *msg)
 }
 
 /* Set user specified fatal_error handler */
-int  (*_isfatal_error_set_func(func))()
-    int		(*func)();
+int  (*_isfatal_error_set_func(int(*func)()))()
 {
     int		(*oldfunc)();
 

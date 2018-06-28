@@ -75,9 +75,7 @@ static mrused_last = 0;			     /* stamp generator */
  */
 
 void
-_mngfcb_insert(fcb, isfhandle)
-    Fcb		*fcb;
-    Bytearray	*isfhandle;
+_mngfcb_insert(Fcb *fcb, Bytearray *isfhandle)
 {
     int			hashval = _hashisfhandle(isfhandle);
     register int  	ind;
@@ -114,8 +112,7 @@ _mngfcb_insert(fcb, isfhandle)
  */
 
 Fcb *
-_mngfcb_find(isfhandle)
-    Bytearray	*isfhandle;
+_mngfcb_find(Bytearray *isfhandle)
 {
     int			hashval = _hashisfhandle(isfhandle);
     register int  	ind;
@@ -150,8 +147,7 @@ _mngfcb_find(isfhandle)
  */
 
 void
-_mngfcb_delete(isfhandle)
-    Bytearray	*isfhandle;
+_mngfcb_delete(Bytearray *isfhandle)
 {
     int			hashval = _hashisfhandle(isfhandle);
     register int  	ind;
@@ -187,7 +183,7 @@ _mngfcb_delete(isfhandle)
  */
 
 Bytearray *
-_mngfcb_victim()
+_mngfcb_victim(void)
 {
     int			victim_ind = -1;
     long		victim_time = 0;     /* Assign to shut up lint */
@@ -214,8 +210,7 @@ _mngfcb_victim()
  */
 
 Static int
-_hashisfhandle(isfhandle)
-    Bytearray		*isfhandle;
+_hashisfhandle(Bytearray *isfhandle)
 {
     register char	*p;
     register unsigned	h, g;

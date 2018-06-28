@@ -66,13 +66,8 @@ extern long *ismaxlong;
  */
 
 int
-_amwrite(isfhandle, record, reclen, curpos, recnum, errcode)
-    Bytearray		*isfhandle;
-    char		*record;
-    int			reclen;
-    Bytearray		*curpos;
-    Recno		*recnum;
-    struct errcode	*errcode;
+_amwrite(Bytearray *isfhandle, char *record, int reclen,
+         Bytearray *curpos, Recno *recnum, struct errcode *errcode)
 {
     Fcb			*fcb = NULL;
     Recno		recnum2;
@@ -166,10 +161,7 @@ _amwrite(isfhandle, record, reclen, curpos, recnum, errcode)
  * Returns ISOK, or EDUPS.
  */
 
-int _addkeys (fcb, record, recnum)
-    register Fcb     	*fcb;
-    char                *record;
-    Recno	        recnum;
+int _addkeys (register Fcb *fcb, char *record, Recno recnum)
 {
     int                         nkeys = fcb->nkeys;
     register int                i;
@@ -185,11 +177,7 @@ int _addkeys (fcb, record, recnum)
 }      
 
 Static int
-_addkeys2 (fcb, record, recnum, curpos)
-    Fcb			*fcb;
-    char                *record;
-    Recno	        recnum;
-    Bytearray		*curpos;
+_addkeys2 (Fcb *fcb, char *record, Recno recnum, Bytearray *curpos)
 {
     int                	nkeys = fcb->nkeys;
     register int        i;

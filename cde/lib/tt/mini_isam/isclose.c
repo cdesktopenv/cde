@@ -57,8 +57,7 @@ static char sccsid[] = "@(#)isclose.c 1.8 89/07/17 Copyr 1988 Sun Micro";
  */
 
 int
-isclose(isfd)
-    int		isfd;
+isclose(int isfd)
 {
     Fab		*fab;
     Fcb         *fcb;

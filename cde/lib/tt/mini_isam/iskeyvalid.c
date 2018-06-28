@@ -54,9 +54,7 @@ static int _check_typelen();
  */
 
 int
-_validate_keydesc(keydesc, minreclen)
-    register struct keydesc	*keydesc;
-    int				minreclen;
+_validate_keydesc(register struct keydesc *keydesc, int minreclen)
 {
     int 		nparts;
     register int 	i;
@@ -99,9 +97,7 @@ _validate_keydesc(keydesc, minreclen)
  */
 
 static int
-_check_typelen(type, length)
-    int		type;
-    int		length;
+_check_typelen(int type, int length)
 {
     switch (type) {
     case INTTYPE:

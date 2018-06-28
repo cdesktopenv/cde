@@ -44,11 +44,7 @@ static char sccsid[] = "@(#)isdel1key.c 1.3 89/07/17 Copyr 1988 Sun Micro";
 #include "isam_impl.h"
 
 void
-_del1key(fcb, pkeydesc2, record, recnum)
-    Fcb			*fcb;	
-    Keydesc2		*pkeydesc2;
-    char		*record;
-    Recno		recnum;
+_del1key(Fcb *fcb, Keydesc2 *pkeydesc2, char *record, Recno recnum)
 {
     char		keybuf[MAXKEYSIZE];
     Btree		*btree;

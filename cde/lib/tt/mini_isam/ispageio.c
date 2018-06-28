@@ -50,9 +50,7 @@ static char sccsid[] = "@(#)ispageio.c 1.3 89/07/17 Copyr 1988 Sun Micro";
  */
 
 void
-_isseekpg(fd, pgno)
-    int		fd;
-    Blkno	pgno;
+_isseekpg(int fd, Blkno pgno)
 {
     long	offset = pgno * ISPAGESIZE;
 
@@ -67,9 +65,7 @@ _isseekpg(fd, pgno)
  */
 
 void
-_isreadpg(fd, buf)
-    int		fd;
-    char	*buf;
+_isreadpg(int fd, char *buf)
 {
     if (read(fd, buf, ISPAGESIZE) != ISPAGESIZE)
 	_isfatal_error("read failed");
@@ -82,9 +78,7 @@ _isreadpg(fd, buf)
  */
 
 void
-_iswritepg(fd, buf)
-    int		fd;
-    char	*buf;
+_iswritepg(int fd, char *buf)
 {
     if (write(fd, buf, ISPAGESIZE) != ISPAGESIZE)
 	_isfatal_error("write failed");

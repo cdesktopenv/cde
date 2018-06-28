@@ -71,9 +71,7 @@ static int _amrewcurr(), _changekeys2();
  */
 
 int 
-isrewcurr(isfd, record)
-    int			isfd;
-    char		*record;
+isrewcurr(int isfd, char *record)
 {
     register Fab	*fab;
     int			reclen;
@@ -134,13 +132,8 @@ isrewcurr(isfd, record)
  */
 
 static int
-_amrewcurr(isfhandle, record, reclen, curpos, recnum, errcode)
-    Bytearray		*isfhandle;
-    char		*record;
-    int			reclen;
-    Recno		*recnum;
-    Bytearray		*curpos;
-    struct errcode	*errcode;
+_amrewcurr(Bytearray *isfhandle, char *record, int reclen,
+           Bytearray *curpos, Recno *recnum, struct errcode *errcode)
 {
     Fcb			*fcb;
     Crp			*crp;
@@ -242,12 +235,8 @@ _amrewcurr(isfhandle, record, reclen, curpos, recnum, errcode)
 }
 
 Static int
-_changekeys2(fcb, record, oldrecord, recnum, curpos)
-    Fcb			*fcb;
-    char                *record;
-    char                *oldrecord;
-    Recno	        recnum;
-    Bytearray		*curpos;
+_changekeys2(Fcb *fcb, char *record, char *oldrecord,
+             Recno recnum, Bytearray *curpos)
 {
     int                	nkeys = fcb->nkeys;
     register int        i;

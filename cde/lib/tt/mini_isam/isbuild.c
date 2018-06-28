@@ -81,11 +81,7 @@ static int _ambuild();
  */
 
 int
-isbuild(isfname, recordlength, primkey, mode)
-    char		*isfname;
-    int			recordlength;
-    struct keydesc	*primkey;
-    int			mode;
+isbuild(char *isfname, int recordlength, struct keydesc *primkey, int mode)
 {
     Fab			*fab;
     Isfd		isfd;
@@ -191,18 +187,12 @@ isbuild(isfname, recordlength, primkey, mode)
 
 /* ARGSUSED */
 static int
-_ambuild(isfname, openmode, varflag, minlen, maxlen, primkey, 
-	 owner, group, umask, isfhandle, curpos, errcode)
-    char		*isfname;
-    enum openmode	openmode;
-    Bool		varflag;
-    int			minlen, maxlen;
-    struct keydesc	*primkey;
-    int			owner, group;
-    Bytearray		*isfhandle;
-    Bytearray		*curpos;
-    struct errcode	*errcode;
-    int			umask;
+_ambuild(char *isfname, enum openmode openmode, Bool varflag,
+         int minlen, int maxlen, struct keydesc *primkey,
+         int owner, int group, int umask,
+         Bytearray *isfhandle, Bytearray *curpos,
+         struct errcode *errcode)
+    
 {
     Fcb			*fcb = NULL;
     Bytearray		*isfhandle2;

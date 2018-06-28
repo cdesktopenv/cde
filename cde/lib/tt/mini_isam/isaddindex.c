@@ -59,9 +59,7 @@ static char sccsid[] = "@(#)isaddindex.c 1.8 89/07/17 Copyr 1988 Sun Micro";
  */
 
 int 
-isaddindex(isfd, keydesc)
-    int			isfd;
-    struct keydesc	*keydesc;
+isaddindex(int isfd, struct keydesc *keydesc)
 {
     int			_amaddindex();
     register Fab	*fab;

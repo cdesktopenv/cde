@@ -55,9 +55,7 @@ static char sccsid[] = "@(#)isapplmr.c 1.5 89/07/17 Copyr 1988 Sun Micro";
  */
 
 int 
-_isapplmr(isfd, buffer)
-    int			isfd;
-    char		*buffer;
+_isapplmr(int isfd, char *buffer)
 {
     register Fab	*fab;
     Fcb                 *fcb = NULL;

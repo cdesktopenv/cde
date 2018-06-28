@@ -65,8 +65,7 @@ static int _amerase();
  */
 
 int 
-iserase(isfname)
-    char		*isfname;
+iserase(char isfname)
 {
     Isfd		isfd, isfd_nfs;
     Fab			*fab, *fab_nfs;
@@ -113,9 +112,7 @@ iserase(isfname)
  */
 
 static int
-_amerase(isfhandle, errcode)
-    Bytearray		*isfhandle;
-    struct errcode	*errcode;
+_amerase(Bytearray *isfhandle, struct errcode *errcode)
 {
     Fcb			*fcb;
     char		*isfname = _getisfname(isfhandle);
@@ -154,8 +151,7 @@ _amerase(isfhandle, errcode)
 
 
 Static void
-_unlink_datfile(isfname)
-    char	*isfname;
+_unlink_datfile(char *isfname)
 {
     char	namebuf[MAXPATHLEN];
 
@@ -167,8 +163,7 @@ _unlink_datfile(isfname)
 
 
 Static void
-_unlink_indfile(isfname)
-    char	*isfname;
+_unlink_indfile(char *isfname)
 {
     char	namebuf[MAXPATHLEN];
 
@@ -180,8 +175,7 @@ _unlink_indfile(isfname)
 
 
 Static void
-_unlink_varfile(isfname)
-    char	*isfname;
+_unlink_varfile(char *isfname)
 {
     char	namebuf[MAXPATHLEN];
 

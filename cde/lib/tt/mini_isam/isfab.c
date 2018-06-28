@@ -50,15 +50,13 @@ static char sccsid[] = "@(#)isfab.c 1.8 89/07/17 Copyr 1988 Sun Micro";
  * Fab_new() creates an File access block (fab object) that is used
  * for all subsequent operations in this file. Return a pointer to 
  * the fab object, or NULL in the case of an error.
+ 
+ * isfname, Local path on the host 
+ * varlen, 0/1 flag
  */
 
 Fab *
-_fab_new(isfname, openmode,
-	 varlen, minreclen, maxreclen)
-    char		*isfname;	     /* Local path on the host */
-    enum openmode	openmode;
-    Bool		varlen;		     /* 0/1 flag */
-    int			minreclen, maxreclen;
+_fab_new(char *isfname, enum openmode openmode, Bool varlen, int minreclen, int maxreclen)
 {
     register Fab	*fab;
 
@@ -88,8 +86,7 @@ _fab_new(isfname, openmode,
 }
 
 void
-_fab_destroy(fab)
-    register Fab	*fab;
+_fab_destroy(register Fab *fab)
 {
     assert(fab != NULL);
     assert(fab->isfname != NULL);

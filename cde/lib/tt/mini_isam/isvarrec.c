@@ -67,11 +67,7 @@ static _istail_read();
 
 /*ARGSUSED*/
 int
-_vlrec_write(fcb, record, recnum, reclen)
-    register Fcb	*fcb;
-    char		*record;
-    Recno		*recnum;
-    int			reclen;
+_vlrec_write(register Fcb *fcb, char *record, Recno *recnum, int reclen)
 {
     Recno		recnum2;
     long		rec_position;
@@ -141,11 +137,7 @@ _vlrec_write(fcb, record, recnum, reclen)
  */
 
 int
-_vlrec_read(fcb, record, recnum, reclen)
-    register Fcb	*fcb;
-    char		*record;
-    Recno		recnum;
-    int			*reclen;
+_vlrec_read(register Fcb *fcb, char *record, Recno recnum, int *reclen)
 {
     long		rec_position;
     long		tailoff;
@@ -193,9 +185,7 @@ _vlrec_read(fcb, record, recnum, reclen)
  */
 
 long
-_vl_getpos(fcb, recnum)
-    Fcb			*fcb;
-    Recno		recnum;
+_vl_getpos(Fcb *fcb, Recno recnum)
 {
     return ((long)(ISCNTLSIZE + (fcb->minreclen + LONGSIZE) * (recnum -1)));
 }
@@ -216,11 +206,7 @@ _vl_getpos(fcb, recnum)
 
 /*ARGSUSED*/
 int
-_vlrec_rewrite(fcb, record, recnum, reclen)
-    register Fcb	*fcb;
-    char		*record;
-    Recno		recnum;
-    int			reclen;
+_vlrec_rewrite(register Fcb *fcb, char *record, Recno recnum, int reclen)
 {
     long		rec_position;
     long		tailoff;
@@ -272,9 +258,7 @@ _vlrec_rewrite(fcb, record, recnum, reclen)
  */
 
 int
-_vlrec_delete(fcb, recnum)
-    register Fcb	*fcb;
-    Recno		recnum;
+_vlrec_delete(register Fcb *fcb, Recno recnum)
 {
     long		rec_position;
     long		tailoff;
@@ -338,11 +322,7 @@ _vlrec_delete(fcb, recnum)
 
 /*ARGSUSED*/
 int
-_vlrec_wrrec(fcb, record, recnum, reclen)
-    register Fcb	*fcb;
-    char		*record;
-    Recno		recnum;
-    int			reclen;
+_vlrec_wrrec(register Fcb *fcb, char *record, Recno recnum, int reclen)
 {
     long		rec_position;
     long		tailoff;
@@ -437,9 +417,7 @@ _vlrec_wrrec(fcb, record, recnum, reclen)
  */
 
 static void
-remove_from_chain2(fcb, recnum)
-    Fcb			*fcb;
-    Recno		recnum;
+remove_from_chain2(Fcb *fcb, Recno recnum)
 {
     char		recnobuf1 [RECNOSIZE] , recnobuf2 [RECNOSIZE];
     long		pos1, pos2;
@@ -474,10 +452,7 @@ remove_from_chain2(fcb, recnum)
 
 /* Insert tail into .var file. Return offset in .var file */
 
-long _istail_insert(fcb, tailp, taillen)
-    Fcb			*fcb;
-    char		*tailp;
-    int			taillen;
+long _istail_insert(Fcb *fcb, char *tailp, int taillen)
 {
     char		frameheadbuf [2 * SHORTSIZE];
     int			framelen;
@@ -518,9 +493,7 @@ long _istail_insert(fcb, tailp, taillen)
 /* Remove tail from .var file */
 
 /* ARGSUSED */
-Static void _istail_delete(fcb, offset)
-    Fcb			*fcb;
-    long		offset;
+Static void _istail_delete(Fcb *fcb, long offset)
 {
     /* 
      * Don't do anything in NetISAM 1.0. The tails are lost, the space
@@ -531,10 +504,7 @@ Static void _istail_delete(fcb, offset)
 
 /* Read tail from .var file */
 
-Static _istail_read(fcb, offset, buffer)
-    Fcb			*fcb;
-    long		offset;
-    char		*buffer;
+Static _istail_read(Fcb *fcb, long offset, char *buffer)
 {
     char		frameheadbuf [2 * SHORTSIZE];
     int			taillen;
@@ -556,11 +526,7 @@ Static _istail_read(fcb, offset, buffer)
     
 /* Rewrite tail. Returns -1 if the new tail is longer than the original frame */
 
-int _istail_modify(fcb, offset, tailp, taillen)
-    Fcb			*fcb;
-    long		offset;
-    int			taillen;
-    char		*tailp;
+int _istail_modify(Fcb *fcb, long offset, char *tailp, int taillen)
 {
     char		frameheadbuf [2 * SHORTSIZE];
     int			framelen;

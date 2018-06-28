@@ -172,9 +172,7 @@ _ttdnd_get_contents(
  * callback, and sends a message for the next chunk if necessary.
  */
 static Tt_callback_action
-_ttdnd_continue_transfer(m,p)
-     Tt_message m;
-     Tt_pattern p;
+_ttdnd_continue_transfer(Tt_message m, Tt_pattern p)
 {
 	Ttdnd_receive_data_func *receivefunc;
 	int sourceXid;
@@ -233,9 +231,7 @@ _ttdnd_continue_transfer(m,p)
  * from the user's send routine, and fills it into the message.
  */
 static Tt_callback_action
-_ttdnd_get_contents_callback(m, p)
-     Tt_message m; 
-     Tt_pattern p;
+_ttdnd_get_contents_callback(Tt_message m, Tt_pattern p)
 {
 	int chunknumber;
 	int maxchunk;
@@ -282,7 +278,7 @@ _ttdnd_get_contents_callback(m, p)
  * tt messages whenever the tt filedescriptor has input.
  */
 void
-_ttdnd_receive()
+_ttdnd_receive(void)
 {
 	Tt_message m;
 	m = tt_message_receive();

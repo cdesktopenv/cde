@@ -50,12 +50,11 @@ static int _ncurtab;			     /* Number of entries */
  * _iskeycmp_set()
  *
  * Set key decriptor and number of parts for subsequent key comparison.s
+ * nparts, Use only so many parts
  */
 
 void
-_iskeycmp_set (pkeydesc2, nparts)
-    Keydesc2		*pkeydesc2;	
-    int			nparts;		     /* Use only so many parts */
+_iskeycmp_set (Keydesc2 *pkeydesc2, int nparts)
 {
     _ncurtab = nparts;
     _curtab = pkeydesc2->k2_part;
@@ -69,8 +68,7 @@ _iskeycmp_set (pkeydesc2, nparts)
  */
 
 int
-_iskeycmp(lkey, rkey)
-    char    *lkey, *rkey;
+_iskeycmp(char *lkey, char *rkey)
 {
     int		   	     i, ret;
     register struct keypart2 *p;

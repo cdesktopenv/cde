@@ -68,10 +68,7 @@ static void checkavailfd(void);
 
 /*ARGSUSED*/
 int
-_amaddindex(isfhandle, keydesc, errcode)
-    Bytearray		*isfhandle;
-    struct keydesc	*keydesc;
-    struct errcode	*errcode;
+_amaddindex(Bytearray *isfhandle, struct keydesc *keydesc, struct errcode *errcode)
 {
     Fcb			*fcb = NULL;
     Keydesc2		keydesc2;
@@ -195,10 +192,7 @@ _amaddindex(isfhandle, keydesc, errcode)
 
 /*ARGSUSED*/
 int
-_amaddprimary(isfhandle, keydesc, errcode)
-    Bytearray		*isfhandle;
-    struct keydesc	*keydesc;
-    struct errcode	*errcode;
+_amaddprimary(Bytearray *isfhandle, struct keydesc *keydesc, struct errcode *errcode)
 {
     Fcb			*fcb = NULL;
     Keydesc2		keydesc2;
@@ -319,9 +313,7 @@ _amaddprimary(isfhandle, keydesc, errcode)
  * Check unique constraint, create duplicate serial numbers.
  */
 
-int _create_index(fcb, pkeydesc2)
-    Fcb			*fcb;
-    Keydesc2		*pkeydesc2;
+int _create_index(Fcb *fcb, Keydesc2 *pkeydesc2)
 {
     Issort		*srt;
     int			keylength = pkeydesc2->k2_len;
@@ -391,10 +383,7 @@ int _create_index(fcb, pkeydesc2)
  */
 
 Static void
-_readallrecords(fcb, srt, pkeydesc2)
-    Fcb			*fcb;	
-    Issort		*srt;
-    Keydesc2		*pkeydesc2;
+_readallrecords(Fcb *fcb, Issort *srt, Keydesc2 *pkeydesc2)
 {
 	char		record [ISMAXRECLEN];
 	char		keybuf [MAXKEYSIZE];
@@ -436,9 +425,7 @@ _readallrecords(fcb, srt, pkeydesc2)
  */
 
 Static void
-_attach_dups_serial(srt, pkeydesc2)
-    Issort		*srt;
-    Keydesc2		*pkeydesc2;
+_attach_dups_serial(Issort *srt, Keydesc2 *pkeydesc2)
 {
     int			netkeylength = pkeydesc2->k2_len - RECNOSIZE - DUPIDSIZE;
     char		*curkey;
@@ -471,10 +458,7 @@ _attach_dups_serial(srt, pkeydesc2)
  */
 
 Static Blkno 
-_buildbtree(fcb, pkeydesc2, srt)
-    Fcb			*fcb;
-    Keydesc2		*pkeydesc2;
-    Issort		*srt;
+_buildbtree(Fcb *fcb, Keydesc2 *pkeydesc2, Issort *srt)
 {
     Bufhdr		*_allockpage();
     int			depth;
@@ -628,9 +612,7 @@ _buildbtree(fcb, pkeydesc2, srt)
  * Return 1 if there are duplicates in the sorted key object. 
  */
 
-Static int _duplicate_exist(srt, keylength)
-    Issort	*srt;
-    int		keylength;
+Static int _duplicate_exist(Issort *srt, int keylength)
 {
     char	*curkey;
     char	*lastkey = (char *) 0;

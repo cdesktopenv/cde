@@ -53,8 +53,7 @@ static char sccsid[] = "@(#)isdatconv.c 1.5 89/07/17 Copyr 1988 Sun Micro";
 /* ldlong() - Load a long integer from a potentially  unaligned address */
 
 long 
-ldlong(p)
-    register char     	*p;
+ldlong(register char *p)
 {
     int i;
 #if LONG_BIT == 64
@@ -73,9 +72,7 @@ ldlong(p)
 /* stlong() - Store a long integer at a potentially unaligned address */
 
 int
-stlong(val, p)
-    register long	val;
-    register char     	*p;
+stlong(register long val, register char *p)
 {
     int i;
     p += LONGSIZE;
@@ -89,8 +86,7 @@ stlong(val, p)
 /* ldint() - Load a short integer from a potentially  unaligned address */
 
 short
-ldint(p)
-    register char     	*p;
+ldint(register char *p)
 {
     register unsigned int val;
 
@@ -104,8 +100,7 @@ ldint(p)
 /* ldunshort - load a unshort integer : for 64K record length */
 
 u_short
-ldunshort(p)
-    register char     	*p;
+ldunshort(register char *p)
 {
     register unsigned int val;
 
@@ -118,9 +113,7 @@ ldunshort(p)
 /* stint() - Store a short integer at a potentially unaligned address */
 
 int
-stint(val, p)
-    register short	val;
-    register char     	*p;
+stint(register short val, register char *p)
 {
     p += SHORTSIZE;
     *--p = val & 255;
@@ -132,10 +125,7 @@ stint(val, p)
 /* ldchar() - Load character field */
 
 int
-ldchar(src, len, dst)
-    char		*src;
-    register char	*dst;
-    int			len;
+ldchar(char *src, int len, register char *dst)
 {
     register char	*p;
 
@@ -158,10 +148,7 @@ ldchar(src, len, dst)
 }
 
 int
-stchar(src, dst, len)
-    register char	*src;
-    register char	*dst;
-    register int	len;
+stchar(register char *src, register char *dst, register int len)
 {
     register char	c;
 
@@ -184,10 +171,7 @@ stchar(src, dst, len)
 /* ldchar2() - Load character field (C style, NULL padded) */
  
 int
-ldchar2(src, len, dst)
-    char                *src;
-    register char       *dst;
-    int                 len;
+ldchar2(char *src, int len, register char *dst)
 {
     register char       *p;
  
@@ -201,10 +185,7 @@ ldchar2(src, len, dst)
 }
  
 int
-stchar2(src, dst, len)
-    register char       *src;
-    register char       *dst;
-    register int        len;
+stchar2(register char *src, register char *dst, register int len)
 {
     register char       c;
  
@@ -227,8 +208,7 @@ stchar2(src, dst, len)
 /* ldfloat() - Load a float number from a potentially  unaligned address */
 
 float
-ldfloat(p)
-    register char     	*p;
+ldfloat(register char *p)
 {
     union {
 	float fval;
@@ -247,10 +227,9 @@ ldfloat(p)
 
 /* stfloat() - Store a float number at a potentially unaligned address */
 
+/* f, Bug - it is passed as double */
 int
-stfloat(f, p)
-    float		f;		     /* Bug - it is passed as double */
-    register char     	*p;
+stfloat(float f, register char *p)
 {
     register unsigned  	val;
     union {
@@ -275,8 +254,7 @@ stfloat(f, p)
 /* ldbld() - Load a double float number from a potentially unaligned address */
 
 double
-lddbl(p)
-    register char     	*p;
+lddbl(register char *p)
 {
     double val;
 
@@ -287,9 +265,7 @@ lddbl(p)
 /* stdbl() - Store a double float number at a potentially unaligned address */
 
 int
-stdbl(val, p)
-    double		val;
-    register char     	*p;
+stdbl(double val, register char *p)
 {
     memcpy ( p,(char *)&val, DOUBLESIZE);
     return 0;
@@ -300,8 +276,7 @@ stdbl(val, p)
 /* ldbld() - Load a double float number from a potentially unaligned address */
 
 double
-lddbl(p)
-    register char     	*p;
+lddbl(register char *p)
 {
     union {
         double rval;
@@ -322,9 +297,7 @@ lddbl(p)
 /* stdbl() - Store a double float number at a potentially unaligned address */
 
 int
-stdbl(val, p)
-    double		val;
-    register char     	*p;
+stdbl(double val, register char *p)
 {
     union {
         double rval;

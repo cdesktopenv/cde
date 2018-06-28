@@ -51,8 +51,7 @@ extern Bufhdr *_isdisk_fix();
  */
 
 Blkno 
-_isindfreel_alloc(fcb)
-    Fcb			*fcb;
+_isindfreel_alloc(Fcb *fcb)
 {
     Bufhdr		*pbhdr;
     char		*p;
@@ -97,9 +96,7 @@ _isindfreel_alloc(fcb)
  */
 
 void
-_isindfreel_free(fcb, blkno)
-    Fcb			*fcb;
-    Blkno		blkno;
+_isindfreel_free(Fcb *fcb, Blkno blkno)
 {
     Bufhdr		*pbhdr;
     char		*p;

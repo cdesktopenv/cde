@@ -63,9 +63,7 @@ static char sccsid[] = "@(#)isdelrec.c 1.8 89/07/17 Copyr 1988 Sun Micro";
  */
 
 int 
-isdelrec(isfd, recnum)
-    int			isfd;
-    long		recnum;
+isdelrec(int isfd, long recnum)
 {
     int			_amdelrec();
     register Fab	*fab;

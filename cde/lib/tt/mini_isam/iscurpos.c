@@ -53,10 +53,7 @@ static char sccsid[] = "@(#)iscurpos.c 1.5 89/07/17 Copyr 1988 Sun Micro";
  */
 
 int 
-isgetcurpos(isfd, len, buf)
-    int		isfd;
-    int		*len;
-    char	**buf;
+isgetcurpos(int isfd, int *len, char **buf)
 {
     Fab		*fab;
     u_short	total_len;
@@ -94,9 +91,7 @@ isgetcurpos(isfd, len, buf)
  */
 
 int 
-issetcurpos(isfd, buf)
-    int		isfd;
-    char	*buf;
+issetcurpos(int isfd, char *buf)
 {
     Fab		*fab;
     u_short	len;

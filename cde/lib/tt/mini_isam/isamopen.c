@@ -65,15 +65,9 @@ static char sccsid[] = "@(#)isamopen.c 1.10 89/07/17 Copyr 1988 Sun Micro";
 
 /* ARGSUSED */
 int
-_amopen(isfname, openmode, varflag, minlen, maxlen,
-	isfhandle, curpos, errcode)
-    char		*isfname;
-    enum openmode	openmode;
-    Bool		*varflag;
-    int			*minlen, *maxlen;
-    Bytearray		*isfhandle;
-    Bytearray		*curpos;
-    struct errcode	*errcode;
+_amopen(char *isfname, enum openmode openmode, Bool *varflag,
+        int *minlen, int *maxlen, Bytearray *isfhandle,
+        Bytearray *curpos, struct errcode *errcode)
 {
     Fcb			*fcb;
     Bytearray		isfhandle0;
@@ -182,9 +176,7 @@ _amopen(isfname, openmode, varflag, minlen, maxlen,
 
 #define FDNEEDED	3		     /* Needs 3 UNIX fd to open a file*/
 Fcb *
-_openfcb(isfhandle, errcode)
-    Bytearray		*isfhandle;
-    struct errcode	*errcode;
+_openfcb(Bytearray *isfhandle, struct errcode *errcode)
 {
     Fcb			*fcb;
     Bytearray		*isfhandle2;
@@ -300,8 +292,7 @@ _openfcb(isfhandle, errcode)
  */
 
 char *
-_getisfname(isfhandle)
-    Bytearray		*isfhandle;
+_getisfname(Bytearray *isfhandle)
 {
     return (isfhandle->data);
 }
@@ -314,8 +305,7 @@ _getisfname(isfhandle)
  */
 
 Bytearray 
-_makeisfhandle(isfname)
-    char	*isfname;
+_makeisfhandle(char *isfname)
 {
     return (_bytearr_new((u_short)(strlen(isfname) + 1), isfname));
 }

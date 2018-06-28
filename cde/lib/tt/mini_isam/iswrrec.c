@@ -70,10 +70,7 @@ static int _amwrrec();
  */
 
 int 
-iswrrec(isfd, recnum, record)
-    int			isfd;
-    long		recnum;
-    char		*record;
+iswrrec(int isfd, long recnum, char *record)
 {
     register Fab	*fab;
     int			reclen;
@@ -131,12 +128,8 @@ iswrrec(isfd, recnum, record)
  */
 
 static int
-_amwrrec(isfhandle, record, reclen, recnum, errcode)
-    Bytearray		*isfhandle;
-    char		*record;
-    int			reclen;
-    Recno		recnum;
-    struct errcode	*errcode;
+_amwrrec(Bytearray *isfhandle, char *record, int reclen, Recno recnum,
+         struct errcode *errcode)
 {
     Fcb			*fcb = NULL;
     int			err;

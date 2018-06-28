@@ -46,13 +46,8 @@ static char sccsid[] = "@(#)ischange1key.c 1.3 89/07/17 Copyr 1988 Sun Micro";
 extern long *ismaxlong;
 
 int
-_change1key(fcb, pkeydesc2, record, oldrecord, recnum, newkey)
-    Fcb			*fcb;	
-    Keydesc2		*pkeydesc2;
-    char		*record;
-    char		*oldrecord;
-    Recno		recnum;
-    char		*newkey;
+_change1key(Fcb *fcb, Keydesc2 *pkeydesc2, char *record,
+            char *oldrecord, Recno recnum, char *newkey)
 {
     char		keybuf1[MAXKEYSIZE];
     char		keybuf2[MAXKEYSIZE];

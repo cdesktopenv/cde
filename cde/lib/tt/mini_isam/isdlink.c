@@ -43,9 +43,8 @@
 #include "isam_impl.h"
 
 /* _isdln_base_insert () - Insert element into list (at the front) -----------*/
-void _isdln_base_insert (base,l,e)
-	register char		*base;
-	register struct dlink	*l,*e;
+void _isdln_base_insert (register char *base, register struct dlink *l,
+                         register struct dlink *e)
 {
 	e->dln_forward = l->dln_forward;
 	l->dln_forward = (char *)e - base;
@@ -55,9 +54,8 @@ void _isdln_base_insert (base,l,e)
 }
 
 /* _isdln_base_append () - Append element to list (at the end) -------------*/
-void _isdln_base_append (base,l,e)
-	register char		*base;
-	register struct dlink	*l,*e;
+void _isdln_base_append (register char *base, register struct dlink *l,
+                         register struct dlink *e)
 {
 	e->dln_backward = l->dln_backward;
 	l->dln_backward = (char *)e - base;
@@ -67,18 +65,14 @@ void _isdln_base_append (base,l,e)
 }
 
 /* _isdln_base_remove () - Remove element from list -------------------------*/
-void _isdln_base_remove (base,e)
-	register char		*base;
-	register struct dlink	*e;
+void _isdln_base_remove (register char *base, register struct dlink *e)
 {
 	((struct dlink *)(base + e->dln_backward))->dln_forward = e->dln_forward;
 	((struct dlink *)(base + e->dln_forward))->dln_backward = e->dln_backward;
 }
 
 /* _isdln_base_first () - Return first element of the list -------------------*/
-struct dlink * _isdln_base_first(base,l)
-	register char		*base;
-	register struct dlink    	*l;
+struct dlink * _isdln_base_first(register char *base, register struct dlink *l)
 {
 	struct dlink *val = (struct dlink *)(base + l->dln_forward);
 
@@ -92,33 +86,25 @@ struct dlink * _isdln_base_first(base,l)
 }
 
 /* _isdln_base_next () - Return next element in the list --------------------*/
-struct dlink * _isdln_base_next(base,l)
-	register char		*base;
-	register struct dlink    	*l;
+struct dlink * _isdln_base_next(register char *base, register struct dlink *l)
 {
 	return (((struct dlink *)(base + l->dln_forward))); 
 }
 
 /* _isdln_base_prev () - Return previous element in the list ----------------*/
-struct dlink * _isdln_base_prev(base,l)
-	register char		*base;
-	register struct dlink    	*l;
+struct dlink * _isdln_base_prev(register char *base, register struct dlink *l)
 {
 	return  (((struct dlink *)(base + l->dln_backward))); 
 }
 
 /* _isdln_base_makeempty () - Make head of empty list -----------------------*/
-void _isdln_base_makeempty(base,l)
-	register char		*base;
-	register struct dlink    	*l;
+void _isdln_base_makeempty(register char *base, register struct dlink *l)
 {
 	l->dln_forward = l->dln_backward = (char *)l - base;
 }
 
 /* _isdln_base_isempty () - Test if list is empty---------------------------*/
-int _isdln_base_isempty(base,l)
-	register char		*base;
-	register struct dlink    	*l;
+int _isdln_base_isempty(register char *base, register struct dlink *l)
 {
 	return (l->dln_forward == (char *)l - base &&
 		l->dln_backward == (char *)l - base);

@@ -162,7 +162,8 @@ typedef struct bytearray {
     char	*data;
 } Bytearray;
 
-extern Bytearray _bytearr_getempty(), _bytearr_dup(), _bytearr_new();
+extern Bytearray _bytearr_getempty(), _bytearr_dup();
+extern Bytearray _bytearr_new(u_short len, char *data);
 extern void _bytearr_free();
 
 

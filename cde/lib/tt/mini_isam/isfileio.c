@@ -54,12 +54,7 @@ static Blkno _getblkno();
  */
 
 void
-_cp_tofile(fcb, unixfd, data, pos, len)
-    Fcb		*fcb;
-    int		unixfd;
-    char	*data;
-    long	pos;
-    int		len;
+_cp_tofile(Fcb *fcb, int unixfd, char *data, long pos, int len)
 {
     int		offset;			     /* Offset within a page */
     Blkno	blkno;
@@ -93,12 +88,7 @@ _cp_tofile(fcb, unixfd, data, pos, len)
  */
 
 void
-_cp_fromfile(fcb, unixfd, data, pos, len)
-    Fcb		*fcb;
-    int		unixfd;
-    char	*data;
-    long	pos;
-    int		len;
+_cp_fromfile(Fcb *fcb, int unixfd, char *data, long pos, int len)
 {
     int		offset;			     /* Offset within a page */
     Blkno	blkno;
@@ -130,10 +120,7 @@ _cp_fromfile(fcb, unixfd, data, pos, len)
  */
 
 Blkno 
-_extend_file(fcb, unixfd, oldsize)
-    Fcb			*fcb;
-    int			unixfd;
-    Blkno		oldsize;
+_extend_file(Fcb *fcb, int unixfd, Blkno oldsize)
 {
     Bufhdr		*bufhdr;
     char		buf[ISPAGESIZE];
@@ -158,8 +145,7 @@ _extend_file(fcb, unixfd, oldsize)
  */
 
 Static int
-_getoffset(pos)
-    long		pos;
+_getoffset(long pos)
 {
     return ((int)(pos % ISPAGESIZE));
 }
@@ -171,8 +157,7 @@ _getoffset(pos)
  */
 
 Static Blkno
-_getblkno(pos)
-    long		pos;
+_getblkno(long pos)
 {
     return ((int)(pos / ISPAGESIZE));
 }

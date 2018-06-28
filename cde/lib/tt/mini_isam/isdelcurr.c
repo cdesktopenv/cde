@@ -65,8 +65,7 @@ static int _amdelcurr();
  */
 
 int 
-isdelcurr(isfd)
-    int			isfd;
+isdelcurr(int isfd)
 {
     int			_am_delcurr();
     register Fab	*fab;
@@ -115,11 +114,8 @@ isdelcurr(isfd)
  */
 
 static int
-_amdelcurr(isfhandle, curpos, recnum, errcode)
-    Bytearray		*isfhandle;
-    Bytearray		*curpos;
-    Recno		*recnum;
-    struct errcode	*errcode;
+_amdelcurr(Bytearray *isfhandle, Bytearray *curpos, Recno *recnum,
+           struct errcode *errcode)
 {
     Fcb			*fcb = NULL;
     Crp			*crp;

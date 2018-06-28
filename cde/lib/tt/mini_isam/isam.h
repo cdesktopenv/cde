@@ -57,7 +57,10 @@ extern long ldlong();
 extern float ldfloat();
 extern double lddbl();
 extern short ldshort();
-extern int ldchar(), stchar(), stlong(), stint(), stdbl(), stfloat();
+extern int ldchar(), stchar(), stlong(), stdbl();
+extern int stint(short val, char *p);
+extern int stfloat(float f, char *p);
+
 
 extern int	iserrno;		     /* isam error number code */
 extern long	isrecnum;		     /* record number of last call */

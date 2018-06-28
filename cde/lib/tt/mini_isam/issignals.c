@@ -65,9 +65,8 @@ static sigset_t oldmask;
 static sigset_t allsignals;
 
 
-_issignals_cntl(opt)
-    int		opt;			     /* 1 will enable masking */
-					     /* 0 will disable masking */
+/* opt, 1 will enable masking, 0 will disable masking */
+_issignals_cntl(int opt)
 {
     int		oldmask = do_mask;
 

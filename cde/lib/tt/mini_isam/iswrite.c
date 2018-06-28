@@ -71,9 +71,7 @@ static int _am_write();
  */
 
 int 
-iswrite(isfd, record)
-    int			isfd;
-    char		*record;
+iswrite(int isfd, char *record)
 {
     int			_am_write();
     register Fab	*fab;
@@ -123,12 +121,8 @@ iswrite(isfd, record)
 }
 
 
-Static int _am_write(fab, record, reclen, curpos, recnum)
-    register Fab	*fab;
-    char		*record;
-    int			reclen;
-    Bytearray		*curpos;
-    Recno		*recnum;
+Static int _am_write(register Fab *fab, char *record, int reclen,
+                     Bytearray *curpos, Recno *recnum)
 {
     return (_amwrite(&fab->isfhandle, record, reclen,
 		     curpos, recnum, &fab->errcode));

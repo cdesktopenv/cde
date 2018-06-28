@@ -54,8 +54,7 @@ char *_lastelement();
  */
 
 void
-_makedat_isfname(isfname)
-    char	*isfname;
+_makedat_isfname(char *isfname)
 {
     /* Append .rec */
     (void) strcat(isfname, DAT_SUFFIX);
@@ -69,8 +68,7 @@ _makedat_isfname(isfname)
  */
 
 void
-_makeind_isfname(isfname)
-    char	*isfname;
+_makeind_isfname(char *isfname)
 {
     /* Append .ind */
     (void) strcat(isfname, IND_SUFFIX);
@@ -84,8 +82,7 @@ _makeind_isfname(isfname)
  */
 
 void
-_makevar_isfname(isfname)
-    char	*isfname;
+_makevar_isfname(char *isfname)
 {
     /* Append .var */
     (void) strcat(isfname, VAR_SUFFIX);
@@ -99,8 +96,7 @@ _makevar_isfname(isfname)
  */
 
 void
-_removelast(path)
-    char		*path;
+_removelast(char *path)
 {
     register char	*p;
 
@@ -116,8 +112,7 @@ _removelast(path)
  */
 
 char *
-_lastelement(path)
-    char	*path;
+_lastelement(char *path)
 {
     register	char	*p;
     

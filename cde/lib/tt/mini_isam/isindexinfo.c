@@ -61,10 +61,7 @@ static char sccsid[] = "@(#)isindexinfo.c 1.2 91/05/16 Copyr 1988 Sun Micro";
 #define dibuf ((struct dictinfo *)buffer)
 
 int
-isindexinfo(isfd, buffer, number)
-    int			isfd;
-    struct keydesc	*buffer;
-    int			number;
+isindexinfo(int isfd, struct keydesc *buffer, int number)
 {
     register Fab	*fab;
     int			ret;

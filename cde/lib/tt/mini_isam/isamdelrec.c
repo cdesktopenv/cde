@@ -60,10 +60,7 @@ void _delkeys();
  */
 
 int
-_amdelrec(isfhandle, recnum, errcode)
-    Bytearray		*isfhandle;
-    Recno		recnum;
-    struct errcode	*errcode;
+_amdelrec(Bytearray *isfhandle, Recno recnum, struct errcode *errcode)
 {
     Fcb			*fcb = NULL;
     char		recbuf[ISMAXRECLEN];
@@ -145,10 +142,7 @@ _amdelrec(isfhandle, recnum, errcode)
  */
 
 void
-_delkeys(fcb, record, recnum)
-    register Fcb	*fcb;
-    char                *record;
-    Recno             	recnum;
+_delkeys(register Fcb *fcb, char *record, Recno recnum)
 {
     int                         nkeys = fcb->nkeys;
     register int                i;

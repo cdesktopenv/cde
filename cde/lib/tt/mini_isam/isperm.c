@@ -49,8 +49,7 @@ static char sccsid[] = "@(#)isperm.c 1.3 89/07/17 Copyr 1988 Sun Micro";
  */
 
 enum openmode
-_getopenmode(mode)
-    int		mode;
+_getopenmode(int mode)
 {
     switch (mode & ISOPENMODE) {
     case ISINPUT:
@@ -71,8 +70,7 @@ _getopenmode(mode)
  */
 
 enum readmode
-_getreadmode(mode)
-    int		mode;
+_getreadmode(int mode)
 {
     switch (mode & ISREADMODE) {
     case ISFIRST:

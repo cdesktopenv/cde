@@ -53,7 +53,7 @@ static char sccsid[] = "@(#)issync.c 1.7 89/07/17 Copyr 1988 Sun Micro";
  */
 
 int 
-issync()
+issync(void)
 {
     return iscntl(ALLISFD, ISCNTL_FSYNC);
 }
@@ -63,14 +63,13 @@ issync()
  */
 
 int 
-isfsync(isfd)
-    int		isfd;
+isfsync(int isfd)
 {
     return iscntl(isfd, ISCNTL_FSYNC);
 }
 
 
-_issync()
+int _issync(void)
 {
     int		i;
 
@@ -80,8 +79,7 @@ _issync()
     return (ISOK);
 }
 
-_isfsync(isfd)
-    int		isfd;
+int _isfsync(int isfd)
 {
     register Fab	*fab;
     Fcb                 *fcb;

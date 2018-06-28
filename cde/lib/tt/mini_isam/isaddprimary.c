@@ -65,9 +65,7 @@ Static int _am_addprimary();
  */
 
 int 
-isaddprimary(isfd, keydesc)
-    int			isfd;
-    struct keydesc	*keydesc;
+isaddprimary(int isfd, struct keydesc *keydesc)
 {
     register Fab	*fab;
     int			ret;
@@ -94,9 +92,7 @@ isaddprimary(isfd, keydesc)
     return (ret);			     /* Successful write */
 }
 
-Static int _am_addprimary(fab, keydesc)
-    register Fab	*fab;
-    struct keydesc	*keydesc;
+Static int _am_addprimary(register Fab *fab, struct keydesc *keydesc)
 {
     return (_amaddprimary(&fab->isfhandle, keydesc, &fab->errcode));
 }

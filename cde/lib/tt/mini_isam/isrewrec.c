@@ -70,10 +70,7 @@ static int _amrewrec(), _changekeys();
  */
 
 int 
-isrewrec(isfd, recnum, record)
-    int			isfd;
-    long		recnum;
-    char		*record;
+isrewrec(int isfd, long recnum, char *record)
 {
     register Fab	*fab;
     int			reclen;
@@ -131,12 +128,8 @@ isrewrec(isfd, recnum, record)
  */
 
 static int
-_amrewrec(isfhandle, record, reclen, recnum, errcode)
-    Bytearray		*isfhandle;
-    char		*record;
-    int			reclen;
-    Recno		recnum;
-    struct errcode	*errcode;
+_amrewrec(Bytearray *isfhandle, char *record, int reclen, Recno recnum,
+          struct errcode *errcode)
 {
     Fcb			*fcb;
     char		oldrecbuf[ISMAXRECLEN];
@@ -214,11 +207,7 @@ _amrewrec(isfhandle, record, reclen, recnum, errcode)
 }
 
 static int
-_changekeys (fcb, record, oldrecord, recnum)
-    Fcb			*fcb;
-    char                *record;
-    char                *oldrecord;
-    Recno	        recnum;
+_changekeys (Fcb *fcb, char *record, char *oldrecord, Recno recnum)
 {
     int                	nkeys = fcb->nkeys;
     register int        i;

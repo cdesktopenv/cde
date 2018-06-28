@@ -51,7 +51,7 @@ static char sccsid[] = "@(#)isbytearray.c 1.3 89/07/17 Copyr 1988 Sun Micro";
  */
 
 Bytearray 
-_bytearr_getempty()
+_bytearr_getempty(void)
 {
     static Bytearray	empty_bytearray = { 0, NULL};
 
@@ -65,9 +65,7 @@ _bytearr_getempty()
  */
 
 Bytearray
-_bytearr_new(len, data)
-    u_short		len;
-    char		*data;
+_bytearr_new(u_short len, char *data)
 {
     Bytearray		bytearray;
 
@@ -85,8 +83,7 @@ _bytearr_new(len, data)
  */
 
 Bytearray
-_bytearr_dup(old)
-    Bytearray		*old;
+_bytearr_dup(Bytearray *old)
 {
     return (_bytearr_new(old->length, old->data));
 }
@@ -98,8 +95,7 @@ _bytearr_dup(old)
  */
 
 void
-_bytearr_free(barray)
-    register Bytearray	*barray;
+_bytearr_free(register Bytearray *barray)
 {
     if (barray->data)
 	free(barray->data);
@@ -115,8 +111,7 @@ _bytearr_free(barray)
  */
 
 int
-_bytearr_cmp(l,r)
-    register Bytearray	*l, *r;
+_bytearr_cmp(register Bytearray	*l, register Bytearray *r)
 {
     if (l->length == r->length)
 	return (memcmp(l->data, r->data, (int)l->length));

@@ -68,7 +68,7 @@ static int _in_use = 0;			     /* Current number of
  */
 
 int
-_watchfd_incr(n)
+_watchfd_incr(int n)
 {
     _in_use += n;
     assert(_in_use <= _limit);
@@ -85,7 +85,7 @@ _watchfd_incr(n)
  */
 
 int
-_watchfd_decr(n)
+_watchfd_decr(int n)
 {
     _in_use -= n;
     assert(_in_use >= 0);
@@ -100,7 +100,7 @@ _watchfd_decr(n)
  */
 
 int
-_watchfd_check()
+_watchfd_check(void)
 {
     return (_limit - _in_use);
 }
@@ -113,8 +113,7 @@ _watchfd_check()
  */
 
 int
-_watchfd_max_set(n)
-    int		n;
+_watchfd_max_set(int n)
 {
     int		oldlimit = _limit;
 
@@ -143,7 +142,7 @@ _watchfd_max_set(n)
  */
 
 int
-_watchfd_max_get()
+_watchfd_max_get(void)
 {
     return (_limit);
 }

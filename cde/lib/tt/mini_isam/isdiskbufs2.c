@@ -94,12 +94,9 @@ static int    maxavailn;		     /* Stop flushing when
 
 
 
+/* unixfd, .rec, .ind., .var */
 Bufhdr *
-_isdisk_fix(fcb, unixfd, blkno, mode)
-    Fcb		*fcb;
-    int		unixfd;			     /* .rec, .ind., .var */
-    Blkno	blkno;
-    int		mode;
+_isdisk_fix(Fcb *fcb, int unixfd, Blkno blkno, int mode)
 {
     register Bufhdr *p, *p2;
     struct dlink	   *hashl;
@@ -199,8 +196,7 @@ _isdisk_fix(fcb, unixfd, blkno, mode)
 }
 
 void
-_isdisk_unfix (p)
-    register Bufhdr	*p;
+_isdisk_unfix (register Bufhdr *p)
 {
     if (!(p->isb_flags & ISB_FIXED))
     assert(p->isb_flags & ISB_FIXED);
@@ -221,14 +217,13 @@ _isdisk_unfix (p)
 }
 
 void
-_isdisk_commit1 (p)
-    Bufhdr	*p;
+_isdisk_commit1 (Bufhdr *p)
 {
     _commit1buffer(p);
 }
 
 void
-_isdisk_commit()
+_isdisk_commit(void)
 {
     register Bufhdr *p;
     struct dlink	   *e;
@@ -241,7 +236,7 @@ _isdisk_commit()
 }
 
 void
-_isdisk_rollback()
+_isdisk_rollback(void)
 {
     register Bufhdr 	*p;
     struct dlink	   *e;
@@ -257,9 +252,7 @@ _isdisk_rollback()
 }
 
 Bufhdr *
-_isdisk_refix(p, newmode)
-    Bufhdr	*p;
-    int			newmode;
+_isdisk_refix(Bufhdr *p, int newmode)
 {
     Blkno	blkno = p->isb_blkno;
     Fcb		*fcb = p->isb_fcb;
@@ -276,7 +269,7 @@ _isdisk_refix(p, newmode)
 }
 
 void
-_isdisk_sync()
+_isdisk_sync(void)
 {
     extern time_t _istimeget();
     register Bufhdr *p;
@@ -291,7 +284,7 @@ _isdisk_sync()
 }
 
 void
-_isdisk_inval()
+_isdisk_inval(void)
 {
     extern time_t _istimeget();
     register Bufhdr *p;
@@ -318,7 +311,7 @@ _isdisk_inval()
 
 
 #if ISDEBUG
-_isdisk_dumphd()
+_isdisk_dumphd(void)
 {
     register Bufhdr *p;
     int			    i;
@@ -332,8 +325,7 @@ _isdisk_dumphd()
 			  p->isb_oldcopy?(p->isb_oldcopy - bufhdrs):-1);
 }
 
-aclistdump(lh)
-    struct dlink	   *lh;
+aclistdump(struct dlink *lh)
 {
     register Bufhdr *p;
     struct dlink	   *e;
@@ -347,8 +339,7 @@ aclistdump(lh)
     }
 }
 
-flistdump(lh)
-    struct dlink	   *lh;
+flistdump(struct dlink *lh)
 {
     register Bufhdr *p;
     struct dlink	   *e;
@@ -368,7 +359,7 @@ flistdump(lh)
 /*------------------------ Local functions ---------------------------------*/
 
 Static void
-_disk_init()
+_disk_init(void)
 {
     static Bool  initialized = FALSE;
     register int	i;
@@ -403,7 +394,7 @@ _disk_init()
 
 /* _getavail() - get available buffer in disk */
 Static Bufhdr *
-_getavail()
+_getavail(void)
 {
     register Bufhdr *p;
     register struct dlink  *q;
@@ -424,10 +415,7 @@ _getavail()
 
 /* _findblock() - Find block in buffer pool */
 Static Bufhdr *
-_findblock(fcb, unixfd, blkno)
-    Fcb		*fcb;
-    int		unixfd;
-    Blkno	blkno;
+_findblock(Fcb *fcb, int unixfd, Blkno blkno)
 {
     register Bufhdr *p;
     struct dlink	   *lh, *e;
@@ -449,8 +437,7 @@ _findblock(fcb, unixfd, blkno)
 
 /* _commit1buffer() - Commit changes to buffer */
 Static void
-_commit1buffer(p)
-    register Bufhdr	*p;
+_commit1buffer(register Bufhdr *p)
 {
     assert(p->isb_flags & ISB_WFIXED);	     /* Fixed for read buffers should */
     /* go through _isdisk_unfix() */
@@ -470,8 +457,7 @@ _commit1buffer(p)
 
 /* _rollback1buffer() - Rollback changes to buffer */
 Static void
-_rollback1buffer(p)
-    register Bufhdr	*p;
+_rollback1buffer(register Bufhdr *p)
 {
     register Bufhdr	*p2;
     
@@ -501,8 +487,7 @@ _rollback1buffer(p)
 
 /* _makenodata() - make buffer available with no data in it*/
 Static void
-_makenodata(p)
-    register Bufhdr	*p;
+_makenodata(register Bufhdr *p)
 {
     assert(p->isb_flags & ISB_READ);
     
@@ -513,8 +498,7 @@ _makenodata(p)
 
 /* _flush1buffer() - flush buffer to disk */
 Static void
-_flush1buffer(p)
-    register Bufhdr	*p;
+_flush1buffer(register Bufhdr *p)
 {
     assert(p->isb_flags & ISB_CHANGE);
     

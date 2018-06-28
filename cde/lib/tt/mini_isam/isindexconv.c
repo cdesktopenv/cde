@@ -42,9 +42,7 @@ static char sccsid[] = "@(#)isindexconv.c 1.3 89/07/17 Copyr 1988 Sun Micro";
 #include "isam_impl.h"
 
 void
-stkey(pkeydesc2, p)
-    Keydesc2		*pkeydesc2;
-    char		*p;
+stkey(Keydesc2 *pkeydesc2, char *p)
 {
     int                         i;
     register struct keypart2   	*ppart;
@@ -82,9 +80,7 @@ stkey(pkeydesc2, p)
 }      
 
 void
-ldkey(pkeydesc2,p)
-    register struct keydesc2    *pkeydesc2;
-    register char               *p;
+ldkey(register struct keydesc2 *pkeydesc2, register char *p)
 {
     int                         i;
     register struct keypart2    *ppart;

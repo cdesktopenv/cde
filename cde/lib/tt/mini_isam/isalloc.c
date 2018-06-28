@@ -56,8 +56,7 @@ extern char *strdup();
  * Allocate nbytes.
  */
 
-char *_ismalloc(nbytes)
-    unsigned int	nbytes;
+char *_ismalloc(unsigned int nbytes)
 {
     register char	*p;
     
@@ -67,9 +66,7 @@ char *_ismalloc(nbytes)
     return (p);
 }
 
-char *_isrealloc(oldaddr, nbytes)
-    char		*oldaddr;
-    unsigned int	nbytes;
+char *_isrealloc(char *oldaddr, unsigned int nbytes)
 {
     register char	*p;
     
@@ -87,8 +84,7 @@ char *_isrealloc(oldaddr, nbytes)
  */
 
 char *
-_isallocstring(str)
-    char	*str;
+_isallocstring(char *str)
 {
     register char	*p;
 
@@ -105,8 +101,7 @@ _isallocstring(str)
  */
 
 void
-_isfreestring(str)
-    char	*str;
+_isfreestring(char *str)
 {
     assert(str != NULL);
     free(str);

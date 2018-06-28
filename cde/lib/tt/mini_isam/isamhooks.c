@@ -50,7 +50,7 @@ extern struct dlink  *pavail;
  */
 
 void
-_isam_entryhook()
+_isam_entryhook(void)
 {
     isdupl = 0;				     /* Reset duplicate indicator */
     _setiserrno2(0, '0', '0');
@@ -62,7 +62,7 @@ _isam_entryhook()
  */
 
 void
-_isam_exithook()
+_isam_exithook(void)
 {
     _isdisk_inval();			     /* Invalidate all buffers */
 }
