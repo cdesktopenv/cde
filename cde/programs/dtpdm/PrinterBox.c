@@ -405,7 +405,7 @@ static String GetIconFileName(Widget w, String resource_name);
  *
  */
 PdmSetupBox*
-PdmPrinterBoxNew()
+PdmPrinterBoxNew(void)
 {
     PdmSetupBox* me = (PdmSetupBox*)XtCalloc(1, sizeof(PdmSetupBox));
     PdmPrinterBoxData* data;
@@ -1379,7 +1379,7 @@ OrientCtlGetOrientation(OrientCtl* me)
  *
  */
 static PlexCtl*
-PlexCtlNew()
+PlexCtlNew(void)
 {
     PlexCtl* me = (PlexCtl*)XtCalloc(1, sizeof(PlexCtl));
     me->pixmap_list_ptr = &me->portrait_pixmap_list;
@@ -2246,7 +2246,7 @@ TrayCtlSelectCB(Widget w, XtPointer client_data, XtPointer call_data)
  *
  */
 static SizeCtl*
-SizeCtlNew()
+SizeCtlNew(void)
 {
     SizeCtl* me = (SizeCtl*)XtCalloc(1, sizeof(SizeCtl));
     return me;

@@ -69,7 +69,7 @@ static XrmDatabase PdmXpLoadPool(PdmXp* me, XPAttributes type);
  *
  */
 PdmXp*
-PdmXpNew()
+PdmXpNew(void)
 {
     return (PdmXp*)XtCalloc(1, sizeof(PdmXp));
 }

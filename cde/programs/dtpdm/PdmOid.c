@@ -459,7 +459,7 @@ PdmOidListDelete(PdmOidList* list)
  *
  */
 PdmOidLinkedList*
-PdmOidLinkedListNew()
+PdmOidLinkedListNew(void)
 {
     return (PdmOidLinkedList*)XtCalloc(1, sizeof(PdmOidLinkedList));
 }

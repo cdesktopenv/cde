@@ -87,7 +87,7 @@ static void PdmMainWinHelpDestroyCB(Widget, XtPointer, XtPointer);
  *
  */
 PdmMainWin*
-PdmMainWinNew()
+PdmMainWinNew(void)
 {
     PdmMainWin* me = (PdmMainWin*)XtCalloc(1, sizeof(PdmMainWin));
     me->pdm_xp = PdmXpNew();

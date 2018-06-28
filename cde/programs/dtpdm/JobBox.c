@@ -92,7 +92,7 @@ static void PdmJobBoxSetAttr(PdmSetupBox* me, PdmXp* pdm_xp);
  *
  */
 PdmSetupBox*
-PdmJobBoxNew()
+PdmJobBoxNew(void)
 {
     PdmSetupBox* me = (PdmSetupBox*)XtCalloc(1, sizeof(PdmSetupBox));
 

@@ -115,7 +115,7 @@ static Boolean PdmStartOkWorkProc(XtPointer client_data);
  *
  */
 static PdmShell*
-PdmShellNew()
+PdmShellNew(void)
 {
     return (PdmShell*)XtCalloc(1, sizeof(PdmShell));
 }
