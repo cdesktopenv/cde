@@ -151,7 +151,7 @@ FileCallback(
 
 
 void
-FinalizeToolTalkSession( )
+FinalizeToolTalkSession(void)
 {
   Tt_status ttRc;
   int i;

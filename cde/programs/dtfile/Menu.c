@@ -696,7 +696,7 @@ GetMainMenuData (
 
 
 void
-GetHomeDir( )
+GetHomeDir(void)
 {
   struct passwd * pwInfo;
 

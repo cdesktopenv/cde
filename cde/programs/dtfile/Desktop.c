@@ -1556,10 +1556,7 @@ DrawAInput (
  ************************************************************************/
 
 void
-RemoveDT (w, client_data, call_data)
-      Widget w;
-      XtPointer client_data;
-      XtPointer call_data;
+RemoveDT (Widget w, XtPointer client_data, XtPointer call_data)
 {
    DesktopRec *desktopWindow = (DesktopRec *) client_data;
    int i, j, num_of_files;
@@ -1609,11 +1606,8 @@ RemoveDT (w, client_data, call_data)
 
 #ifdef SUN_PERF
 void
-RemoveMovedObjectFromDT (w, client_data, file_cnt, file_list)
-      Widget w;
-      XtPointer client_data;
-      int file_cnt ;
-      char **file_list ;
+RemoveMovedObjectFromDT (Widget w, XtPointer client_data, int file_cnt,
+                         char **file_list)
 {
    DesktopRec *desktopWindow = (DesktopRec *) client_data;
    int i, j, k, m, num_of_files;
@@ -2412,7 +2406,7 @@ ProcessDTSelection (
 
 
 void
-UnpostDTTextField ()
+UnpostDTTextField (void)
 
 {
    DesktopRec *desktopWindow;

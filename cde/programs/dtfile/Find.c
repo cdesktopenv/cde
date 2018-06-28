@@ -2864,10 +2864,7 @@ SetFocus(
 }
 
 FILE *
-findpopen(cmd,mode,childpid)
-   char *cmd;
-   char *mode;
-   int *childpid;
+findpopen(char *cmd, char *mode, int *childpid)
 {
    static char *pname = "findpopen";
    int     fd[2];
