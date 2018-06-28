@@ -72,7 +72,7 @@ static int _amwrrec();
 int 
 iswrrec(int isfd, long recnum, char *record)
 {
-    register Fab	*fab;
+    Fab	*fab;
     int			reclen;
     int			ret;
 

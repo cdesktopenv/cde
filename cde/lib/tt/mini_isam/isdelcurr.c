@@ -68,7 +68,7 @@ int
 isdelcurr(int isfd)
 {
     int			_am_delcurr();
-    register Fab	*fab;
+    Fab	*fab;
     int			ret;
     int			recnum;
 

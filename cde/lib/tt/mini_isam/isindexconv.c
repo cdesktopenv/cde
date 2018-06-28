@@ -45,8 +45,8 @@ void
 stkey(Keydesc2 *pkeydesc2, char *p)
 {
     int                         i;
-    register struct keypart2   	*ppart;
-    register char               *pp;
+    struct keypart2   	*ppart;
+    char               *pp;
     int                         nparts;
 
     stshort(pkeydesc2->k2_flags, p + K2_FLAGS_OFF);
@@ -80,11 +80,11 @@ stkey(Keydesc2 *pkeydesc2, char *p)
 }      
 
 void
-ldkey(register struct keydesc2 *pkeydesc2, register char *p)
+ldkey(struct keydesc2 *pkeydesc2, char *p)
 {
     int                         i;
-    register struct keypart2    *ppart;
-    register char               *pp;
+    struct keypart2    *ppart;
+    char               *pp;
     int                         nparts;
 
     memset ((char *) pkeydesc2, 0, sizeof (*pkeydesc2));

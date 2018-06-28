@@ -66,7 +66,7 @@ Fcb *
 _isfcb_create(char *isfname, int crdat, int crind, int crvar,
               int owner, int group, int u_mask, struct errcode *errcode)
 {
-    register Fcb	*fcb;
+    Fcb	*fcb;
     int			dat_fd = -1;
     int			ind_fd = -1;
     int			var_fd = -1;
@@ -156,7 +156,7 @@ _isfcb_create(char *isfname, int crdat, int crind, int crvar,
  */
 
 void
-_isfcb_setreclength(register Fcb *fcb, Bool varflag, int minreclen, int maxreclen)
+_isfcb_setreclength(Fcb *fcb, Bool varflag, int minreclen, int maxreclen)
 {
     fcb->varflag = varflag;
     fcb->minreclen = minreclen;
@@ -182,7 +182,7 @@ _isfcb_setreclength(register Fcb *fcb, Bool varflag, int minreclen, int maxrecle
 Fcb *
 _isfcb_open(char *isfname, struct errcode *errcode)
 {
-    register Fcb	*fcb;
+    Fcb	*fcb;
     int			dat_fd = -1;
     int			ind_fd = -1;
     int			var_fd = -1;
@@ -237,9 +237,9 @@ _isfcb_open(char *isfname, struct errcode *errcode)
  */
 
 int
-_isfcb_nfds(register Fcb *fcb)
+_isfcb_nfds(Fcb *fcb)
 {
-    register int	count = 0;
+    int	count = 0;
 
     if (fcb->datfd != -1)
 	count++;
@@ -261,7 +261,7 @@ _isfcb_nfds(register Fcb *fcb)
  */
 
 void
-_isfcb_remove(register Fcb *fcb)
+_isfcb_remove(Fcb *fcb)
 {
     if (fcb->datfd)
 	_remove_datfile(fcb->isfname);
@@ -280,7 +280,7 @@ _isfcb_remove(register Fcb *fcb)
  */
 
 void
-_isfcb_close(register Fcb *fcb)
+_isfcb_close(Fcb *fcb)
 {
     assert (fcb != NULL);
     assert (fcb->isfname != NULL);
@@ -304,7 +304,7 @@ _isfcb_close(register Fcb *fcb)
  */
 
 int
-_isfcb_cntlpg_w(register Fcb *fcb)
+_isfcb_cntlpg_w(Fcb *fcb)
 {
     char	       	cntl_page[ISCNTLSIZE];
     int			dat_fd = fcb->datfd;
@@ -393,7 +393,7 @@ _isfcb_cntlpg_w(register Fcb *fcb)
  */
 
 int
-_isfcb_cntlpg_w2(register Fcb *fcb)
+_isfcb_cntlpg_w2(Fcb *fcb)
 {
     char	       	cntl_page[CP_VAREND_OFF+CP_VAREND_LEN];
     int			dat_fd = fcb->datfd;
@@ -452,7 +452,7 @@ _isfcb_cntlpg_w2(register Fcb *fcb)
  */
 
 int
-_isfcb_cntlpg_r(register Fcb *fcb)
+_isfcb_cntlpg_r(Fcb *fcb)
 {
     char	       	cntl_page[ISCNTLSIZE];
     int			dat_fd = fcb->datfd;
@@ -552,7 +552,7 @@ _isfcb_cntlpg_r(register Fcb *fcb)
  */
 
 int
-_isfcb_cntlpg_r2(register Fcb *fcb)
+_isfcb_cntlpg_r2(Fcb *fcb)
 {
     char	       	cntl_page[CP_VAREND_OFF+CP_VAREND_LEN];
     int			dat_fd = fcb->datfd;

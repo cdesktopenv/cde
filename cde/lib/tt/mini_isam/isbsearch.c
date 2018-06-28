@@ -47,8 +47,8 @@ static char sccsid[] = "@(#)isbsearch.c 1.3 89/07/17 Copyr 1988 Sun Micro";
 
 char *_isbsearch (char *key, char *table, int nelems, int keylen, int (*cmpf) ())
 {
-    register int len,l1,result;		     /* current length of array to search */
-    register char *p,*low;
+    int len,l1,result;		     /* current length of array to search */
+    char *p,*low;
     
     if (nelems <= 0) return (char *) 0;
 

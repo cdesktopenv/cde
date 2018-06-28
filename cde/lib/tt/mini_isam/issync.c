@@ -81,7 +81,7 @@ int _issync(void)
 
 int _isfsync(int isfd)
 {
-    register Fab	*fab;
+    Fab	*fab;
     Fcb                 *fcb;
     int			ret;
 

@@ -58,7 +58,7 @@ extern char *strdup();
 
 char *_ismalloc(unsigned int nbytes)
 {
-    register char	*p;
+    char	*p;
     
     if ((p = (char *) malloc (nbytes)) == NULL)
 	_isfatal_error("malloc() failed");
@@ -68,7 +68,7 @@ char *_ismalloc(unsigned int nbytes)
 
 char *_isrealloc(char *oldaddr, unsigned int nbytes)
 {
-    register char	*p;
+    char	*p;
     
     if ((p = (char *) realloc (oldaddr, nbytes)) == NULL)
 	_isfatal_error("realloc() failed");
@@ -86,7 +86,7 @@ char *_isrealloc(char *oldaddr, unsigned int nbytes)
 char *
 _isallocstring(char *str)
 {
-    register char	*p;
+    char	*p;
 
     if ((p = strdup(str)) == NULL) 
 	_isfatal_error("strdup() failed");

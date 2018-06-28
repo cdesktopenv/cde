@@ -64,7 +64,7 @@ static void remove_from_chain();	     /* used by _flrec_wrrec() */
 
 /*ARGSUSED*/
 int
-_flrec_write(register Fcb *fcb, char *record, Recno *recnum, int reclen)
+_flrec_write(Fcb *fcb, char *record, Recno *recnum, int reclen)
 {
     Recno		recnum2;
     long		rec_position;
@@ -127,7 +127,7 @@ _flrec_write(register Fcb *fcb, char *record, Recno *recnum, int reclen)
  */
 
 int
-_flrec_read(register Fcb *fcb, char *record, Recno recnum, int *reclen)
+_flrec_read(Fcb *fcb, char *record, Recno recnum, int *reclen)
 {
     long		rec_position;
     char		delflag;
@@ -186,7 +186,7 @@ _fl_getpos(Fcb *fcb, Recno recnum)
 
 /*ARGSUSED*/
 int
-_flrec_rewrite(register Fcb *fcb, char *record, Recno recnum, int reclen)
+_flrec_rewrite(Fcb *fcb, char *record, Recno recnum, int reclen)
 {
     long		rec_position;
     char		delflag;
@@ -228,7 +228,7 @@ _flrec_rewrite(register Fcb *fcb, char *record, Recno recnum, int reclen)
  */
 
 int
-_flrec_delete(register Fcb *fcb, Recno recnum)
+_flrec_delete(Fcb *fcb, Recno recnum)
 {
     long		rec_position;
     char		delflag;
@@ -285,7 +285,7 @@ _flrec_delete(register Fcb *fcb, Recno recnum)
 
 /*ARGSUSED*/
 int
-_flrec_wrrec(register Fcb *fcb, char *record, Recno recnum, int reclen)
+_flrec_wrrec(Fcb *fcb, char *record, Recno recnum, int reclen)
 {
     long		rec_position;
     char		delflag;

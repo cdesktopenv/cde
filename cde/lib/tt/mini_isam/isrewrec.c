@@ -72,7 +72,7 @@ static int _amrewrec(), _changekeys();
 int 
 isrewrec(int isfd, long recnum, char *record)
 {
-    register Fab	*fab;
+    Fab	*fab;
     int			reclen;
     int			ret;
 
@@ -210,7 +210,7 @@ static int
 _changekeys (Fcb *fcb, char *record, char *oldrecord, Recno recnum)
 {
     int                	nkeys = fcb->nkeys;
-    register int        i;
+    int        i;
     int			err;
 
     for (i = 0; i < nkeys; i++) {

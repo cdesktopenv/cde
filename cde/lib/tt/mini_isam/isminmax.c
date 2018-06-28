@@ -75,10 +75,10 @@ static float *isminfloat = (float *)isminfloatarr;
  */
 
 void
-_iskey_fillmax(struct keydesc2 *pkeydesc2, register char *keybuf)
+_iskey_fillmax(struct keydesc2 *pkeydesc2, char *keybuf)
 {
-    register int 	i;
-    register struct keypart2 *ppart;
+    int 	i;
+    struct keypart2 *ppart;
     int 		nparts;
 
     nparts = pkeydesc2->k2_nparts;
@@ -141,10 +141,10 @@ _iskey_fillmax(struct keydesc2 *pkeydesc2, register char *keybuf)
  */
 
 void
-_iskey_fillmin(struct keydesc2 *pkeydesc2, register char *keybuf)
+_iskey_fillmin(struct keydesc2 *pkeydesc2, char *keybuf)
 {
-    register int 	i;
-    register struct keypart2 *ppart;
+    int 	i;
+    struct keypart2 *ppart;
     int 		nparts;
 
     nparts = pkeydesc2->k2_nparts;

@@ -117,7 +117,7 @@ isopen(char *isfname, int mode)
     return ((int)isfd);			     /* Successful isopen() */
 }
 
-Static int _am_open(register Fab *fab)
+Static int _am_open(Fab *fab)
 {
     return (_amopen(fab->isfname, fab->openmode, &fab->varlength,
 		    &fab->minreclen, &fab->maxreclen, &fab->isfhandle,

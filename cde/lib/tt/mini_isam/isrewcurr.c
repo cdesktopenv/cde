@@ -73,7 +73,7 @@ static int _amrewcurr(), _changekeys2();
 int 
 isrewcurr(int isfd, char *record)
 {
-    register Fab	*fab;
+    Fab	*fab;
     int			reclen;
     int			ret;
     int			recnum;
@@ -239,7 +239,7 @@ _changekeys2(Fcb *fcb, char *record, char *oldrecord,
              Recno recnum, Bytearray *curpos)
 {
     int                	nkeys = fcb->nkeys;
-    register int        i;
+    int        i;
     int			err;
     Crp			*crp;
     int			keyid;

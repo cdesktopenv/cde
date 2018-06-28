@@ -56,7 +56,7 @@ _isbtree_remove(Btree *btree)
 {
     struct keydesc2	*pkeydesc2 = btree->keydesc2;
     int			nkeys;		     /* Number of keys in the page */
-    register int	i;
+    int	i;
     char		*pkp, *pkp2, *pkp3;
     struct bufhdr	*kp2bhdr;
     Blkno		blkno2;

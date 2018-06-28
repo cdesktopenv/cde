@@ -58,7 +58,7 @@ static char sccsid[] = "@(#)isfab.c 1.8 89/07/17 Copyr 1988 Sun Micro";
 Fab *
 _fab_new(char *isfname, enum openmode openmode, Bool varlen, int minreclen, int maxreclen)
 {
-    register Fab	*fab;
+    Fab	*fab;
 
     /* Allocate memory for the fab object. */
     fab = (Fab *) _ismalloc(sizeof(*fab));
@@ -86,7 +86,7 @@ _fab_new(char *isfname, enum openmode openmode, Bool varlen, int minreclen, int 
 }
 
 void
-_fab_destroy(register Fab *fab)
+_fab_destroy(Fab *fab)
 {
     assert(fab != NULL);
     assert(fab->isfname != NULL);

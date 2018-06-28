@@ -55,7 +55,7 @@ void
 _iskey_itox(struct keydesc2 *pikdesc, struct keydesc *pxkdesc)
 {
     int 		nparts;
-    register int 	i;
+    int 	i;
 
     memset ((char *)pxkdesc, 0, sizeof (*pxkdesc));
 
@@ -82,7 +82,7 @@ void
 _iskey_xtoi(struct keydesc2 *pikdesc, struct keydesc *pxkdesc)
 {
     int 		nparts;
-    register int 	i;
+    int 	i;
     int			offset;		     /* Keep track of offset in key */
 
     memset ((char *)pikdesc, 0, sizeof (*pikdesc));

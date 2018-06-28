@@ -78,7 +78,7 @@ void
 _mngfcb_insert(Fcb *fcb, Bytearray *isfhandle)
 {
     int			hashval = _hashisfhandle(isfhandle);
-    register int  	ind;
+    int  	ind;
     int			ntries;
 
     /* Try to find an unused entry in the hash table. */
@@ -115,7 +115,7 @@ Fcb *
 _mngfcb_find(Bytearray *isfhandle)
 {
     int			hashval = _hashisfhandle(isfhandle);
-    register int  	ind;
+    int  	ind;
     int			ntries;
 
     /* Find the entry. */
@@ -150,7 +150,7 @@ void
 _mngfcb_delete(Bytearray *isfhandle)
 {
     int			hashval = _hashisfhandle(isfhandle);
-    register int  	ind;
+    int  	ind;
     int			ntries;
 
     /* Find the entry */
@@ -187,7 +187,7 @@ _mngfcb_victim(void)
 {
     int			victim_ind = -1;
     long		victim_time = 0;     /* Assign to shut up lint */
-    register int	i;
+    int	i;
 
     for (i = 0; i < FCBHASHSIZE; i++) {
 
@@ -212,9 +212,9 @@ _mngfcb_victim(void)
 Static int
 _hashisfhandle(Bytearray *isfhandle)
 {
-    register char	*p;
-    register unsigned	h, g;
-    register int	len;
+    char	*p;
+    unsigned	h, g;
+    int	len;
 
     len = isfhandle->length;
     p = isfhandle->data;

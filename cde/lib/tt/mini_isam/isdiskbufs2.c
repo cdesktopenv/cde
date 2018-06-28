@@ -98,7 +98,7 @@ static int    maxavailn;		     /* Stop flushing when
 Bufhdr *
 _isdisk_fix(Fcb *fcb, int unixfd, Blkno blkno, int mode)
 {
-    register Bufhdr *p, *p2;
+    Bufhdr *p, *p2;
     struct dlink	   *hashl;
 
     /*
@@ -196,7 +196,7 @@ _isdisk_fix(Fcb *fcb, int unixfd, Blkno blkno, int mode)
 }
 
 void
-_isdisk_unfix (register Bufhdr *p)
+_isdisk_unfix (Bufhdr *p)
 {
     if (!(p->isb_flags & ISB_FIXED))
     assert(p->isb_flags & ISB_FIXED);
@@ -225,7 +225,7 @@ _isdisk_commit1 (Bufhdr *p)
 void
 _isdisk_commit(void)
 {
-    register Bufhdr *p;
+    Bufhdr *p;
     struct dlink	   *e;
     
     while ((e = _isdln_first(pfixl)) != pfixl) {
@@ -238,7 +238,7 @@ _isdisk_commit(void)
 void
 _isdisk_rollback(void)
 {
-    register Bufhdr 	*p;
+    Bufhdr 	*p;
     struct dlink	   *e;
     
     while ((e = _isdln_first(pfixl)) != pfixl) {
@@ -272,7 +272,7 @@ void
 _isdisk_sync(void)
 {
     extern time_t _istimeget();
-    register Bufhdr *p;
+    Bufhdr *p;
     struct dlink	   *e;
     
     while ((e = _isdln_first(pchangl)) != pchangl) {
@@ -287,7 +287,7 @@ void
 _isdisk_inval(void)
 {
     extern time_t _istimeget();
-    register Bufhdr *p;
+    Bufhdr *p;
     struct dlink	   *e;
     
     /* ensure pavail is initialized before using it */
@@ -313,7 +313,7 @@ _isdisk_inval(void)
 #if ISDEBUG
 _isdisk_dumphd(void)
 {
-    register Bufhdr *p;
+    Bufhdr *p;
     int			    i;
     
     (void)printf("\nInd isfd   blkno mode temp oldcopy\n");
@@ -327,7 +327,7 @@ _isdisk_dumphd(void)
 
 aclistdump(struct dlink *lh)
 {
-    register Bufhdr *p;
+    Bufhdr *p;
     struct dlink	   *e;
     
     for (e = _isdln_first(lh); e != lh; e = _isdln_next(e)) {
@@ -341,7 +341,7 @@ aclistdump(struct dlink *lh)
 
 flistdump(struct dlink *lh)
 {
-    register Bufhdr *p;
+    Bufhdr *p;
     struct dlink	   *e;
     
     for (e = _isdln_first(lh); e != lh; e = _isdln_next(e)) {
@@ -362,7 +362,7 @@ Static void
 _disk_init(void)
 {
     static Bool  initialized = FALSE;
-    register int	i;
+    int	i;
     
     if (initialized == TRUE)
 	return;
@@ -396,8 +396,8 @@ _disk_init(void)
 Static Bufhdr *
 _getavail(void)
 {
-    register Bufhdr *p;
-    register struct dlink  *q;
+    Bufhdr *p;
+    struct dlink  *q;
     
     if ((q = _isdln_first(pavail)) == pavail) {
 	_isfatal_error("No buffer in pool available");
@@ -417,7 +417,7 @@ _getavail(void)
 Static Bufhdr *
 _findblock(Fcb *fcb, int unixfd, Blkno blkno)
 {
-    register Bufhdr *p;
+    Bufhdr *p;
     struct dlink	   *lh, *e;
     int			   hashval;
     
@@ -437,7 +437,7 @@ _findblock(Fcb *fcb, int unixfd, Blkno blkno)
 
 /* _commit1buffer() - Commit changes to buffer */
 Static void
-_commit1buffer(register Bufhdr *p)
+_commit1buffer(Bufhdr *p)
 {
     assert(p->isb_flags & ISB_WFIXED);	     /* Fixed for read buffers should */
     /* go through _isdisk_unfix() */
@@ -457,9 +457,9 @@ _commit1buffer(register Bufhdr *p)
 
 /* _rollback1buffer() - Rollback changes to buffer */
 Static void
-_rollback1buffer(register Bufhdr *p)
+_rollback1buffer(Bufhdr *p)
 {
-    register Bufhdr	*p2;
+    Bufhdr	*p2;
     
     assert(p->isb_flags & ISB_WFIXED);	     /* Fixed for read buffers should */
     /* go through _isdisk_unfix() */
@@ -487,7 +487,7 @@ _rollback1buffer(register Bufhdr *p)
 
 /* _makenodata() - make buffer available with no data in it*/
 Static void
-_makenodata(register Bufhdr *p)
+_makenodata(Bufhdr *p)
 {
     assert(p->isb_flags & ISB_READ);
     
@@ -498,7 +498,7 @@ _makenodata(register Bufhdr *p)
 
 /* _flush1buffer() - flush buffer to disk */
 Static void
-_flush1buffer(register Bufhdr *p)
+_flush1buffer(Bufhdr *p)
 {
     assert(p->isb_flags & ISB_CHANGE);
     

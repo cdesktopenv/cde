@@ -161,10 +161,10 @@ _amwrite(Bytearray *isfhandle, char *record, int reclen,
  * Returns ISOK, or EDUPS.
  */
 
-int _addkeys (register Fcb *fcb, char *record, Recno recnum)
+int _addkeys (Fcb *fcb, char *record, Recno recnum)
 {
     int                         nkeys = fcb->nkeys;
-    register int                i;
+    int                i;
     int				err;
 
     for (i = 0; i < nkeys; i++) {
@@ -180,7 +180,7 @@ Static int
 _addkeys2 (Fcb *fcb, char *record, Recno recnum, Bytearray *curpos)
 {
     int                	nkeys = fcb->nkeys;
-    register int        i;
+    int        i;
     int			err;
     Crp			*crp;
     int			keyid;

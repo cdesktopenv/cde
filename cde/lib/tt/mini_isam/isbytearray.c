@@ -95,7 +95,7 @@ _bytearr_dup(Bytearray *old)
  */
 
 void
-_bytearr_free(register Bytearray *barray)
+_bytearr_free(Bytearray *barray)
 {
     if (barray->data)
 	free(barray->data);
@@ -111,7 +111,7 @@ _bytearr_free(register Bytearray *barray)
  */
 
 int
-_bytearr_cmp(register Bytearray	*l, register Bytearray *r)
+_bytearr_cmp(Bytearray	*l, Bytearray *r)
 {
     if (l->length == r->length)
 	return (memcmp(l->data, r->data, (int)l->length));

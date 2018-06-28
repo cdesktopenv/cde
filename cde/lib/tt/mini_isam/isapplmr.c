@@ -57,7 +57,7 @@ static char sccsid[] = "@(#)isapplmr.c 1.5 89/07/17 Copyr 1988 Sun Micro";
 int 
 _isapplmr(int isfd, char *buffer)
 {
-    register Fab	*fab;
+    Fab	*fab;
     Fcb                 *fcb = NULL;
     char                cntl_page[CP_NKEYS_OFF];
 

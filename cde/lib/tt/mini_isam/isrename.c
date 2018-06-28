@@ -146,7 +146,7 @@ isrename(char *oldname, char *newname)
 Static void
 _removelast2(char *path)
 {
-    register char	*p;
+    char	*p;
 
     for (p = path + strlen(path); *--p != '/' && p >= path; ) 
 	*p = '\0';

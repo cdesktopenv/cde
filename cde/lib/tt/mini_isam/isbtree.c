@@ -55,7 +55,7 @@ extern int _iskeycmp();
 Btree *
     _isbtree_create(Fcb *fcb, Keydesc2 *pkeydesc2)
 {
-    register Btree	*p;
+    Btree	*p;
     
     p = (Btree *) _ismalloc(sizeof(*p));
     memset((char *)p, 0, sizeof(*p));
@@ -74,9 +74,9 @@ Btree *
  */
 
 void
-_isbtree_destroy(register Btree *btree)
+_isbtree_destroy(Btree *btree)
 {
-    register int	i;
+    int	i;
     
     for (i = 0; i < btree->depth;i++) {
 	_isdisk_unfix(btree->bufhdr[i]);
@@ -92,7 +92,7 @@ _isbtree_destroy(register Btree *btree)
  */
 
 void
-_isbtree_search( register Btree *btree, char *key)
+_isbtree_search( Btree *btree, char *key)
 {
     Keydesc2		*pkeydesc2 = btree->keydesc2;
     Blkno		rootblkno = pkeydesc2->k2_rootnode;
@@ -100,7 +100,7 @@ _isbtree_search( register Btree *btree, char *key)
     int			index;		     /* Index to tables in btree */
     /* Has value of 1, next 2, etc. */
     int			elevation;	     /* Level - leaves have value 0 */
-    register char	*p;		     /* Pointer to key page */
+    char	*p;		     /* Pointer to key page */
     int			nkeys;		     /* Number of keys in the page */
     char		*key2;		     /* Equal or next lower key */
     int			curpos;		     /* index of key2 in key page */
@@ -144,7 +144,7 @@ _isbtree_search( register Btree *btree, char *key)
  */
 
 char *
-_isbtree_current(register Btree *btree)
+_isbtree_current(Btree *btree)
 {
     int			curpos;
     
@@ -163,12 +163,12 @@ _isbtree_current(register Btree *btree)
  */
 
 char *
-_isbtree_next(register Btree *btree)
+_isbtree_next(Btree *btree)
 {
     int			curpos;
     int			depth = btree->depth;
-    register char	*p;
-    register int	level;
+    char	*p;
+    int	level;
     Blkno		blkno;
     
     assert(depth > 0);

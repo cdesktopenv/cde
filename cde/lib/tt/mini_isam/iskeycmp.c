@@ -71,9 +71,9 @@ int
 _iskeycmp(char *lkey, char *rkey)
 {
     int		   	     i, ret;
-    register struct keypart2 *p;
-    register   char   	     *l, *r;
-    register long	     llong, rlong;
+    struct keypart2 *p;
+      char   	     *l, *r;
+    long	     llong, rlong;
     double		     ldouble, rdouble;
 
     ret = 0;

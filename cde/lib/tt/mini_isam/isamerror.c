@@ -88,7 +88,7 @@ static struct errstattab {
 void
 _amseterrcode(struct errcode *errcode, int is_errno)
 {
-    register struct errstattab 	*p;
+    struct errstattab 	*p;
     errcode->iserrno = is_errno;
 
     /*

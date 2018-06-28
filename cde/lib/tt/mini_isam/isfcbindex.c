@@ -121,11 +121,11 @@ _isfcb_altkeyadd(Fcb *fcb, Keydesc2 *keydesc2)
  */
 
 Keydesc2 *
-_isfcb_findkey(register Fcb *fcb, Keydesc2 *keydesc2)
+_isfcb_findkey(Fcb *fcb, Keydesc2 *keydesc2)
 {
     int                 nkeys = fcb->nkeys;
-    register Keydesc2	*kp2;
-    register int	j, i;
+    Keydesc2	*kp2;
+    int	j, i;
     int			nparts;
 
     for (i = 0; i < nkeys; i++) {
@@ -155,11 +155,11 @@ _isfcb_findkey(register Fcb *fcb, Keydesc2 *keydesc2)
  */
 
 int
-_isfcb_altkeydel(register Fcb *fcb, Keydesc2 *keydesc2)
+_isfcb_altkeydel(Fcb *fcb, Keydesc2 *keydesc2)
 {
     int                 nkeys = fcb->nkeys;
-    register int        i, j;
-    register Keydesc2	*kp2;
+    int        i, j;
+    Keydesc2	*kp2;
     int			nparts;
 
     for (i = 0; i < nkeys; i++) {
@@ -200,7 +200,7 @@ _isfcb_altkeydel(register Fcb *fcb, Keydesc2 *keydesc2)
 
 /* compare key parts */
 Static int
-_keypart2cmp(register struct keypart2 *l, register struct keypart2 *r)
+_keypart2cmp(struct keypart2 *l, struct keypart2 *r)
 {
     return !(l->kp2_type == r->kp2_type && l->kp2_start == r->kp2_start &&
 	     l->kp2_leng == r->kp2_leng);
@@ -214,11 +214,11 @@ _keypart2cmp(register struct keypart2 *l, register struct keypart2 *r)
  */
 
 Keydesc2 *
-_isfcb_indfindkey(register Fcb *fcb, int keyid)
+_isfcb_indfindkey(Fcb *fcb, int keyid)
 {
     int                 nkeys = fcb->nkeys;
-    register Keydesc2	*keys = fcb->keys;
-    register int	i;
+    Keydesc2	*keys = fcb->keys;
+    int	i;
     
     for (i = 0; i < nkeys; i++) {
 	if (keys[i].k2_keyid == keyid)

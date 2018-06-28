@@ -67,7 +67,7 @@ static _istail_read();
 
 /*ARGSUSED*/
 int
-_vlrec_write(register Fcb *fcb, char *record, Recno *recnum, int reclen)
+_vlrec_write(Fcb *fcb, char *record, Recno *recnum, int reclen)
 {
     Recno		recnum2;
     long		rec_position;
@@ -137,7 +137,7 @@ _vlrec_write(register Fcb *fcb, char *record, Recno *recnum, int reclen)
  */
 
 int
-_vlrec_read(register Fcb *fcb, char *record, Recno recnum, int *reclen)
+_vlrec_read(Fcb *fcb, char *record, Recno recnum, int *reclen)
 {
     long		rec_position;
     long		tailoff;
@@ -206,7 +206,7 @@ _vl_getpos(Fcb *fcb, Recno recnum)
 
 /*ARGSUSED*/
 int
-_vlrec_rewrite(register Fcb *fcb, char *record, Recno recnum, int reclen)
+_vlrec_rewrite(Fcb *fcb, char *record, Recno recnum, int reclen)
 {
     long		rec_position;
     long		tailoff;
@@ -258,7 +258,7 @@ _vlrec_rewrite(register Fcb *fcb, char *record, Recno recnum, int reclen)
  */
 
 int
-_vlrec_delete(register Fcb *fcb, Recno recnum)
+_vlrec_delete(Fcb *fcb, Recno recnum)
 {
     long		rec_position;
     long		tailoff;
@@ -322,7 +322,7 @@ _vlrec_delete(register Fcb *fcb, Recno recnum)
 
 /*ARGSUSED*/
 int
-_vlrec_wrrec(register Fcb *fcb, char *record, Recno recnum, int reclen)
+_vlrec_wrrec(Fcb *fcb, char *record, Recno recnum, int reclen)
 {
     long		rec_position;
     long		tailoff;

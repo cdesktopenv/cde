@@ -98,7 +98,7 @@ _makevar_isfname(char *isfname)
 void
 _removelast(char *path)
 {
-    register char	*p;
+    char	*p;
 
     for (p = path + strlen(path); *--p != '/' && p >= path; ) 
 	*p = '\0';

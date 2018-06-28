@@ -142,10 +142,10 @@ _amdelrec(Bytearray *isfhandle, Recno recnum, struct errcode *errcode)
  */
 
 void
-_delkeys(register Fcb *fcb, char *record, Recno recnum)
+_delkeys(Fcb *fcb, char *record, Recno recnum)
 {
     int                         nkeys = fcb->nkeys;
-    register int                i;
+    int                i;
 
     for (i = 0; i < nkeys; i++) {
         _del1key(fcb, fcb->keys + i, record, recnum);

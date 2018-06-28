@@ -54,10 +54,10 @@ static int _check_typelen();
  */
 
 int
-_validate_keydesc(register struct keydesc *keydesc, int minreclen)
+_validate_keydesc(struct keydesc *keydesc, int minreclen)
 {
     int 		nparts;
-    register int 	i;
+    int 	i;
     int			type, start, length;
     int			keylen = 0;
 

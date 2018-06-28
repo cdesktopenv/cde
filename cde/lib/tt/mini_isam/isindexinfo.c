@@ -63,7 +63,7 @@ static char sccsid[] = "@(#)isindexinfo.c 1.2 91/05/16 Copyr 1988 Sun Micro";
 int
 isindexinfo(int isfd, struct keydesc *buffer, int number)
 {
-    register Fab	*fab;
+    Fab	*fab;
     int			ret;
     Fcb			*fcb = NULL;
 

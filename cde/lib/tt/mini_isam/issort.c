@@ -94,7 +94,7 @@ _issort_destroy(Issort *srt)
  */
 
 void
-_issort_insert(register Issort *srt, char *record)
+_issort_insert(Issort *srt, char *record)
 {
     assert(srt->ist_nrecs < srt->ist_allocrecs);
 
@@ -138,7 +138,7 @@ _issort_rewind(Issort *srt)
  */
 
 char *
-_issort_read(register Issort *srt)
+_issort_read(Issort *srt)
 {
     return((srt->ist_currec < srt->ist_nrecs) ?
 	(srt->ist_array + srt->ist_currec++ * srt->ist_reclength) :

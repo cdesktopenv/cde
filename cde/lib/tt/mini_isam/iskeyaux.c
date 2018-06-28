@@ -53,8 +53,8 @@ Blkno _isgetfreekpage();
 void
 _iskey_extract (Keydesc2 *pkeydesc2, char *recp, char *keyp)
 {
-    register int 	i;
-    register struct keypart2 *ppart;
+    int 	i;
+    struct keypart2 *ppart;
     int 		nparts;
 
     nparts = pkeydesc2->k2_nparts;

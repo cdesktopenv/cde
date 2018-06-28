@@ -73,7 +73,7 @@ static int _amread();
 int 
 isread(int isfd, char *record, int mode)
 {
-    register Fab	*fab;
+    Fab	*fab;
     int			reclen;
     Recno		recnum;
     int			ret;

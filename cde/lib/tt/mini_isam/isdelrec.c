@@ -66,7 +66,7 @@ int
 isdelrec(int isfd, long recnum)
 {
     int			_amdelrec();
-    register Fab	*fab;
+    Fab	*fab;
     int			ret;
 
     /*

@@ -70,7 +70,7 @@ int
 isstart(int isfd, struct keydesc *keydesc, int length, char *record,
         int mode)
 {
-    register Fab	*fab;
+    Fab	*fab;
     int			reclen;
     Recno		recnum;
     int			ret;

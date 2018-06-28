@@ -57,7 +57,7 @@ static Fab *isfdtab[MAXISFD];		     /* Table of pointers */
 Isfd
 _isfd_insert(Fab *fab)
 {
-    register Isfd	i;
+    Isfd	i;
 
     for (i = 0; i < MAXISFD; i++) {
 	if (isfdtab[i] == NULL)		     /* Empty entry found */
@@ -81,7 +81,7 @@ _isfd_insert(Fab *fab)
  */
 
 Fab *
-_isfd_find(register Isfd isfd)
+_isfd_find(Isfd isfd)
 {
     if (isfd < 0 || isfd >= MAXISFD || isfdtab[isfd] == NULL)
 	return (NULL);
@@ -96,7 +96,7 @@ _isfd_find(register Isfd isfd)
  */
 
 void
-_isfd_delete(register Isfd isfd)
+_isfd_delete(Isfd isfd)
 {
     if (isfd >= 0 && isfd < MAXISFD)
 	isfdtab[isfd] = NULL;
