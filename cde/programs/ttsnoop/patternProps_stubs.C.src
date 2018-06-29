@@ -41,11 +41,7 @@
  *** Add include files, types, macros, externs, and user functions here.
  ***/
 
-#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
-#include <strstream>
-#else
-#include <strstream.h>
-#endif
+#include <sstream>
 
 #include <Tt/tttk.h>
 #include "DtTt.h"
@@ -372,12 +368,11 @@ DtTtPatternWidgetCreate(
 		}
 	}
 
-	std::ostrstream labelStream;
+	std::ostringstream labelStream;
 	labelStream << "Tt_pattern " << (void *)pat << ends;
 	XtVaSetValues( instance->patternProps,
-		       XmNtitle, labelStream.str(),
+		       XmNtitle, labelStream.str().c_str(),
 		       NULL );
-	delete labelStream.str();
 
 	_DtTtPatternWidgetUpdate( instance, pat );
 

@@ -39,13 +39,8 @@
 #include <sys/wait.h>
 #include <Xm/TextF.h>
 
-#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <fstream>
-#include <strstream>
-#else
-#include <fstream.h>
-#include <strstream.h>
-#endif
+#include <sstream>
 
 #include "DtTt.h"
 #include "ttsnoop_ui.h"
@@ -217,7 +212,7 @@ fileOkayed(
     XtVaGetValues( instance->fchooser, XmNuserData, &xtPtr, NULL );
     FileChooserInfo *info = (FileChooserInfo *)xtPtr;
     Widget label = dtb_ttsnoop_ttsnoop_win.ttsnoopWin_label;
-    std::ostrstream script;
+    std::ostringstream script;
     switch (info->choice) {
 	    Tt_pattern *pats;
 	    Tt_message msg;
@@ -297,19 +292,17 @@ fileOkayed(
 	    script << "numChars=`tt_type_comp -p \"" << path;
 	    script << "\" | wc -c`; if [ $numChars = 0 ]; "
 		      "then exit 1; else exit 0; fi" << endl;
-	    ival = system( script.str() );
-	    delete script.str();
+	    ival = system( script.str().c_str() );
 	    if (! WIFEXITED( ival )) {
 		    DtTtSetLabel( label,
 			"system( \"tt_type_comp -p\" )", ival );
 		    break;
 	    }
 	    if (WEXITSTATUS( ival ) != 0) {
-		    std::ostrstream diagnosis;
+		    std::ostringstream diagnosis;
 		    diagnosis << "tt_type_comp -p: syntax error in "
 			    << path << ends;
-		    DtTtSetLabel( label, diagnosis.str() );
-		    delete diagnosis.str();
+		    DtTtSetLabel( label, diagnosis.str().c_str() );
 		    break;
 	    }
 	    sess = tt_default_session();

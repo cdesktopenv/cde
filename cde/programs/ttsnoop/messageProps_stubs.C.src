@@ -41,11 +41,7 @@
  *** Add include files, types, macros, externs, and user functions here.
  ***/
 
-#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
-#include <strstream>
-#else
-#include <strstream.h>
-#endif
+#include <sstream>
 
 #include <Xm/TextF.h>
 #include <Dt/SpinBox.h>
@@ -621,12 +617,11 @@ DtTtMessageWidgetCreate(
 		}
 	}
 
-	std::ostrstream labelStream;
+	std::ostringstream labelStream;
 	labelStream << "Tt_message " << (void *)msg;
 	XtVaSetValues( instance->messageProps,
-		       XmNtitle, labelStream.str(),
+		       XmNtitle, labelStream.str().c_str(),
 		       NULL );
-	delete labelStream.str();
 
 	_DtTtMessageWidgetUpdate( instance, msg, _DtTtMessageFullUpdate );
 
@@ -1409,7 +1404,7 @@ msgGenAction(
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     
     /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
-    std::ostrstream action; // XXX when to delete .str()?
+    std::ostringstream action;
     DtbMessagePropsMessagePropsInfo instance =
 	    (DtbMessagePropsMessagePropsInfo)clientData;
     Tt_message msg = messageProps2Msg( instance );
@@ -1457,10 +1452,9 @@ msgGenAction(
     }
     // XXX emit commented warnings for e.g. TT_OFFER, TT_HANDLER
     action << "}\n";
-    // XtVaSetValues( instance->messageText, XmNvalue, action.str(), 0 );
-    _DtOpen( instance->messageFooterLabel, (void *)action.str(),
-	     action.pcount(), "actio" );
-    delete action.str();
+    // XtVaSetValues( instance->messageText, XmNvalue, action.str().c_str(), 0 );
+    _DtOpen( instance->messageFooterLabel, (void *)action.str().c_str(),
+	     action.str().size(), "actio" );
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }
 
@@ -1476,7 +1470,7 @@ msgGenC(
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     
     /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
-	std::ostrstream code; // XXX when to delete .str()?
+	std::ostringstream code;
 	DtbMessagePropsMessagePropsInfo instance =
 		(DtbMessagePropsMessagePropsInfo)clientData;
 	Tt_message msg = messageProps2Msg( instance );
@@ -1602,10 +1596,9 @@ msgGenC(
 		code << "}\n";
 	}
 	tt_free( op );
-	// XtVaSetValues( instance->messageText, XmNvalue, code.str(), 0 );
-	_DtOpen( instance->messageFooterLabel, (void *)code.str(),
-		 code.pcount(), "msgC" );
-	delete code.str();
+	// XtVaSetValues( instance->messageText, XmNvalue, code.str().c_str(), 0 );
+	_DtOpen( instance->messageFooterLabel, (void *)code.str().c_str(),
+		 code.str().size(), "msgC" );
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }
 
@@ -1879,7 +1872,7 @@ genObserver(
     /*** DTB_USER_CODE_END   ^^^ Add C variables and code above ^^^ ***/
     
     /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
-    std::ostrstream ptype; // XXX when to delete .str()?
+    std::ostringstream ptype;
     DtbMessagePropsMessagePropsInfo instance =
 	    (DtbMessagePropsMessagePropsInfo)clientData;
     Tt_message msg = messageProps2Msg( instance );
@@ -1941,10 +1934,9 @@ genObserver(
     ptype << "\t\t\t) => start opnum=1;\n";
     ptype << "};\n";
     // XXX contexts
-    // XtVaSetValues( instance->messageText, XmNvalue, ptype.str(), 0 );
-    _DtOpen( instance->messageFooterLabel, (void *)ptype.str(),
-	     ptype.pcount(), "ptype" );
-    delete ptype.str();
+    // XtVaSetValues( instance->messageText, XmNvalue, ptype.str().c_str(), 0 );
+    _DtOpen( instance->messageFooterLabel, (void *)ptype.str().c_str(),
+	     ptype.str().size(), "ptype" );
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }
 

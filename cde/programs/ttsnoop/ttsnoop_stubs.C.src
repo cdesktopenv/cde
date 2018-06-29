@@ -37,13 +37,8 @@
 
 #include <unistd.h>
 
-#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
 #include <fstream>
-#include <strstream>
-#else
-#include <fstream.h>
-#include <strstream.h>
-#endif
+#include <sstream>
 
 #include "apiTracer_ui.h"
 #include "DtTt.h"
@@ -93,13 +88,12 @@ fork_tttrace(
     
     /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
     DtbTtsnoopTtsnoopWinInfo instance = (DtbTtsnoopTtsnoopWinInfo)clientData;
-    std::ostrstream tttraceCmd;
+    std::ostringstream tttraceCmd;
     tttraceCmd << "unset TT_TRACE_SCRIPT; dtterm -sb -sl ";
     tttraceCmd << globalSaveLines;
     tttraceCmd << " -title tttrace -geometry 120x24 -e tttrace &";
     DtTtSetLabel( instance->ttsnoopWin_label, "tttrace" );
-    system( tttraceCmd.str() );
-    delete tttraceCmd.str();
+    system( tttraceCmd.str().c_str() );
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }
 
@@ -659,15 +653,14 @@ libcPause(
     
     /*** DTB_USER_CODE_START vvv Add C code below vvv ***/
     DtbTtsnoopTtsnoopWinInfo instance = (DtbTtsnoopTtsnoopWinInfo)clientData;
-    std::ostrstream advice;
+    std::ostringstream advice;
     advice << "pause(); /* kill -CONT " << getpid() << " */";
-    DtTtSetLabel( instance->ttsnoopWin_label, advice.str() );
-    delete advice.str();
+    DtTtSetLabel( instance->ttsnoopWin_label, advice.str().c_str() );
 
     //
     // run "(if dterror.ds blah blah; then kill -CONT pid; fi)&"
     //
-    std::ostrstream script;
+    std::ostringstream script;
     script << "(if dterror.ds ";
     // arg 1: text
     script << "\"kill -CONT " << getpid() << "\" ";
@@ -677,8 +670,7 @@ libcPause(
     script << "CONT; then ";
     // After confirmation, invoke kill(1)
     script << "kill -CONT " << getpid() << "; fi)&";
-    system( script.str() );
-    delete script.str();
+    system( script.str().c_str() );
 
     // Run the event loop a few laps, to paint the footer
     tttk_block_while( XtWidgetToApplicationContext( widget ), 0, 50 );
@@ -1343,10 +1335,9 @@ toggleSnooping(
     if (! tt_is_err( status )) {
 	    snoopPatIsRegistered = ! snoopPatIsRegistered;
     }
-    std::ostrstream stream;
+    std::ostringstream stream;
     stream << func << (void *)snoopPat << ")" << ends;
-    DtTtSetLabel( instance->ttsnoopWin_label, stream.str(), status );
-    delete stream.str();
+    DtTtSetLabel( instance->ttsnoopWin_label, stream.str().c_str(), status );
     DtTtSetLabel( instance->menubar_Snoop_item_Snoop_menu_items.Off_item,
 		  snoopPatIsRegistered ? "Off" : "On" );
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/

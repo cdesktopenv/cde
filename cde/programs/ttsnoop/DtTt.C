@@ -34,11 +34,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#if defined(__linux__) || defined(CSRG_BASED) || defined(sun)
-#include <strstream>
-#else
-#include <strstream.h>
-#endif
+#include <sstream>
 
 #include <Xm/TextF.h>
 #include <Dt/SpinBox.h>
@@ -468,11 +464,10 @@ DtTtSetLabel(
 )
 {
     Tt_status status = tt_ptr_error( val );
-    std::ostrstream errStream;
+    std::ostringstream errStream;
     errStream << func << " = " << val << " (" << status << ")" << ends;
-    char *label = errStream.str();
+    const char *label = errStream.str().c_str();
     DtTtSetLabel( labelWidget, label );
-    delete label;
     return status;
 }
 
@@ -483,11 +478,10 @@ DtTtSetLabel(
 	Tt_status status
 )
 {
-    std::ostrstream errStream;
+    std::ostringstream errStream;
     errStream << func << " = " << status << ends;
-    char *label = errStream.str();
+    const char *label = errStream.str().c_str();
     DtTtSetLabel( labelWidget, label );
-    delete label;
     return status;
 }
 
@@ -498,11 +492,10 @@ DtTtSetLabel(
 	int returnVal
 )
 {
-    std::ostrstream errStream;
+    std::ostringstream errStream;
     errStream << func << " = " << returnVal << ends;
-    char *label = errStream.str();
+    const char *label = errStream.str().c_str();
     DtTtSetLabel( labelWidget, label );
-    delete label;
     return returnVal;
 }
 
@@ -519,7 +512,7 @@ _DtTtChoices(
 		return 0;
 	}
 	for (int i = 0; i < count; i++) {
-		std::ostrstream itemStream;
+		std::ostringstream itemStream;
 		itemStream << (void *)pPats[ i ];
 		char *name = (char *)
 			tt_pattern_user( *pPats[ i ], _DtTtPatsNameKey );
@@ -528,9 +521,8 @@ _DtTtChoices(
 			tt_free( name );
 		}
 		itemStream << ends;
-		char *string = itemStream.str();
+		char *string = const_cast<char *>(itemStream.str().c_str());
 		items[ i ] = XmStringCreateLocalized( string );
-		delete string;
 	}
 	return items;
 }
@@ -566,7 +558,7 @@ _DtTtChoices(
 		}
 		*itemCount = dtTtMessagesCount;
 		for (i = 0; i < dtTtMessagesCount; i++) {
-			std::ostrstream itemStream;
+			std::ostringstream itemStream;
 			itemStream << (void *)dtTtMessages[ i ];
 			char *op = tt_message_op( dtTtMessages[ i ] );
 			if (! tt_is_err( tt_ptr_error( op ))) {
@@ -579,9 +571,8 @@ _DtTtChoices(
 				tt_free( id );
 			}
 			itemStream << ends;
-			char *string = itemStream.str();
+			char *string = const_cast<char *>(itemStream.str().c_str());
 			items[ i ] = XmStringCreateLocalized( string );
-			delete string;
 		}
 		return items;
 	    case DTTT_PATTERN:
@@ -592,11 +583,10 @@ _DtTtChoices(
 		}
 		*itemCount = dtTtPatternsCount;
 		for (i = 0; i < dtTtPatternsCount; i++) {
-			std::ostrstream itemStream;
+			std::ostringstream itemStream;
 			itemStream << (void *)dtTtPatterns[ i ] << ends;
 			items[ i ] = XmStringCreateLocalized(
-					itemStream.str() );
-			delete itemStream.str();
+                            const_cast<char *>(itemStream.str().c_str()) );
 		}
 		return items;
 	    case DTTT_DTSESSION:
@@ -636,23 +626,19 @@ _DtOpen(
 )
 {
     char *file = tempnam( 0, AIX_CONST_STRING tempnamTemplate );
-    std::ostrstream cmdStream;
+    std::ostringstream cmdStream;
     cmdStream << cmd << " > " << file << ends;
-    int sysStat = system( cmdStream.str() );
+    int sysStat = system( cmdStream.str().c_str() );
     if (! WIFEXITED( sysStat )) {
-	    std::ostrstream func;
+	    std::ostringstream func;
 	    func << "system( \"" << cmdStream.str() << "\" )" << ends;
-	    DtTtSetLabel( label, func.str(), sysStat );
-	    delete cmdStream.str();
-	    delete func.str();
+	    DtTtSetLabel( label, func.str().c_str(), sysStat );
 	    return;
     }
     if (WEXITSTATUS( sysStat ) != 0) {
-	    DtTtSetLabel( label, cmdStream.str(), WEXITSTATUS( sysStat ));
-	    delete cmdStream.str();
+        DtTtSetLabel( label, cmdStream.str().c_str(), WEXITSTATUS( sysStat ));
 	    return;
     }
-    delete cmdStream.str();
     _DtOpen( label, file );
 }
 
@@ -662,17 +648,15 @@ _DtOpen(
 	const char *	file
 )
 {
-    std::ostrstream labelStream;
+    std::ostringstream labelStream;
     labelStream << "dtaction Open " << file << ends;
-    DtTtSetLabel( label, labelStream.str() );
-    delete labelStream.str();
+    DtTtSetLabel( label, labelStream.str().c_str() );
 
-    std::ostrstream cmd;
+    std::ostringstream cmd;
     cmd << "( unset TT_TRACE_SCRIPT; if dtaction Open " << file
 	<< "; then :; else textedit " << file << "; fi; sleep 600; rm -f "
 	<< file << " ) &" << ends;
-    system( cmd.str() );
-    delete cmd.str();
+    system( cmd.str().c_str() );
 }
 
 void
@@ -699,16 +683,14 @@ _DtMan(
 	const char *	topic
 )
 {
-    std::ostrstream labelStream;
+    std::ostringstream labelStream;
     labelStream << "dtaction Dtmanpageview " << topic << ends;
-    DtTtSetLabel( label, labelStream.str() );
-    delete labelStream.str();
+    DtTtSetLabel( label, labelStream.str().c_str() );
 
-    std::ostrstream cmd;
+    std::ostringstream cmd;
     cmd << "unset TT_TRACE_SCRIPT; if dtaction Dtmanpageview " << topic
 	<< "; then :; else cmdtool -c man " << topic << "; fi &" << ends;
-    system( cmd.str() );
-    delete cmd.str();
+    system( cmd.str().c_str() );
 }
 
 Boolean
