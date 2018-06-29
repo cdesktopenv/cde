@@ -227,11 +227,9 @@ TASK_DECL
 
 
 #ifdef MIKER /**@@@***/
-#ifndef NO_COUNTRY
    /* initialize the country table if "vista.ctb" exists */
    if ( ctb_init() != S_OKAY )
       RETURN( db_status );
-#endif
 #endif
 
 
@@ -395,11 +393,9 @@ TASK_DECL
       }
 
 #ifdef MIKER /**@@@***/
-#ifndef NO_COUNTRY
    /* free the country table */
    if ( db_global.ctbl_activ )
       ctbl_free();
-#endif
 #endif
 
 /*    termfree();

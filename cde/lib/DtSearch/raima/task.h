@@ -288,9 +288,7 @@ int EXTERNAL_DBN   dt_csoset(P1(int) Pi(DB_ADDR *) TASK_Di DBN_Dn);
 								/* csoset.c */
 int EXTERNAL_DBN   dt_csowrite(P1(int) Pi(long) Pi(const char *) TASK_Di 
 				  DBN_Dn); 			/* csowrite.c */
-#ifndef NO_COUNTRY
 int EXTERNAL_FIXED dt_ctbpath(P1(const char *) TASK_Di);	/* pathfcns.c */
-#endif
 int EXTERNAL_FIXED dt_dbdpath(P1(const char *) TASK_Di );	/* dbdpath.c */
 int EXTERNAL_FIXED dt_dbfpath(P1(const char *) TASK_Di );	/* dbfpath.c */
 int EXTERNAL_FIXED dt_dblog(P1(const char *) TASK_Di );	/* dblog.c */

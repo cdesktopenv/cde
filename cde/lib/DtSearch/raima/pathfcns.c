@@ -295,7 +295,6 @@ char *path_str;		/* Path to remove filename from */
    return (dirpath);
 }
 
-#ifndef NO_COUNTRY
 /* Set Country Table path
 */
 int d_ctbpath(ctb TASK_PARM)
@@ -326,5 +325,4 @@ TASK_DECL
 
    RETURN( db_status );
 }
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin pathfcns.c */

@@ -214,12 +214,8 @@ const char *f2;   /* pointer to field 2 */
 	    return ( bytecmp(f1, f2, len) );
 	 else if ( fld_ptr->fd_dim[0] )
 	 {
-#ifdef NO_COUNTRY
-	    return ( strncmp(f1, f2, len) );
-#else
 	    if ( db_global.ctbl_activ ) return ( ctblcmp(f1, f2, len) );
 	    else return ( strncmp(f1, f2, len) );
-#endif
 	 }
 	 else
 	    return ( (int)(*f1) - (int)(*f2) );
@@ -403,7 +399,6 @@ DB_ADDR dba;
    return( db_status );
 }
 
-#ifndef NO_COUNTRY
 /* Compare two strings with sorting according to char-table
 */
 static int ctblcmp(s, t, n)
@@ -465,5 +460,4 @@ int    n;   /* Max. String length */
    }
    return(0);
 }
-#endif
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin libfcns.c */

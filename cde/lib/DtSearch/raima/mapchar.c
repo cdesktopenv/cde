@@ -35,7 +35,6 @@
  *
  *   OBJECT CODE ONLY SOURCE MATERIALS
  */
-#ifndef NO_COUNTRY
 /*-----------------------------------------------------------------------
 
    mapchar.c -- db_VISTA character map module.
@@ -203,5 +202,4 @@ void ctbl_free()
    db_global.ctbl_activ = FALSE;
 }
 
-#endif /* NO_COUNTRY */
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin mapchar.c */

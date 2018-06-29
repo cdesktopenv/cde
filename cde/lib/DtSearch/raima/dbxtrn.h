@@ -123,11 +123,9 @@ typedef struct TASK_S {
    int Lock_lvl;
 #define LOCK_STACK_SIZE		10
    int Lock_stack[LOCK_STACK_SIZE];
-#ifndef NO_COUNTRY
    CNTRY_TBL_P country_tbl;
    int ctbl_activ;
    char ctbpath[FILENMLEN];
-#endif
    llist Sk_list;
 } TASK;
 

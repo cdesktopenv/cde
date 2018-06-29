@@ -205,9 +205,7 @@ int d_csoread(P1(int) Pi(long) Pi(char *) DBN_Dn);
 int d_csoset(P1(int) Pi(DB_ADDR *) DBN_Dn); 	/* csoset.c */
 int d_csowrite(P1(int) Pi(long) Pi(const char *) DBN_Dn); 
 								/* csowrite.c */
-#ifndef NO_COUNTRY
 int d_ctbpath(P1(const char *));		/* pathfcns.c */
-#endif					   /* NO_COUNTRY */
 int d_dbdpath(P1(const char *));		/* dbdpath.c */
 int d_dbfpath(P1(const char *));		/* dbfpath.c */
 int d_dblog(P1(const char *));		/* dblog.c */

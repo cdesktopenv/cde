@@ -60,9 +60,7 @@
 #define d_csoread		dt_csoread
 #define d_csoset		dt_csoset
 #define d_csowrite		dt_csowrite
-#ifndef NO_COUNTRY
 #define d_ctbpath		dt_ctbpath
-#endif
 #define d_dbdpath		dt_dbdpath
 #define d_dbfpath		dt_dbfpath
 #define d_dblog			dt_dblog

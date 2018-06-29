@@ -54,7 +54,6 @@ TASK_DECL
    dboptions |= optflag;
 
 
-#ifndef NO_COUNTRY
    if ( optflag & IGNORECASE ) {
       if ( !db_global.ctbl_activ) {
 	 if (ctbl_alloc() != S_OKAY )
@@ -65,7 +64,6 @@ TASK_DECL
 	 /* map lower to upper */
 	 db_global.country_tbl.ptr[i].sort_as1 = (char)(i-32);
    }
-#endif
 
    RETURN( db_status = S_OKAY );
 }
@@ -84,7 +82,6 @@ TASK_DECL
    dboptions &= ~optflag;
 
 
-#ifndef NO_COUNTRY
    if ( optflag & IGNORECASE ) {
       if ( db_global.ctbl_activ) {
 	 for ( i = 97; i < 123; i++)
@@ -92,7 +89,6 @@ TASK_DECL
 	    db_global.country_tbl.ptr[i].sort_as1 = (char)i;
       }
    }
-#endif
 
    RETURN( db_status = S_OKAY );
 }

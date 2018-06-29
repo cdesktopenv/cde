@@ -358,7 +358,7 @@ typedef struct RN_ENTRY_S {
 #define  TASK_PTR_DECL		 /**/
 #define  TASK_DBN_ONLY		 DBN_ONLY
 
-#ifndef NO_COUNTRY
+
 /* Country code table definition */
 typedef struct CNTRY_TBL_S {
    unsigned char out_chr;
@@ -366,7 +366,6 @@ typedef struct CNTRY_TBL_S {
    unsigned char sort_as2;
    unsigned char sub_sort;
 } CNTRY_TBL;
-#endif
 
 /* names lists structure declaration */
 typedef struct OBJNAMES_S {
@@ -415,9 +414,7 @@ typedef struct {struct PGZERO_S *ptr; LOCK_DESC} PGZERO_P;
 typedef struct {struct RI_ENTRY_S *ptr; LOCK_DESC} RI_ENTRY_P;
 typedef struct {ULONG *ptr; LOCK_DESC} ULONG_P;
 typedef struct {LONG *ptr; LOCK_DESC} LONG_P;
-#ifndef NO_COUNTRY
 typedef struct {struct CNTRY_TBL_S *ptr; LOCK_DESC} CNTRY_TBL_P;
-#endif
 struct sk {
    INT sk_fld;
    CHAR_P sk_val;
