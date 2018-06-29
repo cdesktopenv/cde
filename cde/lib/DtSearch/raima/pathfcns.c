@@ -297,9 +297,8 @@ char *path_str;		/* Path to remove filename from */
 
 /* Set Country Table path
 */
-int d_ctbpath(ctb TASK_PARM)
+int d_ctbpath(ctb)
 const char *ctb;
-TASK_DECL
 {
    int i;
 

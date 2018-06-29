@@ -1140,9 +1140,8 @@ int n;
 /* Read value of last key scanned
 */
 int
-d_keyread(key_val TASK_PARM)
+d_keyread(key_val)
 char *key_val;
-TASK_DECL
 {
    int kt_lc;			/* loop control */
 #ifndef	 NO_FLOAT

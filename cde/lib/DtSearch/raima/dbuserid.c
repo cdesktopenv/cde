@@ -52,9 +52,8 @@
 /* Set Database User Identifier
 */
 int
-d_dbuserid(id TASK_PARM)
+d_dbuserid(id)
 const char *id;
-TASK_DECL
 {
    const char *chk_id;
 

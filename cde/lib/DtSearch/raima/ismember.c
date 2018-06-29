@@ -51,9 +51,8 @@
 /* Check to see if current record is a connected member of SET
 */
 int
-d_ismember(set TASK_PARM DBN_PARM)
+d_ismember(set DBN_PARM)
 int set;  /* set table entry */
-TASK_DECL
 DBN_DECL  /* database number */
 {
    char crmp[MEMPSIZE];   /* current record's member pointer */

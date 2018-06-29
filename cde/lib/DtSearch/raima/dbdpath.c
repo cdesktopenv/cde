@@ -50,9 +50,8 @@
 /* Set Database Dictionary Path
 */
 int
-d_dbdpath(path TASK_PARM)
+d_dbdpath(path)
 const char *path;
-TASK_DECL
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_NONE));
 

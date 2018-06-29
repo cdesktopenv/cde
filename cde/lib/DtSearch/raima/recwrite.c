@@ -52,9 +52,8 @@
 /* Write contents to current record
 */
 int
-d_recwrite(rec TASK_PARM DBN_PARM)
+d_recwrite(rec DBN_PARM)
 const char *rec; /* ptr to record area */
-TASK_DECL
 DBN_DECL
 {
    INT  rt;        /* record type */

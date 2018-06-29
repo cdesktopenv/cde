@@ -47,11 +47,10 @@
 /* Rename database file
 */
 int
-d_renfile(dbn, fno, fnm TASK_PARM)
+d_renfile(dbn, fno, fnm)
 const char *dbn;  /* database containing file to be renamed */
 FILE_NO fno;  /* file id number for file to be renamed */
 const char *fnm;  /* new file name */
-TASK_DECL
 {
    REN_ENTRY_P r;
 

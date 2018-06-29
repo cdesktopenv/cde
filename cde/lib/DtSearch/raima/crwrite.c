@@ -51,10 +51,9 @@
 /* Write data to a field  in the current record
 */
 int
-d_crwrite(field, data TASK_PARM DBN_PARM)
+d_crwrite(field, data DBN_PARM)
 long field; /* field constant */
 char *data; /* data area to contain field contents */
-TASK_DECL
 DBN_DECL    /* database number */
 {
    int stat, fld, rec;

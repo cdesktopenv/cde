@@ -75,13 +75,12 @@ static int nextc(P1(int));
 
 /* Map ASCII-Characters for output and sorting
 */
-int d_mapchar(inchar,outchar,sort_str,subsort TASK_PARM)
+int d_mapchar(inchar,outchar,sort_str,subsort)
 unsigned char	inchar;     /* value of character to be mapped */
 unsigned char	outchar;    /* output character as    ... */
 const char *sort_str;  /* sort string (max. len = 2) */
 unsigned char	subsort;    /* subsort value, to distinguish between two */
 			    /* equal values (e.g. 'a' and 'A', if necessary) */
-TASK_DECL
 {
    int indx;
 

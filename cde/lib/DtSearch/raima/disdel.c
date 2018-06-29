@@ -51,8 +51,7 @@
 /* Disconnect from all sets (owner and member) and delete record
 */
 int
-d_disdel(TASK_DBN_ONLY)
-TASK_DECL
+d_disdel(dbn)
 DBN_DECL
 {
    int rectype, nset, cset;
@@ -65,11 +64,11 @@ DBN_DECL
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if ( d_crtype(&rectype TASK_PARM DBN_PARM) != S_OKAY )
+   if ( d_crtype(&rectype DBN_PARM) != S_OKAY )
       RETURN( db_status );
    rectype += NUM2INT(-RECMARK, rt_offset);
 
-   d_crget(&dba TASK_PARM DBN_PARM);
+   d_crget(&dba DBN_PARM);
    for (set = 0, set_ptr = &set_table[ORIGIN(st_offset)];
 	set < TABLE_SIZE(Size_st);
 	++set, ++set_ptr) {
@@ -81,11 +80,11 @@ DBN_DECL
       mdba = *cm_ptr;
       if (set_ptr->st_own_rt == rectype) {
 	 /* disconnect all member records from set s */
-	 d_setor(nset TASK_PARM DBN_PARM);
-	 while (d_findfm(nset TASK_PARM DBN_PARM) == S_OKAY)
-	    if (d_discon(nset TASK_PARM DBN_PARM) < S_OKAY)
+	 d_setor(nset DBN_PARM);
+	 while (d_findfm(nset DBN_PARM) == S_OKAY)
+	    if (d_discon(nset DBN_PARM) < S_OKAY)
 		  RETURN (db_status);
-	 d_setro(nset TASK_PARM DBN_PARM);
+	 d_setro(nset DBN_PARM);
       }
       for (mem = set_ptr->st_members, memtot = mem + set_ptr->st_memtot,
 						mem_ptr = &member_table[mem];
@@ -93,9 +92,9 @@ DBN_DECL
 	   ++mem, ++mem_ptr) {
 	 if (mem_ptr->mt_record == rectype) {
 	    /* disconnect current record from set */
-	    if (d_ismember(nset TASK_PARM DBN_PARM) == S_OKAY) {
-	       d_csmset(nset, &dba TASK_PARM DBN_PARM);
-	       if (d_discon(nset TASK_PARM DBN_PARM) < S_OKAY)
+	    if (d_ismember(nset DBN_PARM) == S_OKAY) {
+	       d_csmset(nset, &dba DBN_PARM);
+	       if (d_discon(nset DBN_PARM) < S_OKAY)
 		  RETURN (db_status);
 	    }
 	 }
@@ -113,6 +112,6 @@ DBN_DECL
       else
 	 *cm_ptr = mdba;
    }
-   RETURN( d_delete(TASK_DBN_ONLY) );
+   RETURN( d_delete(dbn) );
 }
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin disdel.c */

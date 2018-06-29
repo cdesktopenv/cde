@@ -51,9 +51,8 @@
 /* Find first key 
 */
 int
-d_keyfrst(field TASK_PARM DBN_PARM)
+d_keyfrst(field DBN_PARM)
 long field;   /* field constant */
-TASK_DECL
 DBN_DECL      /* database number */
 {
    int fld, rec;

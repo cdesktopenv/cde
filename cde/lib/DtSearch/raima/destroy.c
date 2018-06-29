@@ -55,9 +55,8 @@
    of the database
 */
 int
-d_destroy(dbname TASK_PARM)
+d_destroy(dbname)
 const char *dbname;
-TASK_DECL
 {
    int ft_lc;			/* loop control */
    FILE_ENTRY *file_ptr;
@@ -65,7 +64,7 @@ TASK_DECL
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
 
    /* database must be closed (might be multiple databases open) */
-   if ( dbopen ) d_close(TASK_ONLY);
+   if ( dbopen ) d_close();
 
    /* prepare for the inittab and read in the database tables */
    if ((initdbt(dbname) != S_OKAY) || (inittab() != S_OKAY))

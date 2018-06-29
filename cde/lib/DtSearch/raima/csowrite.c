@@ -51,11 +51,10 @@
 /* Write data to a field in the current set owner
 */
 int
-d_csowrite(set, field, data TASK_PARM DBN_PARM)
+d_csowrite(set, field, data DBN_PARM)
 int set;    /* Set constant */
 long field; /* Field constant */
 const char *data; /* Data area to contain field contents */
-TASK_DECL
 DBN_DECL    /* database number */
 {
    int stat, fld, rec;

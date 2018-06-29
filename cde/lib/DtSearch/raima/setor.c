@@ -50,9 +50,8 @@
 /* Set current owner to current record
 */
 int
-d_setor(nset TASK_PARM DBN_PARM)
+d_setor(nset DBN_PARM)
 int nset;  /* set number */
-TASK_DECL
 DBN_DECL   /* database number */
 {
    int set;
@@ -62,7 +61,7 @@ DBN_DECL   /* database number */
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
    if ((nset_check(nset, &set, (SET_ENTRY * *)&set_ptr) != S_OKAY) ||
-       (d_crtype(&crtype TASK_PARM DBN_PARM) != S_OKAY))
+       (d_crtype(&crtype DBN_PARM) != S_OKAY))
       RETURN( db_status );
 
    crtype += NUM2INT(-RECMARK, rt_offset);

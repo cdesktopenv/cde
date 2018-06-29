@@ -50,9 +50,8 @@
 /* Find first member of set
 */
 int
-d_findfm(nset TASK_PARM DBN_PARM)
+d_findfm(nset DBN_PARM)
 int nset;
-TASK_DECL
 DBN_DECL
 {
    char setp[SETPSIZE];

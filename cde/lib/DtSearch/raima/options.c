@@ -44,9 +44,8 @@
 /* Turn on db_VISTA runtime options
 */
 int
-d_on_opt(optflag TASK_PARM)
+d_on_opt(optflag)
 int optflag;
-TASK_DECL
 {
    int i;
 
@@ -72,9 +71,8 @@ TASK_DECL
 /* Turn off db_VISTA runtime options
 */
 int
-d_off_opt(optflag TASK_PARM)
+d_off_opt(optflag)
 int optflag;
-TASK_DECL
 {
    int i;
 

@@ -51,10 +51,9 @@
 /* Read data from field  of current record
 */
 int
-d_crread(field, data TASK_PARM DBN_PARM)
+d_crread(field, data DBN_PARM)
 long field; /* Field constant */
 char *data; /* Data area to contain field contents */
-TASK_DECL
 DBN_DECL    /* database number */
 {
    int fld, rec;

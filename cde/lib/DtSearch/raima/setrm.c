@@ -50,9 +50,8 @@
 /* Set current record to current member
 */
 int
-d_setrm(set TASK_PARM DBN_PARM)
+d_setrm(set DBN_PARM)
 int set;   /* set table entry number */
-TASK_DECL
 DBN_DECL   /* database number */
 {
    SET_ENTRY *set_ptr;

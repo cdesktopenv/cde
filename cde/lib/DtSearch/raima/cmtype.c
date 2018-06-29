@@ -52,10 +52,9 @@
 /* Get current member type
 */
 int
-d_cmtype(set, cmtype TASK_PARM DBN_PARM)
+d_cmtype(set, cmtype DBN_PARM)
 int set;
 int *cmtype;
-TASK_DECL
 DBN_DECL
 {
    char *mrec;

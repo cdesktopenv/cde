@@ -49,9 +49,8 @@
 /* Find first record of type
 */
 int
-d_recfrst( rec TASK_PARM DBN_PARM )
+d_recfrst( rec DBN_PARM )
 int rec;	/* record type/table entry */
-TASK_DECL
 DBN_DECL
 {
    INT rectype;

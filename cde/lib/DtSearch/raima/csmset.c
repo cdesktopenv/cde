@@ -50,10 +50,9 @@
 /* Set current set member
 */
 int
-d_csmset(set, dba TASK_PARM DBN_PARM)
+d_csmset(set, dba DBN_PARM)
 int set;      /* Set table entry */
 DB_ADDR *dba; /* db address of record to become current */
-TASK_DECL
 DBN_DECL      /* database number */
 {
    INT type;

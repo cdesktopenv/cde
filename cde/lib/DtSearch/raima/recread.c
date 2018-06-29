@@ -52,9 +52,8 @@
 /* Read contents of current record
 */
 int
-d_recread(rec TASK_PARM DBN_PARM)
+d_recread(rec DBN_PARM)
 char *rec; /* ptr to record area */
-TASK_DECL
 DBN_DECL
 {
    INT  rt;     /* record type */

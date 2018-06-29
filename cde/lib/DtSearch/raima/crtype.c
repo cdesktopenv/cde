@@ -50,9 +50,8 @@
 /* Get current record type
 */
 int
-d_crtype(crtype TASK_PARM DBN_PARM)
+d_crtype(crtype DBN_PARM)
 int *crtype;
-TASK_DECL
 DBN_DECL
 {
    INT crt;

@@ -50,9 +50,8 @@
 /* Get current record
 */
 int
-d_crget(dba TASK_PARM DBN_PARM)
+d_crget(dba DBN_PARM)
 DB_ADDR *dba; /* db address of record to become current */
-TASK_DECL
 DBN_DECL
 {
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_NOIO));

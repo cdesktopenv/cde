@@ -50,9 +50,8 @@
 /* Set current member to current record
 */
 int
-d_setmr(set TASK_PARM DBN_PARM)
+d_setmr(set DBN_PARM)
 int set;   /* set table entry number */
-TASK_DECL
 DBN_DECL   /* database number */
 {
    int crtype; /* current record type */
@@ -69,7 +68,7 @@ DBN_DECL   /* database number */
    if ( ! curr_rec )
       RETURN( dberr( S_NOCR ) );
 
-   if ( d_crtype(&crtype TASK_PARM DBN_PARM) != S_OKAY )
+   if ( d_crtype(&crtype DBN_PARM) != S_OKAY )
       RETURN( db_status );
    crtype += NUM2INT(-RECMARK, rt_offset);
 

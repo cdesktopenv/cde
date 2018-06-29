@@ -51,10 +51,9 @@
 /* Get current owner type
 */
 int
-d_cotype(set, cotype TASK_PARM DBN_PARM)
+d_cotype(set, cotype DBN_PARM)
 int set;
 int *cotype;
-TASK_DECL
 DBN_DECL
 {
    char *orec;

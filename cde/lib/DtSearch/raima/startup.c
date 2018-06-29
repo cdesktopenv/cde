@@ -46,9 +46,8 @@
 
 /* Called once at the beginning of each external function
 */
-int startup(DB_ID TASK_PTR_ID LOCK_PARM)
+int startup(DB_ID LOCK_PARM)
 DBN_DECL
-TASK_PTR_DECL
 LOCK_DECL
 {
    db_status = S_OKAY;

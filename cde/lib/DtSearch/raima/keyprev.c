@@ -52,9 +52,8 @@
 /* Find previous record thru key field
 */
 int
-d_keyprev(field TASK_PARM DBN_PARM)
+d_keyprev(field DBN_PARM)
 long field;   /* field constant */
-TASK_DECL
 DBN_DECL     /* database number */
 {
    int fld, rec;

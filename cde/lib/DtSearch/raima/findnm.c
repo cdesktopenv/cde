@@ -50,9 +50,8 @@
 /* Find next member of set
 */
 int
-d_findnm(nset TASK_PARM DBN_PARM)
+d_findnm(nset DBN_PARM)
 int nset;
-TASK_DECL
 DBN_DECL
 {
    int set;
@@ -73,7 +72,7 @@ DBN_DECL
 
    /* find first member if no current member */
    if ( !*(cm_ptr = &curr_mem[set]) )
-      RETURN( d_findfm(nset TASK_PARM DBN_PARM) );
+      RETURN( d_findfm(nset DBN_PARM) );
 
    /* read current member of set and get member pointer from record */
    if ((dio_read(*cm_ptr, (char * *)&recp, NOPGHOLD) != S_OKAY) ||

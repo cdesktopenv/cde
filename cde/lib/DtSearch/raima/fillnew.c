@@ -55,10 +55,9 @@
 /* Create and fill a new record
 */
 int
-d_fillnew( nrec, recval TASK_PARM DBN_PARM )
+d_fillnew( nrec, recval DBN_PARM )
 int nrec;       /* record number */
 const char *recval; /* record value */
-TASK_DECL
 DBN_DECL      /* database number */
 {
    DB_ADDR db_addr;
@@ -89,7 +88,7 @@ DBN_DECL      /* database number */
 	 else
 	    key_bldcom(fld, (char *)recval, ptr = key, FALSE); /* Don't complement */
 	 d_keyfind(FLDMARK*(long)recnum + (fld - rec_ptr->rt_fields), ptr 
-		      TASK_PARM DBN_PARM);
+		      DBN_PARM);
 	 curr_rec = db_addr;
 	 if ( db_status == S_OKAY ) 
 	    RETURN( db_status = S_DUPLICATE );

@@ -55,10 +55,9 @@
 /* Read currency table
 */
 int
-d_rdcurr(currbuff, currsize TASK_PARM)
+d_rdcurr(currbuff, currsize)
 DB_ADDR **currbuff;
 int *currsize;
-TASK_DECL
 {
    int cs;
 
@@ -68,12 +67,11 @@ TASK_DECL
    *currbuff = (DB_ADDR *)ALLOC(NULL, cs*sizeof(DB_ADDR), "currbuff");
    if ( *currbuff == NULL ) RETURN( dberr(S_NOMEMORY) );
    *currsize = cs * sizeof(DB_ADDR);
-   RETURN( d_rerdcurr(currbuff TASK_PARM) );
+   RETURN( d_rerdcurr(currbuff) );
 }
 
-int d_rerdcurr(currbuff TASK_PARM)
+int d_rerdcurr(currbuff)
 DB_ADDR **currbuff;
-TASK_DECL
 {
    DB_ADDR *cb_ptr;
 
@@ -91,9 +89,8 @@ TASK_DECL
 /* Write currency table
 */
 int
-d_wrcurr(currbuff TASK_PARM)
+d_wrcurr(currbuff)
 DB_ADDR *currbuff;
-TASK_DECL
 {
    DB_ADDR *cb_ptr;
 

@@ -73,8 +73,7 @@
 /* ======================================================================
    d_recprev - find previous record via database address
 */
-int d_recprev( TASK_DBN_ONLY )
-TASK_DECL
+int d_recprev( dbn )
 DBN_DECL
 {
 /*

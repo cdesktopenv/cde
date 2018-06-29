@@ -50,8 +50,7 @@
 /* Find next record of type
 */
 int
-d_recnext(TASK_DBN_ONLY)
-TASK_DECL
+d_recnext(dbn)
 DBN_DECL
 {
    INT rectype;

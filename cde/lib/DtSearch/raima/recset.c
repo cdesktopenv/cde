@@ -71,9 +71,8 @@
 /* ======================================================================
    set record type and database address to current
 */
-int d_recset( rec TASK_PARM DBN_PARM )
+int d_recset( rec DBN_PARM )
 int rec;			/* record type */
-TASK_DECL
 DBN_DECL
 {
 /*

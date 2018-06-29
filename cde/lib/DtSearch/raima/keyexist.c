@@ -46,9 +46,8 @@
 /* Check for optional key existence
 */
 int
-d_keyexist(field TASK_PARM DBN_PARM)
+d_keyexist(field DBN_PARM)
 long field; /* key field constant */
-TASK_DECL
 DBN_DECL    /* database number */
 {
    int fld;        /* field number */
@@ -64,7 +63,7 @@ DBN_DECL    /* database number */
       RETURN( db_status );
 
    /* ensure current record is valid for this field */
-   d_crtype(&rn TASK_PARM DBN_PARM);
+   d_crtype(&rn DBN_PARM);
 
    if (rec != NUM2INT(rn - RECMARK, rt_offset))
       RETURN( dberr(S_BADFIELD) );

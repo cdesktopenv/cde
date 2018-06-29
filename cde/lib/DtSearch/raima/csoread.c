@@ -51,11 +51,10 @@
 /* Read data from field  of current set owner
 */
 int
-d_csoread(set, field, data TASK_PARM DBN_PARM)
+d_csoread(set, field, data DBN_PARM)
 int set;    /* Set constant */
 long field; /* Field constant */
 char *data; /* Data area to contain field contents */
-TASK_DECL
 DBN_DECL    /* database number */
 {
    int fld, rec;

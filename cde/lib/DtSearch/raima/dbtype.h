@@ -350,15 +350,6 @@ typedef struct RN_ENTRY_S {
 #define	 DBN_DECL    	      	 int dbn;
 #define	 TABLE_SIZE(size)     	 DB_REF(size)
 
-/* DBN_PARM... and TASK_PARM... are used for function interfaces */
-#define  TASK_PARM		 /**/
-#define  TASK_PARM_DBN		 /**/
-#define  TASK_ONLY		 /**/
-#define  TASK_DECL		 /**/
-#define  TASK_PTR_DECL		 /**/
-#define  TASK_DBN_ONLY		 DBN_ONLY
-
-
 /* Country code table definition */
 typedef struct CNTRY_TBL_S {
    unsigned char out_chr;
@@ -486,17 +477,14 @@ typedef struct MESSAGE_S {
 #define COMMA
 #endif				 	 /* COMMA */
 
-#define TASK_PARAM /**/
 #define TASK_ID /**/
-#define TASK_PTR_ID /**/
-#define NO_TASK_ID /**/
 
 #define LOCK_PARAM /**/
 #define LOCK_PARM /**/
 #define LOCK_DECL /**/
 #define LOCK_SET(a) /**/
 
-#define TDTL_PARAM DBN_PARAM TASK_PARAM LOCK_PARAM
+#define TDTL_PARAM DBN_PARAM LOCK_PARAM
 
 #define DB_ENTER(TDTL_PARAM) if ( startup(TDTL_PARAM) != S_OKAY ) { return( db_status ); } else
 

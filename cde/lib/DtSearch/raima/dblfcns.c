@@ -209,10 +209,9 @@ static int recovery_check(P0);
 /* Open db_VISTA database
 */
 int
-d_open(dbnames, opentype TASK_PARM)
+d_open(dbnames, opentype)
 const char *dbnames;
 const char *opentype;
-TASK_DECL
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
 #ifdef DEBUG_DBLF
@@ -222,7 +221,7 @@ TASK_DECL
    }
 #endif
 
-   if ( dbopen ) d_close(TASK_ONLY);
+   if ( dbopen ) d_close();
 
 
 
@@ -376,8 +375,7 @@ const char *dbnames;
 /* Close database
 */
 int
-d_close(TASK_ONLY)
-TASK_DECL
+d_close()
 {
    int i;
 

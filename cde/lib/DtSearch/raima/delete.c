@@ -53,8 +53,7 @@ static DB_ADDR zap_dba = NULL_DBA;
 /* Delete the current record, with error checking
 */
 int
-d_delete(TASK_DBN_ONLY)
-TASK_DECL
+d_delete(dbn)
 DBN_DECL
 {
    int st_lc, mt_lc;		/* loop control */
