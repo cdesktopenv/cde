@@ -46,9 +46,10 @@
 /* Check for optional key existence
 */
 int
-d_keyexist(field , dbn)
-long field; /* key field constant */
-int dbn;    /* database number */
+d_keyexist(
+long field, /* key field constant */
+int dbn     /* database number */
+)
 {
    int fld;        /* field number */
    int rec, rn;    /* record type of current record */

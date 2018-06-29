@@ -91,14 +91,15 @@ static char * remfile(P1(char *));
 /* ======================================================================
    Construct the full path to the dictionary.
 */
-int con_dbd(path_str,dbname,dbdpath)
-char *path_str;	/* (output) string to receive the full path to the
+int con_dbd(
+char *path_str,	/* (output) string to receive the full path to the
 			   dictionary */
-char *dbname;	/* contains the filename of the dictionary preceded
+char *dbname,	/* contains the filename of the dictionary preceded
 			   optionally by a path preceded optionally (DOS only)
 			   by a drive spec. */
-char *dbdpath;	/* contains one element of the environment variable
+char *dbdpath	/* contains one element of the environment variable
 			   DBDPATH.  NULL means no DBDPATH defined. */
+)
 {
 /*
    RETURNS: db_status, S_OKAY means no errors
@@ -142,11 +143,12 @@ char *dbdpath;	/* contains one element of the environment variable
 /* ======================================================================
    Construct full path to data/key files
 */
-int con_dbf(path_str, dbfile, dbname, dbfpath)
-char *path_str;	/* (output) receives full path to dictionary */
-char *dbfile;	/* path to database file (defn in schema) */
-char *dbname;	/* d_open dbname argument - path to dictionary */
-char *dbfpath;	/* one element from DBFPATH, or NULL for no path */
+int con_dbf(
+char *path_str,	/* (output) receives full path to dictionary */
+char *dbfile,	/* path to database file (defn in schema) */
+char *dbname,	/* d_open dbname argument - path to dictionary */
+char *dbfpath	/* one element from DBFPATH, or NULL for no path */
+)
 {
 /*
    RETURNS: db_status, S_OKAY means no error.
@@ -190,11 +192,12 @@ char *dbfpath;	/* one element from DBFPATH, or NULL for no path */
 /* ======================================================================
    extracts a single element from DBxPATH type variables
 */
-char * get_element(dbxpath,num)
-char *dbxpath;	/* DBxPATH, elements separated by semicolons
+char * get_element(
+char *dbxpath,	/* DBxPATH, elements separated by semicolons
 			   NULL causes get_element to return NULL.
 			   A NULL string also causes a NULL return */
-int num;		/* Element to extract (0 = first) */
+int num			/* Element to extract (0 = first) */
+)
 {
 /*
    RETURNS: Pointer to string with element.  NULL if no such element
@@ -238,8 +241,9 @@ int num;		/* Element to extract (0 = first) */
 /* ======================================================================
    Returns TRUE of path is absolute
 */
-static int isabs(path_str)
-char *path_str;	/* path to test, NULL causes iabs to return FALSE */
+static int isabs(
+char *path_str	/* path to test, NULL causes iabs to return FALSE */
+)
 {
 /*
    RETURNS: TRUE if path is absolute
@@ -256,8 +260,9 @@ char *path_str;	/* path to test, NULL causes iabs to return FALSE */
 /* ======================================================================
    Removes drive specifier from path
 */
-static char * remdrv(path_str)
-char *path_str;		/* path to remove drive from */
+static char * remdrv(
+char *path_str		/* path to remove drive from */
+)
 {
 /*
    RETURNS:       Pointer to string w/o drive specification.  Note that
@@ -273,8 +278,9 @@ char *path_str;		/* path to remove drive from */
 /* ======================================================================
    Removes file from a path.
 */
-static char * remfile(path_str)
-char *path_str;		/* Path to remove filename from */
+static char * remfile(
+char *path_str		/* Path to remove filename from */
+)
 {
 /*
    RETURNS: Pointer to the path with the filename removed (a static
@@ -297,8 +303,7 @@ char *path_str;		/* Path to remove filename from */
 
 /* Set Country Table path
 */
-int d_ctbpath(ctb)
-const char *ctb;
+int d_ctbpath(const char *ctb)
 {
    int i;
 

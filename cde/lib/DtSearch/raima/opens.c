@@ -60,9 +60,7 @@
 
 /* Open a binary file for shared access
 */
-int open_b(filenm, flags)
-const char *filenm;
-int flags;  
+int open_b(const char *filenm, int flags)
 {
    int desc;
 

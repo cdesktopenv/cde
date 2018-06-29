@@ -50,9 +50,10 @@
 /* Set current member to current record
 */
 int
-d_setmr(set , dbn)
-int set;   /* set table entry number */
-int dbn;   /* database number */
+d_setmr(
+int set,   /* set table entry number */
+int dbn    /* database number */
+)
 {
    int crtype; /* current record type */
    int mem;

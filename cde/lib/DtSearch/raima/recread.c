@@ -52,9 +52,10 @@
 /* Read contents of current record
 */
 int
-d_recread(rec , dbn)
-char *rec; /* ptr to record area */
-int dbn;
+d_recread(
+char *rec, /* ptr to record area */
+int dbn
+)
 {
    INT  rt;     /* record type */
    DB_ADDR dba;

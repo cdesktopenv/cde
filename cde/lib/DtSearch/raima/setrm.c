@@ -50,9 +50,10 @@
 /* Set current record to current member
 */
 int
-d_setrm(set , dbn)
-int set;   /* set table entry number */
-int dbn;   /* database number */
+d_setrm(
+int set,   /* set table entry number */
+int dbn    /* database number */
+)
 {
    SET_ENTRY *set_ptr;
 

@@ -55,8 +55,7 @@
    of the database
 */
 int
-d_destroy(dbname)
-const char *dbname;
+d_destroy(const char *dbname)
 {
    int ft_lc;			/* loop control */
    FILE_ENTRY *file_ptr;

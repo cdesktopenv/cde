@@ -51,10 +51,11 @@
 /* Set current owner to current member
 */
 int
-d_setom(nseto, nsetm , dbn)
-int nseto;   /* set table entry number of owner */
-int nsetm;   /* set table entry number of member */
-int dbn;    /* database number */
+d_setom(
+int nseto,   /* set table entry number of owner */
+int nsetm,   /* set table entry number of member */
+int dbn     /* database number */
+)
 {
    int seto, setm;
    int cmtype; /* current record type */

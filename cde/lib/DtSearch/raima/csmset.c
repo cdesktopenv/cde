@@ -50,10 +50,11 @@
 /* Set current set member
 */
 int
-d_csmset(set, dba , dbn)
-int set;      /* Set table entry */
-DB_ADDR *dba; /* db address of record to become current */
-int dbn;      /* database number */
+d_csmset(
+int set,      /* Set table entry */
+DB_ADDR *dba, /* db address of record to become current */
+int dbn       /* database number */
+)
 {
    INT type;
    char *ptr;

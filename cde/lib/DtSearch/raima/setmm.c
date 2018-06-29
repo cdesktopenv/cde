@@ -50,10 +50,11 @@
 /* Set current member to current member
 */
 int
-d_setmm(sett, sets , dbn)
-int sett;   /* set table entry number of target member */
-int sets;   /* set table entry number of source member */
-int dbn;    /* database number */
+d_setmm(
+int sett,   /* set table entry number of target member */
+int sets,   /* set table entry number of source member */
+int dbn     /* database number */
+)
 {
    int cmtype; /* current member type */
    int mem;

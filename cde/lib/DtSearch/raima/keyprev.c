@@ -52,9 +52,10 @@
 /* Find previous record thru key field
 */
 int
-d_keyprev(field , dbn)
-long field;   /* field constant */
-int dbn;     /* database number */
+d_keyprev(
+long field,   /* field constant */
+int dbn      /* database number */
+)
 {
    int fld, rec;
    DB_ADDR dba;

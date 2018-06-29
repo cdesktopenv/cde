@@ -51,10 +51,11 @@
 /* Set current owner to current owner
 */
 int
-d_setoo(nsett, nsets , dbn)
-int nsett;   /* set table entry number of target owner */
-int nsets;   /* set table entry number of source owner */
-int dbn;    /* database number */
+d_setoo(
+int nsett,   /* set table entry number of target owner */
+int nsets,   /* set table entry number of source owner */
+int dbn     /* database number */
+)
 {
    int sett, sets;
    SET_ENTRY *sett_ptr, *sets_ptr;

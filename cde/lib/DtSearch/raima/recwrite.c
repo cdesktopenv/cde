@@ -52,9 +52,10 @@
 /* Write contents to current record
 */
 int
-d_recwrite(rec , dbn)
-const char *rec; /* ptr to record area */
-int dbn;
+d_recwrite(
+const char *rec, /* ptr to record area */
+int dbn
+)
 {
    INT  rt;        /* record type */
    char *fptr;     /* field data pointer */

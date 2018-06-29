@@ -51,10 +51,7 @@
 /* Get current owner type
 */
 int
-d_cotype(set, cotype , dbn)
-int set;
-int *cotype;
-int dbn;
+d_cotype(int set, int *cotype, int dbn)
 {
    char *orec;
    INT crt;

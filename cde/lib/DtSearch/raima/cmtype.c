@@ -52,10 +52,7 @@
 /* Get current member type
 */
 int
-d_cmtype(set, cmtype , dbn)
-int set;
-int *cmtype;
-int dbn;
+d_cmtype(int set, int *cmtype, int dbn)
 {
    char *mrec;
    INT crt;

@@ -86,8 +86,8 @@ int	dump_init_tables =	FALSE;
 
 
 /* Internal function prototypes */
-static int alloc_dict(P0);
-static int initcurr(P0);
+static int alloc_dict(void);
+static int initcurr(void);
 
 
 
@@ -95,7 +95,7 @@ static int initcurr(P0);
 /* Initialize database tables
 */
 int
-inittab()
+inittab(void)
 {
    int dbt_lc;			/* loop control */
    INT i, j;
@@ -525,7 +525,7 @@ goodver:
 
 /* Allocate space for dictionary
 */
-static int alloc_dict()
+static int alloc_dict(void)
 {
    int old_size;
    int new_size;
@@ -622,7 +622,7 @@ static int alloc_dict()
 
 /* Initialize currency tables 
 */
-static int initcurr()
+static int initcurr(void)
 {
    int dbt_lc;			/* loop control */
    int rec, i;

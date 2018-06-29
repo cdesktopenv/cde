@@ -55,9 +55,7 @@
 /* Read currency table
 */
 int
-d_rdcurr(currbuff, currsize)
-DB_ADDR **currbuff;
-int *currsize;
+d_rdcurr(DB_ADDR **currbuff, int *currsize)
 {
    int cs;
 
@@ -70,8 +68,7 @@ int *currsize;
    RETURN( d_rerdcurr(currbuff) );
 }
 
-int d_rerdcurr(currbuff)
-DB_ADDR **currbuff;
+int d_rerdcurr(DB_ADDR **currbuff)
 {
    DB_ADDR *cb_ptr;
 
@@ -89,8 +86,7 @@ DB_ADDR **currbuff;
 /* Write currency table
 */
 int
-d_wrcurr(currbuff)
-DB_ADDR *currbuff;
+d_wrcurr(DB_ADDR *currbuff)
 {
    DB_ADDR *cb_ptr;
 

@@ -44,8 +44,7 @@
 /* Turn on db_VISTA runtime options
 */
 int
-d_on_opt(optflag)
-int optflag;
+d_on_opt(int optflag)
 {
    int i;
 
@@ -71,8 +70,7 @@ int optflag;
 /* Turn off db_VISTA runtime options
 */
 int
-d_off_opt(optflag)
-int optflag;
+d_off_opt(int optflag)
 {
    int i;
 

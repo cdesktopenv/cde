@@ -54,9 +54,10 @@
 /* Delete optional key value
 */
 int
-d_keydel(field , dbn)
-long field; /* key field constant */
-int dbn;    /* database number */
+d_keydel(
+long field, /* key field constant */
+int dbn     /* database number */
+)
 {
    int fld;        /* field number */
    int rec, rn;    /* record type of current record */

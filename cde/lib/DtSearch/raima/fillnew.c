@@ -55,10 +55,11 @@
 /* Create and fill a new record
 */
 int
-d_fillnew( nrec, recval , dbn )
-int nrec;       /* record number */
-const char *recval; /* record value */
-int dbn;      /* database number */
+d_fillnew(
+int nrec,       /* record number */
+const char *recval, /* record value */
+int dbn       /* database number */
+)
 {
    DB_ADDR db_addr;
    INT recnum, stat;

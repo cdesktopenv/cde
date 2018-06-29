@@ -159,135 +159,133 @@
 */
 
 
-int d_setfiles(P1(int));				/* dio.c */
-int d_setpages(P1(int) Pi(int));			/* dio.c */
-int d_trbound(P0);				/* trlog.c */
-int d_trlog(P1(int) Pi(int) Pi(const char *) Pi(int)); 
+int d_setfiles(int);				/* dio.c */
+int d_setpages(int, int);			/* dio.c */
+int d_trbound(void);				/* trlog.c */
+int d_trlog(int, int, const char *, int); 
 								/* trlog.c */
-int d_trmark(P0);				/* trlog.c */
-int d_tron(P0);					/* trlog.c */
-int d_troff(P0);					/* trlog.c */
-int d_decode_dba(P1(DB_ADDR) Pi(int *) Pi(long *)); 
+int d_trmark(void);				/* trlog.c */
+int d_tron(void);					/* trlog.c */
+int d_troff(void);					/* trlog.c */
+int d_decode_dba(DB_ADDR, int *, long *); 
 								/* dbacode.c */
-int d_encode_dba(P1(int) Pi(long) Pi(DB_ADDR *)); 
+int d_encode_dba(int, long, DB_ADDR *); 
 								/* dbacode.c */
 
 #define d_memlock(p)		/**/
 #define d_memlock_group(lg)	S_OKAY
 #define d_memunlock(p)		/**/
 #define d_memunlock_group(lg)	/**/
-char * d_alloc(P1(unsigned));		/* alloc.c */
-char * d_calloc(P1(unsigned) Pi(unsigned));	/* alloc.c */
-void d_free(P1(CHAR_P *));			/* alloc.c */
+char * d_alloc(unsigned);		/* alloc.c */
+char * d_calloc(unsigned, unsigned);	/* alloc.c */
+void d_free(CHAR_P *);			/* alloc.c */
 
 #define dt_opentask(a) S_OKAY
 #define dt_closetask(a) S_OKAY
 
-int d_close(P0);					/* dblfcns.c */
-int d_cmstat(P1(int) DBN_Dn);			/* cmstat.c */
-int d_cmtype(P1(int) Pi(int *) DBN_Dn); 	/* cmtype.c */
-int d_connect(P1(int) DBN_Dn);			/* connect.c */
-int d_cotype(P1(int) Pi(int *) DBN_Dn); 	/* cotype.c */
-int d_crget(P1(DB_ADDR *) DBN_Dn);		/* crget.c */
-int d_crread(P1(long) Pi(char *) DBN_Dn); 	/* crread.c */
-int d_crset(P1(DB_ADDR *) DBN_Dn);		/* crset.c */
-int d_crtype(P1(int *) DBN_Dn);		/* crtype.c */
-int d_crwrite(P1(long) Pi(char *) DBN_Dn); 	/* crwrite.c */
-int d_csmget(P1(int) Pi(DB_ADDR *) DBN_Dn); 	/* csmget.c */
-int d_csmread(P1(int) Pi(long) Pi(char *) DBN_Dn); 
+int d_close(void);					/* dblfcns.c */
+int d_cmstat(int, int);			/* cmstat.c */
+int d_cmtype(int, int *, int); 	/* cmtype.c */
+int d_connect(int, int);			/* connect.c */
+int d_cotype(int, int *, int); 	/* cotype.c */
+int d_crget(DB_ADDR *, int);		/* crget.c */
+int d_crread(long, char *, int); 	/* crread.c */
+int d_crset(DB_ADDR *, int);		/* crset.c */
+int d_crtype(int *, int);		/* crtype.c */
+int d_crwrite(long, char *, int); 	/* crwrite.c */
+int d_csmget(int, DB_ADDR *, int); 	/* csmget.c */
+int d_csmread(int, long, char *, int); 
 								/* csmread.c */
-int d_csmset(P1(int) Pi(DB_ADDR *) DBN_Dn); 	/* csmset.c */
-int d_csmwrite(P1(int) Pi(long) Pi(const char *) DBN_Dn); 
+int d_csmset(int, DB_ADDR *, int); 	/* csmset.c */
+int d_csmwrite(int, long, const char *, int); 
 								/* csmwrite.c */
-int d_csoget(P1(int) Pi(DB_ADDR *) DBN_Dn); 	/* csoget.c */
-int d_csoread(P1(int) Pi(long) Pi(char *) DBN_Dn); 
+int d_csoget(int, DB_ADDR *, int); 	/* csoget.c */
+int d_csoread(int, long, char *, int); 
 								/* csoread.c */
-int d_csoset(P1(int) Pi(DB_ADDR *) DBN_Dn); 	/* csoset.c */
-int d_csowrite(P1(int) Pi(long) Pi(const char *) DBN_Dn); 
+int d_csoset(int, DB_ADDR *, int); 	/* csoset.c */
+int d_csowrite(int, long, const char *, int); 
 								/* csowrite.c */
-int d_ctbpath(P1(const char *));		/* pathfcns.c */
-int d_dbdpath(P1(const char *));		/* dbdpath.c */
-int d_dbfpath(P1(const char *));		/* dbfpath.c */
-int d_dblog(P1(const char *));		/* dblog.c */
-int d_dbtaf(P1(const char *));		/* dbtaf.c */
-int d_dbuserid(P1(const char *));		/* dbuserid.c */
-int d_delete(DBN_D1);				/* delete.c */
-int d_disdel(DBN_D1);				/* disdel.c */
-int d_recnext(DBN_D1);				/* recnext.c */
-int d_recprev(DBN_D1);				/* recprev.c */
-int d_destroy(P1(const char *));		/* destroy.c */
-int d_discon(P1(int) DBN_Dn);			/* discon.c */
-int d_fillnew(P1(int) Pi(const char *) DBN_Dn); /* fillnew.c */
-int d_findco(P1(int) DBN_Dn);			/* findco.c */
-int d_findfm(P1(int) DBN_Dn);			/* findfm.c */
-int d_findlm(P1(int) DBN_Dn);			/* findlm.c */
-int d_findnm(P1(int) DBN_Dn);			/* findnm.c */
-int d_findpm(P1(int) DBN_Dn);			/* findpm.c */
-int d_freeall(P0);				/* dblfcns.c */
-int d_initialize(DBN_D1);				/* initial.c */
-int d_initfile(P1(FILE_NO) DBN_Dn);  		/* initial.c */
-int d_ismember(P1(int) DBN_Dn);			/* ismember.c */
-int d_isowner(P1(int) DBN_Dn);			/* isowner.c */
-int d_keydel(P1(long) DBN_Dn);			/* keydel.c */
-int d_keyexist(P1(long) DBN_Dn);			/* keyexist.c */
-int d_keyfind(P1(long) Pi(const char *) DBN_Dn); 
+int d_ctbpath(const char *);		/* pathfcns.c */
+int d_dbdpath(const char *);		/* dbdpath.c */
+int d_dbfpath(const char *);		/* dbfpath.c */
+int d_dblog(const char *);		/* dblog.c */
+int d_dbtaf(const char *);		/* dbtaf.c */
+int d_dbuserid(const char *);		/* dbuserid.c */
+int d_delete(int);				/* delete.c */
+int d_disdel(int);				/* disdel.c */
+int d_recnext(int);				/* recnext.c */
+int d_recprev(int);				/* recprev.c */
+int d_destroy(const char *);		/* destroy.c */
+int d_discon(int, int);			/* discon.c */
+int d_fillnew(int, const char *, int); /* fillnew.c */
+int d_findco(int, int);			/* findco.c */
+int d_findfm(int, int);			/* findfm.c */
+int d_findlm(int, int);			/* findlm.c */
+int d_findnm(int, int);			/* findnm.c */
+int d_findpm(int, int);			/* findpm.c */
+int d_freeall(void);				/* dblfcns.c */
+int d_initialize(int);				/* initial.c */
+int d_initfile(FILE_NO, int);  		/* initial.c */
+int d_ismember(int, int);			/* ismember.c */
+int d_isowner(int, int);			/* isowner.c */
+int d_keydel(long, int);			/* keydel.c */
+int d_keyexist(long, int);			/* keyexist.c */
+int d_keyfind(long, const char *, int); 
 								/* keyfind.c */
-int d_keyfree(P1(long) DBN_Dn);			/* dblfcns.c */
-int d_keyfrst(P1(long) DBN_Dn);			/* keyfrst.c */
-int d_keylast(P1(long) DBN_Dn);			/* keylast.c */
-int d_keylock(P1(long) Pi(char *) DBN_Dn); 	/* dblfcns.c */
-int d_keylstat(P1(long) Pi(char *) DBN_Dn); 	/* dblfcns.c */
-int d_keynext(P1(long) DBN_Dn);			/* keynext.c */
-int d_keyprev(P1(long) DBN_Dn);			/* keyprev.c */
-int d_keyread(P1(char *));			/* keyfcns.c */
-int d_keystore(P1(long) DBN_Dn);			/* keystore.c */
-int d_lock(P1(int) Pi(LOCK_REQUEST *) DBN_Dn); /* dblfcns.c */
-int d_makenew(P1(int) DBN_Dn);			/* makenew.c */
-int d_mapchar(P1(unsigned char) Pi(unsigned char) 
-		      Pi(const char *) Pi(unsigned char));  /* mapchar.c */
-int d_members(P1(int) Pi(LONG *) DBN_Dn); 	/* members.c */
-int d_off_opt(P1(int));				/* options.c */
-int d_on_opt(P1(int));				/* options.c */
-int d_open(P1(const char *) Pi(const char *)); 
+int d_keyfree(long, int);			/* dblfcns.c */
+int d_keyfrst(long, int);			/* keyfrst.c */
+int d_keylast(long, int);			/* keylast.c */
+int d_keylock(long, char *, int); 	/* dblfcns.c */
+int d_keylstat(long, char *, int); 	/* dblfcns.c */
+int d_keynext(long, int);			/* keynext.c */
+int d_keyprev(long, int);			/* keyprev.c */
+int d_keyread(char *);			/* keyfcns.c */
+int d_keystore(long, int);			/* keystore.c */
+int d_lock(int, LOCK_REQUEST *, int); /* dblfcns.c */
+int d_makenew(int, int);			/* makenew.c */
+int d_mapchar(unsigned char, unsigned char, const char *, unsigned char);  /* mapchar.c */
+int d_members(int, LONG *, int); 	/* members.c */
+int d_off_opt(int);				/* options.c */
+int d_on_opt(int);				/* options.c */
+int d_open(const char *, const char *); 
 								/* dblfcns.c */
-int d_rerdcurr(P1(DB_ADDR **));		/* rwcurr.c */
-int d_rdcurr(P1(DB_ADDR **) Pi(int *));	/* rwcurr.c */
-int d_wrcurr(P1(DB_ADDR *));			/* rwcurr.c */
-int d_recfree(P1(int) DBN_Dn);			/* dblfcns.c */
-int d_recfrst(P1(int) DBN_Dn);			/* recfrst.c */
-int d_reclast(P1(int) DBN_Dn);			/* reclast.c */
-int d_reclock(P1(int) Pi(char *) DBN_Dn); 	/* dblfcns.c */
-int d_reclstat(P1(int) Pi(char *) DBN_Dn); 	/* dblfcns.c */
-int d_recover(P1(const char *));		/* recover.c */
-int d_recread(P1(char *) DBN_Dn);		/* recread.c */
-int d_recset(P1(int) DBN_Dn);   			/* recset.c */
-int d_recwrite(P1(const char *) DBN_Dn); 	/* recwrite.c */
-int d_renfile(P1(const char *) Pi(FILE_NO) 
-				Pi(const char *)); 		/* renfile.c */
-int d_retries(P1(int));				/* dblfcns.c */
-int d_rlbclr(P0);				/* dblfcns.c */
-int d_rlbset(P0);				/* dblfcns.c */
-int d_rlbtst(P0);				/* dblfcns.c */
-int d_set_dberr(P1(FARPROC));			/* dberr.c */
-int d_setdb(P1(int));				/* setdb.c */
-int d_setfree(P1(int) DBN_Dn);			/* dblfcns.c */
-int d_setkey(P1(long) Pi(const char *) DBN_Dn); /* makenew.c */
-int d_setlock(P1(int) Pi(char *) DBN_Dn); 	/* dblfcns.c */
-int d_setlstat(P1(int) Pi(char *) DBN_Dn); 	/* dblfcns.c */
-int d_setmm(P1(int) Pi(int) DBN_Dn); 		/* setmm.c */
-int d_setmo(P1(int) Pi(int) DBN_Dn); 		/* setmo.c */
-int d_setmr(P1(int) DBN_Dn);			/* setmr.c */
-int d_setom(P1(int) Pi(int) DBN_Dn); 		/* setom.c */
-int d_setoo(P1(int) Pi(int) DBN_Dn); 		/* setoo.c */
-int d_setor(P1(int) DBN_Dn);			/* setor.c */
-int d_setrm(P1(int) DBN_Dn);			/* setrm.c */
-int d_setro(P1(int) DBN_Dn);			/* setro.c */
-int d_timeout(P1(int));				/* dblfcns.c */
-int d_trabort(P0);				/* dblfcns.c */
-int d_trbegin(P1(const char *));		/* dblfcns.c */
-int d_trend(P0);					/* dblfcns.c */
+int d_rerdcurr(DB_ADDR **);		/* rwcurr.c */
+int d_rdcurr(DB_ADDR **, int *);	/* rwcurr.c */
+int d_wrcurr(DB_ADDR *);			/* rwcurr.c */
+int d_recfree(int, int);			/* dblfcns.c */
+int d_recfrst(int, int);			/* recfrst.c */
+int d_reclast(int, int);			/* reclast.c */
+int d_reclock(int, char *, int); 	/* dblfcns.c */
+int d_reclstat(int, char *, int); 	/* dblfcns.c */
+int d_recover(const, char *);		/* recover.c */
+int d_recread(char *, int);		/* recread.c */
+int d_recset(int, int);   			/* recset.c */
+int d_recwrite(const char *, int); 	/* recwrite.c */
+int d_renfile(const char *dbn, FILE_NO fno, const char *fnm); 		/* renfile.c */
+int d_retries(int);				/* dblfcns.c */
+int d_rlbclr(void);				/* dblfcns.c */
+int d_rlbset(void);				/* dblfcns.c */
+int d_rlbtst(void);				/* dblfcns.c */
+int d_set_dberr(FARPROC);			/* dberr.c */
+int d_setdb(int);				/* setdb.c */
+int d_setfree(int, int);			/* dblfcns.c */
+int d_setkey(long, const char *, int); /* makenew.c */
+int d_setlock(int, char *, int); 	/* dblfcns.c */
+int d_setlstat(int, char *, int); 	/* dblfcns.c */
+int d_setmm(int, int, int); 		/* setmm.c */
+int d_setmo(int, int, int); 		/* setmo.c */
+int d_setmr(int, int);			/* setmr.c */
+int d_setom(int, int, int); 		/* setom.c */
+int d_setoo(int, int, int); 		/* setoo.c */
+int d_setor(int, int);			/* setor.c */
+int d_setrm(int, int);			/* setrm.c */
+int d_setro(int, int);			/* setro.c */
+int d_timeout(int);				/* dblfcns.c */
+int d_trabort(void);				/* dblfcns.c */
+int d_trbegin(const char *);		/* dblfcns.c */
+int d_trend(void);					/* dblfcns.c */
 
-int dberr(P1(int));                      	/* dberr.c */
+int dberr(int);                      	/* dberr.c */
 
 #define D_FUNCTIONS_H
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin dproto.h */

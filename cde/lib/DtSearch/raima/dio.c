@@ -164,12 +164,11 @@ static int dbpg_lru_slot;      /* least recently accessed db page */
 static int no_modheld;         /* number of modified or held db pages */
 static FILE_NO working_file;   /* current key file being processed */
 
-static void cache_init(P1(int) Pi(LOOKUP_ENTRY *)
-				      Pi(PAGE_ENTRY *) Pi(int));
-static int dio_pzinit(P0);
-static int clear_cache(P1(FILE_NO) Pi(FILE_NO));
-static int dio_pzflush(P0);
-static int dio_in(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *));
+static void cache_init(int, LOOKUP_ENTRY *, PAGE_ENTRY *, int);
+static int dio_pzinit(void);
+static int clear_cache(FILE_NO, FILE_NO);
+static int dio_pzflush(void);
+static int dio_in(PAGE_ENTRY *, LOOKUP_ENTRY *);
 
 #define used_files Used_files.ptr
 #define db_lookup Db_lookup.ptr
@@ -180,8 +179,7 @@ static int dio_in(P1(PAGE_ENTRY *) Pi(LOOKUP_ENTRY *));
 /* Set the maximum number of open db_VISTA files
 */
 int
-d_setfiles(num)
-int num;
+d_setfiles(int num)
 {
    if ( dbpg_table ) return( dberr(S_DBCLOSE) );
 
@@ -195,9 +193,10 @@ int num;
 /* Set number of virtual memory pages
 */
 int
-d_setpages(dbpgs, ixpgs)
-int dbpgs; /* # of db cache pages */
-int ixpgs; /* # of index cache pages - ignored in single-user version */
+d_setpages(
+int dbpgs, /* # of db cache pages */
+int ixpgs  /* # of index cache pages - ignored in single-user version */
+)
 {
    if ( dbpg_table ) return( dberr(S_SETPAGES) );
 
@@ -215,8 +214,7 @@ int ixpgs; /* # of index cache pages - ignored in single-user version */
 /* Open a database file
 */
 int
-dio_open( fno )
-FILE_NO fno;
+dio_open(FILE_NO fno)
 {
    FILE_ENTRY *file_ptr, *lru_file_ptr;
    int *uf_ptr;
@@ -263,8 +261,7 @@ FILE_NO fno;
 /* Close a database file
 */
 int
-dio_close( fno )
-FILE_NO fno;
+dio_close(FILE_NO fno)
 {
    FILE_ENTRY *file_ptr;
 
@@ -286,7 +283,7 @@ FILE_NO fno;
 /* Initialize database I/O
 */
 int
-dio_init()
+dio_init(void)
 {
    CHAR_P Tempbuff;
 #define tempbuff Tempbuff.ptr
@@ -366,11 +363,8 @@ dio_init()
 } /* dio_init() */
 
 
-static void	cache_init (pg_cnt, lu_ptr, pg_ptr, pgsize)
-int		    pg_cnt;
-LOOKUP_ENTRY *  lu_ptr;
-PAGE_ENTRY *    pg_ptr;
-int		    pgsize;
+static void
+cache_init (int pg_cnt, LOOKUP_ENTRY *lu_ptr, PAGE_ENTRY * pg_ptr, int pgsize)
 {
    int pg_no;
 
@@ -417,7 +411,7 @@ int		    pgsize;
 /****************************************/
 /* Free the memory allocated for pages
 */
-void dio_free()
+void dio_free(void)
 {
    int pgt_lc;			/* loop control */
    PAGE_ENTRY *pg_ptr;
@@ -445,8 +439,7 @@ void dio_free()
 /* Clear pages for a single file.
 */
 int
-dio_clrfile(fno )
-FILE_NO fno;
+dio_clrfile(FILE_NO fno)
 {
    return( clear_cache(fno, fno+1) );
 }
@@ -461,7 +454,7 @@ FILE_NO fno;
 /* Clear all pages for *all* files from I/O buffer
 */
 int
-dio_clear()
+dio_clear(void)
 {
    return( clear_cache(0, size_ft) );
 }
@@ -476,9 +469,10 @@ dio_clear()
  * Clears all pages for a range of specified files.
  * Subroutine of dio_clrfile and dio_clear.
  */
-static int clear_cache(fr_file, to_file )
-FILE_NO fr_file;   /* clear from file "fr_file" */
-FILE_NO to_file;   /* ..to (not thru) file "to_file" */
+static int clear_cache(
+FILE_NO fr_file,   /* clear from file "fr_file" */
+FILE_NO to_file    /* ..to (not thru) file "to_file" */
+)
 {
    FILE_NO s_file;   /* start file to be cleared */
    FILE_NO e_file;   /* end file (+1) to be cleared */
@@ -564,7 +558,7 @@ FILE_NO to_file;   /* ..to (not thru) file "to_file" */
  * Writes out all modified cache pages to respective files (dio_out),
  * then writes out page zero (dio_pzflush).
  */
-int dio_flush()
+int dio_flush(void)
 {
    int pgt_lc;			/* loop control */
    PAGE_ENTRY *pg_ptr;
@@ -605,8 +599,7 @@ int dio_flush()
 
 /* Set the default file number
 */
-void dio_setdef( file_no )
-FILE_NO file_no;
+void dio_setdef(FILE_NO file_no)
 {
    working_file = file_no;
 }
@@ -621,10 +614,7 @@ FILE_NO file_no;
 /* Database I/O page get
 */
 int
-dio_get( page_no, page_ptr, hold )
-F_ADDR page_no;
-char * *page_ptr;
-int hold;
+dio_get(F_ADDR page_no, char **page_ptr, int hold)
 {
    PAGE_ENTRY *pg_ptr;
 
@@ -657,8 +647,7 @@ int hold;
 /* Set modified flag for a page
 */
 int
-dio_touch( page_no )
-F_ADDR page_no;
+dio_touch(F_ADDR page_no)
 {
    PAGE_ENTRY *pg_ptr;
 
@@ -693,10 +682,7 @@ F_ADDR page_no;
  * unless a page swap is necessary.
  */
 int
-dio_read( dba, recptr, hold )
-DB_ADDR dba;
-char * *recptr;
-int hold;
+dio_read(DB_ADDR dba, char * *recptr, int hold)
 {
    FILE_NO file;
    int offset;
@@ -741,10 +727,7 @@ int hold;
  * If recptr not NULL, copies rec to page cache.
  */
 int
-dio_write( dba, recptr, release )
-DB_ADDR dba;
-const char *recptr;
-int release;
+dio_write(DB_ADDR dba, const char *recptr, int release)
 {
    FILE_NO file;
    F_ADDR us1, us2;
@@ -785,8 +768,7 @@ int release;
 /* Release database page hold
 */
 int
-dio_release( dba )
-DB_ADDR dba;
+dio_release(DB_ADDR dba)
 {
    FILE_NO file;
    F_ADDR us1, us2;
@@ -819,12 +801,13 @@ DB_ADDR dba;
 /* Search a cache for page
 */
 int
-dio_findpg(file, page, pg_table, xpg_ptr, xlu_ptr )
-FILE_NO      file;       /* file number = 0..size_ft-1 */
-F_ADDR       page;       /* database page number */
-PAGE_ENTRY *pg_table;   /* = dbpg_table, ixpg_table, or NULL */
-PAGE_ENTRY * *xpg_ptr;  /* pointer to page table entry for found page */
-LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
+dio_findpg(
+FILE_NO      file,       /* file number = 0..size_ft-1 */
+F_ADDR       page,       /* database page number */
+PAGE_ENTRY *pg_table,   /* = dbpg_table, ixpg_table, or NULL */
+PAGE_ENTRY * *xpg_ptr,  /* pointer to page table entry for found page */
+LOOKUP_ENTRY * *xlu_ptr /* pointer to lookup table slot for found page*/
+)
 {
    LOOKUP_ENTRY *lookup;  /* = db_lookup or ix_lookup */
    int pgtab_sz;          /* = db_pgtab_sz or ix_pgtab_sz */
@@ -968,9 +951,10 @@ LOOKUP_ENTRY * *xlu_ptr;/* pointer to lookup table slot for found page*/
  * page swap function.
  */
 int
-dio_out(pg_ptr, lu_ptr)
-PAGE_ENTRY *pg_ptr;    /* page table entry to be output */
-LOOKUP_ENTRY *lu_ptr;  /* corresponding lookup table entry */
+dio_out(
+PAGE_ENTRY *pg_ptr,    /* page table entry to be output */
+LOOKUP_ENTRY *lu_ptr   /* corresponding lookup table entry */
+)
 {
    int		desc;	/* file descriptor */
    int		fno;	/* file number */
@@ -1011,9 +995,10 @@ LOOKUP_ENTRY *lu_ptr;  /* corresponding lookup table entry */
 /****************************************/
 /* Read in a page to the buffer
 */
-static int dio_in(pg_ptr, lu_ptr)
-PAGE_ENTRY *pg_ptr; /* page table entry to be input */
-LOOKUP_ENTRY *lu_ptr; /* corresponding to pg_ptr */
+static int dio_in(
+PAGE_ENTRY *pg_ptr, /* page table entry to be input */
+LOOKUP_ENTRY *lu_ptr  /* corresponding to pg_ptr */
+)
 {
    int desc;   /* file descriptor */
    int fno;    /* file number */
@@ -1058,7 +1043,7 @@ LOOKUP_ENTRY *lu_ptr; /* corresponding to pg_ptr */
 
 /* Initialize page zero table
 */
-static int dio_pzinit()
+static int dio_pzinit(void)
 {
    FILE_NO i;
    PGZERO *pgzero_ptr;
@@ -1105,7 +1090,7 @@ static int dio_pzinit()
 /* Flush page zero table
  * Complement to dio_out which writes all pages except page zero.
  */
-static int dio_pzflush()
+static int dio_pzflush(void)
 {
    FILE_NO i;
    int desc;
@@ -1154,8 +1139,9 @@ static int dio_pzflush()
 /* Read a file's page zero
 */
 int
-dio_pzread(fno)
-FILE_NO fno;  /* file number */
+dio_pzread(
+FILE_NO fno  /* file number */
+)
 {
    FILE_ENTRY *file_ptr;
    PGZERO *pgzero_ptr;
@@ -1197,9 +1183,10 @@ FILE_NO fno;  /* file number */
  * Returns memory address of the free slot into 'loc'.
  */
 int
-dio_pzalloc(fno, loc )
-FILE_NO fno;    /* file number */
-F_ADDR *loc;    /* pointer to allocated location */
+dio_pzalloc(
+FILE_NO fno,    /* file number */
+F_ADDR *loc     /* pointer to allocated location */
+)
 {
    DB_ADDR dba;
    F_ADDR pg;
@@ -1260,9 +1247,10 @@ F_ADDR *loc;    /* pointer to allocated location */
 /* Delete record slot or key node from page zero
 */
 int
-dio_pzdel(fno, loc )
-FILE_NO fno;  /* file number */
-F_ADDR  loc;  /* location to be freed */
+dio_pzdel(
+FILE_NO fno,  /* file number */
+F_ADDR  loc   /* location to be freed */
+)
 {
    DB_ADDR dba;
    INT recnum;
@@ -1316,8 +1304,7 @@ F_ADDR  loc;  /* location to be freed */
 /****************************************/
 /* Return pz_next for file fno
 */
-F_ADDR dio_pznext(fno)
-FILE_NO fno;
+F_ADDR dio_pznext(FILE_NO fno)
 {
    if ( pgzero[fno].pz_next == 0L )
       dio_pzread(fno);
@@ -1331,7 +1318,7 @@ FILE_NO fno;
 /****************************************/
 /* Clear page zero cache
 */
-void dio_pzclr()
+void dio_pzclr(void)
 {
    FILE_NO i;
    PGZERO *pgzero_ptr;

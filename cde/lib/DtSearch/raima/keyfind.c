@@ -57,10 +57,11 @@ static void chk_desc_key(P1(int) Pi(FIELD_ENTRY *)
 /* Find record thru key field
 */
 int
-d_keyfind(field, fldval , dbn)
-long  field;  /* field constant */
-const char *fldval; /* value of the data field */
-int dbn;      /* database number */
+d_keyfind(
+long  field,  /* field constant */
+const char *fldval, /* value of the data field */
+int dbn       /* database number */
+)
 {
    int fld, rec;
    DB_ADDR dba;
@@ -96,11 +97,7 @@ int dbn;      /* database number */
 
 /* Check compound key value for descending fields
 */
-static void chk_desc_key(fld, fld_ptr, fldval, ckey)
-int fld;
-FIELD_ENTRY *fld_ptr;
-const char *fldval;
-char *ckey;
+static void chk_desc_key(int fld, FIELD_ENTRY *fld_ptr, const char *fldval, char *ckey)
 {
    int kt_lc;			/* loop control */
 #ifndef	 NO_FLOAT

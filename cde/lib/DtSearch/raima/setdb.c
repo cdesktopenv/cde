@@ -52,8 +52,9 @@
 /* Set current database
 */
 int
-d_setdb(dbn)
-int dbn;   /* database number */
+d_setdb(
+int dbn   /* database number */
+)
 {
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_NOIO));
 

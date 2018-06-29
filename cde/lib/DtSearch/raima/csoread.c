@@ -51,11 +51,12 @@
 /* Read data from field  of current set owner
 */
 int
-d_csoread(set, field, data , dbn)
-int set;    /* Set constant */
-long field; /* Field constant */
-char *data; /* Data area to contain field contents */
-int dbn;    /* database number */
+d_csoread(
+int set,    /* Set constant */
+long field, /* Field constant */
+char *data, /* Data area to contain field contents */
+int dbn     /* database number */
+)
 {
    int fld, rec;
    char *recp;

@@ -50,8 +50,7 @@
 /* Set Database Files Path
 */
 int
-d_dbfpath(path)
-const char *path;
+d_dbfpath(const char *path)
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_NONE));
 

@@ -90,8 +90,7 @@
 
 /* Allocate and clear i*s bytes of memory
 */
-char * d_calloc(i, s)
-unsigned i, s;
+char * d_calloc(unsigned i, unsigned s)
 {
    return (I_CALLOC(cp, i, s));
 }
@@ -99,16 +98,14 @@ unsigned i, s;
 
 /* Allocate b bytes of memory
 */
-char * d_alloc(b)
-unsigned b;
+char * d_alloc(unsigned b)
 {
    return (I_MALLOC(cp, b));
 }
 
 /* Free memory
 */
-void d_free(p)
-CHAR_P *p;
+void d_free(CHAR_P *p)
 {
    if ((p != NULL) && (p->ptr != NULL)) {
       I_FREE(p);
@@ -121,8 +118,7 @@ static int NewInit(P1(LL_P *));
 
 /* Resets pointer to current element and checks for an empty list
 */
-BOOLEAN ll_access(ll)
-llist *ll;
+BOOLEAN ll_access(llist *ll)
 {
    ll->curr = NULL;
    return( ll->head.ptr != NULL && ll->tail.ptr != NULL );
@@ -130,9 +126,7 @@ llist *ll;
 
 /* Appends item to list
 */
-int ll_append(ll, data)
-llist *ll;
-CHAR_P *data;
+int ll_append(llist *ll, CHAR_P *data)
 {
    LL_P item;
    LL_P hold;
@@ -164,8 +158,7 @@ CHAR_P *data;
 
 /* Finds the first element of a list and returns its data 
 */
-CHAR_P *ll_first(ll)
-llist *ll;
+CHAR_P *ll_first(llist *ll)
 {
    if ( ll->head.ptr == NULL ) {
       return( NULL );
@@ -178,8 +171,7 @@ llist *ll;
 
 /* Frees a list
 */
-void ll_free(ll)
-llist *ll;
+void ll_free(llist *ll)
 {
    LL_P *curr, next, free;
 
@@ -200,8 +192,7 @@ llist *ll;
 
 /* Finds the next element and returns its data
 */
-CHAR_P *ll_next(ll)
-llist *ll;
+CHAR_P *ll_next(llist *ll)
 {
    LL_P *next;
 
@@ -220,9 +211,7 @@ llist *ll;
 
 /* Prepends (stacks) item 
 */
-int ll_prepend(ll, data)
-llist *ll;
-CHAR_P *data;
+int ll_prepend(llist *ll, CHAR_P *data)
 {
    LL_P item;
 
@@ -250,8 +239,7 @@ CHAR_P *data;
 
 /* Allocates and initializes a new list element
 */
-static int NewInit(new)
-LL_P *new;
+static int NewInit(LL_P *new)
 {
    new->ptr = (ll_elem *)ALLOC(new, sizeof(ll_elem), "new");
    if ( new->ptr == NULL )

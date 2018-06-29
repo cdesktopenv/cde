@@ -50,8 +50,7 @@
 /* Find next record of type
 */
 int
-d_recnext(dbn)
-int dbn;
+d_recnext(int dbn)
 {
    INT rectype;
    FILE_NO fno;

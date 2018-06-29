@@ -50,9 +50,10 @@
 /* Set current record
 */
 int
-d_crset(dba , dbn)
-DB_ADDR *dba; /* db address of record to become current */
-int dbn;
+d_crset(
+DB_ADDR *dba, /* db address of record to become current */
+int dbn
+)
 {
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_IO));
 

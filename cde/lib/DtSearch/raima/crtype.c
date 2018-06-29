@@ -50,9 +50,10 @@
 /* Get current record type
 */
 int
-d_crtype(crtype , dbn)
-int *crtype;
-int dbn;
+d_crtype(
+int *crtype,
+int dbn
+)
 {
    INT crt;
 

@@ -191,27 +191,19 @@ int db_txtest = 0;          /* transaction commit failure testing flag */
 
 
 /* Internal function prototypes */
-static int bld_lock_tables(P0);
-static int initses(P0);
-static int lock_files(P1(int) Pi(LOCK_REQUEST *));
-static int send_lock(P0);
-static int send_free(P0);
-static void reset_locks(P0);
-static int recovery_check(P0);
-
-
-
-
-
-
+static int bld_lock_tables(void);
+static int initses(void);
+static int lock_files(int, LOCK_REQUEST *);
+static int send_lock(void);
+static int send_free(void);
+static void reset_locks(void);
+static int recovery_check(void);
 
 
 /* Open db_VISTA database
 */
 int
-d_open(dbnames, opentype)
-const char *dbnames;
-const char *opentype;
+d_open(const char *dbnames, const char *opentype)
 {
    DB_ENTER(NO_DB_ID TASK_ID LOCK_SET(LOCK_ALL));
 #ifdef DEBUG_DBLF
@@ -274,8 +266,7 @@ const char *opentype;
 
 /* Initialize a task structure
 */
-int taskinit(tsk)
-TASK *tsk;
+int taskinit(TASK *tsk)
 {
    byteset(tsk, '\0', sizeof(TASK));
    tsk->No_of_dbs = 1;
@@ -287,8 +278,7 @@ TASK *tsk;
 /* Initialize multiple database table entries
 */
 int
-initdbt(dbnames )
-const char *dbnames;
+initdbt(const char *dbnames)
 {
    int dbt_lc;			/* loop control */
    char dbfile [DtSrFILENMLEN];
@@ -375,7 +365,7 @@ const char *dbnames;
 /* Close database
 */
 int
-d_close()
+d_close(void)
 {
    int i;
 
@@ -427,7 +417,7 @@ d_close()
 
 /* Free all allocated memory upon termination
 */
-void termfree()
+void termfree(void)
 {
 
    /* free all allocated memory */
@@ -477,51 +467,12 @@ void termfree()
    }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int alloc_table(Table, new_size, old_size )
-CHAR_P *Table;
+int alloc_table(
+CHAR_P *Table,
 #define table Table->ptr
-unsigned new_size;
-unsigned old_size;
+unsigned new_size,
+unsigned old_size
+)
 {
    CHAR_P Temp_table;
 

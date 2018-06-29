@@ -50,9 +50,10 @@
 /* Get current record
 */
 int
-d_crget(dba , dbn)
-DB_ADDR *dba; /* db address of record to become current */
-int dbn;
+d_crget(
+DB_ADDR *dba, /* db address of record to become current */
+int dbn
+)
 {
    DB_ENTER(DB_ID TASK_ID LOCK_SET(RECORD_NOIO));
 

@@ -51,10 +51,11 @@
 /* Get number of members of the current set owner
 */
 int
-d_members(set, tot , dbn)
-int set;     /* Set table entry */
-LONG *tot;   /* total members of set */
-int dbn;     /* database number */
+d_members(
+int set,     /* Set table entry */
+LONG *tot,   /* total members of set */
+int dbn      /* database number */
+)
 {
    char setp[SETPSIZE];
    char *recp;

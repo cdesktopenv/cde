@@ -51,9 +51,10 @@
 /* Find last key 
 */
 int
-d_keylast(field , dbn)
-long field;   /* field constant */
-int dbn;     /* database number */
+d_keylast(
+long field,   /* field constant */
+int dbn      /* database number */
+)
 {
    int fld, rec;
    DB_ADDR dba;

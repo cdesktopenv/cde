@@ -71,9 +71,10 @@ typedef struct {
 /* Connect the current record as member of set
 */
 int
-d_connect(set , dbn)
-int set; /* Set constant */
-int dbn; /* Database number */
+d_connect(
+int set, /* Set constant */
+int dbn  /* Database number */
+)
 {
    MEM_PTR crmp;          /* current record's member pointer */
    SET_PTR cosp;          /* current owner's set pointer */
@@ -285,10 +286,11 @@ quit:
 
 /* Compare two sort fields
 */
-static int sortcmp(set_ptr, mem1, mem2)
-SET_ENTRY *set_ptr; /* set table entry */
-char *mem1; /* member record 1 */
-char *mem2; /* member record 2 */
+static int sortcmp(
+SET_ENTRY *set_ptr, /* set table entry */
+char *mem1, /* member record 1 */
+char *mem2  /* member record 2 */
+)
 {
    INT rn1, rn2;  /* record numbers for mem1 & mem2 */
    MEMBER_ENTRY *mt1, *mt2;

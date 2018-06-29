@@ -51,9 +51,10 @@
 /* Find first key 
 */
 int
-d_keyfrst(field , dbn)
-long field;   /* field constant */
-int dbn;      /* database number */
+d_keyfrst(
+long field,   /* field constant */
+int dbn       /* database number */
+)
 {
    int fld, rec;
    DB_ADDR dba;

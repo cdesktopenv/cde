@@ -75,12 +75,13 @@ static int nextc(P1(int));
 
 /* Map ASCII-Characters for output and sorting
 */
-int d_mapchar(inchar,outchar,sort_str,subsort)
-unsigned char	inchar;     /* value of character to be mapped */
-unsigned char	outchar;    /* output character as    ... */
-const char *sort_str;  /* sort string (max. len = 2) */
-unsigned char	subsort;    /* subsort value, to distinguish between two */
+int d_mapchar(
+unsigned char	inchar,     /* value of character to be mapped */
+unsigned char	outchar,    /* output character as    ... */
+const char *sort_str,       /* sort string (max. len = 2) */
+unsigned char	subsort     /* subsort value, to distinguish between two */
 			    /* equal values (e.g. 'a' and 'A', if necessary) */
+)
 {
    int indx;
 
@@ -108,7 +109,7 @@ unsigned char	subsort;    /* subsort value, to distinguish between two */
 
 /* read MAP_FILE and make appropriate d_mapchar-calls
 */
-int ctb_init()
+int ctb_init(void)
 {
    int map_fd;
    unsigned char inchar, outchar, subsort;
@@ -139,9 +140,7 @@ int ctb_init()
 }
 
 /* do an fgets from a binary file */
-static void bgets( s, len, fd )
-char *s;
-int len, fd;
+static void bgets(char *s, int len, int fd)
 {
     int c;
 
@@ -160,8 +159,7 @@ eof:
 }
 
 /* get one character from the file */
-static int nextc( fd )
-int fd;
+static int nextc(int fd)
 {
     int n;
 
@@ -180,7 +178,7 @@ int fd;
 
 /* Allocate and initialize country_table
 */
-int ctbl_alloc()
+int ctbl_alloc(void)
 {
    if ((db_global.country_tbl.ptr = (CNTRY_TBL *)
 	   ALLOC(&db_global.country_tbl,256*sizeof(CNTRY_TBL)+1,"country_tbl")) 
@@ -194,7 +192,7 @@ int ctbl_alloc()
 
 /* Free country table
 */
-void ctbl_free()
+void ctbl_free(void)
 {
    MEM_UNLOCK( &db_global.country_tbl );
    FREE( &db_global.country_tbl );

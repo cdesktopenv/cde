@@ -51,11 +51,12 @@
 /* Write data to a field in the current set member
 */
 int
-d_csmwrite(set, field, data , dbn)
-int set;    /* Set constant */
-long field; /* Field constant */
-const char *data; /* Data area to contain field contents */
-int dbn;    /* database number */
+d_csmwrite(
+int set,    /* Set constant */
+long field, /* Field constant */
+const char *data, /* Data area to contain field contents */
+int dbn     /* database number */
+)
 {
    int stat, fld, rec;
    char *recp;

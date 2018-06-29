@@ -50,9 +50,7 @@
 /* Find previous member of set
 */
 int
-d_findpm(nset , dbn)
-int nset;
-int dbn;
+d_findpm(int nset, int dbn)
 {
    int set;
    char memp[MEMPSIZE];

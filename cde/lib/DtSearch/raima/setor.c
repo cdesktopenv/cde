@@ -50,9 +50,10 @@
 /* Set current owner to current record
 */
 int
-d_setor(nset , dbn)
-int nset;  /* set number */
-int dbn;   /* database number */
+d_setor(
+int nset,  /* set number */
+int dbn    /* database number */
+)
 {
    int set;
    int crtype; /* current record type */

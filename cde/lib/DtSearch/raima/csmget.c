@@ -50,10 +50,11 @@
 /* Get current set member
 */
 int
-d_csmget(set, dba , dbn)
-int set;      /* Set table entry */
-DB_ADDR *dba; /* db address of record to become current */
-int dbn;      /* database number */
+d_csmget(
+int set,      /* Set table entry */
+DB_ADDR *dba, /* db address of record to become current */
+int dbn       /* database number */
+)
 {
    SET_ENTRY *set_ptr;
 

@@ -52,8 +52,7 @@
 /* Set Database User Identifier
 */
 int
-d_dbuserid(id)
-const char *id;
+d_dbuserid(const char *id)
 {
    const char *chk_id;
 

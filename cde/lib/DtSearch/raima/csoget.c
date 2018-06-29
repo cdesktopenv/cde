@@ -51,10 +51,11 @@
 /* Get current set owner
 */
 int
-d_csoget(set, dba , dbn)
-int set;      /* Set table entry */
-DB_ADDR *dba; /* db address of record to become current */
-int dbn;      /* database number */
+d_csoget(
+int set,      /* Set table entry */
+DB_ADDR *dba, /* db address of record to become current */
+int dbn       /* database number */
+)
 {
    SET_ENTRY *set_ptr;
 

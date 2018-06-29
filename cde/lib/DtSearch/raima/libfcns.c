@@ -71,8 +71,7 @@ static int ctblcmp(P1(const unsigned char FAR*)
 /* Check for valid db number and set curr_db, curr_db_table and curr_rn_table
 */
 int
-dbn_check(dbn)
-int dbn;
+dbn_check(int dbn)
 {
    if ( ! dbopen ) 
       return( dberr(S_DBOPEN) );
@@ -93,10 +92,7 @@ int dbn;
    and set_table pointer.
 */
 int
-nset_check(nset, set, set_ptr )
-int nset;
-int *set;
-SET_ENTRY * *set_ptr;
+nset_check(int nset, int *set, SET_ENTRY **set_ptr)
 {
    nset -= SETMARK;
    if ((nset < 0) || (nset >= TABLE_SIZE(Size_st)))
@@ -111,12 +107,8 @@ SET_ENTRY * *set_ptr;
    and field numbers and pointers.
 */
 int
-nfld_check(nfld, rec, fld, rec_ptr, fld_ptr )
-long nfld;
-int *rec;
-int *fld;
-RECORD_ENTRY * *rec_ptr;
-FIELD_ENTRY * *fld_ptr;
+nfld_check(long nfld, int *rec, int *fld, RECORD_ENTRY **rec_ptr,
+           FIELD_ENTRY **fld_ptr)
 {
    int trec;
    int tfld;
@@ -136,10 +128,7 @@ FIELD_ENTRY * *fld_ptr;
    number and pointer.
 */
 int
-nrec_check(nrec, rec, rec_ptr)
-int nrec;
-int *rec;
-RECORD_ENTRY * *rec_ptr;
+nrec_check(int nrec, int *rec, RECORD_ENTRY **rec_ptr)
 {
    if (rec_okay(nrec - RECMARK, rec, (RECORD_ENTRY * *)rec_ptr))
       db_status = S_OKAY;
@@ -151,10 +140,7 @@ RECORD_ENTRY * *rec_ptr;
 
 /* Internal record number check
 */
-static int rec_okay(nrec, rec, rec_ptr)
-int nrec;
-int *rec;
-RECORD_ENTRY * *rec_ptr;
+static int rec_okay(int nrec, int *rec, RECORD_ENTRY **rec_ptr)
 {
    if ((nrec < 0) || (nrec >= TABLE_SIZE(Size_rt)))
       return (FALSE);
@@ -166,10 +152,11 @@ RECORD_ENTRY * *rec_ptr;
 
 /* Compare values of two db_VISTA data fields
 */
-int fldcmp(fld_ptr, f1, f2)
-FIELD_ENTRY *fld_ptr;
-const char *f1;   /* pointer to field 1 */
-const char *f2;   /* pointer to field 2 */
+int fldcmp(
+FIELD_ENTRY *fld_ptr,
+const char *f1,   /* pointer to field 1 */
+const char *f2    /* pointer to field 2 */
+)
 /*
    returns < 0 if f1 < f2,
 	   = 0 if f1 == f2,
@@ -321,8 +308,7 @@ const char *f2;   /* pointer to field 2 */
 
 /* compare the INT variables
 */
-int INTcmp( i1, i2 )
-const char *i1, *i2;
+int INTcmp(const char *i1, const char *i2)
 {
    INT I1, I2;
 
@@ -334,8 +320,7 @@ const char *i1, *i2;
 
 /* compare two DB_ADDR variables 
 */
-int ADDRcmp( d1, d2 )
-const DB_ADDR *d1, *d2;
+int ADDRcmp(const DB_ADDR *d1, const DB_ADDR *d2)
 {
    DB_ADDR a1, a2;
    FILE_NO f1, f2;
@@ -364,8 +349,7 @@ const DB_ADDR *d1, *d2;
 /* check for empty DB_ADDR
 */
 int
-null_dba( db_addr )
-const char *db_addr;
+null_dba(const char *db_addr)
 {
    DB_ADDR dba;
 
@@ -377,8 +361,7 @@ const char *db_addr;
 /* check for valid DB_ADDR
 */
 int
-check_dba( dba )
-DB_ADDR dba;
+check_dba(DB_ADDR dba)
 {
    FILE_NO fno;
    F_ADDR  rno, last;
@@ -401,10 +384,11 @@ DB_ADDR dba;
 
 /* Compare two strings with sorting according to char-table
 */
-static int ctblcmp(s, t, n)
-const unsigned char *s;  /* String 1 */
-const unsigned char *t;  /* String 2 */
-int    n;   /* Max. String length */
+static int ctblcmp(
+const unsigned char *s,  /* String 1 */
+const unsigned char *t,  /* String 2 */
+int    n   /* Max. String length */
+)
 {
    int x;
    unsigned char   f1, f2, x1, x2;

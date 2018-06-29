@@ -114,18 +114,15 @@ typedef struct {
 #define KEYREPOS 3
 
 /* Internal function prototypes */
-static int node_search(P1(const char *) Pi(DB_ADDR *) 
-				      Pi(NODE *) Pi(int *) Pi(int *) 
-				      Pi(F_ADDR *));
-static int keycmp(P1(const char *) Pi(KEY_SLOT *) 
-				    Pi(DB_ADDR *));
-static int expand(P1(const char *) Pi(DB_ADDR) Pi(F_ADDR));
-static int split_root(P1(NODE *));
-static int split_node(P1(F_ADDR) Pi(NODE *));
-static int delete(P0);
-static void open_slots(P1(NODE *) Pi(int) Pi(int));
-static void close_slots(P1(NODE *) Pi(int) Pi(int));
-static void key_found(P1(DB_ADDR *));
+static int node_search(const char *, DB_ADDR *, NODE *, int *, int *, F_ADDR *);
+static int keycmp(const char *, KEY_SLOT *, DB_ADDR *);
+static int expand(const char *, DB_ADDR, F_ADDR);
+static int split_root(NODE *);
+static int split_node(F_ADDR, NODE *);
+static int delete(void);
+static void open_slots(NODE *, int, int);
+static void close_slots(NODE *, int, int);
+static void key_found(DB_ADDR *);
 
 
 static KEY_INFO *curkey;
@@ -145,7 +142,7 @@ static int unique;
 /* Open B-tree key field index processing
 */
 int
-key_open()
+key_open(void)
 {
    int fd_lc;			/* loop control */
    long t;               /* total keys thru level l */
@@ -209,7 +206,7 @@ key_open()
 
 /* Close key field processing
 */
-void key_close()
+void key_close(void)
 {
    int k;
    KEY_INFO *ki_ptr;
@@ -231,8 +228,9 @@ void key_close()
 /* Initialize key function operation
 */
 int
-key_init(field )
-int field;  /* field number to be processed */
+key_init(
+int field  /* field number to be processed */
+)
 {
    FIELD_ENTRY *fld_ptr;
    FILE_ENTRY *file_ptr;
@@ -263,8 +261,7 @@ int field;  /* field number to be processed */
 /* Reset key_info last status to reposition keys on file "fno" 
 */
 int
-key_reset(fno )
-FILE_NO fno;
+key_reset(FILE_NO fno)
 {
    int i;
    KEY_INFO *ki_ptr;
@@ -282,9 +279,10 @@ FILE_NO fno;
 /* Locate proper key position on B-tree
 */
 int
-key_locpos(key_val, dba)
-const char *key_val; /* key search value */
-DB_ADDR *dba;        /* database address of located key */
+key_locpos(
+const char *key_val, /* key search value */
+DB_ADDR *dba         /* database address of located key */
+)
 {
    NODE *node;   /* pointer to current node */
    F_ADDR child;     /* page number of child node */
@@ -373,14 +371,14 @@ DB_ADDR *dba;        /* database address of located key */
 
 /* Search node for key value
 */
-static int node_search(key_val, dba, node, slotno, slot_offset, 
-					 child)
-const char *key_val; /* key being searched */
-DB_ADDR *dba;    /* database address included in comparison if not null */
-NODE    *node;   /* node being searched */
-int     *slotno; /* slot number of key position in node */
-int     *slot_offset; /* slot position offset */
-F_ADDR  *child;  /* child ptr of located key */
+static int node_search(
+const char *key_val, /* key being searched */
+DB_ADDR *dba,    /* database address included in comparison if not null */
+NODE    *node,   /* node being searched */
+int     *slotno, /* slot number of key position in node */
+int     *slot_offset, /* slot position offset */
+F_ADDR  *child   /* child ptr of located key */
+)
 {
    int cmp, i, l, u, slot_pos;
    char *node_slot_ptr;
@@ -428,10 +426,11 @@ have_slot:
 
 /* Compare key value
 */
-static int keycmp(key_val, slot, dba)
-const char *key_val;  /* key value */
-KEY_SLOT *slot;    /* pointer to key slot to be compared */
-DB_ADDR *dba;     /* database address included in comparison if not null */
+static int keycmp(
+const char *key_val,  /* key value */
+KEY_SLOT *slot,    /* pointer to key slot to be compared */
+DB_ADDR *dba      /* database address included in comparison if not null */
+)
 {
 /* 
    returns < 0 if key_val < slot
@@ -452,9 +451,10 @@ DB_ADDR *dba;     /* database address included in comparison if not null */
 /* Scan thru key field
 */
 int
-key_scan(fcn, dba )
-int fcn;       /* next or prev */
-DB_ADDR *dba;  /* db address of scanned record */
+key_scan(
+int fcn,       /* next or prev */
+DB_ADDR *dba   /* db address of scanned record */
+)
 {
    F_ADDR child;
    NODE *node;
@@ -550,8 +550,7 @@ DB_ADDR *dba;  /* db address of scanned record */
 
 /* Key has been found.  Save appropriate information
 */
-static void key_found(dba)
-DB_ADDR *dba;
+static void key_found(DB_ADDR *dba)
 {
    MEM_LOCK(&curkey->Keyval);
    /* save key value and database address for possible repositioning */
@@ -570,9 +569,10 @@ DB_ADDR *dba;
 /* Find key boundary
 */
 int
-key_boundary(fcn, dba )
-int  fcn;     /* KEYFRST or KEYLAST */
-DB_ADDR *dba; /* to get dba of first or last key */
+key_boundary(
+int  fcn,     /* KEYFRST or KEYLAST */
+DB_ADDR *dba  /* to get dba of first or last key */
+)
 {
    F_ADDR pg;         /* node number */
    NODE *node;        /* pointer to node contents in cache */
@@ -660,10 +660,11 @@ DB_ADDR *dba; /* to get dba of first or last key */
 /* Insert key field into B-tree
 */
 int
-key_insert(fld, key_val, dba )
-int fld;      /* key field number */
-const char *key_val; /* key value */
-DB_ADDR dba;  /* record's database address */
+key_insert(
+int fld,      /* key field number */
+const char *key_val, /* key value */
+DB_ADDR dba   /* record's database address */
+)
 {
    int stat;
 
@@ -695,10 +696,11 @@ DB_ADDR dba;  /* record's database address */
 
 /* Expand node for new key
 */
-static int expand(key_val, dba, brother )
-const char *key_val;    /* key value */
-DB_ADDR dba;     /* record's database address */
-F_ADDR brother;  /* page number of brother node */
+static int expand(
+const char *key_val,    /* key value */
+DB_ADDR dba,     /* record's database address */
+F_ADDR brother   /* page number of brother node */
+)
 {
    F_ADDR pg;
    NODE *node;
@@ -755,9 +757,10 @@ F_ADDR brother;  /* page number of brother node */
 
 /* Split node into two nodes
 */
-static int split_node(l_pg, l_node )
-F_ADDR l_pg;  /* left node's page number */
-NODE *l_node; /* left node buffer */
+static int split_node(
+F_ADDR l_pg,  /* left node's page number */
+NODE *l_node  /* left node buffer */
+)
 {
    F_ADDR r_pg;
    NODE *r_node;
@@ -800,8 +803,7 @@ NODE *l_node; /* left node buffer */
 
 /* Split root node
 */
-static int split_root(node )
-NODE *node;
+static int split_root(NODE *node)
 {
    F_ADDR l_pg, r_pg;
    NODE *l_node, *r_node;
@@ -849,10 +851,7 @@ NODE *node;
 /* Delete key from B-tree
 */
 int
-key_delete(fld, key_val, dba )
-int fld;
-char const *key_val;
-DB_ADDR dba;
+key_delete(int fld, char const *key_val, DB_ADDR dba)
 {
    int stat;
 
@@ -879,7 +878,7 @@ DB_ADDR dba;
 
 /* Delete key at current node_path position
 */
-static int delete()
+static int delete(void)
 {
    F_ADDR pg, p_pg, l_pg, r_pg;
    NODE *node;
@@ -1093,10 +1092,7 @@ shrink: /* delete key from leaf (shrink node ) */
 
 /* Open n slots in node
 */
-static void open_slots(node, slot_pos, n)
-NODE *node;
-int slot_pos;
-int n;
+static void open_slots(NODE *node, int slot_pos, int n)
 {
    char *dst, *src;
    int amt, w, nw;
@@ -1116,10 +1112,7 @@ int n;
 
 /* Close n slots in node
 */
-static void close_slots(node, slot_pos, n)
-NODE *node;
-int slot_pos;
-int n;
+static void close_slots(NODE *node, int slot_pos, int n)
 {
    char *dst, *src;
    int w, amt;
@@ -1140,8 +1133,7 @@ int n;
 /* Read value of last key scanned
 */
 int
-d_keyread(key_val)
-char *key_val;
+d_keyread(char *key_val)
 {
    int kt_lc;			/* loop control */
 #ifndef	 NO_FLOAT
@@ -1214,11 +1206,12 @@ char *key_val;
 /* Build compound key value from record
 */
 int
-key_bldcom(fld, rec, key, cflag )
-int   fld; /* compound key field number */
-char *rec; /* ptr to record data */
-char *key; /* ptr to array to recv constructed key */
-int cflag; /* TRUE to compliment compound descending keys */
+key_bldcom(
+int   fld, /* compound key field number */
+char *rec, /* ptr to record data */
+char *key, /* ptr to array to recv constructed key */
+int cflag  /* TRUE to compliment compound descending keys */
+)
 {
    int kt_lc;			/* loop control */
 #ifndef	 NO_FLOAT
@@ -1278,10 +1271,7 @@ int cflag; /* TRUE to compliment compound descending keys */
 
 /* Complement and copy bytes
 */
-void key_cmpcpy(s1, s2, n)
-char *s1;
-char *s2;
-INT n;
+void key_cmpcpy(char *s1, char *s2, INT n)
 {
    while ( n-- ) {
       *s1++ = ~(*s2++);

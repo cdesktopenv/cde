@@ -54,10 +54,7 @@
 /* Set the value of a key field
 */
 int
-d_setkey( field, fldvalue , dbn )
-long field;
-const char *fldvalue;
-int dbn;
+d_setkey(long field, const char *fldvalue, int dbn)
 {
    SK_P *sk_ptr;
    SK_P sk_p;
@@ -117,7 +114,7 @@ int dbn;
 
 /* Free the memory allocated for the sk_list
 */
-int sk_free()
+int sk_free(void)
 {
    SK_P *sk_ptr;
 
@@ -135,9 +132,7 @@ int sk_free()
 /* Create a new empty record
 */
 int
-d_makenew( nrec , dbn )
-int nrec;
-int dbn;
+d_makenew(int nrec, int dbn)
 {
    DB_ADDR db_addr;
    INT recnum, fld, stat;

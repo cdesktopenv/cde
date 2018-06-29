@@ -89,8 +89,7 @@ extern int max_open_files;		/* see dio.c */
 /* Database initialization function
 */
 int
-d_initialize(dbn)
-int dbn;
+d_initialize(int dbn)
 {
    FILE_NO fno;
 
@@ -113,9 +112,10 @@ int dbn;
 /* Initialize database file
 */
 int
-d_initfile(fno , dbn)
-FILE_NO fno; /* file table entry of file to be initialized */
-int dbn;
+d_initfile(
+FILE_NO fno, /* file table entry of file to be initialized */
+int dbn
+)
 {
    INIT_PAGE_P Page;
 #define page (Page.ptr)

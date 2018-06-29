@@ -47,10 +47,11 @@
 /* Rename database file
 */
 int
-d_renfile(dbn, fno, fnm)
-const char *dbn;  /* database containing file to be renamed */
-FILE_NO fno;  /* file id number for file to be renamed */
-const char *fnm;  /* new file name */
+d_renfile(
+const char *dbn,  /* database containing file to be renamed */
+FILE_NO fno,  /* file id number for file to be renamed */
+const char *fnm   /* new file name */
+)
 {
    REN_ENTRY_P r;
 
@@ -87,7 +88,7 @@ const char *fnm;  /* new file name */
 /* Process renamed file table
 */
 int
-renfiles()
+renfiles(void)
 {
    int dbt_lc;			/* loop control */
    REN_ENTRY_P *rp;

@@ -51,10 +51,11 @@
 /* Write data to a field  in the current record
 */
 int
-d_crwrite(field, data , dbn)
-long field; /* field constant */
-char *data; /* data area to contain field contents */
-int dbn;    /* database number */
+d_crwrite(
+long field, /* field constant */
+char *data, /* data area to contain field contents */
+int dbn     /* database number */
+)
 {
    int stat, fld, rec;
    RECORD_ENTRY *rec_ptr;

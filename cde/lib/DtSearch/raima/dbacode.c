@@ -44,10 +44,11 @@
 /* Decode file and slot number from a database address
 */
 int
-d_decode_dba(dba, file, slot)
-DB_ADDR dba;  /* database address */
-int *file;    /* returned file number */
-long *slot;   /* returned slot number */
+d_decode_dba(
+DB_ADDR dba,  /* database address */
+int *file,    /* returned file number */
+long *slot    /* returned slot number */
+)
 {
    *file = (int)(FILEMASK & (dba >> FILESHIFT));
    *slot = ADDRMASK & dba;
@@ -59,10 +60,11 @@ long *slot;   /* returned slot number */
 /* Encode database address from file and slot number
 */
 int
-d_encode_dba(file, slot, dba)
-int file;      /* returned file number */
-long slot;     /* returned slot number */
-DB_ADDR *dba;  /* database address */
+d_encode_dba(
+int file,      /* returned file number */
+long slot,     /* returned slot number */
+DB_ADDR *dba   /* database address */
+)
 {
    *dba = ((FILEMASK & file) << FILESHIFT) | slot;
    return ( db_status = S_OKAY );

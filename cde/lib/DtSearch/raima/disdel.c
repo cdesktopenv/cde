@@ -51,8 +51,7 @@
 /* Disconnect from all sets (owner and member) and delete record
 */
 int
-d_disdel(dbn)
-int dbn;
+d_disdel(int dbn)
 {
    int rectype, nset, cset;
    int set, mem;

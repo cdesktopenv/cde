@@ -50,9 +50,7 @@
 /* Find next member of set
 */
 int
-d_findnm(nset , dbn)
-int nset;
-int dbn;
+d_findnm(int nset, int dbn)
 {
    int set;
    char memp[MEMPSIZE];
