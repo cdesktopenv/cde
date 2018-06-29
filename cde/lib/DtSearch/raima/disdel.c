@@ -52,7 +52,7 @@
 */
 int
 d_disdel(dbn)
-DBN_DECL
+int dbn;
 {
    int rectype, nset, cset;
    int set, mem;
@@ -64,11 +64,11 @@ DBN_DECL
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if ( d_crtype(&rectype DBN_PARM) != S_OKAY )
+   if ( d_crtype(&rectype , dbn) != S_OKAY )
       RETURN( db_status );
    rectype += NUM2INT(-RECMARK, rt_offset);
 
-   d_crget(&dba DBN_PARM);
+   d_crget(&dba , dbn);
    for (set = 0, set_ptr = &set_table[ORIGIN(st_offset)];
 	set < TABLE_SIZE(Size_st);
 	++set, ++set_ptr) {
@@ -80,11 +80,11 @@ DBN_DECL
       mdba = *cm_ptr;
       if (set_ptr->st_own_rt == rectype) {
 	 /* disconnect all member records from set s */
-	 d_setor(nset DBN_PARM);
-	 while (d_findfm(nset DBN_PARM) == S_OKAY)
-	    if (d_discon(nset DBN_PARM) < S_OKAY)
+	 d_setor(nset , dbn);
+	 while (d_findfm(nset , dbn) == S_OKAY)
+	    if (d_discon(nset , dbn) < S_OKAY)
 		  RETURN (db_status);
-	 d_setro(nset DBN_PARM);
+	 d_setro(nset , dbn);
       }
       for (mem = set_ptr->st_members, memtot = mem + set_ptr->st_memtot,
 						mem_ptr = &member_table[mem];
@@ -92,9 +92,9 @@ DBN_DECL
 	   ++mem, ++mem_ptr) {
 	 if (mem_ptr->mt_record == rectype) {
 	    /* disconnect current record from set */
-	    if (d_ismember(nset DBN_PARM) == S_OKAY) {
-	       d_csmset(nset, &dba DBN_PARM);
-	       if (d_discon(nset DBN_PARM) < S_OKAY)
+	    if (d_ismember(nset , dbn) == S_OKAY) {
+	       d_csmset(nset, &dba , dbn);
+	       if (d_discon(nset , dbn) < S_OKAY)
 		  RETURN (db_status);
 	    }
 	 }

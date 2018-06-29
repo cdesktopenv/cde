@@ -50,10 +50,10 @@
 /* Set current member to current owner
 */
 int
-d_setmo(setm, seto DBN_PARM)
+d_setmo(setm, seto , dbn)
 int setm;   /* set table entry number of member */
 int seto;   /* set table entry number of owner */
-DBN_DECL    /* database number */
+int dbn;    /* database number */
 {
    int mem;
    SET_ENTRY *setm_ptr, *seto_ptr;

@@ -344,10 +344,6 @@ typedef struct RN_ENTRY_S {
 #define	 NUM2INT(num, offset) 	 ((num) + db_global.Curr_db_table->offset)
 #define	 NUM2EXT(num, offset) 	 ((num) - db_global.Curr_db_table->offset)
 #define	 ORIGIN(offset)	      	 (curr_db_table->offset)
-#define	 CURR_DB_PARM	      	 , curr_db
-#define	 DBN_PARM    	      	 , dbn
-#define  DBN_ONLY		 dbn
-#define	 DBN_DECL    	      	 int dbn;
 #define	 TABLE_SIZE(size)     	 DB_REF(size)
 
 /* Country code table definition */
@@ -469,22 +465,17 @@ typedef struct MESSAGE_S {
 #ifdef COMMA				 /* COMMA */
 #define DB_ID , dbn
 #define NO_DB_ID , -1
-#define DBN_PARAM , b
 #else				 	 /* COMMA */
 #define DB_ID dbn
 #define NO_DB_ID -1
-#define DBN_PARAM b
 #define COMMA
 #endif				 	 /* COMMA */
 
 #define TASK_ID /**/
 
-#define LOCK_PARAM /**/
-#define LOCK_PARM /**/
-#define LOCK_DECL /**/
 #define LOCK_SET(a) /**/
 
-#define TDTL_PARAM DBN_PARAM LOCK_PARAM
+#define TDTL_PARAM
 
 #define DB_ENTER(TDTL_PARAM) if ( startup(TDTL_PARAM) != S_OKAY ) { return( db_status ); } else
 

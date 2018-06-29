@@ -51,11 +51,11 @@
 /* Read data from field of current set member
 */
 int
-d_csmread(set, field, data DBN_PARM)
+d_csmread(set, field, data , dbn)
 int set;    /* Set constant */
 long field; /* Field constant */
 char *data; /* Data area to contain field contents */
-DBN_DECL    /* database number */
+int dbn;    /* database number */
 {
    int fld, rec;
    char *recp;

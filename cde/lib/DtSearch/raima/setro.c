@@ -50,9 +50,9 @@
 /* Set current record to current owner
 */
 int
-d_setro(set DBN_PARM)
+d_setro(set , dbn)
 int set;   /* set table entry number */
-DBN_DECL   /* database number */
+int dbn;   /* database number */
 {
    SET_ENTRY *set_ptr;
 

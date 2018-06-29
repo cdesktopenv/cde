@@ -50,9 +50,9 @@
 /* Find last member of set
 */
 int
-d_findlm(nset DBN_PARM)
+d_findlm(nset , dbn)
 int nset;
-DBN_DECL
+int dbn;
 {
    char setp[SETPSIZE];
    DB_ADDR mem;

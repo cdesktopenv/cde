@@ -50,9 +50,9 @@
 /* Set current member to current record
 */
 int
-d_setmr(set DBN_PARM)
+d_setmr(set , dbn)
 int set;   /* set table entry number */
-DBN_DECL   /* database number */
+int dbn;   /* database number */
 {
    int crtype; /* current record type */
    int mem;
@@ -68,7 +68,7 @@ DBN_DECL   /* database number */
    if ( ! curr_rec )
       RETURN( dberr( S_NOCR ) );
 
-   if ( d_crtype(&crtype DBN_PARM) != S_OKAY )
+   if ( d_crtype(&crtype , dbn) != S_OKAY )
       RETURN( db_status );
    crtype += NUM2INT(-RECMARK, rt_offset);
 

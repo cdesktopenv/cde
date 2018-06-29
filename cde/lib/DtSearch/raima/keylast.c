@@ -51,9 +51,9 @@
 /* Find last key 
 */
 int
-d_keylast(field DBN_PARM)
+d_keylast(field , dbn)
 long field;   /* field constant */
-DBN_DECL     /* database number */
+int dbn;     /* database number */
 {
    int fld, rec;
    DB_ADDR dba;

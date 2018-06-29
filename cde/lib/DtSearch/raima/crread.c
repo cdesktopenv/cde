@@ -51,10 +51,10 @@
 /* Read data from field  of current record
 */
 int
-d_crread(field, data DBN_PARM)
+d_crread(field, data , dbn)
 long field; /* Field constant */
 char *data; /* Data area to contain field contents */
-DBN_DECL    /* database number */
+int dbn;    /* database number */
 {
    int fld, rec;
    RECORD_ENTRY *rec_ptr;

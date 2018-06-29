@@ -46,9 +46,8 @@
 
 /* Called once at the beginning of each external function
 */
-int startup(DB_ID LOCK_PARM)
-DBN_DECL
-LOCK_DECL
+int startup(DB_ID)
+int dbn;
 {
    db_status = S_OKAY;
    if ( ! db_glob_init ) {

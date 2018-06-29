@@ -51,9 +51,9 @@
 /* Check to see if current record is a owner of non-empty SET
 */
 int
-d_isowner(set DBN_PARM)
+d_isowner(set , dbn)
 int set;  /* set table entry */
-DBN_DECL  /* database number */
+int dbn;  /* database number */
 {
    char crsp[SETPSIZE];   /* current record's set pointer */
    SET_ENTRY *set_ptr;

@@ -51,7 +51,7 @@
 */
 int
 d_recnext(dbn)
-DBN_DECL
+int dbn;
 {
    INT rectype;
    FILE_NO fno;

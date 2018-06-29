@@ -50,9 +50,9 @@
 /* Find previous member of set
 */
 int
-d_findpm(nset DBN_PARM)
+d_findpm(nset , dbn)
 int nset;
-DBN_DECL
+int dbn;
 {
    int set;
    char memp[MEMPSIZE];
@@ -72,7 +72,7 @@ DBN_DECL
 
    /* find last member if no current member */
    if ( !*(cm_ptr = &curr_mem[set]) )
-      RETURN( d_findlm(nset DBN_PARM) );
+      RETURN( d_findlm(nset , dbn) );
 
    /* read current member of set and get member pointer from record */
    if ((dio_read(*cm_ptr, (char * *)&recp, NOPGHOLD) != S_OKAY) ||

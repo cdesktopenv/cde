@@ -49,9 +49,9 @@
 /* Find first record of type
 */
 int
-d_recfrst( rec DBN_PARM )
+d_recfrst( rec , dbn )
 int rec;	/* record type/table entry */
-DBN_DECL
+int dbn;
 {
    INT rectype;
    FILE_NO ftype;

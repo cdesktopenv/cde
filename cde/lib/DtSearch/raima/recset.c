@@ -71,9 +71,9 @@
 /* ======================================================================
    set record type and database address to current
 */
-int d_recset( rec DBN_PARM )
+int d_recset( rec , dbn )
 int rec;			/* record type */
-DBN_DECL
+int dbn;
 {
 /*
    RETURNS: db_status return code.

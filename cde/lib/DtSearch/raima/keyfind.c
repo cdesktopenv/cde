@@ -57,10 +57,10 @@ static void chk_desc_key(P1(int) Pi(FIELD_ENTRY *)
 /* Find record thru key field
 */
 int
-d_keyfind(field, fldval DBN_PARM)
+d_keyfind(field, fldval , dbn)
 long  field;  /* field constant */
 const char *fldval; /* value of the data field */
-DBN_DECL      /* database number */
+int dbn;      /* database number */
 {
    int fld, rec;
    DB_ADDR dba;

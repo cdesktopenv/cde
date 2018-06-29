@@ -71,9 +71,9 @@ typedef struct {
 /* Connect the current record as member of set
 */
 int
-d_connect(set DBN_PARM)
+d_connect(set , dbn)
 int set; /* Set constant */
-DBN_DECL /* Database number */
+int dbn; /* Database number */
 {
    MEM_PTR crmp;          /* current record's member pointer */
    SET_PTR cosp;          /* current owner's set pointer */

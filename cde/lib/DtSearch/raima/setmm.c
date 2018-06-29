@@ -50,10 +50,10 @@
 /* Set current member to current member
 */
 int
-d_setmm(sett, sets DBN_PARM)
+d_setmm(sett, sets , dbn)
 int sett;   /* set table entry number of target member */
 int sets;   /* set table entry number of source member */
-DBN_DECL    /* database number */
+int dbn;    /* database number */
 {
    int cmtype; /* current member type */
    int mem;
@@ -63,7 +63,7 @@ DBN_DECL    /* database number */
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if ((d_cmtype(sets, &cmtype DBN_PARM) != S_OKAY) ||
+   if ((d_cmtype(sets, &cmtype , dbn) != S_OKAY) ||
        (nset_check(sett, &sett, (SET_ENTRY * *)&set_ptr) != S_OKAY))
       RETURN( db_status );
 

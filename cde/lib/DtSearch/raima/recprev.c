@@ -74,7 +74,7 @@
    d_recprev - find previous record via database address
 */
 int d_recprev( dbn )
-DBN_DECL
+int dbn;
 {
 /*
    RETURNS: db_status.  Also sets current record to previous matched record.

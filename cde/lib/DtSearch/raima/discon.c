@@ -65,9 +65,9 @@ typedef struct {
 /* Disconnect the current member of set
 */
 int
-d_discon(nset DBN_PARM)
+d_discon(nset , dbn)
 int nset; /* set number */
-DBN_DECL  /* database number */
+int dbn;  /* database number */
 {
    SET_PTR cosp;          /* current owner's set pointer */
    MEM_PTR cmmp;          /* member's member pointer */

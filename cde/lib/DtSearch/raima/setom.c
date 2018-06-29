@@ -51,10 +51,10 @@
 /* Set current owner to current member
 */
 int
-d_setom(nseto, nsetm DBN_PARM)
+d_setom(nseto, nsetm , dbn)
 int nseto;   /* set table entry number of owner */
 int nsetm;   /* set table entry number of member */
-DBN_DECL    /* database number */
+int dbn;    /* database number */
 {
    int seto, setm;
    int cmtype; /* current record type */
@@ -62,7 +62,7 @@ DBN_DECL    /* database number */
 
    DB_ENTER(DB_ID TASK_ID LOCK_SET(SET_IO));
 
-   if ((d_cmtype(nsetm, &cmtype DBN_PARM) != S_OKAY) ||
+   if ((d_cmtype(nsetm, &cmtype , dbn) != S_OKAY) ||
        (nset_check(nseto, &seto, (SET_ENTRY * *)&set_ptr) != S_OKAY))
       RETURN( db_status );
    cmtype += NUM2INT(-RECMARK, rt_offset);

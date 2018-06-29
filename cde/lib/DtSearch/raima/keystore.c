@@ -53,9 +53,9 @@
 /* Store optional key value
 */
 int
-d_keystore(field DBN_PARM)
+d_keystore(field , dbn)
 long field; /* key field constant */
-DBN_DECL    /* database number */
+int dbn;    /* database number */
 {
    int fld;        /* field number */
    int rec, rn;    /* record type of current record */
@@ -76,7 +76,7 @@ DBN_DECL    /* database number */
       RETURN( dberr(S_NOCR) );
 
    /* ensure current record is valid for this field */
-   d_crtype(&rn DBN_PARM);
+   d_crtype(&rn , dbn);
 
    if (rec != NUM2INT(rn - RECMARK, rt_offset))
       RETURN( dberr(S_BADFIELD) );

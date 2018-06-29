@@ -51,10 +51,10 @@
 /* Set current set owner
 */
 int
-d_csoset(set, dba DBN_PARM)
+d_csoset(set, dba , dbn)
 int set;      /* Set table entry */
 DB_ADDR *dba; /* db address of record to become current */
-DBN_DECL      /* database number */
+int dbn;      /* database number */
 {
    INT type;
    char *ptr;

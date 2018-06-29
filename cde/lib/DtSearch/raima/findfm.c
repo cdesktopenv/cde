@@ -50,9 +50,9 @@
 /* Find first member of set
 */
 int
-d_findfm(nset DBN_PARM)
+d_findfm(nset , dbn)
 int nset;
-DBN_DECL
+int dbn;
 {
    char setp[SETPSIZE];
    DB_ADDR mem;

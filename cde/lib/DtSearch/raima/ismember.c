@@ -51,9 +51,9 @@
 /* Check to see if current record is a connected member of SET
 */
 int
-d_ismember(set DBN_PARM)
+d_ismember(set , dbn)
 int set;  /* set table entry */
-DBN_DECL  /* database number */
+int dbn;  /* database number */
 {
    char crmp[MEMPSIZE];   /* current record's member pointer */
    SET_ENTRY *set_ptr;

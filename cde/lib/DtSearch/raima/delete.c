@@ -54,7 +54,7 @@ static DB_ADDR zap_dba = NULL_DBA;
 */
 int
 d_delete(dbn)
-DBN_DECL
+int dbn;
 {
    int st_lc, mt_lc;		/* loop control */
    INT i, rt;

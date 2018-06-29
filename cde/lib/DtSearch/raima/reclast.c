@@ -73,9 +73,9 @@
 /* ======================================================================
    d_reclast - find last record occurrence in database
 */
-int d_reclast( rec DBN_PARM )
+int d_reclast( rec , dbn )
 int rec;			/* record # to find last occurrence of */
-DBN_DECL			/* optional database number */
+int dbn;			/* optional database number */
 {
 /*
    RETURNS: db_status.  Sets current record to last record, if found.

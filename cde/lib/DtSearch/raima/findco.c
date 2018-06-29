@@ -50,9 +50,9 @@
 /* Find owner of current record
 */
 int
-d_findco(nset DBN_PARM)
+d_findco(nset , dbn)
 int nset;
-DBN_DECL
+int dbn;
 {
    int set;
    char mem[MEMPSIZE];

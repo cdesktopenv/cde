@@ -115,7 +115,7 @@ const char *data; /* pointer to data area containing field contents */
       dba = curr_rec;
       /* If the key field is not optional, or optional and stored */
       if ((!(fld_ptr->fd_flags & OPTKEYMASK) || r_tstopt(fld_ptr, rec)) &&
-	  (d_keyfind(fld, data CURRTASK_PARM CURR_DB_PARM) == S_OKAY)) {
+	  (d_keyfind(fld, data CURRTASK_PARM , curr_db) == S_OKAY)) {
 	 /* another record is already using this key value */
 	 db_status = S_DUPLICATE;
       }
@@ -389,8 +389,8 @@ DB_ADDR *db_addr;
 	       set = NUM2EXT(sn + SETMARK, st_offset);
 
 	       /* disconnect from prior order set and reconnect in new order */
-	       d_discon(set CURRTASK_PARM CURR_DB_PARM);
-	       d_connect(set CURRTASK_PARM CURR_DB_PARM);
+	       d_discon(set CURRTASK_PARM , curr_db);
+	       d_connect(set CURRTASK_PARM , curr_db);
 
 	       /* reset currency */
 	       *co_ptr = odba;

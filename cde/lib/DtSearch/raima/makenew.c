@@ -54,10 +54,10 @@
 /* Set the value of a key field
 */
 int
-d_setkey( field, fldvalue DBN_PARM )
+d_setkey( field, fldvalue , dbn )
 long field;
 const char *fldvalue;
-DBN_DECL
+int dbn;
 {
    SK_P *sk_ptr;
    SK_P sk_p;
@@ -135,9 +135,9 @@ int sk_free()
 /* Create a new empty record
 */
 int
-d_makenew( nrec DBN_PARM )
+d_makenew( nrec , dbn )
 int nrec;
-DBN_DECL
+int dbn;
 {
    DB_ADDR db_addr;
    INT recnum, fld, stat;
@@ -176,7 +176,7 @@ DBN_DECL
 	 }
 	 MEM_LOCK(&sk_ptr->ptr->sk_val);
 	 d_keyfind(FLDMARK*(long)recnum + (long)(fld - rec_ptr->rt_fields),
-		   sk_ptr->ptr->sk_val.ptr DBN_PARM);
+		   sk_ptr->ptr->sk_val.ptr , dbn);
 	 MEM_UNLOCK(&sk_ptr->ptr->sk_val);
 	 curr_rec = db_addr;
          ll_deaccess(&sk_list);
