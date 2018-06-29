@@ -148,10 +148,8 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 # endif
 #endif
 
-/* Use installed versions of Xm and X11 */
-#if OSMajorVersion >= 6
+/* Use installed X11 includes/libs */
 # define UseInstalledX11        YES
-#endif
 
 /*
  * Compiler Features
@@ -1050,8 +1048,13 @@ CXXDEPENDINCLUDE != CcCmd -v -x c++ /dev/null -fsyntax-only \
 # endif
 #endif
 
+/* Suppress warnings dependant from compiler versions */
 #if !defined(GccWarningOptions)
-# define GccWarningOptions 		-Wpointer-arith -Wno-unused -Wno-write-strings -Wno-switch -Wno-unused-result
+# if (defined __clang__)
+#  define GccWarningOptions 	-Wpointer-arith -Wno-unused -Wno-write-strings -Wno-switch -Wno-unused-result 
+# else
+#  define GccWarningOptions 	-Wpointer-arith -Wno-unused -Wno-write-strings -Wno-switch
+# endif
 #endif
 
 #define TtClientLibs $(TTLIB) $(XTOOLLIB) $(XLIB)
