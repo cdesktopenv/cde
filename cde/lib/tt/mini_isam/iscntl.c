@@ -25,9 +25,6 @@
 /*%%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			 */
 /*%%  (c) Copyright 1993, 1994 Novell, Inc. 				 */
 /*%%  $XConsortium: iscntl.c /main/3 1995/10/23 11:36:59 rswiston $ 			 				 */
-#ifndef lint
-static char sccsid[] = "@(#)iscntl.c	1.8 94/11/17";
-#endif
 /*
  * Copyright (c) 1988 by Sun Microsystems, Inc.
  */

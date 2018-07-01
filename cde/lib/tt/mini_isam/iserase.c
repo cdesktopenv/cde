@@ -25,9 +25,6 @@
 /*%%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			 */
 /*%%  (c) Copyright 1993, 1994 Novell, Inc. 				 */
 /*%%  $XConsortium: iserase.c /main/3 1995/10/23 11:38:08 rswiston $ 			 				 */
-#ifndef lint
-static char sccsid[] = "@(#)iserase.c 1.8 89/07/17 Copyr 1988 Sun Micro";
-#endif
 /*
  * Copyright (c) 1988 by Sun Microsystems, Inc.
  */

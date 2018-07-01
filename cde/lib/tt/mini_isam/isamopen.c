@@ -25,9 +25,6 @@
 /*%%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			 */
 /*%%  (c) Copyright 1993, 1994 Novell, Inc. 				 */
 /*%%  $TOG: isamopen.c /main/5 1998/04/10 08:03:57 mgreess $ 			 				 */
-#ifndef lint
-static char sccsid[] = "@(#)isamopen.c 1.10 89/07/17 Copyr 1988 Sun Micro";
-#endif
 /*
  * Copyright (c) 1988 by Sun Microsystems, Inc.
  */

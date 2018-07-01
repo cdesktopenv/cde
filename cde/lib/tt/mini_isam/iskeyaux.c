@@ -25,9 +25,6 @@
 /*%%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			 */
 /*%%  (c) Copyright 1993, 1994 Novell, Inc. 				 */
 /*%%  $XConsortium: iskeyaux.c /main/3 1995/10/23 11:41:11 rswiston $ 			 				 */
-#ifndef lint
-static char sccsid[] = "@(#)iskeyaux.c 1.7 89/07/27 Copyr 1988 Sun Micro";
-#endif
 /*
  * Copyright (c) 1988 by Sun Microsystems, Inc.
  */

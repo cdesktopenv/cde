@@ -25,9 +25,6 @@
 /*%%  (c) Copyright 1993, 1994 Sun Microsystems, Inc.			 */
 /*%%  (c) Copyright 1993, 1994 Novell, Inc. 				 */
 /*%%  $XConsortium: iswrrec.c /main/3 1995/10/23 11:46:30 rswiston $ 			 				 */
-#ifndef lint
-static char sccsid[] = "@(#)iswrrec.c 1.7 89/06/07 Copyr 1988 Sun Micro";
-#endif
 /*
  * Copyright (c) 1988 by Sun Microsystems, Inc.
  */
