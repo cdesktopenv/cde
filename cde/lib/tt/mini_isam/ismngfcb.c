@@ -62,7 +62,7 @@ struct hashtable {
 
 static int _hashisfhandle();
 
-static mrused_last = 0;			     /* stamp generator */
+static int mrused_last = 0;			     /* stamp generator */
 
 
 /*
@@ -219,7 +219,7 @@ _hashisfhandle(Bytearray *isfhandle)
 
     while (len-- > 0) {
 	h = (h << 4) + (*p++);
-	if (g = h&0xf0000000) {
+	if ((g = (h & 0xf0000000))) {
 	    h = h ^ (g >> 24);
 	    h = h ^ g;
 	}

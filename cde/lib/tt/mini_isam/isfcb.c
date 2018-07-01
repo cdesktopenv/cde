@@ -37,6 +37,7 @@
  *	
  *
  */
+#include <unistd.h>
 #include <stdlib.h>
 #include "isam_impl.h"
 #include <sys/stat.h>
@@ -841,10 +842,10 @@ _check_isam_magic(Fcb *fcb)
     char		magicbuffer[CP_MAGIC_LEN];
 
     (void)lseek(fcb->datfd, 0L, 0);
-    if (read(fcb->datfd, magicbuffer, CP_MAGIC_LEN) < CP_MAGIC_LEN ||
+    if ((read(fcb->datfd, magicbuffer, CP_MAGIC_LEN) < CP_MAGIC_LEN) ||
 	/* The following test for compatibilty with `SunISAM 1.0 Beta files. */
-	strncmp(magicbuffer, "SunISAM", strlen(ISMAGIC)) != 0 &&
-	strncmp(magicbuffer, ISMAGIC, strlen(ISMAGIC)) != 0) {
+	((strncmp(magicbuffer, "SunISAM", strlen(ISMAGIC)) != 0) &&
+         (strncmp(magicbuffer, ISMAGIC, strlen(ISMAGIC))) != 0)) {
 	return ISERROR;
     }
     else

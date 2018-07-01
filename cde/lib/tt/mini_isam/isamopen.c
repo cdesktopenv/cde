@@ -69,7 +69,6 @@ _amopen(char *isfname, enum openmode openmode, Bool *varflag,
     Fcb			*fcb;
     Bytearray		isfhandle0;
     Crp			*crp;
-    int			err;
 
 
     _isam_entryhook();

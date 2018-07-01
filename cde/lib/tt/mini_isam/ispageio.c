@@ -39,6 +39,7 @@
  */
 
 #include "isam_impl.h"
+#include <unistd.h>
 
 /*
  * _isseekpg(fd, pgno)

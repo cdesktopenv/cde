@@ -38,6 +38,7 @@
  */
 
 #include "isam_impl.h"
+#include <unistd.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <syslog.h>
@@ -81,8 +82,6 @@ _isfatal_error(char *msg)
 void 
 _isfatal_error1(char *msg)
 {
-  extern int	_is_rpcnetisamd; /* is 1 if this is rpc.netisamd */
-  extern int	_is_netisamlockd; /* is 1 if this is netisamlockd */
   int		logerr;
 
   if (fatal_error_user_handler) {
@@ -113,14 +112,17 @@ _isam_warning(char *msg)
 }
 
 /* Set user specified fatal_error handler */
-int  (*_isfatal_error_set_func(int(*func)()))()
+int  _isfatal_error_set_func(int(*func)())
 {
+#if 0
     int		(*oldfunc)();
 
     oldfunc = fatal_error_user_handler;
+#endif
+
     fatal_error_user_handler = func;
 
-    return (oldfunc);
+    return (0);
 }
 
 /*

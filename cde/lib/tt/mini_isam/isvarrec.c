@@ -44,7 +44,7 @@ int  _vl_deleted();			     /* 0/1 returns 1 if record is deleted */
 static void remove_from_chain2();	     /* used by _vlrec_wrrec() */
 long _istail_insert();
 static void _istail_delete();
-static _istail_read();
+static int _istail_read();
 
 /*
  * _vlrec_write(fcb, record, recnum, reclen)
@@ -501,7 +501,7 @@ Static void _istail_delete(Fcb *fcb, long offset)
 
 /* Read tail from .var file */
 
-Static _istail_read(Fcb *fcb, long offset, char *buffer)
+Static int _istail_read(Fcb *fcb, long offset, char *buffer)
 {
     char		frameheadbuf [2 * SHORTSIZE];
     int			taillen;

@@ -87,7 +87,6 @@ iscntl(isfd, func, va_alist)
     va_dcl
 #endif
 {
-    extern 		int ( *_isfatal_error_set_func)();
     va_list		pvar;
     int			ret;
 

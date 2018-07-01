@@ -431,7 +431,7 @@ _attach_dups_serial(Issort *srt, Keydesc2 *pkeydesc2)
 
     _issort_rewind(srt);
 
-    while (curkey = _issort_read(srt)) {
+    while ((curkey = _issort_read(srt))) {
 	if (lastkey && memcmp(lastkey + RECNOSIZE + DUPIDSIZE,
 			      curkey + RECNOSIZE + DUPIDSIZE,
 			       netkeylength) == 0)
@@ -617,7 +617,7 @@ Static int _duplicate_exist(Issort *srt, int keylength)
 
     _issort_rewind(srt);
 
-    while (curkey = _issort_read(srt)) {
+    while ((curkey = _issort_read(srt))) {
 	    if (lastkey && memcmp(lastkey + RECNOSIZE, curkey + RECNOSIZE,
 				  netkeylength) == 0) 
 		    return 1;		     /* Duplicate key found */

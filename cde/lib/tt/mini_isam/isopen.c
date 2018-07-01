@@ -41,9 +41,6 @@
 #include <sys/file.h>
 #include <sys/time.h>
 
-extern char _isam_version[];
-static char *_version_ = _isam_version;
-
 static int _am_open();
 /*
  * isfd = isopen(isfname, mode)

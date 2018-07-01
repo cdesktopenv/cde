@@ -38,6 +38,7 @@
 
 
 #include "isam_impl.h"
+#include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <stdio.h>
@@ -66,10 +67,10 @@ Static	char *rp_readrecord_v(), *rp_readrecord_f();
 Static int printkey(int, struct keydesc *, int (*)(const char *, ...));
 Static void cmd_error(const char *, int (*)(const char *, ...));
 Static int typeletter();
-Static rp_readcntlpg();
+Static int rp_readcntlpg();
 static int  isnoprintf(const char *, ...);
 
-isrepair(char *isfname, int verbose)
+int isrepair(char *isfname, int verbose)
 {
   extern      char *rp_readrecord_v(), *rp_readrecord_f();
   char	      cntlpg[ISCNTLSIZE];
@@ -342,7 +343,7 @@ isrepair(char *isfname, int verbose)
 static char	recordbuffer[ISMAXRECLEN + LONGSIZE];
 
 /* rp_readcntlpg() - Read the control page */
-Static 
+Static int
 rp_readcntlpg(int datfd, char *cntlpg)
 {
     if (read (datfd, cntlpg, ISCNTLSIZE) != ISCNTLSIZE)

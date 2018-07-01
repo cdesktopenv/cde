@@ -452,14 +452,6 @@ struct export_opts {
 };
 
 
-extern Fcb *_isfcb_create();
-extern Fcb *_isfcb_open();
-extern void _isfcb_remove();
-extern void _isfcb_close();
-extern void _isfcb_setreclength();
-extern void _isfcb_setprimkey();
-extern int _isfcb_cntlpg_w();
-
 
 #define DAT_SUFFIX	".rec"
 #define IND_SUFFIX	".ind"
@@ -474,77 +466,8 @@ extern int _isfcb_cntlpg_w();
 #define VL_RECDELETED	((long ) -1L)
 #define VL_RECNOTAIL	((long ) -2L)
 
-
-/* extern long lseek(); */
-
-extern char *_ismalloc(), *_isrealloc(), *_isallocstring();
-extern void _isfree(), _isfreestring();
-extern void _isfatal_error(), _setiserrno2(), _seterr_errcode();
-extern void _makedat_isfname();
-extern void _makeind_isfname();
-extern void _makevar_isfname();
-extern void _amseterrcode();
-
-extern void _isseekpg(), _isreadpg(), _iswritepg();
-
-extern Bufhdr *_isdisk_fix(), *_isdisk_refix();
-extern void _isdisk_commit(), _isdisk_sync(), _isdisk_inval(), 
-    _isdisk_commit1(), _isdisk_unfix();
-extern void _isdisk_rollback();
-extern void _cp_tofile(), _cp_fromfile();
-Blkno  _extend_file();
-
-extern void _isdln_base_insert(), _isdln_base_remove(), _isdln_base_append(), 
-    _isdln_base_makeempty();
-extern struct dlink *_isdln_base_prev(), *_isdln_base_next(), *_isdln_base_first();
-
-extern void _mngfcb_insert(), _mngfcb_delete();
-extern Fcb *_mngfcb_find();
-extern Bytearray *_mngfcb_victim();
-extern char *_getisfname();
-extern Bytearray _makeisfhandle();
-
-extern Bytearray _makeisfhandle();
-extern Fcb *_openfcb();
-
-extern Time _amtime_set(), _amtime_get();
-
-extern void _islock_closefile(), _islock_unlockfile();
-
-extern Keydesc2 *_isfcb_findkey(), *_isfcb_indfindkey();
-extern void stkey(), ldkey();
-
-extern Issort *_issort_create();
-extern char *_issort_read();
-extern void _issort_destroy(), _issort_insert(), _issort_sort(), 
-    _issort_rewind();
-
-extern void _iskeycmp_set();
-extern int _iskeycmp();
-
-extern char *_isbsearch();
-
-extern void _iskey_extract();
-extern Blkno _isindfreel_alloc();
-extern void _isindfreel_free();
-extern long _fl_getpos();
-
-extern Btree *_isbtree_create();
-extern void _isbtree_destroy(), _isbtree_search(), _isbtree_insert(),
-    _isbtree_remove();
-extern char *_isbtree_current(), *_isbtree_next();
-
-extern void _iskey_fillmin(), _iskey_fillmax();
-
-extern Bufhdr *_allockpage();
-
-extern void _del1key();
-extern int _add1key(), _change1key();
-extern void _delkeys();
-extern char *_ismap_getaddr();
-extern void _ismap_endop(), _ismap_unmapfcb();
-
-extern void _isam_entryhook(), _isam_exithook();
+/*------------ Prototype definitions ---------------------------------------*/
+#include "isam_prototypes.h"
 
 #define stshort(n,p) stint((n), (p))
 #define ldshort(p) ldint(p)
@@ -555,10 +478,6 @@ extern void _isam_entryhook(), _isam_exithook();
 #define stblkno(n,p) stlong((long)(n), (p))
 #define ldblkno(p) ((Blkno)ldlong(p))
 
-extern int _flrec_read(), _flrec_write(), _flrec_rewrite(), _flrec_delete(),
-    _flrec_wrrec();
-extern int _vlrec_read(), _vlrec_write(), _vlrec_rewrite(), _vlrec_delete(),
-    _vlrec_wrrec();
 
 /*------------ UNIX file formats ---------------------------------------------*/
 

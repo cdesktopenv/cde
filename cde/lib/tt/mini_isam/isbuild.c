@@ -38,14 +38,19 @@
 
 
 #include "isam_impl.h"
+#include <unistd.h>
 #include <netdb.h>
 #include <sys/file.h>
 #include <sys/time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
-extern char _isam_version[];
-static char *_version_ = _isam_version;
-
-static int _ambuild();
+static int
+_ambuild(char *isfname, enum openmode openmode, Bool varflag,
+         int minlen, int maxlen, struct keydesc *primkey,
+         int owner, int group, int umask,
+         Bytearray *isfhandle, Bytearray *curpos,
+         struct errcode *errcode);
 
 /*
  * isfd = isbuild(isfname, recordlength, primkey, mode)

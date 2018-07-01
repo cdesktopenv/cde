@@ -33,7 +33,7 @@
  * isdatconv.c
  *
  * Description:
- *      Conversion function between machine dependent and the X/OPEN 
+ *      Conversion function between machine dependent and the X/OPEN
  *	machine	independent formats.
  *
  * Some pieces of code may not be very "structured", but they result in
@@ -49,7 +49,7 @@
 
 /* ldlong() - Load a long integer from a potentially  unaligned address */
 
-long 
+long
 ldlong(char *p)
 {
     int i;
@@ -60,9 +60,9 @@ ldlong(char *p)
 #endif
 
     val = 0;
-    for (i=0; i<LONGSIZE ; i++)  
+    for (i=0; i<LONGSIZE ; i++)
         val = (val << 8) + *((unsigned char *)p++);
-    
+
     return ((long)val);
 }
 
@@ -154,11 +154,11 @@ stchar(char *src, char *dst, int len)
 
     /* Copy up to NULL character. */
     do {
-	if ((c = *src++) == '\0') 
+	if ((c = *src++) == '\0')
 	    break;
 	*dst++ = c;
     } while (--len > 0);
-    
+
     /* Pad with blanks. */
     if (len > 0)
 	(void) memset((void *) dst, BLANK, len);
@@ -166,36 +166,35 @@ stchar(char *src, char *dst, int len)
 }
 
 /* ldchar2() - Load character field (C style, NULL padded) */
- 
+
 int
 ldchar2(char *src, int len, char *dst)
 {
-    char       *p;
- 
+
     if (len <= 0)
         return 0;
- 
+
     /* Load the entire string. */
     memcpy((void *) dst, (const void *) src, len);
     *(dst + len) = '\0';
     return 0;
 }
- 
+
 int
 stchar2(char *src, char *dst, int len)
 {
     char       c;
- 
+
     if (len <= 0)
         return 0;
- 
+
     /* Copy up to a NULL character. */
     do {
         if ((c = *src++) == '\0')
             break;
         *dst++ = c;
     } while (--len > 0);
-    
+
     /* Pad with NULLs. */
     if (len > 0)
         memset(dst, 0, len);
@@ -285,7 +284,7 @@ lddbl(char *p)
 
     q  =  x.sval;
     p +=  DOUBLESIZE;
-   
+
     for (i=0; i<DOUBLESIZE; i++)
     	*q++ = *--p;
     return (x.rval);
@@ -307,7 +306,7 @@ stdbl(double val, char *p)
     x.rval = val;
     q  =  x.sval;
     p +=  DOUBLESIZE;
-   
+
     for (i=0; i<DOUBLESIZE; i++)
     	*--p = *q++ ;
 
@@ -316,5 +315,3 @@ stdbl(double val, char *p)
 
 
 #endif    /* sparc */
-
-

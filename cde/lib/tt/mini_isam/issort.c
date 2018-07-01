@@ -49,7 +49,7 @@ extern char *_isunix_malloc();
  */
 
 Issort *
-_issort_create(int reclen, int nrecs, int (*compfunc)())
+_issort_create(int reclen, int nrecs, int (*compfunc)(char *, char *))
 {	
     Issort	*p;
 
@@ -60,7 +60,7 @@ _issort_create(int reclen, int nrecs, int (*compfunc)())
     p->ist_allocrecs = nrecs;		     /* Maximum number of records */
 					     /* that can inserted */
     p->ist_nrecs = 0;			     /* Current number of records */
-    p->ist_currec;			     /* Current position */
+    p->ist_currec = 0;			     /* Current position */
     p->ist_compf = compfunc;		     /* Comparison function */
 
     p->ist_array = _ismalloc((unsigned)(reclen * nrecs)); /* Allocate array */

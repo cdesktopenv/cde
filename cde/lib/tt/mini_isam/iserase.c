@@ -38,6 +38,7 @@
 
 
 #include "isam_impl.h"
+#include <unistd.h>
 #include <sys/time.h>
 
 static void _unlink_datfile(), _unlink_indfile(), _unlink_varfile();
@@ -62,10 +63,10 @@ static int _amerase();
  */
 
 int 
-iserase(char isfname)
+iserase(char *isfname)
 {
-    Isfd		isfd, isfd_nfs;
-    Fab			*fab, *fab_nfs;
+    Isfd		isfd;
+    Fab			*fab;
 
     /*
      * Open the file

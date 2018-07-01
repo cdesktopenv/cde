@@ -42,6 +42,7 @@
  */
 
 #include "isam_impl.h"
+#include <unistd.h>
 #include <sys/file.h>
 #include <sys/time.h>
 
