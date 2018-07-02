@@ -711,7 +711,7 @@ _DtPerfChkpntMsgSend("End   Front panel database read");
 
    /*  Continue the elimination of unused records  */
 
-   name_list = (char **) XtMalloc (sizeof (char **) * 2);
+   name_list = (char **) XtMalloc (sizeof (char *) * 2);
    if (switch_count != 0)
       name_list[0] = switch1->element_values[SWITCH_NAME].parsed_value;
    else
