@@ -237,9 +237,12 @@ LLIST          *cutnode_llist (LLIST * node, LLIST ** llistp)
  */
 static LLIST   *split_llist (LLIST * lst)
 {
-    LLIST          *tail = lst->link;
-    if (lst == NULL || tail == NULL)
+    LLIST          *tail;
+    if (lst == NULL || lst->link)
 	return lst;
+
+    tail = lst->link;
+
     /* advance 'tail' to end of list, and advance 'lst' only half as often */
     while ((tail != NULL) && ((tail = tail->link) != NULL)) {
 	lst = lst->link;
