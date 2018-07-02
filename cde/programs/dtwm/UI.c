@@ -2075,7 +2075,7 @@ SwitchCreate (BoxData * box_data)
    panel.switch_row_count =
       (int) (intptr_t) (switch_data->element_values[SWITCH_NUMBER_OF_ROWS].parsed_value);
    switch_data->buttons = 
-      (Widget *) XtMalloc (sizeof (Widget *) * switch_count);
+      (Widget *) XtMalloc (sizeof (Widget) * switch_count);
 
    switch_data->popup_data = NULL;
 
