@@ -655,7 +655,7 @@ SessionAddFileData (char  * file_name,
        panel.max_dynamic_data_count += 10;
        panel.dynamic_data_list = (DynamicComponent **)
           XtRealloc ((char *) panel.dynamic_data_list,
-             sizeof (DynamicComponent **) * panel.max_dynamic_data_count);
+             sizeof (DynamicComponent *) * panel.max_dynamic_data_count);
    }
 
    panel.dynamic_data_list[count] = 
