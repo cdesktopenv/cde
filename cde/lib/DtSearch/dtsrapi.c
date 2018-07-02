@@ -826,7 +826,7 @@ int             DtSearchHighlight (
 	usrblk.stemcount = stemcount;
 	cptr = stems;
 	for (i = 0; i < stemcount; i++) {
-	    strcpy (usrblk.stems[i], cptr);
+	    snprintf(usrblk.stems[i], sizeof(usrblk.stems[i]), "%s", cptr);
 	    cptr += DtSrMAXWIDTH_HWORD;
 	}
     }
