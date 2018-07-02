@@ -282,8 +282,7 @@ int             ve_initialize (void)
          */
 	if (db->dbrec.or_fzkeysz > 0) {
 	    /* build complete path-file name */
-	    strcpy (d9x_fname, db->path);
-	    strcat (d9x_fname, db->name);
+	    snprintf(d9x_fname, sizeof(d9x_fname), "%s%s", db->path, db->name);
 	    d9x_fext = d9x_fname + strlen (d9x_fname);
 	    strcpy (d9x_fext, ".d97");
 	    if (debugging)
