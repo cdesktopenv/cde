@@ -181,8 +181,7 @@ void ll_free(llist *ll)
       if ( curr->ptr == NULL )
 	 break;
       bytecpy(&next, &curr->ptr->next, sizeof(LL_P));
-      if ( curr != NULL )
-	 d_free((CHAR_P *)curr);
+      d_free((CHAR_P *)curr);
       bytecpy(&free, &next, sizeof(LL_P));
       curr = &free;
    }
