@@ -1055,7 +1055,8 @@ OCFOPEN_OK:
 	/* parse KEYWORD */
 	if ((token = _XStrtok(inbuf, DELIMITERS, strtok_buf)) == NULL)
 	    continue;
-	strcpy (uprtoken, token);
+	
+	snprintf(uprtoken, sizeof(uprtoken), "%s", token);
 	strupr (uprtoken);
 
 	if (strcmp (uprtoken, "PATH") == 0) {
