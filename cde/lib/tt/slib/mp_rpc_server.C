@@ -158,9 +158,32 @@ init(void (*service_fn)(struct svc_req *, SVCXPRT *))
 		_tt_syslog(0, LOG_ERR, "setsockopt(SO_SNDBUF): %m");
 	}
 	_transp = svctcp_create(_socket, buffersize, buffersize);
+
 	if (_transp == (SVCXPRT *)0) {
 		return(0);
 	}
+
+#if defined(OPT_TIRPC)
+        /* JET: HACK WARNING 7/1/18
+         *
+         * With earlier versions of RPC and TIRPC it seems that
+         * svctcp_create() calles listen() on the socket (as seen by
+         * debugger and strace).  This is the expected behavior in TT.
+         *
+         * However, with newer systems (ArchLinux 5/18+ and similar
+         * bleeding edge versions of SuSE's equivalent: Tumbleweed),
+         * this behavior seems to have changed.
+         *
+         * ttsession goes into an infinite loop trying to accept() a
+         * connection in the TIRPC library.  It appears listen() is no
+         * longer called on the socket via svctcp_create().  The hack
+         * below, always causes listen() to be called on the socket.
+         * We do not care if it fails, or is called twice on the same
+         * socket.
+         */
+        listen(_socket, 5);
+#endif
+
 	if (   !svc_register(_transp, _program, _version,
 			     (SERVICE_FN_TYPE)service_fn, IPPROTO_TCP)
 	    || !svc_register(_transp, _program, 1,
