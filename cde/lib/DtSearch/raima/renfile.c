@@ -110,7 +110,7 @@ renfiles(void)
 		  ll_deaccess(&ren_list);
 		  return( dberr(S_RENAME) );
 	       }
-	       strcpy(file_table[NUM2INT(rp->ptr->file_no, ft_offset)].ft_name,
+	       snprintf(file_table[NUM2INT(rp->ptr->file_no, ft_offset)].ft_name, FILENMLEN, "%s",
 		      rp->ptr->File_name.ptr);
 	       break;
 	    }
