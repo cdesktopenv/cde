@@ -521,7 +521,7 @@ WmFrontPanelSessionSaveData (void)
 		  max_subpanel_count += 10;
 		  subpanel_data = (SubpanelData **)
 		    XtRealloc ((char *) subpanel_data, 
-		               sizeof (SubpanelData **) * max_subpanel_count);
+		               sizeof (SubpanelData *) * max_subpanel_count);
 	       }
 
 	       subpanel_data[subpanel_count] = control_data->subpanel_data;
