@@ -576,7 +576,7 @@ DB_ADDR *dba  /* to get dba of first or last key */
 {
    F_ADDR pg;         /* node number */
    NODE *node;        /* pointer to node contents in cache */
-   int cmp;           /* keycmp result */
+   int cmp = 0;       /* keycmp result */
    int match_lvl;     /* lowest level containing matched key */
    int lvl;  /* node_path level variable */
    int slot; /* slot position in node */
