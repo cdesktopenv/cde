@@ -203,7 +203,7 @@ static char	*language_name (DtSrINT16 langno)
 		"French",		/*  3 = DtSrLaFRA */
 		"Italian",		/*  4 = DtSrLaITA */
 		"German",		/*  5 = DtSrLaDEU */
-		"Japanese-comp"		/*  6 = DtSrLaJPN */
+		"Japanese-comp",	/*  6 = DtSrLaJPN */
 		"Japanese-.knj"		/*  7 = DtSrLaJPN2 */
 		};
 
