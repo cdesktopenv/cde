@@ -889,6 +889,7 @@ GOT_FULLNAME:
 	    "%s Status unavailable for configuration file '%s': %s"),
 	    PROGNAME"1404", fullname, strerror(errno));
 	DtSearchAddMessage (sprintbufp);
+	fclose(fptr);
 	return FALSE;
     }
     OE_sitecnfg_mtime = statbuf.st_mtime;
