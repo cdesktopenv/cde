@@ -310,7 +310,7 @@ SessionRestoreData (void)
 
       if (panel.dynamic_data_count > 0) {
 	panel.dynamic_data_list = (DynamicComponent **)
-	  XtMalloc (sizeof (DynamicComponent **) * panel.max_dynamic_data_count);
+	  XtMalloc (sizeof (DynamicComponent *) * panel.max_dynamic_data_count);
       }
 
       dynamic_data_count = 0;
