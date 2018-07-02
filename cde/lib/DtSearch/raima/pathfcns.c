@@ -212,7 +212,7 @@ int num			/* Element to extract (0 = first) */
 
    if (dbxpath == NULL) return (NULL);
    if (dbxpath[0] == '\0') return (NULL);	/* NULL string? */
-   strcpy(element,dbxpath);
+   snprintf(element, sizeof(element), "%s", dbxpath);
 
    /* If there is only one element, always return that */
    if (strchr(element,';') == NULL) {
