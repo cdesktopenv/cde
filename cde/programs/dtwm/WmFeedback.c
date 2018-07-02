@@ -382,7 +382,7 @@ void ShowFeedbackWindow (WmScreenData *pSD, int x, int y, unsigned int width, un
      * Make the feedback window visible (map it)
      */
 
-    if (pSD->feedbackWin)
+    if (pSD && pSD->feedbackWin)
     {
 	/* Make sure the feedback window doesn't get buried */
 	XRaiseWindow(DISPLAY, pSD->feedbackWin);
@@ -422,13 +422,13 @@ void PaintFeedbackWindow (WmScreenData *pSD)
 	/* 
 	 * draw beveling 
 	 */
-	if (pSD->fbTop->used > 0) 
+	if (pSD->fbTop && pSD->fbTop->used > 0) 
 	{
 	    XFillRectangles (DISPLAY, pSD->feedbackWin, 
 			     pSD->feedbackAppearance.inactiveTopShadowGC,
 			     pSD->fbTop->prect, pSD->fbTop->used);
 	}
-	if (pSD->fbBottom->used > 0) 
+	if (pSD->fbBottom && pSD->fbBottom->used > 0) 
 	{
 	    XFillRectangles (DISPLAY, pSD->feedbackWin, 
 			     pSD->feedbackAppearance.inactiveBottomShadowGC,
