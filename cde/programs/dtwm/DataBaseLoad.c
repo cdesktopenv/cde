@@ -1950,7 +1950,7 @@ GetNameList (RecordData * record_data,
             name_list_count += 10;
 	    name_list = 
 	       (char **) XtRealloc ((char *) name_list, 
-                                   sizeof (char **) * (name_list_count + 1));
+                                   sizeof (char *) * (name_list_count + 1));
 	 }	 
          name_list [found_count] = 
 	    record_data[i].element_values[name_type].parsed_value;
