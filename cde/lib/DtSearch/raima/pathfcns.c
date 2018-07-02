@@ -294,7 +294,7 @@ char *path_str		/* Path to remove filename from */
    /* There is only a filename if string does not contain a DIRCHAR or
       ':' which separates drive spec from path. */
    if (path_str == NULL) return (NULL);
-   strcpy(dirpath,path_str);		/* Copy into output string */
+   snprintf(dirpath, sizeof(dirpath), "%s", path_str); /* Copy into output string */
    if ((path_str = strrchr(dirpath,DIRCHAR)) == NULL)
       if ((path_str = strrchr(dirpath,':')) == NULL) return (NULL);
    path_str[1] = '\0';			/* Truncate string */
