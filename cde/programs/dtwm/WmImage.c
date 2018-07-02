@@ -989,8 +989,7 @@ char *BitmapPathName (char *string)
      * Handle "~/.." 
      */
     {
-	strcpy (fileName, homeDir);
-        strncat (fileName, &(string[1]), MAXWMPATH - strlen (fileName));
+	snprintf(fileName, MAXWMPATH, "%s%s", homeDir, &(string[1]));
 	return (fileName);
     }
 
