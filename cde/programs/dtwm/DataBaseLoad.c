@@ -1300,7 +1300,7 @@ AllocateRecordData (RecordData ** record_data,
       *record_data_count += 10;
       *record_data = (RecordData *) 
                        XtRealloc ((char *) *record_data, 
-                                  sizeof (RecordData *) * (*record_data_count));
+                                  sizeof (RecordData) * (*record_data_count));
    }
 
    (*record_data)[*record_count].element_values = 
