@@ -164,7 +164,7 @@ const char *f2    /* pointer to field 2 */
 */
 {
    int kt_lc;			/* loop control */
-   int i, k, elt, result, len, cur_len, sub_len, entries;
+   int i, k, elt, result = 0, len, cur_len, sub_len, entries;
 #ifdef DS
    int ui1, ui2;
    long ul1, ul2;
