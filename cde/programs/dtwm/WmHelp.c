@@ -640,7 +640,7 @@ static void WmDtCloseHelpCB (
     pTemp = pSD->cachedHelp;
 
     /* Search our Cache List for the closed help dialog */
-    while ((pTemp->helpDialog != helpDialog) && (pTemp != NULL))
+    while (pTemp && (pTemp->helpDialog != helpDialog))
     {
 	pTemp = pTemp->pNext;
     }
