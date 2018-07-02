@@ -4482,11 +4482,18 @@ MakeAppearanceResources (WmScreenData *pSD, AppearanceData *pAData, Boolean make
 
     if (! XmeRenderTableGetDefaultFont(pAData->fontList, &(pAData->font)))
     {
-	sprintf((char *)wmGD.tmpBuffer, ((char *)GETMESSAGE(62, 23, "failed to load font: %.100s\0")), (char*) pAData->fontList);
-	Warning((char *)wmGD.tmpBuffer);
+#if 0
+        /* This always prints garbage on failure, which seems to
+         * always happen at least 1-3 times on startup.
+         */
+	sprintf((char *)wmGD.tmpBuffer,
+                ((char *)GETMESSAGE(62, 23, "failed to load font: %.100s\0")), (char*) pAData->fontList);
+#endif
+	Warning("XmeRenderTableGetDefaultFont() failed, trying a fixed font");
+
 #if defined(CSRG_BASED) || defined(__linux__)
-	/* HACK to try get _some_ font anyway (fontList seems to end up as an empty list on
-	 * some modern systems; investigate) */
+	/* HACK to try get _some_ font anyway (fontList seems to end
+	 * up as an empty list on some modern systems; investigate) */
 	pAData->font = XLoadQueryFont(wmGD.display, "fixed");
 	if (pAData->font == NULL)
 	{
