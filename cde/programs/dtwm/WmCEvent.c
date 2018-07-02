@@ -926,8 +926,7 @@ Boolean HandleCButtonPress (ClientData *pCD, XButtonEvent *buttonEvent)
 		ProcessClickBPress (buttonEvent, pCD, context, subContext);
 	    }
 
-	    if (CheckForButtonAction (buttonEvent, context, subContext, pCD) 
-		&& pCD)
+	    if (CheckForButtonAction (buttonEvent, context, subContext, pCD))
 	    {
 		/*
 		 * Button bindings have been processed, now check for bindings
