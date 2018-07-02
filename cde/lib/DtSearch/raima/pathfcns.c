@@ -182,8 +182,7 @@ char *dbfpath	/* one element from DBFPATH, or NULL for no path */
    }
    if (strlen(path_str) + strlen(dbfpath) >= FILENMLEN)
       return (db_status = S_NAMELEN);
-   strcpy(filespec,dbfpath);
-   strcat(filespec,remdrv(path_str));
+   snprintf(filespec, sizeof(filespec), "%s%s", dbfpath, remdrv(path_str));
    strcpy(path_str,filespec);
    return (db_status = S_OKAY);
 
