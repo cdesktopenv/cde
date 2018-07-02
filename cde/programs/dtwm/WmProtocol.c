@@ -127,7 +127,7 @@ void SetupWmICCC (void)
 	   _XA_MOTIF_WM_ALL_CLIENTS, 
 # else
 	   "_MOTIF_WM_CLIENT_WINDOW", "_MOTIF_WM_POINTER_WINDOW",
-	   "_MOTIF_WM_ALL_CLIENTS"
+	   "_MOTIF_WM_ALL_CLIENTS",
 # endif
 #endif
 	   "COMPOUND_TEXT"
