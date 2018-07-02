@@ -617,7 +617,7 @@ WorkspaceModifyCB (Widget    w,
 	 
          switch_data->buttons =
             (Widget *) XtRealloc ((char *) switch_data->buttons,
-                                 sizeof (Widget *) * switch_data->switch_count);
+                                 sizeof (Widget) * switch_data->switch_count);
 
          SwitchButtonCreate (switch_data, True);
 
