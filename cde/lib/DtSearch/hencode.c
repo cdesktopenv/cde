@@ -138,7 +138,7 @@ void            gen_vec (char *fname_huffcode_tab)
 		continue;
 
 	    /* current character has LITERAL CODE */
-	    strcpy (temp, huff_code[LITERAL_NUM]);
+	    snprintf(temp, sizeof(temp), "%s", huff_code[LITERAL_NUM]);
 	    *(code_length + i) = *(code_length + LITERAL_NUM) + 8;
 	    ch = (unsigned char) i;
 	    for (j = 0; j < 8; j++) {
