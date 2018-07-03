@@ -851,9 +851,10 @@ selectPaletteCB(
 	selected_position = cb->item_position;
 
 	tmp_palette = pHeadPalette;
-	while( tmp_palette->item_position != selected_position &&
-						  tmp_palette != NULL)
+	while( tmp_palette != NULL &&
+	       tmp_palette->item_position != selected_position ) {
 	     tmp_palette = tmp_palette->next;
+	}
 
 	if(tmp_palette->item_position == selected_position)
 	{
