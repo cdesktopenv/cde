@@ -239,7 +239,7 @@ GetUserIMSelectionFile(
 )
 {
     int         ret = NoError;
-    FILE	*fp;
+    FILE	*fp = NULL;
 
     ret = GetUserFileName(env);
     
@@ -253,7 +253,11 @@ GetUserIMSelectionFile(
 
     start_tag_line(env->file_sel->fname);
     ret = ReadImSelectionFile(env->file_sel, fp);
-    
+
+    if(fp) {
+        fclose(fp);
+    }
+
     return ret;
 }
 
