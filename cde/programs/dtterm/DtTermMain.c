@@ -998,7 +998,7 @@ FixOSFBindings
     }
 
     if (!origDisplayBindings) {
-        if (ignoredKeysymList) XtFree((char *)ignoredKeysymList);
+        XtFree((char *)ignoredKeysymList);
 	return;
     }
 
