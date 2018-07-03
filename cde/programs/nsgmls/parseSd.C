@@ -223,6 +223,7 @@ void Parser::doInit()
     if (!setStandardSyntax(*syntaxp, refSyntax, sd().docCharset(),
 			   switcher)) {
       giveUp();
+      delete syntaxp;
       return;
     }
     syntaxp->implySgmlChar(sd().docCharset());
