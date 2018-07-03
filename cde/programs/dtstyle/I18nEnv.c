@@ -465,7 +465,7 @@ ReadPipe (
 	
     nbytes = read (*fd, buf, 512);
 
-    if (nbytes) {
+    if (nbytes > 0) {
 	savebuf = XtRealloc(savebuf, savebuf_bytes + nbytes);
 	memcpy(savebuf+savebuf_bytes, buf, nbytes);
 	savebuf_bytes += nbytes ;
