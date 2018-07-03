@@ -2292,8 +2292,8 @@ SaveSession( void )
     if ((fd = creat(path, S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP)) == -1)
     {
         tmpStr = GETSTR(16,24, "Couldn't save session to file");
-        tmpStr2 = (char *)XtMalloc(strlen(tmpStr) + strlen(path)+ 3);
-        snprintf(tmpStr2, strlen(tmpStr) + strlen(path) + 3, "%s: %s\n", tmpStr, path);
+        tmpStr2 = (char *)XtMalloc(strlen(tmpStr) + strlen(path) + 4); /* +4 = ':', ' ', '\n' and '\0' */
+        snprintf(tmpStr2, strlen(tmpStr) + strlen(path) + 4, "%s: %s\n", tmpStr, path);
         _DtSimpleErrnoError(progName, DtError, NULL, tmpStr2, NULL);
         XtFree(tmpStr2);
         XtFree ((char *)path);
