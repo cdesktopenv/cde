@@ -2245,7 +2245,7 @@ void
   int      i;
    char     temp[XmCO_MAX_NUM_COLORS][60];
    char     xrdb_string[100];
-   XColor   saved_color[2];
+   XColor   saved_color[2] = { { 0, 0, 0 }, { 0, 0, 0 } };
    
    for(i = 0; i < XmCO_MAX_NUM_COLORS; i++)
      {
