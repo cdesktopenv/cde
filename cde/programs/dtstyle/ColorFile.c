@@ -248,7 +248,9 @@ ReadPalette(
 
     /* load the filename into the name element */
       p = strstr (in_filename, PALETTE_SUFFIX);
-      *p = '\0';
+      if(p) {
+          *p = '\0';
+      }
       strcpy(new_palette->name, in_filename);
 
 /* 
