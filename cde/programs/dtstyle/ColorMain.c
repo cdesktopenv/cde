@@ -1993,9 +1993,10 @@ DeletePaletteFromLinkList(
 
 
     selected_palette = pHeadPalette;
-    while( selected_palette->item_position != selected_position &&
-					      selected_palette != NULL)
+    while( selected_palette != NULL
+           && selected_palette->item_position != selected_position ) {
 	 selected_palette = selected_palette->next;
+    }
 
     XmListDeletePos (list, selected_palette->item_position);
 
