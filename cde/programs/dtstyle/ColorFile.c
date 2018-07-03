@@ -1112,7 +1112,7 @@ CheckFileType( void )
 {
    char *filename1 = "abcdefghijklmno";
    char *filename2 = "abcdefghijklmn";
-   int  fd, fd1;
+   int  fd = -1, fd1 = -1;
    char *tmpfile1, *tmpfile2;
  
   /* get the $HOME environment varible and constuct the full file name */
@@ -1162,7 +1162,9 @@ CheckFileType( void )
    XtFree(tmpfile1);
    XtFree(tmpfile2);
    close(fd);
-   close(fd1);
+   if(fd1 != -1) {
+      close(fd1);
+   }
    
 }
 
