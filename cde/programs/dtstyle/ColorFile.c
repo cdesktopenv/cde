@@ -526,7 +526,10 @@ WriteOutDesc(
    if (hm_pl_DB )
      XrmPutFileDatabase(hm_pl_DB, desc_file);
    /* make the file read, write */
-   chmod(desc_file,438);
+   if(chmod(desc_file,438) == -1) {
+      fprintf(stderr, "failed to chmod '%s', %s\n", desc_file, strerror(errno));
+   }
+
    XtFree(desc_file);
    XtFree(desc_name);
 
