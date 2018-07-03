@@ -570,11 +570,9 @@ malloc_trace(0);
 
     _DtWsmSetBackdropSearchPath(style.screen, dirs, style.useMultiColorIcons);
 
-    if (string != NULL)
-      XtFree((char *)string);
+    XtFree((char *)string);
     
-    if (dirs != NULL)
-      XtFree((char *)dirs); 
+    XtFree((char *)dirs);
     
     
 
