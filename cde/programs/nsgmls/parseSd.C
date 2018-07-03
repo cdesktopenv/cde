@@ -276,8 +276,10 @@ Boolean Parser::implySgmlDecl()
   else
     spec = &coreSyntax;
   CharSwitcher switcher;
-  if (!setStandardSyntax(*syntaxp, *spec, sd().docCharset(), switcher))
+  if (!setStandardSyntax(*syntaxp, *spec, sd().docCharset(), switcher)) {
+    delete syntaxp;
     return 0;
+  }
   syntaxp->implySgmlChar(sd().docCharset());
   for (int i = 0; i < Syntax::nQuantity; i++)
     syntaxp->setQuantity(i, options().quantity[i]);
