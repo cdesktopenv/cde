@@ -2342,6 +2342,7 @@ SaveSession( void )
 	fprintf(stderr, "write() to session failed\n");
         XtFree ((char *)path);
         XtFree ((char *)name);
+        close(fd);
         return;    
     }
 
