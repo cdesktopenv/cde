@@ -1876,4 +1876,8 @@ dtpadXIOErrorHandler(
 
     fprintf(stderr, "X IO Error");
     PanicSave();
+
+    /* Man page for XSetIOErrorhandler says this is a fatal error and
+     * should not return */
+    exit(EXIT_FAILURE);
 }
