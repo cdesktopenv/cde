@@ -212,7 +212,7 @@ prompt_for_insert(Props *p) {
 		prompt_for_line(
 			catgets(DT_catd, 1, 199, "End (%s): "), "None", cm_end);
 
-	strcpy(cm_repeatstr, catgets(DT_catd, 1, 200, "One Time"));
+	snprintf(cm_repeatstr, sizeof(cm_repeatstr), "%s", catgets(DT_catd, 1, 200, "One Time"));
 
 	prompt_for_line(catgets(DT_catd, 1, 201, 
 			"Repeat (%s): "), cm_repeatstr, cm_repeatstr);
