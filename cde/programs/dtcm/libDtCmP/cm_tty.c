@@ -1633,9 +1633,10 @@ parse_appt_from_file(nl_catd catd, char *file, CmDataList *list, Props *p,
 		valid_op = validate_appt(catd, appt, s_buf, e_buf, d_buf, dur, 
 					 w_buf, r_buf, f_buf, query, key_data, 
 					 version);
-		if (w_buf)
-			free(w_buf);
 	}
+
+	free(w_buf);
+
 
 	scrub_attr_list(appt);
 
