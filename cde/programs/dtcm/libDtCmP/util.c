@@ -872,8 +872,11 @@ same_user(char *user1, char *user2)
 	str1 = get_head(user1, '@');
 	str2 = get_head(user2, '@');
 
-	if (str1 == NULL || str2 == NULL)
+	if (str1 == NULL || str2 == NULL) {
+		free(str1);
+		free(str2); /* Handle if only one alloc success */
 		return(B_FALSE);
+	}
 
 	if (strcmp(str1, str2)) {
 		free(str1);
