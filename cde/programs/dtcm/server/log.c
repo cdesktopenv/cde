@@ -651,6 +651,7 @@ _DtCmsTruncateFile(char *calendar, int size)
 		if(-1 == ftruncate(f, size)) {
 			perror(strerror(errno));
 		}
+		close(f);
         }
 
 	free(log);
