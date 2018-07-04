@@ -1520,7 +1520,7 @@ _DtHelpCeTraceFilenamePath (char *file_path)
 	    /*
 	     * copy the new path and free the allocated copy
 	     */
-	    strcpy (newName, newPath);
+	    snprintf(newName, sizeof(newName), "%s", newPath);
 	    free (newPath);
 	  }
 
