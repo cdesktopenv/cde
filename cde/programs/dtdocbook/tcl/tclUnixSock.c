@@ -77,9 +77,9 @@ Tcl_GetHostName(void)
     if (uname(&u) > -1) {
         hp = gethostbyname(u.nodename);
         if (hp != NULL) {
-            strcpy(hostname, hp->h_name);
+            snprintf(hostname, sizeof(hostname), "%s", hp->h_name);
         } else {
-            strcpy(hostname, u.nodename);
+            snprintf(hostname, sizeof(hostname), "%s", u.nodename);
         }
         hostnameInited = 1;
         return hostname;
