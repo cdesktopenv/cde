@@ -2096,8 +2096,10 @@ appointments_to_file(CSA_session_handle target, CSA_entry_handle *appointment_li
 	if (f_ptr == NULL)
 		return(B_FALSE);
 
-	if (num_appts == 0)
+	if (num_appts == 0) {
+		fclose(f_ptr);
 		return(B_FALSE);
+	}
 
 	fprintf(f_ptr, "DTCM Archive 1.0\n");
 	for (i = 0; i < num_appts; i++) {
