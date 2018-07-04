@@ -237,8 +237,7 @@ static int ScanDirForFiles(
     if (pDir == NULL) return 0;                        /* RETURN */
 
     /* build the pathname */
-    strcpy (fullName, dirpath);
-    strcat (fullName, DirSlashStr);
+    snprintf(fullName, sizeof(fullName), "%s%s", dirpath, DirSlashStr);
     ptr = fullName + strlen (fullName);
 
     /*
