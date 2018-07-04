@@ -1982,10 +1982,13 @@ add_to_todo_list(CSA_entry_handle entry, ToDo *t) {
 	if (lines && lines->s) {
 		buf = (char *)ckalloc(cm_strlen(lines->s) + 1);
 		strcpy(buf, lines->s);
-		destroy_lines(lines);
 	} else {
 		buf = (char *)ckalloc(1);
 		buf[0] = '\0';
+	}
+
+	if(lines) {
+		destroy_lines(lines);
 	}
 
 	str = XmStringCreateLocalized(buf);
