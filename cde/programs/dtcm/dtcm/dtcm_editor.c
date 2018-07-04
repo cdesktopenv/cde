@@ -564,6 +564,7 @@ de_apply_proc(Widget w, XtPointer client_data, XtPointer data) {
 	Dtcm_appointment	*appt;
 	int			old_attr_count;
 	Display			*dpy = XtDisplayOfObject(w);
+	char			*attrstring = NULL;
 
 	appt = allocate_appt_struct(appt_write, 
 				    	DATAVER_ARCHIVE,
@@ -580,7 +581,9 @@ de_apply_proc(Widget w, XtPointer client_data, XtPointer data) {
 
 	old_attr_count = appt->count;
 	merge_old_values(de->orig_appt, appt);
-	str = parse_attrs_to_string(appt, de->p, attrs_to_string(appt->attrs, appt->count));
+	attrstring = attrs_to_string(appt->attrs, appt->count);
+	str = parse_attrs_to_string(appt, de->p, attrstring);
+	free(attrstring);
 	appt->count = old_attr_count;
 	de->modified = False;
 
