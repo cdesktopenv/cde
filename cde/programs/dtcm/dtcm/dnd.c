@@ -83,13 +83,15 @@ static Boolean
 validate_dropped_appt(char *filename, Calendar *c) {
 	Props			*p = (Props *)c->properties;
 	Props_pu		*pu = (Props_pu *)c->properties_pu;
-	CmDataList		*list = CmDataListCreate();
+	CmDataList		*list = NULL;
 	Validate_op		op;
 	int			i;
 	Dtcm_appointment	*a;
 
 	if (!filename || *filename == '\0')
 		return(False);
+
+	list = CmDataListCreate();
 
 	op = parse_appt_from_file(c->DT_catd, filename, list, p, query_user, 
 				  (void *)c, c->general->version);
