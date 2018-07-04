@@ -548,6 +548,9 @@ fmt_time_what(
         lines = text_to_lines(appt->what->value->item.string_value, 1);
         if (lines != NULL && lines->s != NULL) {
                 (void) cm_strcat(buf, lines->s);
+        }
+
+        if (lines != NULL) {
                 destroy_lines(lines);
         }
 }
