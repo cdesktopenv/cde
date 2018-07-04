@@ -2220,7 +2220,7 @@ open_initial_calendar(
 	Calendar 	*c,
 	CSA_return_code *status)
 {
-	char		buf[MAXNAMELEN], *loc, *user;
+	char		buf[MAXNAMELEN], *loc, *user = NULL;
 	CSA_flags	flags = 0;
 	CSA_extension	cb_ext;
 	CSA_extension	logon_ext;
@@ -2233,6 +2233,7 @@ open_initial_calendar(
 
 	if ((loc = cm_target2location(c->view->current_calendar)) == NULL) {
 		error_noloc(c, c->view->current_calendar);
+		free(user);
 		return False;
 	}
 
