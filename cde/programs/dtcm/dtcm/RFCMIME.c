@@ -266,6 +266,7 @@ getCharSet(char * charset)
 
     if (mimeCS) {
        strcpy(charset, mimeCS);
+       free(mimeCS);
     } else {
            strcpy(charset, "us-ascii");   /* default MIME codeset */
     }
