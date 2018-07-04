@@ -771,16 +771,16 @@ char *DtPrinterIcon::GetPrinterLabel(const char *printer,
 {
    static char buf[200];
 
-   sprintf(buf, "%s_Print", printer);
+   snprintf(buf, sizeof(buf), "%s_Print", printer);
    if (_app_mode != INITIALIZE_PRINTERS && DtActionExists(buf))
     {
       char *label = DtActionLabel(buf);
       if (label)
-         strcpy(buf, label);
+         snprintf(buf, sizeof(buf), "%s", label);
       else
-         strcpy(buf, printer);
+         snprintf(buf, sizeof(buf), "%s", printer);
     }
    else
-      strcpy(buf, printer);
+      snprintf(buf, sizeof(buf), "%s", printer);
    return buf;
 }
