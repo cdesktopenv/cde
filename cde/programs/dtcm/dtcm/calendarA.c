@@ -1853,6 +1853,8 @@ reset_timer(Calendar *c) {
 		_csa_iso8601_to_tick(reminders[0].run_time, &reminder_tick);
 		c->view->next_alarm_id = XtAppAddTimeOut(c->xcontext->app,
 			(max(reminder_tick - now(), 1) * 1000), reminder_driver, c);
+	} else {
+		free(reminders);
 	}
 
 	return stat;
