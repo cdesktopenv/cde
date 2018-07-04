@@ -103,7 +103,7 @@ void DtPrtJobIcon::PrintJobObj(PrintJob *job)
     {
       Name(job->DisplayName());
       BottomString(GetBotString(mainw, Parent(), job));
-      strcpy(job_number, job->AttributeValue((char *)JOB_NUMBER));
+      snprintf(job_number, sizeof(job_number), "%s", job->AttributeValue((char *)JOB_NUMBER));
       if (props)
        {
          props->Visible(false);
