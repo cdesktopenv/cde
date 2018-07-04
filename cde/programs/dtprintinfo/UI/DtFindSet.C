@@ -236,7 +236,8 @@ void DtFindSet::HelpCB(void *data)
 boolean DtFindSet::HandleHelpRequest()
 {
    char old_msg[200];
-   strcpy(old_msg, mainw->status_line->Name());
+
+   snprintf(old_msg, sizeof(old_msg), "%s", mainw->status_line->Name());
    mainw->status_line->Name(MESSAGE(GettingHelpL));
    mainw->WorkingCursor(true);
 
