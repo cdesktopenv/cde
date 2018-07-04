@@ -1213,11 +1213,12 @@ read_new_appt(FILE *fp, Dtcm_appointment **appt, Props *p, int version)
 					  a_name, a_tag, a_value);
 			++attrs_written;
 		}
-
-		free(a_name);
-		free(a_tag);
-		free(a_value);
 	}
+
+	free(a_name);
+	free(a_tag);
+	free(a_value);
+
 
 	avlist->count = attrs_written;
 	set_appt_links(avlist);
