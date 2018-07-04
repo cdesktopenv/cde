@@ -767,7 +767,7 @@ convert_2_tick(char *datestr)
 
 	memset((void *)&tmstr, 0, sizeof(struct tm));
 
-	strcpy(datebuf, datestr);
+	snprintf(datebuf, sizeof(datebuf), "%s", datestr);
 
 	/* get week day */
 	ptr = strtok(datebuf, " ");
