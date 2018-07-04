@@ -1396,7 +1396,7 @@ _DtHelpCeTracePathName (char *path)
 	     * for tacking on after the new link path has been
 	     * dropped into the path.
 	     */
-	    strcpy (tempPath, ptr);
+	    snprintf(tempPath, sizeof(tempPath), "%s", ptr);
 
 	    /*
 	     * is it an absolute path? Simply replace the path
