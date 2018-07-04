@@ -1532,6 +1532,9 @@ rfc1522cpy(char * buf, const char * value)
 		strncat(buf,"=?", 2);
 		strncat(buf,_tmp2_, strlen(_tmp2_));
 		strncat(buf,"?q?", 3);
+
+		free(_tmp1_);
+		free(_tmp2_);
 	    } else if ( !strncasecmp( ret_codeset, "ISO-2022-JP", 11 ) ) {
 	    /*
 	     * According to RFC1468, in the Header Field, we should use
