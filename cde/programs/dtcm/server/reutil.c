@@ -285,7 +285,7 @@ DeriveNewStartTime(
 	Tick		 end_date;
 	Tick		 an_event;
 	int		 num_events;
-	RepeatEventState *res;
+	RepeatEventState *res = NULL;
 
 	/* Count the number of events from the start time to the current time */
 	end_date = old_re->re_end_date;
@@ -308,6 +308,8 @@ DeriveNewStartTime(
 	       (an_event = PrevTick(an_event, 0, new_re, res))) {
 	       ;
 	}
+
+	free(res);
 
 	return an_event;
 }
