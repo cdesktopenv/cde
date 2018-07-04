@@ -941,7 +941,11 @@ nt */
 
 	scrub_attr_list(appt);
  
-        appointment_buf = parse_attrs_to_string(appt, p, attrs_to_string(appt->attrs, appt->count));
+	{
+	    char *attrstring = attrs_to_string(appt->attrs, appt->count);
+	    appointment_buf = parse_attrs_to_string(appt, p, attrstring);
+	    free(attrstring);
+	}
 
 	free_appt_struct(&appt);
 
