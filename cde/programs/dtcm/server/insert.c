@@ -90,7 +90,7 @@ _DtCmsInsertEntry(_DtCmsCalendar *cal, cms_entry *entry)
 	CSA_opaque_data	opq;
 	cms_attribute	*aptr;
 	RepeatEvent	*re = NULL;
-	RepeatEventState *res;
+	RepeatEventState *res = NULL;
 	extern		void _DtCm_rule_parser();
 	uint		count;
 	int		i;
@@ -175,6 +175,9 @@ _DtCmsInsertEntry(_DtCmsCalendar *cal, cms_entry *entry)
 			}
 		}
 	}
+
+	/* Tidy unused variable */
+	free(res);
 
 	if ((stat = _DtCmsCheckStartEndTime(entry)) != CSA_SUCCESS)
 		return (stat);
