@@ -1874,7 +1874,9 @@ TblDoSpanSpec(Element_t * ep,		/* element containing spanspec stuff */
 
 	Calloc(1, tssp, struct tblspanspec);
 
-	if ( cp = FindAttValByName(ep, "SPANNAME") ) strcpy(tssp->name, cp);
+	if ( cp = FindAttValByName(ep, "SPANNAME") ) {
+		snprintf(tssp->name, sizeof(tssp->name), "%s", cp);
+	}
 	tssp->source = source;
 
 	if ( cp = FindAttValByName(ep, "NAMEST") )	{
