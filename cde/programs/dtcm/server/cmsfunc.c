@@ -1320,6 +1320,8 @@ _ListCalendarNames(uint *num_names, char ***names)
 		}
 	}
 
+	closedir(dirp);
+
 	if (num > 0) {
 		*num_names = num;
 		*names = names_r;
