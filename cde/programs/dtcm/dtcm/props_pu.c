@@ -3093,7 +3093,10 @@ set_editor_vals_on_ui(Props_pu *pu, Props *p) {
 	val->selected =	convert_boolean_str(get_char_prop(p, CP_MAILON));
 	val->scope = convert_time_scope_str(get_char_prop(p, CP_MAILUNIT));
 	val->scope_val = get_int_prop(p, CP_MAILADV);
-	strcpy(pu->ep_reminders.mailto_val, get_char_prop(p, CP_MAILTO));
+	snprintf(pu->ep_reminders.mailto_val,
+	         sizeof(pu->ep_reminders.mailto_val),
+	         "%s",
+	         get_char_prop(p, CP_MAILTO));
 
 	set_reminders_vals(&pu->ep_reminders, False);
 
