@@ -1008,7 +1008,7 @@ get_file_owner(char *calname, char **owner)
 		if (res == 0) {
 
 			if (pw = getpwuid(info.st_uid))
-				strcpy(buf, pw->pw_name);
+				snprintf(buf, sizeof(buf), "%s", pw->pw_name);
 			else
 				return (CSA_E_FAILURE);
 		} else
