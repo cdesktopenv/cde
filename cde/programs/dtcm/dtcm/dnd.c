@@ -924,9 +924,14 @@ ApptDragStart(
 	  free(context);
 	  return;
 	}
-	apptstr = parse_attrs_to_string(appt, (Props *)calendar->properties, 
-					attrs_to_string(appt->attrs,
-							appt->count));
+
+	{
+		char *attr_string = attrs_to_string(appt->attrs, appt->count);
+		apptstr = parse_attrs_to_string(appt, (Props *)calendar->properties,
+					attr_string);
+
+		free(attr_string);
+	}
 	free_appt_struct(&appt);
 
 	context->data = apptstr;
