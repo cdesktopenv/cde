@@ -1465,6 +1465,7 @@ _DtCm_rtable_create_4_svc(Table_Op_Args_4 *args, struct svc_req *svcrq)
 				free(domain);
 				return(&res);
 			}
+			free(domain);
 		}
 	}
 
