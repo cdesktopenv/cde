@@ -1017,8 +1017,10 @@ cms_update_entry_5_svc(cms_update_args *args, struct svc_req *svcrq)
 
 	if (res.stat == CSA_SUCCESS)
 		cal->modified = B_TRUE;
-	else
+	else {
+		free(appt);
 		return (&res);
+	}
 
 	/* do callback */
 	cal->rlist = _DtCmsDoV1CbForV4Data(cal->rlist, user, args->pid,
