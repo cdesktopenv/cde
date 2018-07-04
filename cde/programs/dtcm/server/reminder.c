@@ -729,6 +729,7 @@ _RemoveReminderFromQ(
 	} else {
 		tick = ClosestTick(entry->key.time, entry->key.time, lnode->re,
 			&restate);
+		free(restate);
 		if (do_old = (tick - lead < remq->cutoff))
 			rptr1 = _RemoveReminderFromList(&remq->oldhead[qindex],
 				entry, starttime, delfwd);
