@@ -149,7 +149,7 @@ PrintXError(
             ext = ext->next)
             ;
         if (ext)
-            strcpy(buffer, ext->name);
+            snprintf(buffer, sizeof(buffer), "%s", ext->name);
         else
             buffer[0] = '\0';
       }
