@@ -327,14 +327,11 @@ lock_it(void)
 	locker.l_len = 0;
 #endif /* SVR4 */
 
-	strcpy (buff, dir);
-	strcat (buff, "/.lock.");
-
 	/* 
 	 * /var/spool might be mounted.  Use .lock.hostname to
 	 * prevent more than one cms running in each host.
 	 */
-	strcat(buff, _DtCmGetLocalHost());
+	snprintf(buff, sizeof(buff), "%s/.lock.%s", dir, _DtCmGetLocalHost());
 
 	fd = open(buff, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP);
 	if (fd < 0)
