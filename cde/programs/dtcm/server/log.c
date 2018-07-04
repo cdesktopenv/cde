@@ -1301,8 +1301,6 @@ get_date_time_list_string(CSA_date_time_list list)
 
 	/* do the first one */
 	sprintf(buf, "%s", list->date_time);
-	if ((ptr = strdup(buf)) == NULL)
-		return (NULL);
 
 	if ((ptr = malloc(BUFSIZ+1)) == NULL) return (NULL);
 	tcount = BUFSIZ;
