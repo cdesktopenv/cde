@@ -2974,7 +2974,7 @@ x_print_list_range(Calendar *c, CSA_sint32 appt_type, int item_data,
         CSA_return_code stat;
         CSA_entry_handle *list;
         CSA_attribute *range_attrs;
-	CSA_enum *ops;
+	CSA_enum *ops = NULL;
         int i;
 	CSA_uint32 a_total;
 
@@ -3009,6 +3009,7 @@ x_print_list_range(Calendar *c, CSA_sint32 appt_type, int item_data,
 		    0, B_FALSE, c->general->version);
 	stat = csa_list_entries(c->cal_handle, i, range_attrs,
 				ops, &a_total, &list, NULL);
+	free(ops);
 	if (stat != CSA_SUCCESS) {
 		return;
 	}
