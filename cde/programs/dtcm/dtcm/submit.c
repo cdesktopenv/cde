@@ -347,6 +347,9 @@ formatMessage(char ** addrs, const char * subject, const char * body)
 		}
 	}
 
+    free(ret_codeset);
+    free(ret_lang);
+    free(ret_locale);
 
     return(msg);
 }
