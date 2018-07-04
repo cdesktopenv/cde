@@ -179,7 +179,7 @@ _DtHelpFileTraceLinks (
    if ( NULL == *pPathName ) return False;         /* RETURN */
 
    /* init */
-   strcpy(buf[0],*pPathName);
+   snprintf(buf[0], sizeof(buf[0]), "%s", *pPathName);
    linkPath = buf[0];        /* will be assigned to filePath below */
    curBuf = 1;               /* next valid buf */
 
