@@ -767,7 +767,7 @@ Find(
     else if (StrEq(av[0], "attr")) {
 	DS.gi     = av[2];
 	DS.gi2    = av[3];
-	strcpy(DS.action, av[4]);
+	snprintf(DS.action, sizeof(DS.action), "%s", av[4]);
 	DescendTree(e, tr_find_attr, 0, 0, &DS);
     }
 }
