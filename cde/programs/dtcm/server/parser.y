@@ -1080,7 +1080,7 @@ static CSA_return_code
 get_date_time_list_value(char *valstr, cms_attribute_value **attrval)
 {
 	char *ptr;
-	CSA_date_time_entry *a, *head, *prev;
+	CSA_date_time_entry *a = NULL, *head, *prev;
 	CSA_return_code stat = CSA_SUCCESS;
 	cms_attribute_value *val;
 
@@ -1123,8 +1123,10 @@ get_date_time_list_value(char *valstr, cms_attribute_value **attrval)
 				head = a;
 			else
 				prev->next = a;
-		} else
+		} else {
+			free(a);
 			stat = CSA_E_INSUFFICIENT_MEMORY;
+		}
 	}
 
 	if (stat == CSA_SUCCESS) {
