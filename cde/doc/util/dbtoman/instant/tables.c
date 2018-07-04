@@ -1836,9 +1836,9 @@ TblDoColSpec(short number,		/* this column number */
 		tcsp->aligncharoff = ( pcsp ) ? pcsp->aligncharoff : 0;
 
 	if ( cp = FindAttValByName(ep, "COLWIDTH") )
-		strcpy(tcsp->colwidth, cp);
+		snprintf(tcsp->colwidth, sizeof(tcsp->colwidth), "%s", cp);
 	else
-		strcpy(tcsp->colwidth, ( pcsp ) ? pcsp->colwidth : "");
+		snprintf(tcsp->colwidth, sizeof(tcsp->colwidth), "%s", ( pcsp ) ? pcsp->colwidth : "");
 
 	if ( cp = FindAttValByName(ep, "COLSEP") )
 		tcsp->colsep = !strcmp(cp, "1");
