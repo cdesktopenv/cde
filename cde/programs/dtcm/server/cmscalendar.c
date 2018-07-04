@@ -1130,10 +1130,13 @@ _GetAccessList(_DtCmsCalendar *cal, int index, cms_attribute *attr)
 			tmpattr.value = &tmpval;
 			tmpval.type = CSA_VALUE_ACCESS_LIST;
 
+			free(alist);
 			return (_DtCm_copy_cms_attribute(attr, &tmpattr,
 				B_TRUE));
-		} else
+		} else {
+			free(alist);
 			return (stat);
+		}
 	}
 }
 
