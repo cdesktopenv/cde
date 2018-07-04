@@ -453,8 +453,14 @@ blist_init_names(Calendar *c) {
 	blist_name_append(c, get_char_prop(p, CP_DEFAULTCAL), BLIST_ACTIVE);
 
         namelist = cm_strdup(get_char_prop(p, CP_DAYCALLIST));
-        if (namelist == NULL || *namelist == '\0' )
+	if(namelist == NULL) {
 		return;
+	}
+
+	if(*namelist == '\0') {
+		free(namelist);
+		return;
+	}
 
 	name = strtok(namelist, " ");
 	while (name) {
