@@ -420,6 +420,9 @@ format_abbrev_appt(Dtcm_appointment *appt, char *b, Boolean show_am,
         lines = text_to_lines(appt->what->value->item.string_value, 1);
         if (lines != NULL && lines->s != NULL) {
                 (void) cm_strcat(b, lines->s);
+        }
+
+        if(lines != NULL) {
                 destroy_lines(lines);
         }
 }
