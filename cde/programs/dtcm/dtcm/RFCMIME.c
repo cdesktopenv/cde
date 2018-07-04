@@ -1514,6 +1514,8 @@ rfc1522cpy(char * buf, const char * value)
 	     */
 		char *_tmp1_;
 		char *_tmp2_;
+		free(ret_locale);
+		free(ret_lang);
 		ret_locale = ret_lang = _tmp1_ = NULL;
 		DtXlateOpToStdLocale( DtLCX_OPER_INTERCHANGE_CODESET,
 					ret_codeset,
@@ -1576,6 +1578,10 @@ rfc1522cpy(char * buf, const char * value)
 	    cur = scan_c - 1;
 	}
     }
+
+    free(ret_codeset);
+    free(ret_locale);
+    free(ret_lang);
 
     crlf(buf);
 }
