@@ -107,7 +107,7 @@ char * _DtCliSrvGetDtUserSession(void)
       {
 	char * s = strchr(display,':');
 	if (s && strlen(s) < (size_t)BUFSIZ) {
-	  strcpy(screen,s+1);
+	  snprintf(screen, sizeof(screen), "%s", s + 1);
 	  *s = 0;
 	  if ((s = strchr(screen,'.')) && *(s+1) == '0')
 	    *s = 0;
