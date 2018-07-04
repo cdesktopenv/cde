@@ -2186,10 +2186,12 @@ str_to_period(char *ps, CSA_sint32 *repeat_type, int *repeat_nth) {
 			unit++;
                 ps2 = cm_strdup(unit);
                 ptr = strchr(ps2, ' ');
-		if (ptr != NULL)
+		if (ptr != NULL) {
                 	*ptr = '\0';
-		else
+		} else {
+			free(ps2);
 			return;
+		}
 
 		ptr++;
 		while (*ptr == ' ')
