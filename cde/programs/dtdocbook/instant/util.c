@@ -353,7 +353,7 @@ SetMapping(
 	fprintf(stderr, "SetMapping: Map not initialized.\n");
 	return;
     }
-    strcpy(buf, s);
+    snprintf(buf, sizeof(buf), "%s", s);
     name = val = buf;
     while (*val && !IsWhite(*val)) val++;	/* point past end of name */
     if (*val) {
