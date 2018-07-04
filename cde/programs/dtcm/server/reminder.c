@@ -807,7 +807,7 @@ _UpdateReminderQ(_DtCmsRemQueue *remq, int qindex)
 	_DtCmsRemInfo	*rptr, *nptr;
 	cms_entry	*entry;
 	time_t		lead, tick;
-	RepeatEventState *restate;
+	RepeatEventState *restate = NULL;
 
 	for (; (rptr = remq->active[qindex]) != NULL &&
 	    rptr->runtime < remq->cutoff; ) {
@@ -823,6 +823,8 @@ _UpdateReminderQ(_DtCmsRemQueue *remq, int qindex)
 			entry = rptr->data.e;
 			tick = ClosestTick(entry->key.time, entry->key.time,
 				rptr->lnode->re, &restate);
+
+			free(restate);
 
 			if (tick == rptr->starttime) {
 				/* add this to old queue */
