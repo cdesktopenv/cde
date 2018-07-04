@@ -584,8 +584,10 @@ de_apply_proc(Widget w, XtPointer client_data, XtPointer data) {
 	appt->count = old_attr_count;
 	de->modified = False;
 
-	if (!str)
+	if (!str) {
+		free_appt_struct(&appt);
 		return;
+	}
 
 	/* we need to distinguish between whether the data is being 
 	   saved as part of application termination, or as part of 
@@ -614,6 +616,8 @@ de_apply_proc(Widget w, XtPointer client_data, XtPointer data) {
 
 				if (!fp) {
 					XBell(dpy, 50);
+					free(str);
+					free_appt_struct(&appt);
 					return;
 				}
 
@@ -638,6 +642,8 @@ de_apply_proc(Widget w, XtPointer client_data, XtPointer data) {
 
 			if (!fp) {
 				XBell(dpy, 50);
+				free(str);
+				free_appt_struct(&appt);
 				return;
 			}
 
