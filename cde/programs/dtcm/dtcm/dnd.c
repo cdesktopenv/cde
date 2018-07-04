@@ -396,7 +396,7 @@ extern int
 drag_load_proc(char *filename, Calendar *c) {
 	int			ret_val, i = 1;
 	char			buf[MAXNAMELEN * 2];
-	CmDataList		*list = CmDataListCreate();
+	CmDataList		*list = NULL;
 	Props			*p = (Props *)c->properties;
 	Props_pu		*pu = (Props_pu *)c->properties_pu;
 	Validate_op		op;
@@ -405,6 +405,8 @@ drag_load_proc(char *filename, Calendar *c) {
 
 	if (!filename || *filename == '\0')
 		return -1;
+
+	list = CmDataListCreate();
 
 	op = parse_appt_from_file(c->DT_catd, filename, list, p, query_user, 
 				  (void *)c, c->general->version);
