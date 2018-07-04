@@ -860,7 +860,7 @@ _GetNextActiveTick(
 	time_t		lasttick,
 	RepeatEvent	*re)
 {
-	RepeatEventState	*restate;
+	RepeatEventState	*restate = NULL;
 	time_t			tick;
 
 	for (tick = ClosestTick(target, entry->key.time, re, &restate);
@@ -870,6 +870,8 @@ _GetNextActiveTick(
 		if (tick <= 0 || !_DtCmsInExceptionList(entry, tick))
 			break;
 	}
+
+	free(restate);
 	return (tick);
 }
 
