@@ -752,17 +752,17 @@ char *DtPrinterIcon::GetPrinterIcon(const char *printer,
 {
    static char buf[200];
 
-   sprintf(buf, "%s_Print", printer);
+   snprintf(buf, sizeof(buf), "%s_Print", printer);
    if (_app_mode != INITIALIZE_PRINTERS && DtActionExists(buf))
     {
       char *iconfile = DtActionIcon(buf);
       if (iconfile)
-         strcpy(buf, iconfile);
+         snprintf(buf, sizeof(buf), "%s", iconfile);
       else
-         strcpy(buf, PRINTER_ICON_FILE);
+         snprintf(buf, sizeof(buf), "%s", PRINTER_ICON_FILE);
     }
    else
-      strcpy(buf, PRINTER_ICON_FILE);
+      snprintf(buf, sizeof(buf), "%s", PRINTER_ICON_FILE);
    return buf;
 }
 
