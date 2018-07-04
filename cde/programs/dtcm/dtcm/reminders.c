@@ -860,7 +860,7 @@ set_reminders_defaults(Reminders *r) {
 	val->selected =	convert_boolean_str(get_char_prop(p, CP_MAILON));
 	val->scope = convert_time_scope_str(get_char_prop(p, CP_MAILUNIT));
 	val->scope_val = get_int_prop(p, CP_MAILADV);
-	strcpy(r->mailto_val, get_char_prop(p, CP_MAILTO));
+	snprintf(r->mailto_val, sizeof(r->mailto_val), "%s", get_char_prop(p, CP_MAILTO));
 
 	set_reminders_vals(r, False);
 }
