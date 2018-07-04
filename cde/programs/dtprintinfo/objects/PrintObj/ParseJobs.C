@@ -1181,7 +1181,7 @@ int ParseAIXv3PrintJobs(char *_printer, char *jobs,
    static char *job_list = NULL;
    static int prev_buf_size = 0;
 
-   strcpy(printer, _printer);
+   snprintf(printer, sizeof(printer), "%s", _printer);
    if (s = strchr(printer, ':'))
       *s = '\0';
 	
