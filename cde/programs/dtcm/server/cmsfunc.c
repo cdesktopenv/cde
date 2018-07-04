@@ -473,7 +473,7 @@ cms_set_calendar_attr_5_svc(cms_set_cal_attr_args *args, struct svc_req *svcrq)
 		}
 	} else {
 		int		i;
-		Access_Entry_4	*v4list;
+		Access_Entry_4	*v4list = NULL;
 
 		/* for old format file, the only settable calendar attribute
 		 * is access list
@@ -490,7 +490,10 @@ cms_set_calendar_attr_5_svc(cms_set_cal_attr_args *args, struct svc_req *svcrq)
 			if ((res = _DtCmsCmsAccessToV4Access(
 			    args->attrs[i].value->item.access_list_value,
 			    &v4list)) == CSA_SUCCESS)
+			{
 				res = _DtCmsSetV4AccessListAndLog(cal, v4list);
+			}
+			free(v4list);
 		}
 
 		if (res != CSA_SUCCESS)
