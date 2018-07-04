@@ -498,7 +498,7 @@ _EnumerateSequence(
 	CSA_return_code	stat2 = CSA_SUCCESS;
 	cms_entry	*eptr;
 	time_t		fsttick, tick;
-	RepeatEventState *restate;
+	RepeatEventState *restate = NULL;
 
 	eptr = (cms_entry *)lnode->data;
 	fsttick = eptr->key.time;
@@ -562,6 +562,7 @@ _EnumerateSequence(
 			eptr->attrs[CSA_ENTRY_ATTR_END_DATE_I].value->\
 				item.date_time_value = etime;
 	}
+	free(restate);
 
 	return (stat);
 }
