@@ -1019,7 +1019,7 @@ char *DtApp::GetBottomString(BaseObj *job, boolean need_details)
 	         job->AttributeValue((char *)TIME_SUBMITTED),
 	         job->AttributeValue((char *)DATE_SUBMITTED));
       else
-         strcpy(string, job->AttributeValue((char *)OWNER));
+         snprintf(string, sizeof(string), "%s", job->AttributeValue((char *)OWNER));
     }
    return string;
 }
