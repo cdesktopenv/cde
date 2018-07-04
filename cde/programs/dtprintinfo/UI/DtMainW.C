@@ -123,7 +123,7 @@ void DtMainW::DisplayHelp(char *location_id, char *volume)
 {
    char old_msg[200];
 
-   strcpy(old_msg, status_line->Name());
+   snprintf(old_msg, sizeof(old_msg), "%s", status_line->Name());
    status_line->Name(MESSAGE(GettingHelpL));
    WorkingCursor(true);
    if (!helpSystem)
