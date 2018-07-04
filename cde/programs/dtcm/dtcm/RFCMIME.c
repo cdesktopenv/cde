@@ -250,6 +250,10 @@ targetTagName(void)
           NULL,
           &ret_codeset);
 
+   free(ret_locale);
+   free(ret_target);
+   free(ret_lang);
+
    return ret_codeset;
 }
 
