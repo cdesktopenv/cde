@@ -343,6 +343,7 @@ StandaloneApptDragStart(
 	int		old_attr_count;
         char            *apptstr;
 	int		preDsswFlags, preRfpFlags;
+	char		*attrstring = NULL;
 
 	/* Convert appointment into string.  If not successful, don't start drag. */
 	appt = allocate_appt_struct(appt_write, DATAVER_ARCHIVE, NULL);
@@ -368,8 +369,9 @@ StandaloneApptDragStart(
 
 	old_attr_count = appt->count;
 	merge_old_values(de->orig_appt, appt);
-	apptstr = parse_attrs_to_string(appt, de->p,
-					attrs_to_string(appt->attrs, appt->count));
+	attrstring = attrs_to_string(appt->attrs, appt->count);
+	apptstr = parse_attrs_to_string(appt, de->p, attrstring);
+	free(attrstring);
 	appt->count = old_attr_count;
 	free_appt_struct(&appt);
 
