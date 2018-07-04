@@ -621,7 +621,7 @@ CmdLineSetVariable(
     int		n;
 
     /* Turn '=' into a space, to isolate the name.  Then set variable. */
-    strcpy(buf, var);
+    snprintf(buf, sizeof(buf), "%s", var);
     if ((cp=strchr(buf, '='))) {
 	/* we have "var=value" */
 	*cp = ' ';
