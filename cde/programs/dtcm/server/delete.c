@@ -327,7 +327,7 @@ _InSequence(List_node *node, time_t time)
 {
 	time_t		tick;
 	cms_entry	*entry = (cms_entry *)node->data;
-	RepeatEventState *restate;
+	RepeatEventState *restate = NULL;
 
 	for (tick = ClosestTick(time, entry->key.time, node->re, &restate);
 	    tick <= node->lasttick;
@@ -336,9 +336,13 @@ _InSequence(List_node *node, time_t time)
 		if (tick <= 0 || tick > node->lasttick)
 			break;
 
-		if (tick == time)
+		if (tick == time) {
+			free(restate);
 			return (B_TRUE);
+		}
 	}
+
+	free(restate);
 
 	return (B_FALSE);
 }
