@@ -514,6 +514,9 @@ CvtStr( char *charSet, void *from, unsigned long from_len,
 				&InterChCodeSet );
 	} else {
 	    /* Convert charSet to StdInterChangeCodeSet */
+	    free(ret_locale);
+	    free(ret_lang);
+	    free(ret_codeset);
 	    ret_locale = ret_lang = ret_codeset = NULL;
 	    DtXlateOpToStdLocale( DtLCX_OPER_MIME,
 				charSet,
@@ -551,6 +554,9 @@ CvtStr( char *charSet, void *from, unsigned long from_len,
 #endif /* _AIX */
 	    {
 		/* Convert InterChCodeSet to StdCodeSet */
+		free(ret_locale);
+		free(ret_lang);
+		free(ret_codeset);
 		ret_locale = ret_lang = ret_codeset = NULL;
 		DtXlateOpToStdLocale( DtLCX_OPER_INTERCHANGE_CODESET,
 				InterChCodeSet,
@@ -579,6 +585,9 @@ CvtStr( char *charSet, void *from, unsigned long from_len,
 				&from_codeset );
 	} else {
 	    /* Convert charSet to StdInterChangeCodeSet */
+	    free(ret_locale);
+	    free(ret_lang);
+	    free(ret_codeset);
 	    ret_locale = ret_lang = ret_codeset = NULL;
 	    DtXlateOpToStdLocale( DtLCX_OPER_MIME,
 				charSet,
@@ -606,6 +615,9 @@ CvtStr( char *charSet, void *from, unsigned long from_len,
 				&InterChCodeSet );
 	} else {
 	    /* Convert charSet to StdInterChangeCodeSet */
+	    free(ret_locale);
+	    free(ret_lang);
+	    free(ret_codeset);
 	    ret_locale = ret_lang = ret_codeset = NULL;
 	    DtXlateOpToStdLocale( DtLCX_OPER_MIME,
 				charSet,
@@ -622,6 +634,10 @@ CvtStr( char *charSet, void *from, unsigned long from_len,
 				NULL,
 				&to_codeset );
     }
+
+    free(ret_locale);
+    free(ret_lang);
+    free(ret_codeset);
 
     *to = NULL;
     *to_len = 0;
