@@ -908,7 +908,7 @@ _DtHelpCeFindCcdfId (
     char       *topicId = NULL;
     int   found = False;
 
-    strcpy (newTarget, target_id);
+    snprintf(newTarget, sizeof(newTarget), "%s", target_id);
     _DtHelpCeUpperCase(newTarget);
 
     /*
