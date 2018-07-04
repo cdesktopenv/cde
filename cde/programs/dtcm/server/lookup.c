@@ -401,9 +401,10 @@ _DtCmsGetEntryAttrByKey(
 		}
 	}
 
-	if (entry_r)
+	if (entry_r) {
+		free(res);
 		stat = _DtCmsGetCmsEntryForClient(entry, entry_r,B_FALSE);
-	else {
+	} else {
 		if (num_names == 0)
 			stat = _GetAllEntryAttrs(entry, &res->num_attrs,
 				&res->attrs);
