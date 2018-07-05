@@ -47,7 +47,7 @@ extern "C" { const char *_tt_lib_version; };
 
 extern std::ofstream	snoopStream;
 extern unsigned int	globalSaveLines;
-extern char *		traceScript;
+extern std::string	traceScript;
 extern const char *	globalVersionString;
 extern Tt_pattern	snoopPat;
 extern Boolean		snoopPatIsRegistered;
@@ -118,7 +118,7 @@ turnOnTracing(
     DtTtSetLabel( instance->cancelButton, "Stop" );
     XtManageChild(instance->tracer_shellform);
     tt_trace_control( 0 );
-    putenv( traceScript );
+    putenv( const_cast<char *>(traceScript.c_str()) );
     tt_trace_control( 1 );
     /*** DTB_USER_CODE_END   ^^^ Add C code above ^^^ ***/
 }

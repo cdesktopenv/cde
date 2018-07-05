@@ -466,8 +466,7 @@ DtTtSetLabel(
     Tt_status status = tt_ptr_error( val );
     std::ostringstream errStream;
     errStream << func << " = " << val << " (" << status << ")" << ends;
-    const char *label = errStream.str().c_str();
-    DtTtSetLabel( labelWidget, label );
+    DtTtSetLabel( labelWidget, errStream.str().c_str() );
     return status;
 }
 
@@ -480,8 +479,7 @@ DtTtSetLabel(
 {
     std::ostringstream errStream;
     errStream << func << " = " << status << ends;
-    const char *label = errStream.str().c_str();
-    DtTtSetLabel( labelWidget, label );
+    DtTtSetLabel( labelWidget, errStream.str().c_str() );
     return status;
 }
 
@@ -494,8 +492,8 @@ DtTtSetLabel(
 {
     std::ostringstream errStream;
     errStream << func << " = " << returnVal << ends;
-    const char *label = errStream.str().c_str();
-    DtTtSetLabel( labelWidget, label );
+    DtTtSetLabel( labelWidget,
+                  const_cast<char *>(errStream.str().c_str()) );
     return returnVal;
 }
 
@@ -521,8 +519,8 @@ _DtTtChoices(
 			tt_free( name );
 		}
 		itemStream << ends;
-		char *string = const_cast<char *>(itemStream.str().c_str());
-		items[ i ] = XmStringCreateLocalized( string );
+		items[ i ] =
+                    XmStringCreateLocalized(const_cast<char *>(itemStream.str().c_str()));
 	}
 	return items;
 }
@@ -571,8 +569,8 @@ _DtTtChoices(
 				tt_free( id );
 			}
 			itemStream << ends;
-			char *string = const_cast<char *>(itemStream.str().c_str());
-			items[ i ] = XmStringCreateLocalized( string );
+			items[ i ] =
+                            XmStringCreateLocalized(const_cast<char *>(itemStream.str().c_str()));
 		}
 		return items;
 	    case DTTT_PATTERN:
