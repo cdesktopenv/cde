@@ -5,285 +5,347 @@ use 'git log', or peruse the commit history at:
 
 https://sourceforge.net/p/cdesktopenv/code/commit_browser
 
-# 2.2.4a 06/08/2018
+### 2.3.0 (stable) 07/06/2018
 
-This is a long overdue development release.
+This is a very long overdue stable release.  It incorporates all of
+the fixes in the 2.2.4a development release plus:
 
-This release corrects several known issues with newer BSD based
-operating systems, enables TIRPC by default for all Linux systems, and
-corrects several hundred bugs and warnings (compiler and coverity).
+- tooltalk/ttsession:
 
-Using TIRPC on Linux means that you should no longer need to configure
-rpcbind to run in insecure (-i) mode.
+  - on newer Linux/TIRPC systems, make sure listen() is called on a
+    server socket.  This fixes an infinite loop problem seen with with
+    newer glibc and TIRPC implementations (SUSE Tumbleweed, ArchLinux)
 
-For Linux, only the C/en_US locales are built by default now.  The
-available extra locales are:
+  - default to localhost when hostname IP resolution fails (all
+    platforms).  There is no longer any need to add your unresolvable
+    hostname to the localhosts line in your /etc/hosts file.
 
-fr_FR.ISO8859-1, de_DE.ISO8859-1, es_ES.ISO8859-1, and it_IT.ISO8859-1
+- improved build support on Solaris/OpenIndiana systems (gcc and SunStudio).
 
-To build for these locales, you must ensure the locale support is
-present on your OS (see the wiki), and then you can:
+- BSD improvments:
+  - no need to create X11/Motif symlinks prior to compiling CDE.
+  - Fix native clang builds
+  - Fix some GCC builds
 
-A) Edit config/cf/site.def and add the desired locales to
-   DtLocalesToBuild in the LinuxArchitecture section, or
+- remove ancient XmeXpm* defines
 
-B) call make World with the following option:
+Here is the git shortlog since the 2.2.4a development release:
 
-   make World IMAKE_DEFINES='-DDtLocalesToBuild="fr_FR.ISO8859-1"'
+Jon Trulson (14):
+      libDtTerm: Fix for a coredump seen on OpenBSD
+      dtinfo/freebsd: fix a (int)NULL cast in DtSR_SearchEngine.C
+      FreeBSD 11: Don't use imported x11/motif, use installed versions for build
+      building_release_archive: omit '-src' in archive filename
+      OpenBSD 6+: use installed X11 and Motif
+      XPM: Replace calls to XmeXpm*() with regular Xpm*()
+      FreeBSD 11: Fix clang (v6) builds
+      FreeBSD: turn off some warnings
+      CDE-ICONS: create compatibility symlinks as relative rather than absolute
+      OpenBSD: tone down compiler warnings a bit
+      libtt: if local hostname lookup fails, default to localhost
+      linux/site.def: use an if !defined() gaurd for DtLocalesToBuild
+      slib/mp_rpc_server: TIRPC: force a listen() call on the server socket
+      dwtm/WmResource.c: Stop printing garbage when XmeRenderTableGetDefaultFont() fails.
 
-   to build the French Locale, for example.
+Matthew R. Trower (7):
+      nsgml: Resolve symbol collision when building with SunStudio 12.1
+      imake: Refactor and fix get_sun_compiler_versions()
+      Add SMF service on Sun
+      Resolve inconsistent strcasestr availability on Sun
+      Minor corrections and cleanup to sun.cf
+      Enable building against an arbitrary Motif installation
+      Fix DtMail compilation on Sun with GCC
 
-For the BSD's, All of the current ones (OpenBSD 6.x and FreeBSD 11.x)
-should compile now.  Since we no longer use XPrint, the BSD's
-should not need to compile their own modified Motif libraries any
-more.  Just install a Motif development package, and go.
+Ulrich Wilkens (3):
+      create .depend files for Solaris+Illumos
+      Reenable gcc support on FreeBSD and OpenBSD
+      Use installed X11 includes and libs
 
-Here is the git shortlog:
-
-Cody Kotichas (1):
-      Fix typographical error
-
-Edmond ORIGNAC (2):
-      Manual page for vcal2xapia.awk
-      DtMail translations and improvements of vcal2xampia.awk
-
-Jon Trulson (103):
-      dtappbuilder: Add patches from Robert Pangrazio fixing coredumps
-      Remove old cruft: osf/* and utils/prog*
-      CDE-RUN: remove osf bindings
-      dtinfo/TextParser.C: coverity CID 89054; mem corruption
-      dtinfo/DtSR: coverity CID 88552; memory corruption
-      dtspcd: coverity CID 174742; potential NULL derefs
-      dtinfo/MixedGen.C: coverity CID 89495; use after free
-      dtfile/SharedProcs.c: coverity CID 89068; use after free
-      dtfile/sharedFuncs.c: coverity CID 88625; use after free
-      dtfile/Main.c: coverity CID 89623; uninit var
-      dtmail/DtMailRc.C: coverity CID 88975; use after free
-      dthelp/htag/malloc: coverity CID 86955; use after free
-      libtt/db_server_svc.C: coverity CID 87060; string overflow
-      libtt/process.c: coverity CID 87051; use after free
-      dtfile/Help.c: coverity CID 88484; use after free
-      dthelp/helpgen.c: coverity CID 175085; use after free
-      csa/match.c: coverity CID 87204; bad free; WTF
-      dtinfo/OutlineListViewMotif.C: coverity CID 87754; memset truncated
-      dtmail/MsgScrollingList.C: coverity CID 87360; memset no effect
-      libtt/tt_file_system.C: coverity CID 86024; array vs singlton
-      dtfile/SharedProcs.c: coverity CID 174852; int overflow
-      dtfile: coverity CIDs 88363,88405,89140,89612; insecure readlink
-      dtudcfonted/getfname.c: coverity CID 86392; insecure readlink
-      dtexec,DtSvc/MsgLog.c: coverity CID 89585; resource leak
-      dtcm/props.c: coverity CID 88573; unbounded src buf
-      dthelp/Initialize.c: coverity CID 89569; unbounded src buf
-      dtfile/File.c: coverity CID 88919; uninit array read
-      libtt/isrepair.c: coverity CID 86705; uninit ptr read
-      dtudcfonted/gpftobdf.c: coverity CIDs 87073,87008,87029,86919,86898,86715; uninit scalar
-      dtudcfonted/_faludcInf.c: coverity CIDs 175096,175092; uninit ptr read
-      dtcalc/ds_xlib.c: coverity CID 175093; wrong sizeof/bad free
-      dtcalc: remove MAX_PATH, use standard PATH_MAX
-      dtcreate/CreateActionAppShell.c: coverity CID 175092; uninit ptr read
-      dtcreate/fileio.c: coverity CID 175094; dref bef NULL
-      dtwm/WmResource.c: remove errant ')' added in previous commit
-      libDtSearch/dtsrapi.c: Coverity CID 86857; dest buf too small
-      dtsr/dtsrclean.c: Coverity CID 86876; dest buf too small
-      dtcm/dssw.c: Coverity CID 88672; dest buf too small
-      dtcalc/ds_xlib.c: Coverity CID 175167; uninit value
-      dtudcfonted/gpftobdf.c: Coverity CID 175168; NULL deref
-      dtcm/dssw.c: fix typo
-      Disable building of dtudcfonted and dtudcexch
-      fontaliases: use copy rather than symlink since bdftopcf can't handle those
-      dtfile/SharedProcs.c: rework coverity 174852 fix to unbreak dtfile
-      dtfile: define MAX_PATH to PATH_MAX rather than 1024, also CID 87557
-      dtfile/sharedFuncs: CID 88085; resource leak
-      Revert "dtfile: coverity CIDs 88363,88405,89140,89612; insecure readlink"
-      Remove admin/BuildTools/fnrclone/; obsolete junk
-      Remove admin/BuildTools; none of this is pertinent anymore
-      Remove admin/bin; none of this is pertinent anymore
-      Remove admin/man, *nameswitch; none of this is pertinent anymore
-      installCDE/linux: don't try to edit/modify /etc/inetd.conf if it does not exist
-      dthelp/FormatUtils: fix coredump in dthelpgen due to free() of a bad address
-      Reimplement reverted commit 7fa35c to fix readlink() issues
-      dtfile/Prefs: CID 88095,88407,89162,89164,89283,89445
-      dtfile/Desktop: CID 88133,88159,88339,88798,89331,89466
-      dtfile/FileDialog: CID 88141,88451,88658,89058
-      dtfile/SharedProcs: CID 88158,88337,89104,89118
-      dtfile/File: CID 88195,88595,88627,88794
-      dtfile/dtcopy/sharedFuncs: CID 88204,88291,88852,88861,88876
-      dtfile/IconWindow: CID 88242,88702,89030
-      dtfile/Find: CID 88258,87250
-      dtfile/FileMgr: CID 88441,89025,174801
-      dtfile/Help: CID 88598
-      dtfile/Trash: CID 88638,88815,89061,89614
-      dtfile/FileOp: CID 88744,89337,89546
-      linux.cf: Add -Wno-unused-result to C flags
-      dtfile/Command: CID 88819
-      dtfile/Directory: CID 88835,89096,89446,89469,89498
-      dtfile/dtcopy/fsrtns: CID 88868,88128
-      dtfile/Menu: CID 89222
-      dtfile/dtcopy/dosync: CID 89374
-      dtfile/Main: CID 89623
-      dtfile/Encaps: CID 174844
-      dtfile/Desktop: CID 175219,175222,175223,175226,175227
-      dtfile/dtcopy/sharedFuncs: CID 175225
-      dtfile/SharedProcs: CID 175229
-      dtfile/FileDialog: CID 175220
-      dtfile/FileOp: CID 175228
-      dtbuilder/Imakefile: fix clean target to remove dtbuilder executable
-      Enable TIRPC support for Linux
-      dtfile/File.c: implement a hack to fix Ticket #19, tree icons are black
-      CDE-MAN-DEV.udb: remove extra }, added when UXP support was removed
-      CDE-DEMOS: remove references to Makefile.novell
-      TermPrimSetUtmp: fix lost define broken by last patch
-      tt_old_db: use TT_DB_OK instead of NULL
-      tt_xdr_utils: fix up some warnings
-      installCDE.src: Add a -destdir <dir> option
-      Imake.tmpl: don't delete logfiles (make.log MakeOut)
-      XlationSvc: remove a "'" added in previous spelling commit that causes warnings
-      rpc.cmsd: use TIRPC on Linux
-      dtcm/graphics: NULL is not 0
-      libDtCmP: use TIRPC on linux, fix some warnings
-      dtcm: NULL is not 0
-      dtsession: fix screen saver/locking on linux
-      configRun: leave dtmail alone, UDB handles it's perms correctly
-      configRun: remove inetd support
-      configMin: remove inetd support, 'pam' support
-      configTT: remove inetd support
-      installCDE: unset FIGNORE to workaround potential ksh bug
-      linux.cf: disable stripping of installed binaries
-      site.def: Only build C/en_US locales by default for Linux
-      installCDE: Only install locales that were built
-
-Matthew R. Trower (2):
-      dtwm: basic multihead(xinerama only) support
-      Fix imake segfault on OpenIndiana
-
-Michael McConville (1):
-      Remove needless zeroing after calloc
-
-Peter Howkins (78):
-      Change pid wait types to int on Linux as well. Fixes compile issue     in dtudc programs on ubuntu 16.10+
-      Add in an example .desktop session file for other X session managers (not dtlogin)     Suitable for kdm/gdm/lightdm etc
-      Resolve some coverity warnings
-      Fixed for wrong cased filename on depends creation
-      Resolve some compiler warnings
-      Change how read and write errors are detected on fstream based streams.
-      Change dtmmdb class from tuple to mmdb_tuple
-      dtksh: HACKY fix for compilation on later linux C library where FILE definition has moved
-      dtksh: make sure you can still build on linux older c library too
-      dtksh: Linux modern glibc compile HACK prevent system wide definition of __FILE that we define to Sfio_t
-      dtcalc: change from obsoleted MAXFLOAT to FLT_MAX from std C
-      dtdocbook: glibc 2.27 drops support for matherr() support in math.h
-      dtcudcfonted: Resolve compiler and coverity warnings
-      dtscpd: resolve compiler and coverity warnings
-      dtcalc: resolve coverity issues
-      libtt: Resolve some compiler warnings
-      dthelp: compiler warning and coverity warning fixes
-      dtcalc: resolve coverity issues
-      dtudcfonted: Resolve further coverity issues
-      dtcreate: Resolve coverity issues
-      dtpdmd: Resolve some coverity warnings
-      libDtWidget: Resolve some Coverity warnings
-      dtwm: Resolve coverity warnings
-      dtmail: resolve 'deference before null check' errors related to if(!NULL) checks around free() calls
-      Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
-      libdtsvc: Compiler warning prevention
-      libdtsvc: Resolve coverity warnings related to 'dereference before null check' related to free()
-      dtwm: cov 175166, check for pointer
-      Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
-      dsdm: cov 86572, free mem in error condition
-      libdtterm: Resolve coverity issues
-      config/util: resolve coverity issues
-      dtspcd: Cov 89547, 175089
-      dtinfo: Fix coverity issues for resource leaks
-      dtinfo: fix coverity issues related to null checks after dereference
-      dtinfo/dtinfogen: Fix segfault introduced by over zealously fixing coverity resource leak
-      dthelp: more coverity fixes
-      dtpad: resove coverity issues
-      libtt: Resolve coverity warnings
-      ttsnoop: resolve some compiler warnings
-      libtt: resolve coverity issues related to double close()
-      lidtsvc: coverity fixes
-      dtterm: coverity fixes
-      dtlogin: coverity fixes
-      libtt: More coverity fixes
-      dthelp: coverity fixes
-      dtwm: Fix window menus caused by using destination as param to snprintf
-      various: You cannot use the destination of snprintf as one of the srcs, undefined
-      libtt: Coverity fixes related to uninitialised fields in classes.
-      dtinfo: Resolve coverity warnings related to uninitialised members of classes
-      nsgmls: resolve coverity warnings related to uninitialed members in C++ classes
-      dtmail: resolve coverity warnings related to uninitialised members in C++ classes
-      libtt: Further coverity fixes
-      dtinfo: Fix coverity warning related to using delete not delete []
-      Merge branch 'cde-fixups-1' of ssh://git.code.sf.net/p/cdesktopenv/code into cde-fixups-1
-      dtpdm: Coverity 87632, 87664, 87923
-      libtt: Fixes for Coverity fixes that I thought I'd already fixed.
-      dtmail: Further Coverity fixes
-      dtsr: Coverity fixes for string buffer issues
-      dtinfo: Extra fixes for previous believed fixed things (coverity)
-      dtlogin: Two additional coverity fixes
-      dtappbuilder: Resolve all compiler warnings
-      dtappbuilder: Coverity fixes for mising return value and copy into fixed size buffer
-      dtappbuilder: Fix for very wrong sized buffer
-      dtappbuilder: Further coverity, resource leaks, copy intofixed size buffer and dereference before null checl
-      dticon: coverity fixes
-      Merge branch 'cde-fixups-1' of ssh://git.code.sf.net/p/cdesktopenv/code into cde-fixups-1
-      dtimsstart: Resolve all compiler warnings
-      dtimsstart: Coverity fixes
-      dtimsstart: Fix derp in previoua fix set
-      dtfile: batch coverity fixes
-      dtlogin: Resolve some coverity issues, including those thought previously fixed
-      dtsession: A few extra snprintf's for buffer safety
-      dtimsstart: Fix brackets on previous coverity fix
-      dticon: Fix broken string length calculation
-      dthelp: Further coverity fixes
-      dtappbuilder: Coverity fixes mostly related to uninitialised variables
-      dtwm: Resolve coverity warnings related to uninitialised variables and missing return statements
-
-Swift Griggs (1):
-      Patches from pkgsrc-WIP
-
-Ulrich Wilkens (4):
-      Fix BSD and Sun problems after coverity fixes
-      Fix Linux rpc problems with new glibc
-      Fixes for OpenBSD
-      Fix warnings on FreeBSD
-
-alx (6):
-      libDtSvc: added Xinerama support to _DtMessageDialog
-      dtfile: added Xinerama support to dialog positioning routines
-      dtlogin: center the mouse pointer on the login screen on multi-head setups
-      ttsession: don't segfault if host name isn't properly set
-      dtksh/sfio: resolved a naming collision on FreeBSD 11
-      libtt: pass proper flags to getfsstat, log error message and exit if it fails
-
-chase (23):
-      Fix various spelling errors
-      More spelling fixes
-      Rewrite csh scripts in sh, use sh instead of csh in scripts
-      Small spelling fixes
-      Fix typo in license headers
-      Even more spelling fixed
-      Last of the spelling fixed
-      Add missing license headers on *.hh files and others
-      Remove bsdi support
-      Add generated binaries to gitignore from programs/localized/
-      Remove examples/motif
-      cde.desktop: remove deprecated encoding key
-      sgml-mode.el: fix address, dt-toolbox: delete
-      Remove UXPDS support
-      Remove Unixware and openserver support
-      Use /var/spool instead of /usr/spool and /var/mail instead of /usr/mail
-      remove OSF1 support
-      Use POSIX macros for linux
-      dinstallCDE.src: add linux and *BSD support
-      Spelling fixes
-      cde.desktop:Add keywords to desktop entry
-      fix files not registering as scripts
-      cde.desktop: add xpm icon
+chase (3):
+      Remove reallyoldsun defines
+      installCDE.src: remove duplicate code
+      docnook.tcl: Add shebang
 
 
+  ## 2.2.4a (development) 06/08/2018
 
-# 2.2.4 06/19/2016
+  This is a long overdue development release.
+
+  This release corrects several known issues with newer BSD based
+  operating systems, enables TIRPC by default for all Linux systems, and
+  corrects several hundred bugs and warnings (compiler and coverity).
+
+  Using TIRPC on Linux means that you should no longer need to configure
+  rpcbind to run in insecure (-i) mode.
+
+  For Linux, only the C/en_US locales are built by default now.  The
+  available extra locales are:
+
+  fr_FR.ISO8859-1, de_DE.ISO8859-1, es_ES.ISO8859-1, and it_IT.ISO8859-1
+
+  To build for these locales, you must ensure the locale support is
+  present on your OS (see the wiki), and then you can:
+
+  A) Edit config/cf/site.def and add the desired locales to
+     DtLocalesToBuild in the LinuxArchitecture section, or
+
+  B) call make World with the following option:
+
+     make World IMAKE_DEFINES='-DDtLocalesToBuild="fr_FR.ISO8859-1"'
+
+     to build the French Locale, for example.
+
+  For the BSD's, All of the current ones (OpenBSD 6.x and FreeBSD 11.x)
+  should compile now.  Since we no longer use XPrint, the BSD's
+  should not need to compile their own modified Motif libraries any
+  more.  Just install a Motif development package, and go.
+
+  Here is the git shortlog:
+
+  Cody Kotichas (1):
+        Fix typographical error
+
+  Edmond ORIGNAC (2):
+        Manual page for vcal2xapia.awk
+        DtMail translations and improvements of vcal2xampia.awk
+
+  Jon Trulson (103):
+        dtappbuilder: Add patches from Robert Pangrazio fixing coredumps
+        Remove old cruft: osf/* and utils/prog*
+        CDE-RUN: remove osf bindings
+        dtinfo/TextParser.C: coverity CID 89054; mem corruption
+        dtinfo/DtSR: coverity CID 88552; memory corruption
+        dtspcd: coverity CID 174742; potential NULL derefs
+        dtinfo/MixedGen.C: coverity CID 89495; use after free
+        dtfile/SharedProcs.c: coverity CID 89068; use after free
+        dtfile/sharedFuncs.c: coverity CID 88625; use after free
+        dtfile/Main.c: coverity CID 89623; uninit var
+        dtmail/DtMailRc.C: coverity CID 88975; use after free
+        dthelp/htag/malloc: coverity CID 86955; use after free
+        libtt/db_server_svc.C: coverity CID 87060; string overflow
+        libtt/process.c: coverity CID 87051; use after free
+        dtfile/Help.c: coverity CID 88484; use after free
+        dthelp/helpgen.c: coverity CID 175085; use after free
+        csa/match.c: coverity CID 87204; bad free; WTF
+        dtinfo/OutlineListViewMotif.C: coverity CID 87754; memset truncated
+        dtmail/MsgScrollingList.C: coverity CID 87360; memset no effect
+        libtt/tt_file_system.C: coverity CID 86024; array vs singlton
+        dtfile/SharedProcs.c: coverity CID 174852; int overflow
+        dtfile: coverity CIDs 88363,88405,89140,89612; insecure readlink
+        dtudcfonted/getfname.c: coverity CID 86392; insecure readlink
+        dtexec,DtSvc/MsgLog.c: coverity CID 89585; resource leak
+        dtcm/props.c: coverity CID 88573; unbounded src buf
+        dthelp/Initialize.c: coverity CID 89569; unbounded src buf
+        dtfile/File.c: coverity CID 88919; uninit array read
+        libtt/isrepair.c: coverity CID 86705; uninit ptr read
+        dtudcfonted/gpftobdf.c: coverity CIDs 87073,87008,87029,86919,86898,86715; uninit scalar
+        dtudcfonted/_faludcInf.c: coverity CIDs 175096,175092; uninit ptr read
+        dtcalc/ds_xlib.c: coverity CID 175093; wrong sizeof/bad free
+        dtcalc: remove MAX_PATH, use standard PATH_MAX
+        dtcreate/CreateActionAppShell.c: coverity CID 175092; uninit ptr read
+        dtcreate/fileio.c: coverity CID 175094; dref bef NULL
+        dtwm/WmResource.c: remove errant ')' added in previous commit
+        libDtSearch/dtsrapi.c: Coverity CID 86857; dest buf too small
+        dtsr/dtsrclean.c: Coverity CID 86876; dest buf too small
+        dtcm/dssw.c: Coverity CID 88672; dest buf too small
+        dtcalc/ds_xlib.c: Coverity CID 175167; uninit value
+        dtudcfonted/gpftobdf.c: Coverity CID 175168; NULL deref
+        dtcm/dssw.c: fix typo
+        Disable building of dtudcfonted and dtudcexch
+        fontaliases: use copy rather than symlink since bdftopcf can't handle those
+        dtfile/SharedProcs.c: rework coverity 174852 fix to unbreak dtfile
+        dtfile: define MAX_PATH to PATH_MAX rather than 1024, also CID 87557
+        dtfile/sharedFuncs: CID 88085; resource leak
+        Revert "dtfile: coverity CIDs 88363,88405,89140,89612; insecure readlink"
+        Remove admin/BuildTools/fnrclone/; obsolete junk
+        Remove admin/BuildTools; none of this is pertinent anymore
+        Remove admin/bin; none of this is pertinent anymore
+        Remove admin/man, *nameswitch; none of this is pertinent anymore
+        installCDE/linux: don't try to edit/modify /etc/inetd.conf if it does not exist
+        dthelp/FormatUtils: fix coredump in dthelpgen due to free() of a bad address
+        Reimplement reverted commit 7fa35c to fix readlink() issues
+        dtfile/Prefs: CID 88095,88407,89162,89164,89283,89445
+        dtfile/Desktop: CID 88133,88159,88339,88798,89331,89466
+        dtfile/FileDialog: CID 88141,88451,88658,89058
+        dtfile/SharedProcs: CID 88158,88337,89104,89118
+        dtfile/File: CID 88195,88595,88627,88794
+        dtfile/dtcopy/sharedFuncs: CID 88204,88291,88852,88861,88876
+        dtfile/IconWindow: CID 88242,88702,89030
+        dtfile/Find: CID 88258,87250
+        dtfile/FileMgr: CID 88441,89025,174801
+        dtfile/Help: CID 88598
+        dtfile/Trash: CID 88638,88815,89061,89614
+        dtfile/FileOp: CID 88744,89337,89546
+        linux.cf: Add -Wno-unused-result to C flags
+        dtfile/Command: CID 88819
+        dtfile/Directory: CID 88835,89096,89446,89469,89498
+        dtfile/dtcopy/fsrtns: CID 88868,88128
+        dtfile/Menu: CID 89222
+        dtfile/dtcopy/dosync: CID 89374
+        dtfile/Main: CID 89623
+        dtfile/Encaps: CID 174844
+        dtfile/Desktop: CID 175219,175222,175223,175226,175227
+        dtfile/dtcopy/sharedFuncs: CID 175225
+        dtfile/SharedProcs: CID 175229
+        dtfile/FileDialog: CID 175220
+        dtfile/FileOp: CID 175228
+        dtbuilder/Imakefile: fix clean target to remove dtbuilder executable
+        Enable TIRPC support for Linux
+        dtfile/File.c: implement a hack to fix Ticket #19, tree icons are black
+        CDE-MAN-DEV.udb: remove extra }, added when UXP support was removed
+        CDE-DEMOS: remove references to Makefile.novell
+        TermPrimSetUtmp: fix lost define broken by last patch
+        tt_old_db: use TT_DB_OK instead of NULL
+        tt_xdr_utils: fix up some warnings
+        installCDE.src: Add a -destdir <dir> option
+        Imake.tmpl: don't delete logfiles (make.log MakeOut)
+        XlationSvc: remove a "'" added in previous spelling commit that causes warnings
+        rpc.cmsd: use TIRPC on Linux
+        dtcm/graphics: NULL is not 0
+        libDtCmP: use TIRPC on linux, fix some warnings
+        dtcm: NULL is not 0
+        dtsession: fix screen saver/locking on linux
+        configRun: leave dtmail alone, UDB handles it's perms correctly
+        configRun: remove inetd support
+        configMin: remove inetd support, 'pam' support
+        configTT: remove inetd support
+        installCDE: unset FIGNORE to workaround potential ksh bug
+        linux.cf: disable stripping of installed binaries
+        site.def: Only build C/en_US locales by default for Linux
+        installCDE: Only install locales that were built
+
+  Matthew R. Trower (2):
+        dtwm: basic multihead(xinerama only) support
+        Fix imake segfault on OpenIndiana
+
+  Michael McConville (1):
+        Remove needless zeroing after calloc
+
+  Peter Howkins (78):
+        Change pid wait types to int on Linux as well. Fixes compile issue     in dtudc programs on ubuntu 16.10+
+        Add in an example .desktop session file for other X session managers (not dtlogin)     Suitable for kdm/gdm/lightdm etc
+        Resolve some coverity warnings
+        Fixed for wrong cased filename on depends creation
+        Resolve some compiler warnings
+        Change how read and write errors are detected on fstream based streams.
+        Change dtmmdb class from tuple to mmdb_tuple
+        dtksh: HACKY fix for compilation on later linux C library where FILE definition has moved
+        dtksh: make sure you can still build on linux older c library too
+        dtksh: Linux modern glibc compile HACK prevent system wide definition of __FILE that we define to Sfio_t
+        dtcalc: change from obsoleted MAXFLOAT to FLT_MAX from std C
+        dtdocbook: glibc 2.27 drops support for matherr() support in math.h
+        dtcudcfonted: Resolve compiler and coverity warnings
+        dtscpd: resolve compiler and coverity warnings
+        dtcalc: resolve coverity issues
+        libtt: Resolve some compiler warnings
+        dthelp: compiler warning and coverity warning fixes
+        dtcalc: resolve coverity issues
+        dtudcfonted: Resolve further coverity issues
+        dtcreate: Resolve coverity issues
+        dtpdmd: Resolve some coverity warnings
+        libDtWidget: Resolve some Coverity warnings
+        dtwm: Resolve coverity warnings
+        dtmail: resolve 'deference before null check' errors related to if(!NULL) checks around free() calls
+        Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
+        libdtsvc: Compiler warning prevention
+        libdtsvc: Resolve coverity warnings related to 'dereference before null check' related to free()
+        dtwm: cov 175166, check for pointer
+        Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
+        dsdm: cov 86572, free mem in error condition
+        libdtterm: Resolve coverity issues
+        config/util: resolve coverity issues
+        dtspcd: Cov 89547, 175089
+        dtinfo: Fix coverity issues for resource leaks
+        dtinfo: fix coverity issues related to null checks after dereference
+        dtinfo/dtinfogen: Fix segfault introduced by over zealously fixing coverity resource leak
+        dthelp: more coverity fixes
+        dtpad: resove coverity issues
+        libtt: Resolve coverity warnings
+        ttsnoop: resolve some compiler warnings
+        libtt: resolve coverity issues related to double close()
+        lidtsvc: coverity fixes
+        dtterm: coverity fixes
+        dtlogin: coverity fixes
+        libtt: More coverity fixes
+        dthelp: coverity fixes
+        dtwm: Fix window menus caused by using destination as param to snprintf
+        various: You cannot use the destination of snprintf as one of the srcs, undefined
+        libtt: Coverity fixes related to uninitialised fields in classes.
+        dtinfo: Resolve coverity warnings related to uninitialised members of classes
+        nsgmls: resolve coverity warnings related to uninitialed members in C++ classes
+        dtmail: resolve coverity warnings related to uninitialised members in C++ classes
+        libtt: Further coverity fixes
+        dtinfo: Fix coverity warning related to using delete not delete []
+        Merge branch 'cde-fixups-1' of ssh://git.code.sf.net/p/cdesktopenv/code into cde-fixups-1
+        dtpdm: Coverity 87632, 87664, 87923
+        libtt: Fixes for Coverity fixes that I thought I'd already fixed.
+        dtmail: Further Coverity fixes
+        dtsr: Coverity fixes for string buffer issues
+        dtinfo: Extra fixes for previous believed fixed things (coverity)
+        dtlogin: Two additional coverity fixes
+        dtappbuilder: Resolve all compiler warnings
+        dtappbuilder: Coverity fixes for mising return value and copy into fixed size buffer
+        dtappbuilder: Fix for very wrong sized buffer
+        dtappbuilder: Further coverity, resource leaks, copy intofixed size buffer and dereference before null checl
+        dticon: coverity fixes
+        Merge branch 'cde-fixups-1' of ssh://git.code.sf.net/p/cdesktopenv/code into cde-fixups-1
+        dtimsstart: Resolve all compiler warnings
+        dtimsstart: Coverity fixes
+        dtimsstart: Fix derp in previoua fix set
+        dtfile: batch coverity fixes
+        dtlogin: Resolve some coverity issues, including those thought previously fixed
+        dtsession: A few extra snprintf's for buffer safety
+        dtimsstart: Fix brackets on previous coverity fix
+        dticon: Fix broken string length calculation
+        dthelp: Further coverity fixes
+        dtappbuilder: Coverity fixes mostly related to uninitialised variables
+        dtwm: Resolve coverity warnings related to uninitialised variables and missing return statements
+
+  Swift Griggs (1):
+        Patches from pkgsrc-WIP
+
+  Ulrich Wilkens (4):
+        Fix BSD and Sun problems after coverity fixes
+        Fix Linux rpc problems with new glibc
+        Fixes for OpenBSD
+        Fix warnings on FreeBSD
+
+  alx (6):
+        libDtSvc: added Xinerama support to _DtMessageDialog
+        dtfile: added Xinerama support to dialog positioning routines
+        dtlogin: center the mouse pointer on the login screen on multi-head setups
+        ttsession: don't segfault if host name isn't properly set
+        dtksh/sfio: resolved a naming collision on FreeBSD 11
+        libtt: pass proper flags to getfsstat, log error message and exit if it fails
+
+  chase (23):
+        Fix various spelling errors
+        More spelling fixes
+        Rewrite csh scripts in sh, use sh instead of csh in scripts
+        Small spelling fixes
+        Fix typo in license headers
+        Even more spelling fixed
+        Last of the spelling fixed
+        Add missing license headers on *.hh files and others
+        Remove bsdi support
+        Add generated binaries to gitignore from programs/localized/
+        Remove examples/motif
+        cde.desktop: remove deprecated encoding key
+        sgml-mode.el: fix address, dt-toolbox: delete
+        Remove UXPDS support
+        Remove Unixware and openserver support
+        Use /var/spool instead of /usr/spool and /var/mail instead of /usr/mail
+        remove OSF1 support
+        Use POSIX macros for linux
+        dinstallCDE.src: add linux and *BSD support
+        Spelling fixes
+        cde.desktop:Add keywords to desktop entry
+        fix files not registering as scripts
+        cde.desktop: add xpm icon
+
+
+
+### 2.2.4 (stable) 06/19/2016
 
 This release incorporates several fixes for newer operating systems
 (linux and the BSD's primarily).  It also removes the requirement to
@@ -342,7 +404,7 @@ alx (14):
       dtfile: Enable FILE_MAP_OPTIMIZE on Linux. This avoids unnecessary tt_file_netfile calls on local host.
 
 
-# 2.2.3 05/09/2015
+### 2.2.3 (stable) 05/09/2015
 
 This release incorporates several hundred fixes identified by various
 Coverity scans and patches supplied by users.  In addition,
@@ -503,7 +565,7 @@ alx (1):
       dtcopy: Fix file removal
 
 
-# 2.2.2 07/27/2014
+### 2.2.2 (stable) 07/27/2014
 
 A lot of fixes and improvements in this release.  CDE can be built on
 more modern Linuxes and BSDs.  An initial stab at illimios support is
@@ -588,11 +650,10 @@ alx (2):
       DtWidget: Don't free random pointer on Control widget destruction
 
 
-# 2.2.1 03/01/2014
+### 2.2.1 (stable) 03/01/2014
 
 - Forgot to update this file for the release.  Oops.  At any rate,
-  only the git shortlogs for each release will be listed here in the
-  future. 
+  only the git shortlogs for each release will be listed here.
 
 Shortlog:
 
@@ -671,77 +732,77 @@ alx (4):
       wwl: fixed dtinfo segfault due to missing copy constructor in WArgList
 
 
-# 2.2.0d (beta) 05/30/2013
+  ## 2.2.0d (development, beta) 05/30/2013
 
-- We are being bold this time, and promoting CDE to Beta.
+  - We are being bold this time, and promoting CDE to Beta.
 
-- More work on dtinfo.  It now mostly compiles but is not quite ready
-  for prime time.  It is not built be default.
+  - More work on dtinfo.  It now mostly compiles but is not quite ready
+    for prime time.  It is not built be default.
 
-- dtksh now builds on linux systems.
+  - dtksh now builds on linux systems.
 
-- We do not build Motif man pages anymore.
+  - We do not build Motif man pages anymore.
 
-- X11 screensaver extension support now works in dtsession on Linux.
+  - X11 screensaver extension support now works in dtsession on Linux.
 
-- Some screen locking issues on the BSD's have been fixed.
+  - Some screen locking issues on the BSD's have been fixed.
 
-- /usr/sbin/sendmail is now the default mailer on OpenBSD 
+  - /usr/sbin/sendmail is now the default mailer on OpenBSD 
 
-- Basic support for Xinerama has been added to dtlogin and dtsession
-  using a new DtXinerama library.
+  - Basic support for Xinerama has been added to dtlogin and dtsession
+    using a new DtXinerama library.
 
-- Resolve many more more compiler warnings
-
-
-# 2.2.0c (alpha) 10/4/2012
-
-- Many 64b issues have been fixed, related to XtVaGetValues(), missing
-  prototypes, erroneous assumptions regarding the size of ints and
-  pointers, etc.  Many still lurk in the shadows.
-
-- help files should build now on 64b systems with compiler
-  optimization enabled.
-
-- FreeBSD is pretty much fully functional now.  OpenBSD and NetBSD are
-  close behind.
-
-- FreeBSD uses a authorized FreeBSD Foundation specific logo on
-  dtlogin.
-
-- a few hundred more compiler warnings fixed :)
-
-- more missing prototypes added to XmPrivate.h
+  - Resolve many more more compiler warnings
 
 
-# 2.2.0b (alpha) 9/6/2012
+  ## 2.2.0c (development, alpha3) 10/4/2012
 
-- This release incoporates approximately 200 patches from various
-  people around the planet.
+  - Many 64b issues have been fixed, related to XtVaGetValues(), missing
+    prototypes, erroneous assumptions regarding the size of ints and
+    pointers, etc.  Many still lurk in the shadows.
 
-- initial BSD (OpenBSD, FreeBSD) support.
+  - help files should build now on 64b systems with compiler
+    optimization enabled.
 
-- wider support for various Linux distributions - Redhat, Arch,
-  Ubuntu/Kubuntu/Xubuntu.  See a full list of currently operational
-  platforms and their statuses at:
+  - FreeBSD is pretty much fully functional now.  OpenBSD and NetBSD are
+    close behind.
 
-  https://sourceforge.net/p/cdesktopenv/wiki/SupportedPlatforms/
+  - FreeBSD uses a authorized FreeBSD Foundation specific logo on
+    dtlogin.
 
-- many fixes to better support 64b systems.  There is still much work
-  needed in this regard.
+  - a few hundred more compiler warnings fixed :)
 
-- most modules are operational.  dtinfo is not operational on any
-  platform yet.  dtksh is not yet operational on linux systems.
-
-- several thousand compiler warnings have been addressed.
-  Unfortunately, there are still several thousand more waiting :(
-  Some of this code is *old*.
+  - more missing prototypes added to XmPrivate.h
 
 
-# 2.2.0a (alpha) 8/6/2012
+  ## 2.2.0b (development, alpha2) 9/6/2012
 
-- This is the initial release of CDE form The Open Group based on
-  2.1.30.   
+  - This release incoporates approximately 200 patches from various
+    people around the planet.
 
-  Minimal changes to get it compiling on some common linux distros,
-  primarily 32bit.
+  - initial BSD (OpenBSD, FreeBSD) support.
+
+  - wider support for various Linux distributions - Redhat, Arch,
+    Ubuntu/Kubuntu/Xubuntu.  See a full list of currently operational
+    platforms and their statuses at:
+
+    https://sourceforge.net/p/cdesktopenv/wiki/SupportedPlatforms/
+
+  - many fixes to better support 64b systems.  There is still much work
+    needed in this regard.
+
+  - most modules are operational.  dtinfo is not operational on any
+    platform yet.  dtksh is not yet operational on linux systems.
+
+  - several thousand compiler warnings have been addressed.
+    Unfortunately, there are still several thousand more waiting :(
+    Some of this code is *old*.
+
+
+  ## 2.2.0a (development, alpha1) 8/6/2012
+
+  - This is the initial release of CDE form The Open Group based on
+    2.1.30.   
+
+    Minimal changes to get it compiling on some common linux distros,
+    primarily 32bit.
