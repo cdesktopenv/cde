@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE = 1
+
+%:
+	dh $@
+
+#make clean cleans everything except the doc directory for some reason
+override_dh_auto_clean:
+	$(MAKE) clean
+	$(MAKE) clean.doc
+
+#make World needs to be called, not just make
+override_dh_auto_build:
+	$(MAKE) World
+
+#make install is broken, so we use the install script instead
+override_dh_auto_install:
+	sudo ./admin/IntegTools/dbTools/installCDE -s . -destdir \
+	./debian/cde-desktop
