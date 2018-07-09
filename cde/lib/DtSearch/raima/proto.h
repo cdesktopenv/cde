@@ -278,32 +278,4 @@ int  ctb_init(void);
 int  ctbl_alloc(void);
 void ctbl_free(void);
 
-/* System functions */
-#ifndef _STRING_H
-#ifndef linux
-  void CDECL memcpy(char *, char *, int);
-#endif
-  int  CDECL memcmp(char *, char *, int);
-  void CDECL memset(char *, char, int);
-
-  int CDECL strcmp(const char *, const char *);
-  char * CDECL strcpy(char *, const char *);
-  char * CDECL strcat(char *, const char *);
-  int CDECL strlen(const char *);
-  int CDECL strncmp(const char *, const char *, int);
-  char * CDECL strncpy(char *, const char *, int);
-  char * CDECL strchr(const char *, int);
-  char * CDECL strrchr(const char *, int);
-#endif
-
-void CDECL free(void *);  /* AIXV3 - DPG 07/05/90 */
-time_t CDECL time(long *);
-int CDECL write(int, char *, unsigned int);
-int CDECL read(int, char *, unsigned int);
-long CDECL lseek(int, long, int);
-int CDECL close(int);
-void CDECL exit(int);
-char * CDECL getenv(const char *);
-int CDECL locking(int, int, long);
-int CDECL unlink(const char *);
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC -f/usr/users/master/config/nonwin proto.h */

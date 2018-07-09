@@ -526,9 +526,9 @@ typedef struct page_entry {
 #define buff Buff.ptr
 
 #include <string.h>
-#ifndef _STRING_H
-#define _STRING_H
-#endif
+#include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 #include "proto.h"
 
 /* vpp -nOS2 -dUNIX -nBSD -nVANILLA_BSD -nVMS -nMEMLOCK -nWINDOWS -nFAR_ALLOC dbtype.h */
