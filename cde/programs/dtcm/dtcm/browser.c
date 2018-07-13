@@ -145,13 +145,13 @@ br_display(Calendar *c) {
 	for (i = 0; i < pos_cnt; i++) {
 		bd = (BlistData *)CmDataListGetData(bl->blist_data,
 						    pos_list[i]);
+		if (bd) {
+			destroy_paint_cache(bd->cache, bd->cache_size);
+			bd->cache = NULL;
+			bd->cache_size = 0;
 
-		destroy_paint_cache(bd->cache, bd->cache_size);
-		bd->cache = NULL;
-		bd->cache_size = 0;
-
-		if (bd)
 			mb_update_array(bd->name, c);
+		}
 	}
 	if (pos_list)
 		XtFree((XtPointer)pos_list);
