@@ -752,7 +752,7 @@ _AttrsToAbbrAppt(uint size, cms_attribute *attrs, Abb_Appt_4 *appt)
 	CSA_return_code	stat = CSA_SUCCESS;
 	char		*ptr;
 	time_t		endtick;
-	int		i, typeindex, stypeindex = -1, enddateindex = -1;
+	int		i, typeindex = 0, stypeindex = -1, enddateindex = -1;
 	char		buf[BUFSIZ];
 
 	for (i = 0; i < size && stat == CSA_SUCCESS; i++) {
