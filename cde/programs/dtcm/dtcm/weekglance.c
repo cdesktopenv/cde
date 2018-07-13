@@ -1024,6 +1024,7 @@ format_entry(Paint_cache *cache_entry, char *buf1, char *buf2,
         struct tm *tm;
 	_Xltimeparams localtime_buf;
 
+        if (cache_entry == NULL || cache_entry->summary == NULL) return;
 
 	tick = cache_entry->start_time;
 	end_tick = cache_entry->end_time;
@@ -1033,7 +1034,6 @@ format_entry(Paint_cache *cache_entry, char *buf1, char *buf2,
          * then maxchars
          */
         *buf1 = *buf2 = '\0';
-        if (cache_entry == NULL || cache_entry->summary == NULL) return;
         tm = _XLocaltime(&tick, localtime_buf);
         hour1 = tm->tm_hour;
         min1  = tm->tm_min;
