@@ -299,14 +299,16 @@ _DtCm_rtable_check_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
         Table_Args_4 *newargs;     
         Table_Status_4 *newres;    
        
-        newargs = _DtCm_tableargs2_to_tableargs4(args);    
-        newres = _DtCm_rtable_check_4_svc(newargs, svcrq);    
+        newargs = _DtCm_tableargs2_to_tableargs4(args);
+        if(newargs) {
+                newres = _DtCm_rtable_check_4_svc(newargs, svcrq);
               
-        res = _DtCm_tablestat4_to_tablestat2(*newres);   
+                res = _DtCm_tablestat4_to_tablestat2(*newres);
      
-        if (newargs!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs);     
-         
-        return(&res); 
+                xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs);
+         }
+
+        return(&res);
 }
 
 /*	PROC #13	*/
