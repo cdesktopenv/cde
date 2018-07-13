@@ -68,7 +68,7 @@ make_timezone(Calendar *c)
 	XmString xmstr;
 	int ac;
 	Arg args[10];
-	char buf[BUFSIZ], tmp_buf[BUFSIZ];
+	char buf[BUFSIZ], tmp_buf[BUFSIZ] = "";
 	char *title;
 	void tz_customtime_cb(), tz_mytime_cb(), 
 			tz_apply_cb(), tz_cancel_cb(), tz_ok_cb();
@@ -296,8 +296,7 @@ make_timezone(Calendar *c)
 	cm_strcpy(t->gmttimezone, "");
 	cm_strcpy(t->mytimezone, "US/Pacific");
 	cm_strcpy(tmp_buf, (char*)getenv("TZ"));
-	if (tmp_buf)
-		cm_strcpy(t->mytimezone, tmp_buf);
+	cm_strcpy(t->mytimezone, tmp_buf);
 
 	sprintf(buf, "%s %s", catgets(c->DT_catd, 1, 659, "Time Zone:"),
 		t->mytimezone);
