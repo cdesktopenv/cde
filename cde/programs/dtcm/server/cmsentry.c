@@ -156,7 +156,7 @@ _ExtractEntryAttrsFromEntry(
 	cms_attribute	**dstattrs,
 	boolean_t	time_only)
 {
-	CSA_return_code	stat;
+	CSA_return_code	stat = CSA_SUCCESS;
 	int		i, j;
 	cms_attribute	*attrs;
 
