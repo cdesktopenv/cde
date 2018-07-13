@@ -1901,7 +1901,7 @@ remove_all_gaccess_data(GEditor *ge) {
 		step = (Access_data *)CmDataListGetData(ge->access_data, i);
 		if (step && step->name)
 			free(step->name);
-		if (step->appt_head && step->appt_count >= 0)
+		if (step && step->appt_head && step->appt_count >= 0)
 			csa_free(step->appt_head);
 		step->appt_head = NULL;
 		step->appt_count = 0;
