@@ -372,9 +372,10 @@ _DtCmsGetEntryAttrByKey(
 		else
 			stat = CSA_E_NO_AUTHORITY;
 
-		if (entry_r)
+		if (entry_r) {
+			free(res);
 			return (stat);
-		else {
+		} else {
 			res->stat = stat;
 			*res_r = res;
 			return (CSA_SUCCESS);
