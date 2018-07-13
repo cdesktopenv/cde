@@ -189,7 +189,7 @@ prompt_for_insert(Props *p) {
 		format_time(now(), dt, cm_start);
 		prompt_for_line(catgets(DT_catd, 1, 196, 
 			"Start (%s): "), cm_start, cm_start);
-		if (cm_start && cm_start[0])
+		if (cm_start[0])
 		{
 			timecopy = (char *)cm_strdup(cm_start);
 			if (valid_time(p, timecopy))
@@ -205,7 +205,7 @@ prompt_for_insert(Props *p) {
         next = next + hrsec;
 
 	format_time(next, dt, cm_end);
-	if (cm_start && cm_start[0])
+	if (cm_start[0])
 		prompt_for_line(
 			catgets(DT_catd, 1, 198, "End (%s): "), cm_end, cm_end);
 	else
