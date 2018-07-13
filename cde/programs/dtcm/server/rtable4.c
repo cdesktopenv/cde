@@ -1258,7 +1258,7 @@ _DtCm_rtable_set_access_4_svc(Access_Args_4 *args, struct svc_req *svcrq)
 	if (cal->fversion >= _DtCM_FIRST_EXTENSIBLE_DATA_VERSION) {
 		cms_attribute		attr;
 		cms_attribute_value	attrval;
-		cms_access_entry	*alist;
+		cms_access_entry	*alist = NULL;
 
 		if (args->access_list && (alist =
 		    _DtCmsConvertV4AccessList(args->access_list)) == NULL) {
