@@ -347,13 +347,14 @@ _DtCm_register_callback_2_svc(Registration_2 *r, struct svc_req *svcrq)
         static Registration_Status_2 stat;    
         Registration_4 *newreg;       
 	Registration_Status_4 *newstat;
-          
-        newreg = _DtCm_reg2_to_reg4(r);      
-        newstat = _DtCm_register_callback_4_svc(newreg, svcrq);      
-                 
-        stat = _DtCm_regstat4_to_regstat2(*newstat);      
-      
-        if (newreg!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Registration_4, (char*)newreg);        
+
+        newreg = _DtCm_reg2_to_reg4(r);
+        if(newreg) {
+                newstat = _DtCm_register_callback_4_svc(newreg, svcrq);
+                stat = _DtCm_regstat4_to_regstat2(*newstat);
+
+                xdr_free((xdrproc_t)_DtCm_xdr_Registration_4, (char*)newreg);
+        }
 	return(&stat);
 }
 
