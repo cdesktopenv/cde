@@ -2159,7 +2159,7 @@ p_save_changes(Calendar *c) {
 		}
 	
 
-		if (((ToDo *) c->todo)->base_form_mgr) {
+		if (c->todo && ((ToDo *) c->todo)->base_form_mgr) {
 			ToDo *t = (ToDo *)c->todo;
 			DSSW *dssw = &((ToDo *) c->todo)->dssw;
 
