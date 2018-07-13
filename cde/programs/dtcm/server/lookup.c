@@ -345,7 +345,7 @@ _DtCmsGetEntryAttrByKey(
 	char		sbuf[TIME_BUF_LEN], ebuf[TIME_BUF_LEN];
 	time_t		firsttick = 0;
 	List_node	*lnode;
-	cms_get_entry_attr_res_item *res;
+	cms_get_entry_attr_res_item *res = NULL;
 
 	if (entry_r == NULL && res_r == NULL)
 		return (CSA_E_INVALID_PARAMETER);
