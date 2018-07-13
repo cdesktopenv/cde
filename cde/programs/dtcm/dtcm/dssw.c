@@ -933,7 +933,7 @@ load_dssw_times(DSSW *dssw, Tick start, Tick stop, Boolean set_no_time) {
 			dssw->start_val.block = (buf[5] == 'a') ?
 				TIME_AM : TIME_PM;
 		} else {
-			strcpy(dssw->start_val.val, buf);
+			snprintf(dssw->start_val.val, sizefof(dssw->start_val.val), "%s", buf);
 			dssw->start_val.block = TIME_AM;
 		}
 	}
