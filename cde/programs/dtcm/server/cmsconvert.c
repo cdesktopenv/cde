@@ -68,7 +68,7 @@ static CSA_return_code _Appt4ToCmsentryAttrs(char *calname, Appt_4 *a4,
 extern CSA_return_code
 _DtCmsCmsentriesToAppt4ForClient(cms_entry *entries, Appt_4 **appt)
 {
-	CSA_return_code	stat;
+	CSA_return_code	stat = CSA_SUCCESS;
 	Appt_4	*newappt, *prev, *head;
 
 	if (appt == NULL)
