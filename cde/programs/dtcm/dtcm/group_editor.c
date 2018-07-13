@@ -527,7 +527,7 @@ static Dtcm_appointment*
 form_to_appt(GEditor *ge, Boolean no_reminders, int version) {
 	Props			*p = (Props *)ge->cal->properties;
 	boolean_t		all_ok;
-	Dtcm_appointment	*a;
+	Dtcm_appointment	*a = NULL;
 
 	if (no_reminders) {
 
