@@ -521,7 +521,7 @@ CSA_entry_handle
 get_appt_struct(DragContext *context) {
 	int             *item_list = NULL, item_cnt = 0, answer;
 	char		buf[MAXNAMELEN];
-	Widget 		list;
+	Widget 		list = NULL;
 	Calendar 	*c = context->calendar;
 	Props_pu	*pr;
 	CSA_entry_handle	entry = 0;
@@ -536,7 +536,7 @@ get_appt_struct(DragContext *context) {
 	else if (context->editor_type == TodoEditorList)
 		list = ((ToDo *) context->editor)->todo_list;
 
-        if (!XmListGetSelectedPos(list, &item_list, &item_cnt)) {
+        if (list && !XmListGetSelectedPos(list, &item_list, &item_cnt)) {
 	  	char *title = XtNewString(catgets(c->DT_catd, 1, 230, 
 				"Calendar : Error - Drag Appointment"));
 		char *text = XtNewString(catgets(c->DT_catd, 1, 231, "Select an appointment and DRAG again."));
