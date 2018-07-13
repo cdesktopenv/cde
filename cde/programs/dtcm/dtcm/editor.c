@@ -156,7 +156,7 @@ e_list_select_proc(Widget w, XtPointer client_data, XtPointer data) {
 static void
 e_quit_handler(Widget w, XtPointer cdata, XtPointer data) {
 	Editor *e = (Editor *)cdata;
-	Widget popMeDown;
+	Widget popMeDown = NULL;
 
 	if (w == e->frame) {
 		editor_clean_up(e);
@@ -168,7 +168,9 @@ e_quit_handler(Widget w, XtPointer cdata, XtPointer data) {
 		popMeDown = e->view_form;
 	}
 
-	XtUnmanageChild(popMeDown);
+	if(popMeDown) {
+		XtUnmanageChild(popMeDown);
+	}
 }
 
 
