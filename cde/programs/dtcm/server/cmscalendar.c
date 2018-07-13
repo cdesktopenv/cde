@@ -676,7 +676,7 @@ _DtCmsGetCalAttrsByName(
 	cms_attribute	**attrs_r)
 {
 	CSA_return_code	stat = CSA_SUCCESS;
-	int		i, j, index;
+	int		i, j, index = 0;
 	cms_attribute	*attrs;
 
 	if ((attrs = calloc(1, sizeof(cms_attribute)*num_names)) == NULL)
