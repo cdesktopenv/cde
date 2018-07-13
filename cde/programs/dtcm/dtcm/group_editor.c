@@ -730,6 +730,10 @@ ge_insert_proc(Widget w, XtPointer client_data, XtPointer data) {
 		ad = (Access_data *)
 			CmDataListGetData(ge->access_data, c_list[i]);
 
+		if(NULL == ad) {
+			_DtTurnOffHourGlass(ge->frame);
+			return;
+		}
 
 		/* it may seem a little odd to create this
 		   template appointment over and over again, but this 
