@@ -888,7 +888,7 @@ get_attr_value(int type, char *valstr, cms_attribute_value **attrval)
 	uint		unum;
 	CSA_reminder	remval;
 	CSA_opaque_data opqval;
-	CSA_return_code stat;
+	CSA_return_code stat = CSA_SUCCESS;
 
 	switch (type) {
 	case CSA_VALUE_ENUMERATED:
