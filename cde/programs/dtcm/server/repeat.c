@@ -523,7 +523,7 @@ _DtCms_last_tick_v4(time_t ftick, Period_4 period, int ntimes)
 {
 	struct tm *tm;
 	double dltick;
-	time_t ltick;
+	time_t ltick = 0;
 	int i;
 	_Xltimeparams localtime_buf;
 
