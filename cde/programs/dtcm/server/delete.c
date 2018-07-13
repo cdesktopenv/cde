@@ -351,7 +351,7 @@ static CSA_return_code
 _AddException(cms_attribute *attr, time_t time)
 {
 	CSA_date_time_entry	*dt, *dlist, *prev;
-	cms_attribute_value	*val;
+	cms_attribute_value	*val = NULL;
 	time_t			tick;
 	char			buf[20];
 
@@ -378,7 +378,7 @@ _AddException(cms_attribute *attr, time_t time)
 		val->type = CSA_VALUE_DATE_TIME_LIST;
 	}
 
-	if (attr->value->item.date_time_list_value == NULL) {
+	if (val && (attr->value->item.date_time_list_value == NULL)) {
 		val->item.date_time_list_value = dt;
 	} else {
 		for (dlist = attr->value->item.date_time_list_value, prev=NULL;
