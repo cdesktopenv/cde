@@ -997,7 +997,7 @@ get_file_owner(char *calname, char **owner)
 	*owner = NULL;
 
 	if (_DtCmIsUserName(calname) == B_TRUE) {
-		strcpy(buf, calname);
+		snprintf(buf, sizeof(buf), "%s", calname);
 	} else {
 		if ((log = _DtCmsGetLogFN(calname)) == NULL)
 			return (CSA_E_INSUFFICIENT_MEMORY);
