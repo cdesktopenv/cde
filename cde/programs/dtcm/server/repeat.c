@@ -632,7 +632,7 @@ _DtCms_last_tick_v4(time_t ftick, Period_4 period, int ntimes)
 extern time_t
 _DtCms_next_tick_v4(time_t tick, Period_4 period)
 {
-        time_t next;
+        time_t next = 0;
 	struct tm *tm;
 	_Xltimeparams localtime_buf;
 
