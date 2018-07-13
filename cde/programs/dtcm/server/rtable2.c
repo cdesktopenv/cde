@@ -301,7 +301,9 @@ _DtCm_rtable_check_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
         static Table_Status_2 res; 
         Table_Args_4 *newargs;     
         Table_Status_4 *newres;    
-       
+
+        res = 0;
+
         newargs = _DtCm_tableargs2_to_tableargs4(args);
         if(newargs) {
                 newres = _DtCm_rtable_check_4_svc(newargs, svcrq);
@@ -321,7 +323,9 @@ _DtCm_rtable_flush_table_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
         static Table_Status_2 res;  
         Table_Args_4 *newargs;     
         Table_Status_4 *newres;     
-        
+
+        res = 0;
+
         newargs = _DtCm_tableargs2_to_tableargs4(args);     
         newres = _DtCm_rtable_flush_table_4_svc(newargs, svcrq);     
                
@@ -338,7 +342,9 @@ _DtCm_rtable_size_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
 {
         static int size;   
         Table_Args_4 *newargs;      
-         
+
+        size = 0;
+
         newargs = _DtCm_tableargs2_to_tableargs4(args);
         if(newargs) {
                 size = (*(_DtCm_rtable_size_4_svc(newargs, svcrq)));
@@ -357,6 +363,8 @@ _DtCm_register_callback_2_svc(Registration_2 *r, struct svc_req *svcrq)
         Registration_4 *newreg;       
 	Registration_Status_4 *newstat;
 
+        stat = 0;
+
         newreg = _DtCm_reg2_to_reg4(r);
         if(newreg) {
                 newstat = _DtCm_register_callback_4_svc(newreg, svcrq);
@@ -374,7 +382,9 @@ _DtCm_deregister_callback_2_svc(Registration_2 *r, struct svc_req *svcrq)
         static Registration_Status_2 stat;     
         Registration_4 *newreg;          
         Registration_Status_4 *newstat; 
-           
+
+        stat = 0;
+
         newreg = _DtCm_reg2_to_reg4(r);       
         if(newreg) {
                 newstat = _DtCm_deregister_callback_4_svc(newreg, svcrq);
@@ -393,7 +403,9 @@ _DtCm_rtable_set_access_2_svc(Access_Args_2 *args, struct svc_req *svcrq)
 	static Access_Status_2 stat;
 	Access_Args_4 *newargs;
 	Access_Status_4 *newstat;
-        
+
+        stat = 0;
+
         newargs = _DtCm_accargs2_to_accargs4(args);     
         if(newargs) {
                 newstat = _DtCm_rtable_set_access_4_svc(newargs, svcrq);
