@@ -1864,7 +1864,7 @@ parse_attrs_to_string(Dtcm_appointment *appt, Props *p, char *attr_string) {
 			r_buf[MAXNAMELEN], f_buf[MAXNAMELEN], *appt_what,
 			*b_ptr;
 	time_t		tick, end_tick = 0;
-	CSA_sint32	repeat_type;
+	CSA_sint32	repeat_type = 0;
 	CSA_uint32	repeat_times;
         static char *format_string = "\n\n\t** Calendar Appointment **\n%s:string:begin\n%s%s:string:end\n\tDate: %s\n\tStart: %s\n\tEnd: %s\n\tRepeat: %s\n\tFor: %s\n\tWhat: %s";
 
