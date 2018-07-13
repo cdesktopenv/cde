@@ -231,12 +231,14 @@ _DtCm_rtable_change_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
       
         if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_2, (char*)res); 
     
-        newargs = _DtCm_tableargs2_to_tableargs4(args); 
-        newres = _DtCm_rtable_change_4_svc(newargs, svcrq); 
-        res = _DtCm_tableres4_to_tableres2(newres);  
+        newargs = _DtCm_tableargs2_to_tableargs4(args);
+        if(newargs) {
+                newres = _DtCm_rtable_change_4_svc(newargs, svcrq);
+                res = _DtCm_tableres4_to_tableres2(newres);
   
-        if (newargs!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs);  
-      
+                xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs);
+        }
+
         return(res); 
 }
 
