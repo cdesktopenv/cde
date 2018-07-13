@@ -2822,7 +2822,7 @@ x_print_multi_appts(void *gInfoP,
 
   CMGraphicsInfo *gInfo = (CMGraphicsInfo *)gInfoP;
   int		indented, indentAmt, multlines=TRUE;
-  Lines		*lines, *lp;    
+  Lines		*lines = NULL, *lp = NULL;
   char		buf1[128], buf2[257];
   Calendar	*c = gInfo->c;  
   Props		*pr = (Props*)c->properties;
@@ -2853,6 +2853,7 @@ x_print_multi_appts(void *gInfoP,
     stat = query_appt_struct(c->cal_handle, list[j], appt);
     if (stat != CSA_SUCCESS) {
       free_appt_struct(&appt);
+      destroy_lines(lp);
       return False;
     }
 
@@ -2892,6 +2893,7 @@ x_print_multi_appts(void *gInfoP,
     if (showtime_set(appt)) {
       if (line_counter == (maxlines - 1)) {
 	free_appt_struct(&appt);
+	destroy_lines(lp);
 	return(FALSE);
       }
     }
@@ -2910,6 +2912,7 @@ x_print_multi_appts(void *gInfoP,
 	line_counter++;
 	if ((line_counter > maxlines) && (lines != NULL)) {
 	  free_appt_struct(&appt);
+	  destroy_lines(lp);
 	  return(FALSE);
 	}
 
@@ -2920,6 +2923,7 @@ x_print_multi_appts(void *gInfoP,
       line_counter++;
       if ((line_counter > maxlines) && (lines != NULL)) {
 	free_appt_struct(&appt);
+	destroy_lines(lp);
 	return(FALSE);
       }
 
@@ -2928,6 +2932,7 @@ x_print_multi_appts(void *gInfoP,
 	line_counter++;
 	if ((line_counter > maxlines) && (lines != NULL)) {
 	  free_appt_struct(&appt);
+	  destroy_lines(lp);
 	  return(FALSE);
 	}
 
@@ -2941,6 +2946,7 @@ x_print_multi_appts(void *gInfoP,
     new_appt = FALSE;
   }
   free_appt_struct(&appt);
+  destroy_lines(lp);
   return(TRUE);
 }
 
