@@ -1262,7 +1262,7 @@ generate_recurrence_rule(Dtcm_appointment *appt, int version) {
                          rule_buf2[32];
 	CSA_sint32	repeat_type;
 	CSA_uint32	repeat_nth;
-	CSA_uint32	repeat_for;
+	CSA_uint32	repeat_for = 0;
 	Tick		appt_time;
 	int     	wk;
 
