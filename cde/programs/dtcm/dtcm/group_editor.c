@@ -1690,7 +1690,7 @@ add_to_gaccess_list(
 	while (ge->access_data && cnt <= ge->access_data->count) {
 		new_data = (Access_data *)
 			CmDataListGetData(ge->access_data, cnt);
-		if (strcmp(new_data->name, name) == 0) {
+		if (new_data && strcmp(new_data->name, name) == 0) {
 			XmListDeselectPos(ge->access_list, cnt);
 			if (select_val)
 				XmListSelectPos(ge->access_list, cnt, True);
