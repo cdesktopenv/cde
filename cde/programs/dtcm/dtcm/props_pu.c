@@ -2136,7 +2136,7 @@ p_save_changes(Calendar *c) {
 
         if (redisplay_mask & PROPS_REDO_EDITORS) {
 
-		if (((Editor *) c->editor)->base_form_mgr) {
+		if (c->editor && ((Editor *) c->editor)->base_form_mgr) {
 
 			Editor *e = (Editor *) c->editor;
 			DSSW *dssw = &((Editor *) c->editor)->dssw;
