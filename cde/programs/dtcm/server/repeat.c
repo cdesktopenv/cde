@@ -694,7 +694,7 @@ _DtCms_next_tick_v4(time_t tick, Period_4 period)
 extern time_t
 _DtCms_prev_tick_v4(time_t tick, Period_4 period)
 {
-        time_t prev;
+        time_t prev = 0;
 	struct tm *tm;
 	_Xltimeparams localtime_buf;
 
