@@ -524,7 +524,7 @@ get_appt_struct(DragContext *context) {
 	Widget 		list;
 	Calendar 	*c = context->calendar;
 	Props_pu	*pr;
-	CSA_entry_handle	entry;
+	CSA_entry_handle	entry = 0;
 	Access_data	*ad;
 
 	pr = (Props_pu *)(c->properties_pu);
