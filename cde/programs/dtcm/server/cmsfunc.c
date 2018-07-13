@@ -1032,6 +1032,8 @@ cms_update_entry_5_svc(cms_update_args *args, struct svc_req *svcrq)
 			args->entry.id, args->scope, args->entry.time,
 			args->pid);
 
+	free(appt);
+
 	/* reply */
 	if (cal->fversion >= _DtCM_FIRST_EXTENSIBLE_DATA_VERSION ||
 	    (cal->fversion < _DtCM_FIRST_EXTENSIBLE_DATA_VERSION &&
