@@ -1624,6 +1624,7 @@ parse_appt_from_file(nl_catd catd, char *file, CmDataList *list, Props *p,
 	 */
 
 	if (found_appt == B_FALSE) {
+		free(w_buf);
 		fclose(fp);
 		return(INVALID_DATE);
 	}
