@@ -163,7 +163,7 @@ _DtCmsDeleteInstancesAndLog(
 	CSA_return_code	stat;
 	cms_entry	*entry, *nentry;
 	List_node	*lnode;
-	int		fsize, count;
+	int		fsize, count = 0;
 	uint		tmp_num;
 	cms_attribute	*tmp_attrs, *aptr;
 	boolean_t	delentry = B_FALSE;
