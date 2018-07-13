@@ -397,11 +397,13 @@ _DtCm_rtable_set_access_3_svc(Access_Args_3 *args, struct svc_req *svcrq)
 
         stat = 0;
 
-        newargs = _DtCm_accargs3_to_accargs4(args);     
-        newstat = _DtCm_rtable_set_access_4_svc(newargs, svcrq);     
-        stat = _DtCm_accstat4_to_accstat3(*newstat);    
+        newargs = _DtCm_accargs3_to_accargs4(args);
+        if(newargs) {
+                newstat = _DtCm_rtable_set_access_4_svc(newargs, svcrq);
+                stat = _DtCm_accstat4_to_accstat3(*newstat);
 
-        if (newargs!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Access_Args_4, (char*)newargs);      
+                xdr_free((xdrproc_t)_DtCm_xdr_Access_Args_4, (char*)newargs);
+        }
 	return(&stat);
 }
 
