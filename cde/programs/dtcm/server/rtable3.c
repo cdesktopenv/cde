@@ -357,11 +357,13 @@ _DtCm_register_callback_3_svc(Registration_3 *r, struct svc_req *svcrq)
 
         stat = 0;
 
-        newreg = _DtCm_reg3_to_reg4(r);      
-        newstat = _DtCm_register_callback_4_svc(newreg, svcrq);      
-        stat = _DtCm_regstat4_to_regstat3(*newstat);      
+        newreg = _DtCm_reg3_to_reg4(r);
+        if(newreg) {
+                newstat = _DtCm_register_callback_4_svc(newreg, svcrq);
+                stat = _DtCm_regstat4_to_regstat3(*newstat);
 
-        if (newreg!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Registration_4, (char*)newreg);        
+                xdr_free((xdrproc_t)_DtCm_xdr_Registration_4, (char*)newreg);
+        }
 	return(&stat);
 }
 
