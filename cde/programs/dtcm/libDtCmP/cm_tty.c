@@ -2630,7 +2630,7 @@ validate_rfp(
 				 repeat_wk = -1,
 				 repeat_every = 0,
 				 repeat_forever = False;
-	CSA_sint32		 repeat_type;
+	CSA_sint32		 repeat_type = 0;
 	CSA_uint32		 repeat_times = 0;
 	char			 rule_buf[32];
 
