@@ -915,7 +915,7 @@ _DtCmsLookupKeyrangeV4(
 	Period_4	period;
 	long		tmp_tick, endtick;
 	Id_4		lo_key;
-	int		n;
+	int		n = 0;
 	List_node	*p_lnode;
 	int		tick;
 	int		ordinal;
