@@ -192,10 +192,12 @@ _DtCm_rtable_delete_3_svc(Table_Args_3 *args, struct svc_req *svcrq)
         if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
 	newargs = _DtCm_tabledelargs3_to_tabledelargs4(args, do_all_4);
-        newres = _DtCm_rtable_delete_4_svc(newargs, svcrq); 
-        res = _DtCm_tableres4_to_tableres3(newres); 
+        if(newargs) {
+                newres = _DtCm_rtable_delete_4_svc(newargs, svcrq);
+                res = _DtCm_tableres4_to_tableres3(newres);
 
-        if (newargs!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs); 
+                xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs);
+        }
 
         return(res); 
 }
