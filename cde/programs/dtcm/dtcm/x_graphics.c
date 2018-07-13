@@ -1883,7 +1883,7 @@ cm_std_month_dates(CMGraphicsInfo *gInfo, int first_dom, int monlen,
   int extraWd;
   int boxWd;
   int indent;
-  char dateStr[3];
+  char dateStr[11];
   int fontHt;
 
   cm_set_font(gInfo, cm_get_tiny_date_enum(gInfo));
