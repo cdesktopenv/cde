@@ -107,7 +107,7 @@ _DtCmsCmsentriesToAppt4ForClient(cms_entry *entries, Appt_4 **appt)
 extern CSA_return_code
 _DtCmsCmsentriesToAbbrAppt4ForClient(cms_entry *entries, Abb_Appt_4 **abbr)
 {
-	CSA_return_code	stat;
+	CSA_return_code	stat = CSA_SUCCESS;
 	Abb_Appt_4	*newabbr, *prev, *head;
 
 	if (abbr == NULL)
