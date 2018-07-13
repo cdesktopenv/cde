@@ -337,10 +337,12 @@ _DtCm_rtable_size_3_svc(Table_Args_3 *args, struct svc_req *svcrq)
 
         size = 0;
 
-        newargs = _DtCm_tableargs3_to_tableargs4(args);     
-        size = (*(_DtCm_rtable_size_4_svc(newargs, svcrq)));      
+        newargs = _DtCm_tableargs3_to_tableargs4(args);
+        if(newargs) {
+                size = (*(_DtCm_rtable_size_4_svc(newargs, svcrq)));
 
-        if (newargs!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs);       
+                xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs);
+        }
 
         return(&size);
 }
