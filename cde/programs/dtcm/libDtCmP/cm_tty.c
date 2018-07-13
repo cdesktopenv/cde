@@ -2626,7 +2626,7 @@ validate_rfp(
 	char 			*f_buf, 
 	int 			 version)
 {
-	int			 repeat_nth, 
+	int			 repeat_nth = 0,
 				 repeat_wk = -1,
 				 repeat_every = 0,
 				 repeat_forever = False;
