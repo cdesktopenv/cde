@@ -253,6 +253,8 @@ _DtCmsFreeCalendar(_DtCmsCalendar *cal)
 
 	if (cal->list)
 		hc_destroy(cal->list, NULL);
+
+	free(cal);
 }
 
 /*
