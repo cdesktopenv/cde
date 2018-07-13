@@ -856,7 +856,7 @@ get_dssw_times(DSSW *dssw) {
 	char		*str;
 
 	str = XmTextGetString(dssw->start_text);
-	strcpy(dssw->start_val.val, str);
+	snprintf(dssw->start_val.val, sizeof(dssw->start_val.val), "%s", str);
 	XtFree(str);
 	dssw->start_val.block =
 		XmToggleButtonGetState(dssw->start_am) ? TIME_AM : TIME_PM;
