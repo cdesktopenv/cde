@@ -339,11 +339,13 @@ _DtCm_rtable_size_2_svc(Table_Args_2 *args, struct svc_req *svcrq)
         static int size;   
         Table_Args_4 *newargs;      
          
-        newargs = _DtCm_tableargs2_to_tableargs4(args);     
-        size = (*(_DtCm_rtable_size_4_svc(newargs, svcrq)));      
+        newargs = _DtCm_tableargs2_to_tableargs4(args);
+        if(newargs) {
+                size = (*(_DtCm_rtable_size_4_svc(newargs, svcrq)));
       
-        if (newargs!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs);       
-           
+                xdr_free((xdrproc_t)_DtCm_xdr_Table_Args_4, (char*)newargs);
+        }
+
         return(&size);
 }
 
