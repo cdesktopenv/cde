@@ -623,7 +623,7 @@ extern char *
 cm_mbchar(char *str) {
      static char *string;
      static char *string_head;
-     static char *buf;
+     static char *buf = NULL;
      int num_byte = 0;
  
      if ( str != NULL ) {
@@ -644,10 +644,12 @@ cm_mbchar(char *str) {
           string_head = NULL;
      } else {
           num_byte = mblen(string, MB_LEN_MAX);
-          buf = (char *)malloc(num_byte+1);
-          strncpy(buf, string, num_byte);
-          buf[num_byte] = '\0';
-          string += num_byte;
+          if(num_byte > 0) {
+               buf = (char *)malloc(num_byte+1);
+               strncpy(buf, string, num_byte);
+               buf[num_byte] = '\0';
+               string += num_byte;
+          }
      }
  
      return buf;
