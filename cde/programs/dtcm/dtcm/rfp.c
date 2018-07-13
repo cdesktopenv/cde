@@ -213,13 +213,15 @@ rfp_apply_proc(Widget w, XtPointer client_data, XtPointer cbs) {
 	RFP			*rfp = (RFP *)client_data;
 	char			*str, buf[128];
 	XmString		xmstr;
-        Calendar 		*c = rfp->cal;
+        Calendar 		*c;
 	Props_pu		*pu = (Props_pu *)c->properties_pu;
 	Repeat_scope_menu_op	op = REPEAT_DAYS;
 	char			*repeat_str;
 
 	if (!rfp)
 		return;
+
+	c = rfp->cal;
 
 	str = XmTextGetString(rfp->repeat_popup_text);
 
