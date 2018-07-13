@@ -93,18 +93,18 @@ ReToString(
 		cmd_buf_tmp = cmd_buf;
 
 		if (cmd_buf) cmd_buf_size = strlen(cmd_buf);
-		if (subcommand) subcommand_size = strlen(subcommand);
+		subcommand_size = strlen(subcommand);
 
 		cmd_buf = (char *)calloc(1, cmd_buf_size + subcommand_size + 2);
 
 		if (cmd_buf_tmp)
 			strcat (cmd_buf, cmd_buf_tmp);
 			
-		if (subcommand) {
-			if (cmd_buf_tmp)
-				strcat (cmd_buf, " ");
-			strcat (cmd_buf, subcommand);
-		}
+
+		if (cmd_buf_tmp)
+			strcat (cmd_buf, " ");
+		strcat (cmd_buf, subcommand);
+
 
 		memset (subcommand, 0, 1024);
 
