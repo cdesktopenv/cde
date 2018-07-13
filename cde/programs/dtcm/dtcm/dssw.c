@@ -88,7 +88,6 @@ dssw_get_non_times(DSSW *dssw, time_t t) {
 		get_date_from_widget(t, dssw->date_text, ot, st));
 
 	str = XmTextGetString(dssw->what_text);
-	strcpy(dssw->what_val, str);
 	snprintf(dssw->what_val, sizeof(dssw->what_val), "%s", str);
 	XtFree(str);
 }
