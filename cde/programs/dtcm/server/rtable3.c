@@ -63,7 +63,7 @@ _DtCm_rtable_lookup_3_svc (Table_Args_3 *args, struct svc_req *svcrq)
 	Table_Args_4 *newargs;
 	Table_Res_4 *newres;
 
-	if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res);
+	if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
 	newargs = _DtCm_tableargs3_to_tableargs4(args);
 	newres = _DtCm_rtable_lookup_4_svc(newargs, svcrq); 
@@ -82,7 +82,7 @@ _DtCm_rtable_lookup_next_larger_3_svc(Table_Args_3 *args, struct svc_req *svcrq)
 	Table_Args_4 *newargs;   
 	Table_Res_4 *newres; 
  
-	if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res);
+	if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
  
 	newargs = _DtCm_tableargs3_to_tableargs4(args);
 	newres = _DtCm_rtable_lookup_next_larger_4_svc(newargs, svcrq);
@@ -101,7 +101,7 @@ _DtCm_rtable_lookup_next_smaller_3_svc(Table_Args_3 *args, struct svc_req *svcrq
 	Table_Args_4 *newargs;    
 	Table_Res_4 *newres; 
   
-	if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res);
+	if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
 	newargs = _DtCm_tableargs3_to_tableargs4(args);
 	newres = _DtCm_rtable_lookup_next_smaller_4_svc(newargs, svcrq); 
@@ -120,7 +120,7 @@ _DtCm_rtable_lookup_range_3_svc(Table_Args_3 *args, struct svc_req *svcrq)
         Table_Args_4 *newargs;     
         Table_Res_4 *newres; 
    
-        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res);
+        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
         newargs = _DtCm_tableargs3_to_tableargs4(args); 
         newres = _DtCm_rtable_lookup_range_4_svc(newargs, svcrq);  
@@ -139,7 +139,7 @@ _DtCm_rtable_abbreviated_lookup_range_3_svc(Table_Args_3 *args, struct svc_req *
         Table_Args_4 *newargs;      
         Table_Res_4 *newres; 
 
-        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); 
+        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
         newargs = _DtCm_tableargs3_to_tableargs4(args);  
         newres = _DtCm_rtable_abbreviated_lookup_range_4_svc(newargs, svcrq);  
@@ -158,7 +158,7 @@ _DtCm_rtable_insert_3_svc(Table_Args_3 *args, struct svc_req *svcrq)
         Table_Args_4 *newargs;
         Table_Res_4 *newres;
 
-        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res);
+        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
         newargs = _DtCm_tableargs3_to_tableargs4(args);
         newres = _DtCm_rtable_insert_4_svc(newargs, svcrq);
@@ -177,7 +177,7 @@ _DtCm_rtable_delete_3_svc(Table_Args_3 *args, struct svc_req *svcrq)
         Table_Args_4 *newargs;
         Table_Res_4 *newres; 
 
-        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res);
+        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
 	newargs = _DtCm_tabledelargs3_to_tabledelargs4(args, do_all_4);
         newres = _DtCm_rtable_delete_4_svc(newargs, svcrq); 
@@ -196,7 +196,7 @@ _DtCm_rtable_delete_instance_3_svc(Table_Args_3 *args, struct svc_req *svcrq)
         Table_Args_4 *newargs;  
         Table_Res_4 *newres;  
 
-        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); 
+        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
 	newargs = _DtCm_tabledelargs3_to_tabledelargs4(args, do_one_4);
         newres = _DtCm_rtable_delete_4_svc(newargs, svcrq);  
@@ -215,7 +215,7 @@ _DtCm_rtable_change_3_svc(Table_Args_3 *args, struct svc_req *svcrq)
         Table_Args_4 *newargs; 
         Table_Res_4 *newres;  
 
-        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); 
+        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL; 
 
         newargs = _DtCm_tableargs3_to_tableargs4(args); 
         newres = _DtCm_rtable_change_4_svc(newargs, svcrq); 
@@ -235,7 +235,7 @@ _DtCm_rtable_change_instance_3_svc(Table_Args_3 *args, struct svc_req *svcrq)
         Table_Args_4 *newargs;   
         Table_Res_4 *newres;  
 
-        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); 
+        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
         newargs = _DtCm_tableargs3_to_tableargs4(args);  
 	newargs->args.Args_4_u.apptid.option = do_one_4;
@@ -255,7 +255,7 @@ _DtCm_rtable_lookup_next_reminder_3_svc(Table_Args_3 *args, struct svc_req *svcr
         Table_Args_4 *newargs;    
         Table_Res_4 *newres;   
 
-        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res);  
+        if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
         newargs = _DtCm_tableargs3_to_tableargs4(args);   
         newres = _DtCm_rtable_lookup_next_reminder_4_svc(newargs, svcrq);   
@@ -371,7 +371,7 @@ _DtCm_rtable_get_access_3_svc(Access_Args_3 *args, struct svc_req *svcrq)
         Access_Args_4 *newargs;
         Access_Args_4 *newres;
 
-	if (res!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Access_Args_3, (char*)res);
+	if (res!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Access_Args_3, (char*)res); res = NULL;
 
         newargs = _DtCm_accargs3_to_accargs4(args);
         newres = _DtCm_rtable_get_access_4_svc(newargs, svcrq);
@@ -389,7 +389,7 @@ _DtCm_rtable_abbreviated_lookup_key_range_3_svc(Table_Args_3 *args, struct svc_r
         Table_Args_4 *newargs;   
         Table_Res_4 *newres;  
 
-	if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res);
+	if (res!=NULL) xdr_free ((xdrproc_t)_DtCm_xdr_Table_Res_3, (char*)res); res = NULL;
 
         newargs = _DtCm_tableargs3_to_tableargs4(args);
         newres = _DtCm_rtable_abbreviated_lookup_key_range_4_svc(newargs, svcrq);
