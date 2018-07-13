@@ -57,7 +57,7 @@
 #include "calendar.h"
 
 #define DATE_LEN	100
-#define START_STOP_LEN	6
+#define START_STOP_LEN	16
 #define WHAT_LEN	256
 
 /*******************************************************************************
