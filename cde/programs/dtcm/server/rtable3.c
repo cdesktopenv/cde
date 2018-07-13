@@ -418,10 +418,12 @@ _DtCm_rtable_get_access_3_svc(Access_Args_3 *args, struct svc_req *svcrq)
 	if (res!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Access_Args_3, (char*)res); res = NULL;
 
         newargs = _DtCm_accargs3_to_accargs4(args);
-        newres = _DtCm_rtable_get_access_4_svc(newargs, svcrq);
-        res = _DtCm_accargs4_to_accargs3(newres);
+        if(newargs) {
+                newres = _DtCm_rtable_get_access_4_svc(newargs, svcrq);
+                res = _DtCm_accargs4_to_accargs3(newres);
 
-        if (newargs!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Access_Args_4, (char*)newargs); 
+                xdr_free((xdrproc_t)_DtCm_xdr_Access_Args_4, (char*)newargs);
+        }
         return(res); 
 }
 
