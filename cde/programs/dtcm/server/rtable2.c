@@ -354,11 +354,13 @@ _DtCm_deregister_callback_2_svc(Registration_2 *r, struct svc_req *svcrq)
         Registration_Status_4 *newstat; 
            
         newreg = _DtCm_reg2_to_reg4(r);       
-        newstat = _DtCm_deregister_callback_4_svc(newreg, svcrq);       
+        if(newreg) {
+                newstat = _DtCm_deregister_callback_4_svc(newreg, svcrq);
                   
-        stat = _DtCm_regstat4_to_regstat2(*newstat);       
+                stat = _DtCm_regstat4_to_regstat2(*newstat);
        
-        if (newreg!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Registration_4, (char*)newreg);        
+                xdr_free((xdrproc_t)_DtCm_xdr_Registration_4, (char*)newreg);
+        }
         return(&stat);
 }
 
