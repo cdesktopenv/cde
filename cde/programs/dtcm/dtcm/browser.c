@@ -798,7 +798,7 @@ bcanvas_event(Widget w, XtPointer client_data, XtPointer call_data)
 	int x, y, boxw, boxh;
 	pr_pos xy;
 
-        if ((event->type == ButtonRelease) || (event == NULL))
+        if ((event == NULL) || (event->type == ButtonRelease))
                 return;
 
 	b = (Browser*)c->browser;
