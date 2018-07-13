@@ -379,11 +379,14 @@ _DtCm_rtable_set_access_2_svc(Access_Args_2 *args, struct svc_req *svcrq)
 	Access_Status_4 *newstat;
         
         newargs = _DtCm_accargs2_to_accargs4(args);     
-        newstat = _DtCm_rtable_set_access_4_svc(newargs, svcrq);     
-               
-        stat = _DtCm_accstat4_to_accstat2(*newstat);    
-     
-        if (newargs!=NULL) xdr_free((xdrproc_t)_DtCm_xdr_Access_Args_4, (char*)newargs);      
+        if(newargs) {
+                newstat = _DtCm_rtable_set_access_4_svc(newargs, svcrq);
+
+                stat = _DtCm_accstat4_to_accstat2(*newstat);
+
+                xdr_free((xdrproc_t)_DtCm_xdr_Access_Args_4, (char*)newargs);
+        }
+
 	return(&stat);
 }
 
