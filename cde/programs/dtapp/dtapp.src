@@ -1,0 +1,204 @@
+XCOMM!/bin/ksh
+XCOMM
+XCOMM dtapp - provide an interface for some useful applications.
+XCOMM
+XCOMM #############################################################
+XCOMM #set -x           # uncomment for debugging
+XCOMM ###############################################################
+XCOMM Init
+
+DTAPP="dtapp"                   # Identity crisis
+APPNAME="$(basename $0)"        # the app to locate/run
+
+XCOMM apps to look for, given an action (based on APPNAME - see MAIN)
+
+XCOMM image viewing
+if [ -z "$DTAPP_VIMAGE" ]
+then
+    VIMAGE="xv display gimp"
+else
+    VIMAGE="$DTAPP_VIMAGE"
+fi
+
+XCOMM video viewing
+if [ -z "$DTAPP_VVIDEO" ]
+then
+    VVIDEO="mplayer vlc ffplay"
+else
+    VVIDEO="$DTAPP_VVIDEO"
+fi
+
+XCOMM web (html) viewing
+if [ -z "$DTAPP_VWEB" ]
+then
+    VWEB="firefox chrome chromium-browser lynx"
+else
+    VWEB="$DTAPP_VWEB"
+fi
+
+XCOMM postscript viewing
+if [ -z "$DTAPP_VPS" ]
+then
+    VPS="gv"
+else
+    VPS="$DTAPP_VPS"
+fi
+
+XCOMM PDF viewing
+if [ -z "$DTAPP_VPDF" ]
+then
+    VPDF="okular xpdf"
+else
+    VPDF="$DTAPP_VPDF"
+fi
+
+XCOMM ##############################################################
+XCOMM ## Utility Functions
+
+XCOMM ## Find the path of a program
+FindProg()
+{
+    # FindProg "program"
+    # - returns full path, or ""
+
+    whence $1
+
+    return 0
+}
+
+XCOMM ## Show an error message
+ErrorMsg()
+{
+    # ErrorMsg "Title "Message" ["OK"]
+    # use dterror.ds to display it...
+
+    if [ -z "$3" ]
+    then    # default to 'OK'
+        OKM="OK"
+    else
+        OKM="$3"
+    fi
+
+    CDE_INSTALLATION_TOP/bin/dterror.ds "$2" "$1" "$OKM"
+
+    return 0
+}
+
+XCOMM ## do a simple command
+DoSimpleCmd()
+{
+    # DoSimpleCmd "commands" args
+
+    didone=0
+    cmds="$1"
+    shift
+    args="$*"
+
+    for i in $cmds
+    do
+        thecmd="$(FindProg $i)"
+
+        if [ ! -z "$thecmd" ]
+        then    # it's there
+            $thecmd $*
+            didone=1
+            break
+        fi
+    done
+
+    if [ $didone -eq 0 ]
+    then    # couldn't find a viewer
+        ErrorMsg "Helper not found" \
+                 "${DTAPP}: Could not find any of the following\ncommands for this file type:\n\n$cmds"
+    fi
+
+    return 0
+}
+
+
+XCOMM ###############################################################
+XCOMM ### Actions
+
+XCOMM ## Web browsing
+DoWeb()
+{
+    # DoWeb [[arg] ...]
+
+    didone=0
+    url="$1"
+
+    for i in $VWEB
+    do
+        thecmd="$(FindProg $i)"
+
+        if [ ! -z "$thecmd" ]
+        then    # it's there
+
+            # We'll do special things for lynx,
+            #  else we'll just call whatever is available, and
+            #  hope it's X aware...
+
+            case $i in
+                lynx)
+                    # start a dtterm
+                    CDE_INSTALLATION_TOP/bin/dtterm -e $thecmd $url
+                    didone=1
+                    ;;
+                *)
+                    # any others
+                    $thecmd $url
+                    didone=1
+                    ;;
+            esac
+
+            if [ $didone -eq 1 ]
+            then
+                break
+            fi
+        fi
+    done
+
+    if [ $didone -eq 0 ]
+    then    # couldn't find a viewer
+        ErrorMsg "Helper not found" \
+                 "${DTAPP}: Could not find any of the following\nweb browsers:\n\n$VWEB"
+    fi
+
+
+    return 0
+}
+
+XCOMM ##################################################################
+XCOMM ## MAIN
+
+XCOMM # We'll just look at our args and decide what to do...
+
+XCOMM # Commands we'll recognize
+
+COMMANDS="dtapp_vimage dtapp_vweb dtapp_vpdf dtapp_vps dtapp_vvideo"
+
+case $APPNAME in
+    dtapp_vimage)
+        DoSimpleCmd "$VIMAGE" $*
+        ;;
+    dtapp_vweb)
+        DoWeb $*
+        ;;
+    dtapp_vpdf)
+        DoSimpleCmd "$VPDF" $*
+        ;;
+    dtapp_vps)
+        DoSimpleCmd "$VPS" $*
+        ;;
+    dtapp_vvideo)
+        DoSimpleCmd "$VVIDEO" $*
+        ;;
+    *)
+        # Unknown
+        ErrorMsg "${DTAPP}: Unknown Helper Application" \
+                  "\"$APPNAME\" is not a recognized Helper Application.  \nKnown Helper Applications are:\n\n$COMMANDS"
+        ;;
+esac
+
+XCOMM # Fini
+exit 0
