@@ -1,0 +1,218 @@
+# #######################################################################
+# 
+#      dthelp.dt
+# 
+#      Actions and filetypes for Help files.
+# 
+#     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+#     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+#     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+#     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+# 
+#      $XConsortium: dthelp.dt.src /main/4 1996/04/23 17:35:19 drk $
+# 
+# #####################################################################
+
+set DtDbVersion=1.0
+
+# ##########################################################################
+# 
+# WARNING:  This file may be overwritten in subsequent installations of
+#     the Common Desktop Environment (CDE).  Consequently, any system wide
+#     changes should be made to an equivalent database file in
+#     /etc/dt/types and not in this file.
+# 
+# ##########################################################################
+
+# ##################################################################
+# 
+# Data Attributes
+# 
+# ##################################################################
+DATA_ATTRIBUTES DTHELP_VOL
+{
+        ACTIONS         Open,Print
+        ICON		Dthvol
+        NAME_TEMPLATE   %s.sdl
+        MIME_TYPE	application/octet-stream
+        DESCRIPTION     This is a master volume file for a help \
+                        volume.  Its data type is named DTHELP_VOL. \
+                        DTHELP_VOL files have names ending with '.sdl' or '.hv'.
+        TYPE_LABEL      DTHELP_VOL
+}
+DATA_CRITERIA DTHELP_VOL1
+{
+        DATA_ATTRIBUTES_NAME DTHELP_VOL
+        MODE            f
+        NAME_PATTERN    *.sdl
+}
+DATA_CRITERIA DTHELP_VOL2
+{
+        DATA_ATTRIBUTES_NAME DTHELP_VOL
+        MODE            f
+        NAME_PATTERN    *.hv
+}
+ACTION Open
+{
+        LABEL           Open
+	ARG_TYPE 	DTHELP_VOL
+	TYPE		MAP
+        MAP_ACTION	Dthelpview
+}
+ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        DTHELP_VOL
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+
+# #########################################################
+
+DATA_ATTRIBUTES DTHELP_HT
+{
+        ACTIONS		(None)         
+        ICON		Dthtop
+        NAME_TEMPLATE   %s.ht
+        MIME_TYPE	application/octet-stream
+        DESCRIPTION     This is a help topic file that is part of a help \
+                        volume.  To view the help topic, you must open the \
+                        master volume file.  The data type of this file is \
+                        named DTHELP_HT.  DTHELP_HT files have names \
+                        ending with '.ht'.
+        TYPE_LABEL      DTHELP_HT
+}
+DATA_CRITERIA DTHELP_HT1
+{
+        DATA_ATTRIBUTES_NAME DTHELP_HT
+        NAME_PATTERN    *.ht
+        MODE            f
+}
+
+# #########################################################
+
+DATA_ATTRIBUTES DTHELP_HVK
+{
+        ACTIONS		(None)         
+        ICON		Dthtop
+        NAME_TEMPLATE   %s.hvk
+        MIME_TYPE	application/octet-stream
+        DESCRIPTION     This is a file associated with compiled help \
+                        volume.  To view the help volume, you must open \
+                        the master volume file.  The data type of this \
+                        file is named DTHELP_HVK.  DTHELP_HVK files have \
+                        names ending with '.hvk'.
+        TYPE_LABEL      DTHELP_HVK
+}
+DATA_CRITERIA DTHELP_HVK1
+{
+        DATA_ATTRIBUTES_NAME DTHELP_HVK
+        NAME_PATTERN    *.hvk
+        MODE            f
+}
+
+# #########################################################
+
+DATA_ATTRIBUTES DTHELP_XRH
+{
+        ACTIONS		(None)         
+        ICON		Dthtop
+        NAME_TEMPLATE   %s.xrh
+        MIME_TYPE	application/octet-stream
+        DESCRIPTION     This is a file associated with compiled help \
+                        volume.  To view the help volume, you must open \
+                        the master volume file.  The data type of this \
+                        file is named DTHELP_XRH.  DTHELP_XRH files have \
+                        names ending with '.xrh'.
+        TYPE_LABEL      DTHELP_XRH
+}
+DATA_CRITERIA DTHELP_XRH
+{
+        DATA_ATTRIBUTES_NAME DTHELP_XRH
+        NAME_PATTERN    *.xrh
+        MODE            f
+}
+
+# ##################################################################
+# ##################################################################
+# 
+# Actions
+# 
+# ##################################################################
+ACTION Dthelpview
+{
+        LABEL           Help Viewer
+	ARG_COUNT	0
+        ICON		Fphelp
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /bin/sh -c '/usr/dt/bin/dthelpgen -dir $HOME/.dt/help/$DTUSERSESSION;                            /usr/dt/bin/dthelpview -helpVolume browser '
+
+	DESCRIPTION	The Help Viewer (Dthelpview) action displays the Top \
+                        Level of help when the icon is double-clicked.  \
+                        If you drop a help volume file on the icon, that \
+                        volume is displayed.
+}
+ACTION Dthelpview
+{
+        LABEL           Help Viewer
+        ICON		Fphelp
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /bin/sh -c '/usr/dt/bin/dthelpgen 				    -dir $HOME/.dt/help/$DTUSERSESSION;                             /usr/dt/bin/dthelpview -helpVolume "%(File)Arg_1%" '
+
+
+	DESCRIPTION	The Help Viewer (Dthelpview) action displays the Top \
+                        Level of help when the icon is double-clicked.  \
+                        If you drop a help volume file on the icon, that \
+                        volume is displayed.
+}
+
+# #######
+
+ACTION Dthelpgen
+{
+        LABEL           Help Generator
+        ICON		Fphelp
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /bin/sh -c '/usr/dt/bin/dthelpgen -dir                          "%(File)Arg_1"Location to put generated help files:"%"'
+
+	DESCRIPTION	The Help Generator (Dthelpgen) action runs \
+                        dthelpgen which generates the online help for \
+                        a user.  It also displays the "Generating browser \
+                        information. Please wait" dialog while running.  \
+                        This action is executed when a user logs into \
+                        the Common Desktop Environment for the first time.
+}
+ACTION Dthelpgen_delay
+{
+        LABEL           Help Generator
+        ICON		Fphelp
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /bin/sh -c 'sleep 15; /usr/dt/bin/dthelpgen -dir                          $HOME/.dt/help/$DTUSERSESSION'
+
+	DESCRIPTION	The Help Generator (Dthelpgen) action runs \
+                        dthelpgen which generates the online help for \
+                        a user.  It also displays the "Generating browser \
+                        information. Please wait" dialog while running.  \
+                        This action is executed when a user logs into \
+                        the Common Desktop Environment for the first time.
+}
+
+# #######
+
+ACTION Dtmanpageview 
+{
+        LABEL           Man Page Viewer
+        ICON		Dthover
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     sh -c ' /usr/dt/bin/dthelpview -manPage               `basename "%(File)Arg_1"Man Page:"%" | sed /[.].*/s///`               -xrm "Dthelpview*manBox*columns: 100"'
+
+
+	DESCRIPTION	The Man Page Viewer (Dtmanpageview) action \
+                        displays a man page in a Quick Help viewer window.
+}
+# ######################## EOF ############################################

@@ -1,0 +1,137 @@
+# ##########################################################################
+# 
+#      IconBrowse.dt
+# 
+#      DataType definitions for instance-based icons.
+# 
+#     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+#     (c) Copyright 1993, 1994, 1995 International Business Machines Corp. 
+#     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.   
+#     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+# 
+#    $XConsortium: IconBrowse.dt.src /main/4 1996/04/23 20:23:49 drk $
+# 
+# ##########################################################################
+
+set DtDbVersion=1.0
+
+# ##########################################################################
+# 
+# WARNING:  This file may be overwritten in subsequent installations of
+#     the Common Desktop Environment (CDE).  Consequently, any system wide
+#     changes should be made to an equivalent database file in
+#     /etc/dt/types and not in this file.
+# 
+# ##########################################################################
+
+# ##########################################################################
+# 
+# The two data types in this file (BM and PM) enable "instance-based" icons
+# for bitmap and pixmap files.  That means that each icon file (.bm and .pm
+# extensions) refer to themselves as their own icons.  This is useful for
+# browsing a folder of icons, because you don't have to open each file to
+# see what it looks like -- the icon displays itself.
+#
+# To enable instance-based icons, copy this file into the .dt/types/
+# subfolder in your home folder, then reload the action and data type
+# database.  (You can reload the action and data type database by logging out
+# and back in, or by executing the ReloadApps action in the DtTools
+# folder of the Application Manager)
+#
+#   NOTE:  Because of the additional work required to read and display custom
+#          icons, File Manager may run slower with these data types enabled.
+#
+# To return to the default icons for these data types, remove this file from
+# your personal .dt/types/ subfolder, then reload the action and data type
+# database.
+# 
+# ##########################################################################
+
+# ##################################################################
+# 
+# Data Attributes
+# 
+# ##################################################################
+DATA_ATTRIBUTES BM
+{
+        ACTIONS         Open,Print
+        ICON		Dtbitmp
+        NAME_TEMPLATE  	%s.bm
+        MIME_TYPE       text/plain
+        SUNV3_TYPE      xbm-file
+        INSTANCE_ICON	%dir%/%name%
+        DESCRIPTION     This is a file containing data in the X11 bitmap \
+                        format.  Its data type is named BM. BM files have \
+                        names ending with '.bm' or '.xbm'.
+        TYPE_LABEL      BM
+}
+DATA_CRITERIA BM1
+{
+	DATA_ATTRIBUTES_NAME BM
+        MODE            	f
+        NAME_PATTERN    	*.bm
+}
+DATA_CRITERIA BM2
+{
+	DATA_ATTRIBUTES_NAME BM
+        MODE            	f
+        NAME_PATTERN    	*.xbm
+}
+ACTION Open
+{
+        LABEL           Open
+        ARG_TYPE        BM
+        TYPE            MAP
+        MAP_ACTION      Dticon
+}
+ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        BM
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+
+# ##################################################################
+
+DATA_ATTRIBUTES PM
+{
+        ACTIONS         Open,Print
+        ICON		Dtpixmp
+        NAME_TEMPLATE  	%s.pm
+        MIME_TYPE       text/plain
+        SUNV3_TYPE      xpm-file
+        INSTANCE_ICON	%dir%/%name%
+        DESCRIPTION     This is a pixmap file containing a multicolor image. \
+                        Its data type is named PM. PM files have names \
+                        ending with '.pm' or '.xpm', or have the characters \
+                        "! XPM2" in their contents.
+        TYPE_LABEL      PM
+}
+DATA_CRITERIA PM1
+{
+	DATA_ATTRIBUTES_NAME PM
+        MODE            	f
+        NAME_PATTERN    	*.pm
+}
+DATA_CRITERIA PM2
+{
+	DATA_ATTRIBUTES_NAME PM
+        MODE            	f
+        NAME_PATTERN    	*.xpm
+}
+ACTION Open
+{
+        LABEL           Open
+        ARG_TYPE        PM
+        TYPE            MAP
+        MAP_ACTION      Dticon
+}
+ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        PM
+        TYPE            MAP
+        MAP_ACTION      NoPrint
+}
+# ######################## EOF ############################################

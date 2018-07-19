@@ -1,0 +1,219 @@
+# ##########################################################################
+# 
+#      print.dt
+# 
+#      Action and DataType Definitions for the printing
+# 
+#     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+#     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+#     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+#     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+# 
+#      $XConsortium: print.dt.src /main/4 1996/04/23 17:36:13 drk $
+# 
+
+#  The printer model for CDE is centered on the 'Print' action.
+#
+#  You can define multiple 'Print' actions, one per data type.
+#  If no arguments are supplied to the 'Print' action, then the dtprintinfo
+#  command is invoked to show the printer and job status.  
+#
+#  'dtprintinfo -populate' is an administration tool used to create default 
+#  printer actions of the form  '<printer name>_Print'.  
+#
+#  When a new file type is added to the system, a file-type specific 'Print'
+#  action may be created that the desktop action engine will automatically
+#  use instead of the default.  This new action may use 'dtlp' or rely on
+#  its own print facilities to gather application-specific arguments.
+# 
+# ##########################################################################
+set DtDbVersion=1.0
+
+# ##########################################################################
+# 
+# WARNING:  This file may be overwritten in subsequent installations of
+#     the Common Desktop Environment (CDE).  Consequently, any system wide
+#     changes should be made to an equivalent database file in
+#     /etc/dt/types and not in this file.
+# 
+# ##########################################################################
+
+# ##################################################################
+# 
+# Data Attributes
+# 
+# ##################################################################
+DATA_ATTRIBUTES PRINTER_UNKNOWN
+{
+        ACTIONS         PrinterUnconfigured
+        ICON		DtPrtun
+        IS_EXECUTABLE   true
+        DESCRIPTION     This icon represents a printer that is no longer \
+                        registered on your desktop.
+        TYPE_LABEL      PRINTER_UNKNOWN
+}
+DATA_CRITERIA PRINTER_UNKNOWN1
+{
+	DATA_ATTRIBUTES_NAME PRINTER_UNKNOWN
+	MODE		f&x
+        NAME_PATTERN    *_Print
+}
+
+# 
+# The default print action, invoked for generic ARG_TYPEs; that is,
+# for files that have no other print action defined.
+# 
+ACTION Print
+{
+	LABEL		Print
+	ARG_TYPE	*
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING     /usr/dt/bin/dtlp "%(File)Arg_1%"
+	DESCRIPTION	This is the default print action.  When it is run \
+                        with a file argument, it gathers printer-specific \
+                        options and then prints the file.  When it is run \
+                        with no arguments, it displays the 'Printer Jobs'\
+                        window.
+}
+ACTION PrintRaw
+{
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING     /usr/dt/bin/dtlp -w "%(File)Arg_1%"
+}
+
+# 
+#   If no file arguments are provided, invoke the Dtprintinfo
+#   action.
+# 
+ACTION Print
+{
+	LABEL			Print
+	ARG_COUNT		0
+	TYPE			MAP
+	MAP_ACTION		Dtprintinfo
+}
+
+# 
+#   The Print Manager (DtPrintManager) action invokes the
+#  'dtprintinfo -all' command.
+# 
+ACTION DtPrintManager
+{
+	LABEL		Print Manager
+        ICON            FpPrtmg
+        TYPE            COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtprintinfo -all
+	DESCRIPTION	The Print Manager (DtPrintManager) action enables you \
+                        to determine the status of and view print jobs of \
+			multiple printers. It also allows you to drag \
+                        printers to Install Icon controls on sub-panels.
+}
+
+# 
+#   The Print Jobs (Dtprintinfo) action invokes the 'dtprintinfo'
+#  command or the 'dtprintinfo -p printer' command.
+# 
+ACTION Dtprintinfo
+{
+	LABEL		Print Jobs
+        ICON            Fpprnt
+        TYPE            COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtprintinfo -p "%(String)Arg_1%"
+	DESCRIPTION	The Print Jobs (Dtprintinfo) action enables you to \
+                        determine the status and view print jobs of a printer.
+}
+
+ACTION Dtprintinfo
+{
+	LABEL		Print Jobs
+	ARG_COUNT	0
+        ICON            Fpprnt
+        TYPE            COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dtprintinfo
+	DESCRIPTION	The Print Jobs (Dtprintinfo) action enables you to \
+                        determine the status and view print jobs of a printer.
+}
+
+# ###############################################################
+#  
+#   Actions for the Default Printer
+#  
+# ###############################################################
+ 
+# 
+#   If a file argument is provided, invoke the Print
+#   action.
+# 
+ACTION DtPrint
+{
+	LABEL		Default Printer
+	ARG_TYPE	*
+        ICON		Fpprnt
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+	EXEC_STRING	/usr/dt/bin/dtaction Print "%(File)Arg_1%"
+	DESCRIPTION	This is the default print action.  When it is run \
+                        with a file argument, it gathers printer-specific \
+                        options and then prints the file.  When it is run \
+                        with no arguments, it displays the 'Printer Jobs'\
+                        window.
+}
+
+# 
+#   If no file arguments are provided, invoke the Dtprintinfo
+#   action.
+# 
+ACTION DtPrint
+{
+	LABEL		Default Printer
+	ARG_COUNT	0
+        ICON		Fpprnt
+	TYPE		MAP
+	MAP_ACTION	Dtprintinfo
+	DESCRIPTION	The Print Jobs (Dtprintinfo) action enables you to \
+                        determine the status and view print jobs of a printer.
+}
+
+
+# 
+#   Here are actions and data attributes for unknown and unconfigured
+#   printer objects.
+# 
+ACTION PrinterUnconfigured
+{
+	LABEL		PrinterUnconfigured
+	TYPE		COMMAND
+	WINDOW_TYPE	NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dterror.ds                         "This printer control is not configured.\\nTo configure \
+                        it, press 'Help' and follow\\nthe instructions."                         "Unconfigured Printer"                         "OK"                         "HELP"
+
+
+
+
+	DESCRIPTION	The PrinterUnconfigured action displays a \
+                        dialog which states that the printer has not \
+                        yet been configured.
+}
+
+ACTION Printer_Trash
+{
+        TYPE            COMMAND
+        WINDOW_TYPE     NO_STDIO
+        EXEC_STRING     /usr/dt/bin/dterror.ds                         "Putting a printer in the trash does not\\n\
+                        delete it from the system.  Refer to your\\n\
+                        system administration documentation to\\n\
+                        delete a printer from the system."                         "Delete Printer"                         "OK"
+
+
+
+        DESCRIPTION     The Printer_Trash action displays a \
+                        dialog which states that putting a printer in the \
+                        trash can will not delete that printer from your \
+                        system.
+}
+# ######################## EOF ############################################

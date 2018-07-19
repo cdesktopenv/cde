@@ -1,0 +1,378 @@
+# ##########################################################################
+# 
+#      dtappman.dt
+# 
+#      DataType Definitions for the Application Manager
+# 
+#      Common Desktop Environment 1.0 
+# 
+#     (c) Copyright 1993, 1994, 1995 Hewlett-Packard Company
+#     (c) Copyright 1993, 1994, 1995 International Business Machines Corp.
+#     (c) Copyright 1993, 1994, 1995 Sun Microsystems, Inc.
+#     (c) Copyright 1993, 1994, 1995 Novell, Inc.
+# 
+#      $XConsortium: dtappman.dt.src /main/4 1996/04/23 17:35:11 drk $
+# 
+# ##########################################################################
+
+set DtDbVersion=1.0
+
+# ##########################################################################
+# 
+# WARNING:  This file may be overwritten in subsequent installations of
+#     the Common Desktop Environment (CDE).  Consequently, any system wide
+#     changes should be made to an equivalent database file in
+#     /etc/dt/types and not in this file.
+# 
+# ##########################################################################
+
+# ##################################################################
+# 
+# These data type definitions apply to the objects found under the
+# user's /var/dt/appconfig/appmanager/$LOGNAME subfolder.
+# 
+# ##################################################################
+
+# ##################################################################
+# 
+# Actions
+# 
+# ##################################################################
+ACTION OpenAppGroup
+{
+        LABEL           	Open
+        TYPE                    TT_MSG
+        TT_CLASS                TT_REQUEST
+        TT_SCOPE                TT_SESSION
+        TT_OPERATION            DtTools_Show
+        TT_FILE		   	%Arg_1%
+        TT_ARG0_MODE            TT_IN
+        TT_ARG0_VTYPE           -title
+        TT_ARG0_REP_TYPE        TT_REP_STRING
+        TT_ARG0_VALUE   	Application Manager
+        TT_ARG1_MODE            TT_IN
+        TT_ARG1_VTYPE           -help_volume
+        TT_ARG1_REP_TYPE        TT_REP_STRING
+        TT_ARG1_VALUE   	Appmanager
+        TT_ARG2_MODE            TT_IN
+        TT_ARG2_VTYPE           -root
+        TT_ARG2_REP_TYPE        TT_REP_STRING
+        TT_ARG2_VALUE   	/var/dt/appconfig/appmanager/$DTUSERSESSION
+        TT_ARG3_MODE            TT_IN
+        TT_ARG3_VTYPE           -common_link_point
+        TT_ARG3_REP_TYPE        TT_REP_STRING
+        TT_ARG3_VALUE   	$LANG
+}
+ACTION OpenParentAppGroup
+{
+        LABEL           	OpenParent
+        TYPE                    TT_MSG
+        TT_CLASS                TT_REQUEST
+        TT_SCOPE                TT_SESSION
+        TT_OPERATION            DtTools_Show
+        TT_FILE		   	%Arg_1%
+        TT_ARG0_MODE            TT_IN
+        TT_ARG0_VTYPE           -title
+        TT_ARG0_REP_TYPE        TT_REP_STRING
+        TT_ARG0_VALUE   	Application Manager
+        TT_ARG1_MODE            TT_IN
+        TT_ARG1_VTYPE           -help_volume
+        TT_ARG1_REP_TYPE        TT_REP_STRING
+        TT_ARG1_VALUE   	Appmanager
+        TT_ARG2_MODE            TT_IN
+        TT_ARG2_VTYPE           -root
+        TT_ARG2_REP_TYPE        TT_REP_STRING
+        TT_ARG2_VALUE   	/var/dt/appconfig/appmanager/$DTUSERSESSION
+        TT_ARG3_MODE            TT_IN
+        TT_ARG3_VTYPE           -common_link_point
+        TT_ARG3_REP_TYPE        TT_REP_STRING
+        TT_ARG3_VALUE   	$LANG
+        TT_ARG4_MODE            TT_IN
+        TT_ARG4_VTYPE           -user_install_point
+        TT_ARG4_REP_TYPE        TT_REP_STRING
+        TT_ARG4_VALUE   	.dt/appmanager
+}
+ACTION PrintAppGroup
+{
+        LABEL           	Print
+        TYPE                    MAP
+        MAP_ACTION              PrintFolderList
+}
+
+
+# ##################################################################
+# 
+# Data Attributes
+# 
+# ##################################################################
+DATA_ATTRIBUTES OPEN_AGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+        ICON		Dtagen
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+}
+DATA_ATTRIBUTES AGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+        ICON		Dtagen
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+	DESCRIPTION	Double-click this icon to display the top \
+                        level of the Application Manager.
+        TYPE_LABEL      AGROUP
+}
+DATA_CRITERIA AGROUP1
+{
+	DATA_ATTRIBUTES_NAME AGROUP
+        MODE            d
+        PATH_PATTERN    */appmanager/*
+}
+ACTION Open
+{
+        LABEL           Open
+        ARG_TYPE        AGROUP
+        TYPE            MAP
+        MAP_ACTION      OpenAppGroup
+}
+ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        AGROUP
+        TYPE            MAP
+        MAP_ACTION      PrintAppGroup
+}
+
+# ############################################################
+
+DATA_ATTRIBUTES OPEN_DTAPPS_APPGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+        ICON		Dtadskt
+	LABEL		Desktop_Apps
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+}
+DATA_ATTRIBUTES DTAPPS_APPGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+        ICON		Dtadskt
+	LABEL		Desktop_Apps
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+	DESCRIPTION	Double-click this icon to open the \
+                        Desktop_Apps application group.
+        TYPE_LABEL      DTAPPS_GROUP
+}
+DATA_CRITERIA DTAPPS_APPGROUP1
+{
+	DATA_ATTRIBUTES_NAME DTAPPS_APPGROUP
+	MODE		d
+	PATH_PATTERN	*/appmanager/*/Desktop_Apps
+}
+ACTION Open
+{
+        LABEL           Open
+        ARG_TYPE        DTAPPS_APPGROUP
+        TYPE            MAP
+        MAP_ACTION      OpenAppGroup
+}
+ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        DTAPPS_APPGROUP
+        TYPE            MAP
+        MAP_ACTION      PrintAppGroup
+}
+
+# ############################################################
+
+DATA_ATTRIBUTES OPEN_INFORMATION_APPGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+	ICON		Dtainfo
+	LABEL		Information
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+}
+DATA_ATTRIBUTES INFORMATION_APPGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+	ICON		Dtainfo
+	LABEL		Information
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+	DESCRIPTION	Double-click this icon to open the Information \
+                        application group.
+        TYPE_LABEL      INFORMATION_APPGROUP
+}
+DATA_CRITERIA INFORMATION_APPGROUP1
+{
+	DATA_ATTRIBUTES_NAME INFORMATION_APPGROUP
+	MODE		d
+	PATH_PATTERN	*/appmanager/*/Information
+}
+ACTION Open
+{
+        LABEL           Open
+        ARG_TYPE        INFORMATION_APPGROUP
+        TYPE            MAP
+        MAP_ACTION      OpenAppGroup
+}
+ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        INFORMATION_APPGROUP
+        TYPE            MAP
+        MAP_ACTION      PrintAppGroup
+}
+
+# ############################################################
+
+DATA_ATTRIBUTES OPEN_SYSTEM_ADMIN_APPGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+	ICON		Dtasys
+	LABEL		System_Admin
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+}
+DATA_ATTRIBUTES SYSTEM_ADMIN_APPGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+	ICON		Dtasys
+	LABEL		System_Admin
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+	DESCRIPTION	Double-click this icon to open the System \
+                        Administration application group. 
+        TYPE_LABEL      SYSTEM_ADMIN_APPGROUP
+}
+DATA_CRITERIA SYSTEM_ADMIN_APPGROUP1
+{
+	DATA_ATTRIBUTES_NAME SYSTEM_ADMIN_APPGROUP
+	MODE		d
+	PATH_PATTERN	*/appmanager/*/System_Admin
+}
+ACTION Open
+{
+        LABEL           Open
+        ARG_TYPE        SYSTEM_ADMIN_APPGROUP
+        TYPE            MAP
+        MAP_ACTION      OpenAppGroup
+}
+ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        SYSTEM_ADMIN_APPGROUP
+        TYPE            MAP
+        MAP_ACTION      PrintAppGroup
+}
+
+# ############################################################
+
+DATA_ATTRIBUTES OPEN_DTTOOLS_APPGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+	ICON		Dtautil
+	LABEL		Desktop_Tools
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+}
+DATA_ATTRIBUTES DTTOOLS_APPGROUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+	ICON		Dtautil
+	LABEL		Desktop_Tools
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+	DESCRIPTION	Double-click this icon to open the \
+                        Desktop_Tools application group. 
+        TYPE_LABEL      DTTOOLS_APPGROUP
+}
+DATA_CRITERIA DTTOOLS_APPGROUP1
+{
+	DATA_ATTRIBUTES_NAME DTTOOLS_APPGROUP
+	MODE		d
+	PATH_PATTERN	*/appmanager/*/Desktop_Tools
+}
+ACTION Open
+{
+        LABEL           Open
+        ARG_TYPE        DTTOOLS_APPGROUP
+        TYPE            MAP
+        MAP_ACTION      OpenAppGroup
+}
+ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        DTTOOLS_APPGROUP
+        TYPE            MAP
+        MAP_ACTION      PrintAppGroup
+}
+
+# ############################################################
+
+DATA_ATTRIBUTES OPEN_AGUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+	ICON		Dtagup
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+}
+DATA_ATTRIBUTES AGUP
+{
+        ACTIONS         OpenInPlace,OpenNewView,Print
+	ICON		Dtagup
+        MEDIA           FILE_NAME
+        MOVE_TO_ACTION  FILESYSTEM_MOVE
+        COPY_TO_ACTION  FILESYSTEM_COPY
+        LINK_TO_ACTION  FILESYSTEM_LINK
+        DESCRIPTION     Double-click this icon to up a level \
+                        within the Application Manager.
+        TYPE_LABEL      AGUP
+}
+DATA_CRITERIA AGUP1
+{
+	DATA_ATTRIBUTES_NAME AGUP
+        MODE            d
+        PATH_PATTERN    */appmanager/*/..
+}
+ACTION Open
+{
+        LABEL           Open
+        ARG_TYPE        AGUP
+        TYPE            MAP
+        MAP_ACTION      OpenAppGroup
+}
+ACTION Print
+{
+        LABEL           Print
+        ARG_TYPE        AGUP
+        TYPE            MAP
+        MAP_ACTION      PrintAppGroup
+}
+
+# ######################## EOF ############################################
