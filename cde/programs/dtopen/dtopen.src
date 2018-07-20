@@ -1,47 +1,47 @@
 XCOMM!/bin/ksh
 XCOMM
-XCOMM dtapp - provide an interface for some useful applications.
+XCOMM dtopen - provide an interface for some useful applications.
 XCOMM
 XCOMM #############################################################
 XCOMM #set -x           # uncomment for debugging
 XCOMM ###############################################################
 XCOMM Init
 
-DTAPP="dtapp"                   # Identity crisis
+DTOPEN="dtopen"                   # Identity crisis
 APPNAME="$(basename $0)"        # the app to locate/run
 
 XCOMM apps to look for, given an action (based on APPNAME - see MAIN)
 
 XCOMM image viewing
-if [ -z "$DTAPP_VIMAGE" ]
+if [ -z "$DTOPEN_VIMAGE" ]
 then
     VIMAGE="xv display gimp"
 else
-    VIMAGE="$DTAPP_VIMAGE"
+    VIMAGE="$DTOPEN_VIMAGE"
 fi
 
 XCOMM video viewing
-if [ -z "$DTAPP_VVIDEO" ]
+if [ -z "$DTOPEN_VVIDEO" ]
 then
     VVIDEO="vlc ffplay"
 else
-    VVIDEO="$DTAPP_VVIDEO"
+    VVIDEO="$DTOPEN_VVIDEO"
 fi
 
 XCOMM postscript viewing
-if [ -z "$DTAPP_VPS" ]
+if [ -z "$DTOPEN_VPS" ]
 then
     VPS="mgv gv"
 else
-    VPS="$DTAPP_VPS"
+    VPS="$DTOPEN_VPS"
 fi
 
 XCOMM PDF viewing
-if [ -z "$DTAPP_VPDF" ]
+if [ -z "$DTOPEN_VPDF" ]
 then
     VPDF="okular xpdf"
 else
-    VPDF="$DTAPP_VPDF"
+    VPDF="$DTOPEN_VPDF"
 fi
 
 XCOMM ##############################################################
@@ -101,7 +101,7 @@ DoSimpleCmd()
     if [ $didone -eq 0 ]
     then    # couldn't find a viewer
         ErrorMsg "Helper not found" \
-                 "${DTAPP}: Could not find any of the following\ncommands for this file type:\n\n$cmds"
+                 "${DTOPEN}: Could not find any of the following\ncommands for this file type:\n\n$cmds"
     fi
 
     return 0
@@ -115,24 +115,24 @@ XCOMM # We'll just look at our args and decide what to do...
 
 XCOMM # Commands we'll recognize
 
-COMMANDS="dtapp_vimage dtapp_vweb dtapp_vpdf dtapp_vps dtapp_vvideo"
+COMMANDS="dtopen_image dtopen_pdf dtopen_ps dtopen_video"
 
 case $APPNAME in
-    dtapp_vimage)
+    dtopen_image)
         DoSimpleCmd "$VIMAGE" $*
         ;;
-    dtapp_vpdf)
+    dtopen_pdf)
         DoSimpleCmd "$VPDF" $*
         ;;
-    dtapp_vps)
+    dtopen_ps)
         DoSimpleCmd "$VPS" $*
         ;;
-    dtapp_vvideo)
+    dtopen_video)
         DoSimpleCmd "$VVIDEO" $*
         ;;
     *)
         # Unknown
-        ErrorMsg "${DTAPP}: Unknown Helper Application" \
+        ErrorMsg "${DTOPEN}: Unknown Helper Application" \
                   "\"$APPNAME\" is not a recognized Helper Application.  \nKnown Helper Applications are:\n\n$COMMANDS"
         ;;
 esac
