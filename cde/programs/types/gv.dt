@@ -22,51 +22,13 @@
 #
 ######################################################################
 
-ACTION xpdf
+ACTION gv
 {
-     LABEL         xpdf
+     LABEL         gv
      TYPE          COMMAND
-     EXEC_STRING   xpdf "%Arg_1%"
-     ICON          xpdf
+     EXEC_STRING   gv "%Arg_1%"
+     ICON          gv
      WINDOW_TYPE   NO_STDIO
-     DESCRIPTION   Xpdf is the default pdf viewer.
+     DESCRIPTION   gv is a postscript viewer.
 }
-
-DATA_ATTRIBUTES xpdf_FILE_1
-{
-     ACTIONS       Open,Print
-     ICON          acroread
-     DESCRIPTION   PDF files open with xpdf.
-}
-
-DATA_CRITERIA xpdf_FILE_1A
-{
-     DATA_ATTRIBUTES_NAME xpdf_FILE_1
-     MODE          !d
-     PATH_PATTERN  *.pdf
-}
-
-ACTION Open
-{
-     ARG_TYPE      xpdf_FILE_1
-     TYPE          MAP
-     MAP_ACTION    xpdf
-     LABEL         Open
-}
-
-ACTION xpdf_FILE_1_PRINT
-{
-     TYPE          COMMAND
-     EXEC_STRING   lpr "%Arg_1%"
-     WINDOW_TYPE   NO_STDIO
-}
-
-ACTION Print
-{
-     ARG_TYPE      xpdf_FILE_1
-     TYPE          MAP
-     MAP_ACTION    xpdf_FILE_1_PRINT
-     LABEL         Print
-}
-
 

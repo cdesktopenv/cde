@@ -23,23 +23,15 @@ fi
 XCOMM video viewing
 if [ -z "$DTAPP_VVIDEO" ]
 then
-    VVIDEO="mplayer vlc ffplay"
+    VVIDEO="vlc ffplay"
 else
     VVIDEO="$DTAPP_VVIDEO"
-fi
-
-XCOMM web (html) viewing
-if [ -z "$DTAPP_VWEB" ]
-then
-    VWEB="firefox chrome chromium-browser lynx"
-else
-    VWEB="$DTAPP_VWEB"
 fi
 
 XCOMM postscript viewing
 if [ -z "$DTAPP_VPS" ]
 then
-    VPS="gv"
+    VPS="mgv gv"
 else
     VPS="$DTAPP_VPS"
 fi
@@ -100,7 +92,7 @@ DoSimpleCmd()
 
         if [ ! -z "$thecmd" ]
         then    # it's there
-            $thecmd $*
+            $thecmd "$args"
             didone=1
             break
         fi
@@ -116,58 +108,6 @@ DoSimpleCmd()
 }
 
 
-XCOMM ###############################################################
-XCOMM ### Actions
-
-XCOMM ## Web browsing
-DoWeb()
-{
-    # DoWeb [[arg] ...]
-
-    didone=0
-    url="$1"
-
-    for i in $VWEB
-    do
-        thecmd="$(FindProg $i)"
-
-        if [ ! -z "$thecmd" ]
-        then    # it's there
-
-            # We'll do special things for lynx,
-            #  else we'll just call whatever is available, and
-            #  hope it's X aware...
-
-            case $i in
-                lynx)
-                    # start a dtterm
-                    CDE_INSTALLATION_TOP/bin/dtterm -e $thecmd $url
-                    didone=1
-                    ;;
-                *)
-                    # any others
-                    $thecmd $url
-                    didone=1
-                    ;;
-            esac
-
-            if [ $didone -eq 1 ]
-            then
-                break
-            fi
-        fi
-    done
-
-    if [ $didone -eq 0 ]
-    then    # couldn't find a viewer
-        ErrorMsg "Helper not found" \
-                 "${DTAPP}: Could not find any of the following\nweb browsers:\n\n$VWEB"
-    fi
-
-
-    return 0
-}
-
 XCOMM ##################################################################
 XCOMM ## MAIN
 
@@ -180,9 +120,6 @@ COMMANDS="dtapp_vimage dtapp_vweb dtapp_vpdf dtapp_vps dtapp_vvideo"
 case $APPNAME in
     dtapp_vimage)
         DoSimpleCmd "$VIMAGE" $*
-        ;;
-    dtapp_vweb)
-        DoWeb $*
         ;;
     dtapp_vpdf)
         DoSimpleCmd "$VPDF" $*

@@ -200,15 +200,8 @@ ACTION Open
 {
 	LABEL		Open
         ARG_TYPE        POSTSCRIPT
-        TYPE            COMMAND
-        WINDOW_TYPE     NO_STDIO
-        EXEC_STRING     /usr/dt/bin/dterror.ds                            "Cannot open - No Postscript viewer available."                            "Information"                            "OK"
-
-
-
-        DESCRIPTION     Your system does not provide a postscript viewer. \
-                        Attempting to open this file displays an error \
-                        dialog box.
+        TYPE            MAP
+        MAP_ACTION      DisplayPS
 }
 ACTION Print
 {
@@ -373,7 +366,7 @@ ACTION Print
 DATA_ATTRIBUTES TIFF
 {
         ACTIONS         Open
-        ICON            Dttif
+        ICON            Dtimage
         NAME_TEMPLATE	%s.tif
         MIME_TYPE	image/tiff
         SUNV3_TYPE	tiff-file
@@ -422,15 +415,9 @@ ACTION Open
 {
 	LABEL		Open
         ARG_TYPE        TIFF
-        TYPE            COMMAND
-        WINDOW_TYPE     NO_STDIO
-        EXEC_STRING     /usr/dt/bin/dterror.ds                            "Cannot open - No TIFF file viewer available."                            "Information"                            "OK"
-
-
-
-        DESCRIPTION     Your system does not provide a TIFF viewer.  \
-                        Attempting to open this file displays an error \
-                        dialog box.
+	TYPE            MAP
+	MAP_ACTION		DisplayImage
+	DESCRIPTION     Use the tiff viewer
 }
 ACTION Print
 {
@@ -445,7 +432,7 @@ ACTION Print
 DATA_ATTRIBUTES JPEG
 {
         ACTIONS         Open
-        ICON            Dtjpeg
+        ICON            Dtimage
         NAME_TEMPLATE	%s.jpg
         MIME_TYPE	image/jpeg
         SUNV3_TYPE	jpeg-file
@@ -495,15 +482,9 @@ ACTION Open
 {
 	LABEL		Open
         ARG_TYPE        JPEG
-        TYPE            COMMAND
-        WINDOW_TYPE     NO_STDIO
-        EXEC_STRING     /usr/dt/bin/dterror.ds                            "Cannot open - No JPEG file viewer available."                            "Information"                            "OK"
-
-
-
-        DESCRIPTION     Your system does not provide a JPEG viewer.  \
-                        Attempting to open this file displays an \
-                        error dialog box. 
+	TYPE            MAP
+	MAP_ACTION	DisplayImage
+	DESCRIPTION     Use the jpeg viewer
 }
 ACTION Print
 {
@@ -513,78 +494,82 @@ ACTION Print
         MAP_ACTION	NoPrint
 }
 
-# #######################################################
+# #####################################################################
+# ## BMP
 
-DATA_ATTRIBUTES MPEG
+DATA_ATTRIBUTES BMP
 {
-        ACTIONS         Open
-        ICON            Dtmpeg
-        NAME_TEMPLATE	%s.mpg
-        MIME_TYPE	video/mpeg
-        DESCRIPTION     This file contains a graphics image movie in MPEG \
-                        Interchange File Format.  Its data type is \
-                        named MPEG. MPEG files have names ending with \
-                        '.MPEG', '.mpg', '.mpeg', or '.MPG'.
-        TYPE_LABEL      MPEG
+	ACTIONS		Open
+	ICON		Dtimage
+	DESCRIPTION	This file contains a graphics image in 	                BMP format.  Its data type is named BMP. BMP files 	                have names ending with '.bmp', '.BMP' or '.Bmp'.
+
+
 }
-DATA_CRITERIA MPEG1
+DATA_CRITERIA BMP1
 {
-        DATA_ATTRIBUTES_NAME MPEG
-        MODE            f
-        NAME_PATTERN    *.MPEG
+	DATA_ATTRIBUTES_NAME BMP
+	MODE			f
+	PATH_PATTERN	*.bmp
 }
-DATA_CRITERIA MPEG2
+DATA_CRITERIA BMP2
 {
-        DATA_ATTRIBUTES_NAME MPEG
-        MODE            f
-        NAME_PATTERN    *.mpg
+	DATA_ATTRIBUTES_NAME BMP
+	MODE			f
+	PATH_PATTERN	*.BMP
 }
-DATA_CRITERIA MPEG3
+DATA_CRITERIA BMP3
 {
-        DATA_ATTRIBUTES_NAME MPEG
-        MODE            f
-        NAME_PATTERN    *.mpeg
+	DATA_ATTRIBUTES_NAME BMP
+	MODE			f
+	PATH_PATTERN	*.Bmp
 }
-DATA_CRITERIA MPEG4
+DATA_CRITERIA BMP4
 {
-        DATA_ATTRIBUTES_NAME MPEG
-        MODE            f
-        NAME_PATTERN    *.MPG
+	DATA_ATTRIBUTES_NAME    BMP
+	CONTENT 		0 string BM
+	MODE            f
 }
-DATA_CRITERIA MPEG5
+DATA_CRITERIA BMP4
 {
-        DATA_ATTRIBUTES_NAME MPEG
-        MODE            f
-        CONTENT         0 long 0x000001b3
+	DATA_ATTRIBUTES_NAME    BMP
+	CONTENT 		0 string IC
+	MODE            f
+}
+DATA_CRITERIA BMP4
+{
+	DATA_ATTRIBUTES_NAME    BMP
+	CONTENT 		0 string CI
+	MODE            f
+}
+DATA_CRITERIA BMP4
+{
+	DATA_ATTRIBUTES_NAME    BMP
+	CONTENT 		0 string CP
+	MODE            f
 }
 ACTION Open
 {
-        LABEL           Open
-        ARG_TYPE        MPEG
-        TYPE            COMMAND
-        WINDOW_TYPE     NO_STDIO
-        EXEC_STRING     /usr/dt/bin/dterror.ds                           "Cannot open - No MPEG player available."                           "Information"                           "OK"
-
-
-
-        DESCRIPTION     Your system does not provide a MPEG viewer.  \
-                        Attempting to open this file displays an error \
-                        dialog box.
+	LABEL		Open
+	ARG_TYPE		BMP
+	TYPE			MAP
+	MAP_ACTION		DisplayImage
+	DESCRIPTION		Use the bitmap viewer
 }
 ACTION Print
 {
         LABEL           Print
-        ARG_TYPE        MPEG
-        TYPE            MAP
-        MAP_ACTION	NoPrint
+	ARG_TYPE		BMP
+	TYPE			MAP
+	MAP_ACTION		NoPrint
 }
+
 
 # #######################################################
 
 DATA_ATTRIBUTES GIF
 {
         ACTIONS         Open
-        ICON		Dtgif
+        ICON		Dtimage
         NAME_TEMPLATE	%s.gif
         MIME_TYPE	image/gif
         SUNV3_TYPE	gif-file
@@ -622,15 +607,9 @@ ACTION Open
 {
         LABEL           Open
         ARG_TYPE        GIF
-        TYPE            COMMAND
-        WINDOW_TYPE     NO_STDIO
-        EXEC_STRING     /usr/dt/bin/dterror.ds                            "Cannot open - No GIF file viewer available."                            "Information"                            "OK"
-
-
-
-        DESCRIPTION     Your system does not provide a GIF viewer. \
-                        Attempting to open this file displays an error \
-                        dialog box.
+	TYPE            MAP
+	MAP_ACTION		DisplayImage
+	DESCRIPTION     Use the gif viewer
 }
 ACTION Print
 {
@@ -638,6 +617,60 @@ ACTION Print
         ARG_TYPE        GIF
         TYPE            MAP
         MAP_ACTION	NoPrint
+}
+
+# #######################################################################
+# ## PNG
+
+DATA_ATTRIBUTES PNG
+{
+	ACTIONS         Open
+	ICON		Dtimage
+	NAME_TEMPLATE	%s.png
+	MIME_TYPE		image/png
+	DESCRIPTION		This file contains a graphics image in PNG format. 	                Its data type is named PNG.  PNG files have 	                names ending with .png or .PNG
+
+
+	TYPE_LABEL      PNG
+}
+DATA_CRITERIA PNG1
+{
+	DATA_ATTRIBUTES_NAME PNG
+	MODE            f
+	NAME_PATTERN	*.png
+}
+DATA_CRITERIA PNG2
+{
+	DATA_ATTRIBUTES_NAME PNG
+	MODE            f
+	NAME_PATTERN	*.PNG
+}
+DATA_CRITERIA PNG3
+{
+	DATA_ATTRIBUTES_NAME    PNG
+	CONTENT 		0 string PNG
+	MODE            f
+}
+DATA_CRITERIA PNG4
+{
+	DATA_ATTRIBUTES_NAME    PNG
+	CONTENT 		0 byte 0x89 0x50 0x4e 0x47 
+	MODE            f
+}
+ACTION Open
+{
+        LABEL           Open
+	ARG_TYPE        PNG
+	TYPE            MAP
+	MAP_ACTION	DisplayImage
+	DESCRIPTION     Use the png viewer
+}
+ACTION Print
+{
+        LABEL           Print
+	ARG_TYPE        PNG
+	TYPE            MAP
+	MAP_ACTION		NoPrint
 }
 
 # #######################################################
@@ -856,6 +889,53 @@ ACTION Print
         ARG_TYPE        MSDOS_EXE
         TYPE            MAP
         MAP_ACTION	NoPrint
+}
+
+# #####################################################################
+# ## PDF
+
+DATA_ATTRIBUTES PDF
+{
+	ACTIONS			Open,Print
+	ICON			acroread
+	NAME_TEMPLATE	%s.pdf
+	MIME_TYPE		application/pdf
+	DESCRIPTION		This file contains pdf data. Its data type 					is named PDF.  PDF files have names ending with '.pdf' 					or '.PDF', or contain the characters "%PDF".
+
+
+	TYPE_LABEL		PDF
+}
+DATA_CRITERIA PDF1
+{
+	DATA_ATTRIBUTES_NAME PDF
+	MODE			f&!x
+	NAME_PATTERN	*.pdf
+}
+DATA_CRITERIA PDF2
+{
+	DATA_ATTRIBUTES_NAME PDF
+	MODE			f&!x
+	NAME_PATTERN	*.PDF
+}
+DATA_CRITERIA PDF3
+{
+	DATA_ATTRIBUTES_NAME	PDF
+	CONTENT 		0 string %PDF
+	MODE			f&!x
+}
+ACTION Open
+{
+	LABEL			Open
+	ARG_TYPE		PDF
+	TYPE			MAP
+	MAP_ACTION		DisplayPDF
+}
+ACTION Print
+{
+	LABEL			Print
+	ARG_TYPE		PDF
+	TYPE			MAP
+	MAP_ACTION		DisplayPDF
 }
 
 # ######################## EOF ############################################
