@@ -55,13 +55,22 @@
 
 #include  "bdfgpf.h"
 
-static 	void	ErrMsgTable_GetDefaultFile();
-static	int	falcom_split_data() ;
-static	void	dsp_font_list() ;
-static	int	search_Font_File_Name();
+static 	void	ErrMsgTable_GetDefaultFile(char    *com,
+					   int     ret,
+					   int     size,
+					   char    *style,
+					   char    *fname);
+static	int	falcom_split_data(char    *buf,
+				  int     entry_num,
+				  char    *elm[]);
+static	void	dsp_font_list(FalFontDataList *flist);
+static	int	search_Font_File_Name(FalFontData data, char *fname);
 
-extern	int	searchFontFileName();
-extern	int	falReadFontProp() ;
+extern	int	searchFontFileName(FalFontData data, char *fullPathName);
+extern	int	falReadFontProp(char                    *file,
+				int                     protect_key_data,
+				FalFontData             *databuff,
+				int                     islock);
 
 /*
  * get "character size" and "letter size" from a character of an interface
@@ -76,10 +85,10 @@ extern	int	falReadFontProp() ;
 #define	BODY_AND_LETTER	2
 
 static int
-GetSize( size_str, body, letter )
-char	*size_str;	/* a character of a size */
-int 	*body;		/* set "character size" (output) */
-int 	*letter;	/* set "letter size" (output) */
+GetSize(
+char	*size_str,	/* a character of a size */
+int 	*body,		/* set "character size" (output) */
+int 	*letter)	/* set "letter size" (output) */
 {
 	char	*str_dot;
 	/* char	*str_end; */
@@ -120,18 +129,10 @@ int 	*letter;	/* set "letter size" (output) */
  */
 
 int
-#if NeedFunctionPrototypes
 falcom_atoi(
     char	*str,	/* numerical character */
     char	ed_code,/* an end code in numerical character */
-    int 	*val	/* set numarical data */
-)
-#else
-falcom_atoi(str, ed_code, val)
-char	*str;	/* numerical character */
-char	ed_code;/* an end code in numerical character */
-int 	*val;	/* set numarical data */
-#endif
+    int 	*val)	/* set numarical data */
 {
 	char	*ptr;
 	char	*str_end;
@@ -153,8 +154,7 @@ int 	*val;	/* set numarical data */
 
 
 static int
-falcom_cr_to_null(buf)
-char	*buf;
+falcom_cr_to_null(char *buf)
 {
 	buf = strchr( buf, '\n');
 	if (buf != NULL) {
@@ -173,18 +173,10 @@ char	*buf;
 
 
 int
-#if NeedFunctionPrototypes
 GetDefaultFile(
-    int		size,
-    char	*style,
-    char	*fname
-)
-#else
-GetDefaultFile( size, style, fname )
-int	size;		/* character size */
-char	*style;		/* character style */
-char	*fname;		/* buffer */
-#endif
+    int		size,	/* character size */
+    char	*style,	/* character style */
+    char	*fname)	/* buffer */
 {
 	FILE	*fp;
 	int 	ret;
@@ -213,20 +205,11 @@ char	*fname;		/* buffer */
 
 
 int
-#if NeedFunctionPrototypes
 get_default_file(
     FILE	*fp,
-    int		size,
-    char	*style,
-    char	*fname
-)
-#else
-get_default_file( fp, size, style, fname )
-FILE	*fp;
-int	size;		/* character size */
-char	*style;		/* character style */
-char	*fname;		/* buffer */
-#endif
+    int		size,	/* character size */
+    char	*style,	/* character style */
+    char	*fname)	/* buffer */
 {
 	char	buf[BUFSIZE];		/* buffer */
 	int 	size_tmp;		/* size (read file) */
@@ -273,10 +256,10 @@ char	*fname;		/* buffer */
 /**************************************************************/
 
 static int
-falcom_split_data( buf, entry_num, elm )
-char	*buf;		/* read a font information character array from a file */
-int 	entry_num;
-char	*elm[];
+falcom_split_data(
+char	*buf,	/* read a font information character array from a file */
+int 	entry_num,
+char	*elm[])
 {
 	int 	cnt;		/* counter */
 	int 	strtop_flg;	/* flag of a head of a character array */
@@ -309,12 +292,7 @@ char	*elm[];
 
 
 char *
-#if NeedFunctionPrototypes
-falcom_get_base_name( char	*str )
-#else
-falcom_get_base_name( str )
-char	*str;	/* a full path character of a file name */
-#endif
+falcom_get_base_name( char *str /* a full path character of a file name */ )
 {
 	char	*str_slash;
 
@@ -327,8 +305,7 @@ char	*str;	/* a full path character of a file name */
 
 
 static int
-is_letter_size_not_only_one( lst )
-FalFontDataList	*lst;	/* a font list */
+is_letter_size_not_only_one( FalFontDataList *lst /* a font list */ )
 {
 	int	i, letter_cmp;
 
@@ -351,22 +328,12 @@ FalFontDataList	*lst;	/* a font list */
  *
  */
 int
-#if NeedFunctionPrototypes
 GetFileName(
-    char	*com,
-    char	*size_str,
-    char	*style,
-    int 	codeset,
-    char	*ofile
-)
-#else
-GetFileName(com, size_str, style, codeset, ofile)
-char	*com;		/* a character of a command name(case error) */
-char	*size_str;	/* a character of "size" */
-char	*style;		/* a character of "style" */
-int 	codeset;	/* a codeset */
-char	*ofile;		/* set a target file name (output) */
-#endif
+    char	*com,		/* a character of a command name(case error) */
+    char	*size_str,	/* a character of "size" */
+    char	*style,		/* a character of "style" */
+    int 	codeset,	/* a codeset */
+    char	*ofile)		/* set a target file name (output) */
 {
 	int 	body, letter;
 	int 	size_sw;		/* a size flag */
@@ -570,18 +537,10 @@ char	*fal_errmsg_org[0xff] = {
 
 
 void
-#if NeedFunctionPrototypes
 ErrMsgTable_FalGetFontList(
-    char	*com,
-    int		utyerr,
-    int		utyderr
-)
-#else
-ErrMsgTable_FalGetFontList( com, utyerr, utyderr )
-char	*com;		/* command name */
-int	utyerr;		/* fal_utyerror */
-int	utyderr;	/* fal_utyderror */
-#endif
+    char	*com,		/* command name */
+    int		utyerr,		/* fal_utyerror */
+    int		utyderr)	/* fal_utyderror */
 {
 	char	*fontsdir, *locale ;
 
@@ -627,17 +586,15 @@ int	utyderr;	/* fal_utyderror */
 	}
 }
 
-
-
 /* take out an error message of "GetDefaultFile()" */
 
 static void
-ErrMsgTable_GetDefaultFile( com, ret, size, style, fname )
-char	*com;			/* a command name */
-int 	ret;			/* return code */
-int 	size;			/* a character size */
-char	*style;			/* a character style */
-char	*fname;			/* user defined character information file name */
+ErrMsgTable_GetDefaultFile(
+char	*com,		/* a command name */
+int 	ret,		/* return code */
+int 	size,		/* a character size */
+char	*style,		/* a character style */
+char	*fname)		/* user defined character information file name */
 {
 	switch (ret) {
 	case -1:
@@ -666,12 +623,7 @@ char	*fname;			/* user defined character information file name */
  */
 
 void
-#if NeedFunctionPrototypes
 fal_cut_tailslash( char *name )
-#else
-fal_cut_tailslash( name )
-char *name;
-#endif
 {
 	char *p;
 
@@ -695,12 +647,7 @@ char *name;
  */
 
 char	*
-#if NeedFunctionPrototypes
 GetRealFileName( char	*name )
-#else
-GetRealFileName( name )
-char	*name;
-#endif
 {
 	static char	*ret_name ;
 	char	link_name[BUFSIZE];
@@ -760,18 +707,10 @@ char	*name;
  */
 
 int
-#if NeedFunctionPrototypes
 IsInRegion(
     int			code ,
     int			num_gr ,
-    FalGlyphRegion	*gr
-)
-#else
-IsInRegion(code, num_gr, gr)
-int		code ;
-int		num_gr ;
-FalGlyphRegion	*gr ;
-#endif
+    FalGlyphRegion	*gr)
 {
 	int	i ;
 	if( code < MIN_CODE || code > MAX_CODE )	return -1 ;
@@ -787,9 +726,7 @@ FalGlyphRegion	*gr ;
 
 
 static	int
-search_Font_File_Name( data, fname )
-FalFontData	data ;
-char		*fname ;
+search_Font_File_Name( FalFontData data, char *fname )
 {
 	FalFontID	fid ;
 	FalFontDataList	*flist ;
@@ -861,20 +798,11 @@ char		*fname ;
 
 
 int
-#if NeedFunctionPrototypes
 GetUdcFileName(
-    char	*com ,
-    int 	code_no ,
-    char	*xlfdname ,
-    char	*fname
-)
-#else
-GetUdcFileName( com, code_no, xlfdname, fname )
-char	*com ;
-int	code_no ;
-char	*xlfdname ;
-char	*fname ;
-#endif
+    char	*com,
+    int 	code_no,
+    char	*xlfdname,
+    char	*fname)
 {
 	FalFontData	data ;
 
@@ -891,8 +819,7 @@ char	*fname ;
 
 
 static	void
-dsp_font_list( flist )
-FalFontDataList	*flist ;
+dsp_font_list( FalFontDataList *flist )
 {
 	int	i ;
 
@@ -910,22 +837,12 @@ FalFontDataList	*flist ;
 
 
 int
-#if NeedFunctionPrototypes
 GetUdcRegion(
-    char	*com ,
-    int		codeset ,
-    char	*gpf_file ,
-    int		*num_gr ,
-    FalGlyphRegion	**gr
-)
-#else
-GetUdcRegion( com, codeset, gpf_file, num_gr, gr )
-char		*com ;
-int		codeset ;
-char		*gpf_file ;
-int		*num_gr ;
-FalGlyphRegion	**gr ;
-#endif
+    char	*com,
+    int		codeset,
+    char	*gpf_file,
+    int		*num_gr,
+    FalGlyphRegion	**gr)
 {
 	FalFontData	fdata ;
 	char	*locale, *char_set, *tmp_gpf ;
@@ -971,12 +888,7 @@ FalGlyphRegion	**gr ;
 #define	MAX_CODESET	8
 
 int
-#if NeedFunctionPrototypes
 DispUdcCpArea( FILE	*fp )
-#else
-DispUdcCpArea( fp )
-FILE	*fp ;
-#endif
 {
 	int	cd_set, j ;
 	FalFontDataList	*fls ;
@@ -1026,18 +938,10 @@ FILE	*fp ;
 
 
 int
-#if NeedFunctionPrototypes
 GetUdcFontName(
     char	*gpf_file ,
     char	*bdf_file ,
-    char	**fontname
-)
-#else
-GetUdcFontName( gpf_file, bdf_file, fontname )
-char	*gpf_file ;
-char	*bdf_file ;
-char	**fontname ;
-#endif
+    char	**fontname)
 {
 	FILE	*fp ;
 	pid_t	chld_pid = 0;

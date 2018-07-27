@@ -31,6 +31,7 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -42,9 +43,9 @@
 #include "falfont.h"
 #include "ufontrsrc.h"
 
-static void writePtn();
-static void sig_receive();
-char	*get_cmd_path() ;
+static void writePtn(char *ptn, int width, int height, FILE *fp);
+static void sig_receive(void);
+char	*get_cmd_path(char *path, char *cmd) ;
 
 extern Resource resource;
 
@@ -61,9 +62,9 @@ typedef struct {		/* area to manage character patterns 	*/
     int		nptn;		/* number of characters in editting	*/
     int		nmaxptn;	/* maximum number of characters in editting */
     int		ptnsize;	/* size per byte of single pattern 	*/
-    UINT	ptnmemsize;	/* size of memory of whole patterns	*/
-    USHORT	*ntoc;		/* character list / relative code 	*/
-    USHORT	*ctop;		/* relative code / bitmap area 		*/
+    unsigned int ptnmemsize;	/* size of memory of whole patterns	*/
+    unsigned short *ntoc;	/* character list / relative code	*/
+    unsigned short *ctop;	/* relative code / bitmap area 		*/
     char	*ptn;		/* pointer to the bimap area		*/
     int	cptnnum;		/* current pattern number 		*/
 } PATTERN_MNG;
@@ -86,7 +87,7 @@ char		AreaStr[160];
 FalFontID		font_id;
 
 static char *
-get_locale()
+get_locale(void)
 {
     char *loc;
 
@@ -104,8 +105,7 @@ get_locale()
  */
 
 int
-ptnSqToNo( num )
-int	num;			/* sequential number 	*/
+ptnSqToNo( int num /*sequential number */)
 {
     if( (pm.flag == 0) || (num >= pm.nptn) )
 	return( -1 );
@@ -123,8 +123,7 @@ int	num;			/* sequential number 	*/
  */
 
 int
-ptnNoToSq( ncode )
-int	ncode;			/* relative code 	*/
+ptnNoToSq( int ncode /* relative code */)
 {
     int		sq;
 
@@ -149,8 +148,7 @@ int	ncode;			/* relative code 	*/
  */
 
 int
-codeToNo( code )
-int	code;			/* character code */
+codeToNo( int code /* character code */)
 {
     return( code - begin_code);
 }
@@ -165,8 +163,7 @@ int	code;			/* character code */
  */
 
 int
-noToCode( sno )
-int	sno;			/* relative code */
+noToCode( int sno /* relative code */)
 {
     return( sno + begin_code);
 }
@@ -179,8 +176,7 @@ int	sno;			/* relative code */
  */
 
 int
-codeCheck( code )
-int 	code;
+codeCheck( int code )
 {
     if (code < begin_code || code > last_code) {
 	return( -1 );
@@ -196,11 +192,12 @@ int 	code;
  */
 
 static int
-ptnOpen(n, maxc, width, height)
-int	n;			/* initial number of charcters	*/
-int	maxc;
-int	width;			/* pattern width 		*/
-int	height;			/* pattern height 		*/
+ptnOpen(
+int	n,			/* initial number of charcters	*/
+int	maxc,
+int	width,			/* pattern width 		*/
+int	height			/* pattern height 		*/
+)
 {
     int		i;
     int		fpsize;
@@ -218,12 +215,12 @@ int	height;			/* pattern height 		*/
     pm.nmaxptn = n + GUADDPTNN;
     pm.ptnsize = height * ((width+7)/8);
     fpsize = pm.ptnsize + 1;
-    pm.ptnmemsize = (UINT) ( fpsize * pm.nmaxptn ) ;
+    pm.ptnmemsize = (unsigned int) ( fpsize * pm.nmaxptn ) ;
 
-    if(( pm.ntoc = (USHORT *)calloc(maxc, sizeof(USHORT)) ) == NULL) {
+    if(( pm.ntoc = (unsigned short *)calloc(maxc, sizeof(unsigned short)) ) == NULL) {
 	return( -1 );
     }
-    if(( pm.ctop = (USHORT *)calloc(maxc, sizeof(USHORT)) ) == NULL ) {
+    if(( pm.ctop = (unsigned short *)calloc(maxc, sizeof(unsigned short)) ) == NULL ) {
 	free( pm.ntoc );
 	return( -1 );
     }
@@ -257,7 +254,7 @@ int	height;			/* pattern height 		*/
  */
 
 int
-ptnClose()
+ptnClose(void)
 {
     if( pm.flag == 0 ) {
 	return( -1 );
@@ -282,18 +279,18 @@ ptnClose()
  */
 
 int
-ptnAdd( code, ptn )
-int	code;			/* code to be add 	*/
-char	*ptn;			/* pointer to the pattern */
+ptnAdd(
+int	code,			/* code to be add 	*/
+char	*ptn)			/* pointer to the pattern */
 {
     int		fpsize;
     int		ncode;
-    USHORT	pno;
+    unsigned short	pno;
     char	*pf;
     char	*pp;
     int		i;
     char	*re_ptn;
-    UINT	re_ptnmemsize;
+    unsigned int	re_ptnmemsize;
     int		cpn;
 
     if( pm.flag == 0 )
@@ -339,7 +336,7 @@ char	*ptn;			/* pointer to the pattern */
     }
     pm.cptnnum     = cpn;
 
-    pm.ctop[ncode] = (USHORT) cpn;
+    pm.ctop[ncode] = (unsigned short) cpn;
     pf = pm.ptn + fpsize*cpn;
     pp = pf + 1;
     pf[0] = 1;
@@ -352,7 +349,7 @@ char	*ptn;			/* pointer to the pattern */
 	}
 	pm.ntoc[i+1] = pm.ntoc[i];
     }
-    pm.ntoc[i+1] = (USHORT) ncode;
+    pm.ntoc[i+1] = (unsigned short) ncode;
     pm.nptn      += 1;
 
     return( 1 );
@@ -366,13 +363,11 @@ char	*ptn;			/* pointer to the pattern */
  */
 
 int
-ptnGet( code, ptn )
-int	code;
-char	*ptn;
+ptnGet( int code, char *ptn )
 {
     int		ncode;
     int		fpsize;
-    USHORT	pno;
+    unsigned short pno;
     char	*pf;
     char	*pp;
     int		i;
@@ -404,8 +399,7 @@ char	*ptn;
  */
 
 int
-ptnSense( code )
-int	code;
+ptnSense( int code )
 {
     if( (pm.flag == 0) || (codeCheck(code) == -1) )
 	return( -1 );
@@ -425,12 +419,11 @@ int	code;
  */
 
 int
-ptnDel( code )
-int	code;
+ptnDel( int code )
 {
     int		ncode;
     int		fpsize;
-    USHORT	pno;
+    unsigned short pno;
     char	*pf;
     int		i;
 
@@ -468,10 +461,10 @@ int	code;
  */
 
 int
-ptnGetInfo( n, width, height )
-int	*n;			/* the number of characters in editting */
-int	*width;			/* pattern width 	*/
-int	*height;		/* pattern height 	*/
+ptnGetInfo(
+int	*n,			/* the number of characters in editting */
+int	*width,			/* pattern width 	*/
+int	*height)		/* pattern height 	*/
 {
     if( pm.flag == 0 )
 	return( -1 );
@@ -500,9 +493,9 @@ struct {			/* infomation of character pattern */
  */
 
 static void
-bitSetInfo( width, height)
-int	width;			/* pattern width 	*/
-int	height;			/* pattern height 	*/
+bitSetInfo(
+int	width,			/* pattern width 	*/
+int	height)			/* pattern height 	*/
 {
     bitInfo.width     = width;
     bitInfo.height    = height;
@@ -517,10 +510,7 @@ int	height;			/* pattern height 	*/
  */
 
 void
-bitSet( ptn, cx, cy )
-char	*ptn;
-int	cx;
-int	cy;
+bitSet( char *ptn, int cx, int cy )
 {
     if((cx < 0) || (bitInfo.width <= cx) || (cy < 0) || (bitInfo.height <= cy))
 	return;
@@ -533,10 +523,7 @@ int	cy;
  */
 
 void
-bitReset( ptn, cx, cy )
-char	*ptn;
-int	cx;
-int	cy;
+bitReset( char *ptn, int cx, int cy )
 {
     if((cx < 0) || (bitInfo.width <= cx) || (cy < 0) || (bitInfo.height <= cy))
 	return;
@@ -549,10 +536,7 @@ int	cy;
  */
 
 int
-bitRead( ptn, cx, cy )
-char	*ptn;
-int	cx;
-int	cy;
+bitRead( char *ptn, int cx, int cy )
 {
     if((cx < 0) || (bitInfo.width <= cx) || (cy < 0) || (bitInfo.height <= cy))
 	return( 0 );
@@ -568,8 +552,7 @@ int	cy;
  */
 
 void
-bitPtnClear( ptn )
-char	*ptn;
+bitPtnClear( char *ptn )
 {
     int		i;
 
@@ -583,9 +566,9 @@ char	*ptn;
  */
 
 void
-bitPtnCopy( d_ptn, s_ptn )
-char	*d_ptn;			/* pointer of the destination file 	*/
-char	*s_ptn;			/* pointer of the source file 		*/
+bitPtnCopy(
+char	*d_ptn,			/* pointer of the destination file 	*/
+char	*s_ptn)			/* pointer of the source file 		*/
 {
     int	i;
 
@@ -608,13 +591,13 @@ char	*s_ptn;			/* pointer of the source file 		*/
  */
 
 int
-bitDrawLine( ptn, x1, y1, x2, y2 ,mode )
-char	*ptn;			/* pointer of the bit map file */
-int	x1;
-int	y1;
-int	x2;
-int	y2;
-int	mode;			/* 0: erase 1: draw	*/
+bitDrawLine(
+char	*ptn,			/* pointer of the bit map file */
+int	x1,
+int	y1,
+int	x2,
+int	y2,
+int	mode)			/* 0: erase 1: draw	*/
 {
     float	dx, dy;
     float	x, y;
@@ -655,13 +638,13 @@ int	mode;			/* 0: erase 1: draw	*/
  */
 
 int
-bitDrawCircle( ptn, x1, y1, x2, y2, mode )
-char	*ptn;
-int	x1;
-int	y1;
-int	x2;
-int	y2;
-int	mode;
+bitDrawCircle(
+char	*ptn,
+int	x1,
+int	y1,
+int	x2,
+int	y2,
+int	mode)
 {
     int		dx, dy;
     int		i,x;
@@ -708,13 +691,13 @@ int	mode;
  */
 
 int
-bitDrawRect( ptn, x, y, width, height, mode )
-char	*ptn;
-int	x;
-int	y;
-int	width;
-int	height;
-int	mode;
+bitDrawRect(
+char	*ptn,
+int	x,
+int	y,
+int	width,
+int	height,
+int	mode)
 {
     int		i;
 
@@ -757,12 +740,12 @@ int	mode;
  */
 
 int
-bitDrawCls( ptn, x, y, width, height )
-char	*ptn;
-int	x;
-int	y;
-int	width;
-int	height;
+bitDrawCls(
+char	*ptn,
+int	x,
+int	y,
+int	width,
+int	height)
 {
     int		i, j;
 
@@ -789,12 +772,12 @@ int	height;
  */
 
 int
-bitDrawSet( ptn, x, y, width, height )
-char	*ptn;
-int	x;
-int	y;
-int	width;
-int	height;
+bitDrawSet(
+char	*ptn,
+int	x,
+int	y,
+int	width,
+int	height)
 {
     int		i, j;
 
@@ -820,12 +803,12 @@ int	height;
  */
 
 int
-bitDrawRev( ptn, x, y, width, height )
-char	*ptn;
-int	x;
-int	y;
-int	width;
-int	height;
+bitDrawRev(
+char	*ptn,
+int	x,
+int	y,
+int	width,
+int	height)
 {
     int		i, j;
 
@@ -859,13 +842,13 @@ static int cut_buffer_h=0;
  */
 
 int
-bitDrawCpy(ptn, sx, sy, width, height, cut_flag)
-char	*ptn;
-int	sx;
-int	sy;
-int	width;
-int	height;
-int	cut_flag;
+bitDrawCpy(
+char	*ptn,
+int	sx,
+int	sy,
+int	width,
+int	height,
+int	cut_flag)
 {
     int		i, j;
 
@@ -890,10 +873,7 @@ int	cut_flag;
 }
 
 int
-bitDrawPaste(ptn, dx, dy)
-char	*ptn;
-int	dx;
-int	dy;
+bitDrawPaste(char *ptn, int dx, int dy)
 {
     int		i, j;
     int		width, height;
@@ -927,12 +907,7 @@ int	dy;
  */
 
 int
-bitDrawRoll( ptn, x, y, width, height )
-char	*ptn;
-int	x;
-int	y;
-int	width;
-int	height;
+bitDrawRoll(char *ptn, int x, int y, int width, int height)
 {
     char *point;
     int xx, yy;
@@ -970,12 +945,7 @@ int	height;
  */
 
 int
-bitDrawSymV( ptn, x, y, width, height )
-char	*ptn;
-int	x;
-int	y;
-int	width;
-int	height;
+bitDrawSymV( char *ptn, int x, int y, int width, int height )
 {
     int		k, j;
     int		d1, d2;
@@ -1009,12 +979,7 @@ int	height;
  */
 
 int
-bitDrawSymH( ptn, x, y, width, height )
-char	*ptn;
-int	x;
-int	y;
-int	width;
-int	height;
+bitDrawSymH( char *ptn, int x, int y, int width, int height )
 {
     int		k, j;
     int		d1, d2;
@@ -1070,11 +1035,7 @@ char_set(char *str)
  *		-2 : file is locked
  */
 int
-readSNF(fdata, width, height, err)
-FalFontData **fdata;
-int	*width;
-int	*height;
-char 	*err;
+readSNF(FalFontData **fdata, int *width, int *height, char *err)
 {
     FalFontinfo		finfo;
     int			start, end;
@@ -1300,22 +1261,15 @@ char 	*err;
 }
 
 static void
-bicopy(s1, s2, size)
-char *s1, *s2;
-int size;
+bicopy(char *s1, char *s2, int size)
 {
-    register int i;
+    int i;
     for(i=size; i; i--, s1++, s2++)
 	*s2 = *s1;
 }
 
 int
-copySNF(start, end, ptn, num, err)
-int	start;
-int	end;
-char	***ptn;
-int	*num;
-char 	*err;
+copySNF(int start, int end, char ***ptn, int *num, char *err)
 {
     FalFontID		fid;
     int			mask;
@@ -1395,9 +1349,7 @@ char 	*err;
 }
 
 void
-freeSNF(addr, count)
-char **addr;
-int count;
+freeSNF(char **addr, int count)
 {
     char **p;
     for (p=addr; count; count--, p++)
@@ -1417,9 +1369,9 @@ static int	sig_flg = 0;		/* flag for signal		*/
  */
 
 int
-writeSNF( restart, err )
-int		restart;	/* ON:continue OFF:initial	*/
-int		*err;		/* errors : 			*/
+writeSNF(
+int		restart,	/* ON:continue OFF:initial	*/
+int		*err)		/* errors : 			*/
 {
     static int		pfstdi[2];
     static FILE		*fstdi;
@@ -1481,19 +1433,22 @@ int		*err;		/* errors : 			*/
 	case 0:
 	    close( 0 );			/** 0 ... stdin **/
 
-	    dup(   pfstdi[0] );
-	    close( pfstdi[0] );
-	    close( pfstdi[1] );
-	    argv[0] = resource.l_ptog_cmd;
-	    argv[1] = "-codeset";
-	    argv[2] = code_set;
-	    argv[3] = "-xlfd";
-	    argv[4] = fullFontData.xlfdname;
-	    argv[5] = "-init";
-	    argv[6] = "-f";
-	    argv[7] = NULL;
-	    execv (command, argv );
-	    exit( 103 );
+	    if( dup(   pfstdi[0] ) == -1){
+		return -1;
+	    } else {
+		close( pfstdi[0] );
+		close( pfstdi[1] );
+		argv[0] = resource.l_ptog_cmd;
+		argv[1] = "-codeset";
+		argv[2] = code_set;
+		argv[3] = "-xlfd";
+		argv[4] = fullFontData.xlfdname;
+		argv[5] = "-init";
+		argv[6] = "-f";
+		argv[7] = NULL;
+		execv (command, argv );
+		exit( 103 );
+	    }
 	}
 
 
@@ -1567,7 +1522,7 @@ int		*err;		/* errors : 			*/
  */
 
 static void
-sig_receive()
+sig_receive(void)
 {
     sig_flg = 1;
     return;
@@ -1579,11 +1534,7 @@ sig_receive()
  */
 
 static void
-writePtn(ptn, width, height, fp)
-char	*ptn;
-int	width;
-int	height;
-FILE	*fp;
+writePtn(char *ptn, int width, int height, FILE *fp)
 {
     int		i, j, k;
     int		nbyte;

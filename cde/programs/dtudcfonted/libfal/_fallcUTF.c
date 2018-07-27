@@ -49,65 +49,52 @@ OR PERFORMANCE OF THIS SOFTWARE.
 
 ******************************************************************/
 #include "_fallcUTF.h"
+#include <stdlib.h>
 
-static long	getutfrune();
+static long getutfrune(char **read_from, int *from_len);
 static void our_wctomb(
-#if NeedFunctionPrototypes
 		       unsigned short r,
 		       char **bufptr,
 		       int *buf_len
-#endif
 );
 static int our_mbtowc(
-#if NeedFunctionPrototypes
 		      unsigned long *p,
 		      char *s,
 		      size_t n
-#endif
 );
 static void	latin2rune(
-#if NeedFunctionPrototypes
 			   unsigned char c,
 			   Rune *r
-#endif
 );
 static void	jis02012rune(
-#if NeedFunctionPrototypes
 			     unsigned char c,
 			     Rune *r
-#endif
 );
 static void	jis02082rune(
-#if NeedFunctionPrototypes
 			     unsigned char c,
 			     Rune *r
-#endif
 );
 static void	ksc2rune(
-#if NeedFunctionPrototypes
 			 unsigned char c,
 			 Rune *r
-#endif
 );
 static void	gb2rune(
-#if NeedFunctionPrototypes
 			unsigned char c,
 			Rune *r
-#endif
 );
-static void	init_latin1tab();
-static void	init_latin2tab();
-static void	init_latin3tab();
-static void	init_latin4tab();
-static void	init_latin5tab();
-static void	init_latin6tab();
-static void	init_latin7tab();
-static void	init_latin8tab();
-static void	init_latin9tab();
-static void	init_jis0201tab();
-static void	init_jis0208tab();
-static void	init_ksc5601tab();
-static void	init_gb2312tab();
+static void	init_latin1tab(long *tbl, long fb_default);
+static void	init_latin2tab(long *tbl, long fb_default);
+static void	init_latin3tab(long *tbl, long fb_default);
+static void	init_latin4tab(long *tbl, long fb_default);
+static void	init_latin5tab(long *tbl, long fb_default);
+static void	init_latin6tab(long *tbl, long fb_default);
+static void	init_latin7tab(long *tbl, long fb_default);
+static void	init_latin8tab(long *tbl, long fb_default);
+static void	init_latin9tab(long *tbl, long fb_default);
+static void	init_jis0201tab(long *tbl, long fb_default);
+static void	init_jis0208tab(long *tbl, long fb_default);
+static void	init_ksc5601tab(long *tbl, long fb_default);
+static void	init_gb2312tab(long *tbl, long fb_default);
 
 
 static char	*int_locale = NULL;
@@ -149,21 +136,16 @@ static XlcUTFDataRec default_utf_data[] =
 
 
 static void
-set_latin_nop(table, default_val)
-long	*table;
-long	default_val;
+set_latin_nop(long *table, long default_val)
 {
-    register int i;
+    int i;
     for(i = 0; i < 0x1fff; i++)
 	table[i] = default_val;
     return;
 }
 
 static void
-set_latin_tab(fptr, table, fb_default)
-FILE	*fptr;
-long	*table;
-long	fb_default;
+set_latin_tab(FILE *fptr, long *table, long fb_default)
 {
     int		i = 0;
     int		j = 0;
@@ -186,9 +168,7 @@ extern int _fallcResolveI18NPath();
 #define TBL_DATA_DIR	"tbl_data"
 
 static void
-init_latin1tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_latin1tab(long *tbl, long fb_default)
 {
     FILE	*fp = NULL;
     char	dirname[BUFSIZE];
@@ -221,9 +201,7 @@ long	fb_default;
 }
 
 static void
-init_latin2tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_latin2tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -256,9 +234,7 @@ long	fb_default;
 }
 
 static void
-init_latin3tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_latin3tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -291,9 +267,7 @@ long	fb_default;
 }
 
 static void
-init_latin4tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_latin4tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -326,9 +300,7 @@ long	fb_default;
 }
 
 static void
-init_latin5tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_latin5tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -361,9 +333,7 @@ long	fb_default;
 }
 
 static void
-init_latin6tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_latin6tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -396,9 +366,7 @@ long	fb_default;
 }
 
 static void
-init_latin7tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_latin7tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -431,9 +399,7 @@ long	fb_default;
 }
 
 static void
-init_latin8tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_latin8tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -466,9 +432,7 @@ long	fb_default;
 }
 
 static void
-init_latin9tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_latin9tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -501,9 +465,7 @@ long	fb_default;
 }
 
 static void
-init_jis0201tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_jis0201tab(long *tbl, long fb_default)
 {
 	int i;
 	for(i = 0; i < NRUNE; i++)
@@ -511,25 +473,23 @@ long	fb_default;
 }
 
 static void
-set_cjk_nop(to_tbl, to_max, default_val)
-long	**to_tbl;
-long	default_val;
-int	to_max;
+set_cjk_nop(long **to_tbl, int to_max, long default_val)
 {
-    register int i;
+    int i;
     for(i = 0; i < to_max; i++)
 	(*to_tbl)[i] = default_val;
     return;
 }
 
 static void
-set_table(fptr, to_tbl, from_tbl, to_max, fb_default)
-FILE	*fptr;
-long	**to_tbl, *from_tbl;
-int	to_max;
-long	fb_default;
+set_table(
+FILE	*fptr,
+long	**to_tbl,
+long	*from_tbl,
+int	to_max,
+long	fb_default)
 {
-    register int	i = 0;
+    int 	i = 0;
     int		j = 0;
     int		rv = 0;
     long 	value;
@@ -554,9 +514,7 @@ long	fb_default;
 
 
 static void
-init_jis0208tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_jis0208tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -592,9 +550,7 @@ long	fb_default;
 }
 
 static void
-init_ksc5601tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_ksc5601tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -630,9 +586,7 @@ long	fb_default;
 }
 
 static void
-init_gb2312tab(tbl, fb_default)
-long	*tbl;
-long	fb_default;
+init_gb2312tab(long *tbl, long fb_default)
 {
     FILE	*fp;
     char	dirname[BUFSIZE];
@@ -668,7 +622,7 @@ long	fb_default;
 }
 
 static UtfData
-make_entry()
+make_entry(void)
 {
     UtfData tmp = (UtfData)Xmalloc(sizeof(UtfDataRec));
     bzero(tmp, sizeof(UtfDataRec));
@@ -677,8 +631,7 @@ make_entry()
 
 static int	once = 0;
 static int
-_XlcInitUTFInfo(lcd)
-XLCd	lcd;
+_XlcInitUTFInfo(XLCd lcd)
 {
     if(!once) {
 	int	i;
@@ -726,14 +679,14 @@ XLCd	lcd;
 }
 
 static int
-utftocs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv	conv;
-    char	**from;
-    int		*from_left;
-    char	**to;
-    int		*to_left;
-    XPointer	*args;
-    int		num_args;
+utftocs(
+    XlcConv	conv,
+    char	**from,
+    int		*from_left,
+    char	**to,
+    int		*to_left,
+    XPointer	*args,
+    int		num_args)
 {
     char	*utfptr;
     char 	*bufptr;
@@ -763,7 +716,17 @@ utftocs(conv, from, from_left, to, to_left, args, num_args)
 		tbl += l;
 		if((r = *tbl) == -1) {
 		    if(tmpcharset) {
-			    goto end;
+			if((num_args > 0) && tmpcharset)
+			*((XlcCharSet *) args[0]) = tmpcharset;
+
+			*from_left -= utfptr - *from;
+			*from = utfptr;
+
+			*to_left -= bufptr - *to;
+			*to = bufptr;
+
+			return 0;
+
 		    } else {
 			pdata = pdata->next;
 			continue;
@@ -799,28 +762,17 @@ utftocs(conv, from, from_left, to, to_left, args, num_args)
 	    if(!tmpcharset) return (-1); /* Unknown Codepoint */
 	}
     }
-end:
-    if((num_args > 0) && tmpcharset)
-	*((XlcCharSet *) args[0]) = tmpcharset;
-
-    *from_left -= utfptr - *from;
-    *from = utfptr;
-
-    *to_left -= bufptr - *to;
-    *to = bufptr;
-
-    return 0;
 }
 
 static int
-utf1tocs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv	conv;
-    char	**from;
-    int		*from_left;
-    char	**to;
-    int		*to_left;
-    XPointer	*args;
-    int		num_args;
+utf1tocs(
+    XlcConv	conv,
+    char	**from,
+    int		*from_left,
+    char	**to,
+    int		*to_left,
+    XPointer	*args,
+    int		num_args)
 {
     char	**ptr = NULL;
     char	char_ptr[UTFmax];
@@ -839,14 +791,14 @@ utf1tocs(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-ucstocs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv	conv;
-    XPointer	*from;
-    int		*from_left;
-    char	**to;
-    int		*to_left;
-    XPointer	*args;
-    int		num_args;
+ucstocs(
+    XlcConv	conv,
+    XPointer	*from,
+    int		*from_left,
+    char	**to,
+    int		*to_left,
+    XPointer	*args,
+    int		num_args)
 {
     wchar_t	*ucsptr;
     char 	*bufptr;
@@ -871,7 +823,17 @@ ucstocs(conv, from, from_left, to, to_left, args, num_args)
 		tbl += *ucsptr;
 		if((r = *tbl) == -1) {
 		    if(tmpcharset) {
-			    goto end;
+		        if((num_args > 0) && tmpcharset)
+			*((XlcCharSet *) args[0]) = tmpcharset;
+
+			*from_left -= ucsptr - (wchar_t *)*from;
+			*from = (XPointer)ucsptr;
+
+			*to_left -= bufptr - *to;
+			*to = bufptr;
+
+			return 0;
+
 		    } else {
 			pdata = pdata->next;
 			continue;
@@ -908,27 +870,10 @@ ucstocs(conv, from, from_left, to, to_left, args, num_args)
 	    }
 	    if(!tmpcharset) return (-1); /* Unknown Codepoint */
     }
-end:
-    if((num_args > 0) && tmpcharset)
-	*((XlcCharSet *) args[0]) = tmpcharset;
-
-    *from_left -= ucsptr - (wchar_t *)*from;
-    *from = (XPointer)ucsptr;
-
-    *to_left -= bufptr - *to;
-    *to = bufptr;
-
-    return 0;
 }
 
 static long
-#if NeedFunctionPrototypes
 getutfrune(char **read_from, int *from_len)
-#else
-getutfrune(read_from, from_len)
-char **read_from;
-int *from_len;
-#endif
 {
 	int c, i;
 	char str[UTFmax]; /* MB_LEN_MAX really */
@@ -952,24 +897,22 @@ int *from_len;
 }
 
 static
-cstoutf(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    char **from;
-    int *from_left;
-    char **to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+cstoutf(
+    XlcConv conv,
+    char **from,
+    int *from_left,
+    char **to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     XlcCharSet charset;
     char *csptr, *utfptr;
     int csstr_len, utf_len;
     int               cmp_len = 0;
     void	(*putrune)(
-#if NeedFunctionPrototypes
                             unsigned char c,
                             Rune *r
-#endif
 			   ) = NULL;
     Rune	r = (Rune)0;
     UtfData	pdata = utfdata_list;
@@ -1017,14 +960,14 @@ cstoutf(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static
-cstoucs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    char **from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+cstoucs(
+    XlcConv conv,
+    char **from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     XlcCharSet charset;
     char *csptr;
@@ -1032,10 +975,8 @@ cstoucs(conv, from, from_left, to, to_left, args, num_args)
     int csstr_len, ucs_len;
     int               cmp_len = 0;
     void	(*putrune)(
-#if NeedFunctionPrototypes
                             unsigned char c,
                             Rune *r
-#endif
 			   ) = NULL;
     Rune	r = (Rune)0;
     UtfData	pdata = utfdata_list;
@@ -1085,14 +1026,7 @@ cstoucs(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static void
-#if NeedFunctionPrototypes
 our_wctomb(Rune r, char **utfptr, int *utf_len)
-#else
-our_wctomb(r, utfptr, utf_len)
-Rune r;
-char **utfptr;
-int *utf_len;
-#endif
 {
 	long l = (long)r;
 
@@ -1150,26 +1084,14 @@ int *utf_len;
 }
 
 static void
-#if NeedFunctionPrototypes
 latin2rune(unsigned char c, Rune *r)
-#else
-latin2rune(c, r)
-unsigned char c;
-Rune *r;
-#endif
 {
 	*r = (Rune)c;
 	return;
 }
 
 static void
-#if NeedFunctionPrototypes
 ksc2rune(unsigned char c, Rune *r)
-#else
-ksc2rune(c, r)
-unsigned char c;
-Rune *r;
-#endif
 {
         static enum { init, cs1last} state = init;
         static int korean646 = 1; /* fixed to 1 for now. */
@@ -1206,32 +1128,19 @@ Rune *r;
 }
 
 static void
-#if NeedFunctionPrototypes
 jis02012rune(unsigned char c, Rune *r)
-#else
-jis02012rune(c, r)
-unsigned char c;
-Rune *r;
-#endif
 {
 /* To Be Implemented */
 }
 
 static void
-#if NeedFunctionPrototypes
 gb2rune(unsigned char c, Rune *r)
-#else
-gb2rune(c, r)
-unsigned char c;
-Rune *r;
-#endif
 {
         static enum { state0, state1 } state = state0;
         static int lastc;
         long n, ch;
 	unsigned char	ch1 = (c|0x80); /* XXX */
 
-again:
         switch(state)
         {
         case state0:    /* idle state */
@@ -1261,21 +1170,16 @@ again:
 }
 
 static void
-#if NeedFunctionPrototypes
 jis02082rune(unsigned char c, Rune *r)
-#else
-jis02082rune(c, r)
-unsigned char c;
-Rune *r;
-#endif
 {
         static enum { state0, state1} state = state0;
         static int lastc;
 	unsigned char	ch = (c|0x80); /* XXX */
-        int n;
+        int n, again;
         long l;
 
-again:
+do {
+	again = 0;
         switch(state)
         {
         case state0:    /* idle state */
@@ -1287,7 +1191,7 @@ again:
                 if((lastc&0x80) != (ch&0x80)){
                         emit(lastc);
                         state = state0;
-                        goto again;
+                        again += 1;
                 }
                 if(CANS2J(lastc, ch)){
                         int h = lastc, l = ch;
@@ -1305,17 +1209,11 @@ again:
                 }
                 state = state0;
         }
+    } while (again == 1);
 }
 
 static int
-#if NeedFunctionPrototypes
 our_mbtowc(unsigned long *p, char *s, size_t n)
-#else
-our_mbtowc(p, s, n)
-unsigned long *p;
-char *s;
-size_t n;
-#endif
 {
 	unsigned char *us;
 	int c0, c1, c2, c3, c4, c5;
@@ -1325,38 +1223,42 @@ size_t n;
 		return 0;		/* no shift states */
 
 	if(n < 1)
-		goto badlen;
+		return -2; 		/* bad length */
 	us = (unsigned char*)s;
 	c0 = us[0];
 	if(c0 >= T3) {
 		if(n < 3)
-			goto badlen;
+			return -2;
 		c1 = us[1] ^ Tx;
 		c2 = us[2] ^ Tx;
 		if((c1|c2) & T2) {
-			goto bad;
+		    errno = EILSEQ;
+		    return -1;
 		}
 		if(c0 >= T5) {
 			if(n < 5)
-				goto badlen;
+				return -2;
 			c3 = us[3] ^ Tx;
 			c4 = us[4] ^ Tx;
 			if((c3|c4) & T2) {
-				goto bad;
+			    errno = EILSEQ;
+			    return -1;
 			}
 			if(c0 >= T6) {
 				/* 6 bytes */
 				if(n < 6)
-					goto badlen;
+					return -2;
 				c5 = us[5] ^ Tx;
 				if(c5 & T2) {
-					goto bad;
+				    errno = EILSEQ;
+				    return -1;
 				}
 				wc = ((((((((((c0 & Mask6) << Bitx) |
 					c1) << Bitx) | c2) << Bitx) |
 					c3) << Bitx) | c4) << Bitx) | c5;
 				if(wc <= Wchar5) {
-					goto bad;
+				    errno = EILSEQ;
+				    return -1;
 				}
 				*p = wc;
 				return 6;
@@ -1366,7 +1268,8 @@ size_t n;
 				c1) << Bitx) | c2) << Bitx) |
 				c3) << Bitx) | c4;
 			if(wc <= Wchar4) {
-				goto bad;
+		            errno = EILSEQ;
+			    return -1;
 			}
 			*p = wc;
 			return 5;
@@ -1374,16 +1277,18 @@ size_t n;
 		if(c0 >= T4) {
 			/* 4 bytes */
 			if(n < 4)
-				goto badlen;
+				return -2;
 			c3 = us[3] ^ Tx;
 			if(c3 & T2) {
-				goto bad;
+			    errno = EILSEQ;
+			    return -1;
 			}
 			wc = ((((((c0 & Mask4) << Bitx) |
 				c1) << Bitx) | c2) << Bitx) |
 				c3;
 			if(wc <= Wchar3) {
-				goto bad;
+		            errno = EILSEQ;
+			    return -1;
 			}
 			*p = wc;
 			return 4;
@@ -1392,7 +1297,8 @@ size_t n;
 		wc = ((((c0 & Mask3) << Bitx) |
 			c1) << Bitx) | c2;
 		if(wc <= Wchar2) {
-			goto bad;
+		    errno = EILSEQ;
+		    return -1;
 		}
 		*p = wc;
 		return 3;
@@ -1400,44 +1306,38 @@ size_t n;
 	if(c0 >= T2) {
 		/* 2 bytes */
 		if(n < 2)
-			goto badlen;
+			return -2;
 		c1 = us[1] ^ Tx;
 		if(c1 & T2) {
-			goto bad;
+		    errno = EILSEQ;
+		    return -1;
 		}
 		wc = ((c0 & Mask2) << Bitx) |
 			c1;
 		if(wc <= Wchar1) {
-			goto bad;
+		    errno = EILSEQ;
+		    return -1;
 		}
 		*p = wc;
 		return 2;
 	}
 	/* 1 byte */
 	if(c0 >= Tx) {
-		goto bad;
+	    errno = EILSEQ;
+            return -1;
 	}
 	*p = c0;
 	return 1;
-
-bad:
-	errno = EILSEQ;
-	return -1;
-badlen:
-	return -2;
 }
 
 static void
-close_converter(conv)
-    XlcConv conv;
+close_converter(XlcConv conv)
 {
     Xfree((char *) conv);
 }
 
 static XlcConv
-create_conv(lcd, methods)
-    XLCd	lcd;
-    XlcConvMethods	methods;
+create_conv(XLCd lcd, XlcConvMethods methods)
 {
     XlcConv conv;
 
@@ -1452,10 +1352,10 @@ create_conv(lcd, methods)
 
     return conv;
 
-err:
+/* if an error occurs somewhere
     close_converter(conv);
-
     return (XlcConv) NULL;
+*/
 }
 
 static XlcConvMethodsRec mbtocs_methods = {
@@ -1465,11 +1365,7 @@ static XlcConvMethodsRec mbtocs_methods = {
 };
 
 static XlcConv
-open_mbtocs(from_lcd, from, to_lcd, to)
-    XLCd from_lcd;
-    char *from;
-    XLCd to_lcd;
-    char *to;
+open_mbtocs(XLCd from_lcd, char *from, XLCd to_lcd, char *to)
 {
     return create_conv(from_lcd, &mbtocs_methods);
 }
@@ -1481,11 +1377,7 @@ static XlcConvMethodsRec mbstocs_methods = {
 };
 
 static XlcConv
-open_mbstocs(from_lcd, from, to_lcd, to)
-    XLCd from_lcd;
-    char *from;
-    XLCd to_lcd;
-    char *to;
+open_mbstocs(XLCd from_lcd, char *from, XLCd to_lcd, char *to)
 {
     return create_conv(from_lcd, &mbstocs_methods);
 }
@@ -1497,11 +1389,7 @@ static XlcConvMethodsRec wcstocs_methods = {
 };
 
 static XlcConv
-open_wcstocs(from_lcd, from, to_lcd, to)
-    XLCd from_lcd;
-    char *from;
-    XLCd to_lcd;
-    char *to;
+open_wcstocs(XLCd from_lcd, char *from, XLCd to_lcd, char *to)
 {
     return create_conv(from_lcd, &wcstocs_methods);
 }
@@ -1513,11 +1401,7 @@ static XlcConvMethodsRec cstombs_methods = {
 };
 
 static XlcConv
-open_cstombs(from_lcd, from, to_lcd, to)
-    XLCd from_lcd;
-    char *from;
-    XLCd to_lcd;
-    char *to;
+open_cstombs(XLCd from_lcd, char *from, XLCd to_lcd, char *to)
 {
     return create_conv(from_lcd, &cstombs_methods);
 }
@@ -1529,19 +1413,14 @@ static XlcConvMethodsRec cstowcs_methods = {
 };
 
 static XlcConv
-open_cstowcs(from_lcd, from, to_lcd, to)
-    XLCd from_lcd;
-    char *from;
-    XLCd to_lcd;
-    char *to;
+open_cstowcs(XLCd from_lcd, char *from, XLCd to_lcd, char *to)
 {
     return create_conv(from_lcd, &cstowcs_methods);
 }
 
 
 XLCd
-_fallcUtfLoader(name)
-    char *name;
+_fallcUtfLoader(char *name)
 {
     XLCd lcd;
 

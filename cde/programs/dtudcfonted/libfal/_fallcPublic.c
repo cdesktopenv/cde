@@ -87,16 +87,13 @@ static XLCdPublicMethodsRec publicMethods = {
 XLCdMethods _fallcPublicMethods = (XLCdMethods) &publicMethods;
 
 static char *
-default_string(lcd)
-    XLCd lcd;
+default_string(XLCd lcd)
 {
     return XLC_PUBLIC(lcd, default_string);
 }
 
 static XLCd
-create(name, methods)
-    char *name;
-    XLCdMethods methods;
+create(char *name, XLCdMethods methods)
 {
     XLCd lcd;
     XLCdPublicMethods new;
@@ -107,26 +104,25 @@ create(name, methods)
     bzero((char *) lcd, sizeof(XLCdRec));
 
     lcd->core = (XLCdCore) Xmalloc(sizeof(XLCdPublicRec));
-    if (lcd->core == NULL)
-	goto err;
+    if (lcd->core == NULL){
+	Xfree(lcd);
+        return (XLCd) NULL;
+	}
     bzero((char *) lcd->core, sizeof(XLCdPublicRec));
 
     new = (XLCdPublicMethods) Xmalloc(sizeof(XLCdPublicMethodsRec));
-    if (new == NULL)
-	goto err;
+    if (new == NULL){
+	Xfree(lcd);
+        return (XLCd) NULL;
+	}
     *new = *((XLCdPublicMethods) methods);
     lcd->methods = (XLCdMethods) new;
 
     return lcd;
-
-err:
-    Xfree(lcd);
-    return (XLCd) NULL;
 }
 
 static Bool
-load_public(lcd)
-    XLCd lcd;
+load_public(XLCd lcd)
 {
     XLCdPublicPart *pub = XLC_PUBLIC_PART(lcd);
     char **values, *str;
@@ -160,8 +156,7 @@ load_public(lcd)
 }
 
 static Bool
-initialize_core(lcd)
-    XLCd lcd;
+initialize_core(XLCd lcd)
 {
     XLCdMethods methods = lcd->methods;
     XLCdMethods core = &publicMethods.core;
@@ -202,8 +197,7 @@ initialize_core(lcd)
 extern Bool _fallcInitCTInfo();
 
 static Bool
-initialize(lcd)
-    XLCd lcd;
+initialize(XLCd lcd)
 {
     XLCdPublicMethodsPart *methods = XLC_PUBLIC_METHODS(lcd);
     XLCdPublicMethodsPart *pub_methods = &publicMethods.pub;
@@ -261,8 +255,7 @@ initialize(lcd)
 }
 
 static void
-destroy_core(lcd)
-	XLCd	lcd;
+destroy_core(XLCd lcd)
 {
     if (lcd->core) {
 	if (lcd->core->name)
@@ -277,8 +270,7 @@ destroy_core(lcd)
 }
 
 static void
-destroy(lcd)
-    XLCd lcd;
+destroy(XLCd lcd)
 {
     XLCdPublicPart *pub = XLC_PUBLIC_PART(lcd);
 
@@ -310,10 +302,7 @@ static XlcResource resources[] = {
 };
 
 static char *
-get_values(lcd, args, num_args)
-    register XLCd lcd;
-    register XlcArgList args;
-    register int num_args;
+get_values(XLCd lcd, XlcArgList args, int num_args)
 {
     XLCdPublic pub = (XLCdPublic) lcd->core;
 

@@ -51,15 +51,8 @@
 #include "_fallibint.h"
 #include "_fallcPublic.h"
 
-#if NeedVarargsPrototypes
 char *
 _fallcGetCSValues(XlcCharSet charset, ...)
-#else
-char *
-_fallcGetCSValues(charset, va_alist)
-    XlcCharSet charset;
-    va_dcl
-#endif
 {
     va_list var;
     XlcArgList args;
@@ -95,8 +88,7 @@ typedef struct _XlcCharSetListRec {
 static XlcCharSetList charset_list = NULL;
 
 XlcCharSet
-_fallcGetCharSet(name)
-    char *name;
+_fallcGetCharSet(char *name)
 {
     XlcCharSetList list;
     XrmQuark xrm_name;
@@ -112,8 +104,7 @@ _fallcGetCharSet(name)
 }
 
 Bool
-_fallcAddCharSet(charset)
-    XlcCharSet charset;
+_fallcAddCharSet(XlcCharSet charset)
 {
     XlcCharSetList list;
 
@@ -147,10 +138,7 @@ static XlcResource resources[] = {
 };
 
 static char *
-get_values(charset, args, num_args)
-    register XlcCharSet charset;
-    register XlcArgList args;
-    register int num_args;
+get_values(XlcCharSet charset, XlcArgList args, int num_args)
 {
     if (resources[0].xrm_name == NULLQUARK)
 	_fallcCompileResourceList(resources, XlcNumber(resources));
@@ -160,9 +148,7 @@ get_values(charset, args, num_args)
 }
 
 XlcCharSet
-_fallcCreateDefaultCharSet(name, ct_sequence)
-    char *name;
-    char *ct_sequence;
+_fallcCreateDefaultCharSet(char *name, char *ct_sequence)
 {
     XlcCharSet charset;
 

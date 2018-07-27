@@ -52,8 +52,7 @@ extern char *dlerror();
 #define GLOBAL     0x100
 
 XLCd
-_fallcDynamicLoader(name)
-    char *name;
+_fallcDynamicLoader(char *name)
 {
     char libpath[1024];
     XLCdMethods _fallcGenericMethods;

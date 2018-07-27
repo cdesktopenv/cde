@@ -153,10 +153,8 @@ typedef struct _XLCdGenericPart {
     CodeSet 		initial_state_GR;
     int  		segment_conv_num;  /* UDC */
     SegConv 		segment_conv;      /* UDC */
-#ifndef X_NOT_STDC_ENV
     Bool 		use_stdc_env;
     Bool 		force_convert_to_mb;
-#endif
 } XLCdGenericPart;
 
 typedef struct _XLCdGenericRec {

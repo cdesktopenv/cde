@@ -67,20 +67,19 @@ typedef struct _fallcConverterListRec {
 static XlcConverterList conv_list = NULL;
 
 static void
-close_converter(conv)
-    XlcConv conv;
+close_converter(XlcConv conv)
 {
     (*conv->methods->close)(conv);
 }
 
 static XlcConv
-get_converter(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    XrmQuark from_type;
-    XLCd to_lcd;
-    XrmQuark to_type;
+get_converter(
+    XLCd from_lcd,
+    XrmQuark from_type,
+    XLCd to_lcd,
+    XrmQuark to_type)
 {
-    register XlcConverterList list, prev = NULL;
+    XlcConverterList list, prev = NULL;
     XlcConv conv;
 
     for (list = conv_list; list; list = list->next) {
@@ -103,15 +102,15 @@ get_converter(from_lcd, from_type, to_lcd, to_type)
 }
 
 Bool
-_fallcSetConverter(from_lcd, from, to_lcd, to, converter)
-    XLCd from_lcd;
-    char *from;
-    XLCd to_lcd;
-    char *to;
-    XlcOpenConverterProc converter;
+_fallcSetConverter(
+    XLCd from_lcd,
+    char *from,
+    XLCd to_lcd,
+    char *to,
+    XlcOpenConverterProc converter)
 {
-    register XlcConverterList list;
-    register XrmQuark from_type, to_type;
+    XlcConverterList list;
+    XrmQuark from_type, to_type;
 
     from_type = falrmStringToQuark(from);
     to_type = falrmStringToQuark(to);
@@ -148,14 +147,14 @@ typedef struct _ConvRec {
 } ConvRec, *Conv;
 
 static int
-indirect_convert(lc_conv, from, from_left, to, to_left, args, num_args)
-    XlcConv lc_conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+indirect_convert(
+    XlcConv lc_conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     Conv conv = (Conv) lc_conv->state;
     XlcConv from_conv = conv->from_conv;
@@ -205,8 +204,7 @@ indirect_convert(lc_conv, from, from_left, to, to_left, args, num_args)
 }
 
 static void
-close_indirect_converter(lc_conv)
-    XlcConv lc_conv;
+close_indirect_converter(XlcConv lc_conv)
 {
     Conv conv = (Conv) lc_conv->state;
 
@@ -223,8 +221,7 @@ close_indirect_converter(lc_conv)
 }
 
 static void
-reset_indirect_converter(lc_conv)
-    XlcConv lc_conv;
+reset_indirect_converter(XlcConv lc_conv)
 {
     Conv conv = (Conv) lc_conv->state;
 
@@ -243,11 +240,7 @@ static XlcConvMethodsRec conv_methods = {
 } ;
 
 static XlcConv
-open_indirect_converter(from_lcd, from, to_lcd, to)
-    XLCd from_lcd;
-    char *from;
-    XLCd to_lcd;
-    char *to;
+open_indirect_converter(XLCd from_lcd, char *from, XLCd to_lcd, char *to)
 {
     XlcConv lc_conv, from_conv, to_conv;
     Conv conv;
@@ -274,8 +267,10 @@ open_indirect_converter(from_lcd, from, to_lcd, to)
     lc_conv->methods = &conv_methods;
 
     lc_conv->state = (XPointer) Xmalloc(sizeof(ConvRec));
-    if (lc_conv->state == NULL)
-	goto err;
+    if (lc_conv->state == NULL){
+	close_indirect_converter(lc_conv);
+	return (XlcConv) NULL;
+    }
 
     conv = (Conv) lc_conv->state;
 
@@ -286,8 +281,10 @@ open_indirect_converter(from_lcd, from, to_lcd, to)
 	from_conv = get_converter((XLCd)NULL, from_type, (XLCd)NULL, QCharSet);
     if (from_conv == NULL)
 	from_conv = get_converter(from_lcd, from_type, from_lcd, QChar);
-    if (from_conv == NULL)
-	goto err;
+    if (from_conv == NULL){
+	close_indirect_converter(lc_conv);
+	return (XlcConv) NULL;
+    }
     conv->from_conv = from_conv;
 
     to_conv = get_converter(to_lcd, QCTCharSet, to_lcd, to_type);
@@ -295,24 +292,17 @@ open_indirect_converter(from_lcd, from, to_lcd, to)
 	to_conv = get_converter(to_lcd, QCharSet, to_lcd, to_type);
     if (to_conv == NULL)
 	to_conv = get_converter((XLCd) NULL, QCharSet, (XLCd) NULL, to_type);
-    if (to_conv == NULL)
-	goto err;
+    if (to_conv == NULL){
+	close_indirect_converter(lc_conv);
+	return (XlcConv) NULL;
+    }
     conv->to_conv = to_conv;
 
     return lc_conv;
-
-err:
-    close_indirect_converter(lc_conv);
-
-    return (XlcConv) NULL;
 }
 
 XlcConv
-_fallcOpenConverter(from_lcd, from, to_lcd, to)
-    XLCd from_lcd;
-    char *from;
-    XLCd to_lcd;
-    char *to;
+_fallcOpenConverter(XLCd from_lcd, char *from, XLCd to_lcd, char *to)
 {
     XlcConv conv;
     XrmQuark from_type, to_type;
@@ -327,29 +317,27 @@ _fallcOpenConverter(from_lcd, from, to_lcd, to)
 }
 
 void
-_fallcCloseConverter(conv)
-    XlcConv conv;
+_fallcCloseConverter(XlcConv conv)
 {
     close_converter(conv);
 }
 
 int
-_fallcConvert(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+_fallcConvert(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     return (*conv->methods->convert)(conv, from, from_left, to, to_left, args,
 				     num_args);
 }
 
 void
-_fallcResetConverter(conv)
-    XlcConv conv;
+_fallcResetConverter(XlcConv conv)
 {
     if (conv->methods->reset)
 	(*conv->methods->reset)(conv);

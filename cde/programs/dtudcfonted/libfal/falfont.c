@@ -42,11 +42,11 @@
 #include	<sys/stat.h>
 #include	<fcntl.h>
 #include	<unistd.h>
+#include	<X11/Intrinsic.h>
 
 #include	"FaLib.h"
 #include	"falfont.h"
 #include	"udcutil.h"
-
 
 #define	MKFONTLIST	(1<<1)
 #define	SRCHFNAME	(1<<2)
@@ -154,7 +154,7 @@ extern	int	fal_glyph_to_code() ;
 
 
 static int
-fal_init()
+fal_init(void)
 {
     memset( fal_err_file, '\0', sizeof(fal_err_file) ) ;
     memset( fal_err_file_buf, '\0', sizeof(fal_err_file_buf) ) ;
@@ -175,9 +175,7 @@ fal_init()
 }
 
 void
-set_errfile_str( obuf, ibuf )
-char	*obuf ;
-char	*ibuf ;
+set_errfile_str(char *obuf, char *ibuf)
 {
     char	*sp ;
 
@@ -194,10 +192,7 @@ char	*ibuf ;
  * open a fontfile by "RDONLY"
  */
 FalFontID
-FalOpenFont( file, protect_key_data, codeset )
-char    *file;
-int     protect_key_data;
-int     codeset;
+FalOpenFont(char *file, int protect_key_data, int codeset)
 {
 	FalFontID	__FalOpenFont();
 
@@ -213,17 +208,15 @@ int     codeset;
  * 	0: OFF --  for "FalOpenFont()"
  */
 FalFontID
-__FalOpenFont( file, protect_key_data, codeset, lockflag )
-char	*file;
-int     protect_key_data;
-int	codeset;
-int	lockflag;
+__FalOpenFont(char *file, int protect_key_data, int codeset, int lockflag)
 {
-	int     fd ;
-	char    *buf;
-	char	*openfontfile;
-	struct  stat st;
-	Oak_FontInf  *finf;
+    int     fd ;
+    char    *buf;
+    char	*openfontfile;
+    struct  stat st;
+    Oak_FontInf  *finf;
+
+    while(1){
 
 	if ( !(openfontfile = (char *)malloc( strlen( file ) + 1 )) ) {
 	    fal_seterrcode( _FAL_MALOC_ER, 0,
@@ -358,7 +351,7 @@ int	lockflag;
 		fal_utyderror = 0;
 		fal_utyerrno = FAL_ERR_FONT ;
 		fal_utyerrno |= (FAL_FUNCNUM_OPNFNT<<8) ;
-		goto FalError01 ;
+		break;
 	    }
 	    finf->isFef = FALSE;
 	    finf->isPcf = TRUE;
@@ -376,11 +369,11 @@ int	lockflag;
 		    = (unsigned char *)((char *)finf->pCinf
 		    + (sizeof(CharInfoRec) * GETNUMCHARS(finf->pFinf)));
 		finf->width
-		    = finf->pFinf->maxbounds.metrics.rightSideBearing
-		    - finf->pFinf->maxbounds.metrics.leftSideBearing;
+		    = finf->pFinf->maxbounds.rightSideBearing
+		    - finf->pFinf->maxbounds.leftSideBearing;
 		finf->height
-		    = finf->pFinf->maxbounds.metrics.ascent
-		    + finf->pFinf->maxbounds.metrics.descent;
+		    = finf->pFinf->maxbounds.ascent
+		    + finf->pFinf->maxbounds.descent;
 	} else if ( finf->isPcf ) {
 		finf->pCinf = NULL;
 		finf->pGlyphs = NULL;
@@ -390,7 +383,7 @@ int	lockflag;
 	    fal_utyderror = 0;
 	    fal_utyerrno = FAL_ERR_FONT ;
 	    fal_utyerrno |= (FAL_FUNCNUM_OPNFNT<<8) ;
-	    goto FalError01 ;
+	    break;
 	}
 
 	finf->start = (finf->pFinf->firstRow << 8) | finf->pFinf->firstCol;
@@ -411,7 +404,7 @@ int	lockflag;
 	    fal_utyderror = 0;
 	    fal_utyerrno = FAL_ERR_MALLOC ;
 	    fal_utyerrno |= (FAL_FUNCNUM_OPNFNT<<8) ;
-	    goto FalError01 ;
+	    break;
 	}
 
 	/* Save font information */
@@ -420,7 +413,7 @@ int	lockflag;
 		lockflag ) == FAL_ERROR )
 	{
 		fal_utyerrno |= (FAL_FUNCNUM_OPNFNT<<8) ;
-		goto FalError01 ;
+		break;
 	}
 
 	/* Lock the font file */
@@ -430,44 +423,38 @@ int	lockflag;
 		fal_utyerror = _FAL_OPEN_ER;
 		fal_utyderror = errno;
 		fal_utyerrno |= (FAL_FUNCNUM_OPNFNT<<8) ;
-		goto FalError01 ;
+		break;
 	    }
 	}
 	free( openfontfile );
 
 	return( ( FalFontID ) finf );
 
-FalError01:
+    }
 
 #if	defined( SVR4 )
-	if ( finf->ismmap == TRUE ) {
-	    munmap( buf, finf->fsize );
-	} else {
-	    free( buf );
-	    close( fd );
-	}
-#else
+    if ( finf->ismmap == TRUE ) {
+	munmap( buf, finf->fsize );
+    } else {
 	free( buf );
 	close( fd );
+    }
+#else
+    free( buf );
+    close( fd );
 #endif
-	set_errfile_str( fal_err_file, openfontfile ) ;
-	free( openfontfile );
-	free( finf->fname );
-	finf->fname = NULL;
-	free(finf);
+    set_errfile_str( fal_err_file, openfontfile ) ;
+    free( openfontfile );
+    free( finf->fname );
+    finf->fname = NULL;
+    free(finf);
 
-	return	(FalFontID)FAL_ERROR;
+    return	(FalFontID)FAL_ERROR;
 }
 
 
 
-#if NeedFunctionPrototypes
-FalCloseFont(
-	FalFontID	fid )
-#else
-FalCloseFont( fid )
-FalFontID	fid;
-#endif
+FalCloseFont(FalFontID fid)
 {
 	int	__FalCloseFont();
 	FontIDInfo	fontid_inf ;
@@ -489,9 +476,7 @@ FalFontID	fid;
  * 	1: ON ---  open a font by "RDWR" mode
  * 	0: OFF --  for "FalOpenFont()"
  */
-__FalCloseFont( fid, lockflag )
-FalFontID	fid;
-int 	lockflag;
+__FalCloseFont(FalFontID fid, int lockflag)
 {
 	Oak_FontInf  *finf;
 
@@ -545,15 +530,7 @@ int 	lockflag;
 	return	_FAL_OK;
 }
 
-#if NeedFunctionPrototypes
-FalQueryFont(
-	FalFontID	fid,
-	FalFontinfo	*fontinfo )
-#else
-FalQueryFont( fid, fontinfo )
-FalFontID	fid;
-FalFontinfo	*fontinfo;
-#endif
+FalQueryFont(FalFontID fid, FalFontinfo *fontinfo)
 {
 	Oak_FontInf	*finf;
 	unsigned int	inner_start, inner_end ;
@@ -594,21 +571,12 @@ FalFontinfo	*fontinfo;
 	return	_FAL_OK;
 }
 
-#if NeedFunctionPrototypes
 char	*
 FalReadFont(
 	FalFontID	fid,
 	int 		code,
 	int 		width,
 	int 		height )
-#else
-char	*
-FalReadFont( fid, code, width, height )
-FalFontID	fid;
-int 		code ;
-int 		width ;
-int 		height ;
-#endif
 {
 	Oak_FontInf	*finf;
 	int 	zoom_on ;
@@ -713,10 +681,7 @@ int 		height ;
 }
 
 static
-falGetGlyph( glyph, finf, code )
-char	*glyph;
-Oak_FontInf	*finf;
-int 	code;
+falGetGlyph(char *glyph, Oak_FontInf *finf, int code)
 {
 	int 	in_dwidth, out_dwidth, ix, i, j;
 	char	*glyph_p, *inp, p_mask, falGetMask();
@@ -740,17 +705,6 @@ int 	code;
 		return	0;
 	}
 
-	/* Get a character index */
-	ix = falGetCharIndex( finf, inner_code );
-	CharInfP = finf->pCinf;
-
-	if ( !CharInfP[ix].exists ) {
-		fal_utyexists = 1;
-		return	0;
-	} else {
-		fal_utyexists = 0;
-	}
-
 	in_dwidth
 	    = (finf->width + SNF_BOUND - 1)
 	    / SNF_BOUND * (SNF_BOUND / 8);
@@ -758,7 +712,7 @@ int 	code;
 
 	p_mask = falGetMask( finf->width );
 
-	glyph_p = (char *)finf->pGlyphs + CharInfP[ix].byteOffset;
+	glyph_p = (char *)finf->pGlyphs;
 	for ( i = 0; i < finf->height; i++ ) {
 		inp = glyph_p + ( in_dwidth * i );
 		for ( j = 0; j < out_dwidth-1; j++ ) {
@@ -770,9 +724,7 @@ int 	code;
 }
 
 static
-falGetCharIndex( finf, code )
-Oak_FontInf	*finf;
-int	code;   /* an inside code of a file */
+falGetCharIndex(Oak_FontInf *finf, int code)   /* an inside code of a file */
 {
 	int 	nColperRow, nRow, nCol;
 
@@ -784,24 +736,13 @@ int	code;   /* an inside code of a file */
 }
 
 static
-falZoom( dmem, smem, sw, sh, dw, dh, dbuf )
-char    *dmem;
-char    *smem;
-int     sw;
-int     sh;
-int     dw;
-int     dh;
-char    *dbuf;
+falZoom(char *dmem, char *smem, int sw, int sh, int dw, int dh, char *dbuf)
 {
-	int 	swidth;
-	int 	dwidth;
-	int  	i, lcnt;
+	int 	swidth = (sw + 7) / 8;
+	int 	dwidth = (dw + 7) / 8;
+	int  	i, lcnt = 0;
 	char	*sp, *dp;
 
-	swidth = (sw + 7) / 8;
-	dwidth = (dw + 7) / 8;
-
-	lcnt = 0;
 	sp = smem;
 	dp = dmem;
 	for ( i=0; i < sh; i++ ) {
@@ -824,11 +765,7 @@ char    *dbuf;
 }
 
 static
-exline( sp, dbuf, sw, dw )
-char	*sp;
-char	*dbuf;
-int 	sw;
-int 	dw;
+exline(char *sp, char *dbuf, int sw, int dw)
 {
 	int 	i, bit, sval, dval, dcnt, bcnt;
 
@@ -862,8 +799,7 @@ static unsigned char	_Fal_Mask_Tab[8] = {
 };
 
 static char
-falGetMask( width )
-int     width;
+falGetMask(int width)
 {
 	int 	ix = width % 8;
 	return	_Fal_Mask_Tab[ix];
@@ -896,19 +832,11 @@ FAL_DB_OPTION ;
 /* make a font information list and carry to user      */
 /*********************************************************/
 
-#if NeedFunctionPrototypes
 int
 FalGetFontList(
-	FalFontData *key_data,
-	int mask,
-	FalFontDataList **list_ret )
-#else
-int
-FalGetFontList( key_data, mask, list_ret )
-FalFontData	*key_data;	/* a structure of a searching information */
-int 		mask;		/* a mask */
-FalFontDataList	**list_ret;	/* maked a address of a structure */
-#endif
+	FalFontData *key_data, /* a structure of a searching information */
+	int mask, /* a mask */
+	FalFontDataList **list_ret ) /* maked a address of a structure */
 {
 
 	FalFontDataList	*fls;	/* a pointer of a structure of "FalFontDataList()" */
@@ -987,9 +915,9 @@ FalFontDataList	**list_ret;	/* maked a address of a structure */
 /***********************************************************************/
 
 static int
-chk_key_str( key, mask )
-FalFontData     *key;		/* a structure of saerching information */
-int		mask;		/* a mask                               */
+chk_key_str(
+FalFontData     *key,		/* a structure of saerching information */
+int		mask)		/* a mask                               */
 {
 	int     flg = 0;
 
@@ -1028,10 +956,10 @@ int		mask;		/* a mask                               */
 
 
 static int
-fal_make_fontlist( fls, key, mask )
-FalFontDataList *fls;	/* a pointer of a structure of a font information list */
-FalFontData	*key;	/* a structure of searching information */
-int		mask;	/* a mask for a saerch */
+fal_make_fontlist(
+FalFontDataList *fls,	/* a pointer of a structure of a font information list */
+FalFontData	*key,	/* a structure of searching information */
+int		mask)	/* a mask for a saerch */
 {
 	return	falReadFontInfoLists(MKFONTLIST,
 				key, mask, fls,
@@ -1044,15 +972,8 @@ int		mask;	/* a mask for a saerch */
 /* free a structure of "FalFontDataList()"        */
 /**************************************************/
 
-#if NeedFunctionPrototypes
 int
-FalFreeFontList(
-	FalFontDataList *list )
-#else
-int
-FalFreeFontList( list )
-FalFontDataList *list;
-#endif
+FalFreeFontList(FalFontDataList *list)
 {
 	int 	i;
 
@@ -1089,10 +1010,7 @@ FalFontDataList *list;
 /***********************************************************************/
 
 static int
-fal_split_data( buf, elm_num, elm)
-char	*buf;
-int 	elm_num;
-char	*elm[];
+fal_split_data(char *buf, int elm_num, char *elm[])
 {
 	int         cnt;
 	int         strtop_flg;
@@ -1131,8 +1049,7 @@ char	*elm[];
 /***********************************************************************/
 
 static int
-fal_clear_data(tmp)
-FalFontData     *tmp;
+fal_clear_data(FalFontData *tmp)
 {
 	/* search a character */
 	free(tmp->xlfdname);
@@ -1144,9 +1061,7 @@ FalFontData     *tmp;
 }
 
 static int
-fal_check_already_exist( data, lst )
-FalFontData     *data;
-FalFontDataList *lst;
+fal_check_already_exist(FalFontData *data, FalFontDataList *lst)
 {
 	int             i;
 	int             mask ;
@@ -1168,8 +1083,7 @@ FalFontDataList *lst;
 
 
 static int
-fal_sort_fontlist( lst )
-FalFontDataList *lst;
+fal_sort_fontlist(FalFontDataList *lst)
 {
 	int             i,j;
 	FalFontDataList srt;
@@ -1223,9 +1137,7 @@ FalFontDataList *lst;
 /***************************************/
 
 static int
-fal_atoi(str, val)
-char    *str;
-int     *val;
+fal_atoi(char *str, int *val)
 {
 	char    *ptr;
 	char    *str_end;
@@ -1251,9 +1163,7 @@ int     *val;
 /*******************************/
 
 static int
-fal_set_cs(str, cs)
-char    *str;
-int     *cs;
+fal_set_cs(char *str, int *cs)
 {
 	if (!strcmp(str, "CS0")) {
 		*cs = FAL_FONT_CS0;
@@ -1279,9 +1189,7 @@ int     *cs;
 
 
 static int
-fal_set_prm(str, prm)
-char    *str;
-int     *prm;
+fal_set_prm(char *str, int *prm)
 {
 	int	tmp = 0;
 	for (     ; *str != '\0'  ; str++) {
@@ -1300,9 +1208,7 @@ int     *prm;
 	return 0 ;
 }
 
-static int fal_read_db( str, db )
-char    *str;
-FalFontDB       *db;
+static int fal_read_db(char *str, FalFontDB *db)
 {
 	int             i;
 
@@ -1320,8 +1226,7 @@ FalFontDB       *db;
 /***************************************/
 
 int
-FalGetFontPath( dlist_ret )
-FalFontPath	**dlist_ret;
+FalGetFontPath(FalFontPath **dlist_ret)
 {
 
 	/* clear an error data */
@@ -1363,14 +1268,13 @@ FalFontPath	**dlist_ret;
 }
 
 static int
-set_default_path()
+set_default_path(void)
 {
 	return	set_font_pathlist(&orgn, 0) ;
 }
 
 static int
-cpy_default_path( p )
-FalFontPath     *p;
+cpy_default_path(FalFontPath *p)
 {
 	int         i;
 	FalFontPath tmp;
@@ -1408,8 +1312,7 @@ FalFontPath     *p;
 }
 
 static int
-comp_default_path(p)
-FalFontPath     *p;
+comp_default_path(FalFontPath *p)
 {
 	int         i;
 
@@ -1430,8 +1333,7 @@ FalFontPath     *p;
 
 
 static int
-fal_clear_font_path( ls )
-FalFontPath     *ls;
+fal_clear_font_path(FalFontPath *ls)
 {
 	int             i;
 
@@ -1468,69 +1370,67 @@ FalFontPath     *ls;
 #define FAL_FONT_ELM_XLFDNAME   12
 
 int
-set_struct( tmp_data, elm )
-FalFontData	*tmp_data;
-char	*elm[];
+set_struct(FalFontData *tmp_data, char *elm[])
 {
-	char    *dup_p;
+    char    *dup_p;
 
-	/* data information */
-
+    /* data information */
+    while(1){
 	/* a width of a character size */
 	if ( fal_atoi(
 			elm[FAL_FONT_ELM_SIZE_W], &(tmp_data->size.w )
 			) == FAL_ERROR
 	) {
-		goto FalError02 ;
+		break;
 	}
 	/* a height of a character size */
 	if ( fal_atoi(
 			 elm[FAL_FONT_ELM_SIZE_H], &(tmp_data->size.h )
 			 ) == FAL_ERROR
 	) {
-		goto FalError02 ;
+		break;
 	}
 	/* a width of a letter size */
 	if ( fal_atoi(
 			elm[FAL_FONT_ELM_LETTER_W], &(tmp_data->letter.w )
 			) == FAL_ERROR
 	) {
-		goto FalError02 ;
+		break;
 	}
 	/* a height of a letter size */
 	if ( fal_atoi(
 			elm[FAL_FONT_ELM_LETTER_H], &(tmp_data->letter.h )
 			) == FAL_ERROR
 	) {
-		goto FalError02 ;
+		break;
 	}
 	/* position x of a letter size */
 	if ( fal_atoi(
 			elm[FAL_FONT_ELM_LETTER_X], &(tmp_data->letter.x )
 			) == FAL_ERROR
 	) {
-		goto FalError02 ;
+		break;
 	}
 	/* position y of a letter size */
 	if ( fal_atoi(
 			elm[FAL_FONT_ELM_LETTER_Y], &(tmp_data->letter.y )
 			) == FAL_ERROR
 	) {
-		goto FalError02 ;
+		break;
 	}
 	/* codeset */
 	if ( fal_set_cs(
 			elm[FAL_FONT_ELM_CODE_SET], &(tmp_data->cd_set )
 			) == FAL_ERROR
 	) {
-		goto FalError02 ;
+		break;
 	}
 	/* a equipment of an output permission */
 	if ( fal_set_prm(
 			elm[FAL_FONT_ELM_PERMISSION], &(tmp_data->prm )
 			) == FAL_ERROR
 	) {
-		goto FalError02 ;
+		break;
 	}
 
 	/* character information */
@@ -1572,16 +1472,14 @@ char	*elm[];
 	SET_STRUCT_OPTION( dup_p, elm, tmp_data, fal_utyerror, fal_db_group ) ;
 	return	0;
 
-FalError02:
-	set_errfile_str( fal_err_file, fal_err_file_buf ) ;
-	fal_utyerrno = FAL_ERR_FDATA_DSC ;
-	return	FAL_ERROR;
+    }
+    set_errfile_str( fal_err_file, fal_err_file_buf ) ;
+    fal_utyerrno = FAL_ERR_FDATA_DSC ;
+    return	FAL_ERROR;
 }
 
 /* get a full path name */
-int     searchFontFileName( data, fullPathName )
-FalFontData     data;
-char    *fullPathName;
+int     searchFontFileName(FalFontData data, char *fullPathName)
 {
 	int	rtn ;
 	rtn =	falReadFontInfoLists(SRCHFNAME,
@@ -1595,9 +1493,7 @@ char    *fullPathName;
 }
 
 
-int     fal_eq_data( data, tmp_data )
-FalFontData     data;
-FalFontData     tmp_data;
+int     fal_eq_data(FalFontData data, FalFontData tmp_data)
 {
 	int     flg = 0;
 
@@ -1684,8 +1580,7 @@ FalFontData     tmp_data;
 
 
 static int
-CR_to_NULL(buf)
-char    *buf;
+CR_to_NULL(char *buf)
 {
 	for(  ; *buf != '\0'; buf++ ) {
 		if (*buf == '\n') {
@@ -1696,8 +1591,7 @@ char    *buf;
 	return 0 ;
 }
 
-char *fal_get_base_name( str )
-char    *str;
+char *fal_get_base_name(char *str)
 {
 	char    *str_slash;
 
@@ -1710,10 +1604,7 @@ char    *str;
 
 
 static int
-fal_cmp_data( op1, key, mask )
-FalFontData     *op1;
-FalFontData     *key;
-int	mask ;
+fal_cmp_data(FalFontData *op1, FalFontData *key, int mask)
 {
 	if ( mask == 0 ) {
 		return(0);
@@ -1816,9 +1707,7 @@ int	mask ;
 /*                  no sort ... 0 */
 
 static int
-new_target( target, choose )
-FalFontData	*target;
-FalFontData	*choose;
+new_target(FalFontData *target, FalFontData *choose)
 {
 	FalFontData	diff;
 	DEF_STR_CHK ;
@@ -1932,15 +1821,9 @@ FalFontData	*choose;
 	return	0;
 }
 
-#if NeedFunctionPrototypes
 int 	FalFontOfFontID(
 	FalFontID	fid,
 	FalFontData	*fontdata )
-#else
-int 	FalFontOfFontID( fid, fontdata )
-FalFontID	fid;
-FalFontData	*fontdata;
-#endif
 {
 	int	rtn ;
 	rtn =	falReadFontInfoLists(FONTOFID,
@@ -1953,19 +1836,11 @@ FalFontData	*fontdata;
 	return rtn ;
 }
 
-#if NeedFunctionPrototypes
 FalFontID
 FalOpenSysFont(
 	FalFontData	*open_font_data,
 	int 		font_data_mask,
 	FalFontDataList	**missing_font_list_return )
-#else
-FalFontID
-FalOpenSysFont( open_font_data, font_data_mask, missing_font_list_return )
-FalFontData	*open_font_data;
-int 		font_data_mask;
-FalFontDataList	**missing_font_list_return;
-#endif
 {
 	int 		retFL;  /* return a data of FontList */
 	FalFontID 	retOF;  /* return a data of OpenFont */
@@ -2046,7 +1921,7 @@ FalFontDataList	**missing_font_list_return;
 *	function to access fonts.list
 ********************************************************/
 static
-FILE	*open_fonts_list()
+FILE	*open_fonts_list(void)
 {
 
 	FILE    *fp;
@@ -2097,9 +1972,7 @@ FILE	*open_fonts_list()
 
 
 static int
-set_font_pathlist(pathlist, nodef)
-FalFontPath	*pathlist ;
-int		nodef ;
+set_font_pathlist(FalFontPath *pathlist, int nodef)
 {
 	FILE    *fp;
 	char    buf[FAL_LINE_MAX];
@@ -2222,8 +2095,7 @@ int		nodef ;
 
 
 static int
-make_default_path(pathlist)
-FalFontPath	*pathlist ;
+make_default_path(FalFontPath *pathlist)
 {
 	struct	stat	statbuf ;
 	char    pbuf[FAL_LINE_MAX], *dir, *p ;
@@ -2302,18 +2174,18 @@ FalFontPath	*pathlist ;
 
 
 static	int
-falReadFontInfoLists(func, lstkey, mask, fls, fnkey, fullpath, fid, fdata)
-int		func ;
+falReadFontInfoLists(
+int		func,
 			    /* parameters for FalGetFontList	*/
-FalFontData	*lstkey;
-int		mask;
-FalFontDataList	*fls;
+FalFontData	*lstkey,
+int		mask,
+FalFontDataList	*fls,
 			    /* parameters for searchFontFileName	*/
-FalFontData	fnkey;
-char		*fullpath;
+FalFontData	fnkey,
+char		*fullpath,
 			    /* parameters for FalFontOfFontID	*/
-FalFontID	fid ;
-FalFontData	*fdata;
+FalFontID	fid,
+FalFontData	*fdata)
 {
     FILE    	*fp;
     char    	pname[ FAL_LINE_MAX ] ;
@@ -2675,7 +2547,7 @@ FalError:
 
 /* clear code set informations */
 static void
-clear_charset_info()
+clear_charset_info(void)
 {
 	if( charset_str_buf )	free( charset_str_buf ) ;
 	charset_str_buf = NULL ;
@@ -2686,13 +2558,13 @@ clear_charset_info()
 
 
 static	int
-fal_get_def_fontdata(func, pname, buf, elm, tmp_data, key_fname)
-int		func ;
-char		*pname ;	/* font path */
-char		*buf ;		/* buffer for fgets() */
-char		**elm ;
-FalFontData	*tmp_data ;
-char		*key_fname ;
+fal_get_def_fontdata(
+int		func,
+char		*pname,		/* font path */
+char		*buf,		/* buffer for fgets() */
+char		**elm,
+FalFontData	*tmp_data,
+char		*key_fname)
 {
 	int	rtn ;
 	char	tmp_fname[FAL_LINE_MAX] ;
@@ -2716,12 +2588,12 @@ char		*key_fname ;
 
 
 static	int
-falgetfontlist(tmp_data, key, mask, fls, fontnum)
-FalFontData	*tmp_data ;
-FalFontData	*key ;
-int		mask ;
-FalFontDataList	*fls ;
-int		fontnum ;
+falgetfontlist(
+FalFontData	*tmp_data,
+FalFontData	*key,
+int		mask,
+FalFontDataList	*fls,
+int		fontnum)
 {
     FalFontData	*p_bak ;
 
@@ -2754,14 +2626,14 @@ int		fontnum ;
 
 
 static	int
-fal_get_undef_fontdata(func, full_path, xlfd, tmp_data, key_fname, codeset_num, codeset_list)
-int		func ;
-char		*full_path ;
-char		*xlfd ;
-FalFontData	*tmp_data ;
-char		*key_fname ;
-int		*codeset_num ;
-int		**codeset_list ;
+fal_get_undef_fontdata(
+int		func,
+char		*full_path,
+char		*xlfd,
+FalFontData	*tmp_data,
+char		*key_fname,
+int		*codeset_num,
+int		**codeset_list)
 {
 	int	rtn, pix ;
 	char	*char_set ;
@@ -2836,17 +2708,10 @@ int		**codeset_list ;
  *	get file name of fonts
  */
 
-#if NeedFunctionPrototypes
 int
 FalFontIDToFileName(
 	FalFontID	fid,
 	char		**file_name )
-#else
-int
-FalFontIDToFileName( fid, file_name )
-FalFontID	fid;
-char		**file_name;
-#endif
 {
 	char		*fname ;
 	Oak_FontInf	*finf ;
@@ -2876,15 +2741,8 @@ char		**file_name;
 }
 
 
-#if NeedFunctionPrototypes
 int
-FalFree(
-	void	*list )
-#else
-int
-FalFree( list )
-void	*list ;
-#endif
+FalFree(void *list)
 {
 	if( list == NULL ) {
 		fal_utyerror  = _FAL_PARM_ER ;
@@ -2899,9 +2757,7 @@ void	*list ;
 
 
 int
-FalFreeGI( ginf, num )
-FalGIInf	*ginf ;
-int		num ;
+FalFreeGI(FalGIInf *ginf, int num)
 {
 	int	i ;
 	if( ginf == NULL ) {
@@ -2924,11 +2780,7 @@ int		num ;
  */
 
 static	int
-fal_add_fidinf( fid, dspcode, cd_set, islock )
-FalFontID	fid ;
-int		dspcode ;
-int		cd_set ;
-int		islock ;
+fal_add_fidinf(FalFontID fid, int dspcode, int cd_set, int islock)
 {
 	int		exist, i, cnt ;
 	FontIDInfo	**flist ;
@@ -2985,9 +2837,7 @@ int		islock ;
 }
 
 static	int
-fal_read_fidinf( fid, fontid_inf )
-FalFontID	fid ;
-FontIDInfo	*fontid_inf;
+fal_read_fidinf(FalFontID fid, FontIDInfo *fontid_inf)
 {
 	int	i ;
 	if( fid == NULL ) {
@@ -3011,8 +2861,7 @@ FontIDInfo	*fontid_inf;
 
 
 static	int
-fal_del_fidinf( fid )
-FalFontID	fid ;
+fal_del_fidinf(FalFontID fid)
 {
 	int	i, cnt, target ;
 	FontIDInfo	**flist ;
@@ -3051,10 +2900,7 @@ FalFontID	fid ;
  */
 
 static int
-fal_conv_code_to_glyph( fid, code, glidx )
-FalFontID	fid ;
-unsigned int	code ;
-unsigned int	*glidx ;
+fal_conv_code_to_glyph(FalFontID fid, unsigned int code, unsigned int *glidx)
 {
 	Oak_FontInf	*finf ;
 	FalFontData	tmp_data ;
@@ -3128,12 +2974,12 @@ unsigned int	*glidx ;
  */
 
 static int
-fal_conv_glyph_to_code( finf, dspcode, cd_set, glidx, code )
-Oak_FontInf	*finf ;
-int		dspcode ;
-int		cd_set ;
-unsigned int	glidx ;
-unsigned int	*code ;
+fal_conv_glyph_to_code(
+Oak_FontInf	*finf,
+int		dspcode,
+int		cd_set,
+unsigned int	glidx,
+unsigned int	*code)
 {
 	FalFontData	tmp_data ;
 	int		inner_code ;
@@ -3176,8 +3022,7 @@ unsigned int	*code ;
 
 
 static	int
-file_lock( fd )
-int 	fd;		/* a file descripter */
+file_lock(int fd) /* a file descripter */
 {
 	struct flock	flpar;
 
@@ -3195,8 +3040,7 @@ int 	fd;		/* a file descripter */
 }
 
 static	int
-file_unlock( fd )
-int 	fd;	/* a file descripter */
+file_unlock(int fd) /* a file descripter */
 {
 	struct flock	flpar;
 
@@ -3213,8 +3057,7 @@ int 	fd;	/* a file descripter */
 }
 
 static	int
-is_lock( fd )
-int 	fd;	/* file descripter */
+is_lock(int fd)	/* file descripter */
 {
 	struct flock	flpar;
 

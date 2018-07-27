@@ -136,8 +136,7 @@ static XrmQuark nextUniq = -1;	/* next quark from falrmUniqueQuark */
 static char *neverFreeTable = NULL;
 static int  neverFreeTableSize = 0;
 
-static char *permalloc(length)
-    register unsigned int length;
+static char *permalloc(unsigned int length)
 {
     char *ret;
 
@@ -155,16 +154,13 @@ static char *permalloc(length)
     return(ret);
 }
 
-#ifndef WORD64
 typedef struct {char a; double b;} TestType1;
 typedef struct {char a; unsigned long b;} TestType2;
-#endif
 
 #ifdef XTHREADS
 static char *_falpermalloc();
 
-char *falpermalloc(length)
-    unsigned int length;
+char *falpermalloc(unsigned int length)
 {
     char *p;
 
@@ -177,13 +173,11 @@ char *falpermalloc(length)
 
 static
 #endif /* XTHREADS */
-char *falpermalloc(length)
-    unsigned int length;
+char *falpermalloc(unsigned int length)
 {
     int i;
 
     if (neverFreeTableSize && length < NEVERFREETABLESIZE) {
-#ifndef WORD64
 	if ((sizeof(TestType1) !=
 	     (sizeof(TestType2) - sizeof(unsigned long) + sizeof(double))) &&
 	    !(length & (DALIGN-1)) &&
@@ -191,7 +185,6 @@ char *falpermalloc(length)
 	    neverFreeTableSize -= DALIGN - i;
 	    neverFreeTable += DALIGN - i;
 	} else
-#endif
 	    if (i = (NEVERFREETABLESIZE - neverFreeTableSize) & (WALIGN-1)) {
 		neverFreeTableSize -= WALIGN - i;
 		neverFreeTable += WALIGN - i;
@@ -201,13 +194,13 @@ char *falpermalloc(length)
 }
 
 static Bool
-ExpandQuarkTable()
+ExpandQuarkTable(void)
 {
     unsigned long oldmask, newmask;
-    register char c, *s;
-    register Entry *oldentries, *entries;
-    register Entry entry;
-    register int oldidx, newidx, rehash;
+    char c, *s;
+    Entry *oldentries, *entries;
+    Entry entry;
+    int oldidx, newidx, rehash;
     Signature sig;
     XrmQuark q;
 
@@ -266,42 +259,41 @@ ExpandQuarkTable()
     return True;
 }
 
-#if NeedFunctionPrototypes
 XrmQuark _falrmInternalStringToQuark(
-    register _Xconst char *name, register int len, register Signature sig,
-    Bool permstring)
-#else
-XrmQuark _falrmInternalStringToQuark(name, len, sig, permstring)
-    register XrmString name;
-    register int len;
-    register Signature sig;
-    Bool permstring;
-#endif
+    const char *name, int len, Signature sig, Bool permstring)
 {
-    register XrmQuark q;
-    register Entry entry;
-    register int idx, rehash;
-    register int i;
-    register char *s1, *s2;
+    XrmQuark q;
+    Entry entry;
+    int idx;
+    int rehash = 0;
+    int i;
+    char *s1, *s2;
     char *new;
 
-    rehash = 0;
     idx = HASH(sig);
     _XLockMutex(_Xglobal_lock);
     while (entry = quarkTable[idx]) {
 	if (entry & LARGEQUARK)
 	    q = entry & (LARGEQUARK-1);
 	else {
-	    if ((entry - sig) & XSIGMASK)
-		goto nomatch;
+	    if ((entry - sig) & XSIGMASK){
+	        if (!rehash)
+                rehash = REHASHVAL(sig);
+                idx = REHASH(idx, rehash);
+                continue;
+		}
 	    q = (entry >> QUARKSHIFT) & QUARKMASK;
 	}
 	for (i = len, s1 = (char *)name, s2 = NAME(q); --i >= 0; ) {
-	    if (*s1++ != *s2++)
-		goto nomatch;
+	    if (*s1++ != *s2++){
+	        if (!rehash)
+                rehash = REHASHVAL(sig);
+                idx = REHASH(idx, rehash);
+                continue;
+	    }
 	}
 	if (*s2) {
-nomatch:    if (!rehash)
+	    if (!rehash)
 		rehash = REHASHVAL(sig);
 	    idx = REHASH(idx, rehash);
 	    continue;
@@ -316,11 +308,15 @@ nomatch:    if (!rehash)
 	_XUnlockMutex(_Xglobal_lock);
 	return q;
     }
-    if (nextUniq == nextQuark)
-	goto fail;
+    if (nextUniq == nextQuark){
+	_XUnlockMutex(_Xglobal_lock);
+	return NULLQUARK;
+    }
     if ((nextQuark + (nextQuark >> 2)) > quarkMask) {
-	if (!ExpandQuarkTable())
-	    goto fail;
+	if (!ExpandQuarkTable()){
+	    _XUnlockMutex(_Xglobal_lock);
+	    return NULLQUARK;
+	}
 	_XUnlockMutex(_Xglobal_lock);
 	return _falrmInternalStringToQuark(name, len, sig, permstring);
     }
@@ -329,20 +325,26 @@ nomatch:    if (!rehash)
 	if (!(q & CHUNKMASK)) {
 	    if (!(new = Xrealloc((char *)stringTable,
 				 sizeof(XrmString *) *
-				 ((q >> QUANTUMSHIFT) + CHUNKPER))))
-		goto fail;
+				 ((q >> QUANTUMSHIFT) + CHUNKPER)))){
+		_XUnlockMutex(_Xglobal_lock);
+		return NULLQUARK;
+	    }
 	    stringTable = (XrmString **)new;
 #ifdef PERMQ
 	    if (!(new = Xrealloc((char *)permTable,
 				 sizeof(Bits *) *
-				 ((q >> QUANTUMSHIFT) + CHUNKPER))))
-		goto fail;
+				 ((q >> QUANTUMSHIFT) + CHUNKPER)))){
+		_XUnlockMutex(_Xglobal_lock);
+		return NULLQUARK;
+	    }
 	    permTable = (Bits **)new;
 #endif
 	}
 	new = falpermalloc(QUANTSIZE);
-	if (!new)
-	    goto fail;
+	if (!new){
+	    _XUnlockMutex(_Xglobal_lock);
+	    return NULLQUARK;
+	}
 	stringTable[q >> QUANTUMSHIFT] = (XrmString *)new;
 #ifdef PERMQ
 	permTable[q >> QUANTUMSHIFT] = (Bits *)(new + STRQUANTSIZE);
@@ -355,8 +357,10 @@ nomatch:    if (!rehash)
 #else
 	name = permalloc(len+1);
 #endif
-	if (!name)
-	    goto fail;
+	if (!name){
+	    _XUnlockMutex(_Xglobal_lock);
+	    return NULLQUARK;
+	}
 	for (i = len, s1 = (char *)name; --i >= 0; )
 	    *s1++ = *s2++;
 	*s1++ = '\0';
@@ -376,21 +380,12 @@ nomatch:    if (!rehash)
     nextQuark++;
     _XUnlockMutex(_Xglobal_lock);
     return q;
- fail:
-    _XUnlockMutex(_Xglobal_lock);
-    return NULLQUARK;
 }
 
-#if NeedFunctionPrototypes
-XrmQuark falrmStringToQuark(
-    _Xconst char *name)
-#else
-XrmQuark falrmStringToQuark(name)
-    XrmString name;
-#endif
+XrmQuark falrmStringToQuark(const char *name)
 {
-    register char c, *tname;
-    register Signature sig = 0;
+    char c, *tname;
+    Signature sig = 0;
 
     if (!name)
 	return (NULLQUARK);
@@ -401,16 +396,11 @@ XrmQuark falrmStringToQuark(name)
     return _falrmInternalStringToQuark(name, tname-(char *)name-1, sig, False);
 }
 
-#if NeedFunctionPrototypes
 XrmQuark falrmPermStringToQuark(
-    _Xconst char *name)
-#else
-XrmQuark falrmPermStringToQuark(name)
-    XrmString name;
-#endif
+    const char *name)
 {
-    register char c, *tname;
-    register Signature sig = 0;
+    char c, *tname;
+    Signature sig = 0;
 
     if (!name)
 	return (NULLQUARK);
@@ -421,7 +411,7 @@ XrmQuark falrmPermStringToQuark(name)
     return _falrmInternalStringToQuark(name, tname-(char *)name-1, sig, True);
 }
 
-XrmQuark falrmUniqueQuark()
+XrmQuark falrmUniqueQuark(void)
 {
     XrmQuark q;
 
@@ -434,8 +424,7 @@ XrmQuark falrmUniqueQuark()
     return q;
 }
 
-XrmString falrmQuarkToString(quark)
-    register XrmQuark quark;
+XrmString falrmQuarkToString(XrmQuark quark)
 {
     XrmString s;
 

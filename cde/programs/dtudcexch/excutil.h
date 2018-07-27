@@ -96,25 +96,17 @@ typedef struct {
 } ListData;
 
 #ifndef NO_MESSAGE_CATALOG
-# ifdef __ultrix
-#  define _CLIENT_CAT_NAME "dtudcexch.cat"
-# else  /* __ultrix */
-#  define _CLIENT_CAT_NAME "dtudcexch"
-# endif /* __ultrix */
-# ifdef _NO_PROTO
-extern char *_DtGetMessage();
-# else  /* _NO_PROTO */
+# define _CLIENT_CAT_NAME "dtudcexch"
+
 extern char *_DtGetMessage(
                         char *filename,
                         int set,
                         int n,
                         char *s );
-# endif /* _NO_PROTO */
+
 #define GETMESSAGE(set, number, string) GetMessage(set, number, string)
 static char *
-GetMessage(set, number, string)
-int set, number;
-char *string;
+GetMessage(int set, int number, char *string)
 {
     char *tmp;
     static char * point[100];

@@ -54,14 +54,11 @@
 #include <stdio.h>
 
 static int
-get_buf_size(is_wide_char, list, count)
-    Bool is_wide_char;
-    XPointer list;
-    int count;
+get_buf_size(Bool is_wide_char, XPointer list, int count)
 {
-    register length = 0;
-    register char **mb_list;
-    register wchar_t **wc_list;
+    int length = 0;
+    char **mb_list;
+    wchar_t **wc_list;
 
     if (list == NULL)
 	return 0;
@@ -87,14 +84,14 @@ get_buf_size(is_wide_char, list, count)
 }
 
 static int
-_XTextListToTextProperty(lcd, dpy, from_type, list, count, style, text_prop)
-    XLCd lcd;
-    Display *dpy;
-    char *from_type;
-    XPointer list;
-    int count;
-    XICCEncodingStyle style;
-    XTextProperty *text_prop;
+_XTextListToTextProperty(
+    XLCd lcd,
+    Display *dpy,
+    char *from_type,
+    XPointer list,
+    int count,
+    XICCEncodingStyle style,
+    XTextProperty *text_prop)
 {
     Atom encoding;
     XlcConv conv;
@@ -103,7 +100,7 @@ _XTextListToTextProperty(lcd, dpy, from_type, list, count, style, text_prop)
     wchar_t **wc_list;
     XPointer from;
     char *to, *buf, *value;
-    int from_left, to_left, buf_len, nitems, unconv_num, ret, i;
+    int from_left, to_left, buf_len, nitems, unconv_num, ret, i, retry, done =0;
     Bool is_wide_char = False;
 
     if (strcmp(XlcNWideChar, from_type) == 0)
@@ -138,7 +135,7 @@ _XTextListToTextProperty(lcd, dpy, from_type, list, count, style, text_prop)
 		    mb_list++;
 		}
 		unconv_num = 0;
-		goto done;
+		done++;
 	    }
 	    break;
 	default:
@@ -148,107 +145,111 @@ _XTextListToTextProperty(lcd, dpy, from_type, list, count, style, text_prop)
 
     if (count < 1) {
 	nitems = 0;
-	goto done;
+	done++;
     }
 
-retry:
-    conv = _fallcOpenConverter(lcd, from_type, lcd, to_type);
-    if (conv == NULL) {
+    if(done == 1){
+	if (nitems <= 0)
+		nitems = 1;
+	value = (char *) Xmalloc(nitems);
+	if (value == NULL) {
+	    Xfree(buf);
+	    return XNoMemory;
+	}
+	if (nitems == 1)
+	    *value = 0;
+	else
+	    memcpy(value, buf, nitems);
+	nitems--;
 	Xfree(buf);
-	return XConverterNotFound;
+
+	text_prop->value = (unsigned char *) value;
+	text_prop->encoding = encoding;
+	text_prop->format = 8;
+	text_prop->nitems = nitems;
+
+	return unconv_num;
     }
 
-    if (is_wide_char)
-	wc_list = (wchar_t **) list;
-    else
-	mb_list = (char **) list;
-
-    to = buf;
-    to_left = buf_len;
-
-    unconv_num = 0;
-
-    for (i = 1; to_left > 0; i++) {
-	if (is_wide_char) {
-	    from = (XPointer) *wc_list;
-	    from_left = _falwcslen(*wc_list);
-	    wc_list++;
-	} else {
-	    from = (XPointer) *mb_list;
-	    from_left = strlen(*mb_list);
-	    mb_list++;
+    do{
+	retry = 0;
+	conv = _fallcOpenConverter(lcd, from_type, lcd, to_type);
+	if (conv == NULL) {
+	    Xfree(buf);
+	    return XConverterNotFound;
 	}
 
-	ret = _fallcConvert(conv, &from, &from_left, (XPointer *) &to, &to_left,
+	if (is_wide_char)
+	    wc_list = (wchar_t **) list;
+	else
+	    mb_list = (char **) list;
+
+	to = buf;
+	to_left = buf_len;
+
+	unconv_num = 0;
+
+	for (i = 1; to_left > 0; i++) {
+	    if (is_wide_char) {
+		from = (XPointer) *wc_list;
+		from_left = _falwcslen(*wc_list);
+		wc_list++;
+	    } else {
+		from = (XPointer) *mb_list;
+		from_left = strlen(*mb_list);
+		mb_list++;
+	    }
+
+	    ret = _fallcConvert(conv, &from, &from_left, (XPointer *) &to, &to_left,
 			  NULL, 0);
 
-	if (ret < 0)
-	    continue;
+	    if (ret < 0)
+		continue;
 
-	if (ret > 0 && style == XStdICCTextStyle && encoding == XA_STRING) {
-	    _fallcCloseConverter(conv);
-	    encoding = falInternAtom(dpy, "COMPOUND_TEXT", False);
-	    to_type = XlcNCompoundText;
-	    goto retry;
+	    if (ret > 0 && style == XStdICCTextStyle && encoding == XA_STRING) {
+		_fallcCloseConverter(conv);
+		encoding = falInternAtom(dpy, "COMPOUND_TEXT", False);
+		to_type = XlcNCompoundText;
+	        retry++;
+	    }
+
+	    unconv_num += ret;
+	    *to++ = '\0';
+	    to_left--;
+
+	    if (i >= count)
+		break;
+
+	    _fallcResetConverter(conv);
 	}
-
-	unconv_num += ret;
-	*to++ = '\0';
-	to_left--;
-
-	if (i >= count)
-	    break;
-
-	_fallcResetConverter(conv);
-    }
 
     _fallcCloseConverter(conv);
 
     nitems = to - buf;
-done:
-    if (nitems <= 0)
-	nitems = 1;
-    value = (char *) Xmalloc(nitems);
-    if (value == NULL) {
-	Xfree(buf);
-	return XNoMemory;
-    }
-    if (nitems == 1)
-	*value = 0;
-    else
-	memcpy(value, buf, nitems);
-    nitems--;
-    Xfree(buf);
-
-    text_prop->value = (unsigned char *) value;
-    text_prop->encoding = encoding;
-    text_prop->format = 8;
-    text_prop->nitems = nitems;
-
-    return unconv_num;
+    }while (retry == 1);
 }
 
 int
-_falmbTextListToTextProperty(lcd, dpy, list, count, style, text_prop)
-    XLCd lcd;
-    Display *dpy;
-    char **list;
-    int count;
-    XICCEncodingStyle style;
-    XTextProperty *text_prop;
+_falmbTextListToTextProperty(
+    XLCd lcd,
+    Display *dpy,
+    char **list,
+    int count,
+    XICCEncodingStyle style,
+    XTextProperty *text_prop)
 {
     return _XTextListToTextProperty(lcd, dpy, XlcNMultiByte, (XPointer) list,
 				    count, style, text_prop);
 }
 
 int
-_falwcTextListToTextProperty(lcd, dpy, list, count, style, text_prop)
-    XLCd lcd;
-    Display *dpy;
-    wchar_t **list;
-    int count;
-    XICCEncodingStyle style;
-    XTextProperty *text_prop;
+_falwcTextListToTextProperty(
+    XLCd lcd,
+    Display *dpy,
+    wchar_t **list,
+    int count,
+    XICCEncodingStyle style,
+    XTextProperty *text_prop)
 {
     return _XTextListToTextProperty(lcd, dpy, XlcNWideChar, (XPointer) list,
 				    count, style, text_prop);

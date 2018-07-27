@@ -41,8 +41,6 @@
 #define XLFD_COLUMNS	38
 #define KEY_COLUMNS	15
 
-#define PIXELSIZE	7
-
 /*
  *	put data from resource database
  */

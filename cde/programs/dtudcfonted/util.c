@@ -43,8 +43,8 @@
 #include "FaLib.h"
 
 extern Widget toplevel;
-static void _destroy();
-void _unmap();
+static void _destroy(Widget w);
+void _unmap(void);
 
 extern Resource resource ;
 
@@ -67,19 +67,18 @@ extern Resource resource ;
 
 /*ARGSUSED*/
 Widget
-CreateCaptionFrame(owner, name, labelstr, type, thickness)
-Widget owner;
-String name;
-String labelstr;
-int type;
-int thickness;
+CreateCaptionFrame(
+Widget owner,
+String name,
+String labelstr,
+int type,
+int thickness)
 {
     Widget top, label, frame;
     Arg args[20];
-    int n;
+    int n = 0;
     XmString xmstr;
 
-    n = 0;
     top = XmCreateForm(owner, "form", args, n);
     if (labelstr && *labelstr){
         xmstr = XmStringCreateLocalized(labelstr);
@@ -120,24 +119,22 @@ int thickness;
  */
 
 Widget
-CreatePixButton(owner, name, data)
-Widget owner;
-String name;
-RadioButt *data;
+CreatePixButton(
+Widget owner,
+String name,
+RadioButt *data)
 {
     Arg args[20];
-    int i, n;
+    int i, n = 0;
     Pixmap mask;
     XpmAttributes attr;
     Pixmap pix[NUMPIX];
     Widget top;
     Display *disp;
-    Window root;
+    Window root = DefaultRootWindow(disp);
 
     disp = XtDisplay(owner);
-    root = DefaultRootWindow(disp);
 
-    n = 0;
     XtSetArg(args[n], XmNborderWidth, 1); n++;
     XtSetArg(args[n], XmNradioAlwaysOne, TRUE); n++;
     XtSetArg(args[n], XmNradioBehavior, TRUE); n++;
@@ -183,8 +180,7 @@ String
 #else
 XtPointer
 #endif
-GetTextFieldValue(textf)
-TextField *textf;
+GetTextFieldValue(TextField *textf)
 {
     char *s1, *s2, *s3;
     if (textf->w2 == NULL) {
@@ -210,8 +206,7 @@ TextField *textf;
 
 /*ARGSUSED*/
 static void
-arrow_change(w, data)
-TextField *data;
+arrow_change(int w, TextField *data)
 {
     if (XtIsSensitive(data->w2)) {
 	XtSetSensitive(data->w2, False);
@@ -225,14 +220,13 @@ extern char		AreaStr[160];
 extern FalFontData	fullFontData;
 
 static void
-focus(w)
-Widget w;
+focus(Widget w)
 {
     focus_widget = w;
 }
 
 static void
-code_input()
+code_input(void)
 {
     extern void CodeWindow();
     CodeWindow(focus_widget, fullFontData.xlfdname, False);
@@ -240,16 +234,16 @@ code_input()
 
 /*ARGSUSED*/
 void
-CreateTextField(owner, name, labelstr, data, maxlength)
-Widget owner;
-String name;
-String labelstr;
-TextField *data;
-int maxlength;
+CreateTextField(
+Widget owner,
+String name,
+String labelstr,
+TextField *data,
+int maxlength)
 {
     Widget		row, label, arrow, textfield, code;
     Arg			args[20];
-    register int	n;
+    int			n = 0;
     Display		*disp;
     Window		root;
     Pixmap		mask;
@@ -257,7 +251,6 @@ int maxlength;
     XmString		xms;
     extern Pixmap	arrow_pix;
 
-    n = 0;
     XtSetArg(args[n], XmNorientation, (XtArgVal)XmHORIZONTAL); n++;
     row = XmCreateRowColumn(owner, "row", args, n);
     XtManageChild(row);
@@ -318,14 +311,7 @@ int maxlength;
 
 
 void
-#if __STDC__
 CreateMenuButtons( Widget owner, Button *buttons, int buttons_cnt )
-#else
-CreateMenuButtons( owner, buttons, buttons_cnt )
-Widget	owner;
-Button	*buttons;
-int		buttons_cnt;
-#endif
 {
     Arg args[4];
     char buf[64];
@@ -374,7 +360,7 @@ int		buttons_cnt;
 }
 
 static Atom
-DeleteWindowAtom()
+DeleteWindowAtom(void)
 {
     static Atom delatom = 0;
     if (! delatom){
@@ -386,26 +372,20 @@ DeleteWindowAtom()
 
 /*ARGSUSED*/
 Widget
-#if __STDC__
-CreateDialogAndButtons( Widget owner, String name,
-	void (*delcb)(), Button *btns, int btns_cnt, Widget *pop )
-#else
-CreateDialogAndButtons( owner, name, delcb, btns, btns_cnt, pop )
-Widget owner;
-String name;
-void   (*delcb)();
-Button *btns;
-int    btns_cnt;
-Widget *pop;
-#endif
+CreateDialogAndButtons(
+Widget owner,
+String name,
+void (*delcb)(),
+Button *btns,
+int btns_cnt,
+Widget *pop)
 {
-    int		n;
+    int		n = 0;
     Arg		args[32];
     Arg arg[8];
     Widget	rowcol;
     XmString	cs1, cs2, cs3;
 
-    n = 0;
     XtSetArg( args[n], XmNautoUnmanage, resource. dia_tm_automng );	n++;
     XtSetArg( args[n], XmNmarginWidth, resource.dia_tm_width  );	n++;
     XtSetArg( args[n], XmNmarginHeight, resource.dia_tm_height  );	n++;
@@ -474,11 +454,7 @@ Widget *pop;
 /* Initialize GUI */
 
 Widget
-GuiInitialize(app, class_name, ac, av)
-XtAppContext *app;
-String class_name;
-int *ac;
-String av[];
+GuiInitialize(XtAppContext *app, String class_name, int *ac, String av[])
 {
 	Widget top;
 
@@ -491,19 +467,18 @@ String av[];
 }
 
 Widget
-CreateDrawingArea( owner, name, width, height, proc, val )
-Widget owner;
-String name;
-int width;
-int height;
-void (*proc)();
-int val;
+CreateDrawingArea(
+Widget owner,
+String name,
+int width,
+int height,
+void (*proc)(),
+int val)
 {
-	int n;
+	int n = 0;
 	Arg arg[16];
 	Widget drawarea;
 
-	n = 0;
 	XtSetArg(arg[n], XmNwidth, width); n++;
 	XtSetArg(arg[n], XmNheight, height); n++;
 	XtSetArg(arg[n], XmNresizePolicy, XmRESIZE_NONE); n++;
@@ -523,10 +498,7 @@ int val;
 #ifndef	USE_MACRO
 
 void
-AddLeftAttachWidget( w, ref, offset )
-Widget w;
-Widget ref;
-int offset;
+AddLeftAttachWidget( Widget w, Widget ref, int offset)
 {
     XtVaSetValues( w,
     XmNleftAttachment, XmATTACH_WIDGET,
@@ -536,9 +508,7 @@ int offset;
 }
 
 void
-AddLeftAttachForm( w, offset )
-Widget w;
-int offset;
+AddLeftAttachForm( Widget w, int offset )
 {
     XtVaSetValues( w,
     XmNleftAttachment, XmATTACH_FORM,
@@ -547,10 +517,7 @@ int offset;
 }
 
 void
-AddTopAttachWidget( w, ref, offset )
-Widget w;
-Widget ref;
-int offset;
+AddTopAttachWidget( Widget w, Widget ref, int offset )
 {
     XtVaSetValues( w,
     XmNtopAttachment, XmATTACH_WIDGET,
@@ -560,9 +527,7 @@ int offset;
 }
 
 void
-AddTopAttachForm( w, offset )
-Widget w;
-int offset;
+AddTopAttachForm( Widget w, int offset )
 {
     XtVaSetValues( w,
     XmNtopAttachment, XmATTACH_FORM,
@@ -571,10 +536,7 @@ int offset;
 }
 
 void
-AddRightAttachWidget( w, ref, offset )
-Widget w;
-Widget ref;
-int offset;
+AddRightAttachWidget( Widget w, Widget ref, int offset )
 {
     XtVaSetValues( w,
     XmNrightAttachment, XmATTACH_WIDGET,
@@ -584,9 +546,7 @@ int offset;
 }
 
 void
-AddRightAttachForm( w, offset )
-Widget w;
-int offset;
+AddRightAttachForm( Widget w, int offset )
 {
     XtVaSetValues( w,
     XmNrightAttachment, XmATTACH_FORM,
@@ -595,9 +555,7 @@ int offset;
 }
 
 void
-AddBottomAttachForm( w, offset )
-Widget w;
-int offset;
+AddBottomAttachForm( Widget w, int offset )
 {
     XtVaSetValues( w,
     XmNbottomAttachment, XmATTACH_FORM,
@@ -607,8 +565,7 @@ int offset;
 #endif	/* not USE_MACRO */
 
 void
-PopupDialog(w)
-Widget w;
+PopupDialog(Widget w)
 {
     if (! XtIsManaged(w))
 	XtManageChild(w);
@@ -617,8 +574,7 @@ Widget w;
 }
 
 void
-PopdownDialog(w)
-Widget w;
+PopdownDialog(Widget w)
 {
     if (XtIsManaged(w)){
 	XtUnmanageChild(w);
@@ -626,8 +582,7 @@ Widget w;
 }
 
 void
-ForcePopdownDialog(w)
-Widget w;
+ForcePopdownDialog(Widget w)
 {
     if (XtIsManaged(w)){
 	XtUnmanageChild(w);
@@ -635,23 +590,17 @@ Widget w;
 }
 
 void
-SetLabelString(w, str)
-Widget w;
-String str;
+SetLabelString(Widget w, String str)
 {
-    XmString cs;
-    cs = XmStringCreateLocalized(str);
+    XmString cs = XmStringCreateLocalized(str);
     XtVaSetValues( w, XmNlabelString, cs, NULL);
     XmStringFree( cs );
 }
 
 void
-SetFooterString(w, str)
-Widget w;
-String str;
+SetFooterString(Widget w, String str)
 {
-    XmString cs;
-    cs = XmStringCreateLocalized(str);
+    XmString cs = XmStringCreateLocalized(str);
     XtVaSetValues( w, XmNlabelString, cs, NULL);
     XmStringFree( cs );
 	XmUpdateDisplay(w);
@@ -665,10 +614,7 @@ String str;
 static Widget notice=NULL;
 
 static void
-format_str(st, charcnt , str)
-Widget st;
-int	charcnt ;
-char *str;
+format_str(Widget st, int charcnt , char *str)
 {
 	int i ;
 	char *s, *p;
@@ -699,15 +645,14 @@ char *str;
 	XmStringFree(cs);
 }
 
-void _unmap()
+void _unmap(void)
 {
 	if (notice && XtIsManaged(notice)){
 		XtUnmanageChild(notice);
 	}
 }
 
-static void _destroy(w)
-Widget w;
+static void _destroy(Widget w)
 {
 	if (w){
 		XtDestroyWidget(w);
@@ -720,20 +665,19 @@ Widget w;
 
 /*ARGSUSED*/
 void
-PopupNotice( owner, message, type, button, do_format, title )
-Widget owner;
-char *message;
-unsigned char type;
-NButton *button;
-Boolean do_format;
-String title;
+PopupNotice(
+Widget owner,
+char *message,
+unsigned char type,
+NButton *button,
+Boolean do_format,
+String title)
 {
     Widget	label, help, cancel;
-    int		n;
+    int		n = 0;
     Arg		args[32];
     XmString cs1, cs2, cs3;
 
-    n = 0;
     XtSetArg(args[n], XmNtitle, title ); n++;
     XtSetArg(args[n], XmNnoResize, resource.pop_resize  ); n++;
     XtSetArg(args[n], XmNminimizeButtons, resource.pop_minimize ); n++;
@@ -799,9 +743,7 @@ String title;
 
 /*ARGSUSED*/
 static void
-_layout_centerEH(w, clientdata)
-Widget w;
-XtPointer clientdata;
+_layout_centerEH(Widget w, XtPointer clientdata)
 {
     Widget *child;
     int num;
@@ -822,20 +764,19 @@ XtPointer clientdata;
 
 /*ARGSUSED*/
 Widget
-CreateTemplateDialog( w, message, type, button, title, pop )
-Widget w;
-char *message;
-unsigned char type;
-NButton *button;
-String title;
-Widget *pop;
+CreateTemplateDialog(
+Widget w,
+char *message,
+unsigned char type,
+NButton *button,
+String title,
+Widget *pop)
 {
-    int		n;
+    int		n = 0;
     Arg		args[32];
     XmString	cs, cs1=NULL, cs2=NULL, cs3=NULL;
     Widget	brtnb;
 
-    n = 0;
     cs = XmStringCreateLocalized(message);
     XtSetArg(args[n], XmNnoResize, resource.temp_resize );  n++;
     XtSetArg(args[n], XmNminimizeButtons, resource.temp_minimize );  n++;
@@ -884,9 +825,7 @@ Widget *pop;
 
 
 void
-AddDeleteProc(w, delcb)
-Widget w;
-void (*delcb)();
+AddDeleteProc(Widget w, void (*delcb)())
 {
 	Atom del = DeleteWindowAtom();
 	XmAddWMProtocols( w, &del, 1);
@@ -894,38 +833,33 @@ void (*delcb)();
 }
 
 void
-AddPopupProc(w, popupcb)
-Widget w;
-void (*popupcb)();
+AddPopupProc(Widget w, void (*popupcb)())
 {
     XtAddCallback(XtParent(w), XmNpopupCallback, popupcb, 0);
 }
 
 void
-AddDestroyProc(w, destroycb)
-Widget w;
-void (*destroycb)();
+AddDestroyProc(Widget w, void (*destroycb)())
 {
     XtAddCallback(XtParent(w), XmNdestroyCallback, destroycb, 0);
 }
 
 Widget
-CreateMenuBarAndFooterMessageForm(owner, name, buttons, bcnt, pop, footer)
-Widget owner;
-String name;
-MButton *buttons;
-int bcnt;
-Widget *pop;
-Widget *footer;
+CreateMenuBarAndFooterMessageForm(
+Widget owner,
+String name,
+MButton *buttons,
+int bcnt,
+Widget *pop,
+Widget *footer)
 {
     Widget menuBar, form;
     Widget footerFrame, footerForm, footerLabel, sep, casBtn, baseForm;
     XmString cs;
     char buf[64];
     Arg arg[20];
-    int n, i;
+    int i, n = 0;
 
-    n = 0;
     XtSetArg( arg[n], XmNiconName, name ); n++;
     XtSetArg( arg[n], XmNdeleteResponse, XmUNMAP ); n++;
     XtSetArg( arg[n], XmNmwmFunctions,
@@ -1010,23 +944,18 @@ Widget *footer;
 }
 
 Widget
-GetMenuWidget( buttons, buttons_num )
-MButton *buttons;
-int buttons_num;
+GetMenuWidget( MButton *buttons, int buttons_num )
 {
     return(buttons->items[buttons_num].menu);
 }
 
 Widget
-CreateForm( owner, name )
-Widget owner;
-String name;
+CreateForm( Widget owner, String name )
 {
 	Widget form;
-	int n;
+	int n = 0;
 	Arg arg[8];
 
-	n=0;
 	form = XmCreateForm( owner, name, arg, n );
 	XtManageChild(form);
 	return(form);
@@ -1034,14 +963,11 @@ String name;
 
 /*ARGSUSED*/
 Widget
-CreateLabel( owner, name, str )
-Widget owner;
-String name;
-String str;
+CreateLabel( Widget owner, String name, String str )
 {
 	Widget label;
 	Arg arg[2];
-	int n=0;
+	int n = 0;
 	XmString cs = XmStringCreateLocalized(str);
 	XtSetArg( arg[n], XmNlabelString, cs); n++;
 	label = XmCreateLabel( owner, "label", arg, n);
@@ -1052,17 +978,11 @@ String str;
 
 /*ARGSUSED*/
 Widget
-CreateFrame(owner, name, type, thickness)
-Widget owner;
-String name;
-XtPointer type;
-XtPointer thickness;
+CreateFrame(Widget owner, String name, XtPointer type, XtPointer thickness)
 {
 	Widget frame;
 	Arg args[20];
-	int n;
-
-	n = 0;
+	int n = 0;
 	XtSetArg(args[n], XmNresizable, resource.frame_resize );  n++;
 	XtSetArg(args[n], XmNshadowType, type);  n++;
 	XtSetArg(args[n], XmNshadowThickness , thickness);  n++;
@@ -1073,19 +993,17 @@ XtPointer thickness;
 
 /*ARGSUSED*/
 Widget
-CreateRowColumn(owner, name, layout, space, marginw, marginh)
-Widget owner;
-String name;
-int layout;
-int space;
-int marginw;
-int marginh;
+CreateRowColumn(
+Widget owner,
+String name,
+int layout,
+int space,
+int marginw,
+int marginh)
 {
 	Widget rc;
 	Arg args[20];
-	int n;
-
-	n = 0;
+	int n = 0;
 	XtSetArg(args[n], XmNorientation, layout);  n++;
 	XtSetArg(args[n], XmNspacing, space);  n++;
 	XtSetArg(args[n], XmNmarginWidth, marginw);  n++;
@@ -1097,20 +1015,19 @@ int marginh;
 
 /*ARGSUSED*/
 Widget
-CreateScrollBar( owner, name, height, val, min, max, proc )
-Widget owner;
-String name;
-int height;
-int val;
-int min;
-int max;
-void (*proc)();
+CreateScrollBar(
+Widget owner,
+String name,
+int height,
+int val,
+int min,
+int max,
+void (*proc)())
 {
     Widget sc;
-    int n;
+    int n = 0;
     Arg arg[16];
 
-    n = 0;
     XtSetArg( arg[n], XmNsliderSize, (XtArgVal)val );  n++;
     XtSetArg( arg[n], XmNpageIncrement, (XtArgVal)val );   n++;
     XtSetArg( arg[n], XmNmaximum,        (XtArgVal)max );        n++;
@@ -1124,29 +1041,25 @@ void (*proc)();
 
 /*ARGSUSED*/
 static void
-_scbase_cb( w, proc, calldata )
-Widget w;
-void (*proc)();
-XmScrollBarCallbackStruct *calldata;
+_scbase_cb( Widget w, void (*proc)(), XmScrollBarCallbackStruct *calldata )
 {
     (*proc)(calldata->value);
 }
 
 Widget
-CreateScrollBase( owner, name, min, max, val, vcnt, sbproc )
-Widget owner;
-String name;
-int min;
-int max;
-int val;
-int vcnt;
-void (*sbproc)();
+CreateScrollBase(
+Widget owner,
+String name,
+int min,
+int max,
+int val,
+int vcnt,
+void (*sbproc)())
 {
-    int n;
+    int n = 0;
     Arg arg[16];
     Widget base, frame, rwclm, sc;
 
-    n=0;
     XtSetArg( arg[n], XmNwidth, resource.scll_fr_width ); n++;
     base = XmCreateForm( owner, name, arg, n );
     XtManageChild( base );

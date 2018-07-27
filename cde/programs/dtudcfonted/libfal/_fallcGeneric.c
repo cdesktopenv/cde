@@ -60,9 +60,9 @@
 #include "_fallibint.h"
 #include "_fallcGeneric.h"
 
-static XLCd create();
-static Bool initialize();
-static void destroy();
+static XLCd create(char *name, XLCdMethods methods);
+static Bool initialize(XLCd lcd);
+static void destroy(XLCd lcd);
 
 static XLCdPublicMethodsRec genericMethods = {
     { NULL },                   /* use default methods */
@@ -78,9 +78,7 @@ static XLCdPublicMethodsRec genericMethods = {
 XLCdMethods _fallcGenericMethods = (XLCdMethods) &genericMethods;
 
 static XLCd
-create(name, methods)
-    char *name;
-    XLCdMethods methods;
+create(char *name, XLCdMethods methods)
 {
     XLCd lcd;
     XLCdPublicMethods new;
@@ -91,27 +89,25 @@ create(name, methods)
     bzero((char *) lcd, sizeof(XLCdRec));
 
     lcd->core = (XLCdCore) Xmalloc(sizeof(XLCdGenericRec));
-    if (lcd->core == NULL)
-	goto err;
+    if (lcd->core == NULL){
+	Xfree(lcd);
+	return (XLCd) NULL;
+    }
     bzero((char *) lcd->core, sizeof(XLCdGenericRec));
 
     new = (XLCdPublicMethods) Xmalloc(sizeof(XLCdPublicMethodsRec));
-    if (new == NULL)
-	goto err;
+    if (new == NULL){
+	Xfree(lcd);
+	return (XLCd) NULL;
+    }
     *new = *((XLCdPublicMethods) methods);
     lcd->methods = (XLCdMethods) new;
 
     return lcd;
-
-err:
-    Xfree(lcd);
-    return (XLCd) NULL;
 }
 
 static Bool
-string_to_encoding(str, encoding)
-    char *str;
-    char *encoding;
+string_to_encoding(char *str, char *encoding)
 {
     char *next;
     long value;
@@ -144,9 +140,7 @@ string_to_encoding(str, encoding)
 }
 
 static Bool
-string_to_ulong(str, value)
-char	*str;
-unsigned long	*value;
+string_to_ulong(char *str, unsigned long *value)
 {
      char	*tmp1 = str;
      int	 base;
@@ -175,9 +169,7 @@ unsigned long	*value;
 
 
 static Bool
-add_charset(codeset, charset)
-    CodeSet codeset;
-    XlcCharSet charset;
+add_charset(CodeSet codeset, XlcCharSet charset)
 {
     XlcCharSet *new_list;
     int num;
@@ -199,8 +191,7 @@ add_charset(codeset, charset)
 }
 
 static CodeSet
-add_codeset(gen)
-    XLCdGenericPart *gen;
+add_codeset(XLCdGenericPart *gen)
 {
     CodeSet new, *new_list;
     int num;
@@ -216,27 +207,24 @@ add_codeset(gen)
     else
         new_list = (CodeSet *) Xmalloc(sizeof(CodeSet));
 
-    if (new_list == NULL)
-        goto err;
+    if (new_list == NULL){
+        Xfree(new);
+	return NULL;
+    }
 
     new_list[num] = new;
     gen->codeset_list = new_list;
     gen->codeset_num = num + 1;
 
     return new;
-
-err:
-    Xfree(new);
-
-    return NULL;
 }
 
 static Bool
-add_parse_list(gen, type, encoding, codeset)
-    XLCdGenericPart *gen;
-    EncodingType type;
-    char *encoding;
-    CodeSet codeset;
+add_parse_list(
+    XLCdGenericPart *gen,
+    EncodingType type,
+    char *encoding,
+    CodeSet codeset)
 {
     ParseInfo new, *new_list;
     char *str;
@@ -249,14 +237,24 @@ add_parse_list(gen, type, encoding, codeset)
     strcpy(str, encoding);
 
     new = (ParseInfo) Xmalloc(sizeof(ParseInfoRec));
-    if (new == NULL)
-        goto err;
+    if (new == NULL){
+	Xfree(str);
+	if (new)
+            Xfree(new);
+
+	return False;
+    }
     bzero((char *) new, sizeof(ParseInfoRec));
 
     if (gen->mb_parse_table == NULL) {
         gen->mb_parse_table = (unsigned char *) Xmalloc(256); /* 2^8 */
-        if (gen->mb_parse_table == NULL)
-            goto err;
+        if (gen->mb_parse_table == NULL){
+            Xfree(str);
+	    if (new)
+		Xfree(new);
+
+	    return False;
+	}
         bzero((char *) gen->mb_parse_table, 256);
     }
 
@@ -267,8 +265,13 @@ add_parse_list(gen, type, encoding, codeset)
         new_list = (ParseInfo *) Xmalloc(2 * sizeof(ParseInfo));
     }
 
-    if (new_list == NULL)
-        goto err;
+    if (new_list == NULL){
+        Xfree(str);
+	if (new)
+	    Xfree(new);
+
+        return False;
+    }
 
     new_list[num] = new;
     new_list[num + 1] = NULL;
@@ -287,18 +290,10 @@ add_parse_list(gen, type, encoding, codeset)
         codeset->parse_info = new;
 
     return True;
-
-err:
-    Xfree(str);
-    if (new)
-        Xfree(new);
-
-    return False;
 }
 
 static void
-free_charset(lcd)
-    XLCd lcd;
+free_charset(XLCd lcd)
 {
     XLCdGenericPart *gen = XLC_GENERIC_PART(lcd);
     CodeSet *codeset;
@@ -324,9 +319,7 @@ free_charset(lcd)
 #define FORWARD  (unsigned long)'+'
 #define BACKWARD (unsigned long)'-'
 
-static char *getscope(str,scp)
-char *str;
-FontScope scp;
+static char *getscope(char *str, FontScope scp)
 {
     char buff[256],*next;
     unsigned long start=0,end=0,dest=0,shift=0,direction=0;
@@ -355,8 +348,7 @@ FontScope scp;
     next = str+1 ;
     return(next);
 }
-static int count_scopemap(str)
-char *str;
+static int count_scopemap(char *str)
 {
     char *ptr;
     int num=0;
@@ -367,9 +359,7 @@ char *str;
     }
     return(num);
 }
-FontScope falparse_scopemaps(str,size)
-char *str;
-int *size;
+FontScope falparse_scopemaps(char *str, int *size)
 {
         int num=0,i;
         FontScope scope,sc_ptr;
@@ -388,25 +378,20 @@ int *size;
 }
 
 void
-dbg_printValue(str,value,num)
-char *str;
-char **value;
-int num;
+dbg_printValue(char *str, char **value, int num)
 {
-/*
+#ifdef DEBUG
     int i;
     for(i=0;i<num;i++){
         fprintf(stderr,"%s value[%d] = %s\n",str,i,value[i]);
     }
-*/
+#endif
 }
 
 void
-dmpscope(name,sc,num)
-FontScope sc;
-int num;
+dmpscope(char *name, FontScope sc, int num)
 {
-/*
+/* should this be protected by ifdef DEBUG?
     int i;
     fprintf(stderr,"dmpscope %s\n",name);
     for(i=0;i<num;i++){
@@ -420,9 +405,7 @@ int num;
 */
 }
 
-static XlcCharSet srch_charset_define(name,new)
-char *name;
-int *new;
+static XlcCharSet srch_charset_define(char *name, int *new)
 {
     XlcCharSet charset = NULL;
     *new = 0;
@@ -436,9 +419,7 @@ int *new;
 }
 
 static int
-read_charset_define(lcd,gen)
-XLCd lcd;
-XLCdGenericPart *gen;
+read_charset_define(XLCd lcd, XLCdGenericPart *gen)
 {
     int i=0;
     char csd[16],cset_name[256];
@@ -557,8 +538,7 @@ XLCdGenericPart *gen;
 }
 
 SegConv
-faladd_conversion(gen)
-XLCdGenericPart *gen;
+faladd_conversion(XLCdGenericPart *gen)
 {
     SegConv new_list;
     int num;
@@ -580,9 +560,7 @@ XLCdGenericPart *gen;
 
 }
 static int
-read_segmentconversion(lcd,gen)
-XLCd lcd;
-XLCdGenericPart *gen;
+read_segmentconversion(XLCd lcd, XLCdGenericPart *gen)
 {
     int i=0;
     char conv[16];
@@ -682,9 +660,7 @@ XLCdGenericPart *gen;
     return 1;
 }
 
-static ExtdSegment create_ctextseg(value,num)
-char **value;
-int num;
+static ExtdSegment create_ctextseg(char **value, int num)
 {
     ExtdSegment ret;
     char side_str[128],*ptr;
@@ -752,8 +728,7 @@ int num;
 /* For VW/UDC end */
 
 static Bool
-load_generic(lcd)
-    XLCd lcd;
+load_generic(XLCd lcd)
 {
     XLCdGenericPart *gen = XLC_GENERIC_PART(lcd);
     char **value;
@@ -767,8 +742,10 @@ load_generic(lcd)
     /***** wc_encoding_mask *****/
     _fallcGetResource(lcd, "XLC_XLOCALE", "wc_encoding_mask", &value, &num);
     if (num > 0) {
-	if (string_to_ulong(value[0], &l) == False)
-	    goto err;
+	if (string_to_ulong(value[0], &l) == False){
+	    free_charset(lcd);
+            return False;
+	}
 	gen->wc_encode_mask = l;
     }
     /***** wc_shift_bits *****/
@@ -805,8 +782,10 @@ load_generic(lcd)
 	if (num > 0) {
 	    char *tmp;
 
-	    if (codeset == NULL && (codeset = add_codeset(gen)) == NULL)
-		goto err;
+	    if (codeset == NULL && (codeset = add_codeset(gen)) == NULL){
+		free_charset(lcd);
+                return False;
+	    }
 
             /* 3.4.1 side */
             if( !_fallcNCompareISOLatin1(value[0], "none", 4) ){
@@ -831,8 +810,10 @@ load_generic(lcd)
 	sprintf(name, "%s.%s", cs , "length");
 	_fallcGetResource(lcd, "XLC_XLOCALE", name, &value, &num);
 	if (num > 0) {
-	    if (codeset == NULL && (codeset = add_codeset(gen)) == NULL)
-		goto err;
+	    if (codeset == NULL && (codeset = add_codeset(gen)) == NULL){
+		free_charset(lcd);
+                return False;
+	    }
 	    codeset->length = atoi(value[0]);
 	    if (codeset->length < 1)
 		codeset->length = 1;
@@ -853,8 +834,10 @@ load_generic(lcd)
 	    };
 	    int j;
 
-	    if (codeset == NULL && (codeset = add_codeset(gen)) == NULL)
-		goto err;
+	    if (codeset == NULL && (codeset = add_codeset(gen)) == NULL){
+		free_charset(lcd);
+                return False;
+	    }
 	    for ( ; num-- > 0; value++) {
 		char encoding[256];
 		char *tmp = *value;
@@ -867,8 +850,10 @@ load_generic(lcd)
 			break;
 		    }
 		}
-		if (string_to_encoding(tmp, encoding) == False)
-			goto err;
+		if (string_to_encoding(tmp, encoding) == False){
+		    free_charset(lcd);
+	            return False;
+		}
 		add_parse_list(gen, type, encoding, codeset);
 	    }
 	}
@@ -877,10 +862,11 @@ load_generic(lcd)
 	sprintf(name, "%s.%s", cs, "wc_encoding");
 	_fallcGetResource(lcd, "XLC_XLOCALE", name, &value, &num);
 	if (num > 0) {
-	    if (codeset == NULL && (codeset = add_codeset(gen)) == NULL)
-		goto err;
-	    if (string_to_ulong(value[0], &l) == False)
-		goto err;
+	    if ((codeset == NULL && (codeset = add_codeset(gen)) == NULL) || \
+               (string_to_ulong(value[0], &l) == False)){
+		free_charset(lcd);
+		return False;
+	    }
 	    codeset->wc_encoding = l;
 	}
 
@@ -891,8 +877,10 @@ load_generic(lcd)
 	    XlcCharSet charset;
 	    char *encoding;
 
-	    if (codeset == NULL && (codeset = add_codeset(gen)) == NULL)
-		goto err;
+	    if (codeset == NULL && (codeset = add_codeset(gen)) == NULL){
+		free_charset(lcd);
+		return False;
+	    }
 	    for ( ; num-- > 0; value++) {
 		string_to_encoding(*value, name);
 		charset = NULL;
@@ -911,8 +899,10 @@ load_generic(lcd)
 		    }
 		}
 		if (charset) {
-		    if (add_charset(codeset, charset) == False)
-			goto err;
+		    if (add_charset(codeset, charset) == False){
+			free_charset(lcd);
+			return False;
+		    }
 		}
 	    }
 	}
@@ -938,7 +928,8 @@ load_generic(lcd)
                     (ByteInfoListRec *)Xmalloc(
                          (codeset->length)*sizeof(ByteInfoListRec));
                 if(codeset->byteM == NULL){
-                    goto err;
+                        free_charset(lcd);
+			return False;
                 }
             }
 
@@ -1008,16 +999,10 @@ load_generic(lcd)
     read_segmentconversion(lcd,gen);    /* For VW/UDC */
 
     return True;
-
-err:
-    free_charset(lcd);
-
-    return False;
 }
 
 static Bool
-initialize(lcd)
-    XLCd lcd;
+initialize(XLCd lcd)
 {
     XLCdPublicMethods superclass = (XLCdPublicMethods) _fallcPublicMethods;
 
@@ -1035,8 +1020,7 @@ initialize(lcd)
 }
 /* VW/UDC start 95.01.08 */
 static void
-freeByteM(codeset)
-    CodeSet codeset;
+freeByteM(CodeSet codeset)
 {
     int i;
     ByteInfoList blst;
@@ -1054,8 +1038,7 @@ freeByteM(codeset)
     codeset->byteM = NULL;
 }
 static void
-freeConversion(codeset)
-    CodeSet codeset;
+freeConversion(CodeSet codeset)
 {
     int i;
     Conversion mbconv,ctconv;
@@ -1081,8 +1064,7 @@ freeConversion(codeset)
     }
 }
 static void
-freeExtdSegment(codeset)
-    CodeSet codeset;
+freeExtdSegment(CodeSet codeset)
 {
     int i;
     ExtdSegment ctextseg;
@@ -1102,8 +1084,7 @@ freeExtdSegment(codeset)
     codeset->ctextseg = NULL;
 }
 static void
-freeParseInfo(codeset)
-    CodeSet codeset;
+freeParseInfo(CodeSet codeset)
 {
     int i;
     ParseInfo parse_info;
@@ -1119,8 +1100,7 @@ freeParseInfo(codeset)
     codeset->parse_info = NULL;
 }
 static void
-destroy_CodeSetList(gen)
-    XLCdGenericPart *gen ;
+destroy_CodeSetList(XLCdGenericPart *gen)
 {
     CodeSet *codeset = gen->codeset_list;
     int i;
@@ -1140,10 +1120,9 @@ destroy_CodeSetList(gen)
     }
     Xfree(codeset); gen->codeset_list = NULL;
 }
-/*  */
+
 static void
-destroy_SegConv(gen)
-    XLCdGenericPart *gen ;
+destroy_SegConv(XLCdGenericPart *gen)
 {
     SegConv seg = gen->segment_conv;
     int i;
@@ -1167,8 +1146,7 @@ destroy_SegConv(gen)
 }
 
 static void
-destroy_gen(lcd)
-    XLCd lcd;
+destroy_gen(XLCd lcd)
 {
     XLCdGenericPart *gen = XLC_GENERIC_PART(lcd);
     destroy_SegConv(gen);
@@ -1184,8 +1162,7 @@ destroy_gen(lcd)
 }
 /* VW/UDC end 95.01.08 */
 static void
-destroy(lcd)
-    XLCd lcd;
+destroy(XLCd lcd)
 {
     XLCdPublicMethods superclass = XLC_PUBLIC_METHODS(lcd)->superclass;
 

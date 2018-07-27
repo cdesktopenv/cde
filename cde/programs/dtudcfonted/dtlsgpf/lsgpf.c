@@ -39,23 +39,9 @@
 #include	"bdfgpf.h"
 #include	"udcutil.h"
 
-
-static	void	dsp_info_list();
-static	void	dsp_title();
-static	void	dspinfo_1line();
-static	void	disp_no_fontslist();
-static	void	sort_offset_list() ;
-static	int	sort_fontlist() ;
-static	void	dsp_error_title() ;
-static	int	dsp_error_files() ;
-
-static	void	put_help();
-static	int	search_fontfile_name() ;
-static int	get_new_target() ;
-
-static	char	*utillocale ;
-static	char	*fontdir ;
-static	char	*command_name ;
+static	char	*utillocale;
+static	char	*fontdir;
+static	char	*command_name;
 
 typedef struct {
 	int		num;
@@ -82,10 +68,37 @@ typedef struct {
 #define	X_OPT	(1<<3)
 #define	C_OPT	(1<<4)
 
+static	void	dsp_info_list(char            *com,
+			      int             dspopt,
+			      FalFontDataList *lst,
+			      MISS_ENTRY      *unknown_file_lst,
+			      int             *errflg);
+static	void	dsp_title(FILE *fp, int dspopt);
+static	void	dspinfo_1line(FalFontData     data,
+			      FILE            *fp,
+			      MISS_ENTRY      *unknown_file_lst,
+			      int             offset,
+			      int             *errflg,
+			      int             dspopt);
+static	void	disp_no_fontslist(int dspopt);
+static	void	sort_offset_list(FalFontDataList *flist,
+				 int             mask,
+				 int             **sort_list,
+				 int             *data_cnt);
+static	int	sort_fontlist(FalFontDataList *lst);
+static	void	dsp_error_title(char *com, int *errflg, int dspopt);
+static	int	dsp_error_files(FalFontDataList *lst, MISS_ENTRY *unknown);
+
+static	void	put_help(char *prog_name);
+static	int	search_fontfile_name(FalFontData     data,
+				     char            *fname,
+				     MISS_ENTRY      *unknown_file_lst,
+				     int             offset,
+				     int             *errflg);
+static int	get_new_target(FalFontData *target, FalFontData *choose);
+
 int
-main( argc, argv )
-int 	argc;
-char	*argv[];
+main( int argc, char *argv[] )
 {
 	FalFontDataList *lst_m;	/* font information list struct */
 	FalFontData	key;	/* font reference information creation struct */
@@ -221,12 +234,12 @@ char	*argv[];
 
 
 static void
-dsp_info_list( com, dspopt, lst, unknown_file_lst, errflg )
-char		*com;
-int 		dspopt;
-FalFontDataList	*lst;
-MISS_ENTRY	*unknown_file_lst;
-int		*errflg ;
+dsp_info_list(
+char		*com,
+int 		dspopt,
+FalFontDataList	*lst,
+MISS_ENTRY	*unknown_file_lst,
+int		*errflg)
 {
 	FalFontDataList	srt_lst;
 	int	i, j ;
@@ -428,10 +441,7 @@ int		*errflg ;
 
 
 static void
-dsp_error_title(com, errflg, dspopt )
-char	*com;
-int	*errflg ;
-int	dspopt ;
+dsp_error_title(char *com, int *errflg, int dspopt)
 {
     USAGE("\n\n" );
     if( dspopt & A_OPT ) {
@@ -452,9 +462,7 @@ int	dspopt ;
 
 
 static int
-dsp_error_files( lst, unknown )
-FalFontDataList *lst;
-MISS_ENTRY	*unknown;
+dsp_error_files( FalFontDataList *lst, MISS_ENTRY *unknown )
 {
 	int 	i,j;
 	int 	entry_start, entry_end;
@@ -504,11 +512,11 @@ MISS_ENTRY	*unknown;
 
 
 static void
-sort_offset_list( flist, mask, sort_list, data_cnt )
-FalFontDataList	*flist ;
-int		mask ;
-int		**sort_list ;
-int		*data_cnt ;
+sort_offset_list(
+FalFontDataList	*flist,
+int		mask,
+int		**sort_list,
+int		*data_cnt)
 {
 	int	*size_offset_list ;
 	int	cnt, i, j ;
@@ -586,9 +594,7 @@ int		*data_cnt ;
 
 
 static void
-dsp_title( fp, dspopt )
-FILE	*fp;
-int	dspopt ;
+dsp_title( FILE *fp, int dspopt )
 {
     if( dspopt & L_OPT || dspopt & X_OPT ) {
 	fprintf(fp, "\n" ) ;
@@ -611,13 +617,13 @@ int	dspopt ;
 
 
 static void
-dspinfo_1line( data, fp, unknown_file_lst, offset, errflg, dspopt )
-FalFontData 	data;
-FILE		*fp;
-MISS_ENTRY	*unknown_file_lst;
-int		offset ;
-int		*errflg ;
-int		dspopt ;
+dspinfo_1line(
+FalFontData 	data,
+FILE		*fp,
+MISS_ENTRY	*unknown_file_lst,
+int		offset,
+int		*errflg,
+int		dspopt)
 {
 	int	dsp_on ;
 	char	*namep;
@@ -682,16 +688,14 @@ int		dspopt ;
 
 
 static void
-disp_no_fontslist( dspopt )
-int	dspopt ;
+disp_no_fontslist( int dspopt )
 {
     fprintf( stdout, "\nThere are no fonts that are used for user defined character.\n" ) ;
 }
 
 
 static void
-put_help( prog_name )
-char	*prog_name;
+put_help( char *prog_name )
 {
 	USAGE1("Usage : %s [-lax][-la][-lx][-C][-codeset number][-help]\n", prog_name);
 	USAGE("\t-l       :  display of file name and character size\n");
@@ -707,12 +711,12 @@ char	*prog_name;
 
 
 static	int
-search_fontfile_name( data, fname, unknown_file_lst, offset, errflg )
-FalFontData	data ;
-char		*fname ;
-MISS_ENTRY	*unknown_file_lst;
-int		offset ;
-int		*errflg ;
+search_fontfile_name(
+FalFontData	data,
+char		*fname,
+MISS_ENTRY	*unknown_file_lst,
+int		offset,
+int		*errflg)
 {
 	FalFontID	fid ;
 	FalFontDataList	*flist ;
@@ -797,11 +801,8 @@ int		*errflg ;
 	return(0) ;
 }
 
-
-
 static int
-sort_fontlist( lst )
-FalFontDataList *lst;
+sort_fontlist( FalFontDataList *lst )
 {
 	int             i,j;
 	FalFontDataList srt;
@@ -853,9 +854,7 @@ FalFontDataList *lst;
 /*                  no sort ... 0 */
 
 static int
-get_new_target( target, choose )
-FalFontData	*target;
-FalFontData	*choose;
+get_new_target( FalFontData *target, FalFontData *choose )
 {
 	FalFontData	diff;
 	DEF_STR_CHK ;

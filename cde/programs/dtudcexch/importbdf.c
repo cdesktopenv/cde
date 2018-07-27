@@ -83,7 +83,7 @@ static char	*targ_file = NULL;	/* UDC_file_name */
 
 
 static void
-sigint_out()
+sigint_out(void)
 {
 	if (WriteGpf.out_file) {
 		UNLINK_TMPFILE( WriteGpf.out_file );
@@ -95,10 +95,7 @@ sigint_out()
 
 
 int
-ImpBDFCodeList( bdf_name, code_num, code_list )
-char	*bdf_name ;
-int	*code_num ;
-int	**code_list ;
+ImpBDFCodeList(char *bdf_name, int *code_num, int **code_list)
 {
 	int	*glyph_list ;
 	FILE	*bdfp ;
@@ -165,8 +162,7 @@ int	**code_list ;
 
 
 int
-ImpBDFCodeListFree( code_list )
-int	**code_list ;
+ImpBDFCodeListFree(int **code_list)
 {
 	free( *code_list ) ;
 	return(0) ;
@@ -175,9 +171,10 @@ int	**code_list ;
 
 
 int
-ImpBDFCheck( bdf_name, gpf_name )
-char	*bdf_name ;	/* BDF file name	*/
-char	*gpf_name ;	/* GPF file name	*/
+ImpBDFCheck(
+char	*bdf_name,	/* BDF file name */
+char	*gpf_name	/* GPF file name */
+)
 {
 	/* parameter check */
 	if( bdf_name == NULL || gpf_name == NULL ){
@@ -190,11 +187,12 @@ char	*gpf_name ;	/* GPF file name	*/
 
 
 int
-ImpBDFtoGpf( bdf_name, gpf_name, bdf_codenum, bdf_codelist)
-char	*bdf_name ;
-char	*gpf_name ;
-int	bdf_codenum ;
-int	*bdf_codelist ;
+ImpBDFtoGpf(
+char	*bdf_name,
+char	*gpf_name,
+int	bdf_codenum,
+int	*bdf_codelist
+)
 {
 	int 	rtn ;
 	int 	exit_stat;
@@ -359,10 +357,11 @@ int	*bdf_codelist ;
 */
 
 static
-impFileConvInit(r_udc, r_gpf, w_gpf )
-struct btophead	*r_udc;
-struct btophead	*r_gpf;
-struct ptobhead	*w_gpf;
+impFileConvInit(
+struct btophead	*r_udc,
+struct btophead	*r_gpf,
+struct ptobhead	*w_gpf
+)
 {
 	int 	fd[2], snf_fd, permission;
 	char	buf[BUFSIZE];
@@ -386,11 +385,6 @@ struct ptobhead	*w_gpf;
 	if ( ChkPcfFontFile( w_gpf->snf_file ) ) {
 		/* snf */
 		if ( ( snf_fd = open( w_gpf->snf_file, O_RDONLY ) ) >= 0 ) {
-			COMM_SNF_FILEVERSION( snf_fd, finf, buf, permission ) ;
-			if( permission < 0 ) {
-				return	BDF_INVAL;
-			}
-		} else {
 			return	BDF_OPEN_IN;
 		}
 	}
@@ -477,11 +471,12 @@ struct ptobhead	*w_gpf;
 
 
 static
-impGetGpfInf( r_gpf, w_gpf, buf, bdf_codenum )
-struct btophead *r_gpf;
-struct ptobhead *w_gpf;
-char   	      	*buf;
-int		bdf_codenum ;
+impGetGpfInf(
+struct btophead *r_gpf,
+struct ptobhead *w_gpf,
+char   	      	*buf,
+int		bdf_codenum
+)
 {
 	int	    nchar, rtn;
 
@@ -505,10 +500,11 @@ int		bdf_codenum ;
 
 
 static
-impReadBdfHeaderAndPut(r_gpf, w_gpf, buf)
-struct btophead *r_gpf;
-struct ptobhead *w_gpf;
-char	*buf;
+impReadBdfHeaderAndPut(
+struct btophead *r_gpf,
+struct ptobhead *w_gpf,
+char	*buf
+)
 {
 	char	*p;
 	unsigned int 	getstat = 0;
@@ -555,12 +551,13 @@ char	*buf;
 
 
 static
-impMergePtn(r_udc, r_gpf, buf, bdf_codenum, bdf_codelist )
-struct	btophead *r_udc;
-struct	btophead *r_gpf;
-char	*buf;
-int	bdf_codenum ;
-int	*bdf_codelist ;
+impMergePtn(
+struct	btophead *r_udc,
+struct	btophead *r_gpf,
+char	*buf,
+int	bdf_codenum,
+int	*bdf_codelist
+)
 {
 	int 	code, rtn, msize, i, j;
 	char	*ptn;
@@ -615,11 +612,7 @@ int	*bdf_codelist ;
 }
 
 static
-impModifyPtn( r_udc, r_gpf, buf, ix )
-struct btophead *r_udc;
-struct btophead *r_gpf;
-char	*buf;
-int 	ix;
+impModifyPtn(struct btophead *r_udc, struct btophead *r_gpf, char *buf, int ix)
 {
 	int 	mwidth, msize, rtn;
 
@@ -644,12 +637,13 @@ int 	ix;
 }
 
 static
-impInsertPtn( r_udc, r_gpf, buf, code, ix )
-struct btophead *r_udc;
-struct btophead *r_gpf;
-char	*buf;
-int 	code;
-int 	ix;
+impInsertPtn(
+struct btophead *r_udc,
+struct btophead *r_gpf,
+char	*buf,
+int 	code,
+int 	ix
+)
 {
 	int 	mwidth, msize, rtn, i;
 
@@ -688,9 +682,7 @@ int 	ix;
 }
 
 static
-impWriteSnf( r_gpf, w_gpf )
-struct btophead *r_gpf;
-struct ptobhead *w_gpf;
+impWriteSnf(struct btophead *r_gpf, struct ptobhead *w_gpf)
 {
 	w_gpf->zoomf = 0;
 	w_gpf->num_chars  = r_gpf->num_chars;

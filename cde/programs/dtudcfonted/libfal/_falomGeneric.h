@@ -170,24 +170,19 @@ typedef struct _XOCGenericRec {
 _XFUNCPROTOBEGIN
 
 extern XOM _falomGenericOpenOM(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* dpy */,
     XrmDatabase		/* rdb */,
-    _Xconst char*	/* res_name */,
-    _Xconst char*	/* res_class */
-#endif
+    char*		/* res_name */,
+    char*		/* res_class */
 );
 
 extern XlcConv _XomInitConverter(
-#if NeedFunctionPrototypes
     XOC			/* oc */,
     XOMTextType		/* type */
-#endif
 );
 
 extern int _XomConvert(
-#if NeedFunctionPrototypes
     XOC			/* oc */,
     XlcConv		/* conv */,
     XPointer*		/* from */,
@@ -196,7 +191,6 @@ extern int _XomConvert(
     int*		/* to_left */,
     XPointer*		/* args */,
     int			/* num_args */
-#endif
 );
 
 _XFUNCPROTOEND

@@ -63,40 +63,30 @@
 typedef struct _XLCdPublicMethodsRec *XLCdPublicMethods;
 
 typedef XLCd (*XlcPubCreateProc)(
-#if NeedFunctionPrototypes
     char*		/* name */,
     XLCdMethods		/* methods */
-#endif
 );
 
 typedef Bool (*XlcPubInitializeProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 typedef void (*XlcPubDestroyProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 typedef char* (*XlcPubGetValuesProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     XlcArgList		/* args */,
     int			/* num_args */
-#endif
 );
 
 typedef void (*XlcPubGetResourceProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     char*		/* category */,
     char*		/* class */,
     char***		/* value */,
     int*		/* count */
-#endif
 );
 
 typedef struct _XLCdPublicMethodsPart {
@@ -139,137 +129,103 @@ extern XLCdMethods _fallcPublicMethods;
 _XFUNCPROTOBEGIN
 
 extern XLCd _fallcCreateLC(
-#if NeedFunctionPrototypes
     char*		/* name */,
     XLCdMethods		/* methods */
-#endif
 );
 
 extern void _fallcDestroyLC(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 extern Bool _fallcParseCharSet(
-#if NeedFunctionPrototypes
     XlcCharSet		/* charset */
-#endif
 );
 
 extern XlcCharSet _fallcCreateDefaultCharSet(
-#if NeedFunctionPrototypes
     char*		/* name */,
     char*		/* control_sequence */
-#endif
 );
 
 extern XlcCharSet _fallcAddCT(
-#if NeedFunctionPrototypes
     char*		/* name */,
     char*		/* control_sequence */
-#endif
 );
 
 extern XrmMethods _falrmDefaultInitParseInfo(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     XPointer*		/* state */
-#endif
 );
 
 extern int _falmbTextPropertyToTextList(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* dpy */,
     XTextProperty*	/* text_prop */,
     char***		/* list_ret */,
     int*		/* count_ret */
-#endif
 );
 
 extern int _falwcTextPropertyToTextList(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* dpy */,
     XTextProperty*	/* text_prop */,
     wchar_t***		/* list_ret */,
     int*		/* count_ret */
-#endif
 );
 
 extern int _falmbTextListToTextProperty(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* dpy */,
     char**		/* list */,
     int			/* count */,
     XICCEncodingStyle	/* style */,
     XTextProperty*	/* text_prop */
-#endif
 );
 
 extern int _falwcTextListToTextProperty(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* dpy */,
     wchar_t**		/* list */,
     int			/* count */,
     XICCEncodingStyle	/* style */,
     XTextProperty*	/* text_prop */
-#endif
 );
 
 extern void _falwcFreeStringList(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     wchar_t**		/* list */
-#endif
 );
 
 extern int _fallcResolveLocaleName(
-#if NeedFunctionPrototypes
     char*		/* lc_name */,
     char*		/* full_name */,
     char*		/* language */,
     char*		/* territory */,
     char*		/* codeset */
-#endif
 );
 
 extern int _fallcResolveDBName(
-#if NeedFunctionPrototypes
     char*		/* lc_name */,
     char*		/* file_name */
-#endif
 );
 
 extern int _fallcResolveI18NPath(
-#if NeedFunctionPrototypes
     char*		/* path_name */
-#endif
 );
 
 extern XPointer _fallcCreateLocaleDataBase(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 extern void _fallcDestroyLocaleDataBase(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 extern void _fallcGetLocaleDataBase(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     char*		/* category */,
     char*		/* name */,
     char***		/* value */,
     int*		/* count */
-#endif
 );
 
 _XFUNCPROTOEND

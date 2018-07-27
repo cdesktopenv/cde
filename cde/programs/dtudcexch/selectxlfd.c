@@ -168,7 +168,7 @@ void setallcode(ListData *ld)
     }
 }
 
-FalFontID openfont()
+FalFontID openfont(void)
 {
     int		protect_key = FAL_FONT_DISPLAY;
     int		codeset;
@@ -311,8 +311,7 @@ void getexistcode(ListData *ld)
  */
 
 void
-xlfdPopupDialog(w)
-Widget w;
+xlfdPopupDialog(Widget w)
 {
     if (! XtIsManaged(w))
         XtManageChild(w);
@@ -321,8 +320,7 @@ Widget w;
 }
 
 void
-xlfdPopdownDialog(w)
-Widget w;
+xlfdPopdownDialog(Widget w)
 {
     if (XtIsManaged(w)){
         XtUnmanageChild(w);
@@ -334,10 +332,7 @@ Widget w;
 * get pixel width
 */
 Dimension
-GetPixelWidth( w, columns, width )
-Widget		w ;
-int		columns ;
-Dimension	*width ;
+GetPixelWidth(Widget w, int columns, Dimension *width)
 {
 	Arg		args[1] ;
 	XtSetArg( args[0], XmNwidth, width ) ;
@@ -350,9 +345,7 @@ Dimension	*width ;
  * callbacks							*
  ***************************************************************/
 
-void quit(w, client_data, call_data)
-Widget	w;
-caddr_t	*client_data, *call_data;
+void quit(Widget w, caddr_t *client_data, caddr_t *call_data)
 {
     char	*msg;
     int		ans;
@@ -374,9 +367,7 @@ caddr_t	*client_data, *call_data;
  * Unmanage widgets
  */
 int
-ClearText( num, slctBText )
-int	num ;
-Widget	*slctBText ;
+ClearText(int num, Widget *slctBText)
 {
 	int 	i ;
 	/* toggle button unset */
@@ -389,9 +380,7 @@ Widget	*slctBText ;
 }
 
 int
-ClearButtons( num, slctButton )
-int	num ;
-Widget	*slctButton ;
+ClearButtons(int num, Widget *slctButton)
 {
 	int 	i, cnt ;
 	Boolean	isSet ;
@@ -418,13 +407,13 @@ Widget	*slctButton ;
  * get text field position
  */
 int
-GetPositionOfLists( num, xlfdDialog, listPop, slctBText, x, y )
-int	num ;
-Widget	xlfdDialog ;
-Widget	*listPop ;
-Widget	*slctBText ;
-Position	*x ;
-Position	*y ;
+GetPositionOfLists(
+int	num,
+Widget	xlfdDialog,
+Widget	*listPop,
+Widget	*slctBText,
+Position	*x,
+Position	*y)
 {
 	int		i ;
 	Position	tbx, tby, tx, ty ;
@@ -462,10 +451,7 @@ Position	*y ;
 
 
 
-void listEH(w, num, event)
-Widget	w ;
-int	num ;
-XButtonEvent	*event;
+void listEH(Widget w, int num, XButtonEvent *event)
 {
 	int		i, j, ITEM_COUNT;
 	Arg		args[10];
@@ -536,10 +522,7 @@ XButtonEvent	*event;
 
 
 
-void listPrintCB(w, num, call_data)
-Widget      		w;
-int			num ;
-XmListCallbackStruct	*call_data;
+void listPrintCB(Widget w, int num, XmListCallbackStruct *call_data)
 {
 	char	*str ;
 
@@ -568,9 +551,7 @@ XmListCallbackStruct	*call_data;
 
 
 
-void OpenWindow(w, client_data, call_data)
-Widget	w;
-caddr_t	client_data, *call_data;
+void OpenWindow(Widget w, caddr_t client_data, caddr_t *call_data)
 {
     int		r ;
     int		i ;
@@ -680,11 +661,11 @@ caddr_t	client_data, *call_data;
 
 
 int
-CreateXLFDLabelAndText( owner, slctBLabel, slctBText, slctButton )
-Widget	owner ;
-Widget	*slctBLabel ;
-Widget	*slctBText ;
-Widget	*slctButton ;
+CreateXLFDLabelAndText(
+Widget	owner,
+Widget	*slctBLabel,
+Widget	*slctBText,
+Widget	*slctButton)
 {
 
 	Widget	_slctBLabel ;
@@ -769,15 +750,14 @@ Widget	*slctButton ;
 
 
 int
-CreateOtherLabelAndText( num, owner, baseForm,
-			 slctBLabel, topW, slctBText, slctButton )
-int	num ;
-Widget	owner ;
-Widget	baseForm ;
-Widget	*slctBLabel ;
-Widget	topW ;
-Widget	*slctBText ;
-Widget	*slctButton ;
+CreateOtherLabelAndText(
+int	num,
+Widget	owner,
+Widget	baseForm,
+Widget	*slctBLabel,
+Widget	topW,
+Widget	*slctBText,
+Widget	*slctButton)
 {
 
 	Widget	_slctBLabel ;
@@ -875,11 +855,7 @@ Widget	*slctButton ;
 
 
 Widget
-xlfdCreateScrolledList ( owner, name, args, n )
-Widget	owner ;
-char	*name ;
-Arg	*args ;
-int	n ;
+xlfdCreateScrolledList (Widget owner, char *name, Arg *args, int n)
 {
 	Widget		listW ;
 
@@ -901,8 +877,7 @@ int	n ;
 * create selection window view
 */
 void
-PopupSelectXLFD( top )
-Widget	top ;
+PopupSelectXLFD(Widget top)
 {
 
     int		n, i, j;

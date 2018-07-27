@@ -209,12 +209,12 @@ typedef struct _FalGIInf {
 #include <stdlib.h>
 #include <dirent.h>
 
-#ifdef	Bool
-#undef	Bool
+#ifdef Bool
+#undef Bool
 #endif
 
 #include  "snfstruct.h"
-#include  "fontstruct.h"
+#include  <X11/fonts/fontstruct.h>
 #include  "pcf.h"
 
 struct	pcf_inf {
@@ -263,88 +263,66 @@ typedef Oak_FontInf * FalFontID;	/* font distinction */
  *	function prototypes
  */
 extern	FalFontID	FalOpenSysFont(
-#if NeedFunctionPrototypes
 	FalFontData*		/* open_font_data */,
 	int 			/* font_data_mask */,
 	FalFontDataList**	/* missing_font_list_return */
-#endif
 ) ;
 
 extern	int	FalGetFontList(
-#if NeedFunctionPrototypes
 	FalFontData* 		/* key_data */,
 	int 			/* mask */,
 	FalFontDataList** 	/* list_ret */
-#endif
 ) ;
 
 extern	int	FalFreeFontList(
-#if NeedFunctionPrototypes
 	FalFontDataList* 	/* list */
-#endif
 ) ;
 
 extern	char	*
 FalReadFont(
-#if NeedFunctionPrototypes
 	FalFontID	/* fid */ ,
 	int 		/* code */ ,
 	int 		/* width */ ,
 	int 		/* height */
-#endif
 ) ;
 
 extern	int	FalQueryFont(
-#if NeedFunctionPrototypes
 	FalFontID	/* fid */ ,
 	FalFontinfo*	/* fontinfo */
-#endif
 ) ;
 
 extern	int 	FalFontOfFontID(
-#if NeedFunctionPrototypes
 	FalFontID	/* fid */,
 	FalFontData*	/* fontdata */
-#endif
 ) ;
 
 extern	int	FalCloseFont(
-#if NeedFunctionPrototypes
 	FalFontID	/* fid */
-#endif
 ) ;
 
 extern	int	FalFontIDToFileName(
-#if NeedFunctionPrototypes
 	FalFontID	/* fid */ ,
 	char**		/* file_name */
-#endif
 ) ;
 
 extern	int	FalFree(
-#if NeedFunctionPrototypes
 	void*	/* list */
-#endif
 ) ;
 
 extern	int	FalGetUDCCPArea(
-#if NeedFunctionPrototypes
 	char*		/* locale */ ,
 	int		/* code_set */ ,
 	char*		/* charset_str */ ,
 	FalCodeRegion**	/* cr */ ,
 	int*		/* num_cr */
-#endif
 ) ;
 
 extern	int	FalGetUDCGIArea(
-#if NeedFunctionPrototypes
 	char*		/* locale */ ,
 	int		/* codeset */ ,
 	char*		/* charset_str */ ,
 	FalGlyphRegion**	/* gr */ ,
 	int*		/* num_gr */
-#endif
 ) ;
 
 extern	FalFontID	FalOpenFont() ;

@@ -36,14 +36,14 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "font.h"
-#include "misc.h"
+#include <X11/fonts/font.h>
 #include <X11/X.h>
 #include <X11/Xproto.h>
 #include <X11/Xmd.h>
+#include <X11/Intrinsic.h>
 #include <ctype.h>
 #include <errno.h>
-#include "fontstruct.h"
+#include <X11/fonts/fontstruct.h>
 #include "snfstruct.h"
 #include <time.h>
 #include "bdftosnf.h"
@@ -107,40 +107,80 @@ typedef struct prop_tmp {
 
 
 
-static	char	*readfontfile();
-static	void	Anafprop();
-static	void	pSIZE();
-static	void	pPROPS();
-static	void	pCHARS();
-static	void	pfixCHARS();
-static	int 	getarg();
+static	char	*readfontfile(char *fname);
+static	void	Anafprop(FontInfoRec             *fip,
+			 FontPropRec     *fpropPtr,
+			 char    *fpropvnPtr,
+			 char    **fontname,
+			 FontPropRec     **fplistPtr,
+			 FontPropRec     *ps,
+			 FontPropRec     *res,
+			 unsigned int    *fplistNum);
+static	void	pSIZE(FontPropRec *ps, FontPropRec *res);
+static	void	pPROPS(FontInfoRec *fip,
+		       FontPropRec *fplistPtr,
+		       unsigned int fplistNum);
+static	void	pCHARS(FontInfoRec     *fip,
+		       CharInfoRec     *cip,
+		       char    *glyphPtr,
+		       unsigned int    charNum,
+		       unsigned int    glyphPad);
+static	void	pfixCHARS(FontInfoRec     *fip,
+			  CharInfoRec     *cip,
+			  char            *glyphPtr,
+			  unsigned int    charNum,
+			  unsigned int    glyphPad);
+static	int 	getarg(int  argc,
+		       char *argv[],
+		       char *fname,
+		       int  *bitorder,
+		       int  *byteorder,
+		       int  *scanunit,
+		       int  *glyphPad,
+		       int  *outLevel,
+		       int  *fix);
 
-static	Bool	seekToType() ;
-static	void	getMetric() ;
-static	Bool	getAccel() ;
-static	Bool	getProperties() ;
-static	void	putPtn() ;
-static	void	ByteSwap() ;
-static	void	invertBits() ;
+static	Bool	seekToType(PCFTablePtr     tables,
+			   int     ntables,
+			   CARD32  type,
+			   CARD32  *formatp,
+			   CARD32  *sizep,
+			   CARD32  *offsetp);
+static	void	getMetric(caddr_t buf, CARD32 format, xCharInfo *metric) ;
+static	Bool	getAccel(FontInfoPtr     pFontInfo,
+			 xCharInfo       *maxink,
+			 caddr_t         buf_top,
+			 PCFTablePtr     tables,
+			 int     ntables,
+			 CARD32  type);
+static	Bool	getProperties(PcfTmp *pcf,
+			      caddr_t buf_top,
+			      PCFTablePtr tables,
+			      int ntables);
+static	void	putPtn(unsigned char  *bits, int width, int height);
+static	void	ByteSwap(char *p, int scan);
+static	void	invertBits(char *src,
+			   CARD32 format,
+			   int width,
+			   int height,
+			   char *dest) ;
 
-static	int	getINT16() ;
-static	int	getINT32() ;
-static	CARD32	getLSB32();
-static	char	*make_toptn();
-static	void	pSIZE_pcf();
-static	PcfTmp	*openPcfFont();
-static	void	setProp();
-static	void	pPROPS_pcf();
-static	void	pCHARS_pcf();
-static	void	BitOrderInvert();
+static	int	getINT16(unsigned char *p, CARD32 format);
+static	int	getINT32(unsigned char *p, CARD32 format);
+static	CARD32	getLSB32(unsigned char *p);
+static	char	*make_toptn(int width, int height);
+static	void	pSIZE_pcf(PropTmp *proptmp);
+static	PcfTmp	*openPcfFont(char *fontname);
+static	void	setProp(PcfTmp *pcf, PropTmp *proptmp);
+static	void	pPROPS_pcf(PcfTmp *pcf);
+static	void	pCHARS_pcf(PcfTmp *pcf, int fix);
+static	void	BitOrderInvert(unsigned char *buf, int nbytes);
 static	char	*bufp,buf[2048];
 
-extern int 	ChkPcfFontFile();
+extern int 	ChkPcfFontFile(char *filename);
 
 
-main( argc,argv )
-int 	argc;
-char	*argv[];
+int main( int argc, char *argv[] )
 {
 	int         i,k;
 
@@ -150,7 +190,7 @@ char	*argv[];
 	CharInfoRec *cip, *wkcip;	/* character information	*/
 	unsigned int glyphstotal;	/* glyph			*/
 	unsigned int charInfoNum ;	/* character information's number */
-	unsigned int charNum;		/* define character number         */
+	unsigned int charNum;		/* define character number      */
 	char        *glyphPtr;		/* glyph			*/
 	FontPropRec *fpropPtr,*fplistPtr;	/* font property list	*/
 	FontPropRec psprop;		/* point size property		*/
@@ -215,12 +255,6 @@ char	*argv[];
 	if ( !isPcf ) {
 		/* SNF format */
 		COMM_SNF_GETHEADER( fip, fp ) ;
-		/* font file check */
-		if ((fip->version1 != fip->version2) ||
-		    (fip->version1 != FONT_FILE_VERSION)) {
-			USAGE("dtgpftobdf: illegal font version\n");
-			exit( -1 );
-		}
 
 		cip = (CharInfoRec *)((char *)fip + sizeof(FontInfoRec));
 
@@ -231,26 +265,16 @@ char	*argv[];
 		charNum = charInfoNum ;
 		wkcip = cip ;
 
-		glyphstotal = fip->maxbounds.byteOffset;
-
-		glyphPad = (((fip->maxbounds.metrics.rightSideBearing
-		    - fip->maxbounds.metrics.leftSideBearing)+31)/32)*4;
+		glyphPad = (((fip->maxbounds.rightSideBearing
+		    - fip->maxbounds.leftSideBearing)+31)/32)*4;
 
 		if ( fix == TRUE ) {
 		    for ( i = 0; i < charInfoNum; i++ ) {
-			if ( wkcip->exists == FALSE ) {
-			    charNum-- ;
-			}
 			wkcip++;
 		    }
 		} else {
 		    glyphstotal = 0 ;
 		    for ( i = 0; i < charInfoNum; i++ ) {
-			if (wkcip->exists == FALSE) {
-			    charNum-- ;
-			    wkcip++;
-			    continue;
-			}
 			glyphstotal += (wkcip->metrics.ascent
 			    + wkcip->metrics.descent) * glyphPad;
 			wkcip++;
@@ -258,7 +282,7 @@ char	*argv[];
 		}
 
 		fpropPtr = (FontPropRec *)(glyphPtr + glyphstotal);
-		fpropvnPtr = ((char *)fpropPtr) + (fip->nProps) * sizeof(FontPropRec);
+		fpropvnPtr = ((char *)fpropPtr) + (fip->nprops) * sizeof(FontPropRec);
 
 	}
 
@@ -303,12 +327,12 @@ char	*argv[];
 		fprintf( stdout,"%s",buf );
 		pSIZE_pcf( &proptmp );
 		fprintf( stdout,"FONTBOUNDINGBOX %d %d %d %d\n",
-		    pcf->info.maxbounds.metrics.rightSideBearing
-		    - pcf->info.maxbounds.metrics.leftSideBearing,
-		    pcf->info.maxbounds.metrics.ascent
-		    + pcf->info.maxbounds.metrics.descent,
-		    pcf->info.maxbounds.metrics.leftSideBearing,
-		    - ( pcf->info.maxbounds.metrics.descent )
+		    pcf->info.maxbounds.rightSideBearing
+		    - pcf->info.maxbounds.leftSideBearing,
+		    pcf->info.maxbounds.ascent
+		    + pcf->info.maxbounds.descent,
+		    pcf->info.maxbounds.leftSideBearing,
+		    - ( pcf->info.maxbounds.descent )
 			);
 		pPROPS_pcf( pcf );
 		if ( outLevel == FALSE ) {
@@ -344,10 +368,8 @@ char	*argv[];
 
 /*
  * read to font file
- *
  */
-static	char	*readfontfile( fname )
-char	*fname;
+static	char	*readfontfile( char *fname )
 {
 	int 	fd;
 	char	*fp = NULL;
@@ -407,8 +429,7 @@ char	*fname;
 #define getINT8( p ) ( *p++ ) ;
 
 static CARD32
-getLSB32( p )
-unsigned char *p;
+getLSB32( unsigned char *p )
 {
 	CARD32	c;
 
@@ -422,9 +443,7 @@ unsigned char *p;
 
 
 static int
-getINT32( p, format )
-unsigned char	*p;
-CARD32	format;
+getINT32( unsigned char *p, CARD32 format )
 {
 	CARD32	c;
 
@@ -444,9 +463,7 @@ CARD32	format;
 }
 
 static int
-getINT16( p, format )
-unsigned char	*p;
-CARD32	format;
+getINT16( unsigned char *p, CARD32 format )
 {
 	CARD32	c;
 
@@ -462,13 +479,13 @@ CARD32	format;
 }
 
 static Bool
-seekToType( tables, ntables, type, formatp, sizep, offsetp)
-PCFTablePtr 	tables;
-int 	ntables;
-CARD32	type;
-CARD32	*formatp;
-CARD32	*sizep;
-CARD32	*offsetp;
+seekToType(
+PCFTablePtr 	tables,
+int 	ntables,
+CARD32	type,
+CARD32	*formatp,
+CARD32	*sizep,
+CARD32	*offsetp)
 {
 	int 	i;
 
@@ -485,10 +502,7 @@ CARD32	*offsetp;
 
 
 static void
-getMetric( buf, format, metric )
-caddr_t 	buf;
-CARD32	format;
-xCharInfo	*metric;
+getMetric( caddr_t buf, CARD32 format, xCharInfo *metric)
 {
 	metric->leftSideBearing = getINT16( (unsigned char *)buf, format);
 	buf += 2;
@@ -505,13 +519,13 @@ xCharInfo	*metric;
 }
 
 static Bool
-getAccel( pFontInfo, maxink, buf_top, tables, ntables, type )
-FontInfoPtr 	pFontInfo;
-xCharInfo	*maxink;
-caddr_t 	buf_top;
-PCFTablePtr 	tables;
-int 	ntables;
-CARD32	type;
+getAccel(
+FontInfoPtr 	pFontInfo,
+xCharInfo	*maxink,
+caddr_t 	buf_top,
+PCFTablePtr 	tables,
+int 	ntables,
+CARD32	type)
 {
 	CARD32	format;
 	CARD32	size;
@@ -549,28 +563,24 @@ CARD32	type;
 
 	buffer += 4;
 
-	getMetric(buffer, format, &pFontInfo->minbounds.metrics);
+	getMetric(buffer, format, &pFontInfo->minbounds);
 	buffer += 12;
 
-	getMetric(buffer, format, &pFontInfo->maxbounds.metrics);
+	getMetric(buffer, format, &pFontInfo->maxbounds);
 	buffer += 12;
 
 	if ( PCF_FORMAT_MATCH( format, PCF_ACCEL_W_INKBOUNDS ) ) {
 		buffer += 12;
 		getMetric( buffer, format, maxink);
 	} else {
-		*maxink = pFontInfo->maxbounds.metrics;
+		*maxink = pFontInfo->maxbounds;
 	}
 
 	return	TRUE;
 }
 
 static Bool
-getProperties( pcf, buf_top, tables, ntables)
-PcfTmp	*pcf;
-caddr_t 	buf_top;
-PCFTablePtr 	tables;
-int 	ntables;
+getProperties(PcfTmp *pcf, caddr_t buf_top, PCFTablePtr tables, int ntables)
 {
 	CARD32	format;
 	CARD32	size;
@@ -620,38 +630,40 @@ int 	ntables;
 
 
 static	PcfTmp  *
-openPcfFont( fontname )
-char	*fontname;
+openPcfFont(char *fontname)
 {
-	PcfTmp	*pcf_tmp;
+    PcfTmp	*pcf_tmp;
 
-	CARD32	format;
-	CARD32	size;
-	CARD32	offset;
-	CARD32	*bitmapSizes;
-	xCharInfo	maxink;
-	caddr_t 	buffp;
-	struct stat 	st;
+    CARD32	format;
+    CARD32	size;
+    CARD32	offset;
+    CARD32	*bitmapSizes;
+    xCharInfo	maxink;
+    caddr_t 	buffp;
+    struct stat 	st;
 
-	pcf_tmp = ( PcfTmp * )calloc( 1, sizeof( PcfTmp ) );
+    pcf_tmp = ( PcfTmp * )calloc( 1, sizeof( PcfTmp ) );
+
+    while(1){
+
 	if ( !pcf_tmp ) {
 		USAGE("dtgpftobdf : calloc() error.\n" ) ;
-		goto Bail;
+		break;
 	}
 
 	if ( stat( fontname, &st ) ) {
-		goto Bail;
+		break;
 	}
 
 	if ( ( pcf_tmp->pcf_buffer = readfontfile( fontname)) == (char *)-1 ) {
-		goto Bail;
+		break;
 	}
 
 	pcf_tmp->pcf_bufsz = st.st_size;
 
 	if ( (format = getLSB32( (unsigned char *)pcf_tmp->pcf_buffer )) != PCF_FILE_VERSION ) {
 		USAGE1("dtgpftobdf : pcf file version(0x%x) error.\n", format ) ;
-		goto Bail;
+		break;
 	}
 
 	pcf_tmp->ntables = getLSB32( (unsigned char *)(pcf_tmp->pcf_buffer + 4) );
@@ -668,7 +680,7 @@ char	*fontname;
 		    )
 		    ) {
 			USAGE("dtgpftobdf : Cannot get accelerators.\n" ) ;
-			goto Bail;
+			break;
 		}
 	}
 
@@ -678,7 +690,7 @@ char	*fontname;
 	    )
 	    ) {
 		USAGE("dtgpftobdf : getProperties error.\n" ) ;
-		goto Bail;
+		break;
 	}
 	if ( !seekToType(
 	    pcf_tmp->tables, pcf_tmp->ntables,
@@ -686,7 +698,7 @@ char	*fontname;
 	    )
 	    ) {
 		USAGE("dtgpftobdf : PCF_BITMAPS error.\n" ) ;
-		goto Bail;
+		break;
 	}
 
 	buffp = pcf_tmp->pcf_buffer + offset;
@@ -696,7 +708,7 @@ char	*fontname;
 
 	if ( !PCF_FORMAT_MATCH( format, PCF_DEFAULT_FORMAT ) ) {
 		USAGE("dtgpftobdf : error.!PCF_FORMAT_MATCH(PCF_BITMAPS)\n" ) ;
-		goto Bail;
+		break;
 	}
 
 	pcf_tmp->nbitmaps = getINT32( (unsigned char *)buffp, format);
@@ -719,7 +731,7 @@ char	*fontname;
 	    )
 	    ) {
 		USAGE("dtgpftobdf : error.(PCF_BDF_ENCODINGS)\n" ) ;
-		goto Bail;
+		break;
 	}
 
 	buffp = pcf_tmp->pcf_buffer + offset;
@@ -727,7 +739,7 @@ char	*fontname;
 	buffp += 4;
 	if ( !PCF_FORMAT_MATCH( format, PCF_DEFAULT_FORMAT ) ) {
 		USAGE("dtgpftobdf : error.!PCF_FORMAT_MATCH(PCF_BDF_ENCODINGS)\n" ) ;
-		goto Bail;
+		break;
 	}
 
 	pcf_tmp->info.firstCol = getINT16( (unsigned char *)buffp, format);
@@ -738,7 +750,7 @@ char	*fontname;
 	buffp += 2;
 	pcf_tmp->info.lastRow = getINT16( (unsigned char *)buffp, format);
 	buffp += 2;
-	pcf_tmp->info.chDefault = getINT16( (unsigned char *)buffp, format);
+	pcf_tmp->info.defaultCh = getINT16( (unsigned char *)buffp, format);
 	buffp += 2;
 
 	pcf_tmp->info.allExist  = FALSE;
@@ -753,14 +765,14 @@ char	*fontname;
 	    (CARD32)PCF_SWIDTHS, &format, &size, &offset
 	    )
 	    ) {
-		goto Bail;
+		break;
 	}
 
 	buffp = pcf_tmp->pcf_buffer + offset;
 	format = getLSB32( (unsigned char*)buffp);
 	buffp += 4;
 	if ( !PCF_FORMAT_MATCH( format, PCF_DEFAULT_FORMAT ) ) {
-		goto Bail;
+            break;
 	}
 	pcf_tmp->swd_fmt = (CARD32)format ;
 	pcf_tmp->swd_num = getINT32( (unsigned char*)buffp, format ) ;
@@ -776,14 +788,14 @@ char	*fontname;
 	    (CARD32)PCF_GLYPH_NAMES, &format, &size, &offset
 	    )
 	    ) {
-		goto Bail;
+		break;
 	}
 
 	buffp = pcf_tmp->pcf_buffer + offset;
 	format = getLSB32( (unsigned char*)buffp);
 	buffp += 4;
 	if ( !PCF_FORMAT_MATCH( format, PCF_DEFAULT_FORMAT ) ) {
-		goto Bail;
+            break;
 	}
 	pcf_tmp->glyphs = getINT32( (unsigned char*)buffp, format ) ;
 	buffp += 4;
@@ -800,7 +812,7 @@ char	*fontname;
 	    (CARD32)PCF_METRICS, &format, &size, &offset
 	    )
 	    ) {
-		goto Bail;
+		break;
 	}
 
 	buffp = pcf_tmp->pcf_buffer + offset;
@@ -815,41 +827,40 @@ char	*fontname;
 	    pcf_tmp->mtr_num = (int)getINT16( (unsigned char*)buffp, format ) ;
 	    buffp += 2;
 	}else{
-		goto Bail;
+            break;
 	}
 	pcf_tmp->metrics = (xCharInfo *)buffp ;
 	pcf_tmp->mtr_fmt = (CARD32)format ;
 
 	return	pcf_tmp;
-
-Bail:
-	if ( pcf_tmp ) {
-		free( pcf_tmp );
-	}
-	return	NULL;
+    }
+    if ( pcf_tmp ) {
+        free( pcf_tmp );
+    }
+    return  NULL;
 }
 
 
 static	void
-Anafprop(fip,fpropPtr,fpropvnPtr,fontname,ps,res,fplistPtr,fplistNum)
-FontInfoRec		*fip;
-FontPropRec 	*fpropPtr;
-char	*fpropvnPtr;
-char	**fontname;
-FontPropRec 	**fplistPtr;
-FontPropRec 	*ps;
-FontPropRec 	*res;
-unsigned int	*fplistNum;
+Anafprop(
+FontInfoRec		*fip,
+FontPropRec 	*fpropPtr,
+char	*fpropvnPtr,
+char	**fontname,
+FontPropRec 	**fplistPtr,
+FontPropRec 	*ps,
+FontPropRec 	*res,
+unsigned int	*fplistNum)
 {
 	FontPropRec 	*wkp ,*wklp;
 	int 	i, fpnL;
 	char	*fpnp;
 
-	*fplistNum = fip->nProps - 1;
+	*fplistNum = fip->nprops - 1;
 	*fplistPtr = (FontPropRec *)malloc(*fplistNum * sizeof(FontPropRec));
 	wkp = fpropPtr;
 	wklp = *fplistPtr;
-	for (i = 0; i < fip->nProps; i++) {
+	for (i = 0; i < fip->nprops; i++) {
 		fpnp = fpropvnPtr + wkp->name;
 		fpnL = strlen(fpnp);
 		if ((fpnL == 4) && (strncmp(fpnp,"FONT",4) == 0)) {
@@ -866,12 +877,7 @@ unsigned int	*fplistNum;
 			}
 		}
 		wklp->name = (CARD32) (intptr_t) fpropvnPtr + wkp->name;
-		if (wkp->indirect == TRUE) {
-			wklp->value = (INT32) (intptr_t) fpropvnPtr + wkp->value;
-		} else {
 			wklp->value = wkp->value;
-		}
-		wklp->indirect = wkp->indirect;
 		wkp++;
 		wklp++;
 	}
@@ -880,9 +886,7 @@ unsigned int	*fplistNum;
 
 
 static void
-setProp( pcf, proptmp )
-PcfTmp	*pcf;
-PropTmp 	*proptmp;
+setProp( PcfTmp *pcf, PropTmp *proptmp )
 {
 	int 	i, fpnL;
 	char	*fpnp;
@@ -911,8 +915,7 @@ PropTmp 	*proptmp;
  *
  */
 static	void
-pSIZE( ps, res )
-FontPropRec *ps, *res;
+pSIZE( FontPropRec *ps, FontPropRec *res )
 {
 	int 	k;
 	float	f;
@@ -934,8 +937,7 @@ FontPropRec *ps, *res;
 /* output to SIZE of pcf font */
 
 static void
-pSIZE_pcf( proptmp )
-PropTmp 	*proptmp;
+pSIZE_pcf( PropTmp *proptmp )
 {
 	int 	k;
 	float	f;
@@ -956,10 +958,7 @@ PropTmp 	*proptmp;
 
 
 static	void
-pPROPS( fip,fplistPtr,fplistNum )
-FontInfoRec 	*fip;
-FontPropRec 	*fplistPtr;
-unsigned int 	fplistNum;
+pPROPS( FontInfoRec *fip, FontPropRec *fplistPtr, unsigned int fplistNum )
 {
 	FontPropRec 	*wkp;
 	int 	i, k;
@@ -971,18 +970,13 @@ unsigned int 	fplistNum;
 	bufp += k;
 	k = snprintf( bufp, sizeof(buf) - (bufp - buf), "FONT_DESCENT %d\n", fip->fontDescent );
 	bufp += k;
-	k = snprintf( bufp, sizeof(buf) - (bufp - buf), "DEFAULT_CHAR %d\n", fip->chDefault );
+	k = snprintf( bufp, sizeof(buf) - (bufp - buf), "DEFAULT_CHAR %d\n", fip->defaultCh );
 	bufp += k;
 	wkp = fplistPtr;
 	for ( i = 0; i < fplistNum; i++ ) {
-		if ( wkp->indirect == TRUE ) {
-			k = snprintf( bufp, sizeof(buf) - (bufp - buf), "%s \"%s\"\n", (char *) (intptr_t) wkp->name, (char *) (intptr_t) wkp->value );
-			bufp += k;
-		} else {
 			k = snprintf( bufp, sizeof(buf) - (bufp - buf), "%s %d\n", (char *) (intptr_t) wkp->name, wkp->value );
 			bufp += k;
-		}
-		wkp++;
+			wkp++;
 	}
 	k = snprintf( bufp, sizeof(buf) - (bufp - buf), "ENDPROPERTIES\n" );
 	bufp += k;
@@ -995,8 +989,7 @@ unsigned int 	fplistNum;
 
 /* output to font property information of pcf fontpcf */
 static	void
-pPROPS_pcf( pcf )
-PcfTmp	*pcf;
+pPROPS_pcf(PcfTmp *pcf)
 {
 	FontPropPtr 	wkp;
 	int 	i, k;
@@ -1005,16 +998,16 @@ PcfTmp	*pcf;
 	k = sprintf( bufp, "STARTPROPERTIES %d\n", pcf->nprops+3 );
 	bufp += k;
 	k = sprintf( bufp, "FONT_ASCENT %d\n",
-	    (pcf->info.fontAscent >= pcf->info.maxbounds.metrics.ascent)
-	    ? pcf->info.fontAscent : pcf->info.maxbounds.metrics.ascent
+	    (pcf->info.fontAscent >= pcf->info.maxbounds.ascent)
+	    ? pcf->info.fontAscent : pcf->info.maxbounds.ascent
 	    );
 	bufp += k;
 	k = sprintf( bufp, "FONT_DESCENT %d\n",
-	    (pcf->info.fontDescent >= pcf->info.maxbounds.metrics.descent)
-	    ? pcf->info.fontDescent : pcf->info.maxbounds.metrics.descent
+	    (pcf->info.fontDescent >= pcf->info.maxbounds.descent)
+	    ? pcf->info.fontDescent : pcf->info.maxbounds.descent
 	    );
 	bufp += k;
-	k = sprintf( bufp, "DEFAULT_CHAR %d\n", pcf->info.chDefault );
+	k = sprintf( bufp, "DEFAULT_CHAR %d\n", pcf->info.defaultCh );
 	bufp += k;
 	wkp = pcf->props;
 	for ( i = 0; i < pcf->nprops; i++ ) {
@@ -1043,16 +1036,14 @@ PcfTmp	*pcf;
 
 /*
  * output to character information and patern
- *
  */
 static	void
-pCHARS(fip,cip,glyphPtr,charNum,glyphPad)
-FontInfoRec 	*fip;
-CharInfoRec 	*cip;
-char	*glyphPtr;
-unsigned int	charNum;
-unsigned int	glyphPad;
-
+pCHARS(
+FontInfoRec 	*fip,
+CharInfoRec 	*cip,
+char	*glyphPtr,
+unsigned int	charNum,
+unsigned int	glyphPad)
 {
 	CharInfoRec 	*wkp;
 	int 	i, j;
@@ -1077,10 +1068,6 @@ unsigned int	glyphPad;
 
 	for ( row = frow; row <= lrow; row++ ) {
 		for ( col = fcol; col <= lcol; col++ ) {
-			if ( wkp->exists == FALSE ) {
-				wkp++;
-				continue;
-			}
 			fprintf( stdout, "STARTCHAR %.2x%.2x\n", row,col );
 			fprintf( stdout, "ENCODING %d\n", (row << 8) + col );
 			fprintf( stdout, "SWIDTH 256 0\nDWIDTH %d %d\n",
@@ -1111,24 +1098,23 @@ unsigned int	glyphPad;
 
 /*
  * output to character information and patern
- *
  */
 static	void
-pfixCHARS(fip,cip,glyphPtr,charNum,glyphPad)
-FontInfoRec 	*fip;
-CharInfoRec 	*cip;
-char	*glyphPtr;
-unsigned int	charNum;
-unsigned int	glyphPad;
+pfixCHARS(
+FontInfoRec 	*fip,
+CharInfoRec 	*cip,
+char		*glyphPtr,
+unsigned int	charNum,
+unsigned int	glyphPad)
 {
 	CharInfoRec 	*wkp;
-	register int	i, j, k;
+	int		i, j, k;
 	unsigned int	frow,lrow,fcol,lcol;
-	register int	row, col;
+	int		row, col;
 	unsigned int	bbw, bbh, bbox, bboy;
 	unsigned int	xd, yd;
 	unsigned int	bml;
-	register char	*glyph;
+	char		*glyph;
 	char	fixbuf[240], *fixbufp;
 	int 	fixdl;
 
@@ -1162,10 +1148,6 @@ unsigned int	glyphPad;
 	glyph = glyphPtr;
 	for ( row = frow; row <= lrow; row++ ) {
 		for ( col = fcol; col <= lcol; col++ ) {
-			if ( wkp->exists == FALSE ) {
-				wkp++;
-				continue;
-			}
 			bufp = buf;
 			memcpy(bufp,"STARTCHAR ",10);
 			bufp += 10;
@@ -1199,9 +1181,9 @@ unsigned int	glyphPad;
 
 
 static void
-putPtn( bits, width, height)
-unsigned char   *bits;          /* 1 byte boundary , no byte swap data */
-int     width, height;
+putPtn(unsigned char  *bits,          /* 1 byte boundary , no byte swap data */
+       int width,
+       int height)
 {
 	int     bytewidth;
 	int     i, j;
@@ -1218,9 +1200,7 @@ int     width, height;
 }
 
 static void
-ByteSwap( p, scan)
-char    *p;
-int     scan;
+ByteSwap(char *p, int scan)
 {
 	char    w;
 
@@ -1279,22 +1259,16 @@ static unsigned char _reverse_byte[0x100] = {
 };
 
 static	void
-BitOrderInvert(buf, nbytes)
-register unsigned char *buf;
-register int nbytes;
+BitOrderInvert(unsigned char *buf, int nbytes)
 {
-	register unsigned char *rev = _reverse_byte;
+	unsigned char *rev = _reverse_byte;
 
 	for (; --nbytes >= 0; buf++)
 		*buf = rev[*buf];
 }
 
 static void
-invertBits( src, format, width, height, dest)
-char    *src;
-CARD32  format;
-int     width, height;
-char    *dest;
+invertBits(char *src, CARD32 format, int width, int height, char *dest)
 {
 	int     bit, byte, glyph, scan;
 	int     src_bytewidth, dest_bytewidth;
@@ -1328,9 +1302,7 @@ char    *dest;
 }
 
 static	void
-pCHARS_pcf (pcf, fix)
-PcfTmp  *pcf;
-int	fix ;
+pCHARS_pcf (PcfTmp *pcf, int fix)
 {
 	char    *bmp_ptn = NULL;
 	char    *bitmap = NULL;
@@ -1356,17 +1328,17 @@ int	fix ;
 	nencoding = row_width * (pcf->info.lastRow - pcf->info.firstRow + 1);
 
 	if( fix == TRUE ) {
-	    bmp_width = pcf->info.maxbounds.metrics.leftSideBearing
-		    + pcf->info.maxbounds.metrics.rightSideBearing ;
+	    bmp_width = pcf->info.maxbounds.leftSideBearing
+		    + pcf->info.maxbounds.rightSideBearing ;
 	    bmp_height = pcf->info.fontAscent + pcf->info.fontDescent ;
 	    ptn_width  = bmp_width ;
-	    ptn_height = pcf->info.maxbounds.metrics.ascent +
-			pcf->info.maxbounds.metrics.descent;
+	    ptn_height = pcf->info.maxbounds.ascent +
+			pcf->info.maxbounds.descent;
 
 	    if (!(bmp_ptn = make_toptn( ptn_width, ptn_height)))
 		    return;
 
-	    if ( ( adj_hi = pcf->info.fontAscent - pcf->info.maxbounds.metrics.ascent ) > 0) {
+	    if ( ( adj_hi = pcf->info.fontAscent - pcf->info.maxbounds.ascent ) > 0) {
 		    width_bytes =  8 * PCF_GLYPH_PAD( pcf->bmp_fmt);
 		    width_bytes = (( width_bytes + bmp_width - 1)/width_bytes) * PCF_GLYPH_PAD( pcf->bmp_fmt);
 		    bmp_adj = width_bytes * adj_hi;
@@ -1433,8 +1405,8 @@ int	fix ;
 		fprintf( stdout,"BBX %d %d %d %d\nBITMAP\n", bbw, bbh, bbx, bby ) ;
 
 		if( fix == FALSE ) {
-		    bmp_width = pcf->info.maxbounds.metrics.leftSideBearing
-			    + pcf->info.maxbounds.metrics.rightSideBearing ;
+		    bmp_width = pcf->info.maxbounds.leftSideBearing
+			    + pcf->info.maxbounds.rightSideBearing ;
 		    bmp_height = pcf->info.fontAscent + pcf->info.fontDescent ;
 		    ptn_width  = bbw ;
 		    ptn_height = bbh ;
@@ -1442,7 +1414,7 @@ int	fix ;
 		    if (!(bmp_ptn = make_toptn( ptn_width, ptn_height)))
 			    return;
 
-		    if ( ( adj_hi = pcf->info.fontAscent - pcf->info.maxbounds.metrics.ascent ) > 0) {
+		    if ( ( adj_hi = pcf->info.fontAscent - pcf->info.maxbounds.ascent ) > 0) {
 			width_bytes =  8 * PCF_GLYPH_PAD( pcf->bmp_fmt);
 			width_bytes = (( width_bytes + bmp_width - 1)/width_bytes) * PCF_GLYPH_PAD( pcf->bmp_fmt);
 			bmp_adj = width_bytes * adj_hi;
@@ -1486,8 +1458,7 @@ int	fix ;
 }
 
 static	char *
-make_toptn( width, height)
-int     width, height;
+make_toptn(int width, int height)
 {
 	int     byte_width;
 
@@ -1500,16 +1471,16 @@ int     width, height;
 
 
 static	int
-getarg(argc,argv,fname,bitorder,byteorder,scanunit,glyphPad,outLevel,fix)
-int  argc;
-char *argv[];
-char *fname;
-int  *bitorder;
-int  *byteorder;
-int  *scanunit;
-int  *glyphPad;
-int  *outLevel;
-int  *fix;
+getarg(
+int  argc,
+char *argv[],
+char *fname,
+int  *bitorder,
+int  *byteorder,
+int  *scanunit,
+int  *glyphPad,
+int  *outLevel,
+int  *fix)
 {
 	int i;
 	int already;

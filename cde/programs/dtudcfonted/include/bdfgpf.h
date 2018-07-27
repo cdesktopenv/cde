@@ -29,6 +29,7 @@
  */
 
 #include "udccom.h"
+#include "FaLib.h"
 
 struct btophead {
     char    *in_file;
@@ -68,17 +69,17 @@ struct ptobhead {
     int     bdf_width;
     int     bdf_height;
 
-	int 	bdf_x;
-	int 	bdf_y;
+    int     bdf_x;
+    int     bdf_y;
     float   bdf_point;
     int     bdf_xdpi;
 
-	int 	reserve ;
+    int     reserve ;
     int     *code;
     char    **ptn;
     int     zoomf;
 
-	int 	code_category;
+    int     code_category;
     int     start_code;
     int     end_code;
 
@@ -234,287 +235,212 @@ extern char *bdftopcf;
  * Function prototypes
  */
 extern	int	falcom_atoi(
-#if NeedFunctionPrototypes
     char*	/* str	*/,
     char	/* ed_cod */,
     int*	/* val */
-#endif
 );
 
 extern	int	GetDefaultFile(
-#if NeedFunctionPrototypes
     int		/* size */,
     char*	/* style */,
     char*	/* fname */
-#endif
 );
 
 extern	int	get_default_file(
-#if NeedFunctionPrototypes
     FILE*	/* fp */,
     int		/* size */,
     char*	/* style */,
     char*	/* fname */
-#endif
 );
 
 extern	char	*falcom_get_base_name(
-#if NeedFunctionPrototypes
     char*	/* str */
-#endif
 );
 
 extern	int	GetFileName(
-#if NeedFunctionPrototypes
     char*	/* com */,
     char*	/* size_str */,
     char*	/* style */,
     int 	/* codeset */,
     char*	/* ofile */
-#endif
 );
 
 extern	void	ErrMsgTable_FalGetFontList(
-#if NeedFunctionPrototypes
     char*	/* com */,
     int		/* utyerr */,
     int		/* utyderr */
-#endif
 );
 
 extern	void	fal_cut_tailslash(
-#if NeedFunctionPrototypes
     char*	/* name */
-#endif
 );
 
 extern	char	*GetRealFileName(
-#if NeedFunctionPrototypes
     char*	/* name */
-#endif
 );
 
 extern	int	IsInRegion(
-#if NeedFunctionPrototypes
     int			/* code  */,
     int			/* num_gr */,
     FalGlyphRegion*	/* gr  */
-#endif
 );
 
 extern	int	GetUdcFileName(
-#if NeedFunctionPrototypes
     char*	/* com  */,
     int		/* code_no  */,
     char*	/* xlfdname  */,
     char*	/* fname */
-#endif
 );
 
 extern	int	GetUdcRegion(
-#if NeedFunctionPrototypes
     char*		/* com */,
     int			/* codeset */,
     char*		/* gpf_file */,
     int*		/* num_gr */,
     FalGlyphRegion**	/* gr */
-#endif
 );
 
 extern	int	DispUdcCpArea(
-#if NeedFunctionPrototypes
     FILE*	/* fp */
-#endif
 );
 
 extern	int	GetUdcFontName(
-#if NeedFunctionPrototypes
     char*	/* gpf_file */,
     char*	/* bdf_file */,
     char**	/* fontname */
-#endif
 );
 
 extern	int 	FileLock(
-#if NeedFunctionPrototypes
     int 	/* fd */
-#endif
 );
 
 extern	int 	FileUnLock(
-#if NeedFunctionPrototypes
     int 	/* fd */
-#endif
 );
 
 extern	int 	isLock(
-#if NeedFunctionPrototypes
     int 	/* fd */
-#endif
 );
 
 extern	int	ReadBdfHeader(
-#if NeedFunctionPrototypes
     struct btophead*	/* head */,
     char*		/* buf */
-#endif
 );
 
 extern	int	ReadGpfHeader(
-#if NeedFunctionPrototypes
     struct ptobhead*	/* head */,
     char*		/* buf */
-#endif
 );
 
 extern	int	WriteBdfHeader(
-#if NeedFunctionPrototypes
     struct ptobhead*	/* head */
-#endif
 );
 
 extern	void	WriteGpfHeader(
-#if NeedFunctionPrototypes
     struct btophead*	/* head */
-#endif
 );
 
 extern	int	WritePtnToBdf(
-#if NeedFunctionPrototypes
     struct ptobhead*	/* head */
-#endif
 );
 
 extern	int	putDefaultChars(
-#if NeedFunctionPrototypes
     struct ptobhead*	/* head */
-#endif
 );
 
 extern	int	WritePtnToGpf(
-#if NeedFunctionPrototypes
     struct btophead*	/* head */
-#endif
 );
 
 extern	int	ReadBdfToMemory(
-#if NeedFunctionPrototypes
     struct btophead*	/* head */,
     char*		/* buf */
-#endif
 );
 
 extern	int	ReadBdfToMemory_with_init(
-#if NeedFunctionPrototypes
     struct btophead*	/* head */,
     int			/* init_start */,
     int			/* init_end */,
     char*		/* buf */
-#endif
 );
 
 extern	int	GetBdfCode(
-#if NeedFunctionPrototypes
     struct btophead*	/* head */,
     char*		/* buf */,
     int*		/* code */
-#endif
 );
 
 extern	int	GetBdfPtn(
-#if NeedFunctionPrototypes
     struct btophead*	/* head */,
     char*		/* buf */,
     char*		/* ptn */,
     int			/* mwidth */,
     int			/* bsize */
-#endif
 );
 
 extern	int	ReadGpfToMemory(
-#if NeedFunctionPrototypes
     struct ptobhead*	/* head */,
     char*		/* buf */
-#endif
 );
 
 extern	int	GetGpfCode(
-#if NeedFunctionPrototypes
     struct ptobhead*	/* head */,
     char*		/* buf */,
     int*		/* code */
-#endif
 );
 
 extern	int	GetGpfPtn(
-#if NeedFunctionPrototypes
     struct ptobhead*	/* head */,
     char*		/* buf */,
     char*		/* ptn */,
     int			/* mwidth */,
     int			/* bsize */
-#endif
 );
 
 extern	void	GetBdfLinePtn(
-#if NeedFunctionPrototypes
     char*	/* mem */,
     char*	/* buf */,
     int	/* width */
-#endif
 );
 
 extern	void	GetGpfLinePtn(
-#if NeedFunctionPrototypes
     char*	/* mem */,
     char*	/* buf */,
     int	/* width */
-#endif
 );
 
 extern	int	PutBdfPtn(
-#if NeedFunctionPrototypes
     unsigned char*	/* ptn */,
     int			/* width */,
     int			/* height */,
     FILE*		/* fp */
-#endif
 );
 
 extern	int	PutGpfPtn(
-#if NeedFunctionPrototypes
     char*	/* ptn */,
     int		/* width */,
     int		/* height */,
     FILE*	/* fp */
-#endif
 );
 
 extern	int	PtnZoom(
-#if NeedFunctionPrototypes
     char*	/* dmem */,
     char*	/* smem */,
     int		/* sw */,
     int		/* sh */,
     int		/* dw */,
     int		/* dh */
-#endif
 );
 
 extern	char	*GetTmpPath(
-#if NeedFunctionPrototypes
     char*	/* path */
-#endif
 );
 
 extern	int	ChkNumString(
-#if NeedFunctionPrototypes
     char*	/* str */
-#endif
 );
 
 extern	void	ErrMsgTable_AndExit(
-#if NeedFunctionPrototypes
     int		/* er_no */,
     char*	/* snf_in */,
     char*	/* snf_out */,
@@ -522,95 +448,72 @@ extern	void	ErrMsgTable_AndExit(
     char*	/* gpf_out */,
     char*	/* bdf_in */,
     char*	/* prog_name  */
-#endif
 );
 
 extern	void	fatal_err_msg(
-#if NeedFunctionPrototypes
     int		/* er_no */,
     char*	/* prog_name */
-#endif
 );
 
 extern	void	ChatchSig() ;
 
 extern	void	Put_File_Create_Err_Msg(
-#if NeedFunctionPrototypes
     int		/* msg_level */,
     char*	/* org_name */,
     char*	/* tmp_name */,
     char*	/* save_name */,
     char*	/* com */
-#endif
 );
 
 extern	int	Make_NewFefFile(
-#if NeedFunctionPrototypes
     char*	/* org_name */,
     char*	/* tmp_name */,
     mode_t	/* mode */,
     uid_t	/* owner */,
     gid_t	/* group */,
     char*	/* com */
-#endif
 );
 
 extern	int	Unlink_Tmpfile(
-#if NeedFunctionPrototypes
     char*	/* file */,
     char*	/* com */
-#endif
 );
 
 extern	int	Chmod_File (
-#if NeedFunctionPrototypes
     char*	/* fname */,
     mode_t	/* mode */,
     char*	/* com */
-#endif
 );
 
 extern	int	Chown_File (
-#if NeedFunctionPrototypes
     char*	/* fname */,
     uid_t	/* owner */,
     gid_t	/* group */,
     char*	/* com */
-#endif
 );
 
 extern	int 	ChkPcfFontFile(
-#if NeedFunctionPrototypes
     char*	/* filename */
-#endif
 );
 
 extern	int 	ChkSnfFontFile(
-#if NeedFunctionPrototypes
     char*	/* filename */
-#endif
 );
 
 extern	char	*get_cmd_path(
-#if NeedFunctionPrototypes
     char*	/* path */,
     char*	/* cmd */
-#endif
 );
 
 extern	int	SetCmdPath(
-#if NeedFunctionPrototypes
     char*	/* com  */,
     char**	/* path  */,
     char*	/* dflt_path  */,
     char*	/* cmd */
-#endif
 );
 
 extern	int
 Link_NewFile(
-#if NeedFunctionPrototypes
     char *	/* rd_file */,
     char *	/* wr_file */
-#endif
-) ;
+);

@@ -88,26 +88,10 @@ from the X Consortium.
 
 #ifdef X_LOCALE
 
-/* alternative setlocale() for when the OS does not provide one */
-
-#ifdef X_NOT_STDC_ENV
-extern char *getenv();
-#endif
-
 #define MAXLOCALE	64	/* buffer size of locale name */
 
-#if NeedFunctionPrototypes
 char *
-_falsetlocale(
-    int		  category,
-    _Xconst char *name
-)
-#else
-char *
-_falsetlocale(category, name)
-    int		category;
-    char       *name;
-#endif
+_falsetlocale(int category, const char *name)
 {
     static char *xsl_name;
     char *old_name;
@@ -157,49 +141,32 @@ _falsetlocale(category, name)
  */
 
 char *
-_fallcMapOSLocaleName(osname, siname)
-    char *osname;
-    char *siname;
+_fallcMapOSLocaleName(char *osname, char *siname)
 {
-#if defined(hpux) || defined(CSRG_BASED) || defined(sun) || defined(SVR4) || defined(sgi) || defined(AIXV3) || defined(ultrix) || defined(WIN32)
+#if defined(hpux) || defined(CSRG_BASED) || defined(sun) || defined(SVR4) || \
+    defined(WIN32)
+
 #ifdef hpux
 #define SKIPCOUNT 2
 #define STARTCHAR ':'
 #define ENDCHAR ';'
-#else
-#ifdef ultrix
-#define SKIPCOUNT 2
-#define STARTCHAR '\001'
-#define ENDCHAR '\001'
-#else
-#ifdef WIN32
+#elif defined(WIN32)
 #define SKIPCOUNT 1
 #define STARTCHAR '='
 #define ENDCHAR ';'
 #define WHITEFILL
-#else
-#if defined(AIXV3)
-#define STARTCHAR ' '
-#define ENDCHAR ' '
-#else
-#if !defined(sun) || defined(SVR4)
+#elif !defined(sun) || defined(SVR4)
 #define STARTCHAR '/'
-#endif
 #define ENDCHAR '/'
-#endif
-#endif
-#endif
 #endif
 
     char           *start;
     char           *end;
     int             len;
-#ifdef SKIPCOUNT
-    int		    n;
-#endif
 
     start = osname;
 #ifdef SKIPCOUNT
+    int = n;
     for (n = SKIPCOUNT;
 	 --n >= 0 && start && (start = strchr (start, STARTCHAR));
 	 start++)

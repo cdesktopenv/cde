@@ -68,7 +68,7 @@ extern int CodePoint;
 extern Resource resource;
 
 static void
-OpenFont()
+OpenFont(void)
 {
     int			mask;
     FalFontData     font_data;
@@ -90,7 +90,7 @@ OpenFont()
 }
 
 static void
-CloseFont()
+CloseFont(void)
 {
     if (fid != font_id) {
         FalCloseFont(fid);
@@ -99,9 +99,7 @@ CloseFont()
 }
 
 static void
-DrawCode(w, low_code)
-Widget w;
-int low_code;
+DrawCode(Widget w, int low_code)
 {
     int hi_code;
     char *f = NULL;
@@ -193,20 +191,14 @@ SetPixmap(start_code)
 }
 
 static void
-Code1Call(w, start_code, data)
-Widget w;
-int start_code;
-XmListCallbackStruct *data;
+Code1Call(Widget w, int start_code, XmListCallbackStruct *data)
 {
     code1 = start_code + data->item_position -1;
     SetPixmap(code1);
 }
 
 static void
-Code2Call(w, code2, data)
-Widget w;
-int code2;
-XmPushButtonCallbackStruct *data;
+Code2Call(Widget w, int code2, XmPushButtonCallbackStruct *data)
 {
     char asc[16];
     sprintf(asc, "%2.2X%2.2X", code1, code2);
@@ -215,8 +207,7 @@ XmPushButtonCallbackStruct *data;
 }
 
 static void
-PrevPage(w, scroll)
-Widget w, scroll;
+PrevPage(Widget w, Widget scroll)
 {
     int *list;
     int num;
@@ -229,8 +220,7 @@ Widget w, scroll;
 }
 
 static void
-NextPage(w, scroll)
-Widget w, scroll;
+NextPage(Widget w, Widget scroll)
 {
     int *list;
     int num, item;
@@ -244,13 +234,13 @@ Widget w, scroll;
 }
 
 static void
-Cancel()
+Cancel(void)
 {
     XtUnmapWidget(XtParent(code_w));
 }
 
 static void
-Apply()
+Apply(void)
 {
     char *asc;
     XtVaGetValues(text, XmNvalue, &asc, NULL);
@@ -260,10 +250,7 @@ Apply()
 }
 
 static void
-CreateItem(item, item_count, start_code)
-XmString *item;
-int *item_count;
-int *start_code;
+CreateItem(XmString *item, int *item_count, int *start_code)
 {
     int count;
     int start, end;
@@ -307,8 +294,7 @@ int *start_code;
 }
 
 static Widget
-CreateCodeWindow(w)
-Widget w;
+CreateCodeWindow(Widget w)
 {
     Widget top, base1, base2, base3, base4;
     Widget frame, scroll, label, sep, form;
@@ -457,10 +443,7 @@ Widget w;
 }
 
 void
-CodeWindow(widget, font_name, load_font)
-    Widget	widget;
-    char *	font_name;
-    Boolean	load_font;
+CodeWindow(Widget widget, char *font_name, Boolean load_font)
 {
     static Boolean	old_load_font;
     extern int	CodePoint;

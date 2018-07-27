@@ -39,18 +39,18 @@
 #include "xoakufont.h"
 #include "util.h"
 
-void CBeOblB_aEnd();
-void EHeStaT_list();
-void CBeScro();
-void EHeBulB_eMEv();
-void EHeBulB_eExp();
-void EHeBulB_dExp();
-static void EHStaT_disp();
+void CBeOblB_aEnd(Widget widget, caddr_t clientData, caddr_t callData);
+void EHeStaT_list(Widget widget, int select, XEvent *e);
+void CBeScro(Widget widget, caddr_t clientData, caddr_t callData);
+void EHeBulB_eMEv(Widget widget, caddr_t clientData, XEvent *e);
+void EHeBulB_eExp(Widget widget, caddr_t clientData, XEvent *e);
+void EHeBulB_dExp(Widget widget, caddr_t clientData);
+static void EHStaT_disp(Widget widget, int i);
 
 extern Resource resource;
 
-extern int efctPtnNum();
-extern char *char_set();
+extern int efctPtnNum(void);
+extern char *char_set(char *str);
 
 extern char *fullpath;
 extern FalFontData fullFontData;
@@ -77,16 +77,15 @@ static	Widget	wgeStaT_form[EDLIST_MAX],
  * contents : displays the "User Defined Charactrer editor" window
  */
 
-static Widget CreateEditPtn();
-void OpenCB();
-void MngPtnCB();
-void CpyPtnCB();
-void CBeRecB_color();
-void CBeRecB_obj();
-void CBeOblB_aAdd();
-void CBeOblB_rCmd();
-void CBeOblB_rCmdp();
-void CBeOblB_rCan();
+static Widget CreateEditPtn(Widget owner);
+void OpenCB(Widget w, XtPointer client_data, XtPointer call_data);
+void MngPtnCB(void);
+void CpyPtnCB(void);
+void CBeRecB_obj(Widget widget, int obj, XmToggleButtonCallbackStruct *call);
+void CBeOblB_aAdd(void);
+void CBeOblB_rCmd(Widget widget, int proc, caddr_t callData);
+void CBeOblB_rCmdp(Widget widget, int proc, caddr_t callData);
+void CBeOblB_rCan(Widget widget, caddr_t clientData, caddr_t callData);
 
 
 /**
@@ -95,12 +94,12 @@ void CBeOblB_rCan();
  **/
 
 static void
-XlfdCB()
+XlfdCB(void)
 {
   Widget	dialog;
   Arg		args[5];
   char		mess[1024];
-  int		n;
+  int		n = 0;
   XmString	cs, cs1, cs2;
 
   sprintf(mess, "%s : %s", resource.file_name, fullpath);
@@ -114,7 +113,6 @@ XlfdCB()
   cs = XmStringConcat(cs2, cs1);
   XmStringFree(cs1);
   XmStringFree(cs2);
-  n = 0;
   XtSetArg (args[n], XmNtitle, resource.l_xlfd_title); n++;
   XtSetArg (args[n], XmNmessageString, cs); n++;
   XtSetArg (args[n], XmNdialogStyle, XmDIALOG_MODELESS); n++;
@@ -126,7 +124,7 @@ XlfdCB()
 }
 
 static void
-CodeAreaCB()
+CodeAreaCB(void)
 {
     char	mess[256];
     char	tmp[16];
@@ -169,16 +167,13 @@ CodeAreaCB()
 }
 
 void
-ListSetLabelStr(i, str)
-int i;
-String str;
+ListSetLabelStr(int i, String str)
 {
     SetLabelString( wgeStaT_list[i], str );
 }
 
 void
-ListSelectItem(i)
-int i;
+ListSelectItem(int i)
 {
     XtVaSetValues( wgeStaT_list[i],
 	XmNbackground, (XtArgVal) resource.foreground,
@@ -188,8 +183,7 @@ int i;
 }
 
 void
-ListUnselectItem(i)
-int i;
+ListUnselectItem(int i)
 {
     XtVaSetValues( wgeStaT_list[i],
 	XmNbackground, (XtArgVal) resource.background,
@@ -199,8 +193,7 @@ int i;
 }
 
 void
-ListSetGlyphImage( i )
-int	i ;
+ListSetGlyphImage( int i )
 {
 	int	code ;
 
@@ -231,9 +224,7 @@ int	i ;
 
 /*ARGSUSED*/
 static void
-EHStaT_disp( widget, i )
-Widget		widget;
-int		i;			/* widget that have some ivent */
+EHStaT_disp( Widget widget, int i /* widget that have some ivent */ )
 {
     ListSetGlyphImage( i );
 }
@@ -307,7 +298,7 @@ static ExclusiveItems draw_ex[] = {
 static Exclusive DrawEX = EXCLUSIVE( draw_ex );
 
 static void
-Unset()
+Unset(void)
 {
     XtSetSensitive(EditBTN.w[0], False);
     XtSetSensitive(EditBTN.w[1], False);
@@ -322,7 +313,7 @@ Unset()
 }
 
 void
-SelectSet()
+SelectSet(void)
 {
     XtSetSensitive(EditBTN.w[0], True);
     XtSetSensitive(EditBTN.w[1], True);
@@ -335,7 +326,7 @@ SelectSet()
 }
 
 void
-SelectUnset()
+SelectUnset(void)
 {
     XtSetSensitive(EditBTN.w[0], False);
     XtSetSensitive(EditBTN.w[1], False);
@@ -348,19 +339,19 @@ SelectUnset()
 }
 
 void
-CopySet()
+CopySet(void)
 {
     XtSetSensitive(EditBTN.w[5], True);
 }
 
 void
-UndoSet()
+UndoSet(void)
 {
     XtSetSensitive(EditBTN.w[9], True);
 }
 
 void
-UndoUnset()
+UndoUnset(void)
 {
     XtSetSensitive(EditBTN.w[9], False);
 }
@@ -371,8 +362,7 @@ UndoUnset()
  **/
 
 void
-PopupEditPtn(owner)
-Widget owner;
+PopupEditPtn(Widget owner)
 {
     if (! editPtnW){
 	editPtnW = CreateEditPtn(owner);
@@ -382,8 +372,7 @@ Widget owner;
 }
 
 static Widget
-CreateEditPtn(owner)
-Widget owner;
+CreateEditPtn(Widget owner)
 {
     int		slimax;
     int		i;
@@ -573,8 +562,7 @@ Widget owner;
 
 
 void
-SetCodeString(code)
-int code;
+SetCodeString(int code)
 {
     char str[8];
 
@@ -590,7 +578,7 @@ int code;
 
 
 static void
-_create_editptn_after()
+_create_editptn_after(void)
 {
     int		slctloc;
     static char	dashPtn[] = {1,1};	/* Editing pane's border pattern */
@@ -667,8 +655,7 @@ _create_editptn_after()
 }
 
 void
-UpdateMessage(str)
-String str;
+UpdateMessage(String str)
 {
     static Boolean nomsg = False;
 

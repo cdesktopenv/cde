@@ -34,20 +34,11 @@
 #include "udccom.h"	/* 1995.10.09 */
 #include "FaLib.h"
 
-typedef		int		INT;
-typedef		short int	SHORT;
-typedef		long int	LONG;
-typedef		char		CHAR;
-typedef		unsigned int	UINT;
-typedef		unsigned short	USHORT;
-typedef		unsigned char	UCHAR;
-
 #define	ON			1
 #define	OFF			0
 
 #define	MAXPTNSIZE	128
 #define	MAXPTNBYTE	MAXPTNSIZE*((MAXPTNSIZE+7)/8)
-
 
 #define ERROR_VAL	fal_utyerror
 #define EXISTS_FLAG	fal_utyexists

@@ -86,9 +86,7 @@ extern void dbg_printValue(char *str, char **value, int num);
 /* For VW/UDC start */
 
 static FontData
-init_fontdata(font_data, font_data_count)
-    FontData	font_data;
-    int		font_data_count;
+init_fontdata(FontData font_data, int font_data_count)
 {
     FontData	fd;
     int		i;
@@ -105,12 +103,12 @@ init_fontdata(font_data, font_data_count)
 }
 
 static VRotate
-init_vrotate(font_data, font_data_count, type, code_range, code_range_num)
-    FontData	font_data;
-    int		font_data_count;
-    int		type;
-    CodeRange	code_range;
-    int		code_range_num;
+init_vrotate(
+    FontData	font_data,
+    int		font_data_count,
+    int		type,
+    CodeRange	code_range,
+    int		code_range_num)
 {
     VRotate	vrotate;
     int		i;
@@ -136,13 +134,13 @@ init_vrotate(font_data, font_data_count, type, code_range, code_range_num)
 }
 
 static Bool
-init_fontset(oc)
-    XOC oc;
+init_fontset(XOC oc)
 {
     XOCGenericPart *gen;
     FontSet font_set;
     OMData data;
     int count;
+    int err = 0;
 
     count = XOM_GENERIC(oc->core.om)->data_num;
     data = XOM_GENERIC(oc->core.om)->data;
@@ -161,16 +159,22 @@ init_fontset(oc)
 	font_set->charset_list = data->charset_list;
 
 	if((font_set->font_data = init_fontdata(data->font_data,
-				  data->font_data_count)) == NULL)
-	    goto err;
+				  data->font_data_count)) == NULL){
+	    err += 1;
+	    break;
+	}
 	font_set->font_data_count = data->font_data_count;
 	if((font_set->substitute = init_fontdata(data->substitute,
-				   data->substitute_num)) == NULL)
-	    goto err;
+				   data->substitute_num)) == NULL){
+	    err += 1;
+	    break;
+	}
 	font_set->substitute_num = data->substitute_num;
 	if((font_set->vmap = init_fontdata(data->vmap,
-			     data->vmap_num)) == NULL)
-	    goto err;
+			     data->vmap_num)) == NULL){
+	    err += 1;
+	    break;
+	}
 	font_set->vmap_num       = data->vmap_num;
 
 	if(data->vrotate_type != VROTATE_NONE) {
@@ -180,35 +184,37 @@ init_fontset(oc)
 						 data->font_data_count,
 						 data->vrotate_type,
 						 data->vrotate,
-						 data->vrotate_num)) == NULL)
-		goto err;
+						 data->vrotate_num)) == NULL){
+		err += 1;
+		break;
+	    }
 	    font_set->vrotate_num = data->font_data_count;
 	}
     }
-    return True;
 
-err:
-    if(font_set->font_data)
-	Xfree(font_set->font_data);
-    if(font_set->substitute)
-	Xfree(font_set->substitute);
-    if(font_set->vmap)
-	Xfree(font_set->vmap);
-    if(font_set->vrotate)
-	Xfree(font_set->vrotate);
-    if(font_set)
-	Xfree(font_set);
-    gen->font_set = (FontSet) NULL;
-    gen->font_set_num = 0;
-    return False;
+    if (err == 1){
+	if(font_set->font_data)
+	    Xfree(font_set->font_data);
+	if(font_set->substitute)
+	    Xfree(font_set->substitute);
+	if(font_set->vmap)
+	    Xfree(font_set->vmap);
+	if(font_set->vrotate)
+	    Xfree(font_set->vrotate);
+	if(font_set)
+	    Xfree(font_set);
+	gen->font_set = (FontSet) NULL;
+	gen->font_set_num = 0;
+	return False;
+    } else {
+	return True;
+    }
 }
 
 /* For VW/UDC end */
 
 static char *
-get_prop_name(dpy, fs)
-    Display *dpy;
-    XFontStruct	*fs;
+get_prop_name(Display *dpy, XFontStruct *fs)
 {
     unsigned long fp;
 
@@ -219,9 +225,7 @@ get_prop_name(dpy, fs)
 }
 
 static FontData
-check_charset(font_set, font_name)
-    FontSet font_set;
-    char *font_name;
+check_charset(FontSet font_set, char *font_name)
 {
     FontData font_data;
     char *last;
@@ -245,10 +249,7 @@ check_charset(font_set, font_name)
 }
 
 static int
-check_fontname(oc, name, found_num)
-    XOC oc;
-    char *name;
-    int found_num;
+check_fontname(XOC oc, char *name, int found_num)
 {
     Display *dpy = oc->core.om->core.display;
     XOCGenericPart *gen = XOC_GENERIC(oc);
@@ -309,10 +310,7 @@ check_fontname(oc, name, found_num)
 /* For VW/UDC start */
 
 static Bool
-load_fontdata(oc, font_data, font_data_num)
-    XOC		oc;
-    FontData	font_data;
-    int		font_data_num;
+load_fontdata(XOC oc, FontData font_data, int font_data_num)
 {
     Display	*dpy = oc->core.om->core.display;
     FontData	fd = font_data;
@@ -328,8 +326,7 @@ load_fontdata(oc, font_data, font_data_num)
 }
 
 static Bool
-load_font(oc)
-    XOC oc;
+load_font(XOC oc)
 {
     int i;
     XOCGenericPart *gen = XOC_GENERIC(oc);
@@ -374,8 +371,7 @@ load_font(oc)
 /* For VW/UDC end */
 
 static Bool
-load_font_info(oc)
-    XOC oc;
+load_font_info(XOC oc)
 {
     Display *dpy = oc->core.om->core.display;
     XOCGenericPart *gen = XOC_GENERIC(oc);
@@ -403,10 +399,11 @@ load_font_info(oc)
 /* For Vertical Writing start */
 
 static void
-check_fontset_extents(overall, logical_ascent, logical_descent, font)
-    XCharStruct		*overall;
-    int			*logical_ascent, *logical_descent;
-    XFontStruct		*font;
+check_fontset_extents(
+    XCharStruct		*overall,
+    int			*logical_ascent,
+    int			 *logical_descent,
+    XFontStruct		*font)
 {
     overall->lbearing = min(overall->lbearing, font->min_bounds.lbearing);
     overall->rbearing = max(overall->rbearing, font->max_bounds.rbearing);
@@ -420,8 +417,7 @@ check_fontset_extents(overall, logical_ascent, logical_descent, font)
 /* For Vertical Writing end */
 
 static void
-set_fontset_extents(oc)
-    XOC oc;
+set_fontset_extents(XOC oc)
 {
     XRectangle *ink = &oc->core.font_set_extents.max_ink_extent;
     XRectangle *logical = &oc->core.font_set_extents.max_logical_extent;
@@ -495,8 +491,7 @@ set_fontset_extents(oc)
 }
 
 static Bool
-init_core_part(oc)
-    XOC oc;
+init_core_part(XOC oc)
 {
     XOCGenericPart *gen = XOC_GENERIC(oc);
     FontSet font_set;
@@ -524,12 +519,20 @@ init_core_part(oc)
 	return False;
 
     font_name_list = (char **) Xmalloc(sizeof(char *) * count);
-    if (font_name_list == NULL)
-	goto err;
+    if (font_name_list == NULL){
+	    if (font_name_list)
+		Xfree(font_name_list);
+	    Xfree(font_struct_list);
+	    return False;
+    }
 
     font_name_buf = (char *) Xmalloc(length);
-    if (font_name_buf == NULL)
-	goto err;
+    if (font_name_buf == NULL){
+	    if (font_name_list)
+	        Xfree(font_name_list);
+	    Xfree(font_struct_list);
+            return False;
+    }
 
     oc->core.font_info.num_font = count;
     oc->core.font_info.font_name_list = font_name_list;
@@ -556,19 +559,10 @@ init_core_part(oc)
     set_fontset_extents(oc);
 
     return True;
-
-err:
-    if (font_name_list)
-	Xfree(font_name_list);
-    Xfree(font_struct_list);
-
-    return False;
 }
 
 static char *
-get_font_name(oc, pattern)
-    XOC oc;
-    char *pattern;
+get_font_name(XOC oc, char *pattern)
 {
     char **list, *name;
     int count = 0;
@@ -589,8 +583,7 @@ get_font_name(oc, pattern)
 /* For VW/UDC start*/
 
 static char
-*get_rotate_fontname(font_name)
-    char *font_name;
+*get_rotate_fontname(char *font_name)
 {
     char *pattern = NULL, *ptr = NULL;
     char *fields[CHARSET_ENCODING_FIELD];
@@ -663,9 +656,7 @@ static char
 }
 
 static Bool
-is_match_charset(font_data, font_name)
-    FontData	font_data;
-    char	*font_name;
+is_match_charset(FontData font_data, char *font_name)
 {
     char *last;
     int length, name_len;
@@ -684,10 +675,7 @@ is_match_charset(font_data, font_name)
 }
 
 static int
-parse_all_name(oc, font_data, pattern)
-    XOC		oc;
-    FontData	font_data;
-    char	*pattern;
+parse_all_name(XOC oc, FontData font_data, char *pattern)
 {
 
     if(is_match_charset(font_data, pattern) != True)
@@ -702,10 +690,7 @@ parse_all_name(oc, font_data, pattern)
 }
 
 static int
-parse_omit_name(oc, font_data, pattern)
-    XOC		oc;
-    FontData	font_data;
-    char	*pattern;
+parse_omit_name(XOC oc, FontData font_data, char *pattern)
 {
     char	*font_name = (char *) NULL;
     char	*last = (char *) NULL;
@@ -770,14 +755,13 @@ parse_omit_name(oc, font_data, pattern)
 typedef enum{C_PRIMARY, C_SUBSTITUTE, C_VMAP, C_VROTATE } ClassType;
 
 static int
-parse_fontdata(oc, font_data, font_data_count, name_list, name_list_count,
-		class)
-    XOC		oc;
-    FontData	font_data;
-    int		font_data_count;
-    char	**name_list;
-    int		name_list_count;
-    ClassType	class;
+parse_fontdata(
+    XOC		oc,
+    FontData	font_data,
+    int		font_data_count,
+    char	**name_list,
+    int		name_list_count,
+    ClassType	class)
 {
     char	**cur_name_list = name_list;
     char	*font_name = (char *) NULL;
@@ -866,11 +850,7 @@ parse_fontdata(oc, font_data, font_data_count, name_list, name_list_count,
 
 
 static int
-parse_vw(oc, font_set, name_list, count)
-    XOC		oc;
-    FontSet	font_set;
-    char	**name_list;
-    int		count;
+parse_vw(XOC oc, FontSet font_set, char	**name_list, int count)
 {
     FontData	vmap = font_set->vmap;
     VRotate	vrotate = font_set->vrotate;
@@ -929,8 +909,7 @@ parse_vw(oc, font_set, name_list, count)
 }
 
 static int
-parse_fontname(oc)
-    XOC oc;
+parse_fontname(XOC oc)
 {
     XOCGenericPart *gen = XOC_GENERIC(oc);
     FontSet font_set;
@@ -957,17 +936,22 @@ parse_fontname(oc)
 				 font_set->font_data_count,
 				 name_list, count, C_PRIMARY);
 	    if(ret == -1) {
-		goto err;
+		falFreeStringList(name_list);
+	        return -1;
 	    } else if(ret == True) {
 		font_set->font_name = (char *)Xmalloc
 			(strlen(font_set->font_data->xlfd_name) + 1);
-		if(font_set->font_name == (char *) NULL)
-		    goto err;
+		if(font_set->font_name == (char *) NULL){
+		    falFreeStringList(name_list);
+		    return -1;
+		}
 		strcpy(font_set->font_name, font_set->font_data->xlfd_name);
 		font_set->side = font_set->font_data->side;
 
-		if(parse_vw(oc, font_set, name_list, count) == -1)
-		    goto err;
+		if(parse_vw(oc, font_set, name_list, count) == -1){
+		    falFreeStringList(name_list);
+		    return -1;
+		}
 		found_num++;
 
 	    /* The substitute font is serched, when the primary fonts */
@@ -992,7 +976,8 @@ parse_fontname(oc)
 				     font_set->substitute_num,
 				     name_list, count, C_SUBSTITUTE);
 		if(ret == -1) {
-		    goto err;
+		    falFreeStringList(name_list);
+		    return -1;
 		} else if(ret == True) {
 		    for(i=0;i<font_set->substitute_num;i++){
 			if(font_set->substitute[i].xlfd_name != NULL){
@@ -1001,12 +986,16 @@ parse_fontname(oc)
 		    }
 		    font_set->font_name = (char *)Xmalloc
 				(strlen(font_set->substitute[i].xlfd_name) + 1);
-		    if(font_set->font_name == (char *) NULL)
-			goto err;
+		    if(font_set->font_name == (char *) NULL){
+			falFreeStringList(name_list);
+			return -1;
+		    }
 		    strcpy(font_set->font_name,font_set->substitute[i].xlfd_name);
 		    font_set->side = font_set->substitute[i].side;
-		    if(parse_vw(oc, font_set, name_list, count) == -1)
-			goto err;
+		    if(parse_vw(oc, font_set, name_list, count) == -1){
+			falFreeStringList(name_list);
+			return -1;
+		    }
 		    found_num++;
 		}
 	    }
@@ -1015,7 +1004,8 @@ parse_fontname(oc)
 				 font_set->substitute_num,
 				 name_list, count, C_SUBSTITUTE);
 	    if(ret == -1) {
-		goto err;
+		falFreeStringList(name_list);
+		return -1;
 	    } else if(ret == True) {
 		for(i=0;i<font_set->substitute_num;i++){
 		    if(font_set->substitute[i].xlfd_name != NULL){
@@ -1024,12 +1014,17 @@ parse_fontname(oc)
 		}
 		font_set->font_name = (char *)Xmalloc
 			(strlen(font_set->substitute[i].xlfd_name) + 1);
-		if(font_set->font_name == (char *) NULL)
-		    goto err;
+		if(font_set->font_name == (char *) NULL){
+		    falFreeStringList(name_list);
+		    return -1;
+		}
+
 		strcpy(font_set->font_name,font_set->substitute[i].xlfd_name);
 		font_set->side = font_set->substitute[i].side;
-		if(parse_vw(oc, font_set, name_list, count) == -1)
-		    goto err;
+		if(parse_vw(oc, font_set, name_list, count) == -1){
+		    falFreeStringList(name_list);
+		    return -1;
+		}
 
 		found_num++;
 	    }
@@ -1037,8 +1032,10 @@ parse_fontname(oc)
     }
 
     base_name = (char *) Xmalloc(strlen(oc->core.base_name_list) + 1);
-    if (base_name == NULL)
-	goto err;
+    if (base_name == NULL){
+	falFreeStringList(name_list);
+	return -1;
+    }
 
     strcpy(base_name, oc->core.base_name_list);
     oc->core.base_name_list = base_name;
@@ -1046,18 +1043,12 @@ parse_fontname(oc)
     falFreeStringList(name_list);
 
     return found_num;
-
-err:
-    falFreeStringList(name_list);
-
-    return -1;
 }
 
 /* For VW/UDC end*/
 
 static Bool
-set_missing_list(oc)
-    XOC oc;
+set_missing_list(XOC oc)
 {
     XOCGenericPart *gen = XOC_GENERIC(oc);
     FontSet font_set;
@@ -1140,8 +1131,7 @@ set_missing_list(oc)
 }
 
 static Bool
-create_fontset(oc)
-    XOC oc;
+create_fontset(XOC oc)
 {
     XOMGenericPart *gen = XOM_GENERIC(oc->core.om);
     int found_num;
@@ -1175,10 +1165,7 @@ create_fontset(oc)
 
 /* For VW/UDC start */
 static void
-free_fontdataOC(dpy,font_data, font_data_count)
-    Display	*dpy;
-    FontData	font_data;
-    int		font_data_count;
+free_fontdataOC(Display *dpy, FontData font_data, int font_data_count)
 {
     for( ; font_data_count-- ; font_data++) {
 	if(font_data->xlfd_name){
@@ -1208,9 +1195,7 @@ free_fontdataOC(dpy,font_data, font_data_count)
 }
 
 static void
-destroy_fontdata(gen,dpy)
-    XOCGenericPart *gen ;
-    Display *dpy ;
+destroy_fontdata(XOCGenericPart *gen, Display *dpy)
 {
     FontSet	font_set = (FontSet) NULL;
     int		font_set_num = 0;
@@ -1252,8 +1237,7 @@ destroy_fontdata(gen,dpy)
 /* For VW/UDC end */
 
 static void
-destroy_oc(oc)
-    XOC oc;
+destroy_oc(XOC oc)
 {
     Display *dpy = oc->core.om->core.display;
     XOCGenericPart *gen = XOC_GENERIC(oc);
@@ -1287,21 +1271,11 @@ destroy_oc(oc)
     if (oc->core.missing_list.charset_list)
 	falFreeStringList(oc->core.missing_list.charset_list);
 
-#ifdef notdef
-    if (oc->core.res_name)
-	Xfree(oc->core.res_name);
-    if (oc->core.res_class)
-	Xfree(oc->core.res_class);
-#endif
-
     Xfree(oc);
 }
 
 static char *
-set_oc_values(oc, args, num_args)
-    XOC oc;
-    XlcArgList args;
-    int num_args;
+set_oc_values(XOC oc, XlcArgList args, int num_args)
 {
     if (oc->core.resources == NULL)
 	return NULL;
@@ -1311,10 +1285,7 @@ set_oc_values(oc, args, num_args)
 }
 
 static char *
-get_oc_values(oc, args, num_args)
-    XOC oc;
-    XlcArgList args;
-    int num_args;
+get_oc_values(XOC oc, XlcArgList args, int num_args)
 {
     if (oc->core.resources == NULL)
 	return NULL;
@@ -1385,10 +1356,7 @@ static XlcResource oc_resources[] = {
 };
 
 static XOC
-create_oc(om, args, num_args)
-    XOM om;
-    XlcArgList args;
-    int num_args;
+create_oc(XOM om, XlcArgList args, int num_args)
 {
     XOC oc;
     XOMGenericPart *gen = XOM_GENERIC(om);
@@ -1406,18 +1374,21 @@ create_oc(om, args, num_args)
 	_fallcCompileResourceList(oc_resources, XlcNumber(oc_resources));
 
     if (_fallcSetValues((XPointer) oc, oc_resources, XlcNumber(oc_resources),
-		      args, num_args, XlcCreateMask | XlcDefaultMask))
-	goto err;
-
-    if (oc->core.base_name_list == NULL)
-	goto err;
-
+		      args, num_args, XlcCreateMask | XlcDefaultMask)){
+	destroy_oc(oc);
+	return (XOC) NULL;
+    }
+    if (oc->core.base_name_list == NULL){
+	destroy_oc(oc);
+	return (XOC) NULL;
+    }
     oc->core.resources = oc_resources;
     oc->core.num_resources = XlcNumber(oc_resources);
 
-    if (create_fontset(oc) == False)
-	goto err;
-
+    if (create_fontset(oc) == False){
+	destroy_oc(oc);
+	return (XOC) NULL;
+    }
     oc->methods = &oc_generic_methods;
 
     if (gen->object_name) {
@@ -1432,17 +1403,10 @@ create_oc(om, args, num_args)
     }
 
     return oc;
-
-err:
-    destroy_oc(oc);
-
-    return (XOC) NULL;
 }
 
 static void
-free_fontdataOM(font_data, font_data_count)
-    FontData	font_data;
-    int		font_data_count;
+free_fontdataOM(FontData font_data, int font_data_count)
 {
     for( ; font_data_count-- ; font_data++) {
 	if(font_data->name){
@@ -1457,8 +1421,7 @@ free_fontdataOM(font_data, font_data_count)
 }
 
 static Status
-close_om(om)
-    XOM om;
+close_om(XOM om)
 {
     XOMGenericPart *gen = XOM_GENERIC(om);
     OMData data;
@@ -1533,10 +1496,7 @@ close_om(om)
 }
 
 static char *
-set_om_values(om, args, num_args)
-    XOM om;
-    XlcArgList args;
-    int num_args;
+set_om_values(XOM om, XlcArgList args, int num_args)
 {
     if (om->core.resources == NULL)
 	return NULL;
@@ -1546,10 +1506,7 @@ set_om_values(om, args, num_args)
 }
 
 static char *
-get_om_values(om, args, num_args)
-    XOM om;
-    XlcArgList args;
-    int num_args;
+get_om_values(XOM om, XlcArgList args, int num_args)
 {
     if (om->core.resources == NULL)
 	return NULL;
@@ -1577,12 +1534,12 @@ static XlcResource om_resources[] = {
 };
 
 static XOM
-create_om(lcd, dpy, rdb, res_name, res_class)
-    XLCd lcd;
-    Display *dpy;
-    XrmDatabase rdb;
-    char *res_name;
-    char *res_class;
+create_om(
+    XLCd lcd,
+    Display *dpy,
+    XrmDatabase rdb,
+    char *res_name,
+    char *res_class)
 {
     XOM om;
 
@@ -1597,14 +1554,18 @@ create_om(lcd, dpy, rdb, res_name, res_class)
     om->core.rdb = rdb;
     if (res_name) {
 	om->core.res_name = (char *) Xmalloc(strlen(res_name) + 1);
-	if (om->core.res_name == NULL)
-	    goto err;
+	if (om->core.res_name == NULL){
+	    close_om(om);
+	    return (XOM) NULL;
+	}
 	strcpy(om->core.res_name, res_name);
     }
     if (res_class) {
 	om->core.res_class = (char *) Xmalloc(strlen(res_class) + 1);
-	if (om->core.res_class == NULL)
-	    goto err;
+	if (om->core.res_class == NULL){
+	    close_om(om);
+	    return (XOM) NULL;
+	}
 	strcpy(om->core.res_class, res_class);
     }
 
@@ -1615,16 +1576,10 @@ create_om(lcd, dpy, rdb, res_name, res_class)
     om->core.num_resources = XlcNumber(om_resources);
 
     return om;
-
-err:
-    close_om(om);
-
-    return (XOM) NULL;
 }
 
 static OMData
-add_data(om)
-    XOM om;
+add_data(XOM om)
 {
     XOMGenericPart *gen = XOM_GENERIC(om);
     OMData new;
@@ -1649,9 +1604,7 @@ add_data(om)
 
 /* For VW/UDC */
 FontData
-falread_EncodingInfo(count,value)
-int count;
-char **value;
+falread_EncodingInfo(int count, char **value)
 {
     FontData font_data,ret;
     char *buf, *bufptr,*scp;
@@ -1694,11 +1647,11 @@ char **value;
     return(ret);
 }
 
-static CodeRange read_vrotate(count,value,type,vrotate_num)
-int count;
-char **value;
-int *type;
-int *vrotate_num;
+static CodeRange read_vrotate(
+int count,
+char **value,
+int *type,
+int *vrotate_num)
 {
     FontData font_data,ret;
     char *buf, *bufptr,*scp;
@@ -1720,10 +1673,7 @@ int *vrotate_num;
 }
 
 static void
-read_vw(lcd,font_set,num)
-XLCd    lcd;
-OMData  font_set;
-int num;
+read_vw(XLCd lcd, OMData font_set, int num)
 {
     char **value, buf[BUFSIZ], *bufptr;
     int count,i;
@@ -1746,8 +1696,7 @@ int num;
 }
 /* VW/UDC end */
 static Bool
-init_om(om)
-    XOM om;
+init_om(XOM om)
 {
     XLCd lcd = om->core.lcd;
     XOMGenericPart *gen = XOM_GENERIC(om);
@@ -1905,17 +1854,8 @@ init_om(om)
 }
 
 XOM
-#if NeedFunctionPrototypes
 _falomGenericOpenOM(XLCd lcd, Display *dpy, XrmDatabase rdb,
-		  _Xconst char *res_name, _Xconst char *res_class)
-#else
-_falomGenericOpenOM(lcd, dpy, rdb, res_name, res_class)
-    XLCd lcd;
-    Display *dpy;
-    XrmDatabase rdb;
-    char *res_name;
-    char *res_class;
-#endif
+		  char *res_name, char *res_class)
 {
     XOM om;
 
@@ -1923,20 +1863,16 @@ _falomGenericOpenOM(lcd, dpy, rdb, res_name, res_class)
     if (om == NULL)
 	return (XOM) NULL;
 
-    if (init_om(om) == False)
-	goto err;
+    if (init_om(om) == False){
+	close_om(om);
+        return (XOM) NULL;
+    }
 
     return om;
-
-err:
-    close_om(om);
-
-    return (XOM) NULL;
 }
 
 Bool
-_falInitOM(lcd)
-    XLCd lcd;
+_falInitOM(XLCd lcd)
 {
     lcd->methods->open_om = _falomGenericOpenOM;
 

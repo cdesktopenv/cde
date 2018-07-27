@@ -92,11 +92,9 @@ typedef struct _UDCArea {
 typedef struct _XlcCharSetRec *XlcCharSet;
 
 typedef char* (*XlcGetCSValuesProc)(
-#if NeedFunctionPrototypes
     XlcCharSet		/* charset */,
     XlcArgList		/* args */,
     int			/* num_args */
-#endif
 );
 
 typedef struct _XlcCharSetRec {
@@ -122,22 +120,17 @@ typedef struct _XlcCharSetRec {
 typedef struct _XlcConvRec *XlcConv;
 
 typedef XlcConv (*XlcOpenConverterProc)(
-#if NeedFunctionPrototypes
     XLCd		/* from_lcd */,
     char*		/* from_type */,
     XLCd		/* to_lcd */,
     char*		/* to_type */
-#endif
 );
 
 typedef void (*XlcCloseConverterProc)(
-#if NeedFunctionPrototypes
     XlcConv		/* conv */
-#endif
 );
 
 typedef int (*XlcConvertProc)(
-#if NeedFunctionPrototypes
     XlcConv		/* conv */,
     XPointer*		/* from */,
     int*		/* from_left */,
@@ -145,13 +138,10 @@ typedef int (*XlcConvertProc)(
     int*		/* to_left */,
     XPointer*		/* args */,
     int			/* num_args */
-#endif
 );
 
 typedef void (*XlcResetConverterProc)(
-#if NeedFunctionPrototypes
     XlcConv		/* conv */
-#endif
 );
 
 typedef struct _XlcConvMethodsRec{
@@ -181,60 +171,43 @@ typedef struct _XlcConvRec {
 _XFUNCPROTOBEGIN
 
 extern Bool _falInitOM(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 extern Bool _XInitIM(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 extern char *_falGetLCValues(
-#if NeedVarargsPrototypes
     XLCd		/* lcd */,
     ...
-#endif
 );
 
 extern XlcCharSet _fallcGetCharSet(
-#if NeedFunctionPrototypes
     char*		/* name */
-#endif
 );
 
 extern Bool _fallcAddCharSet(
-#if NeedFunctionPrototypes
     XlcCharSet		/* charset */
-#endif
 );
 
 extern char *_fallcGetCSValues(
-#if NeedVarargsPrototypes
     XlcCharSet		/* charset */,
     ...
-#endif
 );
 
 extern XlcConv _fallcOpenConverter(
-#if NeedFunctionPrototypes
     XLCd		/* from_lcd */,
     char*		/* from_type */,
     XLCd		/* to_lcd */,
     char*		/* to_type */
-#endif
 );
 
 extern void _fallcCloseConverter(
-#if NeedFunctionPrototypes
     XlcConv		/* conv */
-#endif
 );
 
 extern int _fallcConvert(
-#if NeedFunctionPrototypes
     XlcConv		/* conv */,
     XPointer*		/* from */,
     int*		/* from_left */,
@@ -242,68 +215,51 @@ extern int _fallcConvert(
     int*		/* to_left */,
     XPointer*		/* args */,
     int			/* num_args */
-#endif
 );
 
 extern void _fallcResetConverter(
-#if NeedFunctionPrototypes
     XlcConv		/* conv */
-#endif
 );
 
 extern Bool _fallcSetConverter(
-#if NeedFunctionPrototypes
     XLCd			/* from_lcd */,
     char*			/* from_type */,
     XLCd			/* to_lcd */,
     char*			/* to_type */,
     XlcOpenConverterProc	/* open_converter */
-#endif
 );
 
 extern void _fallcGetResource(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     char*		/* category */,
     char*		/* class */,
     char***		/* value */,
     int*		/* count */
-#endif
 );
 
 extern char *_fallcFileName(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     char*		/* category */
-#endif
 );
 
 extern int _falwcslen(
-#if NeedFunctionPrototypes
     wchar_t*		/* wstr */
-#endif
 );
 
 extern wchar_t *_falwcscpy(
-#if NeedFunctionPrototypes
     wchar_t*		/* wstr1 */,
     wchar_t*		/* wstr2 */
-#endif
 );
 
 extern int _fallcCompareISOLatin1(
-#if NeedFunctionPrototypes
     char*		/* str1 */,
     char*		/* str2 */
-#endif
 );
 
 extern int _fallcNCompareISOLatin1(
-#if NeedFunctionPrototypes
     char*		/* str1 */,
     char*		/* str2 */,
     int			/* len */
-#endif
 );
 
 _XFUNCPROTOEND

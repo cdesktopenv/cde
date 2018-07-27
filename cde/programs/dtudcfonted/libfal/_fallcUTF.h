@@ -91,18 +91,14 @@ typedef enum {
 typedef struct  _UtfDataRec {
 	XlcCharSet		charset;
 	void			(*initialize)( /* Table Initializer */
-#if NeedNestedPrototypes
 					      long *tbl,
 					      long fallback
-#endif
 						);
 	long			*fromtbl;	/* UTF -> CharSet */
 	NormalizeType		type;		/* Normalize type */
 	void			(*cstorune)(   /* CharSet -> UTF */
-#if NeedNestedPrototypes
 					    unsigned char c,
 					    Rune *r
-#endif
 					    );
 	Bool			already_init;
         struct _UtfDataRec	*next;		/* next entry     */
@@ -113,10 +109,8 @@ typedef struct _XlcUTFDataRec {
     XlcSide	side;
     void	(*initialize)();
     void	(*cstorune)(
-#if NeedNestedPrototypes
 			    unsigned char c,
 			    Rune *r
-#endif
 			    );
     NormalizeType	type;
     long		fallback_value;

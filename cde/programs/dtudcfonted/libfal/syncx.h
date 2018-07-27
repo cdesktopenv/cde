@@ -33,45 +33,34 @@
 #include "_falutil.h"
 
 extern XrmQuark falrmStringToQuark(
-#if NeedFunctionPrototypes
-    _Xconst char* 	/* string */
-#endif
+    const char* 	/* string */
 );
 extern XrmString falrmQuarkToString(
-#if NeedFunctionPrototypes
     XrmQuark 		/* quark */
-#endif
 );
 
 extern char *falGetAtomName(
-#if NeedFunctionPrototypes
     Display*		/* display */,
     Atom		/* atom */
-#endif
 );
 
 extern char **falListFonts(
-#if NeedFunctionPrototypes
     Display*		/* display */,
-    _Xconst char*	/* pattern */,
+    const char*		/* pattern */,
     int			/* maxnames */,
     int*		/* actual_count_return */
-#endif
 );
 
 extern char **falListFontsWithInfo(
-#if NeedFunctionPrototypes
     Display*		/* display */,
-    _Xconst char*	/* pattern */,
+    const char*		/* pattern */,
     int			/* maxnames */,
     int*		/* count_return */,
     XFontStruct**	/* info_return */
-#endif
 );
 
 extern XFontStruct *falLoadQueryFont(
-#if NeedFunctionPrototypes
     Display*		/* display */,
-    _Xconst char*	/* name */
-#endif
+    const char*		/* name */
 );
+

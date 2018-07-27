@@ -65,10 +65,7 @@ sigint_out()
 }
 
 int
-expCheckCode( code, code_num, code_list )
-unsigned int	code ;
-int	code_num ;
-int	*code_list ;
+expCheckCode( unsigned int code, int code_num, int *code_list )
 {
 	int	i ;
 
@@ -80,14 +77,15 @@ int	*code_list ;
 }
 
 int
-ExpGpftoBDF( gpf_name, bdf_name, code_num, code_list, comment_num, comment_list, make_all )
-char    *gpf_name ;     /* pointer to GPF file name area 	*/
-char    *bdf_name ;     /* pointer to BDF file name area 	*/
-int     code_num ;      /* number of GPF code 			*/
-int     *code_list ;    /* pointer to GPF code lists 		*/
-int     comment_num ;   /* number comments 			*/
-char    **comment_list ;/* pointer to the list of comments 	*/
-int	make_all ;	/* convert whole GPF fomat file to BDF  */
+ExpGpftoBDF(
+	char    *gpf_name,      /* pointer to GPF file name area 	*/
+	char    *bdf_name,      /* pointer to BDF file name area 	*/
+	int     code_num,       /* number of GPF code 			*/
+	int     *code_list,     /* pointer to GPF code lists 		*/
+	int     comment_num,    /* number comments 			*/
+	char    **comment_list, /* pointer to the list of comments 	*/
+	int	make_all	/* convert whole GPF fomat file to BDF  */
+)
 {
 	struct	stat	statbuf ;
 	struct	btophead	r_gpf ;
@@ -168,7 +166,7 @@ int	make_all ;	/* convert whole GPF fomat file to BDF  */
 	w_bdf.code 	= r_gpf.code ;
 	w_bdf.ptn  	= r_gpf.ptn  ;
 
-	if( (rtn = WritePtnToBdf( &w_bdf, buf )) ){
+	if( (rtn = WritePtnToBdf( &w_bdf )) ){
 	    fprintf(stderr, "\"%s\" cannot write glyph.\n", bdf_name ) ;
 	    fclose(w_bdf.output) ;
 	    return rtn ;
@@ -193,10 +191,10 @@ int	make_all ;	/* convert whole GPF fomat file to BDF  */
 }
 
 static	int
-writeBdfHeader(head, comment_num, comment_list)
-struct ptobhead *head;
-int     comment_num ;   /* number comments 			*/
-char    **comment_list ;/* pointer to the list of comments 	*/
+writeBdfHeader(struct ptobhead *head,
+	int comment_num, /* number comments */
+	char **comment_list /*pointer to the list of comments */
+)
 {
 	FILE		*fp;
 	int		fd[2];
@@ -276,7 +274,7 @@ char    **comment_list ;/* pointer to the list of comments 	*/
 			char	*ep ;
 			if( (ep = (char *)strchr( comment_list[i], '\n' )) != NULL )
 			    *ep = '\0' ;
-			if( comment_list[i] == '\0' )	continue ;
+			if( !comment_list[i] )	continue ;
 			fprintf(head->output, "COMMENT %s\n", comment_list[i]);
 		    }
 		    fprintf(head->output, "COMMENT\n");
@@ -327,12 +325,11 @@ char    **comment_list ;/* pointer to the list of comments 	*/
 
 
 static	int
-readBdfToMemory(head, buf, code_num, code_list, make_all)
-struct btophead *head;
-char	*buf;
-int     code_num ;      /* number of GPF code 			*/
-int     *code_list ;    /* pointer to GPF code lists 		*/
-int	make_all ;	/* convert whole GPF fomat file to BDF  */
+readBdfToMemory(struct btophead *head, char *buf,
+int     code_num,      /* number of GPF code 			*/
+int     *code_list,    /* pointer to GPF code lists 		*/
+int	make_all	/* convert whole GPF fomat file to BDF  */
+)
 {
 	int	code, mwidth, num_char, bsize, rtn;
 	char    *ptn;

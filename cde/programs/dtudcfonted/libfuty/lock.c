@@ -48,12 +48,7 @@
  */
 
 int
-#if NeedFunctionPrototypes
 FileLock( int fd )
-#else
-FileLock( fd )
-int 	fd;		/* a file descripter */
-#endif
 {
 
 	struct flock	flpar;
@@ -83,12 +78,7 @@ int 	fd;		/* a file descripter */
  */
 
 int
-#if NeedFunctionPrototypes
 FileUnLock( int fd )
-#else
-FileUnLock( fd )
-int 	fd;	/* a file descripter */
-#endif
 {
 	struct flock	flpar;
 
@@ -115,12 +105,7 @@ int 	fd;	/* a file descripter */
  */
 
 int
-#if NeedFunctionPrototypes
 isLock( int fd )
-#else
-isLock( fd )
-int 	fd;	/* file descripter */
-#endif
 {
 	struct flock	flpar;
 

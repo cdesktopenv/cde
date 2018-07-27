@@ -82,13 +82,8 @@ typedef char *va_list;
 
 #else /* !__HIGHC__ */
 
-#if NeedVarargsPrototypes
 # include <stdarg.h>
 # define Va_start(a,b) va_start(a,b)
-#else
-# include <varargs.h>
-# define Va_start(a,b) va_start(a)
-#endif
 
 #endif /* __HIGHC__ */
 

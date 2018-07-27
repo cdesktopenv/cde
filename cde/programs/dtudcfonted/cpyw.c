@@ -47,10 +47,10 @@ extern Widget	cpyDialog;
  ** ==================================================================
  **/
 
-void	PopdownCpyPtn();
-void	DoCpyProc();
-void	CpyPtnCB();
-void	CpyCB();
+void	PopdownCpyPtn(void);
+void	DoCpyProc(void);
+void	CpyPtnCB(void);
+void	CpyCB(Widget w, XtPointer cdata);
 
 /* static */ TextField SrcTf;
 /* static */ TextField DestTf;
@@ -64,7 +64,7 @@ void	CpyCB();
  **/
 
 void
-InitCpyPtn()
+InitCpyPtn(void)
 {
 	/* initialize font infomation */
 }
@@ -77,7 +77,7 @@ InitCpyPtn()
  **/
 
 void
-CpyPtnCB()
+CpyPtnCB(void)
 {
     extern void CpyPtnXLFD();
     CpyPtnXLFD();
@@ -90,7 +90,7 @@ CpyPtnCB()
  **/
 
 void
-PopdownCpyPtn()
+PopdownCpyPtn(void)
 {
     ForcePopdownDialog(cpyDialog);
 }
@@ -102,7 +102,7 @@ PopdownCpyPtn()
  **/
 
 String
-CpySrcCodeTfValue()
+CpySrcCodeTfValue(void)
 {
     return(GetTextFieldValue(&SrcTf));
 }
@@ -114,7 +114,7 @@ CpySrcCodeTfValue()
  **/
 
 String
-CpyDestCodeTfValue()
+CpyDestCodeTfValue(void)
 {
     return(GetTextFieldValue(&DestTf));
 }
@@ -126,8 +126,7 @@ CpyDestCodeTfValue()
  **/
 
 void
-PopupCpyNotice( message )
-String message;
+PopupCpyNotice( String message )
 {
     char bmsg[512] = "";
 
@@ -152,9 +151,7 @@ String message;
 
 /*ARGSUSED*/
 void
-CpyCB(w, cdata)
-Widget w;
-XtPointer cdata;
+CpyCB(Widget w, XtPointer cdata)
 {
     extern Boolean BeforeCpyCheck();
     if (BeforeCpyCheck(cdata)){
@@ -176,7 +173,7 @@ XtPointer cdata;
  **/
 
 static void
-PopdownMngPtn()
+PopdownMngPtn(void)
 {
     PopdownDialog(mngPtnW);
 }
@@ -187,7 +184,7 @@ PopdownMngPtn()
  **/
 
 static void
-AddCB()
+AddCB(void)
 {
     int s_code, e_code;
     extern Boolean BeforeMngCheck();
@@ -205,7 +202,7 @@ AddCB()
  **/
 
 static void
-DelCB()
+DelCB(void)
 {
     int s_code, e_code;
     extern void DoDelProc();
@@ -231,7 +228,7 @@ static TextField MngCodeTf;
  **/
 
 void
-MngPtnCB()
+MngPtnCB(void)
 {
     if (! mngPtnW){
 	Widget	rowcol;
@@ -254,12 +251,13 @@ MngPtnCB()
 
 
 /**
- **  contents : get the character strings of code for add or delete from the input field
+ **  contents : get the character strings of code for add or delete from the
+ **  input field
  ** --------------------------------------------
  **/
 
 String
-MngCodeTfValue()
+MngCodeTfValue(void)
 {
     return(GetTextFieldValue(&MngCodeTf));
 }
@@ -286,8 +284,7 @@ static	Widget	dnStaT_code[D_MAX], dnBulB_disp[D_MAX], dnPopW;
  **/
 
 void
-PopupDelNotice( owner )
-Widget owner;
+PopupDelNotice( Widget owner )
 {
     int i;
      Widget delNoticeW = NULL;
@@ -315,7 +312,7 @@ Widget owner;
  **/
 
 static void
-dstrypaneDelNotice()
+dstrypaneDelNotice(void)
 {
     int	i;
 
@@ -331,7 +328,7 @@ dstrypaneDelNotice()
  **/
 
 static void
-DelOkCB()
+DelOkCB(void)
 {
     CBdnOblB_del();
     PopdownMngPtn();
@@ -344,8 +341,7 @@ DelOkCB()
  **/
 
 static void
-delScProc( value )
-int value;
+delScProc( int value )
 {
     int		i;
     extern int RelToAbsSq();
@@ -364,8 +360,7 @@ int value;
  **/
 
 static Widget
-CreateDelNotice(owner)
-Widget owner;
+CreateDelNotice(Widget owner)
 {
     Widget form, listBase, itemform[D_MAX];
     char buf[64];
@@ -441,7 +436,7 @@ Widget owner;
  **/
 
 static void
-CBdnOblB_del()
+CBdnOblB_del(void)
 {
     int		code;	/* code number for check */
     int		ncode;	/* sequential number in the codeset system area */
@@ -515,8 +510,7 @@ CBdnOblB_del()
  **/
 
 static void
-drawDelPtn( i )
-int	i;	/* window number */
+drawDelPtn( int i /* window number */)
 {
     if ( RelToAbsSq( dn.sq_top, i) <= dn.sq_end) {
 	ptnGet( noToCode(ptnSqToNo(RelToAbsSq( dn.sq_top, i))),
@@ -536,8 +530,7 @@ int	i;	/* window number */
  **/
 
 static void
-drawDelCode( i )
-int	i;	/* window number */
+drawDelCode( int i /* window number */)
 {
     char	str[20];
 
@@ -557,9 +550,7 @@ int	i;	/* window number */
 
 /*ARGSUSED*/
 static void
-EHdnBulB_disp( widget, i )
-Widget		widget;
-int		i;			/* widget that have some ivent */
+EHdnBulB_disp( Widget widget, int i /* widget that have some ivent */ )
 {
     drawDelPtn( i );
 }
@@ -578,10 +569,7 @@ int		i;			/* widget that have some ivent */
  **/
 
 static void
-DispErrorMessage( owner, title, msg )
-Widget owner;
-String title;
-String msg;
+DispErrorMessage( Widget owner, String title, String msg )
 {
     static NoticeButton buttons[] = {
 	NBTNARGS( NULL, NULL, NULL, True, False ),
@@ -599,8 +587,7 @@ String msg;
  **/
 
 void
-DispMngErrorMessage( msg )
-String msg;
+DispMngErrorMessage( String msg )
 {
     DispErrorMessage( mngPtnW, resource.l_error_title, msg );
 }
@@ -612,8 +599,7 @@ String msg;
  **/
 
 void
-DispCpyErrorMessage( msg )
-String msg;
+DispCpyErrorMessage( String msg )
 {
     DispErrorMessage( cpyPtnW, resource.l_error_title, msg );
 }

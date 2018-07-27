@@ -57,17 +57,13 @@ typedef struct _StateRec {
 } StateRec, *State;
 
 static void
-mbinit(state)
-    XPointer state;
+mbinit(XPointer state)
 {
     _fallcResetConverter(((State) state)->conv);
 }
 
 static char
-mbchar(state, str, lenp)
-    XPointer state;
-    char *str;
-    int *lenp;
+mbchar(XPointer state, char *str, char *lenp)
 {
     XlcConv conv = ((State) state)->conv;
     XlcCharSet charset;
@@ -91,21 +87,18 @@ mbchar(state, str, lenp)
 }
 
 static void
-mbfinish(state)
-    XPointer state;
+mbfinish(XPointer state)
 {
 }
 
 static char *
-lcname(state)
-    XPointer state;
+lcname(XPointer state)
 {
     return ((State) state)->lcd->core->name;
 }
 
 static void
-destroy(state)
-    XPointer state;
+destroy(XPointer state)
 {
     _fallcCloseConverter(((State) state)->conv);
     _falCloseLC(((State) state)->lcd);
@@ -121,9 +114,7 @@ static XrmMethodsRec rm_methods = {
 } ;
 
 XrmMethods
-_falrmDefaultInitParseInfo(lcd, rm_state)
-    XLCd lcd;
-    XPointer *rm_state;
+_falrmDefaultInitParseInfo(XLCd lcd, XPointer *rm_state)
 {
     State state;
 

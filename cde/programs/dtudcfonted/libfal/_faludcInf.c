@@ -66,9 +66,7 @@ typedef struct _FalGlyphRegion {
 /*
  *  "code" no jyoui "i" byte me wo "unsigned char" toshite kaesu.
  */
-static unsigned char getbyte(code,i)
-unsigned long code;
-int	      i;
+static unsigned char getbyte(unsigned long code, int i)
 {
     unsigned long byteL;
     unsigned char byte;
@@ -83,11 +81,11 @@ int	      i;
     charset_str     :  JISX0208.1983-0
 */
 
-fal_get_codeset(locale,charset_str,codeset,num_codeset)
-char *locale;
-char *charset_str;
-int  **codeset;
-int  *num_codeset;
+fal_get_codeset(
+char *locale,
+char *charset_str,
+int  **codeset,
+int  *num_codeset)
 {
     XLCdRec lcdrec;
     XLCd     lcd;
@@ -164,9 +162,7 @@ int  *num_codeset;
     return 0;
 }
 
-static Bool gi_to_vgi(gi,vgi,scope)
-unsigned long 	gi,*vgi;
-FontScope	scope;
+static Bool gi_to_vgi(unsigned long gi, unsigned long *vgi, FontScope scope)
 {
     if(scope->shift_direction == (unsigned long)'+'){
         gi  -= scope->shift;
@@ -180,9 +176,7 @@ FontScope	scope;
     return(False);
 }
 
-static void shift_area(udc,scope)
-FalGlyphRegion *udc;
-FontScope scope;
+static void shift_area(FalGlyphRegion *udc, FontScope scope)
 {
     if(scope->shift_direction == (unsigned long)'+'){
         udc->start += scope->shift;
@@ -199,12 +193,12 @@ FontScope scope;
     locale          :  ja_JP
     charset_str     :  JISX0208.1983-0
 */
-FalGetUDCGIArea(locale,codeset,charset_str,gr,num_gr)
-char *locale;
-int codeset;
-char *charset_str;
-FalGlyphRegion  **gr;
-int  *num_gr;
+FalGetUDCGIArea(
+char *locale,
+int codeset,
+char *charset_str,
+FalGlyphRegion  **gr,
+int  *num_gr)
 {
     XLCdRec lcdrec;
     XLCd     lcd;
@@ -302,14 +296,14 @@ int  *num_gr;
  *
  */
 
-int fal_gi_to_vgi(lcd,locale,charset_str,codeset,gi,vgi,charsetname)
-XLCd 	lcd;
-char 	*locale;
-char 	*charset_str;
-int 	codeset;
-unsigned long 	gi;
-unsigned long 	*vgi;
-char    *charsetname;
+int fal_gi_to_vgi(
+XLCd 	lcd,
+char 	*locale,
+char 	*charset_str,
+int 	codeset,
+unsigned long 	gi,
+unsigned long 	*vgi,
+char    *charsetname)
 {
     FalGlyphRegion *udc;
     int num = 0,count,num_ret=0;
@@ -346,9 +340,7 @@ char    *charsetname;
     return(True);
 }
 
-Bool falnon_standard(lcd,charset)
-XLCd 	lcd;
-XlcCharSet 	charset;
+Bool falnon_standard(XLCd lcd, XlcCharSet charset)
 {
     char buf[256];
     int count,i;
@@ -371,10 +363,7 @@ XlcCharSet 	charset;
 }
 
 void
-falmake_none_standard(from,charset,src)
-char *from;
-XlcCharSet 	charset;
-char *src;
+falmake_none_standard(char *from, XlcCharSet charset, char *src)
 {
     int name_len,seq_len,i;
     name_len = 2 + strlen(charset->encoding_name) + 1;
@@ -387,12 +376,12 @@ char *src;
     strcpy(&from[seq_len + name_len],src);
 }
 int
-fal_glyph_to_code(locale,charset_str,codeset,glyph_index,codepoint)
-char 	*locale;
-char 	*charset_str;
-int 	codeset;
-unsigned long 	glyph_index;
-unsigned long 	*codepoint;
+fal_glyph_to_code(
+char 	*locale,
+char 	*charset_str,
+int 	codeset,
+unsigned long 	glyph_index,
+unsigned long 	*codepoint)
 {
     XLCd 	lcd;
     unsigned char *from; int	from_left;
@@ -466,12 +455,12 @@ typedef struct _FalCodeRegion {
 } FalCodeRegion ;
 
 int
-FalGetUDCCPArea(locale,codeset,charset_str,cr,num_cr)
-char 		*locale;
-int 		codeset;
-char 		*charset_str;
-FalCodeRegion **cr;
-int  *num_cr;
+FalGetUDCCPArea(
+char 		*locale,
+int 		codeset,
+char 		*charset_str,
+FalCodeRegion **cr,
+int  *num_cr)
 {
     int i,num_gr,ret;
     FalGlyphRegion *gr;
@@ -547,9 +536,7 @@ typedef struct _FalGIInf {
  *
  *
  */
-static Bool vgi_to_gi(gi,vgi,scope)
-unsigned long 	*gi,vgi;
-FontScope	scope;
+static Bool vgi_to_gi(unsigned long *gi, unsigned long vgi, FontScope scope)
 {
     if(vgi >= scope->start && vgi <= scope->end){
         if(scope->shift_direction == (unsigned long)'+'){
@@ -566,13 +553,13 @@ FontScope	scope;
  *
  */
 static Bool
-fal_vgi_to_gi(lcd,locale,vglyph,glyph,charset,charsetname)
-XLCd    lcd;
-char    *locale;
-unsigned long   vglyph;
-unsigned long   *glyph;
-XlcCharSet	charset;
-char    *charsetname;
+fal_vgi_to_gi(
+XLCd    lcd,
+char    *locale,
+unsigned long   vglyph,
+unsigned long   *glyph,
+XlcCharSet	charset,
+char    *charsetname)
 {
     int num = 0,count,num_ret=0;
     int i,j,k;
@@ -620,11 +607,11 @@ char    *charsetname;
     return(True);
 }
 int
-fal_code_to_glyph(locale,codepoint,gi,num_gi)
-char 		*locale;
-unsigned long 	codepoint;
-FalGIInf 	**gi;
-int 		*num_gi;
+fal_code_to_glyph(
+char 		*locale,
+unsigned long 	codepoint,
+FalGIInf 	**gi,
+int 		*num_gi)
 {
     XLCd        lcd;
     unsigned char *from; int    from_left;

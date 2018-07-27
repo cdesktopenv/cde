@@ -51,9 +51,6 @@
 #include "_fallibint.h"
 #include "_fallcPubI.h"
 #include <X11/Xos.h>
-#ifdef X_NOT_STDC_ENV
-extern char *getenv();
-#endif
 
 /************************************************************************/
 
@@ -64,10 +61,7 @@ extern char *getenv();
 */
 
 static int
-parse_line(line, argv, argsize)
-    char *line;
-    char **argv;
-    int argsize;
+parse_line(char *line, char **argv, int argsize)
 {
     int argc = 0;
     char *p = line;
@@ -97,8 +91,7 @@ parse_line(line, argv, argsize)
 #endif
 
 static void
-xlocaledir(path)
-    char *path;
+xlocaledir(char *path)
 {
     char *dir, *p = path;
     int len;
@@ -114,10 +107,7 @@ xlocaledir(path)
 }
 
 static int
-parse_path(path, argv, argsize)
-    char *path;
-    char **argv;
-    int argsize;
+parse_path(char *path, char **argv, int argsize)
 {
     char *p = path;
     int i, n;
@@ -144,10 +134,7 @@ parse_path(path, argv, argsize)
 enum { LtoR, RtoL };
 
 static char *
-_XlcResolveName(lc_name, file_name, direction)
-    char *lc_name;
-    char *file_name;
-    int direction;	/* mapping direction */
+_XlcResolveName(char *lc_name, char *file_name, int direction)/*mapping direction*/
 {
     FILE *fp;
     char buf[BUFSIZE], *name = NULL;
@@ -195,9 +182,7 @@ _XlcResolveName(lc_name, file_name, direction)
 #define	tolower(ch)	((ch) - 'A' + 'a')
 */
 static char *
-lowercase(dst, src)
-    char *dst;
-    char *src;
+lowercase(char *dst, char *src)
 {
     char *s, *t;
 
@@ -210,9 +195,7 @@ lowercase(dst, src)
 
 /************************************************************************/
 char *
-_fallcFileName(lcd, category)
-    XLCd lcd;
-    char *category;
+_fallcFileName(XLCd lcd, char *category)
 {
     char lc_name[BUFSIZE];
     char cat[BUFSIZE], dir[BUFSIZE];
@@ -267,12 +250,12 @@ _fallcFileName(lcd, category)
 #endif
 
 int
-_fallcResolveLocaleName(lc_name, full_name, language, territory, codeset)
-    char *lc_name;
-    char *full_name;
-    char *language;
-    char *territory;
-    char *codeset;
+_fallcResolveLocaleName(
+    char *lc_name,
+    char *full_name,
+    char *language,
+    char *territory,
+    char *codeset)
 {
     char dir[BUFSIZE], buf[BUFSIZE], *name = NULL;
     int i, n;
@@ -337,9 +320,7 @@ _fallcResolveLocaleName(lc_name, full_name, language, territory, codeset)
 #endif
 
 int
-_fallcResolveDBName(lc_name, file_name)
-    char *lc_name;
-    char *file_name;
+_fallcResolveDBName(char *lc_name, char *file_name)
 {
     char dir[BUFSIZE], buf[BUFSIZE], *name = NULL;
     int i, n;
@@ -367,8 +348,7 @@ _fallcResolveDBName(lc_name, file_name)
 
 /************************************************************************/
 int
-_fallcResolveI18NPath(path_name)
-    char *path_name;
+_fallcResolveI18NPath(char *path_name)
 {
     if(path_name != NULL){
 	xlocaledir(path_name);

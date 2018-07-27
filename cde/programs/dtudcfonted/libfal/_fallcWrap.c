@@ -93,36 +93,16 @@ from the X Consortium.
 #endif
 #include "_falutil.h"
 
-#ifdef __STDC__
-#define Const const
-#else
-#define Const /**/
-#endif
-
-#ifdef X_NOT_STDC_ENV
-extern char *getenv();
-#endif
-
 extern void _fallcInitLoader(
-#if NeedFunctionPrototypes
     void
-#endif
 );
 
 #ifdef XTHREADS
 LockInfoPtr _Xi18n_lock;
 #endif
 
-#if NeedFunctionPrototypes
 char *
-falSetLocaleModifiers(
-    _Xconst char   *modifiers
-)
-#else
-char *
-falSetLocaleModifiers(modifiers)
-    char        *modifiers;
-#endif
+falSetLocaleModifiers(const char   *modifiers)
 {
     XLCd lcd = _fallcCurrentLC();
     char *user_mods;
@@ -143,14 +123,12 @@ falSetLocaleModifiers(modifiers)
 }
 
 Bool
-falSupportsLocale()
+falSupportsLocale(void)
 {
     return _fallcCurrentLC() != (XLCd)NULL;
 }
 
-Bool _fallcValidModSyntax(mods, valid_mods)
-    char *mods;
-    char **valid_mods;
+Bool _fallcValidModSyntax(char *mods, char **valid_mods)
 {
     int i;
     char **ptr;
@@ -174,14 +152,11 @@ Bool _fallcValidModSyntax(mods, valid_mods)
     return !mods || !*mods;
 }
 
-static Const char *im_valid[] = {"im", (char *)NULL};
+static const char *im_valid[] = {"im", (char *)NULL};
 
 /*ARGSUSED*/
 char *
-_fallcDefaultMapModifiers (lcd, user_mods, prog_mods)
-    XLCd lcd;
-    char *user_mods;
-    char *prog_mods;
+_fallcDefaultMapModifiers (XLCd lcd, char *user_mods, char *prog_mods)
 {
     int i;
     char *mods;
@@ -231,8 +206,7 @@ typedef struct _XlcLoaderListRec {
 static XlcLoaderList loader_list = NULL;
 
 void
-_fallcRemoveLoader(proc)
-    XLCdLoadProc proc;
+_fallcRemoveLoader(XLCdLoadProc proc)
 {
     XlcLoaderList loader, prev;
 
@@ -259,9 +233,7 @@ _fallcRemoveLoader(proc)
 }
 
 Bool
-_fallcAddLoader(proc, position)
-    XLCdLoadProc proc;
-    XlcPosition position;
+_fallcAddLoader(XLCdLoadProc proc, XlcPosition position)
 {
     XlcLoaderList loader, last;
 
@@ -292,8 +264,7 @@ _fallcAddLoader(proc, position)
 }
 
 XLCd
-_falOpenLC(name)
-    char *name;
+_falOpenLC(char *name)
 {
     XLCd lcd;
     XlcLoaderList loader;
@@ -319,7 +290,8 @@ _falOpenLC(name)
 	if (!strcmp (cur->lcd->core->name, name)) {
 	    lcd = cur->lcd;
 	    cur->ref_count++;
-	    goto found;
+	    _XUnlockMutex(_Xi18n_lock);
+            return lcd;
 	}
     }
 
@@ -345,15 +317,10 @@ _falOpenLC(name)
 	    break;
 	}
     }
-
-found:
-    _XUnlockMutex(_Xi18n_lock);
-    return lcd;
 }
 
 void
-_falCloseLC(lcd)
-    XLCd lcd;
+_falCloseLC(XLCd lcd)
 {
     XLCdList cur, *prev;
 
@@ -374,7 +341,7 @@ _falCloseLC(lcd)
  */
 
 XLCd
-_fallcCurrentLC()
+_fallcCurrentLC(void)
 {
     XLCd lcd;
     static XLCd last_lcd = NULL;
@@ -390,8 +357,7 @@ _fallcCurrentLC()
 }
 
 XrmMethods
-_falrmInitParseInfo(state)
-    XPointer *state;
+_falrmInitParseInfo(XPointer *state)
 {
     XLCd lcd = _falOpenLC((char *) NULL);
 
@@ -402,11 +368,11 @@ _falrmInitParseInfo(state)
 }
 
 int
-falmbTextPropertyToTextList(dpy, text_prop, list_ret, count_ret)
-    Display *dpy;
-    XTextProperty *text_prop;
-    char ***list_ret;
-    int *count_ret;
+falmbTextPropertyToTextList(
+    Display *dpy,
+    XTextProperty *text_prop,
+    char ***list_ret,
+    int *count_ret)
 {
     XLCd lcd = _fallcCurrentLC();
 
@@ -418,11 +384,11 @@ falmbTextPropertyToTextList(dpy, text_prop, list_ret, count_ret)
 }
 
 int
-falwcTextPropertyToTextList(dpy, text_prop, list_ret, count_ret)
-    Display *dpy;
-    XTextProperty *text_prop;
-    wchar_t ***list_ret;
-    int *count_ret;
+falwcTextPropertyToTextList(
+    Display *dpy,
+    XTextProperty *text_prop,
+    wchar_t ***list_ret,
+    int *count_ret)
 {
     XLCd lcd = _fallcCurrentLC();
 
@@ -434,12 +400,12 @@ falwcTextPropertyToTextList(dpy, text_prop, list_ret, count_ret)
 }
 
 int
-falmbTextListToTextProperty(dpy, list, count, style, text_prop)
-    Display *dpy;
-    char **list;
-    int count;
-    XICCEncodingStyle style;
-    XTextProperty *text_prop;
+falmbTextListToTextProperty(
+    Display *dpy,
+    char **list,
+    int count,
+    XICCEncodingStyle style,
+    XTextProperty *text_prop)
 {
     XLCd lcd = _fallcCurrentLC();
 
@@ -451,12 +417,12 @@ falmbTextListToTextProperty(dpy, list, count, style, text_prop)
 }
 
 int
-falwcTextListToTextProperty(dpy, list, count, style, text_prop)
-    Display *dpy;
-    wchar_t **list;
-    int count;
-    XICCEncodingStyle style;
-    XTextProperty *text_prop;
+falwcTextListToTextProperty(
+    Display *dpy,
+    wchar_t **list,
+    int count,
+    XICCEncodingStyle style,
+    XTextProperty *text_prop)
 {
     XLCd lcd = _fallcCurrentLC();
 
@@ -468,8 +434,7 @@ falwcTextListToTextProperty(dpy, list, count, style, text_prop)
 }
 
 void
-falwcFreeStringList(list)
-    wchar_t **list;
+falwcFreeStringList(wchar_t **list)
 {
     XLCd lcd = _fallcCurrentLC();
 
@@ -480,7 +445,7 @@ falwcFreeStringList(list)
 }
 
 char *
-falDefaultString()
+falDefaultString(void)
 {
     XLCd lcd = _fallcCurrentLC();
 
@@ -491,10 +456,7 @@ falDefaultString()
 }
 
 void
-_fallcCopyFromArg(src, dst, size)
-    char *src;
-    register char *dst;
-    register int size;
+_fallcCopyFromArg(char *src, char *dst, int size)
 {
     if (size == sizeof(long))
 	*((long *) dst) = (long) src;
@@ -515,10 +477,7 @@ _fallcCopyFromArg(src, dst, size)
 }
 
 void
-_fallcCopyToArg(src, dst, size)
-    register char *src;
-    register char **dst;
-    register int size;
+_fallcCopyToArg(char *src, char **dst, int size)
 {
     if (size == sizeof(long))
 	*((long *) *dst) = *((long *) src);
@@ -533,11 +492,9 @@ _fallcCopyToArg(src, dst, size)
 }
 
 void
-_fallcCountVaList(var, count_ret)
-    va_list var;
-    int *count_ret;
+_fallcCountVaList(va_list var, int *count_ret)
 {
-    register int count;
+    int count;
 
     for (count = 0; va_arg(var, char *); count++)
 	va_arg(var, XPointer);
@@ -546,12 +503,9 @@ _fallcCountVaList(var, count_ret)
 }
 
 void
-_fallcVaToArgList(var, count, args_ret)
-    va_list var;
-    register int count;
-    XlcArgList *args_ret;
+_fallcVaToArgList(va_list var, int count, XlcArgList *args_ret)
 {
-    register XlcArgList args;
+    XlcArgList args;
 
     *args_ret = args = (XlcArgList) Xmalloc(sizeof(XlcArg) * count);
     if (args == (XlcArgList) NULL)
@@ -564,22 +518,20 @@ _fallcVaToArgList(var, count, args_ret)
 }
 
 void
-_fallcCompileResourceList(resources, num_resources)
-    register XlcResourceList resources;
-    register int num_resources;
+_fallcCompileResourceList(XlcResourceList resources, int num_resources)
 {
     for ( ; num_resources-- > 0; resources++)
 	resources->xrm_name = falrmPermStringToQuark(resources->name);
 }
 
 char *
-_fallcGetValues(base, resources, num_resources, args, num_args, mask)
-    XPointer base;
-    XlcResourceList resources;
-    int num_resources;
-    XlcArgList args;
-    int num_args;
-    unsigned long mask;
+_fallcGetValues(
+    XPointer base,
+    XlcResourceList resources,
+    int num_resources,
+    XlcArgList args,
+    int num_args,
+    unsigned long mask)
 {
     XlcResourceList res;
     XrmQuark xrm_name;
@@ -605,13 +557,13 @@ _fallcGetValues(base, resources, num_resources, args, num_args, mask)
 }
 
 char *
-_fallcSetValues(base, resources, num_resources, args, num_args, mask)
-    XPointer base;
-    XlcResourceList resources;
-    int num_resources;
-    XlcArgList args;
-    int num_args;
-    unsigned long mask;
+_fallcSetValues(
+    XPointer base,
+    XlcResourceList resources,
+    int num_resources,
+    XlcArgList args,
+    int num_args,
+    unsigned long mask)
 {
     XlcResourceList res;
     XrmQuark xrm_name;

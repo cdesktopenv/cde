@@ -95,17 +95,6 @@ static CTDataRec default_ct_data[] =
     { "JISX0208.1983-0:GR", "\033$)B" },
     { "KSC5601.1987-0:GL", "\033$(C" },
     { "KSC5601.1987-0:GR", "\033$)C" },
-#ifdef notdef
-    { "JISX0212.1990-0:GL", "\033$(D" },
-    { "JISX0212.1990-0:GR", "\033$)D" },
-    { "CNS11643.1986-1:GL", "\033$(G" },
-    { "CNS11643.1986-1:GR", "\033$)G" },
-    { "CNS11643.1986-2:GL", "\033$(H" },
-    { "CNS11643.1986-2:GR", "\033$)H" },
-
-    /* Non-Standard Character Set Encodings */
-    { "TIS620.2533-1:GR", "\033-T"},
-#endif
 } ;
 
 #define XctC0		0x0000
@@ -154,11 +143,9 @@ typedef struct {
 static CTInfo ct_list = NULL;
 
 static CTInfo
-_XlcGetCTInfoFromEncoding(encoding, length)
-    register char *encoding;
-    register int length;
+_XlcGetCTInfoFromEncoding(char *encoding, int length)
 {
-    register CTInfo ct_info;
+    CTInfo ct_info;
 
     for (ct_info = ct_list; ct_info; ct_info = ct_info->next) {
 	if (length >= ct_info->encoding_len) {
@@ -178,14 +165,11 @@ _XlcGetCTInfoFromEncoding(encoding, length)
 }
 
 static unsigned int
-_XlcParseCT(parse, text, length)
-    register CTParse parse;
-    char **text;
-    int *length;
+_XlcParseCT(CTParse parse, char **text, int *length)
 {
     unsigned int ret = 0;
     unsigned char ch;
-    register unsigned char *str = (unsigned char *) *text;
+    unsigned char *str = (unsigned char *) *text;
 
     bzero((char *) parse, sizeof(CTParseRec));
 
@@ -209,7 +193,9 @@ _XlcParseCT(parse, text, length)
 		parse->ext_seg_length = (*str - 128) * 128 + *(str + 1) - 128;
 		str += 2;
 
-		goto done;
+		*length -= (char *) str - *text;
+		*text = (char *) str;
+		return ret;
 	    } else if (*str == XctCntrlFunc && *length >= 4 &&
 		       *(str + 1) >= 0x20 && *(str + 1) <= 0x2f &&
 		       (*(str + 2) == XctIgnoreExt ||
@@ -220,7 +206,9 @@ _XlcParseCT(parse, text, length)
 		parse->version = *str++ - 0x20;
 		ret = *str++;
 
-		goto done;
+	        *length -= (char *) str - *text;
+		*text = (char *) str;
+		return ret;
 	    }
 
 	    if (*str == XctMB) {	/* multiple-byte sets */
@@ -276,21 +264,29 @@ _XlcParseCT(parse, text, length)
 		parse->ct_info = _XlcGetCTInfoFromEncoding(*text, *length);
 	    }
 	    str++;
-	    goto done;
+	    *length -= (char *) str - *text;
+	    *text = (char *) str;
+	    return ret;
 	case XctCSI:
 	    /* direction */
 	    if (*str == XctLeftToRight && *(str + 1) == XctDirection) {
 		ret = XctLeftToRight;
 		str += 2;
-		goto done;
+		*length -= (char *) str - *text;
+		*text = (char *) str;
+		return ret;
 	    } else if (*str == XctRightToLeft && *(str + 1) == XctDirection) {
 		ret = XctRightToLeft;
 		str += 2;
-		goto done;
+		*length -= (char *) str - *text;
+		*text = (char *) str;
+		return ret;
 	    } else if (*str == XctDirectionEnd) {
 		ret = XctDirectionEnd;
 		str++;
-		goto done;
+		*length -= (char *) str - *text;
+		*text = (char *) str;
+		return ret;
 	    }
 
 	    SKIP_P(str)
@@ -301,7 +297,9 @@ _XlcParseCT(parse, text, length)
 
 	    ret = XctCSISeq;
 	    str++;
-	    goto done;
+	    *length -= (char *) str - *text;
+	    *text = (char *) str;
+	    return ret;
     }
 
     if (ch & 0x80) {
@@ -319,18 +317,10 @@ _XlcParseCT(parse, text, length)
     }
 
     return ret;
-
-done:
-    *length -= (char *) str - *text;
-    *text = (char *) str;
-
-    return ret;
 }
 
 XlcCharSet
-_fallcAddCT(name, encoding)
-    char *name;
-    char *encoding;
+_fallcAddCT(char *name, char *encoding)
 {
     CTInfo ct_info;
     XlcCharSet charset;
@@ -381,10 +371,9 @@ _fallcAddCT(name, encoding)
 }
 
 static CTInfo
-_XlcGetCTInfoFromCharSet(charset)
-    register XlcCharSet charset;
+_XlcGetCTInfoFromCharSet(XlcCharSet charset)
 {
-    register CTInfo ct_info;
+    CTInfo ct_info;
 
     for (ct_info = ct_list; ct_info; ct_info = ct_info->next)
 	if (ct_info->charset == charset)
@@ -394,8 +383,7 @@ _XlcGetCTInfoFromCharSet(charset)
 }
 
 Bool
-_fallcParseCharSet(charset)
-    XlcCharSet charset;
+_fallcParseCharSet(XlcCharSet charset)
 {
     CTParseRec parse;
     char *ptr, buf[BUFSIZ];
@@ -434,11 +422,11 @@ _fallcParseCharSet(charset)
 static void init_converter();
 
 Bool
-_fallcInitCTInfo()
+_fallcInitCTInfo(void)
 {
-    register XlcCharSet charset;
-    register CTData ct_data;
-    register int num;
+    XlcCharSet charset;
+    CTData ct_data;
+    int num;
 
     if (ct_list == NULL) {
 	num = sizeof(default_ct_data) / sizeof(CTDataRec);
@@ -455,10 +443,7 @@ _fallcInitCTInfo()
 
 
 static int
-_XlcCheckCTSequence(state, ctext, ctext_len)
-    State state;
-    char **ctext;
-    int *ctext_len;
+_XlcCheckCTSequence(State state, char **ctext, int *ctext_len)
 {
     XlcCharSet charset;
     CTParseRec parse;
@@ -493,8 +478,7 @@ _XlcCheckCTSequence(state, ctext, ctext_len)
 
 
 static void
-init_state(conv)
-    XlcConv conv;
+init_state(XlcConv conv)
 {
     State state = (State) conv->state;
     static XlcCharSet GL_charset = NULL;
@@ -512,17 +496,17 @@ init_state(conv)
 }
 
 static int
-cttocs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+cttocs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
-    register State state = (State) conv->state;
-    register unsigned char ch;
+    State state = (State) conv->state;
+    unsigned char ch;
     int length;
     XlcCharSet charset = NULL;
     char *ctptr, *bufptr;
@@ -600,19 +584,18 @@ cttocs(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-cstoct(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+cstoct(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XlcSide side;
-    unsigned char min_ch, max_ch;
-    register unsigned char ch;
+    unsigned char min_ch, max_ch, ch;
     int length;
     CTInfo ct_info;
     XlcCharSet charset;
@@ -711,19 +694,19 @@ cstoct(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-strtocs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+strtocs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
-    register char *src, *dst;
+    char *src, *dst;
     unsigned char side;
-    register length;
+    int length;
 
     src = (char *) *from;
     dst = (char *) *to;
@@ -746,14 +729,14 @@ strtocs(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-cstostr(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+cstostr(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     char *csptr, *string_ptr;
@@ -792,8 +775,7 @@ cstostr(conv, from, from_left, to, to_left, args, num_args)
 
 
 static void
-close_converter(conv)
-    XlcConv conv;
+close_converter(XlcConv conv)
 {
     if (conv->state)
 	Xfree((char *) conv->state);
@@ -802,29 +784,25 @@ close_converter(conv)
 }
 
 static XlcConv
-create_conv(methods)
-    XlcConvMethods methods;
+create_conv(XlcConvMethods methods)
 {
-    register XlcConv conv;
+    XlcConv conv;
 
     conv = (XlcConv) Xmalloc(sizeof(XlcConvRec));
     if (conv == NULL)
 	return (XlcConv) NULL;
 
     conv->state = (XPointer) Xmalloc(sizeof(StateRec));
-    if (conv->state == NULL)
-	goto err;
+    if (conv->state == NULL) {
+	    close_converter(conv);
+	    return (XlcConv) NULL;
+    }
 
     conv->methods = methods;
 
     init_state(conv);
 
     return conv;
-
-err:
-    close_converter(conv);
-
-    return (XlcConv) NULL;
 }
 
 static XlcConvMethodsRec cttocs_methods = {
@@ -834,11 +812,7 @@ static XlcConvMethodsRec cttocs_methods = {
 } ;
 
 static XlcConv
-open_cttocs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_cttocs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(&cttocs_methods);
 }
@@ -850,11 +824,7 @@ static XlcConvMethodsRec cstoct_methods = {
 } ;
 
 static XlcConv
-open_cstoct(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_cstoct(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(&cstoct_methods);
 }
@@ -866,11 +836,7 @@ static XlcConvMethodsRec strtocs_methods = {
 } ;
 
 static XlcConv
-open_strtocs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_strtocs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(&strtocs_methods);
 }
@@ -882,17 +848,13 @@ static XlcConvMethodsRec cstostr_methods = {
 } ;
 
 static XlcConv
-open_cstostr(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_cstostr(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(&cstostr_methods);
 }
 
 static void
-init_converter()
+init_converter(void)
 {
     _fallcSetConverter((XLCd) NULL, XlcNCompoundText, (XLCd) NULL, XlcNCharSet,
 		     open_cttocs);

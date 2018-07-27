@@ -67,74 +67,50 @@
 /*** #define USE_UTF_LOADER ***/
 
 extern XLCd _fallcDefaultLoader(
-#if NeedFunctionPrototypes
     char*
-#endif
 );
 
 #ifdef DYNAMIC_LOAD
 #ifdef sun
 extern XLCd _falsunOsDynamicLoad(
-#if NeedFunctionPrototypes
     char*
-#endif
 );
 #endif /* sun */
-
-#ifdef AIXV3
-extern XLCd _falaixOsDynamicLoad(
-#if NeedFunctionPrototypes
-    char*
-#endif
-);
-#endif /* AIXV3 */
-#endif
+#endif /* DYNAMIC_LOAD */
 
 #ifdef USE_GENERIC_LOADER
 extern XLCd _fallcGenericLoader(
-#if NeedFunctionPrototypes
     char*
-#endif
 );
 #endif
 
 #ifdef USE_UTF_LOADER
 extern XLCd _fallcUtfLoader(
-#if NeedFunctionPrototypes
     char*
-#endif
 );
 #endif
 
 #ifdef USE_EUC_LOADER
 extern XLCd _fallcEucLoader(
-#if NeedFunctionPrototypes
     char*
-#endif
 );
 #endif
 
 #ifdef USE_SJIS_LOADER
 extern XLCd _fallcSjisLoader(
-#if NeedFunctionPrototypes
     char*
-#endif
 );
 #endif
 
 #ifdef USE_JIS_LOADER
 extern XLCd _XlcJisLoader(
-#if NeedFunctionPrototypes
     char*
-#endif
 );
 #endif
 
 #ifdef USE_DYNAMIC_LOADER
 extern XLCd _fallcDynamicLoader(
-#if NeedFunctionPrototypes
     char*
-#endif
 );
 #endif
 
@@ -144,7 +120,7 @@ extern XLCd _fallcDynamicLoader(
  */
 
 void
-_fallcInitLoader()
+_fallcInitLoader(void)
 {
 #ifdef USE_GENERIC_LOADER
     _fallcAddLoader(_fallcGenericLoader, XlcHead);
@@ -174,10 +150,6 @@ _fallcInitLoader()
 #ifdef sun
     _fallcAddLoader(_falsunOsDynamicLoad, XlcHead);
 #endif /* sun */
-
-#ifdef AIXV3
-    _fallcAddLoader(_falaixOsDynamicLoad, XlcHead);
-#endif /* AIXV3 */
 #endif /* DYNAMIC_LOAD */
 
 #ifdef USE_DYNAMIC_LOADER

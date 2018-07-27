@@ -53,7 +53,7 @@
 #include	"bdfgpf.h"
 
 #include	"snfstruct.h"
-#include	"fontstruct.h"
+#include	<X11/fonts/fontstruct.h>
 
 #include	"FaLib.h"
 #include	"udcutil.h"
@@ -61,10 +61,12 @@
 #include	<errno.h>
 
 
-static	void	sigint_out() ;
-static	void	put_error_and_exit();
-static	void	put_help();
-static	int	CnvGPFtoBDF() ;
+static	void	sigint_out(void);
+static	void	put_error_and_exit(struct ptobhead *ptob,
+				   int er_no,
+				   char *prog_name);
+static	void	put_help(char *prog_name);
+static	int	CnvGPFtoBDF(struct ptobhead *head);
 
 static struct ptobhead Head;
 
@@ -75,7 +77,7 @@ static	char	*char_set ;
 
 
 static void
-sigint_out()
+sigint_out(void)
 {
 	if (Head.out_file) {
 		Unlink_Tmpfile(Head.out_file, com);
@@ -83,9 +85,7 @@ sigint_out()
 	exit(0);
 }
 
-main( argc, argv )
-int	argc;
-char	*argv[];
+int main(int argc, char *argv[])
 {
 	FontInfoRec   *finf;
 	int	help, no_infile, style_err, rtn, i;
@@ -96,7 +96,8 @@ char	*argv[];
 	char	*style ;	/* style */
 	int 	chk_fd;
 	pid_t	chld_pid = 0;
-#if defined( SVR4 ) || defined( SYSV ) || defined(CSRG_BASED) || defined(__linux__)
+#if defined( SVR4 ) || defined( SYSV ) || defined(CSRG_BASED) || \
+    defined(__linux__)
 	int	chld_stat ;
 #else
 	union	wait	chld_stat ;
@@ -282,15 +283,8 @@ char	*argv[];
 		put_error_and_exit( &Head, MKTMP_ERROR, argv[0] );
 	}
 
-	permission = 0;
 	if ( ( snf_fd = open( Head.snf_file, O_RDONLY ) ) >= 0 ) {
 		if ( ChkPcfFontFile( Head.snf_file) ) {
-			/* snf file */
-			COMM_SNF_FILEVERSION( snf_fd, finf, buf, permission ) ;
-			if( permission < 0 ) {
-				put_error_and_exit( &Head, BDF_INVAL, argv[0] );
-			}
-		} else {
 			/* pcf */
 			close( snf_fd );
 		}
@@ -396,8 +390,7 @@ char	*argv[];
 
 
 static
-CnvGPFtoBDF( head )
-struct ptobhead *head;
+CnvGPFtoBDF(struct ptobhead *head)
 {
 	int	    rtn;
 	char    textbuf[BUFSIZE];
@@ -439,10 +432,7 @@ struct ptobhead *head;
 
 
 static	void
-put_error_and_exit( ptob, er_no, prog_name )
-struct ptobhead *ptob;
-int    er_no;
-char   *prog_name;
+put_error_and_exit(struct ptobhead *ptob, int er_no, char *prog_name)
 {
 	ErrMsgTable_AndExit( er_no, ptob->snf_file, ptob->out_file,
 	    ptob->in_file,  NULL,
@@ -454,8 +444,7 @@ char   *prog_name;
 
 
 static	void
-put_help( prog_name )
-char	*prog_name;
+put_help(char *prog_name)
 {
 	USAGE1("Usage: %s -xlfd xlfd_name\n", prog_name);
 	USAGE("\t\t[-g character_size][-p character_pattern_file_name]\n" );

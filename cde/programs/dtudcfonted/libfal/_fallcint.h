@@ -107,12 +107,10 @@ from the X Consortium.
 #include "_falvarargs.h"
 
 typedef Bool (*XFilterEventProc)(
-#if NeedFunctionPrototypes
     Display*		/* display */,
     Window		/* window */,
     XEvent*		/* event */,
     XPointer		/* client_data */
-#endif
 );
 
 typedef struct _XIMFilter {
@@ -195,35 +193,25 @@ typedef struct {
  */
 
 typedef void (*XmbInitProc)(
-#if NeedFunctionPrototypes
     XPointer		/* state */
-#endif
 );
 
 typedef char (*XmbCharProc)(
-#if NeedFunctionPrototypes
     XPointer		/* state */,
     char*		/* str */,
     int*		/* lenp */
-#endif
 );
 
 typedef void (*XmbFinishProc)(
-#if NeedFunctionPrototypes
     XPointer		/* state */
-#endif
 );
 
 typedef char* (*XlcNameProc)(
-#if NeedFunctionPrototypes
     XPointer		/* state */
-#endif
 );
 
 typedef void (*XrmDestroyProc)(
-#if NeedFunctionPrototypes
     XPointer		/* state */
-#endif
 );
 
 typedef struct {
@@ -241,41 +229,32 @@ typedef struct _XLCd *XLCd; /* need forward reference */
  */
 
 typedef void (*XCloseLCProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 typedef char* (*XlcMapModifiersProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     char*		/* user_mods */,
     char*		/* prog_mods */
-#endif
 );
 
 typedef XOM (*XOpenOMProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* display */,
     XrmDatabase		/* rdb */,
-    _Xconst char*	/* res_name */,
-    _Xconst char*	/* res_class */
-#endif
+    const char*		/* res_name */,
+    const char*		/* res_class */
 );
 
 typedef XIM (*XOpenIMProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* display */,
     XrmDatabase		/* rdb */,
     char*		/* res_name */,
     char*		/* res_class */
-#endif
 );
 
 typedef Bool (*XRegisterIMInstantiateCBProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* display */,
     XrmDatabase		/* rdb */,
@@ -283,11 +262,9 @@ typedef Bool (*XRegisterIMInstantiateCBProc)(
     char*		/* res_class */,
     XIMProc		/* callback */,
     XPointer*		/* client_data */
-#endif
 );
 
 typedef Bool (*XUnregisterIMInstantiateCBProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* display */,
     XrmDatabase		/* rdb */,
@@ -295,69 +272,54 @@ typedef Bool (*XUnregisterIMInstantiateCBProc)(
     char*		/* res_class */,
     XIMProc		/* callback */,
     XPointer*		/* client_data */
-#endif
 );
 
 typedef XrmMethods (*XrmInitParseInfoProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     XPointer*		/* state */
-#endif
 );
 
 typedef int (*falmbTextPropertyToTextListProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* display */,
     XTextProperty*	/* text_prop */,
     char***		/* list_return */,
     int*		/* count_return */
-#endif
 );
 
 typedef int (*falwcTextPropertyToTextListProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* display */,
     XTextProperty*	/* text_prop */,
     wchar_t***		/* list_return */,
     int*		/* count_return */
-#endif
 );
 
 typedef int (*falmbTextListToTextPropertyProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* display */,
     char**		/* list */,
     int			/* count */,
     XICCEncodingStyle	/* style */,
     XTextProperty*	/* text_prop_return */
-#endif
 );
 
 typedef int (*falwcTextListToTextPropertyProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     Display*		/* display */,
     wchar_t**		/* list */,
     int			/* count */,
     XICCEncodingStyle	/* style */,
     XTextProperty*	/* text_prop_return */
-#endif
 );
 
 typedef void (*falwcFreeStringListProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */,
     wchar_t**		/* list */
-#endif
 );
 
 typedef char* (*falDefaultStringProc)(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 typedef struct {
@@ -416,33 +378,25 @@ typedef struct _XlcResource {
 #define XlcNumber(arr)	(sizeof(arr) / sizeof(arr[0]))
 
 typedef Status (*XCloseOMProc)(
-#if NeedFunctionPrototypes
     XOM			/* om */
-#endif
 );
 
 typedef char* (*XSetOMValuesProc)(
-#if NeedFunctionPrototypes
     XOM			/* om */,
     XlcArgList		/* args */,
     int			/* num_args */
-#endif
 );
 
 typedef char* (*XGetOMValuesProc)(
-#if NeedFunctionPrototypes
     XOM			/* om */,
     XlcArgList		/* args */,
     int			/* num_args */
-#endif
 );
 
 typedef XOC (*XCreateOCProc)(
-#if NeedFunctionPrototypes
     XOM			/* om */,
     XlcArgList		/* args */,
     int			/* num_args */
-#endif
 );
 
 typedef struct _XOMMethodsRec {
@@ -474,25 +428,19 @@ typedef struct _XOM {
 } XOMRec;
 
 typedef void (*XDestroyOCProc)(
-#if NeedFunctionPrototypes
     XOC			/* oc */
-#endif
 );
 
 typedef char* (*XSetOCValuesProc)(
-#if NeedFunctionPrototypes
     XOC			/* oc */,
     XlcArgList		/* args */,
     int			/* num_args */
-#endif
 );
 
 typedef char* (*XGetOCValuesProc)(
-#if NeedFunctionPrototypes
     XOC			/* oc */,
     XlcArgList		/* args */,
     int			/* num_args */
-#endif
 );
 
 /*
@@ -505,27 +453,22 @@ typedef char* (*XGetOCValuesProc)(
  */
 
 typedef int (*XmbTextEscapementProc)(
-#if NeedFunctionPrototypes
     XFontSet		/* font_set */,
-    _Xconst char*	/* text */,
+    const char*		/* text */,
     int			/* text_len */
-#endif
 );
 
 typedef int (*XmbTextExtentsProc)(
-#if NeedFunctionPrototypes
     XFontSet		/* font_set */,
-    _Xconst char*	/* text */,
+    const char*		/* text */,
     int			/* text_len */,
     XRectangle*		/* overall_ink_extents */,
     XRectangle*		/* overall_logical_extents */
-#endif
 );
 
 typedef Status (*XmbTextPerCharExtentsProc)(
-#if NeedFunctionPrototypes
     XFontSet		/* font_set */,
-    _Xconst char*	/* text */,
+    const char*		/* text */,
     int			/* text_len */,
     XRectangle*		/* ink_extents_buffer */,
     XRectangle*		/* logical_extents_buffer */,
@@ -533,57 +476,47 @@ typedef Status (*XmbTextPerCharExtentsProc)(
     int*		/* num_chars */,
     XRectangle*		/* max_ink_extents */,
     XRectangle*		/* max_logical_extents */
-#endif
 );
 
 typedef int (*XmbDrawStringProc)(
-#if NeedFunctionPrototypes
     Display*		/* display */,
     Drawable		/* drawable */,
     XFontSet		/* font_set */,
     GC			/* gc */,
     int			/* x */,
     int			/* y */,
-    _Xconst char*	/* text */,
+    const char*		/* text */,
     int			/* text_len */
-#endif
 );
 
 typedef void (*XmbDrawImageStringProc)(
-#if NeedFunctionPrototypes
     Display*		/* display */,
     Drawable		/* drawable */,
     XFontSet		/* font_set */,
     GC			/* gc */,
     int			/* x */,
     int			/* y */,
-    _Xconst char*	/* text */,
+    const char*		/* text */,
     int			/* text_len */
-#endif
 );
 
 typedef int (*XwcTextEscapementProc)(
-#if NeedFunctionPrototypes
     XFontSet		/* font_set */,
-    _Xconst wchar_t*	/* text */,
+    const wchar_t*	/* text */,
     int			/* text_len */
-#endif
 );
 
 typedef int (*XwcTextExtentsProc)(
-#if NeedFunctionPrototypes
     XFontSet		/* font_set */,
-    _Xconst wchar_t*	/* text */,
+    const wchar_t*	/* text */,
     int			/* text_len */,
     XRectangle*		/* overall_ink_extents */,
     XRectangle*		/* overall_logical_extents */
-#endif
 );
 
 typedef Status (*XwcTextPerCharExtentsProc)(
-#if NeedFunctionPrototypes
     XFontSet		/* font_set */,
-    _Xconst wchar_t*	/* text */,
+    const wchar_t*	/* text */,
     int			/* text_len */,
     XRectangle*		/* ink_extents_buffer */,
     XRectangle*		/* logical_extents_buffer */,
@@ -591,33 +524,28 @@ typedef Status (*XwcTextPerCharExtentsProc)(
     int*		/* num_chars */,
     XRectangle*		/* max_ink_extents */,
     XRectangle*		/* max_logical_extents */
-#endif
 );
 
 typedef int (*XwcDrawStringProc)(
-#if NeedFunctionPrototypes
     Display*		/* display */,
     Drawable		/* drawable */,
     XFontSet		/* font_set */,
     GC			/* gc */,
     int			/* x */,
     int			/* y */,
-    _Xconst wchar_t*	/* text */,
+    const wchar_t*	/* text */,
     int			/* text_len */
-#endif
 );
 
 typedef void (*XwcDrawImageStringProc)(
-#if NeedFunctionPrototypes
     Display*		/* display */,
     Drawable		/* drawable */,
     XFontSet		/* font_set */,
     GC			/* gc */,
     int			/* x */,
     int			/* y */,
-    _Xconst wchar_t*	/* text */,
+    const wchar_t*	/* text */,
     int			/* text_len */
-#endif
 );
 
 typedef struct {
@@ -669,12 +597,6 @@ typedef struct _XOC {
 } XOCRec;
 
 
-/* current Ultrix compiler gets horribly confused */
-#if defined(FUNCPROTO) && defined(ultrix)
-#undef NeedFunctionPrototypes
-#endif
-
-
 /*
  * X Input Managers are an instantiable object, so we define it, the
  * object itself, a method list and data.
@@ -685,34 +607,22 @@ typedef struct _XOC {
  */
 typedef struct {
     Status (*close)(
-#if NeedFunctionPrototypes
 	XIM
-#endif
 	);
     char* (*set_values)(
-#if NeedFunctionPrototypes
 	XIM, XIMArg*
-#endif
 	);
     char* (*get_values)(
-#if NeedFunctionPrototypes
 	XIM, XIMArg*
-#endif
 	);
     XIC (*create_ic)(
-#if NeedFunctionPrototypes
 	XIM, XIMArg*
-#endif
 	);
     int (*ctstombs)(
-#if NeedFunctionPrototypes
 	XIM, char*, int, char*, int, Status *
-#endif
 	);
     int (*ctstowcs)(
-#if NeedFunctionPrototypes
 	XIM, char*, int, wchar_t*, int, Status *
-#endif
 	);
 } XIMMethodsRec, *XIMMethods;
 
@@ -763,49 +673,31 @@ typedef struct _XIM {
  */
 typedef struct {
     void (*destroy)(
-#if NeedFunctionPrototypes
 	XIC
-#endif
 	);
     void (*set_focus)(
-#if NeedFunctionPrototypes
 	XIC
-#endif
 	);
     void (*unset_focus)(
-#if NeedFunctionPrototypes
 	XIC
-#endif
 	);
     char* (*set_values)(
-#if NeedFunctionPrototypes
 	XIC, XIMArg*
-#endif
 	);
     char* (*get_values)(
-#if NeedFunctionPrototypes
 	XIC, XIMArg*
-#endif
 	);
     char* (*mb_reset)(
-#if NeedFunctionPrototypes
 	XIC
-#endif
 	);
     wchar_t* (*wc_reset)(
-#if NeedFunctionPrototypes
 	XIC
-#endif
 	);
     int (*mb_lookup_string)(
-#if NeedFunctionPrototypes
 	XIC, XKeyEvent*, char*, int, KeySym*, Status*
-#endif
 	);
     int (*wc_lookup_string)(
-#if NeedFunctionPrototypes
 	XIC, XKeyEvent*, wchar_t*, int, KeySym*, Status*
-#endif
 	);
 } XICMethodsRec, *XICMethods;
 
@@ -847,186 +739,135 @@ typedef struct _XIC {
     XICCoreRec		core;			/* data of this IC */
 } XICRec;
 
-/* current Ultrix compiler gets horribly confused */
-#if !defined(NeedFunctionPrototypes) && defined(FUNCPROTO)
-#define NeedFunctionPrototypes 1
-#endif
-
 typedef XLCd (*XLCdLoadProc)(
-#if NeedFunctionPrototypes
     char*
-#endif
 );
 
 _XFUNCPROTOBEGIN
 
 extern XLCd _falOpenLC(
-#if NeedFunctionPrototypes
     char*		/* name */
-#endif
 );
 
 extern void _falCloseLC(
-#if NeedFunctionPrototypes
     XLCd		/* lcd */
-#endif
 );
 
 extern XLCd _fallcCurrentLC(
-#if NeedFunctionPrototypes
     void
-#endif
 );
 
 extern Bool _fallcValidModSyntax(
-#if NeedFunctionPrototypes
     char*	/* mods */,
     char**	/* valid */
-#endif
 );
 
 extern char *_fallcDefaultMapModifiers(
-#if NeedFunctionPrototypes
     XLCd	/* lcd */,
     char*	/* user_mods */,
     char*	/* prog_mods */
-#endif
 );
 
 extern void _XIMCompileResourceList(
-#if NeedFunctionPrototypes
     XIMResourceList	/* res */,
     unsigned int	/* num_res */
-#endif
 );
 
 extern void _XCopyToArg(
-#if NeedFunctionPrototypes
     XPointer		/* src */,
     XPointer*		/* dst */,
     unsigned int	/* size */
-#endif
 );
 
 extern char ** _falParseBaseFontNameList(
-#if NeedFunctionPrototypes
     char*		/* str */,
     int*		/* num */
-#endif
 );
 
 extern XrmMethods _falrmInitParseInfo(
-#if NeedFunctionPrototypes
 	XPointer*	/* statep */
-#endif
 );
 
 extern void _XRegisterFilterByMask(
-#if NeedFunctionPrototypes
     Display*		/* dpy */,
     Window		/* window */,
     unsigned long	/* event_mask */,
     Bool (*)(
-#if NeedNestedPrototypes
 	     Display*	/* display */,
 	     Window	/* window */,
 	     XEvent*	/* event */,
 	     XPointer	/* client_data */
-#endif
 	     )		/* filter */,
     XPointer		/* client_data */
-#endif
 );
 
 extern void _XRegisterFilterByType(
-#if NeedFunctionPrototypes
     Display*		/* dpy */,
     Window		/* window */,
     int			/* start_type */,
     int			/* end_type */,
     Bool (*)(
-#if NeedNestedPrototypes
 	     Display*	/* display */,
 	     Window	/* window */,
 	     XEvent*	/* event */,
 	     XPointer	/* client_data */
-#endif
 	     )		/* filter */,
     XPointer		/* client_data */
-#endif
 );
 
 extern void _XUnregisterFilter(
-#if NeedFunctionPrototypes
     Display*		/* dpy */,
     Window		/* window */,
     Bool (*)(
-#if NeedNestedPrototypes
 	     Display*	/* display */,
 	     Window	/* window */,
 	     XEvent*	/* event */,
 	     XPointer	/* client_data */
-#endif
 	     )		/* filter */,
     XPointer		/* client_data */
-#endif
 );
 
 extern void _fallcCountVaList(
-#if NeedFunctionPrototypes
     va_list		/* var */,
     int*		/* count_return */
-#endif
 );
 
 extern void _fallcVaToArgList(
-#if NeedFunctionPrototypes
     va_list		/* var */,
     int			/* count */,
     XlcArgList*		/* args_return */
-#endif
 );
 
 extern void _fallcCompileResourceList(
-#if NeedFunctionPrototypes
     XlcResourceList	/* resources */,
     int			/* num_resources */
-#endif
 );
 
 extern char *_fallcGetValues(
-#if NeedFunctionPrototypes
     XPointer		/* base */,
     XlcResourceList	/* resources */,
     int			/* num_resources */,
     XlcArgList		/* args */,
     int			/* num_args */,
     unsigned long	/* mask */
-#endif
 );
 
 extern char *_fallcSetValues(
-#if NeedFunctionPrototypes
     XPointer		/* base */,
     XlcResourceList	/* resources */,
     int			/* num_resources */,
     XlcArgList		/* args */,
     int			/* num_args */,
     unsigned long	/* mask */
-#endif
 );
 
 extern Bool _fallcAddLoader(
-#if NeedFunctionPrototypes
     XLCdLoadProc	/* proc */,
     XlcPosition		/* position */
-#endif
 );
 
 extern void _fallcRemoveLoader(
-#if NeedFunctionPrototypes
     XLCdLoadProc	/* proc */
-#endif
 );
 
 _XFUNCPROTOEND

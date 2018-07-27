@@ -51,11 +51,7 @@
 #include "_fallcPubI.h"
 
 int
-_fallcmbtowc(lcd, wstr, str, len)
-    XLCd lcd;
-    wchar_t *wstr;
-    char *str;
-    int len;
+_fallcmbtowc(XLCd lcd, wchar_t *wstr, char *str, int len)
 {
     static XLCd last_lcd = NULL;
     static XlcConv conv = NULL;
@@ -96,10 +92,7 @@ _fallcmbtowc(lcd, wstr, str, len)
 }
 
 int
-_fallcwctomb(lcd, str, wc)
-    XLCd lcd;
-    char *str;
-    wchar_t wc;
+_fallcwctomb(XLCd lcd, char *str, wchar_t wc)
 {
     static XLCd last_lcd = NULL;
     static XlcConv conv = NULL;
@@ -139,11 +132,7 @@ _fallcwctomb(lcd, str, wc)
 }
 
 int
-_fallcmbstowcs(lcd, wstr, str, len)
-    XLCd lcd;
-    wchar_t *wstr;
-    char *str;
-    int len;
+_fallcmbstowcs(XLCd lcd, wchar_t *wstr, char *str, int len)
 {
     XlcConv conv;
     XPointer from, to;
@@ -178,11 +167,7 @@ _fallcmbstowcs(lcd, wstr, str, len)
 }
 
 int
-_fallcwcstombs(lcd, str, wstr, len)
-    XLCd lcd;
-    char *str;
-    wchar_t *wstr;
-    int len;
+_fallcwcstombs(XLCd lcd, char *str, wchar_t *wstr, int len)
 {
     XlcConv conv;
     XPointer from, to;
@@ -218,51 +203,37 @@ _fallcwcstombs(lcd, str, wstr, len)
 
 
 int
-_falmbtowc(wstr, str, len)
-    wchar_t *wstr;
-    char *str;
-    int len;
+_falmbtowc(wchar_t *wstr, char *str, int len)
 {
     return _fallcmbtowc((XLCd) NULL, wstr, str, len);
 }
 
 int
-_falmblen(str, len)
-    char *str;
-    int len;
+_falmblen(char *str, int len)
 {
     return _falmbtowc((wchar_t *) NULL, str, len);
 }
 
 int
-_falwctomb(str, wc)
-    char *str;
-    wchar_t wc;
+_falwctomb(char *str, wchar_t wc)
 {
     return _fallcwctomb((XLCd) NULL, str, wc);
 }
 
 int
-_falmbstowcs(wstr, str, len)
-    wchar_t *wstr;
-    char *str;
-    int len;
+_falmbstowcs(wchar_t *wstr, char *str, int len)
 {
     return _fallcmbstowcs((XLCd) NULL, wstr, str, len);
 }
 
 int
-_falwcstombs(str, wstr, len)
-    char *str;
-    wchar_t *wstr;
-    int len;
+_falwcstombs(char *str, wchar_t *wstr, int len)
 {
     return _fallcwcstombs((XLCd) NULL, str, wstr, len);
 }
 
 wchar_t *
-_falwcscpy(wstr1, wstr2)
-    register wchar_t *wstr1, *wstr2;
+_falwcscpy(wchar_t *wstr1, wchar_t *wstr2)
 {
     wchar_t *wstr_tmp = wstr1;
 
@@ -273,9 +244,7 @@ _falwcscpy(wstr1, wstr2)
 }
 
 wchar_t *
-_falwcsncpy(wstr1, wstr2, len)
-    register wchar_t *wstr1, *wstr2;
-    register len;
+_falwcsncpy(wchar_t *wstr1, wchar_t *wstr2, int len)
 {
     wchar_t *wstr_tmp = wstr1;
 
@@ -290,10 +259,9 @@ _falwcsncpy(wstr1, wstr2, len)
 }
 
 int
-_falwcslen(wstr)
-    register wchar_t *wstr;
+_falwcslen(wchar_t *wstr)
 {
-    register wchar_t *wstr_ptr = wstr;
+    wchar_t *wstr_ptr = wstr;
 
     while (*wstr_ptr)
 	wstr_ptr++;
@@ -302,8 +270,7 @@ _falwcslen(wstr)
 }
 
 int
-_falwcscmp(wstr1, wstr2)
-    register wchar_t *wstr1, *wstr2;
+_falwcscmp(wchar_t *wstr1, wchar_t *wstr2)
 {
     for ( ; *wstr1 && *wstr2; wstr1++, wstr2++)
 	if (*wstr1 != *wstr2)
@@ -313,9 +280,7 @@ _falwcscmp(wstr1, wstr2)
 }
 
 int
-_falwcsncmp(wstr1, wstr2, len)
-    register wchar_t *wstr1, *wstr2;
-    register len;
+_falwcsncmp(wchar_t *wstr1, wchar_t *wstr2, int len)
 {
     for ( ; *wstr1 && *wstr2 && len > 0; wstr1++, wstr2++, len--)
 	if (*wstr1 != *wstr2)

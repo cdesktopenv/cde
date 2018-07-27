@@ -30,10 +30,8 @@
  */
 
 
-
-#define substance_source
-
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 #include <X11/Intrinsic.h>
@@ -41,26 +39,11 @@
 #include "xoakufont.h"
 #include "util.h"
 
-#ifndef NO_MESSAGE_CAT
-#ifdef __ultrix
-#define _CLIENT_CAT_NAME "dtudcfonted.cat"
-#else  /* __ultrix */
 #define _CLIENT_CAT_NAME "dtudcfonted"
-#endif /* __ultrix */
-#ifdef _NO_PROTO
-extern char *_DtGetMessage();
-#else  /* _NO_PROTO */
-extern char *_DtGetMessage(
-                        char *filename,
-                        int set,
-                        int n,
-                        char *s );
-#endif /* _NO_PROTO */
+extern char *_DtGetMessage(char *filename, int set, int n, char *s);
 #define GETMESSAGE(set, number, string) GetMessage(set, number, string)
 static char *
-GetMessage(set, number, string)
-int set, number;
-char *string;
+GetMessage(int set, int number, char *string)
 {
     char *tmp, *ret;
     tmp = _DtGetMessage(_CLIENT_CAT_NAME, set, number, string);
@@ -68,73 +51,72 @@ char *string;
     strcpy(ret, tmp);
     return (ret);
 }
-#else /* NO_MESSAGE_CAT */
-#define GETMESSAGE(set, number, string)\
-    string
-#endif /* NO_MESSAGE_CAT */
 
 /****************************************************************
  *    Widgets							*
  ***************************************************************/
-/* Widget	toplevel; */
+Widget	toplevel;
 static Widget	dnPopW;
 Widget	wgeScro, editPopW;
 
 static int	select_x, select_y, select_w, select_h;
 static int	r1_x, r1_y, r2_x, r2_y, cut_w, cut_h;
 
-extern	Widget		xlfdDialog, cpyDialog  ;
+extern	Widget		xlfdDialog, cpyDialog;
 
 extern FalFontID font_id;
 
 Pixmap          arrow_pix=0;
 
-/*
- *
- */
+
 static XtAppContext app; /* application context */
 static int edpane_size=0;
-void CB_set_wait_msg();
-void set_wait_msg();
 
-static void OtherFontSelect();
-void drawDelCode();
-void drawDelPtn();
-static void xeg_init();
+static void OtherFontSelect(void);
+void drawDelCode(int i);
+void drawDelPtn(int i);
+static void xeg_init(void);
 
 
-static void dstrypaneEditPtn();
-void chgEdCode();
-void chgEdList();
-static void chgEdPtn();
-static void DrawRectEdPn();
-static void DrawBorderEdPn();
-static void DrawPointEdPn();
-static void DrawDpPn();
-static void DrawPointDpPn();
-static void musPoint();
-static void musLine();
-static void musCircle();
-static void musRect();
-static void musRegionProc();
-static void musPasteProc();
-static void rubLine();
-static void rubBand();
-static void rubCircle();
-static void resetEditMode();
-static void copyPatterns();
-extern String MngCodeTfValue();
-extern String CpySrcCodeTfValue();
-extern String CpyDestCodeTfValue();
-char	*get_cmd_path() ;
+static void dstrypaneEditPtn(void);
+void chgEdCode(int code, char mode);
+void chgEdList(int statloc, int slctloc, char mode);
+static void chgEdPtn(int code);
+static void DrawRectEdPn(int x1, int y1, int x2, int y2);
+static void DrawBorderEdPn(int x1, int y1, int x2, int y2);
+static void DrawPointEdPn(int x, int y, int mode);
+static void DrawDpPn(void);
+static void DrawPointDpPn(int x, int y, int mode);
+static void musPoint(int evtype, int px, int py);
+static void musLine(int evtype, int px, int py);
+static void musCircle(int evtype, int px, int py);
+static void musRect(int proc, int evtype, int px, int py);
+static void musRegionProc(int proc, int evtype, int px, int py);
+static void musPasteProc(Widget w, XtPointer client_data, XEvent *event);
+static void rubLine(int x1, int y1, int x2, int y2);
+static void rubBand(int x1, int y1, int x2, int y2);
+static void rubCircle(int ox, int oy, int rx, int ry);
+static void resetEditMode(unsigned int flag);
+static void copyPatterns(FalFontData *fdata,
+			 int s1_code,
+			 int s2_code,
+			 int d1_code,
+			 int proc);
+extern String MngCodeTfValue(void);
+extern String CpySrcCodeTfValue(void);
+extern String CpyDestCodeTfValue(void);
+char	*get_cmd_path(char *path, char *cmd);
 extern  FalFontData     fullFontData;
 extern  FalFontData     copyFontData;
 
-extern void PopupSelectXLFD();
-extern void UpdateMessage();
-extern void DispMngErrorMessage();
-extern void DispCpyErrorMessage();
-static int setRealDelArea();
+extern void PopupSelectXLFD(Widget top);
+extern void UpdateMessage(String str);
+extern void DispMngErrorMessage(String msg);
+extern void DispCpyErrorMessage(String msg);
+static int setRealDelArea(int *s_ncode,
+			  int *e_ncode,
+			  int *sq_start,
+			  int *sq_end);
 
 /****************************************************************
  * parameters   						*
@@ -148,16 +130,16 @@ Resource resource;
  * callback routines 						*
  ***************************************************************/
 
-static void CancelCB();
+static void CancelCB(void);
 
 static void
-ExitCB()
+ExitCB(void)
 {
     exit(0);
 }
 
 int
-efctPtnNum()
+efctPtnNum(void)
 {
     int no;
     int sq;
@@ -173,9 +155,7 @@ efctPtnNum()
 }
 
 void
-Error_message(widget, message)
-Widget widget;
-char *message;
+Error_message(Widget widget, char *message)
 {
     static NoticeButton is_lock[] = {
     NBTNARGS( ExitCB, NULL, 'E', True, False ),
@@ -193,9 +173,7 @@ char *message;
 }
 
 void
-Error_message2(widget, message)
-Widget widget;
-char *message;
+Error_message2(Widget widget, char *message)
 {
     static NoticeButton is_lock[] = {
     NBTNARGS( CancelCB, NULL, 'C', True, True )
@@ -218,10 +196,7 @@ char *message;
  */
 /*ARGSUSED*/
 static void
-CBmOblB_edit( widget, clientData, callData )
-Widget		widget;
-caddr_t		clientData;
-caddr_t		callData;
+CBmOblB_edit( Widget widget, caddr_t clientData, caddr_t callData )
 {
     int		ptn_n;
     int		ptn_w;
@@ -250,7 +225,6 @@ caddr_t		callData;
     if( xlfdDialog != NULL )
 	PopdownDialog(xlfdDialog);
 
-    /* */
     ptnGetInfo( &ptn_n, &ptn_w, &ptn_h );
     for( i=0 ; i<ptn_n ; i++ ) {
 	code = noToCode( ptnSqToNo(i) );
@@ -274,15 +248,14 @@ caddr_t		callData;
 
 
 
-void CBeOblB_aAdd();
+void CBeOblB_aAdd(void);
 
 static Boolean do_read = False;
 static Boolean do_end = False;
 
-static void CancelCB() { }
+static void CancelCB(void) { }
 
-static void ContReadCB(w)
-Widget w;
+static void ContReadCB(Widget w)
 {
     FalCloseFont(font_id);
     editPtnW = NULL;
@@ -290,7 +263,7 @@ Widget w;
     PopupSelectXLFD(toplevel);
 }
 
-static void SaveReadCB()
+static void SaveReadCB(void)
 {
     CBeOblB_aAdd();
     do_read = True;
@@ -298,13 +271,13 @@ static void SaveReadCB()
 }
 
 
-static void ContEndCB()
+static void ContEndCB(void)
 {
     FalCloseFont(font_id);
     exit(0);
 }
 
-static void SaveEndCB()
+static void SaveEndCB(void)
 {
     CBeOblB_aAdd();
     do_end = True;
@@ -318,10 +291,7 @@ static void SaveEndCB()
 
 /*ARGSUSED*/
 static int
-QuitEditPtn( widget, clientData, callData )
-Widget		widget;
-caddr_t		clientData;
-caddr_t		callData;
+QuitEditPtn( Widget widget, caddr_t clientData, caddr_t callData )
 {
     resetEditMode( RES_MSG | RES_PROC | RES_SLCT | RES_RSV );
 
@@ -337,10 +307,7 @@ caddr_t		callData;
 
 
 void
-OpenCB(w, client_data, call_data)
-Widget w;
-XtPointer client_data;
-XtPointer call_data;
+OpenCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
     static NoticeButton is_save_read_btn1[] = {
     NBTNARGS( SaveReadCB, NULL, 'S', True, False ),
@@ -384,10 +351,7 @@ XtPointer call_data;
 
 
 void
-ReadCB(w, client_data, call_data)
-Widget w;
-XtPointer client_data;
-XtPointer call_data;
+ReadCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
     if (fullFontData.xlfdname == NULL) {
 	return;
@@ -408,8 +372,7 @@ XtPointer call_data;
 */
 
 static Boolean
-WPwriteSNF( restart )
-int	restart;
+WPwriteSNF( int restart )
 {
     int		rc, err;
     char	str[MG_MAXSIZE];
@@ -440,7 +403,7 @@ int	restart;
 	default:
 	    sprintf(str, "%s", resource.me_write_snf);
 	}
-	SetString( wgeStaT, str );
+	UpdateMessage( str );
 	return( TRUE );
     case 0:
 	edg.flag = 0;
@@ -463,7 +426,7 @@ int	restart;
 	else
 	    sprintf( str, "%s(%3d%%)", resource.mg_write_snf , rc-1000 );
 
-	SetString( wgeStaT, str );
+	UpdateMessage( str );
 	XtAppAddWorkProc( app, (XtWorkProc)WPwriteSNF, (XtPointer)ON );
 	if( rc == 1101 ){
 	    XSync( xl.display,0 );
@@ -479,12 +442,12 @@ int	restart;
  */
 
 void
-CBeOblB_aAdd()
+CBeOblB_aAdd(void)
 {
     char	str[MG_MAXSIZE];
 
     resetEditMode( RES_MSG | RES_PROC | RES_SLCT | RES_RSV );
-    SetString( wgeStaT, resource.mg_write_snf );
+    UpdateMessage( resource.mg_write_snf );
 
     if( edg.code != 0 )
 	ptnAdd( edg.code, edg.ptn );
@@ -498,7 +461,7 @@ CBeOblB_aAdd()
 	return;
     }
     else{
-	SetString( wgeStaT, "" );
+	UpdateMessage( "" );
     }
 }
 
@@ -509,7 +472,7 @@ CBeOblB_aAdd()
  */
 
 static void
-OtherFontSelect()
+OtherFontSelect(void)
 {
     dstrypaneEditPtn();
     xeg_init();
@@ -523,10 +486,7 @@ OtherFontSelect()
 
 /*ARGSUSED*/
 void
-CBeOblB_aEnd( widget, clientData, callData )
-Widget		widget;
-caddr_t		clientData;
-caddr_t		callData;
+CBeOblB_aEnd( Widget widget, caddr_t clientData, caddr_t callData )
 {
     static NoticeButton is_save_exit_btn[] = {
     NBTNARGS( SaveEndCB, NULL, 'S', True, False ),
@@ -558,10 +518,7 @@ caddr_t		callData;
 
 /*ARGSUSED*/
 void
-CBeOblB_rCmd( widget, proc, callData )
-Widget		widget;
-int		proc;
-caddr_t		callData;
+CBeOblB_rCmd( Widget widget, int proc, caddr_t callData )
 {
     extern void SelectUnset();
     extern void UndoSet();
@@ -600,10 +557,7 @@ caddr_t		callData;
 
 /*ARGSUSED*/
 void
-CBeOblB_rCmdp( widget, proc, callData )
-Widget		widget;
-int		proc;
-caddr_t		callData;
+CBeOblB_rCmdp( Widget widget, int proc, caddr_t callData )
 {
     extern Widget wgeBulB_edit;
     extern void CopySet();
@@ -655,10 +609,7 @@ caddr_t		callData;
 
 /*ARGSUSED*/
 void
-CBeOblB_rCan( widget, clientData, callData )
-Widget		widget;
-caddr_t		clientData;
-caddr_t		callData;
+CBeOblB_rCan( Widget widget, caddr_t clientData, caddr_t callData )
 {
     extern void UndoUnset();
 
@@ -682,9 +633,7 @@ caddr_t		callData;
  *   contents : get a sequential number of the editor
  */
 int
-RelToAbsSq( from, cnt)
-int from;
-int cnt;
+RelToAbsSq( int from, int cnt)
 {
     int i;
     int no;
@@ -716,9 +665,7 @@ int cnt;
  *   contents : get a relative number of the system area
  */
 int
-AbsSqToRel( from, to)
-int from;
-int to;
+AbsSqToRel( int from, int to)
 {
     int sq;
     int cnt;
@@ -746,18 +693,13 @@ int to;
 }
 
 
-
-
 /*
  * contents : be the character list selected
  */
 
 /*ARGSUSED*/
 void
-EHeStaT_list( widget, select, e )
-Widget		widget;
-int		select;
-XEvent		*e;			/*    X Event	*/
+EHeStaT_list( Widget widget, int select, XEvent *e )
 {
     int		sq, no;
     int		code;
@@ -773,7 +715,6 @@ XEvent		*e;			/*    X Event	*/
     if( edlist.slctloc == select )
 	return;
 
-    /* */
     sq = RelToAbsSq( edlist.sqstart + edlist.statloc, select);
 
     if( (no = ptnSqToNo(sq)) == -1 )
@@ -801,10 +742,7 @@ XEvent		*e;			/*    X Event	*/
 
 /*ARGSUSED*/
 void
-CBeScro( widget, clientData, callData )
-Widget			widget;
-caddr_t			clientData;
-caddr_t	                callData;
+CBeScro( Widget widget, caddr_t clientData, caddr_t callData )
 {
     int		newl;
     int         new_statloc;
@@ -836,10 +774,7 @@ caddr_t	                callData;
 
 /*ARGSUSED*/
 void
-EHeBulB_eMEv( widget, clientData, e )
-Widget		widget;
-caddr_t		clientData;
-XEvent		*e;		/*    X Event			*/
+EHeBulB_eMEv( Widget widget, caddr_t clientData, XEvent *e )
 {
     int		px, py;
     int         downbutton;
@@ -945,10 +880,7 @@ XEvent		*e;		/*    X Event			*/
 
 /*ARGSUSED*/
 void
-EHeBulB_eExp( widget, clientData, e )
-Widget		widget;
-caddr_t		clientData;
-XEvent		*e;			/*    X Event	*/
+EHeBulB_eExp( Widget widget, caddr_t clientData, XEvent *e )
 {
     int		x1, y1;
     int		x2, y2;
@@ -975,10 +907,7 @@ XEvent		*e;			/*    X Event	*/
 
 /*ARGSUSED*/
 void
-CBeRecB_obj( widget, obj, call)
-Widget		widget;
-int		obj;
-XmToggleButtonCallbackStruct	*call;
+CBeRecB_obj( Widget widget, int obj, XmToggleButtonCallbackStruct *call)
 {
     extern void SelectUnset();
 
@@ -1011,9 +940,7 @@ XmToggleButtonCallbackStruct	*call;
 
 /*ARGSUSED*/
 void
-EHeBulB_dExp( widget, clientData )
-Widget		widget;
-caddr_t		clientData;
+EHeBulB_dExp( Widget widget, caddr_t clientData )
 {
     if (xl.display == NULL ){
 	return;
@@ -1027,9 +954,7 @@ caddr_t		clientData;
  */
 
 static int
-codeAreaSet(s_code,e_code)
-int	*s_code;
-int	*e_code;
+codeAreaSet(int *s_code, int *e_code)
 {
     char	*str;
     char	delm;
@@ -1065,9 +990,7 @@ int	*e_code;
  ***************************************************************/
 
 Boolean
-BeforeMngCheck(s_code, e_code)
-int *s_code;
-int *e_code;
+BeforeMngCheck(int *s_code, int *e_code)
 {
     if(codeAreaSet(s_code, e_code) == -1) {
 	DispMngErrorMessage( resource.me_illegal_code );
@@ -1077,9 +1000,7 @@ int *e_code;
 }
 
 void
-DoAddProc(s_code, e_code)
-int s_code;
-int e_code;
+DoAddProc(int s_code, int e_code)
 {
     int		code;
 
@@ -1091,7 +1012,6 @@ int e_code;
 
     resetEditMode( RES_MSG | RES_PROC | RES_SLCT | RES_RSV );
 
-    /* */
     s_ncode = codeToNo( s_code );
     e_ncode = codeToNo( e_code );
     mode = OFF;
@@ -1102,7 +1022,7 @@ int e_code;
 	    continue;
 	if (ptnSense(code) == 0) {
 	    if(ptnAdd(code, ptn) != 1) {
-		SetString( wgeStaT, resource.me_non_memory );
+		UpdateMessage( resource.me_non_memory );
 		return;
 	    }
 	    edg.flag = ON;
@@ -1111,11 +1031,10 @@ int e_code;
 	}
     }
 
-    /* */
     if( ptnSense( edg.code ) == 1 ) {
 	ptnAdd( edg.code, edg.ptn );
     }
-    /* */
+
     if(mode == ON) {
 	chgEdCode( s_code, mode );
     }
@@ -1130,9 +1049,7 @@ Widget CreateDelNotice();
 
 
 void
-DoDelProc( s_code, e_code )
-int s_code;
-int e_code;
+DoDelProc( int s_code, int e_code )
 {
     resetEditMode( RES_MSG | RES_PROC | RES_SLCT | RES_RSV );
 
@@ -1163,9 +1080,7 @@ int e_code;
 
 
 static int
-setRealDelArea(s_ncode, e_ncode, sq_start, sq_end )
-int	*s_ncode,  *e_ncode;
-int	*sq_start, *sq_end;
+setRealDelArea(int *s_ncode, int *e_ncode, int *sq_start, int *sq_end )
 {
     int		ncode;
     int		flg;
@@ -1212,7 +1127,7 @@ int	*sq_start, *sq_end;
  ****************************************************************/
 
 static int
-CpySrcCodeCheck()
+CpySrcCodeCheck(void)
 {
     char	*str;
     char	delm;
@@ -1244,7 +1159,7 @@ CpySrcCodeCheck()
 }
 
 static int
-CpyDestCodeCheck()
+CpyDestCodeCheck(void)
 {
     char	*str;
 
@@ -1266,8 +1181,7 @@ CpyDestCodeCheck()
 }
 
 Boolean
-BeforeCpyCheck( proc )
-int proc;
+BeforeCpyCheck( int proc )
 {
     int		s_ncode, e_ncode;
     int		r1_code, r2_code;
@@ -1321,7 +1235,7 @@ int proc;
 }
 
 void
-DoCpyProc()
+DoCpyProc(void)
 {
     extern void PopdownCpyPtn();
 
@@ -1452,24 +1366,20 @@ int CodePoint = False;
 
 /*ARGSUSED*/
 static void
-xerror(d, ev)
-Display *d;
-register XErrorEvent *ev;
+xerror(Display *d, XErrorEvent *ev)
 {
     fprintf (stderr, "dtudcfonted:  warning, error event receieved.\n");
     exit(-1);
 }
 
 int
-main(argc, argv)
-int	argc;
-char	*argv[];
+main(int argc, char *argv[])
 {
     static char class_name[] = "Dtudcfonted";
     int i;
 
     /* initialize GUI */
-    toplevel = (Widget)GuiInitialize(&app, class_name, &argc, argv);
+    toplevel = GuiInitialize(&app, class_name, &argc, argv);
 
     /* get application's resources */
     XtGetApplicationResources( toplevel, &resource,
@@ -1639,7 +1549,7 @@ char	*argv[];
  */
 
 static void
-xeg_init()
+xeg_init(void)
 {
     int i;
 
@@ -1718,7 +1628,7 @@ xeg_init()
  */
 
 static void
-dstrypaneEditPtn()
+dstrypaneEditPtn(void)
 {
     int i ;
 
@@ -1753,9 +1663,7 @@ dstrypaneEditPtn()
  */
 
 void
-chgEdCode( code, mode )
-int	code;
-char	mode;
+chgEdCode( int code, char mode )
 {
     int	ncode;
     int	esq;
@@ -1809,10 +1717,7 @@ char	mode;
  */
 
 void
-chgEdList( statloc, slctloc, mode  )
-int	statloc;
-int	slctloc;
-char	mode;
+chgEdList( int statloc, int slctloc, char mode  )
 {
     int		sq;
     int		i;
@@ -1862,8 +1767,7 @@ char	mode;
  */
 
 static void
-chgEdPtn( code )
-int	code;
+chgEdPtn( int code )
 {
     extern void SetCodeString();
 
@@ -1906,11 +1810,7 @@ int	code;
  */
 
 static void
-DrawRectEdPn( x1, y1, x2, y2 )
-int	x1;
-int	y1;
-int	x2;
-int	y2;
+DrawRectEdPn( int x1, int y1, int x2, int y2 )
 {
     int	i, j, wk;
     short    cx1, cy1, cx2, cy2;
@@ -1944,15 +1844,15 @@ int	y2;
 	    if( bitRead( edg.ptn, i, j ) != 0 ) {
 		recOn[nron].x = cx1;
 		recOn[nron].y = cy1;
-		recOn[nron].width  = (USHORT)(cx2 - cx1);
-		recOn[nron].height = (USHORT)(cy2 - cy1);
+		recOn[nron].width  = (unsigned short)(cx2 - cx1);
+		recOn[nron].height = (unsigned short)(cy2 - cy1);
 		nron++;
 	    }
 	    else {
 		recOff[nroff].x = cx1;
 		recOff[nroff].y = cy1;
-		recOff[nroff].width  = (USHORT)(cx2 - cx1);
-		recOff[nroff].height = (USHORT)(cy2 - cy1);
+		recOff[nroff].width  = (unsigned short)(cx2 - cx1);
+		recOff[nroff].height = (unsigned short)(cy2 - cy1);
 		nroff++;
 	    }
 	}
@@ -1969,11 +1869,7 @@ int	y2;
  */
 
 static void
-DrawBorderEdPn( x1, y1, x2, y2 )
-int	x1;
-int	y1;
-int	x2;
-int	y2;
+DrawBorderEdPn( int x1, int y1, int x2, int y2 )
 {
     short	cx1, cy1;
     short	cx2, cy2;
@@ -2030,10 +1926,7 @@ int	y2;
  */
 
 static void
-DrawPointEdPn( x, y, mode )
-int	x;
-int	y;
-int	mode;
+DrawPointEdPn( int x, int y, int mode )
 {
     int		x1, y1;
     int		x2, y2;
@@ -2063,7 +1956,7 @@ int	mode;
  */
 
 static void
-DrawDpPn()
+DrawDpPn(void)
 {
 	if (xl.display == NULL ){
 		return;
@@ -2084,10 +1977,7 @@ DrawDpPn()
  */
 
 static void
-DrawPointDpPn( x, y, mode )
-int	x;
-int	y;
-int	mode;
+DrawPointDpPn( int x, int y, int mode )
 {
 
     if (xl.display == NULL ){
@@ -2116,10 +2006,7 @@ int	mode;
  */
 
 static void
-musPoint( evtype, px, py )
-int	evtype;
-int	px;
-int	py;
+musPoint( int evtype, int px, int py )
 {
     switch( evtype ) {
     case MotionNotify:
@@ -2149,10 +2036,7 @@ int	py;
  */
 
 static void
-musLine( evtype, px, py )
-int	evtype;
-int	px;
-int	py;
+musLine( int evtype, int px, int py )
 {
     int		r1_x, r1_y;
     int		r2_x, r2_y;
@@ -2206,10 +2090,7 @@ int	py;
  */
 
 static void
-musCircle( evtype, px, py )
-int	evtype;
-int	px;
-int	py;
+musCircle( int evtype, int px, int py )
 {
     int		r1_x, r1_y;
     int		r2_x, r2_y;
@@ -2265,11 +2146,7 @@ int	py;
  */
 
 static void
-musRect( proc, evtype, px, py )
-int	proc;
-int	evtype;
-int	px;
-int	py;
+musRect( int proc, int evtype, int px, int py )
 {
     int		r1_x, r1_y;
     int		r2_x, r2_y;
@@ -2338,11 +2215,7 @@ int	py;
  */
 
 static void
-musRegionProc( proc, evtype, px, py )
-int	proc;
-int	evtype;
-int	px;
-int	py;
+musRegionProc( int proc, int evtype, int px, int py )
 {
     int		rx,   ry;
     int		dpx, dpy, dp;
@@ -2407,10 +2280,7 @@ int	py;
 
 /*ARGSUSED*/
 static void
-musPasteProc(w, client_data, event)
-Widget w;
-XtPointer client_data;
-XEvent *event;
+musPasteProc(Widget w, XtPointer client_data, XEvent *event)
 {
     static int ox=0, oy=0;
     int rc, tx, ty;
@@ -2451,19 +2321,13 @@ XEvent *event;
 	DrawDpPn();
 	UndoSet();
 	break;
-    defaults:
-	break;
     }
 }
 
 
 
 static void
-rubLine( x1, y1, x2, y2  )
-int	x1;
-int	y1;
-int	x2;
-int	y2;
+rubLine( int x1, int y1, int x2, int y2  )
 {
     if( x1==x2 && y1==y2 ) return;
 
@@ -2473,11 +2337,7 @@ int	y2;
 
 
 static void
-rubBand( x1, y1, x2, y2  )
-int	x1;
-int	y1;
-int	x2;
-int	y2;
+rubBand( int x1, int y1, int x2, int y2  )
 {
     if( x1==x2 && y1==y2 )
 	return;
@@ -2491,11 +2351,7 @@ int	y2;
 
 
 static void
-rubCircle( ox, oy, rx, ry )
-int	ox;
-int	oy;
-int	rx;
-int	ry;
+rubCircle( int ox, int oy, int rx, int ry )
 {
     unsigned int	r;
     int			x, y;
@@ -2518,14 +2374,13 @@ int	ry;
 
 
 static void
-resetEditMode( flag )
-UINT	flag;
+resetEditMode( unsigned int flag )
 {
     int		r1_x, r1_y;
     int		r2_x, r2_y;
 
     if( flag & RES_MSG )
-	SetString( wgeStaT, "" );
+	UpdateMessage( "" );
 
     if( flag & RES_PROC )
 	em.proc = edpane.obj;
@@ -2554,12 +2409,12 @@ UINT	flag;
 
 /*ARGSUSED*/
 static void
-copyPatterns( fdata, s1_code, s2_code, d1_code, proc )
-FalFontData	*fdata;
-int	s1_code;
-int	s2_code;
-int	d1_code;
-int	proc;
+copyPatterns(
+    FalFontData *fdata,
+    int s1_code,
+    int s2_code,
+    int d1_code,
+    int proc)
 {
     int		ret;
     int		d1_ncode, d2_ncode;
@@ -2605,7 +2460,7 @@ int	proc;
 	    edg.flag = ON;
 	} else {
 	    if( ptnAdd( code_d, ptn[i_s] ) != 1 ) {
-		SetString( wgeStaT, resource.me_non_memory );
+		UpdateMessage( resource.me_non_memory );
 		break;
 	    }
 	    edlist.nptn++;
@@ -2631,5 +2486,5 @@ int	proc;
 
     chgEdCode( code_disp, ON );
 
-    resetEditMode( (UINT) (RES_MSG | RES_PROC | RES_SLCT | RES_RSV) );
+    resetEditMode( (unsigned int) (RES_MSG | RES_PROC | RES_SLCT | RES_RSV) );
 }

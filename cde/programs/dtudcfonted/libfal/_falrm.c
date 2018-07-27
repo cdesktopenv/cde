@@ -86,17 +86,6 @@ from the X Consortium.
 #include 	"_falrmI.h"
 #include	<X11/Xos.h>
 
-#ifdef __STDC__
-#define Const const
-#else
-#define Const /**/
-#endif
-#if defined(__STDC__) && !defined(NORCONST)
-#define RConst const
-#else
-#define RConst /**/
-#endif
-
 /*
 
 These Xrm routines allow very fast lookup of resources in the resource
@@ -150,14 +139,13 @@ typedef unsigned long Signature;
 static XrmQuark XrmQString, XrmQANY;
 
 typedef	Bool (*DBEnumProc)(
-#if NeedNestedPrototypes    /* this is Nested on purpose, to match Xlib.h */
+/* this is Nested on purpose, to match Xlib.h */
     XrmDatabase*	/* db */,
     XrmBindingList	/* bindings */,
     XrmQuarkList	/* quarks */,
     XrmRepresentation*	/* type */,
     XrmValue*		/* value */,
     XPointer		/* closure */
-#endif
 );
 
 typedef struct _VEntry {
@@ -319,7 +307,7 @@ typedef unsigned char XrmBits;
 #define is_special(bits)	((bits) & (ENDOF|BSLASH))
 
 /* parsing types */
-static XrmBits Const xrmtypes[256] = {
+static XrmBits const xrmtypes[256] = {
     EOS,0,0,0,0,0,0,0,
     0,SPACE,EOL,0,0,0,0,0,
     0,0,0,0,0,0,0,0,
@@ -339,7 +327,7 @@ static XrmBits Const xrmtypes[256] = {
     /* The rest will be automatically initialized to zero. */
 };
 
-void falrmInitialize()
+void falrmInitialize(void)
 {
     XrmQString = falrmPermStringToQuark("String");
     XrmQANY = falrmPermStringToQuark("?");
@@ -355,29 +343,19 @@ XrmDatabase falrmGetDatabase(display)
     return retval;
 }
 
-void falrmSetDatabase(display, database)
-    Display *display;
-    XrmDatabase database;
+void falrmSetDatabase(Display *display, XrmDatabase database)
 {
     LockDisplay(display);
     display->db = database;
     UnlockDisplay(display);
 }
 
-#if NeedFunctionPrototypes
-void falrmStringToQuarkList(
-    register _Xconst char  *name,
-    register XrmQuarkList quarks)   /* RETURN */
-#else
-void falrmStringToQuarkList(name, quarks)
-    register char 	 *name;
-    register XrmQuarkList quarks;   /* RETURN */
-#endif
+void falrmStringToQuarkList(const char *name, XrmQuarkList quarks)/*RETURN*/
 {
-    register XrmBits		bits;
-    register Signature  	sig = 0;
-    register char       	ch, *tname;
-    register int 		i = 0;
+    XrmBits	bits;
+    Signature  	sig = 0;
+    char       	ch, *tname;
+    int 	i = 0;
 
     if (tname = (char *)name) {
 	tname--;
@@ -402,23 +380,16 @@ void falrmStringToQuarkList(name, quarks)
     *quarks = NULLQUARK;
 }
 
-#if NeedFunctionPrototypes
 void falrmStringToBindingQuarkList(
-    register _Xconst char   *name,
-    register XrmBindingList bindings,   /* RETURN */
-    register XrmQuarkList   quarks)     /* RETURN */
-#else
-void falrmStringToBindingQuarkList(name, bindings, quarks)
-    register char	    *name;
-    register XrmBindingList bindings;   /* RETURN */
-    register XrmQuarkList   quarks;     /* RETURN */
-#endif
+    const char   *name,
+    XrmBindingList bindings,   /* RETURN */
+    XrmQuarkList   quarks)     /* RETURN */
 {
-    register XrmBits		bits;
-    register Signature  	sig = 0;
-    register char       	ch, *tname;
-    register XrmBinding 	binding;
-    register int 		i = 0;
+    XrmBits	bits;
+    Signature  	sig = 0;
+    char       	ch, *tname;
+    XrmBinding 	binding;
+    int 	i = 0;
 
     if (tname = (char *)name) {
 	tname--;
@@ -453,9 +424,7 @@ void falrmStringToBindingQuarkList(name, bindings, quarks)
 
 #ifdef DEBUG
 
-static void PrintQuarkList(quarks, stream)
-    XrmQuarkList    quarks;
-    FILE	    *stream;
+static void PrintQuarkList(XrmQuarkList quarks, FILE *stream)
 {
     Bool	    firstNameSeen;
 
@@ -471,29 +440,24 @@ static void PrintQuarkList(quarks, stream)
 #endif /* DEBUG */
 
 /*ARGSUSED*/
-static void mbnoop(state)
-    XPointer state;
+static void mbnoop(XPointer state)
 {
 }
 
 /*ARGSUSED*/
-static char mbchar(state, str, lenp)
-    XPointer state;
-    char *str;
-    int *lenp;
+static char mbchar(XPointer state, char *str, int *lenp)
 {
     *lenp = 1;
     return *str;
 }
 
 /*ARGSUSED*/
-static char *lcname(state)
-    XPointer state;
+static char *lcname(XPointer state)
 {
     return "C";
 }
 
-static RConst XrmMethodsRec mb_methods = {
+static const XrmMethodsRec mb_methods = {
     mbnoop,
     mbchar,
     mbnoop,
@@ -501,9 +465,9 @@ static RConst XrmMethodsRec mb_methods = {
     mbnoop
 };
 
-static XrmDatabase NewDatabase()
+static XrmDatabase NewDatabase(void)
 {
-    register XrmDatabase db;
+    XrmDatabase db;
 
     db = (XrmDatabase) Xmalloc(sizeof(XrmHashBucketRec));
     if (db) {
@@ -517,17 +481,15 @@ static XrmDatabase NewDatabase()
 }
 
 /* move all values from ftable to ttable, and free ftable's buckets.
- * ttable is quaranteed empty to start with.
+ * ttable is guaranteed empty to start with.
  */
-static void MoveValues(ftable, ttable)
-    LTable ftable;
-    register LTable ttable;
+static void MoveValues(LTable ftable, LTable ttable)
 {
-    register VEntry fentry, nfentry;
-    register VEntry *prev;
-    register VEntry *bucket;
-    register VEntry tentry;
-    register int i;
+    VEntry fentry, nfentry;
+    VEntry *prev;
+    VEntry *bucket;
+    VEntry tentry;
+    int i;
 
     for (i = ftable->table.mask, bucket = ftable->buckets; i >= 0; i--) {
 	for (fentry = *bucket++; fentry; fentry = nfentry) {
@@ -546,15 +508,13 @@ static void MoveValues(ftable, ttable)
 /* move all tables from ftable to ttable, and free ftable.
  * ttable is quaranteed empty to start with.
  */
-static void MoveTables(ftable, ttable)
-    NTable ftable;
-    register NTable ttable;
+static void MoveTables(NTable ftable, NTable ttable)
 {
-    register NTable fentry, nfentry;
-    register NTable *prev;
-    register NTable *bucket;
-    register NTable tentry;
-    register int i;
+    NTable fentry, nfentry;
+    NTable *prev;
+    NTable *bucket;
+    NTable tentry;
+    int i;
 
     for (i = ftable->mask, bucket = NodeBuckets(ftable); i >= 0; i--) {
 	for (fentry = *bucket++; fentry; fentry = nfentry) {
@@ -571,11 +531,10 @@ static void MoveTables(ftable, ttable)
 }
 
 /* grow the table, based on current number of entries */
-static void GrowTable(prev)
-    NTable *prev;
+static void GrowTable(NTable *prev)
 {
-    register NTable table;
-    register int i;
+    NTable table;
+    int i;
 
     table = *prev;
     i = table->mask;
@@ -585,7 +544,7 @@ static void GrowTable(prev)
 	i = (i << 1) + 1;
     i++; /* i is now the new size */
     if (table->leaf) {
-	register LTable ltable;
+	LTable ltable;
 	LTableRec otable;
 
 	ltable = (LTable)table;
@@ -600,7 +559,7 @@ static void GrowTable(prev)
 	bzero((char *)ltable->buckets, i * sizeof(VEntry));
 	MoveValues(&otable, ltable);
     } else {
-	register NTable ntable;
+	NTable ntable;
 
 	ntable = (NTable)Xmalloc(sizeof(NTableRec) + i * sizeof(NTable));
 	if (!ntable)
@@ -614,17 +573,14 @@ static void GrowTable(prev)
 }
 
 /* merge values from ftable into *pprev, destroy ftable in the process */
-static void MergeValues(ftable, pprev, override)
-    LTable ftable;
-    NTable *pprev;
-    Bool override;
+static void MergeValues(LTable ftable, NTable *pprev, Bool override)
 {
-    register VEntry fentry, tentry;
-    register VEntry *prev;
-    register LTable ttable;
+    VEntry fentry, tentry;
+    VEntry *prev;
+    LTable ttable;
     VEntry *bucket;
     int i;
-    register XrmQuark q;
+    XrmQuark q;
 
     ttable = (LTable)*pprev;
     if (ftable->table.hasloose)
@@ -694,18 +650,15 @@ static void MergeValues(ftable, pprev, override)
 }
 
 /* merge tables from ftable into *pprev, destroy ftable in the process */
-static void MergeTables(ftable, pprev, override)
-    NTable ftable;
-    NTable *pprev;
-    Bool override;
+static void MergeTables(NTable ftable, NTable *pprev, Bool override)
 {
-    register NTable fentry, tentry;
+    NTable fentry, tentry;
     NTable nfentry;
-    register NTable *prev;
-    register NTable ttable;
+    NTable *prev;
+    NTable ttable;
     NTable *bucket;
     int i;
-    register XrmQuark q;
+    XrmQuark q;
 
     ttable = *pprev;
     if (ftable->hasloose)
@@ -767,12 +720,10 @@ static void MergeTables(ftable, pprev, override)
     GROW(pprev);
 }
 
-void falrmCombineDatabase(from, into, override)
-    XrmDatabase	from, *into;
-    Bool override;
+void falrmCombineDatabase(XrmDatabase from, XrmDatabase *into, Bool override)
 {
-    register NTable *prev;
-    register NTable ftable, ttable, nftable;
+    NTable *prev;
+    NTable ftable, ttable, nftable;
 
     if (!*into) {
 	*into = from;
@@ -816,25 +767,24 @@ void falrmCombineDatabase(from, into, override)
     }
 }
 
-void falrmMergeDatabases(from, into)
-    XrmDatabase	from, *into;
+void falrmMergeDatabases(XrmDatabase from, XrmDatabase *into)
 {
     falrmCombineDatabase(from, into, True);
 }
 
 /* store a value in the database, overriding any existing entry */
-static void PutEntry(db, bindings, quarks, type, value)
-    XrmDatabase		db;
-    XrmBindingList	bindings;
-    XrmQuarkList	quarks;
-    XrmRepresentation	type;
-    XrmValuePtr		value;
+static void PutEntry(
+    XrmDatabase		db,
+    XrmBindingList	bindings,
+    XrmQuarkList	quarks,
+    XrmRepresentation	type,
+    XrmValuePtr		value)
 {
-    register NTable *pprev, *prev;
-    register NTable table;
-    register XrmQuark q;
-    register VEntry *vprev;
-    register VEntry entry;
+    NTable *pprev, *prev;
+    NTable table;
+    XrmQuark q;
+    VEntry *vprev;
+    VEntry entry;
     NTable *nprev, *firstpprev;
 
 #define NEWTABLE(q,i) \
@@ -1011,12 +961,12 @@ static void PutEntry(db, bindings, quarks, type, value)
 #undef NEWTABLE
 }
 
-void falrmQPutResource(pdb, bindings, quarks, type, value)
-    XrmDatabase		*pdb;
-    XrmBindingList      bindings;
-    XrmQuarkList	quarks;
-    XrmRepresentation	type;
-    XrmValuePtr		value;
+void falrmQPutResource(
+    XrmDatabase		*pdb,
+    XrmBindingList      bindings,
+    XrmQuarkList	quarks,
+    XrmRepresentation	type,
+    XrmValuePtr		value)
 {
     if (!*pdb) *pdb = NewDatabase();
     _XLockMutex(&(*pdb)->linfo);
@@ -1024,19 +974,11 @@ void falrmQPutResource(pdb, bindings, quarks, type, value)
     _XUnlockMutex(&(*pdb)->linfo);
 }
 
-#if NeedFunctionPrototypes
 void falrmPutResource(
     XrmDatabase     *pdb,
-    _Xconst char    *specifier,
-    _Xconst char    *type,
+    const char    *specifier,
+    const char    *type,
     XrmValuePtr	    value)
-#else
-void falrmPutResource(pdb, specifier, type, value)
-    XrmDatabase     *pdb;
-    char	    *specifier;
-    char	    *type;
-    XrmValuePtr	    value;
-#endif
 {
     XrmBinding	    bindings[MAXDBDEPTH+1];
     XrmQuark	    quarks[MAXDBDEPTH+1];
@@ -1048,19 +990,11 @@ void falrmPutResource(pdb, specifier, type, value)
     _XUnlockMutex(&(*pdb)->linfo);
 }
 
-#if NeedFunctionPrototypes
 void falrmQPutStringResource(
     XrmDatabase     *pdb,
     XrmBindingList  bindings,
     XrmQuarkList    quarks,
-    _Xconst char    *str)
-#else
-void falrmQPutStringResource(pdb, bindings, quarks, str)
-    XrmDatabase     *pdb;
-    XrmBindingList  bindings;
-    XrmQuarkList    quarks;
-    char	    *str;
-#endif
+    const char    *str)
 {
     XrmValue	value;
 
@@ -1093,20 +1027,20 @@ void falrmQPutStringResource(pdb, bindings, quarks, str)
 
 static void GetIncludeFile();
 
-static void GetDatabase(db, str, filename, doall)
-    XrmDatabase db;
-    register char *str;
-    char *filename;
-    Bool doall;
+static void GetDatabase(
+    XrmDatabase db,
+    char *str,
+    char *filename,
+    Bool doall)
 {
-    register char *ptr;
-    register XrmBits bits = 0;
-    register char c;
+    char *ptr;
+    XrmBits bits = 0;
+    char c;
     int len;
-    register Signature sig;
-    register char *ptr_max;
-    register XrmQuarkList t_quarks;
-    register XrmBindingList t_bindings;
+    Signature sig;
+    char *ptr_max;
+    XrmQuarkList t_quarks;
+    XrmBindingList t_bindings;
 
     int alloc_chars = BUFSIZ;
     char buffer[BUFSIZ], *value_str;
@@ -1487,17 +1421,10 @@ static void GetDatabase(db, str, filename, doall)
     (*db->methods->mbfinish)(db->mbstate);
 }
 
-#if NeedFunctionPrototypes
 void falrmPutStringResource(
     XrmDatabase *pdb,
-    _Xconst char*specifier,
-    _Xconst char*str)
-#else
-void falrmPutStringResource(pdb, specifier, str)
-    XrmDatabase *pdb;
-    char	*specifier;
-    char	*str;
-#endif
+    const char*specifier,
+    const char*str)
 {
     XrmValue	value;
     XrmBinding	bindings[MAXDBDEPTH+1];
@@ -1513,15 +1440,7 @@ void falrmPutStringResource(pdb, specifier, str)
 }
 
 
-#if NeedFunctionPrototypes
-void falrmPutLineResource(
-    XrmDatabase *pdb,
-    _Xconst char*line)
-#else
-void falrmPutLineResource(pdb, line)
-    XrmDatabase *pdb;
-    char	*line;
-#endif
+void falrmPutLineResource(XrmDatabase *pdb, char *line)
 {
     if (!*pdb) *pdb = NewDatabase();
     _XLockMutex(&(*pdb)->linfo);
@@ -1529,13 +1448,7 @@ void falrmPutLineResource(pdb, line)
     _XUnlockMutex(&(*pdb)->linfo);
 }
 
-#if NeedFunctionPrototypes
-XrmDatabase falrmGetStringDatabase(
-    _Xconst char    *data)
-#else
-XrmDatabase falrmGetStringDatabase(data)
-    char	    *data;
-#endif
+XrmDatabase falrmGetStringDatabase(char *data)
 {
     XrmDatabase     db;
 
@@ -1553,10 +1466,9 @@ XrmDatabase falrmGetStringDatabase(data)
  */
 
 static char *
-ReadInFile(filename)
-char * filename;
+ReadInFile(char *filename)
 {
-    register int fd, size;
+    int fd, size;
     char * filebuf;
 
     if ( (fd = OpenFile(filename)) == -1 )
@@ -1582,11 +1494,11 @@ char * filename;
 }
 
 static void
-GetIncludeFile(db, base, fname, fnamelen)
-    XrmDatabase db;
-    char *base;
-    char *fname;
-    int fnamelen;
+GetIncludeFile(
+    XrmDatabase db,
+    char *base,
+    char *fname,
+    int fnamelen)
 {
     int len;
     char *str;
@@ -1611,13 +1523,7 @@ GetIncludeFile(db, base, fname, fnamelen)
     Xfree(str);
 }
 
-#if NeedFunctionPrototypes
-XrmDatabase falrmGetFileDatabase(
-    _Xconst char    *filename)
-#else
-XrmDatabase falrmGetFileDatabase(filename)
-    char 	    *filename;
-#endif
+XrmDatabase falrmGetFileDatabase(char *filename)
 {
     XrmDatabase db;
     char *str;
@@ -1633,17 +1539,10 @@ XrmDatabase falrmGetFileDatabase(filename)
     return db;
 }
 
-#if NeedFunctionPrototypes
 Status falrmCombineFileDatabase(
-    _Xconst char    *filename,
+    char    *filename,
     XrmDatabase     *target,
     Bool             override)
-#else
-Status falrmCombineFileDatabase(filename, target, override)
-    char        *filename;
-    XrmDatabase *target;
-    Bool         override;
-#endif
 {
     XrmDatabase db;
     char *str;
@@ -1669,16 +1568,16 @@ Status falrmCombineFileDatabase(filename, target, override)
  * stop if user proc returns True.  level is current depth in database.
  */
 /*ARGSUSED*/
-static Bool EnumLTable(table, names, classes, level, closure)
-    LTable		table;
-    XrmNameList		names;
-    XrmClassList 	classes;
-    register int	level;
-    register EClosure	closure;
+static Bool EnumLTable(
+    LTable		table,
+    XrmNameList		names,
+    XrmClassList 	classes,
+    int			level,
+    EClosure		closure)
 {
-    register VEntry *bucket;
-    register int i;
-    register VEntry entry;
+    VEntry *bucket;
+    int i;
+    VEntry entry;
     XrmValue value;
     XrmRepresentation type;
     Bool tightOk;
@@ -1715,14 +1614,11 @@ static Bool EnumLTable(table, names, classes, level, closure)
     return False;
 }
 
-static Bool EnumAllNTable(table, level, closure)
-    NTable		table;
-    register int	level;
-    register EClosure	closure;
+static Bool EnumAllNTable(NTable table, int level, EClosure closure)
 {
-    register NTable *bucket;
-    register int i;
-    register NTable entry;
+    NTable *bucket;
+    int i;
+    NTable entry;
     XrmQuark empty = NULLQUARK;
 
     if (level >= MAXDBDEPTH)
@@ -1749,16 +1645,16 @@ static Bool EnumAllNTable(table, level, closure)
 /* recurse on every table in the table, arbitrary order.
  * stop if user proc returns True.  level is current depth in database.
  */
-static Bool EnumNTable(table, names, classes, level, closure)
-    NTable		table;
-    XrmNameList		names;
-    XrmClassList 	classes;
-    register int	level;
-    register EClosure	closure;
+static Bool EnumNTable(
+    NTable		table,
+    XrmNameList		names,
+    XrmClassList 	classes,
+    int			level,
+    EClosure		closure)
 {
-    register NTable	entry;
-    register XrmQuark	q;
-    register unsigned int leaf;
+    NTable	entry;
+    XrmQuark	q;
+    unsigned int leaf;
     Bool (*get)();
     Bool bilevel;
 
@@ -1907,17 +1803,17 @@ static Bool EnumNTable(table, names, classes, level, closure)
 /* call the proc for every value in the database, arbitrary order.
  * stop if the proc returns True.
  */
-Bool falrmEnumerateDatabase(db, names, classes, mode, proc, closure)
-    XrmDatabase		db;
-    XrmNameList		names;
-    XrmClassList	classes;
-    int			mode;
-    DBEnumProc		proc;
-    XPointer		closure;
+Bool falrmEnumerateDatabase(
+    XrmDatabase		db,
+    XrmNameList		names,
+    XrmClassList	classes,
+    int			mode,
+    DBEnumProc		proc,
+    XPointer		closure)
 {
     XrmBinding  bindings[MAXDBDEPTH+2];
     XrmQuark	quarks[MAXDBDEPTH+2];
-    register NTable table;
+    NTable table;
     EClosureRec	eclosure;
     Bool retval = False;
 
@@ -1943,10 +1839,10 @@ Bool falrmEnumerateDatabase(db, names, classes, mode, proc, closure)
     return retval;
 }
 
-static void PrintBindingQuarkList(bindings, quarks, stream)
-    XrmBindingList      bindings;
-    XrmQuarkList	quarks;
-    FILE		*stream;
+static void PrintBindingQuarkList(
+    XrmBindingList      bindings,
+    XrmQuarkList	quarks,
+    FILE		*stream)
 {
     Bool	firstNameSeen;
 
@@ -1963,18 +1859,18 @@ static void PrintBindingQuarkList(bindings, quarks, stream)
 
 /* output out the entry in correct file syntax */
 /*ARGSUSED*/
-static Bool DumpEntry(db, bindings, quarks, type, value, data)
-    XrmDatabase		*db;
-    XrmBindingList      bindings;
-    XrmQuarkList	quarks;
-    XrmRepresentation   *type;
-    XrmValuePtr		value;
-    XPointer		data;
+static Bool DumpEntry(
+    XrmDatabase		*db,
+    XrmBindingList      bindings,
+    XrmQuarkList	quarks,
+    XrmRepresentation   *type,
+    XrmValuePtr		value,
+    XPointer		data)
 {
     FILE			*stream = (FILE *)data;
-    register unsigned int	i;
-    register char		*s;
-    register char		c;
+    unsigned int	i;
+    char		*s;
+    char		c;
 
     if (*type != XrmQString)
 	(void) putc('!', stream);
@@ -2011,9 +1907,7 @@ static Bool DumpEntry(db, bindings, quarks, type, value, data)
 
 #ifdef DEBUG
 
-void falPrintTable(table, file)
-    NTable table;
-    FILE *file;
+void falPrintTable(NTable table, FILE *file)
 {
     XrmBinding  bindings[MAXDBDEPTH+1];
     XrmQuark	quarks[MAXDBDEPTH+1];
@@ -2034,15 +1928,7 @@ void falPrintTable(table, file)
 
 #endif /* DEBUG */
 
-#if NeedFunctionPrototypes
-void falrmPutFileDatabase(
-    XrmDatabase db,
-    _Xconst char *fileName)
-#else
-void falrmPutFileDatabase(db, fileName)
-    XrmDatabase db;
-    char 	*fileName;
-#endif
+void falrmPutFileDatabase(XrmDatabase db, const char *fileName)
 {
     FILE	*file;
     XrmQuark empty = NULLQUARK;
@@ -2101,11 +1987,11 @@ void falrmPutFileDatabase(db, fileName)
 
 /* add tight/loose entry to the search list, return True if list is full */
 /*ARGSUSED*/
-static Bool AppendLEntry(table, names, classes, closure)
-    LTable		table;
-    XrmNameList		names;
-    XrmClassList 	classes;
-    register SClosure	closure;
+static Bool AppendLEntry(
+    LTable		table,
+    XrmNameList		names,
+    XrmClassList 	classes,
+    SClosure		closure)
 {
     /* check for duplicate */
     if (closure->idx >= 0 && closure->list[closure->idx] == table)
@@ -2120,11 +2006,11 @@ static Bool AppendLEntry(table, names, classes, closure)
 
 /* add loose entry to the search list, return True if list is full */
 /*ARGSUSED*/
-static Bool AppendLooseLEntry(table, names, classes, closure)
-    LTable		table;
-    XrmNameList		names;
-    XrmClassList 	classes;
-    register SClosure	closure;
+static Bool AppendLooseLEntry(
+    LTable		table,
+    XrmNameList		names,
+    XrmClassList 	classes,
+    SClosure		closure)
 {
     /* check for duplicate */
     if (closure->idx >= 0 && closure->list[closure->idx] == table)
@@ -2140,15 +2026,15 @@ static Bool AppendLooseLEntry(table, names, classes, closure)
 }
 
 /* search for a leaf table */
-static Bool SearchNEntry(table, names, classes, closure)
-    NTable		table;
-    XrmNameList		names;
-    XrmClassList 	classes;
-    SClosure		closure;
+static Bool SearchNEntry(
+    NTable		table,
+    XrmNameList		names,
+    XrmClassList 	classes,
+    SClosure		closure)
 {
-    register NTable	entry;
-    register XrmQuark	q;
-    register unsigned int leaf;
+    NTable	entry;
+    XrmQuark	q;
+    unsigned int leaf;
     Bool		(*get)();
 
     if (names[1]) {
@@ -2204,14 +2090,14 @@ static Bool SearchNEntry(table, names, classes, closure)
     return False;
 }
 
-Bool falrmQGetSearchList(db, names, classes, searchList, listLength)
-    XrmDatabase     db;
-    XrmNameList	    names;
-    XrmClassList    classes;
-    XrmSearchList   searchList;	/* RETURN */
-    int		    listLength;
+Bool falrmQGetSearchList(
+    XrmDatabase     db,
+    XrmNameList	    names,
+    XrmClassList    classes,
+    XrmSearchList   searchList,	/* RETURN */
+    int		    listLength)
 {
-    register NTable	table;
+    NTable		table;
     SClosureRec		closure;
 
     if (listLength <= 0)
@@ -2249,16 +2135,16 @@ Bool falrmQGetSearchList(db, names, classes, searchList, listLength)
     return True;
 }
 
-Bool falrmQGetSearchResource(searchList, name, class, pType, pValue)
-	     XrmSearchList	searchList;
-    register XrmName		name;
-    register XrmClass		class;
-	     XrmRepresentation	*pType;  /* RETURN */
-	     XrmValue		*pValue; /* RETURN */
+Bool falrmQGetSearchResource(
+    XrmSearchList	searchList,
+    XrmName		name,
+    XrmClass		class,
+    XrmRepresentation	*pType,  /* RETURN */
+    XrmValue		*pValue) /* RETURN */
 {
-    register LTable *list;
-    register LTable table;
-    register VEntry entry;
+    LTable *list;
+    LTable table;
+    VEntry entry;
     int flags;
 
 /* find tight or loose entry */
@@ -2338,14 +2224,14 @@ Bool falrmQGetSearchResource(searchList, name, class, pType, pValue)
 }
 
 /* look for a tight/loose value */
-static Bool GetVEntry(table, names, classes, closure)
-    LTable		table;
-    XrmNameList		names;
-    XrmClassList 	classes;
-    VClosure		closure;
+static Bool GetVEntry(
+    LTable		table,
+    XrmNameList		names,
+    XrmClassList 	classes,
+    VClosure		closure)
 {
-    register VEntry entry;
-    register XrmQuark q;
+    VEntry entry;
+    XrmQuark q;
 
     /* try name first */
     q = *names;
@@ -2373,14 +2259,14 @@ static Bool GetVEntry(table, names, classes, closure)
 }
 
 /* look for a loose value */
-static Bool GetLooseVEntry(table, names, classes, closure)
-    LTable		table;
-    XrmNameList		names;
-    XrmClassList 	classes;
-    VClosure		closure;
+static Bool GetLooseVEntry(
+    LTable		table,
+    XrmNameList		names,
+    XrmClassList 	classes,
+    VClosure		closure)
 {
-    register VEntry	entry;
-    register XrmQuark	q;
+    VEntry	entry;
+    XrmQuark	q;
 
 #define VLOOSE(ename) \
     q = ename; \
@@ -2415,15 +2301,15 @@ static Bool GetLooseVEntry(table, names, classes, closure)
 }
 
 /* recursive search for a value */
-static Bool GetNEntry(table, names, classes, closure)
-    NTable		table;
-    XrmNameList		names;
-    XrmClassList 	classes;
-    VClosure		closure;
+static Bool GetNEntry(
+    NTable		table,
+    XrmNameList		names,
+    XrmClassList 	classes,
+    VClosure		closure)
 {
-    register NTable	entry;
-    register XrmQuark	q;
-    register unsigned int leaf;
+    NTable	entry;
+    XrmQuark	q;
+    unsigned int leaf;
     Bool		(*get)();
     NTable		otable;
 
@@ -2483,14 +2369,14 @@ static Bool GetNEntry(table, names, classes, closure)
     return False;
 }
 
-Bool falrmQGetResource(db, names, classes, pType, pValue)
-    XrmDatabase         db;
-    XrmNameList		names;
-    XrmClassList 	classes;
-    XrmRepresentation	*pType;  /* RETURN */
-    XrmValuePtr		pValue;  /* RETURN */
+Bool falrmQGetResource(
+    XrmDatabase         db,
+    XrmNameList		names,
+    XrmClassList 	classes,
+    XrmRepresentation	*pType,  /* RETURN */
+    XrmValuePtr		pValue)  /* RETURN */
 {
-    register NTable table;
+    NTable table;
     VClosureRec closure;
 
     if (db && *names) {
@@ -2525,21 +2411,12 @@ Bool falrmQGetResource(db, names, classes, pType, pValue)
     return False;
 }
 
-#if NeedFunctionPrototypes
-Bool falrmGetResource(db, name_str, class_str, pType_str, pValue)
-    XrmDatabase         db;
-    _Xconst char	*name_str;
-    _Xconst char	*class_str;
-    XrmString		*pType_str;  /* RETURN */
-    XrmValuePtr		pValue;      /* RETURN */
-#else
-Bool falrmGetResource(db, name_str, class_str, pType_str, pValue)
-    XrmDatabase         db;
-    XrmString		name_str;
-    XrmString		class_str;
-    XrmString		*pType_str;  /* RETURN */
-    XrmValuePtr		pValue;      /* RETURN */
-#endif
+Bool falrmGetResource(
+    XrmDatabase         db,
+    const char		*name_str,
+    const char		*class_str,
+    XrmString		*pType_str,  /* RETURN */
+    XrmValuePtr		pValue)      /* RETURN */
 {
     XrmName		names[MAXDBDEPTH+1];
     XrmClass		classes[MAXDBDEPTH+1];
@@ -2554,12 +2431,11 @@ Bool falrmGetResource(db, name_str, class_str, pType_str, pValue)
 }
 
 /* destroy all values, plus table itself */
-static void DestroyLTable(table)
-    LTable table;
+static void DestroyLTable(LTable table)
 {
-    register int i;
-    register VEntry *buckets;
-    register VEntry entry, next;
+    int i;
+    VEntry *buckets;
+    VEntry entry, next;
 
     buckets = table->buckets;
     for (i = table->table.mask; i >= 0; i--, buckets++) {
@@ -2573,12 +2449,11 @@ static void DestroyLTable(table)
 }
 
 /* destroy all contained tables, plus table itself */
-static void DestroyNTable(table)
-    NTable table;
+static void DestroyNTable(NTable table)
 {
-    register int i;
-    register NTable *buckets;
-    register NTable entry, next;
+    int i;
+    NTable *buckets;
+    NTable entry, next;
 
     buckets = NodeBuckets(table);
     for (i = table->mask; i >= 0; i--, buckets++) {
@@ -2593,8 +2468,7 @@ static void DestroyNTable(table)
     Xfree((char *)table);
 }
 
-char *falrmLocaleOfDatabase(db)
-    XrmDatabase db;
+char *falrmLocaleOfDatabase(XrmDatabase db)
 {
     char* retval;
     _XLockMutex(&db->linfo);
@@ -2603,10 +2477,9 @@ char *falrmLocaleOfDatabase(db)
     return retval;
 }
 
-void falrmDestroyDatabase(db)
-    XrmDatabase   db;
+void falrmDestroyDatabase(XrmDatabase db)
 {
-    register NTable table, next;
+    NTable table, next;
 
     if (db) {
 	_XLockMutex(&db->linfo);

@@ -57,27 +57,44 @@
 #define	START_CODE	0
 #define	END_CODE	1
 
-static	int	CnvBDFtoGPF() ;
-static	int	check_width() ;
-static	int	check_height() ;
-static	int	check_width_height() ;
-static	int	check_code() ;
-static	int	readBdfToMemory() ;
-static	void	sigint_out() ;
-static	void	put_error_and_exit();
-static	void	put_help();
-static	void	Usage();
+static	int	CnvBDFtoGPF(struct btophead *head,
+			    int num_gr,
+			    FalGlyphRegion *gr,
+			    int code_area);
+static	int	check_width(char *prog_name, char *len_str);
+static	int	check_height(char *prog_name, char *len_str);
+static	int	check_width_height(char *prog_name, char *len_str, int mode);
+static	int	check_code(char    *prog_name,
+			   char    *code_str,
+			   int     mode,
+			   char    *charset,
+			   int     num_gr,
+			   FalGlyphRegion  *gr);
+static	int	readBdfToMemory(struct btophead *head,
+				char   *buf,
+				int     num_gr,
+				FalGlyphRegion  *gr,
+				int     code_area);
+static	void	sigint_out(void);
+static	void	put_error_and_exit(struct btophead *btop,
+				   int er_no,
+				   char *prog_name);
+static	void	put_help(char *prog_name);
+static	void	Usage(char *prog_name);
 
-extern	int	fal_code_to_glyph() ;
+extern	int	fal_code_to_glyph(char            *locale,
+				  unsigned long   codepoint,
+				  FalGIInf        **gi,
+				  int             *num_gi);
 
 static struct btophead Head;
-static	char	*locale ;
-static	char	*spacing ;
-static	char	*char_set ;
+static	char	*locale;
+static	char	*spacing;
+static	char	*char_set;
 
 
 static	void
-sigint_out()
+sigint_out(void)
 {
 	if ( Head.out_file ) {
 		unlink( Head.out_file );
@@ -85,9 +102,7 @@ sigint_out()
 	exit( 0 );
 }
 
-main( argc, argv )
-int	argc;
-char	*argv[];
+int main(int argc, char *argv[])
 {
 	int 	help, code_area, fd[2], rtn, i;
 	struct stat	st;
@@ -412,11 +427,11 @@ char	*argv[];
 
 
 static	int
-CnvBDFtoGPF( head, num_gr, gr, code_area )
-struct	btophead *head;
-int	num_gr ;
-FalGlyphRegion	*gr ;
-int	code_area ;
+CnvBDFtoGPF(
+struct btophead *head,
+int num_gr,
+FalGlyphRegion *gr,
+int code_area)
 {
 	int	    rtn;
 	char    bdfbuf[BUFSIZE];
@@ -463,10 +478,7 @@ int	code_area ;
 
 
 static	void
-put_error_and_exit(btop, er_no, prog_name)
-struct btophead *btop;
-int    er_no;
-char   *prog_name;
+put_error_and_exit(struct btophead *btop, int er_no, char *prog_name)
 {
 	ErrMsgTable_AndExit( er_no, btop->in_file, NULL,
 	    NULL,          btop->out_file,
@@ -481,8 +493,7 @@ char   *prog_name;
 
 
 static	void
-put_help(prog_name)
-char	*prog_name;
+put_help(char *prog_name)
 {
 	USAGE1("Usage : %s -xlfd xlfd_name\n", prog_name);
 	USAGE("\t\t[-g character_size][-p character_pattern_file_name]\n");
@@ -493,15 +504,14 @@ char	*prog_name;
 	USAGE1("%s can extract glyphs in cpf file format in the following code area.\n", prog_name);
 	USAGE("codeset \t\tcode area\n");
 	USAGE("----------------------------------------\n");
-	DispUdcCpArea() ;
+	DispUdcCpArea(stdout) ;
 	USAGE("If the -start and -end option is omitted, the start/end code of each extractive area is specified.\n");
 	USAGE("The xlfd name and character size may be obtained using dtlsgpf command.\n");
 	return;
 }
 
 static	void
-Usage(prog_name)
-char	*prog_name;
+Usage(char *prog_name)
 {
 	put_help( prog_name );
 	exit(1);
@@ -509,27 +519,21 @@ char	*prog_name;
 
 
 static	int
-check_width( prog_name, len_str )
-char	*prog_name;
-char	*len_str;
+check_width(char *prog_name, char *len_str)
 {
 	return( check_width_height( prog_name, len_str, 0) );
 }
 
 
 static	int
-check_height( prog_name, len_str )
-char	*prog_name;
-char	*len_str;
+check_height(char *prog_name, char *len_str)
 {
 	return( check_width_height( prog_name, len_str, 1) );
 }
 
 static	int
-check_width_height( prog_name, len_str, mode )
-char	*prog_name;
-char	*len_str;
-int	mode;		/* width ... 0 , height ... 1 */
+check_width_height(char	*prog_name, char *len_str, int mode)
+/* width ... 0 , height ... 1 */
 {
 	int		ret;
 	char	*tmp;
@@ -559,13 +563,13 @@ int	mode;		/* width ... 0 , height ... 1 */
 
 
 static	int
-check_code( prog_name, code_str, mode, charset, num_gr, gr )
-char	*prog_name;
-char	*code_str;
-int	mode;		/* start_code ... 0, end_code ... 1 */
-char	*charset ;
-int	num_gr ;
-FalGlyphRegion	*gr ;
+check_code(
+char	*prog_name,
+char	*code_str,
+int	mode,		/* start_code ... 0, end_code ... 1 */
+char	*charset,
+int	num_gr,
+FalGlyphRegion	*gr)
 {
 	int		err_flg = 0;
 	int		code_num;
@@ -628,12 +632,12 @@ FalGlyphRegion	*gr ;
 
 
 static	int
-readBdfToMemory(head, buf, num_gr, gr, code_area)
-struct btophead *head;
-char   *buf;
-int	num_gr ;
-FalGlyphRegion	*gr ;
-int	code_area ;
+readBdfToMemory(
+struct btophead *head,
+char   *buf,
+int	num_gr,
+FalGlyphRegion	*gr,
+int	code_area)
 {
 	int	    code, mwidth, num_char, bsize, rtn;
 	char    *ptn;

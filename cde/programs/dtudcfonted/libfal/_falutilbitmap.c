@@ -94,11 +94,9 @@ static unsigned char _reverse_byte[0x100] = {
  *	Invert bit order within each BYTE of an array.
  */
 void
-BitOrderInvert(buf, nbytes)
-    register unsigned char *buf;
-    register int nbytes;
+BitOrderInvert(unsigned char *buf, int nbytes)
 {
-    register unsigned char *rev = _reverse_byte;
+    unsigned char *rev = _reverse_byte;
 
     for (; --nbytes >= 0; buf++)
 	*buf = rev[*buf];
@@ -108,11 +106,9 @@ BitOrderInvert(buf, nbytes)
  *	Invert byte order within each 16-bits of an array.
  */
 void
-TwoByteSwap(buf, nbytes)
-    register unsigned char *buf;
-    register int nbytes;
+TwoByteSwap(unsigned char *buf, int nbytes)
 {
-    register unsigned char c;
+    unsigned char c;
 
     for (; nbytes > 0; nbytes -= 2, buf += 2)
     {
@@ -126,11 +122,9 @@ TwoByteSwap(buf, nbytes)
  *	Invert byte order within each 32-bits of an array.
  */
 void
-FourByteSwap(buf, nbytes)
-    register unsigned char *buf;
-    register int nbytes;
+FourByteSwap(unsigned char *buf, int nbytes)
 {
-    register unsigned char c;
+    unsigned char c;
 
     for (; nbytes > 0; nbytes -= 4, buf += 4)
     {
@@ -148,10 +142,13 @@ FourByteSwap(buf, nbytes)
  */
 
 int
-RepadBitmap (pSrc, pDst, srcPad, dstPad, width, height)
-    char	*pSrc, *pDst;
-    unsigned	srcPad, dstPad;
-    int		width, height;
+RepadBitmap (
+    char	*pSrc,
+    char	*pDst,
+    unsigned	srcPad,
+    unsigned	dstPad,
+    int		width,
+    int		height)
 {
     int	    srcWidthBytes,dstWidthBytes;
     int	    row,col;

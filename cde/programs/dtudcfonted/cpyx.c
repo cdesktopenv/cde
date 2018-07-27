@@ -62,20 +62,29 @@ extern XtPointer _XmStringUngenerate (XmString string,
 #endif
 #include "pixmaps/arrow.pm"
 
-static Widget	CreateCopyXLFD() ;
-static void	CpyXLFDCB() ;
+static Widget	CreateCopyXLFD(Widget Top);
+static void	CpyXLFDCB(Widget w, caddr_t client_data, caddr_t *call_data);
 
-extern	int	CreateOtherLabelAndText();
-extern	Widget	xlfdCreateScrolledList();
-extern	int	GetItemsToDisplay();
+extern	int	CreateOtherLabelAndText(int     num,
+					Widget  owner,
+					Widget  baseForm,
+					Widget  *slctBLabel,
+					Widget  topW,
+					Widget  *slctBText,
+					Widget  *slctButton);
+extern	Widget	xlfdCreateScrolledList(Widget owner,
+				       char *name,
+				       Arg *args,
+				       int n);
+extern	int	GetItemsToDisplay(int num, int *itemcnt, XmString **xms_list);
 
-extern	void	xlfdPopupDialog();
+extern	void	xlfdPopupDialog(Widget w);
 
-extern	void	InitCpyPtn() ;
-extern	void	_unmap();
-extern	void	CpyCB() ;
-extern	void	PopdownCpyPtn() ;
-extern	void	AddPopupProc() ;
+extern	void	InitCpyPtn(void);
+extern	void	_unmap(void);
+extern	void	CpyCB(Widget w, XtPointer cdata);
+extern	void	PopdownCpyPtn(void);
+extern	void	AddPopupProc(Widget w, void(*popupcb)());
 
 extern FalFontData fullFontData;
 
@@ -139,9 +148,7 @@ static Widget       focus_widget=NULL;
 
 /*ARGSUSED*/
 static void
-CpyXLFDCB(w, client_data, call_data)
-Widget	w;
-caddr_t	client_data, *call_data;
+CpyXLFDCB(Widget w, caddr_t client_data, caddr_t *call_data)
 {
     char	*str;
     XmStringTable	st;
@@ -162,7 +169,7 @@ caddr_t	client_data, *call_data;
 
 
 void
-CpyPtnXLFD()
+CpyPtnXLFD(void)
 {
     if( cpyDialog == NULL )
     {
@@ -199,7 +206,7 @@ CpyPtnXLFD()
 
 
 static void
-create_xlfd()
+create_xlfd(void)
 {
 	int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
 	FalFontData key;
@@ -239,8 +246,7 @@ create_xlfd()
 }
 
 static void
-udc_call(w)
-Widget w;
+udc_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -269,8 +275,7 @@ Widget w;
 }
 
 static void
-sty_call(w)
-Widget w;
+sty_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -294,8 +299,7 @@ Widget w;
 }
 
 static void
-wls_call(w)
-Widget w;
+wls_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -315,8 +319,7 @@ Widget w;
 }
 
 static void
-hls_call(w)
-Widget w;
+hls_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -336,7 +339,7 @@ Widget w;
 }
 
 static void
-button_set1()
+button_set1(void)
 {
     int		i, j;
     int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
@@ -385,7 +388,7 @@ button_set1()
 }
 
 static void
-button_set2()
+button_set2(void)
 {
     int		i, j;
     int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
@@ -434,7 +437,7 @@ button_set2()
 }
 
 static void
-button_set3()
+button_set3(void)
 {
     int		i, j;
     int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
@@ -483,7 +486,7 @@ button_set3()
 }
 
 static void
-button_set4()
+button_set4(void)
 {
     int		i, j;
     int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
@@ -533,7 +536,7 @@ button_set4()
 
 
 static void
-font_init()
+font_init(void)
 {
 	FalFontDataList *fontlist;
 	FalFontData	*f;
@@ -675,9 +678,7 @@ font_init()
 
 /*ARGSUSED*/
 static void
-arrow_change(w, wid)
-Widget w;
-Widget wid;
+arrow_change(Widget w, Widget wid)
 {
     if (XtIsSensitive(wid)) {
 	XtSetSensitive(wid, False);
@@ -687,14 +688,13 @@ Widget wid;
 }
 
 static void
-focus(w)
-Widget w;
+focus(Widget w)
 {
     focus_widget = w;
 }
 
 static void
-code_input()
+code_input(void)
 {
     char	*str;
     XmStringTable	st;
@@ -708,15 +708,14 @@ code_input()
 }
 
 static void
-code_input2()
+code_input2(void)
 {
     extern void	CodeWindow();
     CodeWindow(codeText[2], fullFontData.xlfdname, False);
 }
 
 static Widget
-CreateCopyXLFD( top )
-Widget	top ;
+CreateCopyXLFD( Widget top )
 {
 
 	int		n;

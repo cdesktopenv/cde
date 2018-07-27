@@ -74,13 +74,12 @@ extern Resource	resource ;
 
 FalFontData fullFontData;
 
-void	PopupSelectXLFD() ;
-static Widget	CreateSelectXLFD() ;
+void	PopupSelectXLFD(Widget top) ;
+static Widget	CreateSelectXLFD(Widget top) ;
 
-extern	void	xlfdPopupDialog() ;
-extern	int	GetListsOfItems() ;
+extern	void	xlfdPopupDialog(Widget w);
 
-extern	void	ReadCB();
+extern	void	ReadCB(Widget w, XtPointer client_data, XtPointer call_data);
 
 
 Widget	xlfdDialog;
@@ -122,10 +121,7 @@ static Widget       *button4=NULL;
  ***************************************************************/
 
 static char *
-spc(str, ch, count)
-char *	str;
-char	ch;
-int	count;
+spc(char *str, char ch, int count)
 {
     char *p;
     p = str + strlen(str);
@@ -139,7 +135,7 @@ int	count;
 	return(NULL);
 }
 
-static void OpenWindowCB()
+static void OpenWindowCB(void)
 {
     char	*str, *p;
     XmStringTable	st;
@@ -175,10 +171,7 @@ static void OpenWindowCB()
 
 /*ARGSUSED*/
 static void
-OpenCancelCB( widget, clientData, callData )
-Widget		widget;
-caddr_t		clientData;
-caddr_t		callData;
+OpenCancelCB(Widget widget, caddr_t clientData, caddr_t callData)
 {
     extern void ForcePopdownDialog();
     if ( !editPtnW ){
@@ -192,8 +185,7 @@ caddr_t		callData;
 * create selection window view
 */
 void
-PopupSelectXLFD( top )
-Widget	top ;
+PopupSelectXLFD(Widget top)
 {
 
     if( xlfdDialog == NULL ){
@@ -207,7 +199,7 @@ Widget	top ;
 
 
 static void
-create_xlfd()
+create_xlfd(void)
 {
 	int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
 	FalFontData key;
@@ -253,8 +245,7 @@ create_xlfd()
 }
 
 static void
-udc_call(w)
-Widget w;
+udc_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -283,8 +274,7 @@ Widget w;
 }
 
 static void
-sty_call(w)
-Widget w;
+sty_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -308,8 +298,7 @@ Widget w;
 }
 
 static void
-wls_call(w)
-Widget w;
+wls_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -329,8 +318,7 @@ Widget w;
 }
 
 static void
-hls_call(w)
-Widget w;
+hls_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -350,7 +338,7 @@ Widget w;
 }
 
 static void
-button_set1()
+button_set1(void)
 {
     int		i, j;
     int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
@@ -399,7 +387,7 @@ button_set1()
 }
 
 static void
-button_set2()
+button_set2(void)
 {
     int		i, j;
     int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
@@ -448,7 +436,7 @@ button_set2()
 }
 
 static void
-button_set3()
+button_set3(void)
 {
     int		i, j;
     int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
@@ -497,7 +485,7 @@ button_set3()
 }
 
 static void
-button_set4()
+button_set4(void)
 {
     int		i, j;
     int mask = FAL_FONT_MASK_DEFINED | FAL_FONT_MASK_UNDEFINED;
@@ -546,9 +534,7 @@ button_set4()
 }
 
 void
-data_sort(data, count)
-int *data;
-int count;
+data_sort(int *data, int count)
 {
     int *p1, *p2, tmp, i;
 
@@ -565,7 +551,7 @@ int count;
 
 
 static void
-font_init()
+font_init(void)
 {
 	FalFontDataList *fontlist;
 	FalFontData	*f;
@@ -704,8 +690,7 @@ font_init()
 
 
 static Widget
-CreateSelectXLFD( top )
-Widget	top ;
+CreateSelectXLFD(Widget top)
 {
 
 	int		n;

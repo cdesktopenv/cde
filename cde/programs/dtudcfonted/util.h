@@ -29,68 +29,8 @@
  *  This is unpublished proprietary source code of FUJITSU LIMITED
  */
 
-
-
-extern Widget GetMenuWidget();
-extern Widget CreateFrame();
-extern Widget CreateControlArea();
-extern Widget CreateScrollBar();
-extern Widget CreateDrawingArea();
-extern Widget CreateExclusive();
-extern Widget CreateLabel();
-extern Widget CreateDialogAndButtons();
-extern
-#ifdef _HPUX_SOURCE
-String
-#else
-XtPointer
-#endif
-GetTextFieldValue();
-extern Widget CreateTemplateDialog();
-extern Widget CreateScrollBase();
-extern Widget CreateForm();
-
 #include <Xm/Xm.h>
 #include <Xm/XmStrDefs.h>
-
-Widget	CreateCaptionFrame();
-#ifdef _HPUX_SOURCE
-String
-#else
-XtPointer
-#endif
-GetTextFieldValue();
-void	CreateTextField();
-void	CreateButtons();
-void	CreateMenuButtons();
-void	LayoutButtonsEH();
-Widget	CreateLayoutButtons();
-Widget	CreateDialogAndButtons();
-Widget	GuiInitialize();
-Widget	CreateDrawingArea();
-void	AddTopWidget();
-void	AddLeftAttachWidget();
-void	AddLeftAttachForm();
-void	AddTopAttachWidget();
-void	AddTopAttachForm();
-void	AddRightAttachWidget();
-void	AddRightAttachForm();
-void	AddBottomAttachForm();
-void	PopupDialog();
-void	PopdownDialog();
-void	ForcePopdownDialog();
-void	SetLabelString();
-void	SetFooterString();
-void	PopupNotice();
-void	AddDeleteProc();
-Widget	CreateMenuBarAndFooterMessageForm();
-Widget	GetMenuWidget();
-Widget	CreateForm();
-Widget	CreateLabel();
-Widget	CreateFrame();
-Widget	CreateRowColumn();
-Widget	CreateScrollBar();
-
 
 #define MarginWidth 4
 #define RowMarginWidth 11
@@ -264,4 +204,131 @@ typedef struct _TextField {
 	XmNbottomAttachment, XmATTACH_FORM, \
 	XmNbottomOffset, offset, \
 	0)
+
+extern Widget GetMenuWidget(MButton *buttons, int buttons_num);
+extern Widget CreateFrame(Widget owner,
+			  String name,
+			  XtPointer type,
+			  XtPointer thickness);
+extern Widget CreateScrollBar(Widget owner,
+			      String name,
+			      int height,
+			      int val,
+			      int min,
+			      int max,
+			      void (*proc)());
+extern Widget CreateDrawingArea(Widget owner,
+				String name,
+				int width,
+				int height,
+				void (*proc)(),
+				int val);
+extern Widget CreateLabel(Widget owner, String name, String str);
+extern Widget CreateDialogAndButtons(Widget owner,
+				     String name,
+				     void (*delcb)(),
+				     Button *btns,
+				     int btns_cnt,
+				     Widget *pop);
+extern
+#ifdef _HPUX_SOURCE
+String
+#else
+XtPointer
+#endif
+GetTextFieldValue(TextField *textf);
+extern Widget CreateTemplateDialog(Widget w,
+				   char *message,
+				   unsigned char type,
+				   NButton *button,
+				   String title,
+				   Widget *pop);
+extern Widget CreateScrollBase(Widget owner,
+			       String name,
+			       int min,
+			       int max,
+			       int val,
+			       int vcnt,
+			       void (*sbproc)());
+extern Widget CreateForm(Widget owner, String name);
+
+Widget	CreateCaptionFrame(Widget owner,
+			   String name,
+			   String labelstr,
+			   int type,
+			   int thickness);
+#ifdef _HPUX_SOURCE
+String
+#else
+XtPointer
+#endif
+GetTextFieldValue(TextField *textf);
+void	CreateTextField(Widget owner,
+			String name,
+			String labelstr,
+			TextField *data,
+			int maxlength);
+void	CreateMenuButtons(Widget owner, Button *buttons, int buttons_cnt);
+Widget	CreateDialogAndButtons(Widget owner,
+			       String name,
+			       void (*delcb)(),
+			       Button *btns,
+			       int btns_cnt,
+			       Widget *pop);
+Widget	GuiInitialize(XtAppContext *app,
+		      String class_name,
+		      int *ac,
+		      String av[]);
+Widget	CreateDrawingArea(Widget owner,
+			  String name,
+			  int width,
+			  int height,
+			  void (*proc)(),
+			  int val);
+void	AddLeftAttachWidget(Widget w, Widget ref, int offset);
+void	AddLeftAttachForm(Widget w, int offset);
+void	AddTopAttachWidget(Widget w, Widget ref, int offset);
+void	AddTopAttachForm(Widget w, int offset);
+void	AddRightAttachWidget(Widget w, Widget ref, int offset);
+void	AddRightAttachForm(Widget w, int offset);
+void	AddBottomAttachForm(Widget w, int offset);
+void	PopupDialog(Widget w);
+void	PopdownDialog(Widget w);
+void	ForcePopdownDialog(Widget w);
+void	SetLabelString(Widget w, String str);
+void	SetFooterString(Widget w, String str);
+void	PopupNotice(Widget owner,
+		    char *message,
+		    unsigned char type,
+		    NButton *button,
+		    Boolean do_format,
+		    String title);
+void	AddDeleteProc(Widget w, void (*delcb)());
+Widget	CreateMenuBarAndFooterMessageForm(Widget owner,
+					  String name,
+					  MButton *buttons,
+					  int bcnt,
+					  Widget *pop,
+					  Widget *footer);
+Widget	GetMenuWidget(MButton *buttons, int buttons_num);
+Widget	CreateForm(Widget owner, String name);
+Widget	CreateLabel(Widget owner, String name, String str);
+Widget	CreateFrame(Widget owner,
+		    String name,
+		    XtPointer type,
+		    XtPointer thickness);
+Widget	CreateRowColumn(Widget owner,
+			String name,
+			int layout,
+			int space,
+			int marginw,
+			int marginh);
+Widget	CreateScrollBar(Widget owner,
+			String name,
+			int height,
+			int val,
+			int min,
+			int max,
+			void (*proc)());
+
 #endif	/* USE_MACRO */

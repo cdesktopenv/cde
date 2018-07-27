@@ -53,10 +53,7 @@
 #include <X11/Xatom.h>
 
 static XPointer *
-alloc_list(is_wide_char, count, nitems)
-    Bool is_wide_char;
-    int count;
-    int nitems;
+alloc_list(Bool is_wide_char, int count, int nitems)
 {
     if (is_wide_char) {
 	wchar_t **wstr_list;
@@ -90,11 +87,7 @@ alloc_list(is_wide_char, count, nitems)
 }
 
 static void
-copy_list(is_wide_char, text, list, count)
-    Bool is_wide_char;
-    XPointer text;
-    XPointer *list;
-    int count;
+copy_list(Bool is_wide_char, XPointer text, XPointer *list, int count)
 {
     int length;
 
@@ -128,13 +121,13 @@ copy_list(is_wide_char, text, list, count)
 }
 
 static int
-_XTextPropertyToTextList(lcd, dpy, text_prop, to_type, list_ret, count_ret)
-    XLCd lcd;
-    Display *dpy;
-    XTextProperty *text_prop;
-    char *to_type;
-    XPointer **list_ret;
-    int *count_ret;
+_XTextPropertyToTextList(
+    XLCd lcd,
+    Display *dpy,
+    XTextProperty *text_prop,
+    char *to_type,
+    XPointer **list_ret,
+    int *count_ret)
 {
     XlcConv conv;
     char *from_type;
@@ -231,33 +224,31 @@ _XTextPropertyToTextList(lcd, dpy, text_prop, to_type, list_ret, count_ret)
 }
 
 int
-_falmbTextPropertyToTextList(lcd, dpy, text_prop, list_ret, count_ret)
-    XLCd lcd;
-    Display *dpy;
-    XTextProperty *text_prop;
-    char ***list_ret;
-    int *count_ret;
+_falmbTextPropertyToTextList(
+    XLCd lcd,
+    Display *dpy,
+    XTextProperty *text_prop,
+    char ***list_ret,
+    int *count_ret)
 {
     return _XTextPropertyToTextList(lcd, dpy, text_prop, XlcNMultiByte,
 				    (XPointer **) list_ret, count_ret);
 }
 
 int
-_falwcTextPropertyToTextList(lcd, dpy, text_prop, list_ret, count_ret)
-    XLCd lcd;
-    Display *dpy;
-    XTextProperty *text_prop;
-    wchar_t ***list_ret;
-    int *count_ret;
+_falwcTextPropertyToTextList(
+    XLCd lcd,
+    Display *dpy,
+    XTextProperty *text_prop,
+    wchar_t ***list_ret,
+    int *count_ret)
 {
     return _XTextPropertyToTextList(lcd, dpy, text_prop, XlcNWideChar,
 				    (XPointer **) list_ret, count_ret);
 }
 
 void
-_falwcFreeStringList(lcd, list)
-    XLCd lcd;
-    wchar_t **list;
+_falwcFreeStringList(XLCd lcd, wchar_t **list)
 {
     if (list) {
         if (*list)

@@ -134,8 +134,7 @@ static Widget       *button4=NULL;
  */
 
 void
-xlfdPopupDialog(w)
-Widget w;
+xlfdPopupDialog(Widget w)
 {
     if (! XtIsManaged(w))
         XtManageChild(w);
@@ -144,8 +143,7 @@ Widget w;
 }
 
 void
-ForcePopdownDialog(w)
-Widget w;
+ForcePopdownDialog(Widget w)
 {
     if (XtIsManaged(w)){
 	XtUnmanageChild(w);
@@ -367,10 +365,7 @@ char_set(char *str) /* dtex */
 }
 
 static char *
-spc(str, ch, count)
-char *	str;
-char	ch;
-int	count;
+spc(char *str, char ch, int count)
 {
     char *p;
     p = str + strlen(str);
@@ -506,10 +501,8 @@ static void OpenWindowCB() /* dtex change */
 
 /*ARGSUSED*/
 static void
-OpenCancelCB( widget, clientData, callData ) /* dtex change */
-Widget		widget;
-caddr_t		clientData;
-caddr_t		callData;
+OpenCancelCB( Widget widget, caddr_t clientData, caddr_t callData )
+/* dtex change */
 {
 /*    extern void ForcePopdownDialog();
     if ( !editPtnW ){
@@ -523,8 +516,7 @@ caddr_t		callData;
 * create selection window view
 */
 void
-PopupSelectXLFD( top )
-Widget	top ;
+PopupSelectXLFD( Widget top )
 {
 
     if( xlfdDialog == NULL ){
@@ -584,8 +576,7 @@ create_xlfd()
 }
 
 static void
-udc_call(w)
-Widget w;
+udc_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -621,8 +612,7 @@ Widget w;
 }
 
 static void
-sty_call(w)
-Widget w;
+sty_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -651,8 +641,7 @@ Widget w;
 }
 
 static void
-wls_call(w)
-Widget w;
+wls_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -678,8 +667,7 @@ Widget w;
 }
 
 static void
-hls_call(w)
-Widget w;
+hls_call(Widget w)
 {
 	XmString label;
 	char *moji;
@@ -899,9 +887,7 @@ button_set4()
 }
 
 void
-data_sort(data, count)
-int *data;
-int count;
+data_sort(int *data, int count)
 {
     int *p1, *p2, tmp, i;
 
@@ -1071,8 +1057,7 @@ font_init() /* dtex change */
 
 
 static Widget
-CreateSelectXLFD( top ) /* dtex change */
-Widget	top ;
+CreateSelectXLFD( Widget top ) /* dtex change */
 {
 
 	int		n;

@@ -54,7 +54,7 @@
 /*
  * parameters
  */
-void	xlfdPopupDialog() ;
+void	xlfdPopupDialog(Widget w);
 
 extern	int			getmask ;
 
@@ -73,8 +73,7 @@ extern Widget	slctBLabel[BUTTONITEMS],
  */
 
 void
-xlfdPopupDialog(w)
-Widget w;
+xlfdPopupDialog(Widget w)
 {
     if (! XtIsManaged(w))
         XtManageChild(w);

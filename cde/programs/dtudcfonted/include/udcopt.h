@@ -45,16 +45,6 @@
 	snprintf( (buf), sizeof((buf)), " -i " ) ; \
 	snprintf( (command), sizeof((command)), "%s %s > %s", bdftosnf, (buf), (out_file) ); \
 }
-#define	COMM_SNF_FILEVERSION( snf_fd, finf, buf, permission ) { \
-	read( (snf_fd), (buf), sizeof(FontInfoRec) ); \
-	close( (snf_fd) ); \
-	(finf) = (FontInfoRec *) (buf) ; \
-	if( \
-	    ((finf)->version1 != FONT_FILE_VERSION) || \
-	    ((finf)->version2 != FONT_FILE_VERSION) \
-	) \
-	    (permission) = -1 ; \
-}
 #define COMM_SNF_NEWTARGET( permission )	(permission) = 0
 #define	COMM_SNF_EXECLBDFTOSNF( permission, buf, snf_file ) { \
 	execl( bdftosnf, bdftosnf, "-i", 0 ); \
@@ -69,20 +59,8 @@
 /* case of a snf former font */
 #define	FAL_GET_SNF_HEADER( buf, protect_key_data, fal_utyerror, fal_utyderror, fd, finf, openfontfile ) { \
 	(finf)->pFinf = ( FontInfoPtr )(buf); \
-	if ( \
-	    ((finf)->pFinf->version1 != (finf)->pFinf->version2) || \
-	    ((finf)->pFinf->version1 != FONT_FILE_VERSION) \
-	) { \
-	    set_errfile_str( fal_err_file, (openfontfile) ) ; \
-	    (fal_utyerror) = _FAL_FONT_ER; \
-	    (fal_utyderror) = 0; \
-	    fal_utyerrno = FAL_ERR_FONT ; \
-	    fal_utyerrno |= (FAL_FUNCNUM_OPNFNT<<8) ; \
-	    goto FalError01 ; \
-	} else { \
 	    (finf)->isFef = TRUE ; \
 	    (finf)->isPcf = FALSE; \
-	} \
 }
 
 /* falReadGpfProp() */
@@ -90,12 +68,6 @@
     (finf)->isFef = TRUE; \
     (finf)->isPcf = FALSE; \
     (finf)->pFinf = ( FontInfoPtr )(finf)->buf ; \
-    if ( /* not a snf or fef format */ \
-	((finf)->pFinf->version1 != (finf)->pFinf->version2) || \
-	((finf)->pFinf->version1 != FONT_FILE_VERSION) \
-    ) { \
-	return _FAL_TRY_NEXT ; \
-    } \
 }
 
 #define	ISOPTFONT( file )	1

@@ -87,17 +87,6 @@ static CTDataRec default_ct_data[] =
     { "JISX0208.1983-0:GR", "\033$)B" },
     { "KSC5601.1987-0:GL", "\033$(C" },
     { "KSC5601.1987-0:GR", "\033$)C" },
-#ifdef notdef
-    { "JISX0212.1990-0:GL", "\033$(D" },
-    { "JISX0212.1990-0:GR", "\033$)D" },
-    { "CNS11643.1986-1:GL", "\033$(G" },
-    { "CNS11643.1986-1:GR", "\033$)G" },
-    { "CNS11643.1986-2:GL", "\033$(H" },
-    { "CNS11643.1986-2:GR", "\033$)H" },
-
-    /* Non-Standard Character Set Encodings */
-    { "TIS620.2533-1:GR", "\033-T"},
-#endif
 } ;
 
 static CTDataRec directionality_data[] =
@@ -128,10 +117,7 @@ typedef struct _StateRec {
 /* -------------------------------------------------------------------------- */
 
 static int
-compare(src, encoding, length)
-    register char *src;
-    register char *encoding;
-    register int length;
+compare(char *src, char *encoding, int length)
 {
     char *start = src;
 
@@ -146,9 +132,7 @@ compare(src, encoding, length)
 }
 
 static unsigned long
-conv_to_dest(conv, code)
-    Conversion conv;
-    unsigned long code;
+conv_to_dest(Conversion conv, unsigned long code)
 {
     int i;
     int conv_num = conv->conv_num;
@@ -171,9 +155,7 @@ conv_to_dest(conv, code)
 }
 
 static unsigned long
-conv_to_source(conv, code)
-    Conversion conv;
-    unsigned long code;
+conv_to_source(Conversion conv, unsigned long code)
 {
     int i;
     int conv_num;
@@ -213,9 +195,7 @@ conv_to_source(conv, code)
 }
 
 static unsigned long
-mb_to_gi(mb, codeset)
-    unsigned long mb;
-    CodeSet codeset;
+mb_to_gi(unsigned long mb, CodeSet codeset)
 {
     int i;
     unsigned long mb_tmp, mask = 0;
@@ -238,9 +218,7 @@ mb_to_gi(mb, codeset)
 }
 
 static unsigned long
-gi_to_mb(glyph_index, codeset)
-    unsigned long glyph_index;
-    CodeSet codeset;
+gi_to_mb(unsigned long glyph_index, CodeSet codeset)
 {
     int i;
     unsigned long mask = 0;
@@ -258,11 +236,7 @@ gi_to_mb(glyph_index, codeset)
 }
 
 static Bool
-gi_to_wc(lcd, glyph_index, codeset, wc)
-    XLCd lcd;
-    unsigned long glyph_index;
-    CodeSet codeset;
-    wchar_t *wc;
+gi_to_wc(XLCd lcd, unsigned long glyph_index, CodeSet codeset, wchar_t *wc)
 {
     unsigned char mask = 0;
     unsigned long wc_encoding = codeset->wc_encoding;
@@ -281,11 +255,7 @@ gi_to_wc(lcd, glyph_index, codeset, wc)
 }
 
 static Bool
-wc_to_gi(lcd, wc, glyph_index, codeset)
-    XLCd lcd;
-    wchar_t wc;
-    unsigned long *glyph_index;
-    CodeSet *codeset;
+wc_to_gi(XLCd lcd, wchar_t wc, unsigned long *glyph_index, CodeSet *codeset)
 {
     int i;
     unsigned char mask = 0;
@@ -317,9 +287,7 @@ wc_to_gi(lcd, wc, glyph_index, codeset)
 }
 
 static CodeSet
-byteM_parse_codeset(lcd, inbufptr)
-    XLCd lcd;
-    XPointer inbufptr;
+byteM_parse_codeset(XLCd lcd, XPointer inbufptr)
 {
     unsigned char ch;
     CodeSet codeset;
@@ -364,9 +332,7 @@ byteM_parse_codeset(lcd, inbufptr)
 }
 
 static CodeSet
-GLGR_parse_codeset(lcd, ch)
-    XLCd lcd;
-    unsigned char ch;
+GLGR_parse_codeset(XLCd lcd, unsigned char ch)
 {
     int i;
     CodeSet initial_state_GL      = XLC_GENERIC(lcd, initial_state_GL);
@@ -395,9 +361,7 @@ GLGR_parse_codeset(lcd, ch)
 }
 
 static XlcCharSet
-gi_parse_charset(glyph_index, codeset)
-    unsigned long glyph_index;
-    CodeSet codeset;
+gi_parse_charset(unsigned long glyph_index, CodeSet codeset)
 {
     int i;
     size_t table_size = sizeof(default_ct_data) / sizeof(default_ct_data[0]);
@@ -418,40 +382,34 @@ gi_parse_charset(glyph_index, codeset)
 	return(NULL);
 
     /* Standard Character Set Encoding ? */
-    for (i = 0; i < table_size; i++)
+    for (i = 0; i < table_size; i++){
         if (compare(charset->ct_sequence,
-	       default_ct_data[i].encoding, strlen(charset->ct_sequence)))
-	    goto check_extended_seg;
+	       default_ct_data[i].encoding, strlen(charset->ct_sequence))){
+	        if (!ctextseg)
+		        return(charset);
 
-    return(charset);
+		 area = ctextseg->area;
+		 area_num = ctextseg->area_num;
 
-check_extended_seg:
-    if (!ctextseg)
-        return(charset);
+	    for (i = 0; i < area_num; i++) {
 
-    area = ctextseg->area;
-    area_num = ctextseg->area_num;
+		if (area[i].start <= glyph_index && glyph_index <= area[i].end) {
 
-    for (i = 0; i < area_num; i++) {
+			charset = ctextseg->charset;
 
-        if (area[i].start <= glyph_index && glyph_index <= area[i].end) {
+			if (*charset->ct_sequence == '\0')
+			return(NULL);
 
-	    charset = ctextseg->charset;
-
-            if (*charset->ct_sequence == '\0')
-                return(NULL);
-
-	    break;
+		break;
+		}
+	    }
 	}
     }
-
     return(charset);
 }
 
 static Bool
-ct_parse_csi(inbufptr, ctr_seq_len)
-    XPointer inbufptr;
-    int *ctr_seq_len;
+ct_parse_csi(XPointer inbufptr, int *ctr_seq_len)
 {
     int i;
     int num = sizeof(directionality_data) / sizeof(directionality_data[0]);
@@ -469,10 +427,7 @@ ct_parse_csi(inbufptr, ctr_seq_len)
 }
 
 static int
-cmp_esc_sequence(inbufptr, ct_sequence, encoding_name)
-    XPointer inbufptr;
-    char *ct_sequence;
-    char *encoding_name;
+cmp_esc_sequence(XPointer inbufptr, char *ct_sequence, char *encoding_name)
 {
     size_t table_size = sizeof(default_ct_data) / sizeof(default_ct_data[0]);
     int i, seq_len, name_len, total_len;
@@ -523,11 +478,11 @@ cmp_esc_sequence(inbufptr, ct_sequence, encoding_name)
 }
 
 static Bool
-ct_parse_charset(lcd, inbufptr, charset, ctr_seq_len)
-    XLCd lcd;
-    XPointer inbufptr;
-    XlcCharSet *charset;
-    int *ctr_seq_len;
+ct_parse_charset(
+    XLCd lcd,
+    XPointer inbufptr,
+    XlcCharSet *charset,
+    int *ctr_seq_len)
 {
     int i, j;
     ExtdSegment ctextseg;
@@ -584,10 +539,7 @@ ct_parse_charset(lcd, inbufptr, charset, ctr_seq_len)
 }
 
 static Bool
-segment_conversion(lcd, charset, glyph_index)
-    XLCd lcd;
-    XlcCharSet *charset;
-    unsigned long *glyph_index;
+segment_conversion(XLCd lcd, XlcCharSet *charset, unsigned long *glyph_index)
 {
     int i;
     int segment_conv_num = XLC_GENERIC(lcd, segment_conv_num);
@@ -619,9 +571,7 @@ segment_conversion(lcd, charset, glyph_index)
 }
 
 CodeSet
-_fallcGetCodeSetFromName(lcd, name)
-    XLCd lcd;
-    char *name;
+_fallcGetCodeSetFromName(XLCd lcd, char *name)
 {
     int i, j;
     XlcCharSet charset;
@@ -652,11 +602,11 @@ _fallcGetCodeSetFromName(lcd, name)
 }
 
 static Bool
-_XlcGetCodeSetFromCharSet(lcd, charset, codeset, glyph_index)
-    XLCd lcd;
-    XlcCharSet charset;
-    CodeSet *codeset;
-    unsigned long *glyph_index;
+_XlcGetCodeSetFromCharSet(
+    XLCd lcd,
+    XlcCharSet charset,
+    CodeSet *codeset,
+    unsigned long *glyph_index)
 {
     int i, j, num;
     CodeSet *codeset_list = XLC_GENERIC(lcd, codeset_list);
@@ -726,8 +676,7 @@ end_loop:
 }
 
 static Bool
-check_string_encoding(codeset)
-    CodeSet codeset;
+check_string_encoding(CodeSet codeset)
 {
     int i;
     XlcCharSet charset;
@@ -749,10 +698,9 @@ check_string_encoding(codeset)
 /* -------------------------------------------------------------------------- */
 
 static void
-init_state(conv)
-    XlcConv conv;
+init_state(XlcConv conv)
 {
-    register State state = (State) conv->state;
+    State state = (State) conv->state;
 
     /* for CT */
     state->charset = NULL;
@@ -765,14 +713,14 @@ init_state(conv)
 /* -------------------------------------------------------------------------- */
 
 static int
-mbstowcs_org(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+mbstowcs_org(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XLCd lcd = state->lcd;
@@ -820,8 +768,17 @@ mbstowcs_org(conv, from, from_left, to, to_left, args, num_args)
 	}
 
 	/* same mb char data */
-        if (len_left)
-	    goto output_one_wc;
+        if (len_left){
+	    mb = (mb << 8) | ch;  /* 1 byte left shift */
+	    len_left--;
+
+	    /* last of one mb char data */
+	    if (!len_left) {
+		gi_to_wc(lcd, mb_to_gi(mb, codeset), codeset, &wc);
+	    if (outbufptr) {*outbufptr++ = wc;}
+		(*to_left)--;
+	    }
+	}
 
         /* next mb char data for single shift ? */
 	if (mb_parse_table) {
@@ -838,32 +795,17 @@ mbstowcs_org(conv, from, from_left, to, to_left, args, num_args)
         }
 
 	/* next mb char data for byteM ? */
-	if (codeset = byteM_parse_codeset(lcd, (inbufptr - 1)))
-	    goto next_mb_char;
-
-	/* next mb char data for GL or GR side ? */
-	if (codeset = GLGR_parse_codeset(lcd, ch))
-	    goto next_mb_char;
+	if ((codeset = byteM_parse_codeset(lcd, (inbufptr - 1))) ||
+        /* next mb char data for GL or GR side ? */
+	   (codeset = GLGR_parse_codeset(lcd, ch))){
+		length = len_left = codeset->length;
+		mb = 0;
+		ss_flag = 0;
+	}
 
         /* can't find codeset for the ch */
         unconv_num++;
         continue;
-
-next_mb_char:
-        length = len_left = codeset->length;
-	mb = 0;
-	ss_flag = 0;
-
-output_one_wc:
-	mb = (mb << 8) | ch;  /* 1 byte left shift */
-	len_left--;
-
-        /* last of one mb char data */
-        if (!len_left) {
-            gi_to_wc(lcd, mb_to_gi(mb, codeset), codeset, &wc);
-            if (outbufptr) {*outbufptr++ = wc;}
-	    (*to_left)--;
-        }
 
     } /* end of while */
 
@@ -882,14 +824,14 @@ output_one_wc:
 }
 
 static int
-wcstombs_org(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+wcstombs_org(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XLCd lcd = state->lcd;
@@ -975,14 +917,14 @@ wcstombs_org(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-wcstocts(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+wcstocts(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     size_t table_size = sizeof(default_ct_data) / sizeof(default_ct_data[0]);
     State state = (State) conv->state;
@@ -1124,14 +1066,14 @@ wcstocts(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-ctstowcs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+ctstowcs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XLCd lcd = state->lcd;
@@ -1181,8 +1123,41 @@ ctstowcs(conv, from, from_left, to, to_left, args, num_args)
 	}
 
 	/* same glyph_index data */
-        if (gi_len_left)
-	    goto output_one_wc;
+        if (gi_len_left){
+
+        if (state->charset->side == XlcC1 || state->charset->side == XlcGR)
+            glyph_index = (glyph_index << 8) | (ch & GL);
+        else
+            glyph_index = (glyph_index << 8) | ch;
+
+	gi_len_left--;
+
+        /* last of one glyph_index data */
+        if (!gi_len_left) {
+
+	    /* segment conversion */
+	    charset_tmp = state->charset;
+	    if ( !segment_conversion(lcd, &charset_tmp, &glyph_index) ) {
+		unconv_num += gi_len;
+		continue;
+            }
+
+            /* get codeset */
+            if ( !_XlcGetCodeSetFromCharSet(lcd, charset_tmp,
+						&codeset, &glyph_index) ) {
+		unconv_num += gi_len;
+		continue;
+            }
+
+            /* convert glyph index to wicd char */
+            gi_to_wc(lcd, glyph_index, codeset, &wc);
+            if (outbufptr) {*outbufptr++ = wc;}
+	    (*to_left)--;
+        }
+
+        continue;
+
+	}
 
         /* control sequence ? */
         if (ch == CSI) {
@@ -1243,39 +1218,6 @@ ctstowcs(conv, from, from_left, to, to_left, args, num_args)
 	gi_len = gi_len_left = state->charset->char_size;
 	glyph_index = 0;
 
-output_one_wc:
-        if (state->charset->side == XlcC1 || state->charset->side == XlcGR)
-            glyph_index = (glyph_index << 8) | (ch & GL);
-        else
-            glyph_index = (glyph_index << 8) | ch;
-
-	gi_len_left--;
-
-        /* last of one glyph_index data */
-        if (!gi_len_left) {
-
-	    /* segment conversion */
-	    charset_tmp = state->charset;
-	    if ( !segment_conversion(lcd, &charset_tmp, &glyph_index) ) {
-		unconv_num += gi_len;
-		continue;
-            }
-
-            /* get codeset */
-            if ( !_XlcGetCodeSetFromCharSet(lcd, charset_tmp,
-						&codeset, &glyph_index) ) {
-		unconv_num += gi_len;
-		continue;
-            }
-
-            /* convert glyph index to wicd char */
-            gi_to_wc(lcd, glyph_index, codeset, &wc);
-            if (outbufptr) {*outbufptr++ = wc;}
-	    (*to_left)--;
-        }
-
-        continue;
-
 skip_the_seg:
 	/* skip until next escape or control sequence */
         while ( *from_left ) {
@@ -1311,14 +1253,14 @@ skip_the_seg:
 }
 
 static int
-mbstocts(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+mbstocts(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     XPointer buf = Xmalloc((*from_left) * sizeof(wchar_t));
     XPointer buf_ptr1 = buf;
@@ -1329,32 +1271,34 @@ mbstocts(conv, from, from_left, to, to_left, args, num_args)
 
     unconv_num = mbstowcs_org(conv,
 		from, from_left, &buf_ptr1, &buf_left1, args, num_args);
-    if (unconv_num < 0)
-        goto ret;
+    if (unconv_num < 0){
+	if (buf)
+	    Xfree((char *)buf);
+
+	return unconv_num;
+    }
 
     buf_left2 = (buf_ptr1 - buf_ptr2) / sizeof(wchar_t);
 
     unconv_num += wcstocts(conv,
 		&buf_ptr2, &buf_left2, to, to_left, args, num_args);
-    if (unconv_num < 0)
-        goto ret;
+    if (unconv_num < 0){
+	if (buf)
+	    Xfree((char *)buf);
 
-ret:
-    if (buf)
-	Xfree((char *)buf);
-
-    return unconv_num;
+	return unconv_num;
+    }
 }
 
 static int
-mbstostr(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+mbstostr(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XLCd lcd = state->lcd;
@@ -1402,8 +1346,20 @@ mbstostr(conv, from, from_left, to, to_left, args, num_args)
 	}
 
         /* same mb char data */
-        if (len_left)
-            goto output_one_mb;
+        if (len_left){
+            mb = (mb << 8) | ch;  /* 1 byte left shift */
+            len_left--;
+
+            /* last of one mb char data */
+            if (!len_left) {
+                if (check_string_encoding(codeset)) {
+                    if (outbufptr) {*outbufptr++ = mb & 0xff;}
+                    (*to_left)--;
+                } else {
+                    unconv_num++;
+                }
+            }
+	}
 
         /* next mb char data for single shift ? */
 	if (mb_parse_table) {
@@ -1420,35 +1376,17 @@ mbstostr(conv, from, from_left, to, to_left, args, num_args)
         }
 
 	/* next char data : byteM ? */
-	if (codeset = byteM_parse_codeset(lcd, (inbufptr - 1)))
-	    goto next_mb_char;
-
+	if ((codeset = byteM_parse_codeset(lcd, (inbufptr - 1))) ||
 	/* next char data : GL or GR side ? */
-	if (codeset = GLGR_parse_codeset(lcd, ch))
-	    goto next_mb_char;
+	    (codeset = GLGR_parse_codeset(lcd, ch))){
+		length = len_left = codeset->length;
+		mb = 0;
+		ss_flag = 0;
+	}
 
         /* can't find codeset for the ch */
         unconv_num++;
         continue;
-
-next_mb_char:
-        length = len_left = codeset->length;
-        mb = 0;
-        ss_flag = 0;
-
-output_one_mb:
-        mb = (mb << 8) | ch;  /* 1 byte left shift */
-        len_left--;
-
-        /* last of one mb char data */
-        if (!len_left) {
-            if (check_string_encoding(codeset)) {
-                if (outbufptr) {*outbufptr++ = mb & 0xff;}
-		(*to_left)--;
-            } else {
-	        unconv_num++;
-            }
-        }
 
     } /* end of while */
 
@@ -1467,14 +1405,14 @@ output_one_mb:
 }
 
 static int
-mbtocs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+mbtocs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XLCd lcd = state->lcd;
@@ -1536,20 +1474,16 @@ mbtocs(conv, from, from_left, to, to_left, args, num_args)
         }
 
 	/* next mb char data for byteM ? */
-	if (codeset = byteM_parse_codeset(lcd, (inbufptr - 1)))
-	    goto next_mb_char;
-
+	if ((codeset = byteM_parse_codeset(lcd, (inbufptr - 1))) ||
 	/* next mb char data for GL or GR side ? */
-	if (codeset = GLGR_parse_codeset(lcd, ch))
-	    goto next_mb_char;
+	    (codeset = GLGR_parse_codeset(lcd, ch))){
+		length = len_left = codeset->length;
+		mb = 0;
+	}
 
         /* can't find codeset for the ch */
         unconv_num = 1;
         break;
-
-next_mb_char:
-        length = len_left = codeset->length;
-	mb = 0;
 
 output:
 	mb = (mb << 8) | ch;  /* 1 byte left shift */
@@ -1610,14 +1544,14 @@ output:
 }
 
 static int
-mbstocs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+mbstocs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     int ret;
     XlcCharSet charset_old, charset = NULL;
@@ -1661,14 +1595,14 @@ mbstocs(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-wcstostr(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+wcstostr(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XLCd lcd = state->lcd;
@@ -1759,14 +1693,14 @@ wcstostr(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-wctocs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+wctocs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XLCd lcd = state->lcd;
@@ -1859,14 +1793,14 @@ end:
 }
 
 static int
-wcstocs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+wcstocs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     int ret;
     XlcCharSet charset_old, charset = NULL;
@@ -1910,14 +1844,14 @@ wcstocs(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-ctstombs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+ctstombs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     XPointer buf = Xmalloc((*from_left) * sizeof(wchar_t));
     XPointer buf_ptr1 = buf;
@@ -1928,32 +1862,33 @@ ctstombs(conv, from, from_left, to, to_left, args, num_args)
 
     unconv_num = ctstowcs(conv,
 		from, from_left, &buf_ptr1, &buf_left1, args, num_args);
-    if (unconv_num < 0)
-        goto ret;
+    if (unconv_num < 0){
+        if (buf)
+            Xfree((char *)buf);
+        return unconv_num;
+    }
 
     buf_left2 = (buf_ptr1 - buf_ptr2) / sizeof(wchar_t);
 
     unconv_num += wcstombs_org(conv,
 		&buf_ptr2, &buf_left2, to, to_left, args, num_args);
-    if (unconv_num < 0)
-        goto ret;
+    if (unconv_num < 0){
+        if (buf)
+            Xfree((char *)buf);
 
-ret:
-    if (buf)
-	Xfree((char *)buf);
-
-    return unconv_num;
+        return unconv_num;
+    }
 }
 
 static int
-strtombs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+strtombs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XLCd lcd = state->lcd;
@@ -2034,14 +1969,14 @@ strtombs(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-strtowcs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+strtowcs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
     State state = (State) conv->state;
     XLCd lcd = state->lcd;
@@ -2105,8 +2040,7 @@ strtowcs(conv, from, from_left, to, to_left, args, num_args)
 /* -------------------------------------------------------------------------- */
 
 static void
-close_converter(conv)
-    XlcConv conv;
+close_converter(XlcConv conv)
 {
     if (conv->state) {
 	Xfree((char *) conv->state);
@@ -2124,9 +2058,7 @@ close_converter(conv)
 /* -------------------------------------------------------------------------- */
 
 static XlcConv
-create_conv(lcd, methods)
-    XLCd lcd;
-    XlcConvMethods methods;
+create_conv(XLCd lcd, XlcConvMethods methods)
 {
     XlcConv conv;
     State state;
@@ -2136,15 +2068,19 @@ create_conv(lcd, methods)
 	return (XlcConv) NULL;
 
     conv->methods = (XlcConvMethods) Xmalloc(sizeof(XlcConvMethodsRec));
-    if (conv->methods == NULL)
-	goto err;
+    if (conv->methods == NULL){
+	close_converter(conv);
+        return (XlcConv) NULL;
+    }
     *conv->methods = *methods;
     if (XLC_PUBLIC(lcd, is_state_depend))
 	conv->methods->reset = init_state;
 
     conv->state = (XPointer) Xmalloc(sizeof(StateRec));
-    if (conv->state == NULL)
-	goto err;
+    if (conv->state == NULL){
+	close_converter(conv);
+        return (XlcConv) NULL;
+    }
     bzero((char *) conv->state, sizeof(StateRec));
 
     state = (State) conv->state;
@@ -2152,11 +2088,6 @@ create_conv(lcd, methods)
     init_state(conv);
 
     return conv;
-
-err:
-    close_converter(conv);
-
-    return (XlcConv) NULL;
 }
 
 static XlcConvMethodsRec mbstowcs_methods = {
@@ -2166,11 +2097,7 @@ static XlcConvMethodsRec mbstowcs_methods = {
 } ;
 
 static XlcConv
-open_mbstowcs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_mbstowcs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &mbstowcs_methods);
 }
@@ -2182,11 +2109,7 @@ static XlcConvMethodsRec mbstocts_methods = {
 } ;
 
 static XlcConv
-open_mbstocts(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_mbstocts(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &mbstocts_methods);
 }
@@ -2198,11 +2121,7 @@ static XlcConvMethodsRec mbstostr_methods = {
 } ;
 
 static XlcConv
-open_mbstostr(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_mbstostr(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &mbstostr_methods);
 }
@@ -2214,11 +2133,7 @@ static XlcConvMethodsRec mbstocs_methods = {
 } ;
 
 static XlcConv
-open_mbstocs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_mbstocs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &mbstocs_methods);
 }
@@ -2230,11 +2145,7 @@ static XlcConvMethodsRec mbtocs_methods = {
 } ;
 
 static XlcConv
-open_mbtocs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_mbtocs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &mbtocs_methods);
 }
@@ -2246,11 +2157,7 @@ static XlcConvMethodsRec wcstombs_methods = {
 } ;
 
 static XlcConv
-open_wcstombs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_wcstombs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &wcstombs_methods);
 }
@@ -2262,11 +2169,7 @@ static XlcConvMethodsRec wcstocts_methods = {
 } ;
 
 static XlcConv
-open_wcstocts(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_wcstocts(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &wcstocts_methods);
 }
@@ -2278,11 +2181,7 @@ static XlcConvMethodsRec wcstostr_methods = {
 } ;
 
 static XlcConv
-open_wcstostr(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_wcstostr(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &wcstostr_methods);
 }
@@ -2294,11 +2193,7 @@ static XlcConvMethodsRec wcstocs_methods = {
 } ;
 
 static XlcConv
-open_wcstocs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_wcstocs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &wcstocs_methods);
 }
@@ -2310,11 +2205,7 @@ static XlcConvMethodsRec wctocs_methods = {
 } ;
 
 static XlcConv
-open_wctocs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_wctocs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &wctocs_methods);
 }
@@ -2326,11 +2217,7 @@ static XlcConvMethodsRec ctstombs_methods = {
 } ;
 
 static XlcConv
-open_ctstombs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_ctstombs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &ctstombs_methods);
 }
@@ -2342,11 +2229,7 @@ static XlcConvMethodsRec ctstowcs_methods = {
 } ;
 
 static XlcConv
-open_ctstowcs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_ctstowcs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &ctstowcs_methods);
 }
@@ -2358,11 +2241,7 @@ static XlcConvMethodsRec strtombs_methods = {
 } ;
 
 static XlcConv
-open_strtombs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_strtombs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &strtombs_methods);
 }
@@ -2374,11 +2253,7 @@ static XlcConvMethodsRec strtowcs_methods = {
 } ;
 
 static XlcConv
-open_strtowcs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_strtowcs(XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type)
 {
     return create_conv(from_lcd, &strtowcs_methods);
 }
@@ -2388,8 +2263,7 @@ open_strtowcs(from_lcd, from_type, to_lcd, to_type)
 /* -------------------------------------------------------------------------- */
 
 XLCd
-_fallcGenericLoader(name)
-    char *name;
+_fallcGenericLoader(char *name)
 {
     XLCd lcd;
 

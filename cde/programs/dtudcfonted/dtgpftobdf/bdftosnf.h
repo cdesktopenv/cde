@@ -94,13 +94,6 @@ typedef struct _TempFont {
 #	define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
 #	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
 
-#elif defined(pegasus)
-
-#	define DEFAULTGLPAD 	4		/* default padding for glyphs */
-#	define DEFAULTBITORDER 	MSBFirst	/* default bitmap bit order */
-#	define DEFAULTBYTEORDER MSBFirst	/* default bitmap byte order */
-#	define DEFAULTSCANUNIT	1		/* default bitmap scan unit */
-
 #elif defined(mips)
 #    ifdef MIPSEL
 

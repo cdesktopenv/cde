@@ -59,18 +59,18 @@ typedef struct _StateRec {
 } StateRec, *State;
 
 static int
-strtostr(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+strtostr(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
-    register char *src, *dst;
+    char *src, *dst;
     unsigned char side;
-    register length;
+    int length;
 
     if (from == NULL || *from == NULL)
 	return 0;
@@ -104,18 +104,18 @@ strtostr(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-wcstostr(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+wcstostr(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
-    register wchar_t *src, side;
-    register char *dst;
-    register length;
+    wchar_t *src, side;
+    char *dst;
+    int length;
 
     if (from == NULL || *from == NULL)
 	return 0;
@@ -149,18 +149,18 @@ wcstostr(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-cstostr(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+cstostr(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
-    register char *src, *dst;
+    char *src, *dst;
     unsigned char side;
-    register length;
+    int length;
 
     if (from == NULL || *from == NULL)
 	return 0;
@@ -202,18 +202,18 @@ cstostr(conv, from, from_left, to, to_left, args, num_args)
 }
 
 static int
-strtowcs(conv, from, from_left, to, to_left, args, num_args)
-    XlcConv conv;
-    XPointer *from;
-    int *from_left;
-    XPointer *to;
-    int *to_left;
-    XPointer *args;
-    int num_args;
+strtowcs(
+    XlcConv conv,
+    XPointer *from,
+    int *from_left,
+    XPointer *to,
+    int *to_left,
+    XPointer *args,
+    int num_args)
 {
-    register char *src;
-    register wchar_t *dst;
-    register length;
+    char *src;
+    wchar_t *dst;
+    int length;
 
     if (from == NULL || *from == NULL)
 	return 0;
@@ -244,8 +244,7 @@ strtowcs(conv, from, from_left, to, to_left, args, num_args)
 
 
 static void
-close_converter(conv)
-    XlcConv conv;
+close_converter(XlcConv conv)
 {
     if (conv->state)
 	Xfree((char *) conv->state);
@@ -254,10 +253,9 @@ close_converter(conv)
 }
 
 static XlcConv
-create_conv(methods)
-    XlcConvMethods methods;
+create_conv(XlcConvMethods methods)
 {
-    register XlcConv conv;
+    XlcConv conv;
     State state;
     static XlcCharSet GL_charset = NULL;
     static XlcCharSet GR_charset = NULL;
@@ -274,8 +272,10 @@ create_conv(methods)
     conv->state = NULL;
 
     state = (State) Xmalloc(sizeof(StateRec));
-    if (state == NULL)
-	goto err;
+    if (state == NULL){
+	close_converter(conv);
+	return (XlcConv) NULL;
+    }
 
     state->GL_charset = state->charset = GL_charset;
     state->GR_charset = GR_charset;
@@ -284,11 +284,6 @@ create_conv(methods)
     conv->state = (XPointer) state;
 
     return conv;
-
-err:
-    close_converter(conv);
-
-    return (XlcConv) NULL;
 }
 
 static XlcConvMethodsRec strtostr_methods = {
@@ -298,11 +293,7 @@ static XlcConvMethodsRec strtostr_methods = {
 } ;
 
 static XlcConv
-open_strtostr(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_strtostr( XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type )
 {
     return create_conv(&strtostr_methods);
 }
@@ -314,11 +305,7 @@ static XlcConvMethodsRec wcstostr_methods = {
 } ;
 
 static XlcConv
-open_wcstostr(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_wcstostr( XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type )
 {
     return create_conv(&wcstostr_methods);
 }
@@ -330,11 +317,7 @@ static XlcConvMethodsRec cstostr_methods = {
 } ;
 
 static XlcConv
-open_cstostr(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_cstostr( XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type )
 {
     return create_conv(&cstostr_methods);
 }
@@ -346,18 +329,13 @@ static XlcConvMethodsRec strtowcs_methods = {
 } ;
 
 static XlcConv
-open_strtowcs(from_lcd, from_type, to_lcd, to_type)
-    XLCd from_lcd;
-    char *from_type;
-    XLCd to_lcd;
-    char *to_type;
+open_strtowcs( XLCd from_lcd, char *from_type, XLCd to_lcd, char *to_type )
 {
     return create_conv(&strtowcs_methods);
 }
 
 XLCd
-_fallcDefaultLoader(name)
-    char *name;
+_fallcDefaultLoader(char *name)
 {
     XLCd lcd;
 

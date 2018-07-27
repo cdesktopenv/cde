@@ -39,16 +39,16 @@
 #include	"bdfgpf.h"
 #include	"udcutil.h"
 
-static void put_error();
-static void put_help() ;
-static void Usage() ;
-static	void	sigint_out() ;
-static	int	CnvBDFtoGPF() ;
+static void put_error(struct btophead *head, int er_no, char *prog_name);
+static void put_help(char *prog_name);
+static void Usage(char *prog_name) ;
+static	void	sigint_out(void) ;
+static	int	CnvBDFtoGPF(struct btophead *head) ;
 
 static struct btophead Head;
 
 static	void
-sigint_out()
+sigint_out(void)
 {
     if (Head.out_file) {
 	unlink(Head.out_file);
@@ -56,9 +56,7 @@ sigint_out()
     exit(0);
 }
 
-main(argc, argv)
-int	argc;
-char	*argv[];
+int main(int argc, char *argv[])
 {
     int	rtn, i;
     char   *GetTmpPath();
@@ -190,8 +188,7 @@ char	*argv[];
 }
 
 static
-CnvBDFtoGPF(head)
-struct btophead *head;
+CnvBDFtoGPF( struct btophead *head)
 {
     char    bdfbuf[BUFSIZE];
     int	    rtn;
@@ -235,10 +232,7 @@ struct btophead *head;
 }
 
 static void
-put_error(head, er_no, prog_name)
-struct btophead *head;
-int    er_no;
-char   *prog_name;
+put_error(struct btophead *head, int er_no, char *prog_name)
 {
     switch(er_no) {
 	case FATAL_ERROR :
@@ -276,16 +270,14 @@ char   *prog_name;
 }
 
 static	void
-put_help(prog_name)
-char	*prog_name;
+put_help(char *prog_name)
 {
     USAGE1("Usage: %s [-p character_pattern_file_name] [-bdf BDF_file_name]\n", prog_name);
     USAGE("\t\t[-width character_width] [-height character_height] [-help]\n\n");
 }
 
 static	void
-Usage(prog_name)
-char	*prog_name;
+Usage(char *prog_name)
 {
     put_help(prog_name);
     exit(PARAM_ERROR * (-1));

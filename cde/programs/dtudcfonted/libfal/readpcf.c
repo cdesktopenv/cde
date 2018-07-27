@@ -36,6 +36,7 @@
 #include	<sys/types.h>
 #include	<sys/stat.h>
 #include	<sys/mman.h>
+#include	<X11/Intrinsic.h>
 #include	"FaLib.h"
 #include	"falfont.h"
 
@@ -62,8 +63,7 @@ extern	void	BitOrderInvert() ;
 extern	void    set_errfile_str() ;
 
 static CARD32
-getLSB32( p)
-unsigned char *p;
+getLSB32(unsigned char *p)
 {
 	CARD32	c;
 
@@ -76,9 +76,7 @@ unsigned char *p;
 }
 
 static int
-getINT32( p, format)
-unsigned char *p;
-CARD32      format;
+getINT32(unsigned char *p, CARD32 format)
 {
 	CARD32         c;
 
@@ -98,9 +96,7 @@ CARD32      format;
 }
 
 static int
-getINT16( p, format)
-unsigned char *p;
-CARD32      format;
+getINT16(unsigned char *p, CARD32 format)
 {
 	CARD32         c;
 
@@ -116,13 +112,13 @@ CARD32      format;
 }
 
 static Bool
-seekToType( tables, ntables, type, formatp, sizep, offsetp)
-PCFTablePtr tables;
-int         ntables;
-CARD32      type;
-CARD32	*formatp;
-CARD32	*sizep;
-CARD32	*offsetp;
+seekToType(
+PCFTablePtr tables,
+int         ntables,
+CARD32      type,
+CARD32	*formatp,
+CARD32	*sizep,
+CARD32	*offsetp)
 {
 	int	i;
 
@@ -143,10 +139,7 @@ CARD32	*offsetp;
 
 
 static void
-getMetric( buf, format, metric)
-caddr_t buf;
-CARD32      format;
-xCharInfo  *metric;
+getMetric(caddr_t buf, CARD32 format, xCharInfo *metric)
 {
 	metric->leftSideBearing = getINT16( (unsigned char *)buf, (CARD32)format);
 	buf += 2;
@@ -163,13 +156,13 @@ xCharInfo  *metric;
 }
 
 static Bool
-getAccel( pFontInfo,  maxink, buf_top, tables, ntables, type)
-FontInfoPtr	pFontInfo;
-xCharInfo	*maxink;
-caddr_t		buf_top;
-PCFTablePtr	tables;
-int		ntables;
-CARD32		type;
+getAccel(
+FontInfoPtr	pFontInfo,
+xCharInfo	*maxink,
+caddr_t		buf_top,
+PCFTablePtr	tables,
+int		ntables,
+CARD32		type)
 {
 	CARD32	format;
 	CARD32	offset;
@@ -200,23 +193,21 @@ CARD32		type;
 	buffer +=4;
 
 	/*  pFontInfo->maxOverlap = getINT32( (unsigned char *)buffer, (CARD32)format); */ buffer += 4;
-	getMetric(buffer, format, &pFontInfo->minbounds.metrics);
+	getMetric(buffer, format, &pFontInfo->minbounds);
 	buffer += 12;
-	getMetric(buffer, format, &pFontInfo->maxbounds.metrics);
+	getMetric(buffer, format, &pFontInfo->maxbounds);
 	buffer += 12;
 	if (PCF_FORMAT_MATCH(format, PCF_ACCEL_W_INKBOUNDS)) {
 		buffer += 12;
 		getMetric( buffer, format, maxink);
 	} else {
-		*maxink = pFontInfo->maxbounds.metrics;
+		*maxink = pFontInfo->maxbounds;
 	}
 	return TRUE;
 }
 
 int
-falInitReadPcf( pcfinf, buftop)
-struct pcf_inf *pcfinf;
-caddr_t	buftop;
+falInitReadPcf(struct pcf_inf *pcfinf, caddr_t buftop)
 {
 	CARD32	format;
 	CARD32	offset;
@@ -225,7 +216,7 @@ caddr_t	buftop;
 	caddr_t	buffp;
 
 	if ( getLSB32( (unsigned char *)buftop ) != PCF_FILE_VERSION)
-		goto Bail;
+		return -1;
 
 	pcfinf->ntables = getLSB32( (unsigned char *)(buftop + 4) );
 
@@ -235,20 +226,20 @@ caddr_t	buftop;
 	    (CARD32)PCF_BDF_ACCELERATORS))
 		if ( !getAccel( &pcfinf->info, &maxink, buftop, pcfinf->tables, pcfinf->ntables,
 		    (CARD32)PCF_ACCELERATORS))
-			goto Bail;
+			return -1;
 
-	pcfinf->org_bounds = pcfinf->info.maxbounds.metrics;
+	pcfinf->org_bounds = pcfinf->info.maxbounds;
 
 	if ( !seekToType( pcfinf->tables, pcfinf->ntables, (CARD32)PCF_BITMAPS,
 			&format, (CARD32 *)NULL, &offset))
-		goto Bail;
+		return -1;
 
 	buffp = buftop + offset;
 
 	format = getLSB32( (unsigned char *)buffp );
 	buffp += 4;
 	if (!PCF_FORMAT_MATCH(format, PCF_DEFAULT_FORMAT))
-		goto Bail;
+		return -1;
 
 	pcfinf->nbitmaps = getINT32( (unsigned char *)buffp, (CARD32)format);
 	buffp += 4;
@@ -264,13 +255,13 @@ caddr_t	buftop;
 
 	if ( !seekToType( pcfinf->tables, pcfinf->ntables, (CARD32)PCF_BDF_ENCODINGS,
 			&format, (CARD32 *)NULL, &offset))
-		goto Bail;
+		return -1;
 
 	buffp = buftop + offset;
 	format = getLSB32( (unsigned char *)buffp );
 	buffp += 4;
 	if (!PCF_FORMAT_MATCH(format, PCF_DEFAULT_FORMAT))
-		goto Bail;
+		return -1;
 
 	pcfinf->info.firstCol	= getINT16( (unsigned char *)buffp, (CARD32)format);
 	buffp += 2;
@@ -283,7 +274,7 @@ caddr_t	buftop;
 	/*
 	    pcfinf->info.defaultCh	= getINT16( (unsigned char *)buffp, (CARD32)format); buffp += 2;
 	*/
-	pcfinf->info.chDefault	= getINT16( (unsigned char *)buffp, (CARD32)format);
+	pcfinf->info.defaultCh	= getINT16( (unsigned char *)buffp, (CARD32)format);
 	buffp += 2;
 
 	pcfinf->info.allExist	= FALSE;
@@ -291,14 +282,10 @@ caddr_t	buftop;
 	pcfinf->encodingOffsets = (CARD16 *)buffp;
 
 	return 0;
-Bail:
-	return -1;
 }
 
 static void
-ByteSwap( p, scan)
-char	*p;
-int	scan;
+ByteSwap(char *p, int scan)
 {
 	char	w;
 
@@ -321,11 +308,7 @@ int	scan;
 	}
 }
 static void
-repadBits( src, format, width, height, dest)
-char	*src;
-CARD32	format;
-int	width, height;
-char	*dest;
+repadBits(char *src, CARD32 format, int width, int height, char *dest)
 {
 	int	bit, byte, glyph, scan;
 	int	src_bytewidth, dest_bytewidth;
@@ -358,17 +341,14 @@ char	*dest;
 }
 
 int
-falPcfGlyph( glyph, finf, code)
-char	*glyph;
-Oak_FontInf  *finf;
-int	code;
+falPcfGlyph(char *glyph, Oak_FontInf *finf, int code)
 {
-	int	encode;
-	int	inner_code;
-	char	*bitmap;
-	int	encodingOffset;
-	int		codeRow, codeCol;
-	int	bytewidth;
+	int encode;
+	int inner_code;
+	char *bitmap;
+	int encodingOffset;
+	int codeRow, codeCol;
+	int bytewidth;
 	int bmp_adj, ptn_adj;
 	int adj_hi;
 	int cpy_height;
@@ -405,9 +385,9 @@ int	code;
 
 	bitmap = finf->pcfinf.bitmaps + getINT32( (unsigned char *)(finf->pcfinf.offsets + encodingOffset), finf->pcfinf.bmp_fmt);
 
-	bmp_height = finf->pFinf->maxbounds.metrics.ascent
-	    + finf->pFinf->maxbounds.metrics.descent;
-	if (( adj_hi = finf->pFinf->maxbounds.metrics.ascent
+	bmp_height = finf->pFinf->maxbounds.ascent
+	    + finf->pFinf->maxbounds.descent;
+	if (( adj_hi = finf->pFinf->maxbounds.ascent
 	    - finf->pcfinf.org_bounds.ascent) > 0) {
 		bytewidth = 8 * PCF_GLYPH_PAD( finf->pcfinf.bmp_fmt);
 		bytewidth = (( finf->width + bytewidth - 1)/ bytewidth ) * PCF_GLYPH_PAD( finf->pcfinf.bmp_fmt);
@@ -433,9 +413,10 @@ int	code;
 }
 
 void
-falGetPcfGSize( pcfinf, widthp, heightp)
-struct pcf_inf *pcfinf;
-unsigned int   *widthp, *heightp;
+falGetPcfGSize(
+struct pcf_inf *pcfinf,
+unsigned int   *widthp,
+unsigned int   *heightp)
 {
 	unsigned int	w, h;
 
@@ -456,7 +437,7 @@ unsigned int   *widthp, *heightp;
  *
  *******************************************************/
 
-#include "fontstruct.h"
+#include <X11/fonts/fontstruct.h>
 
 static	char	*getPcfFontProp();
 static	char	*getSnfFontProp();
@@ -466,11 +447,11 @@ static	char	*getSnfFontProp();
 */
 
 int
-falReadFontProp( file, protect_key_data, databuff, islock )
-char			*file ;		/* name of font file */
-int			protect_key_data ;
-FalFontData		*databuff ;
-int			islock ;
+falReadFontProp(
+char			*file,		/* name of font file */
+int			protect_key_data,
+FalFontData		*databuff,
+int			islock)
 {
 	Oak_FontInf	finf;
 	int		fd ;
@@ -586,11 +567,11 @@ int			islock ;
 *	get properties of GPF format file
 */
 int
-falReadGpfProp( updflg, finf, protect_key_data, databuff )
-int		updflg ;
-Oak_FontInf	*finf;
-int		protect_key_data ;
-FalFontData	*databuff ;
+falReadGpfProp(
+int		updflg,
+Oak_FontInf	*finf,
+int		protect_key_data,
+FalFontData	*databuff)
 {
 	char		*openfontfile;
 	int		rtn ;
@@ -656,10 +637,7 @@ FalFontData	*databuff ;
 *	get properties of PCF format file
 */
 int
-falInitReadPcfProp( updflg, finf, databuff )
-int		updflg ;
-Oak_FontInf	*finf;
-FalFontData	*databuff ;
+falInitReadPcfProp(int updflg, Oak_FontInf *finf, FalFontData *databuff)
 {
 	struct pcf_inf	*pcfinf;
 	caddr_t		buftop;
@@ -685,7 +663,7 @@ FalFontData	*databuff ;
 			if ( !getAccel( &pcfinf->info, &maxink, buftop, pcfinf->tables,
 				pcfinf->ntables, (CARD32)PCF_ACCELERATORS)) {
 			    fal_utyerrno = FAL_ERR_FONT ;
-			    goto Bail;
+			    return -1;
 			}
 		}
 
@@ -696,7 +674,7 @@ FalFontData	*databuff ;
 	*/
 
 	if( updflg == FAL_UPDATE_FONTINFO ) {
-		pcfinf->org_bounds = pcfinf->info.maxbounds.metrics;
+		pcfinf->org_bounds = pcfinf->info.maxbounds;
 	}
 
 	lb = pcfinf->org_bounds.leftSideBearing ;
@@ -714,7 +692,7 @@ FalFontData	*databuff ;
 				     pcfinf->ntables, "FONT" )) {
 		if( (databuff->xlfdname = (char *)strdup( buffp )) == (char *)NULL ){
 			fal_utyerrno = FAL_ERR_MALLOC ;
-			goto Bail;
+			return -1;
 		}
 	}else{
 		set_errfile_str( fal_err_file, finf->fname ) ;
@@ -729,7 +707,7 @@ FalFontData	*databuff ;
 				     pcfinf->ntables, "FAMILY_NAME")) {
 		if( (databuff->style.name = (char *)strdup( buffp )) == NULL ){
 			fal_utyerrno = FAL_ERR_MALLOC ;
-			goto Bail ;
+			return -1;
 		}
 	}else{
 		set_errfile_str( fal_err_file, finf->fname ) ;
@@ -738,18 +716,13 @@ FalFontData	*databuff ;
 	}
 
 	return 0;
-Bail:
-	return -1;
+
 }
 
 
 
 static char *
-getPcfFontProp( buftop, tables, ntables, propname)
-caddr_t	buftop;
-PCFTablePtr	tables;
-int		ntables;
-char		*propname;
+getPcfFontProp(caddr_t buftop, PCFTablePtr tables, int ntables, char *propname)
 {
 	caddr_t	buffer;
 	int name_ofs;
@@ -792,10 +765,10 @@ char		*propname;
 *	get properties of SNF format file
 */
 int
-falInitReadSnfProp( finf, buftop, databuff )
-Oak_FontInf		*finf;		/* pointer to the infomation structure */
-caddr_t			buftop;		/* font file */
-FalFontData		*databuff ;
+falInitReadSnfProp(
+Oak_FontInf		*finf,		/* pointer to the infomation structure */
+caddr_t			buftop,		/* font file */
+FalFontData		*databuff)
 {
 	caddr_t	stprop ;
 	int	lb, rb, as, ds ;
@@ -805,23 +778,21 @@ FalFontData		*databuff ;
 
 
 	/* initialize pointer */
-	nprops    = finf->pFinf->nProps ;
+	nprops    = finf->pFinf->nprops ;
 	num_chars = ( finf->pFinf->lastRow - finf->pFinf->firstRow + 1 ) *
 		    ( finf->pFinf->lastCol - finf->pFinf->firstCol + 1 ) ;
-	bitmapSize = BYTESOFGLYPHINFO(finf->pFinf) ;
 
 	stprop = buftop ;
 	stprop += sizeof(FontInfoRec) ;
 	stprop += num_chars * sizeof(CharInfoRec) ;
-	stprop += bitmapSize ;
 
 	/*
 	*	 read property "FONTBOUNDINGBOX"
 	*/
-	lb = finf->pFinf->maxbounds.metrics.leftSideBearing ;
-	rb = finf->pFinf->maxbounds.metrics.rightSideBearing ;
-	as = finf->pFinf->maxbounds.metrics.ascent  ;
-	ds = finf->pFinf->maxbounds.metrics.descent ;
+	lb = finf->pFinf->maxbounds.leftSideBearing ;
+	rb = finf->pFinf->maxbounds.rightSideBearing ;
+	as = finf->pFinf->maxbounds.ascent  ;
+	ds = finf->pFinf->maxbounds.descent ;
 
 	/*
 	* 	read property "FONT"
@@ -829,7 +800,8 @@ FalFontData		*databuff ;
 	if ( propptr = getSnfFontProp( stprop, nprops, "FONT" )) {
 		if( (fnt = (char *)strdup( propptr )) == NULL ){
 			fal_utyerrno = FAL_ERR_MALLOC ;
-			goto Bail;
+			free(fnt);
+			return -1;
 		}
 	}else{
 		set_errfile_str( fal_err_file, finf->fname ) ;
@@ -843,7 +815,8 @@ FalFontData		*databuff ;
 	if ( propptr = getSnfFontProp( stprop, nprops, "FAMILY_NAME")) {
 		if( (fam = (char *)strdup( propptr )) == NULL ){
 			fal_utyerrno = FAL_ERR_MALLOC ;
-			goto Bail ;
+			free(fnt);
+			return -1;
 		}
 	}else{
 		set_errfile_str( fal_err_file, finf->fname ) ;
@@ -863,18 +836,12 @@ FalFontData		*databuff ;
 	databuff->style.name 	= fam ;
 
 	return 0;
-Bail:
-	free(fnt);
-	return -1;
 }
 
 
 
 static char *
-getSnfFontProp( buftop, nprops, propname )
-caddr_t		buftop;
-int		nprops ;
-char		*propname;
+getSnfFontProp(caddr_t buftop, int nprops, char *propname)
 {
 	caddr_t	buffer;
 	int name_ofs;
@@ -889,11 +856,7 @@ char		*propname;
 	for ( i=0; i < nprops ; i++, ProcRec++ ) {
 		name_ofs = ProcRec->name ;
 		if( strcmp( propstr + name_ofs, propname ) == 0 ){
-			if( ProcRec->indirect ){
-			    return( propstr + ProcRec->value ) ;
-			}else{
 			    return( (char *) (intptr_t) ProcRec->value ) ;
-			}
 		}
 	}
 

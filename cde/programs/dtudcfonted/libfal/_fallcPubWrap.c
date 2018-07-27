@@ -50,15 +50,8 @@
 #include "_fallibint.h"
 #include "_fallcPubI.h"
 
-#if NeedVarargsPrototypes
 char *
 _falGetLCValues(XLCd lcd, ...)
-#else
-char *
-_falGetLCValues(lcd, va_alist)
-    XLCd lcd;
-    va_dcl
-#endif
 {
     va_list var;
     XlcArgList args;
@@ -85,8 +78,7 @@ _falGetLCValues(lcd, va_alist)
 }
 
 void
-_fallcDestroyLC(lcd)
-    XLCd lcd;
+_fallcDestroyLC(XLCd lcd)
 {
     XLCdPublicMethods methods = (XLCdPublicMethods) lcd->methods;
 
@@ -94,9 +86,7 @@ _fallcDestroyLC(lcd)
 }
 
 XLCd
-_fallcCreateLC(name, methods)
-    char *name;
-    XLCdMethods methods;
+_fallcCreateLC(char *name, XLCdMethods methods)
 {
     XLCdPublicMethods pub_methods = (XLCdPublicMethods) methods;
     XLCd lcd;
@@ -107,21 +97,21 @@ _fallcCreateLC(name, methods)
 
     if (lcd->core->name == NULL) {
 	lcd->core->name = (char*) Xmalloc(strlen(name) + 1);
-	if (lcd->core->name == NULL)
-	    goto err;
+	if (lcd->core->name == NULL) {
+	        _fallcDestroyLC(lcd);
+		return (XLCd) NULL;
+	}
+
 	strcpy(lcd->core->name, name);
     }
 
     if (lcd->methods == NULL)
 	lcd->methods = methods;
 
-    if ((*pub_methods->pub.initialize)(lcd) == False)
-	goto err;
+    if ((*pub_methods->pub.initialize)(lcd) == False) {
+	    _fallcDestroyLC(lcd);
+	    return (XLCd) NULL;
+    }
 
     return lcd;
-
-err:
-    _fallcDestroyLC(lcd);
-
-    return (XLCd) NULL;
 }

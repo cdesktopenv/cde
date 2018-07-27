@@ -132,10 +132,7 @@ GetXLFDInfomations()
 
 
 int
-GetItemsToDisplay( num, itemcnt, xms_list )
-int		num ;
-int		*itemcnt ;
-XmString	**xms_list ;
+GetItemsToDisplay( int num, int *itemcnt, XmString **xms_list )
 {
 	int		i, j, cnt ;
 	char		*sp ,string[256], buf[256] ;
@@ -252,9 +249,7 @@ XmString	**xms_list ;
 
 
 static char*
-skipSpace( str, skipcnt )
-char	*str ;
-int	skipcnt ;
+skipSpace( char *str, int skipcnt )
 {
 	int	i, spacecnt ;
 	char	*sp ;
@@ -276,9 +271,7 @@ int	skipcnt ;
 
 
 int
-SetKeyBuff( num, str )
-int	num ;
-char	*str ;
+SetKeyBuff( int num, char *str )
 {
 	int	i, j ;
 	int	cdset, start, end ;

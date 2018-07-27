@@ -52,7 +52,7 @@
 #include  "bdfgpf.h"
 #include  "udcutil.h"
 
-static	void	exline();
+static	void	exline(char *sp, char *dbuf, int sw, int dw);
 
 char	*oakgtobdf;
 char	*bdftosnf = BDFTOSNF;
@@ -66,16 +66,7 @@ static	int	put_file_create_err_msg = 0;
 #define	READ_FAIL		5
 
 int
-#if NeedFunctionPrototypes
-ReadBdfHeader(
-    struct btophead *head,
-    char	*buf
-)
-#else
-ReadBdfHeader( head, buf )
-struct btophead *head;
-char	*buf;
-#endif
+ReadBdfHeader(struct btophead *head, char *buf)
 {
 	char *p;
 	unsigned int	getstat = 0;
@@ -128,16 +119,7 @@ char	*buf;
 
 
 int
-#if NeedFunctionPrototypes
-ReadGpfHeader(
-    struct ptobhead *head,
-    char   *buf
-)
-#else
-ReadGpfHeader(head, buf)
-struct ptobhead *head;
-char   *buf;
-#endif
+ReadGpfHeader(struct ptobhead *head, char *buf)
 {
 	char *p;
 	unsigned int  getstat = 0;
@@ -173,12 +155,7 @@ char   *buf;
 
 
 int
-#if NeedFunctionPrototypes
 WriteBdfHeader( struct ptobhead *head )
-#else
-WriteBdfHeader(head)
-struct ptobhead *head;
-#endif
 {
 	FILE	*fp;
 	int		fd[2];
@@ -296,12 +273,7 @@ struct ptobhead *head;
 
 
 void
-#if NeedFunctionPrototypes
 WriteGpfHeader( struct btophead *head )
-#else
-WriteGpfHeader(head)
-struct btophead *head;
-#endif
 {
 	fprintf(head->output, "numfonts:%d\n", head->num_chars);
 	fprintf(head->output, "width:%d\n",    head->p_width  );
@@ -312,12 +284,7 @@ struct btophead *head;
 
 
 int
-#if NeedFunctionPrototypes
 WritePtnToBdf( struct ptobhead *head )
-#else
-WritePtnToBdf(head)
-struct ptobhead *head;
-#endif
 {
 	int     msize, swidth, rtn, i, nchar;
 	char    *zoomptn;
@@ -376,12 +343,7 @@ struct ptobhead *head;
 
 
 int
-#if NeedFunctionPrototypes
 putDefaultChars( struct ptobhead *head )
-#else
-putDefaultChars(head )
-struct ptobhead *head;
-#endif
 {
 	int     swidth, bytew, i, j;
 	unsigned int     posbit ;
@@ -408,12 +370,7 @@ struct ptobhead *head;
 
 
 int
-#if NeedFunctionPrototypes
 WritePtnToGpf( struct btophead *head )
-#else
-WritePtnToGpf(head)
-struct btophead *head;
-#endif
 {
 	int     msize, rtn, i;
 	char    *zoomptn;
@@ -456,16 +413,7 @@ struct btophead *head;
 
 
 int
-#if NeedFunctionPrototypes
-ReadBdfToMemory(
-    struct btophead *head,
-    char   *buf
-)
-#else
-ReadBdfToMemory(head, buf)
-struct btophead *head;
-char   *buf;
-#endif
+ReadBdfToMemory(struct btophead *head, char *buf)
 {
 	int	    code, mwidth, num_char, bsize, rtn;
 	char    *ptn;
@@ -502,20 +450,11 @@ char   *buf;
 
 
 int
-#if NeedFunctionPrototypes
 ReadBdfToMemory_with_init(
     struct btophead *head,
-    int	init_start,
-    int	init_end,
-    char   *buf
-)
-#else
-ReadBdfToMemory_with_init(head, init_start, init_end, buf)
-struct btophead *head;
-int	init_start;
-int	init_end;
-char   *buf;
-#endif
+    int init_start,
+    int init_end,
+    char *buf)
 {
 	int	    code, mwidth, num_char, bsize, rtn;
 	char    *ptn;
@@ -555,18 +494,11 @@ char   *buf;
 
 
 int
-#if NeedFunctionPrototypes
 GetBdfCode(
     struct btophead *head,
     char   *buf,
     int    *code
 )
-#else
-GetBdfCode(head, buf, code)
-struct btophead *head;
-char   *buf;
-int    *code;
-#endif
 {
 	char *p;
 
@@ -590,24 +522,13 @@ int    *code;
 	return(0);
 }
 
-
 int
-#if NeedFunctionPrototypes
 GetBdfPtn(
     struct btophead *head,
     char   *buf,
     char   *ptn,
     int    mwidth,
-    int    bsize
-)
-#else
-GetBdfPtn(head, buf, ptn, mwidth, bsize)
-struct btophead *head;
-char   *buf;
-char   *ptn;
-int    mwidth;
-int    bsize;
-#endif
+    int    bsize)
 {
 	int	    skip, i, j;
 	char    *p;
@@ -654,16 +575,7 @@ int    bsize;
 
 
 int
-#if NeedFunctionPrototypes
-ReadGpfToMemory(
-    struct ptobhead *head,
-    char   *buf
-)
-#else
-ReadGpfToMemory(head, buf)
-struct ptobhead *head;
-char   *buf;
-#endif
+ReadGpfToMemory(struct ptobhead *head, char *buf)
 {
 	int	    code, mwidth, num_char, bsize, rtn;
 	char    *ptn;
@@ -700,18 +612,7 @@ char   *buf;
 
 
 int
-#if NeedFunctionPrototypes
-GetGpfCode(
-    struct ptobhead *head,
-    char   *buf,
-    int    *code
-)
-#else
-GetGpfCode(head, buf, code)
-struct ptobhead *head;
-char   *buf;
-int    *code;
-#endif
+GetGpfCode(struct ptobhead *head, char *buf, int *code)
 {
 	char    *p;
 
@@ -735,9 +636,7 @@ int    *code;
 	return(0);
 }
 
-
 int
-#if NeedFunctionPrototypes
 GetGpfPtn(
     struct ptobhead *head,
     char    *buf,
@@ -745,14 +644,6 @@ GetGpfPtn(
     int	mwidth,
     int	bsize
 )
-#else
-GetGpfPtn(head, buf, ptn, mwidth, bsize)
-struct ptobhead *head;
-char    *buf;
-char    *ptn;
-int	mwidth;
-int	bsize;
-#endif
 {
 	int     skip, i, j;
 	char    *p;
@@ -788,18 +679,7 @@ int	bsize;
 
 
 void
-#if NeedFunctionPrototypes
-GetBdfLinePtn(
-    char	*mem,
-    char	*buf,
-    int	width
-)
-#else
-GetBdfLinePtn(mem, buf, width)
-char	*mem;
-char	*buf;
-int	width;
-#endif
+GetBdfLinePtn(char *mem, char *buf, int width)
 {
 	int	i, iend, len;
 	char   *p, str[3];
@@ -831,18 +711,7 @@ int	width;
 }
 
 void
-#if NeedFunctionPrototypes
-GetGpfLinePtn(
-    char	*mem,
-    char	*buf,
-    int	width
-)
-#else
-GetGpfLinePtn(mem, buf, width)
-char	*mem;
-char	*buf;
-int	width;
-#endif
+GetGpfLinePtn(char *mem, char *buf, int width)
 {
 	unsigned int	   skip, i, iend, j;
 	unsigned char   ptn;
@@ -876,20 +745,7 @@ int	width;
 
 
 int
-#if NeedFunctionPrototypes
-PutBdfPtn(
-    unsigned char	*ptn,
-    int	width,
-    int	height,
-    FILE	*fp
-)
-#else
-PutBdfPtn(ptn, width, height, fp)
-unsigned char	*ptn;
-int	width;
-int	height;
-FILE	*fp;
-#endif
+PutBdfPtn(unsigned char *ptn, int width, int height, FILE *fp)
 {
 	int	    i, j, nbyte ;
 	unsigned char    *pbuf, x, c;
@@ -920,24 +776,8 @@ FILE	*fp;
 	return(0);
 }
 
-
-
-
 int
-#if NeedFunctionPrototypes
-PutGpfPtn(
-    char	*ptn,
-    int	width,
-    int	height,
-    FILE	*fp
-)
-#else
-PutGpfPtn(ptn, width, height, fp)
-char	*ptn;
-int	width;
-int	height;
-FILE	*fp;
-#endif
+PutGpfPtn(char *ptn, int width, int height, FILE *fp)
 {
 	int	    i, j, k, nbyte, tw;
 	unsigned char    p, *pbuf;
@@ -974,24 +814,7 @@ FILE	*fp;
 
 
 int
-#if NeedFunctionPrototypes
-PtnZoom(
-    char	*dmem,
-    char	*smem,
-    int		sw,
-    int		sh,
-    int		dw,
-    int		dh
-)
-#else
-PtnZoom(dmem, smem, sw, sh, dw, dh)
-char	*dmem;
-char	*smem;
-int	sw;
-int	sh;
-int	dw;
-int	dh;
-#endif
+PtnZoom(char *dmem, char *smem, int sw, int sh, int dw, int dh)
 {
 	int	    swidth;
 	int	    dwidth;
@@ -1031,11 +854,7 @@ int	dh;
 
 
 static void
-exline(sp, dbuf, sw, dw)
-char	*sp;
-char	*dbuf;
-int	sw;
-int	dw;
+exline(char *sp, char *dbuf, int sw, int dw)
 {
 	unsigned int	i, bit, sval, dval, dcnt, bcnt;
 
@@ -1065,12 +884,7 @@ int	dw;
 
 
 char *
-#if NeedFunctionPrototypes
 GetTmpPath( char *path )
-#else
-GetTmpPath( path )
-char	*path;
-#endif
 {
 	char	*p=NULL, *sp, *buf ;
 	int	len ;
@@ -1097,18 +911,12 @@ char	*path;
 	if( *sp == '/' )	*sp-- = '\0' ;
 	sprintf( sp+1, "/%s", TEMPFILEKEY ) ;
 	/* Get temporary file name */
-	return mktemp( buf ) ;
+	return mkstemp( buf );
 }
 
 
 int
-#if NeedFunctionPrototypes
 Link_NewFile( char *rd_file, char *wr_file )
-#else
-Link_NewFile( rd_file, wr_file )
-char	*rd_file ;
-char	*wr_file ;
-#endif
 {
 	FILE	*rfp, *wfp ;
 	int	i, c ;
@@ -1187,12 +995,7 @@ char	*wr_file ;
 
 
 int
-#if NeedFunctionPrototypes
-ChkNumString( char	*str )
-#else
-ChkNumString( str )
-char	*str;
-#endif
+ChkNumString( char *str )
 {
 	char	*tmp;
 	int		num;
@@ -1209,7 +1012,6 @@ char	*str;
 
 
 void
-#if NeedFunctionPrototypes
 ErrMsgTable_AndExit(
     int		er_no,
     char	*snf_in,
@@ -1219,16 +1021,6 @@ ErrMsgTable_AndExit(
     char	*bdf_in,
     char	*prog_name
 )
-#else
-ErrMsgTable_AndExit(er_no, snf_in, snf_out, gpf_in, gpf_out, bdf_in, prog_name)
-int	er_no;
-char	*snf_in;
-char	*snf_out;
-char	*gpf_in;
-char	*gpf_out;
-char	*bdf_in;
-char	*prog_name ;
-#endif
 {
 	int	rtn = 0 ;
 	switch(er_no) {
@@ -1305,16 +1097,7 @@ char	*prog_name ;
 
 
 void
-#if NeedFunctionPrototypes
-fatal_err_msg(
-    int		er_no,
-    char	*prog_name
-)
-#else
-fatal_err_msg( er_no, prog_name )
-int	er_no;
-char	*prog_name;
-#endif
+fatal_err_msg(int er_no, char *prog_name)
 {
 	USAGE1("%s : The font file failed to be converted. ", prog_name);
 	switch( er_no ) {
@@ -1371,13 +1154,12 @@ static	int	sig_flg=0;
 #define	CATCH_SIGNAL		10
 
 void
-ChatchSig()
+ChatchSig(void)
 {
 	sig_flg = 1;
 }
 
 void
-#if NeedFunctionPrototypes
 Put_File_Create_Err_Msg(
     int		msg_level,
     char	*org_name,
@@ -1385,14 +1167,6 @@ Put_File_Create_Err_Msg(
     char	*save_name,
     char	*com
 )
-#else
-Put_File_Create_Err_Msg( msg_level, org_name, tmp_name, save_name, com )
-int	msg_level;
-char	*org_name;
-char	*tmp_name;
-char	*save_name;
-char	*com;
-#endif
 {
 	switch( msg_level ) {
 	case GPF_BUCK_UP_FAIL:
@@ -1419,7 +1193,6 @@ char	*com;
 }
 
 int
-#if NeedFunctionPrototypes
 Make_NewFefFile(
     char	*org_name,
     char	*tmp_name,
@@ -1428,15 +1201,6 @@ Make_NewFefFile(
     gid_t	group,
     char	*com
 )
-#else
-Make_NewFefFile( org_name, tmp_name, mode, owner, group, com )
-char	*org_name;
-char	*tmp_name;
-mode_t	mode;
-uid_t	owner;
-gid_t	group;
-char	*com;
-#endif
 {
 	struct	stat	statbuf;
 	char	*save_name = NULL;
@@ -1503,16 +1267,7 @@ char	*com;
 
 
 int
-#if NeedFunctionPrototypes
-Unlink_Tmpfile(
-    char	*file,
-    char	*com
-)
-#else
-Unlink_Tmpfile( file, com )
-char	*file;
-char	*com;
-#endif
+Unlink_Tmpfile(char *file,char *com)
 {
 	errno = 0;
 	if ( unlink( file ) != 0 ) {
@@ -1524,18 +1279,7 @@ char	*com;
 
 
 int
-#if NeedFunctionPrototypes
-Chmod_File (
-    char	*fname,
-    mode_t	mode,
-    char	*com
-)
-#else
-Chmod_File ( fname, mode, com )
-char	*fname;
-mode_t	mode;
-char	*com;
-#endif
+Chmod_File (char *fname, mode_t mode, char *com)
 {
 	errno = 0;
 	if ( mode == 0 )	return( 0 ) ;
@@ -1548,20 +1292,7 @@ char	*com;
 
 
 int
-#if NeedFunctionPrototypes
-Chown_File (
-    char	*fname,
-    uid_t	owner,
-    gid_t	group,
-    char	*com
-)
-#else
-Chown_File ( fname, owner, group, com )
-char	*fname;
-uid_t	owner;
-gid_t	group;
-char	*com;
-#endif
+Chown_File (char *fname, uid_t owner, gid_t group, char *com)
 {
 	errno = 0;
 	if ( chown (fname, owner, group) != 0) {
@@ -1577,12 +1308,7 @@ char	*com;
 
 
 int
-#if NeedFunctionPrototypes
-ChkPcfFontFile( char	*filename )
-#else
-ChkPcfFontFile( filename )
-char	*filename;
-#endif
+ChkPcfFontFile( char *filename )
 {
 	char	*suffix;
 
@@ -1599,12 +1325,7 @@ char	*filename;
 
 
 int
-#if NeedFunctionPrototypes
-ChkSnfFontFile( char	*filename )
-#else
-ChkSnfFontFile( filename )
-char	*filename;
-#endif
+ChkSnfFontFile( char *filename )
 {
 	char	*suffix;
 
@@ -1621,16 +1342,7 @@ char	*filename;
 
 
 char	*
-#if NeedFunctionPrototypes
-get_cmd_path(
-    char	*path,
-    char	*cmd
-)
-#else
-get_cmd_path( path, cmd )
-char	*path;
-char	*cmd;
-#endif
+get_cmd_path(char *path, char *cmd)
 {
 	char	*cmd_path = NULL;
 	struct stat	st;
@@ -1673,20 +1385,7 @@ char	*cmd;
 }
 
 int
-#if NeedFunctionPrototypes
-SetCmdPath(
-    char	*com ,
-    char	**path ,
-    char	*dflt_path ,
-    char	*cmd
-)
-#else
-SetCmdPath( com, path, dflt_path, cmd )
-char	*com ;
-char	**path ;
-char	*dflt_path ;
-char	*cmd ;
-#endif
+SetCmdPath(char *com, char **path, char *dflt_path, char *cmd)
 {
 	struct	stat	statbuf ;
 	char	*pbuf ;

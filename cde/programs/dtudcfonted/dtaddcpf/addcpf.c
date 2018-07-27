@@ -52,7 +52,7 @@
 
 #include	<X11/Xmd.h>
 #include	<X11/Xproto.h>
-#include	"fontstruct.h"
+#include	<X11/fonts/fontstruct.h>
 
 #include	"FaLib.h"
 #include	"snfstruct.h"
@@ -61,20 +61,65 @@
 #include	<errno.h>
 
 
-static int	rw_init() ;
-static int	readSnf() ;
-static int	readSnf_with_init() ;
-static int	readSnfHeader() ;
-static int	readBdfHeaderAndPut() ;
-static int	mergePtn() ;
-static int	ModifyPtn() ;
-static int	InsertPtn() ;
-static int	writeSnf() ;
-static void	put_error_and_exit();
-static void	put_help();
-static int	readBdfToMemory_with_init() ;
+static int	rw_init(struct ptobhead *r_gpf,
+			struct btophead *r_snf,
+			struct ptobhead *w_snf,
+			int	     init_all);
+static int	readSnf(struct ptobhead *r_gpf,
+			struct btophead *r_snf,
+			struct ptobhead *w_snf,
+			char		 *buf);
+static int	readSnf_with_init(struct ptobhead *r_gpf,
+				  struct btophead *r_snf,
+				  struct ptobhead *w_snf,
+				  int             init,
+				  char            *buf,
+				  int             num_gr,
+				  FalGlyphRegion  *gr);
+static int	readSnfHeader(struct ptobhead *r_gpf,
+			      struct btophead *r_snf,
+			      struct ptobhead *w_snf,
+			      char    *buf) ;
+static int	readBdfHeaderAndPut(struct btophead *r_snf,
+				    struct ptobhead *w_snf,
+				    char *buf) ;
+static int	mergePtn(char            *com,
+			 struct ptobhead *r_gpf,
+			 struct btophead *r_snf,
+			 char            *buf,
+			 int             code_area,
+			 int             modify,
+			 char            *prog_name,
+			 int             num_gr,
+			 FalGlyphRegion  *gr,
+			 int             code_no) ;
+static int	ModifyPtn(struct ptobhead *r_gpf,
+			  struct btophead *r_snf,
+			  char    *buf,
+			  int     ix);
+static int	InsertPtn(struct ptobhead *r_gpf,
+			  struct btophead *r_snf,
+			  char    *buf,
+			  int     code,
+			  int     ix);
+static int	writeSnf(struct btophead *r_snf, struct ptobhead *w_snf) ;
+static void	put_error_and_exit(struct ptobhead *ptob_in,
+				   struct btophead *btop,
+				   struct ptobhead *ptob_out,
+				   int     er_no,
+				   char    *prog_name);
+static void	put_help(char *prog_name);
+static int	readBdfToMemory_with_init(struct btophead *head,
+					  int     init,
+					  char   *buf,
+					  int     num_gr,
+					  FalGlyphRegion  *gr);
 
-extern	int	fal_glyph_to_code() ;
+extern	int	fal_glyph_to_code(char    *locale,
+				  char    *charset_str,
+				  int     codeset,
+				  unsigned long   glyph_index,
+				  unsigned long   *codepoint);
 
 static struct ptobhead WriteSnf;
 
@@ -86,14 +131,15 @@ static	char	*util_locale ;
 
 static	pid_t	gtob_pid = 0;
 static	pid_t	btop_pid = 0;
-#if defined( SVR4 ) || defined( SYSV ) || defined(CSRG_BASED) || defined(__linux__)
+#if defined( SVR4 ) || defined( SYSV ) || defined(CSRG_BASED) || \
+    defined(__linux__)
 static	int	chld_stat ;
 #else
 static	union	wait	chld_stat ;
 #endif
 
 static void
-sigint_out()
+sigint_out(void)
 {
 	if (WriteSnf.out_file) {
 		Unlink_Tmpfile( WriteSnf.out_file, com );
@@ -101,9 +147,7 @@ sigint_out()
 	exit( 0 );
 }
 
-main( argc, argv )
-int 	argc;
-char	*argv[];
+int main(int argc, char *argv[])
 {
 	int 	code_area , init, modify, help, no_infile, no_style;
 	int	fupd = 0 ;
@@ -433,11 +477,11 @@ char	*argv[];
 }
 
 static
-rw_init(r_gpf, r_snf, w_snf, init_all )
-struct ptobhead	*r_gpf;
-struct btophead	*r_snf;
-struct ptobhead	*w_snf;
-int		init_all;
+rw_init(
+struct ptobhead	*r_gpf,
+struct btophead	*r_snf,
+struct ptobhead	*w_snf,
+int		init_all)
 {
 	FontInfoRec	*finf;
 	int 	fd[2], snf_fd, permission;
@@ -458,13 +502,7 @@ int		init_all;
 
 	/* SNF format */
 	if ( ChkPcfFontFile( w_snf->snf_file ) ) {
-		permission = 0 ;
 		if( (snf_fd = open( w_snf->snf_file, O_RDONLY ) ) >= 0 ) {
-		    COMM_SNF_FILEVERSION( snf_fd, finf, buf, permission ) ;
-		    if ( permission < 0 ) {
-			    return	BDF_INVAL;
-		    }
-		} else {
 		    return BDF_OPEN_IN;
 		}
 	}
@@ -554,11 +592,11 @@ int		init_all;
 
 
 static
-readSnf(r_gpf, r_snf, w_snf, buf)
-struct ptobhead *r_gpf;
-struct btophead *r_snf;
-struct ptobhead *w_snf;
-char   	      	*buf;
+readSnf(
+struct ptobhead *r_gpf,
+struct btophead *r_snf,
+struct ptobhead *w_snf,
+char   	      	*buf)
 {
 	int	nchar, rtn;
 
@@ -580,14 +618,14 @@ char   	      	*buf;
 }
 
 static
-readSnf_with_init(r_gpf, r_snf, w_snf, init, buf, num_gr, gr )
-struct ptobhead *r_gpf;
-struct btophead *r_snf;
-struct ptobhead *w_snf;
-int 		init;
-char		*buf;
-int		num_gr ;
-FalGlyphRegion	*gr ;
+readSnf_with_init(
+struct ptobhead *r_gpf,
+struct btophead *r_snf,
+struct ptobhead *w_snf,
+int 		init,
+char		*buf,
+int		num_gr,
+FalGlyphRegion	*gr)
 {
 	int 	nchar, rtn;
 
@@ -611,11 +649,11 @@ FalGlyphRegion	*gr ;
 
 
 static
-readSnfHeader(r_gpf, r_snf, w_snf, buf)
-struct ptobhead *r_gpf;
-struct btophead *r_snf;
-struct ptobhead *w_snf;
-char	*buf;
+readSnfHeader(
+struct ptobhead *r_gpf,
+struct btophead *r_snf,
+struct ptobhead *w_snf,
+char	*buf)
 {
 	int 	rtn;
 
@@ -635,10 +673,7 @@ char	*buf;
 }
 
 static
-readBdfHeaderAndPut(r_snf, w_snf, buf)
-struct btophead *r_snf;
-struct ptobhead *w_snf;
-char	*buf;
+readBdfHeaderAndPut(struct btophead *r_snf, struct ptobhead *w_snf, char *buf)
 {
 	char	*p;
 	int 	getstat = 0;
@@ -695,17 +730,17 @@ char	*buf;
 }
 
 static
-mergePtn(com, r_gpf, r_snf, buf, code_area, modify, prog_name, num_gr, gr, code_no)
-char		*com ;
-struct ptobhead *r_gpf;
-struct btophead *r_snf;
-char		*buf;
-int 		code_area;
-int 		modify;
-char		*prog_name;
-int		num_gr ;
-FalGlyphRegion	*gr ;
-int		code_no ;
+mergePtn(
+char		*com,
+struct ptobhead *r_gpf,
+struct btophead *r_snf,
+char		*buf,
+int 		code_area,
+int 		modify,
+char		*prog_name,
+int		num_gr,
+FalGlyphRegion	*gr,
+int		code_no)
 {
 	int 	code, rtn, msize, i, j, dspcode;
 	char	*ptn;
@@ -744,8 +779,11 @@ int		code_no ;
 		) {
 		    DispCodePoint( com, char_set, code, dspcode, code_no, util_locale ) ;
 		    USAGE2("%s : The font of a specified code cannot be added/changed \"0x%x\".\n", prog_name, dspcode );
-		    fgets(buf, BUFSIZE, r_gpf->input);
-		    continue;
+		    if( fgets(buf, BUFSIZE, r_gpf->input) == NULL){
+			return -1;
+		    } else {
+		        continue;
+		    }
 		}
 
 		for ( j = 0; j < r_snf->num_chars; j++ ) {
@@ -753,8 +791,11 @@ int		code_no ;
 			if ( !modify ) {
 			    DispCodePoint( com, char_set, code, dspcode, code_no, util_locale ) ;
 			    USAGE2("%s : The font has already been registered in a specified code. \"0x%x\"\n", prog_name, dspcode );
-			    fgets( buf, BUFSIZE, r_gpf->input );
-			    break;
+			    if(fgets( buf, BUFSIZE, r_gpf->input ) == NULL){
+				return -1;
+			    } else {
+			        break;
+			    }
 			}
 			if ( ( rtn = ModifyPtn( r_gpf, r_snf, buf, j ) ) ) {
 			    return	rtn;
@@ -778,11 +819,11 @@ int		code_no ;
 
 
 static
-ModifyPtn( r_gpf, r_snf, buf, ix )
-struct ptobhead *r_gpf;
-struct btophead *r_snf;
-char	*buf;
-int 	ix;
+ModifyPtn(
+struct ptobhead *r_gpf,
+struct btophead *r_snf,
+char	*buf,
+int 	ix)
 {
 	int 	mwidth, msize, rtn;
 
@@ -807,12 +848,12 @@ int 	ix;
 }
 
 static
-InsertPtn( r_gpf, r_snf, buf, code, ix )
-struct ptobhead *r_gpf;
-struct btophead *r_snf;
-char	*buf;
-int 	code;
-int 	ix;
+InsertPtn(
+struct ptobhead *r_gpf,
+struct btophead *r_snf,
+char	*buf,
+int 	code,
+int 	ix)
 {
 	int 	mwidth, msize, rtn, i;
 
@@ -851,9 +892,7 @@ int 	ix;
 }
 
 static
-writeSnf( r_snf, w_snf )
-struct btophead *r_snf;
-struct ptobhead *w_snf;
+writeSnf(struct btophead *r_snf, struct ptobhead *w_snf)
 {
 	w_snf->zoomf = 0;
 	w_snf->num_chars = r_snf->num_chars;
@@ -874,12 +913,12 @@ struct ptobhead *w_snf;
 
 
 static void
-put_error_and_exit(ptob_in, btop, ptob_out, er_no, prog_name)
-struct ptobhead *ptob_in;
-struct btophead *btop;
-struct ptobhead *ptob_out;
-int 	er_no;
-char	*prog_name;
+put_error_and_exit(
+struct ptobhead *ptob_in,
+struct btophead *btop,
+struct ptobhead *ptob_out,
+int 	er_no,
+char	*prog_name)
 {
 	ErrMsgTable_AndExit( er_no, ptob_in->in_file, ptob_out->out_file,
 	    btop->in_file,    NULL,
@@ -892,8 +931,7 @@ char	*prog_name;
 
 
 static void
-put_help( prog_name )
-char	*prog_name;
+put_help(char *prog_name)
 {
         USAGE1("Usage: %s -xlfd xlfd_name \n", prog_name);
         USAGE("\t\t[-g character_size][-p character_pattern_file_name]\n");
@@ -904,7 +942,7 @@ char	*prog_name;
 	USAGE1("%s can insert or modify glyphs in the following code area.\n", prog_name);
 	USAGE("codeset \t\tcode area\n");
 	USAGE("----------------------------------------\n");
-	DispUdcCpArea() ;
+	DispUdcCpArea(stdout) ;
 	USAGE("The xlfd name and character size may be obtained using dtlsgpf command.\n");
 	return;
 }
@@ -912,12 +950,12 @@ char	*prog_name;
 
 
 static int
-readBdfToMemory_with_init(head, init, buf, num_gr, gr )
-struct btophead *head;
-int	init;
-char   *buf;
-int	num_gr ;
-FalGlyphRegion	*gr ;
+readBdfToMemory_with_init(
+struct btophead *head,
+int	init,
+char   *buf,
+int	num_gr,
+FalGlyphRegion	*gr)
 {
     int	    code, mwidth, num_char, bsize, rtn ;
     char    *ptn;

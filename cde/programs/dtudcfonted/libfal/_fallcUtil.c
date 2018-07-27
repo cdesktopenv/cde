@@ -59,10 +59,9 @@
 #endif
 
 int
-_fallcCompareISOLatin1(str1, str2)
-    char *str1, *str2;
+_fallcCompareISOLatin1(char *str1, char *str2)
 {
-    register char ch1, ch2;
+    char ch1, ch2;
 
     for ( ; (ch1 = *str1) && (ch2 = *str2); str1++, str2++) {
         if (islower(ch1))
@@ -78,11 +77,9 @@ _fallcCompareISOLatin1(str1, str2)
 }
 
 int
-_fallcNCompareISOLatin1(str1, str2, len)
-    char *str1, *str2;
-    int len;
+_fallcNCompareISOLatin1(char *str1, char *str2, int len)
 {
-    register char ch1, ch2;
+    char ch1, ch2;
 
     for ( ; (ch1 = *str1) && (ch2 = *str2) && len; str1++, str2++, len--) {
         if (islower(ch1))

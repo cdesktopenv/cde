@@ -51,8 +51,7 @@ This is unpublished proprietary source code of FUJITSU LIMITED
 ******************************************************************/
 #ifndef SNFSTRUCT_H
 #define SNFSTRUCT_H 1
-#include "font.h"
-#include "misc.h"
+#include <X11/fonts/font.h>
 #include <X11/Xlib.h>
 
 /*
@@ -87,12 +86,6 @@ This is unpublished proprietary source code of FUJITSU LIMITED
 
 #define FONT_FILE_VERSION	4
 
-typedef struct _FontProp {
-	CARD32	name;		/* offset of string */
-	INT32	value;		/* number or offset of string */
-	Bool	indirect;	/* value is a string offset */
-} FontPropRec;
-
 /*
  * the following macro definitions describe a font file image in memory
  */
@@ -106,7 +99,7 @@ typedef struct _FontProp {
  * pad out glyphs to a CARD32 boundary
  */
 #define ADDRXFONTPROPS( pfi)  \
-	((DIXFontProp *) ((char *)ADDRCHARGLYPHS( pfi) + BYTESOFGLYPHINFO(pfi)))
+	((DIXFontProp *) (char *)ADDRCHARGLYPHS( pfi))
 
 #define ADDRSTRINGTAB( pfi)  \
 	((char *)ADDRXFONTPROPS( pfi) + BYTESOFPROPINFO(pfi))
@@ -115,7 +108,7 @@ typedef struct _FontProp {
 #define BYTESOFCHARINFO(pfi)	(sizeof(CharInfoRec) * n2dChars(pfi))
 #define	BYTESOFPROPINFO(pfi)	(sizeof(FontPropRec) * (pfi)->nProps)
 #define	BYTESOFSTRINGINFO(pfi)	((pfi)->lenStrings)
-#define	BYTESOFGLYPHINFO(pfi)	(((pfi)->maxbounds.byteOffset+3) & ~0x3)
 #define BYTESOFINKINFO(pfi)	(sizeof(CharInfoRec) * (2 + n2dChars(pfi)))
 
 #endif /* SNFSTRUCT_H */
+
