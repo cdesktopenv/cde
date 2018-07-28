@@ -62,10 +62,10 @@
 #include "contract_xbm"
 #include "expand_xbm"
 #include "postup_xbm"
-#include "xm_error_xbm"
-#include "xm_information_xbm"
-#include "xm_question_xbm"
-#include "xm_warning_xbm"
+#include <X11/bitmaps/xm_error>
+#include <X11/bitmaps/xm_information>
+#include <X11/bitmaps/xm_question>
+#include <X11/bitmaps/xm_warning>
 
 /*******************************************************************************
 **
@@ -562,23 +562,23 @@ create_all_pixmaps(Props_pu *p, Widget w)
         if (XmInstallImage(&pui, "postup_pixmap"))
                 p->postup_pixmap = XmGetPixmap(s, "postup_pixmap", fg, bg);
 
-        fill_pixmap(&eri, xm_error_xbm_width, xm_error_xbm_height,
-                xm_error_xbm_bits);
+        fill_pixmap(&eri, xm_error_width, xm_error_height,
+                xm_error_bits);
         if (XmInstallImage(&eri, "err_pixmap"))
                 p->xm_error_pixmap = XmGetPixmap(s, "err_pixmap", fg, bg);
- 
-        fill_pixmap(&ii, xm_information_xbm_width, xm_information_xbm_height,
-                xm_information_xbm_bits);
+
+        fill_pixmap(&ii, xm_information_width, xm_information_height,
+                xm_information_bits);
         if (XmInstallImage(&ii, "info_pixmap"))
                 p->xm_info_pixmap = XmGetPixmap(s, "info_pixmap", fg, bg);
- 
-        fill_pixmap(&qi, xm_question_xbm_width, xm_question_xbm_height,
-                xm_question_xbm_bits);
+
+        fill_pixmap(&qi, xm_question_width, xm_question_height,
+                xm_question_bits);
         if (XmInstallImage(&qi, "q_pixmap"))
                 p->xm_question_pixmap = XmGetPixmap(s, "q_pixmap", fg, bg);
- 
-        fill_pixmap(&wi, xm_warning_xbm_width, xm_warning_xbm_height,
-                xm_warning_xbm_bits);
+
+        fill_pixmap(&wi, xm_warning_width, xm_warning_height,
+                xm_warning_bits);
         if (XmInstallImage(&wi, "w_pixmap"))
                 p->xm_warning_pixmap = XmGetPixmap(s, "w_pixmap", fg, bg);
 
