@@ -1,0 +1,141 @@
+XCOMM!/bin/ksh
+XCOMM
+XCOMM dtopen - provide an interface for some useful applications.
+XCOMM
+XCOMM #############################################################
+XCOMM #set -x           # uncomment for debugging
+XCOMM ###############################################################
+XCOMM Init
+
+DTOPEN="dtopen"                   # Identity crisis
+APPNAME="$(basename $0)"        # the app to locate/run
+
+XCOMM apps to look for, given an action (based on APPNAME - see MAIN)
+
+XCOMM image viewing
+if [ -z "$DTOPEN_VIMAGE" ]
+then
+    VIMAGE="xv display gimp"
+else
+    VIMAGE="$DTOPEN_VIMAGE"
+fi
+
+XCOMM video viewing
+if [ -z "$DTOPEN_VVIDEO" ]
+then
+    VVIDEO="vlc ffplay"
+else
+    VVIDEO="$DTOPEN_VVIDEO"
+fi
+
+XCOMM postscript viewing
+if [ -z "$DTOPEN_VPS" ]
+then
+    VPS="mgv gv"
+else
+    VPS="$DTOPEN_VPS"
+fi
+
+XCOMM PDF viewing
+if [ -z "$DTOPEN_VPDF" ]
+then
+    VPDF="okular xpdf"
+else
+    VPDF="$DTOPEN_VPDF"
+fi
+
+XCOMM ##############################################################
+XCOMM ## Utility Functions
+
+XCOMM ## Find the path of a program
+FindProg()
+{
+    # FindProg "program"
+    # - returns full path, or ""
+
+    whence $1
+
+    return 0
+}
+
+XCOMM ## Show an error message
+ErrorMsg()
+{
+    # ErrorMsg "Title "Message" ["OK"]
+    # use dterror.ds to display it...
+
+    if [ -z "$3" ]
+    then    # default to 'OK'
+        OKM="OK"
+    else
+        OKM="$3"
+    fi
+
+    CDE_INSTALLATION_TOP/bin/dterror.ds "$2" "$1" "$OKM"
+
+    return 0
+}
+
+XCOMM ## do a simple command
+DoSimpleCmd()
+{
+    # DoSimpleCmd "commands" args
+
+    didone=0
+    cmds="$1"
+    shift
+    args="$*"
+
+    for i in $cmds
+    do
+        thecmd="$(FindProg $i)"
+
+        if [ ! -z "$thecmd" ]
+        then    # it's there
+            $thecmd "$args"
+            didone=1
+            break
+        fi
+    done
+
+    if [ $didone -eq 0 ]
+    then    # couldn't find a viewer
+        ErrorMsg "Helper not found" \
+                 "${DTOPEN}: Could not find any of the following\ncommands for this file type:\n\n$cmds"
+    fi
+
+    return 0
+}
+
+
+XCOMM ##################################################################
+XCOMM ## MAIN
+
+XCOMM # We'll just look at our args and decide what to do...
+
+XCOMM # Commands we'll recognize
+
+COMMANDS="dtopen_image dtopen_pdf dtopen_ps dtopen_video"
+
+case $APPNAME in
+    dtopen_image)
+        DoSimpleCmd "$VIMAGE" $*
+        ;;
+    dtopen_pdf)
+        DoSimpleCmd "$VPDF" $*
+        ;;
+    dtopen_ps)
+        DoSimpleCmd "$VPS" $*
+        ;;
+    dtopen_video)
+        DoSimpleCmd "$VVIDEO" $*
+        ;;
+    *)
+        # Unknown
+        ErrorMsg "${DTOPEN}: Unknown Helper Application" \
+                  "\"$APPNAME\" is not a recognized Helper Application.  \nKnown Helper Applications are:\n\n$COMMANDS"
+        ;;
+esac
+
+XCOMM # Fini
+exit 0
