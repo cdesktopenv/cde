@@ -50,8 +50,6 @@ unset FIGNORE
 
 LOGFILE="installCDE.$$.log"
 
-REVISION="$(echo "$Revision: /main/20 $" | awk '{print $2}')"
-
 Log()
 {
   /bin/echo "$1" | tee -a $LOGFILE
@@ -66,19 +64,19 @@ MakeTarball()
     Log "Creating tarball..."
 
     DIRNAME=build.$DATE
-    mkdir -p $TARBALL_LOCATION/$DIRNAME
-    cd /
-    echo $DATE >$LOGFILES_LOCATION/.build.$DATE
-    chown bin $LOGFILES_LOCATION/.build.$DATE
+    mkdir -p "$TARBALL_LOCATION/$DIRNAME"
+    cd / || exit 1
+    echo "$DATE" >"$LOGFILES_LOCATION/.build.$DATE"
+    chown bin "$LOGFILES_LOCATION/.build.$DATE"
 
     if [ "$COMPRESS_TARBALL" = "yes" ]; then
-      tar -cf - $INSTALL_LOCATION/STAR \
-        2>$TARBALL_LOCATION/$DIRNAME/extract.err |
-        compress -c >$TARBALL_LOCATION/$DIRNAME/dttar.Z
+      tar -cf - "$INSTALL_LOCATION/STAR" \
+        2>"$TARBALL_LOCATION/$DIRNAME/extract.err" |
+        compress -c >"$TARBALL_LOCATION/$DIRNAME/dttar.Z"
     else
-      tar -cf $TARBALL_LOCATION/$DIRNAME/dt.tar \
-        $INSTALL_LOCATION/STAR \
-        2>$TARBALL_LOCATION/$DIRNAME/extract.err 2>&1
+      tar -cf "$TARBALL_LOCATION/$DIRNAME/dt.tar" \
+        "$INSTALL_LOCATION/STAR" \
+        2>"$TARBALL_LOCATION/$DIRNAME/extract.err" 2>&1
     fi
 
     if [ "$ACTUAL_INSTALLATION_LOC" = "" ]; then
@@ -86,31 +84,30 @@ MakeTarball()
     else
       actualInstallDir=$ACTUAL_INSTALLATION_LOC
     fi 
-    let size=$(du -s $actualInstallDir | awk '{print $1}')*512
+    let size=$(du -s "$actualInstallDir" | awk '{print $1}')*512
 
     HASH load installation fileset *after* tarball generated
     LoadFileSet "" "CDE-INSTALL"
 
     HASH create config dir
     destPost=$TARBALL_LOCATION/$DIRNAME/config
-    mkdir $destPost
+    mkdir "$destPost"
 
     HASH copy config and platform config scripts
     src=$INSTALL_LOCATION/install/$PLATFORM_SCRIPT_DIR
-    cp $src/config/STAR.cfg $destPost
+    cp "$src/config/STAR.cfg" "$destPost"
    
     HASH copy this script and install.dt platform overrides
-    cp $src/install.dto $TARBALL_LOCATION/$DIRNAME/install.dto
-    cp $src/install.cde $TARBALL_LOCATION/$DIRNAME/install.cde
-    chmod 755 $TARBALL_LOCATION/$DIRNAME/install.cde
+    cp "$src/install.dto" "$TARBALL_LOCATION/$DIRNAME/install.dto"
+    cp "$src/install.cde" "$TARBALL_LOCATION/$DIRNAME/install.cde"
+    chmod 755 "$TARBALL_LOCATION/$DIRNAME/install.cde"
 
-    cd /
+    cd / || exit 1
 
     Log "done."
 
-    cat >$TARBALL_LOCATION/$DIRNAME/dt.pkg <<FIN
+    cat >"$TARBALL_LOCATION/$DIRNAME/dt.pkg" <<FIN
 PLATFORM: $PLATFORM
-VERSION: $REVISION
 TS: $DATE
 COMPRESSED: $COMPRESS_TARBALL
 SIZE: $size
@@ -118,7 +115,7 @@ CL: $ORIGINAL_COMMAND_LINE
 FILESETS: $DATABASE_FILES
 FIN
 
-    cat >$TARBALL_LOCATION/$DIRNAME/build.status <<FIN
+    cat >"$TARBALL_LOCATION/$DIRNAME/build.status" <<FIN
 The UNIX Desktop
 
 BUILD: $DATE
@@ -128,7 +125,7 @@ MAJOR PROBLEMS: <not yet tested>
 
 FIN
 
-    chmod g+w $TARBALL_LOCATION/$DIRNAME/build.status
+    chmod g+w "$TARBALL_LOCATION/$DIRNAME/build.status"
 }
 
 DoFilesetScript()
@@ -142,22 +139,22 @@ DoFilesetScript()
     ScriptName=$2	# use long config file name (configFoo)
   fi
 
-  if [ $CDECONFIGDIR = "CONFIG" ]; then
+  if [ "$CDECONFIGDIR" = "CONFIG" ]; then
     typeset -u ScriptName
   fi
 
   test_string=${DATABASE_FILES#*$FilesetName}
   if (( ${#DATABASE_FILES} > ${#test_string} ))
   then
-    if [ -x $POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName ]
+    if [ -x "$POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName" ]
     then
 	Log "Executing $PLATFORM specific $FilesetName customize script"
-	KORNSHELL $POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName -e 2>&1 | \
+	KORNSHELL "$POST_INSTALL_DIR/$PLATFORM_SCRIPT_DIR/$ScriptName" -e 2>&1 | \
 				tee -a $LOGFILE
-    elif [ -x $POST_INSTALL_DIR/$ScriptName ]
+    elif [ -x "$POST_INSTALL_DIR/$ScriptName" ]
     then
 	Log "Executing $FilesetName customize script" 
-	KORNSHELL $POST_INSTALL_DIR/$ScriptName -e 2>&1 | tee -a $LOGFILE
+	KORNSHELL "$POST_INSTALL_DIR/$ScriptName" -e 2>&1 | tee -a $LOGFILE
     fi
   fi
 }
@@ -176,16 +173,16 @@ CreatePackingList()
 {
     Log " "
     Log "Creating packing list."
-    touch $INSTALL_LOCATION/Packing_list
-    for i in `echo $DATABASE_FILES`
+    touch "$INSTALL_LOCATION/Packing_list"
+    for i in $DATABASE_FILES
     do
       Log "  for $i"
-      KORNSHELL $TOOL_DIR/udbToAny.ksh -toDB -ReleaseStream $PLATFORM $DATABASE_DIR/${i}.udb > /tmp/${i}.db
-      if [ -r /tmp/${i}.db ]
+      KORNSHELL "$TOOL_DIR/udbToAny.ksh" -toDB -ReleaseStream "$PLATFORM" "$DATABASE_DIR/${i}.udb" > "/tmp/${i}.db"
+      if [ -r "/tmp/${i}.db" ]
       then
-        for file in `fgrep install_target /tmp/${i}.db | cut -sf 2 -d \: ` 
+        grep -F install_target "/tmp/${i}.db" | cut -sf 2 -d '\: ' < file | while IFS= read -r line
         do
-	  echo "$file" >>$INSTALL_LOCATION/Packing_list
+	  echo "$line" >>"$INSTALL_LOCATION/Packing_list"
         done
       fi
     done
@@ -198,23 +195,23 @@ CleanDaemons()
 
   for i in inetd rpc.ttdbserver rpc.cmsd
   do
-    if [ "$PLATFORM" = "aix" -a $i = "inetd" ]
+    if [ "$PLATFORM" = "aix" ] && [ $i = "inetd" ]
     then
-      lssrc -s inetd >/dev/null 2>&1
-      if [ $? = "0" ]
+      if ! lssrc -s inetd >/dev/null 2>&1
       then
         stopsrc -s inetd >>$LOGFILE 2>&1
       fi
-    elif [ "$PLATFORM" = "openbsd" -o "$PLATFORM" = "freebsd" -o "$PLATFORM" = "netbsd" -o "$PLATFORM" = "linux" ]
+    elif [ "$PLATFORM" = "openbsd" ] || [ "$PLATFORM" = "freebsd" ] || \
+	 [ "$PLATFORM" = "netbsd" ] || [ "$PLATFORM" = "linux" ]
     then
-      ps axo pid,comm | grep $i > /tmp/tmppsout
+      pgrep pid,comm > /tmp/tmppsout
       if [ -s /tmp/tmppsout ]
       then
         awk '{print "kill " $1}' /tmp/tmppsout | /bin/sh -f
         sleep 2
       fi
     else    
-      ps -ef | grep $i | grep -v grep >/tmp/tmppsout
+      pgrep -v pgrep >/tmp/tmppsout
       if [ -s /tmp/tmppsout ]
       then
         awk '{print "kill " $2}' /tmp/tmppsout | /bin/sh -f
@@ -229,8 +226,8 @@ RestartInetd()
 {
   HASH now restart inetd
 
-  OLDPWD=`pwd`
-  cd /
+  OLDPWD=$(pwd)
+  cd / || exit 1
   if [ "$PLATFORM" = "sun" ]
   then
     /usr/sbin/svcadm refresh svc:/network/inetd:default
@@ -238,7 +235,7 @@ RestartInetd()
   elif [ "$PLATFORM" = "aix" ]
   then
     startsrc -s inetd >>$LOGFILE 2>&1
-  elif [ "$PLATFORM" = "openbsd" -o "$PLATFORM" = "netbsd" ]
+  elif [ "$PLATFORM" = "openbsd" ] || [ "$PLATFORM" = "netbsd" ]
   then
     /etc/rc.d/inetd start >/dev/null
   elif [ "$PLATFORM" = "freebsd" ]
@@ -254,7 +251,7 @@ RestartInetd()
     /etc/inetd
 #endif
   fi
-  cd $OLDPWD
+  cd "$OLDPWD" || exit 1
 }
 
 CheckForActualLocations()
@@ -275,21 +272,21 @@ XCOMM
   if [ "$CLEANING" = "yes" ]
   then
     Log "Removing $INSTALL_LOCATION contents... "
-    if [ -d $INSTALL_LOCATION ]
+    if [ -d "$INSTALL_LOCATION" ]
     then
-      rm -rf $INSTALL_LOCATION/STAR
+      rm -rf "${INSTALL_LOCATION:?}/"STAR
       if [ "$LeaveLinks" = "yes" ]
       then
-	if [ ! -L $INSTALL_LOCATION ]
+	if [ ! -L "$INSTALL_LOCATION" ]
 	then
-          rm -rf $INSTALL_LOCATION
+          rm -rf "$INSTALL_LOCATION"
 	fi
       else
-        if [ -L $INSTALL_LOCATION ]
+        if [ -L "$INSTALL_LOCATION" ]
         then
-          rm -f $INSTALL_LOCATION
+          rm -f "$INSTALL_LOCATION"
         else
-          rm -rf $INSTALL_LOCATION
+          rm -rf "$INSTALL_LOCATION"
         fi
       fi
     fi
@@ -304,22 +301,22 @@ XCOMM
       HASH first create the actual directory - if not there
       HASH
 
-      if [ ! -d $ACTUAL_INSTALLATION_LOC ]
+      if [ ! -d "$ACTUAL_INSTALLATION_LOC" ]
       then
-        mkdir -p $ACTUAL_INSTALLATION_LOC
-        if [ ! -d $ACTUAL_INSTALLATION_LOC ]
+        mkdir -p "$ACTUAL_INSTALLATION_LOC"
+        if [ ! -d "$ACTUAL_INSTALLATION_LOC" ]
         then
 	  Log "cannot create $ACTUAL_INSTALLATION_LOC directory"
 	  exit 1
         fi
       fi
 
-      ln -s $ACTUAL_INSTALLATION_LOC $INSTALL_LOCATION
+      ln -s "$ACTUAL_INSTALLATION_LOC" "$INSTALL_LOCATION"
 
     else
-      if [ ! -d $INSTALL_LOCATION -a ! -L $INSTALL_LOCATION ]; 
+      if [ ! -d "$INSTALL_LOCATION" ] && [ ! -L "$INSTALL_LOCATION" ];
       then
-        mkdir -p $INSTALL_LOCATION
+        mkdir -p "$INSTALL_LOCATION"
       fi
     fi
   fi
@@ -334,21 +331,21 @@ XCOMM
   if [ "$CLEANING_ETC" = "yes" ]
   then
     Log "Removing $CONFIGURE_LOCATION contents... "
-    if [ -d $CONFIGURE_LOCATION ]
+    if [ -d "$CONFIGURE_LOCATION" ]
     then
-      rm -rf $CONFIGURE_LOCATION/STAR
+      rm -rf "${CONFIGURE_LOCATION:?}/"STAR
       if [ "$LeaveLinks" = "yes" ]
       then
-        if [ ! -L $CONFIGURE_LOCATION ]
+        if [ ! -L "$CONFIGURE_LOCATION" ]
         then
-          rm -rf $CONFIGURE_LOCATION
+          rm -rf "$CONFIGURE_LOCATION"
         fi
       else
-        if [ -L $CONFIGURE_LOCATION ]
+        if [ -L "$CONFIGURE_LOCATION" ]
         then
-          rm -f $CONFIGURE_LOCATION
+          rm -f "$CONFIGURE_LOCATION"
         else
-          rm -rf $CONFIGURE_LOCATION
+          rm -rf "$CONFIGURE_LOCATION"
         fi
       fi
     fi
@@ -356,43 +353,43 @@ XCOMM
 	
   if [ "$ACTUAL_CONFIGURATION_LOC" != "" ]
   then
-    if [ ! -d $ACTUAL_CONFIGURATION_LOC ]
+    if [ ! -d "$ACTUAL_CONFIGURATION_LOC" ]
     then
-      mkdir -p $ACTUAL_CONFIGURATION_LOC
-      if [ ! -d $ACTUAL_CONFIGURATION_LOC ]
+      mkdir -p "$ACTUAL_CONFIGURATION_LOC"
+      if [ ! -d "$ACTUAL_CONFIGURATION_LOC" ]
       then
 	Log "cannot create $ACTUAL_CONFIGURATION_LOC directory"
 	exit 1
       fi
     fi
 
-    ln -s $ACTUAL_CONFIGURATION_LOC $CONFIGURE_LOCATION
+    ln -s "$ACTUAL_CONFIGURATION_LOC" "$CONFIGURE_LOCATION"
 
   else
-    if [ ! -d $CONFIGURE_LOCATION -a ! -L $CONFIGURE_LOCATION ];
+    if [ ! -d "$CONFIGURE_LOCATION" ] && [ ! -L "$CONFIGURE_LOCATION" ];
     then
-      mkdir -p $CONFIGURE_LOCATION
+      mkdir -p "$CONFIGURE_LOCATION"
     fi
   fi
 
   if [ "$CLEANING" = "yes" ]
   then
     Log "Removing $LOGFILES_LOCATION contents... "
-    if [ -d $LOGFILES_LOCATION ]
+    if [ -d "$LOGFILES_LOCATION" ]
     then
-      rm -rf $LOGFILES_LOCATION/STAR
+      rm -rf "${LOGFILES_LOCATION:?}/"STAR
       if [ "$LeaveLinks" = "yes" ]
       then
-        if [ ! -L $LOGFILES_LOCATION ]
+        if [ ! -L "$LOGFILES_LOCATION" ]
         then
-          rm -rf $LOGFILES_LOCATION
+          rm -rf "$LOGFILES_LOCATION"
         fi
       else
-        if [ -L $LOGFILES_LOCATION ]
+        if [ -L "$LOGFILES_LOCATION" ]
         then
-          rm -f $LOGFILES_LOCATION
+          rm -f "$LOGFILES_LOCATION"
         else
-          rm -rf $LOGFILES_LOCATION
+          rm -rf "$LOGFILES_LOCATION"
         fi
       fi
     fi
@@ -400,22 +397,22 @@ XCOMM
 
   if [ "$ACTUAL_VAR_LOC" != "" ]
   then
-    if [ ! -d $ACTUAL_VAR_LOC ]
+    if [ ! -d "$ACTUAL_VAR_LOC" ]
     then
-      mkdir -p $ACTUAL_VAR_LOC
-      if [ ! -d $ACTUAL_VAR_LOC ]
+      mkdir -p "$ACTUAL_VAR_LOC"
+      if [ ! -d "$ACTUAL_VAR_LOC" ]
       then
 	Log "cannot create $ACTUAL_VAR_LOC directory"
 	exit 1
       fi
     fi
 
-    ln -s $ACTUAL_VAR_LOC $LOGFILES_LOCATION
+    ln -s "$ACTUAL_VAR_LOC" "$LOGFILES_LOCATION"
     
   else
-    if [ ! -d $LOGFILES_LOCATION -a ! -L $LOGFILES_LOCATION ]; 
+    if [ ! -d "$LOGFILES_LOCATION" ] && [ ! -L "$LOGFILES_LOCATION" ];
     then
-      mkdir -p $LOGFILES_LOCATION
+      mkdir -p "$LOGFILES_LOCATION"
     fi
   fi
 
@@ -424,7 +421,7 @@ XCOMM
 
 USAGE()
 {
-echo -e "Usage: $(basename $0) {-s <source>|-z <package>} [options]"
+echo -e "Usage: $(basename "$0") {-s <source>|-z <package>} [options]"
 echo -e ""
 echo -e "\t-s <source>\t\t\tthe top of the build tree"
 echo -e "\t-z <package>\t\tthe desktop install package"
@@ -491,28 +488,28 @@ LoadFileSet()
   fi
 
 XCOMM don't bother if the fileset doesn't exist
-  if [ ! -e $DATABASE_DIR/${2}.udb ]
+  if [ ! -e "$DATABASE_DIR/${2}.udb" ]
   then
         return
   fi
 
   Log "  $num installing database $2"
   Log "      - creating ${2}.lst file"
-  KORNSHELL $TOOL_DIR/udbToAny.ksh  -toLst -ReleaseStream $PLATFORM \
-            $DATABASE_DIR/${2}.udb >  /tmp/${2}.lst
+  KORNSHELL "$TOOL_DIR/udbToAny.ksh"  -toLst -ReleaseStream "$PLATFORM" \
+            "$DATABASE_DIR/${2}.udb" >  "/tmp/${2}.lst"
   Log "      - installing ... "
-  KORNSHELL $TOOL_DIR/mkProd -D $DESTINATION_DIR -S $BUILD_TREE /tmp/${2}.lst \
-            2>/tmp/${2}.err 1>/tmp/${2}.good
+  KORNSHELL "$TOOL_DIR/mkProd" -D "$DESTINATION_DIR" -S "$BUILD_TREE" "/tmp/${2}.lst" \
+            2>"/tmp/${2}.err" 1>"/tmp/${2}.good"
   Log "        done."
 
   Log "      - checking for errors ..."
-  rm -f /tmp/${2}.missing
+  rm -f "/tmp/${2}.missing"
   awk '{if ($1 == "ERROR:") print "           " $4}' \
-            /tmp/${2}.err >> /tmp/${2}.missing
-  if [ -s /tmp/${2}.missing ]
+            "/tmp/${2}.err" >> "/tmp/${2}.missing"
+  if [ -s "/tmp/${2}.missing" ]
   then
     Log "      - missing files:"
-    cat /tmp/${2}.missing | tee -a $LOGFILE
+    "/tmp/${2}.missing" >> "$LOGFILE"
   fi
 }
 ORIGINAL_COMMAND_LINE="$*"
@@ -526,27 +523,27 @@ PLATFORM_SCRIPT_DIR=""
 XCOMM
 XCOMM Set system
 XCOMM 
-  if [ $BUILDSYSTEM = "AIX" ];
+  if [ "$BUILDSYSTEM" = "AIX" ];
   then
     PLATFORM=aix
     PLATFORM_SCRIPT_DIR=ibm
-  elif [ $BUILDSYSTEM = "SunOS" ];
+  elif [ "$BUILDSYSTEM" = "SunOS" ];
   then
     PLATFORM=sun
     PLATFORM_SCRIPT_DIR=sun
-  elif [ $BUILDSYSTEM = "Linux" ];
+  elif [ "$BUILDSYSTEM" = "Linux" ];
   then
     PLATFORM="linux"
     PLATFORM_SCRIPT_DIR="linux"
-  elif [ $BUILDSYSTEM = "FreeBSD" ];
+  elif [ "$BUILDSYSTEM" = "FreeBSD" ];
   then
     PLATFORM="freebsd"
     PLATFORM_SCRIPT_DIR="freebsd"
-  elif [ $BUILDSYSTEM = "OpenBSD" ];
+  elif [ "$BUILDSYSTEM" = "OpenBSD" ];
   then
     PLATFORM="openbsd"
     PLATFORM_SCRIPT_DIR="openbsd"
-  elif [ $BUILDSYSTEM = "NetBSD" ];
+  elif [ "$BUILDSYSTEM" = "NetBSD" ];
   then
     PLATFORM="netbsd"
     PLATFORM_SCRIPT_DIR="netbsd"
@@ -557,9 +554,9 @@ XCOMM
 
   if [ "$PLATFORM" = "aix" ];
   then
-    USER=`/bin/whoami`
+    USER=$(/bin/whoami)
   else
-    USER=`/usr/bin/whoami`
+    USER=$(/usr/bin/whoami)
   fi
 
   if [ "$USER" != "root" ];
@@ -590,7 +587,6 @@ XCOMM
   RUN_SCRIPTS_ONLY="no"
   DATABASE_FILES=""
   BUILD_TREE=""
-  TAR_DIR=""
   LeaveLinks="no"
   REMOVE_LINKS="no"
   CLEAN_DAEMONS="yes"
@@ -782,30 +778,29 @@ XCOMM
 
   echo ""
 
-  if [ -z "$BUILD_TREE" -a -z "$TAR_TREE" ]
+  if [ -z "$BUILD_TREE" ] && [ -z "$TAR_TREE" ]
   then
     USAGE
     exit 1
   fi
 
-  if [ "$BUILD_TREE" != "" -a ! -d "$BUILD_TREE" ]
+  if [ "$BUILD_TREE" != "" ] && [ ! -d "$BUILD_TREE" ]
   then
     Log "Build tree does not exist."
     exit 1
   fi
 
-  if [ "$TAR_TREE" != "" -a ! -d "$TAR_TREE" ]
+  if [ "$TAR_TREE" != "" ] && [ ! -d "$TAR_TREE" ]
   then
     Log "Tar tree does not exist."
     exit 1
   fi
 
-  if [ "$DESTINATION_DIR" != "" -a ! -d "$DESTINATION_DIR" ]
+  if [ "$DESTINATION_DIR" != "" ] && [ ! -d "$DESTINATION_DIR" ]
   then
     Log "Creating $DESTINATION_DIR"
-    mkdir $DESTINATION_DIR
 
-    if [ $? -ne 0 ]
+    if ! mkdir "$DESTINATION_DIR"
     then
         Log "mkdir $DESTINATION_DIR failed"
         exit 1
@@ -823,11 +818,11 @@ XCOMM
 
   if [ $TARBALL = "yes" ]; 
   then
-    set -- `/bin/date`
+    set -- "$(/bin/date)"
     DATE=$2_$3_$4_$6
   fi
 
-  if [ -z "$BUILD_TREE" -a ${0##STAR/} = INSTALL.CDE ]; then
+  if [ -z "$BUILD_TREE" ] && [ "${0##STAR/}" = INSTALL.CDE ]; then
     typeset -u CDEPACKAGE
     typeset -u CDETARFILE
     typeset -u CDETARFILEZ
@@ -919,7 +914,7 @@ XCOMM
   [ -z "$CONFIGURE_LOCATION" ] && CONFIGURE_LOCATION=CDE_CONFIGURATION_TOP
   [ -z "$LOGFILES_LOCATION" ] && LOGFILES_LOCATION=CDE_LOGFILES_TOP
 
-  if [ -L $INSTALL_LOCATION -a "$CONFIGURE_ONLY" != "yes" ]
+  if [ -L $INSTALL_LOCATION ] && [ "$CONFIGURE_ONLY" != "yes" ]
   then
     touch $INSTALL_LOCATION/foo >/dev/null 2>/dev/null
     if [ ! -f $INSTALL_LOCATION/foo ]
@@ -937,7 +932,7 @@ XCOMM
 
   if [ -d $INSTALL_LOCATION ]
   then
-    if [ -x $INSTALL_LOCATION/bin -a ! -d $INSTALL_LOCATION/bin ]
+    if [ -x $INSTALL_LOCATION/bin ] && [ ! -d $INSTALL_LOCATION/bin ]
     then
 	rm -f $INSTALL_LOCATION/bin
     fi
@@ -978,22 +973,22 @@ XCOMM
   then
     Log "Load the Desktop from $BUILD_TREE"
 
-    cd $STARTING_DIR
+    cd "$STARTING_DIR" || exit 1
     let j=1
-    for i in `echo $DATABASE_FILES`
+    for i in $DATABASE_FILES
     do
       LoadFileSet "$j" "$i"
       let j=j+1
     done
   else
     Log "Load the Desktop from $TAR_TREE"
-    compressed=$(awk '/COMPRESSED: /{print $2}' $TAR_TREE/$CDEPACKAGE)
+    compressed=$(awk '/COMPRESSED: /{print $2}' "$TAR_TREE/$CDEPACKAGE")
     if [ "$compressed" = "yes" ]; then
-      uncompress <$TAR_TREE/$CDETARFILEZ | tar xvf - $INSTALL_LOCATION
+      uncompress <"$TAR_TREE/$CDETARFILEZ" | tar xvf - $INSTALL_LOCATION
     else
-      tar -xvf $TAR_TREE/$CDETARFILE $INSTALL_LOCATION
+      tar -xvf "$TAR_TREE/$CDETARFILE" $INSTALL_LOCATION
     fi 
-    DATABASE_FILES=$(awk 'BEGIN {FS=":"} /FILESETS: /{print $2}' $TAR_TREE/$CDEPACKAGE)
+    DATABASE_FILES=$(awk 'BEGIN {FS=":"} /FILESETS: /{print $2}' "$TAR_TREE/$CDEPACKAGE")
   fi
 
   Log " "
@@ -1009,7 +1004,7 @@ XCOMM
     MakeTarball
   fi
 
-  cd $STARTING_DIR
+  cd "$STARTING_DIR" || exit 1
 
   if [ "$RUN_SCRIPTS" = "yes" ]
   then
