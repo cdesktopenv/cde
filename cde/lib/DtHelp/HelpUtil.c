@@ -1557,7 +1557,7 @@ char *_DtHelpParseIdString(
   char *pAccessFile = NULL;
   char *tmpSpec=NULL;
   char *returnStr=NULL;
-  char *strtok_ptr;
+  char *strtok_ptr=NULL;
 
   tmpSpec = XtNewString(specification);
 
