@@ -772,7 +772,7 @@ convertBoxTotalRec          total, part1, part2;
 convertBoxCountRec          count;
 convertBoxRec               slice;
 convertBoxRec     *pBox = &BoxTable[box];
-double                      temp, ssq1, ssq2;
+double                      temp, ssq1 = 0.0f, ssq2;
 int                axis, plane, rgb, n;
 
     if ( CountBox( pBox, Ftable, &count ) ) {
