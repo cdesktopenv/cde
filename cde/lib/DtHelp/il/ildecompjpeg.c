@@ -224,6 +224,9 @@ ilBool _ilDecompJPEG (
     ilJPEGPrivPtr       pPriv;
     iljpgDataRec        jpgData;
 
+
+    memset(&jpgData, 0, sizeof(jpgData));
+
         /*  Define decompressed output from this filter: planar format unless
             a single component image (e.g. gray).
         */
