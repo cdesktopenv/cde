@@ -1025,7 +1025,7 @@ IL_PRIVATE ilBool _ilConvertRGBToPalette (
     long                   *pColorTable;
     ilBool                  diffusion, chooseColors;
     int                     i, shifts[3], nColors;
-    const unsigned short         *pMulTable[3];      /* dither other than 484 only: pMul? */
+    const unsigned short         *pMulTable[3] = { NULL, NULL, NULL };      /* dither other than 484 only: pMul? */
     static ilConvertToPaletteInfo  defaultConvert = 
                                   {IL_DIFFUSION, { 4, 8, 4 }, 8, IL_PALETTE, (ilObject)NULL};
 
