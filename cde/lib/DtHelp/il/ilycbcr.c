@@ -1085,8 +1085,6 @@ IL_PRIVATE ilBool _ilDitherYCbCr (
             sizeof(ilYCbCr2DitherPrivRec), 0, &srcData, &dstData, 
             ilYCbCr2DitherInit, IL_NPF, ilYCbCr2DitherDestroy, ilYCbCr2DitherExecute, NULL, 0);
     if (!pPriv) {
-        if (pPriv->pPalette)
-            IL_FREE (pPriv->pPalette);
         return FALSE;
         }
 
