@@ -538,7 +538,7 @@ IL_PRIVATE void _ilScaleSample (
     )
 {
 
-ilScaleSamplePtr pPriv;
+ilScaleSamplePtr pPriv = NULL;
 ilDstElementData          dstdata;
 
 
