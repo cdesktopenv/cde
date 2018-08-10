@@ -415,7 +415,10 @@ AsciiKeyword (
 				(wchar_t *) _DtCvStringOfStringSeg(p_list),
 					newLen + 1);
 		if ((size_t) -1 == newLen)
+		  {
+		    free(goodStr);
 		    return NULL;
+		  }
 
 		len += newLen;
 	  }
