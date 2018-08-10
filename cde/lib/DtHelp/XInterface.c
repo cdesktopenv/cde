@@ -2020,7 +2020,10 @@ _DtHelpDALoadGraphic (
       {
 	fileName = (char *) malloc (strlen(vol_xid) + strlen (file_xid) + 2);
 	if (fileName == NULL)
+	  {
+	    free(pGS);
 	    return -1;
+	  }
 
 	strcpy(fileName, vol_xid);
 
