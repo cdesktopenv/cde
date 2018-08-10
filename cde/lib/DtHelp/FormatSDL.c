@@ -5230,7 +5230,7 @@ VerifyAttrList(
     ElementInfoPtr		 el_info,
     const SDLElementAttrList	*attr_list)
 {
-    long  value;
+    long  value = 0;
     while (attr_list->sdl_attr_define != -1)
       {
 	if (attr_list->sdl_value == SdlAttrValueRequired)
