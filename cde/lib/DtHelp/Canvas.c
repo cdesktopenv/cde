@@ -2739,7 +2739,7 @@ _DtCanvasGetSpotInfo (
     _DtCvUnit		 topY;
     _DtCvUnit		 botY;
     _DtCvUnit		 startX;
-    _DtCvUnit		 endX;
+    _DtCvUnit		 endX = 0;
     void		*pChar;
     _DtCvValue		 junk;
     _DtCvStatus		 found = _DtCvSTATUS_NONE;
