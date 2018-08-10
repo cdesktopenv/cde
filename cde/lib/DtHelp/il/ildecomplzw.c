@@ -277,7 +277,7 @@ static ilError ilDecompLZWExecute(
     CARD32              bits;
     long                k;
     unsigned int code;
-    unsigned int        oldCode;
+    unsigned int        oldCode = 0;
     unsigned int        stringCount = 0;
     ilError             status      = IL_OK;
     ilPtr               pString;
