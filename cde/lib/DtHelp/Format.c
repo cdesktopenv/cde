@@ -1045,7 +1045,7 @@ _DtHelpFormatTopic(
     _DtHelpCeLockInfo   lockInfo;
     _FrmtUiInfo           myUiInfo = defUiInfo;
     DtHelpDispAreaStruct *pDAS = (DtHelpDispAreaStruct *) client_data;
-    _DtCvTopicInfo	*topic;
+    _DtCvTopicInfo	*topic = NULL;
 
     if (_DtHelpCeLockVolume(volume, &lockInfo) != 0)
 	return -1;
