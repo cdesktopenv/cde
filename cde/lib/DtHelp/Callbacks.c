@@ -341,7 +341,7 @@ ScrollTimerCB (
 {
     int    diffY = 0;
     int    diffX = 0;
-    int    x;
+    int    x = 0;
     int    y;
     int    scrollTimeOut;
     int    maxY;
