@@ -1002,7 +1002,7 @@ _DtHelpTermGetTopicData(
     char * *     strList;
     char*        fileName = NULL;
     _DtHelpCeLockInfo lockInfo;
-    _DtCvTopicPtr	 topic;
+    _DtCvTopicPtr	 topic = NULL;
     TerminalInfo * termInfo;
     _FrmtUiInfo     myUiInfo;
 
