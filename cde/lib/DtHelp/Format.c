@@ -1182,7 +1182,7 @@ _DtHelpFormatToc (
     XtPointer			 *ret_handle)
 {
     int             result   = 0;
-    _DtCvTopicPtr    topic;
+    _DtCvTopicPtr    topic = NULL;
     _DtHelpCeLockInfo lockInfo;
 
     if (volume == NULL || id == NULL)
