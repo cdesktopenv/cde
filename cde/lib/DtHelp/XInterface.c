@@ -1868,7 +1868,10 @@ _DtHelpDAResolveSpc (
 				(sizeof(DtHelpSpecialChars)*pDAS->max_spc));
 
 		if (pDAS->spc_chars == NULL)
+		  {
+		    free(pReg);
 		    return -1;
+		  }
 
 		for (i = pDAS->cur_spc; i < pDAS->max_spc; i++)
 		    pDAS->spc_chars[i].spc_idx = -1;
