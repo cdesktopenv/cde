@@ -650,7 +650,7 @@ GetLinkInfo (
     _DtCvValue           lstVisible = False;
     _DtCvValue		 found      = False;
     _DtCvValue		 junk;
-    _DtCvUnit  endX;
+    _DtCvUnit  endX = 0;
     void                *pChar;
 
     /*
