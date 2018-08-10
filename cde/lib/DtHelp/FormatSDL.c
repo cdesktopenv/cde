@@ -4920,7 +4920,7 @@ InitAttributes(
     const SDLElementAttrList	*attr_list)
 {
    char		**strPtr1;
-   char		 *varOffset1;
+   char		 *varOffset1 = NULL;
    SDLNumber	 *numPtr1;
    SdlOption	 *enumPtr1;
    SdlOption	  defNum = _DtCvOPTION_BAD;
