@@ -7950,7 +7950,7 @@ RegisterSnbLink(
 {
     int	  linkType;
     int   len = 0;
-    char  buffer[64];
+    char  buffer[64] = "";
     char *fileSpec = NULL;
 
     if (SDLSearchMask(process_mask, ElType(my_struct)) == False)
