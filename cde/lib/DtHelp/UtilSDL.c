@@ -1348,7 +1348,7 @@ _DtHelpCeSaveString(
 
     int        len;
     int        size;
-    int        numChars;
+    int        numChars = 0;
     int        junk    = 0;
     char       tmpChar;
     char         *ptr     = string;
