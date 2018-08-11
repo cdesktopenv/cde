@@ -684,7 +684,11 @@ AllocateSegments (
 	priv = (FrmtPrivateInfo *) realloc ((void *) priv,
 					sizeof(FrmtPrivateInfo) * new_size);
 	if (NULL == priv)
+	  {
+	    free(p_seg);
+	    p_seg = NULL;
 	    return NULL;
+	  }
 
 	/*
 	 * reattach the private information with their segments.
