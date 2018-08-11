@@ -3853,7 +3853,10 @@ ResolveSnref(
 					my_struct->ui_info->client_data,
 					interpStr, runData, &newData)
 			|| NULL == newData || 0 == strlen(newData))
+		  {
+		    free(newData);
 		    return NULL;
+		  }
 
 		/*
 		 * set the match data for toss lookup
@@ -3876,7 +3879,10 @@ ResolveSnref(
 		if (0 != MySaveString(&newSeg, my_struct, newData,
 					my_struct->cur_link, my_struct->mb_len,
 					False))
+		  {
+		    free(newData);
 		    return NULL;
+		  }
 
 		free(newData);
 	      }
