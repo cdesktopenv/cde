@@ -74,6 +74,7 @@ char * _DtCliSrvGetDtUserSession(void)
       char   screen[BUFSIZ];
       char * display = NULL;
       char * localDisplayVar = getenv("DISPLAY");
+      int needsfree = 0;
 
       if (localDisplayVar == NULL) {
 
@@ -98,6 +99,7 @@ char * _DtCliSrvGetDtUserSession(void)
       }
       else {
 	display = malloc(strlen(localDisplayVar) + 1);
+	needsfree = 1;
 	strcpy(display, localDisplayVar);
       }
 	  
@@ -119,6 +121,10 @@ char * _DtCliSrvGetDtUserSession(void)
       envVar = malloc(strlen(logname) + strlen(display) + strlen(screen) + 3);
       if (envVar)
 	sprintf (envVar, "%s-%s-%s", logname, display, screen);
+
+      if(needsfree) {
+        free(display);
+      }
 
       return envVar;
     }
