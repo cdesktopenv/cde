@@ -2441,10 +2441,10 @@ _DtHelpProcessGraphic(
 		else if (*ptr == 'B' || *ptr == 'b')
 		    ForceColor = _DtGrBITONAL;
 	      }
-
-	    free (xrmName);
-	    free (xrmClass);
 	  }
+
+	free (xrmName);
+	free (xrmClass);
 
 	/*
 	 * choose the correct visual type to use
