@@ -1381,8 +1381,11 @@ _DtHelpCeGetSdlDocStamp(
     if (ret_time != NULL)
 	*ret_time = timestamp;
 
-    if (result == 0 && (docId == NULL || timestamp == NULL))
+    if (result == 0 && (docId == NULL || timestamp == NULL)) {
+	free(docId);     /* Incase only one of them is NULL */
+	free(timestamp); /*  " */
 	return -1;
+    }
 
     return result;
 }
