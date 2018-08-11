@@ -2654,6 +2654,7 @@ _DtHelpCeIsTopTopic (
 	if (_DtHelpCeMapCcdfTargetToId(vol, id, &topicId) == 0 &&
 				_DtHelpCeGetCcdfTopTopic(vol, &topId) == 0)
             result = _DtHelpCeStrCaseCmpLatin1(topId, topicId);
+        free(topicId);
       }
     else if (_DtHelpCeMapIdToSdlTopicId(vol, id, &topicId) == 0)
       {
