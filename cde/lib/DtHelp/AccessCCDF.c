@@ -729,6 +729,10 @@ _DtHelpCeGetCcdfIdPath (
         (*ret_ids)[idCount] = topicId;
         idCount++;
       }
+    else
+      {
+        free(topicId);
+      }
 
     return idCount;
 
