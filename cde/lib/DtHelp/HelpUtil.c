@@ -883,6 +883,7 @@ int _DtHelpFilterExecCmd(
    if (False == useQueryDialog)
    {
       *ret_filteredCmdStr = NULL;
+      XtFree(filteredCmdStr);
       return -1;                          /* RETURN error */
    }
 
