@@ -161,9 +161,6 @@ in this Software without prior written authorization from The Open Group.
 #include <stdio.h>
 #include <ctype.h>
 #include "Xosdefs.h"
-#ifdef WIN32
-# include "Xw32defs.h"
-#endif
 #ifndef X_NOT_POSIX
 # ifndef _POSIX_SOURCE
 #  define _POSIX_SOURCE
@@ -172,9 +169,7 @@ in this Software without prior written authorization from The Open Group.
 #include <sys/types.h>
 #include <fcntl.h>
 #ifdef X_NOT_POSIX
-# ifndef WIN32
-#  include <sys/file.h>
-# endif
+# include <sys/file.h>
 #else
 # include <unistd.h>
 #endif
@@ -203,15 +198,10 @@ typedef int		waitType;
 #  define waitSig(w)	((w) & 0xff)
 typedef int		waitType;
 # else /* SYSV */
-#  ifdef WIN32
-#   include <process.h>
-typedef int		waitType;
-#  else
 #   include <sys/wait.h>
 #   define waitCode(w)	((w).w_T.w_Retcode)
 #   define waitSig(w)	((w).w_T.w_Termsig)
 typedef union wait	waitType;
-#  endif
 # endif
 # ifndef WIFSIGNALED
 #  define WIFSIGNALED(w) waitSig(w)
@@ -233,11 +223,7 @@ extern char	*getenv();
 #ifdef X_NOT_STDC_ENV
 extern int	errno;
 #endif
-#ifndef WIN32
 #include <sys/utsname.h>
-#else
-#include <windows.h>
-#endif
 #ifndef SYS_NMLN
 # ifdef _SYS_NMLN
 #  define SYS_NMLN _SYS_NMLN
@@ -316,13 +302,7 @@ static char *cpp = NULL;
 
 static char *tmpMakefile = "/tmp/Imf.XXXXXX";
 static char	*tmpImakefile    = "/tmp/IIf.XXXXXX";
-static char	*make_argv[ ARGUMENTS ] = {
-#ifdef WIN32
-    "nmake"
-#else
-    "make"
-#endif
-};
+static char	*make_argv[ ARGUMENTS ] = {"make"};
 
 static int	make_argindex;
 static int	cpp_argindex;
@@ -727,15 +707,6 @@ doit(FILE *outfd, const char *cmd, char **argv)
 	/*
 	 * Fork and exec the command.
 	 */
-#ifdef WIN32
-	if (outfd)
-		dup2(fileno(outfd), 1);
-	status = _spawnvp(_P_WAIT, cmd, argv);
-	if (status < 0)
-		LogFatal("Cannot spawn %s.", cmd);
-	if (status > 0)
-		LogFatal("Exit code %d.", status);
-#else
 	pid = fork();
 	if (pid < 0)
 		LogFatal("Cannot fork.");
@@ -756,10 +727,7 @@ doit(FILE *outfd, const char *cmd, char **argv)
 		execvp(cmd, argv);
 		LogFatal("Cannot exec %s.", cmd);
 	}
-#endif
 }
-
-#ifndef WIN32
 
 #if (defined(DEFAULT_OS_NAME) || defined(DEFAULT_OS_MAJOR_REV) || \
      defined(DEFAULT_OS_MINOR_REV) || defined(DEFAULT_OS_TEENY_REV))
@@ -828,13 +796,12 @@ parse_utsname(struct utsname *name, const char *fmt, char *result, const char *m
   int ret = sscanf(buf, fmt + arg + 1, result);
   (void) ret;
 }
-#endif
 
 /* Trim leading 0's and periods from version names.  The 0's cause
    the number to be interpreted as octal numbers.  Some version strings
    have the potential for different numbers of .'s in them.
  */
-	
+
 #if (defined(DEFAULT_OS_MAJOR_REV) || defined(DEFAULT_OS_MINOR_REV) || defined(DEFAULT_OS_TEENY_REV))
 static const char *
 trim_version(const char *p)
@@ -1240,7 +1207,6 @@ get_gcc_incdir(FILE *inFile)
 static boolean
 define_os_defaults(FILE *inFile)
 {
-#ifndef WIN32
 #if (defined(DEFAULT_OS_NAME) || defined(DEFAULT_OS_MAJOR_REV) || \
      defined(DEFAULT_OS_MINOR_REV) || defined(DEFAULT_OS_TEENY_REV))
 	struct utsname name;
@@ -1287,22 +1253,6 @@ define_os_defaults(FILE *inFile)
 #if defined (sun) && defined(SVR4)
     get_sun_compiler_versions (inFile);
 #endif
-#else /* WIN32 */
-   OSVERSIONINFO osvi;
-   static char* os_names[] = { "Win32s", "Windows 95", "Windows NT" };
-
-   memset(&osvi, 0, sizeof(OSVERSIONINFO));
-   osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
-   GetVersionEx (&osvi);
-
-   fprintf (inFile, "#define DefaultOSName Microsoft %s\n", 
-	    os_names[osvi.dwPlatformId]);
-
-   fprintf(inFile, "#define DefaultOSMajorVersion %d\n", osvi.dwMajorVersion);
-   fprintf(inFile, "#define DefaultOSMinorVersion %d\n", osvi.dwMinorVersion);
-   fprintf(inFile, "#define DefaultOSTeenyVersion %d\n", 
-	   osvi.dwBuildNumber & 0xFFFF);
-#endif /* WIN32 */
    return FALSE;
 }
 
@@ -1539,9 +1489,6 @@ ReadLine(FILE *tmpfd, const char *tmpfname)
 	char	*p1, *p2;
 
 	if (! initialized) {
-#ifdef WIN32
-		FILE *fp = tmpfd;
-#endif
 		int	total_red;
 		struct stat	st;
 
@@ -1558,12 +1505,8 @@ ReadLine(FILE *tmpfd, const char *tmpfname)
 		end = buf + total_red;
 		*end = '\0';
 		fseek(tmpfd, 0, 0);
-#if defined(SYSV) || defined(WIN32)
+#if defined(SYSV)
 		tmpfd = freopen(tmpfname, "w+", tmpfd);
-#ifdef WIN32
-		if (! tmpfd) /* if failed try again */
-			tmpfd = freopen(tmpfname, "w+", fp);
-#endif
 		if (! tmpfd)
 			LogFatal("cannot reopen %s.", tmpfname);
 #else	/* !SYSV */
@@ -1587,10 +1530,6 @@ ReadLine(FILE *tmpfd, const char *tmpfname)
 			break;
 		}
 		else if (*p1 == '\n') { /* real EOL */
-#ifdef WIN32
-			if (p1 > pline && p1[-1] == '\r')
-				p1[-1] = '\0';
-#endif
 			*p1++ = '\0';
 			break;
 		}
@@ -1653,9 +1592,6 @@ KludgeOutputLine(char **pline)
 		    if (quotechar) {
 			if (quotechar == '\\' ||
 			    (*p == quotechar &&
-# ifdef WIN32
-			     quotechar != ')' &&
-# endif
 			     p[-1] != '\\'))
 			    quotechar = '\0';
 			continue;

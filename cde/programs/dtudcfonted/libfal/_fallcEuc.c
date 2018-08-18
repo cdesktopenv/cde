@@ -58,9 +58,6 @@ OF THIS SOFTWARE.
 #include "_fallcGeneric.h"
 
 #include <ctype.h>
-#ifdef WIN32
-#define isascii __isascii
-#endif
 
 #define CS0     codesets[0]             /* Codeset 0 - 7-bit ASCII      */
 #define CS1     codesets[1]             /* Codeset 1 - Kanji            */

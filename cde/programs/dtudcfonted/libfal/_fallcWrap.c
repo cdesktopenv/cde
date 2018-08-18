@@ -88,9 +88,6 @@ from the X Consortium.
 #include <X11/Xlocale.h>
 #endif
 #include <X11/Xos.h>
-#ifdef WIN32
-#undef close
-#endif
 #include "_falutil.h"
 
 extern void _fallcInitLoader(
@@ -139,11 +136,7 @@ Bool _fallcValidModSyntax(char *mods, char **valid_mods)
 	    break;
 	for (ptr = valid_mods; *ptr; ptr++) {
 	    i = strlen(*ptr);
-	    if (strncmp(mods, *ptr, i) || ((mods[i] != '=')
-#ifdef WIN32
-					   && (mods[i] != '#')
-#endif
-					   ))
+	    if (strncmp(mods, *ptr, i) || ((mods[i] != '=')))
 		continue;
 	    mods = strchr(mods+i+1, '@');
 	    break;
@@ -173,19 +166,6 @@ _fallcDefaultMapModifiers (XLCd lcd, char *user_mods, char *prog_mods)
 	strcpy(mods, prog_mods);
 	if (user_mods)
 	    strcat(mods, user_mods);
-#ifdef WIN32
-	{
-	    char *s;
-	    for (s = mods; s = strchr(s, '@'); s++) {
-		for (s++; *s && *s != '='; s++) {
-		    if (*s == '#') {
-			*s = '=';
-			break;
-		    }
-		}
-	    }
-	}
-#endif
     }
     return mods;
 }

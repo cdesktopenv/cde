@@ -62,11 +62,7 @@ from the X Consortium.
 #include	<X11/Xos.h>
 #include        <sys/stat.h>
 
-#ifdef WIN32
-#define OpenFile(name) 		open((name), O_RDONLY|O_TEXT)
-#else
 #define OpenFile(name) 		open((name), O_RDONLY)
-#endif
 #define CloseFile(fd)           close((fd))
 #define ReadFile(fd,buf,size)	read((fd), (buf), (size))
 #define GetSizeOfFile(name,size)                    \

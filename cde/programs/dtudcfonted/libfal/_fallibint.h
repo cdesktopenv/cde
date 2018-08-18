@@ -77,10 +77,6 @@ from the X Consortium.
 
 #include "syncx.h"
 
-#ifdef WIN32
-#define _XFlush _XFlushIt
-#endif
-
 struct _XGC
 {
     XExtData *ext_data;	/* hook for extension to hang data */
@@ -252,14 +248,6 @@ struct _XLockPtrs {
 };
 
 typedef struct _LockInfoRec *LockInfoPtr;
-
-#if defined(WIN32) && !defined(_XLIBINT_)
-#define _XCreateMutex_fn (*_XCreateMutex_fn_p)
-#define _XFreeMutex_fn (*_XFreeMutex_fn_p)
-#define _XLockMutex_fn (*_XLockMutex_fn_p)
-#define _XUnlockMutex_fn (*_XUnlockMutex_fn_p)
-#define _Xglobal_lock (*_Xglobal_lock_p)
-#endif
 
 /* in XlibInt.c */
 extern void (*_XCreateMutex_fn)(

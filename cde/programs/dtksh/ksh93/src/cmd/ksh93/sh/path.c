@@ -512,17 +512,6 @@ static int canexecute __PARAM__((char *path, int isfun), (path, isfun)) __OTORP_
 	}
 	else if(stat(path,&statb) < 0)
 	{
-#ifdef _WIN32
-		/* check for .exe suffix */
-		if(errno==ENOENT)
-		{
-			stakputs(".exe");
-			path = stakptr(PATH_OFFSET);
-			if(stat(path,&statb) < 0)
-				goto err;
-		}
-		else
-#endif /* _WIN32 */
 		goto err;
 	}
 	errno = EPERM;

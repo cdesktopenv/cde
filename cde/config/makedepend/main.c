@@ -134,7 +134,7 @@ catch (sig)
 	fatalerr ("got signal %d\n", sig);
 }
 
-#if defined(USG) || (defined(i386) && defined(SYSV)) || defined(WIN32)
+#if defined(USG) || (defined(i386) && defined(SYSV))
 #define USGISH
 #endif
 
@@ -661,15 +661,8 @@ redirect(line, makefile)
 		fatalerr("cannot open \"%s\"\n", makefile);
 	snprintf(backup, BUFSIZ, "%s.bak", makefile);
 	unlink(backup);
-#ifdef WIN32
-	fclose(fdin);
-#endif
 	if (rename(makefile, backup) < 0)
 		fatalerr("cannot rename %s to %s\n", makefile, backup);
-#ifdef WIN32
-	if ((fdin = fopen(backup, "r")) == NULL)
-		fatalerr("cannot open \"%s\"\n", backup);
-#endif
 	if ((fdout = freopen(makefile, "w", stdout)) == NULL)
 		fatalerr("cannot open \"%s\"\n", backup);
 	len = strlen(line);

@@ -7,17 +7,9 @@ MDEP_PROG = makedepend
 EXPORTLISTGEN = exportlistgen
 #endif
 
-#ifdef Win32Architecture
-CMKDIRHIER = mkdirhier.exe
-#endif
-
 PROGRAMS = xmkmf $(MDEP_PROG) mergelib ProgramTargetName(makestrs) $(EXPORTLISTGEN) $(CMKDIRHIER)
 DEPLIBS =
 DEPEND_DEFINES = $(DEPENDDEFINES)
-
-#ifndef Win32Architecture
-  EXTRA_LIBRARIES =
-#endif
 
 XCOMM Some compilers generate fatal errors if an -L directory does
 XCOMM not exist.  Since BUILDLIBDIR may not exist yet suppress its use.
@@ -43,10 +35,6 @@ SimpleHostProgramTarget(lndir)
 #else
 SimpleProgramTarget(lndir)
 #endif
-#endif
-
-#ifdef Win32Architecture
-SimpleProgramTarget(mkdirhier)
 #endif
 
 NormalProgramTarget(makestrs,makestrs.o,,,)

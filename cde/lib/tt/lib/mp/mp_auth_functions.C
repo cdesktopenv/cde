@@ -68,11 +68,8 @@ extern char *getenv();
 #ifndef X_NOT_POSIX
 #include <unistd.h>
 #else
-#ifndef WIN32
 extern unsigned	sleep ();
-#else
 #define link rename
-#endif
 #endif
 
 static int read_short(FILE *, unsigned short *);
@@ -97,12 +94,6 @@ _tt_AuthFileName ()
     static char	*buf;
     static int	bsize;
     int	    	size;
-#ifdef WIN32
-#ifndef PATH_MAX
-#define PATH_MAX 512
-#endif
-    char    	dir[PATH_MAX];
-#endif
 
     if (name = getenv ("TTAUTHORITY"))
 	return (name);
@@ -111,24 +102,6 @@ _tt_AuthFileName ()
 
     if (!name)
     {
-#ifdef WIN32
-    char *ptr1;
-    char *ptr2;
-    int len1 = 0, len2 = 0;
-
-    if ((ptr1 = getenv("HOMEDRIVE")) && (ptr2 = getenv("HOMEDIR"))) {
-	len1 = strlen (ptr1);
-	len2 = strlen (ptr2);
-    } else if (ptr2 = getenv("USERNAME")) {
-	len1 = strlen (ptr1 = "/users/");
-	len2 = strlen (ptr2);
-    }
-    if ((len1 + len2 + 1) < PATH_MAX) {
-	sprintf (dir, "%s%s", ptr1, (ptr2) ? ptr2 : "");
-	name = dir;
-    }
-    if (!name)
-#endif
 	return (NULL);
     }
 
@@ -226,24 +199,18 @@ _tt_LockAuthFile(char *file_name, int retries, int timeout, long dead)
 void
 _tt_UnlockAuthFile(char *file_name)
 {
-#ifndef WIN32
     char	creat_name[1025];
-#endif
     char	link_name[1025];
 
     if ((int) strlen (file_name) > 1022)
 	return;
 
-#ifndef WIN32
     strcpy (creat_name, file_name);
     strcat (creat_name, "-c");
-#endif
     strcpy (link_name, file_name);
     strcat (link_name, "-l");
 
-#ifndef WIN32
     unlink (creat_name);
-#endif
     unlink (link_name);
 }
 
