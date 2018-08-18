@@ -6,19 +6,19 @@ XCOMM $TOG: configShlibs.src /main/1 1998/03/11 16:18:33 mgreess $
 XCOMM ############################################
 RemoveShlibFiles()
 {
-    while read SRC
+    while read -r SRC
     do
       if [ "$SRC" != "" ]
       then
-	rm -f $SRC
+	rm -f "$SRC"
 	dirname=${SRC%/STAR}
-	if [ -d $dirname ]
+	if [ -d "$dirname" ]
 	then
-	  cd $dirname
+	  cd "$dirname" || exit
 	  while [ "$dirname" != "$CDE_TOP" ]
 	  do
 	    cd ..
-	    rmdir ${dirname##STAR/} >/dev/null 2>/dev/null
+	    rmdir "${dirname##STAR/}" >/dev/null 2>/dev/null
 	    dirname=${dirname%/STAR}
 	  done
 	fi
@@ -36,7 +36,7 @@ XCOMM	  exists  correct correct correct  /usr/dt/foo1
 XCOMM	  MISSING  WRONG   WRONG   WRONG   /usr/dt/foo2
 XCOMM        exists    the link is correct    /usr/dt/link
 
-    while read SRC
+    while read -r SRC
     do
 #include "../verify.func"
     done <<-EOF
@@ -54,14 +54,14 @@ XCOMM
 XCOMM creates links in the install tree libtt.so -> libtt.so.1
 XCOMM
 
-  cd CDE_INSTALLATION_TOP/lib
+  cd CDE_INSTALLATION_TOP/lib || exit
 
-  for lib in `/bin/ls *.so.*`
+  for lib in $(/bin/ls) ./*.so.*
   do
-    link=`echo $lib | cut -d. -f1,2`
+    link=$(echo "$lib" | cut -d. -f1,2)
 
-    rm -f $link
-    ln -s $lib $link
+    rm -f "$link"
+    ln -s "$lib" "$link"
 
   done
 
@@ -73,13 +73,10 @@ XCOMM				Main Body
 XCOMM
 XCOMM #########################################################################
 
-PRODUCT=CDE
-FILESET=CDE-SHLIBS
 retval=0
 CDE_TOP=CDE_INSTALLATION_TOP
-CDE_CONF_TOP=CDE_CONFIGURATION_TOP
 
-  HandleOption $*
+  HandleOption "$*"
 
   if [ "$OPERATION" = "deconfigure" ]
   then

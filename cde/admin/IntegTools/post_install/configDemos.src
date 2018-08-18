@@ -19,19 +19,19 @@ XCOMM #
 XCOMM ############################################
 RemoveDemoFiles()
 {
-    while read SRC
+    while read -r SRC
     do
       if [ "$SRC" != "" ]
       then
-	rm -f $SRC
+	rm -f "$SRC"
 	dirname=${SRC%/STAR}
-	if [ -d $dirname ]
+	if [ -d "$dirname" ]
 	then
-	  cd $dirname
+	  cd "$dirname" || exit
 	  while [ "$dirname" != "$CDE_TOP" ]
 	  do
 	    cd ..
-	    rmdir ${dirname##STAR/} >/dev/null 2>/dev/null
+	    rmdir "${dirname##STAR/}" >/dev/null 2>/dev/null
 	    dirname=${dirname%/STAR}
 	  done
 	fi
@@ -45,8 +45,8 @@ VerifyInstalledFiles()
 {
     echo "Status   mode    owner   group   filename"
     echo "-----------------------------------------"
-XCOMM 	  exists  correct correct correct  /usr/dt/foo1
-XCOMM 	  MISSING  WRONG   WRONG   WRONG   /usr/dt/foo2
+XCOMM     exists  correct correct correct  /usr/dt/foo1
+XCOMM     MISSING  WRONG   WRONG   WRONG   /usr/dt/foo2
 XCOMM         exists    the link is correct    /usr/dt/link
 
     while read SRC
@@ -61,17 +61,14 @@ XCOMM         exists    the link is correct    /usr/dt/link
 
 XCOMM ##########################################################################
 XCOMM 
-XCOMM 				Main Body
+XCOMM					Main Body
 XCOMM 
 XCOMM ##########################################################################
 
-PRODUCT=CDE
-FILESET=CDE-DEMOS
 retval=0
 CDE_TOP=CDE_INSTALLATION_TOP
-CDE_CONF_TOP=CDE_CONFIGURATION_TOP
 
-  HandleOption $*
+  HandleOption "$*"
 
   if [ "$OPERATION" = "deconfigure" ]
   then

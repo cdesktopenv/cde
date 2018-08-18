@@ -1,9 +1,9 @@
       if [ "$SRC" != "" ]
       then
-	set -A tokens $SRC
+	set -A tokens "$SRC"
 	if [ "${tokens[3]}" = "file" ]
 	then
-	  if [ -f ${tokens[0]} ]
+	  if [ -f "${tokens[0]}" ]
 	  then
 	    printf "exists  "
 	  else
@@ -13,7 +13,7 @@
 	  fi
 	elif [ "${tokens[3]}" = "sym_link" ]
 	then
-	  if [ -L ${tokens[0]} ]
+	  if [ -L "${tokens[0]}" ]
 	  then
 	    printf "exists  "
 	  else
@@ -26,9 +26,9 @@
 	if [ "${tokens[3]}" = "file" ]
 	then
 	  touch /tmp/config-test
-	  chmod ${tokens[1]} /tmp/config-test
-	  tmpperms=`ls -l /tmp/config-test | awk '{print $1}'`
-	  realperms=`ls -l ${tokens[0]} | awk '{print $1}'`
+	  chmod "${tokens[1]}" /tmp/config-test
+	  tmpperms=$(ls -l /tmp/config-test | awk '{print $1}')
+	  realperms=$(ls -l "${tokens[0]}" | awk '{print $1}')
 
 	  if [ "$tmpperms" = "$realperms" ]
 	  then
@@ -37,7 +37,7 @@
 	    printf " WRONG  "
 	  fi
 
-	  owner=`ls -l ${tokens[0]} | awk '{print $3}'`
+	  owner=$(ls -l "${tokens[0]}" | awk '{print $3}')
 
 	  if [ "$owner" = "${tokens[4]}" ]
 	  then
@@ -46,7 +46,7 @@
 	    printf " WRONG  "
 	  fi
 
-	  group=`ls -l ${tokens[0]} | awk '{print $4}'`
+	  group=$(ls -l "${tokens[0]}" | awk '{print $4}')
 
 	  if [ "$group" = "${tokens[5]}" ]
 	  then
@@ -56,7 +56,7 @@
 	  fi
 	elif [ "${tokens[3]}" = "sym_link" ]
 	then
-	  linkto=`ls -l ${tokens[0]} | awk '{print $11}'`
+	  linkto=$(ls -l "${tokens[0]}" | awk '{print $11}')
 	  if [ "${tokens[2]}" = "$linkto" ]
 	  then
 	    printf "  the link is correct    "
