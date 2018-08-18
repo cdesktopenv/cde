@@ -207,7 +207,7 @@ in this Software without prior written authorization from The Open Group.
  *     all colons).  One way to tell if you need this is to see whether or not
  *     your Makefiles have no tabs in them and lots of @@ strings.
  */
-#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(__llvm__) || (defined(AMOEBA) && defined(CROSS_COMPILE))
+#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(__llvm__)
 #define FIXUP_CPP_WHITESPACE
 #endif
 #ifdef WIN32
@@ -489,40 +489,6 @@ char *cpp_argv[ARGUMENTS] = {
 #ifdef linux
         "-traditional",
         "-D__linux__",
-#endif
-#ifdef __sxg__
-	"-D__sxg__",
-#endif
-#ifdef nec_ews_svr2
-	"-Dnec_ews_svr2",
-#endif
-#ifdef AMOEBA
-	"-DAMOEBA",
-# ifdef CROSS_COMPILE
-	"-DCROSS_COMPILE",
-#  ifdef CROSS_i80386
-	"-DCROSS_i80386",
-#  endif
-#  ifdef CROSS_sparc
-	"-DCROSS_sparc",
-#  endif
-#  ifdef CROSS_mc68000
-	"-DCROSS_mc68000",
-#  endif
-# else
-#  ifdef i80386
-	"-Di80386",
-#  endif
-#  ifdef sparc
-	"-Dsparc",
-#  endif
-#  ifdef mc68000
-	"-Dmc68000",
-#  endif
-# endif
-#endif
-#if defined(__sgi) && defined(__ANSI_CPP__)
-	"-cckr",
 #endif
 #ifdef __minix_vmd
 	"-Dminix",
