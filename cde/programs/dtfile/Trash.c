@@ -106,7 +106,11 @@
 #include <sys/param.h>
 #include <sys/mount.h>
 #else
+#if defined(__linux__)
+#include <sys/vfs.h>
+#else
 #include <ustat.h>
+#endif
 #endif
 
 #include <Xm/RowColumn.h>
@@ -4264,7 +4268,7 @@ CheckDeletePermissionRecur(
   return 0;
 }
 
-#if !defined(CSRG_BASED)
+#if !defined(CSRG_BASED) && !defined(__linux__)
 static int
 FileSysType(
    int dev)
@@ -4273,6 +4277,16 @@ FileSysType(
   if(ustat(dev,&u1) < 0)
      return -2;
   return u1.f_tinode;
+}
+#else
+static int
+FileSysType(
+   int dev)
+{
+  struct statfs u1;
+  if(statfs(dev,&u1) < 0)
+     return -2;
+  return u1.f_ffree;
 }
 #endif
 

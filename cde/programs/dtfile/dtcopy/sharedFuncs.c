@@ -63,8 +63,11 @@
 #include <sys/mount.h>
 #include <pwd.h>
 #include <fcntl.h>
-#if !defined(CSRG_BASED)
+#if !defined(CSRG_BASED) && !defined(__linux__)
 #include <ustat.h>
+#endif
+#if defined(__linux__)
+#include <sys/vfs.h>
 #endif
 #include <dirent.h>
 
@@ -358,7 +361,7 @@ ImageInitialize( Display *display )
     return ;
 }  /*  end ImageInitialize */
 
-#if !defined(CSRG_BASED)
+#if !defined(CSRG_BASED) && !defined(__linux__)
 static int
 CopyFileSysType(
    int dev)
@@ -367,6 +370,16 @@ CopyFileSysType(
   if(ustat(dev,&u1) < 0)
      return -2;
   return u1.f_tinode;
+}
+#else
+static int
+CopyFileSysType(
+   int dev)
+{
+  struct statfs u1;
+  if(statfs(dev,&u1) < 0)
+     return -2;
+  return u1.f_ffree;
 }
 #endif
 
