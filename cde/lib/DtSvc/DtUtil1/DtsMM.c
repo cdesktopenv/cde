@@ -549,7 +549,7 @@ _DtDtsMMCacheName(int override)
 		results = malloc(strlen(_DTDTSMMTEMPDIR)+
 				 strlen(_DTDTSMMTEMPFILE)+
 				strlen(dsp)+3);
-		sprintf(results, "%s/%s%s\0",
+		sprintf(results, "%s/%s%s",
 				_DTDTSMMTEMPDIR,
 				_DTDTSMMTEMPFILE,
 				dsp);
