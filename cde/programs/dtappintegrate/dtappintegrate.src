@@ -47,7 +47,7 @@ XCOMM                                                                   #
 XCOMM ------------------------------------------------------------------#
 function ShowSyntax
 {
-  echo "Usage: $SCRIPT_NAME -s <source> [-t <target>] [-l <language>] [-u]" | tee -a $LOGFILE
+  echo "Usage: $SCRIPT_NAME -s <source> [-t <target>] [-l <language>] [-u]" | tee -a "$LOGFILE"
   return 0
 }
 XCOMM ------------------------------------------------------------------#
@@ -66,15 +66,15 @@ XCOMM ------------------------------------------------------------------#
 function GetAbsolutePath
 {
   if [ "/" = "$1" ]; then
-     echo $2
-  elif [ -L $1 ]; then
-     GetAbsolutePath `ls -l $1 | awk '{print $NF}'` $2
+     echo "$2"
+  elif [ -L "$1" ]; then
+     GetAbsolutePath "$(find . -name "$1" | awk '{print $NF}')" "$2"
   else
   {
-     if [ "." = "$1" -o ".." = "$1" ]; then
-        GetAbsolutePath / /`basename $1`$2
+     if [ "." = "$1" ] || [ ".." = "$1" ]; then
+        GetAbsolutePath / /"$(basename "$1")""$2"
      else
-        GetAbsolutePath `dirname $1` /`basename $1`$2
+        GetAbsolutePath "$(dirname "$1")" /"$(basename "$1")""$2"
      fi
   }
   fi
@@ -116,7 +116,7 @@ function GetRelativePath
           for (i = 2 + s; i <= b; i++) {
              printf("%s%s", B[i], (i < b) ? "/":"\n");
           }
-  }' $2 $1
+  }' "$2" "$1"
 }
 XCOMM ------------------------------------------------------------------#
 XCOMM  LinkCfgs                                                         #
@@ -136,46 +136,52 @@ function LinkCfgs
   typeset pattern="" files=""
 
   shift;shift;shift
-  if [[ -L $source || -L $(dirname $source) ]] then
-    spath=$(GetAbsolutePath $source)
+  if [[ -L $source || -L $(dirname "$source") ]]
+    then
+    spath=$(GetAbsolutePath "$source")
   else
     spath=$source
   fi
-  if [[ -L $target || -L $(dirname $target) ]] then
-    tpath=$(GetAbsolutePath $target)
+  if [[ -L $target || -L $(dirname "$target") ]]
+    then
+    tpath=$(GetAbsolutePath "$target")
   else
     tpath=$target
   fi
   rpath=""
   for pattern in "$@"
   do
-    if [[ $pattern = "(*)" ]] then
-      files=$(ls -d $source/COMMENT_STAR 2>/dev/null)
+    if [[ $pattern = "(*)" ]]
+      then
+      files=$(ls -d "$source"/COMMENT_STAR 2>/dev/null)
     else
-      files=$(ls -d $source/$pattern 2>/dev/null)
+      files=$(ls -d "$source"/"$pattern" 2>/dev/null)
     fi
-    if [[ $? = 0 ]] then
-      count=$(echo $files | wc -w)
+    if $files
+      then
+      count=$(echo "$files" | wc -w)
       for cfgfile in $files
       do
-        basecfg=$(basename $cfgfile)
-        if [[ $torf = TRUE ]] then
-          if [[ $rpath = "" ]] then
-            rpath=$(GetRelativePath $spath $tpath)
+        basecfg=$(basename "$cfgfile")
+        if [[ $torf = TRUE ]]
+          then
+          if [[ $rpath = "" ]]
+            then
+            rpath=$(GetRelativePath "$spath" "$tpath")
           fi
-          rm -f $tpath/$basecfg
-          echo "ln -sf $rpath/$basecfg $tpath/$basecfg" >> $LOGFILE
-          ln -sf $rpath/$basecfg $tpath/$basecfg >> $LOGFILE 2>&1
+          rm -f "$tpath"/"$basecfg"
+          echo "ln -sf $rpath/$basecfg $tpath/$basecfg" >> "$LOGFILE"
+          ln -sf "$rpath/$basecfg" "$tpath/$basecfg" >> "$LOGFILE" 2>&1
         else
-          rm $tpath/$basecfg >/dev/null 2>&1
-          if [[ $? = 0 ]] then
-            echo "rm $tpath/$basecfg" >> $LOGFILE
+          if rm "$tpath"/"$basecfg" >/dev/null 2>&1
+            then
+            echo "rm $tpath/$basecfg" >> "$LOGFILE"
           fi
         fi
       done
     fi
   done
-  return $count
+  return "$count"
 }
 
 XCOMM ------------------------------------------------------------------#
@@ -195,12 +201,12 @@ XCOMM                                                                   #
 XCOMM ------------------------------------------------------------------#
 function IntegrateUnintegrate
 {
-  typeset torf=$1 srcs="" trgs="" fpats="" langs="" tpath="" spath="" rpath="" k="" languages="" lang=""
-  typeset cfgs="" srcabs="" trgabs=""
+  typeset torf=$1 srcs="" trgs="" fpats="" tpath="" spath="" rpath="" languages="" lang=""
+  typeset srcabs="" trgabs=""
   integer i=0 icons=0 types=1 help=2 appmgr=3
 
-  srcabs=$(GetAbsolutePath $APP_ROOT)
-  trgabs=$(GetAbsolutePath $APP_TARGET)
+  srcabs=$(GetAbsolutePath "$APP_ROOT")
+  trgabs=$(GetAbsolutePath "$APP_TARGET")
 
   srcs[0]=$srcabs$ICONS$APP_LANG
   srcs[1]=$srcabs$TYPES$APP_LANG
@@ -220,32 +226,36 @@ function IntegrateUnintegrate
   rc=1
   while (( i < 4 ))
   do
-    if [[ $APP_LANG = "" ]] then
-      languages=$(ls -d ${srcs[i]}/COMMENT_STAR 2>/dev/null)
-      if [[ $? = 0 ]] then
+    if [[ $APP_LANG = "" ]]
+      then
+      if languages=$(ls -d "${srcs[i]}"/COMMENT_STAR 2>/dev/null)
+        then
         for lang in $languages
         do
-          baselang=$(basename $lang)
-          if [[ -d $lang ]] then
-            if [[ $torf = TRUE ]] then
-              if [[ ! -d ${trgs[i]}/$baselang ]] then
-                mkdir -p ${trgs[i]}/$baselang
+          baselang=$(basename "$lang")
+          if [[ -d $lang ]]
+            then
+            if [[ $torf = TRUE ]]
+              then
+              if [[ ! -d ${trgs[i]}/$baselang ]]
+                then
+                mkdir -p "${trgs[i]}"/"$baselang"
               fi
             fi
-            LinkCfgs ${srcs[i]}/$baselang ${trgs[i]}/$baselang $torf ${fpats[i]}
-            if [[ $? != 0 ]] then
+            if ! LinkCfgs "${srcs[i]}/$baselang" "${trgs[i]}/$baselang" "$torf" "${fpats[i]}"
+              then
               rc=0
             fi
           fi
         done
       fi
     else
-      LinkCfgs ${srcs[i]} ${trgs[i]} $torf ${fpats[i]}
-      if [[ $? != 0 ]] then
+      if ! LinkCfgs "${srcs[i]}" "${trgs[i]}" "$torf" "${fpats[i]}"
+        then
         rc=0
       fi
     fi
-    i=i+1
+    i=$((i+1))
   done
   return $rc
 }
@@ -261,10 +271,10 @@ XCOMM ------------------------------------------------------------------#
 function ExitOut
 {
   typeset retcode=$1
-  echo "<<<<<<< END  OF  APPLICATION INTEGRATION >>>>>>>" >> $LOGFILE
+  echo "<<<<<<< END  OF  APPLICATION INTEGRATION >>>>>>>" >> "$LOGFILE"
 
   echo "See $LOGFILE file for more information"
-  exit $retcode
+  exit "$retcode"
 }
 XCOMM  ----<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>-----
 XCOMM  ----<<<<<<<<<<<.-------------------------.>>>>>>>>>>>-----
@@ -278,7 +288,6 @@ XCOMM  Initialize variables
 XCOMM -------------------------------------------------------------------
 sFLAG=0
 tFLAG=0
-lFLAG=0
 uFLAG=0
 
 TYPES=/types
@@ -287,16 +296,15 @@ ICONS=/icons
 HELP=/help
 APPCONFIG=/dt/appconfig
 CONFIG_TOP=CDE_CONFIGURATION_TOP
-DT=`basename $CONFIG_TOP`
+DT=$(basename $CONFIG_TOP)
 APP_TARGET=${CONFIG_TOP%/$DT}$APPCONFIG
 
-PIXMAP_FILES=*.pm
-BITMAP_FILES=*.bm
-HELPVOLUME_FILES_OLD=*.hv
-HELPVOLUME_FILES_NEW=*.sdl
-HELPFAMILY_FILES=*.hf
-ACTIONDB_FILES=*.dt
-FRONTPANEL_FILES=*.fp
+PIXMAP_FILES="*.pm"
+BITMAP_FILES="*.bm"
+HELPVOLUME_FILES_OLD="*.hv"
+HELPVOLUME_FILES_NEW="*.sdl"
+HELPFAMILY_FILES="*.hf"
+ACTIONDB_FILES="*.dt"
 APPMAN_FILES="(*)"
 
 ID=$(id)
@@ -314,7 +322,8 @@ XCOMM -------------------------------------------------------------------
 ID=${ID##*uid=}
 ID=${ID#*\(}
 ID=${ID%%\)*}
-if [[ $ID != root ]] then
+if [[ $ID != root ]]
+   then
    echo "Error: Must be root user to run $0!" >&2
    exit 3
 fi
@@ -322,23 +331,24 @@ fi
 XCOMM -------------------------------------------------------------------
 XCOMM  Put prolog into log file.
 XCOMM -------------------------------------------------------------------
-echo "<<<<<<< START OF APPLICATION INTEGRATION >>>>>>>" > $LOGFILE
+echo "<<<<<<< START OF APPLICATION INTEGRATION >>>>>>>" > "$LOGFILE"
 
 XCOMM -------------------------------------------------------------------
 XCOMM  Put the date of application integration into the log file.
 XCOMM -------------------------------------------------------------------
-echo $(date) >> $LOGFILE
+date >> "$LOGFILE"
 
 XCOMM -------------------------------------------------------------------
 XCOMM  Put the command line into the log file.
 XCOMM -------------------------------------------------------------------
-echo "$SCRIPT_NAME $*" >> $LOGFILE
+echo "$SCRIPT_NAME $*" >> "$LOGFILE"
 
 XCOMM -------------------------------------------------------------------
 XCOMM  Check if there are no command line arguments.
 XCOMM  If none, then display the command syntax.
 XCOMM -------------------------------------------------------------------
-if [[ $# = 0 ]] then
+if [[ $# = 0 ]]
+  then
   ShowSyntax
   ExitOut 0
 fi
@@ -353,8 +363,7 @@ do
           APP_ROOT="$OPTARG";;
      t)   tFLAG=1
           APP_TARGET="$OPTARG";;
-     l)   lFLAG=1
-          APP_LANG="$OPTARG";;
+     l)   APP_LANG="$OPTARG";;
      u)   uFLAG=1;;
      ?)   echo " "
           ShowSyntax
@@ -365,42 +374,50 @@ done
 XCOMM -------------------------------------------------------------------
 XCOMM  Check if application's root was specified and is valid.
 XCOMM -------------------------------------------------------------------
-if [[ $sFLAG = 0 ]] then
+if [[ $sFLAG = 0 ]]
+  then
   echo "Error: Did not specify -s option!" >&2
   ExitOut 4
 else
-  if [[ ! -d $APP_ROOT ]] then
+  if [[ ! -d $APP_ROOT ]]
+    then
     APP_PATH=$APP_ROOT
     echo "Error: $APP_PATH is not a directory!" >&2
     ExitOut 4
   fi
-  if [[ ! -r $APP_ROOT ]] || [[ ! -x $APP_ROOT ]] then
+  if [[ ! -r $APP_ROOT ]] || [[ ! -x $APP_ROOT ]]
+    then
     APP_PATH=$APP_ROOT
     echo "Error: Can not read $APP_PATH directory!" >&2
     ExitOut 4
   fi
 fi
 
-if [[ ${APP_ROOT%%/COMMENT_STAR} != "" ]] then
+if [[ ${APP_ROOT%%/COMMENT_STAR} != "" ]]
+  then
   APP_ROOT=$(pwd)/$APP_ROOT
 fi
 
 XCOMM -------------------------------------------------------------------
 XCOMM  If target is specified, do some sanity checks on this path.
 XCOMM -------------------------------------------------------------------
-if [[ $tFLAG = 1 ]] then
-  if [[ ! -d $APP_TARGET ]] then
+if [[ $tFLAG = 1 ]]
+  then
+  if [[ ! -d $APP_TARGET ]]
+    then
     APP_PATH=$APP_TARGET
     echo "Error: $APP_PATH is not a directory!" >&2
     ExitOut 4
   fi
-  if [[ ! -r $APP_TARGET ]] || [[ ! -x $APP_TARGET ]] then
+  if [[ ! -r $APP_TARGET ]] || [[ ! -x $APP_TARGET ]]
+    then
     APP_PATH=$APP_TARGET
     echo "Error: Can not read $APP_PATH directory!" >&2
     ExitOut 4
   fi
 
-  if [[ ${APP_TARGET%%/COMMENT_STAR} != "" ]] then
+  if [[ ${APP_TARGET%%/COMMENT_STAR} != "" ]]
+    then
     APP_TARGET=$(pwd)/$APP_TARGET
   fi
 fi
@@ -410,16 +427,18 @@ XCOMM  Set up variables.
 XCOMM -------------------------------------------------------------------
 APP_ROOT=$APP_ROOT$APPCONFIG
 
-if [[ $APP_LANG != "" ]] then
+if [[ $APP_LANG != "" ]]
+  then
   APP_LANG=/$APP_LANG
 fi
 
 XCOMM -------------------------------------------------------------------
 XCOMM  Unintegrate the application by un-doing the integration steps.
 XCOMM -------------------------------------------------------------------
-if [[ $uFLAG = 1 ]] then
-  IntegrateUnintegrate FALSE
-  if [[ $? = 0 ]] then
+if [[ $uFLAG = 1 ]]
+  then
+  if IntegrateUnintegrate FALSE
+    then
     echo "Unintegration Complete"
   else
     echo "No files to unintegrate"
@@ -432,16 +451,17 @@ XCOMM  See if these directories exist.  If they don't, then create them.
 XCOMM -------------------------------------------------------------------
 for i in $APP_TARGET$ICONS$APP_LANG $APP_TARGET$TYPES$APP_LANG $APP_TARGET$APPMANAGER$APP_LANG $APP_TARGET$HELP$APP_LANG
  do
-  if [[ ! -d $i ]] then
-    mkdir -p $i
+  if [[ ! -d $i ]]
+    then
+    mkdir -p "$i"
   fi
  done
 
 XCOMM -------------------------------------------------------------------
 XCOMM  Determine which awk to use.
 XCOMM -------------------------------------------------------------------
-$(type nawk > /dev/null 2>&1)
-if [[ $? != 0 ]] then
+if ! type nawk > /dev/null 2>&1
+  then
   AWK="awk"
 else
   AWK="nawk"
@@ -450,8 +470,8 @@ fi
 XCOMM -------------------------------------------------------------------
 XCOMM  Integrate the application.
 XCOMM -------------------------------------------------------------------
-IntegrateUnintegrate TRUE
-if [[ $? = 0 ]] then
+if IntegrateUnintegrate TRUE
+  then
   echo "Integration Complete"
 else
   echo "No files to integrate"

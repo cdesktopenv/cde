@@ -8,7 +8,7 @@ XCOMM ###############################################################
 XCOMM Init
 
 DTOPEN="dtopen"                   # Identity crisis
-APPNAME="$(basename $0)"        # the app to locate/run
+APPNAME="$(basename "$0")"        # the app to locate/run
 
 XCOMM apps to look for, given an action (based on APPNAME - see MAIN)
 
@@ -53,7 +53,7 @@ FindProg()
     # FindProg "program"
     # - returns full path, or ""
 
-    whence $1
+    whence "$1"
 
     return 0
 }
@@ -88,7 +88,7 @@ DoSimpleCmd()
 
     for i in $cmds
     do
-        thecmd="$(FindProg $i)"
+        thecmd="$(FindProg "$i")"
 
         if [ ! -z "$thecmd" ]
         then    # it's there
@@ -119,16 +119,16 @@ COMMANDS="dtopen_image dtopen_pdf dtopen_ps dtopen_video"
 
 case $APPNAME in
     dtopen_image)
-        DoSimpleCmd "$VIMAGE" $*
+        DoSimpleCmd "$VIMAGE" "$*"
         ;;
     dtopen_pdf)
-        DoSimpleCmd "$VPDF" $*
+        DoSimpleCmd "$VPDF" "$*"
         ;;
     dtopen_ps)
-        DoSimpleCmd "$VPS" $*
+        DoSimpleCmd "$VPS" "$*"
         ;;
     dtopen_video)
-        DoSimpleCmd "$VVIDEO" $*
+        DoSimpleCmd "$VVIDEO" "$*"
         ;;
     *)
         # Unknown
