@@ -111,19 +111,19 @@ extern void	Browse();
 static int TclPrintLocation(ClientData clientData,
 			    Tcl_Interp *interp,
 			    int argc,
-			    char *argv[]);
+			    const char *argv[]);
 static int DefaultOutputString(ClientData clientData,
 			       Tcl_Interp *interp,
 			       int argc,
-			       char *argv[]);
+			       const char *argv[]);
 static int CompareI18NStrings(ClientData clientData,
 			      Tcl_Interp *interp,
 			      int argc,
-			      char *argv[]);
+			      const char *argv[]);
 static int TclReadLocaleStrings(ClientData clientData,
 			        Tcl_Interp *interp,
 			        int argc,
-			        char *argv[]);
+			        const char *argv[]);
 char		*GetOutFileBaseName();
 
 char *
@@ -356,12 +356,11 @@ static char *UnEscapeI18NChars(
 static int DefaultOutputString(ClientData clientData,
 			       Tcl_Interp *interp,
 			       int argc,
-			       char *argv[])
+			       const char *argv[])
 {
-#define LOCAL_BUFFER_LENGTH 128
-    char *string, *pString, *pArgv;
-    char localBuffer[LOCAL_BUFFER_LENGTH];
-    int retCode, stringLength;
+    char *string = NULL, *pString = NULL;
+    const char *pArgv = NULL;
+    int retCode = 0, stringLength = 0;
 
     if (argc < 2) {
 	Tcl_SetResult(interpreter, "Missing string to output", TCL_VOLATILE);
@@ -377,12 +376,8 @@ static int DefaultOutputString(ClientData clientData,
     pArgv = argv[1];
     stringLength = (2 * strlen(pArgv)) + 3;
 
-    /* try to use automatic buffer; use malloc if string is too large */
-    if (stringLength <= LOCAL_BUFFER_LENGTH) {
-	string = localBuffer;
-    } else {
-	string = malloc(stringLength);
-    }
+    string = malloc(stringLength);
+    memset(string, 0, stringLength);
     pString = string;
 
 
@@ -409,10 +404,7 @@ static int DefaultOutputString(ClientData clientData,
     /* put the string to the output */
     retCode = Tcl_VarEval(interpreter, "puts -nonewline ", string, 0);
 
-    /* free the string if we're not using the automatic buffer */
-    if (string != localBuffer) {
-	free(string);
-    }
+    free(string);
 
     /* and ripple up any error code we got from the "puts" */
     return retCode;
@@ -422,7 +414,7 @@ static int DefaultOutputString(ClientData clientData,
 static int CompareI18NStrings(ClientData clientData,
 			      Tcl_Interp *interp,
 			      int argc,
-			      char *argv[])
+			      const char *argv[])
 {
     int   ret_val, len;
     char *ret_string, *cp;
@@ -492,7 +484,7 @@ static int CompareI18NStrings(ClientData clientData,
 static int TclPrintLocation(ClientData clientData,
 			    Tcl_Interp *interp,
 			    int argc,
-			    char *argv[])
+			    const char *argv[])
 {
     if (argc > 1) {
 	Tcl_SetResult(interpreter, "Too many arguments", TCL_VOLATILE);
@@ -918,26 +910,26 @@ EscapeI18NChars(
 
 static char *
 ReadLocaleStrings(char *file_name, int *ret_code) {
-int          fd;
-char        *pBuf;
-char        *i18nBuf;
-off_t        size;
-struct stat  stat_buf;
+    int          fd;
+    char        *pBuf;
+    char        *i18nBuf;
+    off_t        size;
+    struct stat  stat_buf;
 
     fd = open(file_name, O_RDONLY);
     if (fd == -1) {
 	*ret_code = 1;
-	return "";
+	return NULL;
     }
 
     fstat(fd, &stat_buf);
     size = stat_buf.st_size;
-    pBuf = malloc(size+1);
-    pBuf[size] = 0;
+    pBuf = Tcl_Alloc(size+1);
+    memset(pBuf, 0, size+1);
 
     if (read(fd, pBuf, size) != size) {
 	*ret_code = 2;
-	return "";
+	return NULL;
     }
 
     i18nBuf = EscapeI18NChars(pBuf);
@@ -952,10 +944,10 @@ struct stat  stat_buf;
 static int TclReadLocaleStrings(ClientData  clientData,
 			        Tcl_Interp *interp,
 				int         argc,
-				char       *argv[]) {
-char *pBuf;
-int   ret_code;
-char  errorBuf[512];
+				const char       *argv[]) {
+    char *pBuf;
+    int   ret_code;
+    char  errorBuf[512];
 
     if (argc > 2) {
         Tcl_SetResult(interpreter, "Too many arguments", TCL_VOLATILE);

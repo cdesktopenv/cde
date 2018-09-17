@@ -324,9 +324,3 @@ void		PrintElemTree(Element_t *);
 void		PrintStats(Element_t *);
 void		PrintIDList();
 
-/* ----- other declarations ----- */
-
-#ifdef ultrix
-#define strdup(s)	strcpy((char *)malloc(strlen(s)+1), s)
-#endif
-
