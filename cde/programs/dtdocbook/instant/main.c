@@ -374,7 +374,7 @@ static int DefaultOutputString(ClientData clientData,
 
     /* leave room for worst case expansion plus quotes plus null */
     pArgv = argv[1];
-    stringLength = (2 * strlen(pArgv)) + 3;
+    stringLength = (3 * strlen(pArgv)) + 3;
 
     string = Tcl_Alloc(stringLength);
     memset(string, 0, stringLength);
@@ -385,24 +385,59 @@ static int DefaultOutputString(ClientData clientData,
      * any characters that will throw Tcl for a loop */
     *pString++ = '"';
     while (*pArgv) {
-	switch (*pArgv) {
-	    case '{':
-	    case '}':
-	    case '"':
-	    case '\'':
-	    case '[':
-	    case ']':
-	    case '$':
-	    case '\\':
-		*pString++ = '\\';
-	}
-	*pString++ = *pArgv++;
+        if (*pArgv & 0x80)
+        {
+            /* 8-bit data - need to encode since modern Tcl expects
+             * any "binary" (8-bit) data in strings to be proper UTF-8
+             * encoded.  We aren't doing that (yet), so convert any
+             * detected 8b characters into a \xNN format.
+             *
+             * This code should be unnecessary when we switch to UTF8.
+             */
+            char fmt[16];
+            snprintf(fmt, 16, "%02x", (int)*pArgv & 0xff);
+#if 0
+            fprintf(stderr, "JET: converted 0x%02x to '%s'\n",
+                    *pArgv, fmt);
+#endif
+            /* copy the 4 bytes into the string */
+            *pString++ = '\\';
+            *pString++ = 'x';
+            *pString++ = fmt[0];
+            *pString++ = fmt[1];
+            pArgv++;
+        }
+        else
+        {
+            switch (*pArgv) {
+                case '{':
+                case '}':
+                case '"':
+                case '\'':
+                case '[':
+                case ']':
+                case '$':
+                case '\\':
+                    *pString++ = '\\';
+            }
+            *pString++ = *pArgv++;
+        }
     }
     *pString++ = '"';
     *pString++ = 0;
 
     /* put the string to the output */
-    retCode = Tcl_VarEval(interpreter, "puts -nonewline ", string, 0);
+    retCode = Tcl_VarEval(interpreter, "puts -nonewline ", string,
+                          (char *)NULL);
+#if 0
+    /* JET*/
+    if (retCode != TCL_OK)
+    {
+        fprintf(stderr, "JET: retCode = %d, LEN = %d STRING = '%s'\n",
+                retCode, strlen(string), string);
+        fprintf(stderr, "\tstring[1] = 0x%02x\n", string[1]);
+    }
+#endif
     Tcl_Free(string);
 
     /* and ripple up any error code we got from the "puts" */
