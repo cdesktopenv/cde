@@ -2195,6 +2195,7 @@ proc SortAndEmitGlossary {popForm} {
 
     set names [array names currentGlossArray]
     foreach name $names {
+        # puts stderr "JET0: name: $name"
 	upvar 0 currentGlossArray($name) glossEntryList
 
 	# skip this array entry if we've already emitted it; mark as
@@ -2215,7 +2216,10 @@ proc SortAndEmitGlossary {popForm} {
 
     set names [lsort -command CompareI18NStrings [array names sortArray]]
     foreach name $names {
-	Emit $sortArray($name)
+        # puts stderr "JET1: name: $name"
+        if {[info exists sortArray($name)]} {
+            Emit $sortArray($name)
+        }
     }
 
     if {[string toupper $popForm] == "POPFORM"} {
@@ -2481,24 +2485,26 @@ proc WriteIndex {} {
 	set oldLevel 0
 	puts $file "<INDEX COUNT=\"$length\">"
 	foreach name $names {
-	    set thisEntry $indexArray($name)
-	    switch [lindex $thisEntry 0] {
-		1 { switch $oldLevel {
-		      1 { puts $file "</ENTRY>" }
-		      2 { puts $file "</ENTRY>\n</ENTRY>" }
-		      3 { puts $file "</ENTRY>\n</ENTRY>\n</ENTRY>" }
+            if {[info exists indexArray($name)]} {
+                set thisEntry $indexArray($name)
+                switch [lindex $thisEntry 0] {
+                    1 { switch $oldLevel {
+                        1 { puts $file "</ENTRY>" }
+                        2 { puts $file "</ENTRY>\n</ENTRY>" }
+                        3 { puts $file "</ENTRY>\n</ENTRY>\n</ENTRY>" }
 		    }
-		  }
-		2 { switch $oldLevel {
-		      2 { puts $file "</ENTRY>" }
-		      3 { puts $file "</ENTRY>\n</ENTRY>" }
+                    }
+                    2 { switch $oldLevel {
+                        2 { puts $file "</ENTRY>" }
+                        3 { puts $file "</ENTRY>\n</ENTRY>" }
 		    }
-		  }
-		3 { if {$oldLevel == 3} { puts $file "</ENTRY>" } }
-	    }
-	    puts -nonewline $file "<ENTRY[Locs $thisEntry]>"
-	    puts -nonewline $file [lindex $thisEntry 3]
-	    set oldLevel [lindex $thisEntry 0]
+                    }
+                    3 { if {$oldLevel == 3} { puts $file "</ENTRY>" } }
+                }
+                puts -nonewline $file "<ENTRY[Locs $thisEntry]>"
+                puts -nonewline $file [lindex $thisEntry 3]
+                set oldLevel [lindex $thisEntry 0]
+            }
 	}
 
 	switch $oldLevel {
@@ -2547,10 +2553,10 @@ proc FootnoteRef {idref} {
 
 # add an element to the current SNB - try to reuse an entry if
 # possible
-proc AddToSNB {type data} {
+proc AddToSNB {stype data} {
     global currentSNB nextId
 
-    set index "$type::$data"
+    set index "${stype}::${data}"
 
     if {[info exists currentSNB($index)]} {
 	set snbId $currentSNB($index)
