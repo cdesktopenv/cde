@@ -376,7 +376,7 @@ static int DefaultOutputString(ClientData clientData,
     pArgv = argv[1];
     stringLength = (2 * strlen(pArgv)) + 3;
 
-    string = malloc(stringLength);
+    string = Tcl_Alloc(stringLength);
     memset(string, 0, stringLength);
     pString = string;
 
@@ -403,8 +403,7 @@ static int DefaultOutputString(ClientData clientData,
 
     /* put the string to the output */
     retCode = Tcl_VarEval(interpreter, "puts -nonewline ", string, 0);
-
-    free(string);
+    Tcl_Free(string);
 
     /* and ripple up any error code we got from the "puts" */
     return retCode;

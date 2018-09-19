@@ -1624,10 +1624,12 @@ proc EndPart {} {
 
     # check that all the glossed terms have been defined
     foreach name [array names currentGlossArray] {
-	if {[lindex $currentGlossArray($name) 1] != "defined"} {
-	    set glossString [lindex $currentGlossArray($name) 2]
-	    UserError "No glossary definition for \"$glossString\"" no
-	}
+        if {[info exists currentGlossArray($name)]} {
+            if {[lindex $currentGlossArray($name) 1] != "defined"} {
+                set glossString [lindex $currentGlossArray($name) 2]
+                UserError "No glossary definition for \"$glossString\"" no
+            }
+        }
     }
 
     # delete this glossary array
