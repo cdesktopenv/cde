@@ -1069,4 +1069,19 @@ EXTERN void		Tcl_WatchFile _ANSI_ARGS_((Tcl_File file,
 EXTERN int		Tcl_Write _ANSI_ARGS_((Tcl_Channel chan,
         		    char *s, int slen));
 
+/* JET 8/2018
+ *
+ * dtdocbook/instant has been modified to use a more modern Tcl (8.6),
+ * which means certain functions are not present when we are using the
+ * dtdocbook/tcl (7.5) version of tcl instead of a modern system
+ * version.  So, create some defines that should work around this
+ * problem.
+ */
+
+#define Tcl_Alloc(n)  malloc(n)
+#define Tcl_Free(p)   free(p)
+
+#define Tcl_GetStringResult(i)  ((i)->result)
+#define Tcl_GetErrorLine(i)     ((i)->errorLine)
+
 #endif /* _TCL */
