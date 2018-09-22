@@ -123,24 +123,6 @@ if {[info commands OutputString] == ""} {
 }
 
 
-# set up a default string compare routine so everything works even
-# if run outside of instant(1); it won't really be i18n safe, but
-# it'll give us a dictionary sort
-if {[info commands CompareI18NStrings] == ""} {
-    proc CompareI18NStrings {string1 string2} {
-	set string1 [string toupper $string1]
-	set string2 [string toupper $string2]
-	if {$string1 > $string2} {
-	    return 1
-	} else if {$string1 < $string2} {
-	    return -1
-	} else {
-	    return 0
-	}
-    }
-}
-
-
 # emit a string to the output stream
 proc Emit {string} {
     OutputString $string
@@ -1629,6 +1611,8 @@ proc EndPart {} {
                 set glossString [lindex $currentGlossArray($name) 2]
                 UserError "No glossary definition for \"$glossString\"" no
             }
+        } else {
+            puts stderr "EndPart: currentGlossArray: index does not exist: '$name'"
         }
     }
 
@@ -2216,11 +2200,14 @@ proc SortAndEmitGlossary {popForm} {
 	append sortArray($sortAs) $content
     }
 
-    set names [lsort -command CompareI18NStrings [array names sortArray]]
-    foreach name $names {
+    set idxnames [lsort -dictionary [array names sortArray]]
+
+    foreach name $idxnames {
         # puts stderr "JET1: name: $name"
         if {[info exists sortArray($name)]} {
             Emit $sortArray($name)
+        } else {
+            puts stderr "SortAndEmitGlossary: sortArray index does not exist: '$name'"
         }
     }
 
@@ -2479,14 +2466,14 @@ proc WriteIndex {} {
 
     set file [open "${baseName}.idx" w]
 
-    # sort the index using our special I18N safe sort function that
-    # gives us a dictionary (case insensitive) sort
-    set names [lsort -command CompareI18NStrings [array names indexArray]]
+    # sort the index
 
-    if {[set length [llength $names]]} {
+    set idxnames [lsort -dictionary [array names indexArray]]
+
+    if {[set length [llength $idxnames]]} {
 	set oldLevel 0
 	puts $file "<INDEX COUNT=\"$length\">"
-	foreach name $names {
+	foreach name $idxnames {
             if {[info exists indexArray($name)]} {
                 set thisEntry $indexArray($name)
                 switch [lindex $thisEntry 0] {
@@ -2506,6 +2493,8 @@ proc WriteIndex {} {
                 puts -nonewline $file "<ENTRY[Locs $thisEntry]>"
                 puts -nonewline $file [lindex $thisEntry 3]
                 set oldLevel [lindex $thisEntry 0]
+            } else {
+                puts stderr "WriteIndex: index does not exist: '$name'"
             }
 	}
 
