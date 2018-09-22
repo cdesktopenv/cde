@@ -617,11 +617,7 @@ __STDPP__directive pragma pp:ignore "string.h"
 
 /* <unistd.h> */
 
-#ifdef _WIN32
-#include <unistd.h>
-#else
 #include <ast_unistd.h>
-#endif
 #include <ast_botch.h>
 
 #ifndef STDIN_FILENO
@@ -696,8 +692,6 @@ extern __MANGLE__ char*		ttyname __PROTO__((int));
 extern __MANGLE__ int		unlink __PROTO__((const char*));
 extern __MANGLE__ ssize_t		write __PROTO__((int, const __V_*, size_t));
 
-#ifndef _WIN32
-
 /*
  * yes, we don't trust anyone's interpretation but our own
  */
@@ -715,8 +709,6 @@ extern __MANGLE__ size_t		confstr __PROTO__((int, char*, size_t));
 extern __MANGLE__ long		fpathconf __PROTO__((int, int));
 extern __MANGLE__ long		pathconf __PROTO__((const char*, int));
 extern __MANGLE__ long		sysconf __PROTO__((int));
-
-#endif
 
 #if defined(__STDPP__directive) && defined(__STDPP__ignore)
 

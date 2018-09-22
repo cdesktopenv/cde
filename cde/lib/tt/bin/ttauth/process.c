@@ -680,11 +680,7 @@ auth_finalize(void)
 			 ProgramName, temp_name);
 	    } else {
 		(void) unlink (ttauth_filename);
-#ifdef WIN32
-		if (rename(temp_name, ttauth_filename) == -1)
-#else
 		if (link (temp_name, ttauth_filename) == -1)
-#endif
 		{
 		    fprintf (stderr,
 		     "%s:  unable to link authority file %s, use %s\n",

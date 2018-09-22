@@ -1,0 +1,50 @@
+XCOMM $XConsortium: Imakefile /main/12 1996/10/17 01:48:11 cde-fuj $
+/*
+ *  (c) Copyright 1995 FUJITSU LIMITED
+ *  This is source code modified by FUJITSU LIMITED under the Joint
+ *  Development Agreement for the CDEnext PST.
+ *  This is unpublished proprietary source code of FUJITSU LIMITED
+ */
+
+FONTEDT_PATH1     =  ../dtudcfonted
+UDC_INC_PATH0     =  -I./
+UDC_INC_PATH1     =  -I$(FONTEDT_PATH1)
+UDC_INC_PATH2     =  -I$(FONTEDT_PATH1)/include
+UDC_INC_PATH3     =  -I$(FONTEDT_PATH1)/libfal
+UDC_INC_PATH4     =  -I$(FONTEDT_PATH1)/libfal/include
+UDC_INC_PATH7     =  -I$(FONTEDT_PATH1)/dtgpftobdf
+
+     INCLUDES     = \
+			$(UDC_INC_PATH0)\
+			$(UDC_INC_PATH1)\
+			$(UDC_INC_PATH2)\
+			$(UDC_INC_PATH3)\
+			$(UDC_INC_PATH4)\
+			$(UDC_INC_PATH7)
+
+#ifdef X11ProjectRoot
+        OPT2 = -DFONTC='"'$(XPROJECTROOT)/bin/bdftopcf'"'
+#else
+        OPT2 = -DFONTC='"'$(BINDIR)/bdftopcf'"'
+#endif
+
+DEFINES = $(OPT2)
+
+DEPLIBS = $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXMLIB) $(DEPXTOOLLIB) \
+	$(DEPXLIB) \
+	$(FONTEDT_PATH1)/libfuty/liboakfuty.a \
+	$(FONTEDT_PATH1)/libfal/libfal.a
+
+LOCAL_LIBRARIES   = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB) \
+		$(FONTEDT_PATH1)/libfuty/liboakfuty.a \
+		$(FONTEDT_PATH1)/libfal/libfal.a
+
+SYS_LIBRARIES = DtClientSysLibs
+
+         SRCS     = udcexc.c udcexp.c udcimp.c getbdffn.c excutil.c\
+		    selectx.c exportbdf.c importbdf.c
+
+         OBJS     = udcexc.o udcexp.o udcimp.o getbdffn.o excutil.o\
+		    selectx.o exportbdf.o importbdf.o
+
+ComplexProgramTarget(dtudcexch)

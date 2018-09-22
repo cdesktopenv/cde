@@ -108,14 +108,12 @@
 
 # undef	ctime
 
-# ifndef _WIN32
 # define remove(x)	unlink(x)
 # define rename(x,y)	((link(x,y)||remove(x))?-1:0)
-# endif
 
 
 
- 
+
 
 
 
@@ -138,7 +136,7 @@ replace __PARAM__((const char* newfile, const char* oldfile, int preserve), (new
 
 #line 1 "../../lib/libpp/ppproto.c"
 
- 
+
 
 
 
@@ -155,7 +153,7 @@ static const char id[] = "\n@(#)proto (AT&T Bell Laboratories) 05/09/95\000\n";
 
 #line 1 "../../lib/libpp/ppfsm.c"
 
- 
+
 
 
 

@@ -1,0 +1,32 @@
+XCOMM $XConsortium: Imakefile /main/5 1996/09/09 11:20:01 drk $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		oakfuty
+#define LibHeaders	NO
+#define LibInstall	NO
+
+       FONTLIST    = /config
+
+        OPT1 = -DDEFAULT_CODESET='"'3'"'
+#ifdef X11ProjectRoot
+        OPT2 = -DFONTC='"'$(XPROJECTROOT)/bin/bdftopcf'"'
+#else
+        OPT2 = -DFONTC='"'$(BINDIR)/bdftopcf'"'
+#endif
+        OPT3 = -DSNFFONTC='"'$(SNFFONTC)'"'
+        OPT4 = -DDTUDCFONTSLISTDIR='"'$(CDE_INSTALLATION_TOP)$(FONTLIST)'"'
+        OPT5 = -DDEFAULT_TMPPATH='"'/var/tmp/'"'
+
+       DEFINES     = $(OPT1) $(OPT2) $(OPT3) $(OPT4) $(OPT5)
+
+       INCLUDES    = -I../include -I../libfal/include -I../libfal
+
+           SRCS    = oakfuty.c getfname.c lock.c
+
+           OBJS    = oakfuty.o getfname.o lock.o
+
+#include <Library.tmpl>
+
+DependTarget()

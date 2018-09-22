@@ -46,7 +46,6 @@
  *		EraseDir
  *		EraseObject
  *		FileFromTrash
- *		FileSysType
  *		InitializeTrash
  *		MatchesSacredDirectory
  *		MessageToFileList
@@ -106,7 +105,12 @@
 #include <sys/param.h>
 #include <sys/mount.h>
 #else
+#if defined(__linux__)
+#include <sys/vfs.h>
+#include <linux/magic.h>
+#else
 #include <ustat.h>
+#endif
 #endif
 
 #include <Xm/RowColumn.h>
@@ -383,7 +387,6 @@ static void EmptyTrash(
 			Tt_message msg) ;
 static int CheckDeletePermissionRecur(
                         char *dir);
-static int FileSysType(int dev);
 static void RestoreVerifyOk(
                         Widget w,
                         XtPointer client_data,
@@ -4140,16 +4143,16 @@ CheckDeletePermission(
   char *parentdir,
   char *destinationPath)
 {
-#if defined(__FreeBSD__) || defined(__OpenBSD__)
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__linux__)
   struct statfs statbuf;
 #elif defined(__NetBSD__)
   struct statvfs statbuf;
 #else
   struct stat statbuf;
 #endif
-  char fname[1024];
+  char fname[PATH_MAX];
 
-#if defined(__FreeBSD__) || defined(__OpenBSD__)
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__linux__)
   if (statfs(parentdir,&statbuf) < 0)  /* does not exist */
 #elif defined(__NetBSD__)
   if (statvfs(parentdir,&statbuf) < 0)  /* does not exist */
@@ -4164,8 +4167,10 @@ CheckDeletePermission(
     /* if NFS, need to check if server trusts root */
 #if defined(CSRG_BASED)
     if (!strcmp(statbuf.f_fstypename, "nfs"))  /* Root user and nfs */
+#elif defined(__linux__)
+    if (statbuf.f_type == NFS_SUPER_MAGIC)
 #else
-    if (FileSysType(statbuf.st_dev) < 0)  /* Root user and nfs */
+    /* nothing - always check if root */
 #endif
     {
        int fd = -1;
@@ -4196,7 +4201,7 @@ CheckDeletePermission(
       return -1;
 
   /* copy destinationPath to tmp buffer */
-  strcpy(fname, destinationPath);
+  snprintf(fname, PATH_MAX, "%s", destinationPath);
 
   return CheckDeletePermissionRecur(fname);
 }
@@ -4263,18 +4268,6 @@ CheckDeletePermissionRecur(
 
   return 0;
 }
-
-#if !defined(CSRG_BASED)
-static int
-FileSysType(
-   int dev)
-{
-  struct ustat u1;
-  if(ustat(dev,&u1) < 0)
-     return -2;
-  return u1.f_tinode;
-}
-#endif
 
 static int
 RestoreObject(

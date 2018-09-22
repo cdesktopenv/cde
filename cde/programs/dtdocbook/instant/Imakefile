@@ -2,10 +2,22 @@ XCOMM $XConsortium: Imakefile /main/6 1996/11/29 11:06:09 rswiston $
 
 XLATESRC  = $(DTSVCSRC)/DtUtil2
 
-INCLUDES = -I../lib/tptregexp -I../tcl -I$(XLATESRC)
+TCLINC =
+TCLLIB =
+
+#if defined(LinuxArchitecture)
+TCLINC = -I/usr/include/tcl
+TCLLIB = -ltcl
+#elif defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
+TCLINC = -I/usr/local/include/tcl8.6
+TCLLIB = -ltcl86
+#endif
+
+INCLUDES = -I../lib/tptregexp -I$(XLATESRC) $(TCLINC)
 DEPLIBS = $(DEPDTSVCLIB)
 LOCAL_LIBRARIES = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB) \
--L../lib/tptregexp -ltptregexp ../tcl/libtcl.a
+	-L../lib/tptregexp -ltptregexp $(TCLLIB)
+
 #if defined(SunArchitecture)
 EXTRA_LIBRARIES = -lsocket -lnsl -lgen -lm
 #else

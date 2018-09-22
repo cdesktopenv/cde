@@ -525,7 +525,7 @@ OutputString(
     int		track_pos
 )
 {
-    char	c, *sdata, *cp;
+    char	c = 0, *sdata, *cp;
     static int	char_pos;   /* remembers our character position */
     static int  interp_pos; /* like char_pos but when output is to interp */
     int         *ppos;      /* points to appropriate line position var */
@@ -678,8 +678,8 @@ static int CheckOutputBuffer(
  */
 int FFlush(FILE *stream)
 {
-if (stream) return fflush(stream);
-return 0;
+    if (stream) return fflush(stream);
+    return 0;
 }
 
 
@@ -722,8 +722,8 @@ int Putc(
 	if (result != TCL_OK) {
 	    fprintf(stderr,
 		    "interpreter error \"%s\" at line %d executing:\n",
-		    interpreter->result,
-		    interpreter->errorLine);
+		    Tcl_GetStringResult(interpreter),
+		    Tcl_GetErrorLine(interpreter));
 	    fprintf(stderr, "\"%s\"\n", commandBuf);
 	    return EOF;
 	}
@@ -787,8 +787,8 @@ int FPuts(
 	if (result != TCL_OK) {
 	    fprintf(stderr,
 		    "interpreter error \"%s\" at line %d executing:\n",
-		    interpreter->result,
-		    interpreter->errorLine);
+		    Tcl_GetStringResult(interpreter),
+                    Tcl_GetErrorLine(interpreter));
 	    fprintf(stderr, "\"%s\"\n", pBuff);
 	    if (pBuff != commandBuf) free(pBuff);
 	    return EOF;

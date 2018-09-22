@@ -111,19 +111,15 @@ extern void	Browse();
 static int TclPrintLocation(ClientData clientData,
 			    Tcl_Interp *interp,
 			    int argc,
-			    char *argv[]);
+			    const char *argv[]);
 static int DefaultOutputString(ClientData clientData,
 			       Tcl_Interp *interp,
 			       int argc,
-			       char *argv[]);
-static int CompareI18NStrings(ClientData clientData,
-			      Tcl_Interp *interp,
-			      int argc,
-			      char *argv[]);
+			       const char *argv[]);
 static int TclReadLocaleStrings(ClientData clientData,
 			        Tcl_Interp *interp,
 			        int argc,
-			        char *argv[]);
+			        const char *argv[]);
 char		*GetOutFileBaseName();
 
 char *
@@ -205,17 +201,6 @@ main(
     Tcl_CreateCommand(interpreter,
                       "PrintLocation",
 		      TclPrintLocation,
-		      0,
-		      0);
-
-    /* Add a function to the interpreter to compare to strings.  Our
-     * comparison will unmung any i18n characters (see
-     * {Un}EscapeI18NChars()) and uppercase the strings before
-     * comparison to insure we get a dictionary sort.  We also use the
-     * nl_strcmp() function to get proper i18n collation */
-    Tcl_CreateCommand(interpreter,
-                      "CompareI18NStrings",
-		      CompareI18NStrings,
 		      0,
 		      0);
 
@@ -356,12 +341,11 @@ static char *UnEscapeI18NChars(
 static int DefaultOutputString(ClientData clientData,
 			       Tcl_Interp *interp,
 			       int argc,
-			       char *argv[])
+			       const char *argv[])
 {
-#define LOCAL_BUFFER_LENGTH 128
-    char *string, *pString, *pArgv;
-    char localBuffer[LOCAL_BUFFER_LENGTH];
-    int retCode, stringLength;
+    char *string = NULL, *pString = NULL;
+    const char *pArgv = NULL;
+    int retCode = 0, stringLength = 0;
 
     if (argc < 2) {
 	Tcl_SetResult(interpreter, "Missing string to output", TCL_VOLATILE);
@@ -375,14 +359,10 @@ static int DefaultOutputString(ClientData clientData,
 
     /* leave room for worst case expansion plus quotes plus null */
     pArgv = argv[1];
-    stringLength = (2 * strlen(pArgv)) + 3;
+    stringLength = (3 * strlen(pArgv)) + 3;
 
-    /* try to use automatic buffer; use malloc if string is too large */
-    if (stringLength <= LOCAL_BUFFER_LENGTH) {
-	string = localBuffer;
-    } else {
-	string = malloc(stringLength);
-    }
+    string = Tcl_Alloc(stringLength);
+    memset(string, 0, stringLength);
     pString = string;
 
 
@@ -390,109 +370,69 @@ static int DefaultOutputString(ClientData clientData,
      * any characters that will throw Tcl for a loop */
     *pString++ = '"';
     while (*pArgv) {
-	switch (*pArgv) {
-	    case '{':
-	    case '}':
-	    case '"':
-	    case '\'':
-	    case '[':
-	    case ']':
-	    case '$':
-	    case '\\':
-		*pString++ = '\\';
-	}
-	*pString++ = *pArgv++;
+        if (*pArgv & 0x80)
+        {
+            /* 8-bit data - need to encode since modern Tcl expects
+             * any "binary" (8-bit) data in strings to be proper UTF-8
+             * encoded.  We aren't doing that (yet), so convert any
+             * detected 8b characters into a \xNN format.
+             *
+             * This code should be unnecessary when we switch to UTF8.
+             */
+            char fmt[16];
+            snprintf(fmt, 16, "%02x", (int)*pArgv & 0xff);
+#if 0
+            fprintf(stderr, "JET: converted 0x%02x to '%s'\n",
+                    *pArgv, fmt);
+#endif
+            /* copy the 4 bytes into the string */
+            *pString++ = '\\';
+            *pString++ = 'x';
+            *pString++ = fmt[0];
+            *pString++ = fmt[1];
+            pArgv++;
+        }
+        else
+        {
+            switch (*pArgv) {
+                case '{':
+                case '}':
+                case '"':
+                case '\'':
+                case '[':
+                case ']':
+                case '$':
+                case '\\':
+                    *pString++ = '\\';
+            }
+            *pString++ = *pArgv++;
+        }
     }
     *pString++ = '"';
     *pString++ = 0;
 
     /* put the string to the output */
-    retCode = Tcl_VarEval(interpreter, "puts -nonewline ", string, 0);
-
-    /* free the string if we're not using the automatic buffer */
-    if (string != localBuffer) {
-	free(string);
+    retCode = Tcl_VarEval(interpreter, "puts -nonewline ", string,
+                          (char *)NULL);
+#if 0
+    /* JET*/
+    if (retCode != TCL_OK)
+    {
+        fprintf(stderr, "JET: retCode = %d, LEN = %d STRING = '%s'\n",
+                retCode, strlen(string), string);
+        fprintf(stderr, "\tstring[1] = 0x%02x\n", string[1]);
     }
+#endif
+    Tcl_Free(string);
 
     /* and ripple up any error code we got from the "puts" */
     return retCode;
 }
 
-
-static int CompareI18NStrings(ClientData clientData,
-			      Tcl_Interp *interp,
-			      int argc,
-			      char *argv[])
-{
-    int   ret_val, len;
-    char *ret_string, *cp;
-
-    if (argc < 3) {
-	Tcl_SetResult(interpreter,
-		      "Missing string(s) to compare",
-		      TCL_VOLATILE);
-	return TCL_ERROR;
-    }
-
-    if (argc > 3) {
-	Tcl_SetResult(interpreter, "Too many arguments", TCL_VOLATILE);
-	return TCL_ERROR;
-    }
-
-    /* unmung the two strings (see {Un}EscapeI18NChars()) */
-    UnEscapeI18NChars(argv[1]);
-    UnEscapeI18NChars(argv[2]);
-
-    /* upper case the strings to insure a dictionary sort */
-    cp = argv[1];
-    while (*cp) {
-	if ((len = mblen(cp, MB_CUR_MAX)) == 1) {
-	    if (isalpha(*cp)) {
-		*cp = toupper(*cp);
-	    }
-	    cp++;
-	} else {
-	  if (len > 0)
-	    cp += len;
-	  else
-	    break; /* JET - we should be done here... */
-	}
-    }
-    cp = argv[2];
-    while (*cp) {
-	if ((len = mblen(cp, MB_CUR_MAX)) == 1) {
-	    if (isalpha(*cp)) {
-		*cp = toupper(*cp);
-	    }
-	    cp++;
-	} else {
-	  if (len > 0)
-	    cp += len;
-	  else
-	    break; /* JET - we should be done here... */
-	}
-    }
-
-    /* compare the strings using an I18N safe sort */
-    ret_val = strcoll(argv[1], argv[2]);
-    if (ret_val > 0) {
-	ret_string = "1";
-    } else if (ret_val < 0) {
-	ret_string = "-1";
-    } else {
-	ret_string = "0";
-    }
-
-    Tcl_SetResult(interpreter, ret_string, TCL_VOLATILE);
-
-    return TCL_OK;
-}
-
-
 static int TclPrintLocation(ClientData clientData,
 			    Tcl_Interp *interp,
 			    int argc,
-			    char *argv[])
+			    const char *argv[])
 {
     if (argc > 1) {
 	Tcl_SetResult(interpreter, "Too many arguments", TCL_VOLATILE);
@@ -917,27 +857,27 @@ EscapeI18NChars(
 
 
 static char *
-ReadLocaleStrings(char *file_name, int *ret_code) {
-int          fd;
-char        *pBuf;
-char        *i18nBuf;
-off_t        size;
-struct stat  stat_buf;
+ReadLocaleStrings(const char *file_name, int *ret_code) {
+    int          fd;
+    char        *pBuf;
+    char        *i18nBuf;
+    off_t        size;
+    struct stat  stat_buf;
 
     fd = open(file_name, O_RDONLY);
     if (fd == -1) {
 	*ret_code = 1;
-	return "";
+	return NULL;
     }
 
     fstat(fd, &stat_buf);
     size = stat_buf.st_size;
-    pBuf = malloc(size+1);
-    pBuf[size] = 0;
+    pBuf = Tcl_Alloc(size+1);
+    memset(pBuf, 0, size+1);
 
     if (read(fd, pBuf, size) != size) {
 	*ret_code = 2;
-	return "";
+	return NULL;
     }
 
     i18nBuf = EscapeI18NChars(pBuf);
@@ -952,10 +892,10 @@ struct stat  stat_buf;
 static int TclReadLocaleStrings(ClientData  clientData,
 			        Tcl_Interp *interp,
 				int         argc,
-				char       *argv[]) {
-char *pBuf;
-int   ret_code;
-char  errorBuf[512];
+				const char       *argv[]) {
+    char *pBuf;
+    int   ret_code;
+    char  errorBuf[512];
 
     if (argc > 2) {
         Tcl_SetResult(interpreter, "Too many arguments", TCL_VOLATILE);

@@ -1,0 +1,79 @@
+/* Imakefile 1.8 - Fujitsu source for CDEnext    96/06/10 13:34:37      */
+/* $TOG: Imakefile /main/20 1997/04/30 15:51:07 samborn $ */
+
+   LOCAL_XLIBPATH =
+
+      DESTDIR     = $(CDE_INSTALLATION_TOP)
+          BINDIR  = /bin
+
+UDC_INC_PATH1     =  -I./
+UDC_INC_PATH2     =  -I./include
+UDC_INC_PATH3     =  -I./libfal
+
+UDC_INC_PATH4     =  -I$(DTSVCSRC)/DtXpm
+UDC_INC_PATH5     =  -I$(TOP)/../x11/xc
+
+#ifdef X11ProjectRoot
+        OPT2 = -DFONTC='"'$(XPROJECTROOT)/bin/bdftopcf'"'
+#else
+        OPT2 = -DFONTC='"'$(BINDIR)/bdftopcf'"'
+#endif
+
+DEFINES = $(OPT2)
+
+     INCLUDES     =	$(UDC_INC_PATH1)\
+			$(UDC_INC_PATH2)\
+			$(UDC_INC_PATH3)\
+			$(UDC_INC_PATH4)\
+			$(UDC_INC_PATH5)
+
+        DEPLIBS   = $(DEPDTSVCLIB) $(DEPTTLIB) $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES   = $(DTSVCLIB) $(TTLIB) $(XMLIB) $(XTOOLLIB) $(XLIB) ./libfuty/liboakfuty.a ./libfal/libfal.a
+
+
+         SRCS     = comsub.c cpyw.c mtfgui.c ufont.c util.c\
+                    selectx.c cpyx.c xutil.c code.c
+
+         OBJS     = comsub.o ufont.o cpyw.o mtfgui.o util.o\
+                    cpyx.o xutil.o selectx.o code.o
+
+/* Sun needs the widechar library */
+#ifdef SunArchitecture
+SYS_LIBRARIES = DtClientSysLibs -lw
+#else
+SYS_LIBRARIES = DtClientSysLibs
+#endif
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = \
+	libfal		\
+	libfuty		\
+	dtaddcpf	\
+	dtbdftocpf	\
+	dtcpftobdf	\
+	dtcpftogpf	\
+	dtcpgpf		\
+	dtgpftobdf	\
+	dtgpftocpf	\
+	dtlsgpf
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+ComplexProgramTarget(dtudcfonted)
+
+install::
+	@if [ -d $(DESTDIR)/app-defaults/C ]; then set +x; \
+	else (set -x; $(MKDIRHIER) $(DESTDIR)/app-defaults/C); fi ; \
+	if [ -d $(DESTDIR)/app-defaults/ja_JP ]; then set +x; \
+	else (set -x; $(MKDIRHIER) $(DESTDIR)/app-defaults/ja_JP); fi ; \
+	if [ -f $(DESTDIR)/app-defaults/C/Dtudcfonted ]; then set +x; \
+	else (set +x ; echo "installing" "in $(DESTDIR)/app-defaults/C" ; \
+	$(CP) ./resource/Dtudcfonted $(DESTDIR)/app-defaults/C; \
+	chmod 0444 $(DESTDIR)/app-defaults/C/Dtudcfonted); fi ; \
+	if [ -f $(DESTDIR)/app-defaults/ja_JP/Dtudcfonted ]; then set +x; \
+	else (set +x ; echo "installing" "in $(DESTDIR)/app-defaults/ja_JP" ; \
+	$(CP) ./resource/Dtudcfonted.ja_JP $(DESTDIR)/app-defaults/ja_JP/Dtudcfonted; \
+	chmod 0444 $(DESTDIR)/app-defaults/ja_JP/Dtudcfonted); fi

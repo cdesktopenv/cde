@@ -20,10 +20,6 @@ XCOMM
 NLSPATH=/usr/dt/lib/nls/msg/%L/%N.cat:$NLSPATH
 export NLSPATH
 
-XCOMM Return Codes
-NO_VALID_FILE_ERR=7
-NO_READ_FILE_ERR=8
-
 usage="$0 [-b banner_title] [-d lpdest] [-f print_file] 
 	 [-m print_command] [-n copy_count] [-o other_options] 
 	 [-u user_filename] [-a] [-e] [-h] [-r] [-s] [-v] [-w]"
@@ -31,7 +27,7 @@ usage="$0 [-b banner_title] [-d lpdest] [-f print_file]
 while [ $# -gt 0 ]; do
 	case "$1" in
 	-b)
-		if [ $2 ]; then
+		if [ "$2" ]; then
 		  banner_title="$1 $2"
 		  shift; shift;
                 else
@@ -40,11 +36,11 @@ while [ $# -gt 0 ]; do
                 fi
 		;;
 	-b*)
-		banner_title="-b `expr "$1" : '-b\(.*\)'`"
+		banner_title="-b $(expr "$1" : '-b\(.*\)')"
 		shift
 		;;
 	-d)
-                if [ $2 ]; then
+                if [ "$2" ]; then
 		  lpdest="$1 $2"
                   shift; shift;
                 else
@@ -53,13 +49,13 @@ while [ $# -gt 0 ]; do
                 fi
 		;;
 	-d*)
-		lpdest="-d `expr "$1" : '-d\(.*\)'`"
+		lpdest="-d $(expr "$1" : '-d\(.*\)')"
 		shift
 		;;
 	-c)
 		NOT_SUPPORTED=true
 		ARGS="$ARGS $1"
-                if [ $2 ]; then
+                if [ "$2" ]; then
                   shift; shift;
                 else
 		  shift
@@ -73,7 +69,7 @@ while [ $# -gt 0 ]; do
 	-t)
 		NOT_SUPPORTED=true
 		ARGS="$ARGS $1"
-                if [ $2 ]; then
+                if [ "$2" ]; then
                   shift; shift;
                 else
                   shift
@@ -87,7 +83,7 @@ while [ $# -gt 0 ]; do
 	-i)
 		NOT_SUPPORTED=true
 		ARGS="$ARGS $1"
-		if [ $2 ]; then
+		if [ "$2" ]; then
                   shift; shift;
                 else
                   shift
@@ -101,7 +97,7 @@ while [ $# -gt 0 ]; do
 	-l)
 		NOT_SUPPORTED=true
 		ARGS="$ARGS $1"                
-		if [ $2 ]; then
+		if [ "$2" ]; then
                   shift; shift;
                 else
                   shift
@@ -113,7 +109,7 @@ while [ $# -gt 0 ]; do
 		shift
 		;;
 	-f)
-                if [ $2 ]; then
+                if [ "$2" ]; then
 		  print_file=$2
                   shift; shift;
                 else
@@ -122,11 +118,11 @@ while [ $# -gt 0 ]; do
                 fi
 		;;
 	-f*)
-		print_file=`expr "$1" : '-f\(.*\)'`
+		print_file=$(expr "$1" : '-f\(.*\)')
 		shift
 		;;
 	-m)
-                if [ $2 ]; then
+                if [ "$2" ]; then
 		  print_command="$1 $2"
                   shift; shift;
                 else
@@ -135,11 +131,11 @@ while [ $# -gt 0 ]; do
                 fi
 		;;
 	-m*)
-		print_command="-m `expr "$1" : '-m\(.*\)'`"
+		print_command="-m $(expr "$1" : '-m\(.*\)')"
 		shift
 		;;
 	-n)
-                if [ $2 ]; then
+                if [ "$2" ]; then
 		  copy_count="$1 $2"
                   shift; shift;
                 else
@@ -148,11 +144,11 @@ while [ $# -gt 0 ]; do
                 fi
 		;;
 	-n*)
-		copy_count="-n `expr "$1" : '-n\(.*\)'`"
+		copy_count="-n $(expr "$1" : '-n\(.*\)')"
 		shift
 		;;
 	-o)
-                if [ $2 ]; then
+                if [ "$2" ]; then
 		  other_options="$1 $2"
                   shift; shift;
                 else
@@ -161,11 +157,11 @@ while [ $# -gt 0 ]; do
                 fi
 		;;
 	-o*)
-		other_options="-o `expr "$1" : '-o\(.*\)'`"
+		other_options="-o $(expr "$1" : '-o\(.*\)')"
 		shift
 		;;
 	-u)
-                if [ $2 ]; then
+                if [ "$2" ]; then
 		  user_filename="$1 $2"
                   shift; shift;
                 else
@@ -174,7 +170,7 @@ while [ $# -gt 0 ]; do
                 fi
 		;;
 	-u*)
-		user_filename="-u `expr "$1" : '-u\(.*\)'`"
+		user_filename="-u $(expr "$1" : '-u\(.*\)')"
 		shift
 		;;
 	-a)
@@ -217,22 +213,22 @@ if [ $# -gt 0 ]; then
 fi
 
 if  [ $NOT_SUPPORTED ]; then
-  dspmsg -s 1 dtmigrate 2 'dtlpsetup: dtlpsetup has been replaced with dtlp.\
+  dspmsg -s 1 dtmigrate 2 "dtlpsetup: dtlpsetup has been replaced with dtlp.\
 \tdtlp will be automatically called in its place. \
 \tThe following flags and parameters on the dtlpsetup call \
 \thave been ignored because dtlp does not support these flags: \
-\t%1$s \n' "$ARGS"
+\t%1$s \n" "$ARGS"
 fi
 
-/usr/dt/bin/dtlp $banner_title $lpdest $print_command $copy_count $other_options $user_filename $a $e $h $r $s $v $w $print_file
+/usr/dt/bin/dtlp "$banner_title" "$lpdest" "$print_command" "$copy_count" "$other_options" "$user_filename" "$a" "$e" "$h" "$r" "$s" "$v" "$w" "$print_file"
  
 status=$?
 
 XCOMM dtlp return code of 5 maps to return code 7 of dtlpsetup
-if  [[ $status -eq 5 ]]
+if  [ $status -eq 5 ]
   then exit NO_VALID_FILE_ERR
 XCOMM dtlp return code of 6 maps to return code 8 of dtlpsetup
-elif [[ $status -eq 6 ]] 
+elif [ $status -eq 6 ]
   then exit NO_READ_FILE_ERR
 else
 XCOMM all others are synonomous

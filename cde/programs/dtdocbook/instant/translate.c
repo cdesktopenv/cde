@@ -207,7 +207,7 @@ ExpandVariables(
 	if (*ip == VDELIM && *(ip+1) == L_CURLY && *(ip+2) != '_') {
 	    ip++;
 	    ip++;		/* point at variable name */
-	    len + 2;
+	    len += 2;
 	    vp = vbuf;
 	    /*	Look for matching (closing) curly. (watch for nesting)
 	     *	We store the variable content in a tmp buffer, so we don't
@@ -294,8 +294,15 @@ CallInterpreter(
 )
 {
     int result;
-    char line[20];
     int recursive;
+
+#if 0
+    if (ib)
+    {
+        fprintf(stderr, "JET: %s: IB = '%s'\n", __FUNCTION__,
+                ib);
+    }
+#endif
 
     /* save the value of this "e" to be used by Tcl_PrintLocation in
      * the case of a user error

@@ -63,8 +63,12 @@
 #include <sys/mount.h>
 #include <pwd.h>
 #include <fcntl.h>
-#if !defined(CSRG_BASED)
+#if !defined(CSRG_BASED) && !defined(__linux__)
 #include <ustat.h>
+#endif
+#if defined(__linux__)
+#include <sys/vfs.h>
+#include <linux/magic.h>
 #endif
 #include <dirent.h>
 
@@ -358,18 +362,6 @@ ImageInitialize( Display *display )
     return ;
 }  /*  end ImageInitialize */
 
-#if !defined(CSRG_BASED)
-static int
-CopyFileSysType(
-   int dev)
-{
-  struct ustat u1;
-  if(ustat(dev,&u1) < 0)
-     return -2;
-  return u1.f_tinode;
-}
-#endif
-
 static int
 CopyCheckDeletePermissionRecur(
   char *destinationPath)
@@ -440,7 +432,7 @@ CopyCheckDeletePermission(
   char *parentdir,
   char *destinationPath)
 {
-#if defined(__FreeBSD__) || defined(__OpenBSD__)
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__linux__)
   struct statfs statbuf;
 #elif defined(__NetBSD__)
   struct statvfs statbuf;
@@ -449,7 +441,7 @@ CopyCheckDeletePermission(
 #endif
   char fname[PATH_MAX];
 
-#if defined(__FreeBSD__) || defined(__OpenBSD__)
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__linux__)
   if (statfs(parentdir,&statbuf) < 0)  /* does not exist */
 #elif defined(__NetBSD__)
   if (statvfs(parentdir,&statbuf) < 0)  /* does not exist */
@@ -464,8 +456,10 @@ CopyCheckDeletePermission(
     /* if NFS, need to check if server trusts root */
 #if defined(CSRG_BASED)
     if (!strcmp(statbuf.f_fstypename, "nfs"))  /* Root user and nfs */
+#elif defined(__linux__)
+    if (statbuf.f_type == NFS_SUPER_MAGIC)
 #else
-    if (CopyFileSysType(statbuf.st_dev) < 0)  /* Root user and nfs */
+    /* nothing - always check if root */
 #endif
     {
        char *tmpfile;

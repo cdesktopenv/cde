@@ -1,5 +1,5 @@
 # $TOG: Makefile /main/15 1999/10/12 09:33:30 mgreess $
-     RELEASE = Release 2.3.0
+     RELEASE = Release 2.3.0a
      PRODUCT = CDE
        SHELL = /bin/sh
           RM = rm -f
@@ -7,7 +7,6 @@
         MAKE = make
        NMAKE = nmake
    WORLDOPTS = 
-WIN32WORLDOPTS = -i
          TOP = .
  CURRENT_DIR = .
    CONFIGSRC = $(TOP)/config
@@ -146,7 +145,7 @@ $(IMAKESRC)/Makefile.proto:
 imake.bootstrap:
 	cd $(IMAKESRC) && $(MAKE) -f Makefile.proto bootstrapdepend
 	cd $(IMAKESRC) && $(MAKE) $(FLAGS) bootstrap
-	cd $(IMAKESRC) && $(MAKE) -f Makefile.proto all 
+	cd $(IMAKESRC) && $(MAKE) -f Makefile.proto all
 	-@if [ -f xmakefile ]; then set -x; \
 	  $(RM) xmakefile.bak; $(MV) xmakefile xmakefile.bak; \
 	  else exit 0; fi
@@ -160,30 +159,6 @@ Makefile::
 
 xmakefile: Imakefile
 	$(IMAKE_CMD) -s xmakefile -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR)
-
-World.Win32:
-	@echo :
-	@echo Building $(RELEASE) of $(PRODUCT).
-	@echo :
-	@echo :
-	cd $(IMAKESRC)
-	$(NMAKE) -f Makefile.ini clean.Win32
-	$(NMAKE) -f Makefile.ini imake.exe
-	cd ..\..
-	-if exist xmakefile.bak del xmakefile.bak
-	-if exist xmakefile ren xmakefile xmakefile.bak
-	$(IMAKE:/=\) -s xmakefile -I$(IRULESRC) $(IMAKE_DEFINES) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR)
-	$(NMAKE_CMD) $(MFLAGS) VerifyOS
-	$(NMAKE_CMD) $(MFLAGS) Makefiles
-	$(NMAKE_CMD) $(MFLAGS) clean
-	$(NMAKE_CMD) $(MFLAGS) includes
-	$(NMAKE_CMD) $(MFLAGS) depend
-	$(NMAKE_CMD) $(MFLAGS) $(WIN32WORLDOPTS)
-	@echo :
-	@echo :
-	@echo Full build of $(RELEASE) of $(PRODUCT) complete.
-	@echo :
-
 
 # don't allow any default rules in this Makefile
 .SUFFIXES:

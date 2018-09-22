@@ -123,24 +123,6 @@ if {[info commands OutputString] == ""} {
 }
 
 
-# set up a default string compare routine so everything works even
-# if run outside of instant(1); it won't really be i18n safe, but
-# it'll give us a dictionary sort
-if {[info commands CompareI18NStrings] == ""} {
-    proc CompareI18NStrings {string1 string2} {
-	set string1 [string toupper $string1]
-	set string2 [string toupper $string2]
-	if {$string1 > $string2} {
-	    return 1
-	} else if {$string1 < $string2} {
-	    return -1
-	} else {
-	    return 0
-	}
-    }
-}
-
-
 # emit a string to the output stream
 proc Emit {string} {
     OutputString $string
@@ -1624,10 +1606,14 @@ proc EndPart {} {
 
     # check that all the glossed terms have been defined
     foreach name [array names currentGlossArray] {
-	if {[lindex $currentGlossArray($name) 1] != "defined"} {
-	    set glossString [lindex $currentGlossArray($name) 2]
-	    UserError "No glossary definition for \"$glossString\"" no
-	}
+        if {[info exists currentGlossArray($name)]} {
+            if {[lindex $currentGlossArray($name) 1] != "defined"} {
+                set glossString [lindex $currentGlossArray($name) 2]
+                UserError "No glossary definition for \"$glossString\"" no
+            }
+        } else {
+            puts stderr "EndPart: currentGlossArray: index does not exist: '$name'"
+        }
     }
 
     # delete this glossary array
@@ -2195,6 +2181,7 @@ proc SortAndEmitGlossary {popForm} {
 
     set names [array names currentGlossArray]
     foreach name $names {
+        # puts stderr "JET0: name: $name"
 	upvar 0 currentGlossArray($name) glossEntryList
 
 	# skip this array entry if we've already emitted it; mark as
@@ -2213,9 +2200,15 @@ proc SortAndEmitGlossary {popForm} {
 	append sortArray($sortAs) $content
     }
 
-    set names [lsort -command CompareI18NStrings [array names sortArray]]
-    foreach name $names {
-	Emit $sortArray($name)
+    set idxnames [lsort -dictionary [array names sortArray]]
+
+    foreach name $idxnames {
+        # puts stderr "JET1: name: $name"
+        if {[info exists sortArray($name)]} {
+            Emit $sortArray($name)
+        } else {
+            puts stderr "SortAndEmitGlossary: sortArray index does not exist: '$name'"
+        }
     }
 
     if {[string toupper $popForm] == "POPFORM"} {
@@ -2473,32 +2466,36 @@ proc WriteIndex {} {
 
     set file [open "${baseName}.idx" w]
 
-    # sort the index using our special I18N safe sort function that
-    # gives us a dictionary (case insensitive) sort
-    set names [lsort -command CompareI18NStrings [array names indexArray]]
+    # sort the index
 
-    if {[set length [llength $names]]} {
+    set idxnames [lsort -dictionary [array names indexArray]]
+
+    if {[set length [llength $idxnames]]} {
 	set oldLevel 0
 	puts $file "<INDEX COUNT=\"$length\">"
-	foreach name $names {
-	    set thisEntry $indexArray($name)
-	    switch [lindex $thisEntry 0] {
-		1 { switch $oldLevel {
-		      1 { puts $file "</ENTRY>" }
-		      2 { puts $file "</ENTRY>\n</ENTRY>" }
-		      3 { puts $file "</ENTRY>\n</ENTRY>\n</ENTRY>" }
+	foreach name $idxnames {
+            if {[info exists indexArray($name)]} {
+                set thisEntry $indexArray($name)
+                switch [lindex $thisEntry 0] {
+                    1 { switch $oldLevel {
+                        1 { puts $file "</ENTRY>" }
+                        2 { puts $file "</ENTRY>\n</ENTRY>" }
+                        3 { puts $file "</ENTRY>\n</ENTRY>\n</ENTRY>" }
 		    }
-		  }
-		2 { switch $oldLevel {
-		      2 { puts $file "</ENTRY>" }
-		      3 { puts $file "</ENTRY>\n</ENTRY>" }
+                    }
+                    2 { switch $oldLevel {
+                        2 { puts $file "</ENTRY>" }
+                        3 { puts $file "</ENTRY>\n</ENTRY>" }
 		    }
-		  }
-		3 { if {$oldLevel == 3} { puts $file "</ENTRY>" } }
-	    }
-	    puts -nonewline $file "<ENTRY[Locs $thisEntry]>"
-	    puts -nonewline $file [lindex $thisEntry 3]
-	    set oldLevel [lindex $thisEntry 0]
+                    }
+                    3 { if {$oldLevel == 3} { puts $file "</ENTRY>" } }
+                }
+                puts -nonewline $file "<ENTRY[Locs $thisEntry]>"
+                puts -nonewline $file [lindex $thisEntry 3]
+                set oldLevel [lindex $thisEntry 0]
+            } else {
+                puts stderr "WriteIndex: index does not exist: '$name'"
+            }
 	}
 
 	switch $oldLevel {
@@ -2547,10 +2544,10 @@ proc FootnoteRef {idref} {
 
 # add an element to the current SNB - try to reuse an entry if
 # possible
-proc AddToSNB {type data} {
+proc AddToSNB {stype data} {
     global currentSNB nextId
 
-    set index "$type::$data"
+    set index "${stype}::${data}"
 
     if {[info exists currentSNB($index)]} {
 	set snbId $currentSNB($index)

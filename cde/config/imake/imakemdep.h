@@ -99,10 +99,10 @@ in this Software without prior written authorization from The Open Group.
 #ifdef Mips
 #  if defined(SYSTYPE_BSD) || defined(BSD) || defined(BSD43)
 #    define imake_ccflags "-DBSD43"
-#  else 
+#  else
 #    define imake_ccflags "-DSYSV"
 #  endif
-#endif 
+#endif
 
 #ifdef is68k
 #define imake_ccflags "-Dluna -Duniosb"
@@ -130,14 +130,6 @@ in this Software without prior written authorization from The Open Group.
 
 #ifdef __convex__
 #define imake_ccflags "-fn -tm c1"
-#endif
-
-#ifdef WIN32
-#if _MSC_VER < 1000
-#define imake_ccflags "-nologo -batch -D__STDC__"
-#else
-#define imake_ccflags "-nologo -D__STDC__"
-#endif
 #endif
 
 #ifdef __sxg__
@@ -207,13 +199,8 @@ in this Software without prior written authorization from The Open Group.
  *     all colons).  One way to tell if you need this is to see whether or not
  *     your Makefiles have no tabs in them and lots of @@ strings.
  */
-#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(__llvm__) || (defined(AMOEBA) && defined(CROSS_COMPILE))
+#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(__llvm__)
 #define FIXUP_CPP_WHITESPACE
-#endif
-#ifdef WIN32
-#define REMOVE_CPP_LEADSPACE
-#define INLINE_SYNTAX
-#define MAGIC_MAKE_VARS
 #endif
 
 /*
@@ -224,10 +211,6 @@ in this Software without prior written authorization from The Open Group.
  */
 #ifdef hpux
 #define USE_CC_E
-#endif
-#ifdef WIN32
-#define USE_CC_E
-#define DEFAULT_CC "cl"
 #endif
 #if defined(_IBMR2) && !defined(DEFAULT_CPP)
 #define DEFAULT_CPP "/usr/ccs/lib/cpp"
@@ -475,54 +458,12 @@ char *cpp_argv[ARGUMENTS] = {
 	"-DSVR4",
 #endif
 #endif
-#ifdef WIN32
-	"-DWIN32",
-	"-nologo",
-#if _MSC_VER < 1000
-	"-batch",
-#endif
-	"-D__STDC__",
-#endif
 #ifdef NCR
 	"-DNCR",	/* NCR */
 #endif
 #ifdef linux
         "-traditional",
         "-D__linux__",
-#endif
-#ifdef __sxg__
-	"-D__sxg__",
-#endif
-#ifdef nec_ews_svr2
-	"-Dnec_ews_svr2",
-#endif
-#ifdef AMOEBA
-	"-DAMOEBA",
-# ifdef CROSS_COMPILE
-	"-DCROSS_COMPILE",
-#  ifdef CROSS_i80386
-	"-DCROSS_i80386",
-#  endif
-#  ifdef CROSS_sparc
-	"-DCROSS_sparc",
-#  endif
-#  ifdef CROSS_mc68000
-	"-DCROSS_mc68000",
-#  endif
-# else
-#  ifdef i80386
-	"-Di80386",
-#  endif
-#  ifdef sparc
-	"-Dsparc",
-#  endif
-#  ifdef mc68000
-	"-Dmc68000",
-#  endif
-# endif
-#endif
-#if defined(__sgi) && defined(__ANSI_CPP__)
-	"-cckr",
 #endif
 #ifdef __minix_vmd
 	"-Dminix",

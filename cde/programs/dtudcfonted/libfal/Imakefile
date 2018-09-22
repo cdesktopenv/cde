@@ -1,0 +1,84 @@
+XCOMM $XConsortium: Imakefile /main/16 1996/09/09 11:45:13 drk $
+#define DoNormalLib	YES
+#define DoSharedLib	NO
+#define DoDebugLib	NO
+#define DoProfileLib	NO
+#define LibName		fal
+#define LibHeaders	NO
+#define LibInstall	NO
+
+          FALDESTDIR  = $(CDE_INSTALLATION_TOP)
+          FONTLIST    = config
+          XLOCALEDIR  = $(XPROJECTROOT)/lib/X11/locale
+          XFONTDIR    = $(XPROJECTROOT)/lib/X11/fonts
+
+UDCFONTPATH = $(XFONTDIR)/misc
+FALOPT1       = -DDTUDCFONTPATH='"'$(XFONTDIR)/misc'"'
+FALOPT2       = -DXLOCALEDIR='"'$(XLOCALEDIR)'"'
+FALOPT3       = -DDTUDCFONTSLISTDIR='"'$(FALDESTDIR)/$(FONTLIST)'"'
+
+#ifdef X11ProjectRoot
+        OPT2 = -DFONTC='"'$(XPROJECTROOT)/bin/bdftopcf'"'
+#else
+        OPT2 = -DFONTC='"'$(BINDIR)/bdftopcf'"'
+#endif
+
+       DEPEND_DEFINES = $(DEPENDDEFINES)
+        DEFINES       = $(FALOPT1) $(FALOPT2) $(OPT2) $(FALOPT3)
+
+      UDC_INC_PATH1   = -I./include
+      UDC_INC_PATH2   = -I../include
+      UDC_INC_PATH3   = -I./
+
+       INCLUDES   = \
+                    $(UDC_INC_PATH1)\
+                    $(UDC_INC_PATH2)\
+                    $(UDC_INC_PATH3)
+
+SRCS1  = falfont.c readpcf.c \
+	syncx.c
+
+SRCS2 = _faludcInf.c \
+	_fallcCT.c _fallcCharSet.c _fallcConv.c _fallcDB.c \
+	_fallcDefConv.c _fallcDynamic.c _fallcEuc.c _fallcFile.c \
+	_fallcGenConv.c _fallcGeneric.c _fallcInit.c _fallcPrTxt.c \
+	_fallcPubWrap.c _fallcPublic.c _fallcRM.c _fallcSjis.c \
+	_fallcStd.c _fallcTxtPr.c _fallcUTF.c _fallcUtil.c \
+	_fallcWrap.c \
+	_falomGeneric.c _falQuarks.c _falSetLocale.c _falrm.c
+
+SRCS3  = _falutilbitmap.c
+
+SRCS  = $(SRCS1) $(SRCS2) $(SRCS3)
+
+OBJS   = falfont.o readpcf.o \
+	syncx.o \
+	_faludcInf.o \
+	_fallcCT.o _fallcCharSet.o _fallcConv.o _fallcDB.o \
+	_fallcDefConv.o _fallcDynamic.o _fallcEuc.o _fallcFile.o \
+	_fallcGenConv.o _fallcGeneric.o _fallcInit.o _fallcPrTxt.o \
+	_fallcPubWrap.o _fallcPublic.o _fallcRM.o _fallcSjis.o \
+	_fallcStd.o _fallcTxtPr.o _fallcUTF.o _fallcUtil.o \
+	_fallcWrap.o _falomGeneric.o _falQuarks.o _falSetLocale.o \
+	_falrm.o \
+	_falutilbitmap.o
+
+all::
+	$(RM) fonts.list;\
+	$(CP) ./fonts.list.header ./fonts.list ;\
+	chmod ug+w fonts.list;\
+	key=`echo $(UDCFONTPATH) | sed -e 's/:/ /g'` ; \
+	for dir in $$key ; \
+	do \
+	    echo $$dir: >> ./fonts.list ;\
+	done
+
+#include <Library.tmpl>
+
+install::
+	if [ -d $(DESTDIR)/$(FALDESTDIR)/$(FONTLIST) ]; then set +x; \
+	else (set -x; $(MKDIRHIER) $(DESTDIR)/$(FALDESTDIR)/$(FONTLIST)); fi ; \
+	(set -x ; $(CP) ./fonts.list $(DESTDIR)/$(FALDESTDIR)/$(FONTLIST) ; \
+	chmod 0644 $(DESTDIR)/$(FALDESTDIR)/$(FONTLIST)/fonts.list )
+
+DependTarget()

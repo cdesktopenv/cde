@@ -43,10 +43,8 @@ base_icon_name="Fpprnt"
 XCOMM
 XCOMM Return codes
 XCOMM
-SUCCESS=0
 USAGE_ERR=1
 CREATE_ERR=2
-NO_WRITE_ERR=3
 
 XCOMM #################################################################
 XCOMM ##  Initialize()
@@ -56,13 +54,6 @@ XCOMM ##
 XCOMM #################################################################
 Initialize()
 {
-    if (( ${#LANG} ))
-    then
-        if [[ $LANG != C ]]
-        then
-            non_default_lang=1
-        fi
-    fi
 
     HASH
     HASH Location for Print action files...
@@ -75,9 +66,9 @@ Initialize()
             DTPRINTERFOLDER="$DTUSERPRINTERFOLDER"
     fi
 
-    if [ ! -d $DTPRINTERFOLDER ]
+    if [ ! -d "$DTPRINTERFOLDER" ]
     then
-	mkdir -p $DTPRINTERFOLDER > /dev/null  2>/dev/null
+	mkdir -p "$DTPRINTERFOLDER" > /dev/null  2>/dev/null
     fi
 
     HASH
@@ -86,9 +77,9 @@ Initialize()
     DEFAULT_FOLDER=/etc/dt/appconfig/types/C
     DTPRINTACTIONFOLDER=${DTPRINTACTIONFOLDER:-$DEFAULT_FOLDER}
 
-    if [ ! -d $DTPRINTACTIONFOLDER ]
+    if [ ! -d "$DTPRINTACTIONFOLDER" ]
     then
-	mkdir -p $DTPRINTACTIONFOLDER > /dev/null  2>/dev/null
+	mkdir -p "$DTPRINTACTIONFOLDER" > /dev/null  2>/dev/null
     fi
 
     HASH
@@ -124,7 +115,7 @@ XCOMM ##
 XCOMM #################################################################
 CheckOptions()
 {
-	if (( $printer_flag == "0" ))
+	if (( printer_flag == "0" ))
 	HASH
 	HASH  We require a printer specification
 	HASH
@@ -149,21 +140,21 @@ AddHelpFileContents()
 	    print "		\"$help_file\"."
 	    print ""
 	    failure_flag=1
-	    if (( $verbose_flag ))
+	    if (( verbose_flag ))
 	    then
 		PrintEndLog
 	    fi
 	    Exit $CREATE_ERR
     fi
-    echo "	DESCRIPTION		\\" >> $databasefile_path
+    echo "	DESCRIPTION		\\" >> "$databasefile_path"
 
-    exec 8< $help_file
+    exec 8< "$help_file"
 
-    while read -u8 this_line
+    while read -r -u8 this_line
     do
-	print $this_line " \\" >> $databasefile_path 
+	print "$this_line" " \\" >> "$databasefile_path"
     done
-    print "**" >> $databasefile_path 
+    print "**" >> "$databasefile_path"
 
     exec 8<&-
 }
@@ -177,15 +168,15 @@ XCOMM #################################################################
 MakeDatabaseFile()
 {
 
-	touch $databasefile_path > /dev/null 2>/dev/null
+	touch "$databasefile_path" > /dev/null 2>/dev/null
 
-	chmod +w $databasefile_path > /dev/null 2>/dev/null
+	chmod +w "$databasefile_path" > /dev/null 2>/dev/null
 
 	if [[ ! -f $databasefile_path  || ! -w $databasefile_path ]]
 	then
 		failure_flag=1
 		PrintCreateError "$DTPRINTACTIONFOLDER" "$database_file"
-		if (( $verbose_flag ))
+		if (( verbose_flag ))
 		then
 		    PrintEndLog
 		fi
@@ -204,11 +195,11 @@ MakeDatabaseFile()
 	echo "# "
 	echo "#   This file created by the \"dtprintegrate\" utility."
 	echo "# "
-	echo "#   Date of integration: `date`. "
+	echo "#   Date of integration: $(date). "
 	echo "# "
 	echo "################################################################"
 	echo " "
-	) > $databasefile_path
+	) > "$databasefile_path"
 
         HASH
 	HASH Now, create the Print action for the printer
@@ -230,17 +221,17 @@ MakeDatabaseFile()
 	fi
 
 	echo "				/usr/dt/bin/dtaction Print %(File)Arg_1%"
-	) >> $databasefile_path
+	) >> "$databasefile_path"
 
-	if (( $help_flag ))
+	if (( help_flag ))
 	then
-	    echo "	DESCRIPTION		$help_text" >> $databasefile_path
-        elif (( $helpfile_flag ))
+	    echo "	DESCRIPTION		$help_text" >> "$databasefile_path"
+        elif (( helpfile_flag ))
 	then
-	    AddHelpFileContents $databasefile_path
+	    AddHelpFileContents "$databasefile_path"
 	fi
 
-	echo "}" >> $databasefile_path
+	echo "}" >> "$databasefile_path"
 
         HASH
 	HASH Next, create the print manager action for the printer
@@ -260,21 +251,20 @@ MakeDatabaseFile()
 	fi
 	echo "				/usr/dt/bin/dtaction Dtqueueinfo"
 	echo "}"
-	) >> $databasefile_path
+	) >> "$databasefile_path"
 }
 
 XCOMM #################################################################
 XCOMM ##
 XCOMM ##  TraversePath()
 XCOMM ##
-XCOMM ## 	Parse a given search path, using comma (,) and colon (:) as
+XCOMM ##	Parse a given search path, using comma (,) and colon (:) as
 XCOMM ##     delimiters.  Pass each path element to another
 XCOMM ##     function.
 XCOMM ##
 XCOMM #################################################################
 TraversePath ()
 {
-  gotahost=0
   typeset -i path=0 
   IFSsave=$IFS
   search_path=$1
@@ -285,10 +275,10 @@ TraversePath ()
 	 HASH  look for colon and comma delimiters
 	 HASH
          IFS=':,'
-         set -A dir_array $search_path
+         set -A dir_array "$search_path"
          while ((path<=${#dir_array[*]}-1)) ;do
-                 $dir_function ${dir_array[$path]}
-                 path=path+1
+                 $dir_function "${dir_array[$path]}"
+                 path=$((path+1))
          done
   else return
   fi
@@ -299,19 +289,19 @@ XCOMM #################################################################
 XCOMM ##
 XCOMM ##  GetIconBaseName()
 XCOMM ##
-XCOMM ## 	Given a file name of the form "base.l.bm" where size
+XCOMM ##	Given a file name of the form "base.l.bm" where size
 XCOMM ##     can be ".l", ".m", ".s.", or ".t" and visual type can be 
 XCOMM ##     ".bm" or ".pm", set $base_icon_name to just the base.
 XCOMM ##
 XCOMM #################################################################
 GetIconBaseName()
 {
-  base_icon_name=`basename $1 .bm`
-  base_icon_name=`basename $base_icon_name .pm`
-  base_icon_name=`basename $base_icon_name .l`
-  base_icon_name=`basename $base_icon_name .m`
-  base_icon_name=`basename $base_icon_name .s`
-  base_icon_name=`basename $base_icon_name .t`
+  base_icon_name=$(basename "$1" .bm)
+  base_icon_name=$(basename "$base_icon_name" .pm)
+  base_icon_name=$(basename "$base_icon_name" .l)
+  base_icon_name=$(basename "$base_icon_name" .m)
+  base_icon_name=$(basename "$base_icon_name" .s)
+  base_icon_name=$(basename "$base_icon_name" .t)
 }
 
 XCOMM #################################################################
@@ -327,18 +317,18 @@ DoTheActualIconCopy()
 {
   for i in $1/${base_icon_name}.*
   do
-     if [ -f $i ]
+     if [ -f "$i" ]
      then
 	 simple_icon_name=${i##*/}
 
-	 if [ -f $DTPRINTERICONFOLDER/$simple_icon_name ]
+	 if [ -f "$DTPRINTERICONFOLDER/$simple_icon_name" ]
 	 then
-	     mv -f $DTPRINTERICONFOLDER/$simple_icon_name $DTPRINTERICONFOLDER/#$simple_icon_name
+	     mv -f "$DTPRINTERICONFOLDER/$simple_icon_name" "$DTPRINTERICONFOLDER/#$simple_icon_name"
 	 fi
 
-	 cp $i $DTPRINTERICONFOLDER
+	 cp "$i" "$DTPRINTERICONFOLDER"
 
-	 if (( $verbose_flag ))
+	 if (( verbose_flag ))
 	    then
 		print "	Copied icon file $i "
 		print "	to $DTPRINTERICONFOLDER."
@@ -359,22 +349,22 @@ XCOMM #################################################################
 CopyIconFiles()
 {
 
-GetIconBaseName $icon_name
+GetIconBaseName "$icon_name"
 
-touch $DTPRINTERICONFOLDER/$icon_name.install > /dev/null 2>/dev/null
+touch "$DTPRINTERICONFOLDER/$icon_name.install" > /dev/null 2>/dev/null
 
 if [[ ! -f $DTPRINTERICONFOLDER/$icon_name.install ]]
 then
 	failure_flag=1
 	PrintCreateError "$DTPRINTERICONFOLDER" "$DTPRINTERICONFOLDER/$icon_name.*"
-	if (( $verbose_flag ))
+	if (( verbose_flag ))
 	then
 	    PrintEndLog
 	fi
 	Exit $CREATE_ERR
 fi
 
-rm -f $DTPRINTERICONFOLDER/$icon_name.install 
+rm -f "$DTPRINTERICONFOLDER/$icon_name.install"
 
 TraversePath "$DTPRINTICONPATH" DoTheActualIconCopy
 
@@ -392,15 +382,15 @@ XCOMM #################################################################
 MakeActionFile()
 {
 
-	touch $action_path > /dev/null 2>/dev/null
+	touch "$action_path" > /dev/null 2>/dev/null
 
-	chmod +x $action_path > /dev/null 2>/dev/null
+	chmod +x "$action_path" > /dev/null 2>/dev/null
 
 	if [[ ! -f $action_path  || ! -x $action_path ]]
 	then
 		failure_flag=1
 		PrintCreateError "$DTPRINTERFOLDER" "$action_file"
-		if (( $verbose_flag ))
+		if (( verbose_flag ))
 		then
 		    PrintEndLog
 		fi
@@ -414,7 +404,7 @@ MakeActionFile()
 	else
 		failure_flag=1
 		PrintCreateError "$DTPRINTERFOLDER" "$action_file"
-		if (( $verbose_flag ))
+		if (( verbose_flag ))
 		then
 		    PrintEndLog
 		fi
@@ -444,7 +434,7 @@ PrintEndLog() {
     print ""
     print "	DTPRINTERFOLDER ==       $DTPRINTERFOLDER"
     print ""
-    if (( $failure_flag == 0 )) && (( $unintegrate_flag == 0))
+    if (( failure_flag == 0 )) && (( unintegrate_flag == 0))
     then
 	print "	Created one database file,"
 	print "	    \"$databasefile_path\","
@@ -452,7 +442,7 @@ PrintEndLog() {
 	print "	    \"$action_path\"."
 	print ""
     fi
-    if (( $failure_flag ==0 ))
+    if (( failure_flag ==0 ))
     then
         print "...successfully completed."
     else
@@ -515,7 +505,7 @@ ReloadActions() {
         HASH
 	HASH Shorten forms like "host.dom.com" to "host"
 	HASH
-	session_host=`uname -n`
+	session_host=$(uname -n)
 	session_host=${session_host%%.*}
 
 	if (( reloadactions_flag ))
@@ -557,7 +547,7 @@ UnintegratePrinter() {
 
     if [[ -f $action_path ]]
     then
-	rm -fr $action_path
+	rm -fr "$action_path"
 	if (( verbose_flag ))
 	then
 	    print "	Removed one action file: "
@@ -567,7 +557,7 @@ UnintegratePrinter() {
 
     if [[ -f $databasefile_path ]]
     then
-	rm -fr $databasefile_path
+	rm -fr "$databasefile_path"
 	if (( verbose_flag ))
 	then
 	    print "	Removed one database file:"
@@ -584,7 +574,7 @@ XCOMM ##
 XCOMM ##
 XCOMM #################################################################
 Exit() {
-        exit $1
+        exit "$1"
 }
 
 XCOMM #################################################################
@@ -599,7 +589,6 @@ printer_flag=0
 help_flag=0
 helpfile_flag=0
 icon_flag=0
-language_flag=0
 verbose_flag=0
 unintegrate_flag=0
 failure_flag=0
@@ -638,7 +627,7 @@ done
 
 ((shift_positions = OPTIND - 1))
 
-if (( $shift_positions < $# ))
+if (( shift_positions < $# ))
 then
 XCOMM
 XCOMM We have at least one remaining non-switch command line argument
@@ -658,21 +647,21 @@ XCOMM  Time to get to work.
 XCOMM
 Initialize
 
-if (( $verbose_flag ))
+if (( verbose_flag ))
 then
 	PrintStartLog
 fi
 
 CheckOptions
 
-if (( $unintegrate_flag ))
+if (( unintegrate_flag ))
 then
 
     UnintegratePrinter
 
 else
 
-    if (( $icon_flag ))
+    if (( icon_flag ))
     then
 	CopyIconFiles
 	HASH Doing so will set the $base_icon_name for inclusion in the
@@ -687,7 +676,7 @@ else
 
 fi
 
-if (( $verbose_flag ))
+if (( verbose_flag ))
 then
 	PrintEndLog
 fi
