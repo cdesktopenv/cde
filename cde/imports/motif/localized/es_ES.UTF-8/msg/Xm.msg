@@ -21,16 +21,16 @@ $quote "
 
 $set MS_ArrowButton
 
-MSG_ArrowButton_1000 "La direcciÛn de la flecha no es correcta."
+MSG_ArrowButton_1000 "La direcci√≥n de la flecha no es correcta."
 $ MSG_ArrowButton_1000 message is obsolete - DO NOT localize this message.
 
 $set MS_BulletinB
 
-MSG_BulletinB_1000 "PolÌtica de redimensiÛn incorrecta."
+MSG_BulletinB_1000 "Pol√≠tica de redimensi√≥n incorrecta."
 $ MSG_BulletinB_1000 message is obsolete - DO NOT localize this message.
 
-$ MSG_BulletinB_0001 "Estilo de di·logo incorrecto."
-MSG_BulletinB_0001 "El estilo de di·logo debe ser XmDIALOG_MODELESS."
+$ MSG_BulletinB_0001 "Estilo de di√°logo incorrecto."
+MSG_BulletinB_0001 "El estilo de di√°logo debe ser XmDIALOG_MODELESS."
 
 MSG_BulletinB_1001 "Tipo de sombra incorrecto."
 $ MSG_BulletinB_1001 message is obsolete - DO NOT localize this message.
@@ -45,7 +45,7 @@ MSG_CascadeB_1000 "XmCascadeButton debe tener el tipo de \n\
 padre XmRowColumnWidgetClass correcto."
 $ MSG_CascadeB_1000 message is obsolete - DO NOT localize this message.
 
-$ MSG_CascadeB_0001 "Solamente XmMENU_PULLDOWN XmRowColumnWidgets pueden ser submen˙s."
+$ MSG_CascadeB_0001 "Solamente XmMENU_PULLDOWN XmRowColumnWidgets pueden ser submen√∫s."
 MSG_CascadeB_0001 "Solamente widgets XmRowColumn de tipo XmMENU_PULLDOWN pueden ser submenus."
 $ please do not translate submenus. 
 
@@ -61,15 +61,15 @@ MSG_RowColText_0024 "XtGrabKeyboard ha fallado."
 
 $set MS_Command
 
-MSG_Command_0000 "El tipo de di·logo debe ser XmDIALOG_COMMAND."
+MSG_Command_0000 "El tipo de di√°logo debe ser XmDIALOG_COMMAND."
 
-MSG_Command_0001 "Tipo de hijo no v·lido.\n\
+MSG_Command_0001 "Tipo de hijo no v√°lido.\n\
 El widget Command no tiene este hijo."
 $ please do not translate Command.
 
-MSG_Command_0002 "XmString NULL o vacÌa."
+MSG_Command_0002 "XmString NULL o vac√≠a."
 
-MSG_Command_0003 "Se ha enviado una XmString NULL o vacÌa a XmCommandAppendValue."
+MSG_Command_0003 "Se ha enviado una XmString NULL o vac√≠a a XmCommandAppendValue."
 
 MSG_Command_0004 "XmNmustMatch es siempre False para un widget Command."
 $ please do not translate False or Command. 
@@ -93,19 +93,19 @@ MSG_CutPaste_0004 "Tipo de datos incorrecto"
 MSG_CutPaste_0005 "ClipboardCorrupt"
 $ please do not translate ClipboardCorrupt.
 
-MSG_CutPaste_0006 "Error interno. La estructura de datos est· daÒada"
+MSG_CutPaste_0006 "Error interno. La estructura de datos est√° da√±ada"
 
 MSG_CutPaste_0007 "ClipboardBadFormat"
 $ please do not translate ClipboardBadFormat
 
-MSG_CutPaste_0008 "Error. La longitud de formato registrado debe ser 8, 16 Û 32"
+MSG_CutPaste_0008 "Error. La longitud de formato registrado debe ser 8, 16 √≥ 32"
 
 MSG_CutPaste_0009 "Error. El nombre de formato registrado no debe ser nulo"
 
 
 $set MS_DialogS
 
-MSG_DialogS_0000 "El widget DialogShell sÛlo soporta un hijo RectObj"
+MSG_DialogS_0000 "El widget DialogShell s√≥lo soporta un hijo RectObj"
 $ please do not translate DialogShell and RectObj.
 
 MSG_DialogS_1000 "Los gadgets no se permiten en Shell"
@@ -117,15 +117,15 @@ $set MS_DrawingA
 MSG_DrawingA_1001 "La anchura o altura del margen no puede ser negativa."
 $ MSG_DrawingA_1001 message is obsolete - DO NOT localize this message.
 
-MSG_DrawingA_1002 "PolÌtica de redimensiÛn incorrecta."
+MSG_DrawingA_1002 "Pol√≠tica de redimensi√≥n incorrecta."
 $ MSG_DrawingA_1002 message is obsolete - DO NOT localize this message.
 
 
 $set MS_Form
 
-MSG_Form_0000 "La base de la fracciÛn no puede ser cero."
+MSG_Form_0000 "La base de la fracci√≥n no puede ser cero."
 
-MSG_Form_1000 "Tipo de conexiÛn de formato incorrecto."
+MSG_Form_1000 "Tipo de conexi√≥n de formato incorrecto."
 $ MSG_Form_1000 message is obsolete - DO NOT localize this message.
 
 MSG_Form_1001 "No se pueden establecer restricciones para un widget no redimensionable."
@@ -139,10 +139,10 @@ MSG_Form_0002 "Dependencia circular de los hijos del widget Form.\n\
 Verifique si existen enlaces circulares entre los hijos."
 $ please do not translate Form. 
 
-MSG_Form_1006 "Borde conectado a un widget pero no se ha especificado ning˙n widget."
+MSG_Form_1006 "Borde conectado a un widget pero no se ha especificado ning√∫n widget."
 $ MSG_Form_1006 message is obsolete - DO NOT localize this message.
 
-MSG_Form_0003 "Se abandonÛ la sincronizaciÛn del borde despuÈs de 10000 iteraciones.\n\
+MSG_Form_0003 "Se abandon√≥ la sincronizaci√≥n del borde despu√©s de 10000 iteraciones.\n\
 Verifique si existen limitaciones contradictorias para los hijos de este widget Form."
 $ please do not translate Form.
 
@@ -157,39 +157,39 @@ MSG_Frame_1000 "En un marco solamente debe insertarse un hijo."
 $ please do not translate Frame.
 $ MSG_Frame_1000 message is obsolete - DO NOT localize this message.
 
-MSG_Frame_1001 "Anchura de margen no v·lida."
+MSG_Frame_1001 "Anchura de margen no v√°lida."
 $ MSG_Frame_1001 message is obsolete - DO NOT localize this message.
 
-MSG_Frame_1002 "Altura de margen no v·lida."
+MSG_Frame_1002 "Altura de margen no v√°lida."
 $ MSG_Frame_1002 message is obsolete - DO NOT localize this message.
 
 
 $set MS_Gadget
 
-MSG_Gadget_1000 "Grosor de resaltado no v·lido."
+MSG_Gadget_1000 "Grosor de resaltado no v√°lido."
 $ MSG_Gadget_1000 message is obsolete - DO NOT localize this message.
 
 MSG_Gadget_1001 "El tipo de unidad no es correcto."
 $ MSG_Gadget_1001 message is obsolete - DO NOT localize this message.
 
-MSG_Gadget_1002 "Grosor de sombra no v·lido."
+MSG_Gadget_1002 "Grosor de sombra no v√°lido."
 $ MSG_Gadget_1002 message is obsolete - DO NOT localize this message.
 
 MSG_Gadget_1003 "No se puede establecer el recurso de mapa de pixels en no especificado."
 $ MSG_Gadget_1003 message is obsolete - DO NOT localize this message.
 
-MSG_Gadget_0000 "No se puede cambiar XmNlayoutDirection despuÈs de la inicializaciÛn."
+MSG_Gadget_0000 "No se puede cambiar XmNlayoutDirection despu√©s de la inicializaci√≥n."
 
 
 $set MS_Label
 
-MSG_Label_1001 "XmNlabeType no v·lido"
+MSG_Label_1001 "XmNlabeType no v√°lido"
 $ MSG_Label_1001 message is obsolete - DO NOT localize this message.
 
-MSG_Label_1002 "Valor no v·lido en XmNalignment"
+MSG_Label_1002 "Valor no v√°lido en XmNalignment"
 $ MSG_Label_1002 message is obsolete - DO NOT localize this message.
 
-MSG_Label_1003 "Valor no v·lido en XmNstringDirection"
+MSG_Label_1003 "Valor no v√°lido en XmNstringDirection"
 $ MSG_Label_1003 message is obsolete - DO NOT localize this message.
 
 MSG_Label_0003 "XmNlabelString debe ser una Compound String."
@@ -201,21 +201,21 @@ $ please do not translate Compound String.
 
 $set MS_List
 
-MSG_List_0000 "Si se cambia, XmNvisibleItemCount debe ser como mÌnimo 1."
+MSG_List_0000 "Si se cambia, XmNvisibleItemCount debe ser como m√≠nimo 1."
 
-MSG_List_1001 "PolÌtica de SelecciÛn no v·lida."
+MSG_List_1001 "Pol√≠tica de Selecci√≥n no v√°lida."
 $ MSG_List_1001 message is obsolete - DO NOT localize this message.
 
-MSG_List_1002 "PolÌtica de TamaÒo no v·lida."
+MSG_List_1002 "Pol√≠tica de Tama√±o no v√°lida."
 $ MSG_List_1002 message is obsolete - DO NOT localize this message.
 
-MSG_List_1003 "PolÌtica de Mostrar Barra de desplazamiento no v·lida."
+MSG_List_1003 "Pol√≠tica de Mostrar Barra de desplazamiento no v√°lida."
 $ MSG_List_1003 message is obsolete - DO NOT localize this message.
 
-MSG_List_1004 "DirecciÛn de cadena no v·lida."
+MSG_List_1004 "Direcci√≥n de cadena no v√°lida."
 $ MSG_List_1004 message is obsolete - DO NOT localize this message.
 
-MSG_List_0005 "No se puede cambiar XmNlistSizePolicy despuÈs de la inicializaciÛn."
+MSG_List_0005 "No se puede cambiar XmNlistSizePolicy despu√©s de la inicializaci√≥n."
 
 MSG_List_0006 "Cuando se cambia, XmNitemCount debe ser cero o positivo."
 $ non-negative means zero or positive.
@@ -229,7 +229,7 @@ MSG_List_0007 "Los elementos a suprimir no se encuentran en la lista."
 MSG_List_1009 "No hay Barra de desplazamiento horizontal a establecer."
 $ MSG_List_1009 message is obsolete - DO NOT localize this message.
 
-MSG_List_1010 "Valor de margen no v·lido."
+MSG_List_1010 "Valor de margen no v√°lido."
 $ MSG_List_1010 message is obsolete - DO NOT localize this message.
 
 MSG_List_0008 "XmNlistSpacing debe ser cero o positivo."
@@ -243,9 +243,9 @@ es positivo."
 
 MSG_List_0012 "XmNtopItemPosition debe ser cero o positivo."
 
-MSG_List_0013 "XmNitems y XmNitemCount °no coinciden!"
+MSG_List_0013 "XmNitems y XmNitemCount ¬°no coinciden!"
 
-MSG_List_1017 "El modo de adiciÛn no se puede abandonar en selecciÛn m˙ltiple."
+MSG_List_1017 "El modo de adici√≥n no se puede abandonar en selecci√≥n m√∫ltiple."
 $ MSG_List_1017 message is obsolete - DO NOT localize this message.
 
 MSG_List_0014 "XmNselectedPositionCount no debe ser negativo."
@@ -271,8 +271,8 @@ $set MS_MenuShell
 MSG_MenuShell_0000 "Los widgets MenuShell solamente aceptan hijos XmRowColumn."
 $ please do not translate MenuShell.
 
-MSG_MenuShell_0001 "Se intenta administrar un men˙ desplegable que no est· anexado \n\
-a un botÛn Cascade."
+MSG_MenuShell_0001 "Se intenta administrar un men√∫ desplegable que no est√° anexado \n\
+a un bot√≥n Cascade."
 
 MSG_MenuShell_0002 "XmPopup requiere la subclase shellWidgetClass"
 $ please do not translate shellWidgetClass.
@@ -280,7 +280,7 @@ $ please do not translate shellWidgetClass.
 MSG_MenuShell_0003 "XmPopdown requiere la subclase shellWidgetClass"
 $ please do not translate shellWidgetClass.
 
-MSG_MenuShell_0004 "XtMenuPopup requiere un sÛlo argumento."
+MSG_MenuShell_0004 "XtMenuPopup requiere un s√≥lo argumento."
 
 MSG_MenuShell_0005 "XtMenuPopup solamente soporta eventos ButtonPress, KeyPress y EnterNotify."
 $ please do not translate ButtonPress, KeyPress or EnterNotify.
@@ -289,49 +289,49 @@ MSG_MenuShell_0006 "No se puede encontrar el widget emergente \"%s\" en XtMenuPo
 
 MSG_MenuShell_0007 "No se puede encontrar el widget \"%s\" en XtMenuPopdown."
 
-MSG_MenuShell_0008 "XtMenuPopdown se llamÛ con m·s de un argumento."
+MSG_MenuShell_0008 "XtMenuPopdown se llam√≥ con m√°s de un argumento."
 
-MSG_MenuShell_0009 "No se puede cambiar XmNlayoutDirection despuÈs de la inicializaciÛn."
+MSG_MenuShell_0009 "No se puede cambiar XmNlayoutDirection despu√©s de la inicializaci√≥n."
 
 
 $set MS_MessageB
 
-MSG_MessageB_1001 "Tipo de Di·logo no v·lido."
+MSG_MessageB_1001 "Tipo de Di√°logo no v√°lido."
 $ MSG_MessageB_1001 message is obsolete - DO NOT localize this message.
 
-MSG_MessageB_1002 "Tipo de BotÛn Predeterminado no v·lido."
+MSG_MessageB_1002 "Tipo de Bot√≥n Predeterminado no v√°lido."
 $ MSG_MessageB_1002 message is obsolete - DO NOT localize this message.
 
-MSG_MessageB_1003 "Tipo de AlineaciÛn no v·lido."
+MSG_MessageB_1003 "Tipo de Alineaci√≥n no v√°lido."
 $ MSG_MessageB_1003 message is obsolete - DO NOT localize this message.
 
-MSG_MessageB_0003 "Tipo de hijo no v·lido. El widget no cuenta con este hijo."
+MSG_MessageB_0003 "Tipo de hijo no v√°lido. El widget no cuenta con este hijo."
 
-MSG_MessageB_0004 "El botÛn Cancelar no se puede cambiar."
+MSG_MessageB_0004 "El bot√≥n Cancelar no se puede cambiar."
 
-MSG_MessageB_1006 "Use XmNdefaultButtonType para establecer el botÛn predeterminado de MessageBox."
+MSG_MessageB_1006 "Use XmNdefaultButtonType para establecer el bot√≥n predeterminado de MessageBox."
 $ MSG_MessageB_1006 message is obsolete - DO NOT localize this message.
 
 
 $set MS_PanedW
 
-MSG_PanedW_0000 "El valor mÌnimo debe ser mayor que 0."
+MSG_PanedW_0000 "El valor m√≠nimo debe ser mayor que 0."
 
-MSG_PanedW_0001 "El valor m·ximo debe ser mayor que 0."
+MSG_PanedW_0001 "El valor m√°ximo debe ser mayor que 0."
 
-MSG_PanedW_0002 "El valor mÌnimo debe ser menor que el valor m·ximo."
+MSG_PanedW_0002 "El valor m√≠nimo debe ser menor que el valor m√°ximo."
 
-MSG_PanedW_0003 "Las restricciones no permiten dar la dimensiÛn adecuada."
+MSG_PanedW_0003 "Las restricciones no permiten dar la dimensi√≥n adecuada."
 $ MSG_PanedW_0003 message is obsolete - DO NOT localize this message.
 
-MSG_PanedW_0004 "Demasiados pocos par·metros de la devoluciÛn de llamada sash."
+MSG_PanedW_0004 "Demasiados pocos par√°metros de la devoluci√≥n de llamada sash."
 
-MSG_PanedW_0005 "El primer par·metro de devoluciÛn de llamada sash no es v·lido."
+MSG_PanedW_0005 "El primer par√°metro de devoluci√≥n de llamada sash no es v√°lido."
 
 
 $set MS_PWidget
 
-MSG_PWI_1001 "fontList no est· definido"
+MSG_PWI_1001 "fontList no est√° definido"
 $ MSG_PWI_1001 message is obsolete - DO NOT localize this message.
 $ please do not translate fontList.
 
@@ -343,8 +343,8 @@ $ please do not translate VendorShell.
 
 MSG_Protocols_0001 "El gestor de protocolos ya existe"
 
-MSG_Protocols_0002 "Existen m·s protocolos que los que puede manipular el widget.\n\
-LÌmite: 32."
+MSG_Protocols_0002 "Existen m√°s protocolos que los que puede manipular el widget.\n\
+L√≠mite: 32."
 
 
 $set MS_PushB
@@ -369,22 +369,22 @@ $ MSG_RowColumn_1003 message is obsolete - DO NOT localize this message.
 
 MSG_RowColumn_0001 "Se ha ignorado el intento de fijar la altura en cero"
 
-MSG_RowColumn_0002 "Se ha forzado el valor NULL en XmNhelpWidgetforced ya que los men˙s emergentes no lo utilizan."
+MSG_RowColumn_0002 "Se ha forzado el valor NULL en XmNhelpWidgetforced ya que los men√∫s emergentes no lo utilizan."
 
-MSG_RowColumn_0003 "Se ha forzado el valor NULL en XmNhelpWidget ya que los men˙s desplegables no lo utilizan."
+MSG_RowColumn_0003 "Se ha forzado el valor NULL en XmNhelpWidget ya que los men√∫s desplegables no lo utilizan."
 
-MSG_RowColumn_0004 "Se ha forzado el valor NULL en XmNhelpWidget ya que los men˙s de opciones no lo utilizan."
+MSG_RowColumn_0004 "Se ha forzado el valor NULL en XmNhelpWidget ya que los men√∫s de opciones no lo utilizan."
 
-MSG_RowColumn_0005 "Se ha forzado el valor NULL en XmNhelpWidget ya que las ·reas de trabajo no lo utilizan."
+MSG_RowColumn_0005 "Se ha forzado el valor NULL en XmNhelpWidget ya que las √°reas de trabajo no lo utilizan."
 
 MSG_RowColumn_1009 "Valor de XmNrowColumnType desconocido.\n\
-Est· establecido en WorkArea."
+Est√° establecido en WorkArea."
 $ MSG_RowColumn_1009 message is obsolete - DO NOT localize this message.
 
-MSG_RowColumn_0007 "La jerarquÌa de widget no es apropiada para este XmNrowColumnType.\n\
-Se utilizar· el valor predeterminado XmWORK_AREA."
+MSG_RowColumn_0007 "La jerarqu√≠a de widget no es apropiada para este XmNrowColumnType.\n\
+Se utilizar√° el valor predeterminado XmWORK_AREA."
 
-MSG_RowColumn_0008 "Se ha ignorado el intento de cambiar XmNrowColumnType despuÈs de la inicializaciÛn"
+MSG_RowColumn_0008 "Se ha ignorado el intento de cambiar XmNrowColumnType despu√©s de la inicializaci√≥n"
 
 MSG_RowColumn_1012 "Valor de XmNorientation desconocido.\n\
 Se utiliza el valor predeterminado."
@@ -418,15 +418,15 @@ MSG_RowColumn_0016 "Se ha ignorado el intento de cambiar XmNentryClass por un wi
 XmMENU_BAR."
 $ please do not translate RowColumn.
 
-MSG_RowColumn_0017 "Se ha ignorado el intento de cambiar XmNwhichButton a travÈs de XtSetValues por un widget RowColumn \
+MSG_RowColumn_0017 "Se ha ignorado el intento de cambiar XmNwhichButton a trav√©s de XtSetValues por un widget RowColumn \
 de tipo XmMENU_PULLDOWN."
 $ please do not translate RowColumn.
 
-MSG_RowColumn_0018 "Se ha ignorado el intento de cambiar XmNmenuPost a travÈs de XtSetValues por un widget RowColumn \
+MSG_RowColumn_0018 "Se ha ignorado el intento de cambiar XmNmenuPost a trav√©s de XtSetValues por un widget RowColumn \
 de tipo XmMENU_PULLDOWN."
 $ please do not translate RowColumn.
 
-MSG_RowColumn_0019 "Se ha ignorado el intento de fijar un valor no v·lido en XmNmenuPost."
+MSG_RowColumn_0019 "Se ha ignorado el intento de fijar un valor no v√°lido en XmNmenuPost."
 
 MSG_RowColumn_0020 "Se ha ignorado el intento de cambiar XmNshadowThickness por un widget RowColumn no de tipo \
 XmMENU_PULLDOWN o XmMENU_POPUP."
@@ -437,71 +437,71 @@ de tipo XmMENU_OPTION.\n\
 El valor se ignora."
 $ MSG_RowColumn_1024 message is obsolete - DO NOT localize this message.
 
-MSG_RowColumn_0022 "Intento de aÒadir un hijo de tipo errÛneo a \n\
-un widget de men˙ (p.ej. RowColumn)"
+MSG_RowColumn_0022 "Intento de a√±adir un hijo de tipo err√≥neo a \n\
+un widget de men√∫ (p.ej. RowColumn)"
 
-MSG_RowColumn_0023 "Intento de aÒadir un hijo de tipo errÛneo a\n\
-un widget RowColumn homogÈneo"
+MSG_RowColumn_0023 "Intento de a√±adir un hijo de tipo err√≥neo a\n\
+un widget RowColumn homog√©neo"
 
 MSG_RowColumn_0025 "Intento de cambiar XmNisHomogeneous para un widget RowColumn \n\
 \t de tipo XmMENU_OPTION ignorado"
 $ please do not translate RowColumn.
 
-MSG_RowColumn_0026 "No se recomienda activar la funciÛn para arrancar un panel de men˙ compartido"
+MSG_RowColumn_0026 "No se recomienda activar la funci√≥n para arrancar un panel de men√∫ compartido"
 
-MSG_RowColumn_0027 "Car·cter mnemotÈcnico no v·lido. No se ha podido convertir X KEYSYM \n\
-\t en un cÛdigo de tecla."
+MSG_RowColumn_0027 "Car√°cter mnemot√©cnico no v√°lido. No se ha podido convertir X KEYSYM \n\
+\t en un c√≥digo de tecla."
 $ please do not translate X KEYSYM.
 
 
 $set MS_Scale
 
-MSG_Scale_0000 "El valor mÌnimo de escala es mayor o igual que\n\
-el valor m·ximo de escala."
+MSG_Scale_0000 "El valor m√≠nimo de escala es mayor o igual que\n\
+el valor m√°ximo de escala."
 
 MSG_Scale_0001 "El valor de escala especificado es menor que\n\
-el valor mÌnimo de escala."
+el valor m√≠nimo de escala."
 
 MSG_Scale_0002 "El valor de escala especificado es mayor que\n\
-el valor m·ximo de escala."
+el valor m√°ximo de escala."
 
-MSG_Scale_1004 "OrientaciÛn incorrecta."
+MSG_Scale_1004 "Orientaci√≥n incorrecta."
 $ MSG_Scale_1004 message is obsolete - DO NOT localize this message.
 
-MSG_ScaleScrBar_0004 "DirecciÛn de proceso incorrecta."
+MSG_ScaleScrBar_0004 "Direcci√≥n de proceso incorrecta."
 
-MSG_Scale_0005 "Grosor de resaltado no v·lido."
+MSG_Scale_0005 "Grosor de resaltado no v√°lido."
 $ MSG_Scale_0005 message is obsolete - DO NOT localize this message.
 
-MSG_Scale_0006 "XmNscaleMultiple no v·lido; es mayor que (m·ximo - mÌnimo)"
+MSG_Scale_0006 "XmNscaleMultiple no v√°lido; es mayor que (m√°ximo - m√≠nimo)"
 
-MSG_Scale_0007 "XmNscaleMultiple no v·lido; es menor que cero"
+MSG_Scale_0007 "XmNscaleMultiple no v√°lido; es menor que cero"
 
-MSG_Scale_0008 "(M·ximo - mÌnimo) no puede ser mayor que \n\
-\tINT_MAX dividido por 2. El mÌnimo se ha establecido en cero. \n\
-\t El m·ximo puede haberse establecido en (INT_MAX/2)."
+MSG_Scale_0008 "(M√°ximo - m√≠nimo) no puede ser mayor que \n\
+\tINT_MAX dividido por 2. El m√≠nimo se ha establecido en cero. \n\
+\t El m√°ximo puede haberse establecido en (INT_MAX/2)."
 
 MSG_Scale_0009 "El valor de XmNshowValue no es correcto"
 
 
 $set MS_ScrollBar
 
-MSG_ScrollBar_0000 "El valor mÌnimo de barra de desplazamiento es mayor\n\
-o igual que el valor m·ximo de barra de desplazamiento."
+MSG_ScrollBar_0000 "El valor m√≠nimo de barra de desplazamiento es mayor\n\
+o igual que el valor m√°ximo de barra de desplazamiento."
 
-MSG_ScrollBar_0001 "El tamaÒo de control deslizante especificado es menor que 1."
+MSG_ScrollBar_0001 "El tama√±o de control deslizante especificado es menor que 1."
 
 MSG_ScrollBar_0002 "El valor de barra de desplazamiento especificado es\n\
-menor que el valor mÌnimo de barra de desplazamiento."
+menor que el valor m√≠nimo de barra de desplazamiento."
 
 MSG_ScrollBar_0003 "El valor de barra de desplazamiento especificado es mayor que\n\
-el valor m·ximo de barra de desplazamiento menos el tamaÒo de\n\
+el valor m√°ximo de barra de desplazamiento menos el tama√±o de\n\
 control deslizante de la barra de desplazamiento."
 
-MSG_ScrollBar_1005 "OrientaciÛn incorrecta."
+MSG_ScrollBar_1005 "Orientaci√≥n incorrecta."
 $ MSG_ScrollBar_1005 message is obsolete - DO NOT localize this message.
 
-MSG_ScrollBar_1006 "DirecciÛn de proceso incorrecta."
+MSG_ScrollBar_1006 "Direcci√≥n de proceso incorrecta."
 $ MSG_ScrollBar_1006 message is obsolete - DO NOT localize this message.
 
 MSG_ScrollBar_0004 "El incremento de barra de desplazamiento es menor que 1."
@@ -510,7 +510,7 @@ MSG_ScrollBar_0005 "El incremento de barra de desplazamiento es menor que 1."
 
 MSG_ScrollBar_0006 "El retardo inicial de barra de desplazamiento es menor que 1."
 
-MSG_ScrollBar_0007 "El retardo de repeticiÛn de barra de desplazamiento es menor que 1."
+MSG_ScrollBar_0007 "El retardo de repetici√≥n de barra de desplazamiento es menor que 1."
 
 MSG_ScrollBar_1011 "Error en gestor de contexto; los fondos de la barra\n\
 de desplazamiento no se pueden establecer correctamente"
@@ -520,33 +520,33 @@ MSG_ScrollBar_1012 "Error en gestor de contexto; los primeros planos de la barra
 de desplazamiento no se pueden establecer correctamente"
 $ MSG_ScrollBar_1012 message is obsolete - DO NOT localize this message.
 
-MSG_ScrollBar_0008 "El tamaÒo de control deslizante especificado es mayor que\n\
-el valor m·ximo de barra de desplazamiento menos el valor\n\
-mÌnimo de barra de desplazamiento."
+MSG_ScrollBar_0008 "El tama√±o de control deslizante especificado es mayor que\n\
+el valor m√°ximo de barra de desplazamiento menos el valor\n\
+m√≠nimo de barra de desplazamiento."
 
 
 $set MS_ScrolledW
 
-MSG_ScrolledW_1001 "PolÌtica de Mostrar Barra de desplazamiento no v·lida."
+MSG_ScrolledW_1001 "Pol√≠tica de Mostrar Barra de desplazamiento no v√°lida."
 $ MSG_ScrolledW_1001 message is obsolete - DO NOT localize this message.
 
-MSG_ScrolledW_1002 "PolÌtica de desplazamiento no v·lida."
+MSG_ScrolledW_1002 "Pol√≠tica de desplazamiento no v√°lida."
 $ MSG_ScrolledW_1002 message is obsolete - DO NOT localize this message.
 
-MSG_ScrolledW_1003 "PolÌtica Visual no v·lida."
+MSG_ScrolledW_1003 "Pol√≠tica Visual no v√°lida."
 $ MSG_ScrolledW_1003 message is obsolete - DO NOT localize this message.
 
-MSG_ScrolledW_1004 "PolÌtica de colocaciÛn no v·lida."
+MSG_ScrolledW_1004 "Pol√≠tica de colocaci√≥n no v√°lida."
 $ MSG_ScrolledW_1004 message is obsolete - DO NOT localize this message.
 
-MSG_ScrolledW_0004 "No se puede cambiar la polÌtica de desplazamiento\n\
-despuÈs de la inicializaciÛn."
+MSG_ScrolledW_0004 "No se puede cambiar la pol√≠tica de desplazamiento\n\
+despu√©s de la inicializaci√≥n."
 
-MSG_ScrolledW_0005 "No se puede cambiar la polÌtica visual despuÈs de la inicializaciÛn."
+MSG_ScrolledW_0005 "No se puede cambiar la pol√≠tica visual despu√©s de la inicializaci√≥n."
 
-MSG_ScrolledW_0006 "No se puede establecer la polÌtica de \n\
+MSG_ScrolledW_0006 "No se puede establecer la pol√≠tica de \n\
 barra de desplazamiento AS_NEEDED con una\n\
-polÌtica visual de VARIABLE."
+pol√≠tica visual de VARIABLE."
 $ please do not translate AS_NEEDED or VARIABLE.
 
 MSG_ScrolledW_0007 "No se puede cambiar la anchura de la barra de \n\
@@ -555,21 +555,21 @@ $ please do not translate AUTOMATIC.
 
 MSG_ScrolledW_0008 "No se puede cambiar la ventana del portapapeles"
 
-MSG_ScrolledW_0009 "No se puede establecer la polÌtica visual de CONSTANT en modo APPLICATION_DEFINED."
+MSG_ScrolledW_0009 "No se puede establecer la pol√≠tica visual de CONSTANT en modo APPLICATION_DEFINED."
 $ please do not translate CONSTANT or APPLICATION_DEFINED.
 
-MSG_ScrollVis_0000 "Se han enviado par·metros incorrectos a la funciÛn XmScrollVisible."
+MSG_ScrollVis_0000 "Se han enviado par√°metros incorrectos a la funci√≥n XmScrollVisible."
 
 
 $set MS_SelectioB
 
-MSG_SelectioB_1001 "Tipo de di·logo incorrecto."
+MSG_SelectioB_1001 "Tipo de di√°logo incorrecto."
 $ MSG_SelectioB_1001 message is obsolete - DO NOT localize this message.
 
-MSG_SelectioB_0001 "El tipo de di·logo no se puede modificar."
+MSG_SelectioB_0001 "El tipo de di√°logo no se puede modificar."
 $ please do not translate Dialog.
 
-MSG_SelectioB_1003 "Solamente se permite un hijo de ·rea de trabajo."
+MSG_SelectioB_1003 "Solamente se permite un hijo de √°rea de trabajo."
 $ MSG_SelectioB_1003 message is obsolete - DO NOT localize this message.
 
 MSG_SelectioB_0002 "El widget no soporta este tipo de hijo."
@@ -577,25 +577,25 @@ MSG_SelectioB_0002 "El widget no soporta este tipo de hijo."
 
 $set MS_Separator
 
-MSG_Separator_1001 "Tipo de separador no v·lido."
+MSG_Separator_1001 "Tipo de separador no v√°lido."
 $ MSG_Separator_1001 message is obsolete - DO NOT localize this message.
 
-MSG_Separator_1002 "OrientaciÛn no v·lida."
+MSG_Separator_1002 "Orientaci√≥n no v√°lida."
 $ MSG_Separator_1002 message is obsolete - DO NOT localize this message.
 
 
 $set MS_Text
 
-MSG_Text_0000 "Se ignorar· el texto de origen incorrecto."
+MSG_Text_0000 "Se ignorar√° el texto de origen incorrecto."
 
-MSG_Text_1003 "Modo de ediciÛn no v·lido."
+MSG_Text_1003 "Modo de edici√≥n no v√°lido."
 $ MSG_Text_1003 message is obsolete - DO NOT localize this message.
 
 MSG_Text_0002 "El widget de texto es modificable. XmNtraversalOn debe ser True."
 $ please do not translate XmNtraversalOn and True.
 $ MSG_Text_0002 message is obsolete - DO NOT localize this message.
 
-MSG_TextIn_0000 "No se puede encontrar la posiciÛn mientras se intenta mover a la lÌnea anterior."
+MSG_TextIn_0000 "No se puede encontrar la posici√≥n mientras se intenta mover a la l√≠nea anterior."
 
 MSG_TextOut_0000 "La cantidad de filas debe ser mayor que 0."
 
@@ -605,16 +605,16 @@ $ please do not translate XmFontListInitFontContext.
 MSG_TextF_0003 "XmFontListGetNextFont ha fallado."
 $ please do not translate XmFontListGetNextFont.
 
-MSG_TextF_0004 "El font no soporta el car·cter '%s'.  Se ha descartado."
+MSG_TextF_0004 "El font no soporta el car√°cter '%s'.  Se ha descartado."
 
-MSG_TextFWcs_0000 "El font no soporta el car·cter '%s'.  Se ha descartado."
+MSG_TextFWcs_0000 "El font no soporta el car√°cter '%s'.  Se ha descartado."
 
-MSG_TextFWcs_0001 "No se puede utilizar un lugar con bites m˙ltiples sin ning˙n fontset.  Se ha descartado el valor."
+MSG_TextFWcs_0001 "No se puede utilizar un lugar con bites m√∫ltiples sin ning√∫n fontset.  Se ha descartado el valor."
 $ MSG_TextFWcs_0001 message is obsolete - DO NOT localize this message.
 
 $set MS_TextF
 
-MSG_TextF_0000 "La posiciÛn del cursor debe ser mayor o igual que 0."
+MSG_TextF_0000 "La posici√≥n del cursor debe ser mayor o igual que 0."
 
 MSG_TextF_0001 "La cantidad de columnas debe ser mayor que 0."
 
@@ -633,45 +633,45 @@ $ MSG_ToggleB_1001 message is obsolete - DO NOT localize this message.
 
 $set MS_Traversal
 
-MSG_Traversal_1001 "Valor no v·lido para navigation_type"
+MSG_Traversal_1001 "Valor no v√°lido para navigation_type"
 $ MSG_Traversal_1001 message is obsolete - DO NOT localize this message.
 
-MSG_Traversal_1002 "°°Valor anterior errÛneo para navigation_type!!"
+MSG_Traversal_1002 "¬°¬°Valor anterior err√≥neo para navigation_type!!"
 $ MSG_Traversal_1002 message is obsolete - DO NOT localize this message.
 
-MSG_Traversal_1003 "SituaciÛn de rutina de carga transversal con par·metros errÛneos"
+MSG_Traversal_1003 "Situaci√≥n de rutina de carga transversal con par√°metros err√≥neos"
 $ MSG_Traversal_1003 message is obsolete - DO NOT localize this message.
 
-MSG_Traversal_1004 "Intento de colocar un nuevo tabulador usando par·metros errÛneos"
+MSG_Traversal_1004 "Intento de colocar un nuevo tabulador usando par√°metros err√≥neos"
 $ MSG_Traversal_1004 message is obsolete - DO NOT localize this message.
 
-MSG_Traversal_1005 "startWidget no est· en la lista de hijos"
+MSG_Traversal_1005 "startWidget no est√° en la lista de hijos"
 $ MSG_Traversal_1005 message is obsolete - DO NOT localize this message.
 $ please do not translate startWidget
 
-MSG_Traversal_1006 "Par·metros errÛneos para TraverseToChild"
+MSG_Traversal_1006 "Par√°metros err√≥neos para TraverseToChild"
 $ MSG_Traversal_1006 message is obsolete - DO NOT localize this message.
 $ please do not translate TraverseToChild.
 
 
 $set MS_Vendor
 
-MSG_Vendor_0000 Valor no v·lido para XmNdeleteResponse
+MSG_Vendor_0000 Valor no v√°lido para XmNdeleteResponse
 
-MSG_Vendor_1002 "XmNpreeditType no v·lido, valor predeterminado para OverTheSpot"
+MSG_Vendor_1002 "XmNpreeditType no v√°lido, valor predeterminado para OverTheSpot"
 $ MSG_Vendor_1002 message is obsolete - DO NOT localize this message.
 
-MSG_Vendor_0001 "Valor no v·lido para XmNinputPolicy"
+MSG_Vendor_0001 "Valor no v√°lido para XmNinputPolicy"
 
 MSG_Vendor_0002 "XmNlayoutDirection no puede cambiarse."
 
 MSG_Vendor_0003 "Fatal Error: \n\
-_XmGetDefaultDisplay no puede utilizarse antes de VendorS.Initialize ya que devolver· un NULL"
+_XmGetDefaultDisplay no puede utilizarse antes de VendorS.Initialize ya que devolver√° un NULL"
 
 
 $set MS_VendorE
 
-MSG_VendorE_1001 "FetchUnitType: clase de widget errÛnea"
+MSG_VendorE_1001 "FetchUnitType: clase de widget err√≥nea"
 $ MSG_VendorE_1001 message is obsolete - DO NOT localize this message.
 
 MSG_VendorE_0000 "String to no-op conversion needs no extra arguments"
@@ -684,30 +684,30 @@ $ MSG_VendorE_0005 message is obsolete - DO NOT localize this message.
 
 $set MS_VirtKeys
 
-MSG_VirtKey_1001 "No se ha llamado a la inicializaciÛn de vÌnculos virtuales"
+MSG_VirtKey_1001 "No se ha llamado a la inicializaci√≥n de v√≠nculos virtuales"
 $ MSG_VirtKey_1001 message is obsolete - DO NOT localize this message.
 
 
 $set MS_Visual
 
-MSG_Visual_0000 "Solicitado un color no v·lido desde _XmAccessColorData."
+MSG_Visual_0000 "Solicitado un color no v√°lido desde _XmAccessColorData."
 
-MSG_Visual_0001 "No se puede asignar la anotaciÛn colormap para el fondo predeterminado."
+MSG_Visual_0001 "No se puede asignar la anotaci√≥n colormap para el fondo predeterminado."
 
-MSG_Visual_0002 "No se puede efectuar el an·lisis sint·ctico de la especificaciÛn del color de fondo predeterminado."
+MSG_Visual_0002 "No se puede efectuar el an√°lisis sint√°ctico de la especificaci√≥n del color de fondo predeterminado."
 
 
 $set MS_XmIm
 
-MSG_XmIm_0000 "No se puede abrir el mÈtodo de introducciÛn. Se utilizar· XLookupString."
+MSG_XmIm_0000 "No se puede abrir el m√©todo de introducci√≥n. Se utilizar√° XLookupString."
 
-MSG_XmIm_1002 "No se puede crear el Objeto de MÈtodo de Entrada"
+MSG_XmIm_1002 "No se puede crear el Objeto de M√©todo de Entrada"
 $ MSG_XmIm_1002 message is obsolete - DO NOT localize this message.
 
 MSG_XmIm_1003 "XmIMFocus invocado con widget NULL."
 $ MSG_XmIm_1003 message is obsolete - DO NOT localize this message.
 
-MSG_XmIm_1004 "XmIMMove invocado sin el foco de MÈtodo de Entrada."
+MSG_XmIm_1004 "XmIMMove invocado sin el foco de M√©todo de Entrada."
 $ MSG_XmIm_1004 message is obsolete - DO NOT localize this message.
 
 
@@ -757,11 +757,11 @@ $ command-line prompt in the Command widget.
 
 $set MS_BaseClass
 
-MSG_BaseClass_0000 "No se ha encontrado ning˙n contexto para extensiÛn."
+MSG_BaseClass_0000 "No se ha encontrado ning√∫n contexto para extensi√≥n."
 
-MSG_BaseClass_0001 "_XmPopWidgetExtData: no se ha encontrado ninguna extensiÛn con XFindContext."
+MSG_BaseClass_0001 "_XmPopWidgetExtData: no se ha encontrado ninguna extensi√≥n con XFindContext."
 
-MSG_BaseClass_0002 "XmFreeWidgetExtData no es una rutina a la que se dÈ soporte."
+MSG_BaseClass_0002 "XmFreeWidgetExtData no es una rutina a la que se d√© soporte."
 $ MSG_BaseClass_0002 message is obsolete - DO NOT localize this message.
 
 MSG_GetSecRes_0000 "getLabelSecResData: no hay suficiente memoria."
@@ -771,9 +771,9 @@ $ MSG_GetSecRes_0000 message is obsolete - DO NOT localize this message.
 
 $set MS_Display
 
-MSG_Display_0001 "Creando m˙ltiples XmDisplays para la misma pantalla de X.\n\
+MSG_Display_0001 "Creando m√∫ltiples XmDisplays para la misma pantalla de X.\n\
 \tSolamente se puede hacer referencia, mediante llamadas a XmGetXmDisplay,\n\
-\tal primer XmDisplay creado para una pantalla de X especÌfica."
+\tal primer XmDisplay creado para una pantalla de X espec√≠fica."
 $ please do not translate XmDisplay or XmGetXmDisplay
 
 MSG_Display_0002 "Recibido TOP_LEVEL_LEAVE sin DragContext activo."
@@ -789,36 +789,36 @@ $set MS_DragBS
 MSG_DragBS_0000 "El _MOTIF_DRAG_WINDOW se ha destruido."
 $ please do not translate _MOTIF_DRAG_WINDOW
 
-MSG_DragBS_0001 "Los niveles de versiÛn del protocolo no coinciden."
+MSG_DragBS_0001 "Los niveles de versi√≥n del protocolo no coinciden."
 
 MSG_DragBS_0002 "No es posible abrir la pantalla."
 
-MSG_DragBS_0003 "La tabla de ·tomos est· vacÌa."
+MSG_DragBS_0003 "La tabla de √°tomos est√° vac√≠a."
 
-MSG_DragBS_0004 "La tabla destino est· vacÌa."
+MSG_DragBS_0004 "La tabla destino est√° vac√≠a."
 
 MSG_DragBS_0005 "La tabla destino tiene una propiedad incoherente."
 
-MSG_DragBS_0006 "Õndice de tabla destino no v·lido."
+MSG_DragBS_0006 "√çndice de tabla destino no v√°lido."
 
 
 $set MS_DragC
 
-MSG_DragC_0001 "GenerateCallback no espera XmCR_DROP_SITE_ENTER como una razÛn."
+MSG_DragC_0001 "GenerateCallback no espera XmCR_DROP_SITE_ENTER como una raz√≥n."
 $ please do not translate GenerateCallback or XmCR_DROP_SITE_ENTER
 
-MSG_DragC_0002 "SelecciÛn no v·lida en DropConvertCallback."
+MSG_DragC_0002 "Selecci√≥n no v√°lida en DropConvertCallback."
 $ please do not translate DropConvertCallback
 
-MSG_DragC_0003 "La selecciÛn de soltar se ha perdido."
+MSG_DragC_0003 "La selecci√≥n de soltar se ha perdido."
 
 MSG_DragC_0004 "XGrabPointer ha fallado."
 
-MSG_DragC_0005 "ExternalNotifyHandler: la razÛn de retorno de flujo de informaciÛn\n\
+MSG_DragC_0005 "ExternalNotifyHandler: la raz√≥n de retorno de flujo de informaci√≥n\n\
 no es aceptable."
 $ please do not translate ExternalNotifyHandler
 
-MSG_DragC_0006 "XmDragStart debe llamarse debido a que se ha presionado un botÛn o a un evento de movimiento."
+MSG_DragC_0006 "XmDragStart debe llamarse debido a que se ha presionado un bot√≥n o a un evento de movimiento."
 $ please do not translate XmDragStart
 
 
@@ -826,12 +826,12 @@ $set MS_DragICC
 
 MSG_DragICC_0000 "Tipo de mensaje de arrastrar y soltar desconocido."
 
-MSG_DragICC_0001 "Los niveles de versiÛn de protocolo no coinciden."
+MSG_DragICC_0001 "Los niveles de versi√≥n de protocolo no coinciden."
 
 
 $set MS_DragIcon
 
-MSG_DragIcon_0000 "No se ha especificado ninguna geometrÌa para el mapa de pixels de dragIcon."
+MSG_DragIcon_0000 "No se ha especificado ninguna geometr√≠a para el mapa de pixels de dragIcon."
 $ please do not translate dragIcon
 
 MSG_DragIcon_0001 "dragIcon creado sin mapa de pixels."
@@ -855,40 +855,40 @@ $ please do not translate XmNblendModel
 
 $set MS_DragUnder
 
-MSG_DragUnder_0000 "No es posible obtener la geometrÌa de ventana de dropSite."
+MSG_DragUnder_0000 "No es posible obtener la geometr√≠a de ventana de dropSite."
 
-MSG_DragUnder_0001 "animationPixmapDepth no v·lido."
+MSG_DragUnder_0001 "animationPixmapDepth no v√°lido."
 $ please do not translate animationPixmapDepth
 
 
 $set MS_DropSMgr
 
-MSG_DropSMgr_0001 "No se pueden crear lugares de soltar que sean hijos de un ˙nico lugar de soltar."
+MSG_DropSMgr_0001 "No se pueden crear lugares de soltar que sean hijos de un √∫nico lugar de soltar."
 
 MSG_DropSMgr_0002 "Recibiendo Sucesos de Movimiento sin un contexto de arrastrar activo."
 
-MSG_DropSMgr_0003 "Recibiendo operaciÛn cambiada sin un contexto de arrastrar activo."
+MSG_DropSMgr_0003 "Recibiendo operaci√≥n cambiada sin un contexto de arrastrar activo."
 
-MSG_DropSMgr_0004 "Creando un lugar de soltar activo sin ning˙n procedimiento de soltar."
+MSG_DropSMgr_0004 "Creando un lugar de soltar activo sin ning√∫n procedimiento de soltar."
 
-MSG_DropSMgr_0005 "No se pueden establecer rect·ngulos o n˙meros de rect·ngulo\n\
+MSG_DropSMgr_0005 "No se pueden establecer rect√°ngulos o n√∫meros de rect√°ngulo\n\
 de lugares de soltar compuestos."
 
 MSG_DropSMgr_0006 "Registrando un widget como un lugar de soltar fuera de secuencia.\n\
-\tLos antecesores deben estar registrados antes de que lo estÈn \n\
+\tLos antecesores deben estar registrados antes de que lo est√©n \n\
 \tcualquiera de sus descendientes."
 
-MSG_DropSMgr_0007 "No se puede registrar un widget como un lugar de soltar m·s de una vez."
+MSG_DropSMgr_0007 "No se puede registrar un widget como un lugar de soltar m√°s de una vez."
 
 MSG_DropSMgr_0008 "El tipo de DropSite solamente se puede establecer en el momento de crearlo."
 $ please do not translate DropSite
 
-MSG_DropSMgr_0009 "No se pueden cambiar los rect·ngulos de un lugar de soltar que no sea ˙nico."
+MSG_DropSMgr_0009 "No se pueden cambiar los rect√°ngulos de un lugar de soltar que no sea √∫nico."
 
 MSG_DropSMgr_0010 "No se puede registrar un Shell como lugar para soltar."
 
 MSG_DropSMgrI_0001 "No se puede registrar un lugar de soltar que sea descendiente de\n\
-un lugar de soltar ˙nico."
+un lugar de soltar √∫nico."
 
 MSG_DropSMgrI_0002 "No se puede crear una lista de hijos discontinuos para un lugar\n\
 de soltar compuesto."
@@ -898,7 +898,7 @@ MSG_DropSMgrI_0003 "%s no es un hijo del lugar de soltar de %s."
 
 $set MS_GeoUtils
 
-MSG_GeoUtils_0000 "FallÛ la solicitud de geometrÌa a la respuesta \"almost\""
+MSG_GeoUtils_0000 "Fall√≥ la solicitud de geometr√≠a a la respuesta \"almost\""
 $ please do not translate "almost"
 $ MSG_GeoUtils_0000 message is obsolete - DO NOT localize this message.
 
@@ -916,40 +916,40 @@ MSG_Region_0000 "Error de memoria."
 
 $set MS_RepType
 
-MSG_RepType_0001 "ID de tipo de representaciÛn no v·lido."
+MSG_RepType_0001 "ID de tipo de representaci√≥n no v√°lido."
 
-MSG_RepType_0002 "Valor (%d) no v·lido para tipo de respuesta de XmR%s."
+MSG_RepType_0002 "Valor (%d) no v√°lido para tipo de respuesta de XmR%s."
 $ please do not translate XmR%s
 
-MSG_RepType_0000 "ConversiÛn inversa de "
+MSG_RepType_0000 "Conversi√≥n inversa de "
 
 
 $set MS_ResConvert
 
-MSG_ResConvert_0000 "FetchUnitType: Clase de widget errÛnea."
+MSG_ResConvert_0000 "FetchUnitType: Clase de widget err√≥nea."
 $ please do not translate FetchUnitType.
 $ MSG_ResConvert_0000 message is obsolete - DO NOT localize this message.
 
 MSG_ResConvert_0001 "La lista predeterminada no se ha definido correctamente. Saliendo..."
 
-MSG_ResConvert_0002 "Faltan los dos puntos en la cadena de font \"%s\". No se efectuar· el an·lisis sint·ctico de los restantes fonts de la lista."
+MSG_ResConvert_0002 "Faltan los dos puntos en la cadena de font \"%s\". No se efectuar√° el an√°lisis sint√°ctico de los restantes fonts de la lista."
 
-MSG_ResConvert_0003 "El rÛtulo \"%s\" contiene un delimitador no v·lido. No se efectuar· el an·lisis sint·ctico de los restantes fonts de la lista."
+MSG_ResConvert_0003 "El r√≥tulo \"%s\" contiene un delimitador no v√°lido. No se efectuar√° el an√°lisis sint√°ctico de los restantes fonts de la lista."
 
 MSG_ResConvert_0004 "Unmatched quotation marks in string \"%s\"; any remaining fonts in list unparsed"
 $ MSG_ResConvert_0004 message is obsolete - DO NOT localize this message.
 
-MSG_ResConvert_0005 "El rÛtulo \"%s\" contiene pares de comillas no completos. No se efectuar· el an·lisis sint·ctico de los restantes fonts de la lista."
+MSG_ResConvert_0005 "El r√≥tulo \"%s\" contiene pares de comillas no completos. No se efectuar√° el an√°lisis sint√°ctico de los restantes fonts de la lista."
 
-MSG_ResConvert_0006 "Se encontrÛ un rÛtulo nulo al convertir al tipo %s. No se efectuar· el an·lisis sint·ctico de los restantes fonts de la lista."
+MSG_ResConvert_0006 "Se encontr√≥ un r√≥tulo nulo al convertir al tipo %s. No se efectuar√° el an√°lisis sint√°ctico de los restantes fonts de la lista."
 
 MSG_ResConvert_0007 "No se puede convertir XmString en texto compuesto."
 
 MSG_ResConvert_0008 "No hay suficiente memoria para XmbTextListToTextProperty"
 
-MSG_ResConvert_0009 "El lugar no est· soportado para XmbTextListToTextProperty"
+MSG_ResConvert_0009 "El lugar no est√° soportado para XmbTextListToTextProperty"
 
-MSG_ResConvert_0010 "FallÛ XmbTextListToTextProperty"
+MSG_ResConvert_0010 "Fall√≥ XmbTextListToTextProperty"
 
 MSG_ResConvert_0011 "No se puede convertir el nombre del widget en Widget."
 $ please do not translate Widget.
@@ -982,12 +982,12 @@ $set MS_ColObj
 
 MSG_ColObj_0001 "No se ha podido asignar memoria para los datos de objeto de color."
 
-MSG_ColObj_0002 "Error en el n˙mero de pantalla de selecciÛn de servidor de color."
+MSG_ColObj_0002 "Error en el n√∫mero de pantalla de selecci√≥n de servidor de color."
 
 
 $set MS_IG
 
-MSG_IG_1 "AlineaciÛn incorrecta."
+MSG_IG_1 "Alineaci√≥n incorrecta."
 $ MSG_IG_1 message is obsolete - DO NOT localize this message.
 
 MSG_IG_2 "Comportamiento incorrecto."
@@ -996,7 +996,7 @@ $ MSG_IG_2 message is obsolete - DO NOT localize this message.
 MSG_IG_3 "Modo de relleno incorrecto."
 $ MSG_IG_3 message is obsolete - DO NOT localize this message.
 
-MSG_IG_4 "Cadena de posiciÛn de mapa de pixels incorrecta."
+MSG_IG_4 "Cadena de posici√≥n de mapa de pixels incorrecta."
 $ MSG_IG_4 message is obsolete - DO NOT localize this message.
 
 MSG_IG_5 "Anchura o altura de margen incorrecta."
@@ -1008,7 +1008,7 @@ $ MSG_IG_6 message is obsolete - DO NOT localize this message.
 
 $set MS_ComboBox
 
-MSG_ComboBox_0000 "Las aplicaciones no puede aÒadir hijos a widgets XmComboBox."
+MSG_ComboBox_0000 "Las aplicaciones no puede a√±adir hijos a widgets XmComboBox."
 
 MSG_ComboBox_0001 "El recurso XmNcomboBoxType no puede cambiarse por XtSetValues."
 
@@ -1018,33 +1018,33 @@ $ MSG_ComboBox_0002 message is obsolete - DO NOT localize this message.
 MSG_ComboBox_0003 "XmFontListInitFontContext failed."
 $ MSG_ComboBox_0003 message is obsolete - DO NOT localize this message.
 
-MSG_ComboBox_0004 "Se ha destruido el widget interno.  El comportamiento no est· definido."
+MSG_ComboBox_0004 "Se ha destruido el widget interno.  El comportamiento no est√° definido."
 
-MSG_ComboBox_0005 "Se ha cancelado el manipuleo del widget interno.  El comportamiento no est· definido."
+MSG_ComboBox_0005 "Se ha cancelado el manipuleo del widget interno.  El comportamiento no est√° definido."
 
-MSG_ComboBox_0006 "XmQUICK_NAVIGATE sÛlo es v·lido para ComboBoxes de XmNcomboBoxType XmDROP_DOWN_LIST"
+MSG_ComboBox_0006 "XmQUICK_NAVIGATE s√≥lo es v√°lido para ComboBoxes de XmNcomboBoxType XmDROP_DOWN_LIST"
 
-MSG_ComboBox_0007 "La acciÛn ha sido invocada mediante un n˙mero incorrecto de par·metros."
+MSG_ComboBox_0007 "La acci√≥n ha sido invocada mediante un n√∫mero incorrecto de par√°metros."
 
-MSG_ComboBox_0008 "La rutina de acciÛn se ha llamado desde un widget que no es descendiente de ComboBox"
+MSG_ComboBox_0008 "La rutina de acci√≥n se ha llamado desde un widget que no es descendiente de ComboBox"
 
 MSG_ComboBox_0009 "Se ha llamado XmComboBoxSelectItem con un elemento que no se encuentra en ComboBox."
 
 MSG_ComboBox_0010 "Se ha llamado XmComboBoxSetItem con un elemento que no se encuentra en ComboBox."
 
-MSG_ComboBox_0011 "Se ha llamado XmComboBoxDeletePos con una posiciÛn no v·lida."
+MSG_ComboBox_0011 "Se ha llamado XmComboBoxDeletePos con una posici√≥n no v√°lida."
 
-MSG_ComboBox_0012 "Se ha llamado la rutina de programa utilitario XmComboBox con un widget no v·lido."
+MSG_ComboBox_0012 "Se ha llamado la rutina de programa utilitario XmComboBox con un widget no v√°lido."
 
-MSG_ComboBox_0013 "Es posible que las aplicaciones no fijen los hijos autom·ticos del widget XmComboBox."
+MSG_ComboBox_0013 "Es posible que las aplicaciones no fijen los hijos autom√°ticos del widget XmComboBox."
 
-MSG_ComboBox_0014 "XmComboBox positionMode no se puede cambiar despuÈs de la creaciÛn."
+MSG_ComboBox_0014 "XmComboBox positionMode no se puede cambiar despu√©s de la creaci√≥n."
 $ please do not translate positionMode.
 
 
 $set MS_Container
 
-MSG_Container_0000 "Se ha invocado la acciÛn mediante una cantidad incorrecta de par·metros."
+MSG_Container_0000 "Se ha invocado la acci√≥n mediante una cantidad incorrecta de par√°metros."
 
 MSG_Container_0001 "XmNdetailColumnHeading y XmNdetailColumnHeadingCount no coinciden."
 
@@ -1085,10 +1085,10 @@ $ MSG_GrabS_0000 message is obsolete - DO NOT localize this message.
 
 $set MS_Manager
 
-MSG_Manager_0000 "La clase de widget %s contiene una anotaciÛn CompositeClassExtension no v·lida."
+MSG_Manager_0000 "La clase de widget %s contiene una anotaci√≥n CompositeClassExtension no v√°lida."
 $ please do not translate CompositeClassExtension.
 
-MSG_Manager_0001 "No se puede cambiar XmNlayoutDirection ni XmNstringDirection despuÈs de la inicializaciÛn."
+MSG_Manager_0001 "No se puede cambiar XmNlayoutDirection ni XmNstringDirection despu√©s de la inicializaci√≥n."
 
 
 $set MS_NavigMap
@@ -1104,21 +1104,21 @@ MSG_Notebook_0000 "El recurso XmNnotebookChildType no se puede configurar median
 
 $set MS_PixConv
 
-MSG_PixConv_0000 "La cantidad de par·metros de CvtStringToPixmap no es correcta"
+MSG_PixConv_0000 "La cantidad de par√°metros de CvtStringToPixmap no es correcta"
 $ please do not translate CvtStringToPixmap.
 
 
 $set MS_Primitive
 
-MSG_Primitive_0000 "No se puede cambiar XmNlayoutDirection despuÈs de la inicializaciÛn."
+MSG_Primitive_0000 "No se puede cambiar XmNlayoutDirection despu√©s de la inicializaci√≥n."
 
 
 $set MS_ScrollFrameT
 
-MSG_ScrollFrameT_0000 "AssocNavigator requiere una caracterÌstica de navegante"
+MSG_ScrollFrameT_0000 "AssocNavigator requiere una caracter√≠stica de navegante"
 $ please do not translate AssocNavigator.
 
-MSG_ScrollFrameT_0001 "DeAssocNavigator requiere una caracterÌstica de navegante"
+MSG_ScrollFrameT_0001 "DeAssocNavigator requiere una caracter√≠stica de navegante"
 $ please do not translate DeAssocNavigator.
 
 
@@ -1132,17 +1132,17 @@ $ MSG_SpinB_0002 message is obsolete - DO NOT localize this message.
 
 MSG_SpinB_0003 "No se han suministrado elementos para el hijo XmSTRING."
 
-MSG_SpinB_0004 "XmNincrementValue no puede ser 0. Se utilizar· el valor 1."
+MSG_SpinB_0004 "XmNincrementValue no puede ser 0. Se utilizar√° el valor 1."
 
-MSG_SpinB_0005 "La direcciÛn de giro especificada por XmNincrementValue\n\
+MSG_SpinB_0005 "La direcci√≥n de giro especificada por XmNincrementValue\n\
 puede ser invertida para que coincida con \n\
 XmNminimumValue y XmNmaximumValue especificados."
 
-MSG_SpinB_0006 "XmNposition est· fuera de intervalo. Se utilizar· el XmNposition mÌnimo."
+MSG_SpinB_0006 "XmNposition est√° fuera de intervalo. Se utilizar√° el XmNposition m√≠nimo."
 
-MSG_SpinB_0007 "XmNposition est· fuera de intervalo. Se utilizar· XmNposition m·ximo."
+MSG_SpinB_0007 "XmNposition est√° fuera de intervalo. Se utilizar√° XmNposition m√°ximo."
 
-MSG_SpinB_0008 "El valor de XmNpositionType no es v·lido.  Se utilizar· el valor predeterminado."
+MSG_SpinB_0008 "El valor de XmNpositionType no es v√°lido.  Se utilizar√° el valor predeterminado."
 
 MSG_SpinB_0009 "XmNpositionType resource can only be set at creation time."
 $ MSG_SpinB_0009 message is obsolete - DO NOT localize this message.
@@ -1156,47 +1156,47 @@ $ please do not translate SelectionCallbackWrapper.
 MSG_Transfer_0001 "Cannot lock the clipboard; aborting transfer"
 $ MSG_Transfer_0001 message is obsolete - DO NOT localize this message.
 
-MSG_Transfer_0002 "El formato y tipo de los datos suministrador por la devoluciÛn de llamada no coinciden con los datos a fusionar."
+MSG_Transfer_0002 "El formato y tipo de los datos suministrador por la devoluci√≥n de llamada no coinciden con los datos a fusionar."
 
 MSG_Transfer_0003 "XmConvertCallbackStruct no se encuentra en estado XmCONVERT_MERGE."
 
-MSG_Transfer_0004 "TodavÌa no se soporta CONVERT_MORE."
+MSG_Transfer_0004 "Todav√≠a no se soporta CONVERT_MORE."
 $ please do not translate CONVERT_MORE.
 
-MSG_Transfer_0005 "Se encontrÛ un valor atom incorrecto."
+MSG_Transfer_0005 "Se encontr√≥ un valor atom incorrecto."
 
 MSG_Transfer_0006 "Advertencia: Se ha intentado iniciar una transferencia MULTIPLE mientras otra estaba en curso."
 $ please do not translate MULTIPLE.
 
-MSG_Transfer_0007 "Advertencia: Se ha intentado enviar una transferencia MULTIPLE mientras otra no est· en curso."
+MSG_Transfer_0007 "Advertencia: Se ha intentado enviar una transferencia MULTIPLE mientras otra no est√° en curso."
 $ please do not translate MULTIPLE.
 
 
 $set MS_VaSimple
 
-MSG_VaSimple_0000 "La conversiÛn XtVaTypedArg requiere un identificador de widget no nulo."
+MSG_VaSimple_0000 "La conversi√≥n XtVaTypedArg requiere un identificador de widget no nulo."
 
 MSG_VaSimple_0001 "No se puede encontrar el tipo de recurso para convertir."
 
-MSG_VaSimple_0002 "El tipo de conversiÛn ha fallado."
+MSG_VaSimple_0002 "El tipo de conversi√≥n ha fallado."
 
 
 $set MS_Xm
 
 MSG_Motif_0000 "\nNombre: %s\nClase: %s\n"
 
-MSG_Motif_0001 "La acciÛn se ha invocado con una cantidad de par·metros incorrecta."
+MSG_Motif_0001 "La acci√≥n se ha invocado con una cantidad de par√°metros incorrecta."
 
 
 $set MS_XmRenderT
 
-MSG_XmRenderT_0000 "XmNtag no puede ser NULL.  Se configurar· como cadena vacÌa."
+MSG_XmRenderT_0000 "XmNtag no puede ser NULL.  Se configurar√° como cadena vac√≠a."
 
 MSG_XmRenderT_0001 "La pantalla es NULL.  No se puede cargar el font."
 
-MSG_XmRenderT_0002 "XmNfontType no es v·lido.  No se puede cargar el font."
+MSG_XmRenderT_0002 "XmNfontType no es v√°lido.  No se puede cargar el font."
 
-MSG_XmRenderT_0003 "Ha fallado la conversiÛn.  No se puede cargar el font."
+MSG_XmRenderT_0003 "Ha fallado la conversi√≥n.  No se puede cargar el font."
 
 MSG_XmRenderT_0004 "XmNfontType se ha fijado en XmAS_IS.  No se puede cargar el font."
 
@@ -1220,18 +1220,18 @@ $ MSG_XmSelect_0002 message is obsolete - DO NOT localize this message.
 
 $set MS_XmString
 
-MSG_XmString_0000 "No se encontrÛ ning˙n font."
+MSG_XmString_0000 "No se encontr√≥ ning√∫n font."
 
 
 $set MS_XmTabList
 
-MSG_XmTabList_0000 "El valor de tabulaciÛn no puede ser negativo."
+MSG_XmTabList_0000 "El valor de tabulaci√≥n no puede ser negativo."
 
 
 $set MS_SSpinB
 
 MSG_SSpinB_0001 "No se puede configurar el recurso XmNtextField."
 
-MSG_SSpinB_0002 "El recurso XmNpositionType sÛlo puede configurarse al crearse."
+MSG_SSpinB_0002 "El recurso XmNpositionType s√≥lo puede configurarse al crearse."
 
 MSG_SSpinB_0003 "El elemento no existe.  XmNposition no se ha modificado."

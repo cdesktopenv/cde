@@ -32,94 +32,94 @@ MSG__0000 "Vektorzuteilung fehlgeschlagen."
 
 MSG__0001 "Pufferzuteilung fehlgeschlagen."
 
-MSG__0002 "Ungültiger Puffer"
+MSG__0002 "UngÃ¼ltiger Puffer"
 
 MSG__0003 "\"Block holen\" fehlgeschlagen."
 
 MSG__0004 "\"Block ablegen\" fehlgeschlagen."
 
-MSG__0005 "Ungültiger Datensatzumschlag"
+MSG__0005 "UngÃ¼ltiger Datensatzumschlag"
 
-MSG__0006 "Ungültiger Kontext"
+MSG__0006 "UngÃ¼ltiger Kontext"
 
-MSG__0007 "Ungültige Dateneingabe"
+MSG__0007 "UngÃ¼ltige Dateneingabe"
 
-MSG__0008 "Ungültige Segmenteingabe"
+MSG__0008 "UngÃ¼ltige Segmenteingabe"
 
 MSG__0009 "Unbekannter Dateneingabetyp"
 
 MSG__0010 "Unerwarteter Datensatztyp"
 
-MSG__0011 "Die Dateiversion %s ist größer als die Mrm-Version %s."
+MSG__0011 "Die Dateiversion %s ist grÃ¶ÃŸer als die Mrm-Version %s."
 
 MSG__0012 "Dies ist nicht der Umschlag-Datensatz."
 
-MSG__0013 "Ressourcenindex außerhalb des Bereichs"
+MSG__0013 "Ressourcenindex auÃŸerhalb des Bereichs"
 
 MSG__0014 "NULL-Datenzeiger"
 
-MSG__0015 "Ungültiger Überlauf-Datensatz"
+MSG__0015 "UngÃ¼ltiger Ãœberlauf-Datensatz"
 
-MSG__0016 "GT-Datensatz stimmt nicht überein."
+MSG__0016 "GT-Datensatz stimmt nicht Ã¼berein."
 
-MSG__0017 "LT-Datensatz stimmt nicht überein."
+MSG__0017 "LT-Datensatz stimmt nicht Ã¼berein."
 
-MSG__0018 "Unerwarteter übergeordneter Datensatztyp"
+MSG__0018 "Unerwarteter Ã¼bergeordneter Datensatztyp"
 
-MSG__0019 "Datensatz geht über EOF hinaus."
+MSG__0019 "Datensatz geht Ã¼ber EOF hinaus."
 
 MSG__0020 "Kann Datensatz #%d Typ %d nicht austauschen."
 
-MSG__0021 "Nicht implementierten Typ %d im Funktionsaufruf für Element %d angetroffen."
+MSG__0021 "Nicht implementierten Typ %d im Funktionsaufruf fÃ¼r Element %d angetroffen."
 
 MSG__0022 "Nicht implementierten Argumenttyp %d angetroffen."
 
 MSG__0023 "NULL-Hierarchie-ID"
 
-MSG__0024 "Ungültige Hierarchie"
+MSG__0024 "UngÃ¼ltige Hierarchie"
 
-MSG__0025 "Ungültiges Schnittstellenmodul"
+MSG__0025 "UngÃ¼ltiges Schnittstellenmodul"
 
-MSG__0026 "Ungültiger Widget-Datensatz"
+MSG__0026 "UngÃ¼ltiger Widget-Datensatz"
 
 MSG__0027 "Kontextzuteilung fehlgeschlagen."
 
-MSG__0028 "Gültigkeitsprüfung fehlgeschlagen."
+MSG__0028 "GÃ¼ltigkeitsprÃ¼fung fehlgeschlagen."
 
-MSG__0029 "Ressource zu groß."
+MSG__0029 "Ressource zu groÃŸ."
 
-MSG__0030 "Anzeige noch nicht geöffnet."
+MSG__0030 "Anzeige noch nicht geÃ¶ffnet."
 
-MSG__0031 "Konnte Datei %s nicht öffnen."
+MSG__0031 "Konnte Datei %s nicht Ã¶ffnen."
 
-MSG__0032 "Konnte Datei %s nicht öffnen - UID-Dateiversion stimmt nicht überein."
+MSG__0032 "Konnte Datei %s nicht Ã¶ffnen - UID-Dateiversion stimmt nicht Ã¼berein."
 
-MSG__0033 "XmGetPixmap mit XmUNSPECIFIED_PIXMAP für %s fehlgeschlagen."
+MSG__0033 "XmGetPixmap mit XmUNSPECIFIED_PIXMAP fÃ¼r %s fehlgeschlagen."
 
-MSG__0034 "XCreateImage während IconImage-Umwandlung fehlgeschlagen."
+MSG__0034 "XCreateImage wÃ¤hrend IconImage-Umwandlung fehlgeschlagen."
 
-MSG__0035 "XCreatePixmap während IconImage-Umwandlung fehlgeschlagen."
+MSG__0035 "XCreatePixmap wÃ¤hrend IconImage-Umwandlung fehlgeschlagen."
 
-MSG__0036 "XCreateGC während IconImage-Umwandlung fehlgeschlagen."
+MSG__0036 "XCreateGC wÃ¤hrend IconImage-Umwandlung fehlgeschlagen."
 
-MSG__0037 "XtMalloc während IconImage-Umwandlung fehlgeschlagen."
+MSG__0037 "XtMalloc wÃ¤hrend IconImage-Umwandlung fehlgeschlagen."
 
 MSG__0038 "Konnte Farbe '%s' nicht laden."
 
 MSG__0039 "Konnte RGB Farbe/Pixel '%d,%d,%d' nicht umwandeln."
 
-MSG__0040 "Ungültiger Farbdeskriptortyp"
+MSG__0040 "UngÃ¼ltiger Farbdeskriptortyp"
 
-MSG__0041 "Ungültiger Monochromstatus %d des Farbelements"
+MSG__0041 "UngÃ¼ltiger Monochromstatus %d des Farbelements"
 
 MSG__0042 "Kann Literal '%s' nicht finden."
 $ literal in this context means a named value.
 
-MSG__0043 "Ungültiger Ressourcenkontext"
+MSG__0043 "UngÃ¼ltiger Ressourcenkontext"
 
 MSG__0044 "Zu viele Widgets"
 
-MSG__0045 "Oberster Index außerhalb der Grenzen"
+MSG__0045 "Oberster Index auÃŸerhalb der Grenzen"
 
 MSG__0046 "Listenzuteilung fehlgeschlagen."
 
@@ -131,7 +131,7 @@ MSG__0049 "Zeichenfolgezuteilung fehlgeschlagen."
 
 MSG__0050 "UID-Datei ist veraltet - hat keine Komprimierungstabelle."
 
-MSG__0051 "Konnte Klassendeskriptor für Klasse %s nicht finden."
+MSG__0051 "Konnte Klassendeskriptor fÃ¼r Klasse %s nicht finden."
 
 MSG__0052 "Kann indiziertes Widget '%s' nicht finden."
 
@@ -139,11 +139,11 @@ MSG__0053 "Kann RID-Widget '%x' nicht finden."
 
 MSG__0054 "?? UNBEKANNTER Tastentyp %d"
 
-MSG__0055 "Unbekannte Widget-Varietät"
+MSG__0055 "Unbekannte Widget-VarietÃ¤t"
 
-MSG__0056 "Ungelöste Widget-Referenz im Funktionsaufruf für die Erstellung"
+MSG__0056 "UngelÃ¶ste Widget-Referenz im Funktionsaufruf fÃ¼r die Erstellung"
 
-MSG__0057 "Konnte keine Funktionsaufrufe für die Erstellung herstellen."
+MSG__0057 "Konnte keine Funktionsaufrufe fÃ¼r die Erstellung herstellen."
 
 MSG__0058 "Unbekannter untergeordneter Typ"
 
@@ -159,13 +159,13 @@ MSG__0063 "Nicht abgewickelte Ressourcengruppe"
 
 MSG__0064 "Konnte ASCIZ '%s' nicht in zusammengesetzte Zeichenfolge umwandeln."
 
-MSG__0065 "Konnte Übersetzungstabelle '%s' nicht analysieren."
+MSG__0065 "Konnte Ãœbersetzungstabelle '%s' nicht analysieren."
 
 MSG__0066 "Konnte Identifizierer '%s' nicht umwandeln."
 
-MSG__0067 "Interner Fehler: MrmRtypeIconImage für Groß- und Kleinschreibung gefunden."
+MSG__0067 "Interner Fehler: MrmRtypeIconImage fÃ¼r GroÃŸ- und Kleinschreibung gefunden."
 
-MSG__0068 "Interner Fehler: MrmRtypeXBitmapFile für Groß- und Kleinschreibung gefunden."
+MSG__0068 "Interner Fehler: MrmRtypeXBitmapFile fÃ¼r GroÃŸ- und Kleinschreibung gefunden."
 
 MSG__0069 " Interner Fehler: Konnte Anzeige nicht in Zeichenfolge umwandeln."
 
@@ -174,11 +174,11 @@ MSG__0070 "Konnte Schriftart '%s' nicht umwandeln."
 MSG__0071 "Konnte fontset '%s' nicht umwandeln."
 $ please do not translate fontset.
 
-MSG__0072 "Konnte eine oder mehrere Schriftarten für fontset '%s' nicht öffnen."
+MSG__0072 "Konnte eine oder mehrere Schriftarten fÃ¼r fontset '%s' nicht Ã¶ffnen."
 
-MSG__0073 "Konnte fontlist-Schriftart '%s' nicht der Liste hinzufügen."
+MSG__0073 "Konnte fontlist-Schriftart '%s' nicht der Liste hinzufÃ¼gen."
 
-MSG__0074 " Konnte fontlist-Schriftart '%s' nicht der Liste hinzufügen "
+MSG__0074 " Konnte fontlist-Schriftart '%s' nicht der Liste hinzufÃ¼gen "
 
 MSG__0075 "Konnte Klassen-Datensatzname '%s' nicht umwandeln."
 
@@ -190,13 +190,13 @@ MSG__0078 "Kann RID-Literal '%x' nicht finden."
 
 MSG__0079 "Unbekannter Literal-Tastentyp %d"
 
-MSG__0080 "Ungültiger ColorTable-Literaltyp %d"
+MSG__0080 "UngÃ¼ltiger ColorTable-Literaltyp %d"
 
-MSG__0081 "Ungültiger ColorTable-Typencode %d"
+MSG__0081 "UngÃ¼ltiger ColorTable-Typencode %d"
 
-MSG__0082 "Ungültiger Farb-Literaltyp %d"
+MSG__0082 "UngÃ¼ltiger Farb-Literaltyp %d"
 
-MSG__0083 "Ungültiger ColorItem-Typencode %d"
+MSG__0083 "UngÃ¼ltiger ColorItem-Typencode %d"
 
 MSG__0084 "Funktionsaufruf-Routine '%s' nicht registriert."
 
@@ -212,15 +212,15 @@ MSG__0089 "Konnte Widget-Baum not instantitate??."
 
 MSG__0090 "Leerer benutzerdefinierter Klassenname"
 
-MSG__0091 "Ungültiger Klassencode"
+MSG__0091 "UngÃ¼ltiger Klassencode"
 
 MSG__0092 "Zu viele Argumente"
 
-MSG__0093 "Ungültiger Komprimierungscode"
+MSG__0093 "UngÃ¼ltiger Komprimierungscode"
 
-MSG__0094 "Ungültiger oder nicht abgewickelter Typ"
+MSG__0094 "UngÃ¼ltiger oder nicht abgewickelter Typ"
 
-MSG__0095 "Vektor zu groß."
+MSG__0095 "Vektor zu groÃŸ."
 
 MSG__0096 "Leerer Routinenname"
 
@@ -230,21 +230,21 @@ MSG__0098 "CStringVector noch nicht implementiert."
 
 MSG__0099 "Zu viele untergeordnete Elemente"
 
-MSG__0100 "Leerer Listendeskriptor für untergeordnete Elemente"
+MSG__0100 "Leerer Listendeskriptor fÃ¼r untergeordnete Elemente"
 
-MSG__0101 "Index für untergeordnete Elemente außerhalb der Grenzen."
+MSG__0101 "Index fÃ¼r untergeordnete Elemente auÃŸerhalb der Grenzen."
 
 MSG__0102 "Leerer Index"
 
-MSG__0103 "Ungültiger Tastentyp"
+MSG__0103 "UngÃ¼ltiger Tastentyp"
 
-MSG__0104 "Arg-Index außerhalb der Grenzen."
+MSG__0104 "Arg-Index auÃŸerhalb der Grenzen."
 
-MSG__0105 "Ungültiger Widget/Gadget-Datensatz"
+MSG__0105 "UngÃ¼ltiger Widget/Gadget-Datensatz"
 
-MSG__0106 "Ungültiger Funktionsaufruf-Deskriptor"
+MSG__0106 "UngÃ¼ltiger Funktionsaufruf-Deskriptor"
 
-MSG__0107 "Funktionsaufruf-Elementindex außerhalb der Grenzen."
+MSG__0107 "Funktionsaufruf-Elementindex auÃŸerhalb der Grenzen."
 
 MSG__0108 "Konnte Zeichenfolge-Code %d nicht entkomprimieren."
 
@@ -256,17 +256,17 @@ MSG__0111 "Konnte Integer '%d' nicht in Symbolbild umwandeln."
 
 MSG__0112 "Konnte nicht in Symbolbild umwandeln."
 
-MSG__0113 "Konnte Puffer nicht öffnen - UID-Version stimmt nicht überein."
+MSG__0113 "Konnte Puffer nicht Ã¶ffnen - UID-Version stimmt nicht Ã¼berein."
 
-MSG__0114 "Konnte Puffer nicht öffnen."
+MSG__0114 "Konnte Puffer nicht Ã¶ffnen."
 
 MSG__0115 "Kann Einheiten nicht in XmPIXELS umwandeln: fehlerhaftes Einheitenformat oder Typ."
 
-MSG__0116 "Kann Einheiten nicht in XmPIXELS umwandeln: Fließkomma-Überlauf."
+MSG__0116 "Kann Einheiten nicht in XmPIXELS umwandeln: FlieÃŸkomma-Ãœberlauf."
 
-MSG__0117 "Ungültige Version-Zeichenfolge %s in UID-Datei. Kann Datei nicht lesen."
+MSG__0117 "UngÃ¼ltige Version-Zeichenfolge %s in UID-Datei. Kann Datei nicht lesen."
 
-MSG__0118 "Mrm-Version %s ist größer als Dateiversion %s;\nbitte UIL-Datei neu kompilieren."
+MSG__0118 "Mrm-Version %s ist grÃ¶ÃŸer als Dateiversion %s;\nbitte UIL-Datei neu kompilieren."
 
-MSG__0119 "Objekt '%s' als PRIVATE erklärt."
+MSG__0119 "Objekt '%s' als PRIVATE erklÃ¤rt."
 
